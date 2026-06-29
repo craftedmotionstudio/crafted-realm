@@ -39,6 +39,7 @@ const UI = {
     const po=document.getElementById('pray-orb');
     if(po){ po.textContent = Math.ceil(Player.prayerPts);
       po.style.color = Player.activePrayers.size ? '#7fdfff' : '#c9e8f5'; }
+    if(this.refreshSpec) this.refreshSpec();
   },
   refreshSpells(){
     const box=document.getElementById('spell-grid'); if(!box) return;
@@ -154,13 +155,21 @@ const UI = {
   },
   refreshEquip(){
     const el=document.getElementById('equip-list'); el.innerHTML='';
+    const itemBonusStr=(id)=>{ const it=ITEMS[id]; const p=[];
+      if(it.aBonus)p.push('+'+it.aBonus+' Att'); if(it.sBonus)p.push('+'+it.sBonus+' Str');
+      if(it.dBonus)p.push('+'+it.dBonus+' Def'); if(it.magB||it.mBonus)p.push('+'+(it.magB||it.mBonus)+' Mag');
+      if(it.prayB)p.push('+'+it.prayB+' Pray'); return p.join('  '); };
     EQUIP_SLOTS.forEach(([k,label])=>{
       const v=Player.equip[k];
       const row=document.createElement('div'); row.className='equip-row';
       const left=document.createElement('span'); left.className='slot-name'; left.textContent=label;
       const right=document.createElement('span');
       if(v){ const img=document.createElement('img'); img.src=iconFor(v);
-        right.appendChild(img); right.appendChild(document.createTextNode(' '+ITEMS[v].name)); }
+        right.appendChild(img); right.appendChild(document.createTextNode(' '+ITEMS[v].name));
+        const bs=itemBonusStr(v);
+        if(bs){ const tag=document.createElement('div');
+          tag.style.cssText='font-size:10px;color:#5edb5e;margin-top:1px'; tag.textContent=bs;
+          right.appendChild(tag); } }
       else right.textContent='—';
       row.appendChild(left); row.appendChild(right);
       if(v){ row.style.cursor='pointer'; row.title='Click to remove';
@@ -189,19 +198,17 @@ const UI = {
     });
     styBox.appendChild(grid);
     el.appendChild(styBox);
-    // OSRS-style bonuses block
-    const w = Player.equip.weapon ? ITEMS[Player.equip.weapon] : null;
-    const style = w ? (w.style||'melee') : 'melee';
+    // OSRS-style total equipment bonuses, summed across everything worn
+    const sum=f=>(Player._sumBonus?Player._sumBonus(f):0);
     const rows = [
-      [`Weight: ${Player.weight().toFixed(1)} kg`, null],
-      ['Attack bonuses', null],
-      ['Stab', style==='melee' && w ? w.aBonus||0 : 0],
-      ['Ranged', style==='ranged' && w ? w.aBonus||0 : 0],
-      ['Magic', Player.magBonus()],
-      ['Other bonuses', null],
-      ['Strength', w ? w.sBonus||0 : 0],
-      ['Defence', Player.defBonus()],
+      ['Total equipment bonuses', null],
+      ['Attack',   sum('aBonus')],
+      ['Strength', sum('sBonus')],
+      ['Defence',  Player.defBonus?Player.defBonus():sum('dBonus')],
+      ['Magic',    Player.magBonus?Player.magBonus():0],
+      ['Prayer',   sum('prayB')],
       ['Attack speed', Math.round(Player.weaponSpeed()/TICK)+' ticks'],
+      ['Weight',   Player.weight().toFixed(1)+' kg'],
     ];
     const box=document.createElement('div'); box.id='bonus-box';
     rows.forEach(([lbl,val])=>{
@@ -215,6 +222,27 @@ const UI = {
       box.appendChild(r);
     });
     el.appendChild(box);
+    // ---- Items Kept on Death ----
+    const all=[];
+    for(const s of Player.inv) if(s) all.push({id:s.id, val:(ITEMS[s.id].value||0)});
+    for(const sk in Player.equip){ const v=Player.equip[sk]; if(v) all.push({id:v, val:(ITEMS[v].value||0)}); }
+    all.sort((a,b)=>b.val-a.val);
+    const kept=all.slice(0,3);
+    const kbox=document.createElement('div'); kbox.id='kept-box'; kbox.style.marginTop='8px';
+    const kh=document.createElement('div'); kh.className='bonus-head'; kh.textContent='Items Kept on Death'; kbox.appendChild(kh);
+    const krow=document.createElement('div'); krow.style.cssText='display:flex;gap:4px;margin-top:4px';
+    if(kept.length){
+      kept.forEach(it=>{ const c=document.createElement('div'); c.title=ITEMS[it.id].name;
+        c.style.cssText='width:38px;height:38px;background:var(--slot-bg);border:1px solid var(--slot-line);display:flex;align-items:center;justify-content:center';
+        const img=document.createElement('img'); img.src=iconFor(it.id); img.style.cssText='width:28px;height:28px';
+        c.appendChild(img); krow.appendChild(c); });
+    } else { krow.textContent='Nothing — your pack is empty.'; krow.style.color='#9a8e78'; krow.style.fontSize='11px'; }
+    kbox.appendChild(krow);
+    const note=document.createElement('div');
+    note.style.cssText='font-size:10px;color:#9a8e78;margin-top:5px;line-height:1.4';
+    note.textContent='On death you keep your 3 most valuable items. Everything else drops where you fall.';
+    kbox.appendChild(note);
+    el.appendChild(kbox);
   },
   refreshSkills(){
     const el=document.getElementById('skill-list'); el.innerHTML='';
@@ -223,7 +251,7 @@ const UI = {
       const next=lv<99?XP_TABLE[lv+1]:xp, cur=XP_TABLE[lv];
       const frac=lv<99?Math.min(1,(xp-cur)/Math.max(1,next-cur)):1;
       const row=document.createElement('div'); row.className='skill-row';
-      row.innerHTML=`<span>${s}</span><span class="lvl">${lv}/99</span>`;
+      row.innerHTML=`<span><img src="assets/icons/skills/${s.toLowerCase()}_cut.png" class="skill-ico" onerror="this.style.display='none'">${s}</span><span class="lvl">${lv}/99</span>`;
       row.title=`${Math.floor(xp).toLocaleString()} XP`;
       el.appendChild(row);
       const bar=document.createElement('div'); bar.className='skill-xp';
@@ -236,6 +264,11 @@ const UI = {
     const pct=document.getElementById('run-pct');
     if(pct) pct.textContent=Math.floor(Player.energy);
     orb.className = Player.runOn ? '' : 'walking';
+  },
+  refreshSpec(){
+    const num=document.getElementById('spec-num'); const orb=document.getElementById('spec-orb');
+    if(num) num.textContent=Math.floor(Player.spec);
+    if(orb) orb.classList.toggle('armed', !!Player.specArmed);
   },
   refreshDrops(filter){
     const el=document.getElementById('drops-list'); if(!el) return;
@@ -365,14 +398,22 @@ const UI = {
     if(shopKey===false){ announce=false; shopKey=this.currentShop; }   // legacy refresh call
     if(typeof shopKey==='string') this.currentShop=shopKey;
     const shop = SHOPS[this.currentShop] || SHOPS.bazaar;
+    const DEF=10;
+    if(!shop._q){ shop._q={}; shop.stock.forEach(st=>shop._q[st.id]=DEF); }
+    const sprice=(base,q)=>Math.max(1, Math.round(base*(1+(DEF-q)*0.03)));   // scarcer stock = dearer
     const t=document.getElementById('shop-title'); if(t) t.textContent=shop.name;
     const sg=document.getElementById('shop-grid'); sg.innerHTML='';
     shop.stock.forEach(st=>{
+      const q=shop._q[st.id]!==undefined?shop._q[st.id]:DEF;
       sg.appendChild(slotEl({id:st.id, qty:1}, ()=>{
-        if(Player.count('coins')<st.price){ UI.chat('You don\'t have enough crowns for that.','plain'); return; }
-        Player.removeItem('coins',st.price); Player.addItem(st.id,1); Sfx.coin();
-        UI.chat(`You buy a ${ITEMS[st.id].name.toLowerCase()} for ${st.price} crowns.`,'loot');
-      }, st.price));
+        const cq=shop._q[st.id]!==undefined?shop._q[st.id]:DEF;
+        if(cq<=0){ UI.chat('The shopkeeper is out of stock of that.','plain'); return; }
+        const p=sprice(st.price, cq);
+        if(Player.count('coins')<p){ UI.chat('You don\'t have enough crowns for that.','plain'); return; }
+        Player.removeItem('coins',p); Player.addItem(st.id,1); shop._q[st.id]=cq-1; Sfx.coin();
+        UI.chat(`You buy a ${ITEMS[st.id].name.toLowerCase()} for ${p} crowns.`,'loot');
+        UI.openShop(false);
+      }, sprice(st.price, q)));
     });
     const ig=document.getElementById('shop-inv-grid'); ig.innerHTML='';
     Player.inv.forEach((s,i)=>{
@@ -382,7 +423,9 @@ const UI = {
         const price=Math.max(1,Math.floor(def.value/2));
         Player.inv[i] = (def.stack && s.qty>1) ? {id:s.id, qty:s.qty-1} : null;
         Player.addItem('coins',price); Sfx.coin();
+        if(shop._q && shop._q[s.id]!==undefined) shop._q[s.id]=Math.min(DEF*2, shop._q[s.id]+1);
         UI.chat(`You sell the ${def.name.toLowerCase()} for ${price} crowns.`,'loot'); UI.refreshInv();
+        UI.openShop(false);
       }:null));
     });
     document.getElementById('shop-modal').style.display='block';
@@ -402,12 +445,15 @@ const UI = {
     document.body.appendChild(d);
     setTimeout(()=>d.remove(), 800);
   },
-  floatXp(text){
-    const d=document.createElement('div'); d.className='float-xp'; d.textContent=text;
-    d.style.left=(innerWidth/2-40)+'px'; d.style.top='110px';
-    document.body.appendChild(d);
-    let y=110; const iv=setInterval(()=>{ y-=1; d.style.top=y+'px'; d.style.opacity=(y-40)/70; },16);
-    setTimeout(()=>{clearInterval(iv); d.remove();},900);
+  xpDrop(skill, amt){
+    let host=document.getElementById('xp-drops');
+    if(!host){ host=document.createElement('div'); host.id='xp-drops'; document.body.appendChild(host); }
+    const d=document.createElement('div'); d.className='xp-drop';
+    d.innerHTML=`<img src="assets/icons/skills/${skill.toLowerCase()}_cut.png" onerror="this.style.display='none'">+${Math.round(amt)}`;
+    host.appendChild(d);
+    let t=0; const iv=setInterval(()=>{ t++;
+      d.style.transform='translateY(-'+(t*0.9)+'px)'; d.style.opacity=String(Math.max(0,1-t/46));
+      if(t>46){ clearInterval(iv); d.remove(); } },16);
   },
   tip(e, html){
     const t=document.getElementById('ctx-tip');
@@ -427,9 +473,39 @@ document.querySelectorAll('.tab-btn').forEach(b=>{
     document.getElementById('pane-'+b.dataset.tab).classList.add('active');
     if(b.dataset.tab==='prayers' && UI.refreshPrayers) UI.refreshPrayers();
     if(b.dataset.tab==='spells' && UI.refreshSpells) UI.refreshSpells();
+    if(b.dataset.tab==='combat' && UI.refreshCombat) UI.refreshCombat();
     Sfx.click();
   };
 });
+
+/* ---------- combat styles tab ---------- */
+UI.refreshCombat = function(){
+  const host=document.getElementById('combat-styles'); if(!host) return;
+  const cls=Player.weaponStyle();
+  const list=STYLE_DEFS[cls]||STYLE_DEFS.melee;
+  const cur=Math.min(Player.attackStyles[cls]||0, list.length-1);
+  const wpn=Player.equip.weapon?ITEMS[Player.equip.weapon].name:'Unarmed';
+  host.innerHTML='<div class="cmb-weap">'+wpn+' · '+cls+'</div>'+
+    list.map((s,i)=>'<div class="cmb-style'+(i===cur?' active':'')+'" data-i="'+i+'">'+
+      '<b>'+s.label+'</b><small>'+(s.xp==='Shared'?'shares XP across Attack/Strength/Defence'
+        :'trains '+s.xp)+'</small></div>').join('')+
+    '<div class="set-row" style="margin-top:9px"><span>Auto-retaliate</span>'+
+      '<button class="set-btn" id="retal-btn">'+(Player.autoRetaliate?'On':'Off')+'</button></div>';
+  host.querySelectorAll('.cmb-style').forEach(el=>{
+    el.onclick=()=>{ Player.attackStyles[cls]=+el.dataset.i; Sfx.click(); UI.refreshCombat(); };
+  });
+  const rb=document.getElementById('retal-btn');
+  if(rb) rb.onclick=()=>{ Player.autoRetaliate=!Player.autoRetaliate; Sfx.click(); UI.refreshCombat(); };
+};
+
+/* ---------- settings / account ---------- */
+UI.toggleRun   = function(){ const e=document.getElementById('run-orb');   if(e) e.click(); };
+UI.toggleMusic = function(){ const e=document.getElementById('music-btn'); if(e) e.click(); };
+UI.manualSave  = function(){ if(typeof SaveGame!=='undefined'){ SaveGame.save(); } };
+UI.logout      = function(){
+  try{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }catch(e){}
+  location.reload();   // return to the title/login screen with progress saved
+};
 
 /* ---------- minimap ---------- */
 const WMAP = {x0:-95, z0:-95, x1:95, z1:95};   // the charted world
@@ -586,6 +662,8 @@ addEventListener('keydown', e=>{
     p.style.display = p.style.display==='block'?'none':'block'; }
   if(e.key==='Escape'){ ['dialogue-modal','bank-modal','shop-modal'].forEach(id=>UI.closeModal(id));
     document.getElementById('admin-panel').style.display='none'; }
+  if((e.key==='o'||e.key==='O') && !/INPUT|TEXTAREA|SELECT/.test((e.target&&e.target.tagName)||'')){
+    if(typeof toggleRoofs==='function') toggleRoofs(); }
 });
 function fillAdminSelects(){
   const ai=document.getElementById('admin-item');
@@ -638,12 +716,15 @@ canvasEl.addEventListener('mousemove', e=>{
     const hit = pick(e);
     UI.tip(e, hit && hit.obj.userData.label ? hit.obj.userData.label : (hit&&hit.obj.name==='ground'?'Walk here':null));
     canvasEl.style.cursor = hit && hit.obj.userData.label ? 'pointer' : 'crosshair';
+    if(hit && hit.obj && hit.obj.name==='ground' && hit.point) showHoverTile(hit.point);
+    else hideHoverTile();
   }
 });
 canvasEl.addEventListener('mouseup', e=>{
   if(Date.now() < (typeof _swallowClickUntil!=='undefined' ? _swallowClickUntil : 0)) return;
   camCtl.down=false;
   if(camCtl.dragging){ camCtl.dragging=false; return; }
+  if(window.Build && Build.active){ Build.onClick(e); return; }   // editor: place prop
   const hit = pick(e); if(!hit) return;
   handleClick(hit.obj, hit.point);
 });
@@ -730,6 +811,8 @@ function buildCtxEntries(hit, e){
       entries.push({html:'Examine', fn:()=>UI.chat('Cold air rises from the dark.','plain')});
     } else if(u.kind==='bank'){
       entries.push({html:'Use <b>Bank booth</b>', fn:()=>handleClick(o, o.position)});
+    } else if(u.kind==='prop'){
+      entries.push({html:'Examine', fn:()=>UI.chat(u.examine||'Just a curio of the realm.','plain')});
     }
   }
   entries.push({html:'Walk here', fn:()=>{ const gp=e?groundPick(e):null;
@@ -740,6 +823,7 @@ function buildCtxEntries(hit, e){
 canvasEl.addEventListener('contextmenu', e=>{
   e.preventDefault();
   if(!running) return;
+  if(window.Build && Build.active){ Build.onRightClick(e); return; }   // editor: remove prop
   const hit = pick(e);
   Ctx.show(e, buildCtxEntries(hit, e));
 });
@@ -823,8 +907,8 @@ function minimapWalkTo(p){
   Player.target=null; Player.action=null;
   const y=groundY(p.x,p.z);
   if(y===null||y<-1.2){ UI.chat('You cannot walk there.','plain'); return; }
-  orderWalk(new THREE.Vector3(p.x,y,p.z));
-  moveMarker(new THREE.Vector3(p.x,y,p.z));
+  const sp=snapWalkTarget(new THREE.Vector3(p.x,y,p.z));
+  orderWalk(sp); moveMarker(sp);
 }
 
 function handleClick(obj, point){
@@ -832,7 +916,8 @@ function handleClick(obj, point){
   UI.closeWorldModals();   // stepping away from the counter closes it
   const u=obj.userData;
   Player.target=null; Player.action=null;
-  if(obj.name==='ground'){ Player.action=null; Player.target=null; orderWalk(point); moveMarker(point); return; }
+  if(obj.name==='ground'){ Player.action=null; Player.target=null;
+    const sp=snapWalkTarget(point); orderWalk(sp); moveMarker(sp); return; }
   if(u.kind==='npc' && !u.npc.dead){
     Player.target = u.npc;
     return;
@@ -874,16 +959,149 @@ function handleClick(obj, point){
   if(u.kind==='friendly'){ Player.action={type:'talk', obj}; orderWalk(obj.position); return; }
 }
 
-let marker;
-function moveMarker(p){
-  if(!marker){
-    marker = new THREE.Mesh(new THREE.RingGeometry(0.3,0.45,16),
-      new THREE.MeshBasicMaterial({color:0xff3333, side:THREE.DoubleSide}));
-    marker.rotation.x=-Math.PI/2; scene.add(marker);
-  }
-  marker.position.copy(p); marker.position.y+=0.06; marker.visible=true;
-  setTimeout(()=>marker.visible=false, 700);
+/* ===== OSRS-style tile feedback: hover highlight, destination tile, path preview =====
+   One world unit = one tile. We snap to tile centres (floor()+0.5), draw squares that
+   conform to the terrain by sampling groundY at each corner, and trace the planned route
+   so you can see exactly where the character will walk — like Old School, but in 3D. */
+const TILE = 1.0;
+function _tileCenter(x,z){ return [Math.floor(x/TILE)*TILE+TILE/2, Math.floor(z/TILE)*TILE+TILE/2]; }
+/* write the 5 perimeter points of a terrain-hugging square into a Line geometry (reused) */
+function _setSquareGeom(geom, cx, cz, half, lift){
+  const c=[[cx-half,cz-half],[cx+half,cz-half],[cx+half,cz+half],[cx-half,cz+half],[cx-half,cz-half]];
+  const a=geom.getAttribute('position');
+  const v=(a && a.array.length===15) ? a.array : new Float32Array(15);
+  for(let i=0;i<5;i++){ const px=c[i][0], pz=c[i][1];
+    v[i*3]=px; v[i*3+1]=(groundY(px,pz)||0)+lift; v[i*3+2]=pz; }
+  if(a && a.array.length===15){ a.needsUpdate=true; }
+  else geom.setAttribute('position', new THREE.BufferAttribute(v,3));
 }
+/* the yellow tile that follows the cursor */
+let _hoverTile;
+function showHoverTile(p){
+  if(!_hoverTile){
+    _hoverTile=new THREE.Line(new THREE.BufferGeometry(),
+      new THREE.LineBasicMaterial({color:0xffe14d, transparent:true, opacity:0.85}));
+    _hoverTile.renderOrder=996; scene.add(_hoverTile);
+  }
+  const [cx,cz]=_tileCenter(p.x,p.z);
+  _setSquareGeom(_hoverTile.geometry, cx, cz, TILE/2-0.03, 0.06);
+  _hoverTile.visible=true;
+}
+function hideHoverTile(){ if(_hoverTile) _hoverTile.visible=false; }
+/* the animated destination tile (fill + outline), pulses while walking, fades on arrival */
+let _destFill, _destOutline, _destActive=false, _destFade=0;
+function _ensureDest(){
+  if(_destFill) return;
+  _destFill=new THREE.Mesh(new THREE.PlaneGeometry(TILE*0.9, TILE*0.9),
+    new THREE.MeshBasicMaterial({color:0xffb030, transparent:true, opacity:0.32, depthWrite:false, side:THREE.DoubleSide}));
+  _destFill.rotation.x=-Math.PI/2; _destFill.renderOrder=997; scene.add(_destFill);
+  _destOutline=new THREE.Line(new THREE.BufferGeometry(),
+    new THREE.LineBasicMaterial({color:0xffd83a, transparent:true}));
+  _destOutline.renderOrder=998; scene.add(_destOutline);
+}
+function markDestTile(p){
+  _ensureDest();
+  const [cx,cz]=_tileCenter(p.x,p.z);
+  _destFill.position.set(cx,(groundY(cx,cz)||0)+0.05,cz);
+  _setSquareGeom(_destOutline.geometry, cx, cz, TILE/2-0.02, 0.07);
+  _destFill.visible=true; _destOutline.visible=true; _destActive=true; _destFade=1;
+}
+/* the planned route: the exact orthogonal staircase of TILES the character will step on,
+   highlighted square by square, plus a connecting line — OSRS-style, never diagonal */
+let _pathLine, _pathTiles, _pathFrame=0;
+function showPathPreview(){
+  if(!_pathLine){
+    _pathLine=new THREE.Line(new THREE.BufferGeometry(),
+      new THREE.LineBasicMaterial({color:0xffe14d, transparent:true, opacity:0.85}));
+    _pathLine.renderOrder=995; scene.add(_pathLine);
+  }
+  if(!_pathTiles){
+    _pathTiles=new THREE.Mesh(new THREE.BufferGeometry(),
+      new THREE.MeshBasicMaterial({color:0xffe14d, transparent:true, opacity:0.18, depthWrite:false, side:THREE.DoubleSide}));
+    _pathTiles.renderOrder=994; scene.add(_pathTiles);
+  }
+  const tiles = Player.path || [];
+  // connecting line (player feet → each tile centre); right-angle turns, no diagonals
+  const pts=[[player.position.x, player.position.z]];
+  for(const w of tiles) pts.push([w.x, w.z]);
+  const v=[];
+  for(let i=0;i<pts.length-1;i++){
+    const ax=pts[i][0], az=pts[i][1], bx=pts[i+1][0], bz=pts[i+1][1];
+    const segs=Math.max(1, Math.ceil(Math.hypot(bx-ax,bz-az)));
+    for(let s=0;s<segs;s++){ const t=s/segs, px=ax+(bx-ax)*t, pz=az+(bz-az)*t;
+      v.push(px,(groundY(px,pz)||0)+0.1,pz); }
+  }
+  const L=pts[pts.length-1]; v.push(L[0],(groundY(L[0],L[1])||0)+0.1,L[1]);
+  _pathLine.geometry.dispose();
+  _pathLine.geometry=new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(v,3));
+  _pathLine.visible=true;
+  // one faint filled square per route tile
+  const h=TILE/2*0.86, tv=[];
+  for(const w of tiles){
+    const cx=w.x, cz=w.z, y=(groundY(cx,cz)||0)+0.04;
+    const x0=cx-h, x1=cx+h, z0=cz-h, z1=cz+h;
+    tv.push(x0,y,z0, x1,y,z0, x1,y,z1,  x0,y,z0, x1,y,z1, x0,y,z1);
+  }
+  _pathTiles.geometry.dispose();
+  _pathTiles.geometry=new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(tv,3));
+  _pathTiles.visible=true;
+}
+function hidePathPreview(){ if(_pathLine) _pathLine.visible=false; if(_pathTiles) _pathTiles.visible=false; }
+/* a faint tile grid painted on the ground around the player, so the world reads as tiles */
+let _groundGrid, _gridTX=null, _gridTZ=null;
+function updateGroundGrid(){
+  if(typeof player==='undefined') return;
+  const R=14, ptx=Math.floor(player.position.x), ptz=Math.floor(player.position.z);
+  if(_groundGrid && ptx===_gridTX && ptz===_gridTZ) return;
+  _gridTX=ptx; _gridTZ=ptz;
+  if(!_groundGrid){
+    _groundGrid=new THREE.LineSegments(new THREE.BufferGeometry(),
+      new THREE.LineBasicMaterial({color:0x18220e, transparent:true, opacity:0.32}));
+    _groundGrid.renderOrder=990; scene.add(_groundGrid);
+  }
+  const v=[], x0=ptx-R, x1=ptx+R, z0=ptz-R, z1=ptz+R;
+  const ok=y=>y!==null && y>-1.2;
+  for(let x=x0; x<=x1; x++) for(let z=z0; z<z1; z++){
+    const a=groundY(x,z), b=groundY(x,z+1); if(ok(a)&&ok(b)) v.push(x,a+0.03,z, x,b+0.03,z+1);
+  }
+  for(let z=z0; z<=z1; z++) for(let x=x0; x<x1; x++){
+    const a=groundY(x,z), b=groundY(x+1,z); if(ok(a)&&ok(b)) v.push(x,a+0.03,z, x+1,b+0.03,z);
+  }
+  _groundGrid.geometry.dispose();
+  _groundGrid.geometry=new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(v,3));
+}
+/* snap a walk target to the centre of the tile clicked (the tile we highlighted) */
+function snapWalkTarget(p){
+  const [cx,cz]=_tileCenter(p.x,p.z);
+  const y=groundY(cx,cz);
+  if(y!==null && y>-1.2) return new THREE.Vector3(cx,y,cz);
+  return p.clone ? p.clone() : new THREE.Vector3(p.x,p.y||0,p.z);
+}
+/* drives the pulse, the arrival fade, and trims the route as the player advances */
+(function _tileFXLoop(){
+  requestAnimationFrame(_tileFXLoop);
+  try{ updateGroundGrid(); }catch(e){}
+  const moving = !!(typeof Player!=='undefined' && Player.moveTo);
+  if(_destActive){
+    if(moving){
+      const t=performance.now()*0.006;
+      if(_destFill) _destFill.material.opacity=0.20+Math.abs(Math.sin(t))*0.18;
+      if(_destOutline) _destOutline.material.opacity=1;
+    } else {
+      _destFade-=0.045;
+      if(_destFill) _destFill.material.opacity=Math.max(0,_destFade)*0.32;
+      if(_destOutline) _destOutline.material.opacity=Math.max(0,_destFade);
+      if(_destFade<=0){ _destActive=false;
+        if(_destFill) _destFill.visible=false; if(_destOutline) _destOutline.visible=false; }
+    }
+  }
+  if(_pathLine && _pathLine.visible){
+    if(moving){ if((++_pathFrame & 3)===0) showPathPreview(); }
+    else hidePathPreview();
+  }
+})();
+/* kept as the marker entry point so existing call sites just work */
+function moveMarker(p){ markDestTile(p); showPathPreview(); }
 
 /* minimap click-to-walk */
 function minimapWalk(px, py){
@@ -1258,6 +1476,14 @@ function wireLogin(){
     Player.runOn=!Player.runOn; Sfx.click(); UI.refreshRun();
     UI.chat(Player.runOn?'Run mode: on.':'Run mode: off — walking.','sys');
   };
+  if($('spec-orb')) $('spec-orb').onclick=()=>{
+    const wm = Player.equip.weapon ? ITEMS[Player.equip.weapon].model : null;
+    if(!wm || !SPECIALS[wm]){ UI.chat('This weapon has no special attack.','plain'); return; }
+    if(Player.spec < SPECIALS[wm].cost){ UI.chat(`You need ${SPECIALS[wm].cost}% special-attack energy for ${SPECIALS[wm].name}.`,'plain'); return; }
+    Player.specArmed=!Player.specArmed; Sfx.click();
+    UI.chat(Player.specArmed?`Special attack armed: ${SPECIALS[wm].name}.`:'Special attack disarmed.','sys');
+    UI.refreshSpec();
+  };
   const ds=$('drops-search');
   if(ds && ds.addEventListener) ds.addEventListener('input', ()=>UI.refreshDrops(ds.value));
 }
@@ -1279,9 +1505,9 @@ const SaveGame = {
       pos:[player.position.x, player.position.z],
       tracked:Quest.tracked,
       look:{name:CharCfg.name, shirt:CharCfg.shirt, skin:CharCfg.skin},
-      styles:Player.attackStyles,
+      styles:Player.attackStyles, autoRetaliate:Player.autoRetaliate,
       music:{unlocked:Music.unlocked, mode:Music.mode, current:Music.current},
-      energy:Player.energy, runOn:Player.runOn,
+      energy:Player.energy, runOn:Player.runOn, spec:Player.spec,
       prayerPts:Player.prayerPts,
       spell:Player.spell,
     });
@@ -1306,7 +1532,9 @@ const SaveGame = {
       Player.quests=d.quests||{}; Player.castMode=!!d.castMode;
       Quest.tracked=d.tracked||null;
       if(d.styles) Object.assign(Player.attackStyles, d.styles);
+      if(d.autoRetaliate!==undefined) Player.autoRetaliate=!!d.autoRetaliate;
       if(d.energy!==undefined){ Player.energy=d.energy; Player.runOn=!!d.runOn; }
+      if(d.spec!==undefined) Player.spec=d.spec;
       if(d.prayerPts!==undefined) Player.prayerPts=Math.min(d.prayerPts, Player.maxPrayer());
       if(d.spell && SPELLS[d.spell]){ Player.spell=d.spell; Player.castMode=true; }
       // old spark runes fuse into mind runes
@@ -1814,8 +2042,64 @@ function populateHolm(){
   makeCampfire(h[0], h[1]+2);
   spawnNpc('grubkin', h[0]+8, h[1]+8);
   spawnNpc('grubkin', h[0]+11, h[1]+5);
+  spawnNpc('bogling', h[0]+5, h[1]+4);          // pipeline-authored demo creature
+  spawnNpc('bogling', h[0]+7, h[1]+1);
   for(let i=0;i<4;i++) makeBush(h[0]-6+Math.random()*14, h[1]-4+Math.random()*12);
   for(let i=0;i<5;i++) makeFlower(h[0]-6+Math.random()*14, h[1]-2+Math.random()*10);
   makeSignpost(h[0]-6, h[1]+8);
+  // image-to-3D props: a little starter farm + camp supplies (Gemini sprite -> Hunyuan3D-2)
+  // crop rows, west of the camp
+  placeProp('cabbage', h[0]-3,   h[1]+4);
+  placeProp('cabbage', h[0]-2,   h[1]+5);
+  placeProp('cabbage', h[0]-3.6, h[1]+5.4);
+  placeProp('potato',  h[0]-5,   h[1]+3.2);
+  placeProp('potato',  h[0]-5.8, h[1]+3.9);
+  placeProp('onion',   h[0]-6.4, h[1]+2.6);
+  placeProp('carrot',  h[0]-5.4, h[1]+1.9);
+  placeProp('carrot',  h[0]-4.5, h[1]+2.4);
+  placeProp('wheat',   h[0]-7.6, h[1]+4.2);
+  placeProp('wheat',   h[0]-7.0, h[1]+5.2);
+  // camp supplies, by the campfire
+  placeProp('crate',   h[0]+2.4, h[1]+3.4);
+  placeProp('barrel',  h[0]+3.4, h[1]+2.6);
+  placeProp('bucket',  h[0]+2.8, h[1]+4.4);
+  placeProp('sack',    h[0]+1.6, h[1]+4.2);
+}
+
+/* ---------- AUTHORED CHUNK #1: a starter town square (reviewable) ----------
+   Hand-placed using the library builders: textured hall + houses, bank, stalls,
+   cobble plaza, statue, fences, props, townsfolk, and an enemy at the edge. */
+function buildStarterTown(cx,cz){
+  const D = window.Decor || {};
+  const pathMat = (typeof TEX!=='undefined' && TEX.cobble) ? new THREE.MeshLambertMaterial({map:TEX.cobble}) : mat(0x8a8276);
+  const pathTile=(x,z,s)=>{ s=s||2.05; const t=new THREE.Mesh(new THREE.BoxGeometry(s,0.08,s),pathMat);
+    t.position.set(x, gy(x,z)+0.05, z); t.receiveShadow=true; scene.add(t); };
+  // cobble cross through the plaza
+  for(let i=-3;i<=3;i++){ pathTile(cx+i*2, cz); pathTile(cx, cz+i*2); }
+  // town hall (north) with a bank booth, central statue
+  makeTexHouse(cx, cz-7.5, {w:5.6,d:5,label:'Enter <b>Town Hall</b>'});
+  makeBankBooth(cx, cz-4.3);
+  makeStatue(cx, cz);
+  // market stalls + corner houses
+  makeStall(cx-6, cz-0.5, 0xb03a3a);
+  makeStall(cx+6, cz-0.5, 0x3a6ab0);
+  makeTexHouse(cx-8, cz+6, {w:4.2,d:4.2});
+  makeTexHouse(cx+8, cz+6, {w:4.2,d:4.2});
+  makeSignpost(cx-2.4, cz+5);
+  makeCampfire(cx+4, cz+5);
+  // greenery
+  for(const [dx,dz] of [[-11,-6],[11,-7],[-12,9],[12,10]]) makeTree(cx+dx, cz+dz);
+  for(let i=0;i<6;i++) makeBush(cx-12+Math.random()*24, cz-9+Math.random()*20);
+  for(let i=0;i<8;i++) makeFlower(cx-9+Math.random()*18, cz-5+Math.random()*12);
+  // decor props
+  if(D.fencePost){ for(const fx of [-9,-7,-5,5,7,9]) D.fencePost(cx+fx, cz+11); }
+  if(D.barrel){ D.barrel(cx-5.6,cz-1.4); D.barrel(cx-6.4,cz-1.0); }
+  if(D.crate){ D.crate(cx+5.7,cz-1.4); }
+  if(D.bookcase){ D.bookcase(cx+1.7, cz-8.7); }
+  if(D.cabbage){ for(let i=0;i<6;i++) D.cabbage(cx-9+i*0.75, cz+3.2+(i%2)*0.6); }
+  // townsfolk + a lurking enemy
+  spawnFriendly('townelder','Elder Marn', cx+2.2, cz+2.4, 0x5a4a6a, '🧓');
+  spawnFriendly('townsmith','Smith Bryn', cx-6, cz-1.8, 0x5a4a3e, '🧔');
+  spawnNpc('skeleton', cx-11, cz+12);
 }
 

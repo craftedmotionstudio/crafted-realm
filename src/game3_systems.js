@@ -73,7 +73,11 @@ const SPELLS = {
   fire_bolt:   {name:'Fire Bolt',    req:35, max:12, baseXp:22.5, icon:'\u2604',    color:0xd84a1e, runes:{fire_rune:4, air_rune:3, chaos_rune:1}},
   confuse:     {name:'Confuse', req:3,  utility:'curse', stat:'att', cut:0.95, baseXp:13, icon:'\u{1F4AB}', color:0x8a8aa8, runes:{body_rune:1, water_rune:3, earth_rune:2}},
   weaken:      {name:'Weaken',  req:11, utility:'curse', stat:'str', cut:0.95, baseXp:21, icon:'\u{1F4C9}', color:0x6a8a6a, runes:{body_rune:1, water_rune:3, earth_rune:2}},
-  home_tele:   {name:'Veyhollow Teleport', req:1, utility:'teleport', icon:'\u{1F3E0}', baseXp:0, runes:{}},
+  home_tele:    {name:'Veyhollow Teleport',  req:1,  utility:'teleport', dest:'commons',  cd:60, icon:'\u{1F3E0}', baseXp:0,  runes:{}},
+  tele_quarry:  {name:'Stonereach Teleport', req:14, utility:'teleport', dest:'quarry',   cd:4,  icon:'⛏',     baseXp:35, runes:{air_rune:3, earth_rune:1, mind_rune:1}},
+  tele_gloomfen:{name:'Gloomfen Teleport',   req:25, utility:'teleport', dest:'gloomfen', cd:4,  icon:'\u{1F311}',  baseXp:46, runes:{air_rune:3, water_rune:1, mind_rune:1}},
+  tele_brynholt:{name:'Brynholt Teleport',   req:38, utility:'teleport', dest:'brynholt', cd:4,  icon:'❄',     baseXp:58, runes:{air_rune:5, mind_rune:1}},
+  tele_dunes:   {name:'Ashar Teleport',      req:45, utility:'teleport', dest:'dunes',    cd:4,  icon:'\u{1F3DC}',  baseXp:68, runes:{air_rune:5, fire_rune:2, mind_rune:1}},
   low_alch:    {name:'Low Level Alchemy',  req:21, utility:'alch', mult:0.4, baseXp:31, icon:'\u{1FA99}', runes:{nature_rune:1, fire_rune:3}},
   high_alch:   {name:'High Level Alchemy', req:55, utility:'alch', mult:0.6, baseXp:65, icon:'\u{1F4B0}', runes:{nature_rune:1, fire_rune:5}},
 };
@@ -115,7 +119,7 @@ const Player = {
   selectSpell(id){
     const sp=SPELLS[id]; if(!sp) return false;
     if(this.lvl('Magic')<sp.req){ UI.chat(`You need a Magic level of ${sp.req} to cast ${sp.name}.`,'plain'); return false; }
-    if(sp.utility==='teleport'){ castHomeTeleport(); return true; }
+    if(sp.utility==='teleport'){ castTeleport(sp); return true; }
     if(sp.utility==='curse'){
       if(!this.target || this.target.dead){ UI.chat('Choose a foe first, then cast the curse.','plain'); return false; }
       if(!this.hasRunes(sp)){ UI.chat('You do not have enough runes to cast this spell.','plain'); return false; }
@@ -194,6 +198,9 @@ const Player = {
     this.tickPrayers(dt);
     if(this.teleCd>0) this.teleCd=Math.max(0, this.teleCd-dt);
     if(this.stunT>0) this.stunT=Math.max(0, this.stunT-dt);
+    // special-attack energy regenerates +10% every 30s (OSRS), i.e. +1% per 3s
+    this.specT=(this.specT||0)+dt;
+    if(this.specT>=3){ this.specT-=3; if(this.spec<100){ this.spec=Math.min(100,(this.spec||0)+1); if(UI.refreshSpec) UI.refreshSpec(); } }
     // (hitpoint regen lives in Player.regen — already 1 hp/min, OSRS-correct)
   },
   moveSpeed(){ return (this.runOn && this.energy>0) ? 4.2 : 2.4; },
@@ -213,7 +220,7 @@ const Player = {
   addXp(s, amt){
     const before = this.lvl(s);
     this.xp[s]+=amt;
-    UI.floatXp('+'+amt+' '+s+' XP');
+    UI.xpDrop(s, amt);
     const after = this.lvl(s);
     if(after>before){
       UI.chat(`Congratulations, you just advanced ${s==='Hitpoints'?'a':'an'} ${s} level. You are now level ${after}.`,'xp');
@@ -255,6 +262,8 @@ const Player = {
     if(this.spell && SPELLS[this.spell]) return 'magic';   // armed autocast holds the style; the cast itself checks runes
     const w=this.equip.weapon; return w?ITEMS[w].style||'melee':'melee'; },
   attackStyles:{melee:0, ranged:0, magic:0},
+  autoRetaliate:true,
+  spec:100, specArmed:false, specT:0,
   curStyle(){
     const cls=this.weaponStyle();
     const list=STYLE_DEFS[cls]||STYLE_DEFS.melee;
@@ -368,7 +377,21 @@ function spawnNpc(typeId, x, z){
     }
   }
   let mesh;
-  if(t.model==='chicken') mesh = chicken(t.size);
+  if(t.assetModel){                          // pipeline-authored Blockbench model
+    mesh = CR_buildAsset(t.assetModel, t.assetColors||{});
+    if(!mesh) mesh = beast(t.color, t.size);
+    else { if(t.size) mesh.scale.multiplyScalar(t.size);
+           mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); }
+  }
+  else if(t.model==='bogling'){            // procedural smooth low-poly goblin (Path A)
+    mesh = goblinModel({scale:t.size});
+    mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
+  }
+  else if(t.model==='skeleton'){           // bone-textured undead
+    mesh = skeletonModel({scale:t.size});
+    mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
+  }
+  else if(t.model==='chicken') mesh = chicken(t.size);
   else if(t.model==='cow') mesh = cow(t.size);
   else if(t.model==='rat') mesh = rat(t.size, t.color);
   else if(t.model==='goblin'){
@@ -470,7 +493,8 @@ function makeDrop(id, qty, x, z){
   const m = itemGroundMesh(id);
   m.position.set(x, gy(x,z)+0.02, z);
   m.rotation.y = Math.random()*6;
-  m.userData = {kind:'drop', id, qty, label:`Take <b>${def.name}</b>${qty>1?' ('+qty+')':''}`};
+  m.userData = {kind:'drop', id, qty, label:`Take <b>${def.name}</b>${qty>1?' ('+qty+')':''}`,
+    age:0, life:180, publicAt:60, owner:'player'};   // OSRS lifecycle: ~60s private → public → ~3min despawn
   scene.add(m); WORLD.clickables.push(m); WORLD.drops.push(m);
 }
 function removeClickable(obj){
@@ -518,6 +542,7 @@ function updateProjectiles(dt){
         Player.hp -= p.dmg; UI.floatDmg(player, p.dmg);
         if(p.dmg>0){ Player.addXp('Defence', p.dmg*2); Sfx.takeHit(); }
         UI.refreshHud();
+        if(Player.autoRetaliate && !Player.target && !Player.moveTo && !Player.action && p.npc && !p.npc.dead && Player.hp>0) Player.target=p.npc;
         if(Player.hp<=0) playerDeath();
       } else {
         if(!p.npc.dead) applyHit(p.npc, p.dmg, p.xpTok || (p.kind==='arrow'?'Ranged':'Magic'));
@@ -550,6 +575,47 @@ const STYLE_DEFS = {
     {key:'standard',  name:'Standard',  label:'Standard',  xp:'Magic'},
     {key:'defensive', name:'Defensive', label:'Defensive', xp:'MagicDef', boost:{def:3}},
   ],
+};
+/* special attacks: armed via the spec orb, consume spec energy, and boost the accuracy &
+   damage of that one swing. Keyed by weapon MODEL so a whole class shares a signature spec
+   — our own designs (not OSRS's). */
+const SPECIALS = {
+  sword: {name:'Lunge',        cost:25, acc:1.30, dmg:1.15, msg:'You lunge with deadly precision!'},
+  axe:   {name:'Cleave',       cost:50, acc:1.05, dmg:1.45, msg:'You cleave with brutal force!'},
+  pick:  {name:'Skull Crack',  cost:50, acc:1.10, dmg:1.35, msg:'You drive the pick home!'},
+  bow:   {name:'Rapid Volley', cost:50, acc:1.20, dmg:1.30, msg:'You loose a rapid volley!'},
+  staff: {name:'Power Surge',  cost:55, acc:1.15, dmg:1.40, msg:'Your staff surges with raw power!'},
+};
+/* boss combat scripts: a lightweight per-NPC hook (set NPC_TYPES[x].script) run each frame while
+   the boss lives, giving phases/specials/heals beyond the generic AI. Our own designs. */
+const BOSS_SCRIPTS = {
+  fenlord(n, dt){
+    n._sT=(n._sT||0)+dt;
+    if(n._sT>=9){ n._sT=0;
+      if(n.target==='player' && n.hp < n.t.hp*0.55){
+        n.hp=Math.min(n.t.hp, n.hp + Math.ceil(n.t.hp*0.08));
+        if(n.hpbar){ n.hpbar.spr.visible=true; n.hpbar.draw(Math.max(0,n.hp/n.t.hp)); }
+        UI.chat('The Fenlord draws strength from the drowned mire.','combat');
+      }
+    }
+  },
+  korthul(n, dt){
+    n._sT=(n._sT||0)+dt;
+    if(!n._enraged && n.hp < n.t.hp*0.5){ n._enraged=true;
+      UI.chat('Korthul shudders and quakes with mountainous fury!','combat'); }
+    const every = n._enraged ? 7 : 12;
+    if(n._sT>=every){ n._sT=0;
+      if(n.target==='player'){
+        const d=player.position.distanceTo(n.mesh.position);
+        if(d<6 && !Player.protectedFrom('melee')){
+          const dmg=Math.ceil((n._enraged?7:4)+Math.random()*8);
+          Player.hp-=dmg; UI.floatDmg(player, dmg);
+          UI.chat('Korthul slams the ground — the cavern quakes!','combat'); UI.refreshHud();
+          if(Player.hp<=0) playerDeath();
+        }
+      }
+    }
+  },
 };
 function applyHit(npc, dmg, xpSkill){
   npc.hp -= dmg; UI.floatDmg(npc.mesh, dmg);
@@ -603,15 +669,25 @@ function playerAttack(npc, dt){
     }
     Player.spendRunes(spellDef);
   }
+  // special attack: if armed, the weapon has one, and we have the energy, fire it this swing
+  let spec=null;
+  const _wm = Player.equip.weapon ? ITEMS[Player.equip.weapon].model : null;
+  if(Player.specArmed && _wm && SPECIALS[_wm] && Player.spec>=SPECIALS[_wm].cost){
+    spec=SPECIALS[_wm]; Player.spec-=spec.cost; Player.specArmed=false;
+    if(UI.refreshSpec) UI.refreshSpec();
+    UI.chat(spec.msg,'combat');
+  }
   const skillLv = (style==='ranged' ? Player.lvl('Ranged')+Player.styleBoost('rng')
                  : style==='magic'  ? Player.lvl('Magic')
                  : Math.floor(Player.lvl('Attack')*Player.prayerMult('att'))+Player.styleBoost('att'));
   const attRoll = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus())+64);
   const defRoll = (npc.t.def+9) * (npc.t.dBonus+64);
-  const hitChance = rollAccuracy(attRoll, defRoll);
-  const maxHit = style==='melee' ? osrsMaxHit(Math.floor(Player.lvl('Strength')*Player.prayerMult('str'))+Player.styleBoost('str')+8, Player.strBonus())
+  let hitChance = rollAccuracy(attRoll, defRoll);
+  if(spec) hitChance = Math.min(1, hitChance*spec.acc);
+  let maxHit = style==='melee' ? osrsMaxHit(Math.floor(Player.lvl('Strength')*Player.prayerMult('str'))+Player.styleBoost('str')+8, Player.strBonus())
                : style==='ranged' ? osrsMaxHit(Player.lvl('Ranged')+8, Player.strBonus())
                : spellDef.max;   // each spell knows its own ceiling, like the classics
+  if(spec) maxHit = Math.ceil(maxHit*spec.dmg);
   const dmg = Math.random()<hitChance ? Math.ceil(Math.random()*maxHit) : 0;
   swing(player);
   if(style==='melee'){
@@ -745,13 +821,19 @@ function castCurse(sp, npc){
   UI.chat(`Your ${sp.name.toLowerCase()} settles over the ${npc.t.name.toLowerCase()}.`,'xp');
   if(UI.refreshSpells) UI.refreshSpells();
 }
-function castHomeTeleport(){
-  if(Player.teleCd>0){ UI.chat(`The homeward rite needs ${Math.ceil(Player.teleCd)} more seconds to gather.`,'plain'); return; }
+function castTeleport(sp){
+  sp = sp || SPELLS.home_tele;
+  if(Player.teleCd>0){ UI.chat(`Teleporting again must wait ${Math.ceil(Player.teleCd)} more seconds.`,'plain'); return; }
   if(Player.action && Player.action.type==='teleport') return;
-  Player.action={type:'teleport', t:0};
+  if(sp.runes && Object.keys(sp.runes).length && !Player.hasRunes(sp)){
+    UI.chat(`You do not have enough runes to cast ${sp.name}.`,'plain'); return; }
+  if(sp.runes && Object.keys(sp.runes).length) Player.spendRunes(sp);
+  if(sp.baseXp) Player.addXp('Magic', sp.baseXp);
+  Player.action={type:'teleport', t:0, dest:sp.dest||'commons', cd:sp.cd||60, label:sp.name};
   Player.moveTo=null; Player.target=null;
-  UI.chat('You begin the homeward rite...','sys');
+  UI.chat(`You begin the ${sp.name} rite...`,'sys');
 }
+function castHomeTeleport(){ castTeleport(SPELLS.home_tele); }   // kept for any legacy callers
 function killNpc(npc, opt){
   opt=opt||{};
   if(Duel.active && npc===Duel.npc){
@@ -828,6 +910,8 @@ function npcAttack(npc, dt){
   Player.hp -= dmg; UI.floatDmg(player, dmg);
   if(dmg>0){ Player.addXp('Defence', dmg*2); Sfx.takeHit(); } else Sfx.block();
   UI.refreshHud();
+  // auto-retaliate: if idle when struck, fight back (OSRS behaviour)
+  if(Player.autoRetaliate && !Player.target && !Player.moveTo && !Player.action && !npc.dead && Player.hp>0) Player.target=npc;
   if(Player.hp<=0) playerDeath();
 }
 /* ---------- fight appraisal: odds of winning with CURRENT stats & gear ---------- */

@@ -41,24 +41,53 @@
     background:linear-gradient(90deg,#4a443a,#8a8270 50%,#3a352c);}
   .pillar:after{content:'';position:absolute;top:0;bottom:0;left:18px;width:10px;
     background:rgba(0,0,0,0.25);box-shadow:34px 0 rgba(0,0,0,0.25);}
-  .pl{left:7vw;} .pr{right:7vw;} .pillar{z-index:2;}
+  .pl{left:7vw;} .pr{right:7vw;} .pillar{z-index:2;display:none;}  /* pillars retired — too cheesy */
+  /* distant castle torches that actually flicker, overlaid on the painted background */
+  #castle-flames{position:absolute;inset:0;z-index:1;pointer-events:none;}
+  .cflame{position:absolute;width:7px;height:15px;transform:translate(-50%,-50%);
+    border-radius:50% 50% 40% 40%;
+    background:radial-gradient(ellipse at 50% 80%,#fff6c8,#ffc23a 45%,#f07818 72%,rgba(200,60,10,0) 86%);
+    filter:blur(0.6px);box-shadow:0 0 9px 2px rgba(255,170,70,0.45);
+    animation:cflick 0.55s ease-in-out infinite;}
+  .cflame.big{width:9px;height:19px;box-shadow:0 0 12px 3px rgba(255,170,70,0.5);}
+  .cflame:nth-child(2){animation-delay:-0.18s;} .cflame:nth-child(3){animation-delay:-0.33s;}
+  .cflame:nth-child(4){animation-delay:-0.5s;} .cflame:nth-child(5){animation-delay:-0.27s;}
+  @keyframes cflick{0%{transform:translate(-50%,-50%) scaleY(1) scaleX(1);opacity:0.82;}
+    50%{transform:translate(-50%,-53%) scaleY(1.22) scaleX(0.82);opacity:1;}
+    100%{transform:translate(-50%,-50%) scaleY(0.95) scaleX(1.06);opacity:0.9;}}
   .brazier{position:absolute;top:-58px;left:50%;transform:translateX(-50%);
     width:64px;height:34px;background:radial-gradient(ellipse at 50% 100%,#2e2a22,#4a443a);
     border-radius:0 0 30px 30px;border-top:6px solid #5a5346;}
-  .flame{position:absolute;bottom:26px;left:50%;width:42px;height:64px;
-    transform:translateX(-50%);border-radius:50% 50% 35% 35%;
-    background:radial-gradient(ellipse at 50% 85%, #fff3b0 0%, #ffc23a 32%, #f07818 60%, rgba(200,60,10,0) 78%);
-    filter:blur(1px);animation:flick 0.42s infinite alternate;}
-  .flame:before{content:'';position:absolute;inset:14px 10px 6px;
-    border-radius:50% 50% 40% 40%;
-    background:radial-gradient(ellipse at 50% 90%, #fff8d8 0%, #ffd24a 50%, rgba(255,150,40,0) 80%);
-    animation:flick 0.31s infinite alternate-reverse;}
-  @keyframes flick{from{transform:translateX(-50%) scaleY(1) scaleX(1);}
-    to{transform:translateX(-52%) scaleY(1.18) scaleX(0.88);}}
+  .flame{position:absolute;bottom:26px;left:50%;width:46px;height:74px;
+    transform:translateX(-50%);border-radius:50% 50% 35% 35%;transform-origin:50% 100%;
+    background:radial-gradient(ellipse at 50% 88%, #fff3b0 0%, #ffc23a 30%, #f07818 58%, rgba(200,60,10,0) 80%);
+    filter:blur(1.2px);animation:flick 1.05s ease-in-out infinite;}
+  .flame:before{content:'';position:absolute;inset:16px 11px 7px;
+    border-radius:50% 50% 40% 40%;transform-origin:50% 100%;
+    background:radial-gradient(ellipse at 50% 90%, #fff8d8 0%, #ffd24a 48%, rgba(255,150,40,0) 82%);
+    animation:flick2 0.68s ease-in-out infinite reverse;}
+  .flame:after{content:'';position:absolute;left:50%;bottom:7px;width:15px;height:32px;
+    transform:translateX(-50%);border-radius:50% 50% 45% 45%;transform-origin:50% 100%;
+    background:radial-gradient(ellipse at 50% 90%, #ffffff 0%, #fff1c0 55%, rgba(255,220,120,0) 85%);
+    animation:flick 0.5s ease-in-out infinite;}
+  @keyframes flick{
+    0%{transform:translateX(-50%) scaleY(1) scaleX(1) rotate(-1.5deg);opacity:0.9;}
+    20%{transform:translateX(-52%) scaleY(1.14) scaleX(0.9) rotate(2deg);opacity:1;}
+    40%{transform:translateX(-48%) scaleY(0.95) scaleX(1.08) rotate(-1deg);opacity:0.82;}
+    60%{transform:translateX(-51%) scaleY(1.2) scaleX(0.86) rotate(1.5deg);opacity:1;}
+    80%{transform:translateX(-50%) scaleY(1.02) scaleX(0.98) rotate(-0.5deg);opacity:0.88;}
+    100%{transform:translateX(-50%) scaleY(1.08) scaleX(0.94) rotate(0deg);opacity:0.96;}}
+  @keyframes flick2{
+    0%{transform:scaleY(1) scaleX(1);opacity:0.85;}
+    50%{transform:scaleY(1.16) scaleX(0.88);opacity:1;}
+    100%{transform:scaleY(0.97) scaleX(1.05);opacity:0.9;}}
   .glow{position:absolute;top:-90px;left:50%;transform:translateX(-50%);
-    width:220px;height:160px;border-radius:50%;
-    background:radial-gradient(ellipse, rgba(255,170,60,0.35), rgba(255,170,60,0) 70%);
-    animation:flick 0.8s infinite alternate;}
+    width:240px;height:175px;border-radius:50%;
+    background:radial-gradient(ellipse, rgba(255,175,70,0.42), rgba(255,170,60,0) 70%);
+    animation:glowpulse 2.6s ease-in-out infinite;}
+  @keyframes glowpulse{
+    0%,100%{opacity:0.55;transform:translateX(-50%) scale(0.98);}
+    50%{opacity:0.85;transform:translateX(-50%) scale(1.08);}}
   .lg-btn{display:block;width:100%;margin:8px 0;font:bold 14px Verdana;color:#fff;
     background:linear-gradient(#7c1410,#4d0c09);border:2px outset #a8342a;
     padding:10px;cursor:pointer;text-shadow:1px 1px 0 #000;}
@@ -69,10 +98,13 @@
   .sw.sel{border-color:#ffd24a;box-shadow:0 0 6px #ffd24a;}
   #char-name{width:90%;padding:6px;font:13px Verdana;background:#1e1a14;color:#ffd24a;
     border:2px inset #6b5f4a;text-align:center;margin-bottom:8px;}
-  #music-btn{position:absolute;right:14px;top:268px;width:34px;height:34px;border-radius:50%;
+  /* music button: moved to the minimap's bottom-right corner (mirrors the compass at
+     bottom-left) so it no longer overlaps the Combat stat orb */
+  #music-btn{position:absolute;right:-4px;bottom:-4px;width:34px;height:34px;border-radius:50%;
     font:bold 15px Verdana;color:#ffd24a;background:radial-gradient(#3a3328,#241f17);
-    border:2px outset #6b5f4a;cursor:pointer;z-index:20;}
-  .arch{position:absolute;left:50%;transform:translateX(-50%);bottom:18vh;width:300px;height:52vh;
+    border:2px outset #6b5f4a;cursor:pointer;z-index:31;
+    display:flex;align-items:center;justify-content:center;}
+  .arch{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:18vh;width:300px;height:52vh;
     background:linear-gradient(#55504a,#403c36);
     border-radius:150px 150px 0 0;
     box-shadow:inset 0 0 40px rgba(0,0,0,0.7), 0 0 0 14px #5d5850, 0 0 0 18px #36322c;
@@ -80,7 +112,7 @@
   .arch:before{content:'';position:absolute;inset:10% 22% 0;
     background:linear-gradient(#2c2924,#1a1815 70%);border-radius:120px 120px 0 0;
     box-shadow:inset 0 -30px 50px rgba(0,0,0,0.8);}
-  .steps{position:absolute;left:50%;transform:translateX(-50%);bottom:0;width:560px;height:18vh;z-index:1;}
+  .steps{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:0;width:560px;height:18vh;z-index:1;}
   .steps div{position:absolute;left:50%;transform:translateX(-50%);
     background:linear-gradient(#6b665c,#4a463e);box-shadow:0 3px 0 #2c2924;}
   .steps div:nth-child(1){bottom:12vh;width:320px;height:6vh;}
@@ -102,14 +134,20 @@
     border-radius:14px;}
   #welcome-screen{position:absolute;inset:0;z-index:99;display:none;
     background:
-      radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.55) 100%),
-      repeating-linear-gradient(0deg, #4e4a42 0 26px, #3a3630 26px 30px),
-      repeating-linear-gradient(90deg, rgba(0,0,0,0.18) 0 2px, rgba(0,0,0,0) 2px 64px),
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 56px, rgba(0,0,0,0.25) 56px 60px);
-    background:radial-gradient(ellipse at center,#2a2418 0%,#000 80%);
+      radial-gradient(ellipse at 50% 44%, rgba(0,0,0,0) 28%, rgba(0,0,0,0.5) 100%),
+      linear-gradient(rgba(18,14,8,0.12), rgba(18,14,8,0.42)),
+      url('assets/ui/login_bg.png') center/cover no-repeat #2a2418;
     align-items:center;justify-content:center;flex-direction:column;}
-  #welcome-logo{font:bold 44px Georgia,'Times New Roman',serif;color:var(--yellow);
-    text-shadow:2px 2px 0 #5a3210,4px 4px 8px #000;letter-spacing:2px;margin-bottom:26px;}
+  #welcome-logo{font:800 54px Georgia,'Times New Roman',serif;letter-spacing:4px;margin-bottom:26px;
+    position:relative;
+    background:linear-gradient(#fff3c4 0%,#ffd24a 42%,#e7a52f 68%,#b97c1e 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    -webkit-text-stroke:1px #3a2206;
+    filter:drop-shadow(2px 3px 0 #2a1804) drop-shadow(0 5px 12px rgba(0,0,0,.75));}
+  #welcome-logo::after{content:'';position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);
+    width:260px;height:2px;
+    background:linear-gradient(90deg,transparent,#c79a3e 30%,#ffe6a8 50%,#c79a3e 70%,transparent);}
   #welcome-box{width:360px;padding:22px;text-align:center;}
   #welcome-box h3{color:var(--yellow);margin-bottom:12px;text-shadow:1px 1px 0 #000;}
   #welcome-box p{color:#fff;line-height:1.6;margin-bottom:16px;}
@@ -128,11 +166,34 @@
 
   /* ---------- SIDE PANEL ---------- */
   #side-panel{position:absolute;top:8px;right:8px;width:222px;}
-  #tab-bar{display:flex;background:var(--panel-dark);}
-  .tab-btn{flex:1;padding:7px 0;text-align:center;cursor:pointer;font-size:15px;
+  /* OSRS format: a row of tabs ABOVE and a row BELOW the content, for space efficiency */
+  #tab-bar,#tab-bar-bottom{display:flex;background:var(--panel-dark);}
+  .tab-btn{flex:1;box-sizing:border-box;padding:7px 0;text-align:center;cursor:pointer;font-size:15px;
     border-right:1px solid var(--steel-lo);border-bottom:2px solid var(--steel-lo);
     background:linear-gradient(#5a5043,#3e3529);}
   .tab-btn.active{background:linear-gradient(#8a3d2e,#5d2218);border-bottom-color:var(--orange);}
+  #tab-bar-bottom .tab-btn{border-bottom:none;border-top:2px solid var(--steel-lo);}
+  #tab-bar-bottom .tab-btn.active{border-top-color:var(--orange);}
+
+  /* combat tab — attack styles */
+  .cmb-weap{color:var(--orange);font-weight:bold;font-size:12px;text-align:center;
+    padding:4px 0 8px;text-shadow:1px 1px 0 #000;}
+  .cmb-style{padding:7px 8px;margin-bottom:5px;cursor:pointer;color:var(--beige);
+    background:linear-gradient(#4a4236,#3a3328);border:2px solid var(--steel-lo);border-radius:3px;}
+  .cmb-style:hover{border-color:var(--steel-hi);}
+  .cmb-style.active{background:linear-gradient(#8a3d2e,#5d2218);border-color:var(--orange);color:#fff;}
+  .cmb-style b{display:block;font-size:12px;} .cmb-style small{color:#9a8e78;font-size:10px;}
+  .cmb-style.active small{color:#f0d8a8;}
+
+  /* settings / account tab */
+  .set-row{display:flex;justify-content:space-between;align-items:center;
+    padding:6px 4px;border-bottom:1px solid var(--panel-dark);color:var(--beige);font-size:12px;}
+  .set-btn{font:bold 11px Verdana;color:var(--beige);background:linear-gradient(#5a5043,#3e3529);
+    border:2px outset #6b5f4a;padding:5px 12px;cursor:pointer;}
+  .set-btn:hover{color:var(--yellow);}
+  .set-btn.wide{display:block;width:100%;margin-top:8px;text-align:center;padding:9px;}
+  .set-btn.logout{background:linear-gradient(#7c1410,#4d0c09);color:#fff;border-color:#a8534e #2a0605 #2a0605 #a8534e;}
+  .set-btn.logout:hover{background:linear-gradient(#9c1a14,#5d0f0b);color:#fff;}
   .tab-pane{display:none;padding:8px;min-height:282px;}
   .tab-pane.active{display:block;}
 
@@ -149,6 +210,7 @@
   /* skills */
   .skill-row{display:flex;justify-content:space-between;align-items:center;
     padding:4px 6px;border-bottom:1px solid var(--panel-dark);color:var(--beige);}
+  .skill-ico{width:19px;height:19px;vertical-align:middle;margin-right:7px;}
   .skill-row span.lvl{color:var(--yellow);font-weight:bold;text-shadow:1px 1px 0 #000;}
   .skill-xp{height:3px;background:var(--panel-dark);margin:0 6px 2px 6px;overflow:hidden;}
   .skill-xp > div{height:100%;background:#7c5cbf;}
@@ -171,12 +233,14 @@
     background:radial-gradient(#3a3328,#241f17);border:2px outset #6b5f4a;cursor:pointer;font-size:16px;
     display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
   #compass-btn:active{border-style:inset;}
-  #run-orb{position:absolute;right:178px;top:8px;z-index:30;width:54px;height:30px;
+  /* run orb: moved to the LEFT of the minimap (OSRS puts activity orbs here) so it no
+     longer sits on top of the side-panel tab bar */
+  #run-orb{position:absolute;right:392px;top:12px;left:auto;z-index:30;width:54px;height:30px;
     background:radial-gradient(#3a3328,#241f17);border:2px outset #6b5f4a;cursor:pointer;
     font:bold 11px Verdana;color:#ffd24a;display:flex;align-items:center;justify-content:center;gap:3px;
     text-shadow:1px 1px 0 #000;}
   #run-orb.walking{color:#9a8e78;}
-  #music-menu{position:absolute;display:none;z-index:55;right:54px;top:268px;width:190px;
+  #music-menu{position:absolute;display:none;z-index:55;right:60px;top:170px;width:190px;
     background:#241f17;border:2px outset #6b5f4a;font:11px Verdana;padding:6px;}
   #music-menu h4{color:var(--orange);font-size:11px;margin:2px 0 6px;text-shadow:1px 1px 0 #000;}
   .mtrack{padding:4px 6px;color:var(--beige);cursor:pointer;border:1px solid transparent;}
@@ -224,6 +288,9 @@
     font-weight:bold;text-shadow:1px 1px 0 #000;cursor:default;}
   .orb .num{font-size:15px;color:var(--green);}
   .orb .lbl{font-size:8px;color:var(--beige);}
+  #spec-orb{cursor:pointer;}
+  #spec-orb.armed{border-color:#7ad0ff;box-shadow:0 0 12px 2px #7ad0ff;
+    background:radial-gradient(#12303a,#08161c);}
 
   /* ---------- Chatbox (OSRS beige) ---------- */
   #chatbox-frame{position:absolute;left:8px;bottom:8px;width:486px;padding:4px;}
@@ -290,6 +357,12 @@
     border-color:#0c1428;box-shadow:inset 0 0 3px #101c36, 0 1px 3px rgba(0,0,0,0.6);}
   .float-xp{position:absolute;color:#dcb6ff;font:bold 12px Verdana;pointer-events:none;z-index:20;
     text-shadow:1px 1px 0 #000;}
+  /* OSRS-style XP drops: a rising stack near the top-centre */
+  #xp-drops{position:fixed;top:92px;left:50%;transform:translateX(-50%);z-index:40;
+    pointer-events:none;display:flex;flex-direction:column;align-items:center;}
+  .xp-drop{color:#fff;font:bold 14px Verdana;text-shadow:1px 1px 0 #000,0 0 4px #000;
+    margin-bottom:1px;white-space:nowrap;}
+  .xp-drop img{width:16px;height:16px;vertical-align:middle;margin-right:4px;}
 
   .prayer-btn{display:block;width:100%;text-align:left;margin-bottom:5px;}
   .prayer-btn.locked{opacity:.45;}
@@ -364,8 +437,35 @@
 <div id="welcome-screen">
   <div class="arch"></div>
   <div class="steps"><div></div><div></div><div></div></div>
-  <div class="pillar pl"><div class="brazier"><div class="glow"></div><div class="flame"></div></div></div>
-  <div class="pillar pr"><div class="brazier"><div class="glow"></div><div class="flame"></div></div></div>
+  <div id="castle-flames">
+    <span class="cflame" data-ix="957" data-iy="28"></span>
+    <span class="cflame" data-ix="900" data-iy="150"></span>
+    <span class="cflame" data-ix="820" data-iy="205"></span>
+    <span class="cflame" data-ix="1032" data-iy="105"></span>
+    <span class="cflame" data-ix="1100" data-iy="145"></span>
+  </div>
+  <script>
+  /* lock the animated flames onto the castle towers regardless of screen size:
+     the background uses object-fit:cover, so we replicate the cover transform and place
+     each flame at its baked image-pixel coordinate (image is 1376x768). */
+  (function(){
+    function posFlames(){
+      var host=document.getElementById('castle-flames'); if(!host) return;
+      var IW=1376, IH=768, W=window.innerWidth, H=window.innerHeight;
+      var s=Math.max(W/IW, H/IH), ox=(W-IW*s)/2, oy=(H-IH*s)/2;
+      var w=Math.max(8, Math.round(5.5*s));
+      var fl=host.getElementsByClassName('cflame');
+      for(var i=0;i<fl.length;i++){
+        var f=fl[i], ix=+f.getAttribute('data-ix'), iy=+f.getAttribute('data-iy');
+        f.style.left=(ox+ix*s)+'px'; f.style.top=(oy+iy*s)+'px';
+        f.style.width=w+'px'; f.style.height=Math.round(w*2.1)+'px';
+      }
+    }
+    window.addEventListener('resize', posFlames);
+    window.addEventListener('load', posFlames);
+    posFlames(); setTimeout(posFlames,300); setTimeout(posFlames,1200);
+  })();
+  </script>
   <div class="world-badge">World 1<small>Veyhollow</small></div>
   <button class="login-music" onclick="Sfx.ensure();Music.toggle();" title="Toggle music">♪</button>
   <div class="login-footer">
@@ -429,31 +529,44 @@
   <div class="orb" title="Crowns"><span class="num" id="coin-orb" style="color:#ffd24a">25</span><span class="lbl">CROWNS</span></div>
   <div class="orb" title="Combat level"><span class="num" id="cmb-orb" style="color:#ff981f">3</span><span class="lbl">COMBAT</span></div>
   <div class="orb" title="Prayer points"><span class="num" id="pray-orb" style="color:#c9e8f5">1</span><span class="lbl">PRAYER</span></div>
+  <div class="orb" id="spec-orb" title="Special attack — click to arm"><span class="num" id="spec-num" style="color:#7ad0ff">100</span><span class="lbl">SPEC</span></div>
 </div>
 
 <div id="zone-box" class="steel"><div id="zone-label" class="osrs-title">Tutor's Holm</div></div>
 
 <div id="side-panel" class="steel">
   <div id="tab-bar">
+    <div class="tab-btn" data-tab="combat" title="Combat styles">⚔️</div>
     <div class="tab-btn active" data-tab="inv" title="Inventory">🎒</div>
+    <div class="tab-btn" data-tab="equip" title="Worn equipment">🛡️</div>
     <div class="tab-btn" data-tab="skills" title="Skills">📜</div>
     <div class="tab-btn" data-tab="quests" title="Quest journal">⭐</div>
-    <div class="tab-btn" data-tab="equip" title="Worn equipment">🛡️</div>
-    <div class="tab-btn" data-tab="prayers" title="Prayer book">🙏</div>
-    <div class="tab-btn" data-tab="spells" title="Spellbook">🪄</div>
-    <div class="tab-btn" data-tab="drops" title="Bestiary — drop tables">📖</div>
   </div>
+  <div class="tab-pane" id="pane-combat"><div id="combat-styles"></div></div>
   <div class="tab-pane active" id="pane-inv"><div id="inv-grid"></div></div>
   <div class="tab-pane" id="pane-skills"><div id="skill-list"></div></div>
   <div class="tab-pane" id="pane-quests"><div id="quest-list"></div></div>
   <div class="tab-pane" id="pane-prayers"><div id="prayer-grid"></div></div>
   <div class="tab-pane" id="pane-spells"><div id="spell-grid"></div></div>
+  <div class="tab-pane" id="pane-settings">
+    <div class="set-row"><span>Run energy</span><button class="set-btn" onclick="UI.toggleRun()">Toggle</button></div>
+    <div class="set-row"><span>Music</span><button class="set-btn" onclick="UI.toggleMusic()">Toggle</button></div>
+    <div class="set-row"><span>World map</span><button class="set-btn" onclick="UI.openWorldMap()">Open</button></div>
+    <button class="set-btn wide" onclick="UI.manualSave()">Save now</button>
+    <button class="set-btn wide logout" onclick="UI.logout()">Logout</button>
+  </div>
   <div class="tab-pane" id="pane-drops">
     <input id="drops-search" placeholder="Search creatures…">
     <div id="drops-list"></div>
   </div>
   <div class="tab-pane" id="pane-equip"><div id="equip-list"></div>
     <div style="margin-top:8px;color:#9a8e78;font-size:11px">Click items in your pack to wield or wear them. Your character shows what you equip.</div>
+  </div>
+  <div id="tab-bar-bottom">
+    <div class="tab-btn" data-tab="prayers" title="Prayer book">🙏</div>
+    <div class="tab-btn" data-tab="spells" title="Spellbook">🪄</div>
+    <div class="tab-btn" data-tab="drops" title="Bestiary — drop tables">📖</div>
+    <div class="tab-btn" data-tab="settings" title="Settings & logout">⚙️</div>
   </div>
 </div>
 
@@ -533,11 +646,15 @@
 <div id="ctx-tip"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script src="src/game0_icons.js"></script>
 <script src="src/game1_data.js"></script>
+<script src="src/proc_props.js"></script>
 <script src="src/game2_world.js"></script>
+<script src="src/game_assets.js"></script>
 <script src="src/game3_systems.js"></script>
 <script src="src/game4_ui.js"></script>
+<script src="src/game_editor.js"></script>
 <script src="src/game5_main.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /* ================= ENGINE / WORLD ================= */
 let scene, camera, renderer, clock;
-const WORLD = {size:320, clickables:[], npcs:[], drops:[], resources:[], grounds:[], fires:[], interiors:[]};
+const WORLD = {size:320, clickables:[], npcs:[], drops:[], resources:[], grounds:[], fires:[], interiors:[], roofs:[], roofsOff:false};
 let player;
 const camCtl = {yaw: Math.PI*0.75, pitch: 1.08, dist: 19, dragging:false, lx:0, ly:0};
 
@@ -106,6 +106,7 @@ function buildTextures(){
   TEX.stone = pixelTexture('#8a8276', [['#7a7268',200,2],['#9a9286',160,2],['#6a6258',70,1]]);
   TEX.wood  = pixelTexture('#6b4a2f', [['#5d3e26',180,2],['#7a5838',140,2]]);
   TEX.thatch= pixelTexture('#a8854a', [['#96743e',220,2],['#ba9659',160,2]]);
+  loadCreatureTextures();
 }
 
 /* ---------- terrain: sea, mainland, tutorial island ---------- */
@@ -286,6 +287,101 @@ function makeTree(x,z,variant){
     label: variant==='dead'?'Chop down Dead tree':'Chop down Tree', respawn:8, alive:true};
   addCircleCollider(x,z,0.42);
   scene.add(g); WORLD.clickables.push(g); WORLD.resources.push(g);
+  return g;
+}
+/* ---------- image-to-3D props (Gemini sprite -> Hunyuan3D-2 mesh) ----------
+   Loads a decimated .glb once, normalises scale + seats the base on the ground,
+   then clones per placement. TEXTURED meshes (Hunyuan /generation_all) keep their
+   own painted texture; untextured (shape-only) meshes fall back to a flat colour.
+   See tools/gemini_image.js + the prop pipeline. */
+const PROP_CACHE = {};   // url -> {root} when ready, or {queue:[fn]} while loading
+function _propLoader(){ return _propLoader._l || (_propLoader._l = new THREE.GLTFLoader()); }
+function makeProp(x, z, opts){
+  opts = opts || {};
+  const g = new THREE.Group();
+  g.position.set(x, gy(x,z), z);
+  g.rotation.y = (opts.rot!=null) ? opts.rot : Math.random()*6;
+  g.userData = {kind:'prop', label: opts.label||'Examine',
+    examine: opts.examine || 'Just a curio of the realm.', alive:true};
+  if(opts.collide) addCircleCollider(x, z, opts.collide);
+  scene.add(g); WORLD.clickables.push(g);
+
+  const place = (tpl)=>{ g.add(tpl.clone(true)); };
+  const cached = PROP_CACHE[opts.url];
+  if(cached && cached.root){ place(cached.root); return g; }
+  if(cached && cached.queue){ cached.queue.push(place); return g; }
+
+  PROP_CACHE[opts.url] = {queue:[place]};
+  _propLoader().load(opts.url, (gltf)=>{
+    const root = gltf.scene;
+    const col = (opts.color!=null) ? opts.color : 0x9a9a9a;
+    root.traverse(c=>{ if(c.isMesh){
+      c.geometry.computeVertexNormals();        // Hunyuan meshes ship without normals
+      const m = c.material;
+      if(m && (m.map || m.vertexColors)){
+        // textured/painted mesh: keep its colours, just match the world's flat look
+        m.flatShading = true;
+        if('roughness' in m) m.roughness = 1;
+        if('metalness' in m) m.metalness = 0;
+        m.needsUpdate = true;
+      } else {
+        c.material = mat(col);                   // shape-only fallback: flat house colour
+      }
+      c.castShadow = true;
+    }});
+    // normalise: scale to a target height, centre on XZ, seat base at ground
+    root.updateMatrixWorld(true);
+    let box = new THREE.Box3().setFromObject(root);
+    const size = box.getSize(new THREE.Vector3());
+    root.scale.setScalar((opts.height||0.6) / (size.y||1));
+    root.updateMatrixWorld(true);
+    box = new THREE.Box3().setFromObject(root);
+    const ctr = box.getCenter(new THREE.Vector3());
+    root.position.set(-ctr.x, -box.min.y, -ctr.z);
+    const entry = PROP_CACHE[opts.url];
+    PROP_CACHE[opts.url] = {root};
+    (entry.queue||[]).forEach(fn=>fn(root));
+  }, undefined, (err)=>{ console.warn('[prop] load failed:', opts.url, err); });
+  return g;
+}
+/* ---------- procedural prop builders (crisp OSRS geometry for manufactured items) ----------
+   SF3D meshes are too lumpy/rounded for hard-surface props (handles melt); hand-built
+   octagonal geometry + flat mat() matches the 2007 look far better. Built at game scale. */
+/* Procedural builders live in src/proc_props.js (shared by the game + the review
+   tool so geometry/colours never drift). mat() = the game's flat-shaded Lambert. */
+const PROC = makeProcProps(THREE, mat);
+function buildBucket(){ return PROC.bucket(); }
+function buildBarrel(){ return PROC.barrel(); }
+function buildCrate(){ return PROC.crate(); }
+
+/* Shared library of props. GLB entries (url) load image-to-3D meshes; `build`
+   entries call a procedural builder. placeProp(kind,x,z,rot) dispatches either way. */
+const PROP_LIB = {
+  cabbage:{url:'assets/models/cabbage.glb', color:0x5f8f3a, height:0.5,  label:'Pick <b>Cabbage</b>',  examine:'A leafy cabbage. Wholesome.'},
+  potato: {url:'assets/models/potato.glb',  color:0xc8a45a, height:0.32, label:'Pick <b>Potato</b>',   examine:'An earthy potato.'},
+  onion:  {url:'assets/models/onion.glb',   color:0xcaa94a, height:0.34, label:'Pick <b>Onion</b>',    examine:'It might make you cry.'},
+  carrot: {url:'assets/models/carrot.glb',  color:0xd9772a, height:0.42, label:'Pick <b>Carrot</b>',   examine:'Good for the eyes, they say.'},
+  wheat:  {url:'assets/models/wheat.glb',   color:0xd9c060, height:0.9,  label:'Harvest <b>Wheat</b>', examine:'Ripe golden wheat, ready for the sickle.'},
+  bucket: {build:buildBucket, label:'Take <b>Bucket</b>', examine:'A sturdy wooden bucket.'},  // procedural (crisp)
+  crate:  {build:buildCrate,  label:'Search <b>Crate</b>',  examine:'A weathered supply crate.', collide:0.5},  // procedural
+  barrel: {build:buildBarrel, label:'Search <b>Barrel</b>', examine:'Smells faintly of ale.',    collide:0.5},  // procedural
+  sack:   {url:'assets/models/sack.glb',    color:0xcbb78a, height:0.52, label:'Search <b>Sack</b>',   examine:'A heavy grain sack.'},
+};
+function placeProp(kind, x, z, rot){
+  const d = PROP_LIB[kind];
+  if(!d){ console.warn('[prop] unknown kind:', kind); return null; }
+  if(d.build) return makeProcProp(x, z, d, rot);
+  return makeProp(x, z, Object.assign({rot}, d));
+}
+function makeProcProp(x, z, d, rot){
+  const g = new THREE.Group();
+  g.position.set(x, gy(x,z), z);
+  g.rotation.y = (rot!=null) ? rot : Math.random()*6;
+  g.userData = {kind:'prop', label: d.label||'Examine',
+    examine: d.examine || 'Just a curio of the realm.', alive:true};
+  if(d.collide) addCircleCollider(x, z, d.collide);
+  g.add(d.build());
+  scene.add(g); WORLD.clickables.push(g);
   return g;
 }
 const ROCK_KINDS = {
@@ -1319,10 +1415,11 @@ function paintedTex(key, painter){
   _texCache[key]=t;
   return t;
 }
-/* vertical light gradient: lit from above, ambient occlusion toward the hem */
+/* vertical light gradient: lit from above, ambient occlusion toward the hem.
+   2007 OSRS kept colours clean and flat-ish — gentle top-light, soft floor. */
 function gradBase(x, hex){
   for(let r=0;r<64;r++){
-    const f = 1.1 - (r/64)*0.26;
+    const f = 1.16 - (r/64)*0.2;
     x.fillStyle=_shadeHex(hex, f);
     x.fillRect(0,r,64,1);
   }
@@ -1333,35 +1430,36 @@ function skinTex(skin){
 function faceTex(skin){
   return paintedTex('face'+skin, x=>{
     gradBase(x, skin);
-    const dark=_shadeHex(skin,0.68), mid=_shadeHex(skin,0.82);
-    // soft brow shadow
-    x.fillStyle=mid; x.fillRect(16,22,12,2); x.fillRect(36,22,12,2);
-    // gentle closed-lid shading (subtle, like distant OSRS faces)
-    x.strokeStyle=dark; x.lineWidth=1.5;
-    x.beginPath(); x.moveTo(18,28); x.quadraticCurveTo(22,30,26,28); x.stroke();
-    x.beginPath(); x.moveTo(38,28); x.quadraticCurveTo(42,30,46,28); x.stroke();
-    // soft nose shade
-    x.fillStyle=mid; x.fillRect(30,31,3,8);
-    // faint mouth
-    x.strokeStyle=_shadeHex(skin,0.62); x.lineWidth=1.5;
-    x.beginPath(); x.moveTo(26,48); x.quadraticCurveTo(32,49.5,38,48); x.stroke();
+    const dark=_shadeHex(skin,0.38), mid=_shadeHex(skin,0.8);
+    // brows: two short shadow strokes
+    x.fillStyle=mid; x.fillRect(17,22,11,2); x.fillRect(36,22,11,2);
+    // open eyes — the simple, friendly 2007 face: a pale eye-white with a dark pupil
+    x.fillStyle='#efe7d6'; x.fillRect(18,26,10,6); x.fillRect(36,26,10,6);
+    x.fillStyle=dark;      x.fillRect(21,28,4,4); x.fillRect(39,28,4,4);
+    // brow line above the eyes for that determined look
+    x.fillStyle=_shadeHex(skin,0.6); x.fillRect(18,25,10,1); x.fillRect(36,25,10,1);
+    // nose shade
+    x.fillStyle=mid; x.fillRect(30,34,4,7);
+    // mouth
+    x.strokeStyle=_shadeHex(skin,0.5); x.lineWidth=2;
+    x.beginPath(); x.moveTo(25,48); x.quadraticCurveTo(32,50.5,39,48); x.stroke();
     // chin shading
-    x.fillStyle=_shadeHex(skin,0.9); x.fillRect(20,54,24,6);
+    x.fillStyle=_shadeHex(skin,0.9); x.fillRect(20,55,24,5);
   });
 }
 function clothTex(hex){
   return paintedTex('cloth'+hex, x=>{
     gradBase(x, hex);
-    // painted folds: soft vertical streaks
+    // painted folds: soft vertical streaks — kept light so colours stay crisp
     for(let i=0;i<5;i++){
       const fx=6+i*12+((i*7)%5);
-      x.fillStyle='rgba(0,0,0,0.13)';
+      x.fillStyle='rgba(0,0,0,0.09)';
       x.fillRect(fx,4,2,56);
-      x.fillStyle='rgba(255,255,255,0.07)';
+      x.fillStyle='rgba(255,255,255,0.08)';
       x.fillRect(fx+2,4,1,56);
     }
     // hem band
-    x.fillStyle='rgba(0,0,0,0.22)'; x.fillRect(0,58,64,6);
+    x.fillStyle='rgba(0,0,0,0.16)'; x.fillRect(0,59,64,5);
   });
 }
 const CRAFTED_BB = {"elements": [{"name": "head", "from": [-4, 24, -3.5], "to": [4, 31, 3.5], "faces": {"north": {"uv": [0, 0, 16, 16]}, "east": {"uv": [16, 0, 24, 8]}, "south": {"uv": [16, 0, 24, 8]}, "west": {"uv": [16, 0, 24, 8]}, "up": {"uv": [16, 0, 24, 8]}, "down": {"uv": [16, 0, 24, 8]}}}, {"name": "hair_cap", "from": [-4.5, 29.5, -4], "to": [4.5, 32.5, 4], "faces": {"north": {"uv": [24, 0, 32, 8]}, "east": {"uv": [24, 0, 32, 8]}, "south": {"uv": [24, 0, 32, 8]}, "west": {"uv": [24, 0, 32, 8]}, "up": {"uv": [24, 0, 32, 8]}, "down": {"uv": [24, 0, 32, 8]}}}, {"name": "hair_back", "from": [-4, 24, 3.4], "to": [4, 30, 4.6], "faces": {"north": {"uv": [24, 0, 32, 8]}, "east": {"uv": [24, 0, 32, 8]}, "south": {"uv": [24, 0, 32, 8]}, "west": {"uv": [24, 0, 32, 8]}, "up": {"uv": [24, 0, 32, 8]}, "down": {"uv": [24, 0, 32, 8]}}}, {"name": "torso", "from": [-5, 14, -2.5], "to": [5, 24, 2.5], "faces": {"north": {"uv": [0, 16, 16, 32]}, "east": {"uv": [0, 16, 16, 32]}, "south": {"uv": [0, 16, 16, 32]}, "west": {"uv": [0, 16, 16, 32]}, "up": {"uv": [0, 16, 16, 32]}, "down": {"uv": [0, 16, 16, 32]}}}, {"name": "belt", "from": [-5.3, 13, -2.8], "to": [5.3, 15, 2.8], "faces": {"north": {"uv": [56, 0, 64, 8]}, "east": {"uv": [56, 0, 64, 8]}, "south": {"uv": [56, 0, 64, 8]}, "west": {"uv": [56, 0, 64, 8]}, "up": {"uv": [56, 0, 64, 8]}, "down": {"uv": [56, 0, 64, 8]}}}, {"name": "sleeve_L", "from": [-7.6, 19, -1.6], "to": [-5.2, 24.4, 1.6], "faces": {"north": {"uv": [16, 16, 24, 24]}, "east": {"uv": [16, 16, 24, 24]}, "south": {"uv": [16, 16, 24, 24]}, "west": {"uv": [16, 16, 24, 24]}, "up": {"uv": [16, 16, 24, 24]}, "down": {"uv": [16, 16, 24, 24]}}}, {"name": "forearm_L", "from": [-7.2, 15, -1.2], "to": [-5.5, 19, 1.2], "faces": {"north": {"uv": [16, 0, 24, 8]}, "east": {"uv": [16, 0, 24, 8]}, "south": {"uv": [16, 0, 24, 8]}, "west": {"uv": [16, 0, 24, 8]}, "up": {"uv": [16, 0, 24, 8]}, "down": {"uv": [16, 0, 24, 8]}}}, {"name": "cuff_L", "from": [-7.1000000000000005, 13.6, -1.3], "to": [-5.6, 15, 1.3], "faces": {"north": {"uv": [16, 24, 24, 32]}, "east": {"uv": [16, 24, 24, 32]}, "south": {"uv": [16, 24, 24, 32]}, "west": {"uv": [16, 24, 24, 32]}, "up": {"uv": [16, 24, 24, 32]}, "down": {"uv": [16, 24, 24, 32]}}}, {"name": "fist_L", "from": [-7.2, 11.8, -1.1], "to": [-5.5, 13.6, 1.1], "faces": {"north": {"uv": [16, 0, 24, 8]}, "east": {"uv": [16, 0, 24, 8]}, "south": {"uv": [16, 0, 24, 8]}, "west": {"uv": [16, 0, 24, 8]}, "up": {"uv": [16, 0, 24, 8]}, "down": {"uv": [16, 0, 24, 8]}}}, {"name": "thigh_L", "from": [-3.4, 7, -1.6], "to": [-0.6, 14, 1.6], "faces": {"north": {"uv": [32, 16, 48, 32]}, "east": {"uv": [32, 16, 48, 32]}, "south": {"uv": [32, 16, 48, 32]}, "west": {"uv": [32, 16, 48, 32]}, "up": {"uv": [32, 16, 48, 32]}, "down": {"uv": [32, 16, 48, 32]}}}, {"name": "calf_flare_L", "from": [-4.2, 1.4, -2.2], "to": [-0.2, 7, 2.2], "faces": {"north": {"uv": [32, 16, 48, 32]}, "east": {"uv": [32, 16, 48, 32]}, "south": {"uv": [32, 16, 48, 32]}, "west": {"uv": [32, 16, 48, 32]}, "up": {"uv": [32, 16, 48, 32]}, "down": {"uv": [32, 16, 48, 32]}}}, {"name": "shoe_L", "from": [-3.4, 0, -2.8], "to": [-0.6, 1.4, 2.0], "faces": {"north": {"uv": [48, 0, 56, 8]}, "east": {"uv": [48, 0, 56, 8]}, "south": {"uv": [48, 0, 56, 8]}, "west": {"uv": [48, 0, 56, 8]}, "up": {"uv": [48, 0, 56, 8]}, "down": {"uv": [48, 0, 56, 8]}}}, {"name": "sleeve_R", "from": [5.2, 19, -1.6], "to": [7.6, 24.4, 1.6], "faces": {"north": {"uv": [16, 16, 24, 24]}, "east": {"uv": [16, 16, 24, 24]}, "south": {"uv": [16, 16, 24, 24]}, "west": {"uv": [16, 16, 24, 24]}, "up": {"uv": [16, 16, 24, 24]}, "down": {"uv": [16, 16, 24, 24]}}}, {"name": "forearm_R", "from": [5.5, 15, -1.2], "to": [7.2, 19, 1.2], "faces": {"north": {"uv": [16, 0, 24, 8]}, "east": {"uv": [16, 0, 24, 8]}, "south": {"uv": [16, 0, 24, 8]}, "west": {"uv": [16, 0, 24, 8]}, "up": {"uv": [16, 0, 24, 8]}, "down": {"uv": [16, 0, 24, 8]}}}, {"name": "cuff_R", "from": [5.4, 13.6, -1.3], "to": [7.3, 15, 1.3], "faces": {"north": {"uv": [16, 24, 24, 32]}, "east": {"uv": [16, 24, 24, 32]}, "south": {"uv": [16, 24, 24, 32]}, "west": {"uv": [16, 24, 24, 32]}, "up": {"uv": [16, 24, 24, 32]}, "down": {"uv": [16, 24, 24, 32]}}}, {"name": "fist_R", "from": [5.5, 11.8, -1.1], "to": [7.2, 13.6, 1.1], "faces": {"north": {"uv": [16, 0, 24, 8]}, "east": {"uv": [16, 0, 24, 8]}, "south": {"uv": [16, 0, 24, 8]}, "west": {"uv": [16, 0, 24, 8]}, "up": {"uv": [16, 0, 24, 8]}, "down": {"uv": [16, 0, 24, 8]}}}, {"name": "thigh_R", "from": [0.6, 7, -1.6], "to": [3.4, 14, 1.6], "faces": {"north": {"uv": [32, 16, 48, 32]}, "east": {"uv": [32, 16, 48, 32]}, "south": {"uv": [32, 16, 48, 32]}, "west": {"uv": [32, 16, 48, 32]}, "up": {"uv": [32, 16, 48, 32]}, "down": {"uv": [32, 16, 48, 32]}}}, {"name": "calf_flare_R", "from": [0.2, 1.4, -2.2], "to": [4.2, 7, 2.2], "faces": {"north": {"uv": [32, 16, 48, 32]}, "east": {"uv": [32, 16, 48, 32]}, "south": {"uv": [32, 16, 48, 32]}, "west": {"uv": [32, 16, 48, 32]}, "up": {"uv": [32, 16, 48, 32]}, "down": {"uv": [32, 16, 48, 32]}}}, {"name": "shoe_R", "from": [0.6, 0, -2.8], "to": [3.4, 1.4, 2.0], "faces": {"north": {"uv": [48, 0, 56, 8]}, "east": {"uv": [48, 0, 56, 8]}, "south": {"uv": [48, 0, 56, 8]}, "west": {"uv": [48, 0, 56, 8]}, "up": {"uv": [48, 0, 56, 8]}, "down": {"uv": [48, 0, 56, 8]}}}], "resolution": {"width": 64, "height": 64}};
@@ -1473,25 +1571,27 @@ function humanoid(bodyColor, opts){
   const parts = {};
   const prism5=(rT,rB,h,c)=>{ const m=new THREE.Mesh(new THREE.CylinderGeometry(rT,rB,h,8), mat(c)); m.castShadow=true; return m; };
 
-  // ---- legs: dramatic faceted flare (5-sided, corner-forward) over wedge shoes ----
+  // ---- legs: two distinct posts (2007 read), straight columns over blocky boots ----
   for(const side of ['L','R']){
-    const piv=new THREE.Group(); piv.position.set(side==='L'?-0.1:0.1, 0.84, 0);
-    const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.2,0.82,8),
+    const sgn = side==='L'?-1:1;
+    const piv=new THREE.Group(); piv.position.set(sgn*0.115, 0.86, 0);
+    // a near-straight thigh-to-ankle column — reads as a leg, never a skirt
+    const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.108,0.092,0.84,6),
       new THREE.MeshLambertMaterial({map:clothTex(legC)}));
-    leg.castShadow=true; leg.position.y=-0.41; piv.add(leg);
-    const shoe=new THREE.Mesh(new THREE.BoxGeometry(0.16,0.09,0.3), mat(0x6e4a2a));
-    shoe.position.set(0,-0.84,0.08); shoe.castShadow=true; piv.add(shoe);
+    leg.castShadow=true; leg.position.y=-0.42; leg.scale.z=0.92; piv.add(leg);
+    const shoe=new THREE.Mesh(new THREE.BoxGeometry(0.17,0.11,0.33), mat(0x5a3c22));
+    shoe.position.set(0,-0.86,0.06); shoe.castShadow=true; piv.add(shoe);
     g.add(piv); parts['leg'+side]=piv; parts['legMesh'+side]=leg; parts['shoe'+side]=shoe;
   }
   // ---- hips + thin belt ----
   const hips=prism5(0.17,0.19,0.16,legC); hips.position.y=0.92; hips.scale.z=0.66; g.add(hips);
   const belt=new THREE.Mesh(new THREE.BoxGeometry(0.34,0.05,0.24), mat(beltC));
   belt.position.y=1.01; g.add(belt);
-  // ---- torso: hard taper, broad chest, faceted ----
-  parts.torso = new THREE.Mesh(new THREE.CylinderGeometry(0.27,0.145,0.52,8),
+  // ---- torso: broad chest, only a gentle waist — the even 2007 body block ----
+  parts.torso = new THREE.Mesh(new THREE.CylinderGeometry(0.255,0.185,0.5,8),
     new THREE.MeshLambertMaterial({map:clothTex(bodyColor)}));
   parts.torso.castShadow=true;
-  parts.torso.position.y=1.29; parts.torso.scale.z=0.6; g.add(parts.torso);
+  parts.torso.position.y=1.28; parts.torso.scale.z=0.62; g.add(parts.torso);
   if(opts.emblem!==false && !opts.robe){
     const emC=shade(bodyColor,0.4);
     for(let i=0;i<3;i++){
@@ -1617,6 +1717,189 @@ function walkAnim(g, moving, dt, speedMul){
     if(!g.userData.swinging){ p.armL.rotation.x*=0.8; p.armR.rotation.x*=0.8; }
   }
 }
+/* ---------- creature textures: Nano-Banana-painted maps loaded at boot ---------- */
+function loadCreatureTextures(){
+  const L=new THREE.TextureLoader();
+  const reg=(name,file,rep)=>{ const t=L.load('assets/textures/'+file);
+    t.wrapS=t.wrapT=THREE.RepeatWrapping; if(rep) t.repeat.set(rep,rep); TEX[name]=t; return t; };
+  reg('goblinSkin','goblin_skin.png');
+  reg('stoneWall','stone_wall.png',2);
+  reg('woodPlanks','wood_planks.png',1);
+  reg('thatchTex','thatch_roof.png',2);
+  reg('cobble','cobblestone.png',2);
+  reg('dirtPath','dirt_path.png',2);
+  reg('marketCloth','market_cloth.png',1);
+  reg('ratFur','rat_fur.png');
+  reg('skelBone','skeleton_bone.png');
+}
+/* material from a loaded scenery texture, with a flat-colour fallback */
+function texMat(name, fallback){ return TEX[name] ? new THREE.MeshLambertMaterial({map:TEX[name]}) : mat(fallback||0x8a8276); }
+
+/* ---------- detailed cottage: foundation, 1-2 storeys, windows, timber, toggle-able thatch roof ---------- */
+function makeTexHouse(x,z,opts){
+  opts=opts||{};
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  const w=opts.w||rnd(4.0,5.4), d=opts.d||rnd(4.0,5.2);
+  const stories=opts.stories || (Math.random()<0.45?2:1);
+  const floorH=2.05, h=floorH*stories;
+  const py=gy(x,z); const g=new THREE.Group(); g.position.set(x,py,z); if(opts.rot) g.rotation.y=opts.rot;
+  const wallMat=texMat('stoneWall',0x9a948a), woodMat=texMat('woodPlanks',0x6b4a2f), thatchMat=texMat('thatchTex',0xa8854a);
+  const beamMat=mat(0x49321f), glassMat=new THREE.MeshLambertMaterial({color:0xffe6a0, emissive:0x6f5018});
+  const B=(bw,bh,bd,m)=>{ const me=new THREE.Mesh(new THREE.BoxGeometry(bw,bh,bd),m); me.castShadow=true; me.receiveShadow=true; return me; };
+  const add=(me,ox,oy,oz)=>{ me.position.set(ox,oy,oz); g.add(me); return me; };
+
+  const wb=-0.4;                                        // walls sink below ground (no floating block)
+  add(B(w+0.5,1.0,d+0.5,wallMat), 0,-0.15,0);          // foundation course, buries into slopes
+  const wallH=h-wb, wallY=(wb+h)/2;
+  add(B(w,wallH,0.34,wallMat), 0,wallY,-d/2);          // back
+  add(B(0.34,wallH,d,wallMat), -w/2,wallY,0);          // left
+  add(B(0.34,wallH,d,wallMat),  w/2,wallY,0);          // right
+  const doorW=1.25, side=(w-doorW)/2;
+  add(B(side,wallH,0.34,wallMat), -(doorW/2+side/2),wallY,d/2);
+  add(B(side,wallH,0.34,wallMat),  (doorW/2+side/2),wallY,d/2);
+  if(h>2.0) add(B(doorW,h-2.0,0.34,wallMat), 0,(2.0+h)/2,d/2);
+  add(B(doorW+0.16,2.1,0.1,beamMat), 0,1.05,d/2+0.03);            // door frame
+  add(B(doorW-0.04,1.95,0.12,woodMat), 0,0.97,d/2+0.07);          // door
+  add(B(doorW+0.6,0.22,0.85,wallMat), 0,0.0,d/2+0.3);             // stone step
+  for(let s=1;s<stories;s++) add(B(w+0.16,0.22,d+0.16,beamMat), 0,floorH*s,0);  // belt course
+  // windows (warm glow, framed)
+  function win(ox,oy,oz,vert){ const fh=0.82, fw=0.66;
+    add(B(vert?0.12:fw, fh, vert?fw:0.12, beamMat), ox,oy,oz);
+    add(B(vert?0.06:fw-0.2, fh-0.22, vert?fw-0.2:0.06, glassMat),
+        ox+(vert?(ox>0?0.05:-0.05):0), oy, oz+(vert?0:(oz>0?0.05:-0.05))); }
+  for(let s=0;s<stories;s++){ const yy=0.98+floorH*s;
+    win(w/2+0.02,yy,0,true); win(-w/2-0.02,yy,0,true); win(0,yy,-d/2-0.02,false);
+    if(s>0){ win(-(doorW/2+0.85),yy,d/2+0.02,false); win(doorW/2+0.85,yy,d/2+0.02,false); }
+  }
+  // corner timber posts (cozy Tudor look)
+  for(const sx of [-1,1]) for(const sz of [-1,1]) add(B(0.18,wallH,0.18,beamMat), sx*(w/2-0.02), wallY, sz*(d/2-0.02));
+  // ---- roof group (registered so it can be toggled / auto-hidden) ----
+  const roofG=new THREE.Group();
+  const oh=0.55, rw=w+oh, rd=d+oh, gh=opts.roofH||rnd(1.3,1.9), rad=Math.hypot(rw,rd)/2;
+  const eave=B(rw,0.18,rd,beamMat); eave.position.y=h+0.05; roofG.add(eave);
+  const roof=new THREE.Mesh(new THREE.ConeGeometry(rad,gh,4), thatchMat);
+  roof.rotation.y=Math.PI/4; roof.position.y=h+gh/2; roof.castShadow=true;
+  roof.scale.set(rw/(rad*Math.SQRT2),1,rd/(rad*Math.SQRT2)); roofG.add(roof);
+  if(Math.random()<0.6){ const ch=B(0.5,1.5,0.5,wallMat); ch.position.set(rw*0.28,h+1.0,-rd*0.28); roofG.add(ch); }
+  g.add(roofG);
+  scene.add(g);
+  WORLD.colliders.push({type:'rect',x,z:z-d/2,hw:w/2,hd:0.2});
+  WORLD.colliders.push({type:'rect',x:x-w/2,z,hw:0.2,hd:d/2});
+  WORLD.colliders.push({type:'rect',x:x+w/2,z,hw:0.2,hd:d/2});
+  g.userData={kind:'deco',label:opts.label||'Enter <b>House</b>'}; WORLD.clickables.push(g);
+  WORLD.roofs.push({mesh:roofG, x, z});
+  return g;
+}
+/* roofs hide when you're near a building (OSRS-style) or all at once via the toggle */
+function toggleRoofs(){ WORLD.roofsOff=!WORLD.roofsOff;
+  if(typeof UI!=='undefined') UI.chat('[VIEW] Roofs '+(WORLD.roofsOff?'hidden':'shown')+'.','sys'); }
+function updateRoofs(){ if(!WORLD.roofs.length||typeof player==='undefined'||!player) return;
+  const px=player.position.x, pz=player.position.z;
+  for(const r of WORLD.roofs) r.mesh.visible = WORLD.roofsOff ? false : (Math.hypot(px-r.x,pz-r.z) > 7.5); }
+/* ---------- skeleton: bone-textured undead (oldschool low-level enemy) ---------- */
+function skeletonModel(opts){
+  opts=opts||{}; const g=new THREE.Group(); const parts={};
+  const boneMat = texMat('skelBone',0xe8e2d0);
+  const bone = geo=>{ const m=new THREE.Mesh(geo,boneMat); m.castShadow=true; return m; };
+  for(const side of ['L','R']){ const sgn=side==='L'?-1:1;
+    const piv=new THREE.Group(); piv.position.set(sgn*0.12,0.86,0);
+    const leg=bone(new THREE.CylinderGeometry(0.05,0.04,0.84,6)); leg.position.y=-0.42; piv.add(leg);
+    const foot=bone(new THREE.BoxGeometry(0.14,0.08,0.26)); foot.position.set(0,-0.86,0.06); piv.add(foot);
+    g.add(piv); parts['leg'+side]=piv; parts['legMesh'+side]=leg; parts['shoe'+side]=foot; }
+  const pelvis=bone(new THREE.BoxGeometry(0.26,0.12,0.16)); pelvis.position.y=0.92; g.add(pelvis);
+  const spine=bone(new THREE.CylinderGeometry(0.04,0.04,0.5,6)); spine.position.y=1.2; g.add(spine);
+  const rib=bone(new THREE.CylinderGeometry(0.2,0.16,0.4,8)); rib.position.y=1.25; rib.scale.z=0.62; g.add(rib); parts.torso=rib;
+  for(let i=0;i<3;i++){ const r=new THREE.Mesh(new THREE.TorusGeometry(0.17,0.015,5,12),boneMat); r.rotation.x=Math.PI/2; r.scale.z=0.62; r.position.y=1.12+i*0.12; g.add(r); }
+  for(const side of ['L','R']){ const sgn=side==='L'?-1:1;
+    const piv=new THREE.Group(); piv.position.set(sgn*0.22,1.42,0); piv.rotation.z=sgn*0.1;
+    const up=bone(new THREE.CylinderGeometry(0.04,0.035,0.42,6)); up.position.y=-0.21; piv.add(up);
+    const fo=bone(new THREE.CylinderGeometry(0.035,0.03,0.4,6)); fo.position.y=-0.6; piv.add(fo);
+    const hand=bone(new THREE.SphereGeometry(0.05,6,5)); hand.position.y=-0.82; piv.add(hand);
+    const grip=new THREE.Group(); grip.position.set(0,-0.84,0.05); piv.add(grip);
+    g.add(piv); parts['arm'+side]=piv; parts['hand'+side]=grip; parts['armMesh'+side]=up; }
+  const neck=bone(new THREE.CylinderGeometry(0.04,0.05,0.08,6)); neck.position.y=1.55; g.add(neck);
+  const headG=new THREE.Group(); headG.position.set(0,1.66,0.02); g.add(headG); parts.head=headG;
+  const skull=bone(new THREE.SphereGeometry(0.17,9,8)); skull.scale.set(0.95,1,1.0); headG.add(skull);
+  const jaw=bone(new THREE.BoxGeometry(0.2,0.08,0.16)); jaw.position.set(0,-0.14,0.03); headG.add(jaw);
+  for(const sgn of [-1,1]){ const eye=new THREE.Mesh(new THREE.SphereGeometry(0.04,6,5),new THREE.MeshBasicMaterial({color:0x100f08}));
+    eye.position.set(sgn*0.07,0.02,0.13); headG.add(eye); }
+  parts.headTop=new THREE.Group(); parts.headTop.position.set(0,1.86,0); g.add(parts.headTop);
+  g.scale.setScalar(opts.scale||1); g.userData.parts=parts; g.userData.walkT=0;
+  return g;
+}
+
+/* ---------- procedural goblin: smooth low-poly, hunched, OSRS silhouette ----------
+   Path-A model: organic primitives (no cubes) + a hand-painted skin texture.
+   Honours the standard rig hooks (legL/R, armL/R, handL/R, torso, head, headTop). */
+function goblinModel(opts){
+  opts=opts||{};
+  const g=new THREE.Group();
+  const parts={};
+  const skinMat  = TEX.goblinSkin ? new THREE.MeshLambertMaterial({map:TEX.goblinSkin})
+                                  : mat(0x6f9a4a);
+  const clothMat = new THREE.MeshLambertMaterial({map:clothTex(opts.cloth||0x5a4030)});
+  const skin = geo=>{ const m=new THREE.Mesh(geo, skinMat); m.castShadow=true; return m; };
+
+  // ---- short, slightly bandy legs over skin feet ----
+  for(const side of ['L','R']){
+    const sgn=side==='L'?-1:1;
+    const piv=new THREE.Group(); piv.position.set(sgn*0.15, 0.5, 0);
+    const leg=skin(new THREE.CylinderGeometry(0.12,0.085,0.5,7));
+    leg.position.y=-0.25; leg.rotation.z=sgn*0.06; piv.add(leg);
+    const foot=skin(new THREE.SphereGeometry(0.12,6,5));
+    foot.scale.set(1.05,0.6,1.5); foot.position.set(0,-0.5,0.08); piv.add(foot);
+    g.add(piv); parts['leg'+side]=piv; parts['legMesh'+side]=leg; parts['shoe'+side]=foot;
+  }
+  // ---- loincloth + belt over the hips ----
+  const loin=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.32,0.36,8), clothMat);
+  loin.position.y=0.6; loin.castShadow=true; g.add(loin);
+  const belt=new THREE.Mesh(new THREE.TorusGeometry(0.26,0.03,5,10), mat(0x8a6a3a));
+  belt.rotation.x=Math.PI/2; belt.position.y=0.78; g.add(belt);
+
+  // ---- pot belly + hunched chest ----
+  const belly=skin(new THREE.SphereGeometry(0.34,9,7));
+  belly.scale.set(1,0.92,0.95); belly.position.set(0,1.0,0.05); g.add(belly);
+  parts.torso=belly;
+  const chest=skin(new THREE.SphereGeometry(0.27,8,6));
+  chest.scale.set(1.05,0.82,0.85); chest.position.set(0,1.27,0.0); chest.rotation.x=0.25; g.add(chest);
+
+  // ---- long thin arms hanging low (goblin reach) ----
+  for(const side of ['L','R']){
+    const sgn=side==='L'?-1:1;
+    const piv=new THREE.Group(); piv.position.set(sgn*0.29, 1.31, 0.02);
+    piv.rotation.z=sgn*0.12;
+    const upper=skin(new THREE.CylinderGeometry(0.075,0.06,0.42,6)); upper.position.y=-0.21; piv.add(upper);
+    const fore =skin(new THREE.CylinderGeometry(0.06,0.05,0.4,6));  fore.position.y=-0.58; piv.add(fore);
+    const hand =skin(new THREE.SphereGeometry(0.07,6,5));           hand.position.y=-0.8;  piv.add(hand);
+    const grip=new THREE.Group(); grip.position.set(0,-0.82,0.05); piv.add(grip);
+    g.add(piv); parts['arm'+side]=piv; parts['hand'+side]=grip; parts['armMesh'+side]=upper;
+  }
+
+  // ---- big hunched head, thrust forward, with a goblin face ----
+  const neck=skin(new THREE.CylinderGeometry(0.07,0.085,0.12,6)); neck.position.set(0,1.43,0.06); g.add(neck);
+  const headG=new THREE.Group(); headG.position.set(0,1.6,0.12); g.add(headG); parts.head=headG;
+  const skull=skin(new THREE.SphereGeometry(0.26,9,8)); skull.scale.set(0.95,0.92,1.05); headG.add(skull);
+  const brow=skin(new THREE.BoxGeometry(0.34,0.08,0.12)); brow.position.set(0,0.06,0.2); brow.rotation.x=-0.2; headG.add(brow);
+  const nose=skin(new THREE.ConeGeometry(0.07,0.24,6)); nose.rotation.x=Math.PI*0.6; nose.position.set(0,-0.03,0.27); headG.add(nose);
+  for(const sgn of [-1,1]){
+    const eye=new THREE.Mesh(new THREE.SphereGeometry(0.038,6,5), new THREE.MeshBasicMaterial({color:0xe8e24a}));
+    eye.position.set(sgn*0.1,0.04,0.21); headG.add(eye);
+    const pup=new THREE.Mesh(new THREE.SphereGeometry(0.017,5,4), new THREE.MeshBasicMaterial({color:0x100f08}));
+    pup.position.set(sgn*0.1,0.04,0.245); headG.add(pup);
+    const tusk=new THREE.Mesh(new THREE.ConeGeometry(0.024,0.11,5), mat(0xe8e2d0));
+    tusk.position.set(sgn*0.07,-0.13,0.2); tusk.rotation.x=0.2; headG.add(tusk);
+    const ear=skin(new THREE.ConeGeometry(0.085,0.3,5));
+    ear.position.set(sgn*0.24,0.07,-0.06); ear.rotation.z=sgn*1.15; ear.rotation.y=sgn*-0.35; headG.add(ear);
+  }
+  parts.headTop=new THREE.Group(); parts.headTop.position.set(0,1.84,0.1); g.add(parts.headTop);
+
+  // a goblin stoops — tip the whole frame forward a touch
+  g.rotation.x=0.04;
+  g.scale.setScalar(opts.scale||1);
+  g.userData.parts=parts; g.userData.walkT=0;
+  return g;
+}
+
 /* quadruped beasts: snout, ears, tail, trotting legs */
 function beast(color, size){
   const g = new THREE.Group();

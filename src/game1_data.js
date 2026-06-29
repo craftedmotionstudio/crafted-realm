@@ -163,6 +163,10 @@ function gatherChance(rtype, lvl, power){
 const NPC_TYPES = {
   pasturehen:{name:'Pasture hen', level:1, examine:"The yard's finest egg engine.", hp:3, att:1, str:1, def:1, aBonus:0, sBonus:0, dBonus:0, speedTicks:4, color:0xeae4d8, size:0.5, aggro:false, respawn:10, model:'chicken',
              drops:[ {id:'bones',q:1,p:1}, {id:'feathers',q:[3,8],p:1} ]},
+  bogling:  {name:'Bogling', level:3, examine:"A surly swamp imp, all tusks and grievance.", hp:8, att:3, str:3, def:2, aBonus:1, sBonus:1, dBonus:1, speedTicks:4, color:0x6f9a4a, size:0.76, aggro:false, respawn:14, model:'bogling',
+             drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[2,12],p:0.85}, {id:'mind_rune',q:[1,3],p:0.15} ]},
+  skeleton: {name:'Skeleton', level:15, examine:"It rattles with old menace.", hp:29, att:14, str:13, def:12, aBonus:8, sBonus:9, dBonus:7, speedTicks:4, color:0xe8e2d0, size:1.0, aggro:true, respawn:20, model:'skeleton',
+             drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[8,40],p:0.9}, {id:'iron_sword',q:1,p:0.05}, {id:'bronze_helm',q:1,p:0.05}, {id:'mind_rune',q:[1,4],p:0.2} ]},
   gnarlgob: {name:'Gnarlgob', level:5, examine:"Small, green and furious about it.", hp:13, att:5, str:4, def:3, aBonus:2, sBonus:2, dBonus:1, speedTicks:4, color:0x6a8a3a, size:0.78, aggro:true, respawn:14, model:'goblin',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[3,18],p:0.9}, {id:'bronze_sword',q:1,p:0.06}, {id:'bronze_helm',q:1,p:0.05}, {id:'mind_rune',q:[1,4],p:0.2} ]},
   moss_seer:{name:'Moss seer', level:9, examine:"It hums with damp magic.", hp:20, att:9, str:7, def:7, aBonus:5, sBonus:4, dBonus:4, speedTicks:5, color:0x3a6a4a, size:1, aggro:true, respawn:22, humanoid:true, robe:0x3a6a4a, hat:'wizard', ranged:true,
@@ -191,7 +195,7 @@ const NPC_TYPES = {
     examine:"It has never seen the sun, and resents that you have.",
     drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[30,90],p:1}, {id:'chaos_rune',q:[2,6],p:0.4},
             {id:'iron_platelegs',q:1,p:0.04} ]},
-  korthul: {name:'Korthul the Undercrag', level:58, hp:130, att:48, str:46, def:40, aBonus:22, sBonus:24, dBonus:20,
+  korthul: {name:'Korthul the Undercrag', level:58, hp:130, att:48, str:46, def:40, aBonus:22, sBonus:24, dBonus:20, boss:true, script:'korthul',
     speedTicks:5, color:0x4a4456, size:2.6, aggro:true, alwaysAggro:true, respawn:120,
     examine:"The mountain's grudge, given legs.",
     drops:[ {id:'big_bones',q:1,p:1}, {id:'coins',q:[400,900],p:1}, {id:'crag_maul',q:1,p:0.05},
@@ -221,7 +225,7 @@ const NPC_TYPES = {
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[30,90],p:1}, {id:'iron_sword',q:1,p:0.05}, {id:'bronze_plate',q:1,p:0.08}, {id:'bronze_legs',q:1,p:0.08} ]},
   duelist:  {name:'Pit duelist', level:10, examine:"A professional. Mind the footwork.", hp:30, att:10, str:10, def:8, aBonus:6, sBonus:6, dBonus:5, speedTicks:4, color:0x8a5a32, size:1, aggro:false, respawn:9999, humanoid:true, weapon:'sword',
              drops:[]},
-  fenlord:  {name:'The Fenlord', level:15, examine:"The marsh bows to it. You shouldn't.", hp:40, att:14, str:12, def:8, aBonus:8, sBonus:7, dBonus:8, speedTicks:5, color:0x2d1b3d, size:2.2, aggro:true, respawn:90, boss:true,
+  fenlord:  {name:'The Fenlord', level:15, examine:"The marsh bows to it. You shouldn't.", hp:40, att:14, str:12, def:8, aBonus:8, sBonus:7, dBonus:8, speedTicks:5, color:0x2d1b3d, size:2.2, aggro:true, respawn:90, boss:true, script:'fenlord',
              drops:[{id:'big_bones',q:1,p:1}, {id:'coins',q:[120,300],p:1}, {id:'fen_charm',q:1,p:0.5}, {id:'steel_sabre',q:1,p:0.3}, {id:'veyrite_sabre',q:1,p:0.02} ]},
 };
 /* derive an OSRS-style npc max hit from its strength stats */

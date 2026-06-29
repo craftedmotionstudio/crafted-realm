@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>OSRS 1:1 compare</title>
+  <style>
+    html,body{margin:0;height:100%;background:#6b8e3d;overflow:hidden;font:14px monospace;color:#fff;}
+    #wrap{display:flex;height:100%;}
+    .half{flex:1;position:relative;display:flex;align-items:center;justify-content:center;}
+    .half + .half{border-left:2px dashed rgba(255,255,255,.4);}
+    .lbl{position:absolute;top:10px;left:12px;background:rgba(0,0,0,.45);padding:3px 8px;border-radius:4px;}
+    #ref{max-width:80%;max-height:80%;image-rendering:auto;}
+    canvas{display:block;}
+  </style>
+</head>
+<body>
+  <div id="wrap">
+    <div class="half"><div class="lbl">OSRS reference</div><img id="ref" /></div>
+    <div class="half" id="ours"><div class="lbl">Ours</div></div>
+  </div>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    const p = new URLSearchParams(location.search);
+    document.getElementById('ref').src = p.get('ref') || '';
+    const url = p.get('model');
+
+    const host = document.getElementById('ours');
+    const W = () => host.clientWidth, H = () => host.clientHeight;
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x6b8e3d);
+    const camera = new THREE.PerspectiveCamera(35, W()/H(), 0.01, 100);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(W(), H());
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    host.appendChild(renderer.domElement);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x445533, 0.95));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.0); sun.position.set(3,6,4); scene.add(sun);
+
+    new GLTFLoader().load(url, (g) => {
+      const o = g.scene;
+      o.traverse(c=>{ if(c.isMesh){
+        c.geometry.computeVertexNormals();
+        if(c.material && (c.material.map || c.material.vertexColors)){
+          c.material.flatShading = true; c.material.roughness=1; c.material.metalness=0; c.material.needsUpdate=true;
+        }
+      }});
+      let box=new THREE.Box3().setFromObject(o); const s=box.getSize(new THREE.Vector3());
+      o.scale.setScalar(1.4/(s.y||1));
+      box=new THREE.Box3().setFromObject(o); const ctr=box.getCenter(new THREE.Vector3());
+      o.position.set(-ctr.x,-box.min.y,-ctr.z);
+      const piv=new THREE.Group(); piv.add(o); scene.add(piv);
+      camera.position.set(0,0.7,3.0); camera.lookAt(0,0.6,0);
+      (function a(){ requestAnimationFrame(a); piv.rotation.y+=0.012; renderer.render(scene,camera); })();
+    });
+    addEventListener('resize', ()=>{ camera.aspect=W()/H(); camera.updateProjectionMatrix(); renderer.setSize(W(),H()); });
+  </script>
+</body>
+</html>

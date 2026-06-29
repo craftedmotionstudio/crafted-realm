@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Bucket 1:1 — OSRS vs procedural</title>
+  <style>
+    html,body{margin:0;height:100%;background:#6b8e3d;overflow:hidden;font:14px monospace;color:#fff;}
+    #wrap{display:flex;height:100%;}
+    .half{flex:1;position:relative;display:flex;align-items:center;justify-content:center;}
+    .half + .half{border-left:2px dashed rgba(255,255,255,.4);}
+    .lbl{position:absolute;top:10px;left:12px;background:rgba(0,0,0,.45);padding:3px 8px;border-radius:4px;}
+    #ref{max-width:75%;max-height:75%;}
+  </style>
+</head>
+<body>
+  <div id="wrap">
+    <div class="half"><div class="lbl">OSRS reference</div><img id="ref" src="../art_refs/osrs/bucket_osrs.png" /></div>
+    <div class="half" id="ours"><div class="lbl">Ours — procedural</div></div>
+  </div>
+  <script src="../src/proc_props.js"></script>
+  <script type="importmap">
+  { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    const host = document.getElementById('ours');
+    const W=()=>host.clientWidth, H=()=>host.clientHeight;
+    const scene = new THREE.Scene(); scene.background = new THREE.Color(0x6b8e3d);
+    // isometric ORTHOGRAPHIC camera (like OSRS item renders) — no perspective distortion
+    let camera;
+    function setIso(){
+      const aspect=W()/H(), H0=0.42;
+      camera=new THREE.OrthographicCamera(-H0*aspect,H0*aspect,H0,-H0,0.01,100);
+      camera.position.copy(new THREE.Vector3(0.5,0.55,1).normalize().multiplyScalar(5));
+      camera.lookAt(0,0,0);
+    }
+    setIso();
+    const renderer = new THREE.WebGLRenderer({antialias:true});
+    renderer.setSize(W(),H()); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); host.appendChild(renderer.domElement);
+    scene.add(new THREE.HemisphereLight(0xffffff,0x445533,0.95));
+    const sun=new THREE.DirectionalLight(0xffffff,1.0); sun.position.set(3,6,4); scene.add(sun);
+
+    // render the EXACT shared game builder (proc_props.js) — no geometry drift
+    const m = c => new THREE.MeshStandardMaterial({color:c, flatShading:true, roughness:1, metalness:0});
+    const g = window.makeProcProps(THREE, m).bucket();
+
+    g.position.y = -0.355;   // centre bucket+handle around origin
+    scene.add(g);
+    (function a(){ requestAnimationFrame(a); renderer.render(scene,camera); })();
+    addEventListener('resize',()=>{ setIso(); renderer.setSize(W(),H()); });
+  </script>
+</body>
+</html>

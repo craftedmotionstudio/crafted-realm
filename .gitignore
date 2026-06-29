@@ -1,0 +1,14 @@
+# Heavy pre-decimation meshes from the image-to-3D pipeline (regenerable).
+# Keep the decimated *.glb that the game actually loads; drop the raw ones.
+assets/models/*_raw.glb
+assets/models/*_tex_raw.glb
+assets/models/.textured_done
+
+# Python / tooling junk
+__pycache__/
+*.pyc
+
+# Scratch
+scratch_*.py
+*.log
+.claude/

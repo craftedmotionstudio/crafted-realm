@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Procedural bucket</title>
+  <style>html,body{margin:0;height:100%;background:#6b8e3d;overflow:hidden;font:14px monospace;color:#fff;}
+  .lbl{position:absolute;top:10px;left:12px;background:rgba(0,0,0,.45);padding:3px 8px;border-radius:4px;}</style>
+</head>
+<body>
+  <div class="lbl">Ours — procedural (flat-shaded, OSRS palette)</div>
+  <script type="importmap">
+  { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x6b8e3d);
+    const camera = new THREE.PerspectiveCamera(35, innerWidth/innerHeight, 0.01, 100);
+    const renderer = new THREE.WebGLRenderer({ antialias:true });
+    renderer.setSize(innerWidth, innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    document.body.appendChild(renderer.domElement);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x445533, 0.95));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.0); sun.position.set(3,6,4); scene.add(sun);
+
+    // OSRS-ish palette: warm tan wood + light warm grey metal
+    const wood  = new THREE.MeshStandardMaterial({ color:0xb98b3e, flatShading:true, roughness:1, metalness:0 });
+    const metal = new THREE.MeshStandardMaterial({ color:0xb0a99c, flatShading:true, roughness:1, metalness:0 });
+
+    const bucket = new THREE.Group();
+    const SIDES = 8;                      // octagonal, like OSRS
+    // body: tapered (wider at top)
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.58, 0.44, 0.92, SIDES, 1, true), wood);
+    body.position.y = 0.46; bucket.add(body);
+    // bottom cap
+    const bottom = new THREE.Mesh(new THREE.CylinderGeometry(0.44, 0.44, 0.04, SIDES), wood);
+    bottom.position.y = 0.02; bucket.add(bottom);
+    // top rim band
+    const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.60, 0.60, 0.12, SIDES, 1, true), metal);
+    rim.position.y = 0.88; bucket.add(rim);
+    // lower band
+    const band = new THREE.Mesh(new THREE.CylinderGeometry(0.50, 0.50, 0.08, SIDES, 1, true), metal);
+    band.position.y = 0.30; bucket.add(band);
+    // handle: half-torus loop over the top
+    const handle = new THREE.Mesh(new THREE.TorusGeometry(0.52, 0.035, 5, 9, Math.PI), metal);
+    handle.position.y = 0.9; handle.rotation.z = 0; bucket.add(handle);
+
+    const pivot = new THREE.Group(); pivot.add(bucket); scene.add(pivot);
+    // center vertically
+    bucket.position.y = -0.46;
+    camera.position.set(0, 0.25, 2.6); camera.lookAt(0,0,0);
+    (function a(){ requestAnimationFrame(a); pivot.rotation.y += 0.012; renderer.render(scene,camera); })();
+  </script>
+</body>
+</html>

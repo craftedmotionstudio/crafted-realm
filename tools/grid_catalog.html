@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Crafted Realms — Item Catalog (1:1 vs OSRS)</title>
+  <style>
+    html,body{margin:0;background:#2b251c;color:#e7dcc4;font:13px/1.4 Verdana,sans-serif;}
+    h1{font-size:16px;color:#ffd24a;padding:10px 12px 0;margin:0;}
+    #sub{padding:2px 12px 10px;color:#9a8e78;font-size:11px;}
+    #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px;padding:10px;}
+    .card{background:#3e3529;border:1px solid #5d5447;border-radius:5px;overflow:hidden;}
+    .card.empty{opacity:.45;border-style:dashed;}
+    .hd{display:flex;align-items:center;gap:5px;padding:4px 7px;background:#2b251c;font-size:11px;}
+    .hd .id{color:#ffd24a;font-weight:bold;} .hd .nm{color:#e7dcc4;} .hd .osrs{color:#9a8e78;font-size:9px;}
+    .badge{margin-left:auto;font-size:10px;padding:1px 6px;border-radius:9px;}
+    .b-pass{background:#1f3a1a;color:#7bd66b;border:1px solid #3f6e36;}
+    .b-review{background:#3a341a;color:#e8c84a;border:1px solid #6e6336;}
+    .b-todo{background:#332a22;color:#9a8e78;border:1px solid #5d5447;}
+    .b-err{background:#3a1a1a;color:#e86a6a;border:1px solid #6e3636;}
+    .pair{display:flex;}
+    .pair > div{flex:1;position:relative;height:140px;background:#6b8e3d;display:flex;align-items:center;justify-content:center;}
+    .pair > div + div{border-left:1px solid #2b251c;}
+    .tag{position:absolute;top:3px;left:4px;background:rgba(0,0,0,.5);color:#fff;font-size:8px;padding:1px 4px;border-radius:3px;}
+    .pair img{max-width:88%;max-height:88%;} .pair canvas{width:140px;height:140px;}
+    .none{color:#39491f;font-size:10px;}
+    .note{padding:2px 7px;color:#9a8e78;font-size:10px;background:#2b251c;}
+    .placeholder{height:140px;display:flex;align-items:center;justify-content:center;color:#5d5447;font-size:22px;}
+  </style>
+</head>
+<body>
+  <h1>Crafted Realms — Item Catalog &nbsp;·&nbsp; 1:1 vs Old School RuneScape</h1>
+  <div id="sub">Phase 1 — 50 procedural low-poly items. ✓ = Claude judged a close match. Every OSRS item id eventually gets a slot.</div>
+  <div id="grid"></div>
+
+  <script src="../src/item_catalog.js"></script>
+  <script src="../src/proc_props.js"></script>
+  <script src="../src/proc_items.js"></script>
+  <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }</script>
+  <script type="module">
+    import * as THREE from 'three';
+    const stdMat = c => new THREE.MeshStandardMaterial({ color:c, flatShading:true, roughness:1, metalness:0 });
+    const PROC = { ...window.makeProcProps(THREE, stdMat), ...window.makeProcItems(THREE, stdMat) };
+
+    // ONE shared renderer (avoids the ~16 WebGL-context limit for 50 cells)
+    const SR = new THREE.WebGLRenderer({ antialias:true, preserveDrawingBuffer:true });
+    SR.setSize(280,280); SR.setPixelRatio(2);
+
+    function renderTo(canvas, key){
+      const scene=new THREE.Scene(); scene.background=new THREE.Color(0x6b8e3d);
+      scene.add(new THREE.HemisphereLight(0xffffff,0x445533,0.95));
+      const sun=new THREE.DirectionalLight(0xffffff,1.0); sun.position.set(3,6,4); scene.add(sun);
+      const obj=PROC[key]();
+      obj.traverse(c=>{ if(c.isMesh){ c.geometry.computeVertexNormals();
+        if(c.material&&(c.material.map||c.material.vertexColors)){ c.material.flatShading=true; c.material.needsUpdate=true; } }});
+      let box=new THREE.Box3().setFromObject(obj); const sz=box.getSize(new THREE.Vector3()), ctr=box.getCenter(new THREE.Vector3());
+      obj.position.sub(ctr); scene.add(obj);
+      const H0=Math.max(sz.x,sz.y,sz.z)*0.62||0.5;
+      const cam=new THREE.OrthographicCamera(-H0,H0,H0,-H0,0.01,100);
+      cam.position.copy(new THREE.Vector3(0.55,0.62,1).normalize().multiplyScalar(5)); cam.lookAt(0,0,0);
+      SR.render(scene,cam);
+      const cx=canvas.getContext('2d'); cx.clearRect(0,0,canvas.width,canvas.height);
+      cx.drawImage(SR.domElement,0,0,canvas.width,canvas.height);
+    }
+
+    const grid=document.getElementById('grid');
+    const badge=r=> r==='pass'?['✓ match','b-pass'] : r==='review'?['~ review','b-review'] : r==='err'?['✗ error','b-err'] : ['· todo','b-todo'];
+    for(const item of window.ITEM_CATALOG){
+      let err=null; const card=document.createElement('div'); card.className='card';
+      const [btxt,bcls]=badge(item.review);
+      card.innerHTML=`<div class="hd"><span class="id">#${item.id}</span><span class="nm">${item.name}</span>`+
+        `<span class="osrs">${item.osrsId?('OSRS '+item.osrsId):'(scenery)'}</span><span class="badge ${bcls}">${btxt}</span></div>`+
+        `<div class="pair"><div><span class="tag">OSRS</span>${item.ref?`<img src="../${item.ref}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'none',textContent:'no ref'}))">`:'<span class="none">scenery — no ref</span>'}</div>`+
+        `<div><span class="tag">Ours</span><canvas width="140" height="140"></canvas></div></div>`+
+        (item.note?`<div class="note">${item.note}</div>`:'');
+      grid.appendChild(card);
+      try { renderTo(card.querySelector('canvas'), item.src.k); }
+      catch(e){ err=e; const b=card.querySelector('.badge'); b.textContent='✗ error'; b.className='badge b-err';
+        card.querySelector('canvas').replaceWith(Object.assign(document.createElement('span'),{className:'none',textContent:String(e.message).slice(0,40)})); console.error('build fail',item.src.k,e); }
+    }
+    for(let i=window.ITEM_CATALOG.length+1;i<=window.ITEM_CATALOG.length+4;i++){
+      const card=document.createElement('div'); card.className='card empty';
+      card.innerHTML=`<div class="hd"><span class="id">#${i}</span><span class="nm">—</span><span class="badge b-todo">· todo</span></div><div class="placeholder">▢</div>`;
+      grid.appendChild(card);
+    }
+    window.__ready=true;
+  </script>
+</body>
+</html>
