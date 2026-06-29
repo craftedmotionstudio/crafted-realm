@@ -102,7 +102,8 @@
   }
 
   const Build = {
-    active:false, sel:0, rot:0, scale:1, ghost:null, gridMesh:null, placed:[], filter:'', _loaded:false,
+    active:false, sel:0, rot:0, scale:1, snap:true, ghost:null, gridMesh:null, placed:[], filter:'', _loaded:false,
+    _snapX(x){ return this.snap ? Math.floor(x)+0.5 : x; },
 
     /* ---- chunk math + (de)serialization ---- */
     key(x,z){ return Math.floor(x/CHUNK)+','+Math.floor(z/CHUNK); },
@@ -134,22 +135,32 @@
     },
     _ensureGhost(){
       if(this.ghost){ this.ghost.visible=true; return; }
-      const m=new THREE.Mesh(new THREE.CylinderGeometry(0.45,0.45,0.06,16),
-        new THREE.MeshBasicMaterial({color:0x6cf06c, transparent:true, opacity:0.5}));
-      m.position.y=0.04; scene.add(m); this.ghost=m;
+      const g=new THREE.Group();
+      const fill=new THREE.Mesh(new THREE.PlaneGeometry(0.94,0.94),
+        new THREE.MeshBasicMaterial({color:0x6cf06c, transparent:true, opacity:0.28, side:THREE.DoubleSide, depthWrite:false}));
+      fill.rotation.x=-Math.PI/2; g.add(fill);
+      const line=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.PlaneGeometry(0.98,0.98)),
+        new THREE.LineBasicMaterial({color:0x9cff9c}));
+      line.rotation.x=-Math.PI/2; g.add(line);
+      g.position.y=0.05; scene.add(g); this.ghost=g;
     },
     updateGhost(e){
       if(!this.active||!this.ghost) return;
       const gp=groundPick(e); if(!gp) return;
-      this.ghost.position.set(gp.x, gp.y+0.05, gp.z);
-      const el=document.getElementById('build-chunk'); if(el) el.textContent='chunk '+this.key(gp.x,gp.z);
+      const sx=this._snapX(gp.x), sz=this._snapX(gp.z);
+      const sy=this.snap ? (typeof gy==='function'?gy(sx,sz):gp.y) : gp.y;
+      this.ghost.position.set(sx, sy+0.05, sz);
+      const el=document.getElementById('build-chunk');
+      if(el) el.textContent='tile '+Math.floor(sx)+','+Math.floor(sz)+'  ·  chunk '+this.key(sx,sz)+(this.snap?'  [snap]':'  [free]');
     },
     onClick(e){
       const gp=groundPick(e); if(!gp) return;
+      const x=this._snapX(gp.x), z=this._snapX(gp.z);
       const entry=PALETTE[this.sel];
-      const m=entry.build(gp.x,gp.z);
+      const m=entry.build(x,z);
       if(m){ m.rotation.y=this.rot; if(this.scale!==1) m.scale.multiplyScalar(this.scale); }
-      this.placed.push({type:entry.id, x:gp.x, z:gp.z, rot:this.rot, scale:this.scale, mesh:m});
+      this.placed.push({type:entry.id, x, z, rot:this.rot, scale:this.scale, mesh:m});
+      try{ if(window.WorldChunks) WorldChunks.placeObject(entry.id, Math.floor(x), Math.floor(z), this.rot); }catch(_e){}
       Sfx&&Sfx.click&&Sfx.click(); this._count();
     },
     onRightClick(e){
@@ -159,11 +170,13 @@
       if(bi<0) return;
       const p=this.placed[bi];
       if(p.mesh){ scene.remove(p.mesh); removeFromWorld(p.mesh); }
+      try{ if(window.WorldChunks){ const ms=WorldChunks.objectsAt(Math.floor(p.x), Math.floor(p.z)); const hit=ms.find(o=>o.def===p.type); if(hit) WorldChunks.removeObject(hit); } }catch(_e){}
       this.placed.splice(bi,1); this._count();
     },
     select(i){ this.sel=i; this._renderPalette(); },
     rotate(){ this.rot=(this.rot+Math.PI/4)%(Math.PI*2); this._hint(); },
     bump(d){ this.scale=Math.min(2.5,Math.max(0.4, +(this.scale+d).toFixed(2))); this._hint(); },
+    toggleSnap(){ this.snap=!this.snap; this._hint(); if(typeof UI!=='undefined') UI.chat('[BUILD] Tile snap '+(this.snap?'ON':'OFF')+'.','sys'); },
     toggleGrid(){
       if(this.gridMesh){ scene.remove(this.gridMesh); this.gridMesh=null; return; }
       const size=WORLD.size, div=Math.round(size/CHUNK);
@@ -209,7 +222,7 @@
 
     /* ---- UI ---- */
     _count(){ const el=document.getElementById('build-count'); if(el) el.textContent=this.placed.length+' placed'; },
-    _hint(){ const el=document.getElementById('build-hint'); if(el) el.textContent='rot '+Math.round(this.rot*57.3)+'°  ·  scale '+this.scale.toFixed(2); },
+    _hint(){ const el=document.getElementById('build-hint'); if(el) el.textContent='rot '+Math.round(this.rot*57.3)+'°  ·  scale '+this.scale.toFixed(2)+'  ·  snap '+(this.snap?'on':'off'); },
     _renderPalette(){
       const wrap=document.getElementById('build-pal'); if(!wrap) return;
       wrap.innerHTML='';
@@ -249,7 +262,7 @@
           '<button data-a="save">Save Map</button><button data-a="load">Load Map</button>'+
           '<button data-a="export">Export</button><button data-a="import">Import</button>'+
           '<button data-a="clear">Clear</button><button data-a="savetpl">Save Chunk</button>'+
-          '<button data-a="roofs">Roofs on/off</button>'+
+          '<button data-a="roofs">Roofs on/off</button><button data-a="snap">Tile snap</button>'+
         '</div>'+
         '<div style="border-top:1px solid #4a4234;padding-top:5px">'+
           '<div style="color:#ff981f;margin-bottom:3px">Chunk templates</div>'+
@@ -265,7 +278,7 @@
           ({grid:()=>this.toggleGrid(), rotate:()=>this.rotate(), save:()=>this.save(), load:()=>this.load(),
             export:()=>this.exportMap(), import:()=>this.importMap(), clear:()=>this.clear(),
             savetpl:()=>this.saveTemplate(), stamp:()=>this.stampTemplate(),
-            roofs:()=>{ if(window.toggleRoofs) toggleRoofs(); }})[a](); };
+            roofs:()=>{ if(window.toggleRoofs) toggleRoofs(); }, snap:()=>this.toggleSnap()})[a](); };
       });
       const s=p.querySelector('#build-search');
       s.oninput=()=>{ this.filter=s.value; this._renderPalette(); };
@@ -287,6 +300,7 @@
       else if(e.key===']') Build.bump(0.1);
       else if(e.key==='[') Build.bump(-0.1);
       else if(e.key==='g'||e.key==='G') Build.toggleGrid();
+      else if(e.key==='s'||e.key==='S') Build.toggleSnap();
     });
     const tryLoad=()=>{ if(typeof running!=='undefined' && running && !Build._loaded){ Build._loaded=true; Build.load(true); } else setTimeout(tryLoad,400); };
     tryLoad();
