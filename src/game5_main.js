@@ -1,6 +1,9 @@
 /* ================= GAME LOOP ================= */
 let curZone='holm';
 let _runUiT=0;
+/* fixed 600ms world-tick accumulator. The player's combat / skilling / vitals run inside this
+   tick (deterministic, OSRS-style); movement, NPCs, FX, animation and camera stay per-frame. */
+let worldTickAcc=0, worldTickCount=0;
 
 /* ---------- pathfinding: TRUE tile BFS, OSRS-style ----------
    One world unit = one tile. Movement is 4-directional only (N/S/E/W) — never diagonal,
@@ -117,6 +120,12 @@ function update(dt){
   } else {
     walkAnim(player, false, dt);
   }
+  // ── fixed-tick player sim: combat/skilling/vitals advance in 600ms steps (wall-clock unchanged) ──
+  worldTickAcc += dt;
+  let _nTicks = Math.floor(worldTickAcc / TICK);
+  if(_nTicks > 5){ _nTicks = 5; worldTickAcc = 0; }   // drop backlog after a tab stall (no spiral of death)
+  else { worldTickAcc -= _nTicks * TICK; }
+  for(let _ti=0; _ti<_nTicks; _ti++){ const dt = TICK; worldTickCount++;   // dt shadowed to TICK
   Player.tickVitals(dt, playerMovedThisFrame);
   Player.regen(dt);
   if(Player.target && !Player.target.dead) playerAttack(Player.target, dt);
@@ -423,6 +432,7 @@ function update(dt){
       }
     }
   }
+  }   // ── end fixed-tick player-sim loop ──
 
   WORLD.npcs.forEach(n=>{
     if(n.dead){
