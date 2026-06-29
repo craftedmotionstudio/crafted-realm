@@ -61,6 +61,21 @@ window.CR_smoke = function(){
   (function(){ try{ UI.openShop('smith'); ok('openShop inits _q', SHOPS.smith._q && typeof SHOPS.smith._q[SHOPS.smith.stock[0].id]==='number');
     UI.closeModal && UI.closeModal('shop-modal'); }catch(e){ ok('openShop inits _q', false); } })();
 
+  // ---- chunk data model ----
+  ok('WorldChunks global', typeof WorldChunks==='object' && typeof WorldChunks.placeObject==='function');
+  ok('CHUNK size = 8', typeof CHUNK==='number' && CHUNK===8);
+  (function(){ try{
+    var snap=WorldChunks.serialize();              // preserve any real data
+    WorldChunks.clear();
+    var o=WorldChunks.placeObject('test_obj', 10, 20, 1);
+    ok('chunkOf(10,20) = [1,2]', WorldChunks.chunkOf(10,20)[0]===1 && WorldChunks.chunkOf(10,20)[1]===2);
+    ok('local coords (2,4)', o.lx===2 && o.lz===4);
+    var ser=WorldChunks.serialize(); WorldChunks.clear(); WorldChunks.load(ser);
+    var found=0; WorldChunks.forEachObject(function(def,tx,tz){ if(def==='test_obj'&&tx===10&&tz===20) found++; });
+    ok('serialize/load round-trip', found===1);
+    WorldChunks.clear(); WorldChunks.load(snap);   // restore
+  }catch(e){ ok('chunk model round-trip', false); } })();
+
   var total=pass+fail;
   var report={pass:pass, fail:fail, total:total, failures:failures, verdict: fail===0?'ALL PASS':'FAILURES'};
   try{ console.log('[CR_smoke] '+pass+'/'+total+' passed'+(fail?(' — FAILED: '+failures.join(', ')):'')); }catch(e){}
