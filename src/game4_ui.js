@@ -461,6 +461,14 @@ const UI = {
     t.innerHTML=html; t.style.display='block';
     t.style.left=(e.clientX+14)+'px'; t.style.top=(e.clientY+10)+'px';
   },
+  // OSRS top-left action text: primary action + "/ N more options"
+  action(label, more){
+    const a=document.getElementById('action-text'); if(!a) return;
+    if(!label){ a.style.display='none'; return; }
+    const html=label.replace(/\(level (\d+)\)/, '<span class="lv">(level $1)</span>');
+    a.innerHTML=html + (more>0 ? `<span class="more"> / ${more} more option${more>1?'s':''}</span>` : '');
+    a.style.display='block';
+  },
   zone(name){ document.getElementById('zone-label').textContent=name; },
 };
 
@@ -487,7 +495,8 @@ UI.refreshCombat = function(){
   const wpn=Player.equip.weapon?ITEMS[Player.equip.weapon].name:'Unarmed';
   host.innerHTML='<div class="cmb-weap">'+wpn+' · '+cls+'</div>'+
     list.map((s,i)=>'<div class="cmb-style'+(i===cur?' active':'')+'" data-i="'+i+'">'+
-      '<b>'+s.label+'</b><small>'+(s.xp==='Shared'?'shares XP across Attack/Strength/Defence'
+      '<b>'+s.label+(s.atype?' <span style="color:#7fd2ff">['+s.atype[0].toUpperCase()+s.atype.slice(1)+']</span>':'')+'</b>'+
+      '<small>'+(s.xp==='Shared'?'shares XP across Attack/Strength/Defence'
         :'trains '+s.xp)+'</small></div>').join('')+
     '<div class="set-row" style="margin-top:9px"><span>Auto-retaliate</span>'+
       '<button class="set-btn" id="retal-btn">'+(Player.autoRetaliate?'On':'Off')+'</button></div>';
@@ -712,10 +721,16 @@ canvasEl.addEventListener('mousemove', e=>{
     camCtl.yaw  -= (e.clientX-camCtl.lx)*0.008;
     camCtl.pitch = Math.min(1.45, Math.max(0.55, camCtl.pitch+(e.clientY-camCtl.ly)*0.005));
     camCtl.lx=e.clientX; camCtl.ly=e.clientY;
+  } else if(window.Build && Build.active){
+    UI.action(null); hideHoverTile();
   } else {
     const hit = pick(e);
-    UI.tip(e, hit && hit.obj.userData.label ? hit.obj.userData.label : (hit&&hit.obj.name==='ground'?'Walk here':null));
-    canvasEl.style.cursor = hit && hit.obj.userData.label ? 'pointer' : 'crosshair';
+    const onObj = hit && hit.obj.userData.label;
+    const label = onObj ? hit.obj.userData.label : (hit && hit.obj.name==='ground' ? 'Walk here' : null);
+    // "/ N more options" = right-click entries minus the primary action and Cancel
+    const more = hit ? Math.max(0, buildCtxEntries(hit, e).length - 2) : 0;
+    UI.action(label, more);
+    canvasEl.style.cursor = onObj ? 'pointer' : 'crosshair';
     if(hit && hit.obj && hit.obj.name==='ground' && hit.point) showHoverTile(hit.point);
     else hideHoverTile();
   }
@@ -755,6 +770,8 @@ function appraiseChat(npcOrType){
   const [verdict,color] = appraiseVerdict(p);
   const nFood = Player.inv.reduce((a,s)=>a+((s&&ITEMS[s.id].heal)?s.qty:0),0);
   UI.chat(`Appraisal vs ${t.name} (lvl ${t.level}): <span style="color:${color}"><b>${verdict}</b></span> — ~${Math.round(p*100)}% to win with your current gear, style${nFood?` and ${nFood} food`:', and no food'}.`,'plain');
+  const w = (typeof npcWeakness==='function') ? npcWeakness(t) : null;
+  if(w) UI.chat(`It looks vulnerable to <b>${w}</b> — match your combat style's attack type to land more hits.`,'plain');
 }
 function aOrAn(n){ return (/^[aeiou]/i.test(n)?'an ':'a ')+n.toLowerCase(); }
 function buildCtxEntries(hit, e){
@@ -1374,26 +1391,31 @@ function talkTo(id, name, face){
 const MusicMenu = {
   open:false,
   toggle(){ this.open=!this.open; this.render(); },
+  close(){ if(this.open){ this.open=false; this.render(); } },
   render(){
     const m=document.getElementById('music-menu'); if(!m) return;
     m.style.display=this.open?'block':'none';
     if(!this.open) return;
-    m.innerHTML='<h4>🎵 Music</h4>';
+    m.innerHTML='';
+    const head=document.createElement('div');
+    head.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-bottom:4px';
+    head.innerHTML='<h4 style="margin:2px 0">🎵 Music</h4>';
+    const x=document.createElement('span'); x.textContent='✕';
+    x.style.cssText='cursor:pointer;color:#ff6a6a;font-weight:bold;padding:0 4px;font-size:13px';
+    x.onclick=()=>{ Sfx.click(); this.close(); };
+    head.appendChild(x); m.appendChild(head);
     const mode=document.createElement('div'); mode.className='mtrack mode';
-    mode.textContent = (Music.mode==='auto'?'● ':'○ ')+'Auto (by location)';
-    mode.onclick=()=>{ Music.mode='auto'; Music.onZone(curZone); Sfx.click(); this.render(); };
+    mode.textContent = (Music.mode!=='manual'?'● ':'○ ')+'Auto (by location)';
+    mode.onclick=()=>{ Music.mode='auto'; if(Music.Director) Music.Director.manual=null;
+      Music.onZone(typeof curZone!=='undefined'?curZone:'commons'); Sfx.click(); this.render(); };
     m.appendChild(mode);
-    for(const id in TRACKS){
-      const tr=TRACKS[id];
+    const tracks=Music.tracks||{};
+    for(const id in tracks){
+      const playing = Music.Director && Music.Director.current===id;
       const row=document.createElement('div');
-      if(Music.unlocked.indexOf(id)>=0){
-        row.className='mtrack'+(Music.current===id&&Music.mode==='manual'?' cur':'');
-        row.textContent=(Music.current===id?'▶ ':'  ')+tr.name;
-        row.onclick=()=>{ Music.mode='manual'; Music.play(id); if(!Music.on) Music.start(); Sfx.click(); this.render(); };
-      } else {
-        row.className='mtrack locked';
-        row.textContent='🔒 Locked — visit '+(ZONES[tr.zone]?ZONES[tr.zone].name:'?');
-      }
+      row.className='mtrack'+(playing&&Music.mode==='manual'?' cur':'');
+      row.textContent=(playing?'▶ ':'  ')+tracks[id].name;
+      row.onclick=()=>{ Music.mode='manual'; if(!Music.on) Music.start(); Music.play(id); Sfx.click(); this.render(); };
       m.appendChild(row);
     }
     const off=document.createElement('div'); off.className='mtrack mode';
@@ -1402,6 +1424,12 @@ const MusicMenu = {
     m.appendChild(off);
   },
 };
+// click anywhere outside the menu (or its ♪ button) closes it
+document.addEventListener('mousedown', function(e){
+  if(!MusicMenu.open) return;
+  const m=document.getElementById('music-menu'), b=document.getElementById('music-btn');
+  if(m && !m.contains(e.target) && b && !b.contains(e.target)) MusicMenu.close();
+});
 
 /* ================= CHARACTER CREATION ================= */
 const CharCfg = { name:'Adventurer', shirt:0x3a6ea5, skin:0xd8a878 };
@@ -1985,6 +2013,8 @@ function populateScarlands(){
   for(let i=0;i<4;i++) spawnNpc('gravewight', -25+Math.random()*50, SCAR_EDGE+8+Math.random()*20);
   for(let i=0;i<3;i++) spawnNpc('ash_stalker', -25+Math.random()*50, SCAR_EDGE+34+Math.random()*22);
   for(let i=0;i<2;i++) spawnNpc('hex_adept', -20+Math.random()*40, SCAR_EDGE+20+Math.random()*15);
+  // NOTE: the Ash Wyrm boss's eventual home is the Scarlands deep-end (re-add here once the map is
+  // fleshed out). It's temporarily parked on Tutor's Holm (populateHolm) as a dev showpiece.
 }
 function populateArena(){
   const a=ZONES.arena.pos;
@@ -2044,6 +2074,9 @@ function populateHolm(){
   spawnNpc('grubkin', h[0]+11, h[1]+5);
   spawnNpc('bogling', h[0]+5, h[1]+4);          // pipeline-authored demo creature
   spawnNpc('bogling', h[0]+7, h[1]+1);
+  // TEMP (dev): the Ash Wyrm boss (Pixal3D model) parked on Holm as a passive showpiece while we
+  // build characters. Non-aggressive here; its real home is the Scarlands deep-end (see populateScarlands).
+  spawnNpc('ash_wyrm', h[0]+13, h[1]-7);
   for(let i=0;i<4;i++) makeBush(h[0]-6+Math.random()*14, h[1]-4+Math.random()*12);
   for(let i=0;i<5;i++) makeFlower(h[0]-6+Math.random()*14, h[1]-2+Math.random()*10);
   makeSignpost(h[0]-6, h[1]+8);

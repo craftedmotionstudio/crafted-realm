@@ -501,6 +501,8 @@ function update(dt){
     const _P=n.mesh.userData.parts;
     if(_P && _P.legL) walkAnim(n.mesh, n.moving, dt);   // any rigged biped
     else beastAnim(n.mesh, n.moving, dt);
+    if(n.t.glb && typeof glbCreatureAnim==='function') glbCreatureAnim(n, dt);   // GLB-body life (breathing/huff)
+    if(n.t.skinnedRig && typeof riggedDragonAnim==='function') riggedDragonAnim(n, dt, n.moving);   // bone drive: legs/wings/tail
     n.moving = false;
   });
 
@@ -518,6 +520,7 @@ function update(dt){
     if(f.userData.flame) f.userData.flame.scale.y = 1+Math.sin(performance.now()*0.02)*0.25; });
 
   updateProjectiles(dt);
+  if(typeof updateDragonFX==='function') updateDragonFX(dt);   // dragonfire / smoke particles
   animateWater(dt);
   separateEntities();
   updateSparring(dt);
@@ -633,7 +636,7 @@ const BOOT_STEPS = [
   [10, 'Connecting to update server', ()=>{ initEngine(); }],
   [25, 'Loading textures',            ()=>{ for(const id in ITEMS) iconFor(id); }],
   [45, 'Generating world map',        ()=>{ buildTextures(); buildSea(); buildGround(); }],
-  [65, 'Populating Veyhollow',        ()=>{ populateMainland(); }],
+  [65, 'Populating Veyhollow',        ()=>{ populateMainland(); if(typeof buildVeyhollowKeep==='function') buildVeyhollowKeep(); }],
   [80, 'Preparing Tutor\'s Holm',     ()=>{ populateBrynholt(); populateDunes(); populateScarlands(); populateArena(); populateHolm(); Bots.spawn(); }],
   [95, 'Waking the adventurer',       ()=>{
       player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, beard:false, emblem:true});
@@ -665,8 +668,8 @@ function boot(i=0){
   setTimeout(()=>{ fn(); boot(i+1); }, 220);
 }
 document.getElementById('play-btn').onclick = ()=>{
-  try{ Music.start(); }catch(e){}
-  Sfx.ensure(); Sfx.quest();
+  // music is opt-in: only resume if the player turned it on before (keeps debug loads silent)
+  try{ Sfx.ensure(); if(localStorage.getItem('cr_music_on')==='1') Music.start(); }catch(e){}
   document.getElementById('welcome-screen').style.display='none';
   running=true;
   UI.zone(ZONES.holm.name);

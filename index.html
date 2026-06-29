@@ -42,6 +42,9 @@
   .pillar:after{content:'';position:absolute;top:0;bottom:0;left:18px;width:10px;
     background:rgba(0,0,0,0.25);box-shadow:34px 0 rgba(0,0,0,0.25);}
   .pl{left:7vw;} .pr{right:7vw;} .pillar{z-index:2;display:none;}  /* pillars retired — too cheesy */
+  /* optional looping video background for the login screen (covers, sits above the static image) */
+  #login-bgvideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;
+    opacity:0;transition:opacity .8s ease;pointer-events:none;}
   /* distant castle torches that actually flicker, overlaid on the painted background */
   #castle-flames{position:absolute;inset:0;z-index:1;pointer-events:none;}
   .cflame{position:absolute;width:7px;height:15px;transform:translate(-50%,-50%);
@@ -191,6 +194,7 @@
   .set-btn{font:bold 11px Verdana;color:var(--beige);background:linear-gradient(#5a5043,#3e3529);
     border:2px outset #6b5f4a;padding:5px 12px;cursor:pointer;}
   .set-btn:hover{color:var(--yellow);}
+  .set-slider{width:120px;accent-color:#ff981f;cursor:pointer;vertical-align:middle;}
   .set-btn.wide{display:block;width:100%;margin-top:8px;text-align:center;padding:9px;}
   .set-btn.logout{background:linear-gradient(#7c1410,#4d0c09);color:#fff;border-color:#a8534e #2a0605 #2a0605 #a8534e;}
   .set-btn.logout:hover{background:linear-gradient(#9c1a14,#5d0f0b);color:#fff;}
@@ -370,6 +374,13 @@
   #ctx-tip{position:absolute;pointer-events:none;background:rgba(20,16,10,.92);
     border:1px solid var(--steel-hi);color:#fff;padding:3px 8px;font-size:11px;display:none;z-index:25;}
   #ctx-tip b{color:var(--yellow);}
+  /* OSRS-style top-left action text — primary left-click action under the cursor */
+  #action-text{position:absolute;top:38px;left:10px;pointer-events:none;z-index:24;display:none;
+    font:bold 15px/1.2 'Segoe UI',Verdana,sans-serif;color:#fff;white-space:nowrap;
+    text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;}
+  #action-text b{color:#00ffff;}              /* the target, OSRS cyan */
+  #action-text .lv{color:#5edb5e;font-weight:bold;}
+  #action-text .more{color:#fff;}
   /* ---------- mobile toggles (hidden on desktop) ---------- */
   .mob-toggle{display:none;position:fixed;z-index:72;width:48px;height:48px;border-radius:12px;
     background:linear-gradient(#3a3328,#241f17);border:2px outset #6b5f4a;color:#ffd24a;
@@ -386,6 +397,7 @@
   .prayer-btn.locked{opacity:.45;}
   .prayer-btn.sel{outline:2px solid #ffd24a;background:#3a3a22;}
   #ctx-tip{display:none !important;}
+  #action-text{display:none !important;}
   }
   @media (max-width: 880px){
     .mob-toggle{display:flex;}
@@ -437,35 +449,11 @@
 <div id="welcome-screen">
   <div class="arch"></div>
   <div class="steps"><div></div><div></div><div></div></div>
-  <div id="castle-flames">
-    <span class="cflame" data-ix="957" data-iy="28"></span>
-    <span class="cflame" data-ix="900" data-iy="150"></span>
-    <span class="cflame" data-ix="820" data-iy="205"></span>
-    <span class="cflame" data-ix="1032" data-iy="105"></span>
-    <span class="cflame" data-ix="1100" data-iy="145"></span>
-  </div>
-  <script>
-  /* lock the animated flames onto the castle towers regardless of screen size:
-     the background uses object-fit:cover, so we replicate the cover transform and place
-     each flame at its baked image-pixel coordinate (image is 1376x768). */
-  (function(){
-    function posFlames(){
-      var host=document.getElementById('castle-flames'); if(!host) return;
-      var IW=1376, IH=768, W=window.innerWidth, H=window.innerHeight;
-      var s=Math.max(W/IW, H/IH), ox=(W-IW*s)/2, oy=(H-IH*s)/2;
-      var w=Math.max(8, Math.round(5.5*s));
-      var fl=host.getElementsByClassName('cflame');
-      for(var i=0;i<fl.length;i++){
-        var f=fl[i], ix=+f.getAttribute('data-ix'), iy=+f.getAttribute('data-iy');
-        f.style.left=(ox+ix*s)+'px'; f.style.top=(oy+iy*s)+'px';
-        f.style.width=w+'px'; f.style.height=Math.round(w*2.1)+'px';
-      }
-    }
-    window.addEventListener('resize', posFlames);
-    window.addEventListener('load', posFlames);
-    posFlames(); setTimeout(posFlames,300); setTimeout(posFlames,1200);
-  })();
-  </script>
+  <!-- Looping video background: drop assets/ui/login_bg.mp4 to enable. If absent/can't play,
+       it stays transparent and the static login_bg.png shows through. (Floating-flame overlay removed.) -->
+  <video id="login-bgvideo" autoplay loop muted playsinline oncanplay="this.style.opacity=1">
+    <source src="assets/ui/login_bg.mp4" type="video/mp4">
+  </video>
   <div class="world-badge">World 1<small>Veyhollow</small></div>
   <button class="login-music" onclick="Sfx.ensure();Music.toggle();" title="Toggle music">♪</button>
   <div class="login-footer">
@@ -551,6 +539,8 @@
   <div class="tab-pane" id="pane-settings">
     <div class="set-row"><span>Run energy</span><button class="set-btn" onclick="UI.toggleRun()">Toggle</button></div>
     <div class="set-row"><span>Music</span><button class="set-btn" onclick="UI.toggleMusic()">Toggle</button></div>
+    <div class="set-row"><span>Music volume</span><input id="vol-music" type="range" min="0" max="100" value="50" class="set-slider" oninput="Music.setVolume(this.value/100)"></div>
+    <div class="set-row"><span>Sound effects</span><input id="vol-sfx" type="range" min="0" max="100" value="100" class="set-slider" oninput="Sfx.setVolume(this.value/100)"></div>
     <div class="set-row"><span>World map</span><button class="set-btn" onclick="UI.openWorldMap()">Open</button></div>
     <button class="set-btn wide" onclick="UI.manualSave()">Save now</button>
     <button class="set-btn wide logout" onclick="UI.logout()">Logout</button>
@@ -644,9 +634,11 @@
 </div>
 
 <div id="ctx-tip"></div>
+<div id="action-text"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="assets/audio/soundfont-player.min.js"></script>
 <script src="src/game0_icons.js"></script>
 <script src="src/game1_data.js"></script>
 <script src="src/chunks.js"></script>
@@ -654,8 +646,20 @@
 <script src="src/game2_world.js"></script>
 <script src="src/game_assets.js"></script>
 <script src="src/game3_systems.js"></script>
+<script src="src/fx_dragon.js?v=2d"></script>
+<script src="src/audio_orchestra.js"></script>
 <script src="src/game4_ui.js"></script>
 <script src="src/game_editor.js"></script>
+<script src="src/castle.js"></script>
 <script src="src/game5_main.js"></script>
+<script>
+  /* sync the settings volume sliders to saved values on load */
+  window.addEventListener('load', function(){ try{
+    var mv=localStorage.getItem('cr_vol_music'), sv=localStorage.getItem('cr_vol_sfx');
+    var a=document.getElementById('vol-music'), b=document.getElementById('vol-sfx');
+    if(a&&mv!=null) a.value=Math.round(parseFloat(mv)*100);
+    if(b&&sv!=null) b.value=Math.round(parseFloat(sv)*100);
+  }catch(e){} });
+</script>
 </body>
 </html>

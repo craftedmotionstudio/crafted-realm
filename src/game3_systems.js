@@ -4,9 +4,16 @@ const PRAYERS = {
   thick_skin:    {name:'Thick Skin',           req:1,  icon:'\u{1F6E1}',  drain:5,  group:'def', boost:{def:1.05}},
   burst_str:     {name:'Burst of Strength',    req:4,  icon:'\u{1F4AA}',  drain:5,  group:'str', boost:{str:1.05}},
   clarity:       {name:'Clarity of Thought',   req:7,  icon:'\u{1F3AF}',  drain:5,  group:'att', boost:{att:1.05}},
+  sharp_eye:     {name:'Sharp Eye',            req:8,  icon:'\u{1F3F9}',  drain:5,  group:'rng', boost:{rng:1.05}},
+  mystic_will:   {name:'Mystic Will',          req:9,  icon:'\u{1F52E}',  drain:5,  group:'mag', boost:{mag:1.05}},
   rock_skin:     {name:'Rock Skin',            req:10, icon:'\u{1FAA8}',  drain:10, group:'def', boost:{def:1.10}},
   superhuman:    {name:'Superhuman Strength',  req:13, icon:'\u26A1',     drain:10, group:'str', boost:{str:1.10}},
   reflexes:      {name:'Improved Reflexes',    req:16, icon:'\u{1F441}',  drain:10, group:'att', boost:{att:1.10}},
+  hawk_eye:      {name:'Hawk Eye',             req:26, icon:'\u{1F985}',  drain:10, group:'rng', boost:{rng:1.10}},
+  mystic_lore:   {name:'Mystic Lore',          req:27, icon:'\u2728',     drain:10, group:'mag', boost:{mag:1.10}},
+  steel_skin:    {name:'Steel Skin',           req:28, icon:'\u{1F9F1}',  drain:12, group:'def', boost:{def:1.15}},
+  ultimate_str:  {name:'Ultimate Strength',    req:31, icon:'\u{1F4A5}',  drain:12, group:'str', boost:{str:1.15}},
+  incredible_ref:{name:'Incredible Reflexes',  req:34, icon:'\u{1F3AF}',  drain:12, group:'att', boost:{att:1.15}},
   protect_magic: {name:'Protect from Magic',   req:37, icon:'\u{1F535}',  drain:20, group:'overhead', protect:'magic',  over:0x3a6ab0},
   protect_range: {name:'Protect from Missiles',req:40, icon:'\u{1F7E2}',  drain:20, group:'overhead', protect:'ranged', over:0x4a9a3a},
   protect_melee: {name:'Protect from Melee',   req:43, icon:'\u{1F534}',  drain:20, group:'overhead', protect:'melee',  over:0xb03a3a},
@@ -282,9 +289,20 @@ const Player = {
       if(v && ITEMS[v][field]) t+=ITEMS[v][field]; }
     return t;
   },
-  atkBonus(){ return this._sumBonus('aBonus'); },
+  // stab/slash/crush split: gear may carry per-type bonuses (aStab/aSlash/aCrush,
+  // dStab/dSlash/dCrush). When a piece has none, we fall back to the flat aBonus/dBonus,
+  // so any gear without the split is numerically identical to before. `type` is null for ranged/magic.
+  _sumTyped(prefix, flat, type){
+    const key = type ? prefix + type[0].toUpperCase() + type.slice(1) : null;
+    let t=0;
+    for(const k in this.equip){ const v=this.equip[k]; if(!v) continue; const it=ITEMS[v];
+      const per = key ? it[key] : undefined;
+      t += (per!==undefined && per!==null) ? per : (it[flat]||0); }
+    return t;
+  },
+  atkBonus(type){ return this._sumTyped('a','aBonus', type); },
   strBonus(){ return this._sumBonus('sBonus'); },
-  defBonus(){ return this._sumBonus('dBonus'); },
+  defBonus(type){ return this._sumTyped('d','dBonus', type); },
   magBonus(){ return this._sumBonus('mBonus') + (this.equip.weapon && ITEMS[this.equip.weapon].style==='magic' ? ITEMS[this.equip.weapon].aBonus||0 : 0); },
   bestToolPower(t){
     let p=0;
@@ -310,6 +328,19 @@ function rollAccuracy(attRoll, defRoll){
 }
 function osrsMaxHit(effStr, sBonus){
   return Math.max(1, Math.floor(0.5 + effStr*(sBonus+64)/640));
+}
+// a monster's defence vs a given melee attack type (stab/slash/crush). Falls back to the flat
+// dBonus when the monster has no weakness/resistance defined, so untouched monsters are unchanged.
+function npcDef(t, type){
+  if(type){ const v=t['d'+type[0].toUpperCase()+type.slice(1)]; if(v!==undefined && v!==null) return v; }
+  return t.dBonus;
+}
+// the attack type a monster is most vulnerable to (lowest defence), or null if it has no split
+function npcWeakness(t){
+  if(t.dStab===undefined && t.dSlash===undefined && t.dCrush===undefined) return null;
+  const arr=[['stab',npcDef(t,'stab')],['slash',npcDef(t,'slash')],['crush',npcDef(t,'crush')]];
+  arr.sort((a,b)=>a[1]-b[1]);
+  return arr[0][1] < arr[2][1] ? arr[0][0] : null;   // only call it a weakness if one type is softest
 }
 
 /* ---------- visible gear on the character ---------- */
@@ -368,6 +399,7 @@ function refreshPlayerGear(){
 /* ---------- NPCs ---------- */
 function spawnNpc(typeId, x, z){
   const t = NPC_TYPES[typeId];
+  if(!t){ console.warn('[spawnNpc] unknown type:', typeId); return null; }
   // never spawn inside a wall — nudge to a free spot
   if(collides(x,z,0.4)){
     for(let i=0;i<14;i++){
@@ -377,7 +409,10 @@ function spawnNpc(typeId, x, z){
     }
   }
   let mesh;
-  if(t.assetModel){                          // pipeline-authored Blockbench model
+  if(t.glb){                                 // pipeline image-to-3D model (Gemini sprite -> SF3D/Pixal3D GLB)
+    mesh = makeGlbModel(t.glb, {height: t.glbHeight || 1.8*(t.size||1), color: t.color, skinned: t.skinnedRig});
+  }
+  else if(t.assetModel){                     // pipeline-authored Blockbench model
     mesh = CR_buildAsset(t.assetModel, t.assetColors||{});
     if(!mesh) mesh = beast(t.color, t.size);
     else { if(t.size) mesh.scale.multiplyScalar(t.size);
@@ -420,7 +455,7 @@ function spawnNpc(typeId, x, z){
     mesh = beast(t.color, t.size);
   }
   mesh.position.set(x, gy(x,z), z);
-  const hpbar = makeHPBar(mesh, (t.humanoid||t.model==='goblin') ? 2.2*t.size : 1.2*t.size+0.6);
+  const hpbar = makeHPBar(mesh, t.barH || ((t.humanoid||t.model==='goblin') ? 2.2*t.size : 1.2*t.size+0.6));
   const npc = {typeId, t, mesh, hp:t.hp, home:new THREE.Vector3(x,0,z),
     wanderT:Math.random()*4, attackCd:0, dead:false, hpbar, target:null, moving:false};
   Object.assign(mesh.userData, {kind:'npc', npc, label:`Attack <b>${t.name}</b> (level ${t.level})`});
@@ -561,10 +596,10 @@ function updateProjectiles(dt){
    magic: Standard / Defensive (splits xp with Defence) */
 const STYLE_DEFS = {
   melee: [
-    {key:'accurate',  name:'Stab',  label:'Accurate',   xp:'Attack',    boost:{att:3}},
-    {key:'aggressive',name:'Lunge', label:'Aggressive', xp:'Strength',  boost:{str:3}},
-    {key:'controlled',name:'Slash', label:'Controlled', xp:'Shared',    boost:{att:1,str:1,def:1}},
-    {key:'defensive', name:'Block', label:'Defensive',  xp:'Defence',   boost:{def:3}},
+    {key:'accurate',  name:'Stab',  label:'Accurate',   xp:'Attack',    boost:{att:3}, atype:'stab'},
+    {key:'aggressive',name:'Pound', label:'Aggressive', xp:'Strength',  boost:{str:3}, atype:'crush'},
+    {key:'controlled',name:'Slash', label:'Controlled', xp:'Shared',    boost:{att:1,str:1,def:1}, atype:'slash'},
+    {key:'defensive', name:'Block', label:'Defensive',  xp:'Defence',   boost:{def:3}, atype:'slash'},
   ],
   ranged: [
     {key:'accurate',  name:'Accurate',  label:'Accurate',  xp:'Ranged',    boost:{rng:3}},
@@ -596,6 +631,40 @@ const BOSS_SCRIPTS = {
         n.hp=Math.min(n.t.hp, n.hp + Math.ceil(n.t.hp*0.08));
         if(n.hpbar){ n.hpbar.spr.visible=true; n.hpbar.draw(Math.max(0,n.hp/n.t.hp)); }
         UI.chat('The Fenlord draws strength from the drowned mire.','combat');
+      }
+    }
+  },
+  ashwyrm(n, dt){
+    n._sT=(n._sT||0)+dt;
+    if(!n._enraged && n.hp < n.t.hp*0.45){ n._enraged=true;
+      UI.chat('The Ash Wyrm rears, wings ablaze — the very air begins to burn!','combat'); }
+    // breath state machine: a "huff" wind-up, then the fire gout. The visuals (rear-back, smoke
+    // wisps, flame particles) are driven by glbCreatureAnim/spawnDragonfire in fx_dragon.js.
+    if(n._breath){
+      const b=n._breath; b.t+=dt;
+      if(b.phase==='windup' && b.t>=b.windup){
+        b.phase='fire'; b.t=0;
+        if(typeof spawnDragonfire==='function') spawnDragonfire(n);
+        if(n.target==='player'){
+          const d=player.position.distanceTo(n.mesh.position);
+          if(d<12){
+            const warded = Player.protectedFrom('magic');   // our antifire stand-in
+            let dmg = Math.ceil((n._enraged?14:9)+Math.random()*12);
+            if(warded) dmg = Math.ceil(dmg*0.35);
+            Player.hp-=dmg; UI.floatDmg(player, dmg);
+            UI.chat(warded ? 'You raise a prayer against the dragonfire.' : 'The Ash Wyrm breathes a torrent of fire!','combat');
+            UI.refreshHud();
+            if(Player.hp<=0) playerDeath();
+          }
+        }
+      } else if(b.phase==='fire' && b.t>=b.fire){ n._breath=null; }
+      return;
+    }
+    const every = n._enraged ? 6 : 10;          // breathe on a cooldown; faster when enraged
+    if(n._sT>=every){ n._sT=0;
+      if(n.target==='player' && player.position.distanceTo(n.mesh.position)<11){
+        n._breath={phase:'windup', t:0, windup:1.0, fire:0.7};
+        UI.chat('The Ash Wyrm draws a deep, smoking breath…','combat');
       }
     }
   },
@@ -680,8 +749,9 @@ function playerAttack(npc, dt){
   const skillLv = (style==='ranged' ? Player.lvl('Ranged')+Player.styleBoost('rng')
                  : style==='magic'  ? Player.lvl('Magic')
                  : Math.floor(Player.lvl('Attack')*Player.prayerMult('att'))+Player.styleBoost('att'));
-  const attRoll = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus())+64);
-  const defRoll = (npc.t.def+9) * (npc.t.dBonus+64);
+  const atype = style==='melee' ? (sdef.atype||'slash') : null;   // stab/slash/crush from the chosen style
+  const attRoll = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus(atype))+64);
+  const defRoll = (npc.t.def+9) * (npcDef(npc.t, atype)+64);
   let hitChance = rollAccuracy(attRoll, defRoll);
   if(spec) hitChance = Math.min(1, hitChance*spec.acc);
   let maxHit = style==='melee' ? osrsMaxHit(Math.floor(Player.lvl('Strength')*Player.prayerMult('str'))+Player.styleBoost('str')+8, Player.strBonus())
@@ -903,7 +973,7 @@ function npcAttack(npc, dt){
   if(npc.attackCd>0) return;
   npc.attackCd = npc.t.speedTicks*TICK;
   const attRoll = (npc.t.att+8) * (npc.t.aBonus+64);
-  const defRoll = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus()+64);
+  const defRoll = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus(npc.t.atype||'crush')+64);
   const hitChance = rollAccuracy(attRoll, defRoll);
   let dmg = Math.random()<hitChance ? Math.ceil(Math.random()*npcMaxHit(npc.t)) : 0;
   if(dmg>0 && Player.protectedFrom('melee')) dmg=0;   // the overhead turns the blow aside
@@ -922,8 +992,9 @@ function appraiseFight(t){
   const skillLv = (style==='ranged' ? Player.lvl('Ranged')+Player.styleBoost('rng')
                  : style==='magic'  ? Player.lvl('Magic')
                  : Math.floor(Player.lvl('Attack')*Player.prayerMult('att'))+Player.styleBoost('att'));
-  const pAtt = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus())+64);
-  const nDef = (t.def+9) * (t.dBonus+64);
+  const atype = style==='melee' ? (sdef.atype||'slash') : null;
+  const pAtt = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus(atype))+64);
+  const nDef = (t.def+9) * (npcDef(t, atype)+64);
   const pAcc = rollAccuracy(pAtt, nDef);
   const pMax = style==='melee' ? osrsMaxHit(Player.lvl('Strength')+Player.styleBoost('str')+8, Player.strBonus())
              : style==='ranged' ? osrsMaxHit(Player.lvl('Ranged')+8, Player.strBonus())
@@ -931,7 +1002,7 @@ function appraiseFight(t){
   const pSpd = Player.weaponSpeed();
   // npc offence
   const nAtt = (t.att+8) * (t.aBonus+64);
-  const pDef = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus()+64);
+  const pDef = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus(t.atype||'crush')+64);
   const nAcc = rollAccuracy(nAtt, pDef);
   const nMax = npcMaxHit(t);
   const nSpd = t.speedTicks*TICK;
@@ -1181,6 +1252,7 @@ const Music = {
   start(){
     if(this.on) return;
     this.on=true;
+    try{ localStorage.setItem('cr_music_on','1'); }catch(e){}   // remember the opt-in
     const ctx=this.ensure();
     try{ this._master.gain.exponentialRampToValueAtTime(0.5, ctx.currentTime+1.5); }
     catch(e){ this._master.gain.value=0.5; }
@@ -1190,6 +1262,7 @@ const Music = {
   },
   stop(){
     this.on=false;
+    try{ localStorage.setItem('cr_music_on','0'); }catch(e){}
     try{ this._master.gain.value=0; }catch(e){}
     clearTimeout(this._timer);
     const b=document.getElementById('music-btn'); if(b) b.textContent='\u2715';
@@ -1253,17 +1326,20 @@ const Quest = {
 
 /* ---------- WebAudio SFX: noise-based, more realistic ---------- */
 const Sfx = {
-  ctx:null, _noiseBuf:null,
+  ctx:null, _noiseBuf:null, _master:null,
+  vol:(function(){ try{ var v=localStorage.getItem('cr_vol_sfx'); return v!=null?+v:1; }catch(e){ return 1; } })(),
   ensure(){
     if(!this.ctx){ this.ctx = new (window.AudioContext||window.webkitAudioContext)();
       const len=this.ctx.sampleRate*1;
       this._noiseBuf=this.ctx.createBuffer(1,len,this.ctx.sampleRate);
       const d=this._noiseBuf.getChannelData(0);
       for(let i=0;i<len;i++) d[i]=Math.random()*2-1;
+      this._master=this.ctx.createGain(); this._master.gain.value=this.vol; this._master.connect(this.ctx.destination);
     }
     if(this.ctx.state==='suspended') this.ctx.resume();
     return this.ctx;
   },
+  setVolume(v){ this.vol=Math.max(0,Math.min(1,v)); try{ localStorage.setItem('cr_vol_sfx',this.vol); }catch(e){} if(this._master) this._master.gain.value=this.vol; },
   noise(dur, freq, q, vol, type='bandpass', slideTo){
     try{ const ctx=this.ensure();
       const src=ctx.createBufferSource(); src.buffer=this._noiseBuf; src.loop=true;
@@ -1271,7 +1347,7 @@ const Sfx = {
       if(slideTo) f.frequency.exponentialRampToValueAtTime(slideTo, ctx.currentTime+dur);
       const g=ctx.createGain(); g.gain.value=vol;
       g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur);
-      src.connect(f); f.connect(g); g.connect(ctx.destination);
+      src.connect(f); f.connect(g); g.connect(this._master||ctx.destination);
       src.start(); src.stop(ctx.currentTime+dur);
     }catch(e){}
   },
@@ -1282,7 +1358,7 @@ const Sfx = {
       if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, ctx.currentTime+dur);
       g.gain.value=vol||0.05;
       g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur);
-      o.connect(g); g.connect(ctx.destination);
+      o.connect(g); g.connect(this._master||ctx.destination);
       o.start(); o.stop(ctx.currentTime+dur);
     }catch(e){}
   },

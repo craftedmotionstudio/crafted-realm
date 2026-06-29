@@ -12,3 +12,6 @@ __pycache__/
 scratch_*.py
 *.log
 .claude/
+
+# UniRig intermediate extract/skeleton npz (regenerable)
+assets/models/ash_wyrm/

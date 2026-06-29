@@ -106,6 +106,20 @@ function buildTextures(){
   TEX.stone = pixelTexture('#8a8276', [['#7a7268',200,2],['#9a9286',160,2],['#6a6258',70,1]]);
   TEX.wood  = pixelTexture('#6b4a2f', [['#5d3e26',180,2],['#7a5838',140,2]]);
   TEX.thatch= pixelTexture('#a8854a', [['#96743e',220,2],['#ba9659',160,2]]);
+  // creamy lime-plaster daub for Tudor cottage walls — warm cream, subtle mottle
+  TEX.plaster = pixelTexture('#ece0bf', [['#e3d4ad',150,3],['#f3ecd6',120,3],['#dccba0',55,2]]);
+  // thatch roof with pronounced horizontal courses (straw layers) so the slope never reads as a flat polygon
+  TEX.thatchRoof = (function(){
+    const c=document.createElement('canvas'); c.width=64; c.height=64; const x=c.getContext('2d');
+    x.fillStyle='#c4a35c'; x.fillRect(0,0,64,64);
+    [['#b8964e',150,2],['#d0b56e',110,2]].forEach(([col,n,s])=>{ x.fillStyle=col; for(let i=0;i<n;i++) x.fillRect(Math.random()*64|0,Math.random()*64|0,s,s); });
+    x.strokeStyle='#8c6b34'; x.lineWidth=2;                 // dark seam at each course
+    for(let y=5;y<64;y+=11){ x.beginPath(); x.moveTo(0,y); x.lineTo(64,y); x.stroke(); }
+    x.strokeStyle='#dcc587'; x.lineWidth=1;                 // straw highlight just below each seam
+    for(let y=8;y<64;y+=11){ x.beginPath(); x.moveTo(0,y); x.lineTo(64,y); x.stroke(); }
+    const t=new THREE.CanvasTexture(c); t.magFilter=THREE.NearestFilter; t.minFilter=THREE.NearestFilter;
+    t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
+  })();
   loadCreatureTextures();
 }
 
@@ -130,6 +144,8 @@ function animateWater(dt){
   });
 }
 const HOLM_POND = {x:232, z:244, r:5.2};
+/* Veyhollow Keep plateau — a flat mound the Lumbridge-style castle sits on (see castle.js) */
+const CASTLE_SITE = {x:0, z:-51, half:16, y:0.6};
 function terrainHeight(x,z){
   let h = Math.sin(x*0.07)*Math.cos(z*0.06)*1.4 + Math.sin(x*0.013+z*0.017)*2.0;
   for(const k in ZONES){ const d=Math.hypot(x-ZONES[k].pos[0], z-ZONES[k].pos[1]);
@@ -145,6 +161,10 @@ function terrainHeight(x,z){
   // the Emberwood rise: the grove stands on a dry knoll above the wetlands
   const ed = Math.hypot(x-(-63), z-(-41));
   if(ed<17){ const k=1-ed/17; h = Math.max(h, -0.45 + k*0.85); }
+  // flatten the Veyhollow Keep plateau (square mound, smooth shoulder)
+  { const cd=Math.max(Math.abs(x-CASTLE_SITE.x), Math.abs(z-CASTLE_SITE.z));
+    if(cd < CASTLE_SITE.half+6){ const k = cd<=CASTLE_SITE.half ? 1 : 1-(cd-CASTLE_SITE.half)/6;
+      h = h*(1-k) + CASTLE_SITE.y*k; } }
   return h;
 }
 /* lift terrain toward `top` within `w` of the segment AB (smooth edges) */
@@ -342,6 +362,71 @@ function makeProp(x, z, opts){
     PROP_CACHE[opts.url] = {root};
     (entry.queue||[]).forEach(fn=>fn(root));
   }, undefined, (err)=>{ console.warn('[prop] load failed:', opts.url, err); });
+  return g;
+}
+/* load a pipeline GLB (image-to-3D monster body, e.g. the Ash Wyrm boss) into a group, normalised
+   to a target height and seated on the ground. Async like makeProp: returns the group immediately,
+   fills it when the GLB arrives. Keeps the baked UV texture, just flattens the shading. */
+const GLB_CACHE = {};
+function makeGlbModel(url, opts){
+  opts = opts || {};
+  const g = new THREE.Group();
+  if(opts.skinned){
+    // UniRig-rigged creatures: r128 clone() breaks skeleton binding, so load a fresh copy each time
+    // and stash its skeleton/bones on the group so the loop can drive the bones procedurally.
+    _propLoader().load(url, (gltf)=>{
+      const root = gltf.scene;
+      root.traverse(c=>{ if(c.isMesh || c.isSkinnedMesh){
+        if(c.geometry && c.geometry.computeVertexNormals) c.geometry.computeVertexNormals();
+        const m = c.material;
+        if(m && (m.map || m.vertexColors)){ m.flatShading=true; if('roughness'in m)m.roughness=1; if('metalness'in m)m.metalness=0; m.needsUpdate=true; }
+        else c.material = mat(opts.color!=null ? opts.color : 0x6a5a52);
+        c.castShadow = true; c.frustumCulled = false;   // skinned bounds shift while animating
+      }});
+      root.updateMatrixWorld(true);
+      let box = new THREE.Box3().setFromObject(root);
+      const size = box.getSize(new THREE.Vector3());
+      root.scale.setScalar((opts.height||1.6) / (size.y||1));
+      root.updateMatrixWorld(true);
+      box = new THREE.Box3().setFromObject(root);
+      const ctr = box.getCenter(new THREE.Vector3());
+      root.position.set(-ctr.x, -box.min.y, -ctr.z);
+      let sk=null; root.traverse(c=>{ if(c.isSkinnedMesh && !sk) sk=c; });
+      if(sk && sk.skeleton){ g.userData.skeleton = sk.skeleton; g.userData.bones = sk.skeleton.bones; }
+      g.add(root);
+    }, undefined, (err)=>{ console.warn('[glb-skinned] load failed:', url, err); });
+    return g;
+  }
+  const place = (root)=>{ g.add(root.clone(true)); };
+  const cached = GLB_CACHE[url];
+  if(cached && cached.root){ place(cached.root); return g; }
+  if(cached && cached.queue){ cached.queue.push(place); return g; }
+  GLB_CACHE[url] = {queue:[place]};
+  _propLoader().load(url, (gltf)=>{
+    const root = gltf.scene;
+    root.traverse(c=>{ if(c.isMesh){
+      c.geometry.computeVertexNormals();
+      const m = c.material;
+      if(m && (m.map || m.vertexColors)){
+        m.flatShading = true;
+        if('roughness' in m) m.roughness = 1;
+        if('metalness' in m) m.metalness = 0;
+        m.needsUpdate = true;
+      } else c.material = mat(opts.color!=null ? opts.color : 0x6a5a52);
+      c.castShadow = true;
+    }});
+    root.updateMatrixWorld(true);
+    let box = new THREE.Box3().setFromObject(root);
+    const size = box.getSize(new THREE.Vector3());
+    root.scale.setScalar((opts.height||1.6) / (size.y||1));
+    root.updateMatrixWorld(true);
+    box = new THREE.Box3().setFromObject(root);
+    const ctr = box.getCenter(new THREE.Vector3());
+    root.position.set(-ctr.x, -box.min.y, -ctr.z);   // seat base at the group origin
+    const entry = GLB_CACHE[url];
+    GLB_CACHE[url] = {root};
+    (entry.queue||[]).forEach(fn=>fn(root));
+  }, undefined, (err)=>{ console.warn('[glb-npc] load failed:', url, err); });
   return g;
 }
 /* ---------- procedural prop builders (crisp OSRS geometry for manufactured items) ----------
@@ -1060,14 +1145,76 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
   doorSide = doorSide||'S';   // which wall holds the door: N,S,E,W (S = +z)
   const g = new THREE.Group();
   const t=0.22, doorW=2.2, doorH=1.9;   // generous, so steering never snags the jambs
-  const wallMat = opts.wall==='stone'
+  const stoneWall = opts.wall==='stone';
+  // textured plaster daub, lightly tinted by the building's colour (keeps shop differentiation)
+  const plasterTex = TEX.plaster ? TEX.plaster.clone() : null;
+  if(plasterTex){ plasterTex.needsUpdate=true; plasterTex.repeat.set(1.6,1.1); }
+  const wallMat = stoneWall
     ? new THREE.MeshLambertMaterial({map:TEX.stone, color})
-    : mat(color);
+    : (plasterTex ? new THREE.MeshLambertMaterial({map:plasterTex, color}) : mat(color));
+  const beamMat = mat(0x46301d);          // dark Tudor timber framing
   function wall(wx,wz,ww,wd){
     const m=new THREE.Mesh(new THREE.BoxGeometry(ww,h,wd), wallMat);
     m.position.set(wx,h/2,wz); m.castShadow=true; m.receiveShadow=true; g.add(m);
     addRectCollider(x+wx, z+wz, ww/2+0.08, wd/2+0.08);
     return m;
+  }
+  /* ---- half-timber framing: lay dark beams proud of each wall face (the OSRS Tudor look) ---- */
+  function frameWall(side, isDoor){
+    const horiz = (side==='S'||side==='N');
+    const len = horiz ? w : d;
+    const faceSign = (side==='S'||side==='E') ? 1 : -1;
+    const face = (horiz ? d/2 : w/2) * faceSign + faceSign*0.08;   // sit just proud of the plaster
+    const dep=0.11, th=0.15;                                       // beam depth out of wall / thickness
+    // horizontal beam of length la centred at height v (optionally tilted by ang for diagonals)
+    const hbeam=(u,v,la,lh,ang)=>{
+      let m; if(horiz){ m=new THREE.Mesh(new THREE.BoxGeometry(la,lh,dep),beamMat); m.position.set(u,v,face); if(ang)m.rotation.z=ang; }
+      else { m=new THREE.Mesh(new THREE.BoxGeometry(dep,lh,la),beamMat); m.position.set(face,v,u); if(ang)m.rotation.x=-ang; }
+      m.castShadow=true; g.add(m); return m;
+    };
+    // vertical stud at offset u
+    const stud=(u)=>{ let m; if(horiz){ m=new THREE.Mesh(new THREE.BoxGeometry(th,h-0.1,dep),beamMat); m.position.set(u,(h-0.1)/2,face); }
+      else { m=new THREE.Mesh(new THREE.BoxGeometry(dep,h-0.1,th),beamMat); m.position.set(face,(h-0.1)/2,u); } m.castShadow=true; g.add(m); return m; };
+    hbeam(0, h-0.12, len, th);                  // top plate
+    const nP = Math.max(2, Math.round(len/1.7));
+    const panelW = len/nP;
+    if(isDoor){
+      // jamb studs either side of the doorway; flanking diagonals only
+      stud(-doorW/2-0.12); stud(doorW/2+0.12);
+      for(const sgn of [-1,1]){
+        const uc = sgn*(doorW/2 + (len/2-doorW/2)/2);
+        const fw = (len/2-doorW/2);
+        if(fw>0.6){ const dy0=0.3, dy1=h*0.5; const L=Math.hypot(fw*0.8,dy1-dy0);
+          hbeam(uc,(dy0+dy1)/2,L,th, sgn*Math.atan2(dy1-dy0,fw*0.8)); }
+      }
+    } else {
+      hbeam(0, 0.3, len-0.08, th);              // bottom sill
+      for(let i=1;i<nP;i++) stud(-len/2 + i*panelW);
+      for(let i=0;i<nP;i++){                     // one diagonal brace per panel (lower half)
+        const uc=-len/2 + (i+0.5)*panelW, sgn=(i%2)?1:-1;
+        const dy0=0.3, dy1=h*0.5, L=Math.hypot(panelW*0.72,dy1-dy0);
+        hbeam(uc,(dy0+dy1)/2,L,th, sgn*Math.atan2(dy1-dy0,panelW*0.72));
+      }
+    }
+  }
+  /* ---- framed window with cross-mullion + warm glow, proud of a wall face ---- */
+  function addWindow(side, u, vy){
+    const horiz=(side==='S'||side==='N');
+    const faceSign=(side==='S'||side==='E')?1:-1;
+    const face=(horiz?d/2:w/2)*faceSign + faceSign*0.05;
+    const ww2=0.92, hh2=1.0, fr=0.1;
+    const grp=new THREE.Group();
+    const glass=new THREE.Mesh(new THREE.BoxGeometry(ww2-0.16,hh2-0.16,0.05),
+      new THREE.MeshLambertMaterial({color:0xffe6a0, emissive:0x6a4e16}));
+    grp.add(glass);
+    const frame=(fw,fh,fx,fy)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(fw,fh,0.09),beamMat); m.position.set(fx,fy,0.02); grp.add(m); };
+    frame(ww2,fr, 0, hh2/2-fr/2); frame(ww2,fr, 0,-hh2/2+fr/2);     // top/bottom
+    frame(fr,hh2,-ww2/2+fr/2,0); frame(fr,hh2, ww2/2-fr/2,0);        // sides
+    frame(0.06,hh2-0.18,0,0); frame(ww2-0.18,0.06,0,0);             // cross mullion
+    // shutters
+    for(const s of [-1,1]){ const sh=new THREE.Mesh(new THREE.BoxGeometry(0.2,hh2,0.05),mat(0x4a5a3a)); sh.position.set(s*(ww2/2+0.12),0,-0.01); grp.add(sh); }
+    if(horiz){ grp.position.set(u,vy,face); } else { grp.position.set(face,vy,u); grp.rotation.y=Math.PI/2; }
+    g.add(grp); return grp;
   }
   function doorWall(horizontal, off){
     // two segments flanking the gap + a lintel above it
@@ -1090,39 +1237,70 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
   if(doorSide==='N') doorWall(true, -d/2+t/2); else wall(0,-d/2+t/2, w, t);
   if(doorSide==='E') doorWall(false, w/2-t/2); else wall( w/2-t/2, 0, t, d);
   if(doorSide==='W') doorWall(false,-w/2+t/2); else wall(-w/2+t/2, 0, t, d);
-  // corner beams + waist band, as before
-  for(const sx of [-w/2+0.12, w/2-0.12]) for(const sz of [-d/2+0.12, d/2-0.12]){
-    const beam=new THREE.Mesh(new THREE.BoxGeometry(0.16,h,0.16),mat(0x4a3a28));
+  // corner posts (dark timber quoins)
+  for(const sx of [-w/2+0.1, w/2-0.1]) for(const sz of [-d/2+0.1, d/2-0.1]){
+    const beam=new THREE.Mesh(new THREE.BoxGeometry(0.18,h,0.18),beamMat);
     beam.position.set(sx,h/2,sz); g.add(beam);
   }
-  const band=new THREE.Mesh(new THREE.BoxGeometry(w+0.04,0.14,d+0.04),mat(0x4a3a28));
-  band.position.y=h*0.55; g.add(band);
+  const band=new THREE.Mesh(new THREE.BoxGeometry(w+0.06,0.16,d+0.06),beamMat);
+  band.position.y=h*0.52; g.add(band);             // belt course (mid rail; toggled with roof)
   // wooden floor inside
   const floor=new THREE.Mesh(new THREE.BoxGeometry(w-0.1,0.1,d-0.1),
     new THREE.MeshLambertMaterial({map:TEX.plank||TEX.stone, color:0x8a6a48}));
   floor.position.y=0.08; floor.receiveShadow=true; g.add(floor);
-  const win=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.5,0.06),mat(0x2c3e50));
-  win.position.set(w/4,h*0.62,d/2+0.04); g.add(win);
-  const win2=win.clone(); win2.position.x=-w/4; g.add(win2);
+  // half-timber framing on every wall (door wall framed around the opening)
+  if(!stoneWall) for(const side of ['S','N','E','W']) frameWall(side, side===doorSide);
+  // framed glowing windows on the non-door walls
+  const winY=h*0.6;
+  for(const side of ['S','N','E','W']){
+    if(side===doorSide) continue;
+    const len=(side==='S'||side==='N')?w:d;
+    if(len>4.6){ addWindow(side,-len*0.22,winY); addWindow(side,len*0.22,winY); }
+    else addWindow(side,0,winY);
+  }
   let roof;
-  const roofMat = new THREE.MeshLambertMaterial({map:TEX.thatch, color:roofColor});
-  TEX.thatch.repeat.set(2,2);
+  const roofG=new THREE.Group();
+  // dedicated thatch texture with horizontal courses; clone so repeat is per-building
+  const roofTex = (TEX.thatchRoof||TEX.thatch).clone(); roofTex.needsUpdate=true; roofTex.wrapS=roofTex.wrapT=THREE.RepeatWrapping;
+  roofTex.repeat.set(2.4, opts.roof==='gable'?2.4:3.2);   // several straw courses up each slope
+  // soften the colour tint toward white so the course detail survives (avoids the "flat dark polygon" look)
+  const rc=new THREE.Color(roofColor).lerp(new THREE.Color(0xffffff), 0.42);
+  const roofMat = new THREE.MeshLambertMaterial({map:roofTex, color:rc});
+  const oh=0.5;                                       // eave overhang past the walls
+  const eave=new THREE.Mesh(new THREE.BoxGeometry(w+oh,0.18,d+oh),beamMat);
+  eave.position.y=h+0.02; eave.castShadow=true; roofG.add(eave);
+  const hash=Math.abs(Math.sin(x*12.9898+z*78.233)*43758.5453)%1;   // deterministic per-location variety
+  const pitch=(opts.tall?1.0:0.78)+hash*0.22;        // present but not dwarfing the walls
   if(opts.roof==='gable'){
-    // a true gabled ridge: triangular prism laid along the longer axis
     const alongX = w>=d;
-    const span = (alongX?d:w), len = (alongX?w:d)+0.6;
-    const prism = new THREE.Mesh(new THREE.CylinderGeometry(span*0.72, span*0.72, len, 3, 1), roofMat);
+    const span = (alongX?d:w)+oh, len = (alongX?w:d)+oh+0.4;
+    const prism = new THREE.Mesh(new THREE.CylinderGeometry(span*0.6, span*0.6, len, 3, 1), roofMat);
     prism.rotation.z = Math.PI/2;             // lay the axis flat
-    prism.rotation.x = Math.PI/2 + Math.PI/6; // flat face down, apex up
+    prism.rotation.x = Math.PI/2 + Math.PI/7; // flat face down, apex up
     const holder=new THREE.Group(); holder.add(prism);
     if(!alongX) holder.rotation.y = Math.PI/2;
-    holder.position.y = h + span*0.3;
-    roof = holder; roof.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
-    g.add(roof);
+    holder.position.y = h + span*0.32;
+    holder.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
+    roofG.add(holder);
   } else {
-    roof = new THREE.Mesh(new THREE.ConeGeometry(Math.max(w,d)*0.82, h*(opts.tall?1.25:0.85), 4), roofMat);
-    roof.position.y = h + h*0.42; roof.rotation.y = Math.PI/4; roof.castShadow=true; g.add(roof);
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(Math.max(w,d)*0.86+oh*0.5, h*pitch, 4), roofMat);
+    cone.position.y = h + h*pitch*0.5; cone.rotation.y = Math.PI/4; cone.castShadow=true; roofG.add(cone);
   }
+  // ridge cap at the peak
+  const ridge=new THREE.Mesh(new THREE.BoxGeometry(0.26,0.2,0.26),beamMat);
+  ridge.position.y=h + h*pitch*0.9; roofG.add(ridge);
+  // ~40% of cottages get a small front dormer (variety)
+  if(hash>0.6 && opts.roof!=='gable'){
+    const onZ=(doorSide==='S'||doorSide==='N'), fs=(doorSide==='S'||doorSide==='E')?1:-1;
+    const dm=new THREE.Group();
+    dm.add(new THREE.Mesh(new THREE.BoxGeometry(0.9,0.7,0.6),wallMat));
+    const cap=new THREE.Mesh(new THREE.ConeGeometry(0.64,0.5,4),roofMat); cap.rotation.y=Math.PI/4; cap.position.y=0.55; dm.add(cap);
+    const gl=new THREE.Mesh(new THREE.BoxGeometry(0.42,0.4,0.06),new THREE.MeshLambertMaterial({color:0xffe6a0,emissive:0x6a4e16}));
+    gl.position.set(0,0,0.31); dm.add(gl);
+    if(onZ) dm.position.set(0,h+h*pitch*0.26, fs*(d/2-0.1)); else { dm.position.set(fs*(w/2-0.1),h+h*pitch*0.26,0); dm.rotation.y=Math.PI/2; }
+    dm.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); roofG.add(dm);
+  }
+  g.add(roofG); roof=roofG;
   const corners=[[x-w/2,z-d/2],[x+w/2,z-d/2],[x-w/2,z+d/2],[x+w/2,z+d/2],[x,z]];
   const hs=corners.map(c=>gy(c[0],c[1]));
   const yMin=Math.min(...hs), yMax=Math.max(...hs);
@@ -1132,19 +1310,7 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
   plinth.receiveShadow=true; g.add(plinth);
   g.position.set(x, yMin, z);
   scene.add(g);
-  /* ---- the 2006-flavour detail kit: timber, chimney, sign, door, shutters ---- */
-  // timber X-braces on the two windowless walls
-  const brace=(bx,bz,len,rotY)=>{
-    for(const s of [1,-1]){
-      const b=new THREE.Mesh(new THREE.BoxGeometry(len,0.13,0.1), mat(0x4a3a28));
-      b.position.set(bx,h*0.32,bz); b.rotation.y=rotY; b.rotation.z=s*0.42; g.add(b);
-    }
-  };
-  if(doorSide!=='E' && doorSide!=='W'){ brace(-w/2+0.06,0,Math.min(d*0.8,3.4),Math.PI/2); brace(w/2-0.06,0,Math.min(d*0.8,3.4),Math.PI/2); }
-  else { brace(0,-d/2+0.06,Math.min(w*0.8,3.4),0); brace(0,d/2-0.06,Math.min(w*0.8,3.4),0); }
-  // ridge cap along the roof peak
-  const ridge=new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.18, 0.3), mat(0x4a3a28));
-  ridge.position.y=h + h*0.85; g.add(ridge);
+  /* ---- the 2006-flavour detail kit: chimney, sign, door (framing/windows added above) ---- */
   // a true working door: hinged at the jamb, clickable, honest about blocking
   (function(){
     const hinge=new THREE.Group();
@@ -1176,13 +1342,6 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
       hinge.userData.label='Close <b>Door</b>'; }
     else WORLD.colliders.push(colRect);
   })();
-  // shutters beside the windows
-  for(const wn of [win, win2]){
-    for(const s of [-1,1]){
-      const sh=new THREE.Mesh(new THREE.BoxGeometry(0.16,0.52,0.05), mat(0x4a5a3a));
-      sh.position.set(wn.position.x+s*0.36, wn.position.y, wn.position.z+0.02); g.add(sh);
-    }
-  }
   // chimney with living smoke
   if(opts.chimney){
     const ch=new THREE.Mesh(new THREE.BoxGeometry(0.55,h*0.9,0.55), new THREE.MeshLambertMaterial({map:TEX.stone}));
