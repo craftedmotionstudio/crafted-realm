@@ -1683,7 +1683,8 @@ function populateMainland(){
   makeBuilding(13,-7, 4.5,4,2.8, 0xcdb890, 0x5a6a8a,'W',{sign:0x8a6a9a, doorOpen:true});// Threadworks
   makeBuilding(-8.5,13, 4.5,4,3, 0xb0a8c4, 0x4a3a7a,'N',{sign:0x4a3a7a, doorOpen:true, tall:true});  // Glimmerveil Arcana
   makeBuilding(9,12, 5,4.5,3, 0xa89884, 0x3e3a36,'N',{sign:0x4a4642, chimney:true, doorOpen:true, roof:'gable', wall:'stone'});   // Stonereach Smithy
-  makeFountain(0,-1);
+  // the Hollow Well — Veyhollow's central landmark (VEYHOLLOW_DESIGN §3); fountain is the fallback
+  if(window.Decor && Decor.hollowWell){ Decor.hollowWell(0,-1); } else { makeFountain(0,-1); }
   makeBankBooth(6,-7.45, 0);       // the booth sits at the great counter
   makeFurnace(12.5,15.2);           // the town furnace, beside the smithy
   /* ---------- purposeful placement: the dressing of Veyhollow ---------- */
@@ -1692,11 +1693,10 @@ function populateMainland(){
   makeGroundPatch(0,-15.5, 3.4, 0x8a7a5e);              // market row, trodden bare
   makeGroundPatch(12.5,14.2, 3.0, 0x4e4640);            // the smithy yard, black with cinders
   makeGroundPatch(29,-6, 4.6, 0x6a5638);                // the cow pen, honest mud
-  makeGroundPatch(-2.5,5.5, 2.0, 0x9a9288);             // around the well
+  makeGroundPatch(0,-1, 4.4, 0x9a9288);                 // the Hollow Well's stone apron (the Square's heart)
   makeGroundPatch(50,-56, 5.4, 0xc8c2b6);               // Whitmoor's white plaza
   makeGroundPatch(50,-62, 3.4, 0xc8c2b6);
   makeFurrows(-48.4,-28.6, -43.6,-24.6);                // the ploughed wheat rows
-  makeWell(-2.5,5.5);                                 // the village well on the green
   // the churchyard, behind the chapel where the Dawn keeps watch
   makeFence(-7,29.5, -7,32.5); makeFence(-7,32.5, 1,32.5); makeFence(1,29.5, 1,32.5);
   makeGrave(-5.6,30.6,0); makeGrave(-4.2,31.4,1); makeGrave(-2.6,30.4,2);

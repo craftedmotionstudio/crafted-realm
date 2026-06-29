@@ -92,6 +92,27 @@
     WORLD.clickables.push(g); WORLD.colliders.push({type:'circle',x,z,r:0.72});
     return g;
   }
+  /* a flat stone paving tile (the Square's plaza floor) */
+  function paving(x,z){ const m=new THREE.Mesh(new THREE.BoxGeometry(1.02,0.08,1.02), mat((Math.random()<0.5)?0x968f84:0x8e877c));
+    m.position.set(x,(typeof gy==='function'?gy(x,z):0)+0.04,z); m.receiveShadow=true; scene.add(m); return m; }
+  /* author Veyhollow's central Square (VEYHOLLOW_DESIGN §4 chunk [1,1]) centred at (cx,cz) on flat ground */
+  function buildVeyhollowSquare(cx,cz){
+    cx=(cx===undefined)?0.5:cx; cz=(cz===undefined)?0.5:cz;
+    // 7x7 paved plaza, edges a touch ragged so it reads cozy not gridded
+    for(let dx=-3;dx<=3;dx++) for(let dz=-3;dz<=3;dz++){ if((Math.abs(dx)===3||Math.abs(dz)===3) && Math.random()<0.45) continue; paving(cx+dx,cz+dz); }
+    hollowWell(cx,cz);                                              // central landmark
+    if(typeof makeBankBooth==='function') makeBankBooth(cx-4.5,cz-2);   // bank cluster
+    if(typeof makeStall==='function'){ makeStall(cx+4.5,cz-1,0xb03a3a); makeStall(cx+4.5,cz+1.5,0x3a6ab0); }  // bazaar
+    if(typeof makeSignpost==='function') makeSignpost(cx,cz+3.2);
+    for(let dx=-3;dx<=3;dx++){ if(dx!==0) fencePost(cx+dx,cz-3.6); }   // fence framing, road gap at centre
+    if(typeof makeTexHouse==='function'){
+      makeTexHouse(cx-5.5,cz+4.5,{w:4.4,d:4.2,stories:1,rot:0.22,label:'Enter <b>Cottage</b>'});
+      makeTexHouse(cx+5.5,cz+4.5,{w:4.6,d:4.4,stories:2,rot:-0.22,label:'Enter <b>Cottage</b>'});
+    }
+    barrel(cx-2.4,cz+2.4); crate(cx-3.0,cz+2.4);                    // dressing
+    if(typeof UI!=='undefined') UI.chat('[BUILD] Authored the Veyhollow Square at '+cx+','+cz+'.','sys');
+  }
+  window.buildVeyhollowSquare = buildVeyhollowSquare;
 
   /* ---- the placeable library (categorized + searchable) ---- */
   const PALETTE=[
@@ -310,7 +331,7 @@
     },
   };
   window.Build = Build;
-  window.Decor = {bookcase, cabbage, crate, barrel, bonepile, fencePost, hollowWell};   // reusable by town authors
+  window.Decor = {bookcase, cabbage, crate, barrel, bonepile, fencePost, hollowWell, paving, buildVeyhollowSquare};   // reusable by town authors
 
   function whenReady(){
     if(typeof canvasEl==='undefined' || typeof scene==='undefined' || typeof groundPick==='undefined'){ setTimeout(whenReady,200); return; }

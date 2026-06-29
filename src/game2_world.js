@@ -1742,14 +1742,17 @@ function makeTexHouse(x,z,opts){
   const w=opts.w||rnd(4.0,5.4), d=opts.d||rnd(4.0,5.2);
   const stories=opts.stories || (Math.random()<0.45?2:1);
   const floorH=2.05, h=floorH*stories;
-  const py=gy(x,z); const g=new THREE.Group(); g.position.set(x,py,z); if(opts.rot) g.rotation.y=opts.rot;
+  // seat on the LOWEST footprint corner so the house never floats on a slope; a plinth buries the rest
+  const _hc=[gy(x-w/2-0.3,z-d/2-0.3),gy(x+w/2+0.3,z-d/2-0.3),gy(x-w/2-0.3,z+d/2+0.3),gy(x+w/2+0.3,z+d/2+0.3),gy(x,z)];
+  const yMin=Math.min.apply(null,_hc), yMax=Math.max.apply(null,_hc);
+  const py=yMin; const g=new THREE.Group(); g.position.set(x,py,z); if(opts.rot) g.rotation.y=opts.rot;
   const wallMat=texMat('stoneWall',0x9a948a), woodMat=texMat('woodPlanks',0x6b4a2f), thatchMat=texMat('thatchTex',0xa8854a);
   const beamMat=mat(0x49321f), glassMat=new THREE.MeshLambertMaterial({color:0xffe6a0, emissive:0x6f5018});
   const B=(bw,bh,bd,m)=>{ const me=new THREE.Mesh(new THREE.BoxGeometry(bw,bh,bd),m); me.castShadow=true; me.receiveShadow=true; return me; };
   const add=(me,ox,oy,oz)=>{ me.position.set(ox,oy,oz); g.add(me); return me; };
 
   const wb=-0.4;                                        // walls sink below ground (no floating block)
-  add(B(w+0.5,1.0,d+0.5,wallMat), 0,-0.15,0);          // foundation course, buries into slopes
+  add(B(w+0.5,(yMax-yMin)+1.0,d+0.5,wallMat), 0,(yMax-yMin)/2-((yMax-yMin)+1.0)/2+0.15,0);  // plinth buries the slope
   const wallH=h-wb, wallY=(wb+h)/2;
   add(B(w,wallH,0.34,wallMat), 0,wallY,-d/2);          // back
   add(B(0.34,wallH,d,wallMat), -w/2,wallY,0);          // left
