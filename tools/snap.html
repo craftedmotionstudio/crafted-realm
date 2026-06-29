@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><title>snap</title>
+<style>html,body{margin:0;height:100%;background:#6b8e3d;overflow:hidden}</style></head>
+<body>
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+const params = new URLSearchParams(location.search);
+const url = params.get('model');
+const S = 760;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x6b8e3d);
+const camera = new THREE.PerspectiveCamera(32, 1, 0.01, 100);
+const renderer = new THREE.WebGLRenderer({ antialias:true, preserveDrawingBuffer:true });
+renderer.setSize(S, S); renderer.setPixelRatio(1);
+document.body.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x445533, 1.0));
+const sun = new THREE.DirectionalLight(0xffffff, 1.2); sun.position.set(4, 6, 5); scene.add(sun);
+const sun2 = new THREE.DirectionalLight(0xffd0a0, 0.5); sun2.position.set(-4, 3, -2); scene.add(sun2);
+new GLTFLoader().load(url, (g)=>{
+  const obj = g.scene;
+  obj.traverse(c=>{ if(c.isMesh){ c.geometry.computeVertexNormals();
+    if(c.material){ c.material.flatShading=true; if('roughness'in c.material)c.material.roughness=1; if('metalness'in c.material)c.material.metalness=0; c.material.needsUpdate=true; } } });
+  const box=new THREE.Box3().setFromObject(obj); const sz=box.getSize(new THREE.Vector3()); const ctr=box.getCenter(new THREE.Vector3());
+  obj.position.sub(ctr); scene.add(obj);
+  const d=Math.max(sz.x,sz.y,sz.z);
+  // hero 3/4 front angle
+  camera.position.set(d*1.6, d*0.65, d*1.9); camera.lookAt(0,0,0);
+  renderer.render(scene, camera);
+  window.__png = renderer.domElement.toDataURL('image/jpeg', 0.92);
+  window.__ready = true;
+}, undefined, (e)=>{ window.__err = String(e); });
+</script>
+</body></html>
