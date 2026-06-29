@@ -70,8 +70,32 @@
     return g;
   }
 
+  /* ---- The Hollow Well + standing-stone ring: Veyhollow's central landmark (VEYHOLLOW_DESIGN §3) ---- */
+  function hollowWell(x,z){
+    const g=new THREE.Group();
+    const base=_cyl(0.6,0.68,0.72,12,0x8a8276); base.position.y=0.36; base.castShadow=true; g.add(base);
+    for(let i=0;i<12;i++){ const a=i/12*Math.PI*2; const brick=_box(0.18,0.12,0.06,(i%2?0x7c756a:0x948c80));
+      brick.position.set(Math.cos(a)*0.63,0.3+(i%3)*0.14,Math.sin(a)*0.63); brick.rotation.y=-a; g.add(brick); }
+    const rim=new THREE.Mesh(new THREE.TorusGeometry(0.62,0.08,6,16),mat(0x6e675b)); rim.rotation.x=Math.PI/2; rim.position.y=0.72; g.add(rim);
+    const water=new THREE.Mesh(new THREE.CircleGeometry(0.5,16),mat(0x2b5a78)); water.rotation.x=-Math.PI/2; water.position.y=0.58; g.add(water);
+    for(const sx of [-0.52,0.52]){ const post=_box(0.1,1.05,0.1,0x5a3d24); post.position.set(sx,1.05,0); post.castShadow=true; g.add(post); }
+    const beam=_box(1.2,0.1,0.1,0x6b4a2f); beam.position.y=1.55; g.add(beam);
+    const roof=_cyl(0.001,0.98,0.55,4,0x8a3d2e); roof.position.y=1.82; roof.rotation.y=Math.PI/4; roof.castShadow=true; g.add(roof);
+    const bucket=_cyl(0.13,0.11,0.2,8,0x6b4a2f); bucket.position.set(0,1.25,0); g.add(bucket);
+    // ring of rough standing stones
+    for(let i=0;i<7;i++){ const a=i/7*Math.PI*2, r=2.5, h=1.3+Math.sin(i*1.7)*0.35;
+      const st=_box(0.42,h,0.32,(i%2?0x7c756a:0x857d72));
+      st.position.set(Math.cos(a)*r, h/2, Math.sin(a)*r);
+      st.rotation.y=a+Math.sin(i)*0.25; st.rotation.x=Math.cos(i*2)*0.07; st.castShadow=true; g.add(st);
+    }
+    place(g,x,z); g.userData={kind:'landmark', label:'Examine <b>The Hollow Well</b>'};
+    WORLD.clickables.push(g); WORLD.colliders.push({type:'circle',x,z,r:0.72});
+    return g;
+  }
+
   /* ---- the placeable library (categorized + searchable) ---- */
   const PALETTE=[
+    {id:'hollowwell', cat:'Town',   label:'⛲ Hollow Well', build:hollowWell},
     {id:'tree',       cat:'Nature', label:'🌳 Tree',       build:(x,z)=>makeTree(x,z)},
     {id:'deadtree',   cat:'Nature', label:'🌲 Dead tree',  build:(x,z)=>makeTree(x,z,'dead')},
     {id:'bush',       cat:'Nature', label:'🌿 Bush',       build:(x,z)=>makeBush(x,z)},
@@ -286,7 +310,7 @@
     },
   };
   window.Build = Build;
-  window.Decor = {bookcase, cabbage, crate, barrel, bonepile, fencePost};   // reusable by town authors
+  window.Decor = {bookcase, cabbage, crate, barrel, bonepile, fencePost, hollowWell};   // reusable by town authors
 
   function whenReady(){
     if(typeof canvasEl==='undefined' || typeof scene==='undefined' || typeof groundPick==='undefined'){ setTimeout(whenReady,200); return; }
