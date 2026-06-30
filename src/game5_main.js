@@ -450,12 +450,12 @@ function update(dt){
         WORLD.clickables.push(n.mesh); n.target=null; }
       return;
     }
-    if(n.t.script && typeof BOSS_SCRIPTS!=='undefined' && BOSS_SCRIPTS[n.t.script]) BOSS_SCRIPTS[n.t.script](n, dt);
+    if(n.t.script && !n.exhibit && typeof BOSS_SCRIPTS!=='undefined' && BOSS_SCRIPTS[n.t.script]) BOSS_SCRIPTS[n.t.script](n, dt);
     const distP = n.mesh.position.distanceTo(player.position);
     // OSRS aggression: monsters ignore players above twice their level,
     // and grow tolerant after ~10 minutes near them — except the Scarlands,
     // whose horrors (like the Wilderness) never relent.
-    let wantsAggro = n.t.aggro && distP < 7;
+    let wantsAggro = n.t.aggro && distP < 7 && !n.exhibit;   // penned exhibits never chase
     if(wantsAggro && n.target!=='player'){
       const fearless = n.t.alwaysAggro || curZone==='scarlands';
       if(!fearless){
@@ -491,7 +491,7 @@ function update(dt){
             n.mesh.lookAt(n.home.x,y,n.home.z); } }
         else n.returning=false;
       }
-    } else {
+    } else if(!n.penStatic) {                     // penStatic exhibits idle in place (no pacing)
       n.wanderT-=dt;
       if(n.wanderT<=0){ n.wanderT=3+Math.random()*4;
         n.wDir = new THREE.Vector3(Math.random()-0.5,0,Math.random()-0.5).normalize(); }
@@ -646,7 +646,7 @@ const BOOT_STEPS = [
   [25, 'Loading textures',            ()=>{ for(const id in ITEMS) iconFor(id); }],
   [45, 'Generating world map',        ()=>{ buildTextures(); buildSea(); buildGround(); }],
   [65, 'Populating Veyhollow',        ()=>{ populateMainland(); if(typeof buildVeyhollowKeep==='function') buildVeyhollowKeep(); }],
-  [80, 'Preparing Tutor\'s Holm',     ()=>{ populateBrynholt(); populateDunes(); populateScarlands(); populateArena(); populateHolm(); Bots.spawn(); }],
+  [80, 'Preparing Tutor\'s Holm',     ()=>{ populateBrynholt(); populateDunes(); populateScarlands(); populateArena(); populateHolm(); if(typeof buildMenagerie==='function') buildMenagerie(); Bots.spawn(); }],
   [95, 'Waking the adventurer',       ()=>{
       player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, beard:false, emblem:true});
       const h=ZONES.holm.pos;
