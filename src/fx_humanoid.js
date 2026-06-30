@@ -93,3 +93,28 @@ function installHFPlayer(onReady){
     if(onReady) onReady(container);
   }, undefined, (e)=>{ if(typeof UI!=='undefined' && UI.chat) UI.chat('[HF] rig load failed.','sys'); });
 }
+
+/* Attach a piece of gear to the canonical rig, parented to the right bone so it rides the
+ * animation. Bones inherit the rig's scale (~2.06x), so we compensate; UniRig's bind rotation
+ * is cancelled so the piece sits upright while still turning with the character's facing.
+ * Returns the mesh (remove it from its parent to unequip).
+ * NOTE: per-item offset/scale still want tuning — these defaults are a sane starting point. */
+const HF_GEAR_BONES = { head:5, handR:28, handL:9, chest:3, pelvis:0, footL:47, footR:51 };
+function equipHFGear(root, role, mesh, opts){
+  opts = opts||{};
+  const h = root.userData && root.userData.hrig; if(!h || typeof THREE==='undefined') return null;
+  const bi = HF_GEAR_BONES[role]; if(bi==null) return null;
+  const bone = h.B[bi]; if(!bone) return null;
+  const ws = new THREE.Vector3(); bone.getWorldScale(ws);
+  mesh.scale.setScalar((1/(ws.x||1)) * (opts.scale||1));
+  const o = opts.offset || {};
+  mesh.position.set(o.x||0, o.y||0, o.z||0);
+  const bq=new THREE.Quaternion(); bone.getWorldQuaternion(bq);
+  const pq=new THREE.Quaternion(); root.getWorldQuaternion(pq);
+  mesh.quaternion.copy(bq).invert().premultiply(pq);          // upright + carry facing
+  bone.add(mesh);
+  const slot = (root.userData.hfGear = root.userData.hfGear || {});
+  if(slot[role] && slot[role].parent) slot[role].parent.remove(slot[role]);
+  slot[role] = mesh;
+  return mesh;
+}
