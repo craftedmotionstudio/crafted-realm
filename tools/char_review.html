@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Crafted Realm — Character Style Review</title>
+  <style>
+    html,body{margin:0;background:#211c15;color:#e7dcc4;font:13px/1.45 Verdana,sans-serif;}
+    #bar{position:sticky;top:0;z-index:10;background:#2b251c;border-bottom:2px solid #5d5447;
+      padding:10px 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+    #bar h1{font-size:16px;color:#ffd24a;margin:0;}
+    #bar .hint{color:#9a8e78;font-size:11px;}
+    #picks{margin-left:auto;color:#bfe6a0;font-size:12px;min-width:160px;}
+    #picks b{color:#ffd24a;}
+    button.act{font:bold 12px Verdana;color:#fff;background:linear-gradient(#3a7c2a,#225017);
+      border:2px solid;border-color:#5aa84e #0a2a05 #0a2a05 #5aa84e;border-radius:4px;padding:8px 16px;cursor:pointer;}
+    button.act:hover{filter:brightness(1.12);}
+    button.clear{background:linear-gradient(#5a5043,#3e3529);border-color:#6b5f4a;color:#ffd24a;}
+    h2{font-size:13px;color:#ffd24a;padding:12px 14px 2px;margin:0;border-top:1px solid #3e3529;}
+    #grid,#refs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;padding:10px 14px;}
+    .card{background:#3e3529;border:2px solid #5d5447;border-radius:6px;overflow:hidden;cursor:pointer;
+      transition:border-color .1s, box-shadow .1s; position:relative;}
+    .card:hover{border-color:#8a7f63;}
+    .card.sel{border-color:#ffd24a;box-shadow:0 0 0 2px #ffd24a, 0 0 14px rgba(255,210,74,.4);}
+    .card .pic{height:300px;background:#cfd3cf;display:flex;align-items:center;justify-content:center;}
+    .card .pic img{max-width:100%;max-height:100%;display:block;}
+    .card .cap{display:flex;align-items:center;gap:6px;padding:5px 8px;background:#2b251c;font-size:11px;}
+    .card .id{color:#ffd24a;font-weight:bold;} .card .nm{color:#cfc6a8;}
+    .card .tick{margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid #5d5447;
+      display:flex;align-items:center;justify-content:center;color:#211c15;font-weight:bold;font-size:13px;}
+    .card.sel .tick{background:#ffd24a;border-color:#ffd24a;}
+    .card .note{width:100%;box-sizing:border-box;border:none;border-top:1px solid #5d5447;
+      background:#1e1a14;color:#ffd24a;font:11px Verdana;padding:5px 8px;}
+    .card .note::placeholder{color:#6b5f4a;}
+    #summary{margin:8px 14px 24px;padding:12px 14px;background:#2b251c;border:1px solid #5d5447;border-radius:6px;display:none;}
+    #summary h3{color:#ffd24a;margin:0 0 6px;font-size:13px;}
+    #summary pre{white-space:pre-wrap;color:#bfe6a0;font:12px Consolas,monospace;margin:0;}
+  </style>
+</head>
+<body>
+  <div id="bar">
+    <h1>Crafted Realm — Character Style Review</h1>
+    <span class="hint">Click any character to pick it · add a note (e.g. "great face", "right proportions") · then Confirm.</span>
+    <span id="picks">Picked: <b id="pickList">none</b></span>
+    <button class="act" id="confirm">Confirm picks</button>
+    <button class="act clear" id="reset">Clear</button>
+  </div>
+
+  <h2>20 variations — which look right?</h2>
+  <div id="grid"></div>
+  <h2>5 reference archetypes</h2>
+  <div id="refs"></div>
+
+  <div id="summary">
+    <h3>✓ Confirmed picks</h3>
+    <pre id="summaryText"></pre>
+    <div class="hint" style="margin-top:6px">Read these back to Claude (they're also saved in this browser).</div>
+  </div>
+
+  <script>
+    const VARS = [
+      ['v01','Knight · steel'],['v02','Adventurer (f)'],['v03','Mage (f)'],['v04','Barbarian'],['v05','Rogue'],
+      ['v06','Paladin · gold'],['v07','Knight · chainmail (f)'],['v08','Monk'],['v09','Wizard · old'],['v10','Ranger'],
+      ['v11','Peasant'],['v12','Guard'],['v13','Dwarf'],['v14','Pirate'],['v15','Druid'],
+      ['v16','Dark Knight'],['v17','Archer (f)'],['v18','Swordsman · lunge'],['v19','Cleric'],['v20','Berserker'],
+    ];
+    const REFS = [['ref1','Adventurer'],['ref2','Knight'],['ref3','Wizard'],['ref4','Ranger'],['ref5','Goblin']];
+    const KEY = 'cr_char_picks';
+    const state = JSON.parse(localStorage.getItem(KEY) || '{}');   // {id:{sel:bool,note:str}}
+
+    function card(id, name){
+      const c = document.createElement('div'); c.className='card'+((state[id]&&state[id].sel)?' sel':'');
+      c.innerHTML =
+        '<div class="pic"><img src="../char_concepts/'+id+'.png" loading="lazy"></div>'+
+        '<div class="cap"><span class="id">'+id+'</span><span class="nm">'+name+'</span><span class="tick">✓</span></div>'+
+        '<input class="note" placeholder="note (optional)…">';
+      const note = c.querySelector('.note');
+      note.value = (state[id]&&state[id].note) || '';
+      note.addEventListener('click', e=>e.stopPropagation());
+      note.addEventListener('input', ()=>{ state[id]=state[id]||{}; state[id].note=note.value; save(); });
+      c.addEventListener('click', ()=>{ state[id]=state[id]||{}; state[id].sel=!state[id].sel; c.classList.toggle('sel',state[id].sel); save(); refresh(); });
+      return c;
+    }
+    function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+    function picked(){ return Object.keys(state).filter(k=>state[k]&&state[k].sel); }
+    function refresh(){ const p=picked(); document.getElementById('pickList').textContent = p.length? p.join(', ') : 'none'; }
+
+    const grid=document.getElementById('grid'); VARS.forEach(([id,n])=>grid.appendChild(card(id,n)));
+    const refsEl=document.getElementById('refs'); REFS.forEach(([id,n])=>refsEl.appendChild(card(id,n)));
+    refresh();
+
+    document.getElementById('confirm').addEventListener('click', ()=>{
+      const p=picked();
+      const lines = p.map(id=>{ const n=(state[id]&&state[id].note)?(' — '+state[id].note):''; return '  '+id+n; });
+      document.getElementById('summaryText').textContent = p.length? ('Picks:\n'+lines.join('\n')) : '(no picks selected yet)';
+      const s=document.getElementById('summary'); s.style.display='block'; s.scrollIntoView({behavior:'smooth'});
+    });
+    document.getElementById('reset').addEventListener('click', ()=>{
+      Object.keys(state).forEach(k=>delete state[k]); save();
+      document.querySelectorAll('.card.sel').forEach(c=>c.classList.remove('sel'));
+      document.querySelectorAll('.note').forEach(n=>n.value='');
+      document.getElementById('summary').style.display='none'; refresh();
+    });
+  </script>
+</body>
+</html>
