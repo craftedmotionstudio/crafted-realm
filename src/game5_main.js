@@ -66,6 +66,12 @@ function orderWalk(point){
                Player.path[Player.path.length-1].z-Player.moveTo.z) > 1.2);
 }
 
+// player animation: skinned HF rig (riggedHumanoidAnim) when swapped in, else procedural walkAnim
+function pAnim(moving, dt, speed){
+  if(player.userData && player.userData.hrig){
+    if(typeof riggedHumanoidAnim==='function') riggedHumanoidAnim(player, dt, moving, speed||1);
+  } else walkAnim(player, moving, dt, speed||1);
+}
 function update(dt){
   let playerMovedThisFrame = false;
   // drives the combat-ready stance in walkAnim — idle-while-fighting reads as a guard, not a stroll
@@ -75,7 +81,7 @@ function update(dt){
   const _manual = (Player.stunT<=0 && typeof Controls!=='undefined' && Controls.manualMove) ? Controls.manualMove(dt) : false;
   if(_manual){
     playerMovedThisFrame = true;
-    walkAnim(player, true, dt, (Player.moveSpeed?Player.moveSpeed():4.2)/4.2);
+    pAnim(true, dt, (Player.moveSpeed?Player.moveSpeed():4.2)/4.2);
   } else if(Player.moveTo){
     // ensure we have a live tile route to the goal
     if(!Player.path || !Player.path.length){
@@ -109,7 +115,7 @@ function update(dt){
           budget=0; playerMovedThisFrame=true;
         }
       }
-      walkAnim(player, playerMovedThisFrame, dt, Player.moveSpeed()/4.2);
+      pAnim(playerMovedThisFrame, dt, Player.moveSpeed()/4.2);
       if(!Player.path.length){
         // reached the end of the known route
         if(Player._pathPartial &&
@@ -122,10 +128,10 @@ function update(dt){
       }
     } else {
       Player.moveTo=null;                                  // nowhere to go
-      walkAnim(player, false, dt);
+      pAnim(false, dt);
     }
   } else {
-    walkAnim(player, false, dt);
+    pAnim(false, dt);
   }
   // ── fixed-tick player sim: combat/skilling/vitals advance in 600ms steps (wall-clock unchanged) ──
   worldTickAcc += dt;

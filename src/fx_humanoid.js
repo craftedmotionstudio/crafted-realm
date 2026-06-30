@@ -64,3 +64,32 @@ function riggedHumanoidAnim(root, dt, moving, speed){
   // gentle idle breathing on the chest when (nearly) still
   if(e < 0.5) _humRot(h,'chest', _HX, (1-e)*Math.sin(h.t*1.4)*0.05);
 }
+
+/* Swap the live player for the HF-baked canonical rig (toggle / demo). The procedural game
+ * systems stay intact; this just replaces the player mesh with the skinned rig in a
+ * foot-origin container, so the game loop's position/lookAt + pAnim() drive it. */
+function installHFPlayer(onReady){
+  if(typeof THREE==='undefined' || typeof player==='undefined') return;
+  const loader = new THREE.GLTFLoader();
+  loader.load('assets/models/base_m1_rigged.glb?v='+Date.now(), (gltf)=>{
+    const rig = gltf.scene;
+    let box = new THREE.Box3().setFromObject(rig);
+    rig.scale.setScalar(1.85 / ((box.max.y-box.min.y)||1));
+    box = new THREE.Box3().setFromObject(rig);
+    rig.position.y = -box.min.y;                       // feet at the container origin
+    rig.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.frustumCulled=false; } });
+    const container = new THREE.Group();
+    container.add(rig);
+    container.position.copy(player.position);
+    container.rotation.y = player.rotation.y;
+    container.userData.rigInner = rig;                 // keep a handle for facing tweaks
+    setupHumanoidRig(container);                       // -> container.userData.hrig
+    container.userData.isHF = true;
+    if(typeof makeNameTag==='function'){ const tag=makeNameTag((typeof CharCfg!=='undefined'&&CharCfg.name)||'Adventurer'); tag.position.y=2.1; container.add(tag); }
+    if(typeof scene!=='undefined') scene.remove(player);
+    player = container;
+    if(typeof scene!=='undefined') scene.add(player);
+    if(typeof UI!=='undefined' && UI.chat) UI.chat('[HF] You are now the HuggingFace-baked character. WASD to walk.','sys');
+    if(onReady) onReady(container);
+  }, undefined, (e)=>{ if(typeof UI!=='undefined' && UI.chat) UI.chat('[HF] rig load failed.','sys'); });
+}
