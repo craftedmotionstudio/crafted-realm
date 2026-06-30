@@ -431,6 +431,18 @@
 
   ::-webkit-scrollbar{width:9px;} ::-webkit-scrollbar-track{background:var(--panel-dark);}
   ::-webkit-scrollbar-thumb{background:var(--steel);border:1px solid var(--steel-lo);}
+
+  /* ---------- BUILD STAMP — marks exactly which build is on screen (local review surface) ---------- */
+  #build-stamp{position:fixed;right:6px;bottom:5px;z-index:80;
+    font:10px/1.3 Consolas,'Courier New',monospace;color:#9ad06a;
+    background:rgba(12,10,7,.74);border:1px solid #3a3328;border-radius:4px;
+    padding:3px 7px;cursor:pointer;max-width:46vw;opacity:.82;
+    text-shadow:1px 1px 0 #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #build-stamp:hover{opacity:1;}
+  #build-stamp.dirty{color:#ffcf5a;}
+  #build-stamp b{color:#fff;}
+  #build-stamp.min{font-size:0;padding:5px 6px;}
+  #build-stamp.min:before{content:'\25CF';font-size:11px;}  /* collapsed: a single dot */
 </style>
 </head>
 <body>
@@ -635,6 +647,7 @@
 
 <div id="ctx-tip"></div>
 <div id="action-text"></div>
+<div id="build-stamp" title="Local review build">build…</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -662,6 +675,20 @@
     if(a&&mv!=null) a.value=Math.round(parseFloat(mv)*100);
     if(b&&sv!=null) b.value=Math.round(parseFloat(sv)*100);
   }catch(e){} });
+
+  /* build stamp — confirms exactly which build is on screen. BUILD_INFO.json is
+     (re)written by serve.ps1 on every launch. Click the stamp to collapse it to a dot. */
+  (function(){
+    var el=document.getElementById('build-stamp'); if(!el) return;
+    fetch('BUILD_INFO.json?_='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(b){
+      if(!b){ el.textContent='build: run serve.bat to stamp'; return; }
+      if(b.dirty) el.classList.add('dirty');
+      el.innerHTML='<b>'+b.branch+'</b> @ '+b.commit+(b.dirty?' ✎':'')+' · '+(b.served||'');
+      el.title='Build on screen now:\n'+b.branch+' @ '+b.commit+(b.dirty?' (uncommitted changes)':'')
+              +'\n'+(b.subject||'')+'\nserved '+(b.served||'')+'\n(click to collapse)';
+    }).catch(function(){ el.textContent='build: (no stamp)'; });
+    el.addEventListener('click',function(){ el.classList.toggle('min'); });
+  })();
 </script>
 </body>
 </html>
