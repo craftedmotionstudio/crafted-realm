@@ -71,7 +71,12 @@ function update(dt){
   // drives the combat-ready stance in walkAnim — idle-while-fighting reads as a guard, not a stroll
   player.userData.inCombat = !!(Player.target && !Player.target.dead);
   if(Player.stunT>0){ Player.moveTo=null; Player.path=[]; Player.target=null; if(Player.action&&Player.action.type==='pickpocket')Player.action=null; }
-  if(Player.moveTo){
+  // WASD manual control takes priority over click-to-move (it cancels the click route itself)
+  const _manual = (Player.stunT<=0 && typeof Controls!=='undefined' && Controls.manualMove) ? Controls.manualMove(dt) : false;
+  if(_manual){
+    playerMovedThisFrame = true;
+    walkAnim(player, true, dt, (Player.moveSpeed?Player.moveSpeed():4.2)/4.2);
+  } else if(Player.moveTo){
     // ensure we have a live tile route to the goal
     if(!Player.path || !Player.path.length){
       const rem=Math.hypot(Player.moveTo.x-player.position.x, Player.moveTo.z-player.position.z);
@@ -603,6 +608,7 @@ function update(dt){
       if(pane && pane.classList.contains('active') && UI.refreshPrayers) UI.refreshPrayers(); } }
   SaveGame.tick(dt);
   if(typeof AnimShowcase!=='undefined' && AnimShowcase.active) AnimShowcase.tick(dt);
+  if(typeof Controls!=='undefined' && Controls.update) Controls.update(dt);   // arrow camera + chat bubble
 
   const z = zoneAt(player.position.x, player.position.z);
   if(z!==curZone){
