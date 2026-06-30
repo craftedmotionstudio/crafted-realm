@@ -4,6 +4,9 @@ assets/models/*_raw.glb
 assets/models/*_tex_raw.glb
 assets/models/.textured_done
 
+# Intermediate rig backups (regenerable from the pipeline)
+assets/models/*.bak.glb
+
 # Python / tooling junk
 __pycache__/
 *.pyc

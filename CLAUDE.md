@@ -63,5 +63,14 @@ Plain **global `<script>` tags** (NOT ES modules) loaded in order from `index.ht
 - **File size:** `game2_world.js` (2297), `game4_ui.js` (2105), `game3_systems.js` (1309) are far
   over the ~500-line target. **Prefer adding new systems as new files; split the big three when
   touching them** (the fixed-tick refactor is the natural moment to split `game5_main.js`).
-- No automated test harness yet — QA is manual via the browser MCP (load → interact → assert
-  console clean). A repeatable smoke-test script is a planned add.
+- No full automated test harness yet — gameplay QA is manual via the browser MCP (load →
+  interact → assert console clean). A repeatable smoke-test script is a planned add.
+  **Content data integrity IS gated:** `node tools/validate_content.js` headlessly executes
+  `game1_data.js` (post `buildTieredGear`) and fails (exit 1) on any dangling drop/shop/quest
+  item id, bad price/probability/quantity, unknown reward skill, missing boss `glb`/`script`, or
+  broken tier generation. It also gates **combat-stat integrity** — every NPC must have finite,
+  sane `level/hp/att/str/def/aBonus/sBonus/dBonus/speedTicks` and a derived `npcMaxHit` that is
+  finite ≥ 1, and every item's `value/reqLvl/bonus` fields must be finite (weapons need a `style`
+  + positive `speedTicks`) — so a malformed entry can't reach the OSRS-exact combat rolls as NaN.
+  **Run it after any edit to items/tiers/NPCs/shops/quests** — it is the repeatable gate that lets
+  content scale safely.

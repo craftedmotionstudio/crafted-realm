@@ -118,32 +118,78 @@ function _setupRig(n){
   n.mesh.userData._rig = { legs, wings, neck, tail, lateral, flapV, t: Math.random() * 5 };
   return true;
 }
+/* The hand-built rig (build_rig.py) ships named bones — drive those directly (robust, both wings).
+   Model local axes after the GLB y-up export: forward=+X, up=+Y, lateral=+Z. */
+function _setupNamedRig(n){
+  const bones = n.mesh.userData.bones; if(!bones || !bones.length) return null;
+  const by = {}; bones.forEach(b => by[b.name] = b);
+  if(!(by['wing_L'] && by['wing_R'])) return null;            // not the named rig -> caller falls back
+  bones.forEach(b => { b.userData._rest = b.quaternion.clone(); });
+  // This GLB was authored with the head along model +X, but the engine faces NPCs with
+  // mesh.lookAt() which aims the group's -Z at the target. Yaw the model -90deg so its head
+  // lines up with the heading (else it "moonwalks"). The rig reads its axes from this root,
+  // so the wing/leg axes rotate with the correction automatically.
+  const root = _glbRoot(n); if(root){ root.rotation.y = -Math.PI/2; root.userData._yaw0 = -Math.PI/2; }
+  return { by, fwd: new THREE.Vector3(1,0,0), up: new THREE.Vector3(0,1,0), lat: new THREE.Vector3(0,0,1),
+           legs: [['legFL',0],['legBR',0],['legFR',Math.PI],['legBL',Math.PI]], t: Math.random()*5 };
+}
 function riggedDragonAnim(n, dt, moving){
   if(!n.mesh.userData.bones) return;                 // GLB still loading
-  if(!n.mesh.userData._rig && !_setupRig(n)) return;
+  let rig = n.mesh.userData._namedRig;
+  if(rig === undefined){ rig = _setupNamedRig(n); n.mesh.userData._namedRig = rig || false; }
+  if(!rig){                                          // legacy positional fallback (generic UniRig rigs)
+    if(!n.mesh.userData._rig && !_setupRig(n)) return;
+    return _riggedAnimPositional(n, dt, moving);
+  }
+  rig.t += dt;
+  // detect REAL translation so legs gait even when the AI's wander doesn't flag n.moving
+  const pos = n.mesh.position;
+  if(rig._lp){ const spd = Math.hypot(pos.x - rig._lp.x, pos.z - rig._lp.z) / Math.max(dt, 1e-3);
+    rig._spd = rig._spd === undefined ? spd : rig._spd * 0.7 + spd * 0.3; }
+  rig._lp = { x: pos.x, z: pos.z };
+  const spd = rig._spd || 0;
+  const walking = spd > 0.15;
+  // gait phase whose CADENCE tracks ground speed -> constant stride length (~2 tiles), feet plant
+  // instead of moonwalking (the old fixed freq whirred the legs while the body barely moved)
+  rig._gait = (rig._gait || 0) + Math.min(12, spd * 3.2) * dt;
+  // periodic showpiece "display": every ~7s it spreads its wings wide and huffs smoke
+  rig._disp = (rig._disp === undefined ? -2 : rig._disp) - dt;
+  if(rig._disp <= -7) rig._disp = 1.3;                          // re-arm a 1.3s display
+  const disp = Math.max(0, rig._disp);
+  if(disp > 0 && typeof _emitSmoke === 'function' && Math.random() < dt * 7) _emitSmoke(n);
+  const mq   = (_glbRoot(n) || n.mesh).getWorldQuaternion(new THREE.Quaternion());  // root carries the -90deg facing yaw
+  const fwdW = rig.fwd.clone().applyQuaternion(mq).normalize();   // wings beat about this
+  const latW = rig.lat.clone().applyQuaternion(mq).normalize();   // legs swing / head pitch about this
+  const upW  = rig.up.clone().applyQuaternion(mq).normalize();    // tail sways about this
+  const breathing = !!n._breath, winding = n._breath && n._breath.phase === 'windup';
+  const rest = b => { if(b){ b.quaternion.copy(b.userData._rest); } return b; };
+  // WINGS: like a grounded OSRS dragon, held with a gentle flutter; they spread wide only for the
+  // periodic display or while breathing fire (constant hard flapping on the ground looked wrong)
+  const beat = 0.10 + Math.sin(rig.t * 2.2) * 0.09 + disp * 0.6 + (breathing ? 0.4 : 0);
+  if(rest(rig.by.wing_L)) rig.by.wing_L.rotateOnWorldAxis(fwdW,  beat);
+  if(rest(rig.by.wing_R)) rig.by.wing_R.rotateOnWorldAxis(fwdW, -beat);
+  // LEGS: speed-synced diagonal trot so the feet track the ground; a tiny weight-shift when standing
+  const legAmp = walking ? Math.min(0.5, 0.18 + spd * 0.13) : 0;
+  rig.legs.forEach(([nm, ph]) => { const b = rest(rig.by[nm]); if(!b) return;
+    b.rotateOnWorldAxis(latW, walking ? Math.sin(rig._gait + ph) * legAmp : Math.sin(rig.t * 1.1 + ph) * 0.025); });
+  // NECK + HEAD: rear back to inhale before the fire; otherwise a clear slow nod + side scan
+  ['neck','head'].forEach((nm, i) => { const b = rest(rig.by[nm]); if(b) b.rotateOnWorldAxis(latW, winding ? -0.34 : Math.sin(rig.t * 1.1 + i * 0.5) * 0.11); });
+  if(rig.by.head) rig.by.head.rotateOnWorldAxis(upW, Math.sin(rig.t * 0.7) * 0.14);   // head sweeps to scan
+  // TAIL: lazy but clearly-visible sway
+  ['tail1','tail2'].forEach((nm, k) => { const b = rest(rig.by[nm]); if(b) b.rotateOnWorldAxis(upW, Math.sin(rig.t * 1.4 + k * 0.9) * 0.17); });
+}
+function _riggedAnimPositional(n, dt, moving){
   const rig = n.mesh.userData._rig; rig.t += dt;
   const mq = n.mesh.getWorldQuaternion(new THREE.Quaternion());
-  const swing = rig.lateral.clone().applyQuaternion(mq).normalize();   // leg fore/aft axis (world)
-  const flap  = rig.flapV.clone().applyQuaternion(mq).normalize();     // wing up/down axis (world)
+  const swing = rig.lateral.clone().applyQuaternion(mq).normalize();
+  const flap  = rig.flapV.clone().applyQuaternion(mq).normalize();
   const up    = new THREE.Vector3(0, 1, 0);
   const winding = n._breath && n._breath.phase === 'windup';
   const amp = moving ? 0.42 : 0.05, freq = 8;
-  rig.legs.forEach(L => {
-    L.bone.quaternion.copy(L.bone.userData._rest);
-    L.bone.rotateOnWorldAxis(swing, Math.sin(rig.t * freq + L.phase) * amp);
-  });
-  rig.wings.forEach(W => {
-    W.bone.quaternion.copy(W.bone.userData._rest);
-    W.bone.rotateOnWorldAxis(flap, (Math.sin(rig.t * 2.4) * 0.13 + (n._breath ? 0.25 : 0)) * W.up);  // beat; flare on breath
-  });
-  rig.neck.forEach(H => {
-    H.bone.quaternion.copy(H.bone.userData._rest);
-    H.bone.rotateOnWorldAxis(swing, winding ? -0.4 : Math.sin(rig.t * 1.3) * 0.03);  // rear the head back to breathe
-  });
-  rig.tail.forEach((T, k) => {
-    T.bone.quaternion.copy(T.bone.userData._rest);
-    T.bone.rotateOnWorldAxis(up, Math.sin(rig.t * 1.6 + k) * 0.06);
-  });
+  rig.legs.forEach(L => { L.bone.quaternion.copy(L.bone.userData._rest); L.bone.rotateOnWorldAxis(swing, Math.sin(rig.t * freq + L.phase) * amp); });
+  rig.wings.forEach(W => { W.bone.quaternion.copy(W.bone.userData._rest); W.bone.rotateOnWorldAxis(flap, (Math.sin(rig.t * 2.4) * 0.13 + (n._breath ? 0.25 : 0)) * W.up); });
+  rig.neck.forEach(H => { H.bone.quaternion.copy(H.bone.userData._rest); H.bone.rotateOnWorldAxis(swing, winding ? -0.4 : Math.sin(rig.t * 1.3) * 0.03); });
+  rig.tail.forEach((T, k) => { T.bone.quaternion.copy(T.bone.userData._rest); T.bone.rotateOnWorldAxis(up, Math.sin(rig.t * 1.6 + k) * 0.06); });
 }
 
 function updateDragonFX(dt){

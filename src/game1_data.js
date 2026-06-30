@@ -94,13 +94,18 @@ const ITEMS = {
   fen_charm:    {name:'Fenlord charm', stack:false, value:900},
   guild_sigil:  {name:'Wardens\' sigil', stack:false, value:0, equip:'cape', dBonus:5, capeColor:0xd4a83e, model:'cape', reqSkill:'Defence', reqLvl:1},
 };
-/* metal tiers: Bronze/Iron/Steel are generic; Aurel and Veyrite are MotionScape originals */
+/* metal tiers: Copper/Bronze/Iron/Steel are generic; Whitsteel, Aurel, Veyrite, Undercrag are
+   MotionScape originals. tpow = explicit tool power (woodcutting/mining), monotonic with tier.
+   Existing Bronze/Iron/Steel/Aurel/Veyrite tpow values reproduce the old 1+ti*0.45 curve exactly. */
 const TIERS = [
-  {key:'bronze',  label:'Bronze',  metal:0xb08d57, req:1,  mult:1.0, price:1},
-  {key:'iron',    label:'Iron',    metal:0x9aa0a8, req:5,  mult:2.0, price:4},
-  {key:'steel',   label:'Steel',   metal:0xd0d4dc, req:10, mult:3.2, price:12},
-  {key:'aurel',   label:'Aurel',   metal:0xd4a83e, req:20, mult:5.0, price:45},
-  {key:'veyrite', label:'Veyrite', metal:0x3ec6b4, req:30, mult:7.5, price:140},
+  {key:'copper',    label:'Copper',    metal:0xc6794a, req:1,  mult:0.85, price:1,   tpow:0.8},
+  {key:'bronze',    label:'Bronze',    metal:0xb08d57, req:1,  mult:1.0,  price:1,   tpow:1.0},
+  {key:'iron',      label:'Iron',      metal:0x9aa0a8, req:5,  mult:2.0,  price:4,   tpow:1.45},
+  {key:'steel',     label:'Steel',     metal:0xd0d4dc, req:10, mult:3.2,  price:12,  tpow:1.9},
+  {key:'whitsteel', label:'Whitsteel', metal:0xe8ecf2, req:15, mult:4.0,  price:26,  tpow:2.1},
+  {key:'aurel',     label:'Aurel',     metal:0xd4a83e, req:20, mult:5.0,  price:45,  tpow:2.35},
+  {key:'veyrite',   label:'Veyrite',   metal:0x3ec6b4, req:30, mult:7.5,  price:140, tpow:2.8},
+  {key:'undercrag', label:'Undercrag', metal:0x6a5a7a, req:40, mult:9.0,  price:300, tpow:3.25},
 ];
 const GEAR_TEMPLATES = {
   sword:     {name:'sword',      equip:'weapon', style:'melee', speedTicks:4, a:7,  s:6,  reqSkill:'Attack',  base:25, model:'sword'},
@@ -114,11 +119,23 @@ const GEAR_TEMPLATES = {
   pickaxe:   {name:'pickaxe',    equip:'weapon', style:'melee', speedTicks:5, a:1, s:2, tool:'mining', base:16, model:'pick'},
 };
 const GEAR_WEIGHTS = {sword:1.8, axe:2.2, helm:2.7, plate:9, legs:9, shield:5.4, bow:1.3, staff:2.1, robe:0.9, hat:0.4};
+/* Legacy hand-authored ids that predate buildTieredGear own these tier×template
+   slots. Aliasing keeps a single canonical item (so no two items share a display
+   name) and preserves every existing drop / shop / quest / tutorial reference to
+   the old id. The validator resolves these to their target instead of expecting a
+   generated `<tier>_<template>` item. */
+const GEAR_ALIASES = {
+  bronze_hatchet:   'hatchet',
+  bronze_pickaxe:   'pickaxe',
+  bronze_platebody: 'bronze_plate',
+  bronze_platelegs: 'bronze_legs',
+};
 function buildTieredGear(items){
   TIERS.forEach((t,ti)=>{
     for(const tk in GEAR_TEMPLATES){
       const tpl=GEAR_TEMPLATES[tk];
       const id = `${t.key}_${tk}`;
+      if(GEAR_ALIASES[id]) continue;   // canonical legacy item already owns this slot
       if(items[id]) continue;
       const def = {name:`${t.label} ${tpl.name}`, stack:false,
         value: Math.round(tpl.base*t.price), tier:t.key, template:tk, model:tpl.model,
@@ -129,7 +146,7 @@ function buildTieredGear(items){
           def.aBonus=Math.round(tpl.a*t.mult); def.sBonus=Math.round(tpl.s*t.mult); }
         else def.dBonus=Math.round(tpl.d*t.mult);
       }
-      if(tpl.tool){ def.tool=tpl.tool; def.power=1+ti*0.45; }
+      if(tpl.tool){ def.tool=tpl.tool; def.power=(t.tpow!=null ? t.tpow : 1+ti*0.45); }
       items[id]=def;
     }
   });
@@ -175,31 +192,33 @@ const NPC_TYPES = {
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[1,5],p:0.6} ]},
   moorcalf: {name:'Moorcalf', level:2, examine:"Converts grass into hide and hoof.", hp:9, att:1, str:2, def:2, aBonus:0, sBonus:0, dBonus:0, speedTicks:5, color:0x9a8468, size:1.25, aggro:false, respawn:15, model:'cow',
              drops:[ {id:'bones',q:1,p:1}, {id:'beast_hide',q:1,p:1}, {id:'coins',q:[2,10],p:0.5} ]},
-  duneclaw: {name:'Duneclaw', level:12, examine:"All shell and spite. A blade glances off; a mace caves it in.", hp:24, att:11, str:10, def:9, aBonus:6, sBonus:6, dBonus:6, dStab:7, dSlash:10, dCrush:2, speedTicks:4, color:0xc4a04a, size:0.9, aggro:true, respawn:20,
+  duneclaw: {name:'Duneclaw', level:12, examine:"All shell and spite. A blade glances off; a mace caves it in.", hp:24, att:11, str:10, def:9, aBonus:6, sBonus:6, dBonus:6, dStab:7, dSlash:10, dCrush:2, speedTicks:4, color:0xc4a04a, size:0.9, aggro:true, respawn:20, body:'crab',
              drops:[ {id:'coins',q:[15,55],p:1}, {id:'steel_sword',q:1,p:0.05}, {id:'amulet_of_precision',q:1,p:0.02} ]},
-  bryn_raider:{name:'Bryn raider', level:18, examine:"A northerner spoiling for a scrap.", hp:38, att:16, str:17, def:14, aBonus:10, sBonus:12, dBonus:8, speedTicks:4, color:0x7a3d2a, size:1, aggro:true, respawn:25, humanoid:true, weapon:'battleaxe',
+  bryn_raider:{name:'Bryn raider', level:18, examine:"A northerner spoiling for a scrap.", hp:38, att:16, str:17, def:14, aBonus:10, sBonus:12, dBonus:8, speedTicks:4, color:0x7a3d2a, size:1, aggro:true, respawn:25, humanoid:true, weapon:'battleaxe', helm:'iron', armour:'leather',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[25,80],p:1}, {id:'steel_battleaxe',q:1,p:0.06}, {id:'steel_helm',q:1,p:0.08}, {id:'hollow_ale',q:1,p:0.3} ]},
   hex_adept:{name:'Hex adept', level:24, examine:"Its robes crackle with stolen sparks.", hp:42, att:22, str:20, def:18, aBonus:14, sBonus:10, dBonus:10, speedTicks:5, color:0x4a3a7a, size:1, aggro:true, respawn:30, humanoid:true, robe:0x4a3a7a, hat:'wizard', ranged:true,
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[40,110],p:1}, {id:'chaos_rune',q:[2,6],p:0.6}, {id:'air_rune',q:[4,12],p:0.7}, {id:'ember_staff',q:1,p:0.05}, {id:'glimmer_hat',q:1,p:0.04}, {id:'amulet_of_warding',q:1,p:0.02} ]},
-  gravewight:{name:'Gravewight', level:30, examine:"Death only made it angrier. Its dry frame dreads a crushing weapon.", hp:55, att:28, str:26, def:24, aBonus:16, sBonus:14, dBonus:14, dStab:18, dSlash:15, dCrush:8, speedTicks:4, color:0x8a8a92, size:1.05, aggro:true, respawn:35, humanoid:true, weapon:'sword', skin:0xb8bcc4, drops:[ {id:'big_bones',q:1,p:1}, {id:'coins',q:[60,160],p:1}, {id:'aurel_sword',q:1,p:0.05}, {id:'aurel_platelegs',q:1,p:0.04}, {id:'amulet_of_might',q:1,p:0.03} ]},
-  ash_stalker:{name:'Ash stalker', level:38, examine:"It hunts where the land burned. Slag-plated hide turns aside blunt force — find the gap with a point.", hp:70, att:36, str:34, def:30, aBonus:20, sBonus:18, dBonus:18, dStab:12, dSlash:18, dCrush:24, speedTicks:4, color:0x3a3a42, size:1.25, aggro:true, respawn:40,
+  gravewight:{name:'Gravewight', level:30, examine:"Death only made it angrier. Its dry frame dreads a crushing weapon.", hp:55, att:28, str:26, def:24, aBonus:16, sBonus:14, dBonus:14, dStab:18, dSlash:15, dCrush:8, speedTicks:4, color:0x8a8a92, size:1.05, aggro:true, respawn:35, humanoid:true, weapon:'sword', skin:0xb8bcc4, helm:'iron', shield:true, drops:[ {id:'big_bones',q:1,p:1}, {id:'coins',q:[60,160],p:1}, {id:'aurel_sword',q:1,p:0.05}, {id:'aurel_platelegs',q:1,p:0.04}, {id:'amulet_of_might',q:1,p:0.03} ]},
+  ash_stalker:{name:'Ash stalker', level:38, examine:"It hunts where the land burned. Slag-plated hide turns aside blunt force — find the gap with a point.", hp:70, att:36, str:34, def:30, aBonus:20, sBonus:18, dBonus:18, dStab:12, dSlash:18, dCrush:24, speedTicks:4, color:0x3a3a42, size:1.25, aggro:true, respawn:40, body:'wolf',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[90,220],p:1}, {id:'aurel_platebody',q:1,p:0.05}, {id:'veyrite_sword',q:1,p:0.015}, {id:'gale_longbow',q:1,p:0.03} ]},
 
   hold_knight: {name:'Hold Knight', level:18, hp:35, att:16, str:14, def:18, aBonus:12, sBonus:10, dBonus:16,
-    speedTicks:4, color:0xd8dce2, size:1.05, aggro:false, respawn:30, humanoid:true, weapon:'sword',
+    speedTicks:4, color:0xd8dce2, size:1.05, aggro:false, respawn:30, humanoid:true, weapon:'sword', helm:'steel', armour:'steel', legArmour:'steel', shield:true,
     examine:"A knight of Whitmoor. Polished, patient, deadly.",
     drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[10,40],p:0.9}, {id:'iron_sword',q:1,p:0.05},
-            {id:'iron_platebody',q:1,p:0.03}, {id:'bread',q:1,p:0.2} ]},
+            {id:'iron_platebody',q:1,p:0.03}, {id:'whitsteel_sword',q:1,p:0.03}, {id:'whitsteel_helm',q:1,p:0.02},
+            {id:'bread',q:1,p:0.2} ]},
   deep_crawler: {name:'Deep crawler', level:25, hp:38, att:22, str:20, def:16, aBonus:12, sBonus:10, dBonus:8, dStab:9, dSlash:10, dCrush:3,
-    speedTicks:4, color:0x3a3548, size:1.1, aggro:true, alwaysAggro:true, respawn:35,
+    speedTicks:4, color:0x3a3548, size:1.1, aggro:true, alwaysAggro:true, respawn:35, body:'crawler',
     examine:"It has never seen the sun, and resents that you have. Its chitin splits to a crushing blow.",
     drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[30,90],p:1}, {id:'chaos_rune',q:[2,6],p:0.4},
             {id:'iron_platelegs',q:1,p:0.04} ]},
-  korthul: {name:'Korthul the Undercrag', level:58, hp:130, att:48, str:46, def:40, aBonus:22, sBonus:24, dBonus:20, boss:true, script:'korthul',
+  korthul: {name:'Korthul the Undercrag', level:58, hp:130, att:48, str:46, def:40, aBonus:22, sBonus:24, dBonus:20, boss:true, script:'korthul', body:'brute', atype:'crush',
     speedTicks:5, color:0x4a4456, size:2.6, aggro:true, alwaysAggro:true, respawn:120,
     examine:"The mountain's grudge, given legs.",
     drops:[ {id:'big_bones',q:1,p:1}, {id:'coins',q:[400,900],p:1}, {id:'crag_maul',q:1,p:0.05},
             {id:'veyrite_sabre',q:1,p:0.08}, {id:'aurel_platebody',q:1,p:0.1},
+            {id:'undercrag_sword',q:1,p:0.04}, {id:'undercrag_platebody',q:1,p:0.025},
             {id:'nature_rune',q:[4,12],p:0.7}, {id:'chaos_rune',q:[6,20],p:0.7}, {id:'fen_charm',q:1,p:0.2} ]},
   wizard: {name:'Wizard', level:9, hp:20, att:8, str:6, def:6, aBonus:6, sBonus:4, dBonus:4,
     speedTicks:5, color:0x35418f, size:1.0, aggro:true, respawn:24, humanoid:true, robe:0x35418f, hat:'wizard', ranged:true,
@@ -217,21 +236,21 @@ const NPC_TYPES = {
     speedTicks:4, color:0x7a6a52, size:1.0, aggro:false, respawn:25, examine:"One of Veyhollow's idle hands.",
     humanoid:true,
     drops:[{id:'bones',q:1,p:1},{id:'coins',q:[1,4],p:0.85},{id:'bread',q:1,p:0.1}]},
-  grubkin:  {name:'Grubkin', level:2, examine:"A wriggling pest of the commons.",  hp:7,  att:1,  str:1,  def:1,  aBonus:0,  sBonus:0,  dBonus:0,  speedTicks:4, color:0x6a8f3c, size:0.8, aggro:false, respawn:12,
+  grubkin:  {name:'Grubkin', level:2, examine:"A wriggling pest of the commons.",  hp:7,  att:1,  str:1,  def:1,  aBonus:0,  sBonus:0,  dBonus:0,  speedTicks:4, color:0x6a8f3c, size:0.8, aggro:false, respawn:12, body:'crawler',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[3,12],p:0.8}, {id:'arrows',q:[2,6],p:0.3}, {id:'bronze_sword',q:1,p:0.06}, {id:'mind_rune',q:[1,4],p:0.2}, {id:'leather_body',q:1,p:0.05} ]},
-  mosswolf: {name:'Mosswolf', level:8, examine:"A lean marsh-hunter. Its hide parts cleanly to a slashing edge.", hp:18, att:7,  str:7,  def:6,  aBonus:4,  sBonus:4,  dBonus:4, dStab:4, dSlash:1, dCrush:7,  speedTicks:4, color:0x4f6b4a, size:1.0, aggro:true, respawn:18,
+  mosswolf: {name:'Mosswolf', level:8, examine:"A lean marsh-hunter. Its hide parts cleanly to a slashing edge.", hp:18, att:7,  str:7,  def:6,  aBonus:4,  sBonus:4,  dBonus:4, dStab:4, dSlash:1, dCrush:7,  speedTicks:4, color:0x4f6b4a, size:1.0, aggro:true, respawn:18, body:'wolf',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[10,40],p:0.9}, {id:'raw_perch',q:1,p:0.25}, {id:'wood_shield',q:1,p:0.08}, {id:'bronze_helm',q:1,p:0.06} ]},
-  fenwretch:{name:'Fenwretch', level:15, hp:30, att:14, str:13, def:12, aBonus:8,  sBonus:8,  dBonus:10, speedTicks:4, color:0x57456b, size:1.1, aggro:true, respawn:25,
+  fenwretch:{name:'Fenwretch', level:15, hp:30, att:14, str:13, def:12, aBonus:8,  sBonus:8,  dBonus:10, speedTicks:4, color:0x57456b, size:1.1, aggro:true, respawn:25, body:'brute', atype:'crush',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[30,90],p:1}, {id:'iron_sword',q:1,p:0.05}, {id:'bronze_plate',q:1,p:0.08}, {id:'bronze_legs',q:1,p:0.08} ]},
   duelist:  {name:'Pit duelist', level:10, examine:"A professional. Mind the footwork.", hp:30, att:10, str:10, def:8, aBonus:6, sBonus:6, dBonus:5, speedTicks:4, color:0x8a5a32, size:1, aggro:false, respawn:9999, humanoid:true, weapon:'sword',
              drops:[]},
-  fenlord:  {name:'The Fenlord', level:15, examine:"The marsh bows to it. You shouldn't.", hp:40, att:14, str:12, def:8, aBonus:8, sBonus:7, dBonus:8, speedTicks:5, color:0x2d1b3d, size:2.2, aggro:true, respawn:90, boss:true, script:'fenlord',
+  fenlord:  {name:'The Fenlord', level:15, examine:"The marsh bows to it. You shouldn't.", hp:40, att:14, str:12, def:8, aBonus:8, sBonus:7, dBonus:8, speedTicks:5, color:0x2d1b3d, size:2.2, aggro:true, respawn:90, boss:true, script:'fenlord', body:'brute', atype:'crush',
              drops:[{id:'big_bones',q:1,p:1}, {id:'coins',q:[120,300],p:1}, {id:'fen_charm',q:1,p:0.5}, {id:'steel_sabre',q:1,p:0.3}, {id:'veyrite_sabre',q:1,p:0.02} ]},
   ash_wyrm: {name:'The Ash Wyrm', level:62,
              examine:"A dragon of the deep Scarlands, its hide a shell of cooled slag. Blunt blows ring off it — find the gap with a point.",
              hp:165, att:52, str:50, def:44, aBonus:24, sBonus:26, dBonus:30, dStab:18, dSlash:34, dCrush:40,
              speedTicks:6, color:0x3a2a24, size:2.8, aggro:false, respawn:150, boss:true, script:'ashwyrm', atype:'crush',
-             glb:'assets/models/ash_wyrm_rigged.glb', glbHeight:3.4, barH:4.4, skinnedRig:true,
+             glb:'assets/models/ash_wyrm_built.glb', glbHeight:3.4, barH:4.4, skinnedRig:true,
              drops:[ {id:'big_bones',q:1,p:1}, {id:'coins',q:[500,1200],p:1}, {id:'veyrite_sword',q:1,p:0.08},
                      {id:'veyrite_sabre',q:1,p:0.05}, {id:'aurel_platebody',q:1,p:0.12}, {id:'gale_longbow',q:1,p:0.05},
                      {id:'nature_rune',q:[6,16],p:0.7}, {id:'fire_rune',q:[10,30],p:0.8}, {id:'fen_charm',q:1,p:0.3} ]},
@@ -262,6 +281,7 @@ const SHOPS = {
     {id:'hammer',price:2},{id:'tinderbox',price:2},{id:'knife',price:3},
     {id:'bread',price:5},{id:'cooked_perch',price:15},{id:'wood_shield',price:25},{id:'leather_body',price:18}]},
   smith:    {name:'Stonereach Smithy', stock:[
+    {id:'copper_sword',price:20},{id:'copper_helm',price:14},{id:'copper_pickaxe',price:45},{id:'copper_hatchet',price:45},
     {id:'bronze_sword',price:30},{id:'bronze_helm',price:22},{id:'bronze_plate',price:95},{id:'bronze_legs',price:75},
     {id:'iron_sword',price:150},{id:'iron_helm',price:90},{id:'iron_platebody',price:380},{id:'iron_platelegs',price:290},{id:'iron_kiteshield',price:165},
     {id:'steel_sword',price:380},{id:'steel_sabre',price:600},{id:'steel_battleaxe',price:560},{id:'steel_helm',price:280},{id:'steel_platebody',price:1200},{id:'steel_platelegs',price:900},{id:'steel_kiteshield',price:520},

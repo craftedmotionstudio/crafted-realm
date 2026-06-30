@@ -68,6 +68,8 @@ function orderWalk(point){
 
 function update(dt){
   let playerMovedThisFrame = false;
+  // drives the combat-ready stance in walkAnim — idle-while-fighting reads as a guard, not a stroll
+  player.userData.inCombat = !!(Player.target && !Player.target.dead);
   if(Player.stunT>0){ Player.moveTo=null; Player.path=[]; Player.target=null; if(Player.action&&Player.action.type==='pickpocket')Player.action=null; }
   if(Player.moveTo){
     // ensure we have a live tile route to the goal
@@ -436,8 +438,13 @@ function update(dt){
 
   WORLD.npcs.forEach(n=>{
     if(n.dead){
+      if(n.dying){                                  // play the death topple, then hide the corpse
+        if(typeof tickDeath!=='function' || !tickDeath(n.mesh, dt)){ n.dying=false; n.mesh.visible=false; }
+      }
       n.respawnT-=dt;
-      if(n.respawnT<=0){ n.dead=false; n.hp=n.t.hp; n.mesh.visible=true;
+      if(n.respawnT<=0){ n.dead=false; n.dying=false; n.hp=n.t.hp; n.mesh.visible=true;
+        n.mesh.rotation.set(0,0,0);                 // undo the topple
+        if(n.mesh.userData._baseScale!==undefined) n.mesh.scale.setScalar(n.mesh.userData._baseScale);
         n.mesh.position.set(n.home.x, gy(n.home.x,n.home.z), n.home.z);
         n.hpbar.spr.visible=false;
         WORLD.clickables.push(n.mesh); n.target=null; }
@@ -499,6 +506,7 @@ function update(dt){
       }
     }
     const _P=n.mesh.userData.parts;
+    n.mesh.userData.inCombat = (n.target==='player' && !n.dead);   // raise a combat stance while engaged
     if(_P && _P.legL) walkAnim(n.mesh, n.moving, dt);   // any rigged biped
     else beastAnim(n.mesh, n.moving, dt);
     if(n.t.glb && typeof glbCreatureAnim==='function') glbCreatureAnim(n, dt);   // GLB-body life (breathing/huff)
@@ -594,6 +602,7 @@ function update(dt){
     if(Player.activePrayers.size){ UI.refreshHud(); const pane=document.getElementById('pane-prayers');
       if(pane && pane.classList.contains('active') && UI.refreshPrayers) UI.refreshPrayers(); } }
   SaveGame.tick(dt);
+  if(typeof AnimShowcase!=='undefined' && AnimShowcase.active) AnimShowcase.tick(dt);
 
   const z = zoneAt(player.position.x, player.position.z);
   if(z!==curZone){

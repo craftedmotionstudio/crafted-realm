@@ -42,7 +42,7 @@ function CR_cube(el, tex, scale, res){
     });
   }
   const material = tex ? new THREE.MeshLambertMaterial({map:tex})
-    : new THREE.MeshLambertMaterial({color: el.color!==undefined?el.color:0xffffff, flatShading:true});
+    : new THREE.MeshLambertMaterial({color: el.color!==undefined?el.color:0xffffff});   // no flatShading on Lambert (r128)
   const m=new THREE.Mesh(geo, material);
   m.castShadow=true;
   m.position.set((el.from[0]+el.to[0])/2*scale,

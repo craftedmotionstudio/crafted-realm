@@ -442,7 +442,9 @@ function spawnNpc(typeId, x, z){
     mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
   }
   else if(t.humanoid){
-    mesh = humanoid(t.color, {robe:t.robe, hat:t.hat, hatColor:t.robe, skin:t.skin, scale:t.size});
+    const _metal = k => (k==null) ? undefined : (METALS[k]!==undefined ? METALS[k] : METALS.iron);
+    mesh = humanoid(t.color, {robe:t.robe, hat:t.hat, hatColor:t.robe, skin:t.skin, scale:t.size,
+      helm:_metal(t.helm), armour:_metal(t.armour), legArmour:_metal(t.legArmour), shield:!!t.shield});
     mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
     if(t.weapon){
       const w = t.weapon==='battleaxe' ? axeMesh(METALS.steel)
@@ -451,6 +453,9 @@ function spawnNpc(typeId, x, z){
     } else if(t.ranged){
       holdWeapon(mesh.userData.parts.handR, staffMesh(0xb48ae0), {model:'staff'});
     }
+  } else if(t.body && typeof BEAST_BODIES!=='undefined' && BEAST_BODIES[t.body]){
+    mesh = BEAST_BODIES[t.body](t.color, t.size);   // distinct silhouette (wolf/crawler/crab/brute)
+    mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
   } else {
     mesh = beast(t.color, t.size);
   }
@@ -759,7 +764,7 @@ function playerAttack(npc, dt){
                : spellDef.max;   // each spell knows its own ceiling, like the classics
   if(spec) maxHit = Math.ceil(maxHit*spec.dmg);
   const dmg = Math.random()<hitChance ? Math.ceil(Math.random()*maxHit) : 0;
-  swing(player);
+  swing(player, style==='ranged' ? 'bow' : style==='magic' ? 'cast' : (atype||'slash'));
   if(style==='melee'){
     Sfx.swing(); if(dmg>0) Sfx.hitFlesh();
     applyHit(npc, dmg, sdef.xp);
@@ -915,7 +920,13 @@ function killNpc(npc, opt){
     return;
   }
   npc.dead = true; npc.respawnT = npc.t.respawn;
-  npc.mesh.visible = false; removeClickable(npc.mesh);
+  removeClickable(npc.mesh);
+  if(npc.hpbar) npc.hpbar.spr.visible = false;
+  // tip the corpse over instead of popping it out of existence; the update loop hides it when the topple ends.
+  // GLB / skinned-rig bodies (the dragon boss) keep the instant hide — a sideways tip reads wrong on a winged quadruped.
+  const toppleable = typeof startDeath==='function' && !npc.t.glb && !npc.t.skinnedRig;
+  if(toppleable){ npc.dying = true; startDeath(npc.mesh); }
+  else npc.mesh.visible = false;
   if(!opt.silent) UI.chat(`You have defeated the ${npc.t.name}.`,'combat');
   dropLoot(npc.mesh.position, npc.t.drops);
   if(Player.target===npc) Player.target=null;
@@ -934,6 +945,9 @@ function fireBoltAtPlayer(npc, dmg){
 function npcAttack(npc, dt){
   npc.attackCd -= dt;
   const dist = npc.mesh.position.distanceTo(player.position);
+  // always turn to face the target while in combat — including standing in melee range,
+  // so monsters track the player instead of keeping a stale heading
+  npc.mesh.lookAt(player.position.x, npc.mesh.position.y, player.position.z);
   // spellcasters hold range and hurl bolts
   if(npc.t.ranged && dist <= 8 && dist >= 2.2){
     npc.mesh.lookAt(player.position.x, npc.mesh.position.y, player.position.z);
@@ -943,7 +957,7 @@ function npcAttack(npc, dt){
     const defRoll = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus()+64);
     let dmg = Math.random()<rollAccuracy(attRoll,defRoll) ? Math.ceil(Math.random()*npcMaxHit(npc.t)) : 0;
     if(dmg>0 && Player.protectedFrom(npc.t.ranged==='arrow' ? 'ranged' : 'magic')) dmg=0;
-    swing(npc.mesh);
+    swing(npc.mesh, npc.t.ranged==='arrow' ? 'bow' : 'cast');
     Sfx.magicCast();
     fireBoltAtPlayer(npc, dmg);
     return;
@@ -972,6 +986,7 @@ function npcAttack(npc, dt){
   }
   if(npc.attackCd>0) return;
   npc.attackCd = npc.t.speedTicks*TICK;
+  swing(npc.mesh, npc.t.atype||'slash');   // humanoids visibly swing; armless beasts no-op
   const attRoll = (npc.t.att+8) * (npc.t.aBonus+64);
   const defRoll = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus(npc.t.atype||'crush')+64);
   const hitChance = rollAccuracy(attRoll, defRoll);
@@ -1117,10 +1132,19 @@ function playerDeath(){
   UI.chat('You wake at the Veyhollow gates.','plain');
   UI.refreshHud();
 }
-function swing(g){
-  const p=g.userData.parts; if(!p||!p.armR) return;
+/* trigger an attack animation. `type` picks the motion archetype so a thrust, an
+   overhead crush, a bow draw and a cast each read distinctly — defaults to a slash.
+   Armless beasts have no armR, so this safely no-ops on them. */
+function swing(g, type){
+  const p=g.userData&&g.userData.parts; if(!p) return;
+  if(!p.armR){                                 // armless beast → a lunge/snap, not an arm swing
+    if(p.head||p.maw||p.claws) g.userData.beastSwing = {t:0, dur:0.42};   // tweened in tickBeastSwing
+    return;                                    // (truly static bodies have none of these — stay still as before)
+  }
+  type = type||'slash';
+  const DUR = {slash:0.45, stab:0.40, crush:0.52, bow:0.55, cast:0.50};
   g.userData.swinging = true;
-  g.userData.swing = {t:0, dur:0.45};   // tweened in tickSwing each frame
+  g.userData.swing = {t:0, dur:DUR[type]||0.45, type};   // tweened in tickSwing each frame
 }
 
 /* ---------- quests ---------- */

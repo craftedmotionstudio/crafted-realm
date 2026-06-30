@@ -3,8 +3,8 @@
    ============================================================ */
 /* ================= ITEM ICONS (drawn sprites) ================= */
 const ICONS = {};
-const TIER_CSS = {bronze:'#b08d57', iron:'#9aa0a8', steel:'#d0d4dc', aurel:'#d4a83e',
-  veyrite:'#3ec6b4', leather:'#8a5e34', cloth:'#7a86b8', glimmer:'#b48ae0'};
+const TIER_CSS = {copper:'#c6794a', bronze:'#b08d57', iron:'#9aa0a8', steel:'#d0d4dc', whitsteel:'#e8ecf2',
+  aurel:'#d4a83e', veyrite:'#3ec6b4', undercrag:'#6a5a7a', leather:'#8a5e34', cloth:'#7a86b8', glimmer:'#b48ae0'};
 function iconFor(id){
   if(ICONS[id]) return ICONS[id];
   const c=document.createElement('canvas'); c.width=32; c.height=32;

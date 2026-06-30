@@ -33,7 +33,9 @@ function initEngine(){
     camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
 }
 
-function mat(c){ return new THREE.MeshLambertMaterial({color:c, flatShading:true}); }
+// r128 MeshLambertMaterial has no `flatShading` (it's Gouraud/per-vertex), so passing it spams a
+// console warning per construction and does nothing — omit it. Look is unchanged (already smooth).
+function mat(c){ return new THREE.MeshLambertMaterial({color:c}); }
 
 /* ---------- static collision: rectangles + circles ---------- */
 WORLD.colliders = [];
@@ -1822,35 +1824,210 @@ function humanoid(bodyColor, opts){
     const cone=new THREE.Mesh(new THREE.ConeGeometry(0.14,0.42,5), mat(opts.hatColor||0x4a3a7a));
     cone.position.y=0.22; parts.headTop.add(cone);
   }
+  // ---- worn armour (opt-in per NPC type; reuses the player's own gear builders so an
+  //      armoured NPC reads identically to an armoured player). Every piece is rig-local,
+  //      so it scales with opts.scale and rides the same head/arm pivots the anim layer
+  //      drives — e.g. a shield in handL is carried up by armL when blockReact fires. ----
+  if(opts.helm!==undefined && typeof helmMesh==='function'){
+    cap2.visible=false; fringe.visible=false; back.visible=false;   // skull is under the helm now
+    const hm=helmMesh(opts.helm); hm.position.y=-0.04; parts.headTop.add(hm);
+  }
+  if(!opts.robe && opts.armour!==undefined && typeof bodyArmorMesh==='function')
+    g.add(bodyArmorMesh(opts.armour));                              // chest plate is rig-absolute (~y1.26)
+  if(!opts.robe && opts.legArmour!==undefined && typeof legArmorMesh==='function')
+    g.add(legArmorMesh(opts.legArmour, parts));                    // hides the cloth legs, plates the pivots
+  if(opts.shield && typeof shieldMesh==='function'){
+    const sh=shieldMesh(); sh.rotation.y=Math.PI/2; parts.handL.add(sh);
+  }
 
   g.scale.setScalar(opts.scale||1);
   g.userData.parts = parts;
   g.userData.walkT = 0;
   return g;
 }
-/* OSRS-style tweened slash: raise over the shoulder, fast diagonal cut, recover */
+/* tweened attack animations, one motion per archetype so each weapon class reads
+   distinctly: slash (diagonal cut), stab (straight thrust), crush (overhead slam),
+   bow (draw + release), cast (raise + flick). Drives armR/handR/torso (+ armL for the
+   bowstring); the root scale/rotation are left to hit-react & death so they never fight. */
 function tickSwing(g, dt){
   const s=g.userData.swing; if(!s) return false;
   const p=g.userData.parts; if(!p||!p.armR){ g.userData.swing=null; return false; }
   s.t += dt;
   const f = Math.min(1, s.t/s.dur);
-  let armX=0, armZ=0, wrist=0, twist=0;
-  if(f<0.35){                       // windup: weapon raised behind the shoulder
-    const k=f/0.35;
-    armX=-2.9*k; armZ=-0.4*k; wrist=0.6*k; twist=-0.3*k;
-  } else if(f<0.6){                 // the cut: fast diagonal slash across the body
-    const k=(f-0.35)/0.25;
-    armX=-2.9+2.5*k; armZ=-0.4+0.75*k; wrist=0.6-1.4*k; twist=-0.3+0.55*k;
-  } else {                          // recover
-    const k=(f-0.6)/0.4;
-    armX=-0.4*(1-k); armZ=0.35*(1-k); wrist=-0.8*(1-k); twist=0.25*(1-k);
+  const ease = x => 1-Math.pow(1-x,3);          // ease-out: snap then settle
+  const type = s.type||'slash';
+  let armX=0, armZ=0, wrist=0, twist=0, lean=0, armLX=null;
+  if(type==='stab'){                 // cock the elbow, drive a straight thrust, lunge in
+    if(f<0.30){ const k=f/0.30;            armX=-0.9*k;          wrist=-0.5*k;        lean=-0.10*k; }
+    else if(f<0.52){ const e=ease((f-0.30)/0.22); armX=-0.9-0.7*e; wrist=-0.5+0.9*e;  lean=-0.10+0.45*e; }
+    else { const k=(f-0.52)/0.48;          armX=-1.6*(1-k);      wrist=0.4*(1-k);     lean=0.35*(1-k); }
+  } else if(type==='crush'){         // hoist overhead, slam straight down, bend into it
+    if(f<0.40){ const e=ease(f/0.40);             armX=-3.2*e;                        lean=-0.12*e; }
+    else if(f<0.58){ const e=ease((f-0.40)/0.18); armX=-3.2+3.7*e; wrist=0.5*e;       lean=-0.12+0.42*e; }
+    else { const k=(f-0.58)/0.42;          armX=0.5*(1-k);       wrist=0.5*(1-k);     lean=0.30*(1-k); }
+  } else if(type==='bow'){           // bow arm held forward, off-arm draws the string then releases
+    armX=-1.45; twist=-0.12;
+    if(f<0.45){ const e=ease(f/0.45);             armLX=-1.0-1.3*e; }
+    else if(f<0.55){                               armLX=-2.3; }
+    else { const e=ease((f-0.55)/0.45);           armLX=-2.3+1.3*e; }
+  } else if(type==='cast'){          // raise the staff forward and flick the spell out
+    if(f<0.35){ const e=ease(f/0.35);             armX=-1.7*e;     wrist=-0.3*e;      lean=0.05*e; }
+    else if(f<0.55){ const e=ease((f-0.35)/0.20); armX=-1.7+0.5*e; wrist=-0.3+0.8*e;  lean=0.05+0.08*e; }
+    else { const k=(f-0.55)/0.45;          armX=-1.2*(1-k);      wrist=0.5*(1-k);     lean=0.13*(1-k); }
+  } else {                           // slash: raise over the shoulder, fast diagonal cut, recover
+    if(f<0.35){ const k=f/0.35;            armX=-2.9*k; armZ=-0.4*k;        wrist=0.6*k;     twist=-0.3*k; }
+    else if(f<0.6){ const k=(f-0.35)/0.25; armX=-2.9+2.5*k; armZ=-0.4+0.75*k; wrist=0.6-1.4*k; twist=-0.3+0.55*k; }
+    else { const k=(f-0.6)/0.4;            armX=-0.4*(1-k); armZ=0.35*(1-k);  wrist=-0.8*(1-k); twist=0.25*(1-k); }
   }
   p.armR.rotation.x=armX; p.armR.rotation.z=armZ;
   if(p.handR) p.handR.rotation.x=wrist;
-  if(p.torso) p.torso.rotation.y=twist;
+  if(p.torso){ p.torso.rotation.y=twist; p.torso.rotation.x=lean; }
+  if(armLX!==null && p.armL) p.armL.rotation.x=armLX;
   if(f>=1){ g.userData.swing=null; g.userData.swinging=false;
     p.armR.rotation.set(0,0,0); if(p.handR) p.handR.rotation.x=0;
-    if(p.torso) p.torso.rotation.y=0; }
+    if(p.torso){ p.torso.rotation.y=0; p.torso.rotation.x=0; }
+    if(p.armL) p.armL.rotation.x=0; }
+  return true;
+}
+/* ---------- hit-react + death: per-instance, owns g.scale/rotation only ----------
+   walkAnim/beastAnim/swing/lookAt never write the body ROOT scale, and a dead body
+   no longer gets lookAt, so these can drive the root transform without ever fighting
+   movement, the swing, or facing. All state lives on the instance — shared NPC_TYPES
+   and shared materials are never touched. */
+function hitReact(g){
+  if(!g||!g.userData) return;
+  const ud=g.userData;
+  if(ud._baseScale===undefined) ud._baseScale = g.scale.x || 1;
+  ud.hit = {t:0, dur:0.24};
+}
+function tickHit(g, dt){
+  const ud=g.userData, h=ud&&ud.hit; if(!h) return false;
+  h.t += dt;
+  const f = Math.min(1, h.t/h.dur);
+  const base = ud._baseScale || 1;
+  const pulse = Math.exp(-f*7) * Math.cos(f*22);   // sharp squash on impact, springs back with a small wobble
+  g.scale.set(base*(1+0.14*pulse), base*(1-0.20*pulse), base*(1+0.14*pulse));
+  if(f>=1){ ud.hit=null; g.scale.setScalar(base); }
+  return true;
+}
+/* block / parry: a brief defensive pose when a hit is fully absorbed (a 0 hitsplat).
+   Distinct from the hit-flinch (which owns root scale) — this raises a guard through
+   CHILD parts only, on channels no other anim writes (armL.z, handL.x, head.x; beast
+   head.x / claw.arm.x — the swing tracks own head.z / arm.z), and a sin(pi*f) envelope
+   returns every channel to exact rest at f>=1. Skipped on a corpse so a dead body never
+   guards; nothing on shared NPC_TYPES is touched. */
+function blockReact(g){
+  if(!g||!g.userData) return;
+  const ud=g.userData;
+  if(ud.death) return;                       // a corpse doesn't parry
+  ud.block = {t:0, dur:0.34};
+}
+function tickBlock(g, dt){
+  const ud=g.userData, b=ud&&ud.block, p=ud&&ud.parts;
+  if(!b||!p){ if(ud) ud.blocking=false; return false; }
+  b.t += dt;
+  const f = Math.min(1, b.t/b.dur);
+  const amp = Math.sin(Math.PI*f);           // 0 -> 1 (at f=0.5) -> 0, so it self-returns to rest
+  ud.blocking = true;                         // walkAnim skips its armL writes while this owns the guard
+  if(p.armL){                                 // humanoid / brute: snap the off-arm up across the chest
+    p.armL.rotation.x = -1.4*amp;
+    p.armL.rotation.z =  0.7*amp;
+    if(p.handL) p.handL.rotation.x = -0.5*amp;
+    if(p.head)  p.head.rotation.x =  0.16*amp;   // chin tucks behind the guard (bob owns head.z, this is free)
+  } else if(p.head){                          // wolf: rear the head back off the blow (swing owns head.z)
+    p.head.rotation.x = -0.32*amp;
+  } else if(p.maw){                            // crawler: flare the mandibles wide in a warding clamp (swing owns maw.y small)
+    for(const md of p.maw) md.m.rotation.y = md.sign*(0.4+0.6*amp);
+  } else if(p.claws){                          // crab: hoist both pincers up as a shield (swing owns arm.z)
+    for(const c of p.claws) c.arm.rotation.x = -0.5*amp;
+  }
+  if(f>=1){                                   // snap every guard channel back to exact rest
+    if(p.armL){ p.armL.rotation.x=0; p.armL.rotation.z=0; if(p.handL) p.handL.rotation.x=0; if(p.head) p.head.rotation.x=0; }
+    else if(p.head){ p.head.rotation.x=0; }
+    else if(p.maw){ for(const md of p.maw) md.m.rotation.y=md.sign*0.4; }
+    else if(p.claws){ for(const c of p.claws) c.arm.rotation.x=0; }
+    ud.block=null; ud.blocking=false; return false;
+  }
+  return true;
+}
+/* read the archetype off the parts each builder exposed — death motion is dispatched
+   on this so a crab, a crawler, a wolf and a brute don't all die the same way. Pure
+   read of the rig that's already there; nothing is mutated on shared NPC_TYPES. */
+function _deathStyle(p){
+  if(!p) return 'topple';
+  if(p.claws) return 'crab';        // crabBeast: front pincers + stubby legs
+  if(p.maw)   return 'crawler';     // crawlerBeast: scissor mandibles + six legs
+  if(p.jaw && p.legs) return 'wolf';// wolfBeast: hinged jaw + four legs
+  if(p.armR && p.legs) return 'brute';   // bruteBeast: biped boss with real arms
+  if(p.legL || p.armL) return 'biped';   // humanoid rig (walkAnim parts)
+  return 'topple';
+}
+/* tip the body over and sink it — the caller hides the mesh once this returns false.
+   The ROOT only ever rolls about z (this is the one axis that provably preserves the
+   facing baked into rotation.y), so every style varies the topple's size/speed and
+   layers archetype-specific collapse THROUGH the child parts the rig already owns.
+   Those child channels are dead this frame (a corpse skips walk/beastAnim), so nothing
+   fights them; tickDeath snaps them back to rest at f>=1 before the corpse is hidden. */
+function startDeath(g){
+  if(!g||!g.userData) return;
+  const ud=g.userData;
+  if(ud._baseScale===undefined) ud._baseScale = g.scale.x || 1;
+  ud.hit = null;                                          // a flinch in flight must not stomp the topple's scale
+  ud.swing = null; ud.swinging = false; ud.beastSwing = null;  // an in-flight strike must not resume after respawn
+  const style=_deathStyle(ud.parts);
+  const dir=(Math.floor(g.position.x+g.position.z)&1)?1:-1;
+  // a crab rolls fully onto its back; everything else lays out on its side
+  const roll = style==='crab' ? 2.6 : Math.PI/2;
+  const dur  = style==='crab' ? 0.70 : style==='brute' ? 0.78 : 0.55;
+  ud.death = {t:0, dur, dir, roll, style, baseY:g.position.y};
+}
+function tickDeath(g, dt){
+  const ud=g.userData, d=ud&&ud.death; if(!d) return false;
+  const p=ud.parts;
+  d.t += dt;
+  const f = Math.min(1, d.t/d.dur);
+  const e = 1 - Math.pow(1-f, 3);            // ease-out: fast tip, gentle settle
+  g.rotation.z = d.dir * d.roll * e;         // roll over from the feet (facing-y is preserved in the Euler)
+  g.position.y = d.baseY - 0.15*e;           // settle a touch into the ground
+  const base = ud._baseScale || 1;
+  g.scale.setScalar(base*(1-0.12*f));        // a slight shrink as it falls
+  if(p) switch(d.style){
+    case 'crab':                              // pincers fling open + up, legs splay stiff
+      for(const c of p.claws){ c.arm.rotation.x = 0.9*e; c.claw1.rotation.z = 0.35+0.5*e; c.claw2.rotation.z = -0.35-0.5*e; }
+      if(p.legs) for(const l of p.legs) l.rotation.x = -0.7*e;
+      break;
+    case 'crawler':                           // six legs curl up tight to the belly, mandibles go slack-wide
+      if(p.legs) for(const l of p.legs) l.rotation.x = 1.5*e;
+      if(p.maw) for(const md of p.maw) md.m.rotation.y = md.sign*(0.4+0.7*e);
+      break;
+    case 'wolf':                              // legs buckle forward, head & jaw droop limp
+      if(p.legs) for(const l of p.legs) l.rotation.x = 0.9*e;
+      if(p.head) p.head.rotation.z = -0.6*e;
+      if(p.jaw)  p.jaw.rotation.z  = -0.45*e;
+      break;
+    case 'brute':                             // heavy arms drop dead-weight, head lolls, legs give
+      if(p.armR) p.armR.rotation.z = 0.5*e;
+      if(p.armL) p.armL.rotation.z = -0.5*e;
+      if(p.legs) for(const l of p.legs) l.rotation.x = 0.4*e;
+      break;
+    case 'biped':                             // humanoid: limbs go limp, head drops
+      if(p.armL) p.armL.rotation.x = -0.6*e;
+      if(p.armR) p.armR.rotation.x = -0.6*e;
+      if(p.legL) p.legL.rotation.x = 0.3*e;
+      if(p.legR) p.legR.rotation.x = 0.3*e;
+      if(p.head) p.head.rotation.z = 0.4*e;
+      break;
+  }
+  if(f>=1){                                   // snap child parts back to rest before the corpse is hidden/revived
+    if(p) switch(d.style){
+      case 'crab': for(const c of p.claws){ c.arm.rotation.x=0; c.claw1.rotation.z=0.35; c.claw2.rotation.z=-0.35; } if(p.legs) for(const l of p.legs) l.rotation.x=0; break;
+      case 'crawler': if(p.legs) for(const l of p.legs) l.rotation.x=0; if(p.maw) for(const md of p.maw) md.m.rotation.y=md.sign*0.4; break;
+      case 'wolf': if(p.legs) for(const l of p.legs) l.rotation.x=0; if(p.head) p.head.rotation.z=0; if(p.jaw) p.jaw.rotation.z=0; break;
+      case 'brute': if(p.armR) p.armR.rotation.z=0; if(p.armL) p.armL.rotation.z=0; if(p.legs) for(const l of p.legs) l.rotation.x=0; break;
+      case 'biped': if(p.armL) p.armL.rotation.x=0; if(p.armR) p.armR.rotation.x=0; if(p.legL) p.legL.rotation.x=0; if(p.legR) p.legR.rotation.x=0; if(p.head) p.head.rotation.z=0; break;
+    }
+    ud.death=null; return false;
+  }
   return true;
 }
 /* hold a weapon clear of the body: angled forward and out of the leg */
@@ -1865,15 +2042,63 @@ function holdWeapon(grip, m, def){
 /* animate limbs while moving; relax when idle */
 function walkAnim(g, moving, dt, speedMul){
   const p=g.userData.parts; if(!p) return;
-  if(tickSwing(g, dt)) { /* swing owns the right arm this frame */ }
+  const ud=g.userData;
+  tickHit(g, dt);                            // squash-and-stretch flinch (owns root scale)
+  const swung = tickSwing(g, dt);            // swing owns the right arm + torso.y this frame
+  tickBlock(g, dt);                          // a parried hit raises a guard (sets ud.blocking; owns armL.z/handL/head.x)
+  speedMul = speedMul || 1;
+  if(ud.idleT===undefined) ud.idleT = ud.walkT || 0;   // desync breathing so a crowd never pulses in lockstep
+  ud.idleT += dt;
+  const run = moving && speedMul>1.25;       // a faster gait once you're moving above a walk
   if(moving){
-    g.userData.walkT += dt*9*(speedMul||1);
-    const s=Math.sin(g.userData.walkT)*0.55;
+    ud.walkT += dt*9*speedMul;
+    const s=Math.sin(ud.walkT)*(run?0.8:0.55);
     p.legL.rotation.x=s; p.legR.rotation.x=-s;
-    if(!g.userData.swinging){ p.armL.rotation.x=-s*0.7; p.armR.rotation.x=s*0.7; }
+    if(!ud.swinging){ if(!ud.blocking) p.armL.rotation.x=-s*0.7; p.armR.rotation.x=s*0.7; }
+    // upper-body life: torso counter-sway + a forward lean that deepens at a run
+    if(p.torso && !swung){
+      if(ud._torsoSY!==undefined) p.torso.scale.y = ud._torsoSY;   // no breathing swell while striding
+      p.torso.rotation.z = -Math.sin(ud.walkT)*(run?0.09:0.05);
+      p.torso.rotation.x = run?0.13:0.05;
+    }
+    const hb = Math.sin(ud.walkT)*0.04;       // head bob with the stride (hat tracks it)
+    if(p.head)    p.head.rotation.z = hb;
+    if(p.headTop) p.headTop.rotation.z = hb;
+  } else if(ud.inCombat && !ud.death){
+    // COMBAT-READY STANCE: idle while locked in a fight reads completely differently from
+    // peaceful standing — bladed footing, weapon hand raised on guard, weight pitched forward,
+    // and a tense, quick ready-bob. Drives only the same idle channels the peaceful branch owns
+    // (legs.x, arms.x, torso, head.z), so it never fights the swing (gated by ud.swinging, owns
+    // armR/torso.y mid-strike), the block (gated by ud.blocking, owns armL), the hit-flinch
+    // (root scale) or death. On combat exit the peaceful branch's decays ease every channel home.
+    const cb = Math.sin(ud.idleT*3.2);             // faster + tenser than the breathing idle
+    p.legL.rotation.x =  0.16;  p.legR.rotation.x = -0.16;   // one foot forward, one back: a bladed stance
+    if(!ud.swinging){
+      p.armR.rotation.x = -0.55 + cb*0.05;          // weapon arm up & ready (swing owns it mid-strike)
+      if(!ud.blocking) p.armL.rotation.x = -0.32 + cb*0.04; // off-hand raised as a guard (block owns armL)
+    }
+    if(p.torso && !swung){
+      if(ud._torsoSY===undefined) ud._torsoSY = p.torso.scale.y;
+      p.torso.scale.y = ud._torsoSY * (1 + Math.sin(ud.idleT*2.6)*0.016);  // shallower, quicker combat breath
+      p.torso.rotation.z = cb*0.05;                 // weight shifts foot to foot
+      p.torso.rotation.x = 0.13;                    // lean into the fight
+    }
+    const hc = cb*0.03;
+    if(p.head)    p.head.rotation.z = hc;
+    if(p.headTop) p.headTop.rotation.z = hc;
   } else {
     for(const k of ['legL','legR']) p[k].rotation.x*=0.8;
-    if(!g.userData.swinging){ p.armL.rotation.x*=0.8; p.armR.rotation.x*=0.8; }
+    if(!ud.swinging){ if(!ud.blocking) p.armL.rotation.x*=0.8; p.armR.rotation.x*=0.8; }
+    // idle: a slow breathing swell of the chest + a gentle weight-shift sway, lean easing to neutral
+    if(p.torso && !swung){
+      if(ud._torsoSY===undefined) ud._torsoSY = p.torso.scale.y;
+      p.torso.scale.y = ud._torsoSY * (1 + Math.sin(ud.idleT*1.6)*0.022);
+      p.torso.rotation.z = Math.sin(ud.idleT*0.8)*0.018;
+      p.torso.rotation.x *= 0.85;
+    }
+    const hn = Math.sin(ud.idleT*0.8+0.4)*0.02;   // faint idle head settle
+    if(p.head)    p.head.rotation.z = hn;
+    if(p.headTop) p.headTop.rotation.z = hn;
   }
 }
 /* ---------- creature textures: Nano-Banana-painted maps loaded at boot ---------- */
@@ -2198,14 +2423,125 @@ function makeStandingStone(x,z,s){
   st.castShadow=true; scene.add(st);
   addCircleCollider(x,z,0.5*s);
 }
+/* armless-beast attack: a single lunge-and-snap, one read per archetype, driven only
+   through stored child parts (head/jaw, mandibles, pincers) so it never touches the
+   root scale/rotation owned by hit-react & death. State lives on the instance. */
+function tickBeastSwing(g, dt){
+  const ud=g.userData, bs=ud&&ud.beastSwing, p=ud&&ud.parts;
+  if(!bs||!p) return false;
+  bs.t += dt;
+  const f = Math.min(1, bs.t/bs.dur);
+  // snap curve: small wind-back, hard strike at f≈0.5 (peak +1), ease back to rest
+  const snap = f<0.30 ? -(f/0.30)*0.25
+             : f<0.50 ? -0.25 + (f-0.30)/0.20*1.25
+             : 1.0*(1-(f-0.50)/0.50);
+  const strike = Math.max(0, snap), wind = Math.max(0, -snap);
+  if(p.head){ p.head.rotation.z = -0.55*strike + 0.18*wind; }   // wolf: nod down into the bite
+  if(p.jaw){ p.jaw.rotation.z = -0.5*strike; }                  // hinged jaw drops open as it lunges
+  if(p.maw){ for(const md of p.maw) md.m.rotation.y = md.sign*0.4*(1-1.6*strike); }  // crawler scissor
+  if(p.claws){ for(const c of p.claws){                         // crab: pincer thrusts + claws clamp
+    c.arm.rotation.z = -0.5*strike + 0.1*wind;
+    const clamp=0.32*strike; c.claw1.rotation.z = 0.35-clamp; c.claw2.rotation.z = -0.35+clamp;
+  }}
+  if(f>=1){ ud.beastSwing=null;
+    if(p.head) p.head.rotation.z=0;
+    if(p.jaw) p.jaw.rotation.z=0;
+    if(p.maw) for(const md of p.maw) md.m.rotation.y=md.sign*0.4;
+    if(p.claws) for(const c of p.claws){ c.arm.rotation.z=0; c.claw1.rotation.z=0.35; c.claw2.rotation.z=-0.35; }
+    return false; }
+  return true;
+}
+/* ease the locomotion-only channels (torso vertical lurch + shoulder roll, brute off-arm
+   counter-swing) back to their captured rest when a beast stops walking, so it never freezes
+   mid-stride tilted. Only touches channels the gait itself introduced; gated so a swing/block
+   in flight keeps ownership of the off-arm. */
+function _gaitHome(p, ud){
+  if(p.torso){
+    if(ud._torsoBY!==undefined) p.torso.position.y += (ud._torsoBY - p.torso.position.y)*0.2;
+    if(Math.abs(p.torso.rotation.z)>1e-4) p.torso.rotation.z *= 0.8; else p.torso.rotation.z=0;
+  }
+  if(p.armL && !ud.swinging && !ud.blocking) p.armL.rotation.x *= 0.85;
+}
 function beastAnim(g, moving, dt){
+  tickHit(g, dt);                            // flinch works on any body, parts or not
+  const swung = tickSwing(g, dt);            // brutes (parts.armR) wind up + slam; no-ops on armless beasts
+  const lunged = tickBeastSwing(g, dt);      // armless beasts lunge/snap with what they have
+  tickBlock(g, dt);                          // a parried hit rears the head back / hoists pincers (free channels)
+  const busy = swung || lunged;              // an attack owns the idle channels this frame
   const p=g.userData.parts; if(!p||!p.legs) return;
+  const ud=g.userData;
+  if(ud.idleT===undefined) ud.idleT = ud.walkT || 0;
+  ud.idleT += dt;
   if(moving){
-    g.userData.walkT += dt*10;
-    const s=Math.sin(g.userData.walkT)*0.5;
-    p.legs.forEach((l,i)=>l.rotation.z = (i%2?s:-s));
-  } else p.legs.forEach(l=>l.rotation.z*=0.8);
-  if(p.tail) p.tail.rotation.y = Math.sin(performance.now()*0.004+g.userData.walkT)*0.3;
+    // per-archetype locomotion — was a single i%2 gait at one cadence for EVERY beast,
+    // so a wolf, a six-legged crawler, a crab and a hulking brute all walked identically.
+    // Classify once off the rig parts (same read as death) and drive a distinct gait:
+    // a wolf TROTS (diagonal leg pairs), a crawler/crab SKITTERS (a wave travelling down
+    // its legs), a brute LUMBERS (slow heavy two-beat + vertical lurch + counter-swinging
+    // arms). Cadence + amplitude differ per body. Only free channels are touched —
+    // legs.z (walk owns), torso.position.y/rotation.z (no other anim writes these; swing
+    // owns torso.rotation.x/y, not z/posY), and brute armR/armL.x are gated by the same
+    // swing/block flags the rest of the rig respects.
+    if(ud._gaitStyle===undefined) ud._gaitStyle = _deathStyle(p);
+    const gs=ud._gaitStyle, n=p.legs.length;
+    const cad = gs==='brute'?6.0 : gs==='crawler'?14.0 : gs==='crab'?13.0 : 10.5;
+    const amp = gs==='brute'?0.72 : gs==='crab'?0.30 : gs==='crawler'?0.34 : 0.55;
+    ud.walkT += dt*cad;
+    const t=ud.walkT;
+    p.legs.forEach((l,i)=>{
+      let ph;
+      if(gs==='brute')        ph = (i%2)?0:Math.PI;                 // heavy two-beat plod
+      else if(gs==='crawler'||gs==='crab') ph = -i*(Math.PI/Math.max(1,n/2)); // wave travels back -> skitter
+      else                    ph = (i===0||i===3)?0:Math.PI;        // diagonal trot (quadruped)
+      l.rotation.z = Math.sin(t+ph)*amp;
+    });
+    if(!busy){
+      if(p.torso){
+        if(ud._torsoSY===undefined) ud._torsoSY = p.torso.scale.y;
+        if(ud._torsoBY===undefined) ud._torsoBY = p.torso.position.y;
+        p.torso.scale.y = ud._torsoSY;                              // hand breath back to walk
+        if(gs==='brute'){
+          p.torso.position.y = ud._torsoBY + Math.abs(Math.sin(t))*0.06;  // heavy vertical lurch
+          p.torso.rotation.z = Math.sin(t)*0.05;                          // shoulder roll
+        } else if(gs==='crab'){
+          p.torso.rotation.z = Math.sin(t)*0.10;                          // scuttling side-rock
+          p.torso.position.y = ud._torsoBY + Math.abs(Math.sin(t*2))*0.02;
+        } else if(gs==='crawler'){
+          p.torso.position.y = ud._torsoBY;                               // low, steady — no bob
+        } else {
+          p.torso.position.y = ud._torsoBY + Math.sin(t*2)*0.02;          // light trot bob
+        }
+      }
+      if(gs==='brute'){                                            // arms counter-swing the stride
+        if(p.armR && !ud.swinging) p.armR.rotation.x = Math.sin(t+Math.PI)*0.35;
+        if(p.armL && !ud.swinging && !ud.blocking) p.armL.rotation.x = Math.sin(t)*0.35;
+      } else if(gs==='wolf' && p.head){
+        p.head.rotation.z = Math.sin(t*2)*0.05;                    // muzzle bob on the trot
+      }
+    }
+  } else if(ud.inCombat && !ud.death && !busy){
+    // agitated combat stance: a resting beast in a fight isn't calm — heavier, faster breath,
+    // a low weight-shifting crouch, and (for brutes with real arms) fists hoisted ready. Only
+    // touches legs.z / torso.scale / armR.x — the channels walk + idle already own — so it never
+    // fights a lunge/slam (gated by !busy), the block, the flinch or death. On exit the peaceful
+    // branch decays legs.z and the new armR decay eases the fists back down.
+    if(p.torso){
+      if(ud._torsoSY===undefined) ud._torsoSY = p.torso.scale.y;
+      p.torso.scale.y = ud._torsoSY * (1 + Math.sin(ud.idleT*3.4)*0.05);   // faster, heavier breath
+    }
+    p.legs.forEach((l,i)=> l.rotation.z = Math.sin(ud.idleT*3.4 + i*0.9)*0.07);  // restless weight-shift
+    if(p.armR && !ud.swinging) p.armR.rotation.x = -0.45 + Math.sin(ud.idleT*3.4)*0.05;  // brute raises its fists
+    _gaitHome(p, ud);                          // ease any walk lurch/roll/off-arm swing back to rest
+  } else {
+    p.legs.forEach(l=>l.rotation.z*=0.8);
+    if(p.armR && !ud.swinging) p.armR.rotation.x*=0.85;   // ease the fists down when the fight ends
+    _gaitHome(p, ud);                          // ease the walk's torso lurch/roll + off-arm swing home
+    if(p.torso && !busy){                       // idle flank breathing so a resting beast still has life
+      if(ud._torsoSY===undefined) ud._torsoSY = p.torso.scale.y;
+      p.torso.scale.y = ud._torsoSY * (1 + Math.sin(ud.idleT*2.0)*0.03);   // suppressed mid-slam so the swing reads
+    }
+  }
+  if(p.tail) p.tail.rotation.y = Math.sin(performance.now()*0.004+ud.walkT)*0.3;
 }
 function makeHPBar(parent, yOff){
   const c = document.createElement('canvas'); c.width=64; c.height=8;
@@ -2317,12 +2653,12 @@ function amuletMesh(gem){
 }
 function capeMesh(color){
   const c=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.3,0.95,8,1,true,Math.PI*0.6,Math.PI*0.8),
-    new THREE.MeshLambertMaterial({color, side:THREE.DoubleSide, flatShading:true}));
+    new THREE.MeshLambertMaterial({color, side:THREE.DoubleSide}));   // flatShading unsupported on Lambert (r128)
   c.position.set(0,0.95,-0.16);
   return c;
 }
-const METALS = {bronze:0xb08d57, iron:0x9aa0a8, steel:0xd0d4dc, aurel:0xd4a83e,
-  veyrite:0x3ec6b4, leather:0x8a5e34, cloth:0x7a86b8, glimmer:0xb48ae0};
+const METALS = {copper:0xc6794a, bronze:0xb08d57, iron:0x9aa0a8, steel:0xd0d4dc, whitsteel:0xe8ecf2,
+  aurel:0xd4a83e, veyrite:0x3ec6b4, undercrag:0x6a5a7a, leather:0x8a5e34, cloth:0x7a86b8, glimmer:0xb48ae0};
 function tierMetal(def){ return METALS[def.tier] !== undefined ? METALS[def.tier] : 0xb08d57; }
 /* one mesh router for any equipable item — used worn AND on the ground */
 function gearMesh(id){

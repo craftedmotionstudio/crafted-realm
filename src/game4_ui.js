@@ -438,6 +438,8 @@ const UI = {
     return {x:(v.x*0.5+0.5)*innerWidth, y:(-v.y*0.5+0.5)*innerHeight};
   },
   floatDmg(obj, dmg){
+    if(dmg>0 && typeof hitReact==='function') hitReact(obj);   // every hitsplat that lands flinches the body
+    else if(dmg<=0 && typeof blockReact==='function') blockReact(obj);   // a fully-absorbed hit (0 splat) raises a guard
     const p=this.worldToScreen(obj);
     const d=document.createElement('div');
     d.className='float-dmg'+(dmg===0?' zero':''); d.textContent=dmg;
