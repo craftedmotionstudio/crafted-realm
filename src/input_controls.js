@@ -46,6 +46,7 @@ const Controls = {
   /* ---- WASD movement, camera-relative. Returns true if it moved the player this frame. ---- */
   manualMove(dt){
     if(this.chatting || typeof player==='undefined' || typeof camCtl==='undefined') return false;
+    if(typeof CharCreator!=='undefined' && CharCreator.active) return false;   // locked during character design
     const k = this.keys;
     const f = (k['w']?1:0) - (k['s']?1:0);     // forward / back
     const r = (k['d']?1:0) - (k['a']?1:0);     // strafe right / left

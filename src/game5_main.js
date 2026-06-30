@@ -609,6 +609,7 @@ function update(dt){
   SaveGame.tick(dt);
   if(typeof AnimShowcase!=='undefined' && AnimShowcase.active) AnimShowcase.tick(dt);
   if(typeof Controls!=='undefined' && Controls.update) Controls.update(dt);   // arrow camera + chat bubble
+  if(typeof CharCreator!=='undefined' && CharCreator.active) CharCreator.tick(dt);   // design-panel turntable
 
   const z = zoneAt(player.position.x, player.position.z);
   if(z!==curZone){
@@ -654,7 +655,8 @@ const BOOT_STEPS = [
   [65, 'Populating Veyhollow',        ()=>{ populateMainland(); if(typeof buildVeyhollowKeep==='function') buildVeyhollowKeep(); }],
   [80, 'Preparing Tutor\'s Holm',     ()=>{ populateBrynholt(); populateDunes(); populateScarlands(); populateArena(); populateHolm(); if(typeof buildMenagerie==='function') buildMenagerie(); Bots.spawn(); }],
   [95, 'Waking the adventurer',       ()=>{
-      player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, beard:false, emblem:true});
+      player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, gender:CharCfg.gender, hair:CharCfg.hair,
+        hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs, emblem:true});
       const h=ZONES.holm.pos;
       player.position.set(h[0], gy(h[0],h[1]), h[1]);
       player.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
@@ -692,6 +694,9 @@ document.getElementById('play-btn').onclick = ()=>{
   UI.chat('Welcome to Crafted Realm.','sys');
   UI.chat('You wash ashore on Tutor\'s Holm. Talk to Guide Bram by the rowboat.','plain');
   UI.chat('Press ` (backquote) at any time for the Administrator Console.','sys');
+  // a NEW adventurer designs their look right here on the Holm (or keeps the default)
+  if(CharCfg._new){ CharCfg._new=false;
+    setTimeout(()=>{ if(typeof CharCreator!=='undefined') CharCreator.open(); }, 500); }
 };
 boot();
 animate();

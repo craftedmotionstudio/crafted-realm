@@ -1727,7 +1727,8 @@ function humanoid(bodyColor, opts){
   const legC  = opts.legs  || [0x5a6248,0x4a4a3a,0x55483e,0x4e4438][Math.floor(Math.random()*4)];
   const beltC = opts.belt  || 0x8a2a22;
   const cuffC = shade(bodyColor,0.45);
-  const hasBeard = opts.beard!==undefined ? opts.beard : (!opts.hairLong && Math.random()<0.45);
+  const fem = opts.gender==='f';
+  const hasBeard = opts.beard!==undefined ? opts.beard : (!fem && !opts.hairLong && Math.random()<0.45);
   const g = new THREE.Group();
   const parts = {};
   const prism5=(rT,rB,h,c)=>{ const m=new THREE.Mesh(new THREE.CylinderGeometry(rT,rB,h,8), mat(c)); m.castShadow=true; return m; };
@@ -1752,7 +1753,7 @@ function humanoid(bodyColor, opts){
   parts.torso = new THREE.Mesh(new THREE.CylinderGeometry(0.255,0.185,0.5,8),
     new THREE.MeshLambertMaterial({map:clothTex(bodyColor)}));
   parts.torso.castShadow=true;
-  parts.torso.position.y=1.28; parts.torso.scale.z=0.62; g.add(parts.torso);
+  parts.torso.position.y=1.28; parts.torso.scale.set(fem?0.9:1, 1, 0.62); g.add(parts.torso);
   if(opts.emblem!==false && !opts.robe){
     const emC=shade(bodyColor,0.4);
     for(let i=0;i<3;i++){
@@ -1764,7 +1765,7 @@ function humanoid(bodyColor, opts){
   for(const side of ['L','R']){
     const sgn = side==='L'?-1:1;
     const pad=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.155,0.2,8), mat(shade(bodyColor,0.86)));
-    pad.position.set(sgn*0.27,1.5,0); pad.rotation.z=sgn*0.55; pad.castShadow=true; g.add(pad);
+    pad.position.set(sgn*(fem?0.235:0.27),1.5,0); pad.rotation.z=sgn*0.55; if(fem) pad.scale.set(0.82,0.95,1); pad.castShadow=true; g.add(pad);
     const piv=new THREE.Group(); piv.position.set(sgn*0.3, 1.46, 0);
     piv.rotation.z = sgn*0.1;
     const sleeve=prism5(0.06,0.05,0.22,shade(bodyColor,0.78)); sleeve.position.y=-0.11; piv.add(sleeve);
@@ -1800,16 +1801,34 @@ function humanoid(bodyColor, opts){
   const faceM = new THREE.MeshLambertMaterial({map:faceTex(skin)});
   parts.head = new THREE.Mesh(headGeo, [sideM,sideM,sideM,sideM,faceM,sideM]);
   parts.head.position.y=1.74; parts.head.castShadow=true; g.add(parts.head);
+  // ---- hairstyle: cap2/back/fringe are the base "short" cut and stay defined for the
+  //      hat/helm hide-logic below; each named style toggles/adds extra pieces. ----
+  const hairStyle = opts.hairStyle || (opts.hairLong ? 'long' : 'short');
+  const longBack = (hairStyle==='long' || hairStyle==='ponytail');
   const cap2=new THREE.Mesh(new THREE.CylinderGeometry(0.125,0.12,0.1,8), mat(hairC));
   cap2.position.y=1.85; cap2.scale.z=0.88; g.add(cap2);
-  const back=new THREE.Mesh(new THREE.BoxGeometry(0.19,opts.hairLong?0.38:0.16,0.05), mat(hairC));
-  back.position.set(0, opts.hairLong?1.66:1.76, -0.105); g.add(back);
+  const back=new THREE.Mesh(new THREE.BoxGeometry(0.19,longBack?0.38:0.16,0.05), mat(hairC));
+  back.position.set(0, longBack?1.66:1.76, -0.105); g.add(back);
+  const hairSides=[];
   for(const s of [-1,1]){
     const sidep=new THREE.Mesh(new THREE.BoxGeometry(0.035,0.1,0.13), mat(hairC));
-    sidep.position.set(s*0.105,1.79,-0.01); g.add(sidep);
+    sidep.position.set(s*0.105,1.79,-0.01); g.add(sidep); hairSides.push(sidep);
   }
   const fringe=new THREE.Mesh(new THREE.BoxGeometry(0.16,0.045,0.04), mat(hairC));
   fringe.position.set(0.008,1.855,0.085); fringe.rotation.z=0.07; g.add(fringe);
+  if(hairStyle==='ponytail'){
+    const tail=new THREE.Mesh(new THREE.CylinderGeometry(0.052,0.03,0.36,6), mat(hairC));
+    tail.position.set(0,1.58,-0.17); tail.rotation.x=0.3; g.add(tail);
+  } else if(hairStyle==='bun'){
+    const bun=new THREE.Mesh(new THREE.SphereGeometry(0.085,8,7), mat(hairC));
+    bun.position.set(0,1.97,-0.11); g.add(bun);
+  } else if(hairStyle==='mohawk'){
+    hairSides.forEach(s=>s.visible=false); back.visible=false;
+    const crest=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.15,0.27), mat(hairC));
+    crest.position.set(0,1.97,-0.01); g.add(crest);
+  } else if(hairStyle==='bald'){
+    cap2.visible=false; back.visible=false; fringe.visible=false; hairSides.forEach(s=>s.visible=false);
+  }
   if(hasBeard){
     const beard=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.028,0.13,8), mat(hairC));
     beard.position.set(0,1.64,0.06); beard.scale.z=0.6; g.add(beard);

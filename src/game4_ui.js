@@ -741,6 +741,7 @@ canvasEl.addEventListener('mouseup', e=>{
   if(Date.now() < (typeof _swallowClickUntil!=='undefined' ? _swallowClickUntil : 0)) return;
   camCtl.down=false;
   if(camCtl.dragging){ camCtl.dragging=false; return; }
+  if(typeof CharCreator!=='undefined' && CharCreator.active) return;   // designing: ignore world clicks
   if(window.Build && Build.active){ Build.onClick(e); return; }   // editor: place prop
   const hit = pick(e); if(!hit) return;
   handleClick(hit.obj, hit.point);
@@ -1434,14 +1435,19 @@ document.addEventListener('mousedown', function(e){
 });
 
 /* ================= CHARACTER CREATION ================= */
-const CharCfg = { name:'Adventurer', shirt:0x3a6ea5, skin:0xd8a878 };
+const CharCfg = { name:'Adventurer', gender:'m', shirt:0x3a6ea5, skin:0xd8a878,
+                  hair:0x4a3526, hairStyle:'short', beard:false, legs:0x4a4a3a };
 const SHIRT_CHOICES=[0x3a6ea5,0x5b7d4a,0x8a3d3d,0x6b4a8a,0x9a7a32,0x3a3a42];
-const SKIN_CHOICES=[0xd8a878,0xc89868,0xa87848,0x8a5e38];
+const SKIN_CHOICES=[0xf2c9a0,0xd8a878,0xc89868,0xa87848,0x8a5e38,0x5e3f28];
+const HAIR_CHOICES=[0x2a1d14,0x4a3526,0x7a5230,0xb07a3a,0xc9a24a,0x8a8a8a,0xd8d8d8,0x7a2a1a];
+const PANTS_CHOICES=[0x4a4a3a,0x55483e,0x3a3f55,0x5a3a3a,0x3a4a3a,0x26262c];
+const HAIR_STYLES=['short','long','ponytail','bun','mohawk','bald'];
 function applyPlayerLook(){
   const pos = player ? player.position.clone() : null;
   const rot = player ? player.rotation.y : 0;
   if(player){ scene.remove(player); }
-  player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, beard:false, emblem:true});
+  player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, gender:CharCfg.gender, hair:CharCfg.hair,
+    hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs, emblem:true});
   if(pos) player.position.copy(pos);
   player.rotation.y = rot;
   player.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
@@ -1481,6 +1487,7 @@ function wireLogin(){
     Sfx.click();
     const nm=(($('char-name')&&$('char-name').value)||'Adventurer').trim().slice(0,14);
     CharCfg.name=nm||'Adventurer';
+    CharCfg._new=true;                       // triggers Character Design on the Holm
     applyPlayerLook();
     if($('play-welcome')) $('play-welcome').textContent='Welcome, '+CharCfg.name;
     show('none','none','block');
@@ -1534,7 +1541,8 @@ const SaveGame = {
       tut:{step:Tutorial.step, complete:!!Tutorial.complete},
       pos:[player.position.x, player.position.z],
       tracked:Quest.tracked,
-      look:{name:CharCfg.name, shirt:CharCfg.shirt, skin:CharCfg.skin},
+      look:{name:CharCfg.name, gender:CharCfg.gender, shirt:CharCfg.shirt, skin:CharCfg.skin,
+            hair:CharCfg.hair, hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs},
       styles:Player.attackStyles, autoRetaliate:Player.autoRetaliate,
       music:{unlocked:Music.unlocked, mode:Music.mode, current:Music.current},
       energy:Player.energy, runOn:Player.runOn, spec:Player.spec,
@@ -1574,6 +1582,11 @@ const SaveGame = {
         Music.mode=d.music.mode||'auto'; Music.current=d.music.current||'hollow_square'; }
       if(d.look){ CharCfg.name=d.look.name||'Adventurer';
         CharCfg.shirt=d.look.shirt||0x3a6ea5; CharCfg.skin=d.look.skin||0xd8a878;
+        if(d.look.gender) CharCfg.gender=d.look.gender;
+        if(d.look.hair!==undefined) CharCfg.hair=d.look.hair;
+        if(d.look.hairStyle) CharCfg.hairStyle=d.look.hairStyle;
+        if(d.look.beard!==undefined) CharCfg.beard=d.look.beard;
+        if(d.look.legs!==undefined) CharCfg.legs=d.look.legs;
         applyPlayerLook(); }
       if(d.tut && d.tut.complete){
         Tutorial.complete=true; Tutorial.step=Tutorial.steps.length;
