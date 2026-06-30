@@ -78,7 +78,10 @@ def main():
     print("  -> state_path:", state_path, flush=True)
 
     print("[3/3] extract_glb ...", flush=True)
-    glb_ref = client.predict(state_path, 40000, 1024, api_name="/extract_glb_api", session_id=sid)
+    # face budget: keep meshes light enough to rig (UniRig) on an 8GB GPU and run in-engine.
+    # 40k chokes UniRig near-OOM; ~12k is plenty for a stylized low-poly character.
+    faces = int(os.environ.get("PIXAL3D_FACES", "12000"))
+    glb_ref = client.predict(state_path, faces, 1024, api_name="/extract_glb_api", session_id=sid)
     print("  glb_ref:", json.dumps(glb_ref, default=str)[:300], flush=True)
     # resolve the final GLB url/path and download it ourselves (with auth)
     url = None

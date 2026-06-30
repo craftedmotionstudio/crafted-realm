@@ -21,3 +21,4 @@ BUILD_INFO.json
 
 # UniRig intermediate extract/skeleton npz (regenerable)
 assets/models/ash_wyrm/
+assets/models/base_m1.glb
