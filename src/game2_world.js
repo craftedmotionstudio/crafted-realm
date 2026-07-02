@@ -214,13 +214,26 @@ function buildTerrainPatch(cx, cz, size, segs, edgeFalloff){
     // OSRS-style ground mottle: hand-painted unevenness
     const mot = Math.sin(x*0.31)*Math.sin(z*0.27) + Math.sin(x*0.071+1.3)*Math.sin(z*0.083);
     c.offsetHSL(0, -0.04+mot*0.02, mot*0.035);
+    // living-meadow underlay: broad deterministic drifts of dried gold, deep clover and
+    // bright tufts (the OSRS blended-underlay read — grass is never one green)
+    if(zone!=='dunes' && zone!=='quarry' && h>-0.8){
+      const p1 = Math.sin(x*0.045+2.7)*Math.sin(z*0.052+1.1);    // ~20-tile drifts
+      const p2 = Math.sin(x*0.11+0.4)*Math.sin(z*0.09+3.3);      // ~7-tile patches
+      if(p1>0.35) c.lerp(new THREE.Color(0xa8a049), Math.min(0.33,(p1-0.35)*0.5));
+      else if(p1<-0.4) c.lerp(new THREE.Color(0x55703a), Math.min(0.34,(-p1-0.4)*0.55));
+      if(p2>0.55) c.lerp(new THREE.Color(0x97ae5c), Math.min(0.28,(p2-0.55)*0.6));
+    }
     // the deeper into the Scarlands, the more scorched the earth
     if(zone==='scarlands' && typeof scarThreat==='function'){
       const t=Math.min(scarThreat(z),12);
       if(t>0) c.lerp(new THREE.Color(0x6e5a48), t/14);
     }
     if(h<-0.8) c.setHex(0xe2d49a);                       // sandy shore
-    if(!edgeFalloff && pathDist(x,z)<2.4) c.setHex(0xb89868); // dirt path
+    if(!edgeFalloff){
+      const pdst = pathDist(x,z);
+      if(pdst<2.4) c.setHex(0xb89868);                                    // dirt path
+      else if(pdst<3.8) c.lerp(new THREE.Color(0xb89868), (3.8-pdst)/1.4*0.42); // trampled margin
+    }
     const pd = Math.hypot(x-ZONES.pond.pos[0], z-ZONES.pond.pos[1]);
     if(pd<10.5 && pd>=9) c.setHex(0xd6c489);             // pond shore sand
     const hd = Math.hypot(x-HOLM_POND.x, z-HOLM_POND.z);

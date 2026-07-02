@@ -533,3 +533,14 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
   shows softened shadows + village life; no regressions at the pass-1 vantage.
 - **Pass #3 queue:** vertex-color ground variation (the research's underlay-blend look),
   gable-end triangle dressing, evening window-glow pass, NPC ambient chat bubbles.
+
+### 2026-07-02 — VISUAL LOOP pass #3: living-meadow ground + trampled path margins (kept)
+- **Changed (game2 buildTerrainPatch vertex colors):** two deterministic drift layers over
+  all grassy zones — ~20-tile sun-dried gold / deep clover drifts + ~7-tile bright tufts
+  (capped lerps so it never posterizes); paths gained a 1.4-tile trampled margin (blend
+  toward dirt) instead of the hard 2.4 cutoff.
+- **Verdict:** foreground grass reads painterly rather than uniform; subtler delta than
+  passes 1-2 but zero-cost and no regressions — kept. The wide vantage also confirms the
+  square, furnace and campfire cluster read beautifully under the pass-1 light.
+- **Pass #4 queue:** plaza paving tone, NPC ambient chat bubbles, distant-fog color tune,
+  gable-end dressing.
