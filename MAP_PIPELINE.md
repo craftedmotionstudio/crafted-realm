@@ -153,6 +153,33 @@ no dead space · 2-second readability.
 
 ---
 
-*The Wayfarer's Rest (east of the Commons square) is the living reference build — when in
-doubt about proportions, furnishing density, or how a ladder/cellar should feel, go stand
-in it.*
+## 8. The Jagex detail blueprint (castle/landmark checklist, research-locked)
+
+From the OSRS castle-anatomy research (Lumbridge / Falador / Ardougne / Fisher Realm):
+one bridge in — and put someone ON it · moat is read-only · floor = function (ground
+public / middle power / top reward) · two staircases so no floor dead-ends · tower top
+reserved for exactly one crown object · kitchen trapdoor = the future quest socket ·
+**8–15 objects per interior room** (2-4 furniture anchors, 2-4 wall items, a rug, 2-4
+searchables, 1-3 surface item spawns, ≥1 non-door click) · ranked attackable garrison =
+decor AND training gym · courtyard trades clutter for motion (patrols, sparring pairs) +
+centerpiece + statues with lore examines · one absurd object per castle (the chicken
+law) · a locked skill-gated room that isn't a quest · examine text is 30% of the detail
+budget. **Reference builds:** The Wayfarer's Rest (inn/cellar scale, east of the square)
+and **WARDENHOLM KEEP** (landmark scale, the moated island at (56,4) — ramparts, towers,
+Proving Ring, undercroft dungeon + chained boss + quest). Cave/undercroft offset ledger:
+(300,300)=Wayfarer cellar · (330,330)=Wardenholm undercroft.
+
+## 9. Blender's place (workflow research verdict, 2 agents, 2026-07-02)
+
+The successful Claude-gamedev pattern everywhere: **the world ships as engine-side data,
+never as scene meshes** — Claude emits placement data, deterministic code builds it, and
+Blender (via the MCP) is the tool for **individual kit pieces and hero props** (thrones,
+statues, gates, boss set-dressing): model low-poly flat-shaded → apply transforms →
+origin at base snap-point → one GLB per piece → engine places on the grid. Blender never
+lays out levels (proven failure mode). Landmark polish pass = replace the most-seen
+procedural hero props with Blender-authored ones, one GLB at a time.
+
+---
+
+*When in doubt about proportions, furnishing density, or how a ladder/cellar/dungeon
+should feel — go stand in the Wayfarer's Rest, then walk Wardenholm's walls.*
