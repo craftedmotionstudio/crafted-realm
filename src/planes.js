@@ -1,0 +1,141 @@
+/* ============ Planes — verticality: upper floors, ladders, caves (MAP_PIPELINE) ============
+ * The OSRS world model adapted to our heightfield engine:
+ *   plane 0  = the ground (heightfield, groundY)
+ *   plane 1+ = upper storeys — flat rectangular FLOOR REGIONS registered per building
+ *   plane -1 = underground — authored cave floors (OSRS parks dungeons at a far
+ *              map offset; ours live wherever authored, usually off the charted map)
+ *
+ * Core ideas:
+ *   - Player.plane picks which elevation function rules: elevAt(x,z) is groundY on
+ *     plane 0, a registered floor's fixed y elsewhere (null = not walkable there).
+ *   - Colliders and floors both carry a plane tag; collides()/tileWalkable filter
+ *     by the mover's plane (game2/game5 consult Planes when present).
+ *   - Ladders/stairs are clickables {kind:'climb', to:{plane,x,z}} — one tile up
+ *     or down, exactly like the OSRS teleport-on-climb model.
+ *   - Rendering: each building's storey groups register visibility rules — on a
+ *     higher plane you see your storey, roofs above lift away (extends the
+ *     existing WORLD.interiors roof-lift); entities on other planes are hidden.
+ *
+ * Authoring API (used by buildkit.js and by hand):
+ *   Planes.addFloor({plane:1, x, z, hw, hd, y})            → walkable upper floor
+ *   Planes.addCollider({plane:1, type:'rect', x,z,hw,hd})  → plane-tagged wall
+ *   Planes.edgeFence(floor)                                → auto colliders around a floor rim
+ *   Planes.addClimb({x, z, up:{...}|down:{...}, label})    → ladder/stair teleport
+ *   Planes.addCave({x, z, hw, hd, y:-6, rock:0x5a5248})    → floor + walls + region
+ */
+const Planes = {
+  FLOORS: [],          // {plane, x, z, hw, hd, y}
+  current(){ return (typeof Player!=='undefined' && Player.plane) || 0; },
+
+  addFloor(f){ f.plane=f.plane===undefined?1:f.plane; this.FLOORS.push(f); return f; },
+
+  /* the plane-aware elevation: null = you cannot stand there on this plane */
+  elevAt(x, z, plane){
+    plane = plane===undefined ? this.current() : plane;
+    if(plane===0) return (typeof groundY==='function') ? groundY(x, z) : 0;
+    let best=null;
+    for(const f of this.FLOORS){
+      if(f.plane!==plane) continue;
+      if(Math.abs(x-f.x)<=f.hw && Math.abs(z-f.z)<=f.hd){ best=f.y; break; }
+    }
+    return best;
+  },
+
+  /* plane-tagged colliders live in the same WORLD.colliders array; entries without
+     a plane tag are ground-level (back-compatible with every existing collider) */
+  addCollider(c){ c.plane=c.plane===undefined?1:c.plane; WORLD.colliders.push(c); return c; },
+
+  /* ring a floor with thin rect colliders so you can't stroll off the rim */
+  edgeFence(f){
+    const t=0.18;
+    this.addCollider({type:'rect', plane:f.plane, x:f.x, z:f.z-f.hd, hw:f.hw, hd:t});
+    this.addCollider({type:'rect', plane:f.plane, x:f.x, z:f.z+f.hd, hw:f.hw, hd:t});
+    this.addCollider({type:'rect', plane:f.plane, x:f.x-f.hw, z:f.z, hw:t, hd:f.hd});
+    this.addCollider({type:'rect', plane:f.plane, x:f.x+f.hw, z:f.z, hw:t, hd:f.hd});
+  },
+
+  /* a climbable — ladder/stair/cave-hole. `up`/`down` = {plane, x, z} destinations.
+     mesh is optional: pass yours (kit ladder/stairs) or get a simple ladder built. */
+  addClimb(opts){
+    const g = opts.mesh || (()=>{
+      const grp=new THREE.Group();
+      const wood=new THREE.MeshLambertMaterial({color:0x7a5a34});
+      for(const s of [-0.28, 0.28]){
+        const rail=new THREE.Mesh(new THREE.BoxGeometry(0.09, opts.h||2.6, 0.09), wood);
+        rail.position.set(s,(opts.h||2.6)/2,0); grp.add(rail);
+      }
+      for(let i=0;i<6;i++){
+        const rung=new THREE.Mesh(new THREE.BoxGeometry(0.62,0.07,0.07), wood);
+        rung.position.set(0,0.3+i*((opts.h||2.6)-0.5)/5,0); grp.add(rung);
+      }
+      return grp;
+    })();
+    const baseY = opts.y!==undefined ? opts.y : (this.elevAt(opts.x, opts.z, opts.basePlane||0) || 0);
+    g.position.set(opts.x, baseY, opts.z);
+    if(opts.ry) g.rotation.y=opts.ry;
+    g.userData={kind:'climb', label:opts.label||('Climb <b>'+(opts.name||'Ladder')+'</b>'),
+      climb:{up:opts.up||null, down:opts.down||null}};
+    scene.add(g); WORLD.clickables.push(g);
+    if(opts.basePlane!==undefined && opts.basePlane!==0) g.userData.plane=opts.basePlane;
+    return g;
+  },
+
+  climbTo(dest){
+    if(!dest) return;
+    Player.plane = dest.plane;
+    const y = this.elevAt(dest.x, dest.z, dest.plane);
+    player.position.set(dest.x, y===null?player.position.y:y, dest.z);
+    Player.moveTo=null; Player.path=[]; Player.target=null;
+    this.refreshVisibility();
+    UI.chat(dest.plane>0 ? 'You climb up.' : dest.plane<0 ? 'You climb down into the dark…' : 'You climb down.', 'plain');
+    if(typeof Sfx!=='undefined' && Sfx.click) Sfx.click();
+  },
+
+  /* ---- caves: an authored underground room (floor slab + rock walls + ambience) ---- */
+  addCave(opts){
+    const y=opts.y!==undefined?opts.y:-6;
+    const g=new THREE.Group();
+    const rock=new THREE.MeshLambertMaterial({color:opts.rock||0x4a4238});
+    const floorM=new THREE.Mesh(new THREE.BoxGeometry(opts.hw*2, 0.3, opts.hd*2),
+      new THREE.MeshLambertMaterial({color:opts.floor||0x3a3229}));
+    floorM.position.set(opts.x, y-0.15, opts.z); floorM.receiveShadow=true; g.add(floorM);
+    const H=3.2;
+    const mkWall=(wx,wz,ww,wd)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(ww,H,wd), rock);
+      m.position.set(wx, y+H/2, wz); g.add(m); };
+    mkWall(opts.x, opts.z-opts.hd, opts.hw*2+0.6, 0.6);
+    mkWall(opts.x, opts.z+opts.hd, opts.hw*2+0.6, 0.6);
+    mkWall(opts.x-opts.hw, opts.z, 0.6, opts.hd*2+0.6);
+    mkWall(opts.x+opts.hw, opts.z, 0.6, opts.hd*2+0.6);
+    const ceil=new THREE.Mesh(new THREE.BoxGeometry(opts.hw*2+0.6, 0.4, opts.hd*2+0.6),
+      new THREE.MeshLambertMaterial({color:0x2e2820}));
+    ceil.position.set(opts.x, y+H, opts.z); g.add(ceil);
+    // a little torchlight so the dark reads cozy, not void
+    const glow=new THREE.PointLight(0xff9a40, 0.9, Math.max(opts.hw,opts.hd)*2.4);
+    glow.position.set(opts.x, y+2.0, opts.z); g.add(glow);
+    scene.add(g);
+    const floor=this.addFloor({plane:opts.plane!==undefined?opts.plane:-1,
+      x:opts.x, z:opts.z, hw:opts.hw-0.5, hd:opts.hd-0.5, y});
+    this.edgeFence(floor);
+    return {group:g, floor};
+  },
+
+  /* ---- visibility: storeys/roofs react to the player's plane; off-plane entities hide ---- */
+  _watchers: [],   // {group, showOn:(plane)=>bool}
+  addVisibilityRule(group, showOn){ this._watchers.push({group, showOn}); },
+  refreshVisibility(){
+    const p=this.current();
+    for(const w of this._watchers){
+      try{ const want=!!w.showOn(p); if(w.group.visible!==want) w.group.visible=want; }catch(e){}
+    }
+    // entities live on plane 0 unless tagged — hide them when we're above/below
+    if(typeof WORLD!=='undefined' && WORLD.npcs){
+      for(const n of WORLD.npcs){
+        if(n.dead) continue;
+        const np=n.plane||0;
+        const want=(np===p);
+        if(n.mesh && n.mesh.visible!==want && !n.dying) n.mesh.visible=want;
+      }
+    }
+  },
+};
+if(typeof Player!=='undefined') Player.plane=Player.plane||0;

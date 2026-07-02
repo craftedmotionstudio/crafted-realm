@@ -808,6 +808,15 @@ function buildCtxEntries(hit, e){
       entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
       entries.push({html:`Examine <b>${ITEMS[u.id].name}</b>`,
         fn:()=>UI.chat(ITEMS[u.id].examine||`It's ${aOrAn(ITEMS[u.id].name)}.`,'plain')});
+    } else if(u.kind==='climb'){
+      const pl=(Player.plane||0);
+      if(u.climb.up && u.climb.up.plane>pl)
+        entries.push({html:'Climb-up '+(u.label||'').replace(/^Climb /,''), fn:()=>handleClick(o, o.position)});
+      if(u.climb.down && u.climb.down.plane<pl)
+        entries.push({html:'Climb-down '+(u.label||'').replace(/^Climb /,''),
+          fn:()=>{ if(typeof Sched!=='undefined') Sched.walkThen(o.position, 1.8, ()=>Planes.climbTo(u.climb.down));
+                   else Planes.climbTo(u.climb.down); }});
+      if(!u.climb.up && !u.climb.down) entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
     } else if(u.kind==='altar'){
       entries.push({html:'Pray at <b>Altar</b>', fn:()=>{ Player.action={type:'pray', obj:o, t:0}; Player.moveTo=o.position.clone(); }});
       if(Player.count('bones')>0)
@@ -949,6 +958,14 @@ function handleClick(obj, point){
     return;
   }
   if(u.kind==='drop'){ Player.action={type:'pickup', obj}; orderWalk(obj.position); return; }
+  if(u.kind==='climb'){
+    // ladders/stairs: walk to the base, then move a plane (src/planes.js)
+    const c=u.climb, pl=(Player.plane||0);
+    const dest = (c.up && c.down) ? ((c.up.plane>pl) ? c.up : c.down) : (c.up || c.down);
+    if(typeof Sched!=='undefined') Sched.walkThen(obj.position, 1.8, ()=>Planes.climbTo(dest));
+    else { orderWalk(obj.position); setTimeout(()=>Planes.climbTo(dest), 900); }
+    return;
+  }
   if(u.kind==='resource'){
     if(!u.alive){ UI.chat('There is nothing left to gather here.','plain'); return; }
     if(u.rtype==='fish'){

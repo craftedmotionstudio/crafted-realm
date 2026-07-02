@@ -478,3 +478,29 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
   elapsed time); coordinate clicks are unreliable in hidden tabs (drive menus via DOM
   `.click()`); `Player.maxPrayer` is a FUNCTION (don't assign a number in QA scripts);
   the title-screen flame overlay was deliberately retired ("too cheesy") — don't re-add.
+
+### 2026-07-02 — Map & Building Pipeline v1: verticality, buildkit, the Wayfarer's Rest (World)
+- **Gap closed:** no repeatable method for OSRS-quality map/building creation; no walkable
+  upper floors (the castle doc's explicit blocker), no caves, hollow interiors.
+- **Research:** two web agents (OSRS map internals via RuneLite/OpenRS2/rsmod — verified
+  numbers: 128 units/tile, 1.875-tile storeys, 4-field locs, shape taxonomy 0-22, +6400
+  dungeons, underlay blend radius 5; modular kits/roof algorithms/editor UX via RSPSi/
+  Tiled/Level Design Book) + the user's three YouTube transcripts (verdict, thrice
+  confirmed: AI for assets, hand+kit assembly for worlds; walk-paths-first design).
+- **Built:** `src/planes.js` (Player.plane, walkable floor regions + rim fences, plane-
+  tagged colliders + plane-aware BFS/movement, climb teleports w/ menu integration,
+  addCave far-offset underground rooms, plane visibility rules); `src/buildkit.js`
+  (Buildkit.house one-liner → multi-storey furnished building; ~20-piece furniture kit;
+  room presets house/shop/pub/bank/smithy/bedroom with the OSRS lived-in checklist;
+  autoRoof 4-dir erosion for L-shapes); `src/map_showcase.js` (The Wayfarer's Rest:
+  2-storey inn + ladder + cellar — the living reference build); `MAP_PIPELINE.md`
+  (doctrine, adopted OSRS model w/ numbers, the add-a-village recipe, story-coherence
+  rules, upgrade roadmap).
+- **Bugs caught by verification:** ladder arrival tile landed 0.15 outside the floor rect
+  (fixed: arrival steps inward); showcase building mid-boot grabbed ANOTHER building's
+  interiors entry and hoisted the wrong roof (fixed: capture interiors index before
+  makeBuilding + gate on `running`).
+- **Verified live (9/9):** climb up → correct elevation, walkable floor, rim blocked,
+  roof hides; climb down → roof restores; trapdoor → cellar (plane -1, walkable,
+  surface NPCs hidden) → ladder out. Screenshot: the inn reads like a Lumbridge house
+  with the roof lifted — furnished bedroom visible from above.

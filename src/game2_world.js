@@ -41,9 +41,13 @@ function mat(c){ return new THREE.MeshLambertMaterial({color:c}); }
 WORLD.colliders = [];
 function addRectCollider(x,z,hw,hd){ WORLD.colliders.push({type:'rect',x,z,hw,hd}); }
 function addCircleCollider(x,z,r){ WORLD.colliders.push({type:'circle',x,z,r}); }
-function collides(x,z,pad,ignoreDoors){
+function collides(x,z,pad,ignoreDoors,plane){
   pad = pad||0.25;
+  // plane-aware: colliders default to the ground plane; upper-floor/cave walls carry
+  // a plane tag (src/planes.js) and only block movers on that plane
+  if(plane===undefined) plane=0;
   for(const c of WORLD.colliders){
+    if((c.plane||0)!==plane) continue;
     if(ignoreDoors && c.door) continue;   // planners may look through doors; walkers may not
     if(c.type==='rect'){
       if(Math.abs(x-c.x) < c.hw+pad && Math.abs(z-c.z) < c.hd+pad) return true;

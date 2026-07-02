@@ -10,9 +10,18 @@ let worldTickAcc=0, worldTickCount=0;
    exactly like Old School. We return EVERY tile centre along the route (no string-pulling)
    so the path is a strict orthogonal staircase the follower walks tile by tile. */
 const TILE_SZ = 1;
+/* the player's elevation source — groundY on the surface, a registered floor on
+   upper storeys / in caves (src/planes.js). null = not standable on this plane. */
+function pElev(x, z){
+  const pl=(typeof Player!=='undefined' && Player.plane)||0;
+  if(pl!==0 && typeof Planes!=='undefined') return Planes.elevAt(x, z, pl);
+  return groundY(x, z);
+}
 function tileWalkable(i, j){
   const cx=i+0.5, cz=j+0.5;
-  if(collides(cx, cz, 0.42, true)) return false;     // props/walls (closed doors don't block plans)
+  const pl=(typeof Player!=='undefined' && Player.plane)||0;
+  if(collides(cx, cz, 0.42, true, pl)) return false;   // props/walls (closed doors don't block plans)
+  if(pl!==0){ return pElev(cx, cz)!==null; }            // on a floor: only registered floor area
   const y=groundY(cx, cz); if(y===null || y<-1.2) return false;   // off-map / water
   return true;
 }
@@ -60,7 +69,7 @@ function orderWalk(point){
   Player._navAge=0; Player._navTries=0; Player._navBest=1e9; Player._navStall=0;
   Player._navDetour=null; Player._navDetour2=null;
   const r=computePath(player.position.x, player.position.z, Player.moveTo.x, Player.moveTo.z);
-  Player.path = r.pts.map(p=>new THREE.Vector3(p[0], groundY(p[0],p[1])||0, p[1]));
+  Player.path = r.pts.map(p=>new THREE.Vector3(p[0], pElev(p[0],p[1])||0, p[1]));
   Player._pathPartial = !r.reached || (Player.path.length &&
     Math.hypot(Player.path[Player.path.length-1].x-Player.moveTo.x,
                Player.path[Player.path.length-1].z-Player.moveTo.z) > 1.2);
@@ -113,7 +122,7 @@ function update(dt){
           budget-=dd; Player.path.shift(); playerMovedThisFrame=true;
         } else {
           const nx=player.position.x+dx/dd*budget, nz=player.position.z+dz/dd*budget;
-          const ny=groundY(nx,nz);
+          const ny=pElev(nx,nz);
           player.position.set(nx, ny===null?player.position.y:ny, nz);
           player.lookAt(wp.x, player.position.y, wp.z);
           budget=0; playerMovedThisFrame=true;
