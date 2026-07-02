@@ -143,6 +143,7 @@ function update(dt){
   if(_nTicks > 5){ _nTicks = 5; worldTickAcc = 0; }   // drop backlog after a tab stall (no spiral of death)
   else { worldTickAcc -= _nTicks * TICK; }
   for(let _ti=0; _ti<_nTicks; _ti++){ const dt = TICK; worldTickCount++;   // dt shadowed to TICK
+  if(typeof Sched!=='undefined') Sched._tick();          // scheduled tick tasks (walk-then-do, repeats)
   Player.tickVitals(dt, playerMovedThisFrame);
   Player.regen(dt);
   if(Player.target && !Player.target.dead) playerAttack(Player.target, dt);

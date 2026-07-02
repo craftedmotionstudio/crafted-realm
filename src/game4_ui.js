@@ -1618,9 +1618,10 @@ wireLogin();
 /* ================= SAVE SYSTEM (localStorage) ================= */
 const SaveGame = {
   KEY:'motionscape_save',
-  available(){ try{ return typeof localStorage!=='undefined' && !!localStorage; }catch(e){ return false; } },
+  // all durable bytes flow through the Persist boundary (src/persist.js) — V2 swaps the store
+  available(){ try{ return typeof Persist!=='undefined' && !!Persist.store; }catch(e){ return false; } },
   exists(){ if(!this.available()) return false;
-    try{ return !!localStorage.getItem(this.KEY); }catch(e){ return false; } },
+    return Persist.store.has(this.KEY); },
   serialize(){
     return JSON.stringify({
       v:1,
@@ -1641,7 +1642,7 @@ const SaveGame = {
   },
   save(silent){
     if(!this.available()) return false;
-    try{ localStorage.setItem(this.KEY, this.serialize());
+    try{ if(!Persist.store.set(this.KEY, this.serialize())) return false;
       if(!silent) UI.chat('Game saved.','sys');
       return true;
     }catch(e){ return false; }
@@ -1649,7 +1650,7 @@ const SaveGame = {
   load(){
     if(!this.available()) return false;
     let d=null;
-    try{ const raw=localStorage.getItem(this.KEY); if(!raw) return false; d=JSON.parse(raw); }
+    try{ const raw=Persist.store.get(this.KEY); if(!raw) return false; d=JSON.parse(raw); }
     catch(e){ return false; }
     if(!d || d.v!==1) return false;
     try{
@@ -1693,7 +1694,7 @@ const SaveGame = {
   },
   reset(){
     if(!this.available()) return;
-    try{ localStorage.removeItem(this.KEY); }catch(e){}
+    Persist.store.del(this.KEY);
   },
   timer:0,
   tick(dt){

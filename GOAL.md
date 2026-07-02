@@ -408,13 +408,13 @@ every genuinely-shipped system. Tagged by milestone.
 - [x] 4-dir tile BFS click-to-move
 - [x] Local save/load
 - [x] Bounded-radius BFS (MAX=64) + closest-approach fallback + re-path on arrival
-- [ ] Central interaction dispatcher keyed by (type,id,option) *(V1)*
-- [ ] Self-registering content-hook modules + namespaced ids *(V1)*
-- [ ] Intent/transport encode-decode boundary *(V1, MMO-enabling)*
-- [ ] Action scheduler (walk-to-then-do, repeat N ticks) *(V1)*
-- [ ] Pluggable persistence interface (localStorage impl now) *(V1)*
-- [ ] Deterministic-tick + render-interpolation pass *(V1)*
-- [ ] Split the big three files into content modules *(V1, ongoing)*
+- [x] Central interaction dispatcher (`src/dispatch.js` — Interact.register, auto menu entries)
+- [x] Self-registering content hooks + namespaced ids (`npc:Name` / `kind:altar` / `*`) + typed event bus (`src/events.js`)
+- [x] Intent/transport encode-decode boundary (`src/intents.js` — local delivery round-trips the wire format)
+- [x] Action scheduler on the world tick (`src/scheduler.js` — after/every/walkThen, cancellable)
+- [x] Pluggable persistence boundary (`src/persist.js`; SaveGame routes through it)
+- [x] Deterministic 600ms sim tick + hidden-tab heartbeat — [ ] tick-based movement interpolation (couples to the V2 Web-Worker sim; movement is already smooth + tile-locked)
+- [ ] Split the big three files into content modules *(ongoing — combat_math extracted; all new systems ship as own files)*
 - [ ] World sim in a Web Worker *(V2)*
 - [ ] WebSocket transport + cache-over-fetch *(V2)*
 
@@ -425,9 +425,9 @@ every genuinely-shipped system. Tagged by milestone.
 - [x] Offensive spellbook with rune costs
 - [x] 15 skills on the exact XP curve
 - [x] Run energy
-- [ ] Isolated, test-locked combat core (guard like the validator) *(V1)*
-- [ ] Per-item attribute/charge bags *(V1)*
-- [ ] Configurable XP-rate / fatigue data knobs *(V1)*
+- [x] Isolated, test-locked combat core (`src/combat_math.js` + `tools/test_combat.js`, 24 assertions incl. XP-curve checkpoints)
+- [x] Per-item attribute/charge bags (`src/item_attrs.js` — def + instance level, Kronos pattern)
+- [x] Configurable XP-rate / fatigue data knobs (`src/config.js` — global + per-skill, persisted)
 
 ### World & content
 - [x] NPC AI + aggression + respawn (per-instance state)
