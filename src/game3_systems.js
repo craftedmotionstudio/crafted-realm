@@ -345,6 +345,10 @@ function npcWeakness(t){
 
 /* ---------- visible gear on the character ---------- */
 function refreshPlayerGear(){
+  if(player.userData && player.userData.isPlayerGLB){    // GLB avatar: bone-attach + region recolor path
+    if(typeof refreshGLBGear==='function') refreshGLBGear();
+    return;
+  }
   const parts = player.userData.parts;
   const gear = player.userData.gear || (player.userData.gear = {});
   for(const k in gear){
@@ -409,7 +413,10 @@ function spawnNpc(typeId, x, z){
     }
   }
   let mesh;
-  if(t.glb){                                 // pipeline image-to-3D model (Gemini sprite -> SF3D/Pixal3D GLB)
+  if(t.glbChar && typeof charNpcModel==='function'){   // hero-pipeline character (baked idle/walk clips)
+    mesh = charNpcModel(t);
+  }
+  else if(t.glb){                            // pipeline image-to-3D model (Gemini sprite -> SF3D/Pixal3D GLB)
     mesh = makeGlbModel(t.glb, {height: t.glbHeight || 1.8*(t.size||1), color: t.color, skinned: t.skinnedRig});
   }
   else if(t.assetModel){                     // pipeline-authored Blockbench model
@@ -1130,12 +1137,15 @@ function playerDeath(){
   const p = Tutorial.complete ? ZONES.commons.pos : ZONES.holm.pos;
   player.position.set(p[0]+2, gy(p[0]+2,p[1]+2), p[1]+2);
   UI.chat('You wake at the Veyhollow gates.','plain');
+  refreshPlayerGear();      // death drops gear — the avatar must stop showing it (GLB regions reset too)
   UI.refreshHud();
 }
 /* trigger an attack animation. `type` picks the motion archetype so a thrust, an
    overhead crush, a bow draw and a cast each read distinctly — defaults to a slash.
    Armless beasts have no armR, so this safely no-ops on them. */
 function swing(g, type){
+  const gm=g.userData&&g.userData.gmix;                 // GLB character: play the baked attack clip
+  if(gm && gm.attack){ gm.attack.reset(); gm.attack.play(); return; }
   const p=g.userData&&g.userData.parts; if(!p) return;
   if(!p.armR){                                 // armless beast → a lunge/snap, not an arm swing
     if(p.head||p.maw||p.claws) g.userData.beastSwing = {t:0, dur:0.42};   // tweened in tickBeastSwing
@@ -1294,56 +1304,107 @@ const Music = {
   toggle(){ this.on ? this.stop() : this.start(); },
 };
 
+/* Quest engine v2 — fully data-driven off the QUESTS stage objects (OSRS-emulator style
+ * progress-state machine: varp-like integer stage per quest, generic objective hooks). */
 const Quest = {
   tracked:null,
+  stageOf(id){ const st=Player.quests[id]; return st ? st.stage : 0; },
+  curStage(id){                       // the active stage object, or null
+    const st=Player.quests[id]; if(!st || st.stage===99) return null;
+    return QUESTS[id].stages[Math.min(st.stage, QUESTS[id].stages.length-1)] || null;
+  },
+  stageText(id){
+    const q=QUESTS[id], st=Player.quests[id];
+    const s=q.stages[st ? Math.min(st.stage,q.stages.length-1) : 0];
+    return s ? s.text.replace('%n', st?st.counter:0) : '';
+  },
+  qp(){ let n=0; for(const id in QUESTS) if(this.done(id)) n+=(QUESTS[id].qp||1); return n; },
+  qpMax(){ let n=0; for(const id in QUESTS) n+=(QUESTS[id].qp||1); return n; },
+  canStart(id){
+    const req=(QUESTS[id]||{}).requires; if(!req) return true;
+    if(req.quests) for(const r of req.quests) if(!this.done(r)) return false;
+    if(req.qp && this.qp()<req.qp) return false;
+    return true;
+  },
+  reqText(id){
+    const req=(QUESTS[id]||{}).requires; if(!req || !req.quests) return '';
+    return req.quests.filter(r=>!this.done(r)).map(r=>QUESTS[r].name).join(', ');
+  },
   track(id){
     this.tracked = this.tracked===id ? null : id;
     this.updateMarker();
-    const q=QUESTS[id], st=Player.quests[id];
     if(this.tracked){
-      const stage = st ? Math.min(st.stage, q.stages.length-1) : 0;
-      UI.chat(`Quest tracked: ${q.name} — ${q.stages[stage].replace('%n', st?st.counter:0)} Follow the yellow flag on your minimap.`,'quest');
+      UI.chat(`Quest tracked: ${QUESTS[id].name} — ${this.stageText(id)} Follow the yellow flag on your minimap.`,'quest');
     } else { UI.chat('Quest tracking cleared.','plain'); }
     UI.refreshQuests();
   },
   updateMarker(){
     WORLD.questMarker = null;
     const id=this.tracked; if(!id) return;
-    const q=QUESTS[id]; if(!q.targets) return;
     const st=Player.quests[id];
     if(st && st.stage===99) return;
-    const stage = st ? Math.min(st.stage, q.targets.length-1) : 0;
-    const t=q.targets[stage]; if(!t) return;
-    if(t.npc){
-      const f=WORLD.friendlies.find(f=>f.id===t.npc);
+    const s = st ? this.curStage(id) : QUESTS[id].stages[0];
+    if(!s) return;
+    if(s.at){ WORLD.questMarker={x:s.at[0], z:s.at[1]}; return; }
+    if(s.npc){
+      const f=WORLD.friendlies.find(f=>f.id===s.npc);
       if(f){ WORLD.questMarker={x:f.mesh.position.x, z:f.mesh.position.z}; return; }
     }
-    if(t.zone && ZONES[t.zone]) WORLD.questMarker={x:ZONES[t.zone].pos[0], z:ZONES[t.zone].pos[1]};
+    if(s.zone && ZONES[s.zone]) WORLD.questMarker={x:ZONES[s.zone].pos[0], z:ZONES[s.zone].pos[1]};
   },
   state(id){ return Player.quests[id] || null; },
-  start(id){ Player.quests[id]={stage:1, counter:0};
-    UI.chat(`Quest started: ${QUESTS[id].name}.`,'xp'); UI.refreshQuests(); Sfx.quest(); },
+  start(id){
+    Player.quests[id]={stage:1, counter:0};
+    UI.chat(`Quest started: ${QUESTS[id].name}.`,'xp');
+    UI.chat(this.stageText(id),'quest');
+    UI.refreshQuests(); Sfx.quest();
+  },
+  advance(id){
+    const st=Player.quests[id]; if(!st || st.stage===99) return;
+    st.stage++; st.counter=0;
+    if(st.stage >= QUESTS[id].stages.length){ this.complete(id); return; }
+    UI.chat(this.stageText(id),'quest');
+    this.updateMarker(); UI.refreshQuests(); Sfx.quest();
+  },
+  /* 'bring' turn-in helper: true if the player carries every required item */
+  hasBring(id){
+    const s=this.curStage(id); if(!s || s.type!=='bring') return false;
+    return s.items.every(it=>Player.count(it.id)>=it.q);
+  },
+  takeBring(id){
+    const s=this.curStage(id); if(!s || s.type!=='bring') return;
+    s.items.forEach(it=>Player.removeItem(it.id, it.q));
+    this.advance(id);
+  },
   complete(id){
     setTimeout(()=>{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }, 50);
     const q=QUESTS[id]; Player.quests[id].stage = 99;
-    UI.chat(`Congratulations! Quest complete: ${q.name}.`,'xp');
     for(const sk in q.reward.xp) Player.addXp(sk, q.reward.xp[sk]);
     q.reward.items.forEach(it=>Player.addItem(it.id, it.q));
+    if(this.tracked===id){ this.tracked=null; this.updateMarker(); }
+    if(typeof UI.questComplete==='function') UI.questComplete(id);
+    else UI.chat(`Congratulations! Quest complete: ${q.name}.`,'xp');
     UI.refreshQuests(); Sfx.level();
   },
   done(id){ const s=Player.quests[id]; return s && s.stage===99; },
   onKill(typeId){
-    const gt=Player.quests.grub_trouble;
-    if(gt && gt.stage===1 && typeId==='grubkin'){
-      gt.counter++;
-      UI.chat(`Grubkins slain: ${gt.counter}/3.`,'plain');
-      if(gt.counter>=3){ gt.stage=2; UI.chat('Return to Warden Maela.','plain'); }
-      UI.refreshQuests();
+    for(const id in QUESTS){
+      const s=this.curStage(id);
+      if(!s || s.type!=='kill' || s.target!==typeId) continue;
+      const st=Player.quests[id];
+      st.counter++;
+      if(st.counter >= (s.count||1)){
+        this.advance(id);
+      } else {
+        UI.chat(s.text.replace('%n', st.counter),'plain');
+        UI.refreshQuests();
+      }
     }
-    const wt=Player.quests.wardens_trial;
-    if(wt && wt.stage===1 && typeId==='fenlord'){
-      wt.stage=2; UI.chat('The Fenlord falls! Return to Warden Maela.','plain');
-      UI.refreshQuests();
+  },
+  onZone(zone){
+    for(const id in QUESTS){
+      const s=this.curStage(id);
+      if(s && s.type==='goto' && s.zone===zone) this.advance(id);
     }
   },
 };

@@ -225,6 +225,29 @@ for (const qk in D.QUESTS) {
   if (Array.isArray(q.targets)) for (const tg of q.targets) {
     if (tg.zone && !ZONESET.has(tg.zone)) err(`quest '${qk}' target zone '${tg.zone}' is not a real ZONE`);
   }
+  // v2 stage objects: {text, type, npc, zone, target, count, items}
+  if (Array.isArray(q.stages)) q.stages.forEach((s, i) => {
+    if (typeof s !== 'object' || !s) return;              // legacy string stages
+    const where = `quest '${qk}' stage ${i}`;
+    if (!s.text) err(`${where}: missing text`);
+    if (s.zone && !ZONESET.has(s.zone)) err(`${where}: zone '${s.zone}' is not a real ZONE`);
+    if (s.type === 'kill') {
+      if (!D.NPC_TYPES[s.target]) err(`${where}: kill target '${s.target}' is not a real NPC type`);
+      if (!(Number.isFinite(s.count) && s.count >= 1)) err(`${where}: kill count must be >= 1`);
+    }
+    if (s.type === 'goto' && !s.zone) err(`${where}: goto stage needs a zone`);
+    if (s.type === 'bring') {
+      if (!Array.isArray(s.items) || !s.items.length) err(`${where}: bring stage needs items[]`);
+      else s.items.forEach(it => {
+        if (!hasItem(it.id)) err(`${where}: bring item '${it.id}' does not exist`);
+        checkQty(it.q, `${where} bring '${it.id}'`);
+      });
+    }
+  });
+  if (q.requires && Array.isArray(q.requires.quests)) q.requires.quests.forEach(r => {
+    if (!D.QUESTS[r]) err(`quest '${qk}' requires unknown quest '${r}'`);
+  });
+  if (q.qp != null && !(Number.isFinite(q.qp) && q.qp >= 1)) err(`quest '${qk}': qp must be a finite number >= 1`);
 }
 
 // ---- 7. gather-rate yield items --------------------------------------------

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>GLB viewer</title>
+<style>html,body{margin:0;height:100%;background:#cdd2cc;overflow:hidden}#info{position:fixed;top:8px;left:10px;font:12px monospace;color:#333}</style>
+</head>
+<body>
+<div id="info">loading…</div>
+<script type="importmap">{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const params = new URLSearchParams(location.search);
+const model = params.get('m') || 'proc_char.glb';
+const spin = params.get('spin') !== '0';
+
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setSize(innerWidth, innerHeight); renderer.setPixelRatio(2);
+renderer.shadowMap.enabled = true; document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xcdd2cc);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x556644, 1.0));
+const sun = new THREE.DirectionalLight(0xffffff, 1.6); sun.position.set(3, 6, 5); sun.castShadow = true; scene.add(sun);
+const fill = new THREE.DirectionalLight(0xbfd4ff, 0.4); fill.position.set(-4, 2, -3); scene.add(fill);
+
+const ground = new THREE.Mesh(new THREE.CircleGeometry(3, 40), new THREE.MeshStandardMaterial({ color:0x8fae5f, roughness:1 }));
+ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
+
+const camera = new THREE.PerspectiveCamera(35, innerWidth/innerHeight, 0.01, 100);
+const pivot = new THREE.Group(); scene.add(pivot);
+
+new GLTFLoader().load('../assets/models/' + model + '?v=' + Date.now(), (gltf) => {
+  const m = gltf.scene;
+  m.traverse(o => { if (o.isMesh) { o.castShadow = true; } });
+  const box = new THREE.Box3().setFromObject(m);
+  const size = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
+  const h = size.y || 1;
+  m.position.sub(ctr); m.position.y += h/2;          // feet on ground
+  pivot.add(m);
+  pivot.rotation.y = Math.PI;                         // face the camera (model front is -Z after y-up export)
+  camera.position.set(0, h*0.55, h*1.9); camera.lookAt(0, h*0.5, 0);
+  let polys = 0; m.traverse(o => { if (o.isMesh && o.geometry.index) polys += o.geometry.index.count/3; });
+  document.getElementById('info').textContent = model + '  ·  ~' + polys + ' tris  ·  h=' + h.toFixed(2);
+}, undefined, (e) => { document.getElementById('info').textContent = 'ERROR: ' + e; });
+
+renderer.setAnimationLoop(() => { if (spin) pivot.rotation.y += 0.012; renderer.render(scene, camera); });
+addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix(); });
+</script>
+</body>
+</html>

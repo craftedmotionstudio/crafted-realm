@@ -57,6 +57,10 @@ const Controls = {
     const rgtX = -Math.cos(yaw), rgtZ =  Math.sin(yaw);
     let dx = fwdX*f + rgtX*r, dz = fwdZ*f + rgtZ*r;
     const dl = Math.hypot(dx,dz) || 1; dx/=dl; dz/=dl;
+    // 4-directional only: snap the camera-relative vector to the dominant world axis so the
+    // player leaves a tile by a SIDE (N/E/S/W), never a corner — no diagonal WASD movement.
+    if(Math.abs(dx) >= Math.abs(dz)){ dx = Math.sign(dx); dz = 0; }
+    else { dz = Math.sign(dz); dx = 0; }
     const spd  = (Player && Player.moveSpeed) ? Player.moveSpeed() : 4.2;
     const step = spd*dt;
     const tx = player.position.x + dx*step, tz = player.position.z + dz*step;

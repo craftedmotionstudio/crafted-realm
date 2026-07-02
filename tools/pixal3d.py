@@ -59,10 +59,17 @@ def main():
     print("[1/3] preprocess ...", flush=True)
     pre = client.predict(handle_file(img), api_name="/preprocess")
     print("  ->", str(pre)[:160], flush=True)
-    local_pre = grab(pre, os.path.join(tmp, "pixal3d_pre.png"))   # pull preprocessed image local
 
+    # The Space's /gradio_api/file= endpoint 403s on manual fetch, so don't download the
+    # preprocessed image. Pass the server-side reference straight into the next stage; if the
+    # Space rejects the raw ref, fall back to re-sending the original (it has its own bg-removal).
     print("[2/3] generate_3d (multi-view cascade) ...", flush=True)
-    state = client.predict(handle_file(local_pre), seed, resolution, api_name="/generate_3d", session_id=sid)
+    try:
+        gen_input = pre if isinstance(pre, dict) else handle_file(img)
+        state = client.predict(gen_input, seed, resolution, api_name="/generate_3d", session_id=sid)
+    except Exception as e:
+        print("  pre-ref rejected, retrying with original image:", str(e)[:120], flush=True)
+        state = client.predict(handle_file(img), seed, resolution, api_name="/generate_3d", session_id=sid)
     print("  state type:", type(state).__name__, flush=True)
     state_path = None
     if isinstance(state, dict):

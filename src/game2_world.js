@@ -1387,6 +1387,8 @@ function makeFence(x1,z1,x2,z2){
   const dx=x2-x1, dz=z2-z1, len=Math.hypot(dx,dz), n=Math.max(1,Math.round(len/1.8));
   for(let i=0;i<=n;i++){
     const t=i/n, px=x1+dx*t, pz=z1+dz*t, py=gy(px,pz);
+    addCircleCollider(px,pz,0.3);                         // fences block: post…
+    if(i<n) addCircleCollider(x1+dx*(i+0.5)/n, z1+dz*(i+0.5)/n, 0.3);   // …and mid-rail
     const post=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.9,0.12),mat(0x6b4a2f));
     post.position.set(px,py+0.45,pz); post.castShadow=true; scene.add(post);
     if(i<n){
@@ -1939,6 +1941,7 @@ function blockReact(g){
   if(!g||!g.userData) return;
   const ud=g.userData;
   if(ud.death) return;                       // a corpse doesn't parry
+  if(ud.gmix && ud.gmix.block){ ud.gmix.block.reset(); ud.gmix.block.play(); return; }   // GLB char: baked clip
   ud.block = {t:0, dur:0.34};
 }
 function tickBlock(g, dt){
@@ -2676,9 +2679,9 @@ function capeMesh(color){
   c.position.set(0,0.95,-0.16);
   return c;
 }
-const METALS = {copper:0xc6794a, bronze:0xb08d57, iron:0x9aa0a8, steel:0xd0d4dc, whitsteel:0xe8ecf2,
+const METALS = {copper:0xc6794a, bronze:0x8a6437, iron:0x9aa0a8, steel:0xd0d4dc, whitsteel:0xe8ecf2,
   aurel:0xd4a83e, veyrite:0x3ec6b4, undercrag:0x6a5a7a, leather:0x8a5e34, cloth:0x7a86b8, glimmer:0xb48ae0};
-function tierMetal(def){ return METALS[def.tier] !== undefined ? METALS[def.tier] : 0xb08d57; }
+function tierMetal(def){ return METALS[def.tier] !== undefined ? METALS[def.tier] : 0x8a6437; }
 /* one mesh router for any equipable item — used worn AND on the ground */
 function gearMesh(id){
   const def=ITEMS[id]; if(!def||!def.model) return null;

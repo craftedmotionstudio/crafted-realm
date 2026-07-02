@@ -68,7 +68,11 @@ function orderWalk(point){
 
 // player animation: skinned HF rig (riggedHumanoidAnim) when swapped in, else procedural walkAnim
 function pAnim(moving, dt, speed){
-  if(player.userData && player.userData.hrig){
+  if(player.userData && player.userData.qrig){
+    if(typeof quaterniusAnim==='function') quaterniusAnim(player, dt, moving, speed||1);
+  } else if(player.userData && player.userData.gmix){
+    if(typeof playerGLBAnim==='function') playerGLBAnim(player, dt, moving, speed||1);
+  } else if(player.userData && player.userData.hrig){
     if(typeof riggedHumanoidAnim==='function') riggedHumanoidAnim(player, dt, moving, speed||1);
   } else walkAnim(player, moving, dt, speed||1);
 }
@@ -518,7 +522,8 @@ function update(dt){
     }
     const _P=n.mesh.userData.parts;
     n.mesh.userData.inCombat = (n.target==='player' && !n.dead);   // raise a combat stance while engaged
-    if(_P && _P.legL) walkAnim(n.mesh, n.moving, dt);   // any rigged biped
+    if(n.mesh.userData.gmix && typeof charNpcAnim==='function') charNpcAnim(n, dt);   // GLB character (skeletal clips)
+    else if(_P && _P.legL) walkAnim(n.mesh, n.moving, dt);   // any rigged biped
     else beastAnim(n.mesh, n.moving, dt);
     if(n.t.glb && typeof glbCreatureAnim==='function') glbCreatureAnim(n, dt);   // GLB-body life (breathing/huff)
     if(n.t.skinnedRig && typeof riggedDragonAnim==='function') riggedDragonAnim(n, dt, n.moving);   // bone drive: legs/wings/tail
@@ -622,6 +627,7 @@ function update(dt){
     curZone=z; UI.zone(ZONES[z].name);
     UI.chat(`Now entering: ${ZONES[z].name}.`,'sys');
     Music.onZone(z);
+    Quest.onZone(z);
     if(z==='scarlands') UI.chat('The Scarlands are lawless. The deeper you wander, the deadlier the threat.','combat');
   }
   if(curZone==='scarlands'){

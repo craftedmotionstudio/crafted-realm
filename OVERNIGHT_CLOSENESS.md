@@ -54,6 +54,93 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
       head/jaw droop, brute drops its arms dead-weight + head lolls. _Added this run._
 
 ## Done log
+### 2026-07-02 pm — GLB combat animations, fence collision, weapon alignment (Animations / Functionality)
+- **All 19 character GLBs re-exported with attack + block clips** (shared 23-bone rig = one authoring
+  pass: overhead chop w/ torso twist, off-arm block w/ chin tuck). `swing()`/`blockReact()` now play
+  them on any GLB character (player + the 18 NPCs); idle/walk weights zero while a one-shot runs.
+  Verified live: player mid-chop vs the Town Guard; guard fought back and won 3 of 4 duels.
+- **Fences finally solid**: `makeFence` registered no colliders at all — circle colliders at every
+  post + rail midpoint now wall them off (verified: a 4-tile straight order computes a 40-tile
+  path around the hen yard, never crossing the line).
+- **Held weapons aligned correctly**: gearMesh blades run along local +X and hand-bone axes are
+  non-obvious — replaced hand-tuned Eulers with a computed quaternion (align +X to up-forward in
+  the character frame at attach time). Blade now carries upright OSRS-style; shield pushed off the
+  body. Death-respawn also refreshes worn visuals (stale-tint bug fixed).
+### 2026-07-02 — Medieval OSRS interface pass (Graphics / Functionality)
+- **New `src/ui_medieval.js`** (one script tag to revert): (1) **hand-drawn canvas tab icons**
+  replacing all emoji — crossed sword+axe, satchel, cuirass, skill bars+laurel, sealed scroll,
+  dawn sunburst, rune staff, bestiary tome, war-horn, iron gear; active tab glows. (2) **Skills tab
+  → OSRS 3-column stat grid** — per-skill icon (assets/icons/skills/*_cut.png) + level/99, XP
+  micro-bar, hover tooltip (XP, next level, remainder), **Total level** footer. (3) **Worn
+  Equipment → paper-doll**: OSRS slot cross (head / cape-body-amulet / weapon-legs-shield /
+  gloves-boots-ring), filled slots show item icons w/ bonus tooltips + click-to-remove, future
+  slots render as dimmed drawn sockets; equipment bonuses + Items Kept on Death below. (4) **Music
+  Player tab** (unlocked tracks green w/ zone, undiscovered ???, click to play). (5) **Resizable
+  chatbox** — drag the title bar, height persists to localStorage.
+- Verified in-browser: all tabs render + switch, doll shows equipped sword/shield with +7/+6/+5
+  bonuses, music tab plays, chat resizes; console clean.
+### 2026-07-02 — OSRS-grade quest system + main storyline arc (Functionality / Content)
+- **Gap closed:** quests were 4 thin data rows with per-quest hardcoded kill hooks, a one-line list,
+  no quest points, no requirements, no journal, no reward screen. The emulators (RuneJS/2009scape/
+  rsmod) model quests as data-driven progress-state machines — ours now does too.
+- **Engine (game3_systems.js `Quest` v2):** typed stage objectives — `talk` / `kill` (auto-count,
+  auto-advance) / `goto` (fires from the zone-change hook in game5_main) / `bring` (dialogue turn-in
+  that checks+takes items) — all generic off QUESTS data; `requires` gates (quests/QP) with
+  `canStart`/`reqText`; quest points (`qp`/`qpMax`); `advance`/`complete` with save+reward flow.
+- **UI (new src/quest_ui.js):** OSRS-style quest tab (QP header, red/yellow/green titles, live
+  objective text), click-to-open **journal** (difficulty · QP · giver, story blurb, done stages
+  struck out, current highlighted, requirements shown), and the **"CONGRATULATIONS!" reward scroll**
+  (QP + XP + item list + running QP total).
+- **Storyline (game1_data.js):** 4 old quests converted to the new format + a **4-quest main arc**
+  from STORY_BIBLE's "long arc": *Whispers in the Moss* (Old Pell, Seers' Ring) → *The Seer's Ashes*
+  (Sage Imbrel, rune rite + Scarlands ash) → *The Knight's Vigil* (Captain Veyle, gravewights +
+  Undercrag scouting) → *The Mountain's Grudge* (Korthul finale, gated on Vigil + Wardens' Trial).
+  8 quests, 11 QP total. Full dialogue trees for Pell/Imbrel/Veyle with story hand-offs.
+- **Validator:** tools/validate_content.js now checks v2 stage objects (kill targets are real NPCs,
+  zones real, bring items exist, requires resolve, qp sane). PASS.
+- **Verified BY PLAYING** (browser MCP, fresh save): Grub Trouble start→3 kills counted→auto-advance
+  →turn-in→reward scroll (+1 QP, XP drop, items); Whispers full loop after it; Seer's Ashes bring
+  turn-in consumed runes and goto fired crossing into the Scarlands; requirement gates verified
+  (Whispers locked pre-Grub; Grudge shows both missing quests); journal + tracking flag + minimap
+  marker all live; console clean.
+- **Playtest-driven fixes:** moss_seer retuned lvl 9→5 / hp 20→13 (killed a fresh adventurer twice —
+  wrong for the 2nd quest in a Novice chain); whispers_moss now requires grub_trouble (chain
+  sequencing); died to an ash stalker in seconds at combat 5 — Scarlands threat confirmed working.
+- **Files:** src/game1_data.js (QUESTS v2 + moss_seer), src/game3_systems.js (Quest v2),
+  src/game4_ui.js (Pell/Imbrel/Veyle dialogue trees), src/game5_main.js (Quest.onZone hook),
+  src/quest_ui.js (new), index.html (script tag + cache-bust params), tools/validate_content.js.
+- **Gotcha for future sessions:** if the Chrome window is minimized/occluded, `document.hidden`
+  stalls requestAnimationFrame → the whole game loop freezes (fights/walks stop, screenshots time
+  out). Foreground the window before in-game QA.
+### 2026-07-01 — 18 bespoke rigged character GLBs: v03–v20 (Characters / NPCs)
+- **Gap closed:** the game had ONE bespoke character (v02) and a handful of procedural humanoids.
+  The two joint-weakest categories (Characters 22 / NPCs 22) need silhouette + identity variety.
+  This run produced **18 new game-ready rigged characters** from the approved concept grid:
+  v03 mage (crystal staff) · v04 barbarian (stone axe) · v05 dual-dagger rogue · v06 gold plate
+  knight (axe+shield) · v07 spearman guard · v08 monk · v09 wizard (staff) · v10 archer (drawn
+  bow) · v11 farmer (pitchfork) · v12 halberd guard · v13 dwarf (hammer) · v14 pirate (cutlass) ·
+  v15 antlered druid · v16 black knight (greatsword) · v17 ranger (quiver+cape) · v18 lunging
+  soldier · v19 priest (gold-trim robe) · v20 dual-axe berserker.
+- **Pipeline (repeatable, in-session Blender toolkit `crpipe`):** Hunyuan mesh from concept →
+  clean/decimate ~7k tris → normalize 1.85 m (median recenter — bbox recentering is skewed by
+  held props) → **rig FIRST** (23 Mixamo bones, per-side arm/leg joints for posed characters,
+  auto-weights, loose islands pinned to Head) → **bisect boundary planes + weight-gated box
+  classify** into `R_*` region materials (bone-dominance gates kill cross-region bleed; sharp
+  hem/cuff/hairline cuts) → `region_grow` (seam-bounded flood fill) for draped garments
+  (mantles/capes) → face quads (eyes/brows/mouth) ray-cast onto the face → hand-authored
+  idle+walk clips → **engine-matched raw-sRGB bake** (r128 shows baseColorFactor with no output
+  transform — spec-linear exports render near-black) → GLB export.
+- **Files:** `assets/models/v03.glb` … `v20.glb` (~1.1 MB each, 6–12 material primitives,
+  idle+walk clips, 23-joint skins). `src/fx_humanoid.js`: `installPlayerGLB(onReady, url)` now
+  takes an optional GLB url so any variant can be equipped (QA / future NPC use).
+- **Verification:** every character previewed in Blender against its concept during build (belt/
+  hem/hairline/prop checks, per-character fix passes) · v08 equipped live in-game — GLB loads,
+  `gmix` mixer runs idle+walk, `regionMats` recolor map populated, console clean · v02 remains
+  the default player.
+- **Visual QA:** in-game console: `player.userData.isPlayerGLB=false; installPlayerGLB(null,
+  'assets/models/vNN.glb')` to wear any of the 18. _Next: spawn them as NPCs via NPC_TYPES
+  `glb:` entries + scale (dwarf 0.8×), and finish the remaining Animations item (strafe /
+  walk-while-attacking)._
 ### 2026-06-30 — Worn armour on humanoid NPCs (Characters / NPCs)
 - **Gap closed:** every humanoid NPC shared ONE body with only a colour/robe/hat/weapon tint —
   the warrior types carried a weapon but wore **no helmet, shield, or armour**, so a *Hold Knight*
@@ -294,3 +381,59 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
   `http://127.0.0.1:8777`, kill a Duneclaw (crab — should flip onto its back, claws up), a
   Grubkin (crawler — legs curl in), a Mosswolf (wolf — head/legs collapse) and a brute boss
   (arms drop). _In-game screenshot not captured — no browser MCP in this session (blocker)._
+
+### 2026-07-02 — GearFit v2: pose-canonical, measured-axis worn equipment (Characters)
+- **Gap closed:** worn gear on the GLB avatar landed differently on every equip — sword
+  carried horizontal/"behind the back", helm giant or swallowing the face, chest plate
+  offset to one shoulder, tunic recolor silently dead, plate reading as bare skin. Root
+  causes were all systemic, not tuning: fits were solved against whatever animation frame
+  happened to be current (bind pose at install, mid-swing on re-equip); the sword fit
+  assumed blades run local +X when `bronze_sword` runs +Y; the plate's shrink was applied
+  about the player-root origin (the feet) so it slid down/off the torso; and the last
+  Blender re-export dedup-renamed region materials (`R_TUNIC` → `tunic.048`) so every
+  recolor no-oped.
+- **Change (`src/fx_humanoid.js` refreshGLBGear):** (0) before any fit, the rig is posed to
+  a canonical frame — attack/block stopped, idle weight 1 / time 0, `mixer.update(0)`,
+  `updateMatrixWorld` — so the same math lands identically every time; (1) weapon blade
+  axis is **measured** (longest local bbox axis, pre-attach) and aimed up-and-forward with
+  the proven minimal-rotation quaternion — verified live at dot = 1.000 with the target
+  direction; (2) shield face/height axes now also measured pre-attach (the old post-attach
+  bbox was world-aligned = bone-rotated); (3) plate is wrapped and scaled about its own
+  centre (0.74/0.82/0.74 hugs the slim GLB torso); (4) region-map keys strip Blender's
+  dedup suffix (`/[._]\d+$/`); (5) OSRS layering: helms hide the hair region, plate armour
+  **no longer recolors the tunic** (sleeves keep the shirt colour so metal reads as a layer
+  over clothing; robes still recolor); (6) helm reseated (scale 0.68, brim at forehead —
+  face visible). `src/game2_world.js`: METALS.bronze `0xb08d57 → 0x8a6437` — the old pale
+  sand was near-identical to skin `#b18b71`, which made a full bronze kit read nude.
+- **Verification (live browser MCP, tab-driven):** blade world-direction vs intended carry
+  dot = **1.000** mid-idle ✓ · walk anim mid-stride with kit on ✓ · attack one-shot fires,
+  suppresses idle/walk to weight 0, hands back to idle 1 ✓ · tunic/legs/skin/hair region
+  colors + hair hidden confirmed via live material introspection ✓ · Gemini Vision critique
+  loop drove fixes (6/10 "reads as one bronze body" → tunic-layering change → remaining
+  notes are next-pipeline items: authored platelegs shapes, real hand grip).
+- **Canvas-capture recipe (WebGL, preserveDrawingBuffer=false):** wrap
+  `requestAnimationFrame`, grab `drawImage`+`toDataURL` right after each game callback for
+  ~0.7 s, keep the largest JPEG, POST to a one-shot local Node receiver (the MCP blocks
+  returning long base64 strings directly). Never screen-capture the desktop for this — it
+  grabs the user's own windows.
+
+### 2026-07-02 — GOAL.md kickoff: OverlayManager + XP session tracker (QoL / architecture)
+- **Context:** GOAL.md (new north-star doc: vision, 16-project RSPS review, parity matrix,
+  master checklist) is now the build queue. First reconciliation pass found several stale
+  checklist items that were ALREADY BUILT: the D1 tile-feel core (hover tile, pulsing dest
+  tile, path preview, ground grid — `game4_ui.js`), hover action text, bounded-radius BFS
+  (MAX=64 + closest-approach + re-path), NPC HP bars, and the world map modal. Checked off
+  in GOAL.md §13/§15 + ROADMAP.
+- **Gap closed (new code):** no RuneLite-style overlay layer existed. Added `src/overlays.js`:
+  **OverlayManager** — `Overlays.register({id,name,desc,defaultOn,start,stop})`, persisted
+  per-user toggles (`localStorage cr_overlays`), a settings panel GENERATED from the
+  registrations (steel modal, 📊 button beside the world-map button, Shift+L), zero core
+  edits for new overlays. **Overlay #1: XP session tracker** — wraps `UI.xpDrop` (the one
+  funnel all `addXp` feeds), per-skill session XP with RuneLite-style first-drop clocks,
+  XP/hr, xp-to-next-level, time-to-level; slim panel under the zone label.
+- **Verification (live browser):** tracker renders real values (Woodcutting +50 → "10k/hr ·
+  33 to 2", Magic +14 → "136 to 7 · 3m") ✓ · toggle off hides + persists `{"xp-tracker":false}`,
+  toggle on restores ✓ · `node --check` + `validate_content.js` PASS ✓ · console clean ✓.
+- **Gotcha:** first hotkey pick (Shift+V) collided with the char-styles preview binding —
+  the taken set is Shift+A/C/U/V/P and bare O/B/R/G/S; moved to **Shift+L**. Check
+  `grep "e.shiftKey" src/` before binding any new key.

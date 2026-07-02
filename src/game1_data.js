@@ -186,7 +186,7 @@ const NPC_TYPES = {
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[8,40],p:0.9}, {id:'iron_sword',q:1,p:0.05}, {id:'bronze_helm',q:1,p:0.05}, {id:'mind_rune',q:[1,4],p:0.2} ]},
   gnarlgob: {name:'Gnarlgob', level:5, examine:"Small, green and furious about it.", hp:13, att:5, str:4, def:3, aBonus:2, sBonus:2, dBonus:1, speedTicks:4, color:0x6a8a3a, size:0.78, aggro:true, respawn:14, model:'goblin',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[3,18],p:0.9}, {id:'bronze_sword',q:1,p:0.06}, {id:'bronze_helm',q:1,p:0.05}, {id:'mind_rune',q:[1,4],p:0.2} ]},
-  moss_seer:{name:'Moss seer', level:9, examine:"It hums with damp magic.", hp:20, att:9, str:7, def:7, aBonus:5, sBonus:4, dBonus:4, speedTicks:5, color:0x3a6a4a, size:1, aggro:true, respawn:22, humanoid:true, robe:0x3a6a4a, hat:'wizard', ranged:true,
+  moss_seer:{name:'Moss seer', level:5, examine:"It hums with damp magic.", hp:13, att:5, str:4, def:4, aBonus:3, sBonus:2, dBonus:2, speedTicks:5, color:0x3a6a4a, size:1, aggro:true, respawn:22, humanoid:true, robe:0x3a6a4a, hat:'wizard', ranged:true,
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[8,30],p:1}, {id:'air_rune',q:[2,6],p:0.6}, {id:'mind_rune',q:[2,6],p:0.6}, {id:'apprentice_staff',q:1,p:0.06}, {id:'cloth_robe_top',q:1,p:0.06} ]},
   burrowrat:{name:'Burrow rat', level:1, examine:"Overgrown and underfed.", hp:4, att:1, str:1, def:1, aBonus:0, sBonus:0, dBonus:0, speedTicks:4, color:0x6b5440, size:0.85, aggro:false, respawn:8, model:'rat',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[1,5],p:0.6} ]},
@@ -311,34 +311,103 @@ const SHOP_STOCK = [
   {id:'arrows', price:2}, {id:'air_rune', price:5}, {id:'mind_rune', price:4}, {id:'iron_sword', price:150},
 ];
 
+/* QUESTS — OSRS-style data-driven state machines.
+ * stages[0] = how to start (shown before the quest is taken); a started quest is at stage 1.
+ * Stage objects: {text, type:'talk'|'kill'|'goto'|'bring', npc, zone, at:[x,z], target, count, items:[{id,q}]}
+ *  - kill  : Quest.onKill counts `target` NPC-type kills up to `count`, then auto-advances.
+ *  - goto  : Quest.onZone advances when the player enters `zone`.
+ *  - talk  : advanced from the giver's dialogue tree.
+ *  - bring : turn-in stage — dialogue checks `items` in the inventory, takes them, advances.
+ * `requires` gates the start (quests / QP). `qp` = quest points. stage 99 = complete. */
 const QUESTS = {
   grub_trouble: {
-    name:'Grub Trouble', giver:'Warden Maela',
-    desc:'Warden Maela wants 3 grubkins cleared from the commons.',
-    stages:['Speak to Warden Maela by the bank.','Slay 3 grubkins (%n/3).','Return to Warden Maela.'],
-    targets:[{npc:'maela'},{zone:'commons'},{npc:'maela'}],
+    name:'Grub Trouble', giver:'Warden Maela', qp:1, difficulty:'Novice',
+    desc:'Grubkins gnaw at the commons fences and frighten the hens. Warden Maela wants their numbers thinned.',
+    stages:[
+      {text:'Speak to Warden Maela by the Veyhollow bank.', npc:'maela'},
+      {text:'Slay 3 grubkins in the commons (%n/3). Their mounds rise north-east of town.', type:'kill', target:'grubkin', count:3, at:[24,33]},
+      {text:'Return to Warden Maela.', type:'talk', npc:'maela'},
+    ],
     reward:{xp:{Attack:120}, items:[{id:'coins',q:60},{id:'wood_shield',q:1}]},
   },
   thirsty_smith: {
-    name:'The Thirsty Smith', giver:'Ferra the Smith',
+    name:'The Thirsty Smith', giver:'Ferra the Smith', qp:1, difficulty:'Novice',
     desc:'Ferra won\'t light the forge without a Hollow ale from The Tipsy Grub.',
-    stages:['Speak to Ferra at the Stonereach Smithy.','Buy a Hollow ale at The Tipsy Grub and bring it to Ferra.','Quest complete.'],
-    targets:[{npc:'ferra'},{npc:'barkeep'},{npc:'ferra'}],
+    stages:[
+      {text:'Speak to Ferra at the Stonereach Smithy.', npc:'ferra'},
+      {text:'Buy a Hollow ale at The Tipsy Grub and bring it to Ferra.', type:'bring', npc:'ferra', items:[{id:'hollow_ale',q:1}]},
+    ],
     reward:{xp:{Attack:300}, items:[{id:'steel_sword',q:1},{id:'coins',q:50}]},
   },
   splinters: {
-    name:'Splinters & Sparks', giver:'Olun the Miller',
-    desc:'Olun the Miller needs 5 emberwood logs for his mill wheel.',
-    stages:['Speak to Olun the Miller near Emberwood.','Bring Olun 5 emberwood logs.','Quest complete.'],
-    targets:[{npc:'olun'},{zone:'emberwood'},{npc:'olun'}],
+    name:'Splinters & Sparks', giver:'Olun the Miller', qp:1, difficulty:'Novice',
+    desc:'Olun the Miller needs 5 sturdy logs for his cracked mill wheel.',
+    stages:[
+      {text:'Speak to Olun the Miller near Emberwood.', npc:'olun'},
+      {text:'Bring Olun 5 logs — the Emberwood trees grow thick just west.', type:'bring', npc:'olun', items:[{id:'logs',q:5}], zone:'emberwood'},
+    ],
     reward:{xp:{Woodcutting:200}, items:[{id:'coins',q:80},{id:'iron_hatchet',q:1}]},
   },
   wardens_trial: {
-    name:'The Wardens\' Trial', giver:'Warden Maela',
-    desc:'Prove yourself to the Wardens\' Guild by felling the Fenlord in Gloomfen.',
-    stages:['Ask Warden Maela about the guild (requires Grub Trouble).','Slay the Fenlord in Gloomfen.','Return for your sigil.'],
-    targets:[{npc:'maela'},{zone:'gloomfen'},{npc:'maela'}],
+    name:'The Wardens\' Trial', giver:'Warden Maela', qp:2, difficulty:'Experienced',
+    desc:'Prove yourself worthy of the Wardens\' Guild by felling the Fenlord that broods in Gloomfen.',
+    requires:{quests:['grub_trouble']},
+    stages:[
+      {text:'Ask Warden Maela about the Wardens\' Guild (requires Grub Trouble).', npc:'maela'},
+      {text:'Slay the Fenlord in Gloomfen, south-west of Veyhollow.', type:'kill', target:'fenlord', count:1, zone:'gloomfen'},
+      {text:'Return to Warden Maela for your sigil.', type:'talk', npc:'maela'},
+    ],
     reward:{xp:{Attack:600, Defence:600}, items:[{id:'guild_sigil',q:1},{id:'coins',q:300}]},
+  },
+  /* ---- Main storyline: the Scarring is waking (STORY_BIBLE §1 "the long arc") ---- */
+  whispers_moss: {
+    name:'Whispers in the Moss', giver:'Old Pell', qp:1, difficulty:'Novice',
+    desc:'Old Pell swears the standing stones west of town have begun to hum — the same hum his grandmother heard before the Scarring.',
+    requires:{quests:['grub_trouble']},   // the seers (lvl 9) eat unproven adventurers — earn your sword arm first
+    stages:[
+      {text:'Speak to Old Pell in Veyhollow Commons.', npc:'greeter'},
+      {text:'Silence 2 moss seers at the Seers\' Ring west of town and take their resonant moss (%n/2).', type:'kill', target:'moss_seer', count:2, at:[-30,44]},
+      {text:'Bring word of the humming stones back to Old Pell.', type:'talk', npc:'greeter'},
+    ],
+    reward:{xp:{Prayer:200}, items:[{id:'coins',q:100}]},
+  },
+  seers_ashes: {
+    name:'The Seer\'s Ashes', giver:'Sage Imbrel', qp:1, difficulty:'Intermediate',
+    desc:'The Spire must know why the Seers\' Ring hums. Sage Imbrel needs runes for a scrying rite — and ash from the Scarlands, where the hum is loudest.',
+    requires:{quests:['whispers_moss']},
+    stages:[
+      {text:'Speak to Sage Imbrel at Glimmerveil Arcana in Veyhollow.', npc:'arcanist'},
+      {text:'Bring Sage Imbrel 2 fire runes and 2 earth runes for the scrying rite.', type:'bring', npc:'arcanist', items:[{id:'fire_rune',q:2},{id:'earth_rune',q:2}]},
+      {text:'Carry the warded ash-catcher south to the Scarlands.', type:'goto', zone:'scarlands'},
+      {text:'Slay 2 ash stalkers and gather their still-burning ash (%n/2).', type:'kill', target:'ash_stalker', count:2, zone:'scarlands'},
+      {text:'Return the ashes to Sage Imbrel.', type:'talk', npc:'arcanist'},
+    ],
+    reward:{xp:{Magic:500}, items:[{id:'mind_rune',q:20},{id:'coins',q:150}]},
+  },
+  knights_vigil: {
+    name:'The Knight\'s Vigil', giver:'Captain Veyle', qp:1, difficulty:'Intermediate',
+    desc:'Imbrel\'s scrying points beneath Whitmoor: something below the crag is drawing the Scarring\'s heat — and the dead of the Scarlands are rising restless.',
+    requires:{quests:['seers_ashes']},
+    stages:[
+      {text:'Speak to Captain Veyle at Whitmoor Hold.', npc:'captain'},
+      {text:'Cull 2 gravewights rising in the Scarlands (%n/2).', type:'kill', target:'gravewight', count:2, zone:'scarlands'},
+      {text:'Report back to Captain Veyle.', type:'talk', npc:'captain'},
+      {text:'Scout the mouth of the Undercrag beneath the keep. Return alive.', type:'goto', zone:'undercrag'},
+      {text:'Tell Captain Veyle what stirs below.', type:'talk', npc:'captain'},
+    ],
+    reward:{xp:{Defence:800, Attack:400}, items:[{id:'steel_kiteshield',q:1},{id:'coins',q:250}]},
+  },
+  mountains_grudge: {
+    name:'The Mountain\'s Grudge', giver:'Captain Veyle', qp:3, difficulty:'Master',
+    desc:'Korthul — the mountain\'s grudge given legs — is drawing the Scarring\'s embers to itself beneath Whitmoor. The Hold cannot leave its post. Someone must go down.',
+    requires:{quests:['knights_vigil','wardens_trial']},
+    stages:[
+      {text:'Speak to Captain Veyle at Whitmoor Hold (requires The Knight\'s Vigil and The Wardens\' Trial).', npc:'captain'},
+      {text:'Clear Korthul\'s brood — slay 3 deep crawlers in the Undercrag (%n/3).', type:'kill', target:'deep_crawler', count:3, zone:'undercrag'},
+      {text:'Face Korthul, the mountain\'s grudge, in the deep.', type:'kill', target:'korthul', count:1, zone:'undercrag'},
+      {text:'Tell Whitmoor the mountain sleeps again.', type:'talk', npc:'captain'},
+    ],
+    reward:{xp:{Attack:1500, Defence:1500, Hitpoints:800}, items:[{id:'aurel_sword',q:1},{id:'coins',q:1000}]},
   },
 };
 

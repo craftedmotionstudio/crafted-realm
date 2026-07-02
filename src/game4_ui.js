@@ -1224,8 +1224,45 @@ function talkTo(id, name, face){
     return;
   }
   if(id==='captain'){
-    UI.dialogue(name,'Captain Veyle, of the Hold. Mind the cave behind the keep — Korthul sleeps shallow, and my knights do not follow anyone down there. Whatever you haul back up is yours.',
-      [{label:'I will brave it.', fn:null},{label:'Wise to stay above.', fn:null}],face);
+    const kv=Quest.state('knights_vigil'), mg=Quest.state('mountains_grudge');
+    if(Quest.done('knights_vigil') && !mg){
+      if(Quest.canStart('mountains_grudge')){
+        UI.dialogue(name,'You felt it too, then — the rumble under the keep. Imbrel\'s ashes, Pell\'s humming stones, the restless dead... it is all one thing. Korthul is drawing the Scarring\'s embers to itself, coal by coal. My knights hold the walls; they cannot go down. You can. End the mountain\'s grudge.',
+          [{label:'I will face Korthul. (Start: The Mountain\'s Grudge)', fn:()=>Quest.start('mountains_grudge')},
+           {label:'I need to prepare first.', fn:null}],face);
+      } else {
+        UI.dialogue(name,'The deep is no place for the unproven. Earn the Wardens\' sigil — Maela\'s trial against the Fenlord — then we will speak of the mountain.',null,face);
+      }
+      return;
+    }
+    if(mg && mg.stage!==99){
+      if(mg.stage===1) UI.dialogue(name,'Korthul\'s brood scuttles thick in the dark. Thin them — three deep crawlers — or they will strip you to bone before you ever reach the grudge itself.',null,face);
+      else if(mg.stage===2) UI.dialogue(name,'The brood thins. Now the mountain itself. Bring food, wear your best plate... and come back to us.',null,face);
+      else UI.dialogue(name,'Is it done? Is the mountain quiet?',
+        [{label:'Korthul is slain. The mountain sleeps.', fn:()=>Quest.complete('mountains_grudge')}],face);
+      return;
+    }
+    if(Quest.done('mountains_grudge')){
+      UI.dialogue(name,'The keep stands because of you, slayer of Korthul. Whitmoor does not forget its debts.',null,face);
+      return;
+    }
+    if(!kv){
+      if(Quest.canStart('knights_vigil')){
+        UI.dialogue(name,'So the Spire sent you. Yes — the crag rumbles, and the Scarlands dead walk restless. My knights cannot leave the walls. Cull two gravewights in the south, and I\'ll trust you with what comes next.',
+          [{label:'I\'ll stand the vigil. (Start: The Knight\'s Vigil)', fn:()=>Quest.start('knights_vigil')},
+           {label:'Not my fight, Captain.', fn:null}],face);
+      } else {
+        UI.dialogue(name,'Captain Veyle, of the Hold. Mind the cave behind the keep — Korthul sleeps shallow, and my knights do not follow anyone down there. Whatever you haul back up is yours.',
+          [{label:'I will brave it.', fn:null},{label:'Wise to stay above.', fn:null}],face);
+      }
+      return;
+    }
+    if(kv.stage===1){ UI.dialogue(name,'Two gravewights, adventurer. The Scarlands\' dead rise in the burned south — put them back down.',null,face); return; }
+    if(kv.stage===2){ UI.dialogue(name,'Clean work. Now the harder ask: the cave behind the keep drops into the Undercrag. Scout its mouth — look, do not linger — and return alive.',
+      [{label:'(Continue)', fn:()=>Quest.advance('knights_vigil')}],face); return; }
+    if(kv.stage===3){ UI.dialogue(name,'The Undercrag is behind the keep — the cave mouth. Scout it and come back breathing.',null,face); return; }
+    UI.dialogue(name,'You went down and came back — that alone earns the shield. What did you see? ...Crawlers, and heat rising. Then it is as Imbrel feared. Take this, and rest — the Hold owes you.',
+      [{label:'(Take your reward)', fn:()=>Quest.complete('knights_vigil')}],face);
     return;
   }
   if(id==='archmage'){
@@ -1253,6 +1290,38 @@ function talkTo(id, name, face){
     return;
   }
   if(id==='arcanist'){
+    const sa=Quest.state('seers_ashes');
+    if(!sa && Quest.canStart('seers_ashes')){
+      UI.dialogue(name,'Pell\'s humming stones... I scried the Seers\' Ring last night, and the resonance runs SOUTH — to the Scarlands. I need a proper rite to trace it: two fire runes and two earth runes. My own stock, if your pockets are shy; the Spire does not do favours for free.',
+        [{label:'I\'ll gather the runes. (Start: The Seer\'s Ashes)', fn:()=>Quest.start('seers_ashes')},
+         {label:'Show me your wares.', fn:()=>UI.openShop('arcanist')},
+         {label:'Farewell.', fn:null}],face);
+      return;
+    }
+    if(sa && sa.stage===1){
+      if(Quest.hasBring('seers_ashes')){
+        UI.dialogue(name,'Fire and earth — the Scarring\'s own signature. There... the rite is cast, and this ash-catcher is warded. Carry it south into the Scarlands; it will drink whatever the dead ground exhales.',
+          [{label:'(Hand over the runes)', fn:()=>Quest.takeBring('seers_ashes')}],face);
+      } else {
+        UI.dialogue(name,'Two fire runes, two earth runes. I sell both, if you\'ve the coin.',
+          [{label:'Show me your wares.', fn:()=>UI.openShop('arcanist')},
+           {label:'Farewell.', fn:null}],face);
+      }
+      return;
+    }
+    if(sa && sa.stage===2){ UI.dialogue(name,'South, to the Scarlands. The catcher will wake the moment you cross the scar-line.',null,face); return; }
+    if(sa && sa.stage===3){ UI.dialogue(name,'The ash stalkers burn with it from the inside. Two of them — take their ash while it still smoulders.',null,face); return; }
+    if(sa && sa.stage===4){
+      UI.dialogue(name,'Give it here— ...by the Spire. This ash is not cooling. Something beneath the crag is holding the Scarring\'s heat like a coal in a fist. Whitmoor must be told — Captain Veyle watches that ground. Go; I\'ll send word ahead of you.',
+        [{label:'(Hand over the ashes)', fn:()=>Quest.complete('seers_ashes')}],face);
+      return;
+    }
+    if(sa && sa.stage===99){
+      UI.dialogue(name,'Veyle watches the crag; the Spire watches the ash. Speak to the Captain at Whitmoor Hold, if you haven\'t already.',
+        [{label:'Show me your wares.', fn:()=>UI.openShop('arcanist')},
+         {label:'Farewell.', fn:null}],face);
+      return;
+    }
     UI.dialogue(name,'You stand in Glimmerveil Arcana. Staves, runes, robes... and amulets with a little something extra woven in.',
       [{label:'Show me your wares.', fn:()=>UI.openShop('arcanist')},
        {label:'Farewell.', fn:null}],face);
@@ -1385,8 +1454,22 @@ function talkTo(id, name, face){
     return;
   }
   if(id==='greeter'){
-    UI.dialogue(name, 'New to Veyhollow? Chop trees west in Emberwood, mine east at Stonereach, fish north-east at Mirrorpond. Steer clear of Gloomfen until you\'re stronger... it\'s the dark corner of the map.',
-      [{label:'Thanks for the tips.'}],face);
+    const wm=Quest.state('whispers_moss');
+    if(!wm){
+      UI.dialogue(name, 'You\'ve a listening face, traveller. The standing stones west of town — the Seers\' Ring — they\'ve begun to HUM. My gran heard that hum as a girl... the year the south burned. The moss-things won\'t let an old man near. Silence a couple of them and bring me a scrap of their resonant moss.',
+        [{label:'I\'ll see to the stones. (Start: Whispers in the Moss)', fn:()=>Quest.start('whispers_moss')},
+         {label:'Any tips for a newcomer?', fn:()=>UI.dialogue(name,'Chop trees west in Emberwood, mine east at Stonereach, fish north-east at Mirrorpond. Steer clear of Gloomfen until you\'re stronger.',null,face)},
+         {label:'Farewell.', fn:null}],face);
+      return;
+    }
+    if(wm.stage===1){ UI.dialogue(name,'The Ring lies west, past the road. Mind the seers — they look like moss until they don\'t.',null,face); return; }
+    if(wm.stage===2){
+      UI.dialogue(name,'You hear it too, don\'t you? That\'s no wind. That hum means the old fire is turning over in its sleep. Take this for an old man\'s peace of mind — and carry the tale to Sage Imbrel at the Arcana. She\'ll know what the Spire must do.',
+        [{label:'(Give Old Pell the moss)', fn:()=>Quest.complete('whispers_moss')}],face);
+      return;
+    }
+    UI.dialogue(name,'Imbrel will want that story, traveller — Glimmerveil Arcana, south side of the square.',
+      [{label:'Farewell.'}],face);
   }
 }
 

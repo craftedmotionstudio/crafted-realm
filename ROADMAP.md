@@ -59,12 +59,16 @@ repo source. Our own art, names, ids, world, and file bytes — "oldschool feel,
 
 ## B. Phased sprint plan
 
+> **The live master checklist now lives in `GOAL.md` §15** (reconciled against the code, tagged by
+> V1/V2/V3 milestone, and cross-checked against a 16-project private-server review in `GOAL.md`
+> §12–14). The phases below are the original sprint framing, with status updated to match.
+
 Each phase is shippable and reviewable. ★ = parallelizable across agents.
 
 **Phase 0 — Art foundation (in progress)**
 - [x] Procedural goblin + Nano-Banana skin texture (Path A pipeline proven)
 - [x] Bogling sized to ~¾ player
-- [ ] ★ Texture the player + humanoid NPCs (skin/tunic/hair maps) — *next art step*
+- [x] Player + humanoid NPCs realized (character pipeline: 19 region-colored rigged GLBs + worn-gear GearFit; `CHARACTER_PIPELINE.md`)
 - [ ] ★ Generate more creature skins + item icons via Nano Banana
 
 **Phase 1 — Live editor (in progress)**
@@ -78,10 +82,10 @@ Each phase is shippable and reviewable. ★ = parallelizable across agents.
 - [ ] Editor: grab/move/clone whole chunks, add new chunks, paint terrain underlay/overlay
 - [ ] Hand-design starter chunks (town square, bank, shops, woods, mine) — reviewed each
 
-**Phase 3 — Oldschool sim**
-- [ ] 600ms tick + render interpolation
-- [ ] Tile collision grid + BFS click-to-move
-- [ ] Tick-based combat (accuracy/damage rolls) + NPC AI/aggression state machine
+**Phase 3 — Oldschool sim** — largely landed (see GOAL.md §15)
+- [x] 600ms tick (accumulator + backlog cap) — [ ] render interpolation still to layer on
+- [x] BFS click-to-move — [ ] harden collision-flag grid + add bounded search radius
+- [x] Tick-based combat (OSRS-exact rolls) + NPC AI/aggression + data-driven drop tables
 
 **Phase 4 — Content framework**
 - [ ] defs/*.json (objects/npcs/items) + def-vs-placement wiring
@@ -114,7 +118,7 @@ foundation and room to iterate for months/years. World/story now formalized in
 monsters, 9 shops, 4 quests, 12 zones, 2 bosses) — the work is to **surface it, make it
 feel OSRS-tight, and extend it**. New threads from the user, slotted into the plan:
 
-### D1. The OSRS "feel" core — **RECOMMENDED STARTING POINT** ★
+### D1. The OSRS "feel" core — ✅ LANDED (tile grid, hover/dest tile, path preview, tick, BFS)
 The single highest-leverage, most-visible, most-foundational gap the user named directly:
 - **Square tile system + visible grid.** Replace the current round click-marker with an
   OSRS-style **highlighted destination tile** + **drawn path preview** of where the
