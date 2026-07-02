@@ -180,6 +180,11 @@ function gatherChance(rtype, lvl, power){
 const NPC_TYPES = {
   pasturehen:{name:'Pasture hen', level:1, examine:"The yard's finest egg engine.", hp:3, att:1, str:1, def:1, aBonus:0, sBonus:0, dBonus:0, speedTicks:4, color:0xeae4d8, size:0.5, aggro:false, respawn:10, model:'chicken',
              drops:[ {id:'bones',q:1,p:1}, {id:'feathers',q:[3,8],p:1} ]},
+  oathbreaker:{name:'The Oathbreaker', level:32, examine:'A fallen warden, chained a century and hating every link of it.',
+             hp:88, att:28, str:30, def:22, aBonus:14, sBonus:18, dBonus:12, speedTicks:5, color:0x5a4a5e, size:1.45,
+             aggro:false, respawn:45, body:'brute',
+             drops:[ {id:'big_bones',q:1,p:1}, {id:'coins',q:[90,260],p:1}, {id:'steel_sword',q:1,p:0.14},
+                     {id:'steel_platebody',q:1,p:0.1}, {id:'chaos_rune',q:[4,12],p:0.4} ]},
   bogling:  {name:'Bogling', level:3, examine:"A surly swamp imp, all tusks and grievance.", hp:8, att:3, str:3, def:2, aBonus:1, sBonus:1, dBonus:1, speedTicks:4, color:0x6f9a4a, size:0.76, aggro:false, respawn:14, model:'bogling',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[2,12],p:0.85}, {id:'mind_rune',q:[1,3],p:0.15} ]},
   skeleton: {name:'Skeleton', level:15, examine:"It rattles with old menace. Bare bone shrugs off a thrust but splinters under a heavy blow.", hp:29, att:14, str:13, def:12, aBonus:8, sBonus:9, dBonus:7, dStab:11, dSlash:8, dCrush:3, speedTicks:4, color:0xe8e2d0, size:1.0, aggro:true, respawn:20, model:'skeleton',
@@ -320,6 +325,17 @@ const SHOP_STOCK = [
  *  - bring : turn-in stage — dialogue checks `items` in the inventory, takes them, advances.
  * `requires` gates the start (quests / QP). `qp` = quest points. stage 99 = complete. */
 const QUESTS = {
+  undercroft_oath: {
+    name:'Oath of the Undercroft', giver:'Old Halbrec', qp:2, difficulty:'Intermediate',
+    desc:'A forgotten warden waits below Wardenholm Keep, bound to an oath older than its walls — and to the thing chained beside him.',
+    stages:[
+      {text:'Find Old Halbrec in the undercroft beneath Wardenholm Keep (down the kitchen trapdoor).', npc:'halbrec', at:[62,-6]},
+      {text:'Slay the Oathbreaker chained in the keep\'s dungeon.', type:'kill', target:'oathbreaker', count:1, at:[62,-6]},
+      {text:'Return to Old Halbrec with word of the deed.', type:'talk', npc:'halbrec'},
+      {text:'Carry Halbrec\'s blessing to Lady Maren, at the top of the keep\'s tower.', type:'talk', npc:'maren'},
+    ],
+    reward:{xp:{Attack:800, Defence:500}, items:[{id:'coins',q:450},{id:'steel_sword',q:1}]},
+  },
   grub_trouble: {
     name:'Grub Trouble', giver:'Warden Maela', qp:1, difficulty:'Novice',
     desc:'Grubkins gnaw at the commons fences and frighten the hens. Warden Maela wants their numbers thinned.',
@@ -413,6 +429,7 @@ const QUESTS = {
 
 const ZONES = {
   commons:  {name:'Veyhollow Commons', pos:[0,0],    fog:0xb8c8cc},
+  wardenholm:{name:'Wardenholm Keep',  pos:[56,4],   fog:0xb2bcc4},
   emberwood:{name:'Emberwood',         pos:[-65,-40], fog:0xaabfa0},
   quarry:   {name:'Stonereach Quarry', pos:[70,-35],  fog:0xbcb6a8},
   pond:     {name:'Mirrorpond',        pos:[55,55],   fog:0xaac4cc},
@@ -437,6 +454,7 @@ function zoneAt(x,z){
 /* dirt paths radiating from town, painted into the terrain */
 const PATHS = [
   [[0,-1],[-3,20]],      // chapel road
+  [[14,15],[30,4]],      // Wardenholm road: east from the lane to the keep's bridge
   [[0,-1],[14,15]],      // hearthhouse lane
   [[0,-1],[0,-17]],      // market row
   [[2,-6],[24,-5]],      // pasture track

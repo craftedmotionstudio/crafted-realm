@@ -573,3 +573,36 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
   overhead village chatter · timber gables · autumn Emberwood · falling leaves · water
   shimmer/glints. Against the pass-0 baseline (flat grey-green, static, silent) the
   world is unrecognizably more alive.
+
+### 2026-07-02 — WARDENHOLM KEEP: the moated island castle (flagship landmark)
+- **Research first (2 agents):** (1) Jagex castle anatomy — Lumbridge/Falador/Ardougne/
+  Fisher-Realm patterns distilled into a 20-point blueprint (one bridge with a warden ON
+  it, read-only moat, floor=function, tower top = crown object, 8-15 objects/room,
+  ranked garrison as decor+gym, cellar as quest socket, one absurd object per castle);
+  (2) how teams really build games with Claude — verdict: world stays engine-side
+  tile-grid data (the most successful Claude-built games ship NO world meshes), Blender
+  is for individual kit pieces/hero props only, Claude emits data + deterministic code
+  places it, screenshot→vision gates + playtest-bot reachability checks.
+- **Built (`src/wardenholm.js` + game1 data):** moated island at (56,4) east of the
+  Commons — read-only water ring, ONE bridge (west, torch-lit parapets, Bridge Warden
+  Osric standing on it); 34×34 curtain wall with WALKABLE RAMPART CIRCUIT (plane-1
+  walkway, corner-turning verified: 65-tile half-circuit path), 4 corner towers with
+  ladder-up walkable tops (plane 2, pennants); gatehouse with portcullis bars; the keep
+  (great hall + kitchen w/ trapdoor + throne dais floor-1 + study + armory) under a
+  crenellated roof-lift roof; LADY MAREN's tower chamber (plane 2 — the trapped-princess
+  crown object, quest-aware dialogue); the PROVING RING (posted fight ring, sand floor,
+  sparring Hold Knights inside, Pit Master Brand with house rules — real PvP arrives
+  with the online layer); 7-strong ranked garrison for training + the mandatory absurd
+  chicken; Warden's Well (Drink hook heals 3); two lore statues.
+- **The UNDERCROFT (plane -1 @ offset 330,330):** Old Halbrec's cell (cot/shelves/
+  brazier micro-story) + the dungeon where THE OATHBREAKER (lvl 32 brute, new NPC type)
+  stands chained between anchor pillars. QUEST 'Oath of the Undercroft' (2 QP): find
+  Halbrec → slay the Oathbreaker → return → carry word to Lady Maren — full flow
+  VERIFIED end-to-end in-game (stages 1→2→3→99, reward paid).
+- **Bugs the verification caught:** rampart walkway self-blocked by its own rim fences
+  (fixed: walkways centred on tile rows, custom circuit fencing with corner gaps);
+  stair arrivals landing off the walk row; quest stage numbering (stages[0] is the
+  pre-start hint — stage 1 IS the first objective); Quest.start&&advance short-circuit.
+- **Verified:** moat blocks all sides but the bridge; BFS routes outsiders the long way
+  around to the gate (127-tile path — no back door); every climb up/down; boss + Halbrec
+  plane-tagged and hidden from the surface; validator + combat lock PASS.

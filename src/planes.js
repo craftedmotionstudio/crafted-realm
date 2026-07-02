@@ -136,6 +136,14 @@ const Planes = {
         if(n.mesh && n.mesh.visible!==want && !n.dying) n.mesh.visible=want;
       }
     }
+    // plane-tagged clickables (friendlies on upper floors, cellar props) follow the same rule
+    if(typeof WORLD!=='undefined' && WORLD.clickables){
+      for(const o of WORLD.clickables){
+        if(!o.userData || o.userData.plane===undefined) continue;
+        const want=(o.userData.plane===p);
+        if(o.visible!==want) o.visible=want;
+      }
+    }
   },
 };
 if(typeof Player!=='undefined') Player.plane=Player.plane||0;
