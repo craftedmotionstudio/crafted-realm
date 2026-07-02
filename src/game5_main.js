@@ -159,6 +159,7 @@ function update(dt){
       const u=a.obj.userData;
       if(Player.addItem(u.id, u.qty)){
         UI.chat(`You pick up the ${ITEMS[u.id].name.toLowerCase()}${u.qty>1?' ('+u.qty+')':''}.`,'plain');
+        if(typeof Events!=='undefined') Events.emit('itemPickup', {id:u.id, qty:u.qty});
         scene.remove(a.obj); removeClickable(a.obj);
         const di=WORLD.drops.indexOf(a.obj); if(di>=0) WORLD.drops.splice(di,1);
         if(u.id==='coins') Sfx.coin();
@@ -654,6 +655,19 @@ function animate(){
   drawMinimap();
   renderer.render(scene, camera);
 }
+/* background heartbeat: rAF freezes in hidden tabs, but the world should keep
+ * ticking like OSRS (fights resolve, respawns count down, skilling continues).
+ * When hidden, drive the sim from a timer and skip rendering entirely. Also the
+ * thing that makes headless/browser-MCP QA reliable (the old hidden-tab freeze). */
+let _hbLast=performance.now();
+setInterval(()=>{
+  const now=performance.now();
+  if(!running || !document.hidden){ _hbLast=now; return; }
+  // hidden tabs throttle timers to ~1Hz — integrate the REAL elapsed time in
+  // capped slices so the world keeps true pace (up to a 3s stall ceiling)
+  let dt=Math.min(3, (now-_hbLast)/1000); _hbLast=now;
+  try{ while(dt>1e-3){ const step=Math.min(0.25, dt); update(step); dt-=step; } }catch(e){}
+}, 200);
 
 /* ================= LOADING SEQUENCE ================= */
 function setLoad(pct, msg){

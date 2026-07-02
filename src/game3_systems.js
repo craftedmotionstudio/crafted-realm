@@ -233,7 +233,9 @@ const Player = {
       UI.chat(`Congratulations, you just advanced ${s==='Hitpoints'?'a':'an'} ${s} level. You are now level ${after}.`,'xp');
       if(s==='Hitpoints'){ this.maxHp=after; this.hp=Math.min(this.hp+1,this.maxHp); }
       Sfx.level();
+      if(typeof Events!=='undefined') Events.emit('levelUp', {skill:s, level:after});
     }
+    if(typeof Events!=='undefined') Events.emit('xp', {skill:s, amt});
     UI.refreshSkills(); UI.refreshHud();
   },
   addItem(id, qty=1){
@@ -543,6 +545,7 @@ function makeDrop(id, qty, x, z){
   m.userData = {kind:'drop', id, qty, label:`Take <b>${def.name}</b>${qty>1?' ('+qty+')':''}`,
     age:0, life:180, publicAt:60, owner:'player'};   // OSRS lifecycle: ~60s private → public → ~3min despawn
   scene.add(m); WORLD.clickables.push(m); WORLD.drops.push(m);
+  if(typeof Events!=='undefined') Events.emit('lootSpawned', {id, qty, x, z});
 }
 function removeClickable(obj){
   const i=WORLD.clickables.indexOf(obj); if(i>=0) WORLD.clickables.splice(i,1);
@@ -935,6 +938,7 @@ function killNpc(npc, opt){
   if(toppleable){ npc.dying = true; startDeath(npc.mesh); }
   else npc.mesh.visible = false;
   if(!opt.silent) UI.chat(`You have defeated the ${npc.t.name}.`,'combat');
+  if(typeof Events!=='undefined') Events.emit('npcKilled', {npc});
   dropLoot(npc.mesh.position, npc.t.drops);
   if(Player.target===npc) Player.target=null;
   if(!opt.noQuest){ Quest.onKill(npc.typeId); Tutorial.notify('kill', npc.typeId); }

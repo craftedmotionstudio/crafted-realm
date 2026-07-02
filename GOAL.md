@@ -449,26 +449,26 @@ every genuinely-shipped system. Tagged by milestone.
 - [ ] Standalone drop-table + hiscores data surface *(V2)*
 
 ### HUD, QoL overlays & feel (RuneLite-inspired)
-- [x] Right-click "choose option" menu *(make priority-sorted)*
+- [x] Right-click "choose option" menu, priority-sorted (left-click = top entry, user-swappable)
 - [x] Minimap
 - [ ] Clean, non-overlapping tabbed side panel (Combat/Stats/Inv/Equip/Prayer/Magic/Friends/Settings/Logout) *(V1)*
 - [x] Destination-tile highlight + drawn path preview (+ hover tile + ground grid)
 - [x] Hover text "Action › Target (level)"
 - [x] Central OverlayManager + per-feature toggles + persisted config (`src/overlays.js`, 📊/Shift+L)
-- [x] Generated settings list from overlay registrations — [ ] extend schema to non-overlay game settings *(V1)*
+- [x] Generated settings list from overlay registrations + schema-generated game-settings section
 - [x] XP drops + XP/hr session tracker (xp-to-level, time-to-level, per-skill clocks)
-- [x] Enemy HP bar (overhead, shows on hit) — [ ] add HP% text + drop-table lookup *(V1)*
-- [ ] NPC/object indicators (name, tile outline, respawn timers) *(V1)*
-- [ ] Ground-item highlighting with value-tier filter *(V1)*
-- [ ] Tile markers (shift-right-click, persisted, labeled) *(V1)*
-- [ ] Menu-entry swapper (remap left-click / reorder options) *(V1)*
-- [ ] Unified timers-and-buffs overlay *(V1)*
-- [ ] Loot tracker + gp/hr *(V1)*
-- [ ] Inventory tags + saveable gear/inventory presets *(V1)*
-- [ ] Bank value + bank tags/search *(V1)*
-- [x] World map (terrain/zones/roads/buildings modal) — [ ] add search + destination pin *(V1)*
-- [ ] Notifications framework (idle / low-HP / level-up, sound + flash) *(V1)*
-- [ ] Declutter/perf toggles (entity hider, roof removal, low-detail) *(V1)*
+- [x] Enemy HP bar + opponent-info overlay (name, HP bar, HP%) + right-click drop-table lookup
+- [x] NPC respawn timers (countdown over defeated monsters) — [ ] tile outline/hull highlight *(V1)*
+- [x] Ground-item highlighting with value-tier coloring + junk fading (stacked piles)
+- [x] Tile markers (right-click "Mark Tile", persisted, colored) — [ ] optional labels *(V1)*
+- [x] Menu-entry swapper (shift+right-click "Set left-click", persisted; left-click = top entry)
+- [x] Unified timers-and-buffs overlay (prayers, spec, stun, energy, teleport cd)
+- [x] Loot tracker + gp/hr (kills + picked-up value)
+- [x] Gear presets at the bank (3 slots, best-effort restore from vault) — [ ] inventory tags *(V1)*
+- [x] Bank value + live search — [ ] bank tags *(V1)*
+- [x] World map (terrain/zones/roads/buildings) + click-to-walk destination pin — [ ] name search *(V1)*
+- [x] Notifications framework (idle alert, low-HP vignette, level-up banner + flash)
+- [x] Declutter/perf toggles (hide name tags / shadows / tile grid / XP drops)
 
 ### Admin / creator layer
 - [x] Admin console (teleport menu, spawn, give)

@@ -744,6 +744,12 @@ canvasEl.addEventListener('mouseup', e=>{
   if(typeof CharCreator!=='undefined' && CharCreator.active) return;   // designing: ignore world clicks
   if(window.Build && Build.active){ Build.onClick(e); return; }   // editor: place prop
   const hit = pick(e); if(!hit) return;
+  // OSRS rule: left-click performs the TOP menu entry — so user swap rules (qol_ui)
+  // remap left-click automatically. use-item targeting keeps the legacy direct path.
+  if(!Player.usingItem && hit.obj.userData && hit.obj.userData.kind){
+    const entries = buildCtxEntries(hit, e);
+    if(entries.length>2 && entries[0].fn){ entries[0].fn(); return; }
+  }
   handleClick(hit.obj, hit.point);
 });
 canvasEl.addEventListener('wheel', e=>{
@@ -1706,6 +1712,7 @@ function makeNameTag(text){
   const tex=new THREE.CanvasTexture(c);
   const spr=new THREE.Sprite(new THREE.SpriteMaterial({map:tex, depthTest:false}));
   spr.scale.set(2.2,0.42,1);
+  spr.userData._nameTag=true;   // lets the declutter overlay find/hide every tag
   return spr;
 }
 const Bots = {
