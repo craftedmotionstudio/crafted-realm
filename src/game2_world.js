@@ -307,7 +307,10 @@ function makeTree(x,z,variant){
       br.rotation.z=Math.cos(a)*0.55; br.rotation.x=Math.sin(a)*0.55;
       g.add(br);
     }
-    const greens = variant==='dark' ? [0x33402c,0x2c3826,0x3a4a32] : [0x4f7434,0x45682e,0x5a8040,0x52753a];
+    // Emberwood is the WARM AUTUMN forest (STORY_BIBLE §3) — amber/rust canopies there
+    const autumn = (typeof zoneAt==='function' && zoneAt(x,z)==='emberwood');
+    const greens = autumn ? [0xc27a30, 0xb0642a, 0xd08e3a, 0xa85f2e, 0xcc8434]
+                 : variant==='dark' ? [0x33402c,0x2c3826,0x3a4a32] : [0x4f7434,0x45682e,0x5a8040,0x52753a];
     const blobs = 4+Math.floor(Math.random()*3);
     for(let i=0;i<blobs;i++){
       const r = 0.7+Math.random()*0.5;

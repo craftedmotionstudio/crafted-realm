@@ -84,6 +84,50 @@ const Atmosphere = {
       G.add(b); this.flies.push(b);
     }
 
+    // ---- water life: counter-scrolling shimmer discs + twinkling sun glints ----
+    this.glints=[];
+    const waters=[];
+    if(typeof ZONES!=='undefined' && ZONES.pond) waters.push({x:ZONES.pond.pos[0], z:ZONES.pond.pos[1], r:9.0, y:-0.5});
+    if(typeof HOLM_POND!=='undefined') waters.push({x:HOLM_POND.x, z:HOLM_POND.z, r:HOLM_POND.r-0.3,
+      y:(typeof gy==='function'?gy(HOLM_POND.x,HOLM_POND.z):0)+0.66});
+    for(const wtr of waters){
+      // shimmer layer: faint brighter disc scrolling against the base water
+      if(typeof TEX!=='undefined' && TEX.water){
+        const t2=TEX.water.clone(); t2.needsUpdate=true; t2.wrapS=t2.wrapT=THREE.RepeatWrapping;
+        t2.repeat.set(5,5);
+        const disc=new THREE.Mesh(new THREE.CircleGeometry(wtr.r, 24),
+          new THREE.MeshLambertMaterial({map:t2, color:0xbfe2ff, transparent:true, opacity:0.28, depthWrite:false}));
+        disc.rotation.x=-Math.PI/2; disc.position.set(wtr.x, wtr.y+0.05, wtr.z);
+        G.add(disc);
+        disc.userData._scroll=t2;
+      }
+      // glints: sun sparkles twinkling across the surface
+      for(let i=0;i<9;i++){
+        const g2=new THREE.Mesh(new THREE.PlaneGeometry(0.36,0.36),
+          new THREE.MeshBasicMaterial({color:0xffffe0, transparent:true, opacity:0}));
+        g2.rotation.x=-Math.PI/2;
+        g2.userData={w:wtr, phase:i*1.7, seed:i*7.3};
+        g2.position.y=wtr.y+0.08;
+        G.add(g2); this.glints.push(g2);
+      }
+    }
+    this._shimmers=G.children.filter(c=>c.userData&&c.userData._scroll);
+
+    // ---- Emberwood autumn: amber leaves drifting down among the western trees ----
+    this.leaves=[];
+    const emberTrees=this.trees.filter(tr=>{
+      try{ return typeof zoneAt==='function' && zoneAt(tr.g.position.x, tr.g.position.z)==='emberwood'; }
+      catch(e){ return false; }
+    });
+    const leafHosts=(emberTrees.length?emberTrees:this.trees.slice(0,10));
+    const leafMat=new THREE.MeshBasicMaterial({color:0xd8883a, side:THREE.DoubleSide, transparent:true, opacity:0.92});
+    for(let i=0;i<36 && leafHosts.length;i++){
+      const host=leafHosts[i%leafHosts.length].g;
+      const lf=new THREE.Mesh(new THREE.PlaneGeometry(0.22,0.22), leafMat);
+      lf.userData={hx:host.position.x, hz:host.position.z, t:Math.abs(Math.sin(i*3.3)), seed:i};
+      G.add(lf); this.leaves.push(lf);
+    }
+
     scene.add(G);
     this._iv=setInterval(()=>this.tick(0.12), 120);
   },
@@ -128,6 +172,27 @@ const Atmosphere = {
     for(const tr of (this.trees||[])){
       if(!tr.g.parent) continue;
       tr.g.rotation.z=tr.base+Math.sin(t*0.9+tr.phase)*0.014;
+    }
+    // water: scroll the shimmer layers, twinkle the glints
+    for(const d of (this._shimmers||[])){
+      d.userData._scroll.offset.x-=dt*0.012; d.userData._scroll.offset.y+=dt*0.009;
+    }
+    for(const g2 of (this.glints||[])){
+      const u=g2.userData, w=u.w;
+      const tw=Math.max(0, Math.sin(t*1.7+u.phase));
+      g2.material.opacity=tw*tw*0.85;
+      const a=t*0.11+u.seed;
+      g2.position.x=w.x+Math.sin(a)*w.r*0.7*Math.sin(u.seed*2.1);
+      g2.position.z=w.z+Math.cos(a*0.8)*w.r*0.7*Math.cos(u.seed*1.3);
+    }
+    // autumn leaves spiral down and recycle
+    for(const lf of (this.leaves||[])){
+      const u=lf.userData; u.t+=dt*0.16;
+      if(u.t>1) u.t-=1;
+      const sway=Math.sin(u.t*9+u.seed)*0.7;
+      lf.position.set(u.hx+Math.sin(u.seed*3)*1.6+sway, 3.4-u.t*3.1, u.hz+Math.cos(u.seed*5)*1.6+Math.cos(u.t*7+u.seed)*0.4);
+      lf.rotation.set(u.t*7, u.seed, u.t*5);
+      lf.material.opacity=u.t>0.85?(1-u.t)*6.1:0.92;
     }
     // butterflies flutter on loopy tracks
     for(const b of (this.flies||[])){

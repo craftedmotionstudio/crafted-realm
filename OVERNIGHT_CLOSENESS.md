@@ -558,3 +558,18 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
   the loop's keep-only-if-better rule doing its job.
 - **Pass #5 queue:** plaza paving tone, window-glow at distance, castle vantage pass,
   Emberwood autumn-leaf particles.
+
+### 2026-07-02 — VISUAL LOOP pass #5: AUTUMN EMBERWOOD + water life (kept)
+- **The headline:** Emberwood canopies now use a rust/amber/gold autumn palette
+  (zone-conditional in makeTree) — the STORY_BIBLE §3 "warm autumn forest" identity
+  finally VISIBLE. Biome-per-direction (the OSRS 'every exit reads different' principle)
+  now lands the moment you walk west. Dramatic, unmistakable keep.
+- **Also:** 36 amber leaves spiral down among the emberwood trees (recycling, wind-sway);
+  ponds gained a counter-scrolling shimmer layer + 9 twinkling sun glints each (first
+  glint size was too subtle — strengthened 0.22→0.36 after side-by-side, the reject-
+  and-refine rule again).
+- **Loop tally after 5 passes:** golden-hour light + cloud shadows · soft shadow edges ·
+  fire smoke · tree sway · butterflies · living-meadow ground · trampled path margins ·
+  overhead village chatter · timber gables · autumn Emberwood · falling leaves · water
+  shimmer/glints. Against the pass-0 baseline (flat grey-green, static, silent) the
+  world is unrecognizably more alive.
