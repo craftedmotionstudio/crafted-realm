@@ -606,3 +606,19 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
 - **Verified:** moat blocks all sides but the bridge; BFS routes outsiders the long way
   around to the gate (127-tile path — no back door); every climb up/down; boss + Halbrec
   plane-tagged and hidden from the surface; validator + combat lock PASS.
+
+### 2026-07-02 — CASTLE LOOP pass #1: flagstone bailey + structures + light + height (kept)
+- **Changed (wardenholm.js §9):** TERRAIN-HUGGING flagstone courtyard (subdivided plane,
+  vertices lifted to groundY+0.07 — a flat plane sinks under undulating ground; also a
+  geometry.translate double-compensation bug had it rendering AT THE COMMONS) + darker
+  gate→keep lane + grass garden squares; watch turret + chimney (registered as a fire
+  so the atmosphere layer smokes it) crowning the keep; stable lean-to (posts/plank
+  roof/hay/cart), shrine of the Dawn (WORKING prayer altar + benches), smithy corner
+  (anvil w/ lore examine, trough, tools); 4 braziers with real point lights at gate +
+  keep door, warm hall glow, violet throne glow; 3 sigil banners down the lane;
+  Old Wat the Groom + Tilly the Cook.
+- **Verified:** paving renders underfoot at ground level (red-paint pixel probe caught
+  the translate bug); gate path intact; altar clickable; new friendlies live.
+- **QA lesson:** the "keep disappeared" scare was the roof-lift working correctly — the
+  PLAYER'S SAVED POSITION was inside the keep. Check player position before judging
+  visibility regressions from offscreen renders.

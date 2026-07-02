@@ -404,6 +404,123 @@
       handler(){ Player.hp=Math.min(Player.maxHp, Player.hp+3); UI.refreshHud();
         UI.chat('The well water is cold and sweet. You feel a little restored.','plain'); }});
 
+    /* ================= 9. CASTLE PASS #1 — paving, structures, light, height, life ============ */
+    // --- a real castle floor: flagstone courtyard with a bordered approach from gate to keep ---
+    (function(){
+      const paveT=TEX.stone?TEX.stone.clone():null;
+      if(paveT){ paveT.needsUpdate=true; paveT.wrapS=paveT.wrapT=THREE.RepeatWrapping; paveT.repeat.set(14,14); }
+      const paveMat=paveT?new THREE.MeshLambertMaterial({map:paveT, color:0xb8b0a2}):M(0xa8a096);
+      // TERRAIN-HUGGING pave: subdivided plane, every vertex lifted to groundY+0.07 so
+      // the flagstones follow the yard's undulation instead of sinking under it
+      function hugPlane(w, d, cx, cz, mat, lift){
+        const geo=new THREE.PlaneGeometry(w, d, Math.ceil(w/1.5), Math.ceil(d/1.5));
+        geo.rotateX(-Math.PI/2);
+        const pos=geo.attributes.position;
+        for(let i=0;i<pos.count;i++){
+          const vx=pos.getX(i)+cx, vz=pos.getZ(i)+cz;
+          pos.setY(i, (groundY(vx,vz)||g0)+lift);
+        }
+        geo.computeVertexNormals();
+        // vertices are LOCAL (±w/2); the mesh position carries them to the site
+        const m=new THREE.Mesh(geo, mat); m.position.set(cx, 0, cz);
+        m.receiveShadow=true; G.add(m); return m;
+      }
+      hugPlane((WH-1.2)*2, (WH-1.2)*2, C.x, C.z, paveMat, 0.07);
+      // darker approach lane: gate → keep door
+      const laneT=TEX.stone?TEX.stone.clone():null;
+      if(laneT){ laneT.needsUpdate=true; laneT.wrapS=laneT.wrapT=THREE.RepeatWrapping; laneT.repeat.set(9,2); }
+      hugPlane(WH*2-6, 3.4, C.x, (dLo+dHi)/2-1.0,
+        laneT?new THREE.MeshLambertMaterial({map:laneT, color:0x8f8578}):M(0x8f8578), 0.1);
+      // grass "garden squares" flanking the lane keep the yard from reading as one slab
+      for(const s of [[C.x-8, C.z-8],[C.x+2, C.z-9]]){
+        hugPlane(7, 5, s[0], s[1], M(0x6f8a48), 0.12);
+      }
+    })();
+    // --- good height: crown the keep with a taller watch turret + chimney ---
+    (function(){
+      const wt=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.8,4.2,8), stoneT(0xa39a8c));
+      wt.position.set(K.x-3.5, g0+KH*2+2.1, K.z+2.5); wt.castShadow=true; G.add(wt);
+      const wc=new THREE.Mesh(new THREE.ConeGeometry(2.0,1.5,8), M(0x5a5e72));
+      wc.position.set(K.x-3.5, g0+KH*2+4.9, K.z+2.5); wc.castShadow=true; G.add(wc);
+      const flag=new THREE.Mesh(new THREE.PlaneGeometry(1.1,0.6), new THREE.MeshBasicMaterial({color:0x8a3030, side:THREE.DoubleSide}));
+      flag.position.set(K.x-2.9, g0+KH*2+6.1, K.z+2.5); G.add(flag);
+      const pole=box(0.07,1.4,0.07, M(0x46301d), K.x-3.5, g0+KH*2+5.9, K.z+2.5);
+      const chim=box(0.7,1.6,0.7, stoneT(0x8e867a), K.x+5.5, g0+KH*2+0.9, K.z-3.5);
+      // the kitchen fire vents here — register so the atmosphere layer smokes it
+      const vent=new THREE.Group(); vent.position.set(K.x+5.5, g0+KH*2+1.7, K.z-3.5);
+      G.add(vent); if(WORLD.fires) WORLD.fires.push(vent);
+    })();
+    // --- more structures: stable lean-to (W wall), shrine of the Dawn (N wall), smithy corner (S) ---
+    (function(){
+      // stable: timber posts + sloped plank roof + hay + cart
+      const SB={x:C.x-WH+3.4, z:C.z-8};
+      for(const [px,pz] of [[SB.x-2,SB.z-2],[SB.x+2,SB.z-2],[SB.x-2,SB.z+2],[SB.x+2,SB.z+2]])
+        box(0.18,2.2,0.18, M(0x46301d), px, g0+1.1, pz);
+      const sroof=box(5.4,0.16,5.2, new THREE.MeshLambertMaterial({map:TEX.plank||null, color:0x8a6a44}), SB.x, g0+2.35, SB.z);
+      sroof.rotation.z=0.12;
+      const hay=new THREE.Mesh(new THREE.CylinderGeometry(0.8,0.9,0.9,7), M(0xC9A94E));
+      hay.position.set(SB.x-1.1, g0+0.45, SB.z+0.9); hay.castShadow=true; G.add(hay);
+      const hay2=hay.clone(); hay2.position.set(SB.x-0.2, g0+0.45, SB.z+1.2); G.add(hay2);
+      P('crate', SB.x+1.4, SB.z-1.0, g0); P('barrel', SB.x+1.6, SB.z+0.6, g0);
+      addRectCollider(SB.x, SB.z, 2.4, 2.4);
+      // shrine: mini chapel-corner with a working altar (Prayer!)
+      const SH={x:C.x+2, z:C.z-WH+3.2};
+      const altar=new THREE.Group();
+      const slab2=new THREE.Mesh(new THREE.BoxGeometry(1.6,0.9,0.8), stoneT(0xcac2b4)); slab2.position.y=0.45; altar.add(slab2);
+      const cloth=new THREE.Mesh(new THREE.BoxGeometry(1.7,0.08,0.9), M(0xd8b23a)); cloth.position.y=0.92; altar.add(cloth);
+      for(const s of [-1,1]){ const cnd=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.06,0.5,5), M(0xe8e2d0));
+        cnd.position.set(s*0.6,1.2,0); altar.add(cnd);
+        const fl2=new THREE.Mesh(new THREE.SphereGeometry(0.05,4,4), new THREE.MeshBasicMaterial({color:0xffe6a0}));
+        fl2.position.set(s*0.6,1.5,0); altar.add(fl2); }
+      altar.position.set(SH.x, g0, SH.z);
+      altar.traverse(o=>{if(o.isMesh)o.castShadow=true;});
+      altar.userData={kind:'altar'};
+      G.add(altar); WORLD.clickables.push(altar); addRectCollider(SH.x, SH.z, 1.0, 0.6);
+      for(const s of [-1,1]) P('bench', SH.x+s*1.6, SH.z+1.6, g0, 0);
+      // smithy corner: anvil block + trough + tool crates under a small awning
+      const SM={x:C.x+9, z:C.z+WH-3.4};
+      const anvil=new THREE.Group();
+      const aB=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.5,0.35), M(0x4a4a52)); aB.position.y=0.55; anvil.add(aB);
+      const aT=new THREE.Mesh(new THREE.BoxGeometry(0.95,0.2,0.3), M(0x5a5a64)); aT.position.y=0.9; anvil.add(aT);
+      const aBase=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.36,0.4,6), M(0x6a4a2f)); aBase.position.y=0.2; anvil.add(aBase);
+      anvil.position.set(SM.x, g0, SM.z); anvil.traverse(o=>{if(o.isMesh)o.castShadow=true;});
+      anvil.userData={kind:'prop', examine:'The Guild farrier\'s anvil. Someone has stamped tiny shields along its flank.'};
+      G.add(anvil); WORLD.clickables.push(anvil); addCircleCollider(SM.x, SM.z, 0.5);
+      const trough=box(1.4,0.4,0.6, M(0x6a4a2f), SM.x+1.6, g0+0.2, SM.z);
+      P('crate', SM.x-1.4, SM.z+0.4, g0); P('barrel', SM.x-1.2, SM.z-0.8, g0);
+    })();
+    // --- good lighting: braziers flanking the gate lane + keep door, warm hall glow ---
+    (function(){
+      function brazier(x,z2){
+        const b=new THREE.Group();
+        const bowl=new THREE.Mesh(new THREE.CylinderGeometry(0.34,0.2,0.3,7), M(0x3a3a44)); bowl.position.y=1.05; b.add(bowl);
+        const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.1,1.0,5), M(0x3a3a44)); leg.position.y=0.5; b.add(leg);
+        const fl2=new THREE.Mesh(new THREE.ConeGeometry(0.22,0.5,6), new THREE.MeshBasicMaterial({color:0xffa23a}));
+        fl2.position.y=1.45; b.add(fl2);
+        const li=new THREE.PointLight(0xff9a40, 0.85, 9); li.position.y=1.8; b.add(li);
+        b.position.set(x, g0, z2); b.traverse(o=>{if(o.isMesh)o.castShadow=true;});
+        G.add(b); addCircleCollider(x, z2, 0.3);
+      }
+      brazier(C.x-WH+2.2, gateLo-1.2); brazier(C.x-WH+2.2, gateHi+1.2);      // inside the gate
+      brazier(K.x-K.w/2-1.2, dLo-0.8); brazier(K.x-K.w/2-1.2, dHi+0.8);      // keep door
+      const hallGlow=new THREE.PointLight(0xffc070, 0.7, 12);
+      hallGlow.position.set(K.x, g0+2.0, K.z+1.5); G.add(hallGlow);
+      const throneGlow=new THREE.PointLight(0xd8a0ff, 0.5, 8);
+      throneGlow.position.set(K.x+K.w/2-2.4, g0+KH+1.6, K.z+0.4); G.add(throneGlow);
+    })();
+    // --- life that makes sense: banners, servants, a patrol post ---
+    (function(){
+      for(const [bx,bz] of [[C.x-6, (dLo+dHi)/2-2.6],[C.x-1, (dLo+dHi)/2-2.6],[C.x+4, (dLo+dHi)/2-2.6]]){
+        const pole=box(0.1,2.6,0.1, M(0x46301d), bx, g0+1.3, bz);
+        const bn=new THREE.Mesh(new THREE.PlaneGeometry(0.7,1.1), new THREE.MeshBasicMaterial({color:0x8a3030, side:THREE.DoubleSide}));
+        bn.position.set(bx+0.36, g0+2.0, bz); G.add(bn);
+        const sig=new THREE.Mesh(new THREE.CircleGeometry(0.16,6), new THREE.MeshBasicMaterial({color:0xd8b23a, side:THREE.DoubleSide}));
+        sig.position.set(bx+0.36, g0+2.1, bz+0.01); G.add(sig);
+      }
+      spawnFriendly('wat','Old Wat the Groom', C.x-WH+4.6, C.z-6.2, 0x7a6a4a, '👴');
+      spawnFriendly('tilly','Tilly the Cook', K.x-K.w/2+2.0, K.z-K.d/2-1.2, 0xa06a4a, '👩‍🍳');
+    })();
+
     if(typeof Deeds!=='undefined') Deeds.addLog('Wardenholm Keep stands — the Guild has its castle.');
     UI.chat('[MAP] Wardenholm Keep rises east of the Commons — cross the bridge, climb the walls, and mind what’s chained below.','sys');
     built=true;
