@@ -100,17 +100,17 @@ function charNpcAnim(n, dt){
 
 /* world placements — one of each character, spread by region flavor */
 const CHAR_NPC_SPAWNS = [
-  ['cn_guard',       8,   2],
-  ['cn_soldier',    -7,  -9],
-  ['cn_mage',      -13,  17],
-  ['cn_monk',       19,   7],
-  ['cn_priest',     21,  10],
-  ['cn_rogue',       2,  46],
+  ['cn_guard',       8,   2],    // town guard — belongs in town
+  ['cn_soldier',    46, -54],    // a Hold soldier belongs at Whitmoor, not loitering in the commons
+  ['cn_mage',      -13,  17],    // the Glimmerveil arcanist keeps the town's rune corner
+  ['cn_monk',       -4,  19],    // the Dawn pair stand by the chapel road, not the market
+  ['cn_priest',     -7,  22],
+  ['cn_rogue',       2,  46],    // roadside ambusher on the south road — placement IS the story
   ['cn_druid',     -33,  47],
   ['cn_farmer',    -37, -25],
   ['cn_archer',    -58, -33],
   ['cn_ranger',    -66, -42],
-  ['cn_wizard',    -16,  20],
+  ['cn_wizard',     50,  48],   // the Grey Wizard studies with the pond wizards, not in town
   ['cn_dwarf',      66, -32],
   ['cn_pirate',     52,  52],
   ['cn_halberdier', 47, -58],

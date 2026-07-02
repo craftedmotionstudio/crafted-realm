@@ -209,19 +209,25 @@ function buildTerrainPatch(cx, cz, size, segs, edgeFalloff){
     else if(zone==='holm') c.setHex(0x8aa45e);
     else if(zone==='dunes') c.setHex(0xccb578);
     else if(zone==='scarlands') c.setHex(0x8a7c62);
-    else if(zone==='brynholt') c.setHex(0x778f52);
+    // the cold north READS cold: Brynholt is frost-bitten coast, Whitmoor is true snow
+    else if(zone==='brynholt') c.setHex(0xb9c8c2);
+    else if(zone==='whitmoor') c.setHex(0xe2e9e7);
     else c.setHex(0x83a055);
     // OSRS-style ground mottle: hand-painted unevenness
     const mot = Math.sin(x*0.31)*Math.sin(z*0.27) + Math.sin(x*0.071+1.3)*Math.sin(z*0.083);
     c.offsetHSL(0, -0.04+mot*0.02, mot*0.035);
     // living-meadow underlay: broad deterministic drifts of dried gold, deep clover and
     // bright tufts (the OSRS blended-underlay read — grass is never one green)
-    if(zone!=='dunes' && zone!=='quarry' && h>-0.8){
+    if(zone!=='dunes' && zone!=='quarry' && zone!=='brynholt' && zone!=='whitmoor' && h>-0.8){
       const p1 = Math.sin(x*0.045+2.7)*Math.sin(z*0.052+1.1);    // ~20-tile drifts
       const p2 = Math.sin(x*0.11+0.4)*Math.sin(z*0.09+3.3);      // ~7-tile patches
       if(p1>0.35) c.lerp(new THREE.Color(0xa8a049), Math.min(0.33,(p1-0.35)*0.5));
       else if(p1<-0.4) c.lerp(new THREE.Color(0x55703a), Math.min(0.34,(-p1-0.4)*0.55));
       if(p2>0.55) c.lerp(new THREE.Color(0x97ae5c), Math.min(0.28,(p2-0.55)*0.6));
+    } else if((zone==='brynholt'||zone==='whitmoor') && h>-0.8){
+      // snow drifts: brighter windswept patches instead of meadow golds
+      const p1 = Math.sin(x*0.05+1.2)*Math.sin(z*0.06+2.4);
+      if(p1>0.3) c.lerp(new THREE.Color(0xf2f6f5), Math.min(0.4,(p1-0.3)*0.7));
     }
     // the deeper into the Scarlands, the more scorched the earth
     if(zone==='scarlands' && typeof scarThreat==='function'){

@@ -622,3 +622,20 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
 - **QA lesson:** the "keep disappeared" scare was the roof-lift working correctly — the
   PLAYER'S SAVED POSITION was inside the keep. Check player position before judging
   visibility regressions from offscreen renders.
+
+### 2026-07-02 — World coherence pass: NPC placement law + the biome split reads
+- **NPC audit (runtime, all zones):** outer zones were already thematic; the problem was
+  a 13-type pile-up in the Commons. Placement law applied ("every spawn needs a
+  geographic REASON"): Hold Soldier → Whitmoor garrison, Grey Wizard → the pond wizards'
+  study circle, Dawn monk+priest → the chapel road; town guard, arcanist, and the
+  road-rogue-on-the-road stay (their placement IS their story). Verified live.
+- **The cold north now READS (7DtD/OSRS biosphere split):** brynholt/whitmoor terrain
+  palette frost/snow + snow-drift patches replacing meadow golds — vertex tints alone
+  CAN'T beat the green grass texture (colors multiply), so `src/biome_snow.js` lays
+  real terrain-hugging SNOW BLANKETS over both zones (water/shore auto-uncovered,
+  22 drift mounds). Whitmoor Hold now sits in a white snowfield — verified visually.
+- **Macro biome plan documented (STORY_BIBLE §3):** full compass split — temperate
+  heartland ✅ · autumn west + dark fen (our Morytania) ✅ · frost/snow north ✅ ·
+  desert east ✅ · THE BIG WILDERNESS south (Scarlands, to be extended 2-3×) ·
+  volcanic underworld ✅ · planned: Saltreach Port (east-coast harbour town) +
+  tropical isle by boat. Rule locked: one glance at the ground names the biome.

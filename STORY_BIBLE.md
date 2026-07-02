@@ -69,6 +69,24 @@ different" principle).
 | **The Undercrag** | Lightless undercity | Endgame combat | Highest | **Korthul** (lvl 58 boss) |
 | **Tutor's Holm** | Tutorial island | Onboarding | Safe | Guide Bram |
 
+**The macro biome plan (2026-07-02 — the full OSRS-style biosphere split, per direction):**
+
+| Compass | Biome band | Zones (built ✅ / planned ⏳) |
+|---|---|---|
+| Centre | Temperate heartland (the "Lumbridge belt") | ✅ Commons, Wardenholm Keep, Mirrorpond |
+| West | Autumn forest → drowned dark fen (our Morytania) | ✅ Emberwood (amber canopies), ✅ Gloomfen |
+| North | Frost coast → true snow | ✅ Brynholt (frost ground), ✅ Whitmoor Hold (snow ground) |
+| North-east | Rocky crag | ✅ Stonereach Quarry |
+| East | Desert → the far coast | ✅ Ashar Dunes · ⏳ **Saltreach Port** (harbour town on the east coast — ships, charters, smuggler flavor; our Port Sarim) |
+| South | THE BIG WILDERNESS | ✅ Scarlands (threat scales with depth) — ⏳ **extend southward 2-3× as the true wilderness band**: deeper = deadlier, rare resources, eventual opt-in PvP |
+| Deep/endgame | Volcanic underworld | ✅ The Undercrag (Korthul) · ⏳ surface volcano/tropic isle (post-V1, reached by boat from Saltreach) |
+
+**Rule: you should know which biome you're in from ONE glance at the ground** — each band
+gets its own terrain palette (snow/frost painted 2026-07-02), flora (autumn canopies ✅,
+pines for the north ⏳, palms for the tropics ⏳) and NPC cast. NPC placement law: every
+spawn needs a geographic REASON (a rogue on a road, knights at their hold, wizards at
+their study) — no flavor NPCs loitering in the starter town.
+
 **Map design principles (for the future "better-than-OSRS" map — Phase: Chunk World):**
 - **Square chunks**, hand-authored, 8×8 tiles each (per `ROADMAP.md`). Visible tile grid.
 - **Biome transitions are gradual** (forest→fen→scar), not hard seams.
