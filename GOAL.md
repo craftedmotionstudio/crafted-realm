@@ -451,7 +451,7 @@ every genuinely-shipped system. Tagged by milestone.
 ### HUD, QoL overlays & feel (RuneLite-inspired)
 - [x] Right-click "choose option" menu, priority-sorted (left-click = top entry, user-swappable)
 - [x] Minimap
-- [ ] Clean, non-overlapping tabbed side panel (Combat/Stats/Inv/Equip/Prayer/Magic/Friends/Settings/Logout) *(V1)*
+- [x] Clean, non-overlapping tabbed side panel (Combat/Inv/Equip/Skills/Quests/Prayer/Magic/Settings+Logout; historic music/run overlaps fixed) — Friends tab arrives with V2 social
 - [x] Destination-tile highlight + drawn path preview (+ hover tile + ground grid)
 - [x] Hover text "Action › Target (level)"
 - [x] Central OverlayManager + per-feature toggles + persisted config (`src/overlays.js`, 📊/Shift+L)
