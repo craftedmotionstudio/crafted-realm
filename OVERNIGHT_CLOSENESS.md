@@ -521,3 +521,15 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
 - **QA capture lesson:** in HIDDEN tabs, the rAF hook can't fire — capture instead with a
   TEMP OFFSCREEN WebGLRenderer (preserveDrawingBuffer:true) + own camera → toDataURL →
   local receiver. Works always; high-res; no focus stealing.
+
+### 2026-07-02 — VISUAL LOOP pass #2: soft shadows + smoke, sway, butterflies (kept)
+- **Changed:** sun.shadow.radius=2.6 (PCFSoft blur — pixelated shadow edges gone);
+  fx_atmosphere extended: 3 recycling smoke puffs above every campfire/range (rise,
+  drift, fade), whole-grove tree sway (±0.8° trunk-pivot oscillation, per-tree phase,
+  settles on toggle-off), 6 butterflies fluttering low over the commons (3 colorways,
+  wing-flap + loopy tracks). Atmosphere boot now gates on `running` so fires/trees
+  exist when it collects them.
+- **Verified:** 42 smoke puffs / 63 swaying trees / 6 butterflies live; offscreen render
+  shows softened shadows + village life; no regressions at the pass-1 vantage.
+- **Pass #3 queue:** vertex-color ground variation (the research's underlay-blend look),
+  gable-end triangle dressing, evening window-glow pass, NPC ambient chat bubbles.

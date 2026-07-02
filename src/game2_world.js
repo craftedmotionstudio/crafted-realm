@@ -31,6 +31,7 @@ function initEngine(){
   sun.shadow.camera.left=-160; sun.shadow.camera.right=200;
   sun.shadow.camera.top=200; sun.shadow.camera.bottom=-160;
   sun.shadow.bias=-0.0004;
+  sun.shadow.radius=2.6;               // PCFSoft blur — kills the pixelated shadow edge
   scene.add(sun);
 
   clock = new THREE.Clock();
