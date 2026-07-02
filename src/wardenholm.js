@@ -235,6 +235,14 @@
     const F=Buildkit.furniture, P=(name,x,z2,y,rot,opt)=>{ const m=F[name](Buildkit,opt);
       m.position.set(x, y, z2); if(rot) m.rotation.y=rot;
       m.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(m); return m; };
+    // floor-1 dressing lives in its own group: hidden unless you're UP there —
+    // otherwise thrones float in mid-air when the storey walls lift away (OSRS rule:
+    // you never see the floor above you)
+    const f1G=new THREE.Group(); G.add(f1G);
+    Planes.addVisibilityRule(f1G, p=>p>=1);
+    const P1=(name,x,z2,y,rot,opt)=>{ const m=F[name](Buildkit,opt);
+      m.position.set(x, y, z2); if(rot) m.rotation.y=rot;
+      m.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); f1G.add(m); return m; };
     // great hall (south/centre): long table = two tables, benches, hearth, candles, rug
     P('table', K.x-1.2, K.z+1.8, g0); P('table', K.x+0.1, K.z+1.8, g0);
     P('bench', K.x-0.6, K.z+2.6, g0); P('bench', K.x-0.6, K.z+1.0, g0);
@@ -246,19 +254,20 @@
     P('hearth', K.x-K.w/2+1.0, K.z-K.d/2+1.2, g0, Math.PI/2);
     P('table', K.x-K.w/2+3.4, K.z-K.d/2+1.4, g0);
     P('barrel', K.x-K.w/2+1.0, K.z-K.d/2+3.0, g0); P('crate', K.x-K.w/2+1.8, K.z-K.d/2+3.2, g0);
-    // floor 1: throne dais east, study west, armory racks north
+    // floor 1: throne dais east, study west, armory racks north (all in f1G — plane-gated)
     const f1=g0+KH+0.16;
-    const dais=box(3.4, 0.3, 2.6, stoneT(0xb4aa9c), K.x+K.w/2-2.4, f1+0.15, K.z+0.4);
+    const dais=new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.3, 2.6), stoneT(0xb4aa9c));
+    dais.position.set(K.x+K.w/2-2.4, f1+0.15, K.z+0.4); dais.castShadow=true; f1G.add(dais);
     const throne=new THREE.Group();
     const tSeat=new THREE.Mesh(new THREE.BoxGeometry(0.9,0.5,0.8), M(0x6a3a5a)); tSeat.position.y=0.55; throne.add(tSeat);
     const tBack=new THREE.Mesh(new THREE.BoxGeometry(0.9,1.6,0.16), M(0x6a3a5a)); tBack.position.set(0,1.3,-0.34); throne.add(tBack);
     const tTrim=new THREE.Mesh(new THREE.BoxGeometry(1.0,0.14,0.9), M(0xd8b23a)); tTrim.position.y=0.32; throne.add(tTrim);
-    throne.position.set(K.x+K.w/2-2.4, f1+0.3, K.z+0.4); throne.traverse(o=>{if(o.isMesh)o.castShadow=true;}); G.add(throne);
-    P('rug', K.x+K.w/2-3.6, K.z+0.4, f1, 0, 0x3a4a6a);
-    P('candle', K.x+K.w/2-1.2, K.z-2.2, f1); P('candle', K.x+K.w/2-1.2, K.z+2.8, f1);
-    P('shelf', K.x-K.w/2+0.8, K.z-1.5, f1, Math.PI/2); P('shelf', K.x-K.w/2+0.8, K.z+0.5, f1, Math.PI/2);
-    P('table', K.x-K.w/2+2.6, K.z+2.4, f1); P('chair', K.x-K.w/2+3.4, K.z+2.4, f1, -Math.PI/2);
-    P('crate', K.x-1.0, K.z-K.d/2+1.2, f1); P('barrel', K.x+0.2, K.z-K.d/2+1.1, f1);
+    throne.position.set(K.x+K.w/2-2.4, f1+0.3, K.z+0.4); throne.traverse(o=>{if(o.isMesh)o.castShadow=true;}); f1G.add(throne);
+    P1('rug', K.x+K.w/2-3.6, K.z+0.4, f1, 0, 0x3a4a6a);
+    P1('candle', K.x+K.w/2-1.2, K.z-2.2, f1); P1('candle', K.x+K.w/2-1.2, K.z+2.8, f1);
+    P1('shelf', K.x-K.w/2+0.8, K.z-1.5, f1, Math.PI/2); P1('shelf', K.x-K.w/2+0.8, K.z+0.5, f1, Math.PI/2);
+    P1('table', K.x-K.w/2+2.6, K.z+2.4, f1); P1('chair', K.x-K.w/2+3.4, K.z+2.4, f1, -Math.PI/2);
+    P1('crate', K.x-1.0, K.z-K.d/2+1.2, f1); P1('barrel', K.x+0.2, K.z-K.d/2+1.1, f1);
     // Maren's chamber (tower top)
     const mfY=g0+KH*2+0.3;
     P('bed', T.x-0.6, T.z-0.6, mfY); P('candle', T.x+1.0, T.z-1.0, mfY);
@@ -357,6 +366,10 @@
           UI.dialogue(name,'Welcome to Wardenholm, traveller. One bridge in, one bridge out — the Guild likes it that way. The Proving Ring takes challengers, and the well is sweet.',
             [{label:'What is this place?', fn:()=>UI.dialogue(name,'Seat of the Wardens’ Guild. Walls to hold the line, a ring to sharpen it, and things below best left chained.',[{label:'Farewell.'}],face)},
              {label:'Farewell.'}], face); return;
+        }
+        if(id==='pip'){
+          UI.dialogue(name,'Polish, polish, polish. The captain says a squire who can see his face in a breastplate is halfway to a knight. I say the captain likes looking at his face.',
+            [{label:'Keep at it, squire.'},{label:'Farewell.'}], face); return;
         }
         if(id==='brand'){
           UI.dialogue(name,'The Proving Ring! House rules: what happens in the ring stays in the ring. Spar the knights inside whenever you fancy — when the realm links worlds, you’ll duel other adventurers here.',
@@ -519,6 +532,85 @@
       }
       spawnFriendly('wat','Old Wat the Groom', C.x-WH+4.6, C.z-6.2, 0x7a6a4a, '👴');
       spawnFriendly('tilly','Tilly the Cook', K.x-K.w/2+2.0, K.z-K.d/2-1.2, 0xa06a4a, '👩‍🍳');
+    })();
+
+    /* ================= 10. DETAIL PASS #2 — interior wall decor, murder-hole, castle folk ============ */
+    (function(){
+      // ---- wall sconces (flame, no extra lights — the braziers carry the lighting) ----
+      function sconce(x, z2, y, ry){
+        const s=new THREE.Group();
+        const arm=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.3,0.08), M(0x3a3a44)); arm.position.y=0.1; s.add(arm);
+        const cup=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.05,0.12,6), M(0x3a3a44)); cup.position.y=0.28; s.add(cup);
+        const fl=new THREE.Mesh(new THREE.ConeGeometry(0.08,0.22,5), new THREE.MeshBasicMaterial({color:0xffb050}));
+        fl.position.y=0.44; s.add(fl);
+        s.position.set(x, y, z2); if(ry) s.rotation.y=ry; G.add(s);
+      }
+      // great hall: sconces down both long walls (ground) + throne room (floor 1)
+      for(const sx of [-4.5,-1,2.5,6]){
+        sconce(K.x+sx, K.z+K.d/2-0.45, g0+1.9);
+        sconce(K.x+sx, K.z-K.d/2+0.45, g0+1.9);
+      }
+      // floor-1 sconces ride the plane-gated group
+      const sc1=new THREE.Group(), sc2=new THREE.Group();
+      [sc1, sc2].forEach((sg,i)=>{
+        const arm=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.3,0.08), M(0x3a3a44)); arm.position.y=0.1; sg.add(arm);
+        const fl=new THREE.Mesh(new THREE.ConeGeometry(0.08,0.22,5), new THREE.MeshBasicMaterial({color:0xffb050}));
+        fl.position.y=0.44; sg.add(fl);
+        sg.position.set(K.x+K.w/2-0.55, f1+1.9, i? K.z+2.8 : K.z-2.2); sg.rotation.y=Math.PI/2;
+        f1G.add(sg);
+      });
+      // ---- portraits: framed panels of the First Wardens (hall walls) ----
+      function portrait(x, z2, y, tint, ry){
+        const p=new THREE.Group();
+        const fr=new THREE.Mesh(new THREE.BoxGeometry(0.8,1.0,0.06), M(0x5a4226)); p.add(fr);
+        const cv=new THREE.Mesh(new THREE.BoxGeometry(0.66,0.86,0.07), M(tint)); cv.position.z=0.01; p.add(cv);
+        const fig=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.16,0.5,5), M(0x4a4438)); fig.position.set(0,-0.08,0.05); p.add(fig);
+        const hd=new THREE.Mesh(new THREE.SphereGeometry(0.09,5,4), M(0xb08d68)); hd.position.set(0,0.26,0.05); p.add(hd);
+        p.position.set(x, y, z2); if(ry) p.rotation.y=ry;
+        p.userData={kind:'prop', examine:'A stern Warden of years past. The eyes follow you — or the varnish does.'};
+        G.add(p); WORLD.clickables.push(p);
+      }
+      portrait(K.x-3, K.z+K.d/2-0.4, g0+1.7, 0x6a5a3a, Math.PI);
+      portrait(K.x+1, K.z+K.d/2-0.4, g0+1.7, 0x5a6a4a, Math.PI);
+      portrait(K.x+4.5, K.z-K.d/2+0.4, g0+1.7, 0x4a5a6a);
+      // ---- tapestries flanking the throne (floor 1, plane-gated) ----
+      for(const s of [-1,1]){
+        const tp=new THREE.Mesh(new THREE.PlaneGeometry(1.1,1.9),
+          new THREE.MeshLambertMaterial({color:0x7a2e2e, side:THREE.DoubleSide}));
+        tp.position.set(K.x+K.w/2-0.5, f1+1.5, K.z+0.4+s*2.2); tp.rotation.y=-Math.PI/2; f1G.add(tp);
+        const sig2=new THREE.Mesh(new THREE.CircleGeometry(0.28,6),
+          new THREE.MeshBasicMaterial({color:0xd8b23a, side:THREE.DoubleSide}));
+        sig2.position.set(K.x+K.w/2-0.44, f1+1.6, K.z+0.4+s*2.2); sig2.rotation.y=-Math.PI/2; f1G.add(sig2);
+      }
+      // ---- trophy shields over the hall hearth ----
+      for(let i=0;i<3;i++){
+        const sh=new THREE.Mesh(new THREE.CylinderGeometry(0.26,0.26,0.06,6),
+          M([0x8a3030,0x3a5a8a,0xd8b23a][i]));
+        sh.rotation.z=Math.PI/2; sh.rotation.y=Math.PI/2;
+        sh.position.set(K.x+K.w/2-0.5, g0+2.1, K.z+0.6+ (i-1)*0.75); G.add(sh);
+      }
+      // ---- the murder-hole: a grated chamber over the gate passage (two-room set piece) ----
+      const MH={x:C.x-WH+0.5, z:(gateLo+gateHi)/2};
+      const grate=new THREE.Group();
+      for(let i=0;i<5;i++){ const bar=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.05,2.6), M(0x2a2a30));
+        bar.position.set(-0.6+i*0.3, 0, 0); grate.add(bar); }
+      for(let i=0;i<5;i++){ const bar=new THREE.Mesh(new THREE.BoxGeometry(1.4,0.05,0.06), M(0x2a2a30));
+        bar.position.set(0, 0.02, -1.1+i*0.55); grate.add(bar); }
+      grate.position.set(MH.x, g0+WALL_H-0.35, MH.z);
+      grate.userData={kind:'prop', examine:'A murder-hole over the gate. Wardens above, regrets below.'};
+      G.add(grate); WORLD.clickables.push(grate);
+      const stoneCrate=Buildkit.furniture.crate(Buildkit);
+      stoneCrate.position.set(MH.x, rampY, MH.z-2.6); G.add(stoneCrate);
+      // ---- castle folk: Squire Pip polishes armour by the floor-1 armory ----
+      spawnFriendly('pip','Squire Pip', K.x-1.6, K.z-K.d/2+1.6, 0x9a8a5a, '🧒');
+      const pipF=WORLD.friendlies.find(f=>f.id==='pip');
+      if(pipF){ pipF.mesh.position.y=f1; pipF.mesh.userData.plane=1; }
+      // ---- two more item spawns with reasons (registered if the system is up) ----
+      if(typeof ItemSpawns!=='undefined'){
+        ItemSpawns.TABLE.push({id:'hollow_ale', x:K.x-1.2, z:K.z+1.8, every:70, plane:0});   // ale on the hall table
+        ItemSpawns.TABLE.push({id:'bones', x:42.5, z:17.5, every:55, plane:0});               // the graveyard keeps its dead... mostly
+      }
+      Planes.refreshVisibility();   // apply the floor-1 gate immediately (not on first climb)
     })();
 
     if(typeof Deeds!=='undefined') Deeds.addLog('Wardenholm Keep stands — the Guild has its castle.');

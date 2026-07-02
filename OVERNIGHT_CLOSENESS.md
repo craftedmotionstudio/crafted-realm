@@ -654,3 +654,20 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
   has its own trees, not bare snow.
 - **Fix:** 'cabbage' isn't an item — cellar spawn swapped to bread; the validator-style
   runtime filter caught it exactly as designed.
+
+### 2026-07-02 — DETAIL LOOP pass #2: keep interiors carry story + the murder-hole (kept)
+- **Interior wall decor (the 8-15 objects rule):** 10 wall sconces through the hall +
+  throne room, 3 Warden portraits with examine text, 2 gold-sigil tapestries flanking
+  the throne, 3 trophy shields over the hearth. The hall walls now tell the Guild's
+  story instead of standing bare.
+- **The murder-hole set piece:** a clickable iron grate in the gatehouse ceiling over
+  the gate passage + a crate of stones on the rampart above ("Wardens above, regrets
+  below") — the two-room-vertical-architecture pattern from the Jagex blueprint.
+- **Castle folk:** Squire Pip polishes armour by the floor-1 armory (plane-tagged,
+  own dialogue). +2 item spawns with reasons: ale on the hall table, bones at the
+  chapel graveyard.
+- **REAL BUG FIXED — floating furniture:** floor-1 dressing (throne/dais/tapestries/
+  sconces/furniture) floated in mid-air when seen from the ground floor with the
+  storey lifted. All floor-1 dressing now lives in a plane-gated group
+  (visible only from plane ≥1, OSRS's "never see the floor above" rule) + 
+  refreshVisibility applied at build. Verified both directions.
