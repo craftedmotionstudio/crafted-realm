@@ -504,3 +504,20 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
   roof hides; climb down → roof restores; trapdoor → cellar (plane -1, walkable,
   surface NPCs hidden) → ladder out. Screenshot: the inn reads like a Lumbridge house
   with the roof lifted — furnished bedroom visible from above.
+
+### 2026-07-02 — VISUAL LOOP pass #1: golden-hour lighting + living sky (kept)
+- **Before (100):** flat grey-green wash, murky midground fog (16-50), faint shadows, static air.
+- **Changed:** sun 0xf4e2b0@0.62 → 0xffdf9e@0.92 at a LOWER angle (75,62,28) for long soft
+  shadows + shadow bias; hemisphere → cool-sky/warm-bounce (0xdce8f4/0x5a6644@0.78); fog
+  pushed 22-74 (clear midground, cozy horizon; zone color-lerp untouched); NEW
+  `src/fx_atmosphere.js` — 7 drifting cloud clusters that CAST MOVING GROUND SHADOWS,
+  3 birds on lazy arcs with wing-flap, 120 sunlit pollen motes around the player
+  (one 120ms interval, hidden-tab safe, registered as the "Atmosphere" overlay toggle);
+  bedroom preset densified (table/stool/bench/barrel/2nd rug — was reading barren).
+- **Side-by-side (same vantage):** midground haze GONE, colors saturated, buildings cast
+  long readable shadows, a cloud shadow visibly drifting across the grass. Obvious keep.
+- **Gemini next-pass leads:** softer shadow edges (shadow.radius), tree foliage sway,
+  more visible NPC life. Queued for pass #2 (+ chimney smoke).
+- **QA capture lesson:** in HIDDEN tabs, the rAF hook can't fire — capture instead with a
+  TEMP OFFSCREEN WebGLRenderer (preserveDrawingBuffer:true) + own camera → toDataURL →
+  local receiver. Works always; high-res; no focus stealing.

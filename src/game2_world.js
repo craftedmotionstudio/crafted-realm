@@ -14,18 +14,23 @@ function initEngine(){
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xb8c8cc);
-  scene.fog = new THREE.Fog(0xb8c8cc, 16, 50);   // the old-school horizon: close, atmospheric, fast
+  scene.background = new THREE.Color(0xa8c4d8);
+  // the old-school horizon, pushed out a touch: more world visible, still cozy.
+  // (game5's zone system lerps fog COLOR live; near/far stay ours)
+  scene.fog = new THREE.Fog(0xb4c6cc, 22, 74);
 
   camera = new THREE.PerspectiveCamera(50, innerWidth/innerHeight, 0.1, 600);
 
-  scene.add(new THREE.HemisphereLight(0xf2e8cc, 0x55604a, 0.85));
-  const sun = new THREE.DirectionalLight(0xf4e2b0, 0.62);
-  sun.position.set(60, 90, 40);
+  // golden-hour key: warmer, brighter sun at a lower angle for long readable shadows,
+  // with a cool-sky/warm-bounce hemisphere so shade stays lively instead of grey
+  scene.add(new THREE.HemisphereLight(0xdce8f4, 0x5a6644, 0.78));
+  const sun = new THREE.DirectionalLight(0xffdf9e, 0.92);
+  sun.position.set(75, 62, 28);
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048,2048);
   sun.shadow.camera.left=-160; sun.shadow.camera.right=200;
   sun.shadow.camera.top=200; sun.shadow.camera.bottom=-160;
+  sun.shadow.bias=-0.0004;
   scene.add(sun);
 
   clock = new THREE.Clock();

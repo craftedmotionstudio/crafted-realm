@@ -118,10 +118,12 @@ const Buildkit = {
     } else if(type==='smithy'){
       P('crate', -colX, -colZ); P('crate', -colX+0.5, -colZ); P('barrel', colX, colZ-1.0);
       P('table', colX-0.55, -0.4, Math.PI/2); P('candle', -colX+0.3, colZ-0.4);
-    } else if(type==='bedroom'){   // upper-storey default
+    } else if(type==='bedroom'){   // upper-storey default — cozy, not barren
       P('bed', -colX+0.25, -colZ+0.6); P('bed', colX-0.25, -colZ+0.6);
       P('shelf', colX-0.05, colZ-0.4, Math.PI); P('rug', 0, 0.3, 0, 0x4a3a6a);
       P('candle', -colX+0.3, colZ-0.4); P('crate', -colX, colZ-0.5);
+      P('table', 0, -colZ+0.55); P('stool', -0.85, -colZ+0.55); P('bench', 0, colZ-0.35);
+      P('barrel', colX-0.15, 0.3); P('rug', -colX+0.6, -colZ+0.6, 0, 0x6a3a34);
     }
   },
 
