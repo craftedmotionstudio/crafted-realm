@@ -437,3 +437,44 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
 - **Gotcha:** first hotkey pick (Shift+V) collided with the char-styles preview binding —
   the taken set is Shift+A/C/U/V/P and bare O/B/R/G/S; moved to **Shift+L**. Check
   `grep "e.shiftKey" src/` before binding any new key.
+
+### 2026-07-02 — GOAL.md marathon: QoL suite, architecture layer, content systems (Batches A–D)
+- **Scope:** the /goal directive "perform the remaining items other than the Online layer and
+  Delivery" — 30+ checklist items landed in four verified batches, each committed.
+- **Batch A (QoL overlays):** `src/events.js` (typed event bus: xp/levelUp/npcKilled/
+  lootSpawned/itemPickup) + `src/overlays_world.js` — opponent info (HP bar+%), NPC respawn
+  timers, ground-item value labels (tier-colored, stacked piles), loot tracker (kills+gp/hr),
+  buff/timer chips (prayers/spec/stun/energy/tele-cd), notifications (level-up banner,
+  low-HP vignette, idle alert), persisted tile markers (right-click "Mark Tile"),
+  declutter toggles (name tags/shadows/grid/xp-drops). **Hidden-tab heartbeat** in
+  game5_main: the sim keeps true pace when the tab is hidden (real-elapsed integration
+  under 1Hz timer throttling) — OSRS behavior AND the fix for all headless QA.
+- **Batch B (UI QoL):** left-click now executes the TOP menu entry (OSRS rule) →
+  `src/qol_ui.js` menu-entry swapper (shift+right-click "Set left-click", persisted),
+  drop-table lookup on monsters, bank vault value + live search + 3 gear presets,
+  world-map click-to-walk with destination pin, schema-generated Game-settings section.
+- **Batch C (architecture):** `dispatch.js` (Interact hook registry, auto menu entries),
+  `intents.js` (transport boundary, encode/decode round-trip), `scheduler.js` (tick tasks:
+  after/every/walkThen), `persist.js` (SaveGame + all consumers behind one store),
+  `combat_math.js` extraction + `tools/test_combat.js` (24 locked assertions incl.
+  XP-curve checkpoints 83/1154/101333/13034431), `config.js` (xp-rate/fatigue knobs),
+  `item_attrs.js` (per-item charge bags).
+- **Batch D (content):** `deeds.js` (15 Realm Deeds, crown rewards, TITLES on the name
+  tag, adventurer's log — 📜/Shift+K), `bounties.js` (Warden Maela contracts, streaks),
+  `clues.js` (Cipher Scrolls: rare drop → riddle → dig mound → casket), `pets.js` (wisp
+  companions with follow AI), `tutorial_ext.js` (Holm now teaches ranged/magic/banking,
+  grants bow+arrows+runes, bank chest by the rowboat), `boss_sm.js` (declarative boss
+  state machines; Fenlord migrated), `instances.js` (private encounter lifecycle),
+  `dev_tools.js` (definition browser, in-client lite validation, hiscores,
+  window.CraftedData surface, content hot-reload), `homesteads.js` (claim-anywhere fenced
+  plot + 4-piece furniture kit from materials), editor undo/redo (Z/Y) + collision
+  auto-derived from placements.
+- **Verification:** every batch verified live in-browser (behavior-level asserts through
+  the MCP: deeds fire, bounty assign→turn-in→streak, clue solve, pet follows, instance
+  clears+returns, presets save, swapper reorders left-click, map pin walks, homestead
+  claims/builds/persists, undo/redo, hot-reload) · `node tools/validate_content.js` PASS ·
+  `node tools/test_combat.js` PASS · four commits, `main` advanced each time.
+- **Gotchas for next time:** background tabs throttle setInterval to ~1Hz (integrate real
+  elapsed time); coordinate clicks are unreliable in hidden tabs (drive menus via DOM
+  `.click()`); `Player.maxPrayer` is a FUNCTION (don't assign a number in QA scripts);
+  the title-screen flame overlay was deliberately retired ("too cheesy") — don't re-add.

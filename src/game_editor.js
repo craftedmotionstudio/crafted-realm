@@ -198,13 +198,56 @@
       const el=document.getElementById('build-chunk');
       if(el) el.textContent='tile '+Math.floor(sx)+','+Math.floor(sz)+'  ·  chunk '+this.key(sx,sz)+(this.snap?'  [snap]':'  [free]');
     },
+    /* ---- undo/redo + auto-derived collision (GOAL.md §15 editor upgrades) ---- */
+    ops:[], redos:[],
+    _addCollider(rec){
+      // solid props block the tile-BFS automatically; flat/ornamental ones stay walkable
+      if(/bones|cabbage|rug|paving|flower|mushroom|grass/.test(rec.type)) return;
+      if(typeof addCircleCollider!=='function') return;
+      addCircleCollider(rec.x, rec.z, 0.35*(rec.scale||1));
+      rec.col=WORLD.colliders[WORLD.colliders.length-1];
+    },
+    _rmCollider(rec){
+      if(!rec.col) return;
+      const i=WORLD.colliders.indexOf(rec.col); if(i>=0) WORLD.colliders.splice(i,1);
+      rec.col=null;
+    },
+    undo(){
+      const o=this.ops.pop(); if(!o){ UI.chat('[BUILD] Nothing to undo.','sys'); return; }
+      if(o.op==='place'){
+        const i=this.placed.indexOf(o.rec); if(i>=0) this.placed.splice(i,1);
+        if(o.rec.mesh){ scene.remove(o.rec.mesh); removeFromWorld(o.rec.mesh); }
+        this._rmCollider(o.rec);
+      } else {
+        this.placed.push(o.rec);
+        if(o.rec.mesh) scene.add(o.rec.mesh);
+        this._addCollider(o.rec);
+      }
+      this.redos.push(o); this._count();
+    },
+    redo(){
+      const o=this.redos.pop(); if(!o){ UI.chat('[BUILD] Nothing to redo.','sys'); return; }
+      if(o.op==='place'){
+        this.placed.push(o.rec);
+        if(o.rec.mesh) scene.add(o.rec.mesh);
+        this._addCollider(o.rec);
+      } else {
+        const i=this.placed.indexOf(o.rec); if(i>=0) this.placed.splice(i,1);
+        if(o.rec.mesh){ scene.remove(o.rec.mesh); removeFromWorld(o.rec.mesh); }
+        this._rmCollider(o.rec);
+      }
+      this.ops.push(o); this._count();
+    },
     onClick(e){
       const gp=groundPick(e); if(!gp) return;
       const x=this._snapX(gp.x), z=this._snapX(gp.z);
       const entry=PALETTE[this.sel];
       const m=entry.build(x,z);
       if(m){ m.rotation.y=this.rot; if(this.scale!==1) m.scale.multiplyScalar(this.scale); }
-      this.placed.push({type:entry.id, x, z, rot:this.rot, scale:this.scale, mesh:m});
+      const rec={type:entry.id, x, z, rot:this.rot, scale:this.scale, mesh:m};
+      this.placed.push(rec);
+      this._addCollider(rec);                                   // placement derives collision
+      this.ops.push({op:'place', rec}); this.redos.length=0;
       try{ if(window.WorldChunks) WorldChunks.placeObject(entry.id, Math.floor(x), Math.floor(z), this.rot); }catch(_e){}
       Sfx&&Sfx.click&&Sfx.click(); this._count();
     },
@@ -215,6 +258,8 @@
       if(bi<0) return;
       const p=this.placed[bi];
       if(p.mesh){ scene.remove(p.mesh); removeFromWorld(p.mesh); }
+      this._rmCollider(p);
+      this.ops.push({op:'remove', rec:p}); this.redos.length=0;
       try{ if(window.WorldChunks){ const ms=WorldChunks.objectsAt(Math.floor(p.x), Math.floor(p.z)); const hit=ms.find(o=>o.def===p.type); if(hit) WorldChunks.removeObject(hit); } }catch(_e){}
       this.placed.splice(bi,1); this._count();
     },
@@ -346,6 +391,8 @@
       else if(e.key==='[') Build.bump(-0.1);
       else if(e.key==='g'||e.key==='G') Build.toggleGrid();
       else if(e.key==='s'||e.key==='S') Build.toggleSnap();
+      else if(e.key==='z'||e.key==='Z') Build.undo();
+      else if(e.key==='y'||e.key==='Y') Build.redo();
     });
     const tryLoad=()=>{ if(typeof running!=='undefined' && running && !Build._loaded){ Build._loaded=true; Build.load(true); } else setTimeout(tryLoad,400); };
     tryLoad();

@@ -438,15 +438,15 @@ every genuinely-shipped system. Tagged by milestone.
 - [x] Quest engine (typed stages / journal / reward scroll)
 - [x] Teleportation network
 - [x] 12 zones, 5 factions, hybrid tier ladder
-- [ ] Boss scripts as reusable state machines *(V1)*
-- [ ] Instanced-content support in the world model *(V1→V3)*
-- [ ] Chunk world model + streaming ring *(V1→V2)*
-- [ ] Clue scrolls / Cipher Scrolls *(V3)*
-- [ ] Slayer / Warden Bounties *(V3)*
-- [ ] Construction / Homesteads *(V3)*
-- [ ] Cosmetics / dyes / pets *(V3)*
-- [ ] Achievements / daily tasks / Realm Deeds + activity log *(V3)*
-- [ ] Standalone drop-table + hiscores data surface *(V2)*
+- [x] Boss scripts as reusable state machines (`src/boss_sm.js` — declarative phases/triggers; Fenlord migrated)
+- [x] Instanced-content support (`src/instances.js` — spawn/track/clear/teardown lifecycle, party-ready shape)
+- [ ] Chunk world model ✅ (`src/chunks.js` def-vs-placement) — [ ] streaming ring *(V2, with the map build-out)*
+- [x] Cipher Scrolls (`src/clues.js` — rare drop → riddle → dig mound → casket loot)
+- [x] Warden Bounties (`src/bounties.js` — Maela contracts scaled to combat lvl, streak bonuses)
+- [x] Homesteads MVP (`src/homesteads.js` — claim open land, fenced plot, 4-piece furniture kit from materials, persists) — [ ] Construction skill + visiting *(V2/V3)*
+- [x] Pets (wisp companions, rare kill drops, follow + persist) + earned TITLES on the name tag — [ ] dyes *(V3)*
+- [x] Realm Deeds (15 achievements, crown rewards, titles) + adventurer's log (📜 / Shift+K) — [ ] daily tasks *(V3)*
+- [x] Drop-table + hiscores data surface (`window.CraftedData` + in-game panels; V2 serves the same shape over HTTP)
 
 ### HUD, QoL overlays & feel (RuneLite-inspired)
 - [x] Right-click "choose option" menu, priority-sorted (left-click = top entry, user-swappable)
@@ -475,20 +475,20 @@ every genuinely-shipped system. Tagged by milestone.
 - [x] Build Mode editor (place/remove/rotate/scale/grid/save/load/export)
 - [x] Content-integrity validator
 - [x] Item catalog / definition grid
-- [ ] Definition browser in-console (items/NPCs/objects by id, searchable) *(V1)*
-- [ ] Live validation gate wired into the console on any def edit *(V1)*
-- [ ] Editor: underlay/overlay floor painting with tile blending *(V1→V2)*
-- [ ] Editor: region/chunk as edit unit + grab/move/clone chunks *(V2)*
-- [ ] Editor: undo/redo + multi-angle review *(V1)*
-- [ ] Collision auto-derived from placed objects (tile-BFS authoritative) *(V1)*
+- [x] Definition browser (searchable ITEMS/NPCs/SHOPS inspector in Game settings)
+- [x] Live validation in-client (lite referential gate; full gate stays `node tools/validate_content.js`)
+- [ ] Editor: underlay/overlay floor painting *(V2 — needs the chunk-terrain layer; heightfield is baked today)*
+- [ ] Editor: region/chunk grab/move/clone *(V2 — chunk serialization already exists in Build)*
+- [x] Editor: undo/redo (Z/Y in Build Mode) — multi-angle review = existing drag-orbit camera
+- [x] Collision auto-derived from placed objects (solid props push circle colliders; tile-BFS authoritative)
 - [ ] Content-addressed / versioned asset store + asset browser *(V2)*
-- [ ] Content hot-reload path *(V1)*
+- [x] Content hot-reload (`DevTools.reload(src)` — re-fetch + re-eval without a page refresh)
 
 ### Onboarding & presentation
 - [x] Character creator (gender/skin/hair/face/clothes)
 - [x] Tutor's Holm tutorial island + Guide Bram
-- [ ] Extend Tutor's Holm to teach all 3 combat styles + gathering + banking *(V1)*
-- [ ] Animated title screen (medieval art + flickering braziers) *(V1)*
+- [x] Tutor's Holm teaches all 3 combat styles (bow+arrows and runes granted in-tutorial) + gathering + banking (bank chest by the rowboat)
+- [x] Title screen: painted medieval art + optional looping video bg (flame overlay was tried and deliberately retired as too cheesy — settled art call)
 
 ### The online layer *(V2 — the second major milestone)*
 - [ ] Accounts / auth / sessions
