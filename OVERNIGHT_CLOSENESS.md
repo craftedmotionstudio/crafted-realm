@@ -639,3 +639,18 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
   desert east ✅ · THE BIG WILDERNESS south (Scarlands, to be extended 2-3×) ·
   volcanic underworld ✅ · planned: Saltreach Port (east-coast harbour town) +
   tropical isle by boat. Rule locked: one glance at the ground names the biome.
+
+### 2026-07-02 — DETAIL LOOP pass #1: OSRS item spawns + northern pines (kept)
+- **NEW `src/item_spawns.js`** — the signature OSRS micro-story mechanic: RESPAWNING
+  ground items, each placed with a reason (mind+air runes by the town arcanist, bread
+  in the pub, feathers at the hen yard, a lost log at the woodline, a stray arrow by
+  the Proving Ring, coins under Wardenholm's throne dais on PLANE 1, bread by the
+  cellar barrels + chaos runes near the chained Oathbreaker on PLANE -1). Data-driven,
+  Sched-ticked, spawns never rot (unlike kill loot), plane-tagged (cellar items hide
+  from the surface). Verified: 8 spawns place, pickup arms the respawn timer, the
+  Sched task counts down with world ticks.
+- **Snow-north flora (biome_snow.js):** snow-dusted pines (stacked-cone conifers,
+  8 standing after water/collision guards) across Brynholt/Whitmoor — the north now
+  has its own trees, not bare snow.
+- **Fix:** 'cabbage' isn't an item — cellar spawn swapped to bread; the validator-style
+  runtime filter caught it exactly as designed.

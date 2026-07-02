@@ -39,6 +39,32 @@
       const d=new THREE.Mesh(new THREE.SphereGeometry(0.9+Math.abs(Math.sin(i*3))*1.4, 7, 5), snowMat);
       d.scale.y=0.28; d.position.set(x, gy2+0.05, z); d.castShadow=true; G.add(d);
     }
+
+    // the north's own flora: snow-dusted pines (stacked cones, OSRS-conifer read)
+    const pineGreen=new THREE.MeshLambertMaterial({color:0x2e4a38});
+    const pineSnow=new THREE.MeshLambertMaterial({color:0xe8efec});
+    const barkM=new THREE.MeshLambertMaterial({color:0x4a3628});
+    function pine(x, z, s){
+      const gy2=groundY(x,z); if(gy2===null||gy2<-0.8) return;
+      if(typeof collides==='function' && collides(x,z,1.2,true)) return;
+      const p=new THREE.Group();
+      const trunk=new THREE.Mesh(new THREE.CylinderGeometry(0.14*s,0.22*s,1.1*s,6), barkM);
+      trunk.position.y=0.55*s; p.add(trunk);
+      for(let t=0;t<3;t++){
+        const r=(1.15-t*0.3)*s, h=1.1*s, y=(0.9+t*0.75)*s;
+        const cone=new THREE.Mesh(new THREE.ConeGeometry(r, h, 7), pineGreen);
+        cone.position.y=y+h/2; cone.castShadow=true; p.add(cone);
+        const cap=new THREE.Mesh(new THREE.ConeGeometry(r*0.85, h*0.32, 7), pineSnow);
+        cap.position.y=y+h*0.86; p.add(cap);
+      }
+      p.position.set(x, gy2, z); p.rotation.y=Math.sin(x*7+z*3)*3;
+      G.add(p);
+      if(typeof addCircleCollider==='function') addCircleCollider(x, z, 0.4*s);
+    }
+    for(let i=0;i<16;i++){
+      const zc = i%2 ? ZONES.whitmoor.pos : ZONES.brynholt.pos;
+      pine(zc[0]+Math.sin(i*5.1)*24, zc[1]+Math.cos(i*3.3)*22, 0.85+Math.abs(Math.sin(i*11))*0.5);
+    }
     built=true;
     return true;
   }
