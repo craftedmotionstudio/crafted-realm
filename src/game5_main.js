@@ -661,14 +661,21 @@ function animate(){
  * When hidden, drive the sim from a timer and skip rendering entirely. Also the
  * thing that makes headless/browser-MCP QA reliable (the old hidden-tab freeze). */
 let _hbLast=performance.now();
-setInterval(()=>{
+function _hbCatchUp(ceiling){
   const now=performance.now();
-  if(!running || !document.hidden){ _hbLast=now; return; }
-  // hidden tabs throttle timers to ~1Hz — integrate the REAL elapsed time in
-  // capped slices so the world keeps true pace (up to a 3s stall ceiling)
-  let dt=Math.min(3, (now-_hbLast)/1000); _hbLast=now;
+  if(!running){ _hbLast=now; return; }
+  // integrate the REAL elapsed time in capped slices so the world keeps true pace.
+  // Chrome throttles hidden-tab timers to 1Hz, and after 5 minutes to 1/minute
+  // (intensive throttling) — so the ceiling must cover a full minute of stall.
+  let dt=Math.min(ceiling, (now-_hbLast)/1000); _hbLast=now;
   try{ while(dt>1e-3){ const step=Math.min(0.25, dt); update(step); dt-=step; } }catch(e){}
-}, 200);
+}
+setInterval(()=>{ if(document.hidden) _hbCatchUp(75); else _hbLast=performance.now(); }, 200);
+/* coming back to the tab: swallow the whole stall at once so fights/actions have
+   truly progressed, then let rAF take over seamlessly */
+document.addEventListener('visibilitychange', ()=>{
+  if(!document.hidden){ _hbCatchUp(75); clock.getDelta(); }
+});
 
 /* ================= LOADING SEQUENCE ================= */
 function setLoad(pct, msg){
