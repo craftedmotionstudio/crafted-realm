@@ -17,7 +17,7 @@ function initEngine(){
   scene.background = new THREE.Color(0xa8c4d8);
   // the old-school horizon, pushed out a touch: more world visible, still cozy.
   // (game5's zone system lerps fog COLOR live; near/far stay ours)
-  scene.fog = new THREE.Fog(0xb4c6cc, 22, 74);
+  scene.fog = new THREE.Fog(0xb4c6cc, 24, 84);
 
   camera = new THREE.PerspectiveCamera(50, innerWidth/innerHeight, 0.1, 600);
 
@@ -1299,7 +1299,10 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
   if(opts.roof==='gable'){
     const alongX = w>=d;
     const span = (alongX?d:w)+oh, len = (alongX?w:d)+oh+0.4;
-    const prism = new THREE.Mesh(new THREE.CylinderGeometry(span*0.6, span*0.6, len, 3, 1), roofMat);
+    // gable ends read as timber cladding (the classic look under a thatch ridge) —
+    // contrasts the plaster walls instead of merging into one pale monolith
+    const gableMat = new THREE.MeshLambertMaterial({map:TEX.plank||null, color:0x9a7448});
+    const prism = new THREE.Mesh(new THREE.CylinderGeometry(span*0.6, span*0.6, len, 3, 1), [roofMat, gableMat, gableMat]);
     prism.rotation.z = Math.PI/2;             // lay the axis flat
     prism.rotation.x = Math.PI/2 + Math.PI/7; // flat face down, apex up
     const holder=new THREE.Group(); holder.add(prism);

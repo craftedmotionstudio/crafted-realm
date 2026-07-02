@@ -544,3 +544,17 @@ What already exists (procedural rig, `game2_world.js` + `game3_systems.js`):
   square, furnace and campfire cluster read beautifully under the pass-1 light.
 - **Pass #4 queue:** plaza paving tone, NPC ambient chat bubbles, distant-fog color tune,
   gable-end dressing.
+
+### 2026-07-02 — VISUAL LOOP pass #4: overhead chatter + timber gables (kept)
+- **Changed:** NEW `src/fx_bubbles.js` — `sayOverhead(mesh, text)` OSRS-yellow overhead
+  text sprites (canvas-rendered, fade-out, auto-cleanup) + VillageChatter: nearby
+  friendlies/bots sporadically speak Veyhollow flavor lines (12-line pool, 30s per-NPC
+  cooldown, overlay-toggleable). The SAME renderer serves the future type-to-chat
+  feature (rs-input-feel). Gable ends: stretched-thatch cylinder caps → first try
+  plaster (REJECTED in side-by-side — giant blank monolith) → timber-plank cladding
+  (kept: classic thatch-ridge look, contrasts plaster). Fog breathed out 24-84.
+- **Verified:** bubbles render over villagers + player in the shot; timber gable reads
+  warm at the inn; chatter interval armed. One refinement round rejected-then-fixed —
+  the loop's keep-only-if-better rule doing its job.
+- **Pass #5 queue:** plaza paving tone, window-glow at distance, castle vantage pass,
+  Emberwood autumn-leaf particles.
