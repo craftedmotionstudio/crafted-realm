@@ -233,10 +233,11 @@ const Notifier = {
         vg.style.opacity=0.4+0.35*Math.abs(Math.sin(performance.now()*0.004));
         if(!this._lowWarned){ UI.chat('⚠ Your hitpoints are running low!','combat'); this._lowWarned=true; }
       } else { vg.style.opacity=0; this._lowWarned=false; }
-      if(performance.now()-this._lastInput > 4*60000 && !this._idleWarned){
+      // purely cosmetic — nothing logs the player out. 30 min per user preference (2026-07-03).
+      if(performance.now()-this._lastInput > 30*60000 && !this._idleWarned){
         this._idleWarned=true;
         this._flash('rgba(120,160,255,.4)');
-        this._banner('\u{1F4A4} You have been idle for 4 minutes');
+        this._banner('\u{1F4A4} You have been idle for 30 minutes');
       }
     }, 500);
   },
