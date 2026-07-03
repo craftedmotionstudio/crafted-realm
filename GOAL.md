@@ -429,7 +429,7 @@ every genuinely-shipped system. Tagged by milestone.
 - [x] Per-tile collision flag grid (`src/collision_grid.js` — 480×320 Uint8Array, O(1) BFS steps, door rebake, kill-switch) + wall-direction/projectile flags baked from collider geometry + `hasLoS()` line-of-sight gating ranged/magic combat for player AND NPCs (can't shoot through walls; walks around instead) — rsbox/rsmod pattern, combat math untouched
 - [x] Weak/normal/strong action-queue priorities (`src/scheduler.js` — strong flushes weak, `modalOpened` event flushes weak, legacy callers default normal)
 - [x] Tick overrun telemetry (`src/tick_health.js` — per-tick cost vs 600ms budget, throttled overrun warnings, backlog-drop counter, toggleable overlay; accumulator already carries drift)
-- [ ] Split the big three files into content modules *(ongoing — extracted so far: combat_math, `world_gear.js` (game2 3124→2885), `ui_map.js` (game4 2308→2182); all new systems ship as own files)*
+- [ ] Split the big three files into content modules *(ongoing — extracted: combat_math, `world_gear.js` (game2 3124→2885), `magic_spells.js` (game3 1474→1413), `ui_map.js` + `ui_shop.js` (game4 2308→2120); all new systems ship as own files)*
 - [ ] World sim in a Web Worker *(V2)*
 - [ ] WebSocket transport + cache-over-fetch *(V2)*
 
