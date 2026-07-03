@@ -474,6 +474,7 @@ const PATHS = [
   [[0,0],[60,-10]], [[60,-10],[118,-14]],     // to Stonereach Quarry
   [[0,0],[-2,45]], [[-2,45],[-4,80]],         // south to Mirrorpond
   [[0,0],[-70,30]], [[-70,30],[-155,52]],     // to Gloomfen
+  [[-52,22],[-52,39]],                        // the mill lane (map windmill POI)
   [[118,-14],[150,-40]], [[150,-40],[154,-70]], [[154,-70],[176,-92]],  // NE over the Ditch to Brynholt
   [[118,-14],[160,15]], [[160,15],[186,38]],  // to the Ashar Dunes
   [[186,38],[232,32]],                        // dunes to Saltreach Port

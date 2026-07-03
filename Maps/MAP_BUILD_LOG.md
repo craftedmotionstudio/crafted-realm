@@ -27,6 +27,20 @@ Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 009 — Olun's Mill at the map's windmill POI — 2026-07-03 — KEPT
+- **Target:** the bible map's windmill (SW of the Commons, by Mirrorpond's arm) — re-siting the
+  wiped legacy mill to its true spot, with its miller deliberately repopulated.
+- **Changed:** `src/oluns_mill.js` (NEW): windmill at (−52,40), the miller's furnished cottage
+  (Buildkit) beside the stream, fenced wheat rows + furrows, crates, signpost; Olun the Miller
+  at his post via the force channel (world gate stays closed). `game1_data.js`: the mill lane
+  spur off the Gloomfen road.
+- **Before → after:** `pass009_mill_before.png` (empty meadow) → `pass009_mill_after.png`.
+- **Verified:** console clean, validator PASS, Olun present in the live census.
+- **Verdict:** KEPT — small honest win; empty meadow → the map's mill hamlet (~150 vs 100 by
+  eye; no Gemini run — an empty-field-to-hamlet before/after isn't a judgement call).
+- **Next:** Saltreach Port piers (the SE harbour town — the map's last unbuilt named region),
+  then region-by-region repopulation continues (Wardenholm's garrison is the natural next).
+
 ### Pass 008 — the Commons repopulated (first region) + stray legacy dressing gated — 2026-07-03 — KEPT
 - **Target:** the log's next: deliberate NPC repopulation of the walled Commons — plus a wipe
   leak found on the way: the gnarlgob war-camp (hut/tents/totem), hen-yard fences and warren
