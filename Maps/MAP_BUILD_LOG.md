@@ -27,6 +27,27 @@ Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 007 — Stonereach Bridge — 2026-07-03 — KEPT
+- **Target:** the map's named bridge POI south of the Commons — and a real bug: the Mirrorpond
+  arm (grid water) cut the south road dead at z≈64 (ground −1.9, unwalkable).
+- **Changed:**
+  - `src/game2_world.js` — a `causewayLift` berm carries the road across the arm (walking
+    verified −1.90 → −0.33 across the whole crossing). The doctrine bridge pattern
+    (MAP_PIPELINE: "bridges = the current causeway pattern").
+  - `src/stonereach_bridge.js` (NEW) — plank deck over just the water gap, rail posts + beams
+    with REAL thin colliders (you stay on the deck), piles into the water, torches both ends,
+    "Stonereach Bridge" signpost. First cut spanned the whole berm and buried its planks at
+    the high ends — shortened to the gap. No NPCs (buildout law).
+- **Before → after:** `pass007_bridge_before.png` (road dead-ends into the gully) →
+  `pass007_bridge_after.png` + `pass007_bridge_south.png`.
+- **Verified:** console clean, `validate_content.js` PASS, crossing walkable end-to-end.
+- **Gemini:** **140 vs before's 100** — "transforms an impassable dead-end into a navigable
+  and visually engaging path."
+- **Loop cadence note:** the /loop now runs on a 15-minute cron (user request), job 04628c73.
+- **Next:** deliberate NPC repopulation of the Commons (the first region to get its folk
+  back — shopkeepers/banker/townsfolk placed by hand inside the new walls), or the Saltreach
+  Port piers if the user prefers more geography first.
+
 ### Pass 006 — the walled Veyhollow Commons — 2026-07-03 — KEPT
 - **Target:** the map's most iconic silhouette — the circular walled town at the world's heart,
   rebuilt from scratch on the wiped hub (pass 005 cleared the pre-map village).

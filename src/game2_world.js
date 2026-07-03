@@ -221,6 +221,9 @@ function terrainHeight(x,z){
     if(d<18){ const k2=d/18; h = h*k2 + 0.25*(1-k2); } }
   // water cells always flood (small ponds/moats included): below the sea plane
   if(b==='water') h=Math.min(h,-1.9);
+  // Stonereach Bridge (bible map POI): the south road crosses the Mirrorpond arm on a
+  // raised berm — the plank deck (src/stonereach_bridge.js) dresses it as the bridge
+  h = Math.max(h, causewayLift(x,z, -2.8,58.5, -3.9,70.5, 2.6, -0.30));
   // carve the Tutor's Holm practice pond
   const hd = Math.hypot(x-HOLM_POND.x, z-HOLM_POND.z);
   if(hd<HOLM_POND.r+0.5) h -= (1-hd/(HOLM_POND.r+0.5))*2.4;
