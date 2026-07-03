@@ -27,6 +27,32 @@ Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 002 — Gloomfen + the SW coast — 2026-07-03 — KEPT
+- **Target:** Gemini's #1 mismatch from pass 001 — the artificial rectangular slab where the
+  map's title box masked the SW corner — plus making Gloomfen read like the map's drowned fen.
+- **Changed:**
+  - `tools/bake_worldgrid.html` — the masked title-box corner is now *authored*: Gloomfen bleeds
+    south into the sea on a triple-sine wiggly coastline (regenerated `src/worldgrid.js`).
+  - `src/game2_world.js` — swamp relief digs drowned pools (never under a road via `pathDist`
+    guard); fen banks tint dark mud instead of beach sand.
+  - `src/gloomfen.js` (NEW) — self-booting fen dressing: murk sheet at −1.5 (pools read
+    stagnant-green, not ocean-blue; sized to stop at the world's west rim), +24 dead/dark trees
+    on dry footing, 30 reeds on pool rims, mushroom clusters, 2 eel fishing spots in deep pools,
+    3 green marsh-light wisps (the Wardens' lights, per the bible's identity line).
+- **Before → after:** `pass002_gloomfen_before/after.png` (same camera), `pass002_swcoast_after.png`,
+  `pass002_worldmap_topdown.png` vs pass 001's topdown.
+- **Verified:** console clean, `validate_content.js` PASS, pools verified in-engine (15/200 random
+  fen samples below −1.3 → maze-of-pools footing), roads stay dry.
+- **Gemini:** overall layout "excellent"; SW fen "completely resolved… organic, irregular…
+  looks excellent."
+- **Verdict:** KEPT — the corner artifact is gone and the fen now has pools/murk/mud/density the
+  before-shot simply lacks.
+- **Capture harness note:** create ONE persistent capture renderer per page load — per-shot
+  WebGLRenderers exhaust Chrome's context pool ("Context Lost") and textures render black.
+- **Next (from Gemini's remaining-artifact list):** the snow regions read as stark rectangular
+  "insets" — replace biome_snow's square blankets with grid-following snow cover (Whitmoor/
+  Brynholt), then Brynholt's village on its NE coast.
+
 ### Pass 001 — MAP-DRIVEN REBUILD FOUNDATION (whole-world layout) — 2026-07-03 — KEPT
 - **User decision this pass:** nuke the *terrain + layout* and rebuild map-driven; keep all kits,
   systems, and building modules and re-seat them. The old Veyhollow Keep (`castle.js`) is

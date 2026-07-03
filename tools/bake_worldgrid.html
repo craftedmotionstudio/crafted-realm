@@ -125,6 +125,15 @@ function bake(){
     for(let gz=b2;gz<=Math.min(d,GRID_H-1);gz++) for(let gx=a;gx<=Math.min(c,GRID_W-1);gx++){
       const i=gz*GRID_W+gx; if(grid[i]===from) grid[i]=to;
     }
+  // the SW corner hides under the map's title box — the neighbour-fill leaves a stark
+  // rectangle there. Author it: Gloomfen bleeds south into the sea on a wiggly coast.
+  {
+    const gx0=0, gx1=110, gz0=262, gz1=GRID_H-1;
+    for(let gz=gz0;gz<=gz1;gz++) for(let gx=gx0;gx<=gx1;gx++){
+      const coast = 288 + Math.sin(gx*0.13)*6 + Math.sin(gx*0.31+2)*3 + Math.sin(gx*0.052+1)*4;
+      grid[gz*GRID_W+gx] = (gz>coast) ? waterIdx : swampIdx;
+    }
+  }
   // fill masked cells from neighbours (repeat until none left)
   for(let pass=0; pass<200; pass++){
     let holes=0;

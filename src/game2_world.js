@@ -211,7 +211,8 @@ function terrainHeight(x,z){
     : b==='rock'   ? n1*0.9 + n2*0.5
     : b==='snow'   ? n1*0.7 + n2*0.8
     : b==='desert' ? Math.sin(x*0.05)*Math.cos(z*0.045)*0.6
-    : b==='swamp'  ? n1*0.25
+    : b==='swamp'  ? n1*0.25 - Math.max(0, Math.sin(x*0.09+3)*Math.sin(z*0.11+1))*1.5
+                       * (typeof pathDist==='function' && pathDist(x,z)<3.5 ? 0 : 1)   // drowned pools, never under a road
     : b==='water'  ? 0
     : n1*0.5 + n2*0.45;                     // grass / autumn heartland
   let h = base + relief;
@@ -281,7 +282,7 @@ function buildTerrainPatch(cx, cz, sizeX, sizeZ, segsX, segsZ){
       const t=Math.min(scarThreat(z),12);
       if(t>0) c.lerp(new THREE.Color(0x6e5a48), t/14);
     }
-    if(h<-0.8) c.setHex(0xe2d49a);                       // sandy shore
+    if(h<-0.8) c.setHex(zone==='swamp' ? 0x50483c : 0xe2d49a);   // fen banks are mud, not beach
     // the Ditch reads as scoured cut earth, not beach
     if(typeof DITCH!=='undefined' && h<-0.8 && Math.abs(z-DITCH.z)<DITCH.half+1.8) c.setHex(0x57493c);
     if(h>-0.8){
