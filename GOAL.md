@@ -349,8 +349,8 @@ Every genre capability, our status **as verified in `src/` today**. Legend: ✅ 
 | Right-click "choose option" menu | ✅ | present — make priority-sorted |
 | Zones (12), factions (5), hybrid tier ladder | ✅ | `ZONES` / `STORY_BIBLE.md` |
 | Hover text "Action › Target (level)" | ✅ | top-left hover text live ("Attack Wanderer (level 2) / 4 more options") |
-| Per-tile collision bitmask (directional walls + projectile flags) | 🔷 | rsbox/rsmod recipe — replaces circle colliders, unlocks LoS |
-| Weak/normal/strong action-queue priorities | 🔷 | OSRS queue semantics on `src/scheduler.js` (rsbox audit) |
+| Per-tile collision bitmask (directional walls + projectile flags) | 🟡 | `src/collision_grid.js` — BLOCK grid live in BFS; wall/projectile bake pending |
+| Weak/normal/strong action-queue priorities | ✅ | `src/scheduler.js` + `modalOpened` event (rsbox audit) |
 | Tick overrun telemetry + drift-corrected idle | ✅ | `src/tick_health.js` + overlay toggle (rsbox `Engine` pattern) |
 | Central interaction dispatcher + content hooks | 🔷 | architecture adoption (RuneJS pattern) |
 | Intent/message + encode-decode boundary | 🔷 | adopt now (Apollo pattern) for cheap MMO later |
@@ -426,8 +426,8 @@ every genuinely-shipped system. Tagged by milestone.
 - [x] Action scheduler on the world tick (`src/scheduler.js` — after/every/walkThen, cancellable)
 - [x] Pluggable persistence boundary (`src/persist.js`; SaveGame routes through it)
 - [x] Deterministic 600ms sim tick + hidden-tab heartbeat — [ ] tick-based movement interpolation (couples to the V2 Web-Worker sim; movement is already smooth + tile-locked)
-- [ ] Per-tile collision bitmask — directional wall + projectile-blocker flags baked from prop footprints *(rsbox-archive audit 2026-07-03; foundation for LoS + wall-aware pathing)*
-- [ ] Weak/normal/strong action-queue priorities on the scheduler *(OSRS queue semantics; rsbox audit)*
+- [x] Per-tile collision flag grid (`src/collision_grid.js` — 480×320 Uint8Array, O(1) BFS steps on plane 0, door rebake, kill-switch, baked at boot) — [ ] bake wall-direction + projectile flags from prop footprints *(flag bits + canStep edge logic ready; foundation for LoS)*
+- [x] Weak/normal/strong action-queue priorities (`src/scheduler.js` — strong flushes weak, `modalOpened` event flushes weak, legacy callers default normal)
 - [x] Tick overrun telemetry (`src/tick_health.js` — per-tick cost vs 600ms budget, throttled overrun warnings, backlog-drop counter, toggleable overlay; accumulator already carries drift)
 - [ ] Split the big three files into content modules *(ongoing — combat_math extracted; all new systems ship as own files)*
 - [ ] World sim in a Web Worker *(V2)*
@@ -473,15 +473,15 @@ every genuinely-shipped system. Tagged by milestone.
 - [x] Generated settings list from overlay registrations + schema-generated game-settings section
 - [x] XP drops + XP/hr session tracker (xp-to-level, time-to-level, per-skill clocks)
 - [x] Enemy HP bar + opponent-info overlay (name, HP bar, HP%) + right-click drop-table lookup
-- [x] NPC respawn timers (countdown over defeated monsters) — [ ] tile outline/hull highlight *(V1)*
+- [x] NPC respawn timers (countdown over defeated monsters) — [x] NPC tile outline highlight (`src/overlay_npc_tile.js` — red target / cyan hover squares, overlay toggle)
 - [x] Ground-item highlighting with value-tier coloring + junk fading (stacked piles)
-- [x] Tile markers (right-click "Mark Tile", persisted, colored) — [ ] optional labels *(V1)*
+- [x] Tile markers (right-click "Mark Tile", persisted, colored) — [x] optional labels (right-click marked tile → "Label Tile", floating text, persisted)
 - [x] Menu-entry swapper (shift+right-click "Set left-click", persisted; left-click = top entry)
 - [x] Unified timers-and-buffs overlay (prayers, spec, stun, energy, teleport cd)
 - [x] Loot tracker + gp/hr (kills + picked-up value)
-- [x] Gear presets at the bank (3 slots, best-effort restore from vault) — [ ] inventory tags *(V1)*
-- [x] Bank value + live search — [ ] bank tags *(V1)*
-- [x] World map (terrain/zones/roads/buildings) + click-to-walk destination pin — [ ] name search *(V1)*
+- [x] Gear presets at the bank (3 slots, best-effort restore from vault) — [x] inventory tags (`src/item_tags.js` — 4 colors, right-click Tag, persisted)
+- [x] Bank value + live search — [x] bank tags (same `ItemTags` ring in vault + shop grids)
+- [x] World map (terrain/zones/roads/buildings) + click-to-walk destination pin — [x] name search (`src/map_search.js` — zones + named NPCs, gold marker, Enter-to-walk)
 - [x] Notifications framework (idle alert, low-HP vignette, level-up banner + flash)
 - [x] Declutter/perf toggles (hide name tags / shadows / tile grid / XP drops)
 
