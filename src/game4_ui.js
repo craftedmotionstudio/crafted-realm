@@ -352,7 +352,7 @@ const UI = {
     m.style.display='block';
     drawWorldMap();
     const c=document.getElementById('worldmap');
-    if(c && !c._mapWired && c.addEventListener){
+    if(c && !c._mapWired && !c._qol && c.addEventListener){   // qol_ui's MapQoL.walkTo owns the click when hooked
       c._mapWired=true;
       c.addEventListener('click', e=>{
         const r=c.getBoundingClientRect ? c.getBoundingClientRect() : {left:0,top:0,width:c.width,height:c.height};
