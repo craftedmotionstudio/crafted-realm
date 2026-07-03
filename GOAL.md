@@ -228,10 +228,9 @@ is the next major milestone.
 
 These are the forks where I want your call before locking them in:
 
-1. **Skill names.** Today they're the generic OSRS-ish set (Attack, Mining, Fishing…). Keep
-   the plain, readable ones and only re-flavor a few (e.g. Prayer→**Devotion**,
-   Thieving→**Larceny**, Firemaking→**Kindling**)? Or push original names across the board?
-   *Recommendation: keep generic/clear, re-flavor only the "flavored" ones.*
+1. **Skill names.** ✅ **LOCKED (2026-07-03): keep ALL generic** — Attack, Strength, Defence,
+   Hitpoints, Ranged, Magic, Prayer, Woodcutting, Mining, Fishing, Cooking, Firemaking, Smithing,
+   Fletching, Thieving. No re-flavoring; maximally readable. (User call.)
 2. **Marketplace name.** "**The Exchange**" vs "Crafters' Exchange" vs "The Grand Ledger."
 3. **Minigame names.** "**Keep Siege**" (Castle Wars analogue) and "**Warden Bounties**"
    (Slayer analogue) — lock or alternatives?
