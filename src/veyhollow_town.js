@@ -69,6 +69,17 @@
       color:0xc9b28a, roofColor:0xc77b4a, roof:'gable', interior:'house'});
     if(typeof makeRange==='function') makeRange(-6.8,19.2);
 
+    /* ---- rung 1 (pass 012): the homes — the map's circle is DENSE (~13 rooftops).
+     * Six furnished cottages fill the ring's quadrants; pads probed clear of roads,
+     * water, and existing colliders. Varied palettes so the skyline reads grown, not
+     * stamped. ---- */
+    Buildkit.house({x:-20, z:0,   w:4,   d:3.6, doorSide:'E', color:0xd0bc94, roofColor:0x7a5838, roof:'gable', interior:'house'});
+    Buildkit.house({x:-13, z:1,   w:4.5, d:4,   doorSide:'E', color:0xc9b28a, roofColor:0x6e4a2e, roof:'gable', interior:'house'});
+    Buildkit.house({x:-6,  z:8,   w:4.5, d:4,   doorSide:'N', color:0xc4ae84, roofColor:0x8a4a32, roof:'gable', interior:'house'});
+    Buildkit.house({x:4,   z:10,  w:4.5, d:4,   doorSide:'W', color:0xbfa87f, roofColor:0x55636e, roof:'gable', interior:'house'});
+    Buildkit.house({x:5,   z:-19, w:4.5, d:4,   doorSide:'S', color:0xd8cdb4, roofColor:0x6e4a2e, roof:'gable', interior:'house'});
+    Buildkit.house({x:10,  z:3,   w:4,   d:3.6, doorSide:'W', color:0xcdb890, roofColor:0x7a5838, roof:'gable', interior:'house'});
+
     /* ---- market flavour by the plaza (the town square reads traded-in) ---- */
     if(typeof makeStall==='function'){
       makeStall(-3,-8, 0xb03a3a, 'baker');

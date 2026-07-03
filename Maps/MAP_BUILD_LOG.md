@@ -9,23 +9,80 @@ Scoring rule: treat the previous iteration as **100**. A pass is only kept if it
 **120+** — an *obvious* improvement in geometry/detail, lighting/materials, or atmosphere/life.
 If it doesn't clearly beat the prior shot, **revert** and log why.
 
-Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
+Screenshots live in `Maps/iterations/` as `passNNN_<location>_r<rung>_<before|after>.png`.
+
+---
+
+## DETAIL-PASS TRACKER (current phase — resume state, keep updated)
+
+**Phase: DETAIL MODE.** Every labelled map location gets **≥5 kept, improving iterations**,
+each building on the last, until it *obviously matches* the bible map. World stays
+**DEPOPULATED** (no NPC/folk/creature placement — pass 011). Work the location with the
+**fewest kept iterations** first (tiebreak = table order). 5 is the floor, not a cap.
+
+**The 5-rung deepening ladder** (each rung = one kept iteration, built on the prior state):
+1. **Silhouette** — right buildings/landmarks in the right spots; count & scale match the map.
+2. **Structure & materials** — roofs, walls, biome-correct palette, terrain shaping.
+3. **Props & clutter** — OSRS lived-in density (crates/barrels/fences/carts/signposts/resource nodes); something clickable every few tiles.
+4. **Terrain & transitions** — ground palette, dressed paths, smooth biome blends at edges, water/cliff trim.
+5. **Lighting & atmosphere** — torches/lamps/glow, biome fog/mood, ambient touches; end with a side-by-side vs the map.
+
+| # | Location | Kept detail iterations | Status |
+|---|---|---|---|
+| 1 | Veyhollow Commons | 1 / 5 | r1 silhouette KEPT (pass 012) |
+| 2 | Wardenholm Keep | 0 / 5 | — |
+| 3 | Stonereach Bridge | 0 / 5 | — |
+| 4 | Mirrorpond | 0 / 5 | — |
+| 5 | Emberwood | 0 / 5 | — |
+| 6 | Stonereach Quarry | 0 / 5 | — |
+| 7 | Gloomfen | 0 / 5 | — |
+| 8 | The Ashar Dunes | 0 / 5 | — |
+| 9 | Saltreach Port | 0 / 5 | — |
+| 10 | The Proving Grounds | 0 / 5 | — |
+| 11 | Tutor's Holm | 0 / 5 | — |
+| 12 | Brynholt | 0 / 5 | — |
+| 13 | Whitmoor Hold | 0 / 5 | — |
+| 14 | The Scarlands | 0 / 5 | — |
+| 15 | The Undercrag | 0 / 5 | — |
+
+> Counts start at 0 for detail mode even where a placement pass (006/007/009/010) already
+> stands — those built the silhouette; detail mode now deepens each location 5+ rungs. A
+> **reverted** pass does NOT increment the count. Advance to the next location only at ≥5 AND
+> an obvious map match.
 
 ---
 
 ## Pass template (copy for each entry)
 
-### Pass NNN — <target region/landmark> — <YYYY-MM-DD> — KEPT / REVERTED
-- **Target:** which part of the map this pass built toward (e.g. "Wilderness Ditch + Scarlands N band").
-- **Changed:** files touched, what was added/adjusted.
-- **Before → after:** `iterations/passNNN_<target>_before.png` → `..._after.png`.
+### Pass NNN — <Location> — rung <N/5: name> — <YYYY-MM-DD> — KEPT / REVERTED
+- **Location & rung:** which labelled map location, which deepening rung (1–5), tracker now X/5.
+- **Changed:** files touched, what was added/adjusted (built on the prior iteration, not from scratch).
+- **Before → after:** `iterations/passNNN_<location>_r<rung>_before.png` → `..._after.png`.
 - **Gemini match/quality:** before X/10 → after Y/10 (`tools/gemini_vision.js`), vs bible map.
-- **Verdict:** obvious improvement? kept because… / reverted because…
-- **Next:** the target for the following pass.
+- **Verdict:** obvious improvement? kept (→ increment tracker) because… / reverted (no increment) because…
+- **Next:** same location's next rung, or the next location once ≥5 kept + obvious match.
 
 ---
 
 <!-- Newest entries below this line, newest first -->
+
+### Pass 012 — Veyhollow Commons — rung 1/5: Silhouette — 2026-07-03 — KEPT
+- **Location & rung:** Veyhollow Commons, rung 1 (silhouette: building count & scale vs the
+  map's dense circle). Tracker now **1/5**.
+- **Changed:** `src/veyhollow_town.js` — six furnished cottages (Buildkit, varied timber
+  palettes) fill the ring's quadrants; every pad probe-verified clear of roads (`pathDist`>4.2),
+  water, and existing colliders (the first hand-picked spots failed 4-of-5 on exactly those —
+  the scan found 42 valid pads, took 6 spread ones). Town now ~13 rooftops inside the wall,
+  matching the map circle's density. Interiors 22→28 (all furnished, doctrine held). NO folk
+  (depopulation law).
+- **Before → after:** `pass012_commons_r1_before.png` / `_topdown_before.png` →
+  `pass012_commons_r1_after.png` / `_topdown_after.png`.
+- **Gemini:** **125 vs before's 100** — "more densely populated and visually substantial
+  settlement, greatly improving its silhouette."
+- **Verified:** console clean, validator PASS (no data change).
+- **Verdict:** KEPT — the circle finally reads packed like the bible map's town.
+- **Next:** Commons rung 2/5 (structure & materials: roof variety, stone-course walls on key
+  buildings, plaza paving reads, terrain shaping inside the ring).
 
 ### Pass 011 — REPOPULATION ROLLED BACK (user decision) — 2026-07-03 — REVERTED
 - **User decision:** "I don't think we're ready to repopulate the world yet." The world stays
