@@ -29,7 +29,7 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 | # | Location | Kept detail iterations | Status |
 |---|---|---|---|
-| 1 | Veyhollow Commons | 3 / 5 | r1-r3 KEPT (passes 012-014); square styled on Bible_References/Town_Square.jpg, Gemini 9/10 |
+| 1 | Veyhollow Commons | 4 / 5 | r1-r4 KEPT (passes 012-015); square Gemini 9/10 vs reference, r4 terrain pass 150 vs 100 |
 | 2 | Wardenholm Keep | 0 / 5 | — |
 | 3 | Stonereach Bridge | 0 / 5 | — |
 | 4 | Mirrorpond | 0 / 5 | — |
@@ -65,6 +65,31 @@ each building on the last, until it *obviously matches* the bible map. World sta
 ---
 
 <!-- Newest entries below this line, newest first -->
+
+### Pass 015 — Veyhollow Commons — rung 4/5: Terrain & transitions — 2026-07-03 — KEPT
+- **Location & rung:** the town's edges — where the wall meets ground, roads meet gates,
+  and the in-ring pond meets its banks. Tracker now **4/5**.
+- **Changed:** (a) `game2_world.js` makeStoneWallRun + makeGateTower — grey stone-textured
+  blockwork (0xc9c4b8 over TEX.stone) replacing the stark bare white; the whole ring now
+  reads like the reference's masonry. (b) `veyhollow_town.js` wall loop checks BOTH
+  segment endpoints for water, so no run floats over the pond. (c) `town_square.js`
+  rung-4 block — road-toned gate aprons + plaza-stone spills through every gate; pond
+  shoreline scan planting cattail reeds in the shallows, muddy sand lips and shore
+  stones. `blob()` upgraded to TERRAIN-CONFORMING (rim vertices hug the ground) with a
+  cliff guard (skip if rim spans >1.1 height — a fan on a steep bank shreds into shards,
+  seen and fixed in-pass).
+- **Bug found & fixed:** the shoreline never ran at first — `groundY` returns the DEPTH
+  for water (−1.9), NOT null (null is off-map only); the memory note claiming otherwise
+  was wrong and has been corrected. The "sand" in the first after-shot was actually a
+  gate apron.
+- **Before → after:** `pass015_commons_r4_pond_before.png` / `_gate_before.png` →
+  `pass015e_pond.png` / `pass015_commons_r4_gate_KEEP.png` / `pass015e_oblique.png`.
+- **Gemini:** **150 vs before's 100** — "improved textures on the wall, naturalistic
+  ground transitions… transform the town from a bare prototype into a cohesive world."
+- **Verified:** console clean; 32 reed stems live-counted; no data change.
+- **Verdict:** KEPT — the town knits into its terrain now.
+- **Next:** Commons rung 5/5 (lighting & atmosphere): lamp glow pools, plaza evening
+  warmth, chimney smoke density, then the ≥5-rung side-by-side vs the map.
 
 ### Pass 014 — Veyhollow Commons — rung 3/5: Props & clutter — 2026-07-03 — KEPT
 - **Location & rung:** the town square, rebuilt to the user's new style reference

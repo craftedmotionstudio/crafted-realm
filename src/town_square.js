@@ -11,19 +11,28 @@
   const C={x:0, z:-1};                      // the square's heart (the map's centre circle)
   const rnd=i=>Math.abs(Math.sin(i*127.1+13.7)*43758.5453)%1;   // deterministic jitter
 
-  /* ---- an organic ground blob: radius wobbles point to point (never a neat circle) ---- */
+  /* ---- an organic ground blob: radius wobbles point to point (never a neat circle),
+   * and every rim vertex HUGS the terrain — a blob on a bank drapes down the slope
+   * instead of cantilevering out as a floating sheet ---- */
   function blob(x,z,rBase,rJit,color,y,tex,seed){
-    const shape=new THREE.Shape(); const N=26;
-    for(let i=0;i<=N;i++){
-      const a=i/N*Math.PI*2, r=rBase + (rnd(seed+i%N)-0.5)*2*rJit;
+    const N=26, cy=(gy(x,z)||0), verts=[0,0,0], idx=[];
+    for(let i=0;i<N;i++){
+      const a=i/N*Math.PI*2, r=rBase + (rnd(seed+i)-0.5)*2*rJit;
       const px=Math.cos(a)*r, pz=Math.sin(a)*r;
-      if(i===0) shape.moveTo(px,pz); else shape.lineTo(px,pz);
+      verts.push(px, (gy(x+px,z+pz)||cy)-cy, pz);
+      idx.push(0, ((i+1)%N)+1, i+1);
     }
-    const m=new THREE.Mesh(new THREE.ShapeGeometry(shape),
-      new THREE.MeshLambertMaterial({color, map:tex||null,
-        polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-2}));
-    m.rotation.x=-Math.PI/2;
-    m.position.set(x, (gy(x,z)||0)+y, z);
+    // a blob can drape a gentle slope, but nothing readable drapes a cliff — on a
+    // steep bank the fan shreds into shards, so skip it there (reeds/stones carry it)
+    let lo=1e9, hi=-1e9;
+    for(let i=4;i<verts.length;i+=3){ lo=Math.min(lo,verts[i]); hi=Math.max(hi,verts[i]); }
+    if(hi-lo>1.1) return null;
+    const geo=new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(verts,3));
+    geo.setIndex(idx); geo.computeVertexNormals();
+    const m=new THREE.Mesh(geo, new THREE.MeshLambertMaterial({color, side:THREE.DoubleSide,
+      polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-2}));
+    m.position.set(x, cy+y, z);
     m.receiveShadow=true; scene.add(m);
     return m;
   }
@@ -181,6 +190,54 @@
 
     /* ---- the fountain (the Hollow Well, in stone) ---- */
     fountain(C.x, C.z);
+
+    /* ---- rung 4 (pass 015): terrain & transitions ---- */
+    // gate aprons: the roads flow THROUGH the wall — worn dirt through each gate
+    // and a spill of plaza stone just inside, so road, gate and square knit together
+    for(let i=0;i<28;i++){
+      const a=i/28*Math.PI*2, gx2=Math.cos(a)*26, gz2=Math.sin(a)*26;
+      if(typeof pathDist!=='function' || pathDist(gx2,gz2)>=3.6) continue;
+      const g0=groundY(gx2,gz2); if(g0===null || g0<-0.8) continue;
+      blob(gx2, gz2, 3.8, 0.55, 0x84744f, 0.027, null, 1200+i*13);   // road-toned, soft-lobed
+      blob(gx2*0.86, gz2*0.86, 2.6, 0.5, 0x878580, 0.049, null, 1300+i*17);
+    }
+    // the pond shore: the in-ring water gets a sandy lip, reed clumps in the
+    // shallows and shore stones — never a bare grass funnel into the blue
+    const shore=[];
+    for(let tx=-6;tx<=12;tx++) for(let tz=13;tz<=26;tz++){
+      const sx=tx+0.5, sz=tz+0.5;
+      const g0=groundY(sx,sz);
+      if(g0===null || g0<-0.9) continue;                        // land only (groundY returns DEPTH for water, null only off-map)
+      if(Math.hypot(sx-C.x, sz-C.z)>27.5) continue;             // stay by the town
+      const wn=[[1,0],[-1,0],[0,1],[0,-1]].filter(([dx2,dz2])=>{
+        const gn=groundY(sx+dx2*1.2, sz+dz2*1.2); return gn!==null && gn<-1.5; });
+      if(wn.length) shore.push([sx,sz,wn[0]]);
+    }
+    shore.forEach(([sx,sz,dir],i)=>{
+      if(i%2===0) blob(sx, sz, 0.85, 0.3, 0xa8946e, 0.024+(i%5)*0.0006, null, 1500+i*7);   // muddy sand lip
+      if(i%3===0){                                              // a reed clump in the shallows
+        for(let k=0;k<4;k++){
+          const rx=sx+dir[0]*(1.2+rnd(i*9+k)*1.1)+(rnd(i+k*3)-0.5)*0.9;
+          const rz=sz+dir[1]*(1.2+rnd(i*7+k)*1.1)+(rnd(i*5+k)-0.5)*0.9;
+          let gb=gy(rx,rz); if(gb>-1.1) continue;               // past the bank crest only
+          gb=Math.min(gb,-1.6);                                 // rooted at least at the waterline
+          const hgt=(-1.55-gb)+0.75+rnd(i+k)*0.5;               // clears the surface by a head
+          const reed=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.05,hgt,4),
+            new THREE.MeshLambertMaterial({color:0x5f7a3d}));
+          reed.position.set(rx, gb+hgt/2, rz); scene.add(reed);
+          const tip=new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.055,0.22,4),
+            new THREE.MeshLambertMaterial({color:0x6b4a2f}));
+          tip.position.set(rx, gb+hgt-0.05, rz); scene.add(tip);
+        }
+      }
+      if(i%4===1){                                              // a weathered shore stone
+        const st=new THREE.Mesh(new THREE.IcosahedronGeometry(0.22+rnd(i+60)*0.16,0),
+          new THREE.MeshLambertMaterial({color:(i%2)?0x8e8a82:0x9a968e}));
+        st.scale.y=0.6;
+        st.position.set(sx-dir[0]*0.5, (gy(sx,sz)||0)+0.08, sz-dir[1]*0.5);
+        st.rotation.y=rnd(i)*3; scene.add(st);
+      }
+    });
 
     /* ---- the market: striped awnings round the south side, like the reference ---- */
     makeCanvasStall(-4.2,-8.6, 0.12, '#b8bdc4','#3a6ab0', 'silver');   // blue-white: the silver stall

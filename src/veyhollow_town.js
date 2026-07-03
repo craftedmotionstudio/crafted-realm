@@ -21,7 +21,8 @@
       const x1=Math.cos(a1)*R, z1=Math.sin(a1)*R, x2=Math.cos(a2)*R, z2=Math.sin(a2)*R;
       const mx=(x1+x2)/2, mz=(z1+z2)/2;
       if(pathDist(mx,mz)<3.6){ gates.push([mx,mz]); continue; }   // the road walks through
-      if(groundY(mx,mz)===null || groundY(mx,mz)<-0.8) continue;  // never wall the water
+      // never wall the water — check BOTH ends too, so no run floats over the pond
+      if([[x1,z1],[mx,mz],[x2,z2]].some(([px,pz])=>groundY(px,pz)===null || groundY(px,pz)<-0.8)) continue;
       makeStoneWallRun(x1,z1, x2,z2);
     }
     // gate dressing: flanking towers on the two grandest gates (north + east), torches elsewhere

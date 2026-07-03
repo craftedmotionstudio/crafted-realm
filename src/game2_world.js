@@ -847,16 +847,20 @@ function makeStoneWallRun(x1,z1,x2,z2,h){
   const dx=x2-x1, dz=z2-z1, len=Math.hypot(dx,dz);
   const cx=(x1+x2)/2, cz=(z1+z2)/2;
   const ang=Math.atan2(dz,dx);
-  const wall=new THREE.Mesh(new THREE.BoxGeometry(len,h,0.9), mat(0xe6e2d8));
+  // grey blockwork, never bare white — the OSRS town-wall look
+  const runTex=TEX.stone?TEX.stone.clone():null;
+  if(runTex){ runTex.needsUpdate=true; runTex.wrapS=runTex.wrapT=THREE.RepeatWrapping; runTex.repeat.set(Math.max(1,len/2.1), 1.5); }
+  const wallMat=runTex?new THREE.MeshLambertMaterial({map:runTex, color:0xc9c4b8}):mat(0xc9c4b8);
+  const wall=new THREE.Mesh(new THREE.BoxGeometry(len,h,0.9), wallMat);
   wall.position.set(cx, gy(cx,cz)+h/2, cz); wall.rotation.y=-ang;
   wall.castShadow=true; wall.receiveShadow=true; scene.add(wall);
-  const cap=new THREE.Mesh(new THREE.BoxGeometry(len,0.25,1.15), mat(0xcfcabe));
+  const cap=new THREE.Mesh(new THREE.BoxGeometry(len,0.25,1.15), mat(0xafaa9e));
   cap.position.set(cx, gy(cx,cz)+h+0.12, cz); cap.rotation.y=-ang; scene.add(cap);
   const teeth=Math.floor(len/1.6);
   for(let i=0;i<teeth;i++){
     const t=(i+0.5)/teeth;
     const tx=x1+dx*t, tz=z1+dz*t;
-    const m=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.5,1.0), mat(0xe6e2d8));
+    const m=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.5,1.0), wallMat);
     m.position.set(tx, gy(cx,cz)+h+0.45, tz); m.rotation.y=-ang; scene.add(m);
   }
   const steps=Math.ceil(len/1.6);
@@ -867,12 +871,15 @@ function makeStoneWallRun(x1,z1,x2,z2,h){
 }
 function makeGateTower(x,z){
   const py=gy(x,z);
-  const t=new THREE.Mesh(new THREE.BoxGeometry(2.2,5.2,2.2), mat(0xe6e2d8));
+  const twTex=TEX.stone?TEX.stone.clone():null;
+  if(twTex){ twTex.needsUpdate=true; twTex.wrapS=twTex.wrapT=THREE.RepeatWrapping; twTex.repeat.set(1.4,2.4); }
+  const twMat=twTex?new THREE.MeshLambertMaterial({map:twTex, color:0xc9c4b8}):mat(0xc9c4b8);
+  const t=new THREE.Mesh(new THREE.BoxGeometry(2.2,5.2,2.2), twMat);
   t.position.set(x,py+2.6,z); t.castShadow=true; scene.add(t);
-  const cap=new THREE.Mesh(new THREE.BoxGeometry(2.7,0.3,2.7), mat(0xcfcabe));
+  const cap=new THREE.Mesh(new THREE.BoxGeometry(2.7,0.3,2.7), mat(0xafaa9e));
   cap.position.set(x,py+5.3,z); scene.add(cap);
   for(let i=0;i<4;i++){
-    const m=new THREE.Mesh(new THREE.BoxGeometry(0.6,0.5,0.6), mat(0xe6e2d8));
+    const m=new THREE.Mesh(new THREE.BoxGeometry(0.6,0.5,0.6), twMat);
     m.position.set(x+(i<2?-0.8:0.8), py+5.65, z+(i%2?-0.8:0.8)); scene.add(m);
   }
   const ban=new THREE.Mesh(new THREE.BoxGeometry(0.08,1.6,0.7), mat(0x3a5a9a));
