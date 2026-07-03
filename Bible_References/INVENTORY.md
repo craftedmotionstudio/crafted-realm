@@ -1,5 +1,23 @@
 # Reference Inventory (the Reference Inventory Rule, PIPELINES.md)
 
+## ⏳ BUILT + IN-GAME, GEMINI GATE PENDING (reference-loop pass 1, 2026-07-03 — 8 parallel agents)
+Each was BUILT procedurally, PLACED in-game, loads with a CLEAN console, and all builders resolve
+(verified in-browser). NOT yet in `Complete/` — the ≥9.5 **Gemini** half of the two-reviewer gate is
+pending (the in-browser screenshot→`gemini_vision.js` disk pipeline needs sorting this session; agents
+can't screenshot headlessly). Claude-eye notes below; run the Gemini gate + move passers to Complete/.
+| Reference | File | Placement | Claude-eye |
+|---|---|---|---|
+| RocksToMine.jpg | `makeRock` upgrade (game2_world.js) | ALL mining rocks world-wide (quarry/undercrag) | faceted boulder + ore veins/flecks + dirt base — big improvement over the old blob |
+| Ruins.jpg | `src/prop_ruins.js` | Scarlands (walls/arches/columns/rubble) + Commons NW rubble row | weathered grey masonry family, reads OSRS |
+| Crates+More.jpg | `src/prop_crates.js` | Commons market, Saltreach, Brynholt docks | barrels + sacks + stacked crates, warm wood/burlap |
+| Beds+Torches.jpg | `src/prop_beds_torches.js` | inn/cottage interiors + wall torches (ANIMATED flame via WORLD.fires) | beds + flickering wall torches |
+| Buggy.jpg | `src/prop_buggy.js` | Commons market/store, Saltreach, Olun's Mill | planked handcart, spoked wheels, pull-shafts |
+| Fence.jpg | `src/prop_iron_fence.js` | wrought-iron fence + gate ringing the Bank of Veyhollow | **visually confirmed in-game — reads as OSRS black wrought iron, pointed pickets, ornate gate** |
+| Fallen_Tree.png | `src/prop_fallen_tree.js` | Emberwood, Gloomfen, Scarlands | toppled trunk + root disc + broken branches, per-zone palette |
+| Port+Dock.jpg | `src/prop_dock.js` | Saltreach Port (railed T-jetty) + Brynholt | planked pier + railings + pilings + bollards + ladder |
+
+
+
 Every visible object per reference → have / missing → pipeline → status.
 Bar: both reviewers ≥9.5/10 per modeled item (user RE-RAISED from 9.0, 2026-07-03 — quality dip).
 Escape hatch: user eyes outrank Gemini when it noise-drifts/contradicts pixels.
