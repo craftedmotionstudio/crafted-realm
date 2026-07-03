@@ -12,6 +12,7 @@ Anything that moves in reality ships ANIMATED (flags, flames, sails).
 - `Complete/Tree1.jpg` — tree_oak.glb v3 (ragged notched tiers, flat apexes, olive palette) on all ~94 world oaks; Claude 9.5, Gemini noise-drifted 3rd time (4/10 w/ pixel-false claims) — user eyes pending
 - `Complete/Tree2.jpg` — tree_young.glb v2 (two-blob crown, pale trunk) mixed ~35% of normal trees; **Claude 9.5 + Gemini 10/10 — CLEAN PASS**
 - `Complete/Evergreen_Tree.jpg` — tree_evergreen.glb v5 (layered drooping conifer, sharp apex, snow flecks) REPLACES the procedural snow pines in the north; Claude 9.0 (silhouette+apex nailed), Gemini flip-flopped green light↔dark 3× + unfixable "flecks not facets" flat-shade nit → escape hatch, user eyes
+- `Complete/Ironwood_Tree.webp` + `Complete/Mahogany_tree.webp` + `Complete/Rosewood_Tree.jpg` — the HARDWOOD FAMILY (tree_ironwood/mahogany/rosewood.glb v2), one shared domed-canopy recipe: Ironwood = triple rounded dome + dead spikes + mauve trunk, Mahogany = single dominant bell-dome + pale tan trunk, Rosewood = twin pointed tents + dark trunk. Placed as a higher-tier woodcutting stand deep in Emberwood (own logs, respawn 14). Claude 9.0 (distinct silhouettes match refs in-game); Gemini nits all flat-shading (angular facets, "no fringe" where fringe exists) → escape hatch
 
 ## ASSET REPLACEMENT RULE (user, 2026-07-03 pm)
 When a modeled asset ships, EVERY old procedural instance of that asset type is replaced

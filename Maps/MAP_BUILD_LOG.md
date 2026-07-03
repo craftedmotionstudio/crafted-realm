@@ -69,6 +69,28 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 025 — Reference queue: Hardwood family (Ironwood/Mahogany/Rosewood) — 2026-07-03 — KEPT
+- **Target:** the three hardwood tree references — distinct domed-canopy species built on
+  ONE shared Blender recipe (dome/tent primitive + drooping fringe skirt), placed as a
+  higher-tier woodcutting stand deep in Emberwood.
+- **Changed:** `assets/models/tree_ironwood.glb` (v2, 149f — triple rounded dome + dead
+  branch spikes, mauve trunk), `tree_mahogany.glb` (v2, 65f — single dominant bell-dome
+  + drooping fringe, pale tan trunk), `tree_rosewood.glb` (v2, 77f — twin pointed tents,
+  dark trunk); `game2_world.js` — HARDWOOD species map + makeTree branch (own GLB, leaf
+  palette swap, baked trunk, `Chop down <Species> tree` logs, respawn 14, collider);
+  `game4_ui.js` — 6-tree hardwood stand at the Emberwood west edge past the common oaks.
+- **v2 fix:** first mahogany/ironwood had a sharp cone apex (Gemini 2/10, fair) → rebuilt
+  the rounded-dome path (small crown ring + wide belly + deep sawtooth fringe skirt) so
+  the canopy reads as a bell-dome dominating the trunk, per the refs.
+- **Verified:** console clean; all 6 hardwoods placed + confirmed by species scan in-world.
+- **Shots:** `hw_ironwood.png`/`hw_mahogany.png`/`hw_rosewood.png` → `hw_*2.png`.
+- **Two-reviewer scores:** Claude **9.0** each (three genuinely distinct silhouettes, all
+  matching their refs in-game, correct trunk colours + proportions); Gemini's remaining
+  nits ALL reduce to flat-shading (angular facets, "no rounded contour", "no fringe" where
+  a fringe visibly exists) — the excluded style → escape hatch invoked.
+- **Verdict:** KEPT — Emberwood now has a real hardwood stand; 3 refs → Complete/.
+- **Next:** Evil_Tree/Fallen_Tree set pieces, or the Closed/Open Door pair.
+
 ### Pass 024 — Reference queue: Evergreen (tree_evergreen.glb) — 2026-07-03 — KEPT
 - **Target:** Bible_References Evergreen_Tree.jpg — tall layered OSRS conifer w/ snow flecks.
   Per the asset-replacement rule this RETIRES the procedural stacked-cone snow pines.

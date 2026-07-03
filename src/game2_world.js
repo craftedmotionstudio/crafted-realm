@@ -377,12 +377,22 @@ function gy(x,z){ const y=groundY(x,z); return y===null?0:y; }
  * variant/biome) with the procedural build as dead-tree + not-yet-loaded fallback. */
 let _treeGLB=null, _treeYoungGLB=null;
 const _treeMats={};
+// the hardwood family (Ironwood/Mahogany/Rosewood.* references) — domed-canopy PROP
+// PIPELINE assets; each keeps its own baked trunk colour, leaves palette-swapped in-loader.
+const _hardwoodGLB={ironwood:null, mahogany:null, rosewood:null};
+const HARDWOOD={
+  ironwood:{glb:'tree_ironwood.glb?v=2', leaf:0x6a7a3e, leafD:0x4e5a2c, log:'Ironwood', scale:0.9},
+  mahogany:{glb:'tree_mahogany.glb?v=2', leaf:0x69793c, leafD:0x4c5a2a, log:'Mahogany', scale:0.95},
+  rosewood:{glb:'tree_rosewood.glb?v=2', leaf:0x707e42, leafD:0x515e2e, log:'Rosewood', scale:0.9}
+};
 (function(){ try{
   new THREE.GLTFLoader().load('assets/models/tree_oak.glb?v=3',
     gl=>{ _treeGLB=gl.scene; }, undefined, e=>console.error('[trees] tree_oak.glb failed', e));
   // Tree2.jpg: the small two-blob young tree — mixed in for OSRS grove variety
   new THREE.GLTFLoader().load('assets/models/tree_young.glb?v=2',
     gl=>{ _treeYoungGLB=gl.scene; }, undefined, e=>console.error('[trees] tree_young.glb failed', e));
+  for(const k in HARDWOOD){ (kk=>{ new THREE.GLTFLoader().load('assets/models/'+HARDWOOD[kk].glb,
+    gl=>{ _hardwoodGLB[kk]=gl.scene; }, undefined, e=>console.error('[trees] '+kk+' glb failed', e)); })(k); }
 }catch(e){} })();
 function _treePalette(key, pal){
   if(_treeMats[key]) return _treeMats[key];
@@ -397,6 +407,26 @@ function makeTree(x,z,variant){
   // variant: 'normal' | 'dark' | 'dead'
   variant = variant||'normal';
   const g = new THREE.Group();
+  // hardwood species (Ironwood/Mahogany/Rosewood): distinct domed-canopy models, own logs
+  if(HARDWOOD[variant] && _hardwoodGLB[variant]){
+    const hw=HARDWOOD[variant];
+    const m=_treePalette('hw_'+variant, {leaf:hw.leaf, leafD:hw.leafD, trunk:0x6b4a2f});
+    const inst=_hardwoodGLB[variant].clone(true);
+    inst.traverse(o=>{ if(o.isMesh){
+      o.castShadow=true;
+      const mats=(Array.isArray(o.material)?o.material:[o.material]).map(mm=>
+        /LEAFD/i.test(mm.name)?m.leafD : /LEAF/i.test(mm.name)?m.leaf : mm);   // keep baked trunk
+      o.material=Array.isArray(o.material)?mats:mats[0];
+    }});
+    const s=hw.scale*(0.9+Math.random()*0.2); inst.scale.set(s,s,s);
+    g.add(inst);
+    g.position.set(x, gy(x,z), z); g.rotation.y=Math.random()*6;
+    g.userData={kind:'resource', rtype:'tree', skill:'Woodcutting', species:variant,
+      label:'Chop down <b>'+hw.log+'</b> tree', respawn:14, alive:true};
+    addCircleCollider(x,z,0.5);
+    scene.add(g); WORLD.clickables.push(g); WORLD.resources.push(g);
+    return g;
+  }
   const _autumn=(typeof zoneAt==='function' && zoneAt(x,z)==='emberwood');
   // deterministic per-tile mix: ~1/3 young two-blob trees (Tree2.jpg) among the oaks
   const _hash=((Math.sin(x*12.9898+z*78.233)*43758.5453)%1+1)%1;

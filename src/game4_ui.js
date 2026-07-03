@@ -2091,6 +2091,11 @@ function populateMainland(){
   // wolves prowl the deep woods west of the grove — the quest trees sit at the safer east fringe
   for(let i=0;i<3;i++) spawnNpc('mosswolf', ew[0]-24+Math.random()*10, ew[1]-6+Math.random()*14);
   for(let i=0;i<6;i++) makeTree(ew[0]-28+Math.random()*12, ew[1]-8+Math.random()*18);
+  // the hardwood stand — Ironwood/Mahogany/Rosewood (Bible_References tree family), the
+  // higher-tier woodcutting trees deeper in the wood past the common emberwood oaks
+  const HW=[['ironwood',-34,-14],['ironwood',-30,-20],['mahogany',-38,-6],
+            ['mahogany',-34,2],['rosewood',-40,-16],['rosewood',-36,-24]];
+  for(const [sp,dx,dz] of HW) makeTree(ew[0]+dx, ew[1]+dz, sp);
 
   // Stonereach Quarry: cliffs ring the copper rocks
   const qy=ZONES.quarry.pos;
