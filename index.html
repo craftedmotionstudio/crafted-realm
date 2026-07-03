@@ -553,6 +553,7 @@
     <div class="set-row"><span>Music</span><button class="set-btn" onclick="UI.toggleMusic()">Toggle</button></div>
     <div class="set-row"><span>Music volume</span><input id="vol-music" type="range" min="0" max="100" value="50" class="set-slider" oninput="Music.setVolume(this.value/100)"></div>
     <div class="set-row"><span>Sound effects</span><input id="vol-sfx" type="range" min="0" max="100" value="100" class="set-slider" oninput="Sfx.setVolume(this.value/100)"></div>
+    <div class="set-row"><span>Roofs</span><button class="set-btn" id="roofs-btn" onclick="UI.toggleRoofs()">Toggle</button></div>
     <div class="set-row"><span>World map</span><button class="set-btn" onclick="UI.openWorldMap()">Open</button></div>
     <button class="set-btn wide" onclick="UI.manualSave()">Save now</button>
     <button class="set-btn wide logout" onclick="UI.logout()">Logout</button>
@@ -664,7 +665,7 @@
 <script src="src/game1_data.js?v=q8"></script>
 <script src="src/chunks.js"></script>
 <script src="src/proc_props.js"></script>
-<script src="src/game2_world.js?v=gp"></script>
+<script src="src/game2_world.js?v=gr"></script>
 <script src="src/combat_math.js?v=1"></script>
 <script src="src/planes.js?v=2"></script>
 <script src="src/buildkit.js?v=6"></script>
@@ -674,8 +675,8 @@
 <!-- north_cottage disabled 2026-07-03: pre-map building wiped w/ the legacy village (Alora-parity build preserved in git) -->
 <script src="src/gloomfen.js?v=2"></script>
 <script src="src/brynholt.js?v=2"></script>
-<script src="src/veyhollow_town.js?v=7"></script>
-<script src="src/town_square.js?v=11"></script>
+<script src="src/veyhollow_town.js?v=9"></script>
+<script src="src/town_square.js?v=12"></script>
 <script src="src/stonereach_bridge.js?v=2"></script>
 <script src="src/oluns_mill.js?v=2"></script>
 <script src="src/saltreach.js?v=2"></script>
@@ -685,7 +686,7 @@
 <script src="src/game3_systems.js?v=g7"></script>
 <script src="src/fx_dragon.js?v=3d"></script>
 <script src="src/audio_orchestra.js"></script>
-<script src="src/game4_ui.js?v=r3"></script>
+<script src="src/game4_ui.js?v=r4"></script>
 <script src="src/overlays.js?v=2"></script>
 <script src="src/overlays_world.js?v=3"></script>
 <script src="src/qol_ui.js?v=1"></script>
@@ -717,7 +718,7 @@
 <script src="src/char_quaternius.js"></script>
 <script src="src/char_customizer.js"></script>
 <script src="src/char_styles.js"></script>
-<script src="src/game5_main.js?v=h1"></script>
+<script src="src/game5_main.js?v=h2"></script>
 <script>
   /* sync the settings volume sliders to saved values on load */
   window.addEventListener('load', function(){ try{

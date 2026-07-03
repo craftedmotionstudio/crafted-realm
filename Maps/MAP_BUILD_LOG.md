@@ -29,7 +29,7 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 | # | Location | Kept detail iterations | Status |
 |---|---|---|---|
-| 1 | Veyhollow Commons | 4 / 5 | r1-r4 KEPT (passes 012-015); square Gemini 9/10 vs reference, r4 terrain pass 150 vs 100 |
+| 1 | Veyhollow Commons | 5 / 5 ✅ | r1-r5 KEPT (passes 012-017); capstone vs map 8/10; square 9/10 vs Town_Square.jpg; known debts: moat, sparse interiors |
 | 2 | Wardenholm Keep | 0 / 5 | — |
 | 3 | Stonereach Bridge | 0 / 5 | — |
 | 4 | Mirrorpond | 0 / 5 | — |
@@ -65,6 +65,37 @@ each building on the last, until it *obviously matches* the bible map. World sta
 ---
 
 <!-- Newest entries below this line, newest first -->
+
+### Pass 017 — Veyhollow Commons — follow-up: the grand buildings — 2026-07-03 — KEPT
+- **Target:** user ask — the reference square's focal buildings are BIG. Bank of Veyhollow
+  rebuilt as a grand two-storey stone hall (10×7, stone ground floor, plaster storey,
+  ladder + furnished upstairs); the general store as a big two-storey trading house (9×6.5).
+- **Verified:** plaza→door→interior paths for both; console clean; validator exit 0.
+- **Gemini:** **125 vs 100** — "adds significant verticality… feels more like a central hub."
+- **Files:** `veyhollow_town.js`. Shots: `pass017_bigbuildings_oblique.png`, `pass017_bank_street.png`.
+- **Known debt (user-flagged, next pass):** interiors read SPARSE with roofs off — furnish
+  presets don't scale furniture to room area; the big halls make it more visible. Richer
+  interiors = next Commons work before moving locations.
+
+### Pass 016 — Veyhollow Commons — rung 5/5: Lighting & atmosphere + capstone — 2026-07-03 — KEPT
+- **Location & rung:** plaza lighting, then the ≥5-rung capstone vs the map. Tracker **5/5 ✅**.
+- **Changed:** (a) `town_square.js` — 5 wrought lamp posts ringing the plaza (emissive
+  lanterns + amber glow pools, the game's no-real-lights idiom); Gemini **135 vs 100**.
+  (b) Capstone exposed the wall ring reading TORN from the air — `veyhollow_town.js` wall
+  rebuilt: 28→56 short segments (narrow gates), water runs now march across the pond inlet
+  on stone foundation piers, adjacent gate segments merge before dressing (no tower spam);
+  wall caps darkened 0xafaa9e→0x8f8a80 so the ring reads CONTINUOUS from above
+  (`game2_world.js`). Capstone score: 5/10 → **8/10** ("impressively captures the core
+  layout"). (c) NEW FEATURE (user ask): **Settings → Roofs toggle** — `UI.toggleRoofs` in
+  the settings pane; `makeBuilding` roofs registered in `WORLD.roofs`; the interior
+  roof-lift tick now respects `WORLD.roofsOff`. Roofs-off is now part of pass verification.
+- **Remaining map gap (Gemini):** the moat encircling the Commons on the map — a terrain
+  grid feature, future pass.
+- **Shots:** `pass016_commons_r5_oblique.png`, `pass016_capstone_KEEP.png`,
+  `pass016_capstone_topdown_roofsoff.png` (the roofs-off interiors audit).
+- **Verdict:** KEPT — Commons completes its 5-rung ladder.
+- **Next:** richer interiors (user-flagged), then the Commons moat, then location #2:
+  Wardenholm Keep.
 
 ### Pass 015 — Veyhollow Commons — rung 4/5: Terrain & transitions — 2026-07-03 — KEPT
 - **Location & rung:** the town's edges — where the wall meets ground, roads meet gates,

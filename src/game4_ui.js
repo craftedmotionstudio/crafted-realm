@@ -513,6 +513,8 @@ UI.refreshCombat = function(){
 UI.toggleRun   = function(){ const e=document.getElementById('run-orb');   if(e) e.click(); };
 UI.toggleMusic = function(){ const e=document.getElementById('music-btn'); if(e) e.click(); };
 UI.manualSave  = function(){ if(typeof SaveGame!=='undefined'){ SaveGame.save(); } };
+UI.toggleRoofs = function(){ if(typeof toggleRoofs==='function') toggleRoofs();
+  const b=document.getElementById('roofs-btn'); if(b) b.textContent=WORLD.roofsOff?'Show':'Hide'; };
 UI.logout      = function(){
   try{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }catch(e){}
   location.reload();   // return to the title/login screen with progress saved

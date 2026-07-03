@@ -239,6 +239,46 @@
       }
     });
 
+    /* ---- rung 5 (pass 016): lighting & atmosphere ---- */
+    // wrought lamp posts ringing the plaza — warm emissive lanterns pooling amber
+    // light on the stone (the game's torch idiom: emissive + glow decal, no real lights)
+    function lampPost(x,z){
+      const base=gy(x,z)||0;
+      const g=new THREE.Group(); g.position.set(x,base,z);
+      const iron=new THREE.MeshLambertMaterial({color:0x2e2a26});
+      const post=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.1,2.7,5), iron);
+      post.position.y=1.35; post.castShadow=true; g.add(post);
+      const arm=new THREE.Mesh(new THREE.BoxGeometry(0.55,0.07,0.07), iron);
+      arm.position.set(0.2,2.62,0); g.add(arm);
+      const cage=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.4,0.3),
+        new THREE.MeshLambertMaterial({color:0x3a342c}));
+      cage.position.set(0.42,2.4,0); g.add(cage);
+      const flame=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.28,0.2),
+        new THREE.MeshLambertMaterial({color:0xffdf9a, emissive:0xc98a2a}));
+      flame.position.set(0.42,2.4,0); g.add(flame);
+      const cap=new THREE.Mesh(new THREE.ConeGeometry(0.26,0.2,4), iron);
+      cap.rotation.y=Math.PI/4; cap.position.set(0.42,2.66,0); g.add(cap);
+      // the amber pool on the stone below
+      const glow=new THREE.Mesh(new THREE.CircleGeometry(1.5,12),
+        new THREE.MeshBasicMaterial({color:0xffc46a, transparent:true, opacity:0.2,
+          polygonOffset:true, polygonOffsetFactor:-3, polygonOffsetUnits:-3}));
+      glow.rotation.x=-Math.PI/2; glow.position.set(0.42,0.085,0); g.add(glow);
+      scene.add(g);
+      WORLD.colliders.push({type:'circle', x, z, r:0.28});
+      return g;
+    }
+    // ring the plaza where the ground is clear — probed, spread, deterministic
+    let placed=0;
+    for(let i=0;i<24 && placed<6;i++){
+      const a=(i/24)*Math.PI*2 + 0.26, r=7.4+((i%3)*0.9);
+      const lx=C.x+Math.cos(a)*r, lz=C.z+Math.sin(a)*r;
+      if(typeof collides==='function' && collides(lx,lz,0.9)) continue;
+      if(typeof pathDist==='function' && pathDist(lx,lz)<0.9) continue;
+      const gl=groundY(lx,lz); if(gl===null||gl<-0.6) continue;
+      if(i>0 && placed>0 && (i%4)!==0) continue;                 // spread them round the ring
+      lampPost(lx,lz); placed++;
+    }
+
     /* ---- the market: striped awnings round the south side, like the reference ---- */
     makeCanvasStall(-4.2,-8.6, 0.12, '#b8bdc4','#3a6ab0', 'silver');   // blue-white: the silver stall
     makeCanvasStall( 4.2,-8.6,-0.1, '#c9cdd2','#b03a4a', 'baker');     // red-white: the baker

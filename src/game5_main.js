@@ -621,10 +621,11 @@ function update(dt){
       WORLD.drops.splice(i,1);
     }
   }
-  // roofs lift away while you stand inside
+  // roofs lift away while you stand inside — or everywhere, when the settings toggle says so
   for(const it of WORLD.interiors){
     const inside = Math.abs(player.position.x-it.x)<it.hw && Math.abs(player.position.z-it.z)<it.hd;
-    if(it.roof.visible===inside){ it.roof.visible=!inside; if(it.band) it.band.visible=!inside; }
+    const want = !inside && !WORLD.roofsOff;
+    if(it.roof.visible!==want){ it.roof.visible=want; if(it.band) it.band.visible=want; }
   }
   _runUiT=(_runUiT||0)+dt; if(_runUiT>0.5){ _runUiT=0; UI.refreshRun();
     if(Player.activePrayers.size){ UI.refreshHud(); const pane=document.getElementById('pane-prayers');

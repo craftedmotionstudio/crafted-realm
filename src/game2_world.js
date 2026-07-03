@@ -854,7 +854,7 @@ function makeStoneWallRun(x1,z1,x2,z2,h){
   const wall=new THREE.Mesh(new THREE.BoxGeometry(len,h,0.9), wallMat);
   wall.position.set(cx, gy(cx,cz)+h/2, cz); wall.rotation.y=-ang;
   wall.castShadow=true; wall.receiveShadow=true; scene.add(wall);
-  const cap=new THREE.Mesh(new THREE.BoxGeometry(len,0.25,1.15), mat(0xafaa9e));
+  const cap=new THREE.Mesh(new THREE.BoxGeometry(len,0.25,1.15), mat(0x8f8a80));   // dark cap: the ring reads CONTINUOUS from the air
   cap.position.set(cx, gy(cx,cz)+h+0.12, cz); cap.rotation.y=-ang; scene.add(cap);
   const teeth=Math.floor(len/1.6);
   for(let i=0;i<teeth;i++){
@@ -876,7 +876,7 @@ function makeGateTower(x,z){
   const twMat=twTex?new THREE.MeshLambertMaterial({map:twTex, color:0xc9c4b8}):mat(0xc9c4b8);
   const t=new THREE.Mesh(new THREE.BoxGeometry(2.2,5.2,2.2), twMat);
   t.position.set(x,py+2.6,z); t.castShadow=true; scene.add(t);
-  const cap=new THREE.Mesh(new THREE.BoxGeometry(2.7,0.3,2.7), mat(0xafaa9e));
+  const cap=new THREE.Mesh(new THREE.BoxGeometry(2.7,0.3,2.7), mat(0x8f8a80));
   cap.position.set(x,py+5.3,z); scene.add(cap);
   for(let i=0;i<4;i++){
     const m=new THREE.Mesh(new THREE.BoxGeometry(0.6,0.5,0.6), twMat);
@@ -1430,6 +1430,7 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
     dm.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); roofG.add(dm);
   }
   g.add(roofG); roof=roofG;
+  WORLD.roofs.push({mesh:roofG, x, z});          // so the global roofs toggle reaches every building
   const corners=[[x-w/2,z-d/2],[x+w/2,z-d/2],[x-w/2,z+d/2],[x+w/2,z+d/2],[x,z]];
   const hs=corners.map(c=>gy(c[0],c[1]));
   const yMin=Math.min(...hs), yMax=Math.max(...hs);

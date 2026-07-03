@@ -14,20 +14,36 @@
     if(typeof running==='undefined' || !running) return false;
     if(typeof groundY!=='function' || typeof pathDist!=='function') return false;
 
-    /* ---- the wall: 28 straight runs round the circle; any run near a road is a GATE ---- */
-    const SEGS=28, gates=[];
+    /* ---- the wall: 56 short runs round the circle — the map's ring is COMPLETE.
+     * A run near a road is a gate (short segs = narrow gates, never a torn arc);
+     * a run over the pond inlet marches across on a deep stone foundation. ---- */
+    const SEGS=56, gateAngles=[];
     for(let i=0;i<SEGS;i++){
       const a1=i/SEGS*Math.PI*2, a2=(i+1)/SEGS*Math.PI*2;
       const x1=Math.cos(a1)*R, z1=Math.sin(a1)*R, x2=Math.cos(a2)*R, z2=Math.sin(a2)*R;
       const mx=(x1+x2)/2, mz=(z1+z2)/2;
-      if(pathDist(mx,mz)<3.6){ gates.push([mx,mz]); continue; }   // the road walks through
-      // never wall the water — check BOTH ends too, so no run floats over the pond
-      if([[x1,z1],[mx,mz],[x2,z2]].some(([px,pz])=>groundY(px,pz)===null || groundY(px,pz)<-0.8)) continue;
+      if(pathDist(mx,mz)<2.8){ gateAngles.push(Math.atan2(mz,mx)); continue; }  // the road walks through
       makeStoneWallRun(x1,z1, x2,z2);
+      // where the ground dips to water under the run, fill a foundation pier beneath
+      const ys=[[x1,z1],[mx,mz],[x2,z2]].map(([px,pz])=>{ const g0=gy(px,pz); return g0===null?0:g0; });
+      const lo=Math.min(...ys), c0=gy(mx,mz)||0;
+      if(lo < c0-0.4){
+        const len=Math.hypot(x2-x1,z2-z1), depth=(c0-lo)+0.8;
+        const pier=new THREE.Mesh(new THREE.BoxGeometry(len,depth,1.0),
+          new THREE.MeshLambertMaterial({map:(typeof TEX!=='undefined'&&TEX.stone)||null, color:0xa8a298}));
+        pier.position.set(mx, c0-depth/2+0.2, mz);
+        pier.rotation.y=-Math.atan2(z2-z1,x2-x1);
+        pier.receiveShadow=true; scene.add(pier);
+      }
     }
-    // gate dressing: flanking towers on the two grandest gates (north + east), torches elsewhere
-    gates.forEach(([gx,gz],i)=>{
-      const a=Math.atan2(gz,gx);
+    // merge adjacent gate segments into single gates, then dress each once
+    const gates=[];
+    gateAngles.sort((a,b)=>a-b).forEach(a=>{
+      const g0=gates.find(g=>Math.abs(g-a)<0.4);
+      if(g0===undefined) gates.push(a);
+    });
+    gates.forEach(a=>{
+      const gx=Math.cos(a)*R, gz=Math.sin(a)*R;
       const north = Math.abs(gx)<8 && gz<0, east = gx>8 && Math.abs(gz)<8;
       if(north||east){
         makeGateTower(Math.cos(a-0.14)*R, Math.sin(a-0.14)*R);
@@ -43,13 +59,15 @@
      * styled on Bible_References/Town_Square.jpg) ---- */
 
     /* ---- the map-icon services, furnished (Buildkit presets) ---- */
-    // Bank of Veyhollow (map: bank icon) — grey stone blockwork, the Varrock-square look
-    Buildkit.house({x:12, z:-12, w:7, d:5, doorSide:'W',
-      color:0xb4b0a8, roofColor:0x55636e, roof:'gable', interior:'bank', shellOpts:{wall:'stone'}});
-    if(typeof makeBankBooth==='function') makeBankBooth(10.4,-12, Math.PI/2);   // inside the hall — never on the doorstep
-    // the general store (map: general store icon)
-    Buildkit.house({x:-12, z:-12, w:6, d:5, doorSide:'E',
-      color:0xbfa87f, roofColor:0x6b7a8f, roof:'gable', interior:'shop'});
+    // Bank of Veyhollow (map: bank icon) — a GRAND two-storey stone hall, the
+    // reference square's focal-building scale (user ask 2026-07-03)
+    Buildkit.house({x:13, z:-12.5, w:10, d:7, floors:2, doorSide:'W',
+      color:0xb4b0a8, roofColor:0x55636e, roof:'gable', interior:'bank', upstairs:'bedroom',
+      shellOpts:{wall:'stone'}});
+    if(typeof makeBankBooth==='function') makeBankBooth(11,-12.5, Math.PI/2);   // inside the hall — never on the doorstep
+    // the general store (map: general store icon) — big two-storey trading house
+    Buildkit.house({x:-13, z:-12, w:9, d:6.5, floors:2, doorSide:'E',
+      color:0xbfa87f, roofColor:0x6b7a8f, roof:'gable', interior:'shop', upstairs:'bedroom'});
     // Stonereach Smithy (map: smithing + furnace icons)
     Buildkit.house({x:13, z:11, w:6, d:5, doorSide:'N',
       color:0xa89884, roofColor:0x3e3a36, roof:'gable', interior:'smithy'});
