@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Crafted Realms — World Grid Baker</title>
+<style>
+  body{background:#1a1712;color:#d8ccb4;font:12px Verdana;margin:12px;}
+  canvas{border:1px solid #6b5f4a;image-rendering:pixelated;display:block;margin:6px 0;}
+  button{font:bold 12px Verdana;padding:6px 12px;margin-right:8px;cursor:pointer;}
+  #status{color:#ffd24a;margin:8px 0;}
+</style>
+</head>
+<body>
+<h3>World Grid Baker — Maps/Crafted Realms Map.png → src/worldgrid.js</h3>
+<div id="status">loading map…</div>
+<button id="bake">Bake + Preview</button>
+<button id="dl" disabled>Download worldgrid.js</button>
+<canvas id="src" width="768" height="512"></canvas>
+<canvas id="prev" width="960" height="640"></canvas>
+<script>
+/* The bible map is the LAYOUT source of truth (MAP_PIPELINE.md). This tool classifies
+ * each pixel to the nearest biome anchor color, majority-votes per world cell, cleans
+ * icon/label noise with a mode filter, and emits a 480x320 char grid the game terrain
+ * reads. Painterly map colors are ONLY used to decide *what* is where — never rendered. */
+const GRID_W=480, GRID_H=320;                       // world tiles (1 cell = 1 tile)
+// world anchor: Veyhollow Commons (the town circle centre on the map) = world (0,0)
+const COMMONS_U=0.430, COMMONS_V=0.445;
+const X0=-Math.round(COMMONS_U*GRID_W), Z0=-Math.round(COMMONS_V*GRID_H);
+
+// biome classes; char = index written into the grid string.
+// Anchor colors MEASURED off the actual PNG (medians per region) — the map's paint is
+// much darker than it reads on screen. Roads/beaches are NOT classified (thin + same
+// tans as ditch/desert): roads stay authored PATHS, shore sand comes from height.
+const BIOMES=[
+  {k:'water',  c:[[0x25,0x39,0x46],[0x2c,0x39,0x48],[0x22,0x38,0x4b],[0x30,0x3e,0x50],[0x23,0x28,0x29]]},
+  {k:'grass',  c:[[0x5c,0x52,0x1d],[0x33,0x33,0x07],[0x2b,0x2d,0x0e],[0x67,0x59,0x1e],[0x3f,0x45,0x05]]},
+  {k:'autumn', c:[[0x76,0x33,0x0b],[0x4e,0x31,0x05],[0x59,0x4b,0x02],[0x39,0x20,0x04]]},
+  {k:'swamp',  c:[[0x38,0x30,0x3e],[0x3b,0x2f,0x44],[0x31,0x26,0x32],[0x32,0x28,0x30]]},
+  {k:'desert', c:[[0x86,0x6b,0x2f],[0x9b,0x79,0x39],[0x9c,0x75,0x36]]},
+  {k:'snow',   c:[[0xc5,0xc6,0xc9],[0xd0,0xd1,0xd6],[0xa4,0xa4,0xa8],[0x8d,0x8c,0x89]]},
+  {k:'scar',   c:[[0x30,0x29,0x1f],[0x56,0x47,0x31],[0x36,0x2f,0x27],[0x3c,0x31,0x1d]]},
+  {k:'rock',   c:[[0x45,0x3f,0x35],[0x42,0x3c,0x33],[0x31,0x2e,0x27]]},
+];
+const DITCH_V=0.263;                     // the Wilderness Ditch band row on the map (norm.)
+// map furniture to ignore (content px rect + mask rects, in ORIGINAL map px)
+const BORDER=16;
+const MASKS=[
+  [18,770, 352,945],      // "CRAFTED REALMS" title box (over Gloomfen's corner)
+  [1400,25, 1530,160],    // compass rose
+];
+const LEGEND_TOP=942;     // legend strip: everything below this row is furniture
+
+let img=null, grid=null;
+const status=t=>document.getElementById('status').textContent=t;
+
+const im=new Image();
+im.onload=()=>{ img=im; status(`map loaded ${im.width}x${im.height} — press Bake`);
+  const s=document.getElementById('src'); s.getContext('2d').drawImage(im,0,0,s.width,s.height); };
+im.onerror=()=>status('FAILED to load ../Maps/Crafted Realms Map.png');
+im.src='../Maps/Crafted%20Realms%20Map.png';
+
+function classify(r,g,b){
+  let best=-1, bd=1e9;
+  for(let i=0;i<BIOMES.length;i++) for(const [ar,ag,ab] of BIOMES[i].c){
+    const d=(r-ar)*(r-ar)+(g-ag)*(g-ag)+(b-ab)*(b-ab);
+    if(d<bd){bd=d;best=i;}
+  }
+  return best;
+}
+function inMask(x,y){
+  if(y>=LEGEND_TOP) return true;
+  for(const [a,b,c,d] of MASKS) if(x>=a&&y>=b&&x<=c&&y<=d) return true;
+  return false;
+}
+function bake(){
+  if(!img) return;
+  status('classifying…');
+  const W=img.width, H=img.height;
+  const cv=document.createElement('canvas'); cv.width=W; cv.height=H;
+  const cx=cv.getContext('2d'); cx.drawImage(img,0,0);
+  const px=cx.getImageData(0,0,W,H).data;
+  const cw=(W-2*BORDER)/GRID_W, ch=(LEGEND_TOP-2*BORDER)/GRID_H;
+  grid=new Int8Array(GRID_W*GRID_H).fill(-1);
+  const waterIdx=BIOMES.findIndex(b=>b.k==='water');
+  const scarIdx=BIOMES.findIndex(b=>b.k==='scar');
+  const rockIdx=BIOMES.findIndex(b=>b.k==='rock');
+  for(let gz=0;gz<GRID_H;gz++){
+    for(let gx=0;gx<GRID_W;gx++){
+      const x0=BORDER+gx*cw, y0=BORDER+gz*ch;
+      const votes=new Int16Array(BIOMES.length); let n=0;
+      for(let sy=0;sy<3;sy++) for(let sx=0;sx<3;sx++){
+        const x=Math.min(W-1,Math.round(x0+cw*(sx+0.5)/3)), y=Math.min(H-1,Math.round(y0+ch*(sy+0.5)/3));
+        if(inMask(x,y)) continue;
+        const o=(y*W+x)*4;
+        votes[classify(px[o],px[o+1],px[o+2])]++; n++;
+      }
+      if(!n){ grid[gz*GRID_W+gx]=-1; continue; }     // fully masked: fill later
+      let best=0;
+      for(let i=1;i<BIOMES.length;i++) if(votes[i]>votes[best]) best=i;
+      grid[gz*GRID_W+gx]=best;
+    }
+  }
+  // rock vs scar are near-identical paint: geography decides. North of the Ditch it's
+  // the Scarlands; rock only exists south of it (Stonereach Quarry).
+  const ditchGz=Math.round(DITCH_V*GRID_H);
+  for(let gz=0;gz<GRID_H;gz++) for(let gx=0;gx<GRID_W;gx++){
+    const i=gz*GRID_W+gx;
+    if(gz<ditchGz+2 && grid[i]===rockIdx) grid[i]=scarIdx;
+    else if(gz>=ditchGz+2 && grid[i]===scarIdx) grid[i]=rockIdx;
+  }
+  // building clusters read as gray "rock" — towns/arena sit on grass, stilt-fen on swamp,
+  // the port on sand. Boxes in grid cells [gx0,gz0,gx1,gz1] eyeballed off the preview.
+  const grassIdx=BIOMES.findIndex(b=>b.k==='grass');
+  const swampIdx=BIOMES.findIndex(b=>b.k==='swamp');
+  const desertIdx=BIOMES.findIndex(b=>b.k==='desert');
+  const FIX=[
+    [168,112,244,204, rockIdx, grassIdx],   // Veyhollow Commons town circle + wall arc
+    [250,115,322,205, rockIdx, grassIdx],   // Wardenholm Keep footprint (module builds the castle)
+    [268,127,298,157, waterIdx, grassIdx],  // …and its bailey interior: no puddles inside the walls
+    [262,228,322,282, rockIdx, grassIdx],   // the Proving Grounds arena ring
+    [0,165,128,282,   rockIdx, swampIdx],   // Gloomfen stilt village + dead trees
+    [412,160,480,240, rockIdx, desertIdx],  // Saltreach Port piers/buildings
+  ];
+  for(const [a,b2,c,d,from,to] of FIX)
+    for(let gz=b2;gz<=Math.min(d,GRID_H-1);gz++) for(let gx=a;gx<=Math.min(c,GRID_W-1);gx++){
+      const i=gz*GRID_W+gx; if(grid[i]===from) grid[i]=to;
+    }
+  // fill masked cells from neighbours (repeat until none left)
+  for(let pass=0; pass<200; pass++){
+    let holes=0;
+    for(let i=0;i<grid.length;i++){
+      if(grid[i]!==-1) continue;
+      const gx=i%GRID_W, gz=(i/GRID_W)|0, votes=new Int16Array(BIOMES.length); let any=false;
+      for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]){
+        const nx=gx+dx, nz=gz+dz;
+        if(nx<0||nz<0||nx>=GRID_W||nz>=GRID_H) continue;
+        const v=grid[nz*GRID_W+nx];
+        if(v>=0){ votes[v]++; any=true; }
+      }
+      if(any){ let b=0; for(let k=1;k<votes.length;k++) if(votes[k]>votes[b]) b=k; grid[i]=b; }
+      else holes++;
+    }
+    if(!holes) break;
+  }
+  // mode-filter x3: melts icon/label/building speckle into the surrounding biome
+  for(let pass=0;pass<3;pass++){
+    const out=new Int8Array(grid);
+    for(let gz=1;gz<GRID_H-1;gz++) for(let gx=1;gx<GRID_W-1;gx++){
+      const i=gz*GRID_W+gx;
+      const votes=new Int16Array(BIOMES.length);
+      for(let dz=-1;dz<=1;dz++) for(let dx=-1;dx<=1;dx++) votes[grid[(gz+dz)*GRID_W+gx+dx]]++;
+      let b=0; for(let k=1;k<votes.length;k++) if(votes[k]>votes[b]) b=k;
+      if(votes[b]>=5) out[i]=b;
+    }
+    grid=out;
+  }
+  preview();
+  document.getElementById('dl').disabled=false;
+  status('baked. Check the preview against the map, then Download.');
+}
+const PREVIEW_COL={water:'#2e4a66',grass:'#6b8a3f',autumn:'#c08030',swamp:'#5c486e',
+  desert:'#d8bc6e',snow:'#e8eae6',scar:'#4a3c30',rock:'#8a8780'};
+function preview(){
+  const c=document.getElementById('prev'), ctx=c.getContext('2d');
+  const sx=c.width/GRID_W, sz=c.height/GRID_H;
+  for(let gz=0;gz<GRID_H;gz++) for(let gx=0;gx<GRID_W;gx++){
+    ctx.fillStyle=PREVIEW_COL[BIOMES[grid[gz*GRID_W+gx]].k]||'#f0f';
+    ctx.fillRect(gx*sx, gz*sz, sx+1, sz+1);
+  }
+  // commons origin marker
+  ctx.strokeStyle='#ff0'; ctx.lineWidth=2;
+  ctx.strokeRect((-X0-3)*sx, (-Z0-3)*sz, 6*sx, 6*sz);
+}
+function download(){
+  const chars='0123456789abcdefghijklmnop';
+  let s='';
+  for(let i=0;i<grid.length;i++) s+=chars[grid[i]];
+  const js=
+`/* AUTO-GENERATED by tools/bake_worldgrid.html from Maps/Crafted Realms Map.png — do not hand-edit.
+ * The bible map's layout, as data: one biome char per world tile. 1 cell = 1 tile.
+ * Regenerate: serve the repo, open tools/bake_worldgrid.html, Bake, Download, replace this file. */
+const WORLDGRID = {
+  w:${GRID_W}, h:${GRID_H},
+  x0:${X0}, z0:${Z0},                      // world coord of cell (0,0); commons = world (0,0)
+  biomes:[${BIOMES.map(b=>`'${b.k}'`).join(',')}],
+  data:'${s}',
+};
+/* biome index at world (x,z); -1 outside the map */
+function gridBiomeIdx(x,z){
+  const gx=Math.floor(x)-WORLDGRID.x0, gz=Math.floor(z)-WORLDGRID.z0;
+  if(gx<0||gz<0||gx>=WORLDGRID.w||gz>=WORLDGRID.h) return -1;
+  return '0123456789abcdefghijklmnop'.indexOf(WORLDGRID.data[gz*WORLDGRID.w+gx]);
+}
+function gridBiome(x,z){ const i=gridBiomeIdx(x,z); return i<0?null:WORLDGRID.biomes[i]; }
+`;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([js],{type:'text/javascript'}));
+  a.download='worldgrid.js'; a.click();
+  status('downloaded worldgrid.js — move it into src/');
+}
+document.getElementById('bake').onclick=bake;
+document.getElementById('dl').onclick=download;
+</script>
+</body>
+</html>

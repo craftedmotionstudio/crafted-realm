@@ -185,28 +185,51 @@ function animateWater(dt){
     t.offset.y += dt*0.005;
   });
 }
-const HOLM_POND = {x:232, z:244, r:5.2};
+const HOLM_POND = {x:176, z:144, r:3.4};   // small practice pond on Tutor's Holm (map-anchored)
 /* Veyhollow Keep plateau — a flat mound the Lumbridge-style castle sits on (see castle.js) */
-const CASTLE_SITE = {x:0, z:-51, half:16, y:0.6};
+/* ---------- MAP-DRIVEN TERRAIN (src/worldgrid.js) ----------
+ * The bible map, baked to a biome-per-tile grid, decides what the ground IS; this
+ * turns biome into height. Base levels blend over a 5-tile kernel so coasts and
+ * cliff feet slope naturally; per-biome relief stays low-poly rolling, never real. */
+const BIOME_H = {water:-2.4, grass:0.35, autumn:0.7, swamp:-0.45, desert:0.6, snow:1.9, scar:1.1, rock:1.6};
+function biomeBaseH(x,z){
+  const b = (typeof gridBiome==='function') ? gridBiome(x,z) : 'grass';
+  if(b===null) return -3.0;                 // off the map's edge: open sea
+  return BIOME_H[b] !== undefined ? BIOME_H[b] : 0.3;
+}
 function terrainHeight(x,z){
-  let h = Math.sin(x*0.07)*Math.cos(z*0.06)*1.4 + Math.sin(x*0.013+z*0.017)*2.0;
+  let base=0, wsum=0;
+  for(let dz=-4;dz<=4;dz+=2) for(let dx=-4;dx<=4;dx+=2){
+    const w=1/(1+Math.abs(dx)+Math.abs(dz));
+    base += biomeBaseH(x+dx,z+dz)*w; wsum+=w;
+  }
+  base/=wsum;
+  const b = (typeof gridBiome==='function') ? (gridBiome(x,z)||'water') : 'grass';
+  const n1=Math.sin(x*0.07)*Math.cos(z*0.06), n2=Math.sin(x*0.013+z*0.017);
+  const relief =
+      b==='scar'   ? n1*0.8 + Math.sin(x*0.11+z*0.07)*0.5
+    : b==='rock'   ? n1*0.9 + n2*0.5
+    : b==='snow'   ? n1*0.7 + n2*0.8
+    : b==='desert' ? Math.sin(x*0.05)*Math.cos(z*0.045)*0.6
+    : b==='swamp'  ? n1*0.25
+    : b==='water'  ? 0
+    : n1*0.5 + n2*0.45;                     // grass / autumn heartland
+  let h = base + relief;
+  // towns and camps sit on gently flattened ground
   for(const k in ZONES){ const d=Math.hypot(x-ZONES[k].pos[0], z-ZONES[k].pos[1]);
-    if(d<18) h *= d/18; }
-  // carve the Mirrorpond basin
-  const pd = Math.hypot(x-ZONES.pond.pos[0], z-ZONES.pond.pos[1]);
-  if(pd<9) h -= (1-pd/9)*1.6;
+    if(d<18){ const k2=d/18; h = h*k2 + 0.25*(1-k2); } }
+  // water cells always flood (small ponds/moats included): below the sea plane
+  if(b==='water') h=Math.min(h,-1.9);
   // carve the Tutor's Holm practice pond
   const hd = Math.hypot(x-HOLM_POND.x, z-HOLM_POND.z);
-  if(hd<HOLM_POND.r+0.5) h -= (1-hd/(HOLM_POND.r+0.5))*1.5;
-  // the Miller's Causeway: a raised road across the western marsh to Emberwood
-  h = Math.max(h, causewayLift(x,z, -12,-12, -62,-39, 4.5, -0.55));
-  // the Emberwood rise: the grove stands on a dry knoll above the wetlands
-  const ed = Math.hypot(x-(-63), z-(-41));
-  if(ed<17){ const k=1-ed/17; h = Math.max(h, -0.45 + k*0.85); }
-  // flatten the Veyhollow Keep plateau (square mound, smooth shoulder)
-  { const cd=Math.max(Math.abs(x-CASTLE_SITE.x), Math.abs(z-CASTLE_SITE.z));
-    if(cd < CASTLE_SITE.half+6){ const k = cd<=CASTLE_SITE.half ? 1 : 1-(cd-CASTLE_SITE.half)/6;
-      h = h*(1-k) + CASTLE_SITE.y*k; } }
+  if(hd<HOLM_POND.r+0.5) h -= (1-hd/(HOLM_POND.r+0.5))*2.4;
+  // the Wilderness Ditch: a dry trench severing the northern wilds. Its floor (-1.45)
+  // is below the walkable line (-1.2) but above the sea plane (-1.6) — impassable, dry.
+  if(typeof DITCH!=='undefined' && !inDitchGate(x)){
+    const dd=Math.abs(z-DITCH.z);
+    if(dd<DITCH.half) h=Math.min(h,-1.45);
+    else if(dd<DITCH.half+1.6){ const k=(dd-DITCH.half)/1.6; h=Math.min(h, h*k-1.45*(1-k)); }
+  }
   return h;
 }
 /* lift terrain toward `top` within `w` of the segment AB (smooth edges) */
@@ -219,8 +242,8 @@ function causewayLift(x,z, ax,az, bx,bz, w, top){
   const k=1-d/w;                       // 1 at center, 0 at edge
   return top - (1-k)*1.0;              // gently shoulders down toward the marsh
 }
-function buildTerrainPatch(cx, cz, size, segs, edgeFalloff){
-  const geo = new THREE.PlaneGeometry(size, size, segs, segs);
+function buildTerrainPatch(cx, cz, sizeX, sizeZ, segsX, segsZ){
+  const geo = new THREE.PlaneGeometry(sizeX, sizeZ, segsX, segsZ);
   geo.rotateX(-Math.PI/2);
   const pos = geo.attributes.position;
   const colors = []; const c = new THREE.Color();
@@ -228,60 +251,54 @@ function buildTerrainPatch(cx, cz, size, segs, edgeFalloff){
     const lx=pos.getX(i), lz=pos.getZ(i);
     const x=lx+cx, z=lz+cz;
     let h = terrainHeight(x,z);
-    if(edgeFalloff){
-      const r = Math.max(Math.abs(lx),Math.abs(lz)) / (size/2);
-      if(r>0.7) h = h*(1-(r-0.7)/0.3) - ((r-0.7)/0.3)*4;
-    }
     pos.setY(i, h);
-    const zone = zoneAt(x,z);
-    if(zone==='gloomfen') c.setHex(0x4e5944);
-    else if(zone==='quarry') c.setHex(0xa39a85);
-    else if(zone==='holm') c.setHex(0x8aa45e);
-    else if(zone==='dunes') c.setHex(0xccb578);
-    else if(zone==='scarlands') c.setHex(0x8a7c62);
-    // the cold north READS cold: Brynholt is frost-bitten coast, Whitmoor is true snow
-    else if(zone==='brynholt') c.setHex(0xb9c8c2);
-    else if(zone==='whitmoor') c.setHex(0xe2e9e7);
+    const zone = (typeof gridBiome==='function' && gridBiome(x,z)) || 'grass';
+    if(zone==='swamp') c.setHex(0x4e5944);
+    else if(zone==='rock') c.setHex(0xa39a85);
+    else if(zone==='desert') c.setHex(0xccb578);
+    else if(zone==='scar') c.setHex(0x8a7c62);
+    else if(zone==='snow') c.setHex(0xe2e9e7);
+    else if(zone==='autumn') c.setHex(0x93a04e);          // warm-toned forest floor
     else c.setHex(0x83a055);
     // OSRS-style ground mottle: hand-painted unevenness
     const mot = Math.sin(x*0.31)*Math.sin(z*0.27) + Math.sin(x*0.071+1.3)*Math.sin(z*0.083);
     c.offsetHSL(0, -0.04+mot*0.02, mot*0.035);
     // living-meadow underlay: broad deterministic drifts of dried gold, deep clover and
     // bright tufts (the OSRS blended-underlay read — grass is never one green)
-    if(zone!=='dunes' && zone!=='quarry' && zone!=='brynholt' && zone!=='whitmoor' && h>-0.8){
+    if((zone==='grass'||zone==='autumn'||zone==='swamp') && h>-0.8){
       const p1 = Math.sin(x*0.045+2.7)*Math.sin(z*0.052+1.1);    // ~20-tile drifts
       const p2 = Math.sin(x*0.11+0.4)*Math.sin(z*0.09+3.3);      // ~7-tile patches
       if(p1>0.35) c.lerp(new THREE.Color(0xa8a049), Math.min(0.33,(p1-0.35)*0.5));
       else if(p1<-0.4) c.lerp(new THREE.Color(0x55703a), Math.min(0.34,(-p1-0.4)*0.55));
       if(p2>0.55) c.lerp(new THREE.Color(0x97ae5c), Math.min(0.28,(p2-0.55)*0.6));
-    } else if((zone==='brynholt'||zone==='whitmoor') && h>-0.8){
+    } else if(zone==='snow' && h>-0.8){
       // snow drifts: brighter windswept patches instead of meadow golds
       const p1 = Math.sin(x*0.05+1.2)*Math.sin(z*0.06+2.4);
       if(p1>0.3) c.lerp(new THREE.Color(0xf2f6f5), Math.min(0.4,(p1-0.3)*0.7));
     }
     // the deeper into the Scarlands, the more scorched the earth
-    if(zone==='scarlands' && typeof scarThreat==='function'){
+    if(zone==='scar' && typeof scarThreat==='function'){
       const t=Math.min(scarThreat(z),12);
       if(t>0) c.lerp(new THREE.Color(0x6e5a48), t/14);
     }
     if(h<-0.8) c.setHex(0xe2d49a);                       // sandy shore
-    if(!edgeFalloff){
+    // the Ditch reads as scoured cut earth, not beach
+    if(typeof DITCH!=='undefined' && h<-0.8 && Math.abs(z-DITCH.z)<DITCH.half+1.8) c.setHex(0x57493c);
+    if(h>-0.8){
       const pdst = pathDist(x,z);
       if(pdst<2.4) c.setHex(0xb89868);                                    // dirt path
       else if(pdst<3.8) c.lerp(new THREE.Color(0xb89868), (3.8-pdst)/1.4*0.42); // trampled margin
     }
-    const pd = Math.hypot(x-ZONES.pond.pos[0], z-ZONES.pond.pos[1]);
-    if(pd<10.5 && pd>=9) c.setHex(0xd6c489);             // pond shore sand
     const hd = Math.hypot(x-HOLM_POND.x, z-HOLM_POND.z);
     if(hd<HOLM_POND.r+1.6 && hd>=HOLM_POND.r-0.4) c.setHex(0xd6c489);
     const ad = Math.hypot(x-ZONES.arena.pos[0], z-ZONES.arena.pos[1]);
-    if(ad<11) c.setHex(0xd2bc86);                        // duel pit sand
+    if(ad<11 && h>-0.8) c.setHex(0xd2bc86);              // duel pit sand
     c.offsetHSL(0,(Math.random()-.5)*0.03,(Math.random()-.5)*0.04);
     colors.push(c.r,c.g,c.b);
   }
   geo.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
   geo.computeVertexNormals();
-  const tex = TEX.grass.clone(); tex.needsUpdate=true; tex.repeat.set(size/7, size/7);
+  const tex = TEX.grass.clone(); tex.needsUpdate=true; tex.repeat.set(sizeX/7, sizeZ/7);
   // flat-shaded terrain: faces read as distinct planes (the OSRS ground), texture + tint kept
   const m = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({map:tex, vertexColors:true, flatShading:true, shininess:0, specular:0x000000}));
   m.position.set(cx,0,cz);
@@ -290,33 +307,34 @@ function buildTerrainPatch(cx, cz, size, segs, edgeFalloff){
   WORLD.clickables.push(m); WORLD.grounds.push(m);
   return m;
 }
+/* One rectangular map-driven landmass: the whole bible map, 480x320 tiles.
+ * Centre = (x0+w/2, z0+h/2) from WORLDGRID; commons sits at world (0,0). */
+function worldRect(){
+  const g=(typeof WORLDGRID!=='undefined')?WORLDGRID:{w:480,h:320,x0:-206,z0:-142};
+  return {x0:g.x0, z0:g.z0, w:g.w, h:g.h, cx:g.x0+g.w/2, cz:g.z0+g.h/2};
+}
 function buildGround(){
-  buildTerrainPatch(0,0, WORLD.size, 140, false);
-  buildTerrainPatch(230,230, 70, 28, true);
-  // Mirrorpond water
-  makeWaterSurface(new THREE.CircleGeometry(9.6,24), ZONES.pond.pos[0], -0.55, ZONES.pond.pos[1], 8, 0.94);
-  // Tutor's Holm pond water
+  const r=worldRect();
+  buildTerrainPatch(r.cx, r.cz, r.w, r.h, 300, 200);
+  // Tutor's Holm pond water (the one authored pond; every other water body is grid-driven
+  // and covered by the global sea plane)
   const hp=HOLM_POND;
-  makeWaterSurface(new THREE.CircleGeometry(hp.r+0.4,20), hp.x, gy(hp.x,hp.z)+0.62, hp.z, 5, 0.94);
-}
-/* analytic ground height — identical math to the generated meshes, no raycasts */
-function patchHeight(x,z, cx,cz, size, edgeFalloff){
-  const lx=x-cx, lz=z-cz, half=size/2;
-  if(Math.abs(lx)>half || Math.abs(lz)>half) return null;
-  let h = terrainHeight(x,z);
-  if(edgeFalloff){
-    const r = Math.max(Math.abs(lx),Math.abs(lz)) / half;
-    if(r>0.7) h = h*(1-(r-0.7)/0.3) - ((r-0.7)/0.3)*4;
-    if(r>=0.995) return null;             // very rim of the island = sea
+  makeWaterSurface(new THREE.CircleGeometry(hp.r+0.4,20), hp.x, -1.52, hp.z, 5, 0.94);
+  // the Ditch is a HARD gate (players AND monsters): colliders wall both rims,
+  // broken only at the causeways where the roads cross
+  if(typeof DITCH!=='undefined'){
+    const xs=[r.x0, ...DITCH.gates.flat().sort((a,b)=>a-b), r.x0+r.w];
+    for(let i=0;i<xs.length;i+=2){
+      const a=xs[i], b=xs[i+1];
+      if(b>a) addRectCollider((a+b)/2, DITCH.z, (b-a)/2, DITCH.half);
+    }
   }
-  return h;
 }
+/* analytic ground height — identical math to the generated mesh, no raycasts */
 function groundY(x,z){
-  const m = patchHeight(x,z, 0,0, WORLD.size, false);
-  if(m!==null) return m;
-  const hm = patchHeight(x,z, 230,230, 70, true);
-  if(hm!==null && hm>-1.55) return hm;
-  return null;
+  const r=worldRect();
+  if(x<r.x0 || z<r.z0 || x>=r.x0+r.w || z>=r.z0+r.h) return null;
+  return terrainHeight(x,z);
 }
 function gy(x,z){ const y=groundY(x,z); return y===null?0:y; }
 

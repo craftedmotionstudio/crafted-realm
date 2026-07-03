@@ -394,7 +394,7 @@ const QUESTS = {
     stages:[
       {text:'Speak to Sage Imbrel at Glimmerveil Arcana in Veyhollow.', npc:'arcanist'},
       {text:'Bring Sage Imbrel 2 fire runes and 2 earth runes for the scrying rite.', type:'bring', npc:'arcanist', items:[{id:'fire_rune',q:2},{id:'earth_rune',q:2}]},
-      {text:'Carry the warded ash-catcher south to the Scarlands.', type:'goto', zone:'scarlands'},
+      {text:'Carry the warded ash-catcher north, past the Wilderness Ditch, into the Scarlands.', type:'goto', zone:'scarlands'},
       {text:'Slay 2 ash stalkers and gather their still-burning ash (%n/2).', type:'kill', target:'ash_stalker', count:2, zone:'scarlands'},
       {text:'Return the ashes to Sage Imbrel.', type:'talk', npc:'arcanist'},
     ],
@@ -427,24 +427,30 @@ const QUESTS = {
   },
 };
 
+/* Zone anchors follow the bible map (Maps/Crafted Realms Map.png) via the baked world
+ * grid (src/worldgrid.js): commons = world (0,0), map north = -z. Re-anchored 2026-07-03. */
 const ZONES = {
   commons:  {name:'Veyhollow Commons', pos:[0,0],    fog:0xb8c8cc},
-  wardenholm:{name:'Wardenholm Keep',  pos:[56,4],   fog:0xb2bcc4},
-  emberwood:{name:'Emberwood',         pos:[-65,-40], fog:0xaabfa0},
-  quarry:   {name:'Stonereach Quarry', pos:[70,-35],  fog:0xbcb6a8},
-  pond:     {name:'Mirrorpond',        pos:[55,55],   fog:0xaac4cc},
-  gloomfen: {name:'Gloomfen',          pos:[-70,60],  fog:0x4e4a58},
-  brynholt: {name:'Brynholt',          pos:[-20,-95], fog:0xb4c2c8},
-  dunes:    {name:'The Ashar Dunes',   pos:[115,30],  fog:0xd8c8a0},
-  scarlands:{name:'The Scarlands',     pos:[0,115],   fog:0x8e7c70},
-  arena:    {name:'The Proving Grounds', pos:[78,52], fog:0xc8b896},
-  holm:     {name:"Tutor's Holm",      pos:[230,230], fog:0xb8c8cc},
-  whitmoor: {name:'Whitmoor Hold',     pos:[50,-62],  fog:0xd8dce2},
-  undercrag:{name:'The Undercrag',     pos:[-230,-160], fog:0x16141c},
+  wardenholm:{name:'Wardenholm Keep',  pos:[77,0],   fog:0xb2bcc4},
+  emberwood:{name:'Emberwood',         pos:[-144,-30], fog:0xaabfa0},
+  quarry:   {name:'Stonereach Quarry', pos:[120,-14], fog:0xbcb6a8},
+  pond:     {name:'Mirrorpond',        pos:[-4,88],   fog:0xaac4cc},
+  gloomfen: {name:'Gloomfen',          pos:[-158,56], fog:0x4e4a58},
+  brynholt: {name:'Brynholt',          pos:[178,-97], fog:0xb4c2c8},
+  dunes:    {name:'The Ashar Dunes',   pos:[188,40],  fog:0xd8c8a0},
+  scarlands:{name:'The Scarlands',     pos:[20,-100], fog:0x8e7c70},
+  arena:    {name:'The Proving Grounds', pos:[84,79], fog:0xc8b896},
+  holm:     {name:"Tutor's Holm",      pos:[158,141], fog:0xb8c8cc},
+  whitmoor: {name:'Whitmoor Hold',     pos:[-163,-105], fog:0xd8dce2},
+  undercrag:{name:'The Undercrag',     pos:[-330,-260], fog:0x16141c},
 };
-/* Scarlands threat: deeper in = deadlier, like a wilderness level */
-const SCAR_EDGE = 80;
-function scarThreat(z){ return z>SCAR_EDGE ? Math.floor((z-SCAR_EDGE)/6)+1 : 0; }
+/* The Wilderness Ditch: a dry trench walling off the northern wilds along the map's band.
+ * Crossing is only possible at the gate causeways (x-ranges where roads pass). */
+const DITCH = {z:-58, half:2.4, gates:[[3,9],[-109,-103],[151,157]]};
+function inDitchGate(x){ return DITCH.gates.some(g=>x>=g[0]&&x<=g[1]); }
+/* Scarlands threat: deeper NORTH past the Ditch = deadlier, like a wilderness level */
+const SCAR_EDGE = DITCH.z;
+function scarThreat(z){ return z<SCAR_EDGE ? Math.floor((SCAR_EDGE-z)/6)+1 : 0; }
 function zoneAt(x,z){
   let best='commons', bd=1e9;
   for(const k in ZONES){ const d=(x-ZONES[k].pos[0])**2+(z-ZONES[k].pos[1])**2;
@@ -452,24 +458,26 @@ function zoneAt(x,z){
   return best;
 }
 /* dirt paths radiating from town, painted into the terrain */
+/* Roads re-traced from the bible map (rough pass-001 polylines; later passes refine).
+ * All three Ditch crossings line up with DITCH.gates. */
 const PATHS = [
   [[0,-1],[-3,20]],      // chapel road
-  [[14,15],[30,4]],      // Wardenholm road: east from the lane to the keep's bridge
   [[0,-1],[14,15]],      // hearthhouse lane
   [[0,-1],[0,-17]],      // market row
   [[2,-6],[24,-5]],      // pasture track
-  [[14,15],[30,66]],     // the Spire road, southeast toward the wilds
-  [[24,-5],[44,-20]],    // the Whitmoor road east, then north past the lake
-  [[44,-20],[48,-44]],
-  [[48,-44],[50,-49]],
-[[-12,-12],[-62,-39]],     // the Miller's Causeway over the marsh
-  [[0,0],[-40,-28]], [[-40,-28],[-65,-40]],   // to the mill + Emberwood
-  [[0,0],[35,-18]], [[35,-18],[70,-35]],      // to Stonereach
-  [[0,0],[28,28]], [[28,28],[55,55]],         // to Mirrorpond
-  [[0,0],[-35,30]], [[-35,30],[-70,60]],      // to Gloomfen
-  [[0,0],[-12,-52]], [[-12,-52],[-20,-95]],   // to Brynholt
-  [[35,-18],[78,2]], [[78,2],[115,30]],       // to the Ashar Dunes
-  [[0,0],[-2,45]], [[-2,45],[0,80]],          // to the Scarlands gate
+  [[16,4],[45,2]], [[45,2],[68,0]],           // Wardenholm road: east to the keep's bridge
+  [[14,15],[36,52]], [[36,52],[30,66]],       // the Spire road, southeast
+  [[0,-17],[6,-40]], [[6,-40],[6,-70]],       // north road to the Wilderness Ditch gate
+  [[6,-70],[20,-92]],                          // into the Scarlands
+  [[0,0],[-70,-20]], [[-70,-20],[-143,-30]],  // west to the mill + Emberwood
+  [[-143,-30],[-108,-48]], [[-108,-48],[-106,-70]], [[-106,-70],[-150,-95]],  // Whitmoor road, over the Ditch
+  [[0,0],[60,-10]], [[60,-10],[118,-14]],     // to Stonereach Quarry
+  [[0,0],[-2,45]], [[-2,45],[-4,80]],         // south to Mirrorpond
+  [[0,0],[-70,30]], [[-70,30],[-155,52]],     // to Gloomfen
+  [[118,-14],[150,-40]], [[150,-40],[154,-70]], [[154,-70],[176,-92]],  // NE over the Ditch to Brynholt
+  [[118,-14],[160,15]], [[160,15],[186,38]],  // to the Ashar Dunes
+  [[186,38],[232,32]],                        // dunes to Saltreach Port
+  [[36,52],[80,76]],                          // to the Proving Grounds
 ];
 function distToSeg(px,pz, ax,az, bx,bz){
   const dx=bx-ax, dz=bz-az, L2=dx*dx+dz*dz;

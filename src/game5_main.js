@@ -355,7 +355,7 @@ function update(dt){
         Player.action=null;
         const dest = a.obj.userData.target==='undercrag'
           ? [ZONES.undercrag.pos[0], ZONES.undercrag.pos[1]+13]
-          : [54.5,-71.2];
+          : [-158.5,-114.2];   // back up into the Whitmoor keep yard (map-anchored)
         player.position.set(dest[0], gy(dest[0],dest[1]), dest[1]);
         Player.moveTo=null; Player.target=null;
         Sfx.click();
@@ -696,7 +696,7 @@ const BOOT_STEPS = [
   [10, 'Connecting to update server', ()=>{ initEngine(); }],
   [25, 'Loading textures',            ()=>{ for(const id in ITEMS) iconFor(id); }],
   [45, 'Generating world map',        ()=>{ buildTextures(); buildSea(); buildGround(); }],
-  [65, 'Populating Veyhollow',        ()=>{ populateMainland(); if(typeof buildVeyhollowKeep==='function') buildVeyhollowKeep(); }],
+  [65, 'Populating Veyhollow',        ()=>{ populateMainland(); }],
   [80, 'Preparing Tutor\'s Holm',     ()=>{ populateBrynholt(); populateDunes(); populateScarlands(); populateArena(); populateHolm(); if(typeof buildMenagerie==='function') buildMenagerie(); Bots.spawn(); }],
   [95, 'Waking the adventurer',       ()=>{
       player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, gender:CharCfg.gender, hair:CharCfg.hair,

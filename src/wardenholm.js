@@ -13,7 +13,7 @@
  * Quest: 'undercroft_oath' (game1_data). Zone: 'wardenholm'. Road: PATHS.
  */
 (function(){
-  const C={x:56, z:4};                    // keep centre
+  const C={x:77, z:0};                    // keep centre (map-anchored: east of the Commons)
   const UND={x:330, z:330};               // undercroft, far off the charted map (OSRS +6400 trick)
   let built=false;
 

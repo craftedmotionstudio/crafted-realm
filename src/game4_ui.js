@@ -519,33 +519,31 @@ UI.logout      = function(){
 };
 
 /* ---------- minimap ---------- */
-const WMAP = {x0:-95, z0:-95, x1:95, z1:95};   // the charted world
+const WMAP = {x0:-206, z0:-142, x1:274, z1:178};   // the charted world = the baked map
 function drawWorldMap(){
   const c=document.getElementById('worldmap'); if(!c) return;
   const ctx=c.getContext('2d');
   const S=c.width, sx=S/(WMAP.x1-WMAP.x0), sz=S/(WMAP.z1-WMAP.z0);
   const mx=(x,z)=>({x:(x-WMAP.x0)*sx, y:(z-WMAP.z0)*sz});
-  // terrain, sampled honestly from the heightfield
+  // terrain, sampled honestly from the biome grid + heightfield
+  const BCOL={water:'#2c4a66', grass:'#4d6b35', autumn:'#a06a28', swamp:'#453655',
+    desert:'#c2a862', snow:'#dbe0de', scar:'#54453a', rock:'#8a8276'};
   const step=2.2;
   for(let wx=WMAP.x0; wx<WMAP.x1; wx+=step){
     for(let wz=WMAP.z0; wz<WMAP.z1; wz+=step){
-      const y=gy(wx+step/2, wz+step/2);
+      const cxw=wx+step/2, czw=wz+step/2;
+      const y=(typeof groundY==='function')?groundY(cxw,czw):0;
+      const b=(typeof gridBiome==='function')?gridBiome(cxw,czw):'grass';
       let col;
-      if(y===null || y<-1.15) col='#2c4a66';
-      else if(y<-0.75) col='#7a9a6a';
-      else if(y>2.2) col='#8a8276';
-      else col='#4d6b35';
+      if(y===null) col='#2c4a66';
+      else if(typeof DITCH!=='undefined' && y<-1.15 && Math.abs(czw-DITCH.z)<DITCH.half+2) col='#2e261e';  // the Ditch
+      else if(y<-1.15) col='#2c4a66';
+      else if(y<-0.75) col='#c9b98a';                     // shoreline sand
+      else col=BCOL[b]||'#4d6b35';
       ctx.fillStyle=col;
       const p=mx(wx,wz);
       ctx.fillRect(p.x, p.y, step*sx+1, step*sz+1);
     }
-  }
-  // zone tints
-  const tint={gloomfen:'rgba(60,48,84,.4)', quarry:'rgba(150,140,115,.45)', scarlands:'rgba(140,60,40,.3)'};
-  for(const k in ZONES){ if(!tint[k]) continue;
-    const p=mx(ZONES[k].pos[0],ZONES[k].pos[1]);
-    ctx.fillStyle=tint[k];
-    ctx.beginPath(); ctx.arc(p.x,p.y, 22*sx, 0, 7); ctx.fill();
   }
   // roads
   ctx.strokeStyle='#c4b696'; ctx.lineWidth=2.4; ctx.lineJoin='round';
@@ -563,7 +561,7 @@ function drawWorldMap(){
   }
   // Whitmoor's walls
   ctx.strokeStyle='#d8d2c4'; ctx.lineWidth=2.2;
-  const wA=mx(38,-76), wB=mx(62,-48);
+  const wA=mx(-175,-119), wB=mx(-151,-91);
   ctx.strokeRect(wA.x, wA.y, wB.x-wA.x, wB.y-wA.y);
   // place names, the cartographer's hand
   ctx.font='bold 12px Verdana'; ctx.textAlign='center';
@@ -571,7 +569,6 @@ function drawWorldMap(){
     ctx.fillStyle='#1a1208'; ctx.fillText(t,p.x+1,p.y+1);
     ctx.fillStyle='#ffe9b0'; ctx.fillText(t,p.x,p.y); };
   label(0,-22,'Veyhollow');
-  label(50,-79,'Whitmoor Hold');
   for(const k in ZONES){ const zn=ZONES[k];
     if(zn.name && k!=='town') label(zn.pos[0], zn.pos[1]-3, zn.name); }
   // you are here: a white arrow that knows your facing
@@ -597,8 +594,16 @@ function drawMinimap(){
   const mx=(x,z)=>({x:(x-px)*scale, y:(z-pz)*scale});
   const land=(cx,cz,half,col)=>{ const p=mx(cx,cz);
     ctx.fillStyle=col; ctx.fillRect(p.x-half*scale,p.y-half*scale,half*2*scale,half*2*scale); };
-  land(0,0,108,'#4d6b35');
-  land(150,150,30,'#5d7a40');
+  // the charted landmass = the whole baked map rect
+  (function(){ const g=(typeof WORLDGRID!=='undefined')?WORLDGRID:{x0:-206,z0:-142,w:480,h:320};
+    const p=mx(g.x0+g.w/2, g.z0+g.h/2);
+    ctx.fillStyle='#4d6b35';
+    ctx.fillRect(p.x-g.w/2*scale, p.y-g.h/2*scale, g.w*scale, g.h*scale); })();
+  // the Wilderness Ditch, a dark cut across the north
+  if(typeof DITCH!=='undefined'){
+    const p=mx(34, DITCH.z);
+    ctx.fillStyle='#3a3028'; ctx.fillRect(p.x-240*scale, p.y-DITCH.half*scale, 480*scale, DITCH.half*2*scale);
+  }
   for(const k in ZONES){ const p=mx(ZONES[k].pos[0],ZONES[k].pos[1]);
     ctx.fillStyle = k==='gloomfen'?'rgba(60,48,84,.55)': k==='quarry'?'rgba(150,140,115,.5)':
       k==='pond'?'rgba(90,160,190,.5)':'rgba(120,170,85,.35)';
@@ -1851,8 +1856,8 @@ function populateMainland(){
   makeGroundPatch(12.5,14.2, 3.0, 0x4e4640);            // the smithy yard, black with cinders
   makeGroundPatch(29,-6, 4.6, 0x6a5638);                // the cow pen, honest mud
   makeGroundPatch(0,-1, 4.4, 0x9a9288);                 // the Hollow Well's stone apron (the Square's heart)
-  makeGroundPatch(50,-56, 5.4, 0xc8c2b6);               // Whitmoor's white plaza
-  makeGroundPatch(50,-62, 3.4, 0xc8c2b6);
+  makeGroundPatch(-163,-99, 5.4, 0xc8c2b6);             // Whitmoor's white plaza
+  makeGroundPatch(-163,-105, 3.4, 0xc8c2b6);
   makeFurrows(-48.4,-28.6, -43.6,-24.6);                // the ploughed wheat rows
   // the churchyard, behind the chapel where the Dawn keeps watch
   makeFence(-7,29.5, -7,32.5); makeFence(-7,32.5, 1,32.5); makeFence(1,29.5, 1,32.5);
@@ -1868,8 +1873,8 @@ function populateMainland(){
     {text:'Whitmoor Hold', ang:-1.2}, {text:'The Spire', ang:2.2}, {text:'Emberwood', ang:0.9}]);
   makeSignpost(-12,-13, [
     {text:'Olun\u2019s Mill', ang:1.3}, {text:'Gloomfen', ang:2.4}, {text:'Veyhollow', ang:-0.6}]);
-  makeSignpost(46,-44, [
-    {text:'Whitmoor Hold', ang:0.1}, {text:'Veyhollow', ang:2.8}]);
+  makeSignpost(-108,-76, [
+    {text:'Whitmoor Hold', ang:-2.2}, {text:'Veyhollow', ang:1.0}]);
   // Olun's mill becomes a true windmill, wheat rows fenced beside it
   makeWindmill(-44.5,-34);
   makeFence(-49,-29, -49,-24); makeFence(-49,-24, -43,-24); makeFence(-43,-29, -43,-24);
@@ -1932,63 +1937,65 @@ function populateMainland(){
   spawnNpc('wizard', 36, 73);
 
   /* ============ WHITMOOR HOLD — the white city on the moor ============ */
+  /* Map-anchored to the NW snow corner (bible map), gate facing SOUTH-EAST toward the
+   * Whitmoor road's Ditch crossing. Anchor: (-163,-105). */
   // curtain walls with a south gate; two banner towers flank it
-  makeStoneWallRun(38,-48, 47,-48);  makeStoneWallRun(53,-48, 62,-48);    // south wall, gate at 47..53
-  makeStoneWallRun(38,-76, 62,-76);                                        // north wall
-  makeStoneWallRun(38,-48, 38,-76);  makeStoneWallRun(62,-48, 62,-76);    // east & west walls
-  makeGateTower(46.4,-48); makeGateTower(53.6,-48);
+  makeStoneWallRun(-175,-91, -166,-91);  makeStoneWallRun(-160,-91, -151,-91);    // south wall, gate at -166..-160
+  makeStoneWallRun(-175,-119, -151,-119);                                          // north wall
+  makeStoneWallRun(-175,-91, -175,-119);  makeStoneWallRun(-151,-91, -151,-119);  // east & west walls
+  makeGateTower(-166.6,-91); makeGateTower(-159.4,-91);
   // the raised portcullis between the towers, and torchlight on the stone
   (function(){
-    const py=gy(50,-48);
+    const py=gy(-163,-91);
     for(let i=0;i<5;i++){
       const bar=new THREE.Mesh(new THREE.BoxGeometry(0.09,1.3,0.09), mat(0x3a3632));
-      bar.position.set(47.6+i*1.2, py+3.9, -48); scene.add(bar);
+      bar.position.set(-165.4+i*1.2, py+3.9, -91); scene.add(bar);
       const tip=new THREE.Mesh(new THREE.ConeGeometry(0.08,0.22,4), mat(0x3a3632));
-      tip.rotation.x=Math.PI; tip.position.set(47.6+i*1.2, py+3.18, -48); scene.add(tip);
+      tip.rotation.x=Math.PI; tip.position.set(-165.4+i*1.2, py+3.18, -91); scene.add(tip);
     }
     const cross=new THREE.Mesh(new THREE.BoxGeometry(5.4,0.12,0.12), mat(0x3a3632));
-    cross.position.set(50, py+4.4, -48); scene.add(cross);
-    for(const tx of [47.8,52.2]){
+    cross.position.set(-163, py+4.4, -91); scene.add(cross);
+    for(const tx of [-165.2,-160.8]){
       const sconce=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.4,0.12), mat(0x4a3a28));
-      sconce.position.set(tx, py+2.3, -47.4); scene.add(sconce);
+      sconce.position.set(tx, py+2.3, -90.4); scene.add(sconce);
       const flame=new THREE.Mesh(new THREE.ConeGeometry(0.12,0.34,5),
         new THREE.MeshBasicMaterial({color:0xffb24a}));
-      flame.position.set(tx, py+2.7, -47.4); scene.add(flame);
-      const gl=new THREE.PointLight(0xff9a3a, 0.5, 8); gl.position.set(tx, py+2.8, -47.2); scene.add(gl);
+      flame.position.set(tx, py+2.7, -90.4); scene.add(flame);
+      const gl=new THREE.PointLight(0xff9a3a, 0.5, 8); gl.position.set(tx, py+2.8, -90.2); scene.add(gl);
     }
   })();
   // the gate plaza: statue of the First Warden, paved approach
-  makeStatue(50,-56);
+  makeStatue(-163,-99);
   // the Keep of Whitmoor, flanked by towers
-  makeBuilding(50,-71, 8,5.5,4.6, 0xe6e2d8, 0x5a6474,'S',{doorOpen:true});
-  makeGateTower(45,-71.5); makeGateTower(55,-71.5);
-  makeInterior('keep', 50,-71, 8,5.5,'S');
+  makeBuilding(-163,-114, 8,5.5,4.6, 0xe6e2d8, 0x5a6474,'S',{doorOpen:true});
+  makeGateTower(-168,-114.5); makeGateTower(-158,-114.5);
+  makeInterior('keep', -163,-114, 8,5.5,'S');
   // the bank of Whitmoor
-  makeBuilding(42.5,-60, 5.5,4.5,3.4, 0xe6e2d8, 0x5a6474,'E',{sign:0xc9a85a, doorOpen:true, roof:'gable'});
-  makeBankBooth(40.8,-60, 0.5);
-  makeInterior('bank', 42.5,-60, 5.5,4.5,'E');
+  makeBuilding(-170.5,-103, 5.5,4.5,3.4, 0xe6e2d8, 0x5a6474,'E',{sign:0xc9a85a, doorOpen:true, roof:'gable'});
+  makeBankBooth(-172.2,-103, 0.5);
+  makeInterior('bank', -170.5,-103, 5.5,4.5,'E');
   // Marble Arms — the iron-smith of the Hold
-  makeBuilding(57.5,-60, 5,4.5,3.2, 0xe6e2d8, 0x5a6474,'W',{sign:0x9a948c, chimney:true, doorOpen:true, roof:'gable'});
-  makeInterior('smithy', 57.5,-60, 5,4.5,'W');
+  makeBuilding(-155.5,-103, 5,4.5,3.2, 0xe6e2d8, 0x5a6474,'W',{sign:0x9a948c, chimney:true, doorOpen:true, roof:'gable'});
+  makeInterior('smithy', -155.5,-103, 5,4.5,'W');
   // The Gilded Boar inn
-  makeBuilding(42.5,-68.5, 5,4.5,3.2, 0xe2dccc, 0x6e4a2e,'E',{sign:0x6e4a2e, chimney:true, doorOpen:true, roof:'gable'});
-  makeInterior('pub', 42.5,-68.5, 5,4.5,'E');
+  makeBuilding(-170.5,-111.5, 5,4.5,3.2, 0xe2dccc, 0x6e4a2e,'E',{sign:0x6e4a2e, chimney:true, doorOpen:true, roof:'gable'});
+  makeInterior('pub', -170.5,-111.5, 5,4.5,'E');
   // homes of the Hold
-  makeBuilding(57.5,-68.5, 4,3.6,2.8, 0xe6e2d8, 0x5a6474,'W',{chimney:true, roof:'gable'});
-  makeBuilding(57.5,-52.5, 4,3.6,2.8, 0xe6e2d8, 0x5a6474,'W',{chimney:true, roof:'gable'});
+  makeBuilding(-155.5,-111.5, 4,3.6,2.8, 0xe6e2d8, 0x5a6474,'W',{chimney:true, roof:'gable'});
+  makeBuilding(-155.5,-95.5, 4,3.6,2.8, 0xe6e2d8, 0x5a6474,'W',{chimney:true, roof:'gable'});
   // lamp-lit lane flavor: braziers along the plaza
-  for(const [bx,bz] of [[46,-58],[54,-58],[46,-66],[54,-66]]) makeCampfire(bx,bz);
+  for(const [bx,bz] of [[-167,-101],[-159,-101],[-167,-109],[-159,-109]]) makeCampfire(bx,bz);
   // the people of Whitmoor
-  spawnFriendly('whitbanker','Banker Maren', 40.3,-60, 0x39536b,'🧑‍💼');
-  spawnFriendly('marblesmith','Smith Harrad', 57.5,-60.8, 0x5a4a3e,'🛠');
-  makeFurnace(54.6,-57.2);
-  spawnFriendly('innkeep','Innkeep Bora', 41.8,-69.2, 0x6e4a2e,'🍲');
-  spawnFriendly('captain','Captain Veyle', 50,-69.6, 0xd8dce2,'⚔');
-  spawnNpc('hold_knight', 47,-54); spawnNpc('hold_knight', 53,-54);
-  spawnNpc('hold_knight', 44,-64); spawnNpc('hold_knight', 56,-64);
-  spawnNpc('wanderer', 49,-60); spawnNpc('wanderer', 52,-66);
+  spawnFriendly('whitbanker','Banker Maren', -172.7,-103, 0x39536b,'🧑‍💼');
+  spawnFriendly('marblesmith','Smith Harrad', -155.5,-103.8, 0x5a4a3e,'🛠');
+  makeFurnace(-158.4,-100.2);
+  spawnFriendly('innkeep','Innkeep Bora', -171.2,-112.2, 0x6e4a2e,'🍲');
+  spawnFriendly('captain','Captain Veyle', -163,-112.6, 0xd8dce2,'⚔');
+  spawnNpc('hold_knight', -166,-97); spawnNpc('hold_knight', -160,-97);
+  spawnNpc('hold_knight', -169,-107); spawnNpc('hold_knight', -157,-107);
+  spawnNpc('wanderer', -164,-103); spawnNpc('wanderer', -161,-109);
   // the way down: a cave mouth in the keep yard
-  makeCaveMouth(54.5,-73.5, 'undercrag', 'Climb down into <b>the Undercrag</b>');
+  makeCaveMouth(-158.5,-116.5, 'undercrag', 'Climb down into <b>the Undercrag</b>');
 
   /* ============ THE UNDERCRAG — the dark beneath the Hold ============ */
   (function(){
@@ -2082,10 +2089,10 @@ function populateMainland(){
   makeRock(UC[0]-12, UC[1]+8, 'iron'); makeRock(UC[0]+11, UC[1]-7, 'coal');
   makeRock(UC[0]-4, UC[1]+12, 'coal'); makeRock(UC[0]+8, UC[1]+10, 'iron');
 
-  // Mirrorpond: spots float on the water, reeds at the shore
+  // Mirrorpond: spots float on the water (the lake is grid-driven, sea plane at -1.6)
   const pd=ZONES.pond.pos;
   for(let i=0;i<5;i++){ const a=Math.random()*6.28, r=2+Math.random()*5;
-    makeFishSpot(pd[0]+Math.cos(a)*r, pd[1]+Math.sin(a)*r, -0.48); }
+    makeFishSpot(pd[0]+Math.cos(a)*r, pd[1]+Math.sin(a)*r, -1.5); }
   for(let i=0;i<9;i++){ const a=Math.random()*6.28;
     makeReed(pd[0]+Math.cos(a)*10.2, pd[1]+Math.sin(a)*10.2); }
   makeCampfire(pd[0]+12, pd[1]+11);
@@ -2130,18 +2137,24 @@ function populateDunes(){
   for(let i=0;i<2;i++) spawnNpc('hex_adept', d[0]+8+Math.random()*10, d[1]+8+Math.random()*8);
 }
 function populateScarlands(){
-  // gate warning at the edge
-  makeSignpost(0, SCAR_EDGE-2);
-  makeTorch(-3, SCAR_EDGE-2); makeTorch(3, SCAR_EDGE-2);
-  for(let i=0;i<10;i++){
-    const x=-40+Math.random()*80, z=SCAR_EDGE+5+Math.random()*55;
+  /* The Scarlands live NORTH past the Wilderness Ditch (bible map). The main gate
+   * causeway crosses at x=6; deeper north = deadlier (scarThreat). */
+  makeSignpost(6, DITCH.z+6, [
+    {text:'The Scarlands — DANGER', ang:Math.PI}, {text:'Veyhollow', ang:0}]);
+  makeTorch(3, DITCH.z+4.5); makeTorch(9, DITCH.z+4.5);       // lit south approach
+  makeTorch(3, DITCH.z-4.5); makeTorch(9, DITCH.z-4.5);       // and the far, wilder side
+  // burned wastes: dead trees, ash piles, slag cliffs — thicker the deeper in
+  for(let i=0;i<18;i++){
+    const x=-80+Math.random()*200, z=DITCH.z-8-Math.random()*66;
+    if(x>140) continue;                                       // keep clear of Brynholt's corner
     Math.random()<0.6 ? makeTree(x,z,'dead') : makeAshPile(x,z);
   }
-  for(let i=0;i<5;i++) makeCliff(-35+Math.random()*70, SCAR_EDGE+10+Math.random()*50, 1+Math.random());
-  // mid-threat: gravewights; deep threat: ash stalkers
-  for(let i=0;i<4;i++) spawnNpc('gravewight', -25+Math.random()*50, SCAR_EDGE+8+Math.random()*20);
-  for(let i=0;i<3;i++) spawnNpc('ash_stalker', -25+Math.random()*50, SCAR_EDGE+34+Math.random()*22);
-  for(let i=0;i<2;i++) spawnNpc('hex_adept', -20+Math.random()*40, SCAR_EDGE+20+Math.random()*15);
+  for(let i=0;i<8;i++){ const x=-70+Math.random()*180, z=DITCH.z-14-Math.random()*58;
+    if(x>140) continue; makeCliff(x,z, 1+Math.random()); }
+  // mid-threat gravewights near the Ditch; ash stalkers prowl the deep band
+  for(let i=0;i<4;i++) spawnNpc('gravewight', -20+Math.random()*70, DITCH.z-10-Math.random()*18);
+  for(let i=0;i<3;i++) spawnNpc('ash_stalker', -20+Math.random()*70, DITCH.z-40-Math.random()*24);
+  for(let i=0;i<2;i++) spawnNpc('hex_adept', -10+Math.random()*50, DITCH.z-24-Math.random()*14);
   // NOTE: the Ash Wyrm boss's eventual home is the Scarlands deep-end (re-add here once the map is
   // fleshed out). It's temporarily parked on Tutor's Holm (populateHolm) as a dev showpiece.
 }
@@ -2191,8 +2204,8 @@ function populateHolm(){
   spawnFriendly('bram','Guide Bram', h[0]-4, h[1]+6, 0x4a5a7a,'🧓');
   makeRowboat(h[0]-8, h[1]+10, 0.7);
   for(let i=0;i<4;i++) makeTree(h[0]+6+Math.random()*8, h[1]-2+Math.random()*10);
-  // fishing spots sit ON the pond water
-  const wy = gy(HOLM_POND.x, HOLM_POND.z) + 0.66;
+  // fishing spots sit ON the pond water (surface drawn at -1.52)
+  const wy = -1.44;
   makeFishSpot(HOLM_POND.x-1.6, HOLM_POND.z-0.8, wy);
   makeFishSpot(HOLM_POND.x+1.8, HOLM_POND.z+1.2, wy);
   for(let i=0;i<6;i++){ const a=Math.random()*6.28;
