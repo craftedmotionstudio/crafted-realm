@@ -349,7 +349,7 @@ Every genre capability, our status **as verified in `src/` today**. Legend: ✅ 
 | Right-click "choose option" menu | ✅ | present — make priority-sorted |
 | Zones (12), factions (5), hybrid tier ladder | ✅ | `ZONES` / `STORY_BIBLE.md` |
 | Hover text "Action › Target (level)" | ✅ | top-left hover text live ("Attack Wanderer (level 2) / 4 more options") |
-| Per-tile collision bitmask (directional walls + projectile flags) | 🟡 | `src/collision_grid.js` — BLOCK grid live in BFS; wall/projectile bake pending |
+| Per-tile collision bitmask (directional walls + projectile flags) | ✅ | `src/collision_grid.js` — BLOCK+wall+projectile flags baked; `hasLoS()` gates ranged/magic combat |
 | Weak/normal/strong action-queue priorities | ✅ | `src/scheduler.js` + `modalOpened` event (rsbox audit) |
 | Tick overrun telemetry + drift-corrected idle | ✅ | `src/tick_health.js` + overlay toggle (rsbox `Engine` pattern) |
 | Central interaction dispatcher + content hooks | 🔷 | architecture adoption (RuneJS pattern) |
@@ -426,10 +426,10 @@ every genuinely-shipped system. Tagged by milestone.
 - [x] Action scheduler on the world tick (`src/scheduler.js` — after/every/walkThen, cancellable)
 - [x] Pluggable persistence boundary (`src/persist.js`; SaveGame routes through it)
 - [x] Deterministic 600ms sim tick + hidden-tab heartbeat — [ ] tick-based movement interpolation (couples to the V2 Web-Worker sim; movement is already smooth + tile-locked)
-- [x] Per-tile collision flag grid (`src/collision_grid.js` — 480×320 Uint8Array, O(1) BFS steps on plane 0, door rebake, kill-switch, baked at boot) — [ ] bake wall-direction + projectile flags from prop footprints *(flag bits + canStep edge logic ready; foundation for LoS)*
+- [x] Per-tile collision flag grid (`src/collision_grid.js` — 480×320 Uint8Array, O(1) BFS steps, door rebake, kill-switch) + wall-direction/projectile flags baked from collider geometry + `hasLoS()` line-of-sight gating ranged/magic combat for player AND NPCs (can't shoot through walls; walks around instead) — rsbox/rsmod pattern, combat math untouched
 - [x] Weak/normal/strong action-queue priorities (`src/scheduler.js` — strong flushes weak, `modalOpened` event flushes weak, legacy callers default normal)
 - [x] Tick overrun telemetry (`src/tick_health.js` — per-tick cost vs 600ms budget, throttled overrun warnings, backlog-drop counter, toggleable overlay; accumulator already carries drift)
-- [ ] Split the big three files into content modules *(ongoing — combat_math extracted; all new systems ship as own files)*
+- [ ] Split the big three files into content modules *(ongoing — extracted so far: combat_math, `world_gear.js` (game2 3124→2885), `ui_map.js` (game4 2308→2182); all new systems ship as own files)*
 - [ ] World sim in a Web Worker *(V2)*
 - [ ] WebSocket transport + cache-over-fetch *(V2)*
 
