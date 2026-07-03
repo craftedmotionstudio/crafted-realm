@@ -221,6 +221,23 @@ function terrainHeight(x,z){
     if(d<18){ const k2=d/18; h = h*k2 + 0.25*(1-k2); } }
   // water cells always flood (small ponds/moats included): below the sea plane
   if(b==='water') h=Math.min(h,-1.9);
+  // the Commons moat (bible map): the river channel hugs the town's east and south,
+  // NE round to WSW. Fords stay dry ONLY at the map's true crossings (gate roads:
+  // E to Wardenholm, SE, S to Stonereach, SW to the mill) — a road merely running
+  // NEAR the channel doesn't drain it, so the water reads continuous from the air.
+  const mdist=Math.hypot(x,z);
+  if(mdist>28.5 && mdist<35.5){
+    const ma=Math.atan2(z,x);                 // 0 = east, +PI/2 = south
+    if(ma>-0.55 && ma<2.95){
+      const CROSS=[0.04, 0.95, 1.55, 2.45, 2.75];
+      const atCrossing=CROSS.some(a0=>Math.abs(ma-a0)<0.20)
+        && (typeof pathDist!=='function' || pathDist(x,z)<3.0);
+      if(!atCrossing){
+        const rim=Math.min(mdist-28.5, 35.5-mdist, 1.6)/1.6;   // soft banks
+        h=Math.min(h, 0.1 - rim*2.8);         // mid-channel ≈ -2.7: true water
+      }
+    }
+  }
   // Stonereach Bridge (bible map POI): the south road crosses the Mirrorpond arm on a
   // raised berm — the plank deck (src/stonereach_bridge.js) dresses it as the bridge
   h = Math.max(h, causewayLift(x,z, -2.8,58.5, -3.9,70.5, 2.6, -0.30));

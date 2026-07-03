@@ -29,7 +29,7 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 | # | Location | Kept detail iterations | Status |
 |---|---|---|---|
-| 1 | Veyhollow Commons | 5 / 5 ✅ | r1-r5 KEPT (passes 012-017); capstone vs map 8/10; square 9/10 vs Town_Square.jpg; known debts: moat, sparse interiors |
+| 1 | Veyhollow Commons | 5 / 5 ✅ | passes 012-019 all KEPT; capstone vs map **10/10** (moat landed); square 9/10 vs Town_Square.jpg; minor debt: small-cottage interiors |
 | 2 | Wardenholm Keep | 0 / 5 | — |
 | 3 | Stonereach Bridge | 0 / 5 | — |
 | 4 | Mirrorpond | 0 / 5 | — |
@@ -65,6 +65,25 @@ each building on the last, until it *obviously matches* the bible map. World sta
 ---
 
 <!-- Newest entries below this line, newest first -->
+
+### Pass 019 — Veyhollow Commons — the moat — 2026-07-03 — KEPT
+- **Target:** the last map gap on the Commons capstone — the river channel ringing the
+  town's east and south on the bible map.
+- **Changed:** `game2_world.js` terrainHeight — radial carve, band r 28.5–35.5 around the
+  Commons, arc NE→WSW (`atan2` −0.55..2.95), mid-channel −2.7 with soft cosine banks.
+  Fords stay dry ONLY where a gate road actually crosses (angle gate {0.04, 0.95, 1.55,
+  2.45, 2.75} ± 0.20 AND pathDist<3) — the first cut exempted ANY nearby road, and the
+  S/SW road fan shredded the channel into puddle dashes. The channel merges with
+  Wardenholm's water on the east, exactly as the map draws the shared river.
+- **Verified:** east/south/SW crossings all path (computePath reached); console clean;
+  terrain-only change (no validator run needed).
+- **Before → after:** `pass016_capstone_KEEP.png` → `pass019_moat_KEEP_topdown.png`.
+- **Gemini:** **125 vs 100**; capstone vs the map: **8/10 → 10/10** — "faithfully
+  reproduc[es] the wall ring, gates, fountain, market, and surrounding moat channel."
+- **Verdict:** KEPT — Veyhollow Commons is DONE to the map.
+- **Next:** location #2 on the tracker: **Wardenholm Keep** (rung 1/5 silhouette vs the
+  map's castle: towers, keep mass, moat, bridge). Minor Commons debt parked: the small
+  south cottages' interiors.
 
 ### Pass 018 — Veyhollow Commons — follow-up: interiors that read furnished — 2026-07-03 — KEPT
 - **Target:** the user-flagged debt — with roofs off, rooms read as bare brown boxes.
