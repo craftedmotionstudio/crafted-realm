@@ -238,6 +238,15 @@ function terrainHeight(x,z){
       }
     }
   }
+  // Wardenholm's moat: the island castle sits fully ringed in water (bible map).
+  // Rect ring just outside the island edge; the west bridge crosses on a dry causeway.
+  const wrx=Math.abs(x-77), wrz=Math.abs(z);
+  const d2r=Math.max(wrx-17.6, wrz-17.6);
+  if(d2r>0.2 && d2r<5.4){
+    const rim=Math.min(d2r-0.2, 5.4-d2r, 1.4)/1.4;
+    h=Math.min(h, 0.35 - rim*2.7);
+  }
+  h=Math.max(h, causewayLift(x,z, 54,0, 60.5,0, 2.0, 0.32));   // beneath the bridge deck
   // Stonereach Bridge (bible map POI): the south road crosses the Mirrorpond arm on a
   // raised berm — the plank deck (src/stonereach_bridge.js) dresses it as the bridge
   h = Math.max(h, causewayLift(x,z, -2.8,58.5, -3.9,70.5, 2.6, -0.30));

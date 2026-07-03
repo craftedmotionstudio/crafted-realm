@@ -31,23 +31,8 @@
     /* ================= 1. THE MOAT (read-only, 3 tiles, bridged west) ================= */
     const IH=18;                          // island half-size (walls sit inside)
     const MO=IH+4;                        // moat outer edge
-    const wy=g0-0.55;
-    // water ring: 4 rectangles
-    const wmat=(()=>{ const t=TEX.water.clone(); t.needsUpdate=true; t.wrapS=t.wrapT=THREE.RepeatWrapping;
-      t.repeat.set(8,2); WORLD.waterTextures.push(t);
-      return new THREE.MeshLambertMaterial({map:t}); })();
-    const ring=(w,d,x,z2)=>{ const p=new THREE.Mesh(new THREE.PlaneGeometry(w,d), wmat);
-      p.rotation.x=-Math.PI/2; p.position.set(x,wy,z2); G.add(p); };
-    ring(MO*2, 4, C.x, C.z-IH-2); ring(MO*2, 4, C.x, C.z+IH+2);
-    ring(4, IH*2, C.x-IH-2, C.z); ring(4, IH*2, C.x+IH+2, C.z);
-    // banks: sloped dark rims inside and out
-    const bank=M(0x5a5244);
-    for(const s of [[C.x, C.z-IH-4, MO*2+1, 1],[C.x, C.z+IH+4, MO*2+1, 1],
-                    [C.x-IH-4, C.z, 1, MO*2+1],[C.x+IH+4, C.z, 1, MO*2+1],
-                    [C.x, C.z-IH, IH*2+1, 1],[C.x, C.z+IH, IH*2+1, 1],
-                    [C.x-IH, C.z, 1, IH*2+1],[C.x+IH, C.z, 1, IH*2+1]]){
-      const b=box(s[2], 0.8, s[3], bank, s[0], g0-0.28, s[1]); b.rotation.z=0;
-    }
+    // the water itself is TERRAIN now — game2_world carves a true ring around the
+    // island (pass 020); the old floating plane ring + bank boxes are gone.
     // moat colliders: block both rims, leaving the bridge gap (west, z 2.2..5.8)
     const gapLo=C.z-1.8, gapHi=C.z+1.8;
     function moatColl(half){
@@ -204,8 +189,8 @@
     const T={x:K.x+K.w/2-2.5, z:K.z-K.d/2+2.5};
     const tw=new THREE.Mesh(new THREE.CylinderGeometry(2.6,2.9,KH*2+2.6,8), stoneT(0xb4aa9c));
     tw.position.set(T.x, g0+(KH*2+2.6)/2, T.z); tw.castShadow=true; G.add(tw);
-    const twCap=new THREE.Mesh(new THREE.ConeGeometry(3.1,2.0,8), M(0x7a4a6a));
-    twCap.position.set(T.x, g0+KH*2+2.6+0.9, T.z); twCap.castShadow=true; G.add(twCap);
+    const twCap=new THREE.Mesh(new THREE.ConeGeometry(3.1,3.2,8), M(0x4a6f93));   // the map's BLUE spire, taller
+    twCap.position.set(T.x, g0+KH*2+2.6+1.5, T.z); twCap.castShadow=true; G.add(twCap);
     addCircleCollider(T.x, T.z, 2.6);
     // keep roof (flat, crenellated) — registered for roof-lift
     const roofG=new THREE.Group();
@@ -215,6 +200,24 @@
       const c1=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.5,0.3), wallMat);
       c1.position.set(K.x-K.w/2+0.7+i*1.4, g0+KH*2+0.55, K.z-K.d/2-0.15); roofG.add(c1);
       const c2=c1.clone(); c2.position.z=K.z+K.d/2+0.15; roofG.add(c2);
+    }
+    // the GREAT SPIRE (map silhouette: the castle's dominant blue-capped tower) —
+    // rides in roofG so it lifts away with the keep roof when you step inside
+    const gsX=K.x-3.5, gsZ=K.z+2;
+    const drum=new THREE.Mesh(new THREE.CylinderGeometry(2.1,2.4,4.2,8), stoneT(0xb4aa9c));
+    drum.position.set(gsX, g0+KH*2+2.1, gsZ); drum.castShadow=true; roofG.add(drum);
+    const drumTrim=new THREE.Mesh(new THREE.CylinderGeometry(2.5,2.5,0.35,8), stoneT(0x8e867a));
+    drumTrim.position.set(gsX, g0+KH*2+4.15, gsZ); roofG.add(drumTrim);
+    const spire=new THREE.Mesh(new THREE.ConeGeometry(2.8,4.6,8), M(0x4a6f93));
+    spire.position.set(gsX, g0+KH*2+6.6, gsZ); spire.castShadow=true; roofG.add(spire);
+    const finial=new THREE.Mesh(new THREE.IcosahedronGeometry(0.22,0), M(0xd8c26a));
+    finial.position.set(gsX, g0+KH*2+9.0, gsZ); roofG.add(finial);
+    // spire windows (warm, high — read from the town across the moat)
+    for(const a of [Math.PI*0.75, Math.PI*1.5]){
+      const w3=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.8,0.1),
+        new THREE.MeshLambertMaterial({color:0xffe6a0, emissive:0x6a4e16}));
+      w3.position.set(gsX+Math.cos(a)*2.3, g0+KH*2+2.6, gsZ+Math.sin(a)*2.3);
+      w3.rotation.y=-a+Math.PI/2; roofG.add(w3);
     }
     G.add(roofG);
     WORLD.interiors.push({x:K.x, z:K.z, hw:K.w/2+0.3, hd:K.d/2+0.3, roof:roofG, band:s2});

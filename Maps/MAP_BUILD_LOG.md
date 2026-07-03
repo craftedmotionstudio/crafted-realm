@@ -30,7 +30,7 @@ each building on the last, until it *obviously matches* the bible map. World sta
 | # | Location | Kept detail iterations | Status |
 |---|---|---|---|
 | 1 | Veyhollow Commons | 5 / 5 ✅ | passes 012-019 all KEPT; capstone vs map **10/10** (moat landed); square 9/10 vs Town_Square.jpg; minor debt: small-cottage interiors |
-| 2 | Wardenholm Keep | 0 / 5 | — |
+| 2 | Wardenholm Keep | 1 / 5 | r1 silhouette KEPT (pass 020): true moat ring, blue spires; both reviewers ≥8.5 |
 | 3 | Stonereach Bridge | 0 / 5 | — |
 | 4 | Mirrorpond | 0 / 5 | — |
 | 5 | Emberwood | 0 / 5 | — |
@@ -68,6 +68,29 @@ each building on the last, until it *obviously matches* the bible map. World sta
 ---
 
 <!-- Newest entries below this line, newest first -->
+
+### Pass 020 — Wardenholm Keep — rung 1/5: Silhouette — 2026-07-03 — KEPT
+- **Location & rung:** location #2 on the tracker; the map's moated island castle with
+  blue spires. Tracker now **1/5**.
+- **Changed:** (a) `game2_world.js` — the moat is TERRAIN now: rect ring carved around
+  the island (d2r 0.2–5.4 off the 17.6 half-extent, −2.35 mid), dry causeway under the
+  west bridge (`causewayLift`), merging with the map's river on the east. The old
+  wardenholm.js floating water-plane ring + bank boxes (which were BURIED under terrain
+  on N/S/E — why the moat read fragmented) are deleted; moat colliders stay.
+  (b) `wardenholm.js` — Maren's tower cap recolored off-canon pink → the map's BLUE
+  (0x4a6f93) and raised; NEW Great Spire on the keep roof (stone drum + 4.6-tall blue
+  cone + gold finial + warm high windows), riding in roofG so it lifts with the roof.
+- **Verified:** bridge crossing paths (computePath 48,0→62,0 reached); moat probes N/S
+  true water (−2.35), causeway dry (0.32); console clean; no data change.
+- **Before → after:** `pass020_wardenholm_r1_before(_top).png` → `..._after(_top).png`.
+- **Two-reviewer scores:** Claude **8.5/10** vs the map (nits: keep still squat aside
+  from the spires, moat corners pinch, corner towers bare-topped — a deliberate
+  walkable-tops trade); Gemini **135 vs 100** before/after and **9/10** vs the map
+  ("biggest gap: the keep is shorter and squatter than the map's silhouette" — agrees
+  with Claude's nit).
+- **Verdict:** KEPT — the island castle finally reads like the map's.
+- **Next:** Wardenholm rung 2/5 (structure & materials): raise the keep a storey, stone
+  texture variety on the curtain wall, gatehouse presence.
 
 ### Pass 019 — Veyhollow Commons — the moat — 2026-07-03 — KEPT
 - **Target:** the last map gap on the Commons capstone — the river channel ringing the
