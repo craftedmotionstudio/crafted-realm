@@ -27,6 +27,32 @@ Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 006 — the walled Veyhollow Commons — 2026-07-03 — KEPT
+- **Target:** the map's most iconic silhouette — the circular walled town at the world's heart,
+  rebuilt from scratch on the wiped hub (pass 005 cleared the pre-map village).
+- **Changed:** `src/veyhollow_town.js` (NEW, self-booting):
+  - **The wall**: 28 straight stone runs round a radius-26 ring; any segment within 3.6 of a
+    road auto-opens as a GATE (`pathDist`), so every map road walks straight through. Gate
+    towers flank the north + east gates; torches mark the rest. Water cells stay unwalled.
+  - **Map-icon services, all furnished** (Buildkit presets): Bank of Veyhollow + booth,
+    general store, Stonereach Smithy + furnace + cinder yard, Glimmerveil Arcana (rune shop),
+    Chapel of the Dawn + altar, the Hearthhouse kitchen + range — and **the Wayfarer's Rest
+    returns** as the town's 2-storey pub (the pipeline reference build, now map-true).
+  - Hollow Well plaza at the centre, market stalls + crates, gate signposts.
+  - **Zero NPCs** — buildout law holds; folk are placed deliberately in a later pass.
+- **Before → after:** `pass006_commons_before.png` (the cleared hub) → `pass006_commons_after.png`,
+  `pass006_commons_topdown.png`.
+- **Verified:** console clean, boot clean, interiors 11→18 (the 7 furnished town buildings).
+  Two screenshot anomalies investigated and cleared: the dark lattice = the player's own
+  faint tile-grid QoL overlay (only reads from altitude); the thatch hut SE of the wall =
+  the PLAYER's claimed homestead rebuilding from their save (player content — untouched).
+- **Gemini:** **10/10 layout-identity match** — "circular wall, four major road gates, central
+  plaza, and surrounding buildings… an excellent match." Named next improvement: the water
+  arcs + bridges hugging the town (the map's pond arms / Stonereach Bridge).
+- **Next:** Stonereach Bridge + the pond-arm water crossing at the town's south (the map's
+  named bridge POI), then deliberate NPC repopulation of the Commons (first region to get
+  its folk back).
+
 ### Pass 005 — THE GREAT WIPE (NPCs + pre-map buildings) — 2026-07-03 — KEPT
 - **User decision:** nuke ALL world NPC placement (each region's pass will place its folk
   deliberately later) and wipe every building that predates the map rebuild unless it's part
