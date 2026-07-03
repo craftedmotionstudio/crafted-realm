@@ -108,9 +108,15 @@ function bake(){
     if(gz<ditchGz+2 && grid[i]===rockIdx) grid[i]=scarIdx;
     else if(gz>=ditchGz+2 && grid[i]===scarIdx) grid[i]=rockIdx;
   }
+  // snow only exists in the true frost north — bright paint south of the Ditch (POI icons,
+  // highlights, pale rooftops) misreads as snow: reclassify to grass
+  const snowIdx=BIOMES.findIndex(b=>b.k==='snow');
+  const grassIdx=BIOMES.findIndex(b=>b.k==='grass');
+  for(let gz=ditchGz+4;gz<GRID_H;gz++) for(let gx=0;gx<GRID_W;gx++){
+    const i=gz*GRID_W+gx; if(grid[i]===snowIdx) grid[i]=grassIdx;
+  }
   // building clusters read as gray "rock" — towns/arena sit on grass, stilt-fen on swamp,
   // the port on sand. Boxes in grid cells [gx0,gz0,gx1,gz1] eyeballed off the preview.
-  const grassIdx=BIOMES.findIndex(b=>b.k==='grass');
   const swampIdx=BIOMES.findIndex(b=>b.k==='swamp');
   const desertIdx=BIOMES.findIndex(b=>b.k==='desert');
   const FIX=[

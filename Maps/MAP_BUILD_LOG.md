@@ -27,6 +27,27 @@ Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 003 — grid-following snow (the frost is map-shaped) — 2026-07-03 — KEPT
+- **Target:** Gemini's "rectangular inset" artifact — biome_snow's two square blankets.
+- **Changed:**
+  - `tools/bake_worldgrid.html` — snow south of the Ditch reclassifies to grass (POI icons /
+    bright paint misread as snow scattered ~7k stray cells across the heartland); regenerated
+    `src/worldgrid.js`.
+  - `src/biome_snow.js` — the blanket is now ONE vertex-masked mesh per frost region: verts keep
+    snow only where the baked map paints snow (plus a 1-tile melt skirt); region bboxes scanned
+    from the grid at boot; drift mounds and snow-dusted pines now sample ONLY true snow cells.
+- **Before → after:** `pass002_worldmap_topdown.png` → `pass003_worldmap_topdown.png`;
+  `pass003_whitmoor_after.png` (the Hold in organic frost, pines, sea behind).
+- **Verified:** console clean, `validate_content.js` PASS.
+- **Gemini:** "incredibly effective… natural biome boundaries… integrated with the dark northern
+  wilderness." Remaining nitpicks: hard snow edge (soft-dusting = future polish), straight world-rim
+  edges (a world-edge treatment is its own future pass).
+- **Verdict:** KEPT — the NW frost is an organic blob threading the scar mountains exactly as
+  painted; the NE keeps only its true small frost pockets.
+- **Next:** Brynholt village on its NE coast (currently 3 tiny huts + a campfire — needs its
+  raider-village identity: longhouses, bowyer, docks, cottage), or the walled Veyhollow Commons
+  ring if Brynholt's coast needs the sea-edge treatment first.
+
 ### Pass 002 — Gloomfen + the SW coast — 2026-07-03 — KEPT
 - **Target:** Gemini's #1 mismatch from pass 001 — the artificial rectangular slab where the
   map's title box masked the SW corner — plus making Gloomfen read like the map's drowned fen.
