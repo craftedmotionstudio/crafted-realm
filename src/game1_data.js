@@ -441,6 +441,7 @@ const ZONES = {
   scarlands:{name:'The Scarlands',     pos:[20,-100], fog:0x8e7c70},
   arena:    {name:'The Proving Grounds', pos:[84,79], fog:0xc8b896},
   holm:     {name:"Tutor's Holm",      pos:[158,141], fog:0xb8c8cc},
+  saltreach:{name:'Saltreach Port',    pos:[232,48],  fog:0xb6c2c0},
   whitmoor: {name:'Whitmoor Hold',     pos:[-163,-105], fog:0xd8dce2},
   undercrag:{name:'The Undercrag',     pos:[-330,-260], fog:0x16141c},
 };

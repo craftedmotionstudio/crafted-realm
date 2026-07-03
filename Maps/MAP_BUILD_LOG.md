@@ -27,6 +27,24 @@ Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 010 — Saltreach Port — 2026-07-03 — KEPT
+- **Target:** the map's last unbuilt named region: the SE harbour town on the bay inlet.
+- **Changed:** `src/saltreach.js` (NEW): three furnished shore buildings (the Salt Exchange
+  trade house, the Brine Barrel tavern, the harbour warehouse — salt-bleached timber,
+  slate roofs), a long timber pier south into the bay with piles/mooring/crates/torch, a
+  rowboat riding the harbour water, crate clusters + signpost. `game1_data.js`: ZONES.saltreach
+  added (map-true anchor 232,48 — flattens the shore row, names the region, minimap label).
+  First cut had a second pier half on grass and a boat buried in the bank — cut to one good
+  pier (honesty rule: one clean win beats two awkward ones). NO NPCs (buildout law; the
+  port's folk arrive in its repopulation pass).
+- **Before → after:** `pass010_saltreach_before.png` (empty coast) → `pass010_saltreach_after.png`.
+- **Verified:** console clean, `validate_content.js` PASS (new zone included).
+- **Gemini:** **200 vs before's 100** — "transforms the empty coastline into a functional and
+  characterful low-poly port, with nothing appearing broken."
+- **Next:** every named map region now exists in-world. The build shifts to deepening +
+  repopulating: Wardenholm's garrison back first (biggest existing build standing empty),
+  then dunes camp, quarry, Gloomfen's stilt village, holm re-layout with Bram.
+
 ### Pass 009 — Olun's Mill at the map's windmill POI — 2026-07-03 — KEPT
 - **Target:** the bible map's windmill (SW of the Commons, by Mirrorpond's arm) — re-siting the
   wiped legacy mill to its true spot, with its miller deliberately repopulated.
