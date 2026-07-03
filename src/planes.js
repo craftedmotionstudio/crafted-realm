@@ -58,16 +58,25 @@ const Planes = {
      mesh is optional: pass yours (kit ladder/stairs) or get a simple ladder built. */
   addClimb(opts){
     const g = opts.mesh || (()=>{
+      // the OSRS ladder (Bible_References/Ladder.jpg): round golden-wood rails that
+      // run past the top rung, round rungs poking past the rails, rung count
+      // scaling with height so tall climbs never stretch
       const grp=new THREE.Group();
-      const wood=new THREE.MeshLambertMaterial({color:0x7a5a34});
-      for(const s of [-0.28, 0.28]){
-        const rail=new THREE.Mesh(new THREE.BoxGeometry(0.09, opts.h||2.6, 0.09), wood);
-        rail.position.set(s,(opts.h||2.6)/2,0); grp.add(rail);
+      const H=opts.h||2.6;
+      const wood =new THREE.MeshLambertMaterial({color:0x7e6838});   // muted aged gold-brown — indoor
+      const woodD=new THREE.MeshLambertMaterial({color:0x6b582e});   // point lights push Lambert hot, so go dark
+      for(const s of [-0.3, 0.3]){
+        const rail=new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.068,H+0.25,6), wood);
+        rail.position.set(s,(H+0.25)/2,0); grp.add(rail);
       }
-      for(let i=0;i<6;i++){
-        const rung=new THREE.Mesh(new THREE.BoxGeometry(0.62,0.07,0.07), wood);
-        rung.position.set(0,0.3+i*((opts.h||2.6)-0.5)/5,0); grp.add(rung);
+      const n=Math.max(5, Math.round(H/0.34));
+      for(let i=0;i<n;i++){
+        const rung=new THREE.Mesh(new THREE.CylinderGeometry(0.037,0.037,0.7,6), woodD);
+        rung.rotation.z=Math.PI/2;
+        rung.position.set(0, 0.26+i*(H-0.35)/(n-1), 0);
+        grp.add(rung);
       }
+      grp.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
       return grp;
     })();
     const baseY = opts.y!==undefined ? opts.y : (this.elevAt(opts.x, opts.z, opts.basePlane||0) || 0);

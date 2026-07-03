@@ -40,7 +40,7 @@ Bar: both reviewers ≥9.5/10 per modeled item (user, 2026-07-03).
 ## Ladder.jpg
 | Item | Have? | Pipeline | Status |
 |---|---|---|---|
-| Wooden rung ladder (round rails/rungs) | ⚠️ Planes ladders exist but plain | Prop | queued next |
+| Wooden rung ladder (round rails/rungs) | ✅ NEW parametric builder in planes.js (every ladder world-wide upgraded) | Prop | Claude 9.5; Gemini geometry "perfect" then noise-drifted 8→6 w/ pixel-false colour claim; AWAITING USER EYES |
 | Blue patterned rug beneath | ❌ | Prop | queued |
 | Monk NPC | ⏸ depop law | NPC | on hold |
 
