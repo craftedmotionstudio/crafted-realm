@@ -58,7 +58,10 @@ each building on the last, until it *obviously matches* the bible map. World sta
 - **Location & rung:** which labelled map location, which deepening rung (1–5), tracker now X/5.
 - **Changed:** files touched, what was added/adjusted (built on the prior iteration, not from scratch).
 - **Before → after:** `iterations/passNNN_<location>_r<rung>_before.png` → `..._after.png`.
-- **Gemini match/quality:** before X/10 → after Y/10 (`tools/gemini_vision.js`), vs bible map.
+- **Two-reviewer scores (BOTH required — the visual-AI review loop, 2026-06-28):**
+  (1) Claude's own critique vs the reference: specific missing-detail list + N/10;
+  (2) Gemini's independent critique + N/10 (`tools/gemini_vision.js`). Iterate until
+  BOTH land ~8+; when they disagree, the LOWER score sets the next iteration's work.
 - **Verdict:** obvious improvement? kept (→ increment tracker) because… / reverted (no increment) because…
 - **Next:** same location's next rung, or the next location once ≥5 kept + obvious match.
 
@@ -81,9 +84,14 @@ each building on the last, until it *obviously matches* the bible map. World sta
 - **Gemini:** **125 vs 100**; capstone vs the map: **8/10 → 10/10** — "faithfully
   reproduc[es] the wall ring, gates, fountain, market, and surrounding moat channel."
 - **Verdict:** KEPT — Veyhollow Commons is DONE to the map.
+- **Two-reviewer addendum (user check, 2026-07-03):** Claude's own structured critique
+  scores this **8.5/10** vs Gemini's 10/10 — the east arc thins where the map's river
+  runs fattest, banks read terraced, and the channel should flow in from the NE rather
+  than start abruptly. Per the visual-AI review loop, the LOWER score rules: those three
+  items are queued as a Commons touch-up pass alongside the small-cottage interiors.
 - **Next:** location #2 on the tracker: **Wardenholm Keep** (rung 1/5 silhouette vs the
-  map's castle: towers, keep mass, moat, bridge). Minor Commons debt parked: the small
-  south cottages' interiors.
+  map's castle: towers, keep mass, moat, bridge). Parked Commons debts: moat east-arc
+  width/NE inflow, small south cottages' interiors.
 
 ### Pass 018 — Veyhollow Commons — follow-up: interiors that read furnished — 2026-07-03 — KEPT
 - **Target:** the user-flagged debt — with roofs off, rooms read as bare brown boxes.
