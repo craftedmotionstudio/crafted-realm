@@ -112,11 +112,39 @@ const Buildkit = {
     return m;
   },
 
+  /* ---- area-scaled wall clutter: big rooms earn MORE furniture, so a grand hall
+         never reads as a bare brown box with the roofs off (user ask 2026-07-03).
+         Slots hug the walls, skipping every wall's centre — any wall may hold the door. */
+  _clutter(group, w, d, palette, seed){
+    const rnd=i=>Math.abs(Math.sin((seed+i)*127.1+13.7)*43758.5453)%1;
+    const extra=Math.max(0, Math.floor((w*d-15)/2.4));
+    if(!extra) return;
+    const slots=[], inX=w/2-0.8, inZ=d/2-0.8;
+    for(let x=-inX+0.5; x<=inX-0.5; x+=1.2) if(Math.abs(x)>1.5){ slots.push([x,-inZ,0]); slots.push([x,inZ,Math.PI]); }
+    for(let z=-inZ+0.5; z<=inZ-0.5; z+=1.2) if(Math.abs(z)>1.5){ slots.push([-inX,z,Math.PI/2]); slots.push([inX,z,-Math.PI/2]); }
+    // floor-grid slots in the four quadrants — the middle reads lived-in while a
+    // cross of clear lanes stays walkable to whichever wall holds the door
+    for(let x=-inX+0.4; x<=inX-0.35; x+=1.35) for(let z=-inZ+0.4; z<=inZ-0.35; z+=1.35){
+      if(Math.abs(x)<1.15 || Math.abs(z)<1.15) continue;
+      slots.push([x, z, Math.round(rnd(x*3+z*5)*4)*Math.PI/2]);
+    }
+    const order=slots.map((s,i)=>[rnd(i*7),s]).sort((a,b)=>a[0]-b[0]).map(e=>e[1]);
+    for(let i=0;i<Math.min(extra, order.length); i++){
+      const [x,z,r]=order[i];
+      this._put(group, palette[Math.floor(rnd(i*13+3)*palette.length)%palette.length], x, z, r);
+    }
+  },
+
   /* ---- room-type presets: the lived-in checklist (light + floor item + wall item +
          corner clutter + an interactable), tuned per type ---- */
   furnish(group, w, d, type, worldX, worldZ){
     const k=this, P=(n,x,z,r,o)=>k._put(group, n, x, z, r, o);
     const colX=w/2-0.65, colZ=d/2-0.65;   // corner clutter positions
+    const CLUT={house:['shelf','crate','barrel','stool','candle','bench'],
+      shop:['crate','barrel','shelf','candle'], pub:['barrel','stool','crate','candle'],
+      bank:['shelf','candle','crate','table'], smithy:['crate','barrel','table'],
+      bedroom:['crate','shelf','candle','stool']};
+    if(CLUT[type]) k._clutter(group, w, d, CLUT[type], Math.round((worldX||0)*13+(worldZ||0)*7));
     if(type==='house'){
       P('table', 0.2, -0.4); P('chair', -0.7, -0.4, Math.PI/2); P('chair', 1.1, -0.4, -Math.PI/2);
       P('bed', -colX+0.25, colZ-0.45); P('shelf', colX-0.05, -colZ+0.35, Math.PI);
@@ -215,10 +243,13 @@ const Buildkit = {
         if(horiz) glass.position.set(0, h*0.55, face); else { glass.position.set(face, h*0.55, 0); glass.rotation.y=Math.PI/2; }
         s2.add(glass);
       }
-      // storey-2 floor (the ceiling of the ground room)
-      const slab=new THREE.Mesh(new THREE.BoxGeometry(w-0.2, 0.14, d-0.2),
-        new THREE.MeshLambertMaterial({color:0x8a6a48}));
-      slab.position.y=0.07; slab.receiveShadow=true; s2.add(slab);
+      // storey-2 floor (the ceiling of the ground room) — plank-textured and sat LOW
+      // so rugs and furniture bases read on top of it, not swallowed beneath
+      const slabTex=(typeof TEX!=='undefined'&&(TEX.woodPlanks||TEX.wood))?(TEX.woodPlanks||TEX.wood).clone():null;
+      if(slabTex){ slabTex.needsUpdate=true; slabTex.wrapS=slabTex.wrapT=THREE.RepeatWrapping; slabTex.repeat.set(w/1.6, d/1.6); }
+      const slab=new THREE.Mesh(new THREE.BoxGeometry(w-0.2, 0.12, d-0.2),
+        slabTex?new THREE.MeshLambertMaterial({map:slabTex, color:0xa8845c}):new THREE.MeshLambertMaterial({color:0x9a7a56}));
+      slab.position.y=-0.01; slab.receiveShadow=true; s2.add(slab);
       g.add(s2);
       // makeBuilding registered its roof in WORLD.interiors — hoist OUR entry atop storey 2
       const it=WORLD.interiors[_iIdx];

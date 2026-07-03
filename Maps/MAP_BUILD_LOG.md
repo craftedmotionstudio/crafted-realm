@@ -66,6 +66,27 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 018 — Veyhollow Commons — follow-up: interiors that read furnished — 2026-07-03 — KEPT
+- **Target:** the user-flagged debt — with roofs off, rooms read as bare brown boxes.
+- **Changed:** `buildkit.js` — (a) NEW `_clutter(group,w,d,palette,seed)`: area-scaled
+  furniture (floor((w·d−15)/2.4) extra pieces) on wall slots + floor-quadrant grid slots,
+  keeping a cross of clear walk lanes to whichever wall holds the door; per-type palettes
+  (house/shop/pub/bank/smithy/bedroom); every furnish() call gets it free. (b) The
+  storey-2 slab sat ABOVE furniture bases — rugs were literally underneath the floor;
+  slab dropped + plank-textured + lightened (and the texture key is `TEX.woodPlanks`,
+  not `TEX.plank` — the first fix silently no-opped on that).
+- **Debug trail (honest):** three "still sparse" iterations were misdiagnoses — the
+  pieces existed (29 in the bank's upper room, verified by scene traversal); the real
+  issues were the swallowing slab, the missing texture key, and small dark furniture on
+  a huge dark floor.
+- **Before → after:** `pass016_capstone_topdown_roofsoff.png` →
+  `pass018_final_topdown_roofsoff.png` (+ `pass018e_bank_interior.png`).
+- **Gemini:** **130 vs 100** — "significantly enhanced… distinct rugs, floor/wall clutter."
+  Remaining: the small south cottages still read minimal — next interiors touch.
+- **Verified:** console clean; no data change.
+- **Verdict:** KEPT.
+- **Next:** the Commons moat (terrain grid), then Wardenholm Keep (location #2).
+
 ### Pass 017 — Veyhollow Commons — follow-up: the grand buildings — 2026-07-03 — KEPT
 - **Target:** user ask — the reference square's focal buildings are BIG. Bank of Veyhollow
   rebuilt as a grand two-storey stone hall (10×7, stone ground floor, plaster storey,
