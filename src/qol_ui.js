@@ -168,6 +168,16 @@ MenuQoL.wrap();
 /* ---------- 5: world map — click to walk (destination pin) ---------- */
 const MapQoL = {
   dest:null,
+  walkTo(wx, wz){   // the ONE pin/walk path — map clicks + the name search both land here
+    const y=(typeof groundY==='function')?groundY(wx,wz):0;
+    if(y===null || y<-1.15){ UI.chat('You can’t walk there — that’s open water.','plain'); return false; }
+    this.dest={x:wx,z:wz};
+    if(typeof minimapWalkTo==='function') minimapWalkTo(new THREE.Vector3(wx,y,wz));
+    UI.closeModal ? UI.closeModal('worldmap-modal')
+                  : (document.getElementById('worldmap-modal').style.display='none');
+    UI.chat('You set off toward the marked spot.','plain');
+    return true;
+  },
   hook(){
     const c=document.getElementById('worldmap'); if(!c || c._qol) return;
     c._qol=true; c.style.cursor='crosshair';
@@ -175,13 +185,7 @@ const MapQoL = {
       const r=c.getBoundingClientRect();
       const fx=(e.clientX-r.left)/r.width, fz=(e.clientY-r.top)/r.height;
       const wx=WMAP.x0+fx*(WMAP.x1-WMAP.x0), wz=WMAP.z0+fz*(WMAP.z1-WMAP.z0);
-      const y=(typeof groundY==='function')?groundY(wx,wz):0;
-      if(y===null || y<-1.15){ UI.chat('You can’t walk there — that’s open water.','plain'); return; }
-      this.dest={x:wx,z:wz};
-      if(typeof minimapWalkTo==='function') minimapWalkTo(new THREE.Vector3(wx,y,wz));
-      UI.closeModal ? UI.closeModal('worldmap-modal')
-                    : (document.getElementById('worldmap-modal').style.display='none');
-      UI.chat('You set off toward the marked spot.','plain');
+      this.walkTo(wx, wz);
     });
     // draw the pin over the map whenever it redraws
     if(typeof drawWorldMap==='function' && !this._wrapped){
