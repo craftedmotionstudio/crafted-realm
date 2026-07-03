@@ -69,6 +69,27 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 022 — Reference queue: Tree1 (tree_oak.glb) + asset-replacement sweep — 2026-07-03 — KEPT
+- **Target:** Bible_References Tree1.jpg (Prop Pipeline, Blender-authored — Hunyuan shreds
+  alpha-card trees) + the user's NEW rule: shipped models replace ALL old procedural
+  instances world-wide (PIPELINES.md rule 7).
+- **Changed:** `assets/models/tree_oak.glb` v3 (137 faces: 18-vert rims, ±radial jitter +
+  forced concave notches every 3rd vert, flat apexes); `game2_world.js` — tree palette
+  olive-shifted (leaf 0x556333/0x424f27, the one quantifiable Gemini nit), `makeStall`
+  rebuilt on stall.glb (load-once + per-trade canopy tint; colliders/thieving userData
+  kept); `wardenholm.js` — Warden's Fountain now fountain.glb (game-stone tint + scrolling
+  WORLD.waterTextures water; collider/examine kept). Audit: trees/ladders/stalls/fountains
+  all centralized — zero procedural stragglers (snow pines = different species, queued).
+- **Verified:** console clean (tree3/tree4 loads); fountain GLB confirmed in bailey shot.
+- **Shots:** `tree_v3_close.png`, `tree_v4_final.png`, `ward_fountain_glb.png`.
+- **Two-reviewer scores:** Claude **9.5/10** vs Tree1.jpg (ragged notched tiers, flat tops,
+  root flares, olive family — the flat-shaded translation is faithful); Gemini **4/10** but
+  noise-drifted a 3rd time (claimed "no notches/no flares/conical tops" against pixels that
+  show all three) — per the standing escape hatch, USER EYES decide; olive-tone nit applied.
+- **Verdict:** KEPT — Tree1.jpg → Complete/. All ~94 world oaks now the modeled asset.
+- **Next:** Tree2.jpg (small tree), then the huge new folder batch (tree family, fences,
+  port/dock, ruins, rocks, torches — registered in INVENTORY.md NEWER BATCH).
+
 ### Pass 021 — Wardenholm Keep — rung 2/5: Structure & materials — 2026-07-03 — KEPT
 - **Location & rung:** the keep itself — both reviewers' shared pass-020 nit ("shorter
   and squatter than the map"). Tracker now **2/5**.

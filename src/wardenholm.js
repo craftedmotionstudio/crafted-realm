@@ -656,20 +656,31 @@
         if(i%2===0){ banner(C.x+i*6.4, C.z-WH, 0, 1); banner(C.x+WH, C.z+i*6.4, -1, 0); }
       }
 
-      // --- the Warden's Fountain: tiered octagonal basin + central spouting bowl + finial ---
-      const waterMat = (typeof TEX!=='undefined' && TEX.water)
-        ? new THREE.MeshLambertMaterial({map:(function(){const t=TEX.water.clone();t.needsUpdate=true;t.repeat.set(2,2);return t;})()})
-        : M(0x4a7494);
+      // --- the Warden's Fountain: the PROP PIPELINE quatrefoil (fountain.glb) —
+      // every fountain world-wide uses the modeled asset (user rule 2026-07-03) ---
       function fountain(fx,fz){
         const g=new THREE.Group();
-        const base=new THREE.Mesh(new THREE.CylinderGeometry(3.2,3.5,0.95,8), stoneT(0xb0a898)); base.position.y=0.47; g.add(base);
-        const rim=new THREE.Mesh(new THREE.CylinderGeometry(3.35,3.35,0.2,8), trimMat); rim.position.y=0.98; g.add(rim);
-        const w1=new THREE.Mesh(new THREE.CylinderGeometry(2.9,2.9,0.14,8), waterMat); w1.position.y=0.9; g.add(w1);
-        const ped=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.8,2.0,8), stoneT(0xb0a898)); ped.position.y=1.95; g.add(ped);
-        const bowl=new THREE.Mesh(new THREE.CylinderGeometry(1.5,0.7,0.55,8), trimMat); bowl.position.y=3.0; g.add(bowl);
-        const w2=new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.25,0.12,8), waterMat.clone()); w2.position.y=3.25; g.add(w2);
-        const fin=new THREE.Mesh(new THREE.ConeGeometry(0.35,0.9,8), stoneT(0xb0a898)); fin.position.y=3.9; g.add(fin);
-        g.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
+        new THREE.GLTFLoader().load('assets/models/fountain.glb?v=2', gltf=>{
+          const m=gltf.scene;
+          const stoneTex=TEX.stone.clone(); stoneTex.needsUpdate=true;
+          stoneTex.wrapS=stoneTex.wrapT=THREE.RepeatWrapping; stoneTex.repeat.set(3,3);
+          const stoneMat=new THREE.MeshLambertMaterial({map:stoneTex, color:0xb0a898});  // warden-grey masonry
+          const waterTex=TEX.water.clone(); waterTex.needsUpdate=true;
+          waterTex.wrapS=waterTex.wrapT=THREE.RepeatWrapping; waterTex.repeat.set(2.2,2.2);
+          WORLD.waterTextures.push(waterTex);               // the world tick scrolls it
+          const waterMat=new THREE.MeshLambertMaterial({map:waterTex, color:0x9fd0e8});
+          m.traverse(o=>{ if(o.isMesh){
+            o.castShadow=true; o.receiveShadow=true;
+            if(!o.geometry.attributes.uv){
+              const pos=o.geometry.attributes.position, uv=new Float32Array(pos.count*2);
+              for(let i=0;i<pos.count;i++){ uv[i*2]=(pos.getX(i)/6.8+0.5)*3; uv[i*2+1]=(pos.getZ(i)/6.8+0.5)*3; }
+              o.geometry.setAttribute('uv', new THREE.BufferAttribute(uv,2));
+            }
+            const n=(o.material&&o.material.name)||'';
+            o.material=/WATER/i.test(n)?waterMat:stoneMat;
+          }});
+          g.add(m);
+        }, undefined, err=>console.error('[wardenholm] fountain.glb failed', err));
         g.position.set(fx, g0, fz); G.add(g);
         addCircleCollider(fx, fz, 3.5);
         g.userData={kind:'prop', examine:'The Warden\'s fountain — spring-fed, sweet and cold. Coins glint on the basin floor.'};

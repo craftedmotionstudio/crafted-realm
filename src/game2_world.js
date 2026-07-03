@@ -372,10 +372,49 @@ function groundY(x,z){
 function gy(x,z){ const y=groundY(x,z); return y===null?0:y; }
 
 /* ---------- trees: blobby canopies, not pine cones ---------- */
+/* the tree model is a PROP PIPELINE asset (Bible_References/Tree1.jpg): authored
+ * layered-canopy oak. Preloaded once; makeTree clones it (palette-swapped per
+ * variant/biome) with the procedural build as dead-tree + not-yet-loaded fallback. */
+let _treeGLB=null;
+const _treeMats={};
+(function(){ try{ new THREE.GLTFLoader().load('assets/models/tree_oak.glb?v=3',
+  gl=>{ _treeGLB=gl.scene; }, undefined, e=>console.error('[trees] tree_oak.glb failed', e)); }catch(e){} })();
+function _treePalette(key, pal){
+  if(_treeMats[key]) return _treeMats[key];
+  _treeMats[key]={
+    leaf:  new THREE.MeshLambertMaterial({color:pal.leaf}),
+    leafD: new THREE.MeshLambertMaterial({color:pal.leafD}),
+    trunk: new THREE.MeshLambertMaterial({color:pal.trunk})
+  };
+  return _treeMats[key];
+}
 function makeTree(x,z,variant){
   // variant: 'normal' | 'dark' | 'dead'
   variant = variant||'normal';
   const g = new THREE.Group();
+  const _autumn=(typeof zoneAt==='function' && zoneAt(x,z)==='emberwood');
+  if(variant!=='dead' && _treeGLB){
+    const key=_autumn?'autumn':variant;
+    const m=_treePalette(key, _autumn ? {leaf:0xc27a30, leafD:0xa85f2e, trunk:0x6b4a2f}
+      : variant==='dark' ? {leaf:0x33402c, leafD:0x2c3826, trunk:0x4a3a30}
+      : {leaf:0x556333, leafD:0x424f27, trunk:0x6b4a2f});   // yellow-olive like the OSRS ref, not vivid green
+    const inst=_treeGLB.clone(true);
+    inst.traverse(o=>{ if(o.isMesh){
+      o.castShadow=true;
+      const mats=(Array.isArray(o.material)?o.material:[o.material]).map(mm=>
+        /LEAFD/i.test(mm.name)?m.leafD : /LEAF/i.test(mm.name)?m.leaf : m.trunk);
+      o.material=Array.isArray(o.material)?mats:mats[0];
+    }});
+    const s=0.85+Math.random()*0.3; inst.scale.set(s,s,s);
+    g.add(inst);
+    g.position.set(x, gy(x,z), z);
+    g.rotation.y = Math.random()*6;
+    g.userData = {kind:'resource', rtype:'tree', skill:'Woodcutting',
+      label:'Chop down Tree', respawn:8, alive:true};
+    addCircleCollider(x,z,0.42);
+    scene.add(g); WORLD.clickables.push(g); WORLD.resources.push(g);
+    return g;
+  }
   const trunkCol = variant==='dead'?0x52453a : variant==='dark'?0x4a3a30:0x6b4a2f;
   const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.42,1.9,7), mat(trunkCol));
   trunk.position.y=0.95; trunk.castShadow=true; g.add(trunk);
@@ -677,24 +716,42 @@ function makeRange(x,z){
   WORLD.colliders.push({type:'rect', x, z, hw:0.85, hd:0.6});
   return g;
 }
+/* the stall model (assets/models/stall.glb) is the PROP PIPELINE asset from
+ * Bible_References/Stall.jpg — every stall world-wide uses it (town_square.js
+ * has its own loader for the square's three; this one covers all other calls). */
+let _stallBase2=null, _stallWait2=[];
+function _withStallGLB(cb){
+  if(_stallBase2){ cb(_stallBase2); return; }
+  _stallWait2.push(cb);
+  if(_stallWait2.length>1) return;
+  new THREE.GLTFLoader().load('assets/models/stall.glb?v=2', gl=>{
+    _stallBase2=gl.scene;
+    _stallWait2.forEach(f=>f(_stallBase2)); _stallWait2=[];
+  }, undefined, e=>console.error('[world] stall.glb failed', e));
+}
 function makeStall(x,z,color,stallKind){
   const g=new THREE.Group();
-  const table=new THREE.Mesh(new THREE.BoxGeometry(2.2,0.16,1.2), mat(0x8a6a44));
-  table.position.y=0.78; g.add(table);
-  for(const [sx,sz] of [[-0.95,-0.45],[0.95,-0.45],[-0.95,0.45],[0.95,0.45]]){
-    const leg=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.78,0.1), mat(0x6b4a2f));
-    leg.position.set(sx,0.39,sz); g.add(leg);
-  }
-  for(const sx of [-1.0,1.0]){
-    const pole=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,1.9,5), mat(0x6b4a2f));
-    pole.position.set(sx,0.95,0); g.add(pole);
-  }
-  const canopy=new THREE.Mesh(new THREE.BoxGeometry(2.5,0.08,1.5), mat(color||0xb03a3a));
-  canopy.position.y=1.95; canopy.rotation.x=0.08; g.add(canopy);
+  const tint=new THREE.Color(color||0xb03a3a), cream=new THREE.Color(0xe0d8c2);
+  _withStallGLB(base=>{
+    const inst=base.clone(true);
+    inst.traverse(o=>{ if(o.isMesh){
+      o.castShadow=true; o.receiveShadow=true;
+      const mats=(Array.isArray(o.material)?o.material:[o.material]).map(mm=>{
+        const c=mm.clone(); c.metalness=0;
+        if(/BLUE/i.test(mm.name)){  c.color.copy(tint);  c.emissive=tint.clone().multiplyScalar(0.40); }
+        if(/CREAM/i.test(mm.name)){ c.color.copy(cream); c.emissive=cream.clone().multiplyScalar(0.28); }
+        if(/WOODD/i.test(mm.name)) c.color.setHex(0x7d7040);
+        else if(/WOOD/i.test(mm.name)) c.color.setHex(0x968a4e);
+        return c;
+      });
+      o.material=Array.isArray(o.material)?mats:mats[0];
+    }});
+    g.add(inst);
+  });
   const goods=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.3,0.5), mat(0xc9a85a));
-  goods.position.set(-0.5,0.95,0); g.add(goods);
+  goods.position.set(-0.5,1.0,0); g.add(goods);
   const goods2=new THREE.Mesh(new THREE.IcosahedronGeometry(0.22,0), mat(0x7a9a4a));
-  goods2.position.set(0.45,0.95,0.1); g.add(goods2);
+  goods2.position.set(0.45,1.02,0.1); g.add(goods2);
   g.position.set(x, gy(x,z), z);
   if(stallKind){
     g.userData={kind:'stall', stall:stallKind, restock:0,

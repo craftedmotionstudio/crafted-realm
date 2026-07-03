@@ -13,6 +13,20 @@ When analyzing ANY reference image in `Bible_References/`, before modeling anyth
    Hero / NPC) and **placed into the game** where the reference implies it belongs.
 4. Log the inventory table (item → have/missing → pipeline → status) so coverage is
    auditable. A reference isn't "done" until every enumerated item exists in-game.
+5. **Completed references move to `Bible_References/Complete/`** — the folder root is
+   the live queue. **Check the folder EVERY loop pass** — the user adds references
+   continuously.
+6. **Animation is part of the Blender workflow**: if the real object moves (flags wave,
+   torch flames flicker, water flows, windmill sails turn), the asset ships animated —
+   baked GLB clips (stash to NLA before export, play via mixer) or the engine idiom
+   where one exists (scrolling `WORLD.waterTextures`, `WORLD.fires` smoke/flame).
+   A static flag is an unfinished flag.
+7. **Modeled assets replace ALL old procedural instances** (user, 2026-07-03): when an
+   asset ships, upgrade the shared builder (`makeTree`, `makeStall`, `addClimb`…) so
+   EVERY instance world-wide uses the model — no old-version stragglers in remote
+   corners. Same rule applies forward (doors, torches, fences…). Different species
+   stay separate (snow pines keep the conifer builder until a pine model exists).
+   Keep the builder's colliders/userData — the GLB is visual only.
 
 Say the name, get the workflow. All three share the same spine — **concept image →
 image-to-3D mesh → Blender (via the Blender MCP) → GLB → in-game wiring** — and all
