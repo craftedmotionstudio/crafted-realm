@@ -33,6 +33,11 @@ function computePath(sx, sz, tx, tz){
     return WORLD.interiors.find(it=>Math.abs(cx-it.x)<it.hw && Math.abs(cz-it.z)<it.hd) || null; };
   const tgtRoom=roomOf(tti,ttj), startRoom=roomOf(sti,stj);
   const MAX=64;                       // search radius in tiles (re-paths on arrival for long hauls)
+  // flag-grid fast path (src/collision_grid.js): plane 0 only — the grid bakes the same
+  // predicate tileWalkable applies, so results are identical; off-grid tiles (canStep
+  // returns null) and disabled/unbaked/upper-plane cases fall back to the analytic check.
+  const useGrid = typeof CollisionGrid!=='undefined' && CollisionGrid.enabled && CollisionGrid.baked
+    && (((typeof Player!=='undefined' && Player.plane)||0)===0);
   const key=(i,j)=>(i+512)*4096+(j+512);
   const prev=new Map(), seen=new Set();
   let q=[[sti,stj]]; seen.add(key(sti,stj));
@@ -49,7 +54,12 @@ function computePath(sx, sz, tx, tz){
         if(Math.abs(ii-sti)>MAX || Math.abs(jj-stj)>MAX) continue;
         const k=key(ii,jj);
         if(seen.has(k)) continue;
-        if(!tileWalkable(ii,jj)){ seen.add(k); continue; }
+        let ok;
+        if(useGrid){
+          const s=CollisionGrid.canStep(i, j, ii-i, jj-j);
+          ok = (s===null) ? tileWalkable(ii,jj) : s;   // null = off-grid (e.g. Menagerie pad)
+        } else ok = tileWalkable(ii,jj);
+        if(!ok){ seen.add(k); continue; }
         const r=roomOf(ii,jj);
         if(r && r!==tgtRoom && r!==startRoom){ seen.add(k); continue; }   // don't cut through buildings
         seen.add(k); prev.set(k,[i,j]); nq.push([ii,jj]);
@@ -702,6 +712,7 @@ const BOOT_STEPS = [
   [45, 'Generating world map',        ()=>{ buildTextures(); buildSea(); buildGround(); }],
   [65, 'Populating Veyhollow',        ()=>{ populateMainland(); }],
   [80, 'Preparing Tutor\'s Holm',     ()=>{ populateBrynholt(); populateDunes(); populateScarlands(); populateArena(); populateHolm(); if(typeof buildMenagerie==='function') buildMenagerie(); Bots.spawn(); }],
+  [90, 'Charting walkable ground',    ()=>{ if(typeof CollisionGrid!=='undefined') CollisionGrid.rebake(); }],
   [95, 'Waking the adventurer',       ()=>{
       player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, gender:CharCfg.gender, hair:CharCfg.hair,
         hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs, emblem:true});
