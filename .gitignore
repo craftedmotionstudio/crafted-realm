@@ -22,3 +22,6 @@ BUILD_INFO.json
 # UniRig intermediate extract/skeleton npz (regenerable)
 assets/models/ash_wyrm/
 assets/models/base_m1.glb
+
+# bulky local video candidates (kept on disk, not in history)
+Maps/concepts/video/
