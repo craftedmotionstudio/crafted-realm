@@ -669,15 +669,50 @@ const ROCK_KINDS = {
   iron:   {vein:0x8a4a3a, item:'iron_ore',   req:15, xp:46, chat:'iron',      label:'Mine Iron rock'},
   coal:   {vein:0x2a2a2e, item:'coal',       req:30, xp:62, chat:'some coal', label:'Mine Coal rock'},
 };
+// Push each unique vertex of a low-poly geo out/in along a jittered amount so a
+// smooth icosahedron reads as an irregular chunky boulder. Shared vertices keep
+// the mesh watertight; flatShading recomputes crisp per-face facets. r128-safe.
+function _rockJitter(geo, amt){
+  const p = geo.attributes.position, seen = {};
+  for(let i=0;i<p.count;i++){
+    const x=p.getX(i), y=p.getY(i), z=p.getZ(i);
+    const key = x.toFixed(3)+','+y.toFixed(3)+','+z.toFixed(3);
+    let j = seen[key];
+    if(!j){ const f = 1 + (Math.random()*2-1)*amt; j = seen[key] = {f}; }
+    p.setXYZ(i, x*j.f, y*j.f, z*j.f);
+  }
+  p.needsUpdate = true; geo.computeVertexNormals();
+  return geo;
+}
 function makeRock(x,z,kindId){
   const kind = ROCK_KINDS[kindId||'copper'];
   const g = new THREE.Group();
-  const r = new THREE.Mesh(new THREE.IcosahedronGeometry(0.9,0), mat(0x8a8276));
-  r.position.y=0.5; r.scale.y=0.72; r.castShadow=true; g.add(r);
-  const vein = new THREE.Mesh(new THREE.IcosahedronGeometry(0.3,0), mat(kind.vein));
-  vein.position.set(0.4,0.7,0.3); g.add(vein);
-  const vein2 = new THREE.Mesh(new THREE.IcosahedronGeometry(0.2,0), mat(kind.vein));
-  vein2.position.set(-0.35,0.55,-0.25); g.add(vein2);
+  // seated dirt base + a few loose pebbles so the boulder sits in the ground
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.92,1.05,0.16,7), mat(0x5b4a37));
+  base.position.y=0.08; base.rotation.y=Math.random()*6; base.receiveShadow=true; g.add(base);
+  for(let i=0;i<3;i++){ const a=Math.random()*6.28, rd=0.7+Math.random()*0.3;
+    const peb=new THREE.Mesh(_rockJitter(new THREE.IcosahedronGeometry(0.12+Math.random()*0.06,0),0.3), mat(0x7d766a));
+    peb.position.set(Math.cos(a)*rd,0.12,Math.sin(a)*rd); peb.castShadow=true; g.add(peb); }
+  // chunky faceted grey boulder: a main lump + an offset secondary lobe
+  const grey=[0x8a8276,0x817a6d,0x938b7e][Math.floor(Math.random()*3)];
+  const r = new THREE.Mesh(_rockJitter(new THREE.IcosahedronGeometry(0.9,0),0.22), mat(grey));
+  r.position.y=0.55; r.scale.set(1,0.7,0.92); r.rotation.set(Math.random(),Math.random()*6,Math.random());
+  r.castShadow=true; g.add(r);
+  const lobe = new THREE.Mesh(_rockJitter(new THREE.IcosahedronGeometry(0.52,0),0.28), mat(grey));
+  lobe.position.set(0.42,0.4,0.18); lobe.scale.set(1,0.75,1); lobe.rotation.y=Math.random()*6;
+  lobe.castShadow=true; g.add(lobe);
+  // ore veins + speckle: chunky nodes plus small flecks in the per-ore colour,
+  // parented to the boulder so they hug its surface. copper/tin/iron/coal palette.
+  const veinMat = mat(kind.vein);
+  const nodes = [[0.42,0.32,0.62,0.26],[-0.5,0.05,-0.35,0.2],[0.15,0.7,-0.45,0.18]];
+  for(const [nx,ny,nz,ns] of nodes){
+    const v=new THREE.Mesh(_rockJitter(new THREE.IcosahedronGeometry(ns,0),0.3), veinMat);
+    v.position.set(nx,ny,nz); r.add(v);
+  }
+  for(let i=0;i<6;i++){ const a=Math.random()*6.28, b=Math.random()*3.14;
+    const fl=new THREE.Mesh(new THREE.OctahedronGeometry(0.07+Math.random()*0.04,0), veinMat);
+    fl.position.set(Math.sin(b)*Math.cos(a)*0.82, Math.cos(b)*0.82, Math.sin(b)*Math.sin(a)*0.82);
+    r.add(fl); }
   g.position.set(x, gy(x,z), z);
   g.rotation.y = Math.random()*6;
   g.userData = {kind:'resource', rtype:'rock', skill:'Mining',
