@@ -375,10 +375,15 @@ function gy(x,z){ const y=groundY(x,z); return y===null?0:y; }
 /* the tree model is a PROP PIPELINE asset (Bible_References/Tree1.jpg): authored
  * layered-canopy oak. Preloaded once; makeTree clones it (palette-swapped per
  * variant/biome) with the procedural build as dead-tree + not-yet-loaded fallback. */
-let _treeGLB=null;
+let _treeGLB=null, _treeYoungGLB=null;
 const _treeMats={};
-(function(){ try{ new THREE.GLTFLoader().load('assets/models/tree_oak.glb?v=3',
-  gl=>{ _treeGLB=gl.scene; }, undefined, e=>console.error('[trees] tree_oak.glb failed', e)); }catch(e){} })();
+(function(){ try{
+  new THREE.GLTFLoader().load('assets/models/tree_oak.glb?v=3',
+    gl=>{ _treeGLB=gl.scene; }, undefined, e=>console.error('[trees] tree_oak.glb failed', e));
+  // Tree2.jpg: the small two-blob young tree — mixed in for OSRS grove variety
+  new THREE.GLTFLoader().load('assets/models/tree_young.glb?v=2',
+    gl=>{ _treeYoungGLB=gl.scene; }, undefined, e=>console.error('[trees] tree_young.glb failed', e));
+}catch(e){} })();
 function _treePalette(key, pal){
   if(_treeMats[key]) return _treeMats[key];
   _treeMats[key]={
@@ -393,12 +398,16 @@ function makeTree(x,z,variant){
   variant = variant||'normal';
   const g = new THREE.Group();
   const _autumn=(typeof zoneAt==='function' && zoneAt(x,z)==='emberwood');
-  if(variant!=='dead' && _treeGLB){
-    const key=_autumn?'autumn':variant;
+  // deterministic per-tile mix: ~1/3 young two-blob trees (Tree2.jpg) among the oaks
+  const _hash=((Math.sin(x*12.9898+z*78.233)*43758.5453)%1+1)%1;
+  const _young=_treeYoungGLB && variant==='normal' && !_autumn && _hash<0.35;
+  if(variant!=='dead' && (_young?_treeYoungGLB:_treeGLB)){
+    const key=(_autumn?'autumn':variant)+(_young?'_y':'');
     const m=_treePalette(key, _autumn ? {leaf:0xc27a30, leafD:0xa85f2e, trunk:0x6b4a2f}
       : variant==='dark' ? {leaf:0x33402c, leafD:0x2c3826, trunk:0x4a3a30}
+      : _young ? {leaf:0x556333, leafD:0x424f27, trunk:0x9a7a52}    // young trees: pale tan trunk like the ref
       : {leaf:0x556333, leafD:0x424f27, trunk:0x6b4a2f});   // yellow-olive like the OSRS ref, not vivid green
-    const inst=_treeGLB.clone(true);
+    const inst=(_young?_treeYoungGLB:_treeGLB).clone(true);
     inst.traverse(o=>{ if(o.isMesh){
       o.castShadow=true;
       const mats=(Array.isArray(o.material)?o.material:[o.material]).map(mm=>

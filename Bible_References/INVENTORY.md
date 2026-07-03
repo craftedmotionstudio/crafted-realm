@@ -9,6 +9,7 @@ Anything that moves in reality ships ANIMATED (flags, flames, sails).
 - `Complete/Stall.jpg` — stall.glb live (ALL stalls world-wide: square trio + `makeStall` upgraded)
 - `Complete/Ladder.jpg` — parametric ladder builder (world-wide)
 - `Complete/Tree1.jpg` — tree_oak.glb v3 (ragged notched tiers, flat apexes, olive palette) on all ~94 world oaks; Claude 9.5, Gemini noise-drifted 3rd time (4/10 w/ pixel-false claims) — user eyes pending
+- `Complete/Tree2.jpg` — tree_young.glb v2 (two-blob crown, pale trunk) mixed ~35% of normal trees; **Claude 9.5 + Gemini 10/10 — CLEAN PASS**
 
 ## ASSET REPLACEMENT RULE (user, 2026-07-03 pm)
 When a modeled asset ships, EVERY old procedural instance of that asset type is replaced

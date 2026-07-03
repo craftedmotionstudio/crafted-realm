@@ -69,6 +69,23 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 023 — Reference queue: Tree2 (tree_young.glb) — 2026-07-03 — KEPT
+- **Target:** Bible_References Tree2.jpg — OSRS small young tree (two chunky faceted
+  blobs, pale tan leaning trunk w/ root flares). Prop Pipeline, Blender-authored
+  (69 faces: jittered icosphere blobs, tapered leaning 7-gon trunk).
+- **Changed:** `assets/models/tree_young.glb` (v2 — lower clump shrunk to subordinate per
+  Gemini's factual nit); `game2_world.js` — second tree GLB preload + deterministic
+  per-tile hash mixes ~35% of NORMAL trees to the young model (dark/autumn/dead keep
+  their looks; young trees get a pale 0x9a7a52 trunk palette). Same resource
+  userData/collider — woodcutting unchanged.
+- **Verified:** console clean; young instances confirmed in-world (pale-trunk material scan).
+- **Shots:** `tree_young_ingame.png` (v1) → `tree_young_v2.png`.
+- **Two-reviewer scores:** Claude **9.5/10**; Gemini **8/10** (one fair nit: lower blob too
+  big) → fixed → **10/10** ("no factual defects"). BOTH ≥9.5 — clean gate, no noise escape.
+- **Verdict:** KEPT — Tree2.jpg → Complete/. Groves now mix oaks + young trees like OSRS.
+- **Next:** the tree FAMILY batch (Evergreen — replaces biome_snow procedural pines per the
+  replacement rule — then Ironwood/Mahogany/Rosewood/Evil/Fallen), or Closed/Open Door.
+
 ### Pass 022 — Reference queue: Tree1 (tree_oak.glb) + asset-replacement sweep — 2026-07-03 — KEPT
 - **Target:** Bible_References Tree1.jpg (Prop Pipeline, Blender-authored — Hunyuan shreds
   alpha-card trees) + the user's NEW rule: shipped models replace ALL old procedural
