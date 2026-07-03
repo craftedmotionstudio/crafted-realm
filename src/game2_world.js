@@ -1660,24 +1660,48 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
   WORLD.interiors.push({x, z, hw:w/2, hd:d/2, roof, band, door:doorOut});
   return g;
 }
+/* the OSRS wooden rail fence (Bible_References/Fence+Flowers): chunky posts with a
+ * POINTED pyramid cap + two horizontal rails — the shared builder every fence uses. */
 function makeFence(x1,z1,x2,z2){
   const dx=x2-x1, dz=z2-z1, len=Math.hypot(dx,dz), n=Math.max(1,Math.round(len/1.8));
+  const postC=0x6e4d30, capC=0x5e4028, railC=0x7d5a38;
   for(let i=0;i<=n;i++){
     const t=i/n, px=x1+dx*t, pz=z1+dz*t, py=gy(px,pz);
     addCircleCollider(px,pz,0.3);                         // fences block: post…
     if(i<n) addCircleCollider(x1+dx*(i+0.5)/n, z1+dz*(i+0.5)/n, 0.3);   // …and mid-rail
-    const post=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.9,0.12),mat(0x6b4a2f));
-    post.position.set(px,py+0.45,pz); post.castShadow=true; scene.add(post);
+    const post=new THREE.Mesh(new THREE.BoxGeometry(0.15,0.98,0.15),mat(postC));
+    post.position.set(px,py+0.49,pz); post.castShadow=true; scene.add(post);
+    const cap=new THREE.Mesh(new THREE.ConeGeometry(0.115,0.36,4),mat(capC));   // sharp pointed pyramid top
+    cap.position.set(px,py+0.98+0.18,pz); cap.rotation.y=Math.PI/4; scene.add(cap);
     if(i<n){
       const nx=x1+dx*(i+0.5)/n, nz=z1+dz*(i+0.5)/n, ny=(py+gy(x1+dx*(i+1)/n,z1+dz*(i+1)/n))/2;
-      for(const ry of [0.62,0.3]){
-        const rail=new THREE.Mesh(new THREE.BoxGeometry(len/n,0.08,0.07),mat(0x7a5838));
+      for(const ry of [0.66,0.34]){
+        const rail=new THREE.Mesh(new THREE.BoxGeometry(len/n,0.1,0.08),mat(railC));
         rail.position.set(nx,ny+ry,nz);
         rail.rotation.y=Math.atan2(dx,dz)+Math.PI/2;
-        scene.add(rail);
+        rail.castShadow=true; scene.add(rail);
       }
     }
   }
+}
+/* a fenced garden plot (Town_Square.jpg's fenced squares): rail fence ring around a
+ * tilled bed with flowers — a hand-placement helper on the makeFence kit. */
+function makeGardenPlot(cx,cz,r){
+  r=r||3.2;
+  const c=[[cx-r,cz-r],[cx+r,cz-r],[cx+r,cz+r],[cx-r,cz+r]];
+  for(let i=0;i<4;i++){ const a=c[i], b=c[(i+1)%4];
+    // leave the front (south, +z edge from index 2→3) open as a gap for entry
+    if(i===2) { makeFence(a[0],a[1], a[0]-r*0.5,a[1]); makeFence(b[0]+r*0.5,b[1], b[0],b[1]); }
+    else makeFence(a[0],a[1],b[0],b[1]);
+  }
+  // tilled soil patch
+  const soil=new THREE.Mesh(new THREE.CircleGeometry(r*0.82, 12), mat(0x6a4f32));
+  soil.rotation.x=-Math.PI/2; soil.position.set(cx, gy(cx,cz)+0.03, cz); scene.add(soil);
+  // flowers + a couple of leafy plants inside
+  for(let i=0;i<5;i++){ const a=Math.random()*6.28, rr=Math.random()*r*0.6;
+    makeFlower(cx+Math.cos(a)*rr, cz+Math.sin(a)*rr); }
+  for(let i=0;i<3;i++){ const a=Math.random()*6.28, rr=Math.random()*r*0.5;
+    makeBush(cx+Math.cos(a)*rr, cz+Math.sin(a)*rr); }
 }
 function makeStick(x,z){
   const g=new THREE.Group();

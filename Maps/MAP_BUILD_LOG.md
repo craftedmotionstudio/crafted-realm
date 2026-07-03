@@ -69,6 +69,26 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 027 — Reference queue: Fence + garden plot — 2026-07-03 — KEPT
+- **Target:** Bible_References Fence+Flowers.jpg — the OSRS wooden rail fence (pointed-cap
+  posts, two rails) bordering a flower garden. Fills the Town_Square.jpg "fenced plots" gap.
+- **Changed:** `game2_world.js` — `makeFence` upgraded (chunky posts + SHARP pointed pyramid
+  caps + two chunkier rails, warm brown) so EVERY fence world-wide matches (replacement rule);
+  new `makeGardenPlot(cx,cz,r)` (rail-fence ring, tilled soil circle, flowers + bushes, front
+  entry gap); `veyhollow_town.js` — a garden plot placed by a cottage at (18,-3).
+- **Gotcha caught:** first placed the call in `populateMainland()` (game4_ui) — DEAD CODE
+  (`LEGACY_VILLAGE=false`, the pre-map village). It rendered only when hand-called; at boot
+  nothing appeared (the mill fence 3 lines later was also dead). Moved to the ACTIVE builder
+  `veyhollow_town.js`; confirmed 27 colliders placed at boot. Logged in memory.
+- **v2 fix:** caps read blunt (Gemini 8, fair) → taller/sharper cones (0.115×0.36).
+- **Verified:** console clean; garden confirmed at boot (not a live call).
+- **Shots:** `garden_boot.png` → `garden_final.png`.
+- **Two-reviewer scores:** Claude **9.0**; Gemini **8/10** (blunt caps) → fixed → **10/10**
+  ("no factual defects"). BOTH ≥9 — clean gate.
+- **Verdict:** KEPT — Veyhollow has a fenced cottage garden; wood-fence ref → Complete/.
+- **Next:** Fence.jpg (iron picket + gate — still queued), Evil/Fallen tree set pieces, or
+  the General Store style pass.
+
 ### Pass 026 — Reference queue: Door (procDoorPanel) — 2026-07-03 — KEPT
 - **Target:** Bible_References Closed Door.jpg / Open Door.jpg — the OSRS plank door
   (vertical planks, proud frame, iron dumbbell latch). Applied to EVERY door world-wide.

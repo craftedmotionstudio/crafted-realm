@@ -108,6 +108,8 @@
 
     /* ---- market flavour by the plaza (stalls live in town_square.js now) ---- */
     if(typeof makeCrateCluster==='function'){ makeCrateCluster(9,-16); makeCrateCluster(-10,-6); }
+    // a fenced cottage garden (Town_Square.jpg's fenced plots) — rail fence, tilled bed, flowers
+    if(typeof makeGardenPlot==='function') makeGardenPlot(18, -3, 3.0);
     if(typeof makeSignpost==='function'){
       makeSignpost(4,-27.5, [{text:'The Scarlands', ang:Math.PI}, {text:'Veyhollow', ang:0}]);
       makeSignpost(27.5,6, [{text:'Wardenholm Keep', ang:0.1}, {text:'Veyhollow', ang:2.8}]);
