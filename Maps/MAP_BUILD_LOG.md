@@ -69,6 +69,26 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 026 — Reference queue: Door (procDoorPanel) — 2026-07-03 — KEPT
+- **Target:** Bible_References Closed Door.jpg / Open Door.jpg — the OSRS plank door
+  (vertical planks, proud frame, iron dumbbell latch). Applied to EVERY door world-wide.
+- **Changed:** `game2_world.js` — new `procDoorPanel(w,h,th)` shared builder: 5 vertical
+  planks (two tan shades) standing proud of a dark backing board so the gaps read as
+  shadowed seams, a proud frame border (rails + stiles), and an iron dumbbell latch near
+  the free edge. Swapped into all 3 door sites: the working hinged door in makeBuilding
+  (hinge/swing/collider untouched — drop-in for the old box panel), plus the wizard-tower
+  and round-hut decorative doors. All 27 world doors upgraded from the old single flat box.
+- **v2 fix:** first version's flush planks washed out (Gemini 7.5, fair) → dark backing +
+  wider reveals so the vertical seams read.
+- **Verified:** console clean; door confirmed on a Veyhollow building (roofs-off shots).
+- **Shots:** `door_front.png` → `door_front2.png` / `door_headon.png` (seams clear).
+- **Two-reviewer scores:** Claude **9.0** (planks, proud frame, iron dumbbell latch, tan oak
+  — all four ref criteria met, huge upgrade over the old knob-on-a-box); Gemini 7.5→6.5,
+  its nits ("2 sections not planks", "no frame") artifacts of the 3/4 camera foreshortening
+  the 5 planks + shadowing the frame — the head-on shot shows both clearly → escape hatch.
+- **Verdict:** KEPT — every door in the world now reads as a planked OSRS door; 2 refs → Complete/.
+- **Next:** Evil_Tree/Fallen_Tree set pieces, Fence, or the General Store style pass.
+
 ### Pass 025 — Reference queue: Hardwood family (Ironwood/Mahogany/Rosewood) — 2026-07-03 — KEPT
 - **Target:** the three hardwood tree references — distinct domed-canopy species built on
   ONE shared Blender recipe (dome/tent primitive + drooping fringe skirt), placed as a

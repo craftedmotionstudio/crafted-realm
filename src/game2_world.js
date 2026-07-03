@@ -820,7 +820,7 @@ function makeTower(x,z){
   const orb=new THREE.Mesh(new THREE.IcosahedronGeometry(0.34,0),
     new THREE.MeshBasicMaterial({color:0x7fd4ff}));
   orb.position.set(x, py+h+3.5, z); scene.add(orb);
-  const door=new THREE.Mesh(new THREE.BoxGeometry(1.1,1.8,0.2), mat(0x3a2c20));
+  const door=procDoorPanel(1.1,1.8,0.16);
   door.position.set(x, py+0.9, z+2.62); scene.add(door);
   for(let i=0;i<3;i++){
     const win=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.7,0.1),
@@ -1357,6 +1357,37 @@ function makeTotem(x,z){
   return g;
 }
 
+/* the door panel (Bible_References/Closed Door.jpg): vertical planks in a proud frame
+ * with an iron dumbbell latch — the shared builder EVERY door in the world uses (the
+ * asset-replacement rule). Returns a Group centred on origin, planks vertical, front +Z;
+ * a drop-in for the old single-box panel so the hinge/swing/collider code is untouched. */
+function procDoorPanel(w, h, th){
+  const g=new THREE.Group();
+  const frameC=0xc6aa72, ironC=0x33302b;
+  const t=th||0.1;
+  // dark backing board so the plank gaps read as shadowed grooves (ref has strong seams)
+  const back=new THREE.Mesh(new THREE.BoxGeometry(w, h, t*0.6), mat(0x4a3a24));
+  back.position.z=-t*0.2; g.add(back);
+  const nP=5, gap=0.05, pw=(w-gap*(nP-1))/nP;   // wider reveals; planks stand PROUD of the backing
+  for(let i=0;i<nP;i++){
+    const pl=new THREE.Mesh(new THREE.BoxGeometry(pw, h*0.995, t), mat(i%2?0xa58752:0xb4965e));
+    pl.position.set(-w/2+pw/2 + i*(pw+gap), 0, t*0.18); pl.castShadow=true; g.add(pl);
+  }
+  const fT=0.12, fz=t*0.35;
+  const mkF=(bw,bh,bx,by)=>{ const f=new THREE.Mesh(new THREE.BoxGeometry(bw,bh,t*0.7), mat(frameC));
+    f.position.set(bx,by,fz); g.add(f); };
+  mkF(w, fT, 0, h/2-fT/2); mkF(w, fT, 0,-h/2+fT/2);      // top + bottom rails
+  mkF(fT, h, -w/2+fT/2, 0); mkF(fT, h,  w/2-fT/2, 0);    // left + right stiles
+  const hx=w*0.30, front=t*0.5+0.03;                      // iron dumbbell latch, free-edge side
+  const bar=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.32,0.05), mat(ironC));
+  bar.position.set(hx,0,front); g.add(bar);
+  for(const yy of [-0.16,0.16]){
+    const kb=new THREE.Mesh(new THREE.BoxGeometry(0.13,0.06,0.06), mat(ironC));
+    kb.position.set(hx,yy,front); g.add(kb);
+  }
+  return g;
+}
+
 /* ---------- buildings & props ---------- */
 function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
   opts = opts||{};
@@ -1571,14 +1602,10 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
              : doorSide==='E'? [w/2-t/2, doorW/2] : [-w/2+t/2, -doorW/2];
     hinge.position.set(x+hp[0], gy(x,z), z+hp[1]);
     const along = (doorSide==='S'||doorSide==='N') ? 0 : Math.PI/2;   // wall direction
-    const panel=new THREE.Mesh(new THREE.BoxGeometry(doorW*0.94, doorH-0.12, 0.09),
-      new THREE.MeshLambertMaterial({map:TEX.wood||null, color:0x4a3424}));
-    panel.castShadow=true;
+    const panel=procDoorPanel(doorW*0.94, doorH-0.12, 0.1);   // planked door + iron latch (shared builder)
     panel.position.set((doorSide==='S'||doorSide==='N'?1:0)*doorW*0.47 + (doorSide==='E'||doorSide==='W'?0:0), (doorH-0.12)/2, 0);
     if(doorSide==='E'||doorSide==='W') panel.position.set(0,(doorH-0.12)/2, doorW*0.47);
-    const knob=new THREE.Mesh(new THREE.IcosahedronGeometry(0.05,0), mat(0xc9b870));
-    knob.position.set(panel.position.x*1.75, doorH*0.5, panel.position.z*1.75 + 0.07);
-    hinge.add(panel); hinge.add(knob);
+    hinge.add(panel);
     hinge.rotation.y = along;
     const sign = (doorSide==='S'||doorSide==='W') ? 1 : -1;
     const colRect = (doorSide==='S'||doorSide==='N')
@@ -1760,7 +1787,7 @@ function makeHut(x,z,scale){
   const roof=new THREE.Mesh(new THREE.ConeGeometry(2.7*scale,1.8*scale,9),
     new THREE.MeshLambertMaterial({map:TEX.thatch}));
   roof.position.y=2.9*scale; roof.castShadow=true; g.add(roof);
-  const door=new THREE.Mesh(new THREE.BoxGeometry(0.9*scale,1.4*scale,0.2),mat(0x4a3320));
+  const door=procDoorPanel(0.9*scale,1.4*scale,0.16);
   door.position.set(0,0.7*scale,2.05*scale); g.add(door);
   const hs=[gy(x-2*scale,z),gy(x+2*scale,z),gy(x,z-2*scale),gy(x,z+2*scale),gy(x,z)];
   const yMin=Math.min(...hs), yMax=Math.max(...hs);
