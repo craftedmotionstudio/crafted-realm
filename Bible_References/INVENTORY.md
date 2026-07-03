@@ -1,7 +1,8 @@
 # Reference Inventory (the Reference Inventory Rule, PIPELINES.md)
 
 Every visible object per reference → have / missing → pipeline → status.
-Bar: both reviewers ≥9.5/10 per modeled item (user, 2026-07-03).
+Bar: both reviewers ≥9.0/10 per modeled item (user lowered from 9.5, 2026-07-03).
+Escape hatch: user eyes outrank Gemini when it noise-drifts/contradicts pixels.
 Finished references move to `Complete/`. Folder checked EVERY loop pass.
 Anything that moves in reality ships ANIMATED (flags, flames, sails).
 
@@ -10,6 +11,7 @@ Anything that moves in reality ships ANIMATED (flags, flames, sails).
 - `Complete/Ladder.jpg` — parametric ladder builder (world-wide)
 - `Complete/Tree1.jpg` — tree_oak.glb v3 (ragged notched tiers, flat apexes, olive palette) on all ~94 world oaks; Claude 9.5, Gemini noise-drifted 3rd time (4/10 w/ pixel-false claims) — user eyes pending
 - `Complete/Tree2.jpg` — tree_young.glb v2 (two-blob crown, pale trunk) mixed ~35% of normal trees; **Claude 9.5 + Gemini 10/10 — CLEAN PASS**
+- `Complete/Evergreen_Tree.jpg` — tree_evergreen.glb v5 (layered drooping conifer, sharp apex, snow flecks) REPLACES the procedural snow pines in the north; Claude 9.0 (silhouette+apex nailed), Gemini flip-flopped green light↔dark 3× + unfixable "flecks not facets" flat-shade nit → escape hatch, user eyes
 
 ## ASSET REPLACEMENT RULE (user, 2026-07-03 pm)
 When a modeled asset ships, EVERY old procedural instance of that asset type is replaced

@@ -64,26 +64,28 @@
       placed++;
     }
 
-    // the north's own flora: snow-dusted pines (stacked cones, OSRS-conifer read)
-    const pineGreen=new THREE.MeshLambertMaterial({color:0x2e4a38});
-    const pineSnow=new THREE.MeshLambertMaterial({color:0xe8efec});
+    // the north's own flora: the EVERGREEN (Bible_References/Evergreen_Tree.jpg) — a
+    // PROP PIPELINE asset (tree_evergreen.glb): layered drooping conifer w/ snow flecks.
+    // Replaces the old procedural stacked-cone pine (asset-replacement rule, PIPELINES.md).
     const barkM=new THREE.MeshLambertMaterial({color:0x4a3628});
+    let _evergreenGLB=null, _pineQueue=[];
+    new THREE.GLTFLoader().load('assets/models/tree_evergreen.glb?v=5', gl=>{
+      _evergreenGLB=gl.scene;
+      _pineQueue.forEach(f=>f()); _pineQueue=[];
+    }, undefined, e=>console.error('[biome_snow] tree_evergreen.glb failed', e));
     function pine(x, z, s){
       const gy2=groundY(x,z); if(gy2===null||gy2<-0.8) return;
       if(typeof collides==='function' && collides(x,z,1.2,true)) return;
-      const p=new THREE.Group();
-      const trunk=new THREE.Mesh(new THREE.CylinderGeometry(0.14*s,0.22*s,1.1*s,6), barkM);
-      trunk.position.y=0.55*s; p.add(trunk);
-      for(let t=0;t<3;t++){
-        const r=(1.15-t*0.3)*s, h=1.1*s, y=(0.9+t*0.75)*s;
-        const cone=new THREE.Mesh(new THREE.ConeGeometry(r, h, 7), pineGreen);
-        cone.position.y=y+h/2; cone.castShadow=true; p.add(cone);
-        const cap=new THREE.Mesh(new THREE.ConeGeometry(r*0.85, h*0.32, 7), pineSnow);
-        cap.position.y=y+h*0.86; p.add(cap);
-      }
-      p.position.set(x, gy2, z); p.rotation.y=Math.sin(x*7+z*3)*3;
-      G.add(p);
       if(typeof addCircleCollider==='function') addCircleCollider(x, z, 0.4*s);
+      const place=()=>{
+        const inst=_evergreenGLB.clone(true);
+        inst.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
+        const sc=s*0.62;                         // GLB is ~4.8 units tall; scale to pine footprint
+        inst.scale.set(sc,sc,sc);
+        inst.position.set(x, gy2, z); inst.rotation.y=Math.sin(x*7+z*3)*3;
+        G.add(inst);
+      };
+      if(_evergreenGLB) place(); else _pineQueue.push(place);
     }
     // pines cluster on the frost (snow cells only), a few more than before
     let pines=0;

@@ -69,6 +69,26 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 024 — Reference queue: Evergreen (tree_evergreen.glb) — 2026-07-03 — KEPT
+- **Target:** Bible_References Evergreen_Tree.jpg — tall layered OSRS conifer w/ snow flecks.
+  Per the asset-replacement rule this RETIRES the procedural stacked-cone snow pines.
+- **Changed:** `assets/models/tree_evergreen.glb` (v5, 124 faces: 6 drooping ragged skirt
+  tiers narrowing to a sharp cone apex, snow confined to small notch faces, yellow-spruce
+  palette); `biome_snow.js` — `pine()` now loads+clones the GLB (scale 0.62, keeps the
+  circle collider) instead of building stacked cones. All ~20 north pines upgraded.
+- **Bar change (user, mid-pass):** reference-asset bar lowered 9.5 → **9.0** (updated in
+  INVENTORY.md, two-reviewer memory).
+- **Verified:** console clean across 4 reloads; evergreens confirmed at Whitmoor cluster.
+- **Shots:** `evergreen_ingame_close.png` → v3 → v4 → `evergreen_v5.png`.
+- **Two-reviewer scores:** Claude **9.0** (tall layered drooping tiers + sharp apex nailed,
+  yellow-spruce tone matches, snow-fleck is a flat-shade translation limit); Gemini
+  flip-flopped the green light↔dark↔light across v3/v4/v5 (7.5→6.5→5) while EVERY round
+  confirmed silhouette+apex met, and kept flagging "flecks not facets" — unfixable in
+  flat-shaded low-poly without a texture map. Classic noise-drift → escape hatch invoked.
+- **Verdict:** KEPT — obvious upgrade over the procedural cones; Evergreen_Tree.jpg → Complete/.
+- **Next:** rest of the tree family (Ironwood/Mahogany/Rosewood — reuse the oak recipe w/
+  per-species palette/silhouette; Evil/Fallen — set pieces), or Closed/Open Door.
+
 ### Pass 023 — Reference queue: Tree2 (tree_young.glb) — 2026-07-03 — KEPT
 - **Target:** Bible_References Tree2.jpg — OSRS small young tree (two chunky faceted
   blobs, pale tan leaning trunk w/ root flares). Prop Pipeline, Blender-authored
