@@ -80,11 +80,13 @@
       makeSignpost(4,-27.5, [{text:'The Scarlands', ang:Math.PI}, {text:'Veyhollow', ang:0}]);
       makeSignpost(27.5,6, [{text:'Wardenholm Keep', ang:0.1}, {text:'Veyhollow', ang:2.8}]);
     }
-    /* ---- THE DELIBERATE REPOPULATION (pass 008) — the first region to get its folk back.
-     * Buildout law: worldNpcSpawns stays false; these are hand-placed with purpose via
-     * spawnNpc.force. Every soul stands at their post; ids match the dialogue registry. */
+    /* ---- THE PLANNED REPOPULATION (documented, NOT live) ----
+     * User decision 2026-07-03: the world stays depopulated for now. These placements
+     * are kept as the plan of record — every soul at a post, ids matching the dialogue
+     * registry — but they run WITHOUT the force channel, so the closed worldNpcSpawns
+     * gate suppresses them. When the user green-lights repopulation, restore
+     * `spawnNpc.force = true` around this block. */
     if(typeof spawnFriendly==='function' && typeof spawnNpc==='function'){
-      spawnNpc.force=true;
       try{
         spawnFriendly('banker','Banker Tilly', 10.5,-12, 0x39536b,'👩');            // behind the great counter
         spawnFriendly('merchant','Merchant Saff', -11,-12, 0x8a3d68,'🧔');          // the general store
@@ -97,9 +99,9 @@
         // townsfolk about the square — life, not clutter
         spawnNpc('wanderer', -3, 4); spawnNpc('wanderer', 6, -5);
         spawnNpc('monk', -9, -21);                                                   // the chapel's brother
-      } finally { spawnNpc.force=false; }
+      } finally { /* force channel intentionally NOT used — see note above */ }
     }
-    if(typeof UI!=='undefined' && UI.chat) UI.chat('[MAP] Veyhollow Commons stands walled and PEOPLED — first region repopulated, every soul at their post.','sys');
+    if(typeof UI!=='undefined' && UI.chat) UI.chat('[MAP] Veyhollow Commons stands walled — the map\'s ring, gates on every road. The folk come later.','sys');
     return true;
   }
   const iv=setInterval(()=>{ try{ if(build()) clearInterval(iv); }

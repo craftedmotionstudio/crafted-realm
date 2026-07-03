@@ -27,11 +27,10 @@
     if(typeof makeCrateCluster==='function') makeCrateCluster(M.x+3.4, M.z-2.6);
     if(typeof makeSignpost==='function') makeSignpost(M.x+0.5, M.z-17.5, [
       {text:'Olun’s Mill', ang:1.55}, {text:'Gloomfen', ang:-2.6}, {text:'Veyhollow', ang:-0.4}]);
-    // the miller, at his post (deliberate repopulation — law-compliant force channel)
+    // the miller's post (documented, NOT live — user decision 2026-07-03: no repopulation
+    // yet; the closed worldNpcSpawns gate suppresses this until the green light)
     if(typeof spawnFriendly==='function'){
-      spawnNpc.force=true;
-      try{ spawnFriendly('olun','Olun the Miller', M.x+2.2, M.z+1.2, 0x7a6a32,'👨‍🌾'); }
-      finally{ spawnNpc.force=false; }
+      spawnFriendly('olun','Olun the Miller', M.x+2.2, M.z+1.2, 0x7a6a32,'👨‍🌾');
     }
     if(typeof UI!=='undefined' && UI.chat) UI.chat('[MAP] Olun’s Mill turns again — at the map’s own windmill, west of the bridge road.','sys');
     return true;

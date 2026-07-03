@@ -27,6 +27,25 @@ Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 011 — REPOPULATION ROLLED BACK (user decision) — 2026-07-03 — REVERTED
+- **User decision:** "I don't think we're ready to repopulate the world yet." The world stays
+  FULLY depopulated until an explicit green light. This supersedes the repopulation parts of
+  passes 008 (Commons folk), 009 (Olun), and the in-flight 011 (Wardenholm garrison).
+- **Changed:**
+  - `src/wardenholm.js` — the garrison force-channel edit reverted before commit (staff stays
+    suppressed by the global gate, as it has been since the wipe).
+  - `src/veyhollow_town.js` + `src/oluns_mill.js` — the pass-008/009 placements remain in code
+    as THE PLAN OF RECORD (posts + dialogue ids documented) but no longer use `spawnNpc.force`,
+    so the closed `worldNpcSpawns` gate suppresses them. Re-peopling later = restoring the
+    force channel around those blocks, region by region.
+  - The /loop's standing law amended: **no NPC/folk placement at all** — passes focus on
+    geography, buildings, terrain, dressing, atmosphere only.
+- **Verified:** live census after reload — 0 friendlies, 0 world NPCs, 24 Menagerie exhibits
+  (off-map review tooling, intentional). Console clean, validator PASS.
+- **Next:** geography/deepening only — candidates: Gloomfen's stilt village silhouette
+  (buildings only, no folk), the dunes camp structures, quarry crag dressing, holm island
+  re-layout, snow-edge softening, or a Brynholt longship at the dock.
+
 ### Pass 010 — Saltreach Port — 2026-07-03 — KEPT
 - **Target:** the map's last unbuilt named region: the SE harbour town on the bay inlet.
 - **Changed:** `src/saltreach.js` (NEW): three furnished shore buildings (the Salt Exchange
