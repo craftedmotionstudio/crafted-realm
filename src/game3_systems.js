@@ -538,6 +538,14 @@ function removeClickable(obj){
 
 /* ---------- projectiles (arrows arc through the air) ---------- */
 const PROJECTILES = [];
+/* Line-of-sight gate for ranged/magic combat. Delegates to the flag grid (collision_grid.js);
+   returns true ("no obstruction known") whenever the grid is absent/disabled/unbaked, so the
+   kill-switch (CollisionGrid.enabled=false) restores byte-identical pre-LoS combat. Takes the
+   two world positions (Vector3-like) — only x/z matter on the tile grid. */
+function hasCombatLoS(from, to){
+  if(typeof CollisionGrid==='undefined') return true;
+  return CollisionGrid.hasLoS(from.x, from.z, to.x, to.z);
+}
 function fireProjectile(kind, fromObj, npc, dmg, tint){
   let mesh, dur, arc;
   const from = fromObj.position.clone(); from.y += 1.2;
@@ -709,7 +717,10 @@ function playerAttack(npc, dt){
   const sdef = Player.curStyle();
   const sizeReach = ((npc.t && npc.t.size)||1) * 0.8;   // big targets are struck at their edge
   const range = (style==='melee' ? 1.4 + sizeReach : 9 + sizeReach) + (sdef.rangeBonus||0);
-  if(dist > range){
+  // ranged/magic need a clear line of sight (rsbox/rsmod LoS); melee (adjacent) never does.
+  // No LoS ⇒ treat like out-of-range and path closer until the wall no longer intervenes.
+  const noLoS = style!=='melee' && !hasCombatLoS(player.position, npc.mesh.position);
+  if(dist > range || noLoS){
     // chase along a real path; recompute when the quarry strays from the path's end
     const goalMoved = !Player.moveTo ||
       Math.hypot(Player.moveTo.x-npc.mesh.position.x, Player.moveTo.z-npc.mesh.position.z) > 2.0;
@@ -944,8 +955,9 @@ function npcAttack(npc, dt){
   // always turn to face the target while in combat — including standing in melee range,
   // so monsters track the player instead of keeping a stale heading
   npc.mesh.lookAt(player.position.x, npc.mesh.position.y, player.position.z);
-  // spellcasters hold range and hurl bolts
-  if(npc.t.ranged && dist <= 8 && dist >= 2.2){
+  // spellcasters hold range and hurl bolts — but only with a clear line of sight; blocked by
+  // a wall they fall through to the approach code below and path toward the player (walk around).
+  if(npc.t.ranged && dist <= 8 && dist >= 2.2 && hasCombatLoS(npc.mesh.position, player.position)){
     npc.mesh.lookAt(player.position.x, npc.mesh.position.y, player.position.z);
     if(npc.attackCd>0) return;
     npc.attackCd = npc.t.speedTicks*TICK;
