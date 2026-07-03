@@ -1825,6 +1825,7 @@ function populateMainland(){
   for(let i=0;i<6;i++) makeFlower(ew[0]-12+Math.random()*24, ew[1]-12+Math.random()*24);
   // wolves prowl the deep woods west of the grove — the quest trees sit at the safer east fringe
   for(let i=0;i<3;i++) spawnNpc('mosswolf', ew[0]-24+Math.random()*10, ew[1]-6+Math.random()*14);
+  for(let i=0;i<3;i++) spawnNpc('thornboar', ew[0]-6+Math.random()*20, ew[1]-14+Math.random()*20);   // boars root the grove fringe (weak to slash)
   for(let i=0;i<6;i++) makeTree(ew[0]-28+Math.random()*12, ew[1]-8+Math.random()*18);
   // the hardwood stand — Ironwood/Mahogany/Rosewood (Bible_References tree family), the
   // higher-tier woodcutting trees deeper in the wood past the common emberwood oaks
@@ -1842,6 +1843,8 @@ function populateMainland(){
     const deep = (k==='coal') ? 0.8 : (k==='iron' ? 0.45 : 0);
     makeRock(qy[0]-13+Math.random()*(26-deep*10)+deep*10, qy[1]-11+Math.random()*22, k);
   });
+  // crawlers infest the deep seams — the Pests in the Deeps quest target (weak to crush)
+  for(let i=0;i<4;i++) spawnNpc('quarry_crawler', qy[0]-11+Math.random()*22, qy[1]-9+Math.random()*18);
   // and the Undercrag hides the richest veins, for those who dare mine beside Korthul
   const UC=ZONES.undercrag.pos;
   makeRock(UC[0]-12, UC[1]+8, 'iron'); makeRock(UC[0]+11, UC[1]-7, 'coal');
@@ -1888,6 +1891,7 @@ function populateDunes(){
   for(let i=0;i<4;i++) makeCliff(d[0]-16+Math.random()*32, d[1]-12+Math.random()*24, 0.8+Math.random()*0.8);
   spawnFriendly('duneTrader','Trader Soleh', d[0]+2, d[1]-3, 0xc4883a,'🧕',{hairLong:true});
   for(let i=0;i<5;i++) spawnNpc('duneclaw', d[0]-15+Math.random()*30, d[1]-12+Math.random()*24);
+  for(let i=0;i<3;i++) spawnNpc('dust_jackal', d[0]-12+Math.random()*28, d[1]-10+Math.random()*22);   // desert pack hunters (weak to slash)
   for(let i=0;i<2;i++) spawnNpc('hex_adept', d[0]+8+Math.random()*10, d[1]+8+Math.random()*8);
 }
 function populateScarlands(){
@@ -1908,6 +1912,7 @@ function populateScarlands(){
   // mid-threat gravewights near the Ditch; ash stalkers prowl the deep band
   for(let i=0;i<4;i++) spawnNpc('gravewight', -20+Math.random()*70, DITCH.z-10-Math.random()*18);
   for(let i=0;i<3;i++) spawnNpc('ash_stalker', -20+Math.random()*70, DITCH.z-40-Math.random()*24);
+  for(let i=0;i<3;i++) spawnNpc('cinder_shade', -15+Math.random()*60, DITCH.z-30-Math.random()*30);   // burnt revenants of the Scarring (resist stab, weak to crush)
   for(let i=0;i<2;i++) spawnNpc('hex_adept', -10+Math.random()*50, DITCH.z-24-Math.random()*14);
   // NOTE: the Ash Wyrm boss's eventual home is the Scarlands deep-end (re-add here once the map is
   // fleshed out). It's temporarily parked on Tutor's Holm (populateHolm) as a dev showpiece.
