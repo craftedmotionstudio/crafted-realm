@@ -46,31 +46,39 @@
     t.wrapS=t.wrapT=THREE.RepeatWrapping; t.magFilter=THREE.NearestFilter;
     return t;
   }
+  /* the stall model is a PROP PIPELINE asset (Bible_References/Stall.jpg): authored
+   * in Blender — tapered posts, planked counter, sagging striped canvas. Loaded once,
+   * cloned per stall; the canvas stripes tint to each stall's trade colours. */
+  let _stallBase=null, _stallWait=[];
+  function withStallModel(cb){
+    if(_stallBase){ cb(_stallBase); return; }
+    _stallWait.push(cb);
+    if(_stallWait.length>1) return;
+    new THREE.GLTFLoader().load('assets/models/stall.glb?v=2', gl=>{
+      _stallBase=gl.scene;
+      _stallWait.forEach(f=>f(_stallBase)); _stallWait=[];
+    }, undefined, e=>console.error('[town_square] stall.glb failed', e));
+  }
   function makeCanvasStall(x,z,rot,c1,c2,stallKind){
     const g=new THREE.Group();
-    const wood=new THREE.MeshLambertMaterial({color:0x8a6a44});
-    const table=new THREE.Mesh(new THREE.BoxGeometry(2.6,0.16,1.5), wood);
-    table.position.y=0.78; table.castShadow=true; g.add(table);
-    const skirt=new THREE.Mesh(new THREE.BoxGeometry(2.5,0.62,1.4),
-      new THREE.MeshLambertMaterial({color:0x6b4a2f}));
-    skirt.position.y=0.4; g.add(skirt);
-    for(const [sx,sz] of [[-1.2,-0.65],[1.2,-0.65],[-1.2,0.65],[1.2,0.65]]){
-      const post=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,2.2,5), wood);
-      post.position.set(sx,1.1,sz); g.add(post);
-    }
-    // the striped canvas: two gathered slopes meeting at a ridge, hems sagging past the posts
-    const canvas=new THREE.MeshLambertMaterial({map:stripeTex(c1,c2), side:THREE.DoubleSide});
-    for(const s of [-1,1]){
-      const slope=new THREE.Mesh(new THREE.BoxGeometry(3.1,0.07,1.14), canvas);
-      slope.rotation.x=s*0.5;
-      slope.position.set(0, 2.42, s*0.5);
-      slope.castShadow=true; g.add(slope);
-    }
-    const hemMat=new THREE.MeshLambertMaterial({map:stripeTex(c1,c2)});
-    for(const s of [-1,1]){
-      const hem=new THREE.Mesh(new THREE.BoxGeometry(3.1,0.34,0.06), hemMat);
-      hem.position.set(0, 2.05, s*1.02); g.add(hem);
-    }
+    const tintC1=new THREE.Color(c1), tintC2=new THREE.Color(c2);
+    withStallModel(base=>{
+      const inst=base.clone(true);
+      inst.traverse(o=>{ if(o.isMesh){
+        o.castShadow=true; o.receiveShadow=true;
+        // per-stall canvas tint: clone materials so each stall keeps its own stripes
+        const mats=(Array.isArray(o.material)?o.material:[o.material]).map(mm=>{
+          const c=mm.clone(); c.metalness=0;
+          if(/BLUE/i.test(mm.name)){  c.color.copy(tintC2); c.emissive=tintC2.clone().multiplyScalar(0.40); }
+          if(/CREAM/i.test(mm.name)){ c.color.copy(tintC1); c.emissive=tintC1.clone().multiplyScalar(0.28); }  // beige, not glowing white
+          if(/WOODD/i.test(mm.name)) c.color.setHex(0x7d7040);        // planks must READ as planks
+          else if(/WOOD/i.test(mm.name)) c.color.setHex(0x968a4e);    // the reference's muted olive wood
+          return c;
+        });
+        o.material=Array.isArray(o.material)?mats:mats[0];
+      }});
+      g.add(inst);
+    });
     // goods on the counter
     const goods=new THREE.Mesh(new THREE.BoxGeometry(0.55,0.32,0.55), new THREE.MeshLambertMaterial({color:0xc9a85a}));
     goods.position.set(-0.6,1.02,0); g.add(goods);
@@ -279,9 +287,9 @@
     }
 
     /* ---- the market: striped awnings round the south side, like the reference ---- */
-    makeCanvasStall(-4.2,-8.6, 0.12, '#b8bdc4','#3a6ab0', 'silver');   // blue-white: the silver stall
-    makeCanvasStall( 4.2,-8.6,-0.1, '#c9cdd2','#b03a4a', 'baker');     // red-white: the baker
-    makeCanvasStall(-7.6,-3.2, Math.PI/2+0.08, '#c4c9be','#4a7a3a');   // green-white: produce awning
+    makeCanvasStall(-4.2,-8.6, 0.12, '#d8cdaa','#2a6a96', 'silver');   // blue-beige: the silver stall (reference palette)
+    makeCanvasStall( 4.2,-8.6,-0.1, '#e0d8c2','#a83a48', 'baker');     // red-white: the baker
+    makeCanvasStall(-7.6,-3.2, Math.PI/2+0.08, '#dcd8c6','#47763c');   // green-white: produce awning
     return true;
   }
   const iv=setInterval(()=>{ try{ if(build()) clearInterval(iv); }
