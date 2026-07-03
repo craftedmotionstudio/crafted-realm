@@ -30,8 +30,9 @@
       for(let i=0;i<pos.count;i++){
         const vx=pos.getX(i)+cx, vz=pos.getZ(i)+cz;
         const gy2=groundY(vx,vz);
-        // only true frost cells (and their skirt) carry snow; water/shore stays bare
-        pos.setY(i, (!nearSnow(vx,vz)||gy2===null||gy2<-0.8) ? -3 : gy2+0.045);
+        // only true frost cells (and their skirt) carry snow; water AND the wet
+        // shoreline stay bare (below -0.35 the blanket poked out of the sea)
+        pos.setY(i, (!nearSnow(vx,vz)||gy2===null||gy2<-0.35) ? -3 : gy2+0.045);
       }
       geo.computeVertexNormals();
       const m=new THREE.Mesh(geo, snowMat);
@@ -57,7 +58,7 @@
       const zc = i%2 ? ZONES.whitmoor.pos : ZONES.brynholt.pos;
       const x=zc[0]+Math.sin(i*7.3)*30, z=zc[1]+Math.cos(i*4.7)*28;
       if(!snowy(x,z)) continue;
-      const gy2=groundY(x,z); if(gy2===null||gy2<-0.8) continue;
+      const gy2=groundY(x,z); if(gy2===null||gy2<-0.35) continue;   // never at the water's edge
       const d=new THREE.Mesh(new THREE.SphereGeometry(0.9+Math.abs(Math.sin(i*3))*1.4, 7, 5), snowMat);
       d.scale.y=0.28; d.position.set(x, gy2+0.05, z); d.castShadow=true; G.add(d);
       placed++;

@@ -27,6 +27,28 @@ Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 004 — Brynholt, the raider village on the frost coast — 2026-07-03 — KEPT
+- **Target:** Brynholt's identity (bible: "Raiders & bowyers", NE coast). Was 3 empty huts.
+- **Changed:**
+  - `src/brynholt.js` (NEW, self-booting) — 4 Buildkit one-liners, ALL furnished (doctrine:
+    interiors non-negotiable): the Whalebone Hall (mead-hall/pub), Hask's Bows (shop), 2 homes —
+    northern palette (weathered timber, slate-blue roofs). Hand-placed identity: a timber dock
+    probed to the real coastline, piles into the sea, mooring post, crates, torch, a FLOATING
+    rowboat (makeRowboat grounds at gy — deep water sank it; hull pinned to the sea plane),
+    2 dockside fishing spots, west palisade facing the Scarlands, signpost.
+  - `src/game4_ui.js` — populateBrynholt reduced to folk + hearth (Bowyer Hask now stands in
+    his shop; +1 raider).
+  - `src/biome_snow.js` — blanket + drift threshold raised to −0.35: snow no longer pokes out
+    of the sea at the shoreline (the "white wedge in the water" artifact).
+- **Before → after:** `pass004_brynholt_before/after.png` (same camera), `pass004_brynholt_dock.png`.
+- **Verified:** console clean; no data changes (validator N/A but engine content untouched).
+- **Gemini:** **215 vs the before's 100** — "dramatically improves settlement believability…
+  finally establishes its coastal identity." Weakest point: wants more boats at the dock.
+- **Verdict:** KEPT — obvious win, matches the map's NE village.
+- **Next:** the walled Veyhollow Commons ring (the map's most iconic town silhouette: circular
+  wall + gates around the existing village), or a raider longship at Brynholt's dock as a
+  small flourish if the wall proves too big for one pass.
+
 ### Pass 003 — grid-following snow (the frost is map-shaped) — 2026-07-03 — KEPT
 - **Target:** Gemini's "rectangular inset" artifact — biome_snow's two square blankets.
 - **Changed:**

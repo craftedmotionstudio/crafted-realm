@@ -2116,16 +2116,12 @@ function populateMainland(){
     makeBush(Math.cos(a)*r, Math.sin(a)*r); }
 }
 function populateBrynholt(){
+  // the buildings/dock live in src/brynholt.js (pass 004) — this keeps folk + hearth
   const b=ZONES.brynholt.pos;
-  makeHut(b[0]-5, b[1]-3, 1.1);
-  makeHut(b[0]+5, b[1]-1, 1);
-  makeHut(b[0], b[1]+6, 0.9);
   makeCampfire(b[0], b[1]);
-  makeTorch(b[0]-2, b[1]-6); makeTorch(b[0]+3, b[1]+3);
-  for(let i=0;i<4;i++) makeTree(b[0]-14+Math.random()*8, b[1]-8+Math.random()*16);
   for(let i=0;i<3;i++) makeStick(b[0]-6+Math.random()*12, b[1]-6+Math.random()*12);
-  spawnFriendly('fletcher','Bowyer Hask', b[0]+2, b[1]-5, 0x7a3d2a,'🏹');
-  for(let i=0;i<4;i++) spawnNpc('bryn_raider', b[0]-10+Math.random()*20, b[1]-10+Math.random()*20);
+  spawnFriendly('fletcher','Bowyer Hask', b[0]+8.5, b[1]-2, 0x7a3d2a,'🏹');   // inside Hask's Bows
+  for(let i=0;i<5;i++) spawnNpc('bryn_raider', b[0]-10+Math.random()*20, b[1]-10+Math.random()*20);
 }
 function populateDunes(){
   const d=ZONES.dunes.pos;
