@@ -185,38 +185,53 @@
       glass.position.set(s*K.w*0.25, KH*0.55, K.d/2+0.28); s2.add(glass);
       const glass2=glass.clone(); glass2.position.z=-K.d/2-0.28; s2.add(glass2); }
     s2.position.x=K.x; s2.position.z=K.z; s2.position.y=g0+KH; G.add(s2);
+    // storey 3 (visual only — no plane; raises the keep to the map's tall silhouette)
+    const s3=new THREE.Group();
+    const w3f=(w,h,d,x,y,z2)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d), kMat);
+      m.position.set(x-K.x, y, z2-K.z); m.castShadow=true; s3.add(m); };
+    w3f(K.w, KH, 0.5, K.x, KH/2, K.z-K.d/2); w3f(K.w, KH, 0.5, K.x, KH/2, K.z+K.d/2);
+    w3f(0.5, KH, K.d, K.x+K.w/2, KH/2, K.z); w3f(0.5, KH, K.d, K.x-K.w/2, KH/2, K.z);
+    for(const sx3 of [-1,1]) for(const sz3 of [-1,1]){       // tall arched windows, all faces
+      const gl3=new THREE.Mesh(new THREE.BoxGeometry(0.8,1.2,0.08),
+        new THREE.MeshLambertMaterial({color:0xffe6a0, emissive:0x6a4e16}));
+      gl3.position.set(sx3*K.w*0.25, KH*0.5, sz3*(K.d/2+0.28)); s3.add(gl3);
+      const gl4=new THREE.Mesh(new THREE.BoxGeometry(0.08,1.2,0.8),
+        new THREE.MeshLambertMaterial({color:0xffe6a0, emissive:0x6a4e16}));
+      gl4.position.set(sx3*(K.w/2+0.28), KH*0.5, sz3*K.d*0.2); s3.add(gl4);
+    }
+    s3.position.set(K.x, g0+KH*2, K.z); G.add(s3);
     // Maren's tower: NE corner of the keep, one more storey (plane 2)
     const T={x:K.x+K.w/2-2.5, z:K.z-K.d/2+2.5};
-    const tw=new THREE.Mesh(new THREE.CylinderGeometry(2.6,2.9,KH*2+2.6,8), stoneT(0xb4aa9c));
-    tw.position.set(T.x, g0+(KH*2+2.6)/2, T.z); tw.castShadow=true; G.add(tw);
-    const twCap=new THREE.Mesh(new THREE.ConeGeometry(3.1,3.2,8), M(0x4a6f93));   // the map's BLUE spire, taller
-    twCap.position.set(T.x, g0+KH*2+2.6+1.5, T.z); twCap.castShadow=true; G.add(twCap);
+    const tw=new THREE.Mesh(new THREE.CylinderGeometry(2.6,2.9,KH*3+2.2,8), stoneT(0xb4aa9c));
+    tw.position.set(T.x, g0+(KH*3+2.2)/2, T.z); tw.castShadow=true; G.add(tw);
+    const twCap=new THREE.Mesh(new THREE.ConeGeometry(3.1,3.2,8), M(0x4a6f93));   // the map's BLUE spire
+    twCap.position.set(T.x, g0+KH*3+2.2+1.5, T.z); twCap.castShadow=true; G.add(twCap);
     addCircleCollider(T.x, T.z, 2.6);
     // keep roof (flat, crenellated) — registered for roof-lift
     const roofG=new THREE.Group();
     const kroof=new THREE.Mesh(new THREE.BoxGeometry(K.w+0.6, 0.3, K.d+0.6), stoneT(0x8e867a));
-    kroof.position.set(K.x, g0+KH*2+0.15, K.z); roofG.add(kroof);
+    kroof.position.set(K.x, g0+KH*3+0.15, K.z); roofG.add(kroof);
     for(let i=0;i<Math.floor(K.w/1.4);i++){
       const c1=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.5,0.3), wallMat);
-      c1.position.set(K.x-K.w/2+0.7+i*1.4, g0+KH*2+0.55, K.z-K.d/2-0.15); roofG.add(c1);
+      c1.position.set(K.x-K.w/2+0.7+i*1.4, g0+KH*3+0.55, K.z-K.d/2-0.15); roofG.add(c1);
       const c2=c1.clone(); c2.position.z=K.z+K.d/2+0.15; roofG.add(c2);
     }
     // the GREAT SPIRE (map silhouette: the castle's dominant blue-capped tower) —
     // rides in roofG so it lifts away with the keep roof when you step inside
     const gsX=K.x-3.5, gsZ=K.z+2;
     const drum=new THREE.Mesh(new THREE.CylinderGeometry(2.1,2.4,4.2,8), stoneT(0xb4aa9c));
-    drum.position.set(gsX, g0+KH*2+2.1, gsZ); drum.castShadow=true; roofG.add(drum);
+    drum.position.set(gsX, g0+KH*3+2.1, gsZ); drum.castShadow=true; roofG.add(drum);
     const drumTrim=new THREE.Mesh(new THREE.CylinderGeometry(2.5,2.5,0.35,8), stoneT(0x8e867a));
-    drumTrim.position.set(gsX, g0+KH*2+4.15, gsZ); roofG.add(drumTrim);
+    drumTrim.position.set(gsX, g0+KH*3+4.15, gsZ); roofG.add(drumTrim);
     const spire=new THREE.Mesh(new THREE.ConeGeometry(2.8,4.6,8), M(0x4a6f93));
-    spire.position.set(gsX, g0+KH*2+6.6, gsZ); spire.castShadow=true; roofG.add(spire);
+    spire.position.set(gsX, g0+KH*3+6.6, gsZ); spire.castShadow=true; roofG.add(spire);
     const finial=new THREE.Mesh(new THREE.IcosahedronGeometry(0.22,0), M(0xd8c26a));
-    finial.position.set(gsX, g0+KH*2+9.0, gsZ); roofG.add(finial);
+    finial.position.set(gsX, g0+KH*3+9.0, gsZ); roofG.add(finial);
     // spire windows (warm, high — read from the town across the moat)
     for(const a of [Math.PI*0.75, Math.PI*1.5]){
       const w3=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.8,0.1),
         new THREE.MeshLambertMaterial({color:0xffe6a0, emissive:0x6a4e16}));
-      w3.position.set(gsX+Math.cos(a)*2.3, g0+KH*2+2.6, gsZ+Math.sin(a)*2.3);
+      w3.position.set(gsX+Math.cos(a)*2.3, g0+KH*3+2.6, gsZ+Math.sin(a)*2.3);
       w3.rotation.y=-a+Math.PI/2; roofG.add(w3);
     }
     G.add(roofG);
@@ -454,18 +469,12 @@
         hugPlane(7, 5, s[0], s[1], gT?new THREE.MeshLambertMaterial({map:gT}):M(0x6f8a48), 0.12);
       }
     })();
-    // --- good height: crown the keep with a taller watch turret + chimney ---
+    // --- the old watch turret is RETIRED (pass 021): the Great Spire crowns the keep
+    //     now. The kitchen chimney rides up to the raised roof. ---
     (function(){
-      const wt=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.8,4.2,8), stoneT(0xa39a8c));
-      wt.position.set(K.x-3.5, g0+KH*2+2.1, K.z+2.5); wt.castShadow=true; G.add(wt);
-      const wc=new THREE.Mesh(new THREE.ConeGeometry(2.0,1.5,8), M(0x5a5e72));
-      wc.position.set(K.x-3.5, g0+KH*2+4.9, K.z+2.5); wc.castShadow=true; G.add(wc);
-      const flag=new THREE.Mesh(new THREE.PlaneGeometry(1.1,0.6), new THREE.MeshBasicMaterial({color:0x8a3030, side:THREE.DoubleSide}));
-      flag.position.set(K.x-2.9, g0+KH*2+6.1, K.z+2.5); G.add(flag);
-      const pole=box(0.07,1.4,0.07, M(0x46301d), K.x-3.5, g0+KH*2+5.9, K.z+2.5);
-      const chim=box(0.7,1.6,0.7, stoneT(0x8e867a), K.x+5.5, g0+KH*2+0.9, K.z-3.5);
+      const chim=box(0.7,1.6,0.7, stoneT(0x8e867a), K.x+5.5, g0+KH*3+0.9, K.z-3.5);
       // the kitchen fire vents here — register so the atmosphere layer smokes it
-      const vent=new THREE.Group(); vent.position.set(K.x+5.5, g0+KH*2+1.7, K.z-3.5);
+      const vent=new THREE.Group(); vent.position.set(K.x+5.5, g0+KH*3+1.7, K.z-3.5);
       G.add(vent); if(WORLD.fires) WORLD.fires.push(vent);
     })();
     // --- more structures: stable lean-to (W wall), shrine of the Dawn (N wall), smithy corner (S) ---

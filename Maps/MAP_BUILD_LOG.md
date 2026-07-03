@@ -30,7 +30,7 @@ each building on the last, until it *obviously matches* the bible map. World sta
 | # | Location | Kept detail iterations | Status |
 |---|---|---|---|
 | 1 | Veyhollow Commons | 5 / 5 ✅ | passes 012-019 all KEPT; capstone vs map **10/10** (moat landed); square 9/10 vs Town_Square.jpg; minor debt: small-cottage interiors |
-| 2 | Wardenholm Keep | 1 / 5 | r1 silhouette KEPT (pass 020): true moat ring, blue spires; both reviewers ≥8.5 |
+| 2 | Wardenholm Keep | 2 / 5 | r1-r2 KEPT (passes 020-021): moat ring, blue spires, keep raised a storey; Gemini 8/10 + Claude 9/10 vs map |
 | 3 | Stonereach Bridge | 0 / 5 | — |
 | 4 | Mirrorpond | 0 / 5 | — |
 | 5 | Emberwood | 0 / 5 | — |
@@ -68,6 +68,25 @@ each building on the last, until it *obviously matches* the bible map. World sta
 ---
 
 <!-- Newest entries below this line, newest first -->
+
+### Pass 021 — Wardenholm Keep — rung 2/5: Structure & materials — 2026-07-03 — KEPT
+- **Location & rung:** the keep itself — both reviewers' shared pass-020 nit ("shorter
+  and squatter than the map"). Tracker now **2/5**.
+- **Changed:** `wardenholm.js` — visual STOREY 3 added to the keep (shell walls + tall
+  lit windows on all faces; no plane/climb changes, so the power floor and Maren's
+  chamber work untouched); the flat roof + crenellations + Great Spire ride up one
+  storey; Maren's tower raised so her blue cap still crowns above the new roofline;
+  the OLD watch turret (embedded inside the pass-020 Great Spire — found while raising
+  heights) retired; the kitchen chimney + smoke vent lifted to the new roof.
+- **Verified:** bailey→keep pathing reached; console clean; no data change.
+- **Before → after:** `pass020_wardenholm_r1_after.png` → `pass021_wardenholm_r2_after.png`.
+- **Two-reviewer scores:** Claude **9/10** vs the map (nit: both spires cluster NE;
+  gatehouse still plain); Gemini **125 vs 100** and **8/10** vs the map (gap: the map's
+  corner-tower pointed roofs — our tops are deliberately walkable; a raised-drum cone
+  above head height is the candidate design for a later rung).
+- **Verdict:** KEPT — the keep dominates its island like the map's.
+- **Next:** Wardenholm rung 3/5 (props & clutter): gatehouse presence, bailey life
+  (crates/carts/training dummies exist — deepen), corner-tower drum-cones experiment.
 
 ### Pass 020 — Wardenholm Keep — rung 1/5: Silhouette — 2026-07-03 — KEPT
 - **Location & rung:** location #2 on the tracker; the map's moated island castle with
