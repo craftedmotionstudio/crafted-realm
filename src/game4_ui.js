@@ -2029,14 +2029,16 @@ function populateMainland(){
     spawnNpc('korthul', C[0], C[1]-2);
   })();
   makeCampfire(2,6);
-  makeSignpost(0,3.5);
+  makeSignpost(0,5.4);                    // clear of the fountain rim (it hugged the basin)
   makeTorch(4,-2); makeTorch(-4,-3);
   if(LEGACY_VILLAGE){
     makeFence(9.5,-2.5, 9.5,7); makeFence(9.5,7, 2,7);   // hen yard
     makeFence(-10,-1, -10,6); makeFence(-10,6, -5,9);
+    // random plaza flowers/bushes were pre-map dressing — one bush kept landing IN
+    // the fountain; the square is dressed deliberately by town_square.js now
+    for(let i=0;i<10;i++) makeFlower(-12+Math.random()*26, -2+Math.random()*16);
+    for(let i=0;i<6;i++) makeBush(-16+Math.random()*34, -14+Math.random()*30);
   }
-  for(let i=0;i<10;i++) makeFlower(-12+Math.random()*26, -2+Math.random()*16);
-  for(let i=0;i<6;i++) makeBush(-16+Math.random()*34, -14+Math.random()*30);
 
   spawnFriendly('banker','Banker Tilly', 6,-8.0, 0x39536b,'👩');   // behind the great counter
   spawnFriendly('merchant','Merchant Saff', -7,-8.8, 0x8a3d68,'🧔');

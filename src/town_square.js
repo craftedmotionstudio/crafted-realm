@@ -99,11 +99,28 @@
     const base=gy(x,z)||0;
     const g=new THREE.Group(); g.position.set(x,base,z);
     const loader=new THREE.GLTFLoader();
-    loader.load('assets/models/fountain.glb?v=1', gltf=>{
+    loader.load('assets/models/fountain.glb?v=2', gltf=>{
       const m=gltf.scene;
+      // the GLB carries geometry only — dress it in the GAME'S materials so it sits in
+      // the world instead of on it: textured stone like the walls, SCROLLING water
+      // like every other pool (user critique 2026-07-03: pale + dead water)
+      const stoneTex=TEX.stone.clone(); stoneTex.needsUpdate=true;
+      stoneTex.wrapS=stoneTex.wrapT=THREE.RepeatWrapping; stoneTex.repeat.set(3,3);
+      const stoneMat=new THREE.MeshLambertMaterial({map:stoneTex, color:0xb6b0a4});   // matches the town wall masonry
+      const waterTex=TEX.water.clone(); waterTex.needsUpdate=true;
+      waterTex.wrapS=waterTex.wrapT=THREE.RepeatWrapping; waterTex.repeat.set(2.2,2.2);
+      WORLD.waterTextures.push(waterTex);                 // the world tick scrolls it
+      const waterMat=new THREE.MeshLambertMaterial({map:waterTex, color:0x9fd0e8});
       m.traverse(o=>{ if(o.isMesh){
         o.castShadow=true; o.receiveShadow=true;
-        if(o.material){ o.material.metalness=0; }   // AI GLBs export metallic=1 → black in r128
+        // Hunyuan shape meshes have no UVs — project from above so textures land
+        if(!o.geometry.attributes.uv){
+          const pos=o.geometry.attributes.position, uv=new Float32Array(pos.count*2);
+          for(let i=0;i<pos.count;i++){ uv[i*2]=(pos.getX(i)/6.8+0.5)*3; uv[i*2+1]=(pos.getZ(i)/6.8+0.5)*3; }
+          o.geometry.setAttribute('uv', new THREE.BufferAttribute(uv,2));
+        }
+        const n=(o.material&&o.material.name)||'';
+        o.material=/WATER/i.test(n)?waterMat:stoneMat;
       }});
       g.add(m);
     }, undefined, err=>{ console.error('[town_square] fountain.glb failed to load', err); });
