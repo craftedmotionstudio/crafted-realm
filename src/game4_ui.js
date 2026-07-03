@@ -345,6 +345,7 @@ const UI = {
       box.appendChild(b);
     });
     document.getElementById('dialogue-modal').style.display='block';
+    if(typeof Events!=='undefined') Events.emit('modalOpened', {id:'dialogue-modal'});
   },
   closeModal(id){ document.getElementById(id).style.display='none'; },
   openWorldMap(){
@@ -391,6 +392,7 @@ const UI = {
       }:null));
     });
     document.getElementById('bank-modal').style.display='block';
+    if(announce && typeof Events!=='undefined') Events.emit('modalOpened', {id:'bank-modal'});
     if(announce) Sfx.coin();
   },
   currentShop:'bazaar',
@@ -429,6 +431,7 @@ const UI = {
       }:null));
     });
     document.getElementById('shop-modal').style.display='block';
+    if(announce && typeof Events!=='undefined') Events.emit('modalOpened', {id:'shop-modal'});
     if(announce) Sfx.coin();
   },
   worldToScreen(obj, yOff=1.8){

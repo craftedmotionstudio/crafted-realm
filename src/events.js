@@ -8,6 +8,7 @@
  *   'npcKilled'   {npc}                   player kill confirmed (killNpc)
  *   'lootSpawned' {id, qty, x, z}         a ground item appears (makeDrop)
  *   'itemPickup'  {id, qty}               player picks a drop off the ground
+ *   'modalOpened' {id}                    a modal interface opens (bank/shop/dialogue)
  * Handlers are isolated: one throwing never breaks the loop or other handlers.
  * Loaded FIRST so every later file may emit/subscribe freely.
  */
