@@ -665,12 +665,18 @@ const Admin = {
   coins(){ Player.addItem('coins',10000); UI.chat('[ADMIN] +10,000 crowns.','sys'); },
   speed(){ this.speedOn=!this.speedOn; Player.speed=this.speedOn?8.4:4.2;
     UI.chat(`[ADMIN] Run speed ${this.speedOn?'2×':'normal'}.`,'sys'); },
+  friendly(){ GameConfig.set('friendlyMode', !GameConfig.friendlyMode);
+    this.syncFriendlyBtn();
+    UI.chat(`[ADMIN] Friendly mode ${GameConfig.friendlyMode?'ON — NPCs will not attack first':'OFF — the wilds are dangerous again'}.`,'sys'); },
+  syncFriendlyBtn(){ const b=document.getElementById('admin-friendly');
+    if(b) b.textContent = `😇 Friendly mode: ${GameConfig.friendlyMode?'ON':'OFF'}`; },
   killAll(){ WORLD.npcs.forEach(n=>{ if(!n.dead && n.mesh.position.distanceTo(player.position)<25) killNpc(n); });
     UI.chat('[ADMIN] Nearby NPCs despawned.','sys'); },
 };
 addEventListener('keydown', e=>{
   if(e.key==='`'){ const p=document.getElementById('admin-panel');
-    p.style.display = p.style.display==='block'?'none':'block'; }
+    p.style.display = p.style.display==='block'?'none':'block';
+    if(p.style.display==='block') Admin.syncFriendlyBtn(); }
   if(e.key==='Escape'){ ['dialogue-modal','bank-modal','shop-modal'].forEach(id=>UI.closeModal(id));
     document.getElementById('admin-panel').style.display='none'; }
   if((e.key==='o'||e.key==='O') && !/INPUT|TEXTAREA|SELECT/.test((e.target&&e.target.tagName)||'')){
@@ -753,7 +759,7 @@ canvasEl.addEventListener('mouseup', e=>{
   handleClick(hit.obj, hit.point);
 });
 canvasEl.addEventListener('wheel', e=>{
-  camCtl.dist = Math.min(40, Math.max(7, camCtl.dist + e.deltaY*0.02));
+  camCtl.dist = Math.min(70, Math.max(12, camCtl.dist + e.deltaY*0.02));
 });
 const Ctx = {
   open:false,
@@ -894,7 +900,7 @@ canvasEl.addEventListener('touchmove', e=>{
     const [a,b]=e.touches;
     const d=Math.hypot(a.clientX-b.clientX, a.clientY-b.clientY);
     const cx=(a.clientX+b.clientX)/2, cy=(a.clientY+b.clientY)/2;
-    camCtl.dist = Math.min(40, Math.max(7, camCtl.dist + (_twoT.d-d)*0.045));
+    camCtl.dist = Math.min(70, Math.max(12, camCtl.dist + (_twoT.d-d)*0.045));
     camCtl.yaw  -= (cx-_twoT.x)*0.008;
     camCtl.pitch = Math.min(1.45, Math.max(0.55, camCtl.pitch+(cy-_twoT.y)*0.005));
     _twoT={d, x:cx, y:cy};
@@ -1612,7 +1618,7 @@ function wireLogin(){
     }
   };
   if($('compass-btn')) $('compass-btn').onclick=()=>{ Sfx.click();
-    camCtl.yaw=Math.PI*0.75; camCtl.pitch=1.08; camCtl.dist=19;
+    camCtl.yaw=Math.PI*0.75; camCtl.pitch=1.08; camCtl.dist=33;
   };
   if($('run-orb')) $('run-orb').onclick=()=>{
     if(Player.energy<=0 && !Player.runOn){ UI.chat('You are too exhausted to run.','plain'); return; }

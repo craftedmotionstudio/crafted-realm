@@ -482,6 +482,7 @@ function update(dt){
     // and grow tolerant after ~10 minutes near them — except the Scarlands,
     // whose horrors (like the Wilderness) never relent.
     let wantsAggro = n.t.aggro && distP < 7 && !n.exhibit;   // penned exhibits never chase
+    if(typeof GameConfig!=='undefined' && GameConfig.friendlyMode) wantsAggro=false;   // friendly mode: nothing starts a fight
     if(wantsAggro && n.target!=='player'){
       const fearless = n.t.alwaysAggro || curZone==='scarlands';
       if(!fearless){

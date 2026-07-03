@@ -11,15 +11,17 @@ const GameConfig = {
   xpRateSkill: {},          // e.g. {Fishing: 1.5}
   fatigueEnabled: false,    // when on: fatigue builds with xp, rests at beds/idle
   fatigue: 0,               // 0..100
+  friendlyMode: true,       // when on: no NPC ever starts a fight (they still fight back)
   _KEY: 'cr_config',
   load(){
     const d = (typeof Persist!=='undefined') ? Persist.getJSON(this._KEY, null) : null;
     if(d){ if(isFinite(d.xpRate)) this.xpRate=d.xpRate;
            if(d.xpRateSkill) this.xpRateSkill=d.xpRateSkill;
-           if(d.fatigueEnabled!==undefined) this.fatigueEnabled=!!d.fatigueEnabled; }
+           if(d.fatigueEnabled!==undefined) this.fatigueEnabled=!!d.fatigueEnabled;
+           if(d.friendlyMode!==undefined) this.friendlyMode=!!d.friendlyMode; }
   },
   save(){ if(typeof Persist!=='undefined')
-    Persist.setJSON(this._KEY, {xpRate:this.xpRate, xpRateSkill:this.xpRateSkill, fatigueEnabled:this.fatigueEnabled}); },
+    Persist.setJSON(this._KEY, {xpRate:this.xpRate, xpRateSkill:this.xpRateSkill, fatigueEnabled:this.fatigueEnabled, friendlyMode:this.friendlyMode}); },
   set(k, v){ this[k]=v; this.save(); },
   xpMult(skill){
     let m = (isFinite(this.xpRate) && this.xpRate>0 ? this.xpRate : 1) *

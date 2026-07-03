@@ -2,7 +2,7 @@
 let scene, camera, renderer, clock;
 const WORLD = {size:320, clickables:[], npcs:[], drops:[], resources:[], grounds:[], fires:[], interiors:[], roofs:[], roofsOff:false};
 let player;
-const camCtl = {yaw: Math.PI*0.75, pitch: 1.08, dist: 19, dragging:false, lx:0, ly:0};
+const camCtl = {yaw: Math.PI*0.75, pitch: 1.08, dist: 33, dragging:false, lx:0, ly:0};  // dist scaled for 30° FOV (near-ortho)
 
 function initEngine(){
   const canvas = document.getElementById('game-canvas');
@@ -15,18 +15,22 @@ function initEngine(){
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xa8c4d8);
-  // the old-school horizon, pushed out a touch: more world visible, still cozy.
-  // (game5's zone system lerps fog COLOR live; near/far stay ours)
-  scene.fog = new THREE.Fog(0xb4c6cc, 24, 84);
+  // OSRS look-pass: fog was starting at 24u and washing the whole scene grey. Push it
+  // WAY back so the world reads crisp and the colours stay saturated (OSRS has a distant,
+  // subtle horizon haze, not a near fog). (game5's zone system lerps fog COLOR live.)
+  scene.fog = new THREE.Fog(0xb4c6cc, 65, 205);
 
-  camera = new THREE.PerspectiveCamera(50, innerWidth/innerHeight, 0.1, 600);
+  // OSRS look-pass R3: OSRS is near-ORTHOGRAPHIC (long lens). Drop FOV 50->30 so parallel lines
+  // stay parallel and distant objects barely shrink; camCtl.dist is scaled up to match framing.
+  camera = new THREE.PerspectiveCamera(30, innerWidth/innerHeight, 0.1, 600);
 
-  // golden-hour key: warmer, brighter sun at a lower angle for long readable shadows,
-  // with a cool-sky/warm-bounce hemisphere so shade stays lively instead of grey
-  scene.add(new THREE.HemisphereLight(0xdce8f4, 0x5a6644, 0.78));
-  const sun = new THREE.DirectionalLight(0xffdf9e, 0.92);
+  // OSRS look-pass R3 (two independent reviews agreed): OSRS surfaces DO show a clear light->dark
+  // gradient across facets (baked directional diffuse), so keep a MODERATE sun — but OSRS has NO
+  // hard real-time ground cast shadows, which were the biggest tell. Directional ON, castShadow OFF.
+  scene.add(new THREE.HemisphereLight(0xdfe2d8, 0x8a8a72, 0.92));   // brighter, even ambient (OSRS is bright, not moody)
+  const sun = new THREE.DirectionalLight(0xfff4e0, 0.85);            // stronger key for facet read
   sun.position.set(75, 62, 28);
-  sun.castShadow = true;
+  sun.castShadow = false;   // no hard cast shadows — the #1 OSRS-illusion breaker
   sun.shadow.mapSize.set(2048,2048);
   sun.shadow.camera.left=-160; sun.shadow.camera.right=200;
   sun.shadow.camera.top=200; sun.shadow.camera.bottom=-160;
@@ -39,9 +43,10 @@ function initEngine(){
     camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
 }
 
-// r128 MeshLambertMaterial has no `flatShading` (it's Gouraud/per-vertex), so passing it spams a
-// console warning per construction and does nothing — omit it. Look is unchanged (already smooth).
-function mat(c){ return new THREE.MeshLambertMaterial({color:c}); }
+// OSRS look-pass: MeshLambertMaterial (Gouraud) renders curved geometry SMOOTH — the "clay" look.
+// MeshPhongMaterial DOES honour flatShading in r128, giving the hard, faceted per-face read that
+// defines OSRS. shininess:0 + black specular keeps it matte (no plastic highlight).
+function mat(c){ return new THREE.MeshPhongMaterial({color:c, flatShading:true, shininess:0, specular:0x000000}); }
 
 /* ---------- static collision: rectangles + circles ---------- */
 WORLD.colliders = [];
@@ -112,11 +117,36 @@ function waterTexture(){
   return t;
 }
 WORLD.waterTextures=[];
+// ---- structured OSRS textures: brick courses / plank seams read as MATERIAL, not noise ----
+function brickTexture(base, light, dark, mortar){
+  const c=document.createElement('canvas'); c.width=64; c.height=64; const x=c.getContext('2d');
+  x.fillStyle=base; x.fillRect(0,0,64,64);
+  for(let i=0;i<260;i++){ x.fillStyle=(Math.random()<0.5?light:dark); x.fillRect(Math.random()*64|0,Math.random()*64|0,2,2); }
+  x.fillStyle=mortar;                                   // recessed mortar grid, brick rows offset
+  const rh=16;
+  for(let ry=0,row=0; ry<64; ry+=rh,row++){
+    x.fillRect(0,ry,64,2);                               // horizontal course
+    const off=(row%2)*16;
+    for(let bx=off; bx<=64; bx+=32){ x.fillRect(((bx)%64),ry,2,rh); }  // vertical joins, staggered
+  }
+  const t=new THREE.CanvasTexture(c); t.magFilter=THREE.NearestFilter; t.minFilter=THREE.NearestFilter;
+  t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
+}
+function plankTexture(base, light, dark, seam){
+  const c=document.createElement('canvas'); c.width=64; c.height=64; const x=c.getContext('2d');
+  x.fillStyle=base; x.fillRect(0,0,64,64);
+  for(let i=0;i<200;i++){ x.fillStyle=(Math.random()<0.5?light:dark); x.fillRect(Math.random()*64|0,Math.random()*64|0,Math.random()<0.5?3:2,1); } // grain streaks
+  x.fillStyle=seam;                                      // vertical plank seams
+  for(let px=0;px<64;px+=16){ x.fillRect(px,0,2,64); }
+  const t=new THREE.CanvasTexture(c); t.magFilter=THREE.NearestFilter; t.minFilter=THREE.NearestFilter;
+  t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
+}
 function buildTextures(){
-  TEX.grass = pixelTexture('#7d9450', [['#6d8344',220,2],['#8aa05c',160,2],['#5f7440',110,1],['#74894a',90,2]], '#8aa05c');
+  // grass: MUTED olive-khaki, LOW-contrast so tiling disappears (OSRS ground is a colour field)
+  TEX.grass = pixelTexture('#67704a', [['#616a46',210,2],['#6d7652',150,2],['#5b6440',110,2]], '#6f7856');
   TEX.water = waterTexture();
-  TEX.stone = pixelTexture('#8a8276', [['#7a7268',200,2],['#9a9286',160,2],['#6a6258',70,1]]);
-  TEX.wood  = pixelTexture('#6b4a2f', [['#5d3e26',180,2],['#7a5838',140,2]]);
+  TEX.stone = brickTexture('#847d72','#8d867a','#787065','#6b645a');   // subtle mortar (less crisp tiling)
+  TEX.wood  = plankTexture('#68503a','#6f573f','#5b4733','#4c3a2a');    // subtle plank seams
   TEX.thatch= pixelTexture('#a8854a', [['#96743e',220,2],['#ba9659',160,2]]);
   // creamy lime-plaster daub for Tudor cottage walls — warm cream, subtle mottle
   TEX.plaster = pixelTexture('#ece0bf', [['#e3d4ad',150,3],['#f3ecd6',120,3],['#dccba0',55,2]]);
@@ -251,8 +281,9 @@ function buildTerrainPatch(cx, cz, size, segs, edgeFalloff){
   }
   geo.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
   geo.computeVertexNormals();
-  const tex = TEX.grass.clone(); tex.needsUpdate=true; tex.repeat.set(size/4, size/4);
-  const m = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({map:tex, vertexColors:true}));
+  const tex = TEX.grass.clone(); tex.needsUpdate=true; tex.repeat.set(size/7, size/7);
+  // flat-shaded terrain: faces read as distinct planes (the OSRS ground), texture + tint kept
+  const m = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({map:tex, vertexColors:true, flatShading:true, shininess:0, specular:0x000000}));
   m.position.set(cx,0,cz);
   m.receiveShadow = true; m.name='ground';
   scene.add(m);

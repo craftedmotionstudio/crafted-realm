@@ -4,7 +4,9 @@
 > multi-storey interiors, caves, whole villages — to OSRS's level of development, our own IP.
 > Companion docs: `VEYHOLLOW_DESIGN.md` (the starter-town design brief + per-chunk checklist),
 > `LUMBRIDGE_CASTLE.md` (the hand-built castle precedent), `STORY_BIBLE.md` (where every
-> location must fit), `GOAL.md` (why). Research grounded in RuneLite/OpenRS2/rsmod cache
+> location must fit), `GOAL.md` (why), and **`Maps/Crafted Realms Map.png`** (the canonical
+> top-down world layout — every region's position, biome, and POIs; the whole world must be
+> built to match it). Research grounded in RuneLite/OpenRS2/rsmod cache
 > internals, RSPSi editor workflows, and modular-kit level-design practice — structure and
 > concepts only, never Jagex data or assets.
 
@@ -128,9 +130,13 @@ no dead space · 2-second readability.
 
 ## 6. Story coherence rules
 
-- **Geography is the fiction**: threat rises with distance from Veyhollow; biome per
-  direction (fen SW, cold N, dunes E, scar S); each faction's architecture recurs where it
-  holds power (Wardens' timber palisades; the Dawn's pale chapel stone; Spire glass).
+- **Geography is the fiction**: threat rises with distance from Veyhollow, and northward
+  past the **Wilderness Ditch** most of all; biome per direction (autumn forest W, drowned
+  fen SW, the burned **Wilderness/Scarlands** N behind the Ditch — flanked by the Whitmoor
+  snow keep NW and the Brynholt frost coast NE — the Undercrag at its deep-north edge, crag
+  and dunes E, lakes and arena S, Tutor's Holm offshore SE); each faction's architecture
+  recurs where it holds power (Wardens' timber palisades; the Dawn's pale chapel stone;
+  Spire glass). Match `Maps/Crafted Realms Map.png` for every position.
 - **Names from the same well**: hollow/reach/holt/moor/crag compounds (Veyhollow,
   Stonereach, Brynholt, Whitmoor, Undercrag). No Earth names, no RuneScape names.
 - **Every location answers three questions**: who holds it (faction), why players come

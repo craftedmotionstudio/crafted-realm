@@ -17,65 +17,87 @@ const Buildkit = {
   STOREY_H: 2.0,
 
   /* ---- small furniture builders (centrepiece scenery, 90°-snapped) ---- */
-  _mat(c){ return new THREE.MeshLambertMaterial({color:c}); },
+  // OSRS look-pass: flat-shaded matte base, plus wood/stone grain so props aren't flat colour.
+  _mat(c){ return new THREE.MeshPhongMaterial({color:c, flatShading:true, shininess:0, specular:0x000000}); },
+  _wood(c){ const t=(typeof TEX!=='undefined'&&TEX.wood)?TEX.wood.clone():null; if(t){t.needsUpdate=true;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1.4,1.4);}
+    return new THREE.MeshPhongMaterial({color:c, map:t, flatShading:true, shininess:0, specular:0x000000}); },
+  _stone(c){ const t=(typeof TEX!=='undefined'&&TEX.stone)?TEX.stone.clone():null; if(t){t.needsUpdate=true;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1.2,1.2);}
+    return new THREE.MeshPhongMaterial({color:c, map:t, flatShading:true, shininess:0, specular:0x000000}); },
   furniture: {
-    table(k){ const g=new THREE.Group(); const m=k._mat(0x7a5a34);
+    table(k){ const g=new THREE.Group(); const m=k._wood(0x7a5a34);
       const top=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.08,0.8), m); top.position.y=0.62; g.add(top);
       [[-0.5,-0.3],[0.5,-0.3],[-0.5,0.3],[0.5,0.3]].forEach(([a,b])=>{
         const l=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.6,0.08), m); l.position.set(a,0.3,b); g.add(l); });
       return g; },
-    chair(k){ const g=new THREE.Group(); const m=k._mat(0x6a4e2c);
+    chair(k){ const g=new THREE.Group(); const m=k._wood(0x6a4e2c);
       const s=new THREE.Mesh(new THREE.BoxGeometry(0.42,0.06,0.42), m); s.position.y=0.4; g.add(s);
       const b=new THREE.Mesh(new THREE.BoxGeometry(0.42,0.44,0.06), m); b.position.set(0,0.62,-0.18); g.add(b);
       [[-0.16,-0.16],[0.16,-0.16],[-0.16,0.16],[0.16,0.16]].forEach(([a,c])=>{
         const l=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.4,0.06), m); l.position.set(a,0.2,c); g.add(l); });
       return g; },
-    stool(k){ const g=new THREE.Group(); const m=k._mat(0x6a4e2c);
+    stool(k){ const g=new THREE.Group(); const m=k._wood(0x6a4e2c);
       const s=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.24,0.45,6), m); s.position.y=0.22; g.add(s); return g; },
-    bench(k){ const g=new THREE.Group(); const m=k._mat(0x7a5a34);
+    bench(k){ const g=new THREE.Group(); const m=k._wood(0x7a5a34);
       const s=new THREE.Mesh(new THREE.BoxGeometry(1.3,0.07,0.36), m); s.position.y=0.38; g.add(s);
       for(const a of [-0.5,0.5]){ const l=new THREE.Mesh(new THREE.BoxGeometry(0.09,0.36,0.3), m); l.position.set(a,0.19,0); g.add(l); }
       return g; },
-    bed(k){ const g=new THREE.Group();
-      const f=new THREE.Mesh(new THREE.BoxGeometry(0.95,0.25,1.9), k._mat(0x7a5a34)); f.position.y=0.2; g.add(f);
+    bed(k, opt){ opt=opt||{}; const g=new THREE.Group();
+      const woodC=0x6a4a28;
+      const f=new THREE.Mesh(new THREE.BoxGeometry(0.95,0.25,1.9), k._wood(0x7a5a34)); f.position.y=0.2; g.add(f);
       const mtt=new THREE.Mesh(new THREE.BoxGeometry(0.85,0.12,1.7), k._mat(0xc8b890)); mtt.position.y=0.4; g.add(mtt);
       const p=new THREE.Mesh(new THREE.BoxGeometry(0.6,0.12,0.42), k._mat(0xe8e2d0)); p.position.set(0,0.48,-0.6); g.add(p);
-      const bl=new THREE.Mesh(new THREE.BoxGeometry(0.87,0.1,0.95), k._mat(0x8a3a30)); bl.position.set(0,0.44,0.35); g.add(bl);
+      const bl=new THREE.Mesh(new THREE.BoxGeometry(0.87,0.1,0.95), k._mat(opt.blanket!==undefined?opt.blanket:0x8a3a30)); bl.position.set(0,0.44,0.35); g.add(bl);
+      // slatted wooden headboard at the head end (-z) — the OSRS bed read
+      const rail=new THREE.Mesh(new THREE.BoxGeometry(0.98,0.1,0.12), k._wood(woodC)); rail.position.set(0,0.74,-0.92); g.add(rail);
+      for(let i=-3;i<=3;i++){ const sl=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.55,0.08), k._wood(woodC));
+        sl.position.set(i*0.135,0.46,-0.92); g.add(sl); }
       return g; },
-    shelf(k){ const g=new THREE.Group(); const m=k._mat(0x6a4e2c);
+    shelf(k){ const g=new THREE.Group(); const m=k._wood(0x6a4e2c);
       const c=new THREE.Mesh(new THREE.BoxGeometry(1.0,1.5,0.32), m); c.position.y=0.75; g.add(c);
-      for(let i=0;i<3;i++){ const s=new THREE.Mesh(new THREE.BoxGeometry(0.9,0.05,0.26), k._mat(0x8a6a44));
+      for(let i=0;i<3;i++){ const s=new THREE.Mesh(new THREE.BoxGeometry(0.9,0.05,0.26), k._wood(0x8a6a44));
         s.position.set(0,0.35+i*0.42,0.02); g.add(s);
         const it=new THREE.Mesh(new THREE.BoxGeometry(0.2+Math.abs(Math.sin(i*7))*0.3,0.22,0.18), k._mat([0xa04a3a,0x4a6a8a,0x8a8a4a][i]));
         it.position.set((i-1)*0.24,0.5+i*0.42,0.02); g.add(it); }
       return g; },
     counter(k){ const g=new THREE.Group();
-      const c=new THREE.Mesh(new THREE.BoxGeometry(1.0,0.95,0.5), k._mat(0x7a5a34)); c.position.y=0.48; g.add(c);
-      const top=new THREE.Mesh(new THREE.BoxGeometry(1.08,0.07,0.58), k._mat(0x8a6a44)); top.position.y=0.98; g.add(top);
+      const c=new THREE.Mesh(new THREE.BoxGeometry(1.0,0.95,0.5), k._wood(0x7a5a34)); c.position.y=0.48; g.add(c);
+      const top=new THREE.Mesh(new THREE.BoxGeometry(1.08,0.07,0.58), k._wood(0x8a6a44)); top.position.y=0.98; g.add(top);
       return g; },
     barrel(k){ const g=new THREE.Group();
-      const b=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.26,0.72,8), k._mat(0x7a5a34)); b.position.y=0.36; g.add(b);
+      const b=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.26,0.72,8), k._wood(0x7a5a34)); b.position.y=0.36; g.add(b);
       for(const y of [0.15,0.55]){ const r=new THREE.Mesh(new THREE.TorusGeometry(0.295,0.025,4,10), k._mat(0x3a3a44));
         r.position.y=y; r.rotation.x=Math.PI/2; g.add(r); }
       return g; },
     crate(k){ const g=new THREE.Group();
-      const c=new THREE.Mesh(new THREE.BoxGeometry(0.62,0.62,0.62), k._mat(0x8a6a44)); c.position.y=0.31; g.add(c);
+      const c=new THREE.Mesh(new THREE.BoxGeometry(0.62,0.62,0.62), k._wood(0x8a6a44)); c.position.y=0.31; g.add(c);
       return g; },
     rug(k, col){ const g=new THREE.Group();
       const r=new THREE.Mesh(new THREE.BoxGeometry(1.6,0.03,1.1), k._mat(col||0x7a3a34)); r.position.y=0.055; g.add(r);
       const tr=new THREE.Mesh(new THREE.BoxGeometry(1.75,0.028,1.25), k._mat(0xc8a84a)); tr.position.y=0.045; g.add(tr);
       return g; },
     hearth(k){ const g=new THREE.Group();
-      const st=new THREE.Mesh(new THREE.BoxGeometry(1.1,1.15,0.4), k._mat(0x6a625a)); st.position.y=0.57; g.add(st);
+      const st=new THREE.Mesh(new THREE.BoxGeometry(1.1,1.15,0.4), k._stone(0x6a625a)); st.position.y=0.57; g.add(st);
+      const mantel=new THREE.Mesh(new THREE.BoxGeometry(1.22,0.1,0.5), k._stone(0x8a8078)); mantel.position.y=0.86; g.add(mantel);
       const op=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.55,0.42), k._mat(0x18120c)); op.position.y=0.32; g.add(op);
-      const fl=new THREE.Mesh(new THREE.ConeGeometry(0.18,0.35,5), new THREE.MeshBasicMaterial({color:0xf07818})); fl.position.y=0.25; g.add(fl);
-      const li=new THREE.PointLight(0xffa040, 0.6, 5); li.position.set(0,0.6,0.3); g.add(li);
+      // burning log + glowing embers in the mouth (+z face)
+      const log=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,0.5,6), k._mat(0x3a2a1c));
+      log.rotation.z=Math.PI/2; log.position.set(0,0.16,0.18); g.add(log);
+      for(let i=-1;i<=1;i++){ const em=new THREE.Mesh(new THREE.BoxGeometry(0.14,0.08,0.1),
+        new THREE.MeshBasicMaterial({color:i===0?0xff7a1a:0xc83410})); em.position.set(i*0.19,0.13,0.18); g.add(em); }
+      const fl=new THREE.Mesh(new THREE.ConeGeometry(0.18,0.4,5), new THREE.MeshBasicMaterial({color:0xf07818})); fl.position.set(0,0.36,0.18); g.add(fl);
+      const li=new THREE.PointLight(0xffa040, 0.7, 5.5); li.position.set(0,0.55,0.4); g.add(li);
       return g; },
     candle(k){ const g=new THREE.Group();
       const st=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.07,0.5,6), k._mat(0x8a8276)); st.position.y=0.85; g.add(st);
-      const base=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.18,0.62,6), k._mat(0x6a625a)); base.position.y=0.3; g.add(base);
+      const base=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.18,0.62,6), k._stone(0x6a625a)); base.position.y=0.3; g.add(base);
       const fl=new THREE.Mesh(new THREE.SphereGeometry(0.06,5,4), new THREE.MeshBasicMaterial({color:0xffe6a0})); fl.position.y=1.14; g.add(fl);
       const li=new THREE.PointLight(0xffd080, 0.45, 4.5); li.position.y=1.2; g.add(li);
+      return g; },
+    pottery(k){ const g=new THREE.Group();   // tabletop clutter: a jug + a bowl
+      const jug=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.1,0.22,7), k._mat(0xcfc3a6)); jug.position.set(-0.12,0.11,0); g.add(jug);
+      const neck=new THREE.Mesh(new THREE.CylinderGeometry(0.045,0.06,0.09,6), k._mat(0xcfc3a6)); neck.position.set(-0.12,0.27,0); g.add(neck);
+      const bowl=new THREE.Mesh(new THREE.SphereGeometry(0.11,8,5,0,Math.PI*2,0,Math.PI/2), k._mat(0x9a6a4a));
+      bowl.rotation.x=Math.PI; bowl.position.set(0.14,0.11,0.02); g.add(bowl);
       return g; },
   },
 
@@ -83,7 +105,7 @@ const Buildkit = {
   _put(host, name, bx, bz, rot, opt){
     const b=this.furniture[name]; if(!b) return null;
     const m=b(this, opt);
-    m.position.set(bx, 0.06, bz);
+    m.position.set(bx, (opt&&typeof opt.y==='number')?opt.y:0.06, bz);
     if(rot) m.rotation.y=rot;
     m.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
     host.add(m);
@@ -118,6 +140,30 @@ const Buildkit = {
     } else if(type==='smithy'){
       P('crate', -colX, -colZ); P('crate', -colX+0.5, -colZ); P('barrel', colX, colZ-1.0);
       P('table', colX-0.55, -0.4, Math.PI/2); P('candle', -colX+0.3, colZ-0.4);
+    } else if(type==='cottage'){
+      // Two-room northern cottage (Alora parity): a partition wall splits a bedroom
+      // (back, -z) from a hearth/kitchen room (front, +z), joined by a doorway.
+      const t=0.2, hWall=this.STOREY_H, gap=2.2;   // doorway width
+      const segMat=new THREE.MeshLambertMaterial({color:0xcfc6ab});
+      const segL=(-w/2)+((w/2)-gap/2)/2, segLen=(w/2)-gap/2;   // left of doorway
+      [[segL,segLen],[-segL,segLen]].forEach(([cx,len])=>{
+        const seg=new THREE.Mesh(new THREE.BoxGeometry(len, hWall, t), segMat);
+        seg.position.set(cx, hWall/2, 0); seg.castShadow=true; group.add(seg);
+        if(typeof addRectCollider==='function') addRectCollider(worldX+cx, worldZ, len/2+0.06, t/2+0.06);
+      });
+      const colX2=w/2-0.75, colZ2=d/2-0.7;
+      // ---- bedroom (back, -z) ----
+      P('bed', -colX2+0.35, -colZ2+0.55, 0, {blanket:0x5a6b86});      // blue quilt like Alora
+      P('chair', -colX2+0.4, -colZ2+2.0, Math.PI);                    // chair at the foot
+      P('shelf', colX2-0.05, -d/2+0.45, Math.PI);                     // bookshelf on back wall
+      // ---- front room (hearth / kitchen, +z) ----
+      P('hearth', -colX2+0.1, colZ2-1.1, Math.PI/2);                  // against the west wall
+      P('table', colX2-0.5, colZ2-0.2, 0);
+      P('pottery', colX2-0.5, colZ2-0.2, 0, {y:0.66});               // jug + bowl on the table
+      P('stool', colX2-0.5, colZ2-1.15);
+      P('barrel', -colX2+0.2, colZ2-0.1);
+      P('rug', 0.3, colZ2-1.2, 0, 0x8a6a5a);
+      P('candle', colX2-0.3, -d/2+0.5);
     } else if(type==='bedroom'){   // upper-storey default — cozy, not barren
       P('bed', -colX+0.25, -colZ+0.6); P('bed', colX-0.25, -colZ+0.6);
       P('shelf', colX-0.05, colZ-0.4, Math.PI); P('rug', 0, 0.3, 0, 0x4a3a6a);

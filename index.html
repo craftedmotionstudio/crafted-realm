@@ -642,6 +642,7 @@
     <button onclick="Admin.heal()">Full heal</button>
     <button onclick="Admin.coins()">+10,000 crowns</button>
     <button onclick="Admin.speed()">Toggle 2× speed</button>
+    <button id="admin-friendly" onclick="Admin.friendly()" title="NPCs never attack first while ON">😇 Friendly mode</button>
     <button onclick="Admin.killAll()">Despawn nearby</button>
     <button onclick="Tutorial.skip()">Skip tutorial</button>
   </div>
@@ -656,26 +657,27 @@
 <script src="assets/audio/soundfont-player.min.js"></script>
 <script src="src/events.js?v=1"></script>
 <script src="src/persist.js?v=1"></script>
-<script src="src/config.js?v=1"></script>
+<script src="src/config.js?v=2"></script>
 <script src="src/item_attrs.js?v=1"></script>
 <script src="src/game0_icons.js"></script>
 <script src="src/game1_data.js?v=q5"></script>
 <script src="src/chunks.js"></script>
 <script src="src/proc_props.js"></script>
-<script src="src/game2_world.js?v=gd"></script>
+<script src="src/game2_world.js?v=gj"></script>
 <script src="src/combat_math.js?v=1"></script>
 <script src="src/planes.js?v=2"></script>
-<script src="src/buildkit.js?v=4"></script>
+<script src="src/buildkit.js?v=6"></script>
 <script src="src/map_showcase.js?v=2"></script>
-<script src="src/wardenholm.js?v=9"></script>
+<script src="src/wardenholm.js?v=11"></script>
 <script src="src/biome_snow.js?v=2"></script>
+<script src="src/north_cottage.js?v=3"></script>
 <script src="src/item_spawns.js?v=2"></script>
 <script src="src/proc_beasts.js"></script>
 <script src="src/game_assets.js"></script>
 <script src="src/game3_systems.js?v=g6"></script>
 <script src="src/fx_dragon.js?v=3d"></script>
 <script src="src/audio_orchestra.js"></script>
-<script src="src/game4_ui.js?v=q6"></script>
+<script src="src/game4_ui.js?v=q8"></script>
 <script src="src/overlays.js?v=2"></script>
 <script src="src/overlays_world.js?v=2"></script>
 <script src="src/qol_ui.js?v=1"></script>
@@ -694,7 +696,8 @@
 <script src="src/dev_tools.js?v=1"></script>
 <script src="src/homesteads.js?v=1"></script>
 <script src="src/quest_ui.js?v=q2"></script>
-<script src="src/ui_medieval.js?v=2"></script>
+<script src="src/ui_medieval.js?v=3"></script>
+<script src="src/equip_preview.js?v=1"></script>
 <script src="src/npc_chars.js?v=3"></script>
 <script src="src/game_editor.js?v=2"></script>
 <script src="src/castle.js"></script>
@@ -706,7 +709,7 @@
 <script src="src/char_quaternius.js"></script>
 <script src="src/char_customizer.js"></script>
 <script src="src/char_styles.js"></script>
-<script src="src/game5_main.js?v=g8"></script>
+<script src="src/game5_main.js?v=g9"></script>
 <script>
   /* sync the settings volume sliders to saved values on load */
   window.addEventListener('load', function(){ try{

@@ -16,17 +16,25 @@
 ## 1. The Realm — premise
 
 **Crafted Realm** is a medieval fantasy world. The known, civilised heart of it is the
-valley of **Veyhollow** — a frontier hollow ringed by wilder lands: burned scrub to the
-south, a drowned fen to the west, quarried crags and a dark undercity to the north, and
-shifting dunes to the east. Civilisation here is young and thin; most of the map is
-contested by monsters, raiders, and older, hungrier things.
+valley of **Veyhollow** — a frontier hollow ringed by wilder lands: an autumn forest to the
+west, a drowned fen to the south-west, quarried crags and shifting dunes to the east, calm
+lakes to the south — and, to the **north beyond the Wilderness Ditch**, the burned
+**Wilderness** (the Scarlands), flanked by a snow keep (Whitmoor Hold, NW) and a frost coast
+(Brynholt, NE), and rising to the lightless **Undercrag** at its deep-north edge.
+Civilisation here is young and thin; most of the map is contested by monsters, raiders, and
+older, hungrier things.
+
+> **Canonical world map:** `Maps/Crafted Realms Map.png` is the single source of truth for
+> geography, place names, and layout. When this document and the map disagree, the map wins
+> and this doc gets fixed. (Map orientation revised 2026-07-03: the Wilderness now sits in
+> the **north** behind a Wilderness Ditch, OSRS-style — see §3.)
 
 The player washes ashore on **Tutor's Holm**, a small instructional island off the coast,
 with no memory and no name. **Guide Bram** sets them on their feet, then sends them by
 rowboat to the mainland at Veyhollow Commons. From there the world opens up.
 
 **The long arc (↻ ITERATE):** Veyhollow sits on the rim of an old catastrophe — *the
-Scarring* — that burned the southern lands and woke things under the crag. The Wardens'
+Scarring* — that burned the northern reaches and woke things under the crag. The Wardens'
 Guild holds the line; the Spire studies why it happened; the Dawn prays it won't repeat.
 The player's journey climbs from clearing grubs out of a field to standing against
 **Korthul the Undercrag**, the mountain's grudge given legs — and beyond, into whatever
@@ -64,35 +72,53 @@ different" principle).
 | **Brynholt** | Cold northern coast | Fletching / Ranged | Mid | Bryn raiders, bowyer |
 | **The Ashar Dunes** | Desert | Thieving / exploration | Mid | Duneclaws |
 | **Whitmoor Hold** | Snowy highland keep | Combat (knightly) | Mid-high | Hold Knights |
-| **The Scarlands** | Burned wasteland (wilderness-style: deeper = deadlier) | High-risk combat | Scales w/ depth | Ash stalkers, rare drops |
-| **The Proving Grounds** | Arena | PvP/duel sandbox | Opt-in | Pit duelist |
-| **The Undercrag** | Lightless undercity | Endgame combat | Highest | **Korthul** (lvl 58 boss) |
+| **The Scarlands** (the Wilderness) | Burned wasteland, **NORTH past the Wilderness Ditch** (deeper = deadlier) | High-risk combat, opt-in PvP | Scales w/ depth | Ash stalkers, rare drops, the Ditch gate |
+| **The Proving Grounds** | Arena (south, by Mirrorpond) | PvP/duel sandbox | Opt-in | Pit duelist |
+| **The Undercrag** | Lightless undercity at the wild's deep-north edge | Endgame combat | Highest | **Korthul** (lvl 58 boss) |
 | **Tutor's Holm** | Tutorial island | Onboarding | Safe | Guide Bram |
 
-**The macro biome plan (2026-07-02 — the full OSRS-style biosphere split, per direction):**
+**The macro biome plan (revised 2026-07-03 — Wilderness moved NORTH to match the bible map,
+OSRS-style; matches `Maps/Crafted Realms Map.png`):**
 
 | Compass | Biome band | Zones (built ✅ / planned ⏳) |
 |---|---|---|
-| Centre | Temperate heartland (the "Lumbridge belt") | ✅ Commons, Wardenholm Keep, Mirrorpond |
-| West | Autumn forest → drowned dark fen (our Morytania) | ✅ Emberwood (amber canopies), ✅ Gloomfen |
-| North | Frost coast → true snow | ✅ Brynholt (frost ground), ✅ Whitmoor Hold (snow ground) |
-| North-east | Rocky crag | ✅ Stonereach Quarry |
-| East | Desert → the far coast | ✅ Ashar Dunes · ⏳ **Saltreach Port** (harbour town on the east coast — ships, charters, smuggler flavor; our Port Sarim) |
-| South | THE BIG WILDERNESS | ✅ Scarlands (threat scales with depth) — ⏳ **extend southward 2-3× as the true wilderness band**: deeper = deadlier, rare resources, eventual opt-in PvP |
-| Deep/endgame | Volcanic underworld | ✅ The Undercrag (Korthul) · ⏳ surface volcano/tropic isle (post-V1, reached by boat from Saltreach) |
+| Centre (safe core, below the Ditch) | Temperate heartland (the "Lumbridge belt") | ✅ Veyhollow Commons, ✅ Wardenholm Keep |
+| **North — beyond the WILDERNESS DITCH** | **THE BIG WILDERNESS** — burned wasteland + frontier | ✅ **The Scarlands** (centre; threat scales with depth, opt-in PvP), ✅ **Whitmoor Hold** (NW snow keep), ✅ **Brynholt** (NE frost coast, raiders/bowyers) — ⏳ **extend the Scarlands northward 2-3× as the true deep-wild**: deeper = deadlier, rare resources |
+| Deep north / endgame | Volcanic underworld at the wild's far edge | ✅ **The Undercrag** (Korthul) · ⏳ surface volcano/tropic isle (post-V1, reached by boat from Saltreach) |
+| West | Autumn forest | ✅ Emberwood (amber canopies) |
+| South-west | Drowned dark fen (our Morytania) | ✅ Gloomfen |
+| East | Rocky crag → desert → far coast | ✅ Stonereach Quarry, ✅ Ashar Dunes · ⏳ **Saltreach Port** (SE harbour town — ships, charters, smuggler flavor; our Port Sarim) |
+| South | Lakes & arena | ✅ Mirrorpond (fishing), ✅ The Proving Grounds |
+| South-east (offshore) | Tutorial isle | ✅ Tutor's Holm (rowboat to the mainland) |
+
+**The Wilderness Ditch (OSRS-style gate, built into the game):** a single east–west trench
+runs the full width of the map, separating the safe south from the northern Wilderness.
+Crossing it northward is an explicit, deliberate act (a jump-across with a warning) — north
+of it, threat climbs with depth and PvP is opt-in. It is a hard fiction-and-mechanics gate,
+not decoration.
 
 **Rule: you should know which biome you're in from ONE glance at the ground** — each band
 gets its own terrain palette (snow/frost painted 2026-07-02), flora (autumn canopies ✅,
-pines for the north ⏳, palms for the tropics ⏳) and NPC cast. NPC placement law: every
-spawn needs a geographic REASON (a rogue on a road, knights at their hold, wizards at
-their study) — no flavor NPCs loitering in the starter town.
+pines for the NW frost corner ⏳, ash/dead trees for the Wilderness ⏳, palms for the
+tropics ⏳) and NPC cast. NPC placement law: every spawn needs a geographic REASON (a rogue
+on a road, knights at their hold, wizards at their study) — no flavor NPCs loitering in the
+starter town.
 
 **Map design principles (for the future "better-than-OSRS" map — Phase: Chunk World):**
 - **Square chunks**, hand-authored, 8×8 tiles each (per `ROADMAP.md`). Visible tile grid.
 - **Biome transitions are gradual** (forest→fen→scar), not hard seams.
 - **Roads radiate from Veyhollow** (the `PATHS` array already paints these) — every road
   leads somewhere with a reason to go.
-- **Reward gradient = distance + threat.** Best stuff is far, dangerous, and gated.
+- **The Wilderness Ditch** is the one hard east–west gate between the safe south and the
+  northern Wilderness — crossing north is opt-in danger/PvP (see §3).
+- **Reward gradient = distance + threat.** Best stuff is far, dangerous, and gated —
+  and *most* of all, north across the Ditch.
+
+> **Coordinate migration (2026-07-03):** `ZONES` in `game1_data.js` still uses the old
+> south-Wilderness layout (Scarlands at +z south; cold zones north). The map build-out pass
+> migrates zone positions to this north-Wilderness geography to match
+> `Maps/Crafted Realms Map.png`. Until that lands, treat THIS document + the bible map as the
+> source of truth when they disagree with the code.
 
 ---
 

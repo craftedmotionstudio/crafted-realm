@@ -444,9 +444,11 @@
       if(laneT){ laneT.needsUpdate=true; laneT.wrapS=laneT.wrapT=THREE.RepeatWrapping; laneT.repeat.set(9,2); }
       hugPlane(WH*2-6, 3.4, C.x, (dLo+dHi)/2-1.0,
         laneT?new THREE.MeshLambertMaterial({map:laneT, color:0x8f8578}):M(0x8f8578), 0.1);
-      // grass "garden squares" flanking the lane keep the yard from reading as one slab
+      // grass "garden squares" flanking the lane — TEXTURED turf, not a flat green slab
       for(const s of [[C.x-8, C.z-8],[C.x+2, C.z-9]]){
-        hugPlane(7, 5, s[0], s[1], M(0x6f8a48), 0.12);
+        const gT=TEX.grass?TEX.grass.clone():null;
+        if(gT){ gT.needsUpdate=true; gT.wrapS=gT.wrapT=THREE.RepeatWrapping; gT.repeat.set(3,2.2); }
+        hugPlane(7, 5, s[0], s[1], gT?new THREE.MeshLambertMaterial({map:gT}):M(0x6f8a48), 0.12);
       }
     })();
     // --- good height: crown the keep with a taller watch turret + chimney ---
@@ -611,6 +613,62 @@
         ItemSpawns.TABLE.push({id:'bones', x:42.5, z:17.5, every:55, plane:0});               // the graveyard keeps its dead... mostly
       }
       Planes.refreshVisibility();   // apply the floor-1 gate immediately (not on first climb)
+    })();
+
+    /* ================= CASTLE DETAIL PASS — depth + fountain + purposeful life ================= */
+    (function castleDetail(){
+      const trimMat=stoneT(0x928a80), slitMat=M(0x1b1916);
+      // stepped buttress pier on the outer wall face — turns a flat box into read-as-masonry
+      function buttress(x,z,nx,nz){
+        box(1.1, WALL_H*0.92, 1.1, wallMat, x+nx*0.55, g0+WALL_H*0.46, z+nz*0.55);
+        box(0.85, WALL_H*0.5, 0.85, wallMat, x+nx*0.8, g0+WALL_H*0.25, z+nz*0.8);
+        box(1.26, 0.26, 1.26, trimMat, x+nx*0.55, g0+WALL_H*0.95, z+nz*0.55);   // sloped cap
+        addCircleCollider(x+nx*0.66, z+nz*0.66, 0.6);
+      }
+      // recessed arrow-loop (thin dark vertical, proud of the face)
+      function slit(x,z,horiz){ box(horiz?0.14:0.34, 1.0, horiz?0.34:0.14, slitMat, x, g0+WALL_H*0.55, z); }
+      // string-course trim band running the length of a span
+      function band(len,x,z,horiz){ box(horiz?len:WT+0.22, 0.16, horiz?WT+0.22:len, trimMat, x, g0+WALL_H*0.64, z); }
+      band(WH*2, C.x, C.z-WH, true); band(WH*2, C.x, C.z+WH, true); band(WH*2, C.x+WH, C.z, false);
+      for(let i=-2;i<=2;i++){
+        buttress(C.x+i*6.4, C.z-WH, 0,-1); slit(C.x+i*6.4+3.2, C.z-WH-0.5, true);
+        buttress(C.x+i*6.4, C.z+WH, 0, 1); slit(C.x+i*6.4+3.2, C.z+WH+0.5, true);
+        buttress(C.x+WH, C.z+i*6.4, 1, 0); slit(C.x+WH+0.5, C.z+i*6.4+3.2, false);
+      }
+      // inner-face pilasters + hanging banners so the depth reads FROM THE BAILEY (not just outside)
+      const bannerMat=M(0x7a2a2a);
+      function pilaster(x,z,nx,nz){ box(0.5, WALL_H*0.98, 0.5, wallMat, x+nx*0.4, g0+WALL_H*0.49, z+nz*0.4); }
+      function banner(x,z,nx,nz){ box(0.04+Math.abs(nz)*0.85, 1.5, 0.04+Math.abs(nx)*0.85, bannerMat, x+nx*0.42, g0+WALL_H*0.58, z+nz*0.42); }
+      for(let i=-2;i<=2;i++){
+        pilaster(C.x+i*6.4+1.6, C.z-WH, 0, 1); pilaster(C.x+i*6.4+1.6, C.z+WH, 0,-1); pilaster(C.x+WH, C.z+i*6.4+1.6, -1,0);
+        if(i%2===0){ banner(C.x+i*6.4, C.z-WH, 0, 1); banner(C.x+WH, C.z+i*6.4, -1, 0); }
+      }
+
+      // --- the Warden's Fountain: tiered octagonal basin + central spouting bowl + finial ---
+      const waterMat = (typeof TEX!=='undefined' && TEX.water)
+        ? new THREE.MeshLambertMaterial({map:(function(){const t=TEX.water.clone();t.needsUpdate=true;t.repeat.set(2,2);return t;})()})
+        : M(0x4a7494);
+      function fountain(fx,fz){
+        const g=new THREE.Group();
+        const base=new THREE.Mesh(new THREE.CylinderGeometry(3.2,3.5,0.95,8), stoneT(0xb0a898)); base.position.y=0.47; g.add(base);
+        const rim=new THREE.Mesh(new THREE.CylinderGeometry(3.35,3.35,0.2,8), trimMat); rim.position.y=0.98; g.add(rim);
+        const w1=new THREE.Mesh(new THREE.CylinderGeometry(2.9,2.9,0.14,8), waterMat); w1.position.y=0.9; g.add(w1);
+        const ped=new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.8,2.0,8), stoneT(0xb0a898)); ped.position.y=1.95; g.add(ped);
+        const bowl=new THREE.Mesh(new THREE.CylinderGeometry(1.5,0.7,0.55,8), trimMat); bowl.position.y=3.0; g.add(bowl);
+        const w2=new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.25,0.12,8), waterMat.clone()); w2.position.y=3.25; g.add(w2);
+        const fin=new THREE.Mesh(new THREE.ConeGeometry(0.35,0.9,8), stoneT(0xb0a898)); fin.position.y=3.9; g.add(fin);
+        g.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
+        g.position.set(fx, g0, fz); G.add(g);
+        addCircleCollider(fx, fz, 3.5);
+        g.userData={kind:'prop', examine:'The Warden\'s fountain — spring-fed, sweet and cold. Coins glint on the basin floor.'};
+        WORLD.clickables.push(g);
+      }
+      fountain(C.x-3, C.z-7);
+
+      // --- a market stall + flanking gate guards: NPC scenes, not scattered figures ---
+      P('counter', C.x+5, C.z-12, g0, 0);
+      P('crate', C.x+3.6, C.z-12.6, g0); P('barrel', C.x+6.4, C.z-12.6, g0);
+      spawnN('cn_guard', C.x-WH+2.6, gateLo-1.2); spawnN('cn_guard', C.x-WH+2.6, gateHi+1.2);
     })();
 
     if(typeof Deeds!=='undefined') Deeds.addLog('Wardenholm Keep stands — the Guild has its castle.');

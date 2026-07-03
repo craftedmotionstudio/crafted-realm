@@ -162,6 +162,12 @@ UI.refreshEquip = function(){
   el.innerHTML='';
   const head=document.createElement('div'); head.className='panel-banner'; head.textContent='Worn Equipment';
   el.appendChild(head);
+  // live character portrait — reflects actually-equipped gear (see equip_preview.js)
+  const port=document.createElement('div'); port.id='equip-portrait';
+  const hint=document.createElement('div'); hint.className='equip-portrait-hint'; hint.textContent='drag to rotate · double-click to spin';
+  port.appendChild(hint);
+  el.appendChild(port);
+  if(typeof EquipPreview!=='undefined') EquipPreview.mount(port);
   const doll=document.createElement('div'); doll.id='equip-doll';
   DOLL_LAYOUT.forEach(row=>{
     row.forEach(cell=>{
@@ -290,6 +296,15 @@ css.textContent=`
   #skill-total{margin-top:7px;text-align:center;color:#d8ccb0;font-size:12px;padding:4px;
     background:linear-gradient(#54452c,#3a2f1e);border:1px solid #6a5636;border-radius:3px;}
   #skill-total b{color:#ffd24a;}
+  /* equipment live portrait */
+  #equip-portrait{position:relative;height:208px;margin:0 auto 6px;width:190px;border:1px solid #5d5447;
+    border-radius:4px;overflow:hidden;box-shadow:inset 0 0 22px rgba(0,0,0,.6);
+    background:radial-gradient(ellipse at 50% 38%, #6a5836 0%, #3c3120 55%, #241c11 100%);}
+  #equip-portrait::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;pointer-events:none;
+    background:linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.45));}
+  .equip-portrait-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  .equip-portrait-hint{position:absolute;left:0;right:0;bottom:3px;text-align:center;z-index:2;
+    font-size:9px;color:#c9b78a;opacity:.7;pointer-events:none;text-shadow:1px 1px 0 #000;letter-spacing:.3px;}
   /* equipment paper-doll */
   #equip-doll{display:grid;grid-template-columns:repeat(3,44px);gap:5px;justify-content:center;
     padding:8px 0 10px;background:radial-gradient(ellipse at 50% 40%, rgba(90,74,46,.45), rgba(0,0,0,0) 75%);}
