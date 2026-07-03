@@ -21,7 +21,9 @@ const Instances = {
     const spawned=[];
     for(const s of (cfg.npcs||[])){
       if(typeof spawnNpc!=='function' || !NPC_TYPES[s.type]) continue;
+      spawnNpc.force=true;                        // player-entered instance: bypasses the buildout gate
       const n=spawnNpc(s.type, at.x+(s.dx||0), at.z+(s.dz||0));
+      spawnNpc.force=false;
       if(n){ n._instanceId=id; if(s.aggro!==false) n.aggroOverride=true; spawned.push(n); }
     }
     const y=(typeof groundY==='function'&&groundY(at.x,at.z))||0;

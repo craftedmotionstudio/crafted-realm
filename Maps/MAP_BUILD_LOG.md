@@ -27,6 +27,34 @@ Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 005 — THE GREAT WIPE (NPCs + pre-map buildings) — 2026-07-03 — KEPT
+- **User decision:** nuke ALL world NPC placement (each region's pass will place its folk
+  deliberately later) and wipe every building that predates the map rebuild unless it's part
+  of today's map.
+- **Changed:**
+  - `src/config.js` — `GameConfig.worldNpcSpawns:false` (buildout mode, not persisted; flip in
+    code when repopulating). `spawnNpc`/`spawnFriendly` gate on it; gameplay/tooling spawns
+    bypass via `spawnNpc.force`: Admin console, the Menagerie, duels, instance dungeons. The
+    ambient Bots are silenced by the same flag; the Proving Ring's sparring pair too.
+  - `src/game4_ui.js` — `LEGACY_VILLAGE=false` wraps the whole pre-map Veyhollow village
+    (bank/bazaar/pub/smithy/arcana/chapel/hearthhouse/cottages/stalls/well/pens/graves/windmill/
+    wheat/Spire) + the dunes trading post. Map-era keepers pulled out of the gate: Whitmoor's
+    plazas + road signpost, butterflies, dressWorld.
+  - `index.html` — map_showcase (Wayfarer's Rest) and north_cottage script tags disabled
+    (pre-map builds; patterns preserved in git).
+  - `src/starter_pen.js` + `game2_world.js` — the Menagerie moved truly off-map to (420,420)
+    (the bigger world had swallowed its old pad at 110,120); it brings its own stone pad,
+    recognised by a `MENAGERIE_PAD` exception in `groundY` so its aisles stay walkable.
+- **Verified:** boot clean, `validate_content.js` PASS, world NPCs = 0, friendlies = 0,
+  24 Menagerie exhibits penned off-map at (~402,408), admin force-spawn works, duel/instance
+  spawns bypass the gate. `wipe_worldmap_topdown.png` shows only map-era content standing.
+- **Known consequences (accepted for buildout):** no Guide Bram on the Holm (tutorial talk
+  step stalls — Skip tutorial in admin), no shopkeepers/bankers anywhere until region passes
+  repopulate, quests needing kills/talks stall.
+- **Next:** the walled Veyhollow Commons ring (the map's most iconic silhouette), rebuilt on
+  the now-clear hub with map-icon services (bank, general store, smithy, altar, rune shop,
+  quest start) — and its folk placed deliberately, the first region to repopulate.
+
 ### Pass 004 — Brynholt, the raider village on the frost coast — 2026-07-03 — KEPT
 - **Target:** Brynholt's identity (bible: "Raiders & bowyers", NE coast). Was 3 empty huts.
 - **Changed:**

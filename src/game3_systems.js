@@ -386,6 +386,8 @@ function refreshPlayerGear(){
 
 /* ---------- NPCs ---------- */
 function spawnNpc(typeId, x, z){
+  // buildout mode: world population suspended; only forced (gameplay/tool) spawns pass
+  if(typeof GameConfig!=='undefined' && !GameConfig.worldNpcSpawns && !spawnNpc.force) return null;
   const t = NPC_TYPES[typeId];
   if(!t){ console.warn('[spawnNpc] unknown type:', typeId); return null; }
   // never spawn inside a wall — nudge to a free spot
@@ -474,6 +476,7 @@ function refreshOverhead(){
   _overheadMesh.visible=true;
 }
 function spawnFriendly(id, name, x, z, color, face, opts){
+  if(typeof GameConfig!=='undefined' && !GameConfig.worldNpcSpawns && !spawnNpc.force) return null;
   const mesh = humanoid(color, opts||{});
   mesh.position.set(x, gy(x,z), z);
   mesh.rotation.y = Math.random()*6;
@@ -1054,7 +1057,9 @@ const Duel = {
     const a=ZONES.arena.pos;
     // scale the duelist to the player's combat level
     const cl=Math.max(3, Player.combatLevel ? Player.combatLevel() : 5);
+    spawnNpc.force=true;                    // player-initiated: bypasses the buildout gate
     const n=spawnNpc('duelist', a[0], a[1]-3);
+    spawnNpc.force=false;
     n.t = Object.assign({}, n.t, {
       level:cl, hp:10+cl*2, att:Math.max(1,cl), str:Math.max(1,cl), def:Math.max(1,Math.floor(cl*0.8)),
     });

@@ -655,7 +655,9 @@ const Admin = {
     Player.moveTo=null; Player.target=null;
     UI.chat(`[ADMIN] Teleported to ${ZONES[z].name}.`,'sys'); },
   spawn(t){ const p=player.position;
+    spawnNpc.force=true;                    // admin tool: bypasses the buildout gate
     spawnNpc(t, p.x+2+Math.random()*2, p.z+2+Math.random()*2);
+    spawnNpc.force=false;
     UI.chat(`[ADMIN] Spawned ${NPC_TYPES[t].name}.`,'sys'); },
   give(){ const id=document.getElementById('admin-item').value;
     const q=parseInt(document.getElementById('admin-qty').value)||1;
@@ -1754,6 +1756,7 @@ const Bots = {
     {name:'Otto99',      shirt:0x3a5a8a, opts:{}, job:'fight'},
   ],
   spawn(){
+    if(typeof GameConfig!=='undefined' && !GameConfig.worldNpcSpawns) return;   // buildout: no ambient bots
     this.DEFS.forEach((d,i)=>{
       const mesh = humanoid(d.shirt, d.opts);
       mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
@@ -1835,7 +1838,12 @@ const Bots = {
 };
 
 /* ================= WORLD POPULATION ================= */
+/* LEGACY_VILLAGE — user decision 2026-07-03: every building placed BEFORE the map-driven
+ * rebuild is wiped so the walled Veyhollow Commons (and mill, Spire, chapel…) can be
+ * rebuilt deliberately to the bible map. Flip to true to resurrect the old village. */
+const LEGACY_VILLAGE = false;
 function populateMainland(){
+  if(LEGACY_VILLAGE){
   // Veyhollow town
   makeBuilding(6,-6, 6,5,3.4, 0xc9b28a, 0x8a4a32,'S',{sign:0xc9a85a, doorOpen:true});   // bank — gold sign
   makeBuilding(-7,-8, 5,4,3, 0xbfa87f, 0x6b7a8f,'S',{sign:0x8a3d68, doorOpen:true});    // bazaar
@@ -1856,8 +1864,6 @@ function populateMainland(){
   makeGroundPatch(12.5,14.2, 3.0, 0x4e4640);            // the smithy yard, black with cinders
   makeGroundPatch(29,-6, 4.6, 0x6a5638);                // the cow pen, honest mud
   makeGroundPatch(0,-1, 4.4, 0x9a9288);                 // the Hollow Well's stone apron (the Square's heart)
-  makeGroundPatch(-163,-99, 5.4, 0xc8c2b6);             // Whitmoor's white plaza
-  makeGroundPatch(-163,-105, 3.4, 0xc8c2b6);
   makeFurrows(-48.4,-28.6, -43.6,-24.6);                // the ploughed wheat rows
   // the churchyard, behind the chapel where the Dawn keeps watch
   makeFence(-7,29.5, -7,32.5); makeFence(-7,32.5, 1,32.5); makeFence(1,29.5, 1,32.5);
@@ -1873,14 +1879,10 @@ function populateMainland(){
     {text:'Whitmoor Hold', ang:-1.2}, {text:'The Spire', ang:2.2}, {text:'Emberwood', ang:0.9}]);
   makeSignpost(-12,-13, [
     {text:'Olun\u2019s Mill', ang:1.3}, {text:'Gloomfen', ang:2.4}, {text:'Veyhollow', ang:-0.6}]);
-  makeSignpost(-108,-76, [
-    {text:'Whitmoor Hold', ang:-2.2}, {text:'Veyhollow', ang:1.0}]);
   // Olun's mill becomes a true windmill, wheat rows fenced beside it
   makeWindmill(-44.5,-34);
   makeFence(-49,-29, -49,-24); makeFence(-49,-24, -43,-24); makeFence(-43,-29, -43,-24);
   makeWheatField(-48.4,-28.6, -43.6,-24.6);
-  makeButterflies();
-  dressWorld();   // the instanced ground cover goes down last, around everything
   makeStall(8.5,-16.5, 0x4a7a3a, null);   // Rask's bow table (shop, not a mark)
   spawnFriendly('fletcher','Fletcher Rask', 8.5,-15.2, 0x4a6a3a,'🏹');
   makeInterior('bank', 6,-6, 6,5,'S');
@@ -1935,6 +1937,15 @@ function populateMainland(){
   spawnFriendly('spirebanker','Banker Odwin', 35,68.2, 0x39536b,'🧑‍💼');
   spawnNpc('wizard', 28, 75); spawnNpc('wizard', 33, 74); spawnNpc('wizard', 31, 67);
   spawnNpc('wizard', 36, 73);
+  } /* end LEGACY_VILLAGE */
+
+  /* ---------- map-era dressing that stays regardless ---------- */
+  makeGroundPatch(-163,-99, 5.4, 0xc8c2b6);             // Whitmoor's white plaza
+  makeGroundPatch(-163,-105, 3.4, 0xc8c2b6);
+  makeSignpost(-108,-76, [
+    {text:'Whitmoor Hold', ang:-2.2}, {text:'Veyhollow', ang:1.0}]);
+  makeButterflies();
+  dressWorld();   // the instanced ground cover goes down last, around everything
 
   /* ============ WHITMOOR HOLD — the white city on the moor ============ */
   /* Map-anchored to the NW snow corner (bible map), gate facing SOUTH-EAST toward the
@@ -2125,7 +2136,7 @@ function populateBrynholt(){
 }
 function populateDunes(){
   const d=ZONES.dunes.pos;
-  makeBuilding(d[0], d[1]-6, 5,4.5,3, 0xd8c08a, 0xb89a5e); // sandstone trading post
+  if(LEGACY_VILLAGE) makeBuilding(d[0], d[1]-6, 5,4.5,3, 0xd8c08a, 0xb89a5e); // sandstone trading post (pre-map; dunes pass rebuilds)
   for(let i=0;i<8;i++) makeCactus(d[0]-18+Math.random()*36, d[1]-14+Math.random()*28);
   for(let i=0;i<4;i++) makeCliff(d[0]-16+Math.random()*32, d[1]-12+Math.random()*24, 0.8+Math.random()*0.8);
   spawnFriendly('duneTrader','Trader Soleh', d[0]+2, d[1]-3, 0xc4883a,'🧕',{hairLong:true});
@@ -2168,6 +2179,7 @@ function populateArena(){
   spawnFriendly('duelmaster','Pit Master Korr', a[0]-R+1, a[1]+7, 0x6b2a1a,'🥊');
   // two resident duelists, forever sparring
   WORLD.sparring = [];
+  if(typeof GameConfig!=='undefined' && !GameConfig.worldNpcSpawns) return;   // buildout: ring stands empty
   for(let i=0;i<2;i++){
     const m = humanoid(i?0x8a5a32:0x4a4a5a, {beard:i===0});
     m.traverse(o=>{ if(o.isMesh) o.castShadow=true; });

@@ -12,6 +12,11 @@ const GameConfig = {
   fatigueEnabled: false,    // when on: fatigue builds with xp, rests at beds/idle
   fatigue: 0,               // 0..100
   friendlyMode: true,       // when on: no NPC ever starts a fight (they still fight back)
+  // Buildout mode (user decision 2026-07-03): world NPC placement is nuked until each
+  // region's pass places its folk deliberately. NOT persisted — code flips it back on.
+  // Gameplay/tooling spawns (admin console, Menagerie, duels, instances) bypass via
+  // spawnNpc.force. Also silences the ambient Bots.
+  worldNpcSpawns: false,
   _KEY: 'cr_config',
   load(){
     const d = (typeof Persist!=='undefined') ? Persist.getJSON(this._KEY, null) : null;

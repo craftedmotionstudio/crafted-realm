@@ -11,7 +11,10 @@
  * fences / colliders / name labels. It never mutates shared NPC_TYPES or combat math.
  * Remove the one <script> tag + the one boot line to revert cleanly. */
 (function(){
-  const C = { x:110, z:120 };          // a verified-flat, prop-free pad (probed via groundY)
+  const C = { x:420, z:420 };          // far off the charted map (the 480x320 world grid ends at x=274)
+  // the lab floats in the void out there, so it brings its own floor: a stone pad the
+  // walk-engine recognises via the MENAGERIE_PAD exception in groundY (game2_world)
+  window.MENAGERIE_PAD = { x0:C.x-26, z0:C.z-22, x1:C.x+26, z1:C.z+22 };
   const COLS  = 6;                     // pens per row
   const PITCH = 6.5;                   // centre-to-centre spacing (leaves a ~1.5-tile aisle)
   const HALF  = 2.5;                   // pen inner half-size (5x5 enclosure)
@@ -59,6 +62,14 @@
     window._menagerieBuilt = true;
 
     const rows = Math.ceil(ROSTER.length / COLS);
+    // the pad itself: flat stone floor under the whole pen grid
+    (function(){
+      const P=window.MENAGERIE_PAD;
+      const pad=new THREE.Mesh(new THREE.PlaneGeometry(P.x1-P.x0, P.z1-P.z0),
+        new THREE.MeshPhongMaterial({color:0x8a8378, flatShading:true, shininess:0, specular:0x000000}));
+      pad.rotation.x=-Math.PI/2; pad.position.set(C.x, -0.02, C.z); pad.receiveShadow=true;
+      scene.add(pad);
+    })();
     const x0 = C.x - (COLS-1)/2 * PITCH;
     const z0 = C.z - (rows-1)/2 * PITCH;
 
@@ -69,7 +80,9 @@
       const cz = z0 + Math.floor(i / COLS) * PITCH;
       penFence(cx, cz, HALF);
       penColliders(cx, cz, HALF);
+      spawnNpc.force=true;                        // review lab: bypasses the buildout gate
       const npc = spawnNpc(type, cx, cz);
+      spawnNpc.force=false;
       if(npc){
         npc.exhibit = true;                       // shared AI: stay calm, never chase
         npc.home.set(cx, 0, cz);                  // pace around the pen centre
