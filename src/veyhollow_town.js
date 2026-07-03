@@ -80,7 +80,26 @@
       makeSignpost(4,-27.5, [{text:'The Scarlands', ang:Math.PI}, {text:'Veyhollow', ang:0}]);
       makeSignpost(27.5,6, [{text:'Wardenholm Keep', ang:0.1}, {text:'Veyhollow', ang:2.8}]);
     }
-    if(typeof UI!=='undefined' && UI.chat) UI.chat('[MAP] Veyhollow Commons stands walled — the map\'s ring, gates on every road. The folk come later.','sys');
+    /* ---- THE DELIBERATE REPOPULATION (pass 008) — the first region to get its folk back.
+     * Buildout law: worldNpcSpawns stays false; these are hand-placed with purpose via
+     * spawnNpc.force. Every soul stands at their post; ids match the dialogue registry. */
+    if(typeof spawnFriendly==='function' && typeof spawnNpc==='function'){
+      spawnNpc.force=true;
+      try{
+        spawnFriendly('banker','Banker Tilly', 10.5,-12, 0x39536b,'👩');            // behind the great counter
+        spawnFriendly('merchant','Merchant Saff', -11,-12, 0x8a3d68,'🧔');          // the general store
+        spawnFriendly('ferra','Ferra the Smith', 13,10, 0x5a4a3e,'👩‍🏭',{hairLong:true});  // at her forge
+        spawnFriendly('arcanist','Sage Imbrel', -12.5,12, 0x4a3a7a,'🧙',{robe:0x4a3a7a, hat:'wizard'}); // the rune shop
+        spawnFriendly('friar','Friar Aldous', -7,-18, 0x6b5a3a,'🙏',{robe:0x6b5a3a}); // beside the altar
+        spawnFriendly('barkeep','Barkeep Dunn', 7,17.5, 0x6e4a2e,'🍺');             // the Wayfarer's Rest
+        spawnFriendly('maela','Warden Maela', 3,-4, 0x6b1f1f,'👮');                 // watching the plaza
+        spawnFriendly('greeter','Old Pell', 2,-22, 0x4a6b3a,'🧓');                  // by the north gate
+        // townsfolk about the square — life, not clutter
+        spawnNpc('wanderer', -3, 4); spawnNpc('wanderer', 6, -5);
+        spawnNpc('monk', -9, -21);                                                   // the chapel's brother
+      } finally { spawnNpc.force=false; }
+    }
+    if(typeof UI!=='undefined' && UI.chat) UI.chat('[MAP] Veyhollow Commons stands walled and PEOPLED — first region repopulated, every soul at their post.','sys');
     return true;
   }
   const iv=setInterval(()=>{ try{ if(build()) clearInterval(iv); }

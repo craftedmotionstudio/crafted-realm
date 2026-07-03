@@ -2029,8 +2029,10 @@ function populateMainland(){
   makeCampfire(2,6);
   makeSignpost(0,3.5);
   makeTorch(4,-2); makeTorch(-4,-3);
-  makeFence(9.5,-2.5, 9.5,7); makeFence(9.5,7, 2,7);   // hen yard
-  makeFence(-10,-1, -10,6); makeFence(-10,6, -5,9);
+  if(LEGACY_VILLAGE){
+    makeFence(9.5,-2.5, 9.5,7); makeFence(9.5,7, 2,7);   // hen yard
+    makeFence(-10,-1, -10,6); makeFence(-10,6, -5,9);
+  }
   for(let i=0;i<10;i++) makeFlower(-12+Math.random()*26, -2+Math.random()*16);
   for(let i=0;i<6;i++) makeBush(-16+Math.random()*34, -14+Math.random()*30);
 
@@ -2043,22 +2045,23 @@ function populateMainland(){
   spawnFriendly('clothier','Mistress Wynnel', 13.6,-7, 0x8a6a9a,'👗',{hairLong:true});
   spawnFriendly('arcanist','Sage Imbrel', -8.5,14.2, 0x4a3a7a,'🧙',{robe:0x4a3a7a, hat:'wizard'});
   spawnFriendly('ferra','Ferra the Smith', 9,13.4, 0x5a4a3e,'👩‍🏭',{hairLong:true});
-  // the grubkin nest: mounds in the meadow northeast, well off the chapel road
-  makeMound(24,33,0.9); makeMound(26.5,31.5,0.7); makeMound(25,35,0.8);
-  for(let i=0;i<6;i++) spawnNpc('grubkin', 22+Math.random()*6, 30+Math.random()*7);
-  // the burrowrat warren: holes dug behind the eastern cottages, raiding the larders
-  makeMound(25,-20,0.6); makeMound(26.6,-21.2,0.55); makeMound(24.2,-22,0.5);
-  for(let i=0;i<4;i++) spawnNpc('burrowrat', 23.5+Math.random()*4, -22.5+Math.random()*4);
-  // the herd grazes the open pasture, as herds do
-  for(let i=0;i<3;i++) spawnNpc('moorcalf', 18+Math.random()*12, 12+Math.random()*10);
-  for(let i=0;i<4;i++) spawnNpc('pasturehen', 4+Math.random()*4.5, -1.5+Math.random()*7);
-  // gnarlgob camp east of town
-  makeCampfire(34,16);
-  makeHut(37,13,0.7);
-  // the gnarlgob war-camp: hide tents, a skull totem, a cookfire — a place, not a scatter
-  makeTent(39,18, 0.6); makeTent(42,20.5, -1.2); makeTotem(40.6,17.2);
-  makeCampfire(40.5,19.4);
-  for(let i=0;i<4;i++) spawnNpc('gnarlgob', 38+Math.random()*5.5, 16.5+Math.random()*5);
+  if(LEGACY_VILLAGE){
+    // the grubkin nest: mounds in the meadow northeast, well off the chapel road
+    makeMound(24,33,0.9); makeMound(26.5,31.5,0.7); makeMound(25,35,0.8);
+    for(let i=0;i<6;i++) spawnNpc('grubkin', 22+Math.random()*6, 30+Math.random()*7);
+    // the burrowrat warren: holes dug behind the eastern cottages, raiding the larders
+    makeMound(25,-20,0.6); makeMound(26.6,-21.2,0.55); makeMound(24.2,-22,0.5);
+    for(let i=0;i<4;i++) spawnNpc('burrowrat', 23.5+Math.random()*4, -22.5+Math.random()*4);
+    // the herd grazes the open pasture, as herds do
+    for(let i=0;i<3;i++) spawnNpc('moorcalf', 18+Math.random()*12, 12+Math.random()*10);
+    for(let i=0;i<4;i++) spawnNpc('pasturehen', 4+Math.random()*4.5, -1.5+Math.random()*7);
+    // gnarlgob camp east of town (pre-map: re-sited by a later pass)
+    makeCampfire(34,16);
+    makeHut(37,13,0.7);
+    makeTent(39,18, 0.6); makeTent(42,20.5, -1.2); makeTotem(40.6,17.2);
+    makeCampfire(40.5,19.4);
+    for(let i=0;i<4;i++) spawnNpc('gnarlgob', 38+Math.random()*5.5, 16.5+Math.random()*5);
+  }
   // the Seers' Ring — a circle of standing stones and moss seers
   const SR=[-30,44];   // the ring keeps its distance from the western road
   for(let i=0;i<5;i++){ const a=i/5*6.283;

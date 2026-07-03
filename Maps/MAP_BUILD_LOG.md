@@ -27,6 +27,26 @@ Screenshots live in `Maps/iterations/` as `passNNN_<target>_<before|after>.png`.
 
 <!-- Newest entries below this line, newest first -->
 
+### Pass 008 — the Commons repopulated (first region) + stray legacy dressing gated — 2026-07-03 — KEPT
+- **Target:** the log's next: deliberate NPC repopulation of the walled Commons — plus a wipe
+  leak found on the way: the gnarlgob war-camp (hut/tents/totem), hen-yard fences and warren
+  mounds east of town had survived pass 005 (they sat outside the LEGACY_VILLAGE gate).
+- **Changed:**
+  - `src/veyhollow_town.js` — THE DELIBERATE REPOPULATION: 8 named folk at their posts via
+    `spawnNpc.force` (the law-compliant channel — `worldNpcSpawns` stays false): Banker Tilly
+    behind the counter, Merchant Saff in the store, Ferra at her forge, Sage Imbrel in the
+    rune shop, Friar Aldous at the altar, Barkeep Dunn in the Wayfarer's Rest, Warden Maela
+    on the plaza, Old Pell greeting at the north gate — plus 2 wanderers and a monk. All ids
+    match the existing dialogue registry, so every soul talks.
+  - `src/game4_ui.js` — the leaked legacy dressing gated under LEGACY_VILLAGE.
+- **Verified:** console clean, validator PASS; live census exactly as designed — 8 friendlies +
+  3 town NPCs, nothing else in the world; Menagerie exhibits untouched off-map.
+- **After:** `pass008_commons_peopled.png` — the square reads alive (self-scored ~140 vs the
+  empty pass-006 town; no Gemini run — the change is a census, verified live, not a visual
+  judgement call).
+- **Next:** Saltreach Port piers (SE harbour town geography), or Emberwood's mill re-sited to
+  the map's windmill spot; NPC repopulation continues region-by-region as each gets its pass.
+
 ### Pass 007 — Stonereach Bridge — 2026-07-03 — KEPT
 - **Target:** the map's named bridge POI south of the Commons — and a real bug: the Mirrorpond
   arm (grid water) cut the south road dead at z≈64 (ground −1.9, unwalkable).
