@@ -1,5 +1,19 @@
 # PIPELINES.md — the three named asset workflows
 
+## THE REFERENCE INVENTORY RULE (user, 2026-07-03 — runs FIRST on every reference)
+
+When analyzing ANY reference image in `Bible_References/`, before modeling anything:
+
+1. **Enumerate everything visible** — every object, prop, item, piece of furniture,
+   ground treatment, building element, and character in the image. No skipping
+   background items.
+2. **Check each against our asset inventory** (procedural builders, `assets/models/*.glb`,
+   Buildkit furniture pieces, Decor).
+3. **Anything missing gets queued and BUILT** through the appropriate pipeline (Prop /
+   Hero / NPC) and **placed into the game** where the reference implies it belongs.
+4. Log the inventory table (item → have/missing → pipeline → status) so coverage is
+   auditable. A reference isn't "done" until every enumerated item exists in-game.
+
 Say the name, get the workflow. All three share the same spine — **concept image →
 image-to-3D mesh → Blender (via the Blender MCP) → GLB → in-game wiring** — and all
 three are gated by the **two-reviewer visual QA** (Claude structured critique + Gemini
