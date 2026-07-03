@@ -14,7 +14,7 @@
  * and at least one interactable — the OSRS lived-in checklist.
  */
 const Buildkit = {
-  STOREY_H: 2.0,
+  STOREY_H: 3.2,   // raised from 2.0 (user 2026-07-03: buildings too small for the character)
 
   /* ---- small furniture builders (centrepiece scenery, 90°-snapped) ---- */
   // OSRS look-pass: flat-shaded matte base, plus wood/stone grain so props aren't flat colour.

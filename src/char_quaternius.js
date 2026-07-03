@@ -51,7 +51,7 @@ function installQuaterniusPlayer(url, onReady){
   loader.load(url+'?v='+Date.now(), (gltf)=>{
     const rig = gltf.scene;
     let box = new THREE.Box3().setFromObject(rig);
-    rig.scale.setScalar(1.85 / ((box.max.y-box.min.y)||1));      // normalize to ~1.85m
+    rig.scale.setScalar(1.5 / ((box.max.y-box.min.y)||1));      // ~1.5 tiles: OSRS-scale, fits doorways & sits small under the raised buildings (user 2026-07-03)
     box = new THREE.Box3().setFromObject(rig);
     rig.position.y = -box.min.y;                                 // feet at origin
     rig.rotation.y = Math.PI;                                    // face the movement direction (tune if moonwalking)

@@ -1394,7 +1394,7 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
   // hollow shell with a real doorway — step inside and the roof lifts away
   doorSide = doorSide||'S';   // which wall holds the door: N,S,E,W (S = +z)
   const g = new THREE.Group();
-  const t=0.22, doorW=2.2, doorH=1.9;   // generous, so steering never snags the jambs
+  const t=0.22, doorW=1.4, doorH=Math.min(2.35, h-0.45);   // proper door: TALLER than wide, clears the character; never taller than the wall
   const stoneWall = opts.wall==='stone';
   // textured plaster daub, lightly tinted by the building's colour (keeps shop differentiation)
   const plasterTex = TEX.plaster ? TEX.plaster.clone() : null;
@@ -1594,24 +1594,30 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
   g.position.set(x, yMin, z);
   scene.add(g);
   /* ---- the 2006-flavour detail kit: chimney, sign, door (framing/windows added above) ---- */
-  // a true working door: hinged at the jamb, clickable, honest about blocking
+  // a true working door: hinged at ONE jamb, panel fills the doorway when closed, swings open.
+  // Clean per-side frame: hinge at a jamb, hinge.rotation.y orients the wall direction AND the
+  // panel's outward face; the panel always sits at local (+doorW/2, doorH/2, 0) so it spans the
+  // full opening flat in the wall plane (the old per-axis offset pushed E/W panels off the wall).
   (function(){
     const hinge=new THREE.Group();
-    // hinge sits at one jamb of the doorway, panel swings from it
-    const hp = doorSide==='S'? [-doorW/2, d/2-t/2] : doorSide==='N'? [doorW/2, -d/2+t/2]
-             : doorSide==='E'? [w/2-t/2, doorW/2] : [-w/2+t/2, -doorW/2];
-    hinge.position.set(x+hp[0], gy(x,z), z+hp[1]);
-    const along = (doorSide==='S'||doorSide==='N') ? 0 : Math.PI/2;   // wall direction
-    const panel=procDoorPanel(doorW*0.94, doorH-0.12, 0.1);   // planked door + iron latch (shared builder)
-    panel.position.set((doorSide==='S'||doorSide==='N'?1:0)*doorW*0.47 + (doorSide==='E'||doorSide==='W'?0:0), (doorH-0.12)/2, 0);
-    if(doorSide==='E'||doorSide==='W') panel.position.set(0,(doorH-0.12)/2, doorW*0.47);
-    hinge.add(panel);
+    // [jamb world pos], along = hinge Y-rotation so local +X runs along the wall INTO the opening
+    // and local +Z faces OUTWARD. Hinge sits at the jamb the panel hangs from.
+    let hp, along;
+    if(doorSide==='S'){ hp=[x-doorW/2, z+d/2-t/2]; along=0; }
+    else if(doorSide==='N'){ hp=[x+doorW/2, z-d/2+t/2]; along=Math.PI; }
+    else if(doorSide==='E'){ hp=[x+w/2-t/2, z+doorW/2]; along=Math.PI/2; }
+    else { hp=[x-w/2+t/2, z-doorW/2]; along=-Math.PI/2; }                     // W
+    hinge.position.set(hp[0], gy(x,z), hp[1]);
     hinge.rotation.y = along;
-    const sign = (doorSide==='S'||doorSide==='W') ? 1 : -1;
-    const colRect = (doorSide==='S'||doorSide==='N')
-      ? {type:'rect', x:x+hp[0]+ (doorSide==='S'?doorW/2:-doorW/2), z:z+hp[1], hw:doorW/2+0.05, hd:0.14, door:true}
-      : {type:'rect', x:x+hp[0], z:z+hp[1]+ (doorSide==='E'?doorW/2:-doorW/2)*-1, hw:0.14, hd:doorW/2+0.05, door:true};
-    hinge.userData={kind:'door', open:false, openRot:along+sign*1.95, closedRot:along, col:colRect,
+    const panel=procDoorPanel(doorW*0.96, doorH*0.96, 0.1);   // planked door + iron latch
+    panel.position.set(doorW/2, doorH*0.48, 0);               // spans jamb→jamb, flat in the wall
+    hinge.add(panel);
+    // collider spanning the full opening along the wall (removed when the door opens)
+    const horiz = (doorSide==='S'||doorSide==='N');
+    const colRect = horiz
+      ? {type:'rect', x:x, z:hp[1], hw:doorW/2+0.05, hd:0.16, door:true}
+      : {type:'rect', x:hp[0], z:z, hw:0.16, hd:doorW/2+0.05, door:true};
+    hinge.userData={kind:'door', open:false, openRot:along - 1.9, closedRot:along, col:colRect,
       label:'Open <b>Door</b>'};
     scene.add(hinge);
     WORLD.clickables.push(hinge);

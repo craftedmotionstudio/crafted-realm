@@ -1,7 +1,7 @@
 # Reference Inventory (the Reference Inventory Rule, PIPELINES.md)
 
 Every visible object per reference → have / missing → pipeline → status.
-Bar: both reviewers ≥9.0/10 per modeled item (user lowered from 9.5, 2026-07-03).
+Bar: both reviewers ≥9.5/10 per modeled item (user RE-RAISED from 9.0, 2026-07-03 — quality dip).
 Escape hatch: user eyes outrank Gemini when it noise-drifts/contradicts pixels.
 Finished references move to `Complete/`. Folder checked EVERY loop pass.
 Anything that moves in reality ships ANIMATED (flags, flames, sails).
