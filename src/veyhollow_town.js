@@ -37,15 +37,15 @@
       }
     });
 
-    /* ---- the heart: the Hollow Well plaza (the map's centre circle) ---- */
-    if(window.Decor && Decor.hollowWell){ Decor.hollowWell(0,-1); } else if(typeof makeFountain==='function'){ makeFountain(0,-1); }
-    makeGroundPatch(0,-1, 5.2, 0x9a9288);
+    /* ---- the heart: the town square is its own build (src/town_square.js) —
+     * flagstone plaza, quatrefoil fountain, canvas market stalls (pass 014,
+     * styled on Bible_References/Town_Square.jpg) ---- */
 
     /* ---- the map-icon services, furnished (Buildkit presets) ---- */
-    // Bank of Veyhollow (map: bank icon)
+    // Bank of Veyhollow (map: bank icon) — grey stone blockwork, the Varrock-square look
     Buildkit.house({x:12, z:-12, w:7, d:5, doorSide:'W',
-      color:0xc9b28a, roofColor:0x8a4a32, roof:'gable', interior:'bank'});
-    if(typeof makeBankBooth==='function') makeBankBooth(7.6,-12, Math.PI/2);
+      color:0xb4b0a8, roofColor:0x55636e, roof:'gable', interior:'bank', shellOpts:{wall:'stone'}});
+    if(typeof makeBankBooth==='function') makeBankBooth(10.4,-12, Math.PI/2);   // inside the hall — never on the doorstep
     // the general store (map: general store icon)
     Buildkit.house({x:-12, z:-12, w:6, d:5, doorSide:'E',
       color:0xbfa87f, roofColor:0x6b7a8f, roof:'gable', interior:'shop'});
@@ -69,24 +69,26 @@
       color:0xc9b28a, roofColor:0xc77b4a, roof:'gable', interior:'house'});
     if(typeof makeRange==='function') makeRange(-6.8,19.2);
 
-    /* ---- rung 1 (pass 012): the homes — the map's circle is DENSE (~13 rooftops).
-     * Six furnished cottages fill the ring's quadrants; pads probed clear of roads,
-     * water, and existing colliders. Varied palettes so the skyline reads grown, not
-     * stamped. ---- */
-    Buildkit.house({x:-20, z:0,   w:4,   d:3.6, doorSide:'E', color:0xd0bc94, roofColor:0x7a5838, roof:'gable', interior:'house'});
-    Buildkit.house({x:-13, z:1,   w:4.5, d:4,   doorSide:'E', color:0xc9b28a, roofColor:0x6e4a2e, roof:'gable', interior:'house'});
-    Buildkit.house({x:-6,  z:8,   w:4.5, d:4,   doorSide:'N', color:0xc4ae84, roofColor:0x8a4a32, roof:'gable', interior:'house'});
-    Buildkit.house({x:4,   z:10,  w:4.5, d:4,   doorSide:'W', color:0xbfa87f, roofColor:0x55636e, roof:'gable', interior:'house'});
-    Buildkit.house({x:5,   z:-19, w:4.5, d:4,   doorSide:'S', color:0xd8cdb4, roofColor:0x6e4a2e, roof:'gable', interior:'house'});
-    Buildkit.house({x:10,  z:3,   w:4,   d:3.6, doorSide:'W', color:0xcdb890, roofColor:0x7a5838, roof:'gable', interior:'house'});
+    /* ---- rung 1+2 (passes 012/013): the homes — the map's circle is DENSE (~13
+     * rooftops). Six furnished cottages fill the ring's quadrants at real OSRS house
+     * footprints (walk-in sized, user critique 2026-07-03), and NO two share a shape:
+     * a long-house, a two-storey, a stone cottage, hips among the gables, chimneys
+     * smoking. Pads probed clear of roads, water, and existing colliders. ---- */
+    Buildkit.house({x:-20, z:0,   w:5,   d:6.5, doorSide:'S', color:0xd0bc94, roofColor:0x7a5838,
+      roof:'gable', interior:'house', shellOpts:{chimney:true}});                  // the west long-house
+    Buildkit.house({x:-13.5, z:1, w:5.5, d:4.5, floors:2, doorSide:'E', color:0xc9b28a, roofColor:0x6e4a2e,
+      roof:'gable', interior:'house', upstairs:'bedroom'});                        // the tall house
+    Buildkit.house({x:-6,  z:8,   w:5,   d:4.5, doorSide:'N', color:0xb8b0a4, roofColor:0x55636e,
+      roof:'hip', interior:'house', shellOpts:{wall:'stone', chimney:true}});      // the stone cottage
+    Buildkit.house({x:4,   z:10,  w:5.5, d:6.5, doorSide:'W', color:0xbfa87f, roofColor:0x8a4a32,
+      roof:'gable', interior:'house', shellOpts:{chimney:true}});                  // the plaza-side home
+    Buildkit.house({x:5,   z:-19, w:6.5, d:5,   doorSide:'E', color:0xd8cdb4, roofColor:0x6b7a8f,
+      roof:'hip', interior:'house', shellOpts:{tall:true}});                       // the steep-hipped home
+    Buildkit.house({x:10,  z:3,   w:5,   d:4.5, doorSide:'W', color:0xcdb890, roofColor:0xc77b4a,
+      roof:'gable', interior:'house', shellOpts:{chimney:true}});                  // the amber-roofed home
 
-    /* ---- market flavour by the plaza (the town square reads traded-in) ---- */
-    if(typeof makeStall==='function'){
-      makeStall(-3,-8, 0xb03a3a, 'baker');
-      makeStall(3,-8, 0x3a6ab0, 'silver');
-    }
+    /* ---- market flavour by the plaza (stalls live in town_square.js now) ---- */
     if(typeof makeCrateCluster==='function'){ makeCrateCluster(9,-16); makeCrateCluster(-10,-6); }
-    makeGroundPatch(0,-8, 3.2, 0x8a7a5e);              // the market strip, trodden bare
     if(typeof makeSignpost==='function'){
       makeSignpost(4,-27.5, [{text:'The Scarlands', ang:Math.PI}, {text:'Veyhollow', ang:0}]);
       makeSignpost(27.5,6, [{text:'Wardenholm Keep', ang:0.1}, {text:'Veyhollow', ang:2.8}]);

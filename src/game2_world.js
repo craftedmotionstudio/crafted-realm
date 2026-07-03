@@ -1363,25 +1363,54 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
   const pitch=(opts.tall?1.0:0.78)+hash*0.22;        // present but not dwarfing the walls
   if(opts.roof==='gable'){
     const alongX = w>=d;
-    const span = (alongX?d:w)+oh, len = (alongX?w:d)+oh+0.4;
-    // gable ends read as timber cladding (the classic look under a thatch ridge) —
-    // contrasts the plaster walls instead of merging into one pale monolith
-    const gableMat = new THREE.MeshLambertMaterial({map:TEX.plank||null, color:0x9a7448});
-    const prism = new THREE.Mesh(new THREE.CylinderGeometry(span*0.6, span*0.6, len, 3, 1), [roofMat, gableMat, gableMat]);
-    prism.rotation.z = Math.PI/2;             // lay the axis flat
-    prism.rotation.x = Math.PI/2 + Math.PI/7; // flat face down, apex up
-    const holder=new THREE.Group(); holder.add(prism);
+    const span = (alongX?d:w)+oh, len = (alongX?w:d)+oh+0.4, wallLen=(alongX?w:d);
+    const rise = span*0.40;                                    // ~39° pitch: present, never dwarfing the walls
+    const slopeAng = Math.atan2(rise, span/2), hyp = Math.hypot(span/2, rise)+0.18;
+    // straw courses run parallel to the ridge (u along the ridge, v up the slope) — never a chevron
+    roofTex.repeat.set(Math.max(2, Math.round(len/2.2)), Math.max(2, Math.round(hyp)));
+    const holder=new THREE.Group();
+    for(const s of [-1,1]){                                    // the two slopes meet at a ridge beam
+      const slope=new THREE.Mesh(new THREE.BoxGeometry(len, 0.14, hyp), roofMat);
+      slope.rotation.x = s*slopeAng;
+      slope.position.set(0, h + rise/2 + 0.03, s*span/4);
+      slope.castShadow=true; slope.receiveShadow=true; holder.add(slope);
+    }
+    const ridgeBeam=new THREE.Mesh(new THREE.BoxGeometry(len+0.12, 0.18, 0.3), beamMat);
+    ridgeBeam.position.y = h + rise + 0.06; ridgeBeam.castShadow=true; holder.add(ridgeBeam);
+    // gable ends: the wall carries on up as plaster, timbered with a king post,
+    // collar beam and raking bargeboards — never a giant blank triangle
+    const tri=new THREE.Shape();
+    tri.moveTo(-span/2+oh/2, 0); tri.lineTo(span/2-oh/2, 0); tri.lineTo(0, rise); tri.lineTo(-span/2+oh/2, 0);
+    const triGeo=new THREE.ShapeGeometry(tri);
+    const triMat=wallMat.clone(); triMat.side=THREE.DoubleSide;
+    triMat.color=new THREE.Color(color).multiplyScalar(0.94);
+    const rakeLen=Math.hypot(span/2, rise);
+    for(const e of [-1,1]){
+      const end=new THREE.Group();
+      end.add(new THREE.Mesh(triGeo, triMat));
+      const king=new THREE.Mesh(new THREE.BoxGeometry(0.14, rise-0.12, 0.12), beamMat);
+      king.position.set(0, (rise-0.12)/2, 0.03); end.add(king);
+      const collar=new THREE.Mesh(new THREE.BoxGeometry(span*0.46, 0.12, 0.12), beamMat);
+      collar.position.set(0, rise*0.42, 0.03); end.add(collar);
+      for(const s2 of [-1,1]){                                 // raking bargeboards up each slope edge
+        const bb=new THREE.Mesh(new THREE.BoxGeometry(rakeLen, 0.14, 0.16), beamMat);
+        bb.rotation.z = -s2*slopeAng;
+        bb.position.set(s2*span/4*0.94, rise/2, 0.04); end.add(bb);
+      }
+      end.rotation.y = e*Math.PI/2;            // timber trim sits proud of the OUTER face on both ends
+      end.position.set(e*(wallLen/2 - 0.02), h, 0);
+      end.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
+      holder.add(end);
+    }
     if(!alongX) holder.rotation.y = Math.PI/2;
-    holder.position.y = h + span*0.32;
-    holder.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
     roofG.add(holder);
   } else {
     const cone = new THREE.Mesh(new THREE.ConeGeometry(Math.max(w,d)*0.86+oh*0.5, h*pitch, 4), roofMat);
     cone.position.y = h + h*pitch*0.5; cone.rotation.y = Math.PI/4; cone.castShadow=true; roofG.add(cone);
+    // ridge cap at the apex (hip roofs only — gables carry their own ridge beam)
+    const ridge=new THREE.Mesh(new THREE.BoxGeometry(0.26,0.2,0.26),beamMat);
+    ridge.position.y=h + h*pitch*0.9; roofG.add(ridge);
   }
-  // ridge cap at the peak
-  const ridge=new THREE.Mesh(new THREE.BoxGeometry(0.26,0.2,0.26),beamMat);
-  ridge.position.y=h + h*pitch*0.9; roofG.add(ridge);
   // ~40% of cottages get a small front dormer (variety)
   if(hash>0.6 && opts.roof!=='gable'){
     const onZ=(doorSide==='S'||doorSide==='N'), fs=(doorSide==='S'||doorSide==='E')?1:-1;

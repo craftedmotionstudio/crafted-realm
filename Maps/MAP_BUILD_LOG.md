@@ -29,7 +29,7 @@ each building on the last, until it *obviously matches* the bible map. World sta
 
 | # | Location | Kept detail iterations | Status |
 |---|---|---|---|
-| 1 | Veyhollow Commons | 1 / 5 | r1 silhouette KEPT (pass 012) |
+| 1 | Veyhollow Commons | 3 / 5 | r1-r3 KEPT (passes 012-014); square styled on Bible_References/Town_Square.jpg, Gemini 9/10 |
 | 2 | Wardenholm Keep | 0 / 5 | — |
 | 3 | Stonereach Bridge | 0 / 5 | — |
 | 4 | Mirrorpond | 0 / 5 | — |
@@ -65,6 +65,51 @@ each building on the last, until it *obviously matches* the bible map. World sta
 ---
 
 <!-- Newest entries below this line, newest first -->
+
+### Pass 014 — Veyhollow Commons — rung 3/5: Props & clutter — 2026-07-03 — KEPT
+- **Location & rung:** the town square, rebuilt to the user's new style reference
+  `Bible_References/Town_Square.jpg` (the OSRS town square). Tracker now **3/5**.
+- **Changed:** NEW `src/town_square.js` — (a) organic pale-grey stone plaza (blob mesh,
+  live-tuned to 0x878580) over a dirt fringe, sprawling amoeba-like via 8 tendril lobes
+  toward the gates, mottled with soft grey patches, pebbles, and rim grass tufts;
+  (b) the Hollow Well rebuilt as the quatrefoil fountain — rough stone ring, flat OSRS-blue
+  water (MeshBasic so it never blows white), stone cross, four statue pillars, pedestal
+  bowl + jet; (c) striped-canvas market stalls (CanvasTexture awnings: blue/white silver,
+  red/white baker, green/white produce) replacing the flat canopies; (d) the bank went
+  grey stone blockwork (`wall:'stone'`). `veyhollow_town.js` sheds its old well/patch/stall
+  calls; bank booth moved OFF the doorstep tile (it was walling the door — found by the
+  every-door path test).
+- **Iterations inside the pass:** brown texture plaza (Gemini 6/10, "reads like a dirt
+  patch") → flat grey + live colour tune (white water fixed) → expanded to the doorsteps
+  + tendrils (7/10, "contained oval") → softened lobes → **Gemini 9/10**: "layout, dominant
+  organic plaza, quatrefoil fountain and market stalls remarkably well-translated."
+- **Before → after:** `pass014_square_after_oblique.png` (first cut) →
+  `pass014_square_v6_oblique.png` / `pass014_square_KEEP_street.png`.
+- **Verified:** console clean; validator exit 0; gate-to-gate + every-door pathing pass
+  (the "cross-town" failures were bad test endpoints in the pond/wall, not regressions).
+- **Verdict:** KEPT — the square finally reads like the reference's market hub.
+- **Next:** Commons rung 4/5 (terrain & transitions) — or keep pushing the square if the
+  user wants closer than 9/10.
+
+### Pass 013 — Veyhollow Commons — rung 2/5: Structure & materials — 2026-07-03 — KEPT
+- **Location & rung:** the cottages + every gable roof in the world, driven by direct user
+  critique: "roofs do not look good… very cookie cutter… can't even walk into the
+  buildings." Tracker 2/5 at this point.
+- **Changed:** `game2_world.js` makeBuilding gable REWRITTEN — the 3-sided cylinder prism
+  (60° monster slopes, wraparound UVs = garish chevron stripes, giant blank cap triangles)
+  replaced with two real sloped planes at ~39° pitch, straight straw courses, a ridge
+  beam, and timbered plaster gable ends (king post, collar, raking bargeboards). Benefits
+  every gable in the world (services, Brynholt, Saltreach, the mill). `veyhollow_town.js`
+  cottages upsized 4×3.6 → 5–6.5-tile OSRS footprints and DE-CLONED: a long-house, a
+  two-storey, a stone cottage, hips among gables, chimneys with living smoke, varied
+  palettes. Every pad re-probed clear (tall house shifted to −13.5,1 off the road).
+- **Verified:** console clean; computePath walk-in test on ALL 13 town interiors —
+  plaza→door and door→centre reached for 12/13 (the bank failure exposed the doorstep
+  booth, fixed in pass 014).
+- **Before → after:** `crit_cottage_street1/2.png` (user's view: blank orange slab wall,
+  chevron roof, pancake-flat cottage) → `pass013_commons_r2_after_street2.png` /
+  `_after_town.png`.
+- **Verdict:** KEPT — the skyline reads grown, roofs read roofed, doors admit a player.
 
 ### Pass 012 — Veyhollow Commons — rung 1/5: Silhouette — 2026-07-03 — KEPT
 - **Location & rung:** Veyhollow Commons, rung 1 (silhouette: building count & scale vs the
