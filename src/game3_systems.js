@@ -1126,8 +1126,9 @@ function playerDeath(){
   Player.target=null; Player.action=null; Player.moveTo=null;
   WORLD.npcs.forEach(n=>n.target=null);
   const p = Tutorial.complete ? ZONES.commons.pos : ZONES.holm.pos;
-  player.position.set(p[0]+2, gy(p[0]+2,p[1]+2), p[1]+2);
-  UI.chat('You wake at the Veyhollow gates.','plain');
+  // WEST of the plaza fountain — never inside its basin (user, 2026-07-03)
+  player.position.set(p[0]-8, gy(p[0]-8,p[1]), p[1]);
+  UI.chat('You wake in Veyhollow square.','plain');
   refreshPlayerGear();      // death drops gear — the avatar must stop showing it (GLB regions reset too)
   UI.refreshHud();
 }

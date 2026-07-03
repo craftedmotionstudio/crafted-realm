@@ -91,52 +91,34 @@
     return g;
   }
 
-  /* ---- the quatrefoil fountain: the Hollow Well, rebuilt in stone ---- */
+  /* ---- the quatrefoil fountain: the Hollow Well — the first PROP PIPELINE asset
+   * (PIPELINES.md): concept v03 (two-reviewer 9/9) → Hunyuan mesh → Blender cleanup
+   * (6k tris flat-shaded, engine-matched raw-sRGB stone/water) → fountain.glb.
+   * Colliders stay authored here; the GLB is the visual only. ---- */
   function fountain(x,z){
     const base=gy(x,z)||0;
     const g=new THREE.Group(); g.position.set(x,base,z);
-    const R=3.3;
-    const stone =new THREE.MeshLambertMaterial({map:(typeof TEX!=='undefined'&&TEX.stone)||null, color:0xa8a49c});
-    const stoneD=new THREE.MeshLambertMaterial({map:(typeof TEX!=='undefined'&&TEX.stone)||null, color:0x8e8a82});
-    // rough outer ring: fat rounded blocks, sizes and radii jittered
-    for(let i=0;i<20;i++){
-      const a=i/20*Math.PI*2, r=R+(rnd(i+40)-0.5)*0.36;
-      const s=0.62+rnd(i+80)*0.34;
-      const b=new THREE.Mesh(new THREE.BoxGeometry(s,0.55+rnd(i)*0.25,s), (i%3)?stone:stoneD);
-      b.position.set(Math.cos(a)*r, 0.28, Math.sin(a)*r);
-      b.rotation.y=rnd(i+7)*0.8;
-      b.castShadow=true; g.add(b);
-    }
-    // the water, sitting low inside the ring — flat OSRS blue, unlit so it never blows white
-    const waterMat=new THREE.MeshBasicMaterial({color:0x7db4d8});
-    const water=new THREE.Mesh(new THREE.CircleGeometry(R-0.28, 20), waterMat);
-    water.rotation.x=-Math.PI/2; water.position.y=0.34; g.add(water);
-    // the stone cross over the water (reads from the air exactly like the reference)
-    for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]){
-      const arm=new THREE.Mesh(new THREE.BoxGeometry(dx?R:0.95, 0.26, dz?R:0.95), stone);
-      arm.position.set(dx*R/2, 0.5, dz*R/2); arm.castShadow=true; g.add(arm);
-      // a worn statue pillar where each arm meets the ring
-      const pil=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.95,0.3), stoneD);
-      pil.position.set(dx*(R-0.15), 1.0, dz*(R-0.15)); pil.castShadow=true; g.add(pil);
-      const head=new THREE.Mesh(new THREE.IcosahedronGeometry(0.16,0), stoneD);
-      head.position.set(dx*(R-0.15), 1.58, dz*(R-0.15)); g.add(head);
-    }
-    // the centre: pedestal, bowl and a low jet column
-    const ped=new THREE.Mesh(new THREE.CylinderGeometry(0.85,1.0,0.6,8), stone);
-    ped.position.y=0.62; ped.castShadow=true; g.add(ped);
-    const bowl=new THREE.Mesh(new THREE.CylinderGeometry(0.72,0.5,0.3,8), stoneD);
-    bowl.position.y=1.05; g.add(bowl);
-    const bowlWater=new THREE.Mesh(new THREE.CircleGeometry(0.6,10),
-      new THREE.MeshBasicMaterial({color:0x8cc0de}));
-    bowlWater.rotation.x=-Math.PI/2; bowlWater.position.y=1.21; g.add(bowlWater);
-    const jet=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.13,0.85,6),
-      new THREE.MeshBasicMaterial({color:0xa8d2e8}));
-    jet.position.y=1.6; g.add(jet);
+    const loader=new THREE.GLTFLoader();
+    loader.load('assets/models/fountain.glb?v=1', gltf=>{
+      const m=gltf.scene;
+      m.traverse(o=>{ if(o.isMesh){
+        o.castShadow=true; o.receiveShadow=true;
+        if(o.material){ o.material.metalness=0; }   // AI GLBs export metallic=1 → black in r128
+      }});
+      g.add(m);
+    }, undefined, err=>{ console.error('[town_square] fountain.glb failed to load', err); });
     scene.add(g);
     // block the basin (players walk the plaza around it, like the reference)
     for(const [qx,qz] of [[1.7,1.7],[-1.7,1.7],[1.7,-1.7],[-1.7,-1.7]])
       WORLD.colliders.push({type:'rect', x:x+qx*0.82, z:z+qz*0.82, hw:1.45, hd:1.45});
     WORLD.colliders.push({type:'rect', x, z, hw:1.1, hd:1.1});
+    // never leave anyone STANDING in the basin (old saves/respawns predate the
+    // fountain) — step them out to the plaza on its west side
+    if(typeof player!=='undefined' && player &&
+       Math.hypot(player.position.x-x, player.position.z-z)<4.8){
+      const sx=x-8, sz=z+1;
+      player.position.set(sx, (groundY(sx,sz)||0), sz);
+    }
     return g;
   }
 
