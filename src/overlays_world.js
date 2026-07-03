@@ -8,7 +8,7 @@
  *   4. loot-tracker     — kills + picked-up loot value + gp/hr panel
  *   5. buff-timers      — active prayers / spec / stun / teleport cooldown chips
  *   6. notifications    — level-up banner, low-HP vignette, idle alert
- *   7. tile-markers     — right-click "Mark tile" persistent colored squares
+ *   7. tile-markers     — right-click "Mark tile" persistent colored squares + optional labels
  *   8. declutter        — hide name tags / shadows / tile grid / xp drops
  */
 
@@ -264,7 +264,7 @@ const TileMarkers = {
   toggleAt(pt){
     const tx=Math.floor(pt.x), tz=Math.floor(pt.z);
     const i=this.at(tx,tz);
-    if(i>=0){ this.list.splice(i,1); UI.chat('Tile unmarked.','plain'); }
+    if(i>=0){ this.list.splice(i,1); UI.chat('Tile unmarked.','plain'); }   // label goes with it
     else{
       const color=this.COLORS[this.list.length % this.COLORS.length];
       this.list.push({x:tx, z:tz, color});
@@ -272,8 +272,68 @@ const TileMarkers = {
     }
     this.save(); this.rebuild();
   },
+  /* floating label text over a marked tile — same canvas-sprite trick as NPC name tags */
+  _labelSprite(text, color){
+    const c=document.createElement('canvas');
+    let x=c.getContext('2d');
+    x.font='bold 13px Verdana';
+    const w=Math.min(256, Math.ceil(x.measureText(text).width)+14);
+    c.width=w; c.height=20;                       // resizing resets ctx state
+    x=c.getContext('2d');
+    x.font='bold 13px Verdana'; x.textAlign='center';
+    x.fillStyle='#000'; x.fillText(text, w/2+1, 15);
+    x.fillStyle='#'+('00000'+(color||0xffe14d).toString(16)).slice(-6);
+    x.fillText(text, w/2, 14);
+    const spr=new THREE.Sprite(new THREE.SpriteMaterial(
+      {map:new THREE.CanvasTexture(c), depthTest:false, transparent:true}));
+    spr.scale.set(w/58, 20/58, 1);                // same px→world ratio as makeNameTag
+    spr.renderOrder=993;
+    return spr;
+  },
+  /* small in-game input box (NEVER window.prompt — it hangs automation) */
+  labelAt(tx,tz){
+    const i=this.at(tx,tz); if(i<0) return;
+    const m=this.list[i], self=this;
+    const old=document.getElementById('tile-label-box'); if(old) old.remove();
+    const box=document.createElement('div');
+    box.id='tile-label-box';
+    box.style.cssText='position:absolute;z-index:70;padding:6px 8px;'+_OV_STEEL;
+    box.innerHTML='<div style="margin-bottom:4px"><b style="color:#ffd24a">Label tile</b> '+
+      '<span style="color:#9a8e78;font-size:10px">Enter saves · Esc cancels · empty clears</span></div>';
+    const inp=document.createElement('input');
+    inp.type='text'; inp.maxLength=24; inp.value=m.label||'';
+    inp.style.cssText='width:190px;background:#241f17;color:#d8ccb4;border:1px solid #5d5447;'+
+      'font-size:12px;padding:2px 4px;outline:none;';
+    box.appendChild(inp);
+    // near the tile when it's on screen, else centred
+    let px=innerWidth/2-120, py=innerHeight/2-30;
+    try{
+      const p=UI.worldToScreen({x:tx+0.5, y:(groundY(tx+0.5,tz+0.5)||0), z:tz+0.5}, 1.2);
+      if(isFinite(p.x)&&isFinite(p.y)&&p.x>0&&p.x<innerWidth&&p.y>0&&p.y<innerHeight){
+        px=Math.max(8, Math.min(p.x-120, innerWidth-260)); py=Math.max(8, p.y-64);
+      }
+    }catch(e){}
+    box.style.left=px+'px'; box.style.top=py+'px';
+    document.body.appendChild(box);
+    let done=false;
+    const close=()=>{ if(done) return; done=true; box.remove(); };
+    inp.addEventListener('keydown', e=>{
+      e.stopPropagation();   // keep game hotkeys out of the input
+      if(e.key==='Enter'){
+        const v=inp.value.trim().slice(0,24);
+        if(v) m.label=v; else delete m.label;
+        self.save(); self.rebuild();
+        UI.chat(v?('Tile labelled "'+v+'".'):'Tile label cleared.','plain');
+        close();
+      } else if(e.key==='Escape'){ close(); }
+    });
+    inp.addEventListener('blur', ()=>setTimeout(close, 120));
+    setTimeout(()=>inp.focus(), 0);
+  },
   rebuild(){
-    this._objs.forEach(o=>{ scene.remove(o); o.geometry.dispose(); });
+    this._objs.forEach(o=>{ scene.remove(o);
+      if(!o.isSprite && o.geometry) o.geometry.dispose();   // r128 Sprites SHARE one geometry — never dispose it
+      if(o.material){ if(o.material.map) o.material.map.dispose(); o.material.dispose(); } });
     this._objs=[];
     if(!this._on || typeof scene==='undefined' || typeof groundY==='undefined') return;
     for(const m of this.list){
@@ -286,6 +346,11 @@ const TileMarkers = {
       line.geometry.setAttribute('position', new THREE.BufferAttribute(v,3));
       line.renderOrder=992;
       scene.add(line); this._objs.push(line);
+      if(m.label){
+        const spr=this._labelSprite(m.label, m.color);
+        spr.position.set(cx, (groundY(cx,cz)||0)+0.9, cz);
+        scene.add(spr); this._objs.push(spr);
+      }
     }
   },
   wrapMenu(){
@@ -300,8 +365,11 @@ const TileMarkers = {
           const tx=Math.floor(gp.x), tz=Math.floor(gp.z);
           const marked=self.at(tx,tz)>=0;
           // insert above "Walk here" (which sits just before Cancel)
-          entries.splice(Math.max(0,entries.length-2), 0,
+          const at=Math.max(0,entries.length-2);
+          entries.splice(at, 0,
             {html:(marked?'Unmark':'Mark')+' <b>Tile</b>', fn:()=>self.toggleAt(gp)});
+          if(marked) entries.splice(at+1, 0,
+            {html:'Label <b>Tile</b>', fn:()=>self.labelAt(tx,tz)});
         }
       }
       return entries;
@@ -312,7 +380,7 @@ const TileMarkers = {
   stop(){ this._on=false; this.rebuild(); }
 };
 Overlays.register({ id:'tile-markers', name:'Tile markers',
-  desc:'Right-click the ground → "Mark Tile". Colored squares persist on this device.',
+  desc:'Right-click the ground → "Mark Tile"; right-click a marked tile → "Label Tile" for floating text. Persists on this device.',
   defaultOn:true, start:()=>TileMarkers.start(), stop:()=>TileMarkers.stop() });
 
 /* ============ 8. Declutter / performance toggles ============ */

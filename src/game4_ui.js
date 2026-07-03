@@ -712,6 +712,7 @@ function fillAdminSelects(){
 }
 /* ================= INPUT ================= */
 var _swallowClickUntil=0;
+var _hoverNpc=null;   // attackable NPC under the cursor (read by the npc-tile-outline overlay)
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 const canvasEl = document.getElementById('game-canvas');
@@ -739,9 +740,10 @@ canvasEl.addEventListener('mousemove', e=>{
     camCtl.pitch = Math.min(1.45, Math.max(0.55, camCtl.pitch+(e.clientY-camCtl.ly)*0.005));
     camCtl.lx=e.clientX; camCtl.ly=e.clientY;
   } else if(window.Build && Build.active){
-    UI.action(null); hideHoverTile();
+    UI.action(null); hideHoverTile(); _hoverNpc=null;
   } else {
     const hit = pick(e);
+    _hoverNpc = (hit && hit.obj.userData && hit.obj.userData.kind==='npc') ? hit.obj.userData.npc : null;
     const onObj = hit && hit.obj.userData.label;
     const label = onObj ? hit.obj.userData.label : (hit && hit.obj.name==='ground' ? 'Walk here' : null);
     // "/ N more options" = right-click entries minus the primary action and Cancel
