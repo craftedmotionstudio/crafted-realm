@@ -955,6 +955,9 @@ function toggleDoor(door){
     const i=WORLD.colliders.indexOf(u.col); if(i>=0) WORLD.colliders.splice(i,1);
     Sfx.click();
   }
+  // keep the flag grid in sync around the doorway (bake ignores doors today, but this
+  // covers future door WALL flags and any collider the swing displaces)
+  if(typeof CollisionGrid!=='undefined') CollisionGrid.rebakeArea(u.col.x, u.col.z, 3);
 }
 function minimapWalkTo(p){
   Player.target=null; Player.action=null;
