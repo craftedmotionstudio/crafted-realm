@@ -149,8 +149,10 @@ function update(dt){
   // ── fixed-tick player sim: combat/skilling/vitals advance in 600ms steps (wall-clock unchanged) ──
   worldTickAcc += dt;
   let _nTicks = Math.floor(worldTickAcc / TICK);
-  if(_nTicks > 5){ _nTicks = 5; worldTickAcc = 0; }   // drop backlog after a tab stall (no spiral of death)
+  if(_nTicks > 5){ _nTicks = 5; worldTickAcc = 0;     // drop backlog after a tab stall (no spiral of death)
+    if(typeof TickHealth!=='undefined') TickHealth.droppedBacklog(); }
   else { worldTickAcc -= _nTicks * TICK; }
+  const _tickT0 = _nTicks ? performance.now() : 0;
   for(let _ti=0; _ti<_nTicks; _ti++){ const dt = TICK; worldTickCount++;   // dt shadowed to TICK
   if(typeof Sched!=='undefined') Sched._tick();          // scheduled tick tasks (walk-then-do, repeats)
   Player.tickVitals(dt, playerMovedThisFrame);
@@ -461,6 +463,7 @@ function update(dt){
     }
   }
   }   // ── end fixed-tick player-sim loop ──
+  if(_nTicks && typeof TickHealth!=='undefined') TickHealth.sample(performance.now()-_tickT0, _nTicks);
 
   WORLD.npcs.forEach(n=>{
     if(n.dead){

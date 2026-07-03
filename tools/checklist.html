@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crafted Realm — RSPS Parity Checklist</title>
+<style>
+  :root{
+    --bg:#171310; --panel:#241d16; --panel2:#2d251b; --line:#4a3b28;
+    --gold:#e8c46a; --gold-dim:#a98c4a; --text:#e8ddc8; --dim:#a99a80;
+    --green:#7fc46a; --yellow:#e0b64f; --blue:#6aa8e8; --purple:#b48ae0; --grey:#8a8a8a;
+    --red:#e07a5f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:15px/1.5 "Segoe UI",system-ui,sans-serif;
+    background-image:radial-gradient(ellipse at 50% -10%, #2a2015 0%, var(--bg) 60%);}
+  .wrap{max-width:1060px;margin:0 auto;padding:24px 20px 80px}
+  header{text-align:center;margin-bottom:8px}
+  h1{font-family:Georgia,serif;color:var(--gold);font-size:30px;margin:6px 0 2px;letter-spacing:.5px}
+  h1 .rune{color:var(--gold-dim)}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:14px}
+  .sub code{color:var(--gold-dim)}
+
+  .bigbar{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin:14px 0 26px;
+    box-shadow:0 4px 18px rgba(0,0,0,.4)}
+  .bigbar .nums{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+  .bigbar .pct{font-family:Georgia,serif;font-size:34px;color:var(--gold)}
+  .bigbar .frac{color:var(--dim);font-size:13px}
+  .track{height:14px;background:#120e0a;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:10px}
+  .fill{height:100%;background:linear-gradient(90deg,#6b8f3f,#9fc45a);border-radius:8px;transition:width .6s}
+
+  h2{font-family:Georgia,serif;color:var(--gold);font-size:21px;border-bottom:1px solid var(--line);
+     padding-bottom:6px;margin:38px 0 14px}
+  h2 .tag{font:11px/1 "Segoe UI";color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-left:10px}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}
+  .card>summary{list-style:none;cursor:pointer;padding:12px 16px;display:flex;align-items:center;gap:12px;user-select:none}
+  .card>summary::-webkit-details-marker{display:none}
+  .card>summary:hover{background:var(--panel2)}
+  .card .cname{font-weight:600;color:var(--gold);flex:1;min-width:180px}
+  .mini{flex:0 0 200px;max-width:38vw}
+  .mini .track{height:9px;margin-top:0}
+  .card .cpct{color:var(--dim);font-size:12.5px;width:76px;text-align:right}
+  .chev{color:var(--gold-dim);transition:transform .2s}
+  details[open] .chev{transform:rotate(90deg)}
+  .items{padding:4px 16px 14px;border-top:1px solid var(--line)}
+  .item{display:flex;gap:10px;padding:5px 2px;border-bottom:1px dotted #352a1c;font-size:14px}
+  .item:last-child{border-bottom:none}
+  .box{flex:0 0 auto;margin-top:1px}
+  .done .box{color:var(--green)} .todo .box{color:var(--grey)}
+  .todo .txt{color:var(--dim)}
+  .txt code{background:#120e0a;border:1px solid var(--line);border-radius:4px;padding:0 5px;font-size:12.5px;color:#d8c9a8}
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.5px;border-radius:4px;padding:1px 7px;margin-left:6px;vertical-align:1px}
+  .b-V1{background:#33421f;color:#b6de85} .b-V2{background:#1f3242;color:#8fc3ef}
+  .b-V3{background:#3a2a4a;color:#cfaaf0} .b-misc{background:#3a3a3a;color:#cfcfcf}
+
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+  .fbtn{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:16px;
+    padding:4px 14px;font-size:13px;cursor:pointer}
+  .fbtn.on{background:var(--gold);color:#1c150c;border-color:var(--gold);font-weight:600}
+  table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:13.5px}
+  .tblwrap{overflow-x:auto;border-radius:10px}
+  th{background:#1c1712;color:var(--gold-dim);text-align:left;padding:9px 12px;font-size:12px;text-transform:uppercase;letter-spacing:1px}
+  td{padding:8px 12px;border-top:1px solid #352a1c;vertical-align:top}
+  td.st{white-space:nowrap;font-size:16px;width:44px;text-align:center}
+  td.note{color:var(--dim);font-size:12.5px}
+  tr.hidden{display:none}
+
+  .legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--dim);font-size:12.5px;margin:10px 2px}
+
+  .rsbox{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:18px 22px;margin:12px 0}
+  .rsbox h3{margin:14px 0 6px;color:var(--gold);font-size:15.5px;font-family:Georgia,serif}
+  .rsbox h3:first-child{margin-top:0}
+  .rsbox ul{margin:6px 0;padding-left:22px}
+  .rsbox li{margin:5px 0}
+  .rsbox .good::marker{color:var(--green)} .rsbox .bad::marker{color:var(--red)}
+  .rsbox .k{color:var(--gold);font-weight:600}
+  .rsbox p{color:var(--dim);font-size:13.5px}
+  .verdict{background:#1c1712;border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin-top:14px;font-size:14px}
+  .verdict b{color:var(--gold)}
+  .err{background:#3a1f1a;border:1px solid #6b3428;border-radius:8px;padding:14px 18px;color:#f0c0b0}
+  footer{margin-top:44px;text-align:center;color:#6b5f4c;font-size:12px}
+  footer a{color:var(--gold-dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="rune">⚔</span> Crafted Realm <span class="rune">⚔</span></h1>
+    <div class="sub">RSPS parity &amp; master build checklist — parsed live from <code>GOAL.md</code> (§13 + §15) · <span id="stamp"></span></div>
+  </header>
+
+  <div class="bigbar">
+    <div class="nums">
+      <div><span class="pct" id="totalPct">…</span> <span class="frac" id="totalFrac"></span></div>
+      <div class="frac" id="mileFracs"></div>
+    </div>
+    <div class="track"><div class="fill" id="totalFill" style="width:0%"></div></div>
+  </div>
+
+  <div id="error"></div>
+
+  <h2>Master build checklist <span class="tag">GOAL.md §15 — [x] verified in src/ today</span></h2>
+  <div id="sections"></div>
+
+  <h2>Functionality parity matrix <span class="tag">GOAL.md §13 — genre capability vs our code</span></h2>
+  <div class="legend"><span>✅ have</span><span>🟡 partial</span><span>🔷 planned V1</span><span>🌐 online layer V2</span><span>🏗️ later V3</span></div>
+  <div class="filters" id="matrixFilters"></div>
+  <div class="tblwrap"><table id="matrix"><thead><tr><th></th><th>Capability</th><th>Where / note</th></tr></thead><tbody></tbody></table></div>
+
+  <h2>Repo review: rsbox-archive <span class="tag">kyles-old-rsbox/rsbox-archive · audited 2026-07-03</span></h2>
+  <div class="rsbox">
+    <p>Kyle Escobar's abandoned OSRS server framework (Kotlin/Java, 2022, pre-production — login reaches a
+    welcome screen; no combat/skills/content). Source-level audit of every non-client module. Full 16-project
+    review lives in <b>GOAL.md §12</b>.</p>
+
+    <h3>✔ Worth adopting (concepts → our JS)</h3>
+    <ul>
+      <li class="good"><span class="k">Per-tile collision bitmask</span> — directional wall flags (N/E/S/W + corners) set on <i>both</i> sides of a wall, separate projectile-blocker flags, baked from object shape + rotation + footprint (width/length swap on rotation 1/3). Exactly the gap OSRS_COMPARISON §1 flags — replaces our circle colliders, unlocks line-of-sight + wall-aware pathing. <b>→ added to §15.</b></li>
+      <li class="good"><span class="k">Tick loop with drift correction</span> — measures each cycle, warns when a cycle overruns the 600&nbsp;ms budget, carries the sub-millisecond remainder into the next cycle. Cheap tick-health telemetry for our fixed tick. <b>→ added to §15.</b></li>
+      <li class="good"><span class="k">Strict tick pipeline order</span> — read input → player cycles → world queue → sync tasks → flush output. Formalizes what our worldTick should guarantee before the V2 Web-Worker sim.</li>
+      <li class="good"><span class="k">Weak / normal / strong action queues</span> — OSRS-authentic queue priorities (strong interrupts weak; weak cleared by interfaces) for <code>src/scheduler.js</code>. <b>→ added to §15.</b></li>
+      <li class="good"><span class="k">Hot-reloadable content scripts</span> with suspendable <code>wait(ticks)</code> — validates our DevTools.reload + scheduler direction; generator-based multi-tick scripts are the JS equivalent.</li>
+      <li class="good"><span class="k">Pluggable PlayerSerializer</span> interface — same shape as our <code>src/persist.js</code>. Confirms the pattern; nothing to change.</li>
+    </ul>
+
+    <h3>✘ Not applicable / off-limits</h3>
+    <ul>
+      <li class="bad"><span class="k">client/ + native-client/</span> — a deobfuscated Jagex client (class1.java…). <b>Jagex IP — never port, never reference.</b></li>
+      <li class="bad"><span class="k">toolbox/</span> — JVM bytecode deobfuscator + updater for reverse-engineering that client. Solves a problem we don't have.</li>
+      <li class="bad"><span class="k">cache / JS5 / varps / packet codecs</span> — plumbing for Jagex's binary cache + protocol. We own our content format (plain JS data + validator), so this whole layer is unnecessary for us.</li>
+    </ul>
+
+    <div class="verdict"><b>Verdict on "converting the Java over":</b> we don't convert Java — rsbox is GPL-3.0 and
+    its client is Jagex-derived, and our stack is browser JS. What transfers is <b>architecture</b>, and most of
+    rsbox's architecture (event bus, content hooks, hot reload, pluggable saves, service registry, fixed tick)
+    is <b>already built in Crafted Realm</b>. The three genuinely new takes — the collision bitmask recipe,
+    queue priorities, and tick-health telemetry — are now unchecked items on the §15 checklist above.</div>
+  </div>
+
+  <footer>Crafted Realm · checklist viewer reads <a href="/GOAL.md">/GOAL.md</a> live — edit the doc, refresh this page.</footer>
+</div>
+
+<script>
+(async function(){
+  const $=s=>document.querySelector(s);
+  let md='';
+  try{
+    const r=await fetch('/GOAL.md',{cache:'no-store'});
+    if(!r.ok) throw new Error(r.status+' '+r.statusText);
+    md=await r.text();
+  }catch(e){
+    $('#error').innerHTML='<div class="err"><b>Could not load /GOAL.md</b> — '+e.message+
+      '. Serve the repo root (serve.bat → http://127.0.0.1:8777) and open this page from there.</div>';
+    return;
+  }
+  $('#stamp').textContent='loaded '+new Date().toLocaleString();
+
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  function inline(s){
+    s=esc(s);
+    s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+    s=s.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+    s=s.replace(/\*\(([^)]*?(V1|V2|V3)[^)]*?)\)\*/g,(m,inner,v)=>' <span class="badge b-'+v+'">'+esc2(inner)+'</span>');
+    s=s.replace(/\*\(([^)]+)\)\*/g,' <span class="badge b-misc">$1</span>');
+    s=s.replace(/\*([^*]+)\*/g,'<i>$1</i>');
+    return s;
+  }
+  const esc2=s=>s; // already escaped upstream
+
+  // ---- §15 master checklist ----
+  const s15=md.split(/^## 15\./m)[1]?.split(/^## /m)[0]||'';
+  const secWrap=$('#sections');
+  let total=0,done=0; const mile={V1:[0,0],V2:[0,0],V3:[0,0]};
+  const sections=s15.split(/^### /m).slice(1);
+  sections.forEach((sec,i)=>{
+    const nl=sec.indexOf('\n');
+    const name=sec.slice(0,nl).trim();
+    const body=sec.slice(nl);
+    const items=[...body.matchAll(/^- \[( |x)\] (.+)$/gm)];
+    if(!items.length) return;
+    let sDone=0,sTotal=0,rows='';
+    items.forEach(m=>{
+      const line=m[2];
+      // count every checkbox on the line (primary + inline "— [ ] sub" markers)
+      const boxes=[(m[1]==='x')].concat([...line.matchAll(/\[( |x)\]/g)].map(x=>x[1]==='x'));
+      boxes.forEach(b=>{sTotal++;total++;if(b){sDone++;done++;}});
+      const v=(line.match(/\*\([^)]*?(V1|V2|V3)[^)]*?\)\*/)||[])[1];
+      if(v){mile[v][1]+=boxes.length;mile[v][0]+=boxes.filter(Boolean).length;}
+      const primary=m[1]==='x';
+      const txt=inline(line).replace(/\[x\]/g,'<span style="color:var(--green)">☑</span>')
+                            .replace(/\[ \]/g,'<span style="color:var(--grey)">☐</span>');
+      rows+='<div class="item '+(primary?'done':'todo')+'"><span class="box">'+(primary?'☑':'☐')+
+            '</span><span class="txt">'+txt+'</span></div>';
+    });
+    const pct=Math.round(100*sDone/sTotal);
+    const d=document.createElement('details');
+    d.className='card'; if(pct<100) d.open=true;
+    d.innerHTML='<summary><span class="chev">▶</span><span class="cname">'+esc(name)+'</span>'+
+      '<span class="mini"><span class="track"><span class="fill" style="width:'+pct+'%;display:block;height:100%"></span></span></span>'+
+      '<span class="cpct">'+sDone+' / '+sTotal+' · '+pct+'%</span></summary>'+
+      '<div class="items">'+rows+'</div>';
+    secWrap.appendChild(d);
+  });
+  const tp=Math.round(100*done/total);
+  $('#totalPct').textContent=tp+'%';
+  $('#totalFrac').textContent=done+' of '+total+' checklist boxes verified in src/';
+  $('#totalFill').style.width=tp+'%';
+  $('#mileFracs').innerHTML=['V1','V2','V3'].filter(v=>mile[v][1])
+    .map(v=>'<span class="badge b-'+v+'">'+v+'</span> tagged-forward: '+mile[v][0]+'/'+mile[v][1]).join(' &nbsp; ');
+
+  // ---- §13 parity matrix ----
+  const s13=md.split(/^## 13\./m)[1]?.split(/^## /m)[0]||'';
+  const tb=$('#matrix tbody');
+  const rows=[...s13.matchAll(/^\| (.+?) \| (✅|🟡|🔷|🌐|🏗️) \| (.+?) \|$/gm)];
+  const counts={};
+  rows.forEach(r=>{
+    counts[r[2]]=(counts[r[2]]||0)+1;
+    const tr=document.createElement('tr');
+    tr.dataset.st=r[2];
+    tr.innerHTML='<td class="st">'+r[2]+'</td><td>'+inline(r[1])+'</td><td class="note">'+inline(r[3])+'</td>';
+    tb.appendChild(tr);
+  });
+  const order=['all','✅','🟡','🔷','🌐','🏗️'];
+  const labels={all:'All ('+rows.length+')','✅':'✅ have','🟡':'🟡 partial','🔷':'🔷 V1 planned','🌐':'🌐 V2 online','🏗️':'🏗️ V3 later'};
+  const fwrap=$('#matrixFilters');
+  order.forEach(k=>{
+    if(k!=='all'&&!counts[k])return;
+    const b=document.createElement('button');
+    b.className='fbtn'+(k==='all'?' on':'');
+    b.textContent=labels[k]+(k!=='all'?' ('+counts[k]+')':'');
+    b.onclick=()=>{
+      fwrap.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      tb.querySelectorAll('tr').forEach(tr=>tr.classList.toggle('hidden',k!=='all'&&tr.dataset.st!==k));
+    };
+    fwrap.appendChild(b);
+  });
+})();
+</script>
+</body>
+</html>

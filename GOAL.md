@@ -254,8 +254,17 @@ each teaches us:
 - **rsmod** (Kotlin, OSRS) — clean `engine`/`api`/`content` split; coroutine/suspendable
   multi-tick actions; gold-standard faithful pathfinder. *Take: the stable content-API layer;
   tick-scheduled state machines for dialogue/skilling/combat.*
-- **rsbox** (Kotlin) — Bukkit-style drag-and-drop plugin bundles; first-run asset provisioning.
-  *Take: keep the repo asset-light; content as self-contained bundles.*
+- **rsbox** (Kotlin/Java, archived: `kyles-old-rsbox/rsbox-archive`) — **source-level audit
+  2026-07-03.** Bukkit-style hot-reloadable content bundles (`.content.kts` event DSL with
+  suspendable `wait(ticks)`); first-run asset provisioning; measured-cycle tick loop with
+  **overrun warning + nano drift carry-over**; strict tick pipeline order (read input → player
+  cycles → world queue → sync tasks → flush output); **per-tile collision bitmask** with
+  directional wall + projectile-blocker flags baked from object shape/rotation/footprint (via
+  rsmod's pathfinder); weak/normal/strong action-queue priorities; pluggable `PlayerSerializer`.
+  Its `client/` (deobfuscated Jagex client) and `toolbox/` (deobfuscator) are **off-limits —
+  never port**; cache/JS5/varp plumbing solves problems we don't have. *Take: tick-health
+  telemetry, the tick pipeline order, the collision-bitmask recipe, queue priorities — concepts
+  re-implemented in our JS, never converted Java (GPL + Jagex IP).*
 - **Zenyte** (Java, production OSRS) — deepest end-game stack: instanced raids, boss scripting,
   **Combat Achievements + daily tasks + adventurer's log**. *Take: an instancing-ready world
   model and a retention meta-layer that sits on top of existing systems.*
@@ -340,6 +349,9 @@ Every genre capability, our status **as verified in `src/` today**. Legend: ✅ 
 | Right-click "choose option" menu | ✅ | present — make priority-sorted |
 | Zones (12), factions (5), hybrid tier ladder | ✅ | `ZONES` / `STORY_BIBLE.md` |
 | Hover text "Action › Target (level)" | ✅ | top-left hover text live ("Attack Wanderer (level 2) / 4 more options") |
+| Per-tile collision bitmask (directional walls + projectile flags) | 🔷 | rsbox/rsmod recipe — replaces circle colliders, unlocks LoS |
+| Weak/normal/strong action-queue priorities | 🔷 | OSRS queue semantics on `src/scheduler.js` (rsbox audit) |
+| Tick overrun telemetry + drift-corrected idle | ✅ | `src/tick_health.js` + overlay toggle (rsbox `Engine` pattern) |
 | Central interaction dispatcher + content hooks | 🔷 | architecture adoption (RuneJS pattern) |
 | Intent/message + encode-decode boundary | 🔷 | adopt now (Apollo pattern) for cheap MMO later |
 | Action scheduler (walk-to-then-do, repeat N ticks) | 🔷 | Apollo `DistancedAction` |
@@ -414,6 +426,9 @@ every genuinely-shipped system. Tagged by milestone.
 - [x] Action scheduler on the world tick (`src/scheduler.js` — after/every/walkThen, cancellable)
 - [x] Pluggable persistence boundary (`src/persist.js`; SaveGame routes through it)
 - [x] Deterministic 600ms sim tick + hidden-tab heartbeat — [ ] tick-based movement interpolation (couples to the V2 Web-Worker sim; movement is already smooth + tile-locked)
+- [ ] Per-tile collision bitmask — directional wall + projectile-blocker flags baked from prop footprints *(rsbox-archive audit 2026-07-03; foundation for LoS + wall-aware pathing)*
+- [ ] Weak/normal/strong action-queue priorities on the scheduler *(OSRS queue semantics; rsbox audit)*
+- [x] Tick overrun telemetry (`src/tick_health.js` — per-tick cost vs 600ms budget, throttled overrun warnings, backlog-drop counter, toggleable overlay; accumulator already carries drift)
 - [ ] Split the big three files into content modules *(ongoing — combat_math extracted; all new systems ship as own files)*
 - [ ] World sim in a Web Worker *(V2)*
 - [ ] WebSocket transport + cache-over-fetch *(V2)*
