@@ -12,7 +12,7 @@ placement, real elevation + smooth movement, richer flora, a proper UI, and life
 Legend: 🤖 = agent-buildable (self-contained) · 👁 = eyes-on main-session (browser) · 🎨 = heavy asset pipeline (Blender/GLB)
 
 ## A. Immediate / concrete
-- [ ] 👁 **Loading buffer screen** — game is slow right after "enter world". Show a loading overlay with
+- [x] 👁 **Loading buffer screen** — DONE (game5_main showEnterBuffer: themed overlay holds ~2.4s while props settle, then fades). FOLLOW-UP PERF: the settle is a multi-second RENDER FREEZE (all ~15 prop IIFEs build synchronously on the first `running` tick) — stagger the prop builds across frames OR build them during the boot bar, so the buffer covers a smooth load not a hard freeze. — game is slow right after "enter world". Show a loading overlay with
       progress bound to the boot step sequence (`game5_main.js` populate steps) + first-frame gate; only
       reveal the world when built. (The current "Click here to play" fires before the world finishes.)
 - [ ] 👁 **DEBUG PASS — fix pass-2 placements** (smithy / stall-goods / bank interior). Root cause: agents
