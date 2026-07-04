@@ -51,7 +51,7 @@ Legend: 🤖 = agent-buildable (self-contained) · 👁 = eyes-on main-session (
 - [ ] 👁 **Add elevation** — mountains, caves. Reviewed, deliberate.
 - [ ] 👁 **Ladders** — climbing building levels via a ladder doesn't feel right; review the plane/climb.
 - [ ] 👁 **Chunk-by-chunk review** — a "walk the whole map" pass; every tile/chunk has a purpose & reads right.
-- [ ] 🤖 **Sidewalk/path models** — the village-center paving looks bad; build 5–10 sidewalk/paving tile
+- [x] Sidewalk/paving — DONE: 9 paving models (prop_paving.js) + merged-plaza builder (world_paved_plaza.js, 1 draw call) + PLACED on the real Commons plaza (world_pave_commons.js, 354 tiles, collides-guarded, muted grey palette). Gemini + Claude eye: matches OSRS town square. Fountain area now paved.
       models (agent builds models; 👁 places them thoughtfully).
 
 ## G. Content & life
