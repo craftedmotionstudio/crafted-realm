@@ -65,3 +65,11 @@ Legend: 🤖 = agent-buildable (self-contained) · 👁 = eyes-on main-session (
 1. NOW (main session): loading screen, DEBUG PASS. 2. Launch agent workstreams (UI track, flora, sidewalks,
    char-default). 3. Building task force + collision/elevation/chunk reviews (eyes-on, staged). 4. Heavy
    pipeline (evil-tree re-export, pet dragon, fountains) as deliberate Blender sessions.
+
+## ⚠ PAVING PLACEMENT — reverted (too heavy), needs merged geometry
+First attempt (world_paving_place.js) carpeted ~500 multi-mesh paving tiles over the plaza synchronously
+→ hard render freeze + huge draw-call count. REVERTED. Correct approach: build the plaza paving as ONE
+MERGED BufferGeometry (like prop_grass_tufts does — 1 mesh, 1 draw call), OR a single large textured
+ground plane, placed on the real Commons plaza tiles. Models in prop_paving.js are fine; the PLACEMENT
+needs the merged approach. (Perf lesson: same class as the prop-settle freeze — never add hundreds of
+groups at once.)
