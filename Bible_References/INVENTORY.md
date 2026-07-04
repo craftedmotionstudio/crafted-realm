@@ -163,3 +163,17 @@ Gating the 4 pass-2 builds revealed placement issues — NOT promotable until fi
 - ROOT CAUSE: headless agents can't verify placement; their coords need an in-browser fix pass that
   queries real world positions (e.g. the Veyhollow forge/bank building actual coords) and re-anchors.
 - These 4 (grass/smithy/stall/bank) stay QUEUED. They are a DEBUG task (fix anchors), not new builds.
+
+## 🔴 PASS-2 ROOT-CAUSE (confirmed in-browser 2026-07-03) — LOOP HITTING NEGATIVE RETURNS
+Diagnosis of the 3 failed pass-2 placements: **headless agents hallucinated the world layout.**
+- prop_smithy: built around a "Veyhollow forge at (17.5,14)" that DOES NOT EXIST — the only anvil/forge
+  in the whole game is at Whitmoor (-155/-158, -100/-103). Its pieces placed nothing findable.
+- prop_stall_goods: finder looks for userData.kind==='stall'; ZERO such objects exist. Real market
+  stalls aren't tagged that way / aren't at the assumed (-3,-17). Dressed nothing.
+- prop_bank_interior: its counter/chest/rug meshes are not in the scene (guard/anchor failure).
+- grass tufts: biome-scattered (no hallucination) — likely OK but subtle/hard to gate.
+FIX PATH (deliberate in-browser debug, NOT parallel agents): query the REAL positions of the Veyhollow
+smithy building, the actual market-stall groups, and the bank hall interior, then re-anchor each prop
+file to those. This needs eyes-on-world, which agents lack — do it in the main session, not the loop.
+RECOMMENDATION: the procedural queue's clean wins are DONE (6 promoted). Remaining = this debug + user
+decisions (Fountain pick, Windows→buildkit, UI track, Evil_Tree mesh re-export). Stop the 15-min cron.
