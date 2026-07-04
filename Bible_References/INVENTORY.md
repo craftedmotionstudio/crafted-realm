@@ -154,3 +154,12 @@ prose confirmed it. Re-shoot each tight on the asset next pass, then promote.
 | Anvil_Building_For_Smithing.jpg | `src/prop_smithy.js` | Stonereach smithy yard — anvil/forge(animated coals)/bellows/quench/rack/ingots |
 | Cake_Stall.jpg / Gem_Stall.jpg / EmptyStall+FurStall.jpg | `src/prop_stall_goods.js` | dresses market stalls per trade (baker→cake, silver→gem, spice→fur) |
 | Bank.jpg / Bank Basement.jpg | `src/prop_bank_interior.js` | Bank of Veyhollow hall — counter/booths/ledger shelves/vault chests/deposit boxes/blue rug |
+
+## ⚠ PASS-2 PLACEMENT PROBLEM (2026-07-03, found on gating)
+Gating the 4 pass-2 builds revealed placement issues — NOT promotable until fixed:
+- prop_smithy anvil + prop_stall_goods found at world (-155,-103)/(-158,-100) = **Whitmoor**, NOT the
+  intended Stonereach/Commons (agents used zone-local/approx coords; no 'stonereach' zone exists —
+  Veyhollow forge is near Commons 0,0). prop_bank_interior meshes NOT found in scene at all.
+- ROOT CAUSE: headless agents can't verify placement; their coords need an in-browser fix pass that
+  queries real world positions (e.g. the Veyhollow forge/bank building actual coords) and re-anchors.
+- These 4 (grass/smithy/stall/bank) stay QUEUED. They are a DEBUG task (fix anchors), not new builds.
