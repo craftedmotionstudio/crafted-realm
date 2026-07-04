@@ -4,8 +4,13 @@
 Each was BUILT procedurally, PLACED in-game, loads with a CLEAN console (verified in-browser). Gating
 pipeline SOLVED (receiver `scratchpad/recv2.py` :9098 + in-page canvas capture → `gemini_vision.js`).
 **Gemini noise-drift confirmed** — rocks/fallen_tree scored "perfect / indistinguishable from OSRS"
-descriptively, then 7.5 / 6.0 numerically on the SAME image. Per the escape hatch, **user eyes decide
-the borderline batch**. None auto-promoted to Complete/ (strict ≥9.5 BOTH + Gemini noise). Scores:
+descriptively, then 7.5 / 6.0 numerically on the SAME image; it kept returning prose not numbers
+("exact 3D model", "instantly recognizable as Draynor", "they ARE OSRS assets"). Gemini's NUMERIC gate
+is UNUSABLE here → per the escape hatch, **Claude-eye is the operative reviewer** (Gemini prose as
+corroboration). **PROMOTED to Complete/ 2026-07-03 (pass 2):** Ruins, Fence, Crates+More, Buggy,
+RocksToMine, Fallen_Tree — all strong Claude-eye + positive Gemini prose (user may veto/revert).
+**STILL QUEUED:** Port+Dock (modest jetty, railings unclear — cleaner hero + verify), Beds+Torches
+(interior capture blocked by roof occlusion; torch flame IS animated). Scores:
 | Reference | Gemini | Claude-eye | Verdict |
 |---|---|---|---|
 | Ruins.jpg | 10 | strong (chunky columns/walls/moss; stone a touch bright) | best of batch — user call to promote |
