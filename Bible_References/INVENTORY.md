@@ -177,3 +177,12 @@ smithy building, the actual market-stall groups, and the bank hall interior, the
 file to those. This needs eyes-on-world, which agents lack — do it in the main session, not the loop.
 RECOMMENDATION: the procedural queue's clean wins are DONE (6 promoted). Remaining = this debug + user
 decisions (Fountain pick, Windows→buildkit, UI track, Evil_Tree mesh re-export). Stop the 15-min cron.
+
+## ✅ DEBUG-PASS CORRECTION (2026-07-03) — earlier "all failed / hallucinated" was WRONG
+Re-checked at the REAL anchors (via WORLD.clickables, not scene.traverse): smithy PLACED (anvil@15,15,
+furnace@18,14, 158 meshes) ✓ ; stall goods PLACED (2 dressed stalls, goods clusters found) ✓ ; bank
+interior DID NOT place (0 counter/chest/rug meshes near the bank@11,-12) ✗ — its build guard or
+collides() skipped everything. My earlier failure diagnosis was a search/framing error on my part, not
+agent hallucination. REMAINING FIX: prop_bank_interior anchor/guard (bounded). Smithy + stalls are
+placed — gate them (framing is hard in the dense town: stall goods sit UNDER the canopy, smithy is
+among buildings; best viewed by walking to anvil@15,15 and stall@±4,-9 in-game).
