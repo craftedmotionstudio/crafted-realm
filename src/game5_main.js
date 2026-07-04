@@ -761,8 +761,20 @@ function showEnterBuffer(){
   }
   ov.style.display='flex'; ov.style.opacity='1';
   requestAnimationFrame(()=>{ const b=document.getElementById('enter-buffer-bar'); if(b) b.style.width='100%'; });
-  // hold while the world settles, then fade out and remove from the layout
-  setTimeout(()=>{ ov.style.opacity='0'; setTimeout(()=>{ ov.style.display='none'; }, 650); }, 2400);
+  // Hold until the world is actually RESPONSIVE, not a fixed timer: the self-booting props build in a
+  // burst on the first `running` ticks (a real render freeze); rAF stalls during it and resumes after.
+  // We fade only once we've seen several consecutive smooth frames (freeze over) — with a min hold so
+  // the bar animation reads and a hard cap so it can never get stuck.
+  const t0=performance.now(); let last=t0, smooth=0;
+  function settleWatch(){
+    const now=performance.now(), dt=now-last; last=now;
+    if(dt<45) smooth++; else smooth=0;                    // <45ms = a clean frame
+    const elapsed=now-t0;
+    const ready = (elapsed>1500 && smooth>=8) || elapsed>6000;   // stabilized, or hard cap 6s
+    if(ready){ ov.style.opacity='0'; setTimeout(()=>{ ov.style.display='none'; }, 650); }
+    else requestAnimationFrame(settleWatch);
+  }
+  requestAnimationFrame(settleWatch);
 }
 document.getElementById('play-btn').onclick = ()=>{
   // music is opt-in: only resume if the player turned it on before (keeps debug loads silent)
