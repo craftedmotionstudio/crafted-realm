@@ -186,3 +186,11 @@ collides() skipped everything. My earlier failure diagnosis was a search/framing
 agent hallucination. REMAINING FIX: prop_bank_interior anchor/guard (bounded). Smithy + stalls are
 placed — gate them (framing is hard in the dense town: stall goods sit UNDER the canopy, smithy is
 among buildings; best viewed by walking to anvil@15,15 and stall@±4,-9 in-game).
+
+## ✅✅ FULL CORRECTION (2026-07-03, in-world chat-confirmed): ALL pass-2 assets placed
+Chat log in-game confirms: "[BANK] The Bank of Veyhollow is furnished — teller counter, ledgers, vault
+chests, deposit boxes" + "[MAP] harbour jetty ... railed planks, mooring posts, ladder" + smithy + stalls.
+My two prior "failure" notes were BOTH scene.traverse regex errors — the meshes placed, just not matching
+my search tags. LESSON: trust the in-game chat/UI confirmation + WORLD.clickables, NOT ad-hoc tag greps.
+Pass-2 (smithy/stall/bank/docks/grass) = PLACED & in-game. Gating (Claude-eye) is the only step left,
+and framing is hard in the dense town — best done by walking to each in-game.
