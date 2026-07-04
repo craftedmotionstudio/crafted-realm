@@ -1,10 +1,21 @@
 # Reference Inventory (the Reference Inventory Rule, PIPELINES.md)
 
-## ⏳ BUILT + IN-GAME, GEMINI GATE PENDING (reference-loop pass 1, 2026-07-03 — 8 parallel agents)
-Each was BUILT procedurally, PLACED in-game, loads with a CLEAN console, and all builders resolve
-(verified in-browser). NOT yet in `Complete/` — the ≥9.5 **Gemini** half of the two-reviewer gate is
-pending (the in-browser screenshot→`gemini_vision.js` disk pipeline needs sorting this session; agents
-can't screenshot headlessly). Claude-eye notes below; run the Gemini gate + move passers to Complete/.
+## ⏳ BUILT + IN-GAME, GATED (reference-loop pass 1–2, 2026-07-03 — 8 parallel agents)
+Each was BUILT procedurally, PLACED in-game, loads with a CLEAN console (verified in-browser). Gating
+pipeline SOLVED (receiver `scratchpad/recv2.py` :9098 + in-page canvas capture → `gemini_vision.js`).
+**Gemini noise-drift confirmed** — rocks/fallen_tree scored "perfect / indistinguishable from OSRS"
+descriptively, then 7.5 / 6.0 numerically on the SAME image. Per the escape hatch, **user eyes decide
+the borderline batch**. None auto-promoted to Complete/ (strict ≥9.5 BOTH + Gemini noise). Scores:
+| Reference | Gemini | Claude-eye | Verdict |
+|---|---|---|---|
+| Ruins.jpg | 10 | strong (chunky columns/walls/moss; stone a touch bright) | best of batch — user call to promote |
+| RocksToMine.jpg | 7.5 (glowing on 1st pass) | good faceted boulders + veins | noise — user eyes |
+| Crates+More.jpg | 9 | good barrels/sacks/crates | close |
+| Buggy.jpg | 9 | good handcart (colors a hair vibrant per Gemini) | close |
+| Fence.jpg | 9 | strong wrought iron, confirmed in-game | close |
+| Fallen_Tree.png | 6.0 (glowing on 1st pass) | good toppled trunk | noise — user eyes |
+| Port+Dock.jpg | 5 | LOW — capture likely framed buildings not the jetty | RE-SHOOT / verify placement |
+| Beds+Torches.jpg | — | capture came back dark/blank (interior+roof) | RE-SHOOT (roof-lift interior angle) |
 | Reference | File | Placement | Claude-eye |
 |---|---|---|---|
 | RocksToMine.jpg | `makeRock` upgrade (game2_world.js) | ALL mining rocks world-wide (quarry/undercrag) | faceted boulder + ore veins/flecks + dirt base — big improvement over the old blob |
