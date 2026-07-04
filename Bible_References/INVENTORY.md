@@ -143,3 +143,14 @@ Different species stay separate (snow pines keep their conifer builder until a p
 |---|---|---|---|
 | Elder in blue/gold coat | ❌ | NPC Pipeline | queued (concept→Hunyuan→crpipe rig) |
 | Wooden handcart w/ sacks (background) | ❌ | Prop | queued |
+
+## ⏳ PASS-2 BUILDS — IN-GAME, GATE PENDING (2026-07-03)
+Built + merged + load clean (meshes probe-confirmed). Gating deferred: per-asset screenshot FRAMING
+needs care — a first capture pass mis-framed these (caught landscape/water, not the target), and Gemini
+prose confirmed it. Re-shoot each tight on the asset next pass, then promote.
+| Reference | File | Placement |
+|---|---|---|
+| Grass.jpg | `src/prop_grass_tufts.js` | grass-biome scatter (400 clumps, 1 merged mesh/draw call) |
+| Anvil_Building_For_Smithing.jpg | `src/prop_smithy.js` | Stonereach smithy yard — anvil/forge(animated coals)/bellows/quench/rack/ingots |
+| Cake_Stall.jpg / Gem_Stall.jpg / EmptyStall+FurStall.jpg | `src/prop_stall_goods.js` | dresses market stalls per trade (baker→cake, silver→gem, spice→fur) |
+| Bank.jpg / Bank Basement.jpg | `src/prop_bank_interior.js` | Bank of Veyhollow hall — counter/booths/ledger shelves/vault chests/deposit boxes/blue rug |
