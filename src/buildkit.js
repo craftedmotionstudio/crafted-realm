@@ -23,6 +23,99 @@ const Buildkit = {
     return new THREE.MeshPhongMaterial({color:c, map:t, flatShading:true, shininess:0, specular:0x000000}); },
   _stone(c){ const t=(typeof TEX!=='undefined'&&TEX.stone)?TEX.stone.clone():null; if(t){t.needsUpdate=true;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1.2,1.2);}
     return new THREE.MeshPhongMaterial({color:c, map:t, flatShading:true, shininess:0, specular:0x000000}); },
+
+  /* ---- see-through glass: a translucent tinted pane that still carries the warm
+     interior glow (emissive) so windows read as GLASS you can see in through, not
+     opaque amber blocks. depthWrite:false + depthTest:true keeps render order safe:
+     walls still occlude the pane, but the pane never hides the interior behind it.
+     Shared across every window (cheap, and consistent). ---- */
+  _glass(){
+    if(!this._glassMat) this._glassMat = new THREE.MeshLambertMaterial({
+      color:0xbcd4cf, emissive:0x4a3810, transparent:true, opacity:0.4,
+      depthWrite:false, side:THREE.DoubleSide });
+    return this._glassMat;
+  },
+  /* half-drawn horizontal blinds — pale tilted slats hung from a headrail, covering
+     the top ~55% of a pane. A per-window variety option so buildings differ. */
+  _blinds(pw, ph){
+    const g=new THREE.Group();
+    const slatMat=this._mat(0xcabf9a), railMat=this._mat(0x8a7a54);
+    const hr=new THREE.Mesh(new THREE.BoxGeometry(pw,0.05,0.05), railMat); hr.position.y=ph/2-0.01; g.add(hr);
+    const n=Math.max(3, Math.round(ph*0.55/0.11)), step=(ph*0.55)/n;
+    for(let i=0;i<n;i++){ const s=new THREE.Mesh(new THREE.BoxGeometry(pw*0.96,0.055,0.03), slatMat);
+      s.position.y=ph/2-0.06 - i*step; s.rotation.x=0.32; g.add(s); }
+    return g;
+  },
+  /* a full see-through window (glass + solid timber frame/cross-mullion, optional
+     blinds) for storey-2 and anywhere Buildkit draws its own windows */
+  _window(pw, ph, blind){
+    const g=new THREE.Group();
+    const pane=new THREE.Mesh(new THREE.BoxGeometry(pw,ph,0.05), this._glass()); g.add(pane);
+    const beam=this._mat(0x46301d);
+    const fr=(fw,fh,fx,fy)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(fw,fh,0.08),beam); m.position.set(fx,fy,0.02); m.castShadow=true; g.add(m); };
+    fr(pw+0.1,0.09,0,ph/2); fr(pw+0.1,0.09,0,-ph/2); fr(0.09,ph,-pw/2,0); fr(0.09,ph,pw/2,0);
+    fr(0.05,ph-0.12,0,0); fr(pw-0.12,0.05,0,0);                 // cross mullion
+    if(blind){ const b=this._blinds(pw*0.92, ph*0.9); b.position.z=-0.02; g.add(b); }
+    return g;
+  },
+  /* ---- post-process the makeBuilding shell we can't edit directly: turn its opaque
+     amber window panes into see-through glass (frames/mullions are separate timber
+     meshes, left solid), and hang blinds on ~40% of them deterministically so no two
+     facades match. MUST run before furnish() — candle flames share the amber colour
+     but are MeshBasicMaterial (no .emissive), so the emissive guard skips them too. */
+  _glazeShell(g){
+    const panes=[];
+    g.traverse(o=>{ if(o.isMesh && o.material && o.material.emissive && !o.material.map
+      && o.material.color && o.material.color.getHex()===0xffe6a0) panes.push(o); });
+    panes.forEach(m=>{
+      m.material=this._glass();
+      const p=(m.geometry&&m.geometry.parameters)||{};
+      const pw=p.width||0.76, ph=p.height||0.84;
+      const wp=m.getWorldPosition(new THREE.Vector3());
+      const hb=Math.abs(Math.sin(wp.x*57.13+wp.y*19.7+wp.z*83.1)*4193.77)%1;
+      if(hb<0.4 && m.parent){ const b=this._blinds(pw*0.94, ph*0.9);
+        b.position.copy(m.position); b.position.z-=0.03; m.parent.add(b); }
+    });
+  },
+  /* ---- dress a roof group with detail: raised shingle/plank courses banding down
+     each tilted slope and ring courses climbing each hip cone, in a darker shade of
+     the roof colour with slight per-building variation. Children ride inside the roof
+     group, so the roof-lift / visibility toggle still moves them as one. Works on both
+     makeBuilding roofs and autoRoof (targets tilted slope boxes + cones, skips the
+     flat eave, ridge beams and dark timber). Footprint-neutral: adds no colliders. */
+  _dressRoof(roofG, roofColor){
+    const base=new THREE.Color(roofColor!==undefined?roofColor:0xb8923e);
+    const shade=Math.abs(Math.sin((roofColor||0)*0.017+1.3))*0.14;   // per-roof band tint jitter
+    const bandMat=new THREE.MeshLambertMaterial({color:base.clone().multiplyScalar(0.6+shade)});
+    const targets=[];
+    roofG.traverse(o=>{ if(!o.isMesh||!o.geometry) return;
+      const gt=o.geometry.type;
+      if(gt==='ConeGeometry') targets.push(o);
+      else if(gt==='BoxGeometry' && (Math.abs(o.rotation.x)>0.05||Math.abs(o.rotation.z)>0.05)) targets.push(o);
+    });
+    targets.forEach(o=>{ const p=o.geometry.parameters||{};
+      if(o.geometry.type==='ConeGeometry'){
+        const R=p.radius||1, H=p.height||1, seg=p.radialSegments||4;
+        for(let i=1;i<=3;i++){ const f=i/4, rr=R*(1-f);
+          const ring=new THREE.Mesh(new THREE.CylinderGeometry(rr+0.03, rr+0.07, 0.05, seg), bandMat);
+          ring.position.y=-H/2+f*H; o.add(ring); }
+      } else {
+        const sx=p.width||1, sy=p.height||0.14, sz=p.depth||1;
+        const n=Math.max(2, Math.round(sz/0.45));
+        for(let i=1;i<n;i++){ const st=new THREE.Mesh(new THREE.BoxGeometry(sx*0.98,0.04,0.05), bandMat);
+          st.position.set(0, sy/2+0.02, -sz/2 + i*(sz/n)); o.add(st); }
+      }
+    });
+  },
+  /* optional stone chimney with a cap — a per-building variety knob for cottages that
+     didn't already get one from the shell. Added to the building group (persists when
+     the roof lifts), footprint-neutral. */
+  _addChimney(g, w, d, h){
+    const ch=new THREE.Mesh(new THREE.BoxGeometry(0.5,h*0.85,0.5), this._stone(0x8a807a));
+    ch.position.set(-w/2+0.5, h+h*0.28, d/4); ch.castShadow=true; g.add(ch);
+    const lip=new THREE.Mesh(new THREE.BoxGeometry(0.64,0.15,0.64), this._mat(0x6e6a64));
+    lip.position.set(-w/2+0.5, h+h*0.7, d/4); g.add(lip);
+  },
   furniture: {
     table(k){ const g=new THREE.Group(); const m=k._wood(0x7a5a34);
       const top=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.08,0.8), m); top.position.y=0.62; g.add(top);
@@ -216,6 +309,14 @@ const Buildkit = {
     const g=makeBuilding(x, z, w, d, h, color, roofColor, opts.doorSide||'S',
       Object.assign({roof:opts.roof||'hip'}, opts.shellOpts||{}));
     const baseY=(typeof gy==='function')?Math.min(gy(x-w/2,z-d/2),gy(x+w/2,z-d/2),gy(x-w/2,z+d/2),gy(x+w/2,z+d/2)):0;
+    // see-through glazing + blinds on the shell windows (BEFORE furnishing, so it
+    // only ever touches window panes, never a candle flame), plus shingle detailing
+    // on the shell roof and an optional chimney for facade variety
+    this._glazeShell(g);
+    const _it=WORLD.interiors[_iIdx];
+    if(_it && _it.roof) this._dressRoof(_it.roof, roofColor);
+    const _chy=Math.abs(Math.sin(x*7.13+z*3.37)*997.31)%1;
+    if(!(opts.shellOpts&&opts.shellOpts.chimney) && _chy<0.35) this._addChimney(g, w, d, h);
     // furnish the ground room
     if(opts.interior) this.furnish(g, w, d, opts.interior, x, z);
 
@@ -234,14 +335,14 @@ const Buildkit = {
         const b=new THREE.Mesh(new THREE.BoxGeometry(0.18,h,0.18), beam);
         b.position.set(sx,h/2,sz); s2.add(b);
       }
-      // upper windows (glowing, all four sides)
+      // upper windows: see-through glass in a solid frame, blinds on ~40% (varies per side)
       for(const side of ['S','N','E','W']){
         const horiz=(side==='S'||side==='N'), sign=(side==='S'||side==='E')?1:-1;
         const face=(horiz?d/2:w/2)*sign + sign*0.05;
-        const glass=new THREE.Mesh(new THREE.BoxGeometry(0.8,0.85,0.06),
-          new THREE.MeshLambertMaterial({color:0xffe6a0, emissive:0x6a4e16}));
-        if(horiz) glass.position.set(0, h*0.55, face); else { glass.position.set(face, h*0.55, 0); glass.rotation.y=Math.PI/2; }
-        s2.add(glass);
+        const blind=(Math.abs(Math.sin((x+z*1.7+side.charCodeAt(0))*12.99)*4197.1)%1)<0.4;
+        const win=this._window(0.8, 0.85, blind);
+        if(horiz) win.position.set(0, h*0.55, face); else { win.position.set(face, h*0.55, 0); win.rotation.y=Math.PI/2; }
+        s2.add(win);
       }
       // storey-2 floor (the ceiling of the ground room) — plank-textured and sat LOW
       // so rugs and furniture bases read on top of it, not swallowed beneath
@@ -326,6 +427,7 @@ const Buildkit = {
       }
       if(m){ m.castShadow=true; G.add(m); }
     }
+    this._dressRoof(G, opts.color||0xb8923e);   // shingle courses + hip rings for detail
     return G;
   },
 };
