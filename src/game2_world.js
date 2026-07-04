@@ -403,6 +403,97 @@ function _treePalette(key, pal){
   };
   return _treeMats[key];
 }
+/* tint helper: amt<0 darkens toward black, amt>0 lightens toward white */
+function _shade(hex, amt){
+  let r=(hex>>16)&255, g=(hex>>8)&255, b=hex&255;
+  const f=amt<0?0:255, t=Math.min(1,Math.abs(amt));
+  r=Math.round(r+(f-r)*t); g=Math.round(g+(f-g)*t); b=Math.round(b+(f-b)*t);
+  return (r<<16)|(g<<8)|b;
+}
+/* ---------- mesh "stickers": cheap decal-like textured quads tacked onto tree
+   features — bark ridges on the trunk, leaf-cluster cards on the canopy — to add
+   perceived texture without extra geometry. Flat vertex-tinted planes over a shared
+   cutout CanvasTexture (cached), so a whole forest reuses one texture + a handful of
+   materials. Toggle with TREE_STICKERS; tune count/tint via opts. */
+var TREE_STICKERS = true;
+let _barkTex, _leafTex, _leafCardGeo, _barkCardGeo;
+const _stickerMat = {};
+function _canvasTex(w,h,draw){
+  if(typeof document==='undefined') return null;   // headless (validator) — no canvas
+  const c=document.createElement('canvas'); c.width=w; c.height=h;
+  draw(c.getContext('2d'),w,h);
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
+}
+function _barkTexture(){
+  if(_barkTex!==undefined) return _barkTex;
+  _barkTex=_canvasTex(32,64,(ctx,w,h)=>{                 // vertical bark striations, alpha cutout
+    ctx.clearRect(0,0,w,h);
+    for(let i=0;i<9;i++){
+      ctx.strokeStyle='rgba(28,18,10,'+(0.4+Math.random()*0.4)+')';
+      ctx.lineWidth=1.5+Math.random()*2.5;
+      let xx=Math.random()*w, y=0; ctx.beginPath(); ctx.moveTo(xx,y);
+      while(y<h){ y+=8+Math.random()*10; xx+=(Math.random()-0.5)*5; ctx.lineTo(xx,y); }
+      ctx.stroke();
+    }
+  });
+  return _barkTex;
+}
+function _leafTexture(){
+  if(_leafTex!==undefined) return _leafTex;
+  _leafTex=_canvasTex(48,48,(ctx,w,h)=>{                 // scattered leaf ellipses on transparent
+    ctx.clearRect(0,0,w,h);
+    for(let i=0;i<16;i++){
+      const x=Math.random()*w, y=Math.random()*h, r=4+Math.random()*6;
+      ctx.save(); ctx.translate(x,y); ctx.rotate(Math.random()*6.28);
+      ctx.fillStyle='rgba(255,255,255,'+(0.55+Math.random()*0.45)+')';   // white → tinted by material
+      ctx.beginPath(); ctx.ellipse(0,0,r,r*0.5,0,0,6.28); ctx.fill();
+      ctx.restore();
+    }
+  });
+  return _leafTex;
+}
+function _cardMat(kind, col){
+  const k=kind+col; if(_stickerMat[k]) return _stickerMat[k];
+  const tex=(kind==='leaf')?_leafTexture():_barkTexture();
+  const m = tex
+    ? new THREE.MeshPhongMaterial({map:tex,color:col,flatShading:true,shininess:0,specular:0x000000,
+        alphaTest:0.4, side:THREE.DoubleSide, transparent:false})   // alphaTest = no transparency sort issues
+    : new THREE.MeshPhongMaterial({color:(kind==='bark'?_shade(col,-0.15):col),flatShading:true,
+        shininess:0,specular:0x000000,side:THREE.DoubleSide});
+  return _stickerMat[k]=m;
+}
+function addLeafStickers(blob, opts){
+  if(!TREE_STICKERS) return;
+  opts=opts||{}; const R=opts.r||0.7, mtl=_cardMat('leaf', _shade(opts.tint||0x4f7434, 0.06));
+  if(!_leafCardGeo) _leafCardGeo=new THREE.PlaneGeometry(1,1);
+  const n=2+Math.floor(Math.random()*2);
+  for(let i=0;i<n;i++){
+    const card=new THREE.Mesh(_leafCardGeo, mtl);
+    const s=R*(0.9+Math.random()*0.7); card.scale.set(s,s,1);
+    const th=Math.random()*6.28, ph=Math.acos(2*Math.random()-1);   // point on the blob surface
+    let px=Math.sin(ph)*Math.cos(th), py=Math.cos(ph)*0.7+0.25, pz=Math.sin(ph)*Math.sin(th);
+    const nl=Math.hypot(px,py,pz)||1; px=px/nl*R*0.9; py=py/nl*R*0.9; pz=pz/nl*R*0.9;
+    card.position.set(px,py,pz);
+    card.lookAt(px*3,py*3,pz*3);         // face outward from blob centre
+    card.rotation.z=Math.random()*6.28;
+    blob.add(card);
+  }
+}
+function addTrunkStickers(g, opts){
+  if(!TREE_STICKERS) return;
+  opts=opts||{}; const H=opts.h||1.9, Rr=opts.r||0.34, mtl=_cardMat('bark', opts.tint||0x6b4a2f);
+  if(!_barkCardGeo) _barkCardGeo=new THREE.PlaneGeometry(1,1);
+  const n=3+Math.floor(Math.random()*2);
+  for(let i=0;i<n;i++){
+    const card=new THREE.Mesh(_barkCardGeo, mtl);
+    card.scale.set(Rr*0.9, H*(0.55+Math.random()*0.3), 1);
+    const a=(i/n)*6.28+Math.random()*0.6;
+    const cx=Math.cos(a)*Rr, cz=Math.sin(a)*Rr;
+    card.position.set(cx, H*0.5, cz);
+    card.lookAt(cx*3, H*0.5, cz*3);      // vertical strip hugging the trunk, facing out
+    g.add(card);
+  }
+}
 function makeTree(x,z,variant){
   // variant: 'normal' | 'dark' | 'dead'
   variant = variant||'normal';
@@ -454,49 +545,70 @@ function makeTree(x,z,variant){
     scene.add(g); WORLD.clickables.push(g); WORLD.resources.push(g);
     return g;
   }
+  // ---------- procedural fallback (dead trees + oak GLB not-yet-loaded) ----------
   const trunkCol = variant==='dead'?0x52453a : variant==='dark'?0x4a3a30:0x6b4a2f;
-  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.42,1.9,7), mat(trunkCol));
+  const autumn = (typeof zoneAt==='function' && zoneAt(x,z)==='emberwood');
+  // per-tree variation so a grove isn't clones: overall size, gentle lean, tone jitter
+  const vscale = 0.86+Math.random()*0.30;
+  const lean   = (Math.random()-0.5)*0.10;
+  const toneJ  = (Math.random()-0.5)*0.05;
+  // tapered faceted trunk + a flared root base — not a lump on a stick
+  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.20,0.40,1.9,7), mat(trunkCol));
   trunk.position.y=0.95; trunk.castShadow=true; g.add(trunk);
+  const flare = new THREE.Mesh(new THREE.ConeGeometry(0.58,0.55,7), mat(_shade(trunkCol,-0.12)));
+  flare.position.y=0.24; flare.castShadow=true; g.add(flare);
+  addTrunkStickers(g, {h:1.9, r:0.34, tint:trunkCol});   // bark-ridge stickers
   if(variant==='dead'){
-    for(let i=0;i<3;i++){
-      const br=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.1,1.1,5),mat(trunkCol));
-      br.position.set(Math.cos(i*2.1)*0.3, 1.7+i*0.25, Math.sin(i*2.1)*0.3);
-      br.rotation.z = 0.7+Math.random()*0.5; br.rotation.y=i*2.1;
-      g.add(br);
+    for(let i=0;i<4;i++){
+      const br=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.11,1.0+Math.random()*0.4,5),mat(trunkCol));
+      const a=i*1.7+Math.random();
+      br.position.set(Math.cos(a)*0.3, 1.6+i*0.22, Math.sin(a)*0.3);
+      br.rotation.z=0.6+Math.random()*0.6; br.rotation.y=a;
+      br.castShadow=true; g.add(br);
     }
   } else {
-    // branches reaching up into the canopy
+    // upward branch stubs reaching into the canopy
     for(let i=0;i<3;i++){
-      const br=new THREE.Mesh(new THREE.CylinderGeometry(0.045,0.09,0.9,5),mat(trunkCol));
+      const br=new THREE.Mesh(new THREE.CylinderGeometry(0.045,0.09,0.9,5),mat(_shade(trunkCol,-0.05)));
       const a=i*2.1+Math.random();
       br.position.set(Math.cos(a)*0.32, 1.95, Math.sin(a)*0.32);
       br.rotation.z=Math.cos(a)*0.55; br.rotation.x=Math.sin(a)*0.55;
-      g.add(br);
+      br.castShadow=true; g.add(br);
     }
-    // Emberwood is the WARM AUTUMN forest (STORY_BIBLE §3) — amber/rust canopies there
-    const autumn = (typeof zoneAt==='function' && zoneAt(x,z)==='emberwood');
+    // Emberwood is the WARM AUTUMN forest (STORY_BIBLE §3) — amber/rust canopies there.
+    // Layered, notched canopy: 3 stacked tiers of jittered flat-shaded blobs in 3 tones.
     const greens = autumn ? [0xc27a30, 0xb0642a, 0xd08e3a, 0xa85f2e, 0xcc8434]
-                 : variant==='dark' ? [0x33402c,0x2c3826,0x3a4a32] : [0x4f7434,0x45682e,0x5a8040,0x52753a];
-    const blobs = 4+Math.floor(Math.random()*3);
-    for(let i=0;i<blobs;i++){
-      const r = 0.7+Math.random()*0.5;
-      const geo = new THREE.IcosahedronGeometry(r,1);
-      // hand-modeled lumpiness: jitter every vertex radially
-      const pos=geo.attributes.position;
-      for(let v=0;v<pos.count;v++){
-        const j=0.78+Math.random()*0.5;
-        pos.setXYZ(v, pos.getX(v)*j, pos.getY(v)*(0.7+Math.random()*0.45), pos.getZ(v)*j);
+                 : variant==='dark' ? [0x33402c,0x2c3826,0x3a4a32]
+                 : [0x4f7434,0x45682e,0x5a8040];
+    const tiers=[ {y:2.30, rad:0.92, blob:0.80, n:3},
+                  {y:3.00, rad:0.60, blob:0.66, n:3},
+                  {y:3.50, rad:0.32, blob:0.50, n:2} ];
+    for(let t=0;t<tiers.length;t++){
+      const ti=tiers[t];
+      for(let i=0;i<ti.n;i++){
+        const r = ti.blob*(0.85+Math.random()*0.35);
+        const geo = new THREE.IcosahedronGeometry(r,1);
+        // hand-modeled lumpiness: jitter every vertex radially → notched foliage
+        const pos=geo.attributes.position;
+        for(let v=0;v<pos.count;v++){
+          const j=0.78+Math.random()*0.5;
+          pos.setXYZ(v, pos.getX(v)*j, pos.getY(v)*(0.7+Math.random()*0.45), pos.getZ(v)*j);
+        }
+        geo.computeVertexNormals();
+        const col=_shade(greens[(t+i)%greens.length], toneJ);
+        const blob = new THREE.Mesh(geo, mat(col));
+        const a=Math.random()*6.28, rr=ti.rad*Math.random();
+        blob.position.set(Math.cos(a)*rr, ti.y+(Math.random()-0.5)*0.2, Math.sin(a)*rr);
+        blob.rotation.set(Math.random(),Math.random(),Math.random());
+        blob.castShadow=true; g.add(blob);
+        addLeafStickers(blob, {r, tint:col});   // leaf-cluster cards break the smooth blob
       }
-      geo.computeVertexNormals();
-      const blob = new THREE.Mesh(geo, mat(greens[Math.floor(Math.random()*greens.length)]));
-      const a=Math.random()*6.28;
-      blob.position.set(Math.cos(a)*0.8*Math.random(), 2.3+Math.random()*1.0, Math.sin(a)*0.8*Math.random());
-      blob.rotation.set(Math.random(),Math.random(),Math.random());
-      blob.castShadow=true; g.add(blob);
     }
   }
   g.position.set(x, gy(x,z), z);
   g.rotation.y = Math.random()*6;
+  g.rotation.z = lean; g.rotation.x = (Math.random()-0.5)*0.10;   // gentle per-tree lean
+  g.scale.setScalar(vscale);
   g.userData = {kind:'resource', rtype:'tree', skill:'Woodcutting',
     label: variant==='dead'?'Chop down Dead tree':'Chop down Tree', respawn:8, alive:true};
   addCircleCollider(x,z,0.42);
