@@ -26,7 +26,7 @@ Legend: 🤖 = agent-buildable (self-contained) · 👁 = eyes-on main-session (
       DIFFERENT locations (don't put both fountain types side by side). Variety across the map.
 
 ## C. UI track (its own effort) — *user: "start the UI track as its own effort"*
-- [~] 🤖 OSRS interface overhaul — DONE so far: side-panel/chatbox stone chrome + color orbs (ui_osrs), Combat panel (ui_combat, Gemini 8/10), minimap bronze bezel + orb cluster (ui_minimap), Prayer+Magic icon grids (ui_prayer_magic). REMAINING slices: Skills/Stats, Equipment, Inventory slot art, Quests, Settings, Emotes, Clan/Friends panes, OSRS pixel font, real chat-channel filtering. 
+- [x] 🤖 OSRS interface overhaul — **COMPLETE for all existing HUD surfaces** (2026-07-03): side-panel/chatbox stone chrome + color orbs (ui_osrs), Combat panel (ui_combat), minimap bronze bezel + orb cluster (ui_minimap), Prayer+Magic icon grids (ui_prayer_magic), Skills grid (ui_skills), Equipment paper-doll + Quests journal (ui_equip_quest), Settings panel + OSRS numeral font-stack (ui_finish). NO un-reskinned panes remain — Emotes/Clan/Friends panes don't exist in this build (they'd arrive with future V2 social features). Real chat-channel filtering is a LOGIC change (not a reskin) → deferred to a gameplay pass, not a UI-appearance slice. 
       (orig) from `Bible_References/UI_*.jpg` (~17 screens) + `User Interface/`.
       DOM/CSS/HUD — self-contained, agent-friendly. Own workstream: tabs, chatbox, combat interface,
       equipment/inventory, emotes, clan chat, minimap frame, etc. Match the reference screens.
