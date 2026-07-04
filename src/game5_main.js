@@ -743,11 +743,33 @@ function boot(i=0){
   setLoad(pct,msg);
   setTimeout(()=>{ fn(); boot(i+1); }, 220);
 }
+// buffer overlay: the self-booting world props (scatter/buildings/dressing) build over the
+// first ~2.5s after `running` flips true (their poll intervals), so the world visibly "settles"
+// right after entering. Hold a themed cover over that settle, then fade — no more pop-in hitch.
+function showEnterBuffer(){
+  let ov=document.getElementById('enter-buffer');
+  if(!ov){
+    ov=document.createElement('div'); ov.id='enter-buffer';
+    ov.style.cssText='position:absolute;inset:0;z-index:90;display:flex;flex-direction:column;'+
+      'align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#2a2015,#0c0a07 75%);'+
+      'transition:opacity .6s ease;opacity:1;font-family:Georgia,serif;color:#e8c46a;';
+    ov.innerHTML='<div style="font-size:30px;letter-spacing:1px;text-shadow:1px 1px 0 #000;margin-bottom:16px">Crafted Realm</div>'+
+      '<div style="width:220px;height:9px;background:#120e0a;border:1px solid #4a3b28;border-radius:6px;overflow:hidden">'+
+      '<div id="enter-buffer-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#6b8f3f,#9fc45a);transition:width 2.2s linear"></div></div>'+
+      '<div style="margin-top:12px;font-size:12px;color:#a99a80;font-family:Verdana,sans-serif">Stepping into Veyhollow…</div>';
+    document.body.appendChild(ov);
+  }
+  ov.style.display='flex'; ov.style.opacity='1';
+  requestAnimationFrame(()=>{ const b=document.getElementById('enter-buffer-bar'); if(b) b.style.width='100%'; });
+  // hold while the world settles, then fade out and remove from the layout
+  setTimeout(()=>{ ov.style.opacity='0'; setTimeout(()=>{ ov.style.display='none'; }, 650); }, 2400);
+}
 document.getElementById('play-btn').onclick = ()=>{
   // music is opt-in: only resume if the player turned it on before (keeps debug loads silent)
   try{ Sfx.ensure(); if(localStorage.getItem('cr_music_on')==='1') Music.start(); }catch(e){}
   document.getElementById('welcome-screen').style.display='none';
   running=true;
+  showEnterBuffer();
   UI.zone(ZONES.holm.name);
   Tutorial.banner();
   UI.chat('Welcome to Crafted Realm.','sys');
