@@ -286,10 +286,24 @@
       lampPost(lx,lz); placed++;
     }
 
-    /* ---- the market: striped awnings round the south side, like the reference ---- */
-    makeCanvasStall(-4.2,-8.6, 0.12, '#d8cdaa','#2a6a96', 'silver');   // blue-beige: the silver stall (reference palette)
-    makeCanvasStall( 4.2,-8.6,-0.1, '#e0d8c2','#a83a48', 'baker');     // red-white: the baker
-    makeCanvasStall(-7.6,-3.2, Math.PI/2+0.08, '#dcd8c6','#47763c');   // green-white: produce awning
+    /* ---- the market: the Bible_References stall builds replace the canvas-stall GLBs
+     * (integration pass 2026-07-06 — gem/cake/fur banked ≥9.0 vs Gem_Stall.jpg /
+     * Cake_Stall.jpg / EmptyStall+FurStall.jpg). The makeRefX stalls self-register an
+     * axis-aligned footprint collider; rotated ones get the swapped-axis rect added. ---- */
+    const stallAt=(fn,x,z,rot)=>{ if(typeof window[fn]!=='function') return false;
+      const s=window[fn](x,z,rot); s.position.y=gy(x,z)||0; scene.add(s); return true; };
+    if(!stallAt('makeRefGemStall', -4.2,-8.6, 0.12))
+      makeCanvasStall(-4.2,-8.6, 0.12, '#d8cdaa','#2a6a96', 'silver');
+    if(!stallAt('makeRefCakeStall', 4.2,-8.6,-0.1))
+      makeCanvasStall( 4.2,-8.6,-0.1, '#e0d8c2','#a83a48', 'baker');
+    if(stallAt('makeRefFurStall', -7.6,-3.2, Math.PI/2+0.08))
+      WORLD.colliders.push({type:'rect', x:-7.6, z:-3.2, hw:1.3, hd:2.1});   // swapped-axis block for the rotated stall
+    else makeCanvasStall(-7.6,-3.2, Math.PI/2+0.08, '#dcd8c6','#47763c');
+    // the General Store stall (net-new, mirrors the fur stall across the south road)
+    if(!(typeof collides==='function' && collides(7.6,-3.2,1.3)) && stallAt('makeRefStore', 7.6,-3.2, -Math.PI/2+0.08))
+      WORLD.colliders.push({type:'rect', x:7.6, z:-3.2, hw:1.3, hd:2.1});
+    if(typeof CollisionGrid!=='undefined' && CollisionGrid.baked)
+      for(const [rx,rz] of [[-4.2,-8.6],[4.2,-8.6],[-7.6,-3.2],[7.6,-3.2]]) CollisionGrid.rebakeArea(rx,rz,4);
     return true;
   }
   const iv=setInterval(()=>{ try{ if(build()) clearInterval(iv); }

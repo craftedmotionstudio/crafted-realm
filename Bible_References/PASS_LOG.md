@@ -989,3 +989,33 @@ deferred NPCs (part E):
   H mainland teleport + starter inventory ✓ (finish() → Admin.tp('commons') + starter kit)
 So the autonomous loop's goal ("build the tutorial island") is ACHIEVED sans NPCs. Further loops = polish/docs
 only. High-value remaining: NPCs (gated) or mainland-drama (gated). Restored state; no code changed this pass.
+
+## Pass 62 - 2026-07-06 - INTEGRATION PASS batch 1 (main session, priority-order work)
+**Context:** pipeline audit found the ~29 sheet-banked Studio assets were NEVER placed in the
+live game ("sheet banked" != done). New canon (PIPELINES.md AUTOPASS step 6-7): DONE = in the
+game + smoke-clean. This pass integrates the town-centre cluster.
+
+**Wired:** all 26 src/ref_*.js modules now load in index.html (29 makeRef* builders live, boot
+cost unchanged ~12s, zero errors).
+
+**Placed (eyes-on verified at Veyhollow Commons):**
+- Market row swap (town_square.js): makeRefGemStall (-4.2,-8.6), makeRefCakeStall (4.2,-8.6),
+  makeRefFurStall (-7.6,-3.2) replace the canvas-stall GLBs; NET-NEW makeRefStore (7.6,-3.2).
+  Ref stalls self-register axis-aligned colliders; rotated ones got a swapped-axis rect;
+  CollisionGrid.rebakeArea called per site (late-boot collider staleness fix).
+- Altar visual swap INSIDE makeAltar (game2_world.js): ref_altar is the visual when loaded;
+  builder keeps owning position + "Pray at Altar" clickable + collider (verified: chapel altar
+  at (-7,-20.2) now 22-child ref build w/ animated candles, interactable intact).
+- DELIBERATELY NOT swapped: town-centre fountain.glb (already a gated Prop Pipeline asset -
+  swapping = churn); furnace/anvil (verified tutorial interactables - visual-swap needs the
+  keep-interactable pattern, next batch).
+
+**BUG FOUND+FIXED by integration (why in-game is the real gate):** ref_store.js valance fringe
+was parented to the tilted awning with GROUP-frame coords -> double POST+0.34 offset floated a
+striped bunting strip ~2.5u in the air reading as if across the fountain; frontZ also measured
+from the post row not the awning centre. Fixed (g.add(pivot) + true edge coords). Two real
+defects in a "done" Studio asset.
+
+**Gate:** [SMOKE] PASS after every step (43/43 structural, walk out+back, 0 errors).
+**Next batch:** rowboat/dock/pier harbour swaps, church exterior at the chapel, bldint interiors
+under walk-in shells, bank basement + ref_ladder as the vault entrance, bld1-4 siting.

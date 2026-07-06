@@ -909,24 +909,31 @@ function makeCampfire(x,z){
 }
 
 function makeAltar(x,z){
-  const g=new THREE.Group();
-  const base=new THREE.Mesh(new THREE.BoxGeometry(1.7,0.5,0.9), mat(0x8f8a80));
-  base.position.y=0.25; g.add(base);
-  const top=new THREE.Mesh(new THREE.BoxGeometry(2.0,0.22,1.1), mat(0xa8a298));
-  top.position.y=0.6; g.add(top);
-  const cloth=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.06,0.8), mat(0x6b1f1f));
-  cloth.position.y=0.74; g.add(cloth);
-  for(const sx of [-0.75,0.75]){
-    const cs=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.07,0.5,5), mat(0xe8ddb8));
-    cs.position.set(sx,0.95,0); g.add(cs);
-    const fl=new THREE.Mesh(new THREE.ConeGeometry(0.06,0.18,5),
-      new THREE.MeshBasicMaterial({color:0xffd24a}));
-    fl.position.set(sx,1.28,0); g.add(fl);
+  // asset-replacement rule (integration pass 2026-07-06): the Church_Altar.jpg reference
+  // build (ref_altar.js, banked ≥9.0, animated candle flames) is the visual when loaded;
+  // this builder keeps owning position, interactable and collider either way.
+  let g, hw=1.15;
+  if(typeof makeRefAltar==='function'){ g=makeRefAltar(0,0,0); hw=1.35; }
+  else {
+    g=new THREE.Group();
+    const base=new THREE.Mesh(new THREE.BoxGeometry(1.7,0.5,0.9), mat(0x8f8a80));
+    base.position.y=0.25; g.add(base);
+    const top=new THREE.Mesh(new THREE.BoxGeometry(2.0,0.22,1.1), mat(0xa8a298));
+    top.position.y=0.6; g.add(top);
+    const cloth=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.06,0.8), mat(0x6b1f1f));
+    cloth.position.y=0.74; g.add(cloth);
+    for(const sx of [-0.75,0.75]){
+      const cs=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.07,0.5,5), mat(0xe8ddb8));
+      cs.position.set(sx,0.95,0); g.add(cs);
+      const fl=new THREE.Mesh(new THREE.ConeGeometry(0.06,0.18,5),
+        new THREE.MeshBasicMaterial({color:0xffd24a}));
+      fl.position.set(sx,1.28,0); g.add(fl);
+    }
   }
   g.position.set(x, gy(x,z), z);
   g.userData={kind:'altar', label:'Pray at <b>Altar</b>'};
   scene.add(g); WORLD.clickables.push(g);
-  WORLD.colliders.push({type:'rect', x, z, hw:1.15, hd:0.7});
+  WORLD.colliders.push({type:'rect', x, z, hw:hw, hd:0.7});
   return g;
 }
 function makeRange(x,z){

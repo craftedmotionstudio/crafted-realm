@@ -162,7 +162,9 @@
     // scalloped valance (hanging fringe) along the front — these gently sway
     const flaps = [];
     const flapGeo = new THREE.BoxGeometry(sw*0.9, 0.34, 0.04);
-    const frontZ = pz + slopeLen*Math.cos(0.30)*0.5 - 0.15;
+    // the awning's true front-edge in GROUP coords: the awning is centred at z=0.15
+    // (not at the post row) and tilted 0.30 rad — measure from there.
+    const frontZ = 0.15 + slopeLen*Math.cos(0.30)*0.5 - 0.02;
     const frontY = POST + 0.34 - slopeLen*Math.sin(0.30)*0.5 + 0.2;
     for (let i=0;i<nStripe;i++){
       const flap = new THREE.Mesh(flapGeo, CM(i%2 ? COL.stripeA : COL.stripeB));
@@ -177,7 +179,10 @@
       point.rotation.x = Math.PI; point.position.y = -0.40; flap.add(point);
       pivot.add(flap);
       pivot.userData.phase = i*0.6;
-      awning.add(pivot);          // ride with the awning tilt
+      // frontY/frontZ are GROUP-frame coords (they re-include POST+0.34) — parenting to
+      // `awning` double-applied that offset and floated the fringe ~2.5u up/behind the
+      // stall (integration-pass bug 2026-07-06). Hang the flaps from the group instead.
+      g.add(pivot);
       flaps.push(pivot);
     }
 
