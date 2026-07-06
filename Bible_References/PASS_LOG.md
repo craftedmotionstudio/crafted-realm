@@ -1019,3 +1019,11 @@ defects in a "done" Studio asset.
 **Gate:** [SMOKE] PASS after every step (43/43 structural, walk out+back, 0 errors).
 **Next batch:** rowboat/dock/pier harbour swaps, church exterior at the chapel, bldint interiors
 under walk-in shells, bank basement + ref_ladder as the vault entrance, bld1-4 siting.
+
+## Pass 62b - 2026-07-06 - INTEGRATION: rowboat builder delegation
+makeRowboat (world_scatter.js) now delegates to makeRefRowboat (RowBoat.jpg build) with the
+old procedural boat as fallback - same contract (gy-positioned, scene-added, returned), so
+the harbour callers that re-seat boats on the sea plane (y=-1.72) work unchanged. ALL
+rowboats world-wide upgrade at once (replacement rule): Saltreach, Brynholt, Tutor's Holm.
+Verified: [SMOKE] PASS, holm boat at (150,151) is the 18-child ref build (old boat = 2
+meshes), 0 console errors. Harbour-wide eyes-on (dock/pier batch) = next.

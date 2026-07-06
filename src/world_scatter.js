@@ -246,6 +246,17 @@ function makeTorch(x,z){
   const light=new THREE.PointLight(0xff9c4a,0.6,7); light.position.set(x,2.1+gy(x,z),z); scene.add(light);
 }
 function makeRowboat(x,z,rot){
+  // asset-replacement rule (integration pass 2026-07-06): the RowBoat.jpg reference build
+  // (ref_rowboat.js, banked ≥9.0) is the visual for EVERY rowboat when loaded. Same
+  // contract as before: positioned at gy, scene-added, returned (harbour callers re-seat
+  // the result on the sea plane at y=-1.72 themselves).
+  if(typeof makeRefRowboat==='function'){
+    const g=makeRefRowboat(x,z,rot||0);
+    g.position.y=gy(x,z);
+    g.traverse(o=>{if(o.isMesh)o.castShadow=true;});
+    scene.add(g);
+    return g;
+  }
   const g=new THREE.Group();
   const hull=new THREE.Mesh(new THREE.CylinderGeometry(0.8,0.42,2.6,7,1),mat(0x6b4426));
   hull.rotation.z=Math.PI/2; hull.scale.y=1.4; hull.position.y=0.35; g.add(hull);
