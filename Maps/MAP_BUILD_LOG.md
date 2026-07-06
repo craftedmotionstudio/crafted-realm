@@ -58,10 +58,13 @@ each building on the last, until it *obviously matches* the bible map. World sta
 - **Location & rung:** which labelled map location, which deepening rung (1–5), tracker now X/5.
 - **Changed:** files touched, what was added/adjusted (built on the prior iteration, not from scratch).
 - **Before → after:** `iterations/passNNN_<location>_r<rung>_before.png` → `..._after.png`.
-- **Two-reviewer scores (BOTH required — the visual-AI review loop, 2026-06-28):**
-  (1) Claude's own critique vs the reference: specific missing-detail list + N/10;
-  (2) Gemini's independent critique + N/10 (`tools/gemini_vision.js`). Iterate until
-  BOTH land ~8+; when they disagree, the LOWER score sets the next iteration's work.
+- **Reviews (canon = GUIDING_LIGHT §Discipline 9b, updated 2026-07-04):**
+  (1) **Claude-eye structured critique vs the reference — THE GATE OF RECORD**: specific
+  missing-detail list + N/10 (reference assets pass at ≥9.0; map detail rungs at "obvious
+  improvement", the 120+ rule above);
+  (2) Gemini critique (`tools/gemini_vision.js`) — **advisory only, never a numeric gate**
+  (its scores proved noise-inverted: plainest asset 9.5, richest 6.5). Mine its DEFECT LIST
+  for real misses; ignore its number when it contradicts the pixels or flip-flops.
 - **Verdict:** obvious improvement? kept (→ increment tracker) because… / reverted (no increment) because…
 - **Next:** same location's next rung, or the next location once ≥5 kept + obvious match.
 

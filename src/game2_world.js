@@ -216,9 +216,40 @@ function terrainHeight(x,z){
     : b==='water'  ? 0
     : n1*0.5 + n2*0.45;                     // grass / autumn heartland
   let h = base + relief;
+  // MAINLAND rolling hills (user 2026-07-04: "add elevation to the game"): broad, SMOOTH low-freq elevation
+  // for the open grass/autumn wilderness so the heartland rolls like the reference (Landscape_Option.jpg),
+  // DAMPED near roads (pathDist) so roads + their bridges/causeways keep their decks level, and left for the
+  // town-flatten below + the Holm's own shaping to override. Off-road wilderness only.
+  if(b==='grass'||b==='autumn'){
+    const away = (typeof pathDist==='function') ? Math.min(1,Math.max(0,(pathDist(x,z)-4)/9)) : 1;
+    h += away * (Math.sin(x*0.023+1.1)*Math.cos(z*0.020+0.4)*1.25 + Math.sin(x*0.041+2.3)*Math.sin(z*0.037)*0.4);
+  }
   // towns and camps sit on gently flattened ground
   for(const k in ZONES){ const d=Math.hypot(x-ZONES[k].pos[0], z-ZONES[k].pos[1]);
     if(d<18){ const k2=d/18; h = h*k2 + 0.25*(1-k2); } }
+  // Tutor's Holm: a gently DOMED island (elevation/beauty per user 2026-07-04) — a raised grassy hill that
+  // eases down to the sandy coast, with tight LEVEL PADS under each structure so their wooden interior floors
+  // sit flat and clear the ground. Buildings ride the dome at their local height (multi-level), the statue
+  // crowns the high centre. Replaces the old dead-flat @0.32 pad.
+  { const CX=158, CZ=141, R=24;
+    // a broad raised SHELF: near-flat plateau top (inner ~40%), then a smooth steeper drop to the sandy
+    // coast — reads like the reference hill (tutorial area sits up above the sea) instead of a gentle bump.
+    const moundH=(px,pz)=>{ const d=Math.hypot(px-CX,pz-CZ); const t=Math.min(1,d/R);
+      const s=Math.max(0,(t-0.38)/0.62); const drop=s*s*(3-2*s);  // smoothstep, flat until 0.38R
+      return 0.32 + 1.9*(1-drop); };
+    const dh=Math.hypot(x-CX, z-CZ);
+    if(dh<27){
+      const t=Math.min(1,Math.max(0,(dh-23)/4));                 // ease into natural terrain at the rim
+      // gentle rolling grass on the WALKABLE shelf so the hill reads from the close play-camera as the player
+      // moves (broad low-freq rolls + a little fine texture). Building pads exclude this (moundH has no bumps).
+      const bumps=Math.sin(x*0.20)*Math.cos(z*0.17)*0.38
+                 +Math.sin(x*0.42+1.3)*Math.sin(z*0.37)*0.16;
+      h = h*t + (moundH(x,z)+bumps)*(1-t);
+      const PADS=[[147,130],[169,130],[147,152],[169,152],[158,146]];   // guide/chef/quest/mage + statue
+      for(const p of PADS){ const pd=Math.hypot(x-p[0],z-p[1]);
+        if(pd<6.5){ const pk=Math.min(1,Math.max(0,(pd-4.5)/2)); h = h*pk + moundH(p[0],p[1])*(1-pk); } }
+    }
+  }
   // water cells always flood (small ponds/moats included): below the sea plane
   if(b==='water') h=Math.min(h,-1.9);
   // the Commons moat (bible map): the river channel hugs the town's east and south,
@@ -250,9 +281,11 @@ function terrainHeight(x,z){
   // Stonereach Bridge (bible map POI): the south road crosses the Mirrorpond arm on a
   // raised berm — the plank deck (src/stonereach_bridge.js) dresses it as the bridge
   h = Math.max(h, causewayLift(x,z, -2.8,58.5, -3.9,70.5, 2.6, -0.30));
-  // carve the Tutor's Holm practice pond
+  // carve the Tutor's Holm practice pond — pull DOWN to an ABSOLUTE floor (-3.2, well below the -1.6 sea
+  // plane) so the pond holds a proper visible pool of water regardless of the raised shelf height. A fixed
+  // "-= depth" left it a thin puddle once the Holm became a hill (floor rode up with the terrain).
   const hd = Math.hypot(x-HOLM_POND.x, z-HOLM_POND.z);
-  if(hd<HOLM_POND.r+0.5) h -= (1-hd/(HOLM_POND.r+0.5))*2.4;
+  if(hd<HOLM_POND.r+0.5){ const pk=1-hd/(HOLM_POND.r+0.5); h = h*(1-pk) + (-3.2)*pk; }
   // the Wilderness Ditch: a dry trench severing the northern wilds. Its floor (-1.45)
   // is below the walkable line (-1.2) but above the sea plane (-1.6) — impassable, dry.
   if(typeof DITCH!=='undefined' && !inDitchGate(x)){
@@ -323,6 +356,17 @@ function buildTerrainPatch(cx, cz, sizeX, sizeZ, segsX, segsZ){
     if(hd<HOLM_POND.r+1.6 && hd>=HOLM_POND.r-0.4) c.setHex(0xd6c489);
     const ad = Math.hypot(x-ZONES.arena.pos[0], z-ZONES.arena.pos[1]);
     if(ad<11 && h>-0.8) c.setHex(0xd2bc86);              // duel pit sand
+    // Tutor's Holm: a wider SANDY BEACH ring around the raised island (ref A_Tutorial_Island_Option shows a
+    // prominent sand shore) — sand the lower coastal slope, fading UP into grass, not just the waterline.
+    // Local to the island's outer ring (cd 20-32): clear of the plaza/buildings (cd<16) and the pond (cd~18).
+    // Follows the island's IRREGULAR coast by HEIGHT (waterline ranges dh 26 S/W to 43 NE, so a radial ring
+    // mis-sands the long N/NE shore). Local to the Holm (cd<44 → mainland coasts untouched). Base h<-0.8 sand
+    // already handles the waterline; this widens the beach UP the gentle shore, fading into grass.
+    { const cd=Math.hypot(x-158, z-141);
+      if(cd<44 && h>-0.8 && h<0.85){
+        if(h<0.1) c.setHex(0xe2d49a);                                                    // full sand near the water
+        else { const k=Math.max(0,Math.min(1,(0.85-h)/0.95)); c.lerp(new THREE.Color(0xe2d49a), k*0.95); }  // fade up into grass
+      } }
     c.offsetHSL(0,(Math.random()-.5)*0.03,(Math.random()-.5)*0.04);
     colors.push(c.r,c.g,c.b);
   }
@@ -1640,10 +1684,15 @@ function makeBuilding(x,z,w,d,h,color,roofColor,doorSide,opts){
     beam.position.set(sx,h/2,sz); g.add(beam);
   }
   const band=new THREE.Mesh(new THREE.BoxGeometry(w+0.06,0.16,d+0.06),beamMat);
-  band.position.y=h*0.52; g.add(band);             // belt course (mid rail; toggled with roof)
+  band.position.y=h*0.52; g.add(band);             // belt course; toggled OFF with the roof (game5_main roof-lift + WORLD.interiors[].band)
   // wooden floor inside
+  // interior floor — was tinting a STONE texture brown (looked like mud). Use the wood-plank texture where
+  // it exists, tinted a clean warm HONEY-OAK (not muddy); flat honey fallback. Reads as a floor, not dirt.
+  const _ftx=(TEX.woodPlanks||TEX.wood);
+  const _ft=_ftx?_ftx.clone():null;
+  if(_ft){ _ft.needsUpdate=true; _ft.wrapS=_ft.wrapT=THREE.RepeatWrapping; _ft.repeat.set(Math.max(2,w/2.2), Math.max(2,d/2.2)); }
   const floor=new THREE.Mesh(new THREE.BoxGeometry(w-0.1,0.1,d-0.1),
-    new THREE.MeshLambertMaterial({map:TEX.plank||TEX.stone, color:0x8a6a48}));
+    _ft ? new THREE.MeshLambertMaterial({map:_ft, color:0xc9a86a}) : new THREE.MeshLambertMaterial({color:0xc9a86a}));
   floor.position.y=0.08; floor.receiveShadow=true; g.add(floor);
   // half-timber framing on every wall (door wall framed around the opening)
   if(!stoneWall) for(const side of ['S','N','E','W']) frameWall(side, side===doorSide);

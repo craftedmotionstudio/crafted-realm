@@ -14,7 +14,7 @@
  * and at least one interactable — the OSRS lived-in checklist.
  */
 const Buildkit = {
-  STOREY_H: 3.2,   // raised from 2.0 (user 2026-07-03: buildings too small for the character)
+  STOREY_H: 3.8,   // raised 2.0→3.2 (2026-07-03) → 3.8 (2026-07-04: user wants taller walls; shell + character framing both key off this so they stay consistent)
 
   /* ---- small furniture builders (centrepiece scenery, 90°-snapped) ---- */
   // OSRS look-pass: flat-shaded matte base, plus wood/stone grain so props aren't flat colour.
@@ -299,7 +299,7 @@ const Buildkit = {
      interiors roof-lift) and adds: upper storey, plane-1 floor, ladder, visibility. */
   house(opts){
     const {x, z} = opts;
-    const w=opts.w||6, d=opts.d||6, h=this.STOREY_H, floors=opts.floors||1;
+    const w=opts.w||6, d=opts.d||6, h=opts.h||this.STOREY_H, floors=opts.floors||1;   // opts.h = taller walls (tutorial rooms)
     const color=opts.color!==undefined?opts.color:0xd8cdb4;
     const roofColor=opts.roofColor!==undefined?opts.roofColor:0xb8923e;
     // ground shell (existing generator: proven cottage look, colliders, working door).

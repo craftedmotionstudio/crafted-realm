@@ -517,6 +517,9 @@ const PATHS = [
   [[118,-14],[160,15]], [[160,15],[186,38]],  // to the Ashar Dunes
   [[186,38],[232,32]],                        // dunes to Saltreach Port
   [[36,52],[80,76]],                          // to the Proving Grounds
+  // (Tried a Holm winding dirt path here 2026-07-04 — the vertex-color painter reads too faintly on the Holm's
+  //  bright grass to match the reference's bold ribbon; reverted. A dedicated dirt-mesh path is the right way
+  //  if we revisit — the PATHS painter alone isn't enough contrast on the shelf.)
 ];
 function distToSeg(px,pz, ax,az, bx,bz){
   const dx=bx-ax, dz=bz-az, L2=dx*dx+dz*dz;

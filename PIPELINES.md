@@ -30,8 +30,9 @@ When analyzing ANY reference image in `Bible_References/`, before modeling anyth
 
 Say the name, get the workflow. All three share the same spine — **concept image →
 image-to-3D mesh → Blender (via the Blender MCP) → GLB → in-game wiring** — and all
-three are gated by the **two-reviewer visual QA** (Claude structured critique + Gemini
-Vision, both ~8+/10, lower score rules; see Maps/MAP_BUILD_LOG.md template).
+three are gated by the visual QA canon (**GUIDING_LIGHT §9b, 2026-07-04**): **Claude-eye
+structured critique ≥9.0 vs the reference is THE GATE OF RECORD**; Gemini Vision is an
+**advisory second critique only** (mine its defect list, never gate on its noisy number).
 
 The v02–v20 characters were built on the **NPC Pipeline** (v02 itself became the
 **Hero Pipeline** foundation). Fountains, statues and flags go through the **Prop
@@ -53,7 +54,8 @@ No rig, no clips — shape, materials, placement.
    materials**: raw sRGB base colors (r128 shows baseColorFactor RAW — spec-linear
    exports go black), metalness 0, roughness 1, doubleSided where thin → export
    `assets/models/<name>.glb`.
-4. **Gate**: Blender render vs the reference — Claude critique + Gemini score, both ~8+.
+4. **Gate**: Blender render vs the reference — Claude-eye structured critique ≥9.0
+   (gate of record); Gemini critique advisory.
 5. **In-game**: load the GLB where the procedural version stood; KEEP the procedural
    builder's colliders/interactables (the GLB is visual only). Verify: console clean,
    pathing unchanged, screenshot in-scene → both reviewers again (in-scene lighting is
@@ -86,7 +88,59 @@ Everything in the NPC Pipeline, plus the player-only layers:
 
 ---
 
-**Shared hard rules:** never trust our own screenshot judgment alone for 3D scale and
-placement (gate through Gemini); engine-matched raw-sRGB colors before export; measure
+## 4. AUTOPASS — the closed-loop asset runner (adopted 2026-07-06)
+
+The throughput multiplier from the r/ClaudeAI 3D-modeling post (Reddit_Posts/): one
+directive in, a gated in-game asset out, no human between steps. Since Claude-eye is the
+gate of record, the loop can self-gate. **Run assets through AUTOPASS instead of ad-hoc
+passes** — it is the Prop Pipeline steps wrapped in an explicit iterate-until-bar loop:
+
+```
+AUTOPASS(<reference or directive>):
+  0. BUDGET: set the tri budget = base (2-6k) scaled DOWN by placement count
+     (repeated cottage ≪ one-off landmark). Note the placement count now.
+  1. BUILD (Studio or Blender MCP) — check KNOWN DEFECTS below BEFORE building.
+  2. CAPTURE: mcp screenshot first (forces paint on a background tab), then
+     STUDIO_CAPTURE('cr_<name>.jpg') on a settled frame, one object per call.
+  3. CLAUDE-EYE CRITIQUE vs the reference: missing-detail list + N/10.
+       < 9.0 → fix the LISTED defects only (no drive-by rework) → back to 2.
+       Stall rule: if two consecutive iterations don't raise the score, STOP and
+       log it (anti-perfectionism-spiral) — don't burn passes.
+  4. GEMINI ADVISORY: one run, record the critique on the sheet; never gate on it.
+  5. BANK the side-by-side sheet in Bible_References/Complete/_compare/.
+  6. WIRE-IN: place in the live game (keep procedural colliders; replacement rule —
+     ALL instances world-wide). Eyes-on in-scene check at game camera distance
+     (fine detail that can't read from the overhead camera is DONE, stop polishing).
+  7. PERF GATE: run the smoke gate (?smoke=1) — [SMOKE] must PASS; compare draw
+     calls/tris to the pre-wire-in numbers; a repeated asset that moves the totals
+     noticeably goes back to 1 with a tighter budget (merge geometry first).
+  8. LOG one line in Bible_References/PASS_LOG.md + INVENTORY.md status.
+```
+
+An asset is DONE only after step 7 — **"sheet banked" is not done; IN THE GAME and
+smoke-clean is done** (this is the 2026-07-06 fix for the 29 Studio assets that never
+made it into the world).
+
+### KNOWN DEFECTS (check before building; append when a new one costs a pass)
+- **Gold/saturated-yellow bloom** — bright gold materials read neon in-engine; use the
+  muted OSRS gold ramp (a shared material fix is pending; don't hand-tune per asset).
+- **Spec-linear export goes black in r128** — export RAW sRGB baseColor, metalness 0,
+  roughness 1 (engine-matched materials, Prop step 3).
+- **Background-tab captures are blank** — rAF frozen; mcp screenshot first, then capture.
+- **Hunyuan output is smooth/dense (~12k tris)** — always decimate to flat-shaded
+  low-poly or it reads as a realistic import (CHARACTER_PIPELINE art constraint).
+- **r128 clone() breaks skinned meshes** — fresh GLB load per spawn.
+- **Legacy-village dead code** — `populateMainland()` paths behind `LEGACY_VILLAGE=false`
+  never run at boot; wire into the ACTIVE builders (e.g. `veyhollow_town.js`).
+- **Fine plank/seam detail does not read at game camera distance** — camera-distance
+  limitation, not a material bug; stop polishing what the camera can't show.
+- **Hundreds of separate meshes at once freeze the renderer** — merge repeated geometry
+  into ONE BufferGeometry; stagger heavy builds across frames.
+
+---
+
+**Shared hard rules:** never trust a single screenshot judgment for 3D scale and placement —
+verify IN-SCENE (walk to it, compare against neighbours) and use Gemini's critique as the
+advisory second pair of eyes; engine-matched raw-sRGB colors before export; measure
 axes, never assume; 1 world unit = 1 tile; keep procedural colliders when swapping in a
 GLB. Secrets (`GEMINI_API_KEY`, `HF_TOKEN`) come from the environment — never hardcode.

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Crafted Realm — Asset Studio</title>
+<style>
+  html,body{margin:0;height:100%;background:#20242a;overflow:hidden;font:13px/1.4 system-ui,Segoe UI,monospace;color:#e7e2d6;}
+  #view{position:absolute;inset:0;}
+  #panel{position:absolute;top:0;left:0;width:250px;height:100%;background:rgba(18,20,24,.92);
+    box-shadow:2px 0 12px rgba(0,0,0,.4);padding:12px 12px 40px;box-sizing:border-box;overflow-y:auto;z-index:5;}
+  #panel h1{font-size:14px;margin:0 0 2px;letter-spacing:.5px;}
+  #panel .sub{font-size:11px;opacity:.6;margin-bottom:12px;}
+  #panel label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;opacity:.7;margin:12px 0 4px;}
+  select,button,input{width:100%;box-sizing:border-box;background:#2c313a;color:#e7e2d6;border:1px solid #3d4450;
+    border-radius:5px;padding:6px 8px;font:12px monospace;margin-bottom:6px;cursor:pointer;}
+  button:hover{background:#39414d;}
+  .row{display:flex;gap:6px;}.row>*{flex:1;}
+  .chk{display:flex;align-items:center;gap:6px;margin:4px 0;cursor:pointer;font-size:12px;}
+  .chk input{width:auto;margin:0;}
+  #refwrap{margin-top:10px;border-top:1px solid #333a44;padding-top:10px;}
+  #ref{width:100%;border-radius:5px;background:#111;display:block;min-height:40px;}
+  #reflabel{font-size:10px;opacity:.6;word-break:break-all;margin-top:3px;}
+  #hud{position:absolute;bottom:0;left:250px;right:0;background:rgba(10,12,15,.85);padding:5px 10px;
+    font:11px monospace;z-index:5;display:flex;gap:16px;}
+  #err{position:absolute;top:8px;right:8px;max-width:420px;max-height:45%;overflow:auto;background:rgba(120,20,20,.94);
+    color:#ffdede;padding:8px 10px;border-radius:6px;font:11px/1.35 monospace;white-space:pre-wrap;display:none;z-index:9;}
+  #tri{opacity:.55;}
+</style>
+</head>
+<body>
+<div id="view"></div>
+<div id="panel">
+  <h1>⭐ Asset Studio</h1>
+  <div class="sub">Real game builders, in isolation. Orbit + hot-reload — no 60s game boot.</div>
+
+  <label>Asset</label>
+  <select id="asset"></select>
+
+  <label>Inspect</label>
+  <label class="chk"><input type="checkbox" id="roof" checked> Roof / shell on</label>
+  <label class="chk"><input type="checkbox" id="wire"> Wireframe</label>
+  <label class="chk"><input type="checkbox" id="grid" checked> Ground grid</label>
+  <label class="chk"><input type="checkbox" id="water"> Water / pit mode</label>
+  <label class="chk"><input type="checkbox" id="spin"> Auto-spin</label>
+  <div class="row">
+    <button id="top">Top view</button>
+    <button id="iso">Iso view</button>
+  </div>
+  <button id="rebuild">↻ Rebuild asset</button>
+
+  <div id="refwrap">
+    <label>Reference (Bible_References)</label>
+    <input id="reffile" placeholder="e.g. Tutorial_Island01.jpg" spellcheck="false"/>
+    <img id="ref" alt="reference"/>
+    <div id="reflabel">— none —</div>
+  </div>
+</div>
+<div id="hud"><span id="tri">tris: —</span><span id="cam">cam: —</span><span id="note"></span></div>
+<div id="err"></div>
+
+<!-- ===== the REAL game stack (r128 global scripts, exactly as the game loads) ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+  // Show any error from the real builders instead of dying silently.
+  const errBox=document.getElementById('err');
+  function showErr(where,e){ errBox.style.display='block';
+    errBox.textContent += `\n[${where}] ${e&&e.stack?e.stack:e}\n`; console.error(where,e); }
+  window.addEventListener('error',ev=>showErr('window',ev.error||ev.message));
+</script>
+<!-- Minimal building-dependency chain (NOT the full game — no game3/4/5 runtime). -->
+<script src="../src/game2_world.js" onerror="showErr('load','game2_world.js failed')"></script>
+<script src="../src/planes.js"      onerror="showErr('load','planes.js failed')"></script>
+<script src="../src/buildkit.js"    onerror="showErr('load','buildkit.js failed')"></script>
+<script src="../src/buildkit_thatch.js" onerror="showErr('load','buildkit_thatch.js failed')"></script>
+<script src="../src/tut_statue.js"  onerror="showErr('load','tut_statue.js failed')"></script>
+<script src="../src/tut_bld_guide.js" onerror="showErr('load','tut_bld_guide.js failed')"></script>
+<script src="../src/tut_bld_chef.js"  onerror="showErr('load','tut_bld_chef.js failed')"></script>
+<script src="../src/tut_bld_quest.js" onerror="showErr('load','tut_bld_quest.js failed')"></script>
+<script src="../src/tut_bld_mage.js"  onerror="showErr('load','tut_bld_mage.js failed')"></script>
+<!-- Bible_References object recreations (ref_* modules; 404 harmlessly until authored) -->
+<script src="../src/ref_furnace.js"  onerror="void 0"></script>
+<script src="../src/ref_fountain.js" onerror="void 0"></script>
+<script src="../src/ref_altar.js"    onerror="void 0"></script>
+<script src="../src/ref_pier.js"     onerror="void 0"></script>
+<script src="../src/ref_rowboat.js"  onerror="void 0"></script>
+<script src="../src/ref_bank.js"     onerror="void 0"></script>
+<script src="../src/ref_store.js"    onerror="void 0"></script>
+<script src="../src/ref_torch.js"    onerror="void 0"></script>
+<script src="../src/ref_bed.js"      onerror="void 0"></script>
+<script src="../src/ref_cakestall.js" onerror="void 0"></script>
+<script src="../src/ref_gemstall.js" onerror="void 0"></script>
+<script src="../src/ref_church.js"   onerror="void 0"></script>
+<script src="../src/ref_anvil.js"    onerror="void 0"></script>
+<script src="../src/ref_dock.js"     onerror="void 0"></script>
+<script src="../src/ref_furstall.js" onerror="void 0"></script>
+<script src="../src/ref_churchinterior.js" onerror="void 0"></script>
+<script src="../src/ref_ladder.js"   onerror="void 0"></script>
+<script src="../src/ref_bld1.js"     onerror="void 0"></script>
+<script src="../src/ref_bld2.js"     onerror="void 0"></script>
+<script src="../src/ref_bld3.js"     onerror="void 0"></script>
+<script src="../src/ref_bld4.js"     onerror="void 0"></script>
+<script src="../src/ref_bldint1.js"  onerror="void 0"></script>
+<script src="../src/ref_bldint2.js"  onerror="void 0"></script>
+<script src="../src/ref_bldint3.js"  onerror="void 0"></script>
+<script src="../src/ref_bankbasement.js" onerror="void 0"></script>
+<script src="../src/ref_missedprops.js" onerror="void 0"></script>
+<script src="../src/ref_townpool.js" onerror="void 0"></script>
+<script src="../src/ref_carpet.js"   onerror="void 0"></script>
+
+<!-- ===== Studio harness (classic script: bare-assigns the builders' lexical globals) ===== -->
+<script>
+(function(){
+  // --- 1. neutralise terrain so builders sit on flat y=0 (no baked heightfield here) ---
+  try { groundY = function(){return 0;}; gy = function(){return 0;};
+        if(typeof terrainHeight!=='undefined') terrainHeight = function(){return 0;}; }
+  catch(e){ showErr('stub-terrain',e); }
+
+  // --- 2. renderer / scene / camera; BIND the builders' lexical globals by bare assignment ---
+  const view=document.getElementById('view');
+  const renderer=new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+  // capture → recv2 (:9098) for the Gemini/compare gate: STUDIO_CAPTURE('cr_name.jpg')
+  window.STUDIO_CAPTURE=function(name){ try{
+    const data=renderer.domElement.toDataURL('image/jpeg',0.92);
+    return fetch('http://127.0.0.1:9098/',{method:'POST',body:JSON.stringify({name:name,data:data})})
+      .then(r=>r.text());
+  }catch(e){ return Promise.resolve('capture err: '+e); } };
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(view.clientWidth,view.clientHeight);
+  view.appendChild(renderer.domElement);
+
+  const studioScene=new THREE.Scene();
+  studioScene.background=new THREE.Color(0x2b2f36);
+  const cam=new THREE.PerspectiveCamera(38, view.clientWidth/view.clientHeight, 0.05, 400);
+
+  // These names are `let scene, camera, renderer` / `let player` in game2_world.js — bind them:
+  try { scene=studioScene; camera=cam; player={x:0,z:0,mesh:{position:new THREE.Vector3()}}; }
+  catch(e){ showErr('bind-globals',e); }
+
+  // --- 3. lights + textures (real buildTextures so materials match the game) ---
+  studioScene.add(new THREE.HemisphereLight(0xdfe2d8,0x6a6a58,0.95));
+  const sun=new THREE.DirectionalLight(0xfff3e0,1.05); sun.position.set(14,26,10); studioScene.add(sun);
+  const fill=new THREE.DirectionalLight(0x99b0d0,0.35); fill.position.set(-12,8,-14); studioScene.add(fill);
+  try { if(typeof buildTextures==='function') buildTextures(); } catch(e){ showErr('buildTextures',e); }
+
+  // ground grid (its own toggle) + a soft floor pad
+  const grid=new THREE.GridHelper(60,60,0x4a5260,0x333a44); studioScene.add(grid);
+  const pad=new THREE.Mesh(new THREE.CircleGeometry(30,48),
+    new THREE.MeshStandardMaterial({color:0x3a4a2c,roughness:1,metalness:0}));
+  pad.rotation.x=-Math.PI/2; pad.position.y=-0.01; studioScene.add(pad);
+  // water/pit mode: translucent sea at y=-1.5 (for docks/piers) + hides the pad so below-ground pits show
+  const water=new THREE.Mesh(new THREE.PlaneGeometry(140,140),
+    new THREE.MeshStandardMaterial({color:0x3a6b8c,roughness:1,metalness:0,transparent:true,opacity:0.85}));
+  water.rotation.x=-Math.PI/2; water.position.y=-1.5; water.visible=false; studioScene.add(water);
+
+  const controls=new THREE.OrbitControls(cam,renderer.domElement);
+  controls.target.set(0,2,0); controls.enableDamping=true; controls.dampingFactor=0.08;
+
+  // --- 4. asset registry: each entry builds via the REAL game builder, added to `scene` ---
+  const REG={
+    'Buildkit house — 1 floor': ()=>Buildkit.house({x:0,z:0,w:9,d:7,floors:1,doorSide:'S',
+        color:0xcbb58f,roofColor:0x7a3b2e,interior:'house',shellOpts:{wall:'stone'}}),
+    'Buildkit house — 2 floor': ()=>Buildkit.house({x:0,z:0,w:9,d:7,floors:2,doorSide:'S',
+        color:0xcbb58f,roofColor:0x6f3524,interior:'house',shellOpts:{wall:'stone'}}),
+    'Buildkit house — THATCH (A/B)': ()=>Buildkit.house({x:0,z:0,w:9,d:7,floors:1,doorSide:'S',
+        color:0xcbb58f,roofColor:0x7a3b2e,interior:'house',shellOpts:{wall:'stone'},roofStyle:'thatch'}),
+    'Guide Hall':   ()=>window.makeGuideHall(0,0,0),
+    'Chef Kitchen': ()=>window.makeChefKitchen(0,0,0),
+    'Quest Lodge':  ()=>window.makeQuestLodge(0,0,0),
+    'Mage Tower':   ()=>window.makeMageTower(0,0,0),
+    'Tutorial Statue': ()=>window.makeTutStatue(0,0),
+  };
+  // Bible_References object recreations — only registered if the builder loaded
+  [['ref · Furnace','makeRefFurnace'],['ref · Fountain','makeRefFountain'],['ref · Altar','makeRefAltar'],
+   ['ref · Fishing Pier','makeRefPier'],['ref · Rowboat','makeRefRowboat'],
+   ['ref · Bank','makeRefBank'],['ref · Store','makeRefStore'],
+   ['ref · Torch','makeRefTorch'],['ref · Bed','makeRefBed'],['ref · Cake Stall','makeRefCakeStall'],
+   ['ref · Gem Stall','makeRefGemStall'],['ref · Church','makeRefChurch'],
+   ['ref · Anvil','makeRefAnvil'],['ref · Dock','makeRefDock'],['ref · Fur Stall','makeRefFurStall'],
+   ['ref · Church Interior','makeRefChurchInterior'],['ref · Ladder','makeRefLadder'],
+   ['ref · Building 1','makeRefBld1'],['ref · Building 2','makeRefBld2'],
+   ['ref · Building 3','makeRefBld3'],['ref · Building 4','makeRefBld4'],
+   ['ref · Bld Interior 1','makeRefBldInt1'],['ref · Bld Interior 2','makeRefBldInt2'],
+   ['ref · Bld Interior 3','makeRefBldInt3'],['ref · Bank Basement','makeRefBankBasement'],
+   ['ref · Grandfather Clock','makeRefGrandfatherClock'],['ref · Kitchen Sink','makeRefKitchenSink'],
+   ['ref · Town Pool','makeRefTownPool'],['ref · Carpet','makeRefCarpet']].forEach(([label,fn])=>{
+    if(typeof window[fn]==='function') REG[label]=()=>window[fn](0,0,0);
+  });
+  // furniture presets (each returns a group we add ourselves)
+  if(typeof Buildkit!=='undefined' && Buildkit.furniture){
+    for(const k of Object.keys(Buildkit.furniture)){
+      REG['furniture · '+k]=(()=>{ const f=Buildkit.furniture[k];
+        return typeof f==='function'?()=>f():null; })();
+    }
+  }
+
+  const sel=document.getElementById('asset');
+  Object.keys(REG).forEach(k=>{ if(REG[k]){ const o=document.createElement('option'); o.textContent=k; sel.appendChild(o); }});
+
+  // --- 5. build / clear cycle ---
+  let baseCount=studioScene.children.length;      // everything up to here is permanent scaffolding
+  let current=[];                                  // objects added by the last build
+  function clearAsset(){
+    while(studioScene.children.length>baseCount){
+      const o=studioScene.children[studioScene.children.length-1];
+      studioScene.remove(o);
+    }
+    current=[];
+    // reset WORLD arrays the builders append to, so state doesn't leak between assets
+    try{ if(typeof WORLD!=='undefined'){ WORLD.interiors.length=0; WORLD.clickables.length=0;
+      WORLD.colliders&&(WORLD.colliders.length=0); WORLD.grounds.length=0; } }catch(e){}
+  }
+  function frame(objs){
+    const box=new THREE.Box3();
+    objs.forEach(o=>{ try{ box.expandByObject(o); }catch(e){} });
+    if(box.isEmpty()) return;
+    const c=box.getCenter(new THREE.Vector3()), s=box.getSize(new THREE.Vector3());
+    const r=Math.max(s.x,s.y,s.z);
+    controls.target.copy(c);
+    cam.position.set(c.x+r*1.15, c.y+r*0.85, c.z+r*1.35);
+    controls.update();
+  }
+  function build(){
+    errBox.style.display='none'; errBox.textContent='';
+    clearAsset();
+    const key=sel.value, fn=REG[key];
+    if(!fn){ return; }
+    try{
+      const before=studioScene.children.slice();
+      const res=fn();
+      if(res && res.isObject3D && !res.parent) studioScene.add(res);  // furniture / non-self-adding
+      // collect newly-added children
+      current=studioScene.children.filter(o=>!before.includes(o));
+      applyRoof(); applyWire();
+      frame(current.length?current:(res&&res.isObject3D?[res]:[]));
+      document.getElementById('note').textContent = key+' — '+current.length+' root object(s)';
+    }catch(e){ showErr('build:'+key,e); }
+  }
+
+  // --- 6. inspect toggles ---
+  function applyRoof(){
+    const want=document.getElementById('roof').checked;
+    try{ (WORLD.interiors||[]).forEach(it=>{ if(it&&it.roof){ it.roof.visible=want; if(it.band) it.band.visible=want; } }); }catch(e){}
+  }
+  function applyWire(){
+    const w=document.getElementById('wire').checked;
+    studioScene.traverse(o=>{ if(o.isMesh && current.includes(rootOf(o))){ if(o.material){
+      (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if('wireframe' in m) m.wireframe=w; }); } }});
+  }
+  function rootOf(o){ let p=o; while(p.parent && p.parent!==studioScene) p=p.parent; return p; }
+
+  document.getElementById('roof').onchange=applyRoof;
+  document.getElementById('wire').onchange=applyWire;
+  document.getElementById('grid').onchange=e=>{ grid.visible=e.target.checked; };
+  document.getElementById('water').onchange=e=>{ const on=e.target.checked;
+    water.visible=on; pad.visible=!on; grid.visible=!on && document.getElementById('grid').checked; };
+  document.getElementById('rebuild').onclick=build;
+  sel.onchange=build;
+  document.getElementById('top').onclick=()=>{ const t=controls.target;
+    cam.position.set(t.x,t.y+22,t.z+0.01); controls.update(); };
+  document.getElementById('iso').onclick=()=>frame(current);
+
+  // reference image panel
+  const ref=document.getElementById('ref'), reffile=document.getElementById('reffile'), reflabel=document.getElementById('reflabel');
+  reffile.addEventListener('change',()=>{ const f=reffile.value.trim(); if(!f){return;}
+    ref.src='../Bible_References/'+f; reflabel.textContent=f;
+    ref.onerror=()=>{ reflabel.textContent='not found: '+f; }; });
+
+  // --- 7. render loop ---
+  const spin=document.getElementById('spin');
+  function onResize(){ cam.aspect=view.clientWidth/view.clientHeight; cam.updateProjectionMatrix();
+    renderer.setSize(view.clientWidth,view.clientHeight); }
+  window.addEventListener('resize',onResize);
+  const triEl=document.getElementById('tri'), camEl=document.getElementById('cam');
+  function loop(){ requestAnimationFrame(loop);
+    if(spin.checked){ const t=controls.target;
+      const dx=cam.position.x-t.x, dz=cam.position.z-t.z, a=Math.atan2(dz,dx)+0.006, rad=Math.hypot(dx,dz);
+      cam.position.x=t.x+Math.cos(a)*rad; cam.position.z=t.z+Math.sin(a)*rad; cam.lookAt(t); }
+    controls.update(); renderer.render(studioScene,cam);
+    triEl.textContent='tris: '+renderer.info.render.triangles.toLocaleString();
+    camEl.textContent='cam: '+cam.position.x.toFixed(1)+','+cam.position.y.toFixed(1)+','+cam.position.z.toFixed(1);
+  }
+  loop();
+  build();   // build the first asset on load
+})();
+</script>
+</body>
+</html>

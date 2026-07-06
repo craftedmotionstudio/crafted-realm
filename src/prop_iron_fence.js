@@ -18,7 +18,8 @@
 (function(){
   const IRON      = 0x27272d;   // wrought-iron body (near-black, matches lamp-post iron 0x2e2a26)
   const IRON_DARK = 0x1b1b20;   // shadowed iron for rails / tips
-  const KERB      = 0x8a8478;   // pale worked stone, like the town wall masonry
+  const KERB      = 0x9a9a92;   // cool worked GREY stone (OSRS kerb reads grey, not brown) — was 0x8a8478 warm-tan
+  const KERB_HI   = 0xa9a9a1;   // lighter grey for the scalloped dentil molding on the kerb top
 
   /* a single spear-tip finial (the pointed picket top) — a squat 4-sided cone */
   function spearTip(h){
@@ -51,6 +52,30 @@
     kerb.position.set((x1+x2)/2, yBase+0.1, (z1+z2)/2); kerb.rotation.y=ang;
     kerb.receiveShadow=true; kerb.castShadow=true; scene.add(kerb);
 
+    // --- scalloped dentil molding along the kerb top (the OSRS kerb's decorative edge) ---
+    // a run of small merged blocks stepping along the top face; one merged mesh = 1 draw call
+    {
+      const nD=Math.max(4, Math.round(len/0.28)), dStep=len/nD;
+      const dGeoms=[];
+      const ux=dx/len, uz=dz/len;   // unit vector along the run
+      for(let i=0;i<nD;i++){
+        const s=(i+0.5)*dStep, cxp=x1+ux*s, czp=z1+uz*s;
+        const g=new THREE.BoxGeometry(0.14, 0.08, 0.30);
+        g.rotateY(ang); g.translate(cxp, yBase+0.24, czp);
+        dGeoms.push(g);
+      }
+      const BGU=THREE.BufferGeometryUtils||{};
+      const mergeFn=BGU.mergeGeometries||BGU.mergeBufferGeometries||null;   // r128 uses mergeBufferGeometries
+      const merged=mergeFn?mergeFn(dGeoms,false):null;
+      if(merged){
+        const dent=new THREE.Mesh(merged, mat(KERB_HI));
+        dent.castShadow=true; dent.receiveShadow=true; scene.add(dent);
+      } else {
+        // fallback: individual blocks if the merge util isn't loaded
+        for(const g of dGeoms){ const m=new THREE.Mesh(g, mat(KERB_HI)); m.castShadow=true; scene.add(m); }
+      }
+    }
+
     // --- the two rails, one box per rail spanning the whole run ---
     for(const ry of [RAIL_TOP, RAIL_BOT]){
       const rail=new THREE.Mesh(new THREE.BoxGeometry(len, 0.06, 0.06), mat(IRON_DARK));
@@ -58,11 +83,11 @@
       rail.castShadow=true; scene.add(rail);
     }
 
-    // --- thin pointed pickets, evenly spaced between the posts ---
-    const nGaps=Math.max(3, Math.round(len/0.3)), step=len/nGaps;
+    // --- thin pointed pickets, evenly spaced between the posts (denser + thinner, OSRS railing rhythm) ---
+    const nGaps=Math.max(4, Math.round(len/0.22)), step=len/nGaps;
     for(let i=1;i<nGaps;i++){
       const t=(i*step)/len, px=x1+dx*t, pz=z1+dz*t;
-      const bar=new THREE.Mesh(new THREE.BoxGeometry(0.05, PICK_H, 0.05), mat(IRON));
+      const bar=new THREE.Mesh(new THREE.BoxGeometry(0.038, PICK_H, 0.038), mat(IRON));
       bar.position.set(px, yBase+0.2+PICK_H/2, pz); bar.castShadow=true; scene.add(bar);
       const tip=spearTip(0.2); tip.position.set(px, yBase+0.2+PICK_H+0.1, pz); scene.add(tip);
     }
@@ -109,6 +134,9 @@
       ball.position.set(sx, yB+0.2+PIER_H+0.18, sz); ball.castShadow=true; scene.add(ball);
       addCircleCollider(sx, sz, 0.28);   // the piers are solid; the mouth between them stays open
     }
+    // NOTE (pass 4): tried a semicircular arched crown here — both reviewers found it awkward
+    // (hoop-like, not elegant wrought-iron; Gemini 5). Reverted per keep-only-if-obvious rule.
+    // A shallower, more decorated arc (or a flat ornamented lintel) is the path to try next.
 
     // --- a leaf: framed bars + spear tips + a decorative arch scroll, built flat then hung ---
     function leaf(hingeSign, openRad){

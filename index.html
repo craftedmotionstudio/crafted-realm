@@ -653,6 +653,7 @@
 <div id="action-text"></div>
 <div id="build-stamp" title="Local review build">build…</div>
 
+<script src="src/smoke.js?v=2"></script><!-- FIRST: error recorder always; full gate via ?smoke=1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script src="assets/audio/soundfont-player.min.js"></script>
@@ -662,11 +663,14 @@
 <script src="src/item_attrs.js?v=1"></script>
 <script src="src/game0_icons.js"></script>
 <script src="src/worldgrid.js?v=4"></script>
-<script src="src/game1_data.js?v=q8"></script>
+<script src="src/tutorial_island.js?v=9"></script>
+<script src="src/tut_cave_dress.js?v=1"></script>
+<script src="src/game1_data.js?v=q10"></script>
 <script src="src/chunks.js"></script>
 <script src="src/collision_grid.js?v=2"></script>
 <script src="src/proc_props.js"></script>
-<script src="src/game2_world.js?v=h10"></script>
+<script src="src/game2_world.js?v=h22"></script>
+<script src="src/tut_statue.js?v=1"></script>
 <script src="src/world_gear.js?v=1"></script>
 <script src="src/world_scatter.js?v=1"></script>
 <script src="src/prop_grass_tufts.js?v=1"></script>
@@ -680,11 +684,16 @@
 <script src="src/prop_crates.js?v=1"></script>
 <script src="src/prop_beds_torches.js?v=1"></script>
 <script src="src/prop_buggy.js?v=1"></script>
-<script src="src/prop_iron_fence.js?v=1"></script>
+<script src="src/prop_iron_fence.js?v=4"></script>
 <script src="src/prop_fallen_tree.js?v=1"></script>
 <script src="src/combat_math.js?v=1"></script>
 <script src="src/planes.js?v=6"></script>
-<script src="src/buildkit.js?v=12"></script>
+<script src="src/buildkit.js?v=13"></script>
+<script src="src/buildkit_thatch.js?v=1"></script>
+<script src="src/tut_bld_guide.js?v=3"></script>
+<script src="src/tut_bld_chef.js?v=3"></script>
+<script src="src/tut_bld_quest.js?v=4"></script>
+<script src="src/tut_bld_mage.js?v=3"></script>
 <!-- map_showcase (Wayfarer's Rest) disabled 2026-07-03: pre-map building wiped w/ the legacy village; pattern lives in git + MAP_PIPELINE -->
 <script src="src/wardenholm.js?v=16"></script>
 <script src="src/biome_snow.js?v=15"></script>
@@ -719,6 +728,11 @@
 <script src="src/overlay_npc_tile.js?v=1"></script>
 <script src="src/qol_ui.js?v=2"></script>
 <script src="src/item_tags.js?v=1"></script>
+<script src="src/ui_smith_grid.js?v=2"></script>
+<script src="src/smith_bronze_dagger.js?v=1"></script>
+<script src="src/ui_guide_arrow.js?v=1"></script>
+<script src="src/cooking_bread.js?v=1"></script>
+<script src="src/item_teleport_tabs.js?v=1"></script>
 <script src="src/map_search.js?v=1"></script>
 <script src="src/scheduler.js?v=1"></script>
 <script src="src/dispatch.js?v=1"></script>
@@ -732,6 +746,8 @@
 <script src="src/boss_sm.js?v=1"></script>
 <script src="src/instances.js?v=2"></script>
 <script src="src/tutorial_ext.js?v=1"></script>
+<script src="src/tutorial_holm.js?v=3"></script>
+<script src="src/tut_holm_path.js?v=2"></script>
 <script src="src/dev_tools.js?v=1"></script>
 <script src="src/homesteads.js?v=1"></script>
 <script src="src/quest_ui.js?v=q2"></script>
@@ -752,6 +768,7 @@
 <script src="src/char_customizer.js"></script>
 <script src="src/char_styles.js"></script>
 <script src="src/game5_main.js?v=h5"></script>
+<script src="src/tut_firemaking.js?v=1"></script>
 <script>
   /* sync the settings volume sliders to saved values on load */
   window.addEventListener('load', function(){ try{
