@@ -76,10 +76,54 @@
     // Glimmerveil Arcana, the rune shop (map: magic shop icon)
     Buildkit.house({x:-13, z:12, w:5.5, d:4.5, doorSide:'E',
       color:0xb0a8c4, roofColor:0x4a3a7a, roof:'gable', interior:'shop'});
-    // the Chapel of the Dawn (map: altar icon)
-    Buildkit.house({x:-7, z:-19, w:6, d:5, doorSide:'S',
-      color:0xd8d2c4, roofColor:0x6b6458, roof:'gable', interior:'house'});
-    if(typeof makeAltar==='function') makeAltar(-7,-20.2);
+    // the Chapel of the Dawn (map: altar icon) — the Church_Exterior_Option1 reference
+    // build when loaded (integration 2026-07-06): walk-in stone nave, bell tower + open
+    // double door facing the plaza road (rot -PI/2 → entrance south), altar at the far
+    // (north) end like OSRS churches. Buildkit shell stays as the fallback.
+    if(typeof makeRefChurch==='function'){
+      const church=makeRefChurch(-6, -20, -Math.PI/2);
+      scene.add(church);
+      // the church footprint (10.5×6 + tower) is far bigger than the old 6×5 chapel —
+      // pre-existing scatter (a cart, bushes, two trees) ends up TRAPPED inside the
+      // nave with live colliders. Sweep the footprint: scene dressing out, matching
+      // clickables/resources/colliders out (church walls + altar are preserved by
+      // identity/strict-inner bounds). Re-run delayed for late-booting prop files.
+      const sweepChurchFootprint=()=>{
+        const inNave =(px,pz)=> px>-9.3 && px<-2.7 && pz>-25.6 && pz<-14.4;
+        const inTower=(px,pz)=> px>-7.8 && px<-4.2 && pz>-14.4 && pz<-11.0;
+        const hit=(px,pz)=> inNave(px,pz)||inTower(px,pz);
+        const removed=[];
+        for(let i=scene.children.length-1;i>=0;i--){
+          const c=scene.children[i];
+          if(c===church || c===player || !c.position) continue;
+          if(c.userData && c.userData.kind==='altar') continue;
+          if(c.type!=='Group' && c.type!=='Mesh' && c.type!=='PointLight') continue;
+          if(!hit(c.position.x, c.position.z)) continue;
+          scene.remove(c); removed.push(c);
+        }
+        if(removed.length){
+          const gone=o=>removed.indexOf(o)>=0;
+          // prune IN PLACE — other systems hold references to these arrays
+          const prune=(arr,drop)=>{ if(!arr) return; for(let i=arr.length-1;i>=0;i--) if(drop(arr[i])) arr.splice(i,1); };
+          prune(WORLD.clickables, o=>gone(o));
+          prune(WORLD.resources,  o=>gone(o)||gone(o&&o.mesh));
+          prune(WORLD.fires,      o=>gone(o));
+          // strict-inner collider purge: wall/door colliders sit ON the wall lines, outside these bounds
+          prune(WORLD.colliders, cl=>
+            (cl.x>-8.4&&cl.x<-3.6&&cl.z>-24.7&&cl.z<-15.3)||(cl.x>-6.9&&cl.x<-5.1&&cl.z>-14.0&&cl.z<-12.6));
+          if(typeof CollisionGrid!=='undefined' && CollisionGrid.baked) CollisionGrid.rebakeArea(-6,-19,12);
+        }
+        return removed.length;
+      };
+      sweepChurchFootprint();
+      setTimeout(sweepChurchFootprint, 6000);
+      if(typeof makeAltar==='function') setTimeout(()=>makeAltar(-6, -23.5), 6100);   // after the final sweep
+      if(typeof CollisionGrid!=='undefined' && CollisionGrid.baked) CollisionGrid.rebakeArea(-6,-20,11);
+    } else {
+      Buildkit.house({x:-7, z:-19, w:6, d:5, doorSide:'S',
+        color:0xd8d2c4, roofColor:0x6b6458, roof:'gable', interior:'house'});
+      if(typeof makeAltar==='function') makeAltar(-7,-20.2);
+    }
     // the Wayfarer's Rest — the reference build returns as the town pub, map-true
     Buildkit.house({x:8, z:19, w:7, d:6, floors:2, doorSide:'N',
       color:0xd8cdb4, roofColor:0x8a5a3a, roof:'gable', interior:'pub', upstairs:'bedroom'});

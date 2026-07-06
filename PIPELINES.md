@@ -136,6 +136,14 @@ made it into the world).
   limitation, not a material bug; stop polishing what the camera can't show.
 - **Hundreds of separate meshes at once freeze the renderer** — merge repeated geometry
   into ONE BufferGeometry; stagger heavy builds across frames.
+- **`WORLD.interiors` entries MUST carry `roof` (an Object3D)** — game5's per-frame roof
+  loop does `it.roof.visible` unguarded; an entry without it crashes update() EVERY frame,
+  and the heartbeat's try/catch swallows it in background tabs (symptom: silent tick
+  starvation, zero console errors). Caught by the smoke gate 2026-07-06.
+- **A bigger replacement building SWALLOWS pre-existing scatter** — carts/bushes/trees
+  placed around the old footprint end up inside the new one WITH live colliders. Sweep
+  the new footprint (scene + clickables/resources/fires/colliders, in-place prune) and
+  re-run it delayed for late-booting prop files (see veyhollow_town.js church sweep).
 
 ---
 

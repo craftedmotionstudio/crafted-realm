@@ -1027,3 +1027,34 @@ the harbour callers that re-seat boats on the sea plane (y=-1.72) work unchanged
 rowboats world-wide upgrade at once (replacement rule): Saltreach, Brynholt, Tutor's Holm.
 Verified: [SMOKE] PASS, holm boat at (150,151) is the 18-child ref build (old boat = 2
 meshes), 0 console errors. Harbour-wide eyes-on (dock/pier batch) = next.
+
+## Pass 63 - 2026-07-06 - INTEGRATION batch 2: harbour piers + THE CHURCH (user-directed)
+**Placed + eyes-on verified:**
+- makeRefPier replaces the bare inline piers: Saltreach (228,52.5 south into the bay) +
+  Brynholt (coast-probed dockX0, east into the grey sea), both seated at deck level -0.55,
+  plank-fallbacks kept. makeDock (prop_dock.js) deliberately NOT swapped - it is itself a
+  parametric reference-derived build of Port+Dock.jpg (swapping = churn).
+- makeRefChurch replaces the Chapel of the Dawn Buildkit shell at (-6,-20), rot -PI/2
+  (tower + open double door facing the plaza road); altar moved to the nave far end
+  (-6,-23.5); Buildkit fallback kept. Verified WALK-IN end-to-end: plaza -> tower door ->
+  inner doorway -> nave -> altar-front tile (computePath probes all reached=true + the
+  player physically walked in; roof hides inside; stained glass + rose window read).
+
+**Module fixes required (ref_church.js):** (1) collider layout rebuilt - the Studio
+version registered a SOLID full-footprint block (unenterable); now wall segments tracing
+the shell with the real door path (cardinal rotations). (2) door leaves hinged + swung
+open. (3) plinth lowered 0.4->0.12 (player was shin-deep). (4) interiors entry.
+
+**BUG the smoke gate caught (the gate pays for itself):** the church WORLD.interiors
+entry lacked `roof` -> game5:641 `it.roof.visible` threw EVERY FRAME; in the hidden tab
+the heartbeat try/catch swallowed it (symptom: silent tick starvation, ticks 2 vs 9);
+a foreground run surfaced 60 uncaught errors. Fixed (roof:roofG). Logged in PIPELINES
+KNOWN DEFECTS. Gate hardened: hidden-tab tick check = alive>=1 over a 2x window (Chrome
+budget-throttles post-boot; real tick-rate QA needs a foreground run).
+
+**Also:** church footprint sweep (cart/bushes/trees trapped inside the bigger building,
+in-place prune of scene+clickables+resources+colliders, delayed re-run for late prop
+files) - pattern logged in KNOWN DEFECTS.
+**Gate:** [SMOKE] PASS 43/43, walk ok, 0 errors, ticks 14/9s.
+**Next:** bldint interiors under walk-in shells; bank basement + ref_ladder vault;
+bld1-4 siting; ref_torch pair split; bed re-anchoring.

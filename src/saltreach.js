@@ -40,7 +40,12 @@
       crate.position.set(px-0.7, deckY+0.06, z0+1.0); G.add(crate);
       if(typeof makeTorch==='function') makeTorch(px-1.1, z0-0.8);
     }
-    pier(228, 52.5, 65);                                  // the long pier into the bay
+    // the long pier into the bay — the Fishing_Pier_Option1 reference build when loaded
+    // (integration 2026-07-06: railed deck, pilings + braces, water ladder); the bare
+    // plank pier stays as the fallback. Deck top seated at the harbour walk level.
+    if(typeof makeRefPier==='function'){
+      const p=makeRefPier(228, 52.5, 0); p.position.y=-0.55; G.add(p);
+    } else pier(228, 52.5, 65);
     // a boat riding the harbour water beside it
     if(typeof makeRowboat==='function'){
       const b1=makeRowboat(230.4, 62.5, 1.2); b1.position.y=-1.72;

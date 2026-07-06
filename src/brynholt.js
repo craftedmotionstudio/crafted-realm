@@ -49,18 +49,24 @@
     }
     if(dockX0!==null){
       const zD=b[1]+dz, deckY=-0.55;
-      for(let i=0;i<6;i++){                             // 6 plank sections, 1.6 each
-        const px=dockX0+0.8+i*1.6;
-        const plank=new THREE.Mesh(new THREE.BoxGeometry(1.6,0.12,2.4), wood);
-        plank.position.set(px, deckY, zD); plank.castShadow=true; G.add(plank);
-        if(i%2===0) for(const s of [-1,1]){              // piles into the water
-          const post=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.11,1.8,6), woodDark);
-          post.position.set(px-0.6, deckY-0.85, zD+s*1.05); G.add(post);
+      // the Fishing_Pier_Option1 reference build when loaded (integration 2026-07-06):
+      // rot PI/2 runs its deck east into the sea, seated at the old deck level. The
+      // bare plank dock stays as the fallback.
+      if(typeof makeRefPier==='function'){
+        const p=makeRefPier(dockX0, zD, Math.PI/2); p.position.y=deckY; G.add(p);
+      } else {
+        for(let i=0;i<6;i++){                           // 6 plank sections, 1.6 each
+          const px=dockX0+0.8+i*1.6;
+          const plank=new THREE.Mesh(new THREE.BoxGeometry(1.6,0.12,2.4), wood);
+          plank.position.set(px, deckY, zD); plank.castShadow=true; G.add(plank);
+          if(i%2===0) for(const s of [-1,1]){            // piles into the water
+            const post=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.11,1.8,6), woodDark);
+            post.position.set(px-0.6, deckY-0.85, zD+s*1.05); G.add(post);
+          }
         }
+        const moor=new THREE.Mesh(new THREE.CylinderGeometry(0.11,0.13,0.8,6), woodDark);
+        moor.position.set(dockX0+8.6, deckY+0.35, zD+0.9); G.add(moor);
       }
-      // dock furniture: a mooring post, crates, a lantern
-      const moor=new THREE.Mesh(new THREE.CylinderGeometry(0.11,0.13,0.8,6), woodDark);
-      moor.position.set(dockX0+8.6, deckY+0.35, zD+0.9); G.add(moor);
       const crate=Buildkit.furniture.crate(Buildkit);
       crate.position.set(dockX0+1.2, deckY+0.06, zD-0.8); G.add(crate);
       if(typeof makeTorch==='function') makeTorch(dockX0-0.8, zD-1.6);

@@ -230,35 +230,67 @@
       // dressed-stone arch surround (voussoirs) behind the leaves
       dg.add(new THREE.Mesh(new THREE.ShapeGeometry(archShape(dW+0.5, dRect+0.25)), trimMat));
       dg.add(new THREE.Mesh(new THREE.ShapeGeometry(archShape(dW+0.16, dRect+0.08)), M(0x2a2018)));
-      // two plank leaves (rectangular body)
+      // two plank leaves, hinged at the jambs and SWUNG OPEN (integration 2026-07-06:
+      // the church is walk-in — closed leaves over an open collider path read wrong;
+      // the dark arch fill behind reads as the open doorway). Iron straps ride each leaf.
+      const lw = dW/2 - 0.06;
       for(const s of [-1,1]){
-        const leaf=box(dW/2-0.06, dRect, 0.12, woodMat, s*(dW/4), dRect/2, 0.10);
-        dg.add(leaf);
+        const hinge=new THREE.Group(); hinge.position.set(s*(dW/2-0.02), 0, 0.12);
+        const leaf=new THREE.Group();
+        leaf.add(box(lw, dRect, 0.12, woodMat, -s*lw/2, dRect/2, 0));
+        for(const y of [0.5, 1.35, 2.05]) leaf.add(box(lw-0.06, 0.1, 0.05, ironMat, -s*lw/2, y, 0.08));
+        leaf.add(box(0.09, dRect-0.1, 0.05, ironMat, -s*lw/2, dRect/2, 0.08));
+        hinge.add(leaf);
+        hinge.rotation.y = s*1.8;                 // leaves resting open against the jambs
+        dg.add(hinge);
       }
-      // arched tympanum over the leaves (planked timber)
+      // arched tympanum over the doorway (planked timber, above the leaf line)
       const tymp=new THREE.Mesh(new THREE.ShapeGeometry(archShape(dW-0.04, dRect)), woodMat);
       tymp.position.set(0,0,0.1); dg.add(tymp);
-      // iron bands + central strap
-      for(const y of [0.5, 1.35, 2.05]) dg.add(box(dW-0.05,0.1,0.06, ironMat, 0, y, 0.17));
-      dg.add(box(0.1, dRect+0.5, 0.06, ironMat, 0, (dRect+0.5)/2, 0.17));
       // door sits on the tower's front face
       dg.position.set(towerX + tw/2 - 0.02, 0, 0);
       dg.rotation.y=Math.PI/2;
       g.add(dg);
     })();
 
-    /* ---- ground plinth / step ------------------------------------------- */
+    /* ---- ground plinth / step (LOW: 0.12 top — a 0.4-high slab buried the player's
+     * shins once the nave went walk-in; the nave floor slab at 0.14 stays on top) ---- */
     const totalLen = (towerX+tw/2) - (-hx) + 0.6;
-    g.add(box(totalLen, 0.4, Wd+1.0, stoneMat(0x8f8a80,4,3),
-      (-hx + (towerX+tw/2))/2, 0.16, 0));
+    g.add(box(totalLen, 0.12, Wd+1.0, stoneMat(0x8f8a80,4,3),
+      (-hx + (towerX+tw/2))/2, 0.06, 0));
 
     /* ---- register + place ------------------------------------------------ */
     roofG.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
     g.add(roofG);
     if(typeof WORLD!=='undefined' && WORLD.roofs) WORLD.roofs.push({mesh:roofG, x, z});
+    /* WALK-IN collider layout (integration 2026-07-06): wall segments tracing the real
+     * shell with the real door path (outside → tower door → tower → inner doorway →
+     * nave) instead of the old solid block — a sealed church can't hold the altar.
+     * Colliders are axis-aligned: rot must be a multiple of PI/2. */
     if(typeof addRectCollider==='function'){
-      addRectCollider(x, z, hx+0.5, hz+0.5);           // nave
-      addRectCollider(x+towerX*Math.cos(rot), z-towerX*Math.sin(rot), tw*0.6, tw*0.6); // tower foot
+      const q=Math.round(rot/(Math.PI/2))*(Math.PI/2);
+      const c=Math.round(Math.cos(q)), s=Math.round(Math.sin(q)), swap=(s!==0);
+      const R=(lx,lz,hw,hd)=>addRectCollider(x + lx*c + lz*s, z - lx*s + lz*c,
+        swap?hd:hw, swap?hw:hd);
+      const T=0.3, seg=(Wd-fdoorW)/2;
+      R(0,  hz-t/2, hx, T);                            // long wall (+Z side)
+      R(0, -hz+t/2, hx, T);                            // long wall (−Z side)
+      R(-hx+t/2, 0, T, hz);                            // rear gable wall
+      R(hx-t/2,  (fdoorW/2+seg/2), T, seg/2);          // front wall beside the inner doorway
+      R(hx-t/2, -(fdoorW/2+seg/2), T, seg/2);
+      R(towerX,  tw/2-0.15, tw/2, 0.25);               // tower side walls
+      R(towerX, -tw/2+0.15, tw/2, 0.25);
+      const fx=towerX+tw/2-0.15, fseg=(tw-2.0)/2;      // tower front beside the 2.0 door
+      R(fx,  (1.0+fseg/2), 0.25, fseg/2);
+      R(fx, -(1.0+fseg/2), 0.25, fseg/2);
+    }
+    // room registration: roof-hide + "don't path through buildings" both key off this.
+    // The entry MUST carry roof (game5's interiors loop does it.roof.visible each frame —
+    // an entry without it crashed update() every frame, caught by the smoke gate 2026-07-06).
+    if(typeof WORLD!=='undefined' && WORLD.interiors){
+      const swap=(Math.round(Math.sin(Math.round(rot/(Math.PI/2))*(Math.PI/2))))!==0;
+      WORLD.interiors.push({x:x, z:z, hw:(swap?hz:hx)+0.3, hd:(swap?hx:hz)+0.3,
+        roof:roofG, band:null});
     }
 
     const baseY = (typeof gy==='function') ? gy(x,z) : 0;
