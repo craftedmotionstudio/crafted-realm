@@ -643,7 +643,11 @@ function update(dt){
   for(const it of WORLD.interiors){
     const inside = Math.abs(player.position.x-it.x)<it.hw && Math.abs(player.position.z-it.z)<it.hd;
     const want = !inside && !WORLD.roofsOff;
-    if(it.roof.visible!==want){ it.roof.visible=want; if(it.band) it.band.visible=want; }
+    if(it.roof.visible!==want){ it.roof.visible=want; if(it.band) it.band.visible=want;
+      // storey-2 shell (walls + ceiling slab) lifts with the roof — but only while the player is
+      // on the GROUND plane; upstairs it must stay (it's the floor underfoot)
+      if(it.storey2 && ((typeof Player!=='undefined'&&Player.plane)||0)===0) it.storey2.visible=want;
+    }
   }
   _runUiT=(_runUiT||0)+dt; if(_runUiT>0.5){ _runUiT=0; UI.refreshRun();
     if(Player.activePrayers.size){ UI.refreshHud(); const pane=document.getElementById('pane-prayers');

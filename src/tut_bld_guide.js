@@ -188,12 +188,17 @@
 
     /* ---- RICH INTERIOR: a grand banquet hall. Door is on +z; the centre lane stays
        clear so you can walk straight in. All pieces are decorative (no colliders). ---- */
-    { const F=(name,lx,lz,ry,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
-        p.position.set(lx,0.1,lz); if(ry) p.rotation.y=ry;
+    { // guide hall's walk surface is the FLATTENED TERRAIN (no pad slab, unlike chef/quest) —
+      // seat each piece on the terrain at its own world spot (the Holm slopes under the shell)
+      const iy=(lx,lz)=>{ const cs=Math.cos(rot||0), sn=Math.sin(rot||0);
+        const wx=x+cs*lx+sn*lz, wz=z-sn*lx+cs*lz;
+        return ((typeof gy==='function')?gy(wx,wz):0) - baseY + 0.05; };
+      const F=(name,lx,lz,ry,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
+        p.position.set(lx,iy(lx,lz),lz); if(ry) p.rotation.y=ry;
         p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(p); return p; };
       // Mixar hero props (sprint 2026-07-08): ONE laden feast table (candles/roast baked in)
       // replaces the three-kit-table run + candles; stone fireplace replaces the primitive hearth
-      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,0.05,lz);
+      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,iy(lx,lz),lz);
         if(r) p.rotation.y=r; G.add(p); return p; };
       F('rug', 0, -2.6);
       GP('assets/models/tut_banquettable.glb', 1.1, 0, -2.6, 0);
@@ -205,8 +210,8 @@
       F('shelf',   6.3,  1.4, -Math.PI/2);
       F('shelf',  -4.6, -4.85, 0);
       // a pair of potted plants in the front corners
-      const p1=pottedPlant(); p1.position.set(6.2,0.1,4.2); G.add(p1);
-      const p2=pottedPlant(); p2.position.set(-6.2,0.1,-4.2); G.add(p2);
+      const p1=pottedPlant(); p1.position.set(6.2,iy(6.2,4.2),4.2); G.add(p1);
+      const p2=pottedPlant(); p2.position.set(-6.2,iy(-6.2,-4.2),-4.2); G.add(p2);
     }
 
     scene.add(G);

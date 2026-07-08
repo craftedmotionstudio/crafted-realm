@@ -84,6 +84,17 @@ the blockiest primitives, colliders where solid, entry lanes stay clear.
 - [x] guide: tut_banquettable + tut_fireplace — LIVE (one laden table replaces 3-table run + candles)
 - [x] quest: tut_maptable + tut_questboard — LIVE (replaced kit table + candles; board on west wall)
 ALL 8 verified placed in-scene (high-poly mesh query per building) + smoke PASS + validator PASS.
+**INTERIOR VISIBILITY SAGA (2026-07-08, big pre-existing bugs found & partly fixed):**
+(1) Tut interiors were seated via gy() but the REAL walk surfaces differ per building — chef/quest
+sit on Holm LEVEL-PAD slabs (world tops 2.56 / 2.46, measured in-engine; now hardcoded PAD_TOP
+consts in those files) while guide/mage use flattened terrain (per-item gy seating). Furniture had
+been INVISIBLE (buried) in these buildings for months. Chef verified GORGEOUS in-game; quest same
+pattern. (2) 2-storey Buildkit buildings NEVER showed their ground interior — roof lifted but the
+storey-2 shell + ceiling slab stayed. FIXED: buildkit registers `it.storey2`, game5 roof-lift
+toggles it on plane 0. (3) STILL OPEN: mage tower's CUSTOM tower shaft (tut_bld_mage's own
+geometry) still blocks its interior view; guide hall unverified — both need a per-building
+visibility rule / camera check next session. When re-measuring pads: query full-footprint
+BoxGeometry slabs in-engine (see MIXAR_WORKFLOW.md §5 patterns).
 Blend: scratchpad/tut_props_batch.blend. PENDING POLISH: per-prop facing/offset check with a proper
 interior camera view (props' concept "front" is arbitrary; rotate by eye), and brightness check.
 Batch lessons: (a) imagegen at 1:1 keeps the BASE image name (no .001 — only 2:3 does .001);

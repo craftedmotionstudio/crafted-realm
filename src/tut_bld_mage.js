@@ -155,12 +155,18 @@
     // ---- WIZARD-STUDY INTERIOR: door on -x (west); keep the z∈[-1,1] entry lane clear and
     //      leave the +x,-z corner free for the shell ladder. Candles are unlit; the only new
     //      interior light is the crystal orb (the 1 allowed extra point light). ----
-    { const F=(name,lx,lz,r,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
-        p.position.set(lx,0.1,lz); if(r) p.rotation.y=r;
+    { // mage tower's walk surface is the FLATTENED TERRAIN (no pad slab, unlike chef/quest) —
+      // seat each piece on the terrain at its own world spot (the Holm slopes under the shell)
+      const seatY=(typeof gy==='function')?gy(x,z):0;
+      const iy=(lx,lz)=>{ const cs=Math.cos(rot||0), sn=Math.sin(rot||0);
+        const wx=x+cs*lx+sn*lz, wz=z-sn*lx+cs*lz;
+        return ((typeof gy==='function')?gy(wx,wz):0) - seatY + 0.05; };
+      const F=(name,lx,lz,r,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
+        p.position.set(lx,iy(lx,lz),lz); if(r) p.rotation.y=r;
         p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(p); return p; };
       F('rug', 0.6, 0.6);
       // Mixar hero props (sprint 2026-07-08): scroll-cluttered arcane desk + stuffed bookshelves
-      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,0.05,lz);
+      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,iy(lx,lz),lz);
         if(r) p.rotation.y=r; G.add(p); return p; };
       GP('assets/models/tut_arcanedesk.glb', 1.1, 1.6, 3.0, 0); F('stool', 1.6, 2.0, 0);
       // tall bookshelves along the east wall (GLB heroes) + back (-z) wall (kit shelves)
@@ -175,7 +181,7 @@
         bowl.rotation.x=Math.PI; bowl.position.y=1.05; stand.add(bowl);
         const orb=new THREE.Mesh(new THREE.IcosahedronGeometry(0.22,0), emis(GLOW)); orb.position.y=1.24; stand.add(orb);
         const oli=new THREE.PointLight(GLOW,0.5,5); oli.position.y=1.28; stand.add(oli);
-        stand.position.set(-0.4,0.1,2.4); stand.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(stand); }
+        stand.position.set(-0.4,iy(-0.4,2.4),2.4); stand.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(stand); }
     }
 
     if(typeof scene!=='undefined') scene.add(G);

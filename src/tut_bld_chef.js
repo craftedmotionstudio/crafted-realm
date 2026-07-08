@@ -177,14 +177,19 @@
 
     // --- RICH KITCHEN INTERIOR: door on +z; keep the x∈[-1,1] entry lane clear.
     //     All pieces decorative (no colliders block the floor). ---
-    { const F=(name,lx,lz,r,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
-        p.position.set(lx,0.1,lz); if(r) p.rotation.y=r;
+    { // the walk surface inside is the Holm LEVEL-PAD slab (world top 2.56, measured in-engine
+      // 2026-07-08) — NOT gy() and NOT the buried shell floor. Seating to gy() hid this whole
+      // interior for months. If the Holm terrain is ever re-sculpted, re-measure the slab.
+      const PAD_TOP=2.56;
+      const iy=(lx,lz)=>PAD_TOP+0.05-baseY;
+      const F=(name,lx,lz,r,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
+        p.position.set(lx,iy(lx,lz),lz); if(r) p.rotation.y=r;
         p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(p); return p; };
       // a counter run along the back wall (-z)
       for(const cx of [-3.2,-2.0,-0.8,0.4]) F('counter', cx, -4.2, 0);
       // Mixar hero props (sprint 2026-07-08): generated stone bread oven on the west wall +
       // a laden prep table — replaces the primitive hearth/table/pottery trio
-      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,0.05,lz);
+      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,iy(lx,lz),lz);
         if(r) p.rotation.y=r; G.add(p); return p; };
       GP('assets/models/tut_oven.glb', 1.9, -5.4, -1.0, Math.PI/2);
       GP('assets/models/tut_preptable.glb', 1.1, 1.6, -1.0, 0);
@@ -196,9 +201,9 @@
       F('barrel', 5.3, -3.8); F('barrel', 5.3, -2.9);
       F('crate', 5.4, 3.3); const cstack=F('crate', 5.4, 3.3); cstack.position.y=0.72;
       F('barrel', 4.5, 3.4);
-      // a couple of loaves on the counter run
+      // a couple of loaves on the counter run (ride the counters' terrain-seated height)
       for(const [lx2,lz2] of [[-2.0,-3.95],[-0.8,-4.0]]){
-        const loaf=new THREE.Mesh(new THREE.SphereGeometry(0.15,7,5), M(0xc48a4a)); loaf.position.set(lx2,1.18,lz2); G.add(loaf); }
+        const loaf=new THREE.Mesh(new THREE.SphereGeometry(0.15,7,5), M(0xc48a4a)); loaf.position.set(lx2,iy(lx2,lz2)+1.08,lz2); G.add(loaf); }
       // a warm rug off to the side, out of the door lane
       F('rug', -2.2, 1.6);
     }

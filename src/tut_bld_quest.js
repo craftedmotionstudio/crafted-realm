@@ -211,13 +211,17 @@
 
     // --- COZY LODGE INTERIOR: door is on -z (north); table sits toward +z away from the
     //     door, so the entry lane stays clear. Pieces are decorative (no floor colliders). ---
-    { const F=(name,lx,lz,r,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
-        p.position.set(lx,0.1,lz); if(r) p.rotation.y=r;
+    { // walk surface inside = the Holm LEVEL-PAD slab, world top 2.46 (measured in-engine
+      // 2026-07-08; see tut_bld_chef note) — seat interior pieces on it, not on gy()
+      const PAD_TOP=2.46;
+      const iy=(lx,lz)=>PAD_TOP+0.05-baseY;
+      const F=(name,lx,lz,r,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
+        p.position.set(lx,iy(lx,lz),lz); if(r) p.rotation.y=r;
         p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); C.add(p); return p; };
       F('rug', 0, 1.4);
       // Mixar hero props (sprint 2026-07-08): map-strewn quest table (replaces kit table+candles)
       // + a parchment notice board against the west wall facing the room
-      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,0.05,lz);
+      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,iy(lx,lz),lz);
         if(r) p.rotation.y=r; C.add(p); return p; };
       GP('assets/models/tut_maptable.glb', 1.1, 0, 2.4, 0);
       GP('assets/models/tut_questboard.glb', 2.0, -4.6, 2.2, Math.PI/2);

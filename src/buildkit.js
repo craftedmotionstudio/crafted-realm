@@ -355,6 +355,10 @@ const Buildkit = {
       // makeBuilding registered its roof in WORLD.interiors — hoist OUR entry atop storey 2
       const it=WORLD.interiors[_iIdx];
       if(it && it.roof){ it.roof.position.y=(it.roof.position.y||0)+h; if(it.band) it.band.position.y=(it.band.position.y||0)+h; }
+      // register storey 2 for the roof-lift: without this the upstairs shell + its floor slab
+      // (the ground room's CEILING) block the top-down camera — every 2-storey ground interior
+      // was invisible from inside until 2026-07-08
+      if(it) it.storey2=s2;
 
       // ---- make it WALKABLE: plane-1 floor + rim + interior wall colliders + ladder ----
       const fy=baseY + h + 0.14;
