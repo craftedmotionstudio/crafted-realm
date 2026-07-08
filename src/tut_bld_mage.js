@@ -159,15 +159,15 @@
         p.position.set(lx,0.1,lz); if(r) p.rotation.y=r;
         p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(p); return p; };
       F('rug', 0.6, 0.6);
-      // a desk (table) + stool toward the south (+z)
-      F('table', 1.6, 3.0, 0); F('stool', 1.6, 2.0, 0);
-      // tall bookshelves along the east wall and the back (-z) wall (clear of the ladder corner)
-      F('shelf', 4.7, 1.4, -Math.PI/2);
-      F('shelf', 4.7, 3.0, -Math.PI/2);
+      // Mixar hero props (sprint 2026-07-08): scroll-cluttered arcane desk + stuffed bookshelves
+      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,0.05,lz);
+        if(r) p.rotation.y=r; G.add(p); return p; };
+      GP('assets/models/tut_arcanedesk.glb', 1.1, 1.6, 3.0, 0); F('stool', 1.6, 2.0, 0);
+      // tall bookshelves along the east wall (GLB heroes) + back (-z) wall (kit shelves)
+      GP('assets/models/tut_bookshelf.glb', 2.1, 4.6, 1.4, -Math.PI/2);
+      GP('assets/models/tut_bookshelf.glb', 2.1, 4.6, 3.0, -Math.PI/2);
       F('shelf', -1.8, -4.3, 0);
       F('shelf',  1.0, -4.3, 0);
-      // unlit candlesticks on the desk
-      for(const cx2 of [1.3,1.9]){ const cd=studyCandle(); cd.position.set(cx2,0.72,3.0); G.add(cd); }
       // a glowing crystal ORB on a stand (the single extra interior point light)
       { const stand=new THREE.Group();
         const ped=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.2,1.0,6), mat(0x4a4a52)); ped.position.y=0.5; stand.add(ped);

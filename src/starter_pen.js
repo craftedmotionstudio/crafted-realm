@@ -25,9 +25,11 @@
     'mosswolf','duneclaw','moss_seer','wanderer','monk','wizard',
     'skeleton','duelist','hold_knight','bryn_raider','gravewight','hex_adept',
     'deep_crawler','ash_stalker','fenwretch','fenlord','korthul','ash_wyrm',
+    'giant_mole',
+    'cn_guard',
   ];
   // the giants idle in place rather than pace (a 2.6–2.8 size body would clip a 5-wide pen)
-  const STATIC = { fenlord:1, korthul:1, ash_wyrm:1 };
+  const STATIC = { fenlord:1, korthul:1, ash_wyrm:1, giant_mole:1, cn_guard:1 };
 
   const G = ()=> (window.gy || window.groundY);
 

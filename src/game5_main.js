@@ -551,7 +551,12 @@ function update(dt){
     else if(_P && _P.legL) walkAnim(n.mesh, n.moving, dt);   // any rigged biped
     else beastAnim(n.mesh, n.moving, dt);
     if(n.t.glb && typeof glbCreatureAnim==='function') glbCreatureAnim(n, dt);   // GLB-body life (breathing/huff)
-    if(n.t.skinnedRig && typeof riggedDragonAnim==='function') riggedDragonAnim(n, dt, n.moving);   // bone drive: legs/wings/tail
+    if(n.t.skinnedRig){                                   // bone drive: per-type named-rig driver
+      const drv = n.t.animDriver==='mole' ? (typeof riggedMoleAnim==='function' && riggedMoleAnim)
+                : n.t.animDriver==='wolf' ? (typeof riggedWolfAnim==='function' && riggedWolfAnim)
+                : (typeof riggedDragonAnim==='function' && riggedDragonAnim);
+      if(drv) drv(n, dt, n.moving);
+    }
     n.moving = false;
   });
 

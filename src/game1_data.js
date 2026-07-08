@@ -252,6 +252,7 @@ const NPC_TYPES = {
   grubkin:  {name:'Grubkin', level:2, examine:"A wriggling pest of the commons.",  hp:7,  att:1,  str:1,  def:1,  aBonus:0,  sBonus:0,  dBonus:0, dStab:1, dSlash:0, dCrush:1,  speedTicks:4, color:0x6a8f3c, size:0.8, aggro:false, respawn:12, body:'crawler',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[3,12],p:0.8}, {id:'arrows',q:[2,6],p:0.3}, {id:'bronze_sword',q:1,p:0.06}, {id:'mind_rune',q:[1,4],p:0.2}, {id:'leather_body',q:1,p:0.05} ]},
   mosswolf: {name:'Mosswolf', level:8, examine:"A lean marsh-hunter. Its hide parts cleanly to a slashing edge.", hp:18, att:7,  str:7,  def:6,  aBonus:4,  sBonus:4,  dBonus:4, dStab:4, dSlash:1, dCrush:7,  speedTicks:4, color:0x4f6b4a, size:1.0, aggro:true, respawn:18, body:'wolf',
+             glb:'assets/models/mosswolf.glb', glbHeight:0.95, barH:1.35, skinnedRig:true, animDriver:'wolf',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[10,40],p:0.9}, {id:'raw_perch',q:1,p:0.25}, {id:'wood_shield',q:1,p:0.08}, {id:'bronze_helm',q:1,p:0.06} ]},
   fenwretch:{name:'Fenwretch', level:15, hp:30, att:14, str:13, def:12, aBonus:8,  sBonus:8,  dBonus:10, dStab:11, dSlash:8, dCrush:12, speedTicks:4, color:0x57456b, size:1.1, aggro:true, respawn:25, body:'brute', atype:'crush',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[30,90],p:1}, {id:'iron_sword',q:1,p:0.05}, {id:'bronze_plate',q:1,p:0.08}, {id:'bronze_legs',q:1,p:0.08} ]},
@@ -267,6 +268,13 @@ const NPC_TYPES = {
              drops:[ {id:'big_bones',q:1,p:1}, {id:'coins',q:[500,1200],p:1}, {id:'veyrite_sword',q:1,p:0.08},
                      {id:'veyrite_sabre',q:1,p:0.05}, {id:'aurel_platebody',q:1,p:0.12}, {id:'gale_longbow',q:1,p:0.05},
                      {id:'nature_rune',q:[6,16],p:0.7}, {id:'fire_rune',q:[10,30],p:0.8}, {id:'fen_charm',q:1,p:0.3} ]},
+  giant_mole:{name:'Giant Mole', level:46,
+             examine:"It undermines the whole kingdom, one burrow at a time.",
+             hp:110, att:38, str:40, def:35, aBonus:18, sBonus:22, dBonus:24, dStab:22, dSlash:12, dCrush:26,
+             speedTicks:5, color:0x5a4234, size:2.4, aggro:false, respawn:60, atype:'crush',
+             glb:'assets/models/giant_mole.glb', glbHeight:2.5, barH:3.0, skinnedRig:true, animDriver:'mole',
+             drops:[ {id:'big_bones',q:1,p:1}, {id:'coins',q:[150,400],p:1}, {id:'beast_hide',q:[1,3],p:0.8},
+                     {id:'steel_sabre',q:1,p:0.06}, {id:'nature_rune',q:[4,10],p:0.5}, {id:'fen_charm',q:1,p:0.2} ]},
 
   /* ---- new mobs (reuse existing models/bodies) ---- */
   // Emberwood (west forest, low threat): a tusked forest hog. Bristled hide parts to a slash.

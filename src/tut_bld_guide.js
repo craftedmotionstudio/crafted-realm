@@ -191,16 +191,16 @@
     { const F=(name,lx,lz,ry,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
         p.position.set(lx,0.1,lz); if(ry) p.rotation.y=ry;
         p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(p); return p; };
-      // a long banquet table (three tops in a row) on a runner rug, in the back half
+      // Mixar hero props (sprint 2026-07-08): ONE laden feast table (candles/roast baked in)
+      // replaces the three-kit-table run + candles; stone fireplace replaces the primitive hearth
+      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,0.05,lz);
+        if(r) p.rotation.y=r; G.add(p); return p; };
       F('rug', 0, -2.6);
-      for(const tx of [-2.3,0,2.3]) F('table', tx, -2.6, 0);
+      GP('assets/models/tut_banquettable.glb', 1.1, 0, -2.6, 0);
       // chairs: three along the far (-z) side, two on the near side (centre left open for the door)
       for(const cxs of [-2.3,0,2.3]) F('chair', cxs, -3.35, 0);
       for(const cxs of [-2.3,2.3])   F('chair', cxs, -1.85, Math.PI);
-      // candles marching down the table centreline (the middle one lit)
-      for(let i=0;i<3;i++){ const tc=tableCandle(i===1); tc.position.set(-1.4+i*1.4,0.66,-2.6); G.add(tc); }
-      // a hearth on the west wall, wall shelves on the east wall, a shelf on the back wall
-      F('hearth', -6.3, 2.6, Math.PI/2);
+      GP('assets/models/tut_fireplace.glb', 2.2, -6.0, 2.6, Math.PI/2);
       F('shelf',   6.3, -1.6, -Math.PI/2);
       F('shelf',   6.3,  1.4, -Math.PI/2);
       F('shelf',  -4.6, -4.85, 0);

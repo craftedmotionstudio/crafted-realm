@@ -215,13 +215,14 @@
         p.position.set(lx,0.1,lz); if(r) p.rotation.y=r;
         p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); C.add(p); return p; };
       F('rug', 0, 1.4);
-      // table + four chairs toward the +z end (away from the north door)
-      F('table', 0, 2.4, 0);
+      // Mixar hero props (sprint 2026-07-08): map-strewn quest table (replaces kit table+candles)
+      // + a parchment notice board against the west wall facing the room
+      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,0.05,lz);
+        if(r) p.rotation.y=r; C.add(p); return p; };
+      GP('assets/models/tut_maptable.glb', 1.1, 0, 2.4, 0);
+      GP('assets/models/tut_questboard.glb', 2.0, -4.6, 2.2, Math.PI/2);
       F('chair', 0, 1.5, 0); F('chair', 0, 3.3, Math.PI);
       F('chair', -1.3, 2.4, Math.PI/2); F('chair', 1.3, 2.4, -Math.PI/2);
-      // two candlesticks on the table (one lit)
-      const c1=tableCandle(true);  c1.position.set(-0.35,0.72,2.4); C.add(c1);
-      const c2=tableCandle(false); c2.position.set(0.35,0.72,2.4); C.add(c2);
       // hearth at the base of the east-wall chimney
       F('hearth', 5.7, 1.4, -Math.PI/2);
       // bookshelves on the west wall

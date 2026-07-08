@@ -182,10 +182,12 @@
         p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(p); return p; };
       // a counter run along the back wall (-z)
       for(const cx of [-3.2,-2.0,-0.8,0.4]) F('counter', cx, -4.2, 0);
-      // an interior hearth/oven on the west wall + a prep table with crockery + a stool
-      F('hearth', -5.7, -1.0, Math.PI/2);
-      F('table', 1.6, -1.0, 0);
-      F('pottery', 1.6, -1.0, 0, {y:0.66});
+      // Mixar hero props (sprint 2026-07-08): generated stone bread oven on the west wall +
+      // a laden prep table — replaces the primitive hearth/table/pottery trio
+      const GP=(url,h,lx,lz,r)=>{ const p=makeGlbModel(url,{height:h}); p.position.set(lx,0.05,lz);
+        if(r) p.rotation.y=r; G.add(p); return p; };
+      GP('assets/models/tut_oven.glb', 1.9, -5.4, -1.0, Math.PI/2);
+      GP('assets/models/tut_preptable.glb', 1.1, 1.6, -1.0, 0);
       F('stool', 1.6, 0.1, 0);
       // shelves with crockery/food on the east wall
       F('shelf', 5.7, -0.4, -Math.PI/2);
