@@ -374,9 +374,8 @@ const Buildkit = {
       const ax=lx + (x>lx?0.8:-0.8), az=lz + (z>lz?0.8:-0.8);
       Planes.addClimb({x:lx, z:lz, h:h+0.3, name:'Ladder',
         up:{plane:1, x:ax, z:az}, down:{plane:0, x:ax, z:az}});
-      // upper storey + roof visible from outside; when ON plane 1, roof lifts via rule
-      Planes.addVisibilityRule(it && it.roof ? it.roof : new THREE.Group(),
-        p => p<1 ? true : false);   // hide roof while you're upstairs (or higher)
+      // roof visibility is owned SOLELY by the game5 roof-lift loop (plane-aware since
+      // 2026-07-08) — a Planes rule here used to fight it every frame and strand the band
       g.userData._buildkit={floors, floor};
     }
     return g;

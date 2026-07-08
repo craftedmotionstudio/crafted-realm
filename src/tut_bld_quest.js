@@ -211,10 +211,11 @@
 
     // --- COZY LODGE INTERIOR: door is on -z (north); table sits toward +z away from the
     //     door, so the entry lane stays clear. Pieces are decorative (no floor colliders). ---
-    { // walk surface inside = the Holm LEVEL-PAD slab, world top 2.46 (measured in-engine
-      // 2026-07-08; see tut_bld_chef note) — seat interior pieces on it, not on gy()
-      const PAD_TOP=2.46;
-      const iy=(lx,lz)=>PAD_TOP+0.05-baseY;
+    { // seat each piece on the terrain at ITS OWN world spot — the walk surface is the flattened
+      // Holm terrain (see tut_bld_chef note; the "pad slab" was the belt-course CEILING band)
+      const iy=(lx,lz)=>{ const cs=Math.cos(rot||0), sn=Math.sin(rot||0);
+        const wx=x+cs*lx+sn*lz, wz=z-sn*lx+cs*lz;
+        return ((typeof gyf==='function')?gyf(wx,wz):0) - baseY + 0.05; };
       const F=(name,lx,lz,r,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
         p.position.set(lx,iy(lx,lz),lz); if(r) p.rotation.y=r;
         p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); C.add(p); return p; };

@@ -640,13 +640,16 @@ function update(dt){
     }
   }
   // roofs lift away while you stand inside — or everywhere, when the settings toggle says so
-  for(const it of WORLD.interiors){
-    const inside = Math.abs(player.position.x-it.x)<it.hw && Math.abs(player.position.z-it.z)<it.hd;
-    const want = !inside && !WORLD.roofsOff;
-    if(it.roof.visible!==want){ it.roof.visible=want; if(it.band) it.band.visible=want;
-      // storey-2 shell (walls + ceiling slab) lifts with the roof — but only while the player is
-      // on the GROUND plane; upstairs it must stay (it's the floor underfoot)
-      if(it.storey2 && ((typeof Player!=='undefined'&&Player.plane)||0)===0) it.storey2.visible=want;
+  // SINGLE AUTHORITY for interior visibility, set unconditionally every frame (a transition
+  // guard left it.band stale, and a per-frame Planes rule used to fight it.roof — 2026-07-08):
+  //  - roof + band (the solid belt-course slab that was hiding the player) lift while inside
+  //  - storey-2 shell lifts too on the ground plane; upstairs it must stay (floor underfoot)
+  { const pl=((typeof Player!=='undefined'&&Player.plane)||0);
+    for(const it of WORLD.interiors){
+      const inside = Math.abs(player.position.x-it.x)<it.hw && Math.abs(player.position.z-it.z)<it.hd;
+      const want = !inside && !WORLD.roofsOff && pl<1;
+      it.roof.visible=want; if(it.band) it.band.visible=want;
+      if(it.storey2) it.storey2.visible = want || pl>=1;
     }
   }
   _runUiT=(_runUiT||0)+dt; if(_runUiT>0.5){ _runUiT=0; UI.refreshRun();
@@ -774,16 +777,21 @@ function showEnterBuffer(){
   // burst on the first `running` ticks (a real render freeze); rAF stalls during it and resumes after.
   // We fade only once we've seen several consecutive smooth frames (freeze over) — with a min hold so
   // the bar animation reads and a hard cap so it can never get stuck.
-  const t0=performance.now(); let last=t0, smooth=0;
+  const t0=performance.now(); let last=t0, smooth=0, done=false;
+  const hide=()=>{ if(done) return; done=true; ov.style.opacity='0'; setTimeout(()=>{ ov.style.display='none'; }, 650); };
   function settleWatch(){
+    if(done) return;
     const now=performance.now(), dt=now-last; last=now;
     if(dt<45) smooth++; else smooth=0;                    // <45ms = a clean frame
     const elapsed=now-t0;
-    const ready = (elapsed>1500 && smooth>=8) || elapsed>6000;   // stabilized, or hard cap 6s
-    if(ready){ ov.style.opacity='0'; setTimeout(()=>{ ov.style.display='none'; }, 650); }
+    if((elapsed>1500 && smooth>=8) || elapsed>6000) hide();   // stabilized, or hard cap 6s
     else requestAnimationFrame(settleWatch);
   }
   requestAnimationFrame(settleWatch);
+  // rAF freezes when Chrome occludes the window WITHOUT setting document.hidden (observed
+  // 2026-07-08: minimized/covered window, hidden=false, rAF 0fps) — the watch then never runs
+  // and the cover sticks forever. Wall-clock fallback guarantees the hide.
+  setTimeout(hide, 6800);
 }
 document.getElementById('play-btn').onclick = ()=>{
   // music is opt-in: only resume if the player turned it on before (keeps debug loads silent)

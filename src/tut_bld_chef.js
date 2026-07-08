@@ -177,11 +177,12 @@
 
     // --- RICH KITCHEN INTERIOR: door on +z; keep the x∈[-1,1] entry lane clear.
     //     All pieces decorative (no colliders block the floor). ---
-    { // the walk surface inside is the Holm LEVEL-PAD slab (world top 2.56, measured in-engine
-      // 2026-07-08) — NOT gy() and NOT the buried shell floor. Seating to gy() hid this whole
-      // interior for months. If the Holm terrain is ever re-sculpted, re-measure the slab.
-      const PAD_TOP=2.56;
-      const iy=(lx,lz)=>PAD_TOP+0.05-baseY;
+    { // seat each piece on the terrain at ITS OWN world spot — the walk surface is the flattened
+      // Holm terrain (the "pad slab" we briefly seated on was actually the belt-course band, a
+      // CEILING that now lifts with the roof — see game5 roof-lift, 2026-07-08)
+      const iy=(lx,lz)=>{ const cs=Math.cos(rot||0), sn=Math.sin(rot||0);
+        const wx=x+cs*lx+sn*lz, wz=z-sn*lx+cs*lz;
+        return ((typeof gy==='function')?gy(wx,wz):0) - baseY + 0.05; };
       const F=(name,lx,lz,r,opt)=>{ const p=Buildkit.furniture[name](Buildkit,opt);
         p.position.set(lx,iy(lx,lz),lz); if(r) p.rotation.y=r;
         p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(p); return p; };
