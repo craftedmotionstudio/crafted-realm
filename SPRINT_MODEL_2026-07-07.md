@@ -63,10 +63,13 @@ crude procedural bodies. Wire via `glb`/`animDriver` on the NPC_TYPES entry (mol
 - [ ] goblin (gnarlgob) — humanoid-ish, may use simple rig
 - [ ] skeleton (skeleton, cinder_shade) — humanoid
 - [ ] bogling (bogling)
-- [~] wolf — **mosswolf DONE & LIVE** (mosswolf.glb, axis-aware quad rig, fx_wolf.js driver,
-      NPC wired glb/animDriver:'wolf', smoke PASS). Facing yaw computed (+PI/2, body-on-X head +X) —
-      **confirm no moonwalk when seen moving next session**, then reuse the SAME glb for
-      thornboar/dust_jackal/ash_stalker via recolor or per-type gen.
+- [x] wolf — **mosswolf DONE, LIVE & FACING-VERIFIED** (mosswolf.glb, axis-aware quad rig,
+      fx_wolf.js driver, NPC wired glb/animDriver:'wolf'). Moonwalk check PASSED 2026-07-08 s2:
+      root yaw == heading (0° diff across 13 moving samples) AND eyes-on in the Menagerie — head
+      leads in both travel directions. Next: reuse the SAME glb for thornboar/dust_jackal/
+      ash_stalker via recolor or per-type gen (blocked on credits).
+      (Menagerie quirk found: pen-wander gets stuck when an exhibit hugs a fence — collides()
+      resets wanderT in a 0.1s loop until a lucky direction; cosmetic, review-lab only.)
 - [ ] crab (duneclaw)
 - [ ] crawler (deep_crawler, grubkin, quarry_crawler)
 - [ ] brute (oathbreaker, fenwretch, fenlord, korthul)
@@ -91,10 +94,14 @@ consts in those files) while guide/mage use flattened terrain (per-item gy seati
 been INVISIBLE (buried) in these buildings for months. Chef verified GORGEOUS in-game; quest same
 pattern. (2) 2-storey Buildkit buildings NEVER showed their ground interior — roof lifted but the
 storey-2 shell + ceiling slab stayed. FIXED: buildkit registers `it.storey2`, game5 roof-lift
-toggles it on plane 0. (3) STILL OPEN: mage tower's CUSTOM tower shaft (tut_bld_mage's own
-geometry) still blocks its interior view; guide hall unverified — both need a per-building
-visibility rule / camera check next session. When re-measuring pads: query full-footprint
-BoxGeometry slabs in-engine (see MIXAR_WORKFLOW.md §5 patterns).
+toggles it on plane 0. (3) FIXED 2026-07-08 (session 2): mage tower's custom drum/spire/banners now
+live in an `OH` overhead group registered as `it.overhead` on the interior entry; game5 roof-lift
+toggles `it.overhead.visible = want` (same rule as the roof). Verified in-game by REAL walk-in:
+interior fully visible inside (desk/rugs/shelves/orb-stand read clearly), turret+spire return when
+stepping out. Guide hall verified same pass: roof+storey2 lift, banquet table + fireplace hero
+props read beautifully, facing/seating good. `it.overhead` is now the generic hook for any
+building whose character geometry rises above its shell roof. When re-measuring pads: query
+full-footprint BoxGeometry slabs in-engine (see MIXAR_WORKFLOW.md §5 patterns).
 Blend: scratchpad/tut_props_batch.blend. PENDING POLISH: per-prop facing/offset check with a proper
 interior camera view (props' concept "front" is arbitrary; rotate by eye), and brightness check.
 Batch lessons: (a) imagegen at 1:1 keeps the BASE image name (no .001 — only 2:3 does .001);
@@ -132,3 +139,17 @@ ref_dock, ref_townpool, ref_fountain.
 - NEXT UP (interleave): v03 Hollow Mage + chicken/rat pair → then v09/v04 + cow/crab, etc. Humanoid
   chain is one scripted pass/asset now (~20-25 min incl. gen); beasts need per-archetype fx driver
   (wolf/mole exist; crawler/brute/chicken/rat/cow/crab/goblin/skeleton/bogling to write, ~40 lines each).
+- 2026-07-08 (session 2, Fable): **mage-tower overhead fix + guide-hall verify + mosswolf facing
+  verify — the no-credit queue items.** `it.overhead` roof-lift hook added (game5 + tut_bld_mage);
+  both remaining tut interiors verified in-game by real walk-in. Mosswolf: no moonwalk (numeric +
+  eyes-on). Validator PASS 43-test structural suite PASS (run manually in-tab). **SMOKE verdict
+  FAIL on this machine today — settle 44-51s vs 12s budget + fps 23 vs 25 across 3 runs; all
+  FUNCTIONAL phases pass (boot, walk out+back, structural 43/43, zero console errors, draws/tris
+  ~60% under budget).** Assessed environmental (the very first MANUAL login today froze the
+  renderer ~40s during world build, before any smoke run; machine under harness load). Two smoke-
+  harness debts found: (a) CR_smoke script-load race under load ("not a function" then loads fine),
+  (b) settleMs isn't wall-clock-safe when the main thread stalls (recorded 51s with ok:true on a
+  20s waitFor). FOUND (pre-existing, unfixed): the Holm's stream is baked near-BLACK into the
+  terrain by the map-PNG bake (no water mesh) — runs through the plaza + under the mage tower;
+  needs a water/recolor pass. Also a tree pokes through the mage tower's E wall (footprint sweep
+  missed it).

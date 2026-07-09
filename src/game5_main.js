@@ -650,6 +650,8 @@ function update(dt){
       const want = !inside && !WORLD.roofsOff && pl<1;
       it.roof.visible=want; if(it.band) it.band.visible=want;
       if(it.storey2) it.storey2.visible = want || pl>=1;
+      // custom above-roof geometry (e.g. the mage tower's drum+spire) follows the roof
+      if(it.overhead) it.overhead.visible = want;
     }
   }
   _runUiT=(_runUiT||0)+dt; if(_runUiT>0.5){ _runUiT=0; UI.refreshRun();

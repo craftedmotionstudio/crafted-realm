@@ -66,6 +66,7 @@
 
     // 1) FUNCTIONAL SHELL: proven walkable 2-storey stone box (door on W, faces out).
     //    interior:'house' furnish dropped — a bespoke wizard-study interior added below
+    const _iIdx=(typeof WORLD!=='undefined'&&WORLD.interiors)?WORLD.interiors.length:-1;
     if(typeof Buildkit!=='undefined')
       Buildkit.house({x, z, w:W, d:D, floors:2, doorSide:'W', color:0x8a8a96,
         roofColor:0x6a6a80, shellOpts:{wall:'stone'}});
@@ -77,42 +78,48 @@
     G.rotation.y = rot;
     const add=(m)=>{ m.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(m); return m; };
 
+    // OVERHEAD group: everything at/above the shell roof (drum, spire, banners…) lives
+    // here so the roof-lift can hide it with the roof — otherwise the turret blocks the
+    // top-down camera and the ground interior is invisible from inside (bug, 2026-07-08)
+    const OH = new THREE.Group(); G.add(OH);
+    const addOH=(m)=>{ m.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); OH.add(m); return m; };
+
     // ---- the TALL stone drum: an octagonal turret rising up through the roof ----
     const drumBaseY = STH*2 - 1.1, drumH = 5.0, R = 2.0;
     const drumTopY  = drumBaseY + drumH;
     const drum=new THREE.Mesh(new THREE.CylinderGeometry(R, R+0.25, drumH, 8),
       (typeof TEX!=='undefined'&&TEX.stone)?new THREE.MeshLambertMaterial({map:TEX.stone,color:STONE_D}):mat(STONE_D));
-    drum.position.y=drumBaseY+drumH/2; add(drum);
+    drum.position.y=drumBaseY+drumH/2; addOH(drum);
     // cornice ring + merged battlement crenellations (high count -> one mesh)
     const cornice=new THREE.Mesh(new THREE.CylinderGeometry(R+0.35,R+0.3,0.35,8), mat(CORNICE));
-    cornice.position.y=drumTopY+0.15; add(cornice);
+    cornice.position.y=drumTopY+0.15; addOH(cornice);
     { const merlG=[], nM=8;
       for(let i=0;i<nM;i++){ const a=(i/nM)*Math.PI*2;
         const bg=new THREE.BoxGeometry(0.42,0.5,0.42);
         bg.rotateY(-a); bg.translate(Math.cos(a)*(R+0.2), drumTopY+0.55, Math.sin(a)*(R+0.2));
         merlG.push(bg); }
       const m = mergeFn ? new THREE.Mesh(mergeFn(merlG,false), mat(CORNICE)) : null;
-      if(m) add(m); else merlG.forEach(bg=>add(new THREE.Mesh(bg, mat(CORNICE))));
+      if(m) addOH(m); else merlG.forEach(bg=>addOH(new THREE.Mesh(bg, mat(CORNICE))));
     }
 
     // ---- the CONICAL SPIRE + glowing crystal finial (1 of 2 PointLights) ----
     const spireBaseY=drumTopY+0.4, spireH=4.4;
     const spire=new THREE.Mesh(new THREE.ConeGeometry(R+0.45, spireH, 8), mat(SPIRE));
-    spire.position.y=spireBaseY+spireH/2; add(spire);
+    spire.position.y=spireBaseY+spireH/2; addOH(spire);
     // banding rings down the spire for detail
     for(let i=1;i<=3;i++){ const f=i/4, rr=(R+0.45)*(1-f);
       const ring=new THREE.Mesh(new THREE.CylinderGeometry(rr+0.05,rr+0.1,0.08,8), mat(0x2a2648));
-      ring.position.y=spireBaseY+f*spireH; add(ring); }
+      ring.position.y=spireBaseY+f*spireH; addOH(ring); }
     const tipY=spireBaseY+spireH;
     const finial=new THREE.Mesh(new THREE.IcosahedronGeometry(0.42,0), emis(GLOW));
-    finial.position.y=tipY+0.35; add(finial);
-    const fLight=new THREE.PointLight(GLOW, 0.6, 8); fLight.position.y=tipY+0.35; G.add(fLight);
+    finial.position.y=tipY+0.35; addOH(finial);
+    const fLight=new THREE.PointLight(GLOW, 0.6, 8); fLight.position.y=tipY+0.35; OH.add(fLight);
 
     // ---- round glowing-blue windows around the drum (4, face outward) ----
     for(let i=0;i<4;i++){ const a=(i/4)*Math.PI*2 + Math.PI/8;
       const w=roundWindow(0.44);
       w.position.set(Math.cos(a)*(R+0.02), drumBaseY+drumH*0.55, Math.sin(a)*(R+0.02));
-      w.rotation.y=-a+Math.PI/2; add(w); }
+      w.rotation.y=-a+Math.PI/2; addOH(w); }
 
     // ---- embedded RUNE glyphs + a wall CRYSTAL on the main shell (mystical accents) ----
     const runeAt=(lx,ly,lz,ry,col)=>{ const q=new THREE.Mesh(new THREE.PlaneGeometry(0.6,0.6), glow(col));
@@ -139,7 +146,7 @@
 
     // ---- star/moon BANNERS hanging from the cornice (N & S drum faces) ----
     for(const s of [1,-1]){ const b=banner();
-      b.position.set(0, drumTopY-0.1, s*(R+0.32)); if(s<0) b.rotation.y=Math.PI; add(b); }
+      b.position.set(0, drumTopY-0.1, s*(R+0.32)); if(s<0) b.rotation.y=Math.PI; addOH(b); }
 
     // ---- orb-on-a-post BRAZIER flanking the W door (2nd/last PointLight) ----
     { const px=-(HW+0.6), pz=-1.5;   // just outside the W wall, flanking (not blocking) the door gap
@@ -183,6 +190,10 @@
         const oli=new THREE.PointLight(GLOW,0.5,5); oli.position.y=1.28; stand.add(oli);
         stand.position.set(-0.4,iy(-0.4,2.4),2.4); stand.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); G.add(stand); }
     }
+
+    // register the overhead turret on OUR interior entry so the roof-lift hides it
+    // together with the roof whenever the player is inside (game5_main roof loop)
+    if(_iIdx>=0){ const it=WORLD.interiors[_iIdx]; if(it) it.overhead=OH; }
 
     if(typeof scene!=='undefined') scene.add(G);
     return G;
