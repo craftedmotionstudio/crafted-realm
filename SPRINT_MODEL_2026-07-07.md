@@ -132,11 +132,22 @@ ref_fountain (commons already runs the fountain.glb pipeline asset — deploy el
       first; boat channel between pier and wharf open). Eyes-on PASS from game camera.
       POLISH NOTE: the inlet's sandbar tiles render as green GRASS under parts of the deck
       (biome-paint, not placement) — a sand/shore repaint pass under the harbour would sell it.
-- [ ] Deploy remaining: ref_bld1 tower tavern / ref_bld2 L-manor / ref_bld4 clock-manor
-      (landmark spots need the bible map consult), ref_townpool (needs a non-commons plaza —
-      commons centre is already the fountain.glb), ref_churchinterior (13×19 standalone nave —
-      REDESIGN needed to fit the live 10.5×6 ref church, not a drop-in), ref_bankbasement
-      (needs planes/ladder wiring)
+- [~] **BATCH 3 DONE 2026-07-08 s2 (map consult):** the bible map runs ONE road commons east
+      gate → keep west bridge (fork SE to Proving Grounds); no road biome exists in the
+      worldgrid (roads are visual only). New src/keep_road.js deploys BOTH road landmarks:
+      ref_bld1 clock-tower TAVERN at the fork (42,9 rotπ/2 door north — its square rect is
+      rot-safe) + ref_bld2 L-MANOR on the keep approach (43,-13 rot0 door south, clear of the
+      moat wall strips at x>50.8). Meadow undulates ~1.4 → both re-seat on their LOWEST probed
+      corner (never float). Eyes-on PASS; structural 43/43; 0 errors.
+      **INCIDENT: the saved adventurer got RESET** during login automation (a blind click hit
+      "Reset saved adventurer"); no backup key exists in localStorage. Lost character was
+      minimal (cb-3, EMPTY bank vault, ~75 consumables) but tell the user. Always click
+      play-btn via DOM, never by screen coords.
+- [ ] Deploy remaining: ref_bld4 clock-manor (NO map anchor found — the quarry icon is a
+      Dungeon Entrance, not a hall; parked for the user's call), ref_townpool (needs a
+      non-commons plaza — commons centre is already the fountain.glb), ref_churchinterior
+      (13×19 standalone nave — REDESIGN needed to fit the live 10.5×6 ref church, not a
+      drop-in), ref_bankbasement (needs planes/ladder wiring)
 - [ ] Author new type-specific structures where none exist (extra cottages, mill superstructure,
       smithy/warehouse exteriors, Gloomfen stilt houses, faction architecture)
 - [ ] Replace remaining crude makeBuilding/makeHut boxes (Whitmoor keep/bank/inn row in
