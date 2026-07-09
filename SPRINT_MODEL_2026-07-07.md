@@ -127,10 +127,16 @@ ref_fountain (commons already runs the fountain.glb pipeline asset — deploy el
       — deploy at rot 0/π only, or teach them the ref_bank turned-rect fix first.
       Gates: validator PASS, structural 43/43, banking flow driven end-to-end. Smoke budgets
       still env-FAIL (settle 82s this run, 0 errors — same machine-load pattern all session).
+- [~] **BATCH 2 DONE 2026-07-08 s2:** ref_dock WHARF live at Saltreach Port (234,54 rot0,
+      deck shore→sea, T-arm across the inlet mouth; shoreline + arm water probed in-engine
+      first; boat channel between pier and wharf open). Eyes-on PASS from game camera.
+      POLISH NOTE: the inlet's sandbar tiles render as green GRASS under parts of the deck
+      (biome-paint, not placement) — a sand/shore repaint pass under the harbour would sell it.
 - [ ] Deploy remaining: ref_bld1 tower tavern / ref_bld2 L-manor / ref_bld4 clock-manor
-      (landmark spots need the bible map consult), ref_dock + ref_townpool (harbour/plaza),
-      ref_churchinterior (13×19 standalone nave — REDESIGN needed to fit the live 10.5×6
-      ref church, not a drop-in), ref_bankbasement (needs planes/ladder wiring)
+      (landmark spots need the bible map consult), ref_townpool (needs a non-commons plaza —
+      commons centre is already the fountain.glb), ref_churchinterior (13×19 standalone nave —
+      REDESIGN needed to fit the live 10.5×6 ref church, not a drop-in), ref_bankbasement
+      (needs planes/ladder wiring)
 - [ ] Author new type-specific structures where none exist (extra cottages, mill superstructure,
       smithy/warehouse exteriors, Gloomfen stilt houses, faction architecture)
 - [ ] Replace remaining crude makeBuilding/makeHut boxes (Whitmoor keep/bank/inn row in

@@ -46,6 +46,14 @@
     if(typeof makeRefPier==='function'){
       const p=makeRefPier(228, 52.5, 0); p.position.y=-0.55; G.add(p);
     } else pier(228, 52.5, 65);
+    // Track C deploy (2026-07-08): the Port+Dock.jpg WHARF is the port's main dock,
+    // east of the long pier — deck runs shore→sea at x=234 (land ends z54 gy .21,
+    // water z55+, probed in-engine), the railed return arm crosses the inlet mouth
+    // eastward over real water (z66-68 depths -0.4..-2.2). The rowboat channel
+    // between pier and wharf stays open — "room for ships".
+    if(typeof makeRefDock==='function'){
+      const d=makeRefDock(234, 54, 0); d.position.y=-0.55; G.add(d);
+    }
     // a boat riding the harbour water beside it
     if(typeof makeRowboat==='function'){
       const b1=makeRowboat(230.4, 62.5, 1.2); b1.position.y=-1.72;
