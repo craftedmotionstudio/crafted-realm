@@ -85,6 +85,24 @@
       PLACE.forEach((p,i)=>{ anchors[p.k]={x:p.x, z:p.z};
         setTimeout(()=>{ try{ window[p.fn](p.x, p.z, 0); }catch(e){ console.error('[tutorial_island] build '+p.fn, e); } }, i*50); });
       window.TUTORIAL_ISLAND.buildings=anchors;   // for later station/NPC wiring
+      // biome scatter planted trees BEFORE these buildings existed — two stood inside the
+      // mage tower (canopy through the east wall). Sweep vegetation out of every footprint:
+      // scene + clickables/resources + its circle collider (church-sweep pattern, 66c4e47).
+      const sweepVeg=()=>{ try{ let n=0;
+        for(let i=scene.children.length-1;i>=0;i--){ const o=scene.children[i], u=o.userData||{};
+          if(u.rtype!=='tree' && u.rtype!=='bush') continue;
+          const px=o.position.x, pz=o.position.z;
+          if(!PLACE.some(p=>Math.abs(px-p.x)<p.w/2+0.8 && Math.abs(pz-p.z)<p.d/2+0.8)) continue;
+          scene.remove(o); n++;
+          for(const arr of [WORLD.clickables, WORLD.resources]){ const j=arr.indexOf(o); if(j>=0) arr.splice(j,1); }
+          for(let j=WORLD.colliders.length-1;j>=0;j--){ const c=WORLD.colliders[j];
+            if(c.type==='circle' && Math.abs(c.x-px)<0.6 && Math.abs(c.z-pz)<0.6) WORLD.colliders.splice(j,1); }
+        }
+        if(n && typeof CollisionGrid!=='undefined' && CollisionGrid.baked)
+          PLACE.forEach(p=>CollisionGrid.rebakeArea(p.x, p.z, Math.max(p.w,p.d)/2+2));
+        if(n) console.log('[tutorial_island] swept '+n+' scatter trees/bushes out of building footprints');
+      }catch(e){ console.error('[tutorial_island] sweepVeg', e); } };
+      setTimeout(sweepVeg, 2000); setTimeout(sweepVeg, 8000);   // re-run for late scatter
       done=true; clearInterval(iv);
       console.log('[tutorial_island] PHASE2 queued '+PLACE.length+' characterful buildings (staggered)');
     }catch(e){ console.error('[tutorial_island] PHASE2', e); clearInterval(iv); }
