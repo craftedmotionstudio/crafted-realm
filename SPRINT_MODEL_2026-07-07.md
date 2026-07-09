@@ -115,12 +115,26 @@ still works fine (no credits needed).
 ## TRACK C — Buildings (mostly deploy existing ref-builds + a few new)
 NOT Mixar-generation — procedural ref-builds. Largely a placement/wiring pass.
 Dormant ref-builds authored but not deployed: ref_bld1 (tower tavern), ref_bld2 (L-manor),
-ref_bld3 (farmhouse), ref_bld4 (clock-manor), ref_bank, ref_bankbasement, ref_churchinterior,
-ref_dock, ref_townpool, ref_fountain.
-- [ ] Deploy dormant ref-builds into towns (swap crude Buildkit boxes) — placement + colliders
+ref_bld4 (clock-manor), ref_bankbasement, ref_churchinterior, ref_dock, ref_townpool,
+ref_fountain (commons already runs the fountain.glb pipeline asset — deploy elsewhere or skip).
+- [~] Deploy dormant ref-builds — **BATCH 1 DONE 2026-07-08 s2:**
+      (a) ref_bank BOOTH live everywhere via delegation (makeBankBooth → makeRefBank when
+      loaded, rowboat pattern) — commons + Whitmoor + Holm all upgraded in one wire; bank UI
+      opened through it in-game (real click). Rot-aware blocking rect added to ref_bank.
+      (b) ref_bld3 FARMHOUSE deployed at Olun's Mill farm (-60.5,30 rot0, door → yard); pad
+      probed flat/dry/collider-free in-engine first; bounds verified vs windmill/stream/field;
+      door lane computePath-reachable. NOTE for bld1/2/4: their blocking rects are AXIS-ALIGNED
+      — deploy at rot 0/π only, or teach them the ref_bank turned-rect fix first.
+      Gates: validator PASS, structural 43/43, banking flow driven end-to-end. Smoke budgets
+      still env-FAIL (settle 82s this run, 0 errors — same machine-load pattern all session).
+- [ ] Deploy remaining: ref_bld1 tower tavern / ref_bld2 L-manor / ref_bld4 clock-manor
+      (landmark spots need the bible map consult), ref_dock + ref_townpool (harbour/plaza),
+      ref_churchinterior (13×19 standalone nave — REDESIGN needed to fit the live 10.5×6
+      ref church, not a drop-in), ref_bankbasement (needs planes/ladder wiring)
 - [ ] Author new type-specific structures where none exist (extra cottages, mill superstructure,
       smithy/warehouse exteriors, Gloomfen stilt houses, faction architecture)
-- [ ] Replace remaining crude makeBuilding/makeHut boxes
+- [ ] Replace remaining crude makeBuilding/makeHut boxes (Whitmoor keep/bank/inn row in
+      game4_ui.js populateWhitmoor is LIVE crude-box territory — good batch-2 target)
 
 ---
 

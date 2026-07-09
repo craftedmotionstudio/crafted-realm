@@ -16,6 +16,11 @@
     // the miller's cottage, furnished
     Buildkit.house({x:M.x+7, z:M.z+1, w:5, d:4.5, doorSide:'W',
       color:0xc9b28a, roofColor:0x7a5838, roof:'gable', interior:'house'});
+    // Track C deploy (2026-07-08): the Building_Exterior_Option3 white-plaster
+    // FARMHOUSE anchors the holding NW of the yard — door (+Z face) opens toward
+    // the yard/wheat rows. rot 0 only: its blocking rects are axis-aligned.
+    // Pad probed flat/dry/collider-free in-engine before placement.
+    if(typeof makeRefBld3==='function') scene.add(makeRefBld3(M.x-8.5, M.z-10, 0));
     // the wheat: fenced rows south-west of the sails
     if(typeof makeWheatField==='function') makeWheatField(M.x-7.4, M.z+3.4, M.x-2.6, M.z+7.4);
     if(typeof makeFurrows==='function') makeFurrows(M.x-7.4, M.z+3.4, M.x-2.6, M.z+7.4);

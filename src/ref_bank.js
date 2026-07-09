@@ -213,7 +213,11 @@
     if(typeof scene!=='undefined' && scene && scene.add) scene.add(g);
     if(typeof WORLD!=='undefined' && WORLD){
       if(WORLD.clickables) WORLD.clickables.push(g);
-      if(WORLD.colliders)  WORLD.colliders.push({type:'rect', x, z, hw:1.12, hd:0.52});
+      // blocking rect follows the booth's yaw: counters placed at ±90° run along Z
+      const turned = Math.abs(Math.sin(rot)) > 0.707;
+      if(WORLD.colliders)  WORLD.colliders.push(turned
+        ? {type:'rect', x, z, hw:0.52, hd:1.12}
+        : {type:'rect', x, z, hw:1.12, hd:0.52});
     }
     return g;
   };

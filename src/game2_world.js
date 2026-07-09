@@ -1045,6 +1045,10 @@ function makeFurnace(x,z){
   return g;
 }
 function makeBankBooth(x,z,rotY){
+  // asset-replacement rule (Track C, 2026-07-08): the Bank.jpg reference booth
+  // (ref_bank.js) is the visual for EVERY bank booth when loaded. Same contract:
+  // kind:'bank' clickable, blocking rect, gy seat — the box booth stays as fallback.
+  if(typeof makeRefBank==='function') return makeRefBank(x, z, rotY||0);
   const g=new THREE.Group();
   const counter=new THREE.Mesh(new THREE.BoxGeometry(1.9,1.05,0.8), mat(0x6b4a2f));
   counter.position.y=0.52; g.add(counter);
