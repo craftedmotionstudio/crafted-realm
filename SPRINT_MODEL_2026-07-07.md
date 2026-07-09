@@ -143,11 +143,24 @@ ref_fountain (commons already runs the fountain.glb pipeline asset — deploy el
       "Reset saved adventurer"); no backup key exists in localStorage. Lost character was
       minimal (cb-3, EMPTY bank vault, ~75 consumables) but tell the user. Always click
       play-btn via DOM, never by screen coords.
-- [ ] Deploy remaining: ref_bld4 clock-manor (NO map anchor found — the quarry icon is a
-      Dungeon Entrance, not a hall; parked for the user's call), ref_townpool (needs a
-      non-commons plaza — commons centre is already the fountain.glb), ref_churchinterior
-      (13×19 standalone nave — REDESIGN needed to fit the live 10.5×6 ref church, not a
-      drop-in), ref_bankbasement (needs planes/ladder wiring)
+- [~] **BATCHES 4+5 DONE 2026-07-08 s2:** (4) ref_bld4 CLOCK HALL = Brynholt's great hall
+      (map draws ~6 roofs, kit built 4; real geometry is WIDER than its collider table —
+      eaves+wings measured in-engine, first pick ate the NE home → final (199,-88), walls
+      clear by ~2, lowest-corner seat) + ref_townpool at Whitmoor gate plaza (-163,-105;
+      plaza slopes ~0.7 → LOW basins seat on the HIGHEST probed point or lobes bury;
+      blocking circle added — pool registers none). Map-consult corrections: the quarry
+      icon = GENERAL STORE (a missing POI — needs a furnished walk-in shop, logged), NOT a
+      dungeon entrance as first guessed. (5) **ref_bankbasement WIRED & FLOW-VERIFIED** —
+      new src/bank_basement.js (cave pattern): vault at off-map (240,300) Y-6 plane -1,
+      Planes floor + wall-collider lines mirroring the ref geometry (gate gap left OPEN so
+      storage rooms walk), trapdoor inside the Bank of Veyhollow (10.5,-15) ↔ staircase up,
+      vault BANK CHEST (kind:'bank'). REAL-FLOW pass: trapdoor click → plane -1 arrival →
+      walk → chest opens the bank UI → climb-up returns into the bank. GOTCHA: a climb
+      flush against a wall is UNCLICKABLE from the fixed camera (ray hits the wall cap) —
+      keep climbs ≥1 tile into the room. Structural 43/43 after every batch; 0 errors.
+- [ ] ref_churchinterior — DEFERRED (design work, not placement): it's a 13×19 standalone
+      nave, larger than the live ref church's 10.5×6 interior; fitting it means re-authoring
+      a banked ≥9-scored reference asset. Wants its own Studio pass + fresh Claude-eye gate.
 - [ ] Author new type-specific structures where none exist (extra cottages, mill superstructure,
       smithy/warehouse exteriors, Gloomfen stilt houses, faction architecture)
 - [ ] Replace remaining crude makeBuilding/makeHut boxes (Whitmoor keep/bank/inn row in
