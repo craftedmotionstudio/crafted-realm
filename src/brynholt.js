@@ -28,6 +28,22 @@
       color:0x94805f, roofColor:0x55636e, roof:'gable', interior:'house'});
     Buildkit.house({x:b[0]+5, z:b[1]+6.5, w:5, d:4.5, doorSide:'N',
       color:0x8f7a5c, roofColor:0x4a5a66, roof:'gable', interior:'house'});
+    // Track C deploy (2026-07-08): the bible map draws Brynholt with ~6 substantial
+    // roofs — the kit row builds 4. The Building_Exterior_Option4 CLOCK HALL deploys
+    // as the raiders' great hall on the east side (the map's big east house). rot 0
+    // ON PURPOSE (its blocking rects rotate centres but not extents); door (+Z front)
+    // faces the southern approach. Its REAL geometry spans ~x-12.5..+11 of centre
+    // (eaves + wings — measured in-engine; first pick at 192 ate the NE home), so it
+    // sits at 199: west walls clear the home by ~2, east eaves end x~210, dry land
+    // to 212 (water at 214). Frost meadow undulates ~1.2 → seats on its LOWEST corner.
+    if(typeof makeRefBld4==='function'){
+      const hall=makeRefBld4(199, -88, 0);
+      let hy=Infinity;
+      for(const [dx,dz] of [[0,0],[-6,-5],[-6,5],[10.4,-5],[10.4,5],[2,0]]){
+        const y=groundY(199+dx, -88+dz); if(y!==null) hy=Math.min(hy,y); }
+      if(hy<Infinity) hall.position.y=hy;
+      G.add(hall);
+    }
 
     /* ---- village dressing ---- */
     if(typeof makeSignpost==='function') makeSignpost(b[0]-6, b[1]+1, [

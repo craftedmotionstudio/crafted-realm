@@ -1733,6 +1733,22 @@ function populateMainland(){
   makeBuilding(-155.5,-95.5, 4,3.6,2.8, 0xe6e2d8, 0x5a6474,'W',{chimney:true, roof:'gable'});
   // lamp-lit lane flavor: braziers along the plaza
   for(const [bx,bz] of [[-167,-101],[-159,-101],[-167,-109],[-159,-109]]) makeCampfire(bx,bz);
+  // Track C deploy (2026-07-08): the Town_Square.jpg quatrefoil TOWN POOL graces the
+  // Hold's gate plaza — centred between the four braziers, south of the First
+  // Warden's statue. Footprint probed collider-free; one blocking ring keeps
+  // walkers out of the water (the pool itself registers none).
+  if(typeof makeRefTownPool==='function'){
+    const pool=makeRefTownPool(-163,-105,0);
+    // the plaza slopes ~0.7 across the footprint — a LOW basin seated at the centre
+    // buries its lobes uphill, so seat on the HIGHEST probed point (a raised stone
+    // basin reads right; rim cobbles on the low side sit proud, which stones can)
+    let py=-Infinity;
+    for(const [dx,dz] of [[0,0],[-3.2,0],[3.2,0],[0,-3.2],[0,3.2],[-2.3,-2.3],[2.3,2.3],[-2.3,2.3],[2.3,-2.3]]){
+      const y=gy(-163+dx,-105+dz); if(y!==null) py=Math.max(py,y); }
+    pool.position.y=(py>-Infinity?py:gy(-163,-105))+0.04;
+    scene.add(pool);
+    WORLD.colliders.push({type:'circle', x:-163, z:-105, r:3.2});
+  }
   // the people of Whitmoor
   spawnFriendly('whitbanker','Banker Maren', -172.7,-103, 0x39536b,'🧑‍💼');
   spawnFriendly('marblesmith','Smith Harrad', -155.5,-103.8, 0x5a4a3e,'🛠');
