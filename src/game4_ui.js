@@ -1849,15 +1849,26 @@ function populateMainland(){
             ['mahogany',-34,2],['rosewood',-40,-16],['rosewood',-36,-24]];
   for(const [sp,dx,dz] of HW) makeTree(ew[0]+dx, ew[1]+dz, sp);
 
-  // Stonereach Quarry: cliffs ring the copper rocks
+  // Stonereach Quarry: cliffs ring the copper rocks.
+  // DETERMINISTIC since 2026-07-08: random rolls re-landed decor/ore INSIDE the new
+  // Quarry Stores building on some boots (a ring cliff grew through its roof). A fixed
+  // per-index hash keeps the quarry identical every boot, and a keep-clear rect guards
+  // the store pad — outliers get pushed past the ring / slid off the pad.
   const qy=ZONES.quarry.pos;
-  for(let i=0;i<7;i++){ const a=i*0.9, r=16+Math.random()*5;
-    makeCliff(qy[0]+Math.cos(a)*r, qy[1]+Math.sin(a)*r, 2.2+Math.random()*1.8); }
+  const _qdet=(n)=>((Math.sin(n*127.1)*43758.55)%1+1)%1;
+  const QSTORE={x:132, z:-4, hw:4.6, hd:5.0};
+  const _qclear=(x,z)=>!(Math.abs(x-QSTORE.x)<QSTORE.hw && Math.abs(z-QSTORE.z)<QSTORE.hd);
+  for(let i=0;i<7;i++){ const a=i*0.9, r=16+_qdet(i)*5;
+    let cx=qy[0]+Math.cos(a)*r, cz=qy[1]+Math.sin(a)*r;
+    if(!_qclear(cx,cz)){ cx=qy[0]+Math.cos(a)*24; cz=qy[1]+Math.sin(a)*24; }
+    makeCliff(cx, cz, 2.2+_qdet(i+9)*1.8); }
   // the quarry seams: copper and tin shallow, iron midway, coal in the deep corner
   const ROCK_SPREAD=['copper','copper','copper','tin','tin','tin','iron','iron','iron','coal','coal'];
   ROCK_SPREAD.forEach((k,i)=>{
     const deep = (k==='coal') ? 0.8 : (k==='iron' ? 0.45 : 0);
-    makeRock(qy[0]-13+Math.random()*(26-deep*10)+deep*10, qy[1]-11+Math.random()*22, k);
+    let rx=qy[0]-13+_qdet(i+20)*(26-deep*10)+deep*10, rz=qy[1]-11+_qdet(i+40)*22;
+    if(!_qclear(rx,rz)) rz-=8;
+    makeRock(rx, rz, k);
   });
   // crawlers infest the deep seams — the Pests in the Deeps quest target (weak to crush)
   for(let i=0;i<4;i++) spawnNpc('quarry_crawler', qy[0]-11+Math.random()*22, qy[1]-9+Math.random()*18);
@@ -1903,8 +1914,17 @@ function populateBrynholt(){
 function populateDunes(){
   const d=ZONES.dunes.pos;
   if(LEGACY_VILLAGE) makeBuilding(d[0], d[1]-6, 5,4.5,3, 0xd8c08a, 0xb89a5e); // sandstone trading post (pre-map; dunes pass rebuilds)
-  for(let i=0;i<8;i++) makeCactus(d[0]-18+Math.random()*36, d[1]-14+Math.random()*28);
-  for(let i=0;i<4;i++) makeCliff(d[0]-16+Math.random()*32, d[1]-12+Math.random()*24, 0.8+Math.random()*0.8);
+  // deterministic scatter + keep-clear rect since 2026-07-08: random cacti/cliffs could
+  // re-land inside the nomad camp (dunes_camp.js at 184,36) on any boot
+  const _ddet=(n)=>((Math.sin(n*311.7)*26951.3)%1+1)%1;
+  const CAMP={x:184, z:36, hw:6.5, hd:5.5};
+  const _dclear=(x,z)=>!(Math.abs(x-CAMP.x)<CAMP.hw && Math.abs(z-CAMP.z)<CAMP.hd);
+  for(let i=0;i<8;i++){ let cx=d[0]-18+_ddet(i)*36, cz=d[1]-14+_ddet(i+11)*28;
+    if(!_dclear(cx,cz)) cx+=14;
+    makeCactus(cx, cz); }
+  for(let i=0;i<4;i++){ let cx=d[0]-16+_ddet(i+30)*32, cz=d[1]-12+_ddet(i+42)*24;
+    if(!_dclear(cx,cz)) cz+=12;
+    makeCliff(cx, cz, 0.8+_ddet(i+55)*0.8); }
   spawnFriendly('duneTrader','Trader Soleh', d[0]+2, d[1]-3, 0xc4883a,'🧕',{hairLong:true});
   for(let i=0;i<5;i++) spawnNpc('duneclaw', d[0]-15+Math.random()*30, d[1]-12+Math.random()*24);
   for(let i=0;i<3;i++) spawnNpc('dust_jackal', d[0]-12+Math.random()*28, d[1]-10+Math.random()*22);   // desert pack hunters (weak to slash)

@@ -161,6 +161,29 @@ ref_fountain (commons already runs the fountain.glb pipeline asset — deploy el
 - [ ] ref_churchinterior — DEFERRED (design work, not placement): it's a 13×19 standalone
       nave, larger than the live ref church's 10.5×6 interior; fitting it means re-authoring
       a banked ≥9-scored reference asset. Wants its own Studio pass + fresh Claude-eye gate.
+
+## PLACEMENT AUDIT + MAP-PARITY PASS (2026-07-08 s2, user directive)
+**Audit verdict: world placement is structurally CLEAN.** Programmatic sweeps over the live
+scene: (a) building-bbox overlaps — all real hits benign (eaves/paths/crag clusters);
+(b) deep rect-collider intersections — only intentional intra-building joins (keep moat
+corners, farmhouse/manor masses); (c) floaters — 4 false positives (GLB tree canopies)
++ mage tower 0.45 on its plinth. No fixes needed beyond what earlier batches caught.
+**Map-parity builds (4 gaps closed, all eyes-on verified, sparse on purpose):**
+- src/holm_lighthouse.js — the map's Tutor's Holm LIGHTHOUSE (north shore 161,120): white
+  taper, red band+cap, gallery, glazed lamp room, ROTATING beacon (self-rAF, animated rule).
+- src/quarry_store.js — the quarry's General Store icon (132,-4): furnished walk-in shop.
+- src/dunes_camp.js — the map's Ashar tent camp (184,36): 2 canvas tents, fire, rug, cargo.
+- src/gloomfen_stilts.js — the map's fen stilt houses over the pool at (-168,72): 2 stilted
+  thatch huts + plank walkway to the bank.
+**ROOT-CAUSE FIX: random zone scatter is now DETERMINISTIC around fixed builds** — quarry
+cliffs/ore and dunes cacti/cliffs rolled fresh positions EVERY BOOT and could land inside
+the new buildings (a ring cliff grew through the store roof on first boot). Per-index hash
++ keep-clear rects in game4_ui.js; outliers push/slide clear. Rule for the future: any
+fixed building placed in a random-scatter zone needs the scatter seeded + a clear rect.
+Still open for a later map pass: quest-start stars + combat icons are NPC-gated (fine);
+Saltreach's map SHIPS (we have rowboats; a moored ship model would finish the port);
+Whitmoor's crude keep row (walk-in interiors — needs walk-in-grade replacements, not
+ref exteriors).
 - [ ] Author new type-specific structures where none exist (extra cottages, mill superstructure,
       smithy/warehouse exteriors, Gloomfen stilt houses, faction architecture)
 - [ ] Replace remaining crude makeBuilding/makeHut boxes (Whitmoor keep/bank/inn row in
