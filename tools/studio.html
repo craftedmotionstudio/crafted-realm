@@ -89,7 +89,8 @@ const grid=new THREE.GridHelper(40,40,0xb9aa7b,0x6c704f);grid.position.y=-.14;sc
 
 const defs=WorldV2BuildingData.all(),asset=document.getElementById('asset');
 defs.forEach(d=>{const o=document.createElement('option');o.value=d.id;o.textContent=d.label;asset.appendChild(o)});
-const AUTHOR_PROVIDER='studio-building-preview',AUTHOR_WORLD_REVISION=1,PLACEMENT_ID='studio-building';
+const DEFAULT_PROVIDER='studio-building-preview',DEFAULT_WORLD_REVISION=1,DEFAULT_PLACEMENT_ID='studio-building';
+let docProviderId=DEFAULT_PROVIDER,docWorldRevision=DEFAULT_WORLD_REVISION,docPlacementId=DEFAULT_PLACEMENT_ID,docYOffset;
 let root=null,helpers=new THREE.Group(),removed=false,current=defs[0],currentDoc=null;scene.add(helpers);
 const part=id=>root&&WorldV2Buildings.findPart(root,id);
 function disposeObject(o){o.traverse(n=>{if(n.geometry)n.geometry.dispose();if(n.material){const a=Array.isArray(n.material)?n.material:[n.material];a.forEach(m=>m.dispose())}})}
@@ -122,27 +123,33 @@ function frame(exterior=false){
   if(!root)return;const box=new THREE.Box3().setFromObject(root),c=box.getCenter(new THREE.Vector3()),s=box.getSize(new THREE.Vector3()),r=Math.max(s.x,s.y,s.z);
   controls.target.copy(c);camera.position.set(c.x+r*(exterior?1.25:.78),c.y+r*(exterior?.88:1.38),c.z+r*(exterior?1.38:.68));controls.update()
 }
+async function rebuildStrict(){
+  const next=WorldV2BuildingData.get(asset.value);const check=WorldV2BuildingData.validate(next);if(!check.ok)throw new Error(check.errors.join('; '));
+  setStatus('LOADING — opening the production Blender asset…');
+  await WorldV2Buildings.preload(THREE,new GLTFLoader(),next.id);
+  const built=WorldV2Buildings.build(THREE,next.id);
+  if(current&&current.id!==next.id)docYOffset=undefined;
+  current=next;
+  document.getElementById('ref').src='../'+current.resources.reference;
+  document.getElementById('ref').alt=current.label+' visual reference';
+  if(root)scene.remove(root);root=built;scene.add(root);removed=false;
+  document.getElementById('px').value=current.placement.x;document.getElementById('pz').value=current.placement.z;document.getElementById('rot').value=String(current.placement.rot);
+  applyInspect();frame(false);renderContract();setStatus('READY — live building definition loaded\n'+current.rooms.length+' rooms • '+current.doors.length+' doors • '+(current.services.length+current.clues.length+current.supportSpaces.length)+' semantic anchors');
+}
 async function rebuild(){
-  try{
-    current=WorldV2BuildingData.get(asset.value);const check=WorldV2BuildingData.validate(current);if(!check.ok)throw new Error(check.errors.join('; '));
-    document.getElementById('ref').src='../'+current.resources.reference;
-    document.getElementById('ref').alt=current.label+' visual reference';
-    setStatus('LOADING — opening the production Blender asset…');
-    await WorldV2Buildings.preload(THREE,new GLTFLoader(),current.id);
-    if(root)scene.remove(root);root=WorldV2Buildings.build(THREE,current.id);scene.add(root);removed=false;
-    document.getElementById('px').value=current.placement.x;document.getElementById('pz').value=current.placement.z;document.getElementById('rot').value=String(current.placement.rot);
-    applyInspect();frame(false);renderContract();setStatus('READY — live building definition loaded\n'+current.rooms.length+' rooms • '+current.doors.length+' doors • '+(current.services.length+current.clues.length+current.supportSpaces.length)+' semantic anchors');
-  }catch(e){setStatus(e.stack||String(e),true)}
+  try{await rebuildStrict()}catch(e){setStatus(e.stack||String(e),true)}
 }
 function draft(){
-  const doc=WorldV2Authoring.createDocument(AUTHOR_PROVIDER,AUTHOR_WORLD_REVISION);
+  const doc=WorldV2Authoring.createDocument(docProviderId,docWorldRevision);
   if(removed)return doc;
   const rawX=document.getElementById('px').value.trim(),rawZ=document.getElementById('pz').value.trim(),x=Number(rawX),z=Number(rawZ);
   if(rawX===''||!Number.isFinite(x))throw new Error('World X must be a finite number (got "'+rawX+'")');
   if(rawZ===''||!Number.isFinite(z))throw new Error('World Z must be a finite number (got "'+rawZ+'")');
   const rawRot=document.getElementById('rot').value;
   if(rawRot==='')throw new Error('Rotation is unset — pick one of the four supported rotations before drafting');
-  return WorldV2Authoring.addBuilding(doc,current.id,{id:PLACEMENT_ID,x:x,z:z,rot:Number(rawRot)});
+  const spec={id:docPlacementId,x:x,z:z,rot:Number(rawRot)};
+  if(Number.isFinite(docYOffset))spec.yOffset=docYOffset;
+  return WorldV2Authoring.addBuilding(doc,current.id,spec);
 }
 function contractSummary(doc){
   const check=WorldV2Authoring.validate(doc),rows=check.ok?WorldV2Authoring.toChunkRows(doc):[];
@@ -154,6 +161,7 @@ function contractSummary(doc){
 async function applyDraft(raw){
   const d=WorldV2Authoring.load(raw);
   if(d.placements.length===0){
+    docProviderId=d.provider.id;docWorldRevision=d.provider.worldRevision;
     currentDoc=d;removed=true;if(root)root.visible=false;helpers.visible=false;
     document.getElementById('json').value=JSON.stringify(d,null,2);
     return;
@@ -163,17 +171,22 @@ async function applyDraft(raw){
   if(!Array.from(rotSel.options).some(o=>o.value===String(placement.rot)))
     throw new Error('Unsupported rotation '+placement.rot+' — the Studio supports only the four cardinal rotations (0, 90°, 180°, 270°); document left unapplied');
   asset.value=placement.definitionId;
-  if(current.id!==placement.definitionId)await rebuild();
+  if(current.id!==placement.definitionId){
+    try{await rebuildStrict()}
+    catch(e){asset.value=current.id;throw new Error('Asset rebuild failed — document left unapplied: '+(e.message||e))}
+  }
+  docProviderId=d.provider.id;docWorldRevision=d.provider.worldRevision;docPlacementId=placement.id;docYOffset=placement.yOffset;
   document.getElementById('px').value=placement.x;document.getElementById('pz').value=placement.z;rotSel.value=String(placement.rot);
-  removed=false;if(root)root.visible=true;helpers.visible=true;currentDoc=d;applyPlacement();
+  removed=false;if(root)root.visible=true;helpers.visible=true;currentDoc=d;applyPlacementStrict();
+}
+function applyPlacementStrict(){
+  if(!root)return;
+  const d=draft(),placement=d.placements[0];currentDoc=d;
+  if(!placement){setStatus('REMOVED — zero-placement document; Restore to author the placement again.\n'+contractSummary(d));return}
+  root.rotation.y=placement.rot;helpers.rotation.y=placement.rot;setStatus('PLACEMENT APPLIED — world '+placement.x+', '+placement.z+' • '+Math.round(placement.rot*180/Math.PI)+'°\n'+contractSummary(d)+'\nPreview stays centred for inspection; export preserves world coordinates.')
 }
 function applyPlacement(){
-  if(!root)return;
-  try{
-    const d=draft(),placement=d.placements[0];currentDoc=d;
-    if(!placement){setStatus('REMOVED — zero-placement document; Restore to author the placement again.\n'+contractSummary(d));return}
-    root.rotation.y=placement.rot;helpers.rotation.y=placement.rot;setStatus('PLACEMENT APPLIED — world '+placement.x+', '+placement.z+' • '+Math.round(placement.rot*180/Math.PI)+'°\n'+contractSummary(d)+'\nPreview stays centred for inspection; export preserves world coordinates.')
-  }catch(e){setStatus(String(e),true)}
+  try{applyPlacementStrict()}catch(e){setStatus(String(e),true)}
 }
 function setStatus(msg,bad=false){status.textContent=msg;status.classList.toggle('bad',bad)}
 function renderContract(){const a=WorldV2BuildingData.acceptance(),authoring=WorldV2Authoring.acceptance(),ol=document.getElementById('contract');ol.innerHTML='';a.checks.concat(authoring.checks).forEach(c=>{const li=document.createElement('li');li.textContent=(c.ok?'PASS — ':'FAIL — ')+c.label;li.style.color=c.ok?'':'var(--bad)';ol.appendChild(li)})}
@@ -182,8 +195,14 @@ asset.onchange=rebuild;document.getElementById('rebuild').onclick=rebuild;docume
 ['roof','wire','grid','colliders','rooms','mannequin'].forEach(id=>document.getElementById(id).onchange=applyInspect);
 document.getElementById('top').onclick=()=>{controls.target.set(0,0,0);camera.position.set(0,27,.01);controls.update()};document.getElementById('iso').onclick=()=>frame(true);
 document.getElementById('save').onclick=()=>{try{const d=draft(),text=WorldV2Authoring.serialize(d);currentDoc=d;localStorage.setItem('crafted-realm-building-studio-v1',text);document.getElementById('json').value=JSON.stringify(d,null,2);setStatus('SAVED — deterministic authoring document stored locally.\n'+contractSummary(d))}catch(e){setStatus(String(e),true)}};
-document.getElementById('reload').onclick=async()=>{try{const raw=localStorage.getItem('crafted-realm-building-studio-v1');if(!raw)throw new Error('No saved authoring document yet');await applyDraft(raw);setStatus('RELOADED — byte-stable authoring round trip passed.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
-document.getElementById('remove').onclick=()=>{try{const d=draft();currentDoc=WorldV2Authoring.removeBuilding(d,PLACEMENT_ID);removed=true;if(root)root.visible=false;helpers.visible=false;document.getElementById('json').value=JSON.stringify(currentDoc,null,2);setStatus('REMOVED — authoring document has zero placements and zero owner chunks.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
+document.getElementById('reload').onclick=async()=>{try{
+  const raw=localStorage.getItem('crafted-realm-building-studio-v1');if(!raw)throw new Error('No saved authoring document yet');
+  await applyDraft(raw);
+  const canonical=WorldV2Authoring.serialize(currentDoc);
+  if(canonical===raw)setStatus('RELOADED — byte-stable round trip verified: canonical serialization of the reloaded document matches the saved bytes.\n'+contractSummary(currentDoc));
+  else setStatus('RELOADED WITH DRIFT — document loaded and applied, but its canonical serialization differs from the saved bytes; byte-stability NOT claimed.\n'+contractSummary(currentDoc),true);
+}catch(e){setStatus(String(e),true)}};
+document.getElementById('remove').onclick=()=>{try{const d=draft();currentDoc=WorldV2Authoring.removeBuilding(d,docPlacementId);removed=true;if(root)root.visible=false;helpers.visible=false;document.getElementById('json').value=JSON.stringify(currentDoc,null,2);setStatus('REMOVED — authoring document has zero placements and zero owner chunks.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
 document.getElementById('restore').onclick=()=>{try{removed=false;currentDoc=draft();if(root)root.visible=true;helpers.visible=true;document.getElementById('json').value=JSON.stringify(currentDoc,null,2);setStatus('RESTORED — the same stable placement ID is authored again.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
 document.getElementById('export').onclick=()=>{try{const d=draft(),text=JSON.stringify(d,null,2);currentDoc=d;document.getElementById('json').value=text;navigator.clipboard?.writeText(text).catch(()=>{});setStatus('EXPORTED — deterministic authoring JSON is ready below.\n'+contractSummary(d))}catch(e){setStatus(String(e),true)}};
 document.getElementById('import').onclick=async()=>{try{await applyDraft(document.getElementById('json').value);setStatus('IMPORTED — authoring JSON validated and applied.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
