@@ -58,7 +58,7 @@
   <div class="row"><button id="remove">Remove preview</button><button id="restore">Restore preview</button></div>
   <div class="row"><button id="export">Export JSON</button><button id="import">Import JSON</button></div>
   <textarea id="json" spellcheck="false" aria-label="Building placement JSON"></textarea>
-  <div class="hint">Drafts affect only this Studio. Approved placement still enters the game through chunk data.</div>
+  <div class="hint">Authoring documents affect only this Studio. Approved placement still enters the game through provider chunk data.</div>
 
   <h2>Contract gate</h2>
   <div id="status">Checking…</div>
@@ -70,6 +70,7 @@
 </aside>
 
 <script src="../src/world_v2_building_data.js?v=17"></script>
+<script src="../src/world_v2_authoring.js?v=1"></script>
 <script src="../src/world_v2_buildings.js?v=22"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <script type="module">
@@ -88,7 +89,8 @@ const grid=new THREE.GridHelper(40,40,0xb9aa7b,0x6c704f);grid.position.y=-.14;sc
 
 const defs=WorldV2BuildingData.all(),asset=document.getElementById('asset');
 defs.forEach(d=>{const o=document.createElement('option');o.value=d.id;o.textContent=d.label;asset.appendChild(o)});
-let root=null,helpers=new THREE.Group(),removed=false,current=defs[0];scene.add(helpers);
+const AUTHOR_PROVIDER='studio-building-preview',AUTHOR_WORLD_REVISION=1,PLACEMENT_ID='studio-building';
+let root=null,helpers=new THREE.Group(),removed=false,current=defs[0],currentDoc=null;scene.add(helpers);
 const part=id=>root&&WorldV2Buildings.findPart(root,id);
 function disposeObject(o){o.traverse(n=>{if(n.geometry)n.geometry.dispose();if(n.material){const a=Array.isArray(n.material)?n.material:[n.material];a.forEach(m=>m.dispose())}})}
 function clearHelpers(){while(helpers.children.length){const o=helpers.children.pop();disposeObject(o)}}
@@ -132,29 +134,41 @@ async function rebuild(){
     applyInspect();frame(false);renderContract();setStatus('READY — live building definition loaded\n'+current.rooms.length+' rooms • '+current.doors.length+' doors • '+(current.services.length+current.clues.length+current.supportSpaces.length)+' semantic anchors');
   }catch(e){setStatus(e.stack||String(e),true)}
 }
-function draft(){return{schema:'crafted-realm-building-placement-v1',definitionId:current.id,placement:{x:Number(document.getElementById('px').value),z:Number(document.getElementById('pz').value),rot:Number(document.getElementById('rot').value)}}}
-function applyDraft(d){
-  if(!d||d.schema!=='crafted-realm-building-placement-v1')throw new Error('Unsupported placement draft');
-  if(!WorldV2BuildingData.get(d.definitionId))throw new Error('Unknown building definition '+d.definitionId);
-  ['x','z','rot'].forEach(k=>{if(!Number.isFinite(Number(d.placement&&d.placement[k])))throw new Error('Placement '+k+' must be finite')});
-  asset.value=d.definitionId;if(current.id!==d.definitionId)rebuild();document.getElementById('px').value=d.placement.x;document.getElementById('pz').value=d.placement.z;document.getElementById('rot').value=String(d.placement.rot);applyPlacement();
+function draft(){
+  const doc=WorldV2Authoring.createDocument(AUTHOR_PROVIDER,AUTHOR_WORLD_REVISION);
+  if(removed)return doc;
+  return WorldV2Authoring.addBuilding(doc,current.id,{id:PLACEMENT_ID,x:Number(document.getElementById('px').value),z:Number(document.getElementById('pz').value),rot:Number(document.getElementById('rot').value)});
+}
+function contractSummary(doc){
+  const check=WorldV2Authoring.validate(doc),rows=check.ok?WorldV2Authoring.toChunkRows(doc):[];
+  const placement=doc.placements[0];
+  return 'provider '+doc.provider.id+' r'+doc.provider.worldRevision+' • owner '+(rows[0]?.id||'none')+
+    (placement?' • definition '+placement.definitionId+' r'+placement.definitionRevision:'')+' • validation '+(check.ok?'PASS':'FAIL');
+}
+async function applyDraft(raw){
+  const d=WorldV2Authoring.load(raw);
+  if(d.placements.length!==1)throw new Error('Studio import requires exactly one complete building placement');
+  const placement=d.placements[0];asset.value=placement.definitionId;
+  if(current.id!==placement.definitionId)await rebuild();
+  document.getElementById('px').value=placement.x;document.getElementById('pz').value=placement.z;document.getElementById('rot').value=String(placement.rot);
+  removed=false;if(root)root.visible=true;helpers.visible=true;currentDoc=d;applyPlacement();
 }
 function applyPlacement(){
-  if(!root)return;const d=draft();root.rotation.y=d.placement.rot;helpers.rotation.y=d.placement.rot;setStatus('PLACEMENT APPLIED — world '+d.placement.x+', '+d.placement.z+' • '+Math.round(d.placement.rot*180/Math.PI)+'°\nPreview stays centred for inspection; export preserves world coordinates.')
+  if(!root)return;const d=draft(),placement=d.placements[0];currentDoc=d;root.rotation.y=placement.rot;helpers.rotation.y=placement.rot;setStatus('PLACEMENT APPLIED — world '+placement.x+', '+placement.z+' • '+Math.round(placement.rot*180/Math.PI)+'°\n'+contractSummary(d)+'\nPreview stays centred for inspection; export preserves world coordinates.')
 }
 function setStatus(msg,bad=false){status.textContent=msg;status.classList.toggle('bad',bad)}
-function renderContract(){const a=WorldV2BuildingData.acceptance(),ol=document.getElementById('contract');ol.innerHTML='';a.checks.forEach(c=>{const li=document.createElement('li');li.textContent=(c.ok?'PASS — ':'FAIL — ')+c.label;li.style.color=c.ok?'':'var(--bad)';ol.appendChild(li)})}
+function renderContract(){const a=WorldV2BuildingData.acceptance(),authoring=WorldV2Authoring.acceptance(),ol=document.getElementById('contract');ol.innerHTML='';a.checks.concat(authoring.checks).forEach(c=>{const li=document.createElement('li');li.textContent=(c.ok?'PASS — ':'FAIL — ')+c.label;li.style.color=c.ok?'':'var(--bad)';ol.appendChild(li)})}
 
 asset.onchange=rebuild;document.getElementById('rebuild').onclick=rebuild;document.getElementById('apply').onclick=applyPlacement;
 ['roof','wire','grid','colliders','rooms','mannequin'].forEach(id=>document.getElementById(id).onchange=applyInspect);
 document.getElementById('top').onclick=()=>{controls.target.set(0,0,0);camera.position.set(0,27,.01);controls.update()};document.getElementById('iso').onclick=()=>frame(true);
-document.getElementById('save').onclick=()=>{const d=draft();localStorage.setItem('crafted-realm-building-studio-v1',JSON.stringify(d));document.getElementById('json').value=JSON.stringify(d,null,2);setStatus('SAVED — placement draft stored locally and shown below.')};
-document.getElementById('reload').onclick=()=>{try{const raw=localStorage.getItem('crafted-realm-building-studio-v1');if(!raw)throw new Error('No saved draft yet');applyDraft(JSON.parse(raw));setStatus('RELOADED — saved placement round trip passed.')}catch(e){setStatus(String(e),true)}};
-document.getElementById('remove').onclick=()=>{removed=true;if(root)root.visible=false;helpers.visible=false;setStatus('REMOVED — preview and authored helpers are absent. The saved draft is untouched.')};
-document.getElementById('restore').onclick=()=>{removed=false;if(root)root.visible=true;helpers.visible=true;setStatus('RESTORED — the same building instance is visible again.')};
-document.getElementById('export').onclick=()=>{const text=JSON.stringify(draft(),null,2);document.getElementById('json').value=text;navigator.clipboard?.writeText(text).catch(()=>{});setStatus('EXPORTED — placement JSON is ready below'+(navigator.clipboard?' and copied when allowed.':'.'))};
-document.getElementById('import').onclick=()=>{try{applyDraft(JSON.parse(document.getElementById('json').value));setStatus('IMPORTED — JSON validated and applied.')}catch(e){setStatus(String(e),true)}};
-window.STUDIO_CAPTURE=()=>renderer.domElement.toDataURL('image/png');window.STUDIO_BUILDING=()=>({definition:current,draft:draft(),acceptance:WorldV2BuildingData.acceptance()});
+document.getElementById('save').onclick=()=>{try{const d=draft(),text=WorldV2Authoring.serialize(d);currentDoc=d;localStorage.setItem('crafted-realm-building-studio-v1',text);document.getElementById('json').value=JSON.stringify(d,null,2);setStatus('SAVED — deterministic authoring document stored locally.\n'+contractSummary(d))}catch(e){setStatus(String(e),true)}};
+document.getElementById('reload').onclick=async()=>{try{const raw=localStorage.getItem('crafted-realm-building-studio-v1');if(!raw)throw new Error('No saved authoring document yet');await applyDraft(raw);setStatus('RELOADED — byte-stable authoring round trip passed.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
+document.getElementById('remove').onclick=()=>{try{const d=draft();currentDoc=WorldV2Authoring.removeBuilding(d,PLACEMENT_ID);removed=true;if(root)root.visible=false;helpers.visible=false;document.getElementById('json').value=JSON.stringify(currentDoc,null,2);setStatus('REMOVED — authoring document has zero placements and zero owner chunks.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
+document.getElementById('restore').onclick=()=>{try{removed=false;currentDoc=draft();if(root)root.visible=true;helpers.visible=true;document.getElementById('json').value=JSON.stringify(currentDoc,null,2);setStatus('RESTORED — the same stable placement ID is authored again.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
+document.getElementById('export').onclick=()=>{try{const d=draft(),text=JSON.stringify(d,null,2);currentDoc=d;document.getElementById('json').value=text;navigator.clipboard?.writeText(text).catch(()=>{});setStatus('EXPORTED — deterministic authoring JSON is ready below.\n'+contractSummary(d))}catch(e){setStatus(String(e),true)}};
+document.getElementById('import').onclick=async()=>{try{await applyDraft(document.getElementById('json').value);setStatus('IMPORTED — authoring JSON validated and applied.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
+window.STUDIO_CAPTURE=()=>renderer.domElement.toDataURL('image/png');window.STUDIO_BUILDING=()=>({definition:current,document:draft(),chunks:WorldV2Authoring.toChunkRows(draft()),acceptance:WorldV2Authoring.acceptance()});
 window.addEventListener('resize',()=>{camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix();renderer.setSize(view.clientWidth,view.clientHeight)});
 function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera);const b=current?.resources?.visualBudget;const perf=b?` / budget ${b.maxTriangles.toLocaleString()} tris, ${b.maxDrawCalls} draws`:'';hud.textContent=`${current?.label||'—'} • ${renderer.info.render.triangles.toLocaleString()} tris • ${renderer.info.render.calls} draws${perf} • roof ${document.getElementById('roof').checked?'on':'off'} • drag orbit / wheel zoom`};loop();rebuild();
 </script>

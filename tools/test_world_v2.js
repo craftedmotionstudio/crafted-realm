@@ -33,6 +33,7 @@ vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(ROOT,'src','world_v2_contract.js'),'utf8'),ctx,{filename:'world_v2_contract.js'});
 vm.runInContext(fs.readFileSync(path.join(ROOT,'src','holm_landscape_data.js'),'utf8'),ctx,{filename:'holm_landscape_data.js'});
 vm.runInContext(fs.readFileSync(path.join(ROOT,'src','world_v2_building_data.js'),'utf8'),ctx,{filename:'world_v2_building_data.js'});
+vm.runInContext(fs.readFileSync(path.join(ROOT,'src','world_v2_authoring.js'),'utf8'),ctx,{filename:'world_v2_authoring.js'});
 vm.runInContext(fs.readFileSync(path.join(ROOT,'src','holm_tutorial_flow_data.js'),'utf8'),ctx,{filename:'holm_tutorial_flow_data.js'});
 vm.runInContext(fs.readFileSync(path.join(ROOT,'src','world_v2_holm.js'),'utf8'),ctx,{filename:'world_v2_holm.js'});
 vm.runInContext(fs.readFileSync(path.join(ROOT,'src','world_v2_mainland.js'),'utf8'),ctx,{filename:'world_v2_mainland.js'});
@@ -55,6 +56,22 @@ check('landscape acceptance locks 228-tile spine from the Guide Hall apron to th
 check('six districts and eight functional pads',p.landscape.districts.length===6&&p.landscape.pads.length===8);
 check('complete-building contracts pass every lock',ctx.WorldV2BuildingData.acceptance().ok&&
   ctx.WorldV2BuildingData.acceptance().checks.length===30);
+const authoring=ctx.WorldV2Authoring;
+const authoringAcceptance=authoring.acceptance();
+check('world-v2 authoring module passes every pure-data acceptance lock',authoringAcceptance.ok&&authoringAcceptance.checks.length>=14);
+const authoringDoc=authoring.addBuilding(authoring.createDocument('studio-guide-hall',1),'holm_guide_hall_v1',
+  {id:'studio-guide-hall',x:151,z:155,rot:0});
+const authoredChunk=authoring.toChunkRows(authoringDoc)[0];
+const authoredRuntimeChunk={v:1,id:authoredChunk.id,cx:authoredChunk.cx,cz:authoredChunk.cz,
+  layers:{terrain:{},tileFlags:[],objects:authoredChunk.objects,interactions:[],mutations:[],spawns:[]}};
+check('authored Guide Hall row is accepted by the current world-v2 runtime contract',
+  W.validateChunk(authoredRuntimeChunk)===authoredRuntimeChunk&&authoredChunk.id==='18,19');
+const movedAuthoring=authoring.moveBuilding(authoringDoc,'studio-guide-hall',{x:160,z:155,rot:0});
+check('authoring move changes only owner chunk while preserving caller input and stable identity',
+  authoring.toChunkRows(movedAuthoring)[0].id==='20,19'&&authoring.toChunkRows(authoringDoc)[0].id==='18,19'&&
+  movedAuthoring.placements[0].id===authoringDoc.placements[0].id&&
+  movedAuthoring.placements[0].definitionRevision===authoringDoc.placements[0].definitionRevision&&
+  movedAuthoring.placements[0].asset===authoringDoc.placements[0].asset);
 const hallManifest=JSON.parse(fs.readFileSync(path.join(ROOT,'assets','manifests','holm_guide_hall_v6.json'),'utf8'));
 const hallPipeline=JSON.parse(fs.readFileSync(path.join(ROOT,hallManifest.pipelineResult),'utf8'));
 const hallGlb=readGlbJson(path.join(ROOT,hallManifest.model));
