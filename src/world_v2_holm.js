@@ -195,6 +195,10 @@
         return WorldV2Buildings.preload(THREE).then(function(){
           WorldV2Terrain.init(p);
           WorldV2Objects.init(p);
+          // The cavern is an auxiliary negative-plane region owned by this
+          // provider. It is not a free-running global placement and is torn
+          // down whenever the Holm provider is disposed.
+          if(typeof HolmTrainingCavern!=='undefined') HolmTrainingCavern.init(p);
           if(typeof CollisionGrid!=='undefined') CollisionGrid.initResident(p);
           var spawn=p.getSpawnLandmark(p.defaultLandmark);
           p.updateResidency(spawn.x,spawn.z,true);
@@ -220,6 +224,7 @@
         if(typeof WorldV2Terrain!=='undefined'&&handle) WorldV2Terrain.unloadChunk(handle.render);
       },
       dispose:function(){
+        if(typeof HolmTrainingCavern!=='undefined') HolmTrainingCavern.dispose();
         if(typeof WorldV2Objects!=='undefined') WorldV2Objects.dispose();
         if(typeof WorldV2Terrain!=='undefined') WorldV2Terrain.dispose();
       },
@@ -228,7 +233,8 @@
           terrain:typeof WorldV2Terrain!=='undefined'?WorldV2Terrain.snapshot():null,
           objects:typeof WorldV2Objects!=='undefined'?WorldV2Objects.snapshot():null,
           collision:typeof CollisionGrid!=='undefined'&&CollisionGrid.snapshot?CollisionGrid.snapshot():null,
-          landscape:typeof HolmLandscapeRuntime!=='undefined'?HolmLandscapeRuntime.snapshot():null
+          landscape:typeof HolmLandscapeRuntime!=='undefined'?HolmLandscapeRuntime.snapshot():null,
+          trainingCavern:typeof HolmTrainingCavern!=='undefined'?HolmTrainingCavern.snapshot():null
         };
       }
     }

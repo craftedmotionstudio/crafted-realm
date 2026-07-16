@@ -200,6 +200,57 @@ check('mainland arrival provider validates 144 chunks',mainland&&mainland.valida
 check('ferry destination lands beside Hollow Well Square',mainland&&
   mainland.getSpawnLandmark('veyhollow_ferry_arrival').kind==='safe-spawn'&&mainland.getSpawnLandmark('hollow_well_square'));
 
+console.log('holm_training_cavern.js:');
+const cavern=require(path.join(ROOT,'src','holm_training_cavern.js'));
+const flow=ctx.HolmTutorialFlow;
+const lessonById=id=>flow.lessons.find(l=>l.id===id);
+const stationById=id=>flow.station(id);
+check('training cavern layout loads headlessly as pure data',
+  !!cavern&&cavern.id==='holm_training_cavern'&&cavern.underground==='holm_mining_cavern');
+const indexHtml=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
+const loadOrder=['src/game2_world.js','src/planes.js','src/tutorial_holm.js',
+  'src/holm_survival_workyard_cellar.js','src/holm_training_cavern.js'].map(s=>indexHtml.indexOf(s));
+check('index.html loads the training cavern exactly once, after world/planes/tutorial/cellar',
+  loadOrder.every(i=>i>=0)&&loadOrder.every((v,i,arr)=>!i||v>arr[i-1])&&
+  indexHtml.split('src/holm_training_cavern.js').length===2);
+const cavernStation=stationById('cavern');
+const insidePit=t=>Math.abs(t.x-cavern.cavern.x)<=cavern.cavern.hw-1&&
+  Math.abs(t.z-cavern.cavern.z)<=cavern.cavern.hd-1;
+check('cavern is a negative-plane room and every authored tile stands on its walkable floor',
+  cavern.plane===-1&&cavern.cavern.y<0&&
+  [cavern.entry,cavern.exit,cavern.targets.copper,cavern.targets.furnace,cavern.targets.anvil]
+    .concat(cavern.extraRocks).every(insidePit));
+check('gate descent links the Mine Gatehouse station to the cavern station entry',
+  cavern.gate.x===stationById('mine_gate').entry.x&&cavern.gate.z===stationById('mine_gate').entry.z&&
+  cavern.entry.x===cavernStation.entry.x&&cavern.entry.z===cavernStation.entry.z);
+check('forward-only far exit surfaces at the Combat Hall station',
+  cavern.exit.x===cavernStation.exit.x&&cavern.exit.z===cavernStation.exit.z&&
+  cavern.hall.x===stationById('combat_hall').entry.x&&cavern.hall.z===stationById('combat_hall').entry.z&&
+  cavern.oneWay.gateHasUp===false&&cavern.oneWay.exitHasDown===false);
+check('all four lesson targets are authored on their exact flow-contract tiles',
+  [['descend_cavern',cavern.gate],['mine_copper',cavern.targets.copper],
+   ['smelt_bronze',cavern.targets.furnace],['forge_dagger',cavern.targets.anvil]]
+    .every(([id,t])=>{const l=lessonById(id);return l&&l.runtime&&l.target.x===t.x&&l.target.z===t.z;}));
+const worldSrc=fs.readFileSync(path.join(ROOT,'src','game2_world.js'),'utf8');
+check('cavern reuses existing item and action ids only',
+  cavern.targets.copper.item==='copper_ore'&&lessonById('mine_copper').match==='copper_ore'&&
+  cavern.extraRocks.every(r=>['copper_ore','tin_ore'].includes(r.item))&&
+  cavern.targets.furnace.kind==='furnace'&&cavern.targets.anvil.kind==='anvil'&&
+  worldSrc.includes("item:'copper_ore'")&&worldSrc.includes("item:'tin_ore'")&&
+  fs.readFileSync(path.join(ROOT,'src','smith_bronze_dagger.js'),'utf8').includes('bronze_dagger'));
+check('Holm flow acceptance still passes with the cavern leg in place',
+  flow.acceptanceResult.passed===flow.acceptanceResult.total&&flow.acceptanceResult.stations===10&&
+  cavernStation.underground===cavern.underground);
+const cavernSrc=fs.readFileSync(path.join(ROOT,'src','holm_training_cavern.js'),'utf8');
+const holmProviderSrc=fs.readFileSync(path.join(ROOT,'src','world_v2_holm.js'),'utf8');
+check('training cavern has no polling self-boot and cannot masquerade as a resident chunk object',
+  !cavernSrc.includes('setInterval(')&&!cavernSrc.includes('.worldObjectId=')&&
+  cavernSrc.includes('runtimeOwnerId'));
+check('Tutor\'s Holm provider explicitly owns cavern initialization, disposal, and telemetry',
+  holmProviderSrc.includes('HolmTrainingCavern.init(p)')&&
+  holmProviderSrc.includes('HolmTrainingCavern.dispose()')&&
+  holmProviderSrc.includes('trainingCavern:typeof HolmTrainingCavern'));
+
 p.prepare();
 check('prepare validates before renderer residency',p.snapshot().residentChunks===0);
 const lifecycle={created:0,disposed:0};
