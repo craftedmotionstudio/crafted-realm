@@ -137,24 +137,43 @@ async function rebuild(){
 function draft(){
   const doc=WorldV2Authoring.createDocument(AUTHOR_PROVIDER,AUTHOR_WORLD_REVISION);
   if(removed)return doc;
-  return WorldV2Authoring.addBuilding(doc,current.id,{id:PLACEMENT_ID,x:Number(document.getElementById('px').value),z:Number(document.getElementById('pz').value),rot:Number(document.getElementById('rot').value)});
+  const rawX=document.getElementById('px').value.trim(),rawZ=document.getElementById('pz').value.trim(),x=Number(rawX),z=Number(rawZ);
+  if(rawX===''||!Number.isFinite(x))throw new Error('World X must be a finite number (got "'+rawX+'")');
+  if(rawZ===''||!Number.isFinite(z))throw new Error('World Z must be a finite number (got "'+rawZ+'")');
+  const rawRot=document.getElementById('rot').value;
+  if(rawRot==='')throw new Error('Rotation is unset — pick one of the four supported rotations before drafting');
+  return WorldV2Authoring.addBuilding(doc,current.id,{id:PLACEMENT_ID,x:x,z:z,rot:Number(rawRot)});
 }
 function contractSummary(doc){
   const check=WorldV2Authoring.validate(doc),rows=check.ok?WorldV2Authoring.toChunkRows(doc):[];
   const placement=doc.placements[0];
   return 'provider '+doc.provider.id+' r'+doc.provider.worldRevision+' • owner '+(rows[0]?.id||'none')+
-    (placement?' • definition '+placement.definitionId+' r'+placement.definitionRevision:'')+' • validation '+(check.ok?'PASS':'FAIL');
+    (placement?' • definition '+placement.definitionId+' r'+placement.definitionRevision:'')+' • validation '+(check.ok?'PASS':'FAIL')+
+    '\nruntime chunk rows: '+(rows.length?JSON.stringify(rows):'none');
 }
 async function applyDraft(raw){
   const d=WorldV2Authoring.load(raw);
+  if(d.placements.length===0){
+    currentDoc=d;removed=true;if(root)root.visible=false;helpers.visible=false;
+    document.getElementById('json').value=JSON.stringify(d,null,2);
+    return;
+  }
   if(d.placements.length!==1)throw new Error('Studio import requires exactly one complete building placement');
-  const placement=d.placements[0];asset.value=placement.definitionId;
+  const placement=d.placements[0],rotSel=document.getElementById('rot');
+  if(!Array.from(rotSel.options).some(o=>o.value===String(placement.rot)))
+    throw new Error('Unsupported rotation '+placement.rot+' — the Studio supports only the four cardinal rotations (0, 90°, 180°, 270°); document left unapplied');
+  asset.value=placement.definitionId;
   if(current.id!==placement.definitionId)await rebuild();
-  document.getElementById('px').value=placement.x;document.getElementById('pz').value=placement.z;document.getElementById('rot').value=String(placement.rot);
+  document.getElementById('px').value=placement.x;document.getElementById('pz').value=placement.z;rotSel.value=String(placement.rot);
   removed=false;if(root)root.visible=true;helpers.visible=true;currentDoc=d;applyPlacement();
 }
 function applyPlacement(){
-  if(!root)return;const d=draft(),placement=d.placements[0];currentDoc=d;root.rotation.y=placement.rot;helpers.rotation.y=placement.rot;setStatus('PLACEMENT APPLIED — world '+placement.x+', '+placement.z+' • '+Math.round(placement.rot*180/Math.PI)+'°\n'+contractSummary(d)+'\nPreview stays centred for inspection; export preserves world coordinates.')
+  if(!root)return;
+  try{
+    const d=draft(),placement=d.placements[0];currentDoc=d;
+    if(!placement){setStatus('REMOVED — zero-placement document; Restore to author the placement again.\n'+contractSummary(d));return}
+    root.rotation.y=placement.rot;helpers.rotation.y=placement.rot;setStatus('PLACEMENT APPLIED — world '+placement.x+', '+placement.z+' • '+Math.round(placement.rot*180/Math.PI)+'°\n'+contractSummary(d)+'\nPreview stays centred for inspection; export preserves world coordinates.')
+  }catch(e){setStatus(String(e),true)}
 }
 function setStatus(msg,bad=false){status.textContent=msg;status.classList.toggle('bad',bad)}
 function renderContract(){const a=WorldV2BuildingData.acceptance(),authoring=WorldV2Authoring.acceptance(),ol=document.getElementById('contract');ol.innerHTML='';a.checks.concat(authoring.checks).forEach(c=>{const li=document.createElement('li');li.textContent=(c.ok?'PASS — ':'FAIL — ')+c.label;li.style.color=c.ok?'':'var(--bad)';ol.appendChild(li)})}
