@@ -184,7 +184,7 @@
     /* ---- forward-only traversal: gate shaft DOWN only, far ladder UP only ---- */
     var gate=Planes.addClimb({x:LAYOUT.gate.x,z:LAYOUT.gate.z,name:'Cavern shaft',
       label:'Climb-down <b>Training cavern</b>',
-      down:{plane:-1,x:LAYOUT.entry.x,z:LAYOUT.entry.z},
+      down:{plane:-1,x:LAYOUT.entry.x,z:LAYOUT.entry.z,zone:'Training Cavern'},
       mesh:(function(){ // graybox mine-shaft mouth: dark hole in a stone rim
         var q=new THREE.Group();
         var hole=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.08,1.2),
@@ -196,7 +196,15 @@
     gate.userData.runtimeOwnerId=OWNER; ownClickable(gate);
     var exitLadder=Planes.addClimb({x:LAYOUT.exit.x,z:LAYOUT.exit.z,h:3,basePlane:-1,y:Y,
       name:'Cavern exit',label:'Climb-up <b>Cavern exit</b>',
-      up:{plane:0,x:LAYOUT.hall.x,z:LAYOUT.hall.z}});
+      up:{plane:0,x:LAYOUT.hall.x,z:LAYOUT.hall.z,zone:"Tutor's Holm"}});
+    // The narrow low-poly rails are visually readable but too easy for a ray to
+    // slip between. This invisible proxy follows the ladder silhouette, making
+    // the ladder itself reliably clickable without turning its floor tile into
+    // a traversal trigger.
+    var ladderPick=new THREE.Mesh(new THREE.BoxGeometry(0.95,3.1,0.38),
+      new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false,colorWrite:false}));
+    ladderPick.position.y=1.5; ladderPick.name='cavern-exit-ladder-pick-proxy';
+    exitLadder.add(ladderPick);
     exitLadder.userData.runtimeOwnerId=OWNER; ownClickable(exitLadder);
 
     Planes.refreshVisibility();

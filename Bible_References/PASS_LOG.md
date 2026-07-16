@@ -2473,3 +2473,24 @@ Final foreground acceptance is **SMOKE PASS 100/100**: boot **712 ms**, **60 FPS
 integrity, U4 regression contract and the U5 asset pipeline also pass. U5 is integrated; the next boundary is U6 whole-
 room Workyard acceptance. The conversation's decisions, completed phases, evidence, known grayboxes and recommended
 continuation are frozen in `docs/rebuild/CRAFTED_REALM_CHAT_CLOSEOUT_2026-07-16.md`.
+
+## Pass 123 - 2026-07-16 - ORCHESTRATION RECOVERY, STUDIO AUTHORING, AND CAVERN LIFECYCLE
+
+The alternate Fable/Codex orchestration repositories were audited against the accepted U5 working state. Their safety
+checkpoint predated final U5 closeout and was not promoted. A complete recovery commit now banks the accepted game,
+assets, recipes, documents, comparison sheets, and U5 proof packet on `codex/u5-accepted-checkpoint`; raw experiments
+and the unfinished Teaching Kitchen remain isolated.
+
+The useful deterministic World V2 Studio authoring series was integrated cleanly and passes **18/18** locks for
+identity preservation, fail-closed rebuilds, deterministic object moves, stable chunk ownership, and byte-stable
+reloads. The Training Cavern content was also retained, but its unsafe polling/global-placement runtime was replaced.
+Tutor's Holm now owns cavern initialization, telemetry, and disposal. Auxiliary cavern objects use a separate runtime
+owner marker and cannot inflate resident chunk-object counts. Stable review bookmarks cover its gate, entry, mining,
+smithing, and exit positions.
+
+Final foreground acceptance is **SMOKE PASS 100/100**: boot **360 ms**, **60 FPS**, **18 ms** worst frame,
+**95 draw calls**, **4,204 triangles** at the saved test location, six streamed boundaries, exact save/load position,
+and zero console errors.
+World/content/roof suites, U4 21/21, U5 25/25, Asset Factory 5/5, and the U5 31-lock recipe gate pass. U6 whole-room
+Workyard acceptance remains the next production boundary. Full recovery record:
+`docs/rebuild/FABLE_ORCHESTRATION_RECOVERY_2026-07-16.md`.

@@ -129,6 +129,12 @@ letter, not a clone. Warm, low-poly, flat-shaded 2007 charm. (Full vision: `GOAL
   Continue reload, and foreground smoke at 100/100, 60 FPS, 169 draws, 19 ms worst frame and zero errors. The
   next boundary is U6 whole-room owner acceptance—not fishing breadth or NPC production. Full closeout:
   `docs/rebuild/CRAFTED_REALM_CHAT_CLOSEOUT_2026-07-16.md`.
+- **FABLE ORCHESTRATION RECOVERED (2026-07-16):** the full accepted U5 state is banked on
+  `codex/u5-accepted-checkpoint`. Deterministic Studio authoring is integrated with 18/18 locks. The Training Cavern
+  remains a functional graybox but is now explicitly owned and disposed by the Holm provider rather than polling and
+  placing global objects. Foreground smoke is back to 100/100 with zero errors. Keep the unfinished Teaching Kitchen
+  isolated; resume at U6 whole-room Workyard acceptance. Recovery detail:
+  `docs/rebuild/FABLE_ORCHESTRATION_RECOVERY_2026-07-16.md`.
 - **LOW-POLY ASSET SYSTEM v1 FUNCTIONAL / VISUAL GATE SUPERSEDED:** `tools/asset_pipeline.py`, per-asset manifests, the deterministic
   `cr_lowpoly_assetkit.py`, and the Blender Asset Browser library now form the shared Blender-to-GLB workflow.
   They gate scale, semantic nodes, geometric fit, review renders, triangles, primitives, materials, and bytes

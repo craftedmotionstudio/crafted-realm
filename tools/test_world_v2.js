@@ -246,6 +246,12 @@ const holmProviderSrc=fs.readFileSync(path.join(ROOT,'src','world_v2_holm.js'),'
 check('training cavern has no polling self-boot and cannot masquerade as a resident chunk object',
   !cavernSrc.includes('setInterval(')&&!cavernSrc.includes('.worldObjectId=')&&
   cavernSrc.includes('runtimeOwnerId'));
+check('cavern exit ladder owns a silhouette-sized click proxy rather than a clickable floor tile',
+  cavernSrc.includes("ladderPick.name='cavern-exit-ladder-pick-proxy'")&&
+  cavernSrc.includes('exitLadder.add(ladderPick)')&&!cavernSrc.includes('walk.userData.kind'));
+check('cavern traversal carries explicit underground and surface zone labels',
+  cavernSrc.includes("zone:'Training Cavern'")&&cavernSrc.includes('zone:"Tutor\'s Holm"')&&
+  fs.readFileSync(path.join(ROOT,'src','planes.js'),'utf8').includes('UI.zone(dest.zone)'));
 check('Tutor\'s Holm provider explicitly owns cavern initialization, disposal, and telemetry',
   holmProviderSrc.includes('HolmTrainingCavern.init(p)')&&
   holmProviderSrc.includes('HolmTrainingCavern.dispose()')&&

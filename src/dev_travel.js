@@ -5,7 +5,7 @@
  */
 var TestTravel=(function(){
   'use strict';
-  var STORAGE='cr_test_travel_bookmarks_v1',VERSION=3,panel=null,toggle=null,statusTimer=0;
+  var STORAGE='cr_test_travel_bookmarks_v1',VERSION=4,panel=null,toggle=null,statusTimer=0;
   var core=[
     {id:'holm_guide_apron',label:'Guide Hall — arrival apron',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_arrival',x:151,z:169,plane:0,zone:"Tutor's Holm"},
     {id:'holm_guide_interior',label:'Guide Hall — central aisle',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_arrival',x:151,z:162.5,plane:0,zone:"Tutor's Holm"},
@@ -13,6 +13,11 @@ var TestTravel=(function(){
     {id:'holm_workyard_hatch',label:'Survival Workyard — cellar hatch',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_arrival',x:110.35,z:153.35,plane:0,zone:"Tutor's Holm"},
     {id:'holm_workyard_waterworks',label:'Survival Workyard — water pulley',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_arrival',x:130.5,z:149.5,plane:0,zone:"Tutor's Holm"},
     {id:'holm_workyard_fishing',label:'Survival Workyard — fishing edge',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_arrival',x:131.7,z:151.1,plane:0,zone:"Tutor's Holm"},
+    {id:'holm_cavern_gate',label:'Training Cavern — Mine Gatehouse',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:128,z:124,plane:0,zone:"Tutor's Holm"},
+    {id:'holm_cavern_entry',label:'Training Cavern — entry landing',group:'Training Cavern',provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:286,z:354,plane:-1,zone:'Training Cavern',requires:'holm_training_cavern'},
+    {id:'holm_cavern_mining',label:'Training Cavern — copper rocks',group:'Training Cavern',provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:296,z:357,plane:-1,zone:'Training Cavern',requires:'holm_training_cavern'},
+    {id:'holm_cavern_smithing',label:'Training Cavern — furnace and anvil',group:'Training Cavern',provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:303.5,z:361.5,plane:-1,zone:'Training Cavern',requires:'holm_training_cavern'},
+    {id:'holm_cavern_exit',label:'Training Cavern — Combat Hall ladder',group:'Training Cavern',provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:322,z:354,plane:-1,zone:'Training Cavern',requires:'holm_training_cavern'},
     {id:'holm_workyard_cellar',label:'Workyard basement — ladder landing',group:'Basements',provider:'tutors-holm-v2',landmark:'holm_arrival',x:325.95,z:302.47,plane:-1,zone:'Workyard Basement',requires:'holm_cellar'},
     {id:'holm_workyard_chest',label:'Workyard basement — reserve chest',group:'Basements',provider:'tutors-holm-v2',landmark:'holm_arrival',x:326.5,z:303.5,plane:-1,zone:'Workyard Basement',requires:'holm_cellar'},
     {id:'holm_workyard_cellar_shelf',label:'Workyard basement — reserve shelf',group:'Basements',provider:'tutors-holm-v2',landmark:'holm_arrival',x:326.25,z:299.15,plane:-1,zone:'Workyard Basement',requires:'holm_cellar'},
@@ -73,6 +78,11 @@ var TestTravel=(function(){
     WorldTravel.perform(entry.provider,landmark,{zoneLabel:entry.zone,arrivalMessage:'[TEST TRAVEL] Provider ready.'});
   }
   function ensureRoom(entry){
+    if(entry.requires==='holm_training_cavern'){
+      if(typeof HolmTrainingCavern==='undefined'||!HolmTrainingCavern.snapshot().initialized)
+        return Promise.reject(new Error('Training Cavern runtime is not available'));
+      return Promise.resolve(true);
+    }
     if(entry.requires!=='holm_cellar') return Promise.resolve(true);
     if(typeof HolmSurvivalCellar==='undefined') return Promise.reject(new Error('Workyard basement runtime is not available'));
     HolmSurvivalCellar.load();

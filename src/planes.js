@@ -111,6 +111,7 @@ const Planes = {
     player.position.set(dest.x, y, dest.z);
     Player.moveTo=null; Player.path=[]; Player.target=null;
     this.refreshVisibility();
+    if(dest.zone&&typeof UI!=='undefined'&&UI.zone) UI.zone(dest.zone);
     // Plane changes are far-map teleports. Recenter in the same frame instead
     // of letting the camera lerp through several frames of empty darkness.
     if(typeof camera!=='undefined' && typeof camCtl!=='undefined'){
