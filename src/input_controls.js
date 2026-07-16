@@ -64,11 +64,13 @@ const Controls = {
     const spd  = (Player && Player.moveSpeed) ? Player.moveSpeed() : 4.2;
     const step = spd*dt;
     const tx = player.position.x + dx*step, tz = player.position.z + dz*step;
+    const pl=(Player&&Player.plane)||0;
     const slid = (typeof slideMove==='function')
-      ? slideMove(player.position.x, player.position.z, tx, tz, 0.3)
+      ? slideMove(player.position.x, player.position.z, tx, tz, 0.3, pl)
       : [tx,tz];
     if(slid){
-      const y = (typeof groundY==='function') ? groundY(slid[0],slid[1]) : player.position.y;
+      const y = (pl!==0&&typeof Planes!=='undefined') ? Planes.elevAt(slid[0],slid[1],pl) :
+        ((typeof groundY==='function') ? groundY(slid[0],slid[1]) : player.position.y);
       if(y!==null && y!==undefined){
         player.position.set(slid[0], y, slid[1]);
         player.lookAt(slid[0]+dx, y, slid[1]+dz);

@@ -329,6 +329,27 @@
   .modal .opt:hover{background:#efe5cc;color:#7f0000;}
   .modal .close-x{position:absolute;top:5px;right:10px;cursor:pointer;font-weight:bold;color:var(--red);}
 
+  /* Storm-reserve ledger. Its portrait is rendered from the same Blender
+     source as the in-world chest, so the interface identifies what opened. */
+  #cellar-reserve-modal{width:min(470px,92vw);box-sizing:border-box;padding:17px 18px 15px;}
+  #cellar-reserve-modal .reserve-title{display:flex;align-items:center;gap:13px;padding:0 22px 10px 0;
+    border-bottom:2px groove #695b42;}
+  #cellar-reserve-modal .reserve-title img{width:88px;height:70px;object-fit:contain;flex:0 0 auto;
+    background:radial-gradient(ellipse at center,#65553a 0,#2a241b 72%);border:2px ridge #8a7652;
+    image-rendering:auto;filter:drop-shadow(2px 3px 2px #120e08);}
+  #cellar-reserve-modal .reserve-title h3{margin:0 0 2px;font-size:19px;letter-spacing:.25px;}
+  #cellar-reserve-modal .reserve-title small{display:block;color:#d4be82;font-size:10px;letter-spacing:1.2px;}
+  #cellar-reserve-modal .reserve-purpose{margin:11px 0;color:#e6dbc0;line-height:1.38;}
+  #cellar-reserve-modal .reserve-stock{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 0 10px;}
+  #cellar-reserve-modal .reserve-stock>div{display:flex;justify-content:space-between;gap:8px;padding:7px 8px;
+    background:#292319;border:1px solid #5f5139;box-shadow:inset 0 0 0 1px #18140e;}
+  #cellar-reserve-modal .reserve-stock b{color:#ead8a8;font-size:12px;}
+  #cellar-reserve-modal .reserve-stock span{color:#bcae8b;font-size:11px;text-align:right;}
+  #cellar-reserve-modal .opt{display:flex;align-items:center;gap:9px;min-height:38px;}
+  #cellar-reserve-modal .opt img{width:30px;height:30px;object-fit:contain;image-rendering:auto;}
+  #cellar-reserve-modal .opt.claimed{opacity:.55;cursor:default;}
+  @media(max-width:520px){#cellar-reserve-modal .reserve-stock{grid-template-columns:1fr;}}
+
   .big-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px;max-height:230px;overflow-y:auto;}
   .big-grid .inv-slot{height:44px;}
   .price-tag{position:absolute;bottom:0;right:2px;font-size:9px;color:var(--yellow);text-shadow:1px 1px 0 #000;}
@@ -349,6 +370,30 @@
     font:11px Verdana;padding:5px 8px;background:var(--panel-dark);color:var(--beige);
     border:1px solid var(--steel-hi);cursor:pointer;}
   #admin-panel button:hover{color:var(--yellow);border-color:var(--yellow);}
+
+  /* localhost-only owner/reviewer coordinate travel */
+  #test-travel-toggle{position:fixed;left:12px;bottom:214px;z-index:950;display:none;width:42px;height:42px;
+    border:2px outset var(--steel-hi);border-radius:6px;background:linear-gradient(#5a5043,#30291f);
+    color:var(--yellow);font-size:19px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.62);}
+  #test-travel-toggle:hover{border-color:var(--yellow);}
+  #test-travel-panel{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9990;
+    width:min(470px,calc(100vw - 28px));max-height:82vh;overflow:auto;display:none;padding:14px;}
+  #test-travel-panel h3{margin:0;color:var(--orange);font:700 20px Georgia,serif;text-shadow:1px 1px #000;}
+  #test-travel-panel>small{color:#ab9e83;font-size:10px;}
+  #test-travel-current{margin:9px 0;padding:7px;background:#211c15;border:1px solid var(--steel-lo);
+    color:#e7d7ae;font:10px Verdana;}
+  .test-travel-group{margin:10px 0 4px;color:var(--yellow);font:700 11px Verdana;border-bottom:1px solid #665b47;padding-bottom:3px;}
+  .test-travel-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:5px;margin-bottom:4px;}
+  .test-travel-row .opt,.test-travel-manual button,.test-travel-save button{padding:6px 8px;text-align:left;
+    color:var(--beige);background:var(--panel-dark);border:1px solid var(--steel-hi);font:11px Verdana;cursor:pointer;}
+  .test-travel-row .opt:hover,.test-travel-manual button:hover,.test-travel-save button:hover{color:var(--yellow);border-color:var(--yellow);}
+  .test-travel-row span{color:#aaa087;font:9px Consolas,monospace;white-space:nowrap;}
+  .test-travel-delete{width:24px;height:24px;color:#d08c77;background:#2c201a;border:1px solid #715348;cursor:pointer;}
+  .test-travel-manual{display:grid;grid-template-columns:1.5fr .8fr .8fr .55fr auto;gap:4px;}
+  .test-travel-manual input,.test-travel-manual select,.test-travel-save input{min-width:0;padding:5px;background:#211c15;
+    color:var(--beige);border:1px inset var(--steel-hi);font:10px Verdana;}
+  .test-travel-save{display:grid;grid-template-columns:1fr auto;gap:4px;margin-top:7px;}
+  @media(max-width:620px){.test-travel-row{grid-template-columns:1fr auto}.test-travel-row span{grid-row:2;grid-column:1}.test-travel-manual{grid-template-columns:1fr 1fr 1fr}.test-travel-manual select{grid-column:1/4}.test-travel-manual button{grid-column:1/4;text-align:center}}
 
   .float-dmg{position:absolute;color:#fff;font:bold 13px Verdana;
     background:radial-gradient(ellipse at center, #d43a26 0%, #a8221a 62%, #7c140e 100%);
@@ -614,7 +659,12 @@
 <div id="admin-panel" class="steel">
   <h3>⚙ Administrator Console <span style="font-size:10px;color:#9a8e78">(press ` to toggle)</span></h3>
   <div class="row"><b>Teleport</b>
+    <button onclick="TestTravel.open()" title="Exact named coordinates and personal bookmarks">📍 Test Travel</button>
     <button onclick="Admin.tp('holm')">Tutor's Holm</button>
+    <button onclick="Admin.landmark('survival_shelter')" title="Review the authored Survival Workyard approach">Workyard</button>
+    <button onclick="Admin.workyardDoor('trail_door')" title="Test the aligned trail entrance">Trail door</button>
+    <button onclick="Admin.workyardDoor('pond_door')" title="Test the dry-shore pond exit">Pond door</button>
+    <button onclick="Admin.workyardLadder()" title="Review the real surface climb interaction">Workyard ladder</button>
     <button onclick="Admin.tp('commons')">Commons</button>
     <button onclick="Admin.tp('emberwood')">Emberwood</button>
     <button onclick="Admin.tp('quarry')">Quarry</button>
@@ -653,113 +703,137 @@
 <div id="action-text"></div>
 <div id="build-stamp" title="Local review build">build…</div>
 
-<script src="src/smoke.js?v=4"></script><!-- FIRST: error recorder always; full gate via ?smoke=1 -->
+<script src="src/smoke.js?v=31"></script><!-- FIRST: error recorder always; full gate via ?smoke=1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script src="assets/audio/soundfont-player.min.js"></script>
 <script src="src/events.js?v=1"></script>
 <script src="src/persist.js?v=1"></script>
 <script src="src/config.js?v=3"></script>
+<script src="src/world_mode.js?v=3"></script>
 <script src="src/item_attrs.js?v=1"></script>
 <script src="src/game0_icons.js"></script>
 <script src="src/worldgrid.js?v=4"></script>
-<script src="src/tutorial_island.js?v=10"></script>
-<script src="src/tut_cave_dress.js?v=1"></script>
-<script src="src/game1_data.js?v=q12"></script>
+  <script src="src/holm_landscape_data.js?v=8"></script>
+  <script src="src/world_v2_building_data.js?v=23"></script>
+  <script src="src/holm_tutorial_flow_data.js?v=5"></script>
+<script>CRWorldMode.loadLegacyScript('src/tutorial_island.js?v=10')</script>
+<script>CRWorldMode.loadLegacyScript('src/tut_cave_dress.js?v=1')</script>
+<script src="src/game1_data.js?v=q14"></script>
 <script src="src/chunks.js"></script>
-<script src="src/collision_grid.js?v=2"></script>
+<script src="src/world_v2_contract.js?v=5"></script>
+  <script src="src/world_v2_holm.js?v=15"></script>
+  <script src="src/world_v2_mainland.js?v=1"></script>
+  <script src="src/world_v2_boot_select.js?v=1"></script>
+<script src="src/collision_grid.js?v=3"></script>
 <script src="src/proc_props.js"></script>
-<script src="src/game2_world.js?v=h24"></script>
-<script src="src/tut_statue.js?v=1"></script>
+<script src="src/game2_world.js?v=h31"></script>
+<script src="src/world_walk_surfaces.js?v=1"></script>
+<script src="src/roof_transitions.js?v=1"></script>
+<script src="src/holm_landscape_runtime.js?v=1"></script>
+  <script src="src/world_v2_buildings.js?v=28"></script>
+  <script src="src/world_v2_terrain.js?v=3"></script>
+  <script src="src/world_v2_objects.js?v=10"></script>
+<script>CRWorldMode.loadLegacyScript('src/tut_statue.js?v=1')</script>
 <script src="src/world_gear.js?v=1"></script>
 <script src="src/world_scatter.js?v=2"></script>
-<script src="src/prop_grass_tufts.js?v=1"></script>
-<script src="src/prop_paving.js?v=1"></script>
-<script src="src/world_paved_plaza.js?v=1"></script>
-<script src="src/world_pave_commons.js?v=1"></script>
-<script src="src/prop_smithy.js?v=1"></script>
-<script src="src/prop_stall_goods.js?v=1"></script>
-<script src="src/prop_bank_interior.js?v=1"></script>
-<script src="src/prop_ruins.js?v=1"></script>
-<script src="src/prop_crates.js?v=1"></script>
-<script src="src/prop_beds_torches.js?v=1"></script>
-<script src="src/prop_buggy.js?v=1"></script>
-<script src="src/prop_iron_fence.js?v=4"></script>
-<script src="src/prop_fallen_tree.js?v=1"></script>
+<script>CRWorldMode.loadLegacyScript('src/prop_grass_tufts.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_paving.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/world_paved_plaza.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/world_pave_commons.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_smithy.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_stall_goods.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_bank_interior.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_ruins.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_crates.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_beds_torches.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_buggy.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_iron_fence.js?v=4')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_fallen_tree.js?v=1')</script>
 <!-- Reference-asset builders (Bible_References Studio modules — pure makeRefX(x,z,rot) builders;
      world files place them; integration pass 2026-07-06) -->
-<script src="src/ref_altar.js?v=1"></script>
-<script src="src/ref_anvil.js?v=1"></script>
-<script src="src/ref_bank.js?v=2"></script>
-<script src="src/ref_bankbasement.js?v=1"></script>
-<script src="src/ref_bed.js?v=1"></script>
-<script src="src/ref_bld1.js?v=1"></script>
-<script src="src/ref_bld2.js?v=1"></script>
-<script src="src/ref_bld3.js?v=1"></script>
-<script src="src/ref_bld4.js?v=1"></script>
-<script src="src/ref_bldint1.js?v=1"></script>
-<script src="src/ref_bldint2.js?v=1"></script>
-<script src="src/ref_bldint3.js?v=1"></script>
-<script src="src/ref_cakestall.js?v=1"></script>
-<script src="src/ref_carpet.js?v=1"></script>
-<script src="src/ref_church.js?v=3"></script>
-<script src="src/ref_churchinterior.js?v=1"></script>
-<script src="src/ref_dock.js?v=1"></script>
-<script src="src/ref_fountain.js?v=1"></script>
-<script src="src/ref_furnace.js?v=1"></script>
-<script src="src/ref_furstall.js?v=1"></script>
-<script src="src/ref_gemstall.js?v=1"></script>
-<script src="src/ref_ladder.js?v=1"></script>
-<script src="src/ref_missedprops.js?v=1"></script>
-<script src="src/ref_pier.js?v=1"></script>
+<script>CRWorldMode.loadLegacyScript('src/ref_altar.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_anvil.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bank.js?v=2')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bankbasement.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bed.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bld1.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bld2.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bld3.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bld4.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bldint1.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bldint2.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bldint3.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_cakestall.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_carpet.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_church.js?v=3')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_churchinterior.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_dock.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_fountain.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_furnace.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_furstall.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_gemstall.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_ladder.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_missedprops.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_pier.js?v=1')</script>
 <script src="src/ref_rowboat.js?v=1"></script>
-<script src="src/ref_store.js?v=3"></script>
-<script src="src/ref_torch.js?v=1"></script>
-<script src="src/ref_townpool.js?v=1"></script>
+<script>CRWorldMode.loadLegacyScript('src/ref_store.js?v=3')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_torch.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_townpool.js?v=1')</script>
 <script src="src/combat_math.js?v=1"></script>
-<script src="src/planes.js?v=6"></script>
-<script src="src/buildkit.js?v=15"></script>
-<script src="src/buildkit_thatch.js?v=1"></script>
-<script src="src/tut_bld_guide.js?v=7"></script>
-<script src="src/tut_bld_chef.js?v=7"></script>
-<script src="src/tut_bld_quest.js?v=8"></script>
-<script src="src/tut_bld_mage.js?v=8"></script>
+<script src="src/planes.js?v=8"></script>
+<script>CRWorldMode.loadLegacyScript('src/buildkit.js?v=15')</script>
+<script>CRWorldMode.loadLegacyScript('src/buildkit_thatch.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/tut_bld_guide.js?v=7')</script>
+<script>CRWorldMode.loadLegacyScript('src/tut_bld_chef.js?v=7')</script>
+<script>CRWorldMode.loadLegacyScript('src/tut_bld_quest.js?v=8')</script>
+<script>CRWorldMode.loadLegacyScript('src/tut_bld_mage.js?v=8')</script>
 <!-- map_showcase (Wayfarer's Rest) disabled 2026-07-03: pre-map building wiped w/ the legacy village; pattern lives in git + MAP_PIPELINE -->
-<script src="src/wardenholm.js?v=16"></script>
-<script src="src/biome_snow.js?v=15"></script>
+<script>CRWorldMode.loadLegacyScript('src/wardenholm.js?v=16')</script>
+<script>CRWorldMode.loadLegacyScript('src/biome_snow.js?v=15')</script>
 <!-- north_cottage disabled 2026-07-03: pre-map building wiped w/ the legacy village (Alora-parity build preserved in git) -->
-<script src="src/gloomfen.js?v=2"></script>
-<script src="src/world_evil_tree.js?v=3"></script>
-<script src="src/brynholt.js?v=5"></script>
-<script src="src/veyhollow_town.js?v=12"></script>
-<script src="src/town_square.js?v=21"></script>
-<script src="src/stonereach_bridge.js?v=2"></script>
-<script src="src/oluns_mill.js?v=3"></script>
-<script src="src/saltreach.js?v=4"></script>
-<script src="src/keep_road.js?v=1"></script>
-<script src="src/bank_basement.js?v=1"></script>
-<script src="src/holm_lighthouse.js?v=1"></script>
-<script src="src/quarry_store.js?v=1"></script>
-<script src="src/dunes_camp.js?v=1"></script>
-<script src="src/gloomfen_stilts.js?v=1"></script>
-<script src="src/prop_dock.js?v=1"></script>
-<script src="src/item_spawns.js?v=2"></script>
+<script>CRWorldMode.loadLegacyScript('src/gloomfen.js?v=2')</script>
+<script>CRWorldMode.loadLegacyScript('src/world_evil_tree.js?v=3')</script>
+<script>CRWorldMode.loadLegacyScript('src/brynholt.js?v=5')</script>
+<script>CRWorldMode.loadLegacyScript('src/hollow_square_data.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/hollow_square_landscape.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/veyhollow_town.js?v=13')</script>
+<script>CRWorldMode.loadLegacyScript('src/town_square.js?v=22')</script>
+<script>CRWorldMode.loadLegacyScript('src/hollow_square_composer.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/stonereach_bridge.js?v=2')</script>
+<script>CRWorldMode.loadLegacyScript('src/oluns_mill.js?v=3')</script>
+<script>CRWorldMode.loadLegacyScript('src/saltreach.js?v=4')</script>
+<script>CRWorldMode.loadLegacyScript('src/keep_road.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/bank_basement.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/holm_lighthouse.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/quarry_store.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/dunes_camp.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/gloomfen_stilts.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_dock.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/item_spawns.js?v=2')</script>
 <script src="src/proc_beasts.js"></script>
 <script src="src/game_assets.js"></script>
 <script src="src/game3_systems.js?v=g10"></script>
+<script src="src/sfx_furnishings.js?v=5"></script>
+<script src="src/waterworks_u4_contract.js?v=1"></script>
+<script src="src/fishing_edge_u5_contract.js?v=1"></script>
 <script src="src/magic_spells.js?v=2"></script>
 <script src="src/fx_dragon.js?v=3d"></script>
 <script src="src/fx_mole.js?v=1"></script>
 <script src="src/fx_wolf.js?v=2"></script>
 <script src="src/audio_orchestra.js"></script>
-<script src="src/game4_ui.js?v=r16"></script>
+<script src="src/audio_tracks2.js?v=1"></script>
+<script src="src/audio_title_full.js?v=1"></script>
+<script src="src/audio_hearthside.js?v=1"></script>
+<script src="src/audio_minstrel.js?v=1"></script>
+<script src="src/game4_ui.js?v=r26"></script>
 <script src="src/ui_osrs.js?v=1"></script>
 <script src="src/ui_prayer_magic.js?v=1"></script>
 <script src="src/ui_combat.js?v=1"></script>
 <script src="src/ui_minimap.js?v=1"></script>
-<script src="src/ui_map.js?v=1"></script>
+<script src="src/ui_map.js?v=2"></script>
 <script src="src/ui_shop.js?v=1"></script>
-<script src="src/ui_save.js?v=1"></script>
+  <script src="src/ui_save.js?v=6"></script>
 <script src="src/overlays.js?v=2"></script>
 <script src="src/tick_health.js?v=2"></script>
 <script src="src/overlays_world.js?v=4"></script>
@@ -769,12 +843,18 @@
 <script src="src/ui_smith_grid.js?v=2"></script>
 <script src="src/smith_bronze_dagger.js?v=1"></script>
 <script src="src/ui_guide_arrow.js?v=1"></script>
-<script src="src/cooking_bread.js?v=1"></script>
+<script src="src/cooking_bread.js?v=2"></script>
 <script src="src/item_teleport_tabs.js?v=1"></script>
 <script src="src/map_search.js?v=1"></script>
-<script src="src/scheduler.js?v=1"></script>
-<script src="src/dispatch.js?v=1"></script>
+  <script src="src/scheduler.js?v=1"></script>
+  <script src="src/dispatch.js?v=3"></script>
+  <script src="src/world_v2_travel.js?v=1"></script>
+  <script src="src/admin_landmarks.js?v=3"></script>
+<script src="src/dev_travel.js?v=7"></script>
+<script src="src/hollow_square_interactions.js?v=1"></script>
 <script src="src/intents.js?v=1"></script>
+  <script src="src/workyard_waterworks_u4.js?v=3"></script>
+  <script src="src/fishing_edge_u5.js?v=2"></script>
 <script src="src/fx_atmosphere.js?v=5"></script>
 <script src="src/fx_bubbles.js?v=1"></script>
 <script src="src/deeds.js?v=1"></script>
@@ -784,8 +864,13 @@
 <script src="src/boss_sm.js?v=1"></script>
 <script src="src/instances.js?v=2"></script>
 <script src="src/tutorial_ext.js?v=1"></script>
-<script src="src/tutorial_holm.js?v=3"></script>
-<script src="src/tut_holm_path.js?v=2"></script>
+  <script src="src/tutorial_holm.js?v=5"></script>
+  <script src="src/holm_guide_hall_interactions.js?v=2"></script>
+  <script src="src/holm_survival_workyard_interactions.js?v=4"></script>
+<script src="src/holm_cellar_furnishings.js?v=13"></script>
+<script src="src/holm_survival_workyard_cellar.js?v=48"></script>
+  <script src="src/holm_departure.js?v=1"></script>
+<script>CRWorldMode.loadLegacyScript('src/tut_holm_path.js?v=2')</script>
 <script src="src/dev_tools.js?v=1"></script>
 <script src="src/homesteads.js?v=1"></script>
 <script src="src/quest_ui.js?v=q2"></script>
@@ -798,14 +883,15 @@
 <script src="src/game_editor.js?v=2"></script>
 <!-- castle.js retired 2026-07-03: the old Veyhollow Keep is not on the bible map (user decision; Wardenholm is the one castle) -->
 <script src="src/anim_showcase.js"></script>
-<script src="src/starter_pen.js?v=5"></script>
-<script src="src/input_controls.js"></script>
+<script>CRWorldMode.loadLegacyScript('src/starter_pen.js?v=5')</script>
+<script src="src/input_controls.js?v=2"></script>
 <script src="src/char_creator.js"></script>
 <script src="src/fx_humanoid.js?v=g15"></script>
 <script src="src/char_quaternius.js?v=2"></script>
 <script src="src/char_customizer.js"></script>
 <script src="src/char_styles.js"></script>
-<script src="src/game5_main.js?v=h11"></script>
+<script src="src/boot_coordinator.js?v=1"></script>
+<script src="src/game5_main.js?v=h25"></script>
 <script src="src/tut_firemaking.js?v=1"></script>
 <script>
   /* sync the settings volume sliders to saved values on load */

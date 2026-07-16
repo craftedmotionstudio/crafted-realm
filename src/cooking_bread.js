@@ -14,6 +14,7 @@
   /* single-slot, non-stack items — modelled on raw_perch/bread's schema */
   const NEW_ITEMS = {
     dough:        {name:'Dough',           stack:false, value:2, examine:'A cool elastic lump the chef pressed into your hands.'},
+    bucket:       {name:'Bucket',          stack:false, value:1, examine:'A sturdy empty stave bucket with an iron handle.'},
     bucket_flour: {name:'Bucket of flour', stack:false, value:3, examine:'Milled pale and fine — mind the dust.'},
     bucket_water: {name:'Bucket of water', stack:false, value:1, examine:'Cold, clean and sloshing.'},
     bread_dough:  {name:'Bread dough',     stack:false, value:3, examine:'Kneaded and rested, ready for a hot range.'},

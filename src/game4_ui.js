@@ -467,7 +467,14 @@ UI.logout      = function(){
 /* ---------- admin ---------- */
 const Admin = {
   speedOn:false,
-  tp(z){ const p=ZONES[z].pos;
+  tp(z){
+    if(typeof CRWorldMode!=='undefined'&&!CRWorldMode.legacy&&typeof WorldTravel!=='undefined'){
+      if(z==='commons'&&WorldV2.get('veyhollow-commons-v2'))
+        return WorldTravel.go('veyhollow-commons-v2','hollow_well_square',{loadingLabel:'Crossing to Veyhollow…',zoneLabel:ZONES.commons.name});
+      if(z==='holm'&&WorldV2.get('tutors-holm-v2'))
+        return WorldTravel.go('tutors-holm-v2','holm_arrival',{loadingLabel:'Returning to Tutor\'s Holm…',zoneLabel:ZONES.holm.name});
+    }
+    const p=ZONES[z].pos;
     player.position.set(p[0], gy(p[0],p[1]), p[1]);
     Player.moveTo=null; Player.target=null;
     UI.chat(`[ADMIN] Teleported to ${ZONES[z].name}.`,'sys'); },
@@ -545,6 +552,17 @@ function pick(e){
   return null;
 }
 
+// Inspect-only scenery belongs in the right-click menu.  Its left-click and
+// hover primary action are the reachable ground beneath the cursor, matching
+// OSRS scenery behavior instead of advertising Inspect as a left-click action.
+function hoverPrimaryLabel(hit,hasWalkGround){
+  if(!hit||!hit.obj)return null;
+  const u=hit.obj.userData||{};
+  if(u.inspectOnly)return hasWalkGround?'Walk here':null;
+  if(u.label)return u.label;
+  return hit.obj.name==='ground'?'Walk here':null;
+}
+
 canvasEl.addEventListener('mousedown', e=>{
   camCtl.dragging=false; camCtl.lx=e.clientX; camCtl.ly=e.clientY; camCtl.down=true;
 });
@@ -559,13 +577,16 @@ canvasEl.addEventListener('mousemove', e=>{
   } else {
     const hit = pick(e);
     _hoverNpc = (hit && hit.obj.userData && hit.obj.userData.kind==='npc') ? hit.obj.userData.npc : null;
-    const onObj = hit && hit.obj.userData.label;
-    const label = onObj ? hit.obj.userData.label : (hit && hit.obj.name==='ground' ? 'Walk here' : null);
+    const inspectOnly=!!(hit&&hit.obj.userData&&hit.obj.userData.inspectOnly);
+    const inspectGround=inspectOnly?groundPick(e):null;
+    const label=hoverPrimaryLabel(hit,!inspectOnly||!!inspectGround);
+    const onObj=!!(hit&&hit.obj.userData&&hit.obj.userData.label&&!inspectOnly);
     // "/ N more options" = right-click entries minus the primary action and Cancel
     const more = hit ? Math.max(0, buildCtxEntries(hit, e).length - 2) : 0;
     UI.action(label, more);
     canvasEl.style.cursor = onObj ? 'pointer' : 'crosshair';
-    if(hit && hit.obj && hit.obj.name==='ground' && hit.point) showHoverTile(hit.point);
+    if(inspectGround)showHoverTile(inspectGround);
+    else if(hit && hit.obj && hit.obj.name==='ground' && hit.point) showHoverTile(hit.point);
     else hideHoverTile();
   }
 });
@@ -576,6 +597,29 @@ canvasEl.addEventListener('mouseup', e=>{
   if(typeof CharCreator!=='undefined' && CharCreator.active) return;   // designing: ignore world clicks
   if(window.Build && Build.active){ Build.onClick(e); return; }   // editor: place prop
   const hit = pick(e); if(!hit) return;
+  // A small number of authored stations explicitly accept an inventory item
+  // while retaining their central Interact hook. Route only those marked
+  // targets through the dispatcher; legacy resources and every unmarked prop
+  // keep the existing direct item-on-world behavior below.
+  if(Player.usingItem && hit.obj.userData && hit.obj.userData.acceptsUseItem &&
+     typeof Interact!=='undefined' && Interact.entriesFor){
+    const itemEntries=Interact.entriesFor(hit,e).filter(function(en){return en.primary;});
+    if(itemEntries.length===1 && itemEntries[0].fn){itemEntries[0].fn();return;}
+  }
+  // A ladder is a traversal control, not ordinary scenery. Keep its left-click
+  // deterministic even when a saved menu-swap rule or tile-marker overlay has
+  // added or reordered contextual options for the same ray hit.
+  if(!Player.usingItem && hit.obj.userData && hit.obj.userData.kind==='climb'){
+    handleClick(hit.obj, hit.point);
+    return;
+  }
+  // Authored scenery remains available to the OSRS-style right-click menu, but
+  // an ordinary left click is still a movement order rather than an inspection.
+  if(!Player.usingItem && hit.obj.userData && hit.obj.userData.inspectOnly){
+    const gp=groundPick(e);
+    if(gp) minimapWalkTo(gp);
+    return;
+  }
   // OSRS rule: left-click performs the TOP menu entry — so user swap rules (qol_ui)
   // remap left-click automatically. use-item targeting keeps the legacy direct path.
   if(!Player.usingItem && hit.obj.userData && hit.obj.userData.kind){
@@ -646,8 +690,7 @@ function buildCtxEntries(hit, e){
         entries.push({html:'Climb-up '+(u.label||'').replace(/^Climb /,''), fn:()=>handleClick(o, o.position)});
       if(u.climb.down && u.climb.down.plane<pl)
         entries.push({html:'Climb-down '+(u.label||'').replace(/^Climb /,''),
-          fn:()=>{ if(typeof Sched!=='undefined') Sched.walkThen(o.position, 1.8, ()=>Planes.climbTo(u.climb.down));
-                   else Planes.climbTo(u.climb.down); }});
+          fn:()=>queueClimb(o, u.climb.down)});
       if(!u.climb.up && !u.climb.down) entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
     } else if(u.kind==='altar'){
       entries.push({html:'Pray at <b>Altar</b>', fn:()=>{ Player.action={type:'pray', obj:o, t:0}; Player.moveTo=o.position.clone(); }});
@@ -679,7 +722,13 @@ function buildCtxEntries(hit, e){
     } else if(u.kind==='bank'){
       entries.push({html:'Use <b>Bank booth</b>', fn:()=>handleClick(o, o.position)});
     } else if(u.kind==='prop'){
-      entries.push({html:'Examine', fn:()=>UI.chat(u.examine||'Just a curio of the realm.','plain')});
+      const inspectName=u.inspectName?` <b>${u.inspectName}</b>`:'';
+      entries.push({html:'Inspect'+inspectName,
+        fn:()=>UI.chat(u.inspectMessage||u.examine||'Just a curio of the realm.','plain')});
+    }
+    if(u.inspectMessage&&!u.inspectOnly){
+      const inspectName=u.inspectName?` <b>${u.inspectName}</b>`:'';
+      entries.push({html:'Inspect'+inspectName,fn:()=>UI.chat(u.inspectMessage,'plain')});
     }
   }
   entries.push({html:'Walk here', fn:()=>{ const gp=e?groundPick(e):null;
@@ -775,10 +824,55 @@ function toggleDoor(door){
 }
 function minimapWalkTo(p){
   Player.target=null; Player.action=null;
-  const y=groundY(p.x,p.z);
-  if(y===null||y<-1.2){ UI.chat('You cannot walk there.','plain'); return; }
+  const pl=(Player.plane||0);
+  const y=(pl!==0&&typeof Planes!=='undefined')?Planes.elevAt(p.x,p.z,pl):groundY(p.x,p.z);
+  if(y===null||(pl===0&&y<-1.2)){ UI.chat('You cannot walk there.','plain'); return; }
   const sp=snapWalkTarget(new THREE.Vector3(p.x,y,p.z));
   orderWalk(sp); moveMarker(sp);
+}
+
+// Imported GLB interaction nodes are nested below a translated/rotated building
+// root. Their local .position is not a navigable world tile; always resolve the
+// world transform before handing an authored prop to click-to-walk.
+function clickWorldPos(obj){
+  const walkAt=obj&&obj.userData&&obj.userData.walkAt;
+  if(walkAt) return new THREE.Vector3(walkAt.x,0,walkAt.z);
+  return obj&&obj.getWorldPosition?obj.getWorldPosition(new THREE.Vector3()):obj.position;
+}
+
+function doorApproachPos(obj){
+  const u=obj&&obj.userData||{};
+  const choices=[u.entryInside,u.entryOutside].filter(Boolean);
+  if(!choices.length) return clickWorldPos(obj);
+  let best=choices[0],bestD=Infinity;
+  for(const p of choices){
+    const d=Math.hypot(player.position.x-p.x,player.position.z-p.z);
+    if(d<bestD){ best=p; bestD=d; }
+  }
+  const y=(typeof Planes!=='undefined')?Planes.elevAt(best.x,best.z,Player.plane||0):groundY(best.x,best.z);
+  return new THREE.Vector3(best.x,y===null?player.position.y:y,best.z);
+}
+
+function queueClimb(obj,dest){
+  const target=clickWorldPos(obj);
+  const reach=2.2;
+  const complete=()=>{
+    const cue=obj&&obj.userData&&obj.userData.climbSound;
+    if(typeof SfxFurnishings!=='undefined'){
+      if(cue==='down'&&SfxFurnishings.climbDown)SfxFurnishings.climbDown();
+      else if(cue==='up'&&SfxFurnishings.climbUp)SfxFurnishings.climbUp();
+    }
+    Planes.climbTo(dest);
+  };
+  // If the player is already at the authored ladder tile, climb immediately.
+  // This keeps imported prop hierarchy offsets and scheduler timing from turning
+  // an intentional ladder click into a second, unrelated walk order.
+  if(Math.hypot(player.position.x-target.x, player.position.z-target.z)<=reach){
+    complete();
+    return;
+  }
+  if(typeof Sched!=='undefined') Sched.walkThen(target, reach, complete);
+  else { orderWalk(target); setTimeout(complete, 900); }
 }
 
 function handleClick(obj, point){
@@ -797,8 +891,7 @@ function handleClick(obj, point){
     // ladders/stairs: walk to the base, then move a plane (src/planes.js)
     const c=u.climb, pl=(Player.plane||0);
     const dest = (c.up && c.down) ? ((c.up.plane>pl) ? c.up : c.down) : (c.up || c.down);
-    if(typeof Sched!=='undefined') Sched.walkThen(obj.position, 1.8, ()=>Planes.climbTo(dest));
-    else { orderWalk(obj.position); setTimeout(()=>Planes.climbTo(dest), 900); }
+    queueClimb(obj, dest);
     return;
   }
   if(u.kind==='resource'){
@@ -820,7 +913,9 @@ function handleClick(obj, point){
   if(u.kind==='bank'){ Player.action={type:'usebank', obj}; orderWalk(obj.position); return; }
   if(u.kind==='cave'){ Player.action={type:'cavetravel', obj}; orderWalk(obj.position); return; }
   if(u.kind==='door'){
-    Player.action={type:'door', obj}; orderWalk(obj.position); return;
+    const doorPos=doorApproachPos(obj);
+    Player.action={type:'door',obj,walkAt:{x:doorPos.x,z:doorPos.z}};
+    orderWalk(doorPos); return;
   }
   if(u.kind==='signpost'){
     UI.chat('The signpost reads: '+obj.userData.boards.map(b=>b.text).join(' \u2022 ')+'.','plain');
@@ -843,13 +938,17 @@ function handleClick(obj, point){
    so you can see exactly where the character will walk — like Old School, but in 3D. */
 const TILE = 1.0;
 function _tileCenter(x,z){ return [Math.floor(x/TILE)*TILE+TILE/2, Math.floor(z/TILE)*TILE+TILE/2]; }
+function _walkElevAt(x,z){
+  const pl=(typeof Player!=='undefined'&&Player.plane)||0;
+  return (pl!==0&&typeof Planes!=='undefined')?Planes.elevAt(x,z,pl):groundY(x,z);
+}
 /* write the 5 perimeter points of a terrain-hugging square into a Line geometry (reused) */
 function _setSquareGeom(geom, cx, cz, half, lift){
   const c=[[cx-half,cz-half],[cx+half,cz-half],[cx+half,cz+half],[cx-half,cz+half],[cx-half,cz-half]];
   const a=geom.getAttribute('position');
   const v=(a && a.array.length===15) ? a.array : new Float32Array(15);
   for(let i=0;i<5;i++){ const px=c[i][0], pz=c[i][1];
-    v[i*3]=px; v[i*3+1]=(groundY(px,pz)||0)+lift; v[i*3+2]=pz; }
+    const y=_walkElevAt(px,pz); v[i*3]=px; v[i*3+1]=(y===null?0:y)+lift; v[i*3+2]=pz; }
   if(a && a.array.length===15){ a.needsUpdate=true; }
   else geom.setAttribute('position', new THREE.BufferAttribute(v,3));
 }
@@ -880,7 +979,8 @@ function _ensureDest(){
 function markDestTile(p){
   _ensureDest();
   const [cx,cz]=_tileCenter(p.x,p.z);
-  _destFill.position.set(cx,(groundY(cx,cz)||0)+0.05,cz);
+  const y=_walkElevAt(cx,cz);
+  _destFill.position.set(cx,(y===null?0:y)+0.05,cz);
   _setSquareGeom(_destOutline.geometry, cx, cz, TILE/2-0.02, 0.07);
   _destFill.visible=true; _destOutline.visible=true; _destActive=true; _destFade=1;
 }
@@ -907,16 +1007,17 @@ function showPathPreview(){
     const ax=pts[i][0], az=pts[i][1], bx=pts[i+1][0], bz=pts[i+1][1];
     const segs=Math.max(1, Math.ceil(Math.hypot(bx-ax,bz-az)));
     for(let s=0;s<segs;s++){ const t=s/segs, px=ax+(bx-ax)*t, pz=az+(bz-az)*t;
-      v.push(px,(groundY(px,pz)||0)+0.1,pz); }
+      const y=_walkElevAt(px,pz); v.push(px,(y===null?0:y)+0.1,pz); }
   }
-  const L=pts[pts.length-1]; v.push(L[0],(groundY(L[0],L[1])||0)+0.1,L[1]);
+  const L=pts[pts.length-1],ly=_walkElevAt(L[0],L[1]);
+  v.push(L[0],(ly===null?0:ly)+0.1,L[1]);
   _pathLine.geometry.dispose();
   _pathLine.geometry=new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(v,3));
   _pathLine.visible=true;
   // one faint filled square per route tile
   const h=TILE/2*0.86, tv=[];
   for(const w of tiles){
-    const cx=w.x, cz=w.z, y=(groundY(cx,cz)||0)+0.04;
+    const cx=w.x, cz=w.z, wy=_walkElevAt(cx,cz), y=(wy===null?0:wy)+0.04;
     const x0=cx-h, x1=cx+h, z0=cz-h, z1=cz+h;
     tv.push(x0,y,z0, x1,y,z0, x1,y,z1,  x0,y,z0, x1,y,z1, x0,y,z1);
   }
@@ -938,12 +1039,12 @@ function updateGroundGrid(){
     _groundGrid.renderOrder=990; scene.add(_groundGrid);
   }
   const v=[], x0=ptx-R, x1=ptx+R, z0=ptz-R, z1=ptz+R;
-  const ok=y=>y!==null && y>-1.2;
+  const pl=(Player.plane||0),ok=y=>y!==null && (pl!==0||y>-1.2);
   for(let x=x0; x<=x1; x++) for(let z=z0; z<z1; z++){
-    const a=groundY(x,z), b=groundY(x,z+1); if(ok(a)&&ok(b)) v.push(x,a+0.03,z, x,b+0.03,z+1);
+    const a=_walkElevAt(x,z), b=_walkElevAt(x,z+1); if(ok(a)&&ok(b)) v.push(x,a+0.03,z, x,b+0.03,z+1);
   }
   for(let z=z0; z<=z1; z++) for(let x=x0; x<x1; x++){
-    const a=groundY(x,z), b=groundY(x+1,z); if(ok(a)&&ok(b)) v.push(x,a+0.03,z, x+1,b+0.03,z);
+    const a=_walkElevAt(x,z), b=_walkElevAt(x+1,z); if(ok(a)&&ok(b)) v.push(x,a+0.03,z, x+1,b+0.03,z);
   }
   _groundGrid.geometry.dispose();
   _groundGrid.geometry=new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(v,3));
@@ -951,8 +1052,8 @@ function updateGroundGrid(){
 /* snap a walk target to the centre of the tile clicked (the tile we highlighted) */
 function snapWalkTarget(p){
   const [cx,cz]=_tileCenter(p.x,p.z);
-  const y=groundY(cx,cz);
-  if(y!==null && y>-1.2) return new THREE.Vector3(cx,y,cz);
+  const y=_walkElevAt(cx,cz),pl=(Player.plane||0);
+  if(y!==null && (pl!==0||y>-1.2)) return new THREE.Vector3(cx,y,cz);
   return p.clone ? p.clone() : new THREE.Vector3(p.x,p.y||0,p.z);
 }
 /* drives the pulse, the arrival fade, and trims the route as the player advances */
@@ -983,14 +1084,12 @@ function moveMarker(p){ markDestTile(p); showPathPreview(); }
 
 /* minimap click-to-walk */
 function minimapWalk(px, py){
-  const W=144, scale=1.35;
-  // undo the map's rotation: screen offset back into world space
   const yaw = (typeof camCtl!=='undefined' && camCtl) ? camCtl.yaw : 0;
-  const sx=(px-W/2)/scale, sz=(py-W/2)/scale;
-  const ca=Math.cos(-yaw), sa=Math.sin(-yaw);
-  const wx = player.position.x + sx*ca - sz*sa;
-  const wz = player.position.z + sx*sa + sz*ca;
-  minimapWalkTo({x:wx, z:wz});
+  // The renderer owns the inverse transform so drawing and click-walk cannot drift apart.
+  const p=(typeof CRMinimap!=='undefined')
+    ? CRMinimap.screenToWorld(px,py,player.position,yaw)
+    : {x:player.position.x+(px-72)/1.35,z:player.position.z+(py-72)/1.35};
+  minimapWalkTo(p);
 }
 (function(){
   const mm = document.getElementById('minimap');
@@ -1998,7 +2097,8 @@ function updateSparring(dt){
 function populateHolm(){
   const h=ZONES.holm.pos;
   spawnFriendly('bram','Guide Bram', h[0]-4, h[1]+6, 0x4a5a7a,'🧓');
-  makeRowboat(h[0]-8, h[1]+10, 0.7);
+  const v2Objects=(typeof WorldV2Objects!=='undefined'&&WorldV2Objects.snapshot().ready);
+  if(!v2Objects||!WorldV2Objects.ownsObject('holm_shore_rowboat')) makeRowboat(h[0]-8, h[1]+10, 0.7);
   for(let i=0;i<4;i++) makeTree(h[0]+6+Math.random()*8, h[1]-2+Math.random()*10);
   // fishing spots sit ON the pond water (surface drawn at -1.52)
   const wy = -1.44;
@@ -2031,9 +2131,12 @@ function populateHolm(){
   placeProp('wheat',   h[0]-7.6, h[1]+4.2);
   placeProp('wheat',   h[0]-7.0, h[1]+5.2);
   // camp supplies, by the campfire
-  placeProp('crate',   h[0]+2.4, h[1]+3.4);
-  placeProp('barrel',  h[0]+3.4, h[1]+2.6);
-  placeProp('bucket',  h[0]+2.8, h[1]+4.4);
+  if(!v2Objects||!WorldV2Objects.ownsObject('holm_supply_crate'))
+    placeProp('crate',   h[0]+2.4, h[1]+3.4);
+  if(!v2Objects||!WorldV2Objects.ownsObject('holm_supply_barrel'))
+    placeProp('barrel',  h[0]+3.4, h[1]+2.6);
+  if(!v2Objects||!WorldV2Objects.ownsObject('holm_supply_bucket'))
+    placeProp('bucket',  h[0]+2.8, h[1]+4.4);
   placeProp('sack',    h[0]+1.6, h[1]+4.2);
 }
 

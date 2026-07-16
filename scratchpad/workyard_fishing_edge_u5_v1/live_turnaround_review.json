@@ -1,0 +1,17 @@
+{
+  "assetId": "workyard_fishing_edge_u5_v1",
+  "context": "live Three.js r128 normal browser build",
+  "verdict": "PASS",
+  "views": {
+    "north": {"verdict": "PASS", "notes": "Terminal dock connection, operator lane, open creel, fish ripples, and water contact read without floating or clipping."},
+    "south": {"verdict": "PASS", "notes": "Reverse camera shows the fishing target remains outside the walking lane and the creel keeps its modeled interior."},
+    "east": {"verdict": "PASS", "notes": "Side view confirms the U5 patch sits against the accepted U4 terminal edge with no new blocker or oversized marker."},
+    "west": {"verdict": "PASS", "notes": "Opposite side preserves readable ripples, dock silhouette, and clear player approach."}
+  },
+  "interaction": "PASS — Small net begins the authored animation, awards one Raw mirrorperch and 28 Fishing XP, and reload restores the caught fish.",
+  "defectsFoundAndFixed": [
+    "inventory-item selection originally bypassed custom Interact hooks; the fishing water now explicitly accepts inventory-item dispatch",
+    "GLB root pipeline metadata and the 11-material export budget were aligned with the recipe",
+    "world and smoke interaction totals were advanced from U4 to U5"
+  ]
+}

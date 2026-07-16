@@ -132,23 +132,17 @@
       color:0xc9b28a, roofColor:0xc77b4a, roof:'gable', interior:'house'});
     if(typeof makeRange==='function') makeRange(-6.8,19.2);
 
-    /* ---- rung 1+2 (passes 012/013): the homes — the map's circle is DENSE (~13
-     * rooftops). Six furnished cottages fill the ring's quadrants at real OSRS house
-     * footprints (walk-in sized, user critique 2026-07-03), and NO two share a shape:
-     * a long-house, a two-storey, a stone cottage, hips among the gables, chimneys
-     * smoking. Pads probed clear of roads, water, and existing colliders. ---- */
+    /* ---- perimeter homes: housing frames the civic core instead of filling it.
+     * The three old inner-ring cottages at (-6,8), (4,10), and (10,3) made the
+     * Hollow Well read as another prop between prefab roofs. Their pads now belong
+     * to the square composer: notices, public hearth, seating, planting, and clear
+     * sightlines. These three distinct homes retain residential life at the wall. ---- */
     Buildkit.house({x:-20, z:0,   w:5,   d:6.5, doorSide:'S', color:0xd0bc94, roofColor:0x7a5838,
       roof:'gable', interior:'house', shellOpts:{chimney:true}});                  // the west long-house
     Buildkit.house({x:-13.5, z:1, w:5.5, d:4.5, floors:2, doorSide:'E', color:0xc9b28a, roofColor:0x6e4a2e,
       roof:'gable', interior:'house', upstairs:'bedroom'});                        // the tall house
-    Buildkit.house({x:-6,  z:8,   w:5,   d:4.5, doorSide:'N', color:0xb8b0a4, roofColor:0x55636e,
-      roof:'hip', interior:'house', shellOpts:{wall:'stone', chimney:true}});      // the stone cottage
-    Buildkit.house({x:4,   z:10,  w:5.5, d:6.5, doorSide:'W', color:0xbfa87f, roofColor:0x8a4a32,
-      roof:'gable', interior:'house', shellOpts:{chimney:true}});                  // the plaza-side home
     Buildkit.house({x:5,   z:-19, w:6.5, d:5,   doorSide:'E', color:0xd8cdb4, roofColor:0x6b7a8f,
       roof:'hip', interior:'house', shellOpts:{tall:true}});                       // the steep-hipped home
-    Buildkit.house({x:10,  z:3,   w:5,   d:4.5, doorSide:'W', color:0xcdb890, roofColor:0xc77b4a,
-      roof:'gable', interior:'house', shellOpts:{chimney:true}});                  // the amber-roofed home
 
     /* ---- market flavour by the plaza (stalls live in town_square.js now) ---- */
     if(typeof makeCrateCluster==='function'){ makeCrateCluster(9,-16); makeCrateCluster(-10,-6); }

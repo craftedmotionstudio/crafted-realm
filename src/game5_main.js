@@ -157,6 +157,10 @@ function update(dt){
     pAnim(false, dt);
   }
   // ── fixed-tick player sim: combat/skilling/vitals advance in 600ms steps (wall-clock unchanged) ──
+  // World-v2 residency follows tile-chunk boundaries. Terrain geometry and the
+  // matching collision cells are loaded/unloaded together by the provider.
+  if(typeof CRWorldMode!=='undefined' && CRWorldMode.provider)
+    CRWorldMode.provider.updateResidency(player.position.x,player.position.z);
   worldTickAcc += dt;
   let _nTicks = Math.floor(worldTickAcc / TICK);
   if(_nTicks > 5){ _nTicks = 5; worldTickAcc = 0;     // drop backlog after a tab stall (no spiral of death)
@@ -172,7 +176,10 @@ function update(dt){
   // arrive early: once in range of the action target, stop pathing and act
   if(Player.action && Player.moveTo && Player.action.obj){
     const reach = Player.action.type==='gather' ? 2.6 : 2.2;
-    if(player.position.distanceTo(Player.action.obj.position) <= reach) Player.moveTo=null;
+    const ap=Player.action.walkAt;
+    const dist=ap?Math.hypot(player.position.x-ap.x,player.position.z-ap.z):
+      player.position.distanceTo(Player.action.obj.position);
+    if(dist <= reach) Player.moveTo=null;
   }
   if(Player.action && !Player.moveTo){
     const a=Player.action;
@@ -235,7 +242,14 @@ function update(dt){
       }
     }
     else if(a.type==='door'){
-      if(player.position.distanceTo(a.obj.position)>2.3){ if(!Player.moveTo) orderWalk(a.obj.position); }
+      const p=a.walkAt||a.obj.userData&&a.obj.userData.openingPoint;
+      const dist=p?Math.hypot(player.position.x-p.x,player.position.z-p.z):player.position.distanceTo(a.obj.position);
+      if(dist>2.3){
+        if(!Player.moveTo){
+          const y=(typeof Planes!=='undefined')?Planes.elevAt(p.x,p.z,Player.plane||0):groundY(p.x,p.z);
+          orderWalk(new THREE.Vector3(p.x,y===null?player.position.y:y,p.z));
+        }
+      }
       else { toggleDoor(a.obj); Player.action=null; }
     }
     else if(a.type==='smelt'){
@@ -648,12 +662,21 @@ function update(dt){
     for(const it of WORLD.interiors){
       const inside = Math.abs(player.position.x-it.x)<it.hw && Math.abs(player.position.z-it.z)<it.hd;
       const want = !inside && !WORLD.roofsOff && pl<1;
-      it.roof.visible=want; if(it.band) it.band.visible=want;
-      if(it.storey2) it.storey2.visible = want || pl>=1;
+      if(typeof RoofTransitions!=='undefined') RoofTransitions.set(it.roof,want);
+      else it.roof.visible=want;
+      if(it.band){ if(typeof RoofTransitions!=='undefined') RoofTransitions.set(it.band,want); else it.band.visible=want; }
+      if(it.storey2){
+        const storeyWant=want||pl>=1;
+        if(typeof RoofTransitions!=='undefined') RoofTransitions.set(it.storey2,storeyWant);
+        else it.storey2.visible=storeyWant;
+      }
       // custom above-roof geometry (e.g. the mage tower's drum+spire) follows the roof
-      if(it.overhead) it.overhead.visible = want;
+      if(it.overhead){ if(typeof RoofTransitions!=='undefined') RoofTransitions.set(it.overhead,want); else it.overhead.visible=want; }
     }
+    if(typeof RoofTransitions!=='undefined') RoofTransitions.update(dt);
   }
+  if(typeof WorkyardWaterworksU4!=='undefined') WorkyardWaterworksU4.update(dt);
+  if(typeof WorkyardFishingU5!=='undefined') WorkyardFishingU5.update(dt);
   _runUiT=(_runUiT||0)+dt; if(_runUiT>0.5){ _runUiT=0; UI.refreshRun();
     if(Player.activePrayers.size){ UI.refreshHud(); const pane=document.getElementById('pane-prayers');
       if(pane && pane.classList.contains('active') && UI.refreshPrayers) UI.refreshPrayers(); } }
@@ -674,7 +697,7 @@ function update(dt){
     const t=scarThreat(player.position.z);
     UI.zone(`The Scarlands — Threat ${Math.max(1,t)}`);
   }
-  const targetFog = new THREE.Color(ZONES[curZone].fog);
+  const targetFog = new THREE.Color(((Player.plane||0)<0) ? 0x18130f : ZONES[curZone].fog);
   scene.fog.color.lerp(targetFog, dt*1.5);
   scene.background.lerp(targetFog, dt*1.5);
 
@@ -686,14 +709,57 @@ function update(dt){
 }
 
 let running=false;
+let _minimapPaintAt=0;
+let _lastRenderedAt=0, _firstRenderedAt=0, _playClickedAt=0;
+const _recentFrameMs=[];
 function animate(){
   requestAnimationFrame(animate);
   if(!running) return;
+  const frameNow=performance.now();
+  if(!_firstRenderedAt) _firstRenderedAt=frameNow;
+  if(_lastRenderedAt){
+    _recentFrameMs.push(frameNow-_lastRenderedAt);
+    if(_recentFrameMs.length>180) _recentFrameMs.shift();
+  }
+  _lastRenderedAt=frameNow;
   const dt=Math.min(0.05, clock.getDelta());
   update(dt);
-  drawMinimap();
+  // Dynamic map paint is bounded; terrain and resource layers cache independently.
+  const now=performance.now();
+  if(now-_minimapPaintAt>=80){ _minimapPaintAt=now; drawMinimap(); }
   renderer.render(scene, camera);
 }
+// Read-only development telemetry used by the real browser gate.  It deliberately
+// exposes numbers, not mutable engine objects.
+window.CRDebugStats=function(){
+  const frames=_recentFrameMs.slice().sort((a,b)=>a-b);
+  const avg=frames.length ? frames.reduce((a,b)=>a+b,0)/frames.length : 0;
+  let meshes=0, materials=new Set(), geometries=new Set();
+  if(scene) scene.traverse(o=>{ if(o.isMesh){ meshes++;
+    if(o.material) materials.add(o.material); if(o.geometry) geometries.add(o.geometry); } });
+  return {
+    mode:typeof CRWorldMode!=='undefined'?CRWorldMode.id:'legacy',
+    running, frameSamples:frames.length, fps:avg?1000/avg:0,
+    frameP95:frames.length?frames[Math.min(frames.length-1,Math.floor(frames.length*0.95))]:0,
+    playToFirstFrameMs:_playClickedAt&&_firstRenderedAt?_firstRenderedAt-_playClickedAt:null,
+    bootToFirstFrameMs:typeof CRWorldMode!=='undefined'&&_firstRenderedAt?_firstRenderedAt-CRWorldMode.startedAt:null,
+    player:player?{x:player.position.x,y:player.position.y,z:player.position.z}:null,
+    canvas:renderer?{w:renderer.domElement.width,h:renderer.domElement.height,pixelRatio:renderer.getPixelRatio()}:null,
+    sceneChildren:scene?scene.children.length:0, meshes, materials:materials.size, geometries:geometries.size,
+    drawCalls:renderer?renderer.info.render.calls:0, triangles:renderer?renderer.info.render.triangles:0,
+    collision:typeof CollisionGrid!=='undefined'?(CollisionGrid.snapshot?CollisionGrid.snapshot():
+      {w:CollisionGrid.w,h:CollisionGrid.h,baked:CollisionGrid.baked}):null,
+    world:typeof CRWorldMode!=='undefined'&&CRWorldMode.provider?CRWorldMode.provider.snapshot():null,
+    boot:window.CR_BOOT_TELEMETRY||null,
+    minimap:typeof CRMinimap!=='undefined'?CRMinimap.snapshot():null
+  };
+};
+setInterval(()=>{
+  if(!running) return;
+  let el=document.getElementById('cr-perf-telemetry');
+  if(!el){ el=document.createElement('output'); el.id='cr-perf-telemetry'; el.hidden=true; document.body.appendChild(el); }
+  el.textContent=JSON.stringify(window.CRDebugStats());
+},500);
 /* background heartbeat: rAF freezes in hidden tabs, but the world should keep
  * ticking like OSRS (fights resolve, respawns count down, skilling continues).
  * When hidden, drive the sim from a timer and skip rendering entirely. Also the
@@ -708,11 +774,22 @@ function _hbCatchUp(ceiling){
   let dt=Math.min(ceiling, (now-_hbLast)/1000); _hbLast=now;
   try{ while(dt>1e-3){ const step=Math.min(0.25, dt); update(step); dt-=step; } }catch(e){}
 }
-setInterval(()=>{ if(document.hidden) _hbCatchUp(75); else _hbLast=performance.now(); }, 200);
+setInterval(()=>{
+  const now=performance.now();
+  // Windows/Chrome may throttle a fully occluded window while still reporting
+  // document.hidden=false. Treat a >500ms render stall like a hidden tab so
+  // simulation time, actions, and saves keep progressing at the correct pace.
+  const rafStale=!!(running&&_lastRenderedAt&&now-_lastRenderedAt>500);
+  if(!document.hidden&&rafStale) window.CR_LAST_OCCLUDED_AT=now;
+  if(document.hidden||rafStale) _hbCatchUp(75); else _hbLast=now;
+}, 200);
 /* coming back to the tab: swallow the whole stall at once so fights/actions have
    truly progressed, then let rAF take over seamlessly */
 document.addEventListener('visibilitychange', ()=>{
-  if(!document.hidden){ _hbCatchUp(75); clock.getDelta(); }
+  if(!document.hidden){
+    _hbCatchUp(75);
+    if(clock&&typeof clock.getDelta==='function') clock.getDelta();
+  }
 });
 
 /* ================= LOADING SEQUENCE ================= */
@@ -720,18 +797,57 @@ function setLoad(pct, msg){
   document.getElementById('loading-bar').style.width=pct+'%';
   document.getElementById('loading-step').textContent=msg;
 }
-const BOOT_STEPS = [
-  [10, 'Connecting to update server', ()=>{ initEngine(); }],
-  [25, 'Loading textures',            ()=>{ for(const id in ITEMS) iconFor(id); }],
-  [45, 'Generating world map',        ()=>{ buildTextures(); buildSea(); buildGround(); }],
-  [65, 'Populating Veyhollow',        ()=>{ populateMainland(); }],
-  [80, 'Preparing Tutor\'s Holm',     ()=>{ populateBrynholt(); populateDunes(); populateScarlands(); populateArena(); populateHolm(); if(typeof buildMenagerie==='function') buildMenagerie(); Bots.spawn(); }],
-  [90, 'Charting walkable ground',    ()=>{ if(typeof CollisionGrid!=='undefined') CollisionGrid.rebake(); }],
-  [95, 'Waking the adventurer',       ()=>{
+const _liteBoot = typeof CRWorldMode!=='undefined' && CRWorldMode.lite;
+const _worldProvider = _liteBoot && typeof CRWorldMode!=='undefined' ? CRWorldMode.provider : null;
+const _worldLabel = _worldProvider ? _worldProvider.label : 'the legacy realm';
+let _bootCoordinator=null;
+function clearBootFailure(){
+  const old=document.getElementById('loading-failure'); if(old) old.remove();
+}
+function showBootFailure(error,step,retry){
+  const host=document.getElementById('loading-step');
+  if(!host) return;
+  clearBootFailure();
+  const box=document.createElement('div'); box.id='loading-failure';
+  box.style.cssText='margin-top:14px;color:#f4d9b0;text-align:center;font:12px Verdana,sans-serif;max-width:360px;';
+  box.innerHTML='<div>The realm could not finish loading.</div><button type="button" style="margin-top:9px;padding:6px 16px;cursor:pointer">Try again</button>';
+  // A failed constructor may have partially created GPU/world state. A clean
+  // reload is the only universally safe retry; future transactional steps can
+  // still opt into BootCoordinator.retry().
+  box.querySelector('button').onclick=()=>{ clearBootFailure(); location.reload(); };
+  host.parentNode.appendChild(box);
+  console.error('[boot] '+step.id+' failed: '+String(error&&error.message||error));
+}
+function bootSteps(){ return [
+  {id:'renderer', label:'Starting the renderer', weight:12, run:()=>{ initEngine(); }},
+  {id:'world-plan', label:_liteBoot?'Reading '+_worldLabel:'Reading the legacy realm', weight:4, run:()=>{
+    if(_liteBoot){
+      if(!_worldProvider) throw new Error('The selected world provider is unavailable');
+      _worldProvider.prepare();
+    }
+  }},
+  {id:'item-art', label:'Preparing item art', weight:4, run:()=>{ if(!_liteBoot) for(const id in ITEMS) iconFor(id); }},
+  {id:'terrain', label:'Building nearby terrain', weight:22, run:()=>{
+    if(_worldProvider) return _worldProvider.buildTerrain();
+    else { buildTextures(); buildSea(); buildGround(); }
+  }},
+  {id:'population', label:_liteBoot?'Preparing '+_worldLabel:'Populating the wider realm', weight:28, run:()=>{
+    if(_worldProvider) _worldProvider.populate();
+    else {
+      populateMainland(); populateBrynholt(); populateDunes(); populateScarlands(); populateArena();
+      populateHolm(); if(typeof buildMenagerie==='function') buildMenagerie(); Bots.spawn();
+    }
+  }},
+  {id:'collision', label:'Charting walkable ground', weight:15, run:()=>{
+    if(_worldProvider) _worldProvider.chartCollision();
+    else if(typeof CollisionGrid!=='undefined') CollisionGrid.rebake();
+  }},
+  {id:'player', label:'Waking the adventurer', weight:15, run:()=>{
       player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, gender:CharCfg.gender, hair:CharCfg.hair,
         hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs, emblem:true});
-      const h=ZONES.holm.pos;
-      player.position.set(h[0], gy(h[0],h[1]), h[1]);
+      const h=_worldProvider?_worldProvider.getSpawnLandmark(_worldProvider.defaultLandmark):
+        {x:ZONES.holm.pos[0],z:ZONES.holm.pos[1]};
+      player.position.set(h.x, gy(h.x,h.z), h.z);
       player.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
       scene.add(player);
       Player.init();
@@ -742,20 +858,19 @@ const BOOT_STEPS = [
         const note=document.getElementById('login-note');
         if(note) note.textContent='A saved adventurer was found on this device.';
       }
-  }],
-  [100,'Done loading',                ()=>{}],
-];
-function boot(i=0){
-  if(i>=BOOT_STEPS.length){
-    setTimeout(()=>{
+  }}
+]; }
+function boot(){
+  _bootCoordinator=new BootCoordinator({
+    steps:bootSteps(),
+    onProgress:(pct,msg)=>{ clearBootFailure(); setLoad(pct,msg); },
+    onFailure:showBootFailure,
+    onReady:()=>{
       document.getElementById('loading-screen').style.display='none';
       document.getElementById('welcome-screen').style.display='flex';
-    }, 350);
-    return;
-  }
-  const [pct,msg,fn]=BOOT_STEPS[i];
-  setLoad(pct,msg);
-  setTimeout(()=>{ fn(); boot(i+1); }, 220);
+    }
+  });
+  _bootCoordinator.start();
 }
 // buffer overlay: the self-booting world props (scatter/buildings/dressing) build over the
 // first ~2.5s after `running` flips true (their poll intervals), so the world visibly "settles"
@@ -799,12 +914,15 @@ document.getElementById('play-btn').onclick = ()=>{
   // music is opt-in: only resume if the player turned it on before (keeps debug loads silent)
   try{ Sfx.ensure(); if(localStorage.getItem('cr_music_on')==='1') Music.start(); }catch(e){}
   document.getElementById('welcome-screen').style.display='none';
+  _playClickedAt=performance.now();
   running=true;
-  showEnterBuffer();
-  UI.zone(ZONES.holm.name);
+  if(!_liteBoot) showEnterBuffer();
+  UI.zone(_worldProvider?_worldProvider.label:ZONES.holm.name);
   Tutorial.banner();
   UI.chat('Welcome to Crafted Realm.','sys');
-  UI.chat('You wash ashore on Tutor\'s Holm. Talk to Guide Bram by the rowboat.','plain');
+  UI.chat(_liteBoot
+    ? 'World rebuild mode is active: '+_worldLabel+' is loaded for smooth play.'
+    : 'You wash ashore on Tutor\'s Holm. Talk to Guide Bram by the rowboat.','plain');
   UI.chat('Press ` (backquote) at any time for the Administrator Console.','sys');
   // a NEW adventurer designs their look right here on the Holm (or keeps the default)
   if(CharCfg._new){ CharCfg._new=false;

@@ -1,0 +1,5 @@
+Create an original low-poly medieval cellar provision table, similar in spirit to the readable hand-modelled 2007-era fantasy style of Old School RuneScape without copying any existing asset. Show one consistent table in three views: elevated gameplay view, front three-quarter construction view, and side view.
+
+The table is human waist height beside a 1.9-unit character: a broad clean oak worktop made from two or three closely fitted planks, four sturdy slightly hand-hewn legs, a plain apron below the top, and one low lengthwise stretcher. It is an ordinary useful table, not a preserving machine or storage-bin contraption. Use a muted desaturated brown oak palette with gentle face-to-face value changes, large polygon planes, flat shading, restrained wear, and a quiet handmade silhouette. The top is empty so the construction is easy to reproduce in Blender.
+
+Neutral dark background, warm soft studio light, no room scene, no text, no labels. Avoid root bins, cages, complex trestles, bright orange wood, glossy PBR, photorealism, dense bevels, perfect factory symmetry, Minecraft, Roblox, modern furniture, or extra props.

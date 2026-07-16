@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "assetId": "cellar_quiet_corner_v1",
+  "assetClass": "prop-family",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_cellar_quiet_corner_v1.py",
+  "source": "assets/blender/props/cellar_quiet_corner_v1.blend",
+  "model": "assets/models/props/cellar_quiet_corner_v1.glb",
+  "authoringReport": "scratchpad/cellar_quiet_corner_v1/asset_report.json",
+  "pipelineResult": "scratchpad/cellar_quiet_corner_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/cellar_quiet_corner_v1/01_shaded.png",
+    "scratchpad/cellar_quiet_corner_v1/02_clay_silhouette.png",
+    "scratchpad/cellar_quiet_corner_v1/03_wireframe.png",
+    "scratchpad/cellar_quiet_corner_v1/04_material_id.png",
+    "scratchpad/cellar_quiet_corner_v1/05_gameplay_camera.png",
+    "scratchpad/cellar_quiet_corner_v1/06_rear_construction.png",
+    "scratchpad/cellar_quiet_corner_v1/cellar_quiet_corner_v1_proof_sheet.png",
+    "Bible_References/Complete/_compare/cellar_quiet_corner_v1_concept_compare.png",
+    "scratchpad/cellar_quiet_corner_v1/07_in_game.png",
+    "scratchpad/cellar_quiet_corner_v1/09_in_game_human_scale.png"
+  ],
+  "requiredNodes": [
+    "cellar_quiet_corner_v1",
+    "TallFiresideChair",
+    "LowWovenWorkChair",
+    "SevenSidedSideTable",
+    "HandledYarnBasket",
+    "TallChairRuntimeMesh",
+    "LowChairRuntimeMesh",
+    "SideTableRuntimeMesh",
+    "YarnBasketRuntimeMesh"
+  ],
+  "requiredAnimations": [],
+  "budgets": {
+    "maxFileBytes": 420000,
+    "maxTriangles": 6000,
+    "maxPrimitives": 48,
+    "maxMaterials": 16
+  },
+  "scaleContract": {
+    "referenceHeightTiles": 1.9,
+    "checks": [
+      {"label": "family width", "reportPath": "dimensionsTiles.width", "min": 2.9, "max": 3.3},
+      {"label": "family depth", "reportPath": "dimensionsTiles.depth", "min": 1.35, "max": 1.7},
+      {"label": "family height", "reportPath": "dimensionsTiles.height", "min": 1.72, "max": 1.82},
+      {"label": "tall chair height", "reportPath": "humanScaleContract.tallChairHeight", "min": 1.7, "max": 1.82},
+      {"label": "low chair height", "reportPath": "humanScaleContract.lowChairHeight", "min": 1.25, "max": 1.45},
+      {"label": "tall chair seat", "reportPath": "humanScaleContract.tallSeatHeight", "min": 0.52, "max": 0.65},
+      {"label": "low chair seat", "reportPath": "humanScaleContract.lowSeatHeight", "min": 0.48, "max": 0.6}
+    ]
+  }
+}

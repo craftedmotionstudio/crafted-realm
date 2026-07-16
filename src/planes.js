@@ -41,6 +41,15 @@ const Planes = {
     return best;
   },
 
+  /* Never change planes until the streamed or GLB-backed destination floor
+     has registered. A visible ladder can otherwise win the loading race and
+     strand the player in a correctly darkened but empty scene. */
+  canEnter(dest){
+    if(!dest || !Number.isFinite(dest.x) || !Number.isFinite(dest.z) ||
+       !Number.isFinite(dest.plane)) return false;
+    return Number.isFinite(this.elevAt(dest.x,dest.z,dest.plane));
+  },
+
   /* plane-tagged colliders live in the same WORLD.colliders array; entries without
      a plane tag are ground-level (back-compatible with every existing collider) */
   addCollider(c){ c.plane=c.plane===undefined?1:c.plane; WORLD.colliders.push(c); return c; },
@@ -91,13 +100,29 @@ const Planes = {
 
   climbTo(dest){
     if(!dest) return;
-    Player.plane = dest.plane;
+    const fromPlane=this.current();
     const y = this.elevAt(dest.x, dest.z, dest.plane);
-    player.position.set(dest.x, y===null?player.position.y:y, dest.z);
+    if(!Number.isFinite(y)){
+      if(typeof UI!=='undefined' && UI.chat)
+        UI.chat('That level is still loading. Try the ladder again in a moment.', 'plain');
+      return false;
+    }
+    Player.plane = dest.plane;
+    player.position.set(dest.x, y, dest.z);
     Player.moveTo=null; Player.path=[]; Player.target=null;
     this.refreshVisibility();
-    UI.chat(dest.plane>0 ? 'You climb up.' : dest.plane<0 ? 'You climb down into the dark…' : 'You climb down.', 'plain');
+    // Plane changes are far-map teleports. Recenter in the same frame instead
+    // of letting the camera lerp through several frames of empty darkness.
+    if(typeof camera!=='undefined' && typeof camCtl!=='undefined'){
+      const cx=dest.x+camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
+      const cz=dest.z+camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
+      const cy=y+camCtl.dist*Math.sin(camCtl.pitch);
+      camera.position.set(cx,cy,cz);
+      camera.lookAt(dest.x,y+1.2,dest.z);
+    }
+    UI.chat(dest.plane>fromPlane ? 'You climb up.' : dest.plane<0 ? 'You climb down into the dark…' : 'You climb down.', 'plain');
     if(typeof Sfx!=='undefined' && Sfx.click) Sfx.click();
+    return true;
   },
 
   /* ---- caves: an authored underground room (floor slab + rock walls + ambience) ---- */

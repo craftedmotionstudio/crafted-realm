@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "libraryId": "crafted_realm_approved_props_v1",
+  "blend": "assets/blender/library/crafted_realm_approved_props_v1.blend",
+  "builder": "tools/blender/build_cr_approved_props_library.py",
+  "assetCount": 3,
+  "assetIds": [
+    "cellar_reserve_chest_v1",
+    "cellar_wall_torch_v1",
+    "cellar_quiet_corner_v1"
+  ],
+  "rule": "Only 9.0+ owner-standard assets with editable individual Blender sources enter this library."
+}

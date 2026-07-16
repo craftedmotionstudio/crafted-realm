@@ -256,6 +256,13 @@ for (const rk in D.GATHER_RATES) {
   if (g.item && !hasItem(g.item)) err(`GATHER_RATES '${rk}': yield item '${g.item}' does not exist`);
 }
 
+// ---- 8. roof-transition companion suite -------------------------------------
+{
+  const { spawnSync } = require('child_process');
+  const roof = spawnSync(process.execPath, [path.join(__dirname, 'test_roof_transitions.js')], { stdio: 'inherit' });
+  if (roof.status !== 0) err('roof-transition suite (tools/test_roof_transitions.js) failed - see output above');
+}
+
 // ---- report ----------------------------------------------------------------
 const nItems = Object.keys(D.ITEMS).length;
 const nNpcs = Object.keys(D.NPC_TYPES).length;

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "assetId": "workyard_exterior_u3_v1",
+  "assetClass": "prop-family",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_workyard_exterior_u3_v1.py",
+  "source": "assets/blender/props/workyard_exterior_u3_v1.blend",
+  "model": "assets/models/props/workyard_exterior_u3_v1.glb",
+  "authoringReport": "scratchpad/workyard_exterior_u3_v1/asset_report.json",
+  "pipelineResult": "scratchpad/workyard_exterior_u3_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/workyard_exterior_u3_v1/01_front.png",
+    "scratchpad/workyard_exterior_u3_v1/02_rear.png",
+    "scratchpad/workyard_exterior_u3_v1/03_side.png",
+    "scratchpad/workyard_exterior_u3_v1/04_three_quarter.png",
+    "scratchpad/workyard_exterior_u3_v1/05_gameplay_camera.png",
+    "scratchpad/workyard_exterior_u3_v1/06_timber_rack_family.png",
+    "scratchpad/workyard_exterior_u3_v1/07_chopping_station.png"
+  ],
+  "requiredNodes": [
+    "workyard_exterior_u3_v1",
+    "timber_log_rack",
+    "log_stack",
+    "rope_restraints",
+    "chopping_block",
+    "embedded_axe",
+    "sawbuck"
+  ],
+  "requiredAnimations": [],
+  "budgets": {
+    "maxFileBytes": 800000,
+    "maxTriangles": 9000,
+    "maxPrimitives": 48,
+    "maxMaterials": 18
+  },
+  "scaleContract": {
+    "referenceHeightTiles": 1.85,
+    "checks": [
+      {
+        "label": "rack frame height",
+        "reportPath": "humanScaleContract.rackFrameHeight",
+        "min": 1.45,
+        "max": 1.7
+      },
+      {
+        "label": "log stack top height",
+        "reportPath": "humanScaleContract.logStackTopHeight",
+        "min": 1.1,
+        "max": 1.45
+      },
+      {
+        "label": "chopping block height",
+        "reportPath": "humanScaleContract.choppingBlockHeight",
+        "min": 0.52,
+        "max": 0.72
+      },
+      {
+        "label": "axe overall length",
+        "reportPath": "humanScaleContract.axeOverallLength",
+        "min": 0.95,
+        "max": 1.15
+      },
+      {
+        "label": "embedded axe top height",
+        "reportPath": "humanScaleContract.axeEmbeddedTopHeight",
+        "min": 1.35,
+        "max": 1.75
+      },
+      {
+        "label": "sawbuck height",
+        "reportPath": "humanScaleContract.sawbuckHeight",
+        "min": 0.85,
+        "max": 1.1
+      }
+    ]
+  }
+}

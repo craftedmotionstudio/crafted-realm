@@ -1,7 +1,9 @@
 /* collision_grid.js — per-tile collision bitmask (rsbox/rsmod flag-grid pattern).
  *
- * A Uint8Array over the charted world rect (worldgrid.js bounds), one byte per tile.
- * rebake() samples the EXACT plane-0 predicate computePath's tileWalkable uses today
+ * A Uint8Array over the provider bounds, one byte per tile. In world-v2 the array
+ * is sparse-by-state: unloaded chunk cells stay BLOCK and resident chunks alone
+ * are sampled. rebake() retains the full-world legacy path. Both sample the exact
+ * plane-0 predicate computePath's tileWalkable uses today
  * (collides(cx,cz,0.42,true,0) + groundY off-map/water) at every tile centre, so a
  * BLOCK-only grid gives byte-identical pathfinding — the bar is behavior parity, the
  * win is O(1) neighbor checks instead of per-call circle/rect sweeps.
@@ -16,16 +18,26 @@
 var CollisionGrid = {
   BLOCK:1, WALL_N:2, WALL_E:4, WALL_S:8, WALL_W:16, PROJECTILE:32,
   ALLWALL:2|4|8|16, EDGEALL:2|4|8|16|32,   // masks for clearing on rebakeArea
-  enabled:true, baked:false,
+  enabled:true, baked:false, mode:'full', provider:null,
   x0:0, z0:0, w:0, h:0, grid:null,
+  _residentIds:new Set(), loadedChunks:0, unloadedChunks:0, lastBakeMs:0,
   // wall inference: a thin rect collider is a wall when its long axis is ≥ this many
   // times its short axis AND the short axis is small (a fence/wall, not a hut footprint).
   WALL_RATIO:2, WALL_SHORT:0.5,
 
   _idx(tx,tz){ return (tz-this.z0)*this.w + (tx-this.x0); },
   _in(tx,tz){ return tx>=this.x0 && tz>=this.z0 && tx<this.x0+this.w && tz<this.z0+this.h; },
-  at(tx,tz){ return this._in(tx,tz) ? this.grid[this._idx(tx,tz)] : 0; },
-  _or(tx,tz,flag){ if(this._in(tx,tz)) this.grid[this._idx(tx,tz)] |= flag; },
+  at(tx,tz){ return this.grid&&this._in(tx,tz) ? this.grid[this._idx(tx,tz)] : 0; },
+  _or(tx,tz,flag){ if(this.grid&&this._in(tx,tz)) this.grid[this._idx(tx,tz)] |= flag; },
+  _chunkId(cx,cz){ return cx+','+cz; },
+  _tileResident(tx,tz){
+    return this.mode!=='resident'||this._residentIds.has(this._chunkId(Math.floor(tx/8),Math.floor(tz/8)));
+  },
+  _chunkBounds(chunk){
+    const x0=Math.max(this.x0,chunk.cx*8), z0=Math.max(this.z0,chunk.cz*8);
+    const x1=Math.min(this.x0+this.w,(chunk.cx+1)*8), z1=Math.min(this.z0+this.h,(chunk.cz+1)*8);
+    return {x0,z0,x1,z1};
+  },
 
   // the planner predicate, verbatim from tileWalkable (game5_main.js) pinned to plane 0.
   // ignoreDoors=true matches the planner: closed doors never block plans, so door state
@@ -39,6 +51,49 @@ var CollisionGrid = {
   _sample(tx,tz){
     const i=this._idx(tx,tz);
     this.grid[i] = (this.grid[i] & ~this.BLOCK) | (this._walkable(tx,tz) ? 0 : this.BLOCK);
+  },
+
+  initResident(provider){
+    const r=provider.getWorldRect();
+    this.mode='resident'; this.provider=provider;
+    this.x0=Math.floor(r.x0); this.z0=Math.floor(r.z0);
+    this.w=Math.ceil(r.w); this.h=Math.ceil(r.h);
+    this.grid=new Uint8Array(this.w*this.h); this.grid.fill(this.BLOCK);
+    this._residentIds=new Set(); this.baked=true;
+    this.loadedChunks=0; this.unloadedChunks=0; this.lastBakeMs=0;
+  },
+  loadChunk(chunk){
+    if(!this.grid||this.mode!=='resident'||!chunk) return 0;
+    const b=this._chunkBounds(chunk), id=this._chunkId(chunk.cx,chunk.cz);
+    if(b.x0>=b.x1||b.z0>=b.z1) return 0;
+    this._residentIds.add(id);
+    let blocked=0;
+    for(let tz=b.z0;tz<b.z1;tz++) for(let tx=b.x0;tx<b.x1;tx++){
+      this.grid[this._idx(tx,tz)]=0; this._sample(tx,tz);
+      if(this.grid[this._idx(tx,tz)]&this.BLOCK) blocked++;
+    }
+    if(typeof WORLD!=='undefined'&&WORLD.colliders)
+      for(const c of WORLD.colliders) this._bakeWall(c,b.x0,b.z0,b.x1-1,b.z1-1);
+    this.loadedChunks++;
+    return blocked;
+  },
+  unloadChunk(chunk){
+    if(!this.grid||this.mode!=='resident'||!chunk) return;
+    const b=this._chunkBounds(chunk);
+    for(let tz=b.z0;tz<b.z1;tz++) for(let tx=b.x0;tx<b.x1;tx++) this.grid[this._idx(tx,tz)]=this.BLOCK;
+    this._residentIds.delete(this._chunkId(chunk.cx,chunk.cz)); this.unloadedChunks++;
+  },
+  rebakeResident(provider){
+    provider=provider||this.provider;
+    if(!provider) return this.rebake();
+    const t0=performance.now();
+    if(!this.grid||this.mode!=='resident'||this.provider!==provider) this.initResident(provider);
+    this.grid.fill(this.BLOCK); this._residentIds.clear();
+    let blocked=0;
+    for(const chunk of provider.residentChunks()) blocked+=this.loadChunk(chunk);
+    this.baked=true; this.lastBakeMs=+(performance.now()-t0).toFixed(3);
+    console.log('[collision] charted '+this._residentIds.size+' resident chunks in '+this.lastBakeMs.toFixed(1)+'ms');
+    return blocked;
   },
 
   // Bake wall-edge + projectile flags from one collider's geometry (game2 never tags
@@ -83,6 +138,7 @@ var CollisionGrid = {
 
   rebake(){
     const t0=performance.now();
+    this.mode='full'; this.provider=null; this._residentIds=new Set();
     const r=worldRect();
     this.x0=Math.floor(r.x0); this.z0=Math.floor(r.z0);
     this.w=Math.ceil(r.w); this.h=Math.ceil(r.h);
@@ -95,6 +151,7 @@ var CollisionGrid = {
     if(typeof WORLD!=='undefined' && WORLD.colliders)
       for(const c of WORLD.colliders) this._bakeWall(c);
     this.baked=true;
+    this.lastBakeMs=+(performance.now()-t0).toFixed(3);
     console.log('[collision] baked '+this.w+'x'+this.h+' flag grid in '+
       (performance.now()-t0).toFixed(1)+'ms — '+blocked+' blocked / '+(this.w*this.h)+' tiles');
     return blocked;
@@ -107,6 +164,7 @@ var CollisionGrid = {
     const a=Math.max(this.x0, Math.floor(x-r)), b=Math.min(this.x0+this.w-1, Math.floor(x+r));
     const c=Math.max(this.z0, Math.floor(z-r)), d=Math.min(this.z0+this.h-1, Math.floor(z+r));
     for(let tz=c; tz<=d; tz++) for(let tx=a; tx<=b; tx++){
+      if(!this._tileResident(tx,tz)) continue;
       this.grid[this._idx(tx,tz)] &= ~this.EDGEALL;   // drop stale wall/projectile flags
       this._sample(tx,tz);                             // re-derive BLOCK
     }
@@ -141,6 +199,11 @@ var CollisionGrid = {
     if(this.grid[this._idx(tx,tz)] & this.BLOCK) return false;
     if(this._edgeBlocked(fx,fz,dx,dz)) return false;
     return true;
+  },
+
+  snapshot(){
+    return {mode:this.mode,baked:this.baked,w:this.w,h:this.h,residentChunks:this._residentIds.size,
+      loadedChunks:this.loadedChunks,unloadedChunks:this.unloadedChunks,lastBakeMs:this.lastBakeMs};
   },
 
   // Line-of-sight between two WORLD points (rsbox/rsmod pattern). Walks the tile line

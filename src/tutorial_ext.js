@@ -63,6 +63,7 @@
     scene.add(g); WORLD.clickables.push(g);
   }
   const boot=setInterval(()=>{
+    if(typeof CRWorldMode!=='undefined'&&!CRWorldMode.legacy){ clearInterval(boot); return; }
     if(typeof scene!=='undefined' && typeof WORLD!=='undefined' && WORLD.clickables && typeof groundY==='function'){
       clearInterval(boot); spawnChest();
     }

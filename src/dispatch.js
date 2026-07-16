@@ -40,9 +40,11 @@ const Interact = {
       if(!h.target.includes('*') && !h.target.includes(key)) continue;
       if(h.when && !h.when(ctx)) continue;          // optional predicate (quest stage etc.)
       const label=u.npc ? u.npc.t.name : (u.name || (u.label ? String(u.label).replace(/<[^>]+>/g,'') : u.kind));
-      out.push({html:`${h.option} <b>${label}</b>`, fn:()=>{
+      out.push({html:`${h.option} <b>${label}</b>`, primary:!!h.primary, fn:()=>{
         if(h.walkTo && hit.obj.position && typeof Sched!=='undefined'){
-          Sched.walkThen(hit.obj.position, h.reach||2.2, ()=>h.handler(ctx));
+          const target=(typeof THREE!=='undefined'&&hit.obj.getWorldPosition)
+            ? hit.obj.getWorldPosition(new THREE.Vector3()) : hit.obj.position;
+          Sched.walkThen(target, h.reach||2.2, ()=>h.handler(ctx));
         } else h.handler(ctx);
       }});
     }
@@ -57,7 +59,11 @@ const Interact = {
       const entries=orig(hit, e);
       try{
         const extra=self.entriesFor(hit, e);
-        if(extra.length) entries.splice(Math.max(0,entries.length-2), 0, ...extra);
+        if(extra.length){
+          const primary=extra.filter(function(en){return en.primary;}),secondary=extra.filter(function(en){return !en.primary;});
+          if(primary.length) entries.unshift(...primary);
+          if(secondary.length) entries.splice(Math.max(0,entries.length-2), 0, ...secondary);
+        }
       }catch(err){ console.error('[Interact] menu hook failed:', err); }
       return entries;
     };

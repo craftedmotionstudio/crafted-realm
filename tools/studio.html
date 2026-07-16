@@ -1,288 +1,162 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Crafted Realm — Asset Studio</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crafted Realm — Phase 2 Building Studio</title>
 <style>
-  html,body{margin:0;height:100%;background:#20242a;overflow:hidden;font:13px/1.4 system-ui,Segoe UI,monospace;color:#e7e2d6;}
-  #view{position:absolute;inset:0;}
-  #panel{position:absolute;top:0;left:0;width:250px;height:100%;background:rgba(18,20,24,.92);
-    box-shadow:2px 0 12px rgba(0,0,0,.4);padding:12px 12px 40px;box-sizing:border-box;overflow-y:auto;z-index:5;}
-  #panel h1{font-size:14px;margin:0 0 2px;letter-spacing:.5px;}
-  #panel .sub{font-size:11px;opacity:.6;margin-bottom:12px;}
-  #panel label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;opacity:.7;margin:12px 0 4px;}
-  select,button,input{width:100%;box-sizing:border-box;background:#2c313a;color:#e7e2d6;border:1px solid #3d4450;
-    border-radius:5px;padding:6px 8px;font:12px monospace;margin-bottom:6px;cursor:pointer;}
-  button:hover{background:#39414d;}
-  .row{display:flex;gap:6px;}.row>*{flex:1;}
-  .chk{display:flex;align-items:center;gap:6px;margin:4px 0;cursor:pointer;font-size:12px;}
-  .chk input{width:auto;margin:0;}
-  #refwrap{margin-top:10px;border-top:1px solid #333a44;padding-top:10px;}
-  #ref{width:100%;border-radius:5px;background:#111;display:block;min-height:40px;}
-  #reflabel{font-size:10px;opacity:.6;word-break:break-all;margin-top:3px;}
-  #hud{position:absolute;bottom:0;left:250px;right:0;background:rgba(10,12,15,.85);padding:5px 10px;
-    font:11px monospace;z-index:5;display:flex;gap:16px;}
-  #err{position:absolute;top:8px;right:8px;max-width:420px;max-height:45%;overflow:auto;background:rgba(120,20,20,.94);
-    color:#ffdede;padding:8px 10px;border-radius:6px;font:11px/1.35 monospace;white-space:pre-wrap;display:none;z-index:9;}
-  #tri{opacity:.55;}
+  :root{color-scheme:dark;--ink:#efe6cf;--muted:#aca58f;--panel:#181b1c;--line:#4a4438;--gold:#d7a747;--ok:#7fc47a;--bad:#e47b6d}
+  *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#202628;color:var(--ink);font:13px/1.38 system-ui,Segoe UI,sans-serif}
+  #view{position:absolute;inset:0 320px 0 0} canvas{display:block}
+  #panel{position:absolute;right:0;top:0;bottom:0;width:320px;padding:15px;background:rgba(21,23,22,.97);border-left:1px solid #4d493f;overflow:auto;box-shadow:-8px 0 24px #0008}
+  h1{font:700 18px Georgia,serif;color:#f0c364;margin:0 0 2px} h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#c6b27e;margin:18px 0 7px}
+  .sub,.hint{color:var(--muted);font-size:11px}.hint{margin-top:5px}.field{margin:8px 0}label{display:block;color:#d7ceb7;font-size:11px;margin:0 0 4px}
+  select,input,textarea,button{width:100%;border:1px solid var(--line);border-radius:4px;background:#292b28;color:var(--ink);padding:7px 8px;font:12px ui-monospace,Consolas,monospace}
+  button{cursor:pointer;background:#3a3328;border-color:#66583f}button:hover{background:#4a3d2b}button.primary{background:#745525;border-color:#b78637;color:#fff4d1}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:7px}.row.three{grid-template-columns:1fr 1fr 1fr}.checks{display:grid;grid-template-columns:1fr 1fr;gap:5px 8px}
+  .check{display:flex;align-items:center;gap:6px;font-size:11px;color:#d8d0bc}.check input{width:auto;margin:0}
+  #status{padding:8px;border:1px solid #4e5746;border-radius:4px;background:#22281f;color:var(--ok);white-space:pre-wrap;font:11px ui-monospace,Consolas,monospace}
+  #status.bad{border-color:#6d403a;background:#2b211f;color:var(--bad)}
+  #contract{margin:0;padding-left:18px;color:#cfc6b1;font-size:11px}#contract li{margin:3px 0}#contract li::marker{color:var(--ok)}
+  #ref{display:block;width:100%;max-height:175px;object-fit:cover;object-position:center;border:1px solid var(--line);border-radius:4px;background:#101111}
+  textarea{min-height:92px;resize:vertical;color:#d9d3c3}
+  #hud{position:absolute;left:12px;bottom:12px;max-width:calc(100% - 356px);padding:7px 10px;border:1px solid #655b48;border-radius:4px;background:#171817dc;color:#ded6c4;font:11px ui-monospace,Consolas,monospace;pointer-events:none}
+  #legend{position:absolute;left:12px;top:12px;padding:8px 10px;border-radius:4px;background:#171817dc;color:#d9d1bd;font-size:11px;pointer-events:none}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 3px 0 9px}.dot:first-child{margin-left:0}.service{background:#f0c24e}.clue{background:#69b5d0}.support{background:#8bb56c}
 </style>
 </head>
 <body>
 <div id="view"></div>
-<div id="panel">
-  <h1>⭐ Asset Studio</h1>
-  <div class="sub">Real game builders, in isolation. Orbit + hot-reload — no 60s game boot.</div>
+<div id="legend"><span class="dot service"></span>service <span class="dot clue"></span>story clue <span class="dot support"></span>support</div>
+<div id="hud">Starting Phase 2 Building Studio…</div>
+<aside id="panel">
+  <h1>Phase 2 Building Studio</h1>
+  <div class="sub">The same building definition and visual composer used by the live streamed world.</div>
 
-  <label>Asset</label>
-  <select id="asset"></select>
-
-  <label>Inspect</label>
-  <label class="chk"><input type="checkbox" id="roof" checked> Roof / shell on</label>
-  <label class="chk"><input type="checkbox" id="wire"> Wireframe</label>
-  <label class="chk"><input type="checkbox" id="grid" checked> Ground grid</label>
-  <label class="chk"><input type="checkbox" id="water"> Water / pit mode</label>
-  <label class="chk"><input type="checkbox" id="spin"> Auto-spin</label>
-  <div class="row">
-    <button id="top">Top view</button>
-    <button id="iso">Iso view</button>
+  <h2>Asset</h2>
+  <div class="field"><label for="asset">Complete building</label><select id="asset"></select></div>
+  <div class="row three">
+    <div class="field"><label for="px">World X</label><input id="px" type="number" step="1"></div>
+    <div class="field"><label for="pz">World Z</label><input id="pz" type="number" step="1"></div>
+    <div class="field"><label for="rot">Rotation</label><select id="rot"><option value="0">0°</option><option value="1.5707963267948966">90°</option><option value="3.141592653589793">180°</option><option value="4.71238898038469">270°</option></select></div>
   </div>
-  <button id="rebuild">↻ Rebuild asset</button>
+  <div class="row"><button id="apply" class="primary">Apply placement</button><button id="rebuild">Rebuild asset</button></div>
 
-  <div id="refwrap">
-    <label>Reference (Bible_References)</label>
-    <input id="reffile" placeholder="e.g. Tutorial_Island01.jpg" spellcheck="false"/>
-    <img id="ref" alt="reference"/>
-    <div id="reflabel">— none —</div>
+  <h2>Inspect</h2>
+  <div class="checks">
+    <label class="check"><input id="roof" type="checkbox">Roof on</label>
+    <label class="check"><input id="wire" type="checkbox">Wireframe</label>
+    <label class="check"><input id="grid" type="checkbox" checked>Tile grid</label>
+    <label class="check"><input id="colliders" type="checkbox" checked>Collision</label>
+    <label class="check"><input id="rooms" type="checkbox" checked>Room bounds</label>
+    <label class="check"><input id="mannequin" type="checkbox" checked>Player scale</label>
   </div>
-</div>
-<div id="hud"><span id="tri">tris: —</span><span id="cam">cam: —</span><span id="note"></span></div>
-<div id="err"></div>
+  <div class="row" style="margin-top:8px"><button id="top">Gameplay top</button><button id="iso">Exterior iso</button></div>
 
-<!-- ===== the REAL game stack (r128 global scripts, exactly as the game loads) ===== -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script>
-  // Show any error from the real builders instead of dying silently.
-  const errBox=document.getElementById('err');
-  function showErr(where,e){ errBox.style.display='block';
-    errBox.textContent += `\n[${where}] ${e&&e.stack?e.stack:e}\n`; console.error(where,e); }
-  window.addEventListener('error',ev=>showErr('window',ev.error||ev.message));
-</script>
-<!-- Minimal building-dependency chain (NOT the full game — no game3/4/5 runtime). -->
-<script src="../src/game2_world.js" onerror="showErr('load','game2_world.js failed')"></script>
-<script src="../src/planes.js"      onerror="showErr('load','planes.js failed')"></script>
-<script src="../src/buildkit.js"    onerror="showErr('load','buildkit.js failed')"></script>
-<script src="../src/buildkit_thatch.js" onerror="showErr('load','buildkit_thatch.js failed')"></script>
-<script src="../src/tut_statue.js"  onerror="showErr('load','tut_statue.js failed')"></script>
-<script src="../src/tut_bld_guide.js" onerror="showErr('load','tut_bld_guide.js failed')"></script>
-<script src="../src/tut_bld_chef.js"  onerror="showErr('load','tut_bld_chef.js failed')"></script>
-<script src="../src/tut_bld_quest.js" onerror="showErr('load','tut_bld_quest.js failed')"></script>
-<script src="../src/tut_bld_mage.js"  onerror="showErr('load','tut_bld_mage.js failed')"></script>
-<!-- Bible_References object recreations (ref_* modules; 404 harmlessly until authored) -->
-<script src="../src/ref_furnace.js"  onerror="void 0"></script>
-<script src="../src/ref_fountain.js" onerror="void 0"></script>
-<script src="../src/ref_altar.js"    onerror="void 0"></script>
-<script src="../src/ref_pier.js"     onerror="void 0"></script>
-<script src="../src/ref_rowboat.js"  onerror="void 0"></script>
-<script src="../src/ref_bank.js"     onerror="void 0"></script>
-<script src="../src/ref_store.js"    onerror="void 0"></script>
-<script src="../src/ref_torch.js"    onerror="void 0"></script>
-<script src="../src/ref_bed.js"      onerror="void 0"></script>
-<script src="../src/ref_cakestall.js" onerror="void 0"></script>
-<script src="../src/ref_gemstall.js" onerror="void 0"></script>
-<script src="../src/ref_church.js"   onerror="void 0"></script>
-<script src="../src/ref_anvil.js"    onerror="void 0"></script>
-<script src="../src/ref_dock.js"     onerror="void 0"></script>
-<script src="../src/ref_furstall.js" onerror="void 0"></script>
-<script src="../src/ref_churchinterior.js" onerror="void 0"></script>
-<script src="../src/ref_ladder.js"   onerror="void 0"></script>
-<script src="../src/ref_bld1.js"     onerror="void 0"></script>
-<script src="../src/ref_bld2.js"     onerror="void 0"></script>
-<script src="../src/ref_bld3.js"     onerror="void 0"></script>
-<script src="../src/ref_bld4.js"     onerror="void 0"></script>
-<script src="../src/ref_bldint1.js"  onerror="void 0"></script>
-<script src="../src/ref_bldint2.js"  onerror="void 0"></script>
-<script src="../src/ref_bldint3.js"  onerror="void 0"></script>
-<script src="../src/ref_bankbasement.js" onerror="void 0"></script>
-<script src="../src/ref_missedprops.js" onerror="void 0"></script>
-<script src="../src/ref_townpool.js" onerror="void 0"></script>
-<script src="../src/ref_carpet.js"   onerror="void 0"></script>
+  <h2>Round trip</h2>
+  <div class="row"><button id="save">Save draft</button><button id="reload">Reload draft</button></div>
+  <div class="row"><button id="remove">Remove preview</button><button id="restore">Restore preview</button></div>
+  <div class="row"><button id="export">Export JSON</button><button id="import">Import JSON</button></div>
+  <textarea id="json" spellcheck="false" aria-label="Building placement JSON"></textarea>
+  <div class="hint">Drafts affect only this Studio. Approved placement still enters the game through chunk data.</div>
 
-<!-- ===== Studio harness (classic script: bare-assigns the builders' lexical globals) ===== -->
-<script>
-(function(){
-  // --- 1. neutralise terrain so builders sit on flat y=0 (no baked heightfield here) ---
-  try { groundY = function(){return 0;}; gy = function(){return 0;};
-        if(typeof terrainHeight!=='undefined') terrainHeight = function(){return 0;}; }
-  catch(e){ showErr('stub-terrain',e); }
+  <h2>Contract gate</h2>
+  <div id="status">Checking…</div>
+  <ol id="contract"></ol>
 
-  // --- 2. renderer / scene / camera; BIND the builders' lexical globals by bare assignment ---
-  const view=document.getElementById('view');
-  const renderer=new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
-  // capture → recv2 (:9098) for the Gemini/compare gate: STUDIO_CAPTURE('cr_name.jpg')
-  window.STUDIO_CAPTURE=function(name){ try{
-    const data=renderer.domElement.toDataURL('image/jpeg',0.92);
-    return fetch('http://127.0.0.1:9098/',{method:'POST',body:JSON.stringify({name:name,data:data})})
-      .then(r=>r.text());
-  }catch(e){ return Promise.resolve('capture err: '+e); } };
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-  renderer.setSize(view.clientWidth,view.clientHeight);
-  view.appendChild(renderer.domElement);
+  <h2>Reference</h2>
+  <img id="ref" src="../Bible_References/Tutorial_Island_Building.jpg" alt="Tutorial island building reference">
+  <div class="hint">Reference target: a generous roof-off hall with readable rooms, clear circulation, service furniture, support storage, and landscaping context.</div>
+</aside>
 
-  const studioScene=new THREE.Scene();
-  studioScene.background=new THREE.Color(0x2b2f36);
-  const cam=new THREE.PerspectiveCamera(38, view.clientWidth/view.clientHeight, 0.05, 400);
+<script src="../src/world_v2_building_data.js?v=17"></script>
+<script src="../src/world_v2_buildings.js?v=22"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
-  // These names are `let scene, camera, renderer` / `let player` in game2_world.js — bind them:
-  try { scene=studioScene; camera=cam; player={x:0,z:0,mesh:{position:new THREE.Vector3()}}; }
-  catch(e){ showErr('bind-globals',e); }
+const view=document.getElementById('view'),hud=document.getElementById('hud'),status=document.getElementById('status');
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x293033);scene.fog=new THREE.Fog(0x293033,55,115);
+const camera=new THREE.PerspectiveCamera(38,view.clientWidth/view.clientHeight,.1,250);
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(view.clientWidth,view.clientHeight);renderer.shadowMap.enabled=true;view.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xfff3d4,0x435346,1.45));const sun=new THREE.DirectionalLight(0xffe4b5,2.15);sun.position.set(15,25,13);sun.castShadow=true;scene.add(sun);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.target.set(0,1.5,0);
+const floor=new THREE.Mesh(new THREE.CircleGeometry(28,64),new THREE.MeshStandardMaterial({color:0x516738,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=-.33;floor.receiveShadow=true;scene.add(floor);
+const grid=new THREE.GridHelper(40,40,0xb9aa7b,0x6c704f);grid.position.y=-.14;scene.add(grid);
 
-  // --- 3. lights + textures (real buildTextures so materials match the game) ---
-  studioScene.add(new THREE.HemisphereLight(0xdfe2d8,0x6a6a58,0.95));
-  const sun=new THREE.DirectionalLight(0xfff3e0,1.05); sun.position.set(14,26,10); studioScene.add(sun);
-  const fill=new THREE.DirectionalLight(0x99b0d0,0.35); fill.position.set(-12,8,-14); studioScene.add(fill);
-  try { if(typeof buildTextures==='function') buildTextures(); } catch(e){ showErr('buildTextures',e); }
-
-  // ground grid (its own toggle) + a soft floor pad
-  const grid=new THREE.GridHelper(60,60,0x4a5260,0x333a44); studioScene.add(grid);
-  const pad=new THREE.Mesh(new THREE.CircleGeometry(30,48),
-    new THREE.MeshStandardMaterial({color:0x3a4a2c,roughness:1,metalness:0}));
-  pad.rotation.x=-Math.PI/2; pad.position.y=-0.01; studioScene.add(pad);
-  // water/pit mode: translucent sea at y=-1.5 (for docks/piers) + hides the pad so below-ground pits show
-  const water=new THREE.Mesh(new THREE.PlaneGeometry(140,140),
-    new THREE.MeshStandardMaterial({color:0x3a6b8c,roughness:1,metalness:0,transparent:true,opacity:0.85}));
-  water.rotation.x=-Math.PI/2; water.position.y=-1.5; water.visible=false; studioScene.add(water);
-
-  const controls=new THREE.OrbitControls(cam,renderer.domElement);
-  controls.target.set(0,2,0); controls.enableDamping=true; controls.dampingFactor=0.08;
-
-  // --- 4. asset registry: each entry builds via the REAL game builder, added to `scene` ---
-  const REG={
-    'Buildkit house — 1 floor': ()=>Buildkit.house({x:0,z:0,w:9,d:7,floors:1,doorSide:'S',
-        color:0xcbb58f,roofColor:0x7a3b2e,interior:'house',shellOpts:{wall:'stone'}}),
-    'Buildkit house — 2 floor': ()=>Buildkit.house({x:0,z:0,w:9,d:7,floors:2,doorSide:'S',
-        color:0xcbb58f,roofColor:0x6f3524,interior:'house',shellOpts:{wall:'stone'}}),
-    'Buildkit house — THATCH (A/B)': ()=>Buildkit.house({x:0,z:0,w:9,d:7,floors:1,doorSide:'S',
-        color:0xcbb58f,roofColor:0x7a3b2e,interior:'house',shellOpts:{wall:'stone'},roofStyle:'thatch'}),
-    'Guide Hall':   ()=>window.makeGuideHall(0,0,0),
-    'Chef Kitchen': ()=>window.makeChefKitchen(0,0,0),
-    'Quest Lodge':  ()=>window.makeQuestLodge(0,0,0),
-    'Mage Tower':   ()=>window.makeMageTower(0,0,0),
-    'Tutorial Statue': ()=>window.makeTutStatue(0,0),
-  };
-  // Bible_References object recreations — only registered if the builder loaded
-  [['ref · Furnace','makeRefFurnace'],['ref · Fountain','makeRefFountain'],['ref · Altar','makeRefAltar'],
-   ['ref · Fishing Pier','makeRefPier'],['ref · Rowboat','makeRefRowboat'],
-   ['ref · Bank','makeRefBank'],['ref · Store','makeRefStore'],
-   ['ref · Torch','makeRefTorch'],['ref · Bed','makeRefBed'],['ref · Cake Stall','makeRefCakeStall'],
-   ['ref · Gem Stall','makeRefGemStall'],['ref · Church','makeRefChurch'],
-   ['ref · Anvil','makeRefAnvil'],['ref · Dock','makeRefDock'],['ref · Fur Stall','makeRefFurStall'],
-   ['ref · Church Interior','makeRefChurchInterior'],['ref · Ladder','makeRefLadder'],
-   ['ref · Building 1','makeRefBld1'],['ref · Building 2','makeRefBld2'],
-   ['ref · Building 3','makeRefBld3'],['ref · Building 4','makeRefBld4'],
-   ['ref · Bld Interior 1','makeRefBldInt1'],['ref · Bld Interior 2','makeRefBldInt2'],
-   ['ref · Bld Interior 3','makeRefBldInt3'],['ref · Bank Basement','makeRefBankBasement'],
-   ['ref · Grandfather Clock','makeRefGrandfatherClock'],['ref · Kitchen Sink','makeRefKitchenSink'],
-   ['ref · Town Pool','makeRefTownPool'],['ref · Carpet','makeRefCarpet']].forEach(([label,fn])=>{
-    if(typeof window[fn]==='function') REG[label]=()=>window[fn](0,0,0);
+const defs=WorldV2BuildingData.all(),asset=document.getElementById('asset');
+defs.forEach(d=>{const o=document.createElement('option');o.value=d.id;o.textContent=d.label;asset.appendChild(o)});
+let root=null,helpers=new THREE.Group(),removed=false,current=defs[0];scene.add(helpers);
+const part=id=>root&&WorldV2Buildings.findPart(root,id);
+function disposeObject(o){o.traverse(n=>{if(n.geometry)n.geometry.dispose();if(n.material){const a=Array.isArray(n.material)?n.material:[n.material];a.forEach(m=>m.dispose())}})}
+function clearHelpers(){while(helpers.children.length){const o=helpers.children.pop();disposeObject(o)}}
+function lineRect(x,z,w,d,color,y=.04){
+  const pts=[[x-w/2,z-d/2],[x+w/2,z-d/2],[x+w/2,z+d/2],[x-w/2,z+d/2],[x-w/2,z-d/2]].map(p=>new THREE.Vector3(p[0],y,p[1]));
+  return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color}));
+}
+function marker(x,z,color){const m=new THREE.Mesh(new THREE.CylinderGeometry(.18,.26,.55,6),new THREE.MeshBasicMaterial({color}));m.position.set(x,.38,z);return m}
+function buildHelpers(){
+  clearHelpers();if(!root||removed)return;
+  if(document.getElementById('rooms').checked)current.rooms.forEach((r,i)=>helpers.add(lineRect(r.bounds.x,r.bounds.z,r.bounds.w,r.bounds.d,[0x79bfe2,0xd9a75a,0x8fc87e][i%3],.19)));
+  if(document.getElementById('colliders').checked)current.colliders.forEach(c=>{
+    let m;if(c.type==='circle'){m=new THREE.Mesh(new THREE.CylinderGeometry(c.r,c.r,.12,20),new THREE.MeshBasicMaterial({color:0xe36255,transparent:true,opacity:.35,wireframe:true}))}
+    else{m=new THREE.Mesh(new THREE.BoxGeometry(c.hw*2,.18,c.hd*2),new THREE.MeshBasicMaterial({color:0xe36255,transparent:true,opacity:.34,wireframe:true}));if(c.type==='obox')m.rotation.y=-(c.rot||0)}
+    m.position.set(c.x,.23,c.z);helpers.add(m)
   });
-  // furniture presets (each returns a group we add ourselves)
-  if(typeof Buildkit!=='undefined' && Buildkit.furniture){
-    for(const k of Object.keys(Buildkit.furniture)){
-      REG['furniture · '+k]=(()=>{ const f=Buildkit.furniture[k];
-        return typeof f==='function'?()=>f():null; })();
-    }
+  current.services.forEach(s=>helpers.add(marker(s.position[0],s.position[1],0xf0c24e)));current.clues.forEach(s=>helpers.add(marker(s.position[0],s.position[1],0x69b5d0)));current.supportSpaces.forEach(s=>helpers.add(marker(s.position[0],s.position[1],0x8bb56c)));
+  if(document.getElementById('mannequin').checked){
+    const g=new THREE.Group(),body=new THREE.Mesh(new THREE.CapsuleGeometry(.28,.88,4,8),new THREE.MeshStandardMaterial({color:0x9b3f32,roughness:1}));body.position.y=1.0;g.add(body);
+    const head=new THREE.Mesh(new THREE.IcosahedronGeometry(.24,1),new THREE.MeshStandardMaterial({color:0xd0a06f,roughness:1}));head.position.y=1.72;g.add(head);g.position.set(0,0,current.footprint.d/2+1.35);helpers.add(g)
   }
+}
+function applyInspect(){
+  const roof=part('roof');if(roof)roof.visible=document.getElementById('roof').checked;
+  const wire=document.getElementById('wire').checked;if(root)root.traverse(o=>{if(o.isMesh){const a=Array.isArray(o.material)?o.material:[o.material];a.forEach(m=>{m.wireframe=wire;m.needsUpdate=true})}});
+  grid.visible=document.getElementById('grid').checked;buildHelpers();
+}
+function frame(exterior=false){
+  if(!root)return;const box=new THREE.Box3().setFromObject(root),c=box.getCenter(new THREE.Vector3()),s=box.getSize(new THREE.Vector3()),r=Math.max(s.x,s.y,s.z);
+  controls.target.copy(c);camera.position.set(c.x+r*(exterior?1.25:.78),c.y+r*(exterior?.88:1.38),c.z+r*(exterior?1.38:.68));controls.update()
+}
+async function rebuild(){
+  try{
+    current=WorldV2BuildingData.get(asset.value);const check=WorldV2BuildingData.validate(current);if(!check.ok)throw new Error(check.errors.join('; '));
+    document.getElementById('ref').src='../'+current.resources.reference;
+    document.getElementById('ref').alt=current.label+' visual reference';
+    setStatus('LOADING — opening the production Blender asset…');
+    await WorldV2Buildings.preload(THREE,new GLTFLoader(),current.id);
+    if(root)scene.remove(root);root=WorldV2Buildings.build(THREE,current.id);scene.add(root);removed=false;
+    document.getElementById('px').value=current.placement.x;document.getElementById('pz').value=current.placement.z;document.getElementById('rot').value=String(current.placement.rot);
+    applyInspect();frame(false);renderContract();setStatus('READY — live building definition loaded\n'+current.rooms.length+' rooms • '+current.doors.length+' doors • '+(current.services.length+current.clues.length+current.supportSpaces.length)+' semantic anchors');
+  }catch(e){setStatus(e.stack||String(e),true)}
+}
+function draft(){return{schema:'crafted-realm-building-placement-v1',definitionId:current.id,placement:{x:Number(document.getElementById('px').value),z:Number(document.getElementById('pz').value),rot:Number(document.getElementById('rot').value)}}}
+function applyDraft(d){
+  if(!d||d.schema!=='crafted-realm-building-placement-v1')throw new Error('Unsupported placement draft');
+  if(!WorldV2BuildingData.get(d.definitionId))throw new Error('Unknown building definition '+d.definitionId);
+  ['x','z','rot'].forEach(k=>{if(!Number.isFinite(Number(d.placement&&d.placement[k])))throw new Error('Placement '+k+' must be finite')});
+  asset.value=d.definitionId;if(current.id!==d.definitionId)rebuild();document.getElementById('px').value=d.placement.x;document.getElementById('pz').value=d.placement.z;document.getElementById('rot').value=String(d.placement.rot);applyPlacement();
+}
+function applyPlacement(){
+  if(!root)return;const d=draft();root.rotation.y=d.placement.rot;helpers.rotation.y=d.placement.rot;setStatus('PLACEMENT APPLIED — world '+d.placement.x+', '+d.placement.z+' • '+Math.round(d.placement.rot*180/Math.PI)+'°\nPreview stays centred for inspection; export preserves world coordinates.')
+}
+function setStatus(msg,bad=false){status.textContent=msg;status.classList.toggle('bad',bad)}
+function renderContract(){const a=WorldV2BuildingData.acceptance(),ol=document.getElementById('contract');ol.innerHTML='';a.checks.forEach(c=>{const li=document.createElement('li');li.textContent=(c.ok?'PASS — ':'FAIL — ')+c.label;li.style.color=c.ok?'':'var(--bad)';ol.appendChild(li)})}
 
-  const sel=document.getElementById('asset');
-  Object.keys(REG).forEach(k=>{ if(REG[k]){ const o=document.createElement('option'); o.textContent=k; sel.appendChild(o); }});
-
-  // --- 5. build / clear cycle ---
-  let baseCount=studioScene.children.length;      // everything up to here is permanent scaffolding
-  let current=[];                                  // objects added by the last build
-  function clearAsset(){
-    while(studioScene.children.length>baseCount){
-      const o=studioScene.children[studioScene.children.length-1];
-      studioScene.remove(o);
-    }
-    current=[];
-    // reset WORLD arrays the builders append to, so state doesn't leak between assets
-    try{ if(typeof WORLD!=='undefined'){ WORLD.interiors.length=0; WORLD.clickables.length=0;
-      WORLD.colliders&&(WORLD.colliders.length=0); WORLD.grounds.length=0; } }catch(e){}
-  }
-  function frame(objs){
-    const box=new THREE.Box3();
-    objs.forEach(o=>{ try{ box.expandByObject(o); }catch(e){} });
-    if(box.isEmpty()) return;
-    const c=box.getCenter(new THREE.Vector3()), s=box.getSize(new THREE.Vector3());
-    const r=Math.max(s.x,s.y,s.z);
-    controls.target.copy(c);
-    cam.position.set(c.x+r*1.15, c.y+r*0.85, c.z+r*1.35);
-    controls.update();
-  }
-  function build(){
-    errBox.style.display='none'; errBox.textContent='';
-    clearAsset();
-    const key=sel.value, fn=REG[key];
-    if(!fn){ return; }
-    try{
-      const before=studioScene.children.slice();
-      const res=fn();
-      if(res && res.isObject3D && !res.parent) studioScene.add(res);  // furniture / non-self-adding
-      // collect newly-added children
-      current=studioScene.children.filter(o=>!before.includes(o));
-      applyRoof(); applyWire();
-      frame(current.length?current:(res&&res.isObject3D?[res]:[]));
-      document.getElementById('note').textContent = key+' — '+current.length+' root object(s)';
-    }catch(e){ showErr('build:'+key,e); }
-  }
-
-  // --- 6. inspect toggles ---
-  function applyRoof(){
-    const want=document.getElementById('roof').checked;
-    try{ (WORLD.interiors||[]).forEach(it=>{ if(it&&it.roof){ it.roof.visible=want; if(it.band) it.band.visible=want; } }); }catch(e){}
-  }
-  function applyWire(){
-    const w=document.getElementById('wire').checked;
-    studioScene.traverse(o=>{ if(o.isMesh && current.includes(rootOf(o))){ if(o.material){
-      (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if('wireframe' in m) m.wireframe=w; }); } }});
-  }
-  function rootOf(o){ let p=o; while(p.parent && p.parent!==studioScene) p=p.parent; return p; }
-
-  document.getElementById('roof').onchange=applyRoof;
-  document.getElementById('wire').onchange=applyWire;
-  document.getElementById('grid').onchange=e=>{ grid.visible=e.target.checked; };
-  document.getElementById('water').onchange=e=>{ const on=e.target.checked;
-    water.visible=on; pad.visible=!on; grid.visible=!on && document.getElementById('grid').checked; };
-  document.getElementById('rebuild').onclick=build;
-  sel.onchange=build;
-  document.getElementById('top').onclick=()=>{ const t=controls.target;
-    cam.position.set(t.x,t.y+22,t.z+0.01); controls.update(); };
-  document.getElementById('iso').onclick=()=>frame(current);
-
-  // reference image panel
-  const ref=document.getElementById('ref'), reffile=document.getElementById('reffile'), reflabel=document.getElementById('reflabel');
-  reffile.addEventListener('change',()=>{ const f=reffile.value.trim(); if(!f){return;}
-    ref.src='../Bible_References/'+f; reflabel.textContent=f;
-    ref.onerror=()=>{ reflabel.textContent='not found: '+f; }; });
-
-  // --- 7. render loop ---
-  const spin=document.getElementById('spin');
-  function onResize(){ cam.aspect=view.clientWidth/view.clientHeight; cam.updateProjectionMatrix();
-    renderer.setSize(view.clientWidth,view.clientHeight); }
-  window.addEventListener('resize',onResize);
-  const triEl=document.getElementById('tri'), camEl=document.getElementById('cam');
-  function loop(){ requestAnimationFrame(loop);
-    if(spin.checked){ const t=controls.target;
-      const dx=cam.position.x-t.x, dz=cam.position.z-t.z, a=Math.atan2(dz,dx)+0.006, rad=Math.hypot(dx,dz);
-      cam.position.x=t.x+Math.cos(a)*rad; cam.position.z=t.z+Math.sin(a)*rad; cam.lookAt(t); }
-    controls.update(); renderer.render(studioScene,cam);
-    triEl.textContent='tris: '+renderer.info.render.triangles.toLocaleString();
-    camEl.textContent='cam: '+cam.position.x.toFixed(1)+','+cam.position.y.toFixed(1)+','+cam.position.z.toFixed(1);
-  }
-  loop();
-  build();   // build the first asset on load
-})();
+asset.onchange=rebuild;document.getElementById('rebuild').onclick=rebuild;document.getElementById('apply').onclick=applyPlacement;
+['roof','wire','grid','colliders','rooms','mannequin'].forEach(id=>document.getElementById(id).onchange=applyInspect);
+document.getElementById('top').onclick=()=>{controls.target.set(0,0,0);camera.position.set(0,27,.01);controls.update()};document.getElementById('iso').onclick=()=>frame(true);
+document.getElementById('save').onclick=()=>{const d=draft();localStorage.setItem('crafted-realm-building-studio-v1',JSON.stringify(d));document.getElementById('json').value=JSON.stringify(d,null,2);setStatus('SAVED — placement draft stored locally and shown below.')};
+document.getElementById('reload').onclick=()=>{try{const raw=localStorage.getItem('crafted-realm-building-studio-v1');if(!raw)throw new Error('No saved draft yet');applyDraft(JSON.parse(raw));setStatus('RELOADED — saved placement round trip passed.')}catch(e){setStatus(String(e),true)}};
+document.getElementById('remove').onclick=()=>{removed=true;if(root)root.visible=false;helpers.visible=false;setStatus('REMOVED — preview and authored helpers are absent. The saved draft is untouched.')};
+document.getElementById('restore').onclick=()=>{removed=false;if(root)root.visible=true;helpers.visible=true;setStatus('RESTORED — the same building instance is visible again.')};
+document.getElementById('export').onclick=()=>{const text=JSON.stringify(draft(),null,2);document.getElementById('json').value=text;navigator.clipboard?.writeText(text).catch(()=>{});setStatus('EXPORTED — placement JSON is ready below'+(navigator.clipboard?' and copied when allowed.':'.'))};
+document.getElementById('import').onclick=()=>{try{applyDraft(JSON.parse(document.getElementById('json').value));setStatus('IMPORTED — JSON validated and applied.')}catch(e){setStatus(String(e),true)}};
+window.STUDIO_CAPTURE=()=>renderer.domElement.toDataURL('image/png');window.STUDIO_BUILDING=()=>({definition:current,draft:draft(),acceptance:WorldV2BuildingData.acceptance()});
+window.addEventListener('resize',()=>{camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix();renderer.setSize(view.clientWidth,view.clientHeight)});
+function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera);const b=current?.resources?.visualBudget;const perf=b?` / budget ${b.maxTriangles.toLocaleString()} tris, ${b.maxDrawCalls} draws`:'';hud.textContent=`${current?.label||'—'} • ${renderer.info.render.triangles.toLocaleString()} tris • ${renderer.info.render.calls} draws${perf} • roof ${document.getElementById('roof').checked?'on':'off'} • drag orbit / wheel zoom`};loop();rebuild();
 </script>
 </body>
 </html>

@@ -51,12 +51,11 @@ Plain **global `<script>` tags** (NOT ES modules) loaded in order from `index.ht
   FPS/draw-call checks (rAF is frozen there) — foreground the tab for a full perf reading. A saved
   adventurer is CONTINUED, never wiped. `window.SMOKE_ERRORS` records uncaught errors even without
   `?smoke=1`.
-- **Second visual opinion (do this for any visual/UI change):** an independent model catches blind
-  spots one set of eyes rationalizes past. Capture a screenshot, then run
-  `node tools/gemini_vision.js "<prompt>" <img.png> [<reference.png>]` (Gemini Vision, gemini-2.5-flash)
-  for a critique or a 1–10 match-vs-reference score. Used this way it drove item quality 6.5→9.6.
-  Use it as a gate on HUD/scene changes and to compare our renders to OSRS references (e.g. Veyhollow
-  chunks vs Lumbridge). The planned smoke-test should pipe each key screen through it automatically.
+- **Visual review (do this for any visual/UI change):** capture the settled real game or Studio view,
+  then perform and record a direct Codex review covering silhouette/proportion, shape hierarchy,
+  color/material separation, reference-defining features, gameplay-camera readability, animation and
+  interaction readability, and family consistency. Per the user's 2026-07-13 decision, no Gemini or
+  other second-model visual review is required.
 - **Secrets:** `GEMINI_API_KEY` / `HF_TOKEN` come from the Windows USER registry / env — **never
   hardcode, print, or commit them.** `tools/gemini_image.js` reads `process.env.GEMINI_API_KEY`.
 - **Big risky refactors of the core loop** → do in a git **worktree agent**, but FIRST: **commit

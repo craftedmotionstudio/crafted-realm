@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "assetId": "cellar_ladder_hatch_v1",
+  "assetClass": "traversal-prop-family",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_cellar_ladder_hatch_v1.py",
+  "source": "assets/blender/props/cellar_ladder_hatch_v1.blend",
+  "model": "assets/models/props/cellar_ladder_hatch_v1.glb",
+  "authoringReport": "scratchpad/cellar_ladder_hatch_v1/asset_report.json",
+  "pipelineResult": "scratchpad/cellar_ladder_hatch_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/cellar_ladder_hatch_v1/01_scale_silhouette.png",
+    "scratchpad/cellar_ladder_hatch_v1/02_shaded.png",
+    "scratchpad/cellar_ladder_hatch_v1/03_clay.png",
+    "scratchpad/cellar_ladder_hatch_v1/04_wireframe.png",
+    "scratchpad/cellar_ladder_hatch_v1/05_gameplay_descent.png",
+    "scratchpad/cellar_ladder_hatch_v1/06_gameplay_ascent.png",
+    "scratchpad/cellar_ladder_hatch_v1/cellar_ladder_hatch_v1_proof_sheet.png",
+    "Bible_References/Complete/_compare/cellar_ladder_hatch_v1_concept_compare.png",
+    "scratchpad/cellar_ladder_hatch_v1/07_in_game_surface.png",
+    "scratchpad/cellar_ladder_hatch_v1/08_in_game_cellar_real_climb.png"
+  ],
+  "requiredNodes": [
+    "cellar_ladder_hatch_v1",
+    "LadderFrame",
+    "RaisedHatchSill",
+    "DarkDescent",
+    "LadderRuntimeMesh",
+    "HatchRuntimeMesh",
+    "DescentRuntimeMesh"
+  ],
+  "requiredAnimations": [],
+  "budgets": {
+    "maxFileBytes": 240000,
+    "maxTriangles": 3500,
+    "maxPrimitives": 28,
+    "maxMaterials": 10
+  },
+  "scaleContract": {
+    "referenceHeightTiles": 1.9,
+    "checks": [
+      {"label": "family width", "reportPath": "dimensionsTiles.width", "min": 1.15, "max": 1.75},
+      {"label": "family depth", "reportPath": "dimensionsTiles.depth", "min": 0.55, "max": 1.1},
+      {"label": "family height", "reportPath": "dimensionsTiles.height", "min": 2.2, "max": 2.65},
+      {"label": "ladder rail height", "reportPath": "humanScaleContract.ladderRailHeight", "min": 2.15, "max": 2.55},
+      {"label": "clear rung width", "reportPath": "humanScaleContract.clearRungWidth", "min": 0.5, "max": 0.72},
+      {"label": "rung spacing", "reportPath": "humanScaleContract.rungSpacing", "min": 0.25, "max": 0.34},
+      {"label": "descent visual depth", "reportPath": "humanScaleContract.descentDepth", "min": 0.3, "max": 0.7}
+    ]
+  }
+}

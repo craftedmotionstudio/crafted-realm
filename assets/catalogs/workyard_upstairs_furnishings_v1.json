@@ -1,0 +1,60 @@
+{
+  "assetId": "workyard_upstairs_furnishings_v1",
+  "displayName": "Survival Workyard Purposeful Upstairs Furnishings",
+  "family": "Tutor's Holm survival teaching interiors",
+  "gameplayRole": "Tool maintenance, firemaking, cooking, fishing preparation, domestic storage, and storm-history storytelling",
+  "status": "integrated",
+  "version": 1,
+  "reference": {
+    "images": [
+      "docs/rebuild/concepts/workyard_upstairs_workstation_nanobanana2_v1.png",
+      "docs/rebuild/concepts/workyard_upstairs_hearth_nanobanana2_v1.png",
+      "docs/rebuild/concepts/workyard_upstairs_story_textiles_nanobanana2_v1.png"
+    ],
+    "promptStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md",
+    "provenance": "Original Crafted Realm concepts generated with Gemini / Nano Banana 2 on 2026-07-15"
+  },
+  "visibleFeatures": [
+    "contrasting irregular three-plank workbench with splayed pegged trestles, stretcher, hatchet, toothed hand saw, whetstone, wedges, mallet and pitch pot",
+    "stepped fitted crockery hutch with symmetric shaped sides, centered inset doors, carved crown, open shelves, upright plate racks and shelf-safe mugs",
+    "separate scalloped mug shelf with four handled mugs visibly seated on capped pegs, plus one visibly open stave bucket",
+    "player-scaled repaired work stool, split-top lesson stool and separate woven-rush lesson stool",
+    "irregular teaching hearth with recessed full-cavity soot back and floor, hand-hewn mantel, readable cozy fire, cooking crane, chain, kettle, shovel and brush",
+    "six-sided kindling lesson table and two related but distinct woven rug patterns",
+    "hand-cut firemaking board, deeply cut storm tally, mounted weighted net, and original Storm Warden relief picture"
+  ],
+  "dimensionsTiles": {"width": 20.67, "depth": 5.799, "height": 5.804},
+  "pivot": "catalog family origin; every integrated item retains its own semantic root",
+  "facing": "front is Blender -Y and exported Three.js +Z",
+  "placement": {
+    "room": "holm_survival_workyard surface lodge and many-sided teaching hearth",
+    "rule": "wall-led clusters preserve the four-direction route between trail door, cellar hatch, hearth passage and pond door",
+    "count": 1
+  },
+  "interactionOwner": "WorldV2 authored interactions plus HolmSurvivalWorkyard lesson handlers",
+  "collisionOwner": "Workyard building definition; only the broad bench and masonry hearth block navigation",
+  "materials": ["aged oak", "willow", "fieldstone", "forged iron", "brass", "cream and blue crockery", "hemp rope", "muted red/blue/gold/green wool"],
+  "animationClips": [],
+  "runtimeFlameOwner": "HolmSurvivalCellar surface-hearth cozy flicker loop",
+  "source": "assets/blender/props/workyard_upstairs_furnishings_v1.blend",
+  "runtime": "assets/models/props/workyard_upstairs_furnishings_v1.glb",
+  "builder": "tools/blender/build_workyard_upstairs_furnishings_v1.py",
+  "integratedBuilder": "tools/blender/build_survival_workyard_v2.py",
+  "proofDirectory": "scratchpad/workyard_upstairs_furnishings_v1",
+  "conceptComparisons": [
+    {"image": "Bible_References/Complete/_compare/workyard_upstairs_workstation_v1_compare.png", "codexClosenessScore": 9.1},
+    {"image": "Bible_References/Complete/_compare/workyard_upstairs_hearth_v1_compare.png", "codexClosenessScore": 9.0},
+    {"image": "Bible_References/Complete/_compare/workyard_upstairs_story_textiles_v1_compare.png", "codexClosenessScore": 9.0}
+  ],
+  "technical": {"vertices": 4722, "triangles": 8388, "primitives": 77, "materials": 26, "glbBytes": 650192},
+  "humanScaleRevision": {
+    "playerHeightTiles": 1.85,
+    "workBenchHeightTiles": 1.10,
+    "stoolSeatHeightTiles": 0.57,
+    "lessonTableHeightTiles": 0.97,
+    "hutchHeightTiles": 2.82,
+    "bucketHeightTiles": 0.78,
+    "hearthHeightTiles": 3.02,
+    "rule": "Furniture serves the adventurer's body, not the 4.55-tile wall height"
+  }
+}

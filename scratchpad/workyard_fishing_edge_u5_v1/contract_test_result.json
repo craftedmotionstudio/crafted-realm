@@ -1,0 +1,108 @@
+{
+  "assetId": "workyard_fishing_edge_u5_v1",
+  "verdict": "PASS",
+  "pass": 25,
+  "fail": 0,
+  "assertions": [
+    {
+      "name": "fresh save has no active operation",
+      "pass": true
+    },
+    {
+      "name": "fresh save remembers no catches",
+      "pass": true
+    },
+    {
+      "name": "first catch timing is deterministic and fast",
+      "pass": true
+    },
+    {
+      "name": "missing net is rejected",
+      "pass": true
+    },
+    {
+      "name": "full pack is rejected",
+      "pass": true
+    },
+    {
+      "name": "valid operation begins",
+      "pass": true
+    },
+    {
+      "name": "first operation records tutorial timing",
+      "pass": true
+    },
+    {
+      "name": "caller save was not mutated",
+      "pass": true
+    },
+    {
+      "name": "clone does not alias active state",
+      "pass": true
+    },
+    {
+      "name": "cast advances to waiting",
+      "pass": true
+    },
+    {
+      "name": "bite becomes readable state",
+      "pass": true
+    },
+    {
+      "name": "net action advances to catching",
+      "pass": true
+    },
+    {
+      "name": "catch commits one reward",
+      "pass": true
+    },
+    {
+      "name": "reward carries exact fishing xp",
+      "pass": true
+    },
+    {
+      "name": "operation id is banked once",
+      "pass": true
+    },
+    {
+      "name": "first tutorial catch is complete",
+      "pass": true
+    },
+    {
+      "name": "replayed commit pays nothing",
+      "pass": true
+    },
+    {
+      "name": "settled clears active operation",
+      "pass": true
+    },
+    {
+      "name": "rewarded operation id cannot restart",
+      "pass": true
+    },
+    {
+      "name": "later timing is seeded and repeatable",
+      "pass": true
+    },
+    {
+      "name": "interruption clears active operation",
+      "pass": true
+    },
+    {
+      "name": "interruption awards nothing",
+      "pass": true
+    },
+    {
+      "name": "full pack at commit pays nothing",
+      "pass": true
+    },
+    {
+      "name": "ledger remains capped",
+      "pass": true
+    },
+    {
+      "name": "unknown event is inert",
+      "pass": true
+    }
+  ]
+}

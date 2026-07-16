@@ -25,6 +25,8 @@ const ITEMS = {
   bronze_tips:  {name:'Bronze arrowtips', stack:true, value:2},
   iron_tips:    {name:'Iron arrowtips', stack:true, value:4},
   silver_trinket:{name:'Silver trinket', stack:false, value:32, examine:'Lifted from a stall when no one was looking.'},
+  bucket:       {name:'Bucket', stack:false, value:1, examine:'A sturdy empty stave bucket with an iron handle.'},
+  bucket_water: {name:'Bucket of water', stack:false, value:1, examine:'Cold, clean and sloshing.'},
   raw_perch:    {name:'Raw mirrorperch', stack:false, value:6},
   bread:        {name:'Bread', stack:false, value:4, heal:4, weight:0.3, examine:'Squashy but filling.'},
   cooked_perch: {name:'Mirrorperch', stack:false, value:12, heal:4},

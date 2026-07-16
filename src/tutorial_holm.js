@@ -1,7 +1,8 @@
 /* ============ tutorial_holm — the full guided Tutor's Holm station flow ============
  * Replaces Tutorial.steps wholesale with a world-arrow-guided, NPC-FREE station
- * tour: hatchet -> chop -> fish -> cook -> bake bread -> climb down -> mine ->
- * smelt -> smith -> bank, then finish() -> mainland teleport + starter inventory.
+ * tour: hatchet -> chop -> light -> fish -> cook -> bake bread -> climb down ->
+ * mine -> smelt -> smith -> bank. Completion unlocks the departure boat; boarding
+ * performs the mainland transition and grants the starter inventory.
  *
  * Every step carries a {target,arrowLabel} so ui_guide_arrow.js paints a world
  * beacon + screen-edge pointer for it automatically (no extra wiring). Each step
@@ -13,7 +14,7 @@
  * notify('bank','open'), the Holm bank chest, npcKilled styled-kill detection)
  * stay live and are reused. We do NOT re-grant bow/arrows/runes at a step (ext's
  * grant hook keys off the now-absent 'ranged'/'magic' steps and never fires), so
- * the finish() override hands out the ranged+magic kit as part of the starter set.
+ * the departure pack includes the ranged+magic kit for the current proving slice.
  *
  * COMBAT DEFERRED: there is no practice enemy on the Holm (the only grubkin is at
  * [430,408] on the mainland) and enemies are modelled-last, so the melee/ranged/
@@ -26,24 +27,13 @@
 (function(){
   if(typeof Tutorial==='undefined') return;
 
-  /* ---- the 10-step, NPC-free guided sequence (tile centres from the world contract) ---- */
-  Tutorial.steps = [
-    {text:'Open your pack and wield the Bronze hatchet.',                 ev:'equip',  match:'hatchet',     target:{x:170,z:142}, arrowLabel:'Wield hatchet'},
-    {text:'Chop the tree for some logs. Click the tree.',                 ev:'gather', match:'logs',        target:{x:170,z:142}, arrowLabel:'Chop tree'},
-    {text:'Click your Small net, then click the fishing spot to catch a fish.', ev:'gather', match:'raw_perch', target:{x:174,z:143}, arrowLabel:'Fish here'},
-    {text:'Cook your fish on the campfire. Click the fire.',              ev:'cook',   match:'cooked_perch',target:{x:158,z:143}, arrowLabel:'Cook here'},
-    {text:'Make bread dough (net/flour/water) then bake it on the range by the kitchen.', ev:'bake', match:'bread', target:{x:171,z:140}, arrowLabel:'Bake bread'},
-    {text:'Climb down the trapdoor to the mine below.',                   ev:'descend',match:'cave',        target:{x:163,z:148}, arrowLabel:'Climb down'},
-    {text:'Mine a copper rock with your pickaxe.',                        ev:'gather', match:'copper_ore',  target:{x:296,z:357}, arrowLabel:'Mine rock'},
-    {text:'Smelt your ore into a bronze bar at the furnace.',             ev:'smelt',  match:'bar',         target:{x:305,z:363}, arrowLabel:'Smelt bar'},
-    // smith_bronze_dagger.js registers a real bronze_dagger (req:1, 1 bar) as the FIRST smithable, so the anvil grid marks it "Start here" — the tutorial forges a Dagger per spec
-    {text:'Use a bronze bar on the anvil and forge a Bronze dagger (the "Start here" item).', ev:'smith', match:'forged', target:{x:302,z:363}, arrowLabel:'Use anvil'},
-    {text:'Head back up and open your bank account at the bank booth.',   ev:'bank',   match:'open',        target:{x:163,z:143}, arrowLabel:'Open bank'},
-  ];
+  if(typeof HolmTutorialFlow==='undefined') throw new Error('[tutorial_holm] HolmTutorialFlow data is required');
+  Tutorial.steps = HolmTutorialFlow.runtimeSteps();
+  Tutorial.curriculumVersion = HolmTutorialFlow.curriculumVersion;
 
   /* ---- station-item grants: fire once as each gated step becomes current ----
    * Mirrors tutorial_ext's grantForStep pattern (banner hook + a `granted` guard).
-   * We do NOT grant bow/arrows/runes here — those ship in the finish() starter set. */
+   * We do NOT grant bow/arrows/runes here — those ship in the departure pack. */
   const granted = {};
   function have(id){ try{ return Player.count ? Player.count(id) : 0; }catch(e){ return 0; } }
   function grantForStep(){
@@ -84,14 +74,12 @@
   const origBanner = Tutorial.banner.bind(Tutorial);
   Tutorial.banner = function(){ origBanner(); try{ grantForStep(); }catch(e){} };
 
-  /* ---- finish() override: keep the original mainland teleport + Bram dialogue,
-   * then hand out the starter inventory (guarded once). Because the combat steps
-   * are deferred, the ranged (worn_bow+arrows) and magic (runes) kits that
-   * tutorial_ext used to grant are included here. ---- */
+  /* ---- departure pack: claimed by the boat, never by tutorial completion. ---- */
   let starterDone = false;
   function keepOne(id){ if(have(id)<1 && Player.equip.weapon!==id) Player.addItem(id,1); }
   function grantStarter(){
-    if(starterDone) return; starterDone = true;
+    if(starterDone||Tutorial.departurePackClaimed) return false;
+    starterDone = true; Tutorial.departurePackClaimed=true;
     // consumable/kit rewards (additive)
     Player.addItem('coins', 25);
     Player.addItem('bread', 3);
@@ -107,18 +95,23 @@
     // teleport tabs — item_teleport_tabs.js registers home_tab (use → Admin.tp('commons'))
     if(typeof ITEMS==='undefined' || ITEMS.home_tab) Player.addItem('home_tab', 3);
     UI.chat('Warden\'s welcome pack: 25 crowns, bread, runes, arrows, a shield, leather body and teleport tabs. Your tools and forged dagger come with you.','sys');
+    return true;
   }
-  const origFinish = Tutorial.finish.bind(Tutorial);
+  Tutorial.grantDeparturePack = grantStarter;
   Tutorial.finish = function(){
-    try{ grantStarter(); }catch(e){}
-    // robustness: surface the player first so the mainland teleport always lands on
-    // plane 0 (Admin.tp alone does not reset the plane — verified). Inert in normal
-    // play (bank is on the surface); only fires if a finish happens underground.
+    this.complete=true; this.step=this.steps.length;
+    const objective=document.getElementById('objective'); if(objective) objective.style.display='none';
     try{ if(typeof Player!=='undefined' && (Player.plane||0)!==0){
       Player.plane = 0;
       if(typeof Planes!=='undefined' && Planes.refreshVisibility) Planes.refreshVisibility();
     } }catch(e){}
-    return origFinish();   // sets complete, hides objective, Admin.tp('commons') + Bram dialogue
+    UI.chat('You have completed the active Holm curriculum. Departure Dock is now unlocked.','xp');
+    UI.dialogue('Holm passage writ',
+      'Your lessons are marked complete. Follow the eastern path over Tidebridge to the Mage Headland, then board the skiff at Departure Dock.',
+      [{label:'The mainland awaits.'}],'📜');
+    try{ if(typeof HolmDeparture!=='undefined') HolmDeparture.announceUnlocked(); }catch(e){}
+    try{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }catch(e){}
+    return true;
   };
 
   /* ================= defensive monkey-patches (each guarded, no-op if absent) ================= */
@@ -175,5 +168,5 @@
   Tutorial.step = 0;
   if(!Tutorial.complete){ try{ Tutorial.banner(); }catch(e){} }
 
-  console.log('[tutorial_holm] installed 10-step guided flow (omitted: melee/ranged/magic kills — combat deferred to NPC phase)');
+  console.log('[tutorial_holm] installed '+Tutorial.steps.length+'-step environment curriculum; release combat/magic lessons remain data-locked for the NPC phase');
 })();

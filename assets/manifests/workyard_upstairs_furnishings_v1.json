@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "assetId": "workyard_upstairs_furnishings_v1",
+  "assetClass": "prop-family",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_workyard_upstairs_furnishings_v1.py",
+  "source": "assets/blender/props/workyard_upstairs_furnishings_v1.blend",
+  "model": "assets/models/props/workyard_upstairs_furnishings_v1.glb",
+  "authoringReport": "scratchpad/workyard_upstairs_furnishings_v1/asset_report.json",
+  "pipelineResult": "scratchpad/workyard_upstairs_furnishings_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/workyard_upstairs_furnishings_v1/01_workstation_family.png",
+    "scratchpad/workyard_upstairs_furnishings_v1/02_hearth_family.png",
+    "scratchpad/workyard_upstairs_furnishings_v1/03_story_textiles.png",
+    "scratchpad/workyard_upstairs_furnishings_v1/04_gameplay_camera.png",
+    "Bible_References/Complete/_compare/workyard_upstairs_workstation_v1_compare.png",
+    "Bible_References/Complete/_compare/workyard_upstairs_hearth_v1_compare.png",
+    "Bible_References/Complete/_compare/workyard_upstairs_story_textiles_v1_compare.png"
+  ],
+  "requiredNodes": [
+    "workyard_upstairs_furnishings_v1",
+    "tool_bench",
+    "workyard_crockery_hutch",
+    "workyard_mug_shelf",
+    "workyard_empty_bucket",
+    "teaching_fireplace",
+    "hearth_flame",
+    "workyard_lesson_table",
+    "workyard_lodge_rug",
+    "workyard_hearth_rug",
+    "firemaking_board",
+    "storm_tally_beam",
+    "net_rack",
+    "workyard_storm_warden_relief"
+  ],
+  "requiredAnimations": [],
+  "budgets": {
+    "maxFileBytes": 1200000,
+    "maxTriangles": 16000,
+    "maxPrimitives": 80,
+    "maxMaterials": 26
+  },
+  "scaleContract": {
+    "referenceHeightTiles": 1.85,
+    "checks": [
+      {
+        "label": "work bench height",
+        "reportPath": "humanScaleContract.workBenchHeight",
+        "min": 1.02,
+        "max": 1.18
+      },
+      {
+        "label": "stool seat height",
+        "reportPath": "humanScaleContract.stoolSeatHeight",
+        "min": 0.5,
+        "max": 0.64
+      },
+      {
+        "label": "lesson table height",
+        "reportPath": "humanScaleContract.lessonTableHeight",
+        "min": 0.88,
+        "max": 1.06
+      },
+      {
+        "label": "hutch height",
+        "reportPath": "humanScaleContract.hutchHeight",
+        "min": 2.65,
+        "max": 2.95
+      },
+      {
+        "label": "bucket height",
+        "reportPath": "humanScaleContract.bucketHeight",
+        "min": 0.68,
+        "max": 0.88
+      },
+      {
+        "label": "hearth height",
+        "reportPath": "humanScaleContract.hearthHeight",
+        "min": 2.75,
+        "max": 3.15
+      },
+      {
+        "label": "wall fixture top",
+        "reportPath": "humanScaleContract.highestWallFixtureTop",
+        "min": 2.65,
+        "max": 3.65
+      }
+    ]
+  }
+}

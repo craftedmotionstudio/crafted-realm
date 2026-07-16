@@ -1,0 +1,74 @@
+{
+  "assetId": "cellar_ladder_hatch_v1",
+  "displayName": "Storm Cellar Ladder and Descent",
+  "family": "Tutor's Holm Survival Workyard traversal",
+  "gameplayRole": "Readable, safe two-way travel between the workyard and storm cellar",
+  "status": "owner-rejected after live visual review; retained only as historical evidence",
+  "version": 1,
+  "supersededBy": "cellar_traversal_pair_v2",
+  "reference": {
+    "image": "docs/rebuild/concepts/cellar_ladder_hatch_nanobanana2_v2.png",
+    "prompt": "docs/rebuild/concepts/cellar_ladder_hatch_nanobanana2_v2.prompt.md",
+    "promptStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md",
+    "provenance": "Generated with Gemini 3 Pro Image / Nano Banana 2 on 2026-07-14; original Crafted Realm concept"
+  },
+  "visibleFeatures": [
+    "two crooked aged-oak rails with exactly seven individually bowed rungs",
+    "fitted forged-iron rung straps, rivets and wall hooks",
+    "compact hand-set fieldstone apron with a shaped timber curb",
+    "rear landing portal that physically supports the ladder",
+    "recessed dark shaft with inner masonry faces and lower rung silhouettes"
+  ],
+  "dimensionsTiles": {"width": 1.57, "depth": 1.039, "height": 2.644},
+  "humanScale": {
+    "playerHeightTiles": 1.9,
+    "ladderRailHeightTiles": 2.256,
+    "clearRungWidthTiles": 0.6,
+    "rungSpacingTiles": 0.3,
+    "descentDepthTiles": 0.3
+  },
+  "pivot": "centered on the compact surface opening with the buried shaft below z=0",
+  "facing": "front is Blender -Y and exported Three.js +Z",
+  "placement": {
+    "surface": "Survival Workyard cellar support space",
+    "cellar": "west-wall return landing",
+    "count": 2
+  },
+  "interactionOwner": "HolmSurvivalCellar existing climb proxies and travel handlers",
+  "collisionOwner": "Existing workyard/cardinal landing collision; visual family does not replace mechanics",
+  "materials": ["aged oak", "worn oak", "forged iron", "warm fieldstone", "recess darkness"],
+  "animationClips": [],
+  "deferredCharacterClip": "Canonical Player_Climb_Ladder clip",
+  "source": "assets/blender/props/cellar_ladder_hatch_v1.blend",
+  "runtime": "assets/models/props/cellar_ladder_hatch_v1.glb",
+  "builder": "tools/blender/build_cellar_ladder_hatch_v1.py",
+  "proofDirectory": "scratchpad/cellar_ladder_hatch_v1",
+  "inGameProof": {
+    "surface": "scratchpad/cellar_ladder_hatch_v1/07_in_game_surface.png",
+    "cellarAfterRealClimb": "scratchpad/cellar_ladder_hatch_v1/08_in_game_cellar_real_climb.png"
+  },
+  "conceptComparison": {
+    "image": "Bible_References/Complete/_compare/cellar_ladder_hatch_v1_concept_compare.png",
+    "codexClosenessScore": 9.1,
+    "verdict": "historical concept gate passed, but owner rejected the live architectural result"
+  },
+  "ownerRejection": "The same freestanding portal-like family was forced into both surface and cellar contexts; it looked oversized, overly detailed, and architecturally disconnected.",
+  "technical": {"vertices": 1324, "triangles": 2336, "primitives": 16, "materials": 9, "glbBytes": 129468},
+  "review": {
+    "silhouetteProportion": 9.2,
+    "shapeHierarchy": 9.1,
+    "colorMaterialSeparation": 9.2,
+    "referenceDefiningFeatures": 9.0,
+    "gameplayCameraReadability": 9.2,
+    "interactionReadability": 9.2,
+    "familyConsistency": 9.3,
+    "codexOverall": 9.1
+  },
+  "integrationGate": {
+    "smoke": "PASS 85/85 at 60 FPS with 114 draw calls and zero errors",
+    "realInteractionProof": "Visible cellar ladder click climbed up to plane 0; visible surface hatch click climbed down to plane -1",
+    "surfacePresentation": "Full scale-locked family with a recessed dark opening",
+    "cellarPresentation": "Ladder-only context variant fitted to the existing west-wall opening",
+    "pathing": "Proven cardinal surface and cellar landing tiles preserved"
+  }
+}

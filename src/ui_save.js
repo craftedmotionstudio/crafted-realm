@@ -9,14 +9,30 @@ const SaveGame = {
   available(){ try{ return typeof Persist!=='undefined' && !!Persist.store; }catch(e){ return false; } },
   exists(){ if(!this.available()) return false;
     return Persist.store.has(this.KEY); },
+  provider(){
+    try{
+      return (typeof CRWorldMode!=='undefined' && !CRWorldMode.legacy && CRWorldMode.provider)
+        ? CRWorldMode.provider : null;
+    }catch(e){ return null; }
+  },
+  worldMeta(){
+    const p=this.provider();
+    if(!p) return {provider:'legacy', worldRevision:0, landmark:'holm_arrival'};
+    const near=p.closestLandmark(player.position.x,player.position.z);
+    return {provider:p.id, worldRevision:p.worldRevision, landmark:near&&near.id};
+  },
   serialize(){
     return JSON.stringify({
       v:1,
       xp:Player.xp, hp:Player.hp, maxHp:Player.maxHp,
       inv:Player.inv, bank:Player.bank, equip:Player.equip,
       quests:Player.quests, castMode:!!Player.castMode,
-      tut:{step:Tutorial.step, complete:!!Tutorial.complete},
+      tut:{step:Tutorial.step, complete:!!Tutorial.complete,
+        curriculumVersion:Tutorial.curriculumVersion||0,
+        departurePackClaimed:!!Tutorial.departurePackClaimed,
+        cellarRationClaimed:!!Tutorial.cellarRationClaimed},
       pos:[player.position.x, player.position.z],
+      world:this.worldMeta(),
       tracked:Quest.tracked,
       look:{name:CharCfg.name, gender:CharCfg.gender, shirt:CharCfg.shirt, skin:CharCfg.skin,
             hair:CharCfg.hair, hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs},
@@ -25,6 +41,10 @@ const SaveGame = {
       energy:Player.energy, runOn:Player.runOn, spec:Player.spec,
       prayerPts:Player.prayerPts,
       spell:Player.spell,
+      waterworks:typeof WorkyardWaterworksU4!=='undefined'&&WorkyardWaterworksU4.saveState?
+        WorkyardWaterworksU4.saveState():null,
+      fishingEdge:typeof WorkyardFishingU5!=='undefined'&&WorkyardFishingU5.saveState?
+        WorkyardFishingU5.saveState():null,
     });
   },
   save(silent){
@@ -52,6 +72,10 @@ const SaveGame = {
       if(d.spec!==undefined) Player.spec=d.spec;
       if(d.prayerPts!==undefined) Player.prayerPts=Math.min(d.prayerPts, Player.maxPrayer());
       if(d.spell && SPELLS[d.spell]){ Player.spell=d.spell; Player.castMode=true; }
+      if(typeof WorkyardWaterworksU4!=='undefined'&&WorkyardWaterworksU4.restoreState)
+        WorkyardWaterworksU4.restoreState(d.waterworks);
+      if(typeof WorkyardFishingU5!=='undefined'&&WorkyardFishingU5.restoreState)
+        WorkyardFishingU5.restoreState(d.fishingEdge);
       // old spark runes fuse into mind runes
       Player.inv.forEach(s=>{ if(s && s.id==='spark_rune') s.id='mind_rune'; });
       (Player.bank||[]).forEach(s=>{ if(s && s.id==='spark_rune') s.id='mind_rune'; });
@@ -65,19 +89,51 @@ const SaveGame = {
         if(d.look.beard!==undefined) CharCfg.beard=d.look.beard;
         if(d.look.legs!==undefined) CharCfg.legs=d.look.legs;
         applyPlayerLook(); }
+      if(d.tut){
+        Tutorial.departurePackClaimed=!!d.tut.departurePackClaimed;
+        Tutorial.cellarRationClaimed=!!d.tut.cellarRationClaimed;
+      }
       if(d.tut && d.tut.complete){
         Tutorial.complete=true; Tutorial.step=Tutorial.steps.length;
         const ob=document.getElementById('objective'); if(ob) ob.style.display='none';
       } else if(d.tut){ Tutorial.step=d.tut.step||0; }
-      if(d.pos){
-        const y=groundY(d.pos[0],d.pos[1]);
-        if(y!==null) player.position.set(d.pos[0], y, d.pos[1]);
+      let relocated=false, relocationReason=null;
+      if(d.pos || this.provider()){
+        const provider=this.provider();
+        let target;
+        if(provider) target=provider.resolveSavedPosition(d.pos,d.world);
+        else if(d.pos) target={x:Number(d.pos[0]),z:Number(d.pos[1]),relocated:false,reason:'legacy-position'};
+        if(target){
+          let y=groundY(target.x,target.z);
+          let safe=y!==null && y>=-1.2;
+          try{ if(safe && collides(target.x,target.z,0.42,true,0)) safe=false; }catch(e){}
+          if(!safe && provider){
+            const fallback=provider.getSpawnLandmark(provider.defaultLandmark);
+            target={x:fallback.x,z:fallback.z,relocated:true,reason:'unsafe-saved-position'};
+            y=groundY(target.x,target.z); safe=y!==null && y>=-1.2;
+          }
+          if(safe){
+            player.position.set(target.x,y,target.z);
+            // Saves may restore into a chunk outside the boot-time arrival ring.
+            // Re-centre terrain and collision before the welcome overlay is removed,
+            // so Continue never reveals sea/blocked cells for one frame.
+            if(provider) provider.updateResidency(target.x,target.z,true);
+            relocated=!!target.relocated; relocationReason=target.reason||null;
+          }
+        }
       }
+      this.lastLoad={ok:true,relocated:relocated,reason:relocationReason,
+        residencyCentered:!!this.provider(),
+        provider:this.provider()?this.provider().id:'legacy'};
       refreshPlayerGear();
       UI.refreshInv(); UI.refreshSkills(); UI.refreshQuests(); UI.refreshEquip(); UI.refreshHud();
       UI.chat('Welcome back to Veyhollow. Your progress has been restored.','sys');
+      if(relocated){
+        const provider=this.provider(),safe=provider&&provider.getSpawnLandmark(provider.defaultLandmark);
+        UI.chat('The rebuilt map has placed you safely at '+(safe&&safe.label?safe.label:'a safe arrival point')+'. Your progress is unchanged.','sys');
+      }
       return true;
-    }catch(e){ return false; }
+    }catch(e){ this.lastLoad={ok:false,error:String(e&&e.message||e)}; return false; }
   },
   reset(){
     if(!this.available()) return;

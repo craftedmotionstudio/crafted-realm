@@ -1,0 +1,12 @@
+{
+  "name": "Workyard Fishing Edge U5 — Live r128 Cardinal Audit",
+  "views": {
+    "north": "scratchpad/workyard_fishing_edge_u5_v1/live_north.png",
+    "south": "scratchpad/workyard_fishing_edge_u5_v1/live_south.png",
+    "east": "scratchpad/workyard_fishing_edge_u5_v1/live_east.png",
+    "west": "scratchpad/workyard_fishing_edge_u5_v1/live_west.png"
+  },
+  "review": "scratchpad/workyard_fishing_edge_u5_v1/live_turnaround_review.json",
+  "note": "Normal browser build after smoke acceptance; same player coordinate and zoom, camera rotated in four 90-degree steps",
+  "out": "scratchpad/workyard_fishing_edge_u5_v1/live_turnaround_sheet.png"
+}

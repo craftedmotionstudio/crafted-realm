@@ -95,13 +95,23 @@
     Music._loading=true; var ctx=Music.ensure(); if(!Music._lofi) buildChain(ctx);
     var keys=Object.keys(INSTRUMENTS); Music._g={};
     keys.forEach(function(k){ var g=ctx.createGain(); g.gain.value=(k==='flute'||k==='lute')?0:1; g.connect(Music._lofi); Music._g[k]=g; });
-    Promise.all(keys.map(function(k){
+    var jobs=keys.map(function(k){
       return Soundfont.instrument(ctx, INSTRUMENTS[k], { nameToUrl:function(n){ return 'assets/audio/sf/'+n+'-mp3.js'; }, destination:Music._g[k] })
         .then(function(inst){ Music._inst[k]=inst; });
-    })).then(function(){ Music._ready=true; Music._loading=false; Director.apply(true);
+    });
+    // custom per-track voices (tr.voices = {role: instrumentName}) — local files, role's bus
+    var extra={};
+    for(var id in Music.tracks){ var v=Music.tracks[id]&&Music.tracks[id].voices;
+      if(v) for(var role in v){ extra[role+':'+v[role]]={role:role,name:v[role]}; } }
+    Object.keys(extra).forEach(function(key){ var e=extra[key];
+      jobs.push(Soundfont.instrument(ctx, e.name, { nameToUrl:function(n){ return 'assets/audio/sf/'+n+'-mp3.js'; }, destination:Music._g[e.role]||Music._lofi })
+        .then(function(inst){ Music._inst[key]=inst; }).catch(function(){})); });
+    Promise.all(jobs).then(function(){ Music._ready=true; Music._loading=false; Director.apply(true);
       if(typeof UI!=='undefined'&&UI.chat) UI.chat('🎼 The orchestra is tuned.','sys');
     }).catch(function(){ Music._loading=false; });
   }
+  // resolve a role to this track's instrument key (custom voice or the default)
+  function vkey(tr,role){ return (tr.voices&&tr.voices[role])? role+':'+tr.voices[role] : role; }
   // per-instrument ADSR so notes EASE IN (soft attack) and release gently — no hard "key press"
   var ENV={ strings:{attack:0.55,release:0.9}, cello:{attack:0.3,release:0.7},
             flute:{attack:0.18,release:0.45}, harp:{attack:0.01,release:0.5}, lute:{attack:0.012,release:0.45} };
@@ -127,24 +137,55 @@
     var spb=60/tr.bpm, bpb=tr.beatsPerBar, barLen=spb*bpb;
     var chord=tr.chords[ci], prev=tr.chords[(ci-1+n)%n];
     // top of each cycle: a soft SUSTAINED tonic pedal + VERY gradual (4-bar) layer swells
+    var padG=(tr.pads!=null?tr.pads:1);     // per-track pad level (melody-forward mixes)
+    var vS=vkey(tr,'strings'), vC=vkey(tr,'cello'), vH=vkey(tr,'harp'), vF=vkey(tr,'flute'), vL=vkey(tr,'lute');
     if(ci===0){
-      if(tr.pedal) tr.pedal.forEach(function(pn){ note('strings', pn, t0, n*barLen*1.03, 0.035, {attack:2.0, release:2.0}); });
-      var d=passDensity(pass), r=barLen*4;
-      rampGain('flute', d.flute, t0, r); rampGain('lute', d.lute, t0, r);
+      var ped0=(tr.dyn&&tr.dyn[0]&&tr.dyn[0].p!=null)?tr.dyn[0].p:1;
+      if(tr.pedal) tr.pedal.forEach(function(pn){ note(vS, pn, t0, n*barLen*1.03, 0.035*padG*Math.max(.35,ped0), {attack:2.0, release:2.0}); });
+      if(!tr.dyn){ var d=passDensity(pass), r=barLen*4;
+        rampGain('flute', d.flute, t0, r); rampGain('lute', d.lute, t0, r); }
     }
+    // long-form dynamics: tr.dyn = { barIndex: {f,l, c,p,h} } — flute/lute gains plus
+    // per-section INSTRUMENTATION levels (cello, pads+pedal, harp; 0 = tacet)
+    if(tr.dyn && tr.dyn[ci]){ var dd=tr.dyn[ci];
+      if(dd.f!=null) rampGain('flute', dd.f, t0, barLen*3);
+      if(dd.l!=null) rampGain('lute', dd.l, t0, barLen*3);
+      S.mix={c:(dd.c!=null?dd.c:1), p:(dd.p!=null?dd.p:1), h:(dd.h!=null?dd.h:1)}; }
+    var mix=S.mix||{c:1,p:1,h:1};
     // string pad: RE-VOICE only when the chord actually changes; long attack + ~2-bar ring → chords
     // crossfade into each other instead of re-attacking every bar (kills the "organ stab" pulse)
-    if(!sameChord(chord,prev) || bar===0){
-      chord.forEach(function(nn){ note('strings', nn, t0, barLen*2.2, 0.07, {attack:1.0, release:1.5}); });
+    if(padG*mix.p>0.01){
+      if(tr.stacc){ // short chord stabs on the downbeat (comping, not wash)
+        if(!sameChord(chord,prev) || bar%2===0)
+          chord.forEach(function(nn){ note(vS, nn, t0, spb*1.4, 0.06*padG*mix.p, {attack:0.06, release:0.5}); });
+      }else if(!sameChord(chord,prev) || bar===0){
+        chord.forEach(function(nn){ note(vS, nn, t0, barLen*2.2, 0.07*padG*mix.p, {attack:1.0, release:1.5}); });
+      }
     }
-    note('cello', tr.bass[ci], t0, barLen*1.15, 0.14, {attack:0.45, release:0.9});   // smooth legato bass
-    // a single soft harp colour per bar (no busy comping)
-    note('harp', up(bpb===3?chord[1]:chord[2%chord.length]), t0+spb*(bpb===3?1.5:2), spb*1.6, 0.04);
-    // legato flute melody — gentle attack, long overlap between notes
+    // tr.sub = melody slots per beat (2 = eighth-note writing); tr.stacc = short-note articulation
+    var sub=tr.sub||1, stepT=spb/sub, slots=bpb*sub;
+    if(mix.c>0.01){
+      if(tr.stacc){ // staccato bass pulses on each beat (the old-school ostinato feel)
+        for(var cb=0;cb<bpb;cb++) note(vC, tr.bass[ci], t0+cb*spb, spb*.55, 0.115*mix.c, {attack:0.02, release:0.16});
+      }else note(vC, tr.bass[ci], t0, barLen*1.15, 0.14*mix.c, {attack:0.45, release:0.9});
+    }
+    if(mix.h>0.01){
+      if(tr.melodyH){
+        // a WRITTEN harp counter-line (second lead) instead of the single colour note
+        for(var hk=0;hk<slots;hk++){ var hh=tr.melodyH[ci*slots+hk];
+          if(hh) note(vH, hh, t0+hk*stepT, (tr.stacc? stepT*.95 : spb*1.9), 0.12*mix.h, {attack:0.012, release:tr.stacc?0.25:0.6}); }
+      }else{
+        // a single soft harp colour per bar (no busy comping)
+        note(vH, up(bpb===3?chord[1]:chord[2%chord.length]), t0+spb*(bpb===3?1.5:2), spb*1.6, 0.04*mix.h);
+      }
+    }
+    // flute melody — legato by default, detached when tr.stacc
     var mel=(pass%2===1 && tr.melodyB)? tr.melodyB : tr.melodyA;
-    for(var k=0;k<bpb;k++){ var nn=mel[ci*bpb+k]; if(nn) note('flute', nn, t0+k*spb, spb*2.1, 0.15, {attack:0.32, release:0.55}); }
+    for(var k=0;k<slots;k++){ var nn=mel[ci*slots+k];
+      if(nn) note(vF, nn, t0+k*stepT, (tr.stacc? stepT*.92 : spb*2.1), 0.15,
+        tr.stacc?{attack:0.02, release:0.18}:{attack:0.32, release:0.55}); }
     // lute counter — soft, always lightly present (its gain bus shapes it)
-    note('lute', up(chord[0]), t0+spb*0.5, spb*1.9, 0.08, {attack:0.05, release:0.7});
+    note(vL, up(chord[0]), t0+spb*0.5, spb*1.9, 0.08, {attack:0.05, release:0.7});
   }
   function schedTick(){
     if(!Music.on||!S.running){ return; }

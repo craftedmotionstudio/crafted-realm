@@ -24,10 +24,12 @@ lakes to the south — and, to the **north beyond the Wilderness Ditch**, the bu
 Civilisation here is young and thin; most of the map is contested by monsters, raiders, and
 older, hungrier things.
 
-> **Canonical world map:** `Maps/Crafted Realms Map.png` is the single source of truth for
-> geography, place names, and layout. When this document and the map disagree, the map wins
-> and this doc gets fixed. (Map orientation revised 2026-07-03: the Wilderness now sits in
-> the **north** behind a Wilderness Ditch, OSRS-style — see §3.)
+> **World-map status (owner, 2026-07-13):** `Maps/Crafted Realms Map.png` and
+> `Bible_References/UI_OpenMiniMap.jpg` are planning/reference artifacts, not immutable geography or UI
+> canon. Browser 1.0 is authored around the four locked region roads and purposeful travel. Preserve the
+> strong north-beyond-the-Ditch risk concept unless a later owner decision changes it, but revise exact
+> coastlines, distances, roads, topology, icons, bezel, and map drawing whenever gameplay and readability
+> improve. The approved v2 chunk/map data becomes the eventual source of truth.
 
 The player washes ashore on **Tutor's Holm**, a small instructional island off the coast,
 with no memory and no name. **Guide Bram** sets them on their feet, then sends them by
@@ -57,8 +59,10 @@ ladder for months/years of content.
 
 ## 3. The world map — regions & ecosystems
 
-Twelve zones already exist (`ZONES` in `game1_data.js`). Mapped to biomes, with the OSRS
-ecosystem-diversity lesson applied: **each region = a distinct biome, a distinct skill
+Twelve legacy zones already exist (`ZONES` in `game1_data.js`). They are a reusable idea inventory, not a
+Browser 1.0 obligation. The locked launch roads are Tutor's Holm/Veyhollow, Emberwood/Stonereach,
+Mirrorpond/Gloomfen, and the Scarlands. They apply the OSRS ecosystem-diversity lesson:
+**each region = a distinct biome, a distinct skill
 focus, a distinct threat band, connected by roads** (the OSRS "every direction feels
 different" principle).
 
@@ -171,51 +175,102 @@ Estate §7), Crafting, Agility, Slayer-style bounty system.
 ## 6. Quest & story structure
 
 Four quests exist (`QUESTS`). They already follow OSRS shape: giver → staged objectives →
-XP + item reward. The **deep storyline** is a spine of linked quest arcs, each tied to a
-faction and region, gating the next tier/region:
+XP + item reward. Crafted Realm has **intersecting regional and faction quest arcs**, not one
+mandatory main campaign. They offer reasons, knowledge, conveniences, equipment, and local access;
+the player remains free to skill, trade with shops, explore, build wealth, improve a homestead, or
+fight without following a prescribed story order. A mysterious shard may appear as an optional
+quest item, but is not the player's identity or destiny.
 
 1. **Onboarding** (Tutor's Holm) — Guide Bram teaches movement, combat, skills.
 2. **Veyhollow arc** — *Grub Trouble* → *The Thirsty Smith* → *Splinters & Sparks* (learn
    the three gathering skills + the town).
 3. **Wardens arc** — *The Wardens' Trial* (kill the Fenlord) → guild rank → bounty board.
-4. **The Spire arc (↻)** — why did the Scarring happen? Unlocks magic progression.
+4. **The Spire arc (↻)** — investigate why the Scarring happened; offers a magic road without
+   making the whole spellbook depend on one story rail.
 5. **The Undercrag arc (↻)** — descend, face Korthul, earn the boss-tier set.
-6. **Post-game (↻)** — what the Scarring left behind. Open-ended, our content treadmill.
+6. **Surge capstone (↻)** — permanently secure Veyhollow from involuntary breaches. Afterward,
+   controlled challenge Surges and deeper Scarlands threats remain available by choice.
+7. **Continuing world (↻)** — bosses, skills, wealth, rare equipment, collections, minigames,
+   homestead improvement, and new self-contained arcs continue without a final game-over state.
 
 **Quest design law:** every quest gives a *reason to visit a region*, *teaches or gates a
 system*, and *advances the world fiction*. No fetch quests without narrative payload.
 
 ---
 
-## 7. Real Estate / Housing system (TABLED — design only)
+## 7. Real Estate / Housing system (LOCKED FOR BROWSER 1.0 — build after proving slice)
 
-Your idea, captured for later. **Concept:** a **Construction-style** player housing system
-that scales into the MMO vision.
+Locked Browser 1.0 concept: a compact **Construction-style** player housing system that can scale into
+the later online vision without delaying the proving slice.
 
-- **Buy a plot** in a housing realm/instance with Crowns.
-- **Build with your own materials** (logs, bars, stone) → ties into gathering + a new
-  **Construction** skill. Rooms, furniture, walls — tiered like gear.
-- **Solo now, social later:** today each house is a private instanced realm reached via a
-  portal/fast-travel. In the MMO version, houses occupy plots in a shared **neighbourhood
-  district** on the map you can physically walk to.
-- **Medieval theme** throughout (timber-frame, stone keeps, thatch).
+- **Buy one fixed authored plot** with Crowns; its ownership is permanent save state.
+- **Build only within its envelope** using modular snap foundations, floors, walls, siding,
+  roofs, fences, gates, stations, storage, furnishings, and traps—never unrestricted world voxels.
+- **Build with your own materials** (logs, bars, stone, clay, lime, rope, hides) so Woodcutting,
+  Mining, Smithing, Masonry, Crafting, and Construction reinforce one another.
+- **Solo now, social later:** Browser 1.0 owns one personal plot. A future online version uses
+  instanced or phased homesteads so scarce physical land cannot be monopolized indefinitely.
+- **Medieval theme** throughout: timber framing, wattle-and-daub, fieldstone/lime mortar, thatch,
+  wood shingles, clay tile, and iron fittings rather than modern cement.
+- **Surge purpose:** crafted defenses can be damaged and repaired during player-started Surges,
+  but no event deletes the deed, bank, house, or offline progress.
 - **↻ ITERATE:** house levels, trophy rooms (boss kills), shops/stalls players run, a
   "visit friend's house" fast-travel.
 
-*Not built yet — parked until the world/engine foundation lands. Logged here so it's part
-of the plan, not forgotten.*
+*Not built yet. It begins only after the world-v2 proving slice and environment gate pass.*
 
 ---
 
 ## 8. Currency & economy
 
 - **Crowns** (coins) — base currency.
-- Shops have fixed stock (9 shops live). **↻ ITERATE:** a player market / Grand-Exchange
-  analogue once MMO networking exists.
+- Shops have bounded stock, restocking, buy/sell limits, controlled price bands, and regional specialties.
+  They reward travel and knowledge without allowing deterministic infinite-profit loops.
+- Ordinary weapons, armor, and tools are permanent and never require routine durability repair.
+- Core sinks are food, ammunition, runes, potions, homestead construction, civic/homestead defense
+  repairs, travel, services, reclaim fees, and optional cosmetics.
+- Important boss power uniques target roughly 10–30 successful kills; extreme rarity belongs to optional
+  prestige rather than required progression.
+- **↻ ITERATE:** a player market / Grand-Exchange analogue once authoritative networking exists.
+- **Profile boundary:** offline-capable solo saves never transfer wealth, XP, or items into a future
+  authoritative shared economy. One account may own both solo and online characters, with separate state.
+- **Membership/purchased currency:** deferred. Member-specific worlds/items and purchasable Crowns require
+  a later entitlement/economy decision. They are not current canon and do not block free Browser 1.0.
+
+### Naming status
+
+Early proper nouns—including **Undercrag**, **Korthul**, and their gear names—are working canon and may
+be improved in one deliberate naming/originality pass before their Browser 1.0 content is authored.
+Renaming must update lore, display names, map labels, quests, data references, tests, and save migrations
+as one coherent change; do not casually rename isolated strings.
 
 ---
 
-## 9. Open creative hooks (the "room to iterate" list)
+## 9. Presentation, time, and tone
+
+- The camera remains elevated and OSRS-readable with bounded rotation and zoom.
+- Character creation is lightweight and classless: name and a compact set of body/skin/hair/face choices;
+  equipment and accomplishments define the character afterward.
+- Dialogue mixes sincere local stakes with dry humor, eccentricity, and occasional deliberate cheesiness.
+  Mandatory exchanges stay concise; deeper lore is optional.
+- Browser 1.0 has a true visual day/night cycle, but essential content never requires waiting for a clock.
+  Darkness never defeats readability, accessibility, or performance budgets, and time does not advance
+  while the game is offline.
+- Tone is cozy and broadly teen-friendly. Stylized fantasy violence and eerie threats are welcome; graphic
+  gore and sexual content are not.
+- Shipped Suno-assisted music requires paid-plan commercial rights at creation, track-level provenance,
+  original inputs, retained exports/records, and any required platform AI disclosure. Free-plan output is
+  not a shippable commercial asset.
+
+### Future competitive venue
+
+Locked post-online direction: **The Oathring**, a voluntary practice/tournament venue with declared rules,
+rankings, cosmetics, and non-tradeable Laurels. There is no player-wealth staking. It requires the later
+authoritative online foundation and is not Browser 1.0 content.
+
+---
+
+## 10. Open creative hooks (the "room to iterate" list)
 
 These are intentionally unfinished so we always have somewhere to grow:
 - Tiers 6+ and new prestige boss sets.

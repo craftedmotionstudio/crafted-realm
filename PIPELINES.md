@@ -1,5 +1,16 @@
 # PIPELINES.md — the three named asset workflows
 
+> Governing contract: `docs/rebuild/ART_PRODUCTION_PIPELINE.md` (2026-07-13). This file contains detailed
+> tool recipes only. If a recipe here conflicts with the unified family, catalog, integration, animation,
+> provenance, visual, or performance gates there, the governing contract wins.
+
+> **2026-07-14 visual reset:** Blender export is not proof of Blender design. Scripted stacks of recognizable
+> cubes/cylinders/cones/beams are grayboxes, not final assets. Primitive meshes may start a model, but the final
+> silhouette, topology, joins, surface/color treatment, and functional detail must be asset-specific. Every new
+> candidate now requires shaded, clay/silhouette, wireframe, material-ID, and gameplay-camera evidence before
+> integration. Existing Guide Hall, Workyard, cellar, and furnishing-catalog outputs remain functional prototypes
+> until they pass this stricter gate.
+
 ## THE REFERENCE INVENTORY RULE (user, 2026-07-03 — runs FIRST on every reference)
 
 When analyzing ANY reference image in `Bible_References/`, before modeling anything:
@@ -30,9 +41,9 @@ When analyzing ANY reference image in `Bible_References/`, before modeling anyth
 
 Say the name, get the workflow. All three share the same spine — **concept image →
 image-to-3D mesh → Blender (via the Blender MCP) → GLB → in-game wiring** — and all
-three are gated by the visual QA canon (**GUIDING_LIGHT §9b, 2026-07-04**): **Claude-eye
-structured critique ≥9.0 vs the reference is THE GATE OF RECORD**; Gemini Vision is an
-**advisory second critique only** (mine its defect list, never gate on its noisy number).
+three are gated by the visual QA canon (**GUIDING_LIGHT §9b**): **Codex direct structured
+review ≥9.0 vs the reference and in-game context is the gate of record**. Per the user's
+2026-07-13 decision, no second-model visual review is required.
 
 The v02–v20 characters were built on the **NPC Pipeline** (v02 itself became the
 **Hero Pipeline** foundation). Fountains, statues and flags go through the **Prop
@@ -46,19 +57,20 @@ No rig, no clips — shape, materials, placement.
 
 1. **Concept**: `node tools/gemini_image.js "<prompt>"` — OSRS-style low-poly render of
    the object, ¾ view, plain background. Iterate the prompt until the concept itself
-   passes both reviewers vs the reference (e.g. `Bible_References/Town_Square.jpg`).
+   passes the Codex direct review vs the reference (e.g. `Bible_References/Town_Square.jpg`).
 2. **Mesh**: `python tools/hunyuan_shape.py <concept.png>` (HF_TOKEN; ~12s/mesh) →
    raw GLB. Fallbacks: local SF3D for simple shapes; Pixal3D (HF-Pro) for complex ones.
 3. **Blender (MCP)**: import → median-recenter, rest on z=0, real-world scale
-   (1 unit = 1 tile) → decimate to flat-shaded low-poly (~2–6k tris) → **engine-matched
+   (1 unit = 1 tile) → perform asset-specific silhouette/topology/material cleanup (never promote an
+   untouched primitive stack or automatic retopology result) → decimate to flat-shaded low-poly (~2–6k tris) → **engine-matched
    materials**: raw sRGB base colors (r128 shows baseColorFactor RAW — spec-linear
    exports go black), metalness 0, roughness 1, doubleSided where thin → export
    `assets/models/<name>.glb`.
-4. **Gate**: Blender render vs the reference — Claude-eye structured critique ≥9.0
-   (gate of record); Gemini critique advisory.
+4. **Gate**: Blender shaded + clay + wireframe + material-ID + gameplay-camera sheet vs the reference — Codex
+   direct structured review ≥9.0. The editable source must support what the render claims.
 5. **In-game**: load the GLB where the procedural version stood; KEEP the procedural
    builder's colliders/interactables (the GLB is visual only). Verify: console clean,
-   pathing unchanged, screenshot in-scene → both reviewers again (in-scene lighting is
+   pathing unchanged, screenshot in-scene → Codex direct review again (in-scene lighting is
    the real test).
 
 ## 2. HERO PIPELINE — the player character (the v02 line)
@@ -84,7 +96,7 @@ Everything in the NPC Pipeline, plus the player-only layers:
 3. **In-game**: `src/npc_chars.js` — CHAR_NPC_TYPES entry (`glbChar` field, per-char
    scale), fresh GLB load per spawn (r128 clone breaks skins), crossfade anim by
    `n.moving`; hit-react/death layers work unchanged.
-4. **Gate**: Gemini vs concept per character + in-game verification.
+4. **Gate**: Codex direct review vs concept per character + in-game verification.
 
 ---
 
@@ -148,7 +160,18 @@ made it into the world).
 ---
 
 **Shared hard rules:** never trust a single screenshot judgment for 3D scale and placement —
-verify IN-SCENE (walk to it, compare against neighbours) and use Gemini's critique as the
-advisory second pair of eyes; engine-matched raw-sRGB colors before export; measure
+verify IN-SCENE (walk to it, compare against neighbours) and record Codex's structured
+visual findings; engine-matched raw-sRGB colors before export; measure
 axes, never assume; 1 world unit = 1 tile; keep procedural colliders when swapping in a
 GLB. Secrets (`GEMINI_API_KEY`, `HF_TOKEN`) come from the environment — never hardcode.
+
+**Asset Factory v2:** new Blender object families begin with `assets/recipes/<asset>.json` and
+`python tools/asset_factory.py brief <recipe>`. Numeric character-scale locks must pass before detail.
+`run` then reproduces the build, proof sheet, comparison, manifest/GLB validation and approved library.
+Full contract: `docs/rebuild/ASSET_FACTORY_V2.md`.
+
+**Cardinal contact gate:** every new or materially changed object is captured in its installed pose from north,
+south, east, and west. Moving objects are captured in every contact-changing pose, especially open. Review all
+four views for clipping, wall/floor contact, floating supports, bad pivots, missing backs/undersides, and coplanar
+flicker. Bank the four renders, the 2x2 sheet, and a written PASS/FAIL record. New Asset Factory schema 3 recipes
+fail closed if any direction or the audit record is missing.

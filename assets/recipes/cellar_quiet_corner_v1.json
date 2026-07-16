@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 2,
+  "assetId": "cellar_quiet_corner_v1",
+  "displayName": "Storm Cellar Quiet Corner",
+  "status": "integrated",
+  "gameplayRole": "Human-scale resting, conversation and domestic-story vignette",
+  "manifestPath": "assets/manifests/cellar_quiet_corner_v1.json",
+  "catalogPath": "assets/catalogs/cellar_quiet_corner_v1.json",
+  "briefPath": "scratchpad/cellar_quiet_corner_v1/asset_factory_brief.md",
+  "factoryResult": "scratchpad/cellar_quiet_corner_v1/factory_result.json",
+  "concept": {
+    "image": "docs/rebuild/concepts/cellar_quiet_corner_nanobanana2_v1.png",
+    "prompt": "docs/rebuild/concepts/cellar_quiet_corner_nanobanana2_v1.prompt.md",
+    "styleStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md"
+  },
+  "scale": {
+    "referenceHeightTiles": 1.9,
+    "fixture": "Canonical player, one-tile floor grid, gameplay camera and room wall must appear before detail approval",
+    "checks": [
+      {"label": "family width", "reportPath": "dimensionsTiles.width", "min": 2.9, "max": 3.3},
+      {"label": "family depth", "reportPath": "dimensionsTiles.depth", "min": 1.35, "max": 1.7},
+      {"label": "family height", "reportPath": "dimensionsTiles.height", "min": 1.72, "max": 1.82},
+      {"label": "tall chair height", "reportPath": "humanScaleContract.tallChairHeight", "min": 1.7, "max": 1.82},
+      {"label": "low chair height", "reportPath": "humanScaleContract.lowChairHeight", "min": 1.25, "max": 1.45},
+      {"label": "tall chair seat", "reportPath": "humanScaleContract.tallSeatHeight", "min": 0.52, "max": 0.65},
+      {"label": "low chair seat", "reportPath": "humanScaleContract.lowSeatHeight", "min": 0.48, "max": 0.6}
+    ]
+  },
+  "proof": {
+    "minimumCodexScore": 9.0,
+    "comparisonConfig": "scratchpad/cellar_quiet_corner_v1/compare.json",
+    "order": [
+      "Scale fixture and silhouette beside the canonical player",
+      "Construction and reference-defining features",
+      "Materials and color separation",
+      "Gameplay-camera proof",
+      "Room placement, collision and interaction",
+      "Final comparison sheet and smoke gate"
+    ]
+  },
+  "manifest": {
+    "schemaVersion": 1,
+    "assetId": "cellar_quiet_corner_v1",
+    "assetClass": "prop-family",
+    "unitsPerTile": 1,
+    "builder": "tools/blender/build_cellar_quiet_corner_v1.py",
+    "source": "assets/blender/props/cellar_quiet_corner_v1.blend",
+    "model": "assets/models/props/cellar_quiet_corner_v1.glb",
+    "authoringReport": "scratchpad/cellar_quiet_corner_v1/asset_report.json",
+    "pipelineResult": "scratchpad/cellar_quiet_corner_v1/pipeline_result.json",
+    "previews": [
+      "scratchpad/cellar_quiet_corner_v1/01_shaded.png",
+      "scratchpad/cellar_quiet_corner_v1/02_clay_silhouette.png",
+      "scratchpad/cellar_quiet_corner_v1/03_wireframe.png",
+      "scratchpad/cellar_quiet_corner_v1/04_material_id.png",
+      "scratchpad/cellar_quiet_corner_v1/05_gameplay_camera.png",
+      "scratchpad/cellar_quiet_corner_v1/06_rear_construction.png",
+      "scratchpad/cellar_quiet_corner_v1/cellar_quiet_corner_v1_proof_sheet.png",
+      "Bible_References/Complete/_compare/cellar_quiet_corner_v1_concept_compare.png",
+      "scratchpad/cellar_quiet_corner_v1/07_in_game.png",
+      "scratchpad/cellar_quiet_corner_v1/09_in_game_human_scale.png"
+    ],
+    "requiredNodes": [
+      "cellar_quiet_corner_v1",
+      "TallFiresideChair",
+      "LowWovenWorkChair",
+      "SevenSidedSideTable",
+      "HandledYarnBasket",
+      "TallChairRuntimeMesh",
+      "LowChairRuntimeMesh",
+      "SideTableRuntimeMesh",
+      "YarnBasketRuntimeMesh"
+    ],
+    "requiredAnimations": [],
+    "budgets": {
+      "maxFileBytes": 420000,
+      "maxTriangles": 6000,
+      "maxPrimitives": 48,
+      "maxMaterials": 16
+    }
+  },
+  "automation": {
+    "proof": [
+      ["python", "tools/make_cellar_quiet_corner_proof_sheet.py"],
+      ["python", "tools/make_compare.py", "scratchpad/cellar_quiet_corner_v1/compare.json"]
+    ],
+    "library": [
+      ["blender", "--background", "--python", "tools/blender/build_cr_approved_props_library.py"]
+    ]
+  },
+  "integration": {
+    "room": "holm_survival_workyard_cellar",
+    "placement": "East-side quiet corner facing room center",
+    "collision": "Tight furnishing-only boundary outside the central cardinal route",
+    "interactions": "Two Sit targets and two Examine targets",
+    "requiredProof": [
+      "scratchpad/cellar_quiet_corner_v1/09_in_game_human_scale.png"
+    ]
+  },
+  "nextStage": "owner scale review, then cellar ladder/hatch family"
+}

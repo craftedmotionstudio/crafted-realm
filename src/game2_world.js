@@ -6,11 +6,14 @@ const camCtl = {yaw: Math.PI*0.75, pitch: 1.08, dist: 33, dragging:false, lx:0, 
 
 function initEngine(){
   const canvas = document.getElementById('game-canvas');
-  renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+  const lite = typeof CRWorldMode!=='undefined' && CRWorldMode.lite;
+  renderer = new THREE.WebGLRenderer({canvas, antialias:!lite, powerPreference:'high-performance'});
   const isSmall = (typeof matchMedia==='function') && matchMedia('(max-width: 880px)').matches;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, isSmall?1.5:2));   // phones render lighter
+  // Recovery/v2 starts conservatively.  A 2x DPR canvas at desktop resolutions can
+  // push more than ten million pixels per frame before any world geometry is drawn.
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, lite?(isSmall?1:1.25):(isSmall?1.5:2)));
   renderer.setSize(innerWidth, innerHeight);
-  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.enabled = !lite;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   scene = new THREE.Scene();
@@ -62,6 +65,10 @@ function collides(x,z,pad,ignoreDoors,plane){
     if(ignoreDoors && c.door) continue;   // planners may look through doors; walkers may not
     if(c.type==='rect'){
       if(Math.abs(x-c.x) < c.hw+pad && Math.abs(z-c.z) < c.hd+pad) return true;
+    } else if(c.type==='obox'){
+      const co=Math.cos(c.rot||0), si=Math.sin(c.rot||0), dx=x-c.x, dz=z-c.z;
+      const lx=dx*co+dz*si, lz=-dx*si+dz*co;
+      if(Math.abs(lx) < c.hw+pad && Math.abs(lz) < c.hd+pad) return true;
     } else {
       const dx=x-c.x, dz=z-c.z;
       if(dx*dx+dz*dz < (c.r+pad)*(c.r+pad)) return true;
@@ -72,11 +79,12 @@ function collides(x,z,pad,ignoreDoors,plane){
 /* try full move, then axis slides; returns final [x,z] or null if blocked.
    If already inside a collider (teleport, spawn), movement is always allowed
    so entities can walk out — colliders block entry, never exit. */
-function slideMove(fx,fz, tx,tz, pad){
-  if(collides(fx,fz,pad)) return [tx,tz];
-  if(!collides(tx,tz,pad)) return [tx,tz];
-  if(!collides(tx,fz,pad)) return [tx,fz];
-  if(!collides(fx,tz,pad)) return [fx,tz];
+function slideMove(fx,fz, tx,tz, pad,plane){
+  if(plane===undefined) plane=0;
+  if(collides(fx,fz,pad,false,plane)) return [tx,tz];
+  if(!collides(tx,tz,pad,false,plane)) return [tx,tz];
+  if(!collides(tx,fz,pad,false,plane)) return [tx,fz];
+  if(!collides(fx,tz,pad,false,plane)) return [fx,tz];
   return null;
 }
 
@@ -185,7 +193,14 @@ function animateWater(dt){
     t.offset.y += dt*0.005;
   });
 }
-const HOLM_POND = {x:176, z:144, r:3.4};   // small practice pond on Tutor's Holm (map-anchored)
+const _holmPondProvider=(typeof WorldV2!=='undefined'&&WorldV2.get('tutors-holm-v2'));
+const _holmPondLandmark=_holmPondProvider&&_holmPondProvider.getSpawnLandmark('holm_pond');
+const HOLM_POND = {x:_holmPondLandmark?_holmPondLandmark.x:176,
+  z:_holmPondLandmark?_holmPondLandmark.z:144,
+  r:(typeof HolmLandscape!=='undefined'&&HolmLandscape.pond)?HolmLandscape.pond.r:3.4};
+// Freshwater sits above the surrounding sea. This height is locked to the
+// Workyard U4 dock: its deck is 0.50 tile above the pond surface.
+const HOLM_POND_WATER_Y = 0.46;
 /* Veyhollow Keep plateau — a flat mound the Lumbridge-style castle sits on (see castle.js) */
 /* ---------- MAP-DRIVEN TERRAIN (src/worldgrid.js) ----------
  * The bible map, baked to a biome-per-tile grid, decides what the ground IS; this
@@ -305,10 +320,11 @@ function causewayLift(x,z, ax,az, bx,bz, w, top){
   const k=1-d/w;                       // 1 at center, 0 at edge
   return top - (1-k)*1.0;              // gently shoulders down toward the marsh
 }
-function buildTerrainPatch(cx, cz, sizeX, sizeZ, segsX, segsZ){
+function buildTerrainPatch(cx, cz, sizeX, sizeZ, segsX, segsZ, options){
+  options=options||{};
   const geo = new THREE.PlaneGeometry(sizeX, sizeZ, segsX, segsZ);
   geo.rotateX(-Math.PI/2);
-  const pos = geo.attributes.position;
+  const pos = geo.attributes.position, uv=geo.attributes.uv;
   const colors = []; const c = new THREE.Color();
   for(let i=0;i<pos.count;i++){
     const lx=pos.getX(i), lz=pos.getZ(i);
@@ -352,6 +368,14 @@ function buildTerrainPatch(cx, cz, sizeX, sizeZ, segsX, segsZ){
       if(pdst<2.4) c.setHex(0xb89868);                                    // dirt path
       else if(pdst<3.8) c.lerp(new THREE.Color(0xb89868), (3.8-pdst)/1.4*0.42); // trampled margin
     }
+    // Phase-2 Holm routes are authored independently of the legacy PATHS list.
+    // Paint them directly into the streamed terrain so they drape over hills
+    // without floating path slabs or adding one object per tile.
+    if(h>-0.8 && typeof HolmLandscape!=='undefined' && HolmLandscape.inEnvelope(x,z)){
+      const hd=HolmLandscape.pathDistance(x,z);
+      if(hd<1.55) c.setHex(0xc49a63);
+      else if(hd<2.65) c.lerp(new THREE.Color(0xc49a63),(2.65-hd)/1.1*0.72);
+    }
     const hd = Math.hypot(x-HOLM_POND.x, z-HOLM_POND.z);
     if(hd<HOLM_POND.r+1.6 && hd>=HOLM_POND.r-0.4) c.setHex(0xd6c489);
     const ad = Math.hypot(x-ZONES.arena.pos[0], z-ZONES.arena.pos[1]);
@@ -367,16 +391,26 @@ function buildTerrainPatch(cx, cz, sizeX, sizeZ, segsX, segsZ){
         if(h<0.1) c.setHex(0xe2d49a);                                                    // full sand near the water
         else { const k=Math.max(0,Math.min(1,(0.85-h)/0.95)); c.lerp(new THREE.Color(0xe2d49a), k*0.95); }  // fade up into grass
       } }
-    c.offsetHSL(0,(Math.random()-.5)*0.03,(Math.random()-.5)*0.04);
+    // Duplicate vertices on adjacent streamed chunks must receive identical colour.
+    // A world-coordinate hash preserves the hand-painted mottle without seam cracks.
+    const rn1=Math.sin(x*12.9898+z*78.233)*43758.5453;
+    const rn2=Math.sin(x*39.3467+z*11.135)*24634.6345;
+    c.offsetHSL(0,((rn1-Math.floor(rn1))-.5)*0.03,((rn2-Math.floor(rn2))-.5)*0.04);
+    if(options.worldUvs && uv) uv.setXY(i,x/7,z/7);
     colors.push(c.r,c.g,c.b);
   }
+  if(options.worldUvs && uv) uv.needsUpdate=true;
   geo.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
   geo.computeVertexNormals();
-  const tex = TEX.grass.clone(); tex.needsUpdate=true; tex.repeat.set(sizeX/7, sizeZ/7);
+  let material=options.material;
+  if(!material){
+    const tex = TEX.grass.clone(); tex.needsUpdate=true; tex.repeat.set(sizeX/7, sizeZ/7);
+    material=new THREE.MeshPhongMaterial({map:tex, vertexColors:true, flatShading:true, shininess:0, specular:0x000000});
+  }
   // flat-shaded terrain: faces read as distinct planes (the OSRS ground), texture + tint kept
-  const m = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({map:tex, vertexColors:true, flatShading:true, shininess:0, specular:0x000000}));
+  const m = new THREE.Mesh(geo, material);
   m.position.set(cx,0,cz);
-  m.receiveShadow = true; m.name='ground';
+  m.receiveShadow = true; m.name=options.name||'ground';
   scene.add(m);
   WORLD.clickables.push(m); WORLD.grounds.push(m);
   return m;
@@ -384,19 +418,22 @@ function buildTerrainPatch(cx, cz, sizeX, sizeZ, segsX, segsZ){
 /* One rectangular map-driven landmass: the whole bible map, 480x320 tiles.
  * Centre = (x0+w/2, z0+h/2) from WORLDGRID; commons sits at world (0,0). */
 function worldRect(){
+  if(typeof CRWorldMode!=='undefined' && CRWorldMode.provider) return CRWorldMode.provider.getWorldRect();
+  if(typeof CRWorldMode!=='undefined' && CRWorldMode.initialRect) return CRWorldMode.initialRect;
   const g=(typeof WORLDGRID!=='undefined')?WORLDGRID:{w:480,h:320,x0:-206,z0:-142};
   return {x0:g.x0, z0:g.z0, w:g.w, h:g.h, cx:g.x0+g.w/2, cz:g.z0+g.h/2};
 }
 function buildGround(){
   const r=worldRect();
-  buildTerrainPatch(r.cx, r.cz, r.w, r.h, 300, 200);
+  const lite=typeof CRWorldMode!=='undefined' && CRWorldMode.lite;
+  buildTerrainPatch(r.cx, r.cz, r.w, r.h, lite?48:300, lite?48:200);
   // Tutor's Holm pond water (the one authored pond; every other water body is grid-driven
   // and covered by the global sea plane)
   const hp=HOLM_POND;
-  makeWaterSurface(new THREE.CircleGeometry(hp.r+0.4,20), hp.x, -1.52, hp.z, 5, 0.94);
+  makeWaterSurface(new THREE.CircleGeometry(hp.r+0.4,20), hp.x, HOLM_POND_WATER_Y, hp.z, 5, 0.94);
   // the Ditch is a HARD gate (players AND monsters): colliders wall both rims,
   // broken only at the causeways where the roads cross
-  if(typeof DITCH!=='undefined'){
+  if(!lite && typeof DITCH!=='undefined'){
     const xs=[r.x0, ...DITCH.gates.flat().sort((a,b)=>a-b), r.x0+r.w];
     for(let i=0;i<xs.length;i+=2){
       const a=xs[i], b=xs[i+1];
@@ -409,6 +446,12 @@ function groundY(x,z){
   // far-offset review lab (the Menagerie) brings its own walkable stone pad
   if(typeof MENAGERIE_PAD!=='undefined' &&
      x>=MENAGERIE_PAD.x0 && x<=MENAGERIE_PAD.x1 && z>=MENAGERIE_PAD.z0 && z<=MENAGERIE_PAD.z1) return 0;
+  // Authored docks/platforms override the terrain underneath them. This is a
+  // navigation height only; their visible surface still comes from the GLB.
+  if(typeof WorldWalkSurfaces!=='undefined'){
+    const platformY=WorldWalkSurfaces.heightAt(x,z);
+    if(platformY!==null) return platformY;
+  }
   const r=worldRect();
   if(x<r.x0 || z<r.z0 || x>=r.x0+r.w || z>=r.z0+r.h) return null;
   return terrainHeight(x,z);
@@ -2568,7 +2611,42 @@ function toggleRoofs(){ WORLD.roofsOff=!WORLD.roofsOff;
   if(typeof UI!=='undefined') UI.chat('[VIEW] Roofs '+(WORLD.roofsOff?'hidden':'shown')+'.','sys'); }
 function updateRoofs(){ if(!WORLD.roofs.length||typeof player==='undefined'||!player) return;
   const px=player.position.x, pz=player.position.z;
-  for(const r of WORLD.roofs) r.mesh.visible = WORLD.roofsOff ? false : (Math.hypot(px-r.x,pz-r.z) > 7.5); }
+  // camera-aware occlusion: a roof whose footprint crosses the camera->player XZ sight line
+  // sat opaque over the gameplay view once it was past the 7.5-tile proximity ring. Scalar
+  // segment math only (no rays, no allocs); RoofTransitions stays the sole visibility writer.
+  const cam=(typeof camera!=='undefined'&&camera)?camera:null;
+  const cx=cam?cam.position.x:px, cz=cam?cam.position.z:pz;
+  const sx=px-cx, sz=pz-cz, segLen2=sx*sx+sz*sz;
+  const OCC_R2=5.0*5.0;   // legacy fallback radius for roofs without authored half-extents
+  for(const r of WORLD.roofs){
+    let want = !WORLD.roofsOff && Math.hypot(px-r.x,pz-r.z) > 7.5;
+    if(want && segLen2>1e-6){
+      if(r.hw>0&&r.hd>0){
+        // slab-clip the camera->player segment (t clamped to [0,1]) against the roof's
+        // world-axis footprint; boxes fully behind camera or beyond player never clip in.
+        let t0=0,t1=1,hit=true;
+        if(Math.abs(sx)>1e-9){
+          let ta=(r.x-r.hw-cx)/sx, tb=(r.x+r.hw-cx)/sx;
+          if(ta>tb){const tt=ta;ta=tb;tb=tt;}
+          if(ta>t0)t0=ta; if(tb<t1)t1=tb;
+        } else if(cx<r.x-r.hw||cx>r.x+r.hw) hit=false;
+        if(hit&&Math.abs(sz)>1e-9){
+          let ta=(r.z-r.hd-cz)/sz, tb=(r.z+r.hd-cz)/sz;
+          if(ta>tb){const tt=ta;ta=tb;tb=tt;}
+          if(ta>t0)t0=ta; if(tb<t1)t1=tb;
+        } else if(hit&&(cz<r.z-r.hd||cz>r.z+r.hd)) hit=false;
+        if(hit&&t0<=t1) want=false;
+      } else {
+        const t=((r.x-cx)*sx+(r.z-cz)*sz)/segLen2;   // projection along camera->player
+        if(t>0&&t<1){                                 // STRICTLY between — behind either end never occludes
+          const ox=cx+t*sx-r.x, oz=cz+t*sz-r.z;
+          if(ox*ox+oz*oz<OCC_R2) want=false;
+        }
+      }
+    }
+    if(typeof RoofTransitions!=='undefined') RoofTransitions.set(r.mesh,want);
+    else r.mesh.visible=want;
+  } }
 /* ---------- skeleton: bone-textured undead (oldschool low-level enemy) ---------- */
 function skeletonModel(opts){
   opts=opts||{}; const g=new THREE.Group(); const parts={};

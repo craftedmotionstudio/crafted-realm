@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "assetId": "cellar_wall_torch_v1",
+  "assetClass": "prop",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_cellar_wall_torch_v1.py",
+  "source": "assets/blender/props/cellar_wall_torch_v1.blend",
+  "model": "assets/models/props/cellar_wall_torch_v1.glb",
+  "authoringReport": "scratchpad/cellar_wall_torch_v1/asset_report.json",
+  "pipelineResult": "scratchpad/cellar_wall_torch_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/cellar_wall_torch_v1/01_shaded.png",
+    "scratchpad/cellar_wall_torch_v1/02_clay_silhouette.png",
+    "scratchpad/cellar_wall_torch_v1/03_wireframe.png",
+    "scratchpad/cellar_wall_torch_v1/04_material_id.png",
+    "scratchpad/cellar_wall_torch_v1/05_gameplay_camera.png",
+    "scratchpad/cellar_wall_torch_v1/06_flicker_pose.png",
+    "scratchpad/cellar_wall_torch_v1/cellar_wall_torch_v1_proof_sheet.png",
+    "scratchpad/cellar_wall_torch_v1/07_in_game.png",
+    "scratchpad/cellar_wall_torch_v1/08_in_game_close.png",
+    "scratchpad/cellar_wall_torch_v1/09_cozy_animation_in_game.png",
+    "scratchpad/cellar_wall_torch_v1/10_cozy_animation_cycle.gif",
+    "scratchpad/cellar_wall_torch_v1/11_cozy_animation_contact_sheet.png",
+    "Bible_References/Complete/_compare/cellar_wall_torch_v1_concept_compare.png"
+  ],
+  "requiredNodes": [
+    "cellar_wall_torch_v1",
+    "TorchFixture",
+    "TorchStatic",
+    "cellar_wall_torch_flame",
+    "TorchFlameOuter",
+    "TorchFlameMiddle",
+    "TorchFlameCore"
+  ],
+  "requiredAnimations": ["Flame_Flicker"],
+  "budgets": {
+    "maxFileBytes": 300000,
+    "maxTriangles": 1800,
+    "maxPrimitives": 16,
+    "maxMaterials": 12
+  }
+}

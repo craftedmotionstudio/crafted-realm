@@ -1,0 +1,12 @@
+{
+  "name": "Workyard Fishing Edge U5 — Environmental Motion Proof",
+  "panels": [
+    {"id": "idle", "label": "CALM DRIFT", "image": "scratchpad/workyard_fishing_edge_u5_v1/motion_1_idle.png"},
+    {"id": "bite", "label": "BITE RIPPLE", "image": "scratchpad/workyard_fishing_edge_u5_v1/motion_2_bite.png"},
+    {"id": "catch", "label": "CATCH LIFT", "image": "scratchpad/workyard_fishing_edge_u5_v1/motion_3_catch.png"}
+  ],
+  "review": "scratchpad/workyard_fishing_edge_u5_v1/motion_review.json",
+  "note": "Fixed gameplay lens; Idle 4.5 s, Bite 1.25 s, Catch 1.5 s with reward at normalized 0.5278",
+  "out": "scratchpad/workyard_fishing_edge_u5_v1/motion_sheet.png"
+}
+

@@ -1,5 +1,9 @@
 # CHARACTER_PIPELINE.md — Crafted Realm rigged-character pipeline
 
+> Governing contract: `docs/rebuild/ART_PRODUCTION_PIPELINE.md` (2026-07-13). This document is a detailed
+> rigging/tool recipe; the unified contract owns family consistency, required clips, equipment fit,
+> provenance, gameplay-camera review, integration, and definition of done.
+
 How we take a **2D concept** (`char_concepts/`) all the way to a **rigged, animated, game-ready
 GLB** (`assets/models/*.glb`) for the Three.js **r128** game. This is the *character* pipeline
 (player + humanoid NPCs); props use the simpler image-to-3D path in `ASSET_PIPELINE.md`.

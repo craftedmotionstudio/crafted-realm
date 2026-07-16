@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "assetId": "holm_guide_hall_v5",
+  "assetClass": "building",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_guide_hall_v5.py",
+  "source": "assets/blender/holm_guide_hall_v5.blend",
+  "model": "assets/models/buildings/holm_guide_hall_v5.glb",
+  "authoringReport": "scratchpad/guide_hall_v5/asset_report.json",
+  "pipelineResult": "scratchpad/guide_hall_v5/pipeline_result.json",
+  "previews": [
+    "scratchpad/guide_hall_v5/guide_hall_v5_exterior.png",
+    "scratchpad/guide_hall_v5/guide_hall_v5_roof_off.png",
+    "scratchpad/guide_hall_v5/guide_hall_v5_plan.png",
+    "scratchpad/guide_hall_v5/guide_hall_v5_door_detail.png",
+    "scratchpad/guide_hall_v5/guide_hall_v5_interior_detail.png"
+  ],
+  "requiredNodes": [
+    "holm_guide_hall_v5",
+    "roof",
+    "front_door",
+    "teaching_door",
+    "orientation_table",
+    "lesson_register",
+    "first_landing_plaque",
+    "provision_rack"
+  ],
+  "budgets": {
+    "maxFileBytes": 500000,
+    "maxTriangles": 6500,
+    "maxPrimitives": 55,
+    "maxMaterials": 18
+  }
+}

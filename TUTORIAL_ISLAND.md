@@ -52,6 +52,14 @@ the required action before the next unlocks.
    basic runes, a few teleport tabs, plus anything else sensible (e.g. keep the hatchet/
    tinderbox/pickaxe/fishing net tools, a small food stack, the dagger + bow/arrows).
 
+### Phase-2 departure clarification (2026-07-13)
+
+“Leave” is now a physical ferry interaction, not an automatic dialogue teleport. Completing every active
+lesson unlocks the skiff at the eastern Departure Dock. The player follows the final marked path, boards the
+boat, receives the starter inventory, and crosses into the Veyhollow mainland provider. The boat is deliberately
+at the end of the island circuit rather than beside the spawn beach. `docs/rebuild/TUTORS_HOLM_FLOW_V1.md` is
+the current topology, lesson-order, gate, save, and transition authority.
+
 ## REFERENCE IMAGES (Bible_References/, user-provided 2026-07-04) — the look to match
 - `A_Tutorial_Island_Option.jpg` — overall: grassy island + sandy coast ringed by water; grey
   2-storey STONE guide house (yellow guidance arrow over it); central statue; crates/well/props;

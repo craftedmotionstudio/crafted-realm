@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "assetId": "cellar_lantern_v2",
+  "assetClass": "prop",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_cellar_lantern_v2.py",
+  "source": "assets/blender/cellar_lantern_v2.blend",
+  "model": "assets/models/props/cellar_lantern_v2.glb",
+  "authoringReport": "scratchpad/cellar_lantern_v2/asset_report.json",
+  "pipelineResult": "scratchpad/cellar_lantern_v2/pipeline_result.json",
+  "previews": [
+    "scratchpad/cellar_lantern_v2/01_shaded.png",
+    "scratchpad/cellar_lantern_v2/02_clay_silhouette.png",
+    "scratchpad/cellar_lantern_v2/03_wireframe.png",
+    "scratchpad/cellar_lantern_v2/04_material_id.png",
+    "scratchpad/cellar_lantern_v2/05_gameplay_camera.png",
+    "scratchpad/cellar_lantern_v2/cellar_lantern_v2_proof_sheet.png"
+  ],
+  "requiredNodes": [
+    "CR_CellarLantern_v2",
+    "LanternFixture",
+    "LanternStatic",
+    "cellar_lantern_flame_v2",
+    "LanternFlameEmber",
+    "LanternFlameGold",
+    "LanternFlameCore"
+  ],
+  "budgets": {
+    "maxFileBytes": 350000,
+    "maxTriangles": 3000,
+    "maxPrimitives": 16,
+    "maxMaterials": 12
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "assetId": "cellar_reserve_chest_v1",
+  "displayName": "Storm Reserve Chest",
+  "family": "Tutor's Holm cellar furnishings",
+  "gameplayRole": "Interactive communal storm-supply chest",
+  "status": "integrated",
+  "version": 1,
+  "reference": {
+    "image": "docs/rebuild/concepts/workyard_cellar_chest_nanobanana2_v1.png",
+    "promptStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md",
+    "approval": "Owner described the Nano Banana direction as pretty good on 2026-07-14",
+    "provenance": "Generated with Gemini 3 Pro Image / Nano Banana 2 on 2026-07-14; original Crafted Realm concept"
+  },
+  "visibleFeatures": [
+    "large squat communal chest",
+    "faceted arched plank lid",
+    "continuous curved inner lid shell without false bay partitions",
+    "sealed arched end panels fitted to the lower lid chord",
+    "broad forged iron straps",
+    "oversized readable latch and keyhole",
+    "short sturdy feet",
+    "controlled hand-built asymmetry",
+    "limited warm flat-shaded palette"
+  ],
+  "dimensionsTiles": {"width": 2.05, "depth": 1.24, "height": 1.50},
+  "pivot": "floor center; lid uses a separate rear hinge pivot",
+  "facing": "front is Blender +Y and exported Three.js -Z",
+  "placement": {
+    "room": "holm_survival_workyard_cellar",
+    "rule": "back toward the south wall with a 0.28-tile hinge service gap, front facing the room center",
+    "count": 1
+  },
+  "interactionOwner": "HolmSurvivalCellar",
+  "collisionOwner": "HolmSurvivalCellar runtime plane collision",
+  "materials": ["aged oak shadow/mid/light", "charcoal iron", "muted brass", "dark interior"],
+  "animationClips": [
+    {"name": "Chest_Open", "required": true, "purpose": "wall-safe hinged lid opening interaction", "overshootDegrees": 60, "settleDegrees": 54}
+  ],
+  "source": "assets/blender/props/cellar_reserve_chest_v1.blend",
+  "runtime": "assets/models/props/cellar_reserve_chest_v1.glb",
+  "builder": "tools/blender/build_cellar_reserve_chest_v1.py",
+  "library": "assets/blender/library/crafted_realm_approved_props_v1.blend",
+  "proofDirectory": "scratchpad/cellar_reserve_chest_v1",
+  "conceptComparison": {
+    "image": "Bible_References/Complete/_compare/cellar_reserve_chest_v1_concept_compare.png",
+    "codexClosenessScore": 9.1,
+    "verdict": "approved for game integration"
+  }
+}

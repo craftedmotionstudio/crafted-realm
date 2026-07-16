@@ -1,0 +1,36 @@
+{
+  "assetId": "workyard_fishing_edge_u5_v1",
+  "displayName": "Survival Workyard U5 Small-Net Fishing Edge",
+  "family": "Tutor's Holm survival occupation exteriors",
+  "gameplayRole": "The first fishing lesson: use the existing Small net at a readable authored pond target and receive one Raw mirrorperch",
+  "status": "integrated",
+  "version": 1,
+  "reference": {
+    "images": ["docs/rebuild/concepts/workyard_fishing_edge_u5_nanobanana2_v1.png"],
+    "promptStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md",
+    "provenance": "Original Crafted Realm concept generated with Gemini / Nano Banana 2 on 2026-07-16"
+  },
+  "visibleFeatures": [
+    "subtle blue-green fishing-water patch beside the open terminal edge",
+    "three deliberately faceted underwater fish with readable fins and varied paths",
+    "sparse animated ripple rings and bubbles rather than a giant interaction marker",
+    "open hand-woven creel with fitted rim, lid, strap, and visible warm interior",
+    "clear central player lane and separate operator/reward sockets"
+  ],
+  "dimensionsTiles": {"width": 4.106, "depth": 2.1, "height": 1.438},
+  "pivot": "family root at the U4 fishing_edge_socket; deck top is local z 0 and water is local z -0.50",
+  "facing": "water extends away from the dock toward local +X; the player approaches from local -X",
+  "placement": {"room": "holm_survival_workyard U4 terminal platform", "rule": "root lands exactly on fishing_edge_socket", "count": 1},
+  "interactionOwner": "Codex live U5 runtime; water patch receives Small-net use and the operator socket owns approach",
+  "collisionOwner": "No additional collider; the creel remains outside the clear lane and all water/motion geometry is non-blocking",
+  "materials": ["pond water", "water edge", "silver-blue fish", "pale belly", "ochre fins", "warm wicker", "wicker highlight", "dark wicker interior", "hemp strap", "forged iron", "cream foam"],
+  "animationClips": ["FishingSpot_Idle", "FishingSpot_Bite", "FishingSpot_Catch"],
+  "source": "assets/blender/props/workyard_fishing_edge_u5_v1.blend",
+  "runtime": "assets/models/props/workyard_fishing_edge_u5_v1.glb",
+  "builder": "tools/blender/build_workyard_fishing_edge_u5_v1.py",
+  "proofDirectory": "scratchpad/workyard_fishing_edge_u5_v1",
+  "conceptComparison": {"image": "Bible_References/Complete/_compare/workyard_fishing_edge_u5_v1_compare.png", "codexClosenessScore": 9.0},
+  "cardinalTurnaround": {"blenderVerdict": "PASS 4/4", "liveR128Verdict": "PASS 4/4", "liveSheet": "scratchpad/workyard_fishing_edge_u5_v1/live_turnaround_sheet.png"},
+  "technical": {"vertices": 760, "triangles": 1338, "primitives": 15, "materials": 11, "glbBytes": 105972},
+  "integration": {"workyardRevision": 17, "transform": [15.97, 0.20, -0.75], "interaction": "Small net to authored fishing water", "reward": "one raw_perch and 28 Fishing XP", "save": "bounded exact-once operation ledger"}
+}

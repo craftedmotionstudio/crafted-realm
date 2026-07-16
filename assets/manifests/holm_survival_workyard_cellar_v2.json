@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "assetId": "holm_survival_workyard_cellar_v2",
+  "assetClass": "interior",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_workyard_cellar_v2.py",
+  "source": "assets/blender/holm_survival_workyard_cellar_v2.blend",
+  "model": "assets/models/buildings/holm_survival_workyard_cellar_v2.glb",
+  "authoringReport": "scratchpad/workyard_cellar_v2/asset_report.json",
+  "pipelineResult": "scratchpad/workyard_cellar_v2/pipeline_result.json",
+  "previews": [
+    "scratchpad/workyard_cellar_v2/01_shaded.png",
+    "scratchpad/workyard_cellar_v2/02_clay_silhouette.png",
+    "scratchpad/workyard_cellar_v2/03_wireframe.png",
+    "scratchpad/workyard_cellar_v2/04_material_id.png",
+    "scratchpad/workyard_cellar_v2/05_gameplay_camera.png"
+  ],
+  "requiredNodes": [
+    "holm_survival_workyard_cellar_v2",
+    "cellar_exit_ladder",
+    "cellar_reserve_chest",
+    "cellar_wall_torch_0",
+    "cellar_wall_torch_1",
+    "cellar_torch_flame_0",
+    "cellar_torch_flame_1",
+    "cellar_hearth",
+    "cellar_hearth_flame",
+    "CellarDesignedStatic"
+  ],
+  "budgets": {
+    "maxFileBytes": 2500000,
+    "maxTriangles": 20000,
+    "maxPrimitives": 75,
+    "maxMaterials": 40
+  }
+}
