@@ -17,7 +17,10 @@
  */
 const fs = require('fs');
 const path = require('path');
-const SRC = fs.readFileSync(path.join(__dirname, '..', 'src', 'game2_world.js'), 'utf8');
+// gear builders were split out of game2_world.js into world_gear.js — read both
+// so the builder extraction and the humanoid attach-block extraction keep working
+const SRC = fs.readFileSync(path.join(__dirname, '..', 'src', 'world_gear.js'), 'utf8') +
+            '\n' + fs.readFileSync(path.join(__dirname, '..', 'src', 'game2_world.js'), 'utf8');
 
 let pass = 0, fail = 0;
 const ok  = (c, m) => { if (c) { pass++; } else { fail++; console.log('  FAIL:', m); } };

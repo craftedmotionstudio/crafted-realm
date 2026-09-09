@@ -1,0 +1,11 @@
+{
+  "name":"Lastlight Exterior — Reference Gate",
+  "subtitle":"Supplied lighthouse reference vs Blender-authored Crafted Realms lighthouse",
+  "osrs":"Bible_References/Lighthouse_Ref1.png",
+  "cr":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_south.png",
+  "codex":9.4,
+  "review_note":"The pale cylindrical tower, fitted side entry, broad gallery, transparent light-blue lantern crown with dark mullions, red faceted roof, coastal foundation rocks, cliff guardrail and luminous summit signal marking carry every environmental feature from the reference into a readable Crafted Realms composition without copying it.",
+  "verdict":"PASS — reference identity and game-camera readability accepted",
+  "improve":"The pictured character remains a runtime actor rather than part of the static environment model; no visible environmental component is unaccounted for.",
+  "out":"Bible_References/Complete/_compare/holm_lastlight_exterior_v3_compare.png"
+}

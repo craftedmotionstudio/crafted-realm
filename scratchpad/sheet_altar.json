@@ -1,0 +1,5 @@
+{ "name":"Altar", "osrs":"Bible_References/Church_Altar.jpg", "cr":"scratchpad/cr_altar_f.jpg",
+  "claude":8.5, "gemini":8.8,
+  "gemini_note":"Ivory altar w/ draped cloth+folds, flanking lit candlesticks, central cross, open book, chalice - matches the reference composition. Gemini advisory.",
+  "verdict":"CLAUDE-EYE 8.5 - strong", "improve":"mute the saturated gold toward brass; less-bright cloth",
+  "out":"Bible_References/Complete/_compare/Altar_compare.png" }

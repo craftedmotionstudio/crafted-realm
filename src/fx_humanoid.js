@@ -133,6 +133,28 @@ function playerGLBAnim(root, dt, moving, speed){
   if(g.idle) g.idle.weight = busy ? 0 : (1 - g.w);
   if(g.walk){ g.walk.weight = busy ? 0 : g.w; g.walk.timeScale = Math.max(0.5, speed); }
   g.mixer.update(dt);
+  // heavy 2h shoulder carry (owner r8): the arm swings OUT IN FRONT so the
+  // greatsword leans back on the shoulder. Post-mixer additive pose, world-axis
+  // pitch about the character's right axis; skipped while attack/block owns the body.
+  if(!busy && typeof Player!=='undefined' && Player.equip && Player.equip.weapon){
+    const wdef = (typeof ITEMS!=='undefined') && ITEMS[Player.equip.weapon];
+    if(wdef && wdef.model==='greatsword'){
+      const rig = root.userData.rigInner;
+      let bone = root.userData._gsArmBone;
+      if(bone===undefined && rig){
+        bone=null;
+        rig.traverse(o=>{ if(!bone && (o.isBone||o.type==='Bone') && o.name.indexOf('RightArm')>=0) bone=o; });
+        root.userData._gsArmBone = bone;
+      }
+      if(bone && bone.parent){
+        const qC=new THREE.Quaternion(); root.getWorldQuaternion(qC);
+        const axis=new THREE.Vector3(1,0,0).applyQuaternion(qC);
+        const dW=new THREE.Quaternion().setFromAxisAngle(axis, 0.55);
+        const qP=new THREE.Quaternion(); bone.parent.getWorldQuaternion(qP);
+        bone.quaternion.premultiply(qP.clone().invert().multiply(dW).multiply(qP));
+      }
+    }
+  }
 }
 
 function installPlayerGLB(onReady, url){
@@ -192,7 +214,7 @@ function installPlayerGLB(onReady, url){
 /* The OSRS palette baked into the GLB's region materials (sRGB hex). PLAYER_REGIONS is the
  * customisable slot list; PLAYER_DEFAULT_COLORS is the "factory" look (for a reset button). */
 const PLAYER_REGIONS = ['skin','hair','tunic','belt','legs','boots'];
-const PLAYER_DEFAULT_COLORS = { skin:'#b18b71', hair:'#594020', tunic:'#56603d', belt:'#452d15', legs:'#6b6555', boots:'#382111' };
+const PLAYER_DEFAULT_COLORS = { skin:'#b18b71', hair:'#6a4a2a', tunic:'#647a4e', belt:'#402a15', legs:'#3b2e1e', boots:'#6e4626' };
 
 /* Live-recolour the player.glb avatar. Pass any subset of regions, e.g.
  *   recolorPlayer({skin:'#caa', hair:'#222', tunic:'#37506e'})
@@ -239,8 +261,16 @@ function refreshGLBGear(){
   const setRegion=(r,c)=>{ (maps[r]||[]).forEach(m=>{ if(m.color){ m.color.set(c); m.needsUpdate=true; } }); };
   PLAYER_REGIONS.forEach(r=>{ if(base[r]) setRegion(r, base[r]); });
   const e=Player.equip;
-  // OSRS rule: a helm replaces the hair (no strands clipping through the metal)
+  // OSRS rule: a helm replaces the hair (no strands clipping through the metal).
+  // The region map alone missed the ponytail mesh — also match by material name.
   (maps.hair||[]).forEach(m=>{ m.visible=!e.head; });
+  rig.traverse(o=>{
+    if(!o.isMesh) return;
+    const mats=Array.isArray(o.material)?o.material:[o.material];
+    const hairy=/hair|pony|braid/i.test(o.name||'') ||
+                mats.some(m=>m && /hair|pony|braid/i.test(m.name||''));
+    if(hairy) o.visible=!e.head;
+  });
   const hex=c=>'#'+('00000'+(c>>>0).toString(16)).slice(-6);
   // 2) armour/robes recolor their band (darkened so bronze doesn't read as bare skin)
   const dim=c=>{ const r=(c>>16)&255,g=(c>>8)&255,b=c&255;
@@ -248,7 +278,8 @@ function refreshGLBGear(){
   // robes recolor the whole tunic; plate armour does NOT — the plate mesh is the metal
   // read, and keeping the shirt colour on the sleeves gives the OSRS worn-over-clothing layering
   if(e.body && ITEMS[e.body].model==='robe') setRegion('tunic', hex(dim(tierMetal(ITEMS[e.body]))));
-  if(e.legs) setRegion('legs',  hex(dim(tierMetal(ITEMS[e.legs]))));
+  // leg-covering armour tints the leg region; a plateskirt leaves the shins bare
+  if(e.legs && ITEMS[e.legs].model!=='plateskirt') setRegion('legs', hex(dim(tierMetal(ITEMS[e.legs]))));
   // 3) GearFit — measured, constraint-based attachment. No hand-tuned angles:
   //    every fit is solved from bounding boxes + desired world directions, so any
   //    item lands correctly on any rig in any pose.
@@ -298,12 +329,44 @@ function refreshGLBGear(){
       bladeLocal=axes[0][1];
     }
     const a=attach('weapon', 'RightHand', wm);
-    if(a){
-      const tilt=d.model==='bow'?0.12:d.model==='staff'?0.25:0.5;
-      // blade up-and-forward — minimal rotation (full-basis roll flipped blades)
+    if(a && window.EquipBuilder && EquipBuilder.specs[d.model]){
+      /* EQUIP BUILDER path (owner directive): deterministic axis/roll basis +
+       * grip placed IN THE PALM (finger-derived), not at the wrist */
+      EquipBuilder.solveHeld(a.bone, a.m, d.model, inChar);
+    } else if(a){
+      const tilt=(d.model==='bow'||d.model==='longbow')?0.12:d.model==='staff'?0.25:d.model==='pick'?0.18:d.model==='axe'?0.30:0.5;
       const qBone=new THREE.Quaternion(); a.bone.getWorldQuaternion(qBone);
-      const dW=inChar(new THREE.Vector3(0,Math.cos(tilt),Math.sin(tilt)));
-      a.m.quaternion.copy(qBone.invert().multiply(new THREE.Quaternion().setFromUnitVectors(bladeLocal, dW)));
+      // tools carry head down-and-forward like the OSRS reference (handle sweeps
+      // up-back past the forearm instead of hanging to the ankle — top-100
+      // equipped review 2026-07-17); blades stay up-and-forward
+      /* OWNER HOLD DOCTRINE (2026-07-17): weapons rest in an at-attention
+       * neutral — blades at the side pointed FORWARD and angled UP slightly
+       * (never dragging the ground); battleaxes vertical head-up; bows near-
+       * vertical with a slight forward lean, gripped at the riser.
+       * NOTE the modelled blade family points along LOCAL -Y (bbox picks +Y =
+       * pommel side), so the blade tip lands at -dW: pass the pommel direction. */
+      const BLADES = {sword:1, longsword:1, sabre:1, dagger:1};
+      const dW = (d.model==='axe'||d.model==='pick')
+        ? inChar(new THREE.Vector3(0,-0.55,0.84))          // tools keep the low work carry
+        : d.model==='battleaxe'
+        ? inChar(new THREE.Vector3(0,0.95,0.31))           // vertical, head up
+        : BLADES[d.model]
+        ? inChar(new THREE.Vector3(0,-0.40,-0.92))         // pommel down-back => blade up-forward
+        : inChar(new THREE.Vector3(0,Math.cos(tilt),Math.sin(tilt)));
+      if(d.model==='bow'||d.model==='longbow'){
+        // bows need a DETERMINISTIC roll too: limbs on dW AND belly (+X local)
+        // facing character-forward, or the string ends up toward the camera.
+        // slight forward lean = the owner's neutral ready position
+        dW.copy(inChar(new THREE.Vector3(0,0.93,0.37)));
+        const yW=dW.clone().normalize();
+        const fW=inChar(FWD);
+        const xW=fW.clone().sub(yW.clone().multiplyScalar(fW.dot(yW))).normalize();
+        const zW=new THREE.Vector3().crossVectors(xW,yW);
+        a.m.quaternion.copy(qBone.invert().multiply(new THREE.Quaternion()
+          .setFromRotationMatrix(new THREE.Matrix4().makeBasis(xW,yW,zW))));
+      } else {
+        a.m.quaternion.copy(qBone.invert().multiply(new THREE.Quaternion().setFromUnitVectors(bladeLocal, dW)));
+      }
       a.m.position.set(0, 0.04, 0.05);
     }
   }
@@ -319,21 +382,68 @@ function refreshGLBGear(){
     }
     const a=attach('shield', 'LeftHand', sm);
     if(a){
-      const nW=inChar(new THREE.Vector3(-0.9,0,-0.45));    // out past the left arm, slightly forward
-      const q1=new THREE.Quaternion().setFromUnitVectors(nLocal, nW);
-      const upNow=upLocal.clone().applyQuaternion(q1);
-      const upW=inChar(UP).sub(nW.clone().multiplyScalar(inChar(UP).dot(nW))).normalize();
-      const q2=new THREE.Quaternion().setFromUnitVectors(upNow.sub(nW.clone().multiplyScalar(upNow.dot(nW))).normalize(), upW);
+      // owner r7: the sq (riot) shield GUARDS THE FRONT — face normal out-forward
+      // so the convex face leads and the concave side wraps the body; other
+      // shields keep the classic out-back side carry. Solved as ONE full basis.
+      const sdef=ITEMS[e.shield];
+      const nW=inChar((sdef && sdef.model==='sqshield')
+        ? new THREE.Vector3(-0.72,0,0.69)
+        : new THREE.Vector3(-0.9,0,-0.45));
+      const upRaw=(sdef && sdef.model==='sqshield') ? new THREE.Vector3(0,0.71,0.71) : UP;  // owner r8: full 45deg lean
+      const upW=inChar(upRaw).sub(nW.clone().multiplyScalar(inChar(upRaw).dot(nW))).normalize();
+      const worldM=new THREE.Matrix4().makeBasis(nW, upW, new THREE.Vector3().crossVectors(nW,upW));
+      const zl=new THREE.Vector3().crossVectors(nLocal,upLocal);
+      const localM=new THREE.Matrix4().makeBasis(nLocal, upLocal, zl);
       const qBone=new THREE.Quaternion(); a.bone.getWorldQuaternion(qBone);
-      a.m.quaternion.copy(qBone.invert().multiply(q2.multiply(q1)));
-      a.m.position.set(0.04, 0.03, 0.01);      // tight to the forearm — no straps-in-the-air gap
+      a.m.quaternion.copy(qBone.invert().multiply(new THREE.Quaternion().setFromRotationMatrix(
+        worldM.multiply(localM.invert()))));
+      a.m.position.set(0.12, (sdef && sdef.model==='sqshield') ? -0.05 : 0.03, 0.04);  // off the torso; riot shield rides a touch lower
     }
   }
+  /* OSRS-style HEAD REPLACEMENT (owner 2026-07-17): a full helm doesn't sit on
+   * the head — it BECOMES the head. Collapse the head bone (face, hair and all
+   * ride it), and the helm attached to that bone auto-counter-scales to full
+   * size via attach()'s 1/worldScale. Works on any avatar sharing the skeleton
+   * (male/female). Restore the bone whenever no helm is worn. */
+  const headBone=_glbBone(rig,'Head');
+  if(headBone){
+    if(player.userData._headScale0===undefined) player.userData._headScale0=headBone.scale.x;
+    const fullHelm = e.head && ITEMS[e.head] && ITEMS[e.head].model==='helm';
+    headBone.scale.setScalar(fullHelm ? 0.02 : player.userData._headScale0);
+    headBone.updateWorldMatrix(true,false);
+  }
   if(e.head){
-    const a=attach('head', 'Head', gearMesh(e.head)||helmMesh(METALS.bronze));
+    const hdef=ITEMS[e.head];
+    let hm=gearMesh(e.head);
+    if(!hm && hdef && hdef.model==='hat'){
+      /* cloth hat: gearMesh returns null for hats, and the old helmMesh fallback
+         put a bronze helm on wizards (top-100 equipped review 2026-07-17) */
+      const HAT_CLOTH={wizard:0x3a5aad, cloth:0x7a86b8, glimmer:0xb48ae0};
+      const hc=HAT_CLOTH[hdef.tier]!==undefined ? HAT_CLOTH[hdef.tier] : tierMetal(hdef);
+      const brim=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.24,0.04,8), mat(hc)); brim.position.y=0.1;
+      const cone=new THREE.Mesh(new THREE.ConeGeometry(0.15,0.42,8), mat(hc)); cone.position.y=0.3;
+      hm=new THREE.Group(); hm.add(brim); hm.add(cone);
+    }
+    const a=attach('head', 'Head', hm||helmMesh(METALS.bronze));
     if(a){
-      a.m.scale.multiplyScalar(0.68);          // gear meshes are sized for the chunky procedural head
-      a.m.position.set(0, 0.19, 0.02);         // brim at the forehead — face stays visible
+      // face-plated / face-open helms must front the character: +Z -> forward
+      const qBone=new THREE.Quaternion(); a.bone.getWorldQuaternion(qBone);
+      const z=inChar(FWD), yv=inChar(UP).sub(z.clone().multiplyScalar(inChar(UP).dot(z))).normalize();
+      const xv=new THREE.Vector3().crossVectors(yv,z);
+      a.m.quaternion.copy(qBone.invert().multiply(
+        new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(xv,yv,z))));
+      const hws=new THREE.Vector3(); a.bone.getWorldScale(hws);
+      if(hdef && hdef.model==='medhelm'){
+        // OPEN-FACE helm: the head stays visible (no bone collapse), the cap
+        // seats ON the head; owner r8 — slid DOWN so the eye band sits at the eyes
+        a.m.scale.multiplyScalar(0.68);
+        a.m.position.set(0, 0.14, 0.02);
+      } else {
+        a.m.scale.multiplyScalar(0.63);        // world-size lock (attach normalized bone scale)
+        // position is bone-local: compensate for the collapsed head bone so the
+        // helm stands exactly where the head was
+        a.m.position.set(0, 0.155, 0.015).multiplyScalar(1/(hws.x||1));
+      }
     }
   }
   if(e.amulet){ const a=attach('amulet', 'Neck', gearMesh(e.amulet)); if(a) a.m.position.set(0,-0.02,0.11); }
@@ -341,32 +451,60 @@ function refreshGLBGear(){
     const a=attach('cape', 'Spine2', gearMesh(e.cape));
     if(a){ a.m.rotation.set(0.1,0,0); a.m.position.set(0,-0.25,-0.14); }
   }
-  // 4) full armour READS as armour: real plates over the recolored bands
+  // 4) full armour READS as armour: real plates over the recolored bands.
+  // World-anchor helper: reparent a ROOT-space mesh under `bone` and hug the slim
+  // GLB torso/hips (scaling about the mesh centre, not the root origin).
+  function wrapOnBone(meshRoot, boneName, hug, key){
+    const bone=_glbBone(rig, boneName); if(!bone) return;
+    const rel=new THREE.Matrix4().copy(bone.matrixWorld).invert().multiply(player.matrixWorld);
+    const wrap=new THREE.Group();
+    rel.decompose(wrap.position, wrap.quaternion, wrap.scale);
+    const c=new THREE.Box3().setFromObject(meshRoot).getCenter(new THREE.Vector3());
+    const inner=new THREE.Group();
+    meshRoot.position.sub(c);
+    inner.add(meshRoot); inner.position.copy(c); inner.scale.copy(hug);
+    meshRoot.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
+    wrap.add(inner); bone.add(wrap); gear[key]=wrap;
+  }
   if(e.body && ITEMS[e.body].model!=='robe'){
-    const plate=bodyArmorMesh(tierMetal(ITEMS[e.body]));
-    const bone=_glbBone(rig,'Spine1');
-    if(bone){
-      // world-anchor: place the (root-space) plate where it would sit on the body, then let the bone carry it
-      const rel=new THREE.Matrix4().copy(bone.matrixWorld).invert().multiply(player.matrixWorld);
-      const wrap=new THREE.Group();
-      rel.decompose(wrap.position, wrap.quaternion, wrap.scale);
-      // GLB shoulders are slimmer than the procedural rig — shrink about the plate's own
-      // centre (scaling about the root origin slides it down and off the torso)
-      const c=new THREE.Box3().setFromObject(plate).getCenter(new THREE.Vector3());
-      const inner=new THREE.Group();
-      plate.position.sub(c);
-      inner.add(plate); inner.position.copy(c); inner.scale.set(0.74,0.82,0.74); // hug the slim GLB torso
-      plate.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
-      wrap.add(inner); bone.add(wrap); gear.bodyPlate=wrap;
-    }
+    const bdef=ITEMS[e.body];
+    const isChain = bdef.model==='chainbody';
+    const bmesh = isChain ? chainBodyMesh(tierMetal(bdef)) : bodyArmorMesh(tierMetal(bdef));
+    // the proven fitted hug shrinks both; chainmail's slimmer mesh + this hug reads
+    // as a mail shirt rather than a barrel
+    wrapOnBone(bmesh, 'Spine1', new THREE.Vector3(0.74,0.82,0.74), 'bodyPlate');
   }
   if(e.legs){
-    const col=tierMetal(ITEMS[e.legs]);
-    ['LeftUpLeg','RightUpLeg'].forEach(bn=>{
+    const ldef=ITEMS[e.legs], col=tierMetal(ldef);
+    if(ldef.model==='plateskirt'){
+      wrapOnBone(plateSkirtMesh(col), _glbBone(rig,'Hips')?'Hips':'Spine',
+                 new THREE.Vector3(0.78,0.92,0.78), 'skirt');
+    } else {
+      const leather = ldef.model==='chaps';
+      ['LeftUpLeg','RightUpLeg'].forEach(bn=>{
+        const bone=_glbBone(rig,bn); if(!bone) return;
+        const g2 = leather ? chapsCover(col)
+                 : new THREE.Mesh(new THREE.CylinderGeometry(0.105,0.085,0.40,6), mat(col));
+        g2.position.set(0, leather?0.25:0.21, 0); g2.castShadow=true;  // down the thigh (bone +Y = knee-ward)
+        bone.add(g2); gear[bn]=g2;
+      });
+    }
+  }
+  // set 3: gloves (hands slot) + boots (feet slot) — per-limb, local to the bone
+  if(e.hands && ITEMS[e.hands].model==='gloves'){
+    const col=tierMetal(ITEMS[e.hands]);
+    ['LeftHand','RightHand'].forEach(bn=>{
       const bone=_glbBone(rig,bn); if(!bone) return;
-      const g2=new THREE.Mesh(new THREE.CylinderGeometry(0.105,0.085,0.40,6), mat(col));
-      g2.position.set(0,0.21,0); g2.castShadow=true;   // down the thigh (bone +Y points knee-ward)
-      bone.add(g2); gear[bn]=g2;
+      const gm=gloveMesh(col); gm.position.set(0,0.04,0); gm.castShadow=true;
+      bone.add(gm); gear[bn+'_glove']=gm;
+    });
+  }
+  if(e.feet && ITEMS[e.feet].model==='boots'){
+    const col=tierMetal(ITEMS[e.feet]);
+    ['LeftFoot','RightFoot'].forEach(bn=>{
+      const bone=_glbBone(rig,bn); if(!bone) return;
+      const bt=bootMesh(col); bt.position.set(0,0.01,0.02); bt.castShadow=true;
+      bone.add(bt); gear[bn+'_boot']=bt;
     });
   }
 }

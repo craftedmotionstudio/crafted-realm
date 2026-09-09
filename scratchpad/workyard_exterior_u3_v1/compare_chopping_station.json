@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Exterior U3 Chopping Station v1 — Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/workyard_exterior_u3_chopping_station_nanobanana2_v1.png",
+  "cr": "scratchpad/workyard_exterior_u3_v1/07_chopping_station.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Weathered chopping block, embedded felling axe, and half-sawn sawbuck",
+  "codex": 9.2,
+  "review_note": "Closeout revision: the stump is now ONE continuous lofted hand-hewn trunk (no terraces) with root flares, bark striation, and a pale scarred top whose rim scar lies flush; the saw cut is a thin dark slit following the log's own cross-section over its top half, matching the concept's partial cut. The complete forged axe still enters the wood over a split bruise and hairline crack on its curved two-segment haft. Remaining deviations: the axe stands slightly more upright than the concept and the chips are sparser.",
+  "verdict": "APPROVED FOR CODEX INTEGRATION",
+  "improve": "None blocking; both previously banked next-pass targets (kerf slit, continuous trunk) are resolved and re-audited from all four cardinals.",
+  "out": "Bible_References/Complete/_compare/workyard_exterior_u3_chopping_station_v1_compare.png"
+}

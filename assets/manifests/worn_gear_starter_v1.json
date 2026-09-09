@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "assetId": "worn_gear_starter_v1",
+  "assetClass": "prop-family",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_worn_gear_starter_v1.py",
+  "source": "assets/blender/props/worn_gear_starter_v1.blend",
+  "model": "assets/models/props/worn_gear_starter_v1.glb",
+  "authoringReport": "scratchpad/worn_gear_starter_v1/asset_report.json",
+  "pipelineResult": "scratchpad/worn_gear_starter_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/worn_gear_starter_v1/01_front.png",
+    "scratchpad/worn_gear_starter_v1/02_rear.png",
+    "scratchpad/worn_gear_starter_v1/03_side.png",
+    "scratchpad/worn_gear_starter_v1/04_three_quarter.png",
+    "scratchpad/worn_gear_starter_v1/05_gameplay_camera.png",
+    "scratchpad/worn_gear_starter_v1/06_tools_closeup.png",
+    "scratchpad/worn_gear_starter_v1/07_blades_closeup.png",
+    "scratchpad/worn_gear_starter_v1/08_bow_shield_closeup.png"
+  ],
+  "requiredNodes": [
+    "worn_gear_starter_v1",
+    "gear_hatchet",
+    "gear_pickaxe",
+    "gear_sword",
+    "gear_dagger",
+    "gear_shortbow",
+    "gear_shield",
+    "gear_helm"
+  ],
+  "requiredAnimations": [],
+  "budgets": {
+    "maxFileBytes": 400000,
+    "maxTriangles": 7500,
+    "maxPrimitives": 44,
+    "maxMaterials": 15
+  },
+  "scaleContract": {
+    "referenceHeightTiles": 1.85,
+    "checks": [
+      {
+        "label": "sword overall length",
+        "reportPath": "humanScaleContract.swordOverallLength",
+        "min": 0.95,
+        "max": 1.15
+      },
+      {
+        "label": "hatchet overall length",
+        "reportPath": "humanScaleContract.hatchetOverallLength",
+        "min": 0.6,
+        "max": 0.78
+      },
+      {
+        "label": "pickaxe head span",
+        "reportPath": "humanScaleContract.pickaxeHeadSpan",
+        "min": 0.45,
+        "max": 0.62
+      },
+      {
+        "label": "dagger overall length",
+        "reportPath": "humanScaleContract.daggerOverallLength",
+        "min": 0.42,
+        "max": 0.56
+      },
+      {
+        "label": "shortbow height",
+        "reportPath": "humanScaleContract.shortbowHeight",
+        "min": 0.85,
+        "max": 1.02
+      },
+      {
+        "label": "shield diameter",
+        "reportPath": "humanScaleContract.shieldDiameter",
+        "min": 0.58,
+        "max": 0.72
+      },
+      {
+        "label": "largest grip radius",
+        "reportPath": "humanScaleContract.gripRadiusMax",
+        "min": 0.028,
+        "max": 0.05
+      },
+      {
+        "label": "helm width",
+        "reportPath": "humanScaleContract.helmWidth",
+        "min": 0.38,
+        "max": 0.48
+      },
+      {
+        "label": "helm height",
+        "reportPath": "humanScaleContract.helmHeight",
+        "min": 0.28,
+        "max": 0.4
+      }
+    ]
+  }
+}

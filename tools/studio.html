@@ -20,6 +20,8 @@
   #contract{margin:0;padding-left:18px;color:#cfc6b1;font-size:11px}#contract li{margin:3px 0}#contract li::marker{color:var(--ok)}
   #ref{display:block;width:100%;max-height:175px;object-fit:cover;object-position:center;border:1px solid var(--line);border-radius:4px;background:#101111}
   textarea{min-height:92px;resize:vertical;color:#d9d3c3}
+  .safe{padding:9px;border:1px solid #6a5733;border-radius:5px;background:#201d17}.safe code{color:#f0c364;font-size:10px;word-break:break-word}
+  #safe-status{margin-top:7px;color:var(--muted);font-size:11px;white-space:pre-wrap}#safe-status.ok{color:var(--ok)}#safe-status.bad{color:var(--bad)}
   #hud{position:absolute;left:12px;bottom:12px;max-width:calc(100% - 356px);padding:7px 10px;border:1px solid #655b48;border-radius:4px;background:#171817dc;color:#ded6c4;font:11px ui-monospace,Consolas,monospace;pointer-events:none}
   #legend{position:absolute;left:12px;top:12px;padding:8px 10px;border-radius:4px;background:#171817dc;color:#d9d1bd;font-size:11px;pointer-events:none}
   .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 3px 0 9px}.dot:first-child{margin-left:0}.service{background:#f0c24e}.clue{background:#69b5d0}.support{background:#8bb56c}
@@ -32,6 +34,7 @@
 <aside id="panel">
   <h1>Phase 2 Building Studio</h1>
   <div class="sub">The same building definition and visual composer used by the live streamed world.</div>
+  <p><a href="studio_terrain.html" style="color:#f0c364">Lesson Green terrain Studio →</a></p>
 
   <h2>Asset</h2>
   <div class="field"><label for="asset">Complete building</label><select id="asset"></select></div>
@@ -60,6 +63,14 @@
   <textarea id="json" spellcheck="false" aria-label="Building placement JSON"></textarea>
   <div class="hint">Authoring documents affect only this Studio. Approved placement still enters the game through provider chunk data.</div>
 
+  <h2>Safe publish</h2>
+  <div class="safe">
+    <div class="hint" style="margin:0 0 7px">Stage the placement and its compiled chunk/interaction bundle together. The live project is unchanged until validation and an explicit publish.</div>
+    <div class="row"><button id="connect-workspace">Connect workspace</button><button id="stage-workspace" disabled>Stage draft</button></div>
+    <div class="row"><button id="load-published">Load published</button><button id="download-candidate">Download candidate</button></div>
+  <div id="safe-status">Not connected. Choose the workspace shown for the selected building.</div>
+  </div>
+
   <h2>Contract gate</h2>
   <div id="status">Checking…</div>
   <ol id="contract"></ol>
@@ -69,9 +80,12 @@
   <div class="hint">Reference target: a generous roof-off hall with readable rooms, clear circulation, service furniture, support storage, and landscaping context.</div>
 </aside>
 
-<script src="../src/world_v2_building_data.js?v=17"></script>
+<script src="../src/holm_landscape_data.js?v=15"></script>
+<script src="../src/world_v2_building_data.js?v=24"></script>
 <script src="../src/world_v2_authoring.js?v=1"></script>
-<script src="../src/world_v2_buildings.js?v=22"></script>
+<script src="../src/world_v2_bundle_authoring.js?v=3"></script>
+<script src="../src/world_v2_district_bundle_authoring.js?v=2"></script>
+<script src="../src/world_v2_buildings.js?v=29"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <script type="module">
 import * as THREE from 'three';
@@ -91,7 +105,19 @@ const defs=WorldV2BuildingData.all(),asset=document.getElementById('asset');
 defs.forEach(d=>{const o=document.createElement('option');o.value=d.id;o.textContent=d.label;asset.appendChild(o)});
 const DEFAULT_PROVIDER='studio-building-preview',DEFAULT_WORLD_REVISION=1,DEFAULT_PLACEMENT_ID='studio-building';
 let docProviderId=DEFAULT_PROVIDER,docWorldRevision=DEFAULT_WORLD_REVISION,docPlacementId=DEFAULT_PLACEMENT_ID,docYOffset;
+const SAFE_SCHEMA='crafted-realm-studio-workspace-v1',SAFE_PROFILES={
+  holm_guide_hall_v1:{providerId:'studio-building-preview',worldRevision:1,placementId:'studio-building',workspace:'guide-hall-bundle',source:'assets/world/authoring/studio-building-preview.json',bundle:'assets/world/authoring/studio-building-preview.bundle.json'},
+  holm_survival_workyard_v1:{providerId:'studio-survival-workyard',worldRevision:1,placementId:'studio-survival-workyard',workspace:'survival-wood-district',source:'assets/world/authoring/studio-survival-workyard.json',bundle:'assets/world/authoring/studio-survival-workyard.bundle.json',districtSource:'assets/world/authoring/studio-survival-wood-district.json',districtBundle:'assets/world/authoring/studio-survival-wood-district.bundle.json'}
+};
+let workspaceHandle=null,workspaceDefinitionId=null;
 let root=null,helpers=new THREE.Group(),removed=false,current=defs[0],currentDoc=null;scene.add(helpers);
+function safeProfile(definitionId=current.id){const profile=SAFE_PROFILES[definitionId];if(!profile)throw new Error('No Safe Publish profile for '+definitionId);return profile}
+function safeTargets(profile){return [profile.source,profile.bundle].concat(profile.districtSource?[profile.districtSource,profile.districtBundle]:[])}
+function resetSafeProfile(definitionId){
+  const profile=safeProfile(definitionId);docProviderId=profile.providerId;docWorldRevision=profile.worldRevision;docPlacementId=profile.placementId;
+  workspaceHandle=null;workspaceDefinitionId=null;document.getElementById('stage-workspace').disabled=true;
+  setSafeStatus('Not connected. Choose .studio-workspaces/'+profile.workspace+'.');
+}
 const part=id=>root&&WorldV2Buildings.findPart(root,id);
 function disposeObject(o){o.traverse(n=>{if(n.geometry)n.geometry.dispose();if(n.material){const a=Array.isArray(n.material)?n.material:[n.material];a.forEach(m=>m.dispose())}})}
 function clearHelpers(){while(helpers.children.length){const o=helpers.children.pop();disposeObject(o)}}
@@ -128,13 +154,16 @@ async function rebuildStrict(){
   setStatus('LOADING — opening the production Blender asset…');
   await WorldV2Buildings.preload(THREE,new GLTFLoader(),next.id);
   const built=WorldV2Buildings.build(THREE,next.id);
-  if(current&&current.id!==next.id)docYOffset=undefined;
+  const definitionChanged=current&&current.id!==next.id;if(definitionChanged)docYOffset=undefined;
   current=next;
+  if(definitionChanged)resetSafeProfile(current.id);
   document.getElementById('ref').src='../'+current.resources.reference;
   document.getElementById('ref').alt=current.label+' visual reference';
   if(root)scene.remove(root);root=built;scene.add(root);removed=false;
   document.getElementById('px').value=current.placement.x;document.getElementById('pz').value=current.placement.z;document.getElementById('rot').value=String(current.placement.rot);
-  applyInspect();frame(false);renderContract();setStatus('READY — live building definition loaded\n'+current.rooms.length+' rooms • '+current.doors.length+' doors • '+(current.services.length+current.clues.length+current.supportSpaces.length)+' semantic anchors');
+  const spatialAnchors=current.services.length+current.clues.length+current.supportSpaces.length;
+  const interactionCount=WorldV2BuildingBundle.interactionRows(current,'studio-preview').length;
+  applyInspect();frame(false);renderContract();setStatus('READY — live building definition loaded\n'+current.rooms.length+' rooms • '+current.doors.length+' doors • '+interactionCount+' interactions • '+spatialAnchors+' spatial anchors');
 }
 async function rebuild(){
   try{await rebuildStrict()}catch(e){setStatus(e.stack||String(e),true)}
@@ -189,6 +218,59 @@ function applyPlacement(){
   try{applyPlacementStrict()}catch(e){setStatus(String(e),true)}
 }
 function setStatus(msg,bad=false){status.textContent=msg;status.classList.toggle('bad',bad)}
+function setSafeStatus(msg,kind=''){const el=document.getElementById('safe-status');el.textContent=msg;el.className=kind}
+async function nestedFile(root,rel,create){
+  const parts=rel.split('/'),file=parts.pop();let dir=root;
+  for(const part of parts)dir=await dir.getDirectoryHandle(part,{create});
+  return dir.getFileHandle(file,{create});
+}
+async function connectWorkspace(){
+  try{
+    const profile=safeProfile(),targets=safeTargets(profile);
+    if(!window.showDirectoryPicker)throw new Error('Workspace connection requires Chrome or Edge with folder access enabled.');
+    const picked=await window.showDirectoryPicker({mode:'readwrite'});
+    const handle=await picked.getFileHandle('studio-workspace.json'),manifest=JSON.parse(await (await handle.getFile()).text());
+    if(manifest.schema!==SAFE_SCHEMA||manifest.version!==1)throw new Error('That folder is not a Crafted Realm Studio workspace.');
+    const missing=targets.filter(path=>!manifest.targets?.some(t=>t.path===path));if(missing.length)throw new Error('Workspace does not register '+missing.join(', ')+'.');
+    workspaceHandle=picked;workspaceDefinitionId=current.id;document.getElementById('stage-workspace').disabled=false;
+    setSafeStatus('CONNECTED — '+manifest.id+'\n'+targets.length+'-file world transaction registered.','ok');
+  }catch(e){if(e.name!=='AbortError')setSafeStatus('CONNECT FAILED — '+e.message,'bad')}
+}
+async function stageWorkspace(){
+  try{
+    if(!workspaceHandle)throw new Error('Connect the workspace first.');
+    if(workspaceDefinitionId!==current.id)throw new Error('The connected workspace belongs to a different building. Reconnect the selected building workspace.');
+    const profile=safeProfile();
+    const d=draft(),text=JSON.stringify(d,null,2)+'\n';WorldV2Authoring.load(text);
+    const bundle=WorldV2BuildingBundle.compile(d,{sourcePath:profile.source}),bundleText=JSON.stringify(bundle,null,2)+'\n';
+    let districtSource=null,districtBundle=null;
+    if(profile.districtSource){districtSource=WorldV2DistrictBundle.survivalWoodSource();districtBundle=WorldV2DistrictBundle.compile(districtSource,d,bundle);}
+    async function writeVerified(rel,bytes){const target=await nestedFile(workspaceHandle,'working/'+rel,true),writable=await target.createWritable();await writable.write(bytes);await writable.close();const verify=await (await target.getFile()).text();if(verify!==bytes)throw new Error(rel+' did not verify byte-for-byte.');}
+    await writeVerified(profile.source,text);await writeVerified(profile.bundle,bundleText);
+    if(districtSource){await writeVerified(profile.districtSource,JSON.stringify(districtSource,null,2)+'\n');await writeVerified(profile.districtBundle,JSON.stringify(districtBundle,null,2)+'\n');}
+    currentDoc=d;document.getElementById('json').value=text;
+    const interactionCount=bundle.chunks.reduce((n,ch)=>n+ch.layers.interactions.length,0);
+    setSafeStatus('STAGED — '+(districtSource?'district terrain + navigation + building':'placement + runtime chunk')+' + '+interactionCount+' semantic interactions verified together.\nLive world unchanged. Next: export, review the dry-run, then publish.','ok');
+  }catch(e){setSafeStatus('STAGE FAILED — '+e.message,'bad')}
+}
+async function loadPublished(){
+  try{
+    const profile=safeProfile(),targets=safeTargets(profile),responses=await Promise.all(targets.map(path=>fetch('../'+path+'?v='+Date.now(),{cache:'no-store'})));
+    if(responses.some(r=>!r.ok))throw new Error('Published transaction is incomplete.');
+    const raw=await responses[0].text(),bundle=await responses[1].json(),source=WorldV2Authoring.load(raw),pair=WorldV2BuildingBundle.validate(bundle,source);if(!pair.ok)throw new Error(pair.errors.join('; '));
+    if(profile.districtSource){const districtSource=await responses[2].json(),districtBundle=await responses[3].json(),districtCheck=WorldV2DistrictBundle.validate(districtBundle,districtSource,source,bundle);if(!districtCheck.ok)throw new Error(districtCheck.errors.join('; '));}
+    await applyDraft(source);document.getElementById('json').value=JSON.stringify(currentDoc,null,2)+'\n';
+    setSafeStatus('LOADED — published '+targets.length+'-file transaction passes together.','ok');
+  }catch(e){setSafeStatus('LOAD FAILED — '+e.message,'bad')}
+}
+function downloadCandidate(){
+  try{
+    const profile=safeProfile();
+    const d=draft(),text=JSON.stringify(d,null,2)+'\n';WorldV2Authoring.load(text);
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'application/json'}));a.download=profile.source.split('/').pop();a.click();setTimeout(()=>URL.revokeObjectURL(a.href),0);
+    setSafeStatus('DOWNLOADED — validated candidate only; no live files were changed.','ok');
+  }catch(e){setSafeStatus('DOWNLOAD FAILED — '+e.message,'bad')}
+}
 function renderContract(){const a=WorldV2BuildingData.acceptance(),authoring=WorldV2Authoring.acceptance(),ol=document.getElementById('contract');ol.innerHTML='';a.checks.concat(authoring.checks).forEach(c=>{const li=document.createElement('li');li.textContent=(c.ok?'PASS — ':'FAIL — ')+c.label;li.style.color=c.ok?'':'var(--bad)';ol.appendChild(li)})}
 
 asset.onchange=rebuild;document.getElementById('rebuild').onclick=rebuild;document.getElementById('apply').onclick=applyPlacement;
@@ -206,9 +288,28 @@ document.getElementById('remove').onclick=()=>{try{const d=draft();currentDoc=Wo
 document.getElementById('restore').onclick=()=>{try{removed=false;currentDoc=draft();if(root)root.visible=true;helpers.visible=true;document.getElementById('json').value=JSON.stringify(currentDoc,null,2);setStatus('RESTORED — the same stable placement ID is authored again.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
 document.getElementById('export').onclick=()=>{try{const d=draft(),text=JSON.stringify(d,null,2);currentDoc=d;document.getElementById('json').value=text;navigator.clipboard?.writeText(text).catch(()=>{});setStatus('EXPORTED — deterministic authoring JSON is ready below.\n'+contractSummary(d))}catch(e){setStatus(String(e),true)}};
 document.getElementById('import').onclick=async()=>{try{await applyDraft(document.getElementById('json').value);setStatus('IMPORTED — authoring JSON validated and applied.\n'+contractSummary(currentDoc))}catch(e){setStatus(String(e),true)}};
-window.STUDIO_CAPTURE=()=>renderer.domElement.toDataURL('image/png');window.STUDIO_BUILDING=()=>({definition:current,document:draft(),chunks:WorldV2Authoring.toChunkRows(draft()),acceptance:WorldV2Authoring.acceptance()});
+document.getElementById('connect-workspace').onclick=connectWorkspace;
+document.getElementById('stage-workspace').onclick=stageWorkspace;
+document.getElementById('load-published').onclick=loadPublished;
+document.getElementById('download-candidate').onclick=downloadCandidate;
+window.STUDIO_CAPTURE=()=>renderer.domElement.toDataURL('image/png');window.STUDIO_BUILDING=()=>({definition:current,document:draft(),chunks:WorldV2Authoring.toChunkRows(draft()),acceptance:WorldV2Authoring.acceptance()});window.STUDIO_BUNDLE=()=>{const profile=safeProfile();return WorldV2BuildingBundle.compile(draft(),{sourcePath:profile.source})};
 window.addEventListener('resize',()=>{camera.aspect=view.clientWidth/view.clientHeight;camera.updateProjectionMatrix();renderer.setSize(view.clientWidth,view.clientHeight)});
-function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera);const b=current?.resources?.visualBudget;const perf=b?` / budget ${b.maxTriangles.toLocaleString()} tris, ${b.maxDrawCalls} draws`:'';hud.textContent=`${current?.label||'—'} • ${renderer.info.render.triangles.toLocaleString()} tris • ${renderer.info.render.calls} draws${perf} • roof ${document.getElementById('roof').checked?'on':'off'} • drag orbit / wheel zoom`};loop();rebuild();
+function visibleInGroup(o,group){for(let p=o;p;p=p.parent){if(p.visible===false)return false;if(p===group)return true}return false}
+function objectMetrics(group){
+  const out={triangles:0,draws:0,meshes:0};if(!group||group.visible===false)return out;
+  group.traverse(o=>{
+    if(!o.isMesh||!visibleInGroup(o,group)||!o.geometry)return;
+    const g=o.geometry,count=g.index?g.index.count:(g.attributes.position?g.attributes.position.count:0);
+    out.triangles+=Math.floor(count/3);out.meshes++;
+    const mats=Array.isArray(o.material)?o.material:[o.material];
+    if(g.groups&&g.groups.length)out.draws+=g.groups.filter(gr=>mats[gr.materialIndex||0]&&mats[gr.materialIndex||0].visible!==false).length;
+    else if(mats.some(m=>m&&m.visible!==false))out.draws++;
+  });
+  return out;
+}
+function studioMetrics(){return {asset:objectMetrics(root),helpers:objectMetrics(helpers),scene:{triangles:renderer.info.render.triangles,draws:renderer.info.render.calls}}}
+window.STUDIO_METRICS=studioMetrics;
+function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera);const b=current?.resources?.visualBudget,m=studioMetrics(),tri=m.asset.triangles,calls=m.asset.draws,over=!!b&&(tri>b.maxTriangles||calls>b.maxDrawCalls);const perf=b?` / budget ${b.maxTriangles.toLocaleString()} tris, ${b.maxDrawCalls} draws${over?' • OVER BUDGET':''}`:'';hud.style.color=over?'#ff8a73':'#ded6c4';hud.textContent=`${current?.label||'—'} • asset ${tri.toLocaleString()} tris • ${calls} draws${perf} • helpers ${m.helpers.triangles.toLocaleString()}/${m.helpers.draws} • scene ${m.scene.triangles.toLocaleString()}/${m.scene.draws} • roof ${document.getElementById('roof').checked?'on':'off'} • drag orbit / wheel zoom`};resetSafeProfile(current.id);loop();rebuild();
 </script>
 </body>
 </html>

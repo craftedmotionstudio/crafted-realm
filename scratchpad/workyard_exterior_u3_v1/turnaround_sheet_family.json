@@ -1,0 +1,12 @@
+﻿{
+    "name":  "Workyard Exterior U3 — Complete U3 Family (installed arrangement) Cardinal Turnaround",
+    "views":  {
+                  "north":  "scratchpad/workyard_exterior_u3_v1/turnaround_family_north.png",
+                  "south":  "scratchpad/workyard_exterior_u3_v1/turnaround_family_south.png",
+                  "east":  "scratchpad/workyard_exterior_u3_v1/turnaround_family_east.png",
+                  "west":  "scratchpad/workyard_exterior_u3_v1/turnaround_family_west.png"
+              },
+    "review":  "scratchpad/workyard_exterior_u3_v1/turnaround_review_family.json",
+    "note":  "Identical lighting rig, ortho lens, gameplay pitch (~43 deg), per-object framing scale shared by all four directions",
+    "out":  "scratchpad/workyard_exterior_u3_v1/turnaround_sheet_family.png"
+}

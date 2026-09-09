@@ -56,6 +56,17 @@ Plain **global `<script>` tags** (NOT ES modules) loaded in order from `index.ht
   color/material separation, reference-defining features, gameplay-camera readability, animation and
   interaction readability, and family consistency. Per the user's 2026-07-13 decision, no Gemini or
   other second-model visual review is required.
+- **Larger gameplay QA:** follow `docs/rebuild/QA_STANDARD.md` and its report template. Use Full QA for
+  multi-step/saved/collision/economy work; use a read-only tester swarm only for independent risk surfaces.
+  Simultaneous testers require separate browser contexts plus disposable `?qaProfile=<id>` saves. The main
+  integrator alone repairs and accepts; finish with one real-pointer golden path and one foreground smoke run.
+- **Studio Safe Publish:** world-authoring drafts must move through `tools/studio_workspace_cli.js`, not be
+  copied over live data by hand. Studio may write only to a connected workspace's `working/` tree. Run
+  `export` then `plan`; apply only an all-green plan. The tool hashes every file, refuses base drift, backs up
+  before install, writes a receipt, and permits rollback only while installed hashes still match. Building
+  workspaces register and transact the authoring source plus its compiled `.bundle.json`; cross-file placement
+  or provider drift must fail closed. Reference workspaces are `guide-hall-bundle` and
+  `survival-workyard-bundle`; select the matching building before connecting either one in Studio.
 - **Secrets:** `GEMINI_API_KEY` / `HF_TOKEN` come from the Windows USER registry / env — **never
   hardcode, print, or commit them.** `tools/gemini_image.js` reads `process.env.GEMINI_API_KEY`.
 - **Big risky refactors of the core loop** → do in a git **worktree agent**, but FIRST: **commit
@@ -70,6 +81,8 @@ Plain **global `<script>` tags** (NOT ES modules) loaded in order from `index.ht
   on `Player`; world objects in `WORLD.*` arrays (`npcs`, `drops`, `clickables`, `interiors`).
 - Procedural geometry uses the shared builder pattern `makeProcX(THREE, mat)` so game + tools render
   identical shapes.
+- Checked-in world-authoring documents live in `assets/world/authoring/`; local snapshots, exports, backups,
+  and receipts live in ignored `.studio-workspaces/` directories.
 - Art direction: **cozy 2007/OSRS, low-poly flat-shaded** — readable, warm, not hyper-real.
 
 ## Known tech debt

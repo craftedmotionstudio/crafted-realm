@@ -1,0 +1,71 @@
+{
+  "asset": "holm_guide_hall_v5",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "checks": {
+    "continuousPerimeter": true,
+    "roofUsesWallPerimeter": true,
+    "roofSeatsIntoWallPlate": true,
+    "frontDoorFitsOpening": true,
+    "teachingDoorFitsOpening": true,
+    "stainedGlassFamilyAuthored": true,
+    "blenderInteriorKitAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "roof": {
+    "wallPlateBand": [
+      4.0,
+      4.180000000000001
+    ],
+    "seatBand": [
+      3.8999999999999995,
+      4.1
+    ],
+    "verticalOverlap": 0.09999999999999964,
+    "overhang": 0.54,
+    "perimeterVertices": 22
+  },
+  "doors": {
+    "front": {
+      "openingWidth": 2.6,
+      "openingHeight": 3.12,
+      "panelWidth": 2.54,
+      "panelHeight": 3.06,
+      "horizontalGap": 0.06000000000000005,
+      "verticalGap": 0.06000000000000005
+    },
+    "teaching": {
+      "openingWidth": 2.6,
+      "openingHeight": 3.12,
+      "panelWidth": 2.54,
+      "panelHeight": 3.06,
+      "horizontalGap": 0.06000000000000005,
+      "verticalGap": 0.06000000000000005
+    }
+  },
+  "metrics": {
+    "triangles": 6346,
+    "meshObjects": 50,
+    "materials": 18,
+    "materialNames": [
+      "CR Chart Land",
+      "CR Chart Water",
+      "CR Compass Red",
+      "CR Dark Timber",
+      "CR Furnishing Wood",
+      "CR Glass Moss",
+      "CR Glass Sapphire",
+      "CR Guide Brass",
+      "CR Iron",
+      "CR Parchment",
+      "CR Path Stone",
+      "CR Provision Green",
+      "CR Records Blue",
+      "CR Roof Highlight",
+      "CR Russet Roof",
+      "CR Stone",
+      "CR Stone Light",
+      "CR Warm Plaster"
+    ]
+  }
+}

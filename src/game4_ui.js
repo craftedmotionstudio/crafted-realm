@@ -330,7 +330,7 @@ const UI = {
         <div style="font-size:10px;color:#9a8e78">${sub}</div>`;
       row.title=q.desc;
       row.style.cursor='pointer';
-      row.onclick=()=>{ Quest.track(id); Sfx.click(); };
+      row.onclick=()=>{ if(UI.openQuestDetail) UI.openQuestDetail(id); else Quest.track(id); Sfx.click(); };
       el.appendChild(row);
     }
   },
@@ -547,7 +547,12 @@ function pick(e){
   for(const h of hits){
     let o=h.object;
     while(o && !o.userData.kind && o.name!=='ground') o=o.parent;
-    if(o && (o.userData.kind || o.name==='ground')) return {obj:o, point:h.point};
+    if(o && (o.userData.kind || o.name==='ground')){
+      const objectPlane=o.userData&&o.userData.plane;
+      if(objectPlane!==undefined && objectPlane!==(Player.plane||0)) continue;
+      if(o.userData&&o.userData.kind==='lighthouseDoor'&&player&&Math.hypot(player.position.x-o.position.x,player.position.z-o.position.z)>14) continue;
+      return {obj:o, point:h.point};
+    }
   }
   return null;
 }
@@ -561,6 +566,15 @@ function hoverPrimaryLabel(hit,hasWalkGround){
   if(u.inspectOnly)return hasWalkGround?'Walk here':null;
   if(u.label)return u.label;
   return hit.obj.name==='ground'?'Walk here':null;
+}
+// An inspect-only model can hide a wall or exterior ground tile behind it from
+// the camera. Walking to that background pick makes a harmless scenery click
+// route outside the room. Use the actual model surface as the path target so
+// the cardinal planner stops on the nearest legal tile beside the object.
+function walkPointForHit(hit,e){
+  if(hit&&hit.obj&&hit.obj.userData&&hit.obj.userData.inspectOnly&&hit.point) return hit.point;
+  const gp=e?groundPick(e):null;
+  return gp||(hit&&hit.point)||null;
 }
 
 canvasEl.addEventListener('mousedown', e=>{
@@ -578,7 +592,7 @@ canvasEl.addEventListener('mousemove', e=>{
     const hit = pick(e);
     _hoverNpc = (hit && hit.obj.userData && hit.obj.userData.kind==='npc') ? hit.obj.userData.npc : null;
     const inspectOnly=!!(hit&&hit.obj.userData&&hit.obj.userData.inspectOnly);
-    const inspectGround=inspectOnly?groundPick(e):null;
+    const inspectGround=inspectOnly?walkPointForHit(hit,e):null;
     const label=hoverPrimaryLabel(hit,!inspectOnly||!!inspectGround);
     const onObj=!!(hit&&hit.obj.userData&&hit.obj.userData.label&&!inspectOnly);
     // "/ N more options" = right-click entries minus the primary action and Cancel
@@ -616,7 +630,7 @@ canvasEl.addEventListener('mouseup', e=>{
   // Authored scenery remains available to the OSRS-style right-click menu, but
   // an ordinary left click is still a movement order rather than an inspection.
   if(!Player.usingItem && hit.obj.userData && hit.obj.userData.inspectOnly){
-    const gp=groundPick(e);
+    const gp=walkPointForHit(hit,e);
     if(gp) minimapWalkTo(gp);
     return;
   }
@@ -679,7 +693,9 @@ function buildCtxEntries(hit, e){
     } else if(u.kind==='resource' && u.alive){
       entries.push({html:u.label, fn:()=>handleClick(o, hit.point||o.position)});
       entries.push({html:'Examine', fn:()=>UI.chat(
-        u.rtype==='tree'?'A sturdy emberwood tree.':u.rtype==='rock'?'Copper glints in the stone.':'Fish dart beneath the surface.','plain')});
+        u.rtype==='tree'?'A sturdy emberwood tree.':u.rtype==='rock'?
+          ((u.oreKind==='tin'?'Pale tin':u.oreKind==='clay'?'Workable clay':u.oreKind==='iron'?'Iron':u.oreKind==='coal'?'Coal':'Copper')+' shows through the stone.'):
+          'Fish dart beneath the surface.','plain')});
     } else if(u.kind==='drop'){
       entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
       entries.push({html:`Examine <b>${ITEMS[u.id].name}</b>`,
@@ -692,6 +708,15 @@ function buildCtxEntries(hit, e){
         entries.push({html:'Climb-down '+(u.label||'').replace(/^Climb /,''),
           fn:()=>queueClimb(o, u.climb.down)});
       if(!u.climb.up && !u.climb.down) entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
+    } else if(u.kind==='lighthouseDoor'){
+      entries.push({html:u.label||'Open <b>Lastlight door</b>',fn:()=>handleClick(o,o.position)});
+      entries.push({html:'Inspect <b>Lastlight door</b>',fn:()=>UI.chat(u.inspectMessage||'A weathered oak door set into the tower.','plain')});
+    } else if(u.kind==='lever'){
+      entries.push({html:u.label||'Operate <b>lever</b>',fn:()=>handleClick(o,o.position)});
+      entries.push({html:'Inspect <b>beacon lever</b>',fn:()=>UI.chat(u.inspectMessage||'A heavy bronze lever controls the Lastlight lens.','plain')});
+    } else if(u.kind==='trapdoor'){
+      entries.push({html:u.label||'Open <b>trapdoor</b>',fn:()=>handleClick(o,o.position)});
+      entries.push({html:'Inspect <b>trapdoor</b>',fn:()=>UI.chat(u.inspectMessage||'A sealed hatch descends beneath the lighthouse.','plain')});
     } else if(u.kind==='altar'){
       entries.push({html:'Pray at <b>Altar</b>', fn:()=>{ Player.action={type:'pray', obj:o, t:0}; Player.moveTo=o.position.clone(); }});
       if(Player.count('bones')>0)
@@ -731,8 +756,8 @@ function buildCtxEntries(hit, e){
       entries.push({html:'Inspect'+inspectName,fn:()=>UI.chat(u.inspectMessage,'plain')});
     }
   }
-  entries.push({html:'Walk here', fn:()=>{ const gp=e?groundPick(e):null;
-    if(gp) minimapWalkTo(gp); else if(hit&&hit.point) minimapWalkTo(hit.point); }});
+  entries.push({html:'Walk here', fn:()=>{ const gp=walkPointForHit(hit,e);
+    if(gp) minimapWalkTo(gp); }});
   entries.push({html:'Cancel', fn:null});
   return entries;
 }
@@ -894,6 +919,9 @@ function handleClick(obj, point){
     queueClimb(obj, dest);
     return;
   }
+  if((u.kind==='lighthouseDoor'||u.kind==='lever'||u.kind==='trapdoor')&&typeof u.activate==='function'){
+    u.activate(obj);return;
+  }
   if(u.kind==='resource'){
     if(!u.alive){ UI.chat('There is nothing left to gather here.','plain'); return; }
     if(u.rtype==='fish'){
@@ -1030,6 +1058,12 @@ function hidePathPreview(){ if(_pathLine) _pathLine.visible=false; if(_pathTiles
 let _groundGrid, _gridTX=null, _gridTZ=null;
 function updateGroundGrid(){
   if(typeof player==='undefined') return;
+  const pl=(Player.plane||0);
+  // The surface grid is a navigation aid for the broad overworld. On authored
+  // underground meshes it floats at the logical walk height and visually
+  // flattens real depressions and shoulders, so caves own their floor entirely.
+  if(_groundGrid) _groundGrid.visible=(pl===0);
+  if(pl!==0) return;
   const R=14, ptx=Math.floor(player.position.x), ptz=Math.floor(player.position.z);
   if(_groundGrid && ptx===_gridTX && ptz===_gridTZ) return;
   _gridTX=ptx; _gridTZ=ptz;
@@ -1039,7 +1073,7 @@ function updateGroundGrid(){
     _groundGrid.renderOrder=990; scene.add(_groundGrid);
   }
   const v=[], x0=ptx-R, x1=ptx+R, z0=ptz-R, z1=ptz+R;
-  const pl=(Player.plane||0),ok=y=>y!==null && (pl!==0||y>-1.2);
+  const ok=y=>y!==null && y>-1.2;
   for(let x=x0; x<=x1; x++) for(let z=z0; z<z1; z++){
     const a=_walkElevAt(x,z), b=_walkElevAt(x,z+1); if(ok(a)&&ok(b)) v.push(x,a+0.03,z, x,b+0.03,z+1);
   }
@@ -1504,11 +1538,13 @@ function wireLogin(){
   const buildSw=(holderId, choices, key)=>{
     const h=$(holderId); if(!h) return;
     choices.forEach((c,i)=>{
-      const d=document.createElement('div'); d.className='sw'+(i===0?' sel':'');
+      const d=document.createElement('button'); d.type='button'; d.className='sw'+(i===0?' sel':'');
+      d.setAttribute('aria-label',(key==='shirt'?'Tunic colour ':'Skin tone ')+(i+1));
+      d.setAttribute('aria-pressed',i===0?'true':'false');
       d.style.background='#'+c.toString(16).padStart(6,'0');
       d.onclick=()=>{ CharCfg[key]=c;
-        h.children && [...h.children].forEach(x=>x.classList&&x.classList.remove('sel'));
-        d.classList.add('sel'); };
+        h.children && [...h.children].forEach(x=>{ if(x.classList)x.classList.remove('sel'); x.setAttribute('aria-pressed','false'); });
+        d.classList.add('sel'); d.setAttribute('aria-pressed','true'); };
       h.appendChild(d);
     });
   };

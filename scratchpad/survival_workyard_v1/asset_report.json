@@ -1,0 +1,40 @@
+{
+  "asset": "holm_survival_workyard_v1",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "checks": {
+    "asymmetricalLodgeAndLeanToAuthored": true,
+    "fittedFullFrameDoorsAuthored": true,
+    "irregularMasonryCoursesAuthored": true,
+    "loadBearingTimberBaysAuthored": true,
+    "layeredConnectedRoofAuthored": true,
+    "occupationalWorkyardAuthored": true,
+    "distinctRoofLandmarkAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "visualLanguage": "Guide Hall anchor family; distinct survival workyard composition",
+  "roofTiles": 371,
+  "metrics": {
+    "triangles": 17640,
+    "meshObjects": 783,
+    "materials": 16,
+    "materialNames": [
+      "CR Workyard Aged Brass",
+      "CR Workyard Chalk",
+      "CR Workyard Fieldstone",
+      "CR Workyard Fieldstone Light",
+      "CR Workyard Forged Iron",
+      "CR Workyard Fresh Cut",
+      "CR Workyard Hemp Rope",
+      "CR Workyard Lesson Board",
+      "CR Workyard Oak Dark",
+      "CR Workyard Oak Worn",
+      "CR Workyard Oilskin",
+      "CR Workyard Packed Earth",
+      "CR Workyard Shingle Moss",
+      "CR Workyard Shingle Sun",
+      "CR Workyard Shingle Umber",
+      "CR Workyard Warm Limewash"
+    ]
+  }
+}

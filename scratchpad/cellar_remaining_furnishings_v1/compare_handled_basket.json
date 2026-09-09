@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Cellar - Handled Basket",
+  "subtitle": "Nano Banana 2 target vs authored Blender render",
+  "left_label": "LOCKED CONCEPT",
+  "right_label": "BLENDER 4.5 RENDER",
+  "osrs": "docs/rebuild/concepts/cellar_handled_basket_nanobanana2_v1.png",
+  "cr": "scratchpad/cellar_remaining_furnishings_v1/handled_basket.png",
+  "codex": 9.1,
+  "review_note": "The broad asymmetric weave, genuinely open hoop bands, recessed warm-brown woven floor, visible inner ribs, raised irregular handle and rim repair preserve the target silhouette while making the container readable from above.",
+  "verdict": "approved for live-room review",
+  "improve": "Owner review should judge whether the inner floor weave remains visible under cellar lighting.",
+  "out": "scratchpad/cellar_remaining_furnishings_v1/compare/handled_basket_compare.png"
+}

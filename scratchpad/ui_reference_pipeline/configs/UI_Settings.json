@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 Settings",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_Settings.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/settings.png",
+  "codex": 9.1,
+  "review_note": "Settings now separates sound, world, roof, save, and session controls with consistent medieval buttons.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_Settings_v2_compare.png"
+}

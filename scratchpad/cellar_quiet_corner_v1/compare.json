@@ -1,0 +1,13 @@
+{
+  "name": "Cellar Quiet Corner v1 — Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/cellar_quiet_corner_nanobanana2_v1.png",
+  "cr": "scratchpad/cellar_quiet_corner_v1/01_shaded.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Owner-standard concept vs editable custom-topology Blender family",
+  "codex": 9.1,
+  "review_note": "The Blender family preserves the tall notched fireside silhouette, lower spindle-and-rush work chair, irregular tripod table and cup, handled basket, three colored wool balls, needles, trailing yarn, fitted repair iron, warm faceted materials, and inward conversational composition. Its authored scale is now anchored to a 1.9-tile player: the tall chair is 1.79 tiles high and both seats remain below the character hip line.",
+  "verdict": "APPROVED FOR GAME INTEGRATION",
+  "improve": "Keep the human-scale dimensions locked, retain the furniture against the room edge, and preserve the central aisle; do not enlarge the basket or pale the oak under runtime lighting.",
+  "out": "Bible_References/Complete/_compare/cellar_quiet_corner_v1_concept_compare.png"
+}

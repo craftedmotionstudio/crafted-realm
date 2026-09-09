@@ -1,0 +1,11 @@
+{
+  "name": "Training Cavern — Tutor's Holm",
+  "subtitle": "OSRS tutorial-mine composition reference vs Crafted Realms authored multi-chamber mine",
+  "osrs": "Bible_References/Tutorial_Island_Mining_Cave_&_Mining_Rocks.jpg",
+  "cr": "scratchpad/holm_training_cavern_v1/gameplay_final.png",
+  "codex": 9.0,
+  "review_note": "The irregular open-top ochre cavern, pale and copper ore fields, stalagmites, perimeter rock, furnace alcove, timber supports, and opposite entry/exit ladders preserve the reference's readable mining lesson while creating our own three-chamber route.",
+  "verdict": "accepted for the Tutor's Holm training slice",
+  "improve": "Future polish may add mining dust and localized shaft particles; neither blocks the present environment and traversal acceptance.",
+  "out": "Bible_References/Complete/_compare/Training_Cavern_v1_compare.png"
+}

@@ -1,0 +1,77 @@
+{
+  "assetId": "cellar_quiet_corner_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 184080,
+    "triangles": 3236,
+    "primitives": 25,
+    "materials": 16
+  },
+  "animations": [],
+  "authoringChecks": {
+    "ownerStandardNanoBananaReference": true,
+    "noPrimitiveOperatorsUsedForVisibleAsset": true,
+    "customAssetSpecificTopology": true,
+    "twoGenuinelyDistinctChairSilhouettes": true,
+    "sevenSidedTripodTable": true,
+    "handledYarnBasketWithReadableContents": true,
+    "separateSemanticInteractionRoots": true,
+    "controlledFlatShading": true,
+    "sixViewProofPacket": true,
+    "runtimeGroupedBySemanticObject": true,
+    "humanScaleFurniture": true
+  },
+  "scaleChecks": [
+    {
+      "label": "family width",
+      "value": 3.113,
+      "min": 2.9,
+      "max": 3.3,
+      "passed": true
+    },
+    {
+      "label": "family depth",
+      "value": 1.528,
+      "min": 1.35,
+      "max": 1.7,
+      "passed": true
+    },
+    {
+      "label": "family height",
+      "value": 1.79,
+      "min": 1.72,
+      "max": 1.82,
+      "passed": true
+    },
+    {
+      "label": "tall chair height",
+      "value": 1.778,
+      "min": 1.7,
+      "max": 1.82,
+      "passed": true
+    },
+    {
+      "label": "low chair height",
+      "value": 1.375,
+      "min": 1.25,
+      "max": 1.45,
+      "passed": true
+    },
+    {
+      "label": "tall chair seat",
+      "value": 0.616,
+      "min": 0.52,
+      "max": 0.65,
+      "passed": true
+    },
+    {
+      "label": "low chair seat",
+      "value": 0.569,
+      "min": 0.48,
+      "max": 0.6,
+      "passed": true
+    }
+  ],
+  "errors": []
+}

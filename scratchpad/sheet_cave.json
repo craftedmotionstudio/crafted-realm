@@ -1,0 +1,11 @@
+{
+  "name": "Mining Cave — Tutor's Holm",
+  "osrs": "Bible_References/Tutorial_Island_Mining_Cave_&_Mining_Rocks.jpg",
+  "cr":   "scratchpad/cr_mining_cave_crop.jpg",
+  "claude": 8.5,
+  "gemini": 8.0,
+  "gemini_note": "'captures the low-poly aesthetic, key elements like rocks, torches, and a glowing crafting station, but lacks clear anvils and a distinct furnace shape.' Both reviewers agree it's a strong cave; furnace/anvil silhouettes read small from the far overhead angle.",
+  "verdict": "strong recreation; below 9.5 bar",
+  "improve": "denser rock + stalagmite field; more distinct furnace & anvil silhouettes; a more open/irregular chamber (ours is a neat rectangular pit vs the ref's organic cavern)",
+  "out": "Bible_References/Complete/_compare/Mining_Cave_compare.png"
+}

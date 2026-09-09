@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "target": "net_rack",
+  "pose": {
+    "rotationZ": null
+  },
+  "center": [
+    5.2764,
+    -2.5608,
+    1.0332
+  ],
+  "bounds": {
+    "min": [
+      2.8577,
+      -4.9703,
+      -0.7006
+    ],
+    "max": [
+      7.6952,
+      -0.1513,
+      2.767
+    ]
+  },
+  "views": {
+    "north": "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_from_north.png",
+    "south": "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_from_south.png",
+    "east": "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_from_east.png",
+    "west": "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_from_west.png"
+  },
+  "auditOrder": [
+    "north",
+    "south",
+    "east",
+    "west"
+  ]
+}

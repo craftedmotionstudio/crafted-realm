@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Exterior U3 Timber Rack v1 — Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/workyard_exterior_u3_timber_rack_nanobanana2_v1.png",
+  "cr": "scratchpad/workyard_exterior_u3_v1/06_timber_rack_family.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Loaded timber-storage rack: pegged leaning frames, authored logs, rope restraints",
+  "codex": 9.1,
+  "review_note": "The Blender family preserves the leaning pegged end frames with crossed braces on flat foot stones, ground sleepers and side rails, eight individually tapered and tilted logs with proud pale endgrain faces, the honest short-log gap in the middle row, and two hemp wraps cinched over the load with knots and dangling tied-off ends at canonical player scale. Deviations: the bundle is slightly slimmer than the concept's and the ropes read a touch thinner.",
+  "verdict": "APPROVED FOR CODEX INTEGRATION",
+  "improve": "Keep the 1.58-tile frames and 1.31-tile stack top; do not thicken the ropes further or the knots start reading as hoops. Re-verified unchanged in the U3 closeout rebuild with a 4/4 cardinal contact audit.",
+  "out": "Bible_References/Complete/_compare/workyard_exterior_u3_timber_rack_v1_compare.png"
+}

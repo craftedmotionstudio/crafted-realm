@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 QuickPanel",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_QuickPanel.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/inv.png",
+  "codex": 9.0,
+  "review_note": "Compact resource orbs, map controls, and main side-panel actions form a readable quick-access cluster.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_QuickPanel_v2_compare.png"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Worn Gear Starter Family v1",
+  "osrs": "docs/rebuild/concepts/worn_gear_starter_nanobanana2_v1.png",
+  "cr": "scratchpad/worn_gear_starter_v1/04_three_quarter.png",
+  "codex": 9.1,
+  "review_note": "Direct Codex review vs the approved concept board: silhouettes 9.5 (bearded hatchet, crescent pick, fullered sword, leaf dagger, recurved stave, plank shield all land); shape hierarchy 9.0; material separation 9.0 after the copper-bronze/haft-oak/leather split; defining features 8.9 (fuller, drooped guard, proud bit edge, repair band, riveted rim + faceted boss present; hatchet beard slightly shallower than concept); gameplay-camera readability 9.2; animation-readiness 9.0 (grip-origin contract, conventional blade axes); family consistency 9.3.",
+  "verdict": "approved",
+  "improve": "Deepen the hatchet beard notch and consider a subtle second wood tone on the bow stave in a later tier pass",
+  "out": "Bible_References/Complete/_compare/worn_gear_starter_v1_compare.png"
+}

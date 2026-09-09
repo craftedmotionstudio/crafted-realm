@@ -1,0 +1,22 @@
+{
+  "assetId": "holm_guide_hall_v5",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 476536,
+    "triangles": 6346,
+    "primitives": 51,
+    "materials": 18
+  },
+  "authoringChecks": {
+    "continuousPerimeter": true,
+    "roofUsesWallPerimeter": true,
+    "roofSeatsIntoWallPlate": true,
+    "frontDoorFitsOpening": true,
+    "teachingDoorFitsOpening": true,
+    "stainedGlassFamilyAuthored": true,
+    "blenderInteriorKitAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "errors": []
+}

@@ -1,0 +1,78 @@
+{
+  "assetId": "worn_gear_starter_v1",
+  "displayName": "Starter Worn Gear Family (first-hour held equipment)",
+  "family": "held equipment / worn gear",
+  "gameplayRole": "The six modelled held items the first hour actually uses: bronze hatchet (chop), bronze pickaxe (mine), bronze sword and forged bronze dagger (melee), worn shortbow (ranged trial), wooden shield (block); plus the bronze helm head slot",
+  "status": "in-production",
+  "version": 1,
+  "reference": {
+    "images": [
+      "docs/rebuild/concepts/worn_gear_starter_nanobanana2_v1.png"
+    ],
+    "promptStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md",
+    "provenance": "Original Crafted Realm concept generated with Gemini / Nano Banana 2 on 2026-07-16"
+  },
+  "visibleFeatures": [
+    "bearded forged hatchet head with proud brighter bit, poll cap, eye wedge, and leather collar on a curved two-segment haft",
+    "crescent forged pickaxe head with two worn brighter points and a visible eye block",
+    "fullered bronze sword with drooped knobbed crossguard, four alternating leather grip bands, and a faceted pommel",
+    "leaf-bladed dagger with raised midrib, honed tip, cross-wrapped grip, and disc pommel",
+    "worn single-stave shortbow: eight tapering faceted limb segments, nocks, string, grip wraps, and one off-center repair band",
+    "round shield of five arc-fitted planks in three wood tones, fourteen riveted iron rim segments, faceted boss on a riveted ring, real back handle and cross brace",
+    "forged bronze helm: faceted two-stage dome with crown button, dark riveted brow band, tapered nasal bar, hand-drawn cheek guards, rear neck flare"
+  ],
+  "dimensionsTiles": {
+    "width": 3.842,
+    "depth": 0.331,
+    "height": 1.107
+  },
+  "pivot": "each gear_* group origin is its grip point; blade/business axis along game +Y, hatchet/pickaxe edge toward +X, shield face normal +X",
+  "facing": "authored to the same conventions as the procedural world_gear.js builders so holdWeapon and the GLB-avatar GearFit consume them unchanged",
+  "placement": {
+    "room": "held equipment (player, NPCs, ground drops)",
+    "rule": "src/gear_models_v1.js wraps gearMesh(id); MODEL_MAP axe/pick/sword/bow/shield plus ID_MAP bronze_dagger; procedural fallback for everything else",
+    "count": "unbounded clones"
+  },
+  "interactionOwner": "existing animation contract: swing(player, slash/stab/crush), gather swings for chop/mine, holdWeapon grip, GearFit bone attachment",
+  "collisionOwner": "held items add no collision",
+  "materials": [
+    "CR_GEAR_METAL (tier-recolored)",
+    "CR_GEAR_METAL_EDGE (tier lightened)",
+    "CR_GEAR_METAL_DARK (tier darkened)",
+    "haft oak",
+    "haft oak dark",
+    "endgrain",
+    "leather",
+    "leather dark",
+    "bow string",
+    "shield planks a/b/c",
+    "shield iron",
+    "iron highlight"
+  ],
+  "animationClips": [],
+  "source": "assets/blender/props/worn_gear_starter_v1.blend",
+  "runtime": "assets/models/props/worn_gear_starter_v1.glb",
+  "builder": "tools/blender/build_worn_gear_starter_v1.py",
+  "proofDirectory": "scratchpad/worn_gear_starter_v1",
+  "conceptComparison": {
+    "image": "Bible_References/Complete/_compare/worn_gear_starter_v1_compare.png",
+    "codexClosenessScore": 9.1
+  },
+  "cardinalTurnaround": {
+    "blenderVerdict": "PASS 4/4",
+    "familySheet": "scratchpad/worn_gear_starter_v1/turnaround_sheet_family.png",
+    "perItem": "turnaround_gear_*_{north,south,east,west}.png banked for all six items"
+  },
+  "technical": {
+    "vertices": 1502,
+    "triangles": 2500,
+    "primitives": "7 consolidated runtime meshes",
+    "materials": 14,
+    "glbBytes": 217388
+  },
+  "integration": {
+    "runtime": "src/gear_models_v1.js",
+    "tierRecolor": "METALS[tier] onto CR_GEAR_METAL*, cached per material+tier",
+    "fallback": "procedural gearMesh preserved for unmapped models and any load failure"
+  }
+}

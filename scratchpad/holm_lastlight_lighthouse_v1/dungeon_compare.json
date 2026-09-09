@@ -1,0 +1,11 @@
+{
+  "name":"Lastlight Underkeep - Reference-led dungeon",
+  "subtitle":"Supplied lighthouse dungeon reference vs Blender-authored Underkeep",
+  "osrs":"Bible_References/Lighthouse_Dungeon.png",
+  "cr":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_south.png",
+  "codex":9.0,
+  "review_note":"The Underkeep carries the defining grey cavern, tidal water, moss, perimeter elevation, stalagmites, stalactites and a visible return ladder without copying the source layout.",
+  "verdict":"accepted as the first traversable Underkeep foundation",
+  "improve":"Expand the dungeon's quest and enemy purpose only after live traversal and visibility are proven.",
+  "out":"Bible_References/Complete/_compare/holm_lastlight_underkeep_v1_compare.png"
+}

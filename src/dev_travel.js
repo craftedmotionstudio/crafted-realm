@@ -5,7 +5,7 @@
  */
 var TestTravel=(function(){
   'use strict';
-  var STORAGE='cr_test_travel_bookmarks_v1',VERSION=4,panel=null,toggle=null,statusTimer=0;
+  var STORAGE='cr_test_travel_bookmarks_v1',VERSION=8,panel=null,toggle=null,statusTimer=0;
   var core=[
     {id:'holm_guide_apron',label:'Guide Hall — arrival apron',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_arrival',x:151,z:169,plane:0,zone:"Tutor's Holm"},
     {id:'holm_guide_interior',label:'Guide Hall — central aisle',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_arrival',x:151,z:162.5,plane:0,zone:"Tutor's Holm"},
@@ -13,9 +13,17 @@ var TestTravel=(function(){
     {id:'holm_workyard_hatch',label:'Survival Workyard — cellar hatch',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_arrival',x:110.35,z:153.35,plane:0,zone:"Tutor's Holm"},
     {id:'holm_workyard_waterworks',label:'Survival Workyard — water pulley',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_arrival',x:130.5,z:149.5,plane:0,zone:"Tutor's Holm"},
     {id:'holm_workyard_fishing',label:'Survival Workyard — fishing edge',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_arrival',x:131.7,z:151.1,plane:0,zone:"Tutor's Holm"},
+    {id:'holm_lastlight_base',label:'Lastlight Beacon — switchback base',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_lastlight_beacon',x:184,z:136,plane:0,zone:'Lastlight Approach'},
+    {id:'holm_lastlight_summit',label:'Lastlight Beacon — summit door',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_lastlight_beacon',x:196.5,z:124.5,plane:0,zone:'Lastlight Summit'},
+    {id:'holm_lastlight_stores',label:'Lastlight Beacon — level 1 stores',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_lastlight_beacon',x:196.5,z:117.4,plane:1,zone:'Lastlight Stores',requires:'holm_lastlight'},
+    {id:'holm_lastlight_keeper',label:"Lastlight Beacon — level 2 keeper's room",group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_lastlight_beacon',x:200.5,z:115.5,plane:2,zone:"Lastlight Keeper's Room",requires:'holm_lastlight'},
+    {id:'holm_lastlight_lantern',label:'Lastlight Beacon — level 3 lantern room',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_lastlight_beacon',x:192.7,z:115.5,plane:3,zone:'Lastlight Lantern Room',requires:'holm_lastlight'},
+    {id:'holm_lastlight_underkeep',label:'Lastlight Beacon — Underkeep dungeon',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_lastlight_beacon',x:408,z:428,plane:-2,zone:'Lastlight Underkeep',requires:'holm_lastlight'},
     {id:'holm_cavern_gate',label:'Training Cavern — Mine Gatehouse',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:128,z:124,plane:0,zone:"Tutor's Holm"},
     {id:'holm_cavern_entry',label:'Training Cavern — entry landing',group:'Training Cavern',provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:286,z:354,plane:-1,zone:'Training Cavern',requires:'holm_training_cavern'},
     {id:'holm_cavern_mining',label:'Training Cavern — copper rocks',group:'Training Cavern',provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:296,z:357,plane:-1,zone:'Training Cavern',requires:'holm_training_cavern'},
+    {id:'holm_cavern_tin',label:'Training Cavern — tin offshoot',group:'Training Cavern',provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:304,z:375,plane:-1,zone:'Training Cavern',requires:'holm_training_cavern'},
+    {id:'holm_cavern_clay',label:'Training Cavern — clay offshoot',group:'Training Cavern',provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:316,z:343,plane:-1,zone:'Training Cavern',requires:'holm_training_cavern'},
     {id:'holm_cavern_smithing',label:'Training Cavern — furnace and anvil',group:'Training Cavern',provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:303.5,z:361.5,plane:-1,zone:'Training Cavern',requires:'holm_training_cavern'},
     {id:'holm_cavern_exit',label:'Training Cavern — Combat Hall ladder',group:'Training Cavern',provider:'tutors-holm-v2',landmark:'holm_cave_gate',x:322,z:354,plane:-1,zone:'Training Cavern',requires:'holm_training_cavern'},
     {id:'holm_workyard_cellar',label:'Workyard basement — ladder landing',group:'Basements',provider:'tutors-holm-v2',landmark:'holm_arrival',x:325.95,z:302.47,plane:-1,zone:'Workyard Basement',requires:'holm_cellar'},
@@ -69,6 +77,11 @@ var TestTravel=(function(){
     var cy=y+camCtl.dist*Math.sin(camCtl.pitch);
     camera.position.set(cx,cy,cz);camera.lookAt(x,y+1.2,z);
   }
+  function prepareLandmarkCamera(entry){
+    if(!entry||entry.id.indexOf('holm_lastlight_')!==0||typeof camCtl==='undefined'||typeof HolmLastlightData==='undefined')return;
+    var center=HolmLastlightData.contract.center,dx=entry.x-center.x,dz=entry.z-center.z,len=Math.max(.001,Math.hypot(dx,dz));
+    camCtl.yaw=Math.atan2(dx/len,dz/len);camCtl.pitch=.70;camCtl.dist=16;
+  }
   function activateProvider(entry){
     if(entry.legacyOnly||!entry.provider||typeof WorldV2==='undefined'||typeof WorldTravel==='undefined') return;
     if(activeProvider()===entry.provider) return;
@@ -78,6 +91,11 @@ var TestTravel=(function(){
     WorldTravel.perform(entry.provider,landmark,{zoneLabel:entry.zone,arrivalMessage:'[TEST TRAVEL] Provider ready.'});
   }
   function ensureRoom(entry){
+    if(entry.requires==='holm_lastlight'){
+      if(typeof HolmLastlight==='undefined'||!HolmLastlight.snapshot().initialized)
+        return Promise.reject(new Error('Lastlight runtime is not available'));
+      return Promise.resolve(true);
+    }
     if(entry.requires==='holm_training_cavern'){
       if(typeof HolmTrainingCavern==='undefined'||!HolmTrainingCavern.snapshot().initialized)
         return Promise.reject(new Error('Training Cavern runtime is not available'));
@@ -95,7 +113,7 @@ var TestTravel=(function(){
     var y=plane===0?(typeof groundY==='function'?groundY(entry.x,entry.z):0):
       (typeof Planes!=='undefined'?Planes.elevAt(entry.x,entry.z,plane):null);
     if(!Number.isFinite(y)) throw new Error('no registered walkable floor exists at those coordinates');
-    resetPlayer();Player.plane=plane;player.position.set(entry.x,y,entry.z);
+    resetPlayer();Player.plane=plane;player.position.set(entry.x,y,entry.z);prepareLandmarkCamera(entry);
     if(typeof Planes!=='undefined'&&Planes.refreshVisibility) Planes.refreshVisibility();
     snapCamera(entry.x,y,entry.z);
     if(typeof drawMinimap==='function') drawMinimap();

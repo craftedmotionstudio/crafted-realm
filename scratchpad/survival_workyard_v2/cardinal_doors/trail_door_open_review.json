@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "asset": "Survival Workyard trail door - installed open pose",
+  "source": "assets/blender/holm_survival_workyard_v2.blend",
+  "pose": "open at -1.535 radians (87.95 degrees)",
+  "views": {
+    "north": {
+      "status": "PASS",
+      "notes": "Interior frame is continuous; leaf edge clears the wall and threshold."
+    },
+    "south": {
+      "status": "PASS",
+      "notes": "Exterior end posts and rails stop cleanly before the fitted jambs."
+    },
+    "east": {
+      "status": "PASS",
+      "notes": "Latch edge, sill, and adjacent facade remain separated without flicker."
+    },
+    "west": {
+      "status": "PASS",
+      "notes": "Hardware face stays attached and the open leaf clears the hinge-side timber."
+    }
+  },
+  "checks": {
+    "clipping": "PASS",
+    "floatingSupports": "PASS",
+    "wallAndFloorContact": "PASS",
+    "pivotAndOpenPose": "PASS",
+    "backsAndUndersides": "PASS",
+    "installedSilhouette": "PASS"
+  },
+  "verdict": "PASS"
+}

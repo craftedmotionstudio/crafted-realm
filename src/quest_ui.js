@@ -28,7 +28,7 @@ UI.refreshQuests = function(){
       <div style="font-size:10px;color:#9a8e78">${sub}</div>`;
     row.title='Click to open the quest journal';
     row.style.cursor='pointer';
-    row.onclick=()=>{ UI.questJournal(id); Sfx.click(); };
+    row.onclick=()=>{ (UI.openQuestDetail||UI.questJournal)(id); Sfx.click(); };
     el.appendChild(row);
   }
 };

@@ -1,7 +1,7 @@
 /* ============ tutorial_holm — the full guided Tutor's Holm station flow ============
  * Replaces Tutorial.steps wholesale with a world-arrow-guided, NPC-FREE station
- * tour: hatchet -> chop -> light -> fish -> cook -> bake bread -> climb down ->
- * mine -> smelt -> smith -> bank. Completion unlocks the departure boat; boarding
+ * tour: route chart -> hatchet -> chop -> light -> fish -> cook -> climb down ->
+ * mine copper -> mine tin -> smelt -> smith -> bank -> relight Lastlight. Completion unlocks the departure boat; boarding
  * performs the mainland transition and grants the starter inventory.
  *
  * Every step carries a {target,arrowLabel} so ui_guide_arrow.js paints a world
@@ -48,21 +48,12 @@
       if(have('fishing_net')<1) Player.addItem('fishing_net',1);
       UI.chat('Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net.','sys');
     }
-    // step 5 — the bread ingredients (ids confirmed in cooking_bread.js)
-    if(s.match==='bread' && !granted.bread){
-      granted.bread = 1;
-      if(have('dough')<1)        Player.addItem('dough',1);
-      if(have('bucket_flour')<1) Player.addItem('bucket_flour',1);
-      if(have('bucket_water')<1) Player.addItem('bucket_water',1);
-      UI.chat('The chef gives you a lump of dough, a bucket of flour and a bucket of water.','sys');
-    }
-    // step 7 — mining kit: a pickaxe, plus a tin ore so the copper you mine can
-    // become a BRONZE bar (SMELTS.bronze_bar needs copper_ore + tin_ore)
+    // Mining kit only. Tin must be mined in the north offshoot so the player
+    // learns both ore reads before combining them into bronze.
     if(s.match==='copper_ore' && !granted.mine){
       granted.mine = 1;
       if(have('pickaxe')<1 && Player.equip.weapon!=='pickaxe') Player.addItem('pickaxe',1);
-      if(have('tin_ore')<1) Player.addItem('tin_ore',1);
-      UI.chat('The miner lends you a bronze pickaxe and a lump of tin ore for the smelt.','sys');
+      UI.chat('The miner lends you a bronze pickaxe. Mine copper here, then find tin in the north offshoot.','sys');
     }
     // step 9 — a hammer for the anvil (the player smelts their own bar at step 8)
     if(s.match==='forged' && !granted.smith){
@@ -168,5 +159,5 @@
   Tutorial.step = 0;
   if(!Tutorial.complete){ try{ Tutorial.banner(); }catch(e){} }
 
-  console.log('[tutorial_holm] installed '+Tutorial.steps.length+'-step environment curriculum; release combat/magic lessons remain data-locked for the NPC phase');
+  console.log('[tutorial_holm] installed '+Tutorial.steps.length+'-step compact graduation route; kitchen, quest, and extended combat lessons remain optional');
 })();

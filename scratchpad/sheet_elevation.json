@@ -1,0 +1,11 @@
+{
+  "name": "Terrain Elevation — Tutor's Holm",
+  "osrs": "Bible_References/Elevation_Change_Ground_Tiles.jpg",
+  "cr":   "scratchpad/cr_holm_elevation.jpg",
+  "claude": 8.5,
+  "gemini": 3.0,
+  "gemini_note": "'much flatter; lacks the dramatic elevation + winding-path aesthetic.' Advisory only (noisy reviewer) BUT echoes a real gap — the game's fixed overhead camera flattens the shelf's perceived relief vs the reference's dramatic tilted hillside view.",
+  "verdict": "elements recreated; drama below ref",
+  "improve": "bolder/steeper OPEN grassy hillside + path over open slopes (less built-up plaza); ref reads more dramatic partly due to its tilted aerial angle vs our overhead play-camera",
+  "out": "Bible_References/Complete/_compare/Terrain_Elevation_compare.png"
+}

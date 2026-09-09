@@ -1,0 +1,27 @@
+{
+  "assetId": "holm_survival_workyard_cellar_v2",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 592312,
+    "triangles": 10242,
+    "primitives": 71,
+    "materials": 29
+  },
+  "authoringChecks": {
+    "fullyDesignedCellarSource": true,
+    "noPrimitiveOperatorsInCellarBuilder": true,
+    "allVisibleFurnishingsCustomMeshes": true,
+    "medievalWallTorchesClearOfShelving": true,
+    "torchAndHearthFlamePivotsAuthored": true,
+    "modeledRugBarrelsShelfBenchStoresAndHearth": true,
+    "tightPlanarFlagstonesOverVisibleMortar": true,
+    "ladderLeansAgainstWall": true,
+    "chestRunsParallelToSouthWall": true,
+    "ambiguousHotDogPlaceholdersRemoved": true,
+    "semanticLadderChestAndFlamesPreserved": true,
+    "fiveViewProofPacket": true,
+    "modeledReserveChestIconRenderedFromSource": true
+  },
+  "errors": []
+}

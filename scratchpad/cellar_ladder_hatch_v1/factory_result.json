@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 2,
+  "assetId": "cellar_ladder_hatch_v1",
+  "passed": true,
+  "pipeline": {
+    "assetId": "cellar_ladder_hatch_v1",
+    "schemaVersion": 1,
+    "passed": true,
+    "metrics": {
+      "fileBytes": 129468,
+      "triangles": 2336,
+      "primitives": 16,
+      "materials": 9
+    },
+    "animations": [],
+    "authoringChecks": {
+      "ownerStandardNanoBananaReference": true,
+      "noPrimitiveOperatorsUsedForVisibleAsset": true,
+      "customAssetSpecificTopology": true,
+      "exactlySevenHandSpacedRungs": true,
+      "separateSemanticRoots": true,
+      "controlledFlatShading": true,
+      "sixViewProofPacket": true,
+      "runtimeGroupedBySemanticObject": true,
+      "humanScaleLocked": true,
+      "trueRecessedDescent": true
+    },
+    "scaleChecks": [
+      {
+        "label": "family width",
+        "value": 1.57,
+        "min": 1.15,
+        "max": 1.75,
+        "passed": true
+      },
+      {
+        "label": "family depth",
+        "value": 1.039,
+        "min": 0.55,
+        "max": 1.1,
+        "passed": true
+      },
+      {
+        "label": "family height",
+        "value": 2.644,
+        "min": 2.2,
+        "max": 2.65,
+        "passed": true
+      },
+      {
+        "label": "ladder rail height",
+        "value": 2.256,
+        "min": 2.15,
+        "max": 2.55,
+        "passed": true
+      },
+      {
+        "label": "clear rung width",
+        "value": 0.6,
+        "min": 0.5,
+        "max": 0.72,
+        "passed": true
+      },
+      {
+        "label": "rung spacing",
+        "value": 0.3,
+        "min": 0.25,
+        "max": 0.34,
+        "passed": true
+      },
+      {
+        "label": "descent visual depth",
+        "value": 0.3,
+        "min": 0.3,
+        "max": 0.7,
+        "passed": true
+      }
+    ],
+    "errors": []
+  },
+  "factoryChecks": [
+    {
+      "label": "concept image",
+      "passed": true,
+      "path": "docs/rebuild/concepts/cellar_ladder_hatch_nanobanana2_v2.png"
+    },
+    {
+      "label": "concept prompt",
+      "passed": true,
+      "path": "docs/rebuild/concepts/cellar_ladder_hatch_nanobanana2_v2.prompt.md"
+    },
+    {
+      "label": "catalog",
+      "passed": true,
+      "path": "assets/catalogs/cellar_ladder_hatch_v1.json"
+    },
+    {
+      "label": "concept comparison score",
+      "value": 9.1,
+      "minimum": 9.0,
+      "passed": true
+    },
+    {
+      "label": "family width",
+      "value": 1.57,
+      "min": 1.15,
+      "max": 1.75,
+      "passed": true
+    },
+    {
+      "label": "family depth",
+      "value": 1.039,
+      "min": 0.55,
+      "max": 1.1,
+      "passed": true
+    },
+    {
+      "label": "family height",
+      "value": 2.644,
+      "min": 2.2,
+      "max": 2.65,
+      "passed": true
+    },
+    {
+      "label": "ladder rail height",
+      "value": 2.256,
+      "min": 2.15,
+      "max": 2.55,
+      "passed": true
+    },
+    {
+      "label": "clear rung width",
+      "value": 0.6,
+      "min": 0.5,
+      "max": 0.72,
+      "passed": true
+    },
+    {
+      "label": "rung spacing",
+      "value": 0.3,
+      "min": 0.25,
+      "max": 0.34,
+      "passed": true
+    },
+    {
+      "label": "descent visual depth",
+      "value": 0.3,
+      "min": 0.3,
+      "max": 0.7,
+      "passed": true
+    },
+    {
+      "label": "catalog assetId",
+      "value": "cellar_ladder_hatch_v1",
+      "expected": "cellar_ladder_hatch_v1",
+      "passed": true
+    },
+    {
+      "label": "catalog source",
+      "value": "assets/blender/props/cellar_ladder_hatch_v1.blend",
+      "expected": "assets/blender/props/cellar_ladder_hatch_v1.blend",
+      "passed": true
+    },
+    {
+      "label": "catalog runtime",
+      "value": "assets/models/props/cellar_ladder_hatch_v1.glb",
+      "expected": "assets/models/props/cellar_ladder_hatch_v1.glb",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/cellar_ladder_hatch_v1/07_in_game_surface.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/cellar_ladder_hatch_v1/08_in_game_cellar_real_climb.png",
+      "passed": true
+    }
+  ],
+  "nextStage": "next basement asset under the same scale-first factory gate"
+}

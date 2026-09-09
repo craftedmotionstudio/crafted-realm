@@ -1,0 +1,11 @@
+{
+  "name": "Training Cavern — True Excavation Depth",
+  "subtitle": "OSRS tutorial-mine reference vs live Crafted Realms gameplay camera",
+  "osrs": "Bible_References/Tutorial_Island_Mining_Cave_&_Mining_Rocks.jpg",
+  "cr": "scratchpad/holm_training_cavern_v1/live_true_depth_accepted.png",
+  "codex": 9.1,
+  "review_note": "The cave floor is now a genuine triangulated heightfield: protected lesson routes remain readable, the earth between them sinks roughly one third of a tile, and irregular perimeter shoulders rise more than half a tile. The underground tile overlay is disabled so it cannot flatten the relief visually.",
+  "verdict": "accepted as the true-depth foundation for the Tutor's Holm training cavern",
+  "improve": "Continue with restrained dust, ore-impact, depletion, and respawn feedback; do not replace the relief with color-only facets or block cardinal movement routes.",
+  "out": "Bible_References/Complete/_compare/Training_Cavern_v3_compare.png"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 QuestScrollScreen",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_QuestScrollScreen.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/quests.png",
+  "codex": 8.7,
+  "review_note": "The journal direction is coherent, but the full parchment quest-detail scroll remains a banked follow-up.",
+  "verdict": "banked detail-screen follow-up",
+  "improve": "Add a dedicated parchment quest-detail modal with illustrated reward and requirement blocks.",
+  "out": "Bible_References/Complete/_compare/UI_QuestScrollScreen_v2_compare.png"
+}

@@ -1,0 +1,15 @@
+{
+  "asset": "workyard_waterworks_u4_v1",
+  "object": "static dock shell (pulley family hidden)",
+  "date": "2026-07-15",
+  "lens": "Shared three-area-light rig, orthographic lens at gameplay pitch (~43 deg), ortho scale 10.6 identical across all four directions",
+  "auditCriteria": ["clipping", "floating piles", "floor/shore contact", "missing backs/undersides", "unsupported rails", "silhouette"],
+  "views": {
+    "north": {"verdict": "PASS", "notes": "Every rail rope lands on a post; every post lands on the deck with an iron peg; every pile carries a bearer. No orphaned geometry with the pulley hidden."},
+    "south": {"verdict": "PASS", "notes": "The two-tile deck and 1.8-tile clear lane read; shore entry, bank exit, corner work area, and the east fishing edge are all rail-free as contracted."},
+    "east": {"verdict": "PASS", "notes": "Turn-platform cross brace spans its corner piles; junction sills close both decking-direction seams; bank landing stones seat into the pad."},
+    "west": {"verdict": "PASS", "notes": "Shore threshold beam and foot stones make a believable dry landing; nothing overhangs unsupported."}
+  },
+  "defectsFoundAndFixed": [],
+  "verdict": "PASS"
+}

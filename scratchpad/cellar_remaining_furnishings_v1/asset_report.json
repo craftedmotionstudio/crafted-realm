@@ -1,0 +1,155 @@
+{
+  "asset": "cellar_remaining_furnishings_v1",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "blenderVersion": "4.5.10 LTS",
+  "source": "assets/blender/props/cellar_remaining_furnishings_v1.blend",
+  "model": "assets/models/props/cellar_remaining_furnishings_v1.glb",
+  "conceptTool": "Nano Banana 2 furnishing concepts plus built-in image generation for The Moonward Watch",
+  "familyDimensionsTiles": {
+    "storage_shelf": {
+      "width": 0.746,
+      "depth": 4.199,
+      "height": 2.424
+    },
+    "supply_barrel": {
+      "width": 0.792,
+      "depth": 0.771,
+      "height": 0.968
+    },
+    "lidded_crock": {
+      "width": 0.671,
+      "depth": 0.448,
+      "height": 0.755
+    },
+    "grain_sack": {
+      "width": 0.392,
+      "depth": 0.401,
+      "height": 0.543
+    },
+    "handled_basket": {
+      "width": 0.528,
+      "depth": 0.439,
+      "height": 0.518
+    },
+    "provision_table": {
+      "width": 3.62,
+      "depth": 0.989,
+      "height": 1.035
+    },
+    "root_basket": {
+      "width": 0.98,
+      "depth": 0.814,
+      "height": 0.465
+    },
+    "cutting_board_knife": {
+      "width": 1.512,
+      "depth": 0.577,
+      "height": 0.177
+    },
+    "aisle_rug": {
+      "width": 4.893,
+      "depth": 1.51,
+      "height": 0.054
+    },
+    "wall_picture": {
+      "width": 2.283,
+      "depth": 0.291,
+      "height": 1.565
+    },
+    "masonry_hearth": {
+      "width": 3.062,
+      "depth": 1.308,
+      "height": 3.289
+    }
+  },
+  "instanceCount": 17,
+  "visibleMeshObjects": 18,
+  "vertices": 6491,
+  "triangles": 11146,
+  "materials": [
+    "CR Cellar Basket Dark Willow",
+    "CR Cellar Basket Inner Wall",
+    "CR Cellar Basket Light Willow",
+    "CR Cellar Basket Willow",
+    "CR Cellar Basket Woven Floor",
+    "CR Cellar Crock Chip",
+    "CR Cellar Crock Cream",
+    "CR Cellar Crock Muted Blue",
+    "CR Cellar Firebox Recess",
+    "CR Cellar Firebox Return",
+    "CR Cellar Furnishing Aged Oak",
+    "CR Cellar Furnishing Charcoal Iron",
+    "CR Cellar Furnishing Oak Shadow",
+    "CR Cellar Furnishing Pale Edge",
+    "CR Cellar Furnishing Recess",
+    "CR Cellar Furnishing Worn Iron",
+    "CR Cellar Furnishing Worn Oak",
+    "CR Cellar Hearth Brush Bristle",
+    "CR Cellar Hearth Coal",
+    "CR Cellar Hearth Ember",
+    "CR Cellar Hearth Fieldstone",
+    "CR Cellar Hearth Flame",
+    "CR Cellar Hearth Flame Core",
+    "CR Cellar Hearth Soot",
+    "CR Cellar Hearth Stone Edge",
+    "CR Cellar Hearth Stone Shadow",
+    "CR Cellar Pixel Watchtower Painting",
+    "CR Cellar Root Carrot",
+    "CR Cellar Root Greens",
+    "CR Cellar Root Onion",
+    "CR Cellar Root Turnip",
+    "CR Cellar Runner Deep Blue",
+    "CR Cellar Runner Madder",
+    "CR Cellar Runner Ochre",
+    "CR Cellar Runner Wool",
+    "CR Cellar Sack Flax",
+    "CR Cellar Sack Patch",
+    "CR Cellar Sack Shadow"
+  ],
+  "animations": [
+    "Hearth_Flame"
+  ],
+  "humanScaleContract": {
+    "standingPlayerHeight": 1.9,
+    "tableHeight": 1.035,
+    "shelfHeight": 2.424,
+    "barrelHeight": 0.968,
+    "hearthHeight": 3.289
+  },
+  "proofViews": [
+    "00_room_scale",
+    "storage_shelf",
+    "supply_barrel",
+    "lidded_crock",
+    "grain_sack",
+    "handled_basket",
+    "provision_table",
+    "root_basket",
+    "cutting_board_knife",
+    "aisle_rug",
+    "wall_picture",
+    "masonry_hearth",
+    "11_room_wireframe"
+  ],
+  "checks": {
+    "elevenReviewFamilies": true,
+    "semanticInstanceRoots": true,
+    "purposefulInteractions": true,
+    "slowAnimatedHearth": true,
+    "hearthLoopFrames": true,
+    "singleMasonryHearth": true,
+    "singleFramedPixelPicture": true,
+    "pixelArtTexturePacked": true,
+    "openBasketInteriors": true,
+    "produceNestedBelowBasketRim": true,
+    "fullArchedFireboxCavity": true,
+    "barrelsClearHearthTools": true,
+    "shelfContentsClearEveryBoard": true,
+    "customTopologyProof": true,
+    "noPrimitiveOperatorsUsed": true,
+    "runtimeGroupedPerObject": true,
+    "allProofsBanked": true
+  },
+  "status": "item-by-item Blender review candidate"
+}

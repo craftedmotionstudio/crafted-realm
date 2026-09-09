@@ -1,0 +1,13 @@
+{
+  "name": "Storm Reserve Chest v1 — Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/workyard_cellar_chest_nanobanana2_v1.png",
+  "cr": "scratchpad/cellar_reserve_chest_v1/01_shaded.png",
+  "left_label": "APPROVED NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Owner-approved concept  vs  editable Blender source render",
+  "codex": 9.1,
+  "review_note": "The Blender asset now preserves the concept's squat arched silhouette, broad low-poly planes, muted oak palette, two forged lid straps, oversized readable lock hierarchy, side handle and sturdy feet. Its authored plank segmentation adds game-ready construction detail without changing the approved visual identity.",
+  "verdict": "APPROVED FOR GAME INTEGRATION",
+  "improve": "Live-verified: readable at the gameplay camera, flush to the south wall, facing the room, and opening/closing cleanly. Preserve this broad shape language; do not add finer surface noise.",
+  "out": "Bible_References/Complete/_compare/cellar_reserve_chest_v1_concept_compare.png"
+}

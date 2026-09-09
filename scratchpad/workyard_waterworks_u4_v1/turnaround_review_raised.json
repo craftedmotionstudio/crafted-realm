@@ -1,0 +1,20 @@
+{
+  "asset": "workyard_waterworks_u4_v1",
+  "object": "complete dock + pulley station, raised/resting pose",
+  "date": "2026-07-15",
+  "lens": "Shared three-area-light rig, orthographic lens at gameplay pitch (~43 deg), ortho scale 10.6 identical across all four directions",
+  "auditCriteria": ["clipping", "floating piles/ropes", "floor/shore contact", "missing backs/undersides", "unsupported rails", "silhouette"],
+  "views": {
+    "north": {"verdict": "PASS", "notes": "Back faces fully modeled; both rope rails sag between posts onto real post tops; piles and waterline sleeves descend into the water; shore and bank pads meet the thresholds flush."},
+    "south": {"verdict": "PASS", "notes": "L silhouette unmistakable; plank ends read hand-cut with honest gaps over the bearers; crossed shore braces meet at the mid pile; nothing floats."},
+    "east": {"verdict": "PASS", "notes": "Bank-span end face reads plank-by-plank; bucket hangs on the taut fall rope beside (never over) the set-down ledge; crank outboard of the crossbeam; proud corner bollards capped."},
+    "west": {"verdict": "PASS", "notes": "Shore entry open with no rail crossing the lane; stones half-buried at the contact; below-deck bearers, braces, and pile pairs all connect."}
+  },
+  "defectsFoundAndFixed": [
+    "The bucket set-down ledge originally sat directly in the drop line and the lowering bucket clipped straight through it; the ledge was rebuilt east of the fall rope beside the crank.",
+    "The bucket interior cylinder capped almost flush with the rim and read as a closed lid; rebuilt as a recessed shadowed wall with a visible warm floor a quarter-tile down.",
+    "Bucket staves were too gappy (cage read); widened to overlap.",
+    "Deck seams at both plank-direction turns showed open gaps; closed with structural junction sills."
+  ],
+  "verdict": "PASS"
+}

@@ -1,0 +1,7 @@
+{
+  "name":"Lastlight Underkeep - Cardinal Audit",
+  "views":{"north":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_north.png","south":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_south.png","east":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_east.png","west":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_west.png"},
+  "review":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_review.json",
+  "note":"Wet grey dungeon with tidal water, moss and genuine geological depth",
+  "out":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_cardinal_sheet.png"
+}

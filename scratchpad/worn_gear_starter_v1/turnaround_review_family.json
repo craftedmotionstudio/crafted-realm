@@ -1,0 +1,11 @@
+{
+  "asset": "worn_gear_starter_v1",
+  "verdict": "PASS",
+  "views": {
+    "north": "PASS - rear of the display row: shield back shows the authored handle and cross brace, bow string clears the stave, no floating or missing parts",
+    "south": "PASS - concept-facing view: all six silhouettes complete (bearded hatchet, crescent pick, fullered sword, leaf dagger, recurved stave, riveted plank shield), every contact authored",
+    "east": "PASS - down-axis view: sword face-on with fuller/guard/banded grip reading correctly, items upright, no interpenetration artifacts beyond the intended row overlap",
+    "west": "PASS - opposite down-axis view: dagger and blade profiles clean, grips and pommel silhouettes read, no stray geometry"
+  },
+  "note": "Identical lighting rig, ortho lens, and framing scale across all four cardinal directions; per-item 4-view turnarounds additionally banked as turnaround_gear_*_{n,s,e,w}.png"
+}

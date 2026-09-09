@@ -1,0 +1,303 @@
+Blender 4.5.10 LTS (hash 6dc0b208d1b5 built 2026-05-19 01:33:42)
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.69 | Rendering 1 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.75 | Rendering 25 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.80 | Rendering 50 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.83 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\01_front.png'
+Time: 00:01.04 (Saving: 00:00.17)
+
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.13 | Rendering 25 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.19 | Rendering 50 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.22 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\02_rear.png'
+Time: 00:00.32 (Saving: 00:00.07)
+
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.12 | Rendering 25 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.17 | Rendering 50 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.20 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\03_side.png'
+Time: 00:00.30 (Saving: 00:00.07)
+
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.14 | Rendering 25 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.22 | Rendering 50 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.25 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\04_three_quarter.png'
+Time: 00:00.36 (Saving: 00:00.08)
+
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.23 | Rendering 50 / 64 samples
+Fra:1 Mem:70.50M (Peak 70.50M) | Time:00:00.27 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\05_gameplay_camera.png'
+Time: 00:00.38 (Saving: 00:00.08)
+
+Fra:1 Mem:70.01M (Peak 70.01M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:70.01M (Peak 70.01M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:70.01M (Peak 70.01M) | Time:00:00.24 | Rendering 50 / 64 samples
+Fra:1 Mem:70.01M (Peak 70.01M) | Time:00:00.29 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\06_tools_closeup.png'
+Time: 00:00.39 (Saving: 00:00.08)
+
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.24 | Rendering 50 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.29 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\07_blades_closeup.png'
+Time: 00:00.40 (Saving: 00:00.08)
+
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.24 | Rendering 50 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.28 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\08_bow_shield_closeup.png'
+Time: 00:00.40 (Saving: 00:00.08)
+
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_family_north.png'
+Time: 00:00.42 (Saving: 00:00.08)
+
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_family_south.png'
+Time: 00:00.42 (Saving: 00:00.08)
+
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.18 | Rendering 25 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.29 | Rendering 50 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.35 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_family_east.png'
+Time: 00:00.45 (Saving: 00:00.08)
+
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:70.00M (Peak 70.00M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_family_west.png'
+Time: 00:00.45 (Saving: 00:00.09)
+
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.17 | Rendering 25 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.28 | Rendering 50 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.34 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_hatchet_north.png'
+Time: 00:00.46 (Saving: 00:00.09)
+
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_hatchet_south.png'
+Time: 00:00.44 (Saving: 00:00.08)
+
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.25 | Rendering 50 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_hatchet_east.png'
+Time: 00:00.42 (Saving: 00:00.08)
+
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.25 | Rendering 50 / 64 samples
+Fra:1 Mem:65.56M (Peak 65.56M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_hatchet_west.png'
+Time: 00:00.43 (Saving: 00:00.09)
+
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.32 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_pickaxe_north.png'
+Time: 00:00.42 (Saving: 00:00.07)
+
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.05 | Rendering 1 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.14 | Rendering 25 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.25 | Rendering 50 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_pickaxe_south.png'
+Time: 00:00.42 (Saving: 00:00.08)
+
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.05 | Rendering 1 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.25 | Rendering 50 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_pickaxe_east.png'
+Time: 00:00.41 (Saving: 00:00.08)
+
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.12 | Rendering 1 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.21 | Rendering 25 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.31 | Rendering 50 / 64 samples
+Fra:1 Mem:65.42M (Peak 65.42M) | Time:00:00.37 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_pickaxe_west.png'
+Time: 00:00.48 (Saving: 00:00.08)
+
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.17 | Rendering 25 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.28 | Rendering 50 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.34 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_sword_north.png'
+Time: 00:00.46 (Saving: 00:00.09)
+
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_sword_south.png'
+Time: 00:00.44 (Saving: 00:00.08)
+
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.17 | Rendering 25 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_sword_east.png'
+Time: 00:00.44 (Saving: 00:00.08)
+
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:65.65M (Peak 65.65M) | Time:00:00.32 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_sword_west.png'
+Time: 00:00.43 (Saving: 00:00.08)
+
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.17 | Rendering 25 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_dagger_north.png'
+Time: 00:00.44 (Saving: 00:00.08)
+
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_dagger_south.png'
+Time: 00:00.44 (Saving: 00:00.08)
+
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.17 | Rendering 25 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_dagger_east.png'
+Time: 00:00.45 (Saving: 00:00.08)
+
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:65.58M (Peak 65.58M) | Time:00:00.32 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_dagger_west.png'
+Time: 00:00.43 (Saving: 00:00.08)
+
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.25 | Rendering 50 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_shortbow_north.png'
+Time: 00:00.43 (Saving: 00:00.08)
+
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_shortbow_south.png'
+Time: 00:00.44 (Saving: 00:00.08)
+
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_shortbow_east.png'
+Time: 00:00.45 (Saving: 00:00.09)
+
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:65.69M (Peak 65.69M) | Time:00:00.32 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_shortbow_west.png'
+Time: 00:00.43 (Saving: 00:00.08)
+
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.32 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_shield_north.png'
+Time: 00:00.43 (Saving: 00:00.08)
+
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_shield_south.png'
+Time: 00:00.43 (Saving: 00:00.08)
+
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.17 | Rendering 25 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.28 | Rendering 50 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.34 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_shield_east.png'
+Time: 00:00.45 (Saving: 00:00.08)
+
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.17 | Rendering 25 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:66.90M (Peak 66.90M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_shield_west.png'
+Time: 00:00.44 (Saving: 00:00.08)
+
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.25 | Rendering 50 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_helm_north.png'
+Time: 00:00.42 (Saving: 00:00.09)
+
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.16 | Rendering 25 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_helm_south.png'
+Time: 00:00.45 (Saving: 00:00.09)
+
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.06 | Rendering 1 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_helm_east.png'
+Time: 00:00.42 (Saving: 00:00.08)
+
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.05 | Rendering 1 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.14 | Rendering 25 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.25 | Rendering 50 / 64 samples
+Fra:1 Mem:65.60M (Peak 65.60M) | Time:00:00.30 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\worn_gear_starter_v1\turnaround_gear_helm_west.png'
+Time: 00:00.41 (Saving: 00:00.08)
+
+Info: Saved as "worn_gear_starter_v1.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 4.5\4.5\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+21:22:43 | INFO: Starting glTF 2.0 export
+21:22:43 | INFO: Extracting primitive: GeardaggerRuntimeMeshMesh
+21:22:43 | INFO: Primitives created: 5
+21:22:43 | INFO: Extracting primitive: GearhatchetRuntimeMeshMesh
+21:22:43 | INFO: Primitives created: 7
+21:22:43 | INFO: Extracting primitive: GearhelmRuntimeMeshMesh
+21:22:43 | INFO: Primitives created: 3
+21:22:43 | INFO: Extracting primitive: GearpickaxeRuntimeMeshMesh
+21:22:43 | INFO: Primitives created: 5
+21:22:43 | INFO: Extracting primitive: GearshieldRuntimeMeshMesh
+21:22:43 | INFO: Primitives created: 6
+21:22:43 | INFO: Extracting primitive: GearshortbowRuntimeMeshMesh
+21:22:43 | INFO: Primitives created: 5
+21:22:43 | INFO: Extracting primitive: GearswordRuntimeMeshMesh
+21:22:43 | INFO: Primitives created: 5
+21:22:43 | INFO: Finished glTF 2.0 export in 0.038362979888916016 s
+
+WORN_GEAR_STARTER_V1 {"asset": "worn_gear_starter_v1", "pipelineVersion": 1, "unitsPerTile": 1, "blenderVersion": "4.5.10 LTS", "source": "assets/blender/props/worn_gear_starter_v1.blend", "model": "assets/models/props/worn_gear_starter_v1.glb", "conceptTool": "Gemini / Nano Banana 2", "visibleMeshObjects": 7, "vertices": 1470, "triangles": 2500, "materials": ["CR Gear Bow String", "CR Gear Endgrain", "CR Gear Haft Oak", "CR Gear Haft Oak Dark", "CR Gear Leather", "CR Gear Leather Dark", "CR Gear Shield Iron", "CR Gear Shield Plank A", "CR Gear Shield Plank B", "CR Gear Shield Plank C", "CR Workyard Iron Highlight", "CR_GEAR_METAL", "CR_GEAR_METAL_DARK", "CR_GEAR_METAL_EDGE"], "animations": [], "dimensionsTiles": {"width": 4.408, "depth": 0.468, "height": 1.107}, "humanScaleContract": {"standingPlayerHeight": 1.85, "swordOverallLength": 1.095, "hatchetOverallLength": 0.702, "pickaxeHeadSpan": 0.554, "daggerOverallLength": 0.503, "shortbowHeight": 0.955, "shieldDiameter": 0.661, "helmWidth": 0.468, "helmHeight": 0.354, "gripRadiusMax": 0.042}, "proofViews": ["01_front", "02_rear", "03_side", "04_three_quarter", "05_gameplay_camera", "06_tools_closeup", "07_blades_closeup", "08_bow_shield_closeup", "turnaround_gear_hatchet_north", "turnaround_gear_hatchet_south", "turnaround_gear_hatchet_east", "turnaround_gear_hatchet_west", "turnaround_gear_pickaxe_north", "turnaround_gear_pickaxe_south", "turnaround_gear_pickaxe_east", "turnaround_gear_pickaxe_west", "turnaround_gear_sword_north", "turnaround_gear_sword_south", "turnaround_gear_sword_east", "turnaround_gear_sword_west", "turnaround_gear_dagger_north", "turnaround_gear_dagger_south", "turnaround_gear_dagger_east", "turnaround_gear_dagger_west", "turnaround_gear_shortbow_north", "turnaround_gear_shortbow_south", "turnaround_gear_shortbow_east", "turnaround_gear_shortbow_west", "turnaround_gear_shield_north", "turnaround_gear_shield_south", "turnaround_gear_shield_east", "turnaround_gear_shield_west", "turnaround_gear_helm_north", "turnaround_gear_helm_south", "turnaround_gear_helm_east", "turnaround_gear_helm_west"], "checks": {"nanoBananaReferenceBoardBanked": true, "customAssetSpecificTopology": true, "allSemanticRootsAuthored": true, "gripOriginContract": true, "forgedHeadsAreDrawnProfiles": true, "bladesCarryFullerAndEdges": true, "gripsAreWrapped": true, "bowIsWornSingleStave": true, "helmIsForgedCap": true, "shieldIsPlankBuilt": true, "tierRecolorMaterialsNamed": true, "controlledFlatShading": true, "eightViewProofPacket": true, "twentyFourCardinalTurnaroundsBanked": true}, "status": "Blender-authored family ready for comparison and integration"}
+
+Blender quit

@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 Inventory1",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_Inventory1.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/inv.png",
+  "codex": 9.2,
+  "review_note": "The four-column recessed pack field and authored item sprites closely match the reference information density.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_Inventory1_v2_compare.png"
+}

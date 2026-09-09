@@ -89,7 +89,8 @@ var CRMinimap=(function(){
   function updateCacheKey(){
     var p=provider(), tx=player.position.x, tz=player.position.z;
     var ccx=Math.floor(tx/8), ccz=Math.floor(tz/8);
-    var key=(p?p.id:'legacy')+':'+(p?p.worldRevision:0)+':'+ccx+','+ccz;
+    var plane=(typeof Player!=='undefined'&&Player.plane)||0;
+    var key=(p?p.id:'legacy')+':'+(p?p.worldRevision:0)+':p'+plane+':'+ccx+','+ccz;
     if(key===cache.key){ telemetry.staticCacheHits++; return false; }
     cache.key=key; cache.cx=ccx*8+4; cache.cz=ccz*8+4; cache.markerSignature='';
     telemetry.cacheKey=key; return true;
@@ -103,9 +104,30 @@ var CRMinimap=(function(){
     var b=(typeof gridBiome==='function')?gridBiome(x,z):'grass';
     return BCOL[b]||'#4d6b35';
   }
+  function buildLastlightFloorMap(ctx){
+    if(typeof HolmLastlightData==='undefined'||typeof Player==='undefined')return false;
+    var c=HolmLastlightData.contract,p=Player.plane||0,level=c.levels.filter(function(l){return l.plane===p;})[0],cp=worldToCache(c.center.x,c.center.z);
+    if(level){
+      ctx.fillStyle='#1b2831';ctx.fillRect(0,0,CACHE,CACHE);
+      ctx.fillStyle='#76512d';ctx.strokeStyle='#e0d8bd';ctx.lineWidth=5;ctx.beginPath();ctx.arc(cp.x,cp.y,8.9*SCALE,0,Math.PI*2);ctx.fill();ctx.stroke();
+      ctx.strokeStyle='#3b2616';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cp.x,cp.y,7.9*SCALE,0,Math.PI*2);ctx.stroke();
+      function socket(pos,color){if(!pos)return;var q=worldToCache(pos.x,pos.z);ctx.fillStyle=color;ctx.fillRect(q.x-3,q.y-3,6,6);ctx.strokeStyle='#1a1208';ctx.strokeRect(q.x-3,q.y-3,6,6);}
+      socket(level.down,'#f0d36b');socket(level.up,'#f0d36b');if(p===c.trapdoor.plane)socket(c.trapdoor,'#c87632');if(p===c.beacon.plane)socket(c.beacon.lever,'#dc4037');return true;
+    }
+    if(p===c.dungeon.plane){
+      ctx.fillStyle='#18242a';ctx.fillRect(0,0,CACHE,CACHE);var d=c.dungeon,pts=[[-18.5,-9],[-14.8,-13.8],[-7.5,-15],[1,-14.4],[9.8,-13],[16.8,-9.2],[19,-2],[18.2,6.2],[13,12.8],[5.8,14.8],[-2.8,14.2],[-11.2,12],[-17.2,6],[-19,-1.5]];
+      ctx.fillStyle='#5f655f';ctx.strokeStyle='#c5c9bb';ctx.lineWidth=3;ctx.beginPath();pts.forEach(function(v,i){var q=worldToCache(d.center.x+v[0],d.center.z+v[1]);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);});ctx.closePath();ctx.fill();ctx.stroke();
+      ctx.fillStyle='#2b8585';ctx.beginPath();[[-1,-5.2],[4.5,-8],[11.8,-6.8],[14.2,-1.4],[12.8,4.8],[7,7],[1,5.5],[-2.8,1.2]].forEach(function(v,i){var q=worldToCache(d.center.x+v[0],d.center.z+v[1]);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);});ctx.closePath();ctx.fill();
+      var l=worldToCache(d.ladder.x,d.ladder.z);ctx.fillStyle='#f0d36b';ctx.fillRect(l.x-3,l.y-3,6,6);return true;
+    }
+    return false;
+  }
   function buildStatic(){
     var t=performance.now(), ctx=staticCanvas.getContext('2d'), half=CACHE/(2*SCALE);
     ctx.clearRect(0,0,CACHE,CACHE); ctx.fillStyle='#2c4a66'; ctx.fillRect(0,0,CACHE,CACHE);
+    if(buildLastlightFloorMap(ctx)){
+      var interiorMs=elapsed(t);telemetry.staticBuilds++;telemetry.lastStaticMs=interiorMs;telemetry.maxStaticMs=Math.max(telemetry.maxStaticMs,interiorMs);return;
+    }
     for(var z=cache.cz-half;z<cache.cz+half;z+=SAMPLE){
       for(var x=cache.cx-half;x<cache.cx+half;x+=SAMPLE){
         ctx.fillStyle=terrainColor(x+SAMPLE/2,z+SAMPLE/2);

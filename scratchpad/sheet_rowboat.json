@@ -1,0 +1,5 @@
+{ "name":"Rowboat", "osrs":"Bible_References/RowBoat.jpg", "cr":"scratchpad/cr_rowboat_f.jpg",
+  "claude":9.0, "gemini":7.9,
+  "gemini_note":"Clinker-planked hull (pointed bow/rounded stern), planked interior + spine, thwart seats, oarlock rings, crossed oars, two-tone warm wood - reads clearly as the reference boat. Gemini advisory.",
+  "verdict":"CLAUDE-EYE 9.0 - excellent", "improve":"mute the oar yellow toward wood-brown",
+  "out":"Bible_References/Complete/_compare/Rowboat_compare.png" }

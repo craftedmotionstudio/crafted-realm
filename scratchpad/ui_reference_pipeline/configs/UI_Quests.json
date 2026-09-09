@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 Quests",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_Quests.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/quests.png",
+  "codex": 9.0,
+  "review_note": "The journal provides a concise color-coded quest list in the same carved side-panel shell.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_Quests_v2_compare.png"
+}

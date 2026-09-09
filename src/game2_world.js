@@ -372,9 +372,15 @@ function buildTerrainPatch(cx, cz, sizeX, sizeZ, segsX, segsZ, options){
     // Paint them directly into the streamed terrain so they drape over hills
     // without floating path slabs or adding one object per tile.
     if(h>-0.8 && typeof HolmLandscape!=='undefined' && HolmLandscape.inEnvelope(x,z)){
-      const hd=HolmLandscape.pathDistance(x,z);
-      if(hd<1.55) c.setHex(0xc49a63);
-      else if(hd<2.65) c.lerp(new THREE.Color(0xc49a63),(2.65-hd)/1.1*0.72);
+      const hp=HolmLandscape.pathProfileAt?HolmLandscape.pathProfileAt(x,z):{id:null,distance:HolmLandscape.pathDistance(x,z)};
+      const hd=hp.distance;
+      // Lastlight must carry a character-scale procession and eventually read
+      // beside a broad lighthouse. Its authored 4.5-tile half-width is painted
+      // as a real road rather than the narrow generic trail treatment.
+      const core=hp.id==='lastlight_switchback'?2.65:1.55;
+      const margin=hp.id==='lastlight_switchback'?4.15:2.65;
+      if(hd<core) c.setHex(0xc49a63);
+      else if(hd<margin) c.lerp(new THREE.Color(0xc49a63),(margin-hd)/(margin-core)*0.72);
     }
     const hd = Math.hypot(x-HOLM_POND.x, z-HOLM_POND.z);
     if(hd<HOLM_POND.r+1.6 && hd>=HOLM_POND.r-0.4) c.setHex(0xd6c489);
@@ -865,6 +871,7 @@ function makeProcProp(x, z, d, rot){
 const ROCK_KINDS = {
   copper: {vein:0xc77b4a, item:'copper_ore', req:1,  xp:32, chat:'copper',    label:'Mine Copper rock'},
   tin:    {vein:0xb8bcc0, item:'tin_ore',    req:1,  xp:32, chat:'tin',       label:'Mine Tin rock'},
+  clay:   {vein:0xc4935d, item:'clay',       req:1,  xp:15, chat:'some clay', label:'Mine Clay rock'},
   iron:   {vein:0x8a4a3a, item:'iron_ore',   req:15, xp:46, chat:'iron',      label:'Mine Iron rock'},
   coal:   {vein:0x2a2a2e, item:'coal',       req:30, xp:62, chat:'some coal', label:'Mine Coal rock'},
 };
@@ -884,6 +891,7 @@ function _rockJitter(geo, amt){
   return geo;
 }
 function makeRock(x,z,kindId){
+  kindId=kindId||'copper';
   const kind = ROCK_KINDS[kindId||'copper'];
   const g = new THREE.Group();
   // seated dirt base + a few loose pebbles so the boulder sits in the ground
@@ -912,12 +920,17 @@ function makeRock(x,z,kindId){
     const fl=new THREE.Mesh(new THREE.OctahedronGeometry(0.07+Math.random()*0.04,0), veinMat);
     fl.position.set(Math.sin(b)*Math.cos(a)*0.82, Math.cos(b)*0.82, Math.sin(b)*Math.sin(a)*0.82);
     r.add(fl); }
+  const fallbackVisual=new THREE.Group();fallbackVisual.name='mining-rock-procedural-fallback';
+  while(g.children.length)fallbackVisual.add(g.children[0]);g.add(fallbackVisual);
   g.position.set(x, gy(x,z), z);
   g.rotation.y = Math.random()*6;
   g.userData = {kind:'resource', rtype:'rock', skill:'Mining',
     label:kind.label, respawn:10, alive:true,
-    mat:{item:kind.item, xp:kind.xp, req:kind.req, chat:kind.chat}};
+    oreKind:kindId,mat:{item:kind.item, xp:kind.xp, req:kind.req, chat:kind.chat}};
   scene.add(g); WORLD.clickables.push(g); WORLD.resources.push(g);
+  if((kindId==='tin'||kindId==='copper'||kindId==='clay')&&typeof MiningRockVisuals!=='undefined'&&MiningRockVisuals.attach){
+    MiningRockVisuals.attach(g,kindId,fallbackVisual);
+  }
   return g;
 }
 function makeFishSpot(x,z,y){
@@ -2285,7 +2298,20 @@ function tickSwing(g, dt){
   const ease = x => 1-Math.pow(1-x,3);          // ease-out: snap then settle
   const type = s.type||'slash';
   let armX=0, armZ=0, wrist=0, twist=0, lean=0, armLX=null;
-  if(type==='stab'){                 // cock the elbow, drive a straight thrust, lunge in
+  if(type==='mine'){                 // broad two-stage pick swing: lift, bite, and grounded recovery
+    if(f<0.46){ const e=ease(f/0.46); armX=-3.05*e; armZ=-.18*e; wrist=.34*e; lean=-.10*e; }
+    else if(f<0.68){ const e=ease((f-.46)/.22); armX=-3.05+3.62*e; armZ=-.18+.30*e; wrist=.34+.28*e; lean=-.10+.46*e; }
+    else { const k=(f-.68)/.32; armX=.57*(1-k);armZ=.12*(1-k);wrist=.62*(1-k);lean=.36*(1-k); }
+  } else if(type==='smith'){         // compact hammer strike, shorter and tighter than Mining
+    if(f<.38){const e=ease(f/.38);armX=-2.35*e;armZ=-.12*e;wrist=.24*e;lean=-.04*e;}
+    else if(f<.60){const e=ease((f-.38)/.22);armX=-2.35+2.82*e;wrist=.24+.40*e;lean=-.04+.30*e;}
+    else {const k=(f-.60)/.40;armX=.47*(1-k);wrist=.64*(1-k);lean=.26*(1-k);}
+  } else if(type==='smelt'){         // present ore with both hands, lean into the heat, withdraw
+    armLX=-1.18; armZ=-.08;
+    if(f<.38){const e=ease(f/.38);armX=-1.55*e;armLX=-1.18-.42*e;wrist=-.28*e;lean=.20*e;}
+    else if(f<.66){armX=-1.55;armLX=-1.60;wrist=-.28;lean=.20;}
+    else {const k=(f-.66)/.34;armX=-1.55*(1-k);armLX=-1.60*(1-k);wrist=-.28*(1-k);lean=.20*(1-k);}
+  } else if(type==='stab'){                 // cock the elbow, drive a straight thrust, lunge in
     if(f<0.30){ const k=f/0.30;            armX=-0.9*k;          wrist=-0.5*k;        lean=-0.10*k; }
     else if(f<0.52){ const e=ease((f-0.30)/0.22); armX=-0.9-0.7*e; wrist=-0.5+0.9*e;  lean=-0.10+0.45*e; }
     else { const k=(f-0.52)/0.48;          armX=-1.6*(1-k);      wrist=0.4*(1-k);     lean=0.35*(1-k); }
@@ -2462,9 +2488,14 @@ function tickDeath(g, dt){
 /* hold a weapon clear of the body: angled forward and out of the leg */
 function holdWeapon(grip, m, def){
   m.position.set(0.03,0,0.08);
-  if(def && def.model==='bow'){ m.rotation.z=Math.PI/2; m.rotation.y=Math.PI/2; m.position.set(0.02,0,0.1); }
+  /* top-100 equipped review 2026-07-17: idle holds matched to the OSRS reference —
+     bows hang near-vertical at the side (the old z/y=PI/2 laid the modelled bow
+     horizontal like a rifle); blades rest angled DOWN-forward instead of raised */
+  if(def && (def.model==='bow'||def.model==='longbow')){ m.rotation.x=0.15; m.rotation.z=0.08; m.position.set(0.02,0,0.1); }
   else if(def && def.model==='staff'){ m.rotation.x=0.18; m.position.set(0.03,0.05,0.1); }
-  else { m.rotation.x=0.95; m.rotation.z=0.1; }   // blade raised up-FORWARD (positive X tilts +Y toward +Z, the facing direction)
+  else if(def && def.model==='pick'){ m.rotation.x=0.18; m.rotation.z=-0.08; m.position.set(0.03,0.01,0.08); }
+  else if(def && (def.model==='axe'||def.model==='battleaxe')){ m.rotation.x=0.42; m.rotation.z=0.05; m.position.set(0.03,0.01,0.08); }
+  else { m.rotation.x=2.2; m.rotation.z=0.1; }
   grip.add(m);
   return m;
 }

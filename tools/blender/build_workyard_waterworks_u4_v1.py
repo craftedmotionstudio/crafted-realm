@@ -285,11 +285,32 @@ def render_packet(scene, camera, root, groups, animated, context, mats):
     player.location = (.55, -.10, 0)
 
 
-def consolidate_meshes(root, name, skip_roots=()):
+def dedupe_material_slots(obj):
+    """Collapse repeated references to the same material into one export slot."""
+    original = list(obj.data.materials)
+    unique, remap = [], {}
+    for index, material in enumerate(original):
+        try:
+            target = next(i for i, existing in enumerate(unique) if existing == material)
+        except StopIteration:
+            target = len(unique)
+            unique.append(material)
+        remap[index] = target
+    if len(unique) == len(original):
+        return
+    for polygon in obj.data.polygons:
+        polygon.material_index = remap[polygon.material_index]
+    obj.data.materials.clear()
+    for material in unique:
+        obj.data.materials.append(material)
+
+
+def consolidate_meshes(root, name, skip_roots=(), extra_meshes=()):
     skipped = set()
     for skip in skip_roots:
         skipped.update(descendants(skip))
     meshes = [obj for obj in descendants(root) if obj.type == "MESH" and obj not in skipped]
+    meshes.extend(obj for obj in extra_meshes if obj.type == "MESH" and obj not in meshes)
     if not meshes:
         return None
     bpy.ops.object.select_all(action="DESELECT")
@@ -303,14 +324,48 @@ def consolidate_meshes(root, name, skip_roots=()):
     active.matrix_world = world
     active.name = name
     active.data.name = name + "Mesh"
+    dedupe_material_slots(active)
     return active
 
 
+def remap_group_materials(root, replacements):
+    by_name = {material.name: material for material in bpy.data.materials}
+    for obj in descendants(root):
+        if obj.type != "MESH":
+            continue
+        for slot in obj.material_slots:
+            source = slot.material.name if slot.material else None
+            target = replacements.get(source)
+            if target:
+                slot.material = by_name[target]
+
+
+def optimize_runtime_materials(groups):
+    """Remove tiny highlight-only slots that do not read at the game camera."""
+    remap_group_materials(groups["pulley_frame"], {
+        "CR Workyard Fresh Cut": "CR Workyard Oak Worn",
+        "CR Workyard Iron Highlight": "CR Workyard Forged Iron",
+    })
+    remap_group_materials(groups["pulley_crank"], {
+        "CR Workyard Fresh Cut": "CR Workyard Oak Worn",
+    })
+    remap_group_materials(groups["pulley_bucket"], {
+        "CR Workyard Iron Highlight": "CR Workyard Forged Iron",
+    })
+
+
 def consolidate_family(groups):
-    consolidate_meshes(groups["dock_shore_span"], "DockShoreSpanRuntimeMesh")
-    consolidate_meshes(groups["dock_turn_platform"], "DockTurnPlatformRuntimeMesh")
-    consolidate_meshes(groups["dock_bank_span"], "DockBankSpanRuntimeMesh")
-    consolidate_meshes(groups["pulley_frame"], "PulleyFrameRuntimeMesh")
+    # The three spans are one static L-dock. Keep their semantic roots for the
+    # Studio/runtime contract, but export their visible geometry as one mesh so
+    # a shared oak/iron/stone material is paid for once rather than three times.
+    dock_meshes = [obj for key in ("dock_shore_span", "dock_turn_platform", "dock_bank_span")
+                   for obj in descendants(groups[key]) if obj.type == "MESH"]
+    consolidate_meshes(groups["dock_shore_span"], "DockCombinedRuntimeMesh",
+                       extra_meshes=dock_meshes)
+    rope_feed = next(obj for obj in descendants(groups["pulley_rope"])
+                     if obj.type == "MESH" and obj.name.split('.')[0] == "RopeFeed")
+    consolidate_meshes(groups["pulley_frame"], "PulleyFrameRuntimeMesh",
+                       extra_meshes=(rope_feed,))
     consolidate_meshes(groups["pulley_crank"], "PulleyCrankRuntimeMesh")
     consolidate_meshes(groups["pulley_bucket"], "PulleyBucketRuntimeMesh")
     # pulley_rope is intentionally NOT joined: RopeFall keeps its own animated
@@ -468,6 +523,7 @@ def main():
     groups = U.build_family(B, mats, asset_collection, root)
     authored_names = {obj.name.split('.')[0] for obj in descendants(root)}
     animated = U.author_animations(groups)
+    optimize_runtime_materials(groups)
     context = proof_context(mats, proof_collection)
     scene, camera = setup_scene(proof_collection)
     render_packet(scene, camera, root, groups, animated, context, mats)

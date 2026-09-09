@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 3,
+  "assetId": "holm_lastlight_lighthouse_v1",
+  "assetClass": "environment-building",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_holm_lastlight_lighthouse_v1.py",
+  "source": "assets/blender/environments/holm_lastlight_lighthouse_v1.blend",
+  "model": "assets/models/environments/holm_lastlight_lighthouse_v1.glb",
+  "authoringReport": "scratchpad/holm_lastlight_lighthouse_v1/asset_report.json",
+  "pipelineResult": "scratchpad/holm_lastlight_lighthouse_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/holm_lastlight_lighthouse_v1/lastlight_north.png",
+    "scratchpad/holm_lastlight_lighthouse_v1/lastlight_south.png",
+    "scratchpad/holm_lastlight_lighthouse_v1/lastlight_east.png",
+    "scratchpad/holm_lastlight_lighthouse_v1/lastlight_west.png",
+    "scratchpad/holm_lastlight_lighthouse_v1/lastlight_cardinal_sheet.png",
+    "scratchpad/holm_lastlight_lighthouse_v1/dungeon_cardinal_sheet.png",
+    "scratchpad/holm_lastlight_lighthouse_v1/floorplan_sheet.png",
+    "Bible_References/Complete/_compare/holm_lastlight_exterior_v3_compare.png",
+    "Bible_References/Complete/_compare/holm_lastlight_entrance_v3_compare.png",
+    "Bible_References/Complete/_compare/holm_lastlight_floormap_v3_compare.png",
+    "Bible_References/Complete/_compare/holm_lastlight_interior_v3_compare.png",
+    "Bible_References/Complete/_compare/holm_lastlight_interior2_v3_compare.png",
+    "Bible_References/Complete/_compare/holm_lastlight_dungeon_v3_compare.png"
+  ],
+  "requiredNodes": ["CR_Exterior", "CR_EntryDoor", "CR_Level1", "CR_Level2", "CR_Level3", "CR_Dungeon", "CR_L1_Up", "CR_L2_Down", "CR_L2_Up", "CR_L3_Down", "CR_Dungeon_Up", "CR_TrapdoorLid", "CR_BeaconLever", "BeaconFlame", "BeaconLensGlow"],
+  "requiredAnimations": [],
+  "budgets": {"maxFileBytes": 3000000, "maxTriangles": 50000, "maxPrimitives": 360, "maxMaterials": 52},
+  "scaleContract": {
+    "referenceHeightTiles": 1.9,
+    "checks": [
+      {"label":"complete width","reportPath":"dimensionsTiles.width","min":22.5,"max":23.5},
+      {"label":"complete depth","reportPath":"dimensionsTiles.depth","min":22.5,"max":23.5},
+      {"label":"tower height","reportPath":"dimensionsTiles.height","min":22.5,"max":24.5},
+      {"label":"door width","reportPath":"humanScaleContract.doorWidth","min":2.2,"max":2.7},
+      {"label":"door height","reportPath":"humanScaleContract.doorHeight","min":3.0,"max":3.4},
+      {"label":"clear interior diameter","reportPath":"humanScaleContract.interiorClearDiameter","min":17.5,"max":18.0},
+      {"label":"furnished level count","reportPath":"humanScaleContract.levelCount","min":3,"max":3},
+      {"label":"ladder transition count","reportPath":"humanScaleContract.ladderCount","min":2,"max":2},
+      {"label":"underkeep dungeon count","reportPath":"humanScaleContract.dungeonCount","min":1,"max":1},
+      {"label":"floor walk width","reportPath":"humanScaleContract.floorWalkWidth","min":12.5,"max":13.5},
+      {"label":"top walk width","reportPath":"humanScaleContract.topWalkWidth","min":10.0,"max":11.0}
+    ]
+  },
+  "cardinalProofs": [{
+    "label":"complete lighthouse exterior",
+    "views": {
+      "north":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_north.png",
+      "south":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_south.png",
+      "east":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_east.png",
+      "west":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_west.png"
+    },
+    "sheet":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_cardinal_sheet.png",
+    "review":"scratchpad/holm_lastlight_lighthouse_v1/turnaround_review.json"
+  },{
+    "label":"Underkeep dungeon",
+    "views": {
+      "north":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_north.png",
+      "south":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_south.png",
+      "east":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_east.png",
+      "west":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_west.png"
+    },
+    "sheet":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_cardinal_sheet.png",
+    "review":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_review.json"
+  }]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 Player Worn Inventory",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_Player_Worn_Inventory.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/equip.png",
+  "codex": 9.0,
+  "review_note": "Worn equipment has its own authored tab icon and body-slot preview surface.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_Player_Worn_Inventory_v2_compare.png"
+}

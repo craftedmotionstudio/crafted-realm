@@ -1,0 +1,11 @@
+{
+  "name": "Tutorial Island — Tutor's Holm",
+  "osrs": "Bible_References/A_Tutorial_Island_Option.jpg",
+  "cr":   "scratchpad/cr_tutorial_island.jpg",
+  "claude": 8.5,
+  "gemini": 8.0,
+  "gemini_note": "'successfully translates the core elements and low-poly aesthetic, though the island's exact contour and sandy coast differ.' Healthy agreement with Claude-eye — the tutorial island as a whole is a strong recreation.",
+  "verdict": "strong recreation; below 9.5 bar",
+  "improve": "add the ref's multi-level wooden bridge/stairs connector; a sparser/more-open start feel (ours is more built-up, 4 buildings vs the ref's one house); crisper sandy coastline contour",
+  "out": "Bible_References/Complete/_compare/Tutorial_Island_compare.png"
+}

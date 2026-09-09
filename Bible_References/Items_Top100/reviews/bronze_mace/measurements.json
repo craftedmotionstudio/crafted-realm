@@ -1,0 +1,10 @@
+{
+ "mesh": "gear_mace",
+ "itemSize": {
+  "x": 0.719,
+  "y": 0.538,
+  "z": 0.719
+ },
+ "avatarHeight": 2.31,
+ "errors": 0
+}

@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 OpenMiniMap",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_OpenMiniMap.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/inv.png",
+  "codex": 9.1,
+  "review_note": "The preserved circular minimap, compass, map control, and marker language remain the strongest HUD anchor.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_OpenMiniMap_v2_compare.png"
+}

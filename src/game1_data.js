@@ -13,6 +13,7 @@ const ITEMS = {
   logs:         {name:'Emberwood logs', stack:false, value:8},
   copper_ore:   {name:'Copper ore', stack:false, value:10},
   tin_ore:      {name:'Tin ore', stack:false, value:10},
+  clay:         {name:'Clay', stack:false, value:6, examine:'Soft mineral clay, ready to be worked.'},
   iron_ore:     {name:'Iron ore', stack:false, value:17},
   coal:         {name:'Coal', stack:false, value:25},
   bronze_bar:   {name:'Bronze bar', stack:false, value:18},
@@ -33,6 +34,48 @@ const ITEMS = {
   burnt_perch:  {name:'Burnt mirrorperch', stack:false, value:1, examine:'Cooked with confidence, not skill.'},
   hollow_ale:   {name:'Hollow ale', stack:false, value:4, heal:5},
 
+  /* ===== TOP-100 batch 1 (2026-07-17): missing common items — data layer only.
+     Gathering/crafting sources wire in through later content passes; missing
+     EQUIPMENT analogs (longsword, mace, chainbody…) wait for the modelled-gear
+     pass so they never ship with placeholder meshes. ===== */
+  ashes:       {name:'Ashes', stack:false, value:1, examine:'All that burning leaves behind.'},
+  chisel:      {name:'Chisel', stack:false, value:2, tool:true},
+  rope:        {name:'Rope', stack:false, value:18},
+  shears:      {name:'Shears', stack:false, value:2, tool:true},
+  spade:       {name:'Spade', stack:false, value:5, tool:true},
+  jug:         {name:'Jug', stack:false, value:1},
+  jug_water:   {name:'Jug of water', stack:false, value:1},
+  pot:         {name:'Pot', stack:false, value:1},
+  bowl:        {name:'Bowl', stack:false, value:4},
+  oak_logs:    {name:'Oak logs', stack:false, value:20},
+  willow_logs: {name:'Willow logs', stack:false, value:40},
+  soft_clay:   {name:'Soft clay', stack:false, value:8, examine:'Worked with water until it gives.'},
+  gold_ore:    {name:'Gold ore', stack:false, value:75},
+  gold_bar:    {name:'Gold bar', stack:false, value:110},
+  leather:     {name:'Leather', stack:false, value:6},
+  wool:        {name:'Wool', stack:false, value:2},
+  ball_of_wool:{name:'Ball of wool', stack:false, value:4},
+  flax:        {name:'Flax', stack:false, value:3},
+  bow_string:  {name:'Bow string', stack:false, value:12},
+  grain:       {name:'Grain', stack:false, value:2},
+  pot_of_flour:{name:'Pot of flour', stack:false, value:10},
+  bread_dough: {name:'Bread dough', stack:false, value:4},
+  cabbage:     {name:'Cabbage', stack:false, value:1, heal:1},
+  potato:      {name:'Potato', stack:false, value:1},
+  onion:       {name:'Onion', stack:false, value:1},
+  egg:         {name:'Egg', stack:false, value:2},
+  cheese:      {name:'Cheese', stack:false, value:4, heal:2},
+  raw_beef:    {name:'Raw beef', stack:false, value:2},
+  cooked_meat: {name:'Cooked meat', stack:false, value:4, heal:3},
+  raw_trout:   {name:'Raw brooktrout', stack:false, value:20},
+  trout:       {name:'Brooktrout', stack:false, value:32, heal:7},
+  fishing_rod: {name:'Fishing rod', stack:false, value:5, tool:'fishing', power:1.2, useOn:'fish'},
+  fly_fishing_rod:{name:'Fly fishing rod', stack:false, value:10, tool:'fishing', power:1.5, useOn:'fish'},
+  iron_dagger: {name:'Iron dagger', stack:false, value:35, equip:'weapon', style:'melee',
+                speedTicks:4, aBonus:11, sBonus:8, aStab:11, aSlash:5, aCrush:0,
+                tier:'iron', reqSkill:'Attack', reqLvl:5, weight:1.1,
+                examine:'A quick iron blade.'},
+
   /* legacy starter ids kept as bronze-tier gear */
   bronze_sword: {name:'Bronze sword', stack:false, value:25,  equip:'weapon', style:'melee',  speedTicks:4, aBonus:7,  sBonus:6, aStab:7, aSlash:5, aCrush:0, tier:'bronze', model:'sword', reqSkill:'Attack', reqLvl:1},
   iron_sword:   {name:'Iron sword',   stack:false, value:120, equip:'weapon', style:'melee',  speedTicks:4, aBonus:14, sBonus:13, aStab:14, aSlash:10, aCrush:0, tier:'iron', model:'sword', reqSkill:'Attack', reqLvl:5},
@@ -48,6 +91,11 @@ const ITEMS = {
   bronze_helm:  {name:'Bronze helm',      stack:false, value:18, equip:'head',   dBonus:4, model:'helm', tier:'bronze', reqSkill:'Defence', reqLvl:1},
   bronze_plate: {name:'Bronze platebody', stack:false, value:80, equip:'body',   dBonus:11, model:'plate', tier:'bronze', reqSkill:'Defence', reqLvl:1},
   leather_body: {name:'Leather body',     stack:false, value:14, equip:'body',   dBonus:4, model:'plate', tier:'leather', reqSkill:'Defence', reqLvl:1},
+  /* top-100 set 3 (2026-07-17): leather set — standalone leather items (like leather_body),
+     NOT metal-tiered. Introduces the hands + feet equip slots. */
+  leather_chaps:  {name:'Leather chaps',  stack:false, value:12, equip:'legs',  dBonus:3, model:'chaps',  tier:'leather', reqSkill:'Defence', reqLvl:1},
+  leather_gloves: {name:'Leather gloves', stack:false, value:6,  equip:'hands', dBonus:1, model:'gloves', tier:'leather', reqSkill:'Defence', reqLvl:1},
+  leather_boots:  {name:'Leather boots',  stack:false, value:6,  equip:'feet',  dBonus:1, model:'boots',  tier:'leather', reqSkill:'Defence', reqLvl:1},
   bronze_legs:  {name:'Bronze platelegs', stack:false, value:60, equip:'legs',   dBonus:7, model:'legs', tier:'bronze', reqSkill:'Defence', reqLvl:1},
 
   fishing_net:  {name:'Small net', stack:false, value:12, tool:'fishing', power:1.0, useOn:'fish'},
@@ -55,7 +103,7 @@ const ITEMS = {
   /* ranged: bow tiers (arrows shared) */
   worn_bow:     {name:'Worn shortbow', stack:false, value:30,  equip:'weapon', style:'ranged', speedTicks:5, aBonus:8,  sBonus:7,  model:'bow', reqSkill:'Ranged', reqLvl:1, needs:'arrows'},
   ash_bow:      {name:'Ash shortbow',  stack:false, value:160, equip:'weapon', style:'ranged', speedTicks:5, aBonus:17, sBonus:15, model:'bow', reqSkill:'Ranged', reqLvl:10, needs:'arrows'},
-  gale_longbow: {name:'Gale longbow',  stack:false, value:520, equip:'weapon', style:'ranged', speedTicks:6, aBonus:28, sBonus:26, model:'bow', reqSkill:'Ranged', reqLvl:25, needs:'arrows'},
+  gale_longbow: {name:'Gale longbow',  stack:false, value:520, equip:'weapon', style:'ranged', speedTicks:6, aBonus:28, sBonus:26, model:'longbow', reqSkill:'Ranged', reqLvl:25, needs:'arrows'},
   arrows:       {name:'Arrows', stack:true, value:2},
 
   /* magic: staves cast without selecting runes; runes still consumed */
@@ -115,16 +163,29 @@ const TIERS = [
    slash+crush; picks: stab. aBonus is kept as the fallback. */
 const GEAR_TEMPLATES = {
   sword:     {name:'sword',      equip:'weapon', style:'melee', speedTicks:4, a:7,  s:6,  aStab:7, aSlash:5, aCrush:0, reqSkill:'Attack',  base:25, model:'sword'},
-  sabre:     {name:'sabre',      equip:'weapon', style:'melee', speedTicks:4, a:9,  s:9,  aStab:5, aSlash:9, aCrush:0, reqSkill:'Attack',  base:40, model:'sword'},
-  battleaxe: {name:'battleaxe',  equip:'weapon', style:'melee', speedTicks:5, a:6,  s:13, aStab:0, aSlash:6, aCrush:5, reqSkill:'Attack',  base:38, model:'axe'},
+  sabre:     {name:'sabre',      equip:'weapon', style:'melee', speedTicks:4, a:9,  s:9,  aStab:5, aSlash:9, aCrush:0, reqSkill:'Attack',  base:40, model:'sabre'},
+  longsword: {name:'longsword',  equip:'weapon', style:'melee', speedTicks:5, a:8,  s:10, aStab:6, aSlash:9, aCrush:1, reqSkill:'Attack',  base:40, model:'longsword'},
+  /* top-100 set 2 (2026-07-17): crush weapons + 2h + open helm + square shield */
+  mace:      {name:'mace',       equip:'weapon', style:'melee', speedTicks:4, a:6,  s:7,  aStab:4, aSlash:0, aCrush:7,  reqSkill:'Attack',  base:22, model:'mace'},
+  warhammer: {name:'warhammer',  equip:'weapon', style:'melee', speedTicks:6, a:5,  s:12, aStab:0, aSlash:0, aCrush:11, reqSkill:'Attack',  base:35, model:'warhammer'},
+  greatsword:{name:'greatsword', equip:'weapon', style:'melee', speedTicks:7, a:8,  s:15, aStab:2, aSlash:12, aCrush:6, reqSkill:'Attack',  base:60, model:'greatsword'},
+  medhelm:   {name:'med helm',   equip:'head',   d:3,  reqSkill:'Defence', base:14, model:'medhelm'},
+  sqshield:  {name:'sq shield',  equip:'shield', d:5,  reqSkill:'Defence', base:26, model:'sqshield'},
+  battleaxe: {name:'battleaxe',  equip:'weapon', style:'melee', speedTicks:5, a:6,  s:13, aStab:0, aSlash:6, aCrush:5, reqSkill:'Attack',  base:38, model:'battleaxe'},
   helm:      {name:'helm',       equip:'head',   d:4,  reqSkill:'Defence', base:18, model:'helm'},
   platebody: {name:'platebody',  equip:'body',   d:11, reqSkill:'Defence', base:80, model:'plate'},
   platelegs: {name:'platelegs',  equip:'legs',   d:7,  reqSkill:'Defence', base:60, model:'legs'},
-  kiteshield:{name:'kiteshield', equip:'shield', d:6,  reqSkill:'Defence', base:34, model:'shield'},
+  /* top-100 set 3: metal-tiered chain + skirt (body-fit worn overlays) */
+  chainbody: {name:'chainbody',  equip:'body',   d:9,  reqSkill:'Defence', base:70, model:'chainbody'},
+  plateskirt:{name:'plateskirt', equip:'legs',   d:7,  reqSkill:'Defence', base:60, model:'plateskirt'},
+  kiteshield:{name:'kiteshield', equip:'shield', d:6,  reqSkill:'Defence', base:34, model:'kiteshield'},
   hatchet:   {name:'hatchet',    equip:'weapon', style:'melee', speedTicks:5, a:1, s:2, aStab:0, aSlash:1, aCrush:1, tool:'woodcutting', base:16, model:'axe'},
   pickaxe:   {name:'pickaxe',    equip:'weapon', style:'melee', speedTicks:5, a:1, s:2, aStab:1, aSlash:0, aCrush:0, tool:'mining', base:16, model:'pick'},
 };
-const GEAR_WEIGHTS = {sword:1.8, axe:2.2, helm:2.7, plate:9, legs:9, shield:5.4, bow:1.3, staff:2.1, robe:0.9, hat:0.4};
+const GEAR_WEIGHTS = {sword:1.8, longsword:2.4, sabre:2.0, axe:2.2, battleaxe:3.0, helm:2.7, plate:9, legs:9,
+  shield:5.4, kiteshield:5.4, bow:1.3, longbow:1.8, staff:2.1, robe:0.9, hat:0.4,
+  mace:2.0, warhammer:4.5, greatsword:4.0, medhelm:2.0, sqshield:4.0,
+  chainbody:6, plateskirt:8, chaps:2, gloves:0.4, boots:0.6};
 /* Legacy hand-authored ids that predate buildTieredGear own these tier×template
    slots. Aliasing keeps a single canonical item (so no two items share a display
    name) and preserves every existing drop / shop / quest / tutorial reference to
@@ -162,7 +223,8 @@ function buildTieredGear(items){
   });
 }
 const EQUIP_SLOTS = [['head','Head'],['body','Body'],['legs','Legs'],['weapon','Weapon'],
-                     ['shield','Shield'],['amulet','Amulet'],['cape','Cape']];
+                     ['shield','Shield'],['amulet','Amulet'],['cape','Cape'],
+                     ['hands','Hands'],['feet','Feet']];   // set 3: gloves + boots slots
 
 buildTieredGear(ITEMS);
 
@@ -189,7 +251,7 @@ function gatherChance(rtype, lvl, power){
 /* NPCs: OSRS-style stat blocks (att/str/def levels + bonuses, speed in ticks) */
 const NPC_TYPES = {
   pasturehen:{name:'Pasture hen', level:1, examine:"The yard's finest egg engine.", hp:3, att:1, str:1, def:1, aBonus:0, sBonus:0, dBonus:0, dStab:0, dSlash:0, dCrush:0, speedTicks:4, color:0xeae4d8, size:0.5, aggro:false, respawn:10, model:'chicken',
-             drops:[ {id:'bones',q:1,p:1}, {id:'feathers',q:[3,8],p:1} ]},
+             drops:[ {id:'bones',q:1,p:1}, {id:'feathers',q:[3,8],p:1}, {id:'egg',q:1,p:0.3} ]},
   oathbreaker:{name:'The Oathbreaker', level:32, examine:'A fallen warden, chained a century and hating every link of it.',
              hp:88, att:28, str:30, def:22, aBonus:14, sBonus:18, dBonus:12, dStab:13, dSlash:14, dCrush:9, speedTicks:5, color:0x5a4a5e, size:1.45,
              aggro:false, respawn:45, body:'brute',
@@ -206,7 +268,7 @@ const NPC_TYPES = {
   burrowrat:{name:'Burrow rat', level:1, examine:"Overgrown and underfed.", hp:4, att:1, str:1, def:1, aBonus:0, sBonus:0, dBonus:0, dStab:0, dSlash:0, dCrush:0, speedTicks:4, color:0x6b5440, size:0.85, aggro:false, respawn:8, model:'rat',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[1,5],p:0.6} ]},
   moorcalf: {name:'Moorcalf', level:2, examine:"Converts grass into hide and hoof.", hp:9, att:1, str:2, def:2, aBonus:0, sBonus:0, dBonus:0, dStab:1, dSlash:0, dCrush:1, speedTicks:5, color:0x9a8468, size:1.25, aggro:false, respawn:15, model:'cow',
-             drops:[ {id:'bones',q:1,p:1}, {id:'beast_hide',q:1,p:1}, {id:'coins',q:[2,10],p:0.5} ]},
+             drops:[ {id:'bones',q:1,p:1}, {id:'beast_hide',q:1,p:1}, {id:'raw_beef',q:1,p:1}, {id:'coins',q:[2,10],p:0.5} ]},
   duneclaw: {name:'Duneclaw', level:12, examine:"All shell and spite. A blade glances off; a mace caves it in.", hp:24, att:11, str:10, def:9, aBonus:6, sBonus:6, dBonus:6, dStab:7, dSlash:10, dCrush:2, speedTicks:4, color:0xc4a04a, size:0.9, aggro:true, respawn:20, body:'crab',
              drops:[ {id:'coins',q:[15,55],p:1}, {id:'steel_sword',q:1,p:0.05}, {id:'amulet_of_precision',q:1,p:0.02} ]},
   bryn_raider:{name:'Bryn raider', level:18, examine:"A northerner spoiling for a scrap.", hp:38, att:16, str:17, def:14, aBonus:10, sBonus:12, dBonus:8, dStab:6, dSlash:10, dCrush:7, speedTicks:4, color:0x7a3d2a, size:1, aggro:true, respawn:25, humanoid:true, weapon:'battleaxe', helm:'iron', armour:'leather',
@@ -282,7 +344,7 @@ const NPC_TYPES = {
   // Emberwood (west forest, low threat): a tusked forest hog. Bristled hide parts to a slash.
   thornboar:{name:'Thornboar', level:6, examine:"A tusked forest hog, quick to charge. Its bristled hide parts to a slashing edge.",
              hp:16, att:6, str:7, def:5, aBonus:3, sBonus:4, dBonus:3, dStab:5, dSlash:1, dCrush:6, speedTicks:4, color:0x6b4a2e, size:0.95, aggro:true, respawn:16, body:'wolf',
-             drops:[ {id:'bones',q:1,p:1}, {id:'beast_hide',q:1,p:0.5}, {id:'coins',q:[6,24],p:0.8}, {id:'logs',q:[1,2],p:0.3}, {id:'wood_shield',q:1,p:0.05} ]},
+             drops:[ {id:'bones',q:1,p:1}, {id:'beast_hide',q:1,p:0.5}, {id:'raw_beef',q:1,p:0.7}, {id:'coins',q:[6,24],p:0.8}, {id:'logs',q:[1,2],p:0.3}, {id:'wood_shield',q:1,p:0.05} ]},
   // Stonereach Quarry (mining zone, low-mid): a pale rock-louse. Stony shell caves to a crushing blow.
   quarry_crawler:{name:'Quarry crawler', level:9, examine:"A pale rock-louse from the quarry deeps. Its stony shell caves to a crushing blow.",
              hp:20, att:8, str:8, def:7, aBonus:5, sBonus:5, dBonus:6, dStab:9, dSlash:8, dCrush:2, speedTicks:4, color:0x7a7264, size:0.95, aggro:true, respawn:18, body:'crawler',
@@ -294,7 +356,7 @@ const NPC_TYPES = {
   // The Scarlands (high, deep-north): a charred revenant. Bone resists a point; steel splinters it.
   cinder_shade:{name:'Cinder shade', level:34, examine:"A charred revenant of the Scarlands, bone showing through cracked ash. Steel splinters it; a point skitters off.",
              hp:62, att:32, str:30, def:28, aBonus:18, sBonus:16, dBonus:16, dStab:20, dSlash:14, dCrush:6, speedTicks:4, color:0x4a3a34, size:1.05, aggro:true, respawn:38, model:'skeleton',
-             drops:[ {id:'big_bones',q:1,p:1}, {id:'coins',q:[70,180],p:1}, {id:'chaos_rune',q:[2,6],p:0.4}, {id:'aurel_sword',q:1,p:0.04}, {id:'aurel_platelegs',q:1,p:0.03}, {id:'veyrite_sword',q:1,p:0.01} ]},
+             drops:[ {id:'big_bones',q:1,p:1}, {id:'ashes',q:1,p:1}, {id:'coins',q:[70,180],p:1}, {id:'chaos_rune',q:[2,6],p:0.4}, {id:'aurel_sword',q:1,p:0.04}, {id:'aurel_platelegs',q:1,p:0.03}, {id:'veyrite_sword',q:1,p:0.01} ]},
 };
 /* derive an OSRS-style npc max hit from its strength stats */
 function npcMaxHit(t){ return Math.max(1, Math.floor(0.5 + (t.str+8)*(t.sBonus+64)/640)); }
@@ -310,6 +372,7 @@ const SHOPS = {
   ]},
   gilded_boar: {name:'The Gilded Boar', stock:[
     {id:'bread',price:4},{id:'cooked_perch',price:11},{id:'hollow_ale',price:3},
+    {id:'cooked_meat',price:6},{id:'cheese',price:6},
   ]},
   spire: {name:"The Spire Vaults", stock:[
     {id:'air_rune',price:4},{id:'water_rune',price:4},{id:'earth_rune',price:4},{id:'fire_rune',price:4},
@@ -318,12 +381,21 @@ const SHOPS = {
   ]},
   bazaar:   {name:'Hollow Bazaar', stock:[
     {id:'hatchet',price:20},{id:'pickaxe',price:20},{id:'fishing_net',price:15},
+    {id:'fishing_rod',price:6},{id:'fly_fishing_rod',price:12},
     {id:'arrows',price:2},{id:'air_rune',price:5},{id:'mind_rune',price:4},
     {id:'hammer',price:2},{id:'tinderbox',price:2},{id:'knife',price:3},
-    {id:'bread',price:5},{id:'cooked_perch',price:15},{id:'wood_shield',price:25},{id:'leather_body',price:18}]},
+    {id:'bread',price:5},{id:'cooked_perch',price:15},{id:'wood_shield',price:25},{id:'leather_body',price:18},
+    /* top-100 batch 1 general-store lines (2026-07-17) */
+    {id:'bucket',price:2},{id:'jug',price:1},{id:'pot',price:1},{id:'bowl',price:5},
+    {id:'rope',price:22},{id:'shears',price:2},{id:'spade',price:6},{id:'chisel',price:3},
+    {id:'cabbage',price:2},{id:'potato',price:2},{id:'onion',price:2},{id:'egg',price:3},{id:'cheese',price:6}]},
   smith:    {name:'Stonereach Smithy', stock:[
     {id:'copper_sword',price:20},{id:'copper_helm',price:14},{id:'copper_pickaxe',price:45},{id:'copper_hatchet',price:45},
-    {id:'bronze_sword',price:30},{id:'bronze_helm',price:22},{id:'bronze_plate',price:95},{id:'bronze_legs',price:75},
+    {id:'bronze_sword',price:30},{id:'bronze_longsword',price:48},{id:'bronze_helm',price:22},{id:'bronze_plate',price:95},{id:'bronze_legs',price:75},
+    {id:'iron_longsword',price:190},
+    {id:'bronze_mace',price:26},{id:'bronze_warhammer',price:42},{id:'bronze_greatsword',price:72},
+    {id:'bronze_medhelm',price:17},{id:'bronze_sqshield',price:31},
+    {id:'bronze_chainbody',price:60},{id:'bronze_plateskirt',price:60},{id:'iron_chainbody',price:240},
     {id:'iron_sword',price:150},{id:'iron_helm',price:90},{id:'iron_platebody',price:380},{id:'iron_platelegs',price:290},{id:'iron_kiteshield',price:165},
     {id:'steel_sword',price:380},{id:'steel_sabre',price:600},{id:'steel_battleaxe',price:560},{id:'steel_helm',price:280},{id:'steel_platebody',price:1200},{id:'steel_platelegs',price:900},{id:'steel_kiteshield',price:520},
     {id:'aurel_sword',price:1400},{id:'aurel_platebody',price:4500},
@@ -337,11 +409,14 @@ const SHOPS = {
     {id:'amulet_of_might',price:280},{id:'amulet_of_precision',price:280},{id:'amulet_of_warding',price:280}]},
   clothier: {name:'Threadworks', stock:[
     {id:'trav_cape_red',price:35},{id:'trav_cape_blue',price:35},{id:'trav_cape_green',price:35},
-    {id:'leather_body',price:18},{id:'cloth_robe_top',price:15},{id:'cloth_robe_skirt',price:12}]},
+    {id:'leather_body',price:18},{id:'cloth_robe_top',price:15},{id:'cloth_robe_skirt',price:12},
+    {id:'wool',price:3},{id:'ball_of_wool',price:6},{id:'leather',price:8},
+    {id:'leather_chaps',price:14},{id:'leather_gloves',price:8},{id:'leather_boots',price:8}]},
   pub:      {name:'The Tipsy Grub', stock:[
     {id:'hollow_ale',price:3},{id:'bread',price:4},{id:'cooked_perch',price:12}]},
   fletcher: {name:'Brynholt Bowyer', stock:[
-    {id:'worn_bow',price:35},{id:'ash_bow',price:220},{id:'gale_longbow',price:680},{id:'arrows',price:2}]},
+    {id:'worn_bow',price:35},{id:'ash_bow',price:220},{id:'gale_longbow',price:680},{id:'arrows',price:2},
+    {id:'bow_string',price:15},{id:'flax',price:4}]},
 };
 const SHOP_STOCK = [
   {id:'hatchet', price:20}, {id:'iron_hatchet', price:70},

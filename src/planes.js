@@ -121,7 +121,7 @@ const Planes = {
       camera.position.set(cx,cy,cz);
       camera.lookAt(dest.x,y+1.2,dest.z);
     }
-    UI.chat(dest.plane>fromPlane ? 'You climb up.' : dest.plane<0 ? 'You climb down into the dark…' : 'You climb down.', 'plain');
+    UI.chat(dest.message||(dest.plane>fromPlane ? 'You climb up.' : dest.plane<0 ? 'You climb down into the dark…' : 'You climb down.'), 'plain');
     if(typeof Sfx!=='undefined' && Sfx.click) Sfx.click();
     return true;
   },

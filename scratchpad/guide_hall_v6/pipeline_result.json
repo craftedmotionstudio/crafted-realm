@@ -1,0 +1,22 @@
+{
+  "assetId": "holm_guide_hall_v6",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 2623512,
+    "triangles": 35314,
+    "primitives": 51,
+    "materials": 18
+  },
+  "authoringChecks": {
+    "continuousPerimeterPreserved": true,
+    "fittedDoorLeavesPreserved": true,
+    "actualRecessedWindowsAuthored": true,
+    "irregularMasonryCoursesAuthored": true,
+    "loadBearingTimberBaysAuthored": true,
+    "layeredConnectedRoofAuthored": true,
+    "occupationalRecordsClusterAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "errors": []
+}

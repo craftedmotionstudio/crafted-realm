@@ -119,6 +119,16 @@ function gearMesh(id){
   const m=tierMetal(def);
   switch(def.model){
     case 'sword':  return swordMesh(m);
+    case 'longsword': return swordMesh(m);   // proc fallbacks; modelled GLBs override
+    case 'sabre':     return swordMesh(m);
+    case 'battleaxe': return axeMesh(m);
+    case 'kiteshield':return shieldMesh();
+    case 'longbow':   return bowMesh();
+    case 'mace':      return swordMesh(m);
+    case 'warhammer': return axeMesh(m);
+    case 'greatsword':return swordMesh(m);
+    case 'medhelm':   return helmMesh(m);
+    case 'sqshield':  return shieldMesh();
     case 'axe':    return axeMesh(m);
     case 'pick':   return pickMesh(m);
     case 'bow':    return bowMesh();
@@ -126,6 +136,8 @@ function gearMesh(id){
     case 'helm':   return helmMesh(m);
     case 'plate':  return bodyArmorMesh(m);
     case 'legs':   return null; // handled via legArmorMesh on the wearer
+    case 'chainbody': case 'plateskirt': case 'chaps':
+    case 'gloves': case 'boots': return null; // set 3: body-fit worn overlays (on the wearer)
     case 'shield': return shieldMesh();
     case 'robe':   return null; // recolors the torso
     case 'hat':    return null; // built as headTop hat
@@ -160,11 +172,62 @@ function legArmorMesh(metal, parts){
   return g;
 }
 
+/* ===== set 3 worn overlays (GLB avatar path): rounded, form-fitting, low-poly ===== */
+// chainmail shirt — smoother/rounder than the plate, hangs slightly lower, no pauldrons
+function chainBodyMesh(metal){
+  const g=new THREE.Group();
+  // slim, fitted mail shirt (not a barrel): tighter radius + flatter front-back
+  const torso=new THREE.Mesh(new THREE.CylinderGeometry(0.245,0.235,0.62,8),mat(metal));
+  torso.position.y=1.2; torso.scale.z=0.56; torso.castShadow=true; g.add(torso);
+  const collar=new THREE.Mesh(new THREE.CylinderGeometry(0.135,0.16,0.08,8),mat(metal));
+  collar.position.y=1.46; collar.scale.z=0.56; g.add(collar);
+  for(const s of [-1,1]){   // short mail sleeves, tucked close to the shoulder
+    const sl=new THREE.Mesh(new THREE.CylinderGeometry(0.085,0.10,0.16,7),mat(metal));
+    sl.position.set(s*0.23,1.38,0); sl.rotation.z=s*0.22; sl.scale.z=0.7; g.add(sl);
+  }
+  const hem=new THREE.Mesh(new THREE.TorusGeometry(0.235,0.025,5,8),mat(0x5a4a26));
+  hem.position.y=0.9; hem.rotation.x=Math.PI/2; hem.scale.z=0.56; g.add(hem);
+  return g;
+}
+// flared metal skirt from the waist — built in ROOT space (feet=0) so it uses the
+// same world-anchor wrap as bodyArmorMesh; hangs from the hips/pelvis bone
+function plateSkirtMesh(metal){
+  const g=new THREE.Group();
+  const skirt=new THREE.Mesh(new THREE.CylinderGeometry(0.21,0.35,0.52,8,1,true),mat(metal));
+  skirt.position.y=0.70; skirt.scale.z=0.72; skirt.castShadow=true; g.add(skirt);
+  const belt=new THREE.Mesh(new THREE.CylinderGeometry(0.215,0.215,0.10,8),mat(0x5a4a26));
+  belt.position.y=0.95; belt.scale.z=0.72; g.add(belt);
+  return g;
+}
+// leather thigh cover — bare cylinder; the fit code positions it down the thigh bone
+function chapsCover(col){
+  const c=new THREE.Mesh(new THREE.CylinderGeometry(0.10,0.085,0.62,7),mat(col));
+  c.castShadow=true; return c;
+}
+// leather glove: a mitt + cuff around the hand
+function gloveMesh(col){
+  const g=new THREE.Group();
+  const mitt=new THREE.Mesh(new THREE.SphereGeometry(0.055,7,6),mat(col));
+  mitt.scale.set(1,0.85,1.15); g.add(mitt);
+  const cuff=new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.052,0.07,7),mat(col));
+  cuff.position.y=0.07; g.add(cuff);
+  return g;
+}
+// leather boot: foot cover + short shaft
+function bootMesh(col){
+  const g=new THREE.Group();
+  const foot=new THREE.Mesh(new THREE.BoxGeometry(0.10,0.07,0.19),mat(col));
+  foot.position.set(0,0,0.04); foot.castShadow=true; g.add(foot);
+  const shaft=new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.06,0.14,7),mat(col));
+  shaft.position.set(0,0.08,-0.02); g.add(shaft);
+  return g;
+}
+
 /* ground model for any item id */
 function itemGroundMesh(id){
   const g=new THREE.Group();
   const def=ITEMS[id];
-  if(def && def.model && !['robe','hat','legs'].includes(def.model)){
+  if(def && def.model && !['robe','hat','legs','chainbody','plateskirt','chaps','gloves','boots'].includes(def.model)){
     const m=gearMesh(id);
     if(m){
       if(def.model==='sword'||def.model==='axe'||def.model==='pick'||def.model==='staff'){ m.rotation.set(Math.PI/2,0,0.6); m.position.y=0.08; }
@@ -182,6 +245,11 @@ function itemGroundMesh(id){
     const l=new THREE.Mesh(new THREE.BoxGeometry(0.34,0.45,0.2),mat(tierMetal(def)));
     l.position.y=0.22; g.add(l); return g;
   }
+  if(def && def.model==='chainbody'){ const m=chainBodyMesh(tierMetal(def)); m.position.y=-1.0; m.scale.setScalar(0.6); g.add(m); return g; }
+  if(def && def.model==='plateskirt'){ const m=plateSkirtMesh(tierMetal(def)); m.position.y=0.24; m.scale.setScalar(0.7); g.add(m); return g; }
+  if(def && def.model==='chaps'){ const m=chapsCover(tierMetal(def)); m.position.y=0.28; g.add(m); return g; }
+  if(def && def.model==='gloves'){ const m=gloveMesh(tierMetal(def)); m.scale.setScalar(1.6); m.position.y=0.1; g.add(m); return g; }
+  if(def && def.model==='boots'){ const m=bootMesh(tierMetal(def)); m.scale.setScalar(1.4); m.position.y=0.05; g.add(m); return g; }
   if(def && (def.model==='robe'||def.model==='hat')){
     const r=new THREE.Mesh(new THREE.ConeGeometry(def.model==='hat'?0.16:0.24, def.model==='hat'?0.3:0.4, 7),
       mat(def.tier==='glimmer'?0xb48ae0:0x7a86b8));

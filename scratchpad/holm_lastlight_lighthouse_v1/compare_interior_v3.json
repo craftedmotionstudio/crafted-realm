@@ -1,0 +1,10 @@
+{
+  "name":"Lastlight Keeper Interior — Reference Gate A",
+  "osrs":"Bible_References/Lighthouse_Interior.png",
+  "cr":"scratchpad/holm_lastlight_lighthouse_v1/level2_south.png",
+  "codex":9.3,
+  "review_note":"Warm staggered floorboards, full pale curved walls, dresser, modeled wall lanterns, fitted windows, wall shelf, nested crockery and a corner cobweb reproduce the reference's sparse cozy keeper-room language while the owner-approved ladder replaces the spiral stair for cardinal movement.",
+  "verdict":"PASS — materials, domestic purpose and room scale accepted",
+  "improve":"The pictured character remains a runtime actor; preserve the slow lantern flicker and the readable domestic spacing.",
+  "out":"Bible_References/Complete/_compare/holm_lastlight_interior_v3_compare.png"
+}

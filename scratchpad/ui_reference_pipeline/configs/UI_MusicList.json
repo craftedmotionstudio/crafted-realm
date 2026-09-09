@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 MusicList",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_MusicList.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/music.png",
+  "codex": 9.0,
+  "review_note": "Music now has a dedicated track list with unlocked and undiscovered states.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_MusicList_v2_compare.png"
+}

@@ -1,0 +1,21 @@
+{
+  "assetId": "cellar_lantern_v2",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 141288,
+    "triangles": 2464,
+    "primitives": 12,
+    "materials": 12
+  },
+  "authoringChecks": {
+    "noPrimitiveOperators": true,
+    "customSilhouetteTopology": true,
+    "fittedConstructionDetails": true,
+    "authoredFaceMaterialVariation": true,
+    "fiveViewProofPacket": true,
+    "semanticFlameAnimation": true,
+    "staticGeometryConsolidated": true
+  },
+  "errors": []
+}

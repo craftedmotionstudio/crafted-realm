@@ -1,0 +1,11 @@
+{
+  "name": "Training Cavern — Mineable Rock Family",
+  "subtitle": "Tutorial mining reference vs authored Blender tin, copper, and clay deposits",
+  "osrs": "Bible_References/Tutorial_Island_Mining_Cave_&_Mining_Rocks.jpg",
+  "cr": "scratchpad/mining_rocks_v1/gameplay.png",
+  "codex": 9.1,
+  "review_note": "All three deposits use the same squat angular family, readable mineral faces, grounded beds, and deliberate low-poly folds; copper, tin, and clay remain distinct at the gameplay camera.",
+  "verdict": "accepted mineable rock family",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/Mining_Rocks_Tin_Copper_Clay_v1_compare.png"
+}

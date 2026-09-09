@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 2,
+  "assetId": "workyard_exterior_u3_v1",
+  "passed": true,
+  "pipeline": {
+    "assetId": "workyard_exterior_u3_v1",
+    "schemaVersion": 1,
+    "passed": true,
+    "metrics": {
+      "fileBytes": 216016,
+      "triangles": 2888,
+      "primitives": 27,
+      "materials": 13
+    },
+    "animations": [],
+    "authoringChecks": {
+      "twoNanoBananaReferenceBoardsBanked": true,
+      "customAssetSpecificTopology": true,
+      "allSemanticRootsAuthored": true,
+      "humanScaleLocked": true,
+      "individuallyAuthoredLogs": true,
+      "authoredRestraintsWrapLoad": true,
+      "weatheredBlockWithCutMarks": true,
+      "continuousLoftedTrunkNoTerraces": true,
+      "axeVisiblyEntersBlock": true,
+      "sawbuckHasClearPurpose": true,
+      "contactIsAuthored": true,
+      "controlledFlatShading": true,
+      "sevenViewProofPacket": true,
+      "sixteenCardinalTurnaroundsBanked": true
+    },
+    "scaleChecks": [
+      {
+        "label": "rack frame height",
+        "value": 1.58,
+        "min": 1.45,
+        "max": 1.7,
+        "passed": true
+      },
+      {
+        "label": "log stack top height",
+        "value": 1.31,
+        "min": 1.1,
+        "max": 1.45,
+        "passed": true
+      },
+      {
+        "label": "chopping block height",
+        "value": 0.645,
+        "min": 0.52,
+        "max": 0.72,
+        "passed": true
+      },
+      {
+        "label": "axe overall length",
+        "value": 1.05,
+        "min": 0.95,
+        "max": 1.15,
+        "passed": true
+      },
+      {
+        "label": "embedded axe top height",
+        "value": 1.67,
+        "min": 1.35,
+        "max": 1.75,
+        "passed": true
+      },
+      {
+        "label": "sawbuck height",
+        "value": 1.08,
+        "min": 0.85,
+        "max": 1.1,
+        "passed": true
+      }
+    ],
+    "cardinalProofs": [],
+    "errors": []
+  },
+  "factoryChecks": [
+    {
+      "label": "concept image",
+      "passed": true,
+      "path": "docs/rebuild/concepts/workyard_exterior_u3_timber_rack_nanobanana2_v1.png"
+    },
+    {
+      "label": "concept prompt",
+      "passed": true,
+      "path": "docs/rebuild/concepts/workyard_exterior_u3_timber_rack_nanobanana2_v1.prompt.md"
+    },
+    {
+      "label": "catalog",
+      "passed": true,
+      "path": "assets/catalogs/workyard_exterior_u3_v1.json"
+    },
+    {
+      "label": "concept comparison score",
+      "value": 9.1,
+      "minimum": 9.0,
+      "passed": true
+    },
+    {
+      "label": "rack frame height",
+      "value": 1.58,
+      "min": 1.45,
+      "max": 1.7,
+      "passed": true
+    },
+    {
+      "label": "log stack top height",
+      "value": 1.31,
+      "min": 1.1,
+      "max": 1.45,
+      "passed": true
+    },
+    {
+      "label": "chopping block height",
+      "value": 0.645,
+      "min": 0.52,
+      "max": 0.72,
+      "passed": true
+    },
+    {
+      "label": "axe overall length",
+      "value": 1.05,
+      "min": 0.95,
+      "max": 1.15,
+      "passed": true
+    },
+    {
+      "label": "embedded axe top height",
+      "value": 1.67,
+      "min": 1.35,
+      "max": 1.75,
+      "passed": true
+    },
+    {
+      "label": "sawbuck height",
+      "value": 1.08,
+      "min": 0.85,
+      "max": 1.1,
+      "passed": true
+    },
+    {
+      "label": "catalog assetId",
+      "value": "workyard_exterior_u3_v1",
+      "expected": "workyard_exterior_u3_v1",
+      "passed": true
+    },
+    {
+      "label": "catalog source",
+      "value": "assets/blender/props/workyard_exterior_u3_v1.blend",
+      "expected": "assets/blender/props/workyard_exterior_u3_v1.blend",
+      "passed": true
+    },
+    {
+      "label": "catalog runtime",
+      "value": "assets/models/props/workyard_exterior_u3_v1.glb",
+      "expected": "assets/models/props/workyard_exterior_u3_v1.glb",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/05_gameplay_camera.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "Bible_References/Complete/_compare/workyard_exterior_u3_timber_rack_v1_compare.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "Bible_References/Complete/_compare/workyard_exterior_u3_chopping_station_v1_compare.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_rack_north.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_rack_south.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_rack_east.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_rack_west.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_block_axe_north.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_block_axe_south.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_block_axe_east.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_block_axe_west.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_sawbuck_north.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_sawbuck_south.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_sawbuck_east.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_sawbuck_west.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_sheet_rack.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_sheet_block_axe.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_sheet_sawbuck.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_review_rack.json",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_review_block_axe.json",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_review_sawbuck.json",
+      "passed": true
+    },
+    {
+      "label": "cardinal proof from north",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_family_north.png",
+      "passed": true
+    },
+    {
+      "label": "cardinal proof from south",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_family_south.png",
+      "passed": true
+    },
+    {
+      "label": "cardinal proof from east",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_family_east.png",
+      "passed": true
+    },
+    {
+      "label": "cardinal proof from west",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_family_west.png",
+      "passed": true
+    },
+    {
+      "label": "cardinal sheet",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_sheet_family.png",
+      "passed": true
+    },
+    {
+      "label": "cardinal review",
+      "path": "scratchpad/workyard_exterior_u3_v1/turnaround_review_family.json",
+      "passed": true
+    },
+    {
+      "label": "cardinal contact audit verdict",
+      "value": "PASS",
+      "passed": true
+    }
+  ],
+  "nextStage": "Codex integration into the live Workyard (rack/block/axe replacement, pen removal, collision, interactions) followed by Gate E/G in-game acceptance"
+}

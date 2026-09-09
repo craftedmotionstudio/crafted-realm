@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "target": "trail_door",
+  "pose": {
+    "rotationZ": -1.535
+  },
+  "center": [
+    -3.4219,
+    -6.7745,
+    1.3225
+  ],
+  "bounds": {
+    "min": [
+      -3.6006,
+      -7.5916,
+      0.145
+    ],
+    "max": [
+      -3.2432,
+      -5.9574,
+      2.5
+    ]
+  },
+  "views": {
+    "north": "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_from_north.png",
+    "south": "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_from_south.png",
+    "east": "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_from_east.png",
+    "west": "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_from_west.png"
+  },
+  "auditOrder": [
+    "north",
+    "south",
+    "east",
+    "west"
+  ]
+}

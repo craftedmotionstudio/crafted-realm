@@ -1,0 +1,76 @@
+{
+  "assetId": "cellar_ladder_hatch_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 129468,
+    "triangles": 2336,
+    "primitives": 16,
+    "materials": 9
+  },
+  "animations": [],
+  "authoringChecks": {
+    "ownerStandardNanoBananaReference": true,
+    "noPrimitiveOperatorsUsedForVisibleAsset": true,
+    "customAssetSpecificTopology": true,
+    "exactlySevenHandSpacedRungs": true,
+    "separateSemanticRoots": true,
+    "controlledFlatShading": true,
+    "sixViewProofPacket": true,
+    "runtimeGroupedBySemanticObject": true,
+    "humanScaleLocked": true,
+    "trueRecessedDescent": true
+  },
+  "scaleChecks": [
+    {
+      "label": "family width",
+      "value": 1.57,
+      "min": 1.15,
+      "max": 1.75,
+      "passed": true
+    },
+    {
+      "label": "family depth",
+      "value": 1.039,
+      "min": 0.55,
+      "max": 1.1,
+      "passed": true
+    },
+    {
+      "label": "family height",
+      "value": 2.644,
+      "min": 2.2,
+      "max": 2.65,
+      "passed": true
+    },
+    {
+      "label": "ladder rail height",
+      "value": 2.256,
+      "min": 2.15,
+      "max": 2.55,
+      "passed": true
+    },
+    {
+      "label": "clear rung width",
+      "value": 0.6,
+      "min": 0.5,
+      "max": 0.72,
+      "passed": true
+    },
+    {
+      "label": "rung spacing",
+      "value": 0.3,
+      "min": 0.25,
+      "max": 0.34,
+      "passed": true
+    },
+    {
+      "label": "descent visual depth",
+      "value": 0.3,
+      "min": 0.3,
+      "max": 0.7,
+      "passed": true
+    }
+  ],
+  "errors": []
+}

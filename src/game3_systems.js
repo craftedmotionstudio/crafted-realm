@@ -74,7 +74,7 @@ const Player = {
   xp:{}, hp:10, maxHp:10,
   inv: new Array(24).fill(null),
   bank: [],
-  equip:{head:null, body:null, legs:null, weapon:null, shield:null},
+  equip:{head:null, body:null, legs:null, weapon:null, shield:null, amulet:null, cape:null, hands:null, feet:null},
   quests:{},
   action:null, target:null, moveTo:null, speed:4.2, attackCd:0,
   castMode:false,
@@ -334,9 +334,13 @@ function refreshPlayerGear(){
   if(e.head){
     const def=ITEMS[e.head];
     if(def.model==='hat'){
-      const brim=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.24,0.04,8), mat(tierMetal(def)));
+      /* cloth hats are dyed cloth, not metal — the wizard hat was rendering as a
+         tan metal-fallback brim hat (top-100 equipped review 2026-07-17) */
+      const HAT_CLOTH={wizard:0x3a5aad, cloth:0x7a86b8, glimmer:0xb48ae0};
+      const hc=HAT_CLOTH[def.tier]!==undefined ? HAT_CLOTH[def.tier] : tierMetal(def);
+      const brim=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.24,0.04,8), mat(hc));
       brim.position.y=0.1;
-      const cone=new THREE.Mesh(new THREE.ConeGeometry(0.15,0.42,8), mat(tierMetal(def)));
+      const cone=new THREE.Mesh(new THREE.ConeGeometry(0.15,0.42,8), mat(hc));
       cone.position.y=0.3;
       const grp=new THREE.Group(); grp.add(brim); grp.add(cone);
       parts.headTop.add(grp); gear.head=grp;
@@ -348,8 +352,10 @@ function refreshPlayerGear(){
   if(e.body){
     const def=ITEMS[e.body];
     if(def.model==='robe'){
-      const m=new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.3,0.9,8), mat(tierMetal(def)));
-      m.position.y = player.userData.bb ? 0.7 : 0.78;
+      /* a robe TOP covers the torso only — the old 0.9-tall cylinder from the
+         waist down read as a tent over the legs (top-100 equipped review) */
+      const m=new THREE.Mesh(new THREE.CylinderGeometry(0.26,0.3,0.58,8), mat(tierMetal(def)));
+      m.position.y = player.userData.bb ? 0.98 : 1.06;
       player.add(m); gear.body=m;
     } else {
       const m=gearMesh(e.body)||bodyArmorMesh(tierMetal(def));
@@ -361,7 +367,9 @@ function refreshPlayerGear(){
     const m=legArmorMesh(tierMetal(ITEMS[e.legs]), parts);
     player.add(m); gear.legs=m;
   }
-  if(e.amulet){ const m=gearMesh(e.amulet); if(m){ m.position.set(0,1.42,0.13); player.add(m); gear.amulet=m; } }
+  if(e.amulet){ const m=gearMesh(e.amulet); if(m){
+    m.scale.setScalar(1.5); m.position.set(0,1.4,0.18);   // readable at gameplay camera (top-100 review)
+    player.add(m); gear.amulet=m; } }
   if(e.cape){ const m=gearMesh(e.cape); if(m){ player.add(m); gear.cape=m; } }
 }
 
@@ -1094,7 +1102,8 @@ function swing(g, type){
     return;                                    // (truly static bodies have none of these — stay still as before)
   }
   type = type||'slash';
-  const DUR = {slash:0.45, stab:0.40, crush:0.52, bow:0.55, cast:0.50};
+  const DUR = {slash:0.45, stab:0.40, crush:0.52, bow:0.55, cast:0.50,
+    mine:0.72, smith:0.48, smelt:0.90};
   g.userData.swinging = true;
   g.userData.swing = {t:0, dur:DUR[type]||0.45, type};   // tweened in tickSwing each frame
 }
@@ -1400,6 +1409,8 @@ const Sfx = {
   magicHit(){ this.tone(900,0.18,'sine',0.07,200); this.noise(0.12, 2200, 2, 0.05); },
   chop(){ this.noise(0.07, 700, 2, 0.12, 'bandpass', 200); this.tone(160,0.06,'triangle',0.08,90); },
   mine(){ this.tone(2300,0.05,'square',0.035,1400); this.noise(0.05, 4500, 4, 0.05, 'highpass'); },   // clink
+  smith(){ this.tone(1850,0.07,'square',0.05,980); this.noise(0.08,3200,3,.045,'highpass'); },
+  smelt(){ this.noise(.34,620,.8,.055,'lowpass',260); this.tone(170,.28,'triangle',.035,105); },
   splash(){ this.noise(0.35, 900, 0.8, 0.08, 'lowpass', 250); },
   eat(){ this.noise(0.09, 500, 1, 0.07, 'lowpass'); this.tone(220,0.06,'triangle',0.04); },
   coin(){ this.tone(1180,0.06,'sine',0.06); this.tone(1560,0.08,'sine',0.05); },

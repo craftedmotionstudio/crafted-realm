@@ -11,8 +11,12 @@
 (function(){
 'use strict';
 
-/* ---------------- 1. drawn tab icons (medieval, 2007-poly flavour) -------- */
-function tabIcon(kind){
+/* ---------------- 1. tab icons -------------------------------------------------
+   Primary: Nano Banana (Gemini) designed PNGs in assets/icons/ui/nb/<panel>.png
+   (one cohesive 2007-OSRS set, 2026-07-18). Fallback: the hand-drawn canvas icons
+   below (tabIconCanvas), wired via img.onerror so a missing PNG never blanks a tab. */
+function tabIcon(kind){ return 'assets/icons/ui/nb/'+kind+'.png'; }
+function tabIconCanvas(kind){
   const c=document.createElement('canvas'); c.width=26; c.height=26;
   const x=c.getContext('2d');
   x.lineWidth=1.6; x.lineJoin='round'; x.lineCap='round';
@@ -85,13 +89,16 @@ function tabIcon(kind){
   }
   return c.toDataURL();
 }
-const TAB_KINDS=['combat','inv','equip','skills','quests','prayers','spells','drops','music','settings'];
+const TAB_KINDS=['combat','inv','equip','skills','quests','prayers','spells','drops','music','settings',
+                'clan','friends','ignore','logout','emotes'];   // full nanobanana set (2026-07-18)
 function installTabIcons(){
   document.querySelectorAll('.tab-btn').forEach(b=>{
     const k=b.dataset.tab;
     if(TAB_KINDS.indexOf(k)<0) return;
     b.textContent='';
-    const img=document.createElement('img'); img.src=tabIcon(k); img.className='tab-ico';
+    const img=document.createElement('img'); img.className='tab-ico';
+    img.onerror=function(){ this.onerror=null; this.src=tabIconCanvas(k); };  // fall back to canvas draw
+    img.src=tabIcon(k);
     b.appendChild(img);
   });
 }
@@ -276,7 +283,7 @@ function installChatResize(){
 /* ---------------- CSS + boot ------------------------------------------------ */
 const css=document.createElement('style');
 css.textContent=`
-  .tab-ico{width:22px;height:22px;image-rendering:pixelated;vertical-align:middle;
+  .tab-ico{width:23px;height:23px;image-rendering:auto;vertical-align:middle;
     filter:drop-shadow(1px 1px 0 rgba(0,0,0,.55));}
   .tab-btn{display:flex;align-items:center;justify-content:center;}
   .tab-btn.active .tab-ico{filter:drop-shadow(0 0 4px #ffb84a) drop-shadow(1px 1px 0 rgba(0,0,0,.55));}
@@ -336,7 +343,9 @@ function boot(){
     panes.parentNode.insertBefore(pane, panes);
     const bar=document.getElementById('tab-bar-bottom');
     const btn=document.createElement('div'); btn.className='tab-btn'; btn.dataset.tab='music'; btn.title='Music player';
-    const img=document.createElement('img'); img.src=tabIcon('music'); img.className='tab-ico'; btn.appendChild(img);
+    const img=document.createElement('img'); img.className='tab-ico';
+    img.onerror=function(){ this.onerror=null; this.src=tabIconCanvas('music'); }; img.src=tabIcon('music');
+    btn.appendChild(img);
     bar.insertBefore(btn, bar.lastElementChild);
     btn.addEventListener('click', ()=>{      // same switching behaviour as game4_ui's handler
       document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));

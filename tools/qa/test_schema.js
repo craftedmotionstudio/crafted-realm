@@ -1,0 +1,10 @@
+'use strict';
+const assert=require('assert');
+const scenario=require('./scenarios/cavern_bronze_lesson_v1.json');
+const {validate,evidenceRoot}=require('./schema.js');
+assert.deepStrictEqual(validate(scenario),[]);
+assert(validate({...scenario,level:'major'}).includes('level must be light, full, or swarm'));
+assert(validate({...scenario,steps:[{...scenario.steps[0],realInteraction:false}]}).some(x=>x.includes('real interaction')));
+assert(validate({...scenario,roles:['functional','functional']}).includes('invalid or duplicate roles'));
+assert.strictEqual(evidenceRoot(scenario,'build abc','visual','run 1'),'scratchpad/qa/cavern_bronze_lesson_v1/build_abc/visual/run_1');
+console.log('[QA SCHEMA] PASS: accepted major loop and rejected unsafe scenarios');

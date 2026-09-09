@@ -86,13 +86,20 @@ station.
 
 ## U6 — Complete room acceptance
 
-- **Status: partially proven, owner review still required.** U3, U4 and U5 individually pass their asset, interaction,
-  save, cardinal, and foreground performance gates. The basement remains frozen/accepted for now.
-- Remaining work is a single whole-space pass over the surface/upstairs: every left/right-click option, every cardinal
-  route and collider, ordinary door/roof entry timing, object scale and placement as a composition, and owner sign-off.
-- The r160 Studio loads the complete Workyard and all definition locks pass, but its HUD mixes production and semantic
-  helper draws. Split asset-only/helper metrics in U6; do not raise the real 170-draw gameplay budget, which currently
-  passes at 169.
+- **Status: Codex whole-room acceptance complete on 2026-07-18; owner visual sign-off still required.** U3, U4 and U5
+  individually pass their asset, interaction, save, cardinal, and foreground performance gates. The basement remains
+  frozen/accepted for now.
+- The live whole-space pass covered ordinary World Map walking to the Workyard, door and roof transitions, both cellar
+  directions, left-click Walk/right-click Inspect scenery policy, the bucket spawn, the pulley prerequisite and full
+  bucket-to-water transaction, and the fishing prerequisite. Local bookmarks were used only after normal route proof
+  to isolate services. Structured Codex composition review is 9.2/10; only owner sign-off remains.
+- The r160 Studio loads the complete Workyard and all definition locks pass. U6 separates production-asset,
+  semantic-helper, and whole-scene metrics: after consolidating static U4 dock meshes and compatible material slots,
+  the asset is 25,202 triangles / exactly 170 draws, helpers are 1,352 / 43, and the complete preview is 26,134 / 227.
+  U4 retains 5,204 triangles, all semantic roots and all three pulley clips while falling from 47 to 26 primitives.
+  The unchanged 170-draw lock now passes. Deterministic cardinal reach and right-click-only furnishing gates pass;
+  optimization and Codex acceptance are closed; only owner whole-room visual approval remains open. Full evidence:
+  `docs/rebuild/WORKYARD_U6_CODEX_ACCEPTANCE_2026-07-18.md`.
 
 ## Asset proof and room acceptance gates
 

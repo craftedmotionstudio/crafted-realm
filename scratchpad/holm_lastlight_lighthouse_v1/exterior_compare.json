@@ -1,0 +1,11 @@
+{
+  "name":"Lastlight Beacon - Reference-led exterior",
+  "subtitle":"Supplied lighthouse reference vs Blender-authored closed three-storey tower",
+  "osrs":"Bible_References/Lighthouse_Ref1.png",
+  "cr":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_south.png",
+  "codex":9.1,
+  "review_note":"The result preserves the supplied reference's solid tapered lighthouse, small fitted entrance, gallery, lantern crown and readable low-poly silhouette while using Crafted Realms materials and proportions.",
+  "verdict":"accepted as the new exterior lighthouse contract",
+  "improve":"Judge the installed doorway animation and summit approach in the live gameplay camera; keep the exterior opaque outside.",
+  "out":"Bible_References/Complete/_compare/holm_lastlight_lighthouse_v2_compare.png"
+}

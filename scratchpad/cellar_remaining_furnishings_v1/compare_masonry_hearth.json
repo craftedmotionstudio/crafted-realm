@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Cellar - North-Wall Masonry Hearth",
+  "subtitle": "Nano Banana 2 target vs authored Blender render",
+  "left_label": "LOCKED CONCEPT",
+  "right_label": "BLENDER 4.5 RENDER",
+  "osrs": "docs/rebuild/concepts/cellar_masonry_hearth_nanobanana2_v1.png",
+  "cr": "scratchpad/cellar_remaining_furnishings_v1/masonry_hearth.png",
+  "codex": 9.3,
+  "review_note": "The full arch-shaped recessed backing, differentiated soot returns and inner floor give the entire firebox readable depth; hand-set piers, oak lintel, layered flame and separate forged tool set retain the medieval silhouette.",
+  "verdict": "approved for live-room review",
+  "improve": "Judge cavity depth, flame visibility and tool clearance in the live room before owner approval.",
+  "out": "scratchpad/cellar_remaining_furnishings_v1/compare/masonry_hearth_compare.png"
+}

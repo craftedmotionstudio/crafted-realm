@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Cellar - The Moonward Watch",
+  "subtitle": "Original generated 8-bit artwork  vs  Blender-authored framed wall asset",
+  "left_label": "ORIGINAL 8-BIT ART TARGET",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "osrs": "docs/rebuild/concepts/cellar_moonward_watch_pixel_v1.png",
+  "cr": "scratchpad/cellar_remaining_furnishings_v1/wall_picture.png",
+  "codex": 9.5,
+  "review_note": "The Blender result preserves the crisp knight, tower, crescent-moon silhouette and warm limited-palette readability while fitting the artwork into a restrained hand-hewn oak cellar frame.",
+  "verdict": "approved for live-room review",
+  "improve": "Confirm the picture remains legible at the elevated gameplay camera and that its former-hearth wall bay is unobstructed.",
+  "out": "Bible_References/Complete/_compare/cellar_moonward_watch_picture_v1_compare.png"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Cellar Wall Torch v1 — Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/cellar_wall_torch_nanobanana2_v1.png",
+  "cr": "scratchpad/cellar_wall_torch_v1/01_shaded.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Owner-standard concept vs editable custom-topology Blender source",
+  "codex": 9.1,
+  "review_note": "The Blender asset preserves the concept's long crooked shaft, broad soot cup, wrapped pitch head, irregular four-rivet backplate, fitted bent bracket, large three-layer faceted flame, warm low-poly planes, and clear wall-mounted construction. Its custom wireframe and deliberate face-color ramps avoid the rejected primitive-assembly look.",
+  "verdict": "APPROVED FOR GAME INTEGRATION",
+  "improve": "Keep the runtime glow restrained so the ember, orange, and gold flame layers remain visible; do not scale the fixture above the approved player-relative size.",
+  "out": "Bible_References/Complete/_compare/cellar_wall_torch_v1_concept_compare.png"
+}

@@ -1,0 +1,10 @@
+{
+ "mesh": "gear_greatsword",
+ "itemSize": {
+  "x": 0.731,
+  "y": 1.286,
+  "z": 0.483
+ },
+ "avatarHeight": 2.31,
+ "errors": 0
+}

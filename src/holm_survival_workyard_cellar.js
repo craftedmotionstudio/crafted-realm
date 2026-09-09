@@ -714,17 +714,19 @@ var HolmSurvivalCellar=(function(){
         if(glow.material) glow.material.opacity=(hearthGlow ? .38 : .34)+
           Math.sin(t*(hearthGlow?2.4:7.4)+gPhase)*.045;
       }
-      var underground=typeof Player!=='undefined'&&(Player.plane||0)<0;
-      if(underground!==wasUnderground){
-        if(underground){
+      var inCellar=typeof Player!=='undefined'&&(Player.plane||0)===CELLAR.plane&&
+        Math.abs(player.position.x-CELLAR.x)<=CELLAR.hw+2&&Math.abs(player.position.z-CELLAR.z)<=CELLAR.hd+2;
+      if(inCellar!==wasUnderground){
+        if(inCellar){
           savedBackground=scene.background; savedFog=scene.fog;
           scene.background=new THREE.Color(0x18130f);
           scene.fog=new THREE.Fog(0x18130f,18,48);
         }else{
           scene.background=savedBackground; scene.fog=savedFog;
         }
-        wasUnderground=underground;
+        wasUnderground=inCellar;
       }
+      var underground=typeof Player!=='undefined'&&(Player.plane||0)<0;
       if(WORLD.sea) WORLD.sea.visible=!underground;
       for(var g=0;g<(WORLD.grounds||[]).length;g++){
         var ground=WORLD.grounds[g],plane=ground.userData&&ground.userData.plane;

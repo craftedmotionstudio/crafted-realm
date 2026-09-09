@@ -38,8 +38,18 @@ if (!KEY) {
 async function main() {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
   const aspect = process.env.GEMINI_ASPECT || '1:1';
+  // Optional reference image (image-to-image): env REF_IMAGE=<path>. The model uses
+  // it as the visual reference for the generated icon.
+  const reqParts = [];
+  if (process.env.REF_IMAGE && fs.existsSync(process.env.REF_IMAGE)) {
+    const rb = fs.readFileSync(process.env.REF_IMAGE);
+    const mime = process.env.REF_IMAGE.toLowerCase().endsWith('.jpg') ||
+                 process.env.REF_IMAGE.toLowerCase().endsWith('.jpeg') ? 'image/jpeg' : 'image/png';
+    reqParts.push({ inline_data: { mime_type: mime, data: rb.toString('base64') } });
+  }
+  reqParts.push({ text: prompt });
   const body = {
-    contents: [{ parts: [{ text: prompt }] }],
+    contents: [{ parts: reqParts }],
     generationConfig: {
       responseModalities: ['IMAGE'],
       imageConfig: { aspectRatio: aspect },

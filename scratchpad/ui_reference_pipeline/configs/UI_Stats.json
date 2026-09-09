@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 Stats",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_Stats.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/skills.png",
+  "codex": 9.1,
+  "review_note": "The skill list preserves icon, level, and progress hierarchy without modern dashboard chrome.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_Stats_v2_compare.png"
+}

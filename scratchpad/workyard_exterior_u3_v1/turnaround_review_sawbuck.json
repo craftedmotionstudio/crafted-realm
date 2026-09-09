@@ -1,0 +1,17 @@
+{
+  "asset": "workyard_exterior_u3_v1",
+  "object": "sawbuck (with half-sawn work log)",
+  "date": "2026-07-15",
+  "lens": "Shared three-area-light rig, orthographic lens at gameplay pitch (~43 deg), ortho scale 3.2 identical across all four directions",
+  "auditCriteria": ["clipping", "floating parts", "floor contact", "missing backs/undersides", "kerf read", "silhouette"],
+  "views": {
+    "north": {"verdict": "PASS", "notes": "Kerf reads as a thin dark saw cut crossing the log top and upper flank; X-frames, pegs, and stringers all seat on real member lines; sawdust sits under the cut."},
+    "south": {"verdict": "PASS", "notes": "Kerf slit wraps the visible top half a hair proud of the surface — a cut, not a fin or collar; both leg pairs and the low stringers contact ground and legs."},
+    "east": {"verdict": "PASS", "notes": "Axis-on: the arc-profile slit follows the log cross-section with no protruding corners; end overhang and endgrain cap read as intended; crotch contact is believable."},
+    "west": {"verdict": "PASS", "notes": "Axis-on from the thick end: the former square 'collar' corners are gone; the slit hugs the curvature; frames cross cleanly with pegs at the joints."}
+  },
+  "defectsFoundAndFixed": [
+    "The first slit implementation (a straight box) poked square corners through both flanks in the east/west views, reading as a dark clamp; rebuilt as an arc-segment prism that follows the log's cross-section a hair proud of the surface."
+  ],
+  "verdict": "PASS"
+}

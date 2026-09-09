@@ -1,0 +1,74 @@
+{
+  "assetId": "workyard_exterior_u3_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 216016,
+    "triangles": 2888,
+    "primitives": 27,
+    "materials": 13
+  },
+  "animations": [],
+  "authoringChecks": {
+    "twoNanoBananaReferenceBoardsBanked": true,
+    "customAssetSpecificTopology": true,
+    "allSemanticRootsAuthored": true,
+    "humanScaleLocked": true,
+    "individuallyAuthoredLogs": true,
+    "authoredRestraintsWrapLoad": true,
+    "weatheredBlockWithCutMarks": true,
+    "continuousLoftedTrunkNoTerraces": true,
+    "axeVisiblyEntersBlock": true,
+    "sawbuckHasClearPurpose": true,
+    "contactIsAuthored": true,
+    "controlledFlatShading": true,
+    "sevenViewProofPacket": true,
+    "sixteenCardinalTurnaroundsBanked": true
+  },
+  "scaleChecks": [
+    {
+      "label": "rack frame height",
+      "value": 1.58,
+      "min": 1.45,
+      "max": 1.7,
+      "passed": true
+    },
+    {
+      "label": "log stack top height",
+      "value": 1.31,
+      "min": 1.1,
+      "max": 1.45,
+      "passed": true
+    },
+    {
+      "label": "chopping block height",
+      "value": 0.645,
+      "min": 0.52,
+      "max": 0.72,
+      "passed": true
+    },
+    {
+      "label": "axe overall length",
+      "value": 1.05,
+      "min": 0.95,
+      "max": 1.15,
+      "passed": true
+    },
+    {
+      "label": "embedded axe top height",
+      "value": 1.67,
+      "min": 1.35,
+      "max": 1.75,
+      "passed": true
+    },
+    {
+      "label": "sawbuck height",
+      "value": 1.08,
+      "min": 0.85,
+      "max": 1.1,
+      "passed": true
+    }
+  ],
+  "cardinalProofs": [],
+  "errors": []
+}

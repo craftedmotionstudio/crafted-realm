@@ -1,0 +1,35 @@
+{
+  "pipelineVersion": 3,
+  "assetId": "holm_lastlight_lighthouse_v1",
+  "unitsPerTile": 1,
+  "dimensionsTiles": {
+    "width": 22.96,
+    "depth": 22.96,
+    "height": 23.72
+  },
+  "humanScaleContract": {
+    "doorWidth": 2.24,
+    "doorHeight": 3.2,
+    "interiorClearDiameter": 17.6,
+    "levelCount": 3,
+    "ladderCount": 2,
+    "dungeonCount": 1,
+    "floorWalkWidth": 12.9,
+    "topWalkWidth": 10.36
+  },
+  "checks": {
+    "five semantic visual layers": true,
+    "custom edited masonry topology": true,
+    "connected cylindrical tower shell": true,
+    "hinged semantic entry door": true,
+    "stone ground floor blocks summit grass": true,
+    "genuine door and lancet openings": true,
+    "mortar closes accidental wall gaps": true,
+    "three full-wall furnished levels": true,
+    "two ladder transitions named": true,
+    "traversable reference-led dungeon authored": true,
+    "animated beacon and lever sockets named": true,
+    "exterior lantern floor blocks grass through crown": true,
+    "cardinal proofs rendered": true
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "assetId": "holm_lastlight_lighthouse_v1",
+  "schemaVersion": 3,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 2073424,
+    "triangles": 28760,
+    "primitives": 119,
+    "materials": 49
+  },
+  "animations": [],
+  "authoringChecks": {
+    "five semantic visual layers": true,
+    "custom edited masonry topology": true,
+    "connected cylindrical tower shell": true,
+    "hinged semantic entry door": true,
+    "stone ground floor blocks summit grass": true,
+    "genuine door and lancet openings": true,
+    "mortar closes accidental wall gaps": true,
+    "three full-wall furnished levels": true,
+    "two ladder transitions named": true,
+    "traversable reference-led dungeon authored": true,
+    "animated beacon and lever sockets named": true,
+    "exterior lantern floor blocks grass through crown": true,
+    "cardinal proofs rendered": true
+  },
+  "scaleChecks": [
+    {
+      "label": "complete width",
+      "value": 22.96,
+      "min": 22.5,
+      "max": 23.5,
+      "passed": true
+    },
+    {
+      "label": "complete depth",
+      "value": 22.96,
+      "min": 22.5,
+      "max": 23.5,
+      "passed": true
+    },
+    {
+      "label": "tower height",
+      "value": 23.72,
+      "min": 22.5,
+      "max": 24.5,
+      "passed": true
+    },
+    {
+      "label": "door width",
+      "value": 2.24,
+      "min": 2.2,
+      "max": 2.7,
+      "passed": true
+    },
+    {
+      "label": "door height",
+      "value": 3.2,
+      "min": 3.0,
+      "max": 3.4,
+      "passed": true
+    },
+    {
+      "label": "clear interior diameter",
+      "value": 17.6,
+      "min": 17.5,
+      "max": 18.0,
+      "passed": true
+    },
+    {
+      "label": "furnished level count",
+      "value": 3,
+      "min": 3,
+      "max": 3,
+      "passed": true
+    },
+    {
+      "label": "ladder transition count",
+      "value": 2,
+      "min": 2,
+      "max": 2,
+      "passed": true
+    },
+    {
+      "label": "underkeep dungeon count",
+      "value": 1,
+      "min": 1,
+      "max": 1,
+      "passed": true
+    },
+    {
+      "label": "floor walk width",
+      "value": 12.9,
+      "min": 12.5,
+      "max": 13.5,
+      "passed": true
+    },
+    {
+      "label": "top walk width",
+      "value": 10.36,
+      "min": 10.0,
+      "max": 11.0,
+      "passed": true
+    }
+  ],
+  "cardinalProofs": [
+    {
+      "label": "complete lighthouse exterior",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "label": "Underkeep dungeon",
+      "passed": true,
+      "errors": []
+    }
+  ],
+  "errors": []
+}

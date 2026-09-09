@@ -1,0 +1,42 @@
+{
+  "surface": "holm_survival_workyard_v2",
+  "surfaceOnly": true,
+  "cellarDependency": "assets/models/buildings/holm_survival_workyard_cellar_v2.glb",
+  "pipelineVersion": 1,
+  "builderRevision": 10,
+  "unitsPerTile": 1,
+  "shapeClass": "compound-hearth-court",
+  "roofElements": 373,
+  "checks": {
+    "compoundShapeAuthored": true,
+    "distinctRoofHierarchyAuthored": true,
+    "purposefulSurfaceFurnishingsAuthored": true,
+    "animatedFlameSocketAuthored": true,
+    "chickenSocketDeferred": true,
+    "unobstructedCourtStructureAuthored": true,
+    "fittedCementCourtAuthored": true,
+    "shoreGearClusterAuthored": true,
+    "u3IntegrationSocketsAuthored": true,
+    "clearShoreApproachAuthored": true,
+    "surfaceSemanticNodesPreserved": true,
+    "layeredRoofDetailAuthored": true,
+    "roofContactJoineryAuthored": true,
+    "fittedDoorLeavesAuthored": true,
+    "doorFrameContactClearanceAuthored": true,
+    "playerScaledDoorHierarchyAuthored": true,
+    "trueWindowOpeningsAuthored": true,
+    "windowAndWallLayerCorrectionsAuthored": true,
+    "furnishingContactCorrectionsAuthored": true,
+    "hearthCavityInsetAuthored": true,
+    "translucentWindowPanesAuthored": true,
+    "surfaceFloorsClearTerrain": true,
+    "singleTraversalSocketAuthored": true,
+    "terrainProofCellarVoidAuthored": true
+  },
+  "surfaceMetrics": {
+    "triangles": 20734,
+    "meshObjects": 107,
+    "materials": 37
+  },
+  "consolidatedForBrowser": true
+}

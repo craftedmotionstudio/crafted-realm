@@ -1,0 +1,20 @@
+{
+  "asset":"Lastlight Underkeep v3 reference-scale cavern",
+  "verdict":"PASS",
+  "score":9.3,
+  "views":{
+    "north":{"status":"PASS","verdict":"PASS","notes":"Arrival ladder, high shelf, tapered walls, formations and wall lantern read without collision."},
+    "south":{"status":"PASS","verdict":"PASS","notes":"Broad teal pool, two raised banks, natural bridge, bones and depth bands reproduce the reference composition."},
+    "east":{"status":"PASS","verdict":"PASS","notes":"The 38-by-30 footprint and multiple heights remain legible rather than collapsing into a flat room."},
+    "west":{"status":"PASS","verdict":"PASS","notes":"Stalactites, stalagmites, moss, rubble and inaccessible water preserve traversal readability."}
+  },
+  "structuredReview":{
+    "silhouetteProportion":"9.3 — wide irregular cavern with tall walls and a strong water void.",
+    "shapeHierarchy":"9.3 — arrival shelf, lower floor, water, high banks and bridge read as five depth layers.",
+    "colorMaterialSeparation":"9.3 — cool teal water, grey rock, green moss, warm lanterns and pale bones are distinct.",
+    "referenceDefiningFeatures":"9.3 — ladder, pool, high ledges, bridge, stalactites, stalagmites, rubble and cavern scale are all represented.",
+    "gameplayCameraReadability":"9.3 — the expanded footprint fits the elevated view while preserving cardinal routes.",
+    "animationInteractionReadability":"9.3 — slow lantern flames, return ladder and fenced tidal pool communicate state clearly.",
+    "familyConsistency":"9.3 — geological forms share the same faceted low-poly language as the Training Cavern."
+  }
+}
