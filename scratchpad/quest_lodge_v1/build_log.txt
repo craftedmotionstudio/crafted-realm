@@ -1,0 +1,175 @@
+QUEST_LODGE_V1_STAGE floors
+QUEST_LODGE_V1_STAGE shell
+QUEST_LODGE_V1_STAGE furnishings
+QUEST_LODGE_V1_STAGE roof
+QUEST_LODGE_V1_STAGE consolidate
+QUEST_LODGE_V1_STAGE render
+Blender 4.5.10 LTS (hash 6dc0b208d1b5 built 2026-05-19 01:33:42)
+Fra:1 Mem:76.58M (Peak 76.81M) | Time:00:01.44 | Rendering 1 / 64 samples
+Fra:1 Mem:76.58M (Peak 76.81M) | Time:00:01.56 | Rendering 25 / 64 samples
+Fra:1 Mem:76.58M (Peak 76.81M) | Time:00:01.66 | Rendering 50 / 64 samples
+Fra:1 Mem:76.58M (Peak 76.81M) | Time:00:01.72 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\quest_lodge_v1\quest_lodge_v1_exterior.png'
+Time: 00:02.14 (Saving: 00:00.35)
+
+Fra:1 Mem:75.94M (Peak 75.94M) | Time:00:00.09 | Rendering 1 / 64 samples
+Fra:1 Mem:75.94M (Peak 75.94M) | Time:00:00.18 | Rendering 25 / 64 samples
+Fra:1 Mem:75.94M (Peak 75.94M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:75.94M (Peak 75.94M) | Time:00:00.35 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\quest_lodge_v1\quest_lodge_v1_roof_off.png'
+Time: 00:00.54 (Saving: 00:00.14)
+
+Fra:1 Mem:75.94M (Peak 75.94M) | Time:00:00.09 | Rendering 1 / 64 samples
+Fra:1 Mem:75.94M (Peak 75.94M) | Time:00:00.20 | Rendering 25 / 64 samples
+Fra:1 Mem:75.94M (Peak 75.94M) | Time:00:00.31 | Rendering 50 / 64 samples
+Fra:1 Mem:75.94M (Peak 75.94M) | Time:00:00.38 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\quest_lodge_v1\quest_lodge_v1_plan.png'
+Time: 00:00.58 (Saving: 00:00.16)
+
+Fra:1 Mem:76.58M (Peak 76.58M) | Time:00:00.10 | Rendering 1 / 64 samples
+Fra:1 Mem:76.58M (Peak 76.58M) | Time:00:00.18 | Rendering 25 / 64 samples
+Fra:1 Mem:76.58M (Peak 76.58M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:76.58M (Peak 76.58M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\quest_lodge_v1\quest_lodge_v1_game_camera.png'
+Time: 00:00.49 (Saving: 00:00.14)
+
+Info: Saved as "holm_quest_lodge_v1.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 4.5\4.5\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+09:31:22 | INFO: Starting glTF 2.0 export
+09:31:22 | INFO: Extracting primitive: Cylinder
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.231
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.222
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.223
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.307
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.308
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.310
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.350
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.314
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.355
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cylinder.002
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.313
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.349
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.305
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.306
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.384
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.385
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.381
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.379
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.363
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.367
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.366
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.362
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cylinder.004
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.371
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cylinder.007
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.357
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.356
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cylinder.001
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.243
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.234
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.235
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.542
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.543
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cylinder.021
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.536
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.412
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.429
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.411
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: GableEndMesh
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cylinder.009
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.399
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.386
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.387
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: TurretFloorMesh
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cylinder.018
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.400
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.401
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.409
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.009
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.010
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cylinder.017
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.213
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.210
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.011
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.219
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.406
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.218
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cylinder.008
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.374
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.375
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.376
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.377
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.372
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Extracting primitive: Cube.373
+09:31:22 | INFO: Primitives created: 1
+09:31:22 | INFO: Finished glTF 2.0 export in 0.18393778800964355 s
+
+QUEST_LODGE_V1_STAGE done
+QUEST_LODGE_V1_READY C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\assets\models\buildings\holm_quest_lodge_v1.glb
+
+Blender quit
+BLENDER EXIT 0

@@ -4,7 +4,7 @@
    SaveGame consumer (intents.js, game5_main.js, char_creator/customizer),
    all of which only touch SaveGame at runtime (post-boot). */
 const SaveGame = {
-  KEY:'motionscape_save',
+  KEY:(typeof QAProfile!=='undefined'&&QAProfile.key)||'motionscape_save',
   // all durable bytes flow through the Persist boundary (src/persist.js) — V2 swaps the store
   available(){ try{ return typeof Persist!=='undefined' && !!Persist.store; }catch(e){ return false; } },
   exists(){ if(!this.available()) return false;
@@ -29,9 +29,14 @@ const SaveGame = {
       quests:Player.quests, castMode:!!Player.castMode,
       tut:{step:Tutorial.step, complete:!!Tutorial.complete,
         curriculumVersion:Tutorial.curriculumVersion||0,
+        lessonId:(!Tutorial.complete&&Tutorial.steps&&Tutorial.steps[Tutorial.step])?Tutorial.steps[Tutorial.step].id:null,
         departurePackClaimed:!!Tutorial.departurePackClaimed,
-        cellarRationClaimed:!!Tutorial.cellarRationClaimed},
+        cellarRationClaimed:!!Tutorial.cellarRationClaimed,
+        optional:Tutorial.optional||{}},
       pos:[player.position.x, player.position.z],
+      plane:Player.plane||0,
+      zoneLabel:(typeof document!=='undefined'&&document.getElementById('zone-label'))?
+        document.getElementById('zone-label').textContent:null,
       world:this.worldMeta(),
       tracked:Quest.tracked,
       look:{name:CharCfg.name, gender:CharCfg.gender, shirt:CharCfg.shirt, skin:CharCfg.skin,
@@ -92,13 +97,48 @@ const SaveGame = {
       if(d.tut){
         Tutorial.departurePackClaimed=!!d.tut.departurePackClaimed;
         Tutorial.cellarRationClaimed=!!d.tut.cellarRationClaimed;
+        Tutorial.optional=Object.assign({},d.tut.optional||{});
       }
       if(d.tut && d.tut.complete){
         Tutorial.complete=true; Tutorial.step=Tutorial.steps.length;
         const ob=document.getElementById('objective'); if(ob) ob.style.display='none';
-      } else if(d.tut){ Tutorial.step=d.tut.step||0; }
-      let relocated=false, relocationReason=null;
-      if(d.pos || this.provider()){
+      } else if(d.tut){
+        const activeVersion=Number(Tutorial.curriculumVersion)||0;
+        const savedVersion=Number(d.tut.curriculumVersion)||0;
+        let migratedStep=-1;
+        if(d.tut.lessonId&&Tutorial.steps){
+          migratedStep=Tutorial.steps.findIndex(s=>s.id===d.tut.lessonId);
+        }
+        if(migratedStep<0&&savedVersion===4&&activeVersion===5&&Tutorial.steps){
+          const v4=['equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish','bake_bread','descend_cavern','mine_copper','mine_tin','smelt_bronze','forge_dagger','open_bank'];
+          let next=v4[Math.max(0,Number(d.tut.step)||0)];
+          if(next==='bake_bread') next='descend_cavern';
+          migratedStep=Tutorial.steps.findIndex(s=>s.id===next);
+        }
+        if(migratedStep<0&&savedVersion===activeVersion&&Tutorial.steps){
+          migratedStep=Math.max(0,Math.min(Tutorial.steps.length-1,Number(d.tut.step)||0));
+        }
+        Tutorial.step=migratedStep>=0?migratedStep:0;
+      }
+      let relocated=false, relocationReason=null,restoredPlane=false;
+      const savedPlane=Number(d.plane)||0;
+      if(savedPlane!==0&&d.pos&&typeof Planes!=='undefined'){
+        const px=Number(d.pos[0]),pz=Number(d.pos[1]),py=Planes.elevAt(px,pz,savedPlane);
+        let planeSafe=Number.isFinite(px)&&Number.isFinite(pz)&&Number.isFinite(py);
+        try{if(planeSafe&&collides(px,pz,.42,true,savedPlane))planeSafe=false;}catch(e){}
+        if(planeSafe){
+          Player.plane=savedPlane;player.position.set(px,py,pz);restoredPlane=true;
+          const planeProvider=this.provider();if(planeProvider)planeProvider.updateResidency(px,pz,true);
+          Planes.refreshVisibility();if(d.zoneLabel&&typeof UI!=='undefined'&&UI.zone)UI.zone(d.zoneLabel);
+          if(typeof camera!=='undefined'&&typeof camCtl!=='undefined'){
+            const cx=px+camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*.6);
+            const cz=pz+camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*.6);
+            const cy=py+camCtl.dist*Math.sin(camCtl.pitch);
+            camera.position.set(cx,cy,cz);camera.lookAt(px,py+1.2,pz);
+          }
+        }
+      }
+      if(!restoredPlane&&(d.pos || this.provider())){
         const provider=this.provider();
         let target;
         if(provider) target=provider.resolveSavedPosition(d.pos,d.world);
@@ -113,6 +153,7 @@ const SaveGame = {
             y=groundY(target.x,target.z); safe=y!==null && y>=-1.2;
           }
           if(safe){
+            Player.plane=0;
             player.position.set(target.x,y,target.z);
             // Saves may restore into a chunk outside the boot-time arrival ring.
             // Re-centre terrain and collision before the welcome overlay is removed,
@@ -123,6 +164,7 @@ const SaveGame = {
         }
       }
       this.lastLoad={ok:true,relocated:relocated,reason:relocationReason,
+        restoredPlane:savedPlane&&restoredPlane?savedPlane:0,
         residencyCentered:!!this.provider(),
         provider:this.provider()?this.provider().id:'legacy'};
       refreshPlayerGear();

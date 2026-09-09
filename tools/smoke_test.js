@@ -101,9 +101,15 @@ window.CR_smoke = function(){
       p.landscape.districts.length===6&&p.landscape.pads.length===8));
     ok('landscape runtime owns geography', !v2 || !holm || (ps&&ps.runtime&&ps.runtime.landscape&&
       ps.runtime.landscape.installed&&ps.runtime.landscape.routeTiles===228));
+    ok('Lesson Green terrain package matches its canonical navigation contract',!v2||!holm||
+      (typeof HolmLessonGreenBundle!=='undefined'&&WorldV2TerrainDistrict.validate(HolmLessonGreenBundle,WorldV2TerrainDistrict.source()).ok));
     var sv=JSON.parse(SaveGame.serialize());
     ok('save carries world revision', !v2 || (sv.world && sv.world.provider===p.id && sv.world.worldRevision===p.worldRevision));
     ok('save carries tutorial curriculum revision', !v2 || (sv.tut&&sv.tut.curriculumVersion===HolmTutorialFlow.curriculumVersion));
+    ok('save identifies the active tutorial lesson', !v2 || (sv.tut&&(sv.tut.complete||sv.tut.lessonId===Tutorial.steps[Tutorial.step].id)));
+    ok('compact Holm graduation route is live', !v2 || !holm || (Tutorial.steps.length===13&&
+      Tutorial.steps[0].id==='study_route'&&Tutorial.steps[12].id==='relight_lastlight'&&
+      Tutorial.steps.every(function(s){return s.required!==false;})));
     ok('save carries the reward-safe waterworks operation ledger', !v2 || !holm ||
       (sv.waterworks&&Array.isArray(sv.waterworks.appliedOps)));
     ok('save carries the reward-safe fishing-edge operation ledger', !v2 || !holm ||
@@ -124,7 +130,7 @@ window.CR_smoke = function(){
       var bd=WorldV2BuildingData.get(o.buildingDef); return sum+(bd?bd.colliders.length+bd.doors.length:0);
     },0); },0);
     ok('authored object and interaction layers validate', !v2 || !holm ||
-      (objectRows===HolmLandscape.objectPlacements.length+5&&interactionRows===36&&
+      (objectRows===HolmLandscape.objectPlacements.length+5&&interactionRows===85&&
        WorldV2BuildingData.acceptance().ok));
     ok('chunk object runtime matches resident authored rows', !v2 || (!!ob&&ob.liveInstances===residentObjectRows));
     ok('chunk objects use shared cached resources', !v2 || (!!ob&&ob.templateBuilds===ob.templates&&
@@ -143,15 +149,24 @@ window.CR_smoke = function(){
       (HolmTutorialFlow.acceptanceResult.passed===HolmTutorialFlow.acceptanceResult.total&&
        typeof HolmDeparture==='object'&&HolmDeparture.unlocked()===!!Tutorial.complete));
     ok('Holm landscape keeps passive props clear of completed building footprints', !v2 || !holm ||
-      (HolmLandscape.acceptanceResult.passed===13&&HolmLandscape.acceptanceResult.total===13));
+      (HolmLandscape.acceptanceResult.passed===HolmLandscape.acceptanceResult.total&&
+       HolmLandscape.acceptanceResult.checks.some(function(check){
+         return check.label==='passive landscape props clear completed building footprints'&&check.ok;
+       })));
+    var lastlight=holm&&typeof HolmLastlight!=='undefined'?HolmLastlight.snapshot():null;
+    ok('Lastlight owns a wide four-level lighthouse, three ladders and an accessible lantern deck', !v2 || !holm ||
+      (HolmLastlightData.acceptanceResult.passed===HolmLastlightData.acceptanceResult.total&&
+       lastlight&&lastlight.initialized&&lastlight.levels===3&&lastlight.ladders===2&&lastlight.dungeons===1&&
+       lastlight.floors===7&&lastlight.visualReady&&
+       lastlight.authored&&lastlight.authored.length===5));
     var workyard=holm&&WorldV2BuildingData.get('holm_survival_workyard_v1');
     var workyardResident=holm&&resident.some(function(ch){return ch.layers.objects.some(function(o){
       return o.buildingDef==='holm_survival_workyard_v1';
     });});
     var workDoors=holm&&(WORLD.doors||[]).filter(function(d){return d.userData&&
       (d.userData.partId==='trail_door'||d.userData.partId==='pond_door');});
-    ok('Workyard revision 17 is intentionally sited between path and the raised freshwater shore', !v2 || !holm ||
-      (workyard.revision===17&&workyard.placement.yOffset===-0.16&&
+    ok('Workyard revision 18 is intentionally sited between path and the raised freshwater shore', !v2 || !holm ||
+      (workyard.revision===18&&workyard.placement.yOffset===-0.16&&
        HolmLandscape.pathDistance(workyard.placement.x+workyard.doors[0].entry.outside[0],
        workyard.placement.z+workyard.doors[0].entry.outside[1])<=0.5&&
        !HolmLandscape.inPond(workyard.placement.x+workyard.doors[1].entry.outside[0],

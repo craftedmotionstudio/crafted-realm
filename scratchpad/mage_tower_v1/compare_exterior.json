@@ -1,0 +1,13 @@
+{
+  "name": "Mage Tower v1 — Exterior vs Tutorial Island reference",
+  "osrs": "Bible_References/A_Tutorial_Island_Option.jpg",
+  "cr": "scratchpad/mage_tower_v1/mage_tower_v1_game_camera.png",
+  "left_label": "TUTORIAL ISLAND REFERENCE",
+  "right_label": "BLENDER 4.5 RENDER, ELEVATED GAME CAMERA",
+  "subtitle": "Two-storey ashlar tower under a steep pyramid spire with a crescent finial, corner quoins and a string course, lean-to timber scriptorium wing",
+  "codex": 8.4,
+  "review_note": "The tower is the tallest silhouette on the headland after Lastlight and reads as a wizard's house at once: the steep slate spire and crescent finial, two rows of shuttered windows over a coursed stone shell with quoins, and the smaller timber wing tying it to the rest of the family. Doors sit under stone arches on the road sides. Held below 9.0: the ashlar courses are uniform in depth, the spire dormers are plain blocks, and the wing's lean-to meets the tower without a flashing or a chimney.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Vary the ashlar depth and add a few dressed lintels, cut real dormer hoods into the spire, and give the wing a stone chimney and lead flashing where it meets the tower.",
+  "out": "Bible_References/Complete/_compare/holm_mage_tower_v1_exterior_compare.png"
+}

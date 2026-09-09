@@ -1,0 +1,13 @@
+{
+  "name": "Holm Bank v1 — Live customer hall vs Bank reference",
+  "osrs": "Bible_References/A_Tutorial_Island_Option.jpg",
+  "cr": "scratchpad/holm_bank_v1/in_game_hall.png",
+  "left_label": "TUTORIAL ISLAND REFERENCE",
+  "right_label": "CRAFTED REALM LIVE GAME, ROOF CUT AWAY",
+  "subtitle": "Chequered marble hall, walnut teller counter under an iron grille, two brass booths, vault with ledger desk and strongboxes",
+  "codex": 8.4,
+  "review_note": "With the roof cut away the hall reads as a bank at once: the chequered floor, the long counter with its grille and two lit booths, the queue line, and the vault's strongbox wall behind. Scale beside the player is right and the staff flap explains how the vault is reached. Held below 9.0: the booth bars are hairline, the marble grid is uniform, and the vault chest is a legacy chunk prop that does not yet match the walnut family.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Thicken the booth bars into turned brass balusters, break the marble with a worn path to the counter, and re-author the vault chest in the bank's walnut and iron palette.",
+  "out": "Bible_References/Complete/_compare/holm_bank_v1_hall_compare.png"
+}

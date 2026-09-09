@@ -1,0 +1,13 @@
+{
+  "name": "Mine Gatehouse v1 — Live passage vs Tutorial Island mining reference",
+  "osrs": "Bible_References/Tutorial_Island_Mining_Cave_&_Mining_Rocks.jpg",
+  "cr": "scratchpad/mine_gatehouse_v1/in_game_passage.png",
+  "left_label": "TUTORIAL ISLAND MINING REFERENCE",
+  "right_label": "CRAFTED REALM LIVE GAME, ROOF CUT AWAY",
+  "subtitle": "Cobbled gate passage with portcullis and brazier, arch to the winch house, head-frame over the open cavern shaft",
+  "codex": 8.3,
+  "review_note": "With the roof cut away the road reads as a road: cobbles run from the open gate to the road door, the tally board and brazier give the passage a job, and the arch frames the winch house where the head-frame stands over the cavern's own ladder hole. Scale beside the player is right. Held below 9.0: the cobble grid is regular, the head-frame is dark timber against a dark floor and needs a lit lamp cluster, and the ore bay is only glimpsed from this camera.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Light the shaft with two hanging lamps, vary cobble sizes and add a worn wheel rut, and pull the ore bin forward to the bay mouth.",
+  "out": "Bible_References/Complete/_compare/holm_mine_gatehouse_v1_passage_compare.png"
+}

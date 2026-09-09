@@ -1,0 +1,13 @@
+{
+  "name": "Holm Bank v1 — Exterior vs Bank reference",
+  "osrs": "Bible_References/A_Tutorial_Island_Option.jpg",
+  "cr": "scratchpad/holm_bank_v1/holm_bank_v1_game_camera.png",
+  "left_label": "BANK REFERENCE",
+  "right_label": "BLENDER 4.5 RENDER, ELEVATED GAME CAMERA",
+  "subtitle": "Gabled banking hall with counting-house dormer, stone vault chimney, half-octagonal waiting bay, gilded coin sign",
+  "codex": 8.4,
+  "review_note": "The bank reads as a civic building rather than a cottage: the coin sign over a twin-leaf door, the dormer and chimney breaking the ridge, and the west bay give it a fifth distinct silhouette in the family. Fieldstone base, timber bays, shuttered windows and fitted doors keep the Guide Hall language. Held below 9.0: the dormer is a plain box with a flat cap, the gable ends are bare plaster, and the roof courses remain flat slabs.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Give the dormer a proper pitched cap and sill, add a carved bargeboard with a coin motif to the road gable, and stagger the tile courses.",
+  "out": "Bible_References/Complete/_compare/holm_bank_v1_exterior_compare.png"
+}

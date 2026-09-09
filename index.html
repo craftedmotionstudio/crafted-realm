@@ -489,6 +489,7 @@
   #build-stamp.min{font-size:0;padding:5px 6px;}
   #build-stamp.min:before{content:'\25CF';font-size:11px;}  /* collapsed: a single dot */
 </style>
+<link rel="stylesheet" href="assets/ui/login_overhaul.css?v=3">
 </head>
 <body>
 <canvas id="game-canvas"></canvas>
@@ -502,54 +503,94 @@
   </div>
 </div>
 
-<!-- OSRS-style welcome screen -->
-<div id="welcome-screen">
-  <div class="arch"></div>
-  <div class="steps"><div></div><div></div><div></div></div>
-  <!-- Looping video background: drop assets/ui/login_bg.mp4 to enable. If absent/can't play,
-       it stays transparent and the static login_bg.png shows through. (Floating-flame overlay removed.) -->
-  <video id="login-bgvideo" autoplay loop muted playsinline oncanplay="this.style.opacity=1">
-    <source src="assets/ui/login_bg.mp4" type="video/mp4">
-  </video>
-  <div class="world-badge">World 1<small>Veyhollow</small></div>
-  <button class="login-music" onclick="Sfx.ensure();Music.toggle();" title="Toggle music">♪</button>
-  <div class="login-footer">
-    This game is an original work by <span class="gold">Crafted Motion</span>.<br>
-    Crafted Realm Beta · your adventurer is saved on this device
+<!-- Original old-school fantasy welcome screen. The IDs inside the panel are part of the smoke/login contract. -->
+<div id="welcome-screen" aria-label="Crafted Realm welcome screen">
+  <div class="login-sky-wash" aria-hidden="true"></div>
+  <div class="login-vignette" aria-hidden="true"></div>
+  <div id="login-embers" aria-hidden="true"></div>
+
+  <div class="login-fire-pillar login-fire-pillar-left" aria-hidden="true">
+    <div class="pillar-cap"><div class="brazier-bowl"><i class="coal c1"></i><i class="coal c2"></i><i class="coal c3"></i></div></div>
+    <div class="pillar-fire"><i class="fire-outer"></i><i class="fire-mid"></i><i class="fire-core"></i><i class="fire-spark s1"></i><i class="fire-spark s2"></i><i class="fire-spark s3"></i></div>
+    <div class="pillar-fire-glow"></div><div class="pillar-shaft"><i></i><i></i><i></i></div><div class="pillar-foot"></div>
   </div>
-  <div id="welcome-logo">Crafted Realm</div>
-  <div id="welcome-box" class="steel">
+  <div class="login-fire-pillar login-fire-pillar-right" aria-hidden="true">
+    <div class="pillar-cap"><div class="brazier-bowl"><i class="coal c1"></i><i class="coal c2"></i><i class="coal c3"></i></div></div>
+    <div class="pillar-fire"><i class="fire-outer"></i><i class="fire-mid"></i><i class="fire-core"></i><i class="fire-spark s1"></i><i class="fire-spark s2"></i><i class="fire-spark s3"></i></div>
+    <div class="pillar-fire-glow"></div><div class="pillar-shaft"><i></i><i></i><i></i></div><div class="pillar-foot"></div>
+  </div>
 
-    <div id="login-choose">
+  <div class="world-badge" aria-label="World 1, Veyhollow"><b>WORLD 1</b><small>VEYHOLLOW</small><span>READY</span></div>
+  <button class="login-music" id="login-music-toggle" type="button" title="Toggle title music" aria-label="Toggle title music">♪</button>
+
+  <div class="login-title-wrap">
+    <div class="login-crest" aria-hidden="true"><i></i><b>CR</b></div>
+    <div id="welcome-logo">Crafted Realm</div>
+    <div class="login-subtitle">An old-school browser adventure</div>
+  </div>
+
+  <main id="welcome-box" class="steel" aria-live="polite">
+    <div class="login-panel-rivets" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+    <section id="login-choose" class="login-stage">
+      <div class="login-kicker">Choose your path</div>
       <h3>Welcome to Crafted Realm</h3>
-      <p style="font-size:11px">Beta v2.5 &nbsp;·&nbsp; World 1 &nbsp;·&nbsp; Members: No</p>
-      <button class="lg-btn" id="btn-new">New Adventurer</button>
-      <button class="lg-btn" id="btn-continue">Continue Adventure</button>
-      <p id="login-note" style="font-size:10px;color:#9a8e78;margin-top:6px"></p>
-    </div>
-
-    <div id="login-create" style="display:none">
-      <h3>Create your adventurer</h3>
-      <input id="char-name" maxlength="14" placeholder="Name your adventurer" value="Adventurer">
-      <p style="font-size:11px;margin-bottom:2px">Tunic</p>
-      <div class="swatches" id="sw-shirt"></div>
-      <p style="font-size:11px;margin-bottom:2px">Skin</p>
-      <div class="swatches" id="sw-skin"></div>
-      <button class="lg-btn" id="btn-begin">Begin your journey</button>
-    </div>
-
-    <div id="login-play" style="display:none">
-      <h3 id="play-welcome">Welcome to Crafted Realm</h3>
-      <p id="play-sub" style="font-size:12px">You are about to wash ashore on <b style="color:#ffd24a">Tutor's Holm</b>.</p>
-      <p id="welcome-progress" style="font-size:11px;color:#9ad06a;margin-bottom:10px;"></p>
-      <button id="play-btn">CLICK HERE TO PLAY</button>
-      <div style="margin-top:10px">
-        <a href="#" style="color:#9a8e78;font-size:11px;"
-           onclick="if(confirm('Erase your saved adventurer and start fresh?')){SaveGame.reset();location.reload();}return false;">
-           Reset saved adventurer</a>
+      <div class="login-status-row"><span>Free world</span><span>Single player</span><span>Beta</span></div>
+      <button class="lg-btn lg-btn-primary" id="btn-continue" type="button"><strong>Continue Adventure</strong><small id="continue-detail">Resume your local adventurer</small></button>
+      <button class="lg-btn" id="btn-new" type="button"><strong>New Adventurer</strong><small>Begin on Tutor's Holm</small></button>
+      <p id="login-note" class="login-note"></p>
+      <div class="login-utility-row">
+        <button type="button" id="btn-login-options">Options</button>
+        <button type="button" id="btn-login-fullscreen">Fullscreen</button>
       </div>
-    </div>
+    </section>
 
+    <section id="login-create" class="login-stage" style="display:none">
+      <div class="login-kicker">New adventurer</div>
+      <h3>Who are you?</h3>
+      <label class="login-field-label" for="char-name">Adventurer name</label>
+      <input id="char-name" maxlength="14" placeholder="Name your adventurer" value="Adventurer" autocomplete="off" spellcheck="false">
+      <fieldset class="login-choice-set"><legend>Tunic colour</legend><div class="swatches" id="sw-shirt"></div></fieldset>
+      <fieldset class="login-choice-set"><legend>Skin tone</legend><div class="swatches" id="sw-skin"></div></fieldset>
+      <p class="login-hint">You can refine your appearance after arriving on the Holm.</p>
+      <button class="lg-btn lg-btn-primary" id="btn-begin" type="button">Begin your journey</button>
+      <button class="login-back" id="btn-create-back" type="button">← Back</button>
+    </section>
+
+    <section id="login-play" class="login-stage" style="display:none">
+      <div class="login-kicker">Adventure ready</div>
+      <h3 id="play-welcome">Welcome to Crafted Realm</h3>
+      <p id="play-sub">You are about to wash ashore on <b>Tutor's Holm</b>.</p>
+      <div id="login-profile-summary" class="login-profile-summary"></div>
+      <p id="welcome-progress"></p>
+      <button id="play-btn" type="button">ENTER VEYHOLLOW</button>
+      <div class="login-utility-row">
+        <button type="button" id="btn-play-back">Back</button>
+        <button type="button" id="btn-reset-save">Erase save</button>
+      </div>
+    </section>
+
+    <section id="login-confirm-new" class="login-stage" style="display:none" role="alertdialog" aria-labelledby="confirm-new-title">
+      <div class="login-warning-rune" aria-hidden="true">!</div>
+      <h3 id="confirm-new-title">Begin a new adventure?</h3>
+      <p>Your current local adventurer will be erased. This cannot be undone.</p>
+      <button class="lg-btn lg-btn-danger" id="btn-confirm-new" type="button">Erase save and continue</button>
+      <button class="login-back" id="btn-cancel-new" type="button">Keep my adventurer</button>
+    </section>
+
+    <section id="login-options" class="login-stage" style="display:none">
+      <div class="login-kicker">Welcome screen</div>
+      <h3>Options</h3>
+      <label class="login-toggle"><span><b>Reduced motion</b><small>Calmer flames and no drifting embers</small></span><input id="login-reduced-motion" type="checkbox"></label>
+      <label class="login-toggle"><span><b>High contrast text</b><small>Brighter labels and stronger panel edges</small></span><input id="login-high-contrast" type="checkbox"></label>
+      <p class="login-local-note">Your single-player profile is stored only on this device. Online accounts will arrive in a later release.</p>
+      <button class="login-back" id="btn-options-back" type="button">← Back</button>
+    </section>
+  </main>
+
+  <div class="login-footer">
+    Original game by <span class="gold">Crafted Motion</span><br>
+    Crafted Realm Beta · local profile · Chrome &amp; Edge
   </div>
 </div>
 
@@ -560,14 +601,14 @@
   <button onclick="Tutorial.skip()">Skip tutorial</button>
 </div>
 
-<div id="minimap-frame"><button id="music-btn" title="Toggle music">♪</button><button id="compass-btn" title="Reset view">🧭</button>
+<div id="minimap-frame"><button id="music-btn" title="Toggle music"><img src="assets/icons/ui/tabs/music.png" alt=""></button><button id="compass-btn" title="Reset view"><img src="assets/icons/ui/tabs/compass.png" alt=""></button>
 <canvas id="minimap" width="144" height="144"></canvas>
-<button id="worldmap-btn" onclick="UI.openWorldMap()" title="World map">🗺</button></div>
+<button id="worldmap-btn" onclick="UI.openWorldMap()" title="World map"><img src="assets/icons/ui/tabs/map.png" alt=""></button></div>
 <div id="music-menu"></div>
 <div id="ctx-menu"><div class="ctx-head">Choose Option</div><div id="ctx-rows"></div></div>
 <div id="run-orb" title="Toggle run">🏃 <span id="run-pct">100</span>%</div>
-<div id="mob-panel-btn" class="mob-toggle" title="Pack &amp; skills">🎒</div>
-<div id="mob-chat-btn" class="mob-toggle" title="Chat">💬<span class="dot" id="chat-dot"></span></div>
+<div id="mob-panel-btn" class="mob-toggle" title="Pack &amp; skills"><img src="assets/icons/ui/tabs/inventory.png" alt=""></div>
+<div id="mob-chat-btn" class="mob-toggle" title="Chat"><img src="assets/icons/ui/tabs/chat.png" alt=""><span class="dot" id="chat-dot"></span></div>
 
 <div id="orbs">
   <div class="orb" id="hp-orb" title="Hitpoints"><span class="num" id="hp-orb-num">10</span><span class="lbl">HP</span></div>
@@ -580,12 +621,22 @@
 <div id="zone-box" class="steel"><div id="zone-label" class="osrs-title">Tutor's Holm</div></div>
 
 <div id="side-panel" class="steel">
-  <div id="tab-bar">
+  <div id="tab-bar-legacy" hidden>
     <div class="tab-btn" data-tab="combat" title="Combat styles">⚔️</div>
     <div class="tab-btn active" data-tab="inv" title="Inventory">🎒</div>
     <div class="tab-btn" data-tab="equip" title="Worn equipment">🛡️</div>
     <div class="tab-btn" data-tab="skills" title="Skills">📜</div>
     <div class="tab-btn" data-tab="quests" title="Quest journal">⭐</div>
+  </div>
+  <div id="tab-bar">
+    <div class="tab-btn" data-tab="combat" title="Combat styles"><img class="tab-ico" src="assets/icons/ui/tabs/combat.png" alt=""></div>
+    <div class="tab-btn" data-tab="skills" title="Skills"><img class="tab-ico" src="assets/icons/ui/tabs/skills.png" alt=""></div>
+    <div class="tab-btn" data-tab="quests" title="Quest journal"><img class="tab-ico" src="assets/icons/ui/tabs/quests.png" alt=""></div>
+    <div class="tab-btn active" data-tab="inv" title="Inventory"><img class="tab-ico" src="assets/icons/ui/tabs/inventory.png" alt=""></div>
+    <div class="tab-btn" data-tab="equip" title="Worn equipment"><img class="tab-ico" src="assets/icons/ui/tabs/equipment.png" alt=""></div>
+    <div class="tab-btn" data-tab="prayers" title="Prayer book"><img class="tab-ico" src="assets/icons/ui/tabs/prayer.png" alt=""></div>
+    <div class="tab-btn" data-tab="spells" title="Spellbook"><img class="tab-ico" src="assets/icons/ui/tabs/magic.png" alt=""></div>
+    <div class="tab-btn" data-tab="drops" title="Bestiary"><img class="tab-ico" src="assets/icons/ui/tabs/bestiary.png" alt=""></div>
   </div>
   <div class="tab-pane" id="pane-combat"><div id="combat-styles"></div></div>
   <div class="tab-pane active" id="pane-inv"><div id="inv-grid"></div></div>
@@ -610,11 +661,26 @@
   <div class="tab-pane" id="pane-equip"><div id="equip-list"></div>
     <div style="margin-top:8px;color:#9a8e78;font-size:11px">Click items in your pack to wield or wear them. Your character shows what you equip.</div>
   </div>
-  <div id="tab-bar-bottom">
+  <div class="tab-pane social-pane" id="pane-clan"><h3>Clan hall</h3><p class="ui-copy">Your clan roster and shared channel will appear here when shared worlds open.</p><div class="ui-empty">No clan joined</div><button class="set-btn wide" disabled>Find a clan</button></div>
+  <div class="tab-pane social-pane" id="pane-friends"><h3>Friends</h3><div class="ui-list"><div>Friends list <span>0 / 200</span></div></div><div class="ui-empty">Your road is quiet—for now.</div><button class="set-btn wide" disabled>Add friend</button></div>
+  <div class="tab-pane social-pane" id="pane-ignore"><h3>Ignore list</h3><div class="ui-list"><div>Ignored players <span>0 / 100</span></div></div><div class="ui-empty">No adventurers ignored.</div><button class="set-btn wide" disabled>Add name</button></div>
+  <div class="tab-pane social-pane" id="pane-emotes"><h3>Emotes</h3><div class="emote-grid"><button title="Yes">✓</button><button title="No">×</button><button title="Bow">⌄</button><button title="Angry">!</button><button title="Think">?</button><button title="Wave">~</button><button title="Cheer">↑</button><button title="Laugh">□</button><button title="Dance">♫</button><button title="Sit">⌑</button><button title="Shrug">⌁</button><button title="Clap">◆</button></div><p class="ui-copy">Select an emote to express yourself.</p></div>
+  <div class="tab-pane social-pane" id="pane-music"><h3>Music player</h3><div class="music-track active">Tutor's Holm</div><div class="music-track">Under the Hearth</div><div class="music-track locked">???</div><button class="set-btn wide" onclick="UI.toggleMusic()">Toggle music</button></div>
+  <div class="tab-pane social-pane" id="pane-logout"><h3>Leaving so soon?</h3><p class="ui-copy">Your progress is saved locally before you return to the welcome screen.</p><button class="set-btn wide" onclick="UI.manualSave()">Save now</button><button class="set-btn wide logout" onclick="UI.logout()">Log out</button></div>
+  <div id="tab-bar-bottom-legacy" hidden>
     <div class="tab-btn" data-tab="prayers" title="Prayer book">🙏</div>
     <div class="tab-btn" data-tab="spells" title="Spellbook">🪄</div>
     <div class="tab-btn" data-tab="drops" title="Bestiary — drop tables">📖</div>
     <div class="tab-btn" data-tab="settings" title="Settings & logout">⚙️</div>
+  </div>
+  <div id="tab-bar-bottom">
+    <div class="tab-btn" data-tab="clan" title="Clan chat"><img class="tab-ico" src="assets/icons/ui/tabs/clan.png" alt=""></div>
+    <div class="tab-btn" data-tab="friends" title="Friends"><img class="tab-ico" src="assets/icons/ui/tabs/friends.png" alt=""></div>
+    <div class="tab-btn" data-tab="ignore" title="Ignore list"><img class="tab-ico" src="assets/icons/ui/tabs/ignore.png" alt=""></div>
+    <div class="tab-btn" data-tab="logout" title="Logout"><img class="tab-ico" src="assets/icons/ui/tabs/logout.png" alt=""></div>
+    <div class="tab-btn" data-tab="settings" title="Settings"><img class="tab-ico" src="assets/icons/ui/tabs/settings.png" alt=""></div>
+    <div class="tab-btn" data-tab="emotes" title="Emotes"><img class="tab-ico" src="assets/icons/ui/tabs/emotes.png" alt=""></div>
+    <div class="tab-btn" data-tab="music" title="Music"><img class="tab-ico" src="assets/icons/ui/tabs/music.png" alt=""></div>
   </div>
 </div>
 
@@ -636,6 +702,21 @@
     <div id="dlg-head">🧔</div>
     <div style="flex:1"><p id="dlg-text"></p><div id="dlg-opts"></div></div>
   </div>
+</div>
+
+<div class="modal" id="quest-scroll-modal" role="dialog" aria-modal="true" aria-labelledby="quest-scroll-title">
+  <button class="quest-scroll-close" type="button" onclick="UI.closeModal('quest-scroll-modal')" aria-label="Close quest journal">×</button>
+  <div class="quest-scroll-curl quest-scroll-curl-a"></div><div class="quest-scroll-curl quest-scroll-curl-b"></div>
+  <header class="quest-scroll-head">
+    <div id="quest-scroll-difficulty">Novice quest</div>
+    <h2 id="quest-scroll-title">Quest title</h2>
+    <div id="quest-scroll-giver">Started by someone noteworthy</div>
+  </header>
+  <div id="quest-scroll-body"></div>
+  <footer class="quest-scroll-foot">
+    <button id="quest-scroll-track" class="quest-scroll-button" type="button">Track quest</button>
+    <span id="quest-scroll-points"></span>
+  </footer>
 </div>
 
 <div class="modal steel" id="bank-modal">
@@ -712,30 +793,37 @@
 <script src="src/config.js?v=3"></script>
 <script src="src/world_mode.js?v=3"></script>
 <script src="src/item_attrs.js?v=1"></script>
-<script src="src/game0_icons.js"></script>
+<script src="src/game0_icons.js?v=t2"></script>
 <script src="src/worldgrid.js?v=4"></script>
-  <script src="src/holm_landscape_data.js?v=8"></script>
-  <script src="src/world_v2_building_data.js?v=23"></script>
-  <script src="src/holm_tutorial_flow_data.js?v=5"></script>
+  <script src="src/holm_landscape_data.js?v=23"></script>
+  <script src="src/holm_lastlight_data.js?v=15"></script>
+  <script src="src/world_v2_building_data.js?v=34"></script>
+  <script src="src/world_v2_authoring.js?v=1"></script>
+  <script src="src/world_v2_bundle_authoring.js?v=3"></script>
+  <script src="src/world_v2_district_bundle_authoring.js?v=2"></script>
+  <script src="src/world_v2_terrain_district.js?v=1"></script>
+  <script src="src/holm_tutorial_flow_data.js?v=14"></script>
 <script>CRWorldMode.loadLegacyScript('src/tutorial_island.js?v=10')</script>
 <script>CRWorldMode.loadLegacyScript('src/tut_cave_dress.js?v=1')</script>
 <script src="src/game1_data.js?v=q14"></script>
 <script src="src/chunks.js"></script>
 <script src="src/world_v2_contract.js?v=5"></script>
-  <script src="src/world_v2_holm.js?v=15"></script>
+  <script src="src/world_v2_holm.js?v=28"></script>
   <script src="src/world_v2_mainland.js?v=1"></script>
   <script src="src/world_v2_boot_select.js?v=1"></script>
-<script src="src/collision_grid.js?v=3"></script>
+<script src="src/collision_grid.js?v=4"></script>
 <script src="src/proc_props.js"></script>
-<script src="src/game2_world.js?v=h31"></script>
+<script src="src/game2_world.js?v=h35"></script>
+<script src="src/mining_rocks_v1.js?v=2"></script>
 <script src="src/world_walk_surfaces.js?v=1"></script>
 <script src="src/roof_transitions.js?v=1"></script>
 <script src="src/holm_landscape_runtime.js?v=1"></script>
-  <script src="src/world_v2_buildings.js?v=28"></script>
+  <script src="src/world_v2_buildings.js?v=39"></script>
   <script src="src/world_v2_terrain.js?v=3"></script>
-  <script src="src/world_v2_objects.js?v=10"></script>
+  <script src="src/world_v2_objects.js?v=18"></script>
 <script>CRWorldMode.loadLegacyScript('src/tut_statue.js?v=1')</script>
 <script src="src/world_gear.js?v=1"></script>
+<script src="src/gear_models_v1.js?v=2"></script>
 <script src="src/world_scatter.js?v=2"></script>
 <script>CRWorldMode.loadLegacyScript('src/prop_grass_tufts.js?v=1')</script>
 <script>CRWorldMode.loadLegacyScript('src/prop_paving.js?v=1')</script>
@@ -781,7 +869,7 @@
 <script>CRWorldMode.loadLegacyScript('src/ref_torch.js?v=1')</script>
 <script>CRWorldMode.loadLegacyScript('src/ref_townpool.js?v=1')</script>
 <script src="src/combat_math.js?v=1"></script>
-<script src="src/planes.js?v=9"></script>
+<script src="src/planes.js?v=10"></script>
 <script>CRWorldMode.loadLegacyScript('src/buildkit.js?v=15')</script>
 <script>CRWorldMode.loadLegacyScript('src/buildkit_thatch.js?v=1')</script>
 <script>CRWorldMode.loadLegacyScript('src/tut_bld_guide.js?v=7')</script>
@@ -813,7 +901,7 @@
 <script>CRWorldMode.loadLegacyScript('src/item_spawns.js?v=2')</script>
 <script src="src/proc_beasts.js"></script>
 <script src="src/game_assets.js"></script>
-<script src="src/game3_systems.js?v=g10"></script>
+<script src="src/game3_systems.js?v=g11"></script>
 <script src="src/sfx_furnishings.js?v=5"></script>
 <script src="src/waterworks_u4_contract.js?v=1"></script>
 <script src="src/fishing_edge_u5_contract.js?v=1"></script>
@@ -826,14 +914,16 @@
 <script src="src/audio_title_full.js?v=1"></script>
 <script src="src/audio_hearthside.js?v=1"></script>
 <script src="src/audio_minstrel.js?v=1"></script>
-<script src="src/game4_ui.js?v=r26"></script>
+<script src="src/game4_ui.js?v=r34"></script>
 <script src="src/ui_osrs.js?v=1"></script>
 <script src="src/ui_prayer_magic.js?v=1"></script>
 <script src="src/ui_combat.js?v=1"></script>
 <script src="src/ui_minimap.js?v=1"></script>
-<script src="src/ui_map.js?v=2"></script>
+<script src="src/ui_map.js?v=4"></script>
 <script src="src/ui_shop.js?v=1"></script>
-  <script src="src/ui_save.js?v=6"></script>
+  <script src="src/qa_profile.js?v=3"></script>
+  <script src="src/ui_save.js?v=10"></script>
+  <script src="src/login_overhaul.js?v=2"></script>
 <script src="src/overlays.js?v=2"></script>
 <script src="src/tick_health.js?v=2"></script>
 <script src="src/overlays_world.js?v=4"></script>
@@ -850,7 +940,7 @@
   <script src="src/dispatch.js?v=3"></script>
   <script src="src/world_v2_travel.js?v=1"></script>
   <script src="src/admin_landmarks.js?v=3"></script>
-<script src="src/dev_travel.js?v=8"></script>
+<script src="src/dev_travel.js?v=21"></script>
 <script src="src/hollow_square_interactions.js?v=1"></script>
 <script src="src/intents.js?v=1"></script>
   <script src="src/workyard_waterworks_u4.js?v=3"></script>
@@ -864,21 +954,34 @@
 <script src="src/boss_sm.js?v=1"></script>
 <script src="src/instances.js?v=2"></script>
 <script src="src/tutorial_ext.js?v=1"></script>
-  <script src="src/tutorial_holm.js?v=5"></script>
-  <script src="src/holm_guide_hall_interactions.js?v=2"></script>
+  <script src="src/tutorial_holm.js?v=7"></script>
+<script src="src/holm_station_reach.js?v=1"></script>
+  <script src="src/holm_guide_hall_interactions.js?v=4"></script>
   <script src="src/holm_survival_workyard_interactions.js?v=4"></script>
+<script src="src/holm_teaching_kitchen_interactions.js?v=4"></script>
+<script src="src/holm_quest_lodge_interactions.js?v=3"></script>
+<script src="src/holm_mine_gatehouse_interactions.js?v=2"></script>
+<script src="src/holm_bank_interactions.js?v=2"></script>
+<script src="src/holm_combat_hall_interactions.js?v=1"></script>
+<script src="src/holm_mage_tower_interactions.js?v=1"></script>
 <script src="src/holm_cellar_furnishings.js?v=13"></script>
-<script src="src/holm_survival_workyard_cellar.js?v=48"></script>
-<script src="src/holm_training_cavern.js?v=4"></script>
+<script src="src/holm_survival_workyard_cellar.js?v=49"></script>
+<script src="src/holm_training_cavern.js?v=11"></script>
+<script src="src/holm_survival_trees.js?v=1"></script>
+<script src="src/holm_lastlight_runtime.js?v=47"></script>
   <script src="src/holm_departure.js?v=1"></script>
 <script>CRWorldMode.loadLegacyScript('src/tut_holm_path.js?v=2')</script>
 <script src="src/dev_tools.js?v=1"></script>
 <script src="src/homesteads.js?v=1"></script>
-<script src="src/quest_ui.js?v=q2"></script>
+<script src="src/quest_ui.js?v=q3"></script>
 <script src="src/ui_medieval.js?v=3"></script>
 <script src="src/ui_finish.js?v=1"></script>
+<script src="src/ui_osrs.js?v=1"></script>
 <script src="src/ui_equip_quest.js?v=1"></script>
 <script src="src/ui_skills.js?v=1"></script>
+<script src="src/ui_combat.js?v=1"></script>
+<script src="src/ui_reference_finish.js?v=2"></script>
+<script src="src/ui_quest_scroll.js?v=3"></script>
 <script src="src/equip_preview.js?v=1"></script>
 <script src="src/npc_chars.js?v=3"></script>
 <script src="src/game_editor.js?v=2"></script>
@@ -887,12 +990,14 @@
 <script>CRWorldMode.loadLegacyScript('src/starter_pen.js?v=5')</script>
 <script src="src/input_controls.js?v=2"></script>
 <script src="src/char_creator.js"></script>
-<script src="src/fx_humanoid.js?v=g15"></script>
+<script src="src/equip_builder.js?v=3"></script>
+<script src="src/fx_humanoid.js?v=g19"></script>
 <script src="src/char_quaternius.js?v=2"></script>
 <script src="src/char_customizer.js"></script>
 <script src="src/char_styles.js"></script>
 <script src="src/boot_coordinator.js?v=1"></script>
-<script src="src/game5_main.js?v=h25"></script>
+<script src="src/crafting_action_visuals.js?v=3"></script>
+<script src="src/game5_main.js?v=h34"></script>
 <script src="src/tut_firemaking.js?v=1"></script>
 <script>
   /* sync the settings volume sliders to saved values on load */

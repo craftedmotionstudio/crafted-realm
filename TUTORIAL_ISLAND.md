@@ -103,3 +103,11 @@ guidance UI, (B) island terrain enlargement + buildings, (C) underground cave la
 station step logic + item grants, (G) mainland teleport + starter inventory. Eyes-on placement
 & verification stays in the main session (headless agents can't see the world). Gate each piece
 in-browser; keep only if it works. Log to PASS_LOG.md.
+
+## STATUS (2026-09-09)
+- Environment → land → buildings are done for Tutor's Holm: all eight stations are complete Blender-built
+  functional grayboxes and the required thirteen-step route plus the NPC-free optional lessons are proven playable
+  with real pointer input (`tools/qa_holm_full_route.js`, `docs/rebuild/TUTORS_HOLM_FULL_ROUTE_QA_2026-09-09.md`).
+- Still deferred per the sequencing directive above: modelled NPCs (tutors, chef, quest guide, combat instructors,
+  mage) and the three kill trials; their sockets are authored in the buildings. Art acceptance of every building
+  waits on the owner's fully-designed gate.

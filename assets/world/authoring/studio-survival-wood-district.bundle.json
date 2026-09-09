@@ -1,0 +1,2006 @@
+{
+  "schema": "crafted-realm-world-v2-district-bundle-v1",
+  "version": 1,
+  "chunkSize": 8,
+  "source": {
+    "path": "assets/world/authoring/studio-survival-wood-district.json"
+  },
+  "provider": {
+    "id": "tutors-holm-v2",
+    "worldRevision": 4
+  },
+  "landscape": {
+    "planId": "tutors-holm-landscape-v1",
+    "revision": 3,
+    "district": {
+      "id": "survival_wood",
+      "label": "Survival Wood",
+      "role": "gathering",
+      "tutorialRole": "wood-fire-fish-cook-water",
+      "elevationBand": [
+        0.55,
+        2.2
+      ],
+      "center": [
+        132,
+        151
+      ],
+      "radius": 17,
+      "landmark": "holm_pond"
+    },
+    "pads": [
+      {
+        "id": "survival_shelter",
+        "label": "Survival Workyard",
+        "role": "gathering-support",
+        "x": 116,
+        "z": 151,
+        "w": 20,
+        "d": 14,
+        "level": 0.92,
+        "door": "S"
+      }
+    ],
+    "pond": {
+      "id": "holm_pond",
+      "label": "Survival Pond",
+      "x": 132,
+      "z": 151,
+      "r": 6.2,
+      "kind": "landmark"
+    },
+    "routes": [
+      {
+        "id": "holm_guided_spine",
+        "label": "Guided island spine",
+        "width": 3.2,
+        "kind": "primary",
+        "points": [
+          [
+            151,
+            169
+          ],
+          [
+            151,
+            167
+          ],
+          [
+            151,
+            142
+          ],
+          [
+            134,
+            142
+          ],
+          [
+            134,
+            147
+          ],
+          [
+            145,
+            147
+          ],
+          [
+            145,
+            137
+          ],
+          [
+            128,
+            137
+          ],
+          [
+            128,
+            120
+          ],
+          [
+            158,
+            120
+          ],
+          [
+            158,
+            143
+          ],
+          [
+            184,
+            143
+          ],
+          [
+            184,
+            136
+          ],
+          [
+            193,
+            136
+          ],
+          [
+            193,
+            151
+          ],
+          [
+            207,
+            151
+          ]
+        ]
+      },
+      {
+        "id": "survival_pond_loop",
+        "label": "Pond loop",
+        "width": 2.4,
+        "kind": "secondary",
+        "points": [
+          [
+            134,
+            158
+          ],
+          [
+            114,
+            158
+          ],
+          [
+            114,
+            143
+          ],
+          [
+            128,
+            143
+          ],
+          [
+            128,
+            146
+          ],
+          [
+            134,
+            146
+          ]
+        ]
+      },
+      {
+        "id": "arrival_lookout_path",
+        "label": "Arrival lookout path",
+        "width": 2.4,
+        "kind": "secondary",
+        "points": [
+          [
+            150,
+            165
+          ],
+          [
+            145,
+            165
+          ],
+          [
+            145,
+            175
+          ]
+        ]
+      }
+    ]
+  },
+  "building": {
+    "sourcePath": "assets/world/authoring/studio-survival-workyard.json",
+    "bundlePath": "assets/world/authoring/studio-survival-workyard.bundle.json",
+    "definitionId": "holm_survival_workyard_v1",
+    "definitionRevision": 18,
+    "runtimePlacementId": "holm_survival_workyard",
+    "placement": {
+      "id": "studio-survival-workyard",
+      "definitionId": "holm_survival_workyard_v1",
+      "definitionRevision": 18,
+      "asset": "holm_survival_workyard",
+      "x": 116,
+      "z": 151,
+      "rot": 0,
+      "yOffset": -0.16
+    }
+  },
+  "chunks": [
+    {
+      "id": "13,16",
+      "cx": 13,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": []
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "14,16",
+      "cx": 14,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "quarry_rise",
+            "role": "production"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "15,16",
+      "cx": 15,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "quarry_rise",
+            "role": "production"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "16,16",
+      "cx": 16,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "quarry_rise",
+            "role": "production"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "quest_lodge",
+            "role": "story-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "17,16",
+      "cx": 17,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "quarry_rise",
+            "role": "production"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "quest_lodge",
+            "role": "story-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "18,16",
+      "cx": 18,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "wardens_ridge",
+            "role": "bank-combat"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "teaching_kitchen",
+            "role": "cooking-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "13,17",
+      "cx": 13,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "14,17",
+      "cx": 14,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "15,17",
+      "cx": 15,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "16,17",
+      "cx": 16,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "quest_lodge",
+            "role": "story-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "17,17",
+      "cx": 17,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          },
+          {
+            "kind": "building-pad",
+            "id": "quest_lodge",
+            "role": "story-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "18,17",
+      "cx": 18,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "wardens_ridge",
+            "role": "bank-combat"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          },
+          {
+            "kind": "building-pad",
+            "id": "teaching_kitchen",
+            "role": "cooking-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "13,18",
+      "cx": 13,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "survival_shelter",
+            "role": "gathering-support"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "14,18",
+      "cx": 14,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "survival_shelter",
+            "role": "gathering-support"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "15,18",
+      "cx": 15,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "survival_shelter",
+            "role": "gathering-support"
+          },
+          {
+            "kind": "water",
+            "id": "holm_pond",
+            "role": "freshwater"
+          }
+        ]
+      },
+      "tileFlags": [
+        {
+          "x": 126,
+          "z": 148,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_shore_walk"
+        },
+        {
+          "x": 127,
+          "z": 148,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_shore_walk"
+        },
+        {
+          "x": 126,
+          "z": 149,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_shore_walk"
+        },
+        {
+          "x": 127,
+          "z": 149,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_shore_walk"
+        },
+        {
+          "x": 127,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 127,
+          "z": 151,
+          "mask": 1,
+          "reason": "terrain-water"
+        }
+      ]
+    },
+    {
+      "id": "16,18",
+      "cx": 16,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "water",
+            "id": "holm_pond",
+            "role": "freshwater"
+          }
+        ]
+      },
+      "tileFlags": [
+        {
+          "x": 130,
+          "z": 146,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 131,
+          "z": 146,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 132,
+          "z": 146,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 146,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 128,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 129,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 130,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 131,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 132,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 128,
+          "z": 148,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_shore_walk"
+        },
+        {
+          "x": 129,
+          "z": 148,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_shore_walk"
+        },
+        {
+          "x": 130,
+          "z": 148,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_turn_walk"
+        },
+        {
+          "x": 131,
+          "z": 148,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_turn_walk"
+        },
+        {
+          "x": 132,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 128,
+          "z": 149,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_shore_walk"
+        },
+        {
+          "x": 129,
+          "z": 149,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_shore_walk"
+        },
+        {
+          "x": 130,
+          "z": 149,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_turn_walk"
+        },
+        {
+          "x": 131,
+          "z": 149,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_turn_walk"
+        },
+        {
+          "x": 132,
+          "z": 149,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 149,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 149,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 149,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 128,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 129,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 130,
+          "z": 150,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_bank_walk"
+        },
+        {
+          "x": 131,
+          "z": 150,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_bank_walk"
+        },
+        {
+          "x": 132,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 128,
+          "z": 151,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 129,
+          "z": 151,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 130,
+          "z": 151,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_bank_walk"
+        },
+        {
+          "x": 131,
+          "z": 151,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_bank_walk"
+        },
+        {
+          "x": 132,
+          "z": 151,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 151,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 151,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 151,
+          "mask": 1,
+          "reason": "terrain-water"
+        }
+      ]
+    },
+    {
+      "id": "17,18",
+      "cx": 17,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          },
+          {
+            "kind": "water",
+            "id": "holm_pond",
+            "role": "freshwater"
+          }
+        ]
+      },
+      "tileFlags": [
+        {
+          "x": 136,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 136,
+          "z": 149,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 136,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 136,
+          "z": 151,
+          "mask": 1,
+          "reason": "terrain-water"
+        }
+      ]
+    },
+    {
+      "id": "18,18",
+      "cx": 18,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "13,19",
+      "cx": 13,
+      "cz": 19,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "survival_shelter",
+            "role": "gathering-support"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "14,19",
+      "cx": 14,
+      "cz": 19,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "survival_shelter",
+            "role": "gathering-support"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "15,19",
+      "cx": 15,
+      "cz": 19,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "survival_shelter",
+            "role": "gathering-support"
+          },
+          {
+            "kind": "water",
+            "id": "holm_pond",
+            "role": "freshwater"
+          }
+        ]
+      },
+      "tileFlags": [
+        {
+          "x": 127,
+          "z": 152,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 127,
+          "z": 153,
+          "mask": 1,
+          "reason": "terrain-water"
+        }
+      ]
+    },
+    {
+      "id": "16,19",
+      "cx": 16,
+      "cz": 19,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "water",
+            "id": "holm_pond",
+            "role": "freshwater"
+          }
+        ]
+      },
+      "tileFlags": [
+        {
+          "x": 128,
+          "z": 152,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 129,
+          "z": 152,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 130,
+          "z": 152,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_bank_walk"
+        },
+        {
+          "x": 131,
+          "z": 152,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_bank_walk"
+        },
+        {
+          "x": 132,
+          "z": 152,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 152,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 152,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 152,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 128,
+          "z": 153,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 129,
+          "z": 153,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 130,
+          "z": 153,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_bank_walk"
+        },
+        {
+          "x": 131,
+          "z": 153,
+          "mask": 0,
+          "reason": "authored-walk-surface",
+          "surfaceId": "dock_bank_walk"
+        },
+        {
+          "x": 132,
+          "z": 153,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 153,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 153,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 153,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 128,
+          "z": 154,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 129,
+          "z": 154,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 130,
+          "z": 154,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 131,
+          "z": 154,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 132,
+          "z": 154,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 154,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 154,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 154,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 129,
+          "z": 155,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 130,
+          "z": 155,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 131,
+          "z": 155,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 132,
+          "z": 155,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 155,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 155,
+          "mask": 1,
+          "reason": "terrain-water"
+        }
+      ]
+    },
+    {
+      "id": "17,19",
+      "cx": 17,
+      "cz": 19,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "arrival_cove",
+            "role": "arrival"
+          },
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          },
+          {
+            "kind": "water",
+            "id": "holm_pond",
+            "role": "freshwater"
+          }
+        ]
+      },
+      "tileFlags": [
+        {
+          "x": 136,
+          "z": 152,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 136,
+          "z": 153,
+          "mask": 1,
+          "reason": "terrain-water"
+        }
+      ]
+    },
+    {
+      "id": "18,19",
+      "cx": 18,
+      "cz": 19,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "arrival_cove",
+            "role": "arrival"
+          },
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "13,20",
+      "cx": 13,
+      "cz": 20,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "14,20",
+      "cx": 14,
+      "cz": 20,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "15,20",
+      "cx": 15,
+      "cz": 20,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "16,20",
+      "cx": 16,
+      "cz": 20,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "17,20",
+      "cx": 17,
+      "cz": 20,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "arrival_cove",
+            "role": "arrival"
+          },
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "route",
+            "id": "arrival_lookout_path",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "18,20",
+      "cx": 18,
+      "cz": 20,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "arrival_cove",
+            "role": "arrival"
+          },
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "arrival_lookout_path",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    }
+  ],
+  "navigation": {
+    "blockMask": 1,
+    "walkSurfaces": [
+      {
+        "id": "dock_shore_walk",
+        "x": 127.87,
+        "z": 149.15,
+        "y": 0.04,
+        "w": 3.9,
+        "d": 2,
+        "role": "dock"
+      },
+      {
+        "id": "dock_turn_walk",
+        "x": 130.92,
+        "z": 149.15,
+        "y": 0.04,
+        "w": 2.2,
+        "d": 2.2,
+        "role": "dock-turn"
+      },
+      {
+        "id": "dock_bank_walk",
+        "x": 130.995,
+        "z": 151.975,
+        "y": 0.04,
+        "w": 2.05,
+        "d": 3.45,
+        "role": "dock"
+      }
+    ],
+    "collisionRows": [
+      {
+        "id": "lodge_west",
+        "type": "obox",
+        "x": 107,
+        "z": 151,
+        "hw": 6,
+        "hd": 0.17,
+        "rot": -1.570796,
+        "role": "wall"
+      },
+      {
+        "id": "lodge_north",
+        "type": "obox",
+        "x": 111,
+        "z": 145,
+        "hw": 4,
+        "hd": 0.17,
+        "rot": 0,
+        "role": "wall"
+      },
+      {
+        "id": "lodge_south_w",
+        "type": "obox",
+        "x": 109.8,
+        "z": 157,
+        "hw": 2.8,
+        "hd": 0.17,
+        "rot": 0,
+        "role": "wall"
+      },
+      {
+        "id": "lodge_south_e",
+        "type": "obox",
+        "x": 114.575,
+        "z": 157,
+        "hw": 0.42500000000000004,
+        "hd": 0.17,
+        "rot": 0,
+        "role": "wall"
+      },
+      {
+        "id": "lodge_east_s",
+        "type": "obox",
+        "x": 115,
+        "z": 153.675,
+        "hw": 3.325,
+        "hd": 0.17,
+        "rot": -1.570796,
+        "role": "wall"
+      },
+      {
+        "id": "lodge_east_n",
+        "type": "obox",
+        "x": 115,
+        "z": 146.325,
+        "hw": 1.325,
+        "hd": 0.17,
+        "rot": -1.570796,
+        "role": "wall"
+      },
+      {
+        "id": "passage_south",
+        "type": "obox",
+        "x": 116.337,
+        "z": 150.364,
+        "hw": 1.3370732964202074,
+        "hd": 0.17,
+        "rot": 0.010471,
+        "role": "wall"
+      },
+      {
+        "id": "passage_north",
+        "type": "obox",
+        "x": 116.337,
+        "z": 147.636,
+        "hw": 1.3370732964202074,
+        "hd": 0.17,
+        "rot": -0.010471,
+        "role": "wall"
+      },
+      {
+        "id": "hearth_0",
+        "type": "obox",
+        "x": 123.352,
+        "z": 146.648,
+        "hw": 1.3774440097513945,
+        "hd": 0.17,
+        "rot": -2.356194,
+        "role": "wall"
+      },
+      {
+        "id": "hearth_1",
+        "type": "obox",
+        "x": 121,
+        "z": 145.674,
+        "hw": 1.3780000000000001,
+        "hd": 0.17,
+        "rot": 3.141593,
+        "role": "wall"
+      },
+      {
+        "id": "hearth_2",
+        "type": "obox",
+        "x": 118.648,
+        "z": 146.648,
+        "hw": 1.3774440097513945,
+        "hd": 0.17,
+        "rot": 2.356194,
+        "role": "wall"
+      },
+      {
+        "id": "hearth_4",
+        "type": "obox",
+        "x": 118.648,
+        "z": 151.352,
+        "hw": 1.3774440097513945,
+        "hd": 0.17,
+        "rot": 0.785398,
+        "role": "wall"
+      },
+      {
+        "id": "hearth_5",
+        "type": "obox",
+        "x": 121,
+        "z": 152.326,
+        "hw": 1.3780000000000001,
+        "hd": 0.17,
+        "rot": 0,
+        "role": "wall"
+      },
+      {
+        "id": "hearth_6",
+        "type": "obox",
+        "x": 123.352,
+        "z": 151.352,
+        "hw": 1.3774440097513947,
+        "hd": 0.17,
+        "rot": -0.785398,
+        "role": "wall"
+      },
+      {
+        "id": "hearth_east_s",
+        "type": "obox",
+        "x": 124.326,
+        "z": 150.139,
+        "hw": 0.23900000000000005,
+        "hd": 0.17,
+        "rot": -1.570796,
+        "role": "wall"
+      },
+      {
+        "id": "hearth_east_n",
+        "type": "obox",
+        "x": 124.326,
+        "z": 148.011,
+        "hw": 0.389,
+        "hd": 0.17,
+        "rot": -1.570796,
+        "role": "wall"
+      },
+      {
+        "id": "tool_bench",
+        "type": "rect",
+        "x": 109.85,
+        "z": 151.95,
+        "hw": 1.68,
+        "hd": 0.76,
+        "role": "service"
+      },
+      {
+        "id": "teaching_fireplace",
+        "type": "rect",
+        "x": 121,
+        "z": 146.08,
+        "hw": 1.5,
+        "hd": 0.72,
+        "role": "service"
+      },
+      {
+        "id": "net_rack",
+        "type": "rect",
+        "x": 121.05,
+        "z": 153.65,
+        "hw": 1.75,
+        "hd": 0.58,
+        "role": "support"
+      },
+      {
+        "id": "timber_log_rack",
+        "type": "rect",
+        "x": 118.25,
+        "z": 155.7,
+        "hw": 1.6,
+        "hd": 0.75,
+        "role": "support"
+      },
+      {
+        "id": "chopping_block",
+        "type": "circle",
+        "x": 116.8,
+        "z": 153.25,
+        "r": 0.7,
+        "role": "support"
+      },
+      {
+        "id": "sawbuck",
+        "type": "obox",
+        "x": 120.6,
+        "z": 155.55,
+        "hw": 0.95,
+        "hd": 0.8,
+        "rot": 0.28,
+        "role": "support"
+      },
+      {
+        "id": "cellar_ladder",
+        "type": "circle",
+        "x": 110.35,
+        "z": 154.65,
+        "r": 0.9,
+        "role": "support"
+      },
+      {
+        "id": "court_post_se",
+        "type": "circle",
+        "x": 123.25,
+        "z": 156.4,
+        "r": 0.22,
+        "role": "support"
+      },
+      {
+        "id": "court_post_e_mid",
+        "type": "circle",
+        "x": 123.25,
+        "z": 154.15,
+        "r": 0.22,
+        "role": "support"
+      },
+      {
+        "id": "court_post_ne",
+        "type": "circle",
+        "x": 123.25,
+        "z": 151.9,
+        "r": 0.22,
+        "role": "support"
+      },
+      {
+        "id": "pulley_frame",
+        "type": "obox",
+        "x": 130.925,
+        "z": 148.165,
+        "hw": 0.325,
+        "hd": 0.115,
+        "rot": 0,
+        "role": "service"
+      }
+    ]
+  }
+}

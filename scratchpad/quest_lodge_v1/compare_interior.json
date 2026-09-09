@@ -1,0 +1,13 @@
+{
+  "name": "Quest Lodge v1 — Live interior vs Tutorial Island interior reference",
+  "osrs": "Bible_References/Tutorial_Island_Building.jpg",
+  "cr": "scratchpad/quest_lodge_v1/in_game_interior.png",
+  "left_label": "TUTORIAL ISLAND INTERIOR REFERENCE",
+  "right_label": "CRAFTED REALM LIVE GAME, ROOF CUT AWAY",
+  "subtitle": "Hall of notices: quest board with lantern and lectern, runner rug, chart turret, ledger plinth, bench and scroll rack",
+  "codex": 8.4,
+  "review_note": "With the roof cut away the hall reads as a story room: the pinned board under its lantern anchors the north wall, the blue-and-red runner leads the eye from the porch door to it, the chart turret opens off the north-west corner, and the ledger, bench and scroll rack fill the reading corner at player scale. Held below 9.0: the plank floor is uniform, the banners are flat panels, and the turret is a viewing bay rather than a room, so the chart is studied from its mouth.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Add worn floor patches at the door thresholds, give the banners fringe and a rod cap, and widen the turret to a true 3-tile bay when the pad is revised.",
+  "out": "Bible_References/Complete/_compare/holm_quest_lodge_v1_interior_compare.png"
+}

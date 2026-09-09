@@ -1,0 +1,62 @@
+{
+  "asset": "holm_bank_v1",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "checks": {
+    "hallBayDormerCompoundAuthored": true,
+    "threeRoofMassesAuthored": true,
+    "fittedFullFrameDoorsAuthored": true,
+    "irregularMasonryCoursesAuthored": true,
+    "loadBearingTimberBaysAuthored": true,
+    "layeredRoofCoursesAuthored": true,
+    "tellerCounterAuthored": true,
+    "vaultStationsAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "visualLanguage": "Guide Hall anchor family; banking hall with teller counter, vault, waiting bay",
+  "roofCourses": 162,
+  "humanScaleContract": {
+    "playerVisualHeight": 1.85,
+    "doorOpeningHeight": 3.05,
+    "counterTopHeight": 1.18,
+    "boothHeadHeight": 3.03,
+    "deskTopHeight": 0.99,
+    "benchSeatHeight": 0.58,
+    "hallWallHeight": 4.4
+  },
+  "metrics": {
+    "triangles": 8638,
+    "meshObjects": 688,
+    "materials": 28,
+    "materialNames": [
+      "CR Bank Coin",
+      "CR Bank Gold",
+      "CR Bank Ink",
+      "CR Bank Lamp Glass",
+      "CR Bank Ledger",
+      "CR Bank Marble",
+      "CR Bank Marble Dark",
+      "CR Bank Paper",
+      "CR Bank Strongbox",
+      "CR Bank Velvet",
+      "CR Bank Walnut",
+      "CR Bank Walnut Light",
+      "CR Kitchen Flagstone",
+      "CR Kitchen Flagstone Light",
+      "CR Kitchen Sackcloth",
+      "CR Workyard Aged Brass",
+      "CR Workyard Chalk",
+      "CR Workyard Fieldstone",
+      "CR Workyard Fieldstone Light",
+      "CR Workyard Forged Iron",
+      "CR Workyard Fresh Cut",
+      "CR Workyard Hemp Rope",
+      "CR Workyard Oak Dark",
+      "CR Workyard Oak Worn",
+      "CR Workyard Shingle Moss",
+      "CR Workyard Shingle Sun",
+      "CR Workyard Shingle Umber",
+      "CR Workyard Warm Limewash"
+    ]
+  }
+}

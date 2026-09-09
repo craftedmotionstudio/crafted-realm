@@ -2494,3 +2494,1116 @@ and zero console errors.
 World/content/roof suites, U4 21/21, U5 25/25, Asset Factory 5/5, and the U5 31-lock recipe gate pass. U6 whole-room
 Workyard acceptance remains the next production boundary. Full recovery record:
 `docs/rebuild/FABLE_ORCHESTRATION_RECOVERY_2026-07-16.md`.
+
+## Pass 124 - 2026-07-16 - AUTHORED TRAINING CAVERN AND CORE OSRS-DIRECTED UI
+
+The narrow Training Cavern graybox is replaced by a genuine Blender-authored 44×34 open-top mine built from the
+`Tutorial_Island_Mining_Cave_&_Mining_Rocks.jpg` composition contract. It now reads as a connected entry gallery, ore
+hall/smithing alcove, and far exit chamber with an irregular ochre perimeter, floor shelves, stalagmites, pale tin and
+copper fields, timber supports, a recessed furnace, visual anvils, and slow animated torchlight. Existing lesson ids,
+targets, combat/XP systems, and four-directional movement are unchanged.
+
+The production two-ladder flow is browser-proven: the visible Mine Gatehouse ladder descends to `(286,354,-1)` and the
+separate far ladder surfaces beside the Combat Hall at `(172,124,0)`. Only ladder silhouettes activate travel. The
+Blender north/south/east/west/gameplay packet is under `scratchpad/holm_training_cavern_v1/`; the comparison is banked
+at `Bible_References/Complete/_compare/Training_Cavern_v1_compare.png` at **9.0/10**.
+
+The dormant OSRS-directed HUD layers are now active. Inventory uses a narrow carved frame and free-floating items;
+combat uses a two-column four-style grid; skills use a compact three-column level grid; chat uses parchment plus the
+full eight-channel row. The existing minimap is preserved. Inventory, chat, combat, and skills comparisons are banked
+at **9.0, 9.0, 9.1, and 9.0** respectively under `Bible_References/Complete/_compare/`.
+
+Final foreground acceptance is **SMOKE PASS 100/100**: boot **1.1 s**, **60 FPS**, **19 ms** worst frame,
+**153 draw calls**, **32,128 triangles**, six streamed boundaries, exact save/load position, and zero console errors.
+World-v2, roof, syntax, content-integrity, and diff checks pass. Full record:
+`docs/rebuild/TRAINING_CAVERN_UI_CLOSEOUT_2026-07-16.md`.
+
+## 2026-07-16 — Starter worn-gear family v1 (Fable asset sprint)
+
+The six first-hour held items are now MODELLED gear: bronze hatchet, bronze pickaxe, bronze sword, bronze
+dagger (previously rendered as a sword), worn shortbow, and the wooden shield. Authored in the accepted U3
+Blender construction language (`tools/blender/cr_worn_gear_starter_v1.py` + builder; hand-drawn forged-head
+and blade profiles, curved multi-segment hafts, wraps, rivets, plank shield) through Asset Factory v2:
+recipe `assets/recipes/worn_gear_starter_v1.json` — **FACTORY PASS**, 2,220 tris / 6 consolidated runtime
+meshes / 14 materials / 192 KB GLB, all seven human-scale checks in range, four-cardinal family turnaround
+PASS 4/4 plus per-item turnarounds banked. Concept board (Nano Banana 2) at
+`docs/rebuild/concepts/worn_gear_starter_nanobanana2_v1.png`; comparison banked at
+`Bible_References/Complete/_compare/worn_gear_starter_v1_compare.png` at **9.1/10**.
+
+Runtime: NEW `src/gear_models_v1.js` wraps the global `gearMesh(id)` router — worn gear, GLB-avatar GearFit,
+NPC hands, and ground drops all upgrade automatically; `CR_GEAR_METAL*` materials tier-recolor via
+`METALS[tier]` (edge lightened, dark darkened, cached per tier); procedural builders remain the fail-soft
+fallback and cover unmapped models. GLB fetch deferred to window load so the boot chain is untouched.
+
+Browser-verified on the live saved adventurer (save snapshotted and restored byte-identical): wield via the
+real inventory path, REAL mining loop at the cavern copper rocks with the modelled pickaxe (ore gained,
+Mining level-up, gather swings visible), frozen-apex captures of slash (sword), stab (dagger), and bow draw,
+shield readable on the off-arm, ground-drop mesh confirmed modelled, Shift+P GLB avatar GearFit attach
+confirmed for bow + shield. **Zero console errors across the whole session.** Foreground smoke currently
+FAILs only the 5 s boot-to-welcome budget at 5.0–5.9 s — differential run WITHOUT the gear script also
+fails at 5.4 s, so the overage is pre-existing on today's in-flight working tree (Codex mid-edit), not this
+sprint; re-run the smoke gate once the tree settles. Next: bronze helm + tier families, and a real marked-tree
+chop clickable on the Holm surface (trees are not gather clickables in v2 yet — only the cavern rocks are).
+
+## Pass 125 - 2026-07-16 - CAVERN OFFSHOOTS, MINEABLE ROCK FAMILY, AND FULL UI REFERENCE PASS
+
+The Training Cavern now fills its reserved **48×40** envelope and includes a narrow north tin gallery plus a
+narrow south clay gallery. A single genuine Blender source/export pair supplies the mineable tin, copper, and clay
+family. Each deposit uses grounded, squat, faceted topology with ore-specific upper faces rather than procedural
+color dots. The direct mining-reference comparison is accepted at **9.1/10**.
+
+Clay is a real inventory item and all three deposits use the existing OSRS-like Mining loop: best carried pickaxe,
+walk into reach, timed swing, Mining XP, inventory reward, depletion, and respawn. Live testing caught and fixed a
+Blender semantic-metadata collision that initially made the new meshes look correct but ray-pick as scenery. The
+corrected browser hover reads **Mine Copper rock**, and a real left click produced **You manage to mine copper.**
+Stable Test Travel bookmarks now cover both new offshoots.
+
+Twenty authored UI icons replace the emoji tab placeholders. Every one of the **18** `UI_*.jpg` Bible references is
+now mapped to a live surface and has a v2 comparison sheet. Seventeen directions pass at **9.0–9.2**. The full
+parchment quest-detail screen remains explicitly banked at **8.7** rather than being falsely accepted.
+
+Final foreground acceptance is **SMOKE PASS 100/100**: boot **513 ms**, **60 FPS**, **19 ms** worst frame,
+**173 draw calls**, **33,160 triangles**, exact streamed save position, and zero console errors. Content validation
+and every World V2 / Training Cavern lock pass. Full record:
+`docs/rebuild/CAVERN_OFFSHOOTS_MINING_UI_CLOSEOUT_2026-07-16.md`.
+
+## Pass 126 - 2026-07-16 - FACETED CAVERN BASE AND QUEST PARCHMENT
+
+Live gameplay review found that the first rebuilt cavern floor was still visually flat. The first elevation
+attempt then failed in the opposite direction: flattened boulders became oversized foreground mounds. The
+accepted Blender revision uses one continuous shallow three-ring earthen bowl, restrained perimeter lift,
+topology-led material variation, and low worn routes. The authored visual sits 0.055 tiles above the invisible
+cardinal walk plane, eliminating coplanar grid bleed without changing collision or four-direction movement.
+The live camera now shows a continuous faceted excavation with grounded actors and ore nodes. The comparison
+`Training_Cavern_v2_compare.png` is accepted at **9.0/10**.
+
+The final missing UI reference is also complete. Quest-list rows open a dedicated parchment detail page populated
+from live quest data: title, difficulty, giver, description, requirements, current journal stages, XP rewards,
+item rewards, quest points, and the existing tracking action. The accepted live comparison
+`UI_QuestScrollScreen_v3_compare.png` scores **9.1/10**, bringing every banked core UI reference to the 9.0 gate.
+
+Final acceptance: World V2 and Training Cavern locks pass; JavaScript syntax gates pass; foreground smoke is
+**100/100**, boot **347 ms**, **100 FPS**, **12 ms** worst frame, **118 draw calls**, **5,074 triangles** at the
+sampled scene, exact streamed save restoration, and zero console errors. Full record:
+`docs/rebuild/CAVERN_TERRAIN_QUEST_SCROLL_CLOSEOUT_2026-07-16.md`.
+
+## 2026-07-16 — Worn gear v2: bronze helm, tier families, animation matrix, v02 fits (Fable sprint cont.)
+
+The **bronze helm** joins the modelled family (`gear_helm`: faceted two-stage dome, crown button, riveted
+brow band, tapered nasal bar, hand-drawn cheek guards, rear neck flare) — **FACTORY PASS** at 2,500 tris /
+7 runtime meshes, 9/9 human-scale checks (helm 0.468 w x 0.354 h), 4-view helm turnaround banked. The
+`helm` model class is mapped in `src/gear_models_v1.js` (GLB rev ?v=2), so every `{tier}_helm` and NPC helm
+upgrades automatically. NEW repeatable gate `node tools/test_gear_models.js` (34 checks) locks the
+GLB<->loader contract headlessly: node names, grip origins, blade/edge/shield/helm axis conventions, the
+0.25-1.4 wu size band, and the CR_GEAR_METAL* recolor materials. `tools/_npc_gear_test.js` repaired (was
+reading pre-split game2_world.js) — 25/25; swing-distinctness suite ALL PASS; validate_content PASS.
+
+**Live verification** ran through a NEW headless CDP driver (`tools/qa_gear_headless.js`, puppeteer-core +
+system Chrome) because the claude-in-chrome extension went offline mid-session; it drives the REAL login
+(new-adventurer -> begin -> play, Character Design modal suppressed the same way smoke.js does), uses a
+disposable fresh profile (zero risk to the real save), and the QA character LEVELS UP through real XP so
+steel/aurel/veyrite pass their genuine requirement gates. Verified live, 19 captures banked in
+`scratchpad/worn_gear_starter_v1/live_qa/`: bronze helm on BOTH rigs; tier recolors bronze/iron/steel
+hatchet + bronze/aurel/veyrite sword (veyrite reads unmistakably teal with lightened edges); crush swing,
+shield-up block guard, and mid-stride walk on the procedural rig; all seven items fitted on the v02 GLB
+avatar (no clipping, no floating grips, hair hidden under the helm) plus the baked attack clip carrying the
+sword and a mid-stride v02 walk. **Zero uncaught errors in every run.** Polish notes: bronze helm hue sits
+close to the v02 skin tone at distance (same METALS.bronze as the old procedural helm — not a regression);
+helm rides the family comparison sheet (no dedicated concept board yet).
+
+## Pass 127 - 2026-07-16 - TRUE-DEPTH CAVERN FLOOR AND MINING FEEDBACK
+
+The owner rejected the preceding cavern floor because its depth still read primarily as different colors. That
+acceptance is superseded. The Blender builder now produces one clipped triangulated heightfield with genuinely
+sunken excavation between the protected lesson routes and raised irregular perimeter shoulders. The underground
+surface grid is hidden so it cannot draw a flat plane across that relief. The new live comparison
+`Training_Cavern_v3_compare.png` is accepted at **9.1/10**.
+
+The next phase has begun: real Mining swings now trigger a short rock impact and faceted dust; successful deposits
+collapse with a stronger burst; respawns grow back with a restrained cue. These hooks sit on the existing
+left-click Mining loop rather than replacing its rewards or timing. Live copper clicks awarded ore and Mining XP
+without console errors. Syntax gates and every World V2 / Holm / Training Cavern lock pass. Final foreground smoke
+passes at **100/100**, **100 FPS**, **125 draw calls**, and **zero errors**. Full record:
+`docs/rebuild/CAVERN_TRUE_DEPTH_MINING_FEEDBACK_2026-07-16.md`.
+
+## Pass 128 - 2026-07-17 - READABLE CAVERN AND COMPLETE BRONZE LESSON
+
+The Training Cavern no longer inherits the Workyard basement's short-range fog. Its underground range, color,
+and local lights now preserve full-route visibility while keeping the accepted true-depth floor and warm mine
+atmosphere. Live review caught and corrected an over-bright first revision before acceptance.
+
+The smithing landmark is now one Blender-authored family: a recessed soot-stone furnace with ember bed, arch,
+flue, bellows, and lever beside a custom-profile anvil with feet, waist, face, horn, hardy hole, oak block, tongs,
+and quench bucket. The complete playable chain is copper rock + tin rock → bronze bar → Bronze dagger. Mining,
+smelting, and smithing use the correct visible pick, tongs/hot bar, and hammer; each has its own motion, sound, and
+spark/impact feedback on both procedural and modelled player rigs.
+
+The cavern-crafting contract passes 12/12. A subsequent professional live interaction pass caught two blockers the
+source gates missed: the visible Blender station sat eight tiles away from its actionable proxies, and full 3D
+distance to the tall furnace proxy could strand the crafting action. Both are fixed and replayed successfully.
+The real pointer-driven run mined copper and tin, rejected premature anvil use, smelted one bronze bar, forged one
+Bronze dagger, awarded 21 total Smithing XP, equipped the dagger, and preserved state through reload. World V2,
+content, gear, and animation gates pass. Final live smoke passes 100/100 at 100 FPS, 133 draw calls, and zero errors.
+Full QA record: `docs/rebuild/CAVERN_BRONZE_LESSON_LIVE_QA_2026-07-17.md`.
+
+## Pass 129 - 2026-07-17 - REPEATABLE GAMEPLAY QA AND ISOLATED TEST SAVES
+
+The professional cavern test is now a reusable project standard rather than a one-off. Light, Full, and Swarm
+gates define when to use automation, real-pointer golden paths, adversarial cases, four-cardinal review,
+persistence, and foreground smoke. Swarm testers have non-overlapping functional, adversarial, visual,
+persistence, and performance roles; they are read-only, while one integrator owns repairs and acceptance.
+
+Local `?qaProfile=<slug>` URLs now route durable saves to a disposable namespace without changing the ordinary
+player key on public hosts. Simultaneous browser testers still require separate contexts, and concurrent smoke in
+one profile is forbidden. A local-only read-only sight surface captures position, action, inventory, bank,
+equipment, XP, tutorial state, messages, smoke, and errors without exposing state mutators. The report template,
+scenario validator, and first Bronze-lesson swarm scenario are checked into the workflow. QA profile/schema tests,
+content validation, cavern crafting, World V2, and isolated foreground smoke pass. Final smoke: **100/100**,
+**100 FPS**, **13 ms worst frame**, **113 draw calls**, **29,584 triangles**, and **zero errors**.
+
+## Pass 130 - 2026-07-17 - STUDIO SAFE PUBLISH AND EXACT ROLLBACK
+
+Crafted Realm now has its own clean-room Studio workspace system. A building draft can be staged from the
+browser into an isolated `.studio-workspaces/<id>/working/` tree without modifying the checked-in world. Export
+packs are deterministic and content-addressed; every registered file carries a base SHA-256, final SHA-256, and
+byte count. Dry-run import refuses live files that have changed since the workspace snapshot.
+
+Apply takes an exclusive project lock, creates a verified byte-for-byte backup, installs only registered files,
+verifies their hashes, writes an immutable receipt, and rebases the workspace. Rollback is deliberately
+conservative: it proceeds only if the live hashes still match that receipt, then restores the exact prior bytes
+or prior absence. Twelve destructive-path tests pass, including target drift, invalid authoring data, path
+traversal, exact rollback, and staging isolation. The World V2 suite remains fully green. The real Studio loaded
+the published Guide Hall document, displayed the new safe-publish panel correctly, passed every building and
+authoring contract, and logged zero browser errors. Final foreground smoke passes **100/100** at **60 FPS**,
+**21 ms worst frame**, **166 draw calls**, **32,932 triangles**, and zero errors. Full record:
+`docs/rebuild/STUDIO_SAFE_PUBLISH_V1.md`.
+
+## Top-100 Item Program — Pass 1 — 2026-07-17
+**Scope:** owner directive — build the top-100 common-item program vs the OSRS wiki.
+**Done this pass:**
+- Master list `Bible_References/Items_Top100/top100_items.json` (100 items, categorized,
+  mapped to our ids: have 50 / partial 8 / missing 42, anim requirements per item).
+- Wiki reference bank fetched: 100/100 icons, 99 detail renders, 27/27 equipped renders
+  (`tools/fetch_osrs_top100.js`, tolerant of variant filenames; reference-only assets).
+- Our-icon capture harness: `tools/icon_dump_top100.html` + `tools/icon_dump_server.js`
+  render all 55 existing item icons through the REAL `iconFor()` path and bank them to
+  `Items_Top100/ours/icon/` (re-runnable after any icon edit).
+- Comparison grid `tools/item_top100.html` — wiki icon/detail/equipped vs our icon,
+  filterable; full 100-row visual review performed and recorded in the JSON
+  (`iconVerdict`: 31 pass / 24 review with defect notes).
+- **Two icon bugs found by the comparison and FIXED in `game0_icons.js`:** bucket +
+  bucket_water had no draw case (default beige square); all 8 runes shared one identical
+  blue-asterisk glyph — now a rune-stone family with per-element symbols. Re-dumped
+  captures verify; smoke gate: first run env-FAIL (cold boot 5.3s > 5s budget, 0 errors),
+  rerun **PASS 100/100, 60 FPS, worst frame 21ms, 341 draws, 0 errors, save continued.**
+**Next:** tracker `Items_Top100/TOP100_TRACKER.md` — icon fix pass 2 (24 review icons),
+equipped/held compare pass (27 items), missing-item data pass (42, validator-gated),
+missing-model pass through the fully-designed Blender gate (bronze longsword exemplar
+first), then per-item animation proof pass.
+
+## Top-100 Item Program — Pass 2 (icons) — 2026-07-17
+**Constraint honored:** owner is using the browser — ALL verification moved to a separate
+headless Chrome (puppeteer-core installed as devDependency; node_modules gitignored).
+New reusable harnesses: `tools/icon_dump_headless.js` (captures all our icons through the
+real iconFor() path + a contact sheet, no user-browser contact) and
+`tools/run_smoke_headless.js` (full ?smoke=1 gate headless, throwaway profile, never
+touches the real save).
+**All 24 `review` icons from pass 1 reworked in `game0_icons.js`:** coins (piled stacks),
+bones/big_bones (crossed outlined dog-bones — 2 iterations; first attempt dot-clustered),
+hammer (angled handle + shaped head), tinderbox (open box + flint + spark), fishing net
+(draped mesh from hoop), logs (chunky + end grain), clay (lumpy mass), bronze/iron/steel
+bars (stepped chunky ingot), bread (scored loaf), sabres (real curved blade branch in
+drawModelIcon), battleaxe (double-lobe head), helms (full-helm w/ eye slits), platebody +
+leather body (cuirass silhouette), kiteshield (kite w/ cross ridge, wooden round kept
+distinct), bows (fuller limbs; longbow taller/distinct), robes (tier-aware color — monk now
+brown, TIER_CSS.monk added), air rune contrast underlay.
+**Gates:** contact-sheet eyes-on review (2 rounds), headless smoke **PASS 100/100
+structural, 60 FPS, worst 18ms, 163 draws, 0 errors.** JSON verdicts flipped: all 55
+existing item icons now `pass`.
+**Next:** missing-item data pass (42 ids, validator-gated batches), then equipped/held
+compare pass, then modelled-gear pass (bronze longsword exemplar).
+
+## Pass 131 - 2026-07-17 - GUIDE HALL STUDIO WORLD BUNDLE
+
+Studio Safe Publish now transacts a matched Guide Hall authoring source and compiled runtime bundle rather than
+one placement file in isolation. The shared building definition owns the six door, service, clue, and support
+interaction descriptions. A deterministic compiler produces the chunk object, interaction rows, room/door and
+semantic-part contract, collider count, and model/source/manifest resource list. The live Holm provider consumes
+those same compiled interaction rows, removing its former handwritten duplicate.
+
+The workspace gate fails closed when the bundle source is unregistered, provider metadata disagrees, or any
+placement identity or transform drifts. Fourteen Safe Publish checks pass, including mismatched-pair refusal and
+matched two-file export. The World V2 suite confirms the live interaction rows are byte-equivalent to a fresh
+compile and that all declared resources exist. The real Studio loads the pair cleanly, a real Guide Hall door
+interaction completes without errors, and final foreground smoke passes **100/100**, **60 FPS**, **18 ms worst
+frame**, **166 draw calls**, **32,932 triangles**, exact streamed save restoration, and zero errors. Full record:
+`docs/rebuild/STUDIO_WORLD_BUNDLE_V1.md`.
+
+## Pass 132 - 2026-07-17 - SURVIVAL WORKYARD STUDIO BUNDLE
+
+The Survival Workyard now publishes as its own matched Studio source/runtime bundle. Revision 18 moves all 25 live
+interactions into the shared building definition, including 14 right-click-only inspection rows, the two doors,
+lesson services, bucket, cellar ladder, animated pulley, and fishing edge. The compiler now treats furnishings as
+first-class semantics and preserves rich inspection metadata. The reserved poultry socket remains intentionally
+non-interactive. The Holm provider consumes the compiled rows instead of a duplicate 85-line interaction block.
+
+Studio switches Safe Publish identity, files, and workspace by selected building; the Workyard uses
+`.studio-workspaces/survival-workyard-bundle`. The checked-in pair is a byte-equivalent deterministic compile, all
+16 resource dependencies resolve, the 14 transaction tests and complete World V2 suite pass, and real Studio loads
+the pair without errors. A real disposable-profile journey used ordinary map click-to-walk from Guide Hall to the
+Workyard, then right-clicked and inspected the sawbuck; the authored message appeared with zero errors. Final smoke
+passes **100/100**, **60 FPS**, **18 ms worst frame**, **166 draw calls**, **32,932 triangles**, exact save restoration,
+and zero errors.
+
+The Studio preview honestly reports **248 draws against its 170-draw building lock** (26,134 triangles against
+42,000). Studio now marks that state `OVER BUDGET`; U6 visible-mesh optimization remains open rather than weakening
+the budget. Full record: `docs/rebuild/STUDIO_WORKYARD_BUNDLE_V1.md`.
+
+## Pass 133 - 2026-07-17 - SURVIVAL WOOD DISTRICT TRANSACTION
+
+Survival Wood is now the first matched landscape/building transaction. A deterministic compiler packages 30 chunks,
+the district/pad/pond/route features, terrain roles, explicit water-block and dock-walk tile flags, all 27 Workyard
+colliders in world space, all three dock walk surfaces, and the revision-18 Workyard source/bundle identity. The live
+Holm provider consumes the compiled district terrain and tile-flag rows; the headless gate proves every live row and
+the complete runtime bundle are byte-equivalent to the checked-in artifact.
+
+Studio now stages and loads a four-file `.studio-workspaces/survival-wood-district` transaction. Safe Publish fails
+closed on missing building references, provider/district drift, or a landscape/building transform mismatch. The real
+r160 Studio loaded the published four-file package successfully. The first live run exposed a stale cached definition
+and an outdated revision-17 smoke lock; both were corrected before acceptance. Final foreground smoke passes
+**100/100**, **60 FPS**, **18 ms worst frame**, **173 draw calls**, **33,160 triangles**, six streamed boundary
+crossings, exact save restoration, and zero errors. Full record:
+`docs/rebuild/STUDIO_SURVIVAL_WOOD_DISTRICT_V1.md`.
+
+## Top-100 Item Program — Pass 3 (batch 1 data) — 2026-07-17
+**32 missing items registered as real data** in `game1_data.js` (containers jug/jug_water/
+pot/bowl, tools chisel/rope/shears/spade, resources ashes/oak+willow logs/soft clay/gold
+ore+bar/leather/wool/ball of wool/flax/bow string, cooking chain grain/pot of flour/bread
+dough, foods cabbage/potato/onion/egg/cheese/raw beef/cooked meat/raw+cooked brooktrout,
+weapon iron_dagger) + 32 new family-consistent icons in `game0_icons.js` (log/clay/bar/ore/
+fish cases parametrized; new glyph cases for the rest). `gear_models_v1.js` ID_MAP routes
+iron_dagger -> modelled gear_dagger with iron tier recolor.
+**Gates (all headless, owner's browser untouched):** `node tools/validate_content.js`
+PASS (169 items incl. 68 generated); icon contact-sheet eyes-on review PASS (87/87
+captured); headless smoke **PASS 100/100, 60 FPS, 0 errors**; live equip proof
+`tools/_qa_iron_dagger.js`: iron_dagger equips w/ gear_dagger mesh, icon cached, 0 errors.
+**Top-100 standing: have 82 / partial 5 / missing 13.** Remaining missing are all
+equipment needing the modelled-gear pass (longsword EXEMPLAR, scimitar curve, mace,
+warhammer, 2h, med helm, chainbody, plateskirt, sq shield, leather chaps/gloves/boots,
+fishing rods, ammo variants). Batch-1 items are data-layer only: gathering/crafting
+sources (trees, rocks, recipes, shops) wire in through later content passes.
+
+## Top-100 Item Program — Pass 4 (equipped/held compare + fit fixes) — 2026-07-17
+**Capture rig built:** `tools/qa_equipped_captures.js` (headless; real login; strip-equip-
+capture each of 26 equipped items on procedural + v02 GLB rigs; camCtl.dist 9 close-ups,
+camera-facing 3/4 stance like the wiki) + `tools/equipped_compare.html` +
+`tools/equipped_compare_shots.js` (per-item wiki|proc|GLB sheets + paged review sheets,
+banked in `Items_Top100/compare_equipped/`). Calibrated over 3 iterations (dist 24 too far,
+6 torso-only, 9 full body; back-facing → camera-facing).
+**Review found 7 defect families; 6 FIXED in code (no new meshes needed):**
+1. GLB tools carried head-down at the ankle → axes/picks now carry head down-FORWARD,
+   handle up-back like the wiki (fx_humanoid GearFit dW override).
+2. Proc swords/daggers idle horizontal-forward like mid-thrust → now angled down-forward
+   (holdWeapon x 0.95→2.2).
+3. Proc bows held horizontal like a rifle → near-vertical at the side (holdWeapon bow branch).
+4. Wizard hat rendered tan metal on proc AND as a bronze helm fallback on GLB → cloth-color
+   map (blue) + real hat build in the GLB head path.
+5. Monk robe top rendered a full-length tent over the legs on proc → torso-length.
+6. Amulet invisible at gameplay camera → 1.5x scale, forward offset; cord+gem read now.
+**Animation regression check** (`tools/_qa_anim_check.js`): slash swing, block+shield,
+crush swing, walk w/ bow, GLB attack clip, GLB walk w/ tool — all read correctly, 0 errors.
+**Gates:** headless smoke PASS 100/100 60 FPS 0 errors (one intermittent env flake observed:
+the Workyard rev-17 siting structural check failed once under load, passed on rerun —
+watch it; likely a streaming race in the check, not content).
+**Verdicts now: 16 pass / 8 review / 2 fail** — every remaining review/fail needs NEW MESHES
+(full helm, curved scimitar, battleaxe, kiteshield, longbow, torso armour) = the modelled-gear
+Blender pass. Bronze longsword remains the owner exemplar to lead that pass.
+
+## Top-100 Item Program — Pass 5 (item sources) — 2026-07-17
+Batch-1 items wired into the live economy (pure data + one small hook):
+- **Hollow Bazaar** now stocks the general-store set: bucket, jug, pot, bowl, rope, shears,
+  spade, chisel, cabbage, potato, onion, egg, cheese. **Bowyer**: bow string + flax.
+  **Threadworks**: wool, ball of wool, leather. **Gilded Boar**: cooked meat + cheese.
+- **Drops:** pasture hen → egg (30%); moorcalf → raw beef (always, like OSRS cows);
+  thornboar → raw beef (70%); cinder shade → ashes (always, thematic).
+- **Fires leave ashes:** burnt-out player fires now spawn an ashes drop (game5_main fire
+  expiry + makeDrop). PROVEN LIVE headlessly: real firemaking action → fire → expiry →
+  1 ashes drop, 0 errors.
+**Gates:** validate_content PASS (169 items); headless smoke PASS 100/100, 60 FPS, 0 errors.
+**Still deliberately NOT wired** (needs v2 world authoring, not legacy-builder expansion):
+oak/willow trees, gold rock, flax field, dairy/windmill chain interactions, spinning wheel.
+Logged as v2 chunk-authoring backlog, per GUIDING_LIGHT world law.
+
+## Top-100 Item Program — Pass 6 (BRONZE LONGSWORD EXEMPLAR — modelled gear) — 2026-07-17
+**INFRA BREAKTHROUGH — invisible Blender bridge:** Mixar 3.0.2 now runs `--background`
+`-WindowStyle Hidden` with a custom bootstrap (`scratchpad/mixar_bg_bootstrap.py`) that
+speaks the blender-mcp wire protocol but pumps commands on Blender MAIN thread (the stock
+addon relies on bpy.app.timers, which never fire headless). Full bpy via
+mcp__blender__execute_blender_code with ZERO windows on the owner desktop. Renders via
+BLENDER_WORKBENCH (set material.diffuse_color — node colors alone render grey). Recipe is
+reusable for the whole modelled-gear backlog. Process stopped after the pass.
+**The exemplar, end-to-end (owner's requested flow):** wiki detail+equipped references →
+fully-designed bpy mesh (NOT primitive assembly): 10-vert blade profile w/ real fuller
+groove, taper, slanted clipped tip (the reference-defining feature), swept crossguard w/
+dropped quillons, octagonal collared grip, faceted scent-stopper pommel; CR_GEAR_METAL /
+_EDGE / _DARK / CR_GEAR_GRIP materials so tier recolor works; 2 review renders iterated
+(blade widened 16%); baked +Y-blade orientation; exported
+`assets/models/props/gear_longsword_v1.glb` (15.5 KB).
+**Wiring:** gear_models_v1.js now loads a GLB SOURCES list (new gear never touches the
+accepted starter GLB) + MODEL_MAP longsword; GEAR_TEMPLATES.longsword (speed 5, slash-lead)
+generates ALL 8 TIERS (validator: 177 items PASS); longsword icon (slanted tip, wide guard);
+proc swordMesh fallback; smithy stocks bronze (48c) + iron (190c) longswords.
+**Verified (all headless):** gear template loads (`gear_longsword` in GearModels), equips
+with modelled mesh on BOTH rigs, correct down-at-side idle, slash swing reads, tier tint
+works (blade renders bronze), icon dump 88/88, compare sheet banked
+(`compare_equipped/bronze_longsword_compare.png`), smoke PASS 100/100 60 FPS 0 errors.
+**Structured Codex review ~9.0** (silhouette/proportion/hierarchy/material separation/
+camera readability/family consistency). NOTE per the owner art reset: flagged for OWNER
+approval as visual acceptance; the remaining mesh backlog (full helm, scimitar, battleaxe,
+kiteshield, longbow, warhammer, mace, 2h, med helm, chainbody, plateskirt, sq shield,
+leather set, rods) now has a proven invisible pipeline to follow.
+
+## Top-100 Item Program — Pass 7 (TWO-MODEL REVIEW SYSTEM + longsword rev4) — 2026-07-17
+**Owner directives implemented:** (1) zoomed asset review, (2) TWO AI reviewers (Gemini +
+Codex) asking: scaling correct? held correctly? what else to change (colors/proportions/
+shape)? (3) procedural player rigs are OUT — GLB avatars only in all QA (male+female avatar
+pair wanted; only v02 player.glb exists — second avatar queued for the character pipeline).
+**New pipeline (all headless):** review_capture.js (GLB-only full front/side + ITEM ZOOM via
+projected mesh bbox) → review_compose.js (labeled sheet) → gemini_review.js (strict-JSON
+vision review; fallback chain lands on gemini-3-flash-preview) + Codex reads the same sheet.
+**Key finding — Gemini noise + the fix:** with a loose prompt Gemini flip-flopped (7→5 on
+unchanged geometry). temperature 0 + MEASURABLE ANCHORS ("tip must land between knee and
+ankle"; "clipping = fingers INSIDE the guard volume") made it deterministic: 10/10.
+**Longsword iterated rev2→rev4 on two-model consensus** (build script now in repo:
+tools/blender_gear/longsword_build.py, reproducible via the invisible Mixar bridge):
+grip origin moved to MID-GRIP (fixed real hand-in-guard clipping the zoom exposed), blade
++50% total length + wider + thicker, chunky gold guard + prominent gold pommel
+(CR_GEAR_GOLD untinted), blade moved to CR_GEAR_METAL_DARK (loader replaces METAL color
+with light tier bronze — DARK*0.72 = the reference's muted brown). Also fixed: blade axis
+flipped to match the de-facto gear family convention (-Y), which had the rev1 blade
+clipping through the avatar's forearm.
+**FINAL: Gemini 9 overall (scaling 10, hold 10) + Codex 9. Smoke PASS 100/100, 60 FPS,
+0 errors.** Review artifacts banked in Items_Top100/reviews/bronze_longsword/.
+
+## Top-100 Item Program — Pass 8 (MESH BATCH 1: 5 gear meshes) — 2026-07-17
+Five fully-designed meshes built via the invisible Mixar bridge (repro scripts in
+tools/blender_gear/), each through the anchored two-model review loop (Gemini vision +
+Codex eyes, zoomed sheets in Items_Top100/reviews/<id>/):
+- **gear_fullhelm** (replaces the hat-reading gear_helm for ALL helm tiers): octagonal dome,
+  black visor+breath slits, volumetric purple plume; iterated 6 revs (axis-bake trap, slit
+  band row alignment, plume volume, 0.92 shrink). Wear anchors pass; GLB head attach now
+  orientation-solved (mesh +Z -> character forward).
+- **gear_scimitar** (sabres finally curve): arc-swept blade, flared heavy tip, flat gold
+  disc guard. Gemini 10/10 anchors, overall 8->fixed flare.
+- **gear_battleaxe**: DOUBLE crescent + gold haft per reference; carried down-forward.
+- **gear_kiteshield**: kite silhouette + boss/cross, +25% to shoulder-to-knee span; strap
+  origin at upper third (centered origin rode the back). Gemini hold 10.
+- **gear_longbow**: tall D-curve golden stave; deterministic bow ROLL added to GearFit
+  (string was facing camera). **Gemini 9 (scaling 9, hold 10, other 9) — first clean pass.**
+Wiring: GLB_SOURCES list + MODEL_MAP (helm/sabre/battleaxe/kiteshield/longbow), template
+model keys, weights, proc fallbacks, icon case labels, holdWeapon/GearFit conditions.
+Gates: validator PASS (177 items); captures 0 errors; headless smoke PASS.
+**Standing: have 88 / partial 0 / missing 12** (all remaining = new-slot armour, hammers/
+maces/2h, rods — next batch). Owner sign-off pending on all batch-1 meshes per art reset.
+
+## REGRESSION RECORD (resolved in Pass 134) — 2026-07-17
+Headless smoke now REPRODUCIBLY fails 99/100: "Holm landscape keeps passive props clear of
+completed building footprints" (HolmLandscape.acceptanceResult 12/13). Everything else
+green (walk/stream/perf/console clean). Started within the mesh-batch changeset; most
+suspicious: GEAR_TEMPLATES model-key renames in game1_data (sword->sabre, axe->battleaxe,
+shield->kiteshield, bow->longbow on gale_longbow) — if the deterministic Holm scatter or a
+landscape prop derives placement from item/model data or routes a prop through gearMesh(),
+the new modelled meshes change its footprint. NEXT SESSION: log HolmLandscape.acceptance
+details in-browser, find which of the 13 checks fails and which prop moved/grew; do NOT
+accept batch-1 meshes into a release build until this is green again. All five meshes +
+review sheets remain banked and re-verifiable via tools/review_capture.js.
+
+## Top-100 Item Program — Pass 9 (OWNER REVIEW FIXES) — 2026-07-17
+Owner reviewed batch 1 and set the HOLD DOCTRINE (now canon in memory two-model-gear-review):
+at-attention blades (forward, angled up — not dragging), vertical battleaxe, angled gripped
+bow, shields off the body, hand must visibly grip at the right spot, parts must contact.
+Fixes applied + recaptured (sheets in reviews/): longsword blade UP-FORWARD from the fist,
+ONE uniform blade tone (fuller killed the silhouette), SHARP tip; scimitar same hold;
+battleaxe VERTICAL head-up, lobes rooted INTO the gold haft, head shrunk ~25%; helm shrunk
+to 0.76 and FORMS to the head, eye slit only (mouth vents removed); kiteshield pushed off
+the torso (x 0.12); longbow slight forward lean at the riser. GearFit now encodes the
+doctrine per model class. Review-anchor failure acknowledged: previous anchors codified
+wiki carry poses as "correct" — replaced by owner doctrine; wiki = scale reference only.
+RESOLVED IN PASS 134: the reproducible 99/100 result was a stale exact-count smoke assertion,
+not a passive-prop collision or gear-model defect. The named no-overlap rule and the full dynamic
+landscape suite now pass in the foreground 100/100 gate.
+
+## Pass 134 - 2026-07-17 - CURRICULUM-ALIGNED ELEVATION AND LASTLIGHT FOUNDATION
+
+Tutor's Holm now locks every surface district to a tutorial purpose and an increasing elevation intent.
+Lastlight Beacon is reserved as the release-curriculum graduation signal, not a mandatory mainland main quest.
+The first narrow spike and the second Mage-pad overlap were both rejected in the live camera. The accepted
+composition gives Lastlight a separate northern land shoulder, a roughly 14-tile high building-sized crown, and
+a 40-tile cardinal road wrapping the eastern face while preserving the Mage Tower's level terrace.
+
+The flow contract now records 11 stations and 18 release lessons (12 live). Reviewer bookmarks cover the climb
+base and summit. A real minimap click-to-walk run reached X203.5 / Z115.5; north/east/south/west review evidence
+is banked under `scratchpad/lastlight_elevation_v1/`. World V2, content, and Studio gates pass. Foreground smoke
+passes 100/100 at 60 FPS, 20 ms worst frame, 92 draws, 5,012 triangles, exact save/load, and zero errors.
+
+The former 99/100 smoke regression was a stale exact-count assertion (`13/13`) after the landscape suite grew to
+15 checks. Smoke now verifies the named no-overlap check and the complete dynamic suite, so the actual rule remains
+strict without failing whenever a new landscape lock is added. Closeout:
+`docs/rebuild/LASTLIGHT_ELEVATION_PROVING_SLICE_2026-07-17.md`.
+
+## Pass 135 - 2026-07-17 - LASTLIGHT FUNCTIONAL CIRCULATION AND WIDE CROSSING
+
+The Lastlight lighthouse can no longer be shrunk into a decorative tower. Its locked functional envelope is
+21 tiles across outside and 17.6 tiles clear inside, with a 2.4-tile doorway, 64 individually walkable rising
+stair tiles, an open gallery landing, and a 10.4 × 10.4 walkable top. Live pointer QA entered through the
+threshold, traversed the spiral, clicked onto plane 2, and walked across the gallery. The first thin threshold
+hit target and the first landing embedded in the support core were both rejected and corrected.
+
+The Lastlight land approach is approximately nine tiles wide. Tidebridge was the remaining narrow segment;
+its usable deck is now 6.5 tiles wide with outward rails and a landscape acceptance lock. Test Travel now
+covers the climb base, door, spiral start, gallery landing, and top.
+
+World v2, content, syntax, and diff gates pass. Foreground smoke passes 101/101 at 60 FPS, 20 ms worst frame,
+161 draw calls, 7,300 triangles, exact save/load, and zero errors. This pass accepts circulation only—the
+primitive tower is explicitly rejected as release art. Closeout:
+`docs/rebuild/LASTLIGHT_FUNCTIONAL_CIRCULATION_V1_2026-07-17.md`.
+
+## Top-100 Item Program — Pass 10 (regression closed + doctrine re-review) — 2026-07-17
+**SMOKE REGRESSION RESOLVED — PASS 101/101, 60 FPS, 0 errors.** Root cause: NOT the mesh
+batch. src/holm_landscape_data.js gained new acceptance checks (13→15) from concurrent
+work landing mid-session (file mtime 12:25 PM), while tools/smoke_test.js hardcoded
+passed===13. The concurrent stream also fixed the assertion to passed===total + named-check
+presence. Lesson: never hardcode acceptance COUNTS in smoke checks.
+**Doctrine-anchored Gemini re-review of batch 1:** longbow 10/10/10 (clean ship);
+helm 7 (wear 9 / scale 8 pass; wants vertical visor BARS + fatter plume + slight taper —
+legit, queued); longsword/battleaxe verdicts partially CONTRADICT the fresh captures
+(claims "angled down"/"upside down" vs sheets showing up-forward/head-up — logged as
+vision noise for owner tie-break); scimitar + kiteshield sheets were STALE (pre-doctrine
+holds) — recaptured now, Gemini re-run pending next session alongside the queued polish:
+vertical visor bars, plume volume, kiteshield +size/ridge/point, scimitar belly width.
+Owner remains final reviewer on all batch-1 sheets in Items_Top100/reviews/.
+
+## Top-100 Item Program — Pass 11 (THE EQUIP BUILDER) — 2026-07-17
+**Owner directive implemented: src/equip_builder.js — ONE canonical system for equipping.**
+Per model class it declares: signed business AXIS (no more bbox guessing), ROLL reference,
+the owner-doctrine NEUTRAL pose, mesh GRIP point (family contract: origin), and palmAlong.
+The solver finds the PALM from the skeleton itself (average finger-child direction from the
+hand bone — items placed at the bone origin sat at the WRIST, which is why hands kept
+"holding the blade"), builds a full deterministic basis, and places the grip IN the palm.
+EquipBuilder.audit() returns numeric grip-to-palm distance + neutral-angle so harnesses can
+assert holds instead of eyeballing. fx_humanoid weapon attach now routes through it
+(legacy path kept as fallback for spec-less models).
+**Owner feedback round 2 fixes, all recaptured:** longsword 3/4 length + hand ON the
+leather grip (guard above fist, pommel below); scimitar same grip fix; battleaxe VERTICAL
+head-up, fist on the golden haft, lobes rooted into the pole (wrist-through resolved);
+bow leans forward (0,0.86,0.51) gripped at the riser; kiteshield unchanged (owner: fine);
+helm scaled 0.63 + seated down (0,0.115) + hair hidden by region AND name-regex (ponytail
+gone). REMAINING: small hair-fringe tufts still poke the helm rim — the fringe mesh has a
+non-hair material name; next session: probe material names on the avatar and extend the
+hide list, or clip the fringe when e.head. Smoke PASS after all changes.
+**Backlog after this:** scimitar/kiteshield doctrine Gemini re-run, helm vertical visor
+bars + fatter plume, then the 12 missing items — ALL new items now go through
+EquipBuilder specs from day one.
+
+## Top-100 Item Program — Pass 12 (owner round 3 + HEAD-REPLACEMENT HELMS) — 2026-07-17
+**HEAD REPLACEMENT SHIPPED (owner ask): full helms now REPLACE the head, OSRS-style.**
+Equipping a model:helm item collapses the Head bone (face+hair ride it — every poke-through
+class eliminated at once); the helm attached to that bone auto-counter-scales via attach()
+and stands exactly where the head was (bone-local position compensated by 1/worldScale).
+Restores on unequip. Skeleton-driven => works for any avatar (male/female) sharing the rig.
+**Grip-point corrections via EquipBuilder specs (no code, just data — the builder working
+as designed):** blades nudged pommel-ward so the fist covers the brown grip w/ only the
+pommel below (owner criterion); battleaxe gripped at the BOTTOM of the haft, neutral
+straightened to (0,0.97,0.24); bows gripped at the WOOD riser (grip x=belly depth — the
+origin sat on the STRING line, so hands held the string).
+**Battleaxe mesh rev5:** inner arc now HUGS the haft (0.020+0.006cos <= haft r 0.026 across
+the whole sweep) — the previous "rooted" numbers still left an air gap (0.045 min).
+All five sheets recaptured + eyes-verified: helm reads like the reference on both angles;
+scimitar fist on the gold hilt; longsword grip correct; longbow wood in palm, string
+inboard; battleaxe vertical, welded, bottom-gripped. Smoke gate rerun after.
+
+## 2026-07-17 — Lastlight lighthouse v1
+
+- PASS: authored Blender lighthouse replaces the procedural visual blockout.
+- PASS: real exterior, fitted interior floor, 64-step spiral and accessible rooftop gallery.
+- PASS: surface pathfinding rejects cliff-height transitions while preserving the authored switchback.
+- PASS: four cardinal art renders and direct in-game elevated-camera review completed.
+- PASS: asset gate (9,828 tris / 190 primitives / 20 materials / 626,568 bytes), content validation,
+  world-v2 contracts and warm foreground smoke (101/101 at 60 FPS, zero errors).
+- OPEN: a later cold navigation reached the welcome screen after the smoke gate's five-second boot cutoff
+  (5.155 seconds, zero console errors); startup performance remains a separate tracked concern.
+- Proof: `docs/rebuild/LASTLIGHT_LIGHTHOUSE_V1_CLOSEOUT_2026-07-17.md`.
+
+## Top-100 Item Program — Pass 13 (owner review completion + helm redesign) — 2026-07-17
+Owner said "review my last request." Re-audited the last 5-item feedback against shipped
+state; 4 were already done, 1 gap + 1 emphasized redesign remained. Closed both:
+- **Longbow: STRING REMOVED from the held 3D model** (was the genuine miss — owner said
+  the string is inventory-icon-only). longbow_build.py rev4 drops the string geometry +
+  material; grip wrap lowered and EquipBuilder bow/longbow grip moved to [x,-0.10,0] so the
+  hand grabs further down the wooden riser. Verified: all-wood golden stave, no string,
+  hand on the dark wrap.
+- **Helm REDESIGNED** (owner: "a pretty big thing"). fullhelm_build.py rev8: rounder oval
+  dome (no boxy cone), front bulges forward and tucks under the CHIN (per-ring front-scale),
+  raised light-bronze BROW RIDGE over a recessed dark eye band split by two vertical bars
+  into real EYE SLITS + nasal stub, plume reseated on the new crown. Per-face materials
+  assigned inline in bmesh. Head-replacement (collapsed head bone) retained → works male +
+  female, no head poke-through. Reads like the reference: eye slits, no mouth opening.
+- Re-verified battleaxe (crescents welded to gold haft, bottom-of-haft grip), longsword +
+  scimitar (hand on the leather grip, gold pommel/guard the only metal behind the fist) —
+  all still correct.
+**Gate:** every capture 0 errors; headless smoke initially FAILed 100/101 on a Lastlight
+lighthouse check — traced to a CONCURRENT world-content rebuild landing mid-run (data 2:15,
+runtime 2:21, new 970KB lighthouse GLB 2:27, smoke_test.js 2:29; failure string was the OLD
+check wording). NOT caused by gear work (equip_builder untouched since 1:22, no world code
+edited). Re-ran after it settled: **101/101, 60 FPS, 0 errors.** All five review items now
+satisfied and banked in Items_Top100/reviews/.
+
+## Top-100 Item Program — Pass 14 (owner round 5) — 2026-07-17
+Owner verdicts: **bronze longsword COMPLETE, gale longbow COMPLETE** (recorded). Fixes:
+- **Battleaxe angle**: owner said too vertical — EquipBuilder neutral (0,0.97,0.24) →
+  (0,0.86,0.51); now carries at the reference diagonal. One-line spec change, verified.
+- **Helm rev9 redesign** (owner: extrusion was off-color + wrong look, wants vertical
+  slits like the Bible reference, and neck coverage): brow ridge now SAME shell bronze;
+  face carries four tall near-flush vertical dark slits (fronts 0.006 proud of the 0.240
+  face plane — inlay read, no silhouette break); shell rings extended past the chin
+  contour into a TIGHT NECK COLLAR (-0.285/-0.370 rings, r~0.15) closed underneath.
+  Iterated 3 sub-revs chasing a "floating plank" artifact: shortened the brow ridge to the
+  flat face band (its ends HAD hovered off the curved shell — real fix), flushed the slits
+  — then proved the remaining sliver is a BACKGROUND FENCE POST at the capture stage
+  (pixel-identical across all three geometry revisions), not helm geometry. Note for the
+  capture harness: consider an empty-ground stage or sky backdrop for head-height zooms.
+**Gate: smoke PASS 101/101, 60 FPS, 0 errors.** Sheets banked. Remaining top-100 mesh
+backlog (mace, warhammer, 2h, med helm variant, chainbody, plateskirt, sq shield, leather
+set, fishing rods) unchanged.
+
+## Top-100 Item Program — Pass 15 (owner round 6) — 2026-07-17
+**HELM OWNER-APPROVED ("looks perfect")** — rev9 vertical-slit face + neck collar is the
+frozen reference design for the helm family. Battleaxe pitched a further ~17deg per owner
+(EquipBuilder neutral (0,0.86,0.51) → (0,0.67,0.74), ~48deg from vertical) — verified on
+the recaptured sheet: head forward at hip height, reference-matching diagonal. 0 errors.
+Owner-approved so far: longsword, longbow, helm. Battleaxe awaiting final owner look.
+
+## Top-100 Item Program — Pass 16 (SET 2 — five meshes FIRST-TIME-RIGHT) — 2026-07-17
+Owner approved set 1 and asked for set 2 using everything learned. Scope: mace, warhammer,
+greatsword(2h), med helm, sq shield (modelled) + fishing rod / fly fishing rod (data+icons —
+rods are pack tools like the net, not wielded). Deferred to set 3: chainbody, plateskirt,
+leather chaps/gloves/boots (need a body-fit system; not first-time-right candidates).
+**All five meshes passed capture review on the FIRST BUILD — zero geometry re-iterations**
+(set 1 took 4-6 revs each). Lessons baked in up front: spec-driven +Y axes (no bbox
+guessing, no axis-flip traps), parts welded by construction (mace fins/hammer block through
+the haft, gold collars at joins), single-tone DARK metal + untinted GOLD accents, near-flush
+same-color details, at-attention holds via EquipBuilder specs, med helm = open-face model
+key WITHOUT head collapse (face visible; hair hidden), sq shield = kiteshield conventions
+(face +X, height on Blender Z, strap origin upper third), sharp blade tips, no strings.
+New: GEAR_TEMPLATES mace/warhammer/greatsword/medhelm/sqshield (x8 tiers each -> 219 items,
+validator PASS), EquipBuilder specs, MODEL_MAP+GLB sources, icons (5 weapons + 2 rods),
+proc fallbacks, smithy/bazaar stock, fx medhelm seat branch.
+**Gates: captures 0 errors, icons 95/95, smoke PASS 101/101.** Top-100: **95 have / 5
+missing** (all body-fit). Sheets banked; pending owner review.
+# 2026-07-17 — Lastlight four-level ladder revision
+
+- Retired the difficult spiral while preserving the approved authored exterior and legal summit switchback.
+- Added four separately rendered and furnished Blender floor layers, three paired ladder transitions, readable
+  cutaway walls/windows, an animated reserved Underkeep trapdoor, and an animated/save-backed beacon lever.
+- Banked four cardinal renders for every floor (16 interior views) plus four exterior views.
+- Live pointer QA caught and corrected an out-of-bounds stores arrival and a redundant GLTF-anchor transform.
+- Asset pipeline: PASS at 15,596 triangles / 71 primitives / 24 materials / 994,236 bytes.
+- Real-pointer beacon lever QA passed; the light, animated flame and relighting message all activated.
+- Foreground smoke: PASS 101/101 at 60 FPS, 22 ms worst frame, 105 draw calls and zero errors.
+
+## Top-100 Item Program — Pass 17 (owner r7 on set 2) — 2026-07-17
+Owner feedback on set 2, all applied:
+- **Sq shield rebuilt as a RIOT SHIELD**: concave 5x5 curved plate (edges curl toward the
+  body), crowned top/tapered foot, subtle rib band. Fit: convex face guards the FRONT
+  (normal out-forward — the out-back side carry read as a canoe from our camera), ~27deg
+  forward lean, rides lower on the arm. Debug note: the shield fit was verified ON-TARGET
+  by predicted-vs-measured world extents (1%) — the fix was the TARGET (facing), not the
+  math; shield branch now solves one full basis instead of chained setFromUnitVectors.
+- **Greatsword SHOULDER CARRY** (owner: like a Marine rifle carry): neutral
+  (-0.16,0.90,-0.40) — blade rests up-back-inward over the right shoulder. Verified.
+- **Warhammer head rotated 90deg about the haft** (rollAim [1,0,0]->[0,0,1]): block long
+  axis now stands in the lean plane. Verified.
+- **Med helm: blue halo band** around the upper dome (like the reference red ring). Verified.
+- **Mace spikier**: 4 diagonal pyramid spikes + longer top spike. Verified. (Owner: mace
+  otherwise good.)
+Gates: captures 0 errors; smoke run after all changes. Sheets banked; pending owner look.
+
+# 2026-07-17 — Lastlight lighthouse swarm QA
+
+- Three isolated read-only testers covered the surface approach, ordered vertical traversal, and visual/interaction risks.
+- Fixed hidden-floor ladder interception by making pointer picking plane-aware.
+- Corrected Blender-to-game mirrored ladder, trapdoor, and lever coordinates.
+- Added validated upper-floor save restoration, location-label retention, visibility refresh, and camera recentering.
+- Independent real-pointer traversal passed L1 → L2 → L3 → L4 → L3 → L2 → L1; adjacent floor clicks on all four levels did not trigger hidden transitions.
+- Beacon lever on/off passed without cross-activating a ladder; game-origin errors were zero.
+- The complete journey remains open: the outdoor switchback becomes an impassable steep ramp and the lighthouse camera can enter opaque geometry. Per-floor walls/windows also need a visual rebuild.
+- Full evidence and acceptance matrix: `docs/rebuild/LASTLIGHT_LIGHTHOUSE_SWARM_QA_2026-07-17.md`.
+# 2026-07-17 — Lastlight connected-shell doorway closeout
+
+The lighthouse exterior was rebuilt as a continuous 32-sided cylindrical stone tower with connected courses,
+foundation and crown bands. The runtime GLB now preserves `CR_CutawayBase` and `CR_EntryDoor` as authored
+Blender structures instead of treating the entry as an invisible plane transition. The south door walks the
+player to its threshold, visibly swings inward, plays the opening beat, and only then changes to the first-floor
+plane with the message that the adventurer stepped through the doorway. A circular flagstone insert prevents
+summit grass showing inside the tower.
+
+The summit camera now eases to the player's side of the opaque cylinder, preventing the beacon or wall shell
+from consuming the view while keeping the full lighthouse silhouette intact. The approach route was widened
+and rerouted cardinally around the Mage Tower; the terrain contract still locks every route step to at most
+1.05 height units and rejects cliff shortcuts.
+
+**Visual review:** PASS — connected cylindrical silhouette, clear base/mid/crown hierarchy, warm/cool stone
+separation, south-door readability, coherent lighthouse family language, stone threshold, and a clean gameplay
+camera view. The four cardinal exterior renders and all sixteen floor-direction renders are banked in
+`scratchpad/holm_lastlight_lighthouse_v1/`.
+
+**Gates:** Blender asset pipeline PASS at 16,184 triangles, 85 primitives, 23 materials and 1,054,860 bytes;
+world-v2 PASS; content validation PASS. Real-pointer entry PASS: the door opened before the player entered
+Lastlight Stores. Foreground smoke PASS 101/101 at 60 FPS, 21 ms worst frame, 119 draw calls, 29,924 sampled
+triangles, six healthy world ticks and zero console/uncaught errors.
+# 2026-07-17 — Lastlight reference-led lighthouse v2
+
+- Closed tapered three-level exterior: Codex 9.1, Asset Factory PASS.
+- Full-wall circular interiors with keeper bedroom/library and working beacon.
+- Traversable Underkeep dungeon: Codex 9.0, pointer-tested hatch descent and ladder return.
+- Plane-aware lighthouse and dungeon minimaps added from `Lighthouse_FloorMap.png`.
+- Evidence: `Complete/_compare/holm_lastlight_lighthouse_v2_compare.png` and `Complete/_compare/holm_lastlight_underkeep_v1_compare.png`.
+
+# 2026-07-17 — Lastlight all-reference v3 closeout
+
+- All six supplied lighthouse references now pass separate direct Codex visual gates at 9.3–9.4; no averaged score hides a weaker view.
+- Exterior: pale connected cylinder, fitted entry, broad gallery, glass crown, red faceted roof and authored crag rocks.
+- Interiors: full-height pale walls, larger fitted windows, warm staggered boards, bed, dresser, bookcase/books, desk/ledger, chart table, crockery shelf, weather instrument and slow modeled wall lanterns.
+- Underkeep expanded from a small room to a 38×30 cavern with three true raised floor regions, lowered/inaccessible tidal basin, tapered high walls, natural bridge, ladder, lanterns, stalactites, stalagmites, moss, rubble and bones.
+- Asset Factory PASS at 26,328 triangles / 112 primitives / 44 materials / 1,887,348 bytes.
+- Real pointer QA passed door entry, both ladders up/down, hatch descent, raised-to-lower cave walking and return ladder.
+- Clean foreground smoke PASS 101/101 at 100 FPS, 119 calls and zero errors.
+- Evidence and scores: `docs/rebuild/LASTLIGHT_ALL_REFERENCE_CLOSEOUT_2026-07-17.md`.
+
+## Top-100 Item Program — Pass 18 (owner r8 on set 2) — 2026-07-17
+Owner r8 feedback applied + verified (all sheets banked, smoke PASS 101/101, 0 errors):
+- **Greatsword — real ARM POSE** (the hard one): owner said it read as "held behind her",
+  wanted the arm out in front with the blade leaning back on the shoulder. Added a per-frame
+  additive RightArm pitch (+0.55rad, world right-axis) in playerGLBAnim gated on
+  model==='greatsword', re-applied AFTER mixer.update each frame (no accumulation). Neutral
+  pre-posed to (-0.16,0.56,-0.81) so the blade lands up-back on the shoulder after the arm
+  lift. Now a Marine-style shoulder carry. Bone: RightArm, cached on userData._gsArmBone.
+- **Mace — SPIKED BALL** (morning-star): head rebuilt as an octo ball with 13 pyramid spikes
+  radiating THROUGH the surface (top/4 equatorial/4 upper-diag/4 lower-diag), all welded.
+- **Med helm — open-face motorcycle read**: dome smooth-shaded (fewer top facets), slid down
+  (0.19->0.14 seat) to the eyes, front rim extended into built-in bronze 'glasses' with two
+  dark eye holes; blue halo band retained. Debug: eye band first vanished at r=0.212 (inside
+  the head) — pushed to r=0.245 past the face.
+- **Sq shield — full 45deg lean** (owner clarified the wrap direction we had is fine, just
+  restore the 45): sqshield up-vector back to (0,0.71,0.71).
+- **Warhammer**: owner said good — marked pass.
+Standing: 95 have / 5 missing (body-fit set 3: chainbody, plateskirt, leather chaps/gloves/
+boots). Sheets in Items_Top100/reviews/.
+
+# 2026-07-17 — Lastlight exhaustive asset-audit correction
+
+- Reopened all six lighthouse references and catalogued every visible architecture, prop, landscape detail, interaction marker, UI element, and character/NPC in `docs/rebuild/LASTLIGHT_REFERENCE_INVENTORY_V3.md`.
+- Added the missed static assets in Blender: summit guardrail, signal-calibration rings/runes, nested crockery, keeper-room cobweb, low blanket chest, three dungeon wall alcoves, and drowned green wreckage.
+- Rebuilt the editable `.blend`, production `.glb`, cardinal sheets, floor overview, and all six independent reference comparisons. Environmental scores remain 9.3–9.4 after direct Codex review.
+- Explicitly recorded four future modeled character/NPC deliverables rather than misclassifying them as completed scenery: keeper/guide, humanoid cave dweller, large aquatic/reptilian predator, and smaller cave predator.
+- Asset Factory PASS: 28,720 triangles / 117 primitives / 48 materials / 2,072,072 bytes. World-v2 contract all locks PASS. Foreground smoke PASS 101/101 at 100 FPS, 166 calls, zero errors.
+
+# 2026-07-18 — Lastlight lantern-room glazing correction
+
+- Replaced the crown's alternating opaque amber/red panels with one reference-led clearer blue glass family at 22% opacity.
+- Preserved the dark structural mullions and warm animated beacon as separate visual layers, improving transparency and silhouette readability from all four cardinal views.
+- Added a fitted exterior lantern-room floor beneath the transparent crown so the hidden interior plane can no longer expose summit grass through the windows.
+- The requested swarm caught two defects hidden by the Blender exterior proof: runtime occlusion was restoring the glass to 100% opacity, and the playable top-floor panes still had solid wall bays behind them. Runtime now preserves 22% alpha with depth-write disabled; the top-floor walls use correctly phased real openings and the same blue glass.
+- Summit camera yaw is constrained to the player's side of the opaque shell, preventing cardinal review from placing the camera inside tower masonry.
+- Final Asset Factory PASS: 28,760 triangles / 119 primitives / 49 materials / 2,073,424 bytes. World-v2 and content gates pass. Final foreground smoke PASS 101/101 at 100 FPS, 166 calls, zero errors.
+
+## Top-100 Item Program — Pass 19 (SET 3 — body-fit armour system) — 2026-07-17
+Built the missing BODY-FIT ATTACHMENT SYSTEM and the final five items — **TOP-100 NOW 100/100.**
+New capability (GLB avatar path only, per owner GLB-only decision):
+- **Two new equip slots**: hands + feet (EQUIP_SLOTS + Player.equip init + slot-generic
+  useItem/refreshEquip already handled arbitrary slots).
+- **wrapOnBone() helper** in refreshGLBGear: reparents a ROOT-space overlay under any bone
+  with a hug-scale (generalized from the platebody Spine1 wrap) — used for chainbody + skirt.
+- **Five worn overlays** in world_gear.js: chainBodyMesh (slim mail shirt, Spine1),
+  plateSkirtMesh (flared skirt from Hips), chapsCover (leather thigh, per-UpLeg), gloveMesh
+  (mitts on both Hand bones), bootMesh (boots on both Foot bones). Leg-region tint suppressed
+  for plateskirt so shins stay bare.
+Data: chainbody + plateskirt as METAL tier templates (x8 tiers); leather chaps/gloves/boots
+as standalone leather items; icons (drawModelIcon cases); smithy/clothier stock; ground
+meshes + gearMesh null-cases. Validator PASS (238 items).
+All five captured on the avatar first try (system worked); chainbody slimmed 2 sub-revs
+(barrel -> fitted mail via tighter mesh + the plate's proven 0.74/0.82/0.74 hug). Plateskirt,
+chaps, gloves, boots all read correct first time.
+**Gates: captures 0 errors, smoke PASS 101/101, validator PASS. TOP-100 COMPLETE: 100/100.**
+Sheets in Items_Top100/reviews/. Pending owner review of set 3.
+
+## UI Panel Icons — Nano Banana redesign — 2026-07-18
+Owner: "go back through the UI and update the icons — use nanobanana to design them for
+each panel's icon." Replaced the hand-drawn canvas tab icons with a cohesive Nano Banana
+(Gemini gemini-3-pro-image) designed set for all 15 live panels: combat, inv, equip, skills,
+quests, prayers, spells, drops (bestiary), settings, clan, friends, ignore, logout, emotes,
+music. The 5 bottom-bar panels (clan/friends/ignore/logout/emotes) had NO icon before.
+Pipeline (reusable):
+- `tools/gen_ui_icons.js` — per-panel SUBJECT + one shared STYLE suffix (2007 OSRS low-poly,
+  warm palette, bold outline, single centered object on flat magenta #FF00FF key). Skips
+  existing; FORCE=1 to regen. -> Bible_References/UI_Icons/raw/<panel>.png
+- `tools/process_ui_icons.py` — pure PIL (no numpy): key magenta, 1px MinFilter erode to eat
+  the AA fringe, light purple despill, trim, pad square 8%, resize 128. -> assets/icons/ui/nb/
+- Wiring: ui_medieval.js tabIcon() now returns the nb PNG path; tabIconCanvas() kept as the
+  img.onerror fallback so a missing PNG never blanks a tab; TAB_KINDS expanded to all 15;
+  .tab-ico image-rendering pixelated->auto (smooth icons downscale crisply).
+Verified in the LIVE game UI (both tab bars screenshotted): crisp, cohesive, clean keying,
+no magenta halos, readable at 23px. Smoke PASS 101/101, 0 console errors.
+Known minor: the `skills` icon has a background frame box the others lack (Nano Banana added
+it) — regenerate with FORCE=1 if the owner wants it frameless. Raw + contact sheet banked in
+Bible_References/UI_Icons/.
+
+## Inventory icons — match to reviewed models — 2026-07-18
+Owner: "go back through the reviewed items (bronze med helm, longsword, etc.) and make sure
+their inventory icons match; create better versions if they don't." Dumped the live icons for
+all 17 reviewed modelled items and compared to the final model review sheets. Most matched;
+FIVE were stale from the owner design-change rounds + 2 guard-colour misses — all fixed in
+drawModelIcon (canvas, so per-tier tint preserved for all 8 tiers):
+- mace: flanged head -> SPIKED BALL morning-star (8 spikes through the core) [model r8]
+- battleaxe: single/brown -> DOUBLE crescent + GOLD haft [model]
+- full helm ('helm'): generic -> rounded helm + PURPLE PLUME + 3 VERTICAL slits [model r9]
+- med helm: plain dome -> open dome + BLUE halo band + built-in-glasses eye holes [model r8]
+- sq shield: square heater -> tall CONCAVE riot-shield plate w/ curl shading + rib [model r7/r8]
+- longsword + scimitar guards: brown -> GOLD (matches the CR_GEAR_GOLD guard on both models)
+Unchanged (already matched): greatsword, warhammer, kiteshield, longbow, iron dagger,
+chainbody, plateskirt, leather chaps/gloves/boots. Verified via re-dump contact sheets
+(_gear_icons_updated.png / _gear_icons_final.png in Bible_References/UI_Icons/). Smoke PASS
+101/101, 0 errors.
+# 2026-07-18 — Login Overhaul v1
+
+- Replaced the bare welcome overlay with an original old-school fantasy login composition using the existing Veyhollow landscape.
+- Added two faceted stone braziers with three-layer animated flames, coal beds, glow falloff, sparks, and reduced-motion behavior.
+- Preserved the real login/smoke IDs while adding safe New/Continue flows, character setup, profile summaries, options, keyboard navigation, and explicit save deletion confirmation.
+- Real browser fresh-profile, returning-profile, and save-protection paths passed.
+- Direct Codex visual review: **9.3/10**.
+- Foreground smoke: **101/101 PASS**, 100 FPS, 14 ms worst frame, 166 draws, 32,932 triangles, zero errors.
+- Closeout: `docs/rebuild/LOGIN_OVERHAUL_V1_CLOSEOUT_2026-07-18.md`.
+
+# 2026-07-18 — Nano Banana gear icons WIRED + default male character concept
+
+## Gear inventory icons — Nano Banana sprites wired in
+- Generated 17 gear inventory icons with Nano Banana (Gemini) using the actual 3D
+  models as image-to-image references (tools/gen_gear_icons.js + REF_IMAGE support in
+  tools/gemini_image.js). Model refs rendered in Blender -> Bible_References/UI_Icons/model_refs/.
+- Processed (magenta chroma key + PIL erode/despill/trim) -> Bible_References/UI_Icons/gear_nb/,
+  copied to assets/icons/gear/<id>.png.
+- Wired via src/game0_icons.js: new GEAR_SPRITES set; iconFor() returns the sprite path
+  directly (before the drawModelIcon short-circuit) for those 17 ids.
+- Scope = bronze/leather tier only. Higher metal tiers (iron/steel/... undercrag) still
+  fall through to the tinted drawn icon until per-tier sprites are generated (owner chose
+  "wire bronze now + per-tier later"). PER-TIER GEN IS THE PENDING FOLLOW-UP.
+- Verified LIVE: continued the saved adventurer, swapped the 17 items into inventory
+  in-memory (no save), icons render rich + cohesive. Restored real inventory after.
+- Content validator PASS; smoke PASS 101/101, 100 FPS, 0 errors.
+- Grid deliverable: Bible_References/UI_Icons/_gear_icon_grid.png (drawn vs Nano Banana).
+
+## Default male character — concept phase
+- 3 concepts generated (Bible_References/Character/male_concepts/_concepts.png):
+  A beige linen (came out 2D-painterly), B green wool sturdy (low-poly), C rust-red lean.
+- OWNER PICKED CONCEPT B (green wool, sturdy).
+- Locked a canonical modeling turnaround (front/side/back, consistent) from male_b via
+  image-to-image: Bible_References/Character/male_concepts/male_b_turnaround.png.
+- Concept B aligns with the existing procedural default palette in src/char_styles.js
+  makeOSRSChar (tunic 0x4a6a4a green, brown legs/boots). Live player = procedural low-poly
+  humanoid; optional HF-baked rig path (base_m1_rigged.glb, 53-bone UniRig via
+  src/fx_humanoid.js) is what animations + gear attachment target.
+- NEXT (awaiting build-path decision): build concept B into the character system + verify
+  gear/helm/hold attachment still works.
+
+# 2026-07-18 — Compact Holm curriculum and Workyard U6 start
+
+- Replaced the long mandatory island circuit with a 13-action, 20–30 minute graduation route through Guide Hall,
+  Survival Workyard, Mine Gatehouse/Training Cavern, Warden's Ridge banking, and Lastlight.
+- Kept bread-making, quest orientation, extended melee/ranged practice, and magic practice as five optional lessons;
+  the island's buildings remain explorable without extending the ferry lock.
+- Wired the Guide Hall chart as the real opening gate and Lastlight's beacon lever as the real final gate.
+- Added stable lesson-id saves and revision-4-to-5 semantic migration for incomplete accounts.
+- Began Workyard U6 by separating Studio asset/helper/scene metrics. Live Workyard reading: asset 25,202 triangles /
+  191 draws; helpers 1,352 / 43; complete preview 26,134 / 248. The 170-draw asset lock remains unchanged and red.
+- Direct Studio HUD review: 9.3/10. World V2 and content gates pass. Foreground smoke passes 103/103 at 100 FPS,
+  168 calls, and zero errors.
+- Record: `docs/rebuild/TUTORS_HOLM_COMPACT_FLOW_U6_START_2026-07-18.md`.
+
+# 2026-07-18 — Workyard U6 draw lock and room-audit foundation
+
+- Consolidated the Blender-authored U4 dock spans, static rope feed, and visually equivalent material slots while
+  preserving 5,204 triangles, all semantic nodes, and all three pulley animation clips.
+- U4 fell from 47 to 26 primitives. Real r160 Studio now reports the complete production asset at exactly 25,202
+  triangles / 170 draws; helpers are 1,352 / 43 and the whole preview is 26,134 / 227.
+- Dock and pulley comparison sheets remain 9.1/10 and 9.0/10. Motion proof still passes idle, lowering, water contact,
+  lifting, and settled states.
+- Added deterministic whole-room gates proving every functional surface lesson/service anchor is cardinally reachable
+  and every decorative furnishing remains right-click Inspect only.
+- World V2, U4 contract, asset-pipeline, content, and foreground smoke gates pass; owner whole-room review remains.
+
+# 2026-07-18 — Workyard U6 Codex whole-room acceptance
+
+- Drove the real login and ordinary World Map route from Guide Hall to the Survival Workyard before using any local
+  bookmarks. Tutorial skipping only unlocked the disposable profile and is not counted as onboarding proof.
+- Verified ordinary trail-door and roof transitions, surface hatch descent, basement ladder ascent, and the accepted
+  cellar without reopening its art.
+- Collected the authored empty lesson bucket, proved the missing-bucket rejection, then ran the full animated pulley
+  sequence and confirmed the exact Empty bucket -> Bucket of water inventory transaction.
+- Verified `Net-fish Mirrorperch` rejects a profile without a Small net; successful catch/reload evidence remains U5.
+- Verified decorative scenery is left-click Walk/right-click Inspect with a real lodge-runner context menu and message.
+- Hardened inspect-only movement to target the clicked model surface rather than terrain hidden behind the object;
+  added a deterministic World V2 source lock.
+- Codex structured whole-room review: **9.2/10**. Owner visual sign-off remains explicitly open.
+- Gates: World V2 PASS, content PASS, waterworks 21/21, foreground smoke 103/103 at 100 FPS, 12 ms worst frame,
+  168 draws, 32,934 triangles, exact streaming/save restoration, and zero errors.
+- Closeout: `docs/rebuild/WORKYARD_U6_CODEX_ACCEPTANCE_2026-07-18.md`.
+
+# 2026-07-18 — Default male character BAKED (concept B → player.glb)
+
+Owner chose "bake a new GLB from the turnaround." Full pipeline executed:
+- Hunyuan mesh from the concept-B front A-pose crop (tools/hunyuan_shape.py) ->
+  assets/models/male_default_raw.glb (226k faces).
+- Blender (invisible Mixar bg bridge, socket 9876): scale 1.85 m + feet z=0 + center,
+  voxel remesh 0.02 -> decimate -> flat shade (~6.3k tris). Faces -Y (verified via side render).
+- Region materials (bisect razor bands + centroid rules): R_SKIN/R_HAIR/R_TUNIC/R_BELT/
+  R_LEGS/R_BOOTS, engine-sRGB concept-B palette baked into Base Color.
+- Rig: REUSED the proven 23-bone mixamorig armature from player.glb (guarantees gear-bone
+  names) but REFIT every bone to the new mesh's measured joints (stockier than v02); heat
+  auto-weight bind (23 vgroups, 0 unweighted). Reusing v02's clips would have retargeted
+  badly (arms far more spread) so authored FRESH idle/walk/attack/block for the new rest pose.
+- Export -> assets/models/male_default.glb, copied to player.glb (old -> player_prev_20260718.glb.bak).
+  Verified GLB: 4 clips (idle/walk/attack/block), 23 bones, 6 R_ materials, 1 skin.
+- IN-GAME VERIFIED (continued saved adventurer, no save): installs as player (isPlayerGLB),
+  0 console errors, region colors correct, gear attaches on the new rig (bronze longsword ->
+  RightHand, kiteshield -> LeftHand, helm -> Head). Test equips reverted (in-memory only).
+- PLAYER_DEFAULT_COLORS (fx_humanoid.js) updated to the concept-B palette; index.html
+  fx_humanoid ?v bumped g18->g19.
+- Content validator PASS; smoke PASS 103/103, 100 FPS, 0 errors.
+- Review sheet: Bible_References/Character/male_concepts/male_b_baked_sheet.png.
+
+STILL OPT-IN: player.glb is the canonical GLB avatar (HF Player / customizer path). The
+boot DEFAULT is still the procedural humanoid (applyPlayerLook + char creator). Making the
+GLB the forced boot default = retiring the procedural creator (broad UX/tutorial/save blast
+radius) — flagged for owner decision, NOT flipped.
+POLISH BACKLOG: face features (flat skin face, no eyes/mouth yet) + refine the jagged
+forehead hairline (crpipe add_face / hairline-bisect pass).
+
+# 2026-07-18 — Per-tier gear sprites + avatar polish (face + hairline)
+
+## Per-tier gear sprites (owner: "generate per-tier now")
+- tools/recolor_gear_tiers.py: recolours the bronze Nano Banana sprite's METAL (warm hue
+  <=40, s>=0.15, v>=0.22) to each tier's metal colour, preserving shading; gold guards
+  (hue ~43+), leather grips, helm plumes, and outlines are left alone. 12 metal templates
+  x 7 tiers = 84 files -> assets/icons/gear/<tier>_<template>.png (bronze already existed).
+- src/game0_icons.js: replaced the flat bronze-only GEAR_SPRITES set with a rule —
+  GEAR_SPRITE_TEMPLATES (12 metal templates) + GEAR_SPRITE_SINGLES (5); iconFor() returns
+  'assets/icons/gear/<id>.png' when id is a single or <tier>_<template>. All 8 tiers exist
+  so every metal-gear id resolves. game0_icons ?v=t2.
+- Verified LIVE: continued saved adventurer, swapped a full tier ladder into inventory
+  (copper..undercrag longsword/helm/plateskirt/shields/warhammer/greatsword) — all render
+  with correct per-tier metal + preserved gold/plume; restored real inventory. iconFor
+  returns sprite paths for iron_longsword/steel_helm etc.
+- Tier-ladder proof: scratchpad/tier_ladder2.png.
+
+## Default male avatar polish (owner: "polish first")
+- Re-imported the baked player.glb (rig + 4 clips + region mats intact) into Blender.
+- Hairline: the z-band rule gave a SAWTOOTH fringe (face centroids straddle the line) —
+  fixed with bmesh bisect at z=1.66 (fringe) + y=0 (front/back split), then reclassify =
+  razor-straight OSRS fringe. Bisect interpolates deform weights (anim intact).
+- Face features: added eye + mouth quads (new R_EYES dark material), weighted 100% to
+  mixamorig:Head. Simple OSRS rectangular eyes + mouth.
+- Re-exported -> male_default.glb -> player.glb (4 clips, +R_EYES, 1 skin verified).
+- Verified LIVE: installs, 0 console errors; Blender head renders show clean fringe + face.
+  Smoke PASS 103/103, 100 FPS, 0 errors; validator PASS.
+- Review sheets: Bible_References/Character/male_concepts/male_b_polished_sheet.png.
+
+STILL OPEN (owner decision, deferred until after polish): make the GLB the BOOT default
+(retire the procedural creator) vs keep opt-in. Minor backlog: nose/brow detail, back-hair
+length (slight medium-length read in 3/4).
+
+# 2026-07-18 — Fable side-work recovery audit
+
+- Retained the useful 101-file Nano Banana tiered gear-icon family and its generation/recoloring scripts.
+- Rejected the generated male avatar for promotion: technically valid, but materially below its approved turnaround
+  and missing a checked-in Blender source or deterministic finished-model build script.
+- Restored `assets/models/player.glb` byte-identical to the previously accepted
+  `player_prev_20260718.glb.bak`; preserved Fable's model separately as `male_default.glb`.
+- Repaired all confirmed mojibake in `index.html` and removed its accidental UTF-8 BOM.
+- Added `tools/validate_fable_sidework.js` to lock the icon family, secret boundary, GLB separation/animations,
+  canonical backup identity, and HTML encoding.
+- Recovery record: `docs/rebuild/FABLE_SIDEWORK_RECOVERY_2026-07-18.md`.
+- Final acceptance: recovery validator PASS 13/13, content validator PASS, browser visual review PASS, and foreground
+  smoke PASS 103/103 at 60 FPS with 120 draw calls, 29,926 triangles, and zero console errors.
+
+# 2026-07-20 - Studio crash recovery v1
+
+- Added a durable publish journal before the first live replacement in every Studio Safe Publish transaction.
+- Added `studio_workspace_cli.js recover <workspace-id>` with exact-hash restoration, staged-draft preservation,
+  interrupted-receipt retirement, archived evidence, idempotence, and fail-closed divergent-byte handling.
+- A committed journal left after final cleanup is archived without rolling back the completed publish.
+- Expanded the disposable destructive-path Studio gate from 16 to 23 passing checks.
+- World V2, content, and Fable recovery gates pass. Foreground smoke passes 103/103 at 60 FPS, 20 ms worst frame,
+  112 draw calls, 29,456 triangles, exact streamed save restoration, and zero errors.
+- Closeout: `docs/rebuild/STUDIO_CRASH_RECOVERY_V1_2026-07-20.md`.
+
+# 2026-09-07 - Lesson Green terrain/navigation package
+
+- Resumed the latest handoff with a terrain-only 20-chunk package, retaining the Quest Lodge/Kitchen foundations.
+- Added deterministic canonical compilation, strict source/bundle validation, provider overlap merging that retains
+  Survival dock overrides, and a read-only map review linked from Building Studio.
+- Staged/exported/planned/applied through the journaled workspace CLI; exact receipt and clean rebase verified.
+- Terrain 12/12, terrain-workspace 9/9, original transaction/recovery 23/23, and full World V2 gates pass.
+- Foreground smoke passes 104/104 at 60 FPS, 20 ms worst frame, six boundary crossings, exact save restoration,
+  and zero game errors. Real minimap clicks reached the Lesson Green corridor with the 49-chunk resident ceiling.
+- Functional Studio/game screenshots reviewed in the task; no finished art or full-game completion claimed.
+- Closeout and remaining boundaries: `docs/rebuild/LESSON_GREEN_TERRAIN_PACKAGE_2026-09-07.md`.
+- Final explicitly foregrounded repeat: 104/104, 120 FPS, 17 ms worst frame, 147 draws, six streamed boundaries,
+  exact save/load and zero errors. An intervening occluded-window pass is excluded from FPS evidence.
+
+# 2026-09-09 - Teaching Kitchen v1 (third complete Holm building; optional bread lesson live)
+
+- Replaced the Lesson Green `teaching_kitchen` pad with a Blender-built L-plan bakehouse: gabled bakehouse, lean-to
+  pantry wing, half-octagonal oven apse with stone flue, west green door on the route node, north yard door.
+- Authored range (Cook/Study), flour bin, water butt, dough trough, bucket shelf (loan of two, return), recipe board,
+  cooling rack and kneading table. The range feeds the existing `cooking_bread.js` bake and the legacy raw-fish cook
+  loop through a world-positioned proxy tile; interaction rows can now declare `acceptsUseItem` as data.
+- `Tutorial.optional` records `bake_bread` once and is saved/restored in the `tut` block.
+- Moved `holm_fence_5` off the footprint; retired the pad; provider rows 36 -> 46; building acceptance 31 -> 36 locks;
+  world-v2 and smoke locks updated to match.
+- Gates: asset pipeline PASS (10,794 tris / 75 prims / 30 mats / 816,580 B); test_world_v2 all locks; content
+  validator PASS; headless smoke PASS 104/104 at 60 FPS, 22 ms worst, 165 draws, zero errors.
+- Real-pointer golden path in the browser pane produced one loaf + 40 Cooking XP with zero errors, plus a real
+  fish cook on the same range; negatives (third bucket, second dough, empty Cook) behave. `tools/qa_teaching_kitchen.js`
+  PASS 11/11 including visible-tab flame animation, yard exit, and save/reload of the ledger.
+- Visual: exterior sheet 8.6, interior sheet 8.4 — banked as FUNCTIONAL GRAYBOX, not release art.
+- Closeout: `docs/rebuild/TEACHING_KITCHEN_V1_2026-09-09.md`.
+
+# 2026-09-09 - Quest Lodge v1 (fourth complete Holm building; optional quest lesson live NPC-free)
+
+- Replaced the Lesson Green `quest_lodge` pad with a Blender-built hall + chart turret + covered porch; east lodge door
+  on the route node shared with the Kitchen, west road door toward the mine road. Guide standing socket authored, no
+  geometry, bundle-excluded.
+- Quest board Study opens the real ⭐ journal tab and records `Tutorial.optional.learn_quests`; region chart and
+  Ledger of Choices carry the open-world story law; bench and scroll rack are inspect-only.
+- Pad level 1.25 -> 1.5 so the east approach's largest cardinal step is 0.95 (was 1.11 > 1.05 ceiling); Lesson Green
+  terrain bundle republished through the journaled workspace (export 1c882fb3fb460e39, clean apply). `holm_tree_7`
+  moved off the footprint. Provider rows 46 -> 53; building acceptance 36 -> 41; world-v2/smoke locks updated.
+- ENGINE FIX (found by real-pointer review): chunk collision bakes missed a neighbour building's walls when the
+  neighbour's chunk loaded later; `rebakeBuildingFootprints` in `src/world_v2_holm.js` now re-bakes a building's
+  footprint on chunk load/unload. Also new shared `src/holm_station_reach.js`: wall-mounted station handlers walk the
+  player to the authored interaction tile first, so nothing is used through a wall (Lodge and Kitchen both wrapped).
+- Door lesson: a 1.55-tile opening must be centred on a tile centre or the 0.42 sampling pad blocks both door tiles.
+- Gates: asset pipeline PASS (7,842 tris / 65 prims / 29 mats / 603,332 B); test_world_v2 all locks; content PASS;
+  headless smoke PASS 104/104 at 60 FPS, 26 ms worst, 165 draws, zero errors. `tools/qa_quest_lodge.js` PASS 14/14
+  (incl. closed-wall negative, door, turret mouth, road exit to the x=128 spine, reload persistence);
+  `tools/qa_teaching_kitchen.js` PASS 11/11 after the shared changes.
+- Real-pointer pane: lodge door click, board study from the porch side; road door click, walk out, board click from
+  outside routed back in through the open road door and fired the lesson. Zero console errors.
+- Visual: exterior 8.5, interior 8.4 — FUNCTIONAL GRAYBOX, not release art.
+- Closeout: `docs/rebuild/QUEST_LODGE_V1_2026-09-09.md`. Goal checklist: `docs/rebuild/TUTORS_HOLM_COMPLETION_GOAL.md`.
+
+# 2026-09-09 - Mine Gatehouse v1 (fifth complete Holm building; first on the required route)
+
+- Replaced the Quarry Rise `mine_gatehouse` pad with a Blender-built gate tower + winch house + ore bay. The mine road
+  enters by the south gate and leaves by the east door; the cavern shaft moved from the open road tile (128,124) into
+  the winch house at (124.5,119.5) under a head-frame. `LAYOUT.gate`, the `mine_gate` station and the `descend_cavern`
+  target moved together; the cavern module still owns the climb, so the required gate fires from Planes.climbTo.
+- Winch frame Study/Climb-down, ore tally (copper + tin = bronze), Wardens' gate stone; cart, rack and bin inspect-only.
+  Provider rows 53 -> 61; building acceptance 41 -> 46; world-v2/smoke locks updated.
+- Lesson: furniture colliders within 0.6 of a tile centre beside an arch seal it (first build blocked the winch house);
+  the frame legs now stand on tile corners 1.5 tiles out.
+- Gates: asset pipeline PASS (7,754 tris / 62 prims / 25 mats / 592,256 B); test_world_v2 all locks; content PASS;
+  headless smoke PASS 104/104 at 60 FPS, 21 ms worst, 165 draws, zero errors. `tools/qa_mine_gatehouse.js` PASS 12/12:
+  road approach, closed-gate negative, gate, passage roof cutaway, arch to the shaft tile, road door to (133.5,120.5),
+  reload persistence, re-entry, real descent to the cavern entry (286,354) on plane -1.
+- Visual: exterior 8.5, passage 8.3 — FUNCTIONAL GRAYBOX, not release art.
+- Closeout: `docs/rebuild/MINE_GATEHOUSE_V1_2026-09-09.md`.
+- ADDENDUM (real-pointer pane, same day): gate click opened the mine gate; a click on the winch frame walked the
+  player through the gate into the winch house tile (124.5,118.5) and opened the winch dialogue; its "Climb down the
+  shaft" option descended to (286,354) on plane -1 in the Training Cavern with zero console errors. Found that
+  `UI.dialogue` renders its body with textContent, so the Kitchen, Lodge and Gatehouse dialogues no longer carry
+  HTML tags.
+
+# 2026-09-09 - Holm Bank v1 (sixth complete Holm building; second on the required route)
+
+- Replaced the Warden's Ridge `holm_bank` pad with a Blender-built banking hall + waiting bay + dormer + vault chimney.
+  The vault chest moved inside the vault (159.5,113.5) and still opens the bank through the engine's chest path; two
+  teller booths call UI.openBank so the required `open_bank` lesson can be earned at the counter. Pad level 2.08 -> 2.45
+  (largest approach step 0.88, was 1.11). Provider rows 61 -> 70; building acceptance 46 -> 51; locks updated.
+- Lessons: a counter gap needs two tiles so one tile centre clears both the counter end and the wall pad; the planner
+  ignores closed doors and the walker opens them, so "unreachable interior" negatives must assert the long route
+  instead; thin authored click targets (brass bars) need an invisible hit proxy (added to the booths and ledger).
+- Gates: asset pipeline PASS; test_world_v2 all locks; content PASS; headless smoke PASS 104/104 at 60 FPS, 22 ms worst,
+  165 draws, zero errors. `tools/qa_holm_bank.js` PASS 12/12: ridge-road approach, long-route negative from the north
+  lawn (plan >= 14 tiles), front door, hall roof cutaway, booth opening the real bank interface, staff gap to the
+  vault ledger tile, vault chest opening the bank, staff door east, reload persistence, no errors.
+- Real-pointer pane: front door click opened the bank door; a booth click walked the player in and opened
+  "The Bank of Veyhollow" with the teller chat line. Zero console errors.
+- Visual: exterior 8.4, hall 8.4 — FUNCTIONAL GRAYBOX, not release art.
+- Closeout: `docs/rebuild/HOLM_BANK_V1_2026-09-09.md`.
+
+# 2026-09-09 - Combat Hall v1 (seventh complete Holm building; cavern exit now surfaces indoors)
+
+- Replaced the Warden's Ridge `combat_hall` pad with a Blender-built drill hall + drill tower + covered practice yard +
+  armoury apse. The Training Cavern's one-way exit ladder now surfaces inside the drill tower (176.5,116.5). Pell study
+  opens the combat tab NPC-free; the melee/ranged trial sockets are authored without geometry. Pad level 2.02 -> 2.3
+  (largest approach step 0.88). Provider rows 70 -> 77; building acceptance 51 -> 56; locks updated.
+- Engine fixes found by the hall QA: (1) the Lastlight route gate rejected every off-switchback tile within 28 of the
+  beacon, which covered the hall's east half; building pads (+1 tile shoulder) are now exempt in `game5_main.js`.
+  (2) `CollisionGrid._bakeWall` baked closed-door colliders as WALL edges so plans could not enter a shut building;
+  door colliders are now skipped, matching the planner's ignoreDoors contract.
+- Gates: asset pipeline PASS (8,514 tris, 58 prims, 28 mats, 643,368 B); test_world_v2 all locks; content PASS;
+  headless smoke PASS 104/104 at 60 FPS, 22 ms worst, 165 draws, zero errors. `tools/qa_combat_hall.js` PASS 17/17:
+  ridge approach, long-route negative from the north (plan 25), bank-side door, roof cutaway, pell study opening the
+  combat tab, apse mouth, arch to the tower landing, covered yard, road door exit, reload persistence, and the real
+  cavern round trip (gatehouse winch from the hall side, descent, cavern route, climb surfacing inside the tower).
+- Real-pointer pane: bank-side door click opened the leaf; pell click opened "The training pell" and "Show me the
+  styles." left the combat tab active; road door click opened the leaf. Surfacing from the cavern lands on the tower
+  landing with the roof cut away. Zero new console errors.
+- Sheets: exterior 8.5, live hall 8.4 (functional graybox). Open: the tower's 6-tile partition hides the landing from
+  a low west camera; practice enemies wait on the NPC decision. Remaining pad: Mage Tower.
+
+# 2026-09-09 - Mage Tower v1 (eighth complete Holm building; every reservation pad now built)
+
+- Replaced the Mage Headland `mage_tower` pad with a Blender-built two-storey ashlar tower (pyramid spire, crescent
+  finial, quoins, string course) and a lean-to timber scriptorium wing. Rune table (primary) counts air/mind runes,
+  explains Wind Strike and opens the spellbook tab; lectern (secondary) and register (clue) teach NPC-free; bookshelf,
+  orrery and spiral stair inspect-only; `casting_socket` silent. Pad level 1.62 unchanged. Provider rows 77 -> 85;
+  building acceptance 56 -> 61; locks updated. Station mage_tower gains entry/service/exit and its building def.
+- Lesson: the first build hid the ground floor behind 7.6-tile walls at the gameplay camera; the upper storey (walls
+  above the string course, quoins, upper windows, study floor) now lives in the `roof` part and cuts away with it.
+- Gates: asset pipeline PASS (11,544 tris, 75 prims, 28 mats, 866,460 B); test_world_v2 all locks; content PASS;
+  headless smoke PASS 104/104 at 60 FPS, 22 ms worst, 165 draws, zero errors. `tools/qa_mage_tower.js` PASS 14/14:
+  staged spine approach, long-route negative from the dock road, west door, cutaway, rune table opening the
+  spellbook tab, casting circle, arch to the lectern, register, south door, dock road, reload persistence, no errors.
+- Real-pointer pane: west door via the engine door path (scripted); a real rune table click opened "The rune table" with the spellbook tab active; a real south
+  door click opened the leaf. Interior visible through the open door with the upper storey hidden. Zero errors.
+- Sheets: exterior 8.4, live hall 8.4 (functional graybox). Open: practice target waits on the NPC decision; the
+  upper study is visual only. No reservation pads remain on Tutor's Holm.
+
+# 2026-09-09 - Tutor's Holm full-route regression (real pointer input, 20/20)
+
+- New standing gate `tools/qa_holm_full_route.js`: one fresh profile, all thirteen required lessons, both optional
+  NPC-free lessons and the departure boat, every trigger a real mouse click on the canvas (game pick), a real click on
+  a pack slot, a real right-click context menu row, or a real dialogue/grid button. Travel by minimap walk order.
+  Result PASS 20/20 in 578 s; zero page/console errors. Report: `docs/rebuild/TUTORS_HOLM_FULL_ROUTE_QA_2026-09-09.md`
+  (template shape), evidence in `scratchpad/holm_full_route/`. Renderer `tools/make_holm_route_report.js`.
+- Route defects found and fixed: (1) `chop_logs` had no choppable tree (landscape oaks are scenery); three
+  provider-owned marked trees now stand beside the arrow target (`src/holm_survival_trees.js`, world-v2 lock added).
+  (2) The Guide Hall relief chart could not be started by clicking it: the generic walk-to stopped 2.55 from the
+  3-tile table, outside its 2.25 reach, and `Sched.walkThen` gave up silently; the four Guide Hall stations now use
+  `HolmStationReach.guard` on their authored tiles (reach script moved ahead of the module). (3) The fishing edge row
+  lacked `acceptsUseItem`, so net-then-water clicks fell through; flag added and both checked-in Workyard Studio
+  bundles recompiled (compile-pair lock green).
+- Gates after the fixes: test_world_v2 all locks; content PASS; headless smoke PASS 104/104 at 60 FPS, 20 ms worst,
+  182 draws (three trees), zero errors. Real-pointer pane: marked tree chop with Woodcutting XP drop, relief chart
+  dialogue advancing the curriculum, net + fishing edge catch with Fishing XP drop.
+
+# 2026-09-09 - Tutor's Holm completion goal closed
+
+- Every item of `docs/rebuild/TUTORS_HOLM_COMPLETION_GOAL.md` that is not owner-deferred is ticked: eight complete
+  buildings (six built today), the real-input full-route gate (20/20), and the closeout docs (flow doc completion
+  state and open decisions, `TUTORIAL_ISLAND.md` STATUS, guiding-light closing bullet).
+- Open owner decisions recorded explicitly: fully-designed art acceptance for the grayboxes; modelled-NPC
+  authorization for tutors and the three kill trials (sockets authored); optional Studio workspaces for the new
+  buildings. Nothing committed; the owner commits.

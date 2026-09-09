@@ -42,9 +42,9 @@ var WorldV2Objects=(function(){
   function buildHolmBridge(){
     var g=new THREE.Group(),deck=blockMat(0x80603c),edge=blockMat(0x563b24);
     for(var i=-9;i<9;i++){
-      var plank=new THREE.Mesh(new THREE.BoxGeometry(0.92,0.18,3.5),i%2?deck:edge); plank.position.set(i+0.5,0.12,0); g.add(plank);
+      var plank=new THREE.Mesh(new THREE.BoxGeometry(0.92,0.18,6.5),i%2?deck:edge); plank.position.set(i+0.5,0.12,0); g.add(plank);
     }
-    [-1.82,1.82].forEach(function(z){
+    [-3.35,3.35].forEach(function(z){
       var rail=new THREE.Mesh(new THREE.BoxGeometry(18,0.13,0.12),edge); rail.position.set(0,1.02,z); g.add(rail);
       for(var x=-8.5;x<=8.5;x+=3){ var post=new THREE.Mesh(new THREE.BoxGeometry(0.16,1.15,0.16),edge); post.position.set(x,0.58,z); g.add(post); }
     });
@@ -97,6 +97,30 @@ var WorldV2Objects=(function(){
     holm_survival_workyard:{build:function(){
       if(typeof WorldV2Buildings==='undefined') throw new Error('World v2 building composer is unavailable');
       return WorldV2Buildings.build(THREE,'holm_survival_workyard_v1');
+    }},
+    holm_teaching_kitchen:{build:function(){
+      if(typeof WorldV2Buildings==='undefined') throw new Error('World v2 building composer is unavailable');
+      return WorldV2Buildings.build(THREE,'holm_teaching_kitchen_v1');
+    }},
+    holm_quest_lodge:{build:function(){
+      if(typeof WorldV2Buildings==='undefined') throw new Error('World v2 building composer is unavailable');
+      return WorldV2Buildings.build(THREE,'holm_quest_lodge_v1');
+    }},
+    holm_mine_gatehouse:{build:function(){
+      if(typeof WorldV2Buildings==='undefined') throw new Error('World v2 building composer is unavailable');
+      return WorldV2Buildings.build(THREE,'holm_mine_gatehouse_v1');
+    }},
+    holm_bank:{build:function(){
+      if(typeof WorldV2Buildings==='undefined') throw new Error('World v2 building composer is unavailable');
+      return WorldV2Buildings.build(THREE,'holm_bank_v1');
+    }},
+    holm_combat_hall:{build:function(){
+      if(typeof WorldV2Buildings==='undefined') throw new Error('World v2 building composer is unavailable');
+      return WorldV2Buildings.build(THREE,'holm_combat_hall_v1');
+    }},
+    holm_mage_tower:{build:function(){
+      if(typeof WorldV2Buildings==='undefined') throw new Error('World v2 building composer is unavailable');
+      return WorldV2Buildings.build(THREE,'holm_mage_tower_v1');
     }}
   };
   var state={ready:false,provider:null,templates:new Map(),active:new Map(),geometries:new Set(),
@@ -161,6 +185,9 @@ var WorldV2Objects=(function(){
         {kind:row.kind,label:row.label,examine:row.examine||'Nothing unusual.',
           inspectOnly:!!row.inspectOnly,inspectName:row.inspectName||null,
           inspectMessage:row.inspectMessage||row.examine||null,
+          // Authored stations may accept an inventory item while keeping their
+          // central Interact hook (the Workyard fishing edge pattern), as data.
+          acceptsUseItem:!!row.acceptsUseItem,
           worldObjectId:placement.id,worldChunkId:mesh.userData.worldChunkId});
       pushClickable(runtime,target); if(row.partId) interactionByPart[row.partId]=row;
     }

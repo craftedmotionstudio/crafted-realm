@@ -1,0 +1,13 @@
+{
+  "name": "Mage Tower v1 — Live casting hall vs Tutorial Island reference",
+  "osrs": "Bible_References/A_Tutorial_Island_Option.jpg",
+  "cr": "scratchpad/mage_tower_v1/in_game_hall_overview.png",
+  "left_label": "TUTORIAL ISLAND REFERENCE",
+  "right_label": "CRAFTED REALM LIVE GAME, UPPER STOREY AND SPIRE CUT AWAY",
+  "subtitle": "Rune table with sorted runes, orb and primer under the tower banner, spiral stair to the shuttered study, sconce, arch into the scriptorium",
+  "codex": 8.4,
+  "review_note": "With the spire and upper storey cut away the ground floor reads as a wizard's workroom at once: the velvet rune table with its glowing orb, the banner and sconce on the north wall, the spiral stair climbing to the hatch, and the arch into the timber scriptorium with its bookshelf beyond. Scale beside the player is right and the two doors explain the road. Held below 9.0: the casting circle is a thin floor inlay that disappears under the player, the stair balusters are hairline at this distance, and the stone walls are a single uniform tone inside.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Raise the casting circle into a shallow stepped dais with brighter rune stones, thicken the stair balusters and add a handrail, and limewash the interior faces so the runes and banner read against a lighter wall.",
+  "out": "Bible_References/Complete/_compare/holm_mage_tower_v1_hall_compare.png"
+}

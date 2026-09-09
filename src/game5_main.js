@@ -25,6 +25,36 @@ function tileWalkable(i, j){
   const y=groundY(cx, cz); if(y===null || y<-1.2) return false;   // off-map / water
   return true;
 }
+/* A tile can be dry and collision-free while still sitting on the face of a
+   cliff.  The old BFS treated that as ordinary ground, so it preferred short
+   suicidal-looking ledge routes over authored switchbacks.  Surface traversal
+   now rejects any cardinal edge whose centre heights differ by more than one
+   comfortable step. Upper floors keep their authored per-tile elevation law. */
+// A cardinal tile may climb a deliberately graded road, but not an exposed
+// cliff face. Lastlight's steepest authored switchback transition is 1.022;
+// keeping this just above that value makes the road usable while rejecting
+// the visibly much steeper shortcuts down the shoulder.
+const MAX_SURFACE_STEP = 1.05;
+function tileInsideLastlightRoute(x,z){
+  if(typeof HolmLandscape==='undefined'||!HolmLandscape.lastlightBeacon||!HolmLandscape.pathProfileAt) return true;
+  const beacon=HolmLandscape.lastlightBeacon;
+  const d=Math.hypot(x-beacon.x,z-beacon.z);
+  if(d>=beacon.influenceRadius) return true;
+  // Flattened building pads (Combat Hall, Mage Tower) sit inside the headland's
+  // influence radius; their level ground and doorstep shoulder are never the slope
+  // this gate exists to close, so rooms there stay walkable off the switchback.
+  if(typeof HolmLandscape.padAt==='function'&&HolmLandscape.padAt(x,z,1.0)) return true;
+  if(d<=beacon.plateauRadius+1.8) return true;
+  const profile=HolmLandscape.pathProfileAt(x,z);
+  return !!profile&&profile.id===beacon.approachRoute&&profile.distance<=profile.width+.75;
+}
+function tileTransitionWalkable(i,j,ii,jj){
+  const pl=(typeof Player!=='undefined' && Player.plane)||0;
+  if(pl!==0) return true;
+  const a=groundY(i+.5,j+.5),b=groundY(ii+.5,jj+.5);
+  return Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(b-a)<=MAX_SURFACE_STEP&&
+    tileInsideLastlightRoute(i+.5,j+.5)&&tileInsideLastlightRoute(ii+.5,jj+.5);
+}
 function computePath(sx, sz, tx, tz){
   const sti=Math.floor(sx), stj=Math.floor(sz);
   const tti=Math.floor(tx), ttj=Math.floor(tz);
@@ -59,7 +89,7 @@ function computePath(sx, sz, tx, tz){
           const s=CollisionGrid.canStep(i, j, ii-i, jj-j);
           ok = (s===null) ? tileWalkable(ii,jj) : s;   // null = off-grid (e.g. Menagerie pad)
         } else ok = tileWalkable(ii,jj);
-        if(!ok){ seen.add(k); continue; }
+        if(!ok || !tileTransitionWalkable(i,j,ii,jj)){ seen.add(k); continue; }
         const r=roomOf(ii,jj);
         if(r && r!==tgtRoom && r!==startRoom){ seen.add(k); continue; }   // don't cut through buildings
         seen.add(k); prev.set(k,[i,j]); nq.push([ii,jj]);
@@ -156,6 +186,7 @@ function update(dt){
   } else {
     pAnim(false, dt);
   }
+  if(typeof CraftingActionVisuals!=='undefined') CraftingActionVisuals.update(player,Player.action,dt);
   // ── fixed-tick player sim: combat/skilling/vitals advance in 600ms steps (wall-clock unchanged) ──
   // World-v2 residency follows tile-chunk boundaries. Terrain geometry and the
   // matching collision cells are loaded/unloaded together by the provider.
@@ -215,8 +246,9 @@ function update(dt){
         a.tick=(a.tick||0)+dt;
         if(a.tick>=TICK){
           a.tick-=TICK;
-          swing(player);
-          if(u.rtype==='tree') Sfx.chop(); else if(u.rtype==='rock') Sfx.mine(); else Sfx.splash();
+          if(u.rtype==='tree'){swing(player,'slash');Sfx.chop();} else if(u.rtype==='rock'){ swing(player,'mine');Sfx.mine();
+            if(typeof MiningRockVisuals!=='undefined'&&MiningRockVisuals.impact) MiningRockVisuals.impact(a.obj);
+          } else {swing(player,'cast');Sfx.splash();}
           const rate = u.mat || GATHER_RATES[u.rtype];
           if(u.mat && Player.lvl(u.skill)<u.mat.req){
             UI.chat(`You need a Mining level of ${u.mat.req} to mine this rock.`,'plain');
@@ -233,7 +265,7 @@ function update(dt){
                 u.alive=false; u.respawnT=u.respawn;
                 if(u.rtype==='tree'){ Sfx.treeFall();
                   a.obj.children.forEach((ch,ci)=>{ if(ci>0) ch.visible=false; }); }
-                else a.obj.visible=false;
+                else if(!(typeof MiningRockVisuals!=='undefined'&&MiningRockVisuals.deplete&&MiningRockVisuals.deplete(a.obj))) a.obj.visible=false;
                 Player.action=null;
               }
             } else Player.action=null;
@@ -253,9 +285,14 @@ function update(dt){
       else { toggleDoor(a.obj); Player.action=null; }
     }
     else if(a.type==='smelt'){
-      if(player.position.distanceTo(a.obj.position)>2.6){ if(!Player.moveTo) orderWalk(a.obj.position); }
+      // Stations use tall silhouette-sized click proxies. Interaction reach is
+      // tile-plane distance; including proxy height can strand a player beside
+      // the visible furnace forever while the action waits for impossible range.
+      const stationDist=Math.hypot(player.position.x-a.obj.position.x,player.position.z-a.obj.position.z);
+      if(stationDist>2.6){ if(!Player.moveTo) orderWalk(a.obj.position); }
       else {
         Player.moveTo=null; Player.path=[];
+        player.lookAt(a.obj.position.x,player.position.y,a.obj.position.z);
         a.t+=dt;
         if(a.t>=1.8){
           a.t=0;
@@ -267,7 +304,9 @@ function update(dt){
             Player.addItem(a.bar,1);
             Player.addXp('Smithing', s.xp);
             UI.chat('You smelt a '+s.name.toLowerCase()+'.','xp');
-            Sfx.mine(); swing(player); UI.refreshInv();
+            Sfx.smelt(); swing(player,'smelt');
+            if(typeof CraftingActionVisuals!=='undefined')CraftingActionVisuals.pulse('smelt',a.obj);
+            UI.refreshInv();
             const again=Object.keys(s.needs).every(n=>Player.count(n)>=s.needs[n]);
             if(!again) Player.action=null;
           }
@@ -275,9 +314,11 @@ function update(dt){
       }
     }
     else if(a.type==='smith'){
-      if(player.position.distanceTo(a.obj.position)>2.4){ if(!Player.moveTo) orderWalk(a.obj.position); }
+      const stationDist=Math.hypot(player.position.x-a.obj.position.x,player.position.z-a.obj.position.z);
+      if(stationDist>2.4){ if(!Player.moveTo) orderWalk(a.obj.position); }
       else {
         Player.moveTo=null; Player.path=[];
+        player.lookAt(a.obj.position.x,player.position.y,a.obj.position.z);
         a.t+=dt;
         if(a.t>=1.8){
           a.t=0;
@@ -288,7 +329,9 @@ function update(dt){
             Player.addItem(it.id, it.qty||1);
             Player.addXp('Smithing', SMITH_XP[a.bar]*it.bars);
             UI.chat('You hammer out '+(it.qty?'a set of ':'a ')+it.name.toLowerCase().replace(/ \(x\d+\)/,'')+'.','xp');
-            Sfx.mine(); swing(player); UI.refreshInv();
+            Sfx.smith(); swing(player,'smith');
+            if(typeof CraftingActionVisuals!=='undefined')CraftingActionVisuals.pulse('smith',a.obj);
+            UI.refreshInv();
             if(Player.count(a.bar)<it.bars) Player.action=null;
           }
         }
@@ -581,6 +624,7 @@ function update(dt){
     const u=r.userData;
     if(!u.alive){ u.respawnT-=dt;
       if(u.respawnT<=0){ u.alive=true; r.visible=true;
+        if(u.rtype==='rock'&&typeof MiningRockVisuals!=='undefined'&&MiningRockVisuals.respawn) MiningRockVisuals.respawn(r);
         r.children.forEach(ch=>ch.visible=true); } }
     if(u.rtype==='fish' && u.alive){ u.bob+=dt*2; r.scale.setScalar(1+Math.sin(u.bob)*0.15); }
   });
@@ -636,6 +680,9 @@ function update(dt){
         scene.remove(f);
         const ci=WORLD.clickables.indexOf(f); if(ci>=0) WORLD.clickables.splice(ci,1);
         WORLD.fires.splice(i,1);
+        // a burnt-out player fire leaves ashes, like OSRS (top-100 batch 1 source)
+        if(typeof makeDrop==='function' && ITEMS.ashes)
+          makeDrop('ashes', 1, f.position.x, f.position.z);
         continue;
       }
     }
@@ -685,19 +732,32 @@ function update(dt){
   if(typeof Controls!=='undefined' && Controls.update) Controls.update(dt);   // arrow camera + chat bubble
   if(typeof CharCreator!=='undefined' && CharCreator.active) CharCreator.tick(dt);   // design-panel turntable
 
-  const z = zoneAt(player.position.x, player.position.z);
-  if(z!==curZone){
-    curZone=z; UI.zone(ZONES[z].name);
-    UI.chat(`Now entering: ${ZONES[z].name}.`,'sys');
-    Music.onZone(z);
-    Quest.onZone(z);
-    if(z==='scarlands') UI.chat('The Scarlands are lawless. The deeper you wander, the deadlier the threat.','combat');
+  const activePlane=(Player.plane||0);
+  if(activePlane>0 && typeof HolmLastlightData!=='undefined' && HolmLastlightData.levels[activePlane-1]){
+    // Authored upper floors keep their own location name. Surface zone polling
+    // must not overwrite it after a climb or saved-game restore.
+    UI.zone(HolmLastlightData.levels[activePlane-1].label);
+  } else {
+    const z = zoneAt(player.position.x, player.position.z);
+    if(z!==curZone){
+      curZone=z; UI.zone(ZONES[z].name);
+      UI.chat(`Now entering: ${ZONES[z].name}.`,'sys');
+      Music.onZone(z);
+      Quest.onZone(z);
+      if(z==='scarlands') UI.chat('The Scarlands are lawless. The deeper you wander, the deadlier the threat.','combat');
+    }
+    if(curZone==='scarlands'){
+      const t=scarThreat(player.position.z);
+      UI.zone(`The Scarlands — Threat ${Math.max(1,t)}`);
+    }
   }
-  if(curZone==='scarlands'){
-    const t=scarThreat(player.position.z);
-    UI.zone(`The Scarlands — Threat ${Math.max(1,t)}`);
+  const underground=(Player.plane||0)<0;
+  const targetFog = new THREE.Color(underground ? 0x30251c : ZONES[curZone].fog);
+  if(scene.fog){
+    const targetNear=underground?78:65,targetFar=underground?230:205;
+    scene.fog.near += (targetNear-scene.fog.near)*Math.min(1,dt*2.4);
+    scene.fog.far += (targetFar-scene.fog.far)*Math.min(1,dt*2.4);
   }
-  const targetFog = new THREE.Color(((Player.plane||0)<0) ? 0x18130f : ZONES[curZone].fog);
   scene.fog.color.lerp(targetFog, dt*1.5);
   scene.background.lerp(targetFog, dt*1.5);
 
@@ -867,6 +927,7 @@ function boot(){
     onFailure:showBootFailure,
     onReady:()=>{
       document.getElementById('loading-screen').style.display='none';
+      if(typeof LoginOverhaul!=='undefined'&&LoginOverhaul.refreshSaveState) LoginOverhaul.refreshSaveState();
       document.getElementById('welcome-screen').style.display='flex';
     }
   });

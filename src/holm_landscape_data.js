@@ -15,7 +15,7 @@ var HolmLandscape=(function(){
   // once the approved full-scale Hall replaced the blockout.
   var arrival={id:'holm_arrival',label:'Guide Hall Arrival',x:151,z:169,kind:'safe-spawn'};
   var pond={id:'holm_pond',label:'Survival Pond',x:132,z:151,r:6.2,kind:'landmark'};
-  var bridge={id:'holm_tidebridge',label:'Tidebridge',x:174,z:143,w:18,d:4,kind:'crossing'};
+  var bridge={id:'holm_tidebridge',label:'Tidebridge',x:174,z:143,w:18,d:7,usableWidth:6.5,kind:'crossing'};
 
   // Overlapping lobes make one irregular island instead of a rectangular map.
   var lobes=[
@@ -23,7 +23,11 @@ var HolmLandscape=(function(){
     {id:'survival_lobe',cx:130,cz:149,rx:29,rz:24},
     {id:'quarry_lobe',cx:143,cz:121,rx:35,rz:25},
     {id:'ridge_lobe',cx:172,cz:124,rx:34,rz:25},
-    {id:'headland_lobe',cx:195,cz:143,rx:22,rz:24}
+    {id:'headland_lobe',cx:195,cz:143,rx:22,rz:24},
+    // Lastlight owns a northern shoulder instead of borrowing the Mage Tower
+    // terrace. This keeps both landmarks readable and prevents a summit mass
+    // from forming a cliff around the deliberately level tower foundation.
+    {id:'lastlight_lobe',cx:196,cz:113,rx:26,rz:24}
   ];
   var inlet={id:'tide_inlet',cx:174,cz:147,rx:7.2,rz:22};
   var arrivalCove={id:'arrival_cove_water',cx:158,cz:179,rx:5.2,rz:11};
@@ -31,13 +35,22 @@ var HolmLandscape=(function(){
   var departurePier={id:'holm_departure_pier',x:207,z:151,w:8,d:2.2};
 
   var districts=[
-    {id:'arrival_cove',label:'Arrival Cove',role:'arrival',center:[151,169],radius:13,landmark:'holm_arrival'},
-    {id:'survival_wood',label:'Survival Wood',role:'gathering',center:[132,151],radius:17,landmark:'holm_pond'},
-    {id:'lesson_green',label:'Lesson Green',role:'civic-learning',center:[141,137],radius:15,landmark:'holm_lesson_green'},
-    {id:'quarry_rise',label:'Quarry Rise',role:'production',center:[128,120],radius:16,landmark:'holm_cave_gate'},
-    {id:'wardens_ridge',label:"Warden's Ridge",role:'bank-combat',center:[164,120],radius:17,landmark:'holm_wardens_ridge'},
-    {id:'mage_headland',label:'Mage Headland',role:'magic-departure',center:[193,140],radius:19,landmark:'holm_mage_headland'}
+    {id:'arrival_cove',label:'Arrival Cove',role:'arrival',tutorialRole:'movement-inventory-dialogue',elevationBand:[0.45,1.25],center:[151,169],radius:13,landmark:'holm_arrival'},
+    {id:'survival_wood',label:'Survival Wood',role:'gathering',tutorialRole:'wood-fire-fish-cook-water',elevationBand:[0.55,2.2],center:[132,151],radius:17,landmark:'holm_pond'},
+    {id:'lesson_green',label:'Lesson Green',role:'civic-learning',tutorialRole:'quests-shops-bank-homestead-preview',elevationBand:[1.0,2.8],center:[141,137],radius:15,landmark:'holm_lesson_green'},
+    {id:'quarry_rise',label:'Quarry Rise',role:'production',tutorialRole:'mining-smelting-smithing',elevationBand:[1.5,4.8],center:[128,120],radius:16,landmark:'holm_cave_gate'},
+    {id:'wardens_ridge',label:"Warden's Ridge",role:'bank-combat',tutorialRole:'combat-prayer-drops-banking',elevationBand:[1.8,5.8],center:[164,120],radius:17,landmark:'holm_wardens_ridge'},
+    {id:'mage_headland',label:'Mage Headland',role:'magic-departure',tutorialRole:'magic-beacon-graduation',elevationBand:[1.4,14.5],center:[195,124],radius:27,landmark:'holm_lastlight_beacon'}
   ];
+
+  // The player starts near sea level and earns the island's broadest view only
+  // after learning its systems. Lastlight is a landform/story socket first; its
+  // final lighthouse mesh is deliberately deferred until this climb reads well.
+  var lastlightBeacon={id:'holm_lastlight_beacon',label:'Lastlight Beacon',kind:'graduation-landmark',
+    x:196,z:112,summitY:14.0,influenceRadius:28,plateauRadius:13.5,
+    footprintRadius:10.5,interiorRadius:8.8,approachHalfWidth:3.3,
+    purpose:'Relight the Storm Wardens\' signal after the release curriculum to call the mainland ferry.',
+    approachRoute:'lastlight_switchback'};
 
   var routes=[
     {id:'holm_guided_spine',label:'Guided island spine',width:3.2,kind:'primary',points:[
@@ -50,6 +63,9 @@ var HolmLandscape=(function(){
     ]},
     {id:'arrival_lookout_path',label:'Arrival lookout path',width:2.4,kind:'secondary',points:[
       [150,165],[145,165],[145,175]
+    ]},
+    {id:'lastlight_switchback',label:'Lastlight Beacon climb',width:3.3,kind:'graduation',points:[
+      [184,136],[184,128],[205,128],[205,123],[196,123]
     ]}
   ];
 
@@ -58,11 +74,11 @@ var HolmLandscape=(function(){
   var pads=[
     {id:'guide_hall',label:'Guide Hall',role:'orientation-service',x:151,z:155,w:26,d:24,level:0.82,door:'S'},
     {id:'survival_shelter',label:'Survival Workyard',role:'gathering-support',x:116,z:151,w:20,d:14,level:0.92,door:'S'},
-    {id:'quest_lodge',label:'Quest Lodge',role:'story-service',x:136,z:136,w:12,d:9,level:1.25,door:'E'},
+    {id:'quest_lodge',label:'Quest Lodge',role:'story-service',x:136,z:136,w:12,d:9,level:1.5,door:'E'},
     {id:'teaching_kitchen',label:'Teaching Kitchen',role:'cooking-service',x:153,z:136,w:13,d:10,level:1.28,door:'W'},
     {id:'mine_gatehouse',label:'Mine Gatehouse',role:'cave-access',x:127,z:119,w:10,d:8,level:1.72,door:'S'},
-    {id:'holm_bank',label:'Holm Bank',role:'bank-service',x:157,z:116,w:10,d:8,level:2.08,door:'S'},
-    {id:'combat_hall',label:'Combat Hall',role:'combat-service',x:172,z:119,w:12,d:9,level:2.02,door:'S'},
+    {id:'holm_bank',label:'Holm Bank',role:'bank-service',x:157,z:116,w:10,d:8,level:2.45,door:'S'},
+    {id:'combat_hall',label:'Combat Hall',role:'combat-service',x:172,z:119,w:12,d:9,level:2.3,door:'S'},
     {id:'mage_tower',label:'Mage Tower',role:'magic-service',x:193,z:136,w:11,d:11,level:1.62,door:'S'}
   ];
 
@@ -74,6 +90,7 @@ var HolmLandscape=(function(){
     holm_wardens_ridge:{id:'holm_wardens_ridge',label:"Warden's Ridge",x:158,z:120,kind:'landmark'},
     holm_tidebridge:bridge,
     holm_mage_headland:{id:'holm_mage_headland',label:'Mage Headland',x:193,z:136,kind:'landmark'},
+    holm_lastlight_beacon:lastlightBeacon,
     holm_departure:{id:'holm_departure',label:'Departure Dock',x:207,z:151,kind:'departure'}
   };
 
@@ -89,7 +106,7 @@ var HolmLandscape=(function(){
 
   [
     [124,165,1.05,0.2],[128,160,0.88,1.1],[135,162,1.12,2.2],[104,153,0.92,3.1],
-    [104,144,1.08,4.0],[121,138,0.86,5.1],[135,140,1.14,0.7],[135,169,0.94,1.8],
+    [104,144,1.08,4.0],[121,138,0.86,5.1],[136,143,1.14,0.7],[135,169,0.94,1.8],
     [108,137,1.12,2.7],[117,164,0.90,3.6],[143,174,1.10,4.5],[151,176,0.88,5.4],
     [169,164,1.05,0.4],[168,158,0.92,1.3],[113,128,1.10,2.1],[118,114,0.86,3.0],
     [139,106,1.13,3.9],[151,105,0.95,4.8],[178,106,1.10,5.7],[187,117,0.88,0.6],
@@ -104,7 +121,7 @@ var HolmLandscape=(function(){
 
   [
     [129,159,7,0],[103,151,6,Math.PI/2],[135,166,6,Math.PI/2],
-    [141,131,6,0],[149,131,6,0],[156,125,6,Math.PI/2],
+    [141,131,6,0],[146,128,6,0],[156,125,6,Math.PI/2],
     [183,130,7,Math.PI/2],[194,145,7,Math.PI/2]
   ].forEach(function(p,i){ objectPlacements.push(fence('holm_fence_'+(i+1),p[0],p[1],p[2],p[3])); });
 
@@ -142,6 +159,25 @@ var HolmLandscape=(function(){
       d=Math.min(d,segmentDistance([x,z],routes[r].points[i-1],routes[r].points[i]));
     return d;
   }
+  function pathProfileAt(x,z){
+    var best={id:null,distance:Infinity,width:0,kind:null};
+    for(var r=0;r<routes.length;r++) for(var i=1;i<routes[r].points.length;i++){
+      var d=segmentDistance([x,z],routes[r].points[i-1],routes[r].points[i]);
+      if(d<best.distance) best={id:routes[r].id,distance:d,width:routes[r].width,kind:routes[r].kind};
+    }
+    return best;
+  }
+  function routeSample(route,x,z){
+    var best={distance:Infinity,progress:0},travelled=0,total=routeLength(route);
+    for(var i=1;i<route.points.length;i++){
+      var a=route.points[i-1],b=route.points[i],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.abs(dx)+Math.abs(dz);
+      var den=dx*dx+dz*dz,t=den?clamp(((x-a[0])*dx+(z-a[1])*dz)/den,0,1):0;
+      var px=a[0]+dx*t,pz=a[1]+dz*t,d=Math.hypot(x-px,z-pz);
+      if(d<best.distance) best={distance:d,progress:(travelled+len*t)/total};
+      travelled+=len;
+    }
+    return best;
+  }
   function rawInteriorHeight(x,z){
     var base=0.62+Math.sin(x*0.13)*Math.cos(z*0.11)*0.10;
     var hills=[
@@ -161,11 +197,36 @@ var HolmLandscape=(function(){
     var interior=rawInteriorHeight(x,z);
     var coastT=smooth((1-q)/0.18);
     var height=-1.72+(interior+1.72)*coastT;
+    // A true summit mass: steep off-route shoulders make the eastern silhouette
+    // legible, while the separately carved switchback provides a gentle climb.
+    var beaconD=Math.hypot(x-lastlightBeacon.x,z-lastlightBeacon.z);
+    if(beaconD<lastlightBeacon.influenceRadius&&q<0.985){
+      // Spread the full rise across the complete headland radius. The rejected
+      // first pass reached the same height in only eight tiles and read as a
+      // generated spike beside the Mage Tower pad.
+      var beaconRise=12.0*smooth((lastlightBeacon.influenceRadius-beaconD)/lastlightBeacon.influenceRadius);
+      height+=beaconRise;
+    }
+    // Reserve an honest building-sized crown. Without this plateau a beacon
+    // would perch across triangular slopes and read like another random prop.
+    if(beaconD<lastlightBeacon.plateauRadius+1.8){
+      var plateauBlend=1-smooth((beaconD-lastlightBeacon.plateauRadius)/1.8);
+      height=height*(1-plateauBlend)+lastlightBeacon.summitY*plateauBlend;
+    }
     var p=padAt(x,z,2.2);
     if(p){
       var dx=Math.max(0,Math.abs(x-p.x)-p.w/2),dz=Math.max(0,Math.abs(z-p.z)-p.d/2);
       var blend=1-smooth(Math.hypot(dx,dz)/2.2);
       height=height*(1-blend)+p.level*blend;
+    }
+    var beaconRoute=routes.filter(function(r){return r.id===lastlightBeacon.approachRoute;})[0];
+    var climb=routeSample(beaconRoute,x,z);
+    if(climb.distance<beaconRoute.width+1.5){
+      var climbY=1.62+(lastlightBeacon.summitY-1.62)*smooth(climb.progress);
+      // A broad shoulder makes the road read as shaped ground rather than a
+      // narrow trench cut through otherwise unrelated triangles.
+      var climbBlend=1-smooth((climb.distance-1.2)/(beaconRoute.width+0.3));
+      height=height*(1-climbBlend)+climbY*climbBlend;
     }
     // Carve water with sloped banks; hard vertical cuts read as generated blocks.
     var carveQ=Math.min(ellipseQ(x,z,inlet),ellipseQ(x,z,arrivalCove),ellipseQ(x,z,departureCove));
@@ -223,7 +284,7 @@ var HolmLandscape=(function(){
   }
 
   var landscapeContract={
-    revision:2,planId:'tutors-holm-landscape-v1',referenceSet:'Bible_References/tutorial-island',
+    revision:3,planId:'tutors-holm-landscape-v1',referenceSet:'Bible_References/tutorial-island',
     districts:districts,routes:routes,pads:pads,
     water:[pond,{id:inlet.id,label:'Tide Inlet',x:inlet.cx,z:inlet.cz,rx:inlet.rx,rz:inlet.rz,kind:'coastal-inlet'}],
     underground:[{id:'holm_mining_cavern',label:'Tutorial Mining Cavern',w:48,h:40,entrance:'holm_cave_gate',status:'reserved'}]
@@ -234,16 +295,19 @@ var HolmLandscape=(function(){
     function add(label,ok){ checks.push({label:label,ok:!!ok}); }
     add('112x96 authored envelope',envelope.w===112&&envelope.h===96);
     add('six distinct surface districts',districts.length===6&&new Set(districts.map(function(d){return d.id;})).size===6);
+    add('every district has a tutorial purpose and elevation band',districts.every(function(d){return d.tutorialRole&&d.elevationBand&&d.elevationBand[1]>d.elevationBand[0];}));
     add('eight functional building reservations',pads.length===8&&pads.every(function(p){return p.role&&p.w>=8&&p.d>=7;}));
     add('primary route is at least 180 tiles',routeLength(routes[0])>=180);
     add('all routes are cardinal',routes.every(function(r){return r.points.every(function(p,i){return i===0||p[0]===r.points[i-1][0]||p[1]===r.points[i-1][1];});}));
     add('every pad centre is walkable',pads.every(function(p){return heightAt(p.x,p.z)>-1.2;}));
     add('arrival and departure are walkable',heightAt(arrival.x,arrival.z)>-1.2&&heightAt(207,151)>-1.2);
     add('pond and inlet are water',heightAt(pond.x,pond.z)<-1.2&&heightAt(inlet.cx,inlet.cz+8)<-1.2);
-    add('bridge crosses the inlet',heightAt(bridge.x,bridge.z)>-1.2&&inInlet(bridge.x,bridge.z));
+    add('bridge crosses the inlet at a scalable multiplayer-friendly width',heightAt(bridge.x,bridge.z)>-1.2&&inInlet(bridge.x,bridge.z)&&bridge.usableWidth>=6);
+    add('Lastlight summit is the island high point and has a cardinal switchback',heightAt(lastlightBeacon.x,lastlightBeacon.z)>=13&&
+      routes.filter(function(r){return r.id===lastlightBeacon.approachRoute;}).every(function(r){return r.points.every(function(p,i){return !i||p[0]===r.points[i-1][0]||p[1]===r.points[i-1][1];});}));
     add('departure boat cove is water beside a walkable pier',heightAt(211,154)<-1.2&&heightAt(departurePier.x,departurePier.z)>-1.2);
     add('authored landscape props stay on land',objectPlacements.every(function(o){return o.asset==='holm_bridge'||o.asset==='holm_pier'||heightAt(o.x,o.z)>-1.2;}));
-    var completedPads=pads.filter(function(p){return p.id==='guide_hall'||p.id==='survival_shelter';});
+    var completedPads=pads.filter(function(p){return p.id==='guide_hall'||p.id==='survival_shelter'||p.id==='teaching_kitchen'||p.id==='quest_lodge'||p.id==='mine_gatehouse'||p.id==='holm_bank'||p.id==='combat_hall'||p.id==='mage_tower';});
     function overlapsCompletedPad(o){
       if(o.asset==='holm_foundation'||o.asset==='holm_bridge'||o.asset==='holm_pier') return false;
       var hx=.6,hz=.6;
@@ -269,12 +333,12 @@ var HolmLandscape=(function(){
   landscapeContract.water.push({id:departureCove.id,label:'Departure Cove',x:departureCove.cx,z:departureCove.cz,
     rx:departureCove.rx,rz:departureCove.rz,kind:'coastal-cove'});
 
-  var api={version:2,envelope:envelope,arrival:arrival,pond:pond,bridge:bridge,lobes:lobes,inlet:inlet,arrivalCove:arrivalCove,
+  var api={version:3,envelope:envelope,arrival:arrival,pond:pond,bridge:bridge,lastlightBeacon:lastlightBeacon,lobes:lobes,inlet:inlet,arrivalCove:arrivalCove,
     departureCove:departureCove,departurePier:departurePier,
     districts:districts,routes:routes,pads:pads,landmarks:landmarks,objectPlacements:objectPlacements,
     landscapeContract:landscapeContract,inEnvelope:inEnvelope,inBridge:inBridge,inPond:inPond,
     inDepartureCove:inDepartureCove,inDeparturePier:inDeparturePier,
-    heightAt:heightAt,biomeAt:biomeAt,pathDistance:pathDistance,padAt:padAt,
+    heightAt:heightAt,biomeAt:biomeAt,pathDistance:pathDistance,pathProfileAt:pathProfileAt,padAt:padAt,
     routeLength:routeLength,rolesForChunk:rolesForChunk,acceptance:acceptance};
   api.acceptanceResult=acceptance();
   if(typeof console!=='undefined'&&console.info) console.info('[HOLM_LANDSCAPE] '+api.acceptanceResult.passed+'/'+api.acceptanceResult.total+' acceptance ok; '+api.acceptanceResult.routeTiles+'-tile spine');

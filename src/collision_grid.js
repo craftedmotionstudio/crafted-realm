@@ -106,6 +106,7 @@ var CollisionGrid = {
   _bakeWall(c, ax,az,bx,bz){
     if(!c || c.plane) return;                 // only ground-plane rects make walls
     if(c.type!=='rect') return;               // circles (posts, rocks) block via BLOCK sampling
+    if(c.door) return;                        // closed-door leaves never plan-block (matches _walkable's ignoreDoors)
     const hw=c.hw, hd=c.hd;
     if(ax===undefined){ ax=this.x0; az=this.z0; bx=this.x0+this.w-1; bz=this.z0+this.h-1; }
     const clipX=(t)=> t>=ax && t<=bx, clipZ=(t)=> t>=az && t<=bz;

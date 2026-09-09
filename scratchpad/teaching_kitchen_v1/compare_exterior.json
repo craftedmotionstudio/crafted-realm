@@ -1,0 +1,13 @@
+{
+  "name": "Teaching Kitchen v1 — Exterior vs Tutorial Island Building reference",
+  "osrs": "Bible_References/Tutorial_Island_Building.jpg",
+  "cr": "scratchpad/teaching_kitchen_v1/teaching_kitchen_v1_game_camera.png",
+  "left_label": "TUTORIAL ISLAND BUILDING REFERENCE",
+  "right_label": "BLENDER 4.5 RENDER, ELEVATED GAME CAMERA",
+  "subtitle": "L-plan gabled bakehouse, lean-to pantry wing, half-octagonal oven apse with stone flue, wheat-sheaf finial",
+  "codex": 8.6,
+  "review_note": "Compound silhouette, three roof masses, fieldstone/timber bays, fitted doors and shuttered windows read at the game camera and match the Guide Hall anchor family. The apse roof courses and chimney give the kitchen its own identity. Held below 9.0: window shutters are flat slabs, the apse slate courses are still boxy, and the roof ends remain plain gable plaster without the deeper eave/bargeboard detail of the Workyard.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Bevel the shutters into two-leaf panels, replace the apse course boxes with a stepped shingle profile, add bargeboards and a brick oven vent to the gable ends, then re-submit for the fully-designed gate.",
+  "out": "Bible_References/Complete/_compare/holm_teaching_kitchen_v1_exterior_compare.png"
+}

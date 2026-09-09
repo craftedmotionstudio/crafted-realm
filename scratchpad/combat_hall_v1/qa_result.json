@@ -1,0 +1,160 @@
+{
+  "profile": "fable-hall-qa-mtufkgpi",
+  "passed": 17,
+  "total": 17,
+  "checks": [
+    {
+      "label": "fresh QA profile booted through the real login flow",
+      "ok": true
+    },
+    {
+      "label": "real pathing reaches the ridge between the bank and the hall",
+      "ok": true,
+      "detail": [
+        164.5,
+        118.5
+      ]
+    },
+    {
+      "label": "hall streamed in, its pad is gone, and the practice sockets ship no geometry",
+      "ok": true,
+      "detail": {
+        "hall": true,
+        "pad": false,
+        "sockets": 0
+      }
+    },
+    {
+      "label": "from the north the plan into the drill tower goes round through a door, not through the wall",
+      "ok": true,
+      "detail": {
+        "north": [
+          167.5,
+          111.5
+        ],
+        "planLength": 25
+      }
+    },
+    {
+      "label": "bank-side door opens and the drill hall is enterable",
+      "ok": true,
+      "detail": [
+        171.5,
+        121.5
+      ]
+    },
+    {
+      "label": "roof cuts away when the player stands in the hall",
+      "ok": true,
+      "detail": {
+        "roofVisible": false
+      }
+    },
+    {
+      "label": "the pell study opens the combat tab and leaves the required route untouched",
+      "ok": true,
+      "detail": {
+        "tab": true,
+        "shown": null,
+        "step": 0
+      }
+    },
+    {
+      "label": "the armoury apse mouth is reachable",
+      "ok": true,
+      "detail": [
+        170.5,
+        115.5
+      ]
+    },
+    {
+      "label": "the arch leads into the drill tower onto the cavern stair landing",
+      "ok": true,
+      "detail": [
+        176.5,
+        116.5
+      ]
+    },
+    {
+      "label": "the covered practice yard beside the butt is walkable",
+      "ok": true,
+      "detail": [
+        175.5,
+        122.5
+      ]
+    },
+    {
+      "label": "road door opens and the hall exits south toward the ridge road",
+      "ok": true,
+      "detail": [
+        169.5,
+        125.5
+      ]
+    },
+    {
+      "label": "reload continues the adventurer south of the hall with the route untouched",
+      "ok": true,
+      "detail": {
+        "pos": [
+          169.5,
+          125.5
+        ],
+        "step": 0,
+        "errors": 0
+      }
+    },
+    {
+      "label": "the gatehouse winch house is reachable from the hall side",
+      "ok": true,
+      "detail": [
+        124.5,
+        118.5
+      ]
+    },
+    {
+      "label": "the shaft descends into the cavern",
+      "ok": true,
+      "detail": {
+        "plane": -1,
+        "pos": [
+          286,
+          354
+        ]
+      }
+    },
+    {
+      "label": "the cavern route reaches the exit ladder",
+      "ok": true,
+      "detail": [
+        321.5,
+        355.5
+      ]
+    },
+    {
+      "label": "the cavern exit surfaces inside the Combat Hall drill tower with the roof cut away",
+      "ok": true,
+      "detail": {
+        "plane": 0,
+        "pos": [
+          176.5,
+          116.5
+        ],
+        "zone": "Tutor's Holm",
+        "roof": false,
+        "errors": 0
+      }
+    },
+    {
+      "label": "no page errors, console errors, or failed asset loads across the whole run",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failedLoads": []
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedLoads": []
+}

@@ -1,0 +1,61 @@
+{
+  "asset": "holm_mine_gatehouse_v1",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "checks": {
+    "towerHouseBayCompoundAuthored": true,
+    "threeRoofMassesAuthored": true,
+    "fittedFullFrameDoorsAuthored": true,
+    "irregularMasonryCoursesAuthored": true,
+    "loadBearingTimberBaysAuthored": true,
+    "layeredRoofCoursesAuthored": true,
+    "openShaftWithHeadFrameAuthored": true,
+    "roadPassageAuthored": true,
+    "stationsAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "visualLanguage": "Guide Hall anchor family; gate tower with road passage, shaft house, ore bay",
+  "roofCourses": 112,
+  "humanScaleContract": {
+    "playerVisualHeight": 1.85,
+    "doorOpeningHeight": 3.05,
+    "headFrameHeight": 3.22,
+    "winchAxleHeight": 2.75,
+    "tallyBoardTop": 2.42,
+    "cartRimHeight": 0.91,
+    "towerWallHeight": 5.0,
+    "houseWallHeight": 3.8
+  },
+  "metrics": {
+    "triangles": 7754,
+    "meshObjects": 608,
+    "materials": 25,
+    "materialNames": [
+      "CR Gate Cobble",
+      "CR Gate Cobble Light",
+      "CR Gate Copper Ore",
+      "CR Gate Ink",
+      "CR Gate Lamp Glass",
+      "CR Gate Ore Rock",
+      "CR Gate Rust",
+      "CR Gate Tally Board",
+      "CR Gate Tin Ore",
+      "CR Kitchen Ember",
+      "CR Kitchen Flagstone Light",
+      "CR Kitchen Sackcloth",
+      "CR Workyard Aged Brass",
+      "CR Workyard Chalk",
+      "CR Workyard Fieldstone",
+      "CR Workyard Fieldstone Light",
+      "CR Workyard Forged Iron",
+      "CR Workyard Fresh Cut",
+      "CR Workyard Hemp Rope",
+      "CR Workyard Oak Dark",
+      "CR Workyard Oak Worn",
+      "CR Workyard Shingle Moss",
+      "CR Workyard Shingle Sun",
+      "CR Workyard Shingle Umber",
+      "CR Workyard Warm Limewash"
+    ]
+  }
+}
