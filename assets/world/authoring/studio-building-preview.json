@@ -1,0 +1,21 @@
+{
+  "schema": "crafted-realm-world-v2-authoring-v1",
+  "version": 1,
+  "chunkSize": 8,
+  "provider": {
+    "id": "studio-building-preview",
+    "worldRevision": 1
+  },
+  "placements": [
+    {
+      "id": "studio-building",
+      "definitionId": "holm_guide_hall_v1",
+      "definitionRevision": 6,
+      "asset": "holm_guide_hall",
+      "x": 151,
+      "z": 155,
+      "rot": 0,
+      "yOffset": 0
+    }
+  ]
+}

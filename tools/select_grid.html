@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"/><title>Pick the best — Crafted Realms</title>
+<style>
+ html,body{margin:0;background:#2b251c;color:#e7dcc4;font:14px Verdana,sans-serif;}
+ #top{display:flex;align-items:center;gap:14px;padding:10px 14px;background:#1c1a14;}
+ #top h1{font-size:16px;color:#ffd24a;margin:0;}
+ #ref{height:120px;background:#6b8e3d;border-radius:5px;padding:4px;}
+ #ref img{height:112px;}
+ #hint{color:#9a8e78;font-size:12px;}
+ #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;padding:14px;}
+ .card{background:#3e3529;border:3px solid #5d5447;border-radius:8px;cursor:pointer;transition:.1s;position:relative;}
+ .card:hover{border-color:#9a8e78;}
+ .card.sel{border-color:#7bd66b;box-shadow:0 0 14px #3f6e36;}
+ .card .n{position:absolute;top:6px;left:8px;background:#1c1a14;color:#ffd24a;font-weight:bold;font-size:15px;padding:1px 9px;border-radius:10px;z-index:2;}
+ .card .chk{position:absolute;top:6px;right:8px;font-size:18px;color:#7bd66b;display:none;}
+ .card.sel .chk{display:block;}
+ .card canvas{width:100%;height:210px;display:block;background:#6b8e3d;border-radius:0 0 5px 5px;}
+ #bar{position:sticky;bottom:0;display:flex;align-items:center;gap:14px;padding:12px 16px;background:#1c1a14;border-top:1px solid #5d5447;}
+ #confirm{font:bold 15px Verdana;color:#fff;background:linear-gradient(#2f6e26,#1f4a18);border:2px solid #3f8e2e;border-radius:6px;padding:9px 22px;cursor:pointer;}
+ #confirm:disabled{opacity:.4;cursor:default;}
+ #status{color:#7bd66b;font-weight:bold;}
+</style></head>
+<body>
+ <div id="top"><h1 id="title">Pick the best</h1><div id="ref"><img id="refimg"></div><div id="hint">Click your favourite, then Confirm. (You can change before confirming.)</div></div>
+ <div id="grid"></div>
+ <div id="bar"><button id="confirm" disabled>✓ Confirm selection</button><span id="status"></span></div>
+
+ <script src="../src/proc_variants.js"></script>
+ <script type="importmap">{ "imports": { "three":"https://unpkg.com/three@0.160.0/build/three.module.js" } }</script>
+ <script type="module">
+  import * as THREE from 'three';
+  const params=new URLSearchParams(location.search);
+  const item=params.get('item')||'bronzeMedHelm';
+  const ref=params.get('ref')||('../art_refs/osrs/'+item+'_osrs.png');
+  document.getElementById('title').textContent='Pick the best — '+item;
+  document.getElementById('refimg').src=ref;
+  const stdMat=c=>new THREE.MeshStandardMaterial({color:c,flatShading:true,roughness:1,metalness:0});
+  const variants=(window.makeProcVariants(THREE,stdMat)[item])||[];
+
+  const SR=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true}); SR.setSize(300,300); SR.setPixelRatio(2);
+  function renderTo(canvas,obj){
+    const scene=new THREE.Scene(); scene.background=new THREE.Color(0x6b8e3d);
+    scene.add(new THREE.HemisphereLight(0xffffff,0x445533,0.95));
+    const sun=new THREE.DirectionalLight(0xffffff,1.0); sun.position.set(3,6,4); scene.add(sun);
+    let box=new THREE.Box3().setFromObject(obj); const sz=box.getSize(new THREE.Vector3()),ctr=box.getCenter(new THREE.Vector3());
+    obj.position.sub(ctr); scene.add(obj);
+    const H0=Math.max(sz.x,sz.y,sz.z)*0.62||0.5;
+    const cam=new THREE.OrthographicCamera(-H0,H0,H0,-H0,0.01,100);
+    cam.position.copy(new THREE.Vector3(0.5,0.6,1).normalize().multiplyScalar(5)); cam.lookAt(0,0,0);
+    SR.render(scene,cam); const cx=canvas.getContext('2d'); cx.drawImage(SR.domElement,0,0,canvas.width,canvas.height);
+  }
+
+  let selected=null;
+  const grid=document.getElementById('grid'), confirm=document.getElementById('confirm'), status=document.getElementById('status');
+  variants.forEach((build,i)=>{
+    const card=document.createElement('div'); card.className='card';
+    card.innerHTML=`<span class="n">${i+1}</span><span class="chk">✓</span><canvas width="220" height="210"></canvas>`;
+    grid.appendChild(card);
+    try{ renderTo(card.querySelector('canvas'), build()); }catch(e){ console.error('variant',i,e); }
+    card.onclick=()=>{ [...grid.children].forEach(c=>c.classList.remove('sel')); card.classList.add('sel'); selected=i+1; confirm.disabled=false; status.textContent=''; };
+  });
+
+  confirm.onclick=()=>{
+    if(!selected) return;
+    localStorage.setItem('cr_select_'+item, selected);
+    const blob=new Blob([JSON.stringify({item, variant:selected})],{type:'application/json'});
+    const a=document.createElement('a'); a.download='cr_select_'+item+'.json'; a.href=URL.createObjectURL(blob);
+    document.body.appendChild(a); a.click(); a.remove();
+    status.textContent='Confirmed: variant '+selected+'  ✓';
+    window.__selection={item, variant:selected};
+  };
+ </script>
+</body></html>

@@ -1,0 +1,10 @@
+{
+  "name":"Lastlight Underkeep — Reference Gate",
+  "osrs":"Bible_References/Lighthouse_Dungeon.png",
+  "cr":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_south.png",
+  "codex":9.3,
+  "review_note":"The former small room is now a 38-by-30-tile cavern with tall tapered walls, three true walk elevations, a broad teal tidal pool, natural rock bridge, recessed wall alcoves, drowned green wreckage, return ladder, wall lanterns, moss, rubble, bones, and varied stalactite and stalagmite families. It carries the reference's depth and scale while reserving creatures for the modeled-NPC phase.",
+  "verdict":"PASS — environmental dungeon identity, depth and size accepted",
+  "improve":"Modeled cave creatures remain intentionally deferred under the owner-approved NPC-last rule.",
+  "out":"Bible_References/Complete/_compare/holm_lastlight_dungeon_v3_compare.png"
+}

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "references": [
+    {
+      "reference": "UI_ChatBar+More.jpg",
+      "surface": "chat",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_ClanChat.jpg",
+      "surface": "clan",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_Combat.jpg",
+      "surface": "combat",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_Emotes.jpg",
+      "surface": "emotes",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_FriendsList.jpg",
+      "surface": "friends",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_IgnoreList.jpg",
+      "surface": "ignore",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_Inventory1.jpg",
+      "surface": "inventory",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_LogoutScreen.jpg",
+      "surface": "logout",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_MagicBook.jpg",
+      "surface": "magic",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_MusicList.jpg",
+      "surface": "music",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_OpenMiniMap.jpg",
+      "surface": "map",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_Player_Worn_Inventory.jpg",
+      "surface": "worn",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_Prayer.jpg",
+      "surface": "prayer",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_Quests.jpg",
+      "surface": "quests",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_QuestScrollScreen.jpg",
+      "surface": "quests",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_QuickPanel.jpg",
+      "surface": "quickpanel",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_Settings.jpg",
+      "surface": "settings",
+      "status": "authored"
+    },
+    {
+      "reference": "UI_Stats.jpg",
+      "surface": "skills",
+      "status": "authored"
+    }
+  ]
+}

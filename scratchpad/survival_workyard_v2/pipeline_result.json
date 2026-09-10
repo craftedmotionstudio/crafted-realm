@@ -1,0 +1,57 @@
+{
+  "assetId": "holm_survival_workyard_v2",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 1538440,
+    "triangles": 20734,
+    "primitives": 108,
+    "materials": 37
+  },
+  "animations": [],
+  "authoringChecks": {
+    "compoundShapeAuthored": true,
+    "distinctRoofHierarchyAuthored": true,
+    "purposefulSurfaceFurnishingsAuthored": true,
+    "animatedFlameSocketAuthored": true,
+    "chickenSocketDeferred": true,
+    "unobstructedCourtStructureAuthored": true,
+    "fittedCementCourtAuthored": true,
+    "shoreGearClusterAuthored": true,
+    "u3IntegrationSocketsAuthored": true,
+    "clearShoreApproachAuthored": true,
+    "surfaceSemanticNodesPreserved": true,
+    "layeredRoofDetailAuthored": true,
+    "roofContactJoineryAuthored": true,
+    "fittedDoorLeavesAuthored": true,
+    "doorFrameContactClearanceAuthored": true,
+    "playerScaledDoorHierarchyAuthored": true,
+    "trueWindowOpeningsAuthored": true,
+    "windowAndWallLayerCorrectionsAuthored": true,
+    "furnishingContactCorrectionsAuthored": true,
+    "hearthCavityInsetAuthored": true,
+    "translucentWindowPanesAuthored": true,
+    "surfaceFloorsClearTerrain": true,
+    "singleTraversalSocketAuthored": true,
+    "terrainProofCellarVoidAuthored": true
+  },
+  "scaleChecks": [],
+  "cardinalProofs": [
+    {
+      "label": "Trail door installed open pose",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "label": "Pond door installed open pose",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "label": "Shoreline gear grounded cluster",
+      "passed": true,
+      "errors": []
+    }
+  ],
+  "errors": []
+}

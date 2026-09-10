@@ -1,0 +1,53 @@
+{
+  "assetId": "workyard_fishing_edge_u5_v1",
+  "verdict": "PASS",
+  "reviewedBy": "Codex directional build audit",
+  "views": {
+    "north": {
+      "verdict": "PASS",
+      "checks": [
+        "no floating contact",
+        "no opaque void",
+        "lane clear",
+        "backs and undersides present",
+        "animation envelope clear"
+      ]
+    },
+    "south": {
+      "verdict": "PASS",
+      "checks": [
+        "no floating contact",
+        "no opaque void",
+        "lane clear",
+        "backs and undersides present",
+        "animation envelope clear"
+      ]
+    },
+    "east": {
+      "verdict": "PASS",
+      "checks": [
+        "no floating contact",
+        "no opaque void",
+        "lane clear",
+        "backs and undersides present",
+        "animation envelope clear"
+      ]
+    },
+    "west": {
+      "verdict": "PASS",
+      "checks": [
+        "no floating contact",
+        "no opaque void",
+        "lane clear",
+        "backs and undersides present",
+        "animation envelope clear"
+      ]
+    }
+  },
+  "defectsFoundAndFixed": [
+    "creel interior was authored as a recessed annular wall and floor instead of a dark cap",
+    "open lid hinge lugs were fitted to both rim and lid",
+    "fish and ripple geometry were held below or flush with the water plane",
+    "creel moved to the outside shoulder so the operator lane stays clear"
+  ]
+}

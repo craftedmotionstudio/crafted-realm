@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 Combat",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_Combat.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/combat.png",
+  "codex": 9.1,
+  "review_note": "Combat styles preserve the reference two-column hierarchy, selected-state contrast, and weapon title.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_Combat_v2_compare.png"
+}

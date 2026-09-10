@@ -1,0 +1,11 @@
+{
+  "name": "Core HUD — Skills",
+  "subtitle": "OSRS UI composition reference vs Crafted Realms live browser HUD",
+  "osrs": "Bible_References/UI_Stats.jpg",
+  "cr": "scratchpad/holm_training_cavern_v1/ui_skills_runtime.png",
+  "codex": 9.0,
+  "review_note": "The live skills pane follows the compact three-column icon-and-level grid, muted recessed background, yellow numeric hierarchy, and bottom total-level summary from the reference family.",
+  "verdict": "accepted core skills direction",
+  "improve": "Continue replacing any remaining placeholder skill glyphs with the established icon family.",
+  "out": "Bible_References/Complete/_compare/UI_Skills_v1_compare.png"
+}

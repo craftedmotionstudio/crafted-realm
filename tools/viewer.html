@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Prop viewer</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #6b8e3d; overflow: hidden; }
+    #info { position: fixed; top: 8px; left: 8px; font: 13px monospace; color: #fff; }
+  </style>
+</head>
+<body>
+  <div id="info">loading…</div>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    const params = new URLSearchParams(location.search);
+    const url = params.get('model') || '../assets/models/cabbage.glb';
+    const flat = params.get('flat') !== '0';
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x6b8e3d);
+    const camera = new THREE.PerspectiveCamera(35, innerWidth / innerHeight, 0.01, 100);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    document.body.appendChild(renderer.domElement);
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x445533, 0.9));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.1);
+    sun.position.set(3, 5, 2);
+    scene.add(sun);
+
+    const loader = new GLTFLoader();
+    loader.load(url, (gltf) => {
+      const obj = gltf.scene;
+      // recolor cabbage green + flat shading to test OSRS look (mesh is untextured white)
+      const tint = params.get('color');
+      obj.traverse((c) => {
+        if (c.isMesh) {
+          c.geometry.computeVertexNormals();
+          if (c.material && (c.material.map || c.material.vertexColors) && !tint) {
+            // textured mesh: keep painted colours, just flatten the shading
+            c.material.flatShading = flat;
+            c.material.roughness = 1; c.material.metalness = 0;
+            c.material.needsUpdate = true;
+          } else {
+            c.material = new THREE.MeshStandardMaterial({
+              color: tint ? parseInt(tint, 16) : 0x5f8f3a,
+              flatShading: flat, roughness: 1, metalness: 0,
+            });
+          }
+        }
+      });
+      // center + scale to fit
+      const box = new THREE.Box3().setFromObject(obj);
+      const size = box.getSize(new THREE.Vector3());
+      const center = box.getCenter(new THREE.Vector3());
+      obj.position.sub(center);
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const pivot = new THREE.Group();
+      pivot.add(obj);
+      scene.add(pivot);
+      camera.position.set(0, maxDim * 0.4, maxDim * 2.2);
+      camera.lookAt(0, 0, 0);
+
+      document.getElementById('info').textContent =
+        `${url.split('/').pop()}  flat=${flat}`;
+
+      let t = 0;
+      (function animate() {
+        requestAnimationFrame(animate);
+        t += 0.01;
+        pivot.rotation.y = t;
+        renderer.render(scene, camera);
+      })();
+    }, undefined, (err) => {
+      document.getElementById('info').textContent = 'ERROR: ' + err;
+    });
+  </script>
+</body>
+</html>

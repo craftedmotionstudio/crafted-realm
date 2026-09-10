@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 2,
+  "assetId": "workyard_upstairs_furnishings_v1",
+  "displayName": "Survival Workyard Purposeful Upstairs Furnishings",
+  "status": "integrated",
+  "gameplayRole": "A complete human-scale teaching lodge interior where every visible item explains survival, firemaking, cooking, storage, or the island's storm history",
+  "manifestPath": "assets/manifests/workyard_upstairs_furnishings_v1.json",
+  "catalogPath": "assets/catalogs/workyard_upstairs_furnishings_v1.json",
+  "briefPath": "scratchpad/workyard_upstairs_furnishings_v1/asset_factory_brief.md",
+  "factoryResult": "scratchpad/workyard_upstairs_furnishings_v1/factory_result.json",
+  "concept": {
+    "image": "docs/rebuild/concepts/workyard_upstairs_workstation_nanobanana2_v1.png",
+    "prompt": "docs/rebuild/concepts/workyard_upstairs_workstation_nanobanana2_v1.prompt.md",
+    "images": [
+      "docs/rebuild/concepts/workyard_upstairs_workstation_nanobanana2_v1.png",
+      "docs/rebuild/concepts/workyard_upstairs_hearth_nanobanana2_v1.png",
+      "docs/rebuild/concepts/workyard_upstairs_story_textiles_nanobanana2_v1.png"
+    ],
+    "prompts": [
+      "docs/rebuild/concepts/workyard_upstairs_workstation_nanobanana2_v1.prompt.md",
+      "docs/rebuild/concepts/workyard_upstairs_hearth_nanobanana2_v1.prompt.md",
+      "docs/rebuild/concepts/workyard_upstairs_story_textiles_nanobanana2_v1.prompt.md"
+    ],
+    "styleStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md"
+  },
+  "scale": {
+    "referenceHeightTiles": 1.85,
+    "fixture": "Canonical player, one-tile floor grid, gameplay camera and room wall appear before detail approval",
+    "checks": [
+      {"label": "work bench height", "reportPath": "humanScaleContract.workBenchHeight", "min": 1.02, "max": 1.18},
+      {"label": "stool seat height", "reportPath": "humanScaleContract.stoolSeatHeight", "min": 0.50, "max": 0.64},
+      {"label": "lesson table height", "reportPath": "humanScaleContract.lessonTableHeight", "min": 0.88, "max": 1.06},
+      {"label": "hutch height", "reportPath": "humanScaleContract.hutchHeight", "min": 2.65, "max": 2.95},
+      {"label": "bucket height", "reportPath": "humanScaleContract.bucketHeight", "min": 0.68, "max": 0.88},
+      {"label": "hearth height", "reportPath": "humanScaleContract.hearthHeight", "min": 2.75, "max": 3.15},
+      {"label": "wall fixture top", "reportPath": "humanScaleContract.highestWallFixtureTop", "min": 2.65, "max": 3.65}
+    ]
+  },
+  "proof": {
+    "minimumCodexScore": 9.0,
+    "comparisonConfig": "scratchpad/workyard_upstairs_furnishings_v1/compare_workstation.json",
+    "comparisonConfigs": [
+      "scratchpad/workyard_upstairs_furnishings_v1/compare_workstation.json",
+      "scratchpad/workyard_upstairs_furnishings_v1/compare_hearth.json",
+      "scratchpad/workyard_upstairs_furnishings_v1/compare_story_textiles.json"
+    ],
+    "order": [
+      "Purpose and human scale beside the canonical player",
+      "Hand-designed silhouette and visible joinery",
+      "Material and color separation",
+      "Gameplay-camera readability",
+      "Room placement, collision and interaction",
+      "Final comparison sheets and smoke gate"
+    ]
+  },
+  "manifest": {
+    "schemaVersion": 1,
+    "assetId": "workyard_upstairs_furnishings_v1",
+    "assetClass": "prop-family",
+    "unitsPerTile": 1,
+    "builder": "tools/blender/build_workyard_upstairs_furnishings_v1.py",
+    "source": "assets/blender/props/workyard_upstairs_furnishings_v1.blend",
+    "model": "assets/models/props/workyard_upstairs_furnishings_v1.glb",
+    "authoringReport": "scratchpad/workyard_upstairs_furnishings_v1/asset_report.json",
+    "pipelineResult": "scratchpad/workyard_upstairs_furnishings_v1/pipeline_result.json",
+    "previews": [
+      "scratchpad/workyard_upstairs_furnishings_v1/01_workstation_family.png",
+      "scratchpad/workyard_upstairs_furnishings_v1/02_hearth_family.png",
+      "scratchpad/workyard_upstairs_furnishings_v1/03_story_textiles.png",
+      "scratchpad/workyard_upstairs_furnishings_v1/04_gameplay_camera.png",
+      "Bible_References/Complete/_compare/workyard_upstairs_workstation_v1_compare.png",
+      "Bible_References/Complete/_compare/workyard_upstairs_hearth_v1_compare.png",
+      "Bible_References/Complete/_compare/workyard_upstairs_story_textiles_v1_compare.png"
+    ],
+    "requiredNodes": [
+      "workyard_upstairs_furnishings_v1",
+      "tool_bench",
+      "workyard_crockery_hutch",
+      "workyard_mug_shelf",
+      "workyard_empty_bucket",
+      "teaching_fireplace",
+      "hearth_flame",
+      "workyard_lesson_table",
+      "workyard_lodge_rug",
+      "workyard_hearth_rug",
+      "firemaking_board",
+      "storm_tally_beam",
+      "net_rack",
+      "workyard_storm_warden_relief"
+    ],
+    "requiredAnimations": [],
+    "budgets": {
+      "maxFileBytes": 1200000,
+      "maxTriangles": 16000,
+      "maxPrimitives": 80,
+      "maxMaterials": 26
+    }
+  },
+  "automation": {
+    "proof": [
+      ["python", "tools/make_compare.py", "scratchpad/workyard_upstairs_furnishings_v1/compare_workstation.json"],
+      ["python", "tools/make_compare.py", "scratchpad/workyard_upstairs_furnishings_v1/compare_hearth.json"],
+      ["python", "tools/make_compare.py", "scratchpad/workyard_upstairs_furnishings_v1/compare_story_textiles.json"]
+    ],
+    "library": [
+      ["blender", "--background", "--python", "tools/blender/build_cr_approved_props_library.py"]
+    ]
+  },
+  "integration": {
+    "room": "holm_survival_workyard surface lodge and teaching hearth",
+    "placement": "Wall-led furnishing clusters with a clear cardinal route between both doors and the cellar hatch",
+    "collision": "Only the work bench and masonry hearth block navigation; wall fixtures, rugs, and tucked stools do not create invisible barriers",
+    "interactions": "Lesson bench, board, tally, net, and hearth retain service actions; all domestic scenery is left-click walk and right-click Inspect",
+    "requiredProof": [
+      "scratchpad/workyard_upstairs_furnishings_v1/05_in_game_lodge.png",
+      "scratchpad/workyard_upstairs_furnishings_v1/06_in_game_hearth.png",
+      "scratchpad/workyard_upstairs_furnishings_v1/07_revision10_lodge.png",
+      "scratchpad/survival_workyard_v2/survival_workyard_v2_roof_off.png"
+    ]
+  },
+  "nextStage": "Owner review of revision 10 contact/window corrections, then begin U3 exterior occupation yard"
+}

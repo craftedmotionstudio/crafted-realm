@@ -1,0 +1,5 @@
+{ "name":"Furnace", "osrs":"Bible_References/Furnace_For_Smithing.jpg", "cr":"scratchpad/cr_furnace_f.jpg",
+  "claude":8.7, "gemini":5.0,
+  "gemini_note":"Boxy coursed-stone furnace, sloped cap, wide glowing molten mouth + chunky jambs, iron banding, low side tray, flue - matches the reference well. Gemini noisy/harsh as always (advisory).",
+  "verdict":"CLAUDE-EYE 8.7 - strong, near-done", "improve":"slightly darker grey-blue stone; square off the mouth arch",
+  "out":"Bible_References/Complete/_compare/Furnace_compare.png" }

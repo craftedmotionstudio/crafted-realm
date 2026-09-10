@@ -1,0 +1,29 @@
+{
+  "assetId": "cellar_wall_torch_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 60840,
+    "triangles": 856,
+    "primitives": 13,
+    "materials": 11
+  },
+  "animations": [
+    "Flame_Flicker"
+  ],
+  "authoringChecks": {
+    "ownerStandardNanoBananaReference": true,
+    "noPrimitiveOperatorsUsedForVisibleAsset": true,
+    "customAssetSpecificTopology": true,
+    "hammeredBackplateAndFittedRivets": true,
+    "forgedRibbonArmAndBrace": true,
+    "crookedHewnShaftAndOverlappingPitchWraps": true,
+    "threeLayerFacetedFlame": true,
+    "controlledFlatShading": true,
+    "semanticFlameNode": true,
+    "flickerAnimationAuthored": true,
+    "sixViewProofPacket": true,
+    "runtimeStaticGeometryConsolidated": true
+  },
+  "errors": []
+}

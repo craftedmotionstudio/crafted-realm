@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "assetId": "holm_bank_v1",
+  "assetClass": "building",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_holm_bank_v1.py",
+  "source": "assets/blender/holm_bank_v1.blend",
+  "model": "assets/models/buildings/holm_bank_v1.glb",
+  "authoringReport": "scratchpad/holm_bank_v1/asset_report.json",
+  "pipelineResult": "scratchpad/holm_bank_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/holm_bank_v1/holm_bank_v1_exterior.png",
+    "scratchpad/holm_bank_v1/holm_bank_v1_roof_off.png",
+    "scratchpad/holm_bank_v1/holm_bank_v1_plan.png",
+    "scratchpad/holm_bank_v1/holm_bank_v1_game_camera.png"
+  ],
+  "requiredNodes": ["holm_bank_v1", "roof", "front_door", "staff_door", "bank_counter", "bank_booth_w", "bank_booth_e",
+    "ledger_desk", "founders_plaque", "waiting_bench", "strongbox_shelf"],
+  "requiredAnimations": [],
+  "scaleContract": {
+    "referenceHeightTiles": 1.85,
+    "checks": [
+      {"label": "door opening height", "reportPath": "humanScaleContract.doorOpeningHeight", "min": 2.4, "max": 3.3},
+      {"label": "counter top height", "reportPath": "humanScaleContract.counterTopHeight", "min": 1.0, "max": 1.3},
+      {"label": "booth head height", "reportPath": "humanScaleContract.boothHeadHeight", "min": 2.6, "max": 3.3},
+      {"label": "desk top height", "reportPath": "humanScaleContract.deskTopHeight", "min": 0.85, "max": 1.06},
+      {"label": "bench seat height", "reportPath": "humanScaleContract.benchSeatHeight", "min": 0.48, "max": 0.66},
+      {"label": "hall wall height", "reportPath": "humanScaleContract.hallWallHeight", "min": 3.8, "max": 5.0}
+    ]
+  },
+  "budgets": {"maxFileBytes": 1800000, "maxTriangles": 18000, "maxPrimitives": 95, "maxMaterials": 45}
+}

@@ -4,9 +4,16 @@ const PRAYERS = {
   thick_skin:    {name:'Thick Skin',           req:1,  icon:'\u{1F6E1}',  drain:5,  group:'def', boost:{def:1.05}},
   burst_str:     {name:'Burst of Strength',    req:4,  icon:'\u{1F4AA}',  drain:5,  group:'str', boost:{str:1.05}},
   clarity:       {name:'Clarity of Thought',   req:7,  icon:'\u{1F3AF}',  drain:5,  group:'att', boost:{att:1.05}},
+  sharp_eye:     {name:'Sharp Eye',            req:8,  icon:'\u{1F3F9}',  drain:5,  group:'rng', boost:{rng:1.05}},
+  mystic_will:   {name:'Mystic Will',          req:9,  icon:'\u{1F52E}',  drain:5,  group:'mag', boost:{mag:1.05}},
   rock_skin:     {name:'Rock Skin',            req:10, icon:'\u{1FAA8}',  drain:10, group:'def', boost:{def:1.10}},
   superhuman:    {name:'Superhuman Strength',  req:13, icon:'\u26A1',     drain:10, group:'str', boost:{str:1.10}},
   reflexes:      {name:'Improved Reflexes',    req:16, icon:'\u{1F441}',  drain:10, group:'att', boost:{att:1.10}},
+  hawk_eye:      {name:'Hawk Eye',             req:26, icon:'\u{1F985}',  drain:10, group:'rng', boost:{rng:1.10}},
+  mystic_lore:   {name:'Mystic Lore',          req:27, icon:'\u2728',     drain:10, group:'mag', boost:{mag:1.10}},
+  steel_skin:    {name:'Steel Skin',           req:28, icon:'\u{1F9F1}',  drain:12, group:'def', boost:{def:1.15}},
+  ultimate_str:  {name:'Ultimate Strength',    req:31, icon:'\u{1F4A5}',  drain:12, group:'str', boost:{str:1.15}},
+  incredible_ref:{name:'Incredible Reflexes',  req:34, icon:'\u{1F3AF}',  drain:12, group:'att', boost:{att:1.15}},
   protect_magic: {name:'Protect from Magic',   req:37, icon:'\u{1F535}',  drain:20, group:'overhead', protect:'magic',  over:0x3a6ab0},
   protect_range: {name:'Protect from Missiles',req:40, icon:'\u{1F7E2}',  drain:20, group:'overhead', protect:'ranged', over:0x4a9a3a},
   protect_melee: {name:'Protect from Melee',   req:43, icon:'\u{1F534}',  drain:20, group:'overhead', protect:'melee',  over:0xb03a3a},
@@ -61,28 +68,13 @@ const STALL_KINDS = {
   spice:  {req:30, xp:48, loot:[['coins',24]], respawn:22, label:'Spice stall'},
 };
 
-/* ---------- the Spellbook — strike and bolt tiers from the classics ---------- */
-const SPELLS = {
-  wind_strike: {name:'Wind Strike',  req:1,  max:2,  baseXp:5.5,  icon:'\u{1F32C}',  color:0xc8d8e8, runes:{air_rune:1, mind_rune:1}},
-  water_strike:{name:'Water Strike', req:5,  max:4,  baseXp:7.5,  icon:'\u{1F4A7}', color:0x4a8ac8, runes:{water_rune:1, air_rune:1, mind_rune:1}},
-  earth_strike:{name:'Earth Strike', req:9,  max:6,  baseXp:9.5,  icon:'\u{1FAA8}', color:0x8a6a3a, runes:{earth_rune:2, air_rune:1, mind_rune:1}},
-  fire_strike: {name:'Fire Strike',  req:13, max:8,  baseXp:11.5, icon:'\u{1F525}', color:0xe87a2e, runes:{fire_rune:3, air_rune:2, mind_rune:1}},
-  wind_bolt:   {name:'Wind Bolt',    req:17, max:9,  baseXp:13.5, icon:'\u{1F300}', color:0x9ab8d8, runes:{air_rune:2, chaos_rune:1}},
-  water_bolt:  {name:'Water Bolt',   req:23, max:10, baseXp:16.5, icon:'\u{1F30A}', color:0x2a6ac8, runes:{water_rune:2, air_rune:2, chaos_rune:1}},
-  earth_bolt:  {name:'Earth Bolt',   req:29, max:11, baseXp:19.5, icon:'\u26F0',    color:0x6a4a2a, runes:{earth_rune:3, air_rune:2, chaos_rune:1}},
-  fire_bolt:   {name:'Fire Bolt',    req:35, max:12, baseXp:22.5, icon:'\u2604',    color:0xd84a1e, runes:{fire_rune:4, air_rune:3, chaos_rune:1}},
-  confuse:     {name:'Confuse', req:3,  utility:'curse', stat:'att', cut:0.95, baseXp:13, icon:'\u{1F4AB}', color:0x8a8aa8, runes:{body_rune:1, water_rune:3, earth_rune:2}},
-  weaken:      {name:'Weaken',  req:11, utility:'curse', stat:'str', cut:0.95, baseXp:21, icon:'\u{1F4C9}', color:0x6a8a6a, runes:{body_rune:1, water_rune:3, earth_rune:2}},
-  home_tele:   {name:'Veyhollow Teleport', req:1, utility:'teleport', icon:'\u{1F3E0}', baseXp:0, runes:{}},
-  low_alch:    {name:'Low Level Alchemy',  req:21, utility:'alch', mult:0.4, baseXp:31, icon:'\u{1FA99}', runes:{nature_rune:1, fire_rune:3}},
-  high_alch:   {name:'High Level Alchemy', req:55, utility:'alch', mult:0.6, baseXp:65, icon:'\u{1F4B0}', runes:{nature_rune:1, fire_rune:5}},
-};
+/* ---------- the Spellbook (SPELLS) + utility-cast helpers live in src/magic_spells.js ---------- */
 
 const Player = {
   xp:{}, hp:10, maxHp:10,
   inv: new Array(24).fill(null),
   bank: [],
-  equip:{head:null, body:null, legs:null, weapon:null, shield:null},
+  equip:{head:null, body:null, legs:null, weapon:null, shield:null, amulet:null, cape:null, hands:null, feet:null},
   quests:{},
   action:null, target:null, moveTo:null, speed:4.2, attackCd:0,
   castMode:false,
@@ -115,7 +107,7 @@ const Player = {
   selectSpell(id){
     const sp=SPELLS[id]; if(!sp) return false;
     if(this.lvl('Magic')<sp.req){ UI.chat(`You need a Magic level of ${sp.req} to cast ${sp.name}.`,'plain'); return false; }
-    if(sp.utility==='teleport'){ castHomeTeleport(); return true; }
+    if(sp.utility==='teleport'){ castTeleport(sp); return true; }
     if(sp.utility==='curse'){
       if(!this.target || this.target.dead){ UI.chat('Choose a foe first, then cast the curse.','plain'); return false; }
       if(!this.hasRunes(sp)){ UI.chat('You do not have enough runes to cast this spell.','plain'); return false; }
@@ -194,6 +186,9 @@ const Player = {
     this.tickPrayers(dt);
     if(this.teleCd>0) this.teleCd=Math.max(0, this.teleCd-dt);
     if(this.stunT>0) this.stunT=Math.max(0, this.stunT-dt);
+    // special-attack energy regenerates +10% every 30s (OSRS), i.e. +1% per 3s
+    this.specT=(this.specT||0)+dt;
+    if(this.specT>=3){ this.specT-=3; if(this.spec<100){ this.spec=Math.min(100,(this.spec||0)+1); if(UI.refreshSpec) UI.refreshSpec(); } }
     // (hitpoint regen lives in Player.regen — already 1 hp/min, OSRS-correct)
   },
   moveSpeed(){ return (this.runOn && this.energy>0) ? 4.2 : 2.4; },
@@ -211,15 +206,20 @@ const Player = {
       if(this.hp < this.maxHp){ this.hp++; UI.refreshHud(); } }
   },
   addXp(s, amt){
+    // data-driven progression knobs (double-XP events, per-skill rates, fatigue)
+    if(typeof GameConfig!=='undefined'){ amt*=GameConfig.xpMult(s); GameConfig.onXp(amt); }
+    if(amt<=0) return;
     const before = this.lvl(s);
     this.xp[s]+=amt;
-    UI.floatXp('+'+amt+' '+s+' XP');
+    UI.xpDrop(s, amt);
     const after = this.lvl(s);
     if(after>before){
       UI.chat(`Congratulations, you just advanced ${s==='Hitpoints'?'a':'an'} ${s} level. You are now level ${after}.`,'xp');
       if(s==='Hitpoints'){ this.maxHp=after; this.hp=Math.min(this.hp+1,this.maxHp); }
       Sfx.level();
+      if(typeof Events!=='undefined') Events.emit('levelUp', {skill:s, level:after});
     }
+    if(typeof Events!=='undefined') Events.emit('xp', {skill:s, amt});
     UI.refreshSkills(); UI.refreshHud();
   },
   addItem(id, qty=1){
@@ -255,6 +255,8 @@ const Player = {
     if(this.spell && SPELLS[this.spell]) return 'magic';   // armed autocast holds the style; the cast itself checks runes
     const w=this.equip.weapon; return w?ITEMS[w].style||'melee':'melee'; },
   attackStyles:{melee:0, ranged:0, magic:0},
+  autoRetaliate:true,
+  spec:100, specArmed:false, specT:0,
   curStyle(){
     const cls=this.weaponStyle();
     const list=STYLE_DEFS[cls]||STYLE_DEFS.melee;
@@ -273,9 +275,20 @@ const Player = {
       if(v && ITEMS[v][field]) t+=ITEMS[v][field]; }
     return t;
   },
-  atkBonus(){ return this._sumBonus('aBonus'); },
+  // stab/slash/crush split: gear may carry per-type bonuses (aStab/aSlash/aCrush,
+  // dStab/dSlash/dCrush). When a piece has none, we fall back to the flat aBonus/dBonus,
+  // so any gear without the split is numerically identical to before. `type` is null for ranged/magic.
+  _sumTyped(prefix, flat, type){
+    const key = type ? prefix + type[0].toUpperCase() + type.slice(1) : null;
+    let t=0;
+    for(const k in this.equip){ const v=this.equip[k]; if(!v) continue; const it=ITEMS[v];
+      const per = key ? it[key] : undefined;
+      t += (per!==undefined && per!==null) ? per : (it[flat]||0); }
+    return t;
+  },
+  atkBonus(type){ return this._sumTyped('a','aBonus', type); },
   strBonus(){ return this._sumBonus('sBonus'); },
-  defBonus(){ return this._sumBonus('dBonus'); },
+  defBonus(type){ return this._sumTyped('d','dBonus', type); },
   magBonus(){ return this._sumBonus('mBonus') + (this.equip.weapon && ITEMS[this.equip.weapon].style==='magic' ? ITEMS[this.equip.weapon].aBonus||0 : 0); },
   bestToolPower(t){
     let p=0;
@@ -291,20 +304,16 @@ const Player = {
   usingItem:null,        // selected pack item awaiting a "use on" target
 };
 
-/* ---------- OSRS combat math (publicly documented formulas) ----------
-   attack roll  = (effective level) * (equipment bonus + 64)
-   defence roll = (effective level) * (equipment bonus + 64)
-   hit chance   = a > d ? 1 - (d+2)/(2*(a+1)) : a/(2*(d+1))
-   max hit      = floor(0.5 + effStr * (strBonus + 64) / 640)          */
-function rollAccuracy(attRoll, defRoll){
-  return attRoll > defRoll ? 1 - (defRoll+2)/(2*(attRoll+1)) : attRoll/(2*(defRoll+1));
-}
-function osrsMaxHit(effStr, sBonus){
-  return Math.max(1, Math.floor(0.5 + effStr*(sBonus+64)/640));
-}
+/* ---------- OSRS combat math lives in src/combat_math.js ----------
+   (rollAccuracy / osrsMaxHit / npcDef / npcWeakness — extracted so the exact
+   formulas are test-locked headlessly by tools/test_combat.js) */
 
 /* ---------- visible gear on the character ---------- */
 function refreshPlayerGear(){
+  if(player.userData && player.userData.isPlayerGLB){    // GLB avatar: bone-attach + region recolor path
+    if(typeof refreshGLBGear==='function') refreshGLBGear();
+    return;
+  }
   const parts = player.userData.parts;
   const gear = player.userData.gear || (player.userData.gear = {});
   for(const k in gear){
@@ -325,9 +334,13 @@ function refreshPlayerGear(){
   if(e.head){
     const def=ITEMS[e.head];
     if(def.model==='hat'){
-      const brim=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.24,0.04,8), mat(tierMetal(def)));
+      /* cloth hats are dyed cloth, not metal — the wizard hat was rendering as a
+         tan metal-fallback brim hat (top-100 equipped review 2026-07-17) */
+      const HAT_CLOTH={wizard:0x3a5aad, cloth:0x7a86b8, glimmer:0xb48ae0};
+      const hc=HAT_CLOTH[def.tier]!==undefined ? HAT_CLOTH[def.tier] : tierMetal(def);
+      const brim=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.24,0.04,8), mat(hc));
       brim.position.y=0.1;
-      const cone=new THREE.Mesh(new THREE.ConeGeometry(0.15,0.42,8), mat(tierMetal(def)));
+      const cone=new THREE.Mesh(new THREE.ConeGeometry(0.15,0.42,8), mat(hc));
       cone.position.y=0.3;
       const grp=new THREE.Group(); grp.add(brim); grp.add(cone);
       parts.headTop.add(grp); gear.head=grp;
@@ -339,8 +352,10 @@ function refreshPlayerGear(){
   if(e.body){
     const def=ITEMS[e.body];
     if(def.model==='robe'){
-      const m=new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.3,0.9,8), mat(tierMetal(def)));
-      m.position.y = player.userData.bb ? 0.7 : 0.78;
+      /* a robe TOP covers the torso only — the old 0.9-tall cylinder from the
+         waist down read as a tent over the legs (top-100 equipped review) */
+      const m=new THREE.Mesh(new THREE.CylinderGeometry(0.26,0.3,0.58,8), mat(tierMetal(def)));
+      m.position.y = player.userData.bb ? 0.98 : 1.06;
       player.add(m); gear.body=m;
     } else {
       const m=gearMesh(e.body)||bodyArmorMesh(tierMetal(def));
@@ -352,13 +367,18 @@ function refreshPlayerGear(){
     const m=legArmorMesh(tierMetal(ITEMS[e.legs]), parts);
     player.add(m); gear.legs=m;
   }
-  if(e.amulet){ const m=gearMesh(e.amulet); if(m){ m.position.set(0,1.42,0.13); player.add(m); gear.amulet=m; } }
+  if(e.amulet){ const m=gearMesh(e.amulet); if(m){
+    m.scale.setScalar(1.5); m.position.set(0,1.4,0.18);   // readable at gameplay camera (top-100 review)
+    player.add(m); gear.amulet=m; } }
   if(e.cape){ const m=gearMesh(e.cape); if(m){ player.add(m); gear.cape=m; } }
 }
 
 /* ---------- NPCs ---------- */
 function spawnNpc(typeId, x, z){
+  // buildout mode: world population suspended; only forced (gameplay/tool) spawns pass
+  if(typeof GameConfig!=='undefined' && !GameConfig.worldNpcSpawns && !spawnNpc.force) return null;
   const t = NPC_TYPES[typeId];
+  if(!t){ console.warn('[spawnNpc] unknown type:', typeId); return null; }
   // never spawn inside a wall — nudge to a free spot
   if(collides(x,z,0.4)){
     for(let i=0;i<14;i++){
@@ -368,7 +388,27 @@ function spawnNpc(typeId, x, z){
     }
   }
   let mesh;
-  if(t.model==='chicken') mesh = chicken(t.size);
+  if(t.glbChar && typeof charNpcModel==='function'){   // hero-pipeline character (baked idle/walk clips)
+    mesh = charNpcModel(t);
+  }
+  else if(t.glb){                            // pipeline image-to-3D model (Gemini sprite -> SF3D/Pixal3D GLB)
+    mesh = makeGlbModel(t.glb, {height: t.glbHeight || 1.8*(t.size||1), color: t.color, skinned: t.skinnedRig});
+  }
+  else if(t.assetModel){                     // pipeline-authored Blockbench model
+    mesh = CR_buildAsset(t.assetModel, t.assetColors||{});
+    if(!mesh) mesh = beast(t.color, t.size);
+    else { if(t.size) mesh.scale.multiplyScalar(t.size);
+           mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); }
+  }
+  else if(t.model==='bogling'){            // procedural smooth low-poly goblin (Path A)
+    mesh = goblinModel({scale:t.size});
+    mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
+  }
+  else if(t.model==='skeleton'){           // bone-textured undead
+    mesh = skeletonModel({scale:t.size});
+    mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
+  }
+  else if(t.model==='chicken') mesh = chicken(t.size);
   else if(t.model==='cow') mesh = cow(t.size);
   else if(t.model==='rat') mesh = rat(t.size, t.color);
   else if(t.model==='goblin'){
@@ -384,7 +424,9 @@ function spawnNpc(typeId, x, z){
     mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
   }
   else if(t.humanoid){
-    mesh = humanoid(t.color, {robe:t.robe, hat:t.hat, hatColor:t.robe, skin:t.skin, scale:t.size});
+    const _metal = k => (k==null) ? undefined : (METALS[k]!==undefined ? METALS[k] : METALS.iron);
+    mesh = humanoid(t.color, {robe:t.robe, hat:t.hat, hatColor:t.robe, skin:t.skin, scale:t.size,
+      helm:_metal(t.helm), armour:_metal(t.armour), legArmour:_metal(t.legArmour), shield:!!t.shield});
     mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
     if(t.weapon){
       const w = t.weapon==='battleaxe' ? axeMesh(METALS.steel)
@@ -393,11 +435,14 @@ function spawnNpc(typeId, x, z){
     } else if(t.ranged){
       holdWeapon(mesh.userData.parts.handR, staffMesh(0xb48ae0), {model:'staff'});
     }
+  } else if(t.body && typeof BEAST_BODIES!=='undefined' && BEAST_BODIES[t.body]){
+    mesh = BEAST_BODIES[t.body](t.color, t.size);   // distinct silhouette (wolf/crawler/crab/brute)
+    mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
   } else {
     mesh = beast(t.color, t.size);
   }
   mesh.position.set(x, gy(x,z), z);
-  const hpbar = makeHPBar(mesh, (t.humanoid||t.model==='goblin') ? 2.2*t.size : 1.2*t.size+0.6);
+  const hpbar = makeHPBar(mesh, t.barH || ((t.humanoid||t.model==='goblin') ? 2.2*t.size : 1.2*t.size+0.6));
   const npc = {typeId, t, mesh, hp:t.hp, home:new THREE.Vector3(x,0,z),
     wanderT:Math.random()*4, attackCd:0, dead:false, hpbar, target:null, moving:false};
   Object.assign(mesh.userData, {kind:'npc', npc, label:`Attack <b>${t.name}</b> (level ${t.level})`});
@@ -420,6 +465,7 @@ function refreshOverhead(){
   _overheadMesh.visible=true;
 }
 function spawnFriendly(id, name, x, z, color, face, opts){
+  if(typeof GameConfig!=='undefined' && !GameConfig.worldNpcSpawns && !spawnNpc.force) return null;
   const mesh = humanoid(color, opts||{});
   mesh.position.set(x, gy(x,z), z);
   mesh.rotation.y = Math.random()*6;
@@ -470,8 +516,10 @@ function makeDrop(id, qty, x, z){
   const m = itemGroundMesh(id);
   m.position.set(x, gy(x,z)+0.02, z);
   m.rotation.y = Math.random()*6;
-  m.userData = {kind:'drop', id, qty, label:`Take <b>${def.name}</b>${qty>1?' ('+qty+')':''}`};
+  m.userData = {kind:'drop', id, qty, label:`Take <b>${def.name}</b>${qty>1?' ('+qty+')':''}`,
+    age:0, life:180, publicAt:60, owner:'player'};   // OSRS lifecycle: ~60s private → public → ~3min despawn
   scene.add(m); WORLD.clickables.push(m); WORLD.drops.push(m);
+  if(typeof Events!=='undefined') Events.emit('lootSpawned', {id, qty, x, z});
 }
 function removeClickable(obj){
   const i=WORLD.clickables.indexOf(obj); if(i>=0) WORLD.clickables.splice(i,1);
@@ -479,6 +527,14 @@ function removeClickable(obj){
 
 /* ---------- projectiles (arrows arc through the air) ---------- */
 const PROJECTILES = [];
+/* Line-of-sight gate for ranged/magic combat. Delegates to the flag grid (collision_grid.js);
+   returns true ("no obstruction known") whenever the grid is absent/disabled/unbaked, so the
+   kill-switch (CollisionGrid.enabled=false) restores byte-identical pre-LoS combat. Takes the
+   two world positions (Vector3-like) — only x/z matter on the tile grid. */
+function hasCombatLoS(from, to){
+  if(typeof CollisionGrid==='undefined') return true;
+  return CollisionGrid.hasLoS(from.x, from.z, to.x, to.z);
+}
 function fireProjectile(kind, fromObj, npc, dmg, tint){
   let mesh, dur, arc;
   const from = fromObj.position.clone(); from.y += 1.2;
@@ -518,6 +574,7 @@ function updateProjectiles(dt){
         Player.hp -= p.dmg; UI.floatDmg(player, p.dmg);
         if(p.dmg>0){ Player.addXp('Defence', p.dmg*2); Sfx.takeHit(); }
         UI.refreshHud();
+        if(Player.autoRetaliate && !Player.target && !Player.moveTo && !Player.action && p.npc && !p.npc.dead && Player.hp>0) Player.target=p.npc;
         if(Player.hp<=0) playerDeath();
       } else {
         if(!p.npc.dead) applyHit(p.npc, p.dmg, p.xpTok || (p.kind==='arrow'?'Ranged':'Magic'));
@@ -536,10 +593,10 @@ function updateProjectiles(dt){
    magic: Standard / Defensive (splits xp with Defence) */
 const STYLE_DEFS = {
   melee: [
-    {key:'accurate',  name:'Stab',  label:'Accurate',   xp:'Attack',    boost:{att:3}},
-    {key:'aggressive',name:'Lunge', label:'Aggressive', xp:'Strength',  boost:{str:3}},
-    {key:'controlled',name:'Slash', label:'Controlled', xp:'Shared',    boost:{att:1,str:1,def:1}},
-    {key:'defensive', name:'Block', label:'Defensive',  xp:'Defence',   boost:{def:3}},
+    {key:'accurate',  name:'Stab',  label:'Accurate',   xp:'Attack',    boost:{att:3}, atype:'stab'},
+    {key:'aggressive',name:'Pound', label:'Aggressive', xp:'Strength',  boost:{str:3}, atype:'crush'},
+    {key:'controlled',name:'Slash', label:'Controlled', xp:'Shared',    boost:{att:1,str:1,def:1}, atype:'slash'},
+    {key:'defensive', name:'Block', label:'Defensive',  xp:'Defence',   boost:{def:3}, atype:'slash'},
   ],
   ranged: [
     {key:'accurate',  name:'Accurate',  label:'Accurate',  xp:'Ranged',    boost:{rng:3}},
@@ -550,6 +607,81 @@ const STYLE_DEFS = {
     {key:'standard',  name:'Standard',  label:'Standard',  xp:'Magic'},
     {key:'defensive', name:'Defensive', label:'Defensive', xp:'MagicDef', boost:{def:3}},
   ],
+};
+/* special attacks: armed via the spec orb, consume spec energy, and boost the accuracy &
+   damage of that one swing. Keyed by weapon MODEL so a whole class shares a signature spec
+   — our own designs (not OSRS's). */
+const SPECIALS = {
+  sword: {name:'Lunge',        cost:25, acc:1.30, dmg:1.15, msg:'You lunge with deadly precision!'},
+  axe:   {name:'Cleave',       cost:50, acc:1.05, dmg:1.45, msg:'You cleave with brutal force!'},
+  pick:  {name:'Skull Crack',  cost:50, acc:1.10, dmg:1.35, msg:'You drive the pick home!'},
+  bow:   {name:'Rapid Volley', cost:50, acc:1.20, dmg:1.30, msg:'You loose a rapid volley!'},
+  staff: {name:'Power Surge',  cost:55, acc:1.15, dmg:1.40, msg:'Your staff surges with raw power!'},
+};
+/* boss combat scripts: a lightweight per-NPC hook (set NPC_TYPES[x].script) run each frame while
+   the boss lives, giving phases/specials/heals beyond the generic AI. Our own designs. */
+const BOSS_SCRIPTS = {
+  fenlord(n, dt){
+    n._sT=(n._sT||0)+dt;
+    if(n._sT>=9){ n._sT=0;
+      if(n.target==='player' && n.hp < n.t.hp*0.55){
+        n.hp=Math.min(n.t.hp, n.hp + Math.ceil(n.t.hp*0.08));
+        if(n.hpbar){ n.hpbar.spr.visible=true; n.hpbar.draw(Math.max(0,n.hp/n.t.hp)); }
+        UI.chat('The Fenlord draws strength from the drowned mire.','combat');
+      }
+    }
+  },
+  ashwyrm(n, dt){
+    n._sT=(n._sT||0)+dt;
+    if(!n._enraged && n.hp < n.t.hp*0.45){ n._enraged=true;
+      UI.chat('The Ash Wyrm rears, wings ablaze — the very air begins to burn!','combat'); }
+    // breath state machine: a "huff" wind-up, then the fire gout. The visuals (rear-back, smoke
+    // wisps, flame particles) are driven by glbCreatureAnim/spawnDragonfire in fx_dragon.js.
+    if(n._breath){
+      const b=n._breath; b.t+=dt;
+      if(b.phase==='windup' && b.t>=b.windup){
+        b.phase='fire'; b.t=0;
+        if(typeof spawnDragonfire==='function') spawnDragonfire(n);
+        if(n.target==='player'){
+          const d=player.position.distanceTo(n.mesh.position);
+          if(d<12){
+            const warded = Player.protectedFrom('magic');   // our antifire stand-in
+            let dmg = Math.ceil((n._enraged?14:9)+Math.random()*12);
+            if(warded) dmg = Math.ceil(dmg*0.35);
+            Player.hp-=dmg; UI.floatDmg(player, dmg);
+            UI.chat(warded ? 'You raise a prayer against the dragonfire.' : 'The Ash Wyrm breathes a torrent of fire!','combat');
+            UI.refreshHud();
+            if(Player.hp<=0) playerDeath();
+          }
+        }
+      } else if(b.phase==='fire' && b.t>=b.fire){ n._breath=null; }
+      return;
+    }
+    const every = n._enraged ? 6 : 10;          // breathe on a cooldown; faster when enraged
+    if(n._sT>=every){ n._sT=0;
+      if(n.target==='player' && player.position.distanceTo(n.mesh.position)<11){
+        n._breath={phase:'windup', t:0, windup:1.0, fire:0.7};
+        UI.chat('The Ash Wyrm draws a deep, smoking breath…','combat');
+      }
+    }
+  },
+  korthul(n, dt){
+    n._sT=(n._sT||0)+dt;
+    if(!n._enraged && n.hp < n.t.hp*0.5){ n._enraged=true;
+      UI.chat('Korthul shudders and quakes with mountainous fury!','combat'); }
+    const every = n._enraged ? 7 : 12;
+    if(n._sT>=every){ n._sT=0;
+      if(n.target==='player'){
+        const d=player.position.distanceTo(n.mesh.position);
+        if(d<6 && !Player.protectedFrom('melee')){
+          const dmg=Math.ceil((n._enraged?7:4)+Math.random()*8);
+          Player.hp-=dmg; UI.floatDmg(player, dmg);
+          UI.chat('Korthul slams the ground — the cavern quakes!','combat'); UI.refreshHud();
+          if(Player.hp<=0) playerDeath();
+        }
+      }
+    }
+  },
 };
 function applyHit(npc, dmg, xpSkill){
   npc.hp -= dmg; UI.floatDmg(npc.mesh, dmg);
@@ -574,7 +706,10 @@ function playerAttack(npc, dt){
   const sdef = Player.curStyle();
   const sizeReach = ((npc.t && npc.t.size)||1) * 0.8;   // big targets are struck at their edge
   const range = (style==='melee' ? 1.4 + sizeReach : 9 + sizeReach) + (sdef.rangeBonus||0);
-  if(dist > range){
+  // ranged/magic need a clear line of sight (rsbox/rsmod LoS); melee (adjacent) never does.
+  // No LoS ⇒ treat like out-of-range and path closer until the wall no longer intervenes.
+  const noLoS = style!=='melee' && !hasCombatLoS(player.position, npc.mesh.position);
+  if(dist > range || noLoS){
     // chase along a real path; recompute when the quarry strays from the path's end
     const goalMoved = !Player.moveTo ||
       Math.hypot(Player.moveTo.x-npc.mesh.position.x, Player.moveTo.z-npc.mesh.position.z) > 2.0;
@@ -603,17 +738,28 @@ function playerAttack(npc, dt){
     }
     Player.spendRunes(spellDef);
   }
+  // special attack: if armed, the weapon has one, and we have the energy, fire it this swing
+  let spec=null;
+  const _wm = Player.equip.weapon ? ITEMS[Player.equip.weapon].model : null;
+  if(Player.specArmed && _wm && SPECIALS[_wm] && Player.spec>=SPECIALS[_wm].cost){
+    spec=SPECIALS[_wm]; Player.spec-=spec.cost; Player.specArmed=false;
+    if(UI.refreshSpec) UI.refreshSpec();
+    UI.chat(spec.msg,'combat');
+  }
   const skillLv = (style==='ranged' ? Player.lvl('Ranged')+Player.styleBoost('rng')
                  : style==='magic'  ? Player.lvl('Magic')
                  : Math.floor(Player.lvl('Attack')*Player.prayerMult('att'))+Player.styleBoost('att'));
-  const attRoll = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus())+64);
-  const defRoll = (npc.t.def+9) * (npc.t.dBonus+64);
-  const hitChance = rollAccuracy(attRoll, defRoll);
-  const maxHit = style==='melee' ? osrsMaxHit(Math.floor(Player.lvl('Strength')*Player.prayerMult('str'))+Player.styleBoost('str')+8, Player.strBonus())
+  const atype = style==='melee' ? (sdef.atype||'slash') : null;   // stab/slash/crush from the chosen style
+  const attRoll = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus(atype))+64);
+  const defRoll = (npc.t.def+9) * (npcDef(npc.t, atype)+64);
+  let hitChance = rollAccuracy(attRoll, defRoll);
+  if(spec) hitChance = Math.min(1, hitChance*spec.acc);
+  let maxHit = style==='melee' ? osrsMaxHit(Math.floor(Player.lvl('Strength')*Player.prayerMult('str'))+Player.styleBoost('str')+8, Player.strBonus())
                : style==='ranged' ? osrsMaxHit(Player.lvl('Ranged')+8, Player.strBonus())
                : spellDef.max;   // each spell knows its own ceiling, like the classics
+  if(spec) maxHit = Math.ceil(maxHit*spec.dmg);
   const dmg = Math.random()<hitChance ? Math.ceil(Math.random()*maxHit) : 0;
-  swing(player);
+  swing(player, style==='ranged' ? 'bow' : style==='magic' ? 'cast' : (atype||'slash'));
   if(style==='melee'){
     Sfx.swing(); if(dmg>0) Sfx.hitFlesh();
     applyHit(npc, dmg, sdef.xp);
@@ -714,44 +860,7 @@ function tryStealStall(obj){
   orderWalk(obj.position);
 }
 
-/* ---------- utility magic: alchemy and the homeward rite ---------- */
-function castAlchemy(invIndex){
-  const sp=SPELLS[Player.alchMode]; if(!sp) return false;
-  const s=Player.inv[invIndex]; if(!s) return false;
-  const def=ITEMS[s.id];
-  if(s.id==='coins'){ UI.chat('You cannot transmute coins into coins.','plain'); return false; }
-  if(!Player.hasRunes(sp)){ UI.chat('You do not have enough runes to cast this spell.','plain'); Player.alchMode=null; if(UI.refreshSpells) UI.refreshSpells(); return false; }
-  Player.spendRunes(sp);
-  const worth=Math.max(1, Math.floor((def.value||1)*sp.mult));
-  if(def.stack && s.qty>1) s.qty--; else Player.inv[invIndex]=null;
-  Player.addItem('coins', worth);
-  Player.addXp('Magic', sp.baseXp);
-  Player.alchMode=null;
-  Sfx.coin();
-  UI.chat(`You transmute the ${def.name.toLowerCase()} into ${worth} crowns.`,'xp');
-  UI.refreshInv(); if(UI.refreshSpells) UI.refreshSpells();
-  return true;
-}
-function castCurse(sp, npc){
-  npc.curses = npc.curses||{};
-  if(npc.curses[sp.stat]){ UI.chat('That foe is already weakened there.','plain'); return; }
-  Player.spendRunes(sp);
-  Player.addXp('Magic', sp.baseXp);
-  npc.curses[sp.stat]=true;
-  if(sp.stat==='att') npc.t = Object.assign({}, npc.t, {att: Math.max(1, Math.floor(npc.t.att*sp.cut))});
-  if(sp.stat==='str') npc.t = Object.assign({}, npc.t, {str: Math.max(1, Math.floor(npc.t.str*sp.cut))});
-  Sfx.magicCast();
-  fireProjectile('bolt', player, npc, 0, sp.color);
-  UI.chat(`Your ${sp.name.toLowerCase()} settles over the ${npc.t.name.toLowerCase()}.`,'xp');
-  if(UI.refreshSpells) UI.refreshSpells();
-}
-function castHomeTeleport(){
-  if(Player.teleCd>0){ UI.chat(`The homeward rite needs ${Math.ceil(Player.teleCd)} more seconds to gather.`,'plain'); return; }
-  if(Player.action && Player.action.type==='teleport') return;
-  Player.action={type:'teleport', t:0};
-  Player.moveTo=null; Player.target=null;
-  UI.chat('You begin the homeward rite...','sys');
-}
+/* ---------- utility magic (castAlchemy/castCurse/castTeleport) moved to src/magic_spells.js ---------- */
 function killNpc(npc, opt){
   opt=opt||{};
   if(Duel.active && npc===Duel.npc){
@@ -763,8 +872,15 @@ function killNpc(npc, opt){
     return;
   }
   npc.dead = true; npc.respawnT = npc.t.respawn;
-  npc.mesh.visible = false; removeClickable(npc.mesh);
+  removeClickable(npc.mesh);
+  if(npc.hpbar) npc.hpbar.spr.visible = false;
+  // tip the corpse over instead of popping it out of existence; the update loop hides it when the topple ends.
+  // GLB / skinned-rig bodies (the dragon boss) keep the instant hide — a sideways tip reads wrong on a winged quadruped.
+  const toppleable = typeof startDeath==='function' && !npc.t.glb && !npc.t.skinnedRig;
+  if(toppleable){ npc.dying = true; startDeath(npc.mesh); }
+  else npc.mesh.visible = false;
   if(!opt.silent) UI.chat(`You have defeated the ${npc.t.name}.`,'combat');
+  if(typeof Events!=='undefined') Events.emit('npcKilled', {npc});
   dropLoot(npc.mesh.position, npc.t.drops);
   if(Player.target===npc) Player.target=null;
   if(!opt.noQuest){ Quest.onKill(npc.typeId); Tutorial.notify('kill', npc.typeId); }
@@ -782,8 +898,12 @@ function fireBoltAtPlayer(npc, dmg){
 function npcAttack(npc, dt){
   npc.attackCd -= dt;
   const dist = npc.mesh.position.distanceTo(player.position);
-  // spellcasters hold range and hurl bolts
-  if(npc.t.ranged && dist <= 8 && dist >= 2.2){
+  // always turn to face the target while in combat — including standing in melee range,
+  // so monsters track the player instead of keeping a stale heading
+  npc.mesh.lookAt(player.position.x, npc.mesh.position.y, player.position.z);
+  // spellcasters hold range and hurl bolts — but only with a clear line of sight; blocked by
+  // a wall they fall through to the approach code below and path toward the player (walk around).
+  if(npc.t.ranged && dist <= 8 && dist >= 2.2 && hasCombatLoS(npc.mesh.position, player.position)){
     npc.mesh.lookAt(player.position.x, npc.mesh.position.y, player.position.z);
     if(npc.attackCd>0) return;
     npc.attackCd = npc.t.speedTicks*TICK;
@@ -791,7 +911,7 @@ function npcAttack(npc, dt){
     const defRoll = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus()+64);
     let dmg = Math.random()<rollAccuracy(attRoll,defRoll) ? Math.ceil(Math.random()*npcMaxHit(npc.t)) : 0;
     if(dmg>0 && Player.protectedFrom(npc.t.ranged==='arrow' ? 'ranged' : 'magic')) dmg=0;
-    swing(npc.mesh);
+    swing(npc.mesh, npc.t.ranged==='arrow' ? 'bow' : 'cast');
     Sfx.magicCast();
     fireBoltAtPlayer(npc, dmg);
     return;
@@ -820,14 +940,17 @@ function npcAttack(npc, dt){
   }
   if(npc.attackCd>0) return;
   npc.attackCd = npc.t.speedTicks*TICK;
+  swing(npc.mesh, npc.t.atype||'slash');   // humanoids visibly swing; armless beasts no-op
   const attRoll = (npc.t.att+8) * (npc.t.aBonus+64);
-  const defRoll = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus()+64);
+  const defRoll = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus(npc.t.atype||'crush')+64);
   const hitChance = rollAccuracy(attRoll, defRoll);
   let dmg = Math.random()<hitChance ? Math.ceil(Math.random()*npcMaxHit(npc.t)) : 0;
   if(dmg>0 && Player.protectedFrom('melee')) dmg=0;   // the overhead turns the blow aside
   Player.hp -= dmg; UI.floatDmg(player, dmg);
   if(dmg>0){ Player.addXp('Defence', dmg*2); Sfx.takeHit(); } else Sfx.block();
   UI.refreshHud();
+  // auto-retaliate: if idle when struck, fight back (OSRS behaviour)
+  if(Player.autoRetaliate && !Player.target && !Player.moveTo && !Player.action && !npc.dead && Player.hp>0) Player.target=npc;
   if(Player.hp<=0) playerDeath();
 }
 /* ---------- fight appraisal: odds of winning with CURRENT stats & gear ---------- */
@@ -838,8 +961,9 @@ function appraiseFight(t){
   const skillLv = (style==='ranged' ? Player.lvl('Ranged')+Player.styleBoost('rng')
                  : style==='magic'  ? Player.lvl('Magic')
                  : Math.floor(Player.lvl('Attack')*Player.prayerMult('att'))+Player.styleBoost('att'));
-  const pAtt = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus())+64);
-  const nDef = (t.def+9) * (t.dBonus+64);
+  const atype = style==='melee' ? (sdef.atype||'slash') : null;
+  const pAtt = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus(atype))+64);
+  const nDef = (t.def+9) * (npcDef(t, atype)+64);
   const pAcc = rollAccuracy(pAtt, nDef);
   const pMax = style==='melee' ? osrsMaxHit(Player.lvl('Strength')+Player.styleBoost('str')+8, Player.strBonus())
              : style==='ranged' ? osrsMaxHit(Player.lvl('Ranged')+8, Player.strBonus())
@@ -847,7 +971,7 @@ function appraiseFight(t){
   const pSpd = Player.weaponSpeed();
   // npc offence
   const nAtt = (t.att+8) * (t.aBonus+64);
-  const pDef = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus()+64);
+  const pDef = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus(t.atype||'crush')+64);
   const nAcc = rollAccuracy(nAtt, pDef);
   const nMax = npcMaxHit(t);
   const nSpd = t.speedTicks*TICK;
@@ -891,7 +1015,9 @@ const Duel = {
     const a=ZONES.arena.pos;
     // scale the duelist to the player's combat level
     const cl=Math.max(3, Player.combatLevel ? Player.combatLevel() : 5);
+    spawnNpc.force=true;                    // player-initiated: bypasses the buildout gate
     const n=spawnNpc('duelist', a[0], a[1]-3);
+    spawnNpc.force=false;
     n.t = Object.assign({}, n.t, {
       level:cl, hp:10+cl*2, att:Math.max(1,cl), str:Math.max(1,cl), def:Math.max(1,Math.floor(cl*0.8)),
     });
@@ -958,14 +1084,28 @@ function playerDeath(){
   Player.target=null; Player.action=null; Player.moveTo=null;
   WORLD.npcs.forEach(n=>n.target=null);
   const p = Tutorial.complete ? ZONES.commons.pos : ZONES.holm.pos;
-  player.position.set(p[0]+2, gy(p[0]+2,p[1]+2), p[1]+2);
-  UI.chat('You wake at the Veyhollow gates.','plain');
+  // WEST of the plaza fountain — never inside its basin (user, 2026-07-03)
+  player.position.set(p[0]-8, gy(p[0]-8,p[1]), p[1]);
+  UI.chat('You wake in Veyhollow square.','plain');
+  refreshPlayerGear();      // death drops gear — the avatar must stop showing it (GLB regions reset too)
   UI.refreshHud();
 }
-function swing(g){
-  const p=g.userData.parts; if(!p||!p.armR) return;
+/* trigger an attack animation. `type` picks the motion archetype so a thrust, an
+   overhead crush, a bow draw and a cast each read distinctly — defaults to a slash.
+   Armless beasts have no armR, so this safely no-ops on them. */
+function swing(g, type){
+  const gm=g.userData&&g.userData.gmix;                 // GLB character: play the baked attack clip
+  if(gm && gm.attack){ gm.attack.reset(); gm.attack.play(); return; }
+  const p=g.userData&&g.userData.parts; if(!p) return;
+  if(!p.armR){                                 // armless beast → a lunge/snap, not an arm swing
+    if(p.head||p.maw||p.claws) g.userData.beastSwing = {t:0, dur:0.42};   // tweened in tickBeastSwing
+    return;                                    // (truly static bodies have none of these — stay still as before)
+  }
+  type = type||'slash';
+  const DUR = {slash:0.45, stab:0.40, crush:0.52, bow:0.55, cast:0.50,
+    mine:0.72, smith:0.48, smelt:0.90};
   g.userData.swinging = true;
-  g.userData.swing = {t:0, dur:0.45};   // tweened in tickSwing each frame
+  g.userData.swing = {t:0, dur:DUR[type]||0.45, type};   // tweened in tickSwing each frame
 }
 
 /* ---------- quests ---------- */
@@ -1097,6 +1237,7 @@ const Music = {
   start(){
     if(this.on) return;
     this.on=true;
+    try{ localStorage.setItem('cr_music_on','1'); }catch(e){}   // remember the opt-in
     const ctx=this.ensure();
     try{ this._master.gain.exponentialRampToValueAtTime(0.5, ctx.currentTime+1.5); }
     catch(e){ this._master.gain.value=0.5; }
@@ -1106,6 +1247,7 @@ const Music = {
   },
   stop(){
     this.on=false;
+    try{ localStorage.setItem('cr_music_on','0'); }catch(e){}
     try{ this._master.gain.value=0; }catch(e){}
     clearTimeout(this._timer);
     const b=document.getElementById('music-btn'); if(b) b.textContent='\u2715';
@@ -1113,73 +1255,127 @@ const Music = {
   toggle(){ this.on ? this.stop() : this.start(); },
 };
 
+/* Quest engine v2 — fully data-driven off the QUESTS stage objects (OSRS-emulator style
+ * progress-state machine: varp-like integer stage per quest, generic objective hooks). */
 const Quest = {
   tracked:null,
+  stageOf(id){ const st=Player.quests[id]; return st ? st.stage : 0; },
+  curStage(id){                       // the active stage object, or null
+    const st=Player.quests[id]; if(!st || st.stage===99) return null;
+    return QUESTS[id].stages[Math.min(st.stage, QUESTS[id].stages.length-1)] || null;
+  },
+  stageText(id){
+    const q=QUESTS[id], st=Player.quests[id];
+    const s=q.stages[st ? Math.min(st.stage,q.stages.length-1) : 0];
+    return s ? s.text.replace('%n', st?st.counter:0) : '';
+  },
+  qp(){ let n=0; for(const id in QUESTS) if(this.done(id)) n+=(QUESTS[id].qp||1); return n; },
+  qpMax(){ let n=0; for(const id in QUESTS) n+=(QUESTS[id].qp||1); return n; },
+  canStart(id){
+    const req=(QUESTS[id]||{}).requires; if(!req) return true;
+    if(req.quests) for(const r of req.quests) if(!this.done(r)) return false;
+    if(req.qp && this.qp()<req.qp) return false;
+    return true;
+  },
+  reqText(id){
+    const req=(QUESTS[id]||{}).requires; if(!req || !req.quests) return '';
+    return req.quests.filter(r=>!this.done(r)).map(r=>QUESTS[r].name).join(', ');
+  },
   track(id){
     this.tracked = this.tracked===id ? null : id;
     this.updateMarker();
-    const q=QUESTS[id], st=Player.quests[id];
     if(this.tracked){
-      const stage = st ? Math.min(st.stage, q.stages.length-1) : 0;
-      UI.chat(`Quest tracked: ${q.name} — ${q.stages[stage].replace('%n', st?st.counter:0)} Follow the yellow flag on your minimap.`,'quest');
+      UI.chat(`Quest tracked: ${QUESTS[id].name} — ${this.stageText(id)} Follow the yellow flag on your minimap.`,'quest');
     } else { UI.chat('Quest tracking cleared.','plain'); }
     UI.refreshQuests();
   },
   updateMarker(){
     WORLD.questMarker = null;
     const id=this.tracked; if(!id) return;
-    const q=QUESTS[id]; if(!q.targets) return;
     const st=Player.quests[id];
     if(st && st.stage===99) return;
-    const stage = st ? Math.min(st.stage, q.targets.length-1) : 0;
-    const t=q.targets[stage]; if(!t) return;
-    if(t.npc){
-      const f=WORLD.friendlies.find(f=>f.id===t.npc);
+    const s = st ? this.curStage(id) : QUESTS[id].stages[0];
+    if(!s) return;
+    if(s.at){ WORLD.questMarker={x:s.at[0], z:s.at[1]}; return; }
+    if(s.npc){
+      const f=WORLD.friendlies.find(f=>f.id===s.npc);
       if(f){ WORLD.questMarker={x:f.mesh.position.x, z:f.mesh.position.z}; return; }
     }
-    if(t.zone && ZONES[t.zone]) WORLD.questMarker={x:ZONES[t.zone].pos[0], z:ZONES[t.zone].pos[1]};
+    if(s.zone && ZONES[s.zone]) WORLD.questMarker={x:ZONES[s.zone].pos[0], z:ZONES[s.zone].pos[1]};
   },
   state(id){ return Player.quests[id] || null; },
-  start(id){ Player.quests[id]={stage:1, counter:0};
-    UI.chat(`Quest started: ${QUESTS[id].name}.`,'xp'); UI.refreshQuests(); Sfx.quest(); },
+  start(id){
+    Player.quests[id]={stage:1, counter:0};
+    UI.chat(`Quest started: ${QUESTS[id].name}.`,'xp');
+    UI.chat(this.stageText(id),'quest');
+    UI.refreshQuests(); Sfx.quest();
+  },
+  advance(id){
+    const st=Player.quests[id]; if(!st || st.stage===99) return;
+    st.stage++; st.counter=0;
+    if(st.stage >= QUESTS[id].stages.length){ this.complete(id); return; }
+    UI.chat(this.stageText(id),'quest');
+    this.updateMarker(); UI.refreshQuests(); Sfx.quest();
+  },
+  /* 'bring' turn-in helper: true if the player carries every required item */
+  hasBring(id){
+    const s=this.curStage(id); if(!s || s.type!=='bring') return false;
+    return s.items.every(it=>Player.count(it.id)>=it.q);
+  },
+  takeBring(id){
+    const s=this.curStage(id); if(!s || s.type!=='bring') return;
+    s.items.forEach(it=>Player.removeItem(it.id, it.q));
+    this.advance(id);
+  },
   complete(id){
     setTimeout(()=>{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }, 50);
     const q=QUESTS[id]; Player.quests[id].stage = 99;
-    UI.chat(`Congratulations! Quest complete: ${q.name}.`,'xp');
     for(const sk in q.reward.xp) Player.addXp(sk, q.reward.xp[sk]);
     q.reward.items.forEach(it=>Player.addItem(it.id, it.q));
+    if(this.tracked===id){ this.tracked=null; this.updateMarker(); }
+    if(typeof UI.questComplete==='function') UI.questComplete(id);
+    else UI.chat(`Congratulations! Quest complete: ${q.name}.`,'xp');
     UI.refreshQuests(); Sfx.level();
   },
   done(id){ const s=Player.quests[id]; return s && s.stage===99; },
   onKill(typeId){
-    const gt=Player.quests.grub_trouble;
-    if(gt && gt.stage===1 && typeId==='grubkin'){
-      gt.counter++;
-      UI.chat(`Grubkins slain: ${gt.counter}/3.`,'plain');
-      if(gt.counter>=3){ gt.stage=2; UI.chat('Return to Warden Maela.','plain'); }
-      UI.refreshQuests();
+    for(const id in QUESTS){
+      const s=this.curStage(id);
+      if(!s || s.type!=='kill' || s.target!==typeId) continue;
+      const st=Player.quests[id];
+      st.counter++;
+      if(st.counter >= (s.count||1)){
+        this.advance(id);
+      } else {
+        UI.chat(s.text.replace('%n', st.counter),'plain');
+        UI.refreshQuests();
+      }
     }
-    const wt=Player.quests.wardens_trial;
-    if(wt && wt.stage===1 && typeId==='fenlord'){
-      wt.stage=2; UI.chat('The Fenlord falls! Return to Warden Maela.','plain');
-      UI.refreshQuests();
+  },
+  onZone(zone){
+    for(const id in QUESTS){
+      const s=this.curStage(id);
+      if(s && s.type==='goto' && s.zone===zone) this.advance(id);
     }
   },
 };
 
 /* ---------- WebAudio SFX: noise-based, more realistic ---------- */
 const Sfx = {
-  ctx:null, _noiseBuf:null,
+  ctx:null, _noiseBuf:null, _master:null,
+  vol:(function(){ try{ var v=localStorage.getItem('cr_vol_sfx'); return v!=null?+v:1; }catch(e){ return 1; } })(),
   ensure(){
     if(!this.ctx){ this.ctx = new (window.AudioContext||window.webkitAudioContext)();
       const len=this.ctx.sampleRate*1;
       this._noiseBuf=this.ctx.createBuffer(1,len,this.ctx.sampleRate);
       const d=this._noiseBuf.getChannelData(0);
       for(let i=0;i<len;i++) d[i]=Math.random()*2-1;
+      this._master=this.ctx.createGain(); this._master.gain.value=this.vol; this._master.connect(this.ctx.destination);
     }
     if(this.ctx.state==='suspended') this.ctx.resume();
     return this.ctx;
   },
+  setVolume(v){ this.vol=Math.max(0,Math.min(1,v)); try{ localStorage.setItem('cr_vol_sfx',this.vol); }catch(e){} if(this._master) this._master.gain.value=this.vol; },
   noise(dur, freq, q, vol, type='bandpass', slideTo){
     try{ const ctx=this.ensure();
       const src=ctx.createBufferSource(); src.buffer=this._noiseBuf; src.loop=true;
@@ -1187,7 +1383,7 @@ const Sfx = {
       if(slideTo) f.frequency.exponentialRampToValueAtTime(slideTo, ctx.currentTime+dur);
       const g=ctx.createGain(); g.gain.value=vol;
       g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur);
-      src.connect(f); f.connect(g); g.connect(ctx.destination);
+      src.connect(f); f.connect(g); g.connect(this._master||ctx.destination);
       src.start(); src.stop(ctx.currentTime+dur);
     }catch(e){}
   },
@@ -1198,7 +1394,7 @@ const Sfx = {
       if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, ctx.currentTime+dur);
       g.gain.value=vol||0.05;
       g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur);
-      o.connect(g); g.connect(ctx.destination);
+      o.connect(g); g.connect(this._master||ctx.destination);
       o.start(); o.stop(ctx.currentTime+dur);
     }catch(e){}
   },
@@ -1213,6 +1409,8 @@ const Sfx = {
   magicHit(){ this.tone(900,0.18,'sine',0.07,200); this.noise(0.12, 2200, 2, 0.05); },
   chop(){ this.noise(0.07, 700, 2, 0.12, 'bandpass', 200); this.tone(160,0.06,'triangle',0.08,90); },
   mine(){ this.tone(2300,0.05,'square',0.035,1400); this.noise(0.05, 4500, 4, 0.05, 'highpass'); },   // clink
+  smith(){ this.tone(1850,0.07,'square',0.05,980); this.noise(0.08,3200,3,.045,'highpass'); },
+  smelt(){ this.noise(.34,620,.8,.055,'lowpass',260); this.tone(170,.28,'triangle',.035,105); },
   splash(){ this.noise(0.35, 900, 0.8, 0.08, 'lowpass', 250); },
   eat(){ this.noise(0.09, 500, 1, 0.07, 'lowpass'); this.tone(220,0.06,'triangle',0.04); },
   coin(){ this.tone(1180,0.06,'sine',0.06); this.tone(1560,0.08,'sine',0.05); },

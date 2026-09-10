@@ -1,0 +1,137 @@
+{
+  "profile": "fable-kitchen-qa-mtu766sp",
+  "passed": 11,
+  "total": 11,
+  "checks": [
+    {
+      "label": "fresh QA profile booted through the real login flow",
+      "ok": true
+    },
+    {
+      "label": "real pathing reaches the kitchen west door approach",
+      "ok": true,
+      "detail": [
+        144.5,
+        137.5
+      ]
+    },
+    {
+      "label": "kitchen streamed in and its planning pad is gone",
+      "ok": true,
+      "detail": {
+        "kitchen": true,
+        "pad": false,
+        "status": {
+          "bound": true,
+          "flame": true,
+          "baked": false
+        }
+      }
+    },
+    {
+      "label": "green door opens and the bakehouse is enterable",
+      "ok": true,
+      "detail": [
+        150.5,
+        137.5
+      ]
+    },
+    {
+      "label": "roof cuts away when the player stands inside",
+      "ok": true,
+      "detail": {
+        "roofVisible": false
+      }
+    },
+    {
+      "label": "range flame and its light animate in a visible tab",
+      "ok": true,
+      "detail": {
+        "hidden": false,
+        "a": [
+          0.7884,
+          0.7148
+        ],
+        "b": [
+          0.9879,
+          0.9436
+        ],
+        "la": 0.9479594539535385,
+        "lb": 1.0256506042092395
+      }
+    },
+    {
+      "label": "ingredient stations lend two buckets, fill both, and knead one bread dough",
+      "ok": true,
+      "detail": [
+        [
+          "buckets",
+          2
+        ],
+        [
+          "flour",
+          1
+        ],
+        [
+          "water",
+          1
+        ],
+        [
+          "dough",
+          1
+        ],
+        [
+          "bread_dough",
+          1
+        ]
+      ]
+    },
+    {
+      "label": "bread dough bakes on the range and the optional ledger records bake_bread",
+      "ok": true,
+      "detail": {
+        "bread": 1,
+        "optional": {
+          "bake_bread": true
+        },
+        "cooking": 40
+      }
+    },
+    {
+      "label": "yard door opens and the north exit is walkable",
+      "ok": true,
+      "detail": [
+        149.5,
+        130.5
+      ]
+    },
+    {
+      "label": "reload continues the adventurer with the optional ledger, loaf, and position intact",
+      "ok": true,
+      "detail": {
+        "optional": {
+          "bake_bread": true
+        },
+        "bread": 1,
+        "pos": [
+          149.5,
+          130.5
+        ],
+        "step": 0,
+        "errors": 0
+      }
+    },
+    {
+      "label": "no page errors, console errors, or failed asset loads across the whole run",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failedLoads": []
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedLoads": []
+}

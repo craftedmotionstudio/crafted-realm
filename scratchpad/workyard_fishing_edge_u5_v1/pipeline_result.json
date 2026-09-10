@@ -1,0 +1,72 @@
+{
+  "assetId": "workyard_fishing_edge_u5_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 105972,
+    "triangles": 1338,
+    "primitives": 15,
+    "materials": 11
+  },
+  "animations": [
+    "FishingSpot_Bite",
+    "FishingSpot_Catch",
+    "FishingSpot_Idle"
+  ],
+  "authoringChecks": {
+    "nanoBananaReferenceBanked": true,
+    "customAssetSpecificTopology": true,
+    "allSemanticRootsAuthored": true,
+    "threeNamedClipsAuthored": true,
+    "creelHasRealInterior": true,
+    "fishHaveAuthoredBodiesAndFins": true,
+    "controlledFlatShading": true,
+    "completeProofPacket": true
+  },
+  "scaleChecks": [
+    {
+      "label": "clear cardinal walking lane",
+      "value": 1.35,
+      "min": 1.2,
+      "max": 2.0,
+      "passed": true
+    },
+    {
+      "label": "fishable water patch width",
+      "value": 3.1,
+      "min": 2.6,
+      "max": 3.4,
+      "passed": true
+    },
+    {
+      "label": "fishable water patch depth",
+      "value": 2.05,
+      "min": 1.6,
+      "max": 2.4,
+      "passed": true
+    },
+    {
+      "label": "water below dock",
+      "value": 0.5,
+      "min": 0.4,
+      "max": 0.6,
+      "passed": true
+    },
+    {
+      "label": "creel height",
+      "value": 0.49,
+      "min": 0.35,
+      "max": 0.65,
+      "passed": true
+    },
+    {
+      "label": "fish length",
+      "value": 0.52,
+      "min": 0.32,
+      "max": 0.65,
+      "passed": true
+    }
+  ],
+  "cardinalProofs": [],
+  "errors": []
+}

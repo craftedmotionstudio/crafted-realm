@@ -1,0 +1,10 @@
+{
+ "mesh": "gear_sqshield",
+ "itemSize": {
+  "x": 0.958,
+  "y": 1.03,
+  "z": 0.207
+ },
+ "avatarHeight": 2.31,
+ "errors": 0
+}

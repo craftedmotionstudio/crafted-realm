@@ -1,0 +1,64 @@
+{
+  "asset": "cellar_reserve_chest_v1",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "blenderVersion": "4.5.10 LTS",
+  "source": "assets/blender/props/cellar_reserve_chest_v1.blend",
+  "model": "assets/models/props/cellar_reserve_chest_v1.glb",
+  "reference": "docs/rebuild/concepts/workyard_cellar_chest_nanobanana2_v1.png",
+  "conceptTool": "Gemini 3 Pro Image / Nano Banana 2",
+  "visibleMeshObjects": 2,
+  "vertices": 604,
+  "triangles": 1034,
+  "materials": [
+    "CR Chest Aged Oak",
+    "CR Chest Charcoal Iron",
+    "CR Chest Forged Iron Face",
+    "CR Chest Interior Dark",
+    "CR Chest Muted Brass",
+    "CR Chest Oak Endgrain",
+    "CR Chest Oak Shadow",
+    "CR Chest Worn Iron Edge",
+    "CR Chest Worn Oak Face"
+  ],
+  "animations": [
+    "Chest_Open"
+  ],
+  "animationPoseDegrees": {
+    "overshoot": 60,
+    "settle": 54
+  },
+  "openPoseWallClearanceTiles": 0.263,
+  "dimensionsTiles": {
+    "width": 2.05,
+    "depth": 1.24,
+    "height": 1.5
+  },
+  "proofViews": [
+    "01_shaded",
+    "02_clay_silhouette",
+    "03_wireframe",
+    "04_material_id",
+    "05_gameplay_camera",
+    "06_open_pose",
+    "07_wall_clearance",
+    "08_closed_side_seal"
+  ],
+  "checks": {
+    "ownerApprovedNanoBananaDirection": true,
+    "customAssetSpecificTopology": true,
+    "noPrimitiveOperatorsUsedForVisibleAsset": true,
+    "controlledFlatShading": true,
+    "separateSemanticBodyAndLid": true,
+    "rearHingePivotAuthored": true,
+    "openAnimationAuthored": true,
+    "wallSafeOpenPose": true,
+    "continuousUndersideShell": true,
+    "sealedArchedEndPanels": true,
+    "sixViewProofPacket": true,
+    "wallClearanceProof": true,
+    "closedSideSealProof": true,
+    "interactionIconRenderedFromBlenderSource": true
+  },
+  "status": "Blender source and animation review candidate"
+}

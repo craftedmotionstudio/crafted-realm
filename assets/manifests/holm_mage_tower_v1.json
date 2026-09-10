@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "assetId": "holm_mage_tower_v1",
+  "assetClass": "building",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_holm_mage_tower_v1.py",
+  "source": "assets/blender/holm_mage_tower_v1.blend",
+  "model": "assets/models/buildings/holm_mage_tower_v1.glb",
+  "authoringReport": "scratchpad/mage_tower_v1/asset_report.json",
+  "pipelineResult": "scratchpad/mage_tower_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/mage_tower_v1/mage_tower_v1_exterior.png",
+    "scratchpad/mage_tower_v1/mage_tower_v1_roof_off.png",
+    "scratchpad/mage_tower_v1/mage_tower_v1_plan.png",
+    "scratchpad/mage_tower_v1/mage_tower_v1_game_camera.png"
+  ],
+  "requiredNodes": ["holm_mage_tower_v1", "roof", "west_door", "south_door", "rune_table", "spell_lectern", "tower_register",
+    "bookshelf", "orrery", "spiral_stair", "casting_socket"],
+  "requiredAnimations": [],
+  "scaleContract": {
+    "referenceHeightTiles": 1.85,
+    "checks": [
+      {"label": "door opening height", "reportPath": "humanScaleContract.doorOpeningHeight", "min": 2.4, "max": 3.3},
+      {"label": "rune table height", "reportPath": "humanScaleContract.runeTableHeight", "min": 0.8, "max": 1.1},
+      {"label": "lectern desk height", "reportPath": "humanScaleContract.lecternDeskHeight", "min": 1.0, "max": 1.4},
+      {"label": "upper floor height", "reportPath": "humanScaleContract.upperFloorHeight", "min": 3.4, "max": 4.6},
+      {"label": "tower wall height", "reportPath": "humanScaleContract.towerWallHeight", "min": 7.0, "max": 8.4},
+      {"label": "spire peak height", "reportPath": "humanScaleContract.spirePeakHeight", "min": 10.0, "max": 13.0}
+    ]
+  },
+  "budgets": {"maxFileBytes": 1800000, "maxTriangles": 20000, "maxPrimitives": 100, "maxMaterials": 50}
+}

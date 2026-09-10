@@ -1,0 +1,24 @@
+{
+  "asset": "workyard_waterworks_u4_v1",
+  "object": "Pulley animation keyframes, shot from over the water so the travel is never occluded",
+  "date": "2026-07-15",
+  "lens": "Shared rig, orthographic lens, one fixed camera (8.6, 5.6, 3.8) for all five moments, ortho scale 5.2",
+  "clips": {
+    "Pulley_Idle": {"seconds": 3.0, "content": "restrained pendulum sway of the hanging bucket only"},
+    "Pulley_Lower": {"seconds": 2.0, "waterContactNormalized": 0.8542, "content": "crank/drum rotate, rope lengthens, bucket descends to the water-contact socket"},
+    "Pulley_Lift": {"seconds": 2.3333, "commitNormalized": 0.9286, "content": "reverse travel ending with a micro-settle at the taut rest hang"}
+  },
+  "views": {
+    "idle": {"verdict": "PASS", "notes": "Sway is subtle and pivots at the hook; rope and frame stay still."},
+    "lowering": {"verdict": "PASS", "notes": "Mid-travel: rope visibly longer, crank rotated, bucket clear of deck and ledge; rope, hook, and bail remain attached (linear-linked channels)."},
+    "water_contact": {"verdict": "PASS", "notes": "Bucket unmistakably in the water with the waterline crossing its lower staves; contact matches the water_contact_socket at local z -0.50."},
+    "lifting": {"verdict": "PASS", "notes": "Reverse travel mirrors the descent with no rope divergence and no crank/crossbeam contact after the outboard shift."},
+    "settled": {"verdict": "PASS", "notes": "Bucket returns to the taut rest hang at 0.88 with the micro-settle; crank returns to zero; nothing clips."}
+  },
+  "defectsFoundAndFixed": [
+    "The water-contact proof was first shot from the deck side, where the deck edge occluded the moment of contact — reshot from over the water.",
+    "The exact contact keyframe read as a hover (base kissing the surface); the banked proof uses the fully dipped final Lower frame so contact is unmistakable.",
+    "Clearance math showed the crank grip could graze the crossbeam end mid-rotation; the crank arm and grip moved outboard."
+  ],
+  "verdict": "PASS"
+}

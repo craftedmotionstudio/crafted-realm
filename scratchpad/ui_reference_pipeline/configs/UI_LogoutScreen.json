@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 LogoutScreen",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_LogoutScreen.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/logout.png",
+  "codex": 9.0,
+  "review_note": "Logout is now an intentional save-first screen rather than a stray settings button.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_LogoutScreen_v2_compare.png"
+}

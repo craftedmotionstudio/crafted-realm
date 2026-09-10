@@ -1,0 +1,13 @@
+{
+  "name": "Mine Gatehouse v1 — Exterior vs Tutorial Island mining reference",
+  "osrs": "Bible_References/Tutorial_Island_Mining_Cave_&_Mining_Rocks.jpg",
+  "cr": "scratchpad/mine_gatehouse_v1/mine_gatehouse_v1_game_camera.png",
+  "left_label": "TUTORIAL ISLAND MINING REFERENCE (LADDER, CAVE)",
+  "right_label": "BLENDER 4.5 RENDER, ELEVATED GAME CAMERA",
+  "subtitle": "Pyramid-roofed gate tower over the road passage, gabled winch house with louvred dormer, half-octagonal ore bay, gate lantern",
+  "codex": 8.5,
+  "review_note": "The gatehouse reads as a fourth distinct composition: the tallest roof on the island so far, a road that genuinely passes through twin doors under a portcullis, and a lower working house with a dormer over the head-frame. Fieldstone base, timber bays, shuttered windows, fitted doors and the lantern finial keep the family. Held below 9.0: the pyramid courses are still flat slabs, the gate leaves lack iron studs, and the winch house gable end is plain plaster without a hoist beam or loading door.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Add a hoist beam and hay-door to the winch house gable, stud the gate leaves, and stagger the pyramid courses into stepped shingles.",
+  "out": "Bible_References/Complete/_compare/holm_mine_gatehouse_v1_exterior_compare.png"
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><title>Variant review sheet</title>
+<style>
+ html,body{margin:0;background:#2b251c;color:#e7dcc4;font:12px Verdana,sans-serif;}
+ h1{font-size:15px;color:#ffd24a;padding:8px;}
+ .row{display:flex;align-items:stretch;border-bottom:1px solid #1c1a14;}
+ .lbl{width:110px;display:flex;align-items:center;padding:0 8px;color:#ffd24a;font-weight:bold;font-size:12px;background:#1c1a14;}
+ .cell{width:150px;height:150px;position:relative;background:#6b8e3d;border-left:1px solid #2b251c;display:flex;align-items:center;justify-content:center;}
+ .cell .t{position:absolute;top:3px;left:4px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;padding:1px 5px;border-radius:3px;}
+ .cell.osrs .t{background:#1c1a14;color:#9ad06a;}
+ .cell .num{position:absolute;top:3px;left:4px;background:#1c1a14;color:#ffd24a;font-weight:bold;font-size:13px;padding:1px 7px;border-radius:9px;}
+ .cell img{max-width:88%;max-height:88%;} .cell canvas{width:150px;height:150px;}
+</style></head>
+<body>
+<h1>Variant review — OSRS in-game model (left) vs 5 candidate directions (1–5)</h1>
+<div id="sheet"></div>
+<script src="../src/proc_variants.js"></script>
+<script type="importmap">{ "imports": { "three":"https://unpkg.com/three@0.160.0/build/three.module.js" } }</script>
+<script type="module">
+import * as THREE from 'three';
+const stdMat=c=>new THREE.MeshStandardMaterial({color:c,flatShading:true,roughness:1,metalness:0});
+const V=window.makeProcVariants(THREE,stdMat);
+const SR=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true}); SR.setSize(280,280); SR.setPixelRatio(2);
+function render(canvas,obj){
+  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x6b8e3d);
+  scene.add(new THREE.HemisphereLight(0xffffff,0x445533,0.95));
+  const sun=new THREE.DirectionalLight(0xffffff,1.0); sun.position.set(3,6,4); scene.add(sun);
+  let box=new THREE.Box3().setFromObject(obj); const sz=box.getSize(new THREE.Vector3()),ctr=box.getCenter(new THREE.Vector3());
+  obj.position.sub(ctr); scene.add(obj);
+  const H0=Math.max(sz.x,sz.y,sz.z)*0.62||0.5;
+  const cam=new THREE.OrthographicCamera(-H0,H0,H0,-H0,0.01,100);
+  cam.position.copy(new THREE.Vector3(0.5,0.6,1).normalize().multiplyScalar(5)); cam.lookAt(0,0,0);
+  SR.render(scene,cam); const cx=canvas.getContext('2d'); cx.drawImage(SR.domElement,0,0,canvas.width,canvas.height);
+}
+const sheet=document.getElementById('sheet');
+for(const key of Object.keys(V)){
+  const row=document.createElement('div'); row.className='row';
+  row.innerHTML=`<div class="lbl">${key}</div><div class="cell osrs"><span class="t">OSRS</span><img src="../art_refs/osrs/${key}_osrs.png" onerror="this.style.display='none'"></div>`+
+    V[key].map((_,i)=>`<div class="cell" data-i="${i}"><span class="num">${i+1}</span><canvas width="150" height="150"></canvas></div>`).join('');
+  sheet.appendChild(row);
+  V[key].forEach((build,i)=>{ const cv=row.querySelector(`.cell[data-i="${i}"] canvas`); try{ render(cv, build()); }catch(e){ console.error('ERR',key,i,e); cv.replaceWith(Object.assign(document.createElement('span'),{textContent:'ERR',style:'color:#e86a6a'})); } });
+}
+window.__sheetReady=true;
+</script></body></html>

@@ -1,0 +1,181 @@
+/* ============ veyhollow_town — the walled Commons, rebuilt to the bible map ============
+ * Pass-006 on the wiped hub: the map's most iconic silhouette — a circular stone wall
+ * around Veyhollow Commons with gates wherever the roads pass, and the map's own icon
+ * services inside (bank, general store, smithy+furnace, altar, rune shop, cooking
+ * range), every building furnished via Buildkit presets. The Wayfarer's Rest returns
+ * as the town pub (2 storeys — the pipeline reference lives on, now map-true).
+ * NO NPCs — buildout law (2026-07-03): folk are placed deliberately, later.
+ */
+(function(){
+  const R=26;                                  // wall ring radius around the Commons (0,0)
+  function build(){
+    if(typeof Buildkit==='undefined' || typeof makeStoneWallRun!=='function') return false;
+    if(typeof scene==='undefined' || typeof WORLD==='undefined' || !WORLD.grounds || !WORLD.grounds.length) return false;
+    if(typeof running==='undefined' || !running) return false;
+    if(typeof groundY!=='function' || typeof pathDist!=='function') return false;
+
+    /* ---- the wall: 56 short runs round the circle — the map's ring is COMPLETE.
+     * A run near a road is a gate (short segs = narrow gates, never a torn arc);
+     * a run over the pond inlet marches across on a deep stone foundation. ---- */
+    const SEGS=56, gateAngles=[];
+    for(let i=0;i<SEGS;i++){
+      const a1=i/SEGS*Math.PI*2, a2=(i+1)/SEGS*Math.PI*2;
+      const x1=Math.cos(a1)*R, z1=Math.sin(a1)*R, x2=Math.cos(a2)*R, z2=Math.sin(a2)*R;
+      const mx=(x1+x2)/2, mz=(z1+z2)/2;
+      if(pathDist(mx,mz)<2.8){ gateAngles.push(Math.atan2(mz,mx)); continue; }  // the road walks through
+      makeStoneWallRun(x1,z1, x2,z2);
+      // where the ground dips to water under the run, fill a foundation pier beneath
+      const ys=[[x1,z1],[mx,mz],[x2,z2]].map(([px,pz])=>{ const g0=gy(px,pz); return g0===null?0:g0; });
+      const lo=Math.min(...ys), c0=gy(mx,mz)||0;
+      if(lo < c0-0.4){
+        const len=Math.hypot(x2-x1,z2-z1), depth=(c0-lo)+0.8;
+        const pier=new THREE.Mesh(new THREE.BoxGeometry(len,depth,1.0),
+          new THREE.MeshLambertMaterial({map:(typeof TEX!=='undefined'&&TEX.stone)||null, color:0xa8a298}));
+        pier.position.set(mx, c0-depth/2+0.2, mz);
+        pier.rotation.y=-Math.atan2(z2-z1,x2-x1);
+        pier.receiveShadow=true; scene.add(pier);
+      }
+    }
+    // merge adjacent gate segments into single gates, then dress each once
+    const gates=[];
+    gateAngles.sort((a,b)=>a-b).forEach(a=>{
+      const g0=gates.find(g=>Math.abs(g-a)<0.4);
+      if(g0===undefined) gates.push(a);
+    });
+    gates.forEach(a=>{
+      const gx=Math.cos(a)*R, gz=Math.sin(a)*R;
+      const north = Math.abs(gx)<8 && gz<0, east = gx>8 && Math.abs(gz)<8;
+      if(north||east){
+        makeGateTower(Math.cos(a-0.14)*R, Math.sin(a-0.14)*R);
+        makeGateTower(Math.cos(a+0.14)*R, Math.sin(a+0.14)*R);
+      } else if(typeof makeTorch==='function'){
+        makeTorch(Math.cos(a-0.1)*R, Math.sin(a-0.1)*R);
+        makeTorch(Math.cos(a+0.1)*R, Math.sin(a+0.1)*R);
+      }
+    });
+
+    /* ---- the heart: the town square is its own build (src/town_square.js) —
+     * flagstone plaza, quatrefoil fountain, canvas market stalls (pass 014,
+     * styled on Bible_References/Town_Square.jpg) ---- */
+
+    /* ---- the map-icon services, furnished (Buildkit presets) ---- */
+    // Bank of Veyhollow (map: bank icon) — a GRAND two-storey stone hall, the
+    // reference square's focal-building scale (user ask 2026-07-03)
+    Buildkit.house({x:13, z:-12.5, w:10, d:7, floors:2, doorSide:'W',
+      color:0xb4b0a8, roofColor:0x55636e, roof:'gable', interior:'bank', upstairs:'bedroom',
+      shellOpts:{wall:'stone'}});
+    if(typeof makeBankBooth==='function') makeBankBooth(11,-12.5, Math.PI/2);   // inside the hall — never on the doorstep
+    // the general store (map: general store icon) — big two-storey trading house
+    Buildkit.house({x:-13, z:-12, w:9, d:6.5, floors:2, doorSide:'E',
+      color:0xbfa87f, roofColor:0x6b7a8f, roof:'gable', interior:'shop', upstairs:'bedroom'});
+    // Stonereach Smithy (map: smithing + furnace icons)
+    Buildkit.house({x:13, z:11, w:6, d:5, doorSide:'N',
+      color:0xa89884, roofColor:0x3e3a36, roof:'gable', interior:'smithy'});
+    if(typeof makeFurnace==='function') makeFurnace(17.5,14);
+    makeGroundPatch(15,13.6, 2.6, 0x4e4640);           // the cinder yard
+    // Glimmerveil Arcana, the rune shop (map: magic shop icon)
+    Buildkit.house({x:-13, z:12, w:5.5, d:4.5, doorSide:'E',
+      color:0xb0a8c4, roofColor:0x4a3a7a, roof:'gable', interior:'shop'});
+    // the Chapel of the Dawn (map: altar icon) — the Church_Exterior_Option1 reference
+    // build when loaded (integration 2026-07-06): walk-in stone nave, bell tower + open
+    // double door facing the plaza road (rot -PI/2 → entrance south), altar at the far
+    // (north) end like OSRS churches. Buildkit shell stays as the fallback.
+    if(typeof makeRefChurch==='function'){
+      const church=makeRefChurch(-6, -20, -Math.PI/2);
+      scene.add(church);
+      // the church footprint (10.5×6 + tower) is far bigger than the old 6×5 chapel —
+      // pre-existing scatter (a cart, bushes, two trees) ends up TRAPPED inside the
+      // nave with live colliders. Sweep the footprint: scene dressing out, matching
+      // clickables/resources/colliders out (church walls + altar are preserved by
+      // identity/strict-inner bounds). Re-run delayed for late-booting prop files.
+      const sweepChurchFootprint=()=>{
+        const inNave =(px,pz)=> px>-9.3 && px<-2.7 && pz>-25.6 && pz<-14.4;
+        const inTower=(px,pz)=> px>-7.8 && px<-4.2 && pz>-14.4 && pz<-11.0;
+        const hit=(px,pz)=> inNave(px,pz)||inTower(px,pz);
+        const removed=[];
+        for(let i=scene.children.length-1;i>=0;i--){
+          const c=scene.children[i];
+          if(c===church || c===player || !c.position) continue;
+          if(c.userData && c.userData.kind==='altar') continue;
+          if(c.type!=='Group' && c.type!=='Mesh' && c.type!=='PointLight') continue;
+          if(!hit(c.position.x, c.position.z)) continue;
+          scene.remove(c); removed.push(c);
+        }
+        if(removed.length){
+          const gone=o=>removed.indexOf(o)>=0;
+          // prune IN PLACE — other systems hold references to these arrays
+          const prune=(arr,drop)=>{ if(!arr) return; for(let i=arr.length-1;i>=0;i--) if(drop(arr[i])) arr.splice(i,1); };
+          prune(WORLD.clickables, o=>gone(o));
+          prune(WORLD.resources,  o=>gone(o)||gone(o&&o.mesh));
+          prune(WORLD.fires,      o=>gone(o));
+          // strict-inner collider purge: wall/door colliders sit ON the wall lines, outside these bounds
+          prune(WORLD.colliders, cl=>
+            (cl.x>-8.4&&cl.x<-3.6&&cl.z>-24.7&&cl.z<-15.3)||(cl.x>-6.9&&cl.x<-5.1&&cl.z>-14.0&&cl.z<-12.6));
+          if(typeof CollisionGrid!=='undefined' && CollisionGrid.baked) CollisionGrid.rebakeArea(-6,-19,12);
+        }
+        return removed.length;
+      };
+      sweepChurchFootprint();
+      setTimeout(sweepChurchFootprint, 6000);
+      if(typeof makeAltar==='function') setTimeout(()=>makeAltar(-6, -23.5), 6100);   // after the final sweep
+      if(typeof CollisionGrid!=='undefined' && CollisionGrid.baked) CollisionGrid.rebakeArea(-6,-20,11);
+    } else {
+      Buildkit.house({x:-7, z:-19, w:6, d:5, doorSide:'S',
+        color:0xd8d2c4, roofColor:0x6b6458, roof:'gable', interior:'house'});
+      if(typeof makeAltar==='function') makeAltar(-7,-20.2);
+    }
+    // the Wayfarer's Rest — the reference build returns as the town pub, map-true
+    Buildkit.house({x:8, z:19, w:7, d:6, floors:2, doorSide:'N',
+      color:0xd8cdb4, roofColor:0x8a5a3a, roof:'gable', interior:'pub', upstairs:'bedroom'});
+    // the Hearthhouse kitchen (map: cooking range icon)
+    Buildkit.house({x:-4, z:17, w:5, d:4, doorSide:'N',
+      color:0xc9b28a, roofColor:0xc77b4a, roof:'gable', interior:'house'});
+    if(typeof makeRange==='function') makeRange(-6.8,19.2);
+
+    /* ---- perimeter homes: housing frames the civic core instead of filling it.
+     * The three old inner-ring cottages at (-6,8), (4,10), and (10,3) made the
+     * Hollow Well read as another prop between prefab roofs. Their pads now belong
+     * to the square composer: notices, public hearth, seating, planting, and clear
+     * sightlines. These three distinct homes retain residential life at the wall. ---- */
+    Buildkit.house({x:-20, z:0,   w:5,   d:6.5, doorSide:'S', color:0xd0bc94, roofColor:0x7a5838,
+      roof:'gable', interior:'house', shellOpts:{chimney:true}});                  // the west long-house
+    Buildkit.house({x:-13.5, z:1, w:5.5, d:4.5, floors:2, doorSide:'E', color:0xc9b28a, roofColor:0x6e4a2e,
+      roof:'gable', interior:'house', upstairs:'bedroom'});                        // the tall house
+    Buildkit.house({x:5,   z:-19, w:6.5, d:5,   doorSide:'E', color:0xd8cdb4, roofColor:0x6b7a8f,
+      roof:'hip', interior:'house', shellOpts:{tall:true}});                       // the steep-hipped home
+
+    /* ---- market flavour by the plaza (stalls live in town_square.js now) ---- */
+    if(typeof makeCrateCluster==='function'){ makeCrateCluster(9,-16); makeCrateCluster(-10,-6); }
+    // a fenced cottage garden (Town_Square.jpg's fenced plots) — rail fence, tilled bed, flowers
+    if(typeof makeGardenPlot==='function') makeGardenPlot(18, -3, 3.0);
+    if(typeof makeSignpost==='function'){
+      makeSignpost(4,-27.5, [{text:'The Scarlands', ang:Math.PI}, {text:'Veyhollow', ang:0}]);
+      makeSignpost(27.5,6, [{text:'Wardenholm Keep', ang:0.1}, {text:'Veyhollow', ang:2.8}]);
+    }
+    /* ---- THE PLANNED REPOPULATION (documented, NOT live) ----
+     * User decision 2026-07-03: the world stays depopulated for now. These placements
+     * are kept as the plan of record — every soul at a post, ids matching the dialogue
+     * registry — but they run WITHOUT the force channel, so the closed worldNpcSpawns
+     * gate suppresses them. When the user green-lights repopulation, restore
+     * `spawnNpc.force = true` around this block. */
+    if(typeof spawnFriendly==='function' && typeof spawnNpc==='function'){
+      try{
+        spawnFriendly('banker','Banker Tilly', 10.5,-12, 0x39536b,'👩');            // behind the great counter
+        spawnFriendly('merchant','Merchant Saff', -11,-12, 0x8a3d68,'🧔');          // the general store
+        spawnFriendly('ferra','Ferra the Smith', 13,10, 0x5a4a3e,'👩‍🏭',{hairLong:true});  // at her forge
+        spawnFriendly('arcanist','Sage Imbrel', -12.5,12, 0x4a3a7a,'🧙',{robe:0x4a3a7a, hat:'wizard'}); // the rune shop
+        spawnFriendly('friar','Friar Aldous', -7,-18, 0x6b5a3a,'🙏',{robe:0x6b5a3a}); // beside the altar
+        spawnFriendly('barkeep','Barkeep Dunn', 7,17.5, 0x6e4a2e,'🍺');             // the Wayfarer's Rest
+        spawnFriendly('maela','Warden Maela', 3,-4, 0x6b1f1f,'👮');                 // watching the plaza
+        spawnFriendly('greeter','Old Pell', 2,-22, 0x4a6b3a,'🧓');                  // by the north gate
+        // townsfolk about the square — life, not clutter
+        spawnNpc('wanderer', -3, 4); spawnNpc('wanderer', 6, -5);
+        spawnNpc('monk', -9, -21);                                                   // the chapel's brother
+      } finally { /* force channel intentionally NOT used — see note above */ }
+    }
+    if(typeof UI!=='undefined' && UI.chat) UI.chat('[MAP] Veyhollow Commons stands walled — the map\'s ring, gates on every road. The folk come later.','sys');
+    return true;
+  }
+  const iv=setInterval(()=>{ try{ if(build()) clearInterval(iv); }
+    catch(e){ console.error('[veyhollow_town]', e); clearInterval(iv); } }, 1800);
+})();

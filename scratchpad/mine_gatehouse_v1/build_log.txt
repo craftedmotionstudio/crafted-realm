@@ -1,0 +1,169 @@
+MINE_GATEHOUSE_V1_STAGE floors
+MINE_GATEHOUSE_V1_STAGE shell
+MINE_GATEHOUSE_V1_STAGE furnishings
+MINE_GATEHOUSE_V1_STAGE roof
+MINE_GATEHOUSE_V1_STAGE consolidate
+MINE_GATEHOUSE_V1_STAGE render
+Blender 4.5.10 LTS (hash 6dc0b208d1b5 built 2026-05-19 01:33:42)
+Fra:1 Mem:75.66M (Peak 75.66M) | Time:00:01.33 | Rendering 1 / 64 samples
+Fra:1 Mem:75.66M (Peak 75.66M) | Time:00:01.46 | Rendering 25 / 64 samples
+Fra:1 Mem:75.66M (Peak 75.66M) | Time:00:01.56 | Rendering 50 / 64 samples
+Fra:1 Mem:75.66M (Peak 75.66M) | Time:00:01.61 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\mine_gatehouse_v1\mine_gatehouse_v1_exterior.png'
+Time: 00:01.95 (Saving: 00:00.28)
+
+Fra:1 Mem:75.16M (Peak 75.16M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:75.16M (Peak 75.16M) | Time:00:00.17 | Rendering 25 / 64 samples
+Fra:1 Mem:75.16M (Peak 75.16M) | Time:00:00.26 | Rendering 50 / 64 samples
+Fra:1 Mem:75.16M (Peak 75.16M) | Time:00:00.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\mine_gatehouse_v1\mine_gatehouse_v1_roof_off.png'
+Time: 00:00.52 (Saving: 00:00.16)
+
+Fra:1 Mem:75.16M (Peak 75.16M) | Time:00:00.09 | Rendering 1 / 64 samples
+Fra:1 Mem:75.16M (Peak 75.16M) | Time:00:00.21 | Rendering 25 / 64 samples
+Fra:1 Mem:75.16M (Peak 75.16M) | Time:00:00.34 | Rendering 50 / 64 samples
+Fra:1 Mem:75.16M (Peak 75.16M) | Time:00:00.41 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\mine_gatehouse_v1\mine_gatehouse_v1_plan.png'
+Time: 00:00.64 (Saving: 00:00.18)
+
+Fra:1 Mem:75.66M (Peak 75.66M) | Time:00:00.10 | Rendering 1 / 64 samples
+Fra:1 Mem:75.66M (Peak 75.66M) | Time:00:00.19 | Rendering 25 / 64 samples
+Fra:1 Mem:75.66M (Peak 75.66M) | Time:00:00.28 | Rendering 50 / 64 samples
+Fra:1 Mem:75.66M (Peak 75.66M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\mine_gatehouse_v1\mine_gatehouse_v1_game_camera.png'
+Time: 00:00.50 (Saving: 00:00.14)
+
+Info: Saved as "holm_mine_gatehouse_v1.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 4.5\4.5\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+09:49:03 | INFO: Starting glTF 2.0 export
+09:49:03 | INFO: Extracting primitive: Cylinder
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.303
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.294
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.295
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.409
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.408
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.407
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.406
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cylinder.015
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.435
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cylinder.014
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.436
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.432
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.431
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cylinder.008
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.414
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.413
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cylinder.007
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.415
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.416
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.402
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.388
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.403
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.404
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.389
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.387
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.405
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cylinder.001
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.315
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.306
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.307
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.475
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.476
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.559
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.478
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.560
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.561
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.554
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.385
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.384
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.383
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cylinder.006
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.368
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cylinder.003
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.001
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.002
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.441
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cylinder.019
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: BayFloorMesh
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.442
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.334
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.216
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.215
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.439
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.443
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.140
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.042
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.139
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.420
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.419
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.417
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Extracting primitive: Cube.430
+09:49:03 | INFO: Primitives created: 1
+09:49:03 | INFO: Finished glTF 2.0 export in 0.17960524559020996 s
+
+MINE_GATEHOUSE_V1_STAGE done
+MINE_GATEHOUSE_V1_READY C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\assets\models\buildings\holm_mine_gatehouse_v1.glb
+
+Blender quit
+BLENDER EXIT 0

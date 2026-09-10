@@ -1,0 +1,73 @@
+{
+  "asset": "cellar_traversal_pair_v2",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "blenderVersion": "4.5.10 LTS",
+  "source": "assets/blender/props/cellar_traversal_pair_v2.blend",
+  "model": "assets/models/props/cellar_traversal_pair_v2.glb",
+  "references": [
+    "docs/rebuild/concepts/cellar_floor_hatch_nanobanana2_v1.png",
+    "docs/rebuild/concepts/cellar_simple_wall_ladder_nanobanana2_v1.png"
+  ],
+  "conceptTool": "Gemini 3 Pro Image / Nano Banana 2",
+  "visibleMeshObjects": 3,
+  "vertices": 890,
+  "triangles": 1608,
+  "materials": [
+    "CR Traversal Charcoal Iron",
+    "CR Traversal Dark Worn Oak",
+    "CR Traversal Desaturated Oak",
+    "CR Traversal Iron Edge",
+    "CR Traversal Recess Darkness",
+    "CR Traversal Worn Oak Face"
+  ],
+  "animations": [
+    "Hatch_Open"
+  ],
+  "dimensionsTiles": {
+    "surface": {
+      "width": 1.223,
+      "depth": 1.828,
+      "height": 1.46
+    },
+    "cellar": {
+      "width": 1.061,
+      "depth": 0.578,
+      "height": 3.022
+    }
+  },
+  "humanScaleContract": {
+    "standingPlayerHeight": 1.9,
+    "surfaceOpeningWidth": 0.96,
+    "surfaceOpeningDepth": 1.02,
+    "surfaceRailRise": 0.92,
+    "cellarRailRise": 3.0,
+    "cellarClearRungWidth": 0.68,
+    "cellarRungSpacing": 0.31,
+    "cellarRungCount": 9
+  },
+  "proofViews": [
+    "01_surface_gameplay",
+    "02_surface_construction",
+    "03_surface_wireframe",
+    "04_cellar_gameplay",
+    "05_cellar_construction",
+    "06_cellar_wireframe"
+  ],
+  "checks": {
+    "twoPurposeBuiltArchitecturalForms": true,
+    "noFreestandingPortal": true,
+    "noDecorativeRungBolts": true,
+    "flushSurfaceFrame": true,
+    "trueRecessedSurfaceShaft": true,
+    "surfaceTerrainOccluder": true,
+    "cellarHasNoVisibleHatchOrRecess": true,
+    "cellarUsesOneWoodMaterial": true,
+    "animatedHatchLid": true,
+    "controlledFlatShading": true,
+    "runtimeGroupedByPurpose": true,
+    "sixViewProofPacket": true
+  },
+  "designRevision": 4,
+  "status": "owner-feedback traversal rework candidate"
+}

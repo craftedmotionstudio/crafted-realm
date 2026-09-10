@@ -1,0 +1,52 @@
+{
+  "asset": "guide_hall_art_anchor",
+  "status": "visual-review",
+  "scope": [
+    "wall/eave",
+    "fitted entrance",
+    "recessed stained glass",
+    "records workstation"
+  ],
+  "metrics": {
+    "meshObjects": 539,
+    "trianglesBeforeMerge": 23425,
+    "materials": 29,
+    "materialNames": [
+      "CR Aged Brass",
+      "CR Book Ember",
+      "CR Book Moss",
+      "CR Book Tide",
+      "CR Candle Flame",
+      "CR Fired Roof Shade",
+      "CR Fired Roof Sun",
+      "CR Fired Roof Umber",
+      "CR Forged Iron",
+      "CR Glass Deepwater",
+      "CR Glass Ember",
+      "CR Glass Holm Teal",
+      "CR Glass Waygold",
+      "CR Holm Fieldstone",
+      "CR Holm Fieldstone Light",
+      "CR Holm Fieldstone Warm",
+      "CR Holm Grass",
+      "CR Holm Oak",
+      "CR Holm Oak Charred",
+      "CR Holm Oak Worn",
+      "CR Holm Path",
+      "CR Ink",
+      "CR Lime Mortar",
+      "CR Limewash Aged",
+      "CR Limewash Sun",
+      "CR Limewash Warm",
+      "CR Parchment",
+      "CR Records Blue",
+      "CR Records Red"
+    ]
+  },
+  "renders": [
+    "guide_hall_anchor_exterior.png",
+    "guide_hall_anchor_gameplay.png",
+    "guide_hall_anchor_door_window.png",
+    "guide_hall_anchor_interior.png"
+  ]
+}

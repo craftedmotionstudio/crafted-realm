@@ -1,0 +1,201 @@
+HOLM_BANK_V1_STAGE floors
+HOLM_BANK_V1_STAGE shell
+HOLM_BANK_V1_STAGE furnishings
+HOLM_BANK_V1_STAGE roof
+HOLM_BANK_V1_STAGE consolidate
+HOLM_BANK_V1_STAGE render
+Blender 4.5.10 LTS (hash 6dc0b208d1b5 built 2026-05-19 01:33:42)
+Fra:1 Mem:77.74M (Peak 78.00M) | Time:00:01.27 | Rendering 1 / 64 samples
+Fra:1 Mem:77.74M (Peak 78.00M) | Time:00:01.41 | Rendering 25 / 64 samples
+Fra:1 Mem:77.74M (Peak 78.00M) | Time:00:01.53 | Rendering 50 / 64 samples
+Fra:1 Mem:77.74M (Peak 78.00M) | Time:00:01.60 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\holm_bank_v1\holm_bank_v1_exterior.png'
+Time: 00:01.97 (Saving: 00:00.32)
+
+Fra:1 Mem:77.16M (Peak 77.16M) | Time:00:00.10 | Rendering 1 / 64 samples
+Fra:1 Mem:77.16M (Peak 77.16M) | Time:00:00.19 | Rendering 25 / 64 samples
+Fra:1 Mem:77.16M (Peak 77.16M) | Time:00:00.31 | Rendering 50 / 64 samples
+Fra:1 Mem:77.16M (Peak 77.16M) | Time:00:00.36 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\holm_bank_v1\holm_bank_v1_roof_off.png'
+Time: 00:00.57 (Saving: 00:00.16)
+
+Fra:1 Mem:77.16M (Peak 77.16M) | Time:00:00.09 | Rendering 1 / 64 samples
+Fra:1 Mem:77.16M (Peak 77.16M) | Time:00:00.22 | Rendering 25 / 64 samples
+Fra:1 Mem:77.16M (Peak 77.16M) | Time:00:00.35 | Rendering 50 / 64 samples
+Fra:1 Mem:77.16M (Peak 77.16M) | Time:00:00.43 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\holm_bank_v1\holm_bank_v1_plan.png'
+Time: 00:00.65 (Saving: 00:00.17)
+
+Fra:1 Mem:77.74M (Peak 77.74M) | Time:00:00.11 | Rendering 1 / 64 samples
+Fra:1 Mem:77.74M (Peak 77.74M) | Time:00:00.20 | Rendering 25 / 64 samples
+Fra:1 Mem:77.74M (Peak 77.74M) | Time:00:00.31 | Rendering 50 / 64 samples
+Fra:1 Mem:77.74M (Peak 77.74M) | Time:00:00.36 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\holm_bank_v1\holm_bank_v1_game_camera.png'
+Time: 00:00.54 (Saving: 00:00.14)
+
+Info: Saved as "holm_bank_v1.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 4.5\4.5\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+10:08:42 | INFO: Starting glTF 2.0 export
+10:08:42 | INFO: Extracting primitive: Cylinder.005
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.385
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.393
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.392
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.384
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.391
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.394
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cylinder.002
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.372
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.380
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.379
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.371
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.378
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.381
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.359
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.368
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.367
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.411
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.407
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.405
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.406
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cylinder
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.291
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.282
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.283
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cylinder.014
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cylinder.008
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.401
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.402
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.396
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.395
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.404
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.403
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cylinder.011
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.397
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cylinder.017
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.619
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.623
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.622
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.636
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.637
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.466
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.638
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.639
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.618
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cylinder.001
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.303
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.294
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.295
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.308
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.307
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.454
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.451
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: BayFloorMesh
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.453
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.449
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.306
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.041
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.042
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.457
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cylinder.021
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.337
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.228
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.227
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.348
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.458
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.233
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.461
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.226
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.422
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.420
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.421
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.417
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.419
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.416
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.413
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Extracting primitive: Cube.414
+10:08:42 | INFO: Primitives created: 1
+10:08:42 | INFO: Finished glTF 2.0 export in 0.21597647666931152 s
+
+HOLM_BANK_V1_STAGE done
+HOLM_BANK_V1_READY C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\assets\models\buildings\holm_bank_v1.glb
+
+Blender quit
+BLENDER EXIT 0

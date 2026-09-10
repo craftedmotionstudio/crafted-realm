@@ -1,0 +1,13 @@
+{
+  "name": "Cellar Floor Hatch v2 - Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/cellar_floor_hatch_nanobanana2_v1.png",
+  "cr": "scratchpad/cellar_traversal_pair_v2/02_surface_construction.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Original low-poly concept vs scale-locked custom-topology floor architecture",
+  "codex": 9.0,
+  "review_note": "The reworked Blender form preserves the flush one-tile opening, true dark shaft, short emerging rails, descending rungs, six hand-cut lid planks and restrained ironwork. The more upright lid is an intentional gameplay-camera change: its pale underside, twin forged bands and pegged rim now read instantly instead of collapsing into a small black grate.",
+  "verdict": "APPROVED FOR RUNTIME PLACEMENT",
+  "improve": "Verify the upright lid remains behind the opening and the fitted black shaft stays grass-free in the live Workyard camera.",
+  "out": "Bible_References/Complete/_compare/cellar_floor_hatch_v2_concept_compare.png"
+}

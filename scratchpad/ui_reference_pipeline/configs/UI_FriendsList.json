@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 FriendsList",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_FriendsList.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/friends.png",
+  "codex": 9.0,
+  "review_note": "Friends now owns a concise status surface instead of sharing the settings pane.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_FriendsList_v2_compare.png"
+}

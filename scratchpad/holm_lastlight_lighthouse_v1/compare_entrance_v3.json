@@ -1,0 +1,10 @@
+{
+  "name":"Lastlight Entrance — Reference Gate",
+  "osrs":"Bible_References/Lighthouse_entrance.jpg",
+  "cr":"scratchpad/holm_lastlight_lighthouse_v1/entrance_close.png",
+  "codex":9.3,
+  "review_note":"The authored arched oak leaf is tightly fitted into the curved pale shell with full jambs, lintel, iron straps and handle; its scale remains deliberately readable beside the player instead of becoming an oversized gate.",
+  "verdict":"PASS — fitted entrance and curved-wall relationship accepted",
+  "improve":"Live pointer gate verifies the hinge animation and walk-through timing.",
+  "out":"Bible_References/Complete/_compare/holm_lastlight_entrance_v3_compare.png"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "UI — Quest Detail Parchment",
+  "subtitle": "Bible quest-scroll reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_QuestScrollScreen.jpg",
+  "cr": "scratchpad/ui_quest_scroll_live_v3.png",
+  "codex": 9.1,
+  "review_note": "The quest journal now opens a dedicated warm parchment page with a red serif title, giver and difficulty header, readable journal steps, and compact icon-led rewards while preserving the existing quest and tracking systems.",
+  "verdict": "accepted UI direction",
+  "improve": "Future authored quests may add small illustrated chapter marks; the launch presentation contract is complete.",
+  "out": "Bible_References/Complete/_compare/UI_QuestScrollScreen_v3_compare.png"
+}

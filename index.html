@@ -41,24 +41,56 @@
     background:linear-gradient(90deg,#4a443a,#8a8270 50%,#3a352c);}
   .pillar:after{content:'';position:absolute;top:0;bottom:0;left:18px;width:10px;
     background:rgba(0,0,0,0.25);box-shadow:34px 0 rgba(0,0,0,0.25);}
-  .pl{left:7vw;} .pr{right:7vw;} .pillar{z-index:2;}
+  .pl{left:7vw;} .pr{right:7vw;} .pillar{z-index:2;display:none;}  /* pillars retired — too cheesy */
+  /* optional looping video background for the login screen (covers, sits above the static image) */
+  #login-bgvideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;
+    opacity:0;transition:opacity .8s ease;pointer-events:none;}
+  /* distant castle torches that actually flicker, overlaid on the painted background */
+  #castle-flames{position:absolute;inset:0;z-index:1;pointer-events:none;}
+  .cflame{position:absolute;width:7px;height:15px;transform:translate(-50%,-50%);
+    border-radius:50% 50% 40% 40%;
+    background:radial-gradient(ellipse at 50% 80%,#fff6c8,#ffc23a 45%,#f07818 72%,rgba(200,60,10,0) 86%);
+    filter:blur(0.6px);box-shadow:0 0 9px 2px rgba(255,170,70,0.45);
+    animation:cflick 0.55s ease-in-out infinite;}
+  .cflame.big{width:9px;height:19px;box-shadow:0 0 12px 3px rgba(255,170,70,0.5);}
+  .cflame:nth-child(2){animation-delay:-0.18s;} .cflame:nth-child(3){animation-delay:-0.33s;}
+  .cflame:nth-child(4){animation-delay:-0.5s;} .cflame:nth-child(5){animation-delay:-0.27s;}
+  @keyframes cflick{0%{transform:translate(-50%,-50%) scaleY(1) scaleX(1);opacity:0.82;}
+    50%{transform:translate(-50%,-53%) scaleY(1.22) scaleX(0.82);opacity:1;}
+    100%{transform:translate(-50%,-50%) scaleY(0.95) scaleX(1.06);opacity:0.9;}}
   .brazier{position:absolute;top:-58px;left:50%;transform:translateX(-50%);
     width:64px;height:34px;background:radial-gradient(ellipse at 50% 100%,#2e2a22,#4a443a);
     border-radius:0 0 30px 30px;border-top:6px solid #5a5346;}
-  .flame{position:absolute;bottom:26px;left:50%;width:42px;height:64px;
-    transform:translateX(-50%);border-radius:50% 50% 35% 35%;
-    background:radial-gradient(ellipse at 50% 85%, #fff3b0 0%, #ffc23a 32%, #f07818 60%, rgba(200,60,10,0) 78%);
-    filter:blur(1px);animation:flick 0.42s infinite alternate;}
-  .flame:before{content:'';position:absolute;inset:14px 10px 6px;
-    border-radius:50% 50% 40% 40%;
-    background:radial-gradient(ellipse at 50% 90%, #fff8d8 0%, #ffd24a 50%, rgba(255,150,40,0) 80%);
-    animation:flick 0.31s infinite alternate-reverse;}
-  @keyframes flick{from{transform:translateX(-50%) scaleY(1) scaleX(1);}
-    to{transform:translateX(-52%) scaleY(1.18) scaleX(0.88);}}
+  .flame{position:absolute;bottom:26px;left:50%;width:46px;height:74px;
+    transform:translateX(-50%);border-radius:50% 50% 35% 35%;transform-origin:50% 100%;
+    background:radial-gradient(ellipse at 50% 88%, #fff3b0 0%, #ffc23a 30%, #f07818 58%, rgba(200,60,10,0) 80%);
+    filter:blur(1.2px);animation:flick 1.05s ease-in-out infinite;}
+  .flame:before{content:'';position:absolute;inset:16px 11px 7px;
+    border-radius:50% 50% 40% 40%;transform-origin:50% 100%;
+    background:radial-gradient(ellipse at 50% 90%, #fff8d8 0%, #ffd24a 48%, rgba(255,150,40,0) 82%);
+    animation:flick2 0.68s ease-in-out infinite reverse;}
+  .flame:after{content:'';position:absolute;left:50%;bottom:7px;width:15px;height:32px;
+    transform:translateX(-50%);border-radius:50% 50% 45% 45%;transform-origin:50% 100%;
+    background:radial-gradient(ellipse at 50% 90%, #ffffff 0%, #fff1c0 55%, rgba(255,220,120,0) 85%);
+    animation:flick 0.5s ease-in-out infinite;}
+  @keyframes flick{
+    0%{transform:translateX(-50%) scaleY(1) scaleX(1) rotate(-1.5deg);opacity:0.9;}
+    20%{transform:translateX(-52%) scaleY(1.14) scaleX(0.9) rotate(2deg);opacity:1;}
+    40%{transform:translateX(-48%) scaleY(0.95) scaleX(1.08) rotate(-1deg);opacity:0.82;}
+    60%{transform:translateX(-51%) scaleY(1.2) scaleX(0.86) rotate(1.5deg);opacity:1;}
+    80%{transform:translateX(-50%) scaleY(1.02) scaleX(0.98) rotate(-0.5deg);opacity:0.88;}
+    100%{transform:translateX(-50%) scaleY(1.08) scaleX(0.94) rotate(0deg);opacity:0.96;}}
+  @keyframes flick2{
+    0%{transform:scaleY(1) scaleX(1);opacity:0.85;}
+    50%{transform:scaleY(1.16) scaleX(0.88);opacity:1;}
+    100%{transform:scaleY(0.97) scaleX(1.05);opacity:0.9;}}
   .glow{position:absolute;top:-90px;left:50%;transform:translateX(-50%);
-    width:220px;height:160px;border-radius:50%;
-    background:radial-gradient(ellipse, rgba(255,170,60,0.35), rgba(255,170,60,0) 70%);
-    animation:flick 0.8s infinite alternate;}
+    width:240px;height:175px;border-radius:50%;
+    background:radial-gradient(ellipse, rgba(255,175,70,0.42), rgba(255,170,60,0) 70%);
+    animation:glowpulse 2.6s ease-in-out infinite;}
+  @keyframes glowpulse{
+    0%,100%{opacity:0.55;transform:translateX(-50%) scale(0.98);}
+    50%{opacity:0.85;transform:translateX(-50%) scale(1.08);}}
   .lg-btn{display:block;width:100%;margin:8px 0;font:bold 14px Verdana;color:#fff;
     background:linear-gradient(#7c1410,#4d0c09);border:2px outset #a8342a;
     padding:10px;cursor:pointer;text-shadow:1px 1px 0 #000;}
@@ -69,10 +101,13 @@
   .sw.sel{border-color:#ffd24a;box-shadow:0 0 6px #ffd24a;}
   #char-name{width:90%;padding:6px;font:13px Verdana;background:#1e1a14;color:#ffd24a;
     border:2px inset #6b5f4a;text-align:center;margin-bottom:8px;}
-  #music-btn{position:absolute;right:14px;top:268px;width:34px;height:34px;border-radius:50%;
+  /* music button: moved to the minimap's bottom-right corner (mirrors the compass at
+     bottom-left) so it no longer overlaps the Combat stat orb */
+  #music-btn{position:absolute;right:-4px;bottom:-4px;width:34px;height:34px;border-radius:50%;
     font:bold 15px Verdana;color:#ffd24a;background:radial-gradient(#3a3328,#241f17);
-    border:2px outset #6b5f4a;cursor:pointer;z-index:20;}
-  .arch{position:absolute;left:50%;transform:translateX(-50%);bottom:18vh;width:300px;height:52vh;
+    border:2px outset #6b5f4a;cursor:pointer;z-index:31;
+    display:flex;align-items:center;justify-content:center;}
+  .arch{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:18vh;width:300px;height:52vh;
     background:linear-gradient(#55504a,#403c36);
     border-radius:150px 150px 0 0;
     box-shadow:inset 0 0 40px rgba(0,0,0,0.7), 0 0 0 14px #5d5850, 0 0 0 18px #36322c;
@@ -80,7 +115,7 @@
   .arch:before{content:'';position:absolute;inset:10% 22% 0;
     background:linear-gradient(#2c2924,#1a1815 70%);border-radius:120px 120px 0 0;
     box-shadow:inset 0 -30px 50px rgba(0,0,0,0.8);}
-  .steps{position:absolute;left:50%;transform:translateX(-50%);bottom:0;width:560px;height:18vh;z-index:1;}
+  .steps{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:0;width:560px;height:18vh;z-index:1;}
   .steps div{position:absolute;left:50%;transform:translateX(-50%);
     background:linear-gradient(#6b665c,#4a463e);box-shadow:0 3px 0 #2c2924;}
   .steps div:nth-child(1){bottom:12vh;width:320px;height:6vh;}
@@ -102,14 +137,20 @@
     border-radius:14px;}
   #welcome-screen{position:absolute;inset:0;z-index:99;display:none;
     background:
-      radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.55) 100%),
-      repeating-linear-gradient(0deg, #4e4a42 0 26px, #3a3630 26px 30px),
-      repeating-linear-gradient(90deg, rgba(0,0,0,0.18) 0 2px, rgba(0,0,0,0) 2px 64px),
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 56px, rgba(0,0,0,0.25) 56px 60px);
-    background:radial-gradient(ellipse at center,#2a2418 0%,#000 80%);
+      radial-gradient(ellipse at 50% 44%, rgba(0,0,0,0) 28%, rgba(0,0,0,0.5) 100%),
+      linear-gradient(rgba(18,14,8,0.12), rgba(18,14,8,0.42)),
+      url('assets/ui/login_bg.png') center/cover no-repeat #2a2418;
     align-items:center;justify-content:center;flex-direction:column;}
-  #welcome-logo{font:bold 44px Georgia,'Times New Roman',serif;color:var(--yellow);
-    text-shadow:2px 2px 0 #5a3210,4px 4px 8px #000;letter-spacing:2px;margin-bottom:26px;}
+  #welcome-logo{font:800 54px Georgia,'Times New Roman',serif;letter-spacing:4px;margin-bottom:26px;
+    position:relative;
+    background:linear-gradient(#fff3c4 0%,#ffd24a 42%,#e7a52f 68%,#b97c1e 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    -webkit-text-stroke:1px #3a2206;
+    filter:drop-shadow(2px 3px 0 #2a1804) drop-shadow(0 5px 12px rgba(0,0,0,.75));}
+  #welcome-logo::after{content:'';position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);
+    width:260px;height:2px;
+    background:linear-gradient(90deg,transparent,#c79a3e 30%,#ffe6a8 50%,#c79a3e 70%,transparent);}
   #welcome-box{width:360px;padding:22px;text-align:center;}
   #welcome-box h3{color:var(--yellow);margin-bottom:12px;text-shadow:1px 1px 0 #000;}
   #welcome-box p{color:#fff;line-height:1.6;margin-bottom:16px;}
@@ -128,11 +169,35 @@
 
   /* ---------- SIDE PANEL ---------- */
   #side-panel{position:absolute;top:8px;right:8px;width:222px;}
-  #tab-bar{display:flex;background:var(--panel-dark);}
-  .tab-btn{flex:1;padding:7px 0;text-align:center;cursor:pointer;font-size:15px;
+  /* OSRS format: a row of tabs ABOVE and a row BELOW the content, for space efficiency */
+  #tab-bar,#tab-bar-bottom{display:flex;background:var(--panel-dark);}
+  .tab-btn{flex:1;box-sizing:border-box;padding:7px 0;text-align:center;cursor:pointer;font-size:15px;
     border-right:1px solid var(--steel-lo);border-bottom:2px solid var(--steel-lo);
     background:linear-gradient(#5a5043,#3e3529);}
   .tab-btn.active{background:linear-gradient(#8a3d2e,#5d2218);border-bottom-color:var(--orange);}
+  #tab-bar-bottom .tab-btn{border-bottom:none;border-top:2px solid var(--steel-lo);}
+  #tab-bar-bottom .tab-btn.active{border-top-color:var(--orange);}
+
+  /* combat tab — attack styles */
+  .cmb-weap{color:var(--orange);font-weight:bold;font-size:12px;text-align:center;
+    padding:4px 0 8px;text-shadow:1px 1px 0 #000;}
+  .cmb-style{padding:7px 8px;margin-bottom:5px;cursor:pointer;color:var(--beige);
+    background:linear-gradient(#4a4236,#3a3328);border:2px solid var(--steel-lo);border-radius:3px;}
+  .cmb-style:hover{border-color:var(--steel-hi);}
+  .cmb-style.active{background:linear-gradient(#8a3d2e,#5d2218);border-color:var(--orange);color:#fff;}
+  .cmb-style b{display:block;font-size:12px;} .cmb-style small{color:#9a8e78;font-size:10px;}
+  .cmb-style.active small{color:#f0d8a8;}
+
+  /* settings / account tab */
+  .set-row{display:flex;justify-content:space-between;align-items:center;
+    padding:6px 4px;border-bottom:1px solid var(--panel-dark);color:var(--beige);font-size:12px;}
+  .set-btn{font:bold 11px Verdana;color:var(--beige);background:linear-gradient(#5a5043,#3e3529);
+    border:2px outset #6b5f4a;padding:5px 12px;cursor:pointer;}
+  .set-btn:hover{color:var(--yellow);}
+  .set-slider{width:120px;accent-color:#ff981f;cursor:pointer;vertical-align:middle;}
+  .set-btn.wide{display:block;width:100%;margin-top:8px;text-align:center;padding:9px;}
+  .set-btn.logout{background:linear-gradient(#7c1410,#4d0c09);color:#fff;border-color:#a8534e #2a0605 #2a0605 #a8534e;}
+  .set-btn.logout:hover{background:linear-gradient(#9c1a14,#5d0f0b);color:#fff;}
   .tab-pane{display:none;padding:8px;min-height:282px;}
   .tab-pane.active{display:block;}
 
@@ -149,6 +214,7 @@
   /* skills */
   .skill-row{display:flex;justify-content:space-between;align-items:center;
     padding:4px 6px;border-bottom:1px solid var(--panel-dark);color:var(--beige);}
+  .skill-ico{width:19px;height:19px;vertical-align:middle;margin-right:7px;}
   .skill-row span.lvl{color:var(--yellow);font-weight:bold;text-shadow:1px 1px 0 #000;}
   .skill-xp{height:3px;background:var(--panel-dark);margin:0 6px 2px 6px;overflow:hidden;}
   .skill-xp > div{height:100%;background:#7c5cbf;}
@@ -171,12 +237,14 @@
     background:radial-gradient(#3a3328,#241f17);border:2px outset #6b5f4a;cursor:pointer;font-size:16px;
     display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
   #compass-btn:active{border-style:inset;}
-  #run-orb{position:absolute;right:178px;top:8px;z-index:30;width:54px;height:30px;
+  /* run orb: moved to the LEFT of the minimap (OSRS puts activity orbs here) so it no
+     longer sits on top of the side-panel tab bar */
+  #run-orb{position:absolute;right:392px;top:12px;left:auto;z-index:30;width:54px;height:30px;
     background:radial-gradient(#3a3328,#241f17);border:2px outset #6b5f4a;cursor:pointer;
     font:bold 11px Verdana;color:#ffd24a;display:flex;align-items:center;justify-content:center;gap:3px;
     text-shadow:1px 1px 0 #000;}
   #run-orb.walking{color:#9a8e78;}
-  #music-menu{position:absolute;display:none;z-index:55;right:54px;top:268px;width:190px;
+  #music-menu{position:absolute;display:none;z-index:55;right:60px;top:170px;width:190px;
     background:#241f17;border:2px outset #6b5f4a;font:11px Verdana;padding:6px;}
   #music-menu h4{color:var(--orange);font-size:11px;margin:2px 0 6px;text-shadow:1px 1px 0 #000;}
   .mtrack{padding:4px 6px;color:var(--beige);cursor:pointer;border:1px solid transparent;}
@@ -224,6 +292,9 @@
     font-weight:bold;text-shadow:1px 1px 0 #000;cursor:default;}
   .orb .num{font-size:15px;color:var(--green);}
   .orb .lbl{font-size:8px;color:var(--beige);}
+  #spec-orb{cursor:pointer;}
+  #spec-orb.armed{border-color:#7ad0ff;box-shadow:0 0 12px 2px #7ad0ff;
+    background:radial-gradient(#12303a,#08161c);}
 
   /* ---------- Chatbox (OSRS beige) ---------- */
   #chatbox-frame{position:absolute;left:8px;bottom:8px;width:486px;padding:4px;}
@@ -258,6 +329,27 @@
   .modal .opt:hover{background:#efe5cc;color:#7f0000;}
   .modal .close-x{position:absolute;top:5px;right:10px;cursor:pointer;font-weight:bold;color:var(--red);}
 
+  /* Storm-reserve ledger. Its portrait is rendered from the same Blender
+     source as the in-world chest, so the interface identifies what opened. */
+  #cellar-reserve-modal{width:min(470px,92vw);box-sizing:border-box;padding:17px 18px 15px;}
+  #cellar-reserve-modal .reserve-title{display:flex;align-items:center;gap:13px;padding:0 22px 10px 0;
+    border-bottom:2px groove #695b42;}
+  #cellar-reserve-modal .reserve-title img{width:88px;height:70px;object-fit:contain;flex:0 0 auto;
+    background:radial-gradient(ellipse at center,#65553a 0,#2a241b 72%);border:2px ridge #8a7652;
+    image-rendering:auto;filter:drop-shadow(2px 3px 2px #120e08);}
+  #cellar-reserve-modal .reserve-title h3{margin:0 0 2px;font-size:19px;letter-spacing:.25px;}
+  #cellar-reserve-modal .reserve-title small{display:block;color:#d4be82;font-size:10px;letter-spacing:1.2px;}
+  #cellar-reserve-modal .reserve-purpose{margin:11px 0;color:#e6dbc0;line-height:1.38;}
+  #cellar-reserve-modal .reserve-stock{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 0 10px;}
+  #cellar-reserve-modal .reserve-stock>div{display:flex;justify-content:space-between;gap:8px;padding:7px 8px;
+    background:#292319;border:1px solid #5f5139;box-shadow:inset 0 0 0 1px #18140e;}
+  #cellar-reserve-modal .reserve-stock b{color:#ead8a8;font-size:12px;}
+  #cellar-reserve-modal .reserve-stock span{color:#bcae8b;font-size:11px;text-align:right;}
+  #cellar-reserve-modal .opt{display:flex;align-items:center;gap:9px;min-height:38px;}
+  #cellar-reserve-modal .opt img{width:30px;height:30px;object-fit:contain;image-rendering:auto;}
+  #cellar-reserve-modal .opt.claimed{opacity:.55;cursor:default;}
+  @media(max-width:520px){#cellar-reserve-modal .reserve-stock{grid-template-columns:1fr;}}
+
   .big-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px;max-height:230px;overflow-y:auto;}
   .big-grid .inv-slot{height:44px;}
   .price-tag{position:absolute;bottom:0;right:2px;font-size:9px;color:var(--yellow);text-shadow:1px 1px 0 #000;}
@@ -279,6 +371,30 @@
     border:1px solid var(--steel-hi);cursor:pointer;}
   #admin-panel button:hover{color:var(--yellow);border-color:var(--yellow);}
 
+  /* localhost-only owner/reviewer coordinate travel */
+  #test-travel-toggle{position:fixed;left:12px;bottom:214px;z-index:950;display:none;width:42px;height:42px;
+    border:2px outset var(--steel-hi);border-radius:6px;background:linear-gradient(#5a5043,#30291f);
+    color:var(--yellow);font-size:19px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.62);}
+  #test-travel-toggle:hover{border-color:var(--yellow);}
+  #test-travel-panel{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9990;
+    width:min(470px,calc(100vw - 28px));max-height:82vh;overflow:auto;display:none;padding:14px;}
+  #test-travel-panel h3{margin:0;color:var(--orange);font:700 20px Georgia,serif;text-shadow:1px 1px #000;}
+  #test-travel-panel>small{color:#ab9e83;font-size:10px;}
+  #test-travel-current{margin:9px 0;padding:7px;background:#211c15;border:1px solid var(--steel-lo);
+    color:#e7d7ae;font:10px Verdana;}
+  .test-travel-group{margin:10px 0 4px;color:var(--yellow);font:700 11px Verdana;border-bottom:1px solid #665b47;padding-bottom:3px;}
+  .test-travel-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:5px;margin-bottom:4px;}
+  .test-travel-row .opt,.test-travel-manual button,.test-travel-save button{padding:6px 8px;text-align:left;
+    color:var(--beige);background:var(--panel-dark);border:1px solid var(--steel-hi);font:11px Verdana;cursor:pointer;}
+  .test-travel-row .opt:hover,.test-travel-manual button:hover,.test-travel-save button:hover{color:var(--yellow);border-color:var(--yellow);}
+  .test-travel-row span{color:#aaa087;font:9px Consolas,monospace;white-space:nowrap;}
+  .test-travel-delete{width:24px;height:24px;color:#d08c77;background:#2c201a;border:1px solid #715348;cursor:pointer;}
+  .test-travel-manual{display:grid;grid-template-columns:1.5fr .8fr .8fr .55fr auto;gap:4px;}
+  .test-travel-manual input,.test-travel-manual select,.test-travel-save input{min-width:0;padding:5px;background:#211c15;
+    color:var(--beige);border:1px inset var(--steel-hi);font:10px Verdana;}
+  .test-travel-save{display:grid;grid-template-columns:1fr auto;gap:4px;margin-top:7px;}
+  @media(max-width:620px){.test-travel-row{grid-template-columns:1fr auto}.test-travel-row span{grid-row:2;grid-column:1}.test-travel-manual{grid-template-columns:1fr 1fr 1fr}.test-travel-manual select{grid-column:1/4}.test-travel-manual button{grid-column:1/4;text-align:center}}
+
   .float-dmg{position:absolute;color:#fff;font:bold 13px Verdana;
     background:radial-gradient(ellipse at center, #d43a26 0%, #a8221a 62%, #7c140e 100%);
     border:1px solid #2a0805;min-width:24px;height:21px;padding:0 3px;display:flex;align-items:center;
@@ -290,6 +406,12 @@
     border-color:#0c1428;box-shadow:inset 0 0 3px #101c36, 0 1px 3px rgba(0,0,0,0.6);}
   .float-xp{position:absolute;color:#dcb6ff;font:bold 12px Verdana;pointer-events:none;z-index:20;
     text-shadow:1px 1px 0 #000;}
+  /* OSRS-style XP drops: a rising stack near the top-centre */
+  #xp-drops{position:fixed;top:92px;left:50%;transform:translateX(-50%);z-index:40;
+    pointer-events:none;display:flex;flex-direction:column;align-items:center;}
+  .xp-drop{color:#fff;font:bold 14px Verdana;text-shadow:1px 1px 0 #000,0 0 4px #000;
+    margin-bottom:1px;white-space:nowrap;}
+  .xp-drop img{width:16px;height:16px;vertical-align:middle;margin-right:4px;}
 
   .prayer-btn{display:block;width:100%;text-align:left;margin-bottom:5px;}
   .prayer-btn.locked{opacity:.45;}
@@ -297,6 +419,13 @@
   #ctx-tip{position:absolute;pointer-events:none;background:rgba(20,16,10,.92);
     border:1px solid var(--steel-hi);color:#fff;padding:3px 8px;font-size:11px;display:none;z-index:25;}
   #ctx-tip b{color:var(--yellow);}
+  /* OSRS-style top-left action text — primary left-click action under the cursor */
+  #action-text{position:absolute;top:38px;left:10px;pointer-events:none;z-index:24;display:none;
+    font:bold 15px/1.2 'Segoe UI',Verdana,sans-serif;color:#fff;white-space:nowrap;
+    text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;}
+  #action-text b{color:#00ffff;}              /* the target, OSRS cyan */
+  #action-text .lv{color:#5edb5e;font-weight:bold;}
+  #action-text .more{color:#fff;}
   /* ---------- mobile toggles (hidden on desktop) ---------- */
   .mob-toggle{display:none;position:fixed;z-index:72;width:48px;height:48px;border-radius:12px;
     background:linear-gradient(#3a3328,#241f17);border:2px outset #6b5f4a;color:#ffd24a;
@@ -313,6 +442,7 @@
   .prayer-btn.locked{opacity:.45;}
   .prayer-btn.sel{outline:2px solid #ffd24a;background:#3a3a22;}
   #ctx-tip{display:none !important;}
+  #action-text{display:none !important;}
   }
   @media (max-width: 880px){
     .mob-toggle{display:flex;}
@@ -346,7 +476,20 @@
 
   ::-webkit-scrollbar{width:9px;} ::-webkit-scrollbar-track{background:var(--panel-dark);}
   ::-webkit-scrollbar-thumb{background:var(--steel);border:1px solid var(--steel-lo);}
+
+  /* ---------- BUILD STAMP — marks exactly which build is on screen (local review surface) ---------- */
+  #build-stamp{position:fixed;right:6px;bottom:5px;z-index:80;
+    font:10px/1.3 Consolas,'Courier New',monospace;color:#9ad06a;
+    background:rgba(12,10,7,.74);border:1px solid #3a3328;border-radius:4px;
+    padding:3px 7px;cursor:pointer;max-width:46vw;opacity:.82;
+    text-shadow:1px 1px 0 #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #build-stamp:hover{opacity:1;}
+  #build-stamp.dirty{color:#ffcf5a;}
+  #build-stamp b{color:#fff;}
+  #build-stamp.min{font-size:0;padding:5px 6px;}
+  #build-stamp.min:before{content:'\25CF';font-size:11px;}  /* collapsed: a single dot */
 </style>
+<link rel="stylesheet" href="assets/ui/login_overhaul.css?v=3">
 </head>
 <body>
 <canvas id="game-canvas"></canvas>
@@ -360,51 +503,94 @@
   </div>
 </div>
 
-<!-- OSRS-style welcome screen -->
-<div id="welcome-screen">
-  <div class="arch"></div>
-  <div class="steps"><div></div><div></div><div></div></div>
-  <div class="pillar pl"><div class="brazier"><div class="glow"></div><div class="flame"></div></div></div>
-  <div class="pillar pr"><div class="brazier"><div class="glow"></div><div class="flame"></div></div></div>
-  <div class="world-badge">World 1<small>Veyhollow</small></div>
-  <button class="login-music" onclick="Sfx.ensure();Music.toggle();" title="Toggle music">♪</button>
-  <div class="login-footer">
-    This game is an original work by <span class="gold">Crafted Motion</span>.<br>
-    Crafted Realm Beta · your adventurer is saved on this device
+<!-- Original old-school fantasy welcome screen. The IDs inside the panel are part of the smoke/login contract. -->
+<div id="welcome-screen" aria-label="Crafted Realm welcome screen">
+  <div class="login-sky-wash" aria-hidden="true"></div>
+  <div class="login-vignette" aria-hidden="true"></div>
+  <div id="login-embers" aria-hidden="true"></div>
+
+  <div class="login-fire-pillar login-fire-pillar-left" aria-hidden="true">
+    <div class="pillar-cap"><div class="brazier-bowl"><i class="coal c1"></i><i class="coal c2"></i><i class="coal c3"></i></div></div>
+    <div class="pillar-fire"><i class="fire-outer"></i><i class="fire-mid"></i><i class="fire-core"></i><i class="fire-spark s1"></i><i class="fire-spark s2"></i><i class="fire-spark s3"></i></div>
+    <div class="pillar-fire-glow"></div><div class="pillar-shaft"><i></i><i></i><i></i></div><div class="pillar-foot"></div>
   </div>
-  <div id="welcome-logo">Crafted Realm</div>
-  <div id="welcome-box" class="steel">
+  <div class="login-fire-pillar login-fire-pillar-right" aria-hidden="true">
+    <div class="pillar-cap"><div class="brazier-bowl"><i class="coal c1"></i><i class="coal c2"></i><i class="coal c3"></i></div></div>
+    <div class="pillar-fire"><i class="fire-outer"></i><i class="fire-mid"></i><i class="fire-core"></i><i class="fire-spark s1"></i><i class="fire-spark s2"></i><i class="fire-spark s3"></i></div>
+    <div class="pillar-fire-glow"></div><div class="pillar-shaft"><i></i><i></i><i></i></div><div class="pillar-foot"></div>
+  </div>
 
-    <div id="login-choose">
+  <div class="world-badge" aria-label="World 1, Veyhollow"><b>WORLD 1</b><small>VEYHOLLOW</small><span>READY</span></div>
+  <button class="login-music" id="login-music-toggle" type="button" title="Toggle title music" aria-label="Toggle title music">♪</button>
+
+  <div class="login-title-wrap">
+    <div class="login-crest" aria-hidden="true"><i></i><b>CR</b></div>
+    <div id="welcome-logo">Crafted Realm</div>
+    <div class="login-subtitle">An old-school browser adventure</div>
+  </div>
+
+  <main id="welcome-box" class="steel" aria-live="polite">
+    <div class="login-panel-rivets" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+    <section id="login-choose" class="login-stage">
+      <div class="login-kicker">Choose your path</div>
       <h3>Welcome to Crafted Realm</h3>
-      <p style="font-size:11px">Beta v2.5 &nbsp;·&nbsp; World 1 &nbsp;·&nbsp; Members: No</p>
-      <button class="lg-btn" id="btn-new">New Adventurer</button>
-      <button class="lg-btn" id="btn-continue">Continue Adventure</button>
-      <p id="login-note" style="font-size:10px;color:#9a8e78;margin-top:6px"></p>
-    </div>
-
-    <div id="login-create" style="display:none">
-      <h3>Create your adventurer</h3>
-      <input id="char-name" maxlength="14" placeholder="Name your adventurer" value="Adventurer">
-      <p style="font-size:11px;margin-bottom:2px">Tunic</p>
-      <div class="swatches" id="sw-shirt"></div>
-      <p style="font-size:11px;margin-bottom:2px">Skin</p>
-      <div class="swatches" id="sw-skin"></div>
-      <button class="lg-btn" id="btn-begin">Begin your journey</button>
-    </div>
-
-    <div id="login-play" style="display:none">
-      <h3 id="play-welcome">Welcome to Crafted Realm</h3>
-      <p id="play-sub" style="font-size:12px">You are about to wash ashore on <b style="color:#ffd24a">Tutor's Holm</b>.</p>
-      <p id="welcome-progress" style="font-size:11px;color:#9ad06a;margin-bottom:10px;"></p>
-      <button id="play-btn">CLICK HERE TO PLAY</button>
-      <div style="margin-top:10px">
-        <a href="#" style="color:#9a8e78;font-size:11px;"
-           onclick="if(confirm('Erase your saved adventurer and start fresh?')){SaveGame.reset();location.reload();}return false;">
-           Reset saved adventurer</a>
+      <div class="login-status-row"><span>Free world</span><span>Single player</span><span>Beta</span></div>
+      <button class="lg-btn lg-btn-primary" id="btn-continue" type="button"><strong>Continue Adventure</strong><small id="continue-detail">Resume your local adventurer</small></button>
+      <button class="lg-btn" id="btn-new" type="button"><strong>New Adventurer</strong><small>Begin on Tutor's Holm</small></button>
+      <p id="login-note" class="login-note"></p>
+      <div class="login-utility-row">
+        <button type="button" id="btn-login-options">Options</button>
+        <button type="button" id="btn-login-fullscreen">Fullscreen</button>
       </div>
-    </div>
+    </section>
 
+    <section id="login-create" class="login-stage" style="display:none">
+      <div class="login-kicker">New adventurer</div>
+      <h3>Who are you?</h3>
+      <label class="login-field-label" for="char-name">Adventurer name</label>
+      <input id="char-name" maxlength="14" placeholder="Name your adventurer" value="Adventurer" autocomplete="off" spellcheck="false">
+      <fieldset class="login-choice-set"><legend>Tunic colour</legend><div class="swatches" id="sw-shirt"></div></fieldset>
+      <fieldset class="login-choice-set"><legend>Skin tone</legend><div class="swatches" id="sw-skin"></div></fieldset>
+      <p class="login-hint">You can refine your appearance after arriving on the Holm.</p>
+      <button class="lg-btn lg-btn-primary" id="btn-begin" type="button">Begin your journey</button>
+      <button class="login-back" id="btn-create-back" type="button">← Back</button>
+    </section>
+
+    <section id="login-play" class="login-stage" style="display:none">
+      <div class="login-kicker">Adventure ready</div>
+      <h3 id="play-welcome">Welcome to Crafted Realm</h3>
+      <p id="play-sub">You are about to wash ashore on <b>Tutor's Holm</b>.</p>
+      <div id="login-profile-summary" class="login-profile-summary"></div>
+      <p id="welcome-progress"></p>
+      <button id="play-btn" type="button">ENTER VEYHOLLOW</button>
+      <div class="login-utility-row">
+        <button type="button" id="btn-play-back">Back</button>
+        <button type="button" id="btn-reset-save">Erase save</button>
+      </div>
+    </section>
+
+    <section id="login-confirm-new" class="login-stage" style="display:none" role="alertdialog" aria-labelledby="confirm-new-title">
+      <div class="login-warning-rune" aria-hidden="true">!</div>
+      <h3 id="confirm-new-title">Begin a new adventure?</h3>
+      <p>Your current local adventurer will be erased. This cannot be undone.</p>
+      <button class="lg-btn lg-btn-danger" id="btn-confirm-new" type="button">Erase save and continue</button>
+      <button class="login-back" id="btn-cancel-new" type="button">Keep my adventurer</button>
+    </section>
+
+    <section id="login-options" class="login-stage" style="display:none">
+      <div class="login-kicker">Welcome screen</div>
+      <h3>Options</h3>
+      <label class="login-toggle"><span><b>Reduced motion</b><small>Calmer flames and no drifting embers</small></span><input id="login-reduced-motion" type="checkbox"></label>
+      <label class="login-toggle"><span><b>High contrast text</b><small>Brighter labels and stronger panel edges</small></span><input id="login-high-contrast" type="checkbox"></label>
+      <p class="login-local-note">Your single-player profile is stored only on this device. Online accounts will arrive in a later release.</p>
+      <button class="login-back" id="btn-options-back" type="button">← Back</button>
+    </section>
+  </main>
+
+  <div class="login-footer">
+    Original game by <span class="gold">Crafted Motion</span><br>
+    Crafted Realm Beta · local profile · Chrome &amp; Edge
   </div>
 </div>
 
@@ -415,45 +601,86 @@
   <button onclick="Tutorial.skip()">Skip tutorial</button>
 </div>
 
-<div id="minimap-frame"><button id="music-btn" title="Toggle music">♪</button><button id="compass-btn" title="Reset view">🧭</button>
+<div id="minimap-frame"><button id="music-btn" title="Toggle music"><img src="assets/icons/ui/tabs/music.png" alt=""></button><button id="compass-btn" title="Reset view"><img src="assets/icons/ui/tabs/compass.png" alt=""></button>
 <canvas id="minimap" width="144" height="144"></canvas>
-<button id="worldmap-btn" onclick="UI.openWorldMap()" title="World map">🗺</button></div>
+<button id="worldmap-btn" onclick="UI.openWorldMap()" title="World map"><img src="assets/icons/ui/tabs/map.png" alt=""></button></div>
 <div id="music-menu"></div>
 <div id="ctx-menu"><div class="ctx-head">Choose Option</div><div id="ctx-rows"></div></div>
 <div id="run-orb" title="Toggle run">🏃 <span id="run-pct">100</span>%</div>
-<div id="mob-panel-btn" class="mob-toggle" title="Pack &amp; skills">🎒</div>
-<div id="mob-chat-btn" class="mob-toggle" title="Chat">💬<span class="dot" id="chat-dot"></span></div>
+<div id="mob-panel-btn" class="mob-toggle" title="Pack &amp; skills"><img src="assets/icons/ui/tabs/inventory.png" alt=""></div>
+<div id="mob-chat-btn" class="mob-toggle" title="Chat"><img src="assets/icons/ui/tabs/chat.png" alt=""><span class="dot" id="chat-dot"></span></div>
 
 <div id="orbs">
   <div class="orb" id="hp-orb" title="Hitpoints"><span class="num" id="hp-orb-num">10</span><span class="lbl">HP</span></div>
   <div class="orb" title="Crowns"><span class="num" id="coin-orb" style="color:#ffd24a">25</span><span class="lbl">CROWNS</span></div>
   <div class="orb" title="Combat level"><span class="num" id="cmb-orb" style="color:#ff981f">3</span><span class="lbl">COMBAT</span></div>
   <div class="orb" title="Prayer points"><span class="num" id="pray-orb" style="color:#c9e8f5">1</span><span class="lbl">PRAYER</span></div>
+  <div class="orb" id="spec-orb" title="Special attack — click to arm"><span class="num" id="spec-num" style="color:#7ad0ff">100</span><span class="lbl">SPEC</span></div>
 </div>
 
 <div id="zone-box" class="steel"><div id="zone-label" class="osrs-title">Tutor's Holm</div></div>
 
 <div id="side-panel" class="steel">
-  <div id="tab-bar">
+  <div id="tab-bar-legacy" hidden>
+    <div class="tab-btn" data-tab="combat" title="Combat styles">⚔️</div>
     <div class="tab-btn active" data-tab="inv" title="Inventory">🎒</div>
+    <div class="tab-btn" data-tab="equip" title="Worn equipment">🛡️</div>
     <div class="tab-btn" data-tab="skills" title="Skills">📜</div>
     <div class="tab-btn" data-tab="quests" title="Quest journal">⭐</div>
-    <div class="tab-btn" data-tab="equip" title="Worn equipment">🛡️</div>
-    <div class="tab-btn" data-tab="prayers" title="Prayer book">🙏</div>
-    <div class="tab-btn" data-tab="spells" title="Spellbook">🪄</div>
-    <div class="tab-btn" data-tab="drops" title="Bestiary — drop tables">📖</div>
   </div>
+  <div id="tab-bar">
+    <div class="tab-btn" data-tab="combat" title="Combat styles"><img class="tab-ico" src="assets/icons/ui/tabs/combat.png" alt=""></div>
+    <div class="tab-btn" data-tab="skills" title="Skills"><img class="tab-ico" src="assets/icons/ui/tabs/skills.png" alt=""></div>
+    <div class="tab-btn" data-tab="quests" title="Quest journal"><img class="tab-ico" src="assets/icons/ui/tabs/quests.png" alt=""></div>
+    <div class="tab-btn active" data-tab="inv" title="Inventory"><img class="tab-ico" src="assets/icons/ui/tabs/inventory.png" alt=""></div>
+    <div class="tab-btn" data-tab="equip" title="Worn equipment"><img class="tab-ico" src="assets/icons/ui/tabs/equipment.png" alt=""></div>
+    <div class="tab-btn" data-tab="prayers" title="Prayer book"><img class="tab-ico" src="assets/icons/ui/tabs/prayer.png" alt=""></div>
+    <div class="tab-btn" data-tab="spells" title="Spellbook"><img class="tab-ico" src="assets/icons/ui/tabs/magic.png" alt=""></div>
+    <div class="tab-btn" data-tab="drops" title="Bestiary"><img class="tab-ico" src="assets/icons/ui/tabs/bestiary.png" alt=""></div>
+  </div>
+  <div class="tab-pane" id="pane-combat"><div id="combat-styles"></div></div>
   <div class="tab-pane active" id="pane-inv"><div id="inv-grid"></div></div>
   <div class="tab-pane" id="pane-skills"><div id="skill-list"></div></div>
   <div class="tab-pane" id="pane-quests"><div id="quest-list"></div></div>
   <div class="tab-pane" id="pane-prayers"><div id="prayer-grid"></div></div>
   <div class="tab-pane" id="pane-spells"><div id="spell-grid"></div></div>
+  <div class="tab-pane" id="pane-settings">
+    <div class="set-row"><span>Run energy</span><button class="set-btn" onclick="UI.toggleRun()">Toggle</button></div>
+    <div class="set-row"><span>Music</span><button class="set-btn" onclick="UI.toggleMusic()">Toggle</button></div>
+    <div class="set-row"><span>Music volume</span><input id="vol-music" type="range" min="0" max="100" value="50" class="set-slider" oninput="Music.setVolume(this.value/100)"></div>
+    <div class="set-row"><span>Sound effects</span><input id="vol-sfx" type="range" min="0" max="100" value="100" class="set-slider" oninput="Sfx.setVolume(this.value/100)"></div>
+    <div class="set-row"><span>Roofs</span><button class="set-btn" id="roofs-btn" onclick="UI.toggleRoofs()">Toggle</button></div>
+    <div class="set-row"><span>World map</span><button class="set-btn" onclick="UI.openWorldMap()">Open</button></div>
+    <button class="set-btn wide" onclick="UI.manualSave()">Save now</button>
+    <button class="set-btn wide logout" onclick="UI.logout()">Logout</button>
+  </div>
   <div class="tab-pane" id="pane-drops">
     <input id="drops-search" placeholder="Search creatures…">
     <div id="drops-list"></div>
   </div>
   <div class="tab-pane" id="pane-equip"><div id="equip-list"></div>
     <div style="margin-top:8px;color:#9a8e78;font-size:11px">Click items in your pack to wield or wear them. Your character shows what you equip.</div>
+  </div>
+  <div class="tab-pane social-pane" id="pane-clan"><h3>Clan hall</h3><p class="ui-copy">Your clan roster and shared channel will appear here when shared worlds open.</p><div class="ui-empty">No clan joined</div><button class="set-btn wide" disabled>Find a clan</button></div>
+  <div class="tab-pane social-pane" id="pane-friends"><h3>Friends</h3><div class="ui-list"><div>Friends list <span>0 / 200</span></div></div><div class="ui-empty">Your road is quiet—for now.</div><button class="set-btn wide" disabled>Add friend</button></div>
+  <div class="tab-pane social-pane" id="pane-ignore"><h3>Ignore list</h3><div class="ui-list"><div>Ignored players <span>0 / 100</span></div></div><div class="ui-empty">No adventurers ignored.</div><button class="set-btn wide" disabled>Add name</button></div>
+  <div class="tab-pane social-pane" id="pane-emotes"><h3>Emotes</h3><div class="emote-grid"><button title="Yes">✓</button><button title="No">×</button><button title="Bow">⌄</button><button title="Angry">!</button><button title="Think">?</button><button title="Wave">~</button><button title="Cheer">↑</button><button title="Laugh">□</button><button title="Dance">♫</button><button title="Sit">⌑</button><button title="Shrug">⌁</button><button title="Clap">◆</button></div><p class="ui-copy">Select an emote to express yourself.</p></div>
+  <div class="tab-pane social-pane" id="pane-music"><h3>Music player</h3><div class="music-track active">Tutor's Holm</div><div class="music-track">Under the Hearth</div><div class="music-track locked">???</div><button class="set-btn wide" onclick="UI.toggleMusic()">Toggle music</button></div>
+  <div class="tab-pane social-pane" id="pane-logout"><h3>Leaving so soon?</h3><p class="ui-copy">Your progress is saved locally before you return to the welcome screen.</p><button class="set-btn wide" onclick="UI.manualSave()">Save now</button><button class="set-btn wide logout" onclick="UI.logout()">Log out</button></div>
+  <div id="tab-bar-bottom-legacy" hidden>
+    <div class="tab-btn" data-tab="prayers" title="Prayer book">🙏</div>
+    <div class="tab-btn" data-tab="spells" title="Spellbook">🪄</div>
+    <div class="tab-btn" data-tab="drops" title="Bestiary — drop tables">📖</div>
+    <div class="tab-btn" data-tab="settings" title="Settings & logout">⚙️</div>
+  </div>
+  <div id="tab-bar-bottom">
+    <div class="tab-btn" data-tab="clan" title="Clan chat"><img class="tab-ico" src="assets/icons/ui/tabs/clan.png" alt=""></div>
+    <div class="tab-btn" data-tab="friends" title="Friends"><img class="tab-ico" src="assets/icons/ui/tabs/friends.png" alt=""></div>
+    <div class="tab-btn" data-tab="ignore" title="Ignore list"><img class="tab-ico" src="assets/icons/ui/tabs/ignore.png" alt=""></div>
+    <div class="tab-btn" data-tab="logout" title="Logout"><img class="tab-ico" src="assets/icons/ui/tabs/logout.png" alt=""></div>
+    <div class="tab-btn" data-tab="settings" title="Settings"><img class="tab-ico" src="assets/icons/ui/tabs/settings.png" alt=""></div>
+    <div class="tab-btn" data-tab="emotes" title="Emotes"><img class="tab-ico" src="assets/icons/ui/tabs/emotes.png" alt=""></div>
+    <div class="tab-btn" data-tab="music" title="Music"><img class="tab-ico" src="assets/icons/ui/tabs/music.png" alt=""></div>
   </div>
 </div>
 
@@ -466,7 +693,7 @@
   <span class="close-x" onclick="UI.closeModal('worldmap-modal')">✕</span>
   <h3>Map of Veyhollow</h3>
   <canvas id="worldmap" width="560" height="560"></canvas>
-  <div class="map-hint">Click anywhere to walk there.</div>
+  <div class="map-hint">Click anywhere to walk there — or search a place by name above.</div>
 </div>
 <div class="modal steel" id="dialogue-modal">
   <span class="close-x" onclick="UI.closeModal('dialogue-modal')">✕</span>
@@ -475,6 +702,21 @@
     <div id="dlg-head">🧔</div>
     <div style="flex:1"><p id="dlg-text"></p><div id="dlg-opts"></div></div>
   </div>
+</div>
+
+<div class="modal" id="quest-scroll-modal" role="dialog" aria-modal="true" aria-labelledby="quest-scroll-title">
+  <button class="quest-scroll-close" type="button" onclick="UI.closeModal('quest-scroll-modal')" aria-label="Close quest journal">×</button>
+  <div class="quest-scroll-curl quest-scroll-curl-a"></div><div class="quest-scroll-curl quest-scroll-curl-b"></div>
+  <header class="quest-scroll-head">
+    <div id="quest-scroll-difficulty">Novice quest</div>
+    <h2 id="quest-scroll-title">Quest title</h2>
+    <div id="quest-scroll-giver">Started by someone noteworthy</div>
+  </header>
+  <div id="quest-scroll-body"></div>
+  <footer class="quest-scroll-foot">
+    <button id="quest-scroll-track" class="quest-scroll-button" type="button">Track quest</button>
+    <span id="quest-scroll-points"></span>
+  </footer>
 </div>
 
 <div class="modal steel" id="bank-modal">
@@ -498,12 +740,19 @@
 <div id="admin-panel" class="steel">
   <h3>⚙ Administrator Console <span style="font-size:10px;color:#9a8e78">(press ` to toggle)</span></h3>
   <div class="row"><b>Teleport</b>
+    <button onclick="TestTravel.open()" title="Exact named coordinates and personal bookmarks">📍 Test Travel</button>
     <button onclick="Admin.tp('holm')">Tutor's Holm</button>
+    <button onclick="Admin.landmark('survival_shelter')" title="Review the authored Survival Workyard approach">Workyard</button>
+    <button onclick="Admin.workyardDoor('trail_door')" title="Test the aligned trail entrance">Trail door</button>
+    <button onclick="Admin.workyardDoor('pond_door')" title="Test the dry-shore pond exit">Pond door</button>
+    <button onclick="Admin.workyardLadder()" title="Review the real surface climb interaction">Workyard ladder</button>
     <button onclick="Admin.tp('commons')">Commons</button>
     <button onclick="Admin.tp('emberwood')">Emberwood</button>
     <button onclick="Admin.tp('quarry')">Quarry</button>
     <button onclick="Admin.tp('pond')">Mirrorpond</button>
     <button onclick="Admin.tp('gloomfen')">Gloomfen</button>
+    <button onclick="if(window.Menagerie)Menagerie.go()" title="Review lab: every creature, penned">🐾 Menagerie</button>
+    <button onclick="if(typeof installHFPlayer==='function')installHFPlayer()" title="Swap to the HuggingFace-baked rigged character">🧍 HF Player</button>
   </div>
   <div class="row"><b>Spawn NPC at my feet</b>
     <button onclick="Admin.spawn('grubkin')">Grubkin</button>
@@ -525,19 +774,253 @@
     <button onclick="Admin.heal()">Full heal</button>
     <button onclick="Admin.coins()">+10,000 crowns</button>
     <button onclick="Admin.speed()">Toggle 2× speed</button>
+    <button id="admin-friendly" onclick="Admin.friendly()" title="NPCs never attack first while ON">😇 Friendly mode</button>
     <button onclick="Admin.killAll()">Despawn nearby</button>
     <button onclick="Tutorial.skip()">Skip tutorial</button>
   </div>
 </div>
 
 <div id="ctx-tip"></div>
+<div id="action-text"></div>
+<div id="build-stamp" title="Local review build">build…</div>
 
+<script src="src/smoke.js?v=31"></script><!-- FIRST: error recorder always; full gate via ?smoke=1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="src/game0_icons.js"></script>
-<script src="src/game1_data.js"></script>
-<script src="src/game2_world.js"></script>
-<script src="src/game3_systems.js"></script>
-<script src="src/game4_ui.js"></script>
-<script src="src/game5_main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="assets/audio/soundfont-player.min.js"></script>
+<script src="src/events.js?v=1"></script>
+<script src="src/persist.js?v=1"></script>
+<script src="src/config.js?v=3"></script>
+<script src="src/world_mode.js?v=3"></script>
+<script src="src/item_attrs.js?v=1"></script>
+<script src="src/game0_icons.js?v=t2"></script>
+<script src="src/worldgrid.js?v=4"></script>
+  <script src="src/holm_landscape_data.js?v=23"></script>
+  <script src="src/holm_lastlight_data.js?v=15"></script>
+  <script src="src/world_v2_building_data.js?v=34"></script>
+  <script src="src/world_v2_authoring.js?v=1"></script>
+  <script src="src/world_v2_bundle_authoring.js?v=3"></script>
+  <script src="src/world_v2_district_bundle_authoring.js?v=2"></script>
+  <script src="src/world_v2_terrain_district.js?v=1"></script>
+  <script src="src/holm_tutorial_flow_data.js?v=14"></script>
+<script>CRWorldMode.loadLegacyScript('src/tutorial_island.js?v=10')</script>
+<script>CRWorldMode.loadLegacyScript('src/tut_cave_dress.js?v=1')</script>
+<script src="src/game1_data.js?v=q14"></script>
+<script src="src/chunks.js"></script>
+<script src="src/world_v2_contract.js?v=5"></script>
+  <script src="src/world_v2_holm.js?v=28"></script>
+  <script src="src/world_v2_mainland.js?v=1"></script>
+  <script src="src/world_v2_boot_select.js?v=1"></script>
+<script src="src/collision_grid.js?v=4"></script>
+<script src="src/proc_props.js"></script>
+<script src="src/game2_world.js?v=h35"></script>
+<script src="src/mining_rocks_v1.js?v=2"></script>
+<script src="src/world_walk_surfaces.js?v=1"></script>
+<script src="src/roof_transitions.js?v=1"></script>
+<script src="src/holm_landscape_runtime.js?v=1"></script>
+  <script src="src/world_v2_buildings.js?v=39"></script>
+  <script src="src/world_v2_terrain.js?v=3"></script>
+  <script src="src/world_v2_objects.js?v=18"></script>
+<script>CRWorldMode.loadLegacyScript('src/tut_statue.js?v=1')</script>
+<script src="src/world_gear.js?v=1"></script>
+<script src="src/gear_models_v1.js?v=2"></script>
+<script src="src/world_scatter.js?v=2"></script>
+<script>CRWorldMode.loadLegacyScript('src/prop_grass_tufts.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_paving.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/world_paved_plaza.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/world_pave_commons.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_smithy.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_stall_goods.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_bank_interior.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_ruins.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_crates.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_beds_torches.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_buggy.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_iron_fence.js?v=4')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_fallen_tree.js?v=1')</script>
+<!-- Reference-asset builders (Bible_References Studio modules — pure makeRefX(x,z,rot) builders;
+     world files place them; integration pass 2026-07-06) -->
+<script>CRWorldMode.loadLegacyScript('src/ref_altar.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_anvil.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bank.js?v=2')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bankbasement.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bed.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bld1.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bld2.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bld3.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bld4.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bldint1.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bldint2.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_bldint3.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_cakestall.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_carpet.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_church.js?v=3')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_churchinterior.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_dock.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_fountain.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_furnace.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_furstall.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_gemstall.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_ladder.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_missedprops.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_pier.js?v=1')</script>
+<script src="src/ref_rowboat.js?v=1"></script>
+<script>CRWorldMode.loadLegacyScript('src/ref_store.js?v=3')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_torch.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/ref_townpool.js?v=1')</script>
+<script src="src/combat_math.js?v=1"></script>
+<script src="src/planes.js?v=10"></script>
+<script>CRWorldMode.loadLegacyScript('src/buildkit.js?v=15')</script>
+<script>CRWorldMode.loadLegacyScript('src/buildkit_thatch.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/tut_bld_guide.js?v=7')</script>
+<script>CRWorldMode.loadLegacyScript('src/tut_bld_chef.js?v=7')</script>
+<script>CRWorldMode.loadLegacyScript('src/tut_bld_quest.js?v=8')</script>
+<script>CRWorldMode.loadLegacyScript('src/tut_bld_mage.js?v=8')</script>
+<!-- map_showcase (Wayfarer's Rest) disabled 2026-07-03: pre-map building wiped w/ the legacy village; pattern lives in git + MAP_PIPELINE -->
+<script>CRWorldMode.loadLegacyScript('src/wardenholm.js?v=16')</script>
+<script>CRWorldMode.loadLegacyScript('src/biome_snow.js?v=15')</script>
+<!-- north_cottage disabled 2026-07-03: pre-map building wiped w/ the legacy village (Alora-parity build preserved in git) -->
+<script>CRWorldMode.loadLegacyScript('src/gloomfen.js?v=2')</script>
+<script>CRWorldMode.loadLegacyScript('src/world_evil_tree.js?v=3')</script>
+<script>CRWorldMode.loadLegacyScript('src/brynholt.js?v=5')</script>
+<script>CRWorldMode.loadLegacyScript('src/hollow_square_data.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/hollow_square_landscape.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/veyhollow_town.js?v=13')</script>
+<script>CRWorldMode.loadLegacyScript('src/town_square.js?v=22')</script>
+<script>CRWorldMode.loadLegacyScript('src/hollow_square_composer.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/stonereach_bridge.js?v=2')</script>
+<script>CRWorldMode.loadLegacyScript('src/oluns_mill.js?v=3')</script>
+<script>CRWorldMode.loadLegacyScript('src/saltreach.js?v=4')</script>
+<script>CRWorldMode.loadLegacyScript('src/keep_road.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/bank_basement.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/holm_lighthouse.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/quarry_store.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/dunes_camp.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/gloomfen_stilts.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/prop_dock.js?v=1')</script>
+<script>CRWorldMode.loadLegacyScript('src/item_spawns.js?v=2')</script>
+<script src="src/proc_beasts.js"></script>
+<script src="src/game_assets.js"></script>
+<script src="src/game3_systems.js?v=g11"></script>
+<script src="src/sfx_furnishings.js?v=5"></script>
+<script src="src/waterworks_u4_contract.js?v=1"></script>
+<script src="src/fishing_edge_u5_contract.js?v=1"></script>
+<script src="src/magic_spells.js?v=2"></script>
+<script src="src/fx_dragon.js?v=3d"></script>
+<script src="src/fx_mole.js?v=1"></script>
+<script src="src/fx_wolf.js?v=2"></script>
+<script src="src/audio_orchestra.js"></script>
+<script src="src/audio_tracks2.js?v=1"></script>
+<script src="src/audio_title_full.js?v=1"></script>
+<script src="src/audio_hearthside.js?v=1"></script>
+<script src="src/audio_minstrel.js?v=1"></script>
+<script src="src/game4_ui.js?v=r34"></script>
+<script src="src/ui_osrs.js?v=1"></script>
+<script src="src/ui_prayer_magic.js?v=1"></script>
+<script src="src/ui_combat.js?v=1"></script>
+<script src="src/ui_minimap.js?v=1"></script>
+<script src="src/ui_map.js?v=4"></script>
+<script src="src/ui_shop.js?v=1"></script>
+  <script src="src/qa_profile.js?v=3"></script>
+  <script src="src/ui_save.js?v=10"></script>
+  <script src="src/login_overhaul.js?v=2"></script>
+<script src="src/overlays.js?v=2"></script>
+<script src="src/tick_health.js?v=2"></script>
+<script src="src/overlays_world.js?v=4"></script>
+<script src="src/overlay_npc_tile.js?v=1"></script>
+<script src="src/qol_ui.js?v=2"></script>
+<script src="src/item_tags.js?v=1"></script>
+<script src="src/ui_smith_grid.js?v=2"></script>
+<script src="src/smith_bronze_dagger.js?v=1"></script>
+<script src="src/ui_guide_arrow.js?v=1"></script>
+<script src="src/cooking_bread.js?v=2"></script>
+<script src="src/item_teleport_tabs.js?v=1"></script>
+<script src="src/map_search.js?v=1"></script>
+  <script src="src/scheduler.js?v=1"></script>
+  <script src="src/dispatch.js?v=3"></script>
+  <script src="src/world_v2_travel.js?v=1"></script>
+  <script src="src/admin_landmarks.js?v=3"></script>
+<script src="src/dev_travel.js?v=21"></script>
+<script src="src/hollow_square_interactions.js?v=1"></script>
+<script src="src/intents.js?v=1"></script>
+  <script src="src/workyard_waterworks_u4.js?v=3"></script>
+  <script src="src/fishing_edge_u5.js?v=2"></script>
+<script src="src/fx_atmosphere.js?v=5"></script>
+<script src="src/fx_bubbles.js?v=1"></script>
+<script src="src/deeds.js?v=1"></script>
+<script src="src/bounties.js?v=1"></script>
+<script src="src/clues.js?v=1"></script>
+<script src="src/pets.js?v=1"></script>
+<script src="src/boss_sm.js?v=1"></script>
+<script src="src/instances.js?v=2"></script>
+<script src="src/tutorial_ext.js?v=1"></script>
+  <script src="src/tutorial_holm.js?v=7"></script>
+<script src="src/holm_station_reach.js?v=1"></script>
+  <script src="src/holm_guide_hall_interactions.js?v=4"></script>
+  <script src="src/holm_survival_workyard_interactions.js?v=4"></script>
+<script src="src/holm_teaching_kitchen_interactions.js?v=4"></script>
+<script src="src/holm_quest_lodge_interactions.js?v=3"></script>
+<script src="src/holm_mine_gatehouse_interactions.js?v=2"></script>
+<script src="src/holm_bank_interactions.js?v=2"></script>
+<script src="src/holm_combat_hall_interactions.js?v=1"></script>
+<script src="src/holm_mage_tower_interactions.js?v=1"></script>
+<script src="src/holm_cellar_furnishings.js?v=13"></script>
+<script src="src/holm_survival_workyard_cellar.js?v=49"></script>
+<script src="src/holm_training_cavern.js?v=11"></script>
+<script src="src/holm_survival_trees.js?v=1"></script>
+<script src="src/holm_lastlight_runtime.js?v=47"></script>
+  <script src="src/holm_departure.js?v=1"></script>
+<script>CRWorldMode.loadLegacyScript('src/tut_holm_path.js?v=2')</script>
+<script src="src/dev_tools.js?v=1"></script>
+<script src="src/homesteads.js?v=1"></script>
+<script src="src/quest_ui.js?v=q3"></script>
+<script src="src/ui_medieval.js?v=3"></script>
+<script src="src/ui_finish.js?v=1"></script>
+<script src="src/ui_osrs.js?v=1"></script>
+<script src="src/ui_equip_quest.js?v=1"></script>
+<script src="src/ui_skills.js?v=1"></script>
+<script src="src/ui_combat.js?v=1"></script>
+<script src="src/ui_reference_finish.js?v=2"></script>
+<script src="src/ui_quest_scroll.js?v=3"></script>
+<script src="src/equip_preview.js?v=1"></script>
+<script src="src/npc_chars.js?v=3"></script>
+<script src="src/game_editor.js?v=2"></script>
+<!-- castle.js retired 2026-07-03: the old Veyhollow Keep is not on the bible map (user decision; Wardenholm is the one castle) -->
+<script src="src/anim_showcase.js"></script>
+<script>CRWorldMode.loadLegacyScript('src/starter_pen.js?v=5')</script>
+<script src="src/input_controls.js?v=2"></script>
+<script src="src/char_creator.js"></script>
+<script src="src/equip_builder.js?v=3"></script>
+<script src="src/fx_humanoid.js?v=g19"></script>
+<script src="src/char_quaternius.js?v=2"></script>
+<script src="src/char_customizer.js"></script>
+<script src="src/char_styles.js"></script>
+<script src="src/boot_coordinator.js?v=1"></script>
+<script src="src/crafting_action_visuals.js?v=3"></script>
+<script src="src/game5_main.js?v=h34"></script>
+<script src="src/tut_firemaking.js?v=1"></script>
+<script>
+  /* sync the settings volume sliders to saved values on load */
+  window.addEventListener('load', function(){ try{
+    var mv=localStorage.getItem('cr_vol_music'), sv=localStorage.getItem('cr_vol_sfx');
+    var a=document.getElementById('vol-music'), b=document.getElementById('vol-sfx');
+    if(a&&mv!=null) a.value=Math.round(parseFloat(mv)*100);
+    if(b&&sv!=null) b.value=Math.round(parseFloat(sv)*100);
+  }catch(e){} });
+
+  /* build stamp — confirms exactly which build is on screen. BUILD_INFO.json is
+     (re)written by serve.ps1 on every launch. Click the stamp to collapse it to a dot. */
+  (function(){
+    var el=document.getElementById('build-stamp'); if(!el) return;
+    fetch('BUILD_INFO.json?_='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(b){
+      if(!b){ el.textContent='build: run serve.bat to stamp'; return; }
+      if(b.dirty) el.classList.add('dirty');
+      el.innerHTML='<b>'+b.branch+'</b> @ '+b.commit+(b.dirty?' ✎':'')+' · '+(b.served||'');
+      el.title='Build on screen now:\n'+b.branch+' @ '+b.commit+(b.dirty?' (uncommitted changes)':'')
+              +'\n'+(b.subject||'')+'\nserved '+(b.served||'')+'\n(click to collapse)';
+    }).catch(function(){ el.textContent='build: (no stamp)'; });
+    el.addEventListener('click',function(){ el.classList.toggle('min'); });
+  })();
+</script>
 </body>
 </html>

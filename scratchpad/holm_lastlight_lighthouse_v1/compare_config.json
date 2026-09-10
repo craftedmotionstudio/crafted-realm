@@ -1,0 +1,13 @@
+{
+  "name": "Lastlight Beacon v1 — OSRS-Inspired Building Grammar",
+  "osrs": "Bible_References/Tutorial_Island_Building.jpg",
+  "cr": "scratchpad/holm_lastlight_lighthouse_v1/lastlight_south.png",
+  "left_label": "TUTORIAL BUILDING STYLE REFERENCE",
+  "right_label": "ACTUAL BLENDER 4.5 LIGHTHOUSE RENDER",
+  "subtitle": "Readable low-poly masonry, strong openings, warm construction materials, and functional circulation",
+  "codex": 9.0,
+  "review_note": "The original lighthouse preserves the reference's readable low-poly building grammar while adding a landmark silhouette: hand-laid tapered masonry, exaggerated fitted openings, structural buttresses, stained glass, a corbelled walk, octagonal lantern room and weathered copper crown. It is deliberately wider because its complete 64-tile stair and accessible top are gameplay requirements.",
+  "verdict": "APPROVED FOR LIVE INTEGRATION",
+  "improve": "Validate close-camera wall cutaway and the complete stair route in the real game; do not shrink the 17.6-tile interior.",
+  "out": "Bible_References/Complete/_compare/holm_lastlight_lighthouse_v1_compare.png"
+}

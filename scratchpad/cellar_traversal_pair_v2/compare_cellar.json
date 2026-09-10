@@ -1,0 +1,13 @@
+{
+  "name": "Cellar Wall Ladder v4 - Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/cellar_simple_wall_ladder_nanobanana2_v1.png",
+  "cr": "scratchpad/cellar_traversal_pair_v2/05_cellar_construction.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Original low-poly concept vs scale-locked custom-topology cellar ladder",
+  "codex": 9.4,
+  "review_note": "The Blender result closely follows the corrective concept: two restrained rails, nine evenly spaced rungs, one uniform aged-oak material, character-readable scale and a stronger working wall lean. The rejected wall hatch, black recess, hooks, pads, metal and lashings are all absent.",
+  "verdict": "APPROVED FOR RUNTIME PLACEMENT",
+  "improve": "Keep the rail tops touching the west wall while preserving the in-room feet and visible-mesh-only climb target.",
+  "out": "Bible_References/Complete/_compare/cellar_wall_ladder_v4_concept_compare.png"
+}

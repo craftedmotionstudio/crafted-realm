@@ -1,0 +1,13 @@
+{
+  "name": "Cellar Ladder and Descent v1 — Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/cellar_ladder_hatch_nanobanana2_v2.png",
+  "cr": "scratchpad/cellar_ladder_hatch_v1/02_shaded.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Owner-standard shape reference vs scale-locked custom-topology Blender family",
+  "codex": 9.1,
+  "review_note": "The Blender family preserves the compact masonry descent, leaning twin rails, seven fitted rungs, hand-hewn construction, rear landing portal, dark opening, readable iron fasteners and warm flat-shaded palette. Numeric authority comes from the 1.9-tile player contract rather than the concept's exaggerated figure scale: the rail is 2.256 tiles high, the clear rung width is 0.60 tile, and the whole family remains nearly one tile deep.",
+  "verdict": "APPROVED FOR GAME INTEGRATION",
+  "improve": "Keep the opening buried flush with the runtime floor, retain the dark recessed parallax, and preserve the seven-rung count and current character-relative dimensions.",
+  "out": "Bible_References/Complete/_compare/cellar_ladder_hatch_v1_concept_compare.png"
+}

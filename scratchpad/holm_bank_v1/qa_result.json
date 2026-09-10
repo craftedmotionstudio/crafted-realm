@@ -1,0 +1,123 @@
+{
+  "profile": "fable-bank-qa-mtu8qmqc",
+  "passed": 12,
+  "total": 12,
+  "checks": [
+    {
+      "label": "fresh QA profile booted through the real login flow",
+      "ok": true
+    },
+    {
+      "label": "real pathing reaches the ridge road beside the bank door",
+      "ok": true,
+      "detail": [
+        155.5,
+        122.5
+      ]
+    },
+    {
+      "label": "bank streamed in, its pad is gone, and the vault chest stands inside the vault",
+      "ok": true,
+      "detail": {
+        "bank": true,
+        "pad": false,
+        "chest": [
+          159.5,
+          113.5,
+          "bank"
+        ]
+      }
+    },
+    {
+      "label": "from the north lawn the plan into the vault goes round through the front door, not through the wall",
+      "ok": true,
+      "detail": {
+        "north": [
+          157.5,
+          110.5
+        ],
+        "planLength": 28
+      }
+    },
+    {
+      "label": "bank door opens and the customer hall is enterable",
+      "ok": true,
+      "detail": [
+        154.5,
+        117.5
+      ]
+    },
+    {
+      "label": "roof cuts away when the player stands in the hall",
+      "ok": true,
+      "detail": {
+        "roofVisible": false
+      }
+    },
+    {
+      "label": "the teller booth opens the real bank interface (required open_bank source)",
+      "ok": true,
+      "detail": {
+        "before": {
+          "open": false,
+          "step": 0
+        },
+        "booth": {
+          "open": true,
+          "step": 0
+        }
+      }
+    },
+    {
+      "label": "the staff gap at the counter's east end leads into the vault ledger tile",
+      "ok": true,
+      "detail": [
+        154.5,
+        114.5
+      ]
+    },
+    {
+      "label": "the vault chest still opens the bank through the engine's own bank path",
+      "ok": true,
+      "detail": {
+        "open": true,
+        "pos": [
+          159.3,
+          114.5
+        ]
+      }
+    },
+    {
+      "label": "staff door opens and the ridge continues east toward the Combat Hall",
+      "ok": true,
+      "detail": [
+        163.5,
+        118.5
+      ]
+    },
+    {
+      "label": "reload continues the adventurer east of the bank with the route untouched",
+      "ok": true,
+      "detail": {
+        "pos": [
+          163.5,
+          118.5
+        ],
+        "step": 0,
+        "errors": 0
+      }
+    },
+    {
+      "label": "no page errors, console errors, or failed asset loads across the whole run",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failedLoads": []
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedLoads": []
+}

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "contract": "src/waterworks_u4_contract.js",
+  "passed": true,
+  "total": 21,
+  "failures": 0,
+  "results": [
+    {
+      "label": "begin succeeds with an empty bucket",
+      "passed": true
+    },
+    {
+      "label": "lowering reaches water_contact",
+      "passed": true
+    },
+    {
+      "label": "water_contact reaches lifting",
+      "passed": true
+    },
+    {
+      "label": "lift completion commits exactly one transaction",
+      "passed": true
+    },
+    {
+      "label": "transaction transforms bucket into bucket_water",
+      "passed": true
+    },
+    {
+      "label": "commit lands in settling with the opId recorded",
+      "passed": true
+    },
+    {
+      "label": "settling returns to idle and clears the active operation",
+      "passed": true
+    },
+    {
+      "label": "an already-rewarded opId cannot begin again",
+      "passed": true
+    },
+    {
+      "label": "a reloaded mid-lift replay of a rewarded opId emits no second transaction",
+      "passed": true
+    },
+    {
+      "label": "interrupt during lowering resets without any transaction",
+      "passed": true
+    },
+    {
+      "label": "interrupt during water_contact resets without any transaction",
+      "passed": true
+    },
+    {
+      "label": "interrupt during lifting resets without any transaction",
+      "passed": true
+    },
+    {
+      "label": "begin refuses without an empty bucket",
+      "passed": true
+    },
+    {
+      "label": "begin refuses while an operation is active",
+      "passed": true
+    },
+    {
+      "label": "no transaction when the bucket is gone at commit time",
+      "passed": true
+    },
+    {
+      "label": "an out-of-order event is ignored",
+      "passed": true
+    },
+    {
+      "label": "advancing with no active operation is a no-op",
+      "passed": true
+    },
+    {
+      "label": "applied-ops ledger is capped at 32",
+      "passed": true
+    },
+    {
+      "label": "two identical runs serialize identically",
+      "passed": true
+    },
+    {
+      "label": "begin never mutates its inputs",
+      "passed": true
+    },
+    {
+      "label": "clip timing metadata is locked",
+      "passed": true
+    }
+  ]
+}

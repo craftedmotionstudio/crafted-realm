@@ -1,0 +1,127 @@
+{
+  "profile": "fable-tower-qa-mtugtc95",
+  "passed": 14,
+  "total": 14,
+  "checks": [
+    {
+      "label": "fresh QA profile booted through the real login flow",
+      "ok": true
+    },
+    {
+      "label": "real pathing reaches the ridge road at the tower door step",
+      "ok": true,
+      "detail": [
+        186.5,
+        135.5
+      ]
+    },
+    {
+      "label": "tower streamed in, its pad is gone, and the casting socket ships no geometry",
+      "ok": true,
+      "detail": {
+        "tower": true,
+        "pad": false,
+        "socket": 0
+      }
+    },
+    {
+      "label": "from the dock road the plan to the rune table goes round through a door, not through the wall",
+      "ok": true,
+      "detail": {
+        "east": [
+          196.5,
+          140.5
+        ],
+        "planLength": 12
+      }
+    },
+    {
+      "label": "west door opens and the casting hall is enterable to the rune table tile",
+      "ok": true,
+      "detail": [
+        191.5,
+        134.5
+      ]
+    },
+    {
+      "label": "roof and upper study cut away when the player stands in the casting hall",
+      "ok": true,
+      "detail": {
+        "roofVisible": false
+      }
+    },
+    {
+      "label": "the rune table study opens the spellbook tab and leaves the required route untouched",
+      "ok": true,
+      "detail": {
+        "tab": true,
+        "shown": null,
+        "step": 0
+      }
+    },
+    {
+      "label": "the casting circle tile beside the silent socket is walkable",
+      "ok": true,
+      "detail": [
+        191.5,
+        137.5
+      ]
+    },
+    {
+      "label": "the arch leads into the scriptorium to the lectern tile",
+      "ok": true,
+      "detail": [
+        196.5,
+        136.5
+      ]
+    },
+    {
+      "label": "the register tile under the wing's north wall is reachable",
+      "ok": true,
+      "detail": [
+        196.5,
+        134.5
+      ]
+    },
+    {
+      "label": "south door opens and the tower exits toward the dock road",
+      "ok": true,
+      "detail": [
+        191.5,
+        140.5
+      ]
+    },
+    {
+      "label": "the dock road continues south from the tower step",
+      "ok": true,
+      "detail": [
+        193.5,
+        150.5
+      ]
+    },
+    {
+      "label": "reload continues the adventurer on the dock road with the route untouched",
+      "ok": true,
+      "detail": {
+        "pos": [
+          193.5,
+          150.5
+        ],
+        "step": 0,
+        "errors": 0
+      }
+    },
+    {
+      "label": "no page errors, console errors, or failed asset loads across the whole run",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failedLoads": []
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedLoads": []
+}

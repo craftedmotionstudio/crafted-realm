@@ -1,0 +1,327 @@
+{
+ "hatchet": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_hatchet"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_hatchet"
+  }
+ },
+ "iron_hatchet": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_hatchet"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_hatchet"
+  }
+ },
+ "steel_hatchet": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_hatchet"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_hatchet"
+  }
+ },
+ "pickaxe": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_pickaxe"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_pickaxe"
+  }
+ },
+ "iron_pickaxe": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_pickaxe"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_pickaxe"
+  }
+ },
+ "bronze_dagger": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_dagger"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_dagger"
+  }
+ },
+ "bronze_sword": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_sword"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_sword"
+  }
+ },
+ "bronze_longsword": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_longsword"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_longsword"
+  }
+ },
+ "bronze_sabre": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_sword"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_sword"
+  }
+ },
+ "bronze_battleaxe": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_hatchet"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_hatchet"
+  }
+ },
+ "iron_sword": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_sword"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_sword"
+  }
+ },
+ "iron_sabre": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_sword"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_sword"
+  }
+ },
+ "iron_dagger": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_dagger"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_dagger"
+  }
+ },
+ "bronze_helm": {
+  "proc": {
+   "slot": "head",
+   "equipped": true,
+   "mesh": "gear_helm"
+  },
+  "glb": {
+   "slot": "head",
+   "equipped": true,
+   "mesh": "gear_helm"
+  }
+ },
+ "bronze_plate": {
+  "proc": {
+   "slot": "body",
+   "equipped": true,
+   "mesh": null
+  },
+  "glb": {
+   "slot": "body",
+   "equipped": true,
+   "mesh": null
+  }
+ },
+ "bronze_legs": {
+  "proc": {
+   "slot": "legs",
+   "equipped": true,
+   "mesh": null
+  },
+  "glb": {
+   "slot": "legs",
+   "equipped": true,
+   "mesh": null
+  }
+ },
+ "bronze_kiteshield": {
+  "proc": {
+   "slot": "shield",
+   "equipped": true,
+   "mesh": "gear_shield"
+  },
+  "glb": {
+   "slot": "shield",
+   "equipped": true,
+   "mesh": "gear_shield"
+  }
+ },
+ "wood_shield": {
+  "proc": {
+   "slot": "shield",
+   "equipped": true,
+   "mesh": "gear_shield"
+  },
+  "glb": {
+   "slot": "shield",
+   "equipped": true,
+   "mesh": "gear_shield"
+  }
+ },
+ "iron_helm": {
+  "proc": {
+   "slot": "head",
+   "equipped": true,
+   "mesh": "gear_helm"
+  },
+  "glb": {
+   "slot": "head",
+   "equipped": true,
+   "mesh": "gear_helm"
+  }
+ },
+ "leather_body": {
+  "proc": {
+   "slot": "body",
+   "equipped": true,
+   "mesh": null
+  },
+  "glb": {
+   "slot": "body",
+   "equipped": true,
+   "mesh": null
+  }
+ },
+ "worn_bow": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_shortbow"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_shortbow"
+  }
+ },
+ "ash_bow": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_shortbow"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_shortbow"
+  }
+ },
+ "gale_longbow": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_shortbow"
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": "gear_shortbow"
+  }
+ },
+ "apprentice_staff": {
+  "proc": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": null
+  },
+  "glb": {
+   "slot": "weapon",
+   "equipped": true,
+   "mesh": null
+  }
+ },
+ "wizard_hat": {
+  "proc": {
+   "slot": "head",
+   "equipped": true,
+   "mesh": null
+  },
+  "glb": {
+   "slot": "head",
+   "equipped": true,
+   "mesh": null
+  }
+ },
+ "monk_robe_top": {
+  "proc": {
+   "slot": "body",
+   "equipped": true,
+   "mesh": null
+  },
+  "glb": {
+   "slot": "body",
+   "equipped": true,
+   "mesh": null
+  }
+ },
+ "amulet_of_might": {
+  "proc": {
+   "slot": "amulet",
+   "equipped": true,
+   "mesh": null
+  },
+  "glb": {
+   "slot": "amulet",
+   "equipped": true,
+   "mesh": null
+  }
+ },
+ "_uncaughtErrors": 0
+}

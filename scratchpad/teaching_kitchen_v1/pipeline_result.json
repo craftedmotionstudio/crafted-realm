@@ -1,0 +1,69 @@
+{
+  "assetId": "holm_teaching_kitchen_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 816580,
+    "triangles": 10794,
+    "primitives": 75,
+    "materials": 30
+  },
+  "animations": [],
+  "authoringChecks": {
+    "compoundLPlanWithPolygonalApseAuthored": true,
+    "threeRoofMassesAuthored": true,
+    "fittedFullFrameDoorsAuthored": true,
+    "irregularMasonryCoursesAuthored": true,
+    "loadBearingTimberBaysAuthored": true,
+    "layeredRoofCoursesAuthored": true,
+    "workingRangeWithFlueAuthored": true,
+    "ingredientStationsAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "scaleChecks": [
+    {
+      "label": "door opening height",
+      "value": 3.05,
+      "min": 2.4,
+      "max": 3.3,
+      "passed": true
+    },
+    {
+      "label": "kneading table height",
+      "value": 0.925,
+      "min": 0.85,
+      "max": 1.06,
+      "passed": true
+    },
+    {
+      "label": "range hob height",
+      "value": 1.11,
+      "min": 0.95,
+      "max": 1.2,
+      "passed": true
+    },
+    {
+      "label": "flour bin height",
+      "value": 1.02,
+      "min": 0.85,
+      "max": 1.15,
+      "passed": true
+    },
+    {
+      "label": "water butt height",
+      "value": 1.05,
+      "min": 0.85,
+      "max": 1.2,
+      "passed": true
+    },
+    {
+      "label": "bakehouse wall height",
+      "value": 4.4,
+      "min": 3.8,
+      "max": 5.0,
+      "passed": true
+    }
+  ],
+  "cardinalProofs": [],
+  "errors": []
+}

@@ -1,0 +1,15 @@
+{
+  "asset": "workyard_exterior_u3_v1",
+  "object": "complete family in installed relative arrangement (rack, block + embedded axe, sawbuck)",
+  "date": "2026-07-15",
+  "lens": "Shared three-area-light rig, orthographic lens at gameplay pitch (~43 deg), ortho scale 10.8 identical across all four directions",
+  "auditCriteria": ["clipping", "floating logs/rope", "floor contact", "missing backs/undersides", "axe/block intersection quality", "silhouette"],
+  "views": {
+    "north": {"verdict": "PASS", "notes": "All three objects grounded and separated; back faces fully modeled; no inter-object clipping at installed spacing."},
+    "south": {"verdict": "PASS", "notes": "Gameplay-facing composition: rack load, embedded axe, and half-sawn log all read at distance; every silhouette distinct."},
+    "east": {"verdict": "PASS", "notes": "End-on stack, stump, and X-frames read without overlap artifacts; ropes, chips, and sawdust never float."},
+    "west": {"verdict": "PASS", "notes": "Mirrored end-on read is clean; staggered log ends and axe angle give the yard a worked, occupied look."}
+  },
+  "note": "Aggregates the three per-object audits: turnaround_review_rack.json, turnaround_review_block_axe.json, turnaround_review_sawbuck.json — 12/12 directions PASS after two authored corrections (arc kerf slit; flush rim scar).",
+  "verdict": "PASS"
+}

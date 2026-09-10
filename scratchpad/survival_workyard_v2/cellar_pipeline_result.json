@@ -1,0 +1,28 @@
+{
+  "assetId": "holm_survival_workyard_cellar_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 488544,
+    "triangles": 6708,
+    "primitives": 37,
+    "materials": 28
+  },
+  "authoringChecks": {
+    "compoundShapeAuthored": true,
+    "distinctRoofHierarchyAuthored": true,
+    "purposefulSurfaceFurnishingsAuthored": true,
+    "realCellarAuthored": true,
+    "animatedFlameSocketsAuthored": true,
+    "chickenSocketDeferred": true,
+    "surfaceSemanticNodesPreserved": true,
+    "cellarSemanticNodesPreserved": true,
+    "layeredRoofDetailAuthored": true,
+    "roofContactJoineryAuthored": true,
+    "fittedDoorLeavesAuthored": true,
+    "recessedCellarShaftAuthored": true,
+    "terrainProofCellarVoidAuthored": true,
+    "modeledAnimatedCellarLanternsAuthored": true
+  },
+  "errors": []
+}

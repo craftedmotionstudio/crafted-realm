@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Waterworks U4 Dock v1 — Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/workyard_waterworks_u4_dock_nanobanana2_v1.png",
+  "cr": "scratchpad/workyard_waterworks_u4_v1/05_gameplay_camera.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "L-shaped pond dock: hand-cut planks, fitted piles, braces, selective rope rails",
+  "codex": 9.1,
+  "review_note": "The Blender family preserves the unmistakable two-tile-wide L with its corner work platform, individually varied hand-cut planks with honest gaps and repaired boards, driven piles with weathered proud bollards and dark waterline bases, below-deck bracing, sagging rope-and-post rails on outer edges only, open shore entry / bank exit / fishing edge, stone-and-threshold contacts at both landings, and the corner pulley frame — at canonical player scale. Deviations: the concept's planking is slightly denser and its shore grass/terrain dressing is Codex terrain work, not part of the asset.",
+  "verdict": "APPROVED FOR CODEX INTEGRATION",
+  "improve": "None blocking; keep the 2.0-tile deck and open functional edges when fitting to live terrain.",
+  "out": "Bible_References/Complete/_compare/workyard_waterworks_u4_dock_v1_compare.png"
+}

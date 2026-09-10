@@ -1,0 +1,66 @@
+{
+  "asset": "cellar_quiet_corner_v1",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "blenderVersion": "4.5.10 LTS",
+  "source": "assets/blender/props/cellar_quiet_corner_v1.blend",
+  "model": "assets/models/props/cellar_quiet_corner_v1.glb",
+  "reference": "docs/rebuild/concepts/cellar_quiet_corner_nanobanana2_v1.png",
+  "conceptTool": "Gemini 3 Pro Image / Nano Banana 2",
+  "visibleMeshObjects": 4,
+  "vertices": 1746,
+  "triangles": 3236,
+  "materials": [
+    "CR Quiet Corner Aged Oak",
+    "CR Quiet Corner Charcoal Repair Iron",
+    "CR Quiet Corner Cup Interior",
+    "CR Quiet Corner Earthenware",
+    "CR Quiet Corner Honey Rush",
+    "CR Quiet Corner Honeyed Oak Edge",
+    "CR Quiet Corner Moss Wool",
+    "CR Quiet Corner Muted Russet Shawl",
+    "CR Quiet Corner Oak Shadow",
+    "CR Quiet Corner Rush Shadow",
+    "CR Quiet Corner Russet Shawl Shadow",
+    "CR Quiet Corner Rust Wool",
+    "CR Quiet Corner Undyed Wool",
+    "CR Quiet Corner Willow Basket",
+    "CR Quiet Corner Willow Edge",
+    "CR Quiet Corner Worn Oak Face"
+  ],
+  "animations": [],
+  "dimensionsTiles": {
+    "width": 3.113,
+    "depth": 1.528,
+    "height": 1.79
+  },
+  "humanScaleContract": {
+    "standingPlayerHeight": 1.9,
+    "tallChairHeight": 1.778,
+    "lowChairHeight": 1.375,
+    "tallSeatHeight": 0.616,
+    "lowSeatHeight": 0.569
+  },
+  "proofViews": [
+    "01_shaded",
+    "02_clay_silhouette",
+    "03_wireframe",
+    "04_material_id",
+    "05_gameplay_camera",
+    "06_rear_construction"
+  ],
+  "checks": {
+    "ownerStandardNanoBananaReference": true,
+    "noPrimitiveOperatorsUsedForVisibleAsset": true,
+    "customAssetSpecificTopology": true,
+    "twoGenuinelyDistinctChairSilhouettes": true,
+    "sevenSidedTripodTable": true,
+    "handledYarnBasketWithReadableContents": true,
+    "separateSemanticInteractionRoots": true,
+    "controlledFlatShading": true,
+    "sixViewProofPacket": true,
+    "runtimeGroupedBySemanticObject": true,
+    "humanScaleFurniture": true
+  },
+  "status": "Blender source and family review candidate"
+}

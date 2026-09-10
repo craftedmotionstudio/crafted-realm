@@ -1,0 +1,195 @@
+TEACHING_KITCHEN_V1_STAGE floors
+TEACHING_KITCHEN_V1_STAGE shell
+TEACHING_KITCHEN_V1_STAGE furnishings
+TEACHING_KITCHEN_V1_STAGE roof
+TEACHING_KITCHEN_V1_STAGE consolidate
+TEACHING_KITCHEN_V1_STAGE render
+Blender 4.5.10 LTS (hash 6dc0b208d1b5 built 2026-05-19 01:33:42)
+Fra:1 Mem:78.71M (Peak 78.75M) | Time:00:01.23 | Rendering 1 / 64 samples
+Fra:1 Mem:78.71M (Peak 78.75M) | Time:00:01.36 | Rendering 25 / 64 samples
+Fra:1 Mem:78.71M (Peak 78.75M) | Time:00:01.48 | Rendering 50 / 64 samples
+Fra:1 Mem:78.71M (Peak 78.75M) | Time:00:01.54 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\teaching_kitchen_v1\teaching_kitchen_v1_exterior.png'
+Time: 00:01.86 (Saving: 00:00.27)
+
+Fra:1 Mem:78.06M (Peak 78.06M) | Time:00:00.09 | Rendering 1 / 64 samples
+Fra:1 Mem:78.06M (Peak 78.06M) | Time:00:00.18 | Rendering 25 / 64 samples
+Fra:1 Mem:78.06M (Peak 78.06M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:78.06M (Peak 78.06M) | Time:00:00.33 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\teaching_kitchen_v1\teaching_kitchen_v1_roof_off.png'
+Time: 00:00.51 (Saving: 00:00.14)
+
+Fra:1 Mem:78.06M (Peak 78.06M) | Time:00:00.09 | Rendering 1 / 64 samples
+Fra:1 Mem:78.06M (Peak 78.06M) | Time:00:00.20 | Rendering 25 / 64 samples
+Fra:1 Mem:78.06M (Peak 78.06M) | Time:00:00.32 | Rendering 50 / 64 samples
+Fra:1 Mem:78.06M (Peak 78.06M) | Time:00:00.39 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\teaching_kitchen_v1\teaching_kitchen_v1_plan.png'
+Time: 00:00.58 (Saving: 00:00.15)
+
+Fra:1 Mem:78.71M (Peak 78.71M) | Time:00:00.09 | Rendering 1 / 64 samples
+Fra:1 Mem:78.71M (Peak 78.71M) | Time:00:00.18 | Rendering 25 / 64 samples
+Fra:1 Mem:78.71M (Peak 78.71M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:78.71M (Peak 78.71M) | Time:00:00.32 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\teaching_kitchen_v1\teaching_kitchen_v1_game_camera.png'
+Time: 00:00.51 (Saving: 00:00.14)
+
+Info: Saved as "holm_teaching_kitchen_v1.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 4.5\4.5\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+08:35:21 | INFO: Starting glTF 2.0 export
+08:35:21 | INFO: Extracting primitive: Cube.505
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.506
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.523
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.504
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.502
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.490
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cylinder.020
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.488
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.487
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.482
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.484
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.476
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.475
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.472
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.473
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cylinder.009
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.470
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.474
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cylinder.008
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cylinder
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.388
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.379
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.380
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cylinder.027
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.531
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cylinder.026
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.533
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.532
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.469
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cylinder.005
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.494
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.495
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.493
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.501
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.812
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.707
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.794
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.793
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cylinder.035
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.763
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.551
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.769
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.770
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: GableEndMesh
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.541
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.011
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: ApseFloorMesh
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.539
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.440
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.071
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.127
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.548
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.538
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.133
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.444
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.126
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.462
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cylinder.002
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.461
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.457
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.459
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.456
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.458
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.467
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cube.460
+08:35:21 | INFO: Primitives created: 1
+08:35:21 | INFO: Extracting primitive: Cylinder.019
+08:35:22 | INFO: Primitives created: 1
+08:35:22 | INFO: Extracting primitive: Cylinder.018
+08:35:22 | INFO: Primitives created: 1
+08:35:22 | INFO: Extracting primitive: Cube.486
+08:35:22 | INFO: Primitives created: 1
+08:35:22 | INFO: Extracting primitive: Cylinder.014
+08:35:22 | INFO: Primitives created: 1
+08:35:22 | INFO: Extracting primitive: Cube.485
+08:35:22 | INFO: Primitives created: 1
+08:35:22 | INFO: Extracting primitive: Cylinder.013
+08:35:22 | INFO: Primitives created: 1
+08:35:22 | INFO: Extracting primitive: Cylinder.001
+08:35:22 | INFO: Primitives created: 1
+08:35:22 | INFO: Extracting primitive: Cube.400
+08:35:22 | INFO: Primitives created: 1
+08:35:22 | INFO: Extracting primitive: Cube.391
+08:35:22 | INFO: Primitives created: 1
+08:35:22 | INFO: Extracting primitive: Cube.392
+08:35:22 | INFO: Primitives created: 1
+08:35:22 | INFO: Finished glTF 2.0 export in 0.2008044719696045 s
+
+TEACHING_KITCHEN_V1_STAGE done
+TEACHING_KITCHEN_V1_READY C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\assets\models\buildings\holm_teaching_kitchen_v1.glb
+
+Blender quit
+BLENDER EXIT 0

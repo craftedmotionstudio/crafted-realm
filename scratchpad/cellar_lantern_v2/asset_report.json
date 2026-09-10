@@ -1,0 +1,51 @@
+{
+  "asset": "cellar_lantern_v2",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "blenderVersion": "4.5.10 LTS",
+  "source": "assets/blender/cellar_lantern_v2.blend",
+  "model": "assets/models/props/cellar_lantern_v2.glb",
+  "visibleMeshObjects": 4,
+  "vertices": 1302,
+  "triangles": 2464,
+  "materials": [
+    "CR Lantern Aged Brass",
+    "CR Lantern Amber Glass",
+    "CR Lantern Amber Glass Light",
+    "CR Lantern Brass Face",
+    "CR Lantern Brass Wear",
+    "CR Lantern Flame Core",
+    "CR Lantern Flame Ember",
+    "CR Lantern Flame Gold",
+    "CR Lantern Iron Low",
+    "CR Lantern Iron Mid",
+    "CR Lantern Soot",
+    "CR Lantern Worn Iron Edge"
+  ],
+  "proofViews": [
+    "01_shaded",
+    "02_clay_silhouette",
+    "03_wireframe",
+    "04_material_id",
+    "05_gameplay_camera"
+  ],
+  "authoring": {
+    "primitiveOperatorsUsed": false,
+    "customLathedProfiles": true,
+    "customForgedTubePaths": true,
+    "customFacetedPanels": true,
+    "fittedDoorHingesAndLatch": true,
+    "authoredFaceMaterialVariation": true,
+    "animatedFlameAction": "FlameFlicker"
+  },
+  "checks": {
+    "noPrimitiveOperators": true,
+    "customSilhouetteTopology": true,
+    "fittedConstructionDetails": true,
+    "authoredFaceMaterialVariation": true,
+    "fiveViewProofPacket": true,
+    "semanticFlameAnimation": true,
+    "staticGeometryConsolidated": true
+  },
+  "status": "owner-review-proof; not integrated"
+}

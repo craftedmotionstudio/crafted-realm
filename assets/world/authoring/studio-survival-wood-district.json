@@ -1,0 +1,26 @@
+{
+  "schema": "crafted-realm-world-v2-district-authoring-v1",
+  "version": 1,
+  "chunkSize": 8,
+  "sourcePath": "assets/world/authoring/studio-survival-wood-district.json",
+  "provider": {
+    "id": "tutors-holm-v2",
+    "worldRevision": 4
+  },
+  "landscape": {
+    "planId": "tutors-holm-landscape-v1",
+    "revision": 3
+  },
+  "district": {
+    "id": "survival_wood",
+    "padIds": [
+      "survival_shelter"
+    ]
+  },
+  "building": {
+    "sourcePath": "assets/world/authoring/studio-survival-workyard.json",
+    "bundlePath": "assets/world/authoring/studio-survival-workyard.bundle.json",
+    "definitionId": "holm_survival_workyard_v1",
+    "runtimePlacementId": "holm_survival_workyard"
+  }
+}

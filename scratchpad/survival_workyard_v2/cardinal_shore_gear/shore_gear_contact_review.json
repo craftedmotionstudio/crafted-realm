@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "asset": "Workyard shoreline net, buoy crate, and rope cluster",
+  "verdict": "PASS",
+  "views": {
+    "north": {
+      "status": "PASS",
+      "notes": "Buoys bear on the crate interior; rack feet and braces reach the floor."
+    },
+    "south": {
+      "status": "PASS",
+      "notes": "Crate slats contain each buoy and the rope coil remains clearly separated."
+    },
+    "east": {
+      "status": "PASS",
+      "notes": "No buoy escapes the crate sides; net stand, crate, and rope do not intersect."
+    },
+    "west": {
+      "status": "PASS",
+      "notes": "Varied buoy lean reads naturally and all visible supports meet the floor."
+    }
+  },
+  "criteria": {
+    "silhouetteAndProportion": "PASS",
+    "shapeHierarchy": "PASS",
+    "colorMaterialSeparation": "PASS",
+    "referenceDefiningFeatures": "PASS",
+    "gameplayCameraReadability": "PASS",
+    "animationInteractionReadability": "PASS",
+    "familyConsistency": "PASS",
+    "collisionAndContact": "PASS"
+  }
+}

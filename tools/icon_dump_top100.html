@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Icon dump — top-100 our-icons capture</title>
+<style>
+  body{background:#1a1712;color:#e8dcc0;font:12px system-ui;padding:12px}
+  .cell{display:inline-block;text-align:center;margin:4px;width:72px;vertical-align:top}
+  .cell img{width:48px;height:48px;image-rendering:pixelated;background:#3e3529;border-radius:4px}
+  .cell div{font-size:9px;word-break:break-all}
+  #status{font-size:14px;margin-bottom:8px;color:#d4a83e}
+</style>
+<script>
+  /* minimal stub so smith_bronze_dagger boots outside the full game */
+  var SMITHABLES = { bronze_bar: [] };
+</script>
+<script src="../src/game1_data.js"></script>
+<script src="../src/game0_icons.js"></script>
+<script src="../src/smith_bronze_dagger.js"></script>
+</head>
+<body>
+<div id="status">rendering…</div>
+<div id="grid"></div>
+<script>
+window.ICON_DUMP = {};
+window.ICON_DUMP_READY = false;
+fetch('../Bible_References/Items_Top100/top100_items.json').then(r => r.json()).then(data => {
+  const ids = data.items.filter(i => i.id).map(i => i.id);
+  const grid = document.getElementById('grid');
+  const wait = setInterval(() => {                       // let smith_bronze_dagger's boot interval fire
+    if (typeof ICONS === 'undefined' || !ICONS['bronze_dagger']) return;
+    clearInterval(wait);
+    let ok = 0, fail = [];
+    for (const id of ids){
+      try {
+        const url = iconFor(id);
+        window.ICON_DUMP[id] = url;
+        const cell = document.createElement('span'); cell.className = 'cell';
+        cell.innerHTML = `<img src="${url}"><div>${id}</div>`;
+        grid.appendChild(cell);
+        ok++;
+      } catch (e) { fail.push(id + ': ' + e.message); }
+    }
+    window.ICON_DUMP_READY = true;
+    document.getElementById('status').textContent =
+      `[ICONDUMP] ready — ${ok}/${ids.length} icons` + (fail.length ? ' | FAILED: ' + fail.join(', ') : '');
+    console.log('[ICONDUMP] ready', ok, 'failed', fail);
+  }, 100);
+});
+</script>
+</body>
+</html>

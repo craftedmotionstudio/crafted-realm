@@ -1,0 +1,11 @@
+{
+  "name": "Training Cavern — Faceted Earthen Basin",
+  "subtitle": "OSRS tutorial-mine reference vs live Crafted Realms gameplay camera",
+  "osrs": "Bible_References/Tutorial_Island_Mining_Cave_&_Mining_Rocks.jpg",
+  "cr": "scratchpad/holm_training_cavern_v1/live_bowl_final_v4.png",
+  "codex": 9.0,
+  "review_note": "The live cave now uses one continuous shallow faceted bowl with raised irregular shoulders, warm cut-earth value changes, readable rock clusters, and clear cardinal lanes. The previous flat grid and oversized floor islands are gone.",
+  "verdict": "accepted for the Tutor's Holm training slice",
+  "improve": "Future atmosphere work can add localized dust and slightly brighter far-chamber fill without changing the accepted terrain topology.",
+  "out": "Bible_References/Complete/_compare/Training_Cavern_v2_compare.png"
+}

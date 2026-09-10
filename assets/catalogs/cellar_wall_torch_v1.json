@@ -1,0 +1,47 @@
+{
+  "assetId": "cellar_wall_torch_v1",
+  "displayName": "Storm Cellar Wall Torch",
+  "family": "Tutor's Holm cellar furnishings",
+  "gameplayRole": "Reusable animated medieval wall lighting",
+  "status": "integrated",
+  "version": 1,
+  "reference": {
+    "image": "docs/rebuild/concepts/cellar_wall_torch_nanobanana2_v1.png",
+    "prompt": "docs/rebuild/concepts/cellar_wall_torch_nanobanana2_v1.prompt.md",
+    "promptStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md",
+    "provenance": "Generated with Gemini 3 Pro Image / Nano Banana 2 on 2026-07-14; original Crafted Realm concept"
+  },
+  "visibleFeatures": [
+    "crooked hand-hewn ashwood shaft",
+    "irregular hammered four-rivet backplate",
+    "fitted upper forged arm and lower brace",
+    "open iron shaft collar and broad soot cup",
+    "overlapping pitch-soaked cloth wraps",
+    "three-layer ember, orange, and gold faceted flame"
+  ],
+  "dimensionsTiles": {"width": 0.66, "projection": 0.88, "height": 1.57},
+  "pivot": "wall-plate center; separate flame pivot above the pitch head",
+  "facing": "front is Blender -Y and exported Three.js +Z",
+  "placement": {
+    "room": "holm_survival_workyard_cellar",
+    "rule": "north wall, flanking the stores without intersecting shelving",
+    "count": 2
+  },
+  "interactionOwner": "decorative lighting; no direct player interaction",
+  "collisionOwner": "room wall collision; fixture adds no floor blocker",
+  "materials": ["charcoal/worn iron", "ashwood shadow/mid/light", "pitch cloth", "ember/orange/gold flame"],
+  "animationClips": [
+    {"name": "Flame_Flicker", "required": true, "durationSeconds": 2.875, "mood": "cozy-slow", "purpose": "restrained seamless asymmetric breathing motion"}
+  ],
+  "source": "assets/blender/props/cellar_wall_torch_v1.blend",
+  "runtime": "assets/models/props/cellar_wall_torch_v1.glb",
+  "builder": "tools/blender/build_cellar_wall_torch_v1.py",
+  "library": "assets/blender/library/crafted_realm_approved_props_v1.blend",
+  "proofDirectory": "scratchpad/cellar_wall_torch_v1",
+  "conceptComparison": {
+    "image": "Bible_References/Complete/_compare/cellar_wall_torch_v1_concept_compare.png",
+    "codexClosenessScore": 9.1,
+    "verdict": "approved and integrated"
+  },
+  "technical": {"triangles": 856, "primitives": 13, "materials": 11, "glbBytes": 60840}
+}

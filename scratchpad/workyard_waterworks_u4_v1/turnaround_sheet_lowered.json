@@ -1,0 +1,12 @@
+﻿{
+    "name":  "Waterworks U4 — Dock + Pulley, Lowered Water-Contact Pose Cardinal Turnaround",
+    "views":  {
+                  "north":  "scratchpad/workyard_waterworks_u4_v1/turnaround_lowered_north.png",
+                  "south":  "scratchpad/workyard_waterworks_u4_v1/turnaround_lowered_south.png",
+                  "east":  "scratchpad/workyard_waterworks_u4_v1/turnaround_lowered_east.png",
+                  "west":  "scratchpad/workyard_waterworks_u4_v1/turnaround_lowered_west.png"
+              },
+    "review":  "scratchpad/workyard_waterworks_u4_v1/turnaround_review_lowered.json",
+    "note":  "Identical lighting rig, ortho lens, gameplay pitch (~43 deg), one framing scale for all four directions",
+    "out":  "scratchpad/workyard_waterworks_u4_v1/turnaround_sheet_lowered.png"
+}

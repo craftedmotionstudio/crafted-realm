@@ -1,0 +1,33 @@
+﻿{
+    "name":  "Waterworks U4 — Pulley Motion Proof",
+    "panels":  [
+                   {
+                       "id":  "idle",
+                       "label":  "IDLE (sway)",
+                       "image":  "scratchpad/workyard_waterworks_u4_v1/motion_1_idle.png"
+                   },
+                   {
+                       "id":  "lowering",
+                       "label":  "LOWERING",
+                       "image":  "scratchpad/workyard_waterworks_u4_v1/motion_2_lowering.png"
+                   },
+                   {
+                       "id":  "water_contact",
+                       "label":  "WATER CONTACT",
+                       "image":  "scratchpad/workyard_waterworks_u4_v1/motion_3_water_contact.png"
+                   },
+                   {
+                       "id":  "lifting",
+                       "label":  "LIFTING",
+                       "image":  "scratchpad/workyard_waterworks_u4_v1/motion_4_lifting.png"
+                   },
+                   {
+                       "id":  "settled",
+                       "label":  "SETTLED",
+                       "image":  "scratchpad/workyard_waterworks_u4_v1/motion_5_settled.png"
+                   }
+               ],
+    "review":  "scratchpad/workyard_waterworks_u4_v1/motion_review.json",
+    "note":  "One fixed over-water lens; Pulley_Lower 2.0 s (contact at 0.8542), Pulley_Lift 2.3333 s (commit at 0.9286), Pulley_Idle 3.0 s",
+    "out":  "scratchpad/workyard_waterworks_u4_v1/motion_sheet.png"
+}

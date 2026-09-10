@@ -1,0 +1,13 @@
+{
+  "name": "Quest Lodge v1 — Exterior vs Tutorial Island reference",
+  "osrs": "Bible_References/A_Tutorial_Island_Option.jpg",
+  "cr": "scratchpad/quest_lodge_v1/quest_lodge_v1_game_camera.png",
+  "left_label": "TUTORIAL ISLAND REFERENCE (STONE HOUSES, WALKWAYS)",
+  "right_label": "BLENDER 4.5 RENDER, ELEVATED GAME CAMERA",
+  "subtitle": "Gabled hall with east-west ridge, half-octagonal chart turret, covered east porch, scroll-and-star finial",
+  "codex": 8.5,
+  "review_note": "The lodge reads as a distinct third composition beside the Guide Hall and Kitchen: a cross-axis gable, an engaged polygonal turret, and a real porch that composes the arrival instead of a door cut in a wall. Fieldstone base, timber bays, fitted doors, shuttered windows and the notice-lantern all read at the game camera. Held below 9.0: the gable tile courses read as a flat diagonal pattern, the porch rails and balusters are plain boxes, and the turret roof courses are still boxy slabs.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Give the gable a stepped shingle profile like the Workyard, turn the porch balusters into turned spindles, and add a carved sign board with a painted quest scroll above the porch step.",
+  "out": "Bible_References/Complete/_compare/holm_quest_lodge_v1_exterior_compare.png"
+}

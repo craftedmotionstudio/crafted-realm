@@ -1,0 +1,70 @@
+{
+  "assetId": "holm_mine_gatehouse_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 592256,
+    "triangles": 7754,
+    "primitives": 62,
+    "materials": 25
+  },
+  "animations": [],
+  "authoringChecks": {
+    "towerHouseBayCompoundAuthored": true,
+    "threeRoofMassesAuthored": true,
+    "fittedFullFrameDoorsAuthored": true,
+    "irregularMasonryCoursesAuthored": true,
+    "loadBearingTimberBaysAuthored": true,
+    "layeredRoofCoursesAuthored": true,
+    "openShaftWithHeadFrameAuthored": true,
+    "roadPassageAuthored": true,
+    "stationsAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "scaleChecks": [
+    {
+      "label": "door opening height",
+      "value": 3.05,
+      "min": 2.4,
+      "max": 3.3,
+      "passed": true
+    },
+    {
+      "label": "head-frame height",
+      "value": 3.22,
+      "min": 2.8,
+      "max": 3.6,
+      "passed": true
+    },
+    {
+      "label": "winch axle height",
+      "value": 2.75,
+      "min": 2.2,
+      "max": 3.0,
+      "passed": true
+    },
+    {
+      "label": "tally board top",
+      "value": 2.42,
+      "min": 2.0,
+      "max": 2.8,
+      "passed": true
+    },
+    {
+      "label": "cart rim height",
+      "value": 0.91,
+      "min": 0.75,
+      "max": 1.05,
+      "passed": true
+    },
+    {
+      "label": "tower wall height",
+      "value": 5.0,
+      "min": 4.5,
+      "max": 5.6,
+      "passed": true
+    }
+  ],
+  "cardinalProofs": [],
+  "errors": []
+}

@@ -1,0 +1,22 @@
+{
+  "assetId": "holm_survival_workyard_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 1312924,
+    "triangles": 17640,
+    "primitives": 39,
+    "materials": 16
+  },
+  "authoringChecks": {
+    "asymmetricalLodgeAndLeanToAuthored": true,
+    "fittedFullFrameDoorsAuthored": true,
+    "irregularMasonryCoursesAuthored": true,
+    "loadBearingTimberBaysAuthored": true,
+    "layeredConnectedRoofAuthored": true,
+    "occupationalWorkyardAuthored": true,
+    "distinctRoofLandmarkAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "errors": []
+}

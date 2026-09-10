@@ -1,0 +1,59 @@
+{
+  "assetId": "workyard_exterior_u3_v1",
+  "displayName": "Survival Workyard Exterior Occupation Yard U3",
+  "family": "Tutor's Holm survival occupation exteriors",
+  "gameplayRole": "Woodcutting occupation storytelling: timber storage, log bucking, and splitting explain the path from felled tree to hearth fuel",
+  "status": "integrated",
+  "version": 1,
+  "reference": {
+    "images": [
+      "docs/rebuild/concepts/workyard_exterior_u3_timber_rack_nanobanana2_v1.png",
+      "docs/rebuild/concepts/workyard_exterior_u3_chopping_station_nanobanana2_v1.png"
+    ],
+    "promptStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md",
+    "provenance": "Original Crafted Realm concepts generated with Gemini / Nano Banana 2 on 2026-07-15"
+  },
+  "visibleFeatures": [
+    "timber-storage rack with leaning pegged end frames, crossed braces, flat foot stones, ground sleepers, and retaining side rails",
+    "eight individually tapered, tilted sawn logs with proud pale endgrain faces, mixed bark tones, one branch stub, and an honest short-log gap",
+    "two hemp rope restraints wrapping the complete load, cinched over the side rails with knots and dangling tied-off ends",
+    "weathered chopping block: one continuous lofted hand-hewn trunk with root-flare wedges, bark striation, pale scarred endgrain top, dark angled cut marks, flush rim scar, and split chips",
+    "complete medieval felling axe embedded at a working angle: forged iron head, pale bit edge, split bruise and hairline crack, curved two-segment haft with swollen knob",
+    "pegged X-frame sawbuck with low stringers cradling a half-sawn log whose thin dark kerf slit follows the log's top cross-section, with a sawdust pile directly beneath"
+  ],
+  "dimensionsTiles": {"width": 8.02, "depth": 2.077, "height": 1.735},
+  "pivot": "family origin on the ground plane; every object retains its own semantic root",
+  "facing": "front is Blender -Y and exported Three.js +Z",
+  "placement": {
+    "room": "holm_survival_workyard exterior occupation court",
+    "rule": "objects sit against the court's south working edge, keeping the cardinal pond-door route clear (U3.06)",
+    "count": 1
+  },
+  "interactionOwner": "Codex — WorldV2 authored interactions (walk-first scenery with right-click Inspect on rack, logs, block, axe, and sawbuck; semantic nodes reserved for later lessons)",
+  "collisionOwner": "Codex — Workyard building definition; ropes, chips, and sawdust never collide",
+  "materials": ["weathered bark", "aged oak", "pale endgrain", "forged iron", "hemp rope", "fieldstone", "soot"],
+  "animationClips": [],
+  "source": "assets/blender/props/workyard_exterior_u3_v1.blend",
+  "runtime": "assets/models/props/workyard_exterior_u3_v1.glb",
+  "builder": "tools/blender/build_workyard_exterior_u3_v1.py",
+  "proofDirectory": "scratchpad/workyard_exterior_u3_v1",
+  "conceptComparisons": [
+    {"image": "Bible_References/Complete/_compare/workyard_exterior_u3_timber_rack_v1_compare.png", "codexClosenessScore": 9.1},
+    {"image": "Bible_References/Complete/_compare/workyard_exterior_u3_chopping_station_v1_compare.png", "codexClosenessScore": 9.2}
+  ],
+  "cardinalTurnaround": {
+    "evidence": "12 per-object directional renders + 4 family renders, four 2x2 sheets, and four written per-direction PASS/FAIL reviews in scratchpad/workyard_exterior_u3_v1 (turnaround_*)",
+    "verdict": "PASS 12/12 after two authored corrections: arc-profile kerf slit and flush rim scar"
+  },
+  "technical": {"vertices": 1668, "triangles": 2888, "primitives": 27, "materials": 13, "glbBytes": 216016},
+  "humanScaleRevision": {
+    "playerHeightTiles": 1.85,
+    "rackFrameHeightTiles": 1.58,
+    "logStackTopHeightTiles": 1.31,
+    "choppingBlockHeightTiles": 0.645,
+    "axeOverallLengthTiles": 1.05,
+    "axeEmbeddedTopHeightTiles": 1.67,
+    "sawbuckHeightTiles": 1.08,
+    "rule": "Every working surface serves the 1.85-tile adventurer; nothing competes with the lodge wall height"
+  }
+}

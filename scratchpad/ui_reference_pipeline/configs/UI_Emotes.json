@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 Emotes",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_Emotes.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/emotes.png",
+  "codex": 9.0,
+  "review_note": "The emote book is a deliberate four-column action grid with a warm medieval control language.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_Emotes_v2_compare.png"
+}

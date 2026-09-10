@@ -1,0 +1,194 @@
+MAGE_TOWER_V1_STAGE floors
+MAGE_TOWER_V1_STAGE shell
+MAGE_TOWER_V1_STAGE furnishings
+MAGE_TOWER_V1_STAGE roof
+MAGE_TOWER_V1_STAGE consolidate
+MAGE_TOWER_V1_STAGE render
+Blender 4.5.10 LTS (hash 6dc0b208d1b5 built 2026-05-19 01:33:42)
+Fra:1 Mem:79.44M (Peak 79.49M) | Time:00:01.79 | Rendering 1 / 64 samples
+Fra:1 Mem:79.44M (Peak 79.49M) | Time:00:01.91 | Rendering 25 / 64 samples
+Fra:1 Mem:79.44M (Peak 79.49M) | Time:00:02.03 | Rendering 50 / 64 samples
+Fra:1 Mem:79.44M (Peak 79.49M) | Time:00:02.09 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\mage_tower_v1\mage_tower_v1_exterior.png'
+Time: 00:02.48 (Saving: 00:00.33)
+
+Fra:1 Mem:78.36M (Peak 78.36M) | Time:00:00.12 | Rendering 1 / 64 samples
+Fra:1 Mem:78.36M (Peak 78.36M) | Time:00:00.23 | Rendering 25 / 64 samples
+Fra:1 Mem:78.36M (Peak 78.36M) | Time:00:00.33 | Rendering 50 / 64 samples
+Fra:1 Mem:78.36M (Peak 78.36M) | Time:00:00.39 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\mage_tower_v1\mage_tower_v1_roof_off.png'
+Time: 00:00.58 (Saving: 00:00.14)
+
+Fra:1 Mem:78.36M (Peak 78.36M) | Time:00:00.13 | Rendering 1 / 64 samples
+Fra:1 Mem:78.36M (Peak 78.36M) | Time:00:00.28 | Rendering 25 / 64 samples
+Fra:1 Mem:78.36M (Peak 78.36M) | Time:00:00.44 | Rendering 50 / 64 samples
+Fra:1 Mem:78.36M (Peak 78.36M) | Time:00:00.53 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\mage_tower_v1\mage_tower_v1_plan.png'
+Time: 00:00.78 (Saving: 00:00.17)
+
+Fra:1 Mem:79.44M (Peak 79.44M) | Time:00:00.17 | Rendering 1 / 64 samples
+Fra:1 Mem:79.44M (Peak 79.44M) | Time:00:00.29 | Rendering 25 / 64 samples
+Fra:1 Mem:79.44M (Peak 79.44M) | Time:00:00.40 | Rendering 50 / 64 samples
+Fra:1 Mem:79.44M (Peak 79.44M) | Time:00:00.46 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\mage_tower_v1\mage_tower_v1_game_camera.png'
+Time: 00:00.70 (Saving: 00:00.18)
+
+Info: Saved as "holm_mage_tower_v1.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 4.5\4.5\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+13:59:14 | INFO: Starting glTF 2.0 export
+13:59:14 | INFO: Extracting primitive: Cube.720
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.711
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.710
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.721
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.708
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.709
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.760
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.761
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.011
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.009
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.008
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.836
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.787
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.796
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.806
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.199
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.844
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.427
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.435
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.034
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.804
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.793
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.805
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.851
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: WingGableMesh
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.004
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.005
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.689
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.687
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.680
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.006
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.673
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.674
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.679
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.675
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.672
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.003
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.586
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.577
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.578
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.695
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.694
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.696
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.692
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.693
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.015
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.776
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.014
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.763
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.001
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.783
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.028
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.033
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.030
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.027
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.785
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.779
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.780
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.599
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.426
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.428
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.777
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.598
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.603
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.491
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.702
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.701
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.707
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.700
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cylinder.002
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.574
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.565
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Extracting primitive: Cube.566
+13:59:14 | INFO: Primitives created: 1
+13:59:14 | INFO: Finished glTF 2.0 export in 0.3567228317260742 s
+
+MAGE_TOWER_V1_STAGE done
+MAGE_TOWER_V1_READY C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\assets\models\buildings\holm_mage_tower_v1.glb
+
+Blender quit

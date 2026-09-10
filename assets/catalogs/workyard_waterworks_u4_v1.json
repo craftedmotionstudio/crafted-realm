@@ -1,0 +1,70 @@
+{
+  "assetId": "workyard_waterworks_u4_v1",
+  "displayName": "Survival Workyard U4 Waterworks Dock and Bucket Pulley",
+  "family": "Tutor's Holm survival occupation exteriors",
+  "gameplayRole": "The waterworks lesson: an L-shaped pond dock from the Workyard shore toward the adjacent bank carrying the bucket-pulley station and the reserved U5 fishing edge",
+  "status": "integrated",
+  "version": 1,
+  "reference": {
+    "images": [
+      "docs/rebuild/concepts/workyard_waterworks_u4_dock_nanobanana2_v1.png",
+      "docs/rebuild/concepts/workyard_waterworks_u4_pulley_nanobanana2_v1.png"
+    ],
+    "promptStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md",
+    "provenance": "Original Crafted Realm concepts generated with Gemini / Nano Banana 2 on 2026-07-15"
+  },
+  "visibleFeatures": [
+    "unmistakable two-tile-wide L: shore span, corner work platform with turned decking, bank span, with a 1.8-tile clear cardinal lane",
+    "36 individually hand-cut planks with jittered profiles, honest gaps, repaired boards, and two structural junction sills",
+    "16 driven tapered piles with dark waterline sleeves, proud iron-banded corner bollards, bearers, and crossed below-deck braces",
+    "sagging rope-and-post rails on outer edges only — shore entry, bank exit, corner work area, and fishing edge stay open",
+    "stone footings and threshold beams at both shore contacts",
+    "pegged pulley frame with back braces, iron foot brackets, crossbeam, jib with guide wheel, winch drum with rope wraps and flanges, outboard crank with worn grip",
+    "taut fall rope to an iron hook engaging the arched bail of a staved lesson bucket with two iron hoops and a genuinely recessed interior",
+    "cantilevered set-down ledge beside (never under) the bucket's drop line"
+  ],
+  "dimensionsTiles": {"width": 6.672, "depth": 6.787, "height": 3.604},
+  "pivot": "family root at the shore-entry walking surface; deck top is local z 0, assumed water plane local z -0.50",
+  "facing": "the dock leaves the shore toward Blender +X (exported Three.js -X) and turns right toward the bank at Blender -Y (exported Three.js -Z rear); front is Blender -Y and exported Three.js +Z",
+  "placement": {
+    "room": "holm_survival_workyard pond, from u4_waterworks_shore_socket at Workyard-local (9.92, 1.85, 0.20)",
+    "rule": "root pivot lands on the socket; Codex adjusts after eyes-on terrain review of the pond bed and adjacent bank",
+    "count": 1
+  },
+  "interactionOwner": "Codex — live Operate/Inspect, Blender clip playback, splash/audio, atomic bucket swap, interruption, and save ledger in src/workyard_waterworks_u4.js",
+  "collisionOwner": "Codex — three walkable deck surfaces plus one service blocker; piles, braces, rails, ropes, bucket travel, and sockets remain non-colliding",
+  "materials": ["aged oak", "weathered and bleached deck planks", "dark waterline pile bases", "pale endgrain", "forged iron", "hemp rope", "fieldstone"],
+  "animationClips": ["Pulley_Idle", "Pulley_Lower", "Pulley_Lift"],
+  "animationEvents": {
+    "lowerSeconds": 2.0,
+    "waterContactNormalized": 0.8542,
+    "liftSeconds": 2.3333,
+    "commitNormalized": 0.9286,
+    "idleSeconds": 3.0,
+    "waterContactSocket": "water_contact_socket",
+    "operatorSocket": "pulley_operator_socket"
+  },
+  "source": "assets/blender/props/workyard_waterworks_u4_v1.blend",
+  "runtime": "assets/models/props/workyard_waterworks_u4_v1.glb",
+  "builder": "tools/blender/build_workyard_waterworks_u4_v1.py",
+  "proofDirectory": "scratchpad/workyard_waterworks_u4_v1",
+  "conceptComparisons": [
+    {"image": "Bible_References/Complete/_compare/workyard_waterworks_u4_dock_v1_compare.png", "codexClosenessScore": 9.1},
+    {"image": "Bible_References/Complete/_compare/workyard_waterworks_u4_pulley_v1_compare.png", "codexClosenessScore": 9.0}
+  ],
+  "cardinalTurnaround": {
+    "evidence": "three 4-view cardinal sets (shell, raised, lowered water-contact) plus a five-moment motion strip, each with written per-direction/per-pose PASS-FAIL reviews in scratchpad/workyard_waterworks_u4_v1 (turnaround_*, motion_*)",
+    "verdict": "PASS 12/12 cardinal views and 5/5 motion poses after seven authored corrections logged in the reviews"
+  },
+  "technical": {"vertices": 2952, "triangles": 5204, "primitives": 47, "materials": 12, "glbBytes": 412048},
+  "humanScaleRevision": {
+    "playerHeightTiles": 1.85,
+    "deckWidthTiles": 2.0,
+    "clearLaneTiles": 1.8,
+    "deckOverWaterTiles": 0.5,
+    "pulleyFrameHeightTiles": 2.17,
+    "crankGripHeightTiles": 1.52,
+    "bucketHeightTiles": 0.5,
+    "rule": "Every working surface serves the 1.85-tile adventurer; the frame stays a working station, never a crane"
+  }
+}

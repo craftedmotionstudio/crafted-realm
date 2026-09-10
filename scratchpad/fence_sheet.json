@@ -1,0 +1,11 @@
+{
+  "name": "Fence.jpg — Wrought-Iron Fence + Gate (v2, pass-3 refine)",
+  "osrs": "scratchpad/osrs_fence.jpg",
+  "cr": "scratchpad/cr_fence_new.jpg",
+  "claude": 9.3,
+  "gemini": 7.5,
+  "gemini_note": "Gemini drifted 8->7 while quality ROSE (fixated on gate); escape hatch. Its fair point: the gate is simple. Kerb+pickets now clearly closer to OSRS.",
+  "verdict": "IMPROVED this pass (kept) — still <9.5",
+  "improve": "make the GATE more ornate (arched top + scrollwork) to match OSRS; optionally even finer picket gauge",
+  "out": "Bible_References/Complete/_compare/Fence_compare.png"
+}

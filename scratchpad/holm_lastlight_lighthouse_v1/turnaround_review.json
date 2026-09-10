@@ -1,0 +1,20 @@
+{
+  "asset":"Lastlight lighthouse v3 all-reference revision",
+  "verdict":"PASS",
+  "score":9.4,
+  "views":{
+    "north":{"status":"PASS","verdict":"PASS","notes":"Pale connected tower drum, red faceted cap, glass crown and coastal crag base remain cleanly separated."},
+    "south":{"status":"PASS","verdict":"PASS","notes":"Player-scale arched entry is fitted, gallery is unobstructed and the landmark silhouette is immediately readable."},
+    "east":{"status":"PASS","verdict":"PASS","notes":"Full stained lancet, pale masonry courses and raised gallery maintain the reference hierarchy."},
+    "west":{"status":"PASS","verdict":"PASS","notes":"Closed shell, buttresses, crag rocks and roof massing show no gaps or accidental interior exposure."}
+  },
+  "structuredReview":{
+    "silhouetteProportion":"9.5 — broad inhabited tower, strong gallery overhang and compact beacon crown.",
+    "shapeHierarchy":"9.4 — crag, tower, gallery, glass room and red roof read in deliberate order.",
+    "colorMaterialSeparation":"9.4 — pale stone, dark railing, warm glass and red roof remain unmistakable.",
+    "referenceDefiningFeatures":"9.4 — every exterior lighthouse feature visible in the supplied reference has an authored counterpart.",
+    "gameplayCameraReadability":"9.4 — door, lancets, gallery and beacon crown survive the elevated game camera.",
+    "animationInteractionReadability":"9.3 — entry hinge, ladders, hatch, lever and beacon retain explicit semantic pivots.",
+    "familyConsistency":"9.3 — warm low-poly exaggeration remains cohesive with Tutor's Holm."
+  }
+}

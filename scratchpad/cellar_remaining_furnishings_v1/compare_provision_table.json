@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Cellar - Provision Table",
+  "subtitle": "Nano Banana 2 target  vs  authored Blender render",
+  "left_label": "LOCKED CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "osrs": "docs/rebuild/concepts/cellar_provision_table_nanobanana2_v1.png",
+  "cr": "scratchpad/cellar_remaining_furnishings_v1/provision_table.png",
+  "codex": 9.1,
+  "review_note": "The Blender table preserves the clean three-plank top, four human-scale hand-hewn legs, apron and low stretcher while removing every bin, cage and repair detail that made the old preserving bench noisy.",
+  "verdict": "approved for live-room review",
+  "improve": "Confirm the fitted plank seams and waist-high scale remain readable from the live elevated camera.",
+  "out": "scratchpad/cellar_remaining_furnishings_v1/compare/provision_table_compare.png"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Stall.jpg — Market Stall",
+  "osrs": "Bible_References/Complete/Stall.jpg",
+  "cr": "scratchpad/cr_stall.jpg",
+  "claude": 9.0,
+  "gemini": 7.0,
+  "gemini_note": "Individual counter planks are not clearly defined vs the crisp planked counter in the OSRS reference.",
+  "verdict": "SHIPPED (below 9.5 bar - refine)",
+  "improve": "crisper individual counter planks with gaps + grain shading; add trade goods on the counter",
+  "out": "Bible_References/Complete/_compare/Stall_compare.png"
+}

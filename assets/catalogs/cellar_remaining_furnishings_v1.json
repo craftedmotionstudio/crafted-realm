@@ -1,0 +1,30 @@
+{
+  "assetId": "cellar_remaining_furnishings_v1",
+  "displayName": "Workyard Cellar Remaining Furnishings v1",
+  "family": "Tutor's Holm Survival Workyard cellar",
+  "status": "integrated and awaiting owner visual review",
+  "version": 1,
+  "provenance": "Ten original Nano Banana 2 furnishing concepts plus an original generated 8-bit painting, rebuilt and framed as custom topology in Blender 4.5; layout revised on 2026-07-15",
+  "source": "assets/blender/props/cellar_remaining_furnishings_v1.blend",
+  "runtime": "assets/models/props/cellar_remaining_furnishings_v1.glb",
+  "builder": "tools/blender/build_cellar_remaining_furnishings_v1.py",
+  "authoringReport": "scratchpad/cellar_remaining_furnishings_v1/asset_report.json",
+  "unitsPerTile": 1,
+  "standingPlayerHeight": 1.9,
+  "instanceCount": 17,
+  "technical": {"vertices": 6491, "triangles": 11146, "animations": ["Hearth_Flame"]},
+  "families": [
+    {"id":"storage_shelf","instances":1,"score":9.1,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_storage_shelf_nanobanana2_v1.png","comparison":"scratchpad/cellar_remaining_furnishings_v1/compare/storage_shelf_compare.png"},
+    {"id":"supply_barrel","instances":2,"score":9.1,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_supply_barrel_nanobanana2_v1.png","comparison":"scratchpad/cellar_remaining_furnishings_v1/compare/supply_barrel_compare.png"},
+    {"id":"lidded_crock","instances":4,"score":9.4,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_lidded_crock_nanobanana2_v1.png","comparison":"scratchpad/cellar_remaining_furnishings_v1/compare/lidded_crock_compare.png"},
+    {"id":"grain_sack","instances":2,"score":9.0,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_grain_sack_nanobanana2_v1.png","comparison":"scratchpad/cellar_remaining_furnishings_v1/compare/grain_sack_compare.png"},
+    {"id":"handled_basket","instances":2,"score":9.1,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_handled_basket_nanobanana2_v1.png","comparison":"scratchpad/cellar_remaining_furnishings_v1/compare/handled_basket_compare.png"},
+    {"id":"provision_table","instances":1,"score":9.1,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_provision_table_nanobanana2_v1.png","comparison":"scratchpad/cellar_remaining_furnishings_v1/compare/provision_table_compare.png"},
+    {"id":"root_basket","instances":1,"score":9.2,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_root_basket_nanobanana2_v1.png","comparison":"scratchpad/cellar_remaining_furnishings_v1/compare/root_basket_compare.png"},
+    {"id":"cutting_board_knife","instances":1,"score":9.1,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_cutting_board_knife_nanobanana2_v1.png","comparison":"scratchpad/cellar_remaining_furnishings_v1/compare/cutting_board_knife_compare.png"},
+    {"id":"aisle_rug","instances":1,"score":9.2,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_aisle_rug_nanobanana2_v1.png","comparison":"scratchpad/cellar_remaining_furnishings_v1/compare/aisle_rug_compare.png"},
+    {"id":"medieval_wall_picture","instances":1,"score":9.5,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_moonward_watch_pixel_v1.png","prompt":"docs/rebuild/concepts/cellar_moonward_watch_pixel_v1.prompt.md","runtimeTexture":"assets/textures/props/cellar_watchtower_pixel_v1.png","comparison":"Bible_References/Complete/_compare/cellar_moonward_watch_picture_v1_compare.png"},
+    {"id":"masonry_hearth","instances":1,"score":9.3,"interaction":"Inspect","concept":"docs/rebuild/concepts/cellar_masonry_hearth_nanobanana2_v1.png","comparison":"scratchpad/cellar_remaining_furnishings_v1/compare/masonry_hearth_compare.png","animation":"Hearth_Flame"}
+  ],
+  "approvalPolicy": "Each family passed the direct Codex 9.0 concept gate and live integration; owner approval is still required before reusable-library promotion."
+}

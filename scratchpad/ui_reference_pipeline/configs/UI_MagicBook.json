@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 MagicBook",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_MagicBook.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/spells.png",
+  "codex": 9.1,
+  "review_note": "Magic retains a dense spell-grid silhouette and clear availability states.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_MagicBook_v2_compare.png"
+}

@@ -1,0 +1,17 @@
+{
+  "asset": "workyard_waterworks_u4_v1",
+  "object": "complete dock + pulley in the fully lowered water-contact pose (Pulley_Lower final frame)",
+  "date": "2026-07-15",
+  "lens": "Shared three-area-light rig, orthographic lens at gameplay pitch (~43 deg), ortho scale 10.6 identical across all four directions",
+  "auditCriteria": ["rope/bucket/deck/water clipping in the keyed pose", "rope-bucket attachment", "crank pose", "silhouette"],
+  "views": {
+    "north": {"verdict": "PASS", "notes": "Bucket sits visibly in the water clear of the deck, ledge, and piles; the fall rope stays taut from the guide to the hook; the crank arm holds its rotated pose."},
+    "south": {"verdict": "PASS", "notes": "The lowered rope passes cleanly through open air beyond the platform edge; no member of the frame intersects the rope line."},
+    "east": {"verdict": "PASS", "notes": "Waterline crosses the lower staves believably; hook and bail stay engaged; ledge unclipped beside the drop line."},
+    "west": {"verdict": "PASS", "notes": "From over the dock the lowered pose keeps rope, jib, and guide wheel aligned on one line with no divergence."}
+  },
+  "defectsFoundAndFixed": [
+    "First pass lowered the bucket straight through the original ledge position (hard clip) — resolved by relocating the ledge out of the drop line before any PASS was recorded."
+  ],
+  "verdict": "PASS"
+}

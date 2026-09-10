@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Cellar - Root Basket",
+  "subtitle": "Nano Banana 2 target vs authored Blender render",
+  "left_label": "LOCKED CONCEPT",
+  "right_label": "BLENDER 4.5 RENDER",
+  "osrs": "docs/rebuild/concepts/cellar_root_basket_nanobanana2_v1.png",
+  "cr": "scratchpad/cellar_remaining_furnishings_v1/root_basket.png",
+  "codex": 9.2,
+  "review_note": "The shallow handle-free basket has a visible inner wall and crossed woven floor; three carrots, two onions and one turnip now nest below and across the rim instead of floating over a capped opening.",
+  "verdict": "approved for live-room review",
+  "improve": "Owner review should judge produce scale at the gameplay camera.",
+  "out": "scratchpad/cellar_remaining_furnishings_v1/compare/root_basket_compare.png"
+}

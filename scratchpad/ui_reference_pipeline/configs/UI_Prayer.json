@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 Prayer",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_Prayer.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/prayers.png",
+  "codex": 9.0,
+  "review_note": "Prayer occupies a dedicated compact ability grid with active-state readability.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_Prayer_v2_compare.png"
+}

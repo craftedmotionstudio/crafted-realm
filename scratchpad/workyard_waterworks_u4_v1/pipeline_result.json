@@ -1,0 +1,91 @@
+{
+  "assetId": "workyard_waterworks_u4_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 395464,
+    "triangles": 5204,
+    "primitives": 26,
+    "materials": 11
+  },
+  "animations": [
+    "Pulley_Idle",
+    "Pulley_Lift",
+    "Pulley_Lower"
+  ],
+  "authoringChecks": {
+    "twoNanoBananaReferenceBoardsBanked": true,
+    "customAssetSpecificTopology": true,
+    "allSemanticRootsAuthored": true,
+    "allSocketsAuthored": true,
+    "threeNamedClipsAuthored": true,
+    "animationMetadataOnRoot": true,
+    "ropeVisiblyAttachedToBucket": true,
+    "bucketHasRealInterior": true,
+    "handCutPlankDeck": true,
+    "pilesBracedAndWaterlined": true,
+    "shoreAndBankContactAuthored": true,
+    "controlledFlatShading": true,
+    "completeProofPacket": true
+  },
+  "scaleChecks": [
+    {
+      "label": "deck width",
+      "value": 2.0,
+      "min": 1.9,
+      "max": 2.2,
+      "passed": true
+    },
+    {
+      "label": "clear cardinal walking lane",
+      "value": 1.8,
+      "min": 1.2,
+      "max": 2.0,
+      "passed": true
+    },
+    {
+      "label": "deck height over water",
+      "value": 0.5,
+      "min": 0.4,
+      "max": 0.7,
+      "passed": true
+    },
+    {
+      "label": "pulley frame height",
+      "value": 2.17,
+      "min": 1.8,
+      "max": 2.4,
+      "passed": true
+    },
+    {
+      "label": "crank grip height",
+      "value": 1.52,
+      "min": 1.3,
+      "max": 1.8,
+      "passed": true
+    },
+    {
+      "label": "lesson bucket height",
+      "value": 0.5,
+      "min": 0.4,
+      "max": 0.6,
+      "passed": true
+    },
+    {
+      "label": "dock east-west extent",
+      "value": 6.6,
+      "min": 5.5,
+      "max": 7.5,
+      "passed": true
+    },
+    {
+      "label": "dock north-south extent",
+      "value": 6.7,
+      "min": 5.5,
+      "max": 7.5,
+      "passed": true
+    }
+  ],
+  "cardinalProofs": [],
+  "errors": []
+}

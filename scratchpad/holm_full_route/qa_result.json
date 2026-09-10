@@ -1,0 +1,591 @@
+{
+  "profile": "fable-route-qa-mtujy4ca",
+  "passed": 20,
+  "total": 20,
+  "seconds": 578.2,
+  "checks": [
+    {
+      "label": "fresh profile boots at step 0 of the thirteen-step Holm curriculum",
+      "ok": true,
+      "detail": {
+        "step": 0,
+        "complete": false,
+        "plane": 0,
+        "pos": [
+          151,
+          169
+        ],
+        "errors": 0,
+        "stepId": "study_route"
+      },
+      "t": 4.5
+    },
+    {
+      "label": "1 study_route: a real click on the relief chart records the lesson",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            151,
+            1.7,
+            155
+          ],
+          "screen": [
+            769,
+            250
+          ],
+          "hit": [
+            769,
+            250
+          ]
+        },
+        "s": {
+          "step": 1,
+          "complete": false,
+          "plane": 0,
+          "pos": [
+            151.5,
+            157.5
+          ],
+          "errors": 0,
+          "stepId": "equip_hatchet"
+        }
+      },
+      "t": 10.3
+    },
+    {
+      "label": "2 equip_hatchet: a real click on the pack hatchet wields it",
+      "ok": true,
+      "detail": {
+        "inv": true,
+        "s": {
+          "step": 2,
+          "complete": false,
+          "plane": 0,
+          "pos": [
+            151.5,
+            157.5
+          ],
+          "errors": 0,
+          "stepId": "chop_logs"
+        }
+      },
+      "t": 11.4
+    },
+    {
+      "label": "3 chop_logs: a real click on a marked tree gathers emberwood logs",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            124,
+            2.9,
+            160.8
+          ],
+          "screen": [
+            769,
+            148
+          ],
+          "hit": [
+            769,
+            148
+          ]
+        },
+        "s": {
+          "step": 3,
+          "complete": false,
+          "plane": 0,
+          "pos": [
+            125.5,
+            159.4
+          ],
+          "errors": 0,
+          "stepId": "light_fire"
+        }
+      },
+      "t": 36.5
+    },
+    {
+      "label": "4 light_fire: a real click on the logs lights a campfire with the tinderbox",
+      "ok": true,
+      "detail": {
+        "inv": true,
+        "s": {
+          "step": 4,
+          "complete": false,
+          "plane": 0,
+          "pos": [
+            124.4,
+            159.4
+          ],
+          "errors": 0,
+          "stepId": "catch_fish"
+        }
+      },
+      "t": 45.5
+    },
+    {
+      "label": "5 catch_fish: net then a real click on the fishing edge lands a mirrorperch",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            133.5,
+            0.8,
+            150.3
+          ],
+          "screen": [
+            769,
+            355
+          ],
+          "hit": [
+            769,
+            355
+          ]
+        },
+        "s": {
+          "step": 5,
+          "complete": false,
+          "plane": 0,
+          "pos": [
+            130.5,
+            150.5
+          ],
+          "errors": 0,
+          "stepId": "cook_fish"
+        }
+      },
+      "t": 64.9
+    },
+    {
+      "label": "6 cook_fish: a real click on the campfire roasts the perch",
+      "ok": true,
+      "detail": {
+        "cookLoc": {
+          "centre": [
+            130.6,
+            1.4,
+            150.5
+          ],
+          "screen": [
+            769,
+            518
+          ],
+          "hit": [
+            769,
+            518
+          ]
+        },
+        "s": {
+          "step": 6,
+          "complete": false,
+          "plane": 0,
+          "pos": [
+            130.5,
+            150.5
+          ],
+          "errors": 0,
+          "stepId": "descend_cavern"
+        }
+      },
+      "t": 153.1
+    },
+    {
+      "label": "7 descend_cavern: right-click the winch frame, Climb-down from the menu, land in the cavern",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            124.5,
+            3.2,
+            119.5
+          ],
+          "screen": [
+            769,
+            342
+          ],
+          "hit": [
+            769,
+            342
+          ]
+        },
+        "ctxRow": true,
+        "s": {
+          "step": 7,
+          "complete": false,
+          "plane": -1,
+          "pos": [
+            286,
+            354
+          ],
+          "errors": 0,
+          "stepId": "mine_copper"
+        }
+      },
+      "t": 167.8
+    },
+    {
+      "label": "8 mine_copper: a real click on the copper rock mines copper ore",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            296,
+            -5.5,
+            357
+          ],
+          "screen": [
+            769,
+            354
+          ],
+          "hit": [
+            769,
+            354
+          ]
+        },
+        "s": {
+          "step": 8,
+          "complete": false,
+          "plane": -1,
+          "pos": [
+            294.9,
+            355.5
+          ],
+          "errors": 0,
+          "stepId": "mine_tin"
+        }
+      },
+      "t": 180.4
+    },
+    {
+      "label": "9 mine_tin: a real click on the tin rock mines tin ore",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            304,
+            -5.5,
+            377
+          ],
+          "screen": [
+            769,
+            393
+          ],
+          "hit": [
+            769,
+            393
+          ]
+        },
+        "s": {
+          "step": 9,
+          "complete": false,
+          "plane": -1,
+          "pos": [
+            304.5,
+            376.7
+          ],
+          "errors": 0,
+          "stepId": "smelt_bronze"
+        }
+      },
+      "t": 191.8
+    },
+    {
+      "label": "10 smelt_bronze: a real click on the furnace then the Bronze bar option smelts a bar",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            305,
+            -4.3,
+            363
+          ],
+          "screen": [
+            769,
+            221
+          ],
+          "hit": [
+            769,
+            221
+          ]
+        },
+        "smeltOpt": true,
+        "s": {
+          "step": 10,
+          "complete": false,
+          "plane": -1,
+          "pos": [
+            307.5,
+            363.5
+          ],
+          "errors": 0,
+          "stepId": "forge_dagger"
+        }
+      },
+      "t": 203.9
+    },
+    {
+      "label": "11 forge_dagger: a real click on the anvil then the Bronze dagger option forges it",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            302,
+            -5.2,
+            363
+          ],
+          "screen": [
+            769,
+            366
+          ],
+          "hit": [
+            769,
+            366
+          ]
+        },
+        "daggerOpt": true,
+        "s": {
+          "step": 11,
+          "complete": false,
+          "plane": -1,
+          "pos": [
+            302.5,
+            364.5
+          ],
+          "errors": 0,
+          "stepId": "open_bank"
+        }
+      },
+      "t": 215.8
+    },
+    {
+      "label": "cavern exit ladder: a real click climbs out into the Combat Hall drill tower",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            322,
+            -4.5,
+            354
+          ],
+          "screen": [
+            769,
+            303
+          ],
+          "hit": [
+            769,
+            303
+          ]
+        },
+        "s": {
+          "step": 11,
+          "complete": false,
+          "plane": 0,
+          "pos": [
+            176.5,
+            116.5
+          ],
+          "errors": 0,
+          "stepId": "open_bank"
+        }
+      },
+      "t": 227.8
+    },
+    {
+      "label": "12 open_bank: a real click on a teller booth opens the bank interface",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            157,
+            4.5,
+            116
+          ],
+          "screen": [
+            769,
+            132
+          ],
+          "hit": [
+            769,
+            132
+          ]
+        },
+        "s": {
+          "step": 12,
+          "complete": false,
+          "plane": 0,
+          "pos": [
+            157.5,
+            117.5
+          ],
+          "errors": 0,
+          "stepId": "relight_lastlight"
+        }
+      },
+      "t": 241.1
+    },
+    {
+      "label": "optional bake_bread: real clicks on the shelf, bin, butt, trough, pack and range bake a loaf",
+      "ok": true,
+      "detail": {
+        "k1": true,
+        "k2": true,
+        "k3": true,
+        "k4": true,
+        "k5": true,
+        "k6": true,
+        "dough": 1,
+        "kneaded": 1,
+        "bake": {
+          "bread": 1,
+          "optional": true,
+          "step": 12
+        }
+      },
+      "t": 336.1
+    },
+    {
+      "label": "optional learn_quests: a real click on the quest board records the lesson",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            136.8,
+            3.1,
+            132.4
+          ],
+          "screen": [
+            769,
+            233
+          ],
+          "hit": [
+            769,
+            233
+          ]
+        },
+        "quests": {
+          "optional": true,
+          "step": 12
+        }
+      },
+      "t": 359.3
+    },
+    {
+      "label": "13 relight_lastlight: real clicks on the door, both ladders and the lever light the beacon and complete the curriculum",
+      "ok": true,
+      "detail": {
+        "door": {
+          "centre": [
+            196.5,
+            15.7,
+            124
+          ],
+          "screen": [
+            769,
+            380
+          ],
+          "hit": [
+            769,
+            380
+          ]
+        },
+        "up": true,
+        "up2": true,
+        "up3": true,
+        "lever": {
+          "centre": [
+            199.2,
+            23.1,
+            111.2
+          ],
+          "screen": [
+            769,
+            220
+          ],
+          "hit": [
+            769,
+            220
+          ]
+        },
+        "s": {
+          "step": 13,
+          "complete": true,
+          "plane": 0,
+          "pos": [
+            196.5,
+            113.5
+          ],
+          "errors": 0,
+          "stepId": null
+        }
+      },
+      "t": 469.9
+    },
+    {
+      "label": "descent: the lighthouse returns the player to the summit (ladders clicked where still needed) and the road reaches Departure Dock",
+      "ok": true,
+      "detail": {
+        "planeAfterLever": 0,
+        "d3": "skipped",
+        "d2": "skipped",
+        "d1": "skipped",
+        "down": true,
+        "s": {
+          "step": 13,
+          "complete": true,
+          "plane": 0,
+          "pos": [
+            205.5,
+            151.5
+          ],
+          "errors": 0,
+          "stepId": null
+        }
+      },
+      "t": 512.9
+    },
+    {
+      "label": "departure: a real click on the skiff sails to the mainland with the departure pack",
+      "ok": true,
+      "detail": {
+        "r": {
+          "centre": [
+            211,
+            -1.2,
+            153.9
+          ],
+          "screen": [
+            769,
+            323
+          ],
+          "hit": [
+            769,
+            323
+          ]
+        },
+        "sailed": false,
+        "arrival": {
+          "provider": "veyhollow-commons-v2",
+          "zone": "Veyhollow Commons",
+          "coins": 230,
+          "bread": 4,
+          "errors": 0
+        }
+      },
+      "t": 577.8
+    },
+    {
+      "label": "no page errors, console errors, or failed asset loads across the whole route",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failedLoads": []
+      },
+      "t": 577.8
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedLoads": []
+}

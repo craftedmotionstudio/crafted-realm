@@ -1,0 +1,11 @@
+{
+  "name":"Lastlight — Three Floors and Underkeep",
+  "note":"top-down authored floor proofs; the owner-approved ladder system replaces the reference spiral",
+  "views":{
+    "north":"scratchpad/holm_lastlight_lighthouse_v1/level1_top.png",
+    "east":"scratchpad/holm_lastlight_lighthouse_v1/level2_top.png",
+    "south":"scratchpad/holm_lastlight_lighthouse_v1/level3_top.png",
+    "west":"scratchpad/holm_lastlight_lighthouse_v1/dungeon_top.png"
+  },
+  "out":"scratchpad/holm_lastlight_lighthouse_v1/floorplan_sheet.png"
+}

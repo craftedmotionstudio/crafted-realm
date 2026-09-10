@@ -1,0 +1,7 @@
+{
+  "name":"Lastlight Beacon - Closed Exterior Cardinal Audit",
+  "views":{"north":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_north.png","south":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_south.png","east":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_east.png","west":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_west.png"},
+  "review":"scratchpad/holm_lastlight_lighthouse_v1/turnaround_review.json",
+  "note":"Reference-led three-storey tapered tower; identical lighting and framing",
+  "out":"scratchpad/holm_lastlight_lighthouse_v1/lastlight_cardinal_sheet.png"
+}

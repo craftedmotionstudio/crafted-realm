@@ -1,0 +1,15 @@
+{
+  "asset": "workyard_exterior_u3_v1",
+  "object": "timber_log_rack (with log_stack and rope_restraints)",
+  "date": "2026-07-15",
+  "lens": "Shared three-area-light rig, orthographic lens at gameplay pitch (~43 deg), ortho scale 4.9 identical across all four directions",
+  "auditCriteria": ["clipping", "floating logs/rope", "floor contact", "missing backs/undersides", "axe/block intersection", "silhouette"],
+  "views": {
+    "north": {"verdict": "PASS", "notes": "Back side fully modeled: both rope bands arc over the load with knots/dangling ends on this face, braces and pegs read, sleeper feet ground the stack, no clipping. Staggered log ends are deliberate."},
+    "south": {"verdict": "PASS", "notes": "Working face: two taut wraps, rail pegs, branch stub on the top log, sleepers visible beneath the bottom rail, foot stones seat every post. No floating members."},
+    "east": {"verdict": "PASS", "notes": "End-on: endgrain cluster reads, short-log gap visible as authored, ropes hug the bundle with believable chord standoff only at curvature corners, stones and posts contact the ground."},
+    "west": {"verdict": "PASS", "notes": "End-on: staggered caps at varied depths, bottom rope segment presses into the log undersides (no mid-air span), cross braces and rails join the posts cleanly."}
+  },
+  "defectsFoundAndFixed": [],
+  "verdict": "PASS"
+}

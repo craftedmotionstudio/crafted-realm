@@ -1,0 +1,32 @@
+{
+  "assetId": "cellar_reserve_chest_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 64596,
+    "triangles": 1034,
+    "primitives": 15,
+    "materials": 9
+  },
+  "animations": [
+    "Chest_Open"
+  ],
+  "authoringChecks": {
+    "ownerApprovedNanoBananaDirection": true,
+    "customAssetSpecificTopology": true,
+    "noPrimitiveOperatorsUsedForVisibleAsset": true,
+    "controlledFlatShading": true,
+    "separateSemanticBodyAndLid": true,
+    "rearHingePivotAuthored": true,
+    "openAnimationAuthored": true,
+    "wallSafeOpenPose": true,
+    "continuousUndersideShell": true,
+    "sealedArchedEndPanels": true,
+    "sixViewProofPacket": true,
+    "wallClearanceProof": true,
+    "closedSideSealProof": true,
+    "interactionIconRenderedFromBlenderSource": true
+  },
+  "scaleChecks": [],
+  "errors": []
+}

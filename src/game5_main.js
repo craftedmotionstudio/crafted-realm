@@ -1,284 +1,205 @@
 /* ================= GAME LOOP ================= */
 let curZone='holm';
 let _runUiT=0;
+/* fixed 600ms world-tick accumulator. The player's combat / skilling / vitals run inside this
+   tick (deterministic, OSRS-style); movement, NPCs, FX, animation and camera stay per-frame. */
+let worldTickAcc=0, worldTickCount=0;
 
-/* ---------- pathfinding: BFS on a local grid, the old way ---------- */
+/* ---------- pathfinding: TRUE tile BFS, OSRS-style ----------
+   One world unit = one tile. Movement is 4-directional only (N/S/E/W) — never diagonal,
+   exactly like Old School. We return EVERY tile centre along the route (no string-pulling)
+   so the path is a strict orthogonal staircase the follower walks tile by tile. */
+const TILE_SZ = 1;
+/* the player's elevation source — groundY on the surface, a registered floor on
+   upper storeys / in caves (src/planes.js). null = not standable on this plane. */
+function pElev(x, z){
+  const pl=(typeof Player!=='undefined' && Player.plane)||0;
+  if(pl!==0 && typeof Planes!=='undefined') return Planes.elevAt(x, z, pl);
+  return groundY(x, z);
+}
+function tileWalkable(i, j){
+  const cx=i+0.5, cz=j+0.5;
+  const pl=(typeof Player!=='undefined' && Player.plane)||0;
+  if(collides(cx, cz, 0.42, true, pl)) return false;   // props/walls (closed doors don't block plans)
+  if(pl!==0){ return pElev(cx, cz)!==null; }            // on a floor: only registered floor area
+  const y=groundY(cx, cz); if(y===null || y<-1.2) return false;   // off-map / water
+  return true;
+}
+/* A tile can be dry and collision-free while still sitting on the face of a
+   cliff.  The old BFS treated that as ordinary ground, so it preferred short
+   suicidal-looking ledge routes over authored switchbacks.  Surface traversal
+   now rejects any cardinal edge whose centre heights differ by more than one
+   comfortable step. Upper floors keep their authored per-tile elevation law. */
+// A cardinal tile may climb a deliberately graded road, but not an exposed
+// cliff face. Lastlight's steepest authored switchback transition is 1.022;
+// keeping this just above that value makes the road usable while rejecting
+// the visibly much steeper shortcuts down the shoulder.
+const MAX_SURFACE_STEP = 1.05;
+function tileInsideLastlightRoute(x,z){
+  if(typeof HolmLandscape==='undefined'||!HolmLandscape.lastlightBeacon||!HolmLandscape.pathProfileAt) return true;
+  const beacon=HolmLandscape.lastlightBeacon;
+  const d=Math.hypot(x-beacon.x,z-beacon.z);
+  if(d>=beacon.influenceRadius) return true;
+  // Flattened building pads (Combat Hall, Mage Tower) sit inside the headland's
+  // influence radius; their level ground and doorstep shoulder are never the slope
+  // this gate exists to close, so rooms there stay walkable off the switchback.
+  if(typeof HolmLandscape.padAt==='function'&&HolmLandscape.padAt(x,z,1.0)) return true;
+  if(d<=beacon.plateauRadius+1.8) return true;
+  const profile=HolmLandscape.pathProfileAt(x,z);
+  return !!profile&&profile.id===beacon.approachRoute&&profile.distance<=profile.width+.75;
+}
+function tileTransitionWalkable(i,j,ii,jj){
+  const pl=(typeof Player!=='undefined' && Player.plane)||0;
+  if(pl!==0) return true;
+  const a=groundY(i+.5,j+.5),b=groundY(ii+.5,jj+.5);
+  return Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(b-a)<=MAX_SURFACE_STEP&&
+    tileInsideLastlightRoute(i+.5,j+.5)&&tileInsideLastlightRoute(ii+.5,jj+.5);
+}
 function computePath(sx, sz, tx, tz){
-  const RES=0.6, MARGIN=5;
-  let x0=Math.min(sx,tx)-MARGIN, x1=Math.max(sx,tx)+MARGIN;
-  let z0=Math.min(sz,tz)-MARGIN, z1=Math.max(sz,tz)+MARGIN;
-  // clamp very long hauls: path to the grid edge, the follower re-paths on arrival
-  const MAXSPAN=90;   // one window spans the marsh and its causeway — BFS solves it globally
-  if(x1-x0>MAXSPAN){ if(tx>sx){ x1=sx+MAXSPAN; } else { x0=sx-MAXSPAN; } }
-  if(z1-z0>MAXSPAN){ if(tz>sz){ z1=sz+MAXSPAN; } else { z0=sz-MAXSPAN; } }
-  const nx=Math.ceil((x1-x0)/RES), nz=Math.ceil((z1-z0)/RES);
-  const idx=(i,j)=>i*(nz+1)+j;
-  const blocked=new Uint8Array((nx+1)*(nz+1));
-  const tgtRoom = WORLD.interiors.find(it=>Math.abs(tx-it.x)<it.hw+0.6 && Math.abs(tz-it.z)<it.hd+0.6) || null;
-  const startRoom = WORLD.interiors.find(it=>Math.abs(sx-it.x)<it.hw+0.3 && Math.abs(sz-it.z)<it.hd+0.3) || null;
-  for(let i=0;i<=nx;i++) for(let j=0;j<=nz;j++){
-    const cx=x0+i*RES, cz=z0+j*RES;
-    let b = collides(cx,cz,0.45,true);   // plan with clearance; closed doors don't block plans
-    if(!b){ const y=groundY(cx,cz); if(y===null || y<-1.2) b=true; }
-    if(!b){
-      const room=WORLD.interiors.find(it=>Math.abs(cx-it.x)<it.hw && Math.abs(cz-it.z)<it.hd);
-      if(room && room!==tgtRoom && room!==startRoom) b=true;   // strangers' rooms are not corridors — but you may leave your own
-    }
-    blocked[idx(i,j)]=b?1:0;
-  }
-  const ci=(v,lo,res)=>Math.max(0,Math.round((v-lo)/res));
-  let si=Math.min(nx,ci(sx,x0,RES)), sj=Math.min(nz,ci(sz,z0,RES));
-  let ti=Math.min(nx,ci(tx,x0,RES)), tj=Math.min(nz,ci(tz,z0,RES));
-  // free the start cell if we're brushing a wall
-  if(blocked[idx(si,sj)]){
-    outer: for(let r=1;r<9;r++) for(let a=-r;a<=r;a++) for(let b=-r;b<=r;b++){
-      if(Math.max(Math.abs(a),Math.abs(b))!==r) continue;   // ring search, nearest first
-      const ii=si+a, jj=sj+b;
-      if(ii>=0&&jj>=0&&ii<=nx&&jj<=nz&&!blocked[idx(ii,jj)]){ si=ii; sj=jj; break outer; }
-    }
-  }
-  const prev=new Int32Array((nx+1)*(nz+1)).fill(-1);
-  const seen=new Uint8Array((nx+1)*(nz+1));
-  let q=[idx(si,sj)]; seen[idx(si,sj)]=1;
-  let bestCell=idx(si,sj), bestD=Math.hypot(si-ti, sj-tj);
-  let found=false;
-  while(q.length && !found){
-    const next=[];
-    for(const c of q){
-      const i=Math.floor(c/(nz+1)), j=c%(nz+1);
-      if(i===ti && j===tj){ found=true; bestCell=c; break; }
-      const d=Math.hypot(i-ti, j-tj);
-      if(d<bestD){ bestD=d; bestCell=c; }
-      for(const [di,dj] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]){
-        const ii=i+di, jj=j+dj;
-        if(ii<0||jj<0||ii>nx||jj>nz) continue;
-        const cc=idx(ii,jj);
-        if(seen[cc]||blocked[cc]) continue;
-        if(di&&dj && (blocked[idx(i+di,j)]||blocked[idx(i,j+dj)])) continue;   // no corner cutting
-        seen[cc]=1; prev[cc]=c; next.push(cc);
+  const sti=Math.floor(sx), stj=Math.floor(sz);
+  const tti=Math.floor(tx), ttj=Math.floor(tz);
+  const center=(i,j)=>[i+0.5, j+0.5];
+  const roomOf=(i,j)=>{ const cx=i+0.5, cz=j+0.5;
+    return WORLD.interiors.find(it=>Math.abs(cx-it.x)<it.hw && Math.abs(cz-it.z)<it.hd) || null; };
+  const tgtRoom=roomOf(tti,ttj), startRoom=roomOf(sti,stj);
+  const MAX=64;                       // search radius in tiles (re-paths on arrival for long hauls)
+  // flag-grid fast path (src/collision_grid.js): plane 0 only — the grid bakes the same
+  // predicate tileWalkable applies, so results are identical; off-grid tiles (canStep
+  // returns null) and disabled/unbaked/upper-plane cases fall back to the analytic check.
+  const useGrid = typeof CollisionGrid!=='undefined' && CollisionGrid.enabled && CollisionGrid.baked
+    && (((typeof Player!=='undefined' && Player.plane)||0)===0);
+  const key=(i,j)=>(i+512)*4096+(j+512);
+  const prev=new Map(), seen=new Set();
+  let q=[[sti,stj]]; seen.add(key(sti,stj));
+  let best=[sti,stj], bestD=Math.abs(sti-tti)+Math.abs(stj-ttj), found=false, guard=0;
+  while(q.length && !found && guard++<30000){
+    const nq=[];
+    for(const cell of q){
+      const i=cell[0], j=cell[1];
+      if(i===tti && j===ttj){ found=true; best=cell; break; }
+      const d=Math.abs(i-tti)+Math.abs(j-ttj);
+      if(d<bestD){ bestD=d; best=cell; }
+      for(let dir=0; dir<4; dir++){
+        const ii=i+(dir===0?1:dir===1?-1:0), jj=j+(dir===2?1:dir===3?-1:0);
+        if(Math.abs(ii-sti)>MAX || Math.abs(jj-stj)>MAX) continue;
+        const k=key(ii,jj);
+        if(seen.has(k)) continue;
+        let ok;
+        if(useGrid){
+          const s=CollisionGrid.canStep(i, j, ii-i, jj-j);
+          ok = (s===null) ? tileWalkable(ii,jj) : s;   // null = off-grid (e.g. Menagerie pad)
+        } else ok = tileWalkable(ii,jj);
+        if(!ok || !tileTransitionWalkable(i,j,ii,jj)){ seen.add(k); continue; }
+        const r=roomOf(ii,jj);
+        if(r && r!==tgtRoom && r!==startRoom){ seen.add(k); continue; }   // don't cut through buildings
+        seen.add(k); prev.set(k,[i,j]); nq.push([ii,jj]);
       }
     }
-    q=next;
+    q=nq;
   }
-  // walk back from the goal (or the closest approach, like a true click)
-  const cells=[];
-  let c=bestCell;
-  while(c>=0){ cells.push(c); c=prev[c]; }
-  cells.reverse();
-  let pts=cells.map(cc=>{
-    const i=Math.floor(cc/(nz+1)), j=cc%(nz+1);
-    return [x0+i*RES, z0+j*RES];
-  });
-  // string-pulling: drop waypoints we can see straight past
-  const clear=(ax,az,bx,bz)=>{
-    const L=Math.hypot(bx-ax,bz-az), steps=Math.ceil(L/0.45);
-    for(let s=1;s<steps;s++){
-      const px=ax+(bx-ax)*s/steps, pz=az+(bz-az)*s/steps;
-      if(collides(px,pz,0.45)) return false;
-      const y=groundY(px,pz); if(y===null||y<-1.2) return false;
-      const room=WORLD.interiors.find(it=>Math.abs(px-it.x)<it.hw && Math.abs(pz-it.z)<it.hd);
-      if(room && room!==tgtRoom && room!==startRoom) return false;
-    }
-    return true;
-  };
-  const out=[];
-  let a=0;
-  while(a<pts.length-1){
-    let b=pts.length-1;
-    while(b>a+1 && !clear(pts[a][0],pts[a][1],pts[b][0],pts[b][1])) b--;
-    out.push(pts[b]); a=b;
-  }
-  return {pts:out, reached:found};
+  // reconstruct from the goal, or the closest tile we reached (a true OSRS "walk as near as you can")
+  const tiles=[]; let cur=best;
+  while(cur){ tiles.push(cur); cur=prev.get(key(cur[0],cur[1])); }
+  tiles.reverse();
+  const pts=tiles.map(t=>center(t[0],t[1]));
+  return {pts, reached:found};
 }
 function orderWalk(point){
   Player.moveTo=point.clone ? point.clone() : new THREE.Vector3(point.x, point.y||0, point.z);
   Player._navAge=0; Player._navTries=0; Player._navBest=1e9; Player._navStall=0;
   Player._navDetour=null; Player._navDetour2=null;
   const r=computePath(player.position.x, player.position.z, Player.moveTo.x, Player.moveTo.z);
-  Player.path = r.pts.map(p=>new THREE.Vector3(p[0], groundY(p[0],p[1])||0, p[1]));
+  Player.path = r.pts.map(p=>new THREE.Vector3(p[0], pElev(p[0],p[1])||0, p[1]));
   Player._pathPartial = !r.reached || (Player.path.length &&
     Math.hypot(Player.path[Player.path.length-1].x-Player.moveTo.x,
                Player.path[Player.path.length-1].z-Player.moveTo.z) > 1.2);
 }
 
+// player animation: skinned HF rig (riggedHumanoidAnim) when swapped in, else procedural walkAnim
+function pAnim(moving, dt, speed){
+  if(player.userData && player.userData.qrig){
+    if(typeof quaterniusAnim==='function') quaterniusAnim(player, dt, moving, speed||1);
+  } else if(player.userData && player.userData.gmix){
+    if(typeof playerGLBAnim==='function') playerGLBAnim(player, dt, moving, speed||1);
+  } else if(player.userData && player.userData.hrig){
+    if(typeof riggedHumanoidAnim==='function') riggedHumanoidAnim(player, dt, moving, speed||1);
+  } else walkAnim(player, moving, dt, speed||1);
+}
 function update(dt){
   let playerMovedThisFrame = false;
+  // drives the combat-ready stance in walkAnim — idle-while-fighting reads as a guard, not a stroll
+  player.userData.inCombat = !!(Player.target && !Player.target.dead);
   if(Player.stunT>0){ Player.moveTo=null; Player.path=[]; Player.target=null; if(Player.action&&Player.action.type==='pickpocket')Player.action=null; }
-  if(Player.moveTo){
-    Player._navAge=(Player._navAge||0)+dt;
-    if(Player._navAge>20 && !(Player.path && Player.path.length)){
+  // WASD manual control takes priority over click-to-move (it cancels the click route itself)
+  const _manual = (Player.stunT<=0 && typeof Controls!=='undefined' && Controls.manualMove) ? Controls.manualMove(dt) : false;
+  if(_manual){
+    playerMovedThisFrame = true;
+    pAnim(true, dt, (Player.moveSpeed?Player.moveSpeed():4.2)/4.2);
+  } else if(Player.moveTo){
+    // ensure we have a live tile route to the goal
+    if(!Player.path || !Player.path.length){
       const rem=Math.hypot(Player.moveTo.x-player.position.x, Player.moveTo.z-player.position.z);
-      if(rem<12){ Player.moveTo=null; Player._navAge=0; Player._navTries=0; Player._navBest=1e9; Player._navStall=0; }
-      else Player._navAge=10;   // long hauls get more rope, but never forever
+      if(rem>0.6) orderWalk(Player.moveTo);
     }
-    // if we've stopped getting closer for a couple of seconds, sidestep around the wedge
-    // (the pathfinder owns routing while a path is live — these heuristics only govern the last direct leg)
-    if(Player.moveTo && !(Player.path && Player.path.length)){
-    const trueD = Player.moveTo.clone().sub(player.position); trueD.y=0;
-    // oscillation watchdog: pacing in a loop without net travel counts as stalled
-    Player._oscT=(Player._oscT||0)+dt;
-    if(Player._oscT>2.5){
-      const op=Player._oscPos;
-      const moved = op ? Math.hypot(player.position.x-op.x, player.position.z-op.z) : 99;
-      Player._oscPos={x:player.position.x, z:player.position.z};
-      Player._oscT=0;
-      if(moved<1.0 && trueD.length()>2.5 && !Player._navDetour) Player._navStall=Math.max(Player._navStall||0, 2.3);
-    }
-    if(Player._navDetour){
-      Player._navDetourT = (Player._navDetourT||0)+dt;
-      const dd = Player._navDetour.clone().sub(player.position); dd.y=0;
-      if(dd.length()<1.4 || Player._navDetourT>3){
-        Player._navDetour = Player._navDetour2 || null;
-        Player._navDetour2 = null;
-        Player._navDetourT=0; Player._navBest=1e9; Player._navStall=0;
-        if(!Player._navDetour) Player._navDetourT=0;
-      }
-    } else {
-      if(trueD.length() < (Player._navBest||1e9)-0.35){ Player._navBest=trueD.length(); Player._navStall=0; }
-      else Player._navStall=(Player._navStall||0)+dt;
-      if(Player._navStall>2.2 && trueD.length()>2.5){
-        // stalled inside a building with the goal outside? leave by the door first
-        const room = WORLD.interiors.find(it=>
-          Math.abs(player.position.x-it.x)<it.hw && Math.abs(player.position.z-it.z)<it.hd);
-        if(room && Player.moveTo &&
-           (Math.abs(Player.moveTo.x-room.x)>room.hw || Math.abs(Player.moveTo.z-room.z)>room.hd)){
-          Player._navDetour=new THREE.Vector3(room.door.x, groundY(room.door.x,room.door.z)||0, room.door.z);
-          // and after the door, swing wide around the corner nearest the goal
-          let best=null, bd=1e9;
-          for(const cx of [room.x-room.hw-1.4, room.x+room.hw+1.4])
-            for(const cz of [room.z-room.hd-1.4, room.z+room.hd+1.4]){
-              const dd=Math.hypot(Player.moveTo.x-cx, Player.moveTo.z-cz);
-              if(dd<bd && !collides(cx,cz,0.3)){ bd=dd; best=[cx,cz]; }
-            }
-          Player._navDetour2 = best ? new THREE.Vector3(best[0], groundY(best[0],best[1])||0, best[1]) : null;
-          Player._navDetourT=0; Player._navStall=0; Player._navBest=1e9;
-          // fallthrough skipped — the door detour takes priority
-        }
-        else {
-        Player._navTries=(Player._navTries||0)+1;
-        if(Player._navTries>=6 && trueD.length()<9){
-          // the spot is up against something — we've walked as close as the world allows (OSRS-style stop)
-          Player.moveTo=null; Player._navDetour=null; Player._navTries=0; Player._navBest=1e9; Player._navStall=0;
-        }
-        else {
-        const dir=trueD.clone().normalize();
-        for(const a of [1.57,-1.57,2.2,-2.2,2.8,-2.8]){
-          const ca=Math.cos(a), sa=Math.sin(a);
-          const px=player.position.x+(dir.x*ca-dir.z*sa)*7, pz=player.position.z+(dir.x*sa+dir.z*ca)*7;
-          const y=groundY(px,pz);
-          if(y!==null && y>-1.2 && !collides(px,pz,0.3)){
-            Player._navDetour=new THREE.Vector3(px,y,pz); Player._navDetourT=0; break;
-          }
-        }
-        Player._navStall=0; Player._navBest=1e9;
-        }
-        }
-      }
-    }
-    }
-    if(!Player.moveTo){ walkAnim(player, false, dt); }
-    else {
-    // follow the computed path first; the raw click point is the last waypoint
+    // stale path from before a teleport — replan from here
     if(Player.path && Player.path.length &&
        Math.hypot(Player.path[0].x-player.position.x, Player.path[0].z-player.position.z)>25){
-      Player.path=[];   // stale path from before a teleport — replan
       orderWalk(Player.moveTo);
     }
     if(Player.path && Player.path.length){
-      const wp=Player.path[0];
-      Player._wpT=(Player._wpT||0)+dt;
-      const wpD=Math.hypot(wp.x-player.position.x, wp.z-player.position.z);
-      if(Player._wpT>3 && wpD>0.6){ Player._wpT=0; orderWalk(Player.moveTo); }   // snagged: replan
-      else if(wpD<0.5){ Player._wpT=0; }
-      if(Math.hypot(wp.x-player.position.x, wp.z-player.position.z)<0.5){
-        Player.path.shift();
-        if(!Player.path.length && Player._pathPartial){
-          // we reached the grid edge or closest approach — path again toward the goal
-          const rem=Math.hypot(Player.moveTo.x-player.position.x, Player.moveTo.z-player.position.z);
-          if(rem>1.4){
-            const before=rem;
-            const keepGoal=Player.moveTo;
-            orderWalk(keepGoal);
-            const gained = Player.path.length ? before - Math.hypot(
-              Player.path[Player.path.length-1].x-keepGoal.x,
-              Player.path[Player.path.length-1].z-keepGoal.z) : 0;
-            if(Player._pathPartial && gained<0.01){
-              if(rem<=8){ Player.path=[]; }   // close enough: finish with direct steering
-              else { Player.path=[]; Player.moveTo=null; }   // truly unreachable — stop, OSRS-style
-            }
-          } else { Player.moveTo=null; }
+      // walk along the orthogonal tile route. Between two adjacent tile centres only one axis
+      // changes, so motion is strictly N/S/E/W — never diagonal — and corners are crisp because
+      // we land on each centre before turning toward the next.
+      let budget=Player.moveSpeed()*dt;
+      let guard=0;
+      while(budget>1e-4 && Player.path.length && guard++<64){
+        const wp=Player.path[0];
+        const dx=wp.x-player.position.x, dz=wp.z-player.position.z;
+        const dd=Math.hypot(dx,dz);
+        if(dd<=budget+1e-4){
+          player.position.set(wp.x, wp.y, wp.z);
+          if(dd>1e-5) player.lookAt(wp.x+dx, wp.y, wp.z+dz);
+          budget-=dd; Player.path.shift(); playerMovedThisFrame=true;
+        } else {
+          const nx=player.position.x+dx/dd*budget, nz=player.position.z+dz/dd*budget;
+          const ny=pElev(nx,nz);
+          player.position.set(nx, ny===null?player.position.y:ny, nz);
+          player.lookAt(wp.x, player.position.y, wp.z);
+          budget=0; playerMovedThisFrame=true;
         }
       }
-    }
-    if(!Player.moveTo){ walkAnim(player, false, dt); playerMovedThisFrame=false; }
-    else {
-    const navT = (Player.path && Player.path.length ? Player.path[0] : null) || Player._navDetour || Player.moveTo;
-    const d = navT.clone().sub(player.position); d.y=0;
-    if(d.length()<0.25){
-      if(Player._navDetour) Player._navDetour=null;
-      else { Player.moveTo=null; Player._navBest=1e9; Player._navStall=0; }
-    }
-    else {
-      const step=d.normalize().multiplyScalar(Player.moveSpeed()*dt);
-      // walls AND water both block; steer around either
-      const inRoom=(px,pz,it,pad)=>Math.abs(px-it.x)<it.hw+(pad||0) && Math.abs(pz-it.z)<it.hd+(pad||0);
-      const tryStep=(sx,sz)=>{
-        const t=slideMove(player.position.x, player.position.z,
-          player.position.x+sx, player.position.z+sz);
-        if(!t) return null;
-        const y=groundY(t[0],t[1]);
-        if(y===null || y<-1.2) return null;
-        // never wander into a building unless the destination is inside it (OSRS routes around)
-        const tgt = Player._navDetour || Player.moveTo;
-        if(tgt) for(const it of WORLD.interiors){
-          if(inRoom(t[0],t[1],it) && !inRoom(player.position.x,player.position.z,it,0.3) && !inRoom(tgt.x,tgt.z,it,0.6))
-            return null;
+      pAnim(playerMovedThisFrame, dt, Player.moveSpeed()/4.2);
+      if(!Player.path.length){
+        // reached the end of the known route
+        if(Player._pathPartial &&
+           Math.hypot(Player.moveTo.x-player.position.x, Player.moveTo.z-player.position.z)>1.2){
+          orderWalk(Player.moveTo);                       // long haul / closest-approach: try to continue
+          if(Player.path.length<=1){ Player.path=[]; Player.moveTo=null; }   // no further progress — stop
+        } else {
+          Player.moveTo=null;                              // arrived
         }
-        return [t[0],t[1],y];
-      };
-      let mv = tryStep(step.x, step.z);
-      if(!mv){
-        // rounding a corner: of all open sidesteps, take the one that makes real progress
-        let best=null, bestScore=-1e9;
-        for(const a of [0.7,-0.7,1.3,-1.3,1.9,-1.9,2.5,-2.5,3.1]){
-          const ca=Math.cos(a), sa=Math.sin(a);
-          const cand = tryStep(step.x*ca-step.z*sa, step.x*sa+step.z*ca);
-          if(!cand) continue;
-          const remain = Math.hypot(navT.x-cand[0], navT.z-cand[1]);
-          const score = -remain - Math.abs(a)*0.12;   // progress first, gentle turns as tiebreak
-          if(score>bestScore){ bestScore=score; best=cand; }
-        }
-        mv=best;
       }
-      if(!mv){
-        Player._blocked=(Player._blocked||0)+1;
-        if(Player._blocked===8){
-          // wedged in geometry — squeeze out toward any open ground nearby
-          for(let r=0.5; r<=1.6 && !mv; r+=0.55){
-            for(let k=0;k<8;k++){
-              const a=k*Math.PI/4;
-              const ex=player.position.x+Math.cos(a)*r, ez=player.position.z+Math.sin(a)*r;
-              const y=groundY(ex,ez);
-              if(y!==null && y>-1.2 && !collides(ex,ez,0.3)){ mv=[ex,ez,y]; break; }
-            }
-          }
-          if(mv) Player._blocked=0;
-        }
-        if(!mv && Player._blocked>20){ Player._blocked=0; Player.moveTo=null; UI.chat('You cannot find a way through.','plain'); }
-      }
-      else {
-        Player._blocked=0;
-        player.position.set(mv[0],mv[2],mv[1]);
-        player.lookAt(mv[0]+step.x, mv[2], mv[1]+step.z);
-        walkAnim(player, true, dt, Player.moveSpeed()/4.2);
-        playerMovedThisFrame = true;
-      }
-    }
-    }
+    } else {
+      Player.moveTo=null;                                  // nowhere to go
+      pAnim(false, dt);
     }
   } else {
-    walkAnim(player, false, dt);
+    pAnim(false, dt);
   }
+  if(typeof CraftingActionVisuals!=='undefined') CraftingActionVisuals.update(player,Player.action,dt);
+  // ── fixed-tick player sim: combat/skilling/vitals advance in 600ms steps (wall-clock unchanged) ──
+  // World-v2 residency follows tile-chunk boundaries. Terrain geometry and the
+  // matching collision cells are loaded/unloaded together by the provider.
+  if(typeof CRWorldMode!=='undefined' && CRWorldMode.provider)
+    CRWorldMode.provider.updateResidency(player.position.x,player.position.z);
+  worldTickAcc += dt;
+  let _nTicks = Math.floor(worldTickAcc / TICK);
+  if(_nTicks > 5){ _nTicks = 5; worldTickAcc = 0;     // drop backlog after a tab stall (no spiral of death)
+    if(typeof TickHealth!=='undefined') TickHealth.droppedBacklog(); }
+  else { worldTickAcc -= _nTicks * TICK; }
+  const _tickT0 = _nTicks ? performance.now() : 0;
+  for(let _ti=0; _ti<_nTicks; _ti++){ const dt = TICK; worldTickCount++;   // dt shadowed to TICK
+  if(typeof Sched!=='undefined') Sched._tick();          // scheduled tick tasks (walk-then-do, repeats)
   Player.tickVitals(dt, playerMovedThisFrame);
   Player.regen(dt);
   if(Player.target && !Player.target.dead) playerAttack(Player.target, dt);
@@ -286,7 +207,10 @@ function update(dt){
   // arrive early: once in range of the action target, stop pathing and act
   if(Player.action && Player.moveTo && Player.action.obj){
     const reach = Player.action.type==='gather' ? 2.6 : 2.2;
-    if(player.position.distanceTo(Player.action.obj.position) <= reach) Player.moveTo=null;
+    const ap=Player.action.walkAt;
+    const dist=ap?Math.hypot(player.position.x-ap.x,player.position.z-ap.z):
+      player.position.distanceTo(Player.action.obj.position);
+    if(dist <= reach) Player.moveTo=null;
   }
   if(Player.action && !Player.moveTo){
     const a=Player.action;
@@ -295,6 +219,7 @@ function update(dt){
       const u=a.obj.userData;
       if(Player.addItem(u.id, u.qty)){
         UI.chat(`You pick up the ${ITEMS[u.id].name.toLowerCase()}${u.qty>1?' ('+u.qty+')':''}.`,'plain');
+        if(typeof Events!=='undefined') Events.emit('itemPickup', {id:u.id, qty:u.qty});
         scene.remove(a.obj); removeClickable(a.obj);
         const di=WORLD.drops.indexOf(a.obj); if(di>=0) WORLD.drops.splice(di,1);
         if(u.id==='coins') Sfx.coin();
@@ -321,8 +246,9 @@ function update(dt){
         a.tick=(a.tick||0)+dt;
         if(a.tick>=TICK){
           a.tick-=TICK;
-          swing(player);
-          if(u.rtype==='tree') Sfx.chop(); else if(u.rtype==='rock') Sfx.mine(); else Sfx.splash();
+          if(u.rtype==='tree'){swing(player,'slash');Sfx.chop();} else if(u.rtype==='rock'){ swing(player,'mine');Sfx.mine();
+            if(typeof MiningRockVisuals!=='undefined'&&MiningRockVisuals.impact) MiningRockVisuals.impact(a.obj);
+          } else {swing(player,'cast');Sfx.splash();}
           const rate = u.mat || GATHER_RATES[u.rtype];
           if(u.mat && Player.lvl(u.skill)<u.mat.req){
             UI.chat(`You need a Mining level of ${u.mat.req} to mine this rock.`,'plain');
@@ -339,7 +265,7 @@ function update(dt){
                 u.alive=false; u.respawnT=u.respawn;
                 if(u.rtype==='tree'){ Sfx.treeFall();
                   a.obj.children.forEach((ch,ci)=>{ if(ci>0) ch.visible=false; }); }
-                else a.obj.visible=false;
+                else if(!(typeof MiningRockVisuals!=='undefined'&&MiningRockVisuals.deplete&&MiningRockVisuals.deplete(a.obj))) a.obj.visible=false;
                 Player.action=null;
               }
             } else Player.action=null;
@@ -348,13 +274,25 @@ function update(dt){
       }
     }
     else if(a.type==='door'){
-      if(player.position.distanceTo(a.obj.position)>2.3){ if(!Player.moveTo) orderWalk(a.obj.position); }
+      const p=a.walkAt||a.obj.userData&&a.obj.userData.openingPoint;
+      const dist=p?Math.hypot(player.position.x-p.x,player.position.z-p.z):player.position.distanceTo(a.obj.position);
+      if(dist>2.3){
+        if(!Player.moveTo){
+          const y=(typeof Planes!=='undefined')?Planes.elevAt(p.x,p.z,Player.plane||0):groundY(p.x,p.z);
+          orderWalk(new THREE.Vector3(p.x,y===null?player.position.y:y,p.z));
+        }
+      }
       else { toggleDoor(a.obj); Player.action=null; }
     }
     else if(a.type==='smelt'){
-      if(player.position.distanceTo(a.obj.position)>2.6){ if(!Player.moveTo) orderWalk(a.obj.position); }
+      // Stations use tall silhouette-sized click proxies. Interaction reach is
+      // tile-plane distance; including proxy height can strand a player beside
+      // the visible furnace forever while the action waits for impossible range.
+      const stationDist=Math.hypot(player.position.x-a.obj.position.x,player.position.z-a.obj.position.z);
+      if(stationDist>2.6){ if(!Player.moveTo) orderWalk(a.obj.position); }
       else {
         Player.moveTo=null; Player.path=[];
+        player.lookAt(a.obj.position.x,player.position.y,a.obj.position.z);
         a.t+=dt;
         if(a.t>=1.8){
           a.t=0;
@@ -366,7 +304,9 @@ function update(dt){
             Player.addItem(a.bar,1);
             Player.addXp('Smithing', s.xp);
             UI.chat('You smelt a '+s.name.toLowerCase()+'.','xp');
-            Sfx.mine(); swing(player); UI.refreshInv();
+            Sfx.smelt(); swing(player,'smelt');
+            if(typeof CraftingActionVisuals!=='undefined')CraftingActionVisuals.pulse('smelt',a.obj);
+            UI.refreshInv();
             const again=Object.keys(s.needs).every(n=>Player.count(n)>=s.needs[n]);
             if(!again) Player.action=null;
           }
@@ -374,9 +314,11 @@ function update(dt){
       }
     }
     else if(a.type==='smith'){
-      if(player.position.distanceTo(a.obj.position)>2.4){ if(!Player.moveTo) orderWalk(a.obj.position); }
+      const stationDist=Math.hypot(player.position.x-a.obj.position.x,player.position.z-a.obj.position.z);
+      if(stationDist>2.4){ if(!Player.moveTo) orderWalk(a.obj.position); }
       else {
         Player.moveTo=null; Player.path=[];
+        player.lookAt(a.obj.position.x,player.position.y,a.obj.position.z);
         a.t+=dt;
         if(a.t>=1.8){
           a.t=0;
@@ -387,7 +329,9 @@ function update(dt){
             Player.addItem(it.id, it.qty||1);
             Player.addXp('Smithing', SMITH_XP[a.bar]*it.bars);
             UI.chat('You hammer out '+(it.qty?'a set of ':'a ')+it.name.toLowerCase().replace(/ \(x\d+\)/,'')+'.','xp');
-            Sfx.mine(); swing(player); UI.refreshInv();
+            Sfx.smith(); swing(player,'smith');
+            if(typeof CraftingActionVisuals!=='undefined')CraftingActionVisuals.pulse('smith',a.obj);
+            UI.refreshInv();
             if(Player.count(a.bar)<it.bars) Player.action=null;
           }
         }
@@ -480,7 +424,7 @@ function update(dt){
         Player.action=null;
         const dest = a.obj.userData.target==='undercrag'
           ? [ZONES.undercrag.pos[0], ZONES.undercrag.pos[1]+13]
-          : [54.5,-71.2];
+          : [-158.5,-114.2];   // back up into the Whitmoor keep yard (map-anchored)
         player.position.set(dest[0], gy(dest[0],dest[1]), dest[1]);
         Player.moveTo=null; Player.target=null;
         Sfx.click();
@@ -497,13 +441,13 @@ function update(dt){
       a.t+=dt;
       player.rotation.y += dt*9;   // the rite spins the caster
       if(a.t>=2.2){
-        const p=ZONES.commons.pos;
+        const zk=a.dest||'commons', p=ZONES[zk].pos;
         player.position.set(p[0]+2, gy(p[0]+2, p[1]+2), p[1]+2);
         player.rotation.y=0;
-        Player.teleCd=60;
+        Player.teleCd=a.cd||60;
         Player.action=null;
         Sfx.magicCast();
-        UI.chat('The world folds, and Veyhollow rises to meet you.','sys');
+        UI.chat(`The world folds, and ${ZONES[zk].name} rises to meet you.`,'sys');
       }
     }
     else if(a.type==='bury'){
@@ -585,21 +529,30 @@ function update(dt){
       }
     }
   }
+  }   // ── end fixed-tick player-sim loop ──
+  if(_nTicks && typeof TickHealth!=='undefined') TickHealth.sample(performance.now()-_tickT0, _nTicks);
 
   WORLD.npcs.forEach(n=>{
     if(n.dead){
+      if(n.dying){                                  // play the death topple, then hide the corpse
+        if(typeof tickDeath!=='function' || !tickDeath(n.mesh, dt)){ n.dying=false; n.mesh.visible=false; }
+      }
       n.respawnT-=dt;
-      if(n.respawnT<=0){ n.dead=false; n.hp=n.t.hp; n.mesh.visible=true;
+      if(n.respawnT<=0){ n.dead=false; n.dying=false; n.hp=n.t.hp; n.mesh.visible=true;
+        n.mesh.rotation.set(0,0,0);                 // undo the topple
+        if(n.mesh.userData._baseScale!==undefined) n.mesh.scale.setScalar(n.mesh.userData._baseScale);
         n.mesh.position.set(n.home.x, gy(n.home.x,n.home.z), n.home.z);
         n.hpbar.spr.visible=false;
         WORLD.clickables.push(n.mesh); n.target=null; }
       return;
     }
+    if(n.t.script && !n.exhibit && typeof BOSS_SCRIPTS!=='undefined' && BOSS_SCRIPTS[n.t.script]) BOSS_SCRIPTS[n.t.script](n, dt);
     const distP = n.mesh.position.distanceTo(player.position);
     // OSRS aggression: monsters ignore players above twice their level,
     // and grow tolerant after ~10 minutes near them — except the Scarlands,
     // whose horrors (like the Wilderness) never relent.
-    let wantsAggro = n.t.aggro && distP < 7;
+    let wantsAggro = n.t.aggro && distP < 7 && !n.exhibit;   // penned exhibits never chase
+    if(typeof GameConfig!=='undefined' && GameConfig.friendlyMode) wantsAggro=false;   // friendly mode: nothing starts a fight
     if(wantsAggro && n.target!=='player'){
       const fearless = n.t.alwaysAggro || curZone==='scarlands';
       if(!fearless){
@@ -635,7 +588,7 @@ function update(dt){
             n.mesh.lookAt(n.home.x,y,n.home.z); } }
         else n.returning=false;
       }
-    } else {
+    } else if(!n.penStatic) {                     // penStatic exhibits idle in place (no pacing)
       n.wanderT-=dt;
       if(n.wanderT<=0){ n.wanderT=3+Math.random()*4;
         n.wDir = new THREE.Vector3(Math.random()-0.5,0,Math.random()-0.5).normalize(); }
@@ -649,17 +602,29 @@ function update(dt){
             n.mesh.lookAt(nx+n.wDir.x, y, nz+n.wDir.z); } }
       }
     }
-    if(n.t.humanoid || n.t.model==='goblin') walkAnim(n.mesh, n.moving, dt);
+    const _P=n.mesh.userData.parts;
+    n.mesh.userData.inCombat = (n.target==='player' && !n.dead);   // raise a combat stance while engaged
+    if(n.mesh.userData.gmix && typeof charNpcAnim==='function') charNpcAnim(n, dt);   // GLB character (skeletal clips)
+    else if(_P && _P.legL) walkAnim(n.mesh, n.moving, dt);   // any rigged biped
     else beastAnim(n.mesh, n.moving, dt);
+    if(n.t.glb && typeof glbCreatureAnim==='function') glbCreatureAnim(n, dt);   // GLB-body life (breathing/huff)
+    if(n.t.skinnedRig){                                   // bone drive: per-type named-rig driver
+      const drv = n.t.animDriver==='mole' ? (typeof riggedMoleAnim==='function' && riggedMoleAnim)
+                : n.t.animDriver==='wolf' ? (typeof riggedWolfAnim==='function' && riggedWolfAnim)
+                : (typeof riggedDragonAnim==='function' && riggedDragonAnim);
+      if(drv) drv(n, dt, n.moving);
+    }
     n.moving = false;
   });
 
   Bots.update(dt);
+  if(typeof updateRoofs==='function') updateRoofs();
 
   WORLD.resources.forEach(r=>{
     const u=r.userData;
     if(!u.alive){ u.respawnT-=dt;
       if(u.respawnT<=0){ u.alive=true; r.visible=true;
+        if(u.rtype==='rock'&&typeof MiningRockVisuals!=='undefined'&&MiningRockVisuals.respawn) MiningRockVisuals.respawn(r);
         r.children.forEach(ch=>ch.visible=true); } }
     if(u.rtype==='fish' && u.alive){ u.bob+=dt*2; r.scale.setScalar(1+Math.sin(u.bob)*0.15); }
   });
@@ -667,6 +632,7 @@ function update(dt){
     if(f.userData.flame) f.userData.flame.scale.y = 1+Math.sin(performance.now()*0.02)*0.25; });
 
   updateProjectiles(dt);
+  if(typeof updateDragonFX==='function') updateDragonFX(dt);   // dragonfire / smoke particles
   animateWater(dt);
   separateEntities();
   updateSparring(dt);
@@ -700,6 +666,12 @@ function update(dt){
   }
   // stalls restock; player-lit fires burn down
   if(WORLD.stalls) for(const st of WORLD.stalls){ if(st.userData.restock>0) st.userData.restock-=dt; }
+  // shops drift their stock back toward the default quantity over time (OSRS restock)
+  WORLD._shopT=(WORLD._shopT||0)+dt;
+  if(WORLD._shopT>=20){ WORLD._shopT=0;
+    for(const k in SHOPS){ const sh=SHOPS[k]; if(!sh._q) continue;
+      for(const id in sh._q){ if(sh._q[id]<10) sh._q[id]++; else if(sh._q[id]>10) sh._q[id]--; } }
+  }
   for(let i=WORLD.fires.length-1;i>=0;i--){
     const f=WORLD.fires[i];
     if(f.userData && f.userData.ttl!==undefined){
@@ -708,32 +680,84 @@ function update(dt){
         scene.remove(f);
         const ci=WORLD.clickables.indexOf(f); if(ci>=0) WORLD.clickables.splice(ci,1);
         WORLD.fires.splice(i,1);
+        // a burnt-out player fire leaves ashes, like OSRS (top-100 batch 1 source)
+        if(typeof makeDrop==='function' && ITEMS.ashes)
+          makeDrop('ashes', 1, f.position.x, f.position.z);
         continue;
       }
     }
   }
-  // roofs lift away while you stand inside
-  for(const it of WORLD.interiors){
-    const inside = Math.abs(player.position.x-it.x)<it.hw && Math.abs(player.position.z-it.z)<it.hd;
-    if(it.roof.visible===inside){ it.roof.visible=!inside; if(it.band) it.band.visible=!inside; }
+  // dropped items age out (OSRS owner→public→despawn). Single-player: always visible to you;
+  // the owner/publicAt fields are stored ready for the MMO. ~3 min lifetime, blinking near the end.
+  if(WORLD.drops) for(let i=WORLD.drops.length-1;i>=0;i--){
+    const dm=WORLD.drops[i], u=dm.userData;
+    if(!u || u.age===undefined) continue;
+    u.age+=dt;
+    dm.visible = (u.life-u.age < 12) ? (Math.floor(u.age*4)%2===0) : true;
+    if(u.age>=u.life){
+      scene.remove(dm);
+      const ci=WORLD.clickables.indexOf(dm); if(ci>=0) WORLD.clickables.splice(ci,1);
+      WORLD.drops.splice(i,1);
+    }
   }
+  // roofs lift away while you stand inside — or everywhere, when the settings toggle says so
+  // SINGLE AUTHORITY for interior visibility, set unconditionally every frame (a transition
+  // guard left it.band stale, and a per-frame Planes rule used to fight it.roof — 2026-07-08):
+  //  - roof + band (the solid belt-course slab that was hiding the player) lift while inside
+  //  - storey-2 shell lifts too on the ground plane; upstairs it must stay (floor underfoot)
+  { const pl=((typeof Player!=='undefined'&&Player.plane)||0);
+    for(const it of WORLD.interiors){
+      const inside = Math.abs(player.position.x-it.x)<it.hw && Math.abs(player.position.z-it.z)<it.hd;
+      const want = !inside && !WORLD.roofsOff && pl<1;
+      if(typeof RoofTransitions!=='undefined') RoofTransitions.set(it.roof,want);
+      else it.roof.visible=want;
+      if(it.band){ if(typeof RoofTransitions!=='undefined') RoofTransitions.set(it.band,want); else it.band.visible=want; }
+      if(it.storey2){
+        const storeyWant=want||pl>=1;
+        if(typeof RoofTransitions!=='undefined') RoofTransitions.set(it.storey2,storeyWant);
+        else it.storey2.visible=storeyWant;
+      }
+      // custom above-roof geometry (e.g. the mage tower's drum+spire) follows the roof
+      if(it.overhead){ if(typeof RoofTransitions!=='undefined') RoofTransitions.set(it.overhead,want); else it.overhead.visible=want; }
+    }
+    if(typeof RoofTransitions!=='undefined') RoofTransitions.update(dt);
+  }
+  if(typeof WorkyardWaterworksU4!=='undefined') WorkyardWaterworksU4.update(dt);
+  if(typeof WorkyardFishingU5!=='undefined') WorkyardFishingU5.update(dt);
   _runUiT=(_runUiT||0)+dt; if(_runUiT>0.5){ _runUiT=0; UI.refreshRun();
     if(Player.activePrayers.size){ UI.refreshHud(); const pane=document.getElementById('pane-prayers');
       if(pane && pane.classList.contains('active') && UI.refreshPrayers) UI.refreshPrayers(); } }
   SaveGame.tick(dt);
+  if(typeof AnimShowcase!=='undefined' && AnimShowcase.active) AnimShowcase.tick(dt);
+  if(typeof Controls!=='undefined' && Controls.update) Controls.update(dt);   // arrow camera + chat bubble
+  if(typeof CharCreator!=='undefined' && CharCreator.active) CharCreator.tick(dt);   // design-panel turntable
 
-  const z = zoneAt(player.position.x, player.position.z);
-  if(z!==curZone){
-    curZone=z; UI.zone(ZONES[z].name);
-    UI.chat(`Now entering: ${ZONES[z].name}.`,'sys');
-    Music.onZone(z);
-    if(z==='scarlands') UI.chat('The Scarlands are lawless. The deeper you wander, the deadlier the threat.','combat');
+  const activePlane=(Player.plane||0);
+  if(activePlane>0 && typeof HolmLastlightData!=='undefined' && HolmLastlightData.levels[activePlane-1]){
+    // Authored upper floors keep their own location name. Surface zone polling
+    // must not overwrite it after a climb or saved-game restore.
+    UI.zone(HolmLastlightData.levels[activePlane-1].label);
+  } else {
+    const z = zoneAt(player.position.x, player.position.z);
+    if(z!==curZone){
+      curZone=z; UI.zone(ZONES[z].name);
+      UI.chat(`Now entering: ${ZONES[z].name}.`,'sys');
+      Music.onZone(z);
+      Quest.onZone(z);
+      if(z==='scarlands') UI.chat('The Scarlands are lawless. The deeper you wander, the deadlier the threat.','combat');
+    }
+    if(curZone==='scarlands'){
+      const t=scarThreat(player.position.z);
+      UI.zone(`The Scarlands — Threat ${Math.max(1,t)}`);
+    }
   }
-  if(curZone==='scarlands'){
-    const t=scarThreat(player.position.z);
-    UI.zone(`The Scarlands — Threat ${Math.max(1,t)}`);
+  const underground=(Player.plane||0)<0;
+  const targetFog = new THREE.Color(underground ? 0x30251c : ZONES[curZone].fog);
+  if(scene.fog){
+    const targetNear=underground?78:65,targetFar=underground?230:205;
+    scene.fog.near += (targetNear-scene.fog.near)*Math.min(1,dt*2.4);
+    scene.fog.far += (targetFar-scene.fog.far)*Math.min(1,dt*2.4);
   }
-  const targetFog = new THREE.Color(ZONES[curZone].fog);
   scene.fog.color.lerp(targetFog, dt*1.5);
   scene.background.lerp(targetFog, dt*1.5);
 
@@ -745,30 +769,145 @@ function update(dt){
 }
 
 let running=false;
+let _minimapPaintAt=0;
+let _lastRenderedAt=0, _firstRenderedAt=0, _playClickedAt=0;
+const _recentFrameMs=[];
 function animate(){
   requestAnimationFrame(animate);
   if(!running) return;
+  const frameNow=performance.now();
+  if(!_firstRenderedAt) _firstRenderedAt=frameNow;
+  if(_lastRenderedAt){
+    _recentFrameMs.push(frameNow-_lastRenderedAt);
+    if(_recentFrameMs.length>180) _recentFrameMs.shift();
+  }
+  _lastRenderedAt=frameNow;
   const dt=Math.min(0.05, clock.getDelta());
   update(dt);
-  drawMinimap();
+  // Dynamic map paint is bounded; terrain and resource layers cache independently.
+  const now=performance.now();
+  if(now-_minimapPaintAt>=80){ _minimapPaintAt=now; drawMinimap(); }
   renderer.render(scene, camera);
 }
+// Read-only development telemetry used by the real browser gate.  It deliberately
+// exposes numbers, not mutable engine objects.
+window.CRDebugStats=function(){
+  const frames=_recentFrameMs.slice().sort((a,b)=>a-b);
+  const avg=frames.length ? frames.reduce((a,b)=>a+b,0)/frames.length : 0;
+  let meshes=0, materials=new Set(), geometries=new Set();
+  if(scene) scene.traverse(o=>{ if(o.isMesh){ meshes++;
+    if(o.material) materials.add(o.material); if(o.geometry) geometries.add(o.geometry); } });
+  return {
+    mode:typeof CRWorldMode!=='undefined'?CRWorldMode.id:'legacy',
+    running, frameSamples:frames.length, fps:avg?1000/avg:0,
+    frameP95:frames.length?frames[Math.min(frames.length-1,Math.floor(frames.length*0.95))]:0,
+    playToFirstFrameMs:_playClickedAt&&_firstRenderedAt?_firstRenderedAt-_playClickedAt:null,
+    bootToFirstFrameMs:typeof CRWorldMode!=='undefined'&&_firstRenderedAt?_firstRenderedAt-CRWorldMode.startedAt:null,
+    player:player?{x:player.position.x,y:player.position.y,z:player.position.z}:null,
+    canvas:renderer?{w:renderer.domElement.width,h:renderer.domElement.height,pixelRatio:renderer.getPixelRatio()}:null,
+    sceneChildren:scene?scene.children.length:0, meshes, materials:materials.size, geometries:geometries.size,
+    drawCalls:renderer?renderer.info.render.calls:0, triangles:renderer?renderer.info.render.triangles:0,
+    collision:typeof CollisionGrid!=='undefined'?(CollisionGrid.snapshot?CollisionGrid.snapshot():
+      {w:CollisionGrid.w,h:CollisionGrid.h,baked:CollisionGrid.baked}):null,
+    world:typeof CRWorldMode!=='undefined'&&CRWorldMode.provider?CRWorldMode.provider.snapshot():null,
+    boot:window.CR_BOOT_TELEMETRY||null,
+    minimap:typeof CRMinimap!=='undefined'?CRMinimap.snapshot():null
+  };
+};
+setInterval(()=>{
+  if(!running) return;
+  let el=document.getElementById('cr-perf-telemetry');
+  if(!el){ el=document.createElement('output'); el.id='cr-perf-telemetry'; el.hidden=true; document.body.appendChild(el); }
+  el.textContent=JSON.stringify(window.CRDebugStats());
+},500);
+/* background heartbeat: rAF freezes in hidden tabs, but the world should keep
+ * ticking like OSRS (fights resolve, respawns count down, skilling continues).
+ * When hidden, drive the sim from a timer and skip rendering entirely. Also the
+ * thing that makes headless/browser-MCP QA reliable (the old hidden-tab freeze). */
+let _hbLast=performance.now();
+function _hbCatchUp(ceiling){
+  const now=performance.now();
+  if(!running){ _hbLast=now; return; }
+  // integrate the REAL elapsed time in capped slices so the world keeps true pace.
+  // Chrome throttles hidden-tab timers to 1Hz, and after 5 minutes to 1/minute
+  // (intensive throttling) — so the ceiling must cover a full minute of stall.
+  let dt=Math.min(ceiling, (now-_hbLast)/1000); _hbLast=now;
+  try{ while(dt>1e-3){ const step=Math.min(0.25, dt); update(step); dt-=step; } }catch(e){}
+}
+setInterval(()=>{
+  const now=performance.now();
+  // Windows/Chrome may throttle a fully occluded window while still reporting
+  // document.hidden=false. Treat a >500ms render stall like a hidden tab so
+  // simulation time, actions, and saves keep progressing at the correct pace.
+  const rafStale=!!(running&&_lastRenderedAt&&now-_lastRenderedAt>500);
+  if(!document.hidden&&rafStale) window.CR_LAST_OCCLUDED_AT=now;
+  if(document.hidden||rafStale) _hbCatchUp(75); else _hbLast=now;
+}, 200);
+/* coming back to the tab: swallow the whole stall at once so fights/actions have
+   truly progressed, then let rAF take over seamlessly */
+document.addEventListener('visibilitychange', ()=>{
+  if(!document.hidden){
+    _hbCatchUp(75);
+    if(clock&&typeof clock.getDelta==='function') clock.getDelta();
+  }
+});
 
 /* ================= LOADING SEQUENCE ================= */
 function setLoad(pct, msg){
   document.getElementById('loading-bar').style.width=pct+'%';
   document.getElementById('loading-step').textContent=msg;
 }
-const BOOT_STEPS = [
-  [10, 'Connecting to update server', ()=>{ initEngine(); }],
-  [25, 'Loading textures',            ()=>{ for(const id in ITEMS) iconFor(id); }],
-  [45, 'Generating world map',        ()=>{ buildTextures(); buildSea(); buildGround(); }],
-  [65, 'Populating Veyhollow',        ()=>{ populateMainland(); }],
-  [80, 'Preparing Tutor\'s Holm',     ()=>{ populateBrynholt(); populateDunes(); populateScarlands(); populateArena(); populateHolm(); Bots.spawn(); }],
-  [95, 'Waking the adventurer',       ()=>{
-      player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, beard:false, emblem:true});
-      const h=ZONES.holm.pos;
-      player.position.set(h[0], gy(h[0],h[1]), h[1]);
+const _liteBoot = typeof CRWorldMode!=='undefined' && CRWorldMode.lite;
+const _worldProvider = _liteBoot && typeof CRWorldMode!=='undefined' ? CRWorldMode.provider : null;
+const _worldLabel = _worldProvider ? _worldProvider.label : 'the legacy realm';
+let _bootCoordinator=null;
+function clearBootFailure(){
+  const old=document.getElementById('loading-failure'); if(old) old.remove();
+}
+function showBootFailure(error,step,retry){
+  const host=document.getElementById('loading-step');
+  if(!host) return;
+  clearBootFailure();
+  const box=document.createElement('div'); box.id='loading-failure';
+  box.style.cssText='margin-top:14px;color:#f4d9b0;text-align:center;font:12px Verdana,sans-serif;max-width:360px;';
+  box.innerHTML='<div>The realm could not finish loading.</div><button type="button" style="margin-top:9px;padding:6px 16px;cursor:pointer">Try again</button>';
+  // A failed constructor may have partially created GPU/world state. A clean
+  // reload is the only universally safe retry; future transactional steps can
+  // still opt into BootCoordinator.retry().
+  box.querySelector('button').onclick=()=>{ clearBootFailure(); location.reload(); };
+  host.parentNode.appendChild(box);
+  console.error('[boot] '+step.id+' failed: '+String(error&&error.message||error));
+}
+function bootSteps(){ return [
+  {id:'renderer', label:'Starting the renderer', weight:12, run:()=>{ initEngine(); }},
+  {id:'world-plan', label:_liteBoot?'Reading '+_worldLabel:'Reading the legacy realm', weight:4, run:()=>{
+    if(_liteBoot){
+      if(!_worldProvider) throw new Error('The selected world provider is unavailable');
+      _worldProvider.prepare();
+    }
+  }},
+  {id:'item-art', label:'Preparing item art', weight:4, run:()=>{ if(!_liteBoot) for(const id in ITEMS) iconFor(id); }},
+  {id:'terrain', label:'Building nearby terrain', weight:22, run:()=>{
+    if(_worldProvider) return _worldProvider.buildTerrain();
+    else { buildTextures(); buildSea(); buildGround(); }
+  }},
+  {id:'population', label:_liteBoot?'Preparing '+_worldLabel:'Populating the wider realm', weight:28, run:()=>{
+    if(_worldProvider) _worldProvider.populate();
+    else {
+      populateMainland(); populateBrynholt(); populateDunes(); populateScarlands(); populateArena();
+      populateHolm(); if(typeof buildMenagerie==='function') buildMenagerie(); Bots.spawn();
+    }
+  }},
+  {id:'collision', label:'Charting walkable ground', weight:15, run:()=>{
+    if(_worldProvider) _worldProvider.chartCollision();
+    else if(typeof CollisionGrid!=='undefined') CollisionGrid.rebake();
+  }},
+  {id:'player', label:'Waking the adventurer', weight:15, run:()=>{
+      player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, gender:CharCfg.gender, hair:CharCfg.hair,
+        hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs, emblem:true});
+      const h=_worldProvider?_worldProvider.getSpawnLandmark(_worldProvider.defaultLandmark):
+        {x:ZONES.holm.pos[0],z:ZONES.holm.pos[1]};
+      player.position.set(h.x, gy(h.x,h.z), h.z);
       player.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
       scene.add(player);
       Player.init();
@@ -779,31 +918,76 @@ const BOOT_STEPS = [
         const note=document.getElementById('login-note');
         if(note) note.textContent='A saved adventurer was found on this device.';
       }
-  }],
-  [100,'Done loading',                ()=>{}],
-];
-function boot(i=0){
-  if(i>=BOOT_STEPS.length){
-    setTimeout(()=>{
+  }}
+]; }
+function boot(){
+  _bootCoordinator=new BootCoordinator({
+    steps:bootSteps(),
+    onProgress:(pct,msg)=>{ clearBootFailure(); setLoad(pct,msg); },
+    onFailure:showBootFailure,
+    onReady:()=>{
       document.getElementById('loading-screen').style.display='none';
+      if(typeof LoginOverhaul!=='undefined'&&LoginOverhaul.refreshSaveState) LoginOverhaul.refreshSaveState();
       document.getElementById('welcome-screen').style.display='flex';
-    }, 350);
-    return;
+    }
+  });
+  _bootCoordinator.start();
+}
+// buffer overlay: the self-booting world props (scatter/buildings/dressing) build over the
+// first ~2.5s after `running` flips true (their poll intervals), so the world visibly "settles"
+// right after entering. Hold a themed cover over that settle, then fade — no more pop-in hitch.
+function showEnterBuffer(){
+  let ov=document.getElementById('enter-buffer');
+  if(!ov){
+    ov=document.createElement('div'); ov.id='enter-buffer';
+    ov.style.cssText='position:absolute;inset:0;z-index:90;display:flex;flex-direction:column;'+
+      'align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#2a2015,#0c0a07 75%);'+
+      'transition:opacity .6s ease;opacity:1;font-family:Georgia,serif;color:#e8c46a;';
+    ov.innerHTML='<div style="font-size:30px;letter-spacing:1px;text-shadow:1px 1px 0 #000;margin-bottom:16px">Crafted Realm</div>'+
+      '<div style="width:220px;height:9px;background:#120e0a;border:1px solid #4a3b28;border-radius:6px;overflow:hidden">'+
+      '<div id="enter-buffer-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#6b8f3f,#9fc45a);transition:width 2.2s linear"></div></div>'+
+      '<div style="margin-top:12px;font-size:12px;color:#a99a80;font-family:Verdana,sans-serif">Stepping into Veyhollow…</div>';
+    document.body.appendChild(ov);
   }
-  const [pct,msg,fn]=BOOT_STEPS[i];
-  setLoad(pct,msg);
-  setTimeout(()=>{ fn(); boot(i+1); }, 220);
+  ov.style.display='flex'; ov.style.opacity='1';
+  requestAnimationFrame(()=>{ const b=document.getElementById('enter-buffer-bar'); if(b) b.style.width='100%'; });
+  // Hold until the world is actually RESPONSIVE, not a fixed timer: the self-booting props build in a
+  // burst on the first `running` ticks (a real render freeze); rAF stalls during it and resumes after.
+  // We fade only once we've seen several consecutive smooth frames (freeze over) — with a min hold so
+  // the bar animation reads and a hard cap so it can never get stuck.
+  const t0=performance.now(); let last=t0, smooth=0, done=false;
+  const hide=()=>{ if(done) return; done=true; ov.style.opacity='0'; setTimeout(()=>{ ov.style.display='none'; }, 650); };
+  function settleWatch(){
+    if(done) return;
+    const now=performance.now(), dt=now-last; last=now;
+    if(dt<45) smooth++; else smooth=0;                    // <45ms = a clean frame
+    const elapsed=now-t0;
+    if((elapsed>1500 && smooth>=8) || elapsed>6000) hide();   // stabilized, or hard cap 6s
+    else requestAnimationFrame(settleWatch);
+  }
+  requestAnimationFrame(settleWatch);
+  // rAF freezes when Chrome occludes the window WITHOUT setting document.hidden (observed
+  // 2026-07-08: minimized/covered window, hidden=false, rAF 0fps) — the watch then never runs
+  // and the cover sticks forever. Wall-clock fallback guarantees the hide.
+  setTimeout(hide, 6800);
 }
 document.getElementById('play-btn').onclick = ()=>{
-  try{ Music.start(); }catch(e){}
-  Sfx.ensure(); Sfx.quest();
+  // music is opt-in: only resume if the player turned it on before (keeps debug loads silent)
+  try{ Sfx.ensure(); if(localStorage.getItem('cr_music_on')==='1') Music.start(); }catch(e){}
   document.getElementById('welcome-screen').style.display='none';
+  _playClickedAt=performance.now();
   running=true;
-  UI.zone(ZONES.holm.name);
+  if(!_liteBoot) showEnterBuffer();
+  UI.zone(_worldProvider?_worldProvider.label:ZONES.holm.name);
   Tutorial.banner();
   UI.chat('Welcome to Crafted Realm.','sys');
-  UI.chat('You wash ashore on Tutor\'s Holm. Talk to Guide Bram by the rowboat.','plain');
+  UI.chat(_liteBoot
+    ? 'World rebuild mode is active: '+_worldLabel+' is loaded for smooth play.'
+    : 'You wash ashore on Tutor\'s Holm. Talk to Guide Bram by the rowboat.','plain');
   UI.chat('Press ` (backquote) at any time for the Administrator Console.','sys');
+  // a NEW adventurer designs their look right here on the Holm (or keeps the default)
+  if(CharCfg._new){ CharCfg._new=false;
+    setTimeout(()=>{ if(typeof CharCreator!=='undefined') CharCreator.open(); }, 500); }
 };
 boot();
 animate();

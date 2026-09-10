@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Fishing Edge U5 — Installed Cardinal Turnaround",
+  "views": {
+    "north": "scratchpad/workyard_fishing_edge_u5_v1/turnaround_installed_north.png",
+    "south": "scratchpad/workyard_fishing_edge_u5_v1/turnaround_installed_south.png",
+    "east": "scratchpad/workyard_fishing_edge_u5_v1/turnaround_installed_east.png",
+    "west": "scratchpad/workyard_fishing_edge_u5_v1/turnaround_installed_west.png"
+  },
+  "review": "scratchpad/workyard_fishing_edge_u5_v1/turnaround_review_installed.json",
+  "note": "Identical warm lighting, orthographic lens, scale, water contact, and open-creel pose in all four directions",
+  "out": "scratchpad/workyard_fishing_edge_u5_v1/turnaround_sheet_installed.png"
+}
+

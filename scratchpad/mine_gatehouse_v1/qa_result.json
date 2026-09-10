@@ -1,0 +1,117 @@
+{
+  "profile": "fable-gate-qa-mtu7rykg",
+  "passed": 12,
+  "total": 12,
+  "checks": [
+    {
+      "label": "fresh QA profile booted through the real login flow",
+      "ok": true
+    },
+    {
+      "label": "real pathing climbs the mine road to the south gate approach",
+      "ok": true,
+      "detail": [
+        128.5,
+        125.5
+      ]
+    },
+    {
+      "label": "gatehouse streamed in, its pad is gone, and the cavern shaft stands inside the winch house",
+      "ok": true,
+      "detail": {
+        "gate": true,
+        "pad": false,
+        "shaft": true,
+        "shaftPos": [
+          124.5,
+          119.5
+        ]
+      }
+    },
+    {
+      "label": "closed gate keeps the winch house unreachable from the road",
+      "ok": true,
+      "detail": [
+        120.5,
+        119.5
+      ]
+    },
+    {
+      "label": "mine gate opens and the cobbled passage is enterable",
+      "ok": true,
+      "detail": [
+        129.5,
+        121.5
+      ]
+    },
+    {
+      "label": "roof cuts away when the player stands in the passage",
+      "ok": true,
+      "detail": {
+        "roofVisible": false
+      }
+    },
+    {
+      "label": "the arch leads into the winch house beside the shaft",
+      "ok": true,
+      "detail": [
+        124.5,
+        118.5
+      ]
+    },
+    {
+      "label": "road door opens and the mine road continues east toward Warden's Ridge",
+      "ok": true,
+      "detail": [
+        133.5,
+        120.5
+      ]
+    },
+    {
+      "label": "reload continues the adventurer at the road door with the route untouched",
+      "ok": true,
+      "detail": {
+        "pos": [
+          133.5,
+          120.5
+        ],
+        "step": 0,
+        "plane": 0,
+        "errors": 0
+      }
+    },
+    {
+      "label": "the gatehouse can be re-entered from the road side after reload",
+      "ok": true,
+      "detail": [
+        124.5,
+        118.5
+      ]
+    },
+    {
+      "label": "the shaft inside the winch house descends into the Training Cavern entry",
+      "ok": true,
+      "detail": {
+        "plane": -1,
+        "pos": [
+          286,
+          354
+        ],
+        "zone": "Training Cavern",
+        "errors": 0
+      }
+    },
+    {
+      "label": "no page errors, console errors, or failed asset loads across the whole run",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failedLoads": []
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedLoads": []
+}

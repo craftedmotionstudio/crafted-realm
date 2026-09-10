@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "cavern_bronze_lesson_v1",
+  "feature": "Training Cavern copper-to-Bronze-dagger lesson",
+  "level": "swarm",
+  "prerequisites": ["Disposable qaProfile", "Bronze pickaxe and hammer permitted as setup"],
+  "steps": [
+    {"order": 1, "realInteraction": true, "action": "Walk to and left-click a copper rock", "expected": "Copper ore earned once with mining animation, sound, XP, depletion, and message"},
+    {"order": 2, "realInteraction": true, "action": "Walk to and left-click a tin rock", "expected": "Tin ore earned once with mining feedback"},
+    {"order": 3, "realInteraction": true, "action": "Walk to and left-click the furnace", "expected": "One copper and one tin are consumed; one bronze bar is earned with smelting feedback"},
+    {"order": 4, "realInteraction": true, "action": "Walk to and left-click the anvil", "expected": "One bronze bar is consumed; one Bronze dagger is earned with smithing feedback"},
+    {"order": 5, "realInteraction": true, "action": "Equip the Bronze dagger from inventory", "expected": "Dagger appears in equipment and on the player without duplication"}
+  ],
+  "negativeCases": ["wrong or missing tool", "missing ore or bar", "full inventory", "rapid repeated click", "walk away during action", "blocked and four-cardinal approach"],
+  "persistence": ["reload before lesson", "reload after bronze bar", "reload after equipped dagger", "leave and re-enter cavern"],
+  "performance": {"foregroundSmoke": true, "consoleErrors": 0},
+  "roles": ["functional", "adversarial", "visual", "persistence", "performance"],
+  "acceptance": {"allRequired": true, "integratorSignoff": true}
+}

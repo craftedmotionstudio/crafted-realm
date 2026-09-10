@@ -1,0 +1,61 @@
+{
+  "asset": "cellar_ladder_hatch_v1",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "blenderVersion": "4.5.10 LTS",
+  "source": "assets/blender/props/cellar_ladder_hatch_v1.blend",
+  "model": "assets/models/props/cellar_ladder_hatch_v1.glb",
+  "reference": "docs/rebuild/concepts/cellar_ladder_hatch_nanobanana2_v2.png",
+  "conceptTool": "Gemini 3 Pro Image / Nano Banana 2",
+  "visibleMeshObjects": 3,
+  "vertices": 1324,
+  "triangles": 2336,
+  "materials": [
+    "CR Cellar Recess",
+    "CR Hatch Stone Shadow",
+    "CR Hatch Warm Fieldstone",
+    "CR Hatch Worn Stone Face",
+    "CR Ladder Aged Oak",
+    "CR Ladder Forged Iron",
+    "CR Ladder Iron Wear",
+    "CR Ladder Oak Shadow",
+    "CR Ladder Worn Oak Face"
+  ],
+  "animations": [],
+  "dimensionsTiles": {
+    "width": 1.57,
+    "depth": 1.039,
+    "height": 2.644
+  },
+  "humanScaleContract": {
+    "standingPlayerHeight": 1.9,
+    "ladderRailHeight": 2.256,
+    "clearRungWidth": 0.6,
+    "rungSpacing": 0.3,
+    "descentDepth": 0.3,
+    "rungCount": 7,
+    "openingWidth": 1.0,
+    "openingDepth": 0.59
+  },
+  "proofViews": [
+    "01_scale_silhouette",
+    "02_shaded",
+    "03_clay",
+    "04_wireframe",
+    "05_gameplay_descent",
+    "06_gameplay_ascent"
+  ],
+  "checks": {
+    "ownerStandardNanoBananaReference": true,
+    "noPrimitiveOperatorsUsedForVisibleAsset": true,
+    "customAssetSpecificTopology": true,
+    "exactlySevenHandSpacedRungs": true,
+    "separateSemanticRoots": true,
+    "controlledFlatShading": true,
+    "sixViewProofPacket": true,
+    "runtimeGroupedBySemanticObject": true,
+    "humanScaleLocked": true,
+    "trueRecessedDescent": true
+  },
+  "status": "Blender source and scale-locked traversal review candidate"
+}

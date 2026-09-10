@@ -1,0 +1,13 @@
+{
+  "name": "Combat Hall v1 — Exterior vs Tutorial Island reference",
+  "osrs": "Bible_References/A_Tutorial_Island_Option.jpg",
+  "cr": "scratchpad/combat_hall_v1/combat_hall_v1_game_camera.png",
+  "left_label": "TUTORIAL ISLAND REFERENCE",
+  "right_label": "BLENDER 4.5 RENDER, ELEVATED GAME CAMERA",
+  "subtitle": "Gabled drill hall, taller pyramid-roofed drill tower with helm finial, covered practice yard on posts, half-octagonal armoury apse",
+  "codex": 8.5,
+  "review_note": "Four roof masses give the hall the most varied silhouette on the ridge: the cross-axis gable with a crossed-swords crest, the tower stepping up over the cavern stair, the open yard reading as a working space rather than a shed, and the apse behind. Fieldstone, timber bays, fitted doors and shuttered slits keep the family. Held below 9.0: the yard posts are plain, the tower pyramid courses are flat slabs, and the apse is only glimpsed from the road side.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Add a carved lintel and hanging shields to the yard posts, stagger the pyramid courses, and give the apse a small round window with a sword-and-shield tracery.",
+  "out": "Bible_References/Complete/_compare/holm_combat_hall_v1_exterior_compare.png"
+}

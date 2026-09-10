@@ -1,0 +1,63 @@
+{
+  "asset": "cellar_wall_torch_v1",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "blenderVersion": "4.5.10 LTS",
+  "source": "assets/blender/props/cellar_wall_torch_v1.blend",
+  "model": "assets/models/props/cellar_wall_torch_v1.glb",
+  "reference": "docs/rebuild/concepts/cellar_wall_torch_nanobanana2_v1.png",
+  "conceptTool": "Gemini 3 Pro Image / Nano Banana 2",
+  "visibleMeshObjects": 4,
+  "vertices": 470,
+  "triangles": 856,
+  "materials": [
+    "CR Torch Ashwood Shadow",
+    "CR Torch Charcoal Iron",
+    "CR Torch Charred Wrap Edge",
+    "CR Torch Flame Ember",
+    "CR Torch Flame Gold",
+    "CR Torch Flame Orange",
+    "CR Torch Hammered Iron",
+    "CR Torch Hand Hewn Ashwood",
+    "CR Torch Pitch Cloth",
+    "CR Torch Worn Ashwood Face",
+    "CR Torch Worn Iron Edge"
+  ],
+  "animations": [
+    "Flame_Flicker"
+  ],
+  "animationProfile": {
+    "clip": "Flame_Flicker",
+    "durationSeconds": 2.875,
+    "mood": "cozy-slow",
+    "seamless": true
+  },
+  "dimensionsTiles": {
+    "width": 0.66,
+    "projection": 0.88,
+    "height": 1.57
+  },
+  "proofViews": [
+    "01_shaded",
+    "02_clay_silhouette",
+    "03_wireframe",
+    "04_material_id",
+    "05_gameplay_camera",
+    "06_flicker_pose"
+  ],
+  "checks": {
+    "ownerStandardNanoBananaReference": true,
+    "noPrimitiveOperatorsUsedForVisibleAsset": true,
+    "customAssetSpecificTopology": true,
+    "hammeredBackplateAndFittedRivets": true,
+    "forgedRibbonArmAndBrace": true,
+    "crookedHewnShaftAndOverlappingPitchWraps": true,
+    "threeLayerFacetedFlame": true,
+    "controlledFlatShading": true,
+    "semanticFlameNode": true,
+    "flickerAnimationAuthored": true,
+    "sixViewProofPacket": true,
+    "runtimeStaticGeometryConsolidated": true
+  },
+  "status": "Blender source and animation review candidate"
+}

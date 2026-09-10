@@ -1,0 +1,70 @@
+{
+  "assetId": "holm_mage_tower_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 866460,
+    "triangles": 11544,
+    "primitives": 75,
+    "materials": 28
+  },
+  "animations": [],
+  "authoringChecks": {
+    "stoneTowerAndTimberWingAuthored": true,
+    "twoStoreysAuthored": true,
+    "twoRoofMassesAuthored": true,
+    "fittedFullFrameDoorsAuthored": true,
+    "ashlarCoursesAuthored": true,
+    "loadBearingTimberBaysAuthored": true,
+    "layeredRoofCoursesAuthored": true,
+    "castingHallAuthored": true,
+    "scriptoriumAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "scaleChecks": [
+    {
+      "label": "door opening height",
+      "value": 3.05,
+      "min": 2.4,
+      "max": 3.3,
+      "passed": true
+    },
+    {
+      "label": "rune table height",
+      "value": 0.96,
+      "min": 0.8,
+      "max": 1.1,
+      "passed": true
+    },
+    {
+      "label": "lectern desk height",
+      "value": 1.18,
+      "min": 1.0,
+      "max": 1.4,
+      "passed": true
+    },
+    {
+      "label": "upper floor height",
+      "value": 4.0,
+      "min": 3.4,
+      "max": 4.6,
+      "passed": true
+    },
+    {
+      "label": "tower wall height",
+      "value": 7.6,
+      "min": 7.0,
+      "max": 8.4,
+      "passed": true
+    },
+    {
+      "label": "spire peak height",
+      "value": 11.6,
+      "min": 10.0,
+      "max": 13.0,
+      "passed": true
+    }
+  ],
+  "cardinalProofs": [],
+  "errors": []
+}

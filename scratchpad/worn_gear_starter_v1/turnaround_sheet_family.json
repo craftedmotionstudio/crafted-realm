@@ -1,0 +1,12 @@
+{
+  "name": "Worn Gear Starter Family v1 - Cardinal Turnaround",
+  "views": {
+    "north": "scratchpad/worn_gear_starter_v1/turnaround_family_north.png",
+    "south": "scratchpad/worn_gear_starter_v1/turnaround_family_south.png",
+    "east": "scratchpad/worn_gear_starter_v1/turnaround_family_east.png",
+    "west": "scratchpad/worn_gear_starter_v1/turnaround_family_west.png"
+  },
+  "review": "scratchpad/worn_gear_starter_v1/turnaround_review_family.json",
+  "note": "identical lighting, ortho lens, and framing scale; six-item display row",
+  "out": "scratchpad/worn_gear_starter_v1/turnaround_sheet_family.png"
+}

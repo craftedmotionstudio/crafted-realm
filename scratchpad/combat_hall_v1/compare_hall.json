@@ -1,0 +1,13 @@
+{
+  "name": "Combat Hall v1 — Live drill hall vs Tutorial Island reference",
+  "osrs": "Bible_References/A_Tutorial_Island_Option.jpg",
+  "cr": "scratchpad/combat_hall_v1/in_game_hall_overview_b.png",
+  "left_label": "TUTORIAL ISLAND REFERENCE",
+  "right_label": "CRAFTED REALM LIVE GAME, ROOF CUT AWAY",
+  "subtitle": "Inlaid sparring ring with the training pell, hall bench and spare helm, wall banners, road door ahead and the arch into the drill tower",
+  "codex": 8.4,
+  "review_note": "With the roof cut away the drill hall reads as a training room at once: the raked sparring ring centres the pell, the bench and banner dress the walls, the road door and the arch to the tower give the room two clear exits, and the player scale against the pell is right. Held below 9.0: the ring is a flat inlay with no kerb, the pell's strapped shield and cut marks vanish at the gameplay camera, and the tower's 6-tile partition hides the stair landing from a low west-facing camera.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Raise the ring on a low timber kerb, enlarge the pell's shield and cut marks so they read at distance, and drop the hall–tower partition to hall height (or cut it away with the tower) so the landing stays visible.",
+  "out": "Bible_References/Complete/_compare/holm_combat_hall_v1_hall_compare.png"
+}

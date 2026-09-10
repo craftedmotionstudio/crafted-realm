@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Prop grid</title>
+  <style>html,body{margin:0;height:100%;background:#6b8e3d;overflow:hidden;}</style>
+</head>
+<body>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    // name, color, in-game height (for reference; here we normalise to ~1.2 for viewing)
+    const PROPS = [
+      ['cabbage', 0x5f8f3a], ['potato', 0xc8a45a], ['onion', 0xcaa94a],
+      ['carrot', 0xd9772a], ['wheat', 0xd9c060], ['bucket', 0x9a9aa2],
+      ['crate', 0x9a6a38], ['barrel', 0x7a4f2a], ['sack', 0xcbb78a],
+    ];
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x6b8e3d);
+    const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.01, 100);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    document.body.appendChild(renderer.domElement);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x445533, 0.95));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.0); sun.position.set(3, 6, 4); scene.add(sun);
+
+    const loader = new GLTFLoader();
+    const COLS = 3, GAP = 2.2;
+    const pivot = new THREE.Group(); scene.add(pivot);
+
+    PROPS.forEach(([name, color], i) => {
+      const gx = (i % COLS - (COLS - 1) / 2) * GAP;
+      const gz = (Math.floor(i / COLS) - 1) * GAP;
+      loader.load(`../assets/models/${name}.glb`, (gltf) => {
+        const o = gltf.scene;
+        o.traverse((c) => { if (c.isMesh) {
+          c.geometry.computeVertexNormals();
+          if (c.material && (c.material.map || c.material.vertexColors)) {
+            c.material.flatShading = true; c.material.roughness = 1; c.material.metalness = 0;
+            c.material.needsUpdate = true;   // textured/vertex-coloured: keep its colours
+          } else {
+            c.material = new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 1, metalness: 0 });
+          }
+        }});
+        let box = new THREE.Box3().setFromObject(o);
+        const size = box.getSize(new THREE.Vector3());
+        o.scale.setScalar(1.2 / (size.y || 1));
+        box = new THREE.Box3().setFromObject(o);
+        const ctr = box.getCenter(new THREE.Vector3());
+        o.position.set(gx - ctr.x, -box.min.y, gz - ctr.z);
+        pivot.add(o);
+      });
+    });
+
+    camera.position.set(0, 4.2, 7.2);
+    camera.lookAt(0, 0.4, 0);
+    let t = 0;
+    (function animate(){ requestAnimationFrame(animate); t += 0.004; pivot.rotation.y = Math.sin(t) * 0.5; renderer.render(scene, camera); })();
+  </script>
+</body>
+</html>

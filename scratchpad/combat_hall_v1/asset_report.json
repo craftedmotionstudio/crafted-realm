@@ -1,0 +1,63 @@
+{
+  "asset": "holm_combat_hall_v1",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "checks": {
+    "hallTowerYardApseCompoundAuthored": true,
+    "fourRoofMassesAuthored": true,
+    "fittedFullFrameDoorsAuthored": true,
+    "irregularMasonryCoursesAuthored": true,
+    "loadBearingTimberBaysAuthored": true,
+    "layeredRoofCoursesAuthored": true,
+    "cavernStairHeadAuthored": true,
+    "practiceStationsAuthored": true,
+    "semanticNodesPreserved": true
+  },
+  "visualLanguage": "Guide Hall anchor family; drill hall with drill tower, practice yard, armoury apse",
+  "roofCourses": 178,
+  "humanScaleContract": {
+    "playerVisualHeight": 1.85,
+    "doorOpeningHeight": 3.05,
+    "pellHeadHeight": 2.5,
+    "archeryButtCentreHeight": 0.95,
+    "benchSeatHeight": 0.55,
+    "rackBarHeight": 2.4,
+    "hallWallHeight": 4.6,
+    "towerWallHeight": 6.0
+  },
+  "metrics": {
+    "triangles": 8514,
+    "meshObjects": 670,
+    "materials": 28,
+    "materialNames": [
+      "CR Hall Banner Gold",
+      "CR Hall Banner Red",
+      "CR Hall Brass Plate",
+      "CR Hall Ink",
+      "CR Hall Lamp Glass",
+      "CR Hall Leather",
+      "CR Hall Stair Dark",
+      "CR Hall Steel",
+      "CR Hall Straw",
+      "CR Hall Target Red",
+      "CR Hall Target White",
+      "CR Hall Yard Sand",
+      "CR Hall Yard Sand Dark",
+      "CR Kitchen Ember",
+      "CR Kitchen Flagstone",
+      "CR Kitchen Flagstone Light",
+      "CR Workyard Aged Brass",
+      "CR Workyard Chalk",
+      "CR Workyard Fieldstone",
+      "CR Workyard Fieldstone Light",
+      "CR Workyard Forged Iron",
+      "CR Workyard Fresh Cut",
+      "CR Workyard Oak Dark",
+      "CR Workyard Oak Worn",
+      "CR Workyard Shingle Moss",
+      "CR Workyard Shingle Sun",
+      "CR Workyard Shingle Umber",
+      "CR Workyard Warm Limewash"
+    ]
+  }
+}

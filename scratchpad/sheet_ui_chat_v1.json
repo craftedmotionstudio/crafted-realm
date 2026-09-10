@@ -1,0 +1,11 @@
+{
+  "name": "Core HUD — Chat Bar",
+  "subtitle": "OSRS UI composition reference vs Crafted Realms live browser HUD",
+  "osrs": "Bible_References/UI_ChatBar+More.jpg",
+  "cr": "scratchpad/holm_training_cavern_v1/ui_chat_runtime.png",
+  "codex": 9.0,
+  "review_note": "The live chat now has a readable parchment body, dark beveled medieval frame, and the full All, Game, Public, Private, Clan, Trade, Yell, and Report channel row with status indicators.",
+  "verdict": "accepted core chat direction",
+  "improve": "Future chat work should focus on multiplayer behavior and filtering rather than another visual rewrite.",
+  "out": "Bible_References/Complete/_compare/UI_Chat_v1_compare.png"
+}

@@ -1,0 +1,15 @@
+{
+  "target": "holm_lastlight_lighthouse_v1",
+  "auditOrder": [
+    "north",
+    "south",
+    "east",
+    "west"
+  ],
+  "views": {
+    "north": "scratchpad/holm_lastlight_lighthouse_v1/lastlight_north.png",
+    "south": "scratchpad/holm_lastlight_lighthouse_v1/lastlight_south.png",
+    "east": "scratchpad/holm_lastlight_lighthouse_v1/lastlight_east.png",
+    "west": "scratchpad/holm_lastlight_lighthouse_v1/lastlight_west.png"
+  }
+}

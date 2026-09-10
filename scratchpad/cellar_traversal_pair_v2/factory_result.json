@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 2,
+  "assetId": "cellar_traversal_pair_v2",
+  "passed": true,
+  "pipeline": {
+    "assetId": "cellar_traversal_pair_v2",
+    "schemaVersion": 1,
+    "passed": true,
+    "metrics": {
+      "fileBytes": 118340,
+      "triangles": 2080,
+      "primitives": 18,
+      "materials": 7
+    },
+    "animations": [
+      "Hatch_Open"
+    ],
+    "authoringChecks": {
+      "twoPurposeBuiltArchitecturalForms": true,
+      "noFreestandingPortal": true,
+      "noDecorativeRungBolts": true,
+      "flushSurfaceFrame": true,
+      "trueRecessedSurfaceShaft": true,
+      "surfaceTerrainOccluder": true,
+      "cellarRailsDisappearIntoOpening": true,
+      "animatedHatchLid": true,
+      "controlledFlatShading": true,
+      "runtimeGroupedByPurpose": true,
+      "sixViewProofPacket": true
+    },
+    "scaleChecks": [
+      {
+        "label": "surface width",
+        "value": 1.223,
+        "min": 1.05,
+        "max": 1.3,
+        "passed": true
+      },
+      {
+        "label": "surface depth including open lid",
+        "value": 1.828,
+        "min": 1.7,
+        "max": 1.95,
+        "passed": true
+      },
+      {
+        "label": "surface height",
+        "value": 1.46,
+        "min": 1.35,
+        "max": 1.55,
+        "passed": true
+      },
+      {
+        "label": "surface opening width",
+        "value": 0.96,
+        "min": 0.85,
+        "max": 1.05,
+        "passed": true
+      },
+      {
+        "label": "surface opening depth",
+        "value": 1.02,
+        "min": 0.9,
+        "max": 1.1,
+        "passed": true
+      },
+      {
+        "label": "surface ladder rise",
+        "value": 0.92,
+        "min": 0.8,
+        "max": 1.0,
+        "passed": true
+      },
+      {
+        "label": "cellar width",
+        "value": 1.322,
+        "min": 1.1,
+        "max": 1.4,
+        "passed": true
+      },
+      {
+        "label": "cellar depth",
+        "value": 0.82,
+        "min": 0.6,
+        "max": 0.9,
+        "passed": true
+      },
+      {
+        "label": "cellar height",
+        "value": 3.238,
+        "min": 3.0,
+        "max": 3.3,
+        "passed": true
+      },
+      {
+        "label": "cellar ladder rise",
+        "value": 3.0,
+        "min": 2.9,
+        "max": 3.1,
+        "passed": true
+      },
+      {
+        "label": "cellar clear rung width",
+        "value": 0.68,
+        "min": 0.55,
+        "max": 0.72,
+        "passed": true
+      },
+      {
+        "label": "cellar rung spacing",
+        "value": 0.31,
+        "min": 0.27,
+        "max": 0.34,
+        "passed": true
+      },
+      {
+        "label": "cellar rung count",
+        "value": 9,
+        "min": 9,
+        "max": 9,
+        "passed": true
+      }
+    ],
+    "errors": []
+  },
+  "factoryChecks": [
+    {
+      "label": "concept image",
+      "passed": true,
+      "path": "docs/rebuild/concepts/cellar_floor_hatch_nanobanana2_v1.png"
+    },
+    {
+      "label": "concept prompt",
+      "passed": true,
+      "path": "docs/rebuild/concepts/cellar_floor_hatch_nanobanana2_v1.prompt.md"
+    },
+    {
+      "label": "catalog",
+      "passed": true,
+      "path": "assets/catalogs/cellar_traversal_pair_v2.json"
+    },
+    {
+      "label": "concept comparison score",
+      "value": 9.0,
+      "minimum": 9.0,
+      "passed": true
+    },
+    {
+      "label": "surface width",
+      "value": 1.223,
+      "min": 1.05,
+      "max": 1.3,
+      "passed": true
+    },
+    {
+      "label": "surface depth including open lid",
+      "value": 1.828,
+      "min": 1.7,
+      "max": 1.95,
+      "passed": true
+    },
+    {
+      "label": "surface height",
+      "value": 1.46,
+      "min": 1.35,
+      "max": 1.55,
+      "passed": true
+    },
+    {
+      "label": "surface opening width",
+      "value": 0.96,
+      "min": 0.85,
+      "max": 1.05,
+      "passed": true
+    },
+    {
+      "label": "surface opening depth",
+      "value": 1.02,
+      "min": 0.9,
+      "max": 1.1,
+      "passed": true
+    },
+    {
+      "label": "surface ladder rise",
+      "value": 0.92,
+      "min": 0.8,
+      "max": 1.0,
+      "passed": true
+    },
+    {
+      "label": "cellar width",
+      "value": 1.322,
+      "min": 1.1,
+      "max": 1.4,
+      "passed": true
+    },
+    {
+      "label": "cellar depth",
+      "value": 0.82,
+      "min": 0.6,
+      "max": 0.9,
+      "passed": true
+    },
+    {
+      "label": "cellar height",
+      "value": 3.238,
+      "min": 3.0,
+      "max": 3.3,
+      "passed": true
+    },
+    {
+      "label": "cellar ladder rise",
+      "value": 3.0,
+      "min": 2.9,
+      "max": 3.1,
+      "passed": true
+    },
+    {
+      "label": "cellar clear rung width",
+      "value": 0.68,
+      "min": 0.55,
+      "max": 0.72,
+      "passed": true
+    },
+    {
+      "label": "cellar rung spacing",
+      "value": 0.31,
+      "min": 0.27,
+      "max": 0.34,
+      "passed": true
+    },
+    {
+      "label": "cellar rung count",
+      "value": 9,
+      "min": 9,
+      "max": 9,
+      "passed": true
+    },
+    {
+      "label": "catalog assetId",
+      "value": "cellar_traversal_pair_v2",
+      "expected": "cellar_traversal_pair_v2",
+      "passed": true
+    },
+    {
+      "label": "catalog source",
+      "value": "assets/blender/props/cellar_traversal_pair_v2.blend",
+      "expected": "assets/blender/props/cellar_traversal_pair_v2.blend",
+      "passed": true
+    },
+    {
+      "label": "catalog runtime",
+      "value": "assets/models/props/cellar_traversal_pair_v2.glb",
+      "expected": "assets/models/props/cellar_traversal_pair_v2.glb",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/cellar_traversal_pair_v2/07_in_game_surface.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/cellar_traversal_pair_v2/08_in_game_cellar_after_real_climb.png",
+      "passed": true
+    },
+    {
+      "label": "integration proof",
+      "path": "scratchpad/cellar_traversal_pair_v2/09_in_game_surface_after_real_climb_up.png",
+      "passed": true
+    }
+  ],
+  "nextStage": "runtime placement and real two-way climb proof"
+}

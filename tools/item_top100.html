@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Crafted Realm — Top-100 Item Comparison Grid</title>
+<style>
+  body{background:#1a1712;color:#e8dcc0;font:13px/1.4 system-ui,sans-serif;margin:0;padding:16px}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:#a89878;margin-bottom:12px}
+  .filters button{background:#2c2618;color:#e8dcc0;border:1px solid #565;border-radius:4px;padding:4px 10px;margin-right:6px;cursor:pointer}
+  .filters button.on{background:#4a3f22;border-color:#d4a83e}
+  table{border-collapse:collapse;width:100%;margin-top:12px}
+  th{position:sticky;top:0;background:#2c2618;padding:6px;text-align:left;font-size:12px;z-index:2}
+  td{border-bottom:1px solid #3a3428;padding:6px;vertical-align:middle}
+  tr:hover{background:#221e15}
+  .icon{width:48px;height:48px;object-fit:contain;image-rendering:pixelated;background:#3e3529;border-radius:4px}
+  .detail{max-width:90px;max-height:80px;object-fit:contain}
+  .equipped{max-width:70px;max-height:110px;object-fit:contain}
+  .missingCell{color:#7a6f5c;font-style:italic;font-size:11px}
+  .st{padding:2px 8px;border-radius:10px;font-size:11px;white-space:nowrap}
+  .st.have{background:#2e4a2e;color:#9fd89f}.st.partial{background:#4a3f22;color:#e8c86a}.st.missing{background:#4a2626;color:#e89090}
+  .cat{color:#a89878;font-size:11px}
+  .nm{font-weight:600}.our{color:#d4a83e;font-size:12px}
+  .note{color:#8a8070;font-size:11px;max-width:220px}
+  #counts{margin-left:16px;color:#a89878}
+</style>
+</head>
+<body>
+<h1>Top-100 Item Comparison — OSRS Wiki reference vs Crafted Realm</h1>
+<div class="sub">Wiki images are references only (Bible_References/Items_Top100/wiki). "Ours" column loads our banked icon captures from <code>Bible_References/Items_Top100/ours/icon/&lt;id&gt;.png</code> when present.</div>
+<div class="filters">
+  <button data-f="all" class="on">All</button>
+  <button data-f="have">Have</button>
+  <button data-f="partial">Partial</button>
+  <button data-f="missing">Missing</button>
+  <span id="counts"></span>
+</div>
+<table id="grid">
+  <thead><tr>
+    <th>#</th><th>OSRS item</th><th>Wiki icon</th><th>Wiki detail</th><th>Wiki equipped</th>
+    <th>Our icon</th><th>Status</th><th>Anim requirement</th><th>Notes</th>
+  </tr></thead>
+  <tbody></tbody>
+</table>
+<script>
+const B = '../Bible_References/Items_Top100/';
+fetch(B + 'top100_items.json').then(r => r.json()).then(data => {
+  const tb = document.querySelector('#grid tbody');
+  const counts = {have:0, partial:0, missing:0};
+  for (const it of data.items){
+    counts[it.status]++;
+    const safe = it.osrs.replace(/ /g, '_');
+    const tr = document.createElement('tr');
+    tr.dataset.status = it.status;
+    tr.innerHTML = `
+      <td>${it.n}</td>
+      <td><div class="nm">${it.osrs}</div><div class="our">${it.ourName || ''}</div><div class="cat">${it.cat}</div></td>
+      <td><img class="icon" src="${B}wiki/icon/${safe}.png" onerror="this.replaceWith('—')"></td>
+      <td><img class="detail" src="${B}wiki/detail/${safe}.png" onerror="this.outerHTML='<span class=missingCell>no detail</span>'"></td>
+      <td>${it.equipped ? `<img class="equipped" src="${B}wiki/equipped/${safe}.png" onerror="this.outerHTML='<span class=missingCell>no equipped</span>'">` : '<span class="missingCell">n/a</span>'}</td>
+      <td>${it.id ? `<img class="icon" src="${B}ours/icon/${it.id}.png" onerror="this.outerHTML='<span class=missingCell>not captured</span>'">` : '<span class="missingCell">no item</span>'}</td>
+      <td><span class="st ${it.status}">${it.status}</span></td>
+      <td class="note">${it.anim || ''}</td>
+      <td class="note">${it.note || ''}</td>`;
+    tb.appendChild(tr);
+  }
+  document.getElementById('counts').textContent =
+    `have ${counts.have} · partial ${counts.partial} · missing ${counts.missing}`;
+  document.querySelectorAll('.filters button').forEach(b => b.onclick = () => {
+    document.querySelectorAll('.filters button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    const f = b.dataset.f;
+    document.querySelectorAll('#grid tbody tr').forEach(tr =>
+      tr.style.display = (f === 'all' || tr.dataset.status === f) ? '' : 'none');
+  });
+});
+</script>
+</body>
+</html>

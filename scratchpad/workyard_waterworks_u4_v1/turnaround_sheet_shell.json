@@ -1,0 +1,12 @@
+﻿{
+    "name":  "Waterworks U4 — Static Dock Shell Cardinal Turnaround",
+    "views":  {
+                  "north":  "scratchpad/workyard_waterworks_u4_v1/turnaround_shell_north.png",
+                  "south":  "scratchpad/workyard_waterworks_u4_v1/turnaround_shell_south.png",
+                  "east":  "scratchpad/workyard_waterworks_u4_v1/turnaround_shell_east.png",
+                  "west":  "scratchpad/workyard_waterworks_u4_v1/turnaround_shell_west.png"
+              },
+    "review":  "scratchpad/workyard_waterworks_u4_v1/turnaround_review_shell.json",
+    "note":  "Identical lighting rig, ortho lens, gameplay pitch (~43 deg), one framing scale for all four directions",
+    "out":  "scratchpad/workyard_waterworks_u4_v1/turnaround_sheet_shell.png"
+}

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "assetId": "cellar_reserve_chest_v1",
+  "assetClass": "prop",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_cellar_reserve_chest_v1.py",
+  "source": "assets/blender/props/cellar_reserve_chest_v1.blend",
+  "model": "assets/models/props/cellar_reserve_chest_v1.glb",
+  "authoringReport": "scratchpad/cellar_reserve_chest_v1/asset_report.json",
+  "pipelineResult": "scratchpad/cellar_reserve_chest_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/cellar_reserve_chest_v1/01_shaded.png",
+    "scratchpad/cellar_reserve_chest_v1/02_clay_silhouette.png",
+    "scratchpad/cellar_reserve_chest_v1/03_wireframe.png",
+    "scratchpad/cellar_reserve_chest_v1/04_material_id.png",
+    "scratchpad/cellar_reserve_chest_v1/05_gameplay_camera.png",
+    "scratchpad/cellar_reserve_chest_v1/06_open_pose.png",
+    "scratchpad/cellar_reserve_chest_v1/07_wall_clearance.png",
+    "scratchpad/cellar_reserve_chest_v1/08_closed_side_seal.png",
+    "assets/icons/ui/storm_reserve_chest_v2.png",
+    "Bible_References/Complete/_compare/cellar_reserve_chest_v1_concept_compare.png"
+  ],
+  "requiredNodes": [
+    "cellar_reserve_chest_v1",
+    "Chest_Body",
+    "cellar_chest_lid"
+  ],
+  "requiredAnimations": ["Chest_Open"],
+  "budgets": {
+    "maxFileBytes": 350000,
+    "maxTriangles": 1200,
+    "maxPrimitives": 28,
+    "maxMaterials": 12
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "assetId": "holm_mine_gatehouse_v1",
+  "assetClass": "building",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_holm_mine_gatehouse_v1.py",
+  "source": "assets/blender/holm_mine_gatehouse_v1.blend",
+  "model": "assets/models/buildings/holm_mine_gatehouse_v1.glb",
+  "authoringReport": "scratchpad/mine_gatehouse_v1/asset_report.json",
+  "pipelineResult": "scratchpad/mine_gatehouse_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/mine_gatehouse_v1/mine_gatehouse_v1_exterior.png",
+    "scratchpad/mine_gatehouse_v1/mine_gatehouse_v1_roof_off.png",
+    "scratchpad/mine_gatehouse_v1/mine_gatehouse_v1_plan.png",
+    "scratchpad/mine_gatehouse_v1/mine_gatehouse_v1_game_camera.png"
+  ],
+  "requiredNodes": ["holm_mine_gatehouse_v1", "roof", "gate_door", "road_door", "shaft_frame", "ore_tally", "gate_stone",
+    "ore_cart", "tool_rack", "ore_bin"],
+  "requiredAnimations": [],
+  "scaleContract": {
+    "referenceHeightTiles": 1.85,
+    "checks": [
+      {"label": "door opening height", "reportPath": "humanScaleContract.doorOpeningHeight", "min": 2.4, "max": 3.3},
+      {"label": "head-frame height", "reportPath": "humanScaleContract.headFrameHeight", "min": 2.8, "max": 3.6},
+      {"label": "winch axle height", "reportPath": "humanScaleContract.winchAxleHeight", "min": 2.2, "max": 3.0},
+      {"label": "tally board top", "reportPath": "humanScaleContract.tallyBoardTop", "min": 2.0, "max": 2.8},
+      {"label": "cart rim height", "reportPath": "humanScaleContract.cartRimHeight", "min": 0.75, "max": 1.05},
+      {"label": "tower wall height", "reportPath": "humanScaleContract.towerWallHeight", "min": 4.5, "max": 5.6}
+    ]
+  },
+  "budgets": {"maxFileBytes": 1800000, "maxTriangles": 18000, "maxPrimitives": 90, "maxMaterials": 40}
+}

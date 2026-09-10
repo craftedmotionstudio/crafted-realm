@@ -1,0 +1,29 @@
+{
+  "family": "cr_furnishings_v1",
+  "authoredFamilies": [
+    "trestle_table",
+    "round_table",
+    "stool",
+    "crockery_hutch",
+    "patterned_rug",
+    "warrior_painting",
+    "fireplace",
+    "ladder",
+    "barrel",
+    "storage_shelf",
+    "lidded_chest",
+    "chicken_pen"
+  ],
+  "woodSpecies": [
+    "oak",
+    "willow",
+    "mahogany"
+  ],
+  "tableVariationCapacity": 108,
+  "semanticSockets": [
+    "chicken_spawn_socket",
+    "hearth_flame"
+  ],
+  "meshObjects": 228,
+  "triangles": 10868
+}

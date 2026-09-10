@@ -1,0 +1,10 @@
+{
+  "name":"Lastlight Keeper Interior — Reference Gate B",
+  "osrs":"Bible_References/Lighthouse_Interior2.png",
+  "cr":"scratchpad/holm_lastlight_lighthouse_v1/level2_top.png",
+  "codex":9.4,
+  "review_note":"The complete room reads from above as an inhabited keeper's home: bed, pillow and blanket, three-drawer dresser, low blanket chest, full bookshelf with individually colored books, desk and ledger, chart table, weather instrument, crockery shelf, framed windows and paired lanterns occupy distinct usable zones.",
+  "verdict":"PASS — all reference furnishing families are present and deliberately placed",
+  "improve":"The pictured characters remain runtime actors. Future narrative pickups can populate the ledger without altering the accepted furniture layout.",
+  "out":"Bible_References/Complete/_compare/holm_lastlight_interior2_v3_compare.png"
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Top-100 equipped comparison sheets</title>
+<style>
+  body{background:#1a1712;color:#e8dcc0;font:13px system-ui;padding:10px;margin:0}
+  .row{background:#241f16;border:1px solid #3a3428;border-radius:6px;padding:10px;margin:0 0 10px;width:640px}
+  .row h3{margin:0 0 6px;font-size:14px;color:#d4a83e}
+  .row h3 small{color:#a89878;font-weight:normal}
+  .imgs{display:flex;gap:10px;align-items:flex-start}
+  .cell{text-align:center;flex:1}
+  .cell img{max-width:190px;max-height:230px;object-fit:contain;background:#332c1f;border-radius:4px;image-rendering:auto}
+  .cell div{font-size:11px;color:#a89878;margin-top:3px}
+  .missing{color:#7a6f5c;font-style:italic;padding:40px 10px}
+</style>
+</head>
+<body>
+<div id="sheets"></div>
+<script>
+const B = '../Bible_References/Items_Top100/';
+window.SHEETS_READY = false;
+fetch(B + 'top100_items.json').then(r => r.json()).then(data => {
+  const items = data.items.filter(i => i.equipped && i.id);
+  const host = document.getElementById('sheets');
+  let pending = 0;
+  for (const it of items){
+    const safe = it.osrs.replace(/ /g, '_');
+    const row = document.createElement('div');
+    row.className = 'row'; row.id = 'row_' + it.id;
+    row.innerHTML = `
+      <h3>${it.n}. ${it.osrs} <small>→ ${it.ourName} (${it.id})</small></h3>
+      <div class="imgs">
+        <div class="cell"><img src="${B}wiki/equipped/${safe}.png"><div>OSRS wiki equipped (reference)</div></div>
+        <div class="cell"><img src="${B}ours/equipped_proc/${it.id}.png"><div>Ours — procedural rig</div></div>
+        <div class="cell"><img src="${B}ours/equipped_glb/${it.id}.png"><div>Ours — v02 GLB avatar</div></div>
+      </div>`;
+    host.appendChild(row);
+    row.querySelectorAll('img').forEach(img => {
+      pending++;
+      img.onload = img.onerror = () => { if (--pending === 0) window.SHEETS_READY = true; };
+      if (img.complete) { /* onload may still fire */ }
+    });
+  }
+  setTimeout(() => { window.SHEETS_READY = true; }, 8000);   // safety
+});
+</script>
+</body>
+</html>

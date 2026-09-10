@@ -1,0 +1,92 @@
+{
+  "assetId": "cellar_traversal_pair_v2",
+  "displayName": "Workyard Cellar Traversal Pair v2",
+  "family": "Tutor's Holm Survival Workyard traversal",
+  "gameplayRole": "Purpose-built surface descent and cellar ascent architecture",
+  "status": "integrated and awaiting owner visual review",
+  "version": 2,
+  "replacesRejected": "cellar_ladder_hatch_v1",
+  "references": [
+    {
+      "part": "surface floor hatch",
+      "image": "docs/rebuild/concepts/cellar_floor_hatch_nanobanana2_v1.png",
+      "prompt": "docs/rebuild/concepts/cellar_floor_hatch_nanobanana2_v1.prompt.md"
+    },
+    {
+      "part": "cellar wall ladder",
+      "image": "docs/rebuild/concepts/cellar_simple_wall_ladder_nanobanana2_v1.png",
+      "prompt": "docs/rebuild/concepts/cellar_simple_wall_ladder_nanobanana2_v1.prompt.md"
+    }
+  ],
+  "provenance": "Original Crafted Realm concepts generated with Gemini 3 Pro Image / Nano Banana 2 and rebuilt as custom topology in Blender 4.5; cellar ladder simplified on 2026-07-15",
+  "visibleFeatures": {
+    "surface": [
+      "flush hewn frame around a true dark floor recess",
+      "two short ladder rails with three descending rungs",
+      "six-plank animated lid rising clearly behind the opening",
+      "four hand-pegged rim corners and two restrained forged-iron lid bands"
+    ],
+    "cellar": [
+      "two restrained hand-hewn rails leaning directly against the wall",
+      "nine evenly spaced plain wooden rungs",
+      "one uniform desaturated aged-oak material",
+      "no cellar-side hatch, black recess, hooks, hardware, pads or lashings"
+    ]
+  },
+  "dimensionsTiles": {
+    "surface": {"width": 1.223, "depthIncludingOpenLid": 1.828, "height": 1.46},
+    "cellar": {"width": 1.061, "depth": 0.578, "height": 3.022}
+  },
+  "humanScale": {
+    "playerHeightTiles": 1.9,
+    "surfaceOpeningTiles": [0.96, 1.02],
+    "surfaceRailRiseTiles": 0.92,
+    "cellarRailRiseTiles": 3.0,
+    "cellarClearRungWidthTiles": 0.68,
+    "cellarRungSpacingTiles": 0.31,
+    "cellarRungCount": 9
+  },
+  "pivot": "Both purpose roots share the architectural opening center at local origin",
+  "facing": "front is Blender -Y and exported Three.js +Z",
+  "interactionOwner": "HolmSurvivalCellar visible cellar-ladder meshes plus the focused surface descent target",
+  "collisionOwner": "Existing workyard/cardinal landing collision; visuals do not own mechanics",
+  "materials": ["surface hatch: aged oak, worn oak face, charcoal iron and recess darkness", "cellar ladder: one uniform desaturated aged oak"],
+  "animationClips": ["Hatch_Open"],
+  "source": "assets/blender/props/cellar_traversal_pair_v2.blend",
+  "runtime": "assets/models/props/cellar_traversal_pair_v2.glb",
+  "builder": "tools/blender/build_cellar_traversal_pair_v2.py",
+  "proofDirectory": "scratchpad/cellar_traversal_pair_v2",
+  "inGameProof": {
+    "surface": "scratchpad/cellar_traversal_pair_v2/07_in_game_surface.png",
+    "cellarAfterRealClimbDown": "scratchpad/cellar_traversal_pair_v2/08_in_game_cellar_after_real_climb.png",
+    "surfaceAfterRealClimbUp": "scratchpad/cellar_traversal_pair_v2/09_in_game_surface_after_real_climb_up.png"
+  },
+  "conceptComparisons": {
+    "surface": {
+      "image": "Bible_References/Complete/_compare/cellar_floor_hatch_v2_concept_compare.png",
+      "codexClosenessScore": 9.0
+    },
+    "cellar": {
+      "image": "Bible_References/Complete/_compare/cellar_wall_ladder_v4_concept_compare.png",
+      "codexClosenessScore": 9.4
+    }
+  },
+  "technical": {"vertices": 890, "triangles": 1608, "runtimeMeshObjects": 3, "materials": 6},
+  "review": {
+    "silhouetteProportion": 9.1,
+    "shapeHierarchy": 9.2,
+    "colorMaterialSeparation": 9.2,
+    "referenceDefiningFeatures": 9.0,
+    "gameplayCameraReadability": 9.3,
+    "interactionReadability": 9.3,
+    "familyConsistency": 9.2,
+    "codexOverall": 9.1
+  },
+  "integrationGate": {
+    "smoke": "PASS 86/86 at 100 FPS, 12 ms worst frame, 146 draw calls, and zero errors",
+    "realInteractionProof": "A visible surface-hatch click climbed down to plane -1; a visible wall-ladder click climbed back to plane 0",
+    "surfacePresentation": "Purpose-built flush opening with a black streamed-terrain occluder, pegged rim and readable upright animated lid",
+    "cellarPresentation": "Purpose-built three-tile, one-colour oak ladder leaning directly against the wall with no cellar-side hatch",
+    "pathing": "Existing cardinal landing tiles preserved; clicking the floor beneath the cellar ladder walks instead of climbing"
+  }
+}

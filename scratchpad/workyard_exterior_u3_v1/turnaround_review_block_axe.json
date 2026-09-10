@@ -1,0 +1,18 @@
+{
+  "asset": "workyard_exterior_u3_v1",
+  "object": "chopping_block + embedded_axe",
+  "date": "2026-07-15",
+  "lens": "Shared three-area-light rig, orthographic lens at gameplay pitch (~43 deg), ortho scale 3.4 identical across all four directions",
+  "auditCriteria": ["clipping", "floating parts", "floor contact", "missing backs/undersides", "axe/block intersection", "silhouette"],
+  "views": {
+    "north": {"verdict": "PASS", "notes": "Poll side of the axe: continuous lofted trunk with no terrace ledges, bark ridges hug the wall, flares and chips grounded, haft and knob fully in frame."},
+    "south": {"verdict": "PASS", "notes": "Bit side: pale edge strip enters the wood over the split bruise and hairline crack; the former floating rim-notch block is gone — the rim scar now lies flush on the endgrain."},
+    "east": {"verdict": "PASS", "notes": "Cut marks, growth ring, and rim scar all flush on the top face; trunk facets taper continuously; root flares meet the ground with no gaps."},
+    "west": {"verdict": "PASS", "notes": "Full axe silhouette in frame after reframing (scale 3.0 to 3.4); split crack pokes believably from under the bit; no intersection artifacts between head, top face, and scars."}
+  },
+  "defectsFoundAndFixed": [
+    "Rim notch read as a dark block floating proud of the rim from the south; rebuilt as a flush top-face scar near the rim.",
+    "Axe haft/knob clipped by the frame top in the west view; per-object framing widened from ortho 3.0 to 3.4."
+  ],
+  "verdict": "PASS"
+}

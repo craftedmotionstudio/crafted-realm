@@ -39,6 +39,7 @@ const UI = {
     const po=document.getElementById('pray-orb');
     if(po){ po.textContent = Math.ceil(Player.prayerPts);
       po.style.color = Player.activePrayers.size ? '#7fdfff' : '#c9e8f5'; }
+    if(this.refreshSpec) this.refreshSpec();
   },
   refreshSpells(){
     const box=document.getElementById('spell-grid'); if(!box) return;
@@ -154,13 +155,21 @@ const UI = {
   },
   refreshEquip(){
     const el=document.getElementById('equip-list'); el.innerHTML='';
+    const itemBonusStr=(id)=>{ const it=ITEMS[id]; const p=[];
+      if(it.aBonus)p.push('+'+it.aBonus+' Att'); if(it.sBonus)p.push('+'+it.sBonus+' Str');
+      if(it.dBonus)p.push('+'+it.dBonus+' Def'); if(it.magB||it.mBonus)p.push('+'+(it.magB||it.mBonus)+' Mag');
+      if(it.prayB)p.push('+'+it.prayB+' Pray'); return p.join('  '); };
     EQUIP_SLOTS.forEach(([k,label])=>{
       const v=Player.equip[k];
       const row=document.createElement('div'); row.className='equip-row';
       const left=document.createElement('span'); left.className='slot-name'; left.textContent=label;
       const right=document.createElement('span');
       if(v){ const img=document.createElement('img'); img.src=iconFor(v);
-        right.appendChild(img); right.appendChild(document.createTextNode(' '+ITEMS[v].name)); }
+        right.appendChild(img); right.appendChild(document.createTextNode(' '+ITEMS[v].name));
+        const bs=itemBonusStr(v);
+        if(bs){ const tag=document.createElement('div');
+          tag.style.cssText='font-size:10px;color:#5edb5e;margin-top:1px'; tag.textContent=bs;
+          right.appendChild(tag); } }
       else right.textContent='—';
       row.appendChild(left); row.appendChild(right);
       if(v){ row.style.cursor='pointer'; row.title='Click to remove';
@@ -189,19 +198,17 @@ const UI = {
     });
     styBox.appendChild(grid);
     el.appendChild(styBox);
-    // OSRS-style bonuses block
-    const w = Player.equip.weapon ? ITEMS[Player.equip.weapon] : null;
-    const style = w ? (w.style||'melee') : 'melee';
+    // OSRS-style total equipment bonuses, summed across everything worn
+    const sum=f=>(Player._sumBonus?Player._sumBonus(f):0);
     const rows = [
-      [`Weight: ${Player.weight().toFixed(1)} kg`, null],
-      ['Attack bonuses', null],
-      ['Stab', style==='melee' && w ? w.aBonus||0 : 0],
-      ['Ranged', style==='ranged' && w ? w.aBonus||0 : 0],
-      ['Magic', Player.magBonus()],
-      ['Other bonuses', null],
-      ['Strength', w ? w.sBonus||0 : 0],
-      ['Defence', Player.defBonus()],
+      ['Total equipment bonuses', null],
+      ['Attack',   sum('aBonus')],
+      ['Strength', sum('sBonus')],
+      ['Defence',  Player.defBonus?Player.defBonus():sum('dBonus')],
+      ['Magic',    Player.magBonus?Player.magBonus():0],
+      ['Prayer',   sum('prayB')],
       ['Attack speed', Math.round(Player.weaponSpeed()/TICK)+' ticks'],
+      ['Weight',   Player.weight().toFixed(1)+' kg'],
     ];
     const box=document.createElement('div'); box.id='bonus-box';
     rows.forEach(([lbl,val])=>{
@@ -215,6 +222,27 @@ const UI = {
       box.appendChild(r);
     });
     el.appendChild(box);
+    // ---- Items Kept on Death ----
+    const all=[];
+    for(const s of Player.inv) if(s) all.push({id:s.id, val:(ITEMS[s.id].value||0)});
+    for(const sk in Player.equip){ const v=Player.equip[sk]; if(v) all.push({id:v, val:(ITEMS[v].value||0)}); }
+    all.sort((a,b)=>b.val-a.val);
+    const kept=all.slice(0,3);
+    const kbox=document.createElement('div'); kbox.id='kept-box'; kbox.style.marginTop='8px';
+    const kh=document.createElement('div'); kh.className='bonus-head'; kh.textContent='Items Kept on Death'; kbox.appendChild(kh);
+    const krow=document.createElement('div'); krow.style.cssText='display:flex;gap:4px;margin-top:4px';
+    if(kept.length){
+      kept.forEach(it=>{ const c=document.createElement('div'); c.title=ITEMS[it.id].name;
+        c.style.cssText='width:38px;height:38px;background:var(--slot-bg);border:1px solid var(--slot-line);display:flex;align-items:center;justify-content:center';
+        const img=document.createElement('img'); img.src=iconFor(it.id); img.style.cssText='width:28px;height:28px';
+        c.appendChild(img); krow.appendChild(c); });
+    } else { krow.textContent='Nothing — your pack is empty.'; krow.style.color='#9a8e78'; krow.style.fontSize='11px'; }
+    kbox.appendChild(krow);
+    const note=document.createElement('div');
+    note.style.cssText='font-size:10px;color:#9a8e78;margin-top:5px;line-height:1.4';
+    note.textContent='On death you keep your 3 most valuable items. Everything else drops where you fall.';
+    kbox.appendChild(note);
+    el.appendChild(kbox);
   },
   refreshSkills(){
     const el=document.getElementById('skill-list'); el.innerHTML='';
@@ -223,7 +251,7 @@ const UI = {
       const next=lv<99?XP_TABLE[lv+1]:xp, cur=XP_TABLE[lv];
       const frac=lv<99?Math.min(1,(xp-cur)/Math.max(1,next-cur)):1;
       const row=document.createElement('div'); row.className='skill-row';
-      row.innerHTML=`<span>${s}</span><span class="lvl">${lv}/99</span>`;
+      row.innerHTML=`<span><img src="assets/icons/skills/${s.toLowerCase()}_cut.png" class="skill-ico" onerror="this.style.display='none'">${s}</span><span class="lvl">${lv}/99</span>`;
       row.title=`${Math.floor(xp).toLocaleString()} XP`;
       el.appendChild(row);
       const bar=document.createElement('div'); bar.className='skill-xp';
@@ -236,6 +264,11 @@ const UI = {
     const pct=document.getElementById('run-pct');
     if(pct) pct.textContent=Math.floor(Player.energy);
     orb.className = Player.runOn ? '' : 'walking';
+  },
+  refreshSpec(){
+    const num=document.getElementById('spec-num'); const orb=document.getElementById('spec-orb');
+    if(num) num.textContent=Math.floor(Player.spec);
+    if(orb) orb.classList.toggle('armed', !!Player.specArmed);
   },
   refreshDrops(filter){
     const el=document.getElementById('drops-list'); if(!el) return;
@@ -297,7 +330,7 @@ const UI = {
         <div style="font-size:10px;color:#9a8e78">${sub}</div>`;
       row.title=q.desc;
       row.style.cursor='pointer';
-      row.onclick=()=>{ Quest.track(id); Sfx.click(); };
+      row.onclick=()=>{ if(UI.openQuestDetail) UI.openQuestDetail(id); else Quest.track(id); Sfx.click(); };
       el.appendChild(row);
     }
   },
@@ -312,6 +345,7 @@ const UI = {
       box.appendChild(b);
     });
     document.getElementById('dialogue-modal').style.display='block';
+    if(typeof Events!=='undefined') Events.emit('modalOpened', {id:'dialogue-modal'});
   },
   closeModal(id){ document.getElementById(id).style.display='none'; },
   openWorldMap(){
@@ -319,7 +353,7 @@ const UI = {
     m.style.display='block';
     drawWorldMap();
     const c=document.getElementById('worldmap');
-    if(c && !c._mapWired && c.addEventListener){
+    if(c && !c._mapWired && !c._qol && c.addEventListener){   // qol_ui's MapQoL.walkTo owns the click when hooked
       c._mapWired=true;
       c.addEventListener('click', e=>{
         const r=c.getBoundingClientRect ? c.getBoundingClientRect() : {left:0,top:0,width:c.width,height:c.height};
@@ -338,56 +372,6 @@ const UI = {
       if(m && m.style.display==='block') m.style.display='none';
     }
   },
-  openBank(announce=true){
-    const bg=document.getElementById('bank-grid'); bg.innerHTML='';
-    Player.bank.forEach((s,i)=>{
-      const def=ITEMS[s.id];
-      bg.appendChild(slotEl(s, ()=>{
-        if(Player.addItem(s.id, def.stack?s.qty:1)){
-          if(def.stack || s.qty===1) Player.bank.splice(i,1); else s.qty--;
-          UI.openBank(false); }
-      }, undefined, true));   // the vault stacks everything — always show the count
-    });
-    if(!Player.bank.length) bg.innerHTML='<i style="grid-column:1/-1;color:#9a8e78">Your vault is empty.</i>';
-    const ig=document.getElementById('bank-inv-grid'); ig.innerHTML='';
-    Player.inv.forEach((s,i)=>{
-      ig.appendChild(slotEl(s, s?()=>{
-        const ex=Player.bank.find(b=>b.id===s.id);
-        if(ex) ex.qty+=s.qty; else Player.bank.push({id:s.id, qty:s.qty});
-        Player.inv[i]=null; UI.refreshInv(); UI.openBank(false);
-      }:null));
-    });
-    document.getElementById('bank-modal').style.display='block';
-    if(announce) Sfx.coin();
-  },
-  currentShop:'bazaar',
-  openShop(shopKey, announce=true){
-    if(shopKey===false){ announce=false; shopKey=this.currentShop; }   // legacy refresh call
-    if(typeof shopKey==='string') this.currentShop=shopKey;
-    const shop = SHOPS[this.currentShop] || SHOPS.bazaar;
-    const t=document.getElementById('shop-title'); if(t) t.textContent=shop.name;
-    const sg=document.getElementById('shop-grid'); sg.innerHTML='';
-    shop.stock.forEach(st=>{
-      sg.appendChild(slotEl({id:st.id, qty:1}, ()=>{
-        if(Player.count('coins')<st.price){ UI.chat('You don\'t have enough crowns for that.','plain'); return; }
-        Player.removeItem('coins',st.price); Player.addItem(st.id,1); Sfx.coin();
-        UI.chat(`You buy a ${ITEMS[st.id].name.toLowerCase()} for ${st.price} crowns.`,'loot');
-      }, st.price));
-    });
-    const ig=document.getElementById('shop-inv-grid'); ig.innerHTML='';
-    Player.inv.forEach((s,i)=>{
-      if(s && s.id==='coins'){ ig.appendChild(slotEl(s,null)); return; }
-      ig.appendChild(slotEl(s, s?()=>{
-        const def=ITEMS[s.id];
-        const price=Math.max(1,Math.floor(def.value/2));
-        Player.inv[i] = (def.stack && s.qty>1) ? {id:s.id, qty:s.qty-1} : null;
-        Player.addItem('coins',price); Sfx.coin();
-        UI.chat(`You sell the ${def.name.toLowerCase()} for ${price} crowns.`,'loot'); UI.refreshInv();
-      }:null));
-    });
-    document.getElementById('shop-modal').style.display='block';
-    if(announce) Sfx.coin();
-  },
   worldToScreen(obj, yOff=1.8){
     const v=new THREE.Vector3();
     if(obj.isObject3D) v.setFromMatrixPosition(obj.matrixWorld); else v.copy(obj);
@@ -395,6 +379,8 @@ const UI = {
     return {x:(v.x*0.5+0.5)*innerWidth, y:(-v.y*0.5+0.5)*innerHeight};
   },
   floatDmg(obj, dmg){
+    if(dmg>0 && typeof hitReact==='function') hitReact(obj);   // every hitsplat that lands flinches the body
+    else if(dmg<=0 && typeof blockReact==='function') blockReact(obj);   // a fully-absorbed hit (0 splat) raises a guard
     const p=this.worldToScreen(obj);
     const d=document.createElement('div');
     d.className='float-dmg'+(dmg===0?' zero':''); d.textContent=dmg;
@@ -402,18 +388,29 @@ const UI = {
     document.body.appendChild(d);
     setTimeout(()=>d.remove(), 800);
   },
-  floatXp(text){
-    const d=document.createElement('div'); d.className='float-xp'; d.textContent=text;
-    d.style.left=(innerWidth/2-40)+'px'; d.style.top='110px';
-    document.body.appendChild(d);
-    let y=110; const iv=setInterval(()=>{ y-=1; d.style.top=y+'px'; d.style.opacity=(y-40)/70; },16);
-    setTimeout(()=>{clearInterval(iv); d.remove();},900);
+  xpDrop(skill, amt){
+    let host=document.getElementById('xp-drops');
+    if(!host){ host=document.createElement('div'); host.id='xp-drops'; document.body.appendChild(host); }
+    const d=document.createElement('div'); d.className='xp-drop';
+    d.innerHTML=`<img src="assets/icons/skills/${skill.toLowerCase()}_cut.png" onerror="this.style.display='none'">+${Math.round(amt)}`;
+    host.appendChild(d);
+    let t=0; const iv=setInterval(()=>{ t++;
+      d.style.transform='translateY(-'+(t*0.9)+'px)'; d.style.opacity=String(Math.max(0,1-t/46));
+      if(t>46){ clearInterval(iv); d.remove(); } },16);
   },
   tip(e, html){
     const t=document.getElementById('ctx-tip');
     if(!html){ t.style.display='none'; return; }
     t.innerHTML=html; t.style.display='block';
     t.style.left=(e.clientX+14)+'px'; t.style.top=(e.clientY+10)+'px';
+  },
+  // OSRS top-left action text: primary action + "/ N more options"
+  action(label, more){
+    const a=document.getElementById('action-text'); if(!a) return;
+    if(!label){ a.style.display='none'; return; }
+    const html=label.replace(/\(level (\d+)\)/, '<span class="lv">(level $1)</span>');
+    a.innerHTML=html + (more>0 ? `<span class="more"> / ${more} more option${more>1?'s':''}</span>` : '');
+    a.style.display='block';
   },
   zone(name){ document.getElementById('zone-label').textContent=name; },
 };
@@ -427,143 +424,64 @@ document.querySelectorAll('.tab-btn').forEach(b=>{
     document.getElementById('pane-'+b.dataset.tab).classList.add('active');
     if(b.dataset.tab==='prayers' && UI.refreshPrayers) UI.refreshPrayers();
     if(b.dataset.tab==='spells' && UI.refreshSpells) UI.refreshSpells();
+    if(b.dataset.tab==='combat' && UI.refreshCombat) UI.refreshCombat();
     Sfx.click();
   };
 });
 
-/* ---------- minimap ---------- */
-const WMAP = {x0:-95, z0:-95, x1:95, z1:95};   // the charted world
-function drawWorldMap(){
-  const c=document.getElementById('worldmap'); if(!c) return;
-  const ctx=c.getContext('2d');
-  const S=c.width, sx=S/(WMAP.x1-WMAP.x0), sz=S/(WMAP.z1-WMAP.z0);
-  const mx=(x,z)=>({x:(x-WMAP.x0)*sx, y:(z-WMAP.z0)*sz});
-  // terrain, sampled honestly from the heightfield
-  const step=2.2;
-  for(let wx=WMAP.x0; wx<WMAP.x1; wx+=step){
-    for(let wz=WMAP.z0; wz<WMAP.z1; wz+=step){
-      const y=gy(wx+step/2, wz+step/2);
-      let col;
-      if(y===null || y<-1.15) col='#2c4a66';
-      else if(y<-0.75) col='#7a9a6a';
-      else if(y>2.2) col='#8a8276';
-      else col='#4d6b35';
-      ctx.fillStyle=col;
-      const p=mx(wx,wz);
-      ctx.fillRect(p.x, p.y, step*sx+1, step*sz+1);
-    }
-  }
-  // zone tints
-  const tint={gloomfen:'rgba(60,48,84,.4)', quarry:'rgba(150,140,115,.45)', scarlands:'rgba(140,60,40,.3)'};
-  for(const k in ZONES){ if(!tint[k]) continue;
-    const p=mx(ZONES[k].pos[0],ZONES[k].pos[1]);
-    ctx.fillStyle=tint[k];
-    ctx.beginPath(); ctx.arc(p.x,p.y, 22*sx, 0, 7); ctx.fill();
-  }
-  // roads
-  ctx.strokeStyle='#c4b696'; ctx.lineWidth=2.4; ctx.lineJoin='round';
-  for(const seg of PATHS){
-    ctx.beginPath();
-    seg.forEach(([ax,az],i)=>{ const p=mx(ax,az); i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y); });
-    ctx.stroke();
-  }
-  // buildings: every roofed room, drawn as the surveyor sees it
-  ctx.fillStyle='#8a6a44'; ctx.strokeStyle='#1a1208'; ctx.lineWidth=0.8;
-  for(const it of WORLD.interiors){
-    const p=mx(it.x-it.hw, it.z-it.hd);
-    ctx.fillRect(p.x, p.y, it.hw*2*sx, it.hd*2*sz);
-    ctx.strokeRect(p.x, p.y, it.hw*2*sx, it.hd*2*sz);
-  }
-  // Whitmoor's walls
-  ctx.strokeStyle='#d8d2c4'; ctx.lineWidth=2.2;
-  const wA=mx(38,-76), wB=mx(62,-48);
-  ctx.strokeRect(wA.x, wA.y, wB.x-wA.x, wB.y-wA.y);
-  // place names, the cartographer's hand
-  ctx.font='bold 12px Verdana'; ctx.textAlign='center';
-  const label=(x,z,t)=>{ const p=mx(x,z);
-    ctx.fillStyle='#1a1208'; ctx.fillText(t,p.x+1,p.y+1);
-    ctx.fillStyle='#ffe9b0'; ctx.fillText(t,p.x,p.y); };
-  label(0,-22,'Veyhollow');
-  label(50,-79,'Whitmoor Hold');
-  for(const k in ZONES){ const zn=ZONES[k];
-    if(zn.name && k!=='town') label(zn.pos[0], zn.pos[1]-3, zn.name); }
-  // you are here: a white arrow that knows your facing
-  const pp=mx(player.position.x, player.position.z);
-  const fa=player.rotation.y;
-  ctx.save(); ctx.translate(pp.x,pp.y); ctx.rotate(-fa);
-  ctx.fillStyle='#fff'; ctx.strokeStyle='#1a1208'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(0,-6); ctx.lineTo(4.4,5); ctx.lineTo(0,2.4); ctx.lineTo(-4.4,5);
-  ctx.closePath(); ctx.fill(); ctx.stroke();
-  ctx.restore();
-}
-function drawMinimap(){
-  const c=document.getElementById('minimap'), ctx=c.getContext('2d');
-  const W=144, R=70;
-  const yaw = (typeof camCtl!=='undefined' && camCtl) ? camCtl.yaw : 0;
-  ctx.clearRect(0,0,W,W);
-  ctx.save();
-  ctx.beginPath(); ctx.arc(W/2,W/2,R,0,7); ctx.clip();
-  ctx.fillStyle='#2c4a66'; ctx.fillRect(0,0,W,W); // sea
-  // the old-school trick: the world turns, you do not
-  ctx.translate(W/2,W/2); ctx.rotate(yaw);
-  const scale=1.35, px=player.position.x, pz=player.position.z;
-  const mx=(x,z)=>({x:(x-px)*scale, y:(z-pz)*scale});
-  const land=(cx,cz,half,col)=>{ const p=mx(cx,cz);
-    ctx.fillStyle=col; ctx.fillRect(p.x-half*scale,p.y-half*scale,half*2*scale,half*2*scale); };
-  land(0,0,108,'#4d6b35');
-  land(150,150,30,'#5d7a40');
-  for(const k in ZONES){ const p=mx(ZONES[k].pos[0],ZONES[k].pos[1]);
-    ctx.fillStyle = k==='gloomfen'?'rgba(60,48,84,.55)': k==='quarry'?'rgba(150,140,115,.5)':
-      k==='pond'?'rgba(90,160,190,.5)':'rgba(120,170,85,.35)';
-    ctx.beginPath(); ctx.arc(p.x,p.y,30,0,7); ctx.fill(); }
-  // roads, faint and honest
-  ctx.strokeStyle='rgba(196,182,150,0.55)'; ctx.lineWidth=2.2;
-  for(const seg of PATHS){
-    ctx.beginPath();
-    seg.forEach(([sx,sz],i)=>{ const p=mx(sx,sz); i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y); });
-    ctx.stroke();
-  }
-  WORLD.resources.forEach(r=>{ if(!r.userData.alive) return; const p=mx(r.position.x,r.position.z);
-    ctx.fillStyle = r.userData.rtype==='tree'?'#1f5414': r.userData.rtype==='rock'?'#c4b89f':'#bfe8ff';
-    ctx.fillRect(p.x-1.5,p.y-1.5,3,3); });
-  // OSRS dot law: yellow for folk, red for spoils on the ground
-  WORLD.npcs.forEach(n=>{ if(n.dead) return; const p=mx(n.mesh.position.x,n.mesh.position.z);
-    ctx.fillStyle = n.t.boss?'#ff4d4d':'#ffff00'; ctx.fillRect(p.x-2,p.y-2,4,4); });
-  WORLD.clickables.forEach(o=>{ if(o.userData && o.userData.kind==='friendly'){
-    const p=mx(o.position.x,o.position.z);
-    ctx.fillStyle='#ffff00'; ctx.fillRect(p.x-2,p.y-2,4,4); } });
-  WORLD.drops.forEach(d=>{ const p=mx(d.position.x,d.position.z);
-    ctx.fillStyle='#ff3a2a'; ctx.fillRect(p.x-1.5,p.y-1.5,3,3); });
-  // the red destination flag, planted where you clicked
-  const dest = (Player.path && Player.path.length) ? Player.path[Player.path.length-1] : Player.moveTo;
-  if(dest){
-    const p=mx(dest.x,dest.z);
-    ctx.strokeStyle='#d8d2c4'; ctx.lineWidth=1.4;
-    ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x,p.y-8); ctx.stroke();
-    ctx.fillStyle='#e03a2a';
-    ctx.beginPath(); ctx.moveTo(p.x,p.y-8); ctx.lineTo(p.x+6,p.y-6); ctx.lineTo(p.x,p.y-4);
-    ctx.closePath(); ctx.fill();
-  }
-  ctx.restore();
-  // you, dead centre, always
-  ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(W/2,W/2,3.2,0,7); ctx.fill();
-  // the compass: N rides the rim, honest to world north
-  const na = yaw + Math.PI;   // world north (-z) in rotated screen space
-  const nx = W/2 + Math.sin(na)*(R-9)*-1, ny = W/2 + Math.cos(na)*(R-9);
-  ctx.fillStyle='#1a1208'; ctx.beginPath(); ctx.arc(nx,ny,7.5,0,7); ctx.fill();
-  ctx.fillStyle='#ffd24a'; ctx.font='bold 10px Verdana'; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText('N', nx, ny+0.5);
-}
+/* ---------- combat styles tab ---------- */
+UI.refreshCombat = function(){
+  const host=document.getElementById('combat-styles'); if(!host) return;
+  const cls=Player.weaponStyle();
+  const list=STYLE_DEFS[cls]||STYLE_DEFS.melee;
+  const cur=Math.min(Player.attackStyles[cls]||0, list.length-1);
+  const wpn=Player.equip.weapon?ITEMS[Player.equip.weapon].name:'Unarmed';
+  host.innerHTML='<div class="cmb-weap">'+wpn+' · '+cls+'</div>'+
+    list.map((s,i)=>'<div class="cmb-style'+(i===cur?' active':'')+'" data-i="'+i+'">'+
+      '<b>'+s.label+(s.atype?' <span style="color:#7fd2ff">['+s.atype[0].toUpperCase()+s.atype.slice(1)+']</span>':'')+'</b>'+
+      '<small>'+(s.xp==='Shared'?'shares XP across Attack/Strength/Defence'
+        :'trains '+s.xp)+'</small></div>').join('')+
+    '<div class="set-row" style="margin-top:9px"><span>Auto-retaliate</span>'+
+      '<button class="set-btn" id="retal-btn">'+(Player.autoRetaliate?'On':'Off')+'</button></div>';
+  host.querySelectorAll('.cmb-style').forEach(el=>{
+    el.onclick=()=>{ Player.attackStyles[cls]=+el.dataset.i; Sfx.click(); UI.refreshCombat(); };
+  });
+  const rb=document.getElementById('retal-btn');
+  if(rb) rb.onclick=()=>{ Player.autoRetaliate=!Player.autoRetaliate; Sfx.click(); UI.refreshCombat(); };
+};
+
+/* ---------- settings / account ---------- */
+UI.toggleRun   = function(){ const e=document.getElementById('run-orb');   if(e) e.click(); };
+UI.toggleMusic = function(){ const e=document.getElementById('music-btn'); if(e) e.click(); };
+UI.manualSave  = function(){ if(typeof SaveGame!=='undefined'){ SaveGame.save(); } };
+UI.toggleRoofs = function(){ if(typeof toggleRoofs==='function') toggleRoofs();
+  const b=document.getElementById('roofs-btn'); if(b) b.textContent=WORLD.roofsOff?'Show':'Hide'; };
+UI.logout      = function(){
+  try{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }catch(e){}
+  location.reload();   // return to the title/login screen with progress saved
+};
+
+/* ---------- minimap + world-map rendering: moved to src/ui_map.js
+   (WMAP, drawWorldMap, drawMinimap). Loads right after this file. ---------- */
 
 /* ---------- admin ---------- */
 const Admin = {
   speedOn:false,
-  tp(z){ const p=ZONES[z].pos;
+  tp(z){
+    if(typeof CRWorldMode!=='undefined'&&!CRWorldMode.legacy&&typeof WorldTravel!=='undefined'){
+      if(z==='commons'&&WorldV2.get('veyhollow-commons-v2'))
+        return WorldTravel.go('veyhollow-commons-v2','hollow_well_square',{loadingLabel:'Crossing to Veyhollow…',zoneLabel:ZONES.commons.name});
+      if(z==='holm'&&WorldV2.get('tutors-holm-v2'))
+        return WorldTravel.go('tutors-holm-v2','holm_arrival',{loadingLabel:'Returning to Tutor\'s Holm…',zoneLabel:ZONES.holm.name});
+    }
+    const p=ZONES[z].pos;
     player.position.set(p[0], gy(p[0],p[1]), p[1]);
     Player.moveTo=null; Player.target=null;
     UI.chat(`[ADMIN] Teleported to ${ZONES[z].name}.`,'sys'); },
   spawn(t){ const p=player.position;
+    spawnNpc.force=true;                    // admin tool: bypasses the buildout gate
     spawnNpc(t, p.x+2+Math.random()*2, p.z+2+Math.random()*2);
+    spawnNpc.force=false;
     UI.chat(`[ADMIN] Spawned ${NPC_TYPES[t].name}.`,'sys'); },
   give(){ const id=document.getElementById('admin-item').value;
     const q=parseInt(document.getElementById('admin-qty').value)||1;
@@ -578,14 +496,22 @@ const Admin = {
   coins(){ Player.addItem('coins',10000); UI.chat('[ADMIN] +10,000 crowns.','sys'); },
   speed(){ this.speedOn=!this.speedOn; Player.speed=this.speedOn?8.4:4.2;
     UI.chat(`[ADMIN] Run speed ${this.speedOn?'2×':'normal'}.`,'sys'); },
+  friendly(){ GameConfig.set('friendlyMode', !GameConfig.friendlyMode);
+    this.syncFriendlyBtn();
+    UI.chat(`[ADMIN] Friendly mode ${GameConfig.friendlyMode?'ON — NPCs will not attack first':'OFF — the wilds are dangerous again'}.`,'sys'); },
+  syncFriendlyBtn(){ const b=document.getElementById('admin-friendly');
+    if(b) b.textContent = `😇 Friendly mode: ${GameConfig.friendlyMode?'ON':'OFF'}`; },
   killAll(){ WORLD.npcs.forEach(n=>{ if(!n.dead && n.mesh.position.distanceTo(player.position)<25) killNpc(n); });
     UI.chat('[ADMIN] Nearby NPCs despawned.','sys'); },
 };
 addEventListener('keydown', e=>{
   if(e.key==='`'){ const p=document.getElementById('admin-panel');
-    p.style.display = p.style.display==='block'?'none':'block'; }
+    p.style.display = p.style.display==='block'?'none':'block';
+    if(p.style.display==='block') Admin.syncFriendlyBtn(); }
   if(e.key==='Escape'){ ['dialogue-modal','bank-modal','shop-modal'].forEach(id=>UI.closeModal(id));
     document.getElementById('admin-panel').style.display='none'; }
+  if((e.key==='o'||e.key==='O') && !/INPUT|TEXTAREA|SELECT/.test((e.target&&e.target.tagName)||'')){
+    if(typeof toggleRoofs==='function') toggleRoofs(); }
 });
 function fillAdminSelects(){
   const ai=document.getElementById('admin-item');
@@ -608,6 +534,7 @@ function fillAdminSelects(){
 }
 /* ================= INPUT ================= */
 var _swallowClickUntil=0;
+var _hoverNpc=null;   // attackable NPC under the cursor (read by the npc-tile-outline overlay)
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 const canvasEl = document.getElementById('game-canvas');
@@ -620,9 +547,34 @@ function pick(e){
   for(const h of hits){
     let o=h.object;
     while(o && !o.userData.kind && o.name!=='ground') o=o.parent;
-    if(o && (o.userData.kind || o.name==='ground')) return {obj:o, point:h.point};
+    if(o && (o.userData.kind || o.name==='ground')){
+      const objectPlane=o.userData&&o.userData.plane;
+      if(objectPlane!==undefined && objectPlane!==(Player.plane||0)) continue;
+      if(o.userData&&o.userData.kind==='lighthouseDoor'&&player&&Math.hypot(player.position.x-o.position.x,player.position.z-o.position.z)>14) continue;
+      return {obj:o, point:h.point};
+    }
   }
   return null;
+}
+
+// Inspect-only scenery belongs in the right-click menu.  Its left-click and
+// hover primary action are the reachable ground beneath the cursor, matching
+// OSRS scenery behavior instead of advertising Inspect as a left-click action.
+function hoverPrimaryLabel(hit,hasWalkGround){
+  if(!hit||!hit.obj)return null;
+  const u=hit.obj.userData||{};
+  if(u.inspectOnly)return hasWalkGround?'Walk here':null;
+  if(u.label)return u.label;
+  return hit.obj.name==='ground'?'Walk here':null;
+}
+// An inspect-only model can hide a wall or exterior ground tile behind it from
+// the camera. Walking to that background pick makes a harmless scenery click
+// route outside the room. Use the actual model surface as the path target so
+// the cardinal planner stops on the nearest legal tile beside the object.
+function walkPointForHit(hit,e){
+  if(hit&&hit.obj&&hit.obj.userData&&hit.obj.userData.inspectOnly&&hit.point) return hit.point;
+  const gp=e?groundPick(e):null;
+  return gp||(hit&&hit.point)||null;
 }
 
 canvasEl.addEventListener('mousedown', e=>{
@@ -634,21 +586,64 @@ canvasEl.addEventListener('mousemove', e=>{
     camCtl.yaw  -= (e.clientX-camCtl.lx)*0.008;
     camCtl.pitch = Math.min(1.45, Math.max(0.55, camCtl.pitch+(e.clientY-camCtl.ly)*0.005));
     camCtl.lx=e.clientX; camCtl.ly=e.clientY;
+  } else if(window.Build && Build.active){
+    UI.action(null); hideHoverTile(); _hoverNpc=null;
   } else {
     const hit = pick(e);
-    UI.tip(e, hit && hit.obj.userData.label ? hit.obj.userData.label : (hit&&hit.obj.name==='ground'?'Walk here':null));
-    canvasEl.style.cursor = hit && hit.obj.userData.label ? 'pointer' : 'crosshair';
+    _hoverNpc = (hit && hit.obj.userData && hit.obj.userData.kind==='npc') ? hit.obj.userData.npc : null;
+    const inspectOnly=!!(hit&&hit.obj.userData&&hit.obj.userData.inspectOnly);
+    const inspectGround=inspectOnly?walkPointForHit(hit,e):null;
+    const label=hoverPrimaryLabel(hit,!inspectOnly||!!inspectGround);
+    const onObj=!!(hit&&hit.obj.userData&&hit.obj.userData.label&&!inspectOnly);
+    // "/ N more options" = right-click entries minus the primary action and Cancel
+    const more = hit ? Math.max(0, buildCtxEntries(hit, e).length - 2) : 0;
+    UI.action(label, more);
+    canvasEl.style.cursor = onObj ? 'pointer' : 'crosshair';
+    if(inspectGround)showHoverTile(inspectGround);
+    else if(hit && hit.obj && hit.obj.name==='ground' && hit.point) showHoverTile(hit.point);
+    else hideHoverTile();
   }
 });
 canvasEl.addEventListener('mouseup', e=>{
   if(Date.now() < (typeof _swallowClickUntil!=='undefined' ? _swallowClickUntil : 0)) return;
   camCtl.down=false;
   if(camCtl.dragging){ camCtl.dragging=false; return; }
+  if(typeof CharCreator!=='undefined' && CharCreator.active) return;   // designing: ignore world clicks
+  if(window.Build && Build.active){ Build.onClick(e); return; }   // editor: place prop
   const hit = pick(e); if(!hit) return;
+  // A small number of authored stations explicitly accept an inventory item
+  // while retaining their central Interact hook. Route only those marked
+  // targets through the dispatcher; legacy resources and every unmarked prop
+  // keep the existing direct item-on-world behavior below.
+  if(Player.usingItem && hit.obj.userData && hit.obj.userData.acceptsUseItem &&
+     typeof Interact!=='undefined' && Interact.entriesFor){
+    const itemEntries=Interact.entriesFor(hit,e).filter(function(en){return en.primary;});
+    if(itemEntries.length===1 && itemEntries[0].fn){itemEntries[0].fn();return;}
+  }
+  // A ladder is a traversal control, not ordinary scenery. Keep its left-click
+  // deterministic even when a saved menu-swap rule or tile-marker overlay has
+  // added or reordered contextual options for the same ray hit.
+  if(!Player.usingItem && hit.obj.userData && hit.obj.userData.kind==='climb'){
+    handleClick(hit.obj, hit.point);
+    return;
+  }
+  // Authored scenery remains available to the OSRS-style right-click menu, but
+  // an ordinary left click is still a movement order rather than an inspection.
+  if(!Player.usingItem && hit.obj.userData && hit.obj.userData.inspectOnly){
+    const gp=walkPointForHit(hit,e);
+    if(gp) minimapWalkTo(gp);
+    return;
+  }
+  // OSRS rule: left-click performs the TOP menu entry — so user swap rules (qol_ui)
+  // remap left-click automatically. use-item targeting keeps the legacy direct path.
+  if(!Player.usingItem && hit.obj.userData && hit.obj.userData.kind){
+    const entries = buildCtxEntries(hit, e);
+    if(entries.length>2 && entries[0].fn){ entries[0].fn(); return; }
+  }
   handleClick(hit.obj, hit.point);
 });
 canvasEl.addEventListener('wheel', e=>{
-  camCtl.dist = Math.min(40, Math.max(7, camCtl.dist + e.deltaY*0.02));
+  camCtl.dist = Math.min(70, Math.max(12, camCtl.dist + e.deltaY*0.02));
 });
 const Ctx = {
   open:false,
@@ -674,6 +669,8 @@ function appraiseChat(npcOrType){
   const [verdict,color] = appraiseVerdict(p);
   const nFood = Player.inv.reduce((a,s)=>a+((s&&ITEMS[s.id].heal)?s.qty:0),0);
   UI.chat(`Appraisal vs ${t.name} (lvl ${t.level}): <span style="color:${color}"><b>${verdict}</b></span> — ~${Math.round(p*100)}% to win with your current gear, style${nFood?` and ${nFood} food`:', and no food'}.`,'plain');
+  const w = (typeof npcWeakness==='function') ? npcWeakness(t) : null;
+  if(w) UI.chat(`It looks vulnerable to <b>${w}</b> — match your combat style's attack type to land more hits.`,'plain');
 }
 function aOrAn(n){ return (/^[aeiou]/i.test(n)?'an ':'a ')+n.toLowerCase(); }
 function buildCtxEntries(hit, e){
@@ -696,11 +693,30 @@ function buildCtxEntries(hit, e){
     } else if(u.kind==='resource' && u.alive){
       entries.push({html:u.label, fn:()=>handleClick(o, hit.point||o.position)});
       entries.push({html:'Examine', fn:()=>UI.chat(
-        u.rtype==='tree'?'A sturdy emberwood tree.':u.rtype==='rock'?'Copper glints in the stone.':'Fish dart beneath the surface.','plain')});
+        u.rtype==='tree'?'A sturdy emberwood tree.':u.rtype==='rock'?
+          ((u.oreKind==='tin'?'Pale tin':u.oreKind==='clay'?'Workable clay':u.oreKind==='iron'?'Iron':u.oreKind==='coal'?'Coal':'Copper')+' shows through the stone.'):
+          'Fish dart beneath the surface.','plain')});
     } else if(u.kind==='drop'){
       entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
       entries.push({html:`Examine <b>${ITEMS[u.id].name}</b>`,
         fn:()=>UI.chat(ITEMS[u.id].examine||`It's ${aOrAn(ITEMS[u.id].name)}.`,'plain')});
+    } else if(u.kind==='climb'){
+      const pl=(Player.plane||0);
+      if(u.climb.up && u.climb.up.plane>pl)
+        entries.push({html:'Climb-up '+(u.label||'').replace(/^Climb /,''), fn:()=>handleClick(o, o.position)});
+      if(u.climb.down && u.climb.down.plane<pl)
+        entries.push({html:'Climb-down '+(u.label||'').replace(/^Climb /,''),
+          fn:()=>queueClimb(o, u.climb.down)});
+      if(!u.climb.up && !u.climb.down) entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
+    } else if(u.kind==='lighthouseDoor'){
+      entries.push({html:u.label||'Open <b>Lastlight door</b>',fn:()=>handleClick(o,o.position)});
+      entries.push({html:'Inspect <b>Lastlight door</b>',fn:()=>UI.chat(u.inspectMessage||'A weathered oak door set into the tower.','plain')});
+    } else if(u.kind==='lever'){
+      entries.push({html:u.label||'Operate <b>lever</b>',fn:()=>handleClick(o,o.position)});
+      entries.push({html:'Inspect <b>beacon lever</b>',fn:()=>UI.chat(u.inspectMessage||'A heavy bronze lever controls the Lastlight lens.','plain')});
+    } else if(u.kind==='trapdoor'){
+      entries.push({html:u.label||'Open <b>trapdoor</b>',fn:()=>handleClick(o,o.position)});
+      entries.push({html:'Inspect <b>trapdoor</b>',fn:()=>UI.chat(u.inspectMessage||'A sealed hatch descends beneath the lighthouse.','plain')});
     } else if(u.kind==='altar'){
       entries.push({html:'Pray at <b>Altar</b>', fn:()=>{ Player.action={type:'pray', obj:o, t:0}; Player.moveTo=o.position.clone(); }});
       if(Player.count('bones')>0)
@@ -730,16 +746,25 @@ function buildCtxEntries(hit, e){
       entries.push({html:'Examine', fn:()=>UI.chat('Cold air rises from the dark.','plain')});
     } else if(u.kind==='bank'){
       entries.push({html:'Use <b>Bank booth</b>', fn:()=>handleClick(o, o.position)});
+    } else if(u.kind==='prop'){
+      const inspectName=u.inspectName?` <b>${u.inspectName}</b>`:'';
+      entries.push({html:'Inspect'+inspectName,
+        fn:()=>UI.chat(u.inspectMessage||u.examine||'Just a curio of the realm.','plain')});
+    }
+    if(u.inspectMessage&&!u.inspectOnly){
+      const inspectName=u.inspectName?` <b>${u.inspectName}</b>`:'';
+      entries.push({html:'Inspect'+inspectName,fn:()=>UI.chat(u.inspectMessage,'plain')});
     }
   }
-  entries.push({html:'Walk here', fn:()=>{ const gp=e?groundPick(e):null;
-    if(gp) minimapWalkTo(gp); else if(hit&&hit.point) minimapWalkTo(hit.point); }});
+  entries.push({html:'Walk here', fn:()=>{ const gp=walkPointForHit(hit,e);
+    if(gp) minimapWalkTo(gp); }});
   entries.push({html:'Cancel', fn:null});
   return entries;
 }
 canvasEl.addEventListener('contextmenu', e=>{
   e.preventDefault();
   if(!running) return;
+  if(window.Build && Build.active){ Build.onRightClick(e); return; }   // editor: remove prop
   const hit = pick(e);
   Ctx.show(e, buildCtxEntries(hit, e));
 });
@@ -775,7 +800,7 @@ canvasEl.addEventListener('touchmove', e=>{
     const [a,b]=e.touches;
     const d=Math.hypot(a.clientX-b.clientX, a.clientY-b.clientY);
     const cx=(a.clientX+b.clientX)/2, cy=(a.clientY+b.clientY)/2;
-    camCtl.dist = Math.min(40, Math.max(7, camCtl.dist + (_twoT.d-d)*0.045));
+    camCtl.dist = Math.min(70, Math.max(12, camCtl.dist + (_twoT.d-d)*0.045));
     camCtl.yaw  -= (cx-_twoT.x)*0.008;
     camCtl.pitch = Math.min(1.45, Math.max(0.55, camCtl.pitch+(cy-_twoT.y)*0.005));
     _twoT={d, x:cx, y:cy};
@@ -818,13 +843,61 @@ function toggleDoor(door){
     const i=WORLD.colliders.indexOf(u.col); if(i>=0) WORLD.colliders.splice(i,1);
     Sfx.click();
   }
+  // keep the flag grid in sync around the doorway (bake ignores doors today, but this
+  // covers future door WALL flags and any collider the swing displaces)
+  if(typeof CollisionGrid!=='undefined') CollisionGrid.rebakeArea(u.col.x, u.col.z, 3);
 }
 function minimapWalkTo(p){
   Player.target=null; Player.action=null;
-  const y=groundY(p.x,p.z);
-  if(y===null||y<-1.2){ UI.chat('You cannot walk there.','plain'); return; }
-  orderWalk(new THREE.Vector3(p.x,y,p.z));
-  moveMarker(new THREE.Vector3(p.x,y,p.z));
+  const pl=(Player.plane||0);
+  const y=(pl!==0&&typeof Planes!=='undefined')?Planes.elevAt(p.x,p.z,pl):groundY(p.x,p.z);
+  if(y===null||(pl===0&&y<-1.2)){ UI.chat('You cannot walk there.','plain'); return; }
+  const sp=snapWalkTarget(new THREE.Vector3(p.x,y,p.z));
+  orderWalk(sp); moveMarker(sp);
+}
+
+// Imported GLB interaction nodes are nested below a translated/rotated building
+// root. Their local .position is not a navigable world tile; always resolve the
+// world transform before handing an authored prop to click-to-walk.
+function clickWorldPos(obj){
+  const walkAt=obj&&obj.userData&&obj.userData.walkAt;
+  if(walkAt) return new THREE.Vector3(walkAt.x,0,walkAt.z);
+  return obj&&obj.getWorldPosition?obj.getWorldPosition(new THREE.Vector3()):obj.position;
+}
+
+function doorApproachPos(obj){
+  const u=obj&&obj.userData||{};
+  const choices=[u.entryInside,u.entryOutside].filter(Boolean);
+  if(!choices.length) return clickWorldPos(obj);
+  let best=choices[0],bestD=Infinity;
+  for(const p of choices){
+    const d=Math.hypot(player.position.x-p.x,player.position.z-p.z);
+    if(d<bestD){ best=p; bestD=d; }
+  }
+  const y=(typeof Planes!=='undefined')?Planes.elevAt(best.x,best.z,Player.plane||0):groundY(best.x,best.z);
+  return new THREE.Vector3(best.x,y===null?player.position.y:y,best.z);
+}
+
+function queueClimb(obj,dest){
+  const target=clickWorldPos(obj);
+  const reach=2.2;
+  const complete=()=>{
+    const cue=obj&&obj.userData&&obj.userData.climbSound;
+    if(typeof SfxFurnishings!=='undefined'){
+      if(cue==='down'&&SfxFurnishings.climbDown)SfxFurnishings.climbDown();
+      else if(cue==='up'&&SfxFurnishings.climbUp)SfxFurnishings.climbUp();
+    }
+    Planes.climbTo(dest);
+  };
+  // If the player is already at the authored ladder tile, climb immediately.
+  // This keeps imported prop hierarchy offsets and scheduler timing from turning
+  // an intentional ladder click into a second, unrelated walk order.
+  if(Math.hypot(player.position.x-target.x, player.position.z-target.z)<=reach){
+    complete();
+    return;
+  }
+  if(typeof Sched!=='undefined') Sched.walkThen(target, reach, complete);
+  else { orderWalk(target); setTimeout(complete, 900); }
 }
 
 function handleClick(obj, point){
@@ -832,12 +905,23 @@ function handleClick(obj, point){
   UI.closeWorldModals();   // stepping away from the counter closes it
   const u=obj.userData;
   Player.target=null; Player.action=null;
-  if(obj.name==='ground'){ Player.action=null; Player.target=null; orderWalk(point); moveMarker(point); return; }
+  if(obj.name==='ground'){ Player.action=null; Player.target=null;
+    const sp=snapWalkTarget(point); orderWalk(sp); moveMarker(sp); return; }
   if(u.kind==='npc' && !u.npc.dead){
     Player.target = u.npc;
     return;
   }
   if(u.kind==='drop'){ Player.action={type:'pickup', obj}; orderWalk(obj.position); return; }
+  if(u.kind==='climb'){
+    // ladders/stairs: walk to the base, then move a plane (src/planes.js)
+    const c=u.climb, pl=(Player.plane||0);
+    const dest = (c.up && c.down) ? ((c.up.plane>pl) ? c.up : c.down) : (c.up || c.down);
+    queueClimb(obj, dest);
+    return;
+  }
+  if((u.kind==='lighthouseDoor'||u.kind==='lever'||u.kind==='trapdoor')&&typeof u.activate==='function'){
+    u.activate(obj);return;
+  }
   if(u.kind==='resource'){
     if(!u.alive){ UI.chat('There is nothing left to gather here.','plain'); return; }
     if(u.rtype==='fish'){
@@ -857,7 +941,9 @@ function handleClick(obj, point){
   if(u.kind==='bank'){ Player.action={type:'usebank', obj}; orderWalk(obj.position); return; }
   if(u.kind==='cave'){ Player.action={type:'cavetravel', obj}; orderWalk(obj.position); return; }
   if(u.kind==='door'){
-    Player.action={type:'door', obj}; orderWalk(obj.position); return;
+    const doorPos=doorApproachPos(obj);
+    Player.action={type:'door',obj,walkAt:{x:doorPos.x,z:doorPos.z}};
+    orderWalk(doorPos); return;
   }
   if(u.kind==='signpost'){
     UI.chat('The signpost reads: '+obj.userData.boards.map(b=>b.text).join(' \u2022 ')+'.','plain');
@@ -874,27 +960,170 @@ function handleClick(obj, point){
   if(u.kind==='friendly'){ Player.action={type:'talk', obj}; orderWalk(obj.position); return; }
 }
 
-let marker;
-function moveMarker(p){
-  if(!marker){
-    marker = new THREE.Mesh(new THREE.RingGeometry(0.3,0.45,16),
-      new THREE.MeshBasicMaterial({color:0xff3333, side:THREE.DoubleSide}));
-    marker.rotation.x=-Math.PI/2; scene.add(marker);
-  }
-  marker.position.copy(p); marker.position.y+=0.06; marker.visible=true;
-  setTimeout(()=>marker.visible=false, 700);
+/* ===== OSRS-style tile feedback: hover highlight, destination tile, path preview =====
+   One world unit = one tile. We snap to tile centres (floor()+0.5), draw squares that
+   conform to the terrain by sampling groundY at each corner, and trace the planned route
+   so you can see exactly where the character will walk — like Old School, but in 3D. */
+const TILE = 1.0;
+function _tileCenter(x,z){ return [Math.floor(x/TILE)*TILE+TILE/2, Math.floor(z/TILE)*TILE+TILE/2]; }
+function _walkElevAt(x,z){
+  const pl=(typeof Player!=='undefined'&&Player.plane)||0;
+  return (pl!==0&&typeof Planes!=='undefined')?Planes.elevAt(x,z,pl):groundY(x,z);
 }
+/* write the 5 perimeter points of a terrain-hugging square into a Line geometry (reused) */
+function _setSquareGeom(geom, cx, cz, half, lift){
+  const c=[[cx-half,cz-half],[cx+half,cz-half],[cx+half,cz+half],[cx-half,cz+half],[cx-half,cz-half]];
+  const a=geom.getAttribute('position');
+  const v=(a && a.array.length===15) ? a.array : new Float32Array(15);
+  for(let i=0;i<5;i++){ const px=c[i][0], pz=c[i][1];
+    const y=_walkElevAt(px,pz); v[i*3]=px; v[i*3+1]=(y===null?0:y)+lift; v[i*3+2]=pz; }
+  if(a && a.array.length===15){ a.needsUpdate=true; }
+  else geom.setAttribute('position', new THREE.BufferAttribute(v,3));
+}
+/* the yellow tile that follows the cursor */
+let _hoverTile;
+function showHoverTile(p){
+  if(!_hoverTile){
+    _hoverTile=new THREE.Line(new THREE.BufferGeometry(),
+      new THREE.LineBasicMaterial({color:0xffe14d, transparent:true, opacity:0.85}));
+    _hoverTile.renderOrder=996; scene.add(_hoverTile);
+  }
+  const [cx,cz]=_tileCenter(p.x,p.z);
+  _setSquareGeom(_hoverTile.geometry, cx, cz, TILE/2-0.03, 0.06);
+  _hoverTile.visible=true;
+}
+function hideHoverTile(){ if(_hoverTile) _hoverTile.visible=false; }
+/* the animated destination tile (fill + outline), pulses while walking, fades on arrival */
+let _destFill, _destOutline, _destActive=false, _destFade=0;
+function _ensureDest(){
+  if(_destFill) return;
+  _destFill=new THREE.Mesh(new THREE.PlaneGeometry(TILE*0.9, TILE*0.9),
+    new THREE.MeshBasicMaterial({color:0xffb030, transparent:true, opacity:0.32, depthWrite:false, side:THREE.DoubleSide}));
+  _destFill.rotation.x=-Math.PI/2; _destFill.renderOrder=997; scene.add(_destFill);
+  _destOutline=new THREE.Line(new THREE.BufferGeometry(),
+    new THREE.LineBasicMaterial({color:0xffd83a, transparent:true}));
+  _destOutline.renderOrder=998; scene.add(_destOutline);
+}
+function markDestTile(p){
+  _ensureDest();
+  const [cx,cz]=_tileCenter(p.x,p.z);
+  const y=_walkElevAt(cx,cz);
+  _destFill.position.set(cx,(y===null?0:y)+0.05,cz);
+  _setSquareGeom(_destOutline.geometry, cx, cz, TILE/2-0.02, 0.07);
+  _destFill.visible=true; _destOutline.visible=true; _destActive=true; _destFade=1;
+}
+/* the planned route: the exact orthogonal staircase of TILES the character will step on,
+   highlighted square by square, plus a connecting line — OSRS-style, never diagonal */
+let _pathLine, _pathTiles, _pathFrame=0;
+function showPathPreview(){
+  if(!_pathLine){
+    _pathLine=new THREE.Line(new THREE.BufferGeometry(),
+      new THREE.LineBasicMaterial({color:0xffe14d, transparent:true, opacity:0.85}));
+    _pathLine.renderOrder=995; scene.add(_pathLine);
+  }
+  if(!_pathTiles){
+    _pathTiles=new THREE.Mesh(new THREE.BufferGeometry(),
+      new THREE.MeshBasicMaterial({color:0xffe14d, transparent:true, opacity:0.18, depthWrite:false, side:THREE.DoubleSide}));
+    _pathTiles.renderOrder=994; scene.add(_pathTiles);
+  }
+  const tiles = Player.path || [];
+  // connecting line (player feet → each tile centre); right-angle turns, no diagonals
+  const pts=[[player.position.x, player.position.z]];
+  for(const w of tiles) pts.push([w.x, w.z]);
+  const v=[];
+  for(let i=0;i<pts.length-1;i++){
+    const ax=pts[i][0], az=pts[i][1], bx=pts[i+1][0], bz=pts[i+1][1];
+    const segs=Math.max(1, Math.ceil(Math.hypot(bx-ax,bz-az)));
+    for(let s=0;s<segs;s++){ const t=s/segs, px=ax+(bx-ax)*t, pz=az+(bz-az)*t;
+      const y=_walkElevAt(px,pz); v.push(px,(y===null?0:y)+0.1,pz); }
+  }
+  const L=pts[pts.length-1],ly=_walkElevAt(L[0],L[1]);
+  v.push(L[0],(ly===null?0:ly)+0.1,L[1]);
+  _pathLine.geometry.dispose();
+  _pathLine.geometry=new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(v,3));
+  _pathLine.visible=true;
+  // one faint filled square per route tile
+  const h=TILE/2*0.86, tv=[];
+  for(const w of tiles){
+    const cx=w.x, cz=w.z, wy=_walkElevAt(cx,cz), y=(wy===null?0:wy)+0.04;
+    const x0=cx-h, x1=cx+h, z0=cz-h, z1=cz+h;
+    tv.push(x0,y,z0, x1,y,z0, x1,y,z1,  x0,y,z0, x1,y,z1, x0,y,z1);
+  }
+  _pathTiles.geometry.dispose();
+  _pathTiles.geometry=new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(tv,3));
+  _pathTiles.visible=true;
+}
+function hidePathPreview(){ if(_pathLine) _pathLine.visible=false; if(_pathTiles) _pathTiles.visible=false; }
+/* a faint tile grid painted on the ground around the player, so the world reads as tiles */
+let _groundGrid, _gridTX=null, _gridTZ=null;
+function updateGroundGrid(){
+  if(typeof player==='undefined') return;
+  const pl=(Player.plane||0);
+  // The surface grid is a navigation aid for the broad overworld. On authored
+  // underground meshes it floats at the logical walk height and visually
+  // flattens real depressions and shoulders, so caves own their floor entirely.
+  if(_groundGrid) _groundGrid.visible=(pl===0);
+  if(pl!==0) return;
+  const R=14, ptx=Math.floor(player.position.x), ptz=Math.floor(player.position.z);
+  if(_groundGrid && ptx===_gridTX && ptz===_gridTZ) return;
+  _gridTX=ptx; _gridTZ=ptz;
+  if(!_groundGrid){
+    _groundGrid=new THREE.LineSegments(new THREE.BufferGeometry(),
+      new THREE.LineBasicMaterial({color:0x18220e, transparent:true, opacity:0.32}));
+    _groundGrid.renderOrder=990; scene.add(_groundGrid);
+  }
+  const v=[], x0=ptx-R, x1=ptx+R, z0=ptz-R, z1=ptz+R;
+  const ok=y=>y!==null && y>-1.2;
+  for(let x=x0; x<=x1; x++) for(let z=z0; z<z1; z++){
+    const a=_walkElevAt(x,z), b=_walkElevAt(x,z+1); if(ok(a)&&ok(b)) v.push(x,a+0.03,z, x,b+0.03,z+1);
+  }
+  for(let z=z0; z<=z1; z++) for(let x=x0; x<x1; x++){
+    const a=_walkElevAt(x,z), b=_walkElevAt(x+1,z); if(ok(a)&&ok(b)) v.push(x,a+0.03,z, x+1,b+0.03,z);
+  }
+  _groundGrid.geometry.dispose();
+  _groundGrid.geometry=new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(v,3));
+}
+/* snap a walk target to the centre of the tile clicked (the tile we highlighted) */
+function snapWalkTarget(p){
+  const [cx,cz]=_tileCenter(p.x,p.z);
+  const y=_walkElevAt(cx,cz),pl=(Player.plane||0);
+  if(y!==null && (pl!==0||y>-1.2)) return new THREE.Vector3(cx,y,cz);
+  return p.clone ? p.clone() : new THREE.Vector3(p.x,p.y||0,p.z);
+}
+/* drives the pulse, the arrival fade, and trims the route as the player advances */
+(function _tileFXLoop(){
+  requestAnimationFrame(_tileFXLoop);
+  try{ updateGroundGrid(); }catch(e){}
+  const moving = !!(typeof Player!=='undefined' && Player.moveTo);
+  if(_destActive){
+    if(moving){
+      const t=performance.now()*0.006;
+      if(_destFill) _destFill.material.opacity=0.20+Math.abs(Math.sin(t))*0.18;
+      if(_destOutline) _destOutline.material.opacity=1;
+    } else {
+      _destFade-=0.045;
+      if(_destFill) _destFill.material.opacity=Math.max(0,_destFade)*0.32;
+      if(_destOutline) _destOutline.material.opacity=Math.max(0,_destFade);
+      if(_destFade<=0){ _destActive=false;
+        if(_destFill) _destFill.visible=false; if(_destOutline) _destOutline.visible=false; }
+    }
+  }
+  if(_pathLine && _pathLine.visible){
+    if(moving){ if((++_pathFrame & 3)===0) showPathPreview(); }
+    else hidePathPreview();
+  }
+})();
+/* kept as the marker entry point so existing call sites just work */
+function moveMarker(p){ markDestTile(p); showPathPreview(); }
 
 /* minimap click-to-walk */
 function minimapWalk(px, py){
-  const W=144, scale=1.35;
-  // undo the map's rotation: screen offset back into world space
   const yaw = (typeof camCtl!=='undefined' && camCtl) ? camCtl.yaw : 0;
-  const sx=(px-W/2)/scale, sz=(py-W/2)/scale;
-  const ca=Math.cos(-yaw), sa=Math.sin(-yaw);
-  const wx = player.position.x + sx*ca - sz*sa;
-  const wz = player.position.z + sx*sa + sz*ca;
-  minimapWalkTo({x:wx, z:wz});
+  // The renderer owns the inverse transform so drawing and click-walk cannot drift apart.
+  const p=(typeof CRMinimap!=='undefined')
+    ? CRMinimap.screenToWorld(px,py,player.position,yaw)
+    : {x:player.position.x+(px-72)/1.35,z:player.position.z+(py-72)/1.35};
+  minimapWalkTo(p);
 }
 (function(){
   const mm = document.getElementById('minimap');
@@ -986,8 +1215,45 @@ function talkTo(id, name, face){
     return;
   }
   if(id==='captain'){
-    UI.dialogue(name,'Captain Veyle, of the Hold. Mind the cave behind the keep — Korthul sleeps shallow, and my knights do not follow anyone down there. Whatever you haul back up is yours.',
-      [{label:'I will brave it.', fn:null},{label:'Wise to stay above.', fn:null}],face);
+    const kv=Quest.state('knights_vigil'), mg=Quest.state('mountains_grudge');
+    if(Quest.done('knights_vigil') && !mg){
+      if(Quest.canStart('mountains_grudge')){
+        UI.dialogue(name,'You felt it too, then — the rumble under the keep. Imbrel\'s ashes, Pell\'s humming stones, the restless dead... it is all one thing. Korthul is drawing the Scarring\'s embers to itself, coal by coal. My knights hold the walls; they cannot go down. You can. End the mountain\'s grudge.',
+          [{label:'I will face Korthul. (Start: The Mountain\'s Grudge)', fn:()=>Quest.start('mountains_grudge')},
+           {label:'I need to prepare first.', fn:null}],face);
+      } else {
+        UI.dialogue(name,'The deep is no place for the unproven. Earn the Wardens\' sigil — Maela\'s trial against the Fenlord — then we will speak of the mountain.',null,face);
+      }
+      return;
+    }
+    if(mg && mg.stage!==99){
+      if(mg.stage===1) UI.dialogue(name,'Korthul\'s brood scuttles thick in the dark. Thin them — three deep crawlers — or they will strip you to bone before you ever reach the grudge itself.',null,face);
+      else if(mg.stage===2) UI.dialogue(name,'The brood thins. Now the mountain itself. Bring food, wear your best plate... and come back to us.',null,face);
+      else UI.dialogue(name,'Is it done? Is the mountain quiet?',
+        [{label:'Korthul is slain. The mountain sleeps.', fn:()=>Quest.complete('mountains_grudge')}],face);
+      return;
+    }
+    if(Quest.done('mountains_grudge')){
+      UI.dialogue(name,'The keep stands because of you, slayer of Korthul. Whitmoor does not forget its debts.',null,face);
+      return;
+    }
+    if(!kv){
+      if(Quest.canStart('knights_vigil')){
+        UI.dialogue(name,'So the Spire sent you. Yes — the crag rumbles, and the Scarlands dead walk restless. My knights cannot leave the walls. Cull two gravewights in the south, and I\'ll trust you with what comes next.',
+          [{label:'I\'ll stand the vigil. (Start: The Knight\'s Vigil)', fn:()=>Quest.start('knights_vigil')},
+           {label:'Not my fight, Captain.', fn:null}],face);
+      } else {
+        UI.dialogue(name,'Captain Veyle, of the Hold. Mind the cave behind the keep — Korthul sleeps shallow, and my knights do not follow anyone down there. Whatever you haul back up is yours.',
+          [{label:'I will brave it.', fn:null},{label:'Wise to stay above.', fn:null}],face);
+      }
+      return;
+    }
+    if(kv.stage===1){ UI.dialogue(name,'Two gravewights, adventurer. The Scarlands\' dead rise in the burned south — put them back down.',null,face); return; }
+    if(kv.stage===2){ UI.dialogue(name,'Clean work. Now the harder ask: the cave behind the keep drops into the Undercrag. Scout its mouth — look, do not linger — and return alive.',
+      [{label:'(Continue)', fn:()=>Quest.advance('knights_vigil')}],face); return; }
+    if(kv.stage===3){ UI.dialogue(name,'The Undercrag is behind the keep — the cave mouth. Scout it and come back breathing.',null,face); return; }
+    UI.dialogue(name,'You went down and came back — that alone earns the shield. What did you see? ...Crawlers, and heat rising. Then it is as Imbrel feared. Take this, and rest — the Hold owes you.',
+      [{label:'(Take your reward)', fn:()=>Quest.complete('knights_vigil')}],face);
     return;
   }
   if(id==='archmage'){
@@ -1015,6 +1281,38 @@ function talkTo(id, name, face){
     return;
   }
   if(id==='arcanist'){
+    const sa=Quest.state('seers_ashes');
+    if(!sa && Quest.canStart('seers_ashes')){
+      UI.dialogue(name,'Pell\'s humming stones... I scried the Seers\' Ring last night, and the resonance runs SOUTH — to the Scarlands. I need a proper rite to trace it: two fire runes and two earth runes. My own stock, if your pockets are shy; the Spire does not do favours for free.',
+        [{label:'I\'ll gather the runes. (Start: The Seer\'s Ashes)', fn:()=>Quest.start('seers_ashes')},
+         {label:'Show me your wares.', fn:()=>UI.openShop('arcanist')},
+         {label:'Farewell.', fn:null}],face);
+      return;
+    }
+    if(sa && sa.stage===1){
+      if(Quest.hasBring('seers_ashes')){
+        UI.dialogue(name,'Fire and earth — the Scarring\'s own signature. There... the rite is cast, and this ash-catcher is warded. Carry it south into the Scarlands; it will drink whatever the dead ground exhales.',
+          [{label:'(Hand over the runes)', fn:()=>Quest.takeBring('seers_ashes')}],face);
+      } else {
+        UI.dialogue(name,'Two fire runes, two earth runes. I sell both, if you\'ve the coin.',
+          [{label:'Show me your wares.', fn:()=>UI.openShop('arcanist')},
+           {label:'Farewell.', fn:null}],face);
+      }
+      return;
+    }
+    if(sa && sa.stage===2){ UI.dialogue(name,'South, to the Scarlands. The catcher will wake the moment you cross the scar-line.',null,face); return; }
+    if(sa && sa.stage===3){ UI.dialogue(name,'The ash stalkers burn with it from the inside. Two of them — take their ash while it still smoulders.',null,face); return; }
+    if(sa && sa.stage===4){
+      UI.dialogue(name,'Give it here— ...by the Spire. This ash is not cooling. Something beneath the crag is holding the Scarring\'s heat like a coal in a fist. Whitmoor must be told — Captain Veyle watches that ground. Go; I\'ll send word ahead of you.',
+        [{label:'(Hand over the ashes)', fn:()=>Quest.complete('seers_ashes')}],face);
+      return;
+    }
+    if(sa && sa.stage===99){
+      UI.dialogue(name,'Veyle watches the crag; the Spire watches the ash. Speak to the Captain at Whitmoor Hold, if you haven\'t already.',
+        [{label:'Show me your wares.', fn:()=>UI.openShop('arcanist')},
+         {label:'Farewell.', fn:null}],face);
+      return;
+    }
     UI.dialogue(name,'You stand in Glimmerveil Arcana. Staves, runes, robes... and amulets with a little something extra woven in.',
       [{label:'Show me your wares.', fn:()=>UI.openShop('arcanist')},
        {label:'Farewell.', fn:null}],face);
@@ -1147,8 +1445,22 @@ function talkTo(id, name, face){
     return;
   }
   if(id==='greeter'){
-    UI.dialogue(name, 'New to Veyhollow? Chop trees west in Emberwood, mine east at Stonereach, fish north-east at Mirrorpond. Steer clear of Gloomfen until you\'re stronger... it\'s the dark corner of the map.',
-      [{label:'Thanks for the tips.'}],face);
+    const wm=Quest.state('whispers_moss');
+    if(!wm){
+      UI.dialogue(name, 'You\'ve a listening face, traveller. The standing stones west of town — the Seers\' Ring — they\'ve begun to HUM. My gran heard that hum as a girl... the year the south burned. The moss-things won\'t let an old man near. Silence a couple of them and bring me a scrap of their resonant moss.',
+        [{label:'I\'ll see to the stones. (Start: Whispers in the Moss)', fn:()=>Quest.start('whispers_moss')},
+         {label:'Any tips for a newcomer?', fn:()=>UI.dialogue(name,'Chop trees west in Emberwood, mine east at Stonereach, fish north-east at Mirrorpond. Steer clear of Gloomfen until you\'re stronger.',null,face)},
+         {label:'Farewell.', fn:null}],face);
+      return;
+    }
+    if(wm.stage===1){ UI.dialogue(name,'The Ring lies west, past the road. Mind the seers — they look like moss until they don\'t.',null,face); return; }
+    if(wm.stage===2){
+      UI.dialogue(name,'You hear it too, don\'t you? That\'s no wind. That hum means the old fire is turning over in its sleep. Take this for an old man\'s peace of mind — and carry the tale to Sage Imbrel at the Arcana. She\'ll know what the Spire must do.',
+        [{label:'(Give Old Pell the moss)', fn:()=>Quest.complete('whispers_moss')}],face);
+      return;
+    }
+    UI.dialogue(name,'Imbrel will want that story, traveller — Glimmerveil Arcana, south side of the square.',
+      [{label:'Farewell.'}],face);
   }
 }
 
@@ -1156,26 +1468,31 @@ function talkTo(id, name, face){
 const MusicMenu = {
   open:false,
   toggle(){ this.open=!this.open; this.render(); },
+  close(){ if(this.open){ this.open=false; this.render(); } },
   render(){
     const m=document.getElementById('music-menu'); if(!m) return;
     m.style.display=this.open?'block':'none';
     if(!this.open) return;
-    m.innerHTML='<h4>🎵 Music</h4>';
+    m.innerHTML='';
+    const head=document.createElement('div');
+    head.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-bottom:4px';
+    head.innerHTML='<h4 style="margin:2px 0">🎵 Music</h4>';
+    const x=document.createElement('span'); x.textContent='✕';
+    x.style.cssText='cursor:pointer;color:#ff6a6a;font-weight:bold;padding:0 4px;font-size:13px';
+    x.onclick=()=>{ Sfx.click(); this.close(); };
+    head.appendChild(x); m.appendChild(head);
     const mode=document.createElement('div'); mode.className='mtrack mode';
-    mode.textContent = (Music.mode==='auto'?'● ':'○ ')+'Auto (by location)';
-    mode.onclick=()=>{ Music.mode='auto'; Music.onZone(curZone); Sfx.click(); this.render(); };
+    mode.textContent = (Music.mode!=='manual'?'● ':'○ ')+'Auto (by location)';
+    mode.onclick=()=>{ Music.mode='auto'; if(Music.Director) Music.Director.manual=null;
+      Music.onZone(typeof curZone!=='undefined'?curZone:'commons'); Sfx.click(); this.render(); };
     m.appendChild(mode);
-    for(const id in TRACKS){
-      const tr=TRACKS[id];
+    const tracks=Music.tracks||{};
+    for(const id in tracks){
+      const playing = Music.Director && Music.Director.current===id;
       const row=document.createElement('div');
-      if(Music.unlocked.indexOf(id)>=0){
-        row.className='mtrack'+(Music.current===id&&Music.mode==='manual'?' cur':'');
-        row.textContent=(Music.current===id?'▶ ':'  ')+tr.name;
-        row.onclick=()=>{ Music.mode='manual'; Music.play(id); if(!Music.on) Music.start(); Sfx.click(); this.render(); };
-      } else {
-        row.className='mtrack locked';
-        row.textContent='🔒 Locked — visit '+(ZONES[tr.zone]?ZONES[tr.zone].name:'?');
-      }
+      row.className='mtrack'+(playing&&Music.mode==='manual'?' cur':'');
+      row.textContent=(playing?'▶ ':'  ')+tracks[id].name;
+      row.onclick=()=>{ Music.mode='manual'; if(!Music.on) Music.start(); Music.play(id); Sfx.click(); this.render(); };
       m.appendChild(row);
     }
     const off=document.createElement('div'); off.className='mtrack mode';
@@ -1184,16 +1501,27 @@ const MusicMenu = {
     m.appendChild(off);
   },
 };
+// click anywhere outside the menu (or its ♪ button) closes it
+document.addEventListener('mousedown', function(e){
+  if(!MusicMenu.open) return;
+  const m=document.getElementById('music-menu'), b=document.getElementById('music-btn');
+  if(m && !m.contains(e.target) && b && !b.contains(e.target)) MusicMenu.close();
+});
 
 /* ================= CHARACTER CREATION ================= */
-const CharCfg = { name:'Adventurer', shirt:0x3a6ea5, skin:0xd8a878 };
+const CharCfg = { name:'Adventurer', gender:'m', shirt:0x3a6ea5, skin:0xd8a878,
+                  hair:0x4a3526, hairStyle:'short', beard:false, legs:0x4a4a3a };
 const SHIRT_CHOICES=[0x3a6ea5,0x5b7d4a,0x8a3d3d,0x6b4a8a,0x9a7a32,0x3a3a42];
-const SKIN_CHOICES=[0xd8a878,0xc89868,0xa87848,0x8a5e38];
+const SKIN_CHOICES=[0xf2c9a0,0xd8a878,0xc89868,0xa87848,0x8a5e38,0x5e3f28];
+const HAIR_CHOICES=[0x2a1d14,0x4a3526,0x7a5230,0xb07a3a,0xc9a24a,0x8a8a8a,0xd8d8d8,0x7a2a1a];
+const PANTS_CHOICES=[0x4a4a3a,0x55483e,0x3a3f55,0x5a3a3a,0x3a4a3a,0x26262c];
+const HAIR_STYLES=['short','long','ponytail','bun','mohawk','bald'];
 function applyPlayerLook(){
   const pos = player ? player.position.clone() : null;
   const rot = player ? player.rotation.y : 0;
   if(player){ scene.remove(player); }
-  player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, beard:false, emblem:true});
+  player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, gender:CharCfg.gender, hair:CharCfg.hair,
+    hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs, emblem:true});
   if(pos) player.position.copy(pos);
   player.rotation.y = rot;
   player.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
@@ -1210,11 +1538,13 @@ function wireLogin(){
   const buildSw=(holderId, choices, key)=>{
     const h=$(holderId); if(!h) return;
     choices.forEach((c,i)=>{
-      const d=document.createElement('div'); d.className='sw'+(i===0?' sel':'');
+      const d=document.createElement('button'); d.type='button'; d.className='sw'+(i===0?' sel':'');
+      d.setAttribute('aria-label',(key==='shirt'?'Tunic colour ':'Skin tone ')+(i+1));
+      d.setAttribute('aria-pressed',i===0?'true':'false');
       d.style.background='#'+c.toString(16).padStart(6,'0');
       d.onclick=()=>{ CharCfg[key]=c;
-        h.children && [...h.children].forEach(x=>x.classList&&x.classList.remove('sel'));
-        d.classList.add('sel'); };
+        h.children && [...h.children].forEach(x=>{ if(x.classList)x.classList.remove('sel'); x.setAttribute('aria-pressed','false'); });
+        d.classList.add('sel'); d.setAttribute('aria-pressed','true'); };
       h.appendChild(d);
     });
   };
@@ -1233,6 +1563,7 @@ function wireLogin(){
     Sfx.click();
     const nm=(($('char-name')&&$('char-name').value)||'Adventurer').trim().slice(0,14);
     CharCfg.name=nm||'Adventurer';
+    CharCfg._new=true;                       // triggers Character Design on the Holm
     applyPlayerLook();
     if($('play-welcome')) $('play-welcome').textContent='Welcome, '+CharCfg.name;
     show('none','none','block');
@@ -1251,96 +1582,28 @@ function wireLogin(){
     }
   };
   if($('compass-btn')) $('compass-btn').onclick=()=>{ Sfx.click();
-    camCtl.yaw=Math.PI*0.75; camCtl.pitch=1.08; camCtl.dist=19;
+    camCtl.yaw=Math.PI*0.75; camCtl.pitch=1.08; camCtl.dist=33;
   };
   if($('run-orb')) $('run-orb').onclick=()=>{
     if(Player.energy<=0 && !Player.runOn){ UI.chat('You are too exhausted to run.','plain'); return; }
     Player.runOn=!Player.runOn; Sfx.click(); UI.refreshRun();
     UI.chat(Player.runOn?'Run mode: on.':'Run mode: off — walking.','sys');
   };
+  if($('spec-orb')) $('spec-orb').onclick=()=>{
+    const wm = Player.equip.weapon ? ITEMS[Player.equip.weapon].model : null;
+    if(!wm || !SPECIALS[wm]){ UI.chat('This weapon has no special attack.','plain'); return; }
+    if(Player.spec < SPECIALS[wm].cost){ UI.chat(`You need ${SPECIALS[wm].cost}% special-attack energy for ${SPECIALS[wm].name}.`,'plain'); return; }
+    Player.specArmed=!Player.specArmed; Sfx.click();
+    UI.chat(Player.specArmed?`Special attack armed: ${SPECIALS[wm].name}.`:'Special attack disarmed.','sys');
+    UI.refreshSpec();
+  };
   const ds=$('drops-search');
   if(ds && ds.addEventListener) ds.addEventListener('input', ()=>UI.refreshDrops(ds.value));
 }
 wireLogin();
 
-/* ================= SAVE SYSTEM (localStorage) ================= */
-const SaveGame = {
-  KEY:'motionscape_save',
-  available(){ try{ return typeof localStorage!=='undefined' && !!localStorage; }catch(e){ return false; } },
-  exists(){ if(!this.available()) return false;
-    try{ return !!localStorage.getItem(this.KEY); }catch(e){ return false; } },
-  serialize(){
-    return JSON.stringify({
-      v:1,
-      xp:Player.xp, hp:Player.hp, maxHp:Player.maxHp,
-      inv:Player.inv, bank:Player.bank, equip:Player.equip,
-      quests:Player.quests, castMode:!!Player.castMode,
-      tut:{step:Tutorial.step, complete:!!Tutorial.complete},
-      pos:[player.position.x, player.position.z],
-      tracked:Quest.tracked,
-      look:{name:CharCfg.name, shirt:CharCfg.shirt, skin:CharCfg.skin},
-      styles:Player.attackStyles,
-      music:{unlocked:Music.unlocked, mode:Music.mode, current:Music.current},
-      energy:Player.energy, runOn:Player.runOn,
-      prayerPts:Player.prayerPts,
-      spell:Player.spell,
-    });
-  },
-  save(silent){
-    if(!this.available()) return false;
-    try{ localStorage.setItem(this.KEY, this.serialize());
-      if(!silent) UI.chat('Game saved.','sys');
-      return true;
-    }catch(e){ return false; }
-  },
-  load(){
-    if(!this.available()) return false;
-    let d=null;
-    try{ const raw=localStorage.getItem(this.KEY); if(!raw) return false; d=JSON.parse(raw); }
-    catch(e){ return false; }
-    if(!d || d.v!==1) return false;
-    try{
-      Object.assign(Player.xp, d.xp);
-      Player.hp=d.hp; Player.maxHp=d.maxHp;
-      Player.inv=d.inv; Player.bank=d.bank; Player.equip=d.equip;
-      Player.quests=d.quests||{}; Player.castMode=!!d.castMode;
-      Quest.tracked=d.tracked||null;
-      if(d.styles) Object.assign(Player.attackStyles, d.styles);
-      if(d.energy!==undefined){ Player.energy=d.energy; Player.runOn=!!d.runOn; }
-      if(d.prayerPts!==undefined) Player.prayerPts=Math.min(d.prayerPts, Player.maxPrayer());
-      if(d.spell && SPELLS[d.spell]){ Player.spell=d.spell; Player.castMode=true; }
-      // old spark runes fuse into mind runes
-      Player.inv.forEach(s=>{ if(s && s.id==='spark_rune') s.id='mind_rune'; });
-      (Player.bank||[]).forEach(s=>{ if(s && s.id==='spark_rune') s.id='mind_rune'; });
-      if(d.music){ Music.unlocked=d.music.unlocked||Music.unlocked;
-        Music.mode=d.music.mode||'auto'; Music.current=d.music.current||'hollow_square'; }
-      if(d.look){ CharCfg.name=d.look.name||'Adventurer';
-        CharCfg.shirt=d.look.shirt||0x3a6ea5; CharCfg.skin=d.look.skin||0xd8a878;
-        applyPlayerLook(); }
-      if(d.tut && d.tut.complete){
-        Tutorial.complete=true; Tutorial.step=Tutorial.steps.length;
-        const ob=document.getElementById('objective'); if(ob) ob.style.display='none';
-      } else if(d.tut){ Tutorial.step=d.tut.step||0; }
-      if(d.pos){
-        const y=groundY(d.pos[0],d.pos[1]);
-        if(y!==null) player.position.set(d.pos[0], y, d.pos[1]);
-      }
-      refreshPlayerGear();
-      UI.refreshInv(); UI.refreshSkills(); UI.refreshQuests(); UI.refreshEquip(); UI.refreshHud();
-      UI.chat('Welcome back to Veyhollow. Your progress has been restored.','sys');
-      return true;
-    }catch(e){ return false; }
-  },
-  reset(){
-    if(!this.available()) return;
-    try{ localStorage.removeItem(this.KEY); }catch(e){}
-  },
-  timer:0,
-  tick(dt){
-    this.timer-=dt;
-    if(this.timer<=0){ this.timer=20; this.save(true); }
-  },
-};
+/* ---------- SAVE SYSTEM (localStorage): moved to src/ui_save.js
+   (const SaveGame). Loads right after ui_map.js / ui_shop.js. ---------- */
 
 /* ================= AMBIENT ADVENTURERS (bots) ================= */
 function makeNameTag(text){
@@ -1352,6 +1615,7 @@ function makeNameTag(text){
   const tex=new THREE.CanvasTexture(c);
   const spr=new THREE.Sprite(new THREE.SpriteMaterial({map:tex, depthTest:false}));
   spr.scale.set(2.2,0.42,1);
+  spr.userData._nameTag=true;   // lets the declutter overlay find/hide every tag
   return spr;
 }
 const Bots = {
@@ -1364,6 +1628,7 @@ const Bots = {
     {name:'Otto99',      shirt:0x3a5a8a, opts:{}, job:'fight'},
   ],
   spawn(){
+    if(typeof GameConfig!=='undefined' && !GameConfig.worldNpcSpawns) return;   // buildout: no ambient bots
     this.DEFS.forEach((d,i)=>{
       const mesh = humanoid(d.shirt, d.opts);
       mesh.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
@@ -1445,7 +1710,12 @@ const Bots = {
 };
 
 /* ================= WORLD POPULATION ================= */
+/* LEGACY_VILLAGE — user decision 2026-07-03: every building placed BEFORE the map-driven
+ * rebuild is wiped so the walled Veyhollow Commons (and mill, Spire, chapel…) can be
+ * rebuilt deliberately to the bible map. Flip to true to resurrect the old village. */
+const LEGACY_VILLAGE = false;
 function populateMainland(){
+  if(LEGACY_VILLAGE){
   // Veyhollow town
   makeBuilding(6,-6, 6,5,3.4, 0xc9b28a, 0x8a4a32,'S',{sign:0xc9a85a, doorOpen:true});   // bank — gold sign
   makeBuilding(-7,-8, 5,4,3, 0xbfa87f, 0x6b7a8f,'S',{sign:0x8a3d68, doorOpen:true});    // bazaar
@@ -1455,7 +1725,8 @@ function populateMainland(){
   makeBuilding(13,-7, 4.5,4,2.8, 0xcdb890, 0x5a6a8a,'W',{sign:0x8a6a9a, doorOpen:true});// Threadworks
   makeBuilding(-8.5,13, 4.5,4,3, 0xb0a8c4, 0x4a3a7a,'N',{sign:0x4a3a7a, doorOpen:true, tall:true});  // Glimmerveil Arcana
   makeBuilding(9,12, 5,4.5,3, 0xa89884, 0x3e3a36,'N',{sign:0x4a4642, chimney:true, doorOpen:true, roof:'gable', wall:'stone'});   // Stonereach Smithy
-  makeFountain(0,-1);
+  // the Hollow Well — Veyhollow's central landmark (VEYHOLLOW_DESIGN §3); fountain is the fallback
+  if(window.Decor && Decor.hollowWell){ Decor.hollowWell(0,-1); } else { makeFountain(0,-1); }
   makeBankBooth(6,-7.45, 0);       // the booth sits at the great counter
   makeFurnace(12.5,15.2);           // the town furnace, beside the smithy
   /* ---------- purposeful placement: the dressing of Veyhollow ---------- */
@@ -1464,11 +1735,8 @@ function populateMainland(){
   makeGroundPatch(0,-15.5, 3.4, 0x8a7a5e);              // market row, trodden bare
   makeGroundPatch(12.5,14.2, 3.0, 0x4e4640);            // the smithy yard, black with cinders
   makeGroundPatch(29,-6, 4.6, 0x6a5638);                // the cow pen, honest mud
-  makeGroundPatch(-2.5,5.5, 2.0, 0x9a9288);             // around the well
-  makeGroundPatch(50,-56, 5.4, 0xc8c2b6);               // Whitmoor's white plaza
-  makeGroundPatch(50,-62, 3.4, 0xc8c2b6);
+  makeGroundPatch(0,-1, 4.4, 0x9a9288);                 // the Hollow Well's stone apron (the Square's heart)
   makeFurrows(-48.4,-28.6, -43.6,-24.6);                // the ploughed wheat rows
-  makeWell(-2.5,5.5);                                 // the village well on the green
   // the churchyard, behind the chapel where the Dawn keeps watch
   makeFence(-7,29.5, -7,32.5); makeFence(-7,32.5, 1,32.5); makeFence(1,29.5, 1,32.5);
   makeGrave(-5.6,30.6,0); makeGrave(-4.2,31.4,1); makeGrave(-2.6,30.4,2);
@@ -1483,14 +1751,10 @@ function populateMainland(){
     {text:'Whitmoor Hold', ang:-1.2}, {text:'The Spire', ang:2.2}, {text:'Emberwood', ang:0.9}]);
   makeSignpost(-12,-13, [
     {text:'Olun\u2019s Mill', ang:1.3}, {text:'Gloomfen', ang:2.4}, {text:'Veyhollow', ang:-0.6}]);
-  makeSignpost(46,-44, [
-    {text:'Whitmoor Hold', ang:0.1}, {text:'Veyhollow', ang:2.8}]);
   // Olun's mill becomes a true windmill, wheat rows fenced beside it
   makeWindmill(-44.5,-34);
   makeFence(-49,-29, -49,-24); makeFence(-49,-24, -43,-24); makeFence(-43,-29, -43,-24);
   makeWheatField(-48.4,-28.6, -43.6,-24.6);
-  makeButterflies();
-  dressWorld();   // the instanced ground cover goes down last, around everything
   makeStall(8.5,-16.5, 0x4a7a3a, null);   // Rask's bow table (shop, not a mark)
   spawnFriendly('fletcher','Fletcher Rask', 8.5,-15.2, 0x4a6a3a,'🏹');
   makeInterior('bank', 6,-6, 6,5,'S');
@@ -1545,65 +1809,92 @@ function populateMainland(){
   spawnFriendly('spirebanker','Banker Odwin', 35,68.2, 0x39536b,'🧑‍💼');
   spawnNpc('wizard', 28, 75); spawnNpc('wizard', 33, 74); spawnNpc('wizard', 31, 67);
   spawnNpc('wizard', 36, 73);
+  } /* end LEGACY_VILLAGE */
+
+  /* ---------- map-era dressing that stays regardless ---------- */
+  makeGroundPatch(-163,-99, 5.4, 0xc8c2b6);             // Whitmoor's white plaza
+  makeGroundPatch(-163,-105, 3.4, 0xc8c2b6);
+  makeSignpost(-108,-76, [
+    {text:'Whitmoor Hold', ang:-2.2}, {text:'Veyhollow', ang:1.0}]);
+  makeButterflies();
+  dressWorld();   // the instanced ground cover goes down last, around everything
 
   /* ============ WHITMOOR HOLD — the white city on the moor ============ */
+  /* Map-anchored to the NW snow corner (bible map), gate facing SOUTH-EAST toward the
+   * Whitmoor road's Ditch crossing. Anchor: (-163,-105). */
   // curtain walls with a south gate; two banner towers flank it
-  makeStoneWallRun(38,-48, 47,-48);  makeStoneWallRun(53,-48, 62,-48);    // south wall, gate at 47..53
-  makeStoneWallRun(38,-76, 62,-76);                                        // north wall
-  makeStoneWallRun(38,-48, 38,-76);  makeStoneWallRun(62,-48, 62,-76);    // east & west walls
-  makeGateTower(46.4,-48); makeGateTower(53.6,-48);
+  makeStoneWallRun(-175,-91, -166,-91);  makeStoneWallRun(-160,-91, -151,-91);    // south wall, gate at -166..-160
+  makeStoneWallRun(-175,-119, -151,-119);                                          // north wall
+  makeStoneWallRun(-175,-91, -175,-119);  makeStoneWallRun(-151,-91, -151,-119);  // east & west walls
+  makeGateTower(-166.6,-91); makeGateTower(-159.4,-91);
   // the raised portcullis between the towers, and torchlight on the stone
   (function(){
-    const py=gy(50,-48);
+    const py=gy(-163,-91);
     for(let i=0;i<5;i++){
       const bar=new THREE.Mesh(new THREE.BoxGeometry(0.09,1.3,0.09), mat(0x3a3632));
-      bar.position.set(47.6+i*1.2, py+3.9, -48); scene.add(bar);
+      bar.position.set(-165.4+i*1.2, py+3.9, -91); scene.add(bar);
       const tip=new THREE.Mesh(new THREE.ConeGeometry(0.08,0.22,4), mat(0x3a3632));
-      tip.rotation.x=Math.PI; tip.position.set(47.6+i*1.2, py+3.18, -48); scene.add(tip);
+      tip.rotation.x=Math.PI; tip.position.set(-165.4+i*1.2, py+3.18, -91); scene.add(tip);
     }
     const cross=new THREE.Mesh(new THREE.BoxGeometry(5.4,0.12,0.12), mat(0x3a3632));
-    cross.position.set(50, py+4.4, -48); scene.add(cross);
-    for(const tx of [47.8,52.2]){
+    cross.position.set(-163, py+4.4, -91); scene.add(cross);
+    for(const tx of [-165.2,-160.8]){
       const sconce=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.4,0.12), mat(0x4a3a28));
-      sconce.position.set(tx, py+2.3, -47.4); scene.add(sconce);
+      sconce.position.set(tx, py+2.3, -90.4); scene.add(sconce);
       const flame=new THREE.Mesh(new THREE.ConeGeometry(0.12,0.34,5),
         new THREE.MeshBasicMaterial({color:0xffb24a}));
-      flame.position.set(tx, py+2.7, -47.4); scene.add(flame);
-      const gl=new THREE.PointLight(0xff9a3a, 0.5, 8); gl.position.set(tx, py+2.8, -47.2); scene.add(gl);
+      flame.position.set(tx, py+2.7, -90.4); scene.add(flame);
+      const gl=new THREE.PointLight(0xff9a3a, 0.5, 8); gl.position.set(tx, py+2.8, -90.2); scene.add(gl);
     }
   })();
   // the gate plaza: statue of the First Warden, paved approach
-  makeStatue(50,-56);
+  makeStatue(-163,-99);
   // the Keep of Whitmoor, flanked by towers
-  makeBuilding(50,-71, 8,5.5,4.6, 0xe6e2d8, 0x5a6474,'S',{doorOpen:true});
-  makeGateTower(45,-71.5); makeGateTower(55,-71.5);
-  makeInterior('keep', 50,-71, 8,5.5,'S');
+  makeBuilding(-163,-114, 8,5.5,4.6, 0xe6e2d8, 0x5a6474,'S',{doorOpen:true});
+  makeGateTower(-168,-114.5); makeGateTower(-158,-114.5);
+  makeInterior('keep', -163,-114, 8,5.5,'S');
   // the bank of Whitmoor
-  makeBuilding(42.5,-60, 5.5,4.5,3.4, 0xe6e2d8, 0x5a6474,'E',{sign:0xc9a85a, doorOpen:true, roof:'gable'});
-  makeBankBooth(40.8,-60, 0.5);
-  makeInterior('bank', 42.5,-60, 5.5,4.5,'E');
+  makeBuilding(-170.5,-103, 5.5,4.5,3.4, 0xe6e2d8, 0x5a6474,'E',{sign:0xc9a85a, doorOpen:true, roof:'gable'});
+  makeBankBooth(-172.2,-103, 0.5);
+  makeInterior('bank', -170.5,-103, 5.5,4.5,'E');
   // Marble Arms — the iron-smith of the Hold
-  makeBuilding(57.5,-60, 5,4.5,3.2, 0xe6e2d8, 0x5a6474,'W',{sign:0x9a948c, chimney:true, doorOpen:true, roof:'gable'});
-  makeInterior('smithy', 57.5,-60, 5,4.5,'W');
+  makeBuilding(-155.5,-103, 5,4.5,3.2, 0xe6e2d8, 0x5a6474,'W',{sign:0x9a948c, chimney:true, doorOpen:true, roof:'gable'});
+  makeInterior('smithy', -155.5,-103, 5,4.5,'W');
   // The Gilded Boar inn
-  makeBuilding(42.5,-68.5, 5,4.5,3.2, 0xe2dccc, 0x6e4a2e,'E',{sign:0x6e4a2e, chimney:true, doorOpen:true, roof:'gable'});
-  makeInterior('pub', 42.5,-68.5, 5,4.5,'E');
+  makeBuilding(-170.5,-111.5, 5,4.5,3.2, 0xe2dccc, 0x6e4a2e,'E',{sign:0x6e4a2e, chimney:true, doorOpen:true, roof:'gable'});
+  makeInterior('pub', -170.5,-111.5, 5,4.5,'E');
   // homes of the Hold
-  makeBuilding(57.5,-68.5, 4,3.6,2.8, 0xe6e2d8, 0x5a6474,'W',{chimney:true, roof:'gable'});
-  makeBuilding(57.5,-52.5, 4,3.6,2.8, 0xe6e2d8, 0x5a6474,'W',{chimney:true, roof:'gable'});
+  makeBuilding(-155.5,-111.5, 4,3.6,2.8, 0xe6e2d8, 0x5a6474,'W',{chimney:true, roof:'gable'});
+  makeBuilding(-155.5,-95.5, 4,3.6,2.8, 0xe6e2d8, 0x5a6474,'W',{chimney:true, roof:'gable'});
   // lamp-lit lane flavor: braziers along the plaza
-  for(const [bx,bz] of [[46,-58],[54,-58],[46,-66],[54,-66]]) makeCampfire(bx,bz);
+  for(const [bx,bz] of [[-167,-101],[-159,-101],[-167,-109],[-159,-109]]) makeCampfire(bx,bz);
+  // Track C deploy (2026-07-08): the Town_Square.jpg quatrefoil TOWN POOL graces the
+  // Hold's gate plaza — centred between the four braziers, south of the First
+  // Warden's statue. Footprint probed collider-free; one blocking ring keeps
+  // walkers out of the water (the pool itself registers none).
+  if(typeof makeRefTownPool==='function'){
+    const pool=makeRefTownPool(-163,-105,0);
+    // the plaza slopes ~0.7 across the footprint — a LOW basin seated at the centre
+    // buries its lobes uphill, so seat on the HIGHEST probed point (a raised stone
+    // basin reads right; rim cobbles on the low side sit proud, which stones can)
+    let py=-Infinity;
+    for(const [dx,dz] of [[0,0],[-3.2,0],[3.2,0],[0,-3.2],[0,3.2],[-2.3,-2.3],[2.3,2.3],[-2.3,2.3],[2.3,-2.3]]){
+      const y=gy(-163+dx,-105+dz); if(y!==null) py=Math.max(py,y); }
+    pool.position.y=(py>-Infinity?py:gy(-163,-105))+0.04;
+    scene.add(pool);
+    WORLD.colliders.push({type:'circle', x:-163, z:-105, r:3.2});
+  }
   // the people of Whitmoor
-  spawnFriendly('whitbanker','Banker Maren', 40.3,-60, 0x39536b,'🧑‍💼');
-  spawnFriendly('marblesmith','Smith Harrad', 57.5,-60.8, 0x5a4a3e,'🛠');
-  makeFurnace(54.6,-57.2);
-  spawnFriendly('innkeep','Innkeep Bora', 41.8,-69.2, 0x6e4a2e,'🍲');
-  spawnFriendly('captain','Captain Veyle', 50,-69.6, 0xd8dce2,'⚔');
-  spawnNpc('hold_knight', 47,-54); spawnNpc('hold_knight', 53,-54);
-  spawnNpc('hold_knight', 44,-64); spawnNpc('hold_knight', 56,-64);
-  spawnNpc('wanderer', 49,-60); spawnNpc('wanderer', 52,-66);
+  spawnFriendly('whitbanker','Banker Maren', -172.7,-103, 0x39536b,'🧑‍💼');
+  spawnFriendly('marblesmith','Smith Harrad', -155.5,-103.8, 0x5a4a3e,'🛠');
+  makeFurnace(-158.4,-100.2);
+  spawnFriendly('innkeep','Innkeep Bora', -171.2,-112.2, 0x6e4a2e,'🍲');
+  spawnFriendly('captain','Captain Veyle', -163,-112.6, 0xd8dce2,'⚔');
+  spawnNpc('hold_knight', -166,-97); spawnNpc('hold_knight', -160,-97);
+  spawnNpc('hold_knight', -169,-107); spawnNpc('hold_knight', -157,-107);
+  spawnNpc('wanderer', -164,-103); spawnNpc('wanderer', -161,-109);
   // the way down: a cave mouth in the keep yard
-  makeCaveMouth(54.5,-73.5, 'undercrag', 'Climb down into <b>the Undercrag</b>');
+  makeCaveMouth(-158.5,-116.5, 'undercrag', 'Climb down into <b>the Undercrag</b>');
 
   /* ============ THE UNDERCRAG — the dark beneath the Hold ============ */
   (function(){
@@ -1624,12 +1915,16 @@ function populateMainland(){
     spawnNpc('korthul', C[0], C[1]-2);
   })();
   makeCampfire(2,6);
-  makeSignpost(0,3.5);
+  makeSignpost(0,5.4);                    // clear of the fountain rim (it hugged the basin)
   makeTorch(4,-2); makeTorch(-4,-3);
-  makeFence(9.5,-2.5, 9.5,7); makeFence(9.5,7, 2,7);   // hen yard
-  makeFence(-10,-1, -10,6); makeFence(-10,6, -5,9);
-  for(let i=0;i<10;i++) makeFlower(-12+Math.random()*26, -2+Math.random()*16);
-  for(let i=0;i<6;i++) makeBush(-16+Math.random()*34, -14+Math.random()*30);
+  if(LEGACY_VILLAGE){
+    makeFence(9.5,-2.5, 9.5,7); makeFence(9.5,7, 2,7);   // hen yard
+    makeFence(-10,-1, -10,6); makeFence(-10,6, -5,9);
+    // random plaza flowers/bushes were pre-map dressing — one bush kept landing IN
+    // the fountain; the square is dressed deliberately by town_square.js now
+    for(let i=0;i<10;i++) makeFlower(-12+Math.random()*26, -2+Math.random()*16);
+    for(let i=0;i<6;i++) makeBush(-16+Math.random()*34, -14+Math.random()*30);
+  }
 
   spawnFriendly('banker','Banker Tilly', 6,-8.0, 0x39536b,'👩');   // behind the great counter
   spawnFriendly('merchant','Merchant Saff', -7,-8.8, 0x8a3d68,'🧔');
@@ -1640,22 +1935,23 @@ function populateMainland(){
   spawnFriendly('clothier','Mistress Wynnel', 13.6,-7, 0x8a6a9a,'👗',{hairLong:true});
   spawnFriendly('arcanist','Sage Imbrel', -8.5,14.2, 0x4a3a7a,'🧙',{robe:0x4a3a7a, hat:'wizard'});
   spawnFriendly('ferra','Ferra the Smith', 9,13.4, 0x5a4a3e,'👩‍🏭',{hairLong:true});
-  // the grubkin nest: mounds in the meadow northeast, well off the chapel road
-  makeMound(24,33,0.9); makeMound(26.5,31.5,0.7); makeMound(25,35,0.8);
-  for(let i=0;i<6;i++) spawnNpc('grubkin', 22+Math.random()*6, 30+Math.random()*7);
-  // the burrowrat warren: holes dug behind the eastern cottages, raiding the larders
-  makeMound(25,-20,0.6); makeMound(26.6,-21.2,0.55); makeMound(24.2,-22,0.5);
-  for(let i=0;i<4;i++) spawnNpc('burrowrat', 23.5+Math.random()*4, -22.5+Math.random()*4);
-  // the herd grazes the open pasture, as herds do
-  for(let i=0;i<3;i++) spawnNpc('moorcalf', 18+Math.random()*12, 12+Math.random()*10);
-  for(let i=0;i<4;i++) spawnNpc('pasturehen', 4+Math.random()*4.5, -1.5+Math.random()*7);
-  // gnarlgob camp east of town
-  makeCampfire(34,16);
-  makeHut(37,13,0.7);
-  // the gnarlgob war-camp: hide tents, a skull totem, a cookfire — a place, not a scatter
-  makeTent(39,18, 0.6); makeTent(42,20.5, -1.2); makeTotem(40.6,17.2);
-  makeCampfire(40.5,19.4);
-  for(let i=0;i<4;i++) spawnNpc('gnarlgob', 38+Math.random()*5.5, 16.5+Math.random()*5);
+  if(LEGACY_VILLAGE){
+    // the grubkin nest: mounds in the meadow northeast, well off the chapel road
+    makeMound(24,33,0.9); makeMound(26.5,31.5,0.7); makeMound(25,35,0.8);
+    for(let i=0;i<6;i++) spawnNpc('grubkin', 22+Math.random()*6, 30+Math.random()*7);
+    // the burrowrat warren: holes dug behind the eastern cottages, raiding the larders
+    makeMound(25,-20,0.6); makeMound(26.6,-21.2,0.55); makeMound(24.2,-22,0.5);
+    for(let i=0;i<4;i++) spawnNpc('burrowrat', 23.5+Math.random()*4, -22.5+Math.random()*4);
+    // the herd grazes the open pasture, as herds do
+    for(let i=0;i<3;i++) spawnNpc('moorcalf', 18+Math.random()*12, 12+Math.random()*10);
+    for(let i=0;i<4;i++) spawnNpc('pasturehen', 4+Math.random()*4.5, -1.5+Math.random()*7);
+    // gnarlgob camp east of town (pre-map: re-sited by a later pass)
+    makeCampfire(34,16);
+    makeHut(37,13,0.7);
+    makeTent(39,18, 0.6); makeTent(42,20.5, -1.2); makeTotem(40.6,17.2);
+    makeCampfire(40.5,19.4);
+    for(let i=0;i<4;i++) spawnNpc('gnarlgob', 38+Math.random()*5.5, 16.5+Math.random()*5);
+  }
   // the Seers' Ring — a circle of standing stones and moss seers
   const SR=[-30,44];   // the ring keeps its distance from the western road
   for(let i=0;i<5;i++){ const a=i/5*6.283;
@@ -1680,27 +1976,46 @@ function populateMainland(){
   for(let i=0;i<6;i++) makeFlower(ew[0]-12+Math.random()*24, ew[1]-12+Math.random()*24);
   // wolves prowl the deep woods west of the grove — the quest trees sit at the safer east fringe
   for(let i=0;i<3;i++) spawnNpc('mosswolf', ew[0]-24+Math.random()*10, ew[1]-6+Math.random()*14);
+  for(let i=0;i<3;i++) spawnNpc('thornboar', ew[0]-6+Math.random()*20, ew[1]-14+Math.random()*20);   // boars root the grove fringe (weak to slash)
   for(let i=0;i<6;i++) makeTree(ew[0]-28+Math.random()*12, ew[1]-8+Math.random()*18);
+  // the hardwood stand — Ironwood/Mahogany/Rosewood (Bible_References tree family), the
+  // higher-tier woodcutting trees deeper in the wood past the common emberwood oaks
+  const HW=[['ironwood',-34,-14],['ironwood',-30,-20],['mahogany',-38,-6],
+            ['mahogany',-34,2],['rosewood',-40,-16],['rosewood',-36,-24]];
+  for(const [sp,dx,dz] of HW) makeTree(ew[0]+dx, ew[1]+dz, sp);
 
-  // Stonereach Quarry: cliffs ring the copper rocks
+  // Stonereach Quarry: cliffs ring the copper rocks.
+  // DETERMINISTIC since 2026-07-08: random rolls re-landed decor/ore INSIDE the new
+  // Quarry Stores building on some boots (a ring cliff grew through its roof). A fixed
+  // per-index hash keeps the quarry identical every boot, and a keep-clear rect guards
+  // the store pad — outliers get pushed past the ring / slid off the pad.
   const qy=ZONES.quarry.pos;
-  for(let i=0;i<7;i++){ const a=i*0.9, r=16+Math.random()*5;
-    makeCliff(qy[0]+Math.cos(a)*r, qy[1]+Math.sin(a)*r, 2.2+Math.random()*1.8); }
+  const _qdet=(n)=>((Math.sin(n*127.1)*43758.55)%1+1)%1;
+  const QSTORE={x:132, z:-4, hw:4.6, hd:5.0};
+  const _qclear=(x,z)=>!(Math.abs(x-QSTORE.x)<QSTORE.hw && Math.abs(z-QSTORE.z)<QSTORE.hd);
+  for(let i=0;i<7;i++){ const a=i*0.9, r=16+_qdet(i)*5;
+    let cx=qy[0]+Math.cos(a)*r, cz=qy[1]+Math.sin(a)*r;
+    if(!_qclear(cx,cz)){ cx=qy[0]+Math.cos(a)*24; cz=qy[1]+Math.sin(a)*24; }
+    makeCliff(cx, cz, 2.2+_qdet(i+9)*1.8); }
   // the quarry seams: copper and tin shallow, iron midway, coal in the deep corner
   const ROCK_SPREAD=['copper','copper','copper','tin','tin','tin','iron','iron','iron','coal','coal'];
   ROCK_SPREAD.forEach((k,i)=>{
     const deep = (k==='coal') ? 0.8 : (k==='iron' ? 0.45 : 0);
-    makeRock(qy[0]-13+Math.random()*(26-deep*10)+deep*10, qy[1]-11+Math.random()*22, k);
+    let rx=qy[0]-13+_qdet(i+20)*(26-deep*10)+deep*10, rz=qy[1]-11+_qdet(i+40)*22;
+    if(!_qclear(rx,rz)) rz-=8;
+    makeRock(rx, rz, k);
   });
+  // crawlers infest the deep seams — the Pests in the Deeps quest target (weak to crush)
+  for(let i=0;i<4;i++) spawnNpc('quarry_crawler', qy[0]-11+Math.random()*22, qy[1]-9+Math.random()*18);
   // and the Undercrag hides the richest veins, for those who dare mine beside Korthul
   const UC=ZONES.undercrag.pos;
   makeRock(UC[0]-12, UC[1]+8, 'iron'); makeRock(UC[0]+11, UC[1]-7, 'coal');
   makeRock(UC[0]-4, UC[1]+12, 'coal'); makeRock(UC[0]+8, UC[1]+10, 'iron');
 
-  // Mirrorpond: spots float on the water, reeds at the shore
+  // Mirrorpond: spots float on the water (the lake is grid-driven, sea plane at -1.6)
   const pd=ZONES.pond.pos;
   for(let i=0;i<5;i++){ const a=Math.random()*6.28, r=2+Math.random()*5;
-    makeFishSpot(pd[0]+Math.cos(a)*r, pd[1]+Math.sin(a)*r, -0.48); }
+    makeFishSpot(pd[0]+Math.cos(a)*r, pd[1]+Math.sin(a)*r, -1.5); }
   for(let i=0;i<9;i++){ const a=Math.random()*6.28;
     makeReed(pd[0]+Math.cos(a)*10.2, pd[1]+Math.sin(a)*10.2); }
   makeCampfire(pd[0]+12, pd[1]+11);
@@ -1724,39 +2039,54 @@ function populateMainland(){
     makeBush(Math.cos(a)*r, Math.sin(a)*r); }
 }
 function populateBrynholt(){
+  // the buildings/dock live in src/brynholt.js (pass 004) — this keeps folk + hearth
   const b=ZONES.brynholt.pos;
-  makeHut(b[0]-5, b[1]-3, 1.1);
-  makeHut(b[0]+5, b[1]-1, 1);
-  makeHut(b[0], b[1]+6, 0.9);
   makeCampfire(b[0], b[1]);
-  makeTorch(b[0]-2, b[1]-6); makeTorch(b[0]+3, b[1]+3);
-  for(let i=0;i<4;i++) makeTree(b[0]-14+Math.random()*8, b[1]-8+Math.random()*16);
   for(let i=0;i<3;i++) makeStick(b[0]-6+Math.random()*12, b[1]-6+Math.random()*12);
-  spawnFriendly('fletcher','Bowyer Hask', b[0]+2, b[1]-5, 0x7a3d2a,'🏹');
-  for(let i=0;i<4;i++) spawnNpc('bryn_raider', b[0]-10+Math.random()*20, b[1]-10+Math.random()*20);
+  spawnFriendly('fletcher','Bowyer Hask', b[0]+8.5, b[1]-2, 0x7a3d2a,'🏹');   // inside Hask's Bows
+  for(let i=0;i<5;i++) spawnNpc('bryn_raider', b[0]-10+Math.random()*20, b[1]-10+Math.random()*20);
 }
 function populateDunes(){
   const d=ZONES.dunes.pos;
-  makeBuilding(d[0], d[1]-6, 5,4.5,3, 0xd8c08a, 0xb89a5e); // sandstone trading post
-  for(let i=0;i<8;i++) makeCactus(d[0]-18+Math.random()*36, d[1]-14+Math.random()*28);
-  for(let i=0;i<4;i++) makeCliff(d[0]-16+Math.random()*32, d[1]-12+Math.random()*24, 0.8+Math.random()*0.8);
+  if(LEGACY_VILLAGE) makeBuilding(d[0], d[1]-6, 5,4.5,3, 0xd8c08a, 0xb89a5e); // sandstone trading post (pre-map; dunes pass rebuilds)
+  // deterministic scatter + keep-clear rect since 2026-07-08: random cacti/cliffs could
+  // re-land inside the nomad camp (dunes_camp.js at 184,36) on any boot
+  const _ddet=(n)=>((Math.sin(n*311.7)*26951.3)%1+1)%1;
+  const CAMP={x:184, z:36, hw:6.5, hd:5.5};
+  const _dclear=(x,z)=>!(Math.abs(x-CAMP.x)<CAMP.hw && Math.abs(z-CAMP.z)<CAMP.hd);
+  for(let i=0;i<8;i++){ let cx=d[0]-18+_ddet(i)*36, cz=d[1]-14+_ddet(i+11)*28;
+    if(!_dclear(cx,cz)) cx+=14;
+    makeCactus(cx, cz); }
+  for(let i=0;i<4;i++){ let cx=d[0]-16+_ddet(i+30)*32, cz=d[1]-12+_ddet(i+42)*24;
+    if(!_dclear(cx,cz)) cz+=12;
+    makeCliff(cx, cz, 0.8+_ddet(i+55)*0.8); }
   spawnFriendly('duneTrader','Trader Soleh', d[0]+2, d[1]-3, 0xc4883a,'🧕',{hairLong:true});
   for(let i=0;i<5;i++) spawnNpc('duneclaw', d[0]-15+Math.random()*30, d[1]-12+Math.random()*24);
+  for(let i=0;i<3;i++) spawnNpc('dust_jackal', d[0]-12+Math.random()*28, d[1]-10+Math.random()*22);   // desert pack hunters (weak to slash)
   for(let i=0;i<2;i++) spawnNpc('hex_adept', d[0]+8+Math.random()*10, d[1]+8+Math.random()*8);
 }
 function populateScarlands(){
-  // gate warning at the edge
-  makeSignpost(0, SCAR_EDGE-2);
-  makeTorch(-3, SCAR_EDGE-2); makeTorch(3, SCAR_EDGE-2);
-  for(let i=0;i<10;i++){
-    const x=-40+Math.random()*80, z=SCAR_EDGE+5+Math.random()*55;
+  /* The Scarlands live NORTH past the Wilderness Ditch (bible map). The main gate
+   * causeway crosses at x=6; deeper north = deadlier (scarThreat). */
+  makeSignpost(6, DITCH.z+6, [
+    {text:'The Scarlands — DANGER', ang:Math.PI}, {text:'Veyhollow', ang:0}]);
+  makeTorch(3, DITCH.z+4.5); makeTorch(9, DITCH.z+4.5);       // lit south approach
+  makeTorch(3, DITCH.z-4.5); makeTorch(9, DITCH.z-4.5);       // and the far, wilder side
+  // burned wastes: dead trees, ash piles, slag cliffs — thicker the deeper in
+  for(let i=0;i<18;i++){
+    const x=-80+Math.random()*200, z=DITCH.z-8-Math.random()*66;
+    if(x>140) continue;                                       // keep clear of Brynholt's corner
     Math.random()<0.6 ? makeTree(x,z,'dead') : makeAshPile(x,z);
   }
-  for(let i=0;i<5;i++) makeCliff(-35+Math.random()*70, SCAR_EDGE+10+Math.random()*50, 1+Math.random());
-  // mid-threat: gravewights; deep threat: ash stalkers
-  for(let i=0;i<4;i++) spawnNpc('gravewight', -25+Math.random()*50, SCAR_EDGE+8+Math.random()*20);
-  for(let i=0;i<3;i++) spawnNpc('ash_stalker', -25+Math.random()*50, SCAR_EDGE+34+Math.random()*22);
-  for(let i=0;i<2;i++) spawnNpc('hex_adept', -20+Math.random()*40, SCAR_EDGE+20+Math.random()*15);
+  for(let i=0;i<8;i++){ const x=-70+Math.random()*180, z=DITCH.z-14-Math.random()*58;
+    if(x>140) continue; makeCliff(x,z, 1+Math.random()); }
+  // mid-threat gravewights near the Ditch; ash stalkers prowl the deep band
+  for(let i=0;i<4;i++) spawnNpc('gravewight', -20+Math.random()*70, DITCH.z-10-Math.random()*18);
+  for(let i=0;i<3;i++) spawnNpc('ash_stalker', -20+Math.random()*70, DITCH.z-40-Math.random()*24);
+  for(let i=0;i<3;i++) spawnNpc('cinder_shade', -15+Math.random()*60, DITCH.z-30-Math.random()*30);   // burnt revenants of the Scarring (resist stab, weak to crush)
+  for(let i=0;i<2;i++) spawnNpc('hex_adept', -10+Math.random()*50, DITCH.z-24-Math.random()*14);
+  // NOTE: the Ash Wyrm boss's eventual home is the Scarlands deep-end (re-add here once the map is
+  // fleshed out). It's temporarily parked on Tutor's Holm (populateHolm) as a dev showpiece.
 }
 function populateArena(){
   const a=ZONES.arena.pos;
@@ -1772,6 +2102,7 @@ function populateArena(){
   spawnFriendly('duelmaster','Pit Master Korr', a[0]-R+1, a[1]+7, 0x6b2a1a,'🥊');
   // two resident duelists, forever sparring
   WORLD.sparring = [];
+  if(typeof GameConfig!=='undefined' && !GameConfig.worldNpcSpawns) return;   // buildout: ring stands empty
   for(let i=0;i<2;i++){
     const m = humanoid(i?0x8a5a32:0x4a4a5a, {beard:i===0});
     m.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
@@ -1802,10 +2133,11 @@ function updateSparring(dt){
 function populateHolm(){
   const h=ZONES.holm.pos;
   spawnFriendly('bram','Guide Bram', h[0]-4, h[1]+6, 0x4a5a7a,'🧓');
-  makeRowboat(h[0]-8, h[1]+10, 0.7);
+  const v2Objects=(typeof WorldV2Objects!=='undefined'&&WorldV2Objects.snapshot().ready);
+  if(!v2Objects||!WorldV2Objects.ownsObject('holm_shore_rowboat')) makeRowboat(h[0]-8, h[1]+10, 0.7);
   for(let i=0;i<4;i++) makeTree(h[0]+6+Math.random()*8, h[1]-2+Math.random()*10);
-  // fishing spots sit ON the pond water
-  const wy = gy(HOLM_POND.x, HOLM_POND.z) + 0.66;
+  // fishing spots sit ON the pond water (surface drawn at -1.52)
+  const wy = -1.44;
   makeFishSpot(HOLM_POND.x-1.6, HOLM_POND.z-0.8, wy);
   makeFishSpot(HOLM_POND.x+1.8, HOLM_POND.z+1.2, wy);
   for(let i=0;i<6;i++){ const a=Math.random()*6.28;
@@ -1814,8 +2146,70 @@ function populateHolm(){
   makeCampfire(h[0], h[1]+2);
   spawnNpc('grubkin', h[0]+8, h[1]+8);
   spawnNpc('grubkin', h[0]+11, h[1]+5);
+  spawnNpc('bogling', h[0]+5, h[1]+4);          // pipeline-authored demo creature
+  spawnNpc('bogling', h[0]+7, h[1]+1);
+  // TEMP (dev): the Ash Wyrm boss (Pixal3D model) parked on Holm as a passive showpiece while we
+  // build characters. Non-aggressive here; its real home is the Scarlands deep-end (see populateScarlands).
+  spawnNpc('ash_wyrm', h[0]+13, h[1]-7);
   for(let i=0;i<4;i++) makeBush(h[0]-6+Math.random()*14, h[1]-4+Math.random()*12);
   for(let i=0;i<5;i++) makeFlower(h[0]-6+Math.random()*14, h[1]-2+Math.random()*10);
   makeSignpost(h[0]-6, h[1]+8);
+  // image-to-3D props: a little starter farm + camp supplies (Gemini sprite -> Hunyuan3D-2)
+  // crop rows, west of the camp
+  placeProp('cabbage', h[0]-3,   h[1]+4);
+  placeProp('cabbage', h[0]-2,   h[1]+5);
+  placeProp('cabbage', h[0]-3.6, h[1]+5.4);
+  placeProp('potato',  h[0]-5,   h[1]+3.2);
+  placeProp('potato',  h[0]-5.8, h[1]+3.9);
+  placeProp('onion',   h[0]-6.4, h[1]+2.6);
+  placeProp('carrot',  h[0]-5.4, h[1]+1.9);
+  placeProp('carrot',  h[0]-4.5, h[1]+2.4);
+  placeProp('wheat',   h[0]-7.6, h[1]+4.2);
+  placeProp('wheat',   h[0]-7.0, h[1]+5.2);
+  // camp supplies, by the campfire
+  if(!v2Objects||!WorldV2Objects.ownsObject('holm_supply_crate'))
+    placeProp('crate',   h[0]+2.4, h[1]+3.4);
+  if(!v2Objects||!WorldV2Objects.ownsObject('holm_supply_barrel'))
+    placeProp('barrel',  h[0]+3.4, h[1]+2.6);
+  if(!v2Objects||!WorldV2Objects.ownsObject('holm_supply_bucket'))
+    placeProp('bucket',  h[0]+2.8, h[1]+4.4);
+  placeProp('sack',    h[0]+1.6, h[1]+4.2);
+}
+
+/* ---------- AUTHORED CHUNK #1: a starter town square (reviewable) ----------
+   Hand-placed using the library builders: textured hall + houses, bank, stalls,
+   cobble plaza, statue, fences, props, townsfolk, and an enemy at the edge. */
+function buildStarterTown(cx,cz){
+  const D = window.Decor || {};
+  const pathMat = (typeof TEX!=='undefined' && TEX.cobble) ? new THREE.MeshLambertMaterial({map:TEX.cobble}) : mat(0x8a8276);
+  const pathTile=(x,z,s)=>{ s=s||2.05; const t=new THREE.Mesh(new THREE.BoxGeometry(s,0.08,s),pathMat);
+    t.position.set(x, gy(x,z)+0.05, z); t.receiveShadow=true; scene.add(t); };
+  // cobble cross through the plaza
+  for(let i=-3;i<=3;i++){ pathTile(cx+i*2, cz); pathTile(cx, cz+i*2); }
+  // town hall (north) with a bank booth, central statue
+  makeTexHouse(cx, cz-7.5, {w:5.6,d:5,label:'Enter <b>Town Hall</b>'});
+  makeBankBooth(cx, cz-4.3);
+  makeStatue(cx, cz);
+  // market stalls + corner houses
+  makeStall(cx-6, cz-0.5, 0xb03a3a);
+  makeStall(cx+6, cz-0.5, 0x3a6ab0);
+  makeTexHouse(cx-8, cz+6, {w:4.2,d:4.2});
+  makeTexHouse(cx+8, cz+6, {w:4.2,d:4.2});
+  makeSignpost(cx-2.4, cz+5);
+  makeCampfire(cx+4, cz+5);
+  // greenery
+  for(const [dx,dz] of [[-11,-6],[11,-7],[-12,9],[12,10]]) makeTree(cx+dx, cz+dz);
+  for(let i=0;i<6;i++) makeBush(cx-12+Math.random()*24, cz-9+Math.random()*20);
+  for(let i=0;i<8;i++) makeFlower(cx-9+Math.random()*18, cz-5+Math.random()*12);
+  // decor props
+  if(D.fencePost){ for(const fx of [-9,-7,-5,5,7,9]) D.fencePost(cx+fx, cz+11); }
+  if(D.barrel){ D.barrel(cx-5.6,cz-1.4); D.barrel(cx-6.4,cz-1.0); }
+  if(D.crate){ D.crate(cx+5.7,cz-1.4); }
+  if(D.bookcase){ D.bookcase(cx+1.7, cz-8.7); }
+  if(D.cabbage){ for(let i=0;i<6;i++) D.cabbage(cx-9+i*0.75, cz+3.2+(i%2)*0.6); }
+  // townsfolk + a lurking enemy
+  spawnFriendly('townelder','Elder Marn', cx+2.2, cz+2.4, 0x5a4a6a, '🧓');
+  spawnFriendly('townsmith','Smith Bryn', cx-6, cz-1.8, 0x5a4a3e, '🧔');
+  spawnNpc('skeleton', cx-11, cz+12);
 }
 

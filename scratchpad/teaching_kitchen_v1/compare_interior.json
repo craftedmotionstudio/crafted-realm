@@ -1,0 +1,13 @@
+{
+  "name": "Teaching Kitchen v1 — Live interior vs Tutorial Island interior reference",
+  "osrs": "Bible_References/Tutorial_Island_Building.jpg",
+  "cr": "scratchpad/teaching_kitchen_v1/in_game_interior.png",
+  "left_label": "TUTORIAL ISLAND INTERIOR REFERENCE",
+  "right_label": "CRAFTED REALM LIVE GAME, ROOF CUT AWAY",
+  "subtitle": "Flagstone bakehouse, kneading table, cooling rack, bucket shelf, pantry arch; range and flame in the apse",
+  "codex": 8.4,
+  "review_note": "The roof cutaway exposes a readable working kitchen: alternating flagstones, ceiling beams, dusted kneading table with dough balls and rolling pin, cooling rack and bucket shelf on the north wall, and the pantry arch. Scale beside the player is correct. Held below 9.0: the room still reads sparse against the reference's dense furnishing, the flag pattern is regular, and the apse range is hidden from this camera so the hero object does not carry the shot.",
+  "verdict": "FUNCTIONAL GRAYBOX — NOT RELEASE ART",
+  "improve": "Add a second hearth-side cluster (peel rack, ash bucket, salt crock), a wall-hung utensil board over the range, and irregular flag sizes; capture the apse from the south-east for the next sheet.",
+  "out": "Bible_References/Complete/_compare/holm_teaching_kitchen_v1_interior_compare.png"
+}

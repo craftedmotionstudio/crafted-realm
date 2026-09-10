@@ -1,0 +1,60 @@
+{
+  "assetId": "cellar_quiet_corner_v1",
+  "displayName": "Storm Cellar Quiet Corner",
+  "family": "Tutor's Holm cellar furnishings",
+  "gameplayRole": "Resting, conversation and domestic-story vignette",
+  "status": "integrated",
+  "version": 2,
+  "reference": {
+    "image": "docs/rebuild/concepts/cellar_quiet_corner_nanobanana2_v1.png",
+    "prompt": "docs/rebuild/concepts/cellar_quiet_corner_nanobanana2_v1.prompt.md",
+    "promptStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md",
+    "provenance": "Generated with Gemini 3 Pro Image / Nano Banana 2 on 2026-07-14; original Crafted Realm concept"
+  },
+  "visibleFeatures": [
+    "tall crooked fireside chair with crescent-notched crest, finials, uneven rails and shaped arms",
+    "muted russet shawl expressed as chunky seat, arm and hanging folds",
+    "lower work chair with curved crest, five spindles, honey-rush seat and fitted iron repair collar",
+    "irregular seven-sided tripod table with triangular stretchers and faceted earthenware cup",
+    "oval handled willow basket with rust, moss and cream wool, knitting needles and trailing yarn"
+  ],
+  "dimensionsTiles": {"width": 3.113, "depth": 1.528, "height": 1.79},
+  "pivot": "floor center of the assembled vignette; each of four semantic objects retains a separate local root",
+  "facing": "front is Blender -Y and exported Three.js +Z",
+  "placement": {
+    "room": "holm_survival_workyard_cellar",
+    "rule": "east-wall quiet corner, angled inward and outside the two-tile central aisle",
+    "count": 1
+  },
+  "interactionOwner": "HolmSurvivalCellar Sit/Examine handlers",
+  "collisionOwner": "HolmSurvivalCellar runtime plane collision",
+  "materials": ["aged oak", "honey rush", "russet shawl", "charcoal iron", "willow", "rust/moss/cream wool", "earthenware"],
+  "animationClips": [],
+  "deferredCharacterClip": "Player_Sit_Chair from the canonical humanoid pass",
+  "source": "assets/blender/props/cellar_quiet_corner_v1.blend",
+  "runtime": "assets/models/props/cellar_quiet_corner_v1.glb",
+  "builder": "tools/blender/build_cellar_quiet_corner_v1.py",
+  "library": "assets/blender/library/crafted_realm_approved_props_v1.blend",
+  "proofDirectory": "scratchpad/cellar_quiet_corner_v1",
+  "inGameProof": "scratchpad/cellar_quiet_corner_v1/07_in_game.png",
+  "inGameScaleProof": "scratchpad/cellar_quiet_corner_v1/09_in_game_human_scale.png",
+  "conceptComparison": {
+    "image": "Bible_References/Complete/_compare/cellar_quiet_corner_v1_concept_compare.png",
+    "codexClosenessScore": 9.1,
+    "verdict": "approved for game integration"
+  },
+  "technical": {"vertices": 1746, "triangles": 3236, "primitives": 25, "materials": 16, "glbBytes": 184080},
+  "humanScaleRevision": {
+    "playerHeightTiles": 1.9,
+    "tallChairHeightTiles": 1.78,
+    "lowChairHeightTiles": 1.38,
+    "tallSeatHeightTiles": 0.62,
+    "lowSeatHeightTiles": 0.57,
+    "rule": "Chair backs remain at or below the standing character silhouette; seats sit below the hip line"
+  },
+  "integrationGate": {
+    "smoke": "PASS 84/84 at 60 FPS with 114 draw calls and zero errors",
+    "realInteractionProof": "High-backed and resized woven-chair Sit actions completed through real canvas clicks",
+    "pathing": "Central aisle and cardinal cellar smoke route remain clear"
+  }
+}

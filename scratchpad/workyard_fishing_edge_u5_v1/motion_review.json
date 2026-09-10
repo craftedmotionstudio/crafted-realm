@@ -1,0 +1,14 @@
+{
+  "assetId": "workyard_fishing_edge_u5_v1",
+  "verdict": "PASS",
+  "poses": {
+    "idle": {"verdict": "PASS", "note": "The school drifts slowly beneath the water and the ripple breathes without a fast or neon pulse."},
+    "bite": {"verdict": "PASS", "note": "The larger ring response is readable from the gameplay camera while remaining local to the fishing patch."},
+    "catch": {"verdict": "PASS", "note": "One authored mirrorperch rises toward the reward socket, clears the dock edge and creel, then hides after the inventory commit."}
+  },
+  "defectsFoundAndFixed": [
+    "The first water material was opaque and hid all three fish; it was replaced with a real alpha-blended pond material.",
+    "The first proof packet displayed grid lines in every camera; the grid is now isolated to the scale proof.",
+    "The far current edge was too pale and marker-like; its alpha and color were reduced to blend into the live pond."
+  ]
+}

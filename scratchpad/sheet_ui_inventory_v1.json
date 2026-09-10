@@ -1,0 +1,11 @@
+{
+  "name": "Core HUD — Inventory",
+  "subtitle": "OSRS UI composition reference vs Crafted Realms live browser HUD",
+  "osrs": "Bible_References/UI_Inventory1.jpg",
+  "cr": "scratchpad/holm_training_cavern_v1/ui_inventory_runtime.png",
+  "codex": 9.0,
+  "review_note": "The live inventory now uses a narrow carved frame, muted recessed field, free-floating item icons, compact top tabs, bottom utility tabs, and a warm low-contrast palette. The existing minimap remains unchanged.",
+  "verdict": "accepted core inventory direction",
+  "improve": "Complete icon-by-icon tab art as each corresponding gameplay panel reaches production scope.",
+  "out": "Bible_References/Complete/_compare/UI_Inventory_v1_compare.png"
+}

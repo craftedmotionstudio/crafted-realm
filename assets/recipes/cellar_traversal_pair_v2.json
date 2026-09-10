@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 2,
+  "assetId": "cellar_traversal_pair_v2",
+  "displayName": "Workyard Cellar Traversal Pair v2",
+  "status": "integrated-awaiting-owner-review",
+  "gameplayRole": "Two purpose-built architectural forms for readable travel into and out of the Survival Workyard cellar",
+  "manifestPath": "assets/manifests/cellar_traversal_pair_v2.json",
+  "catalogPath": "assets/catalogs/cellar_traversal_pair_v2.json",
+  "briefPath": "scratchpad/cellar_traversal_pair_v2/asset_factory_brief.md",
+  "factoryResult": "scratchpad/cellar_traversal_pair_v2/factory_result.json",
+  "concept": {
+    "image": "docs/rebuild/concepts/cellar_floor_hatch_nanobanana2_v1.png",
+    "prompt": "docs/rebuild/concepts/cellar_floor_hatch_nanobanana2_v1.prompt.md",
+    "styleStandard": "docs/rebuild/ASSET_PROMPT_STANDARD.md"
+  },
+  "scale": {
+    "referenceHeightTiles": 1.9,
+    "fixture": "Canonical player beside each architectural form; the surface opening is flush with a one-tile floor cutout and the cellar ladder reaches a three-tile upper opening",
+    "checks": [
+      {"label": "surface width", "reportPath": "dimensionsTiles.surface.width", "min": 1.05, "max": 1.3},
+      {"label": "surface depth including open lid", "reportPath": "dimensionsTiles.surface.depth", "min": 1.7, "max": 1.95},
+      {"label": "surface height", "reportPath": "dimensionsTiles.surface.height", "min": 1.35, "max": 1.55},
+      {"label": "surface opening width", "reportPath": "humanScaleContract.surfaceOpeningWidth", "min": 0.85, "max": 1.05},
+      {"label": "surface opening depth", "reportPath": "humanScaleContract.surfaceOpeningDepth", "min": 0.9, "max": 1.1},
+      {"label": "surface ladder rise", "reportPath": "humanScaleContract.surfaceRailRise", "min": 0.8, "max": 1.0},
+      {"label": "cellar width", "reportPath": "dimensionsTiles.cellar.width", "min": 0.95, "max": 1.15},
+      {"label": "cellar depth", "reportPath": "dimensionsTiles.cellar.depth", "min": 0.5, "max": 0.65},
+      {"label": "cellar height", "reportPath": "dimensionsTiles.cellar.height", "min": 3.0, "max": 3.3},
+      {"label": "cellar ladder rise", "reportPath": "humanScaleContract.cellarRailRise", "min": 2.9, "max": 3.1},
+      {"label": "cellar clear rung width", "reportPath": "humanScaleContract.cellarClearRungWidth", "min": 0.55, "max": 0.72},
+      {"label": "cellar rung spacing", "reportPath": "humanScaleContract.cellarRungSpacing", "min": 0.27, "max": 0.34},
+      {"label": "cellar rung count", "reportPath": "humanScaleContract.cellarRungCount", "min": 9, "max": 9}
+    ]
+  },
+  "proof": {
+    "minimumCodexScore": 9.0,
+    "comparisonConfig": "scratchpad/cellar_traversal_pair_v2/compare_surface.json",
+    "order": [
+      "Separate the surface floor opening from the cellar wall ladder",
+      "Lock both forms against the 1.9-tile canonical player",
+      "Prove hand-shaped topology and restrained medieval material separation",
+      "Gate the floor hatch and wall ladder independently against their concepts",
+      "Replace rejected runtime visuals while preserving proven travel mechanics",
+      "Climb both directions in the real game and pass smoke"
+    ]
+  },
+  "manifest": {
+    "schemaVersion": 1,
+    "assetId": "cellar_traversal_pair_v2",
+    "assetClass": "architectural-traversal-pair",
+    "unitsPerTile": 1,
+    "builder": "tools/blender/build_cellar_traversal_pair_v2.py",
+    "source": "assets/blender/props/cellar_traversal_pair_v2.blend",
+    "model": "assets/models/props/cellar_traversal_pair_v2.glb",
+    "authoringReport": "scratchpad/cellar_traversal_pair_v2/asset_report.json",
+    "pipelineResult": "scratchpad/cellar_traversal_pair_v2/pipeline_result.json",
+    "previews": [
+      "scratchpad/cellar_traversal_pair_v2/01_surface_gameplay.png",
+      "scratchpad/cellar_traversal_pair_v2/02_surface_construction.png",
+      "scratchpad/cellar_traversal_pair_v2/03_surface_wireframe.png",
+      "scratchpad/cellar_traversal_pair_v2/04_cellar_gameplay.png",
+      "scratchpad/cellar_traversal_pair_v2/05_cellar_construction.png",
+      "scratchpad/cellar_traversal_pair_v2/06_cellar_wireframe.png",
+      "scratchpad/cellar_traversal_pair_v2/cellar_traversal_pair_v2_proof_sheet.png",
+      "Bible_References/Complete/_compare/cellar_floor_hatch_v2_concept_compare.png",
+      "Bible_References/Complete/_compare/cellar_wall_ladder_v4_concept_compare.png",
+      "scratchpad/cellar_traversal_pair_v2/07_in_game_surface.png",
+      "scratchpad/cellar_traversal_pair_v2/08_in_game_cellar_after_real_climb.png",
+      "scratchpad/cellar_traversal_pair_v2/09_in_game_surface_after_real_climb_up.png"
+    ],
+    "requiredNodes": [
+      "cellar_traversal_pair_v2",
+      "SurfaceFloorHatch",
+      "SurfaceHatchStatic",
+      "SurfaceHatchLid",
+      "CellarWallLadder",
+      "SurfaceHatchStaticRuntimeMesh",
+      "SurfaceHatchLidRuntimeMesh",
+      "CellarLadderRuntimeMesh"
+    ],
+    "requiredAnimations": ["Hatch_Open"],
+    "budgets": {
+      "maxFileBytes": 200000,
+      "maxTriangles": 2500,
+      "maxPrimitives": 20,
+      "maxMaterials": 8
+    }
+  },
+  "automation": {
+    "proof": [
+      ["python", "tools/make_cellar_traversal_pair_v2_proof_sheet.py"],
+      ["python", "tools/make_compare.py", "scratchpad/cellar_traversal_pair_v2/compare_surface.json"],
+      ["python", "tools/make_compare.py", "scratchpad/cellar_traversal_pair_v2/compare_cellar.json"]
+    ],
+    "library": [
+      ["blender", "--background", "--python", "tools/blender/build_cr_approved_props_library.py"]
+    ]
+  },
+  "integration": {
+    "room": "holm_survival_workyard_cellar",
+    "surfacePlacement": "Flush inside the workyard floor opening; open lid rises clearly behind it without hiding the shaft",
+    "cellarPlacement": "A simple one-colour ladder leaning against the west cellar wall; no cellar-side hatch or recess is visible",
+    "collision": "Preserve existing cardinal landing tiles; the cellar floor remains walk-only beneath the ladder",
+    "interactions": "The surface keeps its focused descent target; only visible cellar ladder meshes own Climb-up",
+    "requiredProof": [
+      "scratchpad/cellar_traversal_pair_v2/07_in_game_surface.png",
+      "scratchpad/cellar_traversal_pair_v2/08_in_game_cellar_after_real_climb.png",
+      "scratchpad/cellar_traversal_pair_v2/09_in_game_surface_after_real_climb_up.png"
+    ]
+  },
+  "nextStage": "runtime placement and real two-way climb proof"
+}

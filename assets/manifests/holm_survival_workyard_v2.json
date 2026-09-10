@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "assetId": "holm_survival_workyard_v2",
+  "assetClass": "building",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_survival_workyard_v2.py",
+  "source": "assets/blender/holm_survival_workyard_v2.blend",
+  "model": "assets/models/buildings/holm_survival_workyard_v2.glb",
+  "authoringReport": "scratchpad/survival_workyard_v2/asset_report.json",
+  "pipelineResult": "scratchpad/survival_workyard_v2/pipeline_result.json",
+  "previews": [
+    "scratchpad/survival_workyard_v2/survival_workyard_v2_exterior.png",
+    "scratchpad/survival_workyard_v2/survival_workyard_v2_roof_off.png",
+    "scratchpad/survival_workyard_v2/survival_workyard_v2_plan.png",
+    "scratchpad/workyard_shore_gear_v1/blender_final.png",
+    "scratchpad/workyard_shore_gear_v1/comparison_9_2.png",
+    "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_contact_sheet.png",
+    "scratchpad/survival_workyard_v2/cardinal_doors/pond_door_open_contact_sheet.png",
+    "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_sheet.png"
+  ],
+  "conceptReferences": [
+    "scratchpad/workyard_shore_gear_v1/nano_banana_reference.png"
+  ],
+  "requiredNodes": [
+    "holm_survival_workyard_v2",
+    "roof",
+    "trail_door",
+    "pond_door",
+    "tool_bench",
+    "firemaking_board",
+    "storm_tally_beam",
+    "net_rack",
+    "cellar_ladder",
+    "chicken_spawn_socket",
+    "u3_log_rack_socket",
+    "u3_chopping_block_socket",
+    "u4_waterworks_shore_socket",
+    "teaching_fireplace",
+    "hearth_flame",
+    "workyard_crockery_hutch",
+    "workyard_mug_shelf",
+    "workyard_empty_bucket",
+    "workyard_tool_stool",
+    "workyard_lodge_rug",
+    "workyard_hearth_rug",
+    "workyard_lesson_table",
+    "workyard_hearth_stool_splitter",
+    "workyard_hearth_stool_woven",
+    "workyard_storm_warden_relief"
+  ],
+  "cardinalProofs": [
+    {
+      "label": "Trail door installed open pose",
+      "views": {
+        "north": "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_from_north.png",
+        "south": "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_from_south.png",
+        "east": "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_from_east.png",
+        "west": "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_from_west.png"
+      },
+      "sheet": "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_contact_sheet.png",
+      "review": "scratchpad/survival_workyard_v2/cardinal_doors/trail_door_open_review.json"
+    },
+    {
+      "label": "Pond door installed open pose",
+      "views": {
+        "north": "scratchpad/survival_workyard_v2/cardinal_doors/pond_door_open_from_north.png",
+        "south": "scratchpad/survival_workyard_v2/cardinal_doors/pond_door_open_from_south.png",
+        "east": "scratchpad/survival_workyard_v2/cardinal_doors/pond_door_open_from_east.png",
+        "west": "scratchpad/survival_workyard_v2/cardinal_doors/pond_door_open_from_west.png"
+      },
+      "sheet": "scratchpad/survival_workyard_v2/cardinal_doors/pond_door_open_contact_sheet.png",
+      "review": "scratchpad/survival_workyard_v2/cardinal_doors/pond_door_open_review.json"
+    },
+    {
+      "label": "Shoreline gear grounded cluster",
+      "views": {
+        "north": "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_from_north.png",
+        "south": "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_from_south.png",
+        "east": "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_from_east.png",
+        "west": "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_from_west.png"
+      },
+      "sheet": "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_sheet.png",
+      "review": "scratchpad/survival_workyard_v2/cardinal_shore_gear/shore_gear_contact_review.json"
+    }
+  ],
+  "budgets": {
+    "maxFileBytes": 3000000,
+    "maxTriangles": 32000,
+    "maxPrimitives": 110,
+    "maxMaterials": 40
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Upstairs Story and Textile Family v1 — Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/workyard_upstairs_story_textiles_nanobanana2_v1.png",
+  "cr": "scratchpad/workyard_upstairs_furnishings_v1/03_story_textiles.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Firemaking diagrams, storm history, fishing preparation and two related woven rugs",
+  "codex": 9.0,
+  "review_note": "The Blender family carries forward the hand-cut firemaking board with three relief diagrams, deeply cut storm tally, mounted teaching net with floats and stone weights, original Storm Warden relief picture, blue lodge runner with fringe and medallions, and related red octagonal hearth rug. Every element has a distinct lesson or story function and remains readable at the elevated gameplay camera.",
+  "verdict": "APPROVED FOR WORKYARD INTEGRATION",
+  "improve": "Mount every fixture flush below the wall cap and keep the rugs non-blocking, with left-click walking and right-click inspection only.",
+  "out": "Bible_References/Complete/_compare/workyard_upstairs_story_textiles_v1_compare.png"
+}

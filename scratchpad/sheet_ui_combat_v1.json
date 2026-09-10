@@ -1,0 +1,11 @@
+{
+  "name": "Core HUD — Combat Styles",
+  "subtitle": "OSRS UI composition reference vs Crafted Realms live browser HUD",
+  "osrs": "Bible_References/UI_Combat.jpg",
+  "cr": "scratchpad/holm_training_cavern_v1/ui_combat_runtime.png",
+  "codex": 9.1,
+  "review_note": "The combat pane now has the centered orange weapon title, combat level, four large two-column style buttons, a red selected state, concise icons, and a clearly separated auto-retaliate control.",
+  "verdict": "accepted core combat direction",
+  "improve": "Replace temporary glyphs only when final weapon-family icon art is produced.",
+  "out": "Bible_References/Complete/_compare/UI_Combat_v1_compare.png"
+}

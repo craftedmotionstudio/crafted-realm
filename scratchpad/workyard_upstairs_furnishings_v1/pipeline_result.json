@@ -1,0 +1,76 @@
+{
+  "assetId": "workyard_upstairs_furnishings_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 650192,
+    "triangles": 8388,
+    "primitives": 77,
+    "materials": 26
+  },
+  "animations": [],
+  "authoringChecks": {
+    "threeNanoBananaReferenceBoardsBanked": true,
+    "customAssetSpecificTopology": true,
+    "allPurposefulSemanticRootsAuthored": true,
+    "humanScaleLocked": true,
+    "realOpenVesselInteriors": true,
+    "visibleJoineryAndHandProfiles": true,
+    "contactAndDefinitionRevision": true,
+    "wallFixturesHaveMountingStructure": true,
+    "controlledFlatShading": true,
+    "fourViewProofPacket": true
+  },
+  "scaleChecks": [
+    {
+      "label": "work bench height",
+      "value": 1.1,
+      "min": 1.02,
+      "max": 1.18,
+      "passed": true
+    },
+    {
+      "label": "stool seat height",
+      "value": 0.57,
+      "min": 0.5,
+      "max": 0.64,
+      "passed": true
+    },
+    {
+      "label": "lesson table height",
+      "value": 0.97,
+      "min": 0.88,
+      "max": 1.06,
+      "passed": true
+    },
+    {
+      "label": "hutch height",
+      "value": 2.82,
+      "min": 2.65,
+      "max": 2.95,
+      "passed": true
+    },
+    {
+      "label": "bucket height",
+      "value": 0.78,
+      "min": 0.68,
+      "max": 0.88,
+      "passed": true
+    },
+    {
+      "label": "hearth height",
+      "value": 3.02,
+      "min": 2.75,
+      "max": 3.15,
+      "passed": true
+    },
+    {
+      "label": "wall fixture top",
+      "value": 3.42,
+      "min": 2.65,
+      "max": 3.65,
+      "passed": true
+    }
+  ],
+  "errors": []
+}

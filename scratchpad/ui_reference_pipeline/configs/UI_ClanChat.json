@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 ClanChat",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_ClanChat.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/clan.png",
+  "codex": 9.0,
+  "review_note": "A dedicated carved clan surface now exists with clear roster and future-world status.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_ClanChat_v2_compare.png"
+}

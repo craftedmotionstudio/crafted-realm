@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "asset": "Survival Workyard pond door - installed open pose",
+  "source": "assets/blender/holm_survival_workyard_v2.blend",
+  "pose": "open at 0.0357963 radians (87.95 degrees from closed)",
+  "views": {
+    "north": {
+      "status": "PASS",
+      "notes": "North window timber and stone return remain outside the leaf swing."
+    },
+    "south": {
+      "status": "PASS",
+      "notes": "South brace, jamb, threshold, and hardware have distinct contacts."
+    },
+    "east": {
+      "status": "PASS",
+      "notes": "Exterior opening stays continuous and the open hinge edge does not clip."
+    },
+    "west": {
+      "status": "PASS",
+      "notes": "Interior frame is unobstructed; the open leaf clears the wall return."
+    }
+  },
+  "checks": {
+    "clipping": "PASS",
+    "floatingSupports": "PASS",
+    "wallAndFloorContact": "PASS",
+    "pivotAndOpenPose": "PASS",
+    "backsAndUndersides": "PASS",
+    "installedSilhouette": "PASS"
+  },
+  "verdict": "PASS"
+}

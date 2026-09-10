@@ -1,0 +1,14 @@
+{
+  "name": "Workyard Fishing Edge U5 v1 — Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/workyard_fishing_edge_u5_nanobanana2_v1.png",
+  "cr": "scratchpad/workyard_fishing_edge_u5_v1/05_gameplay_camera.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Small-net fishing edge: visible mirrorperch, quiet ripples, open woven creel, clear player lane",
+  "codex": 9.0,
+  "review_note": "The Blender family carries the concept's three faceted silver-blue fish with ochre fins, sparse ring ripples and bubbles, compact open wicker creel with a fitted raised lid, visible warm interior, shoulder strap, water-side placement, canonical player scale, and unobstructed dock approach. The accepted U4 dock remains a separate live dependency, so the proof dock is deliberately simplified. The water patch is thinner and less diagram-like than the concept so it can blend into the live pond instead of reading as a second slab.",
+  "verdict": "APPROVED FOR CODEX INTEGRATION",
+  "improve": "Preserve the subtle water blend and do not enlarge the creel or interaction target during live integration.",
+  "out": "Bible_References/Complete/_compare/workyard_fishing_edge_u5_v1_compare.png"
+}
+

@@ -1,0 +1,135 @@
+{
+  "profile": "fable-lodge-qa-mtu757ym",
+  "passed": 14,
+  "total": 14,
+  "checks": [
+    {
+      "label": "fresh QA profile booted through the real login flow",
+      "ok": true
+    },
+    {
+      "label": "real pathing reaches the porch approach from the Lesson Green route node",
+      "ok": true,
+      "detail": [
+        143.5,
+        135.5
+      ]
+    },
+    {
+      "label": "lodge streamed in, its planning pad is gone, and the guide socket ships no geometry",
+      "ok": true,
+      "detail": {
+        "lodge": true,
+        "pad": false,
+        "socketVisible": 0
+      }
+    },
+    {
+      "label": "closed lodge walls keep the interior unreachable from the north lawn",
+      "ok": true,
+      "detail": [
+        137.5,
+        130.5
+      ]
+    },
+    {
+      "label": "porch deck is walkable up to the lodge door",
+      "ok": true,
+      "detail": [
+        141.5,
+        134.5
+      ]
+    },
+    {
+      "label": "lodge door opens and the hall is enterable",
+      "ok": true,
+      "detail": [
+        137.5,
+        134.5
+      ]
+    },
+    {
+      "label": "roof cuts away when the player stands inside",
+      "ok": true,
+      "detail": {
+        "roofVisible": false
+      }
+    },
+    {
+      "label": "studying the board opens the quest journal and records learn_quests without touching the required route",
+      "ok": true,
+      "detail": {
+        "before": 0,
+        "after": 1,
+        "paneActive": true,
+        "optional": {
+          "learn_quests": true
+        },
+        "status": {
+          "learned": true,
+          "quests": 10
+        },
+        "step": 0
+      }
+    },
+    {
+      "label": "chart turret is reachable through the turret mouth",
+      "ok": true,
+      "detail": [
+        133.5,
+        133.5
+      ]
+    },
+    {
+      "label": "reading corner beside the road door is reachable around the ledger and rack",
+      "ok": true,
+      "detail": [
+        134.5,
+        138.5
+      ]
+    },
+    {
+      "label": "road door opens and the west exit toward the mine road is walkable",
+      "ok": true,
+      "detail": [
+        131.5,
+        137.5
+      ]
+    },
+    {
+      "label": "the spine road at x=128 is reachable from the road door without a cliff step",
+      "ok": true,
+      "detail": [
+        128.5,
+        137.5
+      ]
+    },
+    {
+      "label": "reload continues the adventurer with the optional ledger and position intact",
+      "ok": true,
+      "detail": {
+        "optional": {
+          "learn_quests": true
+        },
+        "pos": [
+          128.5,
+          137.5
+        ],
+        "step": 0,
+        "errors": 0
+      }
+    },
+    {
+      "label": "no page errors, console errors, or failed asset loads across the whole run",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "consoleErrors": [],
+        "failedLoads": []
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedLoads": []
+}

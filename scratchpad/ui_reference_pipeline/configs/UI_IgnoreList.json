@@ -1,0 +1,11 @@
+{
+  "name": "UI \u2014 IgnoreList",
+  "subtitle": "Bible UI reference vs live Crafted Realms browser surface",
+  "osrs": "Bible_References/UI_IgnoreList.jpg",
+  "cr": "scratchpad/ui_reference_pipeline/live/ignore.png",
+  "codex": 9.0,
+  "review_note": "Ignore now has its own readable list and capacity treatment.",
+  "verdict": "accepted UI direction",
+  "improve": "none for this slice",
+  "out": "Bible_References/Complete/_compare/UI_IgnoreList_v2_compare.png"
+}

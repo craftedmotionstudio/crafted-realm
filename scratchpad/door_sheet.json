@@ -1,0 +1,11 @@
+{
+  "name": "Closed Door.jpg — Plank Door + Dumbbell Latch",
+  "osrs": "scratchpad/osrs_door.jpg",
+  "cr": "scratchpad/cr_door_top.jpg",
+  "claude": 9.0,
+  "gemini": 7.0,
+  "gemini_note": "Planks read flat vs OSRS's deeply grooved, uniformly distinct vertical planks. Consistent/fair critique (matches the known procDoorPanel flat-seam note).",
+  "verdict": "SHIPPED — reads as OSRS plank door (below 9.5)",
+  "improve": "deeper/crisper vertical plank seams (dark backing gaps) on procDoorPanel; grey STONE jamb blocks flanking the door (ours sits in plaster)",
+  "out": "Bible_References/Complete/_compare/ClosedDoor_compare.png"
+}

@@ -1,0 +1,95 @@
+{
+  "assetId": "worn_gear_starter_v1",
+  "schemaVersion": 1,
+  "passed": true,
+  "metrics": {
+    "fileBytes": 217388,
+    "triangles": 2500,
+    "primitives": 36,
+    "materials": 14
+  },
+  "animations": [],
+  "authoringChecks": {
+    "nanoBananaReferenceBoardBanked": true,
+    "customAssetSpecificTopology": true,
+    "allSemanticRootsAuthored": true,
+    "gripOriginContract": true,
+    "forgedHeadsAreDrawnProfiles": true,
+    "bladesCarryFullerAndEdges": true,
+    "gripsAreWrapped": true,
+    "bowIsWornSingleStave": true,
+    "helmIsForgedCap": true,
+    "shieldIsPlankBuilt": true,
+    "tierRecolorMaterialsNamed": true,
+    "controlledFlatShading": true,
+    "eightViewProofPacket": true,
+    "twentyFourCardinalTurnaroundsBanked": true
+  },
+  "scaleChecks": [
+    {
+      "label": "sword overall length",
+      "value": 1.095,
+      "min": 0.95,
+      "max": 1.15,
+      "passed": true
+    },
+    {
+      "label": "hatchet overall length",
+      "value": 0.702,
+      "min": 0.6,
+      "max": 0.78,
+      "passed": true
+    },
+    {
+      "label": "pickaxe head span",
+      "value": 0.554,
+      "min": 0.45,
+      "max": 0.62,
+      "passed": true
+    },
+    {
+      "label": "dagger overall length",
+      "value": 0.503,
+      "min": 0.42,
+      "max": 0.56,
+      "passed": true
+    },
+    {
+      "label": "shortbow height",
+      "value": 0.955,
+      "min": 0.85,
+      "max": 1.02,
+      "passed": true
+    },
+    {
+      "label": "shield diameter",
+      "value": 0.661,
+      "min": 0.58,
+      "max": 0.72,
+      "passed": true
+    },
+    {
+      "label": "largest grip radius",
+      "value": 0.042,
+      "min": 0.028,
+      "max": 0.05,
+      "passed": true
+    },
+    {
+      "label": "helm width",
+      "value": 0.468,
+      "min": 0.38,
+      "max": 0.48,
+      "passed": true
+    },
+    {
+      "label": "helm height",
+      "value": 0.354,
+      "min": 0.28,
+      "max": 0.4,
+      "passed": true
+    }
+  ],
+  "cardinalProofs": [],
+  "errors": []
+}

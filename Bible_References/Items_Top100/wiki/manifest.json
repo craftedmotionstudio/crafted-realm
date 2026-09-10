@@ -1,0 +1,1577 @@
+[
+ {
+  "n": 1,
+  "osrs": "Coins",
+  "icon": {
+   "ok": false
+  },
+  "detail": {
+   "ok": true,
+   "file": "Coins detail.png",
+   "bytes": 27188
+  }
+ },
+ {
+  "n": 2,
+  "osrs": "Bones",
+  "icon": {
+   "ok": true,
+   "file": "Bones.png",
+   "bytes": 492
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bones detail.png",
+   "bytes": 28013
+  }
+ },
+ {
+  "n": 3,
+  "osrs": "Big bones",
+  "icon": {
+   "ok": true,
+   "file": "Big bones.png",
+   "bytes": 524
+  },
+  "detail": {
+   "ok": true,
+   "file": "Big bones detail.png",
+   "bytes": 29241
+  }
+ },
+ {
+  "n": 4,
+  "osrs": "Ashes",
+  "icon": {
+   "ok": true,
+   "file": "Ashes.png",
+   "bytes": 377
+  },
+  "detail": {
+   "ok": true,
+   "file": "Ashes detail.png",
+   "bytes": 14948
+  }
+ },
+ {
+  "n": 5,
+  "osrs": "Hammer",
+  "icon": {
+   "ok": true,
+   "file": "Hammer.png",
+   "bytes": 314
+  },
+  "detail": {
+   "ok": true,
+   "file": "Hammer detail.png",
+   "bytes": 12848
+  }
+ },
+ {
+  "n": 6,
+  "osrs": "Tinderbox",
+  "icon": {
+   "ok": true,
+   "file": "Tinderbox.png",
+   "bytes": 546
+  },
+  "detail": {
+   "ok": true,
+   "file": "Tinderbox detail.png",
+   "bytes": 24695
+  }
+ },
+ {
+  "n": 7,
+  "osrs": "Knife",
+  "icon": {
+   "ok": true,
+   "file": "Knife.png",
+   "bytes": 295
+  },
+  "detail": {
+   "ok": true,
+   "file": "Knife detail.png",
+   "bytes": 11261
+  }
+ },
+ {
+  "n": 8,
+  "osrs": "Chisel",
+  "icon": {
+   "ok": true,
+   "file": "Chisel.png",
+   "bytes": 319
+  },
+  "detail": {
+   "ok": true,
+   "file": "Chisel detail.png",
+   "bytes": 12686
+  }
+ },
+ {
+  "n": 9,
+  "osrs": "Bucket",
+  "icon": {
+   "ok": true,
+   "file": "Bucket.png",
+   "bytes": 652
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bucket detail.png",
+   "bytes": 34485
+  }
+ },
+ {
+  "n": 10,
+  "osrs": "Bucket of water",
+  "icon": {
+   "ok": true,
+   "file": "Bucket of water.png",
+   "bytes": 650
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bucket of water detail.png",
+   "bytes": 34318
+  }
+ },
+ {
+  "n": 11,
+  "osrs": "Jug",
+  "icon": {
+   "ok": true,
+   "file": "Jug.png",
+   "bytes": 581
+  },
+  "detail": {
+   "ok": true,
+   "file": "Jug detail.png",
+   "bytes": 39315
+  }
+ },
+ {
+  "n": 12,
+  "osrs": "Jug of water",
+  "icon": {
+   "ok": true,
+   "file": "Jug of water.png",
+   "bytes": 634
+  },
+  "detail": {
+   "ok": true,
+   "file": "Jug of water detail.png",
+   "bytes": 40068
+  }
+ },
+ {
+  "n": 13,
+  "osrs": "Pot",
+  "icon": {
+   "ok": true,
+   "file": "Pot.png",
+   "bytes": 521
+  },
+  "detail": {
+   "ok": true,
+   "file": "Pot detail.png",
+   "bytes": 28760
+  }
+ },
+ {
+  "n": 14,
+  "osrs": "Bowl",
+  "icon": {
+   "ok": true,
+   "file": "Bowl.png",
+   "bytes": 516
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bowl detail.png",
+   "bytes": 32478
+  }
+ },
+ {
+  "n": 15,
+  "osrs": "Rope",
+  "icon": {
+   "ok": true,
+   "file": "Rope.png",
+   "bytes": 497
+  },
+  "detail": {
+   "ok": true,
+   "file": "Rope detail.png",
+   "bytes": 35343
+  }
+ },
+ {
+  "n": 16,
+  "osrs": "Shears",
+  "icon": {
+   "ok": true,
+   "file": "Shears.png",
+   "bytes": 453
+  },
+  "detail": {
+   "ok": true,
+   "file": "Shears detail.png",
+   "bytes": 25931
+  }
+ },
+ {
+  "n": 17,
+  "osrs": "Spade",
+  "icon": {
+   "ok": true,
+   "file": "Spade.png",
+   "bytes": 359
+  },
+  "detail": {
+   "ok": true,
+   "file": "Spade detail.png",
+   "bytes": 16918
+  }
+ },
+ {
+  "n": 18,
+  "osrs": "Bronze axe",
+  "icon": {
+   "ok": true,
+   "file": "Bronze axe.png",
+   "bytes": 346
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze axe detail.png",
+   "bytes": 14749
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze axe equipped.png",
+   "bytes": 34639
+  }
+ },
+ {
+  "n": 19,
+  "osrs": "Iron axe",
+  "icon": {
+   "ok": true,
+   "file": "Iron axe.png",
+   "bytes": 359
+  },
+  "detail": {
+   "ok": true,
+   "file": "Iron axe detail.png",
+   "bytes": 15209
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Iron axe equipped.png",
+   "bytes": 67153
+  }
+ },
+ {
+  "n": 20,
+  "osrs": "Steel axe",
+  "icon": {
+   "ok": true,
+   "file": "Steel axe.png",
+   "bytes": 388
+  },
+  "detail": {
+   "ok": true,
+   "file": "Steel axe detail.png",
+   "bytes": 16348
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Steel axe equipped.png",
+   "bytes": 68736
+  }
+ },
+ {
+  "n": 21,
+  "osrs": "Bronze pickaxe",
+  "icon": {
+   "ok": true,
+   "file": "Bronze pickaxe.png",
+   "bytes": 279
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze pickaxe detail.png",
+   "bytes": 13231
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze pickaxe equipped male.png",
+   "bytes": 78378
+  }
+ },
+ {
+  "n": 22,
+  "osrs": "Iron pickaxe",
+  "icon": {
+   "ok": true,
+   "file": "Iron pickaxe.png",
+   "bytes": 296
+  },
+  "detail": {
+   "ok": true,
+   "file": "Iron pickaxe detail.png",
+   "bytes": 13651
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Iron pickaxe equipped male.png",
+   "bytes": 79990
+  }
+ },
+ {
+  "n": 23,
+  "osrs": "Small fishing net",
+  "icon": {
+   "ok": true,
+   "file": "Small fishing net.png",
+   "bytes": 837
+  },
+  "detail": {
+   "ok": true,
+   "file": "Small fishing net detail.png",
+   "bytes": 225777
+  }
+ },
+ {
+  "n": 24,
+  "osrs": "Fishing rod",
+  "icon": {
+   "ok": true,
+   "file": "Fishing rod.png",
+   "bytes": 447
+  },
+  "detail": {
+   "ok": true,
+   "file": "Fishing rod detail.png",
+   "bytes": 24588
+  }
+ },
+ {
+  "n": 25,
+  "osrs": "Fly fishing rod",
+  "icon": {
+   "ok": true,
+   "file": "Fly fishing rod.png",
+   "bytes": 429
+  },
+  "detail": {
+   "ok": true,
+   "file": "Fly fishing rod detail.png",
+   "bytes": 32486
+  }
+ },
+ {
+  "n": 26,
+  "osrs": "Logs",
+  "icon": {
+   "ok": true,
+   "file": "Logs.png",
+   "bytes": 502
+  },
+  "detail": {
+   "ok": true,
+   "file": "Logs detail.png",
+   "bytes": 30179
+  }
+ },
+ {
+  "n": 27,
+  "osrs": "Oak logs",
+  "icon": {
+   "ok": true,
+   "file": "Oak logs.png",
+   "bytes": 527
+  },
+  "detail": {
+   "ok": true,
+   "file": "Oak logs detail.png",
+   "bytes": 32935
+  }
+ },
+ {
+  "n": 28,
+  "osrs": "Willow logs",
+  "icon": {
+   "ok": true,
+   "file": "Willow logs.png",
+   "bytes": 383
+  },
+  "detail": {
+   "ok": true,
+   "file": "Willow logs detail.png",
+   "bytes": 25096
+  }
+ },
+ {
+  "n": 29,
+  "osrs": "Copper ore",
+  "icon": {
+   "ok": true,
+   "file": "Copper ore.png",
+   "bytes": 694
+  },
+  "detail": {
+   "ok": true,
+   "file": "Copper ore detail.png",
+   "bytes": 43952
+  }
+ },
+ {
+  "n": 30,
+  "osrs": "Tin ore",
+  "icon": {
+   "ok": true,
+   "file": "Tin ore.png",
+   "bytes": 667
+  },
+  "detail": {
+   "ok": true,
+   "file": "Tin ore detail.png",
+   "bytes": 42004
+  }
+ },
+ {
+  "n": 31,
+  "osrs": "Iron ore",
+  "icon": {
+   "ok": true,
+   "file": "Iron ore.png",
+   "bytes": 560
+  },
+  "detail": {
+   "ok": true,
+   "file": "Iron ore detail.png",
+   "bytes": 36005
+  }
+ },
+ {
+  "n": 32,
+  "osrs": "Coal",
+  "icon": {
+   "ok": true,
+   "file": "Coal.png",
+   "bytes": 546
+  },
+  "detail": {
+   "ok": true,
+   "file": "Coal detail.png",
+   "bytes": 35419
+  }
+ },
+ {
+  "n": 33,
+  "osrs": "Clay",
+  "icon": {
+   "ok": true,
+   "file": "Clay.png",
+   "bytes": 324
+  },
+  "detail": {
+   "ok": true,
+   "file": "Clay detail.png",
+   "bytes": 12086
+  }
+ },
+ {
+  "n": 34,
+  "osrs": "Soft clay",
+  "icon": {
+   "ok": true,
+   "file": "Soft clay.png",
+   "bytes": 315
+  },
+  "detail": {
+   "ok": true,
+   "file": "Soft clay detail.png",
+   "bytes": 15757
+  }
+ },
+ {
+  "n": 35,
+  "osrs": "Gold ore",
+  "icon": {
+   "ok": true,
+   "file": "Gold ore.png",
+   "bytes": 688
+  },
+  "detail": {
+   "ok": true,
+   "file": "Gold ore detail.png",
+   "bytes": 43169
+  }
+ },
+ {
+  "n": 36,
+  "osrs": "Bronze bar",
+  "icon": {
+   "ok": true,
+   "file": "Bronze bar.png",
+   "bytes": 197
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze bar detail.png",
+   "bytes": 8286
+  }
+ },
+ {
+  "n": 37,
+  "osrs": "Iron bar",
+  "icon": {
+   "ok": true,
+   "file": "Iron bar.png",
+   "bytes": 198
+  },
+  "detail": {
+   "ok": true,
+   "file": "Iron bar detail.png",
+   "bytes": 8286
+  }
+ },
+ {
+  "n": 38,
+  "osrs": "Steel bar",
+  "icon": {
+   "ok": true,
+   "file": "Steel bar.png",
+   "bytes": 197
+  },
+  "detail": {
+   "ok": true,
+   "file": "Steel bar detail.png",
+   "bytes": 8286
+  }
+ },
+ {
+  "n": 39,
+  "osrs": "Gold bar",
+  "icon": {
+   "ok": true,
+   "file": "Gold bar.png",
+   "bytes": 197
+  },
+  "detail": {
+   "ok": true,
+   "file": "Gold bar detail.png",
+   "bytes": 8286
+  }
+ },
+ {
+  "n": 40,
+  "osrs": "Cowhide",
+  "icon": {
+   "ok": true,
+   "file": "Cowhide.png",
+   "bytes": 482
+  },
+  "detail": {
+   "ok": true,
+   "file": "Cowhide detail.png",
+   "bytes": 31099
+  }
+ },
+ {
+  "n": 41,
+  "osrs": "Leather",
+  "icon": {
+   "ok": true,
+   "file": "Leather.png",
+   "bytes": 230
+  },
+  "detail": {
+   "ok": true,
+   "file": "Leather detail.png",
+   "bytes": 15446
+  }
+ },
+ {
+  "n": 42,
+  "osrs": "Wool",
+  "icon": {
+   "ok": true,
+   "file": "Wool.png",
+   "bytes": 709
+  },
+  "detail": {
+   "ok": true,
+   "file": "Wool detail.png",
+   "bytes": 43836
+  }
+ },
+ {
+  "n": 43,
+  "osrs": "Ball of wool",
+  "icon": {
+   "ok": true,
+   "file": "Ball of wool.png",
+   "bytes": 986
+  },
+  "detail": {
+   "ok": true,
+   "file": "Ball of wool detail.png",
+   "bytes": 199757
+  }
+ },
+ {
+  "n": 44,
+  "osrs": "Flax",
+  "icon": {
+   "ok": true,
+   "file": "Flax.png",
+   "bytes": 435
+  },
+  "detail": {
+   "ok": true,
+   "file": "Flax detail.png",
+   "bytes": 27080
+  }
+ },
+ {
+  "n": 45,
+  "osrs": "Bow string",
+  "icon": {
+   "ok": true,
+   "file": "Bow string.png",
+   "bytes": 204
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bow string detail.png",
+   "bytes": 6497
+  }
+ },
+ {
+  "n": 46,
+  "osrs": "Grain",
+  "icon": {
+   "ok": true,
+   "file": "Grain.png",
+   "bytes": 320
+  },
+  "detail": {
+   "ok": true,
+   "file": "Grain detail.png",
+   "bytes": 23447
+  }
+ },
+ {
+  "n": 47,
+  "osrs": "Pot of flour",
+  "icon": {
+   "ok": true,
+   "file": "Pot of flour.png",
+   "bytes": 548
+  },
+  "detail": {
+   "ok": true,
+   "file": "Pot of flour detail.png",
+   "bytes": 32241
+  }
+ },
+ {
+  "n": 48,
+  "osrs": "Bread dough",
+  "icon": {
+   "ok": true,
+   "file": "Bread dough.png",
+   "bytes": 570
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bread dough detail.png",
+   "bytes": 26519
+  }
+ },
+ {
+  "n": 49,
+  "osrs": "Bread",
+  "icon": {
+   "ok": true,
+   "file": "Bread.png",
+   "bytes": 503
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bread detail.png",
+   "bytes": 35053
+  }
+ },
+ {
+  "n": 50,
+  "osrs": "Raw shrimps",
+  "icon": {
+   "ok": true,
+   "file": "Raw shrimps.png",
+   "bytes": 693
+  },
+  "detail": {
+   "ok": true,
+   "file": "Raw shrimps detail.png",
+   "bytes": 43699
+  }
+ },
+ {
+  "n": 51,
+  "osrs": "Shrimps",
+  "icon": {
+   "ok": true,
+   "file": "Shrimps.png",
+   "bytes": 606
+  },
+  "detail": {
+   "ok": true,
+   "file": "Shrimps detail.png",
+   "bytes": 37288
+  }
+ },
+ {
+  "n": 52,
+  "osrs": "Raw trout",
+  "icon": {
+   "ok": true,
+   "file": "Raw trout.png",
+   "bytes": 593
+  },
+  "detail": {
+   "ok": true,
+   "file": "Raw trout detail.png",
+   "bytes": 28455
+  }
+ },
+ {
+  "n": 53,
+  "osrs": "Trout",
+  "icon": {
+   "ok": true,
+   "file": "Trout.png",
+   "bytes": 486
+  },
+  "detail": {
+   "ok": true,
+   "file": "Trout detail.png",
+   "bytes": 24203
+  }
+ },
+ {
+  "n": 54,
+  "osrs": "Burnt fish",
+  "icon": {
+   "ok": false
+  },
+  "detail": {
+   "ok": false
+  }
+ },
+ {
+  "n": 55,
+  "osrs": "Cabbage",
+  "icon": {
+   "ok": true,
+   "file": "Cabbage.png",
+   "bytes": 747
+  },
+  "detail": {
+   "ok": true,
+   "file": "Cabbage detail.png",
+   "bytes": 39164
+  }
+ },
+ {
+  "n": 56,
+  "osrs": "Potato",
+  "icon": {
+   "ok": true,
+   "file": "Potato.png",
+   "bytes": 375
+  },
+  "detail": {
+   "ok": true,
+   "file": "Potato detail.png",
+   "bytes": 18140
+  }
+ },
+ {
+  "n": 57,
+  "osrs": "Onion",
+  "icon": {
+   "ok": true,
+   "file": "Onion.png",
+   "bytes": 378
+  },
+  "detail": {
+   "ok": true,
+   "file": "Onion detail.png",
+   "bytes": 14837
+  }
+ },
+ {
+  "n": 58,
+  "osrs": "Egg",
+  "icon": {
+   "ok": true,
+   "file": "Egg.png",
+   "bytes": 502
+  },
+  "detail": {
+   "ok": true,
+   "file": "Egg detail.png",
+   "bytes": 19656
+  }
+ },
+ {
+  "n": 59,
+  "osrs": "Cheese",
+  "icon": {
+   "ok": true,
+   "file": "Cheese.png",
+   "bytes": 328
+  },
+  "detail": {
+   "ok": true,
+   "file": "Cheese detail.png",
+   "bytes": 21086
+  }
+ },
+ {
+  "n": 60,
+  "osrs": "Cooked meat",
+  "icon": {
+   "ok": true,
+   "file": "Cooked meat.png",
+   "bytes": 518
+  },
+  "detail": {
+   "ok": true,
+   "file": "Cooked meat detail.png",
+   "bytes": 26805
+  }
+ },
+ {
+  "n": 61,
+  "osrs": "Raw beef",
+  "icon": {
+   "ok": true,
+   "file": "Raw beef.png",
+   "bytes": 718
+  },
+  "detail": {
+   "ok": true,
+   "file": "Raw beef detail.png",
+   "bytes": 32408
+  }
+ },
+ {
+  "n": 62,
+  "osrs": "Beer",
+  "icon": {
+   "ok": true,
+   "file": "Beer.png",
+   "bytes": 552
+  },
+  "detail": {
+   "ok": true,
+   "file": "Beer detail.png",
+   "bytes": 21339
+  }
+ },
+ {
+  "n": 63,
+  "osrs": "Bronze dagger",
+  "icon": {
+   "ok": true,
+   "file": "Bronze dagger.png",
+   "bytes": 308
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze dagger detail.png",
+   "bytes": 13600
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze dagger equipped male.png",
+   "bytes": 68333
+  }
+ },
+ {
+  "n": 64,
+  "osrs": "Bronze sword",
+  "icon": {
+   "ok": true,
+   "file": "Bronze sword.png",
+   "bytes": 305
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze sword detail.png",
+   "bytes": 14475
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze sword equipped male.png",
+   "bytes": 76385
+  }
+ },
+ {
+  "n": 65,
+  "osrs": "Bronze longsword",
+  "icon": {
+   "ok": true,
+   "file": "Bronze longsword.png",
+   "bytes": 352
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze longsword detail.png",
+   "bytes": 16981
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze longsword equipped male.png",
+   "bytes": 79550
+  }
+ },
+ {
+  "n": 66,
+  "osrs": "Bronze scimitar",
+  "icon": {
+   "ok": true,
+   "file": "Bronze scimitar.png",
+   "bytes": 342
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze scimitar detail.png",
+   "bytes": 16583
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze scimitar equipped male.png",
+   "bytes": 32072
+  }
+ },
+ {
+  "n": 67,
+  "osrs": "Bronze mace",
+  "icon": {
+   "ok": true,
+   "file": "Bronze mace.png",
+   "bytes": 301
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze mace detail.png",
+   "bytes": 14226
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze mace equipped male.png",
+   "bytes": 73178
+  }
+ },
+ {
+  "n": 68,
+  "osrs": "Bronze battleaxe",
+  "icon": {
+   "ok": true,
+   "file": "Bronze battleaxe.png",
+   "bytes": 344
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze battleaxe detail.png",
+   "bytes": 15564
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze battleaxe equipped male.png",
+   "bytes": 77506
+  }
+ },
+ {
+  "n": 69,
+  "osrs": "Bronze warhammer",
+  "icon": {
+   "ok": true,
+   "file": "Bronze warhammer.png",
+   "bytes": 317
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze warhammer detail.png",
+   "bytes": 15835
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze warhammer equipped male.png",
+   "bytes": 29549
+  }
+ },
+ {
+  "n": 70,
+  "osrs": "Bronze 2h sword",
+  "icon": {
+   "ok": true,
+   "file": "Bronze 2h sword.png",
+   "bytes": 272
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze 2h sword detail.png",
+   "bytes": 11900
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze 2h sword equipped male.png",
+   "bytes": 79890
+  }
+ },
+ {
+  "n": 71,
+  "osrs": "Iron sword",
+  "icon": {
+   "ok": true,
+   "file": "Iron sword.png",
+   "bytes": 336
+  },
+  "detail": {
+   "ok": true,
+   "file": "Iron sword detail.png",
+   "bytes": 14930
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Iron sword equipped male.png",
+   "bytes": 75596
+  }
+ },
+ {
+  "n": 72,
+  "osrs": "Iron scimitar",
+  "icon": {
+   "ok": true,
+   "file": "Iron scimitar.png",
+   "bytes": 377
+  },
+  "detail": {
+   "ok": true,
+   "file": "Iron scimitar detail.png",
+   "bytes": 17089
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Iron scimitar equipped male.png",
+   "bytes": 34271
+  }
+ },
+ {
+  "n": 73,
+  "osrs": "Iron dagger",
+  "icon": {
+   "ok": true,
+   "file": "Iron dagger.png",
+   "bytes": 308
+  },
+  "detail": {
+   "ok": true,
+   "file": "Iron dagger detail.png",
+   "bytes": 13600
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Iron dagger equipped male.png",
+   "bytes": 68327
+  }
+ },
+ {
+  "n": 74,
+  "osrs": "Bronze med helm",
+  "icon": {
+   "ok": true,
+   "file": "Bronze med helm.png",
+   "bytes": 458
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze med helm detail.png",
+   "bytes": 22727
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze med helm equipped.png",
+   "bytes": 32016
+  }
+ },
+ {
+  "n": 75,
+  "osrs": "Bronze full helm",
+  "icon": {
+   "ok": true,
+   "file": "Bronze full helm.png",
+   "bytes": 419
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze full helm detail.png",
+   "bytes": 22990
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze full helm equipped male.png",
+   "bytes": 96340
+  }
+ },
+ {
+  "n": 76,
+  "osrs": "Bronze platebody",
+  "icon": {
+   "ok": true,
+   "file": "Bronze platebody.png",
+   "bytes": 378
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze platebody detail.png",
+   "bytes": 25962
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze platebody equipped male.png",
+   "bytes": 99935
+  }
+ },
+ {
+  "n": 77,
+  "osrs": "Bronze chainbody",
+  "icon": {
+   "ok": true,
+   "file": "Bronze chainbody.png",
+   "bytes": 379
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze chainbody detail.png",
+   "bytes": 26842
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze chainbody equipped male.png",
+   "bytes": 111790
+  }
+ },
+ {
+  "n": 78,
+  "osrs": "Bronze platelegs",
+  "icon": {
+   "ok": true,
+   "file": "Bronze platelegs.png",
+   "bytes": 318
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze platelegs detail.png",
+   "bytes": 11662
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze platelegs equipped male.png",
+   "bytes": 92782
+  }
+ },
+ {
+  "n": 79,
+  "osrs": "Bronze plateskirt",
+  "icon": {
+   "ok": true,
+   "file": "Bronze plateskirt.png",
+   "bytes": 322
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze plateskirt detail.png",
+   "bytes": 14536
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze plateskirt equipped male.png",
+   "bytes": 95002
+  }
+ },
+ {
+  "n": 80,
+  "osrs": "Bronze kiteshield",
+  "icon": {
+   "ok": true,
+   "file": "Bronze kiteshield.png",
+   "bytes": 381
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze kiteshield detail.png",
+   "bytes": 23942
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze kiteshield equipped male.png",
+   "bytes": 77836
+  }
+ },
+ {
+  "n": 81,
+  "osrs": "Bronze sq shield",
+  "icon": {
+   "ok": true,
+   "file": "Bronze sq shield.png",
+   "bytes": 424
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze sq shield detail.png",
+   "bytes": 23409
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Bronze sq shield equipped male.png",
+   "bytes": 69028
+  }
+ },
+ {
+  "n": 82,
+  "osrs": "Wooden shield",
+  "icon": {
+   "ok": true,
+   "file": "Wooden shield.png",
+   "bytes": 291
+  },
+  "detail": {
+   "ok": true,
+   "file": "Wooden shield detail.png",
+   "bytes": 17044
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Wooden shield equipped.png",
+   "bytes": 30968
+  }
+ },
+ {
+  "n": 83,
+  "osrs": "Iron full helm",
+  "icon": {
+   "ok": true,
+   "file": "Iron full helm.png",
+   "bytes": 475
+  },
+  "detail": {
+   "ok": true,
+   "file": "Iron full helm detail.png",
+   "bytes": 26216
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Iron full helm equipped male.png",
+   "bytes": 96998
+  }
+ },
+ {
+  "n": 84,
+  "osrs": "Leather body",
+  "icon": {
+   "ok": true,
+   "file": "Leather body.png",
+   "bytes": 304
+  },
+  "detail": {
+   "ok": true,
+   "file": "Leather body detail.png",
+   "bytes": 14061
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Leather body equipped male.png",
+   "bytes": 44575
+  }
+ },
+ {
+  "n": 85,
+  "osrs": "Leather chaps",
+  "icon": {
+   "ok": true,
+   "file": "Leather chaps.png",
+   "bytes": 378
+  },
+  "detail": {
+   "ok": true,
+   "file": "Leather chaps detail.png",
+   "bytes": 15040
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Leather chaps equipped male.png",
+   "bytes": 94072
+  }
+ },
+ {
+  "n": 86,
+  "osrs": "Leather gloves",
+  "icon": {
+   "ok": true,
+   "file": "Leather gloves.png",
+   "bytes": 357
+  },
+  "detail": {
+   "ok": true,
+   "file": "Leather gloves detail.png",
+   "bytes": 20254
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Leather gloves equipped.png",
+   "bytes": 17192
+  }
+ },
+ {
+  "n": 87,
+  "osrs": "Leather boots",
+  "icon": {
+   "ok": true,
+   "file": "Leather boots.png",
+   "bytes": 407
+  },
+  "detail": {
+   "ok": true,
+   "file": "Leather boots detail.png",
+   "bytes": 26999
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Leather boots equipped male.png",
+   "bytes": 106570
+  }
+ },
+ {
+  "n": 88,
+  "osrs": "Shortbow",
+  "icon": {
+   "ok": true,
+   "file": "Shortbow.png",
+   "bytes": 258
+  },
+  "detail": {
+   "ok": true,
+   "file": "Shortbow detail.png",
+   "bytes": 11542
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Shortbow equipped.png",
+   "bytes": 13642
+  }
+ },
+ {
+  "n": 89,
+  "osrs": "Oak shortbow",
+  "icon": {
+   "ok": true,
+   "file": "Oak shortbow.png",
+   "bytes": 283
+  },
+  "detail": {
+   "ok": true,
+   "file": "Oak shortbow detail.png",
+   "bytes": 12860
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Oak shortbow equipped.png",
+   "bytes": 13969
+  }
+ },
+ {
+  "n": 90,
+  "osrs": "Longbow",
+  "icon": {
+   "ok": true,
+   "file": "Longbow.png",
+   "bytes": 273
+  },
+  "detail": {
+   "ok": true,
+   "file": "Longbow detail.png",
+   "bytes": 15341
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Longbow equipped.png",
+   "bytes": 15320
+  }
+ },
+ {
+  "n": 91,
+  "osrs": "Bronze arrow",
+  "icon": {
+   "ok": false
+  },
+  "detail": {
+   "ok": true,
+   "file": "Bronze arrow detail.png",
+   "bytes": 22752
+  }
+ },
+ {
+  "n": 92,
+  "osrs": "Arrow shaft",
+  "icon": {
+   "ok": false
+  },
+  "detail": {
+   "ok": true,
+   "file": "Arrow shaft detail.png",
+   "bytes": 7239
+  }
+ },
+ {
+  "n": 93,
+  "osrs": "Feather",
+  "icon": {
+   "ok": true,
+   "file": "Feather.png",
+   "bytes": 352
+  },
+  "detail": {
+   "ok": true,
+   "file": "Feather detail.png",
+   "bytes": 15002
+  }
+ },
+ {
+  "n": 94,
+  "osrs": "Air rune",
+  "icon": {
+   "ok": true,
+   "file": "Air rune.png",
+   "bytes": 699
+  },
+  "detail": {
+   "ok": true,
+   "file": "Air rune detail.png",
+   "bytes": 39046
+  }
+ },
+ {
+  "n": 95,
+  "osrs": "Mind rune",
+  "icon": {
+   "ok": true,
+   "file": "Mind rune.png",
+   "bytes": 722
+  },
+  "detail": {
+   "ok": true,
+   "file": "Mind rune detail.png",
+   "bytes": 39598
+  }
+ },
+ {
+  "n": 96,
+  "osrs": "Fire rune",
+  "icon": {
+   "ok": true,
+   "file": "Fire rune.png",
+   "bytes": 657
+  },
+  "detail": {
+   "ok": true,
+   "file": "Fire rune detail.png",
+   "bytes": 35207
+  }
+ },
+ {
+  "n": 97,
+  "osrs": "Staff",
+  "icon": {
+   "ok": true,
+   "file": "Staff.png",
+   "bytes": 285
+  },
+  "detail": {
+   "ok": true,
+   "file": "Staff detail.png",
+   "bytes": 12660
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Staff equipped.png",
+   "bytes": 20968
+  }
+ },
+ {
+  "n": 98,
+  "osrs": "Wizard hat (blue)",
+  "icon": {
+   "ok": true,
+   "file": "Blue wizard hat.png",
+   "bytes": 412
+  },
+  "detail": {
+   "ok": true,
+   "file": "Blue wizard hat detail.png",
+   "bytes": 20294
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Blue wizard hat equipped male.png",
+   "bytes": 92086
+  }
+ },
+ {
+  "n": 99,
+  "osrs": "Monk's robe top",
+  "icon": {
+   "ok": true,
+   "file": "Monk's robe top.png",
+   "bytes": 393
+  },
+  "detail": {
+   "ok": true,
+   "file": "Monk's robe top detail.png",
+   "bytes": 25565
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Monk's robe top equipped male.png",
+   "bytes": 112239
+  }
+ },
+ {
+  "n": 100,
+  "osrs": "Amulet of strength",
+  "icon": {
+   "ok": true,
+   "file": "Amulet of strength.png",
+   "bytes": 549
+  },
+  "detail": {
+   "ok": true,
+   "file": "Amulet of strength detail.png",
+   "bytes": 26516
+  },
+  "equipped": {
+   "ok": true,
+   "file": "Amulet of strength equipped female.png",
+   "bytes": 104862
+  }
+ }
+]

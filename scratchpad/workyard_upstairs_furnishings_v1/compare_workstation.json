@@ -1,0 +1,13 @@
+{
+  "name": "Workyard Upstairs Workstation Family v1 — Concept Fidelity",
+  "osrs": "docs/rebuild/concepts/workyard_upstairs_workstation_nanobanana2_v1.png",
+  "cr": "scratchpad/workyard_upstairs_furnishings_v1/01_workstation_family.png",
+  "left_label": "NANO BANANA 2 CONCEPT",
+  "right_label": "ACTUAL BLENDER 4.5 RENDER",
+  "subtitle": "Purposeful survival workstation, storage, mugs, bucket and repaired stool",
+  "codex": 9.1,
+  "review_note": "The Blender family preserves the irregular three-plank pegged workbench, splayed trestles, arranged hatchet/whetstone/wedges/mallet/pitch pot, stepped crockery hutch, blue-rimmed plates, hanging mug shelf, visibly open stave bucket with handle, repaired stool, and the concept's readable player-relative scale. It remains an original Crafted Realm construction with flatter 2007-era materials.",
+  "verdict": "APPROVED FOR WORKYARD INTEGRATION",
+  "improve": "Keep the work surface at 1.10 tiles and cabinet at 2.82; do not enlarge the bucket, mugs, or stool under runtime lighting.",
+  "out": "Bible_References/Complete/_compare/workyard_upstairs_workstation_v1_compare.png"
+}

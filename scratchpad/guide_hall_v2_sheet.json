@@ -1,0 +1,10 @@
+{
+  "name": "Tutor's Holm Guide Hall v2",
+  "osrs": "Bible_References/Tutorial_Island_Building.jpg",
+  "cr": "scratchpad/guide_hall_v2_interior.png",
+  "codex": 9.1,
+  "review_note": "Strong roof-off hierarchy, chunky warm low-poly forms, readable compass orientation service, and distinct records and provision rooms. The simpler circulation floor is intentional and remains legible at the live gameplay camera.",
+  "verdict": "APPROVED - Guide Hall v2",
+  "improve": "Optional later Blender component pass for reusable carved signs, hanging scrolls, and hero furniture; not a blocker for this building.",
+  "out": "Bible_References/Complete/_compare/GuideHall_v2_compare.png"
+}
