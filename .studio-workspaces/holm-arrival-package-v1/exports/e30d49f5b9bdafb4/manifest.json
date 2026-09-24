@@ -1,0 +1,68 @@
+{
+  "exportId": "e30d49f5b9bdafb4",
+  "files": [
+    {
+      "baseHash": null,
+      "bytes": 632621,
+      "hash": "4a1adc4831fcf5ae6c2789828e52e060289acdb75f29cfbdbfa69936e9dda3f4",
+      "path": "assets/blender/holm_arrival_dock_overhaul_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 1552695,
+      "hash": "67265b2b3148515a2b17ba2ce6a91f66d81ab0ab4486265c42612afff46c5fbd",
+      "path": "assets/blender/holm_guide_house_overhaul_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 163260,
+      "hash": "15a1dc79f5f0f48cd367e93820afaa8020c452acb47d41a9af9ebbfd064a9d7c",
+      "path": "assets/models/holm_arrival_dock_overhaul_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 1411544,
+      "hash": "0e4fc3e770272c3a8110a035efdee3beb703adeccc65e5c833f3e406aa46b538",
+      "path": "assets/models/holm_guide_house_overhaul_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 404,
+      "hash": "91d99af4dff994a019a4202c7f602de494c51222c2e663466d7637786f050a97",
+      "path": "assets/world/authoring/holm-arrival.dock.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 4825,
+      "hash": "47c88eebc4f077d6ebe0b4cc95ae328867caf0d2cff04e96d88ca6df8eed9103",
+      "path": "assets/world/authoring/holm-arrival.envelopes.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 5454,
+      "hash": "6b569df5378e6ba6c49733b3ee0ef74cb8f6fe09b252883dc72d253f375e9175",
+      "path": "assets/world/authoring/holm-arrival.layout.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 2389437,
+      "hash": "eea7bbc84213e39b123ef4d01755c93326aa98db06bd4991dac09592657e4003",
+      "path": "assets/world/authoring/holm-arrival.package.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 299518,
+      "hash": "9f4202a9c55bfd35733f6c04e8ae719a087515174ab953eb9cf9ea232c272103",
+      "path": "assets/world/authoring/holm-overhaul.terrain.bundle.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 4330,
+      "hash": "260372ea649f25556c0a72d4e17e11178a076e183abebf1481bd7403dd18191a",
+      "path": "assets/world/authoring/holm-overhaul.terrain.json"
+    }
+  ],
+  "schema": "crafted-realm-studio-export-v1",
+  "version": 1,
+  "workspaceId": "holm-arrival-package-v1"
+}

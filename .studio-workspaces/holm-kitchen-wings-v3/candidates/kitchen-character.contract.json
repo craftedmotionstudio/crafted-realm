@@ -1,0 +1,448 @@
+{
+  "schema": "holm.kitchen-character.v3",
+  "status": "unpublished Blender candidate; no runtime navigation proof",
+  "coordinates": "Blender X,Y plan Z up; glTF X,Y,Z = Blender X,Z,-Y",
+  "upperFloor": {
+    "top": 3.3,
+    "underside": 3.16,
+    "aperture": [
+      -1.1,
+      -1.5,
+      0.65,
+      3.2
+    ],
+    "roomBounds": [
+      -4.87,
+      -2.87,
+      0.87,
+      4.87
+    ],
+    "wallTop": 6.15,
+    "minimumWallHeadroom": 2.85
+  },
+  "stairs": {
+    "axis": "Blender +Y / glTF -Z",
+    "clearWidth": 1.5,
+    "treadDepth": 0.28125,
+    "rise": 0.20625,
+    "count": 16,
+    "treadTopCenters": [
+      {
+        "index": 0,
+        "blender": [
+          -0.25,
+          -1.159375,
+          0.20625
+        ],
+        "gltf": [
+          -0.25,
+          0.20625,
+          1.159375
+        ]
+      },
+      {
+        "index": 1,
+        "blender": [
+          -0.25,
+          -0.878125,
+          0.4125
+        ],
+        "gltf": [
+          -0.25,
+          0.4125,
+          0.878125
+        ]
+      },
+      {
+        "index": 2,
+        "blender": [
+          -0.25,
+          -0.596875,
+          0.6187499999999999
+        ],
+        "gltf": [
+          -0.25,
+          0.6187499999999999,
+          0.596875
+        ]
+      },
+      {
+        "index": 3,
+        "blender": [
+          -0.25,
+          -0.31562500000000004,
+          0.825
+        ],
+        "gltf": [
+          -0.25,
+          0.825,
+          0.31562500000000004
+        ]
+      },
+      {
+        "index": 4,
+        "blender": [
+          -0.25,
+          -0.034375000000000044,
+          1.03125
+        ],
+        "gltf": [
+          -0.25,
+          1.03125,
+          0.034375000000000044
+        ]
+      },
+      {
+        "index": 5,
+        "blender": [
+          -0.25,
+          0.24687499999999996,
+          1.2374999999999998
+        ],
+        "gltf": [
+          -0.25,
+          1.2374999999999998,
+          -0.24687499999999996
+        ]
+      },
+      {
+        "index": 6,
+        "blender": [
+          -0.25,
+          0.528125,
+          1.4437499999999999
+        ],
+        "gltf": [
+          -0.25,
+          1.4437499999999999,
+          -0.528125
+        ]
+      },
+      {
+        "index": 7,
+        "blender": [
+          -0.25,
+          0.809375,
+          1.65
+        ],
+        "gltf": [
+          -0.25,
+          1.65,
+          -0.809375
+        ]
+      },
+      {
+        "index": 8,
+        "blender": [
+          -0.25,
+          1.090625,
+          1.85625
+        ],
+        "gltf": [
+          -0.25,
+          1.85625,
+          -1.090625
+        ]
+      },
+      {
+        "index": 9,
+        "blender": [
+          -0.25,
+          1.371875,
+          2.0625
+        ],
+        "gltf": [
+          -0.25,
+          2.0625,
+          -1.371875
+        ]
+      },
+      {
+        "index": 10,
+        "blender": [
+          -0.25,
+          1.653125,
+          2.26875
+        ],
+        "gltf": [
+          -0.25,
+          2.26875,
+          -1.653125
+        ]
+      },
+      {
+        "index": 11,
+        "blender": [
+          -0.25,
+          1.934375,
+          2.4749999999999996
+        ],
+        "gltf": [
+          -0.25,
+          2.4749999999999996,
+          -1.934375
+        ]
+      },
+      {
+        "index": 12,
+        "blender": [
+          -0.25,
+          2.215625,
+          2.68125
+        ],
+        "gltf": [
+          -0.25,
+          2.68125,
+          -2.215625
+        ]
+      },
+      {
+        "index": 13,
+        "blender": [
+          -0.25,
+          2.496875,
+          2.8874999999999997
+        ],
+        "gltf": [
+          -0.25,
+          2.8874999999999997,
+          -2.496875
+        ]
+      },
+      {
+        "index": 14,
+        "blender": [
+          -0.25,
+          2.778125,
+          3.09375
+        ],
+        "gltf": [
+          -0.25,
+          3.09375,
+          -2.778125
+        ]
+      },
+      {
+        "index": 15,
+        "blender": [
+          -0.25,
+          3.059375,
+          3.3
+        ],
+        "gltf": [
+          -0.25,
+          3.3,
+          -3.059375
+        ]
+      }
+    ],
+    "bottomLandingBlender": [
+      -0.25,
+      -2.1,
+      0
+    ],
+    "topLandingBlender": [
+      -0.25,
+      4,
+      3.3
+    ],
+    "apertureClearAboveFlight": true
+  },
+  "groundApproach": {
+    "southWallInnerY": -2.87,
+    "stairFirstEdgeY": -1.3,
+    "clearSouthDepth": 1.545,
+    "preparationToStairSideGap": 0.88,
+    "courtDoorSpan": [
+      -2.7,
+      -0.9
+    ],
+    "entryCenter": [
+      1,
+      -1.8,
+      0
+    ],
+    "routeSketchBlender": [
+      [
+        1.5,
+        -2.1
+      ],
+      [
+        0.5,
+        -2.1
+      ],
+      [
+        -0.25,
+        -2.1
+      ],
+      [
+        -1.65,
+        -2.1
+      ],
+      [
+        -1.65,
+        0.5
+      ],
+      [
+        -2.5,
+        0.5
+      ]
+    ],
+    "note": "Design clearance only; nav mesh and real pointer flow pending"
+  },
+  "doorClearances": [
+    {
+      "id": "court-entry",
+      "clearWidthBetweenJambs": 1.64,
+      "clearHeightAboveThreshold": 2.47,
+      "thresholdTop": 0.07,
+      "lintelUnderside": 2.54
+    },
+    {
+      "id": "pantry-connection",
+      "width": 1.9,
+      "height": 2.55
+    }
+  ],
+  "mainRoof": {
+    "eave": 6.22,
+    "ridge": 8.55
+  },
+  "pantryUnchanged": true,
+  "triangleCount": 5824,
+  "materialCount": 12,
+  "meshCount": 53,
+  "meshNames": [
+    "Kitchen_Floor_0",
+    "Kitchen_GroundFront_0",
+    "Kitchen_GroundFront_1",
+    "Kitchen_Shell_0",
+    "Kitchen_Shell_1",
+    "Kitchen_GroundFront_3",
+    "Kitchen_GroundFront_2",
+    "Kitchen_Glazing_0",
+    "Kitchen_Shell_2",
+    "Kitchen_Floor_1",
+    "Kitchen_Roof_0",
+    "Kitchen_Roof_1",
+    "Kitchen_Furnishings_0",
+    "Kitchen_Chimney_0",
+    "Kitchen_Oven_0",
+    "Kitchen_Oven_1",
+    "Kitchen_Tools_0",
+    "Kitchen_Worktable_0",
+    "Kitchen_Worktable_1",
+    "Kitchen_Worktable_2",
+    "Kitchen_Pantry_0",
+    "Kitchen_Pantry_1",
+    "Kitchen_Pantry_2",
+    "Kitchen_RecipeBoard_0",
+    "Kitchen_RecipeBoard_1",
+    "Kitchen_UpperFloor_0",
+    "Kitchen_UpperShell_0",
+    "Kitchen_UpperShell_1",
+    "Kitchen_UpperShell_3",
+    "Kitchen_UpperShell_2",
+    "Kitchen_Stair_Tread00_0",
+    "Kitchen_Stair_Tread01_0",
+    "Kitchen_Stair_Tread02_0",
+    "Kitchen_Stair_Tread03_0",
+    "Kitchen_Stair_Tread04_0",
+    "Kitchen_Stair_Tread05_0",
+    "Kitchen_Stair_Tread06_0",
+    "Kitchen_Stair_Tread07_0",
+    "Kitchen_Stair_Tread08_0",
+    "Kitchen_Stair_Tread09_0",
+    "Kitchen_Stair_Tread10_0",
+    "Kitchen_Stair_Tread11_0",
+    "Kitchen_Stair_Tread12_0",
+    "Kitchen_Stair_Tread13_0",
+    "Kitchen_Stair_Tread14_0",
+    "Kitchen_Stair_Tread15_0",
+    "Kitchen_Stair_0",
+    "Kitchen_UpperFurnishing_0",
+    "Kitchen_UpperFurnishing_1",
+    "Kitchen_UpperFurnishing_2",
+    "Kitchen_UpperFurnishing_3",
+    "Kitchen_Shell_Shutters",
+    "Kitchen_UpperShell_Shutters"
+  ],
+  "unfinished": [
+    "runtime floor/nav and cardinal follower",
+    "door and fire animation",
+    "all station bindings and lesson/save QA",
+    "reference visual acceptance",
+    "Safe Publish"
+  ],
+  "geometryMeasurements": {
+    "stairWestX": -1.1700003147125244,
+    "preparationEastX": -2.0500001907348633,
+    "preparationSidePassage": 0.8799998760223389,
+    "stairSouthY": -1.3456809520721436,
+    "southPassageIncludingRails": 1.4993190479278566,
+    "northLandingDepth": 1.6449999999999996
+  },
+  "glb": {
+    "bytes": 545676,
+    "sha256": "630e893e3efd7138a5cc8219db2e6cc78b56c0787e87a3de62cbd9a9477bf172",
+    "embeddedImages": 4,
+    "primitives": 56
+  },
+  "provenance": {
+    "source": "tools\\blender\\build_holm_kitchen_character.py",
+    "sourceSha256": "62df643b5c5a439bd9abb3f9b643b8ecafad96ed629f1e260403b5db976519bf",
+    "baseBlendSha256": "bae1adaaac4e5f271ed8b692400c9ffebf7b8bb50c0ff0ea42fbebdf10312e2c",
+    "protectedGeometryIdentical": [
+      "Kitchen_Floor_0",
+      "Kitchen_GroundFront_0",
+      "Kitchen_GroundFront_1",
+      "Kitchen_Shell_0",
+      "Kitchen_Shell_1",
+      "Kitchen_GroundFront_3",
+      "Kitchen_GroundFront_2",
+      "Kitchen_Glazing_0",
+      "Kitchen_Shell_2",
+      "Kitchen_Floor_1",
+      "Kitchen_Furnishings_0",
+      "Kitchen_Chimney_0",
+      "Kitchen_Oven_0",
+      "Kitchen_Oven_1",
+      "Kitchen_Tools_0",
+      "Kitchen_Worktable_0",
+      "Kitchen_Worktable_1",
+      "Kitchen_Worktable_2",
+      "Kitchen_Pantry_0",
+      "Kitchen_Pantry_1",
+      "Kitchen_Pantry_2",
+      "Kitchen_RecipeBoard_0",
+      "Kitchen_RecipeBoard_1",
+      "Kitchen_UpperFloor_0",
+      "Kitchen_UpperShell_0",
+      "Kitchen_UpperShell_1",
+      "Kitchen_UpperShell_3",
+      "Kitchen_UpperShell_2",
+      "Kitchen_Stair_Tread00_0",
+      "Kitchen_Stair_Tread01_0",
+      "Kitchen_Stair_Tread02_0",
+      "Kitchen_Stair_Tread03_0",
+      "Kitchen_Stair_Tread04_0",
+      "Kitchen_Stair_Tread05_0",
+      "Kitchen_Stair_Tread06_0",
+      "Kitchen_Stair_Tread07_0",
+      "Kitchen_Stair_Tread08_0",
+      "Kitchen_Stair_Tread09_0",
+      "Kitchen_Stair_Tread10_0",
+      "Kitchen_Stair_Tread11_0",
+      "Kitchen_Stair_Tread12_0",
+      "Kitchen_Stair_Tread13_0",
+      "Kitchen_Stair_Tread14_0",
+      "Kitchen_Stair_Tread15_0",
+      "Kitchen_Stair_0",
+      "Kitchen_UpperFurnishing_0",
+      "Kitchen_UpperFurnishing_1",
+      "Kitchen_UpperFurnishing_2",
+      "Kitchen_UpperFurnishing_3"
+    ],
+    "textureOrigin": "Original generated pixel art; no reference pixels copied"
+  }
+}

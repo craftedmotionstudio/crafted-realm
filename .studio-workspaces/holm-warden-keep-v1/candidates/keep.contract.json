@@ -1,0 +1,424 @@
+{
+  "schema": "holm.warden-keep.v1",
+  "status": "unpublished geometry candidate, not runtime/visual acceptance",
+  "coordinates": "Blender X/Y plan Z up; glTF X/Y/Z = Blender X/Z/-Y",
+  "boundsBlender": [
+    [
+      -10.5,
+      -10.265000343322754,
+      -0.18000000715255737
+    ],
+    [
+      11.8100004196167,
+      15.210000038146973,
+      10.90000057220459
+    ]
+  ],
+  "triangleCount": 4074,
+  "materialCount": 9,
+  "meshCount": 20,
+  "meshNames": [
+    "Keep_Floor_0",
+    "Keep_Shell_0",
+    "Keep_GroundFront_0",
+    "Keep_Upper_Shell_0",
+    "Keep_Upper_Floor_0",
+    "Keep_Stair_0",
+    "Keep_Upper_Furnishing_0",
+    "Keep_Roof_0",
+    "Keep_Roof_1",
+    "Keep_GroundFront_1",
+    "Keep_Upper_Floor_1",
+    "Keep_Upper_Wallwalk_0",
+    "Keep_Roof_2",
+    "Keep_Shell_1",
+    "Keep_Furnishing_0",
+    "Keep_Furnishing_1",
+    "Keep_Furnishing_2",
+    "Keep_Upper_Furnishing_1",
+    "Keep_Upper_Furnishing_2",
+    "Keep_Upper_Furnishing_3"
+  ],
+  "glb": {
+    "sha256": "3b35a22df01db975ca25804367541c4bc63f76b34137d92ce1524fa09220bf59",
+    "bytes": 359936,
+    "embeddedImages": 3,
+    "primitives": 20
+  },
+  "doorways": [
+    {
+      "id": "court-hall",
+      "axis": "y",
+      "fixed": -3,
+      "span": [
+        -0.5,
+        1.5
+      ],
+      "base": 0,
+      "top": 2.5,
+      "width": 2.0,
+      "height": 2.5
+    },
+    {
+      "id": "hall-store",
+      "axis": "y",
+      "fixed": -3,
+      "span": [
+        6.05,
+        7.95
+      ],
+      "base": 0,
+      "top": 2.5,
+      "width": 1.9000000000000004,
+      "height": 2.5
+    },
+    {
+      "id": "upper-gallery",
+      "axis": "y",
+      "fixed": -3,
+      "span": [
+        -5.8,
+        -4.0
+      ],
+      "base": 3.2,
+      "top": 5.65,
+      "width": 1.7999999999999998,
+      "height": 2.45
+    },
+    {
+      "id": "hall-watchtower",
+      "axis": "x",
+      "fixed": 9,
+      "span": [
+        -7.9,
+        -6.1
+      ],
+      "base": 0,
+      "top": 2.5,
+      "width": 1.8000000000000007,
+      "height": 2.5
+    },
+    {
+      "id": "court-stores",
+      "axis": "x",
+      "fixed": 5,
+      "span": [
+        0,
+        1.9
+      ],
+      "base": 0,
+      "top": 2.45,
+      "width": 1.9,
+      "height": 2.45
+    },
+    {
+      "id": "stores-east-tower",
+      "axis": "y",
+      "fixed": 7,
+      "span": [
+        6.15,
+        7.85
+      ],
+      "base": 0,
+      "top": 2.45,
+      "width": 1.6999999999999993,
+      "height": 2.45
+    },
+    {
+      "id": "gate--10",
+      "axis": "x",
+      "fixed": -10,
+      "span": [
+        0.45,
+        3.55
+      ],
+      "base": 0,
+      "top": 2.75,
+      "width": 3.0999999999999996,
+      "height": 2.75
+    },
+    {
+      "id": "gate--4",
+      "axis": "x",
+      "fixed": -4,
+      "span": [
+        0.45,
+        3.55
+      ],
+      "base": 0,
+      "top": 2.75,
+      "width": 3.0999999999999996,
+      "height": 2.75
+    }
+  ],
+  "stairs": {
+    "treads": [
+      {
+        "index": 0,
+        "center": [
+          -8.6,
+          -3.65,
+          0.2
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 0.19999998807907104,
+        "measuredHeadroom": 7.2921512722969055
+      },
+      {
+        "index": 1,
+        "center": [
+          -8.6,
+          -3.3499999999999996,
+          0.4
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 0.4000000059604645,
+        "measuredHeadroom": 7.09215173125267
+      },
+      {
+        "index": 2,
+        "center": [
+          -8.6,
+          -3.05,
+          0.6000000000000001
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 0.5999999642372131,
+        "measuredHeadroom": 6.892150819301605
+      },
+      {
+        "index": 3,
+        "center": [
+          -8.6,
+          -2.75,
+          0.8
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 0.800000011920929,
+        "measuredHeadroom": 6.692151725292206
+      },
+      {
+        "index": 4,
+        "center": [
+          -8.6,
+          -2.45,
+          1.0
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 1.0,
+        "measuredHeadroom": 6.492150783538818
+      },
+      {
+        "index": 5,
+        "center": [
+          -8.6,
+          -2.15,
+          1.2000000000000002
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 1.2000000476837158,
+        "measuredHeadroom": 6.292151212692261
+      },
+      {
+        "index": 6,
+        "center": [
+          -8.6,
+          -1.8499999999999999,
+          1.4000000000000001
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 1.4000000953674316,
+        "measuredHeadroom": 6.092151165008545
+      },
+      {
+        "index": 7,
+        "center": [
+          -8.6,
+          -1.5499999999999998,
+          1.6
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 1.600000023841858,
+        "measuredHeadroom": 5.892152190208435
+      },
+      {
+        "index": 8,
+        "center": [
+          -8.6,
+          -1.25,
+          1.8
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 1.8000000715255737,
+        "measuredHeadroom": 5.692151188850403
+      },
+      {
+        "index": 9,
+        "center": [
+          -8.6,
+          -0.9499999999999997,
+          2.0
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 2.0,
+        "measuredHeadroom": 5.492151737213135
+      },
+      {
+        "index": 10,
+        "center": [
+          -8.6,
+          -0.6499999999999999,
+          2.2
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 2.200000047683716,
+        "measuredHeadroom": 5.292151212692261
+      },
+      {
+        "index": 11,
+        "center": [
+          -8.6,
+          -0.3500000000000001,
+          2.4000000000000004
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 2.3999998569488525,
+        "measuredHeadroom": 5.092151880264282
+      },
+      {
+        "index": 12,
+        "center": [
+          -8.6,
+          -0.04999999999999982,
+          2.6
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 2.5999999046325684,
+        "measuredHeadroom": 4.892151832580566
+      },
+      {
+        "index": 13,
+        "center": [
+          -8.6,
+          0.25,
+          2.8000000000000003
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 2.799999952316284,
+        "measuredHeadroom": 4.692151308059692
+      },
+      {
+        "index": 14,
+        "center": [
+          -8.6,
+          0.5499999999999998,
+          3.0
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 3.0,
+        "measuredHeadroom": 4.492151260375977
+      },
+      {
+        "index": 15,
+        "center": [
+          -8.6,
+          0.8499999999999996,
+          3.2
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 3.200000047683716,
+        "measuredHeadroom": 4.292152166366577
+      }
+    ],
+    "count": 16,
+    "rise": 0.2,
+    "depth": 0.3,
+    "width": 1.6,
+    "upperTop": 3.2,
+    "aperture": [
+      -9.81,
+      -4,
+      -7.65,
+      1
+    ],
+    "upperRoomHeadroom": 3.05,
+    "minimumRailClearWidth": 1.72,
+    "bottomLanding": [
+      -8.6,
+      -4.9,
+      0
+    ],
+    "topLanding": [
+      -8.6,
+      1.8,
+      3.2
+    ]
+  },
+  "upperRouteBlender": [
+    [
+      -8.6,
+      1.8,
+      3.2
+    ],
+    [
+      -6.8,
+      1.8,
+      3.2
+    ],
+    [
+      -6.8,
+      -4.9,
+      3.2
+    ],
+    [
+      -2,
+      -4.9,
+      3.2
+    ],
+    [
+      2,
+      -4.9,
+      3.2
+    ],
+    [
+      8,
+      -4.9,
+      3.2
+    ],
+    [
+      8,
+      3,
+      3.2
+    ]
+  ],
+  "deviations": [
+    "Watchtower moved north to center (-7,12), apothem3, avoiding plan hall overlap. Hollow ground room connects at hall north door.",
+    "East turret center (9.3,7) apothem2.3 connects to stores without intersecting a room.",
+    "Overlapping plan stair turret removed: usable straight flight is inside hall.",
+    "Wallwalk has closed north stop; upper turret connection and watchtower upper floors/stairs unfinished."
+  ],
+  "unfinished": [
+    "Upper tower floors and access; tower roof lookout access",
+    "Door leaves/animation and other animated props",
+    "Runtime collision/nav/stations/combat teaching/NPC bindings",
+    "Reference comparison and main eyes-on review",
+    "World placement and Safe Publish"
+  ],
+  "geometryAcceptance": {
+    "doorApertureRaySamples": 120,
+    "doorCrossingDepth": 1.1,
+    "sampleFractions": [
+      0.05,
+      0.25,
+      0.5,
+      0.75,
+      0.95
+    ],
+    "sampleHeightFractions": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "scope": "Local aperture geometry only; cardinal runtime paths not proven"
+  }
+}

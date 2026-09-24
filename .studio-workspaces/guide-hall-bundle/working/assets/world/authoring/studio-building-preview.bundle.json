@@ -1,0 +1,128 @@
+{
+  "schema": "crafted-realm-world-v2-building-bundle-v1",
+  "version": 1,
+  "chunkSize": 8,
+  "source": {
+    "path": "assets/world/authoring/studio-building-preview.json"
+  },
+  "provider": {
+    "id": "studio-building-preview",
+    "worldRevision": 1
+  },
+  "landscape": {
+    "planId": "tutors-holm-landscape-v1",
+    "revision": 1
+  },
+  "chunks": [
+    {
+      "v": 1,
+      "id": "18,19",
+      "cx": 18,
+      "cz": 19,
+      "layers": {
+        "terrain": {
+          "underlay": "holm_landscape_v1",
+          "heightSource": "holm_landscape_v1",
+          "revision": 2,
+          "roles": []
+        },
+        "tileFlags": [],
+        "objects": [
+          {
+            "id": "studio-building",
+            "asset": "holm_guide_hall",
+            "buildingDef": "holm_guide_hall_v1",
+            "x": 151,
+            "z": 155,
+            "rot": 0,
+            "yOffset": 0
+          }
+        ],
+        "interactions": [
+          {
+            "id": "studio-building.front_door",
+            "objectId": "studio-building",
+            "partId": "front_door",
+            "kind": "door",
+            "label": "Open <b>Arrival door</b>",
+            "examine": "A broad emberwood door polished by generations of new arrivals."
+          },
+          {
+            "id": "studio-building.orientation",
+            "objectId": "studio-building",
+            "partId": "orientation_table",
+            "kind": "holm_orientation",
+            "label": "Island route",
+            "examine": "A hand-built relief chart of Tutor's Holm."
+          },
+          {
+            "id": "studio-building.plaque",
+            "objectId": "studio-building",
+            "partId": "first_landing_plaque",
+            "kind": "holm_story_clue",
+            "label": "First Landing plaque",
+            "examine": "A battered ship beneath a rising compass star."
+          },
+          {
+            "id": "studio-building.provisions",
+            "objectId": "studio-building",
+            "partId": "provision_rack",
+            "kind": "holm_provisions",
+            "label": "Provision rack",
+            "examine": "Oilskins, packs, chalk, and spare teaching tools, all counted twice."
+          },
+          {
+            "id": "studio-building.register",
+            "objectId": "studio-building",
+            "partId": "lesson_register",
+            "kind": "holm_register",
+            "label": "Lesson register",
+            "examine": "Every lesson is marked here, along with the state of the departure lock."
+          },
+          {
+            "id": "studio-building.teaching_door",
+            "objectId": "studio-building",
+            "partId": "teaching_door",
+            "kind": "door",
+            "label": "Open <b>Teaching door</b>",
+            "examine": "This northern door opens toward Survival Wood."
+          }
+        ],
+        "mutations": [],
+        "spawns": []
+      }
+    }
+  ],
+  "buildingContracts": [
+    {
+      "placementId": "studio-building",
+      "definitionId": "holm_guide_hall_v1",
+      "definitionRevision": 6,
+      "padId": "guide_hall",
+      "roomIds": [
+        "orientation_hall",
+        "provision_bay",
+        "records_nook",
+        "teaching_apse"
+      ],
+      "doorIds": [
+        "front_door",
+        "teaching_door"
+      ],
+      "semanticPartIds": [
+        "first_landing_plaque",
+        "front_door",
+        "lesson_register",
+        "orientation_table",
+        "provision_rack",
+        "teaching_door"
+      ],
+      "colliderCount": 28,
+      "resources": {
+        "model": "assets/models/buildings/holm_guide_hall_v6.glb",
+        "source": "assets/blender/holm_guide_hall_v6.blend",
+        "manifest": "assets/manifests/holm_guide_hall_v6.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "holm-story-ledger-v1",
+  "name": "Ledger of Choices",
+  "rootNode": "story_ledger",
+  "status": "isolated original Blender prop candidate; not placed, published or visually accepted",
+  "baseLodgeBlendSha256": "4047f4015447c9dd0a200923afb1b3f14386259fc187d778de76a6964f680b2e",
+  "coordinates": "glTF X width, Y up, Z depth; origin on bottom centre",
+  "bounds": {
+    "min": [
+      -0.2199999988079071,
+      0.0,
+      -0.3149999976158142
+    ],
+    "max": [
+      0.2199999988079071,
+      0.09849999845027924,
+      0.3149999976158142
+    ]
+  },
+  "dimensions": [
+    0.4399999976158142,
+    0.09849999845027924,
+    0.6299999952316284
+  ],
+  "triangleCount": 130,
+  "materialCount": 5,
+  "primitiveCount": 5,
+  "materials": [
+    "Ledger dark binding",
+    "Ledger faded ink",
+    "Ledger oxblood leather",
+    "Ledger red ribbon",
+    "Ledger warm pages"
+  ],
+  "animations": [],
+  "glbSha256": "5f31b4df1a321548fd0443f70769136f0dd90d0e38e28e2b91ba0a89be8f2ae2",
+  "glbBytes": 11320,
+  "blendSha256": "54fa562b58fe626f464d5bf2cbbcf66621be4ce312f66f8229ca64cfde3f2328",
+  "validation": "Actual exported POSITION accessors transformed through glTF scene hierarchy; finite bounds, bottom, footprint, height, triangle and material budgets, named root and static animation contract asserted.",
+  "visualAcceptance": null,
+  "externalAssets": []
+}

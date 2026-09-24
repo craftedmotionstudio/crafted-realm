@@ -1,0 +1,1024 @@
+{
+  "schema": "crafted-realm-world-v2-terrain-district-bundle-v1",
+  "version": 1,
+  "chunkSize": 8,
+  "source": {
+    "path": "assets/world/authoring/studio-lesson-green-district.json"
+  },
+  "provider": {
+    "id": "tutors-holm-v2",
+    "worldRevision": 4
+  },
+  "landscape": {
+    "planId": "tutors-holm-landscape-v1",
+    "revision": 3,
+    "district": {
+      "id": "lesson_green",
+      "label": "Lesson Green",
+      "role": "civic-learning",
+      "tutorialRole": "quests-shops-bank-homestead-preview",
+      "elevationBand": [
+        1,
+        2.8
+      ],
+      "center": [
+        141,
+        137
+      ],
+      "radius": 15,
+      "landmark": "holm_lesson_green"
+    },
+    "pads": [
+      {
+        "id": "quest_lodge",
+        "label": "Quest Lodge",
+        "role": "story-service",
+        "x": 136,
+        "z": 136,
+        "w": 12,
+        "d": 9,
+        "level": 1.5,
+        "door": "E"
+      },
+      {
+        "id": "teaching_kitchen",
+        "label": "Teaching Kitchen",
+        "role": "cooking-service",
+        "x": 153,
+        "z": 136,
+        "w": 13,
+        "d": 10,
+        "level": 1.28,
+        "door": "W"
+      }
+    ],
+    "routes": [
+      {
+        "id": "holm_guided_spine",
+        "label": "Guided island spine",
+        "width": 3.2,
+        "kind": "primary",
+        "points": [
+          [
+            151,
+            169
+          ],
+          [
+            151,
+            167
+          ],
+          [
+            151,
+            142
+          ],
+          [
+            134,
+            142
+          ],
+          [
+            134,
+            147
+          ],
+          [
+            145,
+            147
+          ],
+          [
+            145,
+            137
+          ],
+          [
+            128,
+            137
+          ],
+          [
+            128,
+            120
+          ],
+          [
+            158,
+            120
+          ],
+          [
+            158,
+            143
+          ],
+          [
+            184,
+            143
+          ],
+          [
+            184,
+            136
+          ],
+          [
+            193,
+            136
+          ],
+          [
+            193,
+            151
+          ],
+          [
+            207,
+            151
+          ]
+        ]
+      },
+      {
+        "id": "survival_pond_loop",
+        "label": "Pond loop",
+        "width": 2.4,
+        "kind": "secondary",
+        "points": [
+          [
+            134,
+            158
+          ],
+          [
+            114,
+            158
+          ],
+          [
+            114,
+            143
+          ],
+          [
+            128,
+            143
+          ],
+          [
+            128,
+            146
+          ],
+          [
+            134,
+            146
+          ]
+        ]
+      }
+    ]
+  },
+  "chunks": [
+    {
+      "id": "15,15",
+      "cx": 15,
+      "cz": 15,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "quarry_rise",
+            "role": "production"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "mine_gatehouse",
+            "role": "cave-access"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "16,15",
+      "cx": 16,
+      "cz": 15,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "quarry_rise",
+            "role": "production"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "mine_gatehouse",
+            "role": "cave-access"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "17,15",
+      "cx": 17,
+      "cz": 15,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "quarry_rise",
+            "role": "production"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "18,15",
+      "cx": 18,
+      "cz": 15,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "wardens_ridge",
+            "role": "bank-combat"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "19,15",
+      "cx": 19,
+      "cz": 15,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "wardens_ridge",
+            "role": "bank-combat"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "15,16",
+      "cx": 15,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "quarry_rise",
+            "role": "production"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "16,16",
+      "cx": 16,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "quarry_rise",
+            "role": "production"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "quest_lodge",
+            "role": "story-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "17,16",
+      "cx": 17,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "quarry_rise",
+            "role": "production"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "quest_lodge",
+            "role": "story-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "18,16",
+      "cx": 18,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "wardens_ridge",
+            "role": "bank-combat"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "teaching_kitchen",
+            "role": "cooking-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "19,16",
+      "cx": 19,
+      "cz": 16,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "wardens_ridge",
+            "role": "bank-combat"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "teaching_kitchen",
+            "role": "cooking-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "15,17",
+      "cx": 15,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "16,17",
+      "cx": 16,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "quest_lodge",
+            "role": "story-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "17,17",
+      "cx": 17,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          },
+          {
+            "kind": "building-pad",
+            "id": "quest_lodge",
+            "role": "story-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "18,17",
+      "cx": 18,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "wardens_ridge",
+            "role": "bank-combat"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          },
+          {
+            "kind": "building-pad",
+            "id": "teaching_kitchen",
+            "role": "cooking-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "19,17",
+      "cx": 19,
+      "cz": 17,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "district",
+            "id": "wardens_ridge",
+            "role": "bank-combat"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          },
+          {
+            "kind": "building-pad",
+            "id": "teaching_kitchen",
+            "role": "cooking-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "15,18",
+      "cx": 15,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "survival_shelter",
+            "role": "gathering-support"
+          },
+          {
+            "kind": "water",
+            "id": "holm_pond",
+            "role": "freshwater"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "16,18",
+      "cx": 16,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "water",
+            "id": "holm_pond",
+            "role": "freshwater"
+          }
+        ]
+      },
+      "tileFlags": [
+        {
+          "x": 130,
+          "z": 146,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 131,
+          "z": 146,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 132,
+          "z": 146,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 146,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 130,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 131,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 132,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 147,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 131,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 132,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 133,
+          "z": 149,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 149,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 149,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 134,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 135,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        }
+      ]
+    },
+    {
+      "id": "17,18",
+      "cx": 17,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "route",
+            "id": "survival_pond_loop",
+            "role": "secondary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          },
+          {
+            "kind": "water",
+            "id": "holm_pond",
+            "role": "freshwater"
+          }
+        ]
+      },
+      "tileFlags": [
+        {
+          "x": 136,
+          "z": 148,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 136,
+          "z": 149,
+          "mask": 1,
+          "reason": "terrain-water"
+        },
+        {
+          "x": 136,
+          "z": 150,
+          "mask": 1,
+          "reason": "terrain-water"
+        }
+      ]
+    },
+    {
+      "id": "18,18",
+      "cx": 18,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "survival_wood",
+            "role": "gathering"
+          },
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    },
+    {
+      "id": "19,18",
+      "cx": 19,
+      "cz": 18,
+      "terrain": {
+        "underlay": "holm_landscape_v1",
+        "heightSource": "holm_landscape_v1",
+        "revision": 3,
+        "roles": [
+          {
+            "kind": "district",
+            "id": "lesson_green",
+            "role": "civic-learning"
+          },
+          {
+            "kind": "route",
+            "id": "holm_guided_spine",
+            "role": "primary"
+          },
+          {
+            "kind": "building-pad",
+            "id": "guide_hall",
+            "role": "orientation-service"
+          }
+        ]
+      },
+      "tileFlags": []
+    }
+  ],
+  "navigation": {
+    "blockMask": 1,
+    "walkSurfaces": [],
+    "collisionRows": [],
+    "movement": "cardinal",
+    "elevationBand": [
+      1,
+      2.8
+    ]
+  }
+}

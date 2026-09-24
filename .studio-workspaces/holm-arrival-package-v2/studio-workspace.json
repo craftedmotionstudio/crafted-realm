@@ -1,0 +1,79 @@
+{
+  "createdAt": "2026-09-13T02:34:54.529Z",
+  "id": "holm-arrival-package-v2",
+  "repoRoot": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude",
+  "schema": "crafted-realm-studio-workspace-v1",
+  "targets": [
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/blender/holm_arrival_dock_overhaul_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/blender/holm_guide_house_overhaul_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/blender/holm_provisions_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/models/holm_arrival_dock_overhaul_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/models/holm_guide_house_overhaul_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/models/holm_provisions_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/world/authoring/holm-arrival.dock.json"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/world/authoring/holm-arrival.envelopes.json"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/world/authoring/holm-arrival.layout.json"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/world/authoring/holm-arrival.package.json"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/world/authoring/holm-arrival.provisions.json"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/world/authoring/holm-arrival.provisions.manifest.json"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/world/authoring/holm-overhaul.terrain.bundle.json"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/world/authoring/holm-overhaul.terrain.json"
+    }
+  ],
+  "version": 1
+}

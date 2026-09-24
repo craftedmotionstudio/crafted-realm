@@ -1,0 +1,2626 @@
+{
+  "schema": "holm.warden-keep.v4",
+  "status": "unpublished geometry candidate, not runtime/visual acceptance",
+  "coordinates": "Blender X/Y plan Z up; glTF X/Y/Z = Blender X/Z/-Y",
+  "boundsBlender": [
+    [
+      -10.5,
+      -10.265000343322754,
+      -0.18000000715255737
+    ],
+    [
+      13.210001945495605,
+      15.210000038146973,
+      11.135000228881836
+    ]
+  ],
+  "triangleCount": 7222,
+  "materialCount": 9,
+  "meshCount": 30,
+  "meshNames": [
+    "Keep_Floor_1_5",
+    "Keep_Shell_2_111",
+    "Keep_GroundFront_2_36",
+    "Keep_Upper_Shell_1_17",
+    "Keep_Upper_Floor_2_4",
+    "Keep_Stair_1_30",
+    "Keep_Upper_Furnishing_4_13",
+    "Keep_Roof_3_2",
+    "Keep_Roof_3_6",
+    "Keep_GroundFront_2_6",
+    "Keep_Upper_Floor_2_4.001",
+    "Keep_Upper_Wallwalk_1_35",
+    "Keep_Roof_3_48",
+    "Keep_Shell_2_6",
+    "Keep_Furnishing_3_21",
+    "Keep_Furnishing_3_1",
+    "Keep_Furnishing_3_9",
+    "Keep_Upper_Furnishing_4_1",
+    "Keep_Upper_Furnishing_4_2",
+    "Keep_Upper_Furnishing_4_2.001",
+    "Keep_Upper_Tower_Highwatch_Level1_Floor_1_13",
+    "Keep_Upper_Tower_Highwatch_Level2_Floor_1_13",
+    "Keep_Upper_Tower_Highwatch_Level3_Floor_1_16",
+    "Keep_Tower_Highwatch_Level1_Stair_1_34",
+    "Keep_Tower_Highwatch_Level2_Stair_1_34",
+    "Keep_Tower_Highwatch_Level3_Stair_1_34",
+    "Keep_Upper_Tower_Eastturret_Level1_Floor_1_13",
+    "Keep_Upper_Tower_Eastturret_Level2_Floor_1_16",
+    "Keep_Tower_Eastturret_Level1_Stair_1_34",
+    "Keep_Tower_Eastturret_Level2_Stair_1_34"
+  ],
+  "glb": {
+    "sha256": "a20d8806695c1420c1e64716d7a31936587cb549e96f0066bce1f0e076c57e74",
+    "bytes": 578492,
+    "embeddedImages": 3,
+    "primitives": 30
+  },
+  "doorways": [
+    {
+      "id": "court-hall",
+      "axis": "y",
+      "fixed": -3,
+      "span": [
+        -0.5,
+        1.5
+      ],
+      "base": 0,
+      "top": 2.5,
+      "width": 2.0,
+      "height": 2.5
+    },
+    {
+      "id": "hall-store",
+      "axis": "y",
+      "fixed": -3,
+      "span": [
+        6.05,
+        7.95
+      ],
+      "base": 0,
+      "top": 2.5,
+      "width": 1.9000000000000004,
+      "height": 2.5
+    },
+    {
+      "id": "upper-gallery",
+      "axis": "y",
+      "fixed": -3,
+      "span": [
+        -5.8,
+        -4.0
+      ],
+      "base": 3.2,
+      "top": 5.65,
+      "width": 1.7999999999999998,
+      "height": 2.45
+    },
+    {
+      "id": "hall-watchtower",
+      "axis": "x",
+      "fixed": 9,
+      "span": [
+        -7.9,
+        -6.1
+      ],
+      "base": 0,
+      "top": 2.5,
+      "width": 1.8000000000000007,
+      "height": 2.5
+    },
+    {
+      "id": "court-stores",
+      "axis": "x",
+      "fixed": 5,
+      "span": [
+        0,
+        1.9
+      ],
+      "base": 0,
+      "top": 2.45,
+      "width": 1.9,
+      "height": 2.45
+    },
+    {
+      "id": "stores-east-tower",
+      "axis": "y",
+      "fixed": 7,
+      "span": [
+        6.15,
+        7.85
+      ],
+      "base": 0,
+      "top": 2.45,
+      "width": 1.6999999999999993,
+      "height": 2.45
+    },
+    {
+      "id": "gate--10",
+      "axis": "x",
+      "fixed": -10,
+      "span": [
+        0.45,
+        3.55
+      ],
+      "base": 0,
+      "top": 2.75,
+      "width": 3.0999999999999996,
+      "height": 2.75
+    },
+    {
+      "id": "gate--4",
+      "axis": "x",
+      "fixed": -4,
+      "span": [
+        0.45,
+        3.55
+      ],
+      "base": 0,
+      "top": 2.75,
+      "width": 3.0999999999999996,
+      "height": 2.75
+    }
+  ],
+  "stairs": {
+    "treads": [
+      {
+        "index": 0,
+        "center": [
+          -8.6,
+          -3.65,
+          0.2
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 0.19999998807907104,
+        "measuredHeadroom": 7.2921512722969055
+      },
+      {
+        "index": 1,
+        "center": [
+          -8.6,
+          -3.3499999999999996,
+          0.4
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 0.4000000059604645,
+        "measuredHeadroom": 7.09215173125267
+      },
+      {
+        "index": 2,
+        "center": [
+          -8.6,
+          -3.05,
+          0.6000000000000001
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 0.5999999642372131,
+        "measuredHeadroom": 6.892150819301605
+      },
+      {
+        "index": 3,
+        "center": [
+          -8.6,
+          -2.75,
+          0.8
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 0.800000011920929,
+        "measuredHeadroom": 6.692151725292206
+      },
+      {
+        "index": 4,
+        "center": [
+          -8.6,
+          -2.45,
+          1.0
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 1.0,
+        "measuredHeadroom": 6.492150783538818
+      },
+      {
+        "index": 5,
+        "center": [
+          -8.6,
+          -2.15,
+          1.2000000000000002
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 1.2000000476837158,
+        "measuredHeadroom": 6.292151212692261
+      },
+      {
+        "index": 6,
+        "center": [
+          -8.6,
+          -1.8499999999999999,
+          1.4000000000000001
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 1.4000000953674316,
+        "measuredHeadroom": 6.092151165008545
+      },
+      {
+        "index": 7,
+        "center": [
+          -8.6,
+          -1.5499999999999998,
+          1.6
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 1.600000023841858,
+        "measuredHeadroom": 5.892152190208435
+      },
+      {
+        "index": 8,
+        "center": [
+          -8.6,
+          -1.25,
+          1.8
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 1.8000000715255737,
+        "measuredHeadroom": 5.692151188850403
+      },
+      {
+        "index": 9,
+        "center": [
+          -8.6,
+          -0.9499999999999997,
+          2.0
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 2.0,
+        "measuredHeadroom": 5.492151737213135
+      },
+      {
+        "index": 10,
+        "center": [
+          -8.6,
+          -0.6499999999999999,
+          2.2
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 2.200000047683716,
+        "measuredHeadroom": 5.292151212692261
+      },
+      {
+        "index": 11,
+        "center": [
+          -8.6,
+          -0.3500000000000001,
+          2.4000000000000004
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 2.3999998569488525,
+        "measuredHeadroom": 5.092151880264282
+      },
+      {
+        "index": 12,
+        "center": [
+          -8.6,
+          -0.04999999999999982,
+          2.6
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 2.5999999046325684,
+        "measuredHeadroom": 4.892151832580566
+      },
+      {
+        "index": 13,
+        "center": [
+          -8.6,
+          0.25,
+          2.8000000000000003
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 2.799999952316284,
+        "measuredHeadroom": 4.692151308059692
+      },
+      {
+        "index": 14,
+        "center": [
+          -8.6,
+          0.5499999999999998,
+          3.0
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 3.0,
+        "measuredHeadroom": 4.492151260375977
+      },
+      {
+        "index": 15,
+        "center": [
+          -8.6,
+          0.8499999999999996,
+          3.2
+        ],
+        "measuredWidth": 1.6000003814697266,
+        "measuredTop": 3.200000047683716,
+        "measuredHeadroom": 4.292152166366577
+      }
+    ],
+    "count": 16,
+    "rise": 0.2,
+    "depth": 0.3,
+    "width": 1.6,
+    "upperTop": 3.2,
+    "aperture": [
+      -9.81,
+      -4,
+      -7.65,
+      1
+    ],
+    "upperRoomHeadroom": 3.05,
+    "minimumRailClearWidth": 1.72,
+    "bottomLanding": [
+      -8.6,
+      -4.9,
+      0
+    ],
+    "topLanding": [
+      -8.6,
+      1.8,
+      3.2
+    ]
+  },
+  "upperRouteBlender": [
+    [
+      -8.6,
+      1.8,
+      3.2
+    ],
+    [
+      -6.8,
+      1.8,
+      3.2
+    ],
+    [
+      -6.8,
+      -4.9,
+      3.2
+    ],
+    [
+      -2,
+      -4.9,
+      3.2
+    ],
+    [
+      2,
+      -4.9,
+      3.2
+    ],
+    [
+      8,
+      -4.9,
+      3.2
+    ],
+    [
+      8,
+      3,
+      3.2
+    ]
+  ],
+  "deviations": [
+    "East turret expanded from apothem2.3 at(9.3,7) via v2 apothem2.65 at(9.65,7) to v3 apothem3 at(10,7), keeping west doorwayx7. Parent authorized expansion for half-grid cardinal flight access.",
+    "East turret conical cap replaced by open crenellated lookout.",
+    "Tower apertures include mid-flight turns, avoiding low overhead slabs. Tower upper spaces are circulation/lookout galleries around the open stairs.",
+    "V4 opens the gallery north railing at x7..9 and shifts east stair/floor aperture 0.5 tile east inside unchanged v3 tower shell."
+  ],
+  "unfinished": [
+    "Runtime collision/cardinal navigation and actual player stair movement",
+    "Door leaves/animation and other animated props",
+    "Reference comparison and main eyes-on review",
+    "World placement and Safe Publish",
+    "Upper east wallwalk connection remains closed; turret access is via its ground entrance"
+  ],
+  "geometryAcceptance": {
+    "doorApertureRaySamples": 120,
+    "doorCrossingDepth": 1.1,
+    "sampleFractions": [
+      0.05,
+      0.25,
+      0.5,
+      0.75,
+      0.95
+    ],
+    "sampleHeightFractions": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "scope": "Local aperture geometry only; cardinal runtime paths not proven",
+    "headroomRaySamples": 396,
+    "minimumHeadroom": 3.2299998998641968,
+    "towerTreads": 80,
+    "landingChamferContainment": true,
+    "stairEntryHorizontalRaySamples": 280,
+    "stairEntries": [
+      {
+        "tower": "High watch",
+        "level": 0,
+        "flight": 0,
+        "floorTop": 0.0,
+        "span": [
+          -8.3,
+          -7.1000000000000005
+        ],
+        "ySweep": [
+          10.9,
+          11.35
+        ],
+        "chestHeights": [
+          0.45,
+          0.9,
+          1.35,
+          1.8
+        ],
+        "samples": 28
+      },
+      {
+        "tower": "High watch",
+        "level": 0,
+        "flight": 1,
+        "floorTop": 3.4,
+        "span": [
+          -6.8999999999999995,
+          -5.7
+        ],
+        "ySweep": [
+          10.9,
+          11.35
+        ],
+        "chestHeights": [
+          0.45,
+          0.9,
+          1.35,
+          1.8
+        ],
+        "samples": 28
+      },
+      {
+        "tower": "High watch",
+        "level": 1,
+        "flight": 0,
+        "floorTop": 3.4,
+        "span": [
+          -8.3,
+          -7.1000000000000005
+        ],
+        "ySweep": [
+          10.9,
+          11.35
+        ],
+        "chestHeights": [
+          0.45,
+          0.9,
+          1.35,
+          1.8
+        ],
+        "samples": 28
+      },
+      {
+        "tower": "High watch",
+        "level": 1,
+        "flight": 1,
+        "floorTop": 6.8,
+        "span": [
+          -6.8999999999999995,
+          -5.7
+        ],
+        "ySweep": [
+          10.9,
+          11.35
+        ],
+        "chestHeights": [
+          0.45,
+          0.9,
+          1.35,
+          1.8
+        ],
+        "samples": 28
+      },
+      {
+        "tower": "High watch",
+        "level": 2,
+        "flight": 0,
+        "floorTop": 6.8,
+        "span": [
+          -8.3,
+          -7.1000000000000005
+        ],
+        "ySweep": [
+          10.9,
+          11.35
+        ],
+        "chestHeights": [
+          0.45,
+          0.9,
+          1.35,
+          1.8
+        ],
+        "samples": 28
+      },
+      {
+        "tower": "High watch",
+        "level": 2,
+        "flight": 1,
+        "floorTop": 10.2,
+        "span": [
+          -6.8999999999999995,
+          -5.7
+        ],
+        "ySweep": [
+          10.9,
+          11.35
+        ],
+        "chestHeights": [
+          0.45,
+          0.9,
+          1.35,
+          1.8
+        ],
+        "samples": 28
+      },
+      {
+        "tower": "East turret",
+        "level": 0,
+        "flight": 0,
+        "floorTop": 0.0,
+        "span": [
+          9.200000000000001,
+          10.4
+        ],
+        "ySweep": [
+          5.9,
+          6.35
+        ],
+        "chestHeights": [
+          0.45,
+          0.9,
+          1.35,
+          1.8
+        ],
+        "samples": 28
+      },
+      {
+        "tower": "East turret",
+        "level": 0,
+        "flight": 1,
+        "floorTop": 3.35,
+        "span": [
+          10.6,
+          11.799999999999999
+        ],
+        "ySweep": [
+          5.9,
+          6.35
+        ],
+        "chestHeights": [
+          0.45,
+          0.9,
+          1.35,
+          1.8
+        ],
+        "samples": 28
+      },
+      {
+        "tower": "East turret",
+        "level": 1,
+        "flight": 0,
+        "floorTop": 3.35,
+        "span": [
+          9.200000000000001,
+          10.4
+        ],
+        "ySweep": [
+          5.9,
+          6.35
+        ],
+        "chestHeights": [
+          0.45,
+          0.9,
+          1.35,
+          1.8
+        ],
+        "samples": 28
+      },
+      {
+        "tower": "East turret",
+        "level": 1,
+        "flight": 1,
+        "floorTop": 6.7,
+        "span": [
+          10.6,
+          11.799999999999999
+        ],
+        "ySweep": [
+          5.9,
+          6.35
+        ],
+        "chestHeights": [
+          0.45,
+          0.9,
+          1.35,
+          1.8
+        ],
+        "samples": 28
+      }
+    ],
+    "stairEntryScope": "Discrete horizontal scene rays through 1.2m clear entrance width at four heights; not a continuous avatar volume sweep or runtime navigation test."
+  },
+  "towers": [
+    {
+      "id": "High watch",
+      "center": [
+        -7,
+        12
+      ],
+      "apothem": 3,
+      "innerBoundary": [
+        [
+          -4.18,
+          13.168082245892128
+        ],
+        [
+          -5.831917754107872,
+          14.82
+        ],
+        [
+          -8.168082245892128,
+          14.82
+        ],
+        [
+          -9.82,
+          13.168082245892128
+        ],
+        [
+          -9.82,
+          10.831917754107872
+        ],
+        [
+          -8.16808224589213,
+          9.18
+        ],
+        [
+          -5.831917754107871,
+          9.18
+        ],
+        [
+          -4.180000000000001,
+          10.83191775410787
+        ]
+      ],
+      "floors": [
+        {
+          "top": 3.4,
+          "polygons": [
+            [
+              [
+                -9.82,
+                11.1
+              ],
+              [
+                -9.82,
+                10.831917754107872
+              ],
+              [
+                -8.16808224589213,
+                9.18
+              ],
+              [
+                -5.831917754107871,
+                9.18
+              ],
+              [
+                -4.180000000000001,
+                10.83191775410787
+              ],
+              [
+                -4.180000000000001,
+                11.1
+              ]
+            ],
+            [
+              [
+                -8.4,
+                14.588082245892128
+              ],
+              [
+                -9.82,
+                13.168082245892128
+              ],
+              [
+                -9.82,
+                11.1
+              ],
+              [
+                -8.4,
+                11.1
+              ]
+            ],
+            [
+              [
+                -4.18,
+                13.168082245892128
+              ],
+              [
+                -5.6,
+                14.588082245892128
+              ],
+              [
+                -5.6,
+                11.1
+              ],
+              [
+                -4.180000000000001,
+                11.1
+              ]
+            ],
+            [
+              [
+                -5.6,
+                14.588082245892128
+              ],
+              [
+                -5.831917754107872,
+                14.82
+              ],
+              [
+                -8.168082245892128,
+                14.82
+              ],
+              [
+                -8.4,
+                14.588082245892128
+              ],
+              [
+                -8.4,
+                14.1
+              ],
+              [
+                -5.6,
+                14.1
+              ]
+            ]
+          ],
+          "aperture": [
+            -8.4,
+            11.1,
+            -5.6,
+            14.1
+          ]
+        },
+        {
+          "top": 6.8,
+          "polygons": [
+            [
+              [
+                -9.82,
+                11.1
+              ],
+              [
+                -9.82,
+                10.831917754107872
+              ],
+              [
+                -8.16808224589213,
+                9.18
+              ],
+              [
+                -5.831917754107871,
+                9.18
+              ],
+              [
+                -4.180000000000001,
+                10.83191775410787
+              ],
+              [
+                -4.180000000000001,
+                11.1
+              ]
+            ],
+            [
+              [
+                -8.4,
+                14.588082245892128
+              ],
+              [
+                -9.82,
+                13.168082245892128
+              ],
+              [
+                -9.82,
+                11.1
+              ],
+              [
+                -8.4,
+                11.1
+              ]
+            ],
+            [
+              [
+                -4.18,
+                13.168082245892128
+              ],
+              [
+                -5.6,
+                14.588082245892128
+              ],
+              [
+                -5.6,
+                11.1
+              ],
+              [
+                -4.180000000000001,
+                11.1
+              ]
+            ],
+            [
+              [
+                -5.6,
+                14.588082245892128
+              ],
+              [
+                -5.831917754107872,
+                14.82
+              ],
+              [
+                -8.168082245892128,
+                14.82
+              ],
+              [
+                -8.4,
+                14.588082245892128
+              ],
+              [
+                -8.4,
+                14.1
+              ],
+              [
+                -5.6,
+                14.1
+              ]
+            ]
+          ],
+          "aperture": [
+            -8.4,
+            11.1,
+            -5.6,
+            14.1
+          ]
+        },
+        {
+          "top": 10.2,
+          "polygons": [
+            [
+              [
+                -9.82,
+                11.1
+              ],
+              [
+                -9.82,
+                10.831917754107872
+              ],
+              [
+                -8.16808224589213,
+                9.18
+              ],
+              [
+                -5.831917754107871,
+                9.18
+              ],
+              [
+                -4.180000000000001,
+                10.83191775410787
+              ],
+              [
+                -4.180000000000001,
+                11.1
+              ]
+            ],
+            [
+              [
+                -8.4,
+                14.588082245892128
+              ],
+              [
+                -9.82,
+                13.168082245892128
+              ],
+              [
+                -9.82,
+                11.1
+              ],
+              [
+                -8.4,
+                11.1
+              ]
+            ],
+            [
+              [
+                -4.18,
+                13.168082245892128
+              ],
+              [
+                -5.6,
+                14.588082245892128
+              ],
+              [
+                -5.6,
+                11.1
+              ],
+              [
+                -4.180000000000001,
+                11.1
+              ]
+            ],
+            [
+              [
+                -5.6,
+                14.588082245892128
+              ],
+              [
+                -5.831917754107872,
+                14.82
+              ],
+              [
+                -8.168082245892128,
+                14.82
+              ],
+              [
+                -8.4,
+                14.588082245892128
+              ],
+              [
+                -8.4,
+                14.1
+              ],
+              [
+                -5.6,
+                14.1
+              ]
+            ]
+          ],
+          "aperture": [
+            -8.4,
+            11.1,
+            -5.6,
+            14.1
+          ]
+        }
+      ],
+      "flights": [
+        {
+          "level": 0,
+          "flight": 0,
+          "direction": "+Y",
+          "rise": 0.2125,
+          "depth": 0.225,
+          "width": 1.25,
+          "treads": [
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 0,
+              "index": 0,
+              "center": [
+                -7.7,
+                11.2125,
+                0.2125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 0.21250000596046448,
+              "measuredHeadroom": 3.2800002992153168
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 0,
+              "index": 1,
+              "center": [
+                -7.7,
+                11.4375,
+                0.425
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 0.42500001192092896,
+              "measuredHeadroom": 3.280000388622284
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 0,
+              "index": 2,
+              "center": [
+                -7.7,
+                11.6625,
+                0.6375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 0.637499988079071,
+              "measuredHeadroom": 3.2800002694129944
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 0,
+              "index": 3,
+              "center": [
+                -7.7,
+                11.8875,
+                0.85
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 0.8500000238418579,
+              "measuredHeadroom": 3.28000009059906
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 0,
+              "index": 4,
+              "center": [
+                -7.7,
+                12.112499999999999,
+                1.0625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 1.0625,
+              "measuredHeadroom": 3.2800002098083496
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 0,
+              "index": 5,
+              "center": [
+                -7.7,
+                12.3375,
+                1.275
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 1.274999976158142,
+              "measuredHeadroom": 3.279999852180481
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 0,
+              "index": 6,
+              "center": [
+                -7.7,
+                12.5625,
+                1.4875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 1.4874999523162842,
+              "measuredHeadroom": 3.2800004482269287
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 0,
+              "index": 7,
+              "center": [
+                -7.7,
+                12.7875,
+                1.7
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 1.6999999284744263,
+              "measuredHeadroom": 3.2800005674362183
+            }
+          ]
+        },
+        {
+          "level": 0,
+          "flight": 1,
+          "direction": "-Y",
+          "rise": 0.2125,
+          "depth": 0.225,
+          "width": 1.25,
+          "treads": [
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 1,
+              "index": 0,
+              "center": [
+                -6.3,
+                12.7875,
+                1.9124999999999999
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 1.9124999046325684,
+              "measuredHeadroom": 3.2800002098083496
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 1,
+              "index": 1,
+              "center": [
+                -6.3,
+                12.5625,
+                2.125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 2.125,
+              "measuredHeadroom": 3.280000686645508
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 1,
+              "index": 2,
+              "center": [
+                -6.3,
+                12.3375,
+                2.3375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 2.3374998569488525,
+              "measuredHeadroom": 3.2799999713897705
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 1,
+              "index": 3,
+              "center": [
+                -6.3,
+                12.1125,
+                2.55
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 2.549999952316284,
+              "measuredHeadroom": 3.2799999713897705
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 1,
+              "index": 4,
+              "center": [
+                -6.3,
+                11.887500000000001,
+                2.7624999999999997
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 2.762500047683716,
+              "measuredHeadroom": 3.2799999713897705
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 1,
+              "index": 5,
+              "center": [
+                -6.3,
+                11.6625,
+                2.975
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 2.9749999046325684,
+              "measuredHeadroom": 3.2800002098083496
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 1,
+              "index": 6,
+              "center": [
+                -6.3,
+                11.4375,
+                3.1875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 3.1875,
+              "measuredHeadroom": 3.280000686645508
+            },
+            {
+              "tower": "High watch",
+              "level": 0,
+              "flight": 1,
+              "index": 7,
+              "center": [
+                -6.3,
+                11.2125,
+                3.4
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 3.3999998569488525,
+              "measuredHeadroom": 3.2799999713897705
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "flight": 0,
+          "direction": "+Y",
+          "rise": 0.2125,
+          "depth": 0.225,
+          "width": 1.25,
+          "treads": [
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 0,
+              "index": 0,
+              "center": [
+                -7.7,
+                11.2125,
+                3.6125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 3.612499952316284,
+              "measuredHeadroom": 3.2799999713897705
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 0,
+              "index": 1,
+              "center": [
+                -7.7,
+                11.4375,
+                3.8249999999999997
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 3.825000047683716,
+              "measuredHeadroom": 3.2799999713897705
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 0,
+              "index": 2,
+              "center": [
+                -7.7,
+                11.6625,
+                4.0375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 4.037499904632568,
+              "measuredHeadroom": 3.2800002098083496
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 0,
+              "index": 3,
+              "center": [
+                -7.7,
+                11.8875,
+                4.25
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 4.25,
+              "measuredHeadroom": 3.280000686645508
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 0,
+              "index": 4,
+              "center": [
+                -7.7,
+                12.112499999999999,
+                4.4625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 4.462500095367432,
+              "measuredHeadroom": 3.2799997329711914
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 0,
+              "index": 5,
+              "center": [
+                -7.7,
+                12.3375,
+                4.675
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 4.674999713897705,
+              "measuredHeadroom": 3.280001163482666
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 0,
+              "index": 6,
+              "center": [
+                -7.7,
+                12.5625,
+                4.8875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 4.887499809265137,
+              "measuredHeadroom": 3.2799997329711914
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 0,
+              "index": 7,
+              "center": [
+                -7.7,
+                12.7875,
+                5.1
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 5.099999904632568,
+              "measuredHeadroom": 3.279999256134033
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "flight": 1,
+          "direction": "-Y",
+          "rise": 0.2125,
+          "depth": 0.225,
+          "width": 1.25,
+          "treads": [
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 1,
+              "index": 0,
+              "center": [
+                -6.3,
+                12.7875,
+                5.3125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 5.3125,
+              "measuredHeadroom": 3.280000686645508
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 1,
+              "index": 1,
+              "center": [
+                -6.3,
+                12.5625,
+                5.525
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 5.525000095367432,
+              "measuredHeadroom": 3.2800002098083496
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 1,
+              "index": 2,
+              "center": [
+                -6.3,
+                12.3375,
+                5.7375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 5.737499713897705,
+              "measuredHeadroom": 3.2800002098083496
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 1,
+              "index": 3,
+              "center": [
+                -6.3,
+                12.1125,
+                5.949999999999999
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 5.949999809265137,
+              "measuredHeadroom": 3.2799997329711914
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 1,
+              "index": 4,
+              "center": [
+                -6.3,
+                11.887500000000001,
+                6.1625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 6.162499904632568,
+              "measuredHeadroom": 3.279999256134033
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 1,
+              "index": 5,
+              "center": [
+                -6.3,
+                11.6625,
+                6.375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 6.375,
+              "measuredHeadroom": 3.280000686645508
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 1,
+              "index": 6,
+              "center": [
+                -6.3,
+                11.4375,
+                6.5875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 6.587500095367432,
+              "measuredHeadroom": 3.2800002098083496
+            },
+            {
+              "tower": "High watch",
+              "level": 1,
+              "flight": 1,
+              "index": 7,
+              "center": [
+                -6.3,
+                11.2125,
+                6.8
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 6.799999713897705,
+              "measuredHeadroom": 3.2800002098083496
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "flight": 0,
+          "direction": "+Y",
+          "rise": 0.2125,
+          "depth": 0.225,
+          "width": 1.25,
+          "treads": [
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 0,
+              "index": 0,
+              "center": [
+                -7.7,
+                11.2125,
+                7.0125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 7.012499809265137,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 0,
+              "index": 1,
+              "center": [
+                -7.7,
+                11.4375,
+                7.225
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 7.224999904632568,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 0,
+              "index": 2,
+              "center": [
+                -7.7,
+                11.6625,
+                7.4375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 7.4375,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 0,
+              "index": 3,
+              "center": [
+                -7.7,
+                11.8875,
+                7.6499999999999995
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 7.650000095367432,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 0,
+              "index": 4,
+              "center": [
+                -7.7,
+                12.112499999999999,
+                7.8625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 7.862499713897705,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 0,
+              "index": 5,
+              "center": [
+                -7.7,
+                12.3375,
+                8.075
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 8.075000762939453,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 0,
+              "index": 6,
+              "center": [
+                -7.7,
+                12.5625,
+                8.2875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 8.287500381469727,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 0,
+              "index": 7,
+              "center": [
+                -7.7,
+                12.7875,
+                8.5
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 8.5,
+              "measuredHeadroom": 30
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "flight": 1,
+          "direction": "-Y",
+          "rise": 0.2125,
+          "depth": 0.225,
+          "width": 1.25,
+          "treads": [
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 1,
+              "index": 0,
+              "center": [
+                -6.3,
+                12.7875,
+                8.7125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 8.71250057220459,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 1,
+              "index": 1,
+              "center": [
+                -6.3,
+                12.5625,
+                8.925
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 8.925000190734863,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 1,
+              "index": 2,
+              "center": [
+                -6.3,
+                12.3375,
+                9.1375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 9.137500762939453,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 1,
+              "index": 3,
+              "center": [
+                -6.3,
+                12.1125,
+                9.35
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 9.350000381469727,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 1,
+              "index": 4,
+              "center": [
+                -6.3,
+                11.887500000000001,
+                9.5625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 9.5625,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 1,
+              "index": 5,
+              "center": [
+                -6.3,
+                11.6625,
+                9.775
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 9.77500057220459,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 1,
+              "index": 6,
+              "center": [
+                -6.3,
+                11.4375,
+                9.9875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 9.987500190734863,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "High watch",
+              "level": 2,
+              "flight": 1,
+              "index": 7,
+              "center": [
+                -6.3,
+                11.2125,
+                10.2
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 10.200000762939453,
+              "measuredHeadroom": 30
+            }
+          ]
+        }
+      ],
+      "landings": [
+        {
+          "type": "turn",
+          "top": 1.7,
+          "rectangle": [
+            -8.325,
+            12.9,
+            -5.675,
+            14.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 3.280000019073486
+        },
+        {
+          "type": "end",
+          "top": 0.0,
+          "rectangle": [
+            -8.325,
+            9.9,
+            -5.675,
+            11.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 3.239999771118164
+        },
+        {
+          "type": "turn",
+          "top": 5.1,
+          "rectangle": [
+            -8.325,
+            12.9,
+            -5.675,
+            14.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 3.279999160766602
+        },
+        {
+          "type": "end",
+          "top": 3.4,
+          "rectangle": [
+            -8.325,
+            9.9,
+            -5.675,
+            11.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 3.2399993896484376
+        },
+        {
+          "type": "turn",
+          "top": 8.5,
+          "rectangle": [
+            -8.325,
+            12.9,
+            -5.675,
+            14.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 30
+        },
+        {
+          "type": "end",
+          "top": 6.8,
+          "rectangle": [
+            -8.325,
+            9.9,
+            -5.675,
+            11.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 3.239999008178711
+        },
+        {
+          "type": "lookout-end",
+          "top": 10.2,
+          "rectangle": [
+            -8.325,
+            9.9,
+            -5.675,
+            11.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 30
+        }
+      ],
+      "lookoutHeight": 10.2
+    },
+    {
+      "id": "East turret",
+      "center": [
+        10,
+        7
+      ],
+      "apothem": 3,
+      "innerBoundary": [
+        [
+          12.82,
+          8.168082245892128
+        ],
+        [
+          11.168082245892128,
+          9.82
+        ],
+        [
+          8.831917754107872,
+          9.82
+        ],
+        [
+          7.18,
+          8.168082245892128
+        ],
+        [
+          7.18,
+          5.831917754107872
+        ],
+        [
+          8.83191775410787,
+          4.180000000000001
+        ],
+        [
+          11.168082245892128,
+          4.180000000000001
+        ],
+        [
+          12.82,
+          5.83191775410787
+        ]
+      ],
+      "floors": [
+        {
+          "top": 3.35,
+          "polygons": [
+            [
+              [
+                7.18,
+                6.1
+              ],
+              [
+                7.18,
+                5.831917754107872
+              ],
+              [
+                8.83191775410787,
+                4.180000000000001
+              ],
+              [
+                11.168082245892128,
+                4.180000000000001
+              ],
+              [
+                12.82,
+                5.83191775410787
+              ],
+              [
+                12.82,
+                6.1
+              ]
+            ],
+            [
+              [
+                9.1,
+                9.82
+              ],
+              [
+                8.831917754107872,
+                9.82
+              ],
+              [
+                7.18,
+                8.168082245892128
+              ],
+              [
+                7.18,
+                6.1
+              ],
+              [
+                9.1,
+                6.1
+              ]
+            ],
+            [
+              [
+                12.82,
+                8.168082245892128
+              ],
+              [
+                11.9,
+                9.088082245892128
+              ],
+              [
+                11.9,
+                6.1
+              ],
+              [
+                12.82,
+                6.1
+              ]
+            ],
+            [
+              [
+                11.888082245892129,
+                9.1
+              ],
+              [
+                11.168082245892128,
+                9.82
+              ],
+              [
+                9.1,
+                9.82
+              ],
+              [
+                9.1,
+                9.1
+              ]
+            ]
+          ],
+          "aperture": [
+            9.1,
+            6.1,
+            11.9,
+            9.1
+          ]
+        },
+        {
+          "top": 6.7,
+          "polygons": [
+            [
+              [
+                7.18,
+                6.1
+              ],
+              [
+                7.18,
+                5.831917754107872
+              ],
+              [
+                8.83191775410787,
+                4.180000000000001
+              ],
+              [
+                11.168082245892128,
+                4.180000000000001
+              ],
+              [
+                12.82,
+                5.83191775410787
+              ],
+              [
+                12.82,
+                6.1
+              ]
+            ],
+            [
+              [
+                9.1,
+                9.82
+              ],
+              [
+                8.831917754107872,
+                9.82
+              ],
+              [
+                7.18,
+                8.168082245892128
+              ],
+              [
+                7.18,
+                6.1
+              ],
+              [
+                9.1,
+                6.1
+              ]
+            ],
+            [
+              [
+                12.82,
+                8.168082245892128
+              ],
+              [
+                11.9,
+                9.088082245892128
+              ],
+              [
+                11.9,
+                6.1
+              ],
+              [
+                12.82,
+                6.1
+              ]
+            ],
+            [
+              [
+                11.888082245892129,
+                9.1
+              ],
+              [
+                11.168082245892128,
+                9.82
+              ],
+              [
+                9.1,
+                9.82
+              ],
+              [
+                9.1,
+                9.1
+              ]
+            ]
+          ],
+          "aperture": [
+            9.1,
+            6.1,
+            11.9,
+            9.1
+          ]
+        }
+      ],
+      "flights": [
+        {
+          "level": 0,
+          "flight": 0,
+          "direction": "+Y",
+          "rise": 0.209375,
+          "depth": 0.225,
+          "width": 1.25,
+          "treads": [
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 0,
+              "index": 0,
+              "center": [
+                9.8,
+                6.2124999999999995,
+                0.209375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 0.20937500894069672,
+              "measuredHeadroom": 3.230000391602516
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 0,
+              "index": 1,
+              "center": [
+                9.8,
+                6.4375,
+                0.41875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 0.41874998807907104,
+              "measuredHeadroom": 3.23000031709671
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 0,
+              "index": 2,
+              "center": [
+                9.8,
+                6.6625,
+                0.628125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 0.628125011920929,
+              "measuredHeadroom": 3.2299999594688416
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 0,
+              "index": 3,
+              "center": [
+                9.8,
+                6.887499999999999,
+                0.8375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 0.8374999761581421,
+              "measuredHeadroom": 3.230000138282776
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 0,
+              "index": 4,
+              "center": [
+                9.8,
+                7.1125,
+                1.046875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 1.046875,
+              "measuredHeadroom": 3.2300000190734863
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 0,
+              "index": 5,
+              "center": [
+                9.8,
+                7.3374999999999995,
+                1.25625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 1.2562499046325684,
+              "measuredHeadroom": 3.2300000190734863
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 0,
+              "index": 6,
+              "center": [
+                9.8,
+                7.5625,
+                1.465625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 1.4656249284744263,
+              "measuredHeadroom": 3.2299998998641968
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 0,
+              "index": 7,
+              "center": [
+                9.8,
+                7.7875,
+                1.675
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 1.6749999523162842,
+              "measuredHeadroom": 3.2300002574920654
+            }
+          ]
+        },
+        {
+          "level": 0,
+          "flight": 1,
+          "direction": "-Y",
+          "rise": 0.209375,
+          "depth": 0.225,
+          "width": 1.25,
+          "treads": [
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 1,
+              "index": 0,
+              "center": [
+                11.2,
+                7.7875000000000005,
+                1.8843750000000001
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 1.884374976158142,
+              "measuredHeadroom": 3.230000138282776
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 1,
+              "index": 1,
+              "center": [
+                11.2,
+                7.5625,
+                2.09375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 2.09375,
+              "measuredHeadroom": 3.2300000190734863
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 1,
+              "index": 2,
+              "center": [
+                11.2,
+                7.3375,
+                2.303125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 2.3031249046325684,
+              "measuredHeadroom": 3.2300000190734863
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 1,
+              "index": 3,
+              "center": [
+                11.2,
+                7.112500000000001,
+                2.5125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 2.512500047683716,
+              "measuredHeadroom": 3.2300002574920654
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 1,
+              "index": 4,
+              "center": [
+                11.2,
+                6.8875,
+                2.7218750000000003
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 2.721874952316284,
+              "measuredHeadroom": 3.2300007343292236
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 1,
+              "index": 5,
+              "center": [
+                11.2,
+                6.6625000000000005,
+                2.93125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 2.9312498569488525,
+              "measuredHeadroom": 3.2300002574920654
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 1,
+              "index": 6,
+              "center": [
+                11.2,
+                6.4375,
+                3.140625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 3.140625,
+              "measuredHeadroom": 3.2300000190734863
+            },
+            {
+              "tower": "East turret",
+              "level": 0,
+              "flight": 1,
+              "index": 7,
+              "center": [
+                11.2,
+                6.2125,
+                3.35
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 3.3499999046325684,
+              "measuredHeadroom": 3.2300000190734863
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "flight": 0,
+          "direction": "+Y",
+          "rise": 0.209375,
+          "depth": 0.225,
+          "width": 1.25,
+          "treads": [
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 0,
+              "index": 0,
+              "center": [
+                9.8,
+                6.2124999999999995,
+                3.559375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 3.559375047683716,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 0,
+              "index": 1,
+              "center": [
+                9.8,
+                6.4375,
+                3.7687500000000003
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 3.768749952316284,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 0,
+              "index": 2,
+              "center": [
+                9.8,
+                6.6625,
+                3.9781250000000004
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 3.9781248569488525,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 0,
+              "index": 3,
+              "center": [
+                9.8,
+                6.887499999999999,
+                4.1875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 4.1875,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 0,
+              "index": 4,
+              "center": [
+                9.8,
+                7.1125,
+                4.396875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 4.396874904632568,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 0,
+              "index": 5,
+              "center": [
+                9.8,
+                7.3374999999999995,
+                4.60625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 4.606249809265137,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 0,
+              "index": 6,
+              "center": [
+                9.8,
+                7.5625,
+                4.815625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 4.815624713897705,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 0,
+              "index": 7,
+              "center": [
+                9.8,
+                7.7875,
+                5.025
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 5.025000095367432,
+              "measuredHeadroom": 30
+            }
+          ]
+        },
+        {
+          "level": 1,
+          "flight": 1,
+          "direction": "-Y",
+          "rise": 0.209375,
+          "depth": 0.225,
+          "width": 1.25,
+          "treads": [
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 1,
+              "index": 0,
+              "center": [
+                11.2,
+                7.7875000000000005,
+                5.234375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 5.234375,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 1,
+              "index": 1,
+              "center": [
+                11.2,
+                7.5625,
+                5.44375
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 5.443749904632568,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 1,
+              "index": 2,
+              "center": [
+                11.2,
+                7.3375,
+                5.653125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 5.653124809265137,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 1,
+              "index": 3,
+              "center": [
+                11.2,
+                7.112500000000001,
+                5.862500000000001
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 5.862499713897705,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 1,
+              "index": 4,
+              "center": [
+                11.2,
+                6.8875,
+                6.071875
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 6.071875095367432,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 1,
+              "index": 5,
+              "center": [
+                11.2,
+                6.6625000000000005,
+                6.28125
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 6.28125,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 1,
+              "index": 6,
+              "center": [
+                11.2,
+                6.4375,
+                6.490625
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 6.490624904632568,
+              "measuredHeadroom": 30
+            },
+            {
+              "tower": "East turret",
+              "level": 1,
+              "flight": 1,
+              "index": 7,
+              "center": [
+                11.2,
+                6.2125,
+                6.7
+              ],
+              "measuredWidth": 1.25,
+              "measuredTop": 6.699999809265137,
+              "measuredHeadroom": 30
+            }
+          ]
+        }
+      ],
+      "landings": [
+        {
+          "type": "turn",
+          "top": 1.675,
+          "rectangle": [
+            9.175,
+            7.9,
+            11.825,
+            9.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 3.2299997329711916
+        },
+        {
+          "type": "end",
+          "top": 0.0,
+          "rectangle": [
+            9.175,
+            4.9,
+            11.825,
+            6.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 3.18999981880188
+        },
+        {
+          "type": "turn",
+          "top": 5.025,
+          "rectangle": [
+            9.175,
+            7.9,
+            11.825,
+            9.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 30
+        },
+        {
+          "type": "end",
+          "top": 3.35,
+          "rectangle": [
+            9.175,
+            4.9,
+            11.825,
+            6.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 3.1899999618530273
+        },
+        {
+          "type": "lookout-end",
+          "top": 6.7,
+          "rectangle": [
+            8.675,
+            4.9,
+            11.325,
+            6.1
+          ],
+          "clearDepth": 1.2,
+          "clearWidth": 2.65,
+          "measuredMinimumHeadroom": 30
+        }
+      ],
+      "lookoutHeight": 6.7
+    }
+  ],
+  "galleryThreshold": {
+    "rectangleBlender": [
+      -3.21,
+      -5.8,
+      -2.99,
+      -4
+    ],
+    "top": 3.2,
+    "downwardSupportRaySamples": 9,
+    "purpose": "Bridge the hall floor edge at x-3.19 to gallery start x-3 without changing the doorway."
+  }
+}

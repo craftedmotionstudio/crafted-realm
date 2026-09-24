@@ -1,0 +1,146 @@
+{
+  "schema": "holm-keep-foundation-study-v1",
+  "status": "Studio candidate; no gameplay acceptance",
+  "placement": {
+    "x": 87,
+    "y": 8.025,
+    "z": 35,
+    "yaw": 0
+  },
+  "pads": [
+    {
+      "id": "keep-watch-foundation",
+      "x": 80,
+      "z": 23,
+      "w": 8,
+      "d": 8,
+      "height": 8,
+      "blend": 3
+    },
+    {
+      "id": "keep-east-foundation",
+      "x": 96.65,
+      "z": 28,
+      "w": 7.5,
+      "d": 7.5,
+      "height": 8,
+      "blend": 3
+    },
+    {
+      "id": "keep-gate-approach",
+      "x": 89,
+      "z": 45.5,
+      "w": 6,
+      "d": 4,
+      "height": 8,
+      "blend": 3
+    }
+  ],
+  "samples": 4281,
+  "changedVertices": 254,
+  "supports": [
+    {
+      "id": "hall",
+      "bounds": [
+        77,
+        26,
+        84,
+        41
+      ],
+      "before": [
+        8,
+        8
+      ],
+      "after": [
+        8,
+        8
+      ]
+    },
+    {
+      "id": "stores",
+      "bounds": [
+        84,
+        26,
+        94,
+        30
+      ],
+      "before": [
+        8,
+        8
+      ],
+      "after": [
+        8,
+        8
+      ]
+    },
+    {
+      "id": "watch-tower",
+      "bounds": [
+        77,
+        20,
+        83,
+        26
+      ],
+      "before": [
+        5.432911699429916,
+        8
+      ],
+      "after": [
+        8,
+        8
+      ]
+    },
+    {
+      "id": "east-tower",
+      "bounds": [
+        94,
+        25.35,
+        99.3,
+        30.65
+      ],
+      "before": [
+        7.501326417626431,
+        8
+      ],
+      "after": [
+        8,
+        8
+      ]
+    },
+    {
+      "id": "gate",
+      "bounds": [
+        86,
+        39,
+        92,
+        45
+      ],
+      "before": [
+        8,
+        8
+      ],
+      "after": [
+        8,
+        8
+      ]
+    },
+    {
+      "id": "gate-approach",
+      "bounds": [
+        88,
+        45,
+        90,
+        47
+      ],
+      "before": [
+        7.957853781281498,
+        8.092573310131195
+      ],
+      "after": [
+        8,
+        8
+      ]
+    }
+  ],
+  "scope": "Quarter-tile rendered-triangle samples of conservative support rectangles; no avatar or retaining-wall proof"
+}

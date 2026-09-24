@@ -1,0 +1,21 @@
+{
+  "schema": "crafted-realm-world-v2-terrain-district-authoring-v1",
+  "version": 1,
+  "chunkSize": 8,
+  "sourcePath": "assets/world/authoring/studio-lesson-green-district.json",
+  "provider": {
+    "id": "tutors-holm-v2",
+    "worldRevision": 4
+  },
+  "landscape": {
+    "planId": "tutors-holm-landscape-v1",
+    "revision": 3
+  },
+  "district": {
+    "id": "lesson_green",
+    "padIds": [
+      "quest_lodge",
+      "teaching_kitchen"
+    ]
+  }
+}

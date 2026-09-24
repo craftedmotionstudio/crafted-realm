@@ -1,0 +1,27 @@
+{
+  "schema": "holm-oven-fire-v1",
+  "status": "unpublished Blender animation candidate",
+  "placementLocalGltf": [
+    -3.25,
+    0.46,
+    -3.38
+  ],
+  "triangleCount": 204,
+  "durationSeconds": 2,
+  "sampledFrames": 49,
+  "boundsBlender": {
+    "min": [
+      -0.4865620732307434,
+      -0.4571388065814972,
+      -0.07999999821186066
+    ],
+    "max": [
+      0.49851053953170776,
+      0.2974434494972229,
+      0.7063459753990173
+    ]
+  },
+  "modelSha256": "b5138d41ee563df9dee97a403fdb6420acb719bb3985dd9f475974d423ac75cd",
+  "source": "tools\\blender\\build_holm_bakehouse_fire.py",
+  "interaction": "Visual fire only. Recipe and live station binding remain separate."
+}

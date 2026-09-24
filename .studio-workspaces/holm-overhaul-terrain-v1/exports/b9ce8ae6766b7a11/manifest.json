@@ -1,0 +1,20 @@
+{
+  "exportId": "b9ce8ae6766b7a11",
+  "files": [
+    {
+      "baseHash": null,
+      "bytes": 298202,
+      "hash": "655e69f88d24b389ccf6b7c90e61d60d1d9b4ccde32030b0a45754285feb1d98",
+      "path": "assets/world/authoring/holm-overhaul.terrain.bundle.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 4767,
+      "hash": "160f451226e401d15523c514e62b3895311f280cd19f4f499a1840fff7b39844",
+      "path": "assets/world/authoring/holm-overhaul.terrain.json"
+    }
+  ],
+  "schema": "crafted-realm-studio-export-v1",
+  "version": 1,
+  "workspaceId": "holm-overhaul-terrain-v1"
+}

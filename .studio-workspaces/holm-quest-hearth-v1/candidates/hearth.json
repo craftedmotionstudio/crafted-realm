@@ -1,0 +1,70 @@
+{
+  "schema": "holm-lodge-hearth-v1",
+  "status": "unpublished local Studio fit; visual acceptance pending",
+  "lodgeSha256": "6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b",
+  "fireSha256": "b5138d41ee563df9dee97a403fdb6420acb719bb3985dd9f475974d423ac75cd",
+  "fireUrl": "../.studio-workspaces/holm-bakehouse-fire-v1/candidates/oven-fire.glb",
+  "position": [
+    4.304724216461182,
+    0.2599239945411682,
+    0.9558191895484924
+  ],
+  "rotationY": 1.5707963267948966,
+  "scale": 0.9740489539735239,
+  "triangleCount": 204,
+  "clipNames": [
+    "OvenFire_0_Amber",
+    "OvenFire_0_Heart",
+    "OvenFire_1_Amber",
+    "OvenFire_1_Heart",
+    "OvenFire_2_Amber",
+    "OvenFire_2_Heart",
+    "OvenFire_3_Amber",
+    "OvenFire_3_Heart"
+  ],
+  "durationSeconds": 2.0416666666666665,
+  "animatedPeriodSeconds": 2,
+  "sampledBounds": {
+    "coordinateSystem": "lodge-local glTF XYZ, Y up",
+    "min": [
+      4.014999866485596,
+      0.182000070810318,
+      0.47024551033973694
+    ],
+    "max": [
+      4.75,
+      0.9479395747184753,
+      1.4297544956207275
+    ]
+  },
+  "measuredCavityBlender": {
+    "floor": 0.18000006675720215,
+    "cap": 1.5899999141693115,
+    "back": 4.789999961853027,
+    "south": -1.4800000190734863,
+    "north": -0.42000001668930054,
+    "westSlabEdge": 3.9749999046325684
+  },
+  "verification": {
+    "sampledFrames": 49,
+    "vertexChecks": 6468,
+    "triangleChecks": 9996,
+    "masonryIntersections": 0,
+    "sourceHashes": {
+      ".studio-workspaces\\holm-quest-lodge-v2\\candidates\\lodge.blend": "cb67ce90df39077e139af6c634bc26527203bc08b836616ba8547b90e83a88ae",
+      ".studio-workspaces\\holm-quest-lodge-v2\\candidates\\lodge.glb": "6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b",
+      ".studio-workspaces\\holm-bakehouse-fire-v1\\candidates\\oven-fire.blend": "0e66e05cd0069ad462ddec9276ba30f83f55238deb88917bef9a091706b79232",
+      ".studio-workspaces\\holm-bakehouse-fire-v1\\candidates\\oven-fire.glb": "b5138d41ee563df9dee97a403fdb6420acb719bb3985dd9f475974d423ac75cd"
+    }
+  },
+  "findings": [
+    "Both source blend scenes evaluated in Blender; no source modifications.",
+    "Uniform scale and quarter turn fit the animated fire above the measured slab and inside all hearth cavity surfaces.",
+    "Every exported integer frame checked against evaluated masonry BVH for triangle intersections and vertex interior clearance."
+  ],
+  "limitations": [
+    "Local lodge Studio transform only; no island placement or gameplay binding is inferred.",
+    "Intermediate animation times between exported frame samples are not a continuous collision proof.",
+    "Main session must inspect flame placement and appearance in the in-app Studio."
+  ]
+}

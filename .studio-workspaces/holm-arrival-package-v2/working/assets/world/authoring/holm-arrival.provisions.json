@@ -1,0 +1,15 @@
+{
+  "schema": "holm-arrival-provisions-placement-v1",
+  "status": "Studio placement candidate; not published or gameplay accepted",
+  "local": {
+    "x": 2,
+    "z": -4,
+    "rotation": 0
+  },
+  "interaction": {
+    "x": 2.5,
+    "z": -2.5
+  },
+  "model": "assets/models/holm_provisions_v1.glb",
+  "source": "assets/blender/holm_provisions_v1.blend"
+}

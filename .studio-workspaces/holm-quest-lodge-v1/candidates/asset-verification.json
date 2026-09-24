@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "scope": "Headless exported binary structure only; no visual, navigation or gameplay acceptance.",
+  "glbSha256": "6cff72acdf676125c915378b995a42b5c9c0a2cf4146647f21fe1f40df2d6fa2",
+  "bytes": 473140,
+  "triangles": 5117,
+  "meshes": 32,
+  "primitives": 32,
+  "accessors": 118,
+  "boundsGltf": {
+    "min": [
+      -5.680000305175781,
+      -0.18000000715255737,
+      -4.630001068115234
+    ],
+    "max": [
+      6.787776291370392,
+      8.43000054359436,
+      4.62999963760376
+    ]
+  },
+  "semanticMeshNames": [
+    "Lodge_GroundFloor_Warm_oak",
+    "Lodge_GroundShell_Light_gray_limestone",
+    "Lodge_Glazing_Muted_old_glass",
+    "Lodge_GroundShell_Warm_oak",
+    "Lodge_Roof_Muted_wheat_thatch",
+    "Lodge_Roof_Warm_oak",
+    "Lodge_UpperFloor_Warm_oak",
+    "Lodge_UpperShell_Oat_plaster",
+    "Lodge_UpperShell_Warm_oak",
+    "Lodge_Stair_Warm_oak",
+    "Lodge_UpperFurnishing_Warm_oak",
+    "Lodge_Roof_Blue_gray_slate",
+    "Lodge_FurnishingBoard_Warm_oak",
+    "Lodge_FurnishingBoard_Original_parchment",
+    "Lodge_FurnishingBoard_Faded_map_ink",
+    "Lodge_FurnishingBoard_Burgundy_wax",
+    "Lodge_FurnishingMap_Warm_oak",
+    "Lodge_FurnishingMap_Original_parchment",
+    "Lodge_FurnishingMap_Faded_map_ink",
+    "Lodge_FurnishingMap_Burgundy_wax",
+    "Lodge_FurnishingShelf_Warm_oak",
+    "Lodge_FurnishingShelf_Sage_guest_blanket",
+    "Lodge_FurnishingShelf_Burgundy_wax",
+    "Lodge_FurnishingShelf_Original_parchment",
+    "Lodge_FurnishingBay_Warm_oak",
+    "Lodge_FurnishingBay_Original_parchment",
+    "Lodge_UpperFurnishing_Sage_guest_blanket",
+    "Lodge_UpperFurnishing_Original_parchment",
+    "Lodge_FurnishingHearth_Light_gray_limestone",
+    "Lodge_Chimney_Light_gray_limestone",
+    "Lodge_Door_Dark_iron",
+    "Lodge_Door_Warm_oak"
+  ],
+  "embeddedTextureSha256": [
+    "8a1d31e93d6a1b3ff8fb71be94934b73de6162d790a00251d543b45d5e8f5867",
+    "1ceccaaa057b539a47fc111d6db2cd50e5622d14f8d76006d008608a485f6544",
+    "a3a694d50103aee609f29ff95ca3b8763f3f373a3a0e14323100629377870056",
+    "f060a678ec7124939012a068d818890c252f72a0c8e7e0cb167ceca8850f3822"
+  ],
+  "animations": [
+    {
+      "name": "Lodge_DoorOpenClose",
+      "channels": [
+        {
+          "path": "rotation",
+          "samples": 100,
+          "duration": 4.124999839812517
+        }
+      ]
+    }
+  ],
+  "blendSha256": "5fba1a4ae5fa3c6a66c5f13c73522024b59a9e5cd40b7ca8ebce39f5668691b8",
+  "contractKeys": [
+    "animations",
+    "coordinates",
+    "doorway",
+    "exportEvidence",
+    "floorHeights",
+    "footprint",
+    "meshCount",
+    "meshNames",
+    "name",
+    "schema",
+    "stairs",
+    "status",
+    "textures",
+    "triangleCount",
+    "unfinished",
+    "visualAcceptance"
+  ]
+}

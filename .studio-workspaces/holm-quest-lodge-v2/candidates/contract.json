@@ -1,0 +1,148 @@
+{
+  "schema": "holm.building-shape-study.v1",
+  "name": "Quest Lodge \u2014 Jettied Reading Crosswing",
+  "status": "isolated Blender candidate; not installed or visually accepted",
+  "coordinates": "Blender X,Y plan Z up; glTF X,Y,Z = X,Z,-Y",
+  "footprint": [
+    [
+      -5,
+      -4
+    ],
+    [
+      -1,
+      -4
+    ],
+    [
+      -1,
+      -2
+    ],
+    [
+      5,
+      -2
+    ],
+    [
+      5,
+      0
+    ],
+    [
+      5.95,
+      0.55
+    ],
+    [
+      6.35,
+      1.5
+    ],
+    [
+      5.95,
+      2.45
+    ],
+    [
+      5,
+      3
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      -5,
+      4
+    ]
+  ],
+  "floorHeights": [
+    0,
+    3.3
+  ],
+  "doorway": {
+    "axis": "X",
+    "fixed": -2,
+    "span": [
+      -0.4,
+      1.4
+    ],
+    "width": 1.8,
+    "height": 2.6
+  },
+  "stairs": {
+    "bounds": [
+      -2.45,
+      -1.7,
+      -0.85,
+      2.78
+    ],
+    "rise": 0.20625,
+    "run": 0.28,
+    "treads": 16,
+    "width": 1.6,
+    "upperAperture": [
+      -2.65,
+      -1.9,
+      -0.65,
+      2.78
+    ],
+    "headroomDesign": 2.6
+  },
+  "triangleCount": 5117,
+  "meshCount": 32,
+  "meshNames": [
+    "Lodge_GroundFloor_Warm_oak",
+    "Lodge_GroundShell_Light_gray_limestone",
+    "Lodge_Glazing_Muted_old_glass",
+    "Lodge_GroundShell_Warm_oak",
+    "Lodge_Roof_Muted_wheat_thatch",
+    "Lodge_Roof_Warm_oak",
+    "Lodge_UpperFloor_Warm_oak",
+    "Lodge_UpperShell_Oat_plaster",
+    "Lodge_UpperShell_Warm_oak",
+    "Lodge_Stair_Warm_oak",
+    "Lodge_UpperFurnishing_Warm_oak",
+    "Lodge_Roof_Blue_gray_slate",
+    "Lodge_FurnishingBoard_Warm_oak",
+    "Lodge_FurnishingBoard_Original_parchment",
+    "Lodge_FurnishingBoard_Faded_map_ink",
+    "Lodge_FurnishingBoard_Burgundy_wax",
+    "Lodge_FurnishingMap_Warm_oak",
+    "Lodge_FurnishingMap_Original_parchment",
+    "Lodge_FurnishingMap_Faded_map_ink",
+    "Lodge_FurnishingMap_Burgundy_wax",
+    "Lodge_FurnishingShelf_Warm_oak",
+    "Lodge_FurnishingShelf_Sage_guest_blanket",
+    "Lodge_FurnishingShelf_Burgundy_wax",
+    "Lodge_FurnishingShelf_Original_parchment",
+    "Lodge_FurnishingBay_Warm_oak",
+    "Lodge_FurnishingBay_Original_parchment",
+    "Lodge_UpperFurnishing_Sage_guest_blanket",
+    "Lodge_UpperFurnishing_Original_parchment",
+    "Lodge_FurnishingHearth_Light_gray_limestone",
+    "Lodge_Chimney_Light_gray_limestone",
+    "Lodge_Door_Warm_oak",
+    "Lodge_Door_Dark_iron"
+  ],
+  "textures": "four original deterministic 128px patterns; no copied reference pixels",
+  "exportEvidence": {
+    "sha256": "6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b",
+    "glbBytes": 473212,
+    "embeddedImages": 4,
+    "primitives": 32
+  },
+  "animations": [
+    "Lodge_DoorOpenClose"
+  ],
+  "unfinished": [
+    "actual measured capsule clearance and cardinal navigation",
+    "functional quest and journal binding",
+    "NPC",
+    "terrain placement",
+    "in-app reference review",
+    "door trigger and obstruction handling",
+    "Safe Publish"
+  ],
+  "visualAcceptance": null,
+  "circulationRepair": {
+    "floorSlabXYExtension": 0.002,
+    "treadDepth": 0.282,
+    "treadRunUnchanged": 0.28,
+    "guestFurniture": "Narrower bed and wall-side desk/bench leave x=-3.5 cardinal aisle.",
+    "baseSourceSha256": "9568be044fb0c91e70c75ea7abb70eb1dceef5087cc31835992b132a35f8cee1"
+  }
+}

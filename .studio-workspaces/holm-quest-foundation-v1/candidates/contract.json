@@ -1,0 +1,33 @@
+{
+  "schema": "holm-quest-foundation-v1",
+  "baseModelSha256": "a8d57474e1a5cd6f8e13214e57905cf3bacecdf8e1fcc14c5b0ea1393248b324",
+  "sha256": "6ab1692c4e1fad24dc60ab5584d1d44dbe12353689ee63dd718d4c2c672d556c",
+  "outlineBlenderXY": [
+    [
+      5,
+      0
+    ],
+    [
+      5.95,
+      0.55
+    ],
+    [
+      6.35,
+      1.5
+    ],
+    [
+      5.95,
+      2.45
+    ],
+    [
+      5,
+      3
+    ]
+  ],
+  "bottom": -0.18,
+  "top": 0,
+  "triangles": 13,
+  "topFace": false,
+  "material": "Light gray limestone.001",
+  "status": "authored separate candidate; visual acceptance pending"
+}

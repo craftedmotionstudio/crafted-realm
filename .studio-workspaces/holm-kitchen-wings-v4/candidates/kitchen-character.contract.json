@@ -1,0 +1,416 @@
+{
+  "schema": "holm.kitchen-character.v4",
+  "status": "Unpublished stair clearance repair; navigation and pointer QA pending",
+  "coordinates": "Blender X,Y plan Z up; glTF X,Y,Z = Blender X,Z,-Y",
+  "upperFloor": {
+    "top": 3.3,
+    "underside": 3.16,
+    "aperture": [
+      -1.1,
+      -1.15,
+      0.65,
+      3.55
+    ],
+    "roomBounds": [
+      -4.87,
+      -2.87,
+      0.87,
+      4.87
+    ],
+    "wallTop": 6.15,
+    "minimumWallHeadroom": 2.85
+  },
+  "stairs": {
+    "axis": "Blender +Y / glTF -Z",
+    "clearWidth": 1.5,
+    "treadDepth": 0.28125,
+    "rise": 0.20625,
+    "count": 16,
+    "treadTopCenters": [
+      {
+        "index": 0,
+        "blender": [
+          -0.25,
+          -0.8093750000000001,
+          0.20625
+        ],
+        "gltf": [
+          -0.25,
+          0.20625,
+          0.8093750000000001
+        ]
+      },
+      {
+        "index": 1,
+        "blender": [
+          -0.25,
+          -0.5281250000000001,
+          0.4125
+        ],
+        "gltf": [
+          -0.25,
+          0.4125,
+          0.5281250000000001
+        ]
+      },
+      {
+        "index": 2,
+        "blender": [
+          -0.25,
+          -0.24687500000000007,
+          0.6187499999999999
+        ],
+        "gltf": [
+          -0.25,
+          0.6187499999999999,
+          0.24687500000000007
+        ]
+      },
+      {
+        "index": 3,
+        "blender": [
+          -0.25,
+          0.03437499999999993,
+          0.825
+        ],
+        "gltf": [
+          -0.25,
+          0.825,
+          -0.03437499999999993
+        ]
+      },
+      {
+        "index": 4,
+        "blender": [
+          -0.25,
+          0.31562499999999993,
+          1.03125
+        ],
+        "gltf": [
+          -0.25,
+          1.03125,
+          -0.31562499999999993
+        ]
+      },
+      {
+        "index": 5,
+        "blender": [
+          -0.25,
+          0.5968749999999999,
+          1.2374999999999998
+        ],
+        "gltf": [
+          -0.25,
+          1.2374999999999998,
+          -0.5968749999999999
+        ]
+      },
+      {
+        "index": 6,
+        "blender": [
+          -0.25,
+          0.8781249999999999,
+          1.4437499999999999
+        ],
+        "gltf": [
+          -0.25,
+          1.4437499999999999,
+          -0.8781249999999999
+        ]
+      },
+      {
+        "index": 7,
+        "blender": [
+          -0.25,
+          1.1593749999999998,
+          1.65
+        ],
+        "gltf": [
+          -0.25,
+          1.65,
+          -1.1593749999999998
+        ]
+      },
+      {
+        "index": 8,
+        "blender": [
+          -0.25,
+          1.4406249999999998,
+          1.85625
+        ],
+        "gltf": [
+          -0.25,
+          1.85625,
+          -1.4406249999999998
+        ]
+      },
+      {
+        "index": 9,
+        "blender": [
+          -0.25,
+          1.7218749999999998,
+          2.0625
+        ],
+        "gltf": [
+          -0.25,
+          2.0625,
+          -1.7218749999999998
+        ]
+      },
+      {
+        "index": 10,
+        "blender": [
+          -0.25,
+          2.003125,
+          2.26875
+        ],
+        "gltf": [
+          -0.25,
+          2.26875,
+          -2.003125
+        ]
+      },
+      {
+        "index": 11,
+        "blender": [
+          -0.25,
+          2.284375,
+          2.4749999999999996
+        ],
+        "gltf": [
+          -0.25,
+          2.4749999999999996,
+          -2.284375
+        ]
+      },
+      {
+        "index": 12,
+        "blender": [
+          -0.25,
+          2.5656250000000003,
+          2.68125
+        ],
+        "gltf": [
+          -0.25,
+          2.68125,
+          -2.5656250000000003
+        ]
+      },
+      {
+        "index": 13,
+        "blender": [
+          -0.25,
+          2.8468750000000003,
+          2.8874999999999997
+        ],
+        "gltf": [
+          -0.25,
+          2.8874999999999997,
+          -2.8468750000000003
+        ]
+      },
+      {
+        "index": 14,
+        "blender": [
+          -0.25,
+          3.1281250000000003,
+          3.09375
+        ],
+        "gltf": [
+          -0.25,
+          3.09375,
+          -3.1281250000000003
+        ]
+      },
+      {
+        "index": 15,
+        "blender": [
+          -0.25,
+          3.4093750000000003,
+          3.3
+        ],
+        "gltf": [
+          -0.25,
+          3.3,
+          -3.4093750000000003
+        ]
+      }
+    ],
+    "bottomLandingBlender": [
+      -0.25,
+      -1.75,
+      0
+    ],
+    "topLandingBlender": [
+      -0.25,
+      4.1,
+      3.3
+    ],
+    "apertureClearAboveFlight": true
+  },
+  "groundApproach": {
+    "southWallInnerY": -2.87,
+    "stairFirstEdgeY": -0.95,
+    "clearSouthDepth": 1.895,
+    "preparationToStairSideGap": 0.88,
+    "courtDoorSpan": [
+      -2.7,
+      -0.9
+    ],
+    "entryCenter": [
+      1,
+      -1.8,
+      0
+    ],
+    "routeSketchBlender": [
+      [
+        1.5,
+        -2.1
+      ],
+      [
+        0.5,
+        -2.1
+      ],
+      [
+        -0.25,
+        -2.1
+      ],
+      [
+        -1.65,
+        -2.1
+      ],
+      [
+        -1.65,
+        0.5
+      ],
+      [
+        -2.5,
+        0.5
+      ]
+    ],
+    "note": "Supersedes v2 nominal measurements; frozen mesh navigation is authoritative."
+  },
+  "doorClearances": [
+    {
+      "id": "court-entry",
+      "clearWidthBetweenJambs": 1.64,
+      "clearHeightAboveThreshold": 2.47,
+      "thresholdTop": 0.07,
+      "lintelUnderside": 2.54
+    },
+    {
+      "id": "pantry-connection",
+      "width": 1.9,
+      "height": 2.55
+    }
+  ],
+  "mainRoof": {
+    "eave": 6.22,
+    "ridge": 8.55
+  },
+  "pantryUnchanged": true,
+  "triangleCount": 5824,
+  "materialCount": 12,
+  "meshCount": 53,
+  "meshNames": [
+    "Kitchen_Floor_0",
+    "Kitchen_GroundFront_0",
+    "Kitchen_GroundFront_1",
+    "Kitchen_Shell_0",
+    "Kitchen_Shell_1",
+    "Kitchen_GroundFront_3",
+    "Kitchen_GroundFront_2",
+    "Kitchen_Glazing_0",
+    "Kitchen_Shell_2",
+    "Kitchen_Floor_1",
+    "Kitchen_Roof_0",
+    "Kitchen_Roof_1",
+    "Kitchen_Furnishings_0",
+    "Kitchen_Chimney_0",
+    "Kitchen_Oven_0",
+    "Kitchen_Oven_1",
+    "Kitchen_Tools_0",
+    "Kitchen_Worktable_0",
+    "Kitchen_Worktable_1",
+    "Kitchen_Worktable_2",
+    "Kitchen_Pantry_0",
+    "Kitchen_Pantry_1",
+    "Kitchen_Pantry_2",
+    "Kitchen_RecipeBoard_0",
+    "Kitchen_RecipeBoard_1",
+    "Kitchen_UpperFloor_0",
+    "Kitchen_UpperShell_0",
+    "Kitchen_UpperShell_1",
+    "Kitchen_UpperShell_3",
+    "Kitchen_UpperShell_2",
+    "Kitchen_Stair_Tread00_0",
+    "Kitchen_Stair_Tread01_0",
+    "Kitchen_Stair_Tread02_0",
+    "Kitchen_Stair_Tread03_0",
+    "Kitchen_Stair_Tread04_0",
+    "Kitchen_Stair_Tread05_0",
+    "Kitchen_Stair_Tread06_0",
+    "Kitchen_Stair_Tread07_0",
+    "Kitchen_Stair_Tread08_0",
+    "Kitchen_Stair_Tread09_0",
+    "Kitchen_Stair_Tread10_0",
+    "Kitchen_Stair_Tread11_0",
+    "Kitchen_Stair_Tread12_0",
+    "Kitchen_Stair_Tread13_0",
+    "Kitchen_Stair_Tread14_0",
+    "Kitchen_Stair_Tread15_0",
+    "Kitchen_Stair_0",
+    "Kitchen_UpperFurnishing_0",
+    "Kitchen_UpperFurnishing_1",
+    "Kitchen_UpperFurnishing_2",
+    "Kitchen_UpperFurnishing_3",
+    "Kitchen_Shell_Shutters",
+    "Kitchen_UpperShell_Shutters"
+  ],
+  "unfinished": [
+    "runtime floor/nav and cardinal follower",
+    "door and fire animation",
+    "all station bindings and lesson/save QA",
+    "reference visual acceptance",
+    "Safe Publish"
+  ],
+  "glb": {
+    "bytes": 545680,
+    "sha256": "fa911f4634af7dd959d03430b25eb5765328cc46d52e792b4e2c944a87cc597e",
+    "embeddedImages": 4,
+    "primitives": 56
+  },
+  "provenance": {
+    "source": "tools\\blender\\build_holm_kitchen_circulation.py",
+    "sourceSha256": "5d905aff775206d6bbb5ba2d2900f7d2431f6a0aac990c91f6bb01e6530123ef",
+    "baseBlendSha256": "ce8161200e9c93b3c8e645cce35fded5b178e74659521ae13c1c35d0abbdc31c",
+    "baseModelSha256": "630e893e3efd7138a5cc8219db2e6cc78b56c0787e87a3de62cbd9a9477bf172",
+    "textureOrigin": "Inherited original v3 textures; no reference pixels copied",
+    "verificationScript": "tools/blender/verify_holm_kitchen_circulation.py"
+  },
+  "circulationRepair": {
+    "stairShiftBlenderY": 0.35,
+    "changedMeshVertices": {
+      "Kitchen_UpperFloor_0": 8,
+      "Kitchen_Stair_Tread00_0": 8,
+      "Kitchen_Stair_Tread01_0": 8,
+      "Kitchen_Stair_Tread02_0": 8,
+      "Kitchen_Stair_Tread03_0": 8,
+      "Kitchen_Stair_Tread04_0": 8,
+      "Kitchen_Stair_Tread05_0": 8,
+      "Kitchen_Stair_Tread06_0": 8,
+      "Kitchen_Stair_Tread07_0": 8,
+      "Kitchen_Stair_Tread08_0": 8,
+      "Kitchen_Stair_Tread09_0": 8,
+      "Kitchen_Stair_Tread10_0": 8,
+      "Kitchen_Stair_Tread11_0": 8,
+      "Kitchen_Stair_Tread12_0": 8,
+      "Kitchen_Stair_Tread13_0": 8,
+      "Kitchen_Stair_Tread14_0": 8,
+      "Kitchen_Stair_Tread15_0": 8,
+      "Kitchen_Stair_0": 112,
+      "Kitchen_UpperFurnishing_0": 56
+    },
+    "reason": "First stair railing blocked the cardinal entrance lane at local glTF z=1.5; south doorway lane at z=2.5 also clips jamb."
+  }
+}

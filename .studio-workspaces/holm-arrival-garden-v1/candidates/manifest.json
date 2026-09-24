@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "status": "candidate-awaiting-main-Studio-review",
+  "units": "tiles",
+  "upAxis": "Y (GLB), Z (Blender)",
+  "references": [
+    "Bible_References/Complete/Tree1.jpg",
+    "Bible_References/Landscape_Option.jpg"
+  ],
+  "assets": [
+    {
+      "root": "ArrivalOak",
+      "file": "arrival_oak_v1.glb",
+      "triangles": 1288,
+      "meshes": 2,
+      "materials": [
+        "Leaf mid",
+        "Leaf shadow",
+        "Leaf sun",
+        "Warm fissured oak"
+      ],
+      "bounds": {
+        "min": [
+          -2.2646677494049072,
+          0.0,
+          -1.910235047340393
+        ],
+        "max": [
+          2.5337631702423096,
+          5.239114761352539,
+          2.189077615737915
+        ]
+      },
+      "suggestedConservativeGroundExclusionRadius": 0.78,
+      "clips": [
+        "Breeze"
+      ],
+      "sha256": "520d56de9fb8d32f7dd70f5cd25fa6c9d43a0aea2ae64280fe6aac542928b6ad"
+    },
+    {
+      "root": "ArrivalHazel",
+      "file": "arrival_hazel_v1.glb",
+      "triangles": 1498,
+      "meshes": 2,
+      "materials": [
+        "Leaf mid",
+        "Leaf shadow",
+        "Leaf sun",
+        "Warm fissured oak"
+      ],
+      "bounds": {
+        "min": [
+          -1.1715141534805298,
+          0.0,
+          -1.0020873546600342
+        ],
+        "max": [
+          1.2595173120498657,
+          1.4118379354476929,
+          1.0532910823822021
+        ]
+      },
+      "suggestedConservativeGroundExclusionRadius": 1.5,
+      "clips": [
+        "Breeze"
+      ],
+      "sha256": "fa6a0c4e0fa4573a6ce1ad7f90b7b072c0193e5a8664661228b3bb9d37a8fe94"
+    },
+    {
+      "root": "ArrivalFieldstones",
+      "file": "arrival_fieldstones_v1.glb",
+      "triangles": 204,
+      "meshes": 1,
+      "materials": [
+        "Fieldstone moss",
+        "Fieldstone upper",
+        "Fieldstone warm grey"
+      ],
+      "bounds": {
+        "min": [
+          -1.087700366973877,
+          -0.0421757735311985,
+          -0.7894955277442932
+        ],
+        "max": [
+          1.0715172290802002,
+          0.7852636575698853,
+          0.5758681893348694
+        ]
+      },
+      "suggestedConservativeGroundExclusionRadius": 1.35,
+      "clips": [],
+      "sha256": "6f39a9a961cba12c4ad3ddcd7dd747940af8c78e7ee9dfcf76fed258d95d368d"
+    }
+  ],
+  "blend": "holm_arrival_garden_v1.blend",
+  "checks": [
+    "Base guard",
+    "Origin roots",
+    "Finite GLB-space bounds",
+    "Per-asset <=5 meshes / <=4 materials",
+    "Whole-kit <9000 triangles",
+    "Separate selected exports",
+    "Exported clip names verified"
+  ]
+}

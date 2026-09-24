@@ -1,0 +1,19 @@
+{
+  "createdAt": "2026-09-12T21:01:30.788Z",
+  "id": "holm-overhaul-terrain-v1",
+  "repoRoot": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude",
+  "schema": "crafted-realm-studio-workspace-v1",
+  "targets": [
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/world/authoring/holm-overhaul.terrain.bundle.json"
+    },
+    {
+      "baseHash": null,
+      "existed": false,
+      "path": "assets/world/authoring/holm-overhaul.terrain.json"
+    }
+  ],
+  "version": 1
+}

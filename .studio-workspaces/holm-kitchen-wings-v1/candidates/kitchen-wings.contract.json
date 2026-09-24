@@ -1,0 +1,254 @@
+{
+  "schema": "holm.building-shape-study.v1",
+  "status": "Blender design candidate; not installed; runtime interactions unfinished",
+  "name": "Teaching Kitchen — Hearth and Pantry Wings",
+  "units": "1 unit = 1 tile",
+  "coordinates": "local Blender X,Y plan / Z up; glTF X,Y,Z = Blender X,Z,-Y",
+  "footprint": [
+    [
+      -5,
+      -3
+    ],
+    [
+      1,
+      -3
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      7,
+      1
+    ],
+    [
+      7,
+      5
+    ],
+    [
+      -5,
+      5
+    ]
+  ],
+  "footprintArea": 72,
+  "boundsPlan": [
+    -5,
+    -3,
+    7,
+    5
+  ],
+  "boundingRectangleArea": 96,
+  "rooms": [
+    {
+      "id": "bakehouse",
+      "bounds": [
+        -5,
+        -3,
+        1,
+        5
+      ],
+      "floor": 0,
+      "wallHeight": 3.65,
+      "purpose": "teach kneading, baking and food recovery"
+    },
+    {
+      "id": "pantry",
+      "bounds": [
+        1,
+        1,
+        7,
+        5
+      ],
+      "floor": 0,
+      "wallHeight": 2.85,
+      "purpose": "flour storage, washing and preparation"
+    }
+  ],
+  "doors": [
+    {
+      "id": "court-entry",
+      "axis": "Y",
+      "fixed": 1,
+      "span": [
+        -2.15,
+        -0.35
+      ],
+      "width": 1.8,
+      "height": 2.55
+    },
+    {
+      "id": "pantry-connection",
+      "axis": "Y",
+      "fixed": 1,
+      "span": [
+        2.05,
+        3.95
+      ],
+      "width": 1.9,
+      "height": 2.55
+    }
+  ],
+  "entryCourt": {
+    "bounds": [
+      1,
+      -3,
+      7,
+      1
+    ],
+    "canopyBounds": [
+      1.05,
+      -2.6,
+      2.8,
+      0.3
+    ]
+  },
+  "roofs": [
+    {
+      "part": "Roof",
+      "name": "bakehouse",
+      "eave": 3.72,
+      "ridge": 6.05,
+      "ridgeAxis": "Y"
+    },
+    {
+      "part": "Roof",
+      "name": "pantry",
+      "eave": 2.91,
+      "ridge": 4.34,
+      "ridgeAxis": "X"
+    },
+    {
+      "part": "Roof",
+      "name": "porch",
+      "eave": 2.6,
+      "ridge": 2.92
+    }
+  ],
+  "chimneyTop": 7.62,
+  "teachingStations": [
+    {
+      "part": "Oven",
+      "local": [
+        -3.25,
+        3.4,
+        0
+      ]
+    },
+    {
+      "part": "Worktable",
+      "local": [
+        -3.25,
+        -1.55,
+        0
+      ]
+    },
+    {
+      "part": "Pantry",
+      "local": [
+        6.1,
+        3,
+        0
+      ]
+    },
+    {
+      "part": "RecipeBoard",
+      "local": [
+        0.8,
+        0.18,
+        1.64
+      ]
+    }
+  ],
+  "designCardinalRoute": [
+    [
+      3.5,
+      -3.5
+    ],
+    [
+      3.5,
+      -2.5
+    ],
+    [
+      3.5,
+      -1.5
+    ],
+    [
+      2.5,
+      -1.5
+    ],
+    [
+      1.5,
+      -1.5
+    ],
+    [
+      0.5,
+      -1.5
+    ],
+    [
+      0.5,
+      -0.5
+    ],
+    [
+      0.5,
+      0.5
+    ],
+    [
+      0.5,
+      1.5
+    ],
+    [
+      0.5,
+      2.5
+    ],
+    [
+      1.5,
+      2.5
+    ],
+    [
+      2.5,
+      2.5
+    ],
+    [
+      3.5,
+      2.5
+    ],
+    [
+      4.5,
+      2.5
+    ]
+  ],
+  "triangleCount": 2922,
+  "materialCount": 10,
+  "meshCount": 21,
+  "textures": {
+    "resolution": [
+      128,
+      128
+    ],
+    "originalAuthored": true,
+    "source": "deterministic original pixel patterns authored in this Blender script; no reference image pixels copied",
+    "names": [
+      "stone",
+      "thatch",
+      "plaster",
+      "wood"
+    ]
+  },
+  "unfinished": [
+    "runtime placement and terrain fit",
+    "collision and cardinal nav compilation",
+    "recipe/item interaction binding",
+    "doors and oven fire animation",
+    "NPC tutor",
+    "save/load and tutorial progression",
+    "in-app Studio review and reference comparison",
+    "Safe Publish integration"
+  ],
+  "visualAcceptance": null,
+  "exportEvidence": {
+    "glbBytes": 315496,
+    "sha256": "1cdfdf5776e0a3dc2bc61593dd8f2f9c2080b2a8ab653e0b39c972f0714e81b3",
+    "embeddedImages": 4,
+    "primitives": 21
+  }
+}

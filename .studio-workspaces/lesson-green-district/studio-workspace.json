@@ -1,0 +1,19 @@
+{
+  "createdAt": "2026-09-07T13:06:40.436Z",
+  "id": "lesson-green-district",
+  "repoRoot": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude",
+  "schema": "crafted-realm-studio-workspace-v1",
+  "targets": [
+    {
+      "baseHash": "2d03ee214a5c47897f49db7db13965c14ab525983b1995435ded2ea6ca3d120b",
+      "existed": true,
+      "path": "assets/world/authoring/studio-lesson-green-district.bundle.json"
+    },
+    {
+      "baseHash": "2cf79967eff291db10049b5d722263767f31cdd0110c31d10b71e293300f2a14",
+      "existed": true,
+      "path": "assets/world/authoring/studio-lesson-green-district.json"
+    }
+  ],
+  "version": 1
+}

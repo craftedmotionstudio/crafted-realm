@@ -1,0 +1,55 @@
+{
+  "schema": "holm-bakehouse-placement-v1",
+  "status": "unpublished Studio placement; no runtime interaction registration",
+  "world": {
+    "x": 44,
+    "y": 4.07,
+    "z": 67
+  },
+  "yaw": 0,
+  "modelSha256": "3681d0feb35f6f44be9992822e46b0f6a290e28ce431dc6260df5cf3f5020216",
+  "supports": [
+    {
+      "id": "main",
+      "bounds": [
+        39,
+        62,
+        45,
+        70
+      ],
+      "samples": 1271,
+      "min": 3.9350324564998322,
+      "max": 4.046491652669808
+    },
+    {
+      "id": "pantry",
+      "bounds": [
+        45,
+        62,
+        51,
+        66
+      ],
+      "samples": 651,
+      "min": 4.0,
+      "max": 4.0
+    },
+    {
+      "id": "entrance",
+      "bounds": [
+        45,
+        67.9,
+        47,
+        69.7
+      ],
+      "samples": 110,
+      "min": 4.0,
+      "max": 4.0
+    }
+  ],
+  "entranceWorld": {
+    "x": 45,
+    "y": 4.14,
+    "z": 68.8
+  },
+  "reason": "Three tiles west of concept center keeps both wings on dry terrace; actual terrain fits within the existing 0.18-thick foundation slabs at floor4.07. Creek banks are unchanged."
+}

@@ -1,0 +1,29 @@
+{
+  "createdAt": "2026-07-17T15:07:09.771Z",
+  "id": "survival-wood-district",
+  "repoRoot": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude",
+  "schema": "crafted-realm-studio-workspace-v1",
+  "targets": [
+    {
+      "baseHash": "a829d295c4901e61cfdd70be060221ca1cf45deb476bf2160ea16227c7522bee",
+      "existed": true,
+      "path": "assets/world/authoring/studio-survival-wood-district.bundle.json"
+    },
+    {
+      "baseHash": "24abb2a866491ac8ce2f2f89048e1a202c825bb5d5fb31e75750e904bc6258ee",
+      "existed": true,
+      "path": "assets/world/authoring/studio-survival-wood-district.json"
+    },
+    {
+      "baseHash": "de460a0449a4e94834935519408507518abc7a3666de2a94351429cc0bd7cc26",
+      "existed": true,
+      "path": "assets/world/authoring/studio-survival-workyard.bundle.json"
+    },
+    {
+      "baseHash": "4f7fc5fb27dea415c5104490f900b3615a357b755ed1d7be74cb9e16b46efa57",
+      "existed": true,
+      "path": "assets/world/authoring/studio-survival-workyard.json"
+    }
+  ],
+  "version": 1
+}

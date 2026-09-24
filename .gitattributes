@@ -1,0 +1,2 @@
+# Studio workspaces are verified by exact SHA-256 bytes; never convert their line endings.
+.studio-workspaces/** -text

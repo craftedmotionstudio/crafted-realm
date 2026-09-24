@@ -1,0 +1,60 @@
+{
+  "schema": "holm-arrival-skiff-candidate-v1",
+  "status": "Blender candidate; not visually accepted or published",
+  "root": "ArrivalSkiff",
+  "coordinates": "game x,y-up,z; origin on waterline; length along Z",
+  "bounds": {
+    "min": [
+      -0.9429813623428345,
+      -0.471650630235672,
+      -2.438000202178955
+    ],
+    "max": [
+      0.9429813623428345,
+      0.6499999761581421,
+      2.438000202178955
+    ]
+  },
+  "triangles": 2688,
+  "meshes": 8,
+  "materials": 5,
+  "gltfPrimitives": 11,
+  "animations": [
+    "IdleBob"
+  ],
+  "idleBob": {
+    "durationSeconds": 4,
+    "translationAmplitude": 0.028,
+    "rollAmplitudeRadians": 0.016,
+    "loopEndpointsMatch": true
+  },
+  "interior": {
+    "waterlineY": 0,
+    "duckboardTopY": 0.07,
+    "seatTopY": 0.43,
+    "seatZ": [
+      -1.28,
+      0,
+      1.27
+    ],
+    "gunwaleY": 0.55,
+    "openRayProbe": [
+      0,
+      0.54,
+      0.65
+    ],
+    "probeHighestHitY": 0.06999996304512024,
+    "proofScope": "One downward interior probe plus explicit U-shaped hull source; not avatar boarding/capsule proof"
+  },
+  "reference": "Bible_References/Complete/Fishing_Pier_Option1.jpg",
+  "sha256": {
+    "skiff.blend": "91fa55cecacd73bb3125ae4117287e2a4bf49b8f7a58d315367712d40baff5ef",
+    "skiff.glb": "4aef4d48d79a1b96b82977b0f140f356e1438d0c58d0831e9decdc0c1a6ccb48"
+  },
+  "remaining": [
+    "Main-session Studio visual review and reference comparison",
+    "Placement and boarding interaction",
+    "NPC rower",
+    "Performance and Safe Publish"
+  ]
+}

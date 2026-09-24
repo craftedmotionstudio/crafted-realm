@@ -1,0 +1,24 @@
+{
+  "createdAt": "2026-09-07T13:06:52.860Z",
+  "exportId": "d6de5f1662552dfb",
+  "files": [
+    {
+      "beforeExisted": false,
+      "beforeHash": null,
+      "installedHash": "fda27b15866d5c6c12e102bb6052e10f9c5d9bef08f99d58d86203b6781cb0d1",
+      "path": "assets/world/authoring/studio-lesson-green-district.bundle.json"
+    },
+    {
+      "beforeExisted": false,
+      "beforeHash": null,
+      "installedHash": "2cf79967eff291db10049b5d722263767f31cdd0110c31d10b71e293300f2a14",
+      "path": "assets/world/authoring/studio-lesson-green-district.json"
+    }
+  ],
+  "id": "apply-2026-09-07T13-06-52-838Z-d6de5f1662552dfb",
+  "rolledBack": false,
+  "schema": "crafted-realm-studio-receipt-v1",
+  "type": "apply",
+  "version": 1,
+  "workspaceId": "lesson-green-district"
+}

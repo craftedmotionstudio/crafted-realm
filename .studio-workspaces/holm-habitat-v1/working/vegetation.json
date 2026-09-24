@@ -1,0 +1,416 @@
+{
+  "schema": "holm-habitat-study-v1",
+  "status": "unpublished visual composition; no gameplay collision registration",
+  "placements": [
+    {
+      "id": "oak-1",
+      "asset": "oak",
+      "x": 23,
+      "z": 97,
+      "scale": 0.88,
+      "yaw": 0.25
+    },
+    {
+      "id": "oak-2",
+      "asset": "oak",
+      "x": 29,
+      "z": 103,
+      "scale": 1,
+      "yaw": 0.86
+    },
+    {
+      "id": "oak-3",
+      "asset": "oak",
+      "x": 35,
+      "z": 99,
+      "scale": 0.77,
+      "yaw": 1.47
+    },
+    {
+      "id": "oak-4",
+      "asset": "oak",
+      "x": 52,
+      "z": 103,
+      "scale": 1.08,
+      "yaw": 2.08
+    },
+    {
+      "id": "oak-5",
+      "asset": "oak",
+      "x": 77,
+      "z": 106,
+      "scale": 0.88,
+      "yaw": 2.69
+    },
+    {
+      "id": "oak-6",
+      "asset": "oak",
+      "x": 84,
+      "z": 100,
+      "scale": 1,
+      "yaw": 3.3
+    },
+    {
+      "id": "oak-7",
+      "asset": "oak",
+      "x": 24,
+      "z": 71,
+      "scale": 0.77,
+      "yaw": 3.91
+    },
+    {
+      "id": "oak-8",
+      "asset": "oak",
+      "x": 28,
+      "z": 65,
+      "scale": 1.08,
+      "yaw": 4.52
+    },
+    {
+      "id": "oak-9",
+      "asset": "oak",
+      "x": 24,
+      "z": 48,
+      "scale": 1,
+      "yaw": 5.74
+    },
+    {
+      "id": "oak-10",
+      "asset": "oak",
+      "x": 26,
+      "z": 42,
+      "scale": 0.77,
+      "yaw": 6.35
+    },
+    {
+      "id": "oak-11",
+      "asset": "oak",
+      "x": 47,
+      "z": 43,
+      "scale": 1.08,
+      "yaw": 6.96
+    },
+    {
+      "id": "oak-12",
+      "asset": "oak",
+      "x": 91,
+      "z": 87,
+      "scale": 0.88,
+      "yaw": 7.57
+    },
+    {
+      "id": "birch-13",
+      "asset": "birch",
+      "x": 40,
+      "z": 83,
+      "scale": 0.88,
+      "yaw": 0.25
+    },
+    {
+      "id": "birch-14",
+      "asset": "birch",
+      "x": 54,
+      "z": 83,
+      "scale": 1,
+      "yaw": 0.86
+    },
+    {
+      "id": "birch-15",
+      "asset": "birch",
+      "x": 58,
+      "z": 75,
+      "scale": 0.77,
+      "yaw": 1.47
+    },
+    {
+      "id": "birch-16",
+      "asset": "birch",
+      "x": 62,
+      "z": 68,
+      "scale": 1.08,
+      "yaw": 2.08
+    },
+    {
+      "id": "birch-17",
+      "asset": "birch",
+      "x": 65,
+      "z": 62,
+      "scale": 0.88,
+      "yaw": 2.69
+    },
+    {
+      "id": "coastal-pine-18",
+      "asset": "coastal-pine",
+      "x": 108,
+      "z": 99,
+      "scale": 0.88,
+      "yaw": 0.45
+    },
+    {
+      "id": "coastal-pine-19",
+      "asset": "coastal-pine",
+      "x": 116,
+      "z": 109,
+      "scale": 1,
+      "yaw": 0.52
+    },
+    {
+      "id": "coastal-pine-20",
+      "asset": "coastal-pine",
+      "x": 129,
+      "z": 85,
+      "scale": 0.77,
+      "yaw": 0.5900000000000001
+    },
+    {
+      "id": "coastal-pine-21",
+      "asset": "coastal-pine",
+      "x": 133,
+      "z": 69,
+      "scale": 1.08,
+      "yaw": 0.66
+    },
+    {
+      "id": "coastal-pine-22",
+      "asset": "coastal-pine",
+      "x": 126,
+      "z": 51,
+      "scale": 0.88,
+      "yaw": 0.73
+    },
+    {
+      "id": "meadow-tuft-23",
+      "asset": "meadow-tuft",
+      "x": 24.7,
+      "z": 98.4,
+      "scale": 0.8,
+      "yaw": 0.3
+    },
+    {
+      "id": "meadow-tuft-24",
+      "asset": "meadow-tuft",
+      "x": 25.5,
+      "z": 97.9,
+      "scale": 0.62,
+      "yaw": 0
+    },
+    {
+      "id": "meadow-tuft-25",
+      "asset": "meadow-tuft",
+      "x": 36.7,
+      "z": 100.4,
+      "scale": 0.8,
+      "yaw": 2.3
+    },
+    {
+      "id": "meadow-tuft-26",
+      "asset": "meadow-tuft",
+      "x": 78.7,
+      "z": 107.4,
+      "scale": 0.8,
+      "yaw": 4.3
+    },
+    {
+      "id": "meadow-tuft-27",
+      "asset": "meadow-tuft",
+      "x": 79.5,
+      "z": 106.9,
+      "scale": 0.62,
+      "yaw": 4
+    },
+    {
+      "id": "meadow-tuft-28",
+      "asset": "meadow-tuft",
+      "x": 25.7,
+      "z": 72.4,
+      "scale": 0.8,
+      "yaw": 6.3
+    },
+    {
+      "id": "meadow-tuft-29",
+      "asset": "meadow-tuft",
+      "x": 25.7,
+      "z": 49.4,
+      "scale": 0.8,
+      "yaw": 8.3
+    },
+    {
+      "id": "meadow-tuft-30",
+      "asset": "meadow-tuft",
+      "x": 26.5,
+      "z": 48.9,
+      "scale": 0.62,
+      "yaw": 8
+    },
+    {
+      "id": "meadow-tuft-31",
+      "asset": "meadow-tuft",
+      "x": 48.7,
+      "z": 44.4,
+      "scale": 0.8,
+      "yaw": 10.3
+    },
+    {
+      "id": "meadow-tuft-32",
+      "asset": "meadow-tuft",
+      "x": 41.7,
+      "z": 84.4,
+      "scale": 0.8,
+      "yaw": 12.3
+    },
+    {
+      "id": "meadow-tuft-33",
+      "asset": "meadow-tuft",
+      "x": 42.5,
+      "z": 83.9,
+      "scale": 0.62,
+      "yaw": 12
+    },
+    {
+      "id": "meadow-tuft-34",
+      "asset": "meadow-tuft",
+      "x": 59.7,
+      "z": 76.4,
+      "scale": 0.8,
+      "yaw": 14.3
+    },
+    {
+      "id": "meadow-tuft-35",
+      "asset": "meadow-tuft",
+      "x": 66.7,
+      "z": 63.4,
+      "scale": 0.8,
+      "yaw": 16.3
+    },
+    {
+      "id": "meadow-tuft-36",
+      "asset": "meadow-tuft",
+      "x": 67.5,
+      "z": 62.9,
+      "scale": 0.62,
+      "yaw": 16
+    },
+    {
+      "id": "meadow-tuft-37",
+      "asset": "meadow-tuft",
+      "x": 117.7,
+      "z": 110.4,
+      "scale": 0.8,
+      "yaw": 18.3
+    },
+    {
+      "id": "creek-reeds-38",
+      "asset": "creek-reeds",
+      "x": 67.747,
+      "z": 32.426,
+      "scale": 0.8,
+      "yaw": 0.0
+    },
+    {
+      "id": "creek-reeds-39",
+      "asset": "creek-reeds",
+      "x": 65.833,
+      "z": 45.833,
+      "scale": 0.8,
+      "yaw": 1.4
+    },
+    {
+      "id": "creek-reeds-40",
+      "asset": "creek-reeds",
+      "x": 57.541,
+      "z": 59.157,
+      "scale": 0.8,
+      "yaw": 2.8
+    },
+    {
+      "id": "creek-reeds-41",
+      "asset": "creek-reeds",
+      "x": 52.01,
+      "z": 72.68,
+      "scale": 0.8,
+      "yaw": 4.199999999999999
+    },
+    {
+      "id": "creek-reeds-42",
+      "asset": "creek-reeds",
+      "x": 40.68,
+      "z": 102.01,
+      "scale": 0.8,
+      "yaw": 7.0
+    }
+  ],
+  "rejected": [
+    {
+      "asset": "oak",
+      "x": 34,
+      "z": 71,
+      "reason": "route clearance"
+    },
+    {
+      "asset": "birch",
+      "x": 58,
+      "z": 51,
+      "reason": "route clearance"
+    },
+    {
+      "asset": "birch",
+      "x": 76,
+      "z": 43,
+      "reason": "building clearance"
+    },
+    {
+      "asset": "birch",
+      "x": 77,
+      "z": 32,
+      "reason": "building clearance"
+    },
+    {
+      "asset": "birch",
+      "x": 42,
+      "z": 111,
+      "reason": "steep root support"
+    },
+    {
+      "asset": "coastal-pine",
+      "x": 103,
+      "z": 28,
+      "reason": "building clearance"
+    },
+    {
+      "asset": "coastal-pine",
+      "x": 109,
+      "z": 20,
+      "reason": "steep root support"
+    },
+    {
+      "asset": "coastal-pine",
+      "x": 119,
+      "z": 15,
+      "reason": "steep root support"
+    },
+    {
+      "asset": "meadow-tuft",
+      "x": 134.7,
+      "z": 70.4,
+      "reason": "off dry land"
+    },
+    {
+      "asset": "meadow-tuft",
+      "x": 135.5,
+      "z": 69.9,
+      "reason": "off dry land"
+    },
+    {
+      "asset": "creek-reeds",
+      "x": 44.333,
+      "z": 87.333,
+      "reason": "route clearance"
+    },
+    {
+      "asset": "creek-reeds",
+      "x": 36.01,
+      "z": 115.18,
+      "reason": "off dry land"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "createdAt": "2026-07-17T14:50:46.658Z",
+  "id": "survival-workyard-bundle",
+  "repoRoot": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude",
+  "schema": "crafted-realm-studio-workspace-v1",
+  "targets": [
+    {
+      "baseHash": "de460a0449a4e94834935519408507518abc7a3666de2a94351429cc0bd7cc26",
+      "existed": true,
+      "path": "assets/world/authoring/studio-survival-workyard.bundle.json"
+    },
+    {
+      "baseHash": "4f7fc5fb27dea415c5104490f900b3615a357b755ed1d7be74cb9e16b46efa57",
+      "existed": true,
+      "path": "assets/world/authoring/studio-survival-workyard.json"
+    }
+  ],
+  "version": 1
+}

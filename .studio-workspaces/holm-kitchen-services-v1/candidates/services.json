@@ -1,0 +1,113 @@
+{
+  "schema": "holm-bakehouse-services-v1",
+  "status": "Measured Studio station data; runtime handlers not installed",
+  "modelSha256": "3681d0feb35f6f44be9992822e46b0f6a290e28ce431dc6260df5cf3f5020216",
+  "navigationSha256": "72bf4c76ea5c0a42eea7ae8e3a84f9a0a27df9f9893fa9d0948bc4102e4ebaa7",
+  "placement": {
+    "x": 44,
+    "y": 4.07,
+    "z": 67
+  },
+  "stations": [
+    {
+      "id": "buckets",
+      "label": "Bucket rack",
+      "kind": "holm_bucket_shelf",
+      "nodeId": "4:-3:0",
+      "tile": {
+        "x": 4.5,
+        "y": 0.0,
+        "z": -2.5,
+        "plane": 0
+      },
+      "actions": [
+        "Take",
+        "Return bucket"
+      ],
+      "acceptsUseItem": false
+    },
+    {
+      "id": "flour",
+      "label": "Flour sacks",
+      "kind": "holm_flour_bin",
+      "nodeId": "2:-3:0",
+      "tile": {
+        "x": 2.5,
+        "y": 0.0,
+        "z": -2.5,
+        "plane": 0
+      },
+      "actions": [
+        "Fill bucket"
+      ],
+      "acceptsUseItem": false
+    },
+    {
+      "id": "water",
+      "label": "Water butt",
+      "kind": "holm_water_butt",
+      "nodeId": "4:-3:0",
+      "tile": {
+        "x": 4.5,
+        "y": 0.0,
+        "z": -2.5,
+        "plane": 0
+      },
+      "actions": [
+        "Fill bucket"
+      ],
+      "acceptsUseItem": false
+    },
+    {
+      "id": "dough",
+      "label": "Proving bowl",
+      "kind": "holm_dough_trough",
+      "nodeId": "-4:0:0",
+      "tile": {
+        "x": -3.5,
+        "y": 0.0,
+        "z": 0.5,
+        "plane": 0
+      },
+      "actions": [
+        "Take dough"
+      ],
+      "acceptsUseItem": false
+    },
+    {
+      "id": "oven",
+      "label": "Bread oven",
+      "kind": "holm_kitchen_range",
+      "nodeId": "-3:-2:1",
+      "tile": {
+        "x": -2.5,
+        "y": 0.0,
+        "z": -1.5,
+        "plane": 0
+      },
+      "actions": [
+        "Cook",
+        "Study"
+      ],
+      "acceptsUseItem": true
+    }
+  ],
+  "recipe": {
+    "inputs": {
+      "bucket_flour": 1,
+      "bucket_water": 1,
+      "dough": 1
+    },
+    "mixedItem": "bread_dough",
+    "bakedItem": "bread",
+    "baseCookingXp": 40,
+    "event": [
+      "bake",
+      "bread"
+    ]
+  },
+  "limitations": [
+    "Reachable stance does not prove service line of sight or item conversion.",
+    "The existing recipe module remains authoritative; this data does not grant inventory or lesson credit."
+  ]
+}

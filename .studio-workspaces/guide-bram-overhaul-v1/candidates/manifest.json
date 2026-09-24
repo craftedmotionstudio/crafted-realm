@@ -1,0 +1,23 @@
+{
+  "status": "candidate-unapproved",
+  "name": "Guide Bram",
+  "height": 1.899999976158142,
+  "triangles": 2556,
+  "meshes": 1,
+  "primitives": 9,
+  "materials": 9,
+  "clips": {
+    "Idle": 3.0,
+    "Talk": 3.0,
+    "Walk": 1.0
+  },
+  "ground": 0,
+  "forward": "+Z in exported GLB",
+  "reference": "Bible_References/Character/male_concepts/male_b_turnaround.png",
+  "source": "tools\\blender\\build_guide_bram_overhaul_v1.py",
+  "sha256": "b61c8386cce9913c54cd147d604dc53c878eab80a31e2c364b5b7d48ebb91116",
+  "limitations": [
+    "Studio visual acceptance and live NPC integration pending",
+    "Walk is an in-place authored gait; foot contact requires runtime review"
+  ]
+}

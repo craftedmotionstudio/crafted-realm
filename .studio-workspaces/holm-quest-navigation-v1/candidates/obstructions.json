@@ -1,0 +1,602 @@
+{
+  "nodes": [
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -3.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.300002098083496,
+      "object": "Lodge_UpperFurnishing_Warm_oak",
+      "distance": 0.2256234735250473
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -2.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Lodge_UpperFurnishing_Warm_oak",
+      "distance": 0.19155454635620117
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -1.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Lodge_UpperFurnishing_Warm_oak",
+      "distance": 0.14317823946475983
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 1.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Lodge_UpperFurnishing_Warm_oak",
+      "distance": 0.16900086402893066
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 2.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Lodge_UpperFurnishing_Warm_oak",
+      "distance": 0.16900086402893066
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 3.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Lodge_FurnishingBoard_Warm_oak",
+      "distance": 0.23501862585544586
+    },
+    {
+      "reason": "footprint-support",
+      "x": -2.26,
+      "z": -2.5,
+      "y": 4.149640083312988
+    },
+    {
+      "reason": "footprint-support",
+      "x": -2.26,
+      "z": -1.5,
+      "y": 3.4130325317382812
+    },
+    {
+      "reason": "footprint-support",
+      "x": -2.26,
+      "z": -0.5,
+      "y": 2.6764259338378906
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -0.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Lodge_Stair_Warm_oak",
+      "distance": 0.18724335730075836
+    },
+    {
+      "reason": "footprint-support",
+      "x": -2.26,
+      "z": 0.5,
+      "y": 1.9398174285888672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": 0.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Lodge_Stair_Warm_oak",
+      "distance": 0.2420104295015335
+    },
+    {
+      "reason": "footprint-support",
+      "x": -2.26,
+      "z": 1.5,
+      "y": 1.203211784362793
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": 1.5,
+      "y": 0.0,
+      "capsuleBase": 0.41250038146972656,
+      "object": "Lodge_Stair_Warm_oak",
+      "distance": 0.019999980926513672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": 3.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 0.0,
+      "object": "Lodge_FurnishingBoard_Warm_oak",
+      "distance": 0.23501870036125183
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": -0.5,
+      "y": -1.1920928955078125e-07,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Lodge_Stair_Warm_oak",
+      "distance": 0.18044424057006836
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": 0.5,
+      "y": -1.1920928955078125e-07,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Lodge_Stair_Warm_oak",
+      "distance": 0.23678915202617645
+    },
+    {
+      "reason": "footprint-support",
+      "x": -0.26,
+      "z": -3.5,
+      "y": 3.3000001907348633
+    },
+    {
+      "reason": "footprint-support",
+      "x": -0.26,
+      "z": -2.5,
+      "y": 3.299999237060547
+    },
+    {
+      "reason": "footprint-support",
+      "x": -0.26,
+      "z": -1.5,
+      "y": 3.3000001907348633
+    },
+    {
+      "reason": "footprint-support",
+      "x": -0.26,
+      "z": -0.5,
+      "y": 3.3000001907348633
+    },
+    {
+      "reason": "footprint-support",
+      "x": -0.26,
+      "z": 0.5,
+      "y": 3.3000001907348633
+    },
+    {
+      "reason": "footprint-support",
+      "x": -0.26,
+      "z": 1.5,
+      "y": 3.3000001907348633
+    },
+    {
+      "reason": "footprint-support",
+      "x": -0.26,
+      "z": 2.5,
+      "y": 3.3000001907348633
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": 2.5,
+      "y": -0.019999980926513672,
+      "capsuleBase": -0.01999974250793457,
+      "object": "Lodge_Door_Warm_oak",
+      "distance": 0.08422045409679413
+    },
+    {
+      "reason": "footprint-support",
+      "x": -0.26,
+      "z": 3.5,
+      "y": 3.299999237060547
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": 3.5,
+      "y": -0.019999980926513672,
+      "capsuleBase": -0.01999974250793457,
+      "object": "Lodge_Door_Dark_iron",
+      "distance": 0.0035417985636740923
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": -0.5,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_FurnishingMap_Warm_oak",
+      "distance": 0.2131737321615219
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": -3.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_FurnishingShelf_Warm_oak",
+      "distance": 0.004000946879386902
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": -0.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_FurnishingMap_Warm_oak",
+      "distance": 0.23155462741851807
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": -3.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_FurnishingShelf_Warm_oak",
+      "distance": 0.004000946879386902
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": -0.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_FurnishingMap_Warm_oak",
+      "distance": 0.23155462741851807
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -3.5,
+      "y": 1.9073486328125e-06,
+      "capsuleBase": 1.9073486328125e-06,
+      "object": "Lodge_FurnishingShelf_Warm_oak",
+      "distance": 0.004001900553703308
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -0.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_FurnishingMap_Warm_oak",
+      "distance": 0.2131737321615219
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": 0.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_FurnishingHearth_Light_gray_limestone",
+      "distance": 0.06400094926357269
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": 1.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_FurnishingHearth_Light_gray_limestone",
+      "distance": 0.019999980926513672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -3.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.01999950408935547,
+      "object": "Lodge_GroundShell_Light_gray_limestone",
+      "distance": 0.20823119580745697
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -2.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_GroundShell_Light_gray_limestone",
+      "distance": 0.2207074910402298
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -1.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_FurnishingBay_Warm_oak",
+      "distance": 0.21044349670410156
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -0.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_GroundShell_Light_gray_limestone",
+      "distance": 0.2207074910402298
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": 0.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.020000457763671875,
+      "object": "Lodge_GroundShell_Light_gray_limestone",
+      "distance": 0.2082313746213913
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -2.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.020000457763671875,
+      "object": "Lodge_GroundShell_Light_gray_limestone",
+      "distance": 0.05130257084965706
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -1.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": 0.0,
+      "object": "Lodge_GroundShell_Light_gray_limestone",
+      "distance": 0.05820854380726814
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -0.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.020000457763671875,
+      "object": "Lodge_GroundShell_Light_gray_limestone",
+      "distance": 0.05130254849791527
+    }
+  ],
+  "edges": [
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.45,
+      "z": -3.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.01999950408935547,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850833296775818,
+      "from": "-6:-4:0",
+      "to": "-5:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.45,
+      "z": -2.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.01999950408935547,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850882470607758,
+      "from": "-6:-3:0",
+      "to": "-5:-3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.45,
+      "z": -1.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.01999950408935547,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850836277008057,
+      "from": "-6:-2:0",
+      "to": "-5:-2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.45,
+      "z": -0.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.019998550415039062,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.2185085415840149,
+      "from": "-6:-1:0",
+      "to": "-5:-1:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.45,
+      "z": 0.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.01999950408935547,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850882470607758,
+      "from": "-6:0:0",
+      "to": "-5:0:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.45,
+      "z": 1.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.019998550415039062,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.2185090035200119,
+      "from": "-6:1:0",
+      "to": "-5:1:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.45,
+      "z": 2.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.019999980926513672,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850872039794922,
+      "from": "-6:2:0",
+      "to": "-5:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.45,
+      "z": 3.5,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.01999950408935547,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.2185087949037552,
+      "from": "-6:3:0",
+      "to": "-5:3:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -4.45,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.01999950408935547,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850882470607758,
+      "from": "-5:-5:0",
+      "to": "-5:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 3.55,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 0.0,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.2229483276605606,
+      "from": "-5:3:1",
+      "to": "-5:4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -4.45,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.01999950408935547,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850882470607758,
+      "from": "-4:-5:0",
+      "to": "-4:-4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -4.45,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.020000457763671875,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850818395614624,
+      "from": "-3:-5:0",
+      "to": "-3:-4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": -4.45,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.020000457763671875,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850818395614624,
+      "from": "-2:-5:0",
+      "to": "-2:-4:1"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -0.81,
+      "z": 0.5,
+      "y": 1.0312509536743164,
+      "from": "-2:0:0",
+      "to": "-1:0:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.05,
+      "z": 1.5,
+      "y": 0.20625019073486328,
+      "capsuleBase": 0.41250038146972656,
+      "object": "Lodge_Stair_Warm_oak",
+      "distance": 0.22090712189674377,
+      "from": "-2:1:0",
+      "to": "-1:1:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": 3.55,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 0.0,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.2229483425617218,
+      "from": "-2:3:1",
+      "to": "-2:4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": -4.45,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.020000457763671875,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850818395614624,
+      "from": "-1:-5:0",
+      "to": "-1:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": -4.45,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.01999950408935547,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850834786891937,
+      "from": "0:-5:0",
+      "to": "0:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": 1.55,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.2229488044977188,
+      "from": "1:1:0",
+      "to": "1:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": 1.55,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.2229488343000412,
+      "from": "2:1:0",
+      "to": "2:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": 1.55,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 0.0,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.2229485660791397,
+      "from": "3:1:0",
+      "to": "3:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -4.45,
+      "y": -0.020000457763671875,
+      "capsuleBase": -0.01999950408935547,
+      "object": "Lodge_GroundShell_Warm_oak",
+      "distance": 0.21850836277008057,
+      "from": "4:-5:0",
+      "to": "4:-4:0"
+    }
+  ]
+}
