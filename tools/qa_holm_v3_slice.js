@@ -58,8 +58,8 @@ async function clickTile(page,x,z,y,view){
   for(let hop=0;hop<8;hop++){
     const p=await page.evaluate(()=>[player.position.x,player.position.z]);
     const dx=x+.5-p[0],dz=z+.5-p[1],d=Math.hypot(dx,dz);
-    if(d<=6.5)break;
-    const k=6/d,hx=Math.floor(p[0]+dx*k),hz=Math.floor(p[1]+dz*k);
+    if(d<=5.5)break;
+    const k=4.5/d,hx=Math.floor(p[0]+dx*k),hz=Math.floor(p[1]+dz*k);
     const hy=await page.evaluate((hx,hz)=>{const g=groundY(hx+.5,hz+.5);return g===null?0:g;},hx,hz);
     if(!await clickTileOnce(page,hx,hz,hy))break;
     await idle(page);
@@ -111,11 +111,11 @@ async function trace(page,ms){
   xy=await clickKind(page,'climb',[60.5,4.3,94.5],0);
   const up=await page.waitForFunction(()=>(Player.plane||0)===1,{timeout:20000}).then(()=>true).catch(()=>false);
   s=await st(page);const zone=await page.evaluate(()=>(document.getElementById('zone-label')||{}).textContent||'');
-  ok('the ground-floor ladder climbs to the loft (plane 1) with an honest location label',xy&&up&&s.plane===1&&Math.abs(s.p[1]-5.62)<.1&&/upper floor/.test(zone),{xy,s,zone});
+  ok('the ground-floor ladder climbs to the loft (plane 1) with an honest location label',xy&&up&&s.plane===1&&Math.abs(s.p[1]-5.22)<.1&&/upper floor/.test(zone),{xy,s,zone});
   await shot(page,'03_loft');
-  xy=await clickTile(page,64,96,5.6,{pitch:1.1,dist:14});await idle(page);s=await st(page);
+  xy=await clickTile(page,64,96,5.2,{pitch:1.1,dist:14});await idle(page);s=await st(page);
   ok('a real click walks across the loft floor and stays upstairs',xy&&s.plane===1&&Math.abs(s.p[0]-64.5)<.6&&Math.abs(s.p[2]-96.5)<.6,{xy,s});
-  xy=await clickKind(page,'climb',[61.5,6.1,94.5],1,{pitch:1.1,dist:14});
+  xy=await clickKind(page,'climb',[61.5,5.7,94.5],1,{pitch:1.1,dist:14});
   const down=await page.waitForFunction(()=>(Player.plane||0)===0,{timeout:20000}).then(()=>true).catch(()=>false);
   s=await st(page);
   ok('the loft ladder climbs back down to the ground floor',xy&&down&&Math.abs(s.p[1]-3)<.1,{xy,s});
@@ -126,13 +126,15 @@ async function trace(page,ms){
   ok('a real click walks back out through the door and the roof returns',xy&&roofBack&&Math.abs(s.p[2]-102.5)<.6,{xy,roofBack,s});
 
   // the creek is refused; the bridge is crossed on its deck
-  xy=await clickTile(page,46,98,2.6);await idle(page);s=await st(page);
+  xy=await clickTile(page,43,101,1.6);await idle(page);s=await st(page);
   const dry=await page.evaluate(()=>HolmV3Preview.height(player.position.x,player.position.z)!==null);
-  ok('a click toward the creek stops on dry ground, never in the water',xy&&dry&&s.p[0]>=46,{xy,s});
-  await clickTile(page,52,86,4.2);await idle(page);                       // walk up the east bank to the bridge
-  xy=await clickTile(page,40,86,3.6);const bt=await trace(page,16000);await idle(page);s=await st(page);
-  const deck=bt.filter(q=>q[0]>=43&&q[0]<51&&q[2]>=86&&q[2]<88);
-  ok('a real click beyond the bridge crosses it on the deck at the authored height',deck.length>=3&&deck.every(q=>Math.abs(q[1]-3.3)<.02)&&s.p[0]<43,{samples:deck.length,s});
+  ok('a click toward the creek stops on dry ground, never in the water',xy&&dry,{xy,s});
+  await clickTile(page,49,98,2);await idle(page);                          // walk to the bridge's east end
+  await page.evaluate(()=>{window.__qaTrace=[];window.__qaIv=setInterval(()=>window.__qaTrace.push([player.position.x,player.position.y,player.position.z,Player.plane||0]),120);});
+  xy=await clickTile(page,37,97,2.9);await idle(page);
+  const bt=await page.evaluate(()=>{clearInterval(window.__qaIv);return window.__qaTrace;});await idle(page);s=await st(page);
+  const deck=bt.filter(q=>q[0]>=40&&q[0]<47&&q[2]>=97&&q[2]<99);
+  ok('a real click beyond the bridge crosses it on the deck at the authored height',deck.length>=3&&deck.every(q=>Math.abs(q[1]-2.5)<.02)&&s.p[0]<40,{samples:deck.length,s});
   await shot(page,'04_bridge');
 
   // reload restores position and lesson

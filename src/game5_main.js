@@ -763,9 +763,12 @@ function update(dt){
     }
   }
   const underground=(Player.plane||0)<0;
-  const targetFog = new THREE.Color(underground ? 0x30251c : ZONES[curZone].fog);
+  // 2004 look (v3 preview): black sky and a black edge ~25 tiles from the player, as the old client simply
+  // stopped drawing there. Fog runs from the camera, so its range follows the camera's own distance.
+  const v3Look=typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active();
+  const targetFog = new THREE.Color(v3Look ? 0x000000 : underground ? 0x30251c : ZONES[curZone].fog);
   if(scene.fog){
-    const targetNear=underground?78:65,targetFar=underground?230:205;
+    const targetNear=v3Look?camCtl.dist+14:underground?78:65,targetFar=v3Look?camCtl.dist+24:underground?230:205;
     scene.fog.near += (targetNear-scene.fog.near)*Math.min(1,dt*2.4);
     scene.fog.far += (targetFar-scene.fog.far)*Math.min(1,dt*2.4);
   }

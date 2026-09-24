@@ -4,7 +4,7 @@
  "notes": "Step 3 guide house, 2004 style: a two-storey hall with a loft, a lower study wing through an arch, one front door facing the landing path. Local tiles; origin is the world tile of local 0,0.",
  "origin": [60, 94],
  "floorY": 3,
- "storeyH": 2.6,
+ "storeyH": 2.2,
  "rooms": [
   {"id": "hall",  "level": 0, "x": 0, "z": 0, "w": 7, "d": 5},
   {"id": "study", "level": 0, "x": 7, "z": 1, "w": 4, "d": 4},

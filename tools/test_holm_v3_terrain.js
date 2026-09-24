@@ -67,4 +67,13 @@ check('malformed sources are rejected',()=>{
     const s=clone(source);change(s);assert.throws(()=>T.compile(s),'case '+n);
   });
 });
+check('the real island: ~2004 size, every route reachable, and the creek splits it without the bridge',()=>{
+  const real=JSON.parse(require('fs').readFileSync(require('path').join(__dirname,'..','assets','world','holm_v3','holm-v3.terrain.source.json'),'utf8'));
+  const rb=T.compile(real);assert(rb.routes.every(r=>r.reachable),'every authored route is walkable');
+  let minx=999,maxx=0,minz=999,maxz=0;
+  for(let z=0;z<rb.depth;z++)for(let x=0;x<rb.width;x++)if(rb.tileY[z*rb.width+x]!==null){minx=Math.min(minx,x);maxx=Math.max(maxx,x);minz=Math.min(minz,z);maxz=Math.max(maxz,z);}
+  assert(maxx-minx+1<=115&&maxz-minz+1<=85,'compact 2004-size island (owner, 2026-09-24)');
+  const nb=clone(real);nb.crossings=[];nb.paths=nb.paths.filter(p=>!p.points.some(q=>q[0]===33));
+  assert.strictEqual(T.route(T.compile(nb),real.anchors.guide,real.anchors.kitchen).reachable,false,'bridge is the only surface crossing');
+});
 console.log('[HOLM_V3_TERRAIN] '+passed+'/'+passed+' checks passed');

@@ -3812,3 +3812,11 @@ length (slight medium-length read in 3/4).
 - Gate `tools/qa_holm_v3_slice.js` 13/13 real pointer (walled approach forced through the door, lesson 1, loft,
   creek refusal, bridge deck, reload). Production route 20/20; blocked-click fallback no longer crosses walls.
 - STOP for owner review per the goal. Captures: scratchpad/holm_v3_review/01..06.
+
+## 2026-09-24 — Step 3 look rework after owner review 1 (target: the real 2004 RS2 client)
+- Owner: rework the look (too clean, buildings, lighting, terrain); tighten to ~2004 size; creek to the sea.
+- Terrain now follows the 2004 client's scene-builder model (studied, own code): 11x11 HSL colour blending, light
+  baked per vertex (ambient 96 + low side light), unlit smooth render; black sky and ~25-tile black edge.
+- Own textures: irregular field stone, dark slate, dappled leaves; storey 2.2; low side light for models.
+- Island 109x81 tiles, creek coast to coast, bridge the only surface crossing (locked in tests); bridge decks
+  clickable. Slice gate 13/13, terrain tests 9/9. Captures scratchpad/holm_v3_review/01..07. Awaiting review 2.

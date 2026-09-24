@@ -162,18 +162,26 @@ var HolmTileHouse=(function(){
     if(patterns[kind])return patterns[kind];
     if(typeof document==='undefined')return null;
     var c=document.createElement('canvas');c.width=c.height=64;var x=c.getContext('2d');
+    function rnd2(seed){var s=Math.sin(seed*12.9898+4.1)*43758.5453;return s-Math.floor(s);}
     function shade(base,seed){var s=Math.sin(seed*91.7)*43758.5;s-=Math.floor(s);var v=Math.round(base+(s-.5)*22);return 'rgb('+v+','+(v-3)+','+(v-9)+')';}
+    // 2004 rework: warmer, darker field stone with irregular course heights, and a darker weathered slate,
+    // both with fine speckle so surfaces never read as clean plastic at the gameplay camera.
     if(kind==='stone'){
-      x.fillStyle='#5f5b54';x.fillRect(0,0,64,64);
-      for(var row=0;row<2;row++)for(var b=-1;b<3;b++){var off=row?16:0,bx=b*32+off;
-        x.fillStyle=shade(168,row*7+b+3);x.fillRect(bx+1,row*32+1,30,30);
-        x.fillStyle='rgba(255,255,255,.08)';x.fillRect(bx+1,row*32+1,30,3);}
+      x.fillStyle='#4a453e';x.fillRect(0,0,64,64);
+      var rows=[0,14,30,46,64];
+      for(var row=0;row<4;row++){var y0=rows[row],hh=rows[row+1]-y0,off=(row%2)*11;
+        for(var b=-1;b<4;b++){var bw=18+Math.round(rnd2(row*5+b)*8),bx=b*21+off;
+          x.fillStyle=shade(138,row*7+b+3);x.fillRect(bx+1,y0+1,bw-2,hh-2);
+          x.fillStyle='rgba(255,240,220,.07)';x.fillRect(bx+1,y0+1,bw-2,2);
+          x.fillStyle='rgba(0,0,0,.12)';x.fillRect(bx+1,y0+hh-3,bw-2,2);}}
     }else{
-      x.fillStyle='#4f5257';x.fillRect(0,0,64,64);
+      x.fillStyle='#3c3d40';x.fillRect(0,0,64,64);
       for(var r=0;r<4;r++)for(var t=-1;t<5;t++){var ox2=(r%2)*8+t*16;
-        x.fillStyle=shade(132,r*11+t);x.fillRect(ox2+1,r*16+1,14,13);
-        x.fillStyle='rgba(0,0,0,.25)';x.fillRect(ox2+1,r*16+13,14,2);}
+        x.fillStyle=shade(104,r*11+t);x.fillRect(ox2+1,r*16+1,14,13);
+        x.fillStyle='rgba(0,0,0,.3)';x.fillRect(ox2+1,r*16+12,14,3);}
     }
+    for(var sp=0;sp<260;sp++){var sx=Math.floor(rnd2(sp*2.3)*64),sy=Math.floor(rnd2(sp*4.1)*64);
+      x.fillStyle=rnd2(sp)>.5?'rgba(0,0,0,.14)':'rgba(255,255,255,.07)';x.fillRect(sx,sy,1,1);}
     var tex=new THREE.CanvasTexture(c);tex.wrapS=tex.wrapT=THREE.RepeatWrapping;
     return (patterns[kind]=tex);
   }

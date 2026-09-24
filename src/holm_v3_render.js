@@ -23,18 +23,20 @@ var HolmV3Render=(function(){
   // One chunk (8x8 tiles) of the v3 bundle as a non-indexed mesh. Vertex heights come from the
   // shared lattice, so neighbouring chunks meet exactly; crossings are rendered by their own models.
   function buildChunk(THREE,bundle,cx,cz,material){
-    var base=bundle.base,W=base.width,stride=W+1,pos=[],col=[];
+    var base=bundle.base,W=base.width,stride=W+1,pos=[],col=[],v=prepare2004(bundle),c3=new THREE.Color();
     function h(x,z){ return base.heights[z*stride+x]; }
-    function m(x,z){ return base.materials[z*stride+x]; }
     for(var tz=cz*8;tz<Math.min(cz*8+8,base.depth);tz++)for(var tx=cx*8;tx<Math.min(cx*8+8,W);tx++){
       var ov=bundle.overlay[tz*W+tx],corners=[[tx,tz],[tx+1,tz],[tx,tz+1],[tx+1,tz+1]];
       var tri=[0,2,1,1,2,3];
       // alternate the split diagonal so slopes do not stripe in one direction
       if((tx+tz)&1) tri=[0,2,3,0,3,1];
+      // a tiny per-tile lightness wobble, as the old client's random offsets gave fields some life
+      var wob=jitter(tx,tz)*.35;
       for(var k=0;k<6;k++){
-        var c=corners[tri[k]];pos.push(c[0],h(c[0],c[1]),c[1]);
-        var cc=ov?colour(THREE,OVERLAY[ov],tx,tz):colour(THREE,UNDERLAY[m(c[0],c[1])],c[0],c[1]);
-        col.push(cc.r,cc.g,cc.b);
+        var c=corners[tri[k]],j=c[1]*stride+c[0],f=v.light[j]/128;pos.push(c[0],h(c[0],c[1]),c[1]);
+        if(ov){var o=OVERLAY_HSL[ov];c3.setHSL(o[0],o[1],Math.max(0,Math.min(1,o[2]*f*(1+wob))));}
+        else c3.setHSL(v.hue[j],v.sat[j],Math.max(0,Math.min(1,v.lit[j]*f*(1+wob*.5))));
+        col.push(c3.r,c3.g,c3.b);
       }
     }
     var g=new THREE.BufferGeometry();
@@ -45,7 +47,49 @@ var HolmV3Render=(function(){
     return mesh;
   }
 
-  function terrainMaterial(THREE){ return new THREE.MeshLambertMaterial({vertexColors:true,flatShading:true}); }
+  function terrainMaterial(THREE){ return new THREE.MeshBasicMaterial({vertexColors:true}); }   // light is baked (2004)
+
+  /* ---- the 2004 terrain model (studied from the RS2 client's scene builder; our own implementation) ----
+   * 1. Ground colours are HSL and blended over an 11x11 tile box, giving broad soft colour fields.
+   * 2. Each lattice vertex gets a baked light from its heightfield normal: 96 ambient plus a fixed low
+   *    side light; ground facing the light is bright, ground facing away goes dark.
+   * 3. The final colour is the blended HSL with lightness scaled by that light (x/128). Path overlays
+   *    keep their own flat colour per tile but take the same corner lights, so edges stay crisp while
+   *    the shading stays continuous. Rendered unlit (MeshBasicMaterial) and smooth, as the old client did. */
+  var HSL=[[0.125,.42,.56],   // 0 sand
+           [0.255,.48,.36],   // 1 grass
+           [0.11,.09,.46],    // 2 rock
+           [0.13,.26,.30],    // 3 creek bed
+           [0.27,.16,.30]];   // 4 sea floor
+  var OVERLAY_HSL=[null,[0.085,.34,.34],[0.10,.05,.46],[0.12,.36,.58]];   // dirt, cobble, sand
+  var LIGHT=[-.70,.14,.70];   // toward the light, in our axes (x east, y up, z south); low and from the west-south
+  function lightAt(b,x,z){
+    var W=b.base.width,H=b.base.depth,s=W+1,h=b.base.heights;
+    var cx=Math.max(1,Math.min(W-1,x)),cz=Math.max(1,Math.min(H-1,z));
+    var dx=h[cz*s+cx+1]-h[cz*s+cx-1],dz=h[(cz+1)*s+cx]-h[(cz-1)*s+cx];
+    var len=Math.hypot(dx,2,dz),nx=-dx/len,ny=2/len,nz=-dz/len;
+    return 96+85*(nx*LIGHT[0]+ny*LIGHT[1]+nz*LIGHT[2]);
+  }
+  function hslToRgb(h,s,l){var c=new (typeof THREE!=='undefined'?THREE.Color:Object)();if(!c.setHSL)return null;return c.setHSL(h,s,Math.max(0,Math.min(1,l)));}
+  // One pass over the whole lattice: blended HSL (11x11 box) and baked light per vertex.
+  function prepare2004(b){
+    if(b._v2004)return b._v2004;
+    var W=b.base.width,H=b.base.depth,s=W+1,n=s*(H+1),m=b.base.materials;
+    var hue=new Float32Array(n),sat=new Float32Array(n),lit=new Float32Array(n),light=new Float32Array(n);
+    // hue is averaged as a vector so reds and greens never average through grey
+    var ch=new Float32Array(n),shh=new Float32Array(n),ss=new Float32Array(n),sl=new Float32Array(n);
+    for(var i=0;i<n;i++){var c=HSL[m[i]];ch[i]=Math.cos(c[0]*6.2832);shh[i]=Math.sin(c[0]*6.2832);ss[i]=c[1];sl[i]=c[2];}
+    function box(src){ // separable 11-wide box blur on the lattice
+      var tmp=new Float32Array(n),out=new Float32Array(n),R=5;
+      for(var z=0;z<=H;z++)for(var x=0;x<=W;x++){var a=0,k=0;for(var d=-R;d<=R;d++){var xx=x+d;if(xx<0||xx>W)continue;a+=src[z*s+xx];k++;}tmp[z*s+x]=a/k;}
+      for(z=0;z<=H;z++)for(x=0;x<=W;x++){a=0;k=0;for(d=-R;d<=R;d++){var zz=z+d;if(zz<0||zz>H)continue;a+=tmp[zz*s+x];k++;}out[z*s+x]=a/k;}
+      return out;
+    }
+    var bc=box(ch),bs=box(shh),bsat=box(ss),bl=box(sl);
+    for(var z=0;z<=H;z++)for(var x=0;x<=W;x++){var j=z*s+x;
+      hue[j]=((Math.atan2(bs[j],bc[j])/6.2832)+1)%1;sat[j]=bsat[j];lit[j]=bl[j];light[j]=lightAt(b,x,z);}
+    return (b._v2004={hue:hue,sat:sat,lit:lit,light:light});
+  }
 
   // Sea plane plus the creek ribbon at its authored water heights, in one flat 2004 blue.
   function buildWater(THREE,bundle){
@@ -69,6 +113,10 @@ var HolmV3Render=(function(){
     var wood=new THREE.MeshLambertMaterial({color:'#7a5532',flatShading:true});
     var dark=new THREE.MeshLambertMaterial({color:'#5a3d22',flatShading:true});
     var alongX=c.w>=c.d,len=alongX?c.w:c.d,wide=alongX?c.d:c.w;
+    // The planks are not ground to the picker, so a click on the bridge used to fall through to the creek
+    // bed below. An invisible deck surface named 'ground' makes a click on the bridge walk onto it.
+    var hit=new THREE.Mesh(new THREE.BoxGeometry(c.w,.06,c.d),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+    hit.name='ground';hit.position.set(c.x+c.w/2,c.deckY,c.z+c.d/2);g.add(hit);g.userData.deckHit=hit;
     for(var i=0;i<len*2;i++){
       var plank=new THREE.Mesh(new THREE.BoxGeometry(alongX?.46:wide,.12,alongX?wide:.46),i%2?wood:dark);
       var t=i*.5+.25;plank.position.set(alongX?c.x+t:c.x+c.w/2,c.deckY-.06,alongX?c.z+c.d/2:c.z+t);g.add(plank);

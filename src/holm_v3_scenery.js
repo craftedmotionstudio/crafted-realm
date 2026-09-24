@@ -13,6 +13,17 @@ var HolmV3Scenery=(function(){
   // deterministic per-placement variety (no Math.random, so every load looks the same)
   function rnd(seed){var s=Math.sin(seed*12.9898)*43758.5453;return s-Math.floor(s);}
 
+  // 2004 trees carried a small dappled leaf texture: our own 64px pattern of overlapping leaf blobs, mostly
+  // light-on-dark so the vertex colour still sets the tree's overall green.
+  function leafTexture(T){
+    if(cache.leafTex||typeof document==='undefined')return cache.leafTex||null;
+    var c=document.createElement('canvas');c.width=c.height=64;var x=c.getContext('2d');
+    x.fillStyle='#c4c4c4';x.fillRect(0,0,64,64);
+    for(var i=0;i<90;i++){var px=rnd(i*3.1)*64,py=rnd(i*7.7)*64,r=2+rnd(i*1.9)*4,v=Math.round(165+rnd(i*5.3)*90);
+      x.fillStyle='rgb('+v+','+v+','+v+')';x.beginPath();x.ellipse(px,py,r,r*.6,rnd(i)*3,0,6.283);x.fill();}
+    var t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(2,2);
+    return (cache.leafTex=t);
+  }
   // A leafy clump: a once-subdivided icosahedron, gently lumpy, each vertex a slightly different green so the
   // crown reads mottled and round like the reference trees rather than a sharp 20-sided gem.
   function clump(T,g,r,hex,x,y,z,seed){
@@ -20,10 +31,10 @@ var HolmV3Scenery=(function(){
     for(var i=0;i<p.count;i++){
       var k=.9+rnd(seed+i*.37)*.2;p.setXYZ(i,p.getX(i)*k,p.getY(i)*k*.92,p.getZ(i)*k);
       // olive, not lime, under the game sun
-      var c=base.clone().multiplyScalar(.7+rnd(seed*3+i)*.3+(p.getY(i)>0?.06:-.08));cols.push(c.r,c.g,c.b);
+      var c=base.clone().multiplyScalar(.95+rnd(seed*3+i)*.35+(p.getY(i)>0?.1:-.1));cols.push(c.r,c.g,c.b);
     }
     geo.setAttribute('color',new T.Float32BufferAttribute(cols,3));geo.computeVertexNormals();
-    if(!cache.leaf)cache.leaf=new T.MeshLambertMaterial({vertexColors:true,flatShading:true});
+    if(!cache.leaf)cache.leaf=new T.MeshLambertMaterial({vertexColors:true,flatShading:true,map:leafTexture(T)});
     var m=new T.Mesh(geo,cache.leaf);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;g.add(m);return m;
   }
   var MAKERS={

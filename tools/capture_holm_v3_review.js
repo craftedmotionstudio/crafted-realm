@@ -12,7 +12,8 @@ const VIEWS=[
   {name:'03_guide_house_side',pos:[73.5,101.5],plane:0,yaw:1.9,dist:28,pitch:.75},
   {name:'04_hall_interior',pos:[64.5,97.5],plane:0,yaw:.5,dist:17,pitch:1.1},
   {name:'05_loft',pos:[64.5,96.5],plane:1,yaw:.5,dist:17,pitch:1.15},
-  {name:'06_creek_bridge',pos:[53.5,86.5],plane:0,yaw:1.57,dist:26,pitch:.85}
+  {name:'06_creek_bridge',pos:[49.5,99.5],plane:0,yaw:1.2,dist:24,pitch:.85},
+  {name:'07_island_overview',pos:[62.5,90.5],plane:0,yaw:.3,dist:70,pitch:1.2}
 ];
 (async()=>{
   const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',

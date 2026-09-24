@@ -163,6 +163,17 @@ comes from the owner and cannot be replaced by a self-assigned score.**
       canvas patterns), stone quoins, cobbled yard, round mottled canopies. Review captures:
       `scratchpad/holm_v3_review/01..06`. Known gaps for the owner: stone reads pale under the game sun; steep
       shoreline and creek banks; minimap blank on the loft; no Guide Bram yet (step 6). **Awaiting owner.**
+      **Owner review 1 (2026-09-24): "Rework the look"** — too clean/plastic, buildings wrong, colours/lighting
+      wrong, terrain/nature wrong; target = the real 2004 RS2 client. Also: tighten to ~2004 size; creek to the
+      sea so the bridge is the only crossing. Rework, modelled on the 2004 client's scene builder (studied in the
+      2004scape clone, our own code): terrain colours blended over an 11x11 tile box in HSL with light baked per
+      vertex from the heightfield normal (ambient 96 + fixed low side light) and rendered unlit and smooth; black
+      sky and a black edge ~25 tiles from the player; one low side light for models; own textures for field
+      stone (irregular courses), slate, and dappled leaves; storey height 2.6 -> 2.2. Island reshaped to 109x81
+      tiles with a coast-to-coast creek (test: guide -> kitchen unreachable without the bridge); new bridge site
+      at z97-98. Bridge decks are now clickable (clicks used to fall through to the creek bed). Slice gate 13/13.
+      Known: beach sand blends into grass (2004 blending); mine -> keep is 126 steps round by the bridge (step 4:
+      cave passage under the creek). **Awaiting owner review 2.**
 
 ### M4 — The rest of the island
 - [ ] Place the bakehouse, quest lodge and keep candidates on the compiled terrain with services bound to their

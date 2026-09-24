@@ -1,8 +1,8 @@
 {
-  "profile": "v3-slice-qa-mufmhaes",
+  "profile": "v3-slice-qa-mufnguic",
   "passed": 13,
   "total": 13,
-  "seconds": 100,
+  "seconds": 90.9,
   "checks": [
     {
       "label": "fresh profile boots onto the v3 preview at the landing",
@@ -93,7 +93,7 @@
           "p": [
             61.5,
             3,
-            97.39
+            96.5
           ],
           "plane": 0,
           "step": 1,
@@ -107,13 +107,13 @@
       "ok": true,
       "detail": {
         "xy": [
-          744,
-          314
+          769,
+          313
         ],
         "s": {
           "p": [
             61.5,
-            5.62,
+            5.22,
             94.5
           ],
           "plane": 1,
@@ -135,7 +135,7 @@
         "s": {
           "p": [
             64.5,
-            5.62,
+            5.22,
             96.5
           ],
           "plane": 1,
@@ -172,7 +172,7 @@
       "detail": {
         "xy": [
           769,
-          286
+          262
         ],
         "roofBack": true,
         "s": {
@@ -193,14 +193,14 @@
       "ok": true,
       "detail": {
         "xy": [
-          785,
-          502
+          773,
+          357
         ],
         "s": {
           "p": [
-            46.5,
-            0.85,
-            98.5
+            44.5,
+            1.21,
+            101.5
           ],
           "plane": 0,
           "step": 1,
@@ -213,12 +213,12 @@
       "label": "a real click beyond the bridge crosses it on the deck at the authored height",
       "ok": true,
       "detail": {
-        "samples": 5,
+        "samples": 43,
         "s": {
           "p": [
-            40.5,
-            3.74,
-            86.5
+            37.5,
+            2.77,
+            97.5
           ],
           "plane": 0,
           "step": 1,
@@ -233,9 +233,9 @@
       "detail": {
         "before": {
           "p": [
-            40.5,
-            3.74,
-            86.5
+            37.5,
+            2.77,
+            97.5
           ],
           "plane": 0,
           "step": 1,
@@ -244,9 +244,9 @@
         },
         "after": {
           "p": [
-            40.5,
-            3.74,
-            86.5
+            37.5,
+            2.77,
+            97.5
           ],
           "plane": 0,
           "step": 1,

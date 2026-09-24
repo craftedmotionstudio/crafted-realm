@@ -33,6 +33,22 @@ var HolmV3Preview=(function(){
       scene.add(s.group);s.colliders.forEach(function(c){WORLD.colliders.push(c);});installed.push({scenery:s});
     });
   }
+  // 2004 model lighting: one low side light from the west-south (matching the baked terrain light) and a
+  // dimmer, neutral ambient, so buildings and trees read moody rather than sunlit. Restored on dispose.
+  var savedLights=null;
+  function setLights(on){
+    if(typeof scene==='undefined')return;
+    if(on){
+      savedLights=[];
+      scene.children.forEach(function(o){
+        if(o.isHemisphereLight){savedLights.push([o,o.intensity,o.color.getHex(),o.groundColor.getHex()]);o.intensity=.55;o.color.set('#d8d8d0');o.groundColor.set('#4a4a40');}
+        else if(o.isDirectionalLight){savedLights.push([o,o.intensity,o.color.getHex(),o.position.clone()]);o.intensity=.95;o.color.set('#fff6e8');o.position.set(-70,22,70);}
+      });
+    }else if(savedLights){
+      savedLights.forEach(function(s){var o=s[0];o.intensity=s[1];o.color.setHex(s[2]);if(o.isHemisphereLight)o.groundColor.setHex(s[3]);else o.position.copy(s[3]);});
+      savedLights=null;
+    }
+  }
   var ROLES={study_route:{kind:'holm_v3_chart',label:'Study <b>Relief chart</b>'},
     provisions:{kind:'holm_v3_provisions',label:'Collect-tools <b>Provisions rack</b>'}};
   // Service stances in world tiles (guide house origin 60,94): beside the chart and the rack, inside the hall.
@@ -62,9 +78,11 @@ var HolmV3Preview=(function(){
       defaultLandmark:'v3_landing',landmarks:landmarks,chunks:chunks,
       hooks:{
         buildTerrain:function(p){
+          setLights(true);
           material=HolmV3Render.terrainMaterial(THREE);
           water=HolmV3Render.buildWater(THREE,bundle);scene.add(water);
-          crossings=bundle.crossings.map(function(c){var g=HolmV3Render.buildCrossing(THREE,c);scene.add(g);return g;});
+          crossings=bundle.crossings.map(function(c){var g=HolmV3Render.buildCrossing(THREE,c);scene.add(g);
+            if(g.userData.deckHit){WORLD.clickables.push(g.userData.deckHit);WORLD.grounds.push(g.userData.deckHit);}return g;});
           if(typeof CollisionGrid!=='undefined') CollisionGrid.initResident(p);
           installContent();
           var s=p.getSpawnLandmark(p.defaultLandmark);p.updateResidency(s.x,s.z,true);
@@ -86,6 +104,7 @@ var HolmV3Preview=(function(){
           handle.mesh.geometry.dispose();
         },
         dispose:function(){
+          setLights(false);
           if(water){scene.remove(water);water.traverse(function(o){if(o.geometry)o.geometry.dispose();});}
           crossings.forEach(function(g){scene.remove(g);});crossings=[];
           if(material) material.dispose();material=null;water=null;

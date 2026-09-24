@@ -152,6 +152,11 @@ check('the follow camera is clamped out of the surface terrain along its boom',
     /hw:\.5,hd:\.05\}:\{type:'rect',x:ex,z:ez,hw:\.05,hd:\.5\}/.test(house)&&/proxy\.name='climb-hit-proxy'/.test(house)&&
     /slab\.name='ground';slab\.userData\.plane=r\.level;/.test(house)&&
     fs.existsSync(path.join(ROOT,'tools','qa_holm_v3_slice.js'))&&fs.existsSync(path.join(ROOT,'tools','test_holm_tile_house.js')));
+  const r3=fs.readFileSync(path.join(ROOT,'src','holm_v3_render.js'),'utf8'),p3=fs.readFileSync(path.join(ROOT,'src','holm_v3_preview.js'),'utf8');
+  check('the v3 preview keeps the owner-directed 2004 look (review 1): blended HSL + baked light terrain, black edge, clickable bridge decks',
+    /function prepare2004\(b\)\{/.test(r3)&&/return 96\+85\*/.test(r3)&&/new THREE\.MeshBasicMaterial\(\{vertexColors:true\}\)/.test(r3)&&
+    /hit\.name='ground';/.test(r3)&&/v3Look \? 0x000000/.test(mainSource)&&/camCtl\.dist\+14/.test(mainSource)&&
+    /function setLights\(on\)\{/.test(p3)&&/WORLD\.clickables\.push\(g\.userData\.deckHit\)/.test(p3));
   check('the restore greeting names Tutor\'s Holm or Veyhollow from the loaded provider',
     /\/\^tutors-holm\/\.test\(this\.lastLoad\.provider\)/.test(fs.readFileSync(path.join(ROOT,'src','ui_save.js'),'utf8')));
   check('the play button names where the adventurer will land (Holm vs Veyhollow)',
