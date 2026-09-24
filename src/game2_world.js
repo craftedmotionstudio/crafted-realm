@@ -2562,11 +2562,23 @@ function walkAnim(g, moving, dt, speedMul){
     if(p.headTop) p.headTop.rotation.z = hn;
   }
 }
-/* ---------- creature textures: Nano-Banana-painted maps loaded at boot ---------- */
+/* ---------- creature textures: Nano-Banana-painted maps, fetched on first use ----------
+ * These nine PNGs are 14.4 MB and mostly serve the mainland; Tutor's Holm touches few or none of them.
+ * Each TEX entry is a lazy getter: the file downloads the first time any code reads it. A clone taken
+ * before the image arrives would stay blank, so pending clones receive the image on load. */
 function loadCreatureTextures(){
   const L=new THREE.TextureLoader();
-  const reg=(name,file,rep)=>{ const t=L.load('assets/textures/'+file);
-    t.wrapS=t.wrapT=THREE.RepeatWrapping; if(rep) t.repeat.set(rep,rep); TEX[name]=t; return t; };
+  const reg=(name,file,rep)=>{
+    let t=null;
+    Object.defineProperty(TEX,name,{configurable:true,enumerable:true,get(){
+      if(t) return t;
+      const clones=[];
+      t=L.load('assets/textures/'+file,()=>{ clones.forEach(c=>{ c.image=t.image; c.needsUpdate=true; }); clones.length=0; });
+      t.wrapS=t.wrapT=THREE.RepeatWrapping; if(rep) t.repeat.set(rep,rep);
+      t.clone=function(){ const c=THREE.Texture.prototype.clone.call(this); if(!this.image) clones.push(c); return c; };
+      return t;
+    }});
+  };
   reg('goblinSkin','goblin_skin.png');
   reg('stoneWall','stone_wall.png',2);
   reg('woodPlanks','wood_planks.png',1);

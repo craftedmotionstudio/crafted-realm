@@ -3781,3 +3781,11 @@ length (slight medium-length read in 3/4).
 - Fixed three first-entry defects found by live play: welcome button named Veyhollow for a Holm arrival; first frames
   rendered from the world origin; the designer close-up sat inside the Guide Hall wall/door with a screen-filling
   name tag. Pane-verified (new + continued profiles), three new locks, smoke 105/105 both phases after the fix.
+
+## 2026-09-24 — Finish goal step 1 closed (fix what's broken now)
+- Arrival draft doors: a far click walks to the near-side stance and opens on arrival (pane-verified, locked).
+- Stations can no longer be used through walls (tile-grid line of sight; re-arms while walking round). 50/50 contract.
+- 14.4 MB of painted creature/scenery PNGs now load on first use: a fresh Holm boot fetches none (server log).
+- Inventory right-click now has 2004 Drop / Examine (pane: drop to ground and pick back up). Found because a full
+  pack correctly kept the ferry pack aboard; the route driver now frees a slot like a player would.
+- Gates: world-v2 all locks, content PASS, route 20/20 (417 s), smoke 105/105 foreground + hidden, 0 errors.

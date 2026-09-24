@@ -355,12 +355,35 @@ async function count(page, id){ return page.evaluate(id => Player.count(id), id)
   await walkVia(page, [[196.5, 125.5], [205.5, 123.5], [205.5, 128.5], [184.5, 128.5], [184.5, 135.5], [186.5, 140.5], [193.5, 150.5], [205.5, 151.5]], 150000);
   s = await state(page); await shot(page, '16_departure_dock');
   ok('descent: the lighthouse returns the player to the summit (ladders clicked where still needed) and the road reaches Departure Dock', !!d3.clicked && !!d2.clicked && !!d1.clicked && down && Math.abs(s.pos[0] - 205.5) < 2 && Math.abs(s.pos[1] - 151.5) < 2, {planeAfterLever, d3: d3.clicked, d2: d2.clicked, d1: d1.clicked, down, s});
-  r = await clickObject(page, "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_departure')", {dist: 12});
-  const sailed = await page.waitForFunction(() => typeof CRWorldMode !== 'undefined' && CRWorldMode.providerId !== 'tutors-holm-v2' && typeof player !== 'undefined' && player.position.x > 1, {timeout: 60000}).then(() => true).catch(() => false);
+  const skiff = "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_departure')";
+  const leftHolm = t => page.waitForFunction(() => typeof CRWorldMode !== 'undefined' && CRWorldMode.providerId !== 'tutors-holm-v2' && typeof player !== 'undefined' && player.position.x > 1, {timeout: t}).then(() => true).catch(() => false);
+  r = await clickObject(page, skiff, {dist: 12});
+  let sailed = await leftHolm(15000), freedSlot = null;
+  // Gathering yields vary, so a run can reach the dock with a full pack; the skiff then (correctly) keeps
+  // the welcome pack aboard. Free a slot the way a player would: right-click a spare item, Drop, board again.
+  if (!sailed && await page.evaluate(() => CRWorldMode.providerId === 'tutors-holm-v2' && Player.inv.every(Boolean))) {
+    freedSlot = await page.evaluate(() => {
+      const keep = new Set(['coins', 'bread', 'bronze_dagger', 'hatchet', 'tinderbox', 'small_net', 'pickaxe', 'hammer']);
+      const i = Player.inv.map((s, k) => s && !keep.has(s.id) ? k : -1).filter(k => k >= 0).pop();
+      if (i === undefined) return null;
+      document.querySelector('.tab-btn[data-tab="inv"]').click(); UI.refreshInv();
+      return {i, id: Player.inv[i].id};
+    });
+    if (freedSlot) {
+      const sel = '#inv-grid .inv-slot:nth-child(' + (freedSlot.i + 1) + ')';
+      const box = await (await page.$(sel)).boundingBox();
+      await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2, {button: 'right'});
+      await sleep(400);
+      freedSlot.dropped = await clickButtonByText(page, '#ctx-menu', 'Drop');
+      await sleep(800);
+      r = await clickObject(page, skiff, {dist: 12});
+      sailed = await leftHolm(60000);
+    }
+  }
   await sleep(2500);
   const arrival = await page.evaluate(() => ({provider: CRWorldMode.providerId, zone: (document.getElementById('zone-label') || {}).textContent, coins: Player.count('coins'), bread: Player.count('bread'), errors: (window.SMOKE_ERRORS || []).length}));
   await shot(page, '17_mainland');
-  ok('departure: a real click on the skiff sails to the mainland with the departure pack', r.clicked && arrival.provider !== 'tutors-holm-v2' && arrival.coins >= 25 && arrival.bread >= 3, {r: r.loc, sailed, arrival});
+  ok('departure: a real click on the skiff sails to the mainland with the departure pack', r.clicked && arrival.provider !== 'tutors-holm-v2' && arrival.coins >= 25 && arrival.bread >= 3, {r: r.loc, sailed, freedSlot, arrival});
   ok('no page errors, console errors, or failed asset loads across the whole route', pageErrors.length === 0 && consoleErrors.length === 0 && failedLoads.length === 0, {pageErrors, consoleErrors, failedLoads});
 
   await browser.close();

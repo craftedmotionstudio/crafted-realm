@@ -118,6 +118,26 @@ check('the follow camera is clamped out of the surface terrain along its boom',
     /_clearYaw\(yaw, dist\)\{/.test(creator)&&/new THREE\.Raycaster\(target/.test(creator)&&
     /camCtl\.yaw=this\._savedCam\.yaw/.test(creator)&&/this\._nameTags\(false\)/.test(creator)&&
     /this\._nameTags\(this\._tagsWereVisible!==false\)/.test(creator));
+  const world2=fs.readFileSync(path.join(ROOT,'src','game2_world.js'),'utf8');
+  const reachSrc=fs.readFileSync(path.join(ROOT,'src','holm_station_reach.js'),'utf8');
+  check('the 14.4 MB of painted creature/scenery PNGs load on first use, and early clones receive the image',
+    /Object\.defineProperty\(TEX,name,\{configurable:true,enumerable:true,get\(\)\{/.test(world2)&&
+    /clones\.forEach\(c=>\{ c\.image=t\.image; c\.needsUpdate=true; \}\)/.test(world2)&&
+    !/const t=L\.load\('assets\/textures\/'\+file\);/.test(world2));
+  check('a station cannot be used through a wall: arrival also needs tile-grid line of sight on the surface',
+    /CollisionGrid\.hasLoS\(player\.position\.x,player\.position\.z,p\.x,p\.z\)/.test(reachSrc)&&
+    /&&clearOfWalls\(\);/.test(reachSrc)&&/rearms\+\+<40/.test(reachSrc));
+  check('the arrival draft walks to a far door and opens it on arrival (old-school door rule)',
+    /function doorStance\(pos\)\{/.test(fs.readFileSync(path.join(ROOT,'src','holm_arrival_qa.js'),'utf8'))&&
+    fs.existsSync(path.join(ROOT,'tools','test_holm_arrival_door_queue.js')));
+  const invMenu=fs.readFileSync(path.join(ROOT,'src','inventory_menu.js'),'utf8');
+  const tagsSrc=fs.readFileSync(path.join(ROOT,'src','item_tags.js'),'utf8');
+  const indexHtml=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
+  check('pack slots offer the old-school Drop / Examine rows; Drop uses the loot lifecycle on the surface only',
+    /Drop <b>\$\{def\.name\}<\/b>/.test(invMenu)&&/if\(Player\.inv\[i\]!==item\)/.test(invMenu)&&
+    /\(Player\.plane\|\|0\)!==0/.test(invMenu)&&/makeDrop\(item\.id, item\.qty\|\|1, x, z\)/.test(invMenu)&&
+    /el\.closest\('#inv-grid'\)/.test(tagsSrc)&&
+    indexHtml.indexOf('src/inventory_menu.js?v=')>=0&&indexHtml.indexOf('src/inventory_menu.js?v=')<indexHtml.indexOf('src/item_tags.js?v='));
   check('the play button names where the adventurer will land (Holm vs Veyhollow)',
     /setPlayLabel\('WASH ASHORE'\)/.test(login)&&/RETURN TO TUTOR\\'S HOLM/.test(login)&&/function onHolm\(data\)\{/.test(login));
 })();

@@ -62,15 +62,34 @@ var HolmArrivalQA=(function(){
   if(record&&record.doors&&typeof record.doors.arrival==='boolean'&&typeof record.doors.garden==='boolean'){doors=record.doors;owner.setDoors(doors)}
   bindPlayer(record);
  }
+ function toggleDoor(id){
+  var next={arrival:doors.arrival,garden:doors.garden};next[id]=!next[id];
+  if(bridge.setDoors(next)){doors=next;owner.setDoors(doors,{animate:true})}else UI.chat('Step clear of the doorway first.','plain');
+ }
+ // Nearest walkable node within reach of the door, preferring the player's own side of it.
+ function doorStance(pos){
+  var best=null,bestScore=Infinity;
+  graphForDoors(doors).nodes.forEach(function(n){
+   var reach=Math.hypot(n.x-pos.x,n.z-pos.z);if(reach>2||reach<.6)return;
+   var score=Math.hypot(n.x-player.position.x,n.z-player.position.z);
+   if(score<bestScore){best=n;bestScore=score}
+  });
+  return best;
+ }
  function handleClick(obj,point){
   if(!active()||!bridge)return false;
   var u=obj.userData||{};pending=null;Player.target=null;Player.action=null;
   if(u.kind==='arrival_door'){
    // Exported leaf geometry can be offset from its object origin/hinge.
    var pos=new THREE.Box3().setFromObject(obj).getCenter(new THREE.Vector3());
-   if(Math.hypot(pos.x-player.position.x,pos.z-player.position.z)>2.5){UI.chat('Walk closer to the door.','plain');return true}
-   var next={arrival:doors.arrival,garden:doors.garden};next[u.arrivalDoor]=!next[u.arrivalDoor];
-   if(bridge.setDoors(next)){doors=next;owner.setDoors(doors,{animate:true})}else UI.chat('Step clear of the doorway first.','plain');return true;
+   if(Math.hypot(pos.x-player.position.x,pos.z-player.position.z)>2.5){
+    // Old-school doors: a far click walks to the nearest stance beside the door, then opens it.
+    var stance=doorStance(pos);
+    if(stance&&bridge.order(stance))pending={id:stance.id,kind:'door',door:u.arrivalDoor};
+    else UI.chat('There is no open route to that door.','plain');
+    return true;
+   }
+   toggleDoor(u.arrivalDoor);return true;
   }
   if(u.kind==='arrival_chart'||u.kind==='arrival_provisions'){
    var service=loaded.package.navigation.interactions.find(function(s){return s.kind===(u.kind==='arrival_chart'?'holm_orientation':'holm_provisions')});
@@ -89,7 +108,8 @@ var HolmArrivalQA=(function(){
  }
  function update(dt){
   if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();owner.update(dt,pose.surface);
-  if(pending&&pose.nodeId===pending.id&&!pose.moving){var kind=pending.kind;pending=null;if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
+  if(pending&&pose.nodeId===pending.id&&!pose.moving){var kind=pending.kind,door=pending.door;pending=null;
+   if(kind==='door')toggleDoor(door);else if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
  }
  return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update};
 })();

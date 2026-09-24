@@ -66,7 +66,9 @@ var ItemTags = {
       ItemTags.decorate(el, item.id);
       el.addEventListener('contextmenu', e=>{
         e.preventDefault(); e.stopPropagation();
-        Ctx.show(e, ItemTags.ctxEntries(item.id));
+        // pack slots lead with the old-school Drop / Examine rows (src/inventory_menu.js)
+        const pack=typeof InvMenu!=='undefined' && el.closest && el.closest('#inv-grid');
+        Ctx.show(e, (pack ? InvMenu.entries(item) : []).concat(ItemTags.ctxEntries(item.id)));
       });
     }
     return el;

@@ -99,9 +99,21 @@ comes from the owner and cannot be replaced by a self-assigned score.**
       the player's yaw on close, and hides the name tag while designing (restoring the declutter choice). Verified
       in the pane: new and continued profiles, designer framing, "Looks good!" restore, zero errors. Three locks in
       `tools/test_world_v2.js`; world-v2 all locks PASS; smoke 105/105 foreground and hidden, 0 page errors.
-- [ ] Close the open arrival door-opening pointer proof (HOLM_ARCHITECTURE_REVISION §Production).
-- [ ] Wall line-of-sight for station reach (HOLM_STATION_REACH_PASS open item).
-- [ ] Lazy-load the 17.7 MB of legacy mainland textures behind the provider (P2-C follow-up).
+- [x] Close the open arrival door-opening pointer proof (HOLM_ARCHITECTURE_REVISION §Production). 2026-09-24:
+      a far door click used to answer "Walk closer to the door." `src/holm_arrival_qa.js` now walks to the nearest
+      stance on the player's side (`doorStance`) and opens the door on arrival, as in 2004. Pane proof
+      (`?arrivalQA=1&qaProfile=arr0924a`): real click on the door from 15 tiles walked the path, the door swung open
+      (`doors.arrival=true`), a real floor click then walked inside to `ground:65,97`; zero errors.
+      `tools/test_holm_arrival_door_queue.js` locks walk-then-open-once, near toggle and unreachable refusal.
+- [x] Wall line-of-sight for station reach (HOLM_STATION_REACH_PASS open item). 2026-09-24:
+      `src/holm_station_reach.js` arrival also needs `CollisionGrid.hasLoS` on the surface, so a station cannot be
+      used from the far side of a wall; while the only failure is the wall and the walk continues, it re-arms
+      (max 40) so the player still walks round through the door and acts once. Contract tests 50/50 (5 new).
+      Full real-pointer route PASS 20/20 in 403 s with the change: every station on the route still works.
+- [x] Lazy-load the legacy mainland textures (P2-C follow-up). 2026-09-24: the real cost was nine painted PNGs,
+      14.4 MB, fetched by `loadCreatureTextures()` at every boot. They are now lazy `TEX` getters in
+      `src/game2_world.js` that fetch on first read; clones taken before the image arrives receive it on load.
+      Pane proof: a fresh Holm game downloads **0** of the nine (was 14.4 MB), zero errors.
 
 ### M2 — Terrain engine that allows the new island (enabling work, from the workspace handoff)
 - [ ] New terrain source schema: versioned heights, material regions, shoreline and creek, crossings. One

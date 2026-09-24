@@ -26,12 +26,26 @@ var HolmStationReach=(function(){
       if(!available())return false;
       var now=worldTile(buildingId,tile);if(!now)return false;
       if(tile.y===undefined&&plane===0&&typeof groundY==='function')now.y=groundY(now.x,now.z);
-      return finitePoint(now)&&Math.hypot(now.x-p.x,now.y-p.y,now.z-p.z)<.0001&&Math.abs(player.position.y-p.y)<=.5&&Math.hypot(player.position.x-p.x,player.position.z-p.z)<=reach;
+      return finitePoint(now)&&Math.hypot(now.x-p.x,now.y-p.y,now.z-p.z)<.0001&&Math.abs(player.position.y-p.y)<=.5&&Math.hypot(player.position.x-p.x,player.position.z-p.z)<=reach&&clearOfWalls();
+    }
+    // Horizontal reach alone lets a player use a station from the far side of a wall. On the surface the
+    // baked tile grid knows every wall edge, so also require an unbroken tile line (combat's LoS rule).
+    function clearOfWalls(){
+      if(plane!==0||typeof CollisionGrid==='undefined'||!CollisionGrid||typeof CollisionGrid.hasLoS!=='function')return true;
+      return CollisionGrid.hasLoS(player.position.x,player.position.z,p.x,p.z);
     }
     if(arrived()){then();return true;}
     if(typeof Sched==='undefined'||!Sched||typeof Sched.walkThen!=='function'||typeof orderWalk!=='function')return refuse();
-    var completed=false;
-    var task=Sched.walkThen(p,reach,function(){if(completed)return;completed=true;if(arrived())then();else refuse();},'strong');
+    var completed=false,rearms=0;
+    // walkThen fires on distance alone, which is instant on the far side of a wall. While the only
+    // failure is the wall and the walk is still under way (round to the door), keep waiting.
+    function onArrive(){
+      if(completed)return;
+      if(arrived()){completed=true;then();return;}
+      if(available()&&Player.moveTo&&!clearOfWalls()&&rearms++<40){task=Sched.walkThen(p,reach,onArrive,'strong');return;}
+      completed=true;refuse();
+    }
+    var task=Sched.walkThen(p,reach,onArrive,'strong');
     if(!Player.moveTo){completed=true;if(typeof Sched.cancel==='function')Sched.cancel(task);return refuse();}
     return true;
   }

@@ -164,6 +164,33 @@ test('guard passes the exact original interaction context', () => {
   assert.equal(f.state.calls.length,1); assert.equal(f.state.calls[0],ctx);
 });
 
+// 2026-09-24: horizontal reach through a wall is not arrival (tile-grid line of sight, plane 0 only).
+function walled(f, blocked = true) { f.context.CollisionGrid = {hasLoS: () => !blocked}; }
+test('a wall between player and station refuses immediate use', () => {
+  const f = fixture(); walled(f); f.api.at('bakehouse', f.tile, () => f.fire('acted'));
+  assert.equal(f.state.calls.length, 0); assert.equal(f.state.queued.length, 1, 'walks round instead');
+});
+test('clear line of sight still acts immediately', () => {
+  const f = fixture(); walled(f, false); f.api.at('bakehouse', f.tile, () => f.fire('acted'));
+  assert.deepEqual(f.state.calls, ['acted']);
+});
+test('a walled arrival keeps waiting while walking, then acts once through the door', () => {
+  const f = fixture(); walled(f); f.api.at('bakehouse', f.tile, () => f.fire('acted'));
+  f.state.queued[0].callback(); assert.equal(f.state.queued.length, 2, 're-armed while still walking');
+  assert.equal(f.state.calls.length, 0);
+  walled(f, false); f.state.queued[1].callback(); f.state.queued[1].callback();
+  assert.deepEqual(f.state.calls, ['acted']);
+});
+test('a walled arrival with the walk stopped refuses', () => {
+  const f = fixture(); walled(f); f.api.at('bakehouse', f.tile, () => f.fire('acted'));
+  f.context.Player.moveTo = null; f.state.queued[0].callback();
+  assert.equal(f.state.calls.length, 0); assert.equal(f.state.queued.length, 1); assert.equal(f.state.messages.length, 1);
+});
+test('upper floors ignore the surface grid', () => {
+  const f = fixture(); walled(f); f.context.Player.plane = 2;
+  f.api.at('bakehouse', {...f.tile, plane:2}, () => f.fire('acted')); assert.equal(f.state.calls.length, 1);
+});
+
 let passed = 0;
 for (const {name, body} of tests) {
   try { body(); passed++; }
