@@ -7,30 +7,30 @@
       "detail": {
         "provider": "tutors-holm-arrival-qa",
         "stats": {
-          "nodes": 11489,
-          "edges": 20485,
+          "nodes": 11040,
+          "edges": 19269,
           "owners": {
-            "land": 8452,
-            "b:keep": 909,
+            "land": 8069,
+            "b:keep": 901,
             "b:bakehouse": 274,
-            "b:lodge": 420,
+            "b:lodge": 388,
             "b:survival": 255,
-            "b:quarry": 112,
-            "b:bank": 197,
-            "b:mage": 311,
-            "b:haven": 167,
-            "b:lastlight": 229,
+            "b:quarry": 110,
+            "b:bank": 195,
+            "b:mage": 298,
+            "b:haven": 163,
+            "b:lastlight": 224,
             "arrival": 163
           }
         },
-        "roots": 85
+        "roots": 569
       }
     },
     {
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 6,
+        "deckSamples": 5,
         "deckY": 1.631
       }
     },
@@ -56,7 +56,7 @@
       "label": "every step on the way is cardinal",
       "ok": true,
       "detail": {
-        "samples": 313,
+        "samples": 318,
         "diagonal": 0
       }
     },
@@ -361,5 +361,5 @@
       }
     }
   ],
-  "seconds": 512
+  "seconds": 525
 }

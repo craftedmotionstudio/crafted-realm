@@ -15,7 +15,9 @@ var HolmIslandExtras=(function(){
   // M4.4: new Blender buildings, graphs measured by tools/blender/extract_holm_building_navigation.py
   .concat([['survival','Survival_','survival'],['quarry','Quarry_','mine'],['bank','Bank_','bank'],['mage','Mage_','mage'],['haven','Haven_','ferry'],['lastlight','Lastlight_','lastlight']].map(function(r){
    return {id:r[0],prefix:r[1],plan:r[2],graph:WS+'holm-'+r[0]+'-navigation-v1/candidates/navigation.json',model:WS+'holm-'+r[0]+'-v1/candidates/'+r[0]+'.glb'}}));
- var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v1/working/vegetation.json';
+ var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v2/working/vegetation.json',PROPS=WS+'holm-props-v1/candidates/props.glb';
+ // M4.5 habitat v2: the tree family's own files, everything else (shrubs, rocks, flowers, logs, signposts) from the prop pack
+ var TREE_FAMILY={oak:1,birch:1,'coastal-pine':1,'meadow-tuft':1,'creek-reeds':1};
  var BRIDGES='/docs/rebuild/holm-overhaul/island-bridges.json',BRIDGE_MODELS=WS+'holm-island-bridges-v1/candidates/';
  var TRUNK={oak:.45,birch:.3,'coastal-pine':.35};
  // M4.2: authored service meshes -> measured stance (graph node) -> the existing lesson handler. The bakehouse
@@ -70,8 +72,9 @@ var HolmIslandExtras=(function(){
    if(pl)for(var z=Math.floor(pl.z-pl.d/2)-1;z<=Math.ceil(pl.z+pl.d/2)+1;z++)for(var x=Math.floor(pl.x-pl.w/2)-1;x<=Math.ceil(pl.x+pl.w/2)+1;x++)built[x+','+z]=true;
    if(b.source.plan)b.graph.nodes.forEach(function(n){if(!/Terrain$/.test(n.surface))built[Math.floor(n.x+b.placement.x)+','+Math.floor(n.z+b.placement.z)]=true});
   });
-  var veg=(await json(HABITAT)).placements.filter(function(p){return !built[Math.floor(p.x)+','+Math.floor(p.z)]}),blockers=[];
-  veg.forEach(function(p){var r=TRUNK[p.asset];if(r)blockers.push({id:'habitat:'+p.id,mode:'overlap',x0:p.x-r*p.scale,x1:p.x+r*p.scale,z0:p.z-r*p.scale,z1:p.z+r*p.scale})});
+  var hab=await json(HABITAT),radius=hab.blockers||TRUNK;
+  var veg=hab.placements.filter(function(p){return !built[Math.floor(p.x)+','+Math.floor(p.z)]}),blockers=[];
+  veg.forEach(function(p){var r=radius[p.asset];if(r)blockers.push({id:'habitat:'+p.id,mode:'overlap',x0:p.x-r*p.scale,x1:p.x+r*p.scale,z0:p.z-r*p.scale,z1:p.z+r*p.scale})});
   return {buildings:buildings,habitat:veg,blockers:blockers,bridges:(await json(BRIDGES)).bridges};
  }
  async function load(o){
@@ -109,10 +112,20 @@ var HolmIslandExtras=(function(){
     place((await parse(T,fb)).scene,pl.world.x,pl.world.y,pl.world.z,0)}
   }
   // ---- habitat: tree family v3 on the Sept 13 placements, grounded like the Studio, breeze playing ----
-  var veg=data.habitat,names=Array.from(new Set(veg.map(function(p){return p.asset}))),srcs={};
-  for(var j=0;j<names.length;j++){var g2=await parse(T,await bytes(TREES+names[j]+'.glb'));g2.scene.updateMatrixWorld(true);
-   srcs[names[j]]={gltf:g2,minY:new T.Box3().setFromObject(g2.scene).min.y,breeze:g2.animations.filter(function(c){return c.name==='Breeze'})[0]}}
+  var veg=data.habitat,names=Array.from(new Set(veg.map(function(p){return p.asset}))),srcs={},props=null;
+  for(var j=0;j<names.length;j++){var nm=names[j],g2,scn;
+   if(TREE_FAMILY[nm]){g2=await parse(T,await bytes(TREES+nm+'.glb'));scn=g2.scene}
+   else{if(!props){props=await parse(T,await bytes(PROPS));
+     // the pack stores linear factors (Blender convention); this game draws colours as authored sRGB, so convert back once
+     var seenMat=new Set();props.scene.traverse(function(n){if(n.isMesh)[].concat(n.material).forEach(function(m){if(m&&!seenMat.has(m)&&m.color&&!m.map){seenMat.add(m);m.color.convertLinearToSRGB()}})})}var node=props.scene.getObjectByName(nm);need(node,'prop pack has no '+nm);g2={animations:[]};scn=new T.Group();var c0=node.clone(true);c0.position.set(0,0,0);c0.rotation.set(0,0,0);scn.add(c0)}
+   scn.updateMatrixWorld(true);
+   srcs[nm]={gltf:{scene:scn},minY:new T.Box3().setFromObject(scn).min.y,breeze:g2.animations.filter(function(c){return c.name==='Breeze'})[0]}}
+  var arm=null;if(names.indexOf('signpost')>=0){var an=props.scene.getObjectByName('signpost-arm');need(an,'prop pack has no signpost-arm');arm=an}
   veg.forEach(function(p,k){var s=srcs[p.asset],root=s.gltf.scene.clone(true),y=sample(p.x,p.z);if(!Number.isFinite(y))return;
+   // signposts: one arm per branch, mounted down the post and turned to its path; clicking reads the arms
+   if(p.asset==='signpost'&&arm){(p.arms||[]).forEach(function(a,ai){var am=arm.clone(true);am.position.set(0,1.55-ai*.25,0);am.rotation.set(0,a.yaw,0);root.add(am)});
+    var text='The signpost reads: '+(p.arms||[]).map(function(a){return a.label}).join(', ')+'.';
+    root.traverse(function(n){if(n.isMesh){n.userData.kind='island_sign';n.userData.label='Read signpost';n.userData.islandSign=text;W.clickables.push(n);grounds.push(n)}})}
    var g=new T.Group();g.name='island-habitat-'+p.id;g.position.set(p.x,y-s.minY*p.scale,p.z);g.rotation.y=p.yaw;g.scale.setScalar(p.scale);g.add(root);scene.add(g);roots.push(g);
    root.traverse(function(n){if(n.isMesh){n.castShadow=true;n.receiveShadow=true;linearMaps(T,n)}});
    if(s.breeze){var mx=new T.AnimationMixer(root);mx.clipAction(s.breeze).play();mx.update((k*.371)%s.breeze.duration);mixers.push(mx)}

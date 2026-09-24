@@ -3,6 +3,8 @@
 var HolmArrivalQA=(function(){
  'use strict';
  var qs=new URLSearchParams(location.search),island=qs.get('holmIsland')==='1',requested=qs.get('arrivalQA')==='1'||island,loaded=null,provider=null,owner=null,bridge=null,pending=null;
+ // M4.5: worn paths tint the island ground before any chunk renders (island draft only)
+ if(island&&typeof HolmIslandPaths!=='undefined'&&typeof HolmOverhaulGround!=='undefined')HolmOverhaulGround.setPaths(HolmIslandPaths.tiles);
  var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null,heldRecord=null;
  // ?holmIsland=1 (M4.1): the same provider over the whole Sept 13 island: the arrival graph composed with the
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
@@ -101,6 +103,7 @@ var HolmArrivalQA=(function(){
  function handleClick(obj,point){
   if(!active()||!bridge)return false;
   var u=obj.userData||{};pending=null;Player.target=null;Player.action=null;
+  if(u.kind==='island_sign'&&island){UI.chat(u.islandSign,'plain');return true}
   if(u.kind==='island_service'&&u.islandService&&island){   // M4.2: walk to the measured stance, then serve
    var sv=u.islandService,sg=graphForDoors(doors),stance=sg.byId&&sg.byId[sv.node];
    if(stance&&bridge.order({x:stance.x,y:stance.y,z:stance.z,surface:stance.surface}))pending={id:sv.node,kind:'island_service',service:sv};

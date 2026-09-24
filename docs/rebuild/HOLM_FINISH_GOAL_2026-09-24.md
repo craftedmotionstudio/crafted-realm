@@ -266,7 +266,14 @@ old coordinates on the grid pathfinder. Bundles, in order:
       (foot/top stances, counted for reachability), the island runtime walks to a ladder's end and stands the
       player on the other (instant storey change). `qa_holm_island.js` PASS 21/21: storm door, stores, three
       ladders up by click, lever on the lantern deck, three ladders down, reload.
-- [ ] **M4.5 Crossings, paths, habitat and signage** over the whole island; no barren stretches.
+- [x] **M4.5 Crossings, paths, habitat and signage** over the whole island; no barren stretches. 2026-09-24:
+      `tools/stage_holm_habitat_v2.js` (seeded): 726 worn path tiles (plan paths + connectors from every building
+      entrance, routed on the walkable graph) tinted warm dirt in the island ground; 526 habitat placements in zoned
+      groups (coast, creek bank, meadow, ridge woodland, Lastlight crown) with open ground between, clear of paths,
+      doors, stances and bridge approaches; signposts at the two real junctions (arms per branch, click reads them).
+      New Blender prop pack holm-props-v1 (shrubs, flowers, stones, rock group, fallen log, signpost + arm, fence;
+      1,812 tris). Map: scratchpad/holm_island_review/m45_habitat_map.png. Gates: nav 10/10, island 21/21, route
+      20/20, arrival 12/12, units, smoke PASS.
 - [ ] **M4.6 Whole-island performance** (draw calls, streaming, boot).
 
 ### M4 — The rest of the island (original items)
