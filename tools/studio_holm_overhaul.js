@@ -90,18 +90,12 @@ const guide=plan.places.find(p=>p.id==='guide');
 const exclusions=guide?[{x:guide.x-guide.w/2,z:guide.z-guide.d/2,w:guide.w,d:guide.d}]:[];
 // Consume the same renderer-neutral chunk surfaces a runtime adapter can load.
 // Merge for this whole-island inspection view to retain a single terrain draw.
+// Owner reviews 5+6 (2026-09-24): visible tile squares in close shades; one colour per tile, flat Lambert slope light.
 for(const chunk of chunkPack.chunks){
- const mesh=HolmOverhaulChunks.surface(chunk,exclusions),base=vertices.length/3;
- for(let i=0;i<mesh.materials.length;i++){
-  const x=mesh.positions[i*3],y=mesh.positions[i*3+1],z=mesh.positions[i*3+2];
-  vertices.push(x-72,y,z-64);
-  const c=palette[mesh.materials[i]].clone();
-  c.multiplyScalar(1+Math.sin(x*.61+z*.34)*.022+Math.cos(z*.43-x*.15)*.018);
-  colors.push(c.r,c.g,c.b);
- }
- for(const index of mesh.indices)indices.push(base+index);
+ const tiles=HolmOverhaulGround.chunk(HolmOverhaulChunks.surface(chunk,exclusions),{x:-72,z:-64,linear:true});
+ for(const v of tiles.positions)vertices.push(v);for(const c of tiles.colors)colors.push(c);
 }
-geo.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geo.setIndex(indices);geo.computeVertexNormals();const terrainMesh=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({vertexColors:true,flatShading:true}));terrainMesh.receiveShadow=true;world.add(terrainMesh);
+geo.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geo.computeVertexNormals();const terrainMesh=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({vertexColors:true,flatShading:true}));terrainMesh.receiveShadow=true;world.add(terrainMesh);
 const arrivalLayout=await ar.json();arrivalTrail=buildArrivalTrail(THREE,arrivalLayout,renderedHeight);arrivalTrail.receiveShadow=true;world.add(arrivalTrail);
 landscape=await buildArrivalLandscape({THREE,GLTFLoader,sample,layout:arrivalLayout,excludeAssets:['oak','hazel']});landscape.group.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});world.add(landscape.group);
 const habitatResponse=await fetch('../.studio-workspaces/holm-habitat-v1/working/vegetation.json'+stamp);if(!habitatResponse.ok)throw Error('Habitat draft unavailable');const habitatData=await habitatResponse.json();
