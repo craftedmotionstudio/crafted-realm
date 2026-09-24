@@ -3829,3 +3829,12 @@ length (slight medium-length read in 3/4).
 - House: thinner walls with rounded field-stone texture, wooden shutters, thatch roof (own patterns).
 - Gates: world-v2 all locks (2004-look lock updated to review 2), slice 13/13, route 20/20 on rerun (first run
   cascaded from an unreachable campfire click; the cook retry now changes side), smoke both phases.
+
+## 2026-09-24 — Step 3 look pass 4: side-by-side with the Bible references (owner: "make the fixes, more detail")
+- New tools/make_holm_v3_compare.py: reference (left) vs v3 capture (right) sheets for island, interior, house.
+- Terrain: taller hills (to 12) with earth faces; narrower dirt tracks; muted olive grass; stronger hill shading;
+  tighter black edge. Trees darker and more textured.
+- Interior: 25 pieces incl. case clock, chairs, potted plants, wall pictures, study table (planner caught and we
+  fixed a sealed study corner). Outdoors: 36 new pieces - star flowers, daisies, ferns, stumps, a fallen log,
+  crates, barrels, a bench and a signpost.
+- Gates: world-v2 all locks, tile house 8/8, terrain 9/9, slice 13/13, route 20/20, smoke both phases.

@@ -59,12 +59,12 @@ var HolmV3Render=(function(){
   // Review 2 (owner, 2026-09-24): "too dark". Retuned against the Bible references: warm yellow-green grass,
   // wide tan sand, tan-brown earth on steep faces, bright ground lit mostly from above.
   var HSL=[[0.115,.40,.60],   // 0 sand
-           [0.215,.60,.40],   // 1 grass
+           [0.20,.44,.38],    // 1 grass (review 3: muted olive, not bright yellow-green)
            [0.09,.26,.42],    // 2 rock / earth face
            [0.11,.28,.36],    // 3 creek bed
            [0.12,.30,.52]];   // 4 sea floor (sand under water)
   var CLIFF=[0.085,.30,.40];  // steep faces blend toward bare earth, as the references' hill cuts do
-  var OVERLAY_HSL=[null,[0.085,.36,.38],[0.10,.04,.50],[0.12,.36,.60]];   // dirt, cobble, sand
+  var OVERLAY_HSL=[null,[0.10,.30,.40],[0.10,.04,.50],[0.12,.36,.60]];   // dirt, cobble, sand
   var LIGHT=(function(){var v=[-.42,.82,.40],l=Math.hypot(v[0],v[1],v[2]);return [v[0]/l,v[1]/l,v[2]/l];})();
   function normalAt(b,x,z){
     var W=b.base.width,H=b.base.depth,s=W+1,h=b.base.heights;
@@ -75,7 +75,7 @@ var HolmV3Render=(function(){
   // Baked light, on the old client's 128 = neutral scale: bright flat ground, darker faces turned away.
   function lightAt(b,x,z){
     var n=normalAt(b,x,z),d=Math.max(0,n[0]*LIGHT[0]+n[1]*LIGHT[1]+n[2]*LIGHT[2]);
-    return 128*(.6+.5*d);
+    return 128*(.48+.64*d);   // stronger light/dark over the hills, as the references roll
   }
   function hslToRgb(h,s,l){var c=new (typeof THREE!=='undefined'?THREE.Color:Object)();if(!c.setHSL)return null;return c.setHSL(h,s,Math.max(0,Math.min(1,l)));}
   // One pass over the whole lattice: blended HSL (11x11 box) and baked light per vertex.

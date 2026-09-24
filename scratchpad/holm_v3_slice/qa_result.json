@@ -1,8 +1,8 @@
 {
-  "profile": "v3-slice-qa-mufofzol",
+  "profile": "v3-slice-qa-mufr0hyl",
   "passed": 13,
   "total": 13,
-  "seconds": 90.9,
+  "seconds": 90.8,
   "checks": [
     {
       "label": "fresh profile boots onto the v3 preview at the landing",

@@ -4,7 +4,7 @@
  * v3 terrain bundle so nothing floats or sinks. Trees, rocks and the boat block their tile. */
 var HolmV3Scenery=(function(){
   'use strict';
-  var COL={trunk:'#4a3320',oak:'#667529',oakLight:'#7a8a32',pine:'#34502a',bush:'#5e6e26',
+  var COL={trunk:'#4a3320',oak:'#566424',oakLight:'#687a2c',pine:'#34502a',bush:'#5e6e26',
     rock:'#8a867c',rockDark:'#6d6a62',fence:'#7a5a2a',fenceLight:'#a07a3a',boat:'#6b4a2b',boatLight:'#8a6438',
     flowerA:'#d8c24a',flowerB:'#c9543f',flowerC:'#e8e2d0'};
   var cache={};
@@ -19,15 +19,15 @@ var HolmV3Scenery=(function(){
     if(cache.leafTex||typeof document==='undefined')return cache.leafTex||null;
     var c=document.createElement('canvas');c.width=c.height=64;var x=c.getContext('2d');
     x.fillStyle='#9a9a9a';x.fillRect(0,0,64,64);
-    for(var i=0;i<140;i++){var px=rnd(i*3.1)*64,py=rnd(i*7.7)*64,r=1.5+rnd(i*1.9)*3.5,v=Math.round(120+rnd(i*5.3)*135);
+    for(var i=0;i<140;i++){var px=rnd(i*3.1)*64,py=rnd(i*7.7)*64,r=1.5+rnd(i*1.9)*3.5,v=Math.round(95+rnd(i*5.3)*160);
       x.fillStyle='rgb('+v+','+v+','+v+')';x.beginPath();x.ellipse(px,py,r,r*.6,rnd(i)*3,0,6.283);x.fill();}
-    var t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(3,3);
+    var t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(4,4);
     return (cache.leafTex=t);
   }
   // A leafy clump: a once-subdivided icosahedron, gently lumpy, each vertex a slightly different green so the
   // crown reads mottled and round like the reference trees rather than a sharp 20-sided gem.
   // Review 2: the references' crowns are dense, lumpy and olive-yellow on top, dark underneath.
-  var TOP=new (typeof THREE!=='undefined'?THREE.Color:function(){})('#93a23e'),UNDER=new (typeof THREE!=='undefined'?THREE.Color:function(){})('#39461a');
+  var TOP=new (typeof THREE!=='undefined'?THREE.Color:function(){})('#7c8b35'),UNDER=new (typeof THREE!=='undefined'?THREE.Color:function(){})('#27310f');
   function clump(T,g,r,hex,x,y,z,seed){
     var geo=new T.IcosahedronGeometry(r,2),p=geo.attributes.position,cols=[],base=new T.Color(hex);
     for(var i=0;i<p.count;i++){
@@ -56,6 +56,29 @@ var HolmV3Scenery=(function(){
     flowers:function(T,g,s){[COL.flowerA,COL.flowerB,COL.flowerC].forEach(function(c,i){
       for(var k=0;k<3;k++){var a=(i*3+k)*2.1+s,r=.18+rnd(s+i+k)*.22;mesh(T,g,new T.BoxGeometry(.08,.08,.08),c,Math.cos(a)*r,.2,Math.sin(a)*r);
         mesh(T,g,new T.BoxGeometry(.03,.18,.03),COL.bush,Math.cos(a)*r,.09,Math.sin(a)*r);}});},
+    // review-3 detail pass: the references' ground is dotted with star flowers, ferns, crates, barrels,
+    // benches, stumps, logs and signposts. Our own simple shapes for each.
+    starflower:function(T,g,s){var col=['#4f7fd0','#6f9be0','#e8e6f0'][Math.floor(rnd(s)*3)];
+      for(var k=0;k<3;k++){var a=k*2.1+s,r=k?.18:0,x=Math.cos(a)*r,z=Math.sin(a)*r,h=.35+rnd(s+k)*.2;
+        mesh(T,g,new T.CylinderGeometry(.02,.025,h,4),'#3f6a26',x,h/2,z);
+        for(var p=0;p<5;p++){var pa=p*1.2566,pt=mesh(T,g,new T.BoxGeometry(.06,.02,.16),col,x+Math.cos(pa)*.07,h,z+Math.sin(pa)*.07);pt.rotation.y=-pa;}
+        mesh(T,g,new T.BoxGeometry(.05,.04,.05),'#e0c040',x,h+.01,z);}},
+    daisies:function(T,g,s){for(var k=0;k<6;k++){var a=k*1.7+s,r=.1+rnd(s+k)*.28;
+      mesh(T,g,new T.BoxGeometry(.1,.03,.1),'#f0eee4',Math.cos(a)*r,.12,Math.sin(a)*r);mesh(T,g,new T.BoxGeometry(.04,.035,.04),'#e2c23a',Math.cos(a)*r,.13,Math.sin(a)*r);}},
+    fern:function(T,g,s){for(var i=0;i<8;i++){var a=i*.785+s,l=mesh(T,g,new T.BoxGeometry(.12,.04,.7),'#557a2a',Math.cos(a)*.25,.22,Math.sin(a)*.25);
+      l.rotation.y=-a+Math.PI/2;l.rotation.x=-.5;}},
+    crate:function(T,g,s){mesh(T,g,new T.BoxGeometry(.8,.7,.8),'#9a7440',0,.35,0);
+      [-.36,.36].forEach(function(o){mesh(T,g,new T.BoxGeometry(.84,.1,.1),'#6e5226',0,.35,o);mesh(T,g,new T.BoxGeometry(.1,.74,.84),'#6e5226',o,.35,0);});
+      if(rnd(s)>.5)mesh(T,g,new T.BoxGeometry(.6,.5,.6),'#8a6a3a',.05,.95,.05);},
+    barrel:function(T,g){mesh(T,g,new T.CylinderGeometry(.36,.36,.9,10),'#7a5530',0,.45,0);
+      [.15,.75].forEach(function(y){mesh(T,g,new T.CylinderGeometry(.375,.375,.07,10),'#3d3d40',0,y,0);});mesh(T,g,new T.CylinderGeometry(.34,.34,.02,10),'#5e4127',0,.91,0);},
+    bench:function(T,g){mesh(T,g,new T.BoxGeometry(1.8,.1,.45),'#8a6a3a',0,.46,0);[-.75,.75].forEach(function(x){mesh(T,g,new T.BoxGeometry(.12,.45,.4),'#6e5226',x,.22,0);});
+      mesh(T,g,new T.BoxGeometry(1.8,.4,.08),'#7a5a30',0,.75,-.2);},
+    stump:function(T,g){mesh(T,g,new T.CylinderGeometry(.34,.44,.45,9),COL.trunk,0,.22,0);mesh(T,g,new T.CylinderGeometry(.32,.32,.02,9),'#b08a55',0,.46,0);},
+    log:function(T,g){var l=mesh(T,g,new T.CylinderGeometry(.22,.24,2,8),COL.trunk,0,.22,0);l.rotation.z=Math.PI/2;
+      [-1,1].forEach(function(e){var c=mesh(T,g,new T.CylinderGeometry(.2,.2,.02,8),'#b08a55',e*1.005,.22,0);c.rotation.z=Math.PI/2;});},
+    signpost:function(T,g){mesh(T,g,new T.BoxGeometry(.14,1.6,.14),'#6e5226',0,.8,0);
+      var b=mesh(T,g,new T.BoxGeometry(.9,.26,.06),'#a07a3a',.3,1.35,0);var b2=mesh(T,g,new T.BoxGeometry(.8,.24,.06),'#a07a3a',-.25,1.05,0);b2.rotation.y=.4;},
     rock:function(T,g,s){var r=mesh(T,g,new T.DodecahedronGeometry(.55+rnd(s)*.2,0),COL.rock,0,.28,0);r.scale.set(1,.65,.85);r.rotation.y=rnd(s+2)*3;
       mesh(T,g,new T.DodecahedronGeometry(.28,0),COL.rockDark,.4,.12,.25);},
     boat:function(T,g){ // a clinker rowboat hauled up on the sand, tilted a touch on its keel
@@ -66,7 +89,7 @@ var HolmV3Scenery=(function(){
       mesh(T,hull,new T.BoxGeometry(.2,.06,.86),COL.boatLight,.2,.46,0);
       mesh(T,g,new T.BoxGeometry(2.2,.05,.1),COL.fenceLight,.3,.12,.9);}   // an oar left on the sand
   };
-  var BLOCKS={oak:.45,pine:.4,rock:.45,boat:1};
+  var BLOCKS={oak:.45,pine:.4,rock:.45,boat:1,crate:.45,barrel:.4,bench:.45,stump:.4,log:.45,signpost:.2};
 
   // fence: posts on tile corners, two rails along each tile edge, following the ground
   function fence(T,g,run,heightAt){

@@ -113,7 +113,7 @@ var HolmTileHouse=(function(){
       if(!f||typeof f.kind!=='string'||![f.x,f.z,w,d].every(int)||w<1||d<1||(l!==0&&l!==1))fail(s.id+': furniture '+i+' malformed');
       for(var z=f.z;z<f.z+d;z++)for(var x=f.x;x<f.x+w;x++){
         var k=key(l,x,z);if(!tiles[k])fail(s.id+': furniture '+i+' ('+f.kind+') leaves its room at '+x+','+z);
-        if(f.kind!=='rug'){if(blocked[k])fail(s.id+': furniture '+i+' overlaps another piece');blocked[k]=f.kind;}
+        if(f.kind!=='rug'&&f.kind!=='picture'){if(blocked[k])fail(s.id+': furniture '+i+' overlaps another piece');blocked[k]=f.kind;}
       }
       return {kind:f.kind,level:l,x:f.x,z:f.z,w:w,d:d,rot:f.rot||0,role:f.role||null};
     });

@@ -91,37 +91,72 @@
   ]
  ],
  "shore": {
-  "beachWidth": 3.5,
-  "shelfWidth": 4
+  "beachWidth": 2.5,
+  "shelfWidth": 3
  },
  "hills": [
   {
    "x": 95,
    "z": 60,
-   "rx": 25,
-   "rz": 18,
-   "height": 6
+   "rx": 22,
+   "rz": 16,
+   "height": 11
   },
   {
    "x": 32,
    "z": 70,
-   "rx": 16,
-   "rz": 22,
-   "height": 4
+   "rx": 15,
+   "rz": 20,
+   "height": 9
   },
   {
    "x": 114,
    "z": 56,
-   "rx": 10,
+   "rx": 9,
+   "rz": 9,
+   "height": 6
+  },
+  {
+   "x": 68,
+   "z": 72,
+   "rx": 16,
+   "rz": 12,
+   "height": 7
+  },
+  {
+   "x": 86,
+   "z": 100,
+   "rx": 12,
    "rz": 10,
+   "height": 6
+  },
+  {
+   "x": 28,
+   "z": 104,
+   "rx": 9,
+   "rz": 8,
    "height": 5
   },
   {
-   "x": 66,
-   "z": 70,
-   "rx": 20,
-   "rz": 16,
-   "height": 3
+   "x": 50,
+   "z": 48,
+   "rx": 10,
+   "rz": 8,
+   "height": 6
+  },
+  {
+   "x": 110,
+   "z": 84,
+   "rx": 10,
+   "rz": 12,
+   "height": 5
+  },
+  {
+   "x": 78,
+   "z": 112,
+   "rx": 8,
+   "rz": 6,
+   "height": 4
   }
  ],
  "pads": [
@@ -316,7 +351,7 @@
  "paths": [
   {
    "material": "dirt",
-   "width": 2,
+   "width": 1,
    "points": [
     [
      61,
@@ -338,7 +373,7 @@
   },
   {
    "material": "dirt",
-   "width": 2,
+   "width": 1,
    "points": [
     [
      66,

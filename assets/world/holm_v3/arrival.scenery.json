@@ -2,18 +2,323 @@
  "id": "arrival_cove",
  "notes": "Step 3 arrival cove and guide house grounds. World tiles. Trees, rocks and the boat block their tile; flowers and bushes are dressing.",
  "items": [
-  {"kind": "boat", "x": 57, "z": 120, "rot": 0.4},
-  {"kind": "rock", "x": 54, "z": 121}, {"kind": "rock", "x": 67, "z": 120}, {"kind": "rock", "x": 69, "z": 119},
-  {"kind": "rock", "x": 72, "z": 115},
-  {"kind": "oak", "x": 54, "z": 108}, {"kind": "oak", "x": 56, "z": 101}, {"kind": "oak", "x": 75, "z": 102},
-  {"kind": "oak", "x": 76, "z": 95}, {"kind": "oak", "x": 53, "z": 95},
-  {"kind": "pine", "x": 78, "z": 108}, {"kind": "pine", "x": 50, "z": 111}, {"kind": "pine", "x": 74, "z": 90},
-  {"kind": "bush", "x": 58, "z": 98}, {"kind": "bush", "x": 72, "z": 99}, {"kind": "bush", "x": 63, "z": 108},
-  {"kind": "bush", "x": 70, "z": 107}, {"kind": "bush", "x": 58, "z": 112},
-  {"kind": "flowers", "x": 60, "z": 101}, {"kind": "flowers", "x": 62, "z": 102}, {"kind": "flowers", "x": 61, "z": 103},
-  {"kind": "flowers", "x": 65, "z": 110}, {"kind": "flowers", "x": 68, "z": 111}
+  {
+   "kind": "boat",
+   "x": 57,
+   "z": 120,
+   "rot": 0.4
+  },
+  {
+   "kind": "rock",
+   "x": 54,
+   "z": 121
+  },
+  {
+   "kind": "rock",
+   "x": 67,
+   "z": 120
+  },
+  {
+   "kind": "rock",
+   "x": 69,
+   "z": 119
+  },
+  {
+   "kind": "rock",
+   "x": 72,
+   "z": 115
+  },
+  {
+   "kind": "oak",
+   "x": 54,
+   "z": 108
+  },
+  {
+   "kind": "oak",
+   "x": 56,
+   "z": 101
+  },
+  {
+   "kind": "oak",
+   "x": 75,
+   "z": 102
+  },
+  {
+   "kind": "oak",
+   "x": 76,
+   "z": 95
+  },
+  {
+   "kind": "oak",
+   "x": 53,
+   "z": 95
+  },
+  {
+   "kind": "pine",
+   "x": 78,
+   "z": 108
+  },
+  {
+   "kind": "pine",
+   "x": 50,
+   "z": 111
+  },
+  {
+   "kind": "pine",
+   "x": 74,
+   "z": 90
+  },
+  {
+   "kind": "bush",
+   "x": 58,
+   "z": 98
+  },
+  {
+   "kind": "bush",
+   "x": 72,
+   "z": 99
+  },
+  {
+   "kind": "bush",
+   "x": 63,
+   "z": 108
+  },
+  {
+   "kind": "bush",
+   "x": 70,
+   "z": 107
+  },
+  {
+   "kind": "bush",
+   "x": 58,
+   "z": 112
+  },
+  {
+   "kind": "flowers",
+   "x": 60,
+   "z": 101
+  },
+  {
+   "kind": "flowers",
+   "x": 62,
+   "z": 102
+  },
+  {
+   "kind": "flowers",
+   "x": 61,
+   "z": 103
+  },
+  {
+   "kind": "flowers",
+   "x": 65,
+   "z": 110
+  },
+  {
+   "kind": "flowers",
+   "x": 68,
+   "z": 111
+  },
+  {
+   "kind": "crate",
+   "x": 71,
+   "z": 95
+  },
+  {
+   "kind": "crate",
+   "x": 72,
+   "z": 96
+  },
+  {
+   "kind": "barrel",
+   "x": 71,
+   "z": 97
+  },
+  {
+   "kind": "barrel",
+   "x": 72,
+   "z": 98
+  },
+  {
+   "kind": "bench",
+   "x": 72,
+   "z": 101
+  },
+  {
+   "kind": "signpost",
+   "x": 68,
+   "z": 106
+  },
+  {
+   "kind": "stump",
+   "x": 52,
+   "z": 103
+  },
+  {
+   "kind": "log",
+   "x": 55,
+   "z": 99
+  },
+  {
+   "kind": "stump",
+   "x": 57,
+   "z": 107
+  },
+  {
+   "kind": "fern",
+   "x": 53,
+   "z": 100
+  },
+  {
+   "kind": "fern",
+   "x": 55,
+   "z": 104
+  },
+  {
+   "kind": "fern",
+   "x": 51,
+   "z": 108
+  },
+  {
+   "kind": "fern",
+   "x": 74,
+   "z": 97
+  },
+  {
+   "kind": "fern",
+   "x": 77,
+   "z": 104
+  },
+  {
+   "kind": "fern",
+   "x": 60,
+   "z": 110
+  },
+  {
+   "kind": "starflower",
+   "x": 64,
+   "z": 106
+  },
+  {
+   "kind": "starflower",
+   "x": 69,
+   "z": 108
+  },
+  {
+   "kind": "starflower",
+   "x": 58,
+   "z": 102
+  },
+  {
+   "kind": "starflower",
+   "x": 73,
+   "z": 103
+  },
+  {
+   "kind": "starflower",
+   "x": 62,
+   "z": 113
+  },
+  {
+   "kind": "starflower",
+   "x": 70,
+   "z": 112
+  },
+  {
+   "kind": "starflower",
+   "x": 56,
+   "z": 96
+  },
+  {
+   "kind": "daisies",
+   "x": 63,
+   "z": 110
+  },
+  {
+   "kind": "daisies",
+   "x": 68,
+   "z": 113
+  },
+  {
+   "kind": "daisies",
+   "x": 59,
+   "z": 106
+  },
+  {
+   "kind": "daisies",
+   "x": 71,
+   "z": 106
+  },
+  {
+   "kind": "daisies",
+   "x": 75,
+   "z": 108
+  },
+  {
+   "kind": "daisies",
+   "x": 57,
+   "z": 115
+  },
+  {
+   "kind": "daisies",
+   "x": 65,
+   "z": 117
+  },
+  {
+   "kind": "bush",
+   "x": 60,
+   "z": 93
+  },
+  {
+   "kind": "bush",
+   "x": 73,
+   "z": 93
+  },
+  {
+   "kind": "oak",
+   "x": 79,
+   "z": 99
+  },
+  {
+   "kind": "oak",
+   "x": 50,
+   "z": 103
+  },
+  {
+   "kind": "pine",
+   "x": 76,
+   "z": 114
+  },
+  {
+   "kind": "rock",
+   "x": 52,
+   "z": 112
+  },
+  {
+   "kind": "rock",
+   "x": 74,
+   "z": 117
+  }
  ],
  "fences": [
-  {"points": [[59, 100], [59, 104], [64, 104], [64, 100]]}
+  {
+   "points": [
+    [
+     59,
+     100
+    ],
+    [
+     59,
+     104
+    ],
+    [
+     64,
+     104
+    ],
+    [
+     64,
+     100
+    ]
+   ]
+  }
  ]
 }

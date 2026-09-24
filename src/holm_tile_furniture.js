@@ -30,11 +30,19 @@ var HolmTileFurniture=(function(){
     barrel:function(T,g){cyl(T,g,.34,.8,0,.4,0,C.wood,10);[.15,.65].forEach(function(y){cyl(T,g,.355,.06,0,y,0,C.iron,10);});},
     crate:function(T,g){box(T,g,.72,.66,.72,0,.33,0,C.woodLight);box(T,g,.74,.08,.74,0,.62,0,C.wood);},
     rug:function(T,g,w,d){box(T,g,w-.2,.02,d-.2,0,.01,0,C.cloth);box(T,g,w-.6,.025,d-.6,0,.012,0,C.clothLight);},
+    // review-3 comparison: the reference hall is full of chairs, a case clock, potted plants and pictures
+    chair:function(T,g){box(T,g,.5,.08,.5,0,.46,0,C.woodLight);[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(function(s){box(T,g,.07,.46,.07,s[0]*.2,.23,s[1]*.2,C.wood);});
+      box(T,g,.5,.6,.07,0,.8,-.22,C.wood);[-.14,0,.14].forEach(function(x){box(T,g,.05,.5,.05,x,.78,-.22,C.woodLight);});},
+    clock:function(T,g,w,d){box(T,g,.56,1.9,.4,0,.95,-d/2+.22,C.woodLight);box(T,g,.62,.14,.46,0,1.95,-d/2+.22,C.wood);
+      cyl(T,g,.2,.04,0,1.55,-d/2+.43,C.paper,16).rotation.x=Math.PI/2;box(T,g,.04,.5,.03,0,.95,-d/2+.43,C.ember);},
+    plant:function(T,g){cyl(T,g,.2,.34,0,.17,0,'#8a5a3a',10);
+      for(var i=0;i<7;i++){var a=i*.9,l=box(T,g,.08,.6,.2,Math.cos(a)*.12,.55,Math.sin(a)*.12,'#4f7a2a');l.rotation.set(Math.sin(a)*.5,a,Math.cos(a)*.5);}},
+    picture:function(T,g,w,d){box(T,g,.7,.55,.06,0,1.45,-d/2+.06,C.woodDark);box(T,g,.58,.43,.07,0,1.45,-d/2+.07,'#7c9a6a');box(T,g,.3,.15,.075,.05,1.4,-d/2+.075,'#4f6a8a');},
     rack:function(T,g,w,d){ // the provisions rack: pegs with the starter tools hung on it
       box(T,g,w-.1,1.5,.12,0,.75,-d/2+.1,C.wood);[.5,1.1].forEach(function(y){box(T,g,w-.2,.06,.2,0,y,-d/2+.2,C.woodDark);});
       box(T,g,.08,.5,.08,-.3,.8,-d/2+.3,C.woodLight);box(T,g,.26,.12,.06,-.3,1.02,-d/2+.3,C.iron);box(T,g,.3,.3,.1,.3,.85,-d/2+.3,C.straw);}
   };
-  var SOLID={table:1,chart:1,hearth:1,bookcase:1,bed:1,chest:1,barrel:1,crate:1,bench:1,rack:1,rug:0};
+  var SOLID={table:1,chart:1,hearth:1,bookcase:1,bed:1,chest:1,barrel:1,crate:1,bench:1,rack:1,chair:1,clock:1,plant:1,rug:0,picture:0};
 
   // place one piece: item {kind, x, z, w, d, rot} in the house's local tiles on a level
   function build(THREE,house,item){
