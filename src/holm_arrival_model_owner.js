@@ -70,6 +70,10 @@ var HolmArrivalModelOwner=(function(){
     if(row.asset.id==='guide')house=root;if(row.asset.id==='dock')dock=root;
     root.traverse(function(n){
      if(!n.isMesh)return;n.castShadow=true;n.receiveShadow=true;
+     // The game renders without colour management (linear output), so colour factors are used as authored;
+     // r128's GLTFLoader tags colour maps sRGB, which decoded them to near-black (the leaf-textured oaks,
+     // 2026-09-24). Treat maps like every other colour here: as display values.
+     (Array.isArray(n.material)?n.material:[n.material]).forEach(function(m){if(m&&m.map&&T.LinearEncoding!==undefined&&m.map.encoding!==T.LinearEncoding){m.map.encoding=T.LinearEncoding;m.needsUpdate=true}});
      var cursor=n,surface=null,door=null;
      while(cursor&&cursor!==root){surface=surface||semantic(cursor.name);if(/^DoorSouthLeaf/.test(cursor.name))door='arrival';if(/^DoorNorthLeaf/.test(cursor.name))door='garden';cursor=cursor.parent}
      if(surface){n.userData.kind='arrival_surface';n.userData.arrivalSurface=surface;register(W.grounds,n);register(W.clickables,n)}

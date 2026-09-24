@@ -1,0 +1,175 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "label": "boots the arrival draft provider on package v4",
+      "ok": true,
+      "detail": {
+        "p": [
+          61.5,
+          1,
+          118.5
+        ],
+        "provider": "tutors-holm-arrival-qa",
+        "doors": {
+          "arrival": false,
+          "garden": false
+        },
+        "errors": 0
+      }
+    },
+    {
+      "label": "v4 art is loaded: guide house v2 (>20k tris), Lantern Keeper statue, branching oak; no drawn grid",
+      "ok": true,
+      "detail": {
+        "houseTris": 21153,
+        "statue": true,
+        "oak": true,
+        "grid": null
+      }
+    },
+    {
+      "label": "walks the landing path to 61,114 on cardinal steps",
+      "ok": true,
+      "detail": {
+        "at": [
+          61.5,
+          1.44,
+          114.5
+        ],
+        "diag": 0
+      }
+    },
+    {
+      "label": "walks the landing path to 64,114 on cardinal steps",
+      "ok": true,
+      "detail": {
+        "at": [
+          64.5,
+          1.5,
+          114.5
+        ],
+        "diag": 0
+      }
+    },
+    {
+      "label": "walks the landing path to 66,110 on cardinal steps",
+      "ok": true,
+      "detail": {
+        "at": [
+          66.5,
+          2.25,
+          110.5
+        ],
+        "diag": 0
+      }
+    },
+    {
+      "label": "far click on the arrival door walks to it and opens it",
+      "ok": true,
+      "detail": {
+        "p": [
+          66.5,
+          3,
+          105.5
+        ],
+        "provider": "tutors-holm-arrival-qa",
+        "doors": {
+          "arrival": true,
+          "garden": false
+        },
+        "errors": 0
+      }
+    },
+    {
+      "label": "walks inside the guide house and the roof cuts away",
+      "ok": true,
+      "detail": {
+        "at": [
+          66.5,
+          3,
+          100.5
+        ],
+        "roofVisible": false
+      }
+    },
+    {
+      "label": "climbs the stair to the upper floor (y about 5.8)",
+      "ok": true,
+      "detail": {
+        "p": [
+          64.5,
+          5.8,
+          99.5
+        ],
+        "provider": "tutors-holm-arrival-qa",
+        "doors": {
+          "arrival": true,
+          "garden": false
+        },
+        "errors": 0
+      }
+    },
+    {
+      "label": "comes back down and out to the approach",
+      "ok": true,
+      "detail": {
+        "p": [
+          66.5,
+          2.68,
+          108.5
+        ],
+        "provider": "tutors-holm-arrival-qa",
+        "doors": {
+          "arrival": true,
+          "garden": false
+        },
+        "errors": 0
+      }
+    },
+    {
+      "label": "the Lantern Keeper blocks its tiles: clicking under it never walks into the plinth",
+      "ok": true,
+      "detail": {
+        "clicked": [
+          769,
+          281
+        ],
+        "at": [
+          66.5,
+          2.68,
+          108.5
+        ],
+        "samplesInside": 0
+      }
+    },
+    {
+      "label": "reload restores position and the open door",
+      "ok": true,
+      "detail": {
+        "before": [
+          66.5,
+          2.68,
+          108.5
+        ],
+        "after": [
+          66.5,
+          2.68,
+          108.5
+        ],
+        "doors": {
+          "arrival": true,
+          "garden": false
+        }
+      }
+    },
+    {
+      "label": "zero page errors",
+      "ok": true,
+      "detail": {
+        "pageErrors": []
+      }
+    }
+  ],
+  "seconds": 55
+}

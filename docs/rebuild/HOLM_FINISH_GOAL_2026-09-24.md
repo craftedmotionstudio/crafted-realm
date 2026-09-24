@@ -141,12 +141,21 @@ scenery and the compact v3 island source. Reusable plumbing (walk-height/route v
 may be reused only behind Sept 13 visuals. Items M2/M3 below record what was done on the shelved track.
 
 ### M3R — Arrival → guide house on the Sept 13 base (replaces M3; STOP for owner review)
-- [ ] Ground look on the Sept 13 terrain: visible tile squares in close shades, soft patches, slope shading.
-- [ ] Guide house v2 in Blender from the overhaul v1 source: taller jettied upper storey on posts/brackets,
-      cross gables / hips / dormer, chimney, recessed entrance, porch kept; same doors, rooms and nav contract.
-- [ ] Arrival habitat: more Blender tree/plant detail (branching crowns), statue on the approach, dressed cove.
-- [ ] Playable: the Sept 13 terrain + these GLBs in an isolated in-game preview with real-pointer walking,
-      door, interior and upper floor; gates green; comparison sheets banked in `Bible_References/Complete/_compare`.
+- [x] Ground look on the Sept 13 terrain: visible tile squares in close shades, soft patches, slope shading.
+      `src/holm_overhaul_ground.js` (one colour per tile from the Sept 13 palette, 5-tile patch field +-5%,
+      per-tile +-1.75%), used by the Terrain Studio and the in-game sampled renderer; no drawn grid on it.
+- [x] Guide house v2 in Blender from the overhaul v1 source: taller jettied upper storey on posts/brackets,
+      half-hipped roof tiled on every face, east dormer, orderly gable framing; v1 doors, stair, furnishings,
+      hearth/chimney, porch and walk bands unchanged. `tools/blender/build_holm_guide_house_overhaul_v2.py`,
+      21,153 tris, five proof renders.
+- [x] Arrival habitat: tree family v3 oak (limbs show between separate crowns, leafy tips past the rim,
+      2,434 tris) and the original Lantern Keeper statue (`build_holm_arrival_statue_v1.py`, 1,433 tris).
+      Trees now block by a Blender-measured ground-contact footprint, not the whole canopy (2004 rule).
+- [x] Playable: arrival package v4 (export `8d488d326998f957`, staged via Safe Publish, not applied) loaded by
+      `?arrivalQA=1`. Standing gate `tools/qa_holm_arrival_v4.js` PASS 12/12 real pointer: landing path on
+      cardinal steps, far door click walks and opens, inside with roof cut away, stair to the upper floor and
+      back out, statue tiles refused, reload restores position and door, 0 errors. Colour maps now render as
+      authored in the r128 game (they decoded near-black). Sheets `Bible_References/Complete/_compare/holm-arrival-v4-*.png`.
 - [ ] **Owner review of the slice.** Do not start M4 before the owner approves this look.
 
 ### M2 — Terrain engine that allows the new island (enabling work, from the workspace handoff) — shelved track

@@ -34,7 +34,7 @@ var HolmArrivalExportLoader=(function(){
   }
   var manifest=JSON.parse(decoder.decode(await read('manifest.json')));
   need(keys(manifest,'exportId,files,schema,version,workspaceId')&&manifest.schema==='crafted-realm-studio-export-v1'&&manifest.version===1&&manifest.workspaceId===match[1]&&manifest.exportId===o.exportId,'manifest identity mismatch');
-  need(Array.isArray(manifest.files)&&[10,14,25].indexOf(manifest.files.length)>=0,'self-contained ten-file, fourteen-file or twenty-five-file export required; no live fallback');
+  need(Array.isArray(manifest.files)&&([10,14].indexOf(manifest.files.length)>=0||manifest.files.length>=25),'self-contained ten-file, fourteen-file or scenery (25+ file) export required; no live fallback');
   var rows=Object.create(null),folded=new Set();
   manifest.files.forEach(function(r){
    need(keys(r,'baseHash,bytes,hash,path')&&safe(r.path),'unsafe manifest file path or shape');
@@ -55,12 +55,12 @@ var HolmArrivalExportLoader=(function(){
     else {var role=roles[doc.schema];need(role&&!documents[role],'unknown/duplicate source schema '+row.path);documents[role]=doc;sourceRoles[role]={path:row.path,sha256:row.hash}}
    }else need(/\.(glb|blend)$/.test(row.path),'unexpected export file type');
   }
-  var scenic=manifest.files.length===25,extended=manifest.files.length>=14;
-  need(pkg&&pkg.version===1&&Array.isArray(pkg.sources)&&pkg.sources.length===(scenic?24:extended?13:9),'package dependencies must match complete export');
+  var scenic=manifest.files.length>=25,extended=manifest.files.length>=14;
+  need(pkg&&pkg.version===1&&Array.isArray(pkg.sources)&&pkg.sources.length===(scenic?manifest.files.length-1:extended?13:9),'package dependencies must match complete export');
   var seen=new Set();
   pkg.sources.forEach(function(s){need(keys(s,'path,sha256')&&safe(s.path)&&s.path!==packagePath&&!seen.has(s.path.toLowerCase()),'invalid package source path');seen.add(s.path.toLowerCase());need(rows[s.path]&&rows[s.path].hash===s.sha256,'package source hash mismatch '+s.path)});
   need(Object.keys(documents).length===(scenic?9:extended?7:5),'source roles must match export');
-  need(Array.isArray(pkg.objects)&&pkg.objects.length===(scenic?20:extended?3:2),'arrival assets must match export');
+  need(Array.isArray(pkg.objects)&&(scenic?pkg.objects.length>=20:pkg.objects.length===(extended?3:2)),'arrival assets must match export');
   var uniqueAssets={};pkg.objects.forEach(function(obj){need(obj&&obj.asset,'missing object asset');var a=obj.asset;need(!uniqueAssets[a.id]||canonical(uniqueAssets[a.id])===canonical(a),'conflicting shared asset');uniqueAssets[a.id]=a});
   var input={provider:pkg.provider,sources:sourceRoles,assets:Object.keys(uniqueAssets).map(function(k){return uniqueAssets[k]})};
   Object.keys(documents).forEach(function(role){input[role]=documents[role]});

@@ -18,7 +18,7 @@ def material(name,color,emit=0):
  return m
 stone=material('Statue stone',(.53,.53,.49));stone_dark=material('Statue stone shade',(.41,.41,.38));plinth=material('Plinth ashlar',(.60,.57,.49))
 moss=material('Moss',(.25,.33,.12));bronze=material('Bronze plaque',(.42,.30,.14));iron=material('Lantern iron',(.16,.16,.15))
-glow=material('Lantern glow',(1.0,.78,.35),emit=2.0)
+glow=material('Lantern glow',(1.0,.78,.35),emit=1.0)   # strength 1: no glTF emissive-strength extension (arrival validator)
 root=bpy.data.objects.new('LanternKeeperStatue',None);bpy.context.collection.objects.link(root)
 def mesh(name,v,f,mat):
  d=bpy.data.meshes.new(name);d.from_pydata([(x,-z,y) for x,y,z in v],[],f);d.update()

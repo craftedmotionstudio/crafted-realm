@@ -7,6 +7,8 @@ var HolmArrivalScenery=(function(){
  var Contract=common?require('./holm_arrival_landscape_contract'):HolmArrivalLandscapeContract;
  var Terrain=common?require('./holm_overhaul_terrain'):HolmOverhaulTerrain;
  var ROOTS={oak:'ArrivalOak',hazel:'ArrivalHazel',fieldstones:'ArrivalFieldstones',wall:'LandingGardenWall',bench:'LandingOakBench',waypost:'LandingWaypost',cargo:'LandingCargoCrate'};
+ // optional additions after the seven: the Lantern Keeper statue (owner review 5, 2026-09-24)
+ var OPTIONAL={statue:'LanternKeeperStatue'};
  function need(ok,msg){if(!ok)throw Error('[HolmArrivalScenery] '+msg)}
  function clone(v){
   function check(q){need(q===null||['object','string','number','boolean'].indexOf(typeof q)>=0,'non-JSON input');if(typeof q==='number')need(Number.isFinite(q),'nonfinite input');if(q&&typeof q==='object')Object.keys(q).forEach(function(k){check(q[k])})}
@@ -18,8 +20,9 @@ var HolmArrivalScenery=(function(){
   var i=clone(input),m=i.measurement,e=i.envelopes,templates={},parts={},files=Object.create(null);
   need(m&&m.schema==='holm-arrival-landscape-measure-v1'&&(m.version===undefined||m.version===1)&&m.units==='tiles'&&m.axes==='game Y-up: Blender (x,y,z) -> (x,z,-y)'&&m.continuousSweptGuarantee===false,'invalid measurement schema/units/axes/guarantee');
   need(typeof m.blenderVersion==='string'&&m.blenderVersion.length>0&&m.method==='Blender GLB import; evaluated world vertices; animation keyframes and adjacent midpoints','invalid measurement provenance');
-  need(m.assets&&Object.keys(m.assets).sort().join(',')===Object.keys(ROOTS).sort().join(','),'exact seven measured assets required');
-  Object.keys(ROOTS).forEach(function(key){
+  need(m.assets&&Object.keys(ROOTS).every(function(k){return m.assets[k]})&&Object.keys(m.assets).every(function(k){return ROOTS[k]||OPTIONAL[k]}),'the seven measured assets required; only known optional assets may be added');
+  var keys=Object.keys(ROOTS).concat(Object.keys(OPTIONAL).filter(function(k){return m.assets[k]}));
+  keys.forEach(function(key){
    var a=m.assets[key];need(a&&safePath(a.file)&&!files[a.file],'invalid or duplicate model file');files[a.file]=true;
    need(typeof a.sha256==='string'&&/^[a-f0-9]{64}$/.test(a.sha256),'invalid model hash');
    need(Number.isSafeInteger(a.triangles)&&a.triangles>0&&Number.isSafeInteger(a.vertices)&&a.vertices>=3&&a.triangles<=a.vertices*2,'invalid geometry counts');
@@ -29,7 +32,8 @@ var HolmArrivalScenery=(function(){
    var moving=key==='oak'||key==='hazel';need(Array.isArray(a.clips)&&a.clips.length===(moving?1:0),'invalid animation clip count');
    a.clips.forEach(function(c){need(c&&c.name==='Breeze'&&Array.isArray(c.sampleTimesSeconds)&&c.sampleTimesSeconds.length>=3&&c.sampleTimesSeconds[0]===0&&c.sampleTimesSeconds.every(function(t,k,v){return Number.isFinite(t)&&t>=0&&(k===0||t>v[k-1])}),'invalid Breeze sample times')});
    if(!moving)need(JSON.stringify(a.restBounds)===JSON.stringify(a.animatedSampledUnion),'static sampled bounds drift');
-   templates[key]={localBounds:a.animatedSampledUnion};parts[key]=[ROOTS[key]];
+   templates[key]={localBounds:a.animatedSampledUnion};parts[key]=[ROOTS[key]||OPTIONAL[key]];
+   if(a.footprintBounds!==undefined){need(moving,'only trees carry a ground-contact footprint');bounds(a.footprintBounds);templates[key].footprintBounds=a.footprintBounds;}
   });
   need(i.placement&&i.placement.schema==='holm-arrival-landscape-study-v1'&&(i.placement.version===undefined||i.placement.version===1),'invalid placement schema/version');
   need(e&&e.schema==='holm-guide-house-collision-envelopes-v1'&&e.version===1&&Array.isArray(e.blockers),'invalid collision envelopes');

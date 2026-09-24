@@ -7,7 +7,8 @@
  */
 var HolmArrivalLandscapeContract=(function(){
  'use strict';
- var STRUCTURES=['wall','bench','waypost','cargo'];
+ // statue: the Lantern Keeper (owner review 5, 2026-09-24), a plinth grounded like the other structures
+ var STRUCTURES=['wall','bench','waypost','cargo','statue'];
  var ASSETS=['oak','hazel','fieldstones'].concat(STRUCTURES);
  function need(ok,message){if(!ok)throw Error('[HolmArrivalLandscapeContract] '+message)}
  function finite(n){return typeof n==='number'&&Number.isFinite(n)}
@@ -54,7 +55,11 @@ var HolmArrivalLandscapeContract=(function(){
    need(!ids[id],'duplicate placement id: '+id);ids[id]=true;
    need(Object.prototype.hasOwnProperty.call(templates,p.asset),'missing measured template: '+p.asset);
    var template=templates[p.asset],local=bounds(template&&template.localBounds),box=transformed(local,p);
-   need(!segments.some(function(segment){return overlap(box,segment)}),'landscape obstructs approach route: '+id);
+   // v2 (2026-09-24): a template with a measured ground-contact footprint (trees) blocks and clears routes by
+   // that footprint only, as 2004 trees block their trunk tile; the whole canopy still may not overlap the house.
+   var foot=template.footprintBounds?transformed(bounds(template.footprintBounds),p):box;
+   if(template.footprintBounds)need(foot.min[0]>=box.min[0]-1e-9&&foot.max[0]<=box.max[0]+1e-9&&foot.min[2]>=box.min[2]-1e-9&&foot.max[2]<=box.max[2]+1e-9,'footprint outside measured bounds: '+id);
+   need(!segments.some(function(segment){return overlap(foot,segment)}),'landscape obstructs approach route: '+id);
    need(!overlap(box,building),'landscape intersects building footprint: '+id);
    var points=[[box.min[0],box.min[2]],[box.max[0],box.min[2]],[box.min[0],box.max[2]],[box.max[0],box.max[2]],[p.x,p.z]];
    var heights=points.map(function(point){var h=input.sample(point[0],point[1]);need(finite(h),'nonfinite terrain sample: '+id);return h});
@@ -70,7 +75,9 @@ var HolmArrivalLandscapeContract=(function(){
    placements.push({id:id,asset:p.asset,transform:{x:p.x,y:y,z:p.z,scale:p.scale,rotation:p.rotation},localBounds:local,worldBounds:box,grounding:{mode:structural?'lowest-corner':'center-burial',samples:points.map(function(point,i){return {x:point[0],z:point[1],y:heights[i]}}),range:slope,structural:structural}});
    // All families stay solid candidates. Foliage AABBs are deliberately broad;
    // refined trunk/stone blockers need separately measured semantic geometry.
-   blockers.push({id:id,asset:p.asset,x0:box.min[0],x1:box.max[0],z0:box.min[2],z1:box.max[2],y0:box.min[1],y1:box.max[1],source:'caller measured local AABB transformed conservatively',requiresNavigationIntegration:true});
+   blockers.push(template.footprintBounds?
+    {id:id,asset:p.asset,x0:foot.min[0],x1:foot.max[0],z0:foot.min[2],z1:foot.max[2],y0:box.min[1],y1:box.max[1],source:'caller measured ground-contact footprint transformed conservatively',requiresNavigationIntegration:true}:
+    {id:id,asset:p.asset,x0:box.min[0],x1:box.max[0],z0:box.min[2],z1:box.max[2],y0:box.min[1],y1:box.max[1],source:'caller measured local AABB transformed conservatively',requiresNavigationIntegration:true});
   });
   return {schema:'holm-arrival-landscape-contract-v1',version:1,placements:placements,blockers:blockers,routeClearance:margin,evidence:{sourceBytesVerified:false,visualAcceptance:false,runtimeAcceptance:false,navigationIntegrated:false,boundsMode:'conservative transformed local AABB'}};
  }

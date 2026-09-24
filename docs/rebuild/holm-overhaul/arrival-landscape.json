@@ -4,7 +4,7 @@
   "reference": "Bible_References/Landscape_Option.jpg",
   "placements": [
     {"asset":"oak","x":54,"z":96,"scale":1.1,"rotation":0.4},
-    {"asset":"oak","x":55,"z":108,"scale":1,"rotation":2.2},
+    {"asset":"oak","x":54,"z":109,"scale":1,"rotation":2.2},
     {"asset":"oak","x":77,"z":104,"scale":1.05,"rotation":1.4},
     {"asset":"oak","x":77,"z":92,"scale":0.9,"rotation":2.9},
     {"asset":"hazel","x":57,"z":103,"scale":1,"rotation":1.2},
@@ -19,6 +19,7 @@
     {"asset":"wall","x":73.5,"z":109,"scale":1,"rotation":0},
     {"asset":"bench","x":70,"z":106,"scale":1,"rotation":0},
     {"asset":"waypost","x":63,"z":117,"scale":1,"rotation":0},
-    {"asset":"cargo","x":58.5,"z":118,"scale":1,"rotation":0.2}
+    {"asset":"cargo","x":58.5,"z":118,"scale":1,"rotation":0.2},
+    {"asset":"statue","x":62.3,"z":108.4,"scale":1,"rotation":1.5708}
   ]
 }

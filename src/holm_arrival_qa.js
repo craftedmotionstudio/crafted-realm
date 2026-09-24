@@ -4,14 +4,15 @@ var HolmArrivalQA=(function(){
  'use strict';
  var requested=new URLSearchParams(location.search).get('arrivalQA')==='1',loaded=null,provider=null,owner=null,bridge=null,pending=null;
  var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null;
- var ID='tutors-holm-arrival-qa',EXPORT='89e7cf10543d97bf';
+ // v4 (2026-09-24, M3R): guide house v2, branching oak, Lantern Keeper statue, trunk-footprint tree blockers
+ var ID='tutors-holm-arrival-qa',EXPORT='8d488d326998f957';
  function active(){return !!provider&&CRWorldMode.providerId===ID}
  function graphForDoors(d){var key=JSON.stringify(d);return graphs[key]||(graphs[key]=nav.compile(d))}
  function spawn(){return loaded.package.navigation.doorStates['closed-closed'].graph.nodes.find(function(n){return n.id===loaded.package.spawn.nodeId})}
  async function prepare(){
   if(!requested)return null;
   if(!QAProfile.isolated||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
-  loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v3/exports/',exportId:EXPORT});
+  loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v4/exports/',exportId:EXPORT});
   nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
   var pack=loaded.package,chunks=JSON.parse(JSON.stringify(pack.terrain.chunks)),b=loaded.documents.layout.building,s=spawn();
   chunks.forEach(function(c){c.layers.terrain.exclusions=[{x:b.world.x-b.width/2,z:b.world.z-b.depth/2,w:b.width,d:b.depth}]});

@@ -53,7 +53,7 @@ var HolmArrivalPackage=(function(){
   need(i.sources&&Object.keys(i.sources).length===required.length,'source roles must match input documents');
   required.forEach(function(k){add(i.sources[k])});
   need(new Set(required.map(function(k){return i.sources[k].path})).size===required.length,'source roles require distinct paths');
-  need(Array.isArray(i.assets)&&i.assets.length===(scenic?10:extended?3:2),'arrival assets must match source roles');
+  need(Array.isArray(i.assets)&&i.assets.length===(scenic?3+Object.keys(scenery.partsByAsset).length:extended?3:2),'arrival assets must match source roles');
   var assetMap={};
   var partContract={guide:['GroundFloor','UpperFloor','StairFlight','GroundFurnishing','DoorNorthHinge','DoorSouthHinge','DoorNorthLeaf','DoorSouthLeaf'],dock:['DockDeck']};
   if(extended)partContract.provisions=provisions.service.parts;

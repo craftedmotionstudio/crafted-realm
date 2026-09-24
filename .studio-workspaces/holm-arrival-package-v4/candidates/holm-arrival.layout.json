@@ -1,0 +1,286 @@
+{
+  "schema": "holm-overhaul-arrival-layout-v1",
+  "version": 1,
+  "status": "Numeric design proposal only; not installed terrain, collision or visual acceptance",
+  "coordinates": {
+    "building": "Local x/z centred on footprint; y relative to foundation",
+    "approach": "Proposal world x/z and absolute terrain y",
+    "north": "negative z",
+    "units": "tiles"
+  },
+  "avatar": {
+    "height": 1.9,
+    "radius": 0.42,
+    "headMargin": 0.3
+  },
+  "building": {
+    "id": "guide",
+    "world": {
+      "x": 66,
+      "z": 99,
+      "foundationY": 3
+    },
+    "width": 12,
+    "depth": 10,
+    "wallThickness": 0.35,
+    "groundFloorY": 0,
+    "upperFloorY": 2.8,
+    "upperFloorThickness": 0.2,
+    "upperCeilingY": 5.4
+  },
+  "doors": [
+    {
+      "id": "arrival",
+      "wall": "south",
+      "x": 0,
+      "z": 5,
+      "sillY": 0,
+      "clearWidth": 2.0,
+      "clearHeight": 2.3,
+      "inside": [
+        0,
+        0,
+        4
+      ],
+      "outside": [
+        0,
+        0,
+        6
+      ],
+      "swing": "outward"
+    },
+    {
+      "id": "garden",
+      "wall": "north",
+      "x": 0,
+      "z": -5,
+      "sillY": 0,
+      "clearWidth": 2.0,
+      "clearHeight": 2.3,
+      "inside": [
+        0,
+        0,
+        -4
+      ],
+      "outside": [
+        0,
+        0,
+        -6
+      ],
+      "swing": "outward"
+    }
+  ],
+  "groundServices": [
+    {
+      "id": "chart",
+      "purpose": "Study the island route with Bram",
+      "x": -2.5,
+      "z": -1.6,
+      "y": 0,
+      "w": 2,
+      "d": 1.4,
+      "interaction": [
+        -1,
+        0,
+        -1.6
+      ]
+    },
+    {
+      "id": "hearth",
+      "purpose": "Warmth, cooking story and chimney anchor",
+      "x": -5,
+      "z": -2.9,
+      "y": 0,
+      "w": 1,
+      "d": 2,
+      "interaction": [
+        -3.8,
+        0,
+        -2.9
+      ]
+    },
+    {
+      "id": "shared_table",
+      "purpose": "A lived-in teaching and meal table",
+      "x": -2.5,
+      "z": 2,
+      "y": 0,
+      "w": 2.4,
+      "d": 1.4,
+      "interaction": [
+        -0.8,
+        0,
+        2
+      ]
+    }
+  ],
+  "upperServices": [
+    {
+      "id": "study",
+      "purpose": "Bram's reference books, writing and view of the landing",
+      "x": -2.5,
+      "z": -2.8,
+      "y": 2.8,
+      "w": 2,
+      "d": 1.2,
+      "interaction": [
+        -1,
+        2.8,
+        -2.8
+      ]
+    },
+    {
+      "id": "bed",
+      "purpose": "Usable sleeping room and evidence this is a home",
+      "x": -3.5,
+      "z": 2.2,
+      "y": 2.8,
+      "w": 1.6,
+      "d": 2.4,
+      "interaction": [
+        -2.2,
+        2.8,
+        2.2
+      ]
+    }
+  ],
+  "stairs": {
+    "id": "east_stair",
+    "axis": "z",
+    "direction": -1,
+    "x": 4.25,
+    "startZ": 2.9,
+    "endZ": -1.9,
+    "startY": 0,
+    "endY": 2.8,
+    "clearWidth": 1.5,
+    "treads": 12,
+    "treadRun": 0.4,
+    "riserHeight": 0.23333333333333334,
+    "headClearance": 2.2,
+    "lowerLanding": {
+      "x": 4.25,
+      "z": 3.5,
+      "y": 0,
+      "w": 1.5,
+      "d": 1.2
+    },
+    "upperLanding": {
+      "x": 4.25,
+      "z": -2.65,
+      "y": 2.8,
+      "w": 1.5,
+      "d": 1.5
+    },
+    "floorOpening": {
+      "x0": 3.5,
+      "x1": 5,
+      "z0": -1.9,
+      "z1": 2.9
+    },
+    "guarding": "Upper-floor opening requires rails on the two long edges and lower-end edge; leave stair exit into upper landing open. No beam over the stair flight below clearHeight. Handrails must not reduce clearWidth.",
+    "runtime": "Authored staircase requires real floor/step collision and cardinal traversal. Numeric tread geometry alone does not integrate planes."
+  },
+  "circulation": {
+    "ground": [
+      [
+        0,
+        0,
+        4
+      ],
+      [
+        0,
+        0,
+        -4
+      ]
+    ],
+    "toStair": [
+      [
+        0,
+        0,
+        4
+      ],
+      [
+        4.25,
+        0,
+        4
+      ],
+      [
+        4.25,
+        0,
+        2.9
+      ]
+    ],
+    "upperExit": [
+      [
+        4.25,
+        2.8,
+        -2.65
+      ],
+      [
+        1.5,
+        2.8,
+        -2.65
+      ],
+      [
+        1.5,
+        2.8,
+        2.2
+      ]
+    ],
+    "clearWidth": 1.2
+  },
+  "landing": {
+    "x": 61,
+    "z": 118,
+    "width": 8,
+    "depth": 5,
+    "height": 1
+  },
+  "approach": {
+    "clearWidth": 2,
+    "maxSlope": 0.4,
+    "waypoints": [
+      [
+        61,
+        1,
+        118
+      ],
+      [
+        61,
+        1.5,
+        114
+      ],
+      [
+        66,
+        1.5,
+        114
+      ],
+      [
+        66,
+        3,
+        107
+      ],
+      [
+        66,
+        3,
+        104
+      ],
+      [
+        66,
+        3,
+        103
+      ]
+    ],
+    "note": "Target graded route, not sampled existing terrain. Author shore and retaining transitions to meet this profile; preserve continuous dry cardinal approach."
+  },
+  "unverified": [
+    "Source terrain differs from this proposed landing grade",
+    "Wall/roof topology and material language",
+    "Furniture silhouette and circulation at gameplay camera",
+    "Step collision and animation",
+    "Upper-floor cutaway and live head clearance",
+    "Bram appearance and interaction",
+    "Owner visual response"
+  ]
+}

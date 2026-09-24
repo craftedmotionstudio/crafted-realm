@@ -1117,7 +1117,8 @@ function updateGroundGrid(){
   // underground meshes it floats at the logical walk height and visually
   // flattens real depressions and shoulders, so caves own their floor entirely.
   // The 2004 look (v3 preview) has no ground grid: tiles read from shading and paths, as in the references.
-  const noGrid=typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active();
+  // the tile-true Holm ground shows its own squares (owner reviews 2, 5, 6): no drawn grid on top
+  const noGrid=(typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active())||(typeof CRWorldMode!=='undefined'&&CRWorldMode.providerId==='tutors-holm-arrival-qa');
   if(_groundGrid) _groundGrid.visible=(pl===0&&!noGrid);
   if(pl!==0||noGrid) return;
   const R=14, ptx=Math.floor(player.position.x), ptz=Math.floor(player.position.z);

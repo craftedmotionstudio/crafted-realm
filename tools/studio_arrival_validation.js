@@ -2,6 +2,7 @@
 // Publication evidence only: byte identity, reproducible data and GLB structure.
 // This does not establish collision geometry, visual acceptance, animation motion
 // quality, or correspondence between the Blender source and its model export.
+// v4 (2026-09-24): the scenery shape is 20+ objects; the Lantern Keeper statue is an allowed eleventh family.
 const crypto=require('crypto'),util=require('util');
 const Package=require('../src/holm_arrival_package');
 const SCHEMA='crafted-realm-holm-arrival-package-v1';
@@ -24,19 +25,19 @@ function validateShape(v){
  try{
   need(handles(v)&&v.version===1,'unsupported arrival package schema/version');
   need(v.provider&&v.provider.id==='tutors-holm-v2'&&Number.isInteger(v.provider.worldRevision)&&v.provider.worldRevision>0,'invalid provider revision');
-  const scenic=Array.isArray(v.objects)&&v.objects.length===20,extended=Array.isArray(v.objects)&&v.objects.length>=3;
-  need(Array.isArray(v.sources)&&v.sources.length===(scenic?24:extended?13:9),extended?'arrival package needs exactly thirteen sources':'arrival package needs exactly nine sources');
+  const scenic=Array.isArray(v.objects)&&v.objects.length>=20,extended=Array.isArray(v.objects)&&v.objects.length>=3;
+  need(Array.isArray(v.sources)&&(scenic?v.sources.length>=24:v.sources.length===(extended?13:9)),extended?'arrival package needs exactly thirteen sources':'arrival package needs exactly nine sources');
   const paths=new Set(),folded=new Set();
   for(const s of v.sources){descriptor(s);need(!paths.has(s.path)&&!folded.has(s.path.toLowerCase()),'duplicate source path');paths.add(s.path);folded.add(s.path.toLowerCase())}
-  need(Array.isArray(v.objects)&&[2,3,20].includes(v.objects.length),'arrival package needs two or three objects');
+  need(Array.isArray(v.objects)&&([2,3].includes(v.objects.length)||scenic),'arrival package needs two or three objects');
   const ids=new Set(),assets=new Map();
   for(const o of v.objects){
-   const a=o&&o.asset;need(a&&(scenic?['guide','dock','provisions','oak','hazel','fieldstones','wall','bench','waypost','cargo']:extended?['guide','dock','provisions']:['guide','dock']).includes(a.id)&&!ids.has(o.id),'invalid or duplicate object');ids.add(o.id);need(!assets.has(a.id)||util.isDeepStrictEqual(assets.get(a.id),a),'conflicting shared asset');assets.set(a.id,a);
+   const a=o&&o.asset;need(a&&(scenic?['guide','dock','provisions','oak','hazel','fieldstones','wall','bench','waypost','cargo','statue']:extended?['guide','dock','provisions']:['guide','dock']).includes(a.id)&&!ids.has(o.id),'invalid or duplicate object');ids.add(o.id);need(!assets.has(a.id)||util.isDeepStrictEqual(assets.get(a.id),a),'conflicting shared asset');assets.set(a.id,a);
    for(const d of [a.model,a.authoring]){descriptor(d);need(v.sources.some(s=>s.path===d.path&&s.sha256===d.sha256),'asset descriptor absent from sources')}
    need(a.model.path.endsWith('.glb')&&a.authoring.path.endsWith('.blend'),'wrong model/authoring extension');
    need(Array.isArray(a.parts)&&a.parts.length&&a.parts.every(p=>typeof p==='string')&&new Set(a.parts).size===a.parts.length,'invalid semantic parts');
   }
-  need(assets.size===(scenic?10:extended?3:2),'missing unique asset family');
+  need(scenic?(assets.size===10||(assets.size===11&&assets.has('statue'))):assets.size===(extended?3:2),'missing unique asset family');
   need(v.navigation&&Array.isArray(v.navigation.doors)&&Array.isArray(v.navigation.requiredRoutes),'missing navigation contract');
   need(v.boundary&&v.boundary.readyForWholeProviderReplacement===false&&v.boundary.sourceBytesVerified===false&&v.boundary.assetPartsVerified===false,'compiler draft flags must remain false');
   return [];
@@ -89,7 +90,7 @@ function validate(value,readBytes,registeredPaths){
    need(crypto.createHash('sha256').update(b).digest('hex')===s.sha256,'SHA256 mismatch '+s.path);bytes.set(s.path,b);
    if(s.path.endsWith('.json')){const doc=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(b)),role=ROLES[doc.schema];need(role,'unknown source schema '+s.path);need(!input.sources[role],'duplicate source role '+role);input[role]=doc;input.sources[role]=s}
   }
-  for(const role of ['terrainSource','terrain','layout','envelopes','dock'].concat(value.objects.length>=3?['provisionsPlacement','provisionsManifest']:[]).concat(value.objects.length===20?['landscapePlacement','landscapeMeasurement']:[]))need(input.sources[role],'missing source role '+role);
+  for(const role of ['terrainSource','terrain','layout','envelopes','dock'].concat(value.objects.length>=3?['provisionsPlacement','provisionsManifest']:[]).concat(value.objects.length>=20?['landscapePlacement','landscapeMeasurement']:[]))need(input.sources[role],'missing source role '+role);
   const expected=Package.compile(input);need(util.isDeepStrictEqual(value,expected),'compiled arrival package differs from source reconstruction');
   for(const a of input.assets){
    const blend=bytes.get(a.authoring.path);need(blend&&blend.length>=12&&/^BLENDER[_-][vV][0-9]{3}$/.test(blend.toString('ascii',0,12)),'invalid Blender header '+a.authoring.path);
