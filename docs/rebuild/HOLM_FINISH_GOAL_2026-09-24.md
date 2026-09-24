@@ -274,7 +274,10 @@ old coordinates on the grid pathfinder. Bundles, in order:
       New Blender prop pack holm-props-v1 (shrubs, flowers, stones, rock group, fallen log, signpost + arm, fence;
       1,812 tris). Map: scratchpad/holm_island_review/m45_habitat_map.png. Gates: nav 10/10, island 21/21, route
       20/20, arrival 12/12, units, smoke PASS.
-- [ ] **M4.6 Whole-island performance** (draw calls, streaming, boot).
+- [x] **M4.6 Whole-island performance** (draw calls, streaming, boot). 2026-09-24: still habitat props drawn as
+      19 island-wide InstancedMeshes (swaying trees stay clones with their breeze). Measured in the island draft
+      at five sites + a wide view: median 16.6 ms everywhere, worst frame 37.5 -> 21.7 ms, wide-view draw calls
+      717 -> 527 (close views 142-292). Live smoke boot 1.8 s unchanged. Gates: island 21/21, arrival 12/12, units, smoke.
 
 ### M4 — The rest of the island (original items)
 - [ ] Place the bakehouse, quest lodge and keep candidates on the compiled terrain with services bound to their

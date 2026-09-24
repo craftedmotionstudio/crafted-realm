@@ -23,7 +23,7 @@
             "arrival": 163
           }
         },
-        "roots": 569
+        "roots": 289
       }
     },
     {
@@ -56,7 +56,7 @@
       "label": "every step on the way is cardinal",
       "ok": true,
       "detail": {
-        "samples": 318,
+        "samples": 316,
         "diagonal": 0
       }
     },
@@ -361,5 +361,5 @@
       }
     }
   ],
-  "seconds": 525
+  "seconds": 520
 }

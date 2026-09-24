@@ -121,7 +121,11 @@ var HolmIslandExtras=(function(){
    scn.updateMatrixWorld(true);
    srcs[nm]={gltf:{scene:scn},minY:new T.Box3().setFromObject(scn).min.y,breeze:g2.animations.filter(function(c){return c.name==='Breeze'})[0]}}
   var arm=null;if(names.indexOf('signpost')>=0){var an=props.scene.getObjectByName('signpost-arm');need(an,'prop pack has no signpost-arm');arm=an}
-  veg.forEach(function(p,k){var s=srcs[p.asset],root=s.gltf.scene.clone(true),y=sample(p.x,p.z);if(!Number.isFinite(y))return;
+  // M4.6: still props (no breeze, not a signpost) are drawn as one InstancedMesh per asset mesh for the whole island
+  var batch={},M4=new T.Matrix4(),Q=new T.Quaternion(),UP=new T.Vector3(0,1,0);
+  veg.forEach(function(p,k){var s=srcs[p.asset],y=sample(p.x,p.z);if(!Number.isFinite(y))return;
+   if(!s.breeze&&p.asset!=='signpost'){(batch[p.asset]=batch[p.asset]||[]).push(new T.Matrix4().compose(new T.Vector3(p.x,y-s.minY*p.scale,p.z),Q.clone().setFromAxisAngle(UP,p.yaw),new T.Vector3(p.scale,p.scale,p.scale)));return}
+   var root=s.gltf.scene.clone(true);
    // signposts: one arm per branch, mounted down the post and turned to its path; clicking reads the arms
    if(p.asset==='signpost'&&arm){(p.arms||[]).forEach(function(a,ai){var am=arm.clone(true);am.position.set(0,1.55-ai*.25,0);am.rotation.set(0,a.yaw,0);root.add(am)});
     var text='The signpost reads: '+(p.arms||[]).map(function(a){return a.label}).join(', ')+'.';
@@ -130,6 +134,11 @@ var HolmIslandExtras=(function(){
    root.traverse(function(n){if(n.isMesh){n.castShadow=true;n.receiveShadow=true;linearMaps(T,n)}});
    if(s.breeze){var mx=new T.AnimationMixer(root);mx.clipAction(s.breeze).play();mx.update((k*.371)%s.breeze.duration);mixers.push(mx)}
   });
+  Object.keys(batch).forEach(function(name){var list=batch[name],src=srcs[name].gltf.scene;src.updateMatrixWorld(true);
+   src.traverse(function(n){if(!n.isMesh)return;linearMaps(T,n);
+    var im=new T.InstancedMesh(n.geometry,n.material,list.length);im.name='island-habitat-batch-'+name;im.castShadow=true;im.receiveShadow=true;
+    im.frustumCulled=false;   // r128 culls an InstancedMesh by its base geometry only; one batch spans the island
+    list.forEach(function(m,i){im.setMatrixAt(i,M4.multiplyMatrices(m,n.matrixWorld))});im.instanceMatrix.needsUpdate=true;scene.add(im);roots.push(im)})});
   // ---- bridges, built to the measured deck tiles ----
   var bridgeModels=(await json(BRIDGE_MODELS+'manifest.json')).bridges;
   for(var q=0;q<bridgeModels.length;q++){var m=bridgeModels[q],gb=await parse(T,await bytes(BRIDGE_MODELS+m.file));place(gb.scene,m.centre[0],0,m.centre[2],0).name='island-bridge-'+m.id}
