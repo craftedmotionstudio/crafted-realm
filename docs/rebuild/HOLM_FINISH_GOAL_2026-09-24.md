@@ -116,13 +116,29 @@ comes from the owner and cannot be replaced by a self-assigned score.**
       Pane proof: a fresh Holm game downloads **0** of the nine (was 14.4 MB), zero errors.
 
 ### M2 — Terrain engine that allows the new island (enabling work, from the workspace handoff)
-- [ ] New terrain source schema: versioned heights, material regions, shoreline and creek, crossings. One
-      contract drives rendering, collision, minimap, `groundY` and navigation.
-- [ ] General deterministic compiler and validator under a **new** schema. Do not loosen Lesson Green equality.
-- [ ] Cross-package validation: building doors and footprints, bridges, cave entries and saved landmarks against
-      the same terrain revision.
-- [ ] Isolated preview provider (`tutors-holm-v3`) that boots the candidate island on a separate entry with a
-      disposable save, leaving production boot untouched. Tests from the handoff's "Minimum tests" list pass.
+- [x] New terrain source schema: versioned heights, material regions, shoreline and creek, crossings. One
+      contract drives rendering, collision, minimap, `groundY` and navigation. 2026-09-24:
+      `holm-terrain-source-v3` (`src/holm_v3_terrain.js`) layers path overlays (dirt/cobble/sand), crossings
+      (bridge decks), anchors and required routes over the proven v1 heightfield compiler; one bundle gives per-tile
+      walk height (null on water, deck height on bridges) used by rendering, `groundY`, collision and the validator.
+- [x] General deterministic compiler and validator under a **new** schema. Lesson Green is untouched.
+      `tools/build_holm_v3_terrain.js` compiles `assets/world/holm_v3/holm-v3.terrain.source.json`, reports every
+      route and has a `--check` gate that fails on a stale bundle. `tools/test_holm_v3_terrain.js` 8/8:
+      determinism, immutability, creek/sea blocked, deck walkable, cardinal BFS with the game's 1.05 step rule,
+      overlays, and 16 malformed-source rejections (diagonal/empty paths, paths over water without a deck,
+      decks in the sea / over no creek / too low / unreachable ends / overlapping / too wide, unknown anchors).
+- [x] Cross-package validation (terrain side): bridges must span creek tiles, sit 0.3+ above water and land
+      within one step on dry ground at both ends; named anchors must be connected. Draft island: all 8 building-site
+      routes reachable. Finding for step 3: the concept creek starts inland, so the island is walkable round its
+      head and the bridge is a shortcut, not a requirement. Building door/footprint checks join when step-3
+      buildings exist (no v3 buildings yet).
+- [x] Isolated preview provider (`tutors-holm-v3`, `src/holm_v3_preview.js`), opt-in with `?holmV3=1` and an
+      isolated `qaProfile`; production boot untouched. `src/holm_v3_render.js` draws the 2004 look: smoothly
+      blended underlay colours, crisp flat path tiles, flat-shaded Lambert, flat blue sea and creek, plank decks.
+      Pane proof (`?holmV3=1&qaProfile=v3a`): boots onto v3 at the landing with 0 errors and a baked resident grid;
+      real click walked the landing path to the guide pad (y 3); a click on the creek stopped on the dry bank;
+      a click beyond the bridge crossed it on the deck (8 samples at exactly 3.3); save/reload restored the exact
+      position on v3. Grass retuned from lime to 2004 meadow green after the first pane look.
 
 ### M3 — First live slice: arrival → guide house
 - [ ] Arrival cove, creek crossing, guide house exterior, furnished interior and upper floor running in the

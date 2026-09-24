@@ -175,7 +175,9 @@ const SaveGame = {
         provider:this.provider()?this.provider().id:'legacy'};
       refreshPlayerGear();
       UI.refreshInv(); UI.refreshSkills(); UI.refreshQuests(); UI.refreshEquip(); UI.refreshHud();
-      UI.chat('Welcome back to Veyhollow. Your progress has been restored.','sys');
+      // name the place the adventurer is actually standing (Holm providers are tutors-holm-*)
+      const where=/^tutors-holm/.test(this.lastLoad.provider)?'Tutor\'s Holm':'Veyhollow';
+      UI.chat('Welcome back to '+where+'. Your progress has been restored.','sys');
       if(relocated){
         const provider=this.provider(),safe=provider&&provider.getSpawnLandmark(provider.defaultLandmark);
         UI.chat('The rebuilt map has placed you safely at '+(safe&&safe.label?safe.label:'a safe arrival point')+'. Your progress is unchanged.','sys');

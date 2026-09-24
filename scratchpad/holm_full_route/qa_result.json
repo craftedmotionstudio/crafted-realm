@@ -1,8 +1,8 @@
 {
-  "profile": "fable-route-qa-mufkscds",
+  "profile": "fable-route-qa-mufl8lik",
   "passed": 20,
   "total": 20,
-  "seconds": 416.9,
+  "seconds": 359.2,
   "checks": [
     {
       "label": "fresh profile boots at step 0 of the thirteen-step Holm curriculum",
@@ -18,7 +18,7 @@
         "errors": 0,
         "stepId": "study_route"
       },
-      "t": 5.1
+      "t": 4.9
     },
     {
       "label": "1 study_route: a real click on the relief chart records the lesson",
@@ -51,7 +51,7 @@
           "stepId": "equip_hatchet"
         }
       },
-      "t": 11.3
+      "t": 11.2
     },
     {
       "label": "2 equip_hatchet: a real click on the pack hatchet wields it",
@@ -70,7 +70,7 @@
           "stepId": "chop_logs"
         }
       },
-      "t": 12.4
+      "t": 12.3
     },
     {
       "label": "3 chop_logs: a real click on a marked tree gathers emberwood logs",
@@ -78,17 +78,17 @@
       "detail": {
         "r": {
           "centre": [
-            123.8,
+            124,
             2.6,
-            161
+            161.2
           ],
           "screen": [
             769,
-            230
+            229
           ],
           "hit": [
             769,
-            230
+            229
           ]
         },
         "s": {
@@ -96,14 +96,14 @@
           "complete": false,
           "plane": 0,
           "pos": [
-            125.6,
+            125.9,
             159.5
           ],
           "errors": 0,
           "stepId": "light_fire"
         }
       },
-      "t": 37
+      "t": 35.1
     },
     {
       "label": "4 light_fire: a real click on the logs lights a campfire with the tinderbox",
@@ -115,14 +115,14 @@
           "complete": false,
           "plane": 0,
           "pos": [
-            124.5,
-            159.5
+            128.5,
+            162.5
           ],
           "errors": 0,
           "stepId": "catch_fish"
         }
       },
-      "t": 46
+      "t": 41.6
     },
     {
       "label": "5 catch_fish: net then a real click on the fishing edge lands a mirrorperch",
@@ -155,7 +155,7 @@
           "stepId": "cook_fish"
         }
       },
-      "t": 65.5
+      "t": 60.5
     },
     {
       "label": "6 cook_fish: a real click on the campfire roasts the perch",
@@ -163,17 +163,17 @@
       "detail": {
         "cookLoc": {
           "centre": [
-            125.7,
+            129.7,
             1.5,
-            159.5
+            162.5
           ],
           "screen": [
             769,
-            250
+            322
           ],
           "hit": [
-            769,
-            250
+            785,
+            349
           ]
         },
         "s": {
@@ -181,14 +181,14 @@
           "complete": false,
           "plane": 0,
           "pos": [
-            125.5,
-            158.2
+            129.5,
+            161.5
           ],
           "errors": 0,
           "stepId": "descend_cavern"
         }
       },
-      "t": 131.8
+      "t": 75.2
     },
     {
       "label": "7 descend_cavern: right-click the winch frame, Climb-down from the menu, land in the cavern",
@@ -215,14 +215,14 @@
           "complete": false,
           "plane": -1,
           "pos": [
-            286.1,
-            354.1
+            286,
+            354
           ],
           "errors": 0,
           "stepId": "mine_copper"
         }
       },
-      "t": 153
+      "t": 96.3
     },
     {
       "label": "8 mine_copper: a real click on the copper rock mines copper ore",
@@ -248,14 +248,14 @@
           "complete": false,
           "plane": -1,
           "pos": [
-            295.5,
+            295,
             355.5
           ],
           "errors": 0,
           "stepId": "mine_tin"
         }
       },
-      "t": 164.3
+      "t": 102.9
     },
     {
       "label": "9 mine_tin: a real click on the tin rock mines tin ore",
@@ -269,11 +269,11 @@
           ],
           "screen": [
             769,
-            392
+            394
           ],
           "hit": [
             769,
-            392
+            394
           ]
         },
         "s": {
@@ -282,13 +282,13 @@
           "plane": -1,
           "pos": [
             304.5,
-            376
+            376.7
           ],
           "errors": 0,
           "stepId": "smelt_bronze"
         }
       },
-      "t": 174.5
+      "t": 116.7
     },
     {
       "label": "10 smelt_bronze: a real click on the furnace then the Bronze bar option smelts a bar",
@@ -322,7 +322,7 @@
           "stepId": "forge_dagger"
         }
       },
-      "t": 187.2
+      "t": 129.4
     },
     {
       "label": "11 forge_dagger: a real click on the anvil then the Bronze dagger option forges it",
@@ -356,7 +356,7 @@
           "stepId": "open_bank"
         }
       },
-      "t": 195
+      "t": 137.1
     },
     {
       "label": "cavern exit ladder: a real click climbs out into the Combat Hall drill tower",
@@ -389,7 +389,7 @@
           "stepId": "open_bank"
         }
       },
-      "t": 205.6
+      "t": 147.8
     },
     {
       "label": "12 open_bank: a real click on a teller booth opens the bank interface",
@@ -422,7 +422,7 @@
           "stepId": "relight_lastlight"
         }
       },
-      "t": 219
+      "t": 161.2
     },
     {
       "label": "optional bake_bread: real clicks on the shelf, bin, butt, trough, pack and range bake a loaf",
@@ -442,7 +442,7 @@
           "step": 12
         }
       },
-      "t": 296
+      "t": 238.2
     },
     {
       "label": "optional learn_quests: a real click on the quest board records the lesson",
@@ -468,7 +468,7 @@
           "step": 12
         }
       },
-      "t": 304.2
+      "t": 246.3
     },
     {
       "label": "13 relight_lastlight: real clicks on the door, both ladders and the lever light the beacon and complete the curriculum",
@@ -519,7 +519,7 @@
           "stepId": null
         }
       },
-      "t": 372.9
+      "t": 315.1
     },
     {
       "label": "descent: the lighthouse returns the player to the summit (ladders clicked where still needed) and the road reaches Departure Dock",
@@ -542,7 +542,7 @@
           "stepId": null
         }
       },
-      "t": 396.7
+      "t": 338.9
     },
     {
       "label": "departure: a real click on the skiff sails to the mainland with the departure pack",
@@ -573,7 +573,7 @@
           "errors": 0
         }
       },
-      "t": 416.5
+      "t": 358.8
     },
     {
       "label": "no page errors, console errors, or failed asset loads across the whole route",
@@ -583,7 +583,7 @@
         "consoleErrors": [],
         "failedLoads": []
       },
-      "t": 416.5
+      "t": 358.8
     }
   ],
   "pageErrors": [],

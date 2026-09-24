@@ -3789,3 +3789,15 @@ length (slight medium-length read in 3/4).
 - Inventory right-click now has 2004 Drop / Examine (pane: drop to ground and pick back up). Found because a full
   pack correctly kept the ferry pack aboard; the route driver now frees a slot like a player would.
 - Gates: world-v2 all locks, content PASS, route 20/20 (417 s), smoke 105/105 foreground + hidden, 0 errors.
+
+## 2026-09-24 — Finish goal step 2 closed (landscape tool + v3 preview)
+- New `holm-terrain-source-v3` compiler (`src/holm_v3_terrain.js`): path overlays, bridge decks, per-tile walk
+  height (null on water), anchors and required routes checked with the game's own 4-direction/1.05-step rule.
+  `tools/build_holm_v3_terrain.js` builds the bundle and has a `--check` staleness gate. Tests 8/8.
+- Draft island (`assets/world/holm_v3/`): all 8 building-site routes reachable. The concept creek starts inland,
+  so the bridge is a shortcut, not a requirement: a layout question for step 3.
+- `?holmV3=1` preview provider (`src/holm_v3_preview.js`) with a 2004-style renderer (`src/holm_v3_render.js`):
+  blended underlay colours, crisp path tiles, flat-shaded, flat blue water, plank bridge. Pane: walked the landing
+  path, creek click stopped on the bank, crossed the bridge on the deck (y 3.3 exactly), save/reload restored the
+  v3 position. Grass retuned from lime to 2004 meadow green. Restore greeting now names Tutor's Holm correctly.
+- Production unaffected: world-v2 locks, content PASS, route 20/20 (359 s), smoke both phases.

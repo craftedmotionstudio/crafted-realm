@@ -138,6 +138,14 @@ check('the follow camera is clamped out of the surface terrain along its boom',
     /\(Player\.plane\|\|0\)!==0/.test(invMenu)&&/makeDrop\(item\.id, item\.qty\|\|1, x, z\)/.test(invMenu)&&
     /el\.closest\('#inv-grid'\)/.test(tagsSrc)&&
     indexHtml.indexOf('src/inventory_menu.js?v=')>=0&&indexHtml.indexOf('src/inventory_menu.js?v=')<indexHtml.indexOf('src/item_tags.js?v='));
+  const v3Prev=fs.readFileSync(path.join(ROOT,'src','holm_v3_preview.js'),'utf8');
+  check('the Holm v3 preview is opt-in (?holmV3=1 + isolated qaProfile) and drives groundY from its compiled bundle',
+    /get\('holmV3'\)==='1'/.test(v3Prev)&&/!QAProfile\.isolated/.test(v3Prev)&&
+    /HolmV3Terrain\.walkHeight\(bundle,x,z\)/.test(v3Prev)&&
+    /HolmV3Preview\.active\(\)\)return HolmV3Preview\.height\(x,z\)/.test(world2)&&
+    /else if\(typeof HolmV3Preview!=='undefined'&&HolmV3Preview\.requested\)/.test(mainSource));
+  check('the restore greeting names Tutor\'s Holm or Veyhollow from the loaded provider',
+    /\/\^tutors-holm\/\.test\(this\.lastLoad\.provider\)/.test(fs.readFileSync(path.join(ROOT,'src','ui_save.js'),'utf8')));
   check('the play button names where the adventurer will land (Holm vs Veyhollow)',
     /setPlayLabel\('WASH ASHORE'\)/.test(login)&&/RETURN TO TUTOR\\'S HOLM/.test(login)&&/function onHolm\(data\)\{/.test(login));
 })();

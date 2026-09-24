@@ -746,7 +746,8 @@ function update(dt){
     // must not overwrite it after a climb or saved-game restore.
     UI.zone(HolmLastlightData.levels[activePlane-1].label);
   } else {
-    const z = typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active() ? 'holm' : zoneAt(player.position.x, player.position.z);
+    const z = (typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())||(typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active())
+      ? 'holm' : zoneAt(player.position.x, player.position.z);
     if(z!==curZone){
       curZone=z; UI.zone(ZONES[z].name);
       UI.chat(`Now entering: ${ZONES[z].name}.`,'sys');
@@ -942,6 +943,8 @@ function bootSteps(){ return [
   {id:'world-plan', label:_liteBoot?'Reading '+_worldLabel:'Reading the legacy realm', weight:4, run:async()=>{
     if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.requested){
       _worldProvider=await HolmArrivalQA.prepare();_worldLabel=_worldProvider.label;
+    }else if(typeof HolmV3Preview!=='undefined'&&HolmV3Preview.requested){
+      _worldProvider=await HolmV3Preview.prepare();_worldLabel=_worldProvider.label;
     }
     if(_liteBoot){
       if(!_worldProvider) throw new Error('The selected world provider is unavailable');
