@@ -146,6 +146,9 @@ var HolmArrivalQA=(function(){
  }
  return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,
   islandActive:function(){return active()&&island},
+  // review captures only: stream and frame a place without moving the adventurer
+  qaView:function(x,z){if(!active())return null;provider.updateResidency(x,z,true);var y=height(x,z);window.__qaCameraFocus={x:x,y:Number.isFinite(y)?y:0,z:z};return window.__qaCameraFocus},
+  qaViewClear:function(){window.__qaCameraFocus=null},
   // the bakehouse oven stance, for the kitchen module's cook proxy on the island
   islandRangePoint:function(){if(!active()||!island)return null;var n=graphForDoors(doors).byId['b:bakehouse:-3:-2:1'];return n?{x:n.x,y:n.y,z:n.z}:null},
   islandStats:function(){return island&&nav&&nav.stats?nav.stats(doors):null}};

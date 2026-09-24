@@ -197,7 +197,7 @@ function update(dt){
   // World-v2 residency follows tile-chunk boundaries. Terrain geometry and the
   // matching collision cells are loaded/unloaded together by the provider.
   if(typeof CRWorldMode!=='undefined' && CRWorldMode.provider)
-    CRWorldMode.provider.updateResidency(player.position.x,player.position.z);
+    { const rf=camFocus(); CRWorldMode.provider.updateResidency(rf.x,rf.z); }   // follows the QA review focus when one is set
   worldTickAcc += dt;
   let _nTicks = Math.floor(worldTickAcc / TICK);
   if(_nTicks > 5){ _nTicks = 5; worldTickAcc = 0;     // drop backlog after a tab stall (no spiral of death)
@@ -775,15 +775,18 @@ function update(dt){
   scene.fog.color.lerp(targetFog, dt*1.5);
   scene.background.lerp(targetFog, dt*1.5);
 
-  const camGoal = followCameraGoal();
+  const camGoal = followCameraGoal(), cf = camFocus();
   camera.position.lerp(camGoal, 0.15);
-  camera.lookAt(player.position.x, player.position.y+1.2, player.position.z);
+  camera.lookAt(cf.x, cf.y+1.2, cf.z);
 }
+// Review captures only: window.__qaCameraFocus={x,y,z} frames a place without moving the adventurer.
+function camFocus(){ const f=typeof window!=='undefined'&&window.__qaCameraFocus; return f&&Number.isFinite(f.x)&&Number.isFinite(f.y)&&Number.isFinite(f.z)?f:player.position; }
 function followCameraGoal(){
-  const cx = player.position.x + camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
-  const cz = player.position.z + camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
-  const cy = player.position.y + camCtl.dist*Math.sin(camCtl.pitch);
-  return cameraTerrainClamp(player.position.x, player.position.y+1.2, player.position.z, cx, cy, cz);
+  const f=camFocus();
+  const cx = f.x + camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
+  const cz = f.z + camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
+  const cy = f.y + camCtl.dist*Math.sin(camCtl.pitch);
+  return cameraTerrainClamp(f.x, f.y+1.2, f.z, cx, cy, cz);
 }
 /* Jump the follow camera to its goal instead of easing in. The camera is created at the world
  * origin, so the first frames after entering used to show the island from sea level far away. */
