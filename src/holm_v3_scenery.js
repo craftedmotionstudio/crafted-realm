@@ -119,6 +119,8 @@ var HolmV3Scenery=(function(){
       var maker=MAKERS[it.kind];if(!maker)throw new Error('[HolmV3Scenery] unknown kind '+it.kind);
       var x=it.x+.5,z=it.z+.5,y=heightAt(x,z);if(y===null)throw new Error('[HolmV3Scenery] '+it.kind+' '+i+' stands on water at '+it.x+','+it.z);
       var piece=new T.Group();piece.position.set(x,y,z);piece.rotation.y=(it.rot||rnd(i+it.x)*6.28);maker(T,piece,i+it.x*7+it.z*13);g.add(piece);
+      // review 4: the reference trees are big and fill the view; the trunk footprint (collider) stays one tile
+      if(it.kind==='oak'||it.kind==='pine')piece.scale.setScalar(it.scale||(1.3+rnd(i*1.7+it.z)*.25));
       if(BLOCKS[it.kind])colliders.push({type:'circle',x:x,z:z,r:BLOCKS[it.kind]});
     });
     (data.fences||[]).forEach(function(run){colliders=colliders.concat(fence(T,g,run,function(x,z){return heightAt(x,z)||0;}));});

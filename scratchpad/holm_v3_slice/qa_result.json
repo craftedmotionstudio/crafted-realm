@@ -1,8 +1,8 @@
 {
-  "profile": "v3-slice-qa-mufr0hyl",
+  "profile": "v3-slice-qa-mufrwms2",
   "passed": 13,
   "total": 13,
-  "seconds": 90.8,
+  "seconds": 91.1,
   "checks": [
     {
       "label": "fresh profile boots onto the v3 preview at the landing",
@@ -93,7 +93,7 @@
           "p": [
             61.5,
             3,
-            96.5
+            96.9
           ],
           "plane": 0,
           "step": 1,
@@ -107,7 +107,7 @@
       "ok": true,
       "detail": {
         "xy": [
-          769,
+          761,
           362
         ],
         "s": {

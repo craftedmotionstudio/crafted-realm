@@ -67,6 +67,18 @@ check('malformed sources are rejected',()=>{
     const s=clone(source);change(s);assert.throws(()=>T.compile(s),'case '+n);
   });
 });
+check('plazas pave a round area of dry tiles; dips press hollows without touching pads or reaching the sea',()=>{
+  const s=clone(source);s.plazas=[{material:'cobble',x:70.5,z:70.5,r:2.5}];s.dips=[{x:100,z:40,r:10,depth:3},{x:20,z:60,r:6,depth:5}];
+  const d=T.compile(s);
+  assert.strictEqual(T.overlayAt(d,70,70),'cobble');assert.strictEqual(T.overlayAt(d,72,70),'cobble');assert.strictEqual(T.overlayAt(d,74,70),'none');
+  const h0=T.walkHeight(b,100.5,40.5),h1=T.walkHeight(d,100.5,40.5);
+  assert(h1<h0-1.2&&h1>=.4-1e-9,'the hollow deepens the ground but stops 0.4 above the sea ('+h0+' -> '+h1+')');
+  assert.strictEqual(T.walkHeight(d,20.5,60.5),3,'a dip over a building pad leaves the pad level');
+  assert(d.base.heights.every(h=>h>=-2),'nothing below the sea floor');
+  [x=>x.plazas=[{material:'lava',x:1,z:1,r:2}],x=>x.plazas=[{material:'cobble',x:1,z:1,r:40}],
+   x=>x.dips=[{x:1,z:1,r:1,depth:2}],x=>x.dips=[{x:1,z:1,r:5,depth:20}],x=>x.dips=[{x:NaN,z:1,r:5,depth:2}]].forEach((f,i)=>{
+    const t=clone(source);f(t);assert.throws(()=>T.compile(t),'bad plaza/dip case '+i);});
+});
 check('the real island: ~2004 size, every route reachable, and the creek splits it without the bridge',()=>{
   const real=JSON.parse(require('fs').readFileSync(require('path').join(__dirname,'..','assets','world','holm_v3','holm-v3.terrain.source.json'),'utf8'));
   const rb=T.compile(real);assert(rb.routes.every(r=>r.reachable),'every authored route is walkable');

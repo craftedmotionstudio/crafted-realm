@@ -33,7 +33,7 @@ for key, ref, ours, title in PAIRS:
     d = ImageDraw.Draw(sheet)
     f = font(22)
     d.text((PAD, 12), 'Reference: ' + title, fill=(240, 220, 160), font=f)
-    d.text((a.width + PAD * 2, 12), 'Crafted Realm v3 preview (review 4)', fill=(160, 220, 150), font=f)
+    d.text((a.width + PAD * 2, 12), 'Crafted Realm v3 preview (review 5)', fill=(160, 220, 150), font=f)
     out = OURS / f'compare_{key}.png'
     sheet.save(out)
     print('wrote', out.relative_to(ROOT))

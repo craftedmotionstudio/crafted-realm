@@ -3838,3 +3838,9 @@ length (slight medium-length read in 3/4).
   fixed a sealed study corner). Outdoors: 36 new pieces - star flowers, daisies, ferns, stumps, a fallen log,
   crates, barrels, a bench and a signpost.
 - Gates: world-v2 all locks, tile house 8/8, terrain 9/9, slice 13/13, route 20/20, smoke both phases.
+
+## 2026-09-24 — Step 3 look pass 5 (owner: "close, one more pass")
+- Terrain compiler gains round plazas and dips (hollows that never cut pads or reach the sea), tests 10/10.
+- Round cobble plaza before the guide house; five meadow dells; taller coastal hills for sea cliffs.
+- Oaks and pines scaled 1.3-1.55 so they fill the view like the references (collider stays one tile).
+- Gates: world-v2 all locks, terrain 10/10, slice 13/13, route 20/20, smoke both phases. Awaiting review 5.

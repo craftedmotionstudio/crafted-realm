@@ -60,6 +60,14 @@ var HolmV3Terrain=(function(){
       if(!object(s.anchors))fail('anchors must be an object');
       Object.keys(s.anchors).forEach(function(k){var a=s.anchors[k];if(!Array.isArray(a)||a.length!==2||!int(a[0])||!int(a[1]))fail('anchor '+k+' must be an integer tile');});
     }
+    // plazas: round paved areas (review 4: the references pave circles round their buildings and statues)
+    (s.plazas||[]).forEach(function(p,n){
+      if(!object(p)||!(p.material in OVERLAY)||p.material==='none'||!finite(p.x)||!finite(p.z)||!finite(p.r)||p.r<1||p.r>12)fail('invalid plaza '+n);
+    });
+    // dips: smooth hollows pressed into the ground (the references roll with deep dells)
+    (s.dips||[]).forEach(function(d,n){
+      if(!object(d)||!finite(d.x)||!finite(d.z)||!finite(d.r)||d.r<2||d.r>30||!finite(d.depth)||d.depth<=0||d.depth>8)fail('invalid dip '+n);
+    });
     (s.routes||[]).forEach(function(r){
       if(!Array.isArray(r)||r.length!==2||!s.anchors||!s.anchors[r[0]]||!s.anchors[r[1]])fail('route names an unknown anchor');
     });
@@ -70,8 +78,19 @@ var HolmV3Terrain=(function(){
     validate(source);
     var baseSource=JSON.parse(JSON.stringify(source));
     baseSource.schema='holm-overhaul-terrain-source-v1';
-    ['paths','crossings','anchors','routes','notes'].forEach(function(k){delete baseSource[k];});
+    ['paths','crossings','anchors','routes','notes','plazas','dips'].forEach(function(k){delete baseSource[k];});
     var base=Base.compile(baseSource),W=base.width,D=base.depth;
+    // Dips lower dry ground only, never below 0.4 above the sea and never inside a building pad, so a hollow
+    // cannot flood, cut a pad, or turn land into water after the base water flags were decided.
+    if((source.dips||[]).length){
+      var S=W+1,pads=source.pads||[];
+      for(var vz=0;vz<=D;vz++)for(var vx=0;vx<=W;vx++){
+        var vi=vz*S+vx,h0=base.heights[vi];if(h0<=.4)continue;
+        if(pads.some(function(p){return Math.abs(vx-p.x)<=p.w/2+1&&Math.abs(vz-p.z)<=p.d/2+1;}))continue;
+        var cut=0;source.dips.forEach(function(d){var t=Math.hypot(vx-d.x,vz-d.z)/d.r;if(t<1){var k=1-t*t;cut=Math.max(cut,d.depth*k*k);}});
+        if(cut>0)base.heights[vi]=Math.max(.4,h0-cut);
+      }
+    }
     var overlay=new Array(W*D).fill(0),deck=new Array(W*D).fill(null),tileY=new Array(W*D);
 
     (source.crossings||[]).forEach(function(c){
@@ -100,6 +119,12 @@ var HolmV3Terrain=(function(){
       });
     });
 
+    (source.plazas||[]).forEach(function(p){
+      for(var z=Math.floor(p.z-p.r);z<=Math.ceil(p.z+p.r);z++)for(var x=Math.floor(p.x-p.r);x<=Math.ceil(p.x+p.r);x++){
+        if(x<0||z<0||x>=W||z>=D||Math.hypot(x+.5-p.x,z+.5-p.z)>p.r)continue;
+        var i=tileIndex(base,x,z);if(tileY[i]!==null)overlay[i]=OVERLAY[p.material];   // plazas stop at the water's edge
+      }
+    });
     // crossing ends must land on dry walkable ground within one step of the deck
     (source.crossings||[]).forEach(function(c){
       var alongX=c.w>=c.d,ends=[];
