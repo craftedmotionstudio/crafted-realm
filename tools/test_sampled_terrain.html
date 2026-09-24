@@ -1,0 +1,42 @@
+<!doctype html><meta charset="utf-8"><title>Authored terrain · r128 runtime gate</title>
+<style>body{margin:0;background:#829b91;color:#fff;font:14px system-ui}pre{position:absolute;left:16px;top:12px;background:#20382ee8;padding:15px;max-width:650px;white-space:pre-wrap}canvas{display:block}</style>
+<pre id="result">Running authored terrain runtime gate…</pre>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../src/holm_overhaul_chunks.js?v=1"></script>
+<script src="../src/world_v2_sampled_terrain.js?v=2"></script>
+<script src="../src/world_v2_terrain.js?v=4"></script>
+<script>
+var scene=new THREE.Scene(),TEX={},WORLD={grounds:[],clickables:[],waterTextures:[]},WorldV2={CHUNK_SIZE:8};
+function buildTerrainPatch(){throw Error('Sampled renderer called old terrain sampler')}
+(async function(){
+ const checks=[];function check(name,ok){if(!ok)throw Error(name);checks.push(name)}
+ try{
+  const response=await fetch('../.studio-workspaces/holm-arrival-package-v1/working/assets/world/authoring/holm-arrival.package.json');
+  if(!response.ok)throw Error('Stage the arrival package first');const pack=await response.json();
+  const provider={id:'tutors-holm-v2',renderStrategy:'holm-overhaul-sampled',getWorldRect:()=>({x0:0,z0:0,w:144,h:128})};
+  WorldV2Terrain.init(provider);const handles=pack.terrain.chunks.map(c=>WorldV2Terrain.loadChunk(c,provider));
+  check('288 authored chunks registered',WORLD.grounds.length===288&&WORLD.clickables.length===288);
+  check('One shared untextured material; old pond absent',WorldV2Terrain.snapshot().sharedMaterials===1&&WorldV2Terrain.snapshot().sharedTextures===0&&!scene.getObjectByName('holm-pond-water'));
+  const vertices=new Map();let shared=0;
+  for(const handle of handles){const a=handle.geometry.attributes.position;for(let i=0;i<a.count;i++){
+   const key=a.getX(i)+','+a.getZ(i),y=a.getY(i);if(vertices.has(key)){check('shared vertex '+key,vertices.get(key)===y);shared++}else vertices.set(key,y);
+  }}
+  check('Shared borders exercised',shared>1000);
+  const chunk=JSON.parse(JSON.stringify(pack.terrain.chunks.find(c=>c.id==='8,12'))),material=handles[0].mesh.material;
+  const excluded=WorldV2SampledTerrain.build(THREE,chunk,material,[{x:64,z:96,w:2,d:2}]);
+  check('Building exclusion removes exactly four tiles',excluded.geometry.index.count===(64-4)*6);excluded.geometry.dispose();
+  const bad=JSON.parse(JSON.stringify(chunk));bad.layers.terrain.heights[0]=null;let refused=false;
+  try{WorldV2SampledTerrain.build(THREE,bad,material)}catch(e){refused=true}check('Invalid authored samples refused',refused);
+  let disposed=0;handles[0].geometry.addEventListener('dispose',()=>disposed++);WorldV2Terrain.unloadChunk(handles[0]);
+  check('Unloaded chunk unregisters and disposes once',disposed===1&&WORLD.grounds.length===287&&!scene.children.includes(handles[0].mesh));
+  check('Shared material survives unload',WORLD.grounds.every(m=>m.material===material));
+  const replacement=WorldV2Terrain.loadChunk(pack.terrain.chunks[0],provider);handles[0]=replacement;
+  check('Reload returns to 288 owned geometries',WorldV2Terrain.snapshot().liveGeometries===288);
+  const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setClearColor('#829b91');document.body.append(renderer.domElement);
+  scene.add(new THREE.HemisphereLight(0xdfe2d8,0x8a8a72,.92));const light=new THREE.DirectionalLight(0xfff4e0,.85);light.position.set(-50,100,40);scene.add(light);
+  const camera=new THREE.PerspectiveCamera(40,innerWidth/innerHeight,.1,600);camera.position.set(185,155,215);camera.lookAt(72,3,64);renderer.render(scene,camera);
+  document.getElementById('result').textContent='PASS · '+checks.length+' checks\nActual r128 runtime mesh path: shared heights, house exclusions, invalid-data refusal, residency cleanup/reload.\nTerrain only; this is not the complete live arrival provider.';
+  console.log('[SAMPLED_TERRAIN] PASS '+checks.length+' checks');
+ }catch(e){document.getElementById('result').textContent='FAIL '+e.message;console.error(e)}
+})();
+</script>

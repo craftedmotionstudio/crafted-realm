@@ -30,6 +30,22 @@ var WorldV2Objects=(function(){
     });
     return g;
   }
+  /* Stone fire ring with an ash bed and two charred logs. No collider: the player stands on the tile to
+   * light the lesson fire, which then burns inside the ring in open ground (play review F-13/F-14). */
+  function buildHolmFireRing(){
+    var g=new THREE.Group(),stone=blockMat(0x6f6a62),stoneL=blockMat(0x8a8377),ash=blockMat(0x2e2a26),char=blockMat(0x1d1714);
+    for(var i=0;i<9;i++){
+      var a=i/9*Math.PI*2,r=0.74;
+      var s=new THREE.Mesh(new THREE.DodecahedronGeometry(0.17+(i%3)*0.03,0),i%2?stoneL:stone);
+      s.position.set(Math.cos(a)*r,0.12,Math.sin(a)*r); s.scale.y=0.7; s.rotation.y=a; g.add(s);
+    }
+    var bed=new THREE.Mesh(new THREE.CylinderGeometry(0.56,0.62,0.06,12),ash); bed.position.y=0.03; g.add(bed);
+    [[0.35,0.5],[-0.4,2.2]].forEach(function(p){
+      var log=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.08,0.7,6),char);
+      log.rotation.z=Math.PI/2; log.rotation.y=p[1]; log.position.set(0,0.11,p[0]*0.4); g.add(log);
+    });
+    return g;
+  }
   function buildHolmFence(){
     var g=new THREE.Group(),wood=blockMat(0x765334),dark=blockMat(0x523823);
     [-1,1].forEach(function(x){
@@ -87,6 +103,7 @@ var WorldV2Objects=(function(){
     holm_oak:{build:buildHolmOak},
     holm_rock:{build:buildHolmRock},
     holm_fence:{build:buildHolmFence},
+    holm_fire_ring:{build:buildHolmFireRing},
     holm_bridge:{build:buildHolmBridge},
     holm_pier:{build:buildHolmPier},
     holm_bank_chest:{build:buildHolmBankChest},
@@ -256,6 +273,11 @@ var WorldV2Objects=(function(){
     var root=entry.build();
     if(!root||!root.traverse) throw new Error('[WorldV2Objects] asset '+asset+' did not return an Object3D');
     root.position.set(0,0,0); root.rotation.set(0,0,0); root.name='template-'+asset;
+    // props without semantic parts (trees, rocks, fences, decks) merge to one mesh per surface (P2-C)
+    if(typeof WorldV2Consolidate!=='undefined'&&!entry.buildingDef){
+      var hasParts=false; root.traverse(function(o){ if(o.userData&&(o.userData.partId||o.userData.kind)) hasParts=true; });
+      if(!hasParts) WorldV2Consolidate.consolidate(root,asset);
+    }
     collect(root); state.templates.set(asset,root); state.templateBuilds++;
     return root;
   }
@@ -363,6 +385,16 @@ var WorldV2Objects=(function(){
       loads:state.loads,unloads:state.unloads,
       catalogObjectChunks:state.catalogObjectChunks.slice(),liveObjectIds:liveObjectIds.sort()};
   }
+  /* Build every manifest template now (so first residency never builds) and hand back one clone
+   * of each for the shader warm-up; clones share geometry and materials with the templates. */
+  function warmTemplates(){
+    var out=[];
+    Object.keys(MANIFEST).forEach(function(asset){
+      try{ out.push(template(asset).clone(true)); }
+      catch(e){ if(typeof console!=='undefined') console.warn('[WorldV2Objects] warm-up skipped '+asset+': '+(e&&e.message||e)); }
+    });
+    return out;
+  }
   return {init:init,loadChunk:loadChunk,unloadChunk:unloadChunk,dispose:dispose,
-    ownsObject:ownsObject,snapshot:snapshot};
+    ownsObject:ownsObject,snapshot:snapshot,warmTemplates:warmTemplates};
 })();

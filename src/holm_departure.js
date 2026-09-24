@@ -20,7 +20,9 @@ var HolmDeparture=(function(){
     var d=HolmTutorialFlow.departure,walk={x:d.dockTile.x,z:d.dockTile.z};
     var cross=function(){
       if(!unlocked()) return lockedMessage();
-      try{ if(typeof Tutorial.grantDeparturePack==='function') Tutorial.grantDeparturePack(); }catch(e){}
+      if(typeof Tutorial.grantDeparturePack!=='function'||!Tutorial.grantDeparturePack())return false;
+      try{ var el=document.getElementById('objective'); if(el) el.style.display='none';
+        if(typeof GuideArrow!=='undefined'){ GuideArrow.keepAfterComplete=false; GuideArrow.setTarget(null); } }catch(e){}
       WorldTravel.go(d.destinationProvider,d.destinationLandmark,{
         loadingLabel:'Sailing for Veyhollow…',zoneLabel:'Veyhollow Commons',
         arrivalMessage:'The skiff noses into Veyhollow. Hollow Well Square lies just ahead.'

@@ -1,0 +1,152 @@
+[
+  {
+    "level": "info",
+    "message": "[HOLM_HABITAT] 6/6 DATA acceptance ok",
+    "timestamp": "2026-09-13T16:26:24.339Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_habitat.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_ARRIVAL_PREVIEW] landing/chart/study return routes connected; 169 stance nodes",
+    "timestamp": "2026-09-13T16:26:24.339Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_house_walk.js?v=10"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_LANDSCAPE] 8 Blender placements; route envelope clear",
+    "timestamp": "2026-09-13T16:26:24.339Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_arrival_landscape.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_HABITAT] candidate loaded {\"instances\":42,\"assets\":5,\"meshes\":69,\"triangles\":33044,\"geometries\":9,\"materials\":9,\"textures\":9,\"mixers\":42,\"perAsset\":{\"oak\":12,\"birch\":5,\"coastal-pine\":5,\"meadow-tuft\":15,\"creek-reeds\":5}}",
+    "timestamp": "2026-09-13T16:26:24.339Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_habitat.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[KEEP_TERRAIN_STUDIO] Blender keep on measured ridge foundation Object",
+    "timestamp": "2026-09-13T16:26:24.339Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_overhaul.js?v=kitchen3"
+  },
+  {
+    "level": "info",
+    "message": "[BAKEHOUSE_FIRE] authored animation loaded Array(8) 204",
+    "timestamp": "2026-09-13T16:26:24.339Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_bakehouse_fire.js"
+  },
+  {
+    "level": "info",
+    "message": "[BAKEHOUSE_TERRAIN_STUDIO] connected wings on measured terrace Object",
+    "timestamp": "2026-09-13T16:26:24.339Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_overhaul.js?v=kitchen3"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_HABITAT] 6/6 DATA acceptance ok",
+    "timestamp": "2026-09-13T16:29:54.491Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_habitat.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_LANDSCAPE] 8 Blender placements; route envelope clear",
+    "timestamp": "2026-09-13T16:29:54.782Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_arrival_landscape.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_ARRIVAL_PREVIEW] landing/chart/study return routes connected; 169 stance nodes",
+    "timestamp": "2026-09-13T16:29:54.864Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_house_walk.js?v=10"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_HABITAT] candidate loaded {\"instances\":42,\"assets\":5,\"meshes\":69,\"triangles\":33044,\"geometries\":9,\"materials\":9,\"textures\":9,\"mixers\":42,\"perAsset\":{\"oak\":12,\"birch\":5,\"coastal-pine\":5,\"meadow-tuft\":15,\"creek-reeds\":5}}",
+    "timestamp": "2026-09-13T16:29:54.949Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_habitat.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[KEEP_TERRAIN_STUDIO] Blender keep on measured ridge foundation Object",
+    "timestamp": "2026-09-13T16:29:54.996Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_overhaul.js?v=lodge1"
+  },
+  {
+    "level": "info",
+    "message": "[BAKEHOUSE_FIRE] authored animation loaded Array(8) 204",
+    "timestamp": "2026-09-13T16:29:55.061Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_bakehouse_fire.js"
+  },
+  {
+    "level": "info",
+    "message": "[BAKEHOUSE_TERRAIN_STUDIO] connected wings on measured terrace Object",
+    "timestamp": "2026-09-13T16:29:55.062Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_overhaul.js?v=lodge1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_HEARTH] measured Blender fire loaded 204 Array(8)",
+    "timestamp": "2026-09-13T16:29:55.098Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_hearth.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_TERRAIN_STUDIO] {\"schema\":\"holm-quest-placement-v1\",\"status\":\"augmented-foundation-sampled-fit-awaiting-visual-and-navigation\",\"fitsExistingFoundation\":false,\"world\":{\"x\":35,\"y\":5.02,\"z\":51},\"yaw\":0,\"coordinateSystem\":\"Proposal grid coordinates. Studio scene subtracts (72,0,64).\",\"modelSha256\":\"a8d57474e1a5cd6f8e13214e57905cf3bacecdf8e1fcc14c5b0ea1393248b324\",\"baseModelSha256\":\"6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b\",\"geometryBaseSha256\":\"6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b\",\"terrainSha256\":\"655e69f88d24b389ccf6b7c90e61d60d1d9b4ccde32030b0a45754285feb1d98\",\"modelUrl\":\"../.studio-workspaces/holm-quest-lodge-v3/candidates/lodge.glb\",\"supports\":[{\"x\":35,\"y\":5.02,\"z\":51,\"min\":4.999904,\"max\":5.000144,\"spread\":0.00024,\"exposedUnderside\":0,\"buriedFloor\":0,\"fitsSampledSlab\":true,\"fitsZeroThicknessBay\":false,\"id\":\"full-footprint-slab-envelope-only\",\"samples\":1862,\"localBounds\":[-5.000999927520752,-4.000999927520752,6.349999904632568,4.000999927520752],\"floorBottom\":-0.18000000715255737,\"floorTop\":0},{\"id\":\"reading-bay-single-surface\",\"samples\":63,\"min\":5,\"max\":5,\"floorBottom\":0,\"floorTop\":0,\"exposedUnderside\":0.02,\"fits\":false}],\"entranceWorld\":{\"x\":35.5,\"y\":5.02,\"z\":53,\"terrainHeight\":5,\"step\":0.02},\"approachSamples\":[{\"x\":35.5,\"z\":53,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":53.2,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":53.4,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":53.6,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":53.8,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54.2,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54.4,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54.5,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54.6,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54.8,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55.2,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55.4,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55.5,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55.6,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55.8,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":56,\"terrainHeight\":5,\"stepFromFloor\":0.02}],\"footprintTriangles\":[[[5.000999927520752,-4.000999927520752],[-5.000999927520752,-4.000999927520752],[-5.000999927520752,2.000999927520752]],[[5.000999927520752,-4.000999927520752],[-5.000999927520752,2.000999927520752],[5.000999927520752,2.000999927520752]],[[-0.999000072479248,1.999000072479248],[-5.000999927520752,1.999000072479248],[-5.000999927520752,4.000999927520752]],[[-0.999000072479248,1.999000072479248],[-5.000999927520752,4.000999927520752],[-0.999000072479248,4.000999927520752]],[[5,-3],[5,0],[5.949999809265137,-0.550000011920929]],[[5.949999809265137,-0.550000011920929],[6.349999904632568,-1.5],[5.949999809265137,-2.450000047683716]],[[5.949999809265137,-0.550000011920929],[5.949999809265137,-2.450000047683716],[5,-3]]],\"boundedSearch\":{\"spacing\":0.5,\"radiusPerAxis\":2,\"tested\":81,\"bestSpread\":0,\"fittingExistingFoundation\":6,\"origin35At51\":{\"x\":35,\"y\":5.000144,\"z\":51,\"min\":4.999904,\"max\":5.000144,\"spread\":0.00024,\"exposedUnderside\":0,\"buriedFloor\":0,\"fitsSampledSlab\":true,\"fitsZeroThicknessBay\":false}},\"reason\":\"Shift one tile west to integer origin35,51 and raise floor to5.02. Terrain samples4.999904..5.000144 lie within existing slabs and separate Blender-authored bay foundation4.84..5.02. Integer origin preserves world tile centers. No world mutation.\",\"limitations\":[\"Finite 0.2-tile sampling plus exact floor vertices; not exhaustive continuous footprint extrema.\",\"No navigation, door sweep, water, adjacent vegetation or visual acceptance proved.\",\"Existing concept path passes through lodge footprint; lane routing requires review.\",\"Original bay has no thickness: raised placement requires the hashed separate foundation. Support is sampled; actual silhouette, wall bases and circulation still need main-session visual review.\"],\"unraisedSampleCandidate\":{\"x\":35.5,\"y\":5,\"z\":51,\"min\":5,\"max\":5,\"spread\":0,\"exposedUnderside\":0,\"buriedFloor\":0,\"fitsSampledSlab\":true,\"fitsZeroThicknessBay\":true},\"foundationUrl\":\"../.studio-workspaces/holm-quest-foundation-v1/candidates/foundation.glb\",\"foundationSha256\":\"6ab1692c4e1fad24dc60ab5584d1d44dbe12353689ee63dd718d4c2c672d556c\",\"augmentedFoundationFits\":true,\"pathConflict\":{\"segment\":[[36,60],[36,55],[36,38]],\"status\":\"blocked-by-lodge-north-wall\",\"required\":\"Reroute primary lane outside footprint; concept line is not a certified walk route.\"}}",
+    "timestamp": "2026-09-13T16:29:55.100Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_placement.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_HABITAT] 6/6 DATA acceptance ok",
+    "timestamp": "2026-09-13T16:30:26.964Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_habitat.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_LANDSCAPE] 8 Blender placements; route envelope clear",
+    "timestamp": "2026-09-13T16:30:27.170Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_arrival_landscape.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_ARRIVAL_PREVIEW] landing/chart/study return routes connected; 169 stance nodes",
+    "timestamp": "2026-09-13T16:30:27.229Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_house_walk.js?v=10"
+  },
+  {
+    "level": "info",
+    "message": "[HOLM_HABITAT] candidate loaded {\"instances\":42,\"assets\":5,\"meshes\":69,\"triangles\":33044,\"geometries\":9,\"materials\":9,\"textures\":9,\"mixers\":42,\"perAsset\":{\"oak\":12,\"birch\":5,\"coastal-pine\":5,\"meadow-tuft\":15,\"creek-reeds\":5}}",
+    "timestamp": "2026-09-13T16:30:27.256Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_habitat.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[KEEP_TERRAIN_STUDIO] Blender keep on measured ridge foundation Object",
+    "timestamp": "2026-09-13T16:30:27.287Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_overhaul.js?v=lodge1"
+  },
+  {
+    "level": "info",
+    "message": "[BAKEHOUSE_FIRE] authored animation loaded Array(8) 204",
+    "timestamp": "2026-09-13T16:30:27.349Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_bakehouse_fire.js"
+  },
+  {
+    "level": "info",
+    "message": "[BAKEHOUSE_TERRAIN_STUDIO] connected wings on measured terrace Object",
+    "timestamp": "2026-09-13T16:30:27.349Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_overhaul.js?v=lodge1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_HEARTH] measured Blender fire loaded 204 Array(8)",
+    "timestamp": "2026-09-13T16:30:27.419Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_hearth.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_TERRAIN_STUDIO] {\"schema\":\"holm-quest-placement-v1\",\"status\":\"augmented-foundation-sampled-fit-awaiting-visual-and-navigation\",\"fitsExistingFoundation\":false,\"world\":{\"x\":35,\"y\":5.02,\"z\":51},\"yaw\":0,\"coordinateSystem\":\"Proposal grid coordinates. Studio scene subtracts (72,0,64).\",\"modelSha256\":\"a8d57474e1a5cd6f8e13214e57905cf3bacecdf8e1fcc14c5b0ea1393248b324\",\"baseModelSha256\":\"6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b\",\"geometryBaseSha256\":\"6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b\",\"terrainSha256\":\"655e69f88d24b389ccf6b7c90e61d60d1d9b4ccde32030b0a45754285feb1d98\",\"modelUrl\":\"../.studio-workspaces/holm-quest-lodge-v3/candidates/lodge.glb\",\"supports\":[{\"x\":35,\"y\":5.02,\"z\":51,\"min\":4.999904,\"max\":5.000144,\"spread\":0.00024,\"exposedUnderside\":0,\"buriedFloor\":0,\"fitsSampledSlab\":true,\"fitsZeroThicknessBay\":false,\"id\":\"full-footprint-slab-envelope-only\",\"samples\":1862,\"localBounds\":[-5.000999927520752,-4.000999927520752,6.349999904632568,4.000999927520752],\"floorBottom\":-0.18000000715255737,\"floorTop\":0},{\"id\":\"reading-bay-single-surface\",\"samples\":63,\"min\":5,\"max\":5,\"floorBottom\":0,\"floorTop\":0,\"exposedUnderside\":0.02,\"fits\":false}],\"entranceWorld\":{\"x\":35.5,\"y\":5.02,\"z\":53,\"terrainHeight\":5,\"step\":0.02},\"approachSamples\":[{\"x\":35.5,\"z\":53,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":53.2,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":53.4,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":53.6,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":53.8,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54.2,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54.4,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54.5,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54.6,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":54.8,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55.2,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55.4,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55.5,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55.6,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":55.8,\"terrainHeight\":5,\"stepFromFloor\":0.02},{\"x\":35.5,\"z\":56,\"terrainHeight\":5,\"stepFromFloor\":0.02}],\"footprintTriangles\":[[[5.000999927520752,-4.000999927520752],[-5.000999927520752,-4.000999927520752],[-5.000999927520752,2.000999927520752]],[[5.000999927520752,-4.000999927520752],[-5.000999927520752,2.000999927520752],[5.000999927520752,2.000999927520752]],[[-0.999000072479248,1.999000072479248],[-5.000999927520752,1.999000072479248],[-5.000999927520752,4.000999927520752]],[[-0.999000072479248,1.999000072479248],[-5.000999927520752,4.000999927520752],[-0.999000072479248,4.000999927520752]],[[5,-3],[5,0],[5.949999809265137,-0.550000011920929]],[[5.949999809265137,-0.550000011920929],[6.349999904632568,-1.5],[5.949999809265137,-2.450000047683716]],[[5.949999809265137,-0.550000011920929],[5.949999809265137,-2.450000047683716],[5,-3]]],\"boundedSearch\":{\"spacing\":0.5,\"radiusPerAxis\":2,\"tested\":81,\"bestSpread\":0,\"fittingExistingFoundation\":6,\"origin35At51\":{\"x\":35,\"y\":5.000144,\"z\":51,\"min\":4.999904,\"max\":5.000144,\"spread\":0.00024,\"exposedUnderside\":0,\"buriedFloor\":0,\"fitsSampledSlab\":true,\"fitsZeroThicknessBay\":false}},\"reason\":\"Shift one tile west to integer origin35,51 and raise floor to5.02. Terrain samples4.999904..5.000144 lie within existing slabs and separate Blender-authored bay foundation4.84..5.02. Integer origin preserves world tile centers. No world mutation.\",\"limitations\":[\"Finite 0.2-tile sampling plus exact floor vertices; not exhaustive continuous footprint extrema.\",\"No navigation, door sweep, water, adjacent vegetation or visual acceptance proved.\",\"Existing concept path passes through lodge footprint; lane routing requires review.\",\"Original bay has no thickness: raised placement requires the hashed separate foundation. Support is sampled; actual silhouette, wall bases and circulation still need main-session visual review.\"],\"unraisedSampleCandidate\":{\"x\":35.5,\"y\":5,\"z\":51,\"min\":5,\"max\":5,\"spread\":0,\"exposedUnderside\":0,\"buriedFloor\":0,\"fitsSampledSlab\":true,\"fitsZeroThicknessBay\":true},\"foundationUrl\":\"../.studio-workspaces/holm-quest-foundation-v1/candidates/foundation.glb\",\"foundationSha256\":\"6ab1692c4e1fad24dc60ab5584d1d44dbe12353689ee63dd718d4c2c672d556c\",\"augmentedFoundationFits\":true,\"pathConflict\":{\"segment\":[[36,60],[36,55],[36,38]],\"status\":\"blocked-by-lodge-north-wall\",\"required\":\"Reroute primary lane outside footprint; concept line is not a certified walk route.\"}}",
+    "timestamp": "2026-09-13T16:30:27.420Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_placement.js?v=1"
+  }
+]

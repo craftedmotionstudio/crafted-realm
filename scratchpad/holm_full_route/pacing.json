@@ -1,0 +1,618 @@
+{
+  "profile": "fable-pacing-mtut2noc",
+  "legs": [
+    {
+      "name": "L1 arrival apron -> relief chart tile",
+      "tiles": 13,
+      "seconds": 3.3,
+      "stages": [
+        {
+          "tiles": 13,
+          "seconds": 3.3,
+          "pos": [
+            151.5,
+            157.5
+          ],
+          "energy": 99,
+          "run": true
+        }
+      ],
+      "end": [
+        151.5,
+        157.5
+      ],
+      "energyEnd": 99,
+      "note": ""
+    },
+    {
+      "name": "L2 chart -> marked tree (via teaching door)",
+      "tiles": 83,
+      "seconds": 19.3,
+      "stages": [
+        {
+          "tiles": 17,
+          "seconds": 3.8,
+          "pos": [
+            151.5,
+            145.5
+          ],
+          "energy": 98,
+          "run": true
+        },
+        {
+          "tiles": 0,
+          "seconds": 0,
+          "pos": [
+            151.5,
+            145.5
+          ],
+          "energy": 98,
+          "run": true
+        },
+        {
+          "tiles": 54,
+          "seconds": 12.9,
+          "pos": [
+            134.5,
+            157.5
+          ],
+          "energy": 93,
+          "run": true
+        },
+        {
+          "tiles": 12,
+          "seconds": 2.6,
+          "pos": [
+            125.5,
+            159.5
+          ],
+          "energy": 92,
+          "run": true
+        }
+      ],
+      "end": [
+        125.5,
+        159.5
+      ],
+      "energyEnd": 92,
+      "note": ""
+    },
+    {
+      "name": "L3 tree -> fishing dock",
+      "tiles": 50,
+      "seconds": 11.7,
+      "stages": [
+        {
+          "tiles": 50,
+          "seconds": 11.7,
+          "pos": [
+            131.5,
+            152.5
+          ],
+          "energy": 88,
+          "run": true
+        }
+      ],
+      "end": [
+        131.5,
+        152.5
+      ],
+      "energyEnd": 88,
+      "note": ""
+    },
+    {
+      "name": "L4 dock -> gatehouse winch tile",
+      "tiles": 47,
+      "seconds": 10.3,
+      "stages": [
+        {
+          "tiles": 12,
+          "seconds": 2.6,
+          "pos": [
+            128.5,
+            146.5
+          ],
+          "energy": 87,
+          "run": true
+        },
+        {
+          "tiles": 10,
+          "seconds": 2.2,
+          "pos": [
+            128.5,
+            137.5
+          ],
+          "energy": 87,
+          "run": true
+        },
+        {
+          "tiles": 12,
+          "seconds": 2.6,
+          "pos": [
+            128.5,
+            126.5
+          ],
+          "energy": 86,
+          "run": true
+        },
+        {
+          "tiles": 13,
+          "seconds": 2.9,
+          "pos": [
+            124.5,
+            118.5
+          ],
+          "energy": 85,
+          "run": true
+        }
+      ],
+      "end": [
+        124.5,
+        118.5
+      ],
+      "energyEnd": 85,
+      "note": ""
+    },
+    {
+      "name": "L5 cavern entry -> copper rock",
+      "tiles": 10,
+      "seconds": 2.3,
+      "stages": [
+        {
+          "tiles": 10,
+          "seconds": 2.3,
+          "pos": [
+            294.5,
+            355.5
+          ],
+          "energy": 85,
+          "run": true
+        }
+      ],
+      "end": [
+        294.5,
+        355.5
+      ],
+      "energyEnd": 85,
+      "note": ""
+    },
+    {
+      "name": "L6 copper -> tin (offshoot)",
+      "tiles": 31,
+      "seconds": 6.9,
+      "stages": [
+        {
+          "tiles": 18,
+          "seconds": 4,
+          "pos": [
+            300.5,
+            366.5
+          ],
+          "energy": 84,
+          "run": true
+        },
+        {
+          "tiles": 13,
+          "seconds": 2.9,
+          "pos": [
+            303.5,
+            375.5
+          ],
+          "energy": 83,
+          "run": true
+        }
+      ],
+      "end": [
+        303.5,
+        375.5
+      ],
+      "energyEnd": 83,
+      "note": ""
+    },
+    {
+      "name": "L7 tin -> furnace",
+      "tiles": 23,
+      "seconds": 5.3,
+      "stages": [
+        {
+          "tiles": 23,
+          "seconds": 5.3,
+          "pos": [
+            304.5,
+            360.5
+          ],
+          "energy": 81,
+          "run": true
+        }
+      ],
+      "end": [
+        304.5,
+        360.5
+      ],
+      "energyEnd": 81,
+      "note": ""
+    },
+    {
+      "name": "L8 furnace -> anvil -> exit ladder",
+      "tiles": 32,
+      "seconds": 7.2,
+      "stages": [
+        {
+          "tiles": 5,
+          "seconds": 1,
+          "pos": [
+            301.5,
+            361.5
+          ],
+          "energy": 81,
+          "run": true
+        },
+        {
+          "tiles": 27,
+          "seconds": 6.2,
+          "pos": [
+            321.5,
+            355.5
+          ],
+          "energy": 79,
+          "run": true
+        }
+      ],
+      "end": [
+        321.5,
+        355.5
+      ],
+      "energyEnd": 79,
+      "note": ""
+    },
+    {
+      "name": "L9 hall tower -> bank booth tile",
+      "tiles": 43,
+      "seconds": 9.3,
+      "stages": [
+        {
+          "tiles": 13,
+          "seconds": 2.9,
+          "pos": [
+            169.5,
+            121.5
+          ],
+          "energy": 86,
+          "run": true
+        },
+        {
+          "tiles": 9,
+          "seconds": 1.9,
+          "pos": [
+            164.5,
+            118.5
+          ],
+          "energy": 85,
+          "run": true
+        },
+        {
+          "tiles": 12,
+          "seconds": 2.6,
+          "pos": [
+            157.5,
+            122.5
+          ],
+          "energy": 84,
+          "run": true
+        },
+        {
+          "tiles": 9,
+          "seconds": 1.9,
+          "pos": [
+            154.5,
+            117.5
+          ],
+          "energy": 84,
+          "run": true
+        }
+      ],
+      "end": [
+        154.5,
+        117.5
+      ],
+      "energyEnd": 84,
+      "note": ""
+    },
+    {
+      "name": "L10 bank -> Lastlight door step (switchback)",
+      "tiles": 121,
+      "seconds": 27.9,
+      "stages": [
+        {
+          "tiles": 16,
+          "seconds": 3.6,
+          "pos": [
+            158.5,
+            128.5
+          ],
+          "energy": 82,
+          "run": true
+        },
+        {
+          "tiles": 18,
+          "seconds": 4,
+          "pos": [
+            158.5,
+            141.5
+          ],
+          "energy": 81,
+          "run": true
+        },
+        {
+          "tiles": 26,
+          "seconds": 6.9,
+          "pos": [
+            184.5,
+            142.5
+          ],
+          "energy": 79,
+          "run": true
+        },
+        {
+          "tiles": 13,
+          "seconds": 2.9,
+          "pos": [
+            183.5,
+            135.5
+          ],
+          "energy": 78,
+          "run": true
+        },
+        {
+          "tiles": 9,
+          "seconds": 1.9,
+          "pos": [
+            184.5,
+            128.5
+          ],
+          "energy": 77,
+          "run": true
+        },
+        {
+          "tiles": 22,
+          "seconds": 5,
+          "pos": [
+            205.5,
+            128.5
+          ],
+          "energy": 75,
+          "run": true
+        },
+        {
+          "tiles": 6,
+          "seconds": 1.2,
+          "pos": [
+            205.5,
+            123.5
+          ],
+          "energy": 75,
+          "run": true
+        },
+        {
+          "tiles": 11,
+          "seconds": 2.4,
+          "pos": [
+            196.5,
+            124.5
+          ],
+          "energy": 74,
+          "run": true
+        }
+      ],
+      "end": [
+        196.5,
+        124.5
+      ],
+      "energyEnd": 74,
+      "note": ""
+    },
+    {
+      "name": "L11 summit -> Departure Dock (via tower road)",
+      "tiles": 90,
+      "seconds": 19.7,
+      "stages": [
+        {
+          "tiles": 11,
+          "seconds": 2.4,
+          "pos": [
+            205.5,
+            123.5
+          ],
+          "energy": 73,
+          "run": true
+        },
+        {
+          "tiles": 6,
+          "seconds": 1.2,
+          "pos": [
+            205.5,
+            128.5
+          ],
+          "energy": 73,
+          "run": true
+        },
+        {
+          "tiles": 22,
+          "seconds": 5,
+          "pos": [
+            184.5,
+            128.5
+          ],
+          "energy": 71,
+          "run": true
+        },
+        {
+          "tiles": 7,
+          "seconds": 1.4,
+          "pos": [
+            184.5,
+            134.5
+          ],
+          "energy": 70,
+          "run": true
+        },
+        {
+          "tiles": 11,
+          "seconds": 2.4,
+          "pos": [
+            186.5,
+            140.5
+          ],
+          "energy": 70,
+          "run": true
+        },
+        {
+          "tiles": 18,
+          "seconds": 4,
+          "pos": [
+            193.5,
+            150.5
+          ],
+          "energy": 68,
+          "run": true
+        },
+        {
+          "tiles": 15,
+          "seconds": 3.3,
+          "pos": [
+            206.5,
+            151.5
+          ],
+          "energy": 67,
+          "run": true
+        }
+      ],
+      "end": [
+        206.5,
+        151.5
+      ],
+      "energyEnd": 67,
+      "note": ""
+    },
+    {
+      "name": "O1 dock road -> Teaching Kitchen door (optional)",
+      "tiles": 242,
+      "seconds": 56.7,
+      "stages": [
+        {
+          "tiles": 15,
+          "seconds": 3.3,
+          "pos": [
+            193.5,
+            150.5
+          ],
+          "energy": 66,
+          "run": true
+        },
+        {
+          "tiles": 17,
+          "seconds": 3.8,
+          "pos": [
+            184.5,
+            143.5
+          ],
+          "energy": 64,
+          "run": true
+        },
+        {
+          "tiles": 26,
+          "seconds": 6.5,
+          "pos": [
+            158.5,
+            142.5
+          ],
+          "energy": 62,
+          "run": true
+        },
+        {
+          "tiles": 71,
+          "seconds": 16.7,
+          "pos": [
+            148.5,
+            144.5
+          ],
+          "energy": 56,
+          "run": true
+        },
+        {
+          "tiles": 106,
+          "seconds": 25,
+          "pos": [
+            144.5,
+            137.5
+          ],
+          "energy": 48,
+          "run": true
+        },
+        {
+          "tiles": 7,
+          "seconds": 1.4,
+          "pos": [
+            150.5,
+            137.5
+          ],
+          "energy": 47,
+          "run": true
+        }
+      ],
+      "end": [
+        150.5,
+        137.5
+      ],
+      "energyEnd": 47,
+      "note": "optional detour measured from the dock; on the natural route the kitchen sits between the wood and the gatehouse"
+    },
+    {
+      "name": "O2 kitchen -> Quest Lodge board tile (optional)",
+      "tiles": 19,
+      "seconds": 3.8,
+      "stages": [
+        {
+          "tiles": 7,
+          "seconds": 1.4,
+          "pos": [
+            144.5,
+            137.5
+          ],
+          "energy": 47,
+          "run": true
+        },
+        {
+          "tiles": 7,
+          "seconds": 1.4,
+          "pos": [
+            141.5,
+            134.5
+          ],
+          "energy": 46,
+          "run": true
+        },
+        {
+          "tiles": 5,
+          "seconds": 1,
+          "pos": [
+            137.5,
+            134.5
+          ],
+          "energy": 46,
+          "run": true
+        }
+      ],
+      "end": [
+        137.5,
+        134.5
+      ],
+      "energyEnd": 46,
+      "note": ""
+    }
+  ],
+  "requiredTotalSeconds": 123.2,
+  "requiredTotalTiles": 543,
+  "over45": [],
+  "errors": []
+}

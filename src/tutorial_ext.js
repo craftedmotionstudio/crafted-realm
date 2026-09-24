@@ -10,38 +10,28 @@
 
   /* 1. splice the new steps in after the melee grubkin kill (index 6), before "return to Bram" */
   const extra=[
-    {text:'Bram hands you a worn shortbow and arrows. Wield them and fell a grubkin from range.', ev:'killStyle', match:'ranged'},
-    {text:'Bram gives you runes. Open your spellbook, choose Wind Strike, and blast a grubkin.',  ev:'killStyle', match:'magic'},
+    {text:'Prepare your teaching shortbow and arrows. Wield them and fell a grubkin from range.', ev:'killStyle', match:'ranged'},
+    {text:'Prepare your teaching runes. Open your spellbook, choose Wind Strike, and blast a grubkin.',  ev:'killStyle', match:'magic'},
     {text:'Stow your spoils: click the bank chest by the rowboat and deposit anything.',          ev:'bank',      match:'open'},
   ];
   const at=Tutorial.steps.findIndex(s=>s.ev==='talk' && s.match==='bram_done');
   if(at>0 && !Tutorial.steps.some(s=>s.ev==='killStyle')) Tutorial.steps.splice(at, 0, ...extra);
 
   /* 2. grant each kit when its step comes up (once) */
-  const granted={};
   function grantForStep(){
     if(Tutorial.complete) return;
     const s=Tutorial.steps[Tutorial.step]; if(!s) return;
-    if(s.match==='ranged' && !granted.ranged){
-      granted.ranged=1;
-      if(!Player.inv.some(x=>x&&x.id==='worn_bow') && Player.equip.weapon!=='worn_bow') Player.addItem('worn_bow',1);
-      Player.addItem('arrows', 30);
-      UI.chat('Guide Bram hands you a worn shortbow and 30 arrows.','sys');
-    }
-    if(s.match==='magic' && !granted.magic){
-      granted.magic=1;
-      Player.addItem('air_rune', 15); Player.addItem('mind_rune', 15);
-      UI.chat('Guide Bram presses a pouch of runes into your palm. “Words of wind, friend.”','sys');
-    }
+    if((s.match==='ranged'||s.match==='magic')&&typeof HolmCombatKits!=='undefined')HolmCombatKits.claim(s.match);
   }
   const origBanner=Tutorial.banner.bind(Tutorial);
   Tutorial.banner=function(){ origBanner(); try{ grantForStep(); }catch(e){} };
 
-  /* 3. styled-kill detection — the Events bus knows every kill; the style is whatever
-     the player had wielded when the blow landed */
-  Events.on('npcKilled', ()=>{
+  /* 3. Use the killing attack's style, retained through projectile travel.
+     Administrative or unattributed kills cannot award a styled lesson. */
+  Events.on('npcKilled', payload=>{
     if(Tutorial.complete) return;
-    const style=Player.weaponStyle ? Player.weaponStyle() : 'melee';
+    const style=payload&&payload.attackStyle;
+    if(!['melee','ranged','magic'].includes(style)) return;
     Tutorial.notify('killStyle', style);
   });
 

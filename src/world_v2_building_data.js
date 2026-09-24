@@ -16,7 +16,7 @@ var WorldV2BuildingData=(function(){
   function barrier(id,ax,az,bx,bz){ var c=wall(id,ax,az,bx,bz); c.role='support'; return c; }
 
   var guideHall={
-    id:'holm_guide_hall_v1', assetId:'holm_guide_hall', revision:6,
+    id:'holm_guide_hall_v1', assetId:'holm_guide_hall', revision:7,
     label:"Tutor's Holm Guide Hall", padId:'guide_hall',
     placement:{x:151,z:155,rot:0},
     footprint:{w:26,d:24,h:9.2},
@@ -83,9 +83,9 @@ var WorldV2BuildingData=(function(){
     ],
     resources:{
       visualBuilder:'WorldV2Buildings.preload/build',
-      model:'assets/models/buildings/holm_guide_hall_v6.glb',
-      source:'assets/blender/holm_guide_hall_v6.blend',
-      manifest:'assets/manifests/holm_guide_hall_v6.json',
+      model:'assets/models/buildings/holm_guide_hall_v7.glb',
+      source:'assets/blender/holm_guide_hall_v7.blend',
+      manifest:'assets/manifests/holm_guide_hall_v7.json',
       assetPipeline:'tools/asset_pipeline.py',
       interactionKinds:['door','holm_orientation','holm_register','holm_story_clue','holm_provisions'],
       reference:'Bible_References/Tutorial_Island_Building.jpg',
@@ -103,7 +103,7 @@ var WorldV2BuildingData=(function(){
   };
 
   var survivalWorkyard={
-    id:'holm_survival_workyard_v1',assetId:'holm_survival_workyard',revision:18,
+    id:'holm_survival_workyard_v1',assetId:'holm_survival_workyard',revision:19,
     label:"Tutor's Holm Survival Workyard",padId:'survival_shelter',
     // Sink the authored foundation so the finished floor lands exactly on the
     // navigation elevation; the player stands on the boards instead of through them.
@@ -228,9 +228,9 @@ var WorldV2BuildingData=(function(){
     ],
     resources:{
       visualBuilder:'WorldV2Buildings.preload/build',
-      model:'assets/models/buildings/holm_survival_workyard_v2.glb',
-      source:'assets/blender/holm_survival_workyard_v2.blend',
-      manifest:'assets/manifests/holm_survival_workyard_v2.json',
+      model:'assets/models/buildings/holm_survival_workyard_v3.glb',
+      source:'assets/blender/holm_survival_workyard_v3.blend',
+      manifest:'assets/manifests/holm_survival_workyard_v3.json',
       furnishingSource:'assets/blender/props/workyard_upstairs_furnishings_v1.blend',
       furnishingManifest:'assets/manifests/workyard_upstairs_furnishings_v1.json',
       occupationYardModel:'assets/models/props/workyard_exterior_u3_v1.glb',
@@ -265,9 +265,9 @@ var WorldV2BuildingData=(function(){
   // are x east / z south; the Blender source authors +y north, so every z here
   // is the negated Blender y of the same part.
   var teachingKitchen={
-    id:'holm_teaching_kitchen_v1',assetId:'holm_teaching_kitchen',revision:1,
+    id:'holm_teaching_kitchen_v1',assetId:'holm_teaching_kitchen',revision:2,
     label:"Tutor's Holm Teaching Kitchen",padId:'teaching_kitchen',
-    placement:{x:153,z:136,rot:0,yOffset:-0.12},
+    placement:{x:153,z:134,rot:0,yOffset:-0.12},
     footprint:{w:13,d:10,h:7.4},
     interiorBounds:{x:0,z:0,w:13,d:10},
     purpose:{
@@ -347,9 +347,9 @@ var WorldV2BuildingData=(function(){
     ],
     resources:{
       visualBuilder:'WorldV2Buildings.preload/build',
-      model:'assets/models/buildings/holm_teaching_kitchen_v1.glb',
-      source:'assets/blender/holm_teaching_kitchen_v1.blend',
-      manifest:'assets/manifests/holm_teaching_kitchen_v1.json',
+      model:'assets/models/buildings/holm_teaching_kitchen_v2.glb',
+      source:'assets/blender/holm_teaching_kitchen_v2.blend',
+      manifest:'assets/manifests/holm_teaching_kitchen_v2.json',
       assetPipeline:'tools/asset_pipeline.py',
       interactionKinds:['door','holm_kitchen_range','holm_flour_bin','holm_dough_trough','holm_water_butt',
         'holm_recipe_board','holm_bucket_shelf','prop'],
@@ -370,7 +370,7 @@ var WorldV2BuildingData=(function(){
   // Quest Lodge: Lesson Green's story service. Game-local axes are x east /
   // z south; every z here is the negated Blender y of the same part.
   var questLodge={
-    id:'holm_quest_lodge_v1',assetId:'holm_quest_lodge',revision:1,
+    id:'holm_quest_lodge_v1',assetId:'holm_quest_lodge',revision:2,
     label:"Tutor's Holm Quest Lodge",padId:'quest_lodge',
     placement:{x:136,z:136,rot:0,yOffset:-0.12},
     footprint:{w:12,d:9,h:7.0},
@@ -443,9 +443,9 @@ var WorldV2BuildingData=(function(){
     ],
     resources:{
       visualBuilder:'WorldV2Buildings.preload/build',
-      model:'assets/models/buildings/holm_quest_lodge_v1.glb',
-      source:'assets/blender/holm_quest_lodge_v1.blend',
-      manifest:'assets/manifests/holm_quest_lodge_v1.json',
+      model:'assets/models/buildings/holm_quest_lodge_v2.glb',
+      source:'assets/blender/holm_quest_lodge_v2.blend',
+      manifest:'assets/manifests/holm_quest_lodge_v2.json',
       assetPipeline:'tools/asset_pipeline.py',
       interactionKinds:['door','holm_quest_board','holm_region_map','holm_story_ledger','prop'],
       reference:'Bible_References/A_Tutorial_Island_Option.jpg (quest house) + TUTORIAL_ISLAND.md quest guide station',
@@ -465,7 +465,7 @@ var WorldV2BuildingData=(function(){
   // tower's south gate and leaves by its east door; the shaft house west of the
   // passage holds the cavern shaft under a winch head-frame. Game z = -Blender y.
   var mineGatehouse={
-    id:'holm_mine_gatehouse_v1',assetId:'holm_mine_gatehouse',revision:1,
+    id:'holm_mine_gatehouse_v1',assetId:'holm_mine_gatehouse',revision:2,
     label:"Tutor's Holm Mine Gatehouse",padId:'mine_gatehouse',
     placement:{x:127,z:119,rot:0,yOffset:-0.12},
     footprint:{w:10,d:8,h:9.4},
@@ -546,9 +546,9 @@ var WorldV2BuildingData=(function(){
     ],
     resources:{
       visualBuilder:'WorldV2Buildings.preload/build',
-      model:'assets/models/buildings/holm_mine_gatehouse_v1.glb',
-      source:'assets/blender/holm_mine_gatehouse_v1.blend',
-      manifest:'assets/manifests/holm_mine_gatehouse_v1.json',
+      model:'assets/models/buildings/holm_mine_gatehouse_v2.glb',
+      source:'assets/blender/holm_mine_gatehouse_v2.blend',
+      manifest:'assets/manifests/holm_mine_gatehouse_v2.json',
       assetPipeline:'tools/asset_pipeline.py',
       interactionKinds:['door','holm_shaft_frame','holm_ore_tally','holm_gate_stone','prop'],
       reference:'Bible_References/Tutorial_Island_Mining_Cave_&_Mining_Rocks.jpg (ladder exit) + TUTORIAL_ISLAND.md ladder-down station',
@@ -568,7 +568,7 @@ var WorldV2BuildingData=(function(){
   // counter divides the customer hall (south) from the vault (north); a staff
   // gap at the counter's east end reaches the vault chest. Game z = -Blender y.
   var holmBank={
-    id:'holm_bank_v1',assetId:'holm_bank',revision:1,
+    id:'holm_bank_v1',assetId:'holm_bank',revision:2,
     label:"Tutor's Holm Bank",padId:'holm_bank',
     placement:{x:157,z:116,rot:0,yOffset:-0.12},
     footprint:{w:10,d:8,h:8.0},
@@ -644,9 +644,9 @@ var WorldV2BuildingData=(function(){
     ],
     resources:{
       visualBuilder:'WorldV2Buildings.preload/build',
-      model:'assets/models/buildings/holm_bank_v1.glb',
-      source:'assets/blender/holm_bank_v1.blend',
-      manifest:'assets/manifests/holm_bank_v1.json',
+      model:'assets/models/buildings/holm_bank_v2.glb',
+      source:'assets/blender/holm_bank_v2.blend',
+      manifest:'assets/manifests/holm_bank_v2.json',
       assetPipeline:'tools/asset_pipeline.py',
       interactionKinds:['door','holm_bank_booth','holm_bank_ledger','holm_bank_plaque','prop'],
       reference:'Bible_References/Bank.jpg family (ref_bank.js booth) + TUTORIAL_ISLAND.md banking step',
@@ -902,7 +902,7 @@ var WorldV2BuildingData=(function(){
     add('First Landing story clue is authored',d.clues.some(function(c){return c.id==='first_landing_plaque';}));
     add('provision support space is authored',d.supportSpaces.some(function(s){return s.id==='provision_rack';}));
     add('one continuous shell leaves only both door openings',d.colliders.filter(function(c){return c.role==='wall'&&c.type==='obox';}).length===24);
-    add('roof contact and fitted door geometry are pipeline-gated',d.revision===6&&
+    add('roof contact and fitted door geometry are pipeline-gated',d.revision===7&&
       /connected gable roof/.test(d.resources.visualProfile.silhouette)&&
       d.resources.visualProfile.requiredFeatures.some(function(x){return /fitted seven-plank/.test(x);}));
     add('Blender interior kit and stained glass are required features',
@@ -916,7 +916,7 @@ var WorldV2BuildingData=(function(){
     add('browser visual budget is explicit',d.resources.visualBudget.maxTriangles<=38000&&d.resources.visualBudget.maxDrawCalls<=140&&
       d.resources.visualBudget.maxPrimitives<=70&&d.resources.visualBudget.maxMaterials<=18&&d.resources.visualBudget.maxFileBytes<=2700000);
     add('Survival Workyard replaces its full 20x14 Hearth Court reservation',w.padId==='survival_shelter'&&
-      w.revision===18&&w.placement.yOffset===-0.16&&w.footprint.w===20&&w.footprint.d===14);
+      w.revision===19&&w.placement.yOffset===-0.16&&w.footprint.w===20&&w.footprint.d===14);
     add('Survival Workyard has a trail-to-pond two-door flow',w.flow.entryDoor==='trail_door'&&w.flow.exitDoor==='pond_door'&&
       w.doors.some(function(x){return x.side==='S';})&&w.doors.some(function(x){return x.side==='E';}));
     add('Survival Workyard doors are player-scaled rather than eave-scaled',

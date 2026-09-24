@@ -121,8 +121,12 @@
     streamTimeoutMs:30000
   };
 
+  // A hidden tab boots on throttled (1 Hz) timers instead of rAF; keep the foreground budget
+  // strict and allow the hidden boot the extra second per coordinator step.
+  var hiddenBoot=!!document.hidden;
+  if(hiddenBoot) SMOKE_BUDGETS.bootMs+=12000;
   var T0 = performance.now();
-  var R = { verdict:'RUNNING', phases:{}, errors:ERRS, budgets:SMOKE_BUDGETS };
+  var R = { verdict:'RUNNING', phases:{}, errors:ERRS, budgets:SMOKE_BUDGETS, hiddenBoot:hiddenBoot };
   window.SMOKE_RESULT = R;
 
   function waitFor(cond, timeoutMs){
@@ -371,7 +375,8 @@
 
     // 1. loading sequence → welcome screen
     var booted = await waitFor(function(){ return el('welcome-screen') && el('welcome-screen').style.display==='flex'; }, SMOKE_BUDGETS.bootMs);
-    R.phases.boot = { ok:booted, ms:Math.round(performance.now()-T0) };
+    R.phases.boot = { ok:booted, ms:Math.round(performance.now()-T0), hidden:hiddenBoot,
+      worldReady:!!window.CR_WORLD_READY, bootStatus:(window.CR_BOOT_TELEMETRY||{}).status||null };
     if(!booted) return finish('boot never reached the welcome screen');
 
     // 2. the REAL login flow (continue if a save exists — never wipe one)

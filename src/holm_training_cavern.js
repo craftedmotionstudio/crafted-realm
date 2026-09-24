@@ -237,6 +237,18 @@
     var exitLadder=Planes.addClimb({x:LAYOUT.exit.x,z:LAYOUT.exit.z,h:3,basePlane:-1,y:Y,name:'Cavern exit',
       label:'Climb-up <b>Cavern exit</b>',up:{plane:0,x:LAYOUT.hall.x,z:LAYOUT.hall.z,zone:"Tutor's Holm"},mesh:new THREE.Group()});
     exitLadder.add(ladderPick);
+    /* Play review 2026-09-10 (F-28): nothing visible stood at the exit, so a player had nothing to climb.
+       A timber ladder with a lit lamp now rises from the proxy into the ceiling; it is a child of the climb
+       group so the existing click target, plane rule and disposal own it. */
+    (function(){
+      var ladder=new THREE.Group();ladder.name='cavern-exit-ladder';
+      [-.42,.42].forEach(function(x){var rail=new THREE.Mesh(new THREE.BoxGeometry(.14,3.6,.14),mat(0x6a3515));rail.position.set(x,1.8,0);rail.castShadow=true;ladder.add(rail);});
+      for(var i=0;i<9;i++){var rung=new THREE.Mesh(new THREE.BoxGeometry(1.0,.11,.13),mat(0x8a4b20));rung.position.set(0,.3+i*.38,0);ladder.add(rung);}
+      var lampPost=new THREE.Mesh(new THREE.BoxGeometry(.1,.1,.6),mat(0x3a2a1c));lampPost.position.set(.62,2.9,.25);ladder.add(lampPost);
+      var lamp=new THREE.Mesh(new THREE.BoxGeometry(.24,.3,.24),new THREE.MeshBasicMaterial({color:0xffc35a}));lamp.position.set(.62,2.75,.5);ladder.add(lamp);
+      var glow=new THREE.PointLight(0xffb060,.9,7);glow.position.set(.62,2.8,.5);ladder.add(glow);
+      exitLadder.add(ladder);
+    })();
     exitLadder.userData.runtimeOwnerId=OWNER;ownClickable(exitLadder);
 
     Planes.refreshVisibility();

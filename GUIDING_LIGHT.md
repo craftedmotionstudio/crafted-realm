@@ -63,6 +63,76 @@ letter, not a clone. Warm, low-poly, flat-shaded 2007 charm. (Full vision: `GOAL
    structured findings and score, and fix material defects before acceptance.
 
 ## Current focus (update as it moves)
+- **GRAY MASONRY + HABITAT VARIETY (owner, 2026-09-13):** substantial gray brick/stone walls are desired, not merely base trim. Preserve original old-school low-poly character. Landscape needs varied tree styles and sparse, irregular vegetation appropriate to each environment, closely guided by Bible images. See plan.json vegetationDirection; modeled families and actual placement review are required.
+- **BUILDING CHARACTER + REFERENCE TEXTURES (owner, 2026-09-13):** the square footprints in the overhaul plan are rejected. Build distinct connected wings, projecting upper rooms, varied roofs, and an asymmetric inhabited castle. Landscape/material appearance must match the Bible references through original authored textures. Earlier chats repeat these requests; see `docs/rebuild/HOLM_OWNER_HISTORY_REVIEW_2026-09-13.md`. Concept02 updates all11 place silhouettes; physical replacement, interior/nav/animation integration and visual acceptance remain required. A new L-shaped bakehouse candidate is in production. Do not return to endless trim passes on the rejected box composition.
+- **OWNER REQUIRES A FULL VISUAL/WORLD OVERHAUL (2026-09-12, latest):** the current island is rejected as
+  blocky, incomplete, barren and flat. Rebuild terrain/settlement/buildings/characters to Bible-reference
+  quality: elevation, castle, varied cozy houses, creek, caves and usable upper floors. No old visual score
+  or completion tick survives as acceptance. Preserve proven systems and saves; re-author appearance and
+  topology as needed. `docs/rebuild/HOLM_OVERHAUL_GOAL_2026-09-12.md` governs all continuation work.
+  Whole-island composition and one fully designed playable arrival slice come before further incremental
+  roof-detail passes or unrelated test repair. First slice is a quality proof, not a reduced end goal.
+  Browser QA must use the in-app browser.
+
+- **FULL TUTORIAL ISLAND GOAL ACTIVE (owner, 2026-09-12):** finish the island including building design,
+  player appearances, modeled/animated NPCs, functional tutorial items and all lessons, using Blender as needed
+  and retaining the warm old-school visual language. NPC production is explicitly authorized; earlier NPC/art
+  deferrals are historical scope, not completion exemptions. Retain chunk-owned integration, asset quality,
+  performance and real-play gates. The expanded checklist in `docs/rebuild/TUTORS_HOLM_COMPLETION_GOAL.md`
+  is authoritative; below-target art and NPC-free combat sockets cannot close this goal.
+- **KITCHEN v2 AND LODGE v2 (2026-09-10):** shutters that are louvres, gables with bargeboards, a pot on the flue,
+  strings and loaves in the bakehouse; balusters on the porch, caps on the ridge, a reading corner in the lodge.
+  Sheets 8.9/9.0 and 8.8/8.8, scored honestly: what remains is roof-field geometry, named for the next pass.
+  Gatehouse / Bank next.
+- **WORKYARD v3 AND THE LESSON LANDMARKS (2026-09-10):** ridge caps, finials, flue pot and soffits on the compound;
+  the three lesson trees wear a limewash band and chalk cross; a stone fire ring marks the firemaking tile in the
+  open. Sheets 9.0 / 9.1. The first P2-D pair is closed; Kitchen / Lodge next.
+- **GUIDE HALL v7 IS LIVE (2026-09-10):** the first P2-D pass: hero chart with a sandstone rim that is the whole
+  click target, districts, compass rose and flags; teaching dais off the door axis; chimney, ridge caps, soffits;
+  palette held at 18. Sheets 8.8 / 8.9 with the gaps named, not rounded up. Workyard is next.
+- **BRIEF BEFORE BLENDER (2026-09-10):** every P2-D art pass starts from
+  `docs/rebuild/TUTORS_HOLM_REDESIGN_BRIEFS_2026-09-10.md`: the reviewer's named gap, the hero object, the interior
+  read and the play-review items are the pass's checklist; the interaction contract, semantic parts and manifest
+  budgets are the fence. Two sheets at 9.0+ or an honest score with the gap named closes a pass.
+- **LIGHT COUNT IS A SHADER KEY (2026-09-10):** the island's mid-walk hitches were shader compiles, not chunk
+  loads: every streamed point light changes the visible light count and three.js recompiles every program for it.
+  `src/world_v2_warmup.js` compiles the template programs and the light counts the route will meet before Play;
+  chunk loads are budgeted one per frame. No chunk-boundary gap over 60 ms on the route now (`tools/audit_holm_streaming.js`).
+- **MERGE AT LOAD, NOT IN BLENDER (2026-09-10):** `src/world_v2_consolidate.js` halves the island's draw calls by
+  merging each template per semantic part onto six shared vertex-colour materials; authored GLBs, manifests and the
+  pipeline stay as they are. Parts, doors, roof cutaway, clips and proxies are protected by rule, not by hand.
+  Worst elevated view 706 -> 347; the rest is FX, terrain chunks and the player (owner decision logged).
+- **MEASURE BEFORE CUTTING (2026-09-10):** the Holm performance baseline is banked (play review §11). Frames are
+  fine (60 FPS, worst 21 ms); draw calls are not (up to 706 at the elevated camera, target 120) because every
+  building is dozens of meshes and materials. Consolidation merges meshes and shares palettes; it does not touch
+  triangles first. `node tools/audit_holm_perf.js` regenerates the table.
+- **THE GAME BOOTS IN A BACKGROUND TAB (2026-09-10):** boot yields race rAF against a timer, nothing simulates
+  or renders before `_worldReady`, self-booting modules bind on a timer while hidden, and the headless smoke gate
+  boots a background tab as its second phase. A player who opens the game behind another tab finds it ready.
+- **THE ARROW POINTS AT THE NEXT DOOR (2026-09-10):** the Holm beacon bends to what the player must do next:
+  the exit door when the objective lies outside the room, the exit ladder while underground, the live fire while
+  cooking (`src/holm_guidance.js` on `GuideArrow.addRedirect`). Lesson text matches the compass and the menus say
+  the authored names; the required action is the left click while its lesson is current.
+- **YOU CAN SEE WHAT TO CLICK (2026-09-10):** the cavern exit ladder and the Lastlight lever have real models,
+  and the Combat Hall tower's upper band cuts away with the roof. Next P2-B: guidance clarity (Climb-down as the
+  primary click, a longer teaching fire, exit-door arrows, cavern arrow on the ladder), then boot robustness.
+- **WALK ORDERS ANSWER HONESTLY (2026-09-10):** blocked clicks walk to the nearest open tile, water refusals no
+  longer spam, and a plan that cannot reach its target says so once. Next P2-B: interior readability, guidance
+  clarity (visible ladder and lever, longer teaching fire, Climb-down as the primary click), boot robustness.
+- **CAMERA STAYS OUT OF THE GROUND (2026-09-10):** the follow camera now clamps its boom against terrain and
+  against solid landmarks (Lastlight registers a blocker); the headland no longer swallows the view from the
+  Combat Hall or the Mage Tower. Next P2-B: walk-order feedback, interior readability, guidance clarity.
+- **ROUTE PACING AUDITED (2026-09-10):** 543 required tiles measured leg by leg; the one leg over 45 s was an
+  energy problem, not a geometry problem, so the Holm now drains run energy at a quarter rate and regenerates it
+  three times faster (locked). Longest leg 27.9 s; walking total 123 s. Next: P2-B fixes from the friction log.
+- **PLAY REVIEW BANKED, CLICK-TO-WALK FIXED (2026-09-10):** the first real-input play of the island found that
+  ground clicks did nothing anywhere on the surface (chunk meshes were not recognised as ground) — fixed and locked.
+  23.3-minute route, 35 friction entries ranked in `docs/rebuild/TUTORS_HOLM_PLAY_REVIEW_2026-09-10.md`; P2-B fixes
+  start from the invisible ladder/lever proxies, the burning-out teaching fire and the hidden exit door.
+- **TUTOR'S HOLM PHASE 2 OPENED (2026-09-10):** owner intent restated — the island must be *played, improved,
+  optimized and redesigned*, not merely built. `docs/rebuild/TUTORS_HOLM_COMPLETION_GOAL.md` now carries a Phase 2
+  checklist (human-pace play review and pacing audit first, then camera/walk/readability/guidance fixes, then a
+  measured performance pass, then a play-informed art pass per building toward the ≥ 9.0 bar). The loop resumes on it.
 - **TUTOR'S HOLM COMPLETION GOAL CLOSED (2026-09-09):** every reservation pad is a building, the full route is a
   standing real-input gate, and the closeout docs are written (`docs/rebuild/TUTORS_HOLM_COMPLETION_GOAL.md`). Two
   owner decisions stay open and are recorded there and in the flow doc: fully-designed art acceptance for the eight

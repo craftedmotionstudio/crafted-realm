@@ -1,0 +1,21 @@
+{
+  "profile": "impatient-<ts> (run 2, ABORTED by the tester at ~290 s; process killed before finish() so this file was reconstructed from progress.log)",
+  "port": 8779,
+  "seconds": 290,
+  "summary": "Impatient full-route attempt. Reached cook_fish. The first fire was lit beside the marked tree at 125.5,161.5 and was hidden under the canopy from the default camera; the harness pixel scan found no clickable pixel for it, the fire burned out (~150 s) while trying, and the script's later phases ran with a naive step check that produced false LESSON DONE lines (phases H..K in progress.log are noise). Run 3 (play2.js) continues the route.",
+  "lessons": [
+    {"id": "study_route", "t": 21.4},
+    {"id": "equip_hatchet", "t": 23.3, "note": "wielded from inside the Guide Hall; counted"},
+    {"id": "early skiff attempt", "t": 48.7, "note": "lesson-lock dialogue, literal <br><b> tags on screen"},
+    {"id": "chop_logs", "t": 105.0},
+    {"id": "light_fire", "t": 112.2, "note": "fire at 125.5,161.5 beside marked tree 124,161"},
+    {"id": "catch_fish", "t": 166.5, "note": "plain edge clicks x3 gave only the hint; net->edge worked"},
+    {"id": "cook_fish", "t": null, "note": "NOT completed in this run; fire unclickable under canopy; burned out ~264 s; arrow changed to 'Light another fire here' @128,155"}
+  ],
+  "findings": [
+    {"id": "P-01", "t": 14.5, "severity": "low", "where": "Arrival Cove, first chat lines", "observation": "Chat says 'Talk to Guide Bram by the rowboat' while the objective banner says 'Enter the Guide Hall and study the relief chart'", "expectation": "One instruction, not two that disagree", "screenshot": "001-finding-1.png"},
+    {"id": "P-02", "t": 235.3, "severity": "high", "where": "Survival Wood campfire at 125.5,161.5", "observation": "Used raw perch on the fire twice; no cooked perch. The fire is under the marked tree's canopy and no click lands on it. Clicking the perch in the pack says 'You should cook this on a campfire first.'", "expectation": "Cooked perch, objective advances", "screenshot": "039-finding-2.png"}
+  ],
+  "errors": "see run3-full/run.json for the boot error list (same 4 resource errors on every boot)",
+  "log": "see progress.log"
+}

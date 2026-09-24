@@ -1,0 +1,8 @@
+[
+  {
+    "level": "log",
+    "message": "[SMOKE] {\"verdict\":\"FAIL\",\"phases\":{\"boot\":{\"ok\":true,\"ms\":5125,\"hidden\":false,\"worldReady\":true,\"bootStatus\":\"ready\"},\"enter\":{\"ok\":true,\"hadSave\":true,\"settleMs\":0},\"structural\":{\"ok\":true,\"pass\":105,\"fail\":0,\"failures\":[]},\"walk\":{\"ok\":true,\"note\":\"out+back 5012ms\",\"ms\":5012},\"stream\":{\"ok\":true,\"note\":\"crossed 6 boundaries; save/load exact\",\"boundaryCrossings\":6,\"routeTiles\":26,\"saveLoadPositionError\":0,\"progressLossless\":true,\"maxResidencyMs\":3.8,\"liveGeometries\":42,\"residentChunks\":42,\"disposed\":70,\"objectReleases\":20,\"objectCacheHits\":20,\"liveObjects\":17,\"objectBaseline\":17,\"objectExpected\":17,\"objectTemplates\":20,\"minimapStaticRebuilds\":6,\"minimapMarkerRebuilds\":6,\"minimapDynamicMarkers\":0,\"ms\":21975},\"perf\":{\"fps\":11,\"worstFrameMs\":139,\"drawCalls\":114,\"triangles\":33976,\"ticks\":3,\"ok\":false},\"console\":{\"ok\":true,\"uncaught\":0,\"consoleErrors\":0}},\"errors\":[],\"budgets\":{\"bootMs\":5000,\"settleMs\":2500,\"minFps\":45,\"maxWorstFrameMs\":150,\"maxDrawCalls\":800,\"maxTris\":900000,\"minTicks\":4,\"walkTimeoutMs\":10000,\"streamTimeoutMs\":30000},\"hiddenBoot\":false,\"totalMs\":42515}",
+    "timestamp": "2026-09-13T01:09:08.716Z",
+    "url": "http://127.0.0.1:8777/src/smoke.js?v=32"
+  }
+]

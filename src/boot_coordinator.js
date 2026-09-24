@@ -5,9 +5,17 @@
 (function(global){
   'use strict';
   function now(){ return (global.performance&&global.performance.now)?global.performance.now():Date.now(); }
+  /* Yield between steps so the loading bar paints. rAF is the nicest yield but a hidden or
+   * occluded tab never receives one (boot stalled at the loading screen until the tab was
+   * fronted; observed 2026-09-09), so the rAF is raced against a plain timer. */
+  var LATER_FALLBACK_MS=120;
   function later(fn){
-    if(typeof global.requestAnimationFrame==='function') global.requestAnimationFrame(function(){ setTimeout(fn,0); });
-    else setTimeout(fn,0);
+    var fired=false;
+    function go(){ if(fired) return; fired=true; setTimeout(fn,0); }
+    if(typeof global.requestAnimationFrame==='function'){
+      global.requestAnimationFrame(go);
+      setTimeout(go,LATER_FALLBACK_MS);
+    } else setTimeout(fn,0);
   }
   function BootCoordinator(options){
     options=options||{};

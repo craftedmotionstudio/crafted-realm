@@ -102,7 +102,7 @@ def floors(static, mats, collection):
     box("SouthStep", (SOUTH_HINGE[0] + SOUTH_W / 2, Y0 - .55, -.02), (SOUTH_W + .9, .9, .16), mats["stone_light"], collection, static)
 
 
-def shell(static, root, mats, collection):
+def shell(static, root, roof, mats, collection):
     hall_in, tower_in, apse_in = (-2.0, 0.0), (4.0, 2.25), (-2.0, 5.2)
     # Hall.
     wall("SouthWallW", (HX0, Y0), (SOUTH_HINGE[0], Y0), HALL_H, mats, collection, static, hall_in, end_inset=.35)
@@ -121,9 +121,17 @@ def shell(static, root, mats, collection):
     wall("WestWallN", (HX0, Y1), (HX0, WEST_HINGE[1] + WEST_W), HALL_H, mats, collection, static, hall_in, end_inset=.35)
     wall("WestWallS", (HX0, WEST_HINGE[1]), (HX0, Y0), HALL_H, mats, collection, static, hall_in, start_inset=.35)
     # Tower.
-    wall("TowerSouth", (HX1, 0), (TX1, 0), TOWER_H, mats, collection, static, tower_in)
-    wall("TowerEast", (TX1, 0), (TX1, Y1), TOWER_H, mats, collection, static, tower_in)
-    wall("TowerNorth", (TX1, Y1), (HX1, Y1), TOWER_H, mats, collection, static, tower_in)
+    # Tower walls: the hall-height storey stays static; the band above it lives in the roof group so the
+    # cutaway exposes the stair landing (play review 2026-09-10, F-29: the 6-tile walls hid the player).
+    wall("TowerSouth", (HX1, 0), (TX1, 0), HALL_H, mats, collection, static, tower_in)
+    wall("TowerEast", (TX1, 0), (TX1, Y1), HALL_H, mats, collection, static, tower_in)
+    wall("TowerNorth", (TX1, Y1), (HX1, Y1), HALL_H, mats, collection, static, tower_in)
+    for name, a, b in (("TowerBandS", (HX1, 0), (TX1, 0)), ("TowerBandE", (TX1, 0), (TX1, Y1)), ("TowerBandN", (TX1, Y1), (HX1, Y1))):
+        length = math.hypot(b[0] - a[0], b[1] - a[1]); ang = math.atan2(b[1] - a[1], b[0] - a[0])
+        box(name, ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (HALL_H + TOWER_H) / 2), (length + .26, .26, TOWER_H - HALL_H), mats["plaster"],
+            collection, roof, rotation=(0, 0, ang))
+        box(name + "_Rail", ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, TOWER_H - .08), (length + .3, .30, .22), mats["timber"],
+            collection, roof, rotation=(0, 0, ang))
 
     V1.door_frame("WestFrame", WEST_HINGE, WEST_W, math.pi / 2, mats, collection, static)
     V1.door_frame("SouthFrame", SOUTH_HINGE, SOUTH_W, 0, mats, collection, static)
@@ -418,8 +426,9 @@ def create_building():
     root["unitsPerTile"] = 1
     root["artDirection"] = "guide-hall-anchor-family-combat-hall"
     static = B.empty("static_architecture", collection, root)
+    roof = B.empty("roof", collection, root)
     mark("floors"); floors(static, mats, collection)
-    mark("shell"); shell(static, root, mats, collection)
+    mark("shell"); shell(static, root, roof, mats, collection)
     mark("furnishings")
     training_post(root, mats, collection)
     arms_rack(root, mats, collection)
@@ -430,7 +439,6 @@ def create_building():
     sockets(root, collection)
     support_dressing(static, mats, collection)
     mark("roof")
-    roof = B.empty("roof", collection, root)
     tiles = hall_roof(roof, mats, collection) + tower_roof(roof, mats, collection) + apse_roof(roof, mats, collection) + \
         yard_roof(roof, mats, collection)
     return root, static, roof, collection, mats, tiles
@@ -447,7 +455,7 @@ def authoring_report(root, tiles):
         "irregularMasonryCoursesAuthored": sum("_Stone_" in n for n in names) >= 40,
         "loadBearingTimberBaysAuthored": sum("_Brace_" in n for n in names) >= 5,
         "layeredRoofCoursesAuthored": tiles >= 120,
-        "cavernStairHeadAuthored": all(n in names for n in ("StairHole", "StairStep_0", "StairRail", "StairSign")),
+        "cavernStairHeadAuthored": all(n in names for n in ("StairHole", "StairStep_0", "StairRail", "StairSign", "TowerBandS", "TowerBandE_Rail")),
         "practiceStationsAuthored": all(n in names for n in ("PellPost", "PellShield", "SparringRing", "RackBack", "ButtBody",
                                                                "RollPlate", "BenchHelm")),
         "semanticNodesPreserved": all(n in names for n in SEMANTIC),

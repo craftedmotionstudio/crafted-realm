@@ -1,0 +1,62 @@
+[
+  {
+    "id": "study_route",
+    "t": 16.2,
+    "next": "equip_hatchet",
+    "objective": "Open your pack and wield the Bronze hatchet."
+  },
+  {
+    "id": "equip_hatchet",
+    "t": 17.2,
+    "next": "chop_logs",
+    "objective": "Chop a marked tree in Survival Wood for logs."
+  },
+  {
+    "id": "chop_logs",
+    "t": 98.9,
+    "next": "light_fire",
+    "objective": "Use your tinderbox on the logs to light a fire."
+  },
+  {
+    "id": "light_fire",
+    "t": 103.7,
+    "next": "catch_fish",
+    "objective": "Use the Small net at the marked fishing spot."
+  },
+  {
+    "id": "catch_fish",
+    "t": 129.2,
+    "next": "cook_fish",
+    "objective": "Cook the fish on your fire (light another if it has burnt out)."
+  },
+  {
+    "id": "cook_fish",
+    "t": 216.5,
+    "next": "descend_cavern",
+    "objective": "Enter the Mine Gatehouse by its south gate and climb down the shaft in the winch house."
+  },
+  {
+    "id": "descend_cavern",
+    "t": 240.4,
+    "next": "mine_copper",
+    "objective": "Mine a copper rock with your pickaxe."
+  },
+  {
+    "id": "mine_copper",
+    "t": 450.7,
+    "next": "mine_tin",
+    "objective": "Follow the offshoot south-east and mine a tin rock."
+  },
+  {
+    "id": "mine_tin",
+    "t": 470.9,
+    "next": "smelt_bronze",
+    "objective": "Smelt copper and tin into a bronze bar."
+  },
+  {
+    "id": "smelt_bronze",
+    "t": 629.9,
+    "next": "forge_dagger",
+    "objective": "Forge the highlighted Bronze dagger at the anvil."
+  }
+]

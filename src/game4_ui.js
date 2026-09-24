@@ -539,15 +539,23 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 const canvasEl = document.getElementById('game-canvas');
 
+// Walkable ground is the legacy 'ground' mesh, a plane walk surface named 'ground', or a
+// streamed world-v2 terrain chunk ('ground-chunk-<id>'). Click-to-walk must accept all three;
+// matching only the exact name left the whole Holm surface un-clickable (only the cavern floor walked).
+function isGroundName(n){ return n==='ground' || (typeof n==='string' && n.indexOf('ground-chunk-')===0); }
 function pick(e){
   mouse.x = (e.clientX/innerWidth)*2-1;
   mouse.y = -(e.clientY/innerHeight)*2+1;
   raycaster.setFromCamera(mouse, camera);
   const hits = raycaster.intersectObjects(WORLD.clickables, true);
   for(const h of hits){
+    if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active()){
+      let visible=true;for(let parent=h.object;parent;parent=parent.parent)if(!parent.visible){visible=false;break}
+      if(!visible)continue;
+    }
     let o=h.object;
-    while(o && !o.userData.kind && o.name!=='ground') o=o.parent;
-    if(o && (o.userData.kind || o.name==='ground')){
+    while(o && !o.userData.kind && !isGroundName(o.name)) o=o.parent;
+    if(o && (o.userData.kind || isGroundName(o.name))){
       const objectPlane=o.userData&&o.userData.plane;
       if(objectPlane!==undefined && objectPlane!==(Player.plane||0)) continue;
       if(o.userData&&o.userData.kind==='lighthouseDoor'&&player&&Math.hypot(player.position.x-o.position.x,player.position.z-o.position.z)>14) continue;
@@ -564,8 +572,12 @@ function hoverPrimaryLabel(hit,hasWalkGround){
   if(!hit||!hit.obj)return null;
   const u=hit.obj.userData||{};
   if(u.inspectOnly)return hasWalkGround?'Walk here':null;
+  // A registered primary row is what the left click will do, so it is what the hover says.
+  if(u.kind && typeof Interact!=='undefined' && Interact.entriesFor && !Player.usingItem){
+    try{ const p=Interact.entriesFor(hit,null).filter(function(en){return en.primary;}); if(p.length) return p[0].html; }catch(e){}
+  }
   if(u.label)return u.label;
-  return hit.obj.name==='ground'?'Walk here':null;
+  return isGroundName(hit.obj.name)?'Walk here':null;
 }
 // An inspect-only model can hide a wall or exterior ground tile behind it from
 // the camera. Walking to that background pick makes a harmless scenery click
@@ -600,7 +612,7 @@ canvasEl.addEventListener('mousemove', e=>{
     UI.action(label, more);
     canvasEl.style.cursor = onObj ? 'pointer' : 'crosshair';
     if(inspectGround)showHoverTile(inspectGround);
-    else if(hit && hit.obj && hit.obj.name==='ground' && hit.point) showHoverTile(hit.point);
+    else if(hit && hit.obj && isGroundName(hit.obj.name) && hit.point) showHoverTile(hit.point);
     else hideHoverTile();
   }
 });
@@ -611,6 +623,7 @@ canvasEl.addEventListener('mouseup', e=>{
   if(typeof CharCreator!=='undefined' && CharCreator.active) return;   // designing: ignore world clicks
   if(window.Build && Build.active){ Build.onClick(e); return; }   // editor: place prop
   const hit = pick(e); if(!hit) return;
+  if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.handleClick(hit.obj,hit.point))return;
   // A small number of authored stations explicitly accept an inventory item
   // while retaining their central Interact hook. Route only those marked
   // targets through the dispatcher; legacy resources and every unmarked prop
@@ -847,13 +860,49 @@ function toggleDoor(door){
   // covers future door WALL flags and any collider the swing displaces)
   if(typeof CollisionGrid!=='undefined') CollisionGrid.rebakeArea(u.col.x, u.col.z, 3);
 }
+/* Walk-order feedback (play review 2026-09-10, F-10 / "You cannot walk there." spam):
+ * a click on water or off-map says so once (not on every repeat click); a click on a blocked tile
+ * (wall, furniture, tree) walks to the nearest walkable tile within three tiles instead of doing
+ * nothing; and a fresh order whose plan cannot reach the target says so once, honestly. */
+let _lastNoWalkAt=0;
+function noWalkMessage(){
+  const now=performance.now();
+  if(now-_lastNoWalkAt>2500){ UI.chat('You cannot walk there.','plain'); }
+  _lastNoWalkAt=now;
+}
+function nearestWalkableTile(cx,cz,maxR){
+  if(typeof tileWalkable!=='function') return null;
+  const i0=Math.floor(cx), j0=Math.floor(cz);
+  if(tileWalkable(i0,j0)) return [i0+0.5,j0+0.5];
+  for(let r=1;r<=(maxR||3);r++){
+    let best=null, bd=1e9;
+    for(let di=-r;di<=r;di++) for(let dj=-r;dj<=r;dj++){
+      if(Math.max(Math.abs(di),Math.abs(dj))!==r) continue;
+      const i=i0+di, j=j0+dj;
+      if(!tileWalkable(i,j)) continue;
+      const d=Math.hypot(i+0.5-cx, j+0.5-cz);
+      if(d<bd){ bd=d; best=[i+0.5,j+0.5]; }
+    }
+    if(best) return best;
+  }
+  return null;
+}
+function announceWalkOrder(target){
+  // A fresh order that cannot reach its target inside the planner's radius gets one honest line.
+  if(!Player._pathPartial || !Player.path || !Player.path.length) return;
+  const far=Math.hypot(target.x-player.position.x, target.z-player.position.z);
+  if(far>=60) return;                                   // long haul: the walker re-plans as chunks stream in
+  const end=Player.path[Player.path.length-1];
+  if(Math.hypot(end.x-target.x, end.z-target.z)>3) UI.chat("You can't get all the way there; walking as close as you can.",'plain');
+}
 function minimapWalkTo(p){
   Player.target=null; Player.action=null;
   const pl=(Player.plane||0);
   const y=(pl!==0&&typeof Planes!=='undefined')?Planes.elevAt(p.x,p.z,pl):groundY(p.x,p.z);
-  if(y===null||(pl===0&&y<-1.2)){ UI.chat('You cannot walk there.','plain'); return; }
+  if(y===null||(pl===0&&y<-1.2)){ noWalkMessage(); return; }
   const sp=snapWalkTarget(new THREE.Vector3(p.x,y,p.z));
-  orderWalk(sp); moveMarker(sp);
+  if(!sp){ noWalkMessage(); return; }
+  orderWalk(sp); moveMarker(sp); announceWalkOrder(sp);
 }
 
 // Imported GLB interaction nodes are nested below a translated/rotated building
@@ -901,12 +950,14 @@ function queueClimb(obj,dest){
 }
 
 function handleClick(obj, point){
+  if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.handleClick(obj,point))return;
   Sfx.click();
   UI.closeWorldModals();   // stepping away from the counter closes it
   const u=obj.userData;
   Player.target=null; Player.action=null;
-  if(obj.name==='ground'){ Player.action=null; Player.target=null;
-    const sp=snapWalkTarget(point); orderWalk(sp); moveMarker(sp); return; }
+  if(isGroundName(obj.name)){ Player.action=null; Player.target=null;
+    const sp=snapWalkTarget(point); if(!sp){ noWalkMessage(); return; }
+    orderWalk(sp); moveMarker(sp); announceWalkOrder(sp); return; }
   if(u.kind==='npc' && !u.npc.dead){
     Player.target = u.npc;
     return;
@@ -1085,7 +1136,11 @@ function updateGroundGrid(){
 }
 /* snap a walk target to the centre of the tile clicked (the tile we highlighted) */
 function snapWalkTarget(p){
-  const [cx,cz]=_tileCenter(p.x,p.z);
+  let [cx,cz]=_tileCenter(p.x,p.z);
+  // blocked tile (wall, furniture, tree): take the nearest walkable tile within three instead of stalling
+  const nw=nearestWalkableTile(cx,cz,3);
+  if(!nw) return null;
+  cx=nw[0]; cz=nw[1];
   const y=_walkElevAt(cx,cz),pl=(Player.plane||0);
   if(y!==null && (pl!==0||y>-1.2)) return new THREE.Vector3(cx,y,cz);
   return p.clone ? p.clone() : new THREE.Vector3(p.x,p.y||0,p.z);
@@ -2212,4 +2267,3 @@ function buildStarterTown(cx,cz){
   spawnFriendly('townsmith','Smith Bryn', cx-6, cz-1.8, 0x5a4a3e, '🧔');
   spawnNpc('skeleton', cx-11, cz+12);
 }
-

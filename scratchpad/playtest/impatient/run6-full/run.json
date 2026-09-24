@@ -1,0 +1,1315 @@
+{
+  "profile": "impatient5-mtvye1e2",
+  "port": 8779,
+  "seconds": 921.5,
+  "bootMs": 6663,
+  "summary": "impatient step-driven run; sailed=false; lessons=[{\"id\":\"study_route\",\"t\":16.2,\"next\":\"equip_hatchet\",\"objective\":\"Open your pack and wield the Bronze hatchet.\"},{\"id\":\"equip_hatchet\",\"t\":17.2,\"next\":\"chop_logs\",\"objective\":\"Chop a marked tree in Survival Wood for logs.\"},{\"id\":\"chop_logs\",\"t\":98.9,\"next\":\"light_fire\",\"objective\":\"Use your tinderbox on the logs to light a fire.\"},{\"id\":\"light_fire\",\"t\":103.7,\"next\":\"catch_fish\",\"objective\":\"Use the Small net at the marked fishing spot.\"},{\"id\":\"catch_fish\",\"t\":129.2,\"next\":\"cook_fish\",\"objective\":\"Cook the fish on your fire (light another if it has burnt out).\"},{\"id\":\"cook_fish\",\"t\":216.5,\"next\":\"descend_cavern\",\"objective\":\"Enter the Mine Gatehouse by its south gate and climb down the shaft in the winch house.\"},{\"id\":\"descend_cavern\",\"t\":240.4,\"next\":\"mine_copper\",\"objective\":\"Mine a copper rock with your pickaxe.\"},{\"id\":\"mine_copper\",\"t\":450.7,\"next\":\"mine_tin\",\"objective\":\"Follow the offshoot south-east and mine a tin rock.\"},{\"id\":\"mine_tin\",\"t\":470.9,\"next\":\"smelt_bronze\",\"objective\":\"Smelt copper and tin into a bronze bar.\"},{\"id\":\"smelt_bronze\",\"t\":629.9,\"next\":\"forge_dagger\",\"objective\":\"Forge the highlighted Bronze dagger at the anvil.\"}]",
+  "end": {
+    "objective": "Forge the highlighted Bronze dagger at the anvil.",
+    "objectiveVisible": true,
+    "stepId": "forge_dagger",
+    "step": 10,
+    "tutorialComplete": false,
+    "zone": "Training Cavern",
+    "pos": [
+      292.5,
+      361.5
+    ],
+    "plane": -1,
+    "hp": 10,
+    "energy": 100,
+    "running": true,
+    "moving": false,
+    "pack": [
+      "coins x55",
+      "logs",
+      "tinderbox",
+      "fishing_net",
+      "logs",
+      "burnt_perch",
+      "cooked_perch",
+      "pickaxe",
+      "bronze_bar",
+      "hammer"
+    ],
+    "weapon": "hatchet",
+    "usingItem": null,
+    "arrow": {
+      "label": "Forge a dagger",
+      "target": [
+        302,
+        363
+      ],
+      "edgeArrowVisible": true
+    },
+    "chat": [
+      "You should cook this on a campfire first.",
+      "You roast a mirrorperch.",
+      "You climb down into the dark…",
+      "The miner lends you a bronze pickaxe. Mine copper here, then find tin in the offshoot to the south-east.",
+      "You manage to mine copper.",
+      "You manage to mine tin.",
+      "The smith passes you a hammer. Use it on the anvil with a bronze bar.",
+      "You smelt a bronze bar."
+    ],
+    "dialogue": null,
+    "ctxOpen": false,
+    "provider": "tutors-holm-v2",
+    "nearby": [
+      {
+        "kind": "resource",
+        "label": "Mine Copper rock",
+        "name": "",
+        "tile": [
+          293,
+          360
+        ],
+        "dist": 1.6,
+        "onScreen": true,
+        "screen": [
+          579,
+          580
+        ]
+      },
+      {
+        "kind": "resource",
+        "label": "Mine Copper rock",
+        "name": "",
+        "tile": [
+          296,
+          357
+        ],
+        "dist": 5.7,
+        "onScreen": true,
+        "screen": [
+          251,
+          485
+        ]
+      },
+      {
+        "kind": "anvil",
+        "label": "Smith at Anvil",
+        "name": "",
+        "tile": [
+          302,
+          363
+        ],
+        "dist": 9.6,
+        "onScreen": true,
+        "screen": [
+          769,
+          267
+        ]
+      },
+      {
+        "kind": "furnace",
+        "label": "Smelt at Furnace",
+        "name": "",
+        "tile": [
+          305,
+          363
+        ],
+        "dist": 12.6,
+        "onScreen": true,
+        "screen": [
+          738,
+          172
+        ]
+      },
+      {
+        "kind": "resource",
+        "label": "Mine Tin rock",
+        "name": "",
+        "tile": [
+          304,
+          377
+        ],
+        "dist": 19.3,
+        "onScreen": false,
+        "screen": null
+      }
+    ],
+    "camera": {
+      "yaw": -1.73,
+      "pitch": 0.4,
+      "dist": 13
+    },
+    "t": 921.5
+  },
+  "findings": [
+    {
+      "id": "P-01",
+      "t": 9.8,
+      "severity": "low",
+      "where": "Arrival Cove, first chat lines",
+      "observation": "Chat says \"Talk to Guide Bram by the rowboat\" while the objective banner says \"Enter the Guide Hall and study the relief chart\"; chat above it also shows \"[COOK] The bread-making chain is lit...\" and \"Deed complete: Apprentice - 50 crowns!\" on a brand-new profile",
+      "expectation": "One instruction; no leftover messages from before the adventurer existed",
+      "screenshot": "001-finding-1.png"
+    },
+    {
+      "id": "P-02",
+      "t": 46,
+      "severity": "medium",
+      "where": "Departure Dock skiff (early attempt)",
+      "observation": "Lesson-lock dialogue shows raw HTML: \"A brass lesson-lock holds the mooring chain fast. Finish the Holm's instruction first.<br><br><b>Next:</b> Chop a marked\"",
+      "expectation": "Line breaks and bold rendered, not literal <br><b> tags",
+      "screenshot": "011-finding-2.png"
+    },
+    {
+      "id": "P-03",
+      "t": 879.1,
+      "severity": "high",
+      "where": "step forge_dagger at [292.5,361.5]",
+      "observation": "Three impatient attempts did not complete this step. chat=[\"You manage to mine tin.\",\"The smith passes you a hammer. Use it on the anvil with a bronze bar.\",\"You smelt a bronze bar.\"]",
+      "expectation": "Progress on the third try at the latest",
+      "screenshot": "082-finding-3.png"
+    },
+    {
+      "id": "P-04",
+      "t": 921.5,
+      "severity": "critical",
+      "where": "step forge_dagger",
+      "observation": "Could not complete this step after 4 attempts the impatient way",
+      "expectation": "progress",
+      "screenshot": "086-finding-4.png"
+    }
+  ],
+  "errors": [
+    {
+      "t": 2.6,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "t": 7.6,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "log": [
+    {
+      "t": 9.2,
+      "action": "login",
+      "detail": {
+        "bootMs": 6663,
+        "keptDefaultLook": true
+      }
+    },
+    {
+      "t": 10.7,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            208
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 12.3,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            338
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 13.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "at": [
+          151.5,
+          158.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 15.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "at": [
+          769,
+          243
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 16.2,
+      "action": "dialogue",
+      "detail": {
+        "text": "Trace the route with one finger."
+      }
+    },
+    {
+      "t": 17,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "hatchet"
+      }
+    },
+    {
+      "t": 18,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "px": {
+          "screen": [
+            769,
+            108
+          ],
+          "fraction": 0.4
+        }
+      }
+    },
+    {
+      "t": 19.6,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "px": {
+          "screen": [
+            724,
+            102
+          ],
+          "fraction": 0.4
+        }
+      }
+    },
+    {
+      "t": 42.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "at": [
+          205.5,
+          152.5
+        ],
+        "legs": 4,
+        "reached": true
+      }
+    },
+    {
+      "t": 44.3,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "at": [
+          769,
+          370
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 46,
+      "action": "dialogue",
+      "detail": {
+        "text": "Back to my lesson."
+      }
+    },
+    {
+      "t": 47.6,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          127,
+          159
+        ],
+        "px": {
+          "screen": [
+            769,
+            111
+          ],
+          "fraction": 0.2
+        }
+      }
+    },
+    {
+      "t": 49.2,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          127,
+          159
+        ],
+        "px": {
+          "screen": [
+            766,
+            132
+          ],
+          "fraction": 0.3
+        }
+      }
+    },
+    {
+      "t": 85.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          127,
+          159
+        ],
+        "at": [
+          127.5,
+          158.5
+        ],
+        "legs": 5,
+        "reached": true
+      }
+    },
+    {
+      "t": 87.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "at": [
+          769,
+          166
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 89.8,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          133.5,
+          160.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            329
+          ],
+          "fraction": 0.7
+        }
+      }
+    },
+    {
+      "t": 94.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "at": [
+          809,
+          152
+        ],
+        "pitch": 0.6
+      }
+    },
+    {
+      "t": 98.9,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 100.8,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "at": [
+          769,
+          259
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 102,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 102.3,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "logs"
+      }
+    },
+    {
+      "t": 104.8,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "px": {
+          "screen": [
+            769,
+            272
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 106.4,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "px": {
+          "screen": [
+            772,
+            468
+          ],
+          "fraction": 0.2
+        }
+      }
+    },
+    {
+      "t": 107.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 108.3,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          134.553419999991,
+          159.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            452
+          ],
+          "fraction": 0.3
+        }
+      }
+    },
+    {
+      "t": 110.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 112.1,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          87
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 113.8,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          87
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 114.8,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "fishing_net"
+      }
+    },
+    {
+      "t": 116.7,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          87
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 130.1,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          127.4,
+          161.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            200
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 131.7,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          127.4,
+          161.5
+        ],
+        "px": {
+          "screen": [
+            750,
+            154
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 141.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          127.4,
+          161.5
+        ],
+        "at": [
+          127.5,
+          161.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 141.2,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "raw_perch"
+      }
+    },
+    {
+      "t": 146.1,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='fire'&&o.parent)",
+        "at": [
+          811,
+          393
+        ],
+        "pitch": 1.3
+      }
+    },
+    {
+      "t": 173.3,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "px": {
+          "screen": [
+            769,
+            261
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 175.8,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 176.6,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          135.5,
+          157.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            338
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 180.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "at": [
+          131.5,
+          156.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 180.4,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "fishing_net"
+      }
+    },
+    {
+      "t": 182.3,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          111
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 196.9,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          127.4,
+          161.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            200
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 198.5,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          127.4,
+          161.5
+        ],
+        "px": {
+          "screen": [
+            752,
+            154
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 207.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          127.4,
+          161.5
+        ],
+        "at": [
+          127.5,
+          161.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 208,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "raw_perch"
+      }
+    },
+    {
+      "t": 214.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='fire'&&o.parent)",
+        "at": [
+          769,
+          548
+        ],
+        "pitch": 0.4
+      }
+    },
+    {
+      "t": 217.4,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          124,
+          120.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            208
+          ],
+          "fraction": 0.6
+        }
+      }
+    },
+    {
+      "t": 219,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          124,
+          120.5
+        ],
+        "px": {
+          "screen": [
+            724,
+            169
+          ],
+          "fraction": 0.8
+        }
+      }
+    },
+    {
+      "t": 235.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          124,
+          120.5
+        ],
+        "at": [
+          124.5,
+          120.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 237.6,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_shaft_frame')",
+        "at": [
+          769,
+          352
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 242.9,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          296,
+          358
+        ],
+        "px": {
+          "screen": [
+            769,
+            88
+          ],
+          "fraction": 0.7
+        }
+      }
+    },
+    {
+      "t": 244.5,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          296,
+          358
+        ],
+        "px": {
+          "screen": [
+            820,
+            176
+          ],
+          "fraction": 0.8
+        }
+      }
+    },
+    {
+      "t": 438.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          296,
+          358
+        ],
+        "at": [
+          292.5,
+          350.5
+        ],
+        "legs": 30,
+        "reached": false
+      }
+    },
+    {
+      "t": 440.2,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='resource'&&o.userData.or",
+        "at": [
+          769,
+          101
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 442.3,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          288.5,
+          350.5
+        ],
+        "px": {
+          "screen": [
+            812,
+            205
+          ],
+          "fraction": 0.3
+        }
+      }
+    },
+    {
+      "t": 445.6,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='resource'&&o.userData.or",
+        "at": [
+          952,
+          5
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 451.6,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          304,
+          378
+        ],
+        "px": {
+          "screen": [
+            769,
+            97
+          ],
+          "fraction": 0.3
+        }
+      }
+    },
+    {
+      "t": 453.2,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          304,
+          378
+        ],
+        "px": {
+          "screen": [
+            757,
+            171
+          ],
+          "fraction": 0.2
+        }
+      }
+    },
+    {
+      "t": 459.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          304,
+          378
+        ],
+        "legs": 1
+      }
+    },
+    {
+      "t": 462.8,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          303.5,
+          371.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            170
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 468.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          304,
+          378
+        ],
+        "at": [
+          303.5,
+          377.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 470.1,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='resource'&&o.userData.or",
+        "at": [
+          769,
+          456
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 471.8,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          305,
+          364
+        ],
+        "px": {
+          "screen": [
+            769,
+            169
+          ],
+          "fraction": 0.3
+        }
+      }
+    },
+    {
+      "t": 473.3,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          305,
+          364
+        ],
+        "px": {
+          "screen": [
+            785,
+            97
+          ],
+          "fraction": 0.9
+        }
+      }
+    },
+    {
+      "t": 623.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          305,
+          364
+        ],
+        "at": [
+          305.5,
+          372.5
+        ],
+        "legs": 24,
+        "reached": false
+      }
+    },
+    {
+      "t": 624.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='furnace')",
+        "at": [
+          769,
+          4
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 625.9,
+      "action": "dialogue",
+      "detail": {
+        "text": "Smelt a Bronze bar."
+      }
+    },
+    {
+      "t": 630.7,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          302,
+          364
+        ],
+        "px": {
+          "screen": [
+            769,
+            185
+          ],
+          "fraction": 0.9
+        }
+      }
+    },
+    {
+      "t": 632.3,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          302,
+          364
+        ],
+        "px": {
+          "screen": [
+            909,
+            237
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 633.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          302,
+          364
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 634.2,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          298.5,
+          365.0915399999965
+        ],
+        "px": {
+          "screen": [
+            907,
+            172
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 770.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          302,
+          364
+        ],
+        "at": [
+          292.5,
+          361.5
+        ],
+        "legs": 24,
+        "reached": false
+      }
+    },
+    {
+      "t": 772.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='anvil')",
+        "at": [
+          773,
+          0
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 802.1,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          302,
+          364
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 808.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          302,
+          364
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 808.6,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "bronze_bar"
+      }
+    },
+    {
+      "t": 810.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='anvil')",
+        "at": [
+          773,
+          0
+        ],
+        "pitch": 0.95
+      }
+    },
+    {
+      "t": 840,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          302,
+          364
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 846.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          302,
+          364
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 852.5,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='anvil')"
+      }
+    },
+    {
+      "t": 852.5,
+      "action": "row-missing",
+      "detail": {
+        "text": "Smith"
+      }
+    },
+    {
+      "t": 882.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          302,
+          364
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 888.8,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          302,
+          364
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 894.9,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='anvil')"
+      }
+    },
+    {
+      "t": 894.9,
+      "action": "row-missing",
+      "detail": {
+        "text": "Smith"
+      }
+    }
+  ]
+}

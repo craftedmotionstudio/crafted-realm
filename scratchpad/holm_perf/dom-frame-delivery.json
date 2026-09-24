@@ -1,0 +1,8 @@
+[
+  {
+    "level": "info",
+    "message": "[FRAME_DELIVERY] {\"rafFps\":60,\"rafFrames\":241,\"rafMedianMs\":16.699999999999818,\"rafP95Ms\":16.800000000000182,\"timerHz\":62.41,\"elapsedMs\":4005.5000000029795,\"alwaysVisible\":true,\"focused\":true,\"pixelRatio\":1.5,\"viewport\":[1935,1272]}",
+    "timestamp": "2026-09-13T00:57:00.246Z",
+    "url": "http://127.0.0.1:8777/tools/qa_frame_delivery.html"
+  }
+]

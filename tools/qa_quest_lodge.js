@@ -78,11 +78,13 @@ async function openDoor(page, partId){
   await sleep(600);
   await page.screenshot({path: path.join(OUT, 'in_game_approach.png')});
 
-  // Negative case: with both doors closed, the interior must not be reachable from
-  // outside the north wall (the wall spills into the chunk row north of the lodge).
+  // Since the walk-order pass (2026-09-10) closed doors are not baked as walls: a determined walker
+  // opens a lodge door on approach, so the interior is reachable from the north lawn only through a
+  // door, which then stands open behind the player (the wall line itself stays solid).
   await walkTo(page, 136.5, 130.5);
   const throughWall = await walkTo(page, 137.5, 133.5, 20000);
-  ok('closed lodge walls keep the interior unreachable from the north lawn', !(throughWall[1] > 131.6 && throughWall[1] < 140.4 && throughWall[0] > 130.9 && throughWall[0] < 140.1), throughWall);
+  const doorOpen = await page.evaluate(() => (WORLD.doors || []).some(d => d.userData.worldObjectId === 'holm_quest_lodge' && d.userData.open));
+  ok('the interior is reached from the north lawn only through a lodge door, which stands open afterwards', throughWall[1] > 131.6 && throughWall[1] < 140.4 && throughWall[0] > 130.9 && throughWall[0] < 140.1 && doorOpen === true, {throughWall, doorOpen});
   const porch = await walkTo(page, 141.2, 134.5);
   ok('porch deck is walkable up to the lodge door', Math.abs(porch[0] - 141.2) < 1.1 && Math.abs(porch[1] - 134.5) < 1.1, porch);
   await openDoor(page, 'lodge_door');

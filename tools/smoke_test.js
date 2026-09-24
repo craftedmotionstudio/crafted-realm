@@ -165,8 +165,8 @@ window.CR_smoke = function(){
     });});
     var workDoors=holm&&(WORLD.doors||[]).filter(function(d){return d.userData&&
       (d.userData.partId==='trail_door'||d.userData.partId==='pond_door');});
-    ok('Workyard revision 18 is intentionally sited between path and the raised freshwater shore', !v2 || !holm ||
-      (workyard.revision===18&&workyard.placement.yOffset===-0.16&&
+    ok('Workyard revision 19 is intentionally sited between path and the raised freshwater shore', !v2 || !holm ||
+      (workyard.revision===19&&workyard.placement.yOffset===-0.16&&
        HolmLandscape.pathDistance(workyard.placement.x+workyard.doors[0].entry.outside[0],
        workyard.placement.z+workyard.doors[0].entry.outside[1])<=0.5&&
        !HolmLandscape.inPond(workyard.placement.x+workyard.doors[1].entry.outside[0],
@@ -257,6 +257,9 @@ window.CR_smoke = function(){
         typeof SfxFurnishings.netCast==='function'&&typeof SfxFurnishings.fishBite==='function'&&
         typeof SfxFurnishings.fishCatch==='function'&&
         Interact._hooks.some(function(h){return h.target.indexOf('kind:holm_fishing_edge')>=0&&h.primary;})));
+    ok('Holm building and prop templates are draw-merged to at most half their source meshes on shared bucket materials', !v2 || !holm ||
+      (typeof WorldV2Consolidate!=='undefined'&&(function(){ var s=WorldV2Consolidate.snapshot();
+        return !s.enabled||(s.roots>=1&&s.meshesOut<=s.meshesIn*0.5&&s.sharedMaterials<=12); })()));
     ok('Workyard doors expose world-space inside and outside approach tiles', !v2 || !holm ||
       !workyardResident || (workDoors.length===2&&workDoors.every(function(d){return d.userData.entryInside&&d.userData.entryOutside&&
         isFinite(d.userData.entryInside.x)&&isFinite(d.userData.entryOutside.z);})));

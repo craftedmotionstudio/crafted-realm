@@ -1,0 +1,56 @@
+[arrival] t=9.8 step=study_route pos=[151,169] zone=Tutor's Holm plane=0 arrow=Study the island chart@[151,155] pack=["coins x55"] chat=["Press ` (backquote) at any time for the Administrator Console.","Game saved.","Your adventurer is ready. Talk to Guide Bram by the rowboat."]
+
+=== A chart (skim, click far, click again) ===
+  rush -> (151.5,158.5) reached=true at=[151.5,158.5] t=14.4 legs=1 
+  chart click true [769,243]
+  LESSON DONE study_route at 16.8s -> equip_hatchet "Open your pack and wield the Bronze hatchet."
+[after-chart] t=16.8 step=equip_hatchet pos=[151.5,157.5] zone=Tutor's Holm plane=0 arrow=Leave by the Teaching door@[151,141] pack=["coins x55","hatchet","tinderbox","fishing_net"] chat=["Your adventurer is ready. Talk to Guide Bram by the rowboat.","[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.","Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net."]
+  dialogue [Relief chart of Tutor's Holm] "Arrival Cove begins the route. The northern teaching door leads to Survival Wood, then the path bends through Lesson Green, the training cavern, Warden's Ridge," opts=["Trace the route with one finger."]
+
+=== B equip hatchet immediately from pack (not at the survival station) ===
+  (stepChanged: current step is chop_logs, not equip_hatchet; not waiting)
+[after-equip] t=18.6 step=chop_logs pos=[151.5,157.5] zone=Tutor's Holm plane=0 arrow=Leave by the Teaching door@[151,141] pack=["coins x55","tinderbox","fishing_net"] chat=["[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.","Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net.","You wield the Bronze hatchet."]
+
+=== D chop (click far, click again, walk off mid-chop) ===
+  rush -> (152,142) reached=true at=[151.5,142.5] t=24.7 legs=1 
+[survival-wood] t=24.7 step=chop_logs pos=[151.5,142.5] zone=Tutor's Holm plane=0 arrow=Chop tree@[126,158] pack=["coins x55","tinderbox","fishing_net"] chat=["[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.","Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net.","You wield the Bronze hatchet."]
+  marked tree click false null
+  walked off mid-chop: pos=[153.5,147.4] pack=["coins x55","tinderbox","fishing_net"]
+[after-chop] t=56.9 step=chop_logs pos=[157.5,144.5] zone=Tutor's Holm plane=0 arrow=Leave by the Teaching door@[151,141] pack=["coins x55","tinderbox","fishing_net"] chat=["[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.","Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net.","You wield the Bronze hatchet."]
+
+=== E fire: light it right where I stand (next to the tree) ===
+  (stepChanged: current step is chop_logs, not light_fire; not waiting)
+[after-fire] t=58.5 step=chop_logs pos=[157.5,144.5] zone=Tutor's Holm plane=0 arrow=Leave by the Teaching door@[151,141] pack=["coins x55","tinderbox","fishing_net"] chat=["Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net.","You wield the Bronze hatchet.","Use it on some logs to light a fire."]
+  (stepChanged: current step is chop_logs, not light_fire; not waiting)
+  fire at null lit t= 61.4
+
+=== F fish: click the water first, then the net ===
+  rush -> (151,142) reached=true at=[150.5,142.5] t=80.7 legs=2 
+  edge click false
+  after edge click: chat=["Use it on some logs to light a fire."]
+  net->edge false
+  (stepChanged: current step is chop_logs, not catch_fish; not waiting)
+  (stepChanged: current step is chop_logs, not catch_fish; not waiting)
+[after-fish] t=82.7 step=chop_logs pos=[150.5,142.5] zone=Tutor's Holm plane=0 arrow=Chop tree@[126,158] pack=["coins x55","tinderbox","fishing_net"] chat=["Use it on some logs to light a fire.","You take out the small net. Now click a fishing spot to use it.","You put the small net away."]
+
+=== G cook: fire under the tree canopy? ===
+  fire object present at null elapsed 83 lit at 61.4
+[after-cook] t=83 step=chop_logs pos=[150.5,142.5] zone=Tutor's Holm plane=0 arrow=Chop tree@[126,158] pack=["coins x55","tinderbox","fishing_net"] chat=["Use it on some logs to light a fire.","You take out the small net. Now click a fishing spot to use it.","You put the small net away."]
+
+=== H descend: winch frame at the Mine Gatehouse ===
+  arrow {"label":"Chop tree","target":[126,158],"edgeArrowVisible":true}
+  rush -> (126,159.5) reached=false at=[150.5,142.5] t=89.4 legs=2 no progress
+[gatehouse] t=89.4 step=chop_logs pos=[150.5,142.5] zone=Tutor's Holm plane=0 arrow=Chop tree@[126,158] pack=["coins x55","tinderbox","fishing_net"] chat=["You can't get all the way there; walking as close as you can.","You can't get all the way there; walking as close as you can.","You can't get all the way there; walking as close as you can."]
+  nearby ["door:Close Door@152,143 d1.9","door:Open Green door@146,138 d5.7","holm_kitchen_range:Cook on Teaching range@155,138 d6.3","prop:Inspect Kneading table@150,135 d6.7","holm_water_butt:Fill bucket from Water butt@158,135 d10.7","holm_recipe_board:Read Recipe board@146,132 d10.9","prop:Inspect Cooling rack@152,131 d11.2","holm_bucket_shelf:Take Bucket@147,131 d11.5"]
+  winch click false null
+  (stepChanged: current step is chop_logs, not descend_cavern; not waiting)
+  not descended: chat=["You can't get all the way there; walking as close as you can.","You can't get all the way there; walking as close as you can.","You can't get all the way there; walking as close as you can."] plane=0 pos=[150.5,142.5]
+  winch rows []
+  (stepChanged: current step is chop_logs, not descend_cavern; not waiting)
+[cavern-arrival] t=97.3 step=chop_logs pos=[150.5,142.5] zone=Tutor's Holm plane=0 arrow=Chop tree@[126,158] pack=["coins x55","tinderbox","fishing_net"] chat=["You can't get all the way there; walking as close as you can.","You can't get all the way there; walking as close as you can.","You can't get all the way there; walking as close as you can."]
+
+=== I cavern: copper (walk off mid-mine), tin, smelt, forge ===
+  arrow {"label":"Chop tree","target":[126,158],"edgeArrowVisible":true} pos [150.5,142.5]
+  rush -> (126,159) reached=false at=[150.5,142.5] t=103.6 legs=2 no progress
+  nearby ["door:Close Door@152,143 d1.9","door:Open Green door@146,138 d5.7","holm_kitchen_range:Cook on Teaching range@155,138 d6.3","prop:Inspect Kneading table@150,135 d6.7","holm_water_butt:Fill bucket from Water butt@158,135 d10.7","holm_recipe_board:Read Recipe board@146,132 d10.9","prop:Inspect Cooling rack@152,131 d11.2","holm_bucket_shelf:Take Bucket@147,131 d11.5"]
+  copper rock click false null

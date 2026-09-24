@@ -1,0 +1,10 @@
+{
+ "name": "Guide Hall v7 interior",
+ "osrs": "Bible_References/Tutorial_Island_Building.jpg",
+ "cr": "scratchpad/guide_hall_v7/holm_guide_hall_interior_ingame.png",
+ "codex": 8.9,
+ "review_note": "Three occupation clusters read with the roof off: records (library, lectern with ledger and quill, desk, stove), the hero relief chart with sandstone rim, district colours, compass rose and route flags, and provisions (rack with oilskins, counter, casks). Teaching dais and board moved west so the north door is clear (F-09); the whole table top is the click target (F-06).",
+ "verdict": "held under 9.0 - honest score",
+ "improve": "The central floor is still a large plain field; a runner from the south door to the chart and a second bench pair would close it. Oilskins read as small dark slabs at the elevated camera.",
+ "out": "Bible_References/Complete/_compare/holm_guide_hall_v7_interior_compare.png"
+}

@@ -9,7 +9,9 @@ var WorldWalkSurfaces=(function(){
   var groups=new Map(),nextId=0;
 
   function boundsFor(root,rows){
-    root.updateMatrixWorld(true);
+    // Height queries need the owner and ancestors, never its visual subtree.
+    // This also resolves a newly transformed parent before computing bounds.
+    root.updateWorldMatrix(true,false);
     var minX=Infinity,maxX=-Infinity,minZ=Infinity,maxZ=-Infinity;
     rows.forEach(function(row){
       var hw=row.w/2,hd=row.d/2;
@@ -47,7 +49,7 @@ var WorldWalkSurfaces=(function(){
     var result=null;
     groups.forEach(function(group){
       if(x<group.bounds.minX||x>group.bounds.maxX||z<group.bounds.minZ||z>group.bounds.maxZ) return;
-      group.root.updateMatrixWorld(true);
+      group.root.updateWorldMatrix(true,false);
       var local=group.root.worldToLocal(new THREE.Vector3(x,group.root.position.y,z));
       for(var i=group.rows.length-1;i>=0;i--){
         var row=group.rows[i];

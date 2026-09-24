@@ -1,0 +1,8 @@
+[
+  {
+    "level": "log",
+    "message": "[SMOKE] {\"verdict\":\"FAIL\",\"phases\":{\"boot\":{\"ok\":false,\"ms\":5045,\"hidden\":false,\"worldReady\":false,\"bootStatus\":\"running\"},\"console\":{\"ok\":true,\"uncaught\":0,\"consoleErrors\":0}},\"errors\":[],\"budgets\":{\"bootMs\":5000,\"settleMs\":2500,\"minFps\":45,\"maxWorstFrameMs\":150,\"maxDrawCalls\":800,\"maxTris\":900000,\"minTicks\":4,\"walkTimeoutMs\":10000,\"streamTimeoutMs\":30000},\"hiddenBoot\":false,\"fatal\":\"boot never reached the welcome screen\",\"totalMs\":5046}",
+    "timestamp": "2026-09-13T00:42:10.674Z",
+    "url": "http://127.0.0.1:8777/src/smoke.js?v=32"
+  }
+]

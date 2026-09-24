@@ -5,7 +5,7 @@
  */
 var HolmGuideHall=(function(){
   'use strict';
-  function onHolm(){ return typeof CRWorldMode!=='undefined'&&CRWorldMode.providerId==='tutors-holm-v2'; }
+  function onHolm(){ return typeof CRWorldMode!=='undefined'&&(CRWorldMode.providerId==='tutors-holm-v2'||(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())); }
   function lessonStatus(){
     var steps=(typeof Tutorial!=='undefined'&&Tutorial.steps)||[];
     var done=typeof Tutorial!=='undefined'?(Tutorial.complete?steps.length:Math.max(0,Tutorial.step||0)):0;
@@ -36,7 +36,11 @@ var HolmGuideHall=(function(){
   }
   function inspectProvisions(){
     if(!onHolm()) return;
-    UI.chat('Every shelf is labelled for a lesson: oilskins for the pond, chalk for the mine, spare packs for the crossing. Nothing is placed without a job.','plain');
+    UI.chat('Spare teaching tools fill the labelled shelves. Collect tools here if yours are lost; tools stored in your bank can be withdrawn at Holm Bank.','plain');
+  }
+  function collectTools(){
+    if(onHolm()&&typeof HolmToolRecoveryService!=='undefined') return HolmToolRecoveryService.recover();
+    return false;
   }
   // The relief chart is a 3-tile-wide table: the generic walk-to lands on a tile
   // 2.55 from its centre, outside the 2.25 reach, and Sched.walkThen then gives
@@ -48,8 +52,9 @@ var HolmGuideHall=(function(){
     Interact.register({target:'kind:holm_orientation',option:'Study',primary:true,walkTo:true,reach:2.6,handler:inside({x:0,z:3.0},studyRoute)});
     Interact.register({target:'kind:holm_register',option:'Read',primary:true,walkTo:true,reach:2.6,handler:inside({x:-7.0,z:1},readRegister)});
     Interact.register({target:'kind:holm_story_clue',option:'Inspect',primary:true,walkTo:true,reach:2.6,handler:inside({x:-4.0,z:5.2},inspectPlaque)});
-    Interact.register({target:'kind:holm_provisions',option:'Inspect',primary:true,walkTo:true,reach:2.6,handler:inside({x:9.6,z:-0.1},inspectProvisions)});
+    Interact.register({target:'kind:holm_provisions',option:'Collect-tools',primary:true,walkTo:true,reach:2.6,handler:inside({x:9.6,z:-0.1},collectTools)});
+    Interact.register({target:'kind:holm_provisions',option:'Inspect',walkTo:true,reach:2.6,handler:inside({x:9.6,z:-0.1},inspectProvisions)});
   }
   return {studyRoute:studyRoute,readRegister:readRegister,inspectPlaque:inspectPlaque,
-    inspectProvisions:inspectProvisions,status:lessonStatus};
+    inspectProvisions:inspectProvisions,collectTools:collectTools,status:lessonStatus};
 })();

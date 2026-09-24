@@ -105,6 +105,7 @@ function computePath(sx, sz, tx, tz){
   return {pts, reached:found};
 }
 function orderWalk(point){
+  if(typeof HolmArrivalPlayer!=='undefined'&&HolmArrivalPlayer.active())return HolmArrivalPlayer.order(point);
   Player.moveTo=point.clone ? point.clone() : new THREE.Vector3(point.x, point.y||0, point.z);
   Player._navAge=0; Player._navTries=0; Player._navBest=1e9; Player._navStall=0;
   Player._navDetour=null; Player._navDetour2=null;
@@ -131,8 +132,12 @@ function update(dt){
   player.userData.inCombat = !!(Player.target && !Player.target.dead);
   if(Player.stunT>0){ Player.moveTo=null; Player.path=[]; Player.target=null; if(Player.action&&Player.action.type==='pickpocket')Player.action=null; }
   // WASD manual control takes priority over click-to-move (it cancels the click route itself)
-  const _manual = (Player.stunT<=0 && typeof Controls!=='undefined' && Controls.manualMove) ? Controls.manualMove(dt) : false;
-  if(_manual){
+  const _arrival = typeof HolmArrivalPlayer!=='undefined'&&HolmArrivalPlayer.active();
+  const _manual = (!_arrival && Player.stunT<=0 && typeof Controls!=='undefined' && Controls.manualMove) ? Controls.manualMove(dt) : false;
+  if(_arrival){
+    playerMovedThisFrame=HolmArrivalPlayer.update(dt).moved;
+    pAnim(playerMovedThisFrame,dt,Player.moveSpeed()/4.2);
+  } else if(_manual){
     playerMovedThisFrame = true;
     pAnim(true, dt, (Player.moveSpeed?Player.moveSpeed():4.2)/4.2);
   } else if(Player.moveTo){
@@ -187,6 +192,7 @@ function update(dt){
     pAnim(false, dt);
   }
   if(typeof CraftingActionVisuals!=='undefined') CraftingActionVisuals.update(player,Player.action,dt);
+  if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())HolmArrivalQA.update(dt);
   // ── fixed-tick player sim: combat/skilling/vitals advance in 600ms steps (wall-clock unchanged) ──
   // World-v2 residency follows tile-chunk boundaries. Terrain geometry and the
   // matching collision cells are loaded/unloaded together by the provider.
@@ -346,7 +352,8 @@ function update(dt){
           Player.inv[a.slot]=null;
           const fx=player.position.x, fz=player.position.z;
           const fire=makeCampfire(fx,fz);
-          fire.userData.ttl=65;
+          // Holm teaching fires outlive the fishing detour (play review F-16); mainland fires keep the OSRS-ish minute
+          fire.userData.ttl=(typeof CRWorldMode!=='undefined'&&CRWorldMode.providerId==='tutors-holm-v2')?150:65;
           Player.addXp('Firemaking', 40);
           UI.chat('The fire catches and the logs begin to burn.','xp');
           UI.refreshInv();
@@ -733,12 +740,13 @@ function update(dt){
   if(typeof CharCreator!=='undefined' && CharCreator.active) CharCreator.tick(dt);   // design-panel turntable
 
   const activePlane=(Player.plane||0);
+  if(activePlane!==_zonePlane){ _zonePlane=activePlane; if(activePlane===0) curZone=null; }   // relabel after a climb (playtest P-21)
   if(activePlane>0 && typeof HolmLastlightData!=='undefined' && HolmLastlightData.levels[activePlane-1]){
     // Authored upper floors keep their own location name. Surface zone polling
     // must not overwrite it after a climb or saved-game restore.
     UI.zone(HolmLastlightData.levels[activePlane-1].label);
   } else {
-    const z = zoneAt(player.position.x, player.position.z);
+    const z = typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active() ? 'holm' : zoneAt(player.position.x, player.position.z);
     if(z!==curZone){
       curZone=z; UI.zone(ZONES[z].name);
       UI.chat(`Now entering: ${ZONES[z].name}.`,'sys');
@@ -764,18 +772,56 @@ function update(dt){
   const cx = player.position.x + camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
   const cz = player.position.z + camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
   const cy = player.position.y + camCtl.dist*Math.sin(camCtl.pitch);
-  camera.position.lerp(new THREE.Vector3(cx,cy,cz), 0.15);
+  const camGoal = cameraTerrainClamp(player.position.x, player.position.y+1.2, player.position.z, cx, cy, cz);
+  camera.position.lerp(camGoal, 0.15);
   camera.lookAt(player.position.x, player.position.y+1.2, player.position.z);
+}
+/* Keep the follow camera out of the ground. On the surface plane the boom from the look target to the
+ * desired camera position is sampled against the terrain; if any sample dips under the ground plus a
+ * clearance, the boom is shortened to the last clear sample and lifted to clearance there. Facing the
+ * Lastlight headland from the Combat Hall tower or the Mage Tower used to put the camera inside the hill
+ * (play review 2026-09-10, F-27/F-29 family). Other planes (cavern, lighthouse floors) are untouched. */
+const CAM_GROUND_CLEARANCE = 1.1;
+function cameraTerrainClamp(tx,ty,tz, cx,cy,cz){
+  const goal = new THREE.Vector3(cx,cy,cz);
+  if(((typeof Player!=='undefined' && Player.plane)||0)!==0 || typeof groundY!=='function') return goal;
+  const N=12; let tOk=1;
+  // Solid landmarks with no roof cutaway (Lastlight) register a cylinder in WORLD.cameraBlockers so the
+  // boom stops short of their walls instead of framing the player from inside the masonry.
+  const blockers=(typeof WORLD!=='undefined' && WORLD.cameraBlockers)||[];
+  for(let i=1;i<=N;i++){
+    const t=i/N, x=tx+(cx-tx)*t, y=ty+(cy-ty)*t, z=tz+(cz-tz)*t;
+    let blocked=false;
+    const h=groundY(x,z);
+    if(h!==null && Number.isFinite(h) && y < h+CAM_GROUND_CLEARANCE) blocked=true;
+    for(let b=0;b<blockers.length && !blocked;b++){
+      const bl=blockers[b];
+      if(y < bl.top && Math.hypot(x-bl.x,z-bl.z) < bl.r) blocked=true;
+    }
+    if(blocked){ tOk=Math.max(0.3,(i-1)/N); break; }
+  }
+  if(tOk<1){
+    goal.set(tx+(cx-tx)*tOk, ty+(cy-ty)*tOk, tz+(cz-tz)*tOk);
+    const h=groundY(goal.x,goal.z);
+    if(h!==null && Number.isFinite(h) && goal.y<h+CAM_GROUND_CLEARANCE) goal.y=h+CAM_GROUND_CLEARANCE;
+  }
+  return goal;
 }
 
 let running=false;
+let _zonePlane=0;
+// flips true in boot()'s onReady; the loop, the heartbeat and the play button all wait for it
+let _worldReady=false;
+window.CR_WORLD_READY=false;
 let _minimapPaintAt=0;
 let _lastRenderedAt=0, _firstRenderedAt=0, _playClickedAt=0;
 const _recentFrameMs=[];
+const _frameStages=typeof FrameStageMetrics!=='undefined'?FrameStageMetrics.create(180):null;
 function animate(){
   requestAnimationFrame(animate);
-  if(!running) return;
+  if(!running || !_worldReady || !clock || !renderer || !scene) return;
   const frameNow=performance.now();
+  const frameVisible=!document.hidden,frameFocused=document.hasFocus();
   if(!_firstRenderedAt) _firstRenderedAt=frameNow;
   if(_lastRenderedAt){
     _recentFrameMs.push(frameNow-_lastRenderedAt);
@@ -787,7 +833,9 @@ function animate(){
   // Dynamic map paint is bounded; terrain and resource layers cache independently.
   const now=performance.now();
   if(now-_minimapPaintAt>=80){ _minimapPaintAt=now; drawMinimap(); }
+  const mapEnd=performance.now();
   renderer.render(scene, camera);
+  if(_frameStages)_frameStages.record({start:frameNow,updateEnd:now,mapEnd:mapEnd,renderEnd:performance.now(),visible:frameVisible,focused:frameFocused});
 }
 // Read-only development telemetry used by the real browser gate.  It deliberately
 // exposes numbers, not mutable engine objects.
@@ -800,6 +848,7 @@ window.CRDebugStats=function(){
   return {
     mode:typeof CRWorldMode!=='undefined'?CRWorldMode.id:'legacy',
     running, frameSamples:frames.length, fps:avg?1000/avg:0,
+    frameStages:_frameStages?_frameStages.snapshot():null,
     frameP95:frames.length?frames[Math.min(frames.length-1,Math.floor(frames.length*0.95))]:0,
     playToFirstFrameMs:_playClickedAt&&_firstRenderedAt?_firstRenderedAt-_playClickedAt:null,
     bootToFirstFrameMs:typeof CRWorldMode!=='undefined'&&_firstRenderedAt?_firstRenderedAt-CRWorldMode.startedAt:null,
@@ -827,7 +876,7 @@ setInterval(()=>{
 let _hbLast=performance.now();
 function _hbCatchUp(ceiling){
   const now=performance.now();
-  if(!running){ _hbLast=now; return; }
+  if(!running || !_worldReady){ _hbLast=now; return; }
   // integrate the REAL elapsed time in capped slices so the world keeps true pace.
   // Chrome throttles hidden-tab timers to 1Hz, and after 5 minutes to 1/minute
   // (intensive throttling) — so the ceiling must cover a full minute of stall.
@@ -858,8 +907,8 @@ function setLoad(pct, msg){
   document.getElementById('loading-step').textContent=msg;
 }
 const _liteBoot = typeof CRWorldMode!=='undefined' && CRWorldMode.lite;
-const _worldProvider = _liteBoot && typeof CRWorldMode!=='undefined' ? CRWorldMode.provider : null;
-const _worldLabel = _worldProvider ? _worldProvider.label : 'the legacy realm';
+let _worldProvider = _liteBoot && typeof CRWorldMode!=='undefined' ? CRWorldMode.provider : null;
+let _worldLabel = _worldProvider ? _worldProvider.label : 'the legacy realm';
 let _bootCoordinator=null;
 function clearBootFailure(){
   const old=document.getElementById('loading-failure'); if(old) old.remove();
@@ -880,7 +929,10 @@ function showBootFailure(error,step,retry){
 }
 function bootSteps(){ return [
   {id:'renderer', label:'Starting the renderer', weight:12, run:()=>{ initEngine(); }},
-  {id:'world-plan', label:_liteBoot?'Reading '+_worldLabel:'Reading the legacy realm', weight:4, run:()=>{
+  {id:'world-plan', label:_liteBoot?'Reading '+_worldLabel:'Reading the legacy realm', weight:4, run:async()=>{
+    if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.requested){
+      _worldProvider=await HolmArrivalQA.prepare();_worldLabel=_worldProvider.label;
+    }
     if(_liteBoot){
       if(!_worldProvider) throw new Error('The selected world provider is unavailable');
       _worldProvider.prepare();
@@ -902,6 +954,11 @@ function bootSteps(){ return [
     if(_worldProvider) _worldProvider.chartCollision();
     else if(typeof CollisionGrid!=='undefined') CollisionGrid.rebake();
   }},
+  // every building/prop material gets its shader program now, behind the loading bar, instead of
+  // on first sight mid-walk (streaming audit: 50-160 ms hitches per new program)
+  {id:'shaders', label:'Warming the renderer', weight:6, run:()=>{
+    if(_worldProvider && typeof WorldV2Warmup!=='undefined') WorldV2Warmup.run();
+  }},
   {id:'player', label:'Waking the adventurer', weight:15, run:()=>{
       player = humanoid(CharCfg.shirt, {skin:CharCfg.skin, gender:CharCfg.gender, hair:CharCfg.hair,
         hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs, emblem:true});
@@ -911,6 +968,7 @@ function bootSteps(){ return [
       player.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
       scene.add(player);
       Player.init();
+      if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())HolmArrivalQA.bindPlayer();
       refreshPlayerGear();
       fillAdminSelects();
       UI.refreshInv(); UI.refreshSkills(); UI.refreshQuests(); UI.refreshEquip(); UI.refreshHud(); UI.refreshDrops('');
@@ -926,7 +984,10 @@ function boot(){
     onProgress:(pct,msg)=>{ clearBootFailure(); setLoad(pct,msg); },
     onFailure:showBootFailure,
     onReady:()=>{
+      _worldReady=true; window.CR_WORLD_READY=true;
       document.getElementById('loading-screen').style.display='none';
+      // the heavier shader passes (extra light counts, the cavern's light mix) compile on the welcome screen
+      if(_worldProvider && typeof WorldV2Warmup!=='undefined' && WorldV2Warmup.runDeferred) setTimeout(()=>WorldV2Warmup.runDeferred(), 250);
       if(typeof LoginOverhaul!=='undefined'&&LoginOverhaul.refreshSaveState) LoginOverhaul.refreshSaveState();
       document.getElementById('welcome-screen').style.display='flex';
     }
@@ -972,6 +1033,8 @@ function showEnterBuffer(){
   setTimeout(hide, 6800);
 }
 document.getElementById('play-btn').onclick = ()=>{
+  // a scripted click can land while the loading screen is still up (hidden-tab boot); refuse it
+  if(!_worldReady){ console.warn('[boot] play ignored: the world is still loading'); return; }
   // music is opt-in: only resume if the player turned it on before (keeps debug loads silent)
   try{ Sfx.ensure(); if(localStorage.getItem('cr_music_on')==='1') Music.start(); }catch(e){}
   document.getElementById('welcome-screen').style.display='none';
@@ -983,7 +1046,7 @@ document.getElementById('play-btn').onclick = ()=>{
   UI.chat('Welcome to Crafted Realm.','sys');
   UI.chat(_liteBoot
     ? 'World rebuild mode is active: '+_worldLabel+' is loaded for smooth play.'
-    : 'You wash ashore on Tutor\'s Holm. Talk to Guide Bram by the rowboat.','plain');
+    : 'You wash ashore on Tutor\'s Holm. Follow the objective banner to the Guide Hall.','plain');
   UI.chat('Press ` (backquote) at any time for the Administrator Console.','sys');
   // a NEW adventurer designs their look right here on the Holm (or keeps the default)
   if(CharCfg._new){ CharCfg._new=false;
@@ -991,4 +1054,3 @@ document.getElementById('play-btn').onclick = ()=>{
 };
 boot();
 animate();
-

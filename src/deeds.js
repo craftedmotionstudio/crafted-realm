@@ -45,7 +45,7 @@ const Deeds = {
       if(!ok) continue;
       this.state.done[d.id]=Date.now();
       Player.addItem('coins', d.crowns);
-      UI.chat(`🏅 Deed complete: <b>${d.name}</b> — ${d.crowns} crowns!`,'xp');
+      UI.chat(`🏅 Deed complete: ${d.name} — ${d.crowns} crowns!`,'xp');
       if(typeof Sfx!=='undefined'&&Sfx.quest) Sfx.quest();
       this.addLog(`Deed complete: ${d.name}`);
       if(d.title){

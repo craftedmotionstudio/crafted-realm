@@ -94,11 +94,18 @@
     if(typeof SfxFurnishings!=='undefined'&&SfxFurnishings.doorOpen)SfxFurnishings.doorOpen();else if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click();
     setTimeout(function(){if(Player.plane===c.trapdoor.plane)Planes.climbTo({plane:d.plane,x:d.spawn.x,z:d.spawn.z,zone:d.label,message:'You descend beneath Lastlight into the wet Underkeep cavern.'});setTimeout(function(){runtime.trapdoorOpen=false;},300);},620);
   }
-  function toggleBeacon(){runtime.beaconOn=!runtime.beaconOn;Player.lastlightLit=runtime.beaconOn;UI.chat(runtime.beaconOn?'You pull the bronze lever. Lastlight wakes and sweeps the grey sea.':'You ease the lever back. The great lens fades to a watchful ember.','plain');if(runtime.beaconOn){try{if(typeof Tutorial!=='undefined')Tutorial.notify('beacon','lit');}catch(e){}}if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click();}
+  function toggleBeacon(){runtime.beaconOn=!runtime.beaconOn;if(runtime.leverArm)runtime.leverArm.rotation.x=runtime.beaconOn?.55:-.55;Player.lastlightLit=runtime.beaconOn;UI.chat(runtime.beaconOn?'You pull the bronze lever. Lastlight wakes and sweeps the grey sea.':'You ease the lever back. The great lens fades to a watchful ember.','plain');if(runtime.beaconOn){try{if(typeof Tutorial!=='undefined')Tutorial.notify('beacon','lit');}catch(e){}}if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click();}
   function buildControls(data){
     var c=data.contract,base=c.levels[0],top=c.levels[c.levels.length-1];
     var hatch=transparentProxy(2.7,.8,2.5);hatch.position.set(c.trapdoor.x,base.y,c.trapdoor.z);hatch.userData={kind:'trapdoor',label:'Open and descend <b>Underkeep trapdoor</b>',walkAt:{x:c.trapdoor.x,z:c.trapdoor.z+1.4},inspectMessage:'An iron-strapped oak hatch descends into the tidal cavern beneath Lastlight.',activate:descendTrapdoor};ownClickable(hatch,base.plane);runtime.groups[base.plane].add(hatch);runtime.controlProxies.trapdoor=hatch;
     var lever=transparentProxy(1.4,2.1,1.4);lever.position.set(c.beacon.lever.x,top.y,c.beacon.lever.z);lever.userData={kind:'lever',label:'Operate <b>Lastlight lever</b>',inspectMessage:'A heavy bronze throw engages the beacon lens above.',activate:toggleBeacon};ownClickable(lever,top.plane);runtime.groups[top.plane].add(lever);runtime.controlProxies.lever=lever;
+    // The graduation control must be visible (play review 2026-09-10, F-31): an iron pedestal, a bronze throw
+    // arm and a brass knob, built inside the proxy so the same click target owns the model.
+    var ped=new THREE.Mesh(new THREE.BoxGeometry(.7,.9,.5),material(0x4a4a50));ped.position.set(0,.45,0);ped.castShadow=true;lever.add(ped);
+    var plate=new THREE.Mesh(new THREE.BoxGeometry(.8,.12,.6),material(0xa5762e));plate.position.set(0,.96,0);lever.add(plate);
+    var arm=new THREE.Mesh(new THREE.BoxGeometry(.12,1.2,.12),material(0xb8862f));arm.position.set(0,1.5,-.15);arm.rotation.x=-.55;arm.name='lastlight-lever-arm';lever.add(arm);
+    var knob=new THREE.Mesh(new THREE.SphereGeometry(.14,8,6),material(0xd9a940));knob.position.set(0,2.02,-.48);lever.add(knob);
+    runtime.leverArm=arm;
   }
   function attachAuthored(data,gltf,generation){
     if(!runtime.initialized||runtime.generation!==generation)return;var c=data.contract,map={CR_Exterior:0,CR_Level1:1,CR_Level2:2,CR_Level3:3,CR_Dungeon:'dungeon'};
@@ -154,6 +161,13 @@
   function init(provider){
     if(runtime.initialized)return runtime;if(typeof HolmLastlightData==='undefined'||typeof Planes==='undefined'||typeof scene==='undefined')throw new Error('[HolmLastlight] dependencies unavailable');
     runtime.provider=provider;runtime.generation++;runtime.beaconOn=!!Player.lastlightLit;buildExterior(HolmLastlightData);HolmLastlightData.contract.levels.forEach(function(_,i){buildLevel(HolmLastlightData,i);});buildDungeon(HolmLastlightData);buildControls(HolmLastlightData);loadAuthored(HolmLastlightData);
+    // The lighthouse is a solid tower with no cutaway: keep the follow camera out of it (see cameraTerrainClamp).
+    if(typeof WORLD!=='undefined'){WORLD.cameraBlockers=WORLD.cameraBlockers||[];var cc=HolmLastlightData.contract;WORLD.cameraBlockers.push({id:OWNER,x:cc.center.x,z:cc.center.z,r:cc.footprint.outerRadius+1.0,top:cc.baseY+16});}
+    (function(){ // playtest P-04: the tower body was walkable ground; a circle collider keeps the surface player outside it
+      var cc=HolmLastlightData.contract,col={type:'circle',x:cc.center.x,z:cc.center.z,r:cc.footprint.interiorRadius+.35,runtimeOwnerId:OWNER};
+      WORLD.colliders.push(col);runtime.colliders.push(col);
+      try{ if(typeof CollisionGrid!=='undefined'&&CollisionGrid.baked&&typeof CollisionGrid.rebakeArea==='function') CollisionGrid.rebakeArea(cc.center.x,cc.center.z,Math.ceil(cc.footprint.outerRadius)+2); }catch(e){}
+    })();
     runtime.initialized=true;Planes.refreshVisibility();animate();console.info('[holm_lastlight] three floors, two ladders, Underkeep and beacon controls ready');return runtime;
   }
   function disposeTree(root,geometries,materials){if(!root||!root.traverse)return;root.traverse(function(o){if(o.geometry&&!geometries.has(o.geometry)){geometries.add(o.geometry);o.geometry.dispose();}var list=Array.isArray(o.material)?o.material:[o.material];list.forEach(function(m){if(m&&!materials.has(m)){materials.add(m);m.dispose();}});});}
@@ -162,6 +176,7 @@
     runtime.clickables.forEach(function(o){var i=WORLD.clickables.indexOf(o);if(i>=0)WORLD.clickables.splice(i,1);if(o.parent)o.parent.remove(o);disposeTree(o,gs,ms);});
     runtime.grounds.forEach(function(o){var i=WORLD.clickables.indexOf(o);if(i>=0)WORLD.clickables.splice(i,1);i=WORLD.grounds.indexOf(o);if(i>=0)WORLD.grounds.splice(i,1);});
     for(var i=WORLD.colliders.length-1;i>=0;i--)if(WORLD.colliders[i].runtimeOwnerId===OWNER)WORLD.colliders.splice(i,1);
+    if(WORLD.cameraBlockers)WORLD.cameraBlockers=WORLD.cameraBlockers.filter(function(b){return b.id!==OWNER;});
     runtime.floors.forEach(function(f){var i=Planes.FLOORS.indexOf(f);if(i>=0)Planes.FLOORS.splice(i,1);});Planes._watchers=Planes._watchers.filter(function(w){return runtime.groups.indexOf(w.group)<0&&runtime.clickables.indexOf(w.group)<0;});
     runtime.groups.forEach(function(g){if(g.parent)g.parent.remove(g);disposeTree(g,gs,ms);});var gen=runtime.generation+1;runtime=fresh();runtime.generation=gen;
   }

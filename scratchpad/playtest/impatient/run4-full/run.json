@@ -1,0 +1,728 @@
+{
+  "profile": "impatient3-mtvy0n0z",
+  "port": 8779,
+  "seconds": 309.9,
+  "bootMs": 10615,
+  "summary": "impatient step-driven run; sailed=false; lessons=[{\"id\":\"study_route\",\"t\":20.4,\"next\":\"equip_hatchet\",\"objective\":\"Open your pack and wield the Bronze hatchet.\"},{\"id\":\"equip_hatchet\",\"t\":21.4,\"next\":\"chop_logs\",\"objective\":\"Chop a marked tree in Survival Wood for logs.\"},{\"id\":\"chop_logs\",\"t\":97.7,\"next\":\"light_fire\",\"objective\":\"Use your tinderbox on the logs to light a fire.\"},{\"id\":\"light_fire\",\"t\":102.6,\"next\":\"catch_fish\",\"objective\":\"Use the Small net at the marked fishing spot.\"}]",
+  "end": {
+    "objective": "Use the Small net at the marked fishing spot.",
+    "objectiveVisible": true,
+    "stepId": "catch_fish",
+    "step": 4,
+    "tutorialComplete": false,
+    "zone": "Tutor's Holm",
+    "pos": [
+      130.5,
+      159.5
+    ],
+    "plane": 0,
+    "hp": 10,
+    "energy": 100,
+    "running": true,
+    "moving": false,
+    "pack": [
+      "coins x55",
+      "tinderbox",
+      "fishing_net",
+      "logs",
+      "logs"
+    ],
+    "weapon": "hatchet",
+    "usingItem": null,
+    "arrow": {
+      "label": "Catch a fish",
+      "target": [
+        132,
+        156
+      ],
+      "edgeArrowVisible": false
+    },
+    "chat": [
+      "Use it on some logs to light a fire.",
+      "You get some emberwood logs.",
+      "Use it on some logs to light a fire.",
+      "The fire catches and the logs begin to burn.",
+      "You take out the small net. Now click a fishing spot to use it.",
+      "You put the small net away.",
+      "You take out the small net. Now click a fishing spot to use it.",
+      "You put the small net away."
+    ],
+    "dialogue": null,
+    "ctxOpen": false,
+    "provider": "tutors-holm-v2",
+    "nearby": [
+      {
+        "kind": "resource",
+        "label": "Chop down Marked tree",
+        "name": "holm-marked-tree-2",
+        "tile": [
+          131,
+          161
+        ],
+        "dist": 1.6,
+        "onScreen": true,
+        "screen": [
+          880,
+          661
+        ]
+      },
+      {
+        "kind": "drop",
+        "label": "Take Ashes",
+        "name": "",
+        "tile": [
+          125,
+          161
+        ],
+        "dist": 5.2,
+        "onScreen": true,
+        "screen": [
+          245,
+          878
+        ]
+      },
+      {
+        "kind": "resource",
+        "label": "Chop down Marked tree",
+        "name": "holm-marked-tree-3",
+        "tile": [
+          126,
+          164
+        ],
+        "dist": 6.4,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "resource",
+        "label": "Chop down Marked tree",
+        "name": "holm-marked-tree-1",
+        "tile": [
+          124,
+          161
+        ],
+        "dist": 6.7,
+        "onScreen": true,
+        "screen": [
+          13,
+          885
+        ]
+      },
+      {
+        "kind": "holm_fishing_edge",
+        "label": "Net-fish Mirrorperch",
+        "name": "fishing_water_patch",
+        "tile": [
+          131,
+          150
+        ],
+        "dist": 9.4,
+        "onScreen": true,
+        "screen": [
+          657,
+          84
+        ]
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Sawbuck",
+        "name": "building-part-sawbuck",
+        "tile": [
+          120,
+          155
+        ],
+        "dist": 10.7,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "holm_net_rack",
+        "label": "Fishing-preparation stand",
+        "name": "building-part-net_rack",
+        "tile": [
+          121,
+          153
+        ],
+        "dist": 11.1,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "holm_waterworks_pulley",
+        "label": "Operate Water pulley",
+        "name": "pulley_crank",
+        "tile": [
+          130,
+          148
+        ],
+        "dist": 11.3,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "door",
+        "label": "Open Pond door",
+        "name": "building-part-pond_door",
+        "tile": [
+          124,
+          149
+        ],
+        "dist": 11.4,
+        "onScreen": true,
+        "screen": [
+          60,
+          178
+        ]
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Woven stool",
+        "name": "building-part-workyard_hearth_stool_woven",
+        "tile": [
+          122,
+          150
+        ],
+        "dist": 12.1,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "holm_register",
+        "label": "Lesson register",
+        "name": "building-part-lesson_register",
+        "tile": [
+          142,
+          156
+        ],
+        "dist": 12.6,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Stacked logs",
+        "name": "building-part-log_stack",
+        "tile": [
+          118,
+          155
+        ],
+        "dist": 12.8,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Timber rack",
+        "name": "building-part-timber_log_rack",
+        "tile": [
+          118,
+          155
+        ],
+        "dist": 12.8,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Kindling table",
+        "name": "building-part-workyard_lesson_table",
+        "tile": [
+          120,
+          150
+        ],
+        "dist": 13.2,
+        "onScreen": false,
+        "screen": null
+      }
+    ],
+    "camera": {
+      "yaw": -0.32,
+      "pitch": 0.95,
+      "dist": 13
+    },
+    "t": 309.9
+  },
+  "findings": [
+    {
+      "id": "P-01",
+      "t": 14.1,
+      "severity": "low",
+      "where": "Arrival Cove, first chat lines",
+      "observation": "Chat says \"Talk to Guide Bram by the rowboat\" while the objective banner says \"Enter the Guide Hall and study the relief chart\"; chat above it also shows \"[COOK] The bread-making chain is lit...\" and \"Deed complete: Apprentice - 50 crowns!\" on a brand-new profile",
+      "expectation": "One instruction; no leftover messages from before the adventurer existed",
+      "screenshot": "001-finding-1.png"
+    },
+    {
+      "id": "P-02",
+      "t": 50.5,
+      "severity": "medium",
+      "where": "Departure Dock skiff (early attempt)",
+      "observation": "Lesson-lock dialogue shows raw HTML: \"A brass lesson-lock holds the mooring chain fast. Finish the Holm's instruction first.<br><br><b>Next:</b> Chop a marked\"",
+      "expectation": "Line breaks and bold rendered, not literal <br><b> tags",
+      "screenshot": "011-finding-2.png"
+    },
+    {
+      "id": "P-03",
+      "t": 259.3,
+      "severity": "high",
+      "where": "step catch_fish at [130.5,159.5]",
+      "observation": "Three impatient attempts did not complete this step. chat=[\"You take out the small net. Now click a fishing spot to use it.\",\"You put the small net away.\",\"You take out the small net. Now click a fishing spot to use it.\"]",
+      "expectation": "Progress on the third try at the latest",
+      "screenshot": "034-finding-3.png"
+    },
+    {
+      "id": "P-04",
+      "t": 309.9,
+      "severity": "critical",
+      "where": "step catch_fish",
+      "observation": "Could not complete this step after 4 attempts the impatient way",
+      "expectation": "progress",
+      "screenshot": "037-finding-4.png"
+    }
+  ],
+  "errors": [
+    {
+      "t": 6,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "t": 11.8,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "log": [
+    {
+      "t": 13.4,
+      "action": "login",
+      "detail": {
+        "bootMs": 10615,
+        "keptDefaultLook": true
+      }
+    },
+    {
+      "t": 14.9,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            208
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 16.5,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            336
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 17.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "at": [
+          151.5,
+          158.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 19.6,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "at": [
+          769,
+          243
+        ]
+      }
+    },
+    {
+      "t": 20.4,
+      "action": "dialogue",
+      "detail": {
+        "text": "Trace the route with one finger."
+      }
+    },
+    {
+      "t": 21.2,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "hatchet"
+      }
+    },
+    {
+      "t": 22.3,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "px": {
+          "screen": [
+            769,
+            108
+          ],
+          "fraction": 0.4
+        }
+      }
+    },
+    {
+      "t": 23.8,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "px": {
+          "screen": [
+            726,
+            102
+          ],
+          "fraction": 0.4
+        }
+      }
+    },
+    {
+      "t": 46.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "at": [
+          205.5,
+          152.5
+        ],
+        "legs": 4,
+        "reached": true
+      }
+    },
+    {
+      "t": 48.8,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "at": [
+          769,
+          370
+        ]
+      }
+    },
+    {
+      "t": 50.5,
+      "action": "dialogue",
+      "detail": {
+        "text": "Back to my lesson."
+      }
+    },
+    {
+      "t": 52.1,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          127,
+          159
+        ],
+        "px": {
+          "screen": [
+            769,
+            111
+          ],
+          "fraction": 0.2
+        }
+      }
+    },
+    {
+      "t": 53.7,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          127,
+          159
+        ],
+        "px": {
+          "screen": [
+            766,
+            132
+          ],
+          "fraction": 0.3
+        }
+      }
+    },
+    {
+      "t": 91.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          127,
+          159
+        ],
+        "at": [
+          126.5,
+          159.5
+        ],
+        "legs": 6,
+        "reached": true
+      }
+    },
+    {
+      "t": 93.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "at": [
+          769,
+          225
+        ]
+      }
+    },
+    {
+      "t": 95.9,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          132.5,
+          161.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            372
+          ],
+          "fraction": 0.6
+        }
+      }
+    },
+    {
+      "t": 97.8,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 99.7,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "at": [
+          769,
+          102
+        ]
+      }
+    },
+    {
+      "t": 100.9,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 101.2,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "logs"
+      }
+    },
+    {
+      "t": 103.7,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "px": {
+          "screen": [
+            769,
+            257
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 105.3,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "px": {
+          "screen": [
+            768,
+            464
+          ],
+          "fraction": 0.2
+        }
+      }
+    },
+    {
+      "t": 106.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 108,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          77
+        ]
+      }
+    },
+    {
+      "t": 109.6,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          77
+        ]
+      }
+    },
+    {
+      "t": 110.6,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "fishing_net"
+      }
+    },
+    {
+      "t": 112.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          77
+        ]
+      }
+    },
+    {
+      "t": 161,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 161,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "fishing_net"
+      }
+    },
+    {
+      "t": 162.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          77
+        ]
+      }
+    },
+    {
+      "t": 211.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 211.9,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "fishing_net"
+      }
+    },
+    {
+      "t": 213.7,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          77
+        ]
+      }
+    },
+    {
+      "t": 262.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          132,
+          157
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 262.5,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "fishing_net"
+      }
+    },
+    {
+      "t": 264.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          77
+        ]
+      }
+    }
+  ]
+}

@@ -647,14 +647,24 @@ var HolmSurvivalCellar=(function(){
     // that boundary so the player does not stall one step short of opening it.
     Interact.register({target:'kind:holm_cellar_reserve',option:'Open',primary:true,walkTo:true,reach:2.6,handler:inspectReserve});
 
-  function animate(now){
-    if(typeof scene==='undefined'||!scene){ requestAnimationFrame(animate); return; }
+  /* Readiness (bind the surface hatch, load the cellar, then the ladder family) is separate
+   * from the flame animation because a hidden or occluded tab never receives a rAF: the
+   * timer below keeps binding there so a background boot is complete when the tab is fronted. */
+  function ensureReady(){
+    if(typeof scene==='undefined'||!scene) return;
     try{
       if(!surfaceRoot||!surfaceRoot.parent) bindSurface();
       // Preload behind the title screen. A continued character can already be
       // beside this ladder, so waiting for active play leaves a loading race.
       if(!ready) load();
       if(ready&&!ladderFamilyReady&&!ladderFamilyLoading)loadTraversalFamily();
+    }catch(error){ console.error('[holm_survival_cellar] readiness',error); }
+  }
+  setInterval(function(){ if(document.hidden) ensureReady(); },250);
+  function animate(now){
+    if(typeof scene==='undefined'||!scene){ requestAnimationFrame(animate); return; }
+    ensureReady();
+    try{
       var t=(now||0)*.001,all=cellarFlames.slice(); if(surfaceFlame) all.push(surfaceFlame);
       if(reserveChestMixer){
         var chestDt=reserveChestAnimLast?Math.min(.05,Math.max(0,((now||0)-reserveChestAnimLast)/1000)):0;
@@ -730,6 +740,7 @@ var HolmSurvivalCellar=(function(){
       if(WORLD.sea) WORLD.sea.visible=!underground;
       for(var g=0;g<(WORLD.grounds||[]).length;g++){
         var ground=WORLD.grounds[g],plane=ground.userData&&ground.userData.plane;
+        if(ground.userData&&ground.userData.arrivalSurface)continue; // arrival owner controls floor cutaways
         ground.visible=underground ? plane===-1 : plane!==-1;
       }
     }catch(error){ console.error('[holm_survival_cellar] animation',error); }

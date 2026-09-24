@@ -77,8 +77,12 @@ async function openDoor(page, partId){
   await sleep(600);
   await page.screenshot({path: path.join(OUT, 'in_game_approach.png')});
 
-  const throughWall = await walkTo(page, 124.5, 119.5, 20000);
-  ok('closed gate keeps the winch house unreachable from the road', !(throughWall[0] > 122.1 && throughWall[0] < 131.9 && throughWall[1] > 115.1 && throughWall[1] < 122.9), throughWall);
+  // Since the walk-order pass (2026-09-10) closed doors are not baked as walls: a determined walker
+  // opens the gate on approach (game5_main door auto-open), so the winch house is reachable from the road
+  // and the gate is left standing open behind the player.
+  const throughGate = await walkTo(page, 124.5, 119.5, 20000);
+  const gateAfter = await page.evaluate(obj => { const d = (WORLD.doors || []).find(d => d.userData.worldObjectId === obj && d.userData.partId === 'gate_door'); return d ? !!d.userData.open : null; }, OBJ);
+  ok('the closed mine gate opens for the walker and the winch house is reached from the road', throughGate[0] > 122.1 && throughGate[0] < 131.9 && throughGate[1] > 115.1 && throughGate[1] < 122.9 && gateAfter === true, {throughGate, gateAfter});
   await openDoor(page, 'gate_door');
   const passage = await walkTo(page, 129.5, 121.5);
   ok('mine gate opens and the cobbled passage is enterable', Math.abs(passage[0] - 129.5) < 1.1 && Math.abs(passage[1] - 121.5) < 1.1, passage);

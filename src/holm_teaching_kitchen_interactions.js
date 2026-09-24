@@ -116,15 +116,22 @@ var HolmTeachingKitchen=(function(){
     Tutorial.optional[id]=true;
     UI.chat('Optional lesson complete: '+label+'.','xp');
     try{ if(typeof Sfx!=='undefined'&&Sfx.quest) Sfx.quest(); }catch(e){}
-    try{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }catch(e){}
   }
   (function wrapNotify(){
     if(typeof Tutorial==='undefined'||Tutorial._kitchenWrapped) return;
     Tutorial._kitchenWrapped=true;
     var orig=Tutorial.notify.bind(Tutorial);
     Tutorial.notify=function(ev,match){
-      try{ if(ev==='bake'&&match==='bread') markOptional('bake_bread','Bake bread in the Teaching Kitchen'); }catch(e){}
-      return orig(ev,match);
+      // Persist after the original notifier advances the required lesson. Repeat
+      // bakes still change inventory/XP even when the optional marker already exists.
+      var result=orig(ev,match);
+      if(ev==='bake'&&match==='bread'&&onHolm()){
+        try{ markOptional('bake_bread','Bake bread in the Teaching Kitchen'); }catch(e){}
+        try{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }catch(e){
+          if(typeof console!=='undefined') console.error('[HolmKitchen] Could not save baked loaf progress',e);
+        }
+      }
+      return result;
     };
   })();
 

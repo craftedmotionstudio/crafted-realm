@@ -22,7 +22,7 @@ var HolmTutorialFlow=(function(){
       entry:{x:114,z:159},service:{x:112,z:152},exit:{x:121,z:150},
       buildingDef:'holm_survival_workyard_v1',role:'survival-skills',required:true,surfaceOrder:2},
     {id:'kitchen',label:'Teaching Kitchen',district:'lesson_green',pad:'teaching_kitchen',
-      entry:{x:145,z:138},service:{x:154,z:139},exit:{x:150,z:130},
+      entry:{x:145,z:136},service:{x:154,z:137},exit:{x:150,z:128},
       buildingDef:'holm_teaching_kitchen_v1',role:'optional-cooking',required:false,surfaceOrder:3},
     {id:'quest_lodge',label:'Quest Lodge',district:'lesson_green',pad:'quest_lodge',
       entry:{x:142,z:135},service:{x:137,z:133},exit:{x:131,z:138},
@@ -50,17 +50,17 @@ var HolmTutorialFlow=(function(){
   var lessons=[
     {id:'study_route',station:'arrival',ev:'orient',match:'route',runtime:true,required:true,target:{x:151,z:155},
       text:'Enter the Guide Hall and study the relief chart of Tutor\'s Holm.',arrowLabel:'Study the island chart'},
-    {id:'equip_hatchet',station:'survival',ev:'equip',match:'hatchet',runtime:true,required:true,target:{x:112,z:152},
+    {id:'equip_hatchet',station:'survival',ev:'equip',match:'hatchet',runtime:true,required:true,target:null,
       text:'Open your pack and wield the Bronze hatchet.',arrowLabel:'Wield hatchet'},
     {id:'chop_logs',station:'survival',ev:'gather',match:'logs',runtime:true,required:true,target:{x:126,z:158},
       text:'Chop a marked tree in Survival Wood for logs.',arrowLabel:'Chop tree'},
     {id:'light_fire',station:'survival',ev:'firemake',match:'fire',runtime:true,required:true,target:{x:128,z:155},
       text:'Use your tinderbox on the logs to light a fire.',arrowLabel:'Light a fire'},
-    {id:'catch_fish',station:'survival',ev:'gather',match:'raw_perch',runtime:true,required:true,target:{x:132,z:156},
+    {id:'catch_fish',station:'survival',ev:'gather',match:'raw_perch',runtime:true,required:true,target:{x:131,z:151},
       text:'Use the Small net at the marked fishing spot.',arrowLabel:'Catch a fish'},
     {id:'cook_fish',station:'survival',ev:'cook',match:'cooked_perch',runtime:true,required:true,target:{x:128,z:155},
-      text:'Cook the fish on your fire.',arrowLabel:'Cook the fish'},
-    {id:'bake_bread',station:'kitchen',ev:'bake',match:'bread',optional:true,required:false,runtimeOptional:true,target:{x:154,z:139},
+      text:'Cook the fish on your fire (light another if it has burnt out).',arrowLabel:'Cook the fish'},
+    {id:'bake_bread',station:'kitchen',ev:'bake',match:'bread',optional:true,required:false,runtimeOptional:true,target:{x:154,z:137},
       text:'Optional: mix flour, water and dough in the Teaching Kitchen, then bake the loaf on the range.',arrowLabel:'Bake bread'},
     {id:'learn_quests',station:'quest_lodge',ev:'orient',match:'quests',optional:true,required:false,runtimeOptional:true,target:{x:137,z:133},
       text:'Optional: study the Quest Lodge board and open your quest journal.',arrowLabel:'Study the quest board',
@@ -70,7 +70,7 @@ var HolmTutorialFlow=(function(){
     {id:'mine_copper',station:'cavern',ev:'gather',match:'copper_ore',runtime:true,required:true,target:{x:296,z:357},
       text:'Mine a copper rock with your pickaxe.',arrowLabel:'Mine copper'},
     {id:'mine_tin',station:'cavern',ev:'gather',match:'tin_ore',runtime:true,required:true,target:{x:304,z:377},
-      text:'Follow the north offshoot and mine a tin rock.',arrowLabel:'Mine tin'},
+      text:'Follow the offshoot south-east and mine a tin rock.',arrowLabel:'Mine tin'},
     {id:'smelt_bronze',station:'cavern',ev:'smelt',match:'bar',runtime:true,required:true,target:{x:305,z:363},
       text:'Smelt copper and tin into a bronze bar.',arrowLabel:'Use the furnace'},
     {id:'forge_dagger',station:'cavern',ev:'smith',match:'forged',runtime:true,required:true,target:{x:302,z:363},
@@ -80,7 +80,7 @@ var HolmTutorialFlow=(function(){
     {id:'ranged_trial',station:'combat_hall',ev:'killStyle',match:'ranged',optional:true,required:false,npcPhase:true,npcSocket:'ranged_target_socket',
       text:'Optional: practice ranged combat with a shortbow.'},
     {id:'open_bank',station:'bank',ev:'bank',match:'open',runtime:true,required:true,target:{x:154,z:116},
-      text:'Emerge on Warden\'s Ridge, enter the Holm Bank, and open your account at a teller booth.',arrowLabel:'Open the bank'},
+      text:'Climb the far ladder up into the Combat Hall, cross Warden\'s Ridge to the Holm Bank, and open your account at a teller booth.',arrowLabel:'Open the bank'},
     {id:'magic_trial',station:'mage_tower',ev:'killStyle',match:'magic',optional:true,required:false,npcPhase:true,npcSocket:'casting_socket',
       text:'Optional: practice a basic wind spell at the Mage Tower.'},
     {id:'relight_lastlight',station:'lastlight',ev:'beacon',match:'lit',runtime:true,required:true,environmentPhase:true,target:{x:196,z:112},
@@ -97,7 +97,7 @@ var HolmTutorialFlow=(function(){
   }
   function station(id){return stations.find(function(s){return s.id===id;})||null;}
   function currentObjective(tutorial){
-    if(!tutorial||tutorial.complete)return 'Board the boat at Departure Dock.';
+    if(!tutorial||tutorial.complete)return 'Board the skiff at Departure Dock.';
     var s=tutorial.steps&&tutorial.steps[tutorial.step];
     return s&&s.text?s.text:'Complete the island lessons.';
   }

@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict'),fs=require('fs'),path=require('path'),crypto=require('crypto');
+const Loader=require('../src/holm_arrival_export_loader'),Validator=require('./studio_arrival_validation'),Checkpoint=require('../src/holm_arrival_checkpoint');
+const id='89e7cf10543d97bf',workspace='holm-arrival-package-v3',root=path.resolve('.studio-workspaces',workspace,'exports',id),base='http://127.0.0.1:8777/.studio-workspaces/'+workspace+'/exports/';
+const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'))),files=new Map(manifest.files.map(r=>[r.path,fs.readFileSync(path.join(root,'files',r.path))]));
+const pkg=JSON.parse(files.get('assets/world/authoring/holm-arrival.package.json'));
+assert.deepEqual(Validator.validate(pkg,p=>files.get(p),[...files.keys()]),[]);
+(async()=>{const loaded=await Loader.load({baseUrl:base,exportId:id,subtle:crypto.webcrypto.subtle,fetch:async url=>{const bytes=fs.readFileSync(path.join(root,url.slice((base+id+'/').length)));return {ok:true,url,arrayBuffer:async()=>bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)}}});
+assert.equal(loaded.package.objects.length,20);assert.equal(Object.keys(loaded.files).length,25);
+assert.equal(new Set(loaded.package.objects.map(o=>o.asset.id)).size,10);
+assert.equal(loaded.documents.envelopes.blockers.filter(b=>b.id.startsWith('Landscape_')).length,34);
+const old=JSON.parse(fs.readFileSync('.studio-workspaces/holm-arrival-package-v2/exports/a0c7148866b7787c/files/assets/world/authoring/holm-arrival.package.json'));
+assert.deepEqual(pkg.navigation.compatibleGraphRevisions,[old.navigation.graphRevision]);
+const previous=Checkpoint.encode(old.navigation.doorStates['open-closed'].graph,'exterior:60,115',old.navigation.graphRevision);
+assert.equal(Checkpoint.restore(pkg.navigation.doorStates['open-closed'].graph,previous,previous.revision).id,previous.nodeId);
+const drift=structuredClone(previous);drift.y+=.2;assert.throws(()=>Checkpoint.restore(pkg.navigation.doorStates['open-closed'].graph,drift,drift.revision));
+console.log('[ARRIVAL_SCENERY_EXPORT] actual 25-file byte validation/loader,20 instances/10 asset families,34 runtime blockers, exact previous graph migration with stance-drift rejection pass');
+})().catch(e=>{console.error(e);process.exitCode=1});

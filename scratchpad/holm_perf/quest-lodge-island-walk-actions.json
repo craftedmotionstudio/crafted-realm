@@ -1,0 +1,86 @@
+[
+  {
+    "level": "info",
+    "message": "[KEEP_NAVIGATION] 494 measured stances, 1742 directed cardinal edges",
+    "timestamp": "2026-09-13T16:51:31.505Z",
+    "url": "http://127.0.0.1:8777/src/holm_keep_navigation.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_TERRAIN_WALK] rest vertices verified oak 4698 max error 0",
+    "timestamp": "2026-09-13T16:51:31.625Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_terrain.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_TERRAIN_WALK] rest vertices verified meadow-tuft 91 max error 0",
+    "timestamp": "2026-09-13T16:51:31.635Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_terrain.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_TERRAIN_WALK] measured surface loaded 546 vertices; 8 rest-pose habitat placements",
+    "timestamp": "2026-09-13T16:51:31.636Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_terrain.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_HEARTH] measured Blender fire loaded 204 Array(8)",
+    "timestamp": "2026-09-13T16:51:31.647Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_hearth.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] ready 494 Array(6)",
+    "timestamp": "2026-09-13T16:51:31.667Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=5"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 1:-13:0 North lane {\"rig\":[1.5,2.136425,-12.5],\"avatarBounds\":[1.462538724980784,3.057005586199837,-12.450578800506797],\"target\":[1.500000000000001,3.136425000000005,-12.499999999999995],\"camera\":[15.696090794451475,20.17173395334176,7.374527112232043],\"screen\":[4.805959524835727e-16,-0.07424962336958532,0.9945182904856863]}",
+    "timestamp": "2026-09-13T16:51:55.444Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=5"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached -4:0:0 Upstairs guest room {\"rig\":[-3.5,3.3150020000000002,0.5],\"avatarBounds\":[-3.4375995045519216,4.250798866597465,0.4313083426081492],\"target\":[-3.500000000000009,4.315001332000022,0.46659999999999263],\"camera\":[10.696090794451472,21.350310285341827,20.34112711223209],\"screen\":[-0.0026280862970389715,-0.07571271737659654,0.9945134439962741]}",
+    "timestamp": "2026-09-13T16:52:37.360Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=5"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_DOOR_STUDIO] refused 1:7:0 Finish walking before operating the door.",
+    "timestamp": "2026-09-13T16:53:15.883Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=5"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 1:9:0 south lane {\"rig\":[1.5,-0.718751,9.5],\"avatarBounds\":[1.476549635878562,0.25040613576718895,9.481110556303541],\"target\":[1.4999999999999916,0.2902910480000138,9.466600000000014],\"camera\":[15.696090794451493,17.325600001341826,29.341127112232137],\"screen\":[-0.002627638089594837,-0.07637160212796575,0.9945145693019122]}",
+    "timestamp": "2026-09-13T16:53:16.542Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=5"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_DOOR_STUDIO] closing 1:9:0 Lodge door closing.",
+    "timestamp": "2026-09-13T16:53:22.966Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=5"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_DOOR_STUDIO] closed 1:9:0",
+    "timestamp": "2026-09-13T16:53:25.422Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=5"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_DOOR_STUDIO] open 1:9:0",
+    "timestamp": "2026-09-13T16:53:30.023Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=5"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 0:1:0 Lodge entrance {\"rig\":[0.5,0.015000999999999999,1.5],\"avatarBounds\":[0.43459680604927853,0.955936228909519,1.5700965175445796],\"target\":[0.4999999999999925,1.015001000000018,1.5334000000000125],\"camera\":[14.696090794451479,18.05030995334181,21.407927112232162],\"screen\":[0.0026242284656714473,-0.07278862844548828,0.9945231297778605]}",
+    "timestamp": "2026-09-13T16:53:34.543Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=5"
+  }
+]

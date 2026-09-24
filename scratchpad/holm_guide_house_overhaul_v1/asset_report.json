@@ -1,0 +1,22 @@
+{
+  "status": "shell-study-unapproved",
+  "humanScaleContract": {
+    "doorWidth": 2.0,
+    "doorHeight": 2.3,
+    "upperFloorY": 2.8
+  },
+  "dimensionsTiles": {
+    "width": 13.229999542236328,
+    "depth": 13.530000686645508,
+    "height": 8.739999264478683
+  },
+  "unfinished": [
+    "masonry surface design",
+    "roof construction detail",
+    "furnishings final review",
+    "door hinge mounting detail and runtime collision",
+    "fireplace",
+    "porch and planting",
+    "installed contact and scale proofs"
+  ]
+}

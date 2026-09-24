@@ -6,10 +6,9 @@
  * UI.useItem and handleClick and calls through to the originals for every
  * non-bread case, so the raw_perch cook path is never touched. `bread` already
  * lives in ITEMS (a heal item) — reused, never redefined. Mutates globals at
- * load; edits no other file. Self-boots via a setInterval guard.
+ * load and uses the shared BreadRecipe planner. Self-boots via a setInterval guard.
  */
 (function(){
-  const XP = 40;   // Cooking xp per loaf baked
 
   /* single-slot, non-stack items — modelled on raw_perch/bread's schema */
   const NEW_ITEMS = {
@@ -20,16 +19,17 @@
     bread_dough:  {name:'Bread dough',     stack:false, value:3, examine:'Kneaded and rested, ready for a hot range.'},
   };
 
-  /* COMBINE: flour + water + dough -> one bread dough. Removing three before
-     adding one always frees a slot, so no space check is needed. Forgiving:
-     no skill req, no failure. Returns true when it handled the click. */
+  /* Plan flour + water + dough -> bread dough before committing inventory.
+     No skill requirement or burn roll; failed plans preserve every slot. */
   function tryMakeDough(){
-    if(Player.count('bucket_flour')<1 || Player.count('bucket_water')<1 || Player.count('dough')<1){
-      UI.chat('To make bread dough you need a piece of dough, a bucket of flour and a bucket of water.','plain');
+    const conversion=BreadRecipe.plan(Player.inv,ITEMS,'mix');
+    if(!conversion.ok){
+      UI.chat(conversion.reason==='missing-ingredients'
+        ? 'To make bread dough you need a piece of dough, a bucket of flour and a bucket of water.'
+        : 'Your pack could not hold the recipe result. Your ingredients are unchanged.','plain');
       return false;
     }
-    Player.removeItem('bucket_flour',1); Player.removeItem('bucket_water',1); Player.removeItem('dough',1);
-    Player.addItem('bread_dough',1);
+    Player.inv=conversion.inventory; UI.refreshInv();
     Sfx.click();
     UI.chat('You mix the flour and water into the dough and knead a lump of bread dough.','plain');
     return true;
@@ -38,26 +38,42 @@
   /* RANGE-BAKE: walk to the range/fire, then bake once within the cook path's
      2.4-unit reach. A self-managed poll — no dependency on the game5 action
      loop — so the fish-cook tick stays exactly as it was. */
+  let pendingBake=null;
   function bakeAt(obj){
-    orderWalk(obj.position);
+    if(pendingBake!==null){clearInterval(pendingBake);pendingBake=null;}
+    const finite=p=>p&&['x','y','z'].every(k=>Number.isFinite(p[k]));
+    if(!obj||!finite(obj.position)){UI.chat('That oven is unavailable.','plain');return;}
+    const target=obj.position.clone?obj.position.clone():Object.assign({},obj.position);
+    const plane=Player.plane||0,provider=typeof CRWorldMode==='undefined'?null:CRWorldMode.providerId;
+    const deadline=Date.now()+30000;
+    orderWalk(target);
+    function stop(message){clearInterval(iv);if(pendingBake===iv)pendingBake=null;if(message)UI.chat(message,'plain');}
     const iv=setInterval(()=>{
+      if(pendingBake!==iv){clearInterval(iv);return;}
       try{
-        if(Player.usingItem!=='bread_dough' || Player.count('bread_dough')<1){ clearInterval(iv); return; }
-        if(typeof player==='undefined' || !player){ clearInterval(iv); return; }
-        if(Player.action){ clearInterval(iv); return; }               // player started something else — abort
-        if(player.position.distanceTo(obj.position)>2.4) return;       // still walking to the range
-        clearInterval(iv);
-        Player.removeItem('bread_dough',1);
-        Player.addItem('bread',1);
-        Player.addXp('Cooking', XP);
+        if(Player.usingItem!=='bread_dough'||Player.count('bread_dough')<1||Player.action){stop();return;}
+        if(typeof player==='undefined'||!player||!finite(player.position)||!finite(obj.position)){stop();return;}
+        if((Player.plane||0)!==plane||(typeof CRWorldMode==='undefined'?null:CRWorldMode.providerId)!==provider){stop();return;}
+        if(['x','y','z'].some(k=>Math.abs(obj.position[k]-target[k])>.0001)||(obj.userData&&Number.isFinite(obj.userData.ttl)&&obj.userData.ttl<=0)){stop();return;}
+        if(Date.now()>=deadline){stop('The bake was cancelled because the oven was not reached in time.');return;}
+        const distance=player.position.distanceTo(target);
+        if(!Number.isFinite(distance)){stop();return;}
+        if(distance>2.4){if(!Player.moveTo)stop('You cannot reach that oven from here.');return;}
+        stop();
+        const conversion=BreadRecipe.plan(Player.inv,ITEMS,'bake');
+        if(!conversion.ok){UI.chat('You could not bake that loaf. Your ingredients are unchanged.','plain');return;}
+        Player.inv=conversion.inventory;
+        Player.addXp('Cooking', conversion.baseXp);
         Player.usingItem=null; UI.refreshInv();
         UI.chat('You bake a loaf of bread.','plain');
-        Tutorial.notify('bake','bread');
-      } catch(e){ console.error('[cooking_bread]', e); clearInterval(iv); }
+        Tutorial.notify(conversion.event[0],conversion.event[1]);
+      } catch(e){ console.error('[cooking_bread]', e); stop(); }
     }, 200);
+    pendingBake=iv;
   }
 
   function boot(){
+    if(typeof BreadRecipe==='undefined')return false;
     if(typeof ITEMS==='undefined' || typeof UI==='undefined' || typeof Player==='undefined') return false;
     if(typeof UI.useItem!=='function' || typeof handleClick!=='function') return false;
     if(typeof orderWalk!=='function') return false;
@@ -99,7 +115,7 @@
       return _handleClick(obj, point);
     };
 
-    if(UI.chat) UI.chat('[COOK] The bread-making chain is lit: flour + water + dough, then a range.','sys');
+    console.info('[COOK] The bread-making chain is lit: flour + water + dough, then a range.');
     return true;
   }
 

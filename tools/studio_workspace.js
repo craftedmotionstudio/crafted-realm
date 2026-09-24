@@ -118,6 +118,8 @@ function validateDistrictBundle(value){
 function validateBytes(rel,bytes){
   if(!rel.toLowerCase().endsWith('.json'))return [];
   let value;try{value=JSON.parse(bytes.toString('utf8'));}catch(e){return ['invalid JSON: '+e.message];}
+  if(require('./studio_arrival_validation.js').handles(value))return require('./studio_arrival_validation.js').validateShape(value);
+  if(require('./studio_overhaul_terrain_validation.js').handles(value))return require('./studio_overhaul_terrain_validation.js').validate(value);
   if(value&&/^crafted-realm-world-v2-terrain-district-(authoring|bundle)-v1$/.test(value.schema))return require('./studio_terrain_validation.js').validate(value);
   if(value&&value.schema==='crafted-realm-world-v2-authoring-v1')return validateAuthoring(value);
   if(value&&value.schema==='crafted-realm-world-v2-building-bundle-v1')return validateBundle(value);
@@ -129,6 +131,13 @@ function validateWorkspaceSet(workspace,m){
   const json={};m.targets.filter(t=>t.path.toLowerCase().endsWith('.json')).forEach(t=>{
     const file=inside(path.join(workspace,'working'),t.path);if(fs.existsSync(file))json[t.path]=readJson(file);
   });
+  const overhaulErrors=require('./studio_overhaul_terrain_validation.js').validateSet(json);
+  if(overhaulErrors.length)throw new Error(overhaulErrors.join('; '));
+  const arrivalValidator=require('./studio_arrival_validation.js');
+  for(const [rel,value] of Object.entries(json))if(arrivalValidator.handles(value)){
+    const errors=arrivalValidator.validate(value,p=>readBytes(inside(path.join(workspace,'working'),p)),m.targets.map(t=>t.path));
+    if(errors.length)throw new Error(rel+': '+errors.join('; '));
+  }
   Object.entries(json).forEach(([rel,value])=>{
     if(!value||!/^crafted-realm-world-v2-terrain-district-(authoring|bundle)-v1$/.test(value.schema))return;
     const isSource=value.schema.endsWith('authoring-v1');
@@ -228,6 +237,24 @@ function plan(repoRoot,id,exportId){
     if(liveHash!==f.baseHash)errors.push('live file changed since workspace snapshot');
     return Object.assign({},f,{liveHash,ok:errors.length===0,errors});
   });
+  // Validate the actual proposed installation, including unchanged live partners.
+  // An old export must not bypass newly added terrain validation.
+  const proposed={};
+  m.targets.filter(t=>t.path.toLowerCase().endsWith('.json')).forEach(t=>{
+    const changed=files.some(f=>f.path===t.path);
+    const file=changed?inside(path.join(workspace,'exports',exp,'files'),t.path):inside(root,t.path);
+    if(fs.existsSync(file)){try{proposed[t.path]=readJson(file)}catch(e){files.forEach(f=>{f.ok=false;f.errors.push(t.path+': invalid proposed JSON')})}}
+  });
+  const overhaulErrors=require('./studio_overhaul_terrain_validation.js').validateSet(proposed);
+  if(overhaulErrors.length)files.forEach(f=>{f.ok=false;f.errors.push(...overhaulErrors)});
+  const arrivalValidator=require('./studio_arrival_validation.js');
+  for(const [rel,value] of Object.entries(proposed))if(arrivalValidator.handles(value)){
+    const errors=arrivalValidator.validate(value,p=>{
+      const base=files.some(f=>f.path===p)?path.join(workspace,'exports',exp,'files'):root;
+      return readBytes(inside(base,p));
+    },m.targets.map(t=>t.path));
+    if(errors.length)files.forEach(f=>{f.ok=false;f.errors.push(...errors.map(e=>rel+': '+e))});
+  }
   return {ok:files.every(f=>f.ok),noChanges:false,workspace,exportId:exp,files};
 }
 function withLock(repoRoot,fn){

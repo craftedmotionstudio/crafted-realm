@@ -1,0 +1,10 @@
+{
+ "name": "holm teaching kitchen v2 interior",
+ "osrs": "Bible_References/Tutorial_Island_Building.jpg",
+ "cr": "scratchpad/teaching_kitchen_v2/holm_teaching_kitchen_interior_ingame.png",
+ "codex": 9,
+ "review_note": "With the roof off the bakehouse reads as a second occupation cluster: herb and onion strings from the beams, loaves on the bread rack, flour dust on the kneading table, a bread peel at the range; the range flame and the pantry line (bin, trough, butt, buckets) keep the bake lesson readable left to right.",
+ "verdict": "meets the 9.0 gate - owner eyes-on still required",
+ "improve": "The pantry corner is still bare wall above the buckets; the strings are small at the elevated camera.",
+ "out": "Bible_References/Complete/_compare/holm_teaching_kitchen_v2_interior_compare.png"
+}

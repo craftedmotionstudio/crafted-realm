@@ -1,5 +1,5 @@
 {
-  "profile": "fable-bank-qa-mtu8qmqc",
+  "profile": "fable-bank-qa-mtvigshe",
   "passed": 12,
   "total": 12,
   "checks": [
@@ -82,7 +82,7 @@
       "detail": {
         "open": true,
         "pos": [
-          159.3,
+          159.5,
           114.5
         ]
       }

@@ -40,7 +40,8 @@ var WorkyardFishingU5=(function(){
     out.effects.forEach(function(effect){
       if(effect.type==='reward'){
         if(Player.addItem(effect.id,effect.qty||1)){
-          Player.addXp(effect.skill,effect.xp);lastReward=effect.opId;
+          var skillName=String(effect.skill||'Fishing');skillName=skillName.charAt(0).toUpperCase()+skillName.slice(1);
+          Player.addXp(skillName,effect.xp);lastReward=effect.opId;
           if(typeof Tutorial!=='undefined'&&Tutorial.notify)Tutorial.notify('gather','raw_perch');
           if(typeof Events!=='undefined'&&Events.emit)Events.emit('gather',{id:'raw_perch',qty:1,source:'workyard_fishing_edge_u5'});
           if(typeof UI!=='undefined'&&UI.refreshInv)UI.refreshInv();
@@ -74,7 +75,7 @@ var WorkyardFishingU5=(function(){
     var socket=find('fishing_operator_socket');if(!socket){message('The fishing approach is not ready.');return;}
     var target=socket.getWorldPosition(new THREE.Vector3());Player.action=null;Player.target=null;
     if(Math.hypot(player.position.x-target.x,player.position.z-target.z)<=1.15)begin();
-    else Sched.walkThen(target,1.15,begin,'strong');
+    else{message('You head for the fishing spot, net in hand.');Sched.walkThen(target,1.15,begin,'strong');}
   }
   function interrupt(silent){
     if(txSave.active)txSave=u5Advance(txSave,'INTERRUPT',inventoryView()).save;

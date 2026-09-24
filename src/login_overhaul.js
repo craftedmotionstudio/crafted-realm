@@ -4,10 +4,12 @@
   const $=id=>document.getElementById(id);
   const stages=['login-choose','login-create','login-play','login-confirm-new','login-options'];
   let current='login-choose';
+  let resetNeedsReload=false;
 
   function clickSound(){ try{ if(typeof Sfx!=='undefined'&&Sfx.click) Sfx.click(); }catch(e){} }
   function hasSave(){ try{ return typeof SaveGame!=='undefined'&&SaveGame.exists(); }catch(e){ return false; } }
   function setStage(id,focusId){
+    if(resetNeedsReload&&id!=='login-confirm-new') return;
     stages.forEach(stage=>{ const el=$(stage); if(el) el.style.display=stage===id?'block':'none'; });
     current=id;
     window.setTimeout(()=>{ const f=$(focusId)||(id==='login-choose'?$('btn-continue'):null); if(f&&!f.disabled) f.focus(); },0);
@@ -61,7 +63,22 @@
     makeEmbers(); applyPreferences(); refreshSaveState();
 
     if($('btn-new')) $('btn-new').onclick=()=>{ clickSound(); if(hasSave()) setStage('login-confirm-new','btn-cancel-new'); else setStage('login-create','char-name'); };
-    if($('btn-confirm-new')) $('btn-confirm-new').onclick=()=>{ clickSound(); SaveGame.reset(); refreshSaveState(); setStage('login-create','char-name'); };
+    if($('btn-confirm-new')) $('btn-confirm-new').onclick=()=>{
+      clickSound();
+      const result=typeof NewAdventurerReset!=='undefined'?NewAdventurerReset.reset():
+        {ok:false,message:'The reset service is unavailable. Reload the welcome screen and try again.'};
+      if(!result.ok){
+        let note=$('login-reset-note');
+        if(!note){ note=document.createElement('p'); note.id='login-reset-note';
+          note.setAttribute('role','alert'); $('login-confirm-new').appendChild(note); }
+        note.textContent=result.message;
+        if(result.saveDeleted!==false){
+          resetNeedsReload=true;
+          $('btn-cancel-new').disabled=true;
+          $('btn-confirm-new').textContent='Retry reload';
+        }
+      }
+    };
     if($('btn-cancel-new')) $('btn-cancel-new').onclick=()=>{ clickSound(); setStage('login-choose','btn-new'); };
     if($('btn-create-back')) $('btn-create-back').onclick=()=>{ clickSound(); setStage('login-choose',hasSave()?'btn-continue':'btn-new'); };
     if($('btn-play-back')) $('btn-play-back').onclick=()=>{ clickSound(); refreshSaveState(); setStage('login-choose',hasSave()?'btn-continue':'btn-new'); };

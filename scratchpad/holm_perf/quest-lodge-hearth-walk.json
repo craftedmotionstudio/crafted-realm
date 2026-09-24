@@ -1,0 +1,92 @@
+[
+  {
+    "level": "info",
+    "message": "[KEEP_NAVIGATION] 251 measured stances, 804 directed cardinal edges",
+    "timestamp": "2026-09-13T16:15:07.590Z",
+    "url": "http://127.0.0.1:8777/src/holm_keep_navigation.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] ready 251 Array(5)",
+    "timestamp": "2026-09-13T16:15:07.590Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 0:4:0 outer approach",
+    "timestamp": "2026-09-13T16:15:07.590Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_DOOR_STUDIO] closing 0:4:0 Closing the lodge door.",
+    "timestamp": "2026-09-13T16:15:07.590Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_DOOR_STUDIO] closed 0:4:0",
+    "timestamp": "2026-09-13T16:15:07.590Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_DOOR_STUDIO] open 0:4:0",
+    "timestamp": "2026-09-13T16:15:07.590Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_DOOR_STUDIO] refused -1:1:0 Finish walking before operating the door.",
+    "timestamp": "2026-09-13T16:15:07.590Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached -4:2:1 Quest board",
+    "timestamp": "2026-09-13T16:15:07.590Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 0:1:0 Lodge entrance",
+    "timestamp": "2026-09-13T16:15:07.590Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_DOOR_STUDIO] refused 0:1:0 Stand clear of the doorway before operating the door. Walk to the map table or outer approach.",
+    "timestamp": "2026-09-13T16:15:07.590Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=2"
+  },
+  {
+    "level": "info",
+    "message": "[KEEP_NAVIGATION] 251 measured stances, 804 directed cardinal edges",
+    "timestamp": "2026-09-13T16:15:07.712Z",
+    "url": "http://127.0.0.1:8777/src/holm_keep_navigation.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_HEARTH] measured Blender fire loaded 204 Array(8)",
+    "timestamp": "2026-09-13T16:15:07.815Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_hearth.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] ready 251 Array(5)",
+    "timestamp": "2026-09-13T16:15:07.828Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=3"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 2:1:0 Map table",
+    "timestamp": "2026-09-13T16:15:26.840Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=3"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 4:-2:0 Reading bay",
+    "timestamp": "2026-09-13T16:15:49.258Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=3"
+  }
+]

@@ -1,0 +1,2055 @@
+{
+  "profile": "explorer-mtvy8e29",
+  "port": 8778,
+  "seconds": 1118.5,
+  "bootMs": 6725,
+  "summary": "explorer (in progress)",
+  "end": {
+    "objective": "Chop a marked tree in Survival Wood for logs.",
+    "objectiveVisible": true,
+    "stepId": "chop_logs",
+    "step": 2,
+    "tutorialComplete": false,
+    "zone": "Tutor's Holm",
+    "pos": [
+      128.5,
+      158.5
+    ],
+    "plane": 0,
+    "hp": 10,
+    "energy": 100,
+    "running": true,
+    "moving": false,
+    "pack": [
+      "coins x55",
+      "tinderbox",
+      "fishing_net"
+    ],
+    "weapon": "hatchet",
+    "usingItem": "fishing_net",
+    "arrow": {
+      "label": "Chop tree",
+      "target": [
+        126,
+        158
+      ],
+      "edgeArrowVisible": false
+    },
+    "chat": [
+      "[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.",
+      "Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net.",
+      "You wield the Bronze hatchet.",
+      "Use it on some logs to light a fire.",
+      "[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.",
+      "Use it on some logs to light a fire.",
+      "You take out the small net. Now click a fishing spot to use it.",
+      "Use it on some logs to light a fire."
+    ],
+    "dialogue": null,
+    "ctxOpen": false,
+    "provider": "tutors-holm-v2",
+    "nearby": [
+      {
+        "kind": "resource",
+        "label": "Chop down Marked tree",
+        "name": "holm-marked-tree-2",
+        "tile": [
+          131,
+          161
+        ],
+        "dist": 3.5,
+        "onScreen": true,
+        "screen": [
+          34,
+          807
+        ]
+      },
+      {
+        "kind": "resource",
+        "label": "Chop down Marked tree",
+        "name": "holm-marked-tree-1",
+        "tile": [
+          124,
+          161
+        ],
+        "dist": 5.1,
+        "onScreen": true,
+        "screen": [
+          752,
+          23
+        ]
+      },
+      {
+        "kind": "resource",
+        "label": "Chop down Marked tree",
+        "name": "holm-marked-tree-3",
+        "tile": [
+          126,
+          164
+        ],
+        "dist": 6,
+        "onScreen": true,
+        "screen": [
+          234,
+          67
+        ]
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Sawbuck",
+        "name": "building-part-sawbuck",
+        "tile": [
+          120,
+          155
+        ],
+        "dist": 8.4,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "holm_net_rack",
+        "label": "Fishing-preparation stand",
+        "name": "building-part-net_rack",
+        "tile": [
+          121,
+          153
+        ],
+        "dist": 8.9,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "holm_fishing_edge",
+        "label": "Net-fish Mirrorperch",
+        "name": "fishing_water_patch",
+        "tile": [
+          131,
+          150
+        ],
+        "dist": 9,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "door",
+        "label": "Open Pond door",
+        "name": "building-part-pond_door",
+        "tile": [
+          124,
+          149
+        ],
+        "dist": 9.6,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Woven stool",
+        "name": "building-part-workyard_hearth_stool_woven",
+        "tile": [
+          122,
+          150
+        ],
+        "dist": 10,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Stacked logs",
+        "name": "building-part-log_stack",
+        "tile": [
+          118,
+          155
+        ],
+        "dist": 10.6,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Timber rack",
+        "name": "building-part-timber_log_rack",
+        "tile": [
+          118,
+          155
+        ],
+        "dist": 10.6,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "holm_waterworks_pulley",
+        "label": "Operate Water pulley",
+        "name": "pulley_crank",
+        "tile": [
+          130,
+          148
+        ],
+        "dist": 10.6,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Kindling table",
+        "name": "building-part-workyard_lesson_table",
+        "tile": [
+          120,
+          150
+        ],
+        "dist": 11.1,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Split-top stool",
+        "name": "building-part-workyard_hearth_stool_splitter",
+        "tile": [
+          119,
+          150
+        ],
+        "dist": 11.9,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Hearth rug",
+        "name": "building-part-workyard_hearth_rug",
+        "tile": [
+          121,
+          148
+        ],
+        "dist": 12.3,
+        "onScreen": false,
+        "screen": null
+      }
+    ],
+    "camera": {
+      "yaw": 2.05,
+      "pitch": 1.35,
+      "dist": 7
+    },
+    "t": 1118.5
+  },
+  "findings": [
+    {
+      "id": "P-01",
+      "t": 288.6,
+      "severity": "high",
+      "where": "Mine Gatehouse winch (124,119)",
+      "observation": "Climb-down worked before any lesson; I am in the cavern with no pickaxe",
+      "expectation": "The shaft should be locked until the survival lessons, or the game should say why",
+      "screenshot": "054-finding-1.png"
+    },
+    {
+      "id": "P-02",
+      "t": 522.4,
+      "severity": "medium",
+      "where": "Survival Wood fire",
+      "observation": "The fire had burnt out by the time I came back from the pond with a fish; objective says \"light another if it has burnt out\"",
+      "expectation": "One fire should last long enough for one cast at the pond 8 tiles away",
+      "screenshot": "084-finding-2.png"
+    },
+    {
+      "id": "P-03",
+      "t": 1024.7,
+      "severity": "medium",
+      "where": "Survival Wood fire",
+      "observation": "The fire had burnt out by the time I came back from the pond with a fish; objective says \"light another if it has burnt out\"",
+      "expectation": "One fire should last long enough for one cast at the pond 8 tiles away",
+      "screenshot": "142-finding-3.png"
+    }
+  ],
+  "errors": [
+    {
+      "t": 2.8,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "t": 7.6,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "log": [
+    {
+      "t": 9.3,
+      "action": "login",
+      "detail": {
+        "bootMs": 6725,
+        "keptDefaultLook": true
+      }
+    },
+    {
+      "t": 55.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Arrival door/i.test(String(d.userData.label||'')))",
+        "at": [
+          769,
+          133
+        ]
+      }
+    },
+    {
+      "t": 59.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          162.5
+        ],
+        "at": [
+          151.5,
+          162.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 66.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          146.5
+        ],
+        "at": [
+          151.5,
+          146.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 69.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Teaching door/i.test(String(d.userData.label||'')))",
+        "at": [
+          769,
+          3
+        ]
+      }
+    },
+    {
+      "t": 72.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          141.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 75.7,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          162.5,
+          141.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 79.1,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          175.5,
+          140.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 82.5,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          186.5,
+          137.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 86.1,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          193.5,
+          130.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 95.9,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          186.5,
+          135.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 101.8,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          189.5,
+          136.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 106.2,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          191.5,
+          141.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 109.6,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          193.5,
+          150.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 141.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          205.5,
+          151.5
+        ],
+        "at": [
+          205.5,
+          151.5
+        ],
+        "legs": 4,
+        "reached": true
+      }
+    },
+    {
+      "t": 143.4,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "at": [
+          769,
+          237
+        ]
+      }
+    },
+    {
+      "t": 145.7,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "at": [
+          769,
+          237
+        ]
+      }
+    },
+    {
+      "t": 148.5,
+      "action": "dialogue",
+      "detail": {
+        "text": "Back to my lesson."
+      }
+    },
+    {
+      "t": 152.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          196.5,
+          150.5
+        ],
+        "at": [
+          196.5,
+          150.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 154.1,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "at": [
+          769,
+          144
+        ]
+      }
+    },
+    {
+      "t": 157.9,
+      "action": "dialogue",
+      "detail": {
+        "text": "Back to my lesson."
+      }
+    },
+    {
+      "t": 162.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          191.5,
+          141.5
+        ],
+        "at": [
+          191.5,
+          141.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 167.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          184.5,
+          135.5
+        ],
+        "at": [
+          184.5,
+          134.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 170.1,
+      "action": "walk",
+      "detail": {
+        "target": [
+          184.5,
+          128.5
+        ],
+        "at": [
+          184.5,
+          128.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 188.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          176.5,
+          118.5
+        ],
+        "at": [
+          176.5,
+          117.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 193,
+      "action": "walk",
+      "detail": {
+        "target": [
+          171,
+          121.2
+        ],
+        "at": [
+          171.5,
+          121.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 194.7,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Arms rack|rack/i",
+        "loc": {
+          "centre": [
+            169.9,
+            113.7
+          ],
+          "screen": [
+            769,
+            -168
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 200.4,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Warden|roll/i.te",
+        "loc": {
+          "centre": [
+            166.3,
+            116.5
+          ],
+          "screen": [
+            769,
+            -195
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 206.2,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Archery/i.test(S",
+        "at": [
+          769,
+          34
+        ]
+      }
+    },
+    {
+      "t": 206.8,
+      "action": "choose-row",
+      "detail": {
+        "text": "Examine"
+      }
+    },
+    {
+      "t": 209.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Archery/i.test(S",
+        "at": [
+          1255,
+          91
+        ]
+      }
+    },
+    {
+      "t": 215.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          169.5,
+          125.5
+        ],
+        "at": [
+          169.5,
+          125.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 220.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          163,
+          118.5
+        ],
+        "at": [
+          162.5,
+          118.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 223.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          154,
+          117.5
+        ],
+        "at": [
+          154.5,
+          117.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 225.6,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/plaque/i.test(St",
+        "at": [
+          769,
+          145
+        ]
+      }
+    },
+    {
+      "t": 228,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/plaque/i.test(St",
+        "at": [
+          769,
+          306
+        ]
+      }
+    },
+    {
+      "t": 230.4,
+      "action": "dialogue",
+      "detail": {
+        "text": "Twenty-five crowns."
+      }
+    },
+    {
+      "t": 232.7,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/ledger/i.test(St",
+        "at": [
+          769,
+          98
+        ]
+      }
+    },
+    {
+      "t": 235,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/ledger/i.test(St",
+        "at": [
+          167,
+          42
+        ]
+      }
+    },
+    {
+      "t": 239.1,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/holm_bank_booth|bank/.test(String(o.userDa",
+        "at": [
+          258,
+          21
+        ]
+      }
+    },
+    {
+      "t": 241.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/holm_bank_booth|bank/.test(String(o.userDa",
+        "at": [
+          1445,
+          94
+        ]
+      }
+    },
+    {
+      "t": 245.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          157.5,
+          121.5
+        ],
+        "at": [
+          157.5,
+          121.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 248.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          157.5,
+          124.5
+        ],
+        "at": [
+          157.5,
+          124.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 252.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          145.5,
+          126.5
+        ],
+        "at": [
+          145.5,
+          126.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 257.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          133.5,
+          121.5
+        ],
+        "at": [
+          133.5,
+          121.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 262,
+      "action": "walk",
+      "detail": {
+        "target": [
+          124.5,
+          124.5
+        ],
+        "at": [
+          124.5,
+          124.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 263.9,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Gate stone/i.tes",
+        "at": [
+          769,
+          133
+        ]
+      }
+    },
+    {
+      "t": 266.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Gate stone/i.tes",
+        "at": [
+          432,
+          363
+        ]
+      }
+    },
+    {
+      "t": 268.8,
+      "action": "dialogue",
+      "detail": {
+        "text": "Teach the ore."
+      }
+    },
+    {
+      "t": 272.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          124.5,
+          119.5
+        ],
+        "legs": 1
+      }
+    },
+    {
+      "t": 274.4,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/tally/i.test(Str",
+        "loc": {
+          "centre": [
+            129.5,
+            115.4
+          ],
+          "screen": [
+            769,
+            -158
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 280.2,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_shaft_frame')",
+        "at": [
+          769,
+          259
+        ]
+      }
+    },
+    {
+      "t": 282.5,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_shaft_frame')",
+        "at": [
+          769,
+          415
+        ]
+      }
+    },
+    {
+      "t": 282.9,
+      "action": "choose-row",
+      "detail": {
+        "text": "Climb"
+      }
+    },
+    {
+      "t": 289.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          322,
+          354
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 313.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          169.5,
+          125.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 314,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          145.5,
+          126.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 314.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          133.5,
+          121.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 315.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          133,
+          120.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 316.1,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          126.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 316.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          137.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 317.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          146.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 317.8,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Net-fish/i.test(",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 321.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          121,
+          150
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 322.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          112,
+          152
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 324,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Firemaking|board",
+        "loc": {
+          "centre": [
+            331.1,
+            297.4
+          ],
+          "screen": [
+            769,
+            -972
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 329.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/hearth|fireplace",
+        "loc": {
+          "centre": [
+            333.3,
+            303.8
+          ],
+          "screen": [
+            769,
+            -936
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 334.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          121,
+          150
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 335.2,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          158.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 337,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "loc": {
+          "centre": [
+            124.1,
+            160.8
+          ],
+          "screen": [
+            769,
+            -1255
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 342.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          138.5,
+          170.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 343.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          146.5,
+          170.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 344,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          151.5,
+          168.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 345.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 361.8,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "hatchet"
+      }
+    },
+    {
+      "t": 372.3,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 374.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          151.5,
+          168.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 375.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          146.5,
+          170.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 376,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          138.5,
+          170.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 376.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          160.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 440,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 440,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "logs"
+      }
+    },
+    {
+      "t": 462,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          131.5,
+          152.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 462,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "fishing_net"
+      }
+    },
+    {
+      "t": 523.2,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          158.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 584.7,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 584.7,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "logs"
+      }
+    },
+    {
+      "t": 587.7,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "raw_perch"
+      }
+    },
+    {
+      "t": 618.9,
+      "action": "choose-row",
+      "detail": {
+        "text": "Walk here"
+      }
+    },
+    {
+      "t": 622.9,
+      "action": "choose-row",
+      "detail": {
+        "text": "Walk here"
+      }
+    },
+    {
+      "t": 624.9,
+      "action": "choose-row",
+      "detail": {
+        "text": "Walk here"
+      }
+    },
+    {
+      "t": 625.4,
+      "action": "cave-walk",
+      "detail": {
+        "target": [
+          300,
+          356
+        ],
+        "at": [
+          299.5,
+          355.5
+        ],
+        "legs": 3,
+        "reached": true
+      }
+    },
+    {
+      "t": 626.5,
+      "action": "choose-row",
+      "detail": {
+        "text": "Walk here"
+      }
+    },
+    {
+      "t": 629.2,
+      "action": "cave-walk",
+      "detail": {
+        "target": [
+          312,
+          355
+        ],
+        "at": [
+          311.5,
+          355.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 630.3,
+      "action": "choose-row",
+      "detail": {
+        "text": "Walk here"
+      }
+    },
+    {
+      "t": 634.2,
+      "action": "choose-row",
+      "detail": {
+        "text": "Walk here"
+      }
+    },
+    {
+      "t": 636.1,
+      "action": "choose-row",
+      "detail": {
+        "text": "Walk here"
+      }
+    },
+    {
+      "t": 638,
+      "action": "choose-row",
+      "detail": {
+        "text": "Walk here"
+      }
+    },
+    {
+      "t": 640,
+      "action": "choose-row",
+      "detail": {
+        "text": "Walk here"
+      }
+    },
+    {
+      "t": 641.9,
+      "action": "choose-row",
+      "detail": {
+        "text": "Walk here"
+      }
+    },
+    {
+      "t": 642.7,
+      "action": "cave-walk",
+      "detail": {
+        "target": [
+          320.5,
+          354.5
+        ],
+        "at": [
+          318.5,
+          354.5
+        ],
+        "legs": 6,
+        "reached": false
+      }
+    },
+    {
+      "t": 646.1,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='climb'&&/Cavern exit/.te",
+        "at": [
+          769,
+          7
+        ]
+      }
+    },
+    {
+      "t": 653.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          169.5,
+          125.5
+        ],
+        "at": [
+          169.5,
+          125.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 661.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          145.5,
+          126.5
+        ],
+        "at": [
+          145.5,
+          126.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 666.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          133.5,
+          121.5
+        ],
+        "at": [
+          133.5,
+          121.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 669.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          128.5,
+          126.5
+        ],
+        "at": [
+          128.5,
+          126.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 673.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          128.5,
+          137.5
+        ],
+        "at": [
+          128.5,
+          137.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 676.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          128.5,
+          146.5
+        ],
+        "at": [
+          128.5,
+          146.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 678.5,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Water pulley/i.t",
+        "at": [
+          769,
+          96
+        ]
+      }
+    },
+    {
+      "t": 680.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Water pulley/i.t",
+        "at": [
+          746,
+          224
+        ]
+      }
+    },
+    {
+      "t": 685,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Net-fish/i.test(",
+        "at": [
+          769,
+          187
+        ]
+      }
+    },
+    {
+      "t": 687.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Net-fish/i.test(",
+        "at": [
+          769,
+          187
+        ]
+      }
+    },
+    {
+      "t": 701.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          121,
+          150
+        ],
+        "at": [
+          120.5,
+          150.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 708.3,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          112,
+          152
+        ],
+        "at": [
+          111.5,
+          153.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 710.1,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Net rack|net/i.t",
+        "loc": {
+          "centre": [
+            133.5,
+            150.3
+          ],
+          "screen": [
+            769,
+            -496
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 715.7,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Survival tools|t",
+        "loc": {
+          "centre": [
+            119.6,
+            150.7
+          ],
+          "screen": [
+            769,
+            -108
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 721.3,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Firemaking|board",
+        "loc": {
+          "centre": [
+            331.1,
+            297.4
+          ],
+          "screen": [
+            769,
+            -1080
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 727,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/hearth|fireplace",
+        "loc": {
+          "centre": [
+            333.2,
+            303.8
+          ],
+          "screen": [
+            769,
+            -1077
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 736.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          121,
+          150
+        ],
+        "at": [
+          120.5,
+          150.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 745,
+      "action": "walk",
+      "detail": {
+        "target": [
+          128.5,
+          158.5
+        ],
+        "at": [
+          128.5,
+          158.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 747,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "at": [
+          769,
+          4
+        ]
+      }
+    },
+    {
+      "t": 747.7,
+      "action": "choose-row",
+      "detail": {
+        "text": "Examine"
+      }
+    },
+    {
+      "t": 750.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "at": [
+          769,
+          235
+        ]
+      }
+    },
+    {
+      "t": 760.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          138.5,
+          170.5
+        ],
+        "at": [
+          138.5,
+          170.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 763.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          146.5,
+          170.5
+        ],
+        "at": [
+          146.5,
+          170.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 766.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          168.5
+        ],
+        "at": [
+          151.5,
+          168.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 768.1,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Arrival door/i.test(String(d.userData.label||'')))",
+        "at": [
+          769,
+          167
+        ]
+      }
+    },
+    {
+      "t": 772.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "at": [
+          151.5,
+          158.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 773.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "at": [
+          769,
+          134
+        ]
+      }
+    },
+    {
+      "t": 775.7,
+      "action": "dialogue",
+      "detail": {
+        "text": "Trace the route with one finger."
+      }
+    },
+    {
+      "t": 776.4,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "hatchet"
+      }
+    },
+    {
+      "t": 777.1,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 779,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "at": [
+          769,
+          215
+        ]
+      }
+    },
+    {
+      "t": 780.5,
+      "action": "dialogue",
+      "detail": {
+        "text": "Trace the route with one finger."
+      }
+    },
+    {
+      "t": 784.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          168.5
+        ],
+        "at": [
+          151.5,
+          168.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 787.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          146.5,
+          170.5
+        ],
+        "at": [
+          146.5,
+          170.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 790.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          138.5,
+          170.5
+        ],
+        "at": [
+          138.5,
+          170.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 796.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          160.5
+        ],
+        "legs": 1
+      }
+    },
+    {
+      "t": 861.1,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 861.3,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "logs"
+      }
+    },
+    {
+      "t": 962.6,
+      "action": "walk",
+      "detail": {
+        "target": [
+          131.5,
+          152.5
+        ],
+        "at": [
+          131.5,
+          156.5
+        ],
+        "legs": 8,
+        "reached": false
+      }
+    },
+    {
+      "t": 962.7,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "fishing_net"
+      }
+    },
+    {
+      "t": 1026.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          128.5,
+          158.5
+        ],
+        "at": [
+          128.5,
+          158.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 1090,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 1090.2,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "logs"
+      }
+    },
+    {
+      "t": 1093.3,
+      "action": "pack-missing",
+      "detail": {
+        "itemId": "raw_perch"
+      }
+    }
+  ],
+  "lessons": [
+    {
+      "t": 775.5,
+      "from": 0,
+      "to": 1,
+      "id": "equip_hatchet"
+    },
+    {
+      "t": 777.1,
+      "from": 1,
+      "to": 2,
+      "id": "chop_logs"
+    }
+  ]
+}

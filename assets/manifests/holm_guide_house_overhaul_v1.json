@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "assetId": "holm_guide_house_overhaul_v1",
+  "assetClass": "building",
+  "unitsPerTile": 1,
+  "builder": "tools/blender/build_holm_guide_house_overhaul_v1.py",
+  "source": ".studio-workspaces/holm-guide-house-overhaul-v1/candidates/holm_guide_house_overhaul_v1.blend",
+  "model": ".studio-workspaces/holm-guide-house-overhaul-v1/candidates/holm_guide_house_overhaul_v1.glb",
+  "authoringReport": "scratchpad/holm_guide_house_overhaul_v1/asset_report.json",
+  "pipelineResult": "scratchpad/holm_guide_house_overhaul_v1/pipeline_result.json",
+  "previews": [
+    "scratchpad/holm_guide_house_overhaul_v1/scale.png",
+    "scratchpad/holm_guide_house_overhaul_v1/shaded.png",
+    "scratchpad/holm_guide_house_overhaul_v1/clay.png",
+    "scratchpad/holm_guide_house_overhaul_v1/wireframe.png",
+    "scratchpad/holm_guide_house_overhaul_v1/gameplay.png"
+  ],
+  "requiredNodes": [
+    "GuideHouse",
+    "GroundShell",
+    "UpperShell",
+    "Roof",
+    "GroundFloor",
+    "UpperFloor",
+    "StairFlight",
+    "DoorNorthHinge",
+    "DoorSouthHinge",
+    "DoorNorthLeaf",
+    "DoorSouthLeaf"
+  ],
+  "requiredAnimations": [
+    "DoorNorthOpen",
+    "DoorSouthOpen",
+    "HearthFlicker0",
+    "HearthFlicker1",
+    "HearthFlicker2"
+  ],
+  "budgets": {
+    "maxFileBytes": 4000000,
+    "maxTriangles": 30000,
+    "maxPrimitives": 60,
+    "maxMaterials": 24
+  },
+  "scaleContract": {
+    "referenceHeightTiles": 1.9,
+    "checks": [
+      {
+        "label": "width",
+        "reportPath": "dimensionsTiles.width",
+        "min": 12,
+        "max": 13.5
+      },
+      {
+        "label": "overall depth including south porch",
+        "reportPath": "dimensionsTiles.depth",
+        "min": 13.3,
+        "max": 13.7
+      },
+      {
+        "label": "height",
+        "reportPath": "dimensionsTiles.height",
+        "min": 7,
+        "max": 9
+      },
+      {
+        "label": "door width",
+        "reportPath": "humanScaleContract.doorWidth",
+        "min": 1.6,
+        "max": 1.7
+      },
+      {
+        "label": "door height",
+        "reportPath": "humanScaleContract.doorHeight",
+        "min": 2.3,
+        "max": 2.4
+      },
+      {
+        "label": "upper floor",
+        "reportPath": "humanScaleContract.upperFloorY",
+        "min": 2.8,
+        "max": 2.8
+      }
+    ]
+  }
+}

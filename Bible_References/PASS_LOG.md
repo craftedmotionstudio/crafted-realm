@@ -3607,3 +3607,169 @@ length (slight medium-length read in 3/4).
 - Open owner decisions recorded explicitly: fully-designed art acceptance for the grayboxes; modelled-NPC
   authorization for tutors and the three kill trials (sockets authored); optional Studio workspaces for the new
   buildings. Nothing committed; the owner commits.
+
+# 2026-09-10 - Tutor's Holm Phase 2 opened; human-pace play review (P2-A) banked
+
+- Owner restated the goal: the island must be played, improved, optimized and redesigned. Phase 2 (17 items in four
+  groups) added to `docs/rebuild/TUTORS_HOLM_COMPLETION_GOAL.md`; the loop resumed.
+- P2-A play review: whole route in the visible pane with real pointer input, 23.3 min incl. the boat, 13/13 lessons,
+  35 friction entries with severities (`docs/rebuild/TUTORS_HOLM_PLAY_REVIEW_2026-09-10.md`).
+- CRITICAL FIX found by play: click-to-walk was dead on the whole Holm surface — `pick()` accepted only a mesh named
+  `ground`, while world-v2 terrain chunks are `ground-chunk-<id>`; only doors/objects and the cavern floor reacted.
+  `isGroundName` now covers pick, hover label, hover tile and handleClick; lock added to `tools/test_world_v2.js`.
+- Headline findings for P2-B/P2-D: invisible cavern exit ladder and Lastlight lever proxies; the teaching fire burns
+  out before the fish is back; Climb-down is a secondary menu row; the Guide Hall exit door hides behind the register
+  dais; the cavern arrow points at the surface bank; the tin offshoot floor is undrawn; HUD chips swallow world
+  clicks in narrow viewports; the side panel is off-screen under ~1100 px.
+
+# 2026-09-10 - Route pacing audit (P2-A) and Holm run-energy pacing
+
+- `tools/audit_holm_route_pacing.js` walks every required leg between authored station tiles: 543 tiles, 160 s of
+  bot-pace walking before, 123 s after; the only leg over 45 s (bank -> Lastlight, 121 tiles, 48.9 s) was walked
+  on an empty energy bar (2% by the bank).
+- Pacing change: while the Holm provider is active, run energy drains at a quarter rate and regenerates three
+  times faster (`src/game3_systems.js` tickVitals; mainland untouched); lock in `tools/test_world_v2.js`. After:
+  longest leg 27.9 s, energy never below 67%. Table banked in §9 of the play review.
+
+# 2026-09-10 - Camera-terrain collision (P2-B)
+
+- `cameraTerrainClamp` in `src/game5_main.js`: the boom from the look target to the desired camera is sampled
+  (12 steps) against `groundY` with 1.1 clearance and against `WORLD.cameraBlockers` cylinders; on a hit the boom
+  shortens to the last clear sample and lifts to clearance. Surface plane only. Lastlight registers a blocker
+  (footprint radius + 1, top baseY + 16) on init and removes it on dispose.
+- Pane verification: Combat Hall facing east — camera 2.9 tiles above the slope (was inside the hill); Mage Tower
+  facing north — camera 12 tiles from the lighthouse centre, outside it (was inside the masonry). Locks green;
+  smoke PASS.
+
+# 2026-09-10 - Walk-order feedback (P2-B)
+
+- `src/game4_ui.js`: `nearestWalkableTile` (spiral to radius 3) makes `snapWalkTarget` return the nearest walkable
+  tile for a blocked click; `noWalkMessage` dedupes "You cannot walk there." to once per 2.5 s; `announceWalkOrder`
+  prints one honest line when a fresh in-radius order's plan ends more than three tiles short. Both the ground
+  click path in `handleClick` and `minimapWalkTo` use them. Lock in `tools/test_world_v2.js`; smoke PASS 104/104.
+- Pane checks: three rapid water clicks produced one line; a click on the Mage Tower's rune-table tile walked to
+  (191.5,134.5) beside it; the partial line fired for a 20-tile shortfall and stayed silent for a 1-tile one.
+
+# 2026-09-10 - Interior readability (P2-B): ladder, lever, hall tower band
+
+- Cavern exit: a procedural timber ladder (rails, nine rungs, lamp and point light) now sits inside the climb
+  group at (322,354); the pick proxy, plane rule and disposal are unchanged. Lastlight lever: iron pedestal,
+  brass plate, bronze arm (named `lastlight-lever-arm`, throws on relight) and knob inside the lever proxy.
+- Combat Hall: the tower walls are built at hall height with a plaster-and-rail band (4.6 -> 6.0) in the roof
+  group; the cutaway now exposes the cavern landing. Rebuilt (8,586 tris, 58 prims), pipeline PASS, GLB `?v=2`,
+  hall QA PASS 17/17 incl. the cavern round trip; smoke PASS 104/104 at 60 FPS, 22 ms worst.
+- Locks: visible-model regexes for the ladder and lever; builder/GLB-version lock for the tower band.
+
+# 2026-09-10 - Guidance clarity (P2-B)
+
+- `src/ui_guide_arrow.js` v3: redirect hooks evaluated each frame, `labelLift`, `keepAfterComplete`.
+  `src/holm_guidance.js` (new): exit-door, exit-ladder and live-fire redirects for Tutor's Holm.
+- Wording and menus: south-east offshoot, far-ladder bank lesson, switchback writ, "Board the skiff" banner kept
+  after graduation; `Interact` names rows from the authored label and accepts a `primary` predicate (Climb-down
+  primary during descend_cavern); Mark Tile hidden in the tutorial; net-use walk message; Holm fires 150 s.
+- Gates: `tools/test_world_v2.js` +5 locks; smoke PASS 104/104 (60 FPS, 21 ms worst); gatehouse QA PASS 12/12; full route driver PASS 20/20 in 424 s.
+  Gatehouse QA check for the closed gate rewritten to the door-auto-open rule.
+
+# 2026-09-10 - Boot robustness (P2-B): hidden-tab boot
+
+- Cause: `BootCoordinator.later` yielded via rAF only; hidden/occluded tabs never got one, so the boot stalled at
+  the loading screen until the tab was fronted (the "clock.getDelta at boot" sighting was the loop running before
+  the world existed after a scripted play click).
+- Fix: rAF raced against a 120 ms timer in `src/boot_coordinator.js` v2; `_worldReady` gates `animate`, the
+  heartbeat and the play button in `src/game5_main.js` (h38); the cellar's bind/load work moved to `ensureReady`
+  with a 250 ms hidden-tab timer (`holm_survival_workyard_cellar.js` v50); `smoke.js` v32 reports `hiddenBoot`
+  and widens the boot budget by 12 s when hidden.
+- Gate: `tools/run_smoke_headless.js` runs the foreground gate, then boots the same gate in a background tab on a
+  fresh `qaProfile`; exit 0 only if both pass. Result: foreground PASS 104/104 at 60 FPS; hidden PASS 104/104,
+  boot 1478 ms hidden, 0 page errors. Three locks in `tools/test_world_v2.js`.
+
+# 2026-09-10 - Performance baseline (P2-C)
+
+- `src/perf_probe.js` v1: `renderStats` (one render's calls/tris/programs), `inventory` (per world object meshes,
+  triangles, materials, in-frustum share), `sample(seconds)` (rAF fps/worst/p95). `tools/audit_holm_perf.js`
+  runs it at all eleven stations, play and elevated views, writing `scratchpad/holm_perf/baseline.{json,md}`.
+- Numbers: worst elevated view 706 draw calls / 103k tris (Quest Lodge, five buildings in frame); quietest 172
+  (Mage Tower). Real browser (pane): 60 FPS, worst frame 18.7-21.1 ms at every sampled view. Per building:
+  Survival Workyard 178 meshes / 70+ materials, Guide Hall 26.5k tris; all buildings inside their manifest budgets.
+- Verdict: 30 ms frame budget met; 120 draw-call budget missed 5.9x. Handed to asset consolidation.
+
+# 2026-09-10 - Asset consolidation (P2-C)
+
+- `src/world_v2_consolidate.js` v4 (new, before `world_v2_buildings.js`): per-part vertex-colour merge on shared
+  bucket materials (roughness/metalness to 0.5); protects partId/kind nodes, hit/click/pick proxies, animation
+  targets from the family clips, emissive and textured-by-map materials; hooks in `WorldV2Buildings.preloadOne`
+  (template, with the dependency clips) and `WorldV2Objects.template` (props without parts).
+- Numbers (`tools/audit_holm_perf.js`): worst elevated 706 -> 347, worst play 345 -> 167; buildings 15-66 meshes.
+  Lastlight lighthouse left unmerged (its runtime drives per-mesh materials for the cutaway and beacon).
+- Gates: locks +1 (source), smoke structural +1 (merged to <= half, <= 12 shared materials) -> 105/105 both phases;
+  gatehouse 12/12, bank 12/12, kitchen 11/11; full route PASS 20/20 in 526 s (solo rerun). One earlier route run lost a mainland tree GLB fetch while the
+  audit shared the single-threaded dev server (transient; files serve 200) - reran alone.
+
+# 2026-09-10 - Streaming and load (P2-C)
+
+- Audit: `tools/audit_holm_streaming.js` (cold-cache boot, per-leg rAF gaps stamped with tile + boundary flag).
+  Finding: light-count changes from streamed point lights recompile every program (12 -> 37 programs over two legs).
+- `src/world_v2_warmup.js` v6 + boot step `shaders` (`game5_main.js` h40) + `WorldV2Objects.warmTemplates`:
+  the base pass compiles behind the loading bar; +1..+3 lights and hidden light owners run on the welcome screen,
+  abandoned when play starts or (real players only) after a pass over 1.2 s. `src/world_v2_contract.js` v7:
+  `LOAD_BUDGET=1` per frame, `_drainPending`,
+  `pendingLoads()`; forced updates unchanged.
+- Result: no chunk-boundary gap over 60 ms on the route (worst gap 69.4 ms headless at the hall door); cold boot 3585 ms headless; real boot 1.24 s.
+  Gates: smoke PASS both phases (fresh-profile boot 2235 ms foreground / 2521 ms hidden), full route PASS 20/20 in 503 s.
+
+# 2026-09-10 - Redesign briefs (P2-D)
+
+- `docs/rebuild/TUTORS_HOLM_REDESIGN_BRIEFS_2026-09-10.md`: one brief per building from the banked reviews
+  (Kitchen 8.6/8.4, Lodge 8.5, Gatehouse 8.5, Bank 8.4/8.4, Guide Hall v6 owner-review open after the v5
+  rejection, Workyard v2 owner-directed, Combat Hall and Mage Tower unscored) and the play review. Shared rules
+  keep the P2-C wins: fixed interaction contract, named semantic parts for the load-time merge, storeys inside
+  the roof part, one family palette, manifest budgets. Order: Guide Hall/Workyard, Kitchen/Lodge, Gatehouse/Bank,
+  Combat Hall/Mage Tower, landscape, regression.
+
+# 2026-09-10 - Guide Hall v7 (P2-D art pass)
+
+- `tools/blender/build_guide_hall_v7.py` on the v6 anchor: ridge caps, chimney + stove, soffits, hero chart rim
+  (whole table top is the click target, F-06), district patches, compass rose, route flags, teaching cluster moved
+  off the north door axis (F-09), ledger + quill, hung oilskins. 18 materials (aliases), 37,050 tris, 61 prims,
+  2.75 MB; v7 manifest budgets 40k tris / 3.0 MB. Pipeline PASS with 16 authoring checks (8 new).
+- Runtime retargeted (buildings v43, building data v35 revision 7, lock manifest v7). Sheets: exterior 8.8,
+  interior 8.9 (`holm_guide_hall_v7_*_compare.png`, in-game captures via `tools/capture_holm_building.js`).
+- Warm-up: QA drivers (`navigator.webdriver`) skip the hidden-owner passes so a headless page is never blocked
+  for long; the capture tool waits for the welcome-screen warm-up before logging in.
+- Gates: smoke PASS both phases (boot 1968 ms foreground / 2017 ms hidden), full route PASS 20/20 in 425 s solo (a parallel run that overlapped another driver scored 9/20 on cook timing and was discarded as contention).
+
+# 2026-09-10 - Survival Workyard v3 (P2-D art pass)
+
+- `tools/blender/build_survival_workyard_v3.py` wraps the v2 builder: ridge caps, gable finials, flue pot, soffits;
+  21,094 tris / 110 prims / 37 materials / 1.56 MB, pipeline PASS. Root `holm_survival_workyard_v3`, data revision
+  19, Studio placement revision 19, both bundles recompiled.
+- Runtime: marked trees get a limewash band + red chalk cross (`holm_survival_trees.js` v2); `holm_fire_ring`
+  prop at (128,155) (`world_v2_objects.js` v21, `holm_landscape_data.js` v24), no collider.
+- Sheets: exterior 9.0, interior 9.1 (`holm_survival_workyard_v3_*_compare.png`). Gates: smoke PASS both phases 105/105 after moving the smoke's workyard revision pin from 18 to 19 (boot 2401 ms foreground / 2052 ms hidden), full route PASS 20/20 in 428 s.
+- Goal item "Guide Hall / Survival Workyard art pass" ticked.
+
+# 2026-09-10 - Teaching Kitchen v2 + Quest Lodge v2 (P2-D art pass)
+
+- Kitchen v2 (wrapper over v1): louvred shutters + hinges, bargeboards + finials, flue pot, second cluster (herb and
+  onion strings, loaves, flour dust, bread peel); 12,286 tris / 78 prims / 30 mats / 0.92 MB PASS. Sheets 8.9 / 9.0.
+- Lodge v2 (wrapper over v1): porch balusters + rails + newels, hall ridge caps + finials, reading corner (rug,
+  candle stand, open pages), chart title + contours; 8,738 tris / 74 prims / 29 mats / 0.67 MB PASS. Sheets 8.8 / 8.8.
+- Runtime retargeted (buildings v45, building data v37, both revision 2). Gates: smoke PASS both phases 105/105 (boot 3063 ms foreground / 2599 ms hidden), full route PASS 20/20 in 479 s, kitchen QA PASS 11/11, lodge QA PASS 14/14 after its closed-wall check was rewritten to the door-auto-open rule.
+- Capture tool now needs a vantage outside every interior; the first kitchen shot from the hall's north edge was
+  discarded and reframed from the north lane.
+
+# 2026-09-12 - Full tutorial island goal activated
+
+- Owner explicitly requested complete island buildings, player appearances, NPCs, items and functionality with
+  Blender as needed and the established old-school feel. Created a new active Codex goal with that full scope.
+- Expanded the durable completion definition: prior NPC-free/graybox milestone ticks remain history, not final
+  acceptance. NPC production is authorized, while chunk ownership, source/visual gates and live QA remain required.
+- Began independent character/NPC and item/lesson audits alongside the remaining building redesign review.
+
+# 2026-09-12 - Atomic departure pack implementation
+
+- Removed claim-before-delivery behavior. Welcome pack planning now preserves inventory on insufficient space;
+  inventory plus claim flag save together before sailing, with in-memory rollback on save refusal/exception.
+- Keep-one rewards recognize all equipped slots. Repeated boarding and restored claims cannot duplicate rewards.
+- Planner 11/11, reward/ferry integration 8/8 and World V2 gates pass. Full-inventory real-pointer ferry and
+  reload acceptance still required; see `docs/rebuild/HOLM_DEPARTURE_REWARDS_2026-09-12.md`.

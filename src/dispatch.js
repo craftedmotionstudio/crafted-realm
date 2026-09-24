@@ -39,8 +39,12 @@ const Interact = {
     for(const h of this._hooks){
       if(!h.target.includes('*') && !h.target.includes(key)) continue;
       if(h.when && !h.when(ctx)) continue;          // optional predicate (quest stage etc.)
-      const label=u.npc ? u.npc.t.name : (u.name || (u.label ? String(u.label).replace(/<[^>]+>/g,'') : u.kind));
-      out.push({html:`${h.option} <b>${label}</b>`, primary:!!h.primary, fn:()=>{
+      // Menu rows name the thing, not its part id: an authored label 'Study <b>Winch frame</b>'
+      // yields 'Winch frame' even though the building part carries name 'shaft_frame'.
+      const bold=u.label ? /<b>([^<]+)<\/b>/.exec(String(u.label)) : null;
+      const label=u.npc ? u.npc.t.name : (bold ? bold[1] : (u.label ? String(u.label).replace(/<[^>]+>/g,'') : (u.name || u.kind)));
+      const primary=(typeof h.primary==='function') ? !!h.primary(ctx) : !!h.primary;
+      out.push({html:`${h.option} <b>${label}</b>`, primary, fn:()=>{
         if(h.walkTo && hit.obj.position && typeof Sched!=='undefined'){
           const target=(typeof THREE!=='undefined'&&hit.obj.getWorldPosition)
             ? hit.obj.getWorldPosition(new THREE.Vector3()) : hit.obj.position;

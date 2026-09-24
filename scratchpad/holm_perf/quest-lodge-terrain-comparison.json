@@ -1,0 +1,11 @@
+{
+  "name": "Quest Lodge: terrace and woodland context",
+  "subtitle": "Bible settlement reference / actual rebuilt-terrain Studio",
+  "osrs": "Bible_References/Town2.jpg",
+  "cr": "scratchpad/holm_perf/quest-lodge-terrain-crop.png",
+  "codex": 8.3,
+  "review_note": "Authored lodge sits above its measured terrace, supported by a separate stone bay foundation. Unequal roofs and gray masonry join the bakehouse and sparse woodland.",
+  "verdict": "CANDIDATE - NOT ACCEPTED",
+  "improve": "Reroute the blocked concept lane, verify terrain-to-interior walking, refine terrain/roof context and integrate gameplay.",
+  "out": "Bible_References/Complete/_compare/holm-quest-lodge-terrain-reference.png"
+}

@@ -283,7 +283,7 @@
     {
       "placementId": "studio-survival-workyard",
       "definitionId": "holm_survival_workyard_v1",
-      "definitionRevision": 18,
+      "definitionRevision": 19,
       "padId": "survival_shelter",
       "roomIds": [
         "covered_workyard",
@@ -333,12 +333,12 @@
         "fishingEdgeSource": "assets/blender/props/workyard_fishing_edge_u5_v1.blend",
         "furnishingManifest": "assets/manifests/workyard_upstairs_furnishings_v1.json",
         "furnishingSource": "assets/blender/props/workyard_upstairs_furnishings_v1.blend",
-        "manifest": "assets/manifests/holm_survival_workyard_v2.json",
-        "model": "assets/models/buildings/holm_survival_workyard_v2.glb",
+        "manifest": "assets/manifests/holm_survival_workyard_v3.json",
+        "model": "assets/models/buildings/holm_survival_workyard_v3.glb",
         "occupationYardManifest": "assets/manifests/workyard_exterior_u3_v1.json",
         "occupationYardModel": "assets/models/props/workyard_exterior_u3_v1.glb",
         "occupationYardSource": "assets/blender/props/workyard_exterior_u3_v1.blend",
-        "source": "assets/blender/holm_survival_workyard_v2.blend",
+        "source": "assets/blender/holm_survival_workyard_v3.blend",
         "waterworksManifest": "assets/manifests/workyard_waterworks_u4_v1.json",
         "waterworksModel": "assets/models/props/workyard_waterworks_u4_v1.glb",
         "waterworksSource": "assets/blender/props/workyard_waterworks_u4_v1.blend"

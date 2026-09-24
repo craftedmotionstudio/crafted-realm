@@ -25,7 +25,7 @@ const CharCreator = {
     if(this.panel) this.panel.style.display='none';
     if(this._savedCam && typeof camCtl!=='undefined'){ camCtl.dist=this._savedCam.dist; camCtl.pitch=this._savedCam.pitch; }
     try{ if(typeof SaveGame!=='undefined' && SaveGame.save) SaveGame.save(); }catch(e){}
-    if(typeof UI!=='undefined' && UI.chat) UI.chat('Your adventurer is ready. Talk to Guide Bram by the rowboat.','sys');
+    if(typeof UI!=='undefined' && UI.chat) UI.chat('Your adventurer is ready. Follow the objective banner.','sys');
   },
   keepDefault(){ Object.assign(CharCfg, this.DEFAULT); applyPlayerLook(); this.finish(); },
   randomize(){

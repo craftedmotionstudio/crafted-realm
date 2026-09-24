@@ -6,7 +6,7 @@
  */
 var WorldV2Terrain=(function(){
   'use strict';
-  var state={ready:false,provider:null,material:null,texture:null,pond:null,
+  var state={ready:false,provider:null,material:null,texture:null,pond:null,sampled:false,
     geometriesCreated:0,geometriesDisposed:0,loads:0,unloads:0,lastLoadMs:0,maxLoadMs:0};
 
   function now(){ return (typeof performance!=='undefined'&&performance.now)?performance.now():Date.now(); }
@@ -20,15 +20,22 @@ var WorldV2Terrain=(function(){
   function init(provider){
     if(state.ready && state.provider===provider) return;
     if(state.ready) dispose();
-    if(typeof THREE==='undefined'||typeof scene==='undefined'||!TEX.grass)
+    var sampled=provider.renderStrategy==='holm-overhaul-sampled';
+    if(typeof THREE==='undefined'||typeof scene==='undefined'||(!sampled&&!TEX.grass))
       throw new Error('[WorldV2Terrain] renderer textures are not ready');
     state.provider=provider;
+    state.sampled=sampled;
+    if(sampled){
+      if(typeof WorldV2SampledTerrain==='undefined')throw new Error('[WorldV2Terrain] sampled renderer missing');
+      state.texture=null;state.material=new THREE.MeshLambertMaterial({vertexColors:true,flatShading:true});
+    }else{
     state.texture=TEX.grass.clone(); state.texture.needsUpdate=true;
     state.texture.wrapS=state.texture.wrapT=THREE.RepeatWrapping;
     state.texture.repeat.set(1,1); state.texture.offset.set(0,0);
     state.material=new THREE.MeshPhongMaterial({map:state.texture,vertexColors:true,
       flatShading:true,shininess:0,specular:0x000000});
-    if(provider.id==='tutors-holm-v2'){
+    }
+    if(provider.id==='tutors-holm-v2'&&!sampled){
       var hp=HOLM_POND;
       state.pond=makeWaterSurface(new THREE.CircleGeometry(hp.r+0.4,20),hp.x,HOLM_POND_WATER_Y,hp.z,5,0.94);
       state.pond.name='holm-pond-water';
@@ -39,7 +46,11 @@ var WorldV2Terrain=(function(){
     if(!state.ready) return {id:chunk.id,dataOnly:true};
     var t0=now(), b=clippedBounds(chunk,provider);
     if(b.w<=0||b.h<=0) return {id:chunk.id,empty:true};
-    var mesh=buildTerrainPatch((b.x0+b.x1)/2,(b.z0+b.z1)/2,b.w,b.h,
+    var mesh;
+    if(state.sampled){
+      mesh=WorldV2SampledTerrain.build(THREE,chunk,state.material,chunk.layers.terrain.exclusions||[]);
+      scene.add(mesh);WORLD.clickables.push(mesh);WORLD.grounds.push(mesh);
+    }else mesh=buildTerrainPatch((b.x0+b.x1)/2,(b.z0+b.z1)/2,b.w,b.h,
       Math.max(1,Math.round(b.w)),Math.max(1,Math.round(b.h)),{
         material:state.material,worldUvs:true,name:'ground-chunk-'+chunk.id
       });

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>Frame delivery diagnostic</title>
+<style>body{font:18px system-ui;background:#fafafa;color:#222;margin:40px;max-width:850px}button{font:inherit;padding:12px}pre{white-space:pre-wrap}#bar{height:4px;background:#456;width:0}</style>
+<h1>Frame delivery diagnostic</h1>
+<p>Compare four seconds of DOM-only animation against an empty WebGL canvas. Neither mode loads game code, images or external dependencies. This does not change game state or performance budgets.</p>
+<button id="start">Measure frame delivery</button><button id="webgl">Measure empty WebGL canvas</button><p id="status">Ready</p><div id="bar"></div><pre id="result"></pre><canvas id="canvas" width="1600" height="900" style="display:none;width:800px;height:450px"></canvas>
+<script>
+function measure(useWebGL){
+ document.getElementById('start').disabled=true;document.getElementById('webgl').disabled=true;
+ const canvas=document.getElementById('canvas');canvas.style.display=useWebGL?'block':'none';
+ const gl=useWebGL?canvas.getContext('webgl2',{antialias:false,alpha:false,powerPreference:'high-performance'}):null;
+ if(useWebGL&&!gl)throw Error('WebGL2 unavailable');
+ const start=performance.now(),frames=[],timer=[],visibility=[document.visibilityState];let previous=start,previousTimer=start;
+ const timerId=setInterval(()=>{const now=performance.now();timer.push(now-previousTimer);previousTimer=now},16);
+ document.getElementById('status').textContent='Measuring';
+ function frame(now){frames.push(now-previous);previous=now;visibility.push(document.visibilityState);
+  if(gl){gl.clearColor(.12+Math.sin(now*.001)*.02,.2,.25,1);gl.clear(gl.COLOR_BUFFER_BIT);}
+  document.getElementById('bar').style.width=Math.min(100,(now-start)/40)+'%';
+  if(now-start<4000){requestAnimationFrame(frame);return}
+  clearInterval(timerId);const sorted=frames.slice(1).sort((a,b)=>a-b);
+  const report={mode:gl?'empty-webgl2':'dom-only',rafFps:+(1000*(frames.length-1)/(now-start-frames[0])).toFixed(2),rafFrames:frames.length,rafMedianMs:sorted[Math.floor(sorted.length/2)],rafP95Ms:sorted[Math.floor(sorted.length*.95)],timerHz:+(timer.length*1000/(now-start)).toFixed(2),elapsedMs:now-start,alwaysVisible:visibility.every(v=>v==='visible'),focused:document.hasFocus(),pixelRatio:devicePixelRatio,viewport:[innerWidth,innerHeight],canvas:gl?[canvas.width,canvas.height]:null};
+  document.getElementById('result').textContent=JSON.stringify(report,null,2);document.getElementById('status').textContent='Complete';document.getElementById('start').disabled=false;document.getElementById('webgl').disabled=false;console.info('[FRAME_DELIVERY] '+JSON.stringify(report));
+ }
+ requestAnimationFrame(frame);
+}
+document.getElementById('start').onclick=()=>measure(false);
+document.getElementById('webgl').onclick=()=>measure(true);
+</script></html>

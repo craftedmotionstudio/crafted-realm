@@ -1,0 +1,62 @@
+[
+  {
+    "level": "info",
+    "message": "[KEEP_NAVIGATION] 251 measured stances, 804 directed cardinal edges",
+    "timestamp": "2026-09-13T16:20:59.819Z",
+    "url": "http://127.0.0.1:8777/src/holm_keep_navigation.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_HEARTH] measured Blender fire loaded 204 Array(8)",
+    "timestamp": "2026-09-13T16:20:59.819Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_hearth.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] ready 251 Array(5)",
+    "timestamp": "2026-09-13T16:20:59.819Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=3"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 2:1:0 Map table",
+    "timestamp": "2026-09-13T16:20:59.819Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=3"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 4:-2:0 Reading bay",
+    "timestamp": "2026-09-13T16:20:59.819Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=3"
+  },
+  {
+    "level": "info",
+    "message": "[KEEP_NAVIGATION] 251 measured stances, 804 directed cardinal edges",
+    "timestamp": "2026-09-13T16:21:00.010Z",
+    "url": "http://127.0.0.1:8777/src/holm_keep_navigation.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_OAK] authored texture applied; measured geometry unchanged 12 a8d57474e1a5cd6f8e13214e57905cf3bacecdf8e1fcc14c5b0ea1393248b324",
+    "timestamp": "2026-09-13T16:21:00.113Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_material.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_HEARTH] measured Blender fire loaded 204 Array(8)",
+    "timestamp": "2026-09-13T16:21:00.127Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_hearth.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] ready 251 Array(5)",
+    "timestamp": "2026-09-13T16:21:00.143Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=4"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached -4:0:0 Upstairs guest room",
+    "timestamp": "2026-09-13T16:21:29.619Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=4"
+  }
+]

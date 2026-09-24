@@ -1,0 +1,11 @@
+{
+  "name": "Quest Lodge: animated masonry hearth",
+  "subtitle": "Bible interior reference / actual in-app Blender study",
+  "osrs": "Bible_References/Town2.jpg",
+  "cr": "scratchpad/holm_perf/quest-lodge-hearth-crop.png",
+  "codex": 8.0,
+  "review_note": "A fitted, authored flame loop gives the gray masonry hearth a readable purpose beside the map table. Sparse low-poly detail remains consistent with the bakehouse fire.",
+  "verdict": "CANDIDATE - NOT ACCEPTED",
+  "improve": "Flames remain simple pointed shapes; broad timber texture and whole-island context still need refinement.",
+  "out": "Bible_References/Complete/_compare/holm-quest-lodge-hearth-reference.png"
+}

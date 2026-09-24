@@ -1,5 +1,5 @@
 {
-  "profile": "fable-lodge-qa-mtu757ym",
+  "profile": "fable-lodge-qa-mtvwwfd4",
   "passed": 14,
   "total": 14,
   "checks": [
@@ -25,12 +25,15 @@
       }
     },
     {
-      "label": "closed lodge walls keep the interior unreachable from the north lawn",
+      "label": "the interior is reached from the north lawn only through a lodge door, which stands open afterwards",
       "ok": true,
-      "detail": [
-        137.5,
-        130.5
-      ]
+      "detail": {
+        "throughWall": [
+          136.5,
+          133.5
+        ],
+        "doorOpen": true
+      }
     },
     {
       "label": "porch deck is walkable up to the lodge door",
@@ -44,8 +47,8 @@
       "label": "lodge door opens and the hall is enterable",
       "ok": true,
       "detail": [
-        137.5,
-        134.5
+        136.5,
+        133.5
       ]
     },
     {

@@ -101,6 +101,131 @@ check('surface pathfinding rejects cliff transitions while preserving the Lastli
   /tileTransitionWalkable\(i,j,ii,jj\)/.test(mainSource)&&
   /profile\.id===beacon\.approachRoute/.test(mainSource)&&
   /tileInsideLastlightRoute\(i\+\.5,j\+\.5\)/.test(mainSource));
+const vitalsSource=fs.readFileSync(path.join(ROOT,'src','game3_systems.js'),'utf8');
+check("Tutor's Holm run energy drains at a quarter rate and regenerates three times faster (pacing audit)",
+  /holmPace = \(typeof CRWorldMode!=='undefined' && CRWorldMode\.providerId==='tutors-holm-v2'\)/.test(vitalsSource)&&
+  /\*\(holmPace\?0\.25:1\)\)/.test(vitalsSource)&&/dt\*0\.9\*\(holmPace\?3:1\)/.test(vitalsSource));
+check('the follow camera is clamped out of the surface terrain along its boom',
+  /function cameraTerrainClamp\(tx,ty,tz, cx,cy,cz\)/.test(mainSource)&&/CAM_GROUND_CLEARANCE = 1\.1/.test(mainSource)&&
+  /camera\.position\.lerp\(camGoal, 0\.15\)/.test(mainSource)&&/WORLD\.cameraBlockers/.test(mainSource)&&
+  /WORLD\.cameraBlockers\.push\(\{id:OWNER,x:cc\.center\.x,z:cc\.center\.z,r:cc\.footprint\.outerRadius\+1\.0,top:cc\.baseY\+16\}\)/.test(fs.readFileSync(path.join(ROOT,'src','holm_lastlight_runtime.js'),'utf8')));
+check('the cavern exit ladder and the Lastlight lever have visible models inside their click targets',
+  /ladder\.name='cavern-exit-ladder'/.test(fs.readFileSync(path.join(ROOT,'src','holm_training_cavern.js'),'utf8'))&&
+  /arm\.name='lastlight-lever-arm'/.test(fs.readFileSync(path.join(ROOT,'src','holm_lastlight_runtime.js'),'utf8')));
+check('the Combat Hall tower band above hall height lives in the roof group so the cutaway exposes the landing',
+  /wall\("TowerSouth", \(HX1, 0\), \(TX1, 0\), HALL_H,/.test(fs.readFileSync(path.join(ROOT,'tools','blender','build_holm_combat_hall_v1.py'),'utf8'))&&
+  /"TowerBandS"/.test(fs.readFileSync(path.join(ROOT,'tools','blender','build_holm_combat_hall_v1.py'),'utf8'))&&
+  /holm_combat_hall_v1\.glb\?v=2/.test(fs.readFileSync(path.join(ROOT,'src','world_v2_buildings.js'),'utf8')));
+const uiPickSource=fs.readFileSync(path.join(ROOT,'src','game4_ui.js'),'utf8');
+check('walk orders snap blocked tiles to the nearest walkable tile, dedupe the refusal line, and announce partial plans',
+  /function nearestWalkableTile\(cx,cz,maxR\)/.test(uiPickSource)&&/function noWalkMessage\(\)/.test(uiPickSource)&&
+  /function announceWalkOrder\(target\)/.test(uiPickSource)&&(uiPickSource.match(/announceWalkOrder\(sp\)/g)||[]).length===2&&
+  (uiPickSource.match(/noWalkMessage\(\)/g)||[]).length>=3&&!/UI\.chat\('You cannot walk there\.','plain'\); return;/.test(uiPickSource));
+
+check('click-to-walk recognises streamed terrain chunks as ground (pick, hover, handleClick)',
+  /function isGroundName\(n\)\{ return n==='ground' \|\| \(typeof n==='string' && n\.indexOf\('ground-chunk-'\)===0\); \}/.test(uiPickSource)&&
+  (uiPickSource.match(/isGroundName\(/g)||[]).length>=5&&/name:'ground-chunk-'\+chunk\.id/.test(fs.readFileSync(path.join(ROOT,'src','world_v2_terrain.js'),'utf8')));
+/* Guidance clarity (play review F-09/F-15/F-16/F-18/F-19/F-22/F-25/F-33/F-35 + Climb-down primary). */
+const guidanceSource=fs.readFileSync(path.join(ROOT,'src','holm_guidance.js'),'utf8');
+const guideArrowSource=fs.readFileSync(path.join(ROOT,'src','ui_guide_arrow.js'),'utf8');
+const indexSource=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
+const cavernExit=/exit:\{x:(\d+),z:(\d+)\}/.exec(fs.readFileSync(path.join(ROOT,'src','holm_training_cavern.js'),'utf8'));
+check('the guide arrow accepts per-frame redirects and can keep a completion target',
+  /addRedirect\(fn\)/.test(guideArrowSource)&&/_resolve\(\)\{/.test(guideArrowSource)&&/keepAfterComplete:false/.test(guideArrowSource)&&
+  /this\._center\(live\.spec\)/.test(guideArrowSource)&&/Tutorial\.complete && !this\.keepAfterComplete\) this\.setTarget\(null\)/.test(guideArrowSource));
+check('Holm guidance bends the beacon to the exit ladder underground, the exit door indoors and the live fire while cooking',
+  !!cavernExit&&new RegExp('EXIT_LADDER=\\{x:'+cavernExit[1]+',z:'+cavernExit[2]+'\\}').test(guidanceSource)&&
+  /label:'Climb the exit ladder'/.test(guidanceSource)&&/label:'Leave by the '\+door\.label/.test(guidanceSource)&&
+  /label:'Cook on your fire'/.test(guidanceSource)&&/label:'Light another fire here'/.test(guidanceSource)&&
+  /GuideArrow\.addRedirect\(redirect\)/.test(guidanceSource)&&
+  indexSource.indexOf('src/holm_guidance.js?v=')>indexSource.indexOf('src/holm_station_reach.js?v=')&&
+  indexSource.indexOf('src/holm_guidance.js?v=')>indexSource.indexOf('src/ui_guide_arrow.js?v=3')&&
+  /labelLift:2\.2/.test(guidanceSource)&&/live\.spec\.labelLift/.test(guideArrowSource));
+check('the lesson text matches the compass and names the exit ladder; nothing on Holm says "north offshoot"',
+  ['holm_tutorial_flow_data.js','holm_mine_gatehouse_interactions.js','tutorial_holm.js'].every(function(f){return !/north offshoot/.test(fs.readFileSync(path.join(ROOT,'src',f),'utf8'));})&&
+  /text:'Follow the offshoot south-east and mine a tin rock\.'/.test(fs.readFileSync(path.join(ROOT,'src','holm_tutorial_flow_data.js'),'utf8'))&&
+  /text:'Climb the far ladder up into the Combat Hall, cross Warden\\'s Ridge to the Holm Bank/.test(fs.readFileSync(path.join(ROOT,'src','holm_tutorial_flow_data.js'),'utf8'))&&
+  /return 'Board the skiff at Departure Dock\.';/.test(fs.readFileSync(path.join(ROOT,'src','holm_tutorial_flow_data.js'),'utf8')));
+check('Climb-down is the winch frame\'s left-click while the descend lesson is current, and menu rows use the authored name',
+  /option:'Climb-down',primary:descendDue,/.test(fs.readFileSync(path.join(ROOT,'src','holm_mine_gatehouse_interactions.js'),'utf8'))&&
+  /option:'Study',primary:function\(\)\{return !descendDue\(\);\}/.test(fs.readFileSync(path.join(ROOT,'src','holm_mine_gatehouse_interactions.js'),'utf8'))&&
+  /const primary=\(typeof h\.primary==='function'\) \? !!h\.primary\(ctx\) : !!h\.primary;/.test(fs.readFileSync(path.join(ROOT,'src','dispatch.js'),'utf8'))&&
+  /const bold=u\.label \? \/<b>\(\[\^<\]\+\)<\\\/b>\/\.exec\(String\(u\.label\)\) : null;/.test(fs.readFileSync(path.join(ROOT,'src','dispatch.js'),'utf8'))&&
+  /const p=Interact\.entriesFor\(hit,null\)\.filter\(function\(en\)\{return en\.primary;\}\); if\(p\.length\) return p\[0\]\.html;/.test(uiPickSource));
+check('Holm teaching fires burn 150 s, tutorial menus hide Mark Tile, the net says where it is walking, and the departure banner survives graduation',
+  /fire\.userData\.ttl=\(typeof CRWorldMode!=='undefined'&&CRWorldMode\.providerId==='tutors-holm-v2'\)\?150:65;/.test(mainSource)&&
+  /const inTutorial=\(typeof Tutorial!=='undefined' && Tutorial\.steps && !Tutorial\.complete\);/.test(fs.readFileSync(path.join(ROOT,'src','overlays_world.js'),'utf8'))&&
+  /message\('You head for the fishing spot, net in hand\.'\)/.test(fs.readFileSync(path.join(ROOT,'src','fishing_edge_u5.js'),'utf8'))&&
+  /function showDepartureBanner\(\)/.test(fs.readFileSync(path.join(ROOT,'src','tutorial_holm.js'),'utf8'))&&
+  /Take the switchback down from Lastlight and follow the road south to Departure Dock/.test(fs.readFileSync(path.join(ROOT,'src','tutorial_holm.js'),'utf8'))&&
+  /GuideArrow\.keepAfterComplete=false; GuideArrow\.setTarget\(null\);/.test(fs.readFileSync(path.join(ROOT,'src','holm_departure.js'),'utf8')));
+/* Boot robustness: a hidden tab boots on a timer fallback, the loop waits for the world, the gate covers it. */
+const bootSource=fs.readFileSync(path.join(ROOT,'src','boot_coordinator.js'),'utf8');
+const smokeSource=fs.readFileSync(path.join(ROOT,'src','smoke.js'),'utf8');
+const runnerSource=fs.readFileSync(path.join(ROOT,'tools','run_smoke_headless.js'),'utf8');
+const cellarSource=fs.readFileSync(path.join(ROOT,'src','holm_survival_workyard_cellar.js'),'utf8');
+check('the boot coordinator races each rAF yield against a timer so a hidden tab still boots',
+  /var LATER_FALLBACK_MS=120;/.test(bootSource)&&/global\.requestAnimationFrame\(go\);\s*setTimeout\(go,LATER_FALLBACK_MS\);/.test(bootSource));
+check('the loop, the heartbeat and the play button wait for the world to exist',
+  /let _worldReady=false;/.test(mainSource)&&/if\(!running \|\| !_worldReady \|\| !clock \|\| !renderer \|\| !scene\) return;/.test(mainSource)&&
+  /if\(!running \|\| !_worldReady\)\{ _hbLast=now; return; \}/.test(mainSource)&&/_worldReady=true; window\.CR_WORLD_READY=true;/.test(mainSource)&&
+  /if\(!_worldReady\)\{ console\.warn\('\[boot\] play ignored: the world is still loading'\); return; \}/.test(mainSource));
+check('the cellar binds through a timer while hidden, and the smoke gate boots a background tab',
+  /function ensureReady\(\)\{/.test(cellarSource)&&/setInterval\(function\(\)\{ if\(document\.hidden\) ensureReady\(\); \},250\);/.test(cellarSource)&&
+  /var hiddenBoot=!!document\.hidden;/.test(smokeSource)&&/if\(hiddenBoot\) SMOKE_BUDGETS\.bootMs\+=12000;/.test(smokeSource)&&
+  /await front\.bringToFront\(\);/.test(runnerSource)&&/\[SMOKE HIDDEN BOOT\]/.test(runnerSource)&&/qaProfile=smoke-hidden-/.test(runnerSource)&&
+  /process\.exit\(fg\.verdict\.verdict === 'PASS' && bgOk \? 0 : 1\);/.test(runnerSource));
+/* Performance baseline (P2-C): the probe, the audit and the banked numbers stay. */
+const probeSource=fs.readFileSync(path.join(ROOT,'src','perf_probe.js'),'utf8');
+check('the perf probe exposes render stats, a per-object inventory and a frame sample, and the baseline is banked',
+  /function renderStats\(\)\{/.test(probeSource)&&/function inventory\(\)\{/.test(probeSource)&&/function sample\(seconds\)\{/.test(probeSource)&&
+  /return \{inventory:inventory,renderStats:renderStats,sample:sample,triCount:triCount\};/.test(probeSource)&&
+  /<script src="src\/perf_probe\.js\?v=/.test(indexSource)&&fs.existsSync(path.join(ROOT,'tools','audit_holm_perf.js'))&&
+  /BUDGET = \{drawCalls: 120, worstFrameMs: 30\}/.test(fs.readFileSync(path.join(ROOT,'tools','audit_holm_perf.js'),'utf8'))&&
+  /## 11\. Performance baseline/.test(fs.readFileSync(path.join(ROOT,'docs','rebuild','TUTORS_HOLM_PLAY_REVIEW_2026-09-10.md'),'utf8')));
+/* Asset consolidation (P2-C): the draw-call merge and its hooks stay in place. */
+const consolidateSource=fs.readFileSync(path.join(ROOT,'src','world_v2_consolidate.js'),'utf8');
+const buildingsSource=fs.readFileSync(path.join(ROOT,'src','world_v2_buildings.js'),'utf8');
+const objectsSource=fs.readFileSync(path.join(ROOT,'src','world_v2_objects.js'),'utf8');
+check('building and prop templates are draw-merged per semantic part into vertex-coloured shared-bucket meshes',
+  /function consolidate\(root,label,opts\)\{/.test(consolidateSource)&&/function protectedNames\(clips\)\{/.test(consolidateSource)&&
+  /Math\.round\(m\.roughness\*2\)\/2/.test(consolidateSource)&&/out\.vertexColors=true;/.test(consolidateSource)&&
+  /if\(u\.partId\|\|u\.kind\|\|u\._hitProxy\|\|u\.consolidated\) return false;/.test(consolidateSource)&&
+  /if\(\/hit-proxy\|click-proxy\|pick-proxy\/\.test\(o\.name\|\|''\)\) return false;/.test(consolidateSource)&&
+  /WorldV2Consolidate\.consolidate\(root,cfg\.assetId\|\|id,\{protect:WorldV2Consolidate\.protectedNames\(clips\)\}\);/.test(buildingsSource)&&
+  /if\(!hasParts\) WorldV2Consolidate\.consolidate\(root,asset\);/.test(objectsSource)&&
+  indexSource.indexOf('src/world_v2_consolidate.js?v=')<indexSource.indexOf('src/world_v2_buildings.js?v=')&&
+  indexSource.indexOf('src/world_v2_consolidate.js?v=')>0);
+/* Streaming and load (P2-C): budgeted chunk loads, shader warm-up, and the banked streaming audit. */
+const contractSource=fs.readFileSync(path.join(ROOT,'src','world_v2_contract.js'),'utf8');
+const warmupSource=fs.readFileSync(path.join(ROOT,'src','world_v2_warmup.js'),'utf8');
+check('chunk loads are budgeted per frame (unloads immediate, nearest-first loads, forced calls synchronous)',
+  /var LOAD_BUDGET=1;/.test(contractSource)&&/WorldProvider\.prototype\._drainPending=function\(all\)\{/.test(contractSource)&&
+  /if\(!force && center===this\._lastCenterKey\) return this\._drainPending\(false\);/.test(contractSource)&&
+  /this\._drainPending\(!!force\);/.test(contractSource)&&/WorldProvider\.prototype\.pendingLoads=function\(\)/.test(contractSource));
+check('the renderer warms every template program and the extra light counts behind the loading bar, heavier passes on the welcome screen',
+  /var BOOT_POINT_LIGHTS=0, DEFERRED_POINT_LIGHTS=3;/.test(warmupSource)&&/renderer\.compile\(scene,camera\)/.test(warmupSource)&&
+  /function hiddenLightOwners\(\)\{/.test(warmupSource)&&/function runDeferred\(\)\{/.test(warmupSource)&&
+  /if\(typeof running!=='undefined'&&running\)\{ finishDeferred\('skipped: play started'\); return; \}/.test(warmupSource)&&
+  /\{id:'shaders', label:'Warming the renderer', weight:6, run:\(\)=>\{/.test(mainSource)&&
+  /setTimeout\(\(\)=>WorldV2Warmup\.runDeferred\(\), 250\);/.test(mainSource)&&
+  /function warmTemplates\(\)\{/.test(objectsSource)&&
+  indexSource.indexOf('src/world_v2_warmup.js?v=')>indexSource.indexOf('src/world_v2_objects.js?v=')&&
+  indexSource.indexOf('src/world_v2_warmup.js?v=')<indexSource.indexOf('src/game5_main.js?v='));
+(function(){
+  const file=path.join(ROOT,'scratchpad','holm_perf','streaming.json');
+  let ok=false, note='missing';
+  try{ const s=JSON.parse(fs.readFileSync(file,'utf8')); ok=s.verdict&&s.verdict.boundaryHitchOk&&s.boot.warmup&&s.boot.warmup.deferred==='done'; note='boundary hitches '+s.boundaryHitches.length+', warm-up '+s.boot.warmup.deferred+', cache-disabled headless boot '+s.boot.welcomeAtMs+' ms (the 5 s cold-cache bar is the smoke gate fresh-profile boot)'; }catch(e){}
+  check('the streaming audit is banked green (warm-up complete, no boundary hitch over 60 ms): '+note, ok&&fs.existsSync(path.join(ROOT,'tools','audit_holm_streaming.js')));
+})();
+/* P2-D: the redesign briefs cover every building. */
+(function(){
+  const file=path.join(ROOT,'docs','rebuild','TUTORS_HOLM_REDESIGN_BRIEFS_2026-09-10.md');
+  let text=''; try{ text=fs.readFileSync(file,'utf8'); }catch(e){}
+  const needed=['Guide Hall','Survival Workyard','Teaching Kitchen','Quest Lodge','Mine Gatehouse','Holm Bank','Combat Hall','Mage Tower'];
+  check('the P2-D redesign briefs exist with one section per building and a score target in each',
+    needed.every(n=>new RegExp('^## '+n+' \\(','m').test(text))&&(text.match(/\*\*Score target\.\*\*/g)||[]).length===8);
+})();
 const lastlightRuntimeSource=fs.readFileSync(path.join(ROOT,'src','holm_lastlight_runtime.js'),'utf8');
 const uiSaveSource=fs.readFileSync(path.join(ROOT,'src','ui_save.js'),'utf8');
 const guideHallInteractionSource=fs.readFileSync(path.join(ROOT,'src','holm_guide_hall_interactions.js'),'utf8');
@@ -224,7 +349,7 @@ check('Lesson Green terrain and every water row are consumed without replacing S
 check('Lesson Green keeps both planning foundations and adds no finished buildings',
   !lessonBundle.building&&['holm_teaching_kitchen','holm_quest_lodge'].every(id=>authoredCatalog.some(c=>c.layers.objects.some(o=>o.id===id)))&&
   !['holm_pad_quest_lodge','holm_pad_teaching_kitchen'].some(id=>authoredCatalog.some(c=>c.layers.objects.some(o=>o.id===id))));
-const hallManifest=JSON.parse(fs.readFileSync(path.join(ROOT,'assets','manifests','holm_guide_hall_v6.json'),'utf8'));
+const hallManifest=JSON.parse(fs.readFileSync(path.join(ROOT,'assets','manifests','holm_guide_hall_v7.json'),'utf8'));
 const hallPipeline=JSON.parse(fs.readFileSync(path.join(ROOT,hallManifest.pipelineResult),'utf8'));
 const hallGlb=readGlbJson(path.join(ROOT,hallManifest.model));
 const hallNodeNames=new Set((hallGlb.json.nodes||[]).map(n=>n.name));
@@ -237,7 +362,7 @@ check('Guide Hall production GLB stays below its manifest transfer lock',hallGlb
 check('Guide Hall production GLB stays within semantic-safe render locks',
   (hallGlb.json.meshes||[]).reduce((n,m)=>n+(m.primitives||[]).length,0)<=hallManifest.budgets.maxPrimitives&&
   (hallGlb.json.materials||[]).length<=hallManifest.budgets.maxMaterials);
-const workyardManifest=JSON.parse(fs.readFileSync(path.join(ROOT,'assets','manifests','holm_survival_workyard_v2.json'),'utf8'));
+const workyardManifest=JSON.parse(fs.readFileSync(path.join(ROOT,'assets','manifests','holm_survival_workyard_v3.json'),'utf8'));
 const workyardPipeline=JSON.parse(fs.readFileSync(path.join(ROOT,workyardManifest.pipelineResult),'utf8'));
 const workyardGlb=readGlbJson(path.join(ROOT,workyardManifest.model));
 const workyardNodeNames=new Set((workyardGlb.json.nodes||[]).map(n=>n.name));
@@ -380,7 +505,7 @@ const workyardChunk=p.getChunkAtWorldTile(116,151);
 const workyard=workyardChunk.layers.objects.find(o=>o.id==='holm_survival_workyard');
 check('Survival Workyard replaces its planning foundation',!!workyard&&workyard.buildingDef==='holm_survival_workyard_v1'&&
   !catalog.some(c=>c.layers.objects.some(o=>o.id==='holm_pad_survival_shelter')));
-const kitchenChunk=p.getChunkAtWorldTile(153,136);
+const kitchenChunk=p.getChunkAtWorldTile(153,134);
 const kitchen=kitchenChunk.layers.objects.find(o=>o.id==='holm_teaching_kitchen');
 const hallChunk2=p.getChunkAtWorldTile(172,119);
 const combatHall=hallChunk2.layers.objects.find(o=>o.id==='holm_combat_hall');
@@ -555,6 +680,38 @@ check('invalid safe landmark is rejected',badLandmark);
 p.dispose();
 check('provider disposal releases every render handle',lifecycle.created===lifecycle.disposed);
 check('provider disposal releases every object instance',objectLife.created===objectLife.disposed);
+
+/* Playtest loop tick 1 (docs/rebuild/PLAYTEST_FINDINGS.md P-01..P-21, 2026-09-10 arrow run). */
+(function(){
+  const flow=ctx.HolmTutorialFlow, ks=flow.station('kitchen');
+  const lessons=flow.runtimeSteps?flow.runtimeSteps():[];
+  const lesson=id=>lessons.find(l=>l.id===id)||{};
+  const landscapeSource=fs.readFileSync(path.join(ROOT,'src','holm_landscape_data.js'),'utf8');
+  const tutorialSource=fs.readFileSync(path.join(ROOT,'src','tutorial_holm.js'),'utf8');
+  const dispatchSource=fs.readFileSync(path.join(ROOT,'src','dispatch.js'),'utf8');
+  const systemsSource=fs.readFileSync(path.join(ROOT,'src','game3_systems.js'),'utf8');
+  check('P-01: the hall exit door is chosen by pathing reachability from the door tile to the objective',
+    /if\(!reachable\(p\.x,p\.z,target\.x,target\.z\)\) continue;/.test(guidanceSource)&&/path\.reached===true/.test(guidanceSource)&&
+    /reachable:reachable,lastlightTarget:lastlightTarget/.test(guidanceSource));
+  check('P-03: the Teaching Kitchen stands north of the lane at (153,134) and its station points sit on walkable lane tiles',
+    /teaching_kitchen[^\n]*x:153,z:134/.test(landscapeSource)&&!!ks&&ks.entry.x===145&&ks.entry.z===136&&
+    ks.service.x===154&&ks.service.z===137&&ks.exit.x===150&&ks.exit.z===128);
+  check('P-04/P-10: Lastlight keeps a surface collider on the tower body and graduation climbs down to the door step',
+    /r:cc\.footprint\.interiorRadius\+\.35,runtimeOwnerId:OWNER/.test(lastlightRuntimeSource)&&
+    /WORLD\.colliders\.push\(col\);runtime\.colliders\.push\(col\);/.test(lastlightRuntimeSource)&&
+    /Planes\.climbTo\(\{plane:0,x:d\.x,z:d\.z\+1\.5,zone:'Lastlight Summit'/.test(tutorialSource));
+  check('P-05: the relight lesson steers to the door, the next ladder up, then the lever, per plane',
+    /if\(step\.id==='relight_lastlight'\)/.test(guidanceSource)&&/label:'Enter Lastlight'/.test(guidanceSource)&&
+    /label:'Climb the ladder'/.test(guidanceSource)&&/label:'Pull the lever'/.test(guidanceSource));
+  check('P-08/P-13: wield has no ground target and the fish lesson points at the net spot (131,151)',
+    /id:'equip_hatchet'[^\n]*target:null/.test(fs.readFileSync(path.join(ROOT,'src','holm_tutorial_flow_data.js'),'utf8'))&&
+    /id:'catch_fish'[^\n]*target:\{x:131,z:151\}/.test(fs.readFileSync(path.join(ROOT,'src','holm_tutorial_flow_data.js'),'utf8'))&&
+    /id:'bake_bread'[^\n]*target:\{x:154,z:137\}/.test(fs.readFileSync(path.join(ROOT,'src','holm_tutorial_flow_data.js'),'utf8')));
+  check('P-21: the zone label is re-evaluated after any plane change back to the surface',
+    /if\(activePlane!==_zonePlane\)\{ _zonePlane=activePlane; if\(activePlane===0\) curZone=null; \}/.test(mainSource));
+  check('P-15/P-16: menu rows prefer the authored label over the object kind and articles follow the vowel rule',
+    /bold \? bold\[1\] : \(u\.label \?/.test(dispatchSource)&&/\/\^\[aeiou\]\/i\.test\(s\)\?'an':'a'/.test(systemsSource));
+})();
 
 if(failures){ console.error('\nworld-v2 contract: '+failures+' failure(s)'); process.exit(1); }
 console.log('\nworld-v2 contract: all locks pass');

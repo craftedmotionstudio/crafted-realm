@@ -1,0 +1,120 @@
+[arrival] t=9.2 step=study_route pos=[151,169] zone=Tutor's Holm plane=0 arrow=Study the island chart@[151,155] pack=["coins x55"] chat=["Press ` (backquote) at any time for the Administrator Console.","Game saved.","Your adventurer is ready. Talk to Guide Bram by the rowboat."]
+
+=== study_route (attempt 1) t=9.8 objective="Enter the Guide Hall and study the relief chart of Tutor's Holm." arrow=Study the island chart@[151,155] pos=[151,169] pack=["coins x55"]
+  rush -> (151.5,158.5) reached=true at=[151.5,158.5] t=13.7 legs=1  lastchat=["Your adventurer is ready. Talk to Guide Bram by the rowboat."]
+  chart click true
+  LESSON DONE study_route at 16.2s -> equip_hatchet "Open your pack and wield the Bronze hatchet."
+  dialogue [Relief chart of Tutor's Holm] "Arrival Cove begins the route. The northern teaching door leads to Survival Wood, then the path bends through Lesson Green, the training cavern, Warden's Ridge," opts=["Trace the route with one finger."]
+
+=== equip_hatchet (attempt 1) t=16.9 objective="Open your pack and wield the Bronze hatchet." arrow=Leave by the Teaching door@[151,141] pos=[151.5,157.5] pack=["coins x55","hatchet","tinderbox","fishing_net"]
+  LESSON DONE equip_hatchet at 17.2s -> chop_logs "Chop a marked tree in Survival Wood for logs."
+
+=== chop_logs (attempt 1) t=17.2 objective="Chop a marked tree in Survival Wood for logs." arrow=Leave by the Teaching door@[151,141] pos=[151.5,157.5] pack=["coins x55","tinderbox","fishing_net"]
+  impatient detour: try the skiff first
+  rush -> (206,152) reached=true at=[205.5,152.5] t=42.4 legs=4  lastchat=["You wield the Bronze hatchet."]
+  nearby ["holm_departure:Boat@211,154 d5.7","prop:Inspect Bookshelf@196,137 d17.6 offscreen","holm_spell_lectern:Study Spell lectern@197,136 d18 offscreen","door:Open Dock door@190,139 d20.2 offscreen","holm_tower_register:Read Tower register@196,133 d21.6 offscreen","prop:Inspect Orrery@188,137 d22.5 offscreen","door:Open Tower door@188,136 d23.7 offscreen","holm_rune_table:Study Rune table@191,133 d23.8 offscreen"]
+  skiff click true
+  skiff dialogue Departure skiff A brass lesson-lock holds the mooring chain fast. Finish the Holm's instruction first.<br><br><b>Next:</b> Chop a marked tree in Survival Wood for logs.
+  dialogue [Departure skiff] "A brass lesson-lock holds the mooring chain fast. Finish the Holm's instruction first.<br><br><b>Next:</b> Chop a marked tree in Survival Wood for logs." opts=["Back to my lesson."]
+  arrow {"label":"Chop tree","target":[126,158],"edgeArrowVisible":true}
+  rush -> (127,159) reached=true at=[127.5,158.5] t=85.5 legs=5  lastchat=["You cannot walk there."]
+  nearby ["resource:Chop down Marked tree@124,161 d4.3","resource:Chop down Marked tree@131,161 d4.3","resource:Chop down Marked tree@126,164 d5.7","prop:Inspect Sawbuck@120,155 d7.5","holm_net_rack:Fishing-preparation stand@121,153 d8.1","door:Open Pond door@124,149 d9.2","holm_fishing_edge:Net-fish Mirrorperch@131,150 d9.4","prop:Inspect Woven stool@122,150 d9.4"]
+  marked tree click true [769,166]
+  walked off mid-chop: pos=[131.2,158.5] pack=["coins x55","tinderbox","fishing_net"] chat=["You wield the Bronze hatchet.","You cannot walk there."]
+  click at [771,26] would land on DIV#:— TUTOR'S HOLM —; tilting the camera instead
+  marked tree click 2 true
+  LESSON DONE chop_logs at 98.9s -> light_fire "Use your tinderbox on the logs to light a fire."
+
+=== light_fire (attempt 1) t=98.9 objective="Use your tinderbox on the logs to light a fire." arrow=Light a fire@[128,155] pos=[126.4,161.5] pack=["coins x55","logs","tinderbox","fishing_net"]
+  tinderbox->tree true ["There is nothing left to gather here."]
+  LESSON DONE light_fire at 103.7s -> catch_fish "Use the Small net at the marked fishing spot."
+  fire at [126.4,161.5] lit t= 103.7 chat ["Use it on some logs to light a fire.","The fire catches and the logs begin to burn."]
+
+=== catch_fish (attempt 1) t=103.9 objective="Use the Small net at the marked fishing spot." arrow=Catch a fish@[132,156] pos=[125.3,161.5] pack=["coins x55","tinderbox","fishing_net","logs"]
+  no clickable ground toward target; stepping out sideways
+  rush -> (132,157) reached=false at=[131.5,159.5] t=110.5 legs=0 no clickable ground toward target lastchat=["You get some emberwood logs."]
+  plain edge click true ["Click the Small net in your pack, then click the fishing water."]
+  net->edge true [769,87]
+  after net->edge: chat=["You take out the small net. Now click a fishing spot to use it.","You head for the fishing spot, net in hand."] usingItem=null moving=true
+  LESSON DONE catch_fish at 129.2s -> cook_fish "Cook the fish on your fire (light another if it has burnt out)."
+
+=== cook_fish (attempt 1) t=129.2 objective="Cook the fish on your fire (light another if it has burnt out)." arrow=Cook on your fire@[126,161] pos=[130.5,150.5] pack=["coins x55","logs","tinderbox","fishing_net","logs","raw_perch"]
+  fire present at [126.4,161.5] t= 129.2 lit at 103.7 arrow {"label":"Cook on your fire","target":[126,161],"edgeArrowVisible":true}
+  rush -> (127.4,161.5) reached=true at=[127.5,161.5] t=141.2 legs=1  lastchat=["You sweep the small net beneath the ripple and catch a mirrorperch."]
+  step cook_fish not done (attempt 1); chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You accidentally burn the fish."]
+
+=== cook_fish (attempt 2) t=172.4 objective="Cook the fish on your fire (light another if it has burnt out)." arrow=Cook on your fire@[126,161] pos=[126.7,161.5] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch"]
+  fire present at [126.4,161.5] t= 172.4 lit at 103.7 arrow {"label":"Cook on your fire","target":[126,161],"edgeArrowVisible":false}
+  no raw perch; back to fishing
+  no clickable ground toward target; stepping out sideways
+  rush -> (132,157) reached=true at=[131.5,156.5] t=180.3 legs=1  lastchat=["You accidentally burn the fish."]
+  rush -> (127.4,161.5) reached=true at=[127.5,161.5] t=208 legs=1  lastchat=["You sweep the small net beneath the ripple and catch a mirrorperch."]
+  LESSON DONE cook_fish at 216.5s -> descend_cavern "Enter the Mine Gatehouse by its south gate and climb down the shaft in the winch house."
+
+=== descend_cavern (attempt 1) t=216.6 objective="Enter the Mine Gatehouse by its south gate and climb down the shaft in the winch house." arrow=Descend to the cavern@[124,119] pos=[126.5,161.5] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch"]
+  rush -> (124,120.5) reached=true at=[124.5,120.5] t=235.5 legs=2  lastchat=["You roast a mirrorperch."]
+  nearby ["climb:Climb-down Training cavern@124,119 d1","holm_shaft_frame:Study Winch frame@124,119 d1","prop:Inspect Ore cart@125,121 d1.8","prop:Inspect Tool rack@123,122 d2.4","holm_gate_stone:Read Gate stone@126,121 d2.6","door:Close Door@127,123 d3.9","prop:Inspect Ore bin@121,117 d4.5","holm_ore_tally:Read Ore tally@129,115 d7.2"]
+  winch click true [769,352]
+  LESSON DONE descend_cavern at 240.4s -> mine_copper "Mine a copper rock with your pickaxe."
+[cavern-arrival] t=241.9 step=mine_copper pos=[286,354] zone=Training Cavern plane=-1 arrow=Mine copper@[296,357] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch","pickaxe"] chat=["You roast a mirrorperch.","You climb down into the dark…","The miner lends you a bronze pickaxe. Mine copper here, then find tin in the offshoot to the south-east."]
+
+=== mine_copper (attempt 1) t=242.1 objective="Mine a copper rock with your pickaxe." arrow=Mine copper@[296,357] pos=[286,354] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch","pickaxe"]
+  arrow {"label":"Mine copper","target":[296,357],"edgeArrowVisible":true} pos [286,354]
+  rush -> (296,358) reached=false at=[292.5,350.5] t=438.3 legs=30  lastchat=["The miner lends you a bronze pickaxe. Mine copper here, then find tin in the offshoot to the south-east."]
+  nearby ["resource:Mine Copper rock@296,357 d7.4","resource:Mine Copper rock@293,360 d9.5","anvil:Smith at Anvil@302,363 d15.7 offscreen","furnace:Smelt at Furnace@305,363 d17.7 offscreen","resource:Mine Clay rock@316,341 d25.3 offscreen"]
+  copper click true [769,101]
+  walked off mid-mine: pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch","pickaxe"] chat=["You climb down into the dark…","The miner lends you a bronze pickaxe. Mine copper here, then find tin in the offshoot to the south-east."]
+  LESSON DONE mine_copper at 450.7s -> mine_tin "Follow the offshoot south-east and mine a tin rock."
+
+=== mine_tin (attempt 1) t=450.7 objective="Follow the offshoot south-east and mine a tin rock." arrow=Mine tin@[304,377] pos=[296.5,355.5] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch","pickaxe","copper_ore"]
+  arrow {"label":"Mine tin","target":[304,377],"edgeArrowVisible":true} pos [296.5,355.5]
+  no clickable ground toward target; stepping out sideways
+  rush -> (304,378) reached=true at=[303.5,377.5] t=468.2 legs=1  lastchat=["You manage to mine copper."]
+  nearby ["resource:Mine Tin rock@304,377 d0.7","furnace:Smelt at Furnace@305,363 d14.6 offscreen","anvil:Smith at Anvil@302,363 d14.6 offscreen","resource:Mine Copper rock@293,360 d20.4 offscreen","resource:Mine Copper rock@296,357 d21.8 offscreen"]
+  tin click true [769,456]
+  LESSON DONE mine_tin at 470.9s -> smelt_bronze "Smelt copper and tin into a bronze bar."
+
+=== smelt_bronze (attempt 1) t=470.9 objective="Smelt copper and tin into a bronze bar." arrow=Use the furnace@[305,363] pos=[304.5,377.5] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch","pickaxe","copper_ore","tin_ore"]
+  rush -> (305,364) reached=false at=[305.5,372.5] t=623.2 legs=24  lastchat=["You manage to mine tin."]
+  nearby ["resource:Mine Tin rock@304,377 d4.7","furnace:Smelt at Furnace@305,363 d9.5","anvil:Smith at Anvil@302,363 d10.1","resource:Mine Copper rock@293,360 d17.7 offscreen","resource:Mine Copper rock@296,357 d18.2 offscreen","climb:Climb-up Cavern exit@322,354 d24.8 offscreen"]
+  furnace click true
+  dialogue [Furnace] "The heat rolls over you in waves." opts=["Smelt a Bronze bar.","Never mind."]
+  LESSON DONE smelt_bronze at 629.9s -> forge_dagger "Forge the highlighted Bronze dagger at the anvil."
+
+=== forge_dagger (attempt 1) t=629.9 objective="Forge the highlighted Bronze dagger at the anvil." arrow=Forge a dagger@[302,363] pos=[305.5,365.5] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch","pickaxe","bronze_bar","hammer"]
+  no clickable ground toward target; stepping out sideways
+  rush -> (302,364) reached=false at=[292.5,361.5] t=770.8 legs=24  lastchat=["You smelt a bronze bar."]
+  anvil click true
+  no dialogue after anvil; chat ["The smith passes you a hammer. Use it on the anvil with a bronze bar.","You smelt a bronze bar."]
+  step forge_dagger not done (attempt 1); chat=["You manage to mine tin.","The smith passes you a hammer. Use it on the anvil with a bronze bar.","You smelt a bronze bar."]
+
+=== forge_dagger (attempt 2) t=798.9 objective="Forge the highlighted Bronze dagger at the anvil." arrow=Forge a dagger@[302,363] pos=[292.5,361.5] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch","pickaxe","bronze_bar","hammer"]
+  no clickable ground toward target; stepping out sideways
+  rush -> (302,364) reached=false at=[292.5,361.5] t=808.5 legs=0 no clickable ground toward target lastchat=["You smelt a bronze bar."]
+  bar->anvil true
+  no dialogue after anvil; chat ["The smith passes you a hammer. Use it on the anvil with a bronze bar.","You smelt a bronze bar."]
+  step forge_dagger not done (attempt 2); chat=["You manage to mine tin.","The smith passes you a hammer. Use it on the anvil with a bronze bar.","You smelt a bronze bar."]
+
+=== forge_dagger (attempt 3) t=836.9 objective="Forge the highlighted Bronze dagger at the anvil." arrow=Forge a dagger@[302,363] pos=[292.5,361.5] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch","pickaxe","bronze_bar","hammer"]
+  no clickable ground toward target; stepping out sideways
+  rush -> (302,364) reached=false at=[292.5,361.5] t=846.5 legs=0 no clickable ground toward target lastchat=["You smelt a bronze bar."]
+  click at [773,0] would land on DIV#smith-grid-overlay:⚒ Smith on the anvilWhat; tilting the camera instead
+  click at [769,150] would land on DIV#smith-grid-overlay:⚒ Smith on the anvilWhat; tilting the camera instead
+  click at [769,267] would land on DIV#smith-grid-overlay:⚒ Smith on the anvilWhat; tilting the camera instead
+  anvil rows []
+  no dialogue after anvil; chat ["The smith passes you a hammer. Use it on the anvil with a bronze bar.","You smelt a bronze bar."]
+  step forge_dagger not done (attempt 3); chat=["You manage to mine tin.","The smith passes you a hammer. Use it on the anvil with a bronze bar.","You smelt a bronze bar."]
+
+=== forge_dagger (attempt 4) t=879.1 objective="Forge the highlighted Bronze dagger at the anvil." arrow=Forge a dagger@[302,363] pos=[292.5,361.5] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch","pickaxe","bronze_bar","hammer"]
+  no clickable ground toward target; stepping out sideways
+  rush -> (302,364) reached=false at=[292.5,361.5] t=888.8 legs=0 no clickable ground toward target lastchat=["You smelt a bronze bar."]
+  click at [773,0] would land on DIV#smith-grid-overlay:⚒ Smith on the anvilWhat; tilting the camera instead
+  click at [769,150] would land on DIV#smith-grid-overlay:⚒ Smith on the anvilWhat; tilting the camera instead
+  click at [769,267] would land on DIV#smith-grid-overlay:⚒ Smith on the anvilWhat; tilting the camera instead
+  anvil rows []
+  no dialogue after anvil; chat ["The smith passes you a hammer. Use it on the anvil with a bronze bar.","You smelt a bronze bar."]
+  step forge_dagger not done (attempt 4); chat=["You manage to mine tin.","The smith passes you a hammer. Use it on the anvil with a bronze bar.","You smelt a bronze bar."]
+
+=== forge_dagger (attempt 5) t=921.3 objective="Forge the highlighted Bronze dagger at the anvil." arrow=Forge a dagger@[302,363] pos=[292.5,361.5] pack=["coins x55","logs","tinderbox","fishing_net","logs","burnt_perch","cooked_perch","pickaxe","bronze_bar","hammer"]
+!! giving up on forge_dagger after 4 attempts
+[RUN6] seconds 921.5 zone Training Cavern sailed false complete false findings 4 errors 2

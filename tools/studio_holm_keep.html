@@ -1,0 +1,58 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Holm · Warden’s Keep study</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#263832;color:#eee5cf;font:15px/1.5 Georgia,serif}header{padding:15px 24px;border-bottom:1px solid #637269}h1{font-size:25px;margin:0}small{color:#c1cdbb}main{display:grid;grid-template-columns:minmax(0,1fr) 340px;height:calc(100vh - 83px)}#view{position:relative;min-height:460px}canvas{display:block;width:100%;height:100%}aside{overflow:auto;padding:14px;background:#eee5d0;color:#334036}button{font:13px Georgia;cursor:pointer;padding:6px;background:#38584a;color:#fff3d9;border:0;margin:2px 0;width:100%}img{width:100%;display:block}a{color:#315e4b}#status{font:12px/1.5 system-ui}h2{font-size:17px;margin:8px 0}p{margin:6px 0}aside{font-size:13px;line-height:1.4}.tag{font:11px system-ui;letter-spacing:.09em;color:#b8c5b2}@media(max-width:850px){main{height:auto;grid-template-columns:1fr}#view{height:65vh}aside{overflow:visible}}</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script></head><body>
+<header><div class="tag">CRAFTED REALMS · BLENDER DESIGN STUDY</div><h1>Warden’s Keep</h1><small>Connected wings · original textured materials · candidate under review</small></header>
+<main><div id="view"></div><aside><h2>An inhabited courtyard castle</h2><p>Unequal towers join a tall teaching hall, lower stores and a gatehouse around an open court. The spaces are modeled for future movement and services.</p><button data-floor="exterior" aria-pressed="true">Complete exterior</button><button data-floor="ground" aria-pressed="false">Ground floor · court & hall</button><button data-floor="upper" aria-pressed="false">Upper hall & wall walk</button><button id="front">Gate and courtyard view</button><button id="back">Rear towers view</button><button id="pause">Pause preview</button><p id="status" role="status">Loading Blender model…</p><p><a href="studio_holm_keep_walk.html">Walk through the keep</a></p><h2>Bible reference</h2><a href="../Bible_References/Complete/Building_Exterior_Option4.jpg"><img alt="Reference: connected multilevel stone buildings and towers" src="../Bible_References/Complete/Building_Exterior_Option4.jpg"></a><p>Compare the unequal towers, connected stone ranges, roof heights and courtyard scale. This model is not yet installed in the playable island.</p><p><a href="studio_holm_vegetation.html">Trees and sparse vegetation study</a></p><p><a href="../docs/rebuild/holm-overhaul/index.html">Back to the revised island plan</a></p></aside></main>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+const host=document.getElementById('view'),status=document.getElementById('status');
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setClearColor('#8f9b82');renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;host.append(renderer.domElement);
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(38,1,.1,150),controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.maxPolarAngle=Math.PI*.49;controls.minDistance=8;controls.maxDistance=85;controls.target.set(0,4,0);camera.position.set(28,25,33);
+scene.add(new THREE.HemisphereLight('#f3ead5','#5b6048',1.6));const sun=new THREE.DirectionalLight('#fff0d2',2);sun.position.set(-20,36,25);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-27,right:27,top:27,bottom:-27,near:1,far:100});sun.shadow.normalBias=.025;scene.add(sun);
+const base=new THREE.Mesh(new THREE.CircleGeometry(25,40),new THREE.MeshLambertMaterial({color:'#6e7d50'}));base.rotation.x=-Math.PI/2;base.position.y=-.035;base.receiveShadow=true;scene.add(base);
+let model,paused=false;
+const upperCut=new THREE.Plane(new THREE.Vector3(0,-1,0),4.5);renderer.localClippingEnabled=true;
+const towerLabel=document.createElement('label');towerLabel.textContent='Inspect tower stairs';
+const towerSelect=document.createElement('select');towerSelect.setAttribute('aria-label','Tower stair level');towerSelect.style.cssText='width:100%;padding:7px;margin:4px 0;font:13px Georgia';
+for(const [value,label] of [['','Choose a tower level'],['Highwatch:1','High watch · first floor'],['Highwatch:2','High watch · second floor'],['Highwatch:3','High watch · lookout'],['Eastturret:1','East turret · first floor'],['Eastturret:2','East turret · lookout']]){const o=document.createElement('option');o.value=value;o.textContent=label;towerSelect.append(o)}
+towerLabel.append(towerSelect);status.before(towerLabel);
+towerSelect.onchange=()=>{if(!model||!towerSelect.value)return;const [tower,levelText]=towerSelect.value.split(':'),level=Number(levelText),high=tower==='Highwatch',cx=high?-7:10,cz=high?-12:-7,a=3,top=level*(high?3.4:3.35);
+ setFloor('exterior');towerSelect.value=tower+':'+level;
+ const planes=[new THREE.Plane(new THREE.Vector3(1,0,0),-cx+a+.3),new THREE.Plane(new THREE.Vector3(-1,0,0),cx+a+.3),new THREE.Plane(new THREE.Vector3(0,0,1),-cz+a+.3),new THREE.Plane(new THREE.Vector3(0,0,-1),cz+a+.3)];
+ model.traverse(n=>{if(!n.isMesh)return;let semantic=n;while(semantic.parent&&semantic!==model&&!/^Keep_/.test(semantic.name))semantic=semantic.parent;const part=semantic.name;
+  if(/^Keep_(Shell|Upper_Shell|GroundFront|Roof)_/.test(part))n.visible=false;
+  const section=part.match(/^Keep_(?:Upper_)?Tower_(Highwatch|Eastturret)_Level(\d+)_/);if(!section||section[1]!==tower||Number(section[2])>level)n.visible=false;
+  for(const m of [n.material].flat())m.clippingPlanes=planes;
+ });
+ controls.target.set(cx,top/2,cz);camera.position.set(cx+11,top/2+10,cz+14);render();
+};
+new GLTFLoader().load('../.studio-workspaces/holm-warden-keep-v5/candidates/keep.glb?v=f49266fb',g=>{model=g.scene;scene.add(model);let tris=0;const textures=new Set();model.traverse(n=>{if(n.isMesh){n.material=Array.isArray(n.material)?n.material.map(m=>m.clone()):n.material.clone();n.castShadow=n.receiveShadow=true;tris+=(n.geometry.index?n.geometry.index.count:n.geometry.attributes.position.count)/3;(Array.isArray(n.material)?n.material:[n.material]).forEach(m=>{if(m.map)textures.add(m.map)})}});status.textContent='Blender candidate loaded · '+Math.round(tris).toLocaleString()+' triangles · '+textures.size+' embedded material textures. Candidate castle; room access, animation and runtime integration remain under review.';console.info('[WARDEN_KEEP_STUDIO] loaded',Math.round(tris),'triangles',textures.size,'textures');render();},undefined,e=>{status.textContent='Model failed to load.';console.error(e)});
+function setFloor(mode){
+ if(!model)return;
+ towerSelect.value='';
+ model.traverse(n=>{
+  if(!n.isMesh)return;
+  n.visible=true;
+  let semantic=n;while(semantic.parent && semantic!==model && !/^Keep_/.test(semantic.name))semantic=semantic.parent;
+  const part=semantic.name;
+  const mats=Array.isArray(n.material)?n.material:[n.material];
+  mats.forEach(m=>{m.clippingPlanes=[];m.clipShadows=true});
+  if(mode!=='exterior' && /^Keep_Roof_/.test(part))n.visible=false;
+  if(mode==='ground' && /^Keep_(Upper|GroundFront)_/.test(part))n.visible=false;
+  if(mode==='ground' && /^Keep_Tower_.*_Level[23]_/.test(part))n.visible=false;
+  if(mode==='ground' && /^Keep_Shell_/.test(part))mats.forEach(m=>m.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,-1,0),1.8)]);
+  if(mode==='upper' && /^Keep_Upper_Shell_/.test(part))mats.forEach(m=>m.clippingPlanes=[upperCut]);
+ });
+ document.querySelectorAll('[data-floor]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.floor===mode)));
+ controls.target.set(0,mode==='upper'?3.8:3,0);camera.position.set(28,mode==='exterior'?25:35,33);render();
+}
+document.querySelectorAll('[data-floor]').forEach(b=>b.onclick=()=>setFloor(b.dataset.floor));
+document.getElementById('front').onclick=()=>{controls.target.set(0,4,0);camera.position.set(28,25,33);render()};
+document.getElementById('back').onclick=()=>{controls.target.set(0,4,0);camera.position.set(-36,30,-42);render()};
+function render(){controls.update();renderer.render(scene,camera)}
+controls.addEventListener('change',()=>{if(paused)renderer.render(scene,camera)});
+document.getElementById('pause').onclick=()=>{paused=!paused;renderer.setAnimationLoop(paused?null:render);document.getElementById('pause').textContent=paused?'Resume preview':'Pause preview'};
+new ResizeObserver(()=>{const r=host.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();render()}).observe(host);renderer.setAnimationLoop(render);
+</script></body></html>

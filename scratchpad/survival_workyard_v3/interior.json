@@ -1,0 +1,10 @@
+{
+ "name": "Survival Workyard v3 interior",
+ "osrs": "Bible_References/Tutorial_Island_Building.jpg",
+ "cr": "scratchpad/survival_workyard_v3/holm_survival_workyard_interior_ingame.png",
+ "codex": 9.1,
+ "review_note": "With the roof off the lodge (lesson table, hutch, relief, mug shelf), the hearth room (fireplace with live flame, glass) and the open court (tool bench, chopping block with axe, log stack, sawbuck, net rack) read as one working compound from the trail door; the pond door beacon and the fire ring sit in the same sightline.",
+ "verdict": "meets the 9.0 gate - owner eyes-on still required",
+ "improve": "Lodge floor centre is open; the cellar hatch reads as a floor plate only; the court paving is uniform.",
+ "out": "Bible_References/Complete/_compare/holm_survival_workyard_v3_interior_compare.png"
+}

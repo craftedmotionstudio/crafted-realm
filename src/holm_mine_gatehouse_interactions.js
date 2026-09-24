@@ -29,19 +29,24 @@ var HolmMineGatehouse=(function(){
     if(!shaft){ UI.chat('The shaft ladder is not rigged yet. Try again in a moment.','plain'); return; }
     handleClick(shaft,shaft.position);
   }
+  /* The descend lesson makes Climb-down the left-click on the winch frame (play review: right-click only). */
+  function descendDue(){
+    if(typeof Tutorial==='undefined'||!Tutorial.steps||Tutorial.complete) return false;
+    var i=Tutorial.steps.findIndex(function(s){return s.id==='descend_cavern';});
+    return i>=0&&Tutorial.step===i;
+  }
   function studyFrame(){
     if(!onHolm()) return;
-    var mined=typeof Tutorial!=='undefined'&&Tutorial.steps&&Tutorial.steps.findIndex(function(s){return s.id==='descend_cavern';});
-    var due=typeof Tutorial!=='undefined'&&mined>=0&&Tutorial.step===mined;
+    var due=descendDue();
     UI.dialogue('The winch house',
-      'The drum lifts ore; the ladder in the shaft lifts miners. Copper first, then tin from the north offshoot, then the furnace and the anvil. The way back up is the far ladder into the Combat Hall, so pack what you need before you go down.'+
+      'The drum lifts ore; the ladder in the shaft lifts miners. Copper first, then tin from the offshoot to the south-east, then the furnace and the anvil. The way back up is the far ladder into the Combat Hall, so pack what you need before you go down.'+
       (due?' This is your lesson: climb down now.':' Current lesson: '+objective()),
       [{label:'Climb down the shaft.',fn:descend},{label:'Not yet.'}],'⛏');
   }
   function readTally(){
     if(!onHolm()) return;
     UI.dialogue('The ore tally',
-      'Two columns of chalk marks: copper from the ore hall, tin from the north offshoot. The bronze smear beneath them is the point: one copper and one tin make one bronze bar, and one bar makes the dagger you will carry off this island.',
+      'Two columns of chalk marks: copper from the ore hall, tin from the offshoot to the south-east. The bronze smear beneath them is the point: one copper and one tin make one bronze bar, and one bar makes the dagger you will carry off this island.',
       [{label:'Copper, tin, bronze.'}],'🪨');
     UI.chat('[MINE GATEHOUSE] Copper + tin at the furnace = bronze bar; one bar at the anvil = Bronze dagger.','sys');
   }
@@ -54,8 +59,8 @@ var HolmMineGatehouse=(function(){
   var R=typeof HolmStationReach!=='undefined'?HolmStationReach:null;
   function inside(tile,fn){ return R?R.guard(BUILDING_ID,tile,fn):fn; }
   if(typeof Interact!=='undefined'){
-    Interact.register({target:'kind:holm_shaft_frame',option:'Study',primary:true,walkTo:true,reach:2.6,handler:inside({x:-2.5,z:-0.5},studyFrame)});
-    Interact.register({target:'kind:holm_shaft_frame',option:'Climb-down',walkTo:true,reach:2.6,handler:inside({x:-2.5,z:-0.5},descend)});
+    Interact.register({target:'kind:holm_shaft_frame',option:'Study',primary:function(){return !descendDue();},walkTo:true,reach:2.6,handler:inside({x:-2.5,z:-0.5},studyFrame)});
+    Interact.register({target:'kind:holm_shaft_frame',option:'Climb-down',primary:descendDue,walkTo:true,reach:2.6,handler:inside({x:-2.5,z:-0.5},descend)});
     Interact.register({target:'kind:holm_ore_tally',option:'Read',primary:true,walkTo:true,reach:2.6,handler:inside({x:2.5,z:-2.6},readTally)});
     Interact.register({target:'kind:holm_gate_stone',option:'Read',primary:true,walkTo:true,reach:2.6,handler:inside({x:1.0,z:2.8},readGateStone)});
   }

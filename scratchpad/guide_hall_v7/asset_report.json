@@ -1,0 +1,51 @@
+{
+  "asset": "holm_guide_hall_v7",
+  "pipelineVersion": 1,
+  "unitsPerTile": 1,
+  "checks": {
+    "continuousPerimeterPreserved": true,
+    "fittedDoorLeavesPreserved": true,
+    "actualRecessedWindowsAuthored": true,
+    "irregularMasonryCoursesAuthored": true,
+    "loadBearingTimberBaysAuthored": true,
+    "layeredConnectedRoofAuthored": true,
+    "occupationalRecordsClusterAuthored": true,
+    "semanticNodesPreserved": true,
+    "ridgeCapsAuthored": true,
+    "chimneyWithPotAuthored": true,
+    "eavesSoffitAuthored": true,
+    "heroChartRimAndDistricts": true,
+    "teachingDaisOffDoorAxis": true,
+    "registerLedgerAndQuill": true,
+    "provisionOilskinsHung": true,
+    "recordsStoveUnderChimney": true
+  },
+  "visualLanguage": "owner-approved Guide Hall anchor + P2-D brief pass",
+  "roofTiles": 656,
+  "ridgeCaps": 28,
+  "metrics": {
+    "triangles": 37050,
+    "meshObjects": 61,
+    "materials": 18,
+    "materialNames": [
+      "CR Aged Brass",
+      "CR Chart Land",
+      "CR Chart Water",
+      "CR Civic Glass Holm",
+      "CR Civic Glass Tide",
+      "CR Compass Ember",
+      "CR Fired Roof Sun",
+      "CR Fired Roof Umber",
+      "CR Forged Iron",
+      "CR Holm Fieldstone",
+      "CR Holm Fieldstone Light",
+      "CR Holm Limewash",
+      "CR Holm Oak Dark",
+      "CR Holm Oak Worn",
+      "CR Holm Path",
+      "CR Parchment",
+      "CR Provision Moss",
+      "CR Records Blue"
+    ]
+  }
+}

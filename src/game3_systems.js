@@ -177,11 +177,15 @@ const Player = {
   },
   tickVitals(dt, moving){
     // run energy: drains while running, scaled by weight; walking is free (OSRS)
+    // Tutor's Holm pacing (play review 2026-09-10): the 543-tile required route emptied the bar by the bank
+    // and the switchback was walked at 2.4 tiles/s. The island is a teaching route, not an endurance test,
+    // so the Holm drains at a quarter rate and regenerates three times faster. Mainland rules are untouched.
+    const holmPace = (typeof CRWorldMode!=='undefined' && CRWorldMode.providerId==='tutors-holm-v2');
     if(moving && this.runOn && this.energy>0){
-      this.energy = Math.max(0, this.energy - dt*(1.4 + 2.2*(this.weight()/64)));
+      this.energy = Math.max(0, this.energy - dt*(1.4 + 2.2*(this.weight()/64))*(holmPace?0.25:1));
       if(this.energy<=0){ this.runOn=false; UI.chat("You've run out of energy and slow to a walk.",'plain'); UI.refreshRun(); }
     } else if(this.energy<100){
-      this.energy = Math.min(100, this.energy + dt*0.9);
+      this.energy = Math.min(100, this.energy + dt*0.9*(holmPace?3:1));
     }
     this.tickPrayers(dt);
     if(this.teleCd>0) this.teleCd=Math.max(0, this.teleCd-dt);
@@ -214,7 +218,7 @@ const Player = {
     UI.xpDrop(s, amt);
     const after = this.lvl(s);
     if(after>before){
-      UI.chat(`Congratulations, you just advanced ${s==='Hitpoints'?'a':'an'} ${s} level. You are now level ${after}.`,'xp');
+      UI.chat(`Congratulations, you just advanced ${/^[aeiou]/i.test(s)?'an':'a'} ${s} level. You are now level ${after}.`,'xp');
       if(s==='Hitpoints'){ this.maxHp=after; this.hp=Math.min(this.hp+1,this.maxHp); }
       Sfx.level();
       if(typeof Events!=='undefined') Events.emit('levelUp', {skill:s, level:after});
@@ -697,7 +701,12 @@ function applyHit(npc, dmg, xpSkill){
     }
     give('Hitpoints',1.33);
   }
-  if(npc.hp<=0) killNpc(npc);
+  if(npc.hp<=0){
+    // The XP token travels with projectiles; current equipment can change in flight.
+    const attackStyle=({Attack:'melee',Strength:'melee',Defence:'melee',Shared:'melee',
+      Ranged:'ranged',RangedDef:'ranged',Magic:'magic',MagicDef:'magic'})[xpSkill]||null;
+    killNpc(npc,{attackStyle});
+  }
 }
 function playerAttack(npc, dt){
   Player.attackCd -= dt;
@@ -880,7 +889,7 @@ function killNpc(npc, opt){
   if(toppleable){ npc.dying = true; startDeath(npc.mesh); }
   else npc.mesh.visible = false;
   if(!opt.silent) UI.chat(`You have defeated the ${npc.t.name}.`,'combat');
-  if(typeof Events!=='undefined') Events.emit('npcKilled', {npc});
+  if(typeof Events!=='undefined') Events.emit('npcKilled', {npc,attackStyle:opt.attackStyle||null});
   dropLoot(npc.mesh.position, npc.t.drops);
   if(Player.target===npc) Player.target=null;
   if(!opt.noQuest){ Quest.onKill(npc.typeId); Tutorial.notify('kill', npc.typeId); }

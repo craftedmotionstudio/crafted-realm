@@ -449,6 +449,7 @@ function buildGround(){
 }
 /* analytic ground height — identical math to the generated mesh, no raycasts */
 function groundY(x,z){
+  if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())return HolmArrivalQA.height(x,z);
   // far-offset review lab (the Menagerie) brings its own walkable stone pad
   if(typeof MENAGERIE_PAD!=='undefined' &&
      x>=MENAGERIE_PAD.x0 && x<=MENAGERIE_PAD.x1 && z>=MENAGERIE_PAD.z0 && z<=MENAGERIE_PAD.z1) return 0;

@@ -1,0 +1,11 @@
+{
+  "name": "Quest Lodge: usable guest wing",
+  "subtitle": "Bible timber/interior reference / actual in-app walking study",
+  "osrs": "Bible_References/Town2.jpg",
+  "cr": "scratchpad/holm_perf/quest-lodge-walk-upper-crop.png",
+  "codex": 8.0,
+  "review_note": "Adventurer reached the furnished upper room by measured cardinal route. Sparse furnishings leave a usable aisle; broad wood grain remains below reference quality.",
+  "verdict": "CANDIDATE - NOT ACCEPTED",
+  "improve": "Plank-scale timber texture, active hearth, dynamic door routing, terrain and quest-guide integration.",
+  "out": "Bible_References/Complete/_compare/holm-quest-lodge-v2-walk-reference.png"
+}

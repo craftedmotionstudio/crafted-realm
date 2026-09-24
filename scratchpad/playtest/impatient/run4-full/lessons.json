@@ -1,0 +1,26 @@
+[
+  {
+    "id": "study_route",
+    "t": 20.4,
+    "next": "equip_hatchet",
+    "objective": "Open your pack and wield the Bronze hatchet."
+  },
+  {
+    "id": "equip_hatchet",
+    "t": 21.4,
+    "next": "chop_logs",
+    "objective": "Chop a marked tree in Survival Wood for logs."
+  },
+  {
+    "id": "chop_logs",
+    "t": 97.7,
+    "next": "light_fire",
+    "objective": "Use your tinderbox on the logs to light a fire."
+  },
+  {
+    "id": "light_fire",
+    "t": 102.6,
+    "next": "catch_fish",
+    "objective": "Use the Small net at the marked fishing spot."
+  }
+]

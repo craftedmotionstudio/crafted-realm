@@ -1,0 +1,12 @@
+{
+  "profile": "impatient2-<ts> (run 3, ABORTED by the tester at ~100 s; reconstructed from progress.log)",
+  "port": 8779,
+  "seconds": 100,
+  "summary": "Second full-route attempt with fixed phase order. After wielding the hatchet inside the Guide Hall the arrow pointed at the Teaching door (151,141) instead of the tree, the fixed-order script walked to the door and then tried to click the tree from there (off-screen), and the run derailed. Replaced by the step-driven play3.js (run 4). The finding recorded here as P-02 ('hatchet did not advance within 6s') is a script artefact: the step had already advanced before the check ran; disregard it.",
+  "lessons": [{"id": "study_route", "t": 16.8}, {"id": "equip_hatchet", "t": 18.5}],
+  "findings": [
+    {"id": "P-01", "severity": "low", "where": "Arrival Cove chat", "observation": "same as run 2 P-01", "screenshot": "001-finding-1.png"},
+    {"id": "P-02", "severity": "(void)", "observation": "script artefact, see summary"}
+  ],
+  "log": "see progress.log"
+}

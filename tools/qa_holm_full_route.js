@@ -15,7 +15,7 @@ const puppeteer = require('puppeteer-core');
 const OUT = path.join(__dirname, '..', 'scratchpad', 'holm_full_route');
 fs.mkdirSync(OUT, {recursive: true});
 const PROFILE = 'fable-route-qa-' + Date.now().toString(36);
-const URL = 'http://127.0.0.1:8777/?qaProfile=' + PROFILE;
+const URL = (process.env.SMOKE_BASE || 'http://127.0.0.1:8777') + '/?qaProfile=' + PROFILE;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const checks = [];
 const t0 = Date.now();
@@ -284,7 +284,7 @@ async function count(page, id){ return page.evaluate(id => Player.count(id), id)
   ok('12 open_bank: a real click on a teller booth opens the bank interface', r.clicked && adv && bankOpen && s.step >= 12, {r: r.loc, s});
 
   // Optional NPC-free lessons before the beacon: bake bread, study the quest board.
-  await walkVia(page, [[158.5, 128.5], [158.5, 142.5], [148.5, 143.5], [144.5, 137.6], [150.5, 137.6]], 120000);
+  await walkVia(page, [[158.5, 128.5], [158.5, 142.5], [148.5, 143.5], [144.5, 135.6], [150.5, 135.6]], 120000);
   async function station(kind, opts){
     const before = await page.evaluate(() => JSON.stringify(Player.inv));
     const rr = await clickObject(page, "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='" + kind + "')", Object.assign({dist: 11}, opts || {}));
@@ -309,7 +309,7 @@ async function count(page, id){ return page.evaluate(id => Player.count(id), id)
   await shot(page, '13_bake_bread');
   ok('optional bake_bread: real clicks on the shelf, bin, butt, trough, pack and range bake a loaf', k1 && k3 && k4 && k5 && k6 && dough >= 1 && kneaded >= 1 && bake.optional === true && bake.step >= 12, {k1, k2, k3, k4, k5, k6, dough, kneaded, bake});
 
-  await walkVia(page, [[144.5, 137.6], [141.2, 134.5], [137.5, 133.5]], 90000);
+  await walkVia(page, [[144.5, 135.6], [141.2, 134.5], [137.5, 133.5]], 90000);
   r = await clickObject(page, "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_quest_board')", {dist: 11});
   await page.waitForFunction(() => Tutorial.optional && Tutorial.optional.learn_quests, {timeout: 20000}).catch(() => {});
   const quests = await page.evaluate(() => ({optional: Tutorial.optional ? !!Tutorial.optional.learn_quests : null, step: Tutorial.step}));

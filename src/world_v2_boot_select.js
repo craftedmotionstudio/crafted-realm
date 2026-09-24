@@ -6,8 +6,8 @@
   if(!global.WorldV2||!global.CRWorldMode||global.CRWorldMode.legacy) return;
   var wanted='tutors-holm-v2';
   try{
-    if(global.Persist&&Persist.store){
-      var raw=Persist.store.get('motionscape_save'),save=raw&&JSON.parse(raw);
+    if(typeof Persist!=='undefined'&&Persist.store){
+      var raw=Persist.store.get(typeof QAProfile!=='undefined'?QAProfile.key:'motionscape_save'),save=raw&&JSON.parse(raw);
       if(save&&save.world&&typeof save.world.provider==='string'&&WorldV2.get(save.world.provider))
         wanted=save.world.provider;
     }

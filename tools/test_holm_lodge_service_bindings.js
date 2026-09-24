@@ -1,0 +1,16 @@
+'use strict';
+const fs=require('fs'),assert=require('assert'),crypto=require('crypto'),bindings=require('./holm_lodge_service_bindings');
+const nav=JSON.parse(fs.readFileSync('.studio-workspaces/holm-quest-terrain-navigation-v1/candidates/navigation.json','utf8'));
+const bytes=fs.readFileSync('.studio-workspaces/holm-quest-lodge-v3/candidates/lodge.glb');
+assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),nav.modelSha256);
+const gltf=JSON.parse(bytes.subarray(20,20+bytes.readUInt32LE(12)).toString()),names=gltf.nodes.map(n=>n.name||'');
+const before=JSON.stringify(nav),b=bindings.create(nav,names);
+assert.deepEqual(b.services.map(s=>s.id),['holm_quest_lodge.quest_board','holm_quest_lodge.region_map']);
+assert.deepEqual(b.services.map(s=>s.local),[[-3.5,0,2.5],[2.5,0,1.5]]);
+assert(b.find('Lodge_FurnishingBoard_Original_parchment'));assert.equal(b.find('Lodge_FurnishingBay_Original_parchment'),null);
+assert.throws(()=>bindings.create({...nav,modelSha256:'changed'},names),/drift/);
+assert.throws(()=>bindings.create(nav,[]),/meshes/);
+const bad=JSON.parse(before);bad.targets.find(t=>t.id==='board').reachable=false;assert.throws(()=>bindings.create(bad,names),/reachable/);
+const shifted=JSON.parse(before);shifted.nodes.find(n=>n.id===b.services[0].nodeId).x+=1;assert.throws(()=>bindings.create(shifted,names),/floor/);
+assert.equal(JSON.stringify(nav),before);assert(Object.isFrozen(b.services[0].local));
+console.log('[LODGE_SERVICE_BINDINGS] actual GLB identities, measured stances, missing/changed asset refusal and immutable data pass');

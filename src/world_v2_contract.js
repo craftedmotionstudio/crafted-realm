@@ -228,9 +228,32 @@
     return out;
   };
   WorldProvider.prototype.isResident=function(cx,cz){ return this._resident.has(key(cx,cz)); };
+  /* Chunk loads are budgeted per call unless forced: a boundary crossing unloads everything that left
+   * the window at once (cheap) but loads the new column nearest-first, LOAD_BUDGET chunks per frame,
+   * so a 7-chunk column costs ~4 frames of ~8 ms instead of one 30-70 ms frame (streaming audit,
+   * 2026-09-10). The walker calls this every frame, which drains the queue; forced calls (spawn,
+   * travel, save/load) still load the whole window synchronously. */
+  var LOAD_BUDGET=1;
+  WorldProvider.prototype._drainPending=function(all){
+    if(!this._pendingLoads||!this._pendingLoads.length) return false;
+    var t0=(global.performance&&global.performance.now)?global.performance.now():Date.now();
+    var n=all?this._pendingLoads.length:Math.min(LOAD_BUDGET,this._pendingLoads.length);
+    for(var i=0;i<n;i++){
+      var item=this._pendingLoads.shift();
+      if(this._resident.has(item.id)) continue;
+      var handle=this.hooks.loadChunk ? this.hooks.loadChunk(item,this) : {id:item.id,dataOnly:true};
+      this._resident.set(item.id,handle||{id:item.id}); this._telemetry.loaded++;
+    }
+    this._telemetry.residentChunks=this._resident.size;
+    this._telemetry.pendingLoads=this._pendingLoads.length;
+    var t1=(global.performance&&global.performance.now)?global.performance.now():Date.now();
+    this._telemetry.lastResidencyMs=+(t1-t0).toFixed(3);
+    this._telemetry.maxResidencyMs=Math.max(this._telemetry.maxResidencyMs,this._telemetry.lastResidencyMs);
+    return true;
+  };
   WorldProvider.prototype.updateResidency=function(x,z,force){
     var cx=tileToChunk(x), cz=tileToChunk(z), center=key(cx,cz);
-    if(!force && center===this._lastCenterKey) return false;
+    if(!force && center===this._lastCenterKey) return this._drainPending(false);
     var t0=(global.performance&&global.performance.now)?global.performance.now():Date.now();
     var wanted=new Map(), candidates=[];
     for(var dz=-this.residentRadius;dz<=this.residentRadius;dz++){
@@ -249,21 +272,23 @@
       if(this.hooks.unloadChunk) this.hooks.unloadChunk(remove[r].handle,this._catalog.get(remove[r].id),this);
       this._resident.delete(remove[r].id); this._telemetry.unloaded++;
     }
+    this._pendingLoads=[];
     for(var c=0;c<candidates.length;c++){
       var item=candidates[c].chunk;
-      if(this._resident.has(item.id)) continue;
-      var handle=this.hooks.loadChunk ? this.hooks.loadChunk(item,this) : {id:item.id,dataOnly:true};
-      this._resident.set(item.id,handle||{id:item.id}); this._telemetry.loaded++;
+      if(!this._resident.has(item.id)) this._pendingLoads.push(item);
     }
     this._lastCenterKey=center;
-    this._telemetry.residentChunks=this._resident.size;
     this._telemetry.residencyChanges++;
     this._telemetry.lastCenter={cx:cx,cz:cz};
     var t1=(global.performance&&global.performance.now)?global.performance.now():Date.now();
-    this._telemetry.lastResidencyMs=+(t1-t0).toFixed(3);
+    var unloadMs=t1-t0;
+    this._drainPending(!!force);
+    this._telemetry.lastResidencyMs=+(this._telemetry.lastResidencyMs+unloadMs).toFixed(3);
     this._telemetry.maxResidencyMs=Math.max(this._telemetry.maxResidencyMs,this._telemetry.lastResidencyMs);
+    this._telemetry.residentChunks=this._resident.size;
     return true;
   };
+  WorldProvider.prototype.pendingLoads=function(){ return this._pendingLoads?this._pendingLoads.length:0; };
   WorldProvider.prototype.dispose=function(){
     var ids=Array.from(this._resident.keys()).sort();
     for(var i=0;i<ids.length;i++){

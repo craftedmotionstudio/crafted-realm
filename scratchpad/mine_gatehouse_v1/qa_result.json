@@ -1,5 +1,5 @@
 {
-  "profile": "fable-gate-qa-mtu7rykg",
+  "profile": "fable-gate-qa-mtvifvm4",
   "passed": 12,
   "total": 12,
   "checks": [
@@ -29,12 +29,15 @@
       }
     },
     {
-      "label": "closed gate keeps the winch house unreachable from the road",
+      "label": "the closed mine gate opens for the walker and the winch house is reached from the road",
       "ok": true,
-      "detail": [
-        120.5,
-        119.5
-      ]
+      "detail": {
+        "throughGate": [
+          124.5,
+          119.5
+        ],
+        "gateAfter": true
+      }
     },
     {
       "label": "mine gate opens and the cobbled passage is enterable",

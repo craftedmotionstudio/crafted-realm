@@ -1,0 +1,407 @@
+{
+  "profile": "impatient4-mtvy9qs7",
+  "port": 8779,
+  "seconds": 137.2,
+  "bootMs": 6765,
+  "summary": "impatient step-driven run; sailed=true; lessons=[{\"id\":\"study_route\",\"t\":16.3,\"next\":\"equip_hatchet\",\"objective\":\"Open your pack and wield the Bronze hatchet.\"},{\"id\":\"equip_hatchet\",\"t\":17.2,\"next\":\"chop_logs\",\"objective\":\"Chop a marked tree in Survival Wood for logs.\"},{\"id\":\"chop_logs\",\"t\":92.4,\"next\":\"light_fire\",\"objective\":\"Use your tinderbox on the logs to light a fire.\"},{\"id\":\"light_fire\",\"t\":96.7,\"next\":null,\"objective\":\"Board the skiff at Departure Dock.\"},{\"id\":\"board_skiff\",\"t\":137,\"next\":null,\"objective\":\"Board the skiff at Departure Dock.\"}]",
+  "end": {
+    "objective": "Board the skiff at Departure Dock.",
+    "objectiveVisible": false,
+    "stepId": null,
+    "step": 13,
+    "tutorialComplete": true,
+    "zone": "Veyhollow Commons",
+    "pos": [
+      0,
+      18
+    ],
+    "plane": 0,
+    "hp": 10,
+    "energy": 100,
+    "running": true,
+    "moving": false,
+    "pack": [
+      "coins x80",
+      "bread",
+      "tinderbox",
+      "fishing_net",
+      "logs",
+      "bread",
+      "bread",
+      "air_rune x25",
+      "mind_rune x25",
+      "arrows x25",
+      "wood_shield",
+      "leather_body",
+      "worn_bow",
+      "pickaxe",
+      "hammer",
+      "bronze_dagger",
+      "home_tab x3"
+    ],
+    "weapon": "hatchet",
+    "usingItem": null,
+    "arrow": {
+      "label": "",
+      "target": null,
+      "edgeArrowVisible": false
+    },
+    "chat": [
+      "Use it on some logs to light a fire.",
+      "You have completed the active Holm curriculum. Departure Dock is now unlocked.",
+      "The lesson-lock at Departure Dock clicks open. The mainland boat is ready.",
+      "Use it on some logs to light a fire.",
+      "The fire catches and the logs begin to burn.",
+      "Warden's welcome pack: 25 crowns, bread, runes, arrows, a shield, leather body and teleport tabs. Your tools and forged dagger come with you.",
+      "The skiff noses into Veyhollow. Hollow Well Square lies just ahead.",
+      "Now entering: Veyhollow Commons."
+    ],
+    "dialogue": null,
+    "ctxOpen": false,
+    "provider": "veyhollow-commons-v2",
+    "nearby": [],
+    "camera": {
+      "yaw": -2.06,
+      "pitch": 0.95,
+      "dist": 13
+    },
+    "t": 137.2
+  },
+  "findings": [
+    {
+      "id": "P-01",
+      "t": 9.9,
+      "severity": "low",
+      "where": "Arrival Cove, first chat lines",
+      "observation": "Chat says \"Talk to Guide Bram by the rowboat\" while the objective banner says \"Enter the Guide Hall and study the relief chart\"; chat above it also shows \"[COOK] The bread-making chain is lit...\" and \"Deed complete: Apprentice - 50 crowns!\" on a brand-new profile",
+      "expectation": "One instruction; no leftover messages from before the adventurer existed",
+      "screenshot": "001-finding-1.png"
+    },
+    {
+      "id": "P-02",
+      "t": 46.3,
+      "severity": "medium",
+      "where": "Departure Dock skiff (early attempt)",
+      "observation": "Lesson-lock dialogue shows raw HTML: \"A brass lesson-lock holds the mooring chain fast. Finish the Holm's instruction first.<br><br><b>Next:</b> Chop a marked\"",
+      "expectation": "Line breaks and bold rendered, not literal <br><b> tags",
+      "screenshot": "011-finding-2.png"
+    }
+  ],
+  "errors": [
+    {
+      "t": 2.1,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "t": 7.7,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "log": [
+    {
+      "t": 9.4,
+      "action": "login",
+      "detail": {
+        "bootMs": 6765,
+        "keptDefaultLook": true
+      }
+    },
+    {
+      "t": 10.8,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            208
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 12.4,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            334
+          ],
+          "fraction": 1
+        }
+      }
+    },
+    {
+      "t": 13.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "at": [
+          151.5,
+          158.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 15.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "at": [
+          769,
+          243
+        ]
+      }
+    },
+    {
+      "t": 16.3,
+      "action": "dialogue",
+      "detail": {
+        "text": "Trace the route with one finger."
+      }
+    },
+    {
+      "t": 17,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "hatchet"
+      }
+    },
+    {
+      "t": 18.1,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "px": {
+          "screen": [
+            769,
+            108
+          ],
+          "fraction": 0.4
+        }
+      }
+    },
+    {
+      "t": 19.7,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "px": {
+          "screen": [
+            725,
+            102
+          ],
+          "fraction": 0.4
+        }
+      }
+    },
+    {
+      "t": 42.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "at": [
+          205.5,
+          152.5
+        ],
+        "legs": 4,
+        "reached": true
+      }
+    },
+    {
+      "t": 44.6,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "at": [
+          769,
+          370
+        ]
+      }
+    },
+    {
+      "t": 46.3,
+      "action": "dialogue",
+      "detail": {
+        "text": "Back to my lesson."
+      }
+    },
+    {
+      "t": 47.9,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          127,
+          159
+        ],
+        "px": {
+          "screen": [
+            769,
+            111
+          ],
+          "fraction": 0.2
+        }
+      }
+    },
+    {
+      "t": 49.4,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          127,
+          159
+        ],
+        "px": {
+          "screen": [
+            766,
+            131
+          ],
+          "fraction": 0.3
+        }
+      }
+    },
+    {
+      "t": 86.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          127,
+          159
+        ],
+        "at": [
+          126.5,
+          159.5
+        ],
+        "legs": 5,
+        "reached": true
+      }
+    },
+    {
+      "t": 88.2,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "at": [
+          769,
+          194
+        ]
+      }
+    },
+    {
+      "t": 90.6,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          132.5,
+          161.5
+        ],
+        "px": {
+          "screen": [
+            769,
+            351
+          ],
+          "fraction": 0.7
+        }
+      }
+    },
+    {
+      "t": 92.5,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 94.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "at": [
+          769,
+          71
+        ]
+      }
+    },
+    {
+      "t": 95.6,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 95.8,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "logs"
+      }
+    },
+    {
+      "t": 97.9,
+      "action": "far-click",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "px": {
+          "screen": [
+            770,
+            132
+          ],
+          "fraction": 0.2
+        }
+      }
+    },
+    {
+      "t": 132.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          206,
+          152
+        ],
+        "at": [
+          206.5,
+          151.5
+        ],
+        "legs": 5,
+        "reached": true
+      }
+    },
+    {
+      "t": 134.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "at": [
+          769,
+          372
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const vm=require('node:vm');
+const Motion=require('../src/holm_arrival_door_motion.js');
+function close(a,b){assert.ok(Math.abs(a-b)<1e-12,`${a} differs from ${b}`)}
+function exercise(api){
+ const d={arrival:.8,garden:.45},c=api.create(d);d.arrival=40;
+ assert.deepEqual(JSON.parse(JSON.stringify(c.update(0))),{arrival:0,garden:0});
+ assert.equal(c.inspect().anyMoving,false);
+ const state={arrival:true,garden:false};c.set(state);state.arrival=false;
+ close(c.update(.075).arrival,.075);
+ c.set({arrival:true,garden:false});close(c.update(.025).arrival,.1);
+ c.set({arrival:false,garden:true});let t=c.update(.04);close(t.arrival,.06);close(t.garden,.04);
+ c.set({arrival:true,garden:true});t=c.update(.03);close(t.arrival,.09);close(t.garden,.07);
+ for(let i=0;i<20;i++)t=c.update(.1);
+ close(t.arrival,.8);close(t.garden,.45);assert.equal(c.inspect().anyMoving,false);
+ c.set({arrival:false,garden:true});t=c.update(300);close(t.arrival,.7);close(t.garden,.45);
+ assert.equal(c.inspect().moving.arrival,true);assert.equal(c.inspect().moving.garden,false);
+ let s=c.inspect();s.times.arrival=200;s.target.arrival=true;s.durations.arrival=20;s.moving.arrival=false;
+ t.arrival=300;close(c.update(0).arrival,.7);
+ c.set({arrival:false,garden:false},{instant:true});assert.equal(c.inspect().anyMoving,false);
+ assert.equal(c.update(.1).arrival,0);assert.equal(c.update(.1).garden,0);
+ c.set({arrival:true,garden:false},{instant:true});close(c.update(0).arrival,.8);
+ c.set({arrival:false,garden:true},{instant:false});close(c.update(0).arrival,.8);
+ const before=JSON.stringify(c.inspect());
+ for(const dt of [-1,NaN,Infinity,-Infinity,'0',null,undefined])assert.throws(()=>c.update(dt),/finite dt/);
+ for(const value of [null,undefined,{},[],{arrival:true},{arrival:1,garden:false},{arrival:false,garden:'false'}])assert.throws(()=>c.set(value),/boolean door states/);
+ for(const options of [null,false,[],{instant:1},{instant:null}])assert.throws(()=>c.set({arrival:true,garden:false},options),/instant/);
+ assert.equal(JSON.stringify(c.inspect()),before,'invalid operations must be atomic');
+ for(const value of [null,undefined,{},[],{arrival:0,garden:1},{arrival:1,garden:-1},{arrival:NaN,garden:1},{arrival:1,garden:Infinity},{arrival:'1',garden:1}])assert.throws(()=>api.create(value),/durations/);
+ const tiny=api.create({arrival:.01,garden:.001});tiny.set({arrival:true,garden:true});close(tiny.update(.1).garden,.001);close(tiny.update(.1).arrival,.01);
+}
+exercise(Motion);
+const logs=[],context={console:{info:message=>logs.push(message)}};
+vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../src/holm_arrival_door_motion.js'),'utf8'),context);
+exercise(context.HolmArrivalDoorMotion);
+assert.deepEqual(logs,['[HolmArrivalDoorMotion] 5/5 acceptance ok']);
+console.log('[test_holm_arrival_door_motion] PASS independent doors, reversal, repeated target, endpoints, dt cap, restore, isolation, atomic rejection and classic/CommonJS parity');

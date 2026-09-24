@@ -22,6 +22,8 @@ const SaveGame = {
     return {provider:p.id, worldRevision:p.worldRevision, landmark:near&&near.id};
   },
   serialize(){
+    const arrival=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active()?HolmArrivalQA.saveRecord():null;
+    if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active()&&!arrival)throw new Error('Arrival save waits for a settled supported stance');
     return JSON.stringify({
       v:1,
       xp:Player.xp, hp:Player.hp, maxHp:Player.maxHp,
@@ -32,8 +34,9 @@ const SaveGame = {
         lessonId:(!Tutorial.complete&&Tutorial.steps&&Tutorial.steps[Tutorial.step])?Tutorial.steps[Tutorial.step].id:null,
         departurePackClaimed:!!Tutorial.departurePackClaimed,
         cellarRationClaimed:!!Tutorial.cellarRationClaimed,
-        optional:Tutorial.optional||{}},
+        optional:Tutorial.optional||{},combatKitClaims:Tutorial.combatKitClaims||{}},
       pos:[player.position.x, player.position.z],
+      arrivalSurface:arrival,
       plane:Player.plane||0,
       zoneLabel:(typeof document!=='undefined'&&document.getElementById('zone-label'))?
         document.getElementById('zone-label').textContent:null,
@@ -98,6 +101,8 @@ const SaveGame = {
         Tutorial.departurePackClaimed=!!d.tut.departurePackClaimed;
         Tutorial.cellarRationClaimed=!!d.tut.cellarRationClaimed;
         Tutorial.optional=Object.assign({},d.tut.optional||{});
+        Tutorial.combatKitClaims={ranged:!!(d.tut.combatKitClaims&&d.tut.combatKitClaims.ranged===true),
+          magic:!!(d.tut.combatKitClaims&&d.tut.combatKitClaims.magic===true)};
       }
       if(d.tut && d.tut.complete){
         Tutorial.complete=true; Tutorial.step=Tutorial.steps.length;
@@ -163,6 +168,7 @@ const SaveGame = {
           }
         }
       }
+      if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())HolmArrivalQA.restore(d.arrivalSurface);
       this.lastLoad={ok:true,relocated:relocated,reason:relocationReason,
         restoredPlane:savedPlane&&restoredPlane?savedPlane:0,
         residencyCentered:!!this.provider(),

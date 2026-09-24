@@ -1,0 +1,145 @@
+# Tutor's Holm — analyze, fix and finish (goal, 2026-09-24)
+
+Owner request, 2026-09-24: "create a goal to analyze and fix Crafted Realms and finish the tutorial island."
+
+This file is the **working checklist** for that request. It does not replace the governing design goals. It
+turns them into one ordered path that ends with a finished island in the **live game**:
+
+- `docs/rebuild/HOLM_OVERHAUL_GOAL_2026-09-12.md` — visual/world direction (governs *what it looks like*).
+- `docs/rebuild/TUTORS_HOLM_COMPLETION_GOAL.md` — full-island functional checklist (governs *what it must do*).
+- `docs/rebuild/HOLM_FULL_COMPLETION_AUDIT_2026-09-12.md` and `HOLM_FULL_CURRICULUM_EVENT_AUDIT_2026-09-13.md` —
+  source evidence this plan is built on.
+
+A work loop reads this file at the start of each tick, picks the first unchecked item, works it to verified
+completion, ticks it with a proof link, and stops only when every item is ticked or a blocker is recorded.
+
+## Where things stand (analysis, 2026-09-24)
+
+**Healthy:** `node tools/test_world_v2.js` passes every lock. `node tools/validate_content.js` passes (238 items,
+30 NPCs, 10 shops, 10 quests, 14 zones). Every 2026-09-13 pass recorded foreground smoke 105/105 at 60 FPS, zero
+errors.
+
+**The central gap:** the 2026-09-12/13 overhaul work lives in **isolated Studio candidates**, not in the game.
+A player who logs in today still gets the old island the owner rejected.
+
+| Place | Live game today | Overhaul candidate | Candidate status |
+|---|---|---|---|
+| Arrival cove + dock | old landing | arrival package, dock, skiff, water, scenery | Studio + partial live integration; door-opening pointer proof still open |
+| Guide house (Bram) | Guide Hall v7 slab | `holm_guide_house_overhaul_v1` | Studio only |
+| Bakehouse / kitchen | Teaching Kitchen v2 | kitchen-wings v5 (L-plan, loft, fire, supplies) | Studio + terrain draft; 8.1 provisional |
+| Quest lodge | Quest Lodge v2 | Blender lodge v3 (guest wing, stairs, hearth, door) | Studio + terrain draft; 8.3 provisional |
+| Warden's Keep (castle) | none | keep v5 (towers, wall walk, 7 connected routes) | Studio + ridge draft; 8.3 provisional |
+| Bank | Holm Bank v1/v2 | clipped hall + clerk wing (map only) | not built |
+| Mine / cavern | Gatehouse v2 + Training Cavern | rock portal, hoist, lean-to (map only) | not built |
+| Mage tower | Mage Tower v1 | octagonal tower + workroom (map only) | not built |
+| Lastlight + ferry | live | keeper wing (map only) | not built |
+| Terrain / creek / habitat | old `HolmLandscape` | concept02 plan, 46 Blender trees/plants | Studio only; **no terrain source/compiler for a new island exists** |
+
+**Curriculum:** 18 lessons are designed; only **13 run**. `runtimeSteps()` filters out `bake_bread`,
+`learn_quests`, `melee_trial`, `ranged_trial`, `magic_trial`. Supporting fixes are staged but not activated:
+18-lesson save migration helper (13/13 tests), atomic combat kits (18/18), styled-kill attribution (28/28), quest
+board success (13/13), bread recipe planner (31+6), bake cancellation (18/18).
+
+**Missing entirely:** NPCs on the island (`worldNpcSpawns:false`; world-v2 spawns layer has no consumer), practice
+enemies for the three combat trials, and an editable Blender source for the player character.
+
+**Risk:** about 442 files of the Sept 12–13 work are uncommitted on `main` in a OneDrive folder. A bad sync or
+accidental checkout could lose most of the overhaul.
+
+## Definition of finished
+
+A fresh character washes up, plays all 18 lessons on the redesigned island with real mouse input, meets modeled
+and animated tutors, fights the three practice trials, banks, lights Lastlight and sails to the mainland, in about
+20–30 minutes, with no stuck moments. Returning saves migrate without losing items or progress. All gates pass,
+with foreground smoke at 60 FPS and zero errors. The owner has looked at it and said yes. **That final approval
+comes from the owner and cannot be replaced by a self-assigned score.**
+
+## Checklist
+
+### M0 — Safety and baseline
+- [ ] **Checkpoint the uncommitted work.** *Owner decision:* the loop rule is "owner commits". Recommend one
+      checkpoint commit on a branch `holm-overhaul-wip-2026-09-24`, followed by `git branch -f main` only if the
+      owner agrees. Nothing below should start while 442 files exist only in the working tree.
+- [ ] **Gate baseline.** Record the results of `test_world_v2`, `validate_content`, `run_smoke_headless` (both
+      phases) and `qa_holm_full_route` (20/20 expected) from today. Anything red becomes the first M1 fix.
+      2026-09-24: world-v2 all locks PASS; content PASS; smoke PASS 105/105 foreground (boot 2027 ms) and hidden
+      (boot 1914 ms), 0 page errors. `run_smoke_headless.js` and `qa_holm_full_route.js` now accept `SMOKE_BASE`
+      because the in-app preview serves on 8088 (`.claude/launch.json` added). Full route: pending.
+- [ ] **Live-player baseline.** Play the current live island in the in-app browser with a disposable
+      `?qaProfile`. Record what a new player actually sees and every friction or defect, with screenshots.
+      2026-09-24 first look (`?qaProfile=goal0924a`): new adventurer boots onto the old island, Guide Hall
+      objective shown. Notes so far: the welcome card says "wash ashore on Tutor's Holm" but its button reads
+      "ENTER VEYHOLLOW"; while the appearance designer is open the camera sits at sea level and the island reads
+      as submerged; the welcome card shows 5 crowns but the HUD shows 55 after the Apprentice deed.
+
+### M1 — Fix what is broken now
+- [ ] Fix every red gate or live defect from M0 and lock each fix with a test.
+- [ ] Close the open arrival door-opening pointer proof (HOLM_ARCHITECTURE_REVISION §Production).
+- [ ] Wall line-of-sight for station reach (HOLM_STATION_REACH_PASS open item).
+- [ ] Lazy-load the 17.7 MB of legacy mainland textures behind the provider (P2-C follow-up).
+
+### M2 — Terrain engine that allows the new island (enabling work, from the workspace handoff)
+- [ ] New terrain source schema: versioned heights, material regions, shoreline and creek, crossings. One
+      contract drives rendering, collision, minimap, `groundY` and navigation.
+- [ ] General deterministic compiler and validator under a **new** schema. Do not loosen Lesson Green equality.
+- [ ] Cross-package validation: building doors and footprints, bridges, cave entries and saved landmarks against
+      the same terrain revision.
+- [ ] Isolated preview provider (`tutors-holm-v3`) that boots the candidate island on a separate entry with a
+      disposable save, leaving production boot untouched. Tests from the handoff's "Minimum tests" list pass.
+
+### M3 — First live slice: arrival → guide house
+- [ ] Arrival cove, creek crossing, guide house exterior, furnished interior and upper floor running in the
+      `tutors-holm-v3` preview, with real-pointer walking both ways.
+- [ ] Slice review at the gameplay camera against the Bible references. **Ask the owner to look before
+      continuing**, because this slice sets the visual language for every other area.
+
+### M4 — The rest of the island
+- [ ] Place the bakehouse, quest lodge and keep candidates on the compiled terrain with services bound to their
+      new coordinates (bread and quest board rebinding from the curriculum audit).
+- [ ] Build the connected redesigns not yet started: bank, mine entrance with the cavern, mage tower, and the
+      Lastlight keeper wing. Use the same Blender → nav extract → Studio → Safe Publish path as the keep and lodge.
+- [ ] Complete the habitat, vegetation, roads and signage across the whole island, with no barren prototype
+      stretches left.
+- [ ] Measure and fix performance for the whole island (draw calls, streaming hitches, boot time).
+
+### M5 — All 18 lessons
+- [ ] Activate the 18-lesson migration helper in runtime; old 13-lesson saves keep their credit.
+- [ ] Restore `bake_bread` and `learn_quests` as required lessons on the new buildings.
+- [ ] Restore `melee_trial`, `ranged_trial`, `magic_trial` with atomic kits, styled-kill attribution, ammo and
+      rune recovery, and aligned lesson copy (spell XP is granted on hit or miss).
+
+### M6 — People
+- [ ] Chunk-owned NPC lifecycle. Prove it first with one non-attackable tutor (Bram) at an authored socket:
+      load/unload, failure, dialogue persistence.
+- [ ] Full tutor cast (chef, quest guide, combat instructor, mage, banker, Lastlight keeper), modeled and animated.
+- [ ] Practice enemies for the three trials: spawn, collision, respawn, retry.
+- [ ] Editable Blender source for the canonical player (reference `male_b_turnaround.png`), preserving creator
+      choices and saved appearances. Complete the worn-gear family (fix `leather_body` using the plate model).
+
+### M7 — Cutover and proof
+- [ ] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
+      Verify fresh characters, returning Holm saves, graduated saves, full inventory and interruptions.
+- [ ] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload
+      and negative cases.
+- [ ] Human-pace real-input playthrough in the in-app browser, timed at 20–30 minutes, including NPCs and trials.
+- [ ] Foreground smoke and performance gates are green. Bank sources, comparison sheets, PASS_LOG, GUIDING_LIGHT.
+- [ ] **Owner acceptance recorded.** Only after this does the goal close.
+
+## Loop rules
+
+- Work one bounded bundle per tick and never leave half-wired runtime in the tree.
+- Production boot stays on the old island until M7. All new-island work runs behind the preview provider.
+- Verify in the in-app browser. Headless data alone never proves a step.
+- Keep combat math, the XP curve, four-direction tile movement and player saves intact (CLAUDE.md).
+- Record each tick in `Bible_References/PASS_LOG.md` with a proof link, and tick the item here.
+- Stop and write it under Blockers when a tick cannot make progress. Do not keep retrying the same failure.
+
+## Owner decisions needed
+
+1. Checkpoint commit of the uncommitted work (M0). Recommended yes.
+2. Whether the M3 slice needs the owner's eyes before M4 starts. Recommended yes.
+3. Draw-call target: the original 120 calls, or accept about 350 elevated / 170 play at a steady 60 FPS.
+
+## Blockers
+
+(none)

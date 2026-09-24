@@ -1,0 +1,11 @@
+{
+  "name": "Quest Lodge: door clearance",
+  "subtitle": "Bible reference / actual in-app Blender walking study",
+  "osrs": "Bible_References/Town2.jpg",
+  "cr": "scratchpad/holm_perf/quest-lodge-door-crop.png",
+  "codex": 8.0,
+  "review_note": "Full door silhouette remains visible in cutaway. Doorway clearance and open-before-walk verified with actual pointer input. Warm timber and substantial gray masonry read together.",
+  "verdict": "CANDIDATE - NOT ACCEPTED",
+  "improve": "Refine broad timber grain, hearth animation and placed island context. Whole lodge still below final art gate.",
+  "out": "Bible_References/Complete/_compare/holm-quest-lodge-door-reference.png"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Quest Lodge: quieter straight-plank oak",
+  "codex": 8.3,
+  "review_note": "Straight plank divisions replace wavy stripes; furniture, stair edges and gray masonry now separate more clearly. Exact geometry and animation bytes are unchanged.",
+  "verdict": "CANDIDATE - NOT ACCEPTED",
+  "improve": "Roof/window treatment and placed island context still need review.",
+  "subtitle": "Actual in-app Studio, identical camera and paused pose",
+  "left_label": "PREVIOUS OAK",
+  "right_label": "REFINED OAK",
+  "osrs": "scratchpad/holm_perf/quest-lodge-oak-before-crop.png",
+  "cr": "scratchpad/holm_perf/quest-lodge-oak-after-crop.png",
+  "out": "Bible_References/Complete/_compare/holm-quest-lodge-oak-before-after.png"
+}

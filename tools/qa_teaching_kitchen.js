@@ -72,8 +72,8 @@ async function openDoor(page, partId){
   const hadSave = await login(page);
   ok('fresh QA profile booted through the real login flow', !hadSave);
 
-  const approach = await walkTo(page, 144.5, 137.6);
-  ok('real pathing reaches the kitchen west door approach', Math.abs(approach[0] - 144.5) < 1.1 && Math.abs(approach[1] - 137.6) < 1.1, approach);
+  const approach = await walkTo(page, 144.5, 135.6);
+  ok('real pathing reaches the kitchen west door approach', Math.abs(approach[0] - 144.5) < 1.1 && Math.abs(approach[1] - 135.6) < 1.1, approach);
   const loaded = await page.evaluate(() => ({kitchen: !!scene.getObjectByName('world-object-holm_teaching_kitchen'), pad: !!scene.getObjectByName('world-object-holm_pad_teaching_kitchen'), status: HolmTeachingKitchen.status()}));
   ok('kitchen streamed in and its planning pad is gone', loaded.kitchen && !loaded.pad && loaded.status.bound && loaded.status.flame, loaded);
   await page.evaluate(() => { camCtl.dist = 16; });
@@ -81,8 +81,8 @@ async function openDoor(page, partId){
   await page.screenshot({path: path.join(OUT, 'in_game_approach.png')});
 
   await openDoor(page, 'green_door');
-  const inside = await walkTo(page, 150.5, 137.6);
-  ok('green door opens and the bakehouse is enterable', Math.abs(inside[0] - 150.5) < 1.1 && Math.abs(inside[1] - 137.6) < 1.1, inside);
+  const inside = await walkTo(page, 150.5, 135.6);
+  ok('green door opens and the bakehouse is enterable', Math.abs(inside[0] - 150.5) < 1.1 && Math.abs(inside[1] - 135.6) < 1.1, inside);
   const roof = await page.evaluate(() => { const r = (WORLD.roofs || []).find(r => r.buildingId === 'holm_teaching_kitchen'); return r ? r.mesh.visible : null; });
   ok('roof cuts away when the player stands inside', roof === false, {roofVisible: roof});
   await sleep(500);
@@ -111,7 +111,7 @@ async function openDoor(page, partId){
     return log;
   });
   ok('ingredient stations lend two buckets, fill both, and knead one bread dough', chain.some(x => x[0] === 'buckets' && x[1] === 2) && chain.some(x => x[0] === 'bread_dough' && x[1] === 1), chain);
-  await walkTo(page, 154.35, 138.75);
+  await walkTo(page, 154.35, 136.75);
   await page.evaluate(() => { Player.usingItem = 'bread_dough'; HolmTeachingKitchen.cookAtRange(); });
   await page.waitForFunction(() => Player.count('bread') > 0, {timeout: 15000}).catch(() => {});
   const baked = await page.evaluate(() => ({bread: Player.count('bread'), optional: Tutorial.optional, cooking: Player.xp.Cooking}));

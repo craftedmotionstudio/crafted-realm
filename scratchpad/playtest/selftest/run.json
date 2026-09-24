@@ -1,0 +1,294 @@
+{
+  "profile": "selftest-mtvxe5f4",
+  "port": 8779,
+  "seconds": 17.3,
+  "bootMs": 7636,
+  "summary": "selftest",
+  "end": {
+    "objective": "Open your pack and wield the Bronze hatchet.",
+    "objectiveVisible": true,
+    "stepId": "equip_hatchet",
+    "step": 1,
+    "tutorialComplete": false,
+    "zone": "Tutor's Holm",
+    "pos": [
+      151.5,
+      157.5
+    ],
+    "plane": 0,
+    "hp": 10,
+    "energy": 100,
+    "running": true,
+    "moving": false,
+    "pack": [
+      "coins x55",
+      "hatchet",
+      "tinderbox",
+      "fishing_net"
+    ],
+    "weapon": null,
+    "usingItem": null,
+    "arrow": {
+      "label": "Leave by the Teaching door",
+      "target": [
+        151,
+        141
+      ],
+      "edgeArrowVisible": true
+    },
+    "chat": [
+      "🏅 Deed complete: <b>Apprentice</b> — 50 crowns!",
+      "Welcome to Crafted Realm.",
+      "World rebuild mode is active: Tutor's Holm is loaded for smooth play.",
+      "Press ` (backquote) at any time for the Administrator Console.",
+      "Game saved.",
+      "Your adventurer is ready. Talk to Guide Bram by the rowboat.",
+      "[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.",
+      "Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net."
+    ],
+    "dialogue": {
+      "name": "Relief chart of Tutor's Holm",
+      "text": "Arrival Cove begins the route. The northern teaching door leads to Survival Wood, then the path bends through Lesson Green, the training cavern, Warden's Ridge, Mage Headland, and finally Departure Dock. The path never requires guessing: each district prepares you for the next.",
+      "options": [
+        "Trace the route with one finger."
+      ]
+    },
+    "ctxOpen": false,
+    "provider": "tutors-holm-v2",
+    "nearby": [
+      {
+        "kind": "holm_orientation",
+        "label": "Island route",
+        "name": "building-part-orientation_table",
+        "tile": [
+          151,
+          155
+        ],
+        "dist": 2.5,
+        "onScreen": true,
+        "screen": [
+          755,
+          377
+        ]
+      },
+      {
+        "kind": "holm_story_clue",
+        "label": "First Landing plaque",
+        "name": "building-part-first_landing_plaque",
+        "tile": [
+          145,
+          160
+        ],
+        "dist": 7.3,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "door",
+        "label": "Close Door",
+        "name": "building-part-front_door",
+        "tile": [
+          149,
+          166
+        ],
+        "dist": 8.7,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "holm_register",
+        "label": "Lesson register",
+        "name": "building-part-lesson_register",
+        "tile": [
+          142,
+          156
+        ],
+        "dist": 9,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "holm_provisions",
+        "label": "Provision rack",
+        "name": "building-part-provision_rack",
+        "tile": [
+          162,
+          154
+        ],
+        "dist": 10.9,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Take Bucket",
+        "name": "world-object-holm_supply_bucket",
+        "tile": [
+          153,
+          169
+        ],
+        "dist": 11.6,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Search Barrel",
+        "name": "world-object-holm_supply_barrel",
+        "tile": [
+          149,
+          169
+        ],
+        "dist": 12,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Search Crate",
+        "name": "world-object-holm_supply_crate",
+        "tile": [
+          147,
+          169
+        ],
+        "dist": 12.1,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "door",
+        "label": "Open Teaching door",
+        "name": "building-part-teaching_door",
+        "tile": [
+          152,
+          143
+        ],
+        "dist": 14.5,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "holm_kitchen_range",
+        "label": "Cook on Teaching range",
+        "name": "building-part-teaching_range",
+        "tile": [
+          155,
+          138
+        ],
+        "dist": 19.2,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "door",
+        "label": "Open Green door",
+        "name": "building-part-green_door",
+        "tile": [
+          146,
+          138
+        ],
+        "dist": 19.8,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "resource",
+        "label": "Chop down Marked tree",
+        "name": "holm-marked-tree-2",
+        "tile": [
+          131,
+          161
+        ],
+        "dist": 20.8,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Kneading table",
+        "name": "building-part-kneading_table",
+        "tile": [
+          150,
+          135
+        ],
+        "dist": 21.8,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "prop",
+        "label": "Inspect Reading bench",
+        "name": "building-part-reading_bench",
+        "tile": [
+          138,
+          139
+        ],
+        "dist": 22.3,
+        "onScreen": false,
+        "screen": null
+      }
+    ],
+    "camera": {
+      "yaw": 0.14,
+      "pitch": 0.95,
+      "dist": 13
+    },
+    "t": 17.3
+  },
+  "findings": [],
+  "errors": [
+    {
+      "t": 1.8,
+      "msg": "console: Failed to load resource: net::ERR_CONNECTION_REFUSED"
+    },
+    {
+      "t": 2.4,
+      "msg": "console: Failed to load resource: net::ERR_CONNECTION_REFUSED"
+    },
+    {
+      "t": 3.1,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "t": 9,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "log": [
+    {
+      "t": 10.6,
+      "action": "login",
+      "detail": {
+        "bootMs": 7636,
+        "keptDefaultLook": true
+      }
+    },
+    {
+      "t": 14.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          158.5
+        ],
+        "at": [
+          151.5,
+          158.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 16.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "at": [
+          769,
+          243
+        ]
+      }
+    }
+  ]
+}

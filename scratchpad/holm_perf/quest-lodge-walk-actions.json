@@ -1,0 +1,38 @@
+[
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] ready 251 Array(5)",
+    "timestamp": "2026-09-13T15:55:12.713Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached -4:2:1 Quest board",
+    "timestamp": "2026-09-13T15:55:23.127Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached -4:0:0 Upstairs guest room",
+    "timestamp": "2026-09-13T15:55:55.811Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 4:-2:0 Reading bay",
+    "timestamp": "2026-09-13T15:57:11.296Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 2:1:0 Map table",
+    "timestamp": "2026-09-13T15:57:27.815Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_WALK_STUDIO] reached 0:3:0 entrance approach",
+    "timestamp": "2026-09-13T15:58:07.407Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_walk.js?v=1"
+  }
+]

@@ -1,0 +1,1733 @@
+{
+  "profile": "explorer-mtvxoaqg",
+  "port": 8778,
+  "seconds": 908.3,
+  "bootMs": 9397,
+  "summary": "explorer (in progress)",
+  "end": {
+    "objective": "Board the skiff at Departure Dock.",
+    "objectiveVisible": false,
+    "stepId": null,
+    "step": 13,
+    "tutorialComplete": true,
+    "zone": "Veyhollow Commons",
+    "pos": [
+      0,
+      18
+    ],
+    "plane": 0,
+    "hp": 10,
+    "energy": 100,
+    "running": true,
+    "moving": false,
+    "pack": [
+      "coins x80",
+      "hatchet",
+      "tinderbox",
+      "fishing_net",
+      "bread",
+      "bread",
+      "bread",
+      "bread",
+      "air_rune x25",
+      "mind_rune x25",
+      "arrows x25",
+      "wood_shield",
+      "leather_body",
+      "worn_bow",
+      "pickaxe",
+      "hammer",
+      "bronze_dagger",
+      "home_tab x3"
+    ],
+    "weapon": null,
+    "usingItem": null,
+    "arrow": {
+      "label": "",
+      "target": null,
+      "edgeArrowVisible": false
+    },
+    "chat": [
+      "Optional lesson complete: Bake bread in the Teaching Kitchen.",
+      "[MAGE TOWER] Wind Strike burns one air rune and one mind rune per cast. Pick it on the 🪄 tab, then click a target.",
+      "[MAGE TOWER] Wind Strike burns one air rune and one mind rune per cast. Pick it on the 🪄 tab, then click a target.",
+      "You have completed the active Holm curriculum. Departure Dock is now unlocked.",
+      "The lesson-lock at Departure Dock clicks open. The mainland boat is ready.",
+      "Warden's welcome pack: 25 crowns, bread, runes, arrows, a shield, leather body and teleport tabs. Your tools and forged dagger come with you.",
+      "The skiff noses into Veyhollow. Hollow Well Square lies just ahead.",
+      "Now entering: Veyhollow Commons."
+    ],
+    "dialogue": null,
+    "ctxOpen": false,
+    "provider": "veyhollow-commons-v2",
+    "nearby": [],
+    "camera": {
+      "yaw": -2.94,
+      "pitch": 1.2,
+      "dist": 10
+    },
+    "t": 908.3
+  },
+  "findings": [],
+  "errors": [
+    {
+      "t": 3.5,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "t": 10.8,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "log": [
+    {
+      "t": 12.4,
+      "action": "login",
+      "detail": {
+        "bootMs": 9397,
+        "keptDefaultLook": true
+      }
+    },
+    {
+      "t": 16,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/Barrel/i.test(String(o.userData.label||'')",
+        "at": [
+          769,
+          361
+        ]
+      }
+    },
+    {
+      "t": 18.4,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/Crate/i.test(String(o.userData.label||''))",
+        "at": [
+          769,
+          287
+        ]
+      }
+    },
+    {
+      "t": 20.9,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/Bucket/i.test(String(o.userData.label||'')",
+        "at": [
+          769,
+          395
+        ]
+      }
+    },
+    {
+      "t": 23.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/Barrel/i.test(String(o.userData.label||'')",
+        "at": [
+          769,
+          361
+        ]
+      }
+    },
+    {
+      "t": 26.9,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Arrival door/i.test(String(d.userData.label||'')))",
+        "at": [
+          769,
+          210
+        ]
+      }
+    },
+    {
+      "t": 27.5,
+      "action": "choose-row",
+      "detail": {
+        "text": "Examine"
+      }
+    },
+    {
+      "t": 28.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Arrival door/i.test(String(d.userData.label||'')))",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 52.2,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/Bucket/i.test(String(o.userData.label||'')",
+        "at": [
+          769,
+          377
+        ]
+      }
+    },
+    {
+      "t": 56.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          162.5
+        ],
+        "at": [
+          151.5,
+          162.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 57.9,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/plaque/i.test(String(o.userData.label||'')",
+        "at": [
+          769,
+          71
+        ]
+      }
+    },
+    {
+      "t": 58.5,
+      "action": "choose-row",
+      "detail": {
+        "text": "Examine"
+      }
+    },
+    {
+      "t": 61.3,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/plaque/i.test(String(o.userData.label||'')",
+        "at": [
+          1185,
+          164
+        ]
+      }
+    },
+    {
+      "t": 64.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_register')",
+        "loc": {
+          "centre": [
+            142.7,
+            156.2
+          ],
+          "screen": [
+            730,
+            -187
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 66.4,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_register')",
+        "loc": {
+          "centre": [
+            142.7,
+            156.2
+          ],
+          "screen": [
+            769,
+            -187
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 68.2,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_region_map')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 68.4,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_region_map')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 71.7,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_provisions')",
+        "loc": {
+          "centre": [
+            161.9,
+            154.8
+          ],
+          "screen": [
+            769,
+            -408
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 73.5,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_provisions')",
+        "loc": {
+          "centre": [
+            161.9,
+            154.8
+          ],
+          "screen": [
+            769,
+            -408
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 76.8,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "loc": {
+          "centre": [
+            151,
+            155
+          ],
+          "screen": [
+            769,
+            -272
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 77.8,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          151.5,
+          166.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 79.3,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "loc": {
+          "centre": [
+            151,
+            155
+          ],
+          "screen": [
+            769,
+            -135
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 140.6,
+      "action": "walk",
+      "detail": {
+        "target": [
+          146.5,
+          170.5
+        ],
+        "at": [
+          146.5,
+          170.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 143.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          168.5
+        ],
+        "at": [
+          151.5,
+          168.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 145.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          162.5
+        ],
+        "at": [
+          151.5,
+          162.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 147.7,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_register')",
+        "at": [
+          769,
+          1
+        ]
+      }
+    },
+    {
+      "t": 150.1,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_register')",
+        "at": [
+          990,
+          213
+        ]
+      }
+    },
+    {
+      "t": 153.4,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_provisions')",
+        "loc": {
+          "centre": [
+            161.9,
+            154.8
+          ],
+          "screen": [
+            857,
+            -238
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 155.1,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_provisions')",
+        "loc": {
+          "centre": [
+            161.9,
+            154.8
+          ],
+          "screen": [
+            769,
+            -239
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 156.9,
+      "action": "dialogue",
+      "detail": {
+        "text": "Back to the lesson."
+      }
+    },
+    {
+      "t": 159.2,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "at": [
+          769,
+          93
+        ]
+      }
+    },
+    {
+      "t": 186.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          159.5,
+          156.5
+        ],
+        "at": [
+          159.5,
+          156.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 188.5,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_provisions')",
+        "at": [
+          769,
+          257
+        ]
+      }
+    },
+    {
+      "t": 190.8,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_provisions')",
+        "at": [
+          769,
+          349
+        ]
+      }
+    },
+    {
+      "t": 199.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          146.5,
+          160.5
+        ],
+        "at": [
+          146.5,
+          160.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 201,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_story_clue')",
+        "at": [
+          769,
+          338
+        ]
+      }
+    },
+    {
+      "t": 203.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_story_clue')",
+        "at": [
+          769,
+          277
+        ]
+      }
+    },
+    {
+      "t": 205.6,
+      "action": "dialogue",
+      "detail": {
+        "text": "Practical people."
+      }
+    },
+    {
+      "t": 212.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          145.5
+        ],
+        "at": [
+          151.5,
+          145.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 213.9,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Teaching door/i.test(String(d.userData.label||'')))",
+        "at": [
+          769,
+          211
+        ]
+      }
+    },
+    {
+      "t": 214.5,
+      "action": "choose-row",
+      "detail": {
+        "text": "Examine"
+      }
+    },
+    {
+      "t": 215.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Teaching door/i.test(String(d.userData.label||'')))",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 221.1,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          151.5,
+          140.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 336.3,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Green door/i.test(String(d.userData.label||'')))",
+        "at": [
+          769,
+          7
+        ]
+      }
+    },
+    {
+      "t": 341.3,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Green door/i.test(String(d.userData.label||'')))",
+        "at": [
+          836,
+          37
+        ]
+      }
+    },
+    {
+      "t": 372.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          144.5,
+          138.5
+        ],
+        "at": [
+          144.5,
+          138.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 374.1,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Green door/i.test(String(d.userData.label||'')))",
+        "at": [
+          769,
+          408
+        ]
+      }
+    },
+    {
+      "t": 377.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          150.5,
+          137.5
+        ],
+        "at": [
+          150.5,
+          137.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 379.8,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Recipe board/i.t",
+        "at": [
+          769,
+          38
+        ]
+      }
+    },
+    {
+      "t": 380.3,
+      "action": "choose-row",
+      "detail": {
+        "text": "Examine"
+      }
+    },
+    {
+      "t": 383.1,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Recipe board/i.t",
+        "at": [
+          1252,
+          158
+        ]
+      }
+    },
+    {
+      "t": 386.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Teaching range/i",
+        "loc": {
+          "centre": [
+            155.4,
+            138.6
+          ],
+          "screen": [
+            769,
+            -307
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 388.3,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Teaching range/i",
+        "loc": {
+          "centre": [
+            155.4,
+            138.6
+          ],
+          "screen": [
+            769,
+            -332
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 392.5,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Flour/i.test(Str",
+        "loc": {
+          "centre": [
+            158.3,
+            132
+          ],
+          "screen": [
+            769,
+            -285
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 394.2,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Flour/i.test(Str",
+        "loc": {
+          "centre": [
+            158.3,
+            132
+          ],
+          "screen": [
+            769,
+            -305
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 398.5,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Kneading table/i",
+        "loc": {
+          "centre": [
+            150,
+            136.2
+          ],
+          "screen": [
+            769,
+            -112
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 400.2,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Cooling rack/i.t",
+        "loc": {
+          "centre": [
+            152.1,
+            131.5
+          ],
+          "screen": [
+            769,
+            -195
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 449.2,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Quest board/i.te",
+        "at": [
+          769,
+          174
+        ]
+      }
+    },
+    {
+      "t": 452.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          138.5,
+          134.5
+        ],
+        "at": [
+          138.5,
+          134.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 457.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          135.5,
+          132.5
+        ],
+        "at": [
+          135.5,
+          132.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 459.1,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Quest board/i.te",
+        "at": [
+          804,
+          287
+        ]
+      }
+    },
+    {
+      "t": 461.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Quest board/i.te",
+        "at": [
+          6,
+          253
+        ]
+      }
+    },
+    {
+      "t": 469.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          133.5,
+          134.5
+        ],
+        "at": [
+          133.5,
+          134.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 471.6,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Region chart/i.t",
+        "at": [
+          769,
+          382
+        ]
+      }
+    },
+    {
+      "t": 473.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Region chart/i.t",
+        "at": [
+          769,
+          403
+        ]
+      }
+    },
+    {
+      "t": 476.2,
+      "action": "dialogue",
+      "detail": {
+        "text": "Four roads, no rails."
+      }
+    },
+    {
+      "t": 479,
+      "action": "walk",
+      "detail": {
+        "target": [
+          134.5,
+          137.5
+        ],
+        "at": [
+          134.5,
+          137.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 480.6,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Ledger of Choice",
+        "at": [
+          748,
+          320
+        ]
+      }
+    },
+    {
+      "t": 483,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Ledger of Choice",
+        "at": [
+          769,
+          390
+        ]
+      }
+    },
+    {
+      "t": 485.2,
+      "action": "dialogue",
+      "detail": {
+        "text": "My row is written."
+      }
+    },
+    {
+      "t": 487.5,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Scroll rack/i.te",
+        "at": [
+          769,
+          293
+        ]
+      }
+    },
+    {
+      "t": 489.8,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Scroll rack/i.te",
+        "at": [
+          769,
+          293
+        ]
+      }
+    },
+    {
+      "t": 493.7,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Reading bench/i.",
+        "at": [
+          769,
+          207
+        ]
+      }
+    },
+    {
+      "t": 548.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          139.5,
+          135.5
+        ],
+        "at": [
+          138.5,
+          135.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 548.8,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Lodge door/i.test(String(d.userData.label||'')))",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 553.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          144.5,
+          138.5
+        ],
+        "at": [
+          144.5,
+          138.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 555.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          148.5,
+          136.5
+        ],
+        "at": [
+          147.5,
+          136.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 558.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          146.5,
+          133.5
+        ],
+        "at": [
+          145.5,
+          133.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 560.2,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Recipe board/i.t",
+        "at": [
+          769,
+          312
+        ]
+      }
+    },
+    {
+      "t": 565.6,
+      "action": "walk",
+      "detail": {
+        "target": [
+          154.5,
+          136.5
+        ],
+        "at": [
+          154.5,
+          135.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 567.2,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Teaching range/i",
+        "at": [
+          769,
+          115
+        ]
+      }
+    },
+    {
+      "t": 573.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          157.5,
+          133.5
+        ],
+        "at": [
+          157.5,
+          133.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 574.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Flour bin/i.test",
+        "at": [
+          769,
+          381
+        ]
+      }
+    },
+    {
+      "t": 580.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          148.5,
+          132.5
+        ],
+        "at": [
+          148.5,
+          132.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 582.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/^Take Bucket/i.t",
+        "at": [
+          769,
+          317
+        ]
+      }
+    },
+    {
+      "t": 586.3,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/^Take Bucket/i.t",
+        "at": [
+          776,
+          354
+        ]
+      }
+    },
+    {
+      "t": 592.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          157.5,
+          133.5
+        ],
+        "at": [
+          157.5,
+          133.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 593.8,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Flour bin/i.test",
+        "at": [
+          769,
+          381
+        ]
+      }
+    },
+    {
+      "t": 597.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          157.5,
+          135.5
+        ],
+        "at": [
+          157.5,
+          135.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 599.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Water butt/i.tes",
+        "at": [
+          769,
+          417
+        ]
+      }
+    },
+    {
+      "t": 603.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          154.5,
+          136.5
+        ],
+        "at": [
+          154.5,
+          135.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 603.4,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "bucket_flour"
+      }
+    },
+    {
+      "t": 605.3,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Teaching range/i",
+        "at": [
+          769,
+          115
+        ]
+      }
+    },
+    {
+      "t": 611.1,
+      "action": "walk",
+      "detail": {
+        "target": [
+          155.5,
+          132.5
+        ],
+        "at": [
+          155.5,
+          132.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 612.8,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Dough/i.test(Str",
+        "at": [
+          769,
+          440
+        ]
+      }
+    },
+    {
+      "t": 619.6,
+      "action": "walk",
+      "detail": {
+        "target": [
+          150.5,
+          136.5
+        ],
+        "at": [
+          150.5,
+          137.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 621.3,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Kneading table/i",
+        "at": [
+          769,
+          405
+        ]
+      }
+    },
+    {
+      "t": 623.6,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "dough"
+      }
+    },
+    {
+      "t": 625.5,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "bread_dough"
+      }
+    },
+    {
+      "t": 630.1,
+      "action": "walk",
+      "detail": {
+        "target": [
+          154.5,
+          136.5
+        ],
+        "at": [
+          154.5,
+          135.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 630.2,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "bread_dough"
+      }
+    },
+    {
+      "t": 632,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Teaching range/i",
+        "at": [
+          769,
+          115
+        ]
+      }
+    },
+    {
+      "t": 658.3,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 660.2,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Teaching range/i",
+        "at": [
+          769,
+          299
+        ]
+      }
+    },
+    {
+      "t": 705.7,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "bread_dough"
+      }
+    },
+    {
+      "t": 707.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Teaching range/i",
+        "at": [
+          769,
+          299
+        ]
+      }
+    },
+    {
+      "t": 712.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          150.5,
+          132.5
+        ],
+        "at": [
+          150.5,
+          132.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 712.8,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Yard door/i.test(String(d.userData.label||'')))",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 721,
+      "action": "walk",
+      "detail": {
+        "target": [
+          150.5,
+          129.5
+        ],
+        "at": [
+          150.5,
+          129.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 725.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          162.5,
+          132.5
+        ],
+        "at": [
+          162.5,
+          132.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 736.1,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          175.5,
+          136.5
+        ],
+        "at": [
+          175.5,
+          140.5
+        ],
+        "legs": 3
+      }
+    },
+    {
+      "t": 740.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          186.8,
+          135.5
+        ],
+        "at": [
+          186.5,
+          135.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 743.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          191.5,
+          134.5
+        ],
+        "at": [
+          191.5,
+          134.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 745.7,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Rune/i.test(Stri",
+        "at": [
+          769,
+          433
+        ]
+      }
+    },
+    {
+      "t": 748.2,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Rune/i.test(Stri",
+        "at": [
+          769,
+          433
+        ]
+      }
+    },
+    {
+      "t": 750.5,
+      "action": "dialogue",
+      "detail": {
+        "text": "I will study later."
+      }
+    },
+    {
+      "t": 752.7,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Lectern|Spell/i.",
+        "at": [
+          769,
+          69
+        ]
+      }
+    },
+    {
+      "t": 755,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/Lectern|Spell/i.",
+        "at": [
+          769,
+          69
+        ]
+      }
+    },
+    {
+      "t": 757.3,
+      "action": "dialogue",
+      "detail": {
+        "text": "The mainland awaits."
+      }
+    },
+    {
+      "t": 759.5,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/register|Registe",
+        "at": [
+          769,
+          6
+        ]
+      }
+    },
+    {
+      "t": 761.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind!=='door'&&/register|Registe",
+        "at": [
+          583,
+          274
+        ]
+      }
+    },
+    {
+      "t": 764.1,
+      "action": "dialogue",
+      "detail": {
+        "text": "The circle is swept."
+      }
+    },
+    {
+      "t": 879.5,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Dock door/i.test(String(d.userData.label||'')))",
+        "loc": {
+          "centre": [
+            191.5,
+            139.1
+          ],
+          "screen": [
+            769,
+            -180
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 884.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          191.5,
+          141.5
+        ],
+        "at": [
+          191.5,
+          141.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 888.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          193.5,
+          150.5
+        ],
+        "at": [
+          193.5,
+          150.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 892.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          205.5,
+          151.5
+        ],
+        "at": [
+          205.5,
+          151.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 896.9,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          211.5,
+          154.5
+        ],
+        "at": [
+          210.5,
+          151.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 900.4,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "at": [
+          769,
+          487
+        ]
+      }
+    },
+    {
+      "t": 901,
+      "action": "choose-row",
+      "detail": {
+        "text": "Examine"
+      }
+    },
+    {
+      "t": 902.1,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    }
+  ],
+  "lessons": [
+    {
+      "t": 193.4,
+      "from": 0,
+      "to": 1,
+      "id": "equip_hatchet"
+    },
+    {
+      "t": 757,
+      "from": 1,
+      "to": 13,
+      "id": null
+    }
+  ]
+}

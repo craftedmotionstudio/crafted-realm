@@ -1,10 +1,8 @@
 /* ================= QUEST LODGE SERVICES =================
- * NPC-free story orientation for the fourth complete Tutor's Holm building.
- * The original brief had a quest guide explain the quest system; until the
- * modelled guide is authorized (its standing socket is authored in the GLB),
- * the great quest board does the teaching: studying it opens the real quest
- * journal and records the optional `learn_quests` lesson. Nothing here gates
- * the ferry.
+ * Existing board service: successful journal opening emits orient/quests.
+ * The current installed curriculum still records this as optional. Full
+ * curriculum restoration and the required modelled guide remain unfinished;
+ * the board is not a substitute for that guide or completed island acceptance.
  */
 var HolmQuestLodge=(function(){
   'use strict';
@@ -16,7 +14,11 @@ var HolmQuestLodge=(function(){
   function openJournal(){
     try{
       var btn=document.querySelector('#side-panel .tab-btn[data-tab="quests"], .tab-btn[data-tab="quests"]');
-      if(btn){ btn.click(); return true; }
+      if(btn){
+        btn.click();
+        var pane=document.getElementById('pane-quests');
+        return !!(pane&&pane.classList.contains('active'));
+      }
     }catch(e){}
     return false;
   }
@@ -27,18 +29,31 @@ var HolmQuestLodge=(function(){
     Tutorial.optional[id]=true;
     UI.chat('Optional lesson complete: '+label+'.','xp');
     try{ if(typeof Sfx!=='undefined'&&Sfx.quest) Sfx.quest(); }catch(e){}
-    try{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }catch(e){}
   }
   (function wrapNotify(){
     if(typeof Tutorial==='undefined'||Tutorial._lodgeWrapped) return;
     Tutorial._lodgeWrapped=true;
     var orig=Tutorial.notify.bind(Tutorial);
     Tutorial.notify=function(ev,match){
-      try{ if(ev==='orient'&&match==='quests') markOptional('learn_quests','Study the Quest Lodge board'); }catch(e){}
-      return orig(ev,match);
+      var result=orig(ev,match);
+      if(onHolm()&&ev==='orient'&&match==='quests'){
+        markOptional('learn_quests','Study the Quest Lodge board');
+        try{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }
+        catch(e){ console.error('[QUEST LODGE] Could not save lesson progress',e); }
+      }
+      return result;
     };
   })();
 
+  function openStudiedJournal(){
+    if(!onHolm()) return false;
+    if(!openJournal()){
+      UI.chat('Your journal could not open. Try the board again when the side panel is ready.','sys');
+      return false;
+    }
+    if(typeof Tutorial!=='undefined') Tutorial.notify('orient','quests');
+    return true;
+  }
   function studyBoard(){
     if(!onHolm()) return;
     var n=questCount();
@@ -46,10 +61,9 @@ var HolmQuestLodge=(function(){
       'Every notice here is a story someone in the realm needs finished: a lost tool, a stubborn beast, a road that wants opening. None of them is the story. Pick the ones you like, in the order you like; the journal remembers the rest. '+
       (n?''+n+' quests are known to the journal today. ':'')+
       'The ⭐ tab on your side panel is your journal: it lists every quest, its stages, requirements and rewards.',
-      [{label:'Open my journal.',fn:function(){ openJournal(); }},{label:'I will choose my own road.'}],'📜');
+      [{label:'Open my journal.',fn:openStudiedJournal},{label:'I will choose my own road.'}],'📜');
     UI.chat('[QUEST LODGE] Quests are optional stories, not a single rail. Track one from the ⭐ journal tab.','sys');
-    openJournal();
-    try{ if(typeof Tutorial!=='undefined') Tutorial.notify('orient','quests'); }catch(e){}
+    openStudiedJournal();
   }
   function studyChart(){
     if(!onHolm()) return;

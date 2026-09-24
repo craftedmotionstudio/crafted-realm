@@ -3,8 +3,8 @@
   "schemaVersion": 1,
   "passed": true,
   "metrics": {
-    "fileBytes": 643368,
-    "triangles": 8514,
+    "fileBytes": 648700,
+    "triangles": 8586,
     "primitives": 58,
     "materials": 28
   },

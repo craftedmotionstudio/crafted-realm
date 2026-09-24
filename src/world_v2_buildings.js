@@ -7,11 +7,11 @@ var WorldV2Buildings=(function(){
   'use strict';
 
   var ASSETS={
-    holm_guide_hall_v1:{url:'/assets/models/buildings/holm_guide_hall_v6.glb?v=1',
-      assetId:'holm_guide_hall',source:'blender-glb-v6',rootName:'asset-holm-guide-hall-v6',
+    holm_guide_hall_v1:{url:'/assets/models/buildings/holm_guide_hall_v7.glb?v=1',
+      assetId:'holm_guide_hall',source:'blender-glb-v7',rootName:'asset-holm-guide-hall-v7',
       parts:['roof','front_door','teaching_door','orientation_table','lesson_register','first_landing_plaque','provision_rack']},
-    holm_survival_workyard_v1:{url:'/assets/models/buildings/holm_survival_workyard_v2.glb?v=14',
-      assetId:'holm_survival_workyard',source:'blender-glb-v16-u4-draw-optimized',rootName:'asset-holm-survival-workyard-v16',
+    holm_survival_workyard_v1:{url:'/assets/models/buildings/holm_survival_workyard_v3.glb?v=1',
+      assetId:'holm_survival_workyard',source:'blender-glb-v3-p2d-roof-furniture',rootName:'asset-holm-survival-workyard-v3',
       dependencies:['workyard_exterior_u3_v1','workyard_waterworks_u4_v1','workyard_fishing_edge_u5_v1'],
       parts:['roof','trail_door','pond_door','tool_bench','firemaking_board','storm_tally_beam','net_rack',
         'teaching_fireplace','hearth_flame','cellar_ladder','chicken_spawn_socket',
@@ -26,20 +26,20 @@ var WorldV2Buildings=(function(){
         'workyard_crockery_hutch','workyard_mug_shelf','workyard_empty_bucket','workyard_tool_stool',
         'workyard_lodge_rug','workyard_hearth_rug','workyard_lesson_table',
         'workyard_hearth_stool_splitter','workyard_hearth_stool_woven','workyard_storm_warden_relief']},
-    holm_teaching_kitchen_v1:{url:'/assets/models/buildings/holm_teaching_kitchen_v1.glb?v=1',
-      assetId:'holm_teaching_kitchen',source:'blender-glb-v1',rootName:'asset-holm-teaching-kitchen-v1',
+    holm_teaching_kitchen_v1:{url:'/assets/models/buildings/holm_teaching_kitchen_v2.glb?v=1',
+      assetId:'holm_teaching_kitchen',source:'blender-glb-v2-p2d',rootName:'asset-holm-teaching-kitchen-v2',
       parts:['roof','green_door','yard_door','teaching_range','range_flame','flour_bin','dough_trough','water_butt',
         'bucket_shelf','recipe_board','bread_rack','kneading_table']},
-    holm_quest_lodge_v1:{url:'/assets/models/buildings/holm_quest_lodge_v1.glb?v=2',
-      assetId:'holm_quest_lodge',source:'blender-glb-v1',rootName:'asset-holm-quest-lodge-v1',
+    holm_quest_lodge_v1:{url:'/assets/models/buildings/holm_quest_lodge_v2.glb?v=1',
+      assetId:'holm_quest_lodge',source:'blender-glb-v2-p2d',rootName:'asset-holm-quest-lodge-v2',
       parts:['roof','lodge_door','road_door','quest_board','region_map','story_ledger','reading_bench','scroll_rack','quest_guide_socket']},
-    holm_mine_gatehouse_v1:{url:'/assets/models/buildings/holm_mine_gatehouse_v1.glb?v=2',
-      assetId:'holm_mine_gatehouse',source:'blender-glb-v1',rootName:'asset-holm-mine-gatehouse-v1',
+    holm_mine_gatehouse_v1:{url:'/assets/models/buildings/holm_mine_gatehouse_v2.glb?v=1',
+      assetId:'holm_mine_gatehouse',source:'blender-glb-v2-p2d',rootName:'asset-holm-mine-gatehouse-v2',
       parts:['roof','gate_door','road_door','shaft_frame','ore_tally','gate_stone','ore_cart','tool_rack','ore_bin']},
-    holm_bank_v1:{url:'/assets/models/buildings/holm_bank_v1.glb?v=2',
-      assetId:'holm_bank',source:'blender-glb-v1',rootName:'asset-holm-bank-v1',
+    holm_bank_v1:{url:'/assets/models/buildings/holm_bank_v2.glb?v=1',
+      assetId:'holm_bank',source:'blender-glb-v2-p2d',rootName:'asset-holm-bank-v2',
       parts:['roof','front_door','staff_door','bank_counter','bank_booth_w','bank_booth_e','ledger_desk','founders_plaque','waiting_bench','strongbox_shelf']},
-    holm_combat_hall_v1:{url:'/assets/models/buildings/holm_combat_hall_v1.glb?v=1',
+    holm_combat_hall_v1:{url:'/assets/models/buildings/holm_combat_hall_v1.glb?v=2',
       assetId:'holm_combat_hall',source:'blender-glb-v1',rootName:'asset-holm-combat-hall-v1',
       parts:['roof','bank_door','road_door','training_post','arms_rack','warden_roll','archery_butt','hall_bench','melee_dummy_socket','ranged_target_socket']},
     holm_mage_tower_v1:{url:'/assets/models/buildings/holm_mage_tower_v1.glb?v=2',
@@ -215,6 +215,11 @@ var WorldV2Buildings=(function(){
             cfg.parts.forEach(function(part){
               if(!findPart(root,part)) throw new Error(id+' composed asset is missing semantic node '+part);
             });
+            // draw-call merge on the template (P2-C): every clone inherits the merged shell
+            if(typeof WorldV2Consolidate!=='undefined'){
+              var clips=[];(cfg.dependencies||[]).forEach(function(dep){ clips=clips.concat(loadedDependencyAnimations[dep]||[]); });
+              WorldV2Consolidate.consolidate(root,cfg.assetId||id,{protect:WorldV2Consolidate.protectedNames(clips)});
+            }
             loadedTemplates[id]=root; delete pendingLoads[id]; resolve(root);
           }catch(error){ delete pendingLoads[id]; reject(error); }
         }).catch(function(error){ delete pendingLoads[id]; reject(error); });

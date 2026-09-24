@@ -1,0 +1,160 @@
+COMBAT_HALL_V1_STAGE floors
+COMBAT_HALL_V1_STAGE shell
+COMBAT_HALL_V1_STAGE furnishings
+COMBAT_HALL_V1_STAGE roof
+COMBAT_HALL_V1_STAGE consolidate
+COMBAT_HALL_V1_STAGE render
+Blender 4.5.10 LTS (hash 6dc0b208d1b5 built 2026-05-19 01:33:42)
+Fra:1 Mem:76.30M (Peak 76.30M) | Time:00:01.55 | Rendering 1 / 64 samples
+Fra:1 Mem:76.30M (Peak 76.30M) | Time:00:01.69 | Rendering 25 / 64 samples
+Fra:1 Mem:76.30M (Peak 76.30M) | Time:00:01.80 | Rendering 50 / 64 samples
+Fra:1 Mem:76.30M (Peak 76.30M) | Time:00:01.86 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\combat_hall_v1\combat_hall_v1_exterior.png'
+Time: 00:02.26 (Saving: 00:00.33)
+
+Fra:1 Mem:75.80M (Peak 75.80M) | Time:00:00.10 | Rendering 1 / 64 samples
+Fra:1 Mem:75.80M (Peak 75.80M) | Time:00:00.19 | Rendering 25 / 64 samples
+Fra:1 Mem:75.80M (Peak 75.80M) | Time:00:00.28 | Rendering 50 / 64 samples
+Fra:1 Mem:75.80M (Peak 75.80M) | Time:00:00.34 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\combat_hall_v1\combat_hall_v1_roof_off.png'
+Time: 00:00.53 (Saving: 00:00.15)
+
+Fra:1 Mem:75.80M (Peak 75.80M) | Time:00:00.09 | Rendering 1 / 64 samples
+Fra:1 Mem:75.80M (Peak 75.80M) | Time:00:00.21 | Rendering 25 / 64 samples
+Fra:1 Mem:75.80M (Peak 75.80M) | Time:00:00.34 | Rendering 50 / 64 samples
+Fra:1 Mem:75.80M (Peak 75.80M) | Time:00:00.41 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\combat_hall_v1\combat_hall_v1_plan.png'
+Time: 00:00.61 (Saving: 00:00.17)
+
+Fra:1 Mem:76.30M (Peak 76.30M) | Time:00:00.09 | Rendering 1 / 64 samples
+Fra:1 Mem:76.30M (Peak 76.30M) | Time:00:00.18 | Rendering 25 / 64 samples
+Fra:1 Mem:76.30M (Peak 76.30M) | Time:00:00.27 | Rendering 50 / 64 samples
+Fra:1 Mem:76.30M (Peak 76.30M) | Time:00:00.32 | Rendering 64 / 64 samples
+Saved: 'C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\scratchpad\combat_hall_v1\combat_hall_v1_game_camera.png'
+Time: 00:00.51 (Saving: 00:00.14)
+
+Info: Saved as "holm_combat_hall_v1.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 4.5\4.5\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+20:12:35 | INFO: Starting glTF 2.0 export
+20:12:35 | INFO: Extracting primitive: Cylinder.009
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.011
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.010
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.421
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.420
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.008
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.396
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.406
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.408
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.392
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.393
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.002
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.323
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.314
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.315
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.428
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.427
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.425
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.424
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.003
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.335
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.326
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.327
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.578
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.579
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.607
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.452
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.608
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.609
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: GableEndMesh
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.441
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.440
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.438
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.017
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.429
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.019
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.020
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.019
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.010
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: ApseFloorMesh
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.348
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.112
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.111
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.013
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.439
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.117
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.110
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.006
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.004
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cylinder.007
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.385
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.386
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.391
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.412
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.413
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.418
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Extracting primitive: Cube.411
+20:12:35 | INFO: Primitives created: 1
+20:12:35 | INFO: Finished glTF 2.0 export in 0.24348688125610352 s
+
+COMBAT_HALL_V1_STAGE done
+COMBAT_HALL_V1_READY C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude\assets\models\buildings\holm_combat_hall_v1.glb
+
+Blender quit

@@ -1,0 +1,1721 @@
+{
+  "profile": "explorer-mtvxlbsx",
+  "port": 8778,
+  "seconds": 410.5,
+  "bootMs": 8024,
+  "summary": "explorer run",
+  "end": {
+    "objective": "Board the skiff at Departure Dock.",
+    "objectiveVisible": false,
+    "stepId": null,
+    "step": 13,
+    "tutorialComplete": true,
+    "zone": "The Proving Grounds",
+    "pos": [
+      43.5,
+      47.5
+    ],
+    "plane": 0,
+    "hp": 10,
+    "energy": 100,
+    "running": true,
+    "moving": false,
+    "pack": [
+      "coins x80",
+      "dough",
+      "bread",
+      "bread",
+      "bread",
+      "air_rune x25",
+      "mind_rune x25",
+      "arrows x25",
+      "wood_shield",
+      "leather_body",
+      "worn_bow",
+      "pickaxe",
+      "fishing_net",
+      "tinderbox",
+      "hammer",
+      "bronze_dagger",
+      "home_tab x3"
+    ],
+    "weapon": "hatchet",
+    "usingItem": null,
+    "arrow": {
+      "label": "",
+      "target": null,
+      "edgeArrowVisible": false
+    },
+    "chat": [
+      "Optional lesson complete: Study the Quest Lodge board.",
+      "Warden's welcome pack: 25 crowns, bread, runes, arrows, a shield, leather body and teleport tabs. Your tools and forged dagger come with you.",
+      "The skiff noses into Veyhollow. Hollow Well Square lies just ahead.",
+      "Now entering: Veyhollow Commons.",
+      "Now entering: Wardenholm Keep.",
+      "Use it on some logs to light a fire.",
+      "Now entering: The Proving Grounds.",
+      "You wield the Bronze hatchet."
+    ],
+    "dialogue": null,
+    "ctxOpen": false,
+    "provider": "veyhollow-commons-v2",
+    "nearby": [],
+    "camera": {
+      "yaw": -2.14,
+      "pitch": 0.95,
+      "dist": 33
+    },
+    "t": 410.5
+  },
+  "findings": [
+    {
+      "id": "P-01",
+      "t": 86,
+      "severity": "medium",
+      "where": "Teaching Kitchen",
+      "observation": "Followed the recipe board but no bread in pack; pack=coins x55,dough",
+      "expectation": "A loaf after clicking bread dough then the range",
+      "screenshot": "020-finding-1.png"
+    },
+    {
+      "id": "P-02",
+      "t": 170.7,
+      "severity": "medium",
+      "where": "Departure Dock (207,151)",
+      "observation": "Clicked the skiff before any lesson; no dialogue or chat explained why I cannot leave. chat=The skiff noses into Veyhollow. Hollow Well Square lies just ahead. / Now entering: Veyhollow Commons.",
+      "expectation": "A clear \"finish the lessons first\" message",
+      "screenshot": "040-finding-2.png"
+    }
+  ],
+  "errors": [
+    {
+      "t": 2.9,
+      "msg": "console: [mining_rocks_v1] GLB load failed [object ProgressEvent]"
+    },
+    {
+      "t": 2.9,
+      "msg": "console: Failed to load resource: net::ERR_CONNECTION_REFUSED"
+    },
+    {
+      "t": 2.9,
+      "msg": "console: Failed to load resource: net::ERR_CONNECTION_REFUSED"
+    },
+    {
+      "t": 2.9,
+      "msg": "console: Failed to load resource: net::ERR_CONNECTION_REFUSED"
+    },
+    {
+      "t": 5.4,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "t": 9.4,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "t": 216.7,
+      "msg": "ReferenceError: gearMesh is not defined"
+    }
+  ],
+  "log": [
+    {
+      "t": 11,
+      "action": "login",
+      "detail": {
+        "bootMs": 8024,
+        "keptDefaultLook": true
+      }
+    },
+    {
+      "t": 14.4,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "loc": {
+          "centre": [
+            151,
+            155
+          ],
+          "screen": [
+            769,
+            -147
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 16.3,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_register')",
+        "loc": {
+          "centre": [
+            142.7,
+            156.2
+          ],
+          "screen": [
+            769,
+            -201
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 16.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_region_map')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 18.4,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_provisions')",
+        "loc": {
+          "centre": [
+            161.9,
+            154.8
+          ],
+          "screen": [
+            769,
+            -239
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 27.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          145.5
+        ],
+        "at": [
+          151.5,
+          145.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 29.1,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          141.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 31.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          148.5,
+          143.5
+        ],
+        "at": [
+          148.5,
+          144.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 57.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          144.5,
+          137.6
+        ],
+        "at": [
+          144.5,
+          137.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 59.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          150.5,
+          137.6
+        ],
+        "at": [
+          150.5,
+          137.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 61.7,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_recipe_board')",
+        "at": [
+          769,
+          38
+        ]
+      }
+    },
+    {
+      "t": 64,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_flour_bin')",
+        "at": [
+          769,
+          22
+        ]
+      }
+    },
+    {
+      "t": 66.4,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_kitchen_range')",
+        "at": [
+          769,
+          112
+        ]
+      }
+    },
+    {
+      "t": 66.9,
+      "action": "choose-row",
+      "detail": {
+        "text": "Inspect"
+      }
+    },
+    {
+      "t": 69.7,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_bucket_shelf')",
+        "loc": {
+          "centre": [
+            147.5,
+            131.4
+          ],
+          "screen": [
+            769,
+            -39
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 72.8,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_bucket_shelf')",
+        "loc": {
+          "centre": [
+            147.5,
+            131.4
+          ],
+          "screen": [
+            769,
+            -39
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 76,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_flour_bin')",
+        "at": [
+          769,
+          98
+        ]
+      }
+    },
+    {
+      "t": 79.1,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_water_butt')",
+        "at": [
+          978,
+          447
+        ]
+      }
+    },
+    {
+      "t": 82.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_dough_trough')",
+        "at": [
+          769,
+          418
+        ]
+      }
+    },
+    {
+      "t": 84.1,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "dough"
+      }
+    },
+    {
+      "t": 91.1,
+      "action": "walk",
+      "detail": {
+        "target": [
+          144.5,
+          137.6
+        ],
+        "at": [
+          144.5,
+          137.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 93.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          141.2,
+          134.5
+        ],
+        "at": [
+          141.5,
+          134.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 96,
+      "action": "walk",
+      "detail": {
+        "target": [
+          137.5,
+          133.5
+        ],
+        "at": [
+          136.5,
+          133.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 98,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_quest_board')",
+        "at": [
+          769,
+          332
+        ]
+      }
+    },
+    {
+      "t": 98.6,
+      "action": "choose-row",
+      "detail": {
+        "text": "Study"
+      }
+    },
+    {
+      "t": 101.6,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_story_ledger')",
+        "at": [
+          430,
+          84
+        ]
+      }
+    },
+    {
+      "t": 102.2,
+      "action": "choose-row",
+      "detail": {
+        "text": "Read"
+      }
+    },
+    {
+      "t": 105,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_story_clue')",
+        "loc": {
+          "centre": [
+            145,
+            160.9
+          ],
+          "screen": [
+            418,
+            -365
+          ],
+          "hit": null
+        }
+      }
+    },
+    {
+      "t": 106.8,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_quest_board')",
+        "at": [
+          542,
+          71
+        ]
+      }
+    },
+    {
+      "t": 116.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          141.2,
+          134.5
+        ],
+        "legs": 1
+      }
+    },
+    {
+      "t": 125.1,
+      "action": "walk",
+      "detail": {
+        "target": [
+          145.5,
+          146.5
+        ],
+        "at": [
+          145.5,
+          146.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 144.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          158.5,
+          142.5
+        ],
+        "at": [
+          158.5,
+          141.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 153.6,
+      "action": "walk",
+      "detail": {
+        "target": [
+          184.5,
+          142.5
+        ],
+        "at": [
+          184.5,
+          142.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 155.6,
+      "action": "walk",
+      "detail": {
+        "target": [
+          186.5,
+          140.5
+        ],
+        "at": [
+          186.5,
+          140.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 160.6,
+      "action": "walk",
+      "detail": {
+        "target": [
+          193.5,
+          150.5
+        ],
+        "at": [
+          193.5,
+          150.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 164.7,
+      "action": "walk",
+      "detail": {
+        "target": [
+          205.5,
+          151.5
+        ],
+        "at": [
+          205.5,
+          151.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 166.6,
+      "action": "right-click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "at": [
+          769,
+          328
+        ]
+      }
+    },
+    {
+      "t": 167.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 167.9,
+      "action": "choose-row",
+      "detail": {
+        "text": "Examine"
+      }
+    },
+    {
+      "t": 168.7,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 171.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          211.5,
+          154.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 172.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          193.5,
+          150.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 173.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          186.5,
+          140.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 174,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          186.8,
+          135.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 174.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          191.5,
+          134.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 175,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_rune_table')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 175.4,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_spell_lectern')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 175.8,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_tower_register')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 176.8,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          191.5,
+          140.2
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 177.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          184.5,
+          135.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 178.2,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          184.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 179,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          205.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 179.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          205.5,
+          123.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 180.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          196.5,
+          125.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 180.7,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='lighthouseDoor')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 181.2,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='lighthouseDoor')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 184.8,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          205.5,
+          123.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 185.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          205.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 186.2,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          184.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 186.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          169.5,
+          125.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 187.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          171,
+          121.2
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 188,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_arms_rack')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 188.3,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_training_post')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 188.7,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_warden_roll')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 189.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          169.5,
+          125.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 190.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          164.5,
+          118.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 191.2,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          157.5,
+          122.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 191.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          154.5,
+          118.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 192.2,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_bank_plaque')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 192.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_bank_ledger')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 192.9,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/holm_bank_booth|bank/.test(String(o.userDa",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 195.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          157.5,
+          122.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 196.2,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          158.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 196.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          145.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 197.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          133,
+          120.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 198.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          121.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 199.1,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          124.5,
+          118.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 199.4,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_gate_stone')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 199.8,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_ore_tally')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 200.1,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_shaft_frame')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 201.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          126.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 202,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          137.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 202.8,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          146.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 203.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          127.5,
+          159.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 203.9,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_net_rack')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 204.2,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_survival_tools')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 204.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_firemaking_board')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 204.9,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_teaching_hearth')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 205.3,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 205.8,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 208.7,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 208.9,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 210.7,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 214.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          134.5,
+          157.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 215,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          134.5,
+          147.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 215.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          151.5,
+          145.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 216.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          151.5,
+          155.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 216.4,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 216.7,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "hatchet"
+      }
+    },
+    {
+      "t": 217.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          151.5,
+          145.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 218.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          134.5,
+          147.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 219.1,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          134.5,
+          157.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 219.8,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          127.5,
+          159.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 219.8,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.marked&&o.userData.alive)",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 281.2,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          146.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 281.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          137.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 282.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          126.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 283.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          128.5,
+          121.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 284,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          124.5,
+          118.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 284,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_shaft_frame')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 304,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_shaft_frame')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 304.4,
+      "action": "row-missing",
+      "detail": {
+        "text": "Climb-down"
+      }
+    },
+    {
+      "t": 326.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          294.5,
+          355.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 326.9,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='resource'&&o.userData.or",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 327.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          300.5,
+          366.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 328.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          303.5,
+          375.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 328.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='resource'&&o.userData.or",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 329.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          304.5,
+          361.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 330.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          169.5,
+          121.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 331.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          164.5,
+          118.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 332.1,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          157.5,
+          122.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 332.8,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          154.5,
+          118.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 332.8,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/holm_bank_booth|bank/.test(String(o.userDa",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 333.8,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          158.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 334.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          184.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 335.2,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          205.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 336,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          205.5,
+          123.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 336.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          196.5,
+          125.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 336.7,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='lighthouseDoor')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 357.9,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='climb'&&o.userData.plane",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 379.1,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='climb'&&o.userData.plane",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 400.6,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='lever')",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 401.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          196.5,
+          125.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 402.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          205.5,
+          123.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 403.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          205.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 404,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          184.5,
+          128.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 404.7,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          184.5,
+          135.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 405.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          186.5,
+          140.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 406.2,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          193.5,
+          150.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 406.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          205.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 407.2,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/skiff|boat|depart/i.test(String(o.userData",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    }
+  ],
+  "lessons": [
+    {
+      "t": 18.7,
+      "from": 0,
+      "to": 13,
+      "id": null
+    }
+  ]
+}

@@ -1,0 +1,1575 @@
+{
+  "profile": "arrow-mtvxh5a4",
+  "port": 8777,
+  "seconds": 1749,
+  "bootMs": 8157,
+  "summary": "arrow-follower (in progress)",
+  "end": {
+    "objective": "Board the skiff at Departure Dock.",
+    "objectiveVisible": false,
+    "stepId": null,
+    "step": 13,
+    "tutorialComplete": true,
+    "zone": "Veyhollow Commons",
+    "pos": [
+      0,
+      18
+    ],
+    "plane": 0,
+    "hp": 10,
+    "energy": 100,
+    "running": true,
+    "moving": false,
+    "pack": [
+      "coins x230",
+      "cooked_perch",
+      "tinderbox",
+      "fishing_net",
+      "logs",
+      "hatchet",
+      "bronze_dagger",
+      "copper_ore",
+      "copper_ore",
+      "copper_ore",
+      "copper_ore",
+      "hammer",
+      "bread",
+      "bread",
+      "bread",
+      "air_rune x25",
+      "mind_rune x25",
+      "arrows x25",
+      "wood_shield",
+      "leather_body",
+      "worn_bow",
+      "home_tab x3"
+    ],
+    "weapon": "pickaxe",
+    "usingItem": null,
+    "arrow": {
+      "label": "",
+      "target": null,
+      "edgeArrowVisible": false
+    },
+    "chat": [
+      "You step through the door into Lastlight.",
+      "You cannot walk there.",
+      "🏅 Deed complete: <b>Wanderlust</b> — 150 crowns!",
+      "You may now bear the title “the Wayfarer”.",
+      "You climb down.",
+      "Warden's welcome pack: 25 crowns, bread, runes, arrows, a shield, leather body and teleport tabs. Your tools and forged dagger come with you.",
+      "The skiff noses into Veyhollow. Hollow Well Square lies just ahead.",
+      "Now entering: Veyhollow Commons."
+    ],
+    "dialogue": null,
+    "ctxOpen": false,
+    "provider": "veyhollow-commons-v2",
+    "nearby": [],
+    "camera": {
+      "yaw": -2.17,
+      "pitch": 1,
+      "dist": 10
+    },
+    "t": 1749
+  },
+  "findings": [
+    {
+      "id": "P-01",
+      "t": 32.1,
+      "severity": "low",
+      "where": "Arrival tile 151,169 (chat box)",
+      "observation": "Chat on arrival shows \"Deed complete: <b>Apprentice</b> — 50 crowns!\" with raw <b> tags, and a \"[COOK] The bread-making chain is lit\" line before I have done anything.",
+      "expectation": "Clean text; no deed/cook messages before the first lesson.",
+      "screenshot": "001-finding-1.png"
+    },
+    {
+      "id": "P-02",
+      "t": 32.4,
+      "severity": "medium",
+      "where": "Arrival tile 151,169 (chat vs banner)",
+      "observation": "Chat says \"Your adventurer is ready. Talk to Guide Bram by the rowboat.\" while the banner says \"Enter the Guide Hall and study the relief chart\" and the arrow says \"Study the island chart\". Two different first instructions.",
+      "expectation": "One first instruction; chat and banner should agree.",
+      "screenshot": "001-finding-2.png"
+    },
+    {
+      "id": "P-03",
+      "t": 68.5,
+      "severity": "medium",
+      "where": "Guide Hall, relief chart (151,155)",
+      "observation": "Right after the chart the banner says \"Open your pack and wield the Bronze hatchet.\" but the guidance arrow label says \"Leave by the Teaching door\" (target 151,141) with the edge arrow lit. The text and the arrow tell me two different things at once.",
+      "expectation": "Arrow should point at the pack (or be hidden) until the hatchet is wielded, then point at the door.",
+      "screenshot": "003-finding-3.png"
+    },
+    {
+      "id": "P-04",
+      "t": 68.7,
+      "severity": "low",
+      "where": "Guide Hall, relief chart hover text",
+      "observation": "Hover text at top-left reads \"Study orientation_table / 2 more options\" — an internal id with an underscore.",
+      "expectation": "A player-facing name, e.g. \"Study Relief chart\".",
+      "screenshot": "003-finding-4.png"
+    },
+    {
+      "id": "P-05",
+      "t": 68.9,
+      "severity": "low",
+      "where": "Guide Hall chat",
+      "observation": "Chat says \"Guide Bram hands you a survival kit\" but there is no Guide Bram anywhere near me; the kit appeared from studying a table.",
+      "expectation": "Either Bram is present and hands it over, or the line says the kit was found at the table.",
+      "screenshot": "003-finding-5.png"
+    },
+    {
+      "id": "P-06",
+      "t": 121.7,
+      "severity": "medium",
+      "where": "Teaching door 151,141 → Survival Wood",
+      "observation": "The arrow \"Chop tree\" points at 126,158 (west-southwest, back past the building I just walked through). Clicking the ground toward it three times only gave \"You can't get all the way there; walking as close as you can.\" — I am inside the Teaching room with walls between me and the tree.",
+      "expectation": "The arrow should lead me through the door that actually gets me there (or the objective should say which door), instead of pointing through a wall.",
+      "screenshot": "007-finding-6.png"
+    },
+    {
+      "id": "P-07",
+      "t": 355.4,
+      "severity": "high",
+      "where": "Teaching door (Guide Hall north door, 151,143) → alley tile 151,142",
+      "observation": "The arrow told me \"Leave by the Teaching door\". I walked to it and now stand just outside it at 151.5,142.5. From here every ground click north, east or west gives \"You can't get all the way there; walking as close as you can.\" and I do not move at all; only south (back into the hall) works. I clicked both door leaves (they toggle Open/Close) and it changes nothing. The arrow now says \"Chop tree\" at 126,158, which is behind me through the building. Over five minutes spent trying.",
+      "expectation": "Stepping through the Teaching door should put me on a walkable path that leads on to Survival Wood, and the arrow should lead me along it.",
+      "screenshot": "022-finding-7.png"
+    },
+    {
+      "id": "P-08",
+      "t": 436.9,
+      "severity": "critical",
+      "where": "Guide Hall Teaching door (north, 151,143) outside tiles 150-151,142",
+      "observation": "Read-only inspection (tileWalkable grid): the two tiles outside the Teaching door form a sealed pen — 149,142 and 152,142 are blocked and the whole row z=141 from x=146 to 154 is the Teaching kitchen wall. computePath from the pen reaches only itself and the hall. The guidance system picks this door as the authored exit for \"Chop tree\", so the arrow leads every player into a dead end.",
+      "expectation": "The Teaching door should open onto ground connected to Survival Wood (or the arrow should choose the Arrival door).",
+      "screenshot": "022-finding-8.png"
+    },
+    {
+      "id": "P-09",
+      "t": 437.2,
+      "severity": "high",
+      "where": "Guide Hall — workaround",
+      "observation": "To continue I had to ignore the arrow, go back through the hall and leave by the south Arrival door, then walk around the outside of the hall to the tree. A player would not know this; the banner/arrow never mention the Arrival door.",
+      "expectation": "The arrow should lead by a door that actually connects.",
+      "screenshot": "022-finding-9.png"
+    },
+    {
+      "id": "P-10",
+      "t": 584.6,
+      "severity": "medium",
+      "where": "Survival Wood pond, arrow target 132,156",
+      "observation": "The \"Catch a fish\" arrow points at 132,156 — a grass tile on the shore with nothing to click; the label hangs on my own feet. The actual net-fishing spot (\"Net-fish Mirrorperch\", bubbles) is at 131,150, six tiles away by the dock. With the net armed I waited 45 s at the arrow with nothing to click.",
+      "expectation": "The arrow should sit on the bubbling fishing spot itself.",
+      "screenshot": "032-finding-10.png"
+    },
+    {
+      "id": "P-11",
+      "t": 644.4,
+      "severity": "low",
+      "where": "Campfire 128,155 (pack click)",
+      "observation": "Clicking the raw mirrorperch in the pack to use it on the fire printed \"You should cook this on a campfire first.\" before the fire click roasted it — the pack click reads as an eat attempt, not as arming the item.",
+      "expectation": "Clicking a raw fish while the objective says to cook it should arm it (or say \"use it on the fire\").",
+      "screenshot": "036-finding-11.png"
+    },
+    {
+      "id": "P-12",
+      "t": 967,
+      "severity": "low",
+      "where": "Training Cavern arrival tile 286,354",
+      "observation": "After climbing down I appeared standing on top of a stalagmite cone (screenshot 038/039): my feet were on the spike, not the floor. It reads as a placement bug.",
+      "expectation": "Arrive on flat cavern floor beside the ladder/shaft.",
+      "screenshot": "044-finding-12.png"
+    },
+    {
+      "id": "P-13",
+      "t": 1004.3,
+      "severity": "low",
+      "where": "Training Cavern chat",
+      "observation": "Level-up line reads \"Congratulations, you just advanced an Mining level.\"",
+      "expectation": "\"a Mining level\".",
+      "screenshot": "047-finding-13.png"
+    },
+    {
+      "id": "P-14",
+      "t": 1243.7,
+      "severity": "medium",
+      "where": "Lastlight plateau 196,112",
+      "observation": "The \"Relight Lastlight\" arrow target is 196,112 — a bare sand tile with nothing to click; its label hangs on my feet. The Lastlight door is at 196,124, 12 tiles south, and the banner says \"Climb Lastlight and pull the bronze lever\". Nothing tells me where the way in is.",
+      "expectation": "The arrow should point at the Lastlight door (then the stair, then the lever).",
+      "screenshot": "059-finding-14.png"
+    },
+    {
+      "id": "P-15",
+      "t": 1321.5,
+      "severity": "high",
+      "where": "Lastlight tower body, tiles within ~10 of 196,112",
+      "observation": "Following the arrow walked me straight into the solid lighthouse: the summit plateau is walkable across the whole tower footprint, so I stood inside the stone at 196,120 (screenshots 059/062 show blank pale walls all round and the door seen from the inside). Read-only check: groundY is 14 from 196,112 to 196,124 and no interior is registered here.",
+      "expectation": "The tower footprint should be blocked (door only), and the arrow should target the door threshold 196.5,124.65.",
+      "screenshot": "062-finding-15.png"
+    },
+    {
+      "id": "P-16",
+      "t": 1477.8,
+      "severity": "medium",
+      "where": "Lastlight Lantern Room lever 199,111",
+      "observation": "After pulling the lever I was dropped to plane 0 at the same spot (199.5,112.5) — inside the solid lighthouse body again — while the zone label still read \"Lastlight Lantern Room\". No \"you climb down\" message; I simply fell through the floors.",
+      "expectation": "Stay in the lantern room and walk down (or an explicit exit), with the zone label updating.",
+      "screenshot": "074-finding-16.png"
+    },
+    {
+      "id": "P-17",
+      "t": 1575.9,
+      "severity": "medium",
+      "where": "Lastlight door 196,124",
+      "observation": "Standing inside the lighthouse body I could not click the ground toward the skiff (every ray hits the tower walls). The only way out I found was to click the door (which puts me on the Ground Floor) and then take the \"Exit Lastlight\" climb. A player inside the stone would not know to do that.",
+      "expectation": "Never allow the player inside the tower body; the exit should be the door.",
+      "screenshot": "092-finding-17.png"
+    }
+  ],
+  "errors": [
+    {
+      "t": 1.8,
+      "msg": "console: Failed to load resource: net::ERR_CONNECTION_REFUSED"
+    },
+    {
+      "t": 2.3,
+      "msg": "console: Failed to load resource: net::ERR_CONNECTION_REFUSED"
+    },
+    {
+      "t": 2.3,
+      "msg": "console: Failed to load resource: net::ERR_CONNECTION_REFUSED"
+    },
+    {
+      "t": 3.3,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "t": 9.4,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "log": [
+    {
+      "t": 11,
+      "action": "login",
+      "detail": {
+        "bootMs": 8157,
+        "keptDefaultLook": true
+      }
+    },
+    {
+      "t": 36.6,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          157.5
+        ],
+        "at": [
+          151.5,
+          157.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 38.8,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_orientation')",
+        "at": [
+          769,
+          299
+        ]
+      }
+    },
+    {
+      "t": 68.9,
+      "action": "dialogue",
+      "detail": {
+        "text": "Trace the route"
+      }
+    },
+    {
+      "t": 70.2,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "hatchet"
+      }
+    },
+    {
+      "t": 91.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          141.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 95.7,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          126.5,
+          158.5
+        ],
+        "at": [
+          150.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 123.3,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.doors.find(d=>/Green door/i.test(String(d.userData.label||'')))",
+        "at": [
+          769,
+          115
+        ]
+      }
+    },
+    {
+      "t": 128.5,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          145.5,
+          138.5
+        ],
+        "at": [
+          150.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 132.2,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          126.5,
+          158.5
+        ],
+        "at": [
+          150.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 157.1,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          151.5,
+          138.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 160.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          150.5
+        ],
+        "at": [
+          151.5,
+          150.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 213.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          142.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 216.1,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          140.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2,
+        "reached": false
+      }
+    },
+    {
+      "t": 218.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          148.5,
+          142.5
+        ],
+        "at": [
+          150.5,
+          142.5
+        ],
+        "legs": 2,
+        "reached": false
+      }
+    },
+    {
+      "t": 220.9,
+      "action": "walk",
+      "detail": {
+        "target": [
+          154.5,
+          142.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2,
+        "reached": false
+      }
+    },
+    {
+      "t": 223.1,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          141.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 247.2,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='door'&&Math.hypot(o.getW",
+        "at": [
+          769,
+          253
+        ]
+      }
+    },
+    {
+      "t": 252.1,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          151.5,
+          139.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 297.5,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='door'&&Math.hypot(o.getW",
+        "at": [
+          769,
+          253
+        ]
+      }
+    },
+    {
+      "t": 319,
+      "action": "click",
+      "detail": {
+        "finder": "(function(){let r=null;scene.traverse(o=>{if(!r&&o.name==='building-part-teachin",
+        "at": [
+          798,
+          409
+        ]
+      }
+    },
+    {
+      "t": 324.2,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          151.5,
+          138.5
+        ],
+        "at": [
+          151.5,
+          142.5
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 440.1,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          150.5
+        ],
+        "at": [
+          151.5,
+          150.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 447.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          151.5,
+          168.5
+        ],
+        "at": [
+          151.5,
+          168.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 458.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          127.5,
+          158.5
+        ],
+        "at": [
+          128.5,
+          158.5
+        ],
+        "legs": 3,
+        "reached": true
+      }
+    },
+    {
+      "t": 476.8,
+      "action": "click",
+      "detail": {
+        "finder": "(function(){let b=null,bd=1e9;for(const o of WORLD.clickables){if(!(o.userData&&",
+        "at": [
+          769,
+          192
+        ]
+      }
+    },
+    {
+      "t": 494.8,
+      "action": "walk",
+      "detail": {
+        "target": [
+          128.5,
+          155.5
+        ],
+        "at": [
+          128.5,
+          155.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 495.2,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "tinderbox"
+      }
+    },
+    {
+      "t": 495.8,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "logs"
+      }
+    },
+    {
+      "t": 517.6,
+      "action": "walk",
+      "detail": {
+        "target": [
+          132.5,
+          156.5
+        ],
+        "at": [
+          132.5,
+          156.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 518.1,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "fishing_net"
+      }
+    },
+    {
+      "t": 518.3,
+      "action": "click-miss",
+      "detail": {
+        "finder": "(function(){const t=[132,156];let b=null,bd=1e9;for(const o of WORLD.clickables)",
+        "loc": {
+          "err": "object not found"
+        }
+      }
+    },
+    {
+      "t": 586.2,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_fishing_edge')",
+        "at": [
+          769,
+          139
+        ]
+      }
+    },
+    {
+      "t": 621.4,
+      "action": "walk",
+      "detail": {
+        "target": [
+          128.5,
+          156.5
+        ],
+        "at": [
+          128.5,
+          156.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 621.8,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "raw_perch"
+      }
+    },
+    {
+      "t": 623.7,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='fire'&&o.parent)",
+        "at": [
+          769,
+          440
+        ]
+      }
+    },
+    {
+      "t": 663.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          124.5,
+          119.5
+        ],
+        "at": [
+          124.5,
+          121.5
+        ],
+        "legs": 3,
+        "reached": true
+      }
+    },
+    {
+      "t": 679.6,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='climb'&&/Training cavern",
+        "at": [
+          769,
+          363
+        ]
+      }
+    },
+    {
+      "t": 770,
+      "action": "walk",
+      "detail": {
+        "target": [
+          296.5,
+          357.5
+        ],
+        "at": [
+          287.5,
+          353.5
+        ],
+        "legs": 12,
+        "reached": false
+      }
+    },
+    {
+      "t": 771.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='resource'&&o.userData.or",
+        "at": [
+          769,
+          10
+        ]
+      }
+    },
+    {
+      "t": 812.1,
+      "action": "pack-click",
+      "detail": {
+        "itemId": "pickaxe"
+      }
+    },
+    {
+      "t": 815,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='resource'&&o.userData.or",
+        "at": [
+          769,
+          10
+        ]
+      }
+    },
+    {
+      "t": 940.4,
+      "action": "cwalk",
+      "detail": {
+        "target": [
+          294.5,
+          356.5
+        ],
+        "at": [
+          294.5,
+          356.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 941.6,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='resource'&&o.userData.or",
+        "at": [
+          769,
+          380
+        ],
+        "cam": {
+          "dist": 10,
+          "pitch": 1
+        }
+      }
+    },
+    {
+      "t": 976.3,
+      "action": "cwalk",
+      "detail": {
+        "target": [
+          304.5,
+          375.5
+        ],
+        "at": [
+          304.5,
+          375.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 977.6,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='resource'&&o.userData.or",
+        "at": [
+          769,
+          380
+        ],
+        "cam": {
+          "dist": 10,
+          "pitch": 1
+        }
+      }
+    },
+    {
+      "t": 984.4,
+      "action": "cwalk",
+      "detail": {
+        "target": [
+          305.5,
+          364.5
+        ],
+        "at": [
+          305.5,
+          366.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 1005.4,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='furnace')",
+        "at": [
+          769,
+          109
+        ],
+        "cam": {
+          "dist": 10,
+          "pitch": 1
+        }
+      }
+    },
+    {
+      "t": 1007.6,
+      "action": "dialogue",
+      "detail": {
+        "text": "Smelt a Bronze bar."
+      }
+    },
+    {
+      "t": 1012.6,
+      "action": "cwalk",
+      "detail": {
+        "target": [
+          302.5,
+          364.5
+        ],
+        "at": [
+          302.5,
+          364.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 1013.7,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='anvil')",
+        "at": [
+          769,
+          347
+        ],
+        "cam": {
+          "dist": 10,
+          "pitch": 1
+        }
+      }
+    },
+    {
+      "t": 1076.2,
+      "action": "click-card",
+      "detail": {
+        "text": "Bronze dagger",
+        "at": [
+          622,
+          403.25
+        ]
+      }
+    },
+    {
+      "t": 1109,
+      "action": "cwalk",
+      "detail": {
+        "target": [
+          320.5,
+          354.5
+        ],
+        "at": [
+          318.5,
+          355.5
+        ],
+        "legs": 2,
+        "reached": true
+      }
+    },
+    {
+      "t": 1111.3,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='climb'&&/Cavern exit/.te",
+        "at": [
+          769,
+          146
+        ],
+        "cam": {
+          "dist": 14,
+          "pitch": 1.2
+        }
+      }
+    },
+    {
+      "t": 1120.3,
+      "action": "walk",
+      "detail": {
+        "target": [
+          164.5,
+          118.5
+        ],
+        "at": [
+          164.5,
+          118.5
+        ],
+        "legs": 3,
+        "reached": true
+      }
+    },
+    {
+      "t": 1124.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          154.5,
+          116.5
+        ],
+        "at": [
+          154.5,
+          117.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 1142.2,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&/Bank booth/.test(String(o.userData.label||",
+        "at": [
+          769,
+          209
+        ],
+        "cam": {
+          "dist": 10,
+          "pitch": 1
+        }
+      }
+    },
+    {
+      "t": 1166.5,
+      "action": "walk",
+      "detail": {
+        "target": [
+          163.5,
+          118.5
+        ],
+        "at": [
+          163.5,
+          118.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 1207.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          196.5,
+          112.5
+        ],
+        "at": [
+          196.5,
+          112.5
+        ],
+        "legs": 3,
+        "reached": true
+      }
+    },
+    {
+      "t": 1244.4,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          196.5,
+          125.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1248.2,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='lighthouseDoor')"
+      }
+    },
+    {
+      "t": 1255.2,
+      "action": "walk",
+      "detail": {
+        "target": [
+          196.5,
+          121.5
+        ],
+        "at": [
+          196.5,
+          120.5
+        ],
+        "legs": 4,
+        "reached": true
+      }
+    },
+    {
+      "t": 1322.2,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          196.5,
+          125.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1326,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='lighthouseDoor')"
+      }
+    },
+    {
+      "t": 1357.5,
+      "action": "click",
+      "detail": {
+        "what": "ground near door",
+        "at": [
+          700,
+          700
+        ]
+      }
+    },
+    {
+      "t": 1388.2,
+      "action": "click",
+      "detail": {
+        "what": "lighthouse door",
+        "at": [
+          1264,
+          743
+        ]
+      }
+    },
+    {
+      "t": 1416.3,
+      "action": "cwalk",
+      "detail": {
+        "target": [
+          201.5,
+          109.5
+        ],
+        "at": [
+          200.5,
+          110.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 1416.3,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='climb'&&String(o.userDat"
+      }
+    },
+    {
+      "t": 1417.3,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='climb'&&o.userData.climb",
+        "at": [
+          769,
+          257
+        ],
+        "cam": {
+          "dist": 10,
+          "pitch": 1
+        }
+      }
+    },
+    {
+      "t": 1423.3,
+      "action": "cwalk",
+      "detail": {
+        "target": [
+          192.5,
+          115.5
+        ],
+        "at": [
+          193.5,
+          114.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 1423.3,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='climb'&&String(o.userDat"
+      }
+    },
+    {
+      "t": 1424.3,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='climb'&&o.userData.climb",
+        "at": [
+          769,
+          201
+        ],
+        "cam": {
+          "dist": 10,
+          "pitch": 1
+        }
+      }
+    },
+    {
+      "t": 1429.8,
+      "action": "cwalk",
+      "detail": {
+        "target": [
+          199.5,
+          112.5
+        ],
+        "at": [
+          199.5,
+          112.5
+        ],
+        "legs": 1,
+        "reached": true
+      }
+    },
+    {
+      "t": 1430.9,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='lever')",
+        "at": [
+          769,
+          336
+        ],
+        "cam": {
+          "dist": 10,
+          "pitch": 1
+        }
+      }
+    },
+    {
+      "t": 1478.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1482.9,
+      "action": "click",
+      "detail": {
+        "what": "scanned ground",
+        "at": [
+          40,
+          695
+        ]
+      }
+    },
+    {
+      "t": 1486.5,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1490.8,
+      "action": "click",
+      "detail": {
+        "what": "scanned ground",
+        "at": [
+          1264,
+          743
+        ]
+      }
+    },
+    {
+      "t": 1492.8,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1497.1,
+      "action": "click",
+      "detail": {
+        "what": "scanned ground",
+        "at": [
+          1264,
+          743
+        ]
+      }
+    },
+    {
+      "t": 1498.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1503.2,
+      "action": "click",
+      "detail": {
+        "what": "scanned ground",
+        "at": [
+          40,
+          719
+        ]
+      }
+    },
+    {
+      "t": 1505.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1509.5,
+      "action": "click",
+      "detail": {
+        "what": "scanned ground",
+        "at": [
+          1264,
+          743
+        ]
+      }
+    },
+    {
+      "t": 1511.3,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1515.5,
+      "action": "click",
+      "detail": {
+        "what": "scanned ground",
+        "at": [
+          40,
+          719
+        ]
+      }
+    },
+    {
+      "t": 1517.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1521.8,
+      "action": "click",
+      "detail": {
+        "what": "scanned ground",
+        "at": [
+          1216,
+          743
+        ]
+      }
+    },
+    {
+      "t": 1523.6,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1527.8,
+      "action": "click",
+      "detail": {
+        "what": "scanned ground",
+        "at": [
+          40,
+          719
+        ]
+      }
+    },
+    {
+      "t": 1556,
+      "action": "click",
+      "detail": {
+        "what": "lighthouse door (from inside the body)",
+        "at": [
+          40,
+          95
+        ]
+      }
+    },
+    {
+      "t": 1558.9,
+      "action": "click-miss",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='climb'&&/Exit Lastlight/"
+      }
+    },
+    {
+      "t": 1579.2,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "at": [
+          196.5,
+          117.4
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 1582.9,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "at": [
+          196.5,
+          117.4
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 1586.6,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "at": [
+          196.5,
+          117.4
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 1590.2,
+      "action": "walk-stuck",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "at": [
+          196.5,
+          117.4
+        ],
+        "legs": 2
+      }
+    },
+    {
+      "t": 1633.6,
+      "action": "click",
+      "detail": {
+        "what": "Exit Lastlight",
+        "at": [
+          300,
+          200
+        ]
+      }
+    },
+    {
+      "t": 1642.1,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 1
+      }
+    },
+    {
+      "t": 1643,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1644,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1644.9,
+      "action": "walk-blocked",
+      "detail": {
+        "target": [
+          207.5,
+          151.5
+        ],
+        "legs": 0
+      }
+    },
+    {
+      "t": 1684.8,
+      "action": "click",
+      "detail": {
+        "what": "ground toward skiff",
+        "at": [
+          780,
+          95
+        ],
+        "world": [
+          204.2,
+          144
+        ]
+      }
+    },
+    {
+      "t": 1710.1,
+      "action": "click",
+      "detail": {
+        "what": "ground toward skiff",
+        "at": [
+          760,
+          235
+        ],
+        "world": [
+          207.7,
+          151.5
+        ]
+      }
+    },
+    {
+      "t": 1729.6,
+      "action": "click",
+      "detail": {
+        "finder": "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='holm_departure')",
+        "at": [
+          769,
+          405
+        ],
+        "cam": {
+          "dist": 10,
+          "pitch": 1
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "assetId": "holm_guide_house_overhaul_v1",
+  "status": "source-unapproved",
+  "source": ".studio-workspaces/holm-guide-house-overhaul-v1/candidates/holm_guide_house_overhaul_v1.blend",
+  "model": ".studio-workspaces/holm-guide-house-overhaul-v1/candidates/holm_guide_house_overhaul_v1.glb",
+  "reference": "Bible_References/Tutorial_Island_Building.jpg",
+  "provenance": "Original authored topology, reference-informed; not copied game assets"
+}

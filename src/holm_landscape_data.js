@@ -75,7 +75,7 @@ var HolmLandscape=(function(){
     {id:'guide_hall',label:'Guide Hall',role:'orientation-service',x:151,z:155,w:26,d:24,level:0.82,door:'S'},
     {id:'survival_shelter',label:'Survival Workyard',role:'gathering-support',x:116,z:151,w:20,d:14,level:0.92,door:'S'},
     {id:'quest_lodge',label:'Quest Lodge',role:'story-service',x:136,z:136,w:12,d:9,level:1.5,door:'E'},
-    {id:'teaching_kitchen',label:'Teaching Kitchen',role:'cooking-service',x:153,z:136,w:13,d:10,level:1.28,door:'W'},
+    {id:'teaching_kitchen',label:'Teaching Kitchen',role:'cooking-service',x:153,z:134,w:13,d:10,level:1.28,door:'W'},
     {id:'mine_gatehouse',label:'Mine Gatehouse',role:'cave-access',x:127,z:119,w:10,d:8,level:1.72,door:'S'},
     {id:'holm_bank',label:'Holm Bank',role:'bank-service',x:157,z:116,w:10,d:8,level:2.45,door:'S'},
     {id:'combat_hall',label:'Combat Hall',role:'combat-service',x:172,z:119,w:12,d:9,level:2.3,door:'S'},
@@ -103,6 +103,8 @@ var HolmLandscape=(function(){
   pads.forEach(function(p){ objectPlacements.push({id:'holm_pad_'+p.id,asset:'holm_foundation',x:p.x,z:p.z,scale:[p.w,1,p.d],rot:0}); });
   objectPlacements.push({id:'holm_tidebridge_deck',asset:'holm_bridge',x:bridge.x,z:bridge.z,rot:0});
   objectPlacements.push({id:'holm_departure_pier_deck',asset:'holm_pier',x:departurePier.x,z:departurePier.z,rot:0});
+  // The firemaking lesson tile (flow target 128,155) gets a stone fire ring in the open, away from the canopy.
+  objectPlacements.push({id:'holm_fire_ring',asset:'holm_fire_ring',x:128,z:155,rot:0});
 
   [
     [124,165,1.05,0.2],[128,160,0.88,1.1],[135,162,1.12,2.2],[104,153,0.92,3.1],

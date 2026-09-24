@@ -17,6 +17,21 @@ var HolmSurvivalTrees=(function(){
   function rebake(x,z){
     try{ if(typeof CollisionGrid!=='undefined'&&CollisionGrid.baked&&typeof CollisionGrid.rebakeArea==='function') CollisionGrid.rebakeArea(x,z,2); }catch(e){}
   }
+  /* A limewash band round the trunk and a red chalk cross on the near face: the lesson trees must read
+   * differently from the scenery oaks beside them (play review F-12). Children of the tree group follow
+   * its deplete/respawn visibility like the canopy does. */
+  function markTrunk(g){
+    if(typeof THREE==='undefined') return;
+    var band=new THREE.Mesh(new THREE.CylinderGeometry(0.34,0.36,0.26,10,1,true),
+      new THREE.MeshLambertMaterial({color:0xf2ead6,side:THREE.DoubleSide}));
+    band.position.y=1.05; band.name='marked-tree-band'; g.add(band);
+    var chalk=new THREE.MeshLambertMaterial({color:0xc8362a});
+    for(var k=0;k<2;k++){
+      var stroke=new THREE.Mesh(new THREE.BoxGeometry(0.30,0.05,0.03),chalk);
+      stroke.position.set(0,1.05,0.36); stroke.rotation.z=(k?-1:1)*Math.PI/4; stroke.name='marked-tree-chalk-'+k;
+      g.add(stroke);
+    }
+  }
   function init(){
     dispose();
     if(typeof makeTree!=='function'||typeof WORLD==='undefined') return false;
@@ -25,6 +40,7 @@ var HolmSurvivalTrees=(function(){
       var g=makeTree(t.x,t.z,'normal');
       if(!g) continue;
       g.name='holm-marked-tree-'+(i+1);
+      markTrunk(g);
       g.userData.label='Chop down <b>Marked tree</b>';
       g.userData.marked=true;
       g.userData.runtimeOwnerId=OWNER;
@@ -50,7 +66,8 @@ var HolmSurvivalTrees=(function(){
     for(var r=0;r<had.length;r++) rebake(had[r].position.x,had[r].position.z);
   }
   function snapshot(){
-    return {initialized:runtime.initialized,trees:runtime.trees.map(function(g){return {x:g.position.x,z:g.position.z,alive:!!g.userData.alive};})};
+    return {initialized:runtime.initialized,trees:runtime.trees.map(function(g){return {x:g.position.x,z:g.position.z,alive:!!g.userData.alive,
+      marked:!!g.getObjectByName('marked-tree-band')};})};
   }
   return {OWNER:OWNER,TREES:TREES,init:init,dispose:dispose,snapshot:snapshot};
 })();

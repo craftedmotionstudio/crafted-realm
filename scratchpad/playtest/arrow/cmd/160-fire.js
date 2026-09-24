@@ -1,0 +1,10 @@
+let v = await p.see();
+let w = await p.walkTo(v.arrow.target[0] + 0.5, v.arrow.target[1] + 0.5, {near: 1.2}); out('walk to fire spot', w);
+v = await look('at-fire-spot');
+await p.clickInventory('tinderbox'); await sleep(300);
+v = await p.see(); out('after tinderbox click: using', v.usingItem);
+await p.clickInventory('logs'); await sleep(500);
+v = await look('tinder-on-logs');
+const lit = await p.waitFor("Tutorial.step >= 4", 20000); out('fire lit / step advanced', lit);
+await sleep(1000);
+v = await look('after-fire');

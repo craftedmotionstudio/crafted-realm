@@ -8,6 +8,19 @@
  * Self-boots once scene/WORLD/UI/Tutorial exist (setInterval guard, like the towns). */
 const GuideArrow = {
   _spec:null, _label:'', _line:null, _sprite:null, _arrow:null, _raf:null, _wrapped:false,
+  /* content hooks: fn(spec,label) -> {spec?,label?} | null, evaluated every frame so a hint can
+   * follow the player (inside a building -> its exit door; underground -> the exit ladder;
+   * cooking -> the live fire). spec:null from a hook hides the beacon for that frame. */
+  _redirects:[], keepAfterComplete:false, _shown:null,
+  addRedirect(fn){ if(typeof fn==='function' && this._redirects.indexOf(fn)<0) this._redirects.push(fn); },
+  _resolve(){
+    let spec=this._spec, label=this._label;
+    for(const fn of this._redirects){
+      try{ const r=fn(spec,label); if(r){ if('spec' in r) spec=r.spec; if('label' in r) label=r.label; } }
+      catch(e){ if(!this._redirectWarned){ this._redirectWarned=true; console.error('[ui_guide_arrow] redirect failed', e); } }
+    }
+    return {spec, label};
+  },
 
   /* set the current objective, or null to clear everything */
   setTarget(spec, label){
@@ -22,8 +35,8 @@ const GuideArrow = {
 
   /* resolve the live spec to a snapped tile centre {cx,cz} — re-read each frame so
    * mesh/friendly targets track a walking NPC. null when unresolvable. */
-  _center(){
-    const s=this._spec; if(!s) return null;
+  _center(spec){
+    const s=spec===undefined?this._spec:spec; if(!s) return null;
     let p=null;
     if(s.mesh && s.mesh.position) p=s.mesh.position;
     else if(s.friendlyId && typeof WORLD!=='undefined' && WORLD.friendlies){
@@ -72,9 +85,11 @@ const GuideArrow = {
        typeof groundY!=='function' || typeof THREE==='undefined') return;
 
     // tutorial finished while a target was set → self-clear
-    if(this._spec && typeof Tutorial!=='undefined' && Tutorial.complete) this.setTarget(null);
+    if(this._spec && typeof Tutorial!=='undefined' && Tutorial.complete && !this.keepAfterComplete) this.setTarget(null);
 
-    const ctr = this._center();
+    const live=this._resolve();
+    this._shown=live;
+    const ctr = this._center(live.spec);
     if(!ctr){                                          // nothing (or not yet resolvable) to point at
       if(this._line) this._line.visible=false;
       if(this._sprite) this._sprite.visible=false;
@@ -96,15 +111,16 @@ const GuideArrow = {
       this._line.visible=true;
     }
     const gy=(groundY(cx,cz)||0);
-    if(this._label){
-      if(!this._sprite || this._sprite._txt!==this._label){
+    if(live.label){
+      if(!this._sprite || this._sprite._txt!==live.label){
         if(this._sprite){ scene.remove(this._sprite);
           if(this._sprite.material.map) this._sprite.material.map.dispose();
           this._sprite.material.dispose(); }
-        this._sprite=this._labelSprite(this._label); this._sprite._txt=this._label;
+        this._sprite=this._labelSprite(live.label); this._sprite._txt=live.label;
         scene.add(this._sprite);
       }
-      this._sprite.position.set(cx, gy+0.9+pulse*0.15, cz);   // gentle float
+      const lift=(live.spec&&typeof live.spec.labelLift==='number')?live.spec.labelLift:0;   // e.g. a door label above a dais
+      this._sprite.position.set(cx, gy+0.9+lift+pulse*0.15, cz);   // gentle float
       this._sprite.visible=true;
     } else if(this._sprite){ this._sprite.visible=false; }
 
@@ -134,6 +150,7 @@ const GuideArrow = {
     const self=this, orig=Tutorial.banner;
     Tutorial.banner=function(){
       orig.apply(this, arguments);                     // may auto-advance this.step first
+      if(this.complete && self.keepAfterComplete) return;   // a completion target (Holm departure) stays
       const s=(!this.complete && this.steps[this.step]) ? this.steps[this.step] : null;
       self.setTarget(s&&s.target||null, s&&s.arrowLabel);
     };

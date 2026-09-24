@@ -1,0 +1,16 @@
+# Holm tool recovery — 2026-09-12
+
+Status: integrated; focused real-input behavior verified. Full island goal remains active.
+
+The Guide Hall provision rack now has a primary Collect-tools action and an Inspect explanation. It uses the authored interior reach guard. Initial survival/pickaxe/hammer grants use the same atomic transaction; only a successful grant latches the per-session initial-grant marker. Lost tools remain recoverable at later lessons. Tools in any equipment slot or bank are not duplicated; bank-owned tools produce a withdrawal/location message. Inventory and save refusal leave the previous pack untouched.
+
+Code: src/holm_tool_recovery.js, src/holm_tool_recovery_service.js, src/holm_guide_hall_interactions.js, src/tutorial_holm.js; index loads dependencies. Deterministic gates: recovery planner10/10, service7/7, initial-grant retry6/6, World V2 locks pass.
+
+Focused QA on disposable `holm-tools-20260912`: real chart click walked from arrival through the Guide Hall doorway and delivered survival kit, advancing to wield. Explicit QA fixture replaced pack with24bread (simulating lost tools/full pack); real rack click correctly refused with exactly3slots required and no grant. Bread eating at full HP was correctly refused. Fixture then changed to21bread/3empty; real rack click delivered and immediately saved exactly one hatchet/tinderbox/net. Repeat real click reported already-owned tools without duplication. Real inventory click wielded recovered hatchet and advanced to chop_logs. Zero uncaught errors. Capacity setup was injected only into disposable profile; no bank journey is claimed for this focused run. Owner save untouched.
+
+UI review: Collect-tools is discoverable as primary hover/menu action; exact capacity and ownership feedback reads in chat. Rack uses existing warm low-poly furnishing and existing wall/door reach behavior; no art or building acceptance score is changed by this service pass. Four-cardinal full visual evidence remains part of the island-wide acceptance, not asserted here.
+
+First smoke passed105structural/walk/stream but FAILED perf17FPS/worst1002ms; final repeat pending. Do not omit this initial failure. New-adventurer reset module and7/7 tests are prepared but NOT integrated; see HOLM_NEW_ADVENTURER_RESET_AUDIT_2026-09-12.md. Next: finish persistence/perf check, integrate reset with real disposable mainland-to-new test, then resume NPC/combat and art work.
+
+Reload follow-up: saved recovered kit survives exactly. Immediate hard reload after real wield returns to equip_hatchet with hatchet in pack (autosave had not captured the equip/lesson transition). This is NOT accepted as lesson checkpoint persistence; add explicit checkpoint coverage/repair next. Restored-interior smoke FAIL: structural104/105 (`global population did not duplicate resident chunk interactions`), walk leg1timeout; streaming exact/lossless, performance60FPS/worst20ms/107draws, zero errors. Investigate resident bucket label multiplicity and interior target reach; do not claim this gate passed. Separate fresh-arrival repeat pending.
+Final fresh-arrival foreground smoke PASS105/105; boot914ms, walk3583ms, six stream boundaries exact/lossless, 60FPS/worst20ms/147draws/34818tris/ticks7, zero errors. This verifies the arrival baseline after tool integration; restored-interior failures above remain open.

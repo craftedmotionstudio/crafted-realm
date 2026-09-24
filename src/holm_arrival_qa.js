@@ -1,0 +1,95 @@
+/* Local, opt-in real-game arrival provider. Consumes the validated Studio export;
+ * never publishes it or selects it for ordinary adventurers. */
+var HolmArrivalQA=(function(){
+ 'use strict';
+ var requested=new URLSearchParams(location.search).get('arrivalQA')==='1',loaded=null,provider=null,owner=null,bridge=null,pending=null;
+ var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null;
+ var ID='tutors-holm-arrival-qa',EXPORT='89e7cf10543d97bf';
+ function active(){return !!provider&&CRWorldMode.providerId===ID}
+ function graphForDoors(d){var key=JSON.stringify(d);return graphs[key]||(graphs[key]=nav.compile(d))}
+ function spawn(){return loaded.package.navigation.doorStates['closed-closed'].graph.nodes.find(function(n){return n.id===loaded.package.spawn.nodeId})}
+ async function prepare(){
+  if(!requested)return null;
+  if(!QAProfile.isolated||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
+  loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v3/exports/',exportId:EXPORT});
+  nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
+  var pack=loaded.package,chunks=JSON.parse(JSON.stringify(pack.terrain.chunks)),b=loaded.documents.layout.building,s=spawn();
+  chunks.forEach(function(c){c.layers.terrain.exclusions=[{x:b.world.x-b.width/2,z:b.world.z-b.depth/2,w:b.width,d:b.depth}]});
+  provider=WorldV2.register({contractVersion:1,id:ID,label:'Tutor’s Holm · arrival draft',worldRevision:pack.provider.worldRevision,
+   initialRect:{x0:0,z0:0,w:144,h:128},residentRadius:4,renderStrategy:'holm-overhaul-sampled',defaultLandmark:'holm_arrival',
+   landmarks:{holm_arrival:{id:'holm_arrival',label:'Arrival landing',x:s.x,z:s.z}},chunks:chunks,
+   hooks:{
+    buildTerrain:async function(p){
+     WorldV2Terrain.init(p);p.updateResidency(s.x,s.z,true);
+     owner=await HolmArrivalModelOwner.create({THREE:THREE,scene:scene,WORLD:WORLD,loaded:loaded});owner.setDoors(doors);
+     water=HolmArrivalWater.create(THREE,loaded.documents.terrain.creek);scene.add(water.group);
+     trail=HolmArrivalTrail.create(THREE,loaded.documents.layout,HolmArrivalTrail.terrainSampler(loaded.documents.terrain));
+     trail.userData={kind:"arrival_surface",arrivalSurface:"exterior"};scene.add(trail);WORLD.grounds.push(trail);WORLD.clickables.push(trail);
+     var bounds=pack.navigation.interactions[0].localBounds;
+     chart=new THREE.Mesh(new THREE.BoxGeometry(bounds.width,.3,bounds.depth),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+     chart.position.set(b.world.x+bounds.x,b.world.foundationY+bounds.y+.65,b.world.z+bounds.z);chart.userData={kind:'arrival_chart',label:'Study relief chart'};scene.add(chart);WORLD.clickables.push(chart);
+     for(const d of pack.navigation.doors){var leaf=owner.house.getObjectByName(d.leafPart);if(leaf){leaf.userData.kind='arrival_door';leaf.userData.arrivalDoor=d.id;leaf.userData.label='Open / close door';if(WORLD.clickables.indexOf(leaf)<0)WORLD.clickables.push(leaf)}}
+    },populate:function(){},chartCollision:function(){},
+    loadChunk:function(c,p){return WorldV2Terrain.loadChunk(c,p)},unloadChunk:function(h){WorldV2Terrain.unloadChunk(h)},
+    dispose:function(){HolmArrivalPlayer.detach();if(owner)owner.dispose();if(water)water.dispose();if(trail){scene.remove(trail);[WORLD.grounds,WORLD.clickables].forEach(function(a){var i=a.indexOf(trail);if(i>=0)a.splice(i,1)});trail.geometry.dispose();trail.material.dispose();trail=null;}if(chart){scene.remove(chart);var i=WORLD.clickables.indexOf(chart);if(i>=0)WORLD.clickables.splice(i,1);chart.geometry.dispose();chart.material.dispose()}WorldV2Terrain.dispose()},
+    snapshot:function(){return {arrivalDraft:true,terrain:WorldV2Terrain.snapshot(),pose:bridge?bridge.snapshot():null,doors:doors}}
+   }});
+  WorldV2.activate(ID);CRWorldMode.attachProvider(provider);return provider;
+ }
+ function height(x,z){
+  if(!active()||x<0||z<0||x>144||z>128)return null;
+  // Ground queries never return the upper floor. Actual traversal uses explicit surfaces.
+  var d=nav.support('dock',x,z,doors);if(d)return d.y;
+  return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z);
+ }
+ function bindPlayer(record){
+  if(!active())return;
+  var node=spawn(),graph=graphForDoors(doors);
+  if(record&&(record.revision===loaded.package.navigation.graphRevision||(loaded.package.navigation.compatibleGraphRevisions||[]).indexOf(record.revision)>=0)){
+   try{node=HolmArrivalCheckpoint.restore(graph,record,record.revision)}catch(e){UI.chat('The arrival draft changed; restored at the landing.','sys')}
+  }
+  HolmArrivalPlayer.detach();player.position.set(node.x,node.y,node.z);Player.plane=0;Player.path=[];Player.moveTo=null;
+  provider.updateResidency(node.x,node.z,true);
+  bridge=HolmArrivalPlayer.attach({actor:player,state:Player,providerId:ID,navigation:nav,graphForDoors:graphForDoors,startNodeId:node.id,doors:doors,canMove:function(){return !owner.doorsMoving()}});owner.update(0,node.surface);
+ }
+ function saveRecord(){
+  if(!active()||!bridge)return null;var pose=bridge.snapshot();
+  if(!pose.nodeId)return null;
+  var record=HolmArrivalCheckpoint.encode(graphForDoors(doors),pose.nodeId,loaded.package.navigation.graphRevision);record.doors={arrival:doors.arrival,garden:doors.garden};return record;
+ }
+ function restore(record){
+  if(!active())return;
+  if(record&&record.doors&&typeof record.doors.arrival==='boolean'&&typeof record.doors.garden==='boolean'){doors=record.doors;owner.setDoors(doors)}
+  bindPlayer(record);
+ }
+ function handleClick(obj,point){
+  if(!active()||!bridge)return false;
+  var u=obj.userData||{};pending=null;Player.target=null;Player.action=null;
+  if(u.kind==='arrival_door'){
+   // Exported leaf geometry can be offset from its object origin/hinge.
+   var pos=new THREE.Box3().setFromObject(obj).getCenter(new THREE.Vector3());
+   if(Math.hypot(pos.x-player.position.x,pos.z-player.position.z)>2.5){UI.chat('Walk closer to the door.','plain');return true}
+   var next={arrival:doors.arrival,garden:doors.garden};next[u.arrivalDoor]=!next[u.arrivalDoor];
+   if(bridge.setDoors(next)){doors=next;owner.setDoors(doors,{animate:true})}else UI.chat('Step clear of the doorway first.','plain');return true;
+  }
+  if(u.kind==='arrival_chart'||u.kind==='arrival_provisions'){
+   var service=loaded.package.navigation.interactions.find(function(s){return s.kind===(u.kind==='arrival_chart'?'holm_orientation':'holm_provisions')});
+   if(!service)return true;
+   var id=service.stanceNodeIds[0],node=graphForDoors(doors).nodes.find(function(n){return n.id===id});
+   if(node&&bridge.order(node))pending={id:id,kind:service.kind};return true;
+  }
+  if(u.arrivalSurface||isGroundName(obj.name)){
+   var p={x:point.x,y:point.y,z:point.z};if(u.arrivalSurface)p.surface=u.arrivalSurface;
+   if(!bridge.order(p)){
+    var porch=HolmArrivalPorchTarget.resolve({point:p,layout:loaded.documents.layout,graph:graphForDoors(doors)});
+    if(!porch||!bridge.order(porch))UI.chat('There is no open route to that spot.','plain');
+   }return true;
+  }
+  return false;
+ }
+ function update(dt){
+  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();owner.update(dt,pose.surface);
+  if(pending&&pose.nodeId===pending.id&&!pose.moving){var kind=pending.kind;pending=null;if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
+ }
+ return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update};
+})();

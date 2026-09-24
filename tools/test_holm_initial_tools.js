@@ -1,0 +1,14 @@
+'use strict';
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const s=fs.readFileSync('src/tutorial_holm.js','utf8');
+const slice=s.slice(s.indexOf('  const granted = {}'),s.indexOf('  const DEPARTURE_LINE'));
+let result=false,calls=0;
+const c={Tutorial:{step:0,complete:false,steps:[{id:'equip_hatchet'},{id:'chop_logs'},{id:'mine_copper'},{id:'forge_dagger'}]},UI:{chat(){}},HolmToolRecoveryService:{recover(){calls++;return result;}}};
+vm.createContext(c);vm.runInContext(slice,c);
+c.grantForStep();assert.equal(calls,1);
+result=true;c.grantForStep();assert.equal(calls,2,'failed grant must remain retryable');
+c.grantForStep();assert.equal(calls,2,'successful initial grant does not repeat');
+c.Tutorial.step=1;c.grantForStep();assert.equal(calls,2,'ordinary lesson does not silently recover');
+c.Tutorial.step=2;c.grantForStep();c.Tutorial.step=3;c.grantForStep();assert.equal(calls,4,'both cavern grants use recovery');
+c.Tutorial.complete=true;c.grantForStep();assert.equal(calls,4);
+console.log('[HOLM_INITIAL_TOOLS] 6/6 passed');

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "study_route",
+    "t": 16.3,
+    "next": "equip_hatchet",
+    "objective": "Open your pack and wield the Bronze hatchet."
+  },
+  {
+    "id": "equip_hatchet",
+    "t": 17.2,
+    "next": "chop_logs",
+    "objective": "Chop a marked tree in Survival Wood for logs."
+  },
+  {
+    "id": "chop_logs",
+    "t": 92.4,
+    "next": "light_fire",
+    "objective": "Use your tinderbox on the logs to light a fire."
+  },
+  {
+    "id": "light_fire",
+    "t": 96.7,
+    "next": null,
+    "objective": "Board the skiff at Departure Dock."
+  },
+  {
+    "id": "board_skiff",
+    "t": 137,
+    "next": null,
+    "objective": "Board the skiff at Departure Dock."
+  }
+]

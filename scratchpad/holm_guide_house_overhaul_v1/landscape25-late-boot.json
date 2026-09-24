@@ -1,0 +1,6 @@
+{
+  "result": {
+    "type": "string",
+    "value": "{\"status\":\"ready\",\"startedAt\":973.7000000029802,\"readyAt\":6586.5,\"totalMs\":5612.8,\"progress\":100,\"failedStep\":null,\"steps\":[{\"id\":\"renderer\",\"label\":\"Starting the renderer\",\"weight\":12,\"startedAt\":973.7,\"durationMs\":390.7,\"status\":\"complete\"},{\"id\":\"world-plan\",\"label\":\"Reading Tutor's Holm\",\"weight\":4,\"startedAt\":1364.5,\"durationMs\":560.5,\"status\":\"complete\"},{\"id\":\"item-art\",\"label\":\"Preparing item art\",\"weight\":4,\"startedAt\":1925.1,\"durationMs\":31.2,\"status\":\"complete\"},{\"id\":\"terrain\",\"label\":\"Building nearby terrain\",\"weight\":22,\"startedAt\":1956.4,\"durationMs\":289.3,\"status\":\"complete\"},{\"id\":\"population\",\"label\":\"Preparing Tutor's Holm\",\"weight\":28,\"startedAt\":2245.8,\"durationMs\":16.9,\"status\":\"complete\"},{\"id\":\"collision\",\"label\":\"Charting walkable ground\",\"weight\":15,\"startedAt\":2262.8,\"durationMs\":124.9,\"status\":\"complete\"},{\"id\":\"shaders\",\"label\":\"Warming the renderer\",\"weight\":6,\"startedAt\":2387.8,\"durationMs\":2733,\"status\":\"complete\"},{\"id\":\"player\",\"label\":\"Waking the adventurer\",\"weight\":15,\"startedAt\":5120.9,\"durationMs\":1465.5,\"status\":\"complete\"}]}"
+  }
+}

@@ -1,0 +1,792 @@
+{
+  "profile": "fable-stream-mtvkl07l",
+  "bar": {
+    "hitchMs": 60,
+    "bootMs": 5000,
+    "residencyMs": 60
+  },
+  "boot": {
+    "wallMs": 3536,
+    "coordinatorMs": 1755.8,
+    "steps": [
+      {
+        "id": "renderer",
+        "ms": 263.7
+      },
+      {
+        "id": "world-plan",
+        "ms": 40.9
+      },
+      {
+        "id": "item-art",
+        "ms": 20.9
+      },
+      {
+        "id": "terrain",
+        "ms": 519
+      },
+      {
+        "id": "population",
+        "ms": 37
+      },
+      {
+        "id": "collision",
+        "ms": 53
+      },
+      {
+        "id": "shaders",
+        "ms": 661.3
+      },
+      {
+        "id": "player",
+        "ms": 159
+      }
+    ],
+    "domContentLoadedMs": 1770,
+    "welcomeAtMs": 3585,
+    "resources": 231,
+    "totalBytes": 34097523,
+    "byType": {
+      "css": {
+        "count": 1,
+        "bytes": 16689
+      },
+      "png": {
+        "count": 51,
+        "bytes": 18586224
+      },
+      "js": {
+        "count": 140,
+        "bytes": 2031840
+      },
+      "glb": {
+        "count": 37,
+        "bytes": 13461620
+      },
+      "json": {
+        "count": 1,
+        "bytes": 515
+      },
+      "ico": {
+        "count": 1,
+        "bytes": 635
+      }
+    },
+    "largest": [
+      {
+        "name": "assets/models/buildings/holm_guide_hall_v6.glb",
+        "mb": 2.5
+      },
+      {
+        "name": "assets/models/environments/holm_lastlight_lighthouse_v1.glb",
+        "mb": 1.98
+      },
+      {
+        "name": "assets/textures/market_cloth.png",
+        "mb": 1.92
+      },
+      {
+        "name": "assets/textures/thatch_roof.png",
+        "mb": 1.91
+      },
+      {
+        "name": "assets/textures/rat_fur.png",
+        "mb": 1.81
+      },
+      {
+        "name": "assets/textures/dirt_path.png",
+        "mb": 1.77
+      },
+      {
+        "name": "assets/textures/skeleton_bone.png",
+        "mb": 1.64
+      },
+      {
+        "name": "assets/models/buildings/holm_survival_workyard_v2.glb",
+        "mb": 1.47
+      }
+    ],
+    "js": {
+      "count": 140,
+      "bytes": 2031840
+    },
+    "glb": {
+      "count": 37,
+      "bytes": 13461620,
+      "slowest": [
+        {
+          "name": "assets/models/buildings/holm_guide_hall_v6.glb?v=1",
+          "ms": 202,
+          "bytes": 2623812
+        },
+        {
+          "name": "assets/models/buildings/holm_mage_tower_v1.glb?v=2",
+          "ms": 158,
+          "bytes": 866760
+        },
+        {
+          "name": "assets/models/buildings/holm_survival_workyard_v2.glb?v=14",
+          "ms": 147,
+          "bytes": 1538740
+        },
+        {
+          "name": "assets/models/buildings/holm_combat_hall_v1.glb?v=2",
+          "ms": 143,
+          "bytes": 649000
+        },
+        {
+          "name": "assets/models/buildings/holm_bank_v1.glb?v=2",
+          "ms": 98,
+          "bytes": 662760
+        }
+      ]
+    },
+    "warmup": {
+      "bootPassMs": 657.5,
+      "deferred": "done",
+      "deferredMs": 5624.3,
+      "programs": 85
+    }
+  },
+  "legs": [
+    {
+      "name": "L1 arrival apron -> relief chart tile",
+      "crossings": 3,
+      "maxResidencyMs": 117.8,
+      "worstGapMs": 39.3,
+      "gaps": [
+        {
+          "ms": 39.3,
+          "tile": "151,159",
+          "boundary": true,
+          "residencyMs": 4.1
+        }
+      ],
+      "t0": 13118.099999999627,
+      "seconds": 3,
+      "hitches": []
+    },
+    {
+      "name": "L2 chart -> marked tree (via teaching door)",
+      "crossings": 11,
+      "maxResidencyMs": 5.1,
+      "worstGapMs": 69.4,
+      "gaps": [
+        {
+          "ms": 40.6,
+          "tile": "151,152",
+          "boundary": true,
+          "residencyMs": 2.3
+        },
+        {
+          "ms": 44.4,
+          "tile": "151,151",
+          "boundary": true,
+          "residencyMs": 2.7
+        },
+        {
+          "ms": 39.2,
+          "tile": "151,147",
+          "boundary": false,
+          "residencyMs": 2.3
+        },
+        {
+          "ms": 34.8,
+          "tile": "153,152",
+          "boundary": true,
+          "residencyMs": 2.1
+        },
+        {
+          "ms": 37.6,
+          "tile": "151,157",
+          "boundary": true,
+          "residencyMs": 2.2
+        },
+        {
+          "ms": 69.4,
+          "tile": "150,157",
+          "boundary": false,
+          "residencyMs": 1.3
+        },
+        {
+          "ms": 30.9,
+          "tile": "150,160",
+          "boundary": true,
+          "residencyMs": 1.9
+        },
+        {
+          "ms": 30.8,
+          "tile": "145,167",
+          "boundary": false,
+          "residencyMs": 1.6
+        },
+        {
+          "ms": 52.5,
+          "tile": "143,167",
+          "boundary": true,
+          "residencyMs": 25.7
+        },
+        {
+          "ms": 30.5,
+          "tile": "136,163",
+          "boundary": false,
+          "residencyMs": 1.4
+        },
+        {
+          "ms": 31.2,
+          "tile": "136,160",
+          "boundary": false,
+          "residencyMs": 1.4
+        },
+        {
+          "ms": 30.4,
+          "tile": "135,160",
+          "boundary": true,
+          "residencyMs": 3.2
+        },
+        {
+          "ms": 33.8,
+          "tile": "134,159",
+          "boundary": true,
+          "residencyMs": 3.7
+        },
+        {
+          "ms": 33.8,
+          "tile": "134,158",
+          "boundary": false,
+          "residencyMs": 2.4
+        },
+        {
+          "ms": 30.1,
+          "tile": "126,157",
+          "boundary": false,
+          "residencyMs": 0.6
+        },
+        {
+          "ms": 30.4,
+          "tile": "125,159",
+          "boundary": false,
+          "residencyMs": 0.6
+        }
+      ],
+      "t0": 16146.5,
+      "seconds": 19.1,
+      "hitches": [
+        {
+          "ms": 69.4,
+          "tile": "150,157",
+          "boundary": false,
+          "residencyMs": 1.3
+        }
+      ]
+    },
+    {
+      "name": "L3 tree -> fishing dock",
+      "crossings": 7,
+      "maxResidencyMs": 4.6,
+      "worstGapMs": 44,
+      "gaps": [
+        {
+          "ms": 31.2,
+          "tile": "126,159",
+          "boundary": false,
+          "residencyMs": 0.6
+        },
+        {
+          "ms": 32.8,
+          "tile": "126,158",
+          "boundary": false,
+          "residencyMs": 0.6
+        },
+        {
+          "ms": 44,
+          "tile": "128,158",
+          "boundary": true,
+          "residencyMs": 2.3
+        },
+        {
+          "ms": 30.7,
+          "tile": "129,158",
+          "boundary": false,
+          "residencyMs": 3.2
+        },
+        {
+          "ms": 31.4,
+          "tile": "130,158",
+          "boundary": false,
+          "residencyMs": 3.2
+        },
+        {
+          "ms": 34.1,
+          "tile": "131,158",
+          "boundary": false,
+          "residencyMs": 3.2
+        },
+        {
+          "ms": 31,
+          "tile": "132,158",
+          "boundary": false,
+          "residencyMs": 3.2
+        },
+        {
+          "ms": 30.4,
+          "tile": "135,158",
+          "boundary": false,
+          "residencyMs": 3.2
+        },
+        {
+          "ms": 33.7,
+          "tile": "136,158",
+          "boundary": true,
+          "residencyMs": 2.9
+        },
+        {
+          "ms": 30.4,
+          "tile": "137,158",
+          "boundary": false,
+          "residencyMs": 2.7
+        },
+        {
+          "ms": 31.1,
+          "tile": "137,155",
+          "boundary": false,
+          "residencyMs": 2.7
+        },
+        {
+          "ms": 32.8,
+          "tile": "137,154",
+          "boundary": false,
+          "residencyMs": 2.7
+        },
+        {
+          "ms": 32.7,
+          "tile": "137,152",
+          "boundary": false,
+          "residencyMs": 2.7
+        },
+        {
+          "ms": 30.5,
+          "tile": "137,151",
+          "boundary": true,
+          "residencyMs": 3
+        },
+        {
+          "ms": 31.5,
+          "tile": "137,149",
+          "boundary": false,
+          "residencyMs": 2.4
+        },
+        {
+          "ms": 31,
+          "tile": "136,146",
+          "boundary": false,
+          "residencyMs": 2.4
+        },
+        {
+          "ms": 31.4,
+          "tile": "135,146",
+          "boundary": true,
+          "residencyMs": 3.6
+        },
+        {
+          "ms": 30.2,
+          "tile": "134,144",
+          "boundary": false,
+          "residencyMs": 1.9
+        },
+        {
+          "ms": 32,
+          "tile": "132,144",
+          "boundary": false,
+          "residencyMs": 1.9
+        },
+        {
+          "ms": 32.7,
+          "tile": "127,147",
+          "boundary": false,
+          "residencyMs": 0.5
+        },
+        {
+          "ms": 35.7,
+          "tile": "128,148",
+          "boundary": true,
+          "residencyMs": 11
+        },
+        {
+          "ms": 30.3,
+          "tile": "129,149",
+          "boundary": false,
+          "residencyMs": 2.5
+        },
+        {
+          "ms": 31,
+          "tile": "131,151",
+          "boundary": false,
+          "residencyMs": 2.5
+        }
+      ],
+      "t0": 35230.39999999944,
+      "seconds": 11.7,
+      "hitches": []
+    },
+    {
+      "name": "L4 dock -> gatehouse winch tile",
+      "crossings": 8,
+      "maxResidencyMs": 14.5,
+      "worstGapMs": 56.5,
+      "gaps": [
+        {
+          "ms": 44.3,
+          "tile": "130,151",
+          "boundary": true,
+          "residencyMs": 3.5
+        },
+        {
+          "ms": 31.3,
+          "tile": "130,149",
+          "boundary": false,
+          "residencyMs": 3.1
+        },
+        {
+          "ms": 38.9,
+          "tile": "127,149",
+          "boundary": true,
+          "residencyMs": 1
+        },
+        {
+          "ms": 33.3,
+          "tile": "127,148",
+          "boundary": false,
+          "residencyMs": 0.6
+        },
+        {
+          "ms": 36.9,
+          "tile": "128,146",
+          "boundary": true,
+          "residencyMs": 9.4
+        },
+        {
+          "ms": 33.2,
+          "tile": "128,144",
+          "boundary": false,
+          "residencyMs": 1.9
+        },
+        {
+          "ms": 56.5,
+          "tile": "128,143",
+          "boundary": true,
+          "residencyMs": 10
+        },
+        {
+          "ms": 31.7,
+          "tile": "128,142",
+          "boundary": false,
+          "residencyMs": 9.8
+        },
+        {
+          "ms": 36.1,
+          "tile": "128,135",
+          "boundary": true,
+          "residencyMs": 2.8
+        },
+        {
+          "ms": 48,
+          "tile": "128,127",
+          "boundary": true,
+          "residencyMs": 14.5
+        },
+        {
+          "ms": 32.3,
+          "tile": "128,119",
+          "boundary": true,
+          "residencyMs": 0.9
+        }
+      ],
+      "t0": 46896.799999999814,
+      "seconds": 10.3,
+      "hitches": []
+    },
+    {
+      "name": "L5-L8 cavern copper -> tin -> furnace -> exit",
+      "crossings": 11,
+      "maxResidencyMs": 5.3,
+      "worstGapMs": 29.4,
+      "gaps": [],
+      "t0": 59980.799999999814,
+      "seconds": 21.6,
+      "hitches": []
+    },
+    {
+      "name": "L9 hall tower -> bank booth tile",
+      "crossings": 7,
+      "maxResidencyMs": 6.3,
+      "worstGapMs": 48,
+      "gaps": [
+        {
+          "ms": 42.3,
+          "tile": "175,116",
+          "boundary": true,
+          "residencyMs": 3.3
+        },
+        {
+          "ms": 31.9,
+          "tile": "169,120",
+          "boundary": true,
+          "residencyMs": 2.9
+        },
+        {
+          "ms": 35.1,
+          "tile": "167,121",
+          "boundary": true,
+          "residencyMs": 2.1
+        },
+        {
+          "ms": 30.1,
+          "tile": "167,119",
+          "boundary": true,
+          "residencyMs": 0.8
+        },
+        {
+          "ms": 37.3,
+          "tile": "164,118",
+          "boundary": false,
+          "residencyMs": 1.1
+        },
+        {
+          "ms": 34.1,
+          "tile": "163,120",
+          "boundary": true,
+          "residencyMs": 2.3
+        },
+        {
+          "ms": 38.8,
+          "tile": "160,121",
+          "boundary": false,
+          "residencyMs": 2.4
+        },
+        {
+          "ms": 41.4,
+          "tile": "159,121",
+          "boundary": true,
+          "residencyMs": 3.2
+        },
+        {
+          "ms": 36.1,
+          "tile": "157,122",
+          "boundary": false,
+          "residencyMs": 2.4
+        },
+        {
+          "ms": 48,
+          "tile": "157,122",
+          "boundary": false,
+          "residencyMs": 2.4
+        },
+        {
+          "ms": 30.9,
+          "tile": "157,121",
+          "boundary": false,
+          "residencyMs": 2.4
+        },
+        {
+          "ms": 39.1,
+          "tile": "157,119",
+          "boundary": true,
+          "residencyMs": 0.9
+        }
+      ],
+      "t0": 84132.5,
+      "seconds": 9.4,
+      "hitches": []
+    },
+    {
+      "name": "L10 bank -> Lastlight door step (switchback)",
+      "crossings": 16,
+      "maxResidencyMs": 15.9,
+      "worstGapMs": 53.8,
+      "gaps": [
+        {
+          "ms": 32.3,
+          "tile": "157,120",
+          "boundary": true,
+          "residencyMs": 2.8
+        },
+        {
+          "ms": 53.8,
+          "tile": "158,128",
+          "boundary": true,
+          "residencyMs": 18.6
+        },
+        {
+          "ms": 32.9,
+          "tile": "160,128",
+          "boundary": true,
+          "residencyMs": 4
+        },
+        {
+          "ms": 34.2,
+          "tile": "160,141",
+          "boundary": true,
+          "residencyMs": 2.7
+        },
+        {
+          "ms": 43.8,
+          "tile": "170,141",
+          "boundary": false,
+          "residencyMs": 3.2
+        },
+        {
+          "ms": 36.9,
+          "tile": "171,141",
+          "boundary": false,
+          "residencyMs": 3.2
+        },
+        {
+          "ms": 31.4,
+          "tile": "176,141",
+          "boundary": true,
+          "residencyMs": 15.9
+        },
+        {
+          "ms": 31.8,
+          "tile": "176,141",
+          "boundary": true,
+          "residencyMs": 2.7
+        },
+        {
+          "ms": 30.9,
+          "tile": "184,143",
+          "boundary": true,
+          "residencyMs": 1.8
+        },
+        {
+          "ms": 32.9,
+          "tile": "181,135",
+          "boundary": true,
+          "residencyMs": 3.2
+        },
+        {
+          "ms": 31.1,
+          "tile": "184,134",
+          "boundary": true,
+          "residencyMs": 1.1
+        },
+        {
+          "ms": 49.6,
+          "tile": "184,129",
+          "boundary": false,
+          "residencyMs": 1.9
+        },
+        {
+          "ms": 33.7,
+          "tile": "187,128",
+          "boundary": false,
+          "residencyMs": 1.9
+        },
+        {
+          "ms": 34,
+          "tile": "200,128",
+          "boundary": true,
+          "residencyMs": 4.8
+        },
+        {
+          "ms": 31.1,
+          "tile": "205,127",
+          "boundary": true,
+          "residencyMs": 1.2
+        },
+        {
+          "ms": 32,
+          "tile": "199,123",
+          "boundary": true,
+          "residencyMs": 1.6
+        }
+      ],
+      "t0": 93494.79999999981,
+      "seconds": 28,
+      "hitches": []
+    },
+    {
+      "name": "L11 summit -> Departure Dock (via tower road)",
+      "crossings": 8,
+      "maxResidencyMs": 3.9,
+      "worstGapMs": 47,
+      "gaps": [
+        {
+          "ms": 35.7,
+          "tile": "199,128",
+          "boundary": true,
+          "residencyMs": 6.3
+        },
+        {
+          "ms": 40.8,
+          "tile": "191,128",
+          "boundary": true,
+          "residencyMs": 1.5
+        },
+        {
+          "ms": 30.1,
+          "tile": "184,131",
+          "boundary": false,
+          "residencyMs": 2.6
+        },
+        {
+          "ms": 34.5,
+          "tile": "186,134",
+          "boundary": false,
+          "residencyMs": 2.6
+        },
+        {
+          "ms": 36.8,
+          "tile": "186,134",
+          "boundary": false,
+          "residencyMs": 2.6
+        },
+        {
+          "ms": 47,
+          "tile": "186,136",
+          "boundary": true,
+          "residencyMs": 2.7
+        },
+        {
+          "ms": 32.3,
+          "tile": "192,140",
+          "boundary": true,
+          "residencyMs": 1.5
+        }
+      ],
+      "t0": 121452.09999999963,
+      "seconds": 19.8,
+      "hitches": []
+    }
+  ],
+  "provider": {
+    "residencyChanges": 73,
+    "maxResidencyMs": 117.8,
+    "loaded": 464,
+    "unloaded": 429,
+    "residentChunks": 35,
+    "objects": {
+      "templateBuilds": 19,
+      "cacheHits": 140,
+      "loads": 464
+    }
+  },
+  "crossings": 71,
+  "boundaryHitches": [],
+  "otherHitches": [
+    {
+      "leg": "L2 chart -> marked tree (via teaching door)",
+      "ms": 69.4,
+      "tile": "150,157",
+      "boundary": false,
+      "residencyMs": 1.3
+    }
+  ],
+  "errors": [],
+  "verdict": {
+    "coldBootOk": true,
+    "residencyOk": false,
+    "boundaryHitchOk": true
+  }
+}

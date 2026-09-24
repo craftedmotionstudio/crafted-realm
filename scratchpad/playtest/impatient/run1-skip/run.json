@@ -1,0 +1,250 @@
+{
+  "profile": "impatient-skip-mtvxfuj9",
+  "port": 8779,
+  "seconds": 15.6,
+  "bootMs": 7915,
+  "summary": "skip-button test",
+  "end": {
+    "objective": "Board the skiff at Departure Dock.",
+    "objectiveVisible": true,
+    "stepId": null,
+    "step": 13,
+    "tutorialComplete": true,
+    "zone": "Tutor's Holm",
+    "pos": [
+      151,
+      169
+    ],
+    "plane": 0,
+    "hp": 10,
+    "energy": 100,
+    "running": true,
+    "moving": false,
+    "pack": [
+      "coins x55"
+    ],
+    "weapon": null,
+    "usingItem": null,
+    "arrow": {
+      "label": "Board the skiff",
+      "target": [
+        207,
+        151
+      ],
+      "edgeArrowVisible": true
+    },
+    "chat": [
+      "🏅 Deed complete: <b>Apprentice</b> — 50 crowns!",
+      "Welcome to Crafted Realm.",
+      "World rebuild mode is active: Tutor's Holm is loaded for smooth play.",
+      "Press ` (backquote) at any time for the Administrator Console.",
+      "Game saved.",
+      "Your adventurer is ready. Talk to Guide Bram by the rowboat.",
+      "You have completed the active Holm curriculum. Departure Dock is now unlocked.",
+      "The lesson-lock at Departure Dock clicks open. The mainland boat is ready."
+    ],
+    "dialogue": null,
+    "ctxOpen": false,
+    "provider": "tutors-holm-v2",
+    "nearby": [
+      {
+        "kind": "prop",
+        "label": "Search Barrel",
+        "name": "world-object-holm_supply_barrel",
+        "tile": [
+          149,
+          169
+        ],
+        "dist": 1.8,
+        "onScreen": true,
+        "screen": [
+          813,
+          440
+        ]
+      },
+      {
+        "kind": "prop",
+        "label": "Take Bucket",
+        "name": "world-object-holm_supply_bucket",
+        "tile": [
+          153,
+          169
+        ],
+        "dist": 2.2,
+        "onScreen": true,
+        "screen": [
+          701,
+          536
+        ]
+      },
+      {
+        "kind": "prop",
+        "label": "Search Crate",
+        "name": "world-object-holm_supply_crate",
+        "tile": [
+          147,
+          169
+        ],
+        "dist": 3.2,
+        "onScreen": true,
+        "screen": [
+          862,
+          417
+        ]
+      },
+      {
+        "kind": "door",
+        "label": "Open Arrival door",
+        "name": "building-part-front_door",
+        "tile": [
+          149,
+          166
+        ],
+        "dist": 3.3,
+        "onScreen": true,
+        "screen": [
+          902,
+          530
+        ]
+      },
+      {
+        "kind": "holm_story_clue",
+        "label": "First Landing plaque",
+        "name": "building-part-first_landing_plaque",
+        "tile": [
+          145,
+          160
+        ],
+        "dist": 10.1,
+        "onScreen": true,
+        "screen": [
+          1206,
+          539
+        ]
+      },
+      {
+        "kind": "holm_orientation",
+        "label": "Island route",
+        "name": "building-part-orientation_table",
+        "tile": [
+          151,
+          155
+        ],
+        "dist": 14,
+        "onScreen": true,
+        "screen": [
+          1279,
+          870
+        ]
+      },
+      {
+        "kind": "holm_register",
+        "label": "Lesson register",
+        "name": "building-part-lesson_register",
+        "tile": [
+          142,
+          156
+        ],
+        "dist": 15.3,
+        "onScreen": true,
+        "screen": [
+          1446,
+          597
+        ]
+      },
+      {
+        "kind": "holm_provisions",
+        "label": "Provision rack",
+        "name": "building-part-provision_rack",
+        "tile": [
+          162,
+          154
+        ],
+        "dist": 18,
+        "onScreen": false,
+        "screen": null
+      },
+      {
+        "kind": "resource",
+        "label": "Chop down Marked tree",
+        "name": "holm-marked-tree-2",
+        "tile": [
+          131,
+          161
+        ],
+        "dist": 21.5,
+        "onScreen": true,
+        "screen": [
+          1509,
+          246
+        ]
+      },
+      {
+        "kind": "resource",
+        "label": "Chop down Marked tree",
+        "name": "holm-marked-tree-3",
+        "tile": [
+          126,
+          164
+        ],
+        "dist": 25.5,
+        "onScreen": true,
+        "screen": [
+          1497,
+          125
+        ]
+      }
+    ],
+    "camera": {
+      "yaw": 2.36,
+      "pitch": 1.08,
+      "dist": 33
+    },
+    "t": 15.6
+  },
+  "findings": [
+    {
+      "id": "P-01",
+      "t": 14.3,
+      "severity": "high",
+      "where": "Guide Hall arrival, objective banner \"Skip tutorial\" button",
+      "observation": "Pressed Skip tutorial at 13.7s: zone=Tutor's Holm complete=true objective=\"Board the skiff at Departure Dock.\"",
+      "expectation": "Either a confirm prompt, or a clear statement of what is lost; not an instant teleport with no confirmation",
+      "screenshot": "002-finding-1.png"
+    }
+  ],
+  "errors": [
+    {
+      "t": 4.7,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    },
+    {
+      "t": 9,
+      "msg": "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "log": [
+    {
+      "t": 10.6,
+      "action": "login",
+      "detail": {
+        "bootMs": 7915,
+        "keptDefaultLook": true
+      }
+    },
+    {
+      "t": 11,
+      "action": "button",
+      "detail": {
+        "text": "Skip tutorial"
+      }
+    },
+    {
+      "t": 14.3,
+      "action": "dialogue",
+      "detail": {
+        "text": "The mainland awaits."
+      }
+    }
+  ]
+}

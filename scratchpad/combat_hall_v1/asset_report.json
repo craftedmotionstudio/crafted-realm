@@ -26,8 +26,8 @@
     "towerWallHeight": 6.0
   },
   "metrics": {
-    "triangles": 8514,
-    "meshObjects": 670,
+    "triangles": 8586,
+    "meshObjects": 676,
     "materials": 28,
     "materialNames": [
       "CR Hall Banner Gold",

@@ -1,0 +1,8 @@
+[
+  {
+    "level": "info",
+    "message": "[FRAME_DELIVERY] {\"mode\":\"empty-webgl2\",\"rafFps\":60,\"rafFrames\":242,\"rafMedianMs\":16.69999999999891,\"rafP95Ms\":16.799999999999272,\"timerHz\":62.3,\"elapsedMs\":4012.8999999970183,\"alwaysVisible\":true,\"focused\":true,\"pixelRatio\":1.5,\"viewport\":[1935,1272],\"canvas\":[1600,900]}",
+    "timestamp": "2026-09-13T00:58:42.632Z",
+    "url": "http://127.0.0.1:8777/tools/qa_frame_delivery.html"
+  }
+]

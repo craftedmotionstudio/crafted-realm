@@ -1,5 +1,14 @@
 # Crafted Realm — The Goal (North Star)
 
+> **OWNER OVERHAUL DIRECTIVE — 2026-09-12:** the current visible island is rejected as blocky,
+> incomplete, barren and flat. Rebuild the visual world and terrain from first principles where needed:
+> richer elevation, castle/fortified settlement, varied buildings, creek/crossings, caves/underground,
+> furnished climbable multi-storey houses, and cohesive Bible-reference/old-school quality as our own IP.
+> No existing visual is presumed accepted. Preserve proven systems and saves, not rejected appearance.
+> Full governing goal and sequence: `docs/rebuild/HOLM_OVERHAUL_GOAL_2026-09-12.md`.
+> All browser verification uses the in-app browser. This supersedes old visual scores and polish priorities.
+
+
 > **What this file is.** The single statement of *what we're building and why*, and what
 > "good enough to log in" means. Sibling docs answer the *how*: `STORY_BIBLE.md` (world &
 > lore canon), `ROADMAP.md` (architecture & build phases), `OSRS_SCOPE.md` (content scale &

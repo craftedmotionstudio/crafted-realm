@@ -1,0 +1,10 @@
+{
+ "name": "Survival Workyard v3 exterior",
+ "osrs": "Bible_References/Tutorial_Island_Building.jpg",
+ "cr": "scratchpad/survival_workyard_v3/holm_survival_workyard_exterior_ingame.png",
+ "codex": 9,
+ "review_note": "Owner-directed compound (lodge, passage, hearth octagon, open court, dock) now carries laid ridge caps in a lighter stone, gable finials, a clay pot on the hearth flue and soffit boards; the fire ring at the pond edge and the chalk-banded lesson trees give the yard its lesson landmarks in the open. Palette 37 of 40, 21.1k tris, 110 prims.",
+ "verdict": "meets the 9.0 gate - owner eyes-on still required",
+ "improve": "The lean-to court roof still reads as one plain plane; the dock and pulley families keep per-part meshes; a dormer over the hearth room was not attempted on the octagon.",
+ "out": "Bible_References/Complete/_compare/holm_survival_workyard_v3_exterior_compare.png"
+}

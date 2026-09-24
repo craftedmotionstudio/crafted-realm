@@ -5,7 +5,7 @@
  * Engine emit sites (kept deliberately few and stable):
  *   'xp'          {skill, amt}            every XP gain (addXp)
  *   'levelUp'     {skill, level}          on advancing a level
- *   'npcKilled'   {npc}                   player kill confirmed (killNpc)
+ *   'npcKilled'   {npc, attackStyle}      killNpc; attackStyle is killing-hit melee/ranged/magic or null when unattributed
  *   'lootSpawned' {id, qty, x, z}         a ground item appears (makeDrop)
  *   'itemPickup'  {id, qty}               player picks a drop off the ground
  *   'modalOpened' {id}                    a modal interface opens (bank/shop/dialogue)

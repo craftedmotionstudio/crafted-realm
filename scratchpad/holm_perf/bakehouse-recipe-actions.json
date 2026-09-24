@@ -1,0 +1,44 @@
+[
+  {
+    "level": "info",
+    "message": "[KITCHEN_RECIPE_STUDY] bucket Array(1) 0",
+    "timestamp": "2026-09-13T15:10:29.448Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_kitchen_recipe.js"
+  },
+  {
+    "level": "info",
+    "message": "[KITCHEN_RECIPE_STUDY] bucket Array(2) 0",
+    "timestamp": "2026-09-13T15:10:40.973Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_kitchen_recipe.js"
+  },
+  {
+    "level": "info",
+    "message": "[KITCHEN_RECIPE_STUDY] flour Array(2) 0",
+    "timestamp": "2026-09-13T15:10:48.782Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_kitchen_recipe.js"
+  },
+  {
+    "level": "info",
+    "message": "[KITCHEN_RECIPE_STUDY] water Array(2) 0",
+    "timestamp": "2026-09-13T15:11:02.616Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_kitchen_recipe.js"
+  },
+  {
+    "level": "info",
+    "message": "[KITCHEN_RECIPE_STUDY] dough Array(3) 0",
+    "timestamp": "2026-09-13T15:11:28.849Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_kitchen_recipe.js"
+  },
+  {
+    "level": "info",
+    "message": "[KITCHEN_RECIPE_STUDY] mix Array(1) 0",
+    "timestamp": "2026-09-13T15:11:53.175Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_kitchen_recipe.js"
+  },
+  {
+    "level": "info",
+    "message": "[KITCHEN_RECIPE_STUDY] bake Array(1) 40",
+    "timestamp": "2026-09-13T15:11:54.918Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_kitchen_recipe.js"
+  }
+]

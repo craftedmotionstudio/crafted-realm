@@ -1,0 +1,54 @@
+[arrival] t=13.4 step=study_route pos=[151,169] zone=Tutor's Holm plane=0 arrow=Study the island chart@[151,155] pack=["coins x55"] chat=["Press ` (backquote) at any time for the Administrator Console.","Game saved.","Your adventurer is ready. Talk to Guide Bram by the rowboat."]
+
+=== study_route (attempt 1) t=14.1 objective="Enter the Guide Hall and study the relief chart of Tutor's Holm." arrow=Study the island chart@[151,155] pos=[151,169] pack=["coins x55"]
+  rush -> (151.5,158.5) reached=true at=[151.5,158.5] t=18 legs=1  lastchat=["Your adventurer is ready. Talk to Guide Bram by the rowboat."]
+  chart click true
+  LESSON DONE study_route at 20.4s -> equip_hatchet "Open your pack and wield the Bronze hatchet."
+  dialogue [Relief chart of Tutor's Holm] "Arrival Cove begins the route. The northern teaching door leads to Survival Wood, then the path bends through Lesson Green, the training cavern, Warden's Ridge," opts=["Trace the route with one finger."]
+
+=== equip_hatchet (attempt 1) t=21.1 objective="Open your pack and wield the Bronze hatchet." arrow=Leave by the Teaching door@[151,141] pos=[151.5,157.5] pack=["coins x55","hatchet","tinderbox","fishing_net"]
+  LESSON DONE equip_hatchet at 21.4s -> chop_logs "Chop a marked tree in Survival Wood for logs."
+
+=== chop_logs (attempt 1) t=21.4 objective="Chop a marked tree in Survival Wood for logs." arrow=Leave by the Teaching door@[151,141] pos=[151.5,157.5] pack=["coins x55","tinderbox","fishing_net"]
+  impatient detour: try the skiff first
+  rush -> (206,152) reached=true at=[205.5,152.5] t=46.8 legs=4  lastchat=["You wield the Bronze hatchet."]
+  nearby ["holm_departure:Boat@211,154 d5.7","prop:Inspect Bookshelf@196,137 d17.6 offscreen","holm_spell_lectern:Study Spell lectern@197,136 d18 offscreen","door:Open Dock door@190,139 d20.2 offscreen","holm_tower_register:Read Tower register@196,133 d21.6 offscreen","prop:Inspect Orrery@188,137 d22.5 offscreen","door:Open Tower door@188,136 d23.7 offscreen","holm_rune_table:Study Rune table@191,133 d23.8 offscreen"]
+  skiff click true
+  skiff dialogue Departure skiff A brass lesson-lock holds the mooring chain fast. Finish the Holm's instruction first.<br><br><b>Next:</b> Chop a marked tree in Survival Wood for logs.
+  dialogue [Departure skiff] "A brass lesson-lock holds the mooring chain fast. Finish the Holm's instruction first.<br><br><b>Next:</b> Chop a marked tree in Survival Wood for logs." opts=["Back to my lesson."]
+  arrow {"label":"Chop tree","target":[126,158],"edgeArrowVisible":true}
+  rush -> (127,159) reached=true at=[126.5,159.5] t=91.5 legs=6  lastchat=["You cannot walk there."]
+  nearby ["resource:Chop down Marked tree@124,161 d2.9","resource:Chop down Marked tree@126,164 d4.5","resource:Chop down Marked tree@131,161 d4.7","prop:Inspect Sawbuck@120,155 d7.1","holm_net_rack:Fishing-preparation stand@121,153 d8","prop:Inspect Stacked logs@118,155 d9.1","prop:Inspect Timber rack@118,155 d9.1","door:Open Pond door@124,149 d9.8"]
+  marked tree click true [769,225]
+  walked off mid-chop: pos=[129.5,160.5] pack=["coins x55","logs","tinderbox","fishing_net","logs"] chat=["You get some emberwood logs.","You get some emberwood logs."]
+  LESSON DONE chop_logs at 97.7s -> light_fire "Use your tinderbox on the logs to light a fire."
+
+=== light_fire (attempt 1) t=97.7 objective="Use your tinderbox on the logs to light a fire." arrow=Light a fire@[128,155] pos=[129.5,160.5] pack=["coins x55","logs","tinderbox","fishing_net","logs"]
+  tinderbox->tree true ["You get some emberwood logs."]
+  LESSON DONE light_fire at 102.6s -> catch_fish "Use the Small net at the marked fishing spot."
+  fire at [125.7,161.5] lit t= 102.6 chat ["Use it on some logs to light a fire.","The fire catches and the logs begin to burn."]
+
+=== catch_fish (attempt 1) t=102.8 objective="Use the Small net at the marked fishing spot." arrow=Catch a fish@[132,156] pos=[124.6,161.5] pack=["coins x55","tinderbox","fishing_net","logs","logs"]
+  rush -> (132,157) reached=false at=[130.5,159.5] t=106.3 legs=0 no clickable ground toward target lastchat=["The fire catches and the logs begin to burn."]
+  plain edge click true ["The fire catches and the logs begin to burn."]
+  net->edge true
+  step catch_fish not done (attempt 1); chat=["Use it on some logs to light a fire.","The fire catches and the logs begin to burn.","You take out the small net. Now click a fishing spot to use it."]
+
+=== catch_fish (attempt 2) t=157.8 objective="Use the Small net at the marked fishing spot." arrow=Catch a fish@[132,156] pos=[130.5,159.5] pack=["coins x55","tinderbox","fishing_net","logs","logs"]
+  rush -> (132,157) reached=false at=[130.5,159.5] t=161 legs=0 no clickable ground toward target lastchat=["You take out the small net. Now click a fishing spot to use it."]
+  net->edge true
+  step catch_fish not done (attempt 2); chat=["The fire catches and the logs begin to burn.","You take out the small net. Now click a fishing spot to use it.","You put the small net away."]
+
+=== catch_fish (attempt 3) t=208.2 objective="Use the Small net at the marked fishing spot." arrow=Catch a fish@[132,156] pos=[130.5,159.5] pack=["coins x55","tinderbox","fishing_net","logs","logs"]
+  rush -> (132,157) reached=false at=[130.5,159.5] t=211.5 legs=0 no clickable ground toward target lastchat=["You put the small net away."]
+  net->edge true
+  step catch_fish not done (attempt 3); chat=["You take out the small net. Now click a fishing spot to use it.","You put the small net away.","You take out the small net. Now click a fishing spot to use it."]
+
+=== catch_fish (attempt 4) t=259.3 objective="Use the Small net at the marked fishing spot." arrow=Catch a fish@[132,156] pos=[130.5,159.5] pack=["coins x55","tinderbox","fishing_net","logs","logs"]
+  rush -> (132,157) reached=false at=[130.5,159.5] t=262.5 legs=0 no clickable ground toward target lastchat=["You take out the small net. Now click a fishing spot to use it."]
+  net->edge true
+  step catch_fish not done (attempt 4); chat=["You put the small net away.","You take out the small net. Now click a fishing spot to use it.","You put the small net away."]
+
+=== catch_fish (attempt 5) t=309.6 objective="Use the Small net at the marked fishing spot." arrow=Catch a fish@[132,156] pos=[130.5,159.5] pack=["coins x55","tinderbox","fishing_net","logs","logs"]
+!! giving up on catch_fish after 4 attempts
+[RUN4] seconds 309.9 zone Tutor's Holm sailed false complete false findings 4 errors 2

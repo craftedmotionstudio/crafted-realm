@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Holm · Connected bakehouse study</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#263832;color:#eee5cf;font:15px/1.5 Georgia,serif}header{padding:15px 24px;border-bottom:1px solid #637269}h1{font-size:25px;margin:0}small{color:#c1cdbb}main{display:grid;grid-template-columns:minmax(0,1fr) 340px;height:calc(100vh - 83px)}#view{position:relative;min-height:460px}canvas{display:block;width:100%;height:100%}aside{overflow:auto;padding:20px;background:#eee5d0;color:#334036}button{font:14px Georgia;cursor:pointer;padding:10px;background:#38584a;color:#fff3d9;border:0;margin:4px 0;width:100%}img{width:100%;display:block}a{color:#315e4b}#status{font:12px/1.5 system-ui}h2{font-size:19px}p{margin:10px 0}.tag{font:11px system-ui;letter-spacing:.09em;color:#b8c5b2}@media(max-width:850px){main{height:auto;grid-template-columns:1fr}#view{height:65vh}aside{overflow:visible}}</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script></head><body>
+<header><div class="tag">CRAFTED REALMS · BLENDER DESIGN STUDY</div><h1>Bakehouse & pantry court</h1><small>Connected wings · original textured materials · candidate under review</small></header>
+<main><div id="view"></div><aside><h2>A house shaped by its work</h2><p>A tall oven house joins a lower pantry wing. The recessed court shelters the entrance and keeps the two roof heights visible from the path.</p><button data-floor="exterior" aria-pressed="true">Complete exterior</button><button data-floor="ground" aria-pressed="false">Ground floor · bakehouse & pantry</button><button data-floor="upper" aria-pressed="false">Upper floor · sleeping room</button><button id="front">Entrance court view</button><button id="back">Rear roof junction</button><button id="pause">Pause preview</button><p id="status" role="status">Loading Blender model…</p><h2>Bible reference</h2><a href="../Bible_References/Complete/Building_Exterior_Option2.jpg"><img alt="Reference: tall stone house joined to a lower perpendicular wing with textured thatch" src="../Bible_References/Complete/Building_Exterior_Option2.jpg"></a><p>Compare the unequal wings, recessed court, chimney, roof texture and stone scale. This model is not yet installed in the playable island.</p><p><a href="studio_holm_vegetation.html">Trees and sparse vegetation study</a></p><p><a href="../docs/rebuild/holm-overhaul/index.html">Back to the revised island plan</a></p><p><a href="studio_holm_kitchen_walk.html">Walk through the bakehouse and upstairs room</a></p></aside></main>
+<script type="module">
+import * as THREE from 'three';
+import {loadBakehouseFire} from './studio_holm_bakehouse_fire.js';
+let buildingMixer,ovenFire,fireTime=performance.now();
+import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+const host=document.getElementById('view'),status=document.getElementById('status');
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setClearColor('#8f9b82');renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;host.append(renderer.domElement);
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(38,1,.1,150),controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.maxPolarAngle=Math.PI*.49;controls.minDistance=8;controls.maxDistance=45;controls.target.set(1,2,-1);camera.position.set(19,16,22);
+scene.add(new THREE.HemisphereLight('#f3ead5','#5b6048',1.6));const sun=new THREE.DirectionalLight('#fff0d2',2);sun.position.set(-12,22,15);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-15,right:15,top:15,bottom:-15,near:1,far:60});sun.shadow.normalBias=.025;scene.add(sun);
+const base=new THREE.Mesh(new THREE.CircleGeometry(16,32),new THREE.MeshLambertMaterial({color:'#6e7d50'}));base.rotation.x=-Math.PI/2;base.position.y=-.035;base.receiveShadow=true;scene.add(base);
+let model,paused=false;
+const groundCut=new THREE.Plane(new THREE.Vector3(0,-1,0),.5);
+const upperCut=new THREE.Plane(new THREE.Vector3(0,-1,0),4.5);renderer.localClippingEnabled=true;
+new GLTFLoader().load('../.studio-workspaces/holm-kitchen-wings-v5/candidates/kitchen-character.glb',async g=>{model=g.scene;scene.add(model);buildingMixer=new THREE.AnimationMixer(model);g.animations.forEach(c=>buildingMixer.clipAction(c).play());try{ovenFire=await loadBakehouseFire(THREE,GLTFLoader,model)}catch(e){console.error(e)};let tris=0;const textures=new Set();model.traverse(n=>{if(n.isMesh){n.material=Array.isArray(n.material)?n.material.map(m=>m.clone()):n.material.clone();n.castShadow=n.receiveShadow=true;tris+=(n.geometry.index?n.geometry.index.count:n.geometry.attributes.position.count)/3;(Array.isArray(n.material)?n.material:[n.material]).forEach(m=>{if(m.map)textures.add(m.map)})}});status.textContent='Blender candidate loaded · '+Math.round(tris).toLocaleString()+' triangles · '+textures.size+' embedded material textures. Modeled upper room and stairs; walking, doors and lessons still need runtime integration.';console.info('[KITCHEN_WINGS_STUDIO] loaded',Math.round(tris),'triangles',textures.size,'textures');render();},undefined,e=>{status.textContent='Model failed to load.';console.error(e)});
+function setFloor(mode){
+ if(!model)return;
+ model.traverse(n=>{
+  if(!n.isMesh)return;
+  n.visible=true;
+  let semantic=n;while(semantic.parent && semantic!==model && !/^Kitchen_/.test(semantic.name))semantic=semantic.parent;
+  const part=semantic.name;
+  const mats=Array.isArray(n.material)?n.material:[n.material];
+  mats.forEach(m=>{m.clippingPlanes=[];m.clipShadows=true});
+  if(mode!=='exterior' && /^Kitchen_(Roof|Chimney)_/.test(part))n.visible=false;
+  if(mode==='ground' && /^Kitchen_(UpperFloor|UpperShell|UpperFurnishing|GroundFront)_/.test(part))n.visible=false;
+  if(mode==='ground' && /^Kitchen_(Shell|Glazing)_/.test(part))mats.forEach(m=>m.clippingPlanes=[groundCut]);
+  if(mode==='upper' && /^Kitchen_UpperShell_/.test(part))mats.forEach(m=>m.clippingPlanes=[upperCut]);
+ });
+ document.querySelectorAll('[data-floor]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.floor===mode)));
+ controls.target.set(-.5,mode==='upper'?3.6:2,-1);camera.position.set(19,mode==='exterior'?17:24,22);render();
+}
+document.querySelectorAll('[data-floor]').forEach(b=>b.onclick=()=>setFloor(b.dataset.floor));
+document.getElementById('front').onclick=()=>{controls.target.set(1,3,-1);camera.position.set(19,17,22);render()};
+document.getElementById('back').onclick=()=>{controls.target.set(1,3,-1);camera.position.set(-18,17,-22);render()};
+function render(){const now=performance.now();if(!paused){ovenFire?.update((now-fireTime)/1000);buildingMixer?.update(Math.min(.05,(now-fireTime)/1000));}fireTime=now;controls.update();renderer.render(scene,camera)}
+controls.addEventListener('change',()=>{if(paused)renderer.render(scene,camera)});
+document.getElementById('pause').onclick=()=>{paused=!paused;renderer.setAnimationLoop(paused?null:render);document.getElementById('pause').textContent=paused?'Resume preview':'Pause preview'};
+new ResizeObserver(()=>{const r=host.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();render()}).observe(host);renderer.setAnimationLoop(render);
+</script></body></html>

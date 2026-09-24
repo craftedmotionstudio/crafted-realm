@@ -1,0 +1,26 @@
+<!doctype html><meta charset="utf-8"><title>Walk surface transform regression</title>
+<h1>Walk surface transform regression · Three r128</h1><pre id="result">Running…</pre>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../src/world_walk_surfaces.js?v=transform2"></script>
+<script>
+(function(){
+ const results=[];function check(name,ok){results.push({name,ok});if(!ok)throw Error(name)}
+ try{
+  const parent=new THREE.Group(),root=new THREE.Group(),child=new THREE.Group();
+  parent.position.set(10,2,20);root.position.set(4,3,6);root.rotation.y=Math.PI/2;parent.add(root);root.add(child);
+  let childUpdates=0;const original=child.updateMatrixWorld;
+  child.updateMatrixWorld=function(){childUpdates++;return original.apply(this,arguments)};
+  const a=WorldWalkSurfaces.register(root,[{x:1,z:0,y:1,w:2,d:4}],'test-a');
+  childUpdates=0;
+  for(let i=0;i<100;i++)check('transformed height '+i,Math.abs(WorldWalkSurfaces.heightAt(14,25)-6)<1e-8);
+  check('outside rotated platform is unsupported',WorldWalkSurfaces.heightAt(30,30)===null);
+  check('queries do not update visual descendants',childUpdates===0);
+  const top=new THREE.Group();top.position.set(14,8,25);
+  const b=WorldWalkSurfaces.register(top,[{x:0,z:0,y:1,w:1,d:1}],'test-b');
+  check('overlapping platform keeps highest ground support',WorldWalkSurfaces.heightAt(14,25)===9);
+  WorldWalkSurfaces.unregister(b);check('unregister restores lower platform',WorldWalkSurfaces.heightAt(14,25)===6);
+  WorldWalkSurfaces.unregister(a);check('last unregister removes support',WorldWalkSurfaces.heightAt(14,25)===null);
+  document.getElementById('result').textContent='PASS '+results.length+' checks; child updates '+childUpdates;
+ }catch(e){document.getElementById('result').textContent='FAIL '+e.message;console.error('[WALK_SURFACE_TEST]',e)}
+})();
+</script>

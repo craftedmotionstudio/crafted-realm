@@ -1,0 +1,12 @@
+const tdoor = "(function(){let r=null;scene.traverse(o=>{if(!r&&o.name==='building-part-teaching_door')r=o;});return r;})()";
+let meta = await p.page.evaluate(() => { let r = null; scene.traverse(o => { if (!r && o.name === 'building-part-teaching_door') r = o; }); if (!r) return null; const w = r.getWorldPosition(new THREE.Vector3()); return {tile: [Math.floor(w.x), Math.floor(w.z)], userData: Object.assign({}, r.userData, {climb: undefined}), inClickables: WORLD.clickables.includes(r), inDoors: WORLD.doors.includes(r), visible: r.visible}; });
+out('teaching door meta', meta);
+await p.aim(151.5, 136.5, 20);
+let c = await p.clickObject(tdoor, {keepCamera: true});
+out('click teaching door', c);
+await sleep(1500);
+let v = await look('teaching-door-clicked');
+let info = await p.page.evaluate(() => { const r = {pos: [player.position.x, player.position.z]}; try { r.path_n = computePath(Math.floor(player.position.x), Math.floor(player.position.z), 151, 138); } catch (e) { r.err = String(e); } return r; });
+out('path north now', info);
+let w = await p.walkTo(151.5, 138.5, {near: 0.8, maxLegs: 3}); out('walk north', w);
+v = await look('north-result');

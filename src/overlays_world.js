@@ -359,7 +359,9 @@ const TileMarkers = {
     const self=this;
     buildCtxEntries=function(hit, e){
       const entries=orig(hit, e);
-      if(self._on && e && typeof groundPick==='function'){
+      // Tutorial players do not get a developer/QoL row between their real options (play review F-19).
+      const inTutorial=(typeof Tutorial!=='undefined' && Tutorial.steps && !Tutorial.complete);
+      if(self._on && e && !inTutorial && typeof groundPick==='function'){
         const gp=groundPick(e);
         if(gp){
           const tx=Math.floor(gp.x), tz=Math.floor(gp.z);

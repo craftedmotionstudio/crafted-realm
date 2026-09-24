@@ -1,0 +1,10 @@
+{
+ "name": "holm quest lodge v2 exterior",
+ "osrs": "Bible_References/Tutorial_Island_Building.jpg",
+ "cr": "scratchpad/quest_lodge_v2/holm_quest_lodge_exterior_ingame.png",
+ "codex": 8.8,
+ "review_note": "Three-mass lodge with the chart turret and porch; laid ridge caps in light stone and iron finials break the gable, turned balusters and rails close the porch edge. Family palette unchanged (29 of 40).",
+ "verdict": "held under 9.0 - honest score",
+ "improve": "The gable tile pattern still reads as a flat diagonal at distance (the caps help the ridge, not the field); the turret courses remain slab-like; the porch roof is a single plane.",
+ "out": "Bible_References/Complete/_compare/holm_quest_lodge_v2_exterior_compare.png"
+}

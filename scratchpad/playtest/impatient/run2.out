@@ -1,0 +1,112 @@
+[arrival] t=14.5 step=study_route pos=[151,169] zone=Tutor's Holm plane=0 arrow=Study the island chart@[151,155] pack=["coins x55"] chat=["Press ` (backquote) at any time for the Administrator Console.","Game saved.","Your adventurer is ready. Talk to Guide Bram by the rowboat."]
+
+=== A chart (skim, click far, click again) ===
+  rush -> (151.5,158.5) reached=true at=[151.5,158.5] t=19.2 legs=1 
+  chart click true [769,243]
+  LESSON DONE study_route at 21.4s -> equip_hatchet "Open your pack and wield the Bronze hatchet."
+[after-chart] t=21.4 step=equip_hatchet pos=[151.5,157.5] zone=Tutor's Holm plane=0 arrow=Leave by the Teaching door@[151,141] pack=["coins x55","hatchet","tinderbox","fishing_net"] chat=["Your adventurer is ready. Talk to Guide Bram by the rowboat.","[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.","Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net."]
+  dialogue [Relief chart of Tutor's Holm] "Arrival Cove begins the route. The northern teaching door leads to Survival Wood, then the path bends through Lesson Green, the training cavern, Warden's Ridge," opts=["Trace the route with one finger."]
+
+=== B equip hatchet immediately from pack (not at the survival station) ===
+  LESSON DONE equip_hatchet at 23.3s -> chop_logs "Chop a marked tree in Survival Wood for logs."
+[after-equip] t=23.3 step=chop_logs pos=[151.5,157.5] zone=Tutor's Holm plane=0 arrow=Leave by the Teaching door@[151,141] pack=["coins x55","tinderbox","fishing_net"] chat=["[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.","Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net.","You wield the Bronze hatchet."]
+  note: equip counted from inside the Guide Hall, far from the arrow target (112,152)
+
+=== C try to board the skiff early (Departure Dock, east) ===
+  rush -> (206,152) reached=true at=[205.5,152.5] t=48.7 legs=4 
+[at-dock-early] t=48.7 step=chop_logs pos=[205.5,152.5] zone=Tutor's Holm plane=0 arrow=Chop tree@[126,158] pack=["coins x55","tinderbox","fishing_net"] chat=["[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.","Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net.","You wield the Bronze hatchet."]
+  nearby ["holm_departure:Boat@211,154 d5.7","prop:Inspect Bookshelf@196,137 d17.6","holm_spell_lectern:Study Spell lectern@197,136 d18","door:Open Dock door@190,139 d20.2","holm_tower_register:Read Tower register@196,133 d21.6","prop:Inspect Orrery@188,137 d22.5"]
+  skiff click true [769,370]
+  skiff dialogue Departure skiff A brass lesson-lock holds the mooring chain fast. Finish the Holm's instruction first.<br><br><b>Next:</b> Chop a marked tree in Survival Wood for logs.
+  dialogue [Departure skiff] "A brass lesson-lock holds the mooring chain fast. Finish the Holm's instruction first.<br><br><b>Next:</b> Chop a marked tree in Survival Wood for logs." opts=["Back to my lesson."]
+  after early skiff: zone=Tutor's Holm step=chop_logs pos=[205.5,152.5]
+
+=== D chop: wrong tree first, walk off mid-chop, then the marked tree ===
+  arrow {"label":"Chop tree","target":[126,158],"edgeArrowVisible":true}
+  rush -> (127,159) reached=true at=[127.5,158.5] t=91.8 legs=5 
+[survival-wood] t=91.8 step=chop_logs pos=[127.5,158.5] zone=Tutor's Holm plane=0 arrow=Chop tree@[126,158] pack=["coins x55","tinderbox","fishing_net"] chat=["Guide Bram hands you a survival kit: a bronze hatchet, a tinderbox and a small net.","You wield the Bronze hatchet.","You cannot walk there."]
+  nearby ["resource:Chop down Marked tree@124,161 d4.3","resource:Chop down Marked tree@131,161 d4.3","resource:Chop down Marked tree@126,164 d5.7","prop:Inspect Sawbuck@120,155 d7.5","holm_net_rack:Fishing-preparation stand@121,153 d8.1","door:Open Pond door@124,149 d9.2","holm_fishing_edge:Net-fish Mirrorperch@131,150 d9.4","prop:Inspect Woven stool@122,150 d9.4"]
+  wrong tree click false {"centre":[296,357],"screen":[769,-813],"hit":null}
+  after wrong tree: pack=["coins x55","tinderbox","fishing_net"] chat=["You wield the Bronze hatchet.","You cannot walk there."]
+  marked tree click true [769,148]
+  walked off mid-chop: pos=[129.5,160.5] pack=["coins x55","logs","tinderbox","fishing_net","logs"] chat=["You get some emberwood logs.","You get some emberwood logs."]
+  marked tree click 2 true
+  LESSON DONE chop_logs at 105s -> light_fire "Use your tinderbox on the logs to light a fire."
+[after-chop] t=105 step=light_fire pos=[129.5,161.2] zone=Tutor's Holm plane=0 arrow=Light a fire@[128,155] pack=["coins x55","logs","tinderbox","fishing_net","logs"] chat=["You cannot walk there.","You get some emberwood logs.","You get some emberwood logs."]
+
+=== E fire: tinderbox on the wrong things, then on logs ===
+  tinderbox->tree: true usingItem=null chat=["Use it on some logs to light a fire.","You get some emberwood logs."]
+  tinderbox->hatchet: usingItem=null chat=["You get some emberwood logs.","Use it on some logs to light a fire."]
+  tinderbox->logs: usingItem=null chat=["Use it on some logs to light a fire.","Use it on some logs to light a fire."]
+  LESSON DONE light_fire at 112.2s -> catch_fish "Use the Small net at the marked fishing spot."
+[after-fire] t=112.2 step=catch_fish pos=[125.5,161.5] zone=Tutor's Holm plane=0 arrow=Catch a fish@[132,156] pack=["coins x55","tinderbox","fishing_net","logs","logs"] chat=["Use it on some logs to light a fire.","Use it on some logs to light a fire.","The fire catches and the logs begin to burn."]
+
+=== F fish: click the edge many times, leave the fire burning ===
+  arrow {"label":"Catch a fish","target":[132,156],"edgeArrowVisible":true}
+  rush -> (132,157) reached=true at=[131.5,157.5] t=117.4 legs=2 
+  nearby ["resource:Chop down Marked tree@131,161 d3.5","fire:Cook on Campfire@125,161 d7.2","holm_fishing_edge:Net-fish Mirrorperch@131,150 d7.3","resource:Chop down Marked tree@124,161 d8.3","resource:Chop down Marked tree@126,164 d8.5","holm_waterworks_pulley:Operate Water pulley@130,148 d9.3"]
+  edge click true [769,108]
+  after edge click: chat=["The fire catches and the logs begin to burn.","Click the Small net in your pack, then click the fishing water."] dialogue=null
+  no fish after 30s: chat=["Click the Small net in your pack, then click the fishing water.","Click the Small net in your pack, then click the fishing water.","Click the Small net in your pack, then click the fishing water."] pack=["coins x55","tinderbox","fishing_net","logs","logs"]
+  net->edge true
+  LESSON DONE catch_fish at 166.5s -> cook_fish "Cook the fish on your fire (light another if it has burnt out)."
+[after-fish] t=166.5 step=cook_fish pos=[130.5,150.5] zone=Tutor's Holm plane=0 arrow=Cook on your fire@[125,161] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You head for the fishing spot, net in hand.","You lower the small net beside the quiet shoal.","You sweep the small net beneath the ripple and catch a mirrorperch."]
+
+=== G cook: is the fire still there? ===
+  arrow {"label":"Cook on your fire","target":[125,161],"edgeArrowVisible":true}
+  fire object present at [125.5,161.5] elapsed 166.8
+  rush -> (126.5,161.5) reached=true at=[126.5,161.5] t=180.3 legs=2 
+  perch->fire false null
+  after cook attempt: pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You lower the small net beside the quiet shoal.","You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first."]
+[after-cook] t=235.3 step=cook_fish pos=[126.5,161.5] zone=Tutor's Holm plane=0 arrow=Cook on your fire@[125,161] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You should cook this on a campfire first."]
+
+=== H descend: winch frame at the Mine Gatehouse ===
+  arrow {"label":"Cook on your fire","target":[125,161],"edgeArrowVisible":false}
+  rush -> (125,162.5) reached=true at=[125.5,162.5] t=238.6 legs=0 
+[gatehouse] t=238.6 step=cook_fish pos=[125.5,162.5] zone=Tutor's Holm plane=0 arrow=Cook on your fire@[125,161] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You should cook this on a campfire first."]
+  nearby ["fire:Cook on Campfire@125,161 d1","resource:Chop down Marked tree@126,164 d1.6","resource:Chop down Marked tree@124,161 d2.1","resource:Chop down Marked tree@131,161 d5.7","prop:Inspect Sawbuck@120,155 d8.5","prop:Inspect Stacked logs@118,155 d9.9","holm_net_rack:Fishing-preparation stand@121,153 d9.9","prop:Inspect Timber rack@118,155 d9.9"]
+  winch click false 
+  LESSON DONE descend_cavern at 240.9s -> cook_fish "Cook the fish on your fire (light another if it has burnt out)."
+[cavern-arrival] t=242.4 step=cook_fish pos=[125.5,162.5] zone=Tutor's Holm plane=0 arrow=Cook on your fire@[125,161] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You should cook this on a campfire first."]
+
+=== I cavern: copper (walk off mid-mine), tin, smelt, forge ===
+  arrow {"label":"Cook on your fire","target":[125,161],"edgeArrowVisible":false} pos [125.5,162.5]
+  rush -> (125,162) reached=true at=[125.5,162.5] t=245.1 legs=0 
+  nearby ["fire:Cook on Campfire@125,161 d1","resource:Chop down Marked tree@126,164 d1.6","resource:Chop down Marked tree@124,161 d2.1","resource:Chop down Marked tree@131,161 d5.7","prop:Inspect Sawbuck@120,155 d8.5","prop:Inspect Stacked logs@118,155 d9.9","holm_net_rack:Fishing-preparation stand@121,153 d9.9","prop:Inspect Timber rack@118,155 d9.9"]
+  copper rock click false null
+  walked off mid-mine: pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You should cook this on a campfire first.","You should cook this on a campfire first."]
+  LESSON DONE mine_copper at 253.1s -> cook_fish "Cook the fish on your fire (light another if it has burnt out)."
+[after-copper] t=253.1 step=cook_fish pos=[121.5,162.5] zone=Tutor's Holm plane=0 arrow=Cook on your fire@[125,161] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You should cook this on a campfire first."]
+  arrow {"label":"Cook on your fire","target":[125,161],"edgeArrowVisible":false} pos [121.5,162.5]
+  rush -> (125,162) reached=true at=[124.5,162.5] t=256.2 legs=0 
+  nearby ["fire:Cook on Campfire@125,161 d1.4","resource:Chop down Marked tree@124,161 d1.6","resource:Chop down Marked tree@126,164 d2.1","resource:Chop down Marked tree@131,161 d6.7","prop:Inspect Sawbuck@120,155 d8","prop:Inspect Stacked logs@118,155 d9.2","prop:Inspect Timber rack@118,155 d9.2","holm_net_rack:Fishing-preparation stand@121,153 d9.5"]
+  tin rock click false null
+  LESSON DONE mine_tin at 258.9s -> cook_fish "Cook the fish on your fire (light another if it has burnt out)."
+[after-tin] t=258.9 step=cook_fish pos=[124.5,162.5] zone=Tutor's Holm plane=0 arrow=Cook on your fire@[125,161] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You should cook this on a campfire first."]
+  arrow {"label":"Cook on your fire","target":[125,161],"edgeArrowVisible":false}
+  rush -> (125,162) reached=true at=[124.5,162.5] t=261.9 legs=0 
+  furnace click false null
+  LESSON DONE smelt_bronze at 264.5s -> cook_fish "Cook the fish on your fire (light another if it has burnt out)."
+[after-smelt] t=264.5 step=cook_fish pos=[124.5,162.5] zone=Tutor's Holm plane=0 arrow=Light another fire here@[128,155] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You should cook this on a campfire first."]
+  arrow {"label":"Light another fire here","target":[128,155],"edgeArrowVisible":true}
+  rush -> (128,156) reached=false at=[128.5,156.5] t=268.3 legs=0 no clickable ground toward target
+  anvil click false null
+  LESSON DONE forge_dagger at 270.8s -> cook_fish "Cook the fish on your fire (light another if it has burnt out)."
+[after-forge] t=270.8 step=cook_fish pos=[128.5,156.5] zone=Tutor's Holm plane=0 arrow=Light another fire here@[128,155] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You should cook this on a campfire first."]
+
+=== J out of the cavern and to the bank ===
+  arrow {"label":"Light another fire here","target":[128,155],"edgeArrowVisible":false} pos [128.5,156.5] plane 0
+  cavern exit at [322,354]
+  rush -> (322,355.5) reached=false at=[128.5,156.5] t=274.3 legs=0 no clickable ground toward target
+  exit click false
+[after-exit] t=279.2 step=cook_fish pos=[128.5,156.5] zone=Tutor's Holm plane=0 arrow=Light another fire here@[128,155] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You should cook this on a campfire first."]
+  arrow {"label":"Light another fire here","target":[128,155],"edgeArrowVisible":false}
+  rush -> (128,156.5) reached=true at=[128.5,156.5] t=282.4 legs=0 
+[bank] t=282.4 step=cook_fish pos=[128.5,156.5] zone=Tutor's Holm plane=0 arrow=Light another fire here@[128,155] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You should cook this on a campfire first."]
+  nearby ["resource:Chop down Marked tree@131,161 d5.1","drop:Take Ashes@125,161 d5.8","resource:Chop down Marked tree@124,161 d6.4","holm_fishing_edge:Net-fish Mirrorperch@131,150 d7.1","door:Open Pond door@124,149 d7.8","resource:Chop down Marked tree@126,164 d7.9","holm_net_rack:Fishing-preparation stand@121,153 d8","prop:Inspect Sawbuck@120,155 d8"]
+  booth click false 
+  LESSON DONE open_bank at 284.7s -> cook_fish "Cook the fish on your fire (light another if it has burnt out)."
+[after-bank] t=285.4 step=cook_fish pos=[128.5,156.5] zone=Tutor's Holm plane=0 arrow=Light another fire here@[128,155] pack=["coins x55","raw_perch","tinderbox","fishing_net","logs","logs"] chat=["You sweep the small net beneath the ripple and catch a mirrorperch.","You should cook this on a campfire first.","You should cook this on a campfire first."]
+
+=== K Lastlight: door, ladders, lever ===
+  arrow {"label":"Light another fire here","target":[128,155],"edgeArrowVisible":false}

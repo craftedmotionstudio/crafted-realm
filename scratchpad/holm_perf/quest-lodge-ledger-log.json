@@ -1,0 +1,68 @@
+[
+  {
+    "level": "info",
+    "message": "[LODGE_OAK] authored texture applied; measured geometry unchanged 12 a8d57474e1a5cd6f8e13214e57905cf3bacecdf8e1fcc14c5b0ea1393248b324",
+    "timestamp": "2026-09-13T17:02:00.331Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_material.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_HEARTH] measured Blender fire loaded 204 Array(8)",
+    "timestamp": "2026-09-13T17:02:00.331Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_hearth.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_LODGE_STUDIO] {\"triangles\":5117,\"meshes\":32,\"textures\":4,\"clips\":1,\"sha256\":\"6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b\"}",
+    "timestamp": "2026-09-13T17:02:00.331Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_lodge.js?v=4"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_OAK] authored texture applied; measured geometry unchanged 12 a8d57474e1a5cd6f8e13214e57905cf3bacecdf8e1fcc14c5b0ea1393248b324",
+    "timestamp": "2026-09-13T17:02:00.606Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_material.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_HEARTH] measured Blender fire loaded 204 Array(8)",
+    "timestamp": "2026-09-13T17:02:00.616Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_hearth.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_LEDGER_STUDIO] {\"sha256\":\"5f31b4df1a321548fd0443f70769136f0dd90d0e38e28e2b91ba0a89be8f2ae2\",\"position\":[5.400000095367432,0.9149999972432852,-1.5],\"dimensions\":[0.4399999976158142,0.09849999845027924,0.6299999952316284],\"triangles\":130}",
+    "timestamp": "2026-09-13T17:02:00.629Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_ledger.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_LODGE_STUDIO] {\"triangles\":5117,\"meshes\":32,\"textures\":4,\"clips\":1,\"sha256\":\"6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b\"}",
+    "timestamp": "2026-09-13T17:02:00.630Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_lodge.js?v=5"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_OAK] authored texture applied; measured geometry unchanged 12 a8d57474e1a5cd6f8e13214e57905cf3bacecdf8e1fcc14c5b0ea1393248b324",
+    "timestamp": "2026-09-13T17:02:30.901Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_material.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_HEARTH] measured Blender fire loaded 204 Array(8)",
+    "timestamp": "2026-09-13T17:02:30.915Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_hearth.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[LODGE_LEDGER_STUDIO] {\"sha256\":\"5f31b4df1a321548fd0443f70769136f0dd90d0e38e28e2b91ba0a89be8f2ae2\",\"position\":[5.400000095367432,0.9099999740719795,-1.5],\"dimensions\":[0.4399999976158142,0.09849999845027924,0.6299999952316284],\"triangles\":130}",
+    "timestamp": "2026-09-13T17:02:30.925Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_lodge_ledger.js?v=1"
+  },
+  {
+    "level": "info",
+    "message": "[QUEST_LODGE_STUDIO] {\"triangles\":5117,\"meshes\":32,\"textures\":4,\"clips\":1,\"sha256\":\"6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b\"}",
+    "timestamp": "2026-09-13T17:02:30.927Z",
+    "url": "http://127.0.0.1:8777/tools/studio_holm_quest_lodge.js?v=5"
+  }
+]
