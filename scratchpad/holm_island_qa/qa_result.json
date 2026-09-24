@@ -7,10 +7,10 @@
       "detail": {
         "provider": "tutors-holm-arrival-qa",
         "stats": {
-          "nodes": 11484,
-          "edges": 20575,
+          "nodes": 11489,
+          "edges": 20485,
           "owners": {
-            "land": 8676,
+            "land": 8452,
             "b:keep": 909,
             "b:bakehouse": 274,
             "b:lodge": 420,
@@ -19,17 +19,18 @@
             "b:bank": 197,
             "b:mage": 311,
             "b:haven": 167,
+            "b:lastlight": 229,
             "arrival": 163
           }
         },
-        "roots": 75
+        "roots": 85
       }
     },
     {
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 5,
+        "deckSamples": 6,
         "deckY": 1.631
       }
     },
@@ -246,18 +247,109 @@
       }
     },
     {
+      "label": "Lastlight: storm door, stores, all three ladders climbed by click, lever reached on the lantern deck",
+      "ok": true,
+      "detail": {
+        "walk": "ok",
+        "y0": 14.049,
+        "steps": [
+          [
+            "stores",
+            "ok",
+            117.5,
+            14.3,
+            28.5
+          ],
+          [
+            "ladder1-foot",
+            "ok",
+            122.5,
+            17.3,
+            23.5
+          ],
+          [
+            "ladder2-foot",
+            "ok",
+            123.5,
+            20.3,
+            24.5
+          ],
+          [
+            "ladder3-foot",
+            "ok",
+            120.5,
+            23.3,
+            27.5
+          ],
+          [
+            "lever",
+            "ok",
+            124.5,
+            23.3,
+            24.5
+          ]
+        ],
+        "top": [
+          124.5,
+          23.3,
+          24.5
+        ],
+        "lever": {
+          "id": "b:lastlight:3:-2:0",
+          "x": 124.5,
+          "y": 23.300002,
+          "z": 24.5,
+          "surface": "b:lastlight:0:Lastlight_UpperFloorGallery"
+        }
+      }
+    },
+    {
+      "label": "Lastlight: all three ladders climbed back down to the ground floor",
+      "ok": true,
+      "detail": {
+        "down": [
+          [
+            "ladder3-top",
+            "ok",
+            121.5,
+            20.3,
+            26.5
+          ],
+          [
+            "ladder2-top",
+            "ok",
+            123.5,
+            17.3,
+            24.5
+          ],
+          [
+            "ladder1-top",
+            "ok",
+            122.5,
+            14.3,
+            23.5
+          ]
+        ],
+        "back": [
+          122.5,
+          14.3,
+          23.5
+        ]
+      }
+    },
+    {
       "label": "reload restores the island position",
       "ok": true,
       "detail": {
         "before": [
-          43.5,
-          2,
-          90.5
+          122.5,
+          14.3,
+          23.5
         ],
         "after": [
-          43.5,
-          2,
-          90.5
+          122.5,
+          14.3,
+          23.5
         ]
       }
     },
@@ -269,5 +361,5 @@
       }
     }
   ],
-  "seconds": 408
+  "seconds": 512
 }

@@ -71,10 +71,11 @@ async function walkTo(page,building,target,stopOutside,trace){
 // Cardinal movement keeps x or z on a tile-centre line at every instant; a diagonal step leaves both off-centre.
 // M4.2: click an authored service mesh (by its island label) like a player; the provider walks to the measured
 // stance and runs the lesson handler on arrival.
-async function clickService(page,label){
-  const target=await page.evaluate(label=>{let c=null;scene.traverse(o=>{if(!c&&o.isMesh&&o.userData.islandService&&o.userData.islandService.label===label){const b=new THREE.Box3().setFromObject(o);c=b.getCenter(new THREE.Vector3()).toArray()}});return c},label);
+async function clickService(page,label,which){
+  // which (optional): the service's target id, for stations sharing a player-facing label (two "Climb-up ladder"s)
+  const target=await page.evaluate((label,which)=>{let c=null;scene.traverse(o=>{const s=o.userData.islandService;if(!c&&o.isMesh&&s&&s.label===label&&(!which||s.target===which)){const b=new THREE.Box3().setFromObject(o);c=b.getCenter(new THREE.Vector3()).toArray()}});return c},label,which||null);
   if(!target)return {error:'no service mesh '+label};
-  const xy=await page.evaluate(async(pt,label)=>{
+  const xy=await page.evaluate(async(pt,label,which)=>{
     const sleep=ms=>new Promise(r=>setTimeout(r,ms));const dx=player.position.x-pt[0],dz=player.position.z-pt[2],d=Math.hypot(dx,dz);
     for(const [yaw,pitch,dist] of [[d>.5?Math.atan2(dx,dz):0,1.15,Math.max(12,d*1.6)],[0,1.3,14],[Math.PI/2,1.3,14],[Math.PI,1.3,14],[-Math.PI/2,1.3,14]]){
       camCtl.yaw=yaw;camCtl.pitch=pitch;camCtl.dist=dist;await sleep(1300);
@@ -82,10 +83,10 @@ async function clickService(page,label){
       const cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top;
       for(let r=0;r<=120;r+=4)for(let a=0;a<360;a+=(r?15:360)){const x=Math.round(cx+Math.cos(a*Math.PI/180)*r),y=Math.round(cy+Math.sin(a*Math.PI/180)*r);
         if(x<0||y<0||x>=rect.width||y>=rect.height||document.elementFromPoint(x,y)!==renderer.domElement)continue;
-        const h=pick({clientX:x,clientY:y});if(h&&h.obj.userData.islandService&&h.obj.userData.islandService.label===label)return [x,y];}
+        const h=pick({clientX:x,clientY:y}),s=h&&h.obj.userData.islandService;if(s&&s.label===label&&(!which||s.target===which))return [x,y];}
     }
     return null;
-  },target,label);
+  },target,label,which||null);
   if(!xy)return {error:'service not clickable '+label};
   await press(page,xy);await settle(page,30000);await sleep(900);return {ok:true};
 }
@@ -159,12 +160,20 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
       await shot(page,'05_'+b);const at=await pos(page);const ok2=!w.error&&!c.error&&await near(b,target,.6);return {ok:ok2,walk:w.error||'ok',click:c.error||'ok',at,diagonal:diagonal(tr2),...(extra?await extra():{})}};
     let v=await visit('bank','entrance','Use bank counter','counter',()=>page.evaluate(()=>({bankOpen:(document.getElementById('bank-modal')||{style:{}}).style.display==='block'})));
     ok('Bank: walks in and the teller counter opens the bank',v.ok&&v.bankOpen&&v.diagonal===0,v);
-    await page.evaluate(()=>{try{UI.openBank(false)}catch(e){}});
+    await page.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}});
     // like a player: walk in through the west door first (roofs cut away once inside), then the telescope is in sight
     v=await visit('mage','entrance','Telescope','observatory',null,async()=>{const t2=[];await walkTo(page,'mage','runes',false,t2)});ok('Mage tower: climbs both stairs to the telescope in the observatory',v.ok&&v.at[1]>11.5,v);
     v=await visit('haven','shore','Ferry','boat');ok('Departure Haven: walks the pier down to the ferry on the landing stage',v.ok&&v.at[0]>134,v);
     v=await visit('quarry','approach','Quarry shaft','shaft');ok('Quarry Gate: walks through the portal to the shaft mouth',v.ok,v);
     v=await visit('survival','trail','Fishing spot','fishing');ok('Survival camp: down the bank stair to the fishing stage',v.ok,v);
+    // M4.4b Lastlight: in by the storm door, up three ladders (instant storey change, 2004 style) to the beacon lever, and back down
+    {const w=await walkTo(page,'lastlight','door',true,[]);const y0=(await pos(page))[1],steps=[];
+     for(const [label,which] of [['Repair stores','stores'],['Climb-up ladder','ladder1-foot'],['Climb-up ladder','ladder2-foot'],['Climb-up ladder','ladder3-foot'],['Pull beacon lever','lever']]){const c=await clickService(page,label,which);steps.push([which,c.error||'ok',...(await pos(page)).map(v=>+v.toFixed(2))])}
+     await shot(page,'05_lastlight_top');const top=await pos(page);
+     const lever=await page.evaluate(()=>{return HolmArrivalQA.qaStance('lastlight','lever')});
+     ok('Lastlight: storm door, stores, all three ladders climbed by click, lever reached on the lantern deck',!w.error&&steps.every(s=>s[1]==='ok')&&top[1]>y0+5&&!!lever&&Math.hypot(top[0]-lever.x,top[2]-lever.z)<.6&&Math.abs(top[1]-lever.y)<.35,{walk:w.error||'ok',y0,steps,top,lever});
+     const down=[];for(const which of ['ladder3-top','ladder2-top','ladder1-top']){const c=await clickService(page,'Climb-down ladder',which);down.push([which,c.error||'ok',...(await pos(page)).map(v=>+v.toFixed(2))])}
+     const back=await pos(page);ok('Lastlight: all three ladders climbed back down to the ground floor',down.every(s=>s[1]==='ok')&&Math.abs(back[1]-y0)<1.2,{down,back});}
     // 4. reload restores the spot on the island graph
     await page.evaluate(()=>SaveGame.save());const before=await pos(page);
     await page.reload({waitUntil:'load'});try{await enter(page)}catch(e){console.log('    reload console errors: '+JSON.stringify(consoleErrors.slice(-6)));throw e}const after=await pos(page);

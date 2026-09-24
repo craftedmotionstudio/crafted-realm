@@ -1,0 +1,26 @@
+{
+ "id": "lastlight",
+ "prefix": "Lastlight_",
+ "model": ".studio-workspaces/holm-lastlight-v1/candidates/lastlight.glb",
+ "out": ".studio-workspaces/holm-lastlight-navigation-v1/candidates",
+ "placement": {"x": 121, "y": 14.3, "z": 26},
+ "local": {"x0": -9, "x1": 6, "z0": -7, "z1": 6},
+ "start": [-7.5, -0.3, 0.5],
+ "targets": [
+  {"id": "door", "label": "Outside the storm door, in the porch (keeper wing, west)", "at": [-5.5, 0.0, 0.5]},
+  {"id": "stores", "label": "Repair stores workbench, keeper wing", "at": [-3.5, 0.0, 2.5]},
+  {"id": "ladder1-foot", "label": "Foot of ladder 1, beacon storm store (ground)", "at": [1.5, 0.0, -2.5]},
+  {"id": "ladder1-top", "label": "Top of ladder 1, keeper's room", "at": [1.5, 3.0, -2.5]},
+  {"id": "ladder2-foot", "label": "Foot of ladder 2, keeper's room", "at": [2.5, 3.0, -1.5]},
+  {"id": "ladder2-top", "label": "Top of ladder 2, watch room", "at": [2.5, 6.0, -1.5]},
+  {"id": "ladder3-foot", "label": "Foot of ladder 3, watch room", "at": [0.5, 6.0, 0.5]},
+  {"id": "ladder3-top", "label": "Top of ladder 3, lantern deck", "at": [-0.5, 9.0, 1.5]},
+  {"id": "lever", "label": "Beacon lever, lantern deck (east of the lantern)", "at": [3.5, 9.0, -1.5]},
+  {"id": "beacon", "label": "Beacon lamp, seen through the lantern glazing", "at": [3.5, 9.0, -0.5]}
+ ],
+ "climbs": [
+  {"id": "ladder1", "label": "Climb ladder", "foot": [1.5, 0.0, -2.5], "top": [1.5, 3.0, -2.5]},
+  {"id": "ladder2", "label": "Climb ladder", "foot": [2.5, 3.0, -1.5], "top": [2.5, 6.0, -1.5]},
+  {"id": "ladder3", "label": "Climb ladder", "foot": [0.5, 6.0, 0.5], "top": [-0.5, 9.0, 1.5]}
+ ]
+}

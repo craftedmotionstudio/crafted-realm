@@ -260,7 +260,12 @@ old coordinates on the grid pathfinder. Bundles, in order:
       until M5. `qa_holm_island.js` PASS 19/19 real pointer, full route 20/20, arrival v4 12/12, smoke PASS.
       Gaps for owner review: no pond in the Sept 13 terrain (fishing stage sits at the creek), haven pier faces
       east, quarry rock is a boulder heap.
-- [ ] **M4.4b Lastlight keeper wing** (needs ladder/climb edges in the extractor and HolmIslandNav).
+- [x] **M4.4b Lastlight keeper wing** (needs ladder/climb edges in the extractor and HolmIslandNav). 2026-09-24:
+      holm-lastlight-v1 in Blender (tapered octagonal beacon, corbelled gallery, glazed lantern, hip-roofed
+      keeper wing with storm porch; 24.8k tris). Ladders work 2004-style: the extractor measures `climbs`
+      (foot/top stances, counted for reachability), the island runtime walks to a ladder's end and stands the
+      player on the other (instant storey change). `qa_holm_island.js` PASS 21/21: storm door, stores, three
+      ladders up by click, lever on the lantern deck, three ladders down, reload.
 - [ ] **M4.5 Crossings, paths, habitat and signage** over the whole island; no barren stretches.
 - [ ] **M4.6 Whole-island performance** (draw calls, streaming, boot).
 

@@ -19,8 +19,12 @@ check('whole island: every planned place is reachable from the landing on one gr
  const reach=new Set(),q=[spawn.id];reach.add(spawn.id);while(q.length){for(const t of g.links[q.pop()])if(!reach.has(t)){reach.add(t);q.push(t)}}
  for(const p of I.plan.places){let ok=false;for(let r=0;r<8&&!ok;r++)for(let dz=-r;dz<=r&&!ok;dz++)for(let dx=-r;dx<=r&&!ok;dx++)ok=(g.byTile[(Math.floor(p.x)+dx)+','+(Math.floor(p.z)+dz)]||[]).some(n=>reach.has(n.id));assert(ok,p.id+' has no reachable stance nearby')}
 });
-check('Blender buildings join the land: every measured target of all eight buildings is reachable (lane points ceded to a neighbour excepted)',()=>{
- for(const B of I.buildings)for(const t of B.graph.targets){if(B.id==='lodge'&&t.id==='north-lane')continue;assert(nav.route(g,spawn.id,'b:'+B.id+':'+t.nodeId),B.id+'.'+t.id+' unreachable')}
+check('Blender buildings join the land: every measured target of every building is reachable on foot or by its measured ladders (lane points ceded to a neighbour excepted)',()=>{
+ // ladders change storey instantly (2004 style), so they join the walk graph only here, as jumps between measured ends
+ const jump={},add=(a,b)=>(jump[a]=jump[a]||[]).push(b);
+ for(const B of I.buildings)for(const c of B.graph.climbs||[]){assert(c.footId&&c.topId,B.id+' ladder '+c.id+' unmeasured');const a='b:'+B.id+':'+c.footId,b='b:'+B.id+':'+c.topId;assert(g.byId[a]&&g.byId[b],B.id+' ladder '+c.id+' ends missing');add(a,b);add(b,a)}
+ const R=new Set([spawn.id]),q=[spawn.id];while(q.length){const u=q.pop();for(const t of g.links[u].concat(jump[u]||[]))if(!R.has(t)){R.add(t);q.push(t)}}
+ for(const B of I.buildings)for(const t of B.graph.targets){if(B.id==='lodge'&&t.id==='north-lane')continue;assert(R.has('b:'+B.id+':'+t.nodeId),B.id+'.'+t.id+' unreachable')}
  for(const [b,ids] of [['keep',['gate']],['bakehouse',['oven','pantry','loft']],['lodge',['board','map']]]){
   const B=I.buildings.find(x=>x.id===b);
   for(const id of ids){const t=B.graph.targets.find(x=>x.id===id);assert(t,b+' target '+id);assert(nav.route(g,spawn.id,'b:'+b+':'+t.nodeId),b+'.'+id+' unreachable')}

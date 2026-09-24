@@ -6,7 +6,7 @@ const read=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
 const Scenery=require('../src/holm_arrival_scenery'),Provision=require('../src/holm_arrival_provisions'),Dock=require('../src/holm_arrival_dock');
 const Terrain=require('../src/holm_overhaul_terrain');
 const TERRAIN='.studio-workspaces/holm-overhaul-terrain-v1/working/assets/world/authoring/holm-overhaul.terrain.bundle.json';
-const NEW_BUILDINGS=['survival','quarry','bank','mage','haven'];
+const NEW_BUILDINGS=['survival','quarry','bank','mage','haven','lastlight'];
 const TREE_TRUNK={oak:.45,birch:.3,'coastal-pine':.35};
 const bridgeFrom=(t,b)=>require('../src/holm_island_nav').bridgeFrom(t,b);
 function load(){
@@ -18,7 +18,7 @@ function load(){
  const arrival=Dock.create(scenery.layout,scenery.envelopes,terrain,dock);
  const b=scenery.layout.building,w=b.world;
  const blockers=scenery.blockers.map(x=>({id:x.id,x0:x.x0,x1:x.x1,z0:x.z0,z1:x.z1}));
- const plan0=read('docs/rebuild/holm-overhaul/plan.json'),PLANID={survival:'survival',quarry:'mine',bank:'bank',mage:'mage',haven:'ferry'},built=new Set();
+ const plan0=read('docs/rebuild/holm-overhaul/plan.json'),PLANID={survival:'survival',quarry:'mine',bank:'bank',mage:'mage',haven:'ferry',lastlight:'lastlight'},built=new Set();
  // same rule as HolmIslandExtras.loadData: trees a new building stands on are left out
  for(const id of NEW_BUILDINGS){const spec=read('docs/rebuild/holm-overhaul/buildings/'+id+'.nav.json'),g=read(spec.out+'/navigation.json'),pl=plan0.places.find(q=>q.id===PLANID[id]);
   for(let z=Math.floor(pl.z-pl.d/2)-1;z<=Math.ceil(pl.z+pl.d/2)+1;z++)for(let x=Math.floor(pl.x-pl.w/2)-1;x<=Math.ceil(pl.x+pl.w/2)+1;x++)built.add(x+','+z);

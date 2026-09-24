@@ -13,7 +13,7 @@ var HolmIslandExtras=(function(){
   {id:'lodge',graph:WS+'holm-quest-terrain-navigation-v1/candidates/navigation.json',model:WS+'holm-quest-lodge-v3/candidates/lodge.glb',
    extra:{url:WS+'holm-quest-foundation-v1/candidates/foundation.glb',placement:WS+'holm-quest-placement-v1/candidates/placement.json'}}]
   // M4.4: new Blender buildings, graphs measured by tools/blender/extract_holm_building_navigation.py
-  .concat([['survival','Survival_','survival'],['quarry','Quarry_','mine'],['bank','Bank_','bank'],['mage','Mage_','mage'],['haven','Haven_','ferry']].map(function(r){
+  .concat([['survival','Survival_','survival'],['quarry','Quarry_','mine'],['bank','Bank_','bank'],['mage','Mage_','mage'],['haven','Haven_','ferry'],['lastlight','Lastlight_','lastlight']].map(function(r){
    return {id:r[0],prefix:r[1],plan:r[2],graph:WS+'holm-'+r[0]+'-navigation-v1/candidates/navigation.json',model:WS+'holm-'+r[0]+'-v1/candidates/'+r[0]+'.glb'}}));
  var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v1/working/vegetation.json';
  var BRIDGES='/docs/rebuild/holm-overhaul/island-bridges.json',BRIDGE_MODELS=WS+'holm-island-bridges-v1/candidates/';
@@ -36,7 +36,12 @@ var HolmIslandExtras=(function(){
   survival:[{prefix:'Survival_ServiceTools_',target:'tools',label:'Tool rack'},{prefix:'Survival_ServiceFirePit_',target:'fire',label:'Fire ring'},{prefix:'Survival_ServiceLogPile_',target:'logs',label:'Log pile'},{prefix:'Survival_ServiceFishing_',target:'fishing',label:'Fishing spot'}],
   quarry:[{prefix:'Quarry_ServiceShaft_',target:'shaft',label:'Quarry shaft'},{prefix:'Quarry_ServiceWinch_',target:'winch',label:'Winch'},{prefix:'Quarry_ServiceBench_',target:'bench',label:'Repair bench'}],
   mage:[{prefix:'Mage_ServiceRuneTable_',target:'runes',label:'Rune table'},{prefix:'Mage_ServiceLectern_',target:'lectern',label:'Lectern'},{prefix:'Mage_ServiceTelescope_',target:'observatory',label:'Telescope'}],
-  haven:[{prefix:'Haven_ServiceBoat_',target:'boat',label:'Ferry'},{prefix:'Haven_ServiceNotice_',target:'notice',label:'Departure notice'}]};
+  haven:[{prefix:'Haven_ServiceBoat_',target:'boat',label:'Ferry'},{prefix:'Haven_ServiceNotice_',target:'notice',label:'Departure notice'}],
+ lastlight:[{prefix:'Lastlight_ServiceStores_',target:'stores',label:'Repair stores'},
+  {prefix:'Lastlight_ServiceLadder1Up_',target:'ladder1-foot',climb:'ladder1',end:'foot',label:'Climb-up ladder'},{prefix:'Lastlight_ServiceLadder1Down_',target:'ladder1-top',climb:'ladder1',end:'top',label:'Climb-down ladder'},
+  {prefix:'Lastlight_ServiceLadder2Up_',target:'ladder2-foot',climb:'ladder2',end:'foot',label:'Climb-up ladder'},{prefix:'Lastlight_ServiceLadder2Down_',target:'ladder2-top',climb:'ladder2',end:'top',label:'Climb-down ladder'},
+  {prefix:'Lastlight_ServiceLadder3Up_',target:'ladder3-foot',climb:'ladder3',end:'foot',label:'Climb-up ladder'},{prefix:'Lastlight_ServiceLadder3Down_',target:'ladder3-top',climb:'ladder3',end:'top',label:'Climb-down ladder'},
+  {prefix:'Lastlight_ServiceLever_',target:'lever',label:'Pull beacon lever'},{prefix:'Lastlight_ServiceBeacon_',target:'beacon',label:'Beacon lamp'}]};
  // Roof cutaways, as each building's Sept 13 walking study proved them: roof hidden, upper parts above the
  // player's floor hidden, shell walls clipped just above the player while inside.
  var CUTAWAY={
@@ -44,7 +49,7 @@ var HolmIslandExtras=(function(){
   bakehouse:{roof:/^Kitchen_(Roof|Chimney)_/,upper:/^Kitchen_Upper/,clip:/^Kitchen_(Shell|UpperShell|GroundFront|Glazing)_/,lift:.5},
   lodge:{roof:/^Lodge_(Roof|Chimney)/,upper:/^Lodge_Upper(?!.*Stair)/,clip:/^Lodge_(GroundShell|UpperShell|Glazing)/,lift:.5}};
  // M4.4 buildings follow the brief's naming contract: <Prefix>_Roof / _Upper / _Shell / _UpperShell / _Glazing
- ['Survival','Quarry','Bank','Mage','Haven'].forEach(function(p){CUTAWAY[p.toLowerCase()]={roof:new RegExp('^'+p+'_Roof'),upper:new RegExp('^'+p+'_Upper'),clip:new RegExp('^'+p+'_(Shell|UpperShell|Glazing)'),lift:.5}});
+ ['Survival','Quarry','Bank','Mage','Haven','Lastlight'].forEach(function(p){CUTAWAY[p.toLowerCase()]={roof:new RegExp('^'+p+'_Roof'),upper:new RegExp('^'+p+'_Upper'),clip:new RegExp('^'+p+'_(Shell|UpperShell|Glazing)'),lift:.5}});
  function need(ok,msg){if(!ok)throw Error('[HolmIslandExtras] '+msg)}
  async function bytes(url){var r=await fetch(url,{cache:'no-store'});need(r.ok,'missing '+url);return r.arrayBuffer()}
  async function json(url){return JSON.parse(new TextDecoder().decode(await bytes(url)))}
@@ -89,7 +94,9 @@ var HolmIslandExtras=(function(){
    gltf.scene.parent.updateMatrixWorld(true);   // placed group first, so service boxes are in world space
    (SERVICES[b.id]||[]).forEach(function(s){
     var local=s.node||(b.graph.targets.filter(function(t){return t.id===s.target})[0]||{}).nodeId;need(local,b.id+' service '+s.label+' has no stance');
-    var info={building:b.id,node:'b:'+b.id+':'+local,call:s.call,label:s.label},box=new T.Box3();
+    var info={building:b.id,target:s.target,node:'b:'+b.id+':'+local,call:s.call,label:s.label},box=new T.Box3();
+    // ladders: walk to this end's stance, then stand on the other end (measured climbs in the building graph)
+    if(s.climb){var cl=(b.graph.climbs||[]).filter(function(c){return c.id===s.climb})[0],to=cl&&cl[s.end==='top'?'footId':'topId'];need(to,b.id+' ladder '+s.climb+' is not measured');info.climb='b:'+b.id+':'+to}
     gltf.scene.traverse(function(n){if(!n.isMesh||!nameOf(n,s.prefix))return;
      n.userData.kind='island_service';n.userData.label=s.label;n.userData.islandService=info;services.push(n);box.expandByObject(n)});
     need(!box.isEmpty(),b.id+' service '+s.label+' has no authored mesh');
@@ -122,7 +129,7 @@ var HolmIslandExtras=(function(){
    cutFor=inside;if(!inside||!CUTAWAY[inside])return;
    var r=CUTAWAY[inside],M=models[inside],localY=pose.y-M.placement.y;clipPlane.constant=pose.y+r.lift;
    if(typeof renderer!=='undefined'&&renderer)renderer.localClippingEnabled=true;
-   M.scene.traverse(function(n){if(!n.isMesh)return;var name='';for(var q=n;q&&q!==M.scene;q=q.parent)if(/^(Keep|Kitchen|Lodge|Survival|Quarry|Bank|Mage|Haven)_/.test(q.name)){name=q.name;break}
+   M.scene.traverse(function(n){if(!n.isMesh)return;var name='';for(var q=n;q&&q!==M.scene;q=q.parent)if(/^(Keep|Kitchen|Lodge|Survival|Quarry|Bank|Mage|Haven|Lastlight)_/.test(q.name)){name=q.name;break}
     n.visible=!r.roof.test(name);
     if(r.upper.test(name)){if(!n.geometry.boundingBox)n.geometry.computeBoundingBox();n.visible=n.geometry.boundingBox.min.y<=localY+.45}
     [].concat(n.material).forEach(function(mm){if(mm)mm.clippingPlanes=r.clip.test(name)?[clipPlane]:[]})});

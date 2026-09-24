@@ -64,6 +64,10 @@ var HolmArrivalQA=(function(){
   if(record&&(record.revision===revision()||(loaded.package.navigation.compatibleGraphRevisions||[]).indexOf(record.revision)>=0)){
    try{node=island?HolmIslandNav.restoreCheckpoint(graph,record,record.revision):HolmArrivalCheckpoint.restore(graph,record,record.revision)}catch(e){UI.chat('The arrival draft changed; restored at the landing.','sys')}
   }
+  placeAt(node);
+ }
+ // Stand the player on a graph node (boot, restore, and 2004-style ladders, which change storey instantly).
+ function placeAt(node){
   HolmArrivalPlayer.detach();player.position.set(node.x,node.y,node.z);Player.plane=0;Player.path=[];Player.moveTo=null;
   provider.updateResidency(node.x,node.z,true);
   bridge=HolmArrivalPlayer.attach({actor:player,state:Player,providerId:ID,navigation:nav,graphForDoors:graphForDoors,startNodeId:node.id,doors:doors,lenientTiles:island,canMove:function(){return !owner.doorsMoving()}});owner.update(0,node.surface);
@@ -134,11 +138,17 @@ var HolmArrivalQA=(function(){
   if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);owner.update(dt,pose.surface);
   if(pending&&pose.nodeId===pending.id&&!pose.moving){var p0=pending,kind=pending.kind,door=pending.door;pending=null;
    if(kind==='island_service'){var call=p0.service.call;
+    if(p0.service.climb){var up=graphForDoors(doors).byId[p0.service.climb];if(up)placeAt(up);else UI.chat('The ladder leads nowhere yet.','plain');if(!call)return}
     if(!call){UI.chat(p0.service.label+'. (Its lesson comes with the full tutorial.)','plain');return}
     // module globals may be lexical (const UI), so resolve by name rather than only on window
     var mod=typeof window!=='undefined'&&window[call[0]];if(!mod&&/^[A-Za-z_]\w*$/.test(call[0])){try{mod=new Function('return typeof '+call[0]+'!==\'undefined\'?'+call[0]+':null')()}catch(e){mod=null}}
     if(mod&&typeof mod[call[1]]==='function')mod[call[1]]();return}
    if(kind==='door')toggleDoor(door);else if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
+ }
+ // QA only (read-only): where a building's measured target stands on the composed graph (any storey).
+ function qaStance(buildingId,targetId){
+  if(!active()||!island||!islandData)return null;var b=islandData.buildings.filter(function(x){return x.id===buildingId})[0],t=b&&b.graph.targets.filter(function(x){return x.id===targetId})[0];
+  var n=t&&graphForDoors(doors).byId['b:'+buildingId+':'+t.nodeId];return n?{id:n.id,x:n.x,y:n.y,z:n.z,surface:n.surface}:null;
  }
  // QA only (read-only): the planned island route from the player's node to a building's measured target, so a
  // real-pointer driver can click reachable tiles along it. Never moves the player.
@@ -148,7 +158,7 @@ var HolmArrivalQA=(function(){
   var g=graphForDoors(doors),from=bridge.snapshot().nodeId,r=from&&nav.route(g,from,'b:'+buildingId+':'+t.nodeId);
   return r?r.map(function(id){var n=g.byId[id];return {id:id,x:n.x,y:n.y,z:n.z,surface:n.surface}}):null;
  }
- return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,
+ return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaStance:qaStance,
   islandActive:function(){return active()&&island},
   // review captures only: stream and frame a place without moving the adventurer
   qaView:function(x,z){if(!active())return null;provider.updateResidency(x,z,true);var y=height(x,z);window.__qaCameraFocus={x:x,y:Number.isFinite(y)?y:0,z:z};return window.__qaCameraFocus},

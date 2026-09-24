@@ -4,6 +4,7 @@ Sept 13 terrain around it into one BVH, probes every local tile centre for suppo
 and terrain), keeps stances where a 1.9 x 0.24 capsule fits, and links cardinal neighbours whose edge is
 independently sampled both ways every 0.05 with rises <= 0.24. Terrain over water is left out (the creek bed is
 not walkable). Output schema is holm-keep-navigation-v1, so HolmIslandNav composes it like the keep/bakehouse/lodge.
+Optional spec 'climbs': [{id,label,foot:[x,y,z],top:[x,y,z]}] are ladders (2004-style instant storey change): each end snaps to its\nstance, both ends count for reachability, and they are written as data.climbs (links stay walk-only; the runtime climbs by service).
 Run: blender -b --python tools/blender/extract_holm_building_navigation.py -- docs/rebuild/holm-overhaul/buildings/<id>.nav.json
 """
 import bpy,json,math,hashlib,sys
@@ -109,9 +110,17 @@ def closest(x,y,z,cond=lambda n:True):
  o=[n for n in nodes if cond(n)];return min(o,key=lambda n:(n['x']-x)**2+(n['z']-z)**2+4*(n['y']-y)**2) if o else None
 sx,sy,sz=spec['start'];start=closest(sx,sy,sz)
 assert start,'no start stance'
+def snap(p):
+ x,y,z=p;return closest(x,y,z,lambda n:abs(n['y']-y)<.35 and abs(n['x']-x)<1.01 and abs(n['z']-z)<1.01)
+climbs=[];jump={}
+for c in spec.get('climbs',[]):
+ a=snap(c['foot']);b=snap(c['top'])
+ climbs.append({'id':c['id'],'label':c['label'],'footId':a['id'] if a else None,'topId':b['id'] if b else None})
+ if a and b:jump.setdefault(a['id'],[]).append(b['id']);jump.setdefault(b['id'],[]).append(a['id'])
 seen={start['id']};q=deque(seen)
 while q:
- for v in links[q.popleft()]:
+ u=q.popleft()
+ for v in links[u]+jump.get(u,[]):
   if v not in seen:seen.add(v);q.append(v)
 targets=[]
 for t in spec['targets']:
@@ -120,10 +129,10 @@ for t in spec['targets']:
 for a,ds in links.items():
  for b in ds:assert a in links[b] and abs(lookup[a]['x']-lookup[b]['x'])+abs(lookup[a]['z']-lookup[b]['z'])==1
 report={'nodes':len(nodes),'undirectedEdges':len(profiles),'reachableNodes':len(seen),'targetsReachable':sum(t['reachable'] for t in targets),'targetsTotal':len(targets),
- 'nodeRejections':dict(Counter(e['reason'] for e in rejected)),'edgeRejections':dict(Counter(e['reason'] for e in failures)),'queries':dict(counts),'complete':all(t['reachable'] for t in targets),
+ 'nodeRejections':dict(Counter(e['reason'] for e in rejected)),'edgeRejections':dict(Counter(e['reason'] for e in failures)),'queries':dict(counts),'climbs':sum(bool(c['footId'] and c['topId']) for c in climbs),'complete':all(t['reachable'] for t in targets) and all(c['footId'] and c['topId'] for c in climbs),
  'method':'extract_holm_building_navigation.py (general form of the keep v3 extractor); terrain over water excluded'}
 data={'schema':'holm-keep-navigation-v1','building':spec['id'],'modelSha256':SHA,'terrainSha256':hashlib.sha256(terrain_bytes).hexdigest(),'placement':{'x':P['x'],'y':P['y'],'z':P['z']},
- 'avatar':{'radius':R,'height':HEIGHT},'edgeSampleSpacing':SPACING,'nodes':nodes,'links':links,'profiles':profiles,'startId':start['id'],'targets':targets,'report':report}
+ 'avatar':{'radius':R,'height':HEIGHT},'edgeSampleSpacing':SPACING,'nodes':nodes,'links':links,'profiles':profiles,'startId':start['id'],'targets':targets,'climbs':climbs,'report':report}
 OUT.mkdir(parents=True,exist_ok=True)
 (OUT/'navigation.json').write_text(json.dumps(data,separators=(',',':')),encoding='utf-8')
 (OUT/'obstructions.json').write_text(json.dumps({'nodes':rejected[:400],'edges':failures[:400]},indent=1),encoding='utf-8')
