@@ -7,13 +7,13 @@ const OUT=path.join(__dirname,'..','scratchpad','holm_v3_review');fs.mkdirSync(O
 const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmV3=1&qaProfile=v3-review-'+Date.now().toString(36);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const VIEWS=[
-  {name:'01_arrival_cove',pos:[64.5,112.5],plane:0,yaw:.25,dist:52,pitch:.95},
-  {name:'02_guide_house_front',pos:[66.5,104.5],plane:0,yaw:.62,dist:30,pitch:.8},
-  {name:'03_guide_house_side',pos:[73.5,101.5],plane:0,yaw:1.9,dist:28,pitch:.75},
-  {name:'04_hall_interior',pos:[64.5,97.5],plane:0,yaw:.5,dist:17,pitch:1.1},
-  {name:'05_loft',pos:[64.5,96.5],plane:1,yaw:.5,dist:17,pitch:1.15},
-  {name:'06_creek_bridge',pos:[49.5,99.5],plane:0,yaw:1.2,dist:24,pitch:.85},
-  {name:'07_island_overview',pos:[62.5,90.5],plane:0,yaw:.3,dist:70,pitch:1.2}
+  {name:'01_arrival_cove',pos:[63.5,111.5],plane:0,yaw:.3,dist:34,pitch:1.05},
+  {name:'02_guide_house_front',pos:[67.5,105.5],plane:0,yaw:.55,dist:22,pitch:1.0},
+  {name:'03_guide_house_side',pos:[74.5,100.5],plane:0,yaw:1.9,dist:20,pitch:.95},
+  {name:'04_hall_interior',pos:[64.5,97.5],plane:0,yaw:.5,dist:14,pitch:1.15},
+  {name:'05_loft',pos:[64.5,96.5],plane:1,yaw:.5,dist:14,pitch:1.2},
+  {name:'06_creek_bridge',pos:[49.5,99.5],plane:0,yaw:1.2,dist:18,pitch:1.0},
+  {name:'07_island_overview',pos:[62.5,92.5],plane:0,yaw:.3,dist:52,pitch:1.25}
 ];
 (async()=>{
   const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',

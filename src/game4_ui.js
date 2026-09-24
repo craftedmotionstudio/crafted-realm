@@ -1116,8 +1116,10 @@ function updateGroundGrid(){
   // The surface grid is a navigation aid for the broad overworld. On authored
   // underground meshes it floats at the logical walk height and visually
   // flattens real depressions and shoulders, so caves own their floor entirely.
-  if(_groundGrid) _groundGrid.visible=(pl===0);
-  if(pl!==0) return;
+  // The 2004 look (v3 preview) has no ground grid: tiles read from shading and paths, as in the references.
+  const noGrid=typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active();
+  if(_groundGrid) _groundGrid.visible=(pl===0&&!noGrid);
+  if(pl!==0||noGrid) return;
   const R=14, ptx=Math.floor(player.position.x), ptz=Math.floor(player.position.z);
   if(_groundGrid && ptx===_gridTX && ptz===_gridTZ) return;
   _gridTX=ptx; _gridTZ=ptz;

@@ -139,7 +139,7 @@ var HolmTileHouse=(function(){
     return {id:s.id,origin:s.origin.slice(),floorY:s.floorY,storeyH:s.storeyH,
       rooms:s.rooms.map(function(r){return {id:r.id,level:r.level,x:r.x,z:r.z,w:r.w,d:r.d};}),
       edges:list.sort(function(a,b){return a.level-b.level||a.z-b.z||a.x-b.x||(a.side<b.side?-1:a.side>b.side?1:0);}),
-      stairs:stairs,roofs:JSON.parse(JSON.stringify(s.roofs||[])),furniture:furniture,
+      stairs:stairs,roofs:JSON.parse(JSON.stringify(s.roofs||[])),furniture:furniture,roofMaterial:s.roofMaterial==='thatch'?'thatch':'slate',
       stats:{tiles:Object.keys(tiles).length,walls:list.filter(function(e){return e.kind==='wall';}).length,
         doors:list.filter(function(e){return e.kind==='door';}).length,windows:list.filter(function(e){return e.kind==='window';}).length,
         levels:levels.length}};
@@ -151,8 +151,8 @@ var HolmTileHouse=(function(){
   // Grey stone under grey slate, as the Bible reference's tutorial house (self-review 2026-09-24; the first
   // cream-plaster / terracotta pass read as a different game). wall/base/roof colours live in the textures.
   var DEFAULT_PALETTE={wall:'#aaa69c',base:'#817d74',timber:'#5e4127',roof:'#80848a',roofEdge:'#5e6167',
-    floor:'#8a6a44',upperFloor:'#7d5f3c',frame:'#d8cfb6',glass:'#27313a',door:'#6b4a2b'};
-  var T_WALL=.24;
+    floor:'#6f5134',upperFloor:'#6a4d31',frame:'#6e5226',glass:'#a8843c',door:'#6b4a2b'};   // wooden shutters, not dark glass
+  var T_WALL=.16;   // review 2: the references' walls are thin
 
   /* Our own low-res patterns, drawn once on a 64px canvas (one texture tile = one world unit):
    *   stone: two courses of offset blocks per unit, each block a slightly different grey, dark mortar;
@@ -166,14 +166,20 @@ var HolmTileHouse=(function(){
     function shade(base,seed){var s=Math.sin(seed*91.7)*43758.5;s-=Math.floor(s);var v=Math.round(base+(s-.5)*22);return 'rgb('+v+','+(v-3)+','+(v-9)+')';}
     // 2004 rework: warmer, darker field stone with irregular course heights, and a darker weathered slate,
     // both with fine speckle so surfaces never read as clean plastic at the gameplay camera.
+    // Review 2: the reference tutorial building's walls are rounded grey field stones in dark mortar.
     if(kind==='stone'){
-      x.fillStyle='#4a453e';x.fillRect(0,0,64,64);
-      var rows=[0,14,30,46,64];
-      for(var row=0;row<4;row++){var y0=rows[row],hh=rows[row+1]-y0,off=(row%2)*11;
-        for(var b=-1;b<4;b++){var bw=18+Math.round(rnd2(row*5+b)*8),bx=b*21+off;
-          x.fillStyle=shade(138,row*7+b+3);x.fillRect(bx+1,y0+1,bw-2,hh-2);
-          x.fillStyle='rgba(255,240,220,.07)';x.fillRect(bx+1,y0+1,bw-2,2);
-          x.fillStyle='rgba(0,0,0,.12)';x.fillRect(bx+1,y0+hh-3,bw-2,2);}}
+      x.fillStyle='#55534f';x.fillRect(0,0,64,64);
+      var rows=[0,11,22,33,44,55,66];
+      for(var row=0;row<6;row++){var y0=rows[row],hh=rows[row+1]-y0,off=(row%2)*7;
+        for(var b=-1;b<6;b++){var bw=11+Math.round(rnd2(row*5+b)*6),bx=b*13+off,cx2=bx+bw/2,cy2=y0+hh/2;
+          x.fillStyle=shade(150,row*7+b+3);x.beginPath();x.ellipse(cx2,cy2,bw/2-.5,hh/2-.5,0,0,6.283);x.fill();
+          x.fillStyle='rgba(255,255,255,.12)';x.beginPath();x.ellipse(cx2-1,cy2-2,bw/2-3,hh/2-3.5,0,0,6.283);x.fill();}}
+    }else if(kind==='thatch'){
+      // our own straw thatch: beige-grey courses of short vertical strokes, darker under each lap
+      x.fillStyle='#6c6350';x.fillRect(0,0,64,64);
+      for(var cr=0;cr<4;cr++)for(var st=0;st<40;st++){var sx2=rnd2(cr*97+st)*64,len=10+rnd2(cr*31+st)*6,v2=Math.round(118+rnd2(cr*13+st)*52);
+        x.strokeStyle='rgb('+v2+','+(v2-8)+','+(v2-34)+')';x.lineWidth=1.3;x.beginPath();x.moveTo(sx2,cr*16);x.lineTo(sx2+1,cr*16+len);x.stroke();}
+      for(var lap=0;lap<4;lap++){x.fillStyle='rgba(40,30,15,.28)';x.fillRect(0,lap*16+13,64,3);}
     }else{
       x.fillStyle='#3c3d40';x.fillRect(0,0,64,64);
       for(var r=0;r<4;r++)for(var t=-1;t<5;t++){var ox2=(r%2)*8+t*16;
@@ -241,7 +247,9 @@ var HolmTileHouse=(function(){
         segment(.35,y0+.175,'base');segment(.55,y0+.35+.275,'wall');                 // sill wall
         segment(H-1.75,y0+1.75+(H-1.75)/2,'wall');                                  // lintel wall
         var fw=horiz?.9:.3,fd=horiz?.3:.9;box(parent,fw,.85,fd,ex,y0+1.32,ez,'frame');
-        box(parent,horiz?.72:.34,.68,horiz?.34:.72,ex,y0+1.32,ez,'glass');
+        box(parent,horiz?.72:.3,.68,horiz?.3:.72,ex,y0+1.32,ez,'glass');                 // wooden shutters
+        box(parent,horiz?.05:.32,.7,horiz?.32:.05,ex,y0+1.32,ez,'frame');                // centre stile between the leaves
+        box(parent,horiz?.74:.32,.04,horiz?.32:.74,ex,y0+1.2,ez,'frame');                 // cross rail
         colliders.push(col);
       }else{
         // door or arch: posts, lintel, and (door) a hinged leaf that uses the game's door contract
@@ -274,7 +282,7 @@ var HolmTileHouse=(function(){
         var horiz=(e.side==='N'||e.side==='S'),ez=e.z+(e.side==='S'?1:0),ex=e.x+(e.side==='E'?1:0);
         return horiz?(ez===q[1]&&(e.x===q[0]||e.x+1===q[0])):(ex===q[0]&&(e.z===q[1]||e.z+1===q[1]));});
       var h=touching.some(function(e){return e.side==='N'||e.side==='S';}),v=touching.some(function(e){return e.side==='E'||e.side==='W';});
-      if(h&&v)box(l?upper:ground,.34,H,.34,ox+q[0],levelY(l)+H/2,oz+q[1],'base');   // dressed stone quoins
+      if(h&&v)box(l?upper:ground,.24,H,.24,ox+q[0],levelY(l)+H/2,oz+q[1],'base');   // dressed stone quoins
     });
 
     // roofs: gable = two slopes + two gable ends, hip = four slopes; overhang .3
@@ -295,7 +303,7 @@ var HolmTileHouse=(function(){
       }
       var g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.computeVertexNormals();
       worldUV(g,0,0,0,true);   // slate courses run level on every slope and gable
-      var m=new THREE.Mesh(g,new THREE.MeshLambertMaterial({color:'#ffffff',map:patternTexture(THREE,'slate'),flatShading:true,side:THREE.DoubleSide}));m.castShadow=true;roof.add(m);
+      var m=new THREE.Mesh(g,new THREE.MeshLambertMaterial({color:'#ffffff',map:patternTexture(THREE,p.roofMaterial||'slate'),flatShading:true,side:THREE.DoubleSide}));m.castShadow=true;roof.add(m);
       // a thin fascia so the eaves read as a solid edge from the gameplay camera
       [[cx,z0,x1-x0,.08],[cx,z1,x1-x0,.08]].forEach(function(f){box(roof,f[2],.16,f[3],f[0],top-.02,f[1],'roofEdge');});
     });

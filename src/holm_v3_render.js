@@ -15,7 +15,7 @@ var HolmV3Render=(function(){
                 '#5c5639',   // 3 creek bed
                 '#5f6e50'];  // 4 sea floor (under water)
   var OVERLAY=[null,'#7a5a33','#7f7c73','#bba767'];   // none, dirt, cobble, sand
-  var WATER='#35629a';
+  var WATER='#7e92ae';   // the references' calm pale blue-grey (unlit, so the scene sun cannot wash it white)
 
   function jitter(x,z){ var s=Math.sin(x*12.9898+z*78.233)*43758.5453; return (s-Math.floor(s))*.08-.04; }
   function colour(THREE,hex,x,z,shade){ var c=new THREE.Color(hex); return c.multiplyScalar(1+jitter(x,z)+(shade||0)); }
@@ -56,19 +56,26 @@ var HolmV3Render=(function(){
    * 3. The final colour is the blended HSL with lightness scaled by that light (x/128). Path overlays
    *    keep their own flat colour per tile but take the same corner lights, so edges stay crisp while
    *    the shading stays continuous. Rendered unlit (MeshBasicMaterial) and smooth, as the old client did. */
-  var HSL=[[0.125,.42,.56],   // 0 sand
-           [0.255,.48,.36],   // 1 grass
-           [0.11,.09,.46],    // 2 rock
-           [0.13,.26,.30],    // 3 creek bed
-           [0.27,.16,.30]];   // 4 sea floor
-  var OVERLAY_HSL=[null,[0.085,.34,.34],[0.10,.05,.46],[0.12,.36,.58]];   // dirt, cobble, sand
-  var LIGHT=[-.70,.14,.70];   // toward the light, in our axes (x east, y up, z south); low and from the west-south
-  function lightAt(b,x,z){
+  // Review 2 (owner, 2026-09-24): "too dark". Retuned against the Bible references: warm yellow-green grass,
+  // wide tan sand, tan-brown earth on steep faces, bright ground lit mostly from above.
+  var HSL=[[0.115,.40,.60],   // 0 sand
+           [0.215,.60,.40],   // 1 grass
+           [0.09,.26,.42],    // 2 rock / earth face
+           [0.11,.28,.36],    // 3 creek bed
+           [0.12,.30,.52]];   // 4 sea floor (sand under water)
+  var CLIFF=[0.085,.30,.40];  // steep faces blend toward bare earth, as the references' hill cuts do
+  var OVERLAY_HSL=[null,[0.085,.36,.38],[0.10,.04,.50],[0.12,.36,.60]];   // dirt, cobble, sand
+  var LIGHT=(function(){var v=[-.42,.82,.40],l=Math.hypot(v[0],v[1],v[2]);return [v[0]/l,v[1]/l,v[2]/l];})();
+  function normalAt(b,x,z){
     var W=b.base.width,H=b.base.depth,s=W+1,h=b.base.heights;
     var cx=Math.max(1,Math.min(W-1,x)),cz=Math.max(1,Math.min(H-1,z));
-    var dx=h[cz*s+cx+1]-h[cz*s+cx-1],dz=h[(cz+1)*s+cx]-h[(cz-1)*s+cx];
-    var len=Math.hypot(dx,2,dz),nx=-dx/len,ny=2/len,nz=-dz/len;
-    return 96+85*(nx*LIGHT[0]+ny*LIGHT[1]+nz*LIGHT[2]);
+    var dx=h[cz*s+cx+1]-h[cz*s+cx-1],dz=h[(cz+1)*s+cx]-h[(cz-1)*s+cx],len=Math.hypot(dx,2,dz);
+    return [-dx/len,2/len,-dz/len];
+  }
+  // Baked light, on the old client's 128 = neutral scale: bright flat ground, darker faces turned away.
+  function lightAt(b,x,z){
+    var n=normalAt(b,x,z),d=Math.max(0,n[0]*LIGHT[0]+n[1]*LIGHT[1]+n[2]*LIGHT[2]);
+    return 128*(.6+.5*d);
   }
   function hslToRgb(h,s,l){var c=new (typeof THREE!=='undefined'?THREE.Color:Object)();if(!c.setHSL)return null;return c.setHSL(h,s,Math.max(0,Math.min(1,l)));}
   // One pass over the whole lattice: blended HSL (11x11 box) and baked light per vertex.
@@ -87,21 +94,24 @@ var HolmV3Render=(function(){
     }
     var bc=box(ch),bs=box(shh),bsat=box(ss),bl=box(sl);
     for(var z=0;z<=H;z++)for(var x=0;x<=W;x++){var j=z*s+x;
-      hue[j]=((Math.atan2(bs[j],bc[j])/6.2832)+1)%1;sat[j]=bsat[j];lit[j]=bl[j];light[j]=lightAt(b,x,z);}
+      hue[j]=((Math.atan2(bs[j],bc[j])/6.2832)+1)%1;sat[j]=bsat[j];lit[j]=bl[j];light[j]=lightAt(b,x,z);
+      // steep ground shows bare earth: blend toward CLIFF as the slope passes ~35 degrees
+      var ny=normalAt(b,x,z)[1],t=Math.max(0,Math.min(1,(.86-ny)/.18));
+      if(t>0&&m[j]!==4){hue[j]=hue[j]+(CLIFF[0]-hue[j])*t;sat[j]+=(CLIFF[1]-sat[j])*t;lit[j]+=(CLIFF[2]-lit[j])*t;}}
     return (b._v2004={hue:hue,sat:sat,lit:lit,light:light});
   }
 
   // Sea plane plus the creek ribbon at its authored water heights, in one flat 2004 blue.
   function buildWater(THREE,bundle){
     var group=new THREE.Group();group.name='holm-v3-water';
-    var mat=new THREE.MeshLambertMaterial({color:WATER,transparent:true,opacity:.9,flatShading:true});
+    var mat=new THREE.MeshBasicMaterial({color:WATER,transparent:true,opacity:.94});
     var sea=new THREE.Mesh(new THREE.PlaneGeometry(bundle.width+160,bundle.depth+160),mat);
     sea.rotation.x=-Math.PI/2;sea.position.set(bundle.width/2,-.12,bundle.depth/2);sea.name='holm-v3-sea';
     group.add(sea);
     if(bundle.base.creek&&typeof HolmArrivalWater!=='undefined'){
       var r=HolmArrivalWater.ribbon(bundle.base.creek),g=new THREE.BufferGeometry();
       g.setAttribute('position',new THREE.Float32BufferAttribute(r.positions,3));g.setIndex(r.indices);g.computeVertexNormals();
-      var creek=new THREE.Mesh(g,new THREE.MeshLambertMaterial({color:WATER,side:THREE.DoubleSide,flatShading:true}));
+      var creek=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:WATER,side:THREE.DoubleSide}));
       creek.name='holm-v3-creek';group.add(creek);
     }
     return group;

@@ -33,16 +33,21 @@ var HolmV3Preview=(function(){
       scene.add(s.group);s.colliders.forEach(function(c){WORLD.colliders.push(c);});installed.push({scenery:s});
     });
   }
-  // 2004 model lighting: one low side light from the west-south (matching the baked terrain light) and a
-  // dimmer, neutral ambient, so buildings and trees read moody rather than sunlit. Restored on dispose.
-  var savedLights=null;
+  // The look the owner asked for in review 2, matched to the Bible references: bright top light with a
+  // gentle side component (as the baked terrain light), warm ambient, and a wider, higher camera so more
+  // ground surrounds a smaller player. Everything is restored on dispose.
+  var savedLights=null,savedCam=null;
   function setLights(on){
     if(typeof scene==='undefined')return;
+    if(typeof camera!=='undefined'&&typeof camCtl!=='undefined'){
+      if(on){savedCam={fov:camera.fov,pitch:camCtl.pitch,dist:camCtl.dist};camera.fov=45;camCtl.pitch=1.12;camCtl.dist=22;camera.updateProjectionMatrix();}
+      else if(savedCam){camera.fov=savedCam.fov;camCtl.pitch=savedCam.pitch;camCtl.dist=savedCam.dist;camera.updateProjectionMatrix();savedCam=null;}
+    }
     if(on){
       savedLights=[];
       scene.children.forEach(function(o){
-        if(o.isHemisphereLight){savedLights.push([o,o.intensity,o.color.getHex(),o.groundColor.getHex()]);o.intensity=.55;o.color.set('#d8d8d0');o.groundColor.set('#4a4a40');}
-        else if(o.isDirectionalLight){savedLights.push([o,o.intensity,o.color.getHex(),o.position.clone()]);o.intensity=.95;o.color.set('#fff6e8');o.position.set(-70,22,70);}
+        if(o.isHemisphereLight){savedLights.push([o,o.intensity,o.color.getHex(),o.groundColor.getHex()]);o.intensity=.95;o.color.set('#f2f0e4');o.groundColor.set('#6a6a50');}
+        else if(o.isDirectionalLight){savedLights.push([o,o.intensity,o.color.getHex(),o.position.clone()]);o.intensity=.85;o.color.set('#fff8e8');o.position.set(-40,80,40);}
       });
     }else if(savedLights){
       savedLights.forEach(function(s){var o=s[0];o.intensity=s[1];o.color.setHex(s[2]);if(o.isHemisphereLight)o.groundColor.setHex(s[3]);else o.position.copy(s[3]);});

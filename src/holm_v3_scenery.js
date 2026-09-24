@@ -4,8 +4,8 @@
  * v3 terrain bundle so nothing floats or sinks. Trees, rocks and the boat block their tile. */
 var HolmV3Scenery=(function(){
   'use strict';
-  var COL={trunk:'#5a3d22',oak:'#3f6b25',oakLight:'#4d7c2d',pine:'#2f5a2a',bush:'#44722a',
-    rock:'#8a867c',rockDark:'#6d6a62',fence:'#6a4a2a',fenceLight:'#80603a',boat:'#6b4a2b',boatLight:'#8a6438',
+  var COL={trunk:'#4a3320',oak:'#667529',oakLight:'#7a8a32',pine:'#34502a',bush:'#5e6e26',
+    rock:'#8a867c',rockDark:'#6d6a62',fence:'#7a5a2a',fenceLight:'#a07a3a',boat:'#6b4a2b',boatLight:'#8a6438',
     flowerA:'#d8c24a',flowerB:'#c9543f',flowerC:'#e8e2d0'};
   var cache={};
   function mat(T,c){return cache[c]||(cache[c]=new T.MeshLambertMaterial({color:c,flatShading:true}));}
@@ -18,32 +18,41 @@ var HolmV3Scenery=(function(){
   function leafTexture(T){
     if(cache.leafTex||typeof document==='undefined')return cache.leafTex||null;
     var c=document.createElement('canvas');c.width=c.height=64;var x=c.getContext('2d');
-    x.fillStyle='#c4c4c4';x.fillRect(0,0,64,64);
-    for(var i=0;i<90;i++){var px=rnd(i*3.1)*64,py=rnd(i*7.7)*64,r=2+rnd(i*1.9)*4,v=Math.round(165+rnd(i*5.3)*90);
+    x.fillStyle='#9a9a9a';x.fillRect(0,0,64,64);
+    for(var i=0;i<140;i++){var px=rnd(i*3.1)*64,py=rnd(i*7.7)*64,r=1.5+rnd(i*1.9)*3.5,v=Math.round(120+rnd(i*5.3)*135);
       x.fillStyle='rgb('+v+','+v+','+v+')';x.beginPath();x.ellipse(px,py,r,r*.6,rnd(i)*3,0,6.283);x.fill();}
-    var t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(2,2);
+    var t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(3,3);
     return (cache.leafTex=t);
   }
   // A leafy clump: a once-subdivided icosahedron, gently lumpy, each vertex a slightly different green so the
   // crown reads mottled and round like the reference trees rather than a sharp 20-sided gem.
+  // Review 2: the references' crowns are dense, lumpy and olive-yellow on top, dark underneath.
+  var TOP=new (typeof THREE!=='undefined'?THREE.Color:function(){})('#93a23e'),UNDER=new (typeof THREE!=='undefined'?THREE.Color:function(){})('#39461a');
   function clump(T,g,r,hex,x,y,z,seed){
-    var geo=new T.IcosahedronGeometry(r,1),p=geo.attributes.position,cols=[],base=new T.Color(hex);
+    var geo=new T.IcosahedronGeometry(r,2),p=geo.attributes.position,cols=[],base=new T.Color(hex);
     for(var i=0;i<p.count;i++){
-      var k=.9+rnd(seed+i*.37)*.2;p.setXYZ(i,p.getX(i)*k,p.getY(i)*k*.92,p.getZ(i)*k);
-      // olive, not lime, under the game sun
-      var c=base.clone().multiplyScalar(.95+rnd(seed*3+i)*.35+(p.getY(i)>0?.1:-.1));cols.push(c.r,c.g,c.b);
+      var vx=p.getX(i),vy=p.getY(i),vz=p.getZ(i),len=Math.hypot(vx,vy,vz)||1;
+      // lumps: neighbouring vertices share a coarse noise so the silhouette bulges in leaf clusters
+      var k=.86+(.5+.5*Math.sin(vx*3.1+seed)*Math.cos(vz*2.7+seed*.7)*Math.sin(vy*2.3+seed*1.3))*.3;
+      p.setXYZ(i,vx*k,vy*k*.9,vz*k);
+      var up=vy/len,c=base.clone().lerp(up>0?TOP:UNDER,Math.abs(up)*.6).multiplyScalar(.9+rnd(seed*3+i)*.2);
+      cols.push(c.r,c.g,c.b);
     }
     geo.setAttribute('color',new T.Float32BufferAttribute(cols,3));geo.computeVertexNormals();
-    if(!cache.leaf)cache.leaf=new T.MeshLambertMaterial({vertexColors:true,flatShading:true,map:leafTexture(T)});
+    if(!cache.leaf)cache.leaf=new T.MeshLambertMaterial({vertexColors:true,map:leafTexture(T)});   // smooth, as the reference crowns
     var m=new T.Mesh(geo,cache.leaf);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;g.add(m);return m;
   }
   var MAKERS={
-    oak:function(T,g,s){var h=1.7+rnd(s)*.5;mesh(T,g,new T.CylinderGeometry(.17,.26,h,7),COL.trunk,0,h/2,0);
-      clump(T,g,1.25+rnd(s+1)*.25,COL.oak,0,h+.75,0,s);
-      clump(T,g,.85,COL.oakLight,.6,h+1.15,.25,s+5);clump(T,g,.8,COL.oak,-.55,h+1.05,-.35,s+9);clump(T,g,.7,COL.oakLight,.1,h+1.6,-.1,s+13);},
+    oak:function(T,g,s){var h=1.9+rnd(s)*.5;
+      mesh(T,g,new T.CylinderGeometry(.24,.38,h,8),COL.trunk,0,h/2,0);                       // thick trunk, flared foot
+      mesh(T,g,new T.CylinderGeometry(.38,.5,.3,8),COL.trunk,0,.15,0);
+      [[.5,.3],[-.45,-.35]].forEach(function(b,i){var br=mesh(T,g,new T.CylinderGeometry(.08,.13,1,6),COL.trunk,b[0]*.6,h-.1,b[1]*.6);br.rotation.z=-b[0]*1.1;br.rotation.x=b[1]*1.1;});
+      clump(T,g,1.45+rnd(s+1)*.25,COL.oak,0,h+.9,0,s);
+      clump(T,g,1.05,COL.oakLight,.85,h+.75,.35,s+5);clump(T,g,1.0,COL.oak,-.8,h+.8,-.4,s+9);
+      clump(T,g,.95,COL.oakLight,.2,h+1.75,-.15,s+13);clump(T,g,.85,COL.oak,-.2,h+.7,.9,s+17);},
     pine:function(T,g,s){var h=.9;mesh(T,g,new T.CylinderGeometry(.13,.18,h,6),COL.trunk,0,h/2,0);
       [[1.05,1.3,h+.5],[.82,1.1,h+1.25],[.55,.9,h+1.9]].forEach(function(c){mesh(T,g,new T.ConeGeometry(c[0],c[1],7),COL.pine,0,c[2],0);});},
-    bush:function(T,g,s){clump(T,g,.5+rnd(s)*.12,COL.bush,0,.36,0,s);clump(T,g,.34,COL.oakLight,.28,.48,.1,s+3);},
+    bush:function(T,g,s){clump(T,g,.6+rnd(s)*.12,COL.bush,0,.42,0,s);clump(T,g,.42,COL.oakLight,.35,.55,.15,s+3);clump(T,g,.38,COL.bush,-.3,.45,-.2,s+7);},
     flowers:function(T,g,s){[COL.flowerA,COL.flowerB,COL.flowerC].forEach(function(c,i){
       for(var k=0;k<3;k++){var a=(i*3+k)*2.1+s,r=.18+rnd(s+i+k)*.22;mesh(T,g,new T.BoxGeometry(.08,.08,.08),c,Math.cos(a)*r,.2,Math.sin(a)*r);
         mesh(T,g,new T.BoxGeometry(.03,.18,.03),COL.bush,Math.cos(a)*r,.09,Math.sin(a)*r);}});},

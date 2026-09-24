@@ -211,6 +211,13 @@ async function count(page, id){ return page.evaluate(id => Player.count(id), id)
   for (let attempt = 0; attempt < 4 && !cooked; attempt++) {
     if ((await count(page, 'raw_perch')) < 1) await fishOnce();
     if (!(await ensureFire())) continue;
+    // The fire lands wherever the logs were lit; from some stances trees or the HUD hide every pixel of it.
+    // After a miss, step to a different side of the fire before clicking again (a player would too).
+    if (attempt > 0) {
+      const side = [[0, 2.5], [2.5, 0], [0, -2.5], [-2.5, 0]][attempt % 4];
+      const f = await page.evaluate(() => { const o = WORLD.clickables.find(o => o.userData && o.userData.kind === 'fire' && o.parent); const p = o.getWorldPosition(new THREE.Vector3()); return [p.x, p.z]; });
+      await walkTo(page, Math.floor(f[0] + side[0]) + .5, Math.floor(f[1] + side[1]) + .5, 20000);
+    }
     const rr = await clickObject(page, "WORLD.clickables.find(o=>o.userData&&o.userData.kind==='fire'&&o.parent)", {dist: 12});
     cookLoc = rr.loc;
     cooked = await waitStep(page, 6, 20000);

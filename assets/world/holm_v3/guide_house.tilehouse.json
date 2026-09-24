@@ -5,6 +5,7 @@
  "origin": [60, 94],
  "floorY": 3,
  "storeyH": 2.2,
+ "roofMaterial": "thatch",
  "rooms": [
   {"id": "hall",  "level": 0, "x": 0, "z": 0, "w": 7, "d": 5},
   {"id": "study", "level": 0, "x": 7, "z": 1, "w": 4, "d": 4},

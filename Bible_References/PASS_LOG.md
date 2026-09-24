@@ -3820,3 +3820,12 @@ length (slight medium-length read in 3/4).
 - Own textures: irregular field stone, dark slate, dappled leaves; storey 2.2; low side light for models.
 - Island 109x81 tiles, creek coast to coast, bridge the only surface crossing (locked in tests); bridge decks
   clickable. Slice gate 13/13, terrain tests 9/9. Captures scratchpad/holm_v3_review/01..07. Awaiting review 2.
+
+## 2026-09-24 — Step 3 look pass 3 after owner review 2 ("still off": too dark, models, camera, ground)
+- Matched to the Bible references and the 2004 terrain model: bright warm yellow-green ground lit mostly from
+  above, tan earth on steep faces, no ground grid, black edge pushed far out, calm pale water (unlit).
+- Camera: 45-degree lens, higher pitch, player smaller in frame. Model light brighter, from above.
+- Trees: dense lumpy olive crowns (dark undersides), smooth leaf shading, thick flared trunks. Fences yellow-brown.
+- House: thinner walls with rounded field-stone texture, wooden shutters, thatch roof (own patterns).
+- Gates: world-v2 all locks (2004-look lock updated to review 2), slice 13/13, route 20/20 on rerun (first run
+  cascaded from an unreachable campfire click; the cook retry now changes side), smoke both phases.
