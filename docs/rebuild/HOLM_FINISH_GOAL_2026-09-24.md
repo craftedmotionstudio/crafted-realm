@@ -23,6 +23,10 @@ panel, click-to-move on tiles and a 600 ms tick. Our own names, models and layou
 branded content (see GOAL.md). When a choice is unclear, pick the option closer to that era over a modern or
 high-detail one. This tightens GOAL.md's "stepping into 2007" wording; the owner's 2004 target wins.
 
+Reference source: the owner asked to use **2004scape** as needed. Clones and the usage rules are in
+`docs/rebuild/REFERENCE_2004SCAPE.md`. We study its structure and feel and adapt MIT code with attribution. We never
+copy its Jagex models, maps, textures, audio or text.
+
 ## Where things stand (analysis, 2026-09-24)
 
 **Healthy:** `node tools/test_world_v2.js` passes every lock. `node tools/validate_content.js` passes (238 items,
