@@ -3,7 +3,7 @@
 var HolmArrivalQA=(function(){
  'use strict';
  var qs=new URLSearchParams(location.search),island=qs.get('holmIsland')==='1',requested=qs.get('arrivalQA')==='1'||island,loaded=null,provider=null,owner=null,bridge=null,pending=null;
- var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null;
+ var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null,heldRecord=null;
  // ?holmIsland=1 (M4.1): the same provider over the whole Sept 13 island: the arrival graph composed with the
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
  function revision(){return island?'holm-island-v1':loaded.package.navigation.graphRevision}
@@ -59,6 +59,7 @@ var HolmArrivalQA=(function(){
  }
  function bindPlayer(record){
   if(!active())return;
+  if(!record&&heldRecord){record=heldRecord;if(record.doors){doors=record.doors;owner.setDoors(doors)}}heldRecord=null;
   var node=spawn(),graph=graphForDoors(doors);
   if(record&&(record.revision===revision()||(loaded.package.navigation.compatibleGraphRevisions||[]).indexOf(record.revision)>=0)){
    try{node=island?HolmIslandNav.restoreCheckpoint(graph,record,record.revision):HolmArrivalCheckpoint.restore(graph,record,record.revision)}catch(e){UI.chat('The arrival draft changed; restored at the landing.','sys')}
@@ -73,6 +74,8 @@ var HolmArrivalQA=(function(){
   var record=(island?HolmIslandNav.encodeCheckpoint:HolmArrivalCheckpoint.encode)(graphForDoors(doors),pose.nodeId,revision());record.doors={arrival:doors.arrival,garden:doors.garden};return record;
  }
  function restore(record){
+  // the game boots behind the welcome screen: a Continue before the models exist is held, then bound with the player
+  if(!owner){heldRecord=record||null;return}
   if(!active())return;
   if(record&&record.doors&&typeof record.doors.arrival==='boolean'&&typeof record.doors.garden==='boolean'){doors=record.doors;owner.setDoors(doors)}
   bindPlayer(record);
@@ -94,6 +97,12 @@ var HolmArrivalQA=(function(){
  function handleClick(obj,point){
   if(!active()||!bridge)return false;
   var u=obj.userData||{};pending=null;Player.target=null;Player.action=null;
+  if(u.kind==='island_service'&&u.islandService&&island){   // M4.2: walk to the measured stance, then serve
+   var sv=u.islandService,sg=graphForDoors(doors),stance=sg.byId&&sg.byId[sv.node];
+   if(stance&&bridge.order({x:stance.x,y:stance.y,z:stance.z,surface:stance.surface}))pending={id:sv.node,kind:'island_service',service:sv};
+   else UI.chat('There is no open route to the '+sv.label.toLowerCase()+'.','plain');
+   return true;
+  }
   if(u.kind==='arrival_door'){
    // Exported leaf geometry can be offset from its object origin/hinge.
    var pos=new THREE.Box3().setFromObject(obj).getCenter(new THREE.Vector3());
@@ -122,8 +131,9 @@ var HolmArrivalQA=(function(){
   return false;
  }
  function update(dt){
-  if(!active()||!bridge||!owner)return;if(water)water.update(dt);if(extras)extras.update(dt);var pose=bridge.snapshot();owner.update(dt,pose.surface);
-  if(pending&&pose.nodeId===pending.id&&!pose.moving){var kind=pending.kind,door=pending.door;pending=null;
+  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);owner.update(dt,pose.surface);
+  if(pending&&pose.nodeId===pending.id&&!pose.moving){var p0=pending,kind=pending.kind,door=pending.door;pending=null;
+   if(kind==='island_service'){var call=p0.service.call,mod=typeof window!=='undefined'?window[call[0]]:null;if(mod&&typeof mod[call[1]]==='function')mod[call[1]]();return}
    if(kind==='door')toggleDoor(door);else if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
  }
  // QA only (read-only): the planned island route from the player's node to a building's measured target, so a
@@ -135,5 +145,8 @@ var HolmArrivalQA=(function(){
   return r?r.map(function(id){var n=g.byId[id];return {id:id,x:n.x,y:n.y,z:n.z,surface:n.surface}}):null;
  }
  return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,
+  islandActive:function(){return active()&&island},
+  // the bakehouse oven stance, for the kitchen module's cook proxy on the island
+  islandRangePoint:function(){if(!active()||!island)return null;var n=graphForDoors(doors).byId['b:bakehouse:-3:-2:1'];return n?{x:n.x,y:n.y,z:n.z}:null},
   islandStats:function(){return island&&nav&&nav.stats?nav.stats(doors):null}};
 })();

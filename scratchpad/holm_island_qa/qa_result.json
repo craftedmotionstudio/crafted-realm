@@ -17,7 +17,7 @@
             "arrival": 163
           }
         },
-        "roots": 47
+        "roots": 55
       }
     },
     {
@@ -50,8 +50,61 @@
       "label": "every step on the way is cardinal",
       "ok": true,
       "detail": {
-        "samples": 314,
+        "samples": 313,
         "diagonal": 0
+      }
+    },
+    {
+      "label": "the bucket rack walks the player inside the bakehouse and the roof cuts away",
+      "ok": true,
+      "detail": {
+        "step": {
+          "ok": true
+        },
+        "inside": {
+          "roof": false,
+          "pose": [
+            48.5,
+            4.07,
+            64.5
+          ]
+        }
+      }
+    },
+    {
+      "label": "two buckets from the rack",
+      "ok": true,
+      "detail": {
+        "buckets": 2
+      }
+    },
+    {
+      "label": "flour from the pantry, water from the butt, dough from the proving bowl",
+      "ok": true,
+      "detail": {
+        "flour": 1,
+        "water": 1,
+        "dough": 1
+      }
+    },
+    {
+      "label": "kneads bread dough in the pack",
+      "ok": true,
+      "detail": {
+        "bread_dough": 1
+      }
+    },
+    {
+      "label": "bakes the loaf at the Blender oven and the bread lesson is credited",
+      "ok": true,
+      "detail": {
+        "step": {
+          "ok": true
+        },
+        "baked": {
+          "bread": 1,
+          "optional": true
+        }
       }
     },
     {
@@ -70,6 +123,26 @@
           5,
           53.5
         ]
+      }
+    },
+    {
+      "label": "walks into the Quest Lodge and studies the quest board",
+      "ok": true,
+      "detail": {
+        "step": {
+          "ok": true
+        },
+        "lodge": {
+          "dialogue": false,
+          "status": {
+            "learned": true,
+            "quests": 10
+          },
+          "pose": [
+            31.5,
+            53.5
+          ]
+        }
       }
     },
     {
@@ -115,5 +188,5 @@
       }
     }
   ],
-  "seconds": 96
+  "seconds": 145
 }

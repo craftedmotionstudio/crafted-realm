@@ -67,13 +67,40 @@ async function walkTo(page,building,target,stopOutside,trace){
   return {reached,at:await pos(page)};
 }
 // Cardinal movement keeps x or z on a tile-centre line at every instant; a diagonal step leaves both off-centre.
+// M4.2: click an authored service mesh (by its island label) like a player; the provider walks to the measured
+// stance and runs the lesson handler on arrival.
+async function clickService(page,label){
+  const target=await page.evaluate(label=>{let c=null;scene.traverse(o=>{if(!c&&o.isMesh&&o.userData.islandService&&o.userData.islandService.label===label){const b=new THREE.Box3().setFromObject(o);c=b.getCenter(new THREE.Vector3()).toArray()}});return c},label);
+  if(!target)return {error:'no service mesh '+label};
+  const xy=await page.evaluate(async(pt,label)=>{
+    const sleep=ms=>new Promise(r=>setTimeout(r,ms));const dx=player.position.x-pt[0],dz=player.position.z-pt[2],d=Math.hypot(dx,dz);
+    for(const [yaw,pitch,dist] of [[d>.5?Math.atan2(dx,dz):0,1.15,Math.max(12,d*1.6)],[0,1.3,14],[Math.PI/2,1.3,14],[Math.PI,1.3,14],[-Math.PI/2,1.3,14]]){
+      camCtl.yaw=yaw;camCtl.pitch=pitch;camCtl.dist=dist;await sleep(1300);
+      const rect=renderer.domElement.getBoundingClientRect(),pr=new THREE.Vector3(pt[0],pt[1],pt[2]).project(camera);
+      const cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top;
+      for(let r=0;r<=120;r+=4)for(let a=0;a<360;a+=(r?15:360)){const x=Math.round(cx+Math.cos(a*Math.PI/180)*r),y=Math.round(cy+Math.sin(a*Math.PI/180)*r);
+        if(x<0||y<0||x>=rect.width||y>=rect.height||document.elementFromPoint(x,y)!==renderer.domElement)continue;
+        const h=pick({clientX:x,clientY:y});if(h&&h.obj.userData.islandService&&h.obj.userData.islandService.label===label)return [x,y];}
+    }
+    return null;
+  },target,label);
+  if(!xy)return {error:'service not clickable '+label};
+  await press(page,xy);await settle(page,30000);await sleep(900);return {ok:true};
+}
+async function clickInventory(page,itemId){
+  const idx=await page.evaluate(id=>{try{document.querySelector('.tab-btn[data-tab="inv"]').click()}catch(e){}UI.refreshInv();return Player.inv.findIndex(s=>s&&s.id===id)},itemId);
+  if(idx<0)return false;const sel='#inv-grid .inv-slot:nth-child('+(idx+1)+')';
+  await page.waitForSelector(sel,{visible:true,timeout:5000});await page.click(sel);await sleep(700);return true;
+}
+async function closeDialogue(page){await page.keyboard.press('Escape').catch(()=>{});await sleep(300);await page.evaluate(()=>{try{if(UI.closeDialogue)UI.closeDialogue()}catch(e){}});}
+const count=(page,id)=>page.evaluate(id=>Player.count(id),id);
 function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.filter(q=>off(q[0])&&off(q[2])).length;}
 
 (async()=>{
   const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',
     args:['--window-size=1538,900','--hide-scrollbars','--mute-audio','--no-first-run'],defaultViewport:{width:1538,height:900}});
   const page=await browser.newPage();const pageErrors=[];
-  page.on('pageerror',e=>pageErrors.push(String(e).slice(0,300)));
+  page.on('pageerror',e=>pageErrors.push(String(e).slice(0,300)));const consoleErrors=[];page.on('console',m=>{if(m.type()==='error')consoleErrors.push(m.text().slice(0,300))});
   try{
     await page.goto(BASE,{waitUntil:'load',timeout:120000});await enter(page);
     const boot=await page.evaluate(()=>({provider:CRWorldMode.providerId,stats:HolmArrivalQA.islandStats(),roots:scene.children.filter(o=>/^island-/.test(o.name)).length}));
@@ -89,17 +116,40 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     ok('reaches the bakehouse courtyard entrance',!r.error&&r.reached&&Math.hypot(r.at[0]-r.reached.x,r.at[2]-r.reached.z)<.6,r);
     ok('every step on the way is cardinal',diagonal(tr)===0,{samples:tr.length,diagonal:diagonal(tr)});
     await shot(page,'02_bakehouse');
+    // M4.2 bread lesson in the Blender bakehouse, every station by a real click on its authored mesh
+    await page.evaluate(()=>{Player.inv=Player.inv.map(s=>s&&['bread','bread_dough','bucket','bucket_flour','bucket_water','dough'].includes(s.id)?null:s);UI.refreshInv()});
+    let step=await clickService(page,'Take bucket');
+    const inside=await page.evaluate(()=>{const k=scene.getObjectByName('island-building-bakehouse');let roof=null;k.traverse(o=>{if(o.isMesh&&roof===null){for(let q=o;q;q=q.parent)if(/^Kitchen_Roof_/.test(q.name)){roof=o.visible;break}}});return {roof,pose:[player.position.x,player.position.y,player.position.z]}});
+    ok('the bucket rack walks the player inside the bakehouse and the roof cuts away',!step.error&&inside.roof===false,{step,inside});
+    await clickService(page,'Take bucket');
+    ok('two buckets from the rack',await count(page,'bucket')===2,{buckets:await count(page,'bucket')});
+    const lastChat=()=>page.evaluate(()=>Array.from(document.querySelectorAll('#chat-log div, #chat div')).slice(-2).map(d=>d.textContent.slice(0,120)));
+    for(const l of ['Fill bucket with flour','Fill bucket with water','Take dough']){const r=await clickService(page,l);console.log('    '+l+' '+JSON.stringify(r)+' '+JSON.stringify(await lastChat())+' at '+JSON.stringify(await pos(page)))}
+    const got={flour:await count(page,'bucket_flour'),water:await count(page,'bucket_water'),dough:await count(page,'dough')};
+    ok('flour from the pantry, water from the butt, dough from the proving bowl',got.flour===1&&got.water===1&&got.dough===1,got);
+    await clickInventory(page,'dough');if(await count(page,'bread_dough')<1){await clickInventory(page,'bucket_flour');await clickInventory(page,'dough');}
+    ok('kneads bread dough in the pack',await count(page,'bread_dough')>=1,{bread_dough:await count(page,'bread_dough')});
+    await clickInventory(page,'bread_dough');step=await clickService(page,'Cook');
+    await page.waitForFunction(()=>Player.count('bread')>0,{timeout:20000}).catch(()=>{});
+    const baked=await page.evaluate(()=>({bread:Player.count('bread'),optional:!!(Tutorial.optional&&Tutorial.optional.bake_bread)}));
+    ok('bakes the loaf at the Blender oven and the bread lesson is credited',baked.bread>=1&&baked.optional,{step,baked});
+    await closeDialogue(page);await shot(page,'02b_baked');
     // 2. on to the Quest Lodge approach
     tr=[];r=await walkTo(page,'lodge','board',true,tr);
     ok('walks on to the Quest Lodge approach',!r.error&&Math.hypot(r.at[0]-35.5,r.at[2]-53)<3.5,r);
     await shot(page,'03_lodge');
+    // M4.2 quest board inside the Blender Quest Lodge
+    step=await clickService(page,'Study quest board');
+    const lodge=await page.evaluate(()=>({dialogue:!!document.querySelector('#dialogue:not([style*="display: none"]),.dialogue-box:not([style*="display: none"])'),status:HolmQuestLodge.status(),pose:[player.position.x,player.position.z]}));
+    ok('walks into the Quest Lodge and studies the quest board',!step.error&&Math.hypot(lodge.pose[0]-31.5,lodge.pose[1]-53.5)<1.2,{step,lodge});
+    await closeDialogue(page);await shot(page,'03b_board');
     // 3. across the island to the Warden's Keep gate
     tr=[];r=await walkTo(page,'keep','gate',true,tr);
     ok('crosses the island to the Warden\'s Keep gate',!r.error&&r.reached&&Math.hypot(r.at[0]-r.reached.x,r.at[2]-r.reached.z)<.6&&diagonal(tr)===0,{...r,diagonal:diagonal(tr)});
     await shot(page,'04_keep');
     // 4. reload restores the spot on the island graph
     await page.evaluate(()=>SaveGame.save());const before=await pos(page);
-    await page.reload({waitUntil:'load'});await enter(page);const after=await pos(page);
+    await page.reload({waitUntil:'load'});try{await enter(page)}catch(e){console.log('    reload console errors: '+JSON.stringify(consoleErrors.slice(-6)));throw e}const after=await pos(page);
     ok('reload restores the island position',Math.hypot(after[0]-before[0],after[2]-before[2])<.6,{before,after});
     ok('zero page errors',pageErrors.length===0,{pageErrors});
   }catch(e){ok('driver completed',false,{error:String(e).slice(0,400)});await shot(page,'zz_error');}

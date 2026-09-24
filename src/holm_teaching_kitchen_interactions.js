@@ -18,7 +18,8 @@ var HolmTeachingKitchen=(function(){
   var BUCKET_LOAN_LIMIT=2;
   var bound=null,flame=null,flameLight=null,flameParts=[],raf=0;
 
-  function onHolm(){ return typeof CRWorldMode!=='undefined'&&CRWorldMode.providerId==='tutors-holm-v2'; }
+  // the live island, or the Sept 13 island draft (?holmIsland=1, M4.2) where the same services sit in the Blender buildings
+  function onHolm(){ return typeof CRWorldMode!=='undefined'&&(CRWorldMode.providerId==='tutors-holm-v2'||(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.islandActive&&HolmArrivalQA.islandActive())); }
   function objective(){
     if(typeof HolmTutorialFlow==='undefined'||typeof Tutorial==='undefined') return 'Bake at your own pace.';
     return HolmTutorialFlow.currentObjective(Tutorial);
@@ -31,7 +32,10 @@ var HolmTeachingKitchen=(function(){
     return root.localToWorld(new THREE.Vector3(lx,0,lz));
   }
   function rangeProxy(){
-    var p=worldPoint(RANGE_TILE.x,RANGE_TILE.z); if(!p) return null;
+    var p=worldPoint(RANGE_TILE.x,RANGE_TILE.z);
+    // on the island draft the oven is the Blender bakehouse's measured oven stance
+    if(!p&&typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.islandRangePoint){var q=HolmArrivalQA.islandRangePoint();if(q)p=new THREE.Vector3(q.x,q.y,q.z)}
+    if(!p) return null;
     var proxy=new THREE.Object3D();
     var y=(typeof groundY==='function')?groundY(p.x,p.z):p.y;
     proxy.position.set(p.x,y===null?p.y:y,p.z);

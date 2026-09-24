@@ -242,8 +242,15 @@ old coordinates on the grid pathfinder. Bundles, in order:
       `test_holm_island_nav.js` 10/10; `qa_holm_island.js` PASS 8/8 real pointer (dock over the timber deck to the
       bakehouse courtyard, lodge approach, keep gate, cardinal throughout, reload restores, 0 errors).
       Open owner question: the Sept 13 creek rises inland, so its head can be walked round (bridge saves 80 steps).
-- [ ] **M4.2 Keep, bakehouse, Quest Lodge in the island provider** with their doors and services (bread, quest
-      board) on graph stances.
+- [x] **M4.2 Keep, bakehouse, Quest Lodge in the island provider** with their doors and services (bread, quest
+      board) on graph stances. 2026-09-24: authored service meshes (plus invisible hit boxes for small ones) walk
+      the player to the measured stance, then call the existing lesson handlers (HolmTeachingKitchen,
+      HolmQuestLodge accept the island draft); each building's Sept 13 cutaway (roof off, upper hidden, shell
+      clipped) applies while inside; the lodge door is held at the open pose its graph was measured in (interlock
+      later with M6 tutors). Fixed: a Continue during background boot could not restore an island save.
+      `qa_holm_island.js` PASS 14/14 real pointer: full bread lesson in the Blender bakehouse (rack, flour, water,
+      dough, knead, bake, optional lesson credited), quest board inside the lodge (learn_quests credited), keep
+      gate, reload restores, 0 errors.
 - [ ] **M4.3 Approved-look pass on those three in Blender** (jetties/half-hips/timber detail where it fits, gray
       masonry kept), graphs re-extracted.
 - [ ] **M4.4 New Blender buildings**: survival pond camp, quarry gate + cavern entrance, bank + service court, mage

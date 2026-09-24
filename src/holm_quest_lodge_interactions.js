@@ -6,7 +6,8 @@
  */
 var HolmQuestLodge=(function(){
   'use strict';
-  function onHolm(){ return typeof CRWorldMode!=='undefined'&&CRWorldMode.providerId==='tutors-holm-v2'; }
+  // the live island, or the Sept 13 island draft (?holmIsland=1, M4.2) where the same services sit in the Blender buildings
+  function onHolm(){ return typeof CRWorldMode!=='undefined'&&(CRWorldMode.providerId==='tutors-holm-v2'||(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.islandActive&&HolmArrivalQA.islandActive())); }
   function learned(){ return !!(typeof Tutorial!=='undefined'&&Tutorial.optional&&Tutorial.optional.learn_quests); }
   function questCount(){
     try{ return Object.keys(typeof QUESTS!=='undefined'?QUESTS:{}).length; }catch(e){ return 0; }
