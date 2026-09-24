@@ -1,0 +1,11 @@
+{
+  "status": "candidate-unapproved",
+  "triangles": 1433,
+  "dimensionsTiles": [
+    1.8299999833106995,
+    1.75,
+    4.027396202087402
+  ],
+  "footprintTiles": "1.7 x 1.7 (blocks its tile)",
+  "front": "+z (plaque)"
+}

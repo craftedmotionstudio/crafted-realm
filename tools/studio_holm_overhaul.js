@@ -97,6 +97,8 @@ for(const chunk of chunkPack.chunks){
 }
 geo.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geo.computeVertexNormals();const terrainMesh=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({vertexColors:true,flatShading:true}));terrainMesh.receiveShadow=true;world.add(terrainMesh);
 const arrivalLayout=await ar.json();arrivalTrail=buildArrivalTrail(THREE,arrivalLayout,renderedHeight);arrivalTrail.receiveShadow=true;world.add(arrivalTrail);
+// Owner review 5: a designed statue on the approach. The Lantern Keeper stands west of the landing path, plaque to the path.
+new GLTFLoader().loadAsync('../.studio-workspaces/holm-arrival-statue-v1/candidates/lantern_keeper_statue_v1.glb?v=1').then(g=>{if(!world)return;const s=g.scene;s.name='LanternKeeperStatue';s.position.set(63.5-72,renderedHeight(63.5,110.5),110.5-64);s.rotation.y=Math.PI/2;s.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});world.add(s)}).catch(e=>console.error('Statue candidate failed',e));
 landscape=await buildArrivalLandscape({THREE,GLTFLoader,sample,layout:arrivalLayout,excludeAssets:['oak','hazel']});landscape.group.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});world.add(landscape.group);
 const habitatResponse=await fetch('../.studio-workspaces/holm-habitat-v1/working/vegetation.json'+stamp);if(!habitatResponse.ok)throw Error('Habitat draft unavailable');const habitatData=await habitatResponse.json();
 habitat=await buildHolmHabitat({THREE,GLTFLoader,placements:habitatData.placements,sample:renderedHeight,offset:{x:-72,z:-64}});world.add(habitat.group);
