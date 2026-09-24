@@ -115,7 +115,41 @@ comes from the owner and cannot be replaced by a self-assigned score.**
       `src/game2_world.js` that fetch on first read; clones taken before the image arrives receive it on load.
       Pane proof: a fresh Holm game downloads **0** of the nine (was 14.4 MB), zero errors.
 
-### M2 — Terrain engine that allows the new island (enabling work, from the workspace handoff)
+## ⚠ Rebase decision (owner, 2026-09-24, after review 6)
+
+The v3 preview built on 2026-09-24 (`?holmV3=1`: `holm_v3_render/preview/scenery.js`, `holm_tile_house.js`,
+`holm_tile_furniture.js`, the compact 112x84 island) drifted off the real latest state: it re-made the arrival and
+guide house from code primitives, the look the owner has rejected since July ("These primitives are not what we're
+looking for"). Owner reviews 1-6 of it never converged. On being shown the **Sept 13 Blender overhaul** in the
+Terrain Studio (`tools/studio_holm_overhaul.html`) the owner decided: *"the version from September 13 ... that's way
+better. We want to use that as our version ... make sure that you're building off of that."*
+
+**Base from now on:** the Sept 13 composition: terrain `holm-overhaul-terrain-v1` (144x128, `src/holm_overhaul_terrain.js`),
+guide house overhaul v1, arrival dock and skiff, provision rack, habitat v1, bakehouse v5 placement, Quest Lodge v3
+placement, Warden's Keep v5 on its ridge foundation. All visible assets are Blender GLBs (owner rule, review 6).
+
+**Kept from 2026-09-24:** M0/M1 below (live fixes, door queue, station LoS, lazy textures); the 2004scape reference and
+style direction; the QA drivers (`qa_holm_full_route.js`, `run_smoke_headless.js` with `SMOKE_BASE`); the owner's
+review-5/6 notes, which now apply to the Sept 13 base:
+- ground tiles visible as squares but in **close shades** that merge in patches; slope does the shading;
+- buildings with jut-outs / jettied taller upper storeys on posts, many-angled hand-made roofs, not box shells;
+- trees with branches out of the crown (not round balls), better trunks; more planted detail; designed statues;
+- everything modelled in Blender as low-poly assets.
+
+**Shelved (kept in git as history, not extended):** the `?holmV3=1` provider, tile-house kit, tile furniture, v3
+scenery and the compact v3 island source. Reusable plumbing (walk-height/route validation in `holm_v3_terrain.js`)
+may be reused only behind Sept 13 visuals. Items M2/M3 below record what was done on the shelved track.
+
+### M3R — Arrival → guide house on the Sept 13 base (replaces M3; STOP for owner review)
+- [ ] Ground look on the Sept 13 terrain: visible tile squares in close shades, soft patches, slope shading.
+- [ ] Guide house v2 in Blender from the overhaul v1 source: taller jettied upper storey on posts/brackets,
+      cross gables / hips / dormer, chimney, recessed entrance, porch kept; same doors, rooms and nav contract.
+- [ ] Arrival habitat: more Blender tree/plant detail (branching crowns), statue on the approach, dressed cove.
+- [ ] Playable: the Sept 13 terrain + these GLBs in an isolated in-game preview with real-pointer walking,
+      door, interior and upper floor; gates green; comparison sheets banked in `Bible_References/Complete/_compare`.
+- [ ] **Owner review of the slice.** Do not start M4 before the owner approves this look.
+
+### M2 — Terrain engine that allows the new island (enabling work, from the workspace handoff) — shelved track
 - [x] New terrain source schema: versioned heights, material regions, shoreline and creek, crossings. One
       contract drives rendering, collision, minimap, `groundY` and navigation. 2026-09-24:
       `holm-terrain-source-v3` (`src/holm_v3_terrain.js`) layers path overlays (dirt/cobble/sand), crossings
@@ -140,7 +174,7 @@ comes from the owner and cannot be replaced by a self-assigned score.**
       a click beyond the bridge crossed it on the deck (8 samples at exactly 3.3); save/reload restored the exact
       position on v3. Grass retuned from lime to 2004 meadow green after the first pane look.
 
-### M3 — First live slice: arrival → guide house
+### M3 — First live slice: arrival → guide house (shelved v3 track; superseded by M3R)
 - [x] Arrival cove, creek crossing, guide house exterior, furnished interior and upper floor running in the
       `tutors-holm-v3` preview, with real-pointer walking both ways. 2026-09-24:
       new **tile house kit** (`src/holm_tile_house.js`): rooms of whole tiles on two levels, walls on tile edges
@@ -175,7 +209,9 @@ comes from the owner and cannot be replaced by a self-assigned score.**
       Known: beach sand blends into grass (2004 blending); mine -> keep is 126 steps round by the bridge (step 4:
       cave passage under the creek). Owner reviews 2-5: "still off" / "close" / "still off, more detail".
       Pass 6 (review 5): per-tile palette shading, irregular coast, jettied timber upper storey on posts, an
-      original statue on the plaza, rebuilt pines/oaks/rowboat/ferns. **Awaiting owner review 6.**
+      original statue on the plaza, rebuilt pines/oaks/rowboat/ferns. Owner review 6: "still off" — tiles read 8-bit,
+      trees too round, roof rigid, house "two squares put together"; everything must be Blender-made. Then the
+      rebase decision above: this track is shelved.
 
 ### M4 — The rest of the island
 - [ ] Place the bakehouse, quest lodge and keep candidates on the compiled terrain with services bound to their
@@ -215,7 +251,8 @@ comes from the owner and cannot be replaced by a self-assigned score.**
 - Production boot stays on the old island until M7. All new-island work runs behind the preview provider.
 - Verify in the in-app browser. Headless data alone never proves a step.
 - Keep combat math, the XP curve, four-direction tile movement and player saves intact (CLAUDE.md).
-- Record each tick in `Bible_References/PASS_LOG.md` with a proof link, and tick the item here.
+- Read `GUIDING_LIGHT.md` at the start of every session. Author assets in Blender + the Studio, not the game.
+- Record each tick in the root `PASS_LOG.md` (the project log) with a proof link, and tick the item here.
 - Stop and write it under Blockers when a tick cannot make progress. Do not keep retrying the same failure.
 
 ## Owner decisions needed
