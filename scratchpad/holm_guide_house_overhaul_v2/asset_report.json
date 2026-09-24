@@ -1,0 +1,43 @@
+{
+  "status": "v2-candidate-unapproved",
+  "owner": "reviews 5+6 2026-09-24: jettied taller upper storey on posts, many-angled hand-made roof",
+  "keptFromV1": [
+    "ground storey shell and facing",
+    "doors and opening actions",
+    "stair well and flight",
+    "furnishings",
+    "hearth and chimney",
+    "porch",
+    "upper floor walk bands"
+  ],
+  "humanScaleContract": {
+    "doorWidth": 2.0,
+    "doorHeight": 2.3,
+    "upperFloorY": 2.8,
+    "upperStoreyHeight": 3.0
+  },
+  "dimensionsTiles": {
+    "width": 13.820000171661377,
+    "depth": 14.015000343322754,
+    "height": 10.129999607801437
+  },
+  "triangles": 21153,
+  "meshes": [
+    "DoorNorthLeaf",
+    "DoorSouthLeaf",
+    "Gable",
+    "GroundFloor",
+    "GroundFurnishing",
+    "GroundHearth",
+    "GroundShell",
+    "HearthFlame0",
+    "HearthFlame1",
+    "HearthFlame2",
+    "Roof",
+    "StairFlight",
+    "UpperFloor",
+    "UpperFurnishing",
+    "UpperHearth",
+    "UpperShell"
+  ]
+}

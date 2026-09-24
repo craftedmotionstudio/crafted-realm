@@ -46,7 +46,7 @@ let cutaway=0;houseToggle.onclick=()=>{cutaway=(cutaway+1)%3;if(house)house.trav
 let doorMixer,doorActions=[],doorProgress=0,doorTarget=0;
 const doorButton=document.createElement('button');doorButton.textContent='Open house doors';doorButton.disabled=true;document.querySelector('aside').append(doorButton);
 doorButton.onclick=()=>{doorTarget=doorTarget?0:1;doorButton.textContent=doorTarget?'Close house doors':'Open house doors'};
-new GLTFLoader().load('../.studio-workspaces/holm-guide-house-overhaul-v1/candidates/holm_guide_house_overhaul_v1.glb?v=13',g=>{
+new GLTFLoader().load('../.studio-workspaces/holm-guide-house-overhaul-v2/candidates/holm_guide_house_overhaul_v2.glb?v=2',g=>{
  house=g.scene;house.position.set(66-72,3,99-64);house.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});scene.add(house);
  Promise.all([fetch('../docs/rebuild/holm-overhaul/arrival-provisions.json').then(r=>{if(!r.ok)throw Error('Provisions placement unavailable');return r.json()}),
   new GLTFLoader().loadAsync('../.studio-workspaces/holm-provision-rack-v1/candidates/provisions.glb?v=2')]).then(([p,r])=>{
