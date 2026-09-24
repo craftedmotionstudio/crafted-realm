@@ -13,6 +13,16 @@ turns them into one ordered path that ends with a finished island in the **live 
 A work loop reads this file at the start of each tick, picks the first unchecked item, works it to verified
 completion, ticks it with a proof link, and stops only when every item is ticked or a blocker is recorded.
 
+## Owner style direction (2026-09-24)
+
+"We want this like **2004 old school RuneScape** as much as possible." Every visual and feel decision in this goal
+is judged against that era: early RuneScape 2 low-poly models, flat-shaded or small simple textures, chunky readable
+silhouettes, saturated warm greens and browns, simple tree and rock shapes, the 2004 Tutorial Island's compact
+layout of guide buildings, fenced yards and paths. That era also means simple chat-box dialogue, the classic side
+panel, click-to-move on tiles and a 600 ms tick. Our own names, models and layouts only: no ripped assets, maps or
+branded content (see GOAL.md). When a choice is unclear, pick the option closer to that era over a modern or
+high-detail one. This tightens GOAL.md's "stepping into 2007" wording; the owner's 2004 target wins.
+
 ## Where things stand (analysis, 2026-09-24)
 
 **Healthy:** `node tools/test_world_v2.js` passes every lock. `node tools/validate_content.js` passes (238 items,
