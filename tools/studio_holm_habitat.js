@@ -1,6 +1,7 @@
 // Isolated Studio candidate loader. Coordinates and habitat selection belong to the caller.
 export const HABITAT_ASSETS = Object.freeze(['oak', 'birch', 'coastal-pine', 'meadow-tuft', 'creek-reeds']);
-const assetRoot = '../.studio-workspaces/holm-tree-family-v2/candidates/';
+// v3 (owner review 6, 2026-09-24): the oak's limbs now show between separate crowns; other assets unchanged.
+const assetRoot = '../.studio-workspaces/holm-tree-family-v3/candidates/';
 
 export function validatePlacements(placements) {
   if (!Array.isArray(placements)) throw new TypeError('Habitat placements must be an array');

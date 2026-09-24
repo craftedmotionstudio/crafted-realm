@@ -1,6 +1,6 @@
 import {loadLodgePlacement} from './studio_holm_lodge_placement.js?v=1';
 import {loadBakehouseFire} from './studio_holm_bakehouse_fire.js';
-import {buildHolmHabitat} from './studio_holm_habitat.js?v=1';
+import {buildHolmHabitat} from './studio_holm_habitat.js?v=2';
 import {makeSkiffWaterMask} from './studio_holm_water_mask.js?v=1';
 import {buildArrivalLandscape} from './studio_holm_arrival_landscape.js?v=2';
 import {buildArrivalTrail} from './studio_holm_arrival_trail.js?v=3';
