@@ -9,7 +9,7 @@ function world(opts){
   const nodes=[{id:'ground:66,105',x:66.5,z:105.5},{id:'ground:66,103',x:66.5,z:103.5},{id:'ground:61,118',x:61.5,z:118.5}];
   let pose={nodeId:'ground:61,118',moving:false};
   const ctx={
-    Math,Infinity,active:()=>true,Player:{},pending:null,doors:{arrival:false,garden:false},water:null,
+    Math,Infinity,active:()=>true,Player:{},pending:null,doors:{arrival:false,garden:false},water:null,extras:null,island:false,islandData:null,
     player:{position:{x:opts.px,z:opts.pz}},
     graphForDoors:()=>({nodes}),
     bridge:{order:n=>{log.orders.push(n.id);return opts.reachable!==false},setDoors:d=>{log.setDoors.push(d);return true},snapshot:()=>pose},

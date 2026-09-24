@@ -1399,13 +1399,15 @@
       "x": 49,
       "z": 87,
       "orientation": "EW",
-      "label": "Timber teaching bridge"
+      "label": "Timber teaching bridge",
+      "rise": 0.2
     },
     {
       "x": 62,
       "z": 53,
       "orientation": "EW",
-      "label": "Stone village bridge"
+      "label": "Stone village bridge",
+      "rise": 0.3
     }
   ],
   "paths": [

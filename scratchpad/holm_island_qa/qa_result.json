@@ -1,0 +1,119 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "label": "boots the island draft with the composed graph and the Blender buildings, habitat and bridges",
+      "ok": true,
+      "detail": {
+        "provider": "tutors-holm-arrival-qa",
+        "stats": {
+          "nodes": 11653,
+          "edges": 21343,
+          "owners": {
+            "land": 9845,
+            "b:keep": 909,
+            "b:bakehouse": 274,
+            "b:lodge": 462,
+            "arrival": 163
+          }
+        },
+        "roots": 47
+      }
+    },
+    {
+      "label": "walks from the dock across the timber teaching bridge on its deck",
+      "ok": true,
+      "detail": {
+        "deckSamples": 6,
+        "deckY": 1.631
+      }
+    },
+    {
+      "label": "reaches the bakehouse courtyard entrance",
+      "ok": true,
+      "detail": {
+        "reached": {
+          "id": "b:bakehouse:1:1:0",
+          "x": 45.5,
+          "y": 4.140000000000001,
+          "z": 68.5,
+          "surface": "b:bakehouse:0:StagedTerrain"
+        },
+        "at": [
+          45.5,
+          4.14,
+          68.5
+        ]
+      }
+    },
+    {
+      "label": "every step on the way is cardinal",
+      "ok": true,
+      "detail": {
+        "samples": 314,
+        "diagonal": 0
+      }
+    },
+    {
+      "label": "walks on to the Quest Lodge approach",
+      "ok": true,
+      "detail": {
+        "reached": {
+          "id": "b:lodge:0:2:0",
+          "x": 35.5,
+          "y": 5,
+          "z": 53.5,
+          "surface": "b:lodge:0:IslandTerrain"
+        },
+        "at": [
+          35.5,
+          5,
+          53.5
+        ]
+      }
+    },
+    {
+      "label": "crosses the island to the Warden's Keep gate",
+      "ok": true,
+      "detail": {
+        "reached": {
+          "id": "b:keep:1:10:0",
+          "x": 88.5,
+          "y": 8,
+          "z": 45.5,
+          "surface": "b:keep:0:StagedTerrain"
+        },
+        "at": [
+          88.5,
+          8,
+          45.5
+        ],
+        "diagonal": 0
+      }
+    },
+    {
+      "label": "reload restores the island position",
+      "ok": true,
+      "detail": {
+        "before": [
+          88.5,
+          8,
+          45.5
+        ],
+        "after": [
+          88.5,
+          8,
+          45.5
+        ]
+      }
+    },
+    {
+      "label": "zero page errors",
+      "ok": true,
+      "detail": {
+        "pageErrors": []
+      }
+    }
+  ],
+  "seconds": 96
+}

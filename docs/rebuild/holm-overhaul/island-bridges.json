@@ -1,0 +1,72 @@
+{
+ "schema": "holm-island-bridges-v1",
+ "note": "Deck tiles measured from the Sept 13 terrain water mask (HolmIslandNav.bridgeFrom); world tiles; deck lifted rise above the higher bank.",
+ "bridges": [
+  {
+   "id": "timber_teaching_bridge",
+   "label": "Timber teaching bridge",
+   "orientation": "EW",
+   "tiles": [
+    [
+     45,
+     87
+    ],
+    [
+     46,
+     87
+    ],
+    [
+     47,
+     87
+    ]
+   ],
+   "ends": [
+    [
+     44,
+     87
+    ],
+    [
+     48,
+     87
+    ]
+   ],
+   "endY": [
+    1.271,
+    1.431
+   ],
+   "deckY": 1.631,
+   "bedY": 1.061
+  },
+  {
+   "id": "stone_village_bridge",
+   "label": "Stone village bridge",
+   "orientation": "EW",
+   "tiles": [
+    [
+     62,
+     53
+    ],
+    [
+     63,
+     53
+    ]
+   ],
+   "ends": [
+    [
+     61,
+     53
+    ],
+    [
+     64,
+     53
+    ]
+   ],
+   "endY": [
+    3.524,
+    3.412
+   ],
+   "deckY": 3.824,
+   "bedY": 3.118
+  }
+ ]
+}

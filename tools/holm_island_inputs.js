@@ -7,20 +7,7 @@ const Scenery=require('../src/holm_arrival_scenery'),Provision=require('../src/h
 const Terrain=require('../src/holm_overhaul_terrain');
 const TERRAIN='.studio-workspaces/holm-overhaul-terrain-v1/working/assets/world/authoring/holm-overhaul.terrain.bundle.json';
 const TREE_TRUNK={oak:.45,birch:.3,'coastal-pine':.35};
-// bridge deck tiles: scan from the plan's crossing point along its axis over every wet tile to dry land both sides
-function bridgeFrom(terrain,b){
- const W=terrain.width,wet=(x,z)=>terrain.water[z*W+x]!==0,dx=b.orientation==='EW'?1:0,dz=dx?0:1;
- // the plan marks concept crossings; snap along the bridge's own axis to the nearest creek tile (within 4)
- let x=b.x,z=b.z;
- if(!wet(x,z)){const hit=[1,-1,2,-2,3,-3,4,-4].map(o=>[b.x+dx*o,b.z+dz*o]).find(p=>wet(p[0],p[1]));
-  if(!hit)throw Error('bridge '+b.label+' has no creek within 4 tiles along its axis');x=hit[0];z=hit[1]}
- const tiles=[[x,z]];
- for(const s of [-1,1]){let cx=x+dx*s,cz=z+dz*s;while(wet(cx,cz)){tiles.push([cx,cz]);cx+=dx*s;cz+=dz*s}}
- tiles.sort((p,q)=>p[0]-q[0]||p[1]-q[1]);
- const a=tiles[0],c=tiles[tiles.length-1],ends=[[a[0]-dx,a[1]-dz],[c[0]+dx,c[1]+dz]];
- const deckY=Math.max(...ends.map(e=>Terrain.sample(terrain,e[0]+.5,e[1]+.5)));
- return {id:b.label.replace(/\W+/g,'_').toLowerCase(),label:b.label,orientation:b.orientation,tiles,ends,deckY:+deckY.toFixed(3)};
-}
+const bridgeFrom=(t,b)=>require('../src/holm_island_nav').bridgeFrom(t,b);
 function load(){
  const terrain=read(TERRAIN),dock=read('docs/rebuild/holm-overhaul/arrival-dock.json');
  const base={layout:read('docs/rebuild/holm-overhaul/arrival-layout.json'),envelopes:read('docs/rebuild/holm-overhaul/guide-house-collision-envelopes.json'),terrain,

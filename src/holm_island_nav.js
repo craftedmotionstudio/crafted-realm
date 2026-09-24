@@ -128,6 +128,32 @@ var HolmIslandNav=(function(){
   function stats(doors){var g=compile(doors),e=0;Object.keys(g.links).forEach(function(k){e+=g.links[k].length});var own={};g.nodes.forEach(function(n){own[n.owner]=(own[n.owner]||0)+1});return {nodes:g.nodes.length,edges:e/2,owners:own}}
   return {compile:compile,route:route,support:support,point:point,edge:edge,stats:stats,height:function(x,z){return sample(x,z)}};
  }
- return {create:create,LAND_STEP:LAND_STEP,SEAM_STEP:SEAM_STEP};
+ // A plan crossing (concept x/z + orientation) becomes deck tiles: snap along its axis to the nearest creek tile
+ // (within 4), span every wet tile to dry land both sides; the deck sits b.rise (default .2) above the higher bank.
+ function bridgeFrom(T,b){
+  var W=T.width,wet=function(x,z){return T.water[z*W+x]!==0},dx=b.orientation==='EW'?1:0,dz=dx?0:1,x=b.x,z=b.z;
+  if(!wet(x,z)){var hit=[1,-1,2,-2,3,-3,4,-4].map(function(o){return [b.x+dx*o,b.z+dz*o]}).filter(function(p){return wet(p[0],p[1])})[0];
+   need(hit,'bridge '+b.label+' has no creek within 4 tiles along its axis');x=hit[0];z=hit[1]}
+  var tiles=[[x,z]];
+  [-1,1].forEach(function(s){var cx=x+dx*s,cz=z+dz*s;while(wet(cx,cz)){tiles.push([cx,cz]);cx+=dx*s;cz+=dz*s}});
+  tiles.sort(function(p,q){return p[0]-q[0]||p[1]-q[1]});
+  var a=tiles[0],c=tiles[tiles.length-1],ends=[[a[0]-dx,a[1]-dz],[c[0]+dx,c[1]+dz]];
+  var endY=ends.map(function(e){return +Terrain.sample(T,e[0]+.5,e[1]+.5).toFixed(3)});
+  return {id:b.label.replace(/\W+/g,'_').toLowerCase(),label:b.label,orientation:b.orientation,tiles:tiles,ends:ends,endY:endY,deckY:+(Math.max(endY[0],endY[1])+(Number.isFinite(b.rise)?b.rise:.2)).toFixed(3)};   // lifted clear of the water, within one seam step of both banks
+ }
+ // Island stance checkpoints (the arrival checkpoint only knows its own graph and five surfaces): a settled node
+ // of the composed graph, its exact stance, and a strict revision.
+ var CHECKPOINT='holm-island-checkpoint-v1';
+ function nodeOf(graph,id){need(graph&&graph.schema==='holm-island-graph-v1'&&graph.byId,'invalid island graph');need(typeof id==='string'&&graph.byId[id],'unknown node');return graph.byId[id]}
+ function encodeCheckpoint(graph,nodeId,revision){
+  need(typeof revision==='string'&&revision.length>0,'invalid revision');var n=nodeOf(graph,nodeId);
+  return {schema:CHECKPOINT,version:1,revision:revision,nodeId:n.id,surface:n.surface,x:n.x,y:n.y,z:n.z};
+ }
+ function restoreCheckpoint(graph,record,revision){
+  need(record&&record.schema===CHECKPOINT&&record.version===1,'invalid checkpoint schema/version');need(record.revision===revision,'stale checkpoint revision');
+  var n=nodeOf(graph,record.nodeId);need(record.surface===n.surface&&Math.abs(record.x-n.x)<1e-9&&Math.abs(record.y-n.y)<1e-9&&Math.abs(record.z-n.z)<1e-9,'checkpoint stance mismatch');
+  return n;
+ }
+ return {create:create,bridgeFrom:bridgeFrom,encodeCheckpoint:encodeCheckpoint,restoreCheckpoint:restoreCheckpoint,LAND_STEP:LAND_STEP,SEAM_STEP:SEAM_STEP};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandNav;

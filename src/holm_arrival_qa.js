@@ -2,8 +2,11 @@
  * never publishes it or selects it for ordinary adventurers. */
 var HolmArrivalQA=(function(){
  'use strict';
- var requested=new URLSearchParams(location.search).get('arrivalQA')==='1',loaded=null,provider=null,owner=null,bridge=null,pending=null;
- var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null;
+ var qs=new URLSearchParams(location.search),island=qs.get('holmIsland')==='1',requested=qs.get('arrivalQA')==='1'||island,loaded=null,provider=null,owner=null,bridge=null,pending=null;
+ var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null;
+ // ?holmIsland=1 (M4.1): the same provider over the whole Sept 13 island: the arrival graph composed with the
+ // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
+ function revision(){return island?'holm-island-v1':loaded.package.navigation.graphRevision}
  // v4 (2026-09-24, M3R): guide house v2, branching oak, Lantern Keeper statue, trunk-footprint tree blockers
  var ID='tutors-holm-arrival-qa',EXPORT='8d488d326998f957';
  function active(){return !!provider&&CRWorldMode.providerId===ID}
@@ -16,13 +19,23 @@ var HolmArrivalQA=(function(){
   nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
   var pack=loaded.package,chunks=JSON.parse(JSON.stringify(pack.terrain.chunks)),b=loaded.documents.layout.building,s=spawn();
   chunks.forEach(function(c){c.layers.terrain.exclusions=[{x:b.world.x-b.width/2,z:b.world.z-b.depth/2,w:b.width,d:b.depth}]});
-  provider=WorldV2.register({contractVersion:1,id:ID,label:'Tutor’s Holm · arrival draft',worldRevision:pack.provider.worldRevision,
+  islandData=null;
+  if(island){   // compose before registration, so a saved island position restores onto the full graph
+   islandData=await HolmIslandExtras.loadData();
+   var bw=b.world,scenic=loaded.documents.envelopes.blockers.filter(function(q){return q.surface==='exterior'&&/^Blender declared/.test(q.source||'')}).map(function(q){return {id:q.id,x0:q.x0+bw.x,x1:q.x1+bw.x,z0:q.z0+bw.z,z1:q.z1+bw.z}});
+   nav=HolmIslandNav.create({terrain:loaded.documents.terrain,arrival:nav,buildings:islandData.buildings,blockers:scenic.concat(islandData.blockers),bridges:islandData.bridges,
+    arrivalFootprints:[{x0:bw.x-b.width/2,x1:bw.x+b.width/2,z0:bw.z-b.depth/2,z1:bw.z+b.depth/2}]});graphs={};
+  }
+  provider=WorldV2.register({contractVersion:1,id:ID,label:island?'Tutor\u2019s Holm \u00b7 island draft':'Tutor’s Holm · arrival draft',worldRevision:pack.provider.worldRevision,
    initialRect:{x0:0,z0:0,w:144,h:128},residentRadius:4,renderStrategy:'holm-overhaul-sampled',defaultLandmark:'holm_arrival',
    landmarks:{holm_arrival:{id:'holm_arrival',label:'Arrival landing',x:s.x,z:s.z}},chunks:chunks,
    hooks:{
     buildTerrain:async function(p){
      WorldV2Terrain.init(p);p.updateResidency(s.x,s.z,true);
      owner=await HolmArrivalModelOwner.create({THREE:THREE,scene:scene,WORLD:WORLD,loaded:loaded});owner.setDoors(doors);
+     if(island){
+      extras=await HolmIslandExtras.load({THREE:THREE,scene:scene,WORLD:WORLD,data:islandData,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}});
+     }
      water=HolmArrivalWater.create(THREE,loaded.documents.terrain.creek);scene.add(water.group);
      trail=HolmArrivalTrail.create(THREE,loaded.documents.layout,HolmArrivalTrail.terrainSampler(loaded.documents.terrain));
      trail.userData={kind:"arrival_surface",arrivalSurface:"exterior"};scene.add(trail);WORLD.grounds.push(trail);WORLD.clickables.push(trail);
@@ -32,7 +45,7 @@ var HolmArrivalQA=(function(){
      for(const d of pack.navigation.doors){var leaf=owner.house.getObjectByName(d.leafPart);if(leaf){leaf.userData.kind='arrival_door';leaf.userData.arrivalDoor=d.id;leaf.userData.label='Open / close door';if(WORLD.clickables.indexOf(leaf)<0)WORLD.clickables.push(leaf)}}
     },populate:function(){},chartCollision:function(){},
     loadChunk:function(c,p){return WorldV2Terrain.loadChunk(c,p)},unloadChunk:function(h){WorldV2Terrain.unloadChunk(h)},
-    dispose:function(){HolmArrivalPlayer.detach();if(owner)owner.dispose();if(water)water.dispose();if(trail){scene.remove(trail);[WORLD.grounds,WORLD.clickables].forEach(function(a){var i=a.indexOf(trail);if(i>=0)a.splice(i,1)});trail.geometry.dispose();trail.material.dispose();trail=null;}if(chart){scene.remove(chart);var i=WORLD.clickables.indexOf(chart);if(i>=0)WORLD.clickables.splice(i,1);chart.geometry.dispose();chart.material.dispose()}WorldV2Terrain.dispose()},
+    dispose:function(){HolmArrivalPlayer.detach();if(extras){extras.dispose();extras=null}if(owner)owner.dispose();if(water)water.dispose();if(trail){scene.remove(trail);[WORLD.grounds,WORLD.clickables].forEach(function(a){var i=a.indexOf(trail);if(i>=0)a.splice(i,1)});trail.geometry.dispose();trail.material.dispose();trail=null;}if(chart){scene.remove(chart);var i=WORLD.clickables.indexOf(chart);if(i>=0)WORLD.clickables.splice(i,1);chart.geometry.dispose();chart.material.dispose()}WorldV2Terrain.dispose()},
     snapshot:function(){return {arrivalDraft:true,terrain:WorldV2Terrain.snapshot(),pose:bridge?bridge.snapshot():null,doors:doors}}
    }});
   WorldV2.activate(ID);CRWorldMode.attachProvider(provider);return provider;
@@ -41,13 +54,14 @@ var HolmArrivalQA=(function(){
   if(!active()||x<0||z<0||x>144||z>128)return null;
   // Ground queries never return the upper floor. Actual traversal uses explicit surfaces.
   var d=nav.support('dock',x,z,doors);if(d)return d.y;
+  if(island){var k=nav.support('deck',x,z,doors);if(k)return k.y}
   return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z);
  }
  function bindPlayer(record){
   if(!active())return;
   var node=spawn(),graph=graphForDoors(doors);
-  if(record&&(record.revision===loaded.package.navigation.graphRevision||(loaded.package.navigation.compatibleGraphRevisions||[]).indexOf(record.revision)>=0)){
-   try{node=HolmArrivalCheckpoint.restore(graph,record,record.revision)}catch(e){UI.chat('The arrival draft changed; restored at the landing.','sys')}
+  if(record&&(record.revision===revision()||(loaded.package.navigation.compatibleGraphRevisions||[]).indexOf(record.revision)>=0)){
+   try{node=island?HolmIslandNav.restoreCheckpoint(graph,record,record.revision):HolmArrivalCheckpoint.restore(graph,record,record.revision)}catch(e){UI.chat('The arrival draft changed; restored at the landing.','sys')}
   }
   HolmArrivalPlayer.detach();player.position.set(node.x,node.y,node.z);Player.plane=0;Player.path=[];Player.moveTo=null;
   provider.updateResidency(node.x,node.z,true);
@@ -56,7 +70,7 @@ var HolmArrivalQA=(function(){
  function saveRecord(){
   if(!active()||!bridge)return null;var pose=bridge.snapshot();
   if(!pose.nodeId)return null;
-  var record=HolmArrivalCheckpoint.encode(graphForDoors(doors),pose.nodeId,loaded.package.navigation.graphRevision);record.doors={arrival:doors.arrival,garden:doors.garden};return record;
+  var record=(island?HolmIslandNav.encodeCheckpoint:HolmArrivalCheckpoint.encode)(graphForDoors(doors),pose.nodeId,revision());record.doors={arrival:doors.arrival,garden:doors.garden};return record;
  }
  function restore(record){
   if(!active())return;
@@ -98,7 +112,7 @@ var HolmArrivalQA=(function(){
    var id=service.stanceNodeIds[0],node=graphForDoors(doors).nodes.find(function(n){return n.id===id});
    if(node&&bridge.order(node))pending={id:id,kind:service.kind};return true;
   }
-  if(u.arrivalSurface||isGroundName(obj.name)){
+  if(u.arrivalSurface||u.islandGround||isGroundName(obj.name)){
    var p={x:point.x,y:point.y,z:point.z};if(u.arrivalSurface)p.surface=u.arrivalSurface;
    if(!bridge.order(p)){
     var porch=HolmArrivalPorchTarget.resolve({point:p,layout:loaded.documents.layout,graph:graphForDoors(doors)});
@@ -108,9 +122,18 @@ var HolmArrivalQA=(function(){
   return false;
  }
  function update(dt){
-  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();owner.update(dt,pose.surface);
+  if(!active()||!bridge||!owner)return;if(water)water.update(dt);if(extras)extras.update(dt);var pose=bridge.snapshot();owner.update(dt,pose.surface);
   if(pending&&pose.nodeId===pending.id&&!pose.moving){var kind=pending.kind,door=pending.door;pending=null;
    if(kind==='door')toggleDoor(door);else if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
  }
- return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update};
+ // QA only (read-only): the planned island route from the player's node to a building's measured target, so a
+ // real-pointer driver can click reachable tiles along it. Never moves the player.
+ function qaRoute(buildingId,targetId){
+  if(!active()||!island||!islandData||!bridge)return null;var b=islandData.buildings.filter(function(x){return x.id===buildingId})[0];if(!b)return null;
+  var t=b.graph.targets.filter(function(x){return x.id===targetId})[0];if(!t)return null;
+  var g=graphForDoors(doors),from=bridge.snapshot().nodeId,r=from&&nav.route(g,from,'b:'+buildingId+':'+t.nodeId);
+  return r?r.map(function(id){var n=g.byId[id];return {id:id,x:n.x,y:n.y,z:n.z,surface:n.surface}}):null;
+ }
+ return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,
+  islandStats:function(){return island&&nav&&nav.stats?nav.stats(doors):null}};
 })();

@@ -62,4 +62,10 @@ check('the arrival follower walks the composed graph from the dock to the bakeho
  assert(f.order(goal));let s,guard=0;do{s=f.update(.25);guard++}while(s.moving&&guard<4000);
  assert.strictEqual(s.nodeId,goal);assert(Math.abs(s.y-g.byId[goal].y)<1e-6);
 });
+check('island checkpoints round-trip any settled node and refuse a stale revision or a moved stance',()=>{
+ const n=g.nodes.find(x=>x.owner==='b:keep'),rec=Nav.encodeCheckpoint(g,n.id,'holm-island-v1');
+ assert.strictEqual(Nav.restoreCheckpoint(g,rec,'holm-island-v1').id,n.id);
+ assert.throws(()=>Nav.restoreCheckpoint(g,rec,'holm-island-v2'),/stale/);
+ assert.throws(()=>Nav.restoreCheckpoint(g,{...rec,y:rec.y+1},'holm-island-v1'),/mismatch/);
+});
 console.log('[HOLM_ISLAND_NAV] '+passed+'/'+passed+' checks passed; '+JSON.stringify(nav.stats(open)));

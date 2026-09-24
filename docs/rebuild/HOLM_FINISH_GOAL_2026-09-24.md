@@ -229,10 +229,19 @@ Finding (read-only survey): the arrival draft walks a hand-built 165-node graph 
 only; the Sept 13 keep (909 stances), bakehouse (281) and lodge (494, incl. terrain patch) carry Blender-measured
 stance graphs with their own terrain patches; nothing composes them, and the old live island binds its lessons to
 old coordinates on the grid pathfinder. Bundles, in order:
-- [ ] **M4.1 Island navigation composer + island provider** (`?holmIsland=1`, isolated qaProfile): one graph over
+- [x] **M4.1 Island navigation composer + island provider** (`?holmIsland=1`, isolated qaProfile): one graph over
       every dry tile of the 144x128 Sept 13 terrain, with the arrival house graph and the Blender building graphs
       joined in at their terrain seams, tree/statue footprints refused, water refused; the arrival follower drives
       it. Proof: headless composer tests + real-pointer walk from the dock across the island.
+      2026-09-24: `src/holm_island_nav.js` (11,653 nodes: 9,845 land + keep 909 + bakehouse 274 + lodge 462 +
+      arrival 163), `src/holm_island_extras.js` (Blender keep/bakehouse/lodge bound to their graphs by model hash,
+      tree-family-v3 habitat, bridges), island mode in `HolmArrivalQA` with its own checkpoint format. New Blender
+      crossings `build_holm_island_bridges_v1.py` (timber teaching bridge, arched stone village bridge) on deck
+      tiles measured from the water mask (`island-bridges.json`). Fixed: Blender patches let you wade the creek
+      bed; corner-planted trunks blocked nothing; arrival checkpoints could not save island stances.
+      `test_holm_island_nav.js` 10/10; `qa_holm_island.js` PASS 8/8 real pointer (dock over the timber deck to the
+      bakehouse courtyard, lodge approach, keep gate, cardinal throughout, reload restores, 0 errors).
+      Open owner question: the Sept 13 creek rises inland, so its head can be walked round (bridge saves 80 steps).
 - [ ] **M4.2 Keep, bakehouse, Quest Lodge in the island provider** with their doors and services (bread, quest
       board) on graph stances.
 - [ ] **M4.3 Approved-look pass on those three in Blender** (jetties/half-hips/timber detail where it fits, gray

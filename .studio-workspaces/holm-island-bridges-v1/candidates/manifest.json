@@ -1,0 +1,25 @@
+{
+ "schema": "holm-island-bridges-models-v1",
+ "bridges": [
+  {
+   "id": "timber_teaching_bridge",
+   "file": "timber_teaching_bridge.glb",
+   "centre": [
+    46.5,
+    0,
+    87.5
+   ],
+   "triangles": 1080
+  },
+  {
+   "id": "stone_village_bridge",
+   "file": "stone_village_bridge.glb",
+   "centre": [
+    63.0,
+    0,
+    53.5
+   ],
+   "triangles": 2010
+  }
+ ]
+}
