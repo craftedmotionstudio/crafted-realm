@@ -140,6 +140,9 @@ var HolmTileHouse=(function(){
       rooms:s.rooms.map(function(r){return {id:r.id,level:r.level,x:r.x,z:r.z,w:r.w,d:r.d};}),
       edges:list.sort(function(a,b){return a.level-b.level||a.z-b.z||a.x-b.x||(a.side<b.side?-1:a.side>b.side?1:0);}),
       stairs:stairs,roofs:JSON.parse(JSON.stringify(s.roofs||[])),furniture:furniture,roofMaterial:s.roofMaterial==='thatch'?'thatch':'slate',
+      upperH:finite(s.upperH)&&s.upperH>=2&&s.upperH<=5?s.upperH:null,upperStyle:s.upperStyle==='timber'?'timber':'stone',
+      jetty:s.jetty&&Array.isArray(s.jetty.sides)&&finite(s.jetty.out)&&s.jetty.out>0&&s.jetty.out<=.8?
+        {sides:s.jetty.sides.filter(function(x){return x in SIDES;}),out:s.jetty.out}:null,
       stats:{tiles:Object.keys(tiles).length,walls:list.filter(function(e){return e.kind==='wall';}).length,
         doors:list.filter(function(e){return e.kind==='door';}).length,windows:list.filter(function(e){return e.kind==='window';}).length,
         levels:levels.length}};
@@ -151,7 +154,7 @@ var HolmTileHouse=(function(){
   // Grey stone under grey slate, as the Bible reference's tutorial house (self-review 2026-09-24; the first
   // cream-plaster / terracotta pass read as a different game). wall/base/roof colours live in the textures.
   var DEFAULT_PALETTE={wall:'#aaa69c',base:'#817d74',timber:'#5e4127',roof:'#80848a',roofEdge:'#5e6167',
-    floor:'#6f5134',upperFloor:'#6a4d31',frame:'#6e5226',glass:'#a8843c',door:'#6b4a2b'};   // wooden shutters, not dark glass
+    floor:'#6f5134',upperFloor:'#6a4d31',plaster:'#e2dac2',frame:'#6e5226',glass:'#a8843c',door:'#6b4a2b'};   // wooden shutters, not dark glass
   var T_WALL=.16;   // review 2: the references' walls are thin
 
   /* Our own low-res patterns, drawn once on a 64px canvas (one texture tile = one world unit):
@@ -211,6 +214,11 @@ var HolmTileHouse=(function(){
       return (mats[name]=new THREE.MeshLambertMaterial({color:tex?'#ffffff':palette[name],map:tex,flatShading:true}));
     }
     var ox=p.origin[0],oz=p.origin[1],H=p.storeyH;
+    // Owner review 5: the reference house is designed - a taller upper storey that overhangs (a jetty) on
+    // timber posts and brackets, framed in timber over plaster. Walking still follows the original wall
+    // lines; the jetty is a visual overhang only.
+    var UH=p.upperH||H,JET=p.jetty||null,TIMBER=p.upperStyle==='timber';
+    function jetOut(side){return JET&&JET.sides.indexOf(side)>=0?JET.out:0;}
     var root=new THREE.Group();root.name='tile-house-'+p.id;
     var ground=new THREE.Group(),upper=new THREE.Group(),roof=new THREE.Group();
     ground.name='ground';upper.name='storey2';roof.name='roof';root.add(ground,upper,roof);
@@ -228,6 +236,10 @@ var HolmTileHouse=(function(){
       // named 'ground' so a click on the floor walks there; plane-tagged so each storey picks only its own floor
       var slab=box(r.level?upper:ground,r.w,.12,r.d,cx,y-.04,cz,r.level?'upperFloor':'floor');
       slab.name='ground';slab.userData.plane=r.level;floorMeshes.push(slab);
+      if(r.level===1&&JET){   // the jetty's floor overhang, visual only (the walkable floor stays inside the walls)
+        var jw=jetOut('W'),je=jetOut('E'),jn=jetOut('N'),js=jetOut('S');
+        box(upper,r.w+jw+je,.16,r.d+jn+js,cx+(je-jw)/2,y-.12,cz+(js-jn)/2,'timber');
+      }
       if(r.level===1) floors.push({plane:1,x:cx,z:cz,hw:r.w/2-.02,hd:r.d/2-.02,y:y+.02});
     });
 
@@ -241,11 +253,21 @@ var HolmTileHouse=(function(){
       // still bakes it as a wall on this edge and the walker cannot slide through it
       var col=horiz?{type:'rect',x:ex,z:ez,hw:.5,hd:.05}:{type:'rect',x:ex,z:ez,hw:.05,hd:.5};
       if(e.level)col.plane=1;
+      // upper storey: its own height, pushed out on jetty sides (after the collider, which stays on the tile edge)
+      var hgt=e.level?UH:H,jo=(e.level===1&&e.exterior)?jetOut(e.side):0,wallMat=(e.level===1&&TIMBER)?'plaster':'wall';
+      if(jo){var nn=SIDES[e.side];ex+=nn[0]*jo;ez+=nn[1]*jo;}
+      if(e.level===1&&TIMBER&&e.exterior){   // timber frame: a stud at each tile, rails at sill and head
+        var sx=horiz?ex-.5:ex,sz=horiz?ez:ez-.5;
+        box(parent,horiz?.14:.2,hgt,horiz?.2:.14,sx,y0+hgt/2,sz,'timber');
+        [.06,.88,hgt-.08].forEach(function(ry){box(parent,horiz?1.02:.19,.12,horiz?.19:1.02,ex,y0+ry,ez,'timber');});
+      }
       if(e.kind==='wall'){
-        segment(.35,y0+.175,'base');segment(H-.35,y0+.35+(H-.35)/2,'wall');colliders.push(col);
+        if(e.level===1&&TIMBER)segment(hgt,y0+hgt/2,wallMat);
+        else{segment(.35,y0+.175,'base');segment(hgt-.35,y0+.35+(hgt-.35)/2,wallMat);}
+        colliders.push(col);
       }else if(e.kind==='window'){
-        segment(.35,y0+.175,'base');segment(.55,y0+.35+.275,'wall');                 // sill wall
-        segment(H-1.75,y0+1.75+(H-1.75)/2,'wall');                                  // lintel wall
+        segment(.35,y0+.175,e.level===1&&TIMBER?wallMat:'base');segment(.55,y0+.35+.275,wallMat);   // sill wall
+        segment(hgt-1.75,y0+1.75+(hgt-1.75)/2,wallMat);                                              // lintel wall
         var fw=horiz?.9:.3,fd=horiz?.3:.9;box(parent,fw,.85,fd,ex,y0+1.32,ez,'frame');
         box(parent,horiz?.72:.3,.68,horiz?.3:.72,ex,y0+1.32,ez,'glass');                 // wooden shutters
         box(parent,horiz?.05:.32,.7,horiz?.32:.05,ex,y0+1.32,ez,'frame');                // centre stile between the leaves
@@ -282,14 +304,34 @@ var HolmTileHouse=(function(){
         var horiz=(e.side==='N'||e.side==='S'),ez=e.z+(e.side==='S'?1:0),ex=e.x+(e.side==='E'?1:0);
         return horiz?(ez===q[1]&&(e.x===q[0]||e.x+1===q[0])):(ex===q[0]&&(e.z===q[1]||e.z+1===q[1]));});
       var h=touching.some(function(e){return e.side==='N'||e.side==='S';}),v=touching.some(function(e){return e.side==='E'||e.side==='W';});
-      if(h&&v)box(l?upper:ground,.24,H,.24,ox+q[0],levelY(l)+H/2,oz+q[1],'base');   // dressed stone quoins
+      if(!(h&&v))return;
+      if(l===1){   // upper corner: moved out with the jetty on each side meeting there, timber over a taller storey
+        var hs=touching.filter(function(e){return e.side==='N'||e.side==='S';})[0].side,vs=touching.filter(function(e){return e.side==='E'||e.side==='W';})[0].side;
+        var cxq=ox+q[0]+SIDES[vs][0]*jetOut(vs),czq=oz+q[1]+SIDES[hs][1]*jetOut(hs);
+        box(upper,.26,UH,.26,cxq,levelY(1)+UH/2,czq,TIMBER?'timber':'base');
+      }else box(ground,.24,H,.24,ox+q[0],levelY(0)+H/2,oz+q[1],'base');   // dressed stone quoins
+    });
+
+    // Jetty supports: under every overhanging side a beam at the floor line, an angled bracket from the wall
+    // at each tile, and timber pillars to the ground at the ends of the run and every second tile.
+    if(JET)p.edges.filter(function(e){return e.level===1&&e.exterior&&jetOut(e.side)>0;}).forEach(function(e){
+      var jo=jetOut(e.side),n=SIDES[e.side],horiz=(e.side==='N'||e.side==='S');
+      var wx=ox+e.x+(e.side==='E'?1:e.side==='W'?0:.5),wz=oz+e.z+(e.side==='S'?1:e.side==='N'?0:.5),yb=p.floorY+H;
+      box(ground,horiz?1.02:.22,.22,horiz?.22:1.02,wx+n[0]*jo,yb-.18,wz+n[1]*jo,'timber');                // beam
+      var br=box(ground,horiz?.12:jo*1.5,.12,horiz?jo*1.5:.12,wx+n[0]*jo*.5,yb-.55,wz+n[1]*jo*.5,'timber');   // bracket
+      if(horiz)br.rotation.x=(e.side==='S'?1:-1)*.75;else br.rotation.z=(e.side==='E'?-1:1)*.75;
+      var run=horiz?e.x:e.z;
+      if(run%2===0){var px=horiz?wx-.5:wx,pz=horiz?wz:wz-.5;
+        box(ground,.2,H,.2,px+n[0]*(jo+.02),p.floorY+H/2,pz+n[1]*(jo+.02),'timber');}             // pillar
     });
 
     // roofs: gable = two slopes + two gable ends, hip = four slopes; overhang .3
     p.roofs.forEach(function(r){
       // eaves sit on the tallest storey under this roof: a single-storey wing keeps a low roof
       var twoStorey=p.rooms.some(function(q){return q.level===1&&q.x<r.x+r.w&&q.x+q.w>r.x&&q.z<r.z+r.d&&q.z+q.d>r.z;});
-      var top=p.floorY+H*(twoStorey?2:1),o=.3,x0=ox+r.x-o,x1=ox+r.x+r.w+o,z0=oz+r.z-o,z1=oz+r.z+r.d+o,cx=(x0+x1)/2,cz=(z0+z1)/2,ry=top+r.rise;
+      // eaves on the (taller) upper storey, and over a jettied storey the roof reaches out with it
+      var jw=twoStorey?jetOut('W'):0,je=twoStorey?jetOut('E'):0,jn=twoStorey?jetOut('N'):0,js=twoStorey?jetOut('S'):0;
+      var top=p.floorY+H+(twoStorey?UH:0),o=.3,x0=ox+r.x-o-jw,x1=ox+r.x+r.w+o+je,z0=oz+r.z-o-jn,z1=oz+r.z+r.d+o+js,cx=(x0+x1)/2,cz=(z0+z1)/2,ry=top+r.rise;
       var pos=[];function tri(a,b,c){pos.push(a[0],a[1],a[2],b[0],b[1],b[2],c[0],c[1],c[2]);}
       var A=[x0,top,z0],B=[x1,top,z0],C=[x1,top,z1],D=[x0,top,z1];
       if(r.kind==='gable'){

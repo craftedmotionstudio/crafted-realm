@@ -1,7 +1,7 @@
 {
  "schema": "holm-tile-house-v1",
  "id": "guide_house",
- "notes": "Step 3 guide house, 2004 style: a two-storey hall with a loft, a lower study wing through an arch, one front door facing the landing path. Local tiles; origin is the world tile of local 0,0.",
+ "notes": "Guide house: stone ground floor with a taller timber-framed upper storey jettied out over the south, west and north walls on posts and brackets (owner review 5), a lower study wing through an arch, thatch roof.",
  "origin": [
   60,
   94
@@ -310,5 +310,15 @@
    "ridge": "z",
    "rise": 1.3
   }
- ]
+ ],
+ "upperH": 2.6,
+ "upperStyle": "timber",
+ "jetty": {
+  "sides": [
+   "S",
+   "W",
+   "N"
+  ],
+  "out": 0.45
+ }
 }

@@ -173,7 +173,9 @@ comes from the owner and cannot be replaced by a self-assigned score.**
       tiles with a coast-to-coast creek (test: guide -> kitchen unreachable without the bridge); new bridge site
       at z97-98. Bridge decks are now clickable (clicks used to fall through to the creek bed). Slice gate 13/13.
       Known: beach sand blends into grass (2004 blending); mine -> keep is 126 steps round by the bridge (step 4:
-      cave passage under the creek). **Awaiting owner review 2.**
+      cave passage under the creek). Owner reviews 2-5: "still off" / "close" / "still off, more detail".
+      Pass 6 (review 5): per-tile palette shading, irregular coast, jettied timber upper storey on posts, an
+      original statue on the plaza, rebuilt pines/oaks/rowboat/ferns. **Awaiting owner review 6.**
 
 ### M4 — The rest of the island
 - [ ] Place the bakehouse, quest lodge and keep candidates on the compiled terrain with services bound to their

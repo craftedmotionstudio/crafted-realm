@@ -3844,3 +3844,16 @@ length (slight medium-length read in 3/4).
 - Round cobble plaza before the guide house; five meadow dells; taller coastal hills for sea cliffs.
 - Oaks and pines scaled 1.3-1.55 so they fill the view like the references (collider stays one tile).
 - Gates: world-v2 all locks, terrain 10/10, slice 13/13, route 20/20, smoke both phases. Awaiting review 5.
+
+## 2026-09-24 - Step 3 look pass 6 (owner review 5: "more detail, everything designed with a purpose")
+- Ground: each tile gets its own shade from a palette step (plus slight hue/saturation jitter) over the 2004
+  blend, so the squares show like the references. Still unlit with baked light (a lit try washed it out).
+- Island: 105-point irregular coast with coves and headlands in place of the square outline.
+- Guide house: taller timber-framed plaster upper storey jettied out over S/W/N on a beam, brackets and
+  timber posts to the ground; the roof widens to cover it.
+- New original statue: the Lantern Keeper on a three-step plinth with a bronze plaque and a glowing lantern,
+  on the cobble plaza (69,102), clear of the door path.
+- Pines rebuilt (five ragged drooping tiers), oaks detailed (root flares, bark, limbs, 8 clusters), shaped
+  clinker rowboat with thwarts, oars, rope coil and stake, fern fronds.
+- Gates: world-v2 all locks, content, terrain 10/10, bundle check, tile house 8/8, slice 13/13, route 20/20,
+  smoke PASS. Awaiting owner review 6.

@@ -17,6 +17,7 @@ var HolmV3Render=(function(){
   var OVERLAY=[null,'#7a5a33','#7f7c73','#bba767'];   // none, dirt, cobble, sand
   var WATER='#7e92ae';   // the references' calm pale blue-grey (unlit, so the scene sun cannot wash it white)
 
+  function tileRnd(x,z,k){ var s=Math.sin(x*127.1+z*311.7+k*74.7)*43758.5453; return s-Math.floor(s); }
   function jitter(x,z){ var s=Math.sin(x*12.9898+z*78.233)*43758.5453; return (s-Math.floor(s))*.08-.04; }
   function colour(THREE,hex,x,z,shade){ var c=new THREE.Color(hex); return c.multiplyScalar(1+jitter(x,z)+(shade||0)); }
 
@@ -30,14 +31,17 @@ var HolmV3Render=(function(){
       var tri=[0,2,1,1,2,3];
       // alternate the split diagonal so slopes do not stripe in one direction
       if((tx+tz)&1) tri=[0,2,3,0,3,1];
-      // a tiny per-tile lightness wobble, as the old client's random offsets gave fields some life
-      var wob=jitter(tx,tz)*.35;
-      for(var k=0;k<6;k++){
-        var c=corners[tri[k]],j=c[1]*stride+c[0],f=v.light[j]/128;pos.push(c[0],h(c[0],c[1]),c[1]);
-        if(ov){var o=OVERLAY_HSL[ov];c3.setHSL(o[0],o[1],Math.max(0,Math.min(1,o[2]*f*(1+wob))));}
-        else c3.setHSL(v.hue[j],v.sat[j],Math.max(0,Math.min(1,v.lit[j]*f*(1+wob*.5))));
-        col.push(c3.r,c3.g,c3.b);
-      }
+      // Owner review 5: "every tile is different ... I want to see the squares". Each tile takes ONE shade from
+      // a small palette (hue, saturation and lightness steps picked per tile), lit once at its centre, so tiles
+      // read as distinct squares like the references instead of a smooth blend.
+      var ci=tz*stride+tx,cj=[ci,ci+1,ci+stride,ci+stride+1];
+      var th=(v.hue[cj[0]]+v.hue[cj[1]]+v.hue[cj[2]]+v.hue[cj[3]])/4,ts=(v.sat[cj[0]]+v.sat[cj[1]]+v.sat[cj[2]]+v.sat[cj[3]])/4;
+      var tl=(v.lit[cj[0]]+v.lit[cj[1]]+v.lit[cj[2]]+v.lit[cj[3]])/4,tf=(v.light[cj[0]]+v.light[cj[1]]+v.light[cj[2]]+v.light[cj[3]])/512;
+      var r1=tileRnd(tx,tz,1),r2=tileRnd(tx,tz,2),r3=tileRnd(tx,tz,3);
+      var step=[-.085,-.045,-.015,0,.02,.05,.08][Math.floor(r1*7)];        // lightness palette steps
+      if(ov){var o=OVERLAY_HSL[ov];c3.setHSL(o[0]+(r2-.5)*.02,o[1]*(.85+r3*.3),Math.max(0,Math.min(1,(o[2]+step*.8)*tf)));}
+      else c3.setHSL(th+(r2-.5)*.035,Math.min(1,ts*(.82+r3*.36)),Math.max(0,Math.min(1,(tl+step)*tf)));
+      for(var k=0;k<6;k++){var c=corners[tri[k]];pos.push(c[0],h(c[0],c[1]),c[1]);col.push(c3.r,c3.g,c3.b);}
     }
     var g=new THREE.BufferGeometry();
     g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
@@ -47,7 +51,9 @@ var HolmV3Render=(function(){
     return mesh;
   }
 
-  function terrainMaterial(THREE){ return new THREE.MeshBasicMaterial({vertexColors:true}); }   // light is baked (2004)
+  // Light is fully baked into each tile's colour (as the 2004 client does), so the material is unlit: a real
+  // light on top double-lit the ground and washed it out yellow.
+  function terrainMaterial(THREE){ return new THREE.MeshBasicMaterial({vertexColors:true}); }
 
   /* ---- the 2004 terrain model (studied from the RS2 client's scene builder; our own implementation) ----
    * 1. Ground colours are HSL and blended over an 11x11 tile box, giving broad soft colour fields.
