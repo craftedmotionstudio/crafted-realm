@@ -156,7 +156,9 @@ may be reused only behind Sept 13 visuals. Items M2/M3 below record what was don
       cardinal steps, far door click walks and opens, inside with roof cut away, stair to the upper floor and
       back out, statue tiles refused, reload restores position and door, 0 errors. Colour maps now render as
       authored in the r128 game (they decoded near-black). Sheets `Bible_References/Complete/_compare/holm-arrival-v4-*.png`.
-- [ ] **Owner review of the slice.** Do not start M4 before the owner approves this look.
+- [x] **Owner review of the slice.** 2026-09-24, owner: "approved, move on to step 4" (commit `1f0ccd4`,
+      sheets `holm-arrival-v4-*.png`). This look (tile-true close-shade ground, Blender jettied/half-hipped
+      buildings, branching trees, designed statues) is the language for the whole island.
 
 ### M2 — Terrain engine that allows the new island (enabling work, from the workspace handoff) — shelved track
 - [x] New terrain source schema: versioned heights, material regions, shoreline and creek, crossings. One
@@ -222,7 +224,25 @@ may be reused only behind Sept 13 visuals. Items M2/M3 below record what was don
       trees too round, roof rigid, house "two squares put together"; everything must be Blender-made. Then the
       rebase decision above: this track is shelved.
 
-### M4 — The rest of the island
+### M4 plan on the Sept 13 base (2026-09-24, after owner approval of M3R)
+Finding (read-only survey): the arrival draft walks a hand-built 165-node graph around the dock and guide house
+only; the Sept 13 keep (909 stances), bakehouse (281) and lodge (494, incl. terrain patch) carry Blender-measured
+stance graphs with their own terrain patches; nothing composes them, and the old live island binds its lessons to
+old coordinates on the grid pathfinder. Bundles, in order:
+- [ ] **M4.1 Island navigation composer + island provider** (`?holmIsland=1`, isolated qaProfile): one graph over
+      every dry tile of the 144x128 Sept 13 terrain, with the arrival house graph and the Blender building graphs
+      joined in at their terrain seams, tree/statue footprints refused, water refused; the arrival follower drives
+      it. Proof: headless composer tests + real-pointer walk from the dock across the island.
+- [ ] **M4.2 Keep, bakehouse, Quest Lodge in the island provider** with their doors and services (bread, quest
+      board) on graph stances.
+- [ ] **M4.3 Approved-look pass on those three in Blender** (jetties/half-hips/timber detail where it fits, gray
+      masonry kept), graphs re-extracted.
+- [ ] **M4.4 New Blender buildings**: survival pond camp, quarry gate + cavern entrance, bank + service court, mage
+      house + tower, Lastlight keeper wing, departure haven; each with a measured graph.
+- [ ] **M4.5 Crossings, paths, habitat and signage** over the whole island; no barren stretches.
+- [ ] **M4.6 Whole-island performance** (draw calls, streaming, boot).
+
+### M4 — The rest of the island (original items)
 - [ ] Place the bakehouse, quest lodge and keep candidates on the compiled terrain with services bound to their
       new coordinates (bread and quest board rebinding from the curriculum audit).
 - [ ] Build the connected redesigns not yet started: bank, mine entrance with the cavern, mage tower, and the
