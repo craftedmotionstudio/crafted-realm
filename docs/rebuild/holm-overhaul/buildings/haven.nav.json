@@ -1,0 +1,15 @@
+{
+  "id": "haven",
+  "prefix": "Haven_",
+  "model": ".studio-workspaces/holm-haven-v1/candidates/haven.glb",
+  "out": ".studio-workspaces/holm-haven-navigation-v1/candidates",
+  "placement": {"x": 124, "y": 2.0, "z": 103},
+  "local": {"x0": -6, "x1": 18, "z0": -7, "z1": 4},
+  "start": [-4.5, 0.0, 0.5],
+  "targets": [
+    {"id": "shore", "label": "Dry land at the pier root", "at": [-4.5, 0.0, 0.5]},
+    {"id": "notice", "label": "Departure notice board and ferry bell", "at": [-0.5, 0.15, -0.5]},
+    {"id": "shelter", "label": "Inside the waiting shelter", "at": [2.5, 0.15, -3.5]},
+    {"id": "boat", "label": "Landing-stage stance beside the ferry skiff", "at": [14.5, -1.05, 0.5]}
+  ]
+}

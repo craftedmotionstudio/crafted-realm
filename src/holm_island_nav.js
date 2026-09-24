@@ -44,7 +44,10 @@ var HolmIslandNav=(function(){
    var z0=Math.min.apply(null,nodes.map(function(n){return n.tz})),z1=Math.max.apply(null,nodes.map(function(n){return n.tz}));
    return {id:b.id,graph:g,origin:o,nodes:nodes,tiles:tiles,rect:{x0:x0,x1:x1,z0:z0,z1:z1},priority:b.priority||0};
   });
-  buildings.forEach(function(b){for(var z=b.rect.z0;z<=b.rect.z1;z++)for(var x=b.rect.x0;x<=b.rect.x1;x++){var k=key(x,z);if(!owned[k])owned[k]='b:'+b.id}});
+  // Where measured patches overlap, the smaller patch claims first: it belongs to the building standing there
+  // (the lodge's patch carries a long terrain lane that reaches the quarry's approach).
+  buildings.slice().sort(function(a,b){return (a.rect.x1-a.rect.x0+1)*(a.rect.z1-a.rect.z0+1)-(b.rect.x1-b.rect.x0+1)*(b.rect.z1-b.rect.z0+1)||(a.id<b.id?-1:1)})
+   .forEach(function(b){for(var z=b.rect.z0;z<=b.rect.z1;z++)for(var x=b.rect.x0;x<=b.rect.x1;x++){var k=key(x,z);if(!owned[k])owned[k]='b:'+b.id}});
   // ---- arrival: its approach/dock/house tiles, all door states, plus the house footprint ----
   var arrivalGraphs=Object.create(null);
   function arrivalGraph(d){var k=doorKey(d);return arrivalGraphs[k]||(arrivalGraphs[k]=arrival.compile({arrival:!!d.arrival,garden:!!d.garden}))}
@@ -62,7 +65,10 @@ var HolmIslandNav=(function(){
   // ---- land nodes ----
   var land=[];
   for(var z=0;z<D;z++)for(var x=0;x<W;x++){
-   var k=key(x,z);if(owned[k]||blocked[k])continue;
+   var k=key(x,z);
+   // a bridge deck is always the island's own crossing, even where a building's measured patch reaches over it
+   if(decks[k]&&!blocked[k]){owned[k]=null;land.push({id:'deck:'+k,surface:'deck',x:x+.5,y:decks[k].y,z:z+.5,tx:x,tz:z});continue}
+   if(owned[k]||blocked[k])continue;
    if(decks[k]){land.push({id:'deck:'+k,surface:'deck',x:x+.5,y:decks[k].y,z:z+.5,tx:x,tz:z});continue}
    if(wet(x,z))continue;
    land.push({id:'land:'+k,surface:'land',x:x+.5,y:sample(x+.5,z+.5),z:z+.5,tx:x,tz:z});

@@ -1,0 +1,66 @@
+{
+  "id": "mage",
+  "prefix": "Mage_",
+  "triangles": 24531,
+  "materials": 20,
+  "materialNames": [
+    "Mage aged oak",
+    "Mage book leather",
+    "Mage brass",
+    "Mage clay cool",
+    "Mage clay tile",
+    "Mage clay warm",
+    "Mage dark frame oak",
+    "Mage dressed sandstone",
+    "Mage fieldstone",
+    "Mage floorboards",
+    "Mage limewash",
+    "Mage ochre thatch",
+    "Mage parchment",
+    "Mage rune slate",
+    "Mage star chart",
+    "Mage stone lit",
+    "Mage stone shade",
+    "Mage thatch shade",
+    "Mage thatch sunlit",
+    "Mage wrought iron"
+  ],
+  "dimensionsTiles": {
+    "x": 14.65,
+    "z": 14.62,
+    "y": 14.43
+  },
+  "measuredPadY": 6,
+  "groundFloorLift": 0.15,
+  "placement": {
+    "x": 114,
+    "y": 6.15,
+    "z": 58
+  },
+  "terrainUnderYardLocal": [
+    -0.15,
+    0.174
+  ],
+  "meshes": {
+    "Mage_Shell": 6746,
+    "Mage_UpperShell": 3474,
+    "Mage_FloorGround": 416,
+    "Mage_UpperFloorLibrary": 80,
+    "Mage_UpperFloorObservatory": 80,
+    "Mage_UpperJoist": 84,
+    "Mage_StairLibrary": 288,
+    "Mage_RailStairLibrary": 156,
+    "Mage_StairObservatory": 288,
+    "Mage_UpperRail": 600,
+    "Mage_UpperGallery": 1248,
+    "Mage_Roof": 4679,
+    "Mage_RoofThatch": 1644,
+    "Mage_Door": 132,
+    "Mage_Furnishing": 1000,
+    "Mage_UpperFurnishing": 2036,
+    "Mage_ServiceRuneTable_Workroom": 344,
+    "Mage_ServiceLectern_Library": 80,
+    "Mage_ServiceTelescope_Observatory": 180,
+    "Mage_Yard": 976
+  }
+}

@@ -253,8 +253,14 @@ old coordinates on the grid pathfinder. Bundles, in order:
       gate, reload restores, 0 errors.
 - [ ] **M4.3 Approved-look pass on those three in Blender** (jetties/half-hips/timber detail where it fits, gray
       masonry kept), graphs re-extracted.
-- [ ] **M4.4 New Blender buildings**: survival pond camp, quarry gate + cavern entrance, bank + service court, mage
-      house + tower, Lastlight keeper wing, departure haven; each with a measured graph.
+- [x] **M4.4 New Blender buildings**: survival pond camp, quarry gate + cavern entrance, bank + service court, mage
+      house + tower, departure haven; each with a measured graph. 2026-09-24: five Blender candidates
+      (holm-{survival,quarry,bank,mage,haven}-v1, reports beside each), stances measured by the general extractor,
+      hash-bound and composed into the island graph; bank counter/vault open the real bank, other stations chat
+      until M5. `qa_holm_island.js` PASS 19/19 real pointer, full route 20/20, arrival v4 12/12, smoke PASS.
+      Gaps for owner review: no pond in the Sept 13 terrain (fishing stage sits at the creek), haven pier faces
+      east, quarry rock is a boulder heap.
+- [ ] **M4.4b Lastlight keeper wing** (needs ladder/climb edges in the extractor and HolmIslandNav).
 - [ ] **M4.5 Crossings, paths, habitat and signage** over the whole island; no barren stretches.
 - [ ] **M4.6 Whole-island performance** (draw calls, streaming, boot).
 

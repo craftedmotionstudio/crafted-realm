@@ -7,24 +7,29 @@
       "detail": {
         "provider": "tutors-holm-arrival-qa",
         "stats": {
-          "nodes": 11653,
-          "edges": 21343,
+          "nodes": 11484,
+          "edges": 20575,
           "owners": {
-            "land": 9845,
+            "land": 8676,
             "b:keep": 909,
             "b:bakehouse": 274,
-            "b:lodge": 462,
+            "b:lodge": 420,
+            "b:survival": 255,
+            "b:quarry": 112,
+            "b:bank": 197,
+            "b:mage": 311,
+            "b:haven": 167,
             "arrival": 163
           }
         },
-        "roots": 55
+        "roots": 75
       }
     },
     {
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 6,
+        "deckSamples": 5,
         "deckY": 1.631
       }
     },
@@ -165,18 +170,94 @@
       }
     },
     {
+      "label": "Bank: walks in and the teller counter opens the bank",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "walk": "ok",
+        "click": "ok",
+        "at": [
+          86.5,
+          6.3,
+          56.5
+        ],
+        "diagonal": 0,
+        "bankOpen": true
+      }
+    },
+    {
+      "label": "Mage tower: climbs both stairs to the telescope in the observatory",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "walk": "ok",
+        "click": "ok",
+        "at": [
+          117.5,
+          12.15,
+          56.5
+        ],
+        "diagonal": 0
+      }
+    },
+    {
+      "label": "Departure Haven: walks the pier down to the ferry on the landing stage",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "walk": "ok",
+        "click": "ok",
+        "at": [
+          138.5,
+          0.95,
+          103.5
+        ],
+        "diagonal": 0
+      }
+    },
+    {
+      "label": "Quarry Gate: walks through the portal to the shaft mouth",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "walk": "ok",
+        "click": "ok",
+        "at": [
+          35.5,
+          7.146,
+          28.5
+        ],
+        "diagonal": 0
+      }
+    },
+    {
+      "label": "Survival camp: down the bank stair to the fishing stage",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "walk": "ok",
+        "click": "ok",
+        "at": [
+          43.5,
+          2,
+          90.5
+        ],
+        "diagonal": 0
+      }
+    },
+    {
       "label": "reload restores the island position",
       "ok": true,
       "detail": {
         "before": [
-          88.5,
-          8,
-          45.5
+          43.5,
+          2,
+          90.5
         ],
         "after": [
-          88.5,
-          8,
-          45.5
+          43.5,
+          2,
+          90.5
         ]
       }
     },
@@ -188,5 +269,5 @@
       }
     }
   ],
-  "seconds": 145
+  "seconds": 408
 }

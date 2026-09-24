@@ -1,0 +1,86 @@
+{
+  "id": "haven",
+  "prefix": "Haven_",
+  "placement": {
+    "x": 124,
+    "y": 2.0,
+    "z": 103,
+    "padSamples": [
+      1.859,
+      2.051
+    ]
+  },
+  "waterLocalY": -2.12,
+  "deckY": 0.15,
+  "landingY": -1.05,
+  "triangles": 18916,
+  "materials": 20,
+  "materialNames": [
+    "Aged oak",
+    "Bell bronze",
+    "Dark frame oak",
+    "Dark tar seams",
+    "Dressed sandstone",
+    "Furled canvas",
+    "Hemp rope",
+    "Honey oak strakes",
+    "Limewash plaster",
+    "Notice parchment",
+    "Ochre thatch",
+    "Ochre thatch sunlit",
+    "Ochre thatch weathered",
+    "Pale plank edges",
+    "Sea green strake",
+    "Stone lit faces",
+    "Stone shaded faces",
+    "Sun-worn deck oak",
+    "Tarred iron",
+    "Warm fieldstone"
+  ],
+  "meshes": [
+    "Haven_DeckLanding",
+    "Haven_DeckPier",
+    "Haven_FloorShelter",
+    "Haven_Furnishing",
+    "Haven_Mooring",
+    "Haven_PierFrame",
+    "Haven_PierRail",
+    "Haven_PierStone",
+    "Haven_Props",
+    "Haven_RoofDeck",
+    "Haven_RoofRidge",
+    "Haven_RoofThatch",
+    "Haven_ServiceBoat_Fittings",
+    "Haven_ServiceBoat_Gangplank",
+    "Haven_ServiceBoat_Hull",
+    "Haven_ServiceBoat_Rig",
+    "Haven_ServiceNotice_Board",
+    "Haven_ShellEast",
+    "Haven_ShellNorth",
+    "Haven_ShellTimber",
+    "Haven_ShellWest",
+    "Haven_StairFlight"
+  ],
+  "gltfMaterials": 20,
+  "gltfPrimitives": 88,
+  "animations": [
+    "HavenBoatIdleBob"
+  ],
+  "boundsLocal": {
+    "min": [
+      -2.5,
+      -4.45,
+      -6.234
+    ],
+    "max": [
+      17.904,
+      6.238,
+      4.145
+    ]
+  },
+  "overWaterWalkables": {
+    "Haven_DeckPier(x>=9)": false,
+    "landing": true
+  },
+  "sha256": "99298f841d87e0ac5eb18f64070631c0e8fa7710659b3dcda9e3abff6a0e3aa8"
+}

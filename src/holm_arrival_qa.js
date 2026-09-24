@@ -66,7 +66,7 @@ var HolmArrivalQA=(function(){
   }
   HolmArrivalPlayer.detach();player.position.set(node.x,node.y,node.z);Player.plane=0;Player.path=[];Player.moveTo=null;
   provider.updateResidency(node.x,node.z,true);
-  bridge=HolmArrivalPlayer.attach({actor:player,state:Player,providerId:ID,navigation:nav,graphForDoors:graphForDoors,startNodeId:node.id,doors:doors,canMove:function(){return !owner.doorsMoving()}});owner.update(0,node.surface);
+  bridge=HolmArrivalPlayer.attach({actor:player,state:Player,providerId:ID,navigation:nav,graphForDoors:graphForDoors,startNodeId:node.id,doors:doors,lenientTiles:island,canMove:function(){return !owner.doorsMoving()}});owner.update(0,node.surface);
  }
  function saveRecord(){
   if(!active()||!bridge)return null;var pose=bridge.snapshot();
@@ -133,7 +133,11 @@ var HolmArrivalQA=(function(){
  function update(dt){
   if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);owner.update(dt,pose.surface);
   if(pending&&pose.nodeId===pending.id&&!pose.moving){var p0=pending,kind=pending.kind,door=pending.door;pending=null;
-   if(kind==='island_service'){var call=p0.service.call,mod=typeof window!=='undefined'?window[call[0]]:null;if(mod&&typeof mod[call[1]]==='function')mod[call[1]]();return}
+   if(kind==='island_service'){var call=p0.service.call;
+    if(!call){UI.chat(p0.service.label+'. (Its lesson comes with the full tutorial.)','plain');return}
+    // module globals may be lexical (const UI), so resolve by name rather than only on window
+    var mod=typeof window!=='undefined'&&window[call[0]];if(!mod&&/^[A-Za-z_]\w*$/.test(call[0])){try{mod=new Function('return typeof '+call[0]+'!==\'undefined\'?'+call[0]+':null')()}catch(e){mod=null}}
+    if(mod&&typeof mod[call[1]]==='function')mod[call[1]]();return}
    if(kind==='door')toggleDoor(door);else if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
  }
  // QA only (read-only): the planned island route from the player's node to a building's measured target, so a

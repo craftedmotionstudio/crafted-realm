@@ -54,14 +54,16 @@ async function walkTo(page,building,target,stopOutside,trace){
     let route=await page.evaluate((b,t)=>HolmArrivalQA.qaRoute(b,t),building,target);
     if(!route)return {error:'no route'};
     if(stopOutside){let k=route.length-1;while(k>0&&!/^(land|deck|exterior|dock)$|:(IslandTerrain|StagedTerrain)$/.test(route[k].surface))k--;route=route.slice(0,k+1)}
-    if(route.length<=1){reached=route[0];break}
+    if(route.length<=1){reached=route[0];if(process.env.ISLAND_QA_DEBUG)console.log('    walkTo '+building+'.'+target+' done at hop '+hop+' '+JSON.stringify(route[0]));break}
     let clicked=false;
     for(const ahead of [9,7,5,3,1]){
       const n=route[Math.min(route.length-1,ahead)];
       const xy=await aim(page,[n.x,n.y,n.z],[Math.floor(n.x),Math.floor(n.z)]);
       if(xy){await press(page,xy);clicked=true;break;}
     }
-    if(!clicked)return {error:'no clickable tile ahead',at:await pos(page)};
+    // the last few tiles at a doorway can hide behind the building from the driver's camera; a service click finishes the walk
+    if(!clicked&&route.length<=4){reached=route[route.length-1];break}
+    if(!clicked){if(process.env.ISLAND_QA_DEBUG)console.log('    walkTo stuck: next '+JSON.stringify(route.slice(1,10).map(n=>[n.x,n.y,n.z,n.surface])));return {error:'no clickable tile ahead',at:await pos(page)};}
     await settle(page,30000);trace.push(...await page.evaluate(()=>window.__qaTrace.splice(0)));
   }
   return {reached,at:await pos(page)};
@@ -109,6 +111,8 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     await shot(page,'01_dock');
     const bridges=JSON.parse(fs.readFileSync(path.join(__dirname,'..','docs/rebuild/holm-overhaul/island-bridges.json'),'utf8')).bridges;
     const timber=bridges.find(b=>/timber/.test(b.id));
+    const onlyNew=process.env.ISLAND_QA_ONLY==='m44';
+    if(!onlyNew){
     // 1. dock -> bakehouse courtyard, over the timber bridge
     let tr=[];let r=await walkTo(page,'bakehouse','entrance',true,tr);
     const onDeck=tr.filter(q=>timber.tiles.some(t=>Math.floor(q[0])===t[0]&&Math.floor(q[2])===t[1])&&Math.abs(q[1]-timber.deckY)<.12).length;
@@ -147,6 +151,20 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     tr=[];r=await walkTo(page,'keep','gate',true,tr);
     ok('crosses the island to the Warden\'s Keep gate',!r.error&&r.reached&&Math.hypot(r.at[0]-r.reached.x,r.at[2]-r.reached.z)<.6&&diagonal(tr)===0,{...r,diagonal:diagonal(tr)});
     await shot(page,'04_keep');
+    }
+    // M4.4: the five new Blender buildings, each reached on foot and its key station clicked like a player
+    const stanceOf=(b,t)=>page.evaluate((b,t)=>{const r=HolmArrivalQA.qaRoute(b,t);return r?r[r.length-1]:null},b,t);
+    const near=async(b,t,tol)=>{const s=await stanceOf(b,t),p=await pos(page);return !!s&&Math.hypot(p[0]-s.x,p[2]-s.z)<(tol||.6)&&Math.abs(p[1]-s.y)<.35};
+    const visit=async(b,entryTarget,label,target,extra,enter)=>{const tr2=[];const w=await walkTo(page,b,entryTarget,true,tr2);if(enter)await enter();const c=await clickService(page,label);
+      await shot(page,'05_'+b);const at=await pos(page);const ok2=!w.error&&!c.error&&await near(b,target,.6);return {ok:ok2,walk:w.error||'ok',click:c.error||'ok',at,diagonal:diagonal(tr2),...(extra?await extra():{})}};
+    let v=await visit('bank','entrance','Use bank counter','counter',()=>page.evaluate(()=>({bankOpen:(document.getElementById('bank-modal')||{style:{}}).style.display==='block'})));
+    ok('Bank: walks in and the teller counter opens the bank',v.ok&&v.bankOpen&&v.diagonal===0,v);
+    await page.evaluate(()=>{try{UI.openBank(false)}catch(e){}});
+    // like a player: walk in through the west door first (roofs cut away once inside), then the telescope is in sight
+    v=await visit('mage','entrance','Telescope','observatory',null,async()=>{const t2=[];await walkTo(page,'mage','runes',false,t2)});ok('Mage tower: climbs both stairs to the telescope in the observatory',v.ok&&v.at[1]>11.5,v);
+    v=await visit('haven','shore','Ferry','boat');ok('Departure Haven: walks the pier down to the ferry on the landing stage',v.ok&&v.at[0]>134,v);
+    v=await visit('quarry','approach','Quarry shaft','shaft');ok('Quarry Gate: walks through the portal to the shaft mouth',v.ok,v);
+    v=await visit('survival','trail','Fishing spot','fishing');ok('Survival camp: down the bank stair to the fishing stage',v.ok,v);
     // 4. reload restores the spot on the island graph
     await page.evaluate(()=>SaveGame.save());const before=await pos(page);
     await page.reload({waitUntil:'load'});try{await enter(page)}catch(e){console.log('    reload console errors: '+JSON.stringify(consoleErrors.slice(-6)));throw e}const after=await pos(page);

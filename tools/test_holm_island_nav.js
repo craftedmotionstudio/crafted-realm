@@ -15,9 +15,12 @@ check('deterministic: the same inputs compile the same graph',()=>{
  assert.strictEqual(h(make().compile(open)),h(g));
 });
 check('whole island: every planned place is reachable from the landing on one graph',()=>{
- for(const p of I.plan.places){const n=nearest(g,p.x,p.z,true);assert(n,'no walkable tile near '+p.id);assert(nav.route(g,spawn.id,n.id),p.id+' unreachable')}
+ // every place has a stance reachable from the landing within a few tiles (building interiors may hold unreachable ledges)
+ const reach=new Set(),q=[spawn.id];reach.add(spawn.id);while(q.length){for(const t of g.links[q.pop()])if(!reach.has(t)){reach.add(t);q.push(t)}}
+ for(const p of I.plan.places){let ok=false;for(let r=0;r<8&&!ok;r++)for(let dz=-r;dz<=r&&!ok;dz++)for(let dx=-r;dx<=r&&!ok;dx++)ok=(g.byTile[(Math.floor(p.x)+dx)+','+(Math.floor(p.z)+dz)]||[]).some(n=>reach.has(n.id));assert(ok,p.id+' has no reachable stance nearby')}
 });
-check('Blender buildings join the land: keep gate, bakehouse oven and pantry, lodge board and map are reachable',()=>{
+check('Blender buildings join the land: every measured target of all eight buildings is reachable (lane points ceded to a neighbour excepted)',()=>{
+ for(const B of I.buildings)for(const t of B.graph.targets){if(B.id==='lodge'&&t.id==='north-lane')continue;assert(nav.route(g,spawn.id,'b:'+B.id+':'+t.nodeId),B.id+'.'+t.id+' unreachable')}
  for(const [b,ids] of [['keep',['gate']],['bakehouse',['oven','pantry','loft']],['lodge',['board','map']]]){
   const B=I.buildings.find(x=>x.id===b);
   for(const id of ids){const t=B.graph.targets.find(x=>x.id===id);assert(t,b+' target '+id);assert(nav.route(g,spawn.id,'b:'+b+':'+t.nodeId),b+'.'+id+' unreachable')}

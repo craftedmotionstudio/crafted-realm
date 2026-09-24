@@ -11,7 +11,10 @@ var HolmIslandExtras=(function(){
   {id:'keep',graph:WS+'holm-keep-navigation-v4/candidates/navigation.json',model:WS+'holm-warden-keep-v5/candidates/keep.glb'},
   {id:'bakehouse',graph:WS+'holm-kitchen-navigation-v3/candidates/navigation.json',model:WS+'holm-kitchen-wings-v5/candidates/kitchen-character.glb'},
   {id:'lodge',graph:WS+'holm-quest-terrain-navigation-v1/candidates/navigation.json',model:WS+'holm-quest-lodge-v3/candidates/lodge.glb',
-   extra:{url:WS+'holm-quest-foundation-v1/candidates/foundation.glb',placement:WS+'holm-quest-placement-v1/candidates/placement.json'}}];
+   extra:{url:WS+'holm-quest-foundation-v1/candidates/foundation.glb',placement:WS+'holm-quest-placement-v1/candidates/placement.json'}}]
+  // M4.4: new Blender buildings, graphs measured by tools/blender/extract_holm_building_navigation.py
+  .concat([['survival','Survival_','survival'],['quarry','Quarry_','mine'],['bank','Bank_','bank'],['mage','Mage_','mage'],['haven','Haven_','ferry']].map(function(r){
+   return {id:r[0],prefix:r[1],plan:r[2],graph:WS+'holm-'+r[0]+'-navigation-v1/candidates/navigation.json',model:WS+'holm-'+r[0]+'-v1/candidates/'+r[0]+'.glb'}}));
  var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v1/working/vegetation.json';
  var BRIDGES='/docs/rebuild/holm-overhaul/island-bridges.json',BRIDGE_MODELS=WS+'holm-island-bridges-v1/candidates/';
  var TRUNK={oak:.45,birch:.3,'coastal-pine':.35};
@@ -27,25 +30,42 @@ var HolmIslandExtras=(function(){
    {prefix:'Kitchen_RecipeBoard_',node:'-3:0:1',label:'Read recipe',call:['HolmTeachingKitchen','readRecipe']}],
   lodge:[
    {prefix:'Lodge_FurnishingBoard_',target:'board',label:'Study quest board',call:['HolmQuestLodge','studyBoard']},
-   {prefix:'Lodge_FurnishingMap_',target:'map',label:'Study region chart',call:['HolmQuestLodge','studyChart']}]};
+   {prefix:'Lodge_FurnishingMap_',target:'map',label:'Study region chart',call:['HolmQuestLodge','studyChart']}],
+  // M4.4 stations; lesson handlers are rebound to them in M5 (a click without a call walks there and says so)
+  bank:[{prefix:'Bank_ServiceCounter_',target:'counter',label:'Use bank counter',call:['UI','openBank']},{prefix:'Bank_ServiceVault_',target:'vault',label:'Open vault',call:['UI','openBank']},{prefix:'Bank_ServiceShelves_',target:'shop',label:'Browse goods'}],
+  survival:[{prefix:'Survival_ServiceTools_',target:'tools',label:'Tool rack'},{prefix:'Survival_ServiceFirePit_',target:'fire',label:'Fire ring'},{prefix:'Survival_ServiceLogPile_',target:'logs',label:'Log pile'},{prefix:'Survival_ServiceFishing_',target:'fishing',label:'Fishing spot'}],
+  quarry:[{prefix:'Quarry_ServiceShaft_',target:'shaft',label:'Quarry shaft'},{prefix:'Quarry_ServiceWinch_',target:'winch',label:'Winch'},{prefix:'Quarry_ServiceBench_',target:'bench',label:'Repair bench'}],
+  mage:[{prefix:'Mage_ServiceRuneTable_',target:'runes',label:'Rune table'},{prefix:'Mage_ServiceLectern_',target:'lectern',label:'Lectern'},{prefix:'Mage_ServiceTelescope_',target:'observatory',label:'Telescope'}],
+  haven:[{prefix:'Haven_ServiceBoat_',target:'boat',label:'Ferry'},{prefix:'Haven_ServiceNotice_',target:'notice',label:'Departure notice'}]};
  // Roof cutaways, as each building's Sept 13 walking study proved them: roof hidden, upper parts above the
  // player's floor hidden, shell walls clipped just above the player while inside.
  var CUTAWAY={
   keep:{roof:/^Keep_Roof_/,upper:/^Keep_(Upper|Tower)_/,clip:/^Keep_(Shell|Upper_Shell|GroundFront)_/,lift:1.25},
   bakehouse:{roof:/^Kitchen_(Roof|Chimney)_/,upper:/^Kitchen_Upper/,clip:/^Kitchen_(Shell|UpperShell|GroundFront|Glazing)_/,lift:.5},
   lodge:{roof:/^Lodge_(Roof|Chimney)/,upper:/^Lodge_Upper(?!.*Stair)/,clip:/^Lodge_(GroundShell|UpperShell|Glazing)/,lift:.5}};
+ // M4.4 buildings follow the brief's naming contract: <Prefix>_Roof / _Upper / _Shell / _UpperShell / _Glazing
+ ['Survival','Quarry','Bank','Mage','Haven'].forEach(function(p){CUTAWAY[p.toLowerCase()]={roof:new RegExp('^'+p+'_Roof'),upper:new RegExp('^'+p+'_Upper'),clip:new RegExp('^'+p+'_(Shell|UpperShell|Glazing)'),lift:.5}});
  function need(ok,msg){if(!ok)throw Error('[HolmIslandExtras] '+msg)}
  async function bytes(url){var r=await fetch(url,{cache:'no-store'});need(r.ok,'missing '+url);return r.arrayBuffer()}
  async function json(url){return JSON.parse(new TextDecoder().decode(await bytes(url)))}
  async function sha(buf){var h=new Uint8Array(await crypto.subtle.digest('SHA-256',buf));return Array.from(h).map(function(n){return n.toString(16).padStart(2,'0')}).join('')}
  function parse(T,buf){return new Promise(function(res,rej){new T.GLTFLoader().parse(buf,'',res,rej)})}
  // same colour rule as the arrival owner: this game renders without colour management
- function linearMaps(T,n){(Array.isArray(n.material)?n.material:[n.material]).forEach(function(m){if(m&&m.map&&T.LinearEncoding!==undefined){m.map.encoding=T.LinearEncoding;m.needsUpdate=true}})}
+ // ...and matte like the 2004 client (no specular sheen: Blender's default 0.4-0.5 roughness read as plastic in game)
+ function linearMaps(T,n){(Array.isArray(n.material)?n.material:[n.material]).forEach(function(m){if(!m)return;if(m.map&&T.LinearEncoding!==undefined){m.map.encoding=T.LinearEncoding;m.needsUpdate=true}if('roughness' in m){m.roughness=1;m.metalness=0;m.needsUpdate=true}})}
  async function loadData(){
   var buildings=[];
   for(var i=0;i<BUILDINGS.length;i++){var b=BUILDINGS[i],graph=await json(b.graph),p=graph.placement||graph.origin;
    buildings.push({id:b.id,graph:graph,placement:{x:p.x,y:p.y,z:p.z},source:b})}
-  var veg=(await json(HABITAT)).placements,blockers=[];
+  // Sept 13 habitat trees that a new building now stands on are left out (models and blockers alike): the planned
+  // footprint plus a tile of margin, and every tile holding one of the building's floors, stairs or decks.
+  var plan=await json('/docs/rebuild/holm-overhaul/plan.json'),built=Object.create(null);
+  buildings.forEach(function(b){
+   var pl=b.source.plan&&plan.places.filter(function(q){return q.id===b.source.plan})[0];
+   if(pl)for(var z=Math.floor(pl.z-pl.d/2)-1;z<=Math.ceil(pl.z+pl.d/2)+1;z++)for(var x=Math.floor(pl.x-pl.w/2)-1;x<=Math.ceil(pl.x+pl.w/2)+1;x++)built[x+','+z]=true;
+   if(b.source.plan)b.graph.nodes.forEach(function(n){if(!/Terrain$/.test(n.surface))built[Math.floor(n.x+b.placement.x)+','+Math.floor(n.z+b.placement.z)]=true});
+  });
+  var veg=(await json(HABITAT)).placements.filter(function(p){return !built[Math.floor(p.x)+','+Math.floor(p.z)]}),blockers=[];
   veg.forEach(function(p){var r=TRUNK[p.asset];if(r)blockers.push({id:'habitat:'+p.id,mode:'overlap',x0:p.x-r*p.scale,x1:p.x+r*p.scale,z0:p.z-r*p.scale,z1:p.z+r*p.scale})});
   return {buildings:buildings,habitat:veg,blockers:blockers,bridges:(await json(BRIDGES)).bridges};
  }
@@ -102,7 +122,7 @@ var HolmIslandExtras=(function(){
    cutFor=inside;if(!inside||!CUTAWAY[inside])return;
    var r=CUTAWAY[inside],M=models[inside],localY=pose.y-M.placement.y;clipPlane.constant=pose.y+r.lift;
    if(typeof renderer!=='undefined'&&renderer)renderer.localClippingEnabled=true;
-   M.scene.traverse(function(n){if(!n.isMesh)return;var name='';for(var q=n;q&&q!==M.scene;q=q.parent)if(/^(Keep|Kitchen|Lodge)_/.test(q.name)){name=q.name;break}
+   M.scene.traverse(function(n){if(!n.isMesh)return;var name='';for(var q=n;q&&q!==M.scene;q=q.parent)if(/^(Keep|Kitchen|Lodge|Survival|Quarry|Bank|Mage|Haven)_/.test(q.name)){name=q.name;break}
     n.visible=!r.roof.test(name);
     if(r.upper.test(name)){if(!n.geometry.boundingBox)n.geometry.computeBoundingBox();n.visible=n.geometry.boundingBox.min.y<=localY+.45}
     [].concat(n.material).forEach(function(mm){if(mm)mm.clippingPlanes=r.clip.test(name)?[clipPlane]:[]})});

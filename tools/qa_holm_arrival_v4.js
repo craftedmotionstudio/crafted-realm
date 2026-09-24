@@ -62,7 +62,7 @@ function cardinal(tr){let diag=0;for(let i=1;i<tr.length;i++){const dx=Math.abs(
   const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',
     args:['--window-size=1538,900','--hide-scrollbars','--mute-audio','--no-first-run'],defaultViewport:{width:1538,height:900}});
   const page=await browser.newPage();const pageErrors=[];
-  page.on('pageerror',e=>pageErrors.push(String(e).slice(0,300)));
+  page.on('pageerror',e=>pageErrors.push(String(e&&e.stack||e).slice(0,500)));
   try{
     await page.goto(BASE,{waitUntil:'load',timeout:120000});await enter(page);
     let s=await st(page);

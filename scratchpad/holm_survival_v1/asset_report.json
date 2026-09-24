@@ -1,0 +1,167 @@
+{
+ "id": "survival",
+ "prefix": "Survival_",
+ "triangles": 21301,
+ "materials": 19,
+ "materialNames": [
+  "Aged oak",
+  "Blackened iron",
+  "Coppice leaf",
+  "Dark frame oak",
+  "Dressed sandstone",
+  "Ember and fish scale",
+  "Hard-standing flag",
+  "Oak shingle",
+  "Oak shingle weathered",
+  "Ochre thatch",
+  "Ochre thatch shade",
+  "Ochre thatch sunlit",
+  "Reed green",
+  "Stone lit faces",
+  "Stone shaded faces",
+  "Twine and bulrush",
+  "Warm fieldstone",
+  "Warm floorboards",
+  "Weathered plank"
+ ],
+ "dimensionsTiles": {
+  "x": 23.47,
+  "z": 13.12,
+  "y": 8.78
+ },
+ "bounds": {
+  "xmin": -9.53,
+  "xmax": 13.94,
+  "zmin": -4.92,
+  "zmax": 8.2,
+  "ymin": -2.35,
+  "ymax": 6.43
+ },
+ "placement": {
+  "x": 31,
+  "y": 2.9,
+  "z": 84
+ },
+ "meshes": [
+  [
+   "Survival_Coppice",
+   1232
+  ],
+  [
+   "Survival_DeckJetty",
+   120
+  ],
+  [
+   "Survival_DeckLanding",
+   12
+  ],
+  [
+   "Survival_FloorCanopy",
+   532
+  ],
+  [
+   "Survival_FloorPorch",
+   104
+  ],
+  [
+   "Survival_FloorStore",
+   180
+  ],
+  [
+   "Survival_FloorYard",
+   504
+  ],
+  [
+   "Survival_FrameCanopy",
+   984
+  ],
+  [
+   "Survival_FrameLink",
+   84
+  ],
+  [
+   "Survival_FramePentice",
+   180
+  ],
+  [
+   "Survival_FurnishingCanopy",
+   332
+  ],
+  [
+   "Survival_FurnishingStore",
+   132
+  ],
+  [
+   "Survival_FurnishingYard",
+   48
+  ],
+  [
+   "Survival_JettyFrame",
+   760
+  ],
+  [
+   "Survival_PlinthCanopy",
+   1636
+  ],
+  [
+   "Survival_PlinthYard",
+   528
+  ],
+  [
+   "Survival_Reeds",
+   216
+  ],
+  [
+   "Survival_RoofLink",
+   408
+  ],
+  [
+   "Survival_RoofStore",
+   2928
+  ],
+  [
+   "Survival_RoofThatch",
+   5348
+  ],
+  [
+   "Survival_RoofTruss",
+   252
+  ],
+  [
+   "Survival_ServiceFirePit_Ring",
+   772
+  ],
+  [
+   "Survival_ServiceFishing_Reeds",
+   231
+  ],
+  [
+   "Survival_ServiceLogPile_Stack",
+   716
+  ],
+  [
+   "Survival_ServiceTools_Rack",
+   428
+  ],
+  [
+   "Survival_ShellStore",
+   1548
+  ],
+  [
+   "Survival_ShellStoreBase",
+   966
+  ],
+  [
+   "Survival_StepBank",
+   72
+  ],
+  [
+   "Survival_StepLink",
+   36
+  ],
+  [
+   "Survival_StepYard",
+   12
+  ]
+ ]
+}

@@ -12,6 +12,9 @@ var HolmArrivalPlayer=(function(){
   function pointTarget(p){
    if(!p||![p.x,p.y,p.z].every(Number.isFinite))return null;
    var rows=o.graphForDoors(doors).nodes.filter(function(n){return Math.floor(n.x)===Math.floor(p.x)&&Math.floor(n.z)===Math.floor(p.z)&&(!p.surface||p.surface===n.surface)&&Math.abs(n.y-p.y)<.8});
+   // island draft: a click on a building mesh at another height (abutment, porch floor, rail) still means that tile when
+   // the tile holds exactly one stance (o.lenientTiles); stacked floors still need the clicked height to choose
+   if(!rows.length&&o.lenientTiles&&!p.surface){var all=o.graphForDoors(doors).nodes.filter(function(n){return Math.floor(n.x)===Math.floor(p.x)&&Math.floor(n.z)===Math.floor(p.z)});if(all.length===1)rows=all}
    rows.sort(function(a,b){return Math.abs(a.y-p.y)-Math.abs(b.y-p.y)});
    if(!rows.length||(rows.length>1&&Math.abs(Math.abs(rows[0].y-p.y)-Math.abs(rows[1].y-p.y))<1e-7))return null;
    return rows[0];
