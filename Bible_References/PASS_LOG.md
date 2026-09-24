@@ -3773,3 +3773,11 @@ length (slight medium-length read in 3/4).
 - Keep-one rewards recognize all equipped slots. Repeated boarding and restored claims cannot duplicate rewards.
 - Planner 11/11, reward/ferry integration 8/8 and World V2 gates pass. Full-inventory real-pointer ferry and
   reload acceptance still required; see `docs/rebuild/HOLM_DEPARTURE_REWARDS_2026-09-12.md`.
+
+## 2026-09-24 — Finish goal opened; baseline and first-entry fixes
+- New working checklist `docs/rebuild/HOLM_FINISH_GOAL_2026-09-24.md` (owner request: analyze, fix, finish the island).
+  Owner-approved backup commit 9eb78fd on branch holm-overhaul-wip-2026-09-24.
+- Baseline: world-v2 locks PASS, content PASS, smoke 105/105 both phases, full route PASS 20/20 in 451 s, 0 errors.
+- Fixed three first-entry defects found by live play: welcome button named Veyhollow for a Holm arrival; first frames
+  rendered from the world origin; the designer close-up sat inside the Guide Hall wall/door with a screen-filling
+  name tag. Pane-verified (new + continued profiles), three new locks, smoke 105/105 both phases after the fix.

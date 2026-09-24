@@ -57,23 +57,34 @@ comes from the owner and cannot be replaced by a self-assigned score.**
 ## Checklist
 
 ### M0 — Safety and baseline
-- [ ] **Checkpoint the uncommitted work.** *Owner decision:* the loop rule is "owner commits". Recommend one
-      checkpoint commit on a branch `holm-overhaul-wip-2026-09-24`, followed by `git branch -f main` only if the
-      owner agrees. Nothing below should start while 442 files exist only in the working tree.
-- [ ] **Gate baseline.** Record the results of `test_world_v2`, `validate_content`, `run_smoke_headless` (both
+- [x] **Checkpoint the uncommitted work.** 2026-09-24, owner approved: commit `9eb78fd` on branch
+      `holm-overhaul-wip-2026-09-24` (1,200 files, secret and large-file scan clean). `main` still points at
+      `7597a20`; advance it only with owner agreement.
+- [x] **Gate baseline.** Record the results of `test_world_v2`, `validate_content`, `run_smoke_headless` (both
       phases) and `qa_holm_full_route` (20/20 expected) from today. Anything red becomes the first M1 fix.
       2026-09-24: world-v2 all locks PASS; content PASS; smoke PASS 105/105 foreground (boot 2027 ms) and hidden
       (boot 1914 ms), 0 page errors. `run_smoke_headless.js` and `qa_holm_full_route.js` now accept `SMOKE_BASE`
-      because the in-app preview serves on 8088 (`.claude/launch.json` added). Full route: pending.
-- [ ] **Live-player baseline.** Play the current live island in the in-app browser with a disposable
+      because the in-app preview serves on 8088 (`.claude/launch.json` added). Full route (`qa_holm_full_route.js`):
+      PASS 20/20 in 451 s: all 13 required lessons, optional bread and quest board, Lastlight, skiff to Veyhollow
+      Commons (230 coins, 4 bread), zero page/console errors and zero failed asset loads.
+- [x] **Live-player baseline.** Play the current live island in the in-app browser with a disposable
       `?qaProfile`. Record what a new player actually sees and every friction or defect, with screenshots.
-      2026-09-24 first look (`?qaProfile=goal0924a`): new adventurer boots onto the old island, Guide Hall
-      objective shown. Notes so far: the welcome card says "wash ashore on Tutor's Holm" but its button reads
-      "ENTER VEYHOLLOW"; while the appearance designer is open the camera sits at sea level and the island reads
-      as submerged; the welcome card shows 5 crowns but the HUD shows 55 after the Apprentice deed.
+      2026-09-24 (`?qaProfile=goal0924a`..`f`): a new adventurer boots onto the old, owner-rejected island with the
+      Guide Hall objective. The full curriculum is proven by the route driver above; the 2026-09-10 play review's
+      35 friction entries remain the detailed human-pace record. New defects found: (a) the welcome button read
+      "ENTER VEYHOLLOW" for a Holm arrival; (b) the first frames after entering rendered from the world origin at
+      sea level; (c) the appearance designer's close-up camera sat inside the Guide Hall walls or its open front
+      door, with the overhead name tag filling the screen. The 5 → 55 crown change is correct (Apprentice deed
+      pays 50 after entry), not a defect.
 
 ### M1 — Fix what is broken now
-- [ ] Fix every red gate or live defect from M0 and lock each fix with a test.
+- [x] Fix every red gate or live defect from M0 and lock each fix with a test. 2026-09-24: no gate was red.
+      (a) `src/login_overhaul.js` labels the button WASH ASHORE / RETURN TO TUTOR'S HOLM / ENTER VEYHOLLOW from the
+      saved world provider; (b) `snapFollowCamera()` in `src/game5_main.js` places the camera on entry;
+      (c) `CharCreator._clearYaw` in `src/char_creator.js` ray-tests eight yaws against visible geometry, restores
+      the player's yaw on close, and hides the name tag while designing (restoring the declutter choice). Verified
+      in the pane: new and continued profiles, designer framing, "Looks good!" restore, zero errors. Three locks in
+      `tools/test_world_v2.js`; world-v2 all locks PASS; smoke 105/105 foreground and hidden, 0 page errors.
 - [ ] Close the open arrival door-opening pointer proof (HOLM_ARCHITECTURE_REVISION §Production).
 - [ ] Wall line-of-sight for station reach (HOLM_STATION_REACH_PASS open item).
 - [ ] Lazy-load the 17.7 MB of legacy mainland textures behind the provider (P2-C follow-up).

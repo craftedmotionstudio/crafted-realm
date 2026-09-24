@@ -34,6 +34,13 @@
     box.innerHTML='<span><b>'+escapeHtml(name)+'</b>Adventurer</span><span><b>'+totalXp(data).toLocaleString()+'</b>Total XP</span><span><b>'+escapeHtml(stageLabel(data))+'</b>Journey</span><span><b>'+crowns.toLocaleString()+'</b>Crowns carried</span>';
     if($('btn-reset-save')) $('btn-reset-save').textContent=hasSave()?'Erase save':'Discard adventurer';
   }
+  // The saved world decides where the player lands; fall back to tutorial completion for legacy saves.
+  function onHolm(data){
+    const provider=data&&data.world&&data.world.provider;
+    if(provider&&provider!=='legacy') return /^tutors-holm/.test(provider);
+    return !(data&&data.tut&&data.tut.complete);
+  }
+  function setPlayLabel(text){ if($('play-btn')) $('play-btn').textContent=text; }
   function escapeHtml(value){ const d=document.createElement('div'); d.textContent=String(value); return d.innerHTML; }
   function refreshSaveState(){
     const exists=hasSave(), data=readSave(), btn=$('btn-continue'), note=$('login-note'), detail=$('continue-detail');
@@ -90,7 +97,9 @@
       const data=readSave();
       if(!SaveGame.load()){ if($('login-note')) $('login-note').textContent='That save could not be restored. Your data has not been erased.'; return; }
       if($('play-welcome')) $('play-welcome').textContent='Welcome back, '+(CharCfg.name||'adventurer');
-      if($('play-sub')) $('play-sub').textContent='Your progress has been restored and Veyhollow is ready.';
+      const holm=onHolm(data);
+      if($('play-sub')) $('play-sub').textContent='Your progress has been restored and '+(holm?'Tutor\'s Holm':'Veyhollow')+' is ready.';
+      setPlayLabel(holm?'RETURN TO TUTOR\'S HOLM':'ENTER VEYHOLLOW');
       updateProfileSummary(data); setStage('login-play','play-btn');
     };
     if($('btn-begin')) $('btn-begin').onclick=()=>{
@@ -98,6 +107,7 @@
       CharCfg.name=nm||'Adventurer'; CharCfg._new=true; applyPlayerLook();
       if($('play-welcome')) $('play-welcome').textContent='Welcome, '+CharCfg.name;
       if($('play-sub')) $('play-sub').innerHTML='You are about to wash ashore on <b>Tutor\'s Holm</b>.';
+      setPlayLabel('WASH ASHORE');
       updateProfileSummary({look:{name:CharCfg.name},xp:Player.xp,tut:{step:0},inv:Player.inv}); setStage('login-play','play-btn');
     };
     if($('btn-reset-save')) $('btn-reset-save').onclick=()=>{ clickSound(); if(hasSave()) setStage('login-confirm-new','btn-cancel-new'); else setStage('login-choose','btn-new'); };

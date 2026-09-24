@@ -769,11 +769,21 @@ function update(dt){
   scene.fog.color.lerp(targetFog, dt*1.5);
   scene.background.lerp(targetFog, dt*1.5);
 
+  const camGoal = followCameraGoal();
+  camera.position.lerp(camGoal, 0.15);
+  camera.lookAt(player.position.x, player.position.y+1.2, player.position.z);
+}
+function followCameraGoal(){
   const cx = player.position.x + camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
   const cz = player.position.z + camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
   const cy = player.position.y + camCtl.dist*Math.sin(camCtl.pitch);
-  const camGoal = cameraTerrainClamp(player.position.x, player.position.y+1.2, player.position.z, cx, cy, cz);
-  camera.position.lerp(camGoal, 0.15);
+  return cameraTerrainClamp(player.position.x, player.position.y+1.2, player.position.z, cx, cy, cz);
+}
+/* Jump the follow camera to its goal instead of easing in. The camera is created at the world
+ * origin, so the first frames after entering used to show the island from sea level far away. */
+function snapFollowCamera(){
+  if(!player || !camera) return;
+  camera.position.copy(followCameraGoal());
   camera.lookAt(player.position.x, player.position.y+1.2, player.position.z);
 }
 /* Keep the follow camera out of the ground. On the surface plane the boom from the look target to the
@@ -1040,6 +1050,7 @@ document.getElementById('play-btn').onclick = ()=>{
   document.getElementById('welcome-screen').style.display='none';
   _playClickedAt=performance.now();
   running=true;
+  snapFollowCamera();
   if(!_liteBoot) showEnterBuffer();
   UI.zone(_worldProvider?_worldProvider.label:ZONES.holm.name);
   Tutorial.banner();

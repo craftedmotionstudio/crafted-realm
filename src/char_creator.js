@@ -15,15 +15,43 @@ const CharCreator = {
     if(this.active || typeof CharCfg==='undefined' || typeof applyPlayerLook!=='function') return;
     this.active = true;
     this._spin = (typeof player!=='undefined') ? player.rotation.y : 0;
+    this._tagsWereVisible = true;
+    if(typeof player!=='undefined' && player) player.traverse(o=>{ if(o.userData && o.userData._nameTag) this._tagsWereVisible=o.visible; });
     if(!this.panel) this._build();
     this.panel.style.display = 'block';
-    if(typeof camCtl!=='undefined'){ this._savedCam={dist:camCtl.dist, pitch:camCtl.pitch}; camCtl.dist=5.2; camCtl.pitch=0.74; }
+    if(typeof camCtl!=='undefined'){
+      this._savedCam={dist:camCtl.dist, pitch:camCtl.pitch, yaw:camCtl.yaw};
+      camCtl.dist=5.2; camCtl.pitch=0.74; camCtl.yaw=this._clearYaw(camCtl.yaw, camCtl.dist);
+      if(typeof snapFollowCamera==='function') snapFollowCamera();
+    }
     this._sync();
+  },
+  // New adventurers spawn beside the Guide Hall; the close-up boom must not sit inside its walls.
+  // Try the current yaw, then the other seven compass yaws, and keep the first whose boom meets no
+  // visible geometry. A 3D ray is needed: the tile grid ignores doors and knows nothing of eaves.
+  _clearYaw(yaw, dist){
+    if(typeof player==='undefined' || typeof scene==='undefined' || typeof THREE==='undefined') return yaw;
+    const pitch=0.74, reach=dist*Math.cos(pitch*0.6);
+    const target=new THREE.Vector3(player.position.x, player.position.y+1.2, player.position.z);
+    const ownedByPlayer=o=>{ for(;o;o=o.parent) if(o===player) return true; return false; };
+    for(let i=0;i<8;i++){
+      const y=yaw+(i%2?1:-1)*Math.ceil(i/2)*Math.PI/4;
+      const cam=new THREE.Vector3(player.position.x+reach*Math.sin(y), player.position.y+dist*Math.sin(pitch),
+        player.position.z+reach*Math.cos(y));
+      const dir=cam.sub(target), len=dir.length();
+      const ray=new THREE.Raycaster(target, dir.normalize(), 0.3, len+0.5);
+      if(typeof camera!=='undefined') ray.camera=camera;
+      const hit=ray.intersectObjects(scene.children, true)
+        .some(h=>h.object.visible && !h.object.isSprite && !ownedByPlayer(h.object));
+      if(!hit) return y;
+    }
+    return yaw;
   },
   finish(){
     this.active = false;
+    this._nameTags(this._tagsWereVisible!==false);   // respect the declutter overlay's choice
     if(this.panel) this.panel.style.display='none';
-    if(this._savedCam && typeof camCtl!=='undefined'){ camCtl.dist=this._savedCam.dist; camCtl.pitch=this._savedCam.pitch; }
+    if(this._savedCam && typeof camCtl!=='undefined'){ camCtl.dist=this._savedCam.dist; camCtl.pitch=this._savedCam.pitch; camCtl.yaw=this._savedCam.yaw; }
     try{ if(typeof SaveGame!=='undefined' && SaveGame.save) SaveGame.save(); }catch(e){}
     if(typeof UI!=='undefined' && UI.chat) UI.chat('Your adventurer is ready. Follow the objective banner.','sys');
   },
@@ -40,7 +68,10 @@ const CharCreator = {
     applyPlayerLook(); this._sync();
   },
   // slow turntable so every side of the design shows
-  tick(dt){ if(this.active && typeof player!=='undefined'){ this._spin += dt*0.7; player.rotation.y = this._spin; } },
+  // The overhead name tag fills the screen at close-up distance; hide it while designing
+  // (every frame, since applyPlayerLook rebuilds the tag).
+  tick(dt){ if(this.active && typeof player!=='undefined'){ this._spin += dt*0.7; player.rotation.y = this._spin; this._nameTags(false); } },
+  _nameTags(show){ if(typeof player!=='undefined' && player) player.traverse(o=>{ if(o.userData && o.userData._nameTag) o.visible=show; }); },
 
   _cycle(key, arr, dir){ const i=Math.max(0, arr.indexOf(CharCfg[key])); CharCfg[key]=arr[(i+dir+arr.length)%arr.length]; applyPlayerLook(); this._sync(); },
   _set(key, val){ CharCfg[key]=val; applyPlayerLook(); this._sync(); },

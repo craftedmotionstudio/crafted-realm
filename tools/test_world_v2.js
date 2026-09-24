@@ -109,6 +109,18 @@ check('the follow camera is clamped out of the surface terrain along its boom',
   /function cameraTerrainClamp\(tx,ty,tz, cx,cy,cz\)/.test(mainSource)&&/CAM_GROUND_CLEARANCE = 1\.1/.test(mainSource)&&
   /camera\.position\.lerp\(camGoal, 0\.15\)/.test(mainSource)&&/WORLD\.cameraBlockers/.test(mainSource)&&
   /WORLD\.cameraBlockers\.push\(\{id:OWNER,x:cc\.center\.x,z:cc\.center\.z,r:cc\.footprint\.outerRadius\+1\.0,top:cc\.baseY\+16\}\)/.test(fs.readFileSync(path.join(ROOT,'src','holm_lastlight_runtime.js'),'utf8')));
+(function(){
+  const creator=fs.readFileSync(path.join(ROOT,'src','char_creator.js'),'utf8');
+  const login=fs.readFileSync(path.join(ROOT,'src','login_overhaul.js'),'utf8');
+  check('entering snaps the follow camera to the player instead of easing in from the world origin (2026-09-24)',
+    /function snapFollowCamera\(\)\{/.test(mainSource)&&/running=true;\s*snapFollowCamera\(\);/.test(mainSource));
+  check('the appearance designer frames the player from a yaw whose boom is clear of buildings and hides the name tag',
+    /_clearYaw\(yaw, dist\)\{/.test(creator)&&/new THREE\.Raycaster\(target/.test(creator)&&
+    /camCtl\.yaw=this\._savedCam\.yaw/.test(creator)&&/this\._nameTags\(false\)/.test(creator)&&
+    /this\._nameTags\(this\._tagsWereVisible!==false\)/.test(creator));
+  check('the play button names where the adventurer will land (Holm vs Veyhollow)',
+    /setPlayLabel\('WASH ASHORE'\)/.test(login)&&/RETURN TO TUTOR\\'S HOLM/.test(login)&&/function onHolm\(data\)\{/.test(login));
+})();
 check('the cavern exit ladder and the Lastlight lever have visible models inside their click targets',
   /ladder\.name='cavern-exit-ladder'/.test(fs.readFileSync(path.join(ROOT,'src','holm_training_cavern.js'),'utf8'))&&
   /arm\.name='lastlight-lever-arm'/.test(fs.readFileSync(path.join(ROOT,'src','holm_lastlight_runtime.js'),'utf8')));
