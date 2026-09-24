@@ -10,7 +10,8 @@ var HolmToolRecoveryService=(function(){
   }
   function recover(){
     if(typeof CRWorldMode==='undefined'||(CRWorldMode.providerId!=='tutors-holm-v2'&&
-      !(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active()))) return false;
+      !(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())&&
+      !(typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active()))) return false;
     if(typeof HolmToolRecovery==='undefined'||typeof Tutorial==='undefined'||typeof Player==='undefined'||typeof ITEMS==='undefined'){
       chat('The provision ledger is not ready. Please try again.');return false;
     }

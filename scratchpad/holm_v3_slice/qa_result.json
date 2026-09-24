@@ -1,0 +1,267 @@
+{
+  "profile": "v3-slice-qa-mufmhaes",
+  "passed": 13,
+  "total": 13,
+  "seconds": 100,
+  "checks": [
+    {
+      "label": "fresh profile boots onto the v3 preview at the landing",
+      "ok": true,
+      "detail": {
+        "p": [
+          61.5,
+          1,
+          118.5
+        ],
+        "plane": 0,
+        "step": 0,
+        "provider": "tutors-holm-v3",
+        "errors": 0
+      }
+    },
+    {
+      "label": "a real click walks the landing path to the guide house front",
+      "ok": true,
+      "detail": {
+        "xy": [
+          769,
+          349
+        ],
+        "s": {
+          "p": [
+            66.5,
+            3,
+            103.5
+          ],
+          "plane": 0,
+          "step": 0,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        }
+      }
+    },
+    {
+      "label": "the outside tile beside the west wall is reachable",
+      "ok": true,
+      "detail": {
+        "p": [
+          59.5,
+          3,
+          97.5
+        ],
+        "plane": 0,
+        "step": 0,
+        "provider": "tutors-holm-v3",
+        "errors": 0
+      }
+    },
+    {
+      "label": "from behind the house a click inside walks round and in through the front door, which opens; the roof lifts",
+      "ok": true,
+      "detail": {
+        "xy": [
+          769,
+          262
+        ],
+        "viaDoor": true,
+        "door": {
+          "open": true
+        },
+        "roof": false,
+        "s": {
+          "p": [
+            64.5,
+            3,
+            97.5
+          ],
+          "plane": 0,
+          "step": 0,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        }
+      }
+    },
+    {
+      "label": "lesson 1: a real click on the relief chart walks to its stance and records study_route",
+      "ok": true,
+      "detail": {
+        "xy": [
+          769,
+          345
+        ],
+        "s": {
+          "p": [
+            61.5,
+            3,
+            97.39
+          ],
+          "plane": 0,
+          "step": 1,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        }
+      }
+    },
+    {
+      "label": "the ground-floor ladder climbs to the loft (plane 1) with an honest location label",
+      "ok": true,
+      "detail": {
+        "xy": [
+          744,
+          314
+        ],
+        "s": {
+          "p": [
+            61.5,
+            5.62,
+            94.5
+          ],
+          "plane": 1,
+          "step": 1,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        },
+        "zone": "Tutor’s Holm · upper floor"
+      }
+    },
+    {
+      "label": "a real click walks across the loft floor and stays upstairs",
+      "ok": true,
+      "detail": {
+        "xy": [
+          769,
+          299
+        ],
+        "s": {
+          "p": [
+            64.5,
+            5.62,
+            96.5
+          ],
+          "plane": 1,
+          "step": 1,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        }
+      }
+    },
+    {
+      "label": "the loft ladder climbs back down to the ground floor",
+      "ok": true,
+      "detail": {
+        "xy": [
+          769,
+          265
+        ],
+        "s": {
+          "p": [
+            60.5,
+            3,
+            94.5
+          ],
+          "plane": 0,
+          "step": 1,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        }
+      }
+    },
+    {
+      "label": "a real click walks back out through the door and the roof returns",
+      "ok": true,
+      "detail": {
+        "xy": [
+          769,
+          286
+        ],
+        "roofBack": true,
+        "s": {
+          "p": [
+            66.5,
+            3,
+            102.5
+          ],
+          "plane": 0,
+          "step": 1,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        }
+      }
+    },
+    {
+      "label": "a click toward the creek stops on dry ground, never in the water",
+      "ok": true,
+      "detail": {
+        "xy": [
+          785,
+          502
+        ],
+        "s": {
+          "p": [
+            46.5,
+            0.85,
+            98.5
+          ],
+          "plane": 0,
+          "step": 1,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        }
+      }
+    },
+    {
+      "label": "a real click beyond the bridge crosses it on the deck at the authored height",
+      "ok": true,
+      "detail": {
+        "samples": 5,
+        "s": {
+          "p": [
+            40.5,
+            3.74,
+            86.5
+          ],
+          "plane": 0,
+          "step": 1,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        }
+      }
+    },
+    {
+      "label": "reload restores the exact v3 position and lesson progress",
+      "ok": true,
+      "detail": {
+        "before": {
+          "p": [
+            40.5,
+            3.74,
+            86.5
+          ],
+          "plane": 0,
+          "step": 1,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        },
+        "after": {
+          "p": [
+            40.5,
+            3.74,
+            86.5
+          ],
+          "plane": 0,
+          "step": 1,
+          "provider": "tutors-holm-v3",
+          "errors": 0
+        }
+      }
+    },
+    {
+      "label": "no page or console errors across the slice",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "consoleErrors": []
+      }
+    }
+  ]
+}

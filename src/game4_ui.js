@@ -549,7 +549,7 @@ function pick(e){
   raycaster.setFromCamera(mouse, camera);
   const hits = raycaster.intersectObjects(WORLD.clickables, true);
   for(const h of hits){
-    if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active()){
+    if((typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())||(typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active())){
       let visible=true;for(let parent=h.object;parent;parent=parent.parent)if(!parent.visible){visible=false;break}
       if(!visible)continue;
     }
@@ -880,6 +880,9 @@ function nearestWalkableTile(cx,cz,maxR){
       if(Math.max(Math.abs(di),Math.abs(dj))!==r) continue;
       const i=i0+di, j=j0+dj;
       if(!tileWalkable(i,j)) continue;
+      // never snap through a wall: a click on furniture inside a room must not pick a tile outside it
+      if(!(Player.plane||0) && typeof CollisionGrid!=='undefined' && CollisionGrid.baked &&
+         !CollisionGrid.hasLoS(i0+0.5,j0+0.5,i+0.5,j+0.5)) continue;
       const d=Math.hypot(i+0.5-cx, j+0.5-cz);
       if(d<bd){ bd=d; best=[i+0.5,j+0.5]; }
     }

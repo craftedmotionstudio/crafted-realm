@@ -1,8 +1,8 @@
 {
-  "profile": "fable-route-qa-mufl8lik",
+  "profile": "fable-route-qa-mufmb6eu",
   "passed": 20,
   "total": 20,
-  "seconds": 359.2,
+  "seconds": 361,
   "checks": [
     {
       "label": "fresh profile boots at step 0 of the thirteen-step Holm curriculum",
@@ -18,7 +18,7 @@
         "errors": 0,
         "stepId": "study_route"
       },
-      "t": 4.9
+      "t": 5.1
     },
     {
       "label": "1 study_route: a real click on the relief chart records the lesson",
@@ -51,7 +51,7 @@
           "stepId": "equip_hatchet"
         }
       },
-      "t": 11.2
+      "t": 11.3
     },
     {
       "label": "2 equip_hatchet: a real click on the pack hatchet wields it",
@@ -78,17 +78,17 @@
       "detail": {
         "r": {
           "centre": [
-            124,
-            2.6,
-            161.2
+            123.8,
+            2.8,
+            161.1
           ],
           "screen": [
             769,
-            229
+            208
           ],
           "hit": [
             769,
-            229
+            208
           ]
         },
         "s": {
@@ -96,14 +96,14 @@
           "complete": false,
           "plane": 0,
           "pos": [
-            125.9,
-            159.5
+            125.5,
+            160.1
           ],
           "errors": 0,
           "stepId": "light_fire"
         }
       },
-      "t": 35.1
+      "t": 40.5
     },
     {
       "label": "4 light_fire: a real click on the logs lights a campfire with the tinderbox",
@@ -115,14 +115,14 @@
           "complete": false,
           "plane": 0,
           "pos": [
-            128.5,
-            162.5
+            124.4,
+            160.1
           ],
           "errors": 0,
           "stepId": "catch_fish"
         }
       },
-      "t": 41.6
+      "t": 43.5
     },
     {
       "label": "5 catch_fish: net then a real click on the fishing edge lands a mirrorperch",
@@ -155,7 +155,7 @@
           "stepId": "cook_fish"
         }
       },
-      "t": 60.5
+      "t": 63.6
     },
     {
       "label": "6 cook_fish: a real click on the campfire roasts the perch",
@@ -163,17 +163,17 @@
       "detail": {
         "cookLoc": {
           "centre": [
-            129.7,
+            125.6,
             1.5,
-            162.5
+            160.1
           ],
           "screen": [
             769,
-            322
+            297
           ],
           "hit": [
-            785,
-            349
+            769,
+            297
           ]
         },
         "s": {
@@ -181,14 +181,14 @@
           "complete": false,
           "plane": 0,
           "pos": [
-            129.5,
-            161.5
+            125.5,
+            160
           ],
           "errors": 0,
           "stepId": "descend_cavern"
         }
       },
-      "t": 75.2
+      "t": 78.8
     },
     {
       "label": "7 descend_cavern: right-click the winch frame, Climb-down from the menu, land in the cavern",
@@ -222,7 +222,7 @@
           "stepId": "mine_copper"
         }
       },
-      "t": 96.3
+      "t": 100.7
     },
     {
       "label": "8 mine_copper: a real click on the copper rock mines copper ore",
@@ -236,11 +236,11 @@
           ],
           "screen": [
             769,
-            358
+            359
           ],
           "hit": [
             769,
-            358
+            359
           ]
         },
         "s": {
@@ -255,7 +255,7 @@
           "stepId": "mine_tin"
         }
       },
-      "t": 102.9
+      "t": 108.5
     },
     {
       "label": "9 mine_tin: a real click on the tin rock mines tin ore",
@@ -282,13 +282,13 @@
           "plane": -1,
           "pos": [
             304.5,
-            376.7
+            376.5
           ],
           "errors": 0,
           "stepId": "smelt_bronze"
         }
       },
-      "t": 116.7
+      "t": 118.6
     },
     {
       "label": "10 smelt_bronze: a real click on the furnace then the Bronze bar option smelts a bar",
@@ -322,7 +322,7 @@
           "stepId": "forge_dagger"
         }
       },
-      "t": 129.4
+      "t": 131.3
     },
     {
       "label": "11 forge_dagger: a real click on the anvil then the Bronze dagger option forges it",
@@ -356,7 +356,7 @@
           "stepId": "open_bank"
         }
       },
-      "t": 137.1
+      "t": 139.1
     },
     {
       "label": "cavern exit ladder: a real click climbs out into the Combat Hall drill tower",
@@ -389,7 +389,7 @@
           "stepId": "open_bank"
         }
       },
-      "t": 147.8
+      "t": 149.6
     },
     {
       "label": "12 open_bank: a real click on a teller booth opens the bank interface",
@@ -422,7 +422,7 @@
           "stepId": "relight_lastlight"
         }
       },
-      "t": 161.2
+      "t": 163.1
     },
     {
       "label": "optional bake_bread: real clicks on the shelf, bin, butt, trough, pack and range bake a loaf",
@@ -442,7 +442,7 @@
           "step": 12
         }
       },
-      "t": 238.2
+      "t": 240.1
     },
     {
       "label": "optional learn_quests: a real click on the quest board records the lesson",
@@ -468,7 +468,7 @@
           "step": 12
         }
       },
-      "t": 246.3
+      "t": 248.2
     },
     {
       "label": "13 relight_lastlight: real clicks on the door, both ladders and the lever light the beacon and complete the curriculum",
@@ -519,7 +519,7 @@
           "stepId": null
         }
       },
-      "t": 315.1
+      "t": 317
     },
     {
       "label": "descent: the lighthouse returns the player to the summit (ladders clicked where still needed) and the road reaches Departure Dock",
@@ -542,7 +542,7 @@
           "stepId": null
         }
       },
-      "t": 338.9
+      "t": 340.8
     },
     {
       "label": "departure: a real click on the skiff sails to the mainland with the departure pack",
@@ -573,7 +573,7 @@
           "errors": 0
         }
       },
-      "t": 358.8
+      "t": 360.7
     },
     {
       "label": "no page errors, console errors, or failed asset loads across the whole route",
@@ -583,7 +583,7 @@
         "consoleErrors": [],
         "failedLoads": []
       },
-      "t": 358.8
+      "t": 360.7
     }
   ],
   "pageErrors": [],

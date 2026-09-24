@@ -5,7 +5,8 @@
  */
 var HolmGuideHall=(function(){
   'use strict';
-  function onHolm(){ return typeof CRWorldMode!=='undefined'&&(CRWorldMode.providerId==='tutors-holm-v2'||(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())); }
+  function onHolm(){ return typeof CRWorldMode!=='undefined'&&(CRWorldMode.providerId==='tutors-holm-v2'||(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())||
+    (typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active())); }
   function lessonStatus(){
     var steps=(typeof Tutorial!=='undefined'&&Tutorial.steps)||[];
     var done=typeof Tutorial!=='undefined'?(Tutorial.complete?steps.length:Math.max(0,Tutorial.step||0)):0;

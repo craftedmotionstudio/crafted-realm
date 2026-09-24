@@ -144,6 +144,14 @@ check('the follow camera is clamped out of the surface terrain along its boom',
     /HolmV3Terrain\.walkHeight\(bundle,x,z\)/.test(v3Prev)&&
     /HolmV3Preview\.active\(\)\)return HolmV3Preview\.height\(x,z\)/.test(world2)&&
     /else if\(typeof HolmV3Preview!=='undefined'&&HolmV3Preview\.requested\)/.test(mainSource));
+  const ui4=fs.readFileSync(path.join(ROOT,'src','game4_ui.js'),'utf8');
+  check('a blocked click never snaps to a tile on the far side of a wall (nearestWalkableTile line of sight)',
+    /!CollisionGrid\.hasLoS\(i0\+0\.5,j0\+0\.5,i\+0\.5,j\+0\.5\)\) continue;/.test(ui4));
+  const house=fs.readFileSync(path.join(ROOT,'src','holm_tile_house.js'),'utf8');
+  check('tile-house walls are thin edge colliders, ladders have hit proxies, and floors are plane-tagged ground',
+    /hw:\.5,hd:\.05\}:\{type:'rect',x:ex,z:ez,hw:\.05,hd:\.5\}/.test(house)&&/proxy\.name='climb-hit-proxy'/.test(house)&&
+    /slab\.name='ground';slab\.userData\.plane=r\.level;/.test(house)&&
+    fs.existsSync(path.join(ROOT,'tools','qa_holm_v3_slice.js'))&&fs.existsSync(path.join(ROOT,'tools','test_holm_tile_house.js')));
   check('the restore greeting names Tutor\'s Holm or Veyhollow from the loaded provider',
     /\/\^tutors-holm\/\.test\(this\.lastLoad\.provider\)/.test(fs.readFileSync(path.join(ROOT,'src','ui_save.js'),'utf8')));
   check('the play button names where the adventurer will land (Holm vs Veyhollow)',

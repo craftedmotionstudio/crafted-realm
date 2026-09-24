@@ -3801,3 +3801,14 @@ length (slight medium-length read in 3/4).
   path, creek click stopped on the bank, crossed the bridge on the deck (y 3.3 exactly), save/reload restored the
   v3 position. Grass retuned from lime to 2004 meadow green. Restore greeting now names Tutor's Holm correctly.
 - Production unaffected: world-v2 locks, content PASS, route 20/20 (359 s), smoke both phases.
+
+## 2026-09-24 — Finish goal step 3 built: arrival cove + guide house (awaiting owner review)
+- Tile house kit: walls on tile edges (collision = what you see), L/T plans, roof per wing, 2004 doors/windows/
+  arch/loft ladder; planner proves every room and clear tile reachable; furniture kept off openings (8/8).
+- Guide house in grey stone under slate (own canvas patterns), stone quoins, furnished hall/study/loft, relief
+  chart + provisions rack wired to the existing lesson code; cobbled yard, fenced flower garden, round mottled
+  oaks, pines, bushes, rocks, beached rowboat.
+- Self-review vs Bible `A_Tutorial_Island_Option.jpg` replaced the first cream-plaster/terracotta pass.
+- Gate `tools/qa_holm_v3_slice.js` 13/13 real pointer (walled approach forced through the door, lesson 1, loft,
+  creek refusal, bridge deck, reload). Production route 20/20; blocked-click fallback no longer crosses walls.
+- STOP for owner review per the goal. Captures: scratchpad/holm_v3_review/01..06.

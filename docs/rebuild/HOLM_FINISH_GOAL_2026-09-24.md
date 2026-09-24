@@ -141,10 +141,28 @@ comes from the owner and cannot be replaced by a self-assigned score.**
       position on v3. Grass retuned from lime to 2004 meadow green after the first pane look.
 
 ### M3 — First live slice: arrival → guide house
-- [ ] Arrival cove, creek crossing, guide house exterior, furnished interior and upper floor running in the
-      `tutors-holm-v3` preview, with real-pointer walking both ways.
+- [x] Arrival cove, creek crossing, guide house exterior, furnished interior and upper floor running in the
+      `tutors-holm-v3` preview, with real-pointer walking both ways. 2026-09-24:
+      new **tile house kit** (`src/holm_tile_house.js`): rooms of whole tiles on two levels, walls on tile edges
+      (so collision is exactly what you see), L/T plans with a roof per wing, doors on the game's door contract,
+      windows, arches, loft ladders; the planner proves every room and every clear floor tile reachable and keeps
+      furniture off doors/arches/stairs (8/8 tests). **2004 furniture** (`src/holm_tile_furniture.js`) and **cove
+      scenery** (`src/holm_v3_scenery.js`: round mottled oaks, pines, bushes, flowers, rocks, a beached rowboat,
+      edge fences). Guide house (`assets/world/holm_v3/guide_house.tilehouse.json`): grey stone under slate,
+      two-storey hall with loft + lower study wing through an arch, relief chart, hearth, provisions rack,
+      bookcase, bed; cobbled yard; fenced flower garden. Lesson 1 (study_route) and tool provisions run on it.
+      Standing gate `tools/qa_holm_v3_slice.js` PASS 13/13 with real pointer input: landing path, walled approach
+      from behind forced through the door (auto-opens, roof lifts), lesson 1, loft up/walk/down, exit, creek
+      refused, bridge crossed on the deck at y 3.3, reload restores position and lesson, 0 errors.
+      Fixes found on the way: blocked-click fallback no longer snaps through walls; ladder hit proxies; loft
+      label; restore greeting; floor picking per storey. Production: route 20/20 (361 s), smoke both phases.
 - [ ] Slice review at the gameplay camera against the Bible references. **Ask the owner to look before
       continuing**, because this slice sets the visual language for every other area.
+      2026-09-24 self-review vs `A_Tutorial_Island_Option.jpg`: first pass (cream plaster, terracotta roof,
+      faceted trees, no paving) read as a different game; revised to grey stone blocks + slate courses (own
+      canvas patterns), stone quoins, cobbled yard, round mottled canopies. Review captures:
+      `scratchpad/holm_v3_review/01..06`. Known gaps for the owner: stone reads pale under the game sun; steep
+      shoreline and creek banks; minimap blank on the loft; no Guide Bram yet (step 6). **Awaiting owner.**
 
 ### M4 — The rest of the island
 - [ ] Place the bakehouse, quest lodge and keep candidates on the compiled terrain with services bound to their

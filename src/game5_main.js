@@ -741,7 +741,9 @@ function update(dt){
 
   const activePlane=(Player.plane||0);
   if(activePlane!==_zonePlane){ _zonePlane=activePlane; if(activePlane===0) curZone=null; }   // relabel after a climb (playtest P-21)
-  if(activePlane>0 && typeof HolmLastlightData!=='undefined' && HolmLastlightData.levels[activePlane-1]){
+  if(activePlane>0 && typeof HolmV3Preview!=='undefined' && HolmV3Preview.active()){
+    UI.zone('Tutor’s Holm · upper floor');   // v3 houses have lofts; Lastlight's floor names are v2-only
+  } else if(activePlane>0 && typeof HolmLastlightData!=='undefined' && HolmLastlightData.levels[activePlane-1]){
     // Authored upper floors keep their own location name. Surface zone polling
     // must not overwrite it after a climb or saved-game restore.
     UI.zone(HolmLastlightData.levels[activePlane-1].label);

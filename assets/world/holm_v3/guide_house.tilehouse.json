@@ -1,0 +1,44 @@
+{
+ "schema": "holm-tile-house-v1",
+ "id": "guide_house",
+ "notes": "Step 3 guide house, 2004 style: a two-storey hall with a loft, a lower study wing through an arch, one front door facing the landing path. Local tiles; origin is the world tile of local 0,0.",
+ "origin": [60, 94],
+ "floorY": 3,
+ "storeyH": 2.6,
+ "rooms": [
+  {"id": "hall",  "level": 0, "x": 0, "z": 0, "w": 7, "d": 5},
+  {"id": "study", "level": 0, "x": 7, "z": 1, "w": 4, "d": 4},
+  {"id": "loft",  "level": 1, "x": 0, "z": 0, "w": 7, "d": 5}
+ ],
+ "openings": [
+  {"level": 0, "x": 6, "z": 4, "side": "S", "kind": "door"},
+  {"level": 0, "x": 6, "z": 2, "side": "E", "kind": "arch"},
+  {"level": 0, "x": 2, "z": 4, "side": "S", "kind": "window"},
+  {"level": 0, "x": 0, "z": 2, "side": "W", "kind": "window"},
+  {"level": 0, "x": 3, "z": 0, "side": "N", "kind": "window"},
+  {"level": 0, "x": 9, "z": 4, "side": "S", "kind": "window"},
+  {"level": 0, "x": 10, "z": 2, "side": "E", "kind": "window"},
+  {"level": 1, "x": 3, "z": 4, "side": "S", "kind": "window"},
+  {"level": 1, "x": 0, "z": 2, "side": "W", "kind": "window"},
+  {"level": 1, "x": 5, "z": 0, "side": "N", "kind": "window"}
+ ],
+ "stairs": [{"id": "loft_ladder", "x": 0, "z": 0, "fromLevel": 0, "toX": 1, "toZ": 0}],
+ "furniture": [
+  {"kind": "chart",    "level": 0, "x": 2, "z": 1, "w": 2, "d": 2, "role": "study_route"},
+  {"kind": "bench",    "level": 0, "x": 2, "z": 3, "w": 2, "d": 1},
+  {"kind": "hearth",   "level": 0, "x": 4, "z": 0, "w": 2, "d": 1},
+  {"kind": "rack",     "level": 0, "x": 0, "z": 3, "w": 1, "d": 1, "rot": 1, "role": "provisions"},
+  {"kind": "barrel",   "level": 0, "x": 0, "z": 4},
+  {"kind": "bookcase", "level": 0, "x": 8, "z": 1, "w": 2, "d": 1},
+  {"kind": "rug",      "level": 0, "x": 7, "z": 2, "w": 2, "d": 2},
+  {"kind": "chest",    "level": 0, "x": 10, "z": 4},
+  {"kind": "bed",      "level": 1, "x": 5, "z": 0, "w": 2, "d": 2},
+  {"kind": "chest",    "level": 1, "x": 3, "z": 0},
+  {"kind": "crate",    "level": 1, "x": 0, "z": 4},
+  {"kind": "barrel",   "level": 1, "x": 1, "z": 4}
+ ],
+ "roofs": [
+  {"x": 0, "z": 0, "w": 7, "d": 5, "kind": "gable", "ridge": "x", "rise": 1.9},
+  {"x": 7, "z": 1, "w": 4, "d": 4, "kind": "hip", "ridge": "z", "rise": 1.3}
+ ]
+}

@@ -11,7 +11,37 @@ var HolmV3Preview=(function(){
   'use strict';
   var requested=typeof location!=='undefined'&&new URLSearchParams(location.search).get('holmV3')==='1';
   var ID='tutors-holm-v3',BUNDLE='assets/world/holm_v3/holm-v3.terrain.bundle.json';
-  var bundle=null,provider=null,material=null,water=null,crossings=[];
+  var HOUSES=['assets/world/holm_v3/guide_house.tilehouse.json'],SCENERY=['assets/world/holm_v3/arrival.scenery.json'];
+  var bundle=null,provider=null,material=null,water=null,crossings=[],houseSources=[],scenerySources=[],installed=[];
+  async function json(url){var r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('Holm v3 file missing: '+url);return r.json();}
+
+  // Houses, furniture and scenery go in before chunk residency so the first collision bake sees them.
+  function installContent(){
+    houseSources.forEach(function(src){
+      var plan=HolmTileHouse.plan(src),built=HolmTileHouse.build(THREE,plan);
+      built.root.name='world-object-'+plan.id;   // HolmStationReach finds service stances by this name
+      var extra=HolmTileHouse.install(plan,built);
+      plan.furniture.forEach(function(f){
+        var piece=HolmTileFurniture.build(THREE,plan,f);(f.level?built.upper:built.ground).add(piece.group);
+        if(piece.collider)WORLD.colliders.push(piece.collider);
+        if(f.role){piece.group.userData=Object.assign({},ROLES[f.role]);WORLD.clickables.push(piece.group);}
+      });
+      installed.push({plan:plan,built:built,climbs:extra.climbs});
+    });
+    scenerySources.forEach(function(src){
+      var s=HolmV3Scenery.build(THREE,src,function(x,z){return HolmV3Terrain.walkHeight(bundle,x,z);});
+      scene.add(s.group);s.colliders.forEach(function(c){WORLD.colliders.push(c);});installed.push({scenery:s});
+    });
+  }
+  var ROLES={study_route:{kind:'holm_v3_chart',label:'Study <b>Relief chart</b>'},
+    provisions:{kind:'holm_v3_provisions',label:'Collect-tools <b>Provisions rack</b>'}};
+  // Service stances in world tiles (guide house origin 60,94): beside the chart and the rack, inside the hall.
+  if(typeof Interact!=='undefined'&&typeof HolmStationReach!=='undefined'&&typeof HolmGuideHall!=='undefined'){
+    var at=function(tile,fn){return HolmStationReach.guard('guide_house',tile,fn,1.2);};
+    Interact.register({target:'kind:holm_v3_chart',option:'Study',primary:true,handler:at({x:61.5,z:96.5},function(){HolmGuideHall.studyRoute();})});
+    Interact.register({target:'kind:holm_v3_provisions',option:'Collect-tools',primary:true,handler:at({x:61.5,z:97.5},function(){HolmGuideHall.collectTools();})});
+    Interact.register({target:'kind:holm_v3_provisions',option:'Inspect',handler:at({x:61.5,z:97.5},function(){HolmGuideHall.inspectProvisions();})});
+  }
 
   function active(){ return !!provider&&typeof CRWorldMode!=='undefined'&&CRWorldMode.providerId===ID; }
 
@@ -23,6 +53,7 @@ var HolmV3Preview=(function(){
     if(!res.ok) throw new Error('Holm v3 bundle missing: run node tools/build_holm_v3_terrain.js');
     bundle=await res.json();
     if(bundle.schema!=='holm-terrain-bundle-v3') throw new Error('Holm v3 bundle has the wrong schema');
+    houseSources=await Promise.all(HOUSES.map(json));scenerySources=await Promise.all(SCENERY.map(json));
     var chunks=HolmOverhaulChunks.compile(bundle.base).chunks, a=bundle.anchors;
     var landmarks={};
     Object.keys(a).forEach(function(id){ landmarks['v3_'+id]={id:'v3_'+id,label:id,x:a[id][0]+.5,z:a[id][1]+.5}; });
@@ -35,6 +66,7 @@ var HolmV3Preview=(function(){
           water=HolmV3Render.buildWater(THREE,bundle);scene.add(water);
           crossings=bundle.crossings.map(function(c){var g=HolmV3Render.buildCrossing(THREE,c);scene.add(g);return g;});
           if(typeof CollisionGrid!=='undefined') CollisionGrid.initResident(p);
+          installContent();
           var s=p.getSpawnLandmark(p.defaultLandmark);p.updateResidency(s.x,s.z,true);
         },
         populate:function(){},
@@ -66,6 +98,7 @@ var HolmV3Preview=(function(){
   }
 
   function height(x,z){ return active()?HolmV3Terrain.walkHeight(bundle,x,z):null; }
-  function snapshot(){ return active()?{provider:ID,stats:bundle.stats,routes:bundle.routes}:null; }
+  function snapshot(){ return active()?{provider:ID,stats:bundle.stats,routes:bundle.routes,
+    houses:installed.filter(function(i){return i.plan;}).map(function(i){return {id:i.plan.id,stats:i.plan.stats,doors:i.built.doors.length};})}:null; }
   return {requested:requested,prepare:prepare,active:active,height:height,snapshot:snapshot};
 })();
