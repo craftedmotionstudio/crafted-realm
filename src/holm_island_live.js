@@ -13,7 +13,7 @@ var HolmIsland=(function(){
  'use strict';
  var qs=typeof location!=='undefined'?new URLSearchParams(location.search):new URLSearchParams('');
  var cfg=typeof GameConfig!=='undefined'?GameConfig:{};
- var qa=qs.get('holmIsland')==='1',legacy=qs.get('holmLegacy')==='1';
+ var qa=qs.get('holmIsland')==='1',legacy=qs.get('holmLegacy')==='1'||qs.get('arrivalQA')==='1';   // the arrival-only QA provider keeps the old island around it
  var ID_LIVE='tutors-holm-v3',ID_QA='tutors-holm-arrival-qa';
  function savedProvider(){
   try{var key=typeof QAProfile!=='undefined'&&QAProfile.key?QAProfile.key:null;if(!key)return null;

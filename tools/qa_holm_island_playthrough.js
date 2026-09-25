@@ -38,7 +38,7 @@ async function spellbook(page,spell){   // open the Spellbook tab and click the 
   return page.evaluate(()=>Player.spell==='wind_strike');
 }
 async function attack(page,pen,opts){for(let i=0;i<4;i++){const n=await page.evaluate(pen=>{const x=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen===pen);return x?x.mesh.name:null},pen);if(!n){await sleep(2000);continue}
-  const c=await clickNamed(page,n,opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c}return {error:'no target'}}
+  const c=await clickNamed(page,n,opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c;await closeDialogue(page)}return {error:'no target'}}
 // a player who sees no progress clicks the foe again: up to four attack cycles, each waiting 40 s for the credit
 async function fight(page,pen,id,opts){for(let k=0;k<4;k++){await attack(page,pen,opts);if(await waitLesson(page,id,40000))return true}return false}
 // ---- the lessons, in the curriculum's order ----
@@ -78,7 +78,7 @@ async function playOnce(browser,n){
   const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(String(e&&e.stack||e).slice(0,300)));
   const t0=Date.now(),per={},profile='playthrough-'+n+'-'+Date.now().toString(36);let status='incomplete',note='';
   try{
-    await page.goto(BASE0+'/?holmIsland=1&qaProfile='+profile,{waitUntil:'load',timeout:120000});await enter(page);
+    await page.goto(BASE0+(process.env.HOLM_MODE==='draft'?'/?holmIsland=1&qaProfile=':'/?qaProfile=')+profile,{waitUntil:'load',timeout:120000});await enter(page);
     await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
     const hint0=await page.evaluate(()=>document.getElementById('obj-text').textContent);
     for(let guard=0;guard<30;guard++){

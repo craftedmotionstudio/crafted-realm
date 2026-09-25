@@ -132,6 +132,13 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     const boot=await page.evaluate(()=>({provider:CRWorldMode.providerId,stats:HolmArrivalQA.islandStats(),roots:scene.children.filter(o=>/^island-/.test(o.name)).length}));
     ok('boots the island draft with the composed graph and the Blender buildings, habitat and bridges',boot.provider==='tutors-holm-arrival-qa'&&boot.stats&&boot.stats.nodes>10000&&boot.roots>=40,boot);
     await page.evaluate(()=>{window.__qaTrace=[];setInterval(()=>window.__qaTrace.push([player.position.x,player.position.y,player.position.z]),120);});
+    // owner rule: every clickable thing on the island is a purposely designed Blender model (no code-built stand-ins,
+    // no leftovers from the old island); invisible hit boxes behind small stations are allowed
+    {const au=await page.evaluate(()=>{const PRIM=/^(Box|Cylinder|Sphere|Cone|Torus|Icosahedron|Plane|Circle|Ring|Octahedron|Dodecahedron|Tetrahedron|Capsule|Lathe|Extrude|Shape|Tube)(Buffer)?Geometry$/;
+      const island=o=>{for(let q=o;q;q=q.parent){const n=q.name||'';if(/^(island-|Keep_|Kitchen_|Lodge_|Survival_|Quarry_|Bank_|Mage_|Haven_|Lastlight_|Cavern_|ground-chunk-|guide-marker|beacon)/.test(n))return true;const u=q.userData||{};if(u.islandService||u.islandGround||u.arrivalSurface||u.islandGate||u.islandTutor||u.islandSign||u.islandLesson||/^arrival_|^npc$/.test(u.kind||''))return true}return false};
+      let left=[],prim=[];WORLD.clickables.forEach(r=>{if(!island(r))left.push(r.userData.kind||r.name);r.traverse(m=>{if(!m.isMesh)return;const inv=!m.visible||[].concat(m.material).every(x=>x&&(x.visible===false||(x.transparent&&x.opacity===0)));if(PRIM.test(m.geometry.type)&&!inv)prim.push(r.name||r.userData.kind)})});
+      return {clickables:WORLD.clickables.length,leftovers:left.slice(0,8),leftoverCount:left.length,visiblePrimitives:prim.slice(0,8)}});
+     ok('every clickable on the island is an authored Blender model (no code-built stand-ins, no old-island leftovers)',au.leftoverCount===0&&au.visiblePrimitives.length===0,au);}
     await shot(page,'01_dock');
     const bridges=JSON.parse(fs.readFileSync(path.join(__dirname,'..','docs/rebuild/holm-overhaul/island-bridges.json'),'utf8')).bridges;
     const timber=bridges.find(b=>/timber/.test(b.id));
@@ -260,7 +267,7 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      T.spawned=await page.evaluate(()=>HolmIslandTrials.npcs().map(n=>n.islandPen));
      const live=pen=>page.evaluate(pen=>{const n=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen===pen);return n?n.mesh.name:null},pen);
      // a grubkin can shuffle between aiming and clicking; like a player, click again until it is the target
-     const attack=async(pen,opts)=>{let c={error:'no live grubkin'};for(let i=0;i<4;i++){c=await clickNamed(page,await live(pen),opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c}return c.error?c:{error:'never became the target'}};
+     const attack=async(pen,opts)=>{let c={error:'no live grubkin'};for(let i=0;i<4;i++){c=await clickNamed(page,await live(pen),opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c;await closeDialogue(page)}return c.error?c:{error:'never became the target'}};
      await page.evaluate(()=>{Player.inv=Player.inv.map(()=>null);['bronze_dagger','worn_bow'].forEach(i=>Player.addItem(i,1));Player.addItem('arrows',30);Player.addItem('air_rune',15);Player.addItem('mind_rune',15);UI.refreshInv()});
      await clickInventory(page,'bronze_dagger');let c=await attack('keep-court');T.melee=c.error||await waitFor(page,()=>window.__notes.includes('killStyle/melee'),null,150000);
      await shot(page,'09_melee_trial');

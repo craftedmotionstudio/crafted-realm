@@ -1,0 +1,454 @@
+{
+ "version": 1,
+ "slots": [
+  "Hair",
+  "Jaw",
+  "Torso",
+  "Arms",
+  "Hands",
+  "Legs",
+  "Feet"
+ ],
+ "bodies": {
+  "A": {
+   "Hair": [
+    {
+     "name": "Kit_A_Hair_01",
+     "index": 1,
+     "label": "Short"
+    },
+    {
+     "name": "Kit_A_Hair_02",
+     "index": 2,
+     "label": "Bald"
+    },
+    {
+     "name": "Kit_A_Hair_03",
+     "index": 3,
+     "label": "Dreadlocks"
+    },
+    {
+     "name": "Kit_A_Hair_04",
+     "index": 4,
+     "label": "Long"
+    },
+    {
+     "name": "Kit_A_Hair_05",
+     "index": 5,
+     "label": "Medium"
+    },
+    {
+     "name": "Kit_A_Hair_06",
+     "index": 6,
+     "label": "Tonsure"
+    },
+    {
+     "name": "Kit_A_Hair_07",
+     "index": 7,
+     "label": "Cropped"
+    },
+    {
+     "name": "Kit_A_Hair_08",
+     "index": 8,
+     "label": "Wild spikes"
+    },
+    {
+     "name": "Kit_A_Hair_09",
+     "index": 9,
+     "label": "Spiky"
+    },
+    {
+     "name": "Kit_A_Hair_10",
+     "index": 10,
+     "label": "Mohawk"
+    }
+   ],
+   "Jaw": [
+    {
+     "name": "Kit_A_Jaw_01",
+     "index": 1,
+     "label": "Clean-shaven"
+    },
+    {
+     "name": "Kit_A_Jaw_02",
+     "index": 2,
+     "label": "Goatee"
+    },
+    {
+     "name": "Kit_A_Jaw_03",
+     "index": 3,
+     "label": "Long"
+    },
+    {
+     "name": "Kit_A_Jaw_04",
+     "index": 4,
+     "label": "Medium"
+    },
+    {
+     "name": "Kit_A_Jaw_05",
+     "index": 5,
+     "label": "Small moustache"
+    },
+    {
+     "name": "Kit_A_Jaw_06",
+     "index": 6,
+     "label": "Short"
+    },
+    {
+     "name": "Kit_A_Jaw_07",
+     "index": 7,
+     "label": "Waxed moustache"
+    },
+    {
+     "name": "Kit_A_Jaw_08",
+     "index": 8,
+     "label": "Split"
+    }
+   ],
+   "Torso": [
+    {
+     "name": "Kit_A_Torso_01",
+     "index": 1,
+     "label": "Plain"
+    },
+    {
+     "name": "Kit_A_Torso_02",
+     "index": 2,
+     "label": "Light buttons"
+    },
+    {
+     "name": "Kit_A_Torso_03",
+     "index": 3,
+     "label": "Dark buttons"
+    },
+    {
+     "name": "Kit_A_Torso_04",
+     "index": 4,
+     "label": "Jacket"
+    },
+    {
+     "name": "Kit_A_Torso_05",
+     "index": 5,
+     "label": "Shirt"
+    },
+    {
+     "name": "Kit_A_Torso_06",
+     "index": 6,
+     "label": "Stitching"
+    },
+    {
+     "name": "Kit_A_Torso_07",
+     "index": 7,
+     "label": "Torn"
+    },
+    {
+     "name": "Kit_A_Torso_08",
+     "index": 8,
+     "label": "Two-toned"
+    }
+   ],
+   "Arms": [
+    {
+     "name": "Kit_A_Arms_01",
+     "index": 1,
+     "label": "Regular"
+    },
+    {
+     "name": "Kit_A_Arms_02",
+     "index": 2,
+     "label": "Musclebound"
+    },
+    {
+     "name": "Kit_A_Arms_03",
+     "index": 3,
+     "label": "Loose sleeved"
+    },
+    {
+     "name": "Kit_A_Arms_04",
+     "index": 4,
+     "label": "Large cuffed"
+    },
+    {
+     "name": "Kit_A_Arms_05",
+     "index": 5,
+     "label": "Thin"
+    },
+    {
+     "name": "Kit_A_Arms_06",
+     "index": 6,
+     "label": "Shoulder pads"
+    },
+    {
+     "name": "Kit_A_Arms_07",
+     "index": 7,
+     "label": "Tight sleeves"
+    }
+   ],
+   "Hands": [
+    {
+     "name": "Kit_A_Hands_01",
+     "index": 1,
+     "label": "Bare"
+    },
+    {
+     "name": "Kit_A_Hands_02",
+     "index": 2,
+     "label": "Gloves"
+    },
+    {
+     "name": "Kit_A_Hands_03",
+     "index": 3,
+     "label": "Wraps"
+    }
+   ],
+   "Legs": [
+    {
+     "name": "Kit_A_Legs_01",
+     "index": 1,
+     "label": "Plain"
+    },
+    {
+     "name": "Kit_A_Legs_02",
+     "index": 2,
+     "label": "Shorts"
+    },
+    {
+     "name": "Kit_A_Legs_03",
+     "index": 3,
+     "label": "Flares"
+    },
+    {
+     "name": "Kit_A_Legs_04",
+     "index": 4,
+     "label": "Turn-ups"
+    },
+    {
+     "name": "Kit_A_Legs_05",
+     "index": 5,
+     "label": "Tattered"
+    },
+    {
+     "name": "Kit_A_Legs_06",
+     "index": 6,
+     "label": "Bootcut"
+    }
+   ],
+   "Feet": [
+    {
+     "name": "Kit_A_Feet_01",
+     "index": 1,
+     "label": "Boots"
+    },
+    {
+     "name": "Kit_A_Feet_02",
+     "index": 2,
+     "label": "Shoes"
+    },
+    {
+     "name": "Kit_A_Feet_03",
+     "index": 3,
+     "label": "Sandals"
+    }
+   ]
+  },
+  "B": {
+   "Hair": [
+    {
+     "name": "Kit_B_Hair_01",
+     "index": 1,
+     "label": "Long"
+    },
+    {
+     "name": "Kit_B_Hair_02",
+     "index": 2,
+     "label": "Bald"
+    },
+    {
+     "name": "Kit_B_Hair_03",
+     "index": 3,
+     "label": "Bun"
+    },
+    {
+     "name": "Kit_B_Hair_04",
+     "index": 4,
+     "label": "Dreadlocks"
+    },
+    {
+     "name": "Kit_B_Hair_05",
+     "index": 5,
+     "label": "Medium"
+    },
+    {
+     "name": "Kit_B_Hair_06",
+     "index": 6,
+     "label": "Pigtails"
+    },
+    {
+     "name": "Kit_B_Hair_07",
+     "index": 7,
+     "label": "Short"
+    },
+    {
+     "name": "Kit_B_Hair_08",
+     "index": 8,
+     "label": "Cropped"
+    },
+    {
+     "name": "Kit_B_Hair_09",
+     "index": 9,
+     "label": "Wild spikes"
+    },
+    {
+     "name": "Kit_B_Hair_10",
+     "index": 10,
+     "label": "Spiky"
+    },
+    {
+     "name": "Kit_B_Hair_11",
+     "index": 11,
+     "label": "Side-swept"
+    }
+   ],
+   "Torso": [
+    {
+     "name": "Kit_B_Torso_01",
+     "index": 1,
+     "label": "Simple"
+    },
+    {
+     "name": "Kit_B_Torso_02",
+     "index": 2,
+     "label": "Sports top"
+    },
+    {
+     "name": "Kit_B_Torso_03",
+     "index": 3,
+     "label": "Pleated"
+    },
+    {
+     "name": "Kit_B_Torso_04",
+     "index": 4,
+     "label": "Shirt"
+    },
+    {
+     "name": "Kit_B_Torso_05",
+     "index": 5,
+     "label": "Stitching"
+    }
+   ],
+   "Arms": [
+    {
+     "name": "Kit_B_Arms_01",
+     "index": 1,
+     "label": "Long sleeved"
+    },
+    {
+     "name": "Kit_B_Arms_02",
+     "index": 2,
+     "label": "Short sleeves"
+    },
+    {
+     "name": "Kit_B_Arms_03",
+     "index": 3,
+     "label": "Bare arms"
+    },
+    {
+     "name": "Kit_B_Arms_04",
+     "index": 4,
+     "label": "Muscley"
+    },
+    {
+     "name": "Kit_B_Arms_05",
+     "index": 5,
+     "label": "Large cuffs"
+    },
+    {
+     "name": "Kit_B_Arms_06",
+     "index": 6,
+     "label": "Frilly"
+    }
+   ],
+   "Hands": [
+    {
+     "name": "Kit_B_Hands_01",
+     "index": 1,
+     "label": "Bare"
+    },
+    {
+     "name": "Kit_B_Hands_02",
+     "index": 2,
+     "label": "Gloves"
+    },
+    {
+     "name": "Kit_B_Hands_03",
+     "index": 3,
+     "label": "Wraps"
+    }
+   ],
+   "Legs": [
+    {
+     "name": "Kit_B_Legs_01",
+     "index": 1,
+     "label": "Long skirt"
+    },
+    {
+     "name": "Kit_B_Legs_02",
+     "index": 2,
+     "label": "Short skirt"
+    },
+    {
+     "name": "Kit_B_Legs_03",
+     "index": 3,
+     "label": "Shorts"
+    },
+    {
+     "name": "Kit_B_Legs_04",
+     "index": 4,
+     "label": "Plain trousers"
+    },
+    {
+     "name": "Kit_B_Legs_05",
+     "index": 5,
+     "label": "Turn-ups"
+    },
+    {
+     "name": "Kit_B_Legs_06",
+     "index": 6,
+     "label": "Flares"
+    },
+    {
+     "name": "Kit_B_Legs_07",
+     "index": 7,
+     "label": "Tatty"
+    },
+    {
+     "name": "Kit_B_Legs_08",
+     "index": 8,
+     "label": "Bootcut"
+    },
+    {
+     "name": "Kit_B_Legs_09",
+     "index": 9,
+     "label": "Split skirt"
+    }
+   ],
+   "Feet": [
+    {
+     "name": "Kit_B_Feet_01",
+     "index": 1,
+     "label": "Boots"
+    },
+    {
+     "name": "Kit_B_Feet_02",
+     "index": 2,
+     "label": "Shoes"
+    },
+    {
+     "name": "Kit_B_Feet_03",
+     "index": 3,
+     "label": "Sandals"
+    }
+   ]
+  }
+ }
+}

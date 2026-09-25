@@ -1,0 +1,150 @@
+{
+  "version": 2,
+  "note": "sRGB hex; material names C_HAIR (hair+jaw+brows), C_TORSO (torso+arm cloth), C_LEGS, C_FEET, C_SKIN",
+  "channels": {
+    "hair": {
+      "material": "C_HAIR",
+      "colors": [
+        "#291f19",
+        "#483123",
+        "#674b2f",
+        "#855b36",
+        "#a37846",
+        "#c5a463",
+        "#ddc897",
+        "#873d22",
+        "#af5d32",
+        "#9a9691",
+        "#d8d6d1",
+        "#1a1a1e"
+      ]
+    },
+    "torso": {
+      "material": "C_TORSO",
+      "colors": [
+        "#657952",
+        "#416038",
+        "#82312e",
+        "#562c26",
+        "#3a506a",
+        "#283455",
+        "#7189a4",
+        "#8a7a5a",
+        "#b5a07f",
+        "#674b2f",
+        "#483a2e",
+        "#5c406a",
+        "#c3a04c",
+        "#d7d0bb",
+        "#58585a",
+        "#2e2e30"
+      ]
+    },
+    "legs": {
+      "material": "C_LEGS",
+      "colors": [
+        "#3a2e20",
+        "#58585a",
+        "#2e2e30",
+        "#483a2e",
+        "#685a43",
+        "#8a7a5a",
+        "#283455",
+        "#3a506a",
+        "#416038",
+        "#584a23",
+        "#82312e",
+        "#562c26",
+        "#d7d0bb",
+        "#b5a07f",
+        "#5c406a",
+        "#674b2f"
+      ]
+    },
+    "feet": {
+      "material": "C_FEET",
+      "colors": [
+        "#6a472b",
+        "#47311c",
+        "#2d2621",
+        "#876b49",
+        "#58585a",
+        "#733126"
+      ]
+    },
+    "skin": {
+      "material": "C_SKIN",
+      "colors": [
+        "#ecc9a6",
+        "#dbb18e",
+        "#c39774",
+        "#ad8c75",
+        "#9b7153",
+        "#82593f",
+        "#674533",
+        "#4b3126"
+      ]
+    }
+  },
+  "accents_fixed": {
+    "A_BELT": "#4a3019",
+    "A_METAL": "#8c8e90",
+    "A_EYES": "#1e1612",
+    "A_SHIRT": "#bdb39b",
+    "A_TRIM": "#d8cc94",
+    "A_SASH": "#8a2e2a"
+  },
+  "defaults": {
+    "A": {
+      "hair": "#674b2f",
+      "torso": "#657952",
+      "legs": "#3a2e20",
+      "feet": "#6a472b",
+      "skin": "#c39774"
+    },
+    "B": {
+      "hair": "#855b36",
+      "torso": "#82312e",
+      "legs": "#483a2e",
+      "feet": "#47311c",
+      "skin": "#dbb18e"
+    }
+  },
+  "default_outfit": {
+    "A": {
+      "Hair": "Kit_A_Hair_01",
+      "Jaw": "Kit_A_Jaw_01",
+      "Torso": "Kit_A_Torso_01",
+      "Arms": "Kit_A_Arms_01",
+      "Hands": "Kit_A_Hands_01",
+      "Legs": "Kit_A_Legs_01",
+      "Feet": "Kit_A_Feet_01"
+    },
+    "B": {
+      "Hair": "Kit_B_Hair_01",
+      "Torso": "Kit_B_Torso_01",
+      "Arms": "Kit_B_Arms_01",
+      "Hands": "Kit_B_Hands_01",
+      "Legs": "Kit_B_Legs_01",
+      "Feet": "Kit_B_Feet_01"
+    }
+  },
+  "bram": {
+    "parts": [
+      "Kit_A_Hair_05",
+      "Kit_A_Jaw_04",
+      "Kit_A_Arms_04",
+      "Kit_A_Hands_01",
+      "Kit_A_Legs_01",
+      "Kit_A_Feet_02"
+    ],
+    "colors": {
+      "C_HAIR": "#9c9a96",
+      "C_TORSO": "#416038",
+      "C_LEGS": "#4e4a45",
+      "C_FEET": "#66432a",
+      "C_SKIN": "#bb8d71",
+      "A_WOOD": "#775b3b"
+    }
+  }
+}

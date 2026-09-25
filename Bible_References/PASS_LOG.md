@@ -3857,3 +3857,12 @@ length (slight medium-length read in 3/4).
   clinker rowboat with thwarts, oars, rope coil and stake, fern fronds.
 - Gates: world-v2 all locks, content, terrain 10/10, bundle check, tile house 8/8, slice 13/13, route 20/20,
   smoke PASS. Awaiting owner review 6.
+
+## 2026-09-25 — Holm M7.3: live switch ON, gates + 10 production playthroughs
+- GameConfig.holmIslandLive = true: new adventurers and Holm saves boot the Blender island as tutors-holm-v3;
+  ?holmLegacy=1 / ?arrivalQA=1 keep the old island for support and the arrival-only QA.
+- Gates: island QA 27/28 (known ranged-target flake), arrival v4 12/12, route QA 20/20 (legacy), unit tests, smoke +
+  hidden boot, world-v2 locks, referential integrity: all pass.
+- 10/10 production playthroughs complete, 18/18 lessons, 0 page errors (9.3-14.7 min each).
+- Also in this commit: exact-object guidance arrows (HolmIslandGuide), the cellar ensureReady skip on the live island,
+  the Blender-clickables audit, and the character kit v2.4 assets + 2004-style kit creator modules (not yet wired).

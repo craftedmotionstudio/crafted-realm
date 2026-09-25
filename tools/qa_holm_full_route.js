@@ -15,7 +15,7 @@ const puppeteer = require('puppeteer-core');
 const OUT = path.join(__dirname, '..', 'scratchpad', 'holm_full_route');
 fs.mkdirSync(OUT, {recursive: true});
 const PROFILE = 'fable-route-qa-' + Date.now().toString(36);
-const URL = (process.env.SMOKE_BASE || 'http://127.0.0.1:8777') + '/?qaProfile=' + PROFILE;
+const URL = (process.env.SMOKE_BASE || 'http://127.0.0.1:8777') + '/?holmLegacy=1&qaProfile=' + PROFILE;   // the old island, kept as the fallback
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const checks = [];
 const t0 = Date.now();

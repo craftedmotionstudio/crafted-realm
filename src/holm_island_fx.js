@@ -51,8 +51,8 @@ var HolmIslandFx=(function(){
   st.mixers.forEach(function(m){m.update(dt)});
   // the marker sits over the current objective (GuideArrow's target) and hides when there is none
   if(st.marker){var s=typeof GuideArrow!=='undefined'&&GuideArrow._spec,c=s&&GuideArrow._center&&GuideArrow._center(s);
-   if(c&&typeof HolmArrivalQA!=='undefined'){var y=HolmArrivalQA.height(c.cx,c.cz);if(!Number.isFinite(y)){var n=s&&s.x!==undefined?null:null;y=(player&&player.position.y)||0}
-    st.marker.root.visible=true;st.marker.root.position.set(c.cx,y+2.6,c.cz);if(GuideArrow._line)GuideArrow._line.visible=false}else st.marker.root.visible=false}
+   if(c&&typeof HolmArrivalQA!=='undefined'){var top=s&&typeof s.y==='number',y=top?s.y:HolmArrivalQA.height(c.cx,c.cz);if(!Number.isFinite(y))y=(player&&player.position.y)||0;
+    st.marker.root.visible=true;st.marker.root.position.set(c.cx,y+(top?.7:2.6),c.cz);if(GuideArrow._line)GuideArrow._line.visible=false}else st.marker.root.visible=false}
   // sparks on every hammer blow at the anvil
   var a=typeof Player!=='undefined'&&Player.action;if(st.sparks&&a&&a.type==='smith'){st.smithT=(st.smithT||0)+dt;if(st.smithT>.9){st.smithT=0;once(st.sparks.clips.Burst)}}else st.smithT=.8;
   // felled oaks topple

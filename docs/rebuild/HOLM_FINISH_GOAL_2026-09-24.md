@@ -27,6 +27,26 @@ rules restated by the owner:
   Jagex models, maps, textures, sprites, audio, dialogue text and names are never copied; Client2 is study-only.
   Our own names, text and Blender models fill every one of those slots.
 
+### Owner play-test feedback (2026-09-25) — next big push
+- [ ] **Character redesign:** "all of the characters look too blocky and not at all like the bible references ... we
+      need Blender characters that are very close to the OSRS characters." Rebuild the player, all tutors and the
+      practice enemy as organic low-poly Blender characters in the OSRS style of `Bible_References/Character.jpg`,
+      `Character_Creator_Screen.jpg`, `Character/male_concepts/male_b_turnaround.png` and `NPC_Rat.jpg`: rounded heads
+      with small simple features, tapered limbs with elbow/knee breaks, flared sleeves, coats with trim, natural
+      proportions, soft faceted shading; no boxes. Our own designs (never Jagex models). Base body + player + one
+      tutor first for owner review, then the rest.
+- [ ] **2004scape character kit + customisation** (owner, 2026-09-25): "very close to 2004scape ... very similar
+      characters, iterated just slightly to make them our own ... male and female ... customize our characters just
+      like you can do in 2004scape." A modular Blender identity kit on one rig with 2004's structure (from the MIT
+      server's design validation): body type A = Hair 10, Jaw 8, Torso 8, Arms 7, Hands 3, Legs 6, Feet 3; body type
+      B = Hair 11, Torso 5, Arms 6, Hands 3, Legs 9, Feet 3; colours Hair 12, Torso 16, Legs 16, Feet 6, Skin 8 (our own
+      palettes and parts). A 2004-style character creator (Design arrows per slot, Colour arrows per channel, body type
+      A/B) with saves carrying the choices; tutors assembled from the same kit + their own extras.
+- [ ] **Exact arrows:** "a lot of the arrows in the tutorial aren't pointing in the exact spot for us to find the
+      next step." The marker/arrow must sit on the exact object for the current step (the chart, the rack, the oak,
+      the ripple, the fire, each bakehouse station in turn, the board, the ladder, the rock, the furnace, the anvil,
+      the grubkin, the counter, the lever, the skiff), following sub-steps inside a lesson.
+
 ### Owner acceptance requirements (2026-09-24, latest; the goal stays open until every one is met and proven)
 - [ ] **Keep the goal intact until completely done.** No item is dropped or declared done without its proof.
 - [ ] **At least 10 complete playthroughs** of the finished island (fresh adventurer -> all 18 lessons -> departure),
@@ -366,16 +386,19 @@ Plan bundles (2026-09-24, from the player/item/animation audit):
 
 ### M7 — Cutover and proof
 Cutover plan (2026-09-25, from the provider/save audit; reversible behind one switch, on the WIP branch):
-- [ ] **M7.1 Publish** the island's Blender candidates and data through the Studio Safe Publish CLI
+- [x] **M7.1 Publish** (758b22d) the island's Blender candidates and data through the Studio Safe Publish CLI
       (tools/studio_workspace_cli.js) into assets/ (today they load from gitignored /.studio-workspaces/ and docs/).
-- [ ] **M7.2 One switch**: GameConfig.holmIslandLive + HolmIsland.live()/ID/isIslandProvider(); holm_arrival_qa.js and
+- [x] **M7.2 One switch** (758b22d): GameConfig.holmIslandLive + HolmIsland.live()/ID/isIslandProvider(); holm_arrival_qa.js and
       holm_island_curriculum.js read it; production id `tutors-holm-v3` (rename the old primitive preview's id first);
       ?holmIsland=1 QA keeps working; literal provider checks (noGrid, fire ttl, tool recovery, guide hall, lodge,
       kitchen, holmPace, dev_travel, Admin.tp) accept the island provider.
-- [ ] **M7.3 Boot + saves**: new adventurers and `tutors-holm-v2` saves boot on the island; v2 saves keep items, bank
+- [x] **M7.3 Boot + saves** (switch ON 2026-09-25: island QA 27/28 known ranged flake, arrival 12/12, route 20/20 on ?holmLegacy=1, units + smoke pass): new adventurers and `tutors-holm-v2` saves boot on the island; v2 saves keep items, bank
       and lesson credit (v5 -> v6 ledger) and are placed at the island station of their next lesson; graduated /
       mainland saves untouched; off-switch falls back safely. Tests + QA drivers updated for the new ids.
 - [ ] **M7.4 Proof**: 10 complete playthroughs on the switched build, full gates, owner review.
+      2026-09-25: 10/10 production playthroughs complete, 0 page errors (runs 42-51 in HOLM_PLAYTHROUGHS.md; run 5
+      overlapped a <1 min accidental file edit, to be replaced by one extra run). Re-run on the final build with the
+      new characters; owner review pending.
 - [ ] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
       Verify fresh characters, returning Holm saves, graduated saves, full inventory and interruptions.
 - [ ] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload

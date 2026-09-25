@@ -1,5 +1,5 @@
 {
-  "pass": true,
+  "pass": false,
   "checks": [
     {
       "label": "boots the island draft with the composed graph and the Blender buildings, habitat and bridges",
@@ -88,7 +88,7 @@
       "label": "every step on the way is cardinal",
       "ok": true,
       "detail": {
-        "samples": 368,
+        "samples": 360,
         "diagonal": 0
       }
     },
@@ -388,7 +388,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 2,
+        "cookTries": 1,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -409,7 +409,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 2,
+        "cookTries": 1,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -424,7 +424,7 @@
     },
     {
       "label": "M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Wind Strike kills credit their styles",
-      "ok": true,
+      "ok": false,
       "detail": {
         "spawned": [
           "keep-court",
@@ -434,10 +434,10 @@
           "mage-yard"
         ],
         "melee": true,
-        "ranged": true,
-        "arrowsUsed": 10,
+        "ranged": "never became the target",
+        "arrowsUsed": 0,
         "magic": true,
-        "runesUsed": 14
+        "runesUsed": 7
       }
     },
     {
@@ -446,13 +446,13 @@
       "detail": {
         "before": [
           100.5,
-          7.082,
-          46.5
+          7.246,
+          45.5
         ],
         "after": [
           100.5,
-          7.082,
-          46.5
+          7.246,
+          45.5
         ]
       }
     },
@@ -464,5 +464,5 @@
       }
     }
   ],
-  "seconds": 863
+  "seconds": 830
 }

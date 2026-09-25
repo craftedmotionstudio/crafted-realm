@@ -30,7 +30,7 @@ const puppeteer = require('puppeteer-core');
     page.on('pageerror', e => { pageErrors.push(String(e).slice(0, 300)); console.log('PAGEERROR', String(e).slice(0, 300)); });
     // SMOKE_BASE overrides the dev server origin (the in-app preview may serve on another port)
     const base = process.env.SMOKE_BASE || 'http://127.0.0.1:8777';
-    await page.goto(base + '/?smoke=1&headless=' + Date.now() + (extraQuery || ''),
+    await page.goto(base + '/?smoke=1&holmLegacy=1&headless=' + Date.now() + (extraQuery || ''),   // engine smoke on the old island (the new island has its own gates: qa_holm_island, playthroughs)
                     {waitUntil: 'domcontentloaded', timeout: 60000});
     const t0 = Date.now();
     while (!verdict && Date.now() - t0 < timeoutMs) await new Promise(r => setTimeout(r, 1000));

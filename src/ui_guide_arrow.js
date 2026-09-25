@@ -44,6 +44,8 @@ const GuideArrow = {
       if(f && f.mesh) p=f.mesh.position;
     }
     if(p) return {cx:Math.floor(p.x)+0.5, cz:Math.floor(p.z)+0.5};
+    // an exact target (the island guide aims at the object itself, not its tile)
+    if(s.exact && typeof s.x==='number' && typeof s.z==='number') return {cx:s.x, cz:s.z};
     if(typeof s.x==='number' && typeof s.z==='number')
       return {cx:Math.floor(s.x)+0.5, cz:Math.floor(s.z)+0.5};
     return null;                                       // e.g. friendly not spawned yet
@@ -110,7 +112,8 @@ const GuideArrow = {
       this._line.material.opacity=0.55+pulse*0.4;
       this._line.visible=true;
     }
-    const gy=(groundY(cx,cz)||0);
+    // over the object when its height is known (interiors, upper floors, the cavern), else the ground
+    const gy=(live.spec&&typeof live.spec.y==='number')?live.spec.y-0.4:(groundY(cx,cz)||0);
     if(live.label){
       if(!this._sprite || this._sprite._txt!==live.label){
         if(this._sprite){ scene.remove(this._sprite);

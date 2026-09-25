@@ -652,6 +652,8 @@ var HolmSurvivalCellar=(function(){
    * timer below keeps binding there so a background boot is complete when the tab is fronted. */
   function ensureReady(){
     if(typeof scene==='undefined'||!scene) return;
+    // the old island's cellar has no place on the new Blender island (Tutor's Holm cutover): never load it there
+    if(typeof HolmIsland!=='undefined'&&HolmIsland.live()) return;
     try{
       if(!surfaceRoot||!surfaceRoot.parent) bindSurface();
       // Preload behind the title screen. A continued character can already be
