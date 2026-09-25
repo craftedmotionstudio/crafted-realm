@@ -44,10 +44,15 @@
     // pitch) — this pre-pose neutral lands the blade up-back on the shoulder AFTER
     // the arm lift rotates the hand
     greatsword:{axis:[0,1,0],  roll:[1,0,0],  neutral:[-0.16,0.56,-0.81], rollAim:[0,0,1], grip:[0,0,0],  palmAlong:0.09},
-    axe:       {axis:[0,1,0],  roll:[0,0,1],  neutral:[0,-0.55,0.84], rollAim:[1,0,0],  grip:[0,-0.10,0], palmAlong:0.085},
-    pick:      {axis:[0,1,0],  roll:[0,0,1],  neutral:[0,-0.55,0.84], rollAim:[1,0,0],  grip:[0,-0.10,0], palmAlong:0.085},
-    bow:       {axis:[0,1,0],  roll:[1,0,0],  neutral:[0,0.86,0.51],  rollAim:[0,0,1],  grip:[0.13,-0.10,0],  palmAlong:0.08},
-    longbow:   {axis:[0,1,0],  roll:[1,0,0],  neutral:[0,0.86,0.51],  rollAim:[0,0,1],  grip:[0.185,-0.11,0], palmAlong:0.08},
+    /* owner play-test 2026-09-25 ("the hatchet is backwards"): the head rides forward-and-down with the
+     * cutting edge (item +X) on the UNDERSIDE, facing the ground / the swing, like the kit's review prop axe.
+     * rollAim was [1,0,0], which turned the edge up toward the forearm. Character frame: +X = the LEFT side. */
+    axe:       {axis:[0,1,0],  roll:[0,0,1],  neutral:[0,-0.55,0.84], rollAim:[-1,0,0], grip:[0,-0.10,0], palmAlong:0.085},
+    pick:      {axis:[0,1,0],  roll:[0,0,1],  neutral:[0,-0.55,0.84], rollAim:[-1,0,0], grip:[0,-0.10,0], palmAlong:0.085},
+    /* OSRS: a bow rides in the LEFT hand (the hand that holds it at full draw in the kit's bow clip), near
+     * vertical with a slight forward lean (15 deg), riser (+X) forward, string toward the body */
+    bow:       {axis:[0,1,0],  roll:[1,0,0],  neutral:[0,0.966,0.259], rollAim:[0,0,1], grip:[0.13,-0.10,0],  palmAlong:0.08, hand:'LeftHand'},
+    longbow:   {axis:[0,1,0],  roll:[1,0,0],  neutral:[0,0.966,0.259], rollAim:[0,0,1], grip:[0.185,-0.11,0], palmAlong:0.08, hand:'LeftHand'},
     staff:     {axis:[0,1,0],  roll:[1,0,0],  neutral:[0,0.95,0.31],  rollAim:[0,0,1],  grip:[0,0,0], palmAlong:0.085},
   };
 
@@ -129,5 +134,9 @@
     };
   }
 
-  window.EquipBuilder = {specs: EQUIP_SPECS, solveHeld: solveHeld, audit: audit};
+  /* which hand bone a model is held in (bows: left; everything else: right) */
+  function handFor(model){ var s = EQUIP_SPECS[model]; return (s && s.hand) || 'RightHand'; }
+
+  window.EquipBuilder = {specs: EQUIP_SPECS, solveHeld: solveHeld, audit: audit, handFor: handFor,
+    solveQuaternion: solveQuaternion, palmLocal: palmLocal};
 })();

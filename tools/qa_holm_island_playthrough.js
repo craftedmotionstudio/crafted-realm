@@ -80,6 +80,15 @@ const DO={
   for(const w of ['ladder3-top','ladder2-top','ladder1-top'])await clickService(p,'Climb-down ladder',w)}};
 async function playOnce(browser,n){
   const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(String(e&&e.stack||e).slice(0,300)));
+  // skilling-tool telemetry (HolmSkillTools, owner play-test 2026-09-25): per skill, how often the tool was in hand,
+  // whether the weapon ever showed with it, and whether the weapon came back after; survives the mid-run reloads
+  await page.evaluateOnNewDocument(()=>{let last=null;setInterval(()=>{try{
+    if(typeof Player==='undefined'||typeof HolmSkillTools==='undefined'||typeof player==='undefined'||!player)return;
+    const s=HolmSkillTools.status(),g=(player.userData&&player.userData.glbGear)||{},sk=HolmSkillTools.skillOfAction(Player.action),k=s.active?s.skill:sk;
+    const r=JSON.parse(sessionStorage.getItem('__skillTools')||'{}'),bump=(key,f)=>{const e=r[key]||(r[key]={samples:0,tool:0,weaponShown:0,restored:0,notRestored:0,tools:{}});f(e)};
+    if(k)bump(k,e=>{e.samples++;if(s.active){e.tool++;e.tools[s.tool]=1;if(g.weapon&&g.weapon.visible&&g.weapon.parent)e.weaponShown++}});
+    if(last&&!s.active&&!sk)bump(last,e=>{if(!Player.equip.weapon||(g.weapon&&g.weapon.visible))e.restored++;else e.notRestored++});
+    last=s.active?s.skill:(sk?last:null);sessionStorage.setItem('__skillTools',JSON.stringify(r))}catch(e){}},150)});
   const t0=Date.now(),per={},profile='playthrough-'+n+'-'+Date.now().toString(36);let status='incomplete',note='';TALKS=[];
   try{
     await page.goto(BASE0+(process.env.HOLM_MODE==='draft'?'/?holmIsland=1&qaProfile=':'/?qaProfile=')+profile,{waitUntil:'load',timeout:120000});await enter(page);
@@ -109,7 +118,9 @@ async function playOnce(browser,n){
     if(status==='complete'&&(met.length<10||bad.length||!(refusal&&refusal.refused))){status='talk-flow';note='talks '+JSON.stringify(TALKS).slice(0,400)}
     note=note||('first hint: '+hint0.slice(0,60));
   }catch(e){status='driver-error';note=String(e).slice(0,300);await shot(page,'run'+n+'_error')}
-  const rec={run:n,profile,status,minutes:+((Date.now()-t0)/60000).toFixed(1),lessons:Object.keys(per).length,perLessonSeconds:per,talks:TALKS,errors:errors.slice(0,5),note,at:new Date().toISOString()};
+  const skillTools=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('__skillTools')||'{}')).catch(()=>null);
+  if(skillTools)console.log('  run '+n+' skill tools '+JSON.stringify(skillTools));
+  const rec={run:n,profile,status,minutes:+((Date.now()-t0)/60000).toFixed(1),lessons:Object.keys(per).length,perLessonSeconds:per,talks:TALKS,errors:errors.slice(0,5),note,skillTools,at:new Date().toISOString()};
   fs.appendFileSync(path.join(OUT,'runs.jsonl'),JSON.stringify(rec)+'\n');await page.close();return rec;
 }
 (async()=>{
