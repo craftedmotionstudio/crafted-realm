@@ -61,7 +61,7 @@ var HolmIslandTutors=(function(){
  async function load(o){
   var T=o.THREE,api=o.api;st.api=api;
   for(var i=0;i<CAST.length;i++){var c=CAST[i],p=spot(api,c);if(!p)continue;
-   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+(c.id==='bram'?'_v2':'')+'.glb',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
+   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+'_v2.glb?v=29b',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
    var root=gltf.scene,g=new T.Group();root.traverse(function(m){if(m.isMesh||m.isSkinnedMesh){m.castShadow=true;m.frustumCulled=false;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});
    g.add(root);g.position.set(p.x,p.y,p.z);g.lookAt(p.faceX,p.y,p.faceZ);g.name='island-tutor-'+c.id;
    var mixer=new T.AnimationMixer(root),actions={};gltf.animations.forEach(function(cl){actions[cl.name]=mixer.clipAction(cl)});
@@ -77,7 +77,7 @@ var HolmIslandTutors=(function(){
  function talk(id){
   var n=byId(id);if(!n||typeof UI==='undefined')return false;var ps=pages(n.cast),k=0;
   n.group.lookAt(player.position.x,n.group.position.y,player.position.z);play(n,'talk');st.talking=n;
-  (function show(){var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;setTimeout(show,0)}else{st.talking=null;play(n,'idle')}}}],'img:assets/icons/tutors/'+n.cast.id+'.png')})();
+  (function show(){var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;setTimeout(show,0)}else{st.talking=null;play(n,'idle')}}}],'img:assets/icons/tutors/'+n.cast.id+'.png?v=29')})();
   return true;
  }
  function update(dt){

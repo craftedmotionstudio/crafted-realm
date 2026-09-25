@@ -22,7 +22,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
       const buf = document.getElementById('enter-buffer');
       if (typeof running !== 'undefined' && running && (!buf || buf.style.display === 'none')) return 'ready';
       const b = vis('btn-begin'), p = vis('play-btn'), f = vis('btn-new');
-      if (b){ b.click(); } else if (p){ try{CharCfg._new=false;}catch(e){} p.click(); } else if (f){ f.click(); }
+      if (b){ b.click(); try{CharCfg._new=false;}catch(e){} } else if (p){ try{CharCfg._new=false;}catch(e){} p.click(); } else if (f){ f.click(); }
       return 'wait';
     });
     if (s === 'ready') break;

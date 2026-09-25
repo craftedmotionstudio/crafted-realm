@@ -108,7 +108,11 @@
       if($('play-welcome')) $('play-welcome').textContent='Welcome, '+CharCfg.name;
       if($('play-sub')) $('play-sub').innerHTML='You are about to wash ashore on <b>Tutor\'s Holm</b>.';
       setPlayLabel('WASH ASHORE');
-      updateProfileSummary({look:{name:CharCfg.name},xp:Player.xp,tut:{step:0},inv:Player.inv}); setStage('login-play','play-btn');
+      updateProfileSummary({look:{name:CharCfg.name},xp:Player.xp,tut:{step:0},inv:Player.inv});
+      // one step for a new adventurer (owner 2026-09-25): naming them IS the start, straight onto the Holm.
+      // If the world is somehow not ready yet the play click is refused, and the ready screen shows instead.
+      if($('play-btn')) $('play-btn').click();
+      if(!(typeof running!=='undefined'&&running)) setStage('login-play','play-btn');
     };
     if($('btn-reset-save')) $('btn-reset-save').onclick=()=>{ clickSound(); if(hasSave()) setStage('login-confirm-new','btn-cancel-new'); else setStage('login-choose','btn-new'); };
     if($('login-music-toggle')) $('login-music-toggle').onclick=()=>{ clickSound(); try{ Sfx.ensure(); Music.toggle(); }catch(e){} };

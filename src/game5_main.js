@@ -1078,8 +1078,9 @@ document.getElementById('play-btn').onclick = ()=>{
     : 'You wash ashore on Tutor\'s Holm. Follow the objective banner to the Guide Hall.','plain');
   UI.chat('Press ` (backquote) at any time for the Administrator Console.','sys');
   // a NEW adventurer designs their look right here on the Holm (or keeps the default)
-  if(CharCfg._new){ CharCfg._new=false;
-    setTimeout(()=>{ if(typeof CharCreator!=='undefined') CharCreator.open(); }, 500); }
+  // (decided when the timer fires, so a scripted entry can still opt out right after clicking Begin)
+  if(CharCfg._new) setTimeout(()=>{ if(!CharCfg._new) return; CharCfg._new=false;
+    if(typeof CharCreator!=='undefined') CharCreator.open(); }, 500);
 };
 boot();
 animate();

@@ -19,9 +19,9 @@ const views=plan.places.map((p,i)=>({name:String(i+1).padStart(2,'0')+'_'+p.id,x
  await page.waitForFunction(()=>{const w=document.getElementById('welcome-screen');return w&&w.style.display==='flex'},{timeout:60000});
  await page.evaluate(()=>document.getElementById('btn-new').click());
  await page.waitForFunction(()=>document.getElementById('login-create').style.display!=='none',{timeout:8000});
- await page.evaluate(()=>document.getElementById('btn-begin').click());
- await page.waitForFunction(()=>document.getElementById('login-play').style.display!=='none',{timeout:8000});
- await page.evaluate(()=>{try{CharCfg._new=false}catch(e){}document.getElementById('play-btn').click()});
+ await page.evaluate(()=>(document.getElementById('btn-begin').click(),(()=>{try{CharCfg._new=false}catch(e){}})()));
+ await page.waitForFunction(()=>(document.getElementById('login-play').style.display!=='none'||(typeof running!=='undefined'&&running)),{timeout:8000});
+ await page.evaluate(()=>{try{CharCfg._new=false}catch(e){}if(!(typeof running!=='undefined'&&running))document.getElementById('play-btn').click()});
  await page.waitForFunction(()=>typeof running!=='undefined'&&running,{timeout:90000});await sleep(4000);
  await page.evaluate(()=>{document.querySelectorAll('#tutorial-banner,.tut-banner').forEach(e=>e.style.display='none')});
  for(const v of views){
