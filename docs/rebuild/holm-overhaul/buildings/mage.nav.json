@@ -1,8 +1,8 @@
 {
  "id": "mage",
  "prefix": "Mage_",
- "model": ".studio-workspaces/holm-mage-v2/candidates/mage.glb",
- "out": ".studio-workspaces/holm-mage-navigation-v2/candidates",
+ "model": ".studio-workspaces/holm-mage-v3/candidates/mage.glb",
+ "out": ".studio-workspaces/holm-mage-navigation-v3/candidates",
  "placement": {"x": 114, "y": 6.15, "z": 58},
  "local": {"x0": -9, "x1": 8, "z0": -7, "z1": 10},
  "start": [-7.5, -0.12, 0.5],

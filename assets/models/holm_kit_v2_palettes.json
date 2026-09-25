@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "note": "sRGB hex; material names C_HAIR (hair+jaw+brows), C_TORSO (torso+arm cloth), C_LEGS, C_FEET, C_SKIN",
+  "note": "sRGB hex; material names C_HAIR (hair+jaw+brows), C_TORSO (torso+arm cloth), C_LEGS, C_FEET, C_SKIN, C_MAKEUP (body B makeup overlays)",
   "channels": {
     "hair": {
       "material": "C_HAIR",
@@ -84,6 +84,17 @@
         "#674533",
         "#4b3126"
       ]
+    },
+    "makeup": {
+      "material": "C_MAKEUP",
+      "colors": [
+        "#c06e7c",
+        "#cf7964",
+        "#8c344e",
+        "#6e3c5d",
+        "#8a5e4c",
+        "#a57547"
+      ]
     }
   },
   "accents_fixed": {
@@ -100,14 +111,16 @@
       "torso": "#657952",
       "legs": "#3a2e20",
       "feet": "#6a472b",
-      "skin": "#c39774"
+      "skin": "#c39774",
+      "makeup": "#c06e7c"
     },
     "B": {
       "hair": "#855b36",
       "torso": "#82312e",
       "legs": "#483a2e",
       "feet": "#47311c",
-      "skin": "#dbb18e"
+      "skin": "#dbb18e",
+      "makeup": "#c06e7c"
     }
   },
   "default_outfit": {
@@ -126,7 +139,8 @@
       "Arms": "Kit_B_Arms_01",
       "Hands": "Kit_B_Hands_01",
       "Legs": "Kit_B_Legs_01",
-      "Feet": "Kit_B_Feet_01"
+      "Feet": "Kit_B_Feet_01",
+      "Makeup": "Kit_B_Makeup_01"
     }
   },
   "bram": {

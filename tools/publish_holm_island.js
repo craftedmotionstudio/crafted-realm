@@ -15,12 +15,12 @@ const fs=require('fs'),path=require('path');
 const ROOT=path.resolve(__dirname,'..'),W=require('./studio_workspace.js');
 const WS='.studio-workspaces',DATA='docs/rebuild/holm-overhaul';
 const DIRS=[ // workspace folders the island loads (candidates/, working/ or exports/)
-'holm-keep-navigation-v6/candidates','holm-kitchen-navigation-v4/candidates','holm-kitchen-wings-v6/candidates',
- 'holm-quest-lodge-v4/candidates','holm-quest-foundation-v1/candidates','holm-quest-placement-v1/candidates','holm-quest-terrain-navigation-v2/candidates',
- 'holm-warden-keep-v7/candidates','holm-tree-family-v3/candidates','holm-habitat-v2/working','holm-island-bridges-v1/candidates',
+'holm-keep-navigation-v7/candidates','holm-kitchen-navigation-v5/candidates','holm-kitchen-wings-v7/candidates',
+ 'holm-quest-lodge-v5/candidates','holm-quest-foundation-v1/candidates','holm-quest-placement-v1/candidates','holm-quest-terrain-navigation-v3/candidates',
+ 'holm-warden-keep-v8/candidates','holm-tree-family-v3/candidates','holm-habitat-v3/working','holm-island-bridges-v1/candidates',
  'holm-props-v1/candidates','holm-props-v2/candidates','holm-props-v3/candidates','holm-props-v4/candidates','holm-items-v1/candidates','holm-equipment-v1/candidates',
- 'holm-bank-v2/candidates','holm-bank-navigation-v2/candidates',
- ...['survival','quarry','mage','haven','lastlight'].flatMap(b=>['holm-'+b+'-v2/candidates','holm-'+b+'-navigation-v2/candidates']),
+ 'holm-bank-v3/candidates','holm-bank-navigation-v3/candidates',
+ ...['survival','quarry','mage','haven','lastlight'].flatMap(b=>['holm-'+b+'-v3/candidates','holm-'+b+'-navigation-v3/candidates']),
  ...['cavern'].flatMap(b=>['holm-'+b+'-v1/candidates','holm-'+b+'-navigation-v1/candidates'])];
 const DATA_FILES=['plan.json','island-bridges.json','island-gates.json','island-ladders.json','island-lessons.json'];
 const KEEP=/\.(glb|json|png|bin)$/i;

@@ -10,7 +10,7 @@ var HolmArrivalQA=(function(){
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
  function revision(){return island?'holm-island-v1':loaded.package.navigation.graphRevision}
  // v4 (2026-09-24, M3R): guide house v2, branching oak, Lantern Keeper statue, trunk-footprint tree blockers
- var ID=island&&typeof HolmIsland!=='undefined'?HolmIsland.ID:'tutors-holm-arrival-qa',EXPORT='bd1c4051b9ec23c1';
+ var ID=island&&typeof HolmIsland!=='undefined'?HolmIsland.ID:'tutors-holm-arrival-qa',EXPORT='11e64a0724bb2b5d';
  function active(){return !!provider&&CRWorldMode.providerId===ID}
  function graphForDoors(d){var key=JSON.stringify(d)+(island&&nav&&nav.gateKey?'|'+nav.gateKey():'');return graphs[key]||(graphs[key]=nav.compile(d))}
  function spawn(){return loaded.package.navigation.doorStates['closed-closed'].graph.nodes.find(function(n){return n.id===loaded.package.spawn.nodeId})}
@@ -18,7 +18,7 @@ var HolmArrivalQA=(function(){
   if(!requested)return null;
   var production=typeof HolmIsland!=='undefined'&&HolmIsland.production();
   if((!production&&!QAProfile.isolated)||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
-  loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v6/exports/',exportId:EXPORT});
+  loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v7/exports/',exportId:EXPORT});
   nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
   var pack=loaded.package,chunks=JSON.parse(JSON.stringify(pack.terrain.chunks)),b=loaded.documents.layout.building,s=spawn();
   chunks.forEach(function(c){c.layers.terrain.exclusions=[{x:b.world.x-b.width/2,z:b.world.z-b.depth/2,w:b.width,d:b.depth}]});

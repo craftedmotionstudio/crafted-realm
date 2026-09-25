@@ -267,7 +267,9 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      T.spawned=await page.evaluate(()=>HolmIslandTrials.npcs().map(n=>n.islandPen));
      const live=pen=>page.evaluate(pen=>{const n=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen===pen);return n?n.mesh.name:null},pen);
      // a grubkin can shuffle between aiming and clicking; like a player, click again until it is the target
-     const attack=async(pen,opts)=>{let c={error:'no live grubkin'};for(let i=0;i<4;i++){c=await clickNamed(page,await live(pen),opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c;await closeDialogue(page)}return c.error?c:{error:'never became the target'}};
+     // the island walks the player across the court before the swing, which can take well over 6 s (harness flake,
+     // 2026-09-25): allow 25 s per click and up to six clicks, like the playthrough driver's patient fight()
+     const attack=async(pen,opts)=>{let c={error:'no live grubkin'};for(let i=0;i<6;i++){c=await clickNamed(page,await live(pen),opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,25000))return c;await closeDialogue(page)}return c.error?c:{error:'never became the target'}};
      await page.evaluate(()=>{Player.inv=Player.inv.map(()=>null);['bronze_dagger','worn_bow'].forEach(i=>Player.addItem(i,1));Player.addItem('arrows',30);Player.addItem('air_rune',15);Player.addItem('mind_rune',15);UI.refreshInv()});
      await clickInventory(page,'bronze_dagger');let c=await attack('keep-court');T.melee=c.error||await waitFor(page,()=>window.__notes.includes('killStyle/melee'),null,150000);
      await shot(page,'09_melee_trial');

@@ -7,7 +7,7 @@
  * after a ladder, death. Island draft only (?holmIsland=1): the live game keeps its player until the cutover (M7). */
 var HolmIslandPlayer=(function(){
  'use strict';
- var URL='assets/models/holm_kit_v2.glb?v=5',st={root:null,clips:{},busy:null};
+ var URL='assets/models/holm_kit_v2.glb?v=6',st={root:null,clips:{},busy:null};
  var HAIR={short:'Hair_Short',long:'Hair_Long',ponytail:'Hair_Ponytail',bun:'Hair_Bun',mohawk:'Hair_Mohawk'};
  function hex(n){return '#'+('000000'+(Number(n)>>>0).toString(16)).slice(-6)}
  function look(){var c=typeof CharCfg!=='undefined'?CharCfg:{};return {female:c.gender==='f',hair:HAIR[c.hairStyle]||(c.hairStyle==='bald'?null:'Hair_Short'),beard:!!c.beard&&c.gender!=='f',
@@ -50,7 +50,7 @@ var HolmIslandPlayer=(function(){
     var c=new THREE.Group();c.userData.regionMats=regionMats;c.userData.rigInner=rig;c.add(rig);c.position.copy(player.position);c.rotation.y=player.rotation.y;
     var mixer=new THREE.AnimationMixer(rig),clips={};gltf.animations.forEach(function(cl){clips[cl.name]=mixer.clipAction(cl)});
     if(clips.idle){clips.idle.play();clips.idle.weight=1}if(clips.walk){clips.walk.play();clips.walk.weight=0}
-    c.userData.gmix={mixer:mixer,idle:clips.idle,walk:clips.walk,attack:clips.attack,block:clips.block,w:0,clips:clips};
+    c.userData.gmix={mixer:mixer,idle:clips.idle,walk:clips.walk,attack:clips.attack,block:clips.block,w:0,clips:clips,kit:true,run:clips.run||null};
     c.userData.isPlayerGLB=true;c.userData.holmPlayer=true;
     if(typeof makeNameTag==='function'){var tag=makeNameTag((typeof CharCfg!=='undefined'&&CharCfg.name)||'Adventurer');tag.position.y=2.1;c.add(tag)}
     // carry over what the old body had (its worn gear is re-fitted below)

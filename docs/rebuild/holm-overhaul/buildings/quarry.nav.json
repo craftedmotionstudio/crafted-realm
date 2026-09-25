@@ -1,8 +1,8 @@
 {
   "id": "quarry",
   "prefix": "Quarry_",
-  "model": ".studio-workspaces/holm-quarry-v2/candidates/quarry.glb",
-  "out": ".studio-workspaces/holm-quarry-navigation-v2/candidates",
+  "model": ".studio-workspaces/holm-quarry-v3/candidates/quarry.glb",
+  "out": ".studio-workspaces/holm-quarry-navigation-v3/candidates",
   "placement": {"x": 36, "y": 7.15, "z": 33},
   "local": {"x0": -7, "x1": 6, "z0": -6, "z1": 6},
   "start": [-1.5, -0.15, 5.5],

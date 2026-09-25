@@ -1,5 +1,5 @@
 {
-  "pass": false,
+  "pass": true,
   "checks": [
     {
       "label": "boots the island draft with the composed graph and the Blender buildings, habitat and bridges",
@@ -8,7 +8,7 @@
         "provider": "tutors-holm-arrival-qa",
         "stats": {
           "nodes": 11116,
-          "edges": 19353,
+          "edges": 19351,
           "owners": {
             "land": 8060,
             "b:keep": 901,
@@ -99,7 +99,7 @@
       "label": "every step on the way is cardinal",
       "ok": true,
       "detail": {
-        "samples": 367,
+        "samples": 368,
         "diagonal": 0
       }
     },
@@ -435,7 +435,7 @@
     },
     {
       "label": "M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Wind Strike kills credit their styles",
-      "ok": false,
+      "ok": true,
       "detail": {
         "spawned": [
           "keep-court",
@@ -445,10 +445,10 @@
           "mage-yard"
         ],
         "melee": true,
-        "ranged": "never became the target",
-        "arrowsUsed": 0,
+        "ranged": true,
+        "arrowsUsed": 11,
         "magic": true,
-        "runesUsed": 4
+        "runesUsed": 8
       }
     },
     {
@@ -456,14 +456,14 @@
       "ok": true,
       "detail": {
         "before": [
-          100.5,
-          6.807,
-          47.5
+          104.5,
+          6.176,
+          53.5
         ],
         "after": [
-          100.5,
-          6.807,
-          47.5
+          104.5,
+          6.176,
+          53.5
         ]
       }
     },
@@ -475,5 +475,5 @@
       }
     }
   ],
-  "seconds": 861
+  "seconds": 869
 }

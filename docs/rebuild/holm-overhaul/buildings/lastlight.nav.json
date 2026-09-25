@@ -1,8 +1,8 @@
 {
  "id": "lastlight",
  "prefix": "Lastlight_",
- "model": ".studio-workspaces/holm-lastlight-v2/candidates/lastlight.glb",
- "out": ".studio-workspaces/holm-lastlight-navigation-v2/candidates",
+ "model": ".studio-workspaces/holm-lastlight-v3/candidates/lastlight.glb",
+ "out": ".studio-workspaces/holm-lastlight-navigation-v3/candidates",
  "placement": {"x": 121, "y": 14.3, "z": 26},
  "local": {"x0": -9, "x1": 6, "z0": -7, "z1": 6},
  "start": [-7.5, -0.3, 0.5],

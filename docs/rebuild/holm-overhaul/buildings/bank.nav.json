@@ -1,8 +1,8 @@
 {
   "id": "bank",
   "prefix": "Bank_",
-  "model": ".studio-workspaces/holm-bank-v2/candidates/bank.glb",
-  "out": ".studio-workspaces/holm-bank-navigation-v2/candidates",
+  "model": ".studio-workspaces/holm-bank-v3/candidates/bank.glb",
+  "out": ".studio-workspaces/holm-bank-navigation-v3/candidates",
   "placement": {"x": 86, "y": 6.3, "z": 57},
   "local": {"x0": -8, "x1": 7, "z0": -7, "z1": 7},
   "start": [0.5, -0.3, 5.5],

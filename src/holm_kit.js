@@ -9,8 +9,9 @@
  * and paints the channels. Catalog: assets/models/holm_kit_v2_catalog.json; palettes: holm_kit_v2_palettes.json. */
 var HolmKit=(function(){
  'use strict';
- var SLOTS=['Hair','Jaw','Torso','Arms','Hands','Legs','Feet'],CHANNELS=['hair','torso','legs','feet','skin'];
- var MAT={hair:'C_HAIR',torso:'C_TORSO',legs:'C_LEGS',feet:'C_FEET',skin:'C_SKIN'};
+ // Makeup (owner 2026-09-25) is our own addition to the 2004 structure: body B only, 01 = none
+ var SLOTS=['Hair','Jaw','Torso','Arms','Hands','Legs','Feet','Makeup'],CHANNELS=['hair','torso','legs','feet','skin','makeup'];
+ var MAT={hair:'C_HAIR',torso:'C_TORSO',legs:'C_LEGS',feet:'C_FEET',skin:'C_SKIN',makeup:'C_MAKEUP'};
  var st={catalog:null,palettes:null,loading:null};
  function load(){if(st.loading)return st.loading;
   st.loading=Promise.all(['assets/models/holm_kit_v2_catalog.json','assets/models/holm_kit_v2_palettes.json'].map(function(u){return fetch(u,{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error(u+' '+r.status);return r.json()})}))

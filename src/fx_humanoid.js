@@ -131,7 +131,13 @@ function playerGLBAnim(root, dt, moving, speed){
   // a one-shot attack/block owns the whole body while it runs
   const busy = (g.attack && g.attack.isRunning()) || (g.block && g.block.isRunning());
   if(g.idle) g.idle.weight = busy ? 0 : (1 - g.w);
-  if(g.walk){ g.walk.weight = busy ? 0 : g.w; g.walk.timeScale = Math.max(0.5, speed); }
+  if(g.kit && g.run){
+    // island kit (v2.8): walk authored slide-free at 2.4 m/s, run at 4.2 m/s; speed arrives as moveSpeed/4.2
+    const ms=speed*4.2, running=ms>3.3;
+    if(!g.run._on){ g.run.play(); g.run.weight=0; g.run._on=true; }
+    g.run.weight = busy ? 0 : (running ? g.w : 0); g.run.timeScale = ms/4.2;
+    if(g.walk){ g.walk.weight = busy ? 0 : (running ? 0 : g.w); g.walk.timeScale = Math.max(0.3, ms/2.4); }
+  } else if(g.walk){ g.walk.weight = busy ? 0 : g.w; g.walk.timeScale = Math.max(0.5, speed); }
   g.mixer.update(dt);
   // heavy 2h shoulder carry (owner r8): the arm swings OUT IN FRONT so the
   // greatsword leans back on the shoulder. Post-mixer additive pose, world-axis

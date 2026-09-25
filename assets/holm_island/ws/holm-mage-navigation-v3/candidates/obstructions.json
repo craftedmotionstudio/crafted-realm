@@ -1,0 +1,980 @@
+{
+ "nodes": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": -1.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": 2.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": 3.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": 6.5,
+   "y": -0.13302993774414062,
+   "object": "Mage_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": 7.5,
+   "y": 0.00095367431640625,
+   "object": "Mage_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -2.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -1.5,
+   "y": 0.0,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -0.5,
+   "y": 3.814697265625e-06,
+   "object": "Mage_Door"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Mage_Door"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 4.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 5.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 6.5,
+   "y": -0.13092422485351562,
+   "object": "Mage_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 7.5,
+   "y": 0.018566131591796875,
+   "object": "Mage_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -2.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -1.5,
+   "y": 3.814697265625e-06,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 3.5,
+   "y": -3.814697265625e-06,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 4.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 7.5,
+   "y": 0.02928924560546875,
+   "object": "Mage_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -2.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -1.5,
+   "y": 0.0,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -2.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -1.5,
+   "y": 0.0,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Mage_Door"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Mage_Door"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 4.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 7.5,
+   "y": 0.02750396728515625,
+   "object": "Mage_Yard"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.7217310878027088,
+   "z": -2.4081559762323783,
+   "y": 5.999996185302734
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -2.5,
+   "y": 4.76837158203125e-07,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -1.5,
+   "y": 5.999996185302734,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.74,
+   "z": -1.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -1.5,
+   "y": 2.384185791015625e-07,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -0.5,
+   "y": 6.0,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.6697056274847715,
+   "z": -0.3302943725152286,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -0.5,
+   "y": 0.0,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5918440237676215,
+   "z": 0.7217310878027088,
+   "y": 6.000003814697266
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 4.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 7.5,
+   "y": 0.01513671875,
+   "object": "Mage_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -4.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -3.5,
+   "y": 5.999996185302734,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -3.5,
+   "y": 2.999999761581421,
+   "object": "Mage_UpperShell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -3.5,
+   "y": 0.0,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 1.5,
+   "y": 6.000003814697266,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 1.5,
+   "y": 2.999999761581421,
+   "object": "Mage_UpperFurnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 2.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 3.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 0.27826891219729116,
+   "z": -4.591844023767622,
+   "y": 6.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -4.5,
+   "y": 0.0,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -2.5,
+   "y": 6.000003814697266,
+   "object": "Mage_UpperFurnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -2.5,
+   "y": -0.15000000596046448,
+   "object": "Mage_StairLibrary"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -0.5,
+   "y": 3.0,
+   "object": "Mage_StairObservatory"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 0.5918440237676216,
+   "z": 2.721731087802709,
+   "y": 6.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -4.5,
+   "y": 6.0,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.3302943725152285,
+   "z": -4.669705627484771,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -4.5,
+   "y": 0.0,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -2.5,
+   "y": 6.000003814697266,
+   "object": "Mage_UpperFurnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Mage_StairLibrary"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -0.5,
+   "y": 3.0,
+   "object": "Mage_StairObservatory"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 1.5,
+   "y": 5.999996185302734,
+   "object": "Mage_UpperFurnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Mage_ServiceRuneTable_Workroom"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 2.5,
+   "y": 6.0,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.5,
+   "z": 2.74,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 2.5,
+   "y": -2.384185791015625e-07,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 3.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -4.5,
+   "y": 6.0,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 2.5,
+   "z": -4.74,
+   "y": 2.999999761581421
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -4.5,
+   "y": 4.76837158203125e-07,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -2.5,
+   "y": -1.1920928955078125e-07,
+   "object": "Mage_StairLibrary"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -0.5,
+   "y": 3.0,
+   "object": "Mage_StairObservatory"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 1.5,
+   "y": -2.384185791015625e-07,
+   "object": "Mage_ServiceRuneTable_Workroom"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 2.5,
+   "y": 6.0,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 2.6697056274847712,
+   "z": 2.6697056274847712,
+   "y": 3.000000238418579
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 2.5,
+   "y": 4.76837158203125e-07,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 3.4081559762323783,
+   "z": -4.721731087802708,
+   "y": 6.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -4.5,
+   "y": 0.0,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Mage_StairLibrary"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 1.5,
+   "y": -2.384185791015625e-07,
+   "object": "Mage_ServiceRuneTable_Workroom"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 3.721731087802709,
+   "z": 2.5918440237676217,
+   "y": 6.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -4.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -3.5,
+   "y": 5.999996185302734,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -3.5,
+   "y": 2.999999761581421,
+   "object": "Mage_UpperShell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -3.5,
+   "y": 2.384185791015625e-07,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -2.5,
+   "y": 6.0,
+   "object": "Mage_ServiceTelescope_Observatory"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 0.5,
+   "y": 0.0,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 1.5,
+   "y": 6.0,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 1.5,
+   "y": 3.0,
+   "object": "Mage_UpperFurnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 2.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -3.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 5.74,
+   "z": -2.5,
+   "y": 6.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -2.5,
+   "y": -4.76837158203125e-07,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -1.5,
+   "y": 6.0,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 5.74,
+   "z": -1.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -1.5,
+   "y": 2.384185791015625e-07,
+   "object": "Mage_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -0.5,
+   "y": 6.0,
+   "object": "Mage_UpperGallery"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 5.74,
+   "z": -0.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -0.5,
+   "y": 2.384185791015625e-07,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 5.74,
+   "z": 0.5,
+   "y": 6.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": 0.5,
+   "y": 0.0,
+   "object": "Mage_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": 1.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell"
+  }
+ ],
+ "edges": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -7.25,
+   "z": 4.5,
+   "y": -0.12541961669921875,
+   "object": "Mage_Yard",
+   "from": "-8:4:0",
+   "to": "-7:4:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -7.25,
+   "z": 5.5,
+   "y": -0.12433624267578125,
+   "object": "Mage_Yard",
+   "from": "-8:5:0",
+   "to": "-7:5:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": 7.7,
+   "y": 0.08761215209960938,
+   "object": "Mage_Yard",
+   "from": "-4:7:0",
+   "to": "-4:8:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -0.15000000000000002,
+   "y": 5.769229888916016,
+   "object": "Mage_UpperRail",
+   "from": "-1:-1:0",
+   "to": "-1:0:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -3.4,
+   "y": 0.0,
+   "object": "Mage_RailStairLibrary",
+   "from": "0:-4:2",
+   "to": "0:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -2.15,
+   "y": 0.46153831481933594,
+   "object": "Mage_RailStairLibrary",
+   "from": "0:-3:0",
+   "to": "0:-2:2"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -1.4,
+   "y": 5.999996185302734,
+   "object": "Mage_UpperRail",
+   "from": "0:-2:0",
+   "to": "0:-1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -0.15000000000000002,
+   "y": 5.307689666748047,
+   "object": "Mage_UpperRail",
+   "from": "0:-1:0",
+   "to": "0:0:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.75,
+   "z": -5.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell",
+   "from": "1:-6:0",
+   "to": "2:-6:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -3.4,
+   "y": 2.384185791015625e-07,
+   "object": "Mage_RailStairLibrary",
+   "from": "1:-4:2",
+   "to": "1:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -2.15,
+   "y": 1.153846263885498,
+   "object": "Mage_RailStairLibrary",
+   "from": "1:-3:0",
+   "to": "1:-2:2"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -0.2,
+   "y": 0.0,
+   "object": "Mage_FloorGround",
+   "from": "1:-1:1",
+   "to": "1:0:2"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.6,
+   "z": -5.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell",
+   "from": "2:-6:0",
+   "to": "3:-6:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.95,
+   "z": -2.5,
+   "y": 6.0,
+   "object": "Mage_UpperFurnishing",
+   "from": "2:-3:0",
+   "to": "3:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -1.4,
+   "y": 3.0,
+   "object": "Mage_UpperRail",
+   "from": "2:-2:1",
+   "to": "2:-1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -0.95,
+   "y": -2.384185791015625e-07,
+   "object": "Mage_FloorGround",
+   "from": "2:-2:2",
+   "to": "2:-1:1"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -0.15000000000000002,
+   "y": 4.153846740722656,
+   "object": "Mage_UpperRail",
+   "from": "2:-1:0",
+   "to": "2:0:1"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.6,
+   "z": 3.5,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell",
+   "from": "2:3:0",
+   "to": "3:3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -3.0,
+   "y": 5.999996185302734,
+   "object": "Mage_UpperFurnishing",
+   "from": "3:-4:0",
+   "to": "3:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -3.4,
+   "y": 3.0,
+   "object": "Mage_UpperRail",
+   "from": "3:-4:1",
+   "to": "3:-3:1"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -1.9,
+   "y": 6.0,
+   "object": "Mage_ServiceTelescope_Observatory",
+   "from": "3:-3:0",
+   "to": "3:-2:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -2.15,
+   "y": 2.307692050933838,
+   "object": "Mage_UpperRail",
+   "from": "3:-3:1",
+   "to": "3:-2:1"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -1.4,
+   "y": 3.0,
+   "object": "Mage_UpperRail",
+   "from": "3:-2:1",
+   "to": "3:-1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -0.15000000000000002,
+   "y": 3.4615402221679688,
+   "object": "Mage_UpperRail",
+   "from": "3:-1:0",
+   "to": "3:0:1"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 6.5,
+   "z": -1.25,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell",
+   "from": "6:-2:0",
+   "to": "6:-1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 6.5,
+   "z": -0.4,
+   "y": -0.15000152587890625,
+   "object": "Mage_Shell",
+   "from": "6:-1:0",
+   "to": "6:0:0"
+  }
+ ]
+}

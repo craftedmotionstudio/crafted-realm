@@ -6,15 +6,16 @@
 var HolmKitCreator=(function(){
  'use strict';
  var st={panel:null,look:null,els:{},prevCam:null,active:false};
- var DESIGN=[['Hair','Head'],['Jaw','Jaw'],['Torso','Torso'],['Arms','Arms'],['Hands','Hands'],['Legs','Legs'],['Feet','Feet']];
- var COLOUR=[['hair','Hair'],['torso','Torso'],['legs','Legs'],['feet','Feet'],['skin','Skin']];
+ var DESIGN=[['Hair','Head'],['Jaw','Jaw'],['Torso','Torso'],['Arms','Arms'],['Hands','Hands'],['Legs','Legs'],['Feet','Feet'],['Makeup','Makeup']];
+ var COLOUR=[['hair','Hair'],['torso','Torso'],['legs','Legs'],['feet','Feet'],['skin','Skin'],['makeup','Makeup']];
  function el(tag,css,html){var e=document.createElement(tag);if(css)e.style.cssText=css;if(html!==undefined)e.innerHTML=html;return e}
  function click(){try{if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click()}catch(e){}}
  function refresh(){st.look=HolmKit.normalize(st.look);if(typeof CharCfg!=='undefined')CharCfg.kit=st.look;
   if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.refreshLook)HolmIslandPlayer.refreshLook();
   DESIGN.forEach(function(d){var e=st.els[d[0]];if(!e)return;var has=HolmKit.hasSlot(st.look.body,d[0]);e.row.style.visibility=e.lbl.style.visibility=has?'visible':'hidden';
    if(has)e.lbl.textContent=HolmKit.label(st.look.body,d[0],st.look.parts[d[0]])});
-  COLOUR.forEach(function(c){var e=st.els['c_'+c[0]];if(e)e.sw.style.background=HolmKit.palette(c[0])[st.look.colors[c[0]]]||'#000'});
+  COLOUR.forEach(function(c){var e=st.els['c_'+c[0]];if(!e)return;e.sw.style.background=HolmKit.palette(c[0])[st.look.colors[c[0]]]||'#000';
+   if(c[0]==='makeup')e.row.style.display=HolmKit.hasSlot(st.look.body,'Makeup')?'':'none'});
   ['A','B'].forEach(function(b){var e=st.els['body_'+b];if(e)e.classList.toggle('on',st.look.body===b)})}
  function cyclePart(slot,dir){var n=HolmKit.options(st.look.body,slot).length;if(!n)return;st.look.parts[slot]=((st.look.parts[slot]-1+dir+n)%n)+1;refresh()}
  function cycleColour(ch,dir){var n=HolmKit.palette(ch).length;st.look.colors[ch]=(st.look.colors[ch]+dir+n)%n;refresh()}
