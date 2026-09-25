@@ -22,7 +22,7 @@
 var CombatFX=(function(){
  'use strict';
  var SPLAT_LIFE=1.2,SPLAT_FADE=0.28,SPLAT_POP=0.12,BAR_LINGER=6,XP_LIFE=1.7;
- var SLOTS=[[0,0],[0,-24],[-19,-11],[19,-11]];   // OSRS stacking pattern: centre, above, left, right
+ var SLOTS=[[0,0],[0,-30],[-24,-14],[24,-14]];   // OSRS stacking pattern: centre, above, left, right
  var T=0,frame=0,ready=false;
  var seed=0x2f6b1d3; function rnd(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296}   // never Math.random
  var V1,V2,V3,V4,V5,V6,COL,WHITE,BOX;   // temps, made once THREE exists
@@ -100,7 +100,9 @@ var CombatFX=(function(){
   var ud=o.userData||{};if(!ud.death||ev.kill)react(o,ev.dmg);
   var big=ev.dmg>0&&(ev.max||ev.dmg>=10||(ev.dmg>=3&&ev.dmg>=0.3*maxHpOf(o)));
   // melee sounds land here; projectiles already sounded their impact on arrival
-  if(ev.kind==='melee'||ev.kind==='npcMelee'||ev.kind==='generic'){if(ev.dmg>0){if(isPlayer(o))snd.hurt(big);else snd.hit(big,ev.atype)}else snd.block()}
+  // (a 'generic' hit - a sparring bot, a boss script - is only voiced near the adventurer)
+  var near=ev.kind!=='generic'||isPlayer(o)||(typeof player!=='undefined'&&player&&o.position&&o.position.distanceTo(player.position)<14);
+  if(near&&(ev.kind==='melee'||ev.kind==='npcMelee'||ev.kind==='generic')){if(ev.dmg>0){if(isPlayer(o))snd.hurt(big);else snd.hit(big,ev.atype)}else snd.block()}
   else if(isPlayer(o)&&ev.dmg>0)snd.hurt(big);
   if(ev.dmg>0&&(ev.kind==='melee'||ev.kind==='npcMelee'))sparks(o,big);
   if(big&&(isPlayer(o)||ev.kind!=='generic'))shake(ev.dmg>=10?2.5:2,80);

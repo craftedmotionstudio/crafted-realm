@@ -58,18 +58,21 @@ class Run:
     def attack_with_hit(self, within=1500, skip=0):
         hs = self.hits(); a = [t for t in self.attacks() if any(0 <= h - t <= within for h in hs)]
         return a[skip] if len(a) > skip else (a[0] if a else None)
-    def center(self, t0, t1):
+    def span(self, t0, t1, who=(0, 1)):
         pts = [s['scr'] for s in self.samples if t0 - 100 <= s['wall'] <= t1 + 100 and 'scr' in s]
-        if not pts: return (769, 450)
-        xs = [p[0][0] for p in pts] + [p[1][0] for p in pts]; ys = [p[0][1] for p in pts] + [p[1][1] for p in pts]
-        return ((min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2 - 40)
+        if not pts: return (769, 450, 0)
+        xs = [p[k][0] for p in pts for k in who]; ys = [p[k][1] for p in pts for k in who]
+        return ((min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2 - 50, max(xs) - min(xs))
 
 def crop_box(c, w=700, h=470):
+    # widen to cover both fighters (plus room for bars and splats), keep the aspect, stay on screen
+    k = max(1.0, (c[2] + 300) / w) if len(c) > 2 else 1.0
+    w, h = min(1538, int(w * k)), min(900, int(h * k))
     x0 = int(max(0, min(1538 - w, c[0] - w / 2))); y0 = int(max(0, min(900 - h, c[1] - h / 2)))
     return (x0, y0, x0 + w, y0 + h)
 
-def strip(run, t0, offs, labels, title, note='', w=700, h=470, cols=5):
-    box = crop_box(run.center(t0 + min(offs), t0 + max(offs)), w, h)
+def strip(run, t0, offs, labels, title, note='', w=700, h=470, cols=5, who=(0, 1)):
+    box = crop_box(run.span(t0 + min(offs), t0 + max(offs), who), w, h)
     tw, th = 300, int(300 * h / w)
     rows = (len(offs) + cols - 1) // cols; pad, head, cap = 6, 48 if note else 30, 22
     im = Image.new('RGB', (cols * (tw + pad) + pad, head + rows * (th + cap + pad)), (24, 21, 17))
@@ -116,8 +119,8 @@ def main():
         d = r.death()
         if d:
             k = min((b for b, _, _ in sp if b >= d - 50), default=d)
-            parts.append(strip(r, k, [0, 90, 200, 330, 470, 650, 900, 1100, 1300, 1500],
-                               ['killing splat', 'topple', 'rolling', 'on its back', 'lies', 'lies', 'sinking', 'sinking', 'gone', 'after'], 'Ranged kill'))
+            parts.append(strip(r, k, [0, 90, 200, 400, 650, 900, 1150, 1350, 1550, 1800],
+                               ['killing splat', 'topple', 'rolling', 'on its back', 'lies', 'lies', 'sinking', 'sinking', 'sunk', 'after'], 'Ranged kill'))
     if parts: stack(parts, os.path.join(out, 'sheet_ranged.png'))
     # 3. magic: cast glow, release, wind orb + trail, burst + splat; a splash; the kill
     parts = []
@@ -133,8 +136,8 @@ def main():
         d = r.death()
         if d:
             k = min((b for b, _, _ in hits if b >= d - 50), default=d)
-            parts.append(strip(r, k, [0, 90, 200, 330, 470, 650, 900, 1100, 1300, 1500],
-                               ['killing splat', 'topple', 'rolling', 'on its back', 'lies', 'lies', 'sinking', 'sinking', 'gone', 'after'], 'Magic kill'))
+            parts.append(strip(r, k, [0, 90, 200, 400, 650, 900, 1150, 1350, 1550, 1800],
+                               ['killing splat', 'topple', 'rolling', 'on its back', 'lies', 'lies', 'sinking', 'sinking', 'sunk', 'after'], 'Magic kill'))
     if parts: stack(parts, os.path.join(out, 'sheet_magic.png'))
     # 4. melee kill (death: waits for the splat, flips onto its back, lies, sinks)
     if have('melee_stab'):
@@ -152,13 +155,13 @@ def main():
         if sp:
             parts.append(strip(r, sp[0][0], [0, 60, 170, 330, 500, 650, 800, 1000, 1200, 1400],
                                ['1st', 'pop', '2nd (above)', '3rd (left)', '4th (right)', 'four stacked', 'oldest fading', 'fading', 'fading', 'clear'],
-                               'Stacking: four hits inside 1.2 s (demo)', 'OSRS pattern: centre, above, left, right; each pops in (scale 1.45 to 1) and fades over its last 0.28 s', 560, 380))
+                               'Stacking: four hits inside 1.2 s (demo)', 'OSRS pattern: centre, above, left, right; each pops in (scale 1.45 to 1) and fades over its last 0.28 s', 560, 380, who=(1,)))
     if have('hurt'):
         r = Run(raw, 'hurt'); pl = r.splats(on_player=True)
         if pl:
             parts.append(strip(r, pl[0][0], [-150, 0, 60, 150, 300, 700, 780, 900, 1300, 2000],
                                ['before', 'hit: 3', 'pop', 'hit clip', 'bar trail', 'block: 0', 'guard', 'stacked', 'fading', 'after'],
-                               'The adventurer hurt (demo)', "red splat + the kit's hit clip, the overhead bar drops with a pale trail; then a blue 0 with the block clip", 560, 380))
+                               'The adventurer hurt (demo)', "red splat + the kit's hit clip, the overhead bar drops with a pale trail; then a blue 0 with the block clip", 560, 380, who=(0,)))
     if parts: stack(parts, os.path.join(out, 'sheet_stack_and_player.png'))
     if len(sys.argv) > 3: compare_all(sys.argv[3], raw, out)
 

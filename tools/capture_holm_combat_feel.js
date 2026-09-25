@@ -6,7 +6,7 @@
  * state, never the shared NPC type) so one fight shows several splats, then lowered for the kill.
  * Output: <style>_NNN.jpg screencast frames (+ frames.json with game-time stamps and live splat read-outs), stills.
  * BEFORE=1 records the same fights on the game as it was before the pass: requests for the files the pass touched
- * are answered with their 9670a03 versions from git (nothing on disk changes).
+ * are answered with their versions at BEFORE_REF (default 9670a03; after a merge use the merged parent) from git.
  * Run: SMOKE_BASE=http://localhost:8095 node tools/capture_holm_combat_feel.js [outDir] */
 'use strict';
 const fs=require('fs'),path=require('path'),cp=require('child_process'),puppeteer=require('puppeteer-core');
@@ -23,7 +23,7 @@ const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmIsland=1&qaP
   const log={runs:[],errors:errs,before:process.env.BEFORE==='1'};
   if(log.before){
     const OLD=['index.html','src/game2_world.js','src/game3_systems.js','src/game4_ui.js','src/game5_main.js','src/npc_chars.js','src/holm_island_player.js','src/holm_island_trials.js'];
-    const body={};for(const f of OLD)body['/'+f]=cp.execSync('git show 9670a03:'+f,{cwd:path.join(__dirname,'..'),maxBuffer:64<<20});
+    const REF=process.env.BEFORE_REF||'9670a03',body={};for(const f of OLD)body['/'+f]=cp.execSync('git show '+REF+':'+f,{cwd:path.join(__dirname,'..'),maxBuffer:64<<20});
     await page.setRequestInterception(true);
     page.on('request',r=>{const u=new URL(r.url());const k=u.pathname==='/'?'/index.html':u.pathname;
       if(body[k])r.respond({status:200,contentType:k.endsWith('.html')?'text/html':'application/javascript',body:body[k]});else r.continue()});
@@ -56,16 +56,22 @@ const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmIsland=1&qaP
       info.frame=await page.evaluate(opts=>{
         const npc=window.__cfxNpc,ray=new THREE.Raycaster();
         const pts=[player.position.clone(),npc.mesh.position.clone()];pts[0].y+=1.1;pts[1].y+=0.4;
+        const low=[player.position.clone(),npc.mesh.position.clone()];low[0].y+=0.3;low[1].y+=0.12;   // feet too: no low wall in front
         const mid=opts.focus==='npc'?pts[1].clone():opts.focus==='player'?pts[0].clone():pts[0].clone().lerp(pts[1],.5);window.__qaCameraFocus={x:mid.x,y:opts.focus==='npc'?npc.mesh.position.y:player.position.y,z:mid.z};
-        if(opts.focus==='npc')pts.shift();else if(opts.focus==='player')pts.pop();
+        if(opts.focus==='npc'){pts.shift();low.shift()}else if(opts.focus==='player'){pts.pop();low.pop()}
+        const probe=camera.clone(),vv=new THREE.Vector3();
+        // both fighters must land in the open 3D view, clear of the side panel, chat box and minimap
+        const onScreen=cam=>{probe.position.copy(cam);probe.lookAt(mid.x,(opts.focus==='npc'?npc.mesh.position.y:player.position.y)+1.2,mid.z);probe.updateMatrixWorld(true);
+          return pts.every(t=>{vv.copy(t).project(probe);const x=(vv.x+1)/2*innerWidth,y=(1-vv.y)/2*innerHeight;return x>80&&x<innerWidth-330&&y>120&&y<innerHeight-240})};
         const a0=player.position,a1=npc.mesh.position,base=Math.atan2(-(a1.z-a0.z),a1.x-a0.x)+(opts.yawOff||0);
         const blockers=[];scene.traverse(o=>{if(!o.isMesh||o.isSkinnedMesh||/^cfx/.test(o.name))return;let v=true;for(let q=o;q;q=q.parent)if(q.visible===false){v=false;break}
           const m=[].concat(o.material)[0];if(v&&m&&!(m.transparent&&m.opacity<0.05)&&m.visible!==false)blockers.push(o)});
         let best=null,tries=0;
-        for(const off of [0,Math.PI,.35,-.35,Math.PI+.35,Math.PI-.35,.7,-.7,Math.PI+.7,Math.PI-.7,1.1,-1.1,Math.PI+1.1,Math.PI-1.1,1.57,-1.57]){
+        for(const off of [0,Math.PI,.35,-.35,Math.PI+.35,Math.PI-.35,.7,-.7,Math.PI+.7,Math.PI-.7,1.1,-1.1,Math.PI+1.1,Math.PI-1.1,1.57,-1.57,1.9,-1.9,Math.PI+1.9,Math.PI-1.9]){
           for(const pitch of [opts.pitch||.6,(opts.pitch||.6)+.25,(opts.pitch||.6)+.5]){tries++;
             camCtl.yaw=base+off;camCtl.pitch=pitch;camCtl.dist=opts.dist||9.5;const cam=followCameraGoal();let clear=true;
-            for(const t of pts){const dir=t.clone().sub(cam),len=dir.length();ray.set(cam,dir.normalize());ray.near=0.3;ray.far=Math.max(0.1,len-0.7);if(ray.intersectObjects(blockers,false).length){clear=false;break}}
+            if(!onScreen(cam))clear=false;
+            for(const t of clear?pts.concat(low):[]){const dir=t.clone().sub(cam),len=dir.length();ray.set(cam,dir.normalize());ray.near=0.3;ray.far=Math.max(0.1,len-0.7);if(ray.intersectObjects(blockers,false).length){clear=false;break}}
             if(clear){best={yaw:+(base+off).toFixed(2),pitch,tries};break}}
           if(best)break}
         if(!best){camCtl.yaw=base;camCtl.pitch=1.2;camCtl.dist=opts.dist||9.5;best={fallback:true,tries}}
@@ -105,8 +111,8 @@ const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmIsland=1&qaP
     if(want('magic'))log.runs.push(await fight('magic','magic',{far:true,hp:30,ms:16000,killAfter:8000,stopAfterDeath:3500,dist:10,pitch:.62}));
     // presentation demo (not a fight): four hits in quick succession show the OSRS stacking pattern, and a hurt adventurer
     // shows the red splat, the kit's hit clip and the overhead bar. Only CombatFX.hit is called (+ the capture's own hp dip).
-    if(want('stack'))log.runs.push(await fight('stack','melee',{styleIdx:0,hp:30,ms:3200,dist:6,pitch:.7,noAttack:true,demo:'stack',focus:'npc'}));
-    if(want('hurt'))log.runs.push(await fight('hurt','melee',{styleIdx:0,hp:30,ms:4600,dist:6,pitch:.55,noAttack:true,demo:'hurt',focus:'player'}));
+    if(want('stack'))log.runs.push(await fight('stack','melee',{styleIdx:0,hp:30,ms:3200,dist:7.5,pitch:.75,noAttack:true,demo:'stack',focus:'npc'}));
+    if(want('hurt'))log.runs.push(await fight('hurt','melee',{styleIdx:0,hp:30,ms:4600,dist:7,pitch:.6,noAttack:true,demo:'hurt',focus:'player'}));
     log.stats=await page.evaluate(()=>typeof CombatFX!=='undefined'?CombatFX.stats():null);
   }catch(e){log.error=String(e).slice(0,500);console.log('ERROR',e)}
   finally{fs.writeFileSync(path.join(OUT,'capture_log.json'),JSON.stringify(log,null,1));console.log('errors',JSON.stringify(errs.slice(0,8)));await browser.close()}
