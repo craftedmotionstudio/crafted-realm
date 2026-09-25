@@ -551,6 +551,10 @@ function pick(e){
   mouse.y = -(e.clientY/innerHeight)*2+1;
   raycaster.setFromCamera(mouse, camera);
   const hits = raycaster.intersectObjects(WORLD.clickables, true);
+  // island service hit boxes are invisible stand-ins for small stations; when the ray passes through one and then
+  // meets a real, visible station just behind it (the flour bin's box used to swallow the bucket rack, owner
+  // play-test 2026-09-25), the real station is what the player pointed at. Floors behind a box keep the box.
+  let proxyHit=null;
   for(const h of hits){
     if((typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())||(typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active())){
       let visible=true;for(let parent=h.object;parent;parent=parent.parent)if(!parent.visible){visible=false;break}
@@ -562,10 +566,20 @@ function pick(e){
       const objectPlane=o.userData&&o.userData.plane;
       if(objectPlane!==undefined && objectPlane!==(Player.plane||0)) continue;
       if(o.userData&&o.userData.kind==='lighthouseDoor'&&player&&Math.hypot(player.position.x-o.position.x,player.position.z-o.position.z)>14) continue;
+      if(o.userData&&o.userData.serviceProxy){
+        // a smaller box nested inside the current one is the more specific station
+        const box=new THREE.Box3().setFromObject(o),vol=box.getSize(new THREE.Vector3());
+        if(!proxyHit||(proxyHit.box.containsPoint(h.point)&&vol.x*vol.y*vol.z<proxyHit.vol))
+          proxyHit={obj:o, point:h.point, box:box, vol:vol.x*vol.y*vol.z};
+        continue;
+      }
+      if(proxyHit){ const u=o.userData||{};
+        // a real station hit inside the box is what the player pointed at; anything else keeps the box
+        if(!(u.islandService&&proxyHit.box.containsPoint(h.point))) return {obj:proxyHit.obj, point:proxyHit.point}; }
       return {obj:o, point:h.point};
     }
   }
-  return null;
+  return proxyHit?{obj:proxyHit.obj, point:proxyHit.point}:null;
 }
 
 // Inspect-only scenery belongs in the right-click menu.  Its left-click and

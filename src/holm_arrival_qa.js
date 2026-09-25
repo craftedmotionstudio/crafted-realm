@@ -109,10 +109,15 @@ var HolmArrivalQA=(function(){
   if(bridge.setDoors(next)){doors=next;owner.setDoors(doors,{animate:true})}else UI.chat('Step clear of the doorway first.','plain');
  }
  // Nearest walkable node within reach of the door, preferring the player's own side of it.
- function doorStance(pos){
+ // the leaf's swing: its hinge and the radius it sweeps (leaf length plus the adventurer's own radius)
+ function doorSwing(id){var hinge=scene.getObjectByName(id==='garden'?'DoorNorthHinge':'DoorSouthHinge'),leaf=scene.getObjectByName(id==='garden'?'DoorNorthLeaf':'DoorSouthLeaf');if(!hinge||!leaf)return null;
+  var h=hinge.getWorldPosition(new THREE.Vector3()),b=new THREE.Box3().setFromObject(leaf),r=0;[[b.min.x,b.min.z],[b.max.x,b.min.z],[b.min.x,b.max.z],[b.max.x,b.max.z]].forEach(function(c){r=Math.max(r,Math.hypot(c[0]-h.x,c[1]-h.z))});
+  return {hinge:{x:h.x,z:h.z},r:r+.35}}
+ function inSwing(n,swing){return !!swing&&Math.hypot(n.x-swing.hinge.x,n.z-swing.hinge.z)<swing.r}
+ function doorStance(pos,swing){
   var best=null,bestScore=Infinity;
   graphForDoors(doors).nodes.forEach(function(n){
-   var reach=Math.hypot(n.x-pos.x,n.z-pos.z);if(reach>2||reach<.6)return;
+   var reach=Math.hypot(n.x-pos.x,n.z-pos.z);if(reach>2.4||reach<.6||inSwing(n,swing))return;
    var score=Math.hypot(n.x-player.position.x,n.z-player.position.z);
    if(score<bestScore){best=n;bestScore=score}
   });
@@ -158,9 +163,11 @@ var HolmArrivalQA=(function(){
   if(u.kind==='arrival_door'){
    // Exported leaf geometry can be offset from its object origin/hinge.
    var pos=new THREE.Box3().setFromObject(obj).getCenter(new THREE.Vector3());
-   if(Math.hypot(pos.x-player.position.x,pos.z-player.position.z)>2.5){
+   // a door never swings through the adventurer: from inside its sweep, first step clear, then open or close it
+   var swing=doorSwing(u.arrivalDoor),inside=inSwing({x:player.position.x,z:player.position.z},swing);
+   if(Math.hypot(pos.x-player.position.x,pos.z-player.position.z)>2.5||inside){
     // Old-school doors: a far click walks to the nearest stance beside the door, then opens it.
-    var stance=doorStance(pos);
+    var stance=doorStance(pos,swing);
     if(stance&&bridge.order(stance))pending={id:stance.id,kind:'door',door:u.arrivalDoor};
     else UI.chat('There is no open route to that door.','plain');
     return true;

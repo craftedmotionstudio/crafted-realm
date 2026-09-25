@@ -113,7 +113,7 @@ var HolmIslandExtras=(function(){
     // small or tucked-away stations (the proving bowl behind the worktable) get an invisible hit box, as ladders do
     var size=box.getSize(new T.Vector3()),c=box.getCenter(new T.Vector3());
     var proxy=new T.Mesh(new T.BoxGeometry(Math.max(.7,size.x+.2),Math.max(.7,size.y+.2),Math.max(.7,size.z+.2)),proxyMat);
-    proxy.position.copy(c);proxy.name='island-service-hit-'+s.label;proxy.userData={kind:'island_service',label:s.label,islandService:info};
+    proxy.position.copy(c);proxy.name='island-service-hit-'+s.label;proxy.userData={kind:'island_service',label:s.label,islandService:info,serviceProxy:true};
     scene.add(proxy);roots.push(proxy);W.clickables.push(proxy);grounds.push(proxy);services.push(proxy)});
    if(src.extra){var pl=await json(src.extra.placement),fb=await bytes(src.extra.url);need(await sha(fb)===pl.foundationSha256,b.id+' foundation bytes changed');
     place((await parse(T,fb)).scene,pl.world.x,pl.world.y,pl.world.z,0)}

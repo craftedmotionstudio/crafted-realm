@@ -106,9 +106,14 @@ var HolmIslandNav=(function(){
    // building-internal links (measured), only between kept nodes
    buildings.forEach(function(b){Object.keys(b.graph.links).forEach(function(lid){var a=by['b:'+b.id+':'+lid];if(!a)return;
     b.graph.links[lid].forEach(function(t){var c=by['b:'+b.id+':'+t];if(c)link(a,c)})})});
-   // seams: open ground of different owners on cardinal neighbours within one step
-   nodes.forEach(function(n){if(!openGround(n.surface))return;[[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){
-    (byTile[key(n.tx+d[0],n.tz+d[1])]||[]).forEach(function(m){if(m.owner!==n.owner&&openGround(m.surface)&&Math.abs(m.y-n.y)<=SEAM_STEP+EPS)link(n,m)});
+   // seams: open ground of different owners on cardinal neighbours within one step. A Guide House doorstep (an arrival
+   // floor node outside the house footprint, e.g. beyond the garden door) counts as open ground, so the back door
+   // leads onto the island (owner play-test 2026-09-25: the route went round to the front door)
+   var feet=input.arrivalFootprints||[];
+   function doorstep(n){return n.owner==='arrival'&&n.surface==='ground'&&!feet.some(function(r){return n.x>r.x0&&n.x<r.x1&&n.z>r.z0&&n.z<r.z1})}
+   function seamable(n){return openGround(n.surface)||doorstep(n)}
+   nodes.forEach(function(n){if(!seamable(n))return;[[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){
+    (byTile[key(n.tx+d[0],n.tz+d[1])]||[]).forEach(function(m){if(m.owner!==n.owner&&seamable(m)&&Math.abs(m.y-n.y)<=SEAM_STEP+EPS)link(n,m)});
    })});
    return (cache[dk]={schema:'holm-island-graph-v1',nodes:nodes,links:links,byId:by,byTile:byTile});
   }
