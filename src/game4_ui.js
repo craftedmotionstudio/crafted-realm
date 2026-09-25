@@ -337,7 +337,10 @@ const UI = {
   dialogue(name, text, opts, face){
     document.getElementById('dlg-name').textContent=name;
     document.getElementById('dlg-text').textContent=text;
-    document.getElementById('dlg-head').textContent=face||'🧔';
+    // a face may be 'img:<path>' (Blender-rendered portraits of the Holm tutors); anything else stays text/emoji
+    const head=document.getElementById('dlg-head');
+    if(typeof face==='string'&&face.indexOf('img:')===0){head.textContent='';const im=document.createElement('img');im.src=face.slice(4);im.alt='';im.style.cssText='width:100%;height:100%;object-fit:contain;image-rendering:auto';head.appendChild(im);}
+    else head.textContent=face||'🧔';
     const box=document.getElementById('dlg-opts'); box.innerHTML='';
     (opts||[{label:'Farewell.', fn:null}]).forEach(o=>{
       const b=document.createElement('button'); b.className='opt'; b.textContent=o.label;
@@ -1118,7 +1121,7 @@ function updateGroundGrid(){
   // flattens real depressions and shoulders, so caves own their floor entirely.
   // The 2004 look (v3 preview) has no ground grid: tiles read from shading and paths, as in the references.
   // the tile-true Holm ground shows its own squares (owner reviews 2, 5, 6): no drawn grid on top
-  const noGrid=(typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active())||(typeof CRWorldMode!=='undefined'&&CRWorldMode.providerId==='tutors-holm-arrival-qa');
+  const noGrid=(typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active())||(typeof CRWorldMode!=='undefined'&&(typeof HolmIsland!=='undefined'?HolmIsland.isIslandProvider(CRWorldMode.providerId):CRWorldMode.providerId==='tutors-holm-arrival-qa'));
   if(_groundGrid) _groundGrid.visible=(pl===0&&!noGrid);
   if(pl!==0||noGrid) return;
   const R=14, ptx=Math.floor(player.position.x), ptz=Math.floor(player.position.z);

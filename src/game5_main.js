@@ -356,7 +356,7 @@ function update(dt){
           const fx=player.position.x, fz=player.position.z;
           const fire=makeCampfire(fx,fz);
           // Holm teaching fires outlive the fishing detour (play review F-16); mainland fires keep the OSRS-ish minute
-          fire.userData.ttl=(typeof CRWorldMode!=='undefined'&&/^tutors-holm-(v2|arrival-qa)$/.test(CRWorldMode.providerId))?150:65;
+          fire.userData.ttl=(typeof CRWorldMode!=='undefined'&&/^tutors-holm-(v2|v3|arrival-qa)$/.test(CRWorldMode.providerId))?150:65;
           Player.addXp('Firemaking', 40);
           UI.chat('The fire catches and the logs begin to burn.','xp');
           UI.refreshInv();

@@ -10,7 +10,7 @@
  * then passes the click to the game's handleClick. Island draft only (?holmIsland=1); nothing here is published. */
 var HolmIslandLessons=(function(){
  'use strict';
- var WS='/.studio-workspaces/',DATA='/docs/rebuild/holm-overhaul/island-lessons.json';
+ var WS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/'):'/.studio-workspaces/'),DATA=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-lessons.json'):'/docs/rebuild/holm-overhaul/island-lessons.json');
  var PROPS=WS+'holm-props-v2/candidates/props.glb',OAK=WS+'holm-tree-family-v3/candidates/oak.glb';
  var st={objs:[],depleted:[],lamps:[],beaconOn:false,data:null};
  function need(c,m){if(!c)throw new Error('[HolmIslandLessons] '+m)}
@@ -77,6 +77,7 @@ var HolmIslandLessons=(function(){
   st.beaconOn=!st.beaconOn;Player.lastlightLit=st.beaconOn;
   st.lamps.forEach(function(n){[].concat(n.material).forEach(function(m){if(m&&m.emissive){if(m.userData.baseEmissive===undefined)m.userData.baseEmissive=m.emissive.getHex();m.emissive.setHex(st.beaconOn?0xffc860:m.userData.baseEmissive)}})});
   UI.chat(st.beaconOn?'You heave the bronze lever. Lastlight flares and its beam sweeps the sea.':'You ease the lever back. The lamp settles to a low ember.','plain');
+  try{if(typeof HolmIslandFx!=='undefined')HolmIslandFx.setBeacon(st.beaconOn)}catch(e){}
   if(st.beaconOn){try{if(typeof Tutorial!=='undefined')Tutorial.notify('beacon','lit')}catch(e){}}
   if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click();
  }

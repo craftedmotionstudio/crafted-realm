@@ -6,7 +6,7 @@
  * reloaded save opens exactly the gates it has earned. Island draft only (?holmIsland=1). */
 var HolmIslandGates=(function(){
  'use strict';
- var DATA='/docs/rebuild/holm-overhaul/island-gates.json',PROPS='/.studio-workspaces/holm-props-v3/candidates/props.glb';
+ var DATA=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-gates.json'):'/docs/rebuild/holm-overhaul/island-gates.json'),PROPS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/holm-props-v3/candidates/props.glb'):'/.studio-workspaces/holm-props-v3/candidates/props.glb');
  var st={data:null,nav:null,leaves:{},open:{},seen:-1,anim:[]};
  async function json(u){var r=await fetch(u,{cache:'no-cache'});if(!r.ok)throw new Error(u+' '+r.status);return r.json()}
  async function loadData(){return st.data||(st.data=await json(DATA))}

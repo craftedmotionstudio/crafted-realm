@@ -10,7 +10,7 @@
 var HolmV3Preview=(function(){
   'use strict';
   var requested=typeof location!=='undefined'&&new URLSearchParams(location.search).get('holmV3')==='1';
-  var ID='tutors-holm-v3',BUNDLE='assets/world/holm_v3/holm-v3.terrain.bundle.json';
+  var ID='tutors-holm-v3-preview',BUNDLE='assets/world/holm_v3/holm-v3.terrain.bundle.json';
   var HOUSES=['assets/world/holm_v3/guide_house.tilehouse.json'],SCENERY=['assets/world/holm_v3/arrival.scenery.json'];
   var bundle=null,provider=null,material=null,water=null,crossings=[],houseSources=[],scenerySources=[],installed=[];
   async function json(url){var r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('Holm v3 file missing: '+url);return r.json();}

@@ -920,6 +920,7 @@ function npcAttack(npc, dt){
     const defRoll = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus()+64);
     let dmg = Math.random()<rollAccuracy(attRoll,defRoll) ? Math.ceil(Math.random()*npcMaxHit(npc.t)) : 0;
     if(dmg>0 && Player.protectedFrom(npc.t.ranged==='arrow' ? 'ranged' : 'magic')) dmg=0;
+    if(npc.t.harmless) dmg=0;   // tutorial sparring foes (Tutor's Holm practice grubkins) never hurt
     swing(npc.mesh, npc.t.ranged==='arrow' ? 'bow' : 'cast');
     Sfx.magicCast();
     fireBoltAtPlayer(npc, dmg);
@@ -955,6 +956,7 @@ function npcAttack(npc, dt){
   const hitChance = rollAccuracy(attRoll, defRoll);
   let dmg = Math.random()<hitChance ? Math.ceil(Math.random()*npcMaxHit(npc.t)) : 0;
   if(dmg>0 && Player.protectedFrom('melee')) dmg=0;   // the overhead turns the blow aside
+  if(npc.t.harmless) dmg=0;   // tutorial sparring foes (Tutor's Holm practice grubkins) never hurt
   Player.hp -= dmg; UI.floatDmg(player, dmg);
   if(dmg>0){ Player.addXp('Defence', dmg*2); Sfx.takeHit(); } else Sfx.block();
   UI.refreshHud();
@@ -1092,6 +1094,9 @@ function playerDeath(){
   Player.energy = Math.min(100, Player.energy+30);
   Player.target=null; Player.action=null; Player.moveTo=null;
   WORLD.npcs.forEach(n=>n.target=null);
+  if(!Tutorial.complete&&typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.islandActive&&HolmArrivalQA.islandActive()&&HolmArrivalQA.respawnIsland&&HolmArrivalQA.respawnIsland()){
+    UI.chat('You wake on the Guide House porch. Guide Bram shakes his head kindly.','plain');refreshPlayerGear();UI.refreshHud();return;
+  }
   const p = Tutorial.complete ? ZONES.commons.pos : ZONES.holm.pos;
   // WEST of the plaza fountain — never inside its basin (user, 2026-07-03)
   player.position.set(p[0]-8, gy(p[0]-8,p[1]), p[1]);

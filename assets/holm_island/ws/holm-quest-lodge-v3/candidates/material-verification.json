@@ -1,0 +1,12 @@
+{
+  "accessorsIdentical": 118,
+  "nodesMeshesAnimationsIdentical": true,
+  "changedImages": [
+    [
+      "lodge_wood",
+      "lodge_wood"
+    ]
+  ],
+  "baseSha256": "6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b",
+  "modelSha256": "a8d57474e1a5cd6f8e13214e57905cf3bacecdf8e1fcc14c5b0ea1393248b324"
+}

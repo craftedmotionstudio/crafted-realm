@@ -6,7 +6,7 @@
  * is clickable ground; nothing is published. */
 var HolmIslandExtras=(function(){
  'use strict';
- var WS='/.studio-workspaces/';
+ var WS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/'):'/.studio-workspaces/');
  var BUILDINGS=[
   {id:'keep',graph:WS+'holm-keep-navigation-v4/candidates/navigation.json',model:WS+'holm-warden-keep-v5/candidates/keep.glb'},
   {id:'bakehouse',graph:WS+'holm-kitchen-navigation-v3/candidates/navigation.json',model:WS+'holm-kitchen-wings-v5/candidates/kitchen-character.glb'},
@@ -18,7 +18,7 @@ var HolmIslandExtras=(function(){
  var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v2/working/vegetation.json',PROPS=WS+'holm-props-v1/candidates/props.glb';
  // M4.5 habitat v2: the tree family's own files, everything else (shrubs, rocks, flowers, logs, signposts) from the prop pack
  var TREE_FAMILY={oak:1,birch:1,'coastal-pine':1,'meadow-tuft':1,'creek-reeds':1};
- var LADDERS='/docs/rebuild/holm-overhaul/island-ladders.json',BRIDGES='/docs/rebuild/holm-overhaul/island-bridges.json',BRIDGE_MODELS=WS+'holm-island-bridges-v1/candidates/';
+ var LADDERS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-ladders.json'):'/docs/rebuild/holm-overhaul/island-ladders.json'),BRIDGES=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-bridges.json'):'/docs/rebuild/holm-overhaul/island-bridges.json'),BRIDGE_MODELS=WS+'holm-island-bridges-v1/candidates/';
  var TRUNK={oak:.45,birch:.3,'coastal-pine':.35};
  // M4.2: authored service meshes -> measured stance (graph node) -> the existing lesson handler. The bakehouse
  // stations come from holm-kitchen-services-v1 (measured on this exact graph); the lodge from its graph targets.
@@ -67,7 +67,7 @@ var HolmIslandExtras=(function(){
    buildings.push({id:b.id,graph:graph,placement:{x:p.x,y:p.y,z:p.z},source:b})}
   // Sept 13 habitat trees that a new building now stands on are left out (models and blockers alike): the planned
   // footprint plus a tile of margin, and every tile holding one of the building's floors, stairs or decks.
-  var plan=await json('/docs/rebuild/holm-overhaul/plan.json'),built=Object.create(null);
+  var plan=await json((typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/plan.json'):'/docs/rebuild/holm-overhaul/plan.json')),built=Object.create(null);
   buildings.forEach(function(b){
    var pl=b.source.plan&&plan.places.filter(function(q){return q.id===b.source.plan})[0];
    if(pl)for(var z=Math.floor(pl.z-pl.d/2)-1;z<=Math.ceil(pl.z+pl.d/2)+1;z++)for(var x=Math.floor(pl.x-pl.w/2)-1;x<=Math.ceil(pl.x+pl.w/2)+1;x++)built[x+','+z]=true;

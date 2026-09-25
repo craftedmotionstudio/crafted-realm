@@ -1,0 +1,765 @@
+{
+  "schema": 1,
+  "status": "candidate-not-visual-or-runtime-accepted",
+  "axes": "glTF Y-up, 1 unit = tile; origin = resting base centre; longest axis +X",
+  "colour": "material colours are authored sRGB, drawn as-is (no linear conversion); roughness 1; no textures",
+  "blend": "items.blend",
+  "file": "items.glb",
+  "sha256": "c387ec9f59d1d8c5a5138f5afd4da18d8f126aebd655fbcdfbdc86c5b525ed91",
+  "aliases": {
+    "pot_of_flour": "bucket_flour"
+  },
+  "items": [
+    {
+      "id": "tinderbox",
+      "root": "tinderbox",
+      "file": "items.glb",
+      "description": "Small tin box, iron C-striker and flint",
+      "triangles": 208,
+      "materials": [
+        "item-char",
+        "item-iron",
+        "item-tin"
+      ],
+      "bounds": {
+        "min": [
+          -0.10599999874830246,
+          0.0,
+          -0.07000000029802322
+        ],
+        "max": [
+          0.10599999874830246,
+          0.09598586708307266,
+          0.07000000029802322
+        ]
+      },
+      "size": [
+        0.212,
+        0.096,
+        0.14
+      ],
+      "icon": "assets/icons/items/tinderbox.png",
+      "inGameData": true
+    },
+    {
+      "id": "hammer",
+      "root": "hammer",
+      "file": "items.glb",
+      "description": "Smithing hammer: oak handle, leather grip, iron head",
+      "triangles": 68,
+      "materials": [
+        "item-iron",
+        "item-leather",
+        "item-tin",
+        "item-wood",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.22048473358154297,
+          0.0,
+          -0.12849999964237213
+        ],
+        "max": [
+          0.22048473358154297,
+          0.09629538655281067,
+          0.12849999964237213
+        ]
+      },
+      "size": [
+        0.441,
+        0.096,
+        0.257
+      ],
+      "icon": "assets/icons/items/hammer.png",
+      "inGameData": true
+    },
+    {
+      "id": "bucket",
+      "root": "bucket",
+      "file": "items.glb",
+      "description": "Empty stave bucket, iron hoops, iron bail handle",
+      "triangles": 288,
+      "materials": [
+        "item-iron",
+        "item-wood",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.1842970848083496,
+          0.0,
+          -0.17044852674007416
+        ],
+        "max": [
+          0.1842970848083496,
+          0.35501888394355774,
+          0.17044852674007416
+        ]
+      },
+      "size": [
+        0.369,
+        0.355,
+        0.341
+      ],
+      "icon": "assets/icons/items/bucket.png",
+      "inGameData": true
+    },
+    {
+      "id": "bucket_water",
+      "root": "bucket_water",
+      "file": "items.glb",
+      "description": "Bucket of water",
+      "triangles": 296,
+      "materials": [
+        "item-iron",
+        "item-water",
+        "item-wood",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.1842970848083496,
+          0.0,
+          -0.17044852674007416
+        ],
+        "max": [
+          0.1842970848083496,
+          0.35501888394355774,
+          0.17044852674007416
+        ]
+      },
+      "size": [
+        0.369,
+        0.355,
+        0.341
+      ],
+      "icon": "assets/icons/items/bucket_water.png",
+      "inGameData": true
+    },
+    {
+      "id": "bucket_flour",
+      "root": "bucket_flour",
+      "file": "items.glb",
+      "description": "Bucket heaped with flour",
+      "triangles": 338,
+      "materials": [
+        "item-flour",
+        "item-iron",
+        "item-wood",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.1842970848083496,
+          0.0,
+          -0.17044852674007416
+        ],
+        "max": [
+          0.1842970848083496,
+          0.3580000102519989,
+          0.17044852674007416
+        ]
+      },
+      "size": [
+        0.369,
+        0.358,
+        0.341
+      ],
+      "icon": "assets/icons/items/bucket_flour.png",
+      "inGameData": true
+    },
+    {
+      "id": "dough",
+      "root": "dough",
+      "file": "items.glb",
+      "description": "Round dough ball",
+      "triangles": 96,
+      "materials": [
+        "item-dough"
+      ],
+      "bounds": {
+        "min": [
+          -0.08559508621692657,
+          0.0,
+          -0.0768018439412117
+        ],
+        "max": [
+          0.08559508621692657,
+          0.1080000028014183,
+          0.0768018439412117
+        ]
+      },
+      "size": [
+        0.171,
+        0.108,
+        0.154
+      ],
+      "icon": "assets/icons/items/dough.png",
+      "inGameData": true
+    },
+    {
+      "id": "bread_dough",
+      "root": "bread_dough",
+      "file": "items.glb",
+      "description": "Shaped raw loaf, flour-dusted score bands",
+      "triangles": 176,
+      "materials": [
+        "item-dough",
+        "item-flour"
+      ],
+      "bounds": {
+        "min": [
+          -0.1511954367160797,
+          0.0,
+          -0.0834134966135025
+        ],
+        "max": [
+          0.1511954367160797,
+          0.09356001764535904,
+          0.0834134966135025
+        ]
+      },
+      "size": [
+        0.302,
+        0.094,
+        0.167
+      ],
+      "icon": "assets/icons/items/bread_dough.png",
+      "inGameData": true
+    },
+    {
+      "id": "bread",
+      "root": "bread",
+      "file": "items.glb",
+      "description": "Baked loaf, pale score bands",
+      "triangles": 176,
+      "materials": [
+        "item-crust",
+        "item-dough"
+      ],
+      "bounds": {
+        "min": [
+          -0.161471426486969,
+          0.0,
+          -0.08832017332315445
+        ],
+        "max": [
+          0.161471426486969,
+          0.11557413637638092,
+          0.08832017332315445
+        ]
+      },
+      "size": [
+        0.323,
+        0.116,
+        0.177
+      ],
+      "icon": "assets/icons/items/bread.png",
+      "inGameData": true
+    },
+    {
+      "id": "logs",
+      "root": "logs",
+      "file": "items.glb",
+      "description": "Three bark logs bound with leather",
+      "triangles": 236,
+      "materials": [
+        "item-dough",
+        "item-leather",
+        "item-wood",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.30000001192092896,
+          0.0,
+          -0.13600000739097595
+        ],
+        "max": [
+          0.30000001192092896,
+          0.25200000405311584,
+          0.13600000739097595
+        ]
+      },
+      "size": [
+        0.6,
+        0.252,
+        0.272
+      ],
+      "icon": "assets/icons/items/logs.png",
+      "inGameData": true
+    },
+    {
+      "id": "raw_perch",
+      "root": "raw_perch",
+      "file": "items.glb",
+      "description": "Raw mirrorperch, silver-green, orange fins",
+      "triangles": 223,
+      "materials": [
+        "item-char",
+        "item-fish",
+        "item-ore",
+        "item-rock",
+        "item-tin"
+      ],
+      "bounds": {
+        "min": [
+          -0.23849999904632568,
+          0.0,
+          -0.10899999737739563
+        ],
+        "max": [
+          0.23849999904632568,
+          0.06599999964237213,
+          0.10899999737739563
+        ]
+      },
+      "size": [
+        0.477,
+        0.066,
+        0.218
+      ],
+      "icon": "assets/icons/items/raw_perch.png",
+      "inGameData": true
+    },
+    {
+      "id": "cooked_perch",
+      "root": "cooked_perch",
+      "file": "items.glb",
+      "description": "Cooked mirrorperch, browned",
+      "triangles": 223,
+      "materials": [
+        "item-char",
+        "item-crust",
+        "item-dough",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.23849999904632568,
+          0.0,
+          -0.10899999737739563
+        ],
+        "max": [
+          0.23849999904632568,
+          0.06599999964237213,
+          0.10899999737739563
+        ]
+      },
+      "size": [
+        0.477,
+        0.066,
+        0.218
+      ],
+      "icon": "assets/icons/items/cooked_perch.png",
+      "inGameData": true
+    },
+    {
+      "id": "burnt_perch",
+      "root": "burnt_perch",
+      "file": "items.glb",
+      "description": "Burnt mirrorperch, charred",
+      "triangles": 223,
+      "materials": [
+        "item-char",
+        "item-rock",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.23849999904632568,
+          0.0,
+          -0.10899999737739563
+        ],
+        "max": [
+          0.23849999904632568,
+          0.06599999964237213,
+          0.10899999737739563
+        ]
+      },
+      "size": [
+        0.477,
+        0.066,
+        0.218
+      ],
+      "icon": "assets/icons/items/burnt_perch.png",
+      "inGameData": true
+    },
+    {
+      "id": "copper_ore",
+      "root": "copper_ore",
+      "file": "items.glb",
+      "description": "Rock lump with orange copper chips",
+      "triangles": 102,
+      "materials": [
+        "item-ore",
+        "item-rock"
+      ],
+      "bounds": {
+        "min": [
+          -0.11830119788646698,
+          0.0,
+          -0.10195469856262207
+        ],
+        "max": [
+          0.11830119788646698,
+          0.15676455199718475,
+          0.10195469856262207
+        ]
+      },
+      "size": [
+        0.237,
+        0.157,
+        0.204
+      ],
+      "icon": "assets/icons/items/copper_ore.png",
+      "inGameData": true
+    },
+    {
+      "id": "tin_ore",
+      "root": "tin_ore",
+      "file": "items.glb",
+      "description": "Rock lump with pale tin chips",
+      "triangles": 102,
+      "materials": [
+        "item-rock",
+        "item-tin"
+      ],
+      "bounds": {
+        "min": [
+          -0.1245330274105072,
+          0.0,
+          -0.10710887610912323
+        ],
+        "max": [
+          0.1245330274105072,
+          0.1555883139371872,
+          0.10710887610912323
+        ]
+      },
+      "size": [
+        0.249,
+        0.156,
+        0.214
+      ],
+      "icon": "assets/icons/items/tin_ore.png",
+      "inGameData": true
+    },
+    {
+      "id": "bronze_bar",
+      "root": "bronze_bar",
+      "file": "items.glb",
+      "description": "Bevelled bronze ingot",
+      "triangles": 20,
+      "materials": [
+        "item-bronze"
+      ],
+      "bounds": {
+        "min": [
+          -0.15000000596046448,
+          0.0,
+          -0.06400000303983688
+        ],
+        "max": [
+          0.15000000596046448,
+          0.07800000160932541,
+          0.06400000303983688
+        ]
+      },
+      "size": [
+        0.3,
+        0.078,
+        0.128
+      ],
+      "icon": "assets/icons/items/bronze_bar.png",
+      "inGameData": true
+    },
+    {
+      "id": "fishing_net",
+      "root": "fishing_net",
+      "file": "items.glb",
+      "description": "Small hand net: hoop, cord lattice, handle",
+      "triangles": 212,
+      "materials": [
+        "item-dough",
+        "item-leather",
+        "item-wood",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.3019999861717224,
+          0.0,
+          -0.14038962125778198
+        ],
+        "max": [
+          0.3019999861717224,
+          0.03190324455499649,
+          0.14038962125778198
+        ]
+      },
+      "size": [
+        0.604,
+        0.032,
+        0.281
+      ],
+      "icon": "assets/icons/items/fishing_net.png",
+      "inGameData": true
+    },
+    {
+      "id": "coins",
+      "root": "coins",
+      "file": "items.glb",
+      "description": "Short stack of gold coins + two loose",
+      "triangles": 336,
+      "materials": [
+        "item-bronze",
+        "item-gold"
+      ],
+      "bounds": {
+        "min": [
+          -0.13024279475212097,
+          0.0,
+          -0.10283562541007996
+        ],
+        "max": [
+          0.13024279475212097,
+          0.07100000232458115,
+          0.10283562541007996
+        ]
+      },
+      "size": [
+        0.26,
+        0.071,
+        0.206
+      ],
+      "icon": "assets/icons/items/coins.png",
+      "inGameData": true
+    },
+    {
+      "id": "arrows",
+      "root": "arrows",
+      "file": "items.glb",
+      "description": "Four bronze-tipped arrows with white fletching",
+      "triangles": 136,
+      "materials": [
+        "item-bronze",
+        "item-flour",
+        "item-wood",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.3130936622619629,
+          0.0,
+          -0.12554387748241425
+        ],
+        "max": [
+          0.3130936622619629,
+          0.04100000113248825,
+          0.12554387748241425
+        ]
+      },
+      "size": [
+        0.626,
+        0.041,
+        0.251
+      ],
+      "icon": "assets/icons/items/arrows.png",
+      "inGameData": true
+    },
+    {
+      "id": "air_rune",
+      "root": "air_rune",
+      "file": "items.glb",
+      "description": "Rune stone, white wind-swirl sigil",
+      "triangles": 208,
+      "materials": [
+        "item-flour",
+        "item-stone"
+      ],
+      "bounds": {
+        "min": [
+          -0.09996635466814041,
+          0.0,
+          -0.08594401925802231
+        ],
+        "max": [
+          0.09996635466814041,
+          0.0710911676287651,
+          0.08594401925802231
+        ]
+      },
+      "size": [
+        0.2,
+        0.071,
+        0.172
+      ],
+      "icon": "assets/icons/items/air_rune.png",
+      "inGameData": true
+    },
+    {
+      "id": "mind_rune",
+      "root": "mind_rune",
+      "file": "items.glb",
+      "description": "Rune stone, orange crescent-and-dot sigil",
+      "triangles": 212,
+      "materials": [
+        "item-ore",
+        "item-stone"
+      ],
+      "bounds": {
+        "min": [
+          -0.09996635466814041,
+          0.0,
+          -0.08594401925802231
+        ],
+        "max": [
+          0.09996635466814041,
+          0.07800000160932541,
+          0.08594401925802231
+        ]
+      },
+      "size": [
+        0.2,
+        0.078,
+        0.172
+      ],
+      "icon": "assets/icons/items/mind_rune.png",
+      "inGameData": true
+    },
+    {
+      "id": "leather_body",
+      "root": "leather_body",
+      "file": "items.glb",
+      "description": "Leather jerkin laid flat, laced, belted",
+      "triangles": 166,
+      "materials": [
+        "item-bronze",
+        "item-leather",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.3050000071525574,
+          0.0,
+          -0.23499999940395355
+        ],
+        "max": [
+          0.3050000071525574,
+          0.0729999989271164,
+          0.23499999940395355
+        ]
+      },
+      "size": [
+        0.61,
+        0.073,
+        0.47
+      ],
+      "icon": "assets/icons/items/leather_body.png",
+      "inGameData": true
+    },
+    {
+      "id": "wood_shield",
+      "root": "wood_shield",
+      "file": "items.glb",
+      "description": "Round plank shield, iron rim and boss",
+      "triangles": 268,
+      "materials": [
+        "item-iron",
+        "item-wood",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.320000022649765,
+          0.0,
+          -0.320000022649765
+        ],
+        "max": [
+          0.320000022649765,
+          0.08799999952316284,
+          0.320000022649765
+        ]
+      },
+      "size": [
+        0.64,
+        0.088,
+        0.64
+      ],
+      "icon": "assets/icons/items/wood_shield.png",
+      "inGameData": true
+    },
+    {
+      "id": "bones",
+      "root": "bones",
+      "file": "items.glb",
+      "description": "A chunky long bone",
+      "triangles": 104,
+      "materials": [
+        "item-flour"
+      ],
+      "bounds": {
+        "min": [
+          -0.21137306094169617,
+          0.0,
+          -0.06292818486690521
+        ],
+        "max": [
+          0.21137306094169617,
+          0.07999999821186066,
+          0.06292818486690521
+        ]
+      },
+      "size": [
+        0.423,
+        0.08,
+        0.126
+      ],
+      "icon": "assets/icons/items/bones.png",
+      "inGameData": true
+    },
+    {
+      "id": "pot_of_flour",
+      "root": "pot_of_flour",
+      "file": "items.glb",
+      "description": "Bucket heaped with flour (alias of bucket_flour)",
+      "triangles": 338,
+      "materials": [
+        "item-flour",
+        "item-iron",
+        "item-wood",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.1842970848083496,
+          0.0,
+          -0.17044852674007416
+        ],
+        "max": [
+          0.1842970848083496,
+          0.3580000102519989,
+          0.17044852674007416
+        ]
+      },
+      "size": [
+        0.369,
+        0.358,
+        0.341
+      ],
+      "icon": "assets/icons/items/pot_of_flour.png",
+      "inGameData": true
+    }
+  ],
+  "totals": {
+    "triangles": 4417,
+    "materials": 16,
+    "items": 24,
+    "budget": {
+      "perItemTriangles": 400,
+      "materials": 16
+    }
+  }
+}

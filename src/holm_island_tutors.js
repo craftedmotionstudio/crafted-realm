@@ -77,7 +77,7 @@ var HolmIslandTutors=(function(){
  function talk(id){
   var n=byId(id);if(!n||typeof UI==='undefined')return false;var ps=pages(n.cast),k=0;
   n.group.lookAt(player.position.x,n.group.position.y,player.position.z);play(n,'talk');st.talking=n;
-  (function show(){var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;setTimeout(show,0)}else{st.talking=null;play(n,'idle')}}}],n.cast.face)})();
+  (function show(){var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;setTimeout(show,0)}else{st.talking=null;play(n,'idle')}}}],'img:assets/icons/tutors/'+n.cast.id+'.png')})();
   return true;
  }
  function update(dt){

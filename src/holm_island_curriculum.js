@@ -7,7 +7,7 @@
  * nothing is credited twice. Loads after tutorial_holm.js; inert without the island flag. */
 var HolmIslandCurriculum=(function(){
  'use strict';
- var on=typeof location!=='undefined'&&new URLSearchParams(location.search).get('holmIsland')==='1';
+ var on=typeof HolmIsland!=='undefined'?HolmIsland.live():(typeof location!=='undefined'&&new URLSearchParams(location.search).get('holmIsland')==='1');
  // where each lesson is taught on the new island: a building's measured target, a lesson object, or an arrival service
  var WHERE={
   study_route:{arrival:'holm_orientation'},equip_hatchet:{arrival:'holm_provisions'},
@@ -87,13 +87,14 @@ var HolmIslandCurriculum=(function(){
    try{var el=document.getElementById('objective'),txt=document.getElementById('obj-text');if(el&&txt){el.style.display='block';txt.textContent='Lastlight is lit. Board Ferryman Tobin\'s skiff at the Departure Haven.'}
     var h=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('haven','boat');if(h&&typeof GuideArrow!=='undefined'){GuideArrow.keepAfterComplete=true;GuideArrow.setTarget({x:h.x,z:h.z},'Board the skiff')}}catch(e){}
    UI.chat('You have completed every lesson on Tutor\'s Holm. The pier gate at the Departure Haven is open.','xp');
-   UI.dialogue('Keeper Aldous','That light will carry to the mainland. Go down to the haven; Tobin will row you across.',[{label:'Thank you.'}],'👴');
+   UI.dialogue('Keeper Aldous','That light will carry to the mainland. Go down to the haven; Tobin will row you across.',[{label:'Thank you.'}],'img:assets/icons/tutors/aldous.png');
    try{if(typeof SaveGame!=='undefined')SaveGame.save(true)}catch(e){}return true}}
  function board(){
   if(!on)return false;if(!Tutorial.complete){UI.chat('Tobin shakes his head. No sailing until Lastlight is lit.','plain');return false}
   var d=HolmTutorialFlow.departure;if(typeof Tutorial.grantDeparturePack!=='function'||!Tutorial.grantDeparturePack())return false;
   try{var el=document.getElementById('objective');if(el)el.style.display='none';if(typeof GuideArrow!=='undefined'){GuideArrow.keepAfterComplete=false;GuideArrow.setTarget(null)}}catch(e){}
-  WorldTravel.go(d.destinationProvider,d.destinationLandmark,{loadingLabel:'Sailing for Veyhollow…',zoneLabel:'Veyhollow Commons',arrivalMessage:'The skiff noses into Veyhollow. Hollow Well Square lies just ahead.'});return true}
+  var go=function(){WorldTravel.go(d.destinationProvider,d.destinationLandmark,{loadingLabel:'Sailing for Veyhollow…',zoneLabel:'Veyhollow Commons',arrivalMessage:'The skiff noses into Veyhollow. Hollow Well Square lies just ahead.'})};
+  UI.chat('Tobin pushes off from the pier.','plain');if(typeof HolmIslandFx!=='undefined')HolmIslandFx.sail(go);else go();return true}
  install();installFinish();
  return {board:board,qaGrant:qaGrant,qaSetLedger:qaSetLedger,active:function(){return on},install:install,bind:bind,restore:restore,steps:function(){return Tutorial.steps}};
 })();

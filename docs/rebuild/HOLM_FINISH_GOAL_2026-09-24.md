@@ -365,6 +365,17 @@ Plan bundles (2026-09-24, from the player/item/animation audit):
       choices and saved appearances. Complete the worn-gear family (fix `leather_body` using the plate model).
 
 ### M7 — Cutover and proof
+Cutover plan (2026-09-25, from the provider/save audit; reversible behind one switch, on the WIP branch):
+- [ ] **M7.1 Publish** the island's Blender candidates and data through the Studio Safe Publish CLI
+      (tools/studio_workspace_cli.js) into assets/ (today they load from gitignored /.studio-workspaces/ and docs/).
+- [ ] **M7.2 One switch**: GameConfig.holmIslandLive + HolmIsland.live()/ID/isIslandProvider(); holm_arrival_qa.js and
+      holm_island_curriculum.js read it; production id `tutors-holm-v3` (rename the old primitive preview's id first);
+      ?holmIsland=1 QA keeps working; literal provider checks (noGrid, fire ttl, tool recovery, guide hall, lodge,
+      kitchen, holmPace, dev_travel, Admin.tp) accept the island provider.
+- [ ] **M7.3 Boot + saves**: new adventurers and `tutors-holm-v2` saves boot on the island; v2 saves keep items, bank
+      and lesson credit (v5 -> v6 ledger) and are placed at the island station of their next lesson; graduated /
+      mainland saves untouched; off-switch falls back safely. Tests + QA drivers updated for the new ids.
+- [ ] **M7.4 Proof**: 10 complete playthroughs on the switched build, full gates, owner review.
 - [ ] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
       Verify fresh characters, returning Holm saves, graduated saves, full inventory and interruptions.
 - [ ] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload

@@ -1,0 +1,471 @@
+{
+  "schema": 1,
+  "status": "candidate-not-visual-or-runtime-accepted",
+  "axes": "glTF Y-up, 1 unit = tile",
+  "colour": "material colours are authored sRGB, drawn as-is (no linear conversion); emissive strength exactly 1.0",
+  "animation": "object-transform clips (no morph targets / skins), sampled 30 fps, played by name via THREE.AnimationMixer; root nodes are never animated",
+  "references": [
+    ".studio-workspaces/holm-props-v2 (fishing-ripple, campfire flames)",
+    "tools/blender/build_holm_props_v3.py (iron colours)"
+  ],
+  "blend": "props.blend",
+  "file": "props.glb",
+  "sha256": "dcdd2a5fe96e2c084cfb69db6de19ea66b2b35ad364a0fa622b9a6ee7b8e1299",
+  "assets": [
+    {
+      "name": "beacon-lever",
+      "root": "beacon-lever",
+      "file": "props.glb",
+      "habitat": "Bronze lighthouse lever on an iron pedestal (1.2 tall); runtime plays Pull when used, Reset to re-arm",
+      "pivot": "ground centre of the pedestal; arm pivot = child node beacon-lever_Arm at y 0.92 (axle, rotates about X)",
+      "triangles": 308,
+      "materials": 3,
+      "materialNames": [
+        "bronze",
+        "iron",
+        "iron-worn"
+      ],
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.1848,
+          0.0,
+          -0.2337
+        ],
+        "max": [
+          0.1848,
+          1.2681,
+          0.1848
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.1848,
+          0.0,
+          -0.261
+        ],
+        "max": [
+          0.1848,
+          1.3241,
+          0.4029
+        ]
+      },
+      "clips": [
+        {
+          "name": "Pull",
+          "duration": 0.9,
+          "loop": false,
+          "loopMode": "LoopOnce (clampWhenFinished)",
+          "frames": 28,
+          "drives": [
+            "beacon-lever_Arm"
+          ],
+          "channels": [
+            "beacon-lever_Arm.rotation"
+          ],
+          "description": "arm swings from up-back to down-forward (once, eased with a small settle)"
+        },
+        {
+          "name": "Reset",
+          "duration": 0.9,
+          "loop": false,
+          "loopMode": "LoopOnce (clampWhenFinished)",
+          "frames": 28,
+          "drives": [
+            "beacon-lever_Arm"
+          ],
+          "channels": [
+            "beacon-lever_Arm.rotation"
+          ],
+          "description": "reverse of Pull: arm returns from down-forward to up-back (once)"
+        }
+      ],
+      "groundMinY": 0.0,
+      "sha256": "dcdd2a5fe96e2c084cfb69db6de19ea66b2b35ad364a0fa622b9a6ee7b8e1299"
+    },
+    {
+      "name": "beacon-beam",
+      "root": "beacon-beam",
+      "file": "props.glb",
+      "habitat": "Translucent pale-gold beacon light cone (alpha 0.25 blend, emissive 1.0), 12 long, pointing +X; runtime places the root at the lamp and plays Sweep",
+      "pivot": "cone apex (the lamp)",
+      "triangles": 16,
+      "materials": 1,
+      "materialNames": [
+        "beam-light"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          0.0,
+          -1.1087,
+          -1.1087
+        ],
+        "max": [
+          12.0,
+          1.1087,
+          1.1087
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -12.0501,
+          -1.1087,
+          -12.0501
+        ],
+        "max": [
+          12.0501,
+          1.1087,
+          12.0501
+        ]
+      },
+      "clips": [
+        {
+          "name": "Sweep",
+          "duration": 6,
+          "loop": true,
+          "loopMode": "LoopRepeat",
+          "frames": 181,
+          "drives": [
+            "beacon-beam_Cone"
+          ],
+          "channels": [
+            "beacon-beam_Cone.rotation"
+          ],
+          "description": "cone turns 360 degrees about +Y (loop, constant speed)"
+        }
+      ],
+      "groundMinY": -1.1087,
+      "sha256": "dcdd2a5fe96e2c084cfb69db6de19ea66b2b35ad364a0fa622b9a6ee7b8e1299"
+    },
+    {
+      "name": "guide-marker",
+      "root": "guide-marker",
+      "file": "props.glb",
+      "habitat": "Tutorial guide marker floating over the next objective; play Hover and Spin together",
+      "pivot": "arrow tip at rest (Hover lifts it 0..0.25); runtime sets the float height on the root",
+      "triangles": 48,
+      "materials": 2,
+      "materialNames": [
+        "marker-gold",
+        "marker-rim"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          -0.22,
+          0.0,
+          -0.22
+        ],
+        "max": [
+          0.22,
+          0.6,
+          0.22
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.22,
+          0.0,
+          -0.22
+        ],
+        "max": [
+          0.22,
+          0.85,
+          0.22
+        ]
+      },
+      "clips": [
+        {
+          "name": "Hover",
+          "duration": 1.2,
+          "loop": true,
+          "loopMode": "LoopRepeat",
+          "frames": 37,
+          "drives": [
+            "guide-marker_Bob"
+          ],
+          "channels": [
+            "guide-marker_Bob.translation"
+          ],
+          "description": "bob: tip rises 0.25 and returns (sine, loop); drives guide-marker_Bob"
+        },
+        {
+          "name": "Spin",
+          "duration": 2,
+          "loop": true,
+          "loopMode": "LoopRepeat",
+          "frames": 61,
+          "drives": [
+            "guide-marker_Gem"
+          ],
+          "channels": [
+            "guide-marker_Gem.rotation"
+          ],
+          "description": "turns 360 degrees about +Y (loop, constant); drives guide-marker_Gem"
+        }
+      ],
+      "groundMinY": 0.0,
+      "sha256": "dcdd2a5fe96e2c084cfb69db6de19ea66b2b35ad364a0fa622b9a6ee7b8e1299"
+    },
+    {
+      "name": "fishing-ripple-anim",
+      "root": "fishing-ripple-anim",
+      "file": "props.glb",
+      "habitat": "Animated fishing spot on the water surface (y=0); rings emerge from and sink below y=0, so the water surface hides them at the ends of their life",
+      "pivot": "water-surface centre",
+      "triangles": 608,
+      "materials": 1,
+      "materialNames": [
+        "ripple"
+      ],
+      "meshes": 6,
+      "bounds": {
+        "min": [
+          -0.3865,
+          -0.0298,
+          -0.3953
+        ],
+        "max": [
+          0.3838,
+          0.0686,
+          0.392
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.529,
+          -0.05,
+          -0.5253
+        ],
+        "max": [
+          0.513,
+          0.0991,
+          0.521
+        ]
+      },
+      "clips": [
+        {
+          "name": "Ripple",
+          "duration": 1.6,
+          "loop": true,
+          "loopMode": "LoopRepeat",
+          "frames": 49,
+          "drives": [
+            "fishing-ripple-anim_Bubble1",
+            "fishing-ripple-anim_Bubble2",
+            "fishing-ripple-anim_Bubble3",
+            "fishing-ripple-anim_Ring1",
+            "fishing-ripple-anim_Ring2",
+            "fishing-ripple-anim_Ring3"
+          ],
+          "channels": [
+            "fishing-ripple-anim_Bubble1.scale",
+            "fishing-ripple-anim_Bubble1.translation",
+            "fishing-ripple-anim_Bubble2.scale",
+            "fishing-ripple-anim_Bubble2.translation",
+            "fishing-ripple-anim_Bubble3.scale",
+            "fishing-ripple-anim_Bubble3.translation",
+            "fishing-ripple-anim_Ring1.scale",
+            "fishing-ripple-anim_Ring1.translation",
+            "fishing-ripple-anim_Ring2.scale",
+            "fishing-ripple-anim_Ring2.translation",
+            "fishing-ripple-anim_Ring3.scale",
+            "fishing-ripple-anim_Ring3.translation"
+          ],
+          "description": "3 rings rise from under the surface, spread outward, flatten and sink back (staggered 1/3 cycle); 3 bubbles bob"
+        }
+      ],
+      "groundMinY": -0.0298,
+      "sha256": "dcdd2a5fe96e2c084cfb69db6de19ea66b2b35ad364a0fa622b9a6ee7b8e1299"
+    },
+    {
+      "name": "furnace-glow",
+      "root": "furnace-glow",
+      "file": "props.glb",
+      "habitat": "Glowing ember bed + flame tongues inserted in a furnace / forge mouth (0.6 wide); front = +Z",
+      "pivot": "ground (hearth floor) centre",
+      "triangles": 352,
+      "materials": 4,
+      "materialNames": [
+        "ember",
+        "flame-orange",
+        "flame-yellow",
+        "iron"
+      ],
+      "meshes": 8,
+      "bounds": {
+        "min": [
+          -0.262,
+          0.0,
+          -0.1613
+        ],
+        "max": [
+          0.2867,
+          0.54,
+          0.1382
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.2673,
+          0.0,
+          -0.1613
+        ],
+        "max": [
+          0.2903,
+          0.6215,
+          0.1382
+        ]
+      },
+      "clips": [
+        {
+          "name": "Flicker",
+          "duration": 1,
+          "loop": true,
+          "loopMode": "LoopRepeat",
+          "frames": 31,
+          "drives": [
+            "furnace-glow_Flame1",
+            "furnace-glow_Flame2",
+            "furnace-glow_Flame3",
+            "furnace-glow_Flame4",
+            "furnace-glow_Flame5",
+            "furnace-glow_Flame6",
+            "furnace-glow_Flame7"
+          ],
+          "channels": [
+            "furnace-glow_Flame1.rotation",
+            "furnace-glow_Flame1.scale",
+            "furnace-glow_Flame2.rotation",
+            "furnace-glow_Flame2.scale",
+            "furnace-glow_Flame3.rotation",
+            "furnace-glow_Flame3.scale",
+            "furnace-glow_Flame4.rotation",
+            "furnace-glow_Flame4.scale",
+            "furnace-glow_Flame5.rotation",
+            "furnace-glow_Flame5.scale",
+            "furnace-glow_Flame6.rotation",
+            "furnace-glow_Flame6.scale",
+            "furnace-glow_Flame7.rotation",
+            "furnace-glow_Flame7.scale"
+          ],
+          "description": "flame tongues stretch, squash and sway irregularly (loop)"
+        }
+      ],
+      "groundMinY": 0.0,
+      "sha256": "dcdd2a5fe96e2c084cfb69db6de19ea66b2b35ad364a0fa622b9a6ee7b8e1299"
+    },
+    {
+      "name": "anvil-sparks",
+      "root": "anvil-sparks",
+      "file": "props.glb",
+      "habitat": "Spark burst for an anvil strike; invisible at rest (scale 0), play Burst once per hammer blow",
+      "pivot": "strike point on the anvil face",
+      "triangles": 96,
+      "materials": 1,
+      "materialNames": [
+        "flame-yellow"
+      ],
+      "meshes": 12,
+      "bounds": {
+        "min": [
+          -0.7524,
+          -0.343,
+          -0.8046
+        ],
+        "max": [
+          0.7307,
+          0.2437,
+          0.6707
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.7524,
+          -0.343,
+          -0.8046
+        ],
+        "max": [
+          0.7307,
+          0.2437,
+          0.6707
+        ]
+      },
+      "clips": [
+        {
+          "name": "Burst",
+          "duration": 0.5,
+          "loop": false,
+          "loopMode": "LoopOnce (clampWhenFinished)",
+          "frames": 16,
+          "drives": [
+            "anvil-sparks_Spark01",
+            "anvil-sparks_Spark02",
+            "anvil-sparks_Spark03",
+            "anvil-sparks_Spark04",
+            "anvil-sparks_Spark05",
+            "anvil-sparks_Spark06",
+            "anvil-sparks_Spark07",
+            "anvil-sparks_Spark08",
+            "anvil-sparks_Spark09",
+            "anvil-sparks_Spark10",
+            "anvil-sparks_Spark11",
+            "anvil-sparks_Spark12"
+          ],
+          "channels": [
+            "anvil-sparks_Spark01.rotation",
+            "anvil-sparks_Spark01.scale",
+            "anvil-sparks_Spark01.translation",
+            "anvil-sparks_Spark02.rotation",
+            "anvil-sparks_Spark02.scale",
+            "anvil-sparks_Spark02.translation",
+            "anvil-sparks_Spark03.rotation",
+            "anvil-sparks_Spark03.scale",
+            "anvil-sparks_Spark03.translation",
+            "anvil-sparks_Spark04.rotation",
+            "anvil-sparks_Spark04.scale",
+            "anvil-sparks_Spark04.translation",
+            "anvil-sparks_Spark05.rotation",
+            "anvil-sparks_Spark05.scale",
+            "anvil-sparks_Spark05.translation",
+            "anvil-sparks_Spark06.rotation",
+            "anvil-sparks_Spark06.scale",
+            "anvil-sparks_Spark06.translation",
+            "anvil-sparks_Spark07.rotation",
+            "anvil-sparks_Spark07.scale",
+            "anvil-sparks_Spark07.translation",
+            "anvil-sparks_Spark08.rotation",
+            "anvil-sparks_Spark08.scale",
+            "anvil-sparks_Spark08.translation",
+            "anvil-sparks_Spark09.rotation",
+            "anvil-sparks_Spark09.scale",
+            "anvil-sparks_Spark09.translation",
+            "anvil-sparks_Spark10.rotation",
+            "anvil-sparks_Spark10.scale",
+            "anvil-sparks_Spark10.translation",
+            "anvil-sparks_Spark11.rotation",
+            "anvil-sparks_Spark11.scale",
+            "anvil-sparks_Spark11.translation",
+            "anvil-sparks_Spark12.rotation",
+            "anvil-sparks_Spark12.scale",
+            "anvil-sparks_Spark12.translation"
+          ],
+          "description": "12 spark chips fly outward on falling arcs and shrink to zero (once); hidden at rest"
+        }
+      ],
+      "groundMinY": -0.343,
+      "sha256": "dcdd2a5fe96e2c084cfb69db6de19ea66b2b35ad364a0fa622b9a6ee7b8e1299"
+    }
+  ],
+  "totals": {
+    "triangles": 1428,
+    "materials": 10,
+    "assets": 6,
+    "clips": 8,
+    "budget": {
+      "triangles": 2500,
+      "materials": 10
+    }
+  }
+}

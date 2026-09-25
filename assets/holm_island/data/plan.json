@@ -1,0 +1,1821 @@
+{
+  "title": "Tutor’s Holm — coast, creek and keep",
+  "status": "Design proposal — not installed world geometry",
+  "units": "One design unit = one tile; north is up. Coordinates belong to this proposal, not the live provider.",
+  "extent": [
+    144,
+    128
+  ],
+  "coast": [
+    [
+      55,
+      123
+    ],
+    [
+      40,
+      121
+    ],
+    [
+      30,
+      115
+    ],
+    [
+      19,
+      107
+    ],
+    [
+      11,
+      95
+    ],
+    [
+      13,
+      82
+    ],
+    [
+      8,
+      71
+    ],
+    [
+      13,
+      58
+    ],
+    [
+      10,
+      46
+    ],
+    [
+      18,
+      31
+    ],
+    [
+      27,
+      24
+    ],
+    [
+      38,
+      18
+    ],
+    [
+      50,
+      21
+    ],
+    [
+      62,
+      13
+    ],
+    [
+      79,
+      12
+    ],
+    [
+      91,
+      17
+    ],
+    [
+      108,
+      9
+    ],
+    [
+      122,
+      13
+    ],
+    [
+      133,
+      24
+    ],
+    [
+      135,
+      40
+    ],
+    [
+      130,
+      52
+    ],
+    [
+      136,
+      64
+    ],
+    [
+      132,
+      76
+    ],
+    [
+      136,
+      89
+    ],
+    [
+      132,
+      108
+    ],
+    [
+      123,
+      116
+    ],
+    [
+      110,
+      119
+    ],
+    [
+      99,
+      113
+    ],
+    [
+      91,
+      105
+    ],
+    [
+      80,
+      110
+    ],
+    [
+      72,
+      119
+    ],
+    [
+      64,
+      122
+    ]
+  ],
+  "creek": [
+    [
+      72,
+      30
+    ],
+    [
+      66,
+      37
+    ],
+    [
+      70,
+      44
+    ],
+    [
+      64,
+      50
+    ],
+    [
+      62,
+      58
+    ],
+    [
+      55,
+      63
+    ],
+    [
+      57,
+      71
+    ],
+    [
+      49,
+      77
+    ],
+    [
+      48,
+      86
+    ],
+    [
+      43,
+      91
+    ],
+    [
+      45,
+      99
+    ],
+    [
+      39,
+      107
+    ],
+    [
+      39,
+      115
+    ],
+    [
+      35,
+      118
+    ]
+  ],
+  "heights": [
+    {
+      "name": "Shore and reed beds",
+      "range": "0–2 tiles",
+      "color": "#d5c58d"
+    },
+    {
+      "name": "Village and creek terraces",
+      "range": "2–5 tiles",
+      "color": "#94a66a"
+    },
+    {
+      "name": "Quarry and castle ridge",
+      "range": "5–9 tiles",
+      "color": "#758758"
+    },
+    {
+      "name": "Lastlight crown",
+      "range": "9–14 tiles",
+      "color": "#aaa485"
+    }
+  ],
+  "places": [
+    {
+      "id": "landing",
+      "name": "Arrival Cove",
+      "x": 61,
+      "z": 118,
+      "w": 8,
+      "d": 5,
+      "height": 1,
+      "family": "Coastal working landing",
+      "purpose": "Movement begins on a sheltered shore. A visible rising path leads to the guide house; the keep is glimpsed above the trees.",
+      "inside": "Small boat, mooring, drift-line and useful supply point.",
+      "route": "Main path stays out of the creek mouth. No cliff scramble from spawn.",
+      "architecture": {
+        "form": "Narrow working pier with an offset cargo apron",
+        "reference": "Bible_References/A_Tutorial_Island_Option.jpg",
+        "volumes": [
+          {
+            "id": "pier",
+            "outline": [
+              [
+                -1.7,
+                -2.5
+              ],
+              [
+                1.7,
+                -2.5
+              ],
+              [
+                1.7,
+                2.5
+              ],
+              [
+                -1.7,
+                2.5
+              ]
+            ],
+            "levels": 1,
+            "roof": "open",
+            "material": "timber",
+            "use": "Arrival and mooring"
+          },
+          {
+            "id": "cargo-apron",
+            "outline": [
+              [
+                1.7,
+                -2.5
+              ],
+              [
+                4,
+                -2.5
+              ],
+              [
+                4,
+                -0.5
+              ],
+              [
+                1.7,
+                -0.5
+              ]
+            ],
+            "levels": 1,
+            "roof": "open",
+            "material": "timber",
+            "use": "Supply handling"
+          }
+        ],
+        "character": "An asymmetric working landing, not a house-shaped marker."
+      }
+    },
+    {
+      "id": "guide",
+      "name": "Guide House",
+      "x": 66,
+      "z": 99,
+      "w": 12,
+      "d": 10,
+      "height": 3,
+      "family": "Two-storey grey fieldstone",
+      "purpose": "Orientation and first conversation with Bram. A compact stone home beside a planted court replaces the oversized empty hall.",
+      "inside": "Ground: entrance, chart room, hearth and shared table. Upstairs: Bram’s study, sleeping space and a coast-facing window. Real stairs and floor cutaway.",
+      "route": "South door opens toward arrival; north door opens toward the creek crossing. Useful courtyard, not a circular empty plaza.",
+      "architecture": {
+        "form": "Offset stone house with a projecting study and low chart-room wing",
+        "reference": "Bible_References/Complete/Building_Exterior_Option2.jpg",
+        "volumes": [
+          {
+            "id": "hearth-house",
+            "outline": [
+              [
+                -3,
+                -5
+              ],
+              [
+                4,
+                -5
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                -3,
+                5
+              ]
+            ],
+            "levels": 2,
+            "roof": "hip",
+            "material": "stone",
+            "use": "Entrance, hearth and upper sleeping room"
+          },
+          {
+            "id": "chart-wing",
+            "outline": [
+              [
+                -6,
+                -5
+              ],
+              [
+                -3,
+                -5
+              ],
+              [
+                -3,
+                1
+              ],
+              [
+                -6,
+                1
+              ]
+            ],
+            "levels": 1,
+            "roof": "gable",
+            "material": "stone",
+            "use": "Connected orientation and provision room"
+          },
+          {
+            "id": "study-bay",
+            "outline": [
+              [
+                1,
+                1
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                6,
+                2
+              ],
+              [
+                6,
+                4
+              ],
+              [
+                5,
+                5
+              ],
+              [
+                1,
+                5
+              ]
+            ],
+            "levels": 2,
+            "roof": "hip",
+            "material": "plaster",
+            "use": "Coast-facing study projecting from the main house"
+          }
+        ],
+        "character": "The lower west wing and chamfered east study break the current single roof slab. Ground-floor connections and an upper stair must be re-authored before replacement."
+      }
+    },
+    {
+      "id": "survival",
+      "name": "Pond & woodland",
+      "x": 31,
+      "z": 84,
+      "w": 12,
+      "d": 10,
+      "height": 2,
+      "family": "Timber shelter and wet woodland",
+      "purpose": "Chop, light a fire, fish and cook with the survival instructor. Pond sits on a lower creek terrace.",
+      "inside": "Open teaching shelter and dry tool storage; fishable reed edge, broad tree crowns, coppice and a clear fire site.",
+      "route": "Cross creek on a short timber bridge at (49,87). Water remains visibly lower than bridge and paths.",
+      "architecture": {
+        "form": "Open-sided crook-post shelter beside a separate tool store",
+        "reference": "Bible_References/Complete/Building_Exterior_Option1.jpg",
+        "volumes": [
+          {
+            "id": "teaching-canopy",
+            "outline": [
+              [
+                -6,
+                -4
+              ],
+              [
+                1,
+                -4
+              ],
+              [
+                3,
+                -2
+              ],
+              [
+                3,
+                1
+              ],
+              [
+                -6,
+                1
+              ]
+            ],
+            "levels": 1,
+            "roof": "hip",
+            "material": "thatch",
+            "use": "Dry teaching bench and open circulation"
+          },
+          {
+            "id": "tool-store",
+            "outline": [
+              [
+                2,
+                -4
+              ],
+              [
+                6,
+                -4
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                2,
+                0
+              ]
+            ],
+            "levels": 1,
+            "roof": "lean-to",
+            "material": "timber",
+            "use": "Lockable tools with a sheltered front"
+          },
+          {
+            "id": "covered-link",
+            "outline": [
+              [
+                0,
+                -3
+              ],
+              [
+                2,
+                -3
+              ],
+              [
+                2,
+                -1
+              ],
+              [
+                0,
+                -1
+              ]
+            ],
+            "levels": 1,
+            "roof": "lean-to",
+            "material": "timber",
+            "use": "Dry connection to the store"
+          }
+        ],
+        "character": "Open posts, a low store and a planted pond edge; the outdoor lesson space remains the dominant room."
+      }
+    },
+    {
+      "id": "kitchen",
+      "name": "Bakehouse",
+      "x": 44,
+      "z": 67,
+      "w": 11,
+      "d": 8,
+      "height": 4,
+      "family": "Gray masonry, timber and warm reed roof",
+      "purpose": "Flour, water, dough and bread. Kitchen garden explains the fenced plots and working yard.",
+      "inside": "Hearth/range, preparation table, pantry and a usable sleeping loft. Oven flue shapes an asymmetrical roof silhouette.",
+      "route": "Garden lane continues uphill; bridge at (62,53) connects the village to the keep service yard.",
+      "architecture": {
+        "form": "L-shaped bakehouse and low perpendicular pantry around an entrance court",
+        "reference": "Bible_References/Complete/Building_Exterior_Option2.jpg",
+        "volumes": [
+          {
+            "id": "main-bakehouse",
+            "outline": [
+              [
+                -5,
+                -5
+              ],
+              [
+                1,
+                -5
+              ],
+              [
+                1,
+                3
+              ],
+              [
+                -5,
+                3
+              ]
+            ],
+            "levels": 2,
+            "roof": "gable",
+            "material": "stone",
+            "use": "Teaching oven and preparation room with sleeping loft"
+          },
+          {
+            "id": "pantry",
+            "outline": [
+              [
+                1,
+                -5
+              ],
+              [
+                7,
+                -5
+              ],
+              [
+                7,
+                -1
+              ],
+              [
+                1,
+                -1
+              ]
+            ],
+            "levels": 1,
+            "roof": "gable",
+            "material": "stone",
+            "use": "Low perpendicular pantry and washroom"
+          }
+        ],
+        "character": "A recessed southern court, a visible lower roof junction and one offset chimney. The two wings have different jobs and heights.",
+        "modelStudy": "holm-kitchen-wings-v5, measured placement at44,4.07,67; measured cardinal Studio walk verified"
+      }
+    },
+    {
+      "id": "quest",
+      "name": "Quest Lodge",
+      "x": 36,
+      "z": 51,
+      "w": 10,
+      "d": 8,
+      "height": 5,
+      "family": "Timber gable on stone plinth",
+      "purpose": "Meet the quest guide and learn the journal in an inhabited roadside house.",
+      "inside": "Notice room, writing desk, modest hearth, upstairs guest room and readable stair landing.",
+      "route": "The lodge faces a small shared lane; retaining wall and steps express the change in level.",
+      "architecture": {
+        "form": "Jettied timber cross-wing lodge with a shallow polygonal reading bay",
+        "reference": "Bible_References/Town2.jpg",
+        "volumes": [
+          {
+            "id": "road-hall",
+            "outline": [
+              [
+                -5,
+                -2
+              ],
+              [
+                5,
+                -2
+              ],
+              [
+                5,
+                4
+              ],
+              [
+                -5,
+                4
+              ]
+            ],
+            "levels": 1,
+            "roof": "gable",
+            "material": "timber",
+            "use": "Public notice and hearth room"
+          },
+          {
+            "id": "guest-cross-wing",
+            "outline": [
+              [
+                -4,
+                -4
+              ],
+              [
+                0,
+                -4
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                -4,
+                4
+              ]
+            ],
+            "levels": 2,
+            "roof": "gable",
+            "material": "plaster",
+            "use": "Guest room above entrance and stair"
+          },
+          {
+            "id": "reading-bay",
+            "outline": [
+              [
+                3,
+                -2
+              ],
+              [
+                5,
+                -2
+              ],
+              [
+                6,
+                -1
+              ],
+              [
+                6,
+                1
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                3,
+                2
+              ]
+            ],
+            "levels": 1,
+            "roof": "hip",
+            "material": "plaster",
+            "use": "Writing desk and light from three sides"
+          }
+        ],
+        "character": "A high cross-gable above a longer low hall; a supported upper overhang and projecting reading bay define the roadside silhouette."
+      }
+    },
+    {
+      "id": "mine",
+      "name": "Quarry Gate",
+      "x": 36,
+      "z": 33,
+      "w": 10,
+      "d": 8,
+      "height": 7,
+      "family": "Rough stone mine portal",
+      "purpose": "Enter the underground mining, smelting, smithing and combat circuit.",
+      "inside": "Winch/service room, tool racks and an unmistakable cave entrance. Underground route returns under the keep.",
+      "route": "Broad graded path gives a cardinal approach; quarry cuts reveal rock structure without enclosing the path in cliffs.",
+      "architecture": {
+        "form": "Rock-cut portal with an offset winch tower and low smithy lean-to",
+        "reference": "Bible_References/Building Option 69.png",
+        "volumes": [
+          {
+            "id": "portal-house",
+            "outline": [
+              [
+                -5,
+                -3
+              ],
+              [
+                1,
+                -4
+              ],
+              [
+                3,
+                -2
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                -5,
+                3
+              ]
+            ],
+            "levels": 1,
+            "roof": "stone-cap",
+            "material": "stone",
+            "use": "Cave threshold and tool inspection"
+          },
+          {
+            "id": "winch-tower",
+            "outline": [
+              [
+                -5,
+                -4
+              ],
+              [
+                -2,
+                -4
+              ],
+              [
+                -2,
+                0
+              ],
+              [
+                -5,
+                0
+              ]
+            ],
+            "levels": 2,
+            "roof": "gable",
+            "material": "timber",
+            "use": "Hoist and service loft"
+          },
+          {
+            "id": "work-lean-to",
+            "outline": [
+              [
+                2,
+                -1
+              ],
+              [
+                5,
+                -1
+              ],
+              [
+                5,
+                3
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            "levels": 1,
+            "roof": "lean-to",
+            "material": "timber",
+            "use": "Covered ore and repair bench"
+          }
+        ],
+        "character": "The rock face supplies the rear enclosure. The small high winch and low work roof frame the cave entrance."
+      }
+    },
+    {
+      "id": "keep",
+      "name": "Warden’s Keep",
+      "x": 87,
+      "z": 35,
+      "w": 20,
+      "d": 18,
+      "height": 8,
+      "family": "Compact stone castle",
+      "purpose": "A distinctive island skyline and inhabited fortified court, with training, armoury and wardens rather than an oversized decorative castle.",
+      "inside": "Gate passage, courtyard, great-room scale teaching hall, armoury, guard rooms, accessible upper chamber and wall walk.",
+      "route": "Approach from the south. Retaining terraces, a real gate and changing views make the climb legible.",
+      "architecture": {
+        "form": "Asymmetric open-court castle with projecting towers, great hall and gatehouse",
+        "reference": "Bible_References/Complete/Building_Exterior_Option4.jpg",
+        "volumes": [
+          {
+            "id": "great-hall",
+            "outline": [
+              [
+                -10,
+                -9
+              ],
+              [
+                -3,
+                -9
+              ],
+              [
+                -3,
+                6
+              ],
+              [
+                -10,
+                6
+              ]
+            ],
+            "levels": 2,
+            "roof": "gable",
+            "material": "stone",
+            "use": "Teaching hall, armoury and upper guard chamber"
+          },
+          {
+            "id": "north-range",
+            "outline": [
+              [
+                -3,
+                -9
+              ],
+              [
+                7,
+                -9
+              ],
+              [
+                7,
+                -5
+              ],
+              [
+                -3,
+                -5
+              ]
+            ],
+            "levels": 1,
+            "roof": "gable",
+            "material": "stone",
+            "use": "Connected service and stores"
+          },
+          {
+            "id": "east-wall",
+            "outline": [
+              [
+                7,
+                -4.7
+              ],
+              [
+                9,
+                -4.7
+              ],
+              [
+                9,
+                4
+              ],
+              [
+                7,
+                4
+              ]
+            ],
+            "levels": 1,
+            "roof": "battlement",
+            "material": "stone",
+            "use": "Accessible wall walk"
+          },
+          {
+            "id": "gatehouse",
+            "outline": [
+              [
+                -1,
+                4
+              ],
+              [
+                5,
+                4
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                -1,
+                10
+              ]
+            ],
+            "levels": 2,
+            "roof": "battlement",
+            "material": "stone",
+            "use": "Gate passage into the open court"
+          },
+          {
+            "id": "west-curtain",
+            "outline": [
+              [
+                -3,
+                3.8
+              ],
+              [
+                -1,
+                3.8
+              ],
+              [
+                -1,
+                6.2
+              ],
+              [
+                -3,
+                6.2
+              ]
+            ],
+            "levels": 1,
+            "roof": "battlement",
+            "material": "stone",
+            "use": "Hall-to-gate connection"
+          },
+          {
+            "id": "east-curtain",
+            "outline": [
+              [
+                5,
+                3.8
+              ],
+              [
+                9,
+                3.8
+              ],
+              [
+                9,
+                6.2
+              ],
+              [
+                5,
+                6.2
+              ]
+            ],
+            "levels": 1,
+            "roof": "battlement",
+            "material": "stone",
+            "use": "Gate-to-wall connection"
+          },
+          {
+            "id": "high-watchtower",
+            "outline": [
+              [
+                -4,
+                -13.2426
+              ],
+              [
+                -5.7574,
+                -15
+              ],
+              [
+                -8.2426,
+                -15
+              ],
+              [
+                -10,
+                -13.2426
+              ],
+              [
+                -10,
+                -10.7574
+              ],
+              [
+                -8.2426,
+                -9
+              ],
+              [
+                -5.7574,
+                -9
+              ],
+              [
+                -4,
+                -10.7574
+              ]
+            ],
+            "levels": 3,
+            "roof": "battlement",
+            "material": "stone",
+            "use": "Highest inhabited lookout with real stairs"
+          },
+          {
+            "id": "east-turret",
+            "outline": [
+              [
+                13,
+                -8.2426
+              ],
+              [
+                11.2426,
+                -10
+              ],
+              [
+                8.7574,
+                -10
+              ],
+              [
+                7,
+                -8.2426
+              ],
+              [
+                7,
+                -5.7574
+              ],
+              [
+                8.7574,
+                -4
+              ],
+              [
+                11.2426,
+                -4
+              ],
+              [
+                13,
+                -5.7574
+              ]
+            ],
+            "levels": 2,
+            "roof": "battlement",
+            "material": "stone",
+            "use": "Smaller projecting guard tower"
+          }
+        ],
+        "character": "Unequal projecting towers and connected gray-stone ranges enclose an open court. Internal hall stairs reach the wall walk; stacked switchbacks reach both tower lookouts.",
+        "modelStudy": "holm-warden-keep-v4; measured footprint, not runtime acceptance"
+      }
+    },
+    {
+      "id": "bank",
+      "name": "Bank & service court",
+      "x": 86,
+      "z": 57,
+      "w": 11,
+      "d": 8,
+      "height": 6,
+      "family": "Stone base, timber upper floor",
+      "purpose": "Banking and a small shop after emerging from the training caves. Teach deposit/withdraw and buy/sell.",
+      "inside": "Teller counter, vault, goods shelves and an upstairs clerk’s room.",
+      "route": "Cave exit at (75,53), short walk to the bank. Court links the keep, village bridge and headland road.",
+      "architecture": {
+        "form": "Chamfered counting hall with projecting upper clerk room and rear vault",
+        "reference": "Bible_References/Complete/Building_Exterior_Option3.jpg",
+        "volumes": [
+          {
+            "id": "counting-hall",
+            "outline": [
+              [
+                -5.5,
+                -2
+              ],
+              [
+                -3.5,
+                -4
+              ],
+              [
+                3.5,
+                -4
+              ],
+              [
+                5.5,
+                -2
+              ],
+              [
+                5.5,
+                2
+              ],
+              [
+                3.5,
+                4
+              ],
+              [
+                -5.5,
+                4
+              ]
+            ],
+            "levels": 1,
+            "roof": "hip",
+            "material": "plaster",
+            "use": "Teller, deposit/withdraw and goods counter"
+          },
+          {
+            "id": "clerk-cross-wing",
+            "outline": [
+              [
+                -5.5,
+                -4
+              ],
+              [
+                -1.5,
+                -4
+              ],
+              [
+                -1.5,
+                4
+              ],
+              [
+                -5.5,
+                4
+              ]
+            ],
+            "levels": 2,
+            "roof": "gable",
+            "material": "timber",
+            "use": "Upper clerk room and stair"
+          },
+          {
+            "id": "vault",
+            "outline": [
+              [
+                1.5,
+                -5
+              ],
+              [
+                5.5,
+                -5
+              ],
+              [
+                5.5,
+                -2
+              ],
+              [
+                1.5,
+                -2
+              ]
+            ],
+            "levels": 1,
+            "roof": "lean-to",
+            "material": "stone",
+            "use": "Secure vault behind counter"
+          }
+        ],
+        "character": "A clipped corner faces the lane, the clerk wing rises above it and a low vault projects behind."
+      }
+    },
+    {
+      "id": "mage",
+      "name": "Mage House & tower",
+      "x": 114,
+      "z": 58,
+      "w": 12,
+      "d": 11,
+      "height": 6,
+      "family": "Round stone tower, timber study wing",
+      "purpose": "Friendly magic instruction and a clearly bounded chicken/practice yard.",
+      "inside": "Rune workroom, library and usable upper observatory. Distinct silhouettes without a separate fantasy material palette.",
+      "route": "Headland ascent leaves the yard clearly; the ferry road branches south, visible before graduation.",
+      "architecture": {
+        "form": "Octagonal observatory joined to a crooked-roof study wing",
+        "reference": "Bible_References/Complete/Building_Exterior_Option1.jpg",
+        "volumes": [
+          {
+            "id": "observatory",
+            "outline": [
+              [
+                6,
+                -1
+              ],
+              [
+                4.83,
+                1.83
+              ],
+              [
+                2,
+                3
+              ],
+              [
+                -0.83,
+                1.83
+              ],
+              [
+                -2,
+                -1
+              ],
+              [
+                -0.83,
+                -3.83
+              ],
+              [
+                2,
+                -5
+              ],
+              [
+                4.83,
+                -3.83
+              ]
+            ],
+            "levels": 3,
+            "roof": "cone",
+            "material": "stone",
+            "use": "Rune room, library and upper observatory"
+          },
+          {
+            "id": "study-wing",
+            "outline": [
+              [
+                -6,
+                -2
+              ],
+              [
+                -1,
+                -2
+              ],
+              [
+                -1,
+                4
+              ],
+              [
+                -6,
+                4
+              ]
+            ],
+            "levels": 1,
+            "roof": "hip",
+            "material": "timber",
+            "use": "Friendly tutor workroom facing practice garden"
+          },
+          {
+            "id": "link",
+            "outline": [
+              [
+                -2,
+                -1
+              ],
+              [
+                0,
+                -1
+              ],
+              [
+                0,
+                2
+              ],
+              [
+                -2,
+                2
+              ]
+            ],
+            "levels": 1,
+            "roof": "lean-to",
+            "material": "stone",
+            "use": "Covered internal stair connection"
+          }
+        ],
+        "character": "The round/octagonal tower and low inhabited wing have distinct roof heights; the practice yard stays open and readable."
+      }
+    },
+    {
+      "id": "lastlight",
+      "name": "Lastlight",
+      "x": 121,
+      "z": 26,
+      "w": 10,
+      "d": 10,
+      "height": 14,
+      "family": "Coastal stone beacon",
+      "purpose": "Relight the beacon after the required lessons. The climb rewards the player with the broadest island view.",
+      "inside": "Keep functional floor/capstone ideas; rebuild visible mesh if reference review rejects it. Connected stores, keeper room and lantern deck.",
+      "route": "Cardinal switchback climbs the shoulder; no sudden height wall or camera buried in the hill.",
+      "architecture": {
+        "form": "Tapered coastal beacon with a keeper’s wing at its foot",
+        "reference": "Bible_References/Lighthouse_Ref1.png",
+        "volumes": [
+          {
+            "id": "beacon",
+            "outline": [
+              [
+                4.8,
+                -1
+              ],
+              [
+                3.69,
+                1.69
+              ],
+              [
+                1,
+                2.8
+              ],
+              [
+                -1.69,
+                1.69
+              ],
+              [
+                -2.8,
+                -1
+              ],
+              [
+                -1.69,
+                -3.69
+              ],
+              [
+                1,
+                -4.8
+              ],
+              [
+                3.69,
+                -3.69
+              ]
+            ],
+            "levels": 4,
+            "roof": "lantern",
+            "material": "stone",
+            "use": "Stores, keeper room and playable lantern deck"
+          },
+          {
+            "id": "keeper-wing",
+            "outline": [
+              [
+                -5,
+                -1
+              ],
+              [
+                -1,
+                -1
+              ],
+              [
+                -1,
+                4
+              ],
+              [
+                -5,
+                4
+              ]
+            ],
+            "levels": 1,
+            "roof": "hip",
+            "material": "stone",
+            "use": "Storm entrance and connected repair stores"
+          }
+        ],
+        "character": "Tall tapered silhouette, projecting lantern gallery and low sheltered entry. Existing functional floor ideas remain, not automatic mesh acceptance."
+      }
+    },
+    {
+      "id": "ferry",
+      "name": "Departure Haven",
+      "x": 124,
+      "z": 103,
+      "w": 9,
+      "d": 6,
+      "height": 1,
+      "family": "Timber pier and sheltered cove",
+      "purpose": "Physical ferry departure, complete starter pack and durable mainland arrival.",
+      "inside": "Working pier, waiting shelter, readable boat and mooring.",
+      "route": "A coastal descent from the mage district has changing landform and vegetation rather than a barren flat corridor.",
+      "architecture": {
+        "form": "Long pier and a hipped waiting shelter set to one side",
+        "reference": "Bible_References/A_Tutorial_Island_Option.jpg",
+        "volumes": [
+          {
+            "id": "pier",
+            "outline": [
+              [
+                -1.5,
+                -3
+              ],
+              [
+                1.5,
+                -3
+              ],
+              [
+                1.5,
+                3
+              ],
+              [
+                -1.5,
+                3
+              ]
+            ],
+            "levels": 1,
+            "roof": "open",
+            "material": "timber",
+            "use": "Boarding route"
+          },
+          {
+            "id": "waiting-shelter",
+            "outline": [
+              [
+                1.5,
+                -3
+              ],
+              [
+                4.5,
+                -3
+              ],
+              [
+                4.5,
+                0
+              ],
+              [
+                1.5,
+                0
+              ]
+            ],
+            "levels": 1,
+            "roof": "hip",
+            "material": "thatch",
+            "use": "Sheltered seats with sight of the boat"
+          }
+        ],
+        "character": "Keep the boarding lane open; shelter and mooring describe different uses."
+      }
+    }
+  ],
+  "bridges": [
+    {
+      "x": 49,
+      "z": 87,
+      "orientation": "EW",
+      "label": "Timber teaching bridge",
+      "rise": 0.2
+    },
+    {
+      "x": 62,
+      "z": 53,
+      "orientation": "EW",
+      "label": "Stone village bridge",
+      "rise": 0.3
+    }
+  ],
+  "paths": [
+    {
+      "kind": "primary",
+      "points": [
+        [
+          61,
+          118
+        ],
+        [
+          61,
+          114
+        ],
+        [
+          66,
+          114
+        ],
+        [
+          66,
+          108
+        ],
+        [
+          66,
+          104
+        ],
+        [
+          66,
+          93
+        ],
+        [
+          57,
+          93
+        ],
+        [
+          57,
+          87
+        ],
+        [
+          37,
+          87
+        ],
+        [
+          37,
+          76
+        ],
+        [
+          37,
+          60
+        ],
+        [
+          36.5,
+          60
+        ],
+        [
+          36.5,
+          60.5
+        ],
+        [
+          36.5,
+          53.5
+        ],
+        [
+          40.5,
+          53.5
+        ],
+        [
+          40.5,
+          52.5
+        ],
+        [
+          41.5,
+          52.5
+        ],
+        [
+          41.5,
+          51.5
+        ],
+        [
+          42.5,
+          51.5
+        ],
+        [
+          42.5,
+          47.5
+        ],
+        [
+          41.5,
+          47.5
+        ],
+        [
+          41.5,
+          46.5
+        ],
+        [
+          36.5,
+          46.5
+        ],
+        [
+          36.5,
+          38.5
+        ],
+        [
+          36.5,
+          38
+        ],
+        [
+          36,
+          38
+        ]
+      ],
+      "purpose": "Primary lane around the measured Quest Lodge exterior; half-tile connector lines are concept-only, navigation uses measured tile centers.",
+      "lodgeNavigationEvidence": ".studio-workspaces/holm-quest-terrain-navigation-v1/candidates/navigation.json"
+    },
+    {
+      "kind": "primary",
+      "points": [
+        [
+          75,
+          53
+        ],
+        [
+          75,
+          62
+        ],
+        [
+          86,
+          62
+        ],
+        [
+          100,
+          62
+        ],
+        [
+          100,
+          58
+        ],
+        [
+          108,
+          58
+        ]
+      ]
+    },
+    {
+      "kind": "primary",
+      "points": [
+        [
+          114,
+          51
+        ],
+        [
+          114,
+          46
+        ],
+        [
+          130,
+          46
+        ],
+        [
+          130,
+          38
+        ],
+        [
+          114,
+          38
+        ],
+        [
+          114,
+          26
+        ],
+        [
+          121,
+          26
+        ]
+      ]
+    },
+    {
+      "kind": "primary",
+      "points": [
+        [
+          114,
+          64
+        ],
+        [
+          114,
+          77
+        ],
+        [
+          122,
+          77
+        ],
+        [
+          122,
+          92
+        ],
+        [
+          124,
+          92
+        ],
+        [
+          124,
+          103
+        ]
+      ]
+    },
+    {
+      "kind": "secondary",
+      "points": [
+        [
+          37,
+          60
+        ],
+        [
+          47,
+          60
+        ],
+        [
+          54,
+          60
+        ],
+        [
+          54,
+          53
+        ],
+        [
+          75,
+          53
+        ],
+        [
+          75,
+          46
+        ],
+        [
+          87,
+          46
+        ]
+      ]
+    },
+    {
+      "kind": "secondary",
+      "points": [
+        [
+          66,
+          93
+        ],
+        [
+          79,
+          93
+        ],
+        [
+          79,
+          79
+        ],
+        [
+          100,
+          79
+        ],
+        [
+          100,
+          62
+        ]
+      ]
+    },
+    {
+      "kind": "secondary",
+      "purpose": "Bakehouse entrance spur around connected wings",
+      "points": [
+        [
+          37,
+          76
+        ],
+        [
+          47,
+          76
+        ],
+        [
+          47,
+          69
+        ],
+        [
+          45,
+          69
+        ]
+      ]
+    }
+  ],
+  "underground": [
+    [
+      36,
+      33
+    ],
+    [
+      36,
+      24
+    ],
+    [
+      50,
+      24
+    ],
+    [
+      50,
+      38
+    ],
+    [
+      60,
+      38
+    ],
+    [
+      60,
+      26
+    ],
+    [
+      75,
+      26
+    ],
+    [
+      75,
+      53
+    ]
+  ],
+  "caveRooms": [
+    {
+      "x": 43,
+      "z": 24,
+      "label": "Ore workings"
+    },
+    {
+      "x": 54,
+      "z": 38,
+      "label": "Furnace & anvil"
+    },
+    {
+      "x": 69,
+      "z": 26,
+      "label": "Melee / ranged"
+    }
+  ],
+  "reviewQuestions": [
+    "Does the compact keep provide a strong skyline without overwhelming the cozy village?",
+    "Do the creek terraces and upper rooms create useful exploration rather than route padding?",
+    "Does each building look constructed and inhabited at the gameplay camera?"
+  ],
+  "unverified": [
+    "Actual heightfield and drainage profile",
+    "Collision and doorway dimensions",
+    "World-scale walking time and performance",
+    "Upper-floor/cave transitions",
+    "Final reference fidelity and owner response"
+  ],
+  "architectureRevision": "2026-09-13-varied-wings",
+  "materialDirection": {
+    "reference": "Bible_References/Landscape_Option.jpg",
+    "text": "Substantial gray masonry wall fields give the buildings their old-school character, balanced with smaller cream plaster panels, ochre thatch and dark warm timber. Use original low-resolution textures with readable stone courses and subdued mortar. Landscape follows the Bible references: uneven green terraces, exposed earthy banks, muted blue-gray water, varied tree silhouettes and sparse irregular vegetation patches with open ground between them.",
+    "remaining": "Textures, vegetation, shoreline and every building require actual Studio/game comparison; this plan is not visual acceptance."
+  },
+  "vegetationDirection": {
+    "reference": "Bible_References/Landscape_Option.jpg",
+    "status": "Habitat art direction; placements and gameplay clearance pending",
+    "distribution": "Seeded irregular small groups separated by open ground; never uniform grids or blanket grass. Preserve paths, doors, station approaches and shore access. Density follows shelter, moisture and elevation.",
+    "habitats": [
+      {
+        "id": "village-meadow",
+        "trees": [
+          "broad oak",
+          "occasional birch"
+        ],
+        "understory": [
+          "sparse meadow tufts",
+          "small white flower patches"
+        ],
+        "composition": "One or two tree anchors near edges, open lawns and worn soil near buildings."
+      },
+      {
+        "id": "creek-bank",
+        "trees": [
+          "slender birch",
+          "occasional oak on upper bank"
+        ],
+        "understory": [
+          "reed clumps at wet edge",
+          "small stones",
+          "occasional flowers above water"
+        ],
+        "composition": "Leave open fishing views; reeds cluster in sheltered shallows, not across the entire bank."
+      },
+      {
+        "id": "exposed-coast",
+        "trees": [
+          "windswept coastal pine"
+        ],
+        "understory": [
+          "isolated dry tufts",
+          "gray rock groups"
+        ],
+        "composition": "Low density, leaning silhouettes, broad exposed grass and stone between trees."
+      },
+      {
+        "id": "woodland-edge",
+        "trees": [
+          "oak groups",
+          "birch gaps"
+        ],
+        "understory": [
+          "small shrubs",
+          "occasional fallen wood"
+        ],
+        "composition": "Cluster at the edges of clearings; distinct gathering trees must remain reachable and readable."
+      }
+    ]
+  }
+}

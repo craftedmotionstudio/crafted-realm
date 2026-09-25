@@ -2,7 +2,7 @@
  * never publishes it or selects it for ordinary adventurers. */
 var HolmArrivalQA=(function(){
  'use strict';
- var qs=new URLSearchParams(location.search),island=qs.get('holmIsland')==='1',requested=qs.get('arrivalQA')==='1'||island,loaded=null,provider=null,owner=null,bridge=null,pending=null;
+ var qs=new URLSearchParams(location.search),island=typeof HolmIsland!=='undefined'?HolmIsland.live():qs.get('holmIsland')==='1',requested=qs.get('arrivalQA')==='1'||island,loaded=null,provider=null,owner=null,bridge=null,pending=null;
  // M4.5: worn paths tint the island ground before any chunk renders (island draft only)
  if(island&&typeof HolmIslandPaths!=='undefined'&&typeof HolmOverhaulGround!=='undefined')HolmOverhaulGround.setPaths(HolmIslandPaths.tiles);
  var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null,heldRecord=null,lessons=null,passThrough=false,lastGateKey='';
@@ -10,13 +10,14 @@ var HolmArrivalQA=(function(){
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
  function revision(){return island?'holm-island-v1':loaded.package.navigation.graphRevision}
  // v4 (2026-09-24, M3R): guide house v2, branching oak, Lantern Keeper statue, trunk-footprint tree blockers
- var ID='tutors-holm-arrival-qa',EXPORT='8d488d326998f957';
+ var ID=island&&typeof HolmIsland!=='undefined'?HolmIsland.ID:'tutors-holm-arrival-qa',EXPORT='8d488d326998f957';
  function active(){return !!provider&&CRWorldMode.providerId===ID}
  function graphForDoors(d){var key=JSON.stringify(d)+(island&&nav&&nav.gateKey?'|'+nav.gateKey():'');return graphs[key]||(graphs[key]=nav.compile(d))}
  function spawn(){return loaded.package.navigation.doorStates['closed-closed'].graph.nodes.find(function(n){return n.id===loaded.package.spawn.nodeId})}
  async function prepare(){
   if(!requested)return null;
-  if(!QAProfile.isolated||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
+  var production=typeof HolmIsland!=='undefined'&&HolmIsland.production();
+  if((!production&&!QAProfile.isolated)||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
   loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v4/exports/',exportId:EXPORT});
   nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
   var pack=loaded.package,chunks=JSON.parse(JSON.stringify(pack.terrain.chunks)),b=loaded.documents.layout.building,s=spawn();
@@ -40,6 +41,8 @@ var HolmArrivalQA=(function(){
       extras=await HolmIslandExtras.load({THREE:THREE,scene:scene,WORLD:WORLD,data:islandData,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}});
       // M5.1 lesson stations on the island (trees, fishing spot, ore rocks, furnace, anvil, beacon lever)
       if(typeof HolmIslandLessons!=='undefined')lessons=await HolmIslandLessons.load({THREE:THREE,scene:scene,WORLD:WORLD,models:extras.models,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}});
+      // M6.4: Blender-animated lever, beam, marker, ripple, furnace glow, sparks; tree fall and ferry departure
+      if(typeof HolmIslandFx!=='undefined')try{await HolmIslandFx.load({THREE:THREE,scene:scene,models:extras.models,api:HolmArrivalQA})}catch(err){console.error('[HolmArrivalQA] fx',err)}
       // M6.1: one Blender tutor per area, with chat-box lessons
       if(typeof HolmIslandTutors!=='undefined')try{await HolmIslandTutors.load({THREE:THREE,scene:scene,WORLD:WORLD,api:HolmArrivalQA})}catch(err){console.error('[HolmArrivalQA] tutors',err)}
       // M6.2: the adventurer as the Blender player (appearance from the character creator, a clip per action)
@@ -178,7 +181,7 @@ var HolmArrivalQA=(function(){
   return false;
  }
  function update(dt){
-  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);if(lessons)HolmIslandLessons.update();if(island&&typeof HolmIslandTutors!=='undefined')HolmIslandTutors.update(dt);if(island&&typeof HolmIslandPlayer!=='undefined')HolmIslandPlayer.update();if(island&&typeof HolmIslandGates!=='undefined'){HolmIslandGates.refresh();HolmIslandGates.update(dt);
+  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);if(lessons)HolmIslandLessons.update();if(island&&typeof HolmIslandTutors!=='undefined')HolmIslandTutors.update(dt);if(island&&typeof HolmIslandPlayer!=='undefined')HolmIslandPlayer.update();if(island&&typeof HolmIslandFx!=='undefined')HolmIslandFx.update(dt,THREE,scene);if(island&&typeof HolmIslandGates!=='undefined'){HolmIslandGates.refresh();HolmIslandGates.update(dt);
    // an opened gate changes the composed graph: the follower holds its graph, so re-seat it on the current one
    var gk=nav.gateKey?nav.gateKey():'';if(gk!==lastGateKey){if(bridge.setDoors({arrival:doors.arrival,garden:doors.garden}))lastGateKey=gk}}owner.update(dt,pose.surface);
   if(pending&&pose.nodeId===pending.id&&!pose.moving){var p0=pending,kind=pending.kind,door=pending.door;pending=null;
@@ -202,16 +205,23 @@ var HolmArrivalQA=(function(){
   var n=s&&graphForDoors(doors).nodes.filter(function(m){return m.id===s.stanceNodeIds[0]})[0];return n?{id:n.id,x:n.x,y:n.y,z:n.z}:null}
  // combat on the island graph (M5.3): walk to a reachable node within weapon reach of a target that stands off the
  // graph (melee: next to it; ranged/magic: a few tiles off), nearest the player; cached per target tile
- var approachCache={};
+ var approachCache={},approachStall={},approachBad={};
  function approach(point){if(!island||!active()||!bridge)return false;var melee=Player.weaponStyle&&Player.weaponStyle()==='melee',lo=melee?.9:2.5,hi=melee?1.6:6;
   var key=(melee?'m':'r')+Math.floor(point.x)+','+Math.floor(point.z),n=approachCache[key]&&graphForDoors(doors).byId[approachCache[key]];
   if(!n){var py=Number.isFinite(point.y)?point.y:player.position.y,ring=graphForDoors(doors).nodes.filter(function(m){var h=Math.hypot(m.x-point.x,m.z-point.z);return h>=lo&&h<=hi&&Math.abs(m.y-py)<=2.5});
    // the target's own level: the lowest height gap in reach, plus half a tile (never the wall walk above a court)
    var minDy=ring.reduce(function(a,m){return Math.min(a,Math.abs(m.y-py))},Infinity),best=null,score=Infinity;
-   ring.forEach(function(m){var dy=Math.abs(m.y-py);if(dy>minDy+.5)return;var s=Math.hypot(m.x-player.position.x,m.z-player.position.z)+Math.hypot(m.x-point.x,m.z-point.z)+dy*6;if(s<score){score=s;best=m}});
+   ring.forEach(function(m){var dy=Math.abs(m.y-py);if(dy>minDy+.5||(approachBad[key]&&approachBad[key][m.id]))return;
+    // ranged and magic need a clear line to the target (walls of a court block it; the game's own LoS rule)
+    if(!melee&&typeof hasCombatLoS==='function'&&!hasCombatLoS({x:m.x,z:m.z},point))return;var s=Math.hypot(m.x-player.position.x,m.z-player.position.z)+Math.hypot(m.x-point.x,m.z-point.z)+dy*6;if(s<score){score=s;best=m}});
    n=best;if(n)approachCache[key]=n.id}
-  if(!n)return false;var cur=bridge.snapshot();if(cur.nodeId===n.id)return true;return bridge.order({x:n.x,y:n.y,z:n.z,surface:n.surface})}
+  if(!n)return false;var cur=bridge.snapshot();
+  // standing on the chosen node and still asked to close in: that node does not work for this target, pick another
+  if(cur.nodeId===n.id){approachStall[key]=(approachStall[key]||0)+1;if(approachStall[key]>4){(approachBad[key]=approachBad[key]||{})[n.id]=true;delete approachCache[key];approachStall[key]=0}return true}
+  approachStall[key]=0;return bridge.order({x:n.x,y:n.y,z:n.z,surface:n.surface})}
  function graphNodes(){return active()?graphForDoors(doors).nodes:[]}
+ // death on the island: back to the arrival spawn stance on the graph (the old respawn teleports to v2 coordinates)
+ function respawnIsland(){if(!island||!active())return false;pending=null;try{placeAt(spawn())}catch(e){return false}return true}
  // QA only (read-only): where a building's measured target stands on the composed graph (any storey).
  function qaStance(buildingId,targetId){
   if(!active()||!island||!islandData)return null;var b=islandData.buildings.filter(function(x){return x.id===buildingId})[0],t=b&&b.graph.targets.filter(function(x){return x.id===targetId})[0];
@@ -225,7 +235,7 @@ var HolmArrivalQA=(function(){
   var g=graphForDoors(doors),from=bridge.snapshot().nodeId,r=from&&nav.route(g,from,'b:'+buildingId+':'+t.nodeId);
   return r?r.map(function(id){var n=g.byId[id];return {id:id,x:n.x,y:n.y,z:n.z,surface:n.surface}}):null;
  }
- return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaStance:qaStance,stepAside:stepAside,arrivalStance:arrivalStance,approach:approach,graphNodes:graphNodes,
+ return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaStance:qaStance,stepAside:stepAside,arrivalStance:arrivalStance,approach:approach,graphNodes:graphNodes,respawnIsland:respawnIsland,
   islandActive:function(){return active()&&island},
   // review captures only: stream and frame a place without moving the adventurer
   qaView:function(x,z,y0){if(!active())return null;provider.updateResidency(x,z,true);var y=Number.isFinite(y0)?y0:height(x,z);window.__qaCameraFocus={x:x,y:Number.isFinite(y)?y:0,z:z};return window.__qaCameraFocus},   // y0: explicit height (the offshore cavern has no terrain)

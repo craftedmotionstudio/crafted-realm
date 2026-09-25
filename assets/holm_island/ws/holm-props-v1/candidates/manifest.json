@@ -1,0 +1,421 @@
+{
+  "schema": 1,
+  "status": "candidate-not-visual-or-runtime-accepted",
+  "axes": "glTF Y-up, 1 unit = tile",
+  "references": [
+    "Bible_References/Landscape_Option.jpg",
+    "Bible_References/Town2.jpg"
+  ],
+  "blend": "props.blend",
+  "file": "props.glb",
+  "sha256": "35192f013f068953432f0f9a58edd2615d5ed66a999d1f09f02ac49f84b235cc",
+  "assets": [
+    {
+      "name": "shrub-a",
+      "root": "shrub-a",
+      "file": "props.glb",
+      "habitat": "Knee-high mound shrub; fence feet, path margins, cottage walls; clusters of 1-3",
+      "triangles": 340,
+      "materials": 3,
+      "materialNames": [
+        "bark",
+        "leaf",
+        "leaf-light"
+      ],
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.539976954460144,
+          -0.05456099659204483,
+          -0.4436618685722351
+        ],
+        "max": [
+          0.539976954460144,
+          0.9023883938789368,
+          0.4436618685722351
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.539976954460144,
+          -0.05456099659204483,
+          -0.4436618685722351
+        ],
+        "max": [
+          0.539976954460144,
+          0.9023883938789368,
+          0.4436618685722351
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.05456099659204483,
+      "sha256": "35192f013f068953432f0f9a58edd2615d5ed66a999d1f09f02ac49f84b235cc"
+    },
+    {
+      "name": "shrub-b",
+      "root": "shrub-b",
+      "file": "props.glb",
+      "habitat": "Waist-high upright shrub; woodland edge and behind fences; single accents",
+      "triangles": 340,
+      "materials": 3,
+      "materialNames": [
+        "bark",
+        "leaf",
+        "leaf-light"
+      ],
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.46248728036880493,
+          -0.04227724298834801,
+          -0.31659215688705444
+        ],
+        "max": [
+          0.46248728036880493,
+          1.061391830444336,
+          0.31659215688705444
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.46248728036880493,
+          -0.04227724298834801,
+          -0.31659215688705444
+        ],
+        "max": [
+          0.46248728036880493,
+          1.061391830444336,
+          0.31659215688705444
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.04227724298834801,
+      "sha256": "35192f013f068953432f0f9a58edd2615d5ed66a999d1f09f02ac49f84b235cc"
+    },
+    {
+      "name": "flower-patch",
+      "root": "flower-patch",
+      "file": "props.glb",
+      "habitat": "White daisy-like patch with a few pale yellow heads; meadow hollows and path verges",
+      "triangles": 367,
+      "materials": 5,
+      "materialNames": [
+        "flower-eye",
+        "flower-white",
+        "flower-yellow",
+        "leaf",
+        "leaf-light"
+      ],
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.3797730803489685,
+          -0.009999999776482582,
+          -0.3353427052497864
+        ],
+        "max": [
+          0.3797730803489685,
+          0.2663717567920685,
+          0.3353427052497864
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.3797730803489685,
+          -0.009999999776482582,
+          -0.3353427052497864
+        ],
+        "max": [
+          0.3797730803489685,
+          0.2663717567920685,
+          0.3353427052497864
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.009999999776482582,
+      "sha256": "35192f013f068953432f0f9a58edd2615d5ed66a999d1f09f02ac49f84b235cc"
+    },
+    {
+      "name": "stones-small",
+      "root": "stones-small",
+      "file": "props.glb",
+      "habitat": "Loose fieldstones; path edges, field corners, under fences",
+      "triangles": 90,
+      "materials": 2,
+      "materialNames": [
+        "stone",
+        "stone-dark"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          -0.3476641774177551,
+          -0.019999999552965164,
+          -0.28940722346305847
+        ],
+        "max": [
+          0.3476641774177551,
+          0.1617175191640854,
+          0.28940722346305847
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.3476641774177551,
+          -0.019999999552965164,
+          -0.28940722346305847
+        ],
+        "max": [
+          0.3476641774177551,
+          0.1617175191640854,
+          0.28940722346305847
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.019999999552965164,
+      "sha256": "35192f013f068953432f0f9a58edd2615d5ed66a999d1f09f02ac49f84b235cc"
+    },
+    {
+      "name": "rock-group",
+      "root": "rock-group",
+      "file": "props.glb",
+      "habitat": "Gray fieldstone outcrop; hill shoulders, creek banks, path bends",
+      "triangles": 98,
+      "materials": 3,
+      "materialNames": [
+        "leaf",
+        "stone",
+        "stone-dark"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          -0.7202202677726746,
+          -0.05999999865889549,
+          -0.5553911328315735
+        ],
+        "max": [
+          0.7202202677726746,
+          0.8552306890487671,
+          0.5553911328315735
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.7202202677726746,
+          -0.05999999865889549,
+          -0.5553911328315735
+        ],
+        "max": [
+          0.7202202677726746,
+          0.8552306890487671,
+          0.5553911328315735
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.05999999865889549,
+      "sha256": "35192f013f068953432f0f9a58edd2615d5ed66a999d1f09f02ac49f84b235cc"
+    },
+    {
+      "name": "fallen-log",
+      "root": "fallen-log",
+      "file": "props.glb",
+      "habitat": "Fallen bark log; woodland floor, creek edges, beside paths as a seat",
+      "triangles": 165,
+      "materials": 2,
+      "materialNames": [
+        "bark",
+        "wood-cut"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          -1.0401140451431274,
+          -0.03745657205581665,
+          -0.3317033052444458
+        ],
+        "max": [
+          1.0401140451431274,
+          0.5905372500419617,
+          0.3317033052444458
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -1.0401140451431274,
+          -0.03745657205581665,
+          -0.3317033052444458
+        ],
+        "max": [
+          1.0401140451431274,
+          0.5905372500419617,
+          0.3317033052444458
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.03745657205581665,
+      "sha256": "35192f013f068953432f0f9a58edd2615d5ed66a999d1f09f02ac49f84b235cc"
+    },
+    {
+      "name": "signpost",
+      "root": "signpost",
+      "file": "props.glb",
+      "habitat": "Crossroads fingerpost (post only); mount signpost-arm at y 1.55/1.3/1.05",
+      "triangles": 116,
+      "materials": 4,
+      "materialNames": [
+        "stone",
+        "stone-dark",
+        "timber",
+        "wood-cut"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          -0.20634958148002625,
+          -0.05999999865889549,
+          -0.19023561477661133
+        ],
+        "max": [
+          0.2023622989654541,
+          2.0999999046325684,
+          0.20487356185913086
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.20634958148002625,
+          -0.05999999865889549,
+          -0.19023561477661133
+        ],
+        "max": [
+          0.2023622989654541,
+          2.0999999046325684,
+          0.20487356185913086
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.05999999865889549,
+      "sha256": "35192f013f068953432f0f9a58edd2615d5ed66a999d1f09f02ac49f84b235cc"
+    },
+    {
+      "name": "signpost-arm",
+      "root": "signpost-arm",
+      "file": "props.glb",
+      "habitat": "Fingerpost arm (plank pair, arrow tip +X); origin = post end, board centred on y 0",
+      "triangles": 88,
+      "materials": 4,
+      "materialNames": [
+        "board-weathered",
+        "iron",
+        "timber",
+        "wood-cut"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          0.0,
+          -0.1208389401435852,
+          -0.04500000178813934
+        ],
+        "max": [
+          0.9300000071525574,
+          0.12005999684333801,
+          0.04500000178813934
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          0.0,
+          -0.1208389401435852,
+          -0.04500000178813934
+        ],
+        "max": [
+          0.9300000071525574,
+          0.12005999684333801,
+          0.04500000178813934
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.1208389401435852,
+      "sha256": "35192f013f068953432f0f9a58edd2615d5ed66a999d1f09f02ac49f84b235cc"
+    },
+    {
+      "name": "fence-rail",
+      "root": "fence-rail",
+      "file": "props.glb",
+      "habitat": "Split-rail fence section 2.0 along +X; origin = start post base; chain every 2.0",
+      "triangles": 208,
+      "materials": 3,
+      "materialNames": [
+        "bark",
+        "timber",
+        "wood-cut"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          -0.07297439873218536,
+          -0.03999999910593033,
+          -0.10999999940395355
+        ],
+        "max": [
+          2.078507661819458,
+          1.1183205842971802,
+          0.10999999940395355
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.07297439873218536,
+          -0.03999999910593033,
+          -0.10999999940395355
+        ],
+        "max": [
+          2.078507661819458,
+          1.1183205842971802,
+          0.10999999940395355
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.03999999910593033,
+      "sha256": "35192f013f068953432f0f9a58edd2615d5ed66a999d1f09f02ac49f84b235cc"
+    }
+  ],
+  "totals": {
+    "triangles": 1812,
+    "materials": 12,
+    "assets": 9,
+    "budget": {
+      "triangles": 6000,
+      "materials": 12
+    }
+  }
+}

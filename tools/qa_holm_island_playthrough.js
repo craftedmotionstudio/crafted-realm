@@ -39,6 +39,8 @@ async function spellbook(page,spell){   // open the Spellbook tab and click the 
 }
 async function attack(page,pen,opts){for(let i=0;i<4;i++){const n=await page.evaluate(pen=>{const x=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen===pen);return x?x.mesh.name:null},pen);if(!n){await sleep(2000);continue}
   const c=await clickNamed(page,n,opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c}return {error:'no target'}}
+// a player who sees no progress clicks the foe again: up to four attack cycles, each waiting 40 s for the credit
+async function fight(page,pen,id,opts){for(let k=0;k<4;k++){await attack(page,pen,opts);if(await waitLesson(page,id,40000))return true}return false}
 // ---- the lessons, in the curriculum's order ----
 const DO={
  async study_route(p){await clickKind(p,'arrival_door',['arrivalDoor','arrival']);await waitFor(p,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.doors&&r.doors.arrival},null,40000);
@@ -64,11 +66,11 @@ const DO={
  async smelt_bronze(p){await clickNamed(p,'island-lesson-furnace');await clickButtonText(p,'#dialogue-modal button','Smelt a Bronze bar.');await waitFor(p,()=>Player.count('bronze_bar')>0,null,30000)},
  async forge_dagger(p){await clickNamed(p,'island-lesson-anvil');await clickButtonText(p,'#smith-grid-overlay div[title]','Bronze dagger');await waitFor(p,()=>Player.count('bronze_dagger')>0,null,30000);
   await clickService(p,'Climb-up ladder','ladder');await waitFor(p,()=>player.position.y>0,null,60000)},
- async melee_trial(p){await walkTo(p,'keep','court',true,[]);await talk(p,'corrick');await wield(p,'bronze_dagger');await attack(p,'keep-court');await waitLesson(p,'melee_trial',150000)},
- async ranged_trial(p){await waitFor(p,()=>Player.count('worn_bow')>0||Player.equip.weapon==='worn_bow',null,15000);await wield(p,'worn_bow');await attack(p,'keep-court');await waitLesson(p,'ranged_trial',150000)},
+ async melee_trial(p){await walkTo(p,'keep','court',true,[]);await talk(p,'corrick');await wield(p,'bronze_dagger');await fight(p,'keep-court','melee_trial')},
+ async ranged_trial(p){await waitFor(p,()=>Player.count('worn_bow')>0||Player.equip.weapon==='worn_bow',null,15000);await wield(p,'worn_bow');await fight(p,'keep-court','ranged_trial')},
  async open_bank(p){await walkTo(p,'bank','entrance',true,[]);await talk(p,'maud');await clickService(p,'Use bank counter','counter');await waitLesson(p,'open_bank',60000);await p.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}})},
  async magic_trial(p){await walkTo(p,'mage','entrance',true,[]);await talk(p,'ilse');await waitFor(p,()=>Player.count('air_rune')>0,null,15000);await closeDialogue(p);await spellbook(p,'wind_strike');
-  await attack(p,'mage-yard',{keepDialogs:true});await waitLesson(p,'magic_trial',150000)},
+  await fight(p,'mage-yard','magic_trial',{keepDialogs:true})},
  async relight_lastlight(p){await walkTo(p,'lastlight','door',true,[]);await talk(p,'aldous');
   for(const w of ['ladder1-foot','ladder2-foot','ladder3-foot'])await clickService(p,'Climb-up ladder',w);await clickService(p,'Pull beacon lever','lever');await waitLesson(p,'relight_lastlight',30000);
   for(const w of ['ladder3-top','ladder2-top','ladder1-top'])await clickService(p,'Climb-down ladder',w)}};
@@ -77,17 +79,18 @@ async function playOnce(browser,n){
   const t0=Date.now(),per={},profile='playthrough-'+n+'-'+Date.now().toString(36);let status='incomplete',note='';
   try{
     await page.goto(BASE0+'/?holmIsland=1&qaProfile='+profile,{waitUntil:'load',timeout:120000});await enter(page);
-    await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);
+    await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
     const hint0=await page.evaluate(()=>document.getElementById('obj-text').textContent);
     for(let guard=0;guard<30;guard++){
       const id=await lesson(page);if(id==='complete'){status='complete';break}
       const s=Date.now();console.log('  run '+n+' lesson '+id+' | '+(await page.evaluate(()=>document.getElementById('obj-text').textContent)).slice(0,90));
       try{await DO[id](page)}catch(e){note=id+': '+String(e).slice(0,200)}
       await waitLesson(page,id,20000);per[id]=Math.round((Date.now()-s)/1000);
-      if(await lesson(page)===id){status='stuck';note=note||('stuck at '+id);await shot(page,'run'+n+'_stuck_'+id);break}
+      if(await lesson(page)===id){status='stuck';const cs=await page.evaluate(()=>({target:!!Player.target,spell:Player.spell||null,weapon:Player.equip.weapon,air:Player.count('air_rune'),arrows:Player.count('arrows'),hp:Player.hp,dist:Player.target&&Player.target.mesh?+Math.hypot(player.position.x-Player.target.mesh.position.x,player.position.z-Player.target.mesh.position.z).toFixed(2):null}));
+       note=note||('stuck at '+id+' '+JSON.stringify(cs));await shot(page,'run'+n+'_stuck_'+id);break}
       if(id==='cook_fish'||id==='forge_dagger'||id==='open_bank'){   // save + reload mid-run: progress must come back exactly
         const before=await page.evaluate(()=>({step:Tutorial.step,ledger:(Tutorial.completedLessonIds||[]).length}));await page.evaluate(()=>SaveGame.save(true));
-        await page.reload({waitUntil:'load'});await enter(page);await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);
+        await page.reload({waitUntil:'load'});await enter(page);await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
         const after=await page.evaluate(()=>({step:Tutorial.step,ledger:(Tutorial.completedLessonIds||[]).length}));
         if(after.step!==before.step||after.ledger!==before.ledger){status='save-mismatch';note='after '+id+' '+JSON.stringify({before,after});break}}
     }

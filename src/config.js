@@ -17,6 +17,10 @@ const GameConfig = {
   // Gameplay/tooling spawns (admin console, Menagerie, duels, instances) bypass via
   // spawnNpc.force. Also silences the ambient Bots.
   worldNpcSpawns: false,
+  // Tutor's Holm cutover (finish goal M7): new adventurers and Holm saves play the Blender island (src/holm_island_live.js)
+  holmIslandLive: false,
+  // serve the island's Blender candidates from their published copies (assets/holm_island/, tools/publish_holm_island.js)
+  holmIslandPublished: false,
   _KEY: 'cr_config',
   load(){
     const d = (typeof Persist!=='undefined') ? Persist.getJSON(this._KEY, null) : null;
