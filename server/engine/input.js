@@ -70,7 +70,8 @@ const HANDLERS = {
   },
   op_obj(w, p, m) {
     if (!isInt(m.uid) || !canAct(p)) return false;
-    const o = p.view.objs.get(m.uid);
+    const rec = p.view.objs.get(m.uid);
+    const o = rec && rec.o;
     if (!o || w.objs.get(o.uid) !== o || m.op !== 'take') return false;
     p.setInteraction(o, 'take');
     p.pathToPathingTarget();

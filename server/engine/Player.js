@@ -368,7 +368,7 @@ class Player extends PathingEntity {
       equip,
       run: this.runEnabled, energy: this.runEnergy,
       style: this.styleIndex, autoRetaliate: this.autoRetaliate, autocast: this.autocast, spec: this.specEnergy,
-      skull: P.skullRemainingOnLogout(this.skullUntil, this.world.tick),
+      skull: this.active ? P.skullRemainingOnLogout(this.skullUntil, this.world.tick) : this.skullRemaining,
       playtime: this.playtime,
     };
   }
