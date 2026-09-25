@@ -27,6 +27,9 @@ var HolmIslandPlayer=(function(){
   if(a&&a.type==='cook')return 'cook';
   return MAP[type||'slash']||'attack_slash'}
  function play(name){var gm=player&&player.userData&&player.userData.gmix,act=gm&&gm.clips&&gm.clips[name];if(!act)return false;
+  // combat feel: the bow draw and the cast run a touch faster so the arrow / spell leaves on a snappy release frame
+  // (CombatFX.impactTime reads the same speeds); every other clip plays at its authored pace
+  act.timeScale=typeof CombatFX!=='undefined'&&CombatFX.speedFor?CombatFX.speedFor(name):1;
   act.reset();act.setLoop(THREE.LoopOnce,1);act.clampWhenFinished=name==='death';act.weight=1;act.play();gm.attack=act;return true}   // playerGLBAnim treats gm.attack as the body-owning one-shot
  function hookSwing(){if(st.hooked||typeof swing!=='function')return;st.hooked=true;var prev=swing;
   swing=function(g,type){if(g===player&&g.userData&&g.userData.holmPlayer){play(clipFor(type));return}return prev(g,type)}}

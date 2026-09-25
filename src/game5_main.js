@@ -854,11 +854,13 @@ function animate(){
   _lastRenderedAt=frameNow;
   const dt=Math.min(0.05, clock.getDelta());
   update(dt);
+  if(typeof CombatFX!=='undefined') CombatFX.update(dt);   // combat feel: splat timing, projectiles, particles, XP drops, shake
   // Dynamic map paint is bounded; terrain and resource layers cache independently.
   const now=performance.now();
   if(now-_minimapPaintAt>=80){ _minimapPaintAt=now; drawMinimap(); }
   const mapEnd=performance.now();
   renderer.render(scene, camera);
+  if(typeof CombatFX!=='undefined') CombatFX.draw();       // 2D combat layer: hitsplats + health bars (also ends the shake offset)
   if(_frameStages)_frameStages.record({start:frameNow,updateEnd:now,mapEnd:mapEnd,renderEnd:performance.now(),visible:frameVisible,focused:frameFocused});
 }
 // Read-only development telemetry used by the real browser gate.  It deliberately

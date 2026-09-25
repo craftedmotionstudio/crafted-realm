@@ -2441,13 +2441,22 @@ function startDeath(g){
 function tickDeath(g, dt){
   const ud=g.userData, d=ud&&ud.death; if(!d) return false;
   const p=ud.parts;
+  if(d.wait) return true;                    // combat feel: the fall waits for the killing hitsplat (CombatFX.onKill / its hit lands)
   d.t += dt;
   const f = Math.min(1, d.t/d.dur);
   const e = 1 - Math.pow(1-f, 3);            // ease-out: fast tip, gentle settle
   g.rotation.z = d.dir * d.roll * e;         // roll over from the feet (facing-y is preserved in the Euler)
-  g.position.y = d.baseY - 0.15*e;           // settle a touch into the ground
+  // a 'flip' (small crawlers: onto the back, legs up) lifts by the body's half-height so it rolls over its middle, with a hop
+  g.position.y = d.baseY - 0.15*e + (d.lift ? d.lift*(1-Math.cos(d.roll*e))/2 : 0) + (d.hop ? d.hop*Math.sin(Math.PI*f) : 0);
   const base = ud._baseScale || 1;
   g.scale.setScalar(base*(1-0.12*f));        // a slight shrink as it falls
+  // OSRS-style exit (combat feel): the body lies a moment, then sinks away into the ground before it is hidden
+  if(f>=1 && d.sink){
+    const s = d.t - d.dur, k = Math.max(0, Math.min(1, (s - (d.hold||0)) / d.sink));
+    g.position.y -= (d.sinkDepth||0.8) * k * k;
+    g.scale.setScalar(base*0.88*(1-0.2*k));
+    if(k < 1) return true;
+  }
   if(p) switch(d.style){
     case 'crab':                              // pincers fling open + up, legs splay stiff
       for(const c of p.claws){ c.arm.rotation.x = 0.9*e; c.claw1.rotation.z = 0.35+0.5*e; c.claw2.rotation.z = -0.35-0.5*e; }
@@ -3053,6 +3062,8 @@ function beastAnim(g, moving, dt){
   if(p.tail) p.tail.rotation.y = Math.sin(performance.now()*0.004+ud.walkT)*0.3;
 }
 function makeHPBar(parent, yOff){
+  // combat feel: bars are drawn crisp on the 2D combat layer (shown in combat, hidden ~6 s after); same {spr, draw} API
+  if(typeof CombatFX!=='undefined' && CombatFX.hpBar) return CombatFX.hpBar(parent, yOff);
   const c = document.createElement('canvas'); c.width=64; c.height=8;
   const tex = new THREE.CanvasTexture(c);
   const spr = new THREE.Sprite(new THREE.SpriteMaterial({map:tex, depthTest:false}));

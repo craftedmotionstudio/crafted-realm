@@ -539,9 +539,16 @@ function hasCombatLoS(from, to){
   if(typeof CollisionGrid==='undefined') return true;
   return CollisionGrid.hasLoS(from.x, from.z, to.x, to.z);
 }
-function fireProjectile(kind, fromObj, npc, dmg, tint){
+function fireProjectile(kind, fromObj, npc, dmg, tint, fx){
   let mesh, dur, arc;
   const from = fromObj.position.clone(); from.y += 1.2;
+  // combat feel: the visible arrow / spell orb is CombatFX's (it leaves the hand at the release frame and the splat
+  // shows when it lands). The logical flight below keeps its exact duration, so hits land when they always did.
+  if(typeof CombatFX!=='undefined' && CombatFX.launch){
+    dur = kind==='arrow' ? 0.55 : 0.5; arc = kind==='arrow' ? 1.6 : 0.4;
+    PROJECTILES.push({mesh:null, fx:CombatFX.launch(kind, fromObj, npc.mesh, Object.assign({dmg, tint}, fx||{})), from, npc, t:0, dur, arc, dmg, kind});
+    return;
+  }
   if(kind==='arrow'){ mesh = arrowMesh(); dur = 0.55; arc = 1.6; }
   else { // magic bolt — tinted by its school
     mesh = new THREE.Group();
@@ -562,28 +569,32 @@ function updateProjectiles(dt){
     const p=PROJECTILES[i];
     p.t += dt;
     const f = Math.min(1, p.t/p.dur);
-    const to = p.toPlayer ? player.position.clone() : p.npc.mesh.position.clone();
-    to.y += p.toPlayer ? 1.1 : 0.7*p.npc.t.size;
-    const pos = p.from.clone().lerp(to, f);
-    pos.y += Math.sin(f*Math.PI)*p.arc;
-    // orient along travel direction
-    const ahead = p.from.clone().lerp(to, Math.min(1,f+0.05));
-    ahead.y += Math.sin(Math.min(1,f+0.05)*Math.PI)*p.arc;
-    p.mesh.position.copy(pos);
-    p.mesh.lookAt(ahead);
+    if(p.mesh){   // legacy visual (only when CombatFX is absent)
+      const to = p.toPlayer ? player.position.clone() : p.npc.mesh.position.clone();
+      to.y += p.toPlayer ? 1.1 : 0.7*p.npc.t.size;
+      const pos = p.from.clone().lerp(to, f);
+      pos.y += Math.sin(f*Math.PI)*p.arc;
+      // orient along travel direction
+      const ahead = p.from.clone().lerp(to, Math.min(1,f+0.05));
+      ahead.y += Math.sin(Math.min(1,f+0.05)*Math.PI)*p.arc;
+      p.mesh.position.copy(pos);
+      p.mesh.lookAt(ahead);
+    }
     if(f>=1){
-      scene.remove(p.mesh);
+      if(p.mesh) scene.remove(p.mesh);
       PROJECTILES.splice(i,1);
+      // the hit lands now (unchanged); CombatFX shows its splat when the visible projectile arrives
+      if(p.fx && typeof CombatFX!=='undefined') CombatFX.expectProjectile(p.fx, p.toPlayer ? player : p.npc.mesh);
       if(p.toPlayer){
         Player.hp -= p.dmg; UI.floatDmg(player, p.dmg);
-        if(p.dmg>0){ Player.addXp('Defence', p.dmg*2); Sfx.takeHit(); }
+        if(p.dmg>0){ Player.addXp('Defence', p.dmg*2); if(!p.fx) Sfx.takeHit(); }
         UI.refreshHud();
         if(Player.autoRetaliate && !Player.target && !Player.moveTo && !Player.action && p.npc && !p.npc.dead && Player.hp>0) Player.target=p.npc;
         if(Player.hp<=0) playerDeath();
       } else {
         if(!p.npc.dead) applyHit(p.npc, p.dmg, p.xpTok || (p.kind==='arrow'?'Ranged':'Magic'));
       }
-      if(p.kind==='arrow') Sfx.arrowHit(); else Sfx.magicHit();
+      if(!p.fx){ if(p.kind==='arrow') Sfx.arrowHit(); else Sfx.magicHit(); }
     }
   }
 }
@@ -769,17 +780,21 @@ function playerAttack(npc, dt){
   if(spec) maxHit = Math.ceil(maxHit*spec.dmg);
   const dmg = Math.random()<hitChance ? Math.ceil(Math.random()*maxHit) : 0;
   swing(player, style==='ranged' ? 'bow' : style==='magic' ? 'cast' : (atype||'slash'));
+  // combat feel (presentation only): CombatFX reads the roll already made above to time the splat to the swing's
+  // impact frame / the projectile's arrival and to mark a max hit; it never changes dmg, hp or XP
+  const _fx = typeof CombatFX!=='undefined';
   if(style==='melee'){
-    Sfx.swing(); if(dmg>0) Sfx.hitFlesh();
+    if(_fx) CombatFX.melee(player, npc, atype||'slash', dmg, maxHit);
+    else { Sfx.swing(); if(dmg>0) Sfx.hitFlesh(); }
     applyHit(npc, dmg, sdef.xp);
   } else if(style==='ranged'){
-    Sfx.bowShoot();
-    fireProjectile('arrow', player, npc, dmg);
+    if(!_fx) Sfx.bowShoot();
+    fireProjectile('arrow', player, npc, dmg, undefined, {max:dmg>0 && maxHit>=3 && dmg>=maxHit});
     PROJECTILES[PROJECTILES.length-1].xpTok = sdef.xp;
   } else {
-    Sfx.magicCast();
+    if(!_fx) Sfx.magicCast();
     Player.addXp('Magic', spellDef.baseXp);   // the cast itself teaches, hit or miss
-    fireProjectile('bolt', player, npc, dmg, spellDef.color);
+    fireProjectile('bolt', player, npc, dmg, spellDef.color, {spell:Player.spell, max:dmg>0 && maxHit>=3 && dmg>=maxHit});
     const pr=PROJECTILES[PROJECTILES.length-1];
     pr.xpTok = sdef.xp;
   }
@@ -890,12 +905,20 @@ function killNpc(npc, opt){
   else npc.mesh.visible = false;
   if(!opt.silent) UI.chat(`You have defeated the ${npc.t.name}.`,'combat');
   if(typeof Events!=='undefined') Events.emit('npcKilled', {npc,attackStyle:opt.attackStyle||null});
+  const _drops0 = WORLD.drops ? WORLD.drops.length : 0;
   dropLoot(npc.mesh.position, npc.t.drops);
+  // combat feel: the fall waits for the killing splat, the body lies a moment and sinks, then the drop shows
+  if(typeof CombatFX!=='undefined') CombatFX.onKill(npc, WORLD.drops ? WORLD.drops.slice(_drops0) : [], !!opt.silent);
   if(Player.target===npc) Player.target=null;
   if(!opt.noQuest){ Quest.onKill(npc.typeId); Tutorial.notify('kill', npc.typeId); }
-  if(!opt.silent) Sfx.kill();
+  if(!opt.silent && typeof CombatFX==='undefined') Sfx.kill();
 }
 function fireBoltAtPlayer(npc, dmg){
+  if(typeof CombatFX!=='undefined' && CombatFX.launch){   // visual via CombatFX; the logical bolt keeps its 0.5 s flight
+    PROJECTILES.push({mesh:null, fx:CombatFX.launch(npc.t.ranged==='arrow'?'arrow':'bolt', npc.mesh, player, {dmg, tint:npc.t.ranged==='arrow'?undefined:0xc86aff}),
+      from:npc.mesh.position.clone(), toPlayer:true, t:0, dur:0.5, arc:0.3, dmg, kind:'bolt'});   // (no npc field: as before, bolts never trigger auto-retaliate)
+    return;
+  }
   const m = new THREE.Group();
   const orb=new THREE.Mesh(new THREE.SphereGeometry(0.12,6,6),
     new THREE.MeshBasicMaterial({color:0xc86aff}));
@@ -922,7 +945,7 @@ function npcAttack(npc, dt){
     if(dmg>0 && Player.protectedFrom(npc.t.ranged==='arrow' ? 'ranged' : 'magic')) dmg=0;
     if(npc.t.harmless) dmg=0;   // tutorial sparring foes (Tutor's Holm practice grubkins) never hurt
     swing(npc.mesh, npc.t.ranged==='arrow' ? 'bow' : 'cast');
-    Sfx.magicCast();
+    if(typeof CombatFX==='undefined') Sfx.magicCast();   // CombatFX voices the charge and release itself
     fireBoltAtPlayer(npc, dmg);
     return;
   }
@@ -957,8 +980,9 @@ function npcAttack(npc, dt){
   let dmg = Math.random()<hitChance ? Math.ceil(Math.random()*npcMaxHit(npc.t)) : 0;
   if(dmg>0 && Player.protectedFrom('melee')) dmg=0;   // the overhead turns the blow aside
   if(npc.t.harmless) dmg=0;   // tutorial sparring foes (Tutor's Holm practice grubkins) never hurt
+  if(typeof CombatFX!=='undefined') CombatFX.npcMelee(npc, dmg);   // presentation: splat at the NPC's strike frame, its own sounds
   Player.hp -= dmg; UI.floatDmg(player, dmg);
-  if(dmg>0){ Player.addXp('Defence', dmg*2); Sfx.takeHit(); } else Sfx.block();
+  if(dmg>0){ Player.addXp('Defence', dmg*2); if(typeof CombatFX==='undefined') Sfx.takeHit(); } else if(typeof CombatFX==='undefined') Sfx.block();
   UI.refreshHud();
   // auto-retaliate: if idle when struck, fight back (OSRS behaviour)
   if(Player.autoRetaliate && !Player.target && !Player.moveTo && !Player.action && !npc.dead && Player.hp>0) Player.target=npc;

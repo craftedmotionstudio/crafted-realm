@@ -89,7 +89,10 @@ function charNpcModel(t){
 /* per-frame drive — same crossfade as the player GLB, speed-aware, freezes on death */
 function charNpcAnim(n, dt){
   const g=n.mesh.userData.gmix; if(!g) return;
-  if(n.dead){ if(g.idle) g.idle.weight=0; if(g.walk) g.walk.weight=0; return; }
+  if(n.dead){
+    // combat feel: while the fall waits for the killing hitsplat the body keeps playing (a strike/block in flight finishes)
+    const d=n.mesh.userData.death; if(d && d.wait){ g.mixer.update(dt); return; }
+    if(g.idle) g.idle.weight=0; if(g.walk) g.walk.weight=0; return; }
   const speed = n.t.speedTicks ? (5/n.t.speedTicks) : 1;    // faster NPCs stride faster
   g.w += ((n.moving?1:0)-g.w)*Math.min(1,dt*10);
   const busy = (g.attack && g.attack.isRunning()) || (g.block && g.block.isRunning());
