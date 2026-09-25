@@ -7,14 +7,14 @@
       "detail": {
         "provider": "tutors-holm-arrival-qa",
         "stats": {
-          "nodes": 11116,
-          "edges": 19351,
+          "nodes": 10901,
+          "edges": 18981,
           "owners": {
-            "land": 8060,
+            "land": 7862,
             "b:keep": 901,
-            "b:bakehouse": 272,
+            "b:bakehouse": 259,
             "b:lodge": 387,
-            "b:survival": 255,
+            "b:survival": 251,
             "b:quarry": 110,
             "b:bank": 194,
             "b:mage": 298,
@@ -25,14 +25,14 @@
             "arrival": 163
           }
         },
-        "roots": 321
+        "roots": 320
       }
     },
     {
       "label": "every clickable on the island is an authored Blender model (no code-built stand-ins, no old-island leftovers)",
       "ok": true,
       "detail": {
-        "clickables": 1040,
+        "clickables": 1065,
         "leftovers": [],
         "leftoverCount": 0,
         "visiblePrimitives": []
@@ -73,8 +73,8 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 6,
-        "deckY": 1.631
+        "deckSamples": 32,
+        "deckY": 3
       }
     },
     {
@@ -84,13 +84,13 @@
         "reached": {
           "id": "b:bakehouse:1:1:0",
           "x": 45.5,
-          "y": 4.140000000000001,
+          "y": 4,
           "z": 68.5,
           "surface": "b:bakehouse:0:StagedTerrain"
         },
         "at": [
           45.5,
-          4.14,
+          4,
           68.5
         ]
       }
@@ -99,7 +99,7 @@
       "label": "every step on the way is cardinal",
       "ok": true,
       "detail": {
-        "samples": 368,
+        "samples": 401,
         "diagonal": 0
       }
     },
@@ -113,9 +113,9 @@
         "inside": {
           "roof": false,
           "pose": [
-            48.5,
-            4.07,
-            64.5
+            42.5,
+            4.070001,
+            68.5
           ]
         }
       }
@@ -399,7 +399,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 2,
+        "cookTries": 5,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -420,7 +420,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 2,
+        "cookTries": 5,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -448,7 +448,7 @@
         "ranged": true,
         "arrowsUsed": 11,
         "magic": true,
-        "runesUsed": 8
+        "runesUsed": 6
       }
     },
     {
@@ -456,14 +456,14 @@
       "ok": true,
       "detail": {
         "before": [
-          104.5,
-          6.176,
-          53.5
+          100.5,
+          7.082,
+          46.5
         ],
         "after": [
-          104.5,
-          6.176,
-          53.5
+          100.5,
+          7.082,
+          46.5
         ]
       }
     },
@@ -475,5 +475,5 @@
       }
     }
   ],
-  "seconds": 869
+  "seconds": 1046
 }

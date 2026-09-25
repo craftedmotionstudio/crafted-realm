@@ -3875,3 +3875,17 @@ length (slight medium-length read in 3/4).
 - Proof: 10/10 playthroughs complete, 0 page errors; units 47/47, smoke, arrival 12/12, route 20/20, island QA 28/29
   (combat-click harness flake; playthrough combat always passes).
 - Next on top: OSRS-style UI (branch holm-ui-osrs-2026-09-25), 2004 water, dock v2 + moored boat, characters v2.8.
+
+## 2026-09-25 — Holm play-test round: bakehouse v8, Guide House v5, statue v3, world fixes
+- Owner play-test list, first half: bakehouse fully rebuilt in Blender (holm-kitchen-wings-v8 + navigation v6, new
+  layout, fitted door, buckets reachable; services re-pointed), Guide House v5 (doors fill their frames, real hearth
+  fire, relief-chart route that "Trace the route with one finger" lights stop by stop), statue v3 (silver-grey
+  monument, clear of the oak), dock v4 (dry boat hull), Quest Lodge v6 hearth, campfire props v5.
+- World fixes: bridges v2 stand above the creek, habitat v4, the water sheet no longer shows under the land, path
+  and trail tiles re-coloured (no green tile on the brown path), wet tiles off the walk graph, fishing spot clear of
+  the railing (no proxy box).
+- Arrival package v9 (export 64098cdbe5d0631d); QA server tools/serve_static.py (queue 256) ends the random
+  script-load failures under load.
+- Gates: units 48/48, smoke PASS (visible + hidden), arrival v4 12/12, island QA 29/29, 3/3 playthroughs complete
+  (18/18 lessons, 0 page errors, 10.4-11.1 min).
+- Next: merge the talk-first tutors, tools-in-hand and combat-effects branches, then the final 10-run proof.

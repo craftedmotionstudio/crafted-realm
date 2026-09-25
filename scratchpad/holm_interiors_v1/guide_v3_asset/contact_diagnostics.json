@@ -1,0 +1,86 @@
+{
+  "sourceSha256": "074b09ea70640b5dd741d98eb8a8581266ed061b97035307a268f176cca563e9",
+  "scope": "Candidate mesh intersection/headroom diagnostics; not live gameplay collision or full visual acceptance",
+  "doorSweep": {
+    "poses": 25,
+    "collisions": []
+  },
+  "stairHeadroom": [
+    {
+      "tread": 1,
+      "clearance": 6.56736
+    },
+    {
+      "tread": 2,
+      "clearance": 6.33402
+    },
+    {
+      "tread": 3,
+      "clearance": 6.10069
+    },
+    {
+      "tread": 4,
+      "clearance": 5.86736
+    },
+    {
+      "tread": 5,
+      "clearance": 5.63402
+    },
+    {
+      "tread": 6,
+      "clearance": 5.40069
+    },
+    {
+      "tread": 7,
+      "clearance": 5.16736
+    },
+    {
+      "tread": 8,
+      "clearance": 4.93402
+    },
+    {
+      "tread": 9,
+      "clearance": 4.70069
+    },
+    {
+      "tread": 10,
+      "clearance": 4.46736
+    },
+    {
+      "tread": 11,
+      "clearance": 4.23402
+    },
+    {
+      "tread": 12,
+      "clearance": 4.00069
+    }
+  ],
+  "minimumStairHeadroom": 4.00069,
+  "upperOpening": [
+    {
+      "z": -1.7,
+      "clear": true
+    },
+    {
+      "z": -0.8200000000000001,
+      "clear": true
+    },
+    {
+      "z": 0.05999999999999983,
+      "clear": true
+    },
+    {
+      "z": 0.9399999999999997,
+      "clear": true
+    },
+    {
+      "z": 1.8199999999999996,
+      "clear": true
+    },
+    {
+      "z": 2.6999999999999993,
+      "clear": true
+    }
+  ],
+  "passed": true
+}

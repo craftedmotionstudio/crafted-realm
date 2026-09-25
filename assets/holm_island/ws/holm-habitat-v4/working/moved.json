@@ -1,0 +1,44 @@
+{
+ "source": ".studio-workspaces/holm-habitat-v3/working/vegetation.json",
+ "moved": [
+  {
+   "id": "oak-v2-103",
+   "asset": "oak",
+   "from": [
+    70.64,
+    29.245
+   ],
+   "to": [
+    69.881,
+    28.594
+   ],
+   "step": 1
+  },
+  {
+   "id": "flower-patch-v2-230",
+   "asset": "flower-patch",
+   "from": [
+    63.657,
+    58.821
+   ],
+   "to": [
+    64.105,
+    59.043
+   ],
+   "step": 0.5
+  },
+  {
+   "id": "flower-patch-v2-461",
+   "asset": "flower-patch",
+   "from": [
+    41.969,
+    100.412
+   ],
+   "to": [
+    41.169,
+    99.812
+   ],
+   "step": 1
+  }
+ ]
+}

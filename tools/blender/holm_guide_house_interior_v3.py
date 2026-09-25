@@ -14,6 +14,7 @@ import bpy,math,random
 from holm_interior_kit import (Acc,M,family,barrel,cask,crate,sack,jar,bowl,candle,lantern,books,log,rug,herbs)
 
 PAL={}
+V4_BASE=0.0      # set to .02 by the v4 build (core no longer shares the lower wall's top plane)
 def palette():
  if PAL:return PAL
  P=PAL
@@ -71,7 +72,7 @@ def lining(A,P,wall,face,inward,u0,u1,y0,height,openings,tones,wtones,studs_extr
   for va,vb in zip(edges,edges[1:]):
    cuts=sorted((o[0],o[1]) for o in big if o[2]<vb-1e-6 and o[3]>va+1e-6);p=u0
    for a,b in cuts+[(u1,u1)]:
-    if a>p+.02:bx(p,a,va,vb,-core_to,-.005,tones[1],skip='F')
+    if a>p+.02:bx(p,a,max(va,V4_BASE),vb,-core_to,-.005,tones[1],skip='F')   # v4: the core stands 2 cm off the floor plane (skirting hides the gap)
     p=max(p,b)
  # studs positions: ends, opening edges, and no bay wider than ~1.7
  posts=[u0+.07,u1-.07]+[p for o in openings if o[4]!='block' for p in (o[0]-.07,o[1]+.07)]+list(studs_extra)

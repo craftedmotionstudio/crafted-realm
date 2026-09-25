@@ -6,6 +6,7 @@
  *  - Blender-measured building graphs (holm-keep-navigation-v1: keep, bakehouse, lodge) are placed in world
  *    space and own every tile of their measured patch; patch tiles they did not find walkable stay blocked;
  *  - bridges add deck tiles over water; blockers (tree trunks, statue, rocks) refuse the tiles they cover;
+ *  - water is the bundle's mask plus the creek banks under the creek's water line (creekBank, 2026-09-25);
  *  - owners join where two open-ground nodes sit on cardinal neighbours within one step of height.
  * Pure data: no scene, player or save access. Coordinates are world tiles; node ids are unique across owners. */
 var HolmIslandNav=(function(){
@@ -14,14 +15,34 @@ var HolmIslandNav=(function(){
  var Terrain=common?require('./holm_overhaul_terrain'):HolmOverhaulTerrain;
  var LAND_STEP=.9,SEAM_STEP=.6,EPS=1e-9;
  function need(ok,msg){if(!ok)throw Error('[HolmIslandNav] '+msg)}
+ // ---- creek banks under the water line (owner play-test 2026-09-25) ----
+ // The terrain carves the creek channel to the creek's authored water line well past creek.halfWidth (the bed lies
+ // `depth` under the line out to halfWidth, the bank climbs to a lip .3 over it at halfWidth+bankWidth/2), but the
+ // bundle's water mask only flags tile centres within halfWidth. The drawn creek (HolmArrivalWater.surface) fills the
+ // channel to its bank, so a tile inside the channel whose centre ground, as walked (bilinear) or as drawn (the tile's
+ // split diagonal), stands under the water line (+BANK_CLEAR) is water as well: nobody wades, bridges span the channel.
+ var BANK_CLEAR=.05;
+ function creekLevel(c,x,z){
+  var best=Infinity,level=null;
+  for(var i=1;i<c.points.length;i++){var a=c.points[i-1],b=c.points[i],dx=b[0]-a[0],dz=b[1]-a[1],t=Math.max(0,Math.min(1,((x-a[0])*dx+(z-a[1])*dz)/(dx*dx+dz*dz)));
+   var d=Math.hypot(x-a[0]-t*dx,z-a[1]-t*dz);if(d<best){best=d;level=a[2]+(b[2]-a[2])*t}}
+  return best<=c.halfWidth+c.bankWidth/2?level:null;
+ }
+ function drawnCentre(T,x,z){var s=T.width+1,h=T.heights;return (x+z)&1?(h[z*s+x]+h[(z+1)*s+x+1])/2:(h[z*s+x+1]+h[(z+1)*s+x])/2}
+ function creekBank(T,x,z){
+  var c=T.creek;if(!c||!Array.isArray(c.points)||c.points.length<2||!(c.halfWidth>0)||!(c.bankWidth>0))return false;
+  var level=creekLevel(c,x+.5,z+.5);if(level===null)return false;
+  return Math.min(Terrain.sample(T,x+.5,z+.5),drawnCentre(T,x,z))<level+BANK_CLEAR;
+ }
+ function bankMask(T){var m=new Uint8Array(T.width*T.depth);for(var z=0;z<T.depth;z++)for(var x=0;x<T.width;x++)if(T.water[z*T.width+x]===0&&creekBank(T,x,z))m[z*T.width+x]=1;return m}
  function key(x,z){return x+','+z}
  function doorKey(d){return (d.arrival?'open':'closed')+'-'+(d.garden?'open':'closed')}
  function openGround(surface){return surface==='land'||surface==='exterior'||surface==='dock'||surface==='deck'||/:(?:IslandTerrain|StagedTerrain)$/.test(surface)}
  function create(input){
   need(input&&input.terrain&&input.terrain.schema==='holm-overhaul-terrain-bundle-v1','terrain bundle required');
-  var T=input.terrain,W=T.width,D=T.depth,arrival=input.arrival||null,owned=Object.create(null),blocked=Object.create(null);
+  var T=input.terrain,W=T.width,D=T.depth,arrival=input.arrival||null,owned=Object.create(null),blocked=Object.create(null),bank=bankMask(T);
   function sample(x,z){return Terrain.sample(T,x,z)}
-  function wet(x,z){return x<0||z<0||x>=W||z>=D||T.water[z*W+x]!==0}
+  function wet(x,z){return x<0||z<0||x>=W||z>=D||T.water[z*W+x]!==0||bank[z*W+x]===1}
   (input.blockers||[]).forEach(function(b){
    need([b.x0,b.x1,b.z0,b.z1].every(Number.isFinite)&&b.x0<b.x1&&b.z0<b.z1,'invalid blocker');
    // 'centre' (default) blocks the tiles whose centre it covers; 'overlap' blocks every tile it touches (tree trunks
@@ -149,17 +170,26 @@ var HolmIslandNav=(function(){
   return {compile:compile,route:route,support:support,point:point,edge:edge,stats:stats,height:function(x,z){return sample(x,z)},setGates:setGates,gateKey:gateKey};
  }
  // A plan crossing (concept x/z + orientation) becomes deck tiles: snap along its axis to the nearest creek tile
- // (within 4), span every wet tile to dry land both sides; the deck sits b.rise (default .2) above the higher bank.
+ // (within 4), span every wet tile (the water mask and the creek banks under the water line) to dry land both sides;
+ // the deck sits b.rise (default .2) above the higher bank, so it clears the water line by at least the rise.
  function bridgeFrom(T,b){
-  var W=T.width,wet=function(x,z){return T.water[z*W+x]!==0},dx=b.orientation==='EW'?1:0,dz=dx?0:1,x=b.x,z=b.z;
+  var W=T.width,bank=bankMask(T),wet=function(x,z){return T.water[z*W+x]!==0||bank[z*W+x]===1},dx=b.orientation==='EW'?1:0,dz=dx?0:1,x=b.x,z=b.z;
   if(!wet(x,z)){var hit=[1,-1,2,-2,3,-3,4,-4].map(function(o){return [b.x+dx*o,b.z+dz*o]}).filter(function(p){return wet(p[0],p[1])})[0];
    need(hit,'bridge '+b.label+' has no creek within 4 tiles along its axis');x=hit[0];z=hit[1]}
   var tiles=[[x,z]];
   [-1,1].forEach(function(s){var cx=x+dx*s,cz=z+dz*s;while(wet(cx,cz)){tiles.push([cx,cz]);cx+=dx*s;cz+=dz*s}});
   tiles.sort(function(p,q){return p[0]-q[0]||p[1]-q[1]});
+  // An authored span (plan b.span [first,last] along the axis, with b.deckY) lands the deck on the bank tops where a bank
+  // is too steep to step onto from the water's edge (the timber bridge's east bank climbs 1.3 in one tile): it must
+  // cover every wet tile of the crossing, and the deck must meet both landings within one seam step.
+  if(b.span){need(Array.isArray(b.span)&&b.span.length===2&&b.span.every(Number.isInteger)&&b.span[0]<=b.span[1]&&Number.isFinite(b.deckY),'bridge '+b.label+' span needs [first,last] and deckY');
+   var along=function(t){return dx?t[0]:t[1]};need(tiles.every(function(t){return along(t)>=b.span[0]&&along(t)<=b.span[1]}),'bridge '+b.label+' span leaves water uncovered');
+   tiles=[];for(var v=b.span[0];v<=b.span[1];v++)tiles.push(dx?[v,z]:[x,v])}
   var a=tiles[0],c=tiles[tiles.length-1],ends=[[a[0]-dx,a[1]-dz],[c[0]+dx,c[1]+dz]];
   var endY=ends.map(function(e){return +Terrain.sample(T,e[0]+.5,e[1]+.5).toFixed(3)});
-  return {id:b.label.replace(/\W+/g,'_').toLowerCase(),label:b.label,orientation:b.orientation,tiles:tiles,ends:ends,endY:endY,deckY:+(Math.max(endY[0],endY[1])+(Number.isFinite(b.rise)?b.rise:.2)).toFixed(3)};   // lifted clear of the water, within one seam step of both banks
+  var deckY=b.span?b.deckY:+(Math.max(endY[0],endY[1])+(Number.isFinite(b.rise)?b.rise:.2)).toFixed(3);
+  if(b.span)need(endY.every(function(e){return Math.abs(e-deckY)<=SEAM_STEP+EPS}),'bridge '+b.label+' deck must meet both landings within a seam step');
+  return {id:b.label.replace(/\W+/g,'_').toLowerCase(),label:b.label,orientation:b.orientation,tiles:tiles,ends:ends,endY:endY,deckY:deckY};   // lifted clear of the water, within one seam step of both banks
  }
  // Island stance checkpoints (the arrival checkpoint only knows its own graph and five surfaces): a settled node
  // of the composed graph, its exact stance, and a strict revision.
@@ -174,6 +204,6 @@ var HolmIslandNav=(function(){
   var n=nodeOf(graph,record.nodeId);need(record.surface===n.surface&&Math.abs(record.x-n.x)<1e-9&&Math.abs(record.y-n.y)<1e-9&&Math.abs(record.z-n.z)<1e-9,'checkpoint stance mismatch');
   return n;
  }
- return {create:create,bridgeFrom:bridgeFrom,encodeCheckpoint:encodeCheckpoint,restoreCheckpoint:restoreCheckpoint,LAND_STEP:LAND_STEP,SEAM_STEP:SEAM_STEP};
+ return {create:create,bridgeFrom:bridgeFrom,creekBank:creekBank,BANK_CLEAR:BANK_CLEAR,encodeCheckpoint:encodeCheckpoint,restoreCheckpoint:restoreCheckpoint,LAND_STEP:LAND_STEP,SEAM_STEP:SEAM_STEP};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandNav;

@@ -1,0 +1,55 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Holm equipment runtime test</title>
+<style>body{margin:0;background:#3a4250;color:#eee;font:13px sans-serif}#log{position:fixed;left:8px;top:8px;white-space:pre}</style></head>
+<body><div id="log">loading...</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+/* stubs for the globals the module reads (the real ones live in game1_data.js / world_gear.js) */
+var METALS={bronze:0x8a6437,iron:0x9aa0a8,steel:0xd0d4dc};
+function tierMetal(d){return METALS[d.tier]!==undefined?METALS[d.tier]:0x8a6437}
+var ITEMS={bronze_sword:{model:'sword',tier:'bronze',equip:'weapon'},bronze_dagger:{model:'sword',tier:'bronze',equip:'weapon'},
+ hatchet:{model:'axe',tier:'bronze',equip:'weapon'},steel_platebody:{model:'plate',tier:'steel',equip:'body'},
+ steel_platelegs:{model:'legs',tier:'steel',equip:'legs'},steel_helm:{model:'helm',tier:'steel',equip:'head'},
+ wood_shield:{model:'shield',tier:'bronze',equip:'shield'},trav_cape_red:{model:'cape',capeColor:0xa83232,equip:'cape'}};
+</script>
+<script src="/src/equip_builder.js"></script>
+<script src="/src/holm_equipment.js"></script>
+<script>
+var log=function(s){document.getElementById('log').textContent+='\n'+s};
+var R=new THREE.WebGLRenderer({antialias:true});R.setSize(900,700);document.body.appendChild(R.domElement);
+var S=new THREE.Scene();S.background=new THREE.Color(0x4a5566);
+S.add(new THREE.HemisphereLight(0xdde6f0,0x554433,0.75));var sun=new THREE.DirectionalLight(0xffffff,0.8);sun.position.set(-2,4,3);S.add(sun);
+var cam=new THREE.PerspectiveCamera(35,900/700,0.05,50);cam.position.set(-2.6,3.3,3.2);cam.lookAt(-0.1,0.95,0);
+window.TEST={};
+new THREE.GLTFLoader().load('/assets/models/holm_kit_v2.glb?v=t',function(g){
+ var rig=g.scene;rig.traverse(function(o){if(o.isMesh){var m=/^Kit_A_(Torso|Arms|Hands|Legs|Feet|Hair|Jaw)_01/.test(o.name)||!/^Kit_/.test(o.name);
+  if(/^Kit_/.test(o.name)||/^Kit_/.test(o.parent&&o.parent.name||''))o.visible=/^Kit_A_(Torso|Arms|Hands|Legs|Feet|Hair|Jaw)_01/.test(o.name)||/^Kit_A_(Torso|Arms|Hands|Legs|Feet|Hair|Jaw)_01/.test(o.parent&&o.parent.name||'');
+  if(o.name==='Icosphere')o.visible=false;[].concat(o.material).forEach(function(q){q.metalness=0;q.roughness=1})}});
+ var box=new THREE.Box3().setFromObject(rig);rig.scale.setScalar(1.85/((box.max.y-box.min.y)||1));
+ var c=new THREE.Group();c.add(rig);S.add(c);
+ var mixer=new THREE.AnimationMixer(rig),idle=g.animations.filter(function(a){return a.name==='idle'})[0];if(idle)mixer.clipAction(idle).play();mixer.update(0.04);
+ c.updateMatrixWorld(true);
+ HolmEquipment.onReady(function(ok){
+  TEST.status=HolmEquipment.status();log('status '+JSON.stringify(TEST.status));
+  var bone=function(n){var b=null;rig.traverse(function(o){if(!b&&o.isBone&&o.name.replace(/^mixamorig[:_]?/,'')===n)b=o});return b};
+  var fits={};['platebody','platelegs','fullhelm','cape','boots'].forEach(function(k){var r=HolmEquipment.forItem({platebody:'steel_platebody',platelegs:'steel_platelegs',fullhelm:'steel_helm',cape:'trav_cape_red'}[k]||'x');
+   var h=HolmEquipment.fit(rig,k,r?r.metal:0xd0d4dc,r?r.opts:{});fits[k]=h?h.parts.length:0});
+  var hide=[];rig.traverse(function(o){if(/^Kit_A_(Hair|Jaw)_01/.test(o.name))o.visible=false});
+  TEST.fits=fits;log('fits '+JSON.stringify(fits));
+  var inChar=function(v){return v.clone().normalize()};
+  var sw=HolmEquipment.itemMesh('bronze_sword'),hb=bone('RightHand');hb.add(sw);var ws=new THREE.Vector3();hb.getWorldScale(ws);sw.scale.multiplyScalar(1/ws.x);
+  EquipBuilder.solveHeld(hb,sw,'sword',inChar);
+  var sh=HolmEquipment.itemMesh('wood_shield');var lb=bone('LeftHand');lb.add(sh);sh.scale.multiplyScalar(1/ws.x);sh.position.set(0.12,0.03,0.04);
+  var leg=HolmEquipment.mesh('sword',0x8a6437,{frame:'legacy'}),gr=HolmEquipment.groundMesh('hatchet');
+  gr.position.set(0.9,0,0.4);S.add(gr);
+  var lb3=new THREE.Box3().setFromObject(leg),gb=new THREE.Box3().setFromObject(gr);
+  TEST.legacySwordTipUp=lb3.max.y>Math.abs(lb3.min.y);TEST.groundMinY=+gb.min.y.toFixed(4);
+  var mats={};S.traverse(function(o){if(o.isMesh&&o.userData&&o.material&&o.material.name&&/^M_/.test(o.material.name))mats[o.material.name+' #'+o.material.color.getHexString()]=1});
+  TEST.mats=Object.keys(mats).sort();log('legacy tip up '+TEST.legacySwordTipUp+' ground minY '+TEST.groundMinY);
+  S.updateMatrixWorld(true);TEST.audit=(function(){var palm=hb.localToWorld(new THREE.Vector3(0,0.085/ws.x,0)),grip=sw.localToWorld(new THREE.Vector3(0,0.025,0));return +palm.distanceTo(grip).toFixed(4)})();
+  log('grip-to-palm '+TEST.audit);
+  TEST.done=true;
+ });
+ (function loop(){R.render(S,cam);requestAnimationFrame(loop)})();
+},undefined,function(e){log('kit failed '+e)});
+</script></body></html>

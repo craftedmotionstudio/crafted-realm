@@ -1,0 +1,131 @@
+{
+  "status": "v3-candidate-unapproved",
+  "owner": "2026-09-25: interiors too plain; relief chart plain; more unique silhouette; cellar hatch",
+  "keptFromV2": [
+    "ground storey shell and facing",
+    "upper storey shell, jetty and roof",
+    "doors and opening actions",
+    "stair well, flight and guarding",
+    "porch",
+    "walk planes y 0 and 2.8",
+    "part names"
+  ],
+  "humanScaleContract": {
+    "doorWidth": 2.0,
+    "doorHeight": 2.3,
+    "upperFloorY": 2.8,
+    "upperStoreyHeight": 3.0,
+    "cellarFloorY": -2.75
+  },
+  "dimensionsTilesExcludingCellar": {
+    "width": 14.766700267791748,
+    "depth": 14.015000343322754,
+    "height": 10.969999760389328
+  },
+  "triangles": 49250,
+  "trianglesByPart": {
+    "CellarCeiling": 236,
+    "CellarFloor": 480,
+    "CellarFurnishing": 2766,
+    "CellarHatch": 48,
+    "CellarHatchLid": 84,
+    "CellarHatchLidIron": 48,
+    "CellarLadder": 120,
+    "CellarShell": 1398,
+    "DoorNorthLeaf": 108,
+    "DoorSouthLeaf": 108,
+    "Gable": 384,
+    "GroundFloor": 492,
+    "GroundFurnishing": 8928,
+    "GroundFurnishingWalls": 2580,
+    "GroundHearth": 1998,
+    "GroundShell": 11982,
+    "HearthFlame0": 3,
+    "HearthFlame1": 3,
+    "HearthFlame2": 3,
+    "Roof": 6590,
+    "StairFlight": 312,
+    "UpperFloor": 654,
+    "UpperFurnishing": 3871,
+    "UpperFurnishingWalls": 3922,
+    "UpperHearth": 248,
+    "UpperShell": 1884
+  },
+  "interiorTriangles": 22454,
+  "cellarTriangles": 5180,
+  "materials": 24,
+  "chart": {
+    "scale": 0.009274193548387098,
+    "levels": {
+      "Chart sea shallows": 1,
+      "Chart surf line": 1,
+      "Chart sand": 1,
+      "Chart meadow": 1,
+      "Chart pasture": 1,
+      "Chart woodland": 4,
+      "Chart heath brown": 5,
+      "Chart upland stone": 1,
+      "Chart crown stone": 1
+    },
+    "trees": 24
+  },
+  "cellar": {
+    "floorY": -2.75,
+    "room": [
+      -5.5,
+      -0.5,
+      -1.5,
+      2.5
+    ],
+    "opening": [
+      -2.0,
+      -1.1,
+      -0.75,
+      0.15
+    ],
+    "frame": [
+      -2.08,
+      -1.02,
+      -0.83,
+      0.23
+    ]
+  },
+  "exteriorBlockers": [
+    {
+      "id": "west_chimney_and_log_store",
+      "surface": "exterior",
+      "x0": -7.7,
+      "x1": -6.0,
+      "z0": -5.05,
+      "z1": -1.7
+    }
+  ],
+  "meshes": [
+    "CellarCeiling",
+    "CellarFloor",
+    "CellarFurnishing",
+    "CellarHatch",
+    "CellarHatchLid",
+    "CellarHatchLidIron",
+    "CellarLadder",
+    "CellarShell",
+    "DoorNorthLeaf",
+    "DoorSouthLeaf",
+    "Gable",
+    "GroundFloor",
+    "GroundFurnishing",
+    "GroundFurnishingWalls",
+    "GroundHearth",
+    "GroundShell",
+    "HearthFlame0",
+    "HearthFlame1",
+    "HearthFlame2",
+    "Roof",
+    "StairFlight",
+    "UpperFloor",
+    "UpperFurnishing",
+    "UpperFurnishingWalls",
+    "UpperHearth",
+    "UpperShell"
+  ]
+}

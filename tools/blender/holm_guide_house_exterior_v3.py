@@ -15,7 +15,7 @@ from holm_interior_kit import Acc,M,family,log
 
 BLOCKERS=[{'id':'west_chimney_and_log_store','surface':'exterior','x0':-7.7,'x1':-6.0,'z0':-5.05,'z1':-1.7}]
 def build(B):
- root=B['root'];rng=random.Random(92504)
+ root=B['root'];rng=random.Random(92504);SK='' if B.get('GUIDE_VERSION',3)>=4 else 'e'   # v4: closed courses (the stack's east side shows above the roof)
  greys=family('Chimney stone',['#6d7566','#848a76','#5e665a','#7a7f6e']);quoin=M('Chimney quoin','#91876b');cap=M('Chimney coping','#9b927a')
  pot=M('Chimney pot','#a4583a');soot=M('Chimney throat','#1d1a18')
  parts={'GroundShellChimney':Acc('GroundShellChimney'),'UpperHearthChimney':Acc('UpperHearthChimney'),'RoofChimney':Acc('RoofChimney')}
@@ -28,11 +28,11 @@ def build(B):
   y=y0;k=0
   while y<y1-.02:
    yh=min(y1,y+.3);A=part((y+yh)/2);j=rng.uniform(-.012,.012)
-   A.box(xo-j,XI,y,yh,ZC-hz-j,ZC+hz+j,greys[rng.randrange(4)],skip='e')
+   A.box(xo-j,XI,y,yh,ZC-hz-j,ZC+hz+j,greys[rng.randrange(4)],skip=SK)
    # dressed quoins on the two outer corners, alternating long and short faces
    L=.34 if k%2 else .2;D=.2 if k%2 else .34
-   A.box(xo-.02,xo+L,y+.01,yh-.01,ZC-hz-.02,ZC-hz+D,quoin,skip='e')
-   A.box(xo-.02,xo+(.54-L),y+.01,yh-.01,ZC+hz-(.54-D),ZC+hz+.02,quoin,skip='e')
+   A.box(xo-.02,xo+L,y+.01,yh-.01,ZC-hz-.02,ZC-hz+D,quoin,skip=SK)
+   A.box(xo-.02,xo+(.54-L),y+.01,yh-.01,ZC+hz-(.54-D),ZC+hz+.02,quoin,skip=SK)
    y=yh;k+=1
  # sloped weatherings between the steps
  for (ya,xa,ha),(yb,xb,hb) in (((1.35,-7.35,1.12),(1.65,-7.1,.88)),((4.25,-7.1,.88),(4.55,-6.95,.62))):

@@ -1,0 +1,295 @@
+{
+  "schema": 1,
+  "status": "v5 = v2 + layered campfire flame (candidate)",
+  "axes": "glTF Y-up, 1 unit = tile",
+  "colour": "material colours are authored sRGB, drawn as-is (no linear conversion); emissive strength 1.0",
+  "references": [
+    "Bible_References/Landscape_Option.jpg",
+    "Bible_References/Town2.jpg"
+  ],
+  "blend": "props.blend",
+  "file": "props.glb",
+  "sha256": "a5774ad687a98e0a7a90b770cf54bc8be912760f54b16ce34572260b10ca0402",
+  "assets": [
+    {
+      "name": "tree-stump",
+      "root": "tree-stump",
+      "file": "props.glb",
+      "habitat": "Chopped oak stump; swapped in where a lesson tree is felled (tree-family oak bark)",
+      "triangles": 211,
+      "materials": 3,
+      "materialNames": [
+        "bark",
+        "wood-cut",
+        "wood-ring"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          -0.40111014246940613,
+          -0.04293841868638992,
+          -0.3783867359161377
+        ],
+        "max": [
+          0.40111014246940613,
+          0.5313048362731934,
+          0.3783867359161377
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.40111014246940613,
+          -0.04293841868638992,
+          -0.3783867359161377
+        ],
+        "max": [
+          0.40111014246940613,
+          0.5313048362731934,
+          0.3783867359161377
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.04293841868638992,
+      "sha256": "a5774ad687a98e0a7a90b770cf54bc8be912760f54b16ce34572260b10ca0402"
+    },
+    {
+      "name": "ore-rock-copper",
+      "root": "ore-rock-copper",
+      "file": "props.glb",
+      "habitat": "Waist-high mining rock with orange copper veins; lesson mining spot",
+      "triangles": 382,
+      "materials": 3,
+      "materialNames": [
+        "ore-copper",
+        "rock",
+        "rock-dark"
+      ],
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.5488002300262451,
+          -0.03364299237728119,
+          -0.48454636335372925
+        ],
+        "max": [
+          0.5488002300262451,
+          0.8652528524398804,
+          0.48454636335372925
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.5488002300262451,
+          -0.03364299237728119,
+          -0.48454636335372925
+        ],
+        "max": [
+          0.5488002300262451,
+          0.8652528524398804,
+          0.48454636335372925
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.03364299237728119,
+      "sha256": "a5774ad687a98e0a7a90b770cf54bc8be912760f54b16ce34572260b10ca0402"
+    },
+    {
+      "name": "ore-rock-tin",
+      "root": "ore-rock-tin",
+      "file": "props.glb",
+      "habitat": "Waist-high mining rock with pale silver-gray tin veins; lesson mining spot",
+      "triangles": 382,
+      "materials": 3,
+      "materialNames": [
+        "ore-tin",
+        "rock",
+        "rock-dark"
+      ],
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.5488002300262451,
+          -0.03364299237728119,
+          -0.4884506165981293
+        ],
+        "max": [
+          0.5488002300262451,
+          0.8707149624824524,
+          0.4884506165981293
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.5488002300262451,
+          -0.03364299237728119,
+          -0.4884506165981293
+        ],
+        "max": [
+          0.5488002300262451,
+          0.8707149624824524,
+          0.4884506165981293
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.03364299237728119,
+      "sha256": "a5774ad687a98e0a7a90b770cf54bc8be912760f54b16ce34572260b10ca0402"
+    },
+    {
+      "name": "ore-rock-depleted",
+      "root": "ore-rock-depleted",
+      "file": "props.glb",
+      "habitat": "Mined-out rock (same silhouette, no ore, dark broken rubbly top); swap in after mining",
+      "triangles": 244,
+      "materials": 3,
+      "materialNames": [
+        "rock",
+        "rock-dark",
+        "rock-spent"
+      ],
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.598517656326294,
+          -0.03364299237728119,
+          -0.6004782915115356
+        ],
+        "max": [
+          0.598517656326294,
+          0.7290005683898926,
+          0.6004782915115356
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.598517656326294,
+          -0.03364299237728119,
+          -0.6004782915115356
+        ],
+        "max": [
+          0.598517656326294,
+          0.7290005683898926,
+          0.6004782915115356
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.03364299237728119,
+      "sha256": "a5774ad687a98e0a7a90b770cf54bc8be912760f54b16ce34572260b10ca0402"
+    },
+    {
+      "name": "fishing-ripple",
+      "root": "fishing-ripple",
+      "file": "props.glb",
+      "habitat": "Fishing-spot marker lying on the water surface (y 0..0.12); runtime animates the root",
+      "triangles": 556,
+      "materials": 1,
+      "materialNames": [
+        "ripple"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          -0.503925085067749,
+          0.0,
+          -0.49599307775497437
+        ],
+        "max": [
+          0.503925085067749,
+          0.07442416250705719,
+          0.49599307775497437
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.503925085067749,
+          0.0,
+          -0.49599307775497437
+        ],
+        "max": [
+          0.503925085067749,
+          0.07442416250705719,
+          0.49599307775497437
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": 0.0,
+      "sha256": "a5774ad687a98e0a7a90b770cf54bc8be912760f54b16ce34572260b10ca0402"
+    },
+    {
+      "name": "campfire",
+      "root": "campfire",
+      "file": "props.glb",
+      "habitat": "Lit campfire (stone ring, crossed + leaning logs, emissive flames); lesson firemaking/cooking",
+      "triangles": 1174,
+      "materials": 7,
+      "materialNames": [
+        "bark",
+        "char",
+        "flame-orange",
+        "flame-yellow",
+        "rock",
+        "rock-dark",
+        "wood-cut"
+      ],
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.45891618728637695,
+          -0.02500000037252903,
+          -0.4216034412384033
+        ],
+        "max": [
+          0.45891618728637695,
+          0.8787509799003601,
+          0.4216034412384033
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.45891618728637695,
+          -0.02500000037252903,
+          -0.4216034412384033
+        ],
+        "max": [
+          0.45891618728637695,
+          0.8787509799003601,
+          0.4216034412384033
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [
+        "CampfireFlicker0",
+        "CampfireFlicker1",
+        "CampfireFlicker2"
+      ],
+      "groundMinY": -0.02500000037252903,
+      "sha256": "a5774ad687a98e0a7a90b770cf54bc8be912760f54b16ce34572260b10ca0402",
+      "note": "campfire_Flames is a group of three flame layers; the lessons runtime scales it"
+    }
+  ],
+  "totals": {
+    "triangles": 2476,
+    "materials": 12,
+    "assets": 6,
+    "budget": {
+      "triangles": 3500,
+      "materials": 12
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+ "schema": "holm-island-bridges-models-v1",
+ "source": ".studio-workspaces/holm-world-fixes-v1/proposed/docs/rebuild/holm-overhaul/island-bridges.json",
+ "sourceSha256": "cd6fe3874ac17e396e43db4c612ca9d674334baf3d0c7f9fd5661212ad31aa23",
+ "deck": {
+  "timber_teaching_bridge": {
+   "tiles": [
+    [
+     43,
+     87
+    ],
+    [
+     44,
+     87
+    ],
+    [
+     45,
+     87
+    ],
+    [
+     46,
+     87
+    ],
+    [
+     47,
+     87
+    ],
+    [
+     48,
+     87
+    ],
+    [
+     49,
+     87
+    ]
+   ],
+   "deckY": 3,
+   "waterY": [
+    1.785,
+    2.025
+   ]
+  },
+  "stone_village_bridge": {
+   "tiles": [
+    [
+     61,
+     53
+    ],
+    [
+     62,
+     53
+    ],
+    [
+     63,
+     53
+    ],
+    [
+     64,
+     53
+    ]
+   ],
+   "deckY": 4.52,
+   "waterY": [
+    3.931,
+    3.966
+   ]
+  }
+ },
+ "bridges": [
+  {
+   "id": "timber_teaching_bridge",
+   "file": "timber_teaching_bridge.glb",
+   "centre": [
+    46.5,
+    0,
+    87.5
+   ],
+   "triangles": 1944,
+   "sha256_glb": "c05870cb73717d5159766559976b168fad950086ba816c7cf65bc4c68aea268a",
+   "sha256_blend": "d61e892d524d85da0c4b5330857e3fbc6241f3e26e305e09ae0adf423bbd096e"
+  },
+  {
+   "id": "stone_village_bridge",
+   "file": "stone_village_bridge.glb",
+   "centre": [
+    63.0,
+    0,
+    53.5
+   ],
+   "triangles": 2972,
+   "sha256_glb": "f3329e614804d64569e93c45ff04aa66a5fc6fe7d845b604ef005f305a629318",
+   "sha256_blend": "0387928e4dfdcd029f88bc333a5230e08d1a13fe7a08c9a958ad5d2af19264be"
+  }
+ ]
+}

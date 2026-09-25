@@ -9,33 +9,33 @@ var HolmIslandExtras=(function(){
  var WS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/'):'/.studio-workspaces/');
  var BUILDINGS=[
   {id:'keep',graph:WS+'holm-keep-navigation-v7/candidates/navigation.json',model:WS+'holm-warden-keep-v8/candidates/keep.glb'},
-  {id:'bakehouse',graph:WS+'holm-kitchen-navigation-v5/candidates/navigation.json',model:WS+'holm-kitchen-wings-v7/candidates/kitchen-character.glb'},
-  {id:'lodge',graph:WS+'holm-quest-terrain-navigation-v3/candidates/navigation.json',model:WS+'holm-quest-lodge-v5/candidates/lodge.glb',
+  {id:'bakehouse',graph:WS+'holm-kitchen-navigation-v6/candidates/navigation.json',model:WS+'holm-kitchen-wings-v8/candidates/kitchen-character.glb'},
+  {id:'lodge',graph:WS+'holm-quest-terrain-navigation-v4/candidates/navigation.json',model:WS+'holm-quest-lodge-v6/candidates/lodge.glb',
    extra:{url:WS+'holm-quest-foundation-v1/candidates/foundation.glb',placement:WS+'holm-quest-placement-v1/candidates/placement.json'}}]
   // M4.4: new Blender buildings, graphs measured by tools/blender/extract_holm_building_navigation.py
   .concat([['survival','Survival_','survival',3],['quarry','Quarry_','mine',3],['bank','Bank_','bank',3],['mage','Mage_','mage',3],['haven','Haven_','ferry',3],['lastlight','Lastlight_','lastlight',3],['cavern','Cavern_',null]].map(function(r){
    return {id:r[0],prefix:r[1],plan:r[2],graph:WS+'holm-'+r[0]+'-navigation-v'+(r[3]||1)+'/candidates/navigation.json',model:WS+'holm-'+r[0]+'-v'+(r[3]||1)+'/candidates/'+r[0]+'.glb'}}));
- var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v3/working/vegetation.json',PROPS=WS+'holm-props-v1/candidates/props.glb';
+ var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v4/working/vegetation.json',PROPS=WS+'holm-props-v1/candidates/props.glb';
  // M4.5 habitat v2: the tree family's own files, everything else (shrubs, rocks, flowers, logs, signposts) from the prop pack
  var TREE_FAMILY={oak:1,birch:1,'coastal-pine':1,'meadow-tuft':1,'creek-reeds':1};
- var LADDERS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-ladders.json'):'/docs/rebuild/holm-overhaul/island-ladders.json'),BRIDGES=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-bridges.json'):'/docs/rebuild/holm-overhaul/island-bridges.json'),BRIDGE_MODELS=WS+'holm-island-bridges-v1/candidates/';
+ var LADDERS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-ladders.json'):'/docs/rebuild/holm-overhaul/island-ladders.json'),BRIDGES=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-bridges.json'):'/docs/rebuild/holm-overhaul/island-bridges.json'),BRIDGE_MODELS=WS+'holm-island-bridges-v2/candidates/';
  var TRUNK={oak:.45,birch:.3,'coastal-pine':.35};
  // M4.2: authored service meshes -> measured stance (graph node) -> the existing lesson handler. The bakehouse
  // stations come from holm-kitchen-services-v1 (measured on this exact graph); the lodge from its graph targets.
  var SERVICES={
   bakehouse:[
-   {prefix:'Kitchen_SupplyBuckets_',node:'4:-3:0',label:'Take bucket',call:['HolmTeachingKitchen','takeBucket']},
-   {prefix:'Kitchen_Pantry_',node:'2:-3:0',label:'Fill bucket with flour',call:['HolmTeachingKitchen','fillFlour']},
-   {prefix:'Kitchen_SupplyWater',node:'4:-3:0',label:'Fill bucket with water',call:['HolmTeachingKitchen','fillWater']},
-   {prefix:'Kitchen_SupplyDoughBowl_',node:'-4:0:0',label:'Take dough',call:['HolmTeachingKitchen','takeDough']},
-   {prefix:'Kitchen_Oven_',node:'-3:-2:1',label:'Cook',call:['HolmTeachingKitchen','cookAtRange']},
-   {prefix:'Kitchen_RecipeBoard_',node:'-3:0:1',label:'Read recipe',call:['HolmTeachingKitchen','readRecipe']}],
+   {prefix:'Kitchen_SupplyBuckets_',node:'-2:1:0',label:'Take bucket',call:['HolmTeachingKitchen','takeBucket']},
+   {prefix:'Kitchen_Pantry_',node:'4:-4:0',label:'Fill bucket with flour',call:['HolmTeachingKitchen','fillFlour']},
+   {prefix:'Kitchen_SupplyWater',node:'-1:2:0',label:'Fill bucket with water',call:['HolmTeachingKitchen','fillWater']},
+   {prefix:'Kitchen_SupplyDoughBowl_',node:'-2:0:0',label:'Take dough',call:['HolmTeachingKitchen','takeDough']},
+   {prefix:'Kitchen_Oven_',node:'-4:-3:1',label:'Cook',call:['HolmTeachingKitchen','cookAtRange']},
+   {prefix:'Kitchen_RecipeBoard_',node:'0:-2:1',label:'Read recipe',call:['HolmTeachingKitchen','readRecipe']}],
   lodge:[
    {prefix:'Lodge_FurnishingBoard_',target:'board',label:'Study quest board',call:['HolmQuestLodge','studyBoard']},
    {prefix:'Lodge_FurnishingMap_',target:'map',label:'Study region chart',call:['HolmQuestLodge','studyChart']}],
   // M4.4 stations; lesson handlers are rebound to them in M5 (a click without a call walks there and says so)
   bank:[{prefix:'Bank_ServiceCounter_',target:'counter',label:'Use bank counter',call:['UI','openBank']},{prefix:'Bank_ServiceVault_',target:'vault',label:'Open vault',call:['UI','openBank']},{prefix:'Bank_ServiceShelves_',target:'shop',label:'Browse goods'}],
-  survival:[{prefix:'Survival_ServiceTools_',target:'tools',label:'Tool rack'},{prefix:'Survival_ServiceFirePit_',target:'fire',label:'Fire ring'},{prefix:'Survival_ServiceLogPile_',target:'logs',label:'Log pile'},{prefix:'Survival_ServiceFishing_',target:'fishing',label:'Fishing spot'}],
+  survival:[{prefix:'Survival_ServiceTools_',target:'tools',label:'Tool rack'},{prefix:'Survival_ServiceFirePit_',target:'fire',label:'Fire ring'},{prefix:'Survival_ServiceLogPile_',target:'logs',label:'Log pile'},{prefix:'Survival_ServiceFishing_',target:'fishing',label:'Fishing spot',proxy:false}],
   quarry:[{prefix:'Quarry_ServiceShaft_',target:'shaft',label:'Climb-down shaft ladder',ladder:'quarry-shaft'},{prefix:'Quarry_ServiceWinch_',target:'winch',label:'Winch'},{prefix:'Quarry_ServiceBench_',target:'bench',label:'Repair bench'}],
   mage:[{prefix:'Mage_ServiceRuneTable_',target:'runes',label:'Rune table'},{prefix:'Mage_ServiceLectern_',target:'lectern',label:'Lectern'},{prefix:'Mage_ServiceTelescope_',target:'observatory',label:'Telescope'}],
   cavern:[{prefix:'Cavern_ServiceLadderUp_',target:'ladder',label:'Climb-up ladder',ladder:'quarry-shaft'}],
@@ -110,7 +110,10 @@ var HolmIslandExtras=(function(){
     gltf.scene.traverse(function(n){if(!n.isMesh||!nameOf(n,s.prefix))return;
      n.userData.kind='island_service';n.userData.label=s.label;n.userData.islandService=info;services.push(n);box.expandByObject(n)});
     need(!box.isEmpty(),b.id+' service '+s.label+' has no authored mesh');
-    // small or tucked-away stations (the proving bowl behind the worktable) get an invisible hit box, as ladders do
+    // small or tucked-away stations (the proving bowl behind the worktable) get an invisible hit box, as ladders do.
+    // Not the fishing stage's reeds and marker pole (proxy:false, 2026-09-25 world fixes): the lesson's net-fishing
+    // ripple now floats between them, off the stage's open end, and a box round them would swallow its clicks.
+    if(s.proxy===false)return;
     var size=box.getSize(new T.Vector3()),c=box.getCenter(new T.Vector3());
     var proxy=new T.Mesh(new T.BoxGeometry(Math.max(.7,size.x+.2),Math.max(.7,size.y+.2),Math.max(.7,size.z+.2)),proxyMat);
     proxy.position.copy(c);proxy.name='island-service-hit-'+s.label;proxy.userData={kind:'island_service',label:s.label,islandService:info,serviceProxy:true};

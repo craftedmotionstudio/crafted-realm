@@ -16,8 +16,15 @@ from pathlib import Path
 from mathutils import Vector
 HERE=Path(__file__).resolve().parent;sys.path.insert(0,str(HERE))
 ROOT=HERE.parents[1]
-OUT=ROOT/'.studio-workspaces/holm-guide-house-overhaul-v3/candidates'
-PROOF=ROOT/'scratchpad/holm_interiors_v1/guide_v3_asset'
+import os
+# HOLM_GUIDE_VERSION=4 builds v4 (2026-09-25 z-fighting sweep: closed chimney courses, soot linings in front of
+# the firebox piers); the default rebuilds v3 byte-for-byte in intent
+# HOLM_GUIDE_VERSION=5 builds v5 (owner play-test 2026-09-25): both doors fitted into oak frames with even 8 mm gaps and
+# a threshold, the hearth fire rebuilt as layered solid flames (holm_fire_kit), and the chart's lesson route
+# (ChartRoute_01..09, ChartStop_01..10, hidden by default via extras)
+GUIDE_VERSION=int(os.environ.get('HOLM_GUIDE_VERSION','3'))
+OUT=ROOT/f'.studio-workspaces/holm-guide-house-overhaul-v{GUIDE_VERSION}/candidates'
+PROOF=ROOT/f'scratchpad/holm_interiors_v1/guide_v{GUIDE_VERSION}_asset'
 OUT.mkdir(parents=True,exist_ok=True);PROOF.mkdir(parents=True,exist_ok=True)
 LAYOUT=json.loads((ROOT/'docs/rebuild/holm-overhaul/arrival-layout.json').read_text())
 DOOR_WIDTH=LAYOUT['doors'][0]['clearWidth']
@@ -101,7 +108,8 @@ for side,z in [('South',5),('North',-5)]:
  holes=windows0+[[-DOOR_WIDTH/2,DOOR_WIDTH/2,0,2.3]];hh=HW if side=='North' else H0
  wall('GroundShell'+side,-6,6,0,hh,'x',z,holes,stone);stone_facing('GroundShell'+side+'Facing',12,0,hh,'x',z,holes,1 if z>0 else -1)
  for a,b,c,d in windows0:
-  prism('GroundShell'+side+'Sill',a-.12,b+.12,c-.13,c,z-.30,z+.30,sillmat);prism('GroundShell'+side+'Lintel',a-.13,b+.13,d,d+.15,z-.23,z+.23,sillmat)
+  prism('GroundShell'+side+'Sill',a-.12,b+.12,c-.13,c+(.015 if GUIDE_VERSION>=4 else 0),z-.30,z+.30,sillmat);   # v4: sill top 1.5 cm proud of the reveal floor
+  prism('GroundShell'+side+'Lintel',a-.13,b+.13,d,d+.15,z-.23,z+.23,sillmat)
   for x in [a+.055,b-.055]:prism('GroundShell'+side+'WindowJamb',x-.055,x+.055,c,d,z-.19,z+.19,wood)
   prism('GroundShell'+side+'WindowHead',a,b,d-.10,d,z-.19,z+.19,wood);prism('GroundShell'+side+'WindowMullion',(a+b)/2-.045,(a+b)/2+.045,c,d,z-.08,z+.08,wood)
 for side,x in [('East',6),('West',-6)]:
@@ -112,6 +120,7 @@ for side,x in [('East',6),('West',-6)]:
 STAIRS=LAYOUT['stairs'];SZ0=STAIRS['startZ'];SZ1=STAIRS['endZ']
 # v3: plank floors (same walk planes: ground top y 0, upper top y 2.8 over 2.6) with the cellar hatch cut
 import holm_guide_house_cellar_v3 as cellar,holm_guide_house_interior_v3 as interior
+if GUIDE_VERSION>=4:interior.V4_BASE=.02
 Pal=interior.palette()
 floor_tones=family('Floor oak',['#8a6440','#7b5838','#94704a','#6f5033']);underlay=M('Floor underlay','#3a2a1c')
 G=Acc('GroundFloor');rng=random.Random(2511);FX0,FX1,FZ0,FZ1=cellar.FRAME
@@ -142,7 +151,7 @@ def frame_member(name,axis,constant,out,u0,u1,v0,v1):
  # v3: the same timber, inset 5 mm inside this one, on the upstairs lining's outer face. The game hides the
  # upper shell while the player is upstairs; the lining then still shows its framed outside.
  if v0<UPPER_TOP-.01:
-  a,b=constant+out*.172,constant+out*.23;a,b=min(a,b),max(a,b);vv1=min(v1,UPPER_TOP)-.005
+  a,b=constant+out*(.18 if GUIDE_VERSION>=4 else .172),constant+out*.23;a,b=min(a,b),max(a,b);vv1=min(v1,UPPER_TOP)-.005
   if axis=='x':EXT.box(u0+.005,u1-.005,v0+.005,vv1,a,b,Pal['oakdark'])
   else:EXT.box(a,b,v0+.005,vv1,u0+.005,u1-.005,Pal['oakdark'])
  return prism(name,u0,u1,v0,v1,lo,hi,timber) if axis=='x' else prism(name,lo,hi,v0,v1,u0,u1,timber)
@@ -341,7 +350,7 @@ for o in bpy.context.scene.objects:
      for li in p.loop_indices:col.data[li].color=(1,1,1,1)
 print('[GUIDE_HOUSE_V3] acc parts',sorted(kit.STATS.items(),key=lambda kv:-kv[1])[:25])
 bpy.context.scene.frame_set(1);bpy.context.view_layer.update()
-model=OUT/'holm_guide_house_overhaul_v3'
+model=OUT/f'holm_guide_house_overhaul_v{GUIDE_VERSION}'
 bpy.ops.wm.save_as_mainfile(filepath=str(model.with_suffix('.blend')))
 bpy.ops.export_scene.gltf(filepath=str(model.with_suffix('.glb')),export_format='GLB',export_yup=True,export_extras=True)
 def tris(o):return sum(len(p.vertices)-2 for p in o.data.polygons)

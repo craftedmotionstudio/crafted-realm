@@ -1,0 +1,62 @@
+{
+  "schema": "holm-lodge-material-v1",
+  "baseSha256": "e01b6330abb7fcc526ebb263edcecb6ba44273cac22589d1346f1598b10a213c",
+  "modelSha256": "dba4f5045f948dd5f1b0d2d8b4471fc4b2a74ba0d8f21f0fdc8770625d4915b6",
+  "modelUrl": "../.studio-workspaces/holm-quest-lodge-v3/candidates/lodge.glb",
+  "materialName": "Warm oak",
+  "status": "isolated material candidate; visual review pending",
+  "source": "tools/blender/refine_holm_lodge_oak.py",
+  "texture": {
+    "url": "../.studio-workspaces/holm-quest-lodge-v3/candidates/oak.png",
+    "sha256": "4a81675fbfd3814e6eb539bb35111f39896cebd3aa8223ad950df0ef63bd4dca",
+    "width": 128,
+    "height": 128,
+    "boards": 8,
+    "worldUnitsPerBoard": 0.4464285714285714,
+    "direction": "Straight sparse grain; staggered end joints; subdued warm oak"
+  },
+  "evidence": {
+    "blenderStructureSha256": "d755ebf7cc50d8d44bc06a869cdfaa89a22f7950f2350b5d30e34e63bde4ceab",
+    "base": {
+      "sha256": "6de1fd292bfdd0f3dd51bf0031297f8905eb72ff19a8ed9be759b7f4f738140b",
+      "bytes": 473212,
+      "structureSha256": "f196caf04e78cbf56e49f5892c8613d5b317f646127b21c7b2506b922cfba445",
+      "nodes": 33,
+      "meshes": 32,
+      "accessors": 118,
+      "animations": [
+        "Lodge_DoorOpenClose"
+      ],
+      "images": {
+        "lodge_wood": "8a1d31e93d6a1b3ff8fb71be94934b73de6162d790a00251d543b45d5e8f5867",
+        "lodge_stone": "1ceccaaa057b539a47fc111d6db2cd50e5622d14f8d76006d008608a485f6544",
+        "lodge_reed": "a3a694d50103aee609f29ff95ca3b8763f3f373a3a0e14323100629377870056",
+        "lodge_slate": "f060a678ec7124939012a068d818890c252f72a0c8e7e0cb167ceca8850f3822"
+      }
+    },
+    "candidate": {
+      "sha256": "a8d57474e1a5cd6f8e13214e57905cf3bacecdf8e1fcc14c5b0ea1393248b324",
+      "bytes": 453440,
+      "structureSha256": "f196caf04e78cbf56e49f5892c8613d5b317f646127b21c7b2506b922cfba445",
+      "nodes": 33,
+      "meshes": 32,
+      "accessors": 118,
+      "animations": [
+        "Lodge_DoorOpenClose"
+      ],
+      "images": {
+        "lodge_wood": "4a81675fbfd3814e6eb539bb35111f39896cebd3aa8223ad950df0ef63bd4dca",
+        "lodge_stone": "1ceccaaa057b539a47fc111d6db2cd50e5622d14f8d76006d008608a485f6544",
+        "lodge_reed": "a3a694d50103aee609f29ff95ca3b8763f3f373a3a0e14323100629377870056",
+        "lodge_slate": "f060a678ec7124939012a068d818890c252f72a0c8e7e0cb167ceca8850f3822"
+      }
+    },
+    "changedImages": [
+      "lodge_wood"
+    ],
+    "otherImagePixelsUnchanged": true,
+    "geometryUvNodesAnimationsUnchanged": true
+  },
+  "interiorPass": "2026-09-25 lodge v4 over v3: floors re-tiled in place, furniture oak, dressing off-node",
+  "zFightingPass": "2026-09-25 v5 = v4 + coplanar-overlap fix"
+}

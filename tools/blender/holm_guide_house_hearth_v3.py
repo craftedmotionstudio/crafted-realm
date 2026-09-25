@@ -23,14 +23,25 @@ def build(B):
  for z,out in ((Z0,-1),(Z1,1)):stone_face(A,'x',z,out,X0+.02,X1,0,TOP,greys,rng,course=(.2,.3),length=(.2,.4),proud=(.015,.035))
  A.box(X0,X1+.04,TOP-.06,TOP,Z0-.04,Z1+.04,greys[3],skip='b')
  # firebox: soot lining, dark back with a glowing lower half, raised hearth stone, firedogs, logs, embers
- A.box(X0,X0+.03,0,OY,OZ0,OZ1,sootback);A.box(X0+.03,X0+.034,.08,.62,OZ0+.2,OZ1-.2,glow)
- A.box(X0,X1,0,OY,OZ0-.02,OZ0,soot);A.box(X0,X1,0,OY,OZ1,OZ1+.02,soot);A.box(X0,X1,OY-.02,OY,OZ0,OZ1,soot)
+ V5=B.get('GUIDE_VERSION',3)>=5
+ A.box(X0,X0+.03,0,OY,OZ0,OZ1,sootback)
+ if not V5:A.box(X0+.03,X0+.034,.08,.62,OZ0+.2,OZ1-.2,glow)
+ if B.get('GUIDE_VERSION',3)>=4:   # v4: soot linings stand in front of the pier faces instead of sharing them
+  A.box(X0,X1,0,OY,OZ0,OZ0+.015,soot);A.box(X0,X1,0,OY,OZ1-.015,OZ1,soot);A.box(X0,X1,OY-.02,OY,OZ0+.015,OZ1-.015,soot)
+ else:A.box(X0,X1,0,OY,OZ0-.02,OZ0,soot);A.box(X0,X1,0,OY,OZ1,OZ1+.02,soot);A.box(X0,X1,OY-.02,OY,OZ0,OZ1,soot)
  A.box(X0+.03,X1+.02,0,.06,OZ0,OZ1,flags[1],skip='b')
  for z in (-3.14,-2.66):
   A.beam((-5.62,.06,z),(-5.2,.06,z),.03,.03,iron);A.beam((-5.2,.06,z),(-5.2,.28,z),.03,.03,iron);A.box(-5.23,-5.17,.28,.33,z-.03,z+.03,iron)
- for a,b in (((-5.62,.16,-3.25),(-5.25,.2,-2.55)),((-5.62,.16,-2.55),(-5.25,.2,-3.25)),((-5.55,.3,-3.1),(-5.5,.3,-2.7))):log(A,a,b,.07,bark,endg)
- for i in range(9):
-  x=rng.uniform(-5.72,-5.22);z=rng.uniform(-3.28,-2.52);A.rbox(x,z,rng.uniform(.06,.12),rng.uniform(.05,.1),.06,.06+rng.uniform(.02,.05),rng.random()*3,ember if i%3 else char,skip='b')
+ if V5:
+  # v5 (owner: 'looks like a couple pieces of paper'): layered solid flame shells, logs with charred ember ends,
+  # an ember bed and a banded glow card on the firebox back (holm_fire_kit)
+  import holm_fire_kit as FK
+  FK.bed(A,(-5.43,.06,-2.9),size=.92,spread=(1.0,.62),logs='hearth',log_y=.13,seed=92511,yaw=math.pi/2)
+  pass   # (no glow card on the back: the banding read as a target)
+ else:
+  for a,b in (((-5.62,.16,-3.25),(-5.25,.2,-2.55)),((-5.62,.16,-2.55),(-5.25,.2,-3.25)),((-5.55,.3,-3.1),(-5.5,.3,-2.7))):log(A,a,b,.07,bark,endg)
+  for i in range(9):
+   x=rng.uniform(-5.72,-5.22);z=rng.uniform(-3.28,-2.52);A.rbox(x,z,rng.uniform(.06,.12),rng.uniform(.05,.1),.06,.06+rng.uniform(.02,.05),rng.random()*3,ember if i%3 else char,skip='b')
  # mantel beam and shelf, dressed with candles, a jug, a box and a pewter plate
  A.box(X1-.02,X1+.14,OY,OY+.22,-3.95,-1.85,oak);A.box(X1-.02,X1+.2,OY+.22,OY+.26,-3.98,-1.82,oak2)
  sy=OY+.26
@@ -54,6 +65,10 @@ def build(B):
  for i in range(5):
   a=i*1.2;log(A,(-4.75+math.cos(a)*.12,.3,-4.4+math.sin(a)*.12-.18),(-4.75+math.cos(a)*.1,.52,-4.4+math.sin(a)*.1+.16),.05,bark,endg,n=6)
  A.build(root)
+ if V5:
+  fl=FK.flame_layers(root,'HearthFlame',(-5.43,.1,-2.9),size=.95,spread=(1.0,.62),seed=92512,yaw=math.pi/2)
+  FK.flicker(fl,'HearthFlicker',0,seed=92513)
+  bpy.context.scene.frame_set(1);return
  for i in range(3):
   x=-5.45+i*.12;z=-2.9+(i-1)*.20
   obj=B['mesh']('HearthFlame'+str(i),[(-.10,0,-.10),(.10,0,-.10),(.13,.20,.03),(.02,.60,.02),(-.13,.24,.08)],[(0,1,2),(0,2,4),(2,3,4)],M('Fire gold v3','#ffb035',emit=1.7) if i==1 else M('Fire ember v3','#e2621c',emit=1.2))

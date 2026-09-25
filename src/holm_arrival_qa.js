@@ -10,7 +10,7 @@ var HolmArrivalQA=(function(){
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
  function revision(){return island?'holm-island-v1':loaded.package.navigation.graphRevision}
  // v4 (2026-09-24, M3R): guide house v2, branching oak, Lantern Keeper statue, trunk-footprint tree blockers
- var ID=island&&typeof HolmIsland!=='undefined'?HolmIsland.ID:'tutors-holm-arrival-qa',EXPORT='11e64a0724bb2b5d';
+ var ID=island&&typeof HolmIsland!=='undefined'?HolmIsland.ID:'tutors-holm-arrival-qa',EXPORT='64098cdbe5d0631d';
  function active(){return !!provider&&CRWorldMode.providerId===ID}
  function graphForDoors(d){var key=JSON.stringify(d)+(island&&nav&&nav.gateKey?'|'+nav.gateKey():'');return graphs[key]||(graphs[key]=nav.compile(d))}
  function spawn(){return loaded.package.navigation.doorStates['closed-closed'].graph.nodes.find(function(n){return n.id===loaded.package.spawn.nodeId})}
@@ -18,7 +18,7 @@ var HolmArrivalQA=(function(){
   if(!requested)return null;
   var production=typeof HolmIsland!=='undefined'&&HolmIsland.production();
   if((!production&&!QAProfile.isolated)||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
-  loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v7/exports/',exportId:EXPORT});
+  loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v9/exports/',exportId:EXPORT});
   nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
   var pack=loaded.package,chunks=JSON.parse(JSON.stringify(pack.terrain.chunks)),b=loaded.documents.layout.building,s=spawn();
   chunks.forEach(function(c){c.layers.terrain.exclusions=[{x:b.world.x-b.width/2,z:b.world.z-b.depth/2,w:b.width,d:b.depth}]});
@@ -55,7 +55,8 @@ var HolmArrivalQA=(function(){
       // M5.2a: the island curriculum's arrows point at the stations that now exist
       if(typeof HolmIslandCurriculum!=='undefined')try{HolmIslandCurriculum.bind(HolmArrivalQA)}catch(err){console.error('[HolmArrivalQA] curriculum targets',err)}
      }
-     water=HolmArrivalWater.create(THREE,loaded.documents.terrain.creek);scene.add(water.group);
+     // the creek water fills its carved channel to the drawn bank (owner play-test 2026-09-25: no looking under its edge)
+     water=HolmArrivalWater.create(THREE,loaded.documents.terrain.creek,null,loaded.documents.terrain);scene.add(water.group);
      trail=HolmArrivalTrail.create(THREE,loaded.documents.layout,HolmArrivalTrail.terrainSampler(loaded.documents.terrain));
      trail.userData={kind:"arrival_surface",arrivalSurface:"exterior"};scene.add(trail);WORLD.grounds.push(trail);WORLD.clickables.push(trail);
      var bounds=pack.navigation.interactions[0].localBounds;
@@ -284,6 +285,6 @@ var HolmArrivalQA=(function(){
   qaView:function(x,z,y0){if(!active())return null;provider.updateResidency(x,z,true);var y=Number.isFinite(y0)?y0:height(x,z);window.__qaCameraFocus={x:x,y:Number.isFinite(y)?y:0,z:z};return window.__qaCameraFocus},   // y0: explicit height (the offshore cavern has no terrain)
   qaViewClear:function(){window.__qaCameraFocus=null},
   // the bakehouse oven stance, for the kitchen module's cook proxy on the island
-  islandRangePoint:function(){if(!active()||!island)return null;var n=graphForDoors(doors).byId['b:bakehouse:-3:-2:1'];return n?{x:n.x,y:n.y,z:n.z}:null},
+  islandRangePoint:function(){if(!active()||!island)return null;var n=graphForDoors(doors).byId['b:bakehouse:-4:-3:1'];return n?{x:n.x,y:n.y,z:n.z}:null},
   islandStats:function(){return island&&nav&&nav.stats?nav.stats(doors):null}};
 })();

@@ -68,6 +68,7 @@ var HolmArrivalModelOwner=(function(){
     var root=new T.Group();roots.push(root);root.name='world-object-'+row.id;root.userData.arrivalObjectId=row.id;
     root.position.set(tr.x,tr.y,tr.z);root.rotation.y=tr.rotation;root.scale.setScalar(tr.scale);root.add(gltf.scene);models[row.id]=root;
     if(row.asset.id==='guide')house=root;if(row.asset.id==='dock')dock=root;
+    root.traverse(function(n){if(n.userData&&n.userData.hiddenByDefault)n.visible=false});   // e.g. the relief chart's route legs
     root.traverse(function(n){
      if(!n.isMesh)return;n.castShadow=true;n.receiveShadow=true;
      // The game renders without colour management (linear output), so colour factors are used as authored;

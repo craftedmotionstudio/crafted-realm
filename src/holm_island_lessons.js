@@ -11,7 +11,7 @@
 var HolmIslandLessons=(function(){
  'use strict';
  var WS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/'):'/.studio-workspaces/'),DATA=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-lessons.json'):'/docs/rebuild/holm-overhaul/island-lessons.json');
- var PROPS=WS+'holm-props-v2/candidates/props.glb',OAK=WS+'holm-tree-family-v3/candidates/oak.glb';
+ var PROPS=WS+'holm-props-v5/candidates/props.glb',OAK=WS+'holm-tree-family-v3/candidates/oak.glb';
  var st={objs:[],depleted:[],lamps:[],beaconOn:false,data:null};
  function need(c,m){if(!c)throw new Error('[HolmIslandLessons] '+m)}
  async function json(u){var r=await fetch(u,{cache:'no-cache'});need(r.ok,u+' '+r.status);return r.json()}

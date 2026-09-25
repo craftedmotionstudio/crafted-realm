@@ -12,11 +12,11 @@ shaded while the low-poly facets stay readable; tiny details (eyes, mouth, buckl
 
 Kit (one shared rig, every part a separate skinned mesh named Kit_<A|B>_<Slot>_<nn>):
   body type A: Hair 10, Jaw 8, Torso 8, Arms 7, Hands 3, Legs 6, Feet 3
-  body type B: Hair 11, Torso 5, Arms 6, Hands 3, Legs 9, Feet 3
+  body type B: Hair 11, Torso 5, Arms 6, Hands 3, Legs 9, Feet 3, Makeup 5 (v2.8; 01 = none)
   (the Hair part carries the head: skull, face, ears, neck; bald = Hair part with no hair shell)
 Recolour channels = material names: C_HAIR (hair + jaw + brows), C_TORSO (torso + arm cloth), C_LEGS,
-C_FEET, C_SKIN; fixed accents A_BELT A_METAL A_EYES A_SHIRT A_TRIM A_SASH (Bram adds A_WOOD).
-Palettes: assets/models/holm_kit_v2_palettes.json (hair 12, torso 16, legs 16, feet 6, skin 8).
+C_FEET, C_SKIN, C_MAKEUP (B makeup overlays); fixed accents A_BELT A_METAL A_EYES A_SHIRT A_TRIM A_SASH (Bram adds A_WOOD).
+Palettes: palettes.json (hair 12, torso 16, legs 16, feet 6, skin 8, makeup 6).
 
 Rig contract: EXACT 23 mixamorig:* bone names / hierarchy / rest pose of assets/models/player.glb, glTF +Z
 forward (= Blender -Y), feet at 0, ~1.85 m. Smooth vertex weights: every vertex is projected onto its bone
@@ -28,22 +28,28 @@ smith smelt climb block hit death talk wave (player keyframe logic retargeted fr
 Bram GLB: idle talk walk wave (holding his staff).
 
 Run:  "C:\\Program Files\\Blender Foundation\\Blender 4.5\\blender.exe" -b --python tools/blender/build_holm_characters_v2.py -- [--no-render] [--quick]
-Outputs (all new): assets/models/holm_kit_v2.glb, assets/models/holm_kit_v2_palettes.json,
-  assets/models/holm_tutor_bram_v2.glb, .studio-workspaces/holm-characters-v2/candidates/{characters.blend,
-  manifest.json, REPORT.md}, scratchpad/holm_characters_v2/*.png (proof sheets)
+Outputs (candidates only, never the live assets): .studio-workspaces/holm-characters-<tag>/candidates/{kit.glb,
+  bram.glb, palettes.json, characters.blend, manifest.json, REPORT.md}, scratchpad/holm_characters_<tag>/*.png
+  (default tag v28; --tag v2 is refused)
 """
 import bpy, bmesh, math, json, os, sys, struct, subprocess, shutil, random
 from mathutils import Vector, Matrix, Quaternion, Euler
+from mathutils.bvhtree import BVHTree
 
 REPO = r"C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude"
 REF_GLB = os.path.join(REPO, "assets", "models", "player.glb")
-OUT_KIT = os.path.join(REPO, "assets", "models", "holm_kit_v2.glb")
-OUT_PAL = os.path.join(REPO, "assets", "models", "holm_kit_v2_palettes.json")
-OUT_BRAM = os.path.join(REPO, "assets", "models", "holm_tutor_bram_v2.glb")
+_ARGV = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
+TAG = _ARGV[_ARGV.index("--tag") + 1] if "--tag" in _ARGV else "v29"   # output set: .studio-workspaces/holm-characters-<tag>/
+CAND = os.path.join(REPO, ".studio-workspaces", "holm-characters-%s" % TAG, "candidates")
+assert TAG != "v2", "refusing to write into holm-characters-v2 (reviewed v2.6 set, queued for the game)"
+OUT_KIT = os.path.join(CAND, "kit.glb")
+OUT_PAL = os.path.join(CAND, "palettes.json")
+OUT_BRAM = os.path.join(CAND, "bram.glb")
 V1_PLAYER = os.path.join(REPO, "assets", "models", "holm_player_v1_default.glb")
 V1_BRAM = os.path.join(REPO, "assets", "models", "holm_tutor_bram.glb")
-WS = os.path.join(REPO, ".studio-workspaces", "holm-characters-v2", "candidates")
-RENDER_DIR = os.path.join(REPO, "scratchpad", "holm_characters_v2")
+WS = CAND
+RENDER_DIR = os.path.join(REPO, "scratchpad", "holm_characters_%s" % TAG)
+PREV_DIR = os.path.join(REPO, "scratchpad", "holm_characters_v28")   # v2.8 sheets, read-only (before/after comparison)
 BIBLE = os.path.join(REPO, "Bible_References")
 REF_TURN = os.path.join(BIBLE, "Character", "male_concepts", "male_b_turnaround.png")
 REF_CREATOR = os.path.join(BIBLE, "Character_Creator_Screen.jpg")
@@ -98,6 +104,7 @@ PALETTES = {
              '#3f6234', '#5a4a1e', '#8a2e2a', '#5a2a24', '#d8d0b8', '#b8a07a', '#5e3e6e', '#6a4a2a'],
     'feet': ['#6e4626', '#4a3019', '#2e2620', '#8a6a44', '#58585a', '#7a2e22'],
     'skin': ['#f0c8a0', '#e0b088', '#c8966e', '#b18b71', '#a0704e', '#86583a', '#6a4430', '#4e3024'],
+    'makeup': ['#c86a7a', '#d8765e', '#94304e', '#72395f', '#8e5c48', '#aa7440'],   # v2.8: rose, coral, berry, plum, soft brown, bronze
 }
 def _desat(hx, k=.12):
     r, g, b = (int(hx.lstrip('#')[i:i + 2], 16) for i in (0, 2, 4))
@@ -105,12 +112,12 @@ def _desat(hx, k=.12):
     return '#%02x%02x%02x' % tuple(round(c + (l - c) * k) for c in (r, g, b))
 
 PALETTES = {ch: [_desat(h) for h in cols] for ch, cols in PALETTES.items()}   # v2.4: 2004-like slightly muted mid tones
-CHANNEL_MAT = {'hair': 'C_HAIR', 'torso': 'C_TORSO', 'legs': 'C_LEGS', 'feet': 'C_FEET', 'skin': 'C_SKIN'}
+CHANNEL_MAT = {'hair': 'C_HAIR', 'torso': 'C_TORSO', 'legs': 'C_LEGS', 'feet': 'C_FEET', 'skin': 'C_SKIN', 'makeup': 'C_MAKEUP'}
 ACCENTS = {'A_BELT': '#4a3019', 'A_METAL': '#8c8e90', 'A_EYES': '#1e1612', 'A_SHIRT': '#bdb39b',
            'A_TRIM': '#d8cc94', 'A_SASH': '#8a2e2a'}
 DEFAULT_COLORS = {   # palette indices per body type
-    'A': {'hair': 2, 'torso': 0, 'legs': 0, 'feet': 0, 'skin': 2},
-    'B': {'hair': 3, 'torso': 2, 'legs': 3, 'feet': 1, 'skin': 1},
+    'A': {'hair': 2, 'torso': 0, 'legs': 0, 'feet': 0, 'skin': 2, 'makeup': 0},
+    'B': {'hair': 3, 'torso': 2, 'legs': 3, 'feet': 1, 'skin': 1, 'makeup': 0},
 }
 BRAM_COLORS = {k: _desat(v) for k, v in {'C_HAIR': '#9c9a96', 'C_TORSO': '#3f6234', 'C_LEGS': '#4e4a44', 'C_FEET': '#6a4226',
                'C_SKIN': '#c08c6c', 'A_WOOD': '#7a5a36'}.items()}
@@ -260,8 +267,8 @@ def arm_w(sx):
 
 def leg_w(sx):
     sd = 'Left' if sx > 0 else 'Right'
-    return chain_w([BHEAD[B(sd + 'UpLeg')], BHEAD[B(sd + 'Leg')], BHEAD[B(sd + 'Foot')]],
-                   [B(sd + 'UpLeg'), B(sd + 'Leg')], [.06], root=B('Hips'), root_s=.02, root_h=.06)
+    return chain_w([BHEAD[B(sd + 'UpLeg')], BHEAD[B(sd + 'Leg')], BHEAD[B(sd + 'Foot')], BHEAD[B(sd + 'ToeBase')]],
+                   [B(sd + 'UpLeg'), B(sd + 'Leg'), B(sd + 'Foot')], [.06, .035], root=B('Hips'), root_s=.02, root_h=.06)
 
 def foot_w(sx):
     sd = 'Left' if sx > 0 else 'Right'
@@ -384,6 +391,22 @@ class MB:
                 for i in range(R - 1):
                     self._face((vo[i][jj], vo[i + 1][jj], vi[i + 1][jj], vi[i][jj]), edge_mat or matfn(i, min(jj, C - 2), 'o'), smooth, allf, rim=True)
         bmesh.ops.recalc_face_normals(self.bm, faces=allf)
+
+    def patch(self, rows, mat, w, outward=(0, -1, 0), smooth=False):
+        """v2.8: open single-sided grid of quads (rows of points), faces turned toward `outward`"""
+        vs = [[self._v(p, w) for p in r] for r in rows]
+        allf = []
+        for i in range(len(vs) - 1):
+            for j in range(len(vs[0]) - 1):
+                q = (vs[i][j], vs[i][j + 1], vs[i + 1][j + 1], vs[i + 1][j])
+                if len(set(q)) < 4:
+                    continue
+                allf.append(self._face(q, mat, smooth, [], rim=True))
+        o = Vector(outward)
+        for f in allf:
+            f.normal_update()
+            if f.normal.dot(o) < 0:
+                f.normal_flip()
 
     def cone(self, ring, apex, mat, w, smooth=True):
         vr = [self._v(p, w) for p in ring]
@@ -540,7 +563,7 @@ PELVIS = {
 }
 TORSO_P = 2.3
 TORSO_PHASE = math.pi / 8   # v2.5: flat front / side / back panels + chamfers
-ARM_R = {'A': [(-0.10, .072, .074), (0.06, .088, .090), (0.30, .076, .078), (0.70, .052, .054), (1.00, .044, .046),
+ARM_R = {'A': [(-0.10, .066, .068), (0.06, .080, .082), (0.30, .072, .074), (0.70, .052, .054), (1.00, .044, .046),
                (1.30, .045, .045), (1.70, .034, .034), (2.00, .030, .031)]}
 ARM_R['B'] = [(u, rs * .84, rf * .84) for u, rs, rf in ARM_R['A']]
 LEG_R = {'A': [(0.00, .090, .096, .098), (0.15, .102, .106, .108), (0.45, .092, .094, .096), (0.78, .071, .071, .073),
@@ -549,18 +572,87 @@ LEG_R = {'A': [(0.00, .090, .096, .098), (0.15, .102, .106, .108), (0.45, .092, 
          'B': [(0.00, .090, .092, .098), (0.15, .098, .100, .104), (0.45, .084, .086, .088), (0.78, .066, .066, .068),
                (0.97, .058, .058, .060), (1.05, .057, .057, .061), (1.22, .058, .057, .066), (1.45, .052, .051, .058),
                (1.72, .042, .042, .045), (2.00, .038, .038, .041)]}
-SHOULDER_X = {'A': .192, 'B': .160}
+SHOULDER_X = {'A': .180, 'B': .152}
 HIP_X = {'A': .100, 'B': .104}
 HAND_K = {'A': .98, 'B': .86}
-FOOT_K = {'A': 1.12, 'B': .98}
-U_ARM = [-0.08, 0.10, 0.5, 1.0, 1.4, 1.88]
-U_LEG = [0.0, 0.4, 0.97, 1.08, 1.5, 1.95]
+FOOT_K = {'A': 1.00, 'B': .875}   # v2.9: smaller default feet (v2.8 was A 1.12 / B .98 = the Feet_Large morph)
+FOOT_K_LARGE = {'A': 1.12, 'B': .98}
+FOOT_K_SMALL = {'A': .91, 'B': .80}
+U_ARM = [-0.08, 0.10, 0.5, 0.88, 1.0, 1.12, 1.4, 1.88]
+U_LEG = [0.0, 0.4, 0.84, 1.0, 1.14, 1.5, 1.95]
 
 # v2.5 measured bulk: prisms read narrower than their radius, so limbs and torso depth are scaled to the reference outlines
 ARM_R = {bt: [(u, rs * 1.12, rf * 1.12) for u, rs, rf in rows] for bt, rows in ARM_R.items()}
 LEG_R = {bt: [(u, a * 1.12, b * 1.12, c * 1.12) for u, a, b, c in rows] for bt, rows in LEG_R.items()}
 TORSO = {bt: [(z, rx, rf * 1.10, rb * 1.10, cy) for z, rx, rf, rb, cy in rows] for bt, rows in TORSO.items()}
 PELVIS = {bt: [(z, rx, rf * 1.08, rb * 1.08, cy) for z, rx, rf, rb, cy in rows] for bt, rows in PELVIS.items()}
+# v2.6: body A a touch slimmer (chest + hips), shoulder line lower and narrower
+TORSO['A'] = [(z, rx * .965 - (.008 if 1.30 < z < 1.45 else 0.0), rf, rb, cy) for z, rx, rf, rb, cy in TORSO['A']]
+TORSO['B'] = [(z, rx - (.005 if 1.30 < z < 1.45 else 0.0), rf, rb, cy) for z, rx, rf, rb, cy in TORSO['B']]
+PELVIS['A'] = [(z, rx * .965, rf, rb, cy) for z, rx, rf, rb, cy in PELVIS['A']]
+# v2.6: knees -- a kneecap bump on the front of the knee ring so the leg reads thigh / knee / shin
+def _with_knee(rows, bump=.012):
+    out = [r for r in rows if abs(r[0] - 1.0) > .02]
+    u = 1.0
+    rs, rf, rb = lerp_table(rows, u)
+    out.append((u, rs, rf + bump, rb))
+    return sorted(out)
+LEG_R = {bt: _with_knee(rows) for bt, rows in LEG_R.items()}
+
+# v2.9 BODY BUILD: every part is built on the shared body tables, so a build is simply the kit rebuilt on scaled tables;
+# the difference becomes the Build_Stout / Build_Slim morph of every part (clothes follow the body by construction).
+BUILD = {'name': 'average', 'skirt': 1.0, 'arm_out': None, 'leg_in': None, 'deltoid': 1.0, 'tables': None}
+
+def hand_shift(bt, sx, ax):
+    """lateral offset of the whole hand under a build (it follows the wrist of the shifted forearm)"""
+    if not BUILD['arm_out']:
+        return Vector()
+    lat = Vector((sx, 0, 0)) - ax * (ax.x * sx)
+    return lat.normalized() * BUILD['arm_out'](bt, WRIST_U)
+_BASE_TABLES = None
+
+def _build_tables(kind):
+    ss_ = ss
+    T, Pv, AR, LR = {}, {}, {}, {}
+    for bt in ('A', 'B'):
+        rows = []
+        for z, rx, rf, rb, cy in _BASE_TABLES['TORSO'][bt]:
+            w = 1 - ss_(1.36, 1.46, z)                        # the neck / collar line never changes
+            belly = .30 * ss_(.90, 1.02, z) * (1 - ss_(1.18, 1.32, z)) + .14 * ss_(1.18, 1.26, z) * w
+            if kind == 'stout':
+                rows.append((z, rx * (1 + .10 * w - .03 * ss_(1.22, 1.38, z) * w), rf * (1 + belly), rb * (1 + .09 * w), cy))
+            else:
+                rows.append((z, rx * (1 - .07 * w), rf * (1 - .45 * belly - .04 * w), rb * (1 - .06 * w), cy))
+        T[bt] = rows
+        Pv[bt] = [(z, rx * (1.10 if kind == 'stout' else .93), rf * ((1.10 + .10 * ss_(.85, .95, z)) if kind == 'stout' else .91),
+                   rb * (1.12 if kind == 'stout' else .93), cy) for z, rx, rf, rb, cy in _BASE_TABLES['PELVIS'][bt]]
+        ga = (lambda u: 1.20 - .10 * ss_(.8, 1.3, u) - .06 * ss_(1.5, 1.97, u)) if kind == 'stout' else \
+             (lambda u: .86 + .06 * ss_(.8, 1.3, u) + .05 * ss_(1.5, 1.97, u))
+        AR[bt] = [(u, rs * ga(u), rf * ga(u)) for u, rs, rf in _BASE_TABLES['ARM_R'][bt]]
+        gl = (lambda u: 1.20 - .12 * ss_(.7, 1.05, u) - .08 * ss_(1.5, 1.8, u)) if kind == 'stout' else \
+             (lambda u: .86 + .07 * ss_(.7, 1.05, u) + .07 * ss_(1.5, 1.8, u))
+        LR[bt] = [(u, a * gl(u), b * gl(u), c * gl(u)) for u, a, b, c in _BASE_TABLES['LEG_R'][bt]]
+    return T, Pv, AR, LR, ga, gl
+
+ARM_SHIFT = {'stout': (.021, .042), 'slim': (0.0, 0.0)}   # arm moved out at the shoulder / lower arm (m)
+
+def set_build(kind='average'):
+    """swap the shared body tables for a build ('average' | 'stout' | 'slim')"""
+    global TORSO, PELVIS, ARM_R, LEG_R, _BASE_TABLES
+    if _BASE_TABLES is None:
+        _BASE_TABLES = {'TORSO': TORSO, 'PELVIS': PELVIS, 'ARM_R': ARM_R, 'LEG_R': LEG_R}
+    if kind == 'average':
+        TORSO, PELVIS, ARM_R, LEG_R = (_BASE_TABLES[k] for k in ('TORSO', 'PELVIS', 'ARM_R', 'LEG_R'))
+        BUILD.update(name='average', skirt=1.0, arm_out=None, leg_in=None, deltoid=1.0, tables=None)
+        return
+    TORSO, PELVIS, ARM_R, LEG_R, ga, gl = _build_tables(kind)
+    base_ar, base_lr = _BASE_TABLES['ARM_R'], _BASE_TABLES['LEG_R']
+    # the arm grows OUTWARD (its inner face stays clear of the wider torso); the thigh grows mostly inward/front/back
+    # (chubby thighs meet in the middle instead of pushing into the hands hanging beside them)
+    sh, lo = ARM_SHIFT[kind]
+    BUILD.update(name=kind, skirt=1.10 if kind == 'stout' else .95, deltoid=1.18 if kind == 'stout' else .96, tables=kind,
+                 arm_out=lambda bt, u: (lerp_table(ARM_R[bt], u)[0] - lerp_table(base_ar[bt], u)[0]) + sh * (1 - ss(.9, 1.5, u)) + lo * ss(.7, 1.4, u),
+                 leg_in=lambda bt, u: .6 * (lerp_table(LEG_R[bt], u)[0] - lerp_table(base_lr[bt], u)[0]))
 
 def body_r(bt, z):
     if z >= 1.0:
@@ -571,9 +663,9 @@ def body_r(bt, z):
     a, b = lerp_table(PELVIS[bt], z), lerp_table(TORSO[bt], z)
     return tuple(x + (y - x) * t for x, y in zip(a, b))
 
-def body_ring(bt, z, off=0.0, n=8, p=TORSO_P, front_extra=0.0, rad=None, bump=None):
+def body_ring(bt, z, off=0.0, n=8, p=TORSO_P, front_extra=0.0, rad=None, bump=None, phase=None):
     rx, rf, rb, cy = rad if rad is not None else body_r(bt, z)
-    return xring((0, cy, z), (0, 0, 1), rx + off, rf + off + front_extra, rb + off, n, p=p, bump=bump, phase=math.pi / n)
+    return xring((0, cy, z), (0, 0, 1), rx + off, rf + off + front_extra, rb + off, n, p=p, bump=bump, phase=math.pi / n if phase is None else phase)
 
 def body_point(bt, phi, z, off=0.0, p=TORSO_P, rad=None):
     rx, rf, rb, cy = rad if rad is not None else body_r(bt, z)
@@ -592,13 +684,21 @@ def front_y(bt, x, z, off=0.0, rad=None):
 
 def arm_path(bt, sx):
     sd = 'Left' if sx > 0 else 'Right'
-    return Path([(sx * SHOULDER_X[bt], .012, 1.395), BHEAD[B(sd + 'ForeArm')], BHEAD[B(sd + 'Hand')]])
+    return Path([(sx * SHOULDER_X[bt], .012, 1.378), BHEAD[B(sd + 'ForeArm')], BHEAD[B(sd + 'Hand')]])
 
 def leg_path(bt, sx):
     sd = 'Left' if sx > 0 else 'Right'
-    return Path([(sx * HIP_X[bt], .026, .99), BHEAD[B(sd + 'Leg')], BHEAD[B(sd + 'Foot')]])
+    return Path([(sx * HIP_X[bt], .026, .95), BHEAD[B(sd + 'Leg')], BHEAD[B(sd + 'Foot')]])   # v2.6: thigh top tucked inside the pelvis
 
-def arm_rings(bt, sx, spec, n=5, bump=None):
+SHOULDER_DROP = .024
+
+WRIST_U = 1.97
+
+def wrist_taper(u):
+    """v2.8: a bare forearm narrows smoothly into the wrist, where the hand's first ring is the forearm's last ring"""
+    return 1.0 - .20 * ss(1.66, WRIST_U, u)
+
+def arm_rings(bt, sx, spec, n=5, bump=None, taper=False):
     """spec: [(u, off[, scale])] -> rings around the arm surface pushed out by off (scale < 1 = shoulder dome)."""
     pa = arm_path(bt, sx)
     out = []
@@ -606,10 +706,17 @@ def arm_rings(bt, sx, spec, n=5, bump=None):
         u, off = st[0], st[1]
         sc = st[2] if len(st) > 2 else 1.0
         rs, rf = lerp_table(ARM_R[bt], u)
-        out.append(xring(pa.pos(u), pa.dir(u), (rs + off) * sc, (rf + off) * sc, (rf + off) * sc, n, bump=bump, phase=math.pi / n))
+        if taper:
+            rs, rf = rs * wrist_taper(u), rf * wrist_taper(u)
+        c = pa.pos(u) - Vector((0, 0, SHOULDER_DROP * ss(.40, -.10, u)))   # v2.8: cap top flush with the torso's shoulder line
+        if BUILD['arm_out']:
+            ax = pa.dir(u)
+            lat = Vector((sx, 0, 0)) - ax * (ax.x * sx)
+            c = c + lat.normalized() * BUILD['arm_out'](bt, u)
+        out.append(xring(c, pa.dir(u), (rs + off) * sc, (rf + off) * sc, (rf + off) * sc, n, bump=bump, phase=math.pi / n))
     return out
 
-def leg_rings(bt, sx, spec, n=5):
+def leg_rings(bt, sx, spec, n=6):
     """spec: [(u, off[, scale[, rag]])]; rag = ragged hem amplitude on alternate vertices."""
     pl = leg_path(bt, sx)
     out = []
@@ -619,23 +726,31 @@ def leg_rings(bt, sx, spec, n=5):
         rag = st[3] if len(st) > 3 else 0.0
         rs, rf, rb = lerp_table(LEG_R[bt], u)
         bump = (lambda k, a=rag: a if k % 2 else -.3 * a) if rag else None
-        out.append(xring(pl.pos(u), pl.dir(u), (rs + off) * sc, (rf + off) * sc, (rb + off) * sc, n, bump=bump, phase=math.pi / n))
+        c = pl.pos(u)
+        if BUILD['leg_in']:
+            ax = pl.dir(u)
+            lat = Vector((sx, 0, 0)) - ax * (ax.x * sx)
+            c = c - lat.normalized() * BUILD['leg_in'](bt, u)
+        out.append(xring(c, pl.dir(u), (rs + off) * sc, (rf + off) * sc, (rb + off) * sc, n, bump=bump, phase=math.pi / n))
     return out
 
 # ------------------------------------------------------------------------------------------
 # HEAD: rounded low-poly skull, 12 sides x 11 rows; jaw narrows to the chin, cheek planes,
 # nose bump pushed out of the front column. rows: (z, rx, rF, rB, jaw_taper)
 # ------------------------------------------------------------------------------------------
-HEAD_N, HEAD_P, HEAD_YC = 8, 3.0, -0.020
+HEAD_N, HEAD_P, HEAD_YC = 10, 2.7, -0.020   # v2.7: one more chamfer round the jaw, softer
 HEAD_T = {
-    'A': [(1.552, .040, .050, .022, 0.0), (1.582, .070, .078, .046, .24), (1.628, .082, .086, .082, .10),
+    'A': [(1.548, .054, .052, .040, 0.0), (1.566, .068, .068, .050, .12), (1.588, .076, .078, .060, .08), (1.628, .082, .086, .082, .04),
           (1.665, .085, .088, .094, 0.0), (1.720, .086, .086, .100, 0.0), (1.790, .080, .072, .092, 0.0),
           (1.818, .062, .050, .070, 0.0), (1.824, .030, .022, .032, 0.0)],
 }
-HEAD_T['B'] = [(1.558, .032, .044, .020, 0.0), (1.584, .062, .074, .040, .22), (1.630, .078, .086, .080, .08)] + HEAD_T['A'][3:]
+HEAD_T['B'] = [(1.554, .048, .046, .036, 0.0), (1.572, .062, .064, .046, .16), (1.592, .071, .074, .056, .10),
+               (1.630, .078, .086, .080, .04)] + HEAD_T['A'][4:]
 HEAD_T = {bt: [(z, rx * 1.02, rf, rb, jaw) for z, rx, rf, rb, jaw in rows] for bt, rows in HEAD_T.items()}   # v2.5: measured width (head w/h ~.78 incl. hair)
+HEAD_T = {bt: [(z, rx, rf, rb, jaw + (.05 if 1.56 < z < 1.60 else .03 if 1.60 <= z < 1.64 else 0.0)) for z, rx, rf, rb, jaw in rows]
+          for bt, rows in HEAD_T.items()}   # v2.9: slimmer jaw (the chin rows taper a little more)
 NOSE = {1.628: (0, -.008, 0), 1.630: (0, -.008, 0), 1.665: (0, -.028, -.010), 1.720: (0, -.012, 0)}
-BROW = {1.720: (0, -.010, -.002)}   # v2.3 brow ridge on the two columns either side of the nose
+BROW = {1.720: (0, -.005, 0)}   # v2.3 brow ridge on the two columns either side of the nose
 HEAD_CENTER = Vector((0, -0.006, 1.690))
 
 def head_row_pts(row, nose=1.0):
@@ -705,24 +820,36 @@ def build_head(mb, bt, nose=1.0, old=False):
         by = 1.706
         bw, bh = (.027, .0055) if fem else ((.032, .009) if old else (.030, .008))
         mb.box((.028 * sx, face_y(.028 * sx, by, T, nose) - .0022, by), (bw, .007, bh), 'C_HAIR', H,
-               rot=Euler((0, math.radians(-10 * sx) if (old or fem) else math.radians(-4 * sx), 0)).to_matrix())
+               rot=Matrix.Identity(3))   # v2.6: level brows = neutral, calm expression
         ez = 1.668
         rx = lerp_table(T, ez)[0]
         c0 = Vector((sx * (rx - .010), .004, ez))
-        c1 = Vector((sx * (rx + .009), .010, ez + .002))
-        mb.loft([xring(c0, (sx, 0, 0), .021, .015, .016, 4, (0, 0, 1)), xring(c1, (sx, 0, 0), .017, .012, .012, 4, (0, 0, 1))],
+        c1 = Vector((sx * (rx + .011), .010, ez + .002))
+        mb.loft([xring(c0, (sx, 0, 0), .024, .020, .022, 4, (0, 0, 1)), xring(c1, (sx, 0, 0), .019, .015, .016, 4, (0, 0, 1))],   # v2.7b: simple ear block
                 'C_SKIN', H, smooth=True)
     mz = 1.613 if fem else 1.611
     mb.box((0, face_y(0, mz, T, nose) - .0010, mz), (.026 if fem else .034, .006, .0065), 'A_EYES', H)
-    mb.loft([xring((0, .004, 1.40), (0, -.08, 1), .060, .054, .060, 6), xring((0, -.006, 1.56), (0, -.08, 1), .056, .050, .056, 6)],
+    mb.loft([xring((0, .002, 1.40), (0, -.08, 1), .060 / HEAD_WX, .054, .049, 6), xring((0, .000, 1.52), (0, -.02, 1), .056 / HEAD_WX, .050, .051, 6),   # v2.8: back of the neck stays inside the collar
+             xring((0, .010, 1.625), (0, .10, 1), .048 / HEAD_WX, .040, .050, 6)],   # v2.7: neck rises into the skull base (no step from the side)
             'C_SKIN', NECK_W, smooth=True)
 
 # ==========================================================================================
 # KIT PARTS
 # ==========================================================================================
 # ---- hair ---------------------------------------------------------------------------------
-def hair_cap(mb, bt, zb_fn, jag=0.0, jag_fn=None, cols=8, rows=3, off_out=.015, off_in=-.006, top=1.828,
-             hang_below=None, flare=0.0, off_fn=None):
+def ear_lift(th, zb, to=1.704):
+    """v2.7b: OSRS short-hair side -- the hairline rises above the ear (the ear sits at ~90-125 deg from the front)"""
+    a = abs(math.degrees(math.atan2(math.sin(th), math.cos(th))))
+    w = ss(80, 88, a) * (1 - ss(122, 132, a))
+    return zb + max(0.0, to - zb) * w
+
+def ear_cover(th, z):
+    """v2.8: extra hair offset over the ear block so hair that covers the ears never lets them poke through"""
+    a = abs(math.degrees(math.atan2(math.sin(th), math.cos(th))))
+    return .016 * ss(62, 78, a) * (1 - ss(128, 142, a)) * ss(1.625, 1.645, z) * (1 - ss(1.700, 1.716, z))
+
+def hair_cap(mb, bt, zb_fn, jag=0.0, jag_fn=None, cols=12, rows=3, off_out=.018, off_in=-.004, top=1.830,
+             hang_below=None, flare=0.0, off_fn=None, ears=True, mat='C_HAIR', clumps=True):
     T = HEAD_T[bt]
     thetas = [2 * math.pi * (j + 0.5) / cols for j in range(cols)]
     outer, inner = [], []
@@ -731,18 +858,22 @@ def hair_cap(mb, bt, zb_fn, jag=0.0, jag_fn=None, cols=8, rows=3, off_out=.015, 
         ro, ri = [], []
         for j, th in enumerate(thetas):
             jj = (jag + .004) if (i == 0 and j % 2 == 1 and (jag_fn is None or jag_fn(th))) else 0.0
-            zb = zb_fn(th) - jj
+            zb = zb_fn(th) - jj - .038 * max(0.0, -math.cos(th)) ** 1.5   # v2.7: nape hairline follows the lower skull base
+            if ears:
+                zb = ear_lift(th, zb)
             if hang_below and zb < hang_below - .02 and rows >= 3:   # hanging part straight, cap rings bunched at the crown
                 z = zb if i == 0 else hang_below + (top - hang_below) * (1 - (1 - (i - 1) / (rows - 1)) ** 1.8)
             else:
                 z = zb + (top - zb) * (1 - (1 - t) ** 1.8)
-            o = off_out + (off_fn(th, t) if off_fn else 0.0) + (.005 * (j % 2) * (1 - t) if i < rows else 0.0)   # alternating clumps
+            o = off_out + (off_fn(th, t) if off_fn else 0.0) + (.005 * (j % 2) * (1 - t) if (i < rows and clumps) else 0.0)   # alternating clumps
+            if not ears:
+                o += ear_cover(th, z)
             fl = flare * max(0.0, hang_below - z) if hang_below else 0.0
             ro.append(head_surface(th, z, o + fl, T, hang_below))
             ri.append(head_surface(th, z, off_in + fl * .6, T, hang_below))
         outer.append(ro)
         inner.append(ri)
-    mb.shell(outer, inner, lambda i, j, s: 'C_HAIR', hair_w, wrap=True)
+    mb.shell(outer, inner, lambda i, j, s: mat, hair_w, wrap=True)
 
 def tufts(mb, bt, spots, base_off=.016):
     """spots: [(theta, z, length, radius, lean_back)] low-poly hair spikes/tufts (4-sided cones)."""
@@ -755,19 +886,66 @@ def tufts(mb, bt, spots, base_off=.016):
 
 SHORT_ZB = angtab([(0, 1.748), (35, 1.738), (70, 1.706), (95, 1.668), (118, 1.684), (150, 1.628), (180, 1.606)])
 
-def dreads(mb, bt, n=13, z_side=1.56, z_back=1.45, r=.017):
-    """cap + rope locks hanging from the sides and back (the face stays clear)"""
+DREAD_ZB = angtab([(0, 1.748), (40, 1.738), (80, 1.700), (100, 1.690), (180, 1.625)])
+
+def dread_path(bt, th_root, z_root, th_fall, layer, z_end, sway=0.0):
+    """v2.8 control points of one dreadlock: rooted flush on the skull at (th_root, z_root), lying along the scalp to
+    the hairline at th_fall (surface offset rising to `layer`), then falling clear of the neck / back / shoulders."""
     T = HEAD_T[bt]
-    hair_cap(mb, bt, angtab([(0, 1.745), (40, 1.735), (80, 1.695), (100, 1.672), (180, 1.625)]), jag=.008)
-    for k in range(n):
-        th = math.radians(42 + 276 * k / (n - 1))
-        f = (1 - math.cos(th)) / 2                     # 0 front .. 1 back
-        root = head_surface(th, 1.715 - .05 * f, .010, T)
-        d = Vector((root.x, root.y - HEAD_YC, 0)).normalized()
-        z_end = z_side + (z_back - z_side) * f ** 1.5 - .02 * (k % 2)
-        mid = root + d * .022 + Vector((0, 0, -(root.z - z_end) * .45))
-        end = Vector((root.x, root.y, z_end)) + d * .030
-        tube(mb, [root, mid, end], [r, r * .9, r * .55], 'C_HAIR', hair_w, n=5)
+    ctrl = []
+    z_edge = DREAD_ZB(math.radians(th_fall)) - .038 * max(0.0, -math.cos(math.radians(th_fall))) ** 1.5 + .006
+    z_edge = min(z_edge, z_root)
+    for t in (0.0, .33, .66, 1.0):   # on the scalp
+        th = math.radians(th_root + (th_fall - th_root) * t)
+        z = z_root + (z_edge - z_root) * (t ** 1.3)
+        o = .005 + (layer - .005) * min(1.0, t * 1.6)   # root flush on the scalp layer, then riding on it
+        ctrl.append(head_surface(th, z, o, T))
+    thf = math.radians(th_fall)
+    for f in (.40, 1.0):              # the fall
+        z = z_edge + (z_end - z_edge) * f
+        q = head_surface(thf, max(z, 1.61), layer + .010 * f, T)
+        q = Vector((q.x, q.y, z)) + Vector((0, 0, 1)).cross(_radial(q)).normalized() * sway * f
+        ctrl.append(clear_of_body(bt, q, .024))
+    return ctrl
+
+def dread_rope(mb, bt, ctrl, r0, r1, n=4):
+    pts = _catmull(ctrl, 2)
+    pts = pts[:5] + [clear_of_body(bt, q, .022) if q.z < 1.62 else q for q in pts[5:]]
+    m = len(pts)
+    rings = []
+    for i, c in enumerate(pts):
+        t = i / (m - 1)
+        r = (r0 + (r1 - r0) * t ** 1.3) * (.40 + .60 * min(1.0, i / 2.0))   # emerges flush from the scalp, no stub end
+        ax = pts[min(i + 1, m - 1)] - pts[max(i - 1, 0)]
+        rings.append(xring(c, ax, r, r * .9, r * .9, n, front=tuple(_radial(c)), phase=0.0))   # a ridge on top: reads on the scalp
+    mb.loft(rings, 'C_HAIR', hair_w, smooth=True)
+
+def dreads(mb, bt, z_side=1.56, z_back=1.45, r=.0135):
+    """v2.8: dreadlocks grow FROM the scalp. A thin scalp layer follows the skull (no thick shell rim); the ropes root
+    flush on it in parted rows -- hairline, crown, back/top -- each lying along the skull to the hairline before it
+    falls, crown ropes dropping into the gaps between the hairline ropes (the face stays clear)."""
+    hair_cap(mb, bt, DREAD_ZB, jag=0.0, off_out=.008, off_in=-.004, rows=6, cols=12, ears=True, top=1.828)   # fine rows: hugs the skull
+    rng = random.Random(41 if bt == 'A' else 43)
+    def z_end(thf):
+        f = (1 - math.cos(math.radians(thf))) / 2
+        return z_side + (z_back - z_side) * f ** 3 + rng.uniform(-.025, .012)   # sides end above the shoulders, the back is long
+    ropes = []
+    # row 1 -- hairline: short run on the scalp, then the fall (temples, sides, back)
+    for th in (52, 80, 108, 138):
+        for sg in (-1, 1):
+            zr = DREAD_ZB(math.radians(th)) - .038 * max(0.0, -math.cos(math.radians(th))) ** 1.5 + .030 + .030 * max(0.0, -math.cos(math.radians(th)))
+            ropes.append((sg * th, zr, sg * th, .014))
+    ropes.append((180, DREAD_ZB(math.pi) - .038 + .062, 180, .014))
+    # row 2 -- crown: a ring of roots high on the crown; each rope runs down over the skull into a gap of the hairline row
+    for th, thf in ((25, 64), (70, 94), (115, 122), (158, 150)):
+        for sg in (-1, 1):
+            ropes.append((sg * th, 1.8175, sg * thf, .018))   # the skull top is flat: 1.8175 is ~70% out from its centre
+    # row 3 -- top: roots at the very top, parted from the crown ring, swept back / to the sides over it
+    for thr, thf in ((30, 108), (-30, -108), (180, 176)):
+        ropes.append((thr, 1.8233, thf, .022))
+    for thr, zr, thf, layer in ropes:
+        ctrl = dread_path(bt, thr, zr, thf, layer, z_end(thf) + (.02 if layer > .015 else 0.0), sway=rng.uniform(-.006, .006))
+        dread_rope(mb, bt, ctrl, r * rng.uniform(.95, 1.10), r * .45)
 
 def hair_spikes(mb, bt, count=14, seed=7, ln=(.05, .085), lean=(-.2, 1.0)):
     rng = random.Random(seed)
@@ -778,11 +956,129 @@ def hair_spikes(mb, bt, count=14, seed=7, ln=(.05, .085), lean=(-.2, 1.0)):
         spots.append((th, z, rng.uniform(*ln), rng.uniform(.020, .026), rng.uniform(*lean)))
     tufts(mb, bt, spots, base_off=.010)
 
+def head_to_world(v):
+    d = Vector(v) - HEAD_PIVOT
+    return HEAD_PIVOT + Vector((d.x * HEAD_S * HEAD_WX, d.y * HEAD_S * HEAD_WY, d.z * HEAD_S * HEAD_HZ)) + Vector((0, 0, -0.030))
+
+def world_to_head(w):
+    d = Vector(w) - Vector((0, 0, -0.030)) - HEAD_PIVOT
+    return HEAD_PIVOT + Vector((d.x / (HEAD_S * HEAD_WX), d.y / (HEAD_S * HEAD_WY), d.z / (HEAD_S * HEAD_HZ)))
+
+def clear_of_body(bt, p_head, margin=.022):
+    """push a head-space hair point out of the (world-space) neck, upper torso and shoulder masses"""
+    w = head_to_world(p_head)
+    if w.z < 1.56:
+        zz = min(max(w.z, .96), 1.515)
+        rad = body_r(bt, zz)
+        cy = rad[3]
+        dx, dy = w.x, w.y - cy
+        have = math.hypot(dx, dy)
+        if have > 1e-6:
+            phi = math.atan2(dx, -dy)
+            bp = body_point(bt, phi, zz, margin)
+            need = math.hypot(bp.x, bp.y - cy)
+            if have < need:
+                w.x, w.y = dx * need / have, cy + dy * need / have
+        for sx in (-1, 1):   # deltoid masses
+            c = Vector((sx * (SHOULDER_X[bt] + .01 + (BUILD['arm_out'](bt, 0.0) if BUILD['arm_out'] else 0.0)), .01, 1.385))
+            d = w - c
+            rr = .105 * BUILD['deltoid']
+            if 1.28 < w.z < 1.52 and d.length < rr:
+                w = c + d.normalized() * rr
+    return world_to_head(w)
+
+def _catmull(pts, per=3):
+    P = [pts[0]] + list(pts) + [pts[-1]]
+    out = []
+    for i in range(1, len(P) - 2):
+        p0, p1, p2, p3 = P[i - 1], P[i], P[i + 1], P[i + 2]
+        for k in range(per):
+            t = k / per
+            out.append(0.5 * ((2 * p1) + (p2 - p0) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (3 * p1 - p0 - 3 * p2 + p3) * t * t * t))
+    out.append(pts[-1])
+    return out
+
+def rope(mb, bt, th_deg, z_root, z_end, r0, r1, out=.012, sway=0.0, n=5, flat=1.0):
+    """v2.7: one continuous tapered rope (dreadlock) -- a smooth spline rooted UNDER the cap, hugging the skull, then falling
+    clear of the neck, back and shoulders; no breaks or kinks between segments"""
+    T = HEAD_T[bt]
+    th = math.radians(th_deg)
+    zs = [z_root, z_root - .035] + [z_root - .035 + (z_end - z_root + .035) * f for f in (.35, .7, 1.0)]
+    offs = [-.006, .020, .020 + out * .5, .020 + out, .020 + out * 1.2]
+    ctrl = []
+    for i, (z, o) in enumerate(zip(zs, offs)):
+        q = head_surface(th, max(z, 1.61), o, T)
+        q = Vector((q.x, q.y, z))
+        if i >= 2:
+            q = q + Vector((0, 0, 1)).cross(_radial(q)).normalized() * sway * (i - 1) / 3
+            q = clear_of_body(bt, q, .024)
+        ctrl.append(q)
+    pts = _catmull(ctrl, 2)
+    pts = [pts[0], pts[1]] + [clear_of_body(bt, q, .022) if q.z < 1.62 else q for q in pts[2:]]
+    m = len(pts)
+    rings = []
+    for i, c in enumerate(pts):
+        t = i / (m - 1)
+        r = r0 + (r1 - r0) * t ** 1.2
+        ax = pts[min(i + 1, m - 1)] - pts[max(i - 1, 0)]
+        rings.append(xring(c, ax, r, r * flat, r * flat, n, front=tuple(_radial(c))))
+    mb.loft(rings, 'C_HAIR', hair_w, smooth=True)
+
+def long_hair(mb, bt, zb_fn, hang_below=1.662, cols=14, hang_rows=3, cap_rows=3, off_out=.018, off_in=-.004, flare=.07,
+              groove=.007, top=1.830, off_fn=None, tip=.045, seed=3):
+    """v2.7: ONE continuous shell from the crown down the fall (no cap/lock seam). The locks are carved out of the
+    silhouette: vertical grooves on alternate columns and a jagged, staggered bottom edge; the fall is pushed clear of the
+    neck, back and shoulders so it drapes over them."""
+    T = HEAD_T[bt]
+    rng = random.Random(seed)
+    tips, j = [], 0
+    while j < cols:   # v2.7b: irregular locks -- random width (1-3 columns) and length, each with a pointed tip
+        wl = rng.choice((1, 2, 2, 3))
+        ln = tip * rng.uniform(.35, 1.5)
+        for m in range(wl):
+            shape = 1.0 - abs((m + .5) / wl - .5) * 2.0 if wl > 1 else 1.0
+            tips.append(ln * (.15 + .85 * shape) + rng.uniform(0, tip * .12))
+        if wl == 1 and tips:
+            tips[-1] *= rng.uniform(.4, 1.0)
+        j += wl
+    tips = tips[:cols]
+    thetas = [2 * math.pi * (j + 0.5) / cols for j in range(cols)]
+    R = hang_rows + cap_rows
+    uh = hang_rows / R
+    outer, inner = [], []
+    for i in range(R + 1):
+        u = i / R
+        ro, ri = [], []
+        for j, th in enumerate(thetas):
+            zb0 = zb_fn(th)
+            hanging = zb0 < hang_below - .005
+            zb = zb0 - (tips[j] if (i == 0 and hanging) else 0.0)
+            if not hanging:
+                z = zb + (top - zb) * (1 - (1 - u) ** 1.8)
+            elif u <= uh:
+                z = zb + (hang_below - zb) * (u / uh)
+            else:
+                z = hang_below + (top - hang_below) * (1 - (1 - (u - uh) / (1 - uh)) ** 1.8)
+            hz = clamp((hang_below - z) / .08)
+            o = off_out + (off_fn(th, u) if off_fn else 0.0) + groove * (j % 2) * hz + ear_cover(th, z)
+            fl = flare * max(0.0, hang_below - z)
+            po = head_surface(th, z, o + fl, T, hang_below)
+            pi_ = head_surface(th, z, off_in + fl * .6, T, hang_below)
+            if hanging and z < 1.64:
+                pc = clear_of_body(bt, po, .026)
+                pi_ = pi_ + (pc - po)
+                po = pc
+            ro.append(po)
+            ri.append(pi_)
+        outer.append(ro)
+        inner.append(ri)
+    mb.shell(outer, inner, lambda i, j, s: 'C_HAIR', hair_w, wrap=True)
+
 def _radial(p):
     d = Vector((p.x, p.y - HEAD_YC, 0))
     return d.normalized() if d.length > 1e-6 else Vector((0, 1, 0))
 
-def lock(mb, bt, th_deg, z_root, z_end, width, depth=.016, out=.010, sway=0.0, root_off=.006):
+def lock(mb, bt, th_deg, z_root, z_end, width, depth=.016, out=.010, sway=0.0, root_off=-.002):
     """one tapered, slightly flattened hair lock. The root is buried in the cap; it follows the skull, then falls
     clear of the neck/back/shoulders (clearance checked at every sample) to a thin tip."""
     T = HEAD_T[bt]
@@ -791,7 +1087,8 @@ def lock(mb, bt, th_deg, z_root, z_end, width, depth=.016, out=.010, sway=0.0, r
     pts = []
     for t in ts:
         z = z_root + (z_end - z_root) * t
-        hs = head_surface(th, max(z, 1.61), root_off + (.010 + out) * min(1.0, t * 3), T)
+        # v2.6: rooted INSIDE the cap, hugging the cap surface for the first part, only then swinging out
+        hs = head_surface(th, max(z, 1.61), root_off + (.018 - root_off) * min(1.0, t / .14) + out * max(0.0, (t - .30) / .70), T)
         p = Vector((hs.x, hs.y, z)) + Vector((0, 0, 1)).cross(_radial(hs)).normalized() * sway * t
         if z < 1.56:   # keep outside the neck / upper back / shoulders
             zz = min(max(z, .95), 1.50)
@@ -821,12 +1118,12 @@ def fringe(mb, bt, degs=(-30, -12, 6, 24), z0=1.748, drop=.032, width=.016, lean
         ax = tip - root
         mb.cone(xring(root, ax, width, .006, .006, 3, front=tuple(_radial(root))), tip, 'C_HAIR', B('Head'), smooth=False)
 
-def sideburns(mb, bt, z_top=1.690, z_bot=1.632, width=.012):
+def sideburns(mb, bt, z_top=1.706, z_bot=1.650, width=.012):
     T = HEAD_T[bt]
     for s_ in (-1, 1):
-        th = math.radians(88 * s_)
+        th = math.radians(81 * s_)
         root = head_surface(th, z_top, .010, T)
-        tip = head_surface(math.radians(84 * s_), z_bot, .006, T)
+        tip = head_surface(math.radians(79 * s_), z_bot, .006, T)
         mb.cone(xring(root, tip - root, width, .005, .005, 3, front=tuple(_radial(root))), tip, 'C_HAIR', B('Head'), smooth=False)
 
 def top_clumps(mb, bt, spots=((0.0, 1.806), (2.3, 1.790), (-2.2, 1.796)), h=.009, r=.030):
@@ -836,6 +1133,50 @@ def top_clumps(mb, bt, spots=((0.0, 1.806), (2.3, 1.790), (-2.2, 1.796)), h=.009
         base = head_surface(th, z, .010, T)
         n = (base - HEAD_CENTER).normalized()
         mb.cone(xring(base, n, r, r * .8, r * .8, 5, front=(0, -1, 0) if abs(n.y) < .9 else (0, 0, 1)), base + n * h, 'C_HAIR', B('Head'), smooth=False)
+
+def skull_midline(bt, n=11, z_front=1.742, z_back=1.600):
+    """points along the skull's centre line from the forehead over the crown to the nape, evenly spaced by arc length,
+    with the outward normal (in the y-z plane) at each"""
+    T = HEAD_T[bt]
+    top = T[-1][0]
+    raw = [head_surface(0.0, z_front + (top - .002 - z_front) * k / 16, 0.0, T) for k in range(17)]
+    raw += [head_surface(math.pi, top - .002 - (top - .002 - z_back) * k / 16, 0.0, T) for k in range(1, 17)]
+    raw = [Vector((0.0, q.y, q.z)) for q in raw]
+    acc = [0.0]
+    for a, b in zip(raw, raw[1:]):
+        acc.append(acc[-1] + (b - a).length)
+    out = []
+    for i in range(n):
+        target = acc[-1] * i / (n - 1)
+        k = max(j for j in range(len(acc)) if acc[j] <= target + 1e-9) if i < n - 1 else len(acc) - 2
+        k = min(k, len(acc) - 2)
+        t = (target - acc[k]) / max(1e-9, acc[k + 1] - acc[k])
+        p = raw[k].lerp(raw[k + 1], clamp(t))
+        tan = (raw[k + 1] - raw[k]).normalized()
+        nrm = Vector((0, tan.z, -tan.y))
+        if nrm.dot(p - HEAD_CENTER) < 0:
+            nrm = -nrm
+        out.append((p, nrm, tan))
+    return out
+
+def mohawk_crest(mb, bt, h_max=.070, wb=.036, wt=.009):
+    """v2.8: a clearly ARCHED crest: its top line is a rounded arch front-to-back (low at the brow and the nape, highest
+    over the crown), a thick base on the scalp tapering to a narrow rounded ridge; the sides are shaved bare"""
+    X = Vector((1, 0, 0))
+    rings = []
+    st = skull_midline(bt, n=11)
+    for i, (p, nrm, tan) in enumerate(st):
+        u = i / (len(st) - 1)
+        env = math.sin(math.pi * (.06 + .88 * u)) ** .85          # arch envelope, peak a little behind the crown top
+        h = .010 + h_max * env * (1.0 - .18 * u)
+        w_b = wb * (.55 + .45 * env)
+        w_t = wt * (.6 + .4 * env)
+        base = p - nrm * .004
+        prof = [(-w_b, 0.0), (-w_b * .72, h * .45), (-w_t, h * .90), (0.0, h), (w_t, h * .90), (w_b * .72, h * .45), (w_b, 0.0)]
+        rings.append([tuple(base + X * x + nrm * y) for x, y in prof])
+    # close the underside so the crest is a solid (the base edge is buried in the scalp)
+    mb.loft([r + [tuple(Vector(r[-1]) - nrm_ * .006), tuple(Vector(r[0]) - nrm_ * .006)] for r, (_, nrm_, _) in zip(rings, st)],
+            'C_HAIR', B('Head'), smooth=True)
 
 def hair_style(mb, bt, key):
     """v2.2 option names follow the 2004 creator's categories (our own meshes)."""
@@ -854,67 +1195,45 @@ def hair_style(mb, bt, key):
         hair_cap(mb, bt, angtab([(0, 1.745), (35, 1.735), (70, 1.70), (95, 1.662), (118, 1.674), (180, 1.605)]), jag=.016,
                  jag_fn=lambda th: not front(th), off_fn=lambda th, t: .006 * max(0.0, math.cos(th)) * (1 - t))
         fringe(mb, bt, degs=(-34, -16, 2, 20), drop=.036, lean=10)
-        sideburns(mb, bt, z_bot=1.640)
+        sideburns(mb, bt, z_bot=1.654)
         top_clumps(mb, bt, spots=((0.4, 1.804), (2.6, 1.786)))
-    elif key == 'long' and bt == 'A':       # to the shoulders: rounded back + separate tapered locks
-        hair_cap(mb, bt, angtab([(0, 1.748), (36, 1.740), (60, 1.690), (95, 1.650), (180, 1.615)]), jag=.010, jag_fn=front)
+    elif key == 'long' and bt == 'A':       # to the shoulders: one continuous mass, locks carved from the silhouette
+        long_hair(mb, bt, angtab([(0, 1.748), (36, 1.740), (55, 1.640), (80, 1.500), (180, 1.470)]), tip=.060, seed=5)
         fringe(mb, bt)
-        for sgn in (-1, 1):
-            lock(mb, bt, sgn * 60, 1.700, 1.515 + .010 * (sgn > 0), .030)
-            lock(mb, bt, sgn * 90, 1.690, 1.485 - .012 * (sgn > 0), .036)
-            lock(mb, bt, sgn * 124, 1.685, 1.462 + .014 * (sgn < 0), .042, out=.014)
-            lock(mb, bt, sgn * 158, 1.680, 1.445 - .010 * (sgn > 0), .044, out=.016)
-        lock(mb, bt, 180, 1.680, 1.455, .048, out=.012)   # centre-back lock closes the nape
-    elif key == 'long':                     # B: long (default B): rounded back + tapered locks, staggered tips
-        hair_cap(mb, bt, angtab([(0, 1.752), (30, 1.744), (60, 1.690), (95, 1.650), (180, 1.615)]), jag=.008, jag_fn=front)
+    elif key == 'long':                     # B: long (default B): one continuous mass falling over the shoulders
+        long_hair(mb, bt, angtab([(0, 1.752), (30, 1.742), (48, 1.620), (70, 1.420), (180, 1.330)]), tip=.070, seed=7)
         fringe(mb, bt, degs=(-26, -8, 10), drop=.030, width=.014)
-        for sgn in (-1, 1):
-            lock(mb, bt, sgn * 52, 1.705, 1.450 + .016 * (sgn > 0), .030)
-            lock(mb, bt, sgn * 84, 1.695, 1.400 - .014 * (sgn > 0), .038)
-            lock(mb, bt, sgn * 124, 1.685, 1.350 + .020 * (sgn < 0), .044, out=.014)
-            lock(mb, bt, sgn * 158, 1.680, 1.320 - .012 * (sgn > 0), .046, out=.016)
-        lock(mb, bt, 180, 1.680, 1.335, .050, out=.012)   # centre-back lock closes the nape
     elif key == 'medium' and bt == 'A':     # swept back to the nape, ears covered
         hair_cap(mb, bt, angtab([(0, 1.754), (35, 1.746), (70, 1.720), (95, 1.686), (115, 1.664), (150, 1.600), (180, 1.575)]),
                  jag=.012, jag_fn=lambda th: not front(th), hang_below=1.64, flare=.08, rows=4,
                  off_fn=lambda th, t: .006 * max(0.0, -math.cos(th)) * (1 - t))
         fringe(mb, bt, degs=(-32, -14, 4, 22), z0=1.752, drop=.026, width=.017, lean=-8)
-        sideburns(mb, bt, z_top=1.688, z_bot=1.628)
+        sideburns(mb, bt, z_top=1.706, z_bot=1.648)
         top_clumps(mb, bt, spots=((0.3, 1.808), (2.5, 1.792), (-2.4, 1.794)))
     elif key == 'medium':                   # B: bob
-        hair_cap(mb, bt, angtab([(0, 1.745), (34, 1.735), (55, 1.60), (180, 1.575)]), jag=.014, rows=4, hang_below=1.665, flare=.18, off_out=.020)
+        hair_cap(mb, bt, angtab([(0, 1.745), (34, 1.735), (55, 1.60), (180, 1.575)]), jag=.014, rows=4, hang_below=1.665, flare=.18, off_out=.020, ears=False)
         fringe(mb, bt, degs=(-24, -6, 12), z0=1.748, drop=.028, width=.016)
     elif key == 'dreadlocks':
-        dreads(mb, bt, z_side=1.56 if bt == 'A' else 1.50, z_back=1.45 if bt == 'A' else 1.38)
+        dreads(mb, bt, z_side=1.56 if bt == 'A' else 1.535, z_back=1.45 if bt == 'A' else 1.37)
     elif key == 'tonsure':                  # monk's ring: bald crown, band of hair round the head
-        jaw_shell(mb, bt, -180, 180, angtab([(0, 1.728), (60, 1.700), (95, 1.664), (180, 1.625)]), lambda th: 1.772,
+        jaw_shell(mb, bt, -180, 180, angtab([(0, 1.728), (50, 1.704), (72, 1.690), (88, 1.692), (122, 1.690), (140, 1.660), (180, 1.588)]), lambda th: 1.772,
                   lambda th, t: .015 - .004 * t, cols=17, rows=2, hang_below=None, off_in=-.008)
     elif key == 'cropped':                  # close buzz cut with a visible hairline (widow's-peak points + sideburns)
         hair_cap(mb, bt, angtab([(0, 1.745), (25, 1.752), (60, 1.725), (95, 1.672), (180, 1.60)]), jag=.008, jag_fn=front,
                  off_out=.010, off_in=-.004, rows=4, cols=11)
         fringe(mb, bt, degs=(-20, 0, 20), z0=1.752, drop=.016, width=.012)
-        sideburns(mb, bt, z_top=1.684, z_bot=1.644, width=.010)
+        sideburns(mb, bt, z_top=1.704, z_bot=1.654, width=.010)
     elif key == 'wild spikes':
-        hair_cap(mb, bt, angtab([(0, 1.742), (45, 1.728), (85, 1.685), (100, 1.668), (180, 1.615)]), jag=.012, off_out=.014)
+        hair_cap(mb, bt, angtab([(0, 1.742), (45, 1.728), (85, 1.685), (100, 1.668), (180, 1.598)]), jag=.010, off_out=.019, rows=4, cols=14)
         hair_spikes(mb, bt, count=16, seed=11, ln=(.055, .095), lean=(-.6, 1.1))
     elif key == 'spiky':
-        hair_cap(mb, bt, angtab([(0, 1.745), (45, 1.73), (85, 1.685), (100, 1.668), (180, 1.615)]), jag=.012, off_out=.014)
+        hair_cap(mb, bt, angtab([(0, 1.745), (45, 1.73), (85, 1.685), (100, 1.668), (180, 1.598)]), jag=.010, off_out=.019, rows=4, cols=14)
         spots = [(0.0, 1.772, .046, .022, .6), (0.7, 1.778, .044, .022, .5), (-0.7, 1.778, .044, .022, .5), (1.5, 1.77, .040, .02, .4),
                  (-1.5, 1.77, .040, .02, .4), (2.4, 1.77, .044, .022, .6), (-2.4, 1.77, .044, .022, .6), (3.14, 1.755, .042, .022, .7),
                  (0.0, 1.806, .046, .022, .7), (1.6, 1.804, .042, .02, .6), (-1.6, 1.804, .042, .02, .6), (3.14, 1.80, .046, .022, .9)]
         tufts(mb, bt, spots, base_off=.010)
-    elif key == 'mohawk':                   # shaved sides, tall ridge
-        st = [(0.0, z) for z in (1.742, 1.772, 1.800, 1.816)] + [(math.pi, z) for z in (1.806, 1.780, 1.742, 1.70, 1.655, 1.612)]
-        rings = []
-        for i, (th, z) in enumerate(st):
-            base = head_surface(th, z, -.004, T)
-            nrm = (base - HEAD_CENTER).normalized()
-            h = (.066 if i % 2 == 0 else .050) * (0.7 if i in (0, len(st) - 1) else 1.0)
-            X = Vector((1, 0, 0))
-            w = .019
-            rings.append([tuple(base - X * w), tuple(base + X * w), tuple(base + nrm * h + X * w * .4), tuple(base + nrm * h - X * w * .4)])
-        mb.loft(rings, 'C_HAIR', H, smooth=False)
-        hair_cap(mb, bt, angtab([(0, 1.745), (60, 1.72), (95, 1.672), (180, 1.61)]), off_out=.010, off_in=-.004, rows=4, cols=11)
+    elif key == 'mohawk':                   # v2.8: shaved (bare) sides, one arched crest from brow to nape
+        mohawk_crest(mb, bt)
     elif key == 'bun':
         hair_cap(mb, bt, angtab([(0, 1.752), (40, 1.738), (80, 1.695), (100, 1.668), (180, 1.625)]), jag=.006, jag_fn=front)
         c = Vector((0, .086, 1.765))
@@ -928,13 +1247,10 @@ def hair_style(mb, bt, key):
                  lambda p: H if p.z > 1.6 else [(H, .5), (B('Neck'), .3), (B('Spine2'), .2)], n=6)
             tube(mb, [(sx * .084, .044, 1.70), (sx * .090, .050, 1.688)], [.026, .026], 'A_SASH', H, n=6)
     elif key == 'side-swept':               # heavy swept fringe to one side, long locks mostly on the other
-        zb = angtab([(-180, 1.615), (-95, 1.650), (-40, 1.70), (-10, 1.715), (10, 1.735), (40, 1.745), (95, 1.650), (180, 1.615)], sym=False)
-        hair_cap(mb, bt, zb, jag=.010, off_fn=lambda th, t: .008 * max(0.0, -math.sin(th)) * (1 - t))
+        zb = angtab([(-180, 1.380), (-60, 1.430), (-35, 1.660), (-10, 1.700), (10, 1.730), (40, 1.745), (60, 1.600),
+                     (90, 1.520), (180, 1.400)], sym=False)
+        long_hair(mb, bt, zb, tip=.065, seed=9, off_fn=lambda th, u: .008 * max(0.0, -math.sin(th)) * (1 - u))
         fringe(mb, bt, degs=(-40, -24, -8), z0=1.735, drop=.050, width=.020, lean=-14)
-        for d, z_end, w in ((-58, 1.430, .036), (-88, 1.390, .040), (58, 1.560, .026), (88, 1.520, .030),
-                            (-126, 1.360, .044), (-158, 1.330, .046), (126, 1.420, .040), (158, 1.380, .044)):
-            lock(mb, bt, d, 1.695, z_end, w, out=.012 + (.004 if abs(d) > 100 else 0))
-        lock(mb, bt, 180, 1.680, 1.350, .050, out=.012)
     else:
         raise ValueError('unknown hair style %s/%s' % (bt, key))
 
@@ -1013,7 +1329,7 @@ def jaw_style(mb, bt, key):
     deg = lambda th: abs(math.degrees(math.atan2(math.sin(th), math.cos(th))))
     if key == 'clean-shaven':      # firmer skin jawline plate
         jaw_shell(mb, bt, -38, 38, lambda th: 1.556 + .01 * (deg(th) / 38) ** 2, lambda th: 1.590,
-                  lambda th, t: .0015 + .002 * math.sin(math.pi * t), cols=3, rows=1, mat='C_SKIN', off_in=-.006)
+                  lambda th, t: -.003, cols=3, rows=1, mat='C_SKIN', off_in=-.010)   # v2.6: kept inside the face (no visible line)
     elif key == 'goatee':
         beard_wrap(mb, bt, 1.515, .014, th_max=40, cols=7, rows=3, top_front=1.600, top_side=1.604, side_bot=1.578, narrow=.35)
         moustache(mb, bt)
@@ -1037,6 +1353,60 @@ def jaw_style(mb, bt, key):
         raise ValueError('unknown jaw style %s' % key)
 
 # ---- torso ---------------------------------------------------------------------------------
+# ---- makeup (body type B, v2.8) --------------------------------------------------------------
+MAKEUP_OFF = .0016   # overlays sit 1.6 mm proud of the face (x head scale -> ~1.8 mm in the game): no z-fighting
+_FACE_BVH = {}
+
+def face_bvh(bt):
+    """the bare skull surface exactly as the Hair parts build and triangulate it (eyes/brows/mouth excluded)"""
+    if bt not in _FACE_BVH:
+        m = MB()
+        m.loft([head_row_pts(r) for r in HEAD_T[bt]], 'C_SKIN', B('Head'), smooth=True)
+        bmesh.ops.triangulate(m.bm, faces=m.bm.faces[:], quad_method='BEAUTY', ngon_method='BEAUTY')
+        _FACE_BVH[bt] = (BVHTree.FromBMesh(m.bm), m)
+    return _FACE_BVH[bt][0]
+
+def face_pt(bt, x, z, off=MAKEUP_OFF):
+    hit = face_bvh(bt).ray_cast(Vector((x, -1.0, z)), Vector((0, 1, 0)))
+    y = hit[0].y if hit[0] is not None else face_y(x, z, HEAD_T[bt])
+    return (x, y - off, z)
+
+def face_patch(mb, bt, rows_xz, mat='C_MAKEUP'):
+    mb.patch([[face_pt(bt, x, z) for x, z in r] for r in rows_xz], mat, B('Head'))
+
+def blob(cx, cz, hw, hh, cols=4, rows=3, taper=.55):
+    """rows of (x, z) for a rounded patch centred on (cx, cz)"""
+    out = []
+    for i in range(rows + 1):
+        v = -1 + 2 * i / rows
+        w = hw * (1 - (1 - taper) * v * v)
+        out.append([(cx - w + 2 * w * j / cols, cz + hh * v) for j in range(cols + 1)])
+    return out
+
+def makeup_style(mb, bt, key):
+    """v2.8 B makeup overlays: thin low-poly patches following the face, one recolour channel (C_MAKEUP)"""
+    if key == 'none':   # placeholder so every slot has an 01 part: a tiny sliver hidden inside the skull
+        mb.box(tuple(HEAD_CENTER), (.002, .002, .002), 'C_MAKEUP', B('Head'))
+        return
+    if key in ('rouge', 'full'):          # a soft round blush on each cheek
+        for sx in (-1, 1):
+            face_patch(mb, bt, blob(.044 * sx, 1.649, .0105, .0085, cols=3, rows=2, taper=.6))
+    if key in ('eye shadow', 'full'):     # lid colour between each eye and its brow, winged at the outer corner
+        for sx in (-1, 1):
+            ex = .0265 * sx
+            rows = [[(ex + sx * x, z) for x, z in r] for r in (
+                [(-.0125, 1.6930), (-.004, 1.6930), (.004, 1.6930), (.0125, 1.6925), (.0205, 1.6885)],    # winged outer corner
+                [(-.0122, 1.6985), (-.004, 1.6988), (.004, 1.6988), (.0130, 1.6985), (.0190, 1.6960)],
+                [(-.0108, 1.7040), (-.004, 1.7045), (.004, 1.7045), (.0110, 1.7040), (.0140, 1.7030)])]
+            if sx < 0:
+                rows = [list(reversed(r)) for r in rows]
+            face_patch(mb, bt, rows)
+    if key in ('lip colour', 'full'):     # upper + lower lip round the mouth line
+        rows = []
+        for z, hw in ((1.6050, .0085), (1.6090, .0140), (1.6130, .0170), (1.6175, .0145), (1.6212, .0095)):
+            rows.append([(-hw + 2 * hw * j / 4, z) for j in range(5)])
+        face_patch(mb, bt, rows)
+
 def torso_loft(mb, bt, zs, off, mat, n=8, cap_bot=True, w=torso_w, front_extra=None, matfn=None, bump=None, ring0_jag=0.0):
     rings = []
     for z in zs:
@@ -1072,6 +1442,8 @@ def open_shell(mb, bt, zs, alpha, off, thick, mat='C_TORSO', trim='A_TRIM', hem_
     """Open-front garment (jacket/coat/vest) following the body. zs bottom -> top. alpha(z) = half opening angle.
     hem_rad: (z_hem, rx, rF, rB, cy) flare target below the waist."""
     outer, inner = [], []
+    if hem_rad:   # v2.9: coat / jacket hems follow the body build
+        hem_rad = (hem_rad[0],) + tuple(v * BUILD['skirt'] for v in hem_rad[1:4]) + tuple(hem_rad[4:])
     for z in zs:
         rad = body_r(bt, z)
         if hem_rad and z < 0.95:
@@ -1179,28 +1551,115 @@ def tabard(mb, bt, z_hem=.66, half=.105, off=.020, mat='A_SHIRT', trim='A_TRIM')
         mb.shell(outer, inner, lambda i, j, s: trim if (i == 0 or j in (0, cols - 2)) else mat, skirt_w)
 
 def collar(mb, bt, mat='C_TORSO'):
-    mb.loft([body_ring(bt, 1.452, .006), body_ring(bt, 1.480, .018), body_ring(bt, 1.500, .014)], mat, torso_w, cap0=False, cap1=False)
+    """v2.6: one clean, even band of a single colour (a closed thick ring, no overlapping patches)"""
+    outer = [body_ring(bt, z, .013) for z in (1.468, 1.516)]
+    inner = [body_ring(bt, z, .003) for z in (1.468, 1.516)]
+    mb.thick_loft(outer, inner, mat, torso_w)
 
-def buttons(mb, bt, mat, n=5, z0=1.04, z1=1.42):
+def buttons(mb, bt, mat, n=5, z0=1.05, z1=1.41):
+    """placket strip + evenly spaced buttons, all on the flat front panel"""
+    y = front_y(bt, 0, 1.2, .004)
+    mb.box((0, y - .0015, (z0 + z1) / 2), (.030, .004, z1 - z0 + .04), 'C_TORSO', SPINE_W((0, 0, 1.2)))
     for k in range(n):
         z = z0 + (z1 - z0) * k / (n - 1)
-        mb.box((0, front_y(bt, 0, z, .004) - .002, z), (.016, .007, .016), mat, SPINE_W((0, 0, z)))
+        mb.box((0, front_y(bt, 0, z, .004) - .0045, z), (.014, .005, .014), mat, SPINE_W((0, 0, z)))
 
 def stitches(mb, bt, mat='A_BELT'):
-    """v2.3: short dashed seams -- one down each side of the chest and one across the yoke"""
-    def dash(x, z, horiz):
-        y = front_y(bt, x, z, .004) - .0012
-        size = (.018, .004, .004) if horiz else (.004, .004, .018)
-        mb.box((x, y, z), size, mat, SPINE_W((0, 0, z)))
-    for sx in (-1, 1):
-        z = 1.05
-        while z < 1.33:
-            dash(.072 * sx, z, False)
-            z += .032
-    x = -.11
-    while x <= .111:
-        dash(x, 1.356, True)
-        x += .030
+    """v2.6: clean continuous stitched seams -- two straight front seams and one yoke seam, even width"""
+    def strip(x0, z0, x1, z1, segs):
+        for k in range(segs):
+            xa, za = x0 + (x1 - x0) * k / segs, z0 + (z1 - z0) * k / segs
+            xb, zb = x0 + (x1 - x0) * (k + 1) / segs, z0 + (z1 - z0) * (k + 1) / segs
+            xc, zc = (xa + xb) / 2, (za + zb) / 2
+            y = front_y(bt, xc, zc, .004) - .0012
+            ln = math.hypot(xb - xa, zb - za) + .001
+            horiz = abs(xb - xa) > abs(zb - za)
+            mb.box((xc, y, zc), (ln, .004, .006) if horiz else (.006, .004, ln), mat, SPINE_W((0, 0, zc)))
+    strip(-.120, 1.356, .120, 1.356, 6)   # yoke seam across the chest
+    strip(0.0, 1.02, 0.0, 1.35, 7)        # centre seam down the front (a clean T)
+
+def seam(mb, bt, x0, z0, x1, z1, segs, mat='A_BELT', width=.006, off=.004, hem=None):
+    """v2.8: clean continuous seam strip lying on the actual shirt surface (even width, no gaps, no buried segments)"""
+    zs, of = shirt_zs(bt, hem), shirt_off(hem, off)
+    ts = {k / segs for k in range(segs + 1)}
+    if abs(z1 - z0) > 1e-6:   # also sample at every cloth ring height the seam crosses (it never dips under a fold)
+        ts |= {(zr - z0) / (z1 - z0) for zr in zs if min(z0, z1) < zr < max(z0, z1)}
+    pts = []
+    for t in sorted(ts):
+        x, z = x0 + (x1 - x0) * t, z0 + (z1 - z0) * t
+        pts.append((x, cloth_y(bt, x, z, zs, of) - .0014, z))
+    surface_strip(mb, pts, mat, SPINE_W, width=width, depth=.0035, cy=body_r(bt, 1.2)[3])
+
+def laced_front(mb, bt, z0=1.27, z1=1.43, half=.042, off=.004, crosses=3):
+    """a skin V opening on the flat front panel, closed by three crossed laces"""
+    ring = lambda z, hw, dy: [(-hw, front_y(bt, 0, z, off) - .0020 + dy, z), (hw, front_y(bt, 0, z, off) - .0020 + dy, z),
+                              (hw, front_y(bt, 0, z, off) + .0030 + dy, z), (-hw, front_y(bt, 0, z, off) + .0030 + dy, z)]
+    mb.loft([ring(z0, .003, 0), ring(z1, half, 0)], 'C_SKIN', SPINE_W((0, 0, (z0 + z1) / 2)), smooth=False)
+    for k in range(crosses):
+        zc = z0 + (z1 - z0) * (k + .6) / (crosses + .4)
+        hw = .003 + half * (zc - z0) / (z1 - z0)
+        y = front_y(bt, 0, zc, off) - .0045
+        for sgn in (-1, 1):
+            mb.box((0, y, zc), (2 * hw * 1.25, .003, .005), 'A_BELT', SPINE_W((0, 0, zc)), rot=Euler((0, math.radians(28 * sgn), 0)).to_matrix())
+
+def surface_strip(mb, pts, mat, w, width=.006, depth=.003, cy=0.0, n=4):
+    """v2.8: a thin continuous raised strip (seam, stitch line, fold) following points on a body surface"""
+    rings = []
+    m = len(pts)
+    for i, c in enumerate(pts):
+        c = Vector(c)
+        ax = Vector(pts[min(i + 1, m - 1)]) - Vector(pts[max(i - 1, 0)])
+        out = Vector((c.x, c.y - cy, 0)).normalized()
+        rings.append(xring(c, ax, width / 2, depth / 2, depth / 2, n, front=tuple(out), phase=math.pi / 4 if n == 4 else 0.0))
+    mb.loft(rings, mat, w, smooth=False)
+
+def v_opening(mb, bt, z0, z1, half, off_fn, zs_cloth, laces_n=4, under='C_SKIN', lip='C_TORSO', lace='A_BELT'):
+    """v2.8 laced V: a real under-layer panel (chest skin) lying just proud of the shirt inside a V, framed by two raised
+    folded lips of the shirt, closed by laces that cross OVER the under-layer"""
+    hw = lambda z: .003 + (half - .003) * clamp((z - z0) / (z1 - z0))
+    # rows at the cloth's own ring heights too, so the panel never dips under a fold line of the shirt
+    zs = sorted(set([round(z0 + .004 + (z1 - z0 - .004) * k / 5, 4) for k in range(6)] + [z for z in zs_cloth if z0 + .004 < z < z1]))
+    outer, inner = [], []
+    for z in zs:
+        o = off_fn(z)
+        ro, ri = [], []
+        for j in range(7):
+            x = hw(z) * (j - 3) / 3 * 1.08
+            y = cloth_y(bt, x, z, zs_cloth, off_fn) - .0022
+            ro.append((x, y, z))
+            ri.append((x, y + .0030, z))
+        outer.append(ro)
+        inner.append(ri)
+    mb.patch(outer, under, SPINE_W, outward=(0, -1, 0))
+    for sx in (-1, 1):   # folded lips of the shirt along both edges of the V
+        pts = []
+        for z in sorted(set([round(z0 - .008 + (z1 + .004 - (z0 - .008)) * k / 5, 4) for k in range(6)] + [z for z in zs_cloth if z0 - .008 < z < z1 + .004])):
+            x = sx * (hw(z) * 1.08 + .0042)
+            pts.append((x, cloth_y(bt, x, z, zs_cloth, off_fn) - .0026, z))
+        surface_strip(mb, pts, lip, SPINE_W, width=.010, depth=.0055, cy=body_r(bt, 1.3)[3])
+    for k in range(laces_n):   # crossed laces over the opening
+        zc = z0 + (z1 - z0) * (k + .75) / (laces_n + .5)
+        w_ = hw(zc) * 1.08 + .006
+        y = cloth_y(bt, 0, zc, zs_cloth, off_fn) - .0048
+        dz = .012
+        for sg in (-1, 1):
+            p0, p1 = Vector((-w_, y, zc - dz * sg)), Vector((w_, y, zc + dz * sg))
+            d = p1 - p0
+            mb.box(tuple((p0 + p1) / 2), (d.length, .0030, .0045), lace, SPINE_W((0, 0, zc)),
+                   rot=Euler((0, -math.atan2(d.z, d.x), 0)).to_matrix())
+
+def yoke_band(mb, bt, z, off, mat='A_BELT', h=.012):
+    """v2.8: a closed seam band all the way round the body (two-toned yoke boundary)"""
+    rings = [body_ring(bt, z - h / 2 - .002, off - .004, 16), body_ring(bt, z - h / 2, off, 16),
+             body_ring(bt, z + h / 2, off, 16), body_ring(bt, z + h / 2 + .002, off - .004, 16)]
+    mb.loft(rings, mat, torso_w, cap0=False, cap1=False, smooth=False)
+
+def gambeson_stitches(mb, bt, n, zs, off_fn, mat='A_BELT'):
+    """v2.8 stitching top: dark stitch lines run in the quilt grooves (front and back panels), evenly spaced"""
+    for k in (-4, -2, 0, 2, 4, n // 2 - 2, n // 2, n // 2 + 2):
+        phi = 2 * math.pi * k / n
+        pts = [tuple(body_point(bt, phi, z, off_fn(z) + .0012)) for z in zs]
+        surface_strip(mb, pts, mat, torso_w, width=.0050, depth=.0030, cy=body_r(bt, 1.2)[3], n=3)
 
 def rip(mb, bt, x, z, w=.050, h=.036, seed=0):
     """a ragged hole: jagged skin-coloured plate just proud of the shirt"""
@@ -1218,60 +1677,109 @@ def rip(mb, bt, x, z, w=.050, h=.036, seed=0):
 def frayed_caps(mb, bt, mat='C_TORSO'):
     """short torn cap over each shoulder with a frayed, zig-zag edge (the torso part's own sleeve edge)"""
     for sx in (-1, 1):
-        rings = arm_rings(bt, sx, [(-.10, .020, .70), (.04, .024), (.24, .026)], n=10)
+        rings = arm_rings(bt, sx, [(-.10, .012, .70), (.04, .014), (.20, .015)], n=10)
         pa = arm_path(bt, sx)
-        ax = pa.dir(.24)
-        rings[-1] = [tuple(Vector(q) - ax * (.030 if k % 2 else 0.0)) for k, q in enumerate(rings[-1])]
+        ax = pa.dir(.20)
+        rings[-1] = [tuple(Vector(q) - ax * (.020 if k % 2 else 0.0)) for k, q in enumerate(rings[-1])]
         mb.loft(rings, mat, arm_w(sx), cap0=True, cap1=False)
 
-def shirt2(mb, bt, mat='C_TORSO', hem=None, off=.004, hem_off=.016, matfn=None, jag=0.0, pleat_below=0.0):
+def shirt_off(hem=None, off=.004, hem_off=.016):
+    """the surface offset shirt2 uses at height z (so details can sit exactly on the cloth)"""
+    return (lambda z: off + .030 * ss(1.09, 1.00, z) + .012 * ss(1.02, .96, z) + (hem_off * ss(0.96, hem, z) if z < 0.96 else 0.0)) if hem else (lambda z: off)   # v2.8: +.012 over the hips so thigh tops never show
+
+def shirt_zs(bt, hem=None, yoke=False):
+    """ring heights of a shirt2 garment"""
     drop = (1, 3, 5) if bt == 'A' else (1, 3, 6)
     zs = [r[0] for i, r in enumerate(TORSO[bt]) if i not in drop]
     zs[0] = 0.968
     if hem:
-        zs = [hem, (hem + .94) / 2 if hem < .90 else .92] + zs[1:]
-    o = (lambda z: off + .030 * ss(1.09, 1.00, z) + (hem_off * ss(0.96, hem, z) if z < 0.96 else 0.0)) if hem else (lambda z: off)
-    rings = [body_ring(bt, z, o(z), 8, bump=((lambda k: .008 * (k % 2)) if z < pleat_below else None)) for z in zs]
+        zs = [hem, (hem + .94) / 2 if hem < .90 else .92, .96, 1.00] + zs[1:]   # v2.6: rings at the belt so the hem clears it
+    if yoke and 1.30 not in zs:
+        zs = sorted(zs + [1.30])
+    return zs
+
+def ring_front_y(bt, x, z, off, n=8):
+    """y of the front of the actual (faceted) body_ring polygon at x"""
+    ring = body_ring(bt, z, off, n)
+    cy = body_r(bt, z)[3]
+    best = None
+    for a, b in zip(ring, ring[1:] + ring[:1]):
+        if (a[0] - x) * (b[0] - x) <= 0 and abs(b[0] - a[0]) > 1e-9 and (a[1] + b[1]) / 2 < cy:
+            y = a[1] + (b[1] - a[1]) * (x - a[0]) / (b[0] - a[0])
+            best = y if best is None else min(best, y)
+    return best if best is not None else front_y(bt, x, z, off)
+
+def cloth_y(bt, x, z, zs, off_fn):
+    """v2.8: y of the ACTUAL shirt2 front surface at (x, z) -- its faceted rings, interpolated between ring heights, so
+    details sit exactly on the cloth (front_y alone follows rows the shirt skips and can bury a detail or float it)"""
+    for i in range(len(zs) - 1):
+        if zs[i] <= z <= zs[i + 1]:
+            t = (z - zs[i]) / (zs[i + 1] - zs[i])
+            return ring_front_y(bt, x, zs[i], off_fn(zs[i])) * (1 - t) + ring_front_y(bt, x, zs[i + 1], off_fn(zs[i + 1])) * t
+    return ring_front_y(bt, x, z, off_fn(z))
+
+def shirt2(mb, bt, mat='C_TORSO', hem=None, off=.004, hem_off=.016, matfn=None, jag=0.0, pleat_below=0.0, n=8, channels=0.0, flat=False):
+    zs = shirt_zs(bt, hem, bool(matfn))
+    o = shirt_off(hem, off, hem_off)
+    def _bump(z):
+        if channels and z < 1.43:
+            return lambda k: channels * (k % 2)
+        return (lambda k: .008 * (k % 2)) if z < pleat_below else None
+    rings = [body_ring(bt, z, o(z), n, bump=_bump(z), phase=0.0 if channels else None) for z in zs]   # channels: a groove on the centre line
     if jag:
         notch = {3: 2.2, 8: 1.8}   # two deep rips cut into the hem silhouette
         rings[0] = [(x, y, z + (jag * notch.get(k, 1.0) if (k % 2 or k in notch) else 0.0)) for k, (x, y, z) in enumerate(rings[0])]
-    mb.loft(rings, mat, torso_w, matfn=(lambda i, k: matfn(zs[i], zs[i + 1])) if matfn else None)
+    mb.loft(rings, mat, torso_w, matfn=(lambda i, k: matfn(zs[i], zs[i + 1])) if matfn else None, smooth=not flat)
 
 def torso_style(mb, bt, key):
-    """v2.2 option names follow the 2004 creator's categories (our own meshes). 'coat' is Bram's extra (not a kit option)."""
-    if key in ('plain', 'simple'):                 # tucked shirt (default)
+    """v2.7: each option has its own silhouette / pattern (2004 creator categories, our own meshes).
+    'coat' is Bram's extra (not a kit option)."""
+    if key in ('plain', 'simple'):                 # plain tucked shirt (default)
         shirt2(mb, bt)
-    elif key == 'light buttons':
-        shirt2(mb, bt)
+    elif key == 'light buttons':                   # doublet: short flared peplum, stand collar, two rows of light buttons
+        shirt2(mb, bt, hem=.90, hem_off=.018)
         collar(mb, bt)
-        buttons(mb, bt, 'A_SHIRT')
-    elif key == 'dark buttons':
+        o = shirt_off(.90, .004, .018)
+        for sx in (-1, 1):   # v2.8: 2 x 4 identical buttons, even spacing, all on the flat chest panel above the peplum
+            for k in range(4):
+                z = 1.130 + .080 * k
+                mb.box((.036 * sx, cloth_y(bt, .036, z, shirt_zs(bt, .90), o) - .0042, z), (.015, .005, .015), 'A_SHIRT', SPINE_W((0, 0, z)))
+    elif key == 'dark buttons':                    # leather waistcoat outline over the shirt, dark buttons down its edge
         shirt2(mb, bt)
-        collar(mb, bt)
-        buttons(mb, bt, 'A_BELT')
-    elif key == 'jacket':                          # short open jacket with trim over a linen shirt
+        # v2.8: one closed leather shell -- enough panels (16) and stand-off that no shirt corner can show through it
+        va = lambda z: 0.05 + max(0, z - 1.28) * 4.4
+        open_shell(mb, bt, [.90, .96, 1.02, 1.10, 1.20, 1.30, 1.38, 1.43, 1.47],
+                   va, .017, .007, mat='A_BELT', trim=None, w=torso_w, n_body=16)
+        for k in range(5):   # dark buttons down the closing edge of the left panel
+            z = .99 + .07 * k
+            p = body_point(bt, va(z) + .10, z, .019)
+            mb.box((p.x, p.y - .0006, z), (.013, .005, .013), 'A_EYES', SPINE_W((0, 0, z)))
+    elif key == 'jacket':                          # hip-length open jacket with lapels and trim over a linen shirt
         shirt2(mb, bt, mat='A_SHIRT')
-        open_shell(mb, bt, [.86, .92, .98, 1.06, 1.16, 1.26, 1.34, 1.40, 1.44, 1.47],
-                   lambda z: 0.20 + max(0, z - 1.30) * 5.0 + max(0, .98 - z) * .8, lambda z: .018 + .012 * ss(1.08, 1.00, z) + .02 * ss(.97, .86, z), .010,
-                   hem_rad=(.86, .204, .128, .138, .026), n_body=8)
-    elif key == 'shirt':                           # untucked shirt, open collar
-        shirt2(mb, bt, hem=.88 if bt == 'A' else .90)
+        open_shell(mb, bt, [.82, .88, .94, 1.00, 1.08, 1.18, 1.28, 1.36, 1.42, 1.46, 1.49],
+                   lambda z: 0.26 + max(0, z - 1.26) * 4.6 + max(0, .98 - z) * .9, lambda z: .019 + .012 * ss(1.08, 1.00, z) + .022 * ss(.97, .82, z), .010,
+                   hem_rad=(.82, .212, .134, .144, .026), n_body=8)
+    elif key == 'shirt':                           # untucked shirt with a laced V front
+        hem = .88 if bt == 'A' else .90
+        shirt2(mb, bt, hem=hem)
+        v_opening(mb, bt, 1.235 if bt == 'A' else 1.26, 1.494 if bt == 'A' else 1.488, .052 if bt == 'A' else .044, shirt_off(hem), shirt_zs(bt, hem))   # open up to the neckline
+    elif key == 'stitching' and bt == 'A':         # quilted gambeson: evenly spaced vertical quilt channels in the torso colour + collar band
+        shirt2(mb, bt, hem=.86, hem_off=.020, n=24, channels=.012)
+        gambeson_stitches(mb, bt, 24, [z for z in shirt_zs(bt, .86) if .88 < z < 1.43], shirt_off(.86, .004, .020))
         collar(mb, bt)
-        v_neck(mb, bt)
-    elif key == 'stitching':
+    elif key == 'stitching':                       # B: corset-style panels -- two princess seams and a waist seam
         shirt2(mb, bt)
-        stitches(mb, bt)
+        for sx in (-1, 1):
+            seam(mb, bt, .058 * sx, 1.00, .050 * sx, 1.40, 8)
+        seam(mb, bt, -.11, 1.05, .11, 1.05, 16)   # fine sampling: follows the faceted waist all the way across
     elif key == 'torn':                            # jagged hem with notches, two ragged holes, frayed shoulder edges
         shirt2(mb, bt, hem=.88, jag=.045)
         rip(mb, bt, .075, 1.12, seed=3)
-        rip(mb, bt, -.085, 1.27, w=.040, h=.030, seed=5)
-        frayed_caps(mb, bt)
-    elif key == 'two-toned':                       # tunic split vertically: one side the torso colour, the other linen
-        drop = (1, 3, 5)
-        zs = [r[0] for i, r in enumerate(TORSO[bt]) if i not in drop]
-        zs[0] = 0.968
-        n = 8
-        mb.loft([body_ring(bt, z, .004, n) for z in zs], 'C_TORSO', torso_w, matfn=lambda i, k: 'C_TORSO' if k < n // 2 else 'A_SHIRT')
+        rip(mb, bt, -.085, 1.27, w=.040, h=.030, seed=5)   # v2.8: no frayed shoulder caps (they bumped over every sleeve)
+    elif key == 'two-toned':                       # tunic with a contrasting yoke, belted at the waist
+        shirt2(mb, bt, hem=.86, hem_off=.018, matfn=lambda z0, z1: 'A_SHIRT' if z0 >= 1.299 else 'C_TORSO')
+        yoke_band(mb, bt, 1.30, .011)   # v2.8: the seam runs all the way round
+        belt(mb, bt, .955, .995, off=.040, buckle=True)
     elif key == 'sports top':                      # B: cropped top + bare midriff
         torso_loft(mb, bt, [.968, 1.00, 1.06, 1.125], 0.0, 'C_SKIN')
         torso_loft(mb, bt, [1.105, 1.14, 1.215, 1.27, 1.385, 1.43, 1.464, 1.492], lambda z: .006 if z > 1.11 else .010, 'C_TORSO')
@@ -1286,16 +1794,17 @@ def torso_style(mb, bt, key):
         raise ValueError('unknown torso style %s' % key)
 
 # ---- arms -----------------------------------------------------------------------------------
-def arms_both(mb, bt, spec, mat='C_TORSO', n=5, cap0=True, cap1=True, matfn=None, bump=None):
+def arms_both(mb, bt, spec, mat='C_TORSO', n=5, cap0=True, cap1=True, matfn=None, bump=None, taper=False):
     if spec[0][0] < 0:   # rounded shoulder dome instead of a cylinder cap (blends into the torso's shoulder)
         u0, o0 = spec[0][0], spec[0][1]
         spec = [(u0 - .07, o0, .62)] + list(spec)
     for sx in (-1, 1):
-        mb.loft(arm_rings(bt, sx, spec, n, bump=bump), mat, arm_w(sx), cap0, cap1, matfn=matfn)
+        mb.loft(arm_rings(bt, sx, spec, n, bump=bump, taper=taper), mat, arm_w(sx), cap0, cap1, matfn=matfn)
 
 def arms_skin(mb, bt, u0, n=5, bulk=None):
-    us = [u0] + [u for u in U_ARM if u > u0 + .05] + [1.97]
-    arms_both(mb, bt, [(u, bulk(u) if bulk else 0.0) for u in us], 'C_SKIN', n)
+    us = [u0] + [u for u in U_ARM if u > u0 + .05] + [1.80, WRIST_U]
+    us = sorted(set(us))
+    arms_both(mb, bt, [(u, bulk(u) if bulk else 0.0) for u in us], 'C_SKIN', n, taper=True, cap1=False)   # open end: the hand continues it
 
 def sleeve_thick(mb, bt, spec, mat='C_TORSO', trim=None, t=.008):
     for sx in (-1, 1):
@@ -1305,7 +1814,7 @@ def sleeve_thick(mb, bt, spec, mat='C_TORSO', trim=None, t=.008):
                       matfn=(lambda i, k: trim if i == 0 else mat) if trim else None, rim_mat=trim or mat)
     arms_both(mb, bt, [(spec[0][0], spec[0][1] + .002), (spec[1][0], spec[1][1] + .002), (.35, spec[2][1] if len(spec) > 2 else .01)], mat)
 
-LONG_SLEEVE = [(-.08, .004), (.08, .010), (.4, .010), (.8, .010), (1.0, .010), (1.3, .010), (1.6, .009), (1.85, .009), (1.88, .016), (1.97, .017)]
+LONG_SLEEVE = [(-.08, .004), (.08, .010), (.4, .010), (.88, .010), (1.0, .010), (1.12, .010), (1.4, .010), (1.6, .009), (1.85, .009), (1.88, .016), (1.97, .017)]
 MUSCLE = lambda k: (lambda u: k * (.016 * math.sin(math.pi * clamp((u - .15) / .75)) + .010 * math.sin(math.pi * clamp((u - 1.05) / .6))))
 
 def arm_style(mb, bt, key):
@@ -1329,7 +1838,7 @@ def arm_style(mb, bt, key):
         arms_both(mb, bt, [(u, o - .012) for u, o in LONG_SLEEVE])
     elif key == 'shoulder pads':
         arms_both(mb, bt, LONG_SLEEVE)
-        arms_both(mb, bt, [(-.08, .030), (.04, .034), (.20, .030), (.30, .018)], 'A_BELT')
+        arms_both(mb, bt, [(-.10, .030), (.02, .037), (.16, .037), (.25, .031), (.29, .014)], 'A_BELT')   # v2.8: rounded lower edge
     elif key == 'tight sleeves':
         arms_both(mb, bt, [(u, o * .4) for u, o in LONG_SLEEVE])
         arms_both(mb, bt, [(1.78, .008), (1.80, .012), (1.93, .012), (1.95, .008)], 'A_BELT')
@@ -1350,43 +1859,77 @@ def arm_style(mb, bt, key):
         raise ValueError('unknown arms style %s' % key)
 
 # ---- hands ------------------------------------------------------------------------------------
-HAND_ST = [(-.12, .021, .027), (.06, .025, .034), (.34, .027, .047), (.56, .025, .044), (.70, .016, .030)]   # small block hand
-CURL = {.34: 0.004, .56: .014, .70: .026}
+HAND_ST = [(.03, .0245, .0262), (.14, .029, .035), (.28, .033, .041), (.42, .030, .036), (.52, .019, .023), (.56, .006, .008)]   # OSRS bulb hand (v2.8: from the wrist)
+CURL = {.28: .004, .42: .008, .52: .010}
 
-def mitten(mb, bt, sx, mat, grow=0.0, n=4):
-    """blocky OSRS mitten hand, no thumb; slight fist curl toward the palm"""
+def hand_frame(bt, sx):
     sd = 'Left' if sx > 0 else 'Right'
     k = HAND_K[bt]
     W, Hn = BHEAD[B(sd + 'Hand')], BTAIL[B(sd + 'Hand')]
     ax = (Hn - W).normalized()
     L = (Hn - W).length * k
     wts = chain_w([BHEAD[B(sd + 'ForeArm')], W, Hn], [B(sd + 'ForeArm'), B(sd + 'Hand')], [.03])
-    rings = []
+    return W, ax, L, k, wts
+
+def hand_profile(bt, sx, t):
+    """(centre, rs, rf) of the mitten at parameter t (interpolated HAND_ST incl. the fist curl)"""
+    W, ax, L, k, _ = hand_frame(bt, sx)
+    st = HAND_ST
+    t = clamp(t, st[0][0], st[-1][0])
+    for (t0, a0, b0), (t1, a1, b1) in zip(st, st[1:]):
+        if t0 <= t <= t1:
+            f = (t - t0) / (t1 - t0)
+            c0, c1 = CURL.get(t0, 0.0), CURL.get(t1, 0.0)
+            curl = c0 + (c1 - c0) * f
+            return W + ax * (t * L) + Vector((-sx * curl * k, 0, 0)) + hand_shift(bt, sx, ax), (a0 + (a1 - a0) * f) * k, (b0 + (b1 - b0) * f) * k
+    return W + ax * (t * L) + hand_shift(bt, sx, ax), st[-1][1] * k, st[-1][2] * k
+
+def mitten(mb, bt, sx, mat, grow=0.0, n=5, cuff=None):
+    """blocky OSRS mitten hand, no thumb; slight fist curl toward the palm. v2.8: ring 0 is the bare forearm's own wrist
+    ring (identical vertices and weights), so forearm -> wrist -> hand is one continuous taper with no step.
+    cuff: [(u, extra_off)] rings further up the forearm (glove gauntlet)."""
+    W, ax, L, k, wts = hand_frame(bt, sx)
+    rings, ws = [], []
+    for u, eo in (cuff or []):
+        rings.append(arm_rings(bt, sx, [(u, grow + eo)], n=5, taper=True)[0])
+        ws.append(arm_w(sx))
+    rings.append(arm_rings(bt, sx, [(WRIST_U, grow)], n=5, taper=True)[0])
+    ws.append(arm_w(sx))
     for t, th, wd in HAND_ST:
-        c = W + ax * (t * L) + Vector((-sx * CURL.get(t, 0.0) * k, 0, 0))
+        c = W + ax * (t * L) + Vector((-sx * CURL.get(t, 0.0) * k, 0, 0)) + hand_shift(bt, sx, ax)
         rings.append(xring(c, ax, th * k + grow, wd * k + grow, wd * k + grow, n, phase=math.pi / n))
-    mb.loft(rings, mat, wts)
+        ws.append(wts)
+    mb.loft(rings, mat, ws, cap0=bool(cuff))
+
+def hand_band(mb, bt, sx, tc, hw, slant, mat='A_SHIRT', off=.0035, n=5):
+    """one cloth band wrapped round the mitten at tc (+-hw), slanted so consecutive bands spiral; it follows the bulb"""
+    W, ax, L, k, wts = hand_frame(bt, sx)
+    f0 = Vector((0, -1, 0))
+    f = (f0 - ax * f0.dot(ax)).normalized()
+    sv = ax.cross(f).normalized()
+    def ring(dt, o):
+        pts = []
+        for j in range(n):
+            a = 2 * math.pi * j / n + math.pi / n
+            t = tc + dt + slant * math.sin(a)
+            c, rs, rf = hand_profile(bt, sx, t)
+            pts.append(tuple(c + sv * ((rs + o) * math.sin(a)) + f * ((rf + o) * math.cos(a))))
+        return pts
+    mb.thick_loft([ring(-hw, off), ring(hw, off)], [ring(-hw, -.002), ring(hw, -.002)], mat, wts, smooth=False)
 
 def hand_style(mb, bt, key):
     for sx in (-1, 1):
-        sd = 'Left' if sx > 0 else 'Right'
-        W, Hn = BHEAD[B(sd + 'Hand')], BTAIL[B(sd + 'Hand')]
-        ax = (Hn - W).normalized()
-        k = HAND_K[bt]
-        wts = chain_w([BHEAD[B(sd + 'ForeArm')], W, Hn], [B(sd + 'ForeArm'), B(sd + 'Hand')], [.03])
         if key == 'bare':
             mitten(mb, bt, sx, 'C_SKIN')
-        elif key == 'gloves':
-            mitten(mb, bt, sx, 'A_BELT', grow=.004)
-            outer = [xring(W + ax * t, ax, r * k, r * k * 1.1, r * k * 1.1, 8) for t, r in ((.03, .030), (-.02, .036), (-.05, .040))]
-            inner = [xring(W + ax * t, ax, r * k, r * k * 1.1, r * k * 1.1, 8) for t, r in ((.03, .024), (-.02, .030), (-.05, .034))]
-            mb.thick_loft(list(reversed(outer)), list(reversed(inner)), 'A_BELT', wts)
-        elif key == 'wraps':
+        elif key == 'gloves':   # leather glove with a short gauntlet cuff that hugs the forearm
+            mitten(mb, bt, sx, 'A_BELT', grow=.004, cuff=[(1.78, .004), (1.86, .003)])
+        elif key == 'wraps':    # v2.8: off-white cloth bands spiralling round the wrist and palm; skin shows between them
             mitten(mb, bt, sx, 'C_SKIN')
-            L = (Hn - W).length * k
-            rings = [xring(W + ax * (t * L), ax, th * k + g, wd * k + g, wd * k + g, 4, phase=math.pi / 4)
-                     for (t, th, wd), g in (((-.10, .021, .027), .006), ((.05, .023, .031), .007), ((.20, .025, .040), .006), ((.30, .025, .044), .004))]
-            mb.loft(rings, 'A_SHIRT', wts, smooth=False)
+            for tc, hw, sl in ((.00, .045, 0.0), (.13, .028, .045), (.25, .028, -.045), (.37, .026, .040)):
+                hand_band(mb, bt, sx, tc, hw, sl)
+            band = arm_rings(bt, sx, [(1.86, .0035), (1.93, .0035)], n=5, taper=True)   # wrap continues onto the wrist
+            inner = arm_rings(bt, sx, [(1.86, -.002), (1.93, -.002)], n=5, taper=True)
+            mb.thick_loft(band, inner, 'A_SHIRT', arm_w(sx), smooth=False)
         else:
             raise ValueError('unknown hands style %s' % key)
 
@@ -1394,18 +1937,19 @@ def hand_style(mb, bt, key):
 def pelvis(mb, bt, mat='C_LEGS', off=0.0):
     mb.loft([body_ring(bt, z, off) for z in [r[0] for r in PELVIS[bt]]], mat, torso_w)
 
-def legs_both(mb, bt, spec, mat='C_LEGS', n=5, cap0=True, cap1=True):
+def legs_both(mb, bt, spec, mat='C_LEGS', n=6, cap0=True, cap1=True):
     if spec[0][0] <= 0.0 and len(spec[0]) < 3:   # rounded hip dome tucked inside the pelvis
-        spec = [(spec[0][0] - .10, spec[0][1], .55)] + list(spec)
+        spec = [(spec[0][0] - .07, spec[0][1], .50)] + list(spec)
     for sx in (-1, 1):
         mb.loft(leg_rings(bt, sx, spec, n), mat, leg_w(sx), cap0, cap1)
 
 def legs_skin(mb, bt, u0):
-    legs_both(mb, bt, [(u, 0.0) for u in [u0] + [u for u in U_LEG if u > u0 + .05]] + [(1.98, 0.0)], 'C_SKIN')
+    legs_both(mb, bt, [(u, 0.0) for u in [u0] + [u for u in U_LEG if u > u0 + .05]] + [(2.04, 0.0)], 'C_SKIN')
 
 def skirt(mb, bt, zs, hem_rad, off=.012, mat='C_LEGS', n=10, pleats=0.0, matfn=None, rim_mat=None):
     """thick skirt from the waist (zs[-1]) flaring to hem_rad at zs[0]"""
     z_hem, z_top = zs[0], zs[-1]
+    hem_rad = (hem_rad[0],) + tuple(v * BUILD['skirt'] for v in hem_rad[1:4]) + tuple(hem_rad[4:])
     outer, inner = [], []
     for z in zs:
         t = clamp((z_top - z) / (z_top - z_hem)) ** 0.9
@@ -1418,7 +1962,7 @@ def skirt(mb, bt, zs, hem_rad, off=.012, mat='C_LEGS', n=10, pleats=0.0, matfn=N
         inner.append(body_ring(bt, z, off - .007, n, rad=rad))
     mb.thick_loft(outer, inner, mat, skirt_w, matfn=matfn, rim_mat=rim_mat)
 
-TROUSERS = [(u, .010) for u in U_LEG[:-1]] + [(1.90, .012), (1.95, .016)]
+TROUSERS = [(u, .010) for u in U_LEG[:-1]] + [(1.90, .012), (1.96, .015), (2.03, .012)]   # hem runs into the shoe / boot
 
 def leg_style(mb, bt, key):
     """v2.2 option names follow the 2004 creator's categories (our own meshes)."""
@@ -1467,14 +2011,20 @@ def leg_style(mb, bt, key):
 # ---- feet -----------------------------------------------------------------------------------
 FOOT_ST = [(.150, .050, .078), (.095, .068, .128), (.010, .072, .110), (-.075, .072, .080), (-.140, .060, .058), (-.166, .036, .036)]
 
-def foot_rings(bt, sx, grow=0.0, hk=1.0, wk=1.0, n=4, z0=0.0):
+def foot_rings(bt, sx, grow=0.0, hk=1.0, wk=1.0, n=4, z0=0.0, bottom=None):
+    """bottom: v2.8 -- place the foot so its flat sole face lies exactly at this height (sandal foot resting ON the sole)"""
     k = FOOT_K[bt]
     out = []
     for y, w, h in FOOT_ST:
         yy = .10 + (y - .10) * k
         x = sx * (.13 + max(0.0, -yy) * .07)
         hh = h * hk * (k ** .5) + grow
-        out.append(xring((x, yy, z0 + hh / 2), (0, -1, 0), w * wk * k + grow, hh / 2, hh / 2, n, front=(0, 0, 1), p=2.0, phase=math.pi / n))
+        if bottom is not None:
+            hb = h * hk * (k ** .5)
+            zc = bottom + hb / 2 * math.cos(math.pi / n)
+        else:
+            zc = z0 + hh / 2
+        out.append(xring((x, yy, zc), (0, -1, 0), w * wk * k + grow, hh / 2, hh / 2, n, front=(0, 0, 1), p=2.0, phase=math.pi / n))
     return out
 
 def foot_style(mb, bt, key):
@@ -1482,12 +2032,13 @@ def foot_style(mb, bt, key):
         fw = foot_w(sx)
         if key == 'boots':
             mb.loft(foot_rings(bt, sx, .006), 'C_FEET', fw)
-            mb.loft(leg_rings(bt, sx, [(1.50, .028), (1.53, .033), (1.75, .024), (1.99, .024)]), 'C_FEET', fw)
+            mb.loft(leg_rings(bt, sx, [(1.50, .028), (1.53, .034), (1.75, .026), (1.98, .026), (2.10, .020, .9)]), 'C_FEET', fw)
         elif key == 'shoes':
             mb.loft(foot_rings(bt, sx, .002, hk=.78, wk=.9), 'C_FEET', fw)
-            mb.loft(leg_rings(bt, sx, [(1.93, .004), (1.96, .008), (2.0, .010)]), 'C_FEET', fw)
+            mb.loft(leg_rings(bt, sx, [(1.88, .018), (1.92, .020), (2.02, .018), (2.10, .012, .9)]), 'C_FEET', fw)
         elif key == 'sandals':
-            mb.loft(foot_rings(bt, sx, 0.0, hk=.85, wk=.95), 'C_SKIN', fw)
+            mb.loft(foot_rings(bt, sx, 0.0, hk=.85, wk=.95, bottom=.0150), 'C_SKIN', fw)   # v2.8: the foot's sole face sits IN the sandal sole (no gap)
+            mb.loft(leg_rings(bt, sx, [(1.86, 0.0), (1.96, .002), (2.06, .004, .9)]), 'C_SKIN', fw)   # ankle joins shin to foot
             k = FOOT_K[bt]
             sole = []
             for y, w, h in FOOT_ST:
@@ -1499,7 +2050,7 @@ def foot_style(mb, bt, key):
                 yy = .10 + (yc - .10) * k
                 rings = []
                 for dy in (-.008, .008):
-                    rr = foot_rings(bt, sx, .004, hk=.85, wk=.95)
+                    rr = foot_rings(bt, sx, .005, hk=.85, wk=.95, bottom=.0150)
                     # find the foot profile at yy: interpolate between the two nearest stations
                     ys = [.10 + (s[0] - .10) * k for s in FOOT_ST]
                     i = max(i for i in range(len(ys) - 1) if ys[i] >= yy + dy)
@@ -1531,20 +2082,41 @@ KIT = {   # option order = 2004 creator categories, default first (the runtime d
         'Hands': _opts('bare', 'gloves', 'wraps'),
         'Legs': _opts('long skirt', 'short skirt', 'shorts', 'plain trousers', 'turn-ups', 'flares', 'tatty', 'bootcut', 'split skirt'),
         'Feet': _opts('boots', 'shoes', 'sandals'),
+        'Makeup': _opts('none', 'rouge', 'eye shadow', 'lip colour', 'full'),   # v2.8: the one sanctioned addition
     },
 }
-SLOTS = ['Hair', 'Jaw', 'Torso', 'Arms', 'Hands', 'Legs', 'Feet']
+SLOTS = ['Hair', 'Jaw', 'Torso', 'Arms', 'Hands', 'Legs', 'Feet', 'Makeup']
 DEFAULT_OUTFIT = {'A': {'Hair': 1, 'Jaw': 1, 'Torso': 1, 'Arms': 1, 'Hands': 1, 'Legs': 1, 'Feet': 1},
-                  'B': {'Hair': 1, 'Torso': 1, 'Arms': 1, 'Hands': 1, 'Legs': 1, 'Feet': 1}}
-STYLE_FN = {'Jaw': jaw_style, 'Torso': torso_style, 'Arms': arm_style, 'Hands': hand_style, 'Legs': leg_style, 'Feet': foot_style}
+                  'B': {'Hair': 1, 'Torso': 1, 'Arms': 1, 'Hands': 1, 'Legs': 1, 'Feet': 1, 'Makeup': 1}}
+STYLE_FN = {'Jaw': jaw_style, 'Torso': torso_style, 'Arms': arm_style, 'Hands': hand_style, 'Legs': leg_style, 'Feet': foot_style,
+            'Makeup': makeup_style}
 
 HEAD_S, HEAD_PIVOT = 1.13, Vector((0, -0.012, 1.60))
-HEAD_WX, HEAD_WY, HEAD_HZ = 1.12, 1.04, .91   # v2.5: measured head proportions (wider, shorter)
+HEAD_WX, HEAD_WY, HEAD_HZ = 1.065, 1.04, .91   # v2.9: a bit thinner face (v2.8: 1.12)
 
 def part_name(bt, slot, idx):
     return 'Kit_%s_%s_%02d' % (bt, slot, idx)
 
+def part_coords(bt, slot, idx, build='average', feet=None):
+    """vertex positions of a part built on another body build / feet size (same topology, same vertex order)"""
+    global FOOT_K
+    set_build(build)
+    fk0 = FOOT_K
+    if feet:
+        FOOT_K = feet
+    try:
+        mb = build_mb(bt, slot, idx)
+        co = [v.co.copy() for v in mb.bm.verts]
+        mb.bm.free()
+    finally:
+        FOOT_K = fk0
+        set_build('average')
+    return co
+
 def build_part(bt, slot, idx, mats, arm, coll=None):
+    return build_mb(bt, slot, idx).to_object(part_name(bt, slot, idx), mats, arm, coll=coll)
+
+def build_mb(bt, slot, idx):
     key = KIT[bt][slot][idx - 1][0]
     mb = MB()
     if slot == 'Hair':
@@ -1552,11 +2124,14 @@ def build_part(bt, slot, idx, mats, arm, coll=None):
         hair_style(mb, bt, key)
     else:
         STYLE_FN[slot](mb, bt, key)
-    if slot in ('Hair', 'Jaw'):   # the whole head is modelled in 'head space' then scaled up about the chin
-        for v in mb.bm.verts:
-            d = (v.co - HEAD_PIVOT) * HEAD_S
-            v.co = HEAD_PIVOT + Vector((d.x * HEAD_WX, d.y * HEAD_WY, d.z * HEAD_HZ)) + Vector((0, 0, -0.030))
-    return mb.to_object(part_name(bt, slot, idx), mats, arm, coll=coll)
+    if slot in ('Hair', 'Jaw', 'Makeup'):   # the whole head is modelled in 'head space' then scaled up about the chin
+        head_xform(mb)
+    return mb
+
+def head_xform(mb):
+    for v in mb.bm.verts:
+        d = (v.co - HEAD_PIVOT) * HEAD_S
+        v.co = HEAD_PIVOT + Vector((d.x * HEAD_WX, d.y * HEAD_WY, d.z * HEAD_HZ)) + Vector((0, 0, -0.030))
 
 # ==========================================================================================
 # ARMATURE + PLAYER CLIPS -- retargeted verbatim from build_holm_player_v1.py (same 23 bones)
@@ -1617,12 +2192,14 @@ def pose_rotations(arm, pose):
     for name, parent, head, tail, roll in BONES:
         short = name.split(':')[1]
         spec = pose.get(short)
-        if short in STANCE and (spec is None or spec[0] != 'aim'):
+        if short in STANCE and (spec is None or isinstance(spec[0], (int, float))):
             base = spec if spec is not None else (0, 0, 0)
             spec = tuple(a + b for a, b in zip(base, STANCE[short]))
         pacc = acc[parent] if parent else Matrix.Identity(3)
         if spec is None:
             R = Matrix.Identity(3)
+        elif spec[0] == 'mat':      # v2.7: exact armature-space orientation (used for Bram's staff hand)
+            R = pacc.inverted() @ spec[1]
         elif spec[0] == 'aim':
             v_rest = (Vector(tail) - Vector(head)).normalized()
             want = pacc.inverted() @ Vector(spec[1]).normalized()
@@ -1693,11 +2270,11 @@ def cycle(frames, half_keys):
 def clip_defs():
     """name -> (frames @30fps, [(frame, pose)], loop). All in place (hips only bob/drop)."""
     C = {}
-    C['idle'] = (60, [
-        (0, P()),
-        (30, P(Spine1=(2, 0, 0), Spine2=(1.5, 0, 0), Head=(1.5, 0, 0), LeftArm=(-2, 16, 0), RightArm=(-2, -16, 0),
-               LeftForeArm=(-13, 0, 0), RightForeArm=(-13, 0, 0), loc=(0, 0, -.008))),
-        (60, P()),
+    C['idle'] = (60, [   # v2.9: vertical spine (measured on the posed chain), a calm breath: chest up, shoulders a touch up
+        (0, upright(P())),
+        (30, upright(P(Spine1=(-1.5, 0, 0), Spine2=(-1, 0, 0), Head=(2.5, 0, 0), LeftArm=(0, 11, 0), RightArm=(0, -11, 0),
+                       LeftForeArm=(-12, 0, 0), RightForeArm=(-12, 0, 0), loc=(0, 0, .004)))),
+        (60, upright(P())),
     ], True)
     wc = P(LeftUpLeg=(-26, 0, 0), LeftLeg=(6, 0, 0), LeftFoot=(-10, 0, 0), RightUpLeg=(20, 0, 0), RightLeg=(20, 0, 0),
            RightFoot=(12, 0, 0), LeftArm=(20, 18, 0), RightArm=(-24, -18, 0), LeftForeArm=(-10, 0, 0), RightForeArm=(-28, 0, 0),
@@ -1854,8 +2431,8 @@ HOLD = dict(RightArm=A(-.30, -.25, -.92), RightForeArm=A(-.10, -.85, -.52), Righ
 
 def kit_npc_clips():
     C = {}
-    C['talk'] = (48, [(f, mirror_pose(P(**GEST_L[i % 4]))) for i, f in enumerate((0, 12, 24, 36))] + [(48, mirror_pose(P(**GEST_L[0])))], True)
-    C['wave'] = (40, [(0, P())] + [(8 + 6 * i, mirror_pose(P(**WAVE_UP, LeftForeArm=fa))) for i, fa in enumerate(WAVE_FA)] + [(40, P())], False)
+    C['talk'] = (48, [(f, upright(mirror_pose(P(**GEST_L[i % 4])))) for i, f in enumerate((0, 12, 24, 36))] + [(48, upright(mirror_pose(P(**GEST_L[0]))))], True)
+    C['wave'] = (40, [(0, upright(P()))] + [(8 + 6 * i, upright(mirror_pose(P(**WAVE_UP, LeftForeArm=fa)))) for i, fa in enumerate(WAVE_FA)] + [(40, upright(P()))], False)
     return C
 
 def PB(*dicts, **kw):
@@ -1868,20 +2445,399 @@ def PB(*dicts, **kw):
 
 def bram_clip_defs():
     C = {}
-    C['idle'] = (60, [(0, PB()), (30, PB(Spine1=(2, 0, 0), Spine2=(1.5, 0, 0), Head=(3, 0, -4), LeftArm=(-2, 15, 0),
-                                          LeftForeArm=(-14, 0, 0), loc=(0, 0, -.006))), (60, PB())], True)
-    C['talk'] = (48, [(f, PB(GEST_L[i % 4])) for i, f in enumerate((0, 12, 24, 36))] + [(48, PB(GEST_L[0]))], True)
+    C['idle'] = (60, [(0, upright(PB())), (30, upright(PB(Spine1=(-1.5, 0, 0), Spine2=(-1, 0, 0), Head=(3, 0, -4), LeftForeArm=(-13, 0, 0),
+                                                            loc=(0, 0, .004)))), (60, upright(PB()))], True)
+    C['talk'] = (48, [(f, upright(PB(GEST_L[i % 4]))) for i, f in enumerate((0, 12, 24, 36))] + [(48, upright(PB(GEST_L[0])))], True)
     lc = dict(LeftUpLeg=(-24, 0, 0), LeftLeg=(6, 0, 0), LeftFoot=(-10, 0, 0), RightUpLeg=(18, 0, 0), RightLeg=(18, 0, 0),
               RightFoot=(12, 0, 0), Hips=(0, 0, -4), Spine=(3, 0, 0), loc=(0, 0, -.02))
     lp = dict(LeftUpLeg=(-2, 0, 0), LeftLeg=(4, 0, 0), RightUpLeg=(-14, 0, 0), RightLeg=(42, 0, 0), RightFoot=(6, 0, 0),
               Spine=(3, 0, 0), loc=(0, 0, .01))
-    C['walk'] = (30, [(0, PB(lc, LeftArm=(18, 14, 0), RightArm=A(-.30, -.20, -.93))),
-                      (8, PB(lp, LeftArm=(0, 14, 0))),
-                      (15, PB(mirror_pose(lc), LeftArm=(-20, 14, 0), LeftForeArm=(-24, 0, 0), RightArm=A(-.30, -.30, -.90))),
-                      (23, PB(mirror_pose(lp), LeftArm=(0, 14, 0))),
-                      (30, PB(lc, LeftArm=(18, 14, 0), RightArm=A(-.30, -.20, -.93)))], True)
-    C['wave'] = (40, [(0, PB())] + [(8 + 6 * i, PB(WAVE_UP, LeftForeArm=fa)) for i, fa in enumerate(WAVE_FA)] + [(40, PB())], False)
+    C['walk'] = (28, bram_walk_clip(28), True)   # v2.7: grounded gait + walking-stick staff
+    C['wave'] = (40, [(0, upright(PB()))] + [(8 + 6 * i, upright(PB(WAVE_UP, LeftForeArm=fa))) for i, fa in enumerate(WAVE_FA)] + [(40, upright(PB()))], False)
     return C
+
+# ==========================================================================================
+# v2.7 ANIMATION PASS -- FK / two-bone IK, grounded gait generator, re-authored tool clips
+# ==========================================================================================
+# Runtime (src/game3_systems.js moveSpeed: walk 2.4, run 4.2 m/s). v2.7b contract, agreed with the runtime owner:
+#   walk clip authored natively for 2.4 m/s at timeScale 1.0  -> play with timeScale = moveSpeed / 2.4
+#   run  clip authored natively for 4.2 m/s at timeScale 1.0  -> play with timeScale = moveSpeed / 4.2 while running
+GAME_RUN_SPEED, GAME_WALK_SPEED = 4.2, 2.4
+GAIT_REPORT = {}
+
+def fk(pose):
+    """posed armature-space bone heads + accumulated rotations for a pose dict (same model as pose_rotations/key_pose)"""
+    rots = pose_rotations(None, pose)
+    acc, head = {}, {}
+    loc = Vector(pose.get('loc', (0, 0, 0)))
+    for name, parent, h, t, roll in BONES:
+        if parent is None:
+            acc[name] = rots[name]
+            head[name] = Vector(h) + loc
+        else:
+            acc[name] = acc[parent] @ rots[name]
+            head[name] = head[parent] + acc[parent] @ (Vector(h) - BHEAD[parent])
+    return head, acc
+
+def two_bone(root, L1, L2, target, pole):
+    d = target - root
+    dist = d.length
+    reach = (L1 + L2) * .9995
+    over = max(0.0, dist - reach)
+    dist = min(max(dist, 1e-4), reach)
+    u = d.normalized()
+    a = (L1 * L1 - L2 * L2 + dist * dist) / (2 * dist)
+    h = math.sqrt(max(0.0, L1 * L1 - a * a))
+    perp = (pole - u * pole.dot(u))
+    perp = perp.normalized() if perp.length > 1e-6 else Vector((0, -1, 0))
+    mid = root + u * a + perp * h
+    return mid, root + u * dist, over
+
+FOOT_REST = (BTAIL[B('LeftFoot')] - BHEAD[B('LeftFoot')]).normalized()
+TOE_REST = (BTAIL[B('LeftToeBase')] - BHEAD[B('LeftToeBase')]).normalized()
+
+def leg_ik(pose, side, ankle, pitch=0.0):
+    """aim thigh/shin so the ankle lands on `ankle`; pitch = foot toe-up (+) / heel-up (-) in degrees"""
+    head, acc = fk(pose)
+    sx = 1 if side == 'Left' else -1
+    H = head[B(side + 'UpLeg')]
+    L1 = (BHEAD[B(side + 'Leg')] - BHEAD[B(side + 'UpLeg')]).length
+    L2 = (BHEAD[B(side + 'Foot')] - BHEAD[B(side + 'Leg')]).length
+    knee, ank, over = two_bone(H, L1, L2, Vector(ankle), Vector((sx * .10, -1, 0)))
+    pose[side + 'UpLeg'] = ('aim', tuple(knee - H))
+    pose[side + 'Leg'] = ('aim', tuple(ank - knee))
+    Rf = Matrix.Rotation(math.radians(-pitch), 3, 'X')
+    pose[side + 'Foot'] = ('aim', tuple(Rf @ FOOT_REST))
+    pose[side + 'ToeBase'] = ('aim', tuple((Rf if pitch > 0 else Matrix.Identity(3)) @ TOE_REST))
+    return over
+
+def foot_ankle(g, pitch):
+    """ankle position for a foot whose ground anchor is g (the point under the ankle), rolled about the heel (toe-up)
+    or the ball (heel-up) -- the pivot stays fixed on the ground, so a rolling foot never slides"""
+    g = Vector(g)
+    if abs(pitch) < 1e-6:
+        return g + Vector((0, 0, .12))
+    R = Matrix.Rotation(math.radians(-pitch), 3, 'X')
+    if pitch > 0:
+        return g + Vector((0, .05, 0)) + R @ Vector((0, -.05, .12))
+    return g + Vector((0, -.18, 0)) + R @ Vector((0, .18, .12))
+
+def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, arm_swing, fore, lean, twist, foot_x=.14,
+              kick=0.0, base=None, bob_phase=0.0, head_counter=.6, fore_swing=8.0, hips_pitch=0.0, arms=True,
+              sway=0.0, roll=0.0, sh_twist=None, head_stab=0.0, osrs=None, swing_sides=('Left', 'Right'), lean_cap=None):
+    """grounded in-place cycle: the stance foot's ground pivot moves back at exactly `speed` (clip time) while the
+    pelvis bobs; the swing foot arcs forward; arms swing opposite the legs; spine counter-twists."""
+    T = frames / FPS
+    Ts = duty * T
+    keys = []
+    worst = 0.0
+    flat_samples = {}
+    for f in range(frames + 1):
+        t = (f % frames) / frames
+        c = math.cos(2 * math.pi * t)
+        kw = dict(base or {})
+        if osrs:               # v2.9 walk: the simple readable 2004 cycle -- no sway / roll, upright, head steady
+            kw.update(Hips=(0, 0, -twist * c), Spine=(0, 0, twist * 1.6 * c), Head=(0, 0, -twist * .6 * c),
+                      loc=(0, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
+        elif sh_twist is None:   # v2.7 model (run, Bram)
+            kw.update(Spine=(lean, 0, twist * .8 * c), Spine1=(0, 0, twist * .6 * c), Head=(-lean * head_counter, 0, -twist * .5 * c),
+                      Hips=(hips_pitch, 0, -twist * c),
+                      loc=(0, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
+        else:                  # v2.8 walk: hip sway + roll, shoulders counter-rotating, head held steady, upright
+            cs = math.cos(2 * math.pi * (t - duty / 2))   # +1 = weight over the left foot (left mid-stance)
+            hy, sy, hr = -twist * c, sh_twist * c, -roll * cs   # pelvis yaw, net shoulder yaw (opposite), pelvis roll (swing hip drops)
+            kw.update(Hips=(hips_pitch, hr, hy),
+                      Spine=(lean, -hr * .55, (sy - hy) * .45), Spine1=(0, -hr * .30, (sy - hy) * .35), Spine2=(0, -hr * .15, (sy - hy) * .20),
+                      Neck=(0, 0, -sy * .5 * head_stab), Head=(-lean * head_counter, 0, -sy * .5 * head_stab),
+                      loc=(sway * cs, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
+        if arms and not osrs:
+            kw.update(LeftArm=(arm_swing * c, 12, 0), RightArm=(-arm_swing * c, -12, 0),
+                      LeftForeArm=(-(fore + fore_swing * max(0.0, -c)), 0, 0), RightForeArm=(-(fore + fore_swing * max(0.0, c)), 0, 0))
+        if arms and osrs:      # arms swing at the sides in a plane parallel to the body's midline (never across the body)
+            abd, flex = osrs
+            for side in swing_sides:
+                sx = 1 if side == 'Left' else -1
+                ph = math.radians(-arm_swing * c * sx)          # + = forward; the left arm is back when the left foot lands
+                a0, a1 = math.radians(abd), math.radians(abd + 3)
+                e = ph + math.radians(flex + fore_swing * max(0.0, ph) / max(1e-6, math.radians(arm_swing)))
+                kw[side + 'Arm'] = ('aim', (sx * math.sin(a0), -math.cos(a0) * math.sin(ph), -math.cos(a0) * math.cos(ph)))
+                kw[side + 'ForeArm'] = ('aim', (sx * math.sin(a1), -math.cos(a1) * math.sin(e), -math.cos(a1) * math.cos(e)))
+        pose = P(**kw)
+        for side, off in (('Left', 0.0), ('Right', .5)):
+            sx = 1 if side == 'Left' else -1
+            ph = (t + off) % 1.0
+            yF = .02 - front
+            if ph < duty:
+                sp = ph / duty
+                gy = yF + speed * Ts * sp
+                pitch = p_on * (1 - sp / .12) if sp < .12 else (p_off * (sp - .55) / .45 if sp > .55 else 0.0)
+                ank = foot_ankle((sx * foot_x, gy, 0), pitch)
+                if .12 <= sp <= .55:
+                    flat_samples.setdefault(side, []).append((f, sp))
+            else:
+                sw = (ph - duty) / (1 - duty)
+                a0 = foot_ankle((sx * foot_x, yF + speed * Ts, 0), p_off)
+                a1 = foot_ankle((sx * foot_x, yF, 0), p_on)
+                e = sw * sw * (3 - 2 * sw)
+                ank = Vector((sx * foot_x, a0.y + (a1.y - a0.y) * e + kick * math.sin(math.pi * sw) * (1 - sw),
+                              a0.z + (a1.z - a0.z) * sw + lift * math.sin(math.pi * sw) ** .9))
+                pitch = p_off + (p_on - p_off) * e
+            worst = max(worst, leg_ik(pose, side, ank, pitch) if ph < duty else 0.0)
+            if ph >= duty:
+                leg_ik(pose, side, ank, pitch)
+        if lean_cap is not None:   # v2.9: measured on the posed chain (hips -> head)
+            upright(pose, lean_cap[0], cap=lean_cap[1])
+        keys.append((f, pose))
+    # independent slide check: the achieved (FK) ankle of the flat stance foot must move back at exactly `speed`
+    speeds = []
+    for side, smp in flat_samples.items():
+        smp.sort()
+        for (fa, _), (fb, _) in zip(smp, smp[1:]):
+            if fb == fa + 1 and fb < len(keys):
+                ya = fk(keys[fa][1])[0][B(side + 'Foot')].y
+                yb = fk(keys[fb][1])[0][B(side + 'Foot')].y
+                speeds.append((yb - ya) * FPS)
+    def knee_flex(pose, side):
+        hd, _ = fk(pose)
+        a, b, c_ = hd[B(side + 'UpLeg')], hd[B(side + 'Leg')], hd[B(side + 'Foot')]
+        return math.degrees((b - a).angle(c_ - b, 0.0))
+    kc, km = [], []
+    for f_, pose_ in keys[:frames]:
+        for side, off in (('Left', 0.0), ('Right', .5)):
+            ph = ((f_ % frames) / frames + off) % 1.0
+            if ph < 1.0 / frames - 1e-9:
+                kc.append(knee_flex(pose_, side))
+            if abs(ph - duty * .5) < .5 / frames + 1e-9:
+                km.append(knee_flex(pose_, side))
+    tilts = [chain_tilt(p_) for _, p_ in keys[:frames]]
+    GAIT_REPORT[name] = {'frames': frames, 'clip_seconds': round(T, 3), 'ground_speed_clip_mps': speed,
+                         'spine_chain_forward_tilt_deg': [round(min(tilts), 2), round(max(tilts), 2)],
+                         'knee_flex_at_contact_deg': round(sum(kc) / max(1, len(kc)), 1), 'knee_flex_mid_stance_deg': round(sum(km) / max(1, len(km)), 1),
+                         'measured_planted_foot_speed_mps': round(sum(speeds) / max(1, len(speeds)), 3),
+                         'max_planted_speed_error_mps': round(max((abs(v - speed) for v in speeds), default=0.0), 4),
+                         'stride_m': round(speed * T, 3), 'step_m': round(speed * T / 2, 3), 'duty': duty,
+                         'max_stance_reach_error_m': round(worst, 4)}
+    return keys
+
+def chain_tilt(pose):
+    """forward tilt (deg) of the posed spine chain: hips joint -> head joint (neck top), + = leaning forward"""
+    hd, _ = fk(pose)
+    d = hd[B('Head')] - hd[B('Hips')]
+    return math.degrees(math.atan2(-d.y, d.z))
+
+def upright(pose, target=0.0, cap=False):
+    """v2.9: set the Spine pitch so the posed hips -> head chain leans exactly `target` degrees (the rest skeleton itself
+    leans ~4 deg forward). cap=True only pulls it back when it leans MORE than target."""
+    t = chain_tilt(pose)
+    if cap and t <= target:
+        return pose
+    sp = pose.get('Spine', (0, 0, 0))
+    sp = tuple(sp) if sp and isinstance(sp[0], (int, float)) else (0, 0, 0)
+    for _ in range(6):
+        if abs(t - target) < .02:
+            break
+        pose['Spine'] = (sp[0] + 1.0, sp[1], sp[2])
+        g = chain_tilt(pose) - t
+        sp = (sp[0] - (t - target) / (g if abs(g) > 1e-4 else 1.0), sp[1], sp[2])
+        pose['Spine'] = sp
+        t = chain_tilt(pose)
+    return pose
+
+REACH_ERR = [0.0]
+GRIP_REST = {'Right': Vector((-.264, .037, .896)), 'Left': Vector((.264, .037, .896))}   # hand bone local (0, .03, .04): where the runtime attaches a held tool
+HAND_REST_DIR = {sd: (BTAIL[B(sd + 'Hand')] - BHEAD[B(sd + 'Hand')]).normalized() for sd in ('Left', 'Right')}
+
+def hand_rot(side, direction, twist=0.0):
+    """armature-space hand rotation (relative to rest): the hand points along `direction`, rolled `twist` deg about it"""
+    d = Vector(direction).normalized()
+    R = HAND_REST_DIR[side].rotation_difference(d).to_matrix()
+    return Matrix.Rotation(math.radians(twist), 3, d) @ R
+
+def arm_reach(pose, side, grip, direction, twist=0.0, pole=None):
+    """v2.9: two-bone arm IK that puts the hand's GRIP (the runtime's tool attach point) exactly on `grip`, the hand pointing
+    along `direction`. The hand bones' rest is untouched."""
+    sx = 1 if side == 'Left' else -1
+    Rh = hand_rot(side, direction, twist)
+    W = BHEAD[B(side + 'Hand')]
+    wrist = Vector(grip) - Rh @ (GRIP_REST[side] - W)
+    head, acc = fk(pose)
+    S = head[B(side + 'Arm')]
+    L1 = (BHEAD[B(side + 'ForeArm')] - BHEAD[B(side + 'Arm')]).length
+    L2 = (W - BHEAD[B(side + 'ForeArm')]).length
+    elbow, wr, over = two_bone(S, L1, L2, wrist, Vector(pole) if pole else Vector((sx * .75, .35, -.55)))
+    REACH_ERR[0] = max(REACH_ERR[0], over)
+    pose[side + 'Arm'] = ('aim', tuple(elbow - S))
+    pose[side + 'ForeArm'] = ('aim', tuple(wr - elbow))
+    pose[side + 'Hand'] = ('mat', Rh)
+    return over
+
+def grip_of(pose, side='Right'):
+    hd, acc = fk(pose)
+    return hd[B(side + 'Hand')] + acc[B(side + 'Hand')] @ (GRIP_REST[side] - BHEAD[B(side + 'Hand')])
+
+def best_gait(name, frames, speed, duty, **kw):
+    """pick the landing offset (front) and pelvis drop that keep the stance foot exactly on the ground (smallest reach
+    error, then the highest pelvis = straightest legs)"""
+    best = None
+    for drop in [kw['drop'] + .005 * k for k in range(0, 12)]:   # v2.8: finer search (straightest feasible legs)
+        feasible = []
+        for fi in range(8, 50, 2):
+            k2 = dict(kw, drop=drop, front=fi / 100.0)
+            gait_clip(name, frames, speed, duty, **k2)
+            wv = GAIT_REPORT[name]['max_stance_reach_error_m']
+            if wv < .001:
+                feasible.append(k2)
+            if best is None or wv < best[0] - 1e-4:
+                best = (wv, k2)
+        if feasible:   # centre the step under the hips: middle of the feasible landing range
+            best = (0.0, feasible[len(feasible) // 2])
+            break
+    keys = gait_clip(name, frames, speed, duty, **best[1])
+    GAIT_REPORT[name].update(front_m=best[1]['front'], pelvis_drop_m=round(best[1]['drop'], 3))
+    return keys
+
+def v27_clips():
+    """re-authored clips (walk, run, chop, mine, net, cook); the rest of clip_defs() is kept"""
+    C = {}
+    # WALK: modest step (~.70 m), fairly straight legs, flat-ish feet with heel-strike / toe-off roll, upright, small bob
+    # v2.9 WALK (OSRS-like): compact 0.64 m step, straight-ish legs, arms swinging at the sides, no sway / roll, minimal bob,
+    # head steady, vertical spine. Slide-free at 2.4 m/s at timeScale 1 (15 frames = 0.5 s, 1.20 m stride, 0.60 m step).
+    C['walk'] = (15, best_gait('walk', 15, GAME_WALK_SPEED, .58, lift=.045, drop=.005, bob=.012, front=.24, p_on=10, p_off=-22,
+                                arm_swing=20, fore=0, lean=0, twist=2.5, foot_x=.13, bob_phase=0.0, osrs=(16.0, 10.0), fore_swing=10,
+                                lean_cap=(0.0, False)), True)
+    # RUN: longer step, slight forward lean, arms bent ~90 deg pumping, moderate foot lift, brief flight
+    C['run'] = (16, best_gait('run', 16, GAME_RUN_SPEED, .38, lift=.12, drop=.070, bob=.020, front=.20, p_on=8, p_off=-34,
+                               arm_swing=34, fore=88, lean=5, twist=7, foot_x=.13, kick=.09, bob_phase=.19, head_counter=.8,
+                               fore_swing=6, hips_pitch=2, lean_cap=(3.0, True)), True)   # v2.9: never more than 3 deg of lean
+    stance = dict(LeftUpLeg=(-12, 0, 0), LeftLeg=(8, 0, 0), LeftFoot=(4, 0, 0), RightUpLeg=(7, 0, 0), RightLeg=(4, 0, 0), RightFoot=(-11, 0, 0))
+    guard = dict(LeftArm=A(.40, -.42, -.81), LeftForeArm=A(.10, -.86, -.50))
+    # CHOP: over the right shoulder -> down and forward to waist height (tree contact) -> small follow-through -> recover
+    wind = PP(stance, guard, RightArm=A(-.55, .10, .83), RightForeArm=A(.10, .55, .83), RightHand=A(.05, .80, .60),
+              Spine1=(-4, 0, -16), Spine2=(0, 0, -6), Head=(0, 0, 8))
+    hit = PP(stance, guard, RightArm=A(-.24, -.72, -.65), RightForeArm=A(-.06, -.82, -.57), RightHand=A(-.04, -.50, -.87),
+             Spine=(6, 0, 0), Spine1=(4, 0, 12), Spine2=(0, 0, 4), loc=(0, 0, -.018))
+    follow = PP(stance, guard, RightArm=A(-.13, -.62, -.77), RightForeArm=A(.00, -.66, -.75), RightHand=A(.00, -.30, -.95),
+                Spine=(7, 0, 0), Spine1=(5, 0, 16), Spine2=(0, 0, 6), loc=(0, 0, -.022))
+    lift_ = PP(stance, guard, RightArm=A(-.45, -.35, .45), RightForeArm=A(-.05, .10, .99), RightHand=A(0, .45, .89), Spine1=(0, 0, -6))
+    C['chop'] = (30, [(0, wind), (5, wind), (10, hit), (13, follow), (19, follow), (25, lift_), (30, wind)], True)
+    # MINE: pick raised overhead (both hands, each on its own side) -> strike down to rock height -> recoil -> lift
+    up = PP(RightArm=A(-.30, .08, .95), RightForeArm=A(-.04, .38, .92), RightHand=A(0, .62, .78),
+            LeftArm=A(.30, .08, .95), LeftForeArm=A(.04, .38, .92), LeftHand=A(0, .62, .78), Spine1=(-8, 0, 0), Head=(-6, 0, 0))
+    strike = PP(crouch(-18, 32), RightArm=A(-.14, -.62, -.77), RightForeArm=A(-.07, -.70, -.71), RightHand=A(0, -.66, -.75),
+                LeftArm=A(.14, -.62, -.77), LeftForeArm=A(.07, -.70, -.71), LeftHand=A(0, -.66, -.75),
+                Spine=(12, 0, 0), Spine1=(14, 0, 0), Head=(-12, 0, 0))
+    recoil = PP(crouch(-15, 27), RightArm=A(-.15, -.68, -.72), RightForeArm=A(-.07, -.78, -.62), RightHand=A(0, -.60, -.80),
+                LeftArm=A(.15, -.68, -.72), LeftForeArm=A(.07, -.78, -.62), LeftHand=A(0, -.60, -.80),
+                Spine=(10, 0, 0), Spine1=(11, 0, 0), Head=(-10, 0, 0))
+    midr = PP(crouch(-6, 10), RightArm=A(-.24, -.55, .30), RightForeArm=A(-.06, -.05, .99), RightHand=A(0, .30, .95),
+              LeftArm=A(.24, -.55, .30), LeftForeArm=A(.06, -.05, .99), LeftHand=A(0, .30, .95), Spine=(4, 0, 0))
+    C['mine'] = (30, [(0, up), (5, up), (11, strike), (14, recoil), (19, recoil), (25, midr), (30, up)], True)
+    # NET (fishing): hold low forward -> lift -> cast forward and down into the water -> hold -> draw back
+    nb = dict(crouch(-8, 14), Spine=(8, 0, 0))
+    hold = PP(nb, RightArm=A(-.15, -.72, -.68), RightForeArm=A(-.05, -.86, -.51), LeftArm=A(.15, -.72, -.68), LeftForeArm=A(.05, -.86, -.51))
+    raise_ = PP(nb, RightArm=A(-.22, -.48, .32), RightForeArm=A(-.05, -.10, .99), LeftArm=A(.22, -.48, .32), LeftForeArm=A(.05, -.10, .99),
+                Spine1=(-6, 0, 0))
+    cast_ = PP(crouch(-18, 32), Spine=(16, 0, 0), RightArm=A(-.14, -.88, -.45), RightForeArm=A(-.05, -.90, -.43),
+               LeftArm=A(.14, -.88, -.45), LeftForeArm=A(.05, -.90, -.43))
+    soak = PP(crouch(-18, 32), Spine=(16, 0, 0), RightArm=A(-.14, -.80, -.58), RightForeArm=A(-.05, -.82, -.57),
+              LeftArm=A(.14, -.80, -.58), LeftForeArm=A(.05, -.82, -.57))
+    C['net'] = (48, [(0, hold), (10, raise_), (18, cast_), (24, soak), (38, soak), (48, hold)], True)
+    # COOK / use: reach forward at waist height over the fire, small alternating stir
+    cb = dict(crouch(-12, 22), Spine=(14, 0, 0), Head=(-4, 0, 0))
+    st_ = [PP(cb, RightArm=A(-.16, -.72, -.67), RightForeArm=A(-.04 + d, -.92, -.38 + e), LeftArm=A(.18, -.70, -.69), LeftForeArm=A(.06, -.92, -.38))
+           for d, e in ((0, 0), (.08, .04), (0, .08), (-.06, .04))]
+    C['cook'] = (36, [(0, st_[0]), (9, st_[1]), (18, st_[2]), (27, st_[3]), (36, st_[0])], True)
+    C.update(v29_skill_clips())   # v2.9: firemake (new), cook and net re-authored
+    return C
+
+def v29_skill_clips():
+    """v2.9: firemake (kneel, strike the tinderbox at the logs), cook (hold the fish over the fire / range and turn it) and
+    net (a clear two-handed cast). The right hand's GRIP -- the runtime's tool attach point -- is solved onto its target."""
+    C = {}
+    # ---- FIREMAKE: kneel on the right knee, logs on the ground in front, right hand strikes the tinderbox down at them
+    def kneel(**kw):
+        p_ = P(Spine=(38, 0, -8), Spine1=(8, 0, -4), Spine2=(0, 0, 0), Head=(-12, 0, -6), loc=(0, 0, -.46), **kw)
+        leg_ik(p_, 'Left', Vector((.15, -.24, .12)), 0.0)
+        leg_ik(p_, 'Right', Vector((-.13, .40, .19)), -48.0)
+        arm_reach(p_, 'Left', Vector((.16, -.40, .56)), (0, -.55, -.83), pole=(.8, .3, -.5))
+        return p_
+    strike = []
+    for g, d, tw in (((-.12, -.38, .47), (0, -.35, -.94), 0), ((-.085, -.415, .335), (0, -.55, -.83), 10), ((-.09, -.42, .36), (0, -.50, -.86), 6),
+                     ((-.13, -.36, .52), (0, -.30, -.95), -4)):
+        p_ = kneel()
+        arm_reach(p_, 'Right', Vector(g), d, tw, pole=(-.85, .25, -.45))
+        strike.append(p_)
+    up, hit, bounce, high = strike
+    C['firemake'] = (30, [(0, up), (5, hit), (7, bounce), (13, high), (19, hit), (21, bounce), (30, up)], True)
+    # ---- COOK: stand close, fish held out over the fire / range, turned over and back
+    def cook(tw, g):
+        p_ = P(**dict(crouch(-6, 11), Spine=(22, 0, 0), Head=(-4, 0, 0)))
+        arm_reach(p_, 'Right', Vector(g), (0, -.92, -.40), tw, pole=(-.8, .4, -.45))
+        arm_reach(p_, 'Left', Vector((.21, -.20, .92)), (.1, -.5, -.86), pole=(.8, .4, -.4))
+        return p_
+    C['cook'] = (40, [(0, cook(0, (-.10, -.42, .94))), (10, cook(70, (-.09, -.43, .95))), (20, cook(140, (-.10, -.42, .94))),
+                      (30, cook(70, (-.11, -.41, .95))), (40, cook(0, (-.10, -.42, .94)))], True)
+    # ---- NET: both hands on the net -- raise it overhead, cast it forward and down with both arms, let it soak, draw it in
+    def net(gr, gl, dr, dl, **kw):
+        p_ = P(**kw)
+        arm_reach(p_, 'Right', Vector(gr), dr, pole=(-.8, .3, -.5))
+        arm_reach(p_, 'Left', Vector(gl), dl, pole=(.8, .3, -.5))
+        return p_
+    hold = net((-.10, -.29, .96), (.10, -.29, .98), (.15, -.7, -.7), (-.15, -.7, -.7), Spine=(4, 0, 0))
+    wind = net((-.11, -.16, 1.60), (.11, -.16, 1.62), (.1, -.2, .97), (-.1, -.2, .97), Spine=(-7, 0, 0), Head=(-6, 0, 0))
+    cast = net((-.10, -.56, 1.00), (.10, -.56, 1.02), (.1, -.97, -.2), (-.1, -.97, -.2), **dict(crouch(-14, 24), Spine=(24, 0, 0), Head=(4, 0, 0)))
+    low = net((-.10, -.445, .875), (.10, -.445, .895), (.1, -.8, -.6), (-.1, -.8, -.6), **dict(crouch(-14, 24), Spine=(26, 0, 0), Head=(6, 0, 0)))
+    draw = net((-.12, -.31, .95), (.12, -.31, .97), (.15, -.6, -.78), (-.15, -.6, -.78), **dict(crouch(-6, 10), Spine=(6, 0, 0)))
+    C['net'] = (48, [(0, hold), (10, wind), (17, cast), (22, low), (36, low), (44, draw), (48, hold)], True)
+    return C
+
+def bram_walk_clip(frames=28, speed=1.30):
+    """Guide Bram's walk: the same grounded gait (slower, shorter step) with the staff used as a walking stick -- planted on
+    alternate steps (while planted its tip stays fixed on the ground), then lifted and swung forward. The staff is rigid in
+    his right hand; the hand orientation and the arm (IK) are solved so the tip lands exactly on its target."""
+    keys = best_gait('bram_walk', frames, speed, .60, lift=.045, drop=.005, bob=.010, front=.20, p_on=10, p_off=-20,
+                     arm_swing=14, fore=0, lean=0, twist=2, foot_x=.13, base=PB(), osrs=(13.0, 10.0), fore_swing=8,
+                     swing_sides=('Left',), lean_cap=(0.0, False))
+    head0, acc0 = fk(PB())
+    RH = B('RightHand')
+    W0, Hn0 = BHEAD[RH], BTAIL[RH]
+    g_rest = W0 + (Hn0 - W0) * .40 - W0                      # grip offset from the wrist, rest space
+    G0 = head0[RH] + acc0[RH] @ g_rest                        # idle grip (the staff is vertical there, tip on the ground)
+    Ls = G0.z
+    L1 = (BHEAD[B('RightForeArm')] - BHEAD[B('RightArm')]).length
+    L2 = (BHEAD[RH] - BHEAD[B('RightForeArm')]).length
+    T = frames / FPS
+    plant = .5
+    yT0 = G0.y - .30
+    out, tip_err = [], 0.0
+    for f, pose in keys:
+        t = (f % frames) / frames
+        if t < plant:
+            tip = Vector((G0.x, yT0 + speed * T * t, 0.0))
+        else:
+            sw = (t - plant) / (1 - plant)
+            e = sw * sw * (3 - 2 * sw)
+            tip = Vector((G0.x, yT0 + speed * T * plant * (1 - e), .07 * math.sin(math.pi * sw)))
+        gy = G0.y + .04 * math.sin(2 * math.pi * t)
+        sphi = clamp((tip.y - gy) / Ls, -.8, .8)
+        grip = Vector((G0.x, gy, tip.z + Ls * math.sqrt(1 - sphi * sphi)))
+        sdir = (tip - grip).normalized()
+        Rrel = Vector((0, 0, -1)).rotation_difference(sdir).to_matrix()
+        acc_hand = Rrel @ acc0[RH]
+        wrist = grip - acc_hand @ g_rest
+        head, acc = fk(pose)
+        S = head[B('RightArm')]
+        elbow, wr, over = two_bone(S, L1, L2, wrist, Vector((-.35, .85, -.35)))
+        pose['RightArm'] = ('aim', tuple(elbow - S))
+        pose['RightForeArm'] = ('aim', tuple(wr - elbow))
+        pose['RightHand'] = ('mat', acc_hand)
+        h2, a2 = fk(pose)
+        real_tip = h2[RH] + a2[RH] @ g_rest + (a2[RH] @ acc0[RH].inverted() @ Vector((0, 0, -1))) * Ls
+        if t < plant:
+            tip_err = max(tip_err, (real_tip - tip).length)
+        out.append((f, pose))
+    GAIT_REPORT['bram_walk']['staff_tip_error_m'] = round(tip_err, 4)
+    return out
 
 def set_pose(arm, pose):
     rots = pose_rotations(arm, pose)
@@ -1948,6 +2904,280 @@ def reset_scene():
     sc.render.fps = FPS
     sc.frame_start = 0
 
+def _body_r_t(bt, z, T, Pv):
+    if z >= 1.0:
+        return lerp_table(T[bt], z)
+    if z <= 0.96:
+        return lerp_table(Pv[bt], z)
+    t = (z - 0.96) / 0.04
+    return tuple(x + (y - x) * t for x, y in zip(lerp_table(Pv[bt], z), lerp_table(T[bt], z)))
+
+def _clearance(bt, p, T, Pv):
+    zz = min(max(p.z, .96), 1.515)
+    rad = _body_r_t(bt, zz, T, Pv)
+    cy = rad[3]
+    dx, dy = p.x, p.y - cy
+    have = math.hypot(dx, dy)
+    bp = body_point(bt, math.atan2(dx, -dy), zz, 0.0, rad=rad)
+    return have - math.hypot(bp.x, bp.y - cy), Vector((dx, dy, 0)).normalized() if have > 1e-6 else Vector((0, 1, 0))
+
+def keep_clearance(bt, base, var, kind):
+    """v2.9: a hair / beard vertex hanging by the body keeps at least the clearance it has at the average build, from the
+    torso and from the deltoids (pigtails, long beards and draped hair never sink into a stouter chest, back or shoulder)"""
+    T0, P0 = _BASE_TABLES['TORSO'], _BASE_TABLES['PELVIS']
+    T1, P1, AR1, LR1, ga, gl = _build_tables(kind)
+    sh = ARM_SHIFT[kind][0]
+    grow0 = lerp_table(_BASE_TABLES['ARM_R'][bt], 0.0)[0]
+    grow1 = lerp_table(AR1[bt], 0.0)[0]
+    for i, (p0, p1) in enumerate(zip(base, var)):
+        if p0.z > 1.52:
+            continue
+        c0, _ = _clearance(bt, p0, T0, P0)
+        c1, rdir = _clearance(bt, p1, T1, P1)
+        if c0 < .08 and c1 < c0 + .002:
+            p1 = p1 + rdir * (c0 + .002 - c1)
+        for sx in (-1, 1):
+            if 1.26 < p0.z < 1.52:
+                cb = Vector((sx * (SHOULDER_X[bt] + .01), .01, 1.385))
+                cv = cb + Vector((sx * (sh + grow1 - grow0), 0, 0))
+                d0 = (p0 - cb).length - .105
+                rv = .105 * (1.18 if kind == 'stout' else .96)
+                d1 = (p1 - cv).length - rv
+                extra = .014 if kind == 'stout' else .002   # a stouter arm swinging forward in the walk still clears draped hair
+                if d0 < .06 and d1 < d0 + extra:
+                    p1 = cv + (p1 - cv).normalized() * ((p1 - cv).length + (d0 + extra - d1))
+        var[i] = p1
+
+MORPHS_ALL = ['Build_Stout', 'Build_Slim']
+MORPHS_FEET = ['Feet_Large', 'Feet_Small']
+MORPH_DATA = {}   # part name -> {'base': [...], morph: [...], 'tris': [(i, j, k)]}
+
+def add_morphs(ob, bt, slot, idx):
+    """v2.9 creator morphs. Build_Stout / Build_Slim on EVERY kit part (zero where a part does not move, e.g. faces),
+    Feet_Large (= v2.8 feet) / Feet_Small on every Feet part. Each morph is the same part rebuilt on the other body
+    tables, so the shape key has the part's exact topology and every layer follows the same body."""
+    base = [v.co.copy() for v in ob.data.vertices]
+    keys = {'Build_Stout': part_coords(bt, slot, idx, 'stout'), 'Build_Slim': part_coords(bt, slot, idx, 'slim')}
+    if slot == 'Feet':
+        keys['Feet_Large'] = part_coords(bt, slot, idx, feet=FOOT_K_LARGE)
+        keys['Feet_Small'] = part_coords(bt, slot, idx, feet=FOOT_K_SMALL)
+    ob.shape_key_add(name='Basis', from_mix=False)
+    for name, co in keys.items():
+        assert len(co) == len(base), 'morph %s of %s changed the topology (%d vs %d verts)' % (name, ob.name, len(co), len(base))
+        kb = ob.shape_key_add(name=name, from_mix=False)
+        kb.data.foreach_set('co', [c for v in co for c in v])
+        kb.value = 0.0
+    if slot in ('Hair', 'Jaw'):
+        keep_clearance(bt, base, keys['Build_Stout'], 'stout')
+        keys['Build_Slim'] = [v.copy() for v in base]   # a slim body lies inside the average one: hair / beards stay put
+    for name, co in keys.items():
+        ob.data.shape_keys.key_blocks[name].data.foreach_set('co', [c for v in co for c in v])
+    MORPH_DATA[ob.name] = dict(keys, base=base, tris=[tuple(pl.vertices) for pl in ob.data.polygons],
+                               max_disp={k: round(max(((a - b).length for a, b in zip(co, base)), default=0.0), 4) for k, co in keys.items()})
+
+_DIRS = [Vector((.577, .577, .577)), Vector((-.62, .31, .72)).normalized(), Vector((.21, -.91, .36)).normalized()]
+
+def _inside_flags(bvh, pts):
+    out = []
+    for p in pts:
+        votes = 0
+        for d in _DIRS:
+            n, o = 0, p
+            for _ in range(24):
+                hit = bvh.ray_cast(o, d)
+                if hit[0] is None:
+                    break
+                n += 1
+                o = hit[0] + d * 1e-5
+            votes += n % 2
+        out.append(votes >= 2)
+    return out
+
+CLIP_DEPTH = .003   # a vertex that changes side by more than 3 mm is a real clip; less is the seam of a designed overlap moving
+
+def _loops_of(tris):
+    cnt = {}
+    for t in tris:
+        for a, b in zip(t, t[1:] + t[:1]):
+            e = (min(a, b), max(a, b))
+            cnt[e] = cnt.get(e, 0) + 1
+    nb = {}
+    for (a, b), c in cnt.items():
+        if c == 1:
+            nb.setdefault(a, []).append(b)
+            nb.setdefault(b, []).append(a)
+    seen, out = set(), []
+    for v0 in nb:
+        if v0 in seen:
+            continue
+        loop, v, prev = [v0], v0, None
+        seen.add(v0)
+        while True:
+            nxt = [w for w in nb[v] if w != prev and w not in seen]
+            if not nxt:
+                break
+            prev, v = v, nxt[0]
+            seen.add(v)
+            loop.append(v)
+        if len(loop) >= 3:
+            out.append(loop)
+    return out
+
+HEM_TORSOS = {'A': {2: .90, 5: .88, 6: .86, 7: .88, 8: .86}, 'B': {3: .90, 4: .90}}
+
+def _components(tris):
+    par = {}
+    def f(a):
+        while par.setdefault(a, a) != a:
+            par[a] = par[par[a]]
+            a = par[a]
+        return a
+    for t in tris:
+        for v in t[1:]:
+            ra, rb = f(t[0]), f(v)
+            if ra != rb:
+                par[ra] = rb
+    groups = {}
+    for t in tris:
+        groups.setdefault(f(t[0]), []).append(t)
+    return list(groups.values())
+
+def verify_builds(objs, arm=None, clips=None):
+    """v2.9 build check over EVERY option combination of both body types, at Stout 1.0 and Slim 1.0 (and every feet size).
+    Each rule states which part must stay on which side of another; a vertex that is on the wrong side by more than 3 mm at
+    the morph but was fine at the average build is a clip the morph introduced:
+      hair / beard outside the torso and the arms          (rest, idle f0 / f30, walk f0 / f5 / f10 / f15)
+      hips inside every hem torso (the hem covers them)    (rest, idle, walk)
+      arms (below the shoulder) and hands outside the torso and the legs  (idle, walk -- in the rest A-pose the hands sit
+                                                            beside the hips where no clip ever shows in game)
+      trouser / shin inside the boot shaft and the shoe collar (rest, walk; builds and feet sizes)"""
+    from mathutils.bvhtree import BVHTree as _BVH
+    names = list(MORPH_DATA)
+    comps = {n: [(ct, _loops_of(ct)) for ct in _components(MORPH_DATA[n]['tris'])] for n in names}   # loose pieces (inside = inside ANY piece)
+    poses = [('rest', None, 0)]
+    if arm is not None and clips:
+        poses += [('idle f0', 'idle', 0), ('idle f30', 'idle', 30), ('walk f0', 'walk', 0), ('walk f5', 'walk', 5), ('walk f10', 'walk', 10), ('walk f15', 'walk', 15)]
+    def coords_for(clip, frame, state):
+        if clip is None:
+            return {n: (MORPH_DATA[n].get(state) or MORPH_DATA[n]['base']) for n in names}
+        sc = bpy.context.scene
+        for n in names:
+            for kb in objs[n].data.shape_keys.key_blocks[1:]:
+                kb.value = 1.0 if kb.name == state else 0.0
+        arm.animation_data.action = clips[clip]
+        sc.frame_set(frame)
+        dg = bpy.context.evaluated_depsgraph_get()
+        out = {}
+        for n in names:
+            oe = objs[n].evaluated_get(dg)
+            me = oe.to_mesh()
+            out[n] = [v.co.copy() for v in me.vertices]
+            oe.to_mesh_clear()
+        return out
+    rules = []   # (bt, rule, X, Y, wrong_side, region(base_point) -> bool, poses)
+    ALL = ('rest', 'idle f0', 'idle f30', 'walk f0', 'walk f5', 'walk f10', 'walk f15')
+    POSED = ALL[1:]
+    for bt in ('A', 'B'):
+        nm = lambda sl: [part_name(bt, sl, i) for i in range(1, len(KIT[bt].get(sl, [])) + 1)]
+        for x in nm('Hair'):
+            for y in nm('Torso') + nm('Arms'):
+                rules.append((bt, 'hair outside torso/arms', x, y, 'in', lambda p: p.z < 1.56, ALL))
+        for x in nm('Jaw'):
+            for y in nm('Torso'):
+                rules.append((bt, 'beard outside torso', x, y, 'in', lambda p: True, ALL))
+        for ti, hem in HEM_TORSOS[bt].items():
+            for x in nm('Legs'):
+                rules.append((bt, 'hem covers the hips', x, part_name(bt, 'Torso', ti), 'out',
+                              (lambda h: lambda p: h + .02 < p.z < .985 and abs(p.x) < .30)(hem), ('rest', 'idle f0', 'walk f5', 'walk f15')))
+        for x in nm('Arms'):
+            for y in nm('Torso'):
+                rules.append((bt, 'arms clear of the torso', x, y, 'in', lambda p: p.z < 1.22, POSED))
+            for y in nm('Legs'):
+                rules.append((bt, 'arms clear of the legs', x, y, 'in', lambda p: True, POSED))
+        for x in nm('Hands'):
+            for y in nm('Torso') + nm('Legs'):
+                rules.append((bt, 'hands clear of torso/legs', x, y, 'in', lambda p: True, POSED))
+        for x in nm('Legs'):
+            rules.append((bt, 'boot shaft covers the leg', x, part_name(bt, 'Feet', 1), 'out', lambda p: .05 < p.z < .28, ('rest', 'walk f0', 'walk f10')))
+            rules.append((bt, 'shoe collar covers the ankle', x, part_name(bt, 'Feet', 2), 'out', lambda p: .07 < p.z < .14 and abs(abs(p.x) - .13) < .06,
+                          ('rest', 'walk f0', 'walk f10')))
+    summary, worst, base_wrong = {}, [], {}
+    for label, clip, frame in poses:
+        states = ['Build_Stout', 'Build_Slim'] + (MORPHS_FEET if clip is None else [])
+        C = {st: coords_for(clip, frame, st) for st in ['base'] + states}
+        bvhs, flags = {}, {}
+        def bvh(n, st):
+            k = (n, st)
+            if k not in bvhs:
+                co0 = [tuple(v) for v in C[st][n]]
+                lst = []
+                for ct, lps in comps[n]:
+                    co = list(co0)
+                    tris = list(ct)
+                    for lp in lps:
+                        c = sum((Vector(co[i]) for i in lp), Vector()) / len(lp)
+                        co.append(tuple(c))
+                        tris += [(lp[i], lp[(i + 1) % len(lp)], len(co) - 1) for i in range(len(lp))]
+                    lst.append(_BVH.FromPolygons(co, tris))
+                bvhs[k] = (lst, _BVH.FromPolygons(co0, MORPH_DATA[n]['tris']))
+            return bvhs[k]
+        def wrong(x, y, st, side, idx):
+            k = (x, y, st, side, tuple(idx))
+            if k not in flags:
+                pts = [C[st][x][i] for i in idx]
+                lst, whole = bvh(y, st)
+                ins = [False] * len(pts)
+                for b_ in lst:
+                    for j, f_ in enumerate(_inside_flags(b_, pts)):
+                        ins[j] = ins[j] or f_
+                res = []
+                for p_, i_ in zip(pts, ins):
+                    bad = i_ if side == 'in' else not i_
+                    if bad:
+                        d = whole.find_nearest(p_)[3] or 0.0
+                        bad = round(d, 4) if d > CLIP_DEPTH else False
+                    res.append(bad)
+                flags[k] = res
+            return flags[k]
+        for bt, rule, x, y, side, region, rposes in rules:
+            if label not in rposes:
+                continue
+            idx = [i for i, p_ in enumerate(C['base'][x]) if region(p_)]
+            if not idx:
+                continue
+            w0 = wrong(x, y, 'base', side, idx)
+            nb = sum(w0)
+            if nb:
+                bk = '%s %s' % (bt, rule)
+                base_wrong[bk] = base_wrong.get(bk, 0) + nb
+            for st in states:
+                if st in MORPHS_FEET and 'Feet' not in y:
+                    continue
+                w1 = wrong(x, y, st, side, idx)
+                new = [idx[j] for j, (a_, b_) in enumerate(zip(w0, w1)) if b_ and not a_]
+                key = '%s %s | %s' % (bt, rule, st)
+                sm = summary.setdefault(key, 0)
+                summary[key] = sm + len(new)
+                if new:
+                    dmax = max(w1[j] for j in range(len(idx)) if w1[j] and not w0[j])
+                    worst.append((len(new), dmax, x, y, st, label, [tuple(round(c, 3) for c in C[st][x][i]) for i in new[:3]]))
+                    summary[key + ' max_depth'] = max(summary.get(key + ' max_depth', 0.0), dmax)
+    if arm is not None:
+        for n in names:
+            for kb in objs[n].data.shape_keys.key_blocks[1:]:
+                kb.value = 0.0
+        arm.animation_data.action = None
+    worst.sort(key=lambda w: -w[1])
+    bad = {k: v for k, v in summary.items() if v and not k.endswith('max_depth')}
+    print('[BUILD CHECK] rules %d, poses %s; NEW clips at the morphs: %s' % (len(rules), [p[0] for p in poses], json.dumps(bad)))
+    print('[BUILD CHECK] worst', worst[:14])
+    return {'rule': 'per-vertex, per part pair: a vertex on the wrong side of the other part by more than %.0f mm at Stout 1.0 / Slim 1.0 / '
+                    'every feet size that was fine at the average build = a clip introduced by the morph' % (CLIP_DEPTH * 1000),
+            'rules': sorted({r[1] for r in rules}), 'part_pairs_checked': len(rules), 'poses': [p[0] for p in poses],
+            'combinations_covered': {bt: {'torso_x_legs_x_arms': len(KIT[bt]['Torso']) * len(KIT[bt]['Legs']) * len(KIT[bt]['Arms'])} for bt in 'AB'},
+            'new_clip_vertices_by_rule': summary, 'already_wrong_at_average_build_vertices': base_wrong,
+            'worst': [list(w) for w in worst[:30]], 'PASS': not bad}
+
 def build_kit():
     mats = make_kit_materials('A')
     arm = build_armature()
@@ -1960,10 +3190,12 @@ def build_kit():
                 continue
             for idx in range(1, len(KIT[bt][slot]) + 1):
                 ob = build_part(bt, slot, idx, mats, arm, coll)
+                add_morphs(ob, bt, slot, idx)
                 objs[ob.name] = ob
     clips = {}
     defs = clip_defs()
     defs.update(kit_npc_clips())
+    defs.update(v27_clips())   # v2.7: grounded walk / run + re-authored chop, mine, net, cook
     for name, (frames, keys, loop) in defs.items():
         clips[name] = make_clip(arm, name, frames, keys)
     al = clips['attack_slash'].copy()
@@ -2039,7 +3271,523 @@ def build_bram(kit_objs, kit_mats):
     ad.action = None
     return arm, bm, objs, acts, defs
 
-def export_glb(path, arm, meshes, mode='ACTIONS'):
+# ==========================================================================================
+# v2.9 TUTORS -- the nine remaining Tutor's Holm tutors, each built from kit parts + their own extras (our own designs)
+# ==========================================================================================
+def _dz(hx):
+    return _desat(hx)
+
+TUTORS = {
+    'wenna': dict(name='Wenna', role='survival instructor', bt='B', parts={'Hair': 2, 'Torso': 1, 'Arms': 1, 'Hands': 1, 'Legs': 4, 'Feet': 1},
+                  colors={'C_HAIR': '#8a5a30', 'C_TORSO': '#a8966a', 'C_LEGS': '#4a4a30', 'C_FEET': '#5a3a22', 'C_SKIN': '#c8966e'},
+                  mats={'A_GREEN': '#3f5a2c', 'A_LEATHER': '#6a4426', 'A_WOOD': '#7a5a36'},
+                  extras=['hood', 'capelet', 'jerkin', 'hatchet_belt'], hold=None, free=('Left', 'Right'), gesture='Right'),
+    'hettie': dict(name='Cook Hettie', role='cook', bt='B', parts={'Hair': 7, 'Torso': 1, 'Arms': 2, 'Hands': 1, 'Feet': 2, 'Makeup': 2},
+                   colors={'C_HAIR': '#a8773e', 'C_TORSO': '#6a4a2a', 'C_LEGS': '#6a4a2a', 'C_FEET': '#4a3019', 'C_SKIN': '#e8bc98', 'C_MAKEUP': '#c86a7a'},
+                   mats={'A_WHITE': '#ece8dc'}, extras=['apron_skirt', 'apron_dress', 'mob_cap', 'sleeve_rolls'], hold=None, free=('Left', 'Right'), gesture='Right'),
+    'ansel': dict(name='Loremaster Ansel', role='loremaster', bt='A', parts={'Hair': 5, 'Jaw': 2, 'Torso': 1, 'Arms': 3, 'Hands': 1, 'Feet': 2},
+                  colors={'C_HAIR': '#d0cec8', 'C_TORSO': '#2e3f6e', 'C_LEGS': '#2e2e30', 'C_FEET': '#2e2620', 'C_SKIN': '#e0b088'},
+                  mats={'A_BOOK': '#7a2e22'}, extras=['robe_skirt', 'robe_hose', 'sleeve_trim', 'spectacles', 'book_arm'], hold='Left', free=('Right',), gesture='Right'),
+    'durgin': dict(name='Foreman Durgin', role='mining foreman', bt='A', build='stout',
+                   parts={'Hair': 7, 'Jaw': 3, 'Torso': 1, 'Arms': 2, 'Hands': 2, 'Legs': 1, 'Feet': 1},
+                   colors={'C_HAIR': '#6a3a1e', 'C_TORSO': '#8c7a55', 'C_LEGS': '#4a3a2c', 'C_FEET': '#3a2a1e', 'C_SKIN': '#c8966e'},
+                   mats={'A_LEATHER': '#5a3a22', 'A_WOOD': '#7a5a36'}, extras=['leather_apron', 'hard_cap', 'pick_shoulder'], hold='Right',
+                   free=('Left',), gesture='Left'),
+    'corrick': dict(name='Warden Corrick', role='warden', bt='A', parts={'Hair': 2, 'Jaw': 6, 'Hands': 2, 'Legs': 1, 'Feet': 1},
+                    colors={'C_HAIR': '#4a3020', 'C_TORSO': '#a07a44', 'C_LEGS': '#3b2e1e', 'C_FEET': '#3a2a1e', 'C_SKIN': '#c8966e'},
+                    mats={'A_BRONZE': '#ac7e40', 'A_BRONZE_DK': '#8c6634', 'A_TABARD': '#2e3f6e', 'A_WOOD': '#5a3a22'},
+                    extras=['hauberk', 'mail_sleeves', 'tabard', 'helmet', 'sword_hip'],
+                    hold=None, free=('Left', 'Right'), gesture='Right'),
+    'maud': dict(name='Teller Maud', role='bank teller', bt='B', parts={'Hair': 3, 'Torso': 1, 'Arms': 1, 'Hands': 1, 'Legs': 1, 'Feet': 2},
+                 colors={'C_HAIR': '#4a3020', 'C_TORSO': '#dcd4bc', 'C_LEGS': '#26345a', 'C_FEET': '#2e2620', 'C_SKIN': '#e0b088'},
+                 mats={'A_VEST': '#3a4a5e', 'A_BOOK': '#3f6234'}, extras=['waistcoat', 'ledger'], hold='Left', free=('Right',), gesture='Right'),
+    'ilse': dict(name='Magister Ilse', role='magister', bt='B', parts={'Hair': 1, 'Torso': 1, 'Arms': 5, 'Hands': 1, 'Legs': 1, 'Feet': 2},
+                 colors={'C_HAIR': '#2a1f18', 'C_TORSO': '#5e3e6e', 'C_LEGS': '#5e3e6e', 'C_FEET': '#2e2620', 'C_SKIN': '#e8bc98'},
+                 mats={'A_HAT': '#4e3060', 'A_WOOD': '#6a4a2a', 'A_GEM': '#7ac0e8'}, extras=['pointed_hat', 'skirt_trim', 'staff_orb'], hold='Right',
+                 free=('Left',), gesture='Left'),
+    'aldous': dict(name='Keeper Aldous', role='lighthouse keeper', bt='A', parts={'Hair': 7, 'Jaw': 4, 'Arms': 1, 'Hands': 1, 'Legs': 1, 'Feet': 1},
+                   colors={'C_HAIR': '#a4a09a', 'C_TORSO': '#c49a3a', 'C_LEGS': '#2e2e30', 'C_FEET': '#2e2620', 'C_SKIN': '#c8966e', 'A_TRIM': '#8a6a2a'},
+                   mats={'A_WOOL': '#8a2e2a', 'A_GLASS': '#f4dc8c'}, extras=['oilskin_coat', 'wool_cap', 'lantern_hand'], hold='Right',
+                   free=('Left',), gesture='Left'),
+    'tobin': dict(name='Ferryman Tobin', role='ferryman', bt='A', parts={'Hair': 5, 'Jaw': 6, 'Arms': 2, 'Hands': 1, 'Feet': 3},
+                  colors={'C_HAIR': '#5a4030', 'C_TORSO': '#26345a', 'C_LEGS': '#6a5a40', 'C_FEET': '#4a3019', 'C_SKIN': '#a0704e'},
+                  mats={'A_ROPE': '#b8a07a'}, extras=['striped_shirt', 'rolled_trousers', 'rope_coil'], hold=None, free=('Left', 'Right'), gesture='Right'),
+}
+TUTOR_WALK_SPEED = 1.30   # m/s, like Guide Bram (NPC stroll)
+
+def tut_hold_pose(tid):
+    """the held arm's base pose (the props are authored in this pose)"""
+    d = {}
+    if tid == 'durgin':      # pickaxe resting on the right shoulder, hand gripping the shaft in front of the shoulder
+        p_ = P()
+        arm_reach(p_, 'Right', Vector((-.19, -.13, 1.28)), (.10, -.55, .83), -80, pole=(-.8, .3, -.45))
+        d = {k: p_[k] for k in ('RightArm', 'RightForeArm', 'RightHand')}
+    elif tid == 'aldous':    # lantern carried low at the side
+        p_ = P()
+        arm_reach(p_, 'Right', Vector((-.27, -.10, .98)), (-.05, -.45, -.89), 0, pole=(-.8, .4, -.4))
+        d = {k: p_[k] for k in ('RightArm', 'RightForeArm', 'RightHand')}
+    elif tid == 'ilse':      # staff upright in the right hand (as Bram)
+        d = dict(HOLD)
+    elif tid == 'ansel':     # book tucked under the left arm, forearm under it
+        p_ = P()
+        arm_reach(p_, 'Left', Vector((.27, -.20, 1.06)), (.05, -.95, .30), 0, pole=(.9, .3, -.3))
+        d = {k: p_[k] for k in ('LeftArm', 'LeftForeArm', 'LeftHand')}
+    elif tid == 'maud':      # ledger held against the waist in the left hand
+        p_ = P()
+        arm_reach(p_, 'Left', Vector((.15, -.22, 1.00)), (-.10, -.60, .79), 90, pole=(.9, .3, -.3))
+        d = {k: p_[k] for k in ('LeftArm', 'LeftForeArm', 'LeftHand')}
+    return d
+
+def PT(tid, *dicts, **kw):
+    d = dict(REST)
+    d.update(tut_hold_pose(tid))
+    for x in dicts:
+        d.update(x)
+    d.update(kw)
+    return d
+
+def tutor_clip_defs(tid):
+    t = TUTORS[tid]
+    g = t['gesture']
+    mir = (lambda d: d) if g == 'Left' else mirror_pose
+    C = {}
+    C['idle'] = (60, [(0, upright(PT(tid))), (30, upright(PT(tid, Spine1=(-1.5, 0, 0), Spine2=(-1, 0, 0), Head=(2.5, 0, 0), loc=(0, 0, .004)))),
+                      (60, upright(PT(tid)))], True)
+    C['talk'] = (48, [(f, upright(PT(tid, mir(GEST_L[i % 4])))) for i, f in enumerate((0, 12, 24, 36))] + [(48, upright(PT(tid, mir(GEST_L[0]))))], True)
+    C['wave'] = (40, [(0, upright(PT(tid)))] + [(8 + 6 * i, upright(PT(tid, mir(dict(WAVE_UP, LeftForeArm=fa))))) for i, fa in enumerate(WAVE_FA)]
+                 + [(40, upright(PT(tid)))], False)
+    C['walk'] = (28, best_gait('walk_' + tid, 28, TUTOR_WALK_SPEED, .60, lift=.045, drop=.005, bob=.010, front=.20, p_on=10, p_off=-20,
+                               arm_swing=14, fore=0, lean=0, twist=2, foot_x=.13, base=PT(tid), osrs=(13.0, 10.0), fore_swing=8,
+                               swing_sides=t['free'], lean_cap=(0.0, False)), True)
+    return C
+
+# ---- tutor extras (all built with the kit's body surface rules) ----------------------------
+def ext_hood(mb, bt):
+    """hood (head space): frames the face, hangs to the neck and flares onto the shoulders"""
+    hair_cap(mb, bt, angtab([(0, 1.752), (45, 1.705), (70, 1.600), (100, 1.520), (180, 1.470)]), off_out=.036, off_in=.022, top=1.862,
+             rows=4, cols=14, hang_below=1.60, flare=.20, ears=False, mat='A_GREEN', clumps=False)
+
+def ext_capelet(mb, bt):
+    """short cloak over the shoulders and upper arms, open at the front"""
+    zs = [1.16, 1.24, 1.32, 1.38, 1.43, 1.47]
+    def rad(z):
+        rx, rf, rb, cy = body_r(bt, min(z, 1.45))
+        cover = .30 if bt == 'A' else .27
+        k = ss(1.47, 1.36, z)
+        return (rx + (max(cover, rx + .06) - rx) * k, rf + .05 * k + .012, rb + .06 * k + .012, cy)
+    outer, inner = [], []
+    for z in zs:
+        r = rad(z)
+        a0 = .30 + (1.47 - z) * 2.2
+        phis = [a0 + (2 * math.pi - 2 * a0) * k / 12 for k in range(13)]
+        outer.append([tuple(body_point(bt, ph, z, .012, rad=r)) for ph in phis])
+        inner.append([tuple(body_point(bt, ph, z, .004, rad=r)) for ph in phis])
+    mb.shell(outer, inner, lambda i, j, sd: 'A_GREEN', torso_w)
+    for sx in (-1, 1):   # clasp cords at the throat
+        mb.box((sx * .030, front_y(bt, .03, 1.45, .016), 1.45), (.012, .010, .012), 'A_METAL', SPINE_W((0, 0, 1.45)))
+
+def ext_jerkin(mb, bt):
+    shirt2(mb, bt, mat='A_LEATHER', hem=.86, off=.015, hem_off=.022)
+    o = shirt_off(.86, .015, .022)
+    zs = shirt_zs(bt, .86)
+    for k in range(4):
+        zc = 1.10 + .075 * k
+        y = cloth_y(bt, 0, zc, zs, o) - .003
+        for sg in (-1, 1):
+            mb.box((0, y, zc), (.040, .004, .005), 'A_BELT', SPINE_W((0, 0, zc)), rot=Euler((0, math.radians(26 * sg), 0)).to_matrix())
+    belt(mb, bt, .95, 1.00, off=.045, buckle=True)
+
+def ext_hatchet_belt(mb, bt):
+    """hand axe tucked through the belt on the right hip, head up (rigid on the hips)"""
+    H = B('Hips')
+    x = -(body_r(bt, .97)[0] + .055)
+    mb.loft([xring((x, -.02, z), (0, 0, 1), .010, .010, .010, 5) for z in (.72, 1.02)], 'A_WOOD', H, smooth=False)
+    mb.box((x, -.055, 1.02), (.012, .055, .040), 'A_METAL', H, taper=1.0)
+    mb.box((x, -.09, 1.02), (.008, .020, .062), 'A_METAL', H)
+
+def _skirt_outer_ring(bt, z, zs, hem_rad, off, n=10):
+    z_hem, z_top = zs[0], zs[-1]
+    a = body_r(bt, min(z, .99)) if z > .86 else body_r(bt, .86)
+    hem_rad = (hem_rad[0],) + tuple(v * BUILD['skirt'] for v in hem_rad[1:4]) + tuple(hem_rad[4:])
+    rad = a if z > .86 else tuple(x + (y - x) * clamp((.86 - z) / (.86 - z_hem)) for x, y in zip(a, hem_rad[1:]))
+    return body_ring(bt, z, off, n, rad=rad)
+
+def _poly_front_y(ring, x):
+    best = None
+    for a, b in zip(ring, ring[1:] + ring[:1]):
+        if (a[0] - x) * (b[0] - x) <= 0 and abs(b[0] - a[0]) > 1e-9 and (a[1] + b[1]) / 2 < .03:
+            y = a[1] + (b[1] - a[1]) * (x - a[0]) / (b[0] - a[0])
+            best = y if best is None else min(best, y)
+    return best
+
+def ext_apron_skirt(mb, bt):
+    """v2.9b: Hettie's long dress skirt whose three front faces ARE the apron (white) from the waist to above the hem --
+    the apron moves exactly with the skirt, so no walk frame can push the skirt through it"""
+    zsk = [.12, .22, .36, .52, .68, .82, .92, 1.0]
+    n = 14
+    belt(mb, bt, off=.016, buckle=False)
+    skirt(mb, bt, zsk, (.12, .235, .20, .21, .030), off=.014, n=n,
+          matfn=lambda i, k: 'A_WHITE' if (k in (n - 2, n - 1, 0) and zsk[i] >= .22) else 'C_LEGS')
+    legs_skin(mb, bt, 1.5)
+
+def ext_apron_dress(mb, bt):
+    """white bib apron over the brown dress: follows the bodice, then the long skirt's own front surface"""
+    zsk = [.12, .22, .36, .52, .68, .82, .92, 1.0]
+    hem = (.12, .235, .20, .21, .030)
+    zs = [.955, 1.00, 1.08, 1.16, 1.24, 1.31]   # v2.9b: bib only (the skirt part is the dress's own front faces)
+    cols = 7
+    outer, inner = [], []
+    for z in zs:
+        hw = .125 if z < 1.0 else .125 - .035 * (z - 1.0) / .31
+        ro, ri = [], []
+        ring = _skirt_outer_ring(bt, z, zsk, hem, .014) if z < .97 else None
+        for j in range(cols):
+            x = -hw + 2 * hw * j / (cols - 1)
+            # v2.9b: more stand-off low down, where the skirt swings furthest in the walk
+            y = (_poly_front_y(ring, x) if ring else front_y(bt, x, z, .012)) - .007 - .006 * ss(.94, .40, z)
+            ro.append((x, y, z))
+            ri.append((x, y + .005, z))
+        outer.append(ro)
+        inner.append(ri)
+    rings_sk = [(z, _skirt_outer_ring(bt, z, zsk, hem, .014)) for z in zsk]
+    def surf_w(p):
+        """v2.9b: the skirt's own (interpolated) skin weights at this point, so the apron moves exactly with the skirt face"""
+        if p.z >= .97:
+            return skirt_w(p)
+        def at_ring(ring, x):
+            for a_, b_ in zip(ring, ring[1:] + ring[:1]):
+                if (a_[0] - x) * (b_[0] - x) <= 0 and abs(b_[0] - a_[0]) > 1e-9 and (a_[1] + b_[1]) / 2 < .03:
+                    t_ = (x - a_[0]) / (b_[0] - a_[0])
+                    return wmix(skirt_w(Vector(a_)), skirt_w(Vector(b_)), t_)
+            return skirt_w(p)
+        for (z0, r0), (z1, r1) in zip(rings_sk, rings_sk[1:]):
+            if z0 <= p.z <= z1:
+                return wnorm(wmix(at_ring(r0, p.x), at_ring(r1, p.x), (p.z - z0) / (z1 - z0)))
+        return skirt_w(p)
+    mb.shell(outer, inner, lambda i, j, sd: 'A_WHITE', surf_w)
+    band = [body_ring(bt, z, .020, 14) for z in (.965, .995)]
+    mb.loft(band, 'A_WHITE', torso_w, cap0=False, cap1=False, smooth=False)
+    for sx in (-1, 1):   # neck straps
+        x0 = sx * .07
+        tube(mb, [(x0, front_y(bt, x0, 1.31, .014), 1.31), (sx * .062, -.045, 1.45), (sx * .05, .03, 1.49), (0, .065, 1.47)],
+             [.007] * 4, 'A_WHITE', torso_w, n=4, cap=False)
+
+def ext_mob_cap(mb, bt):
+    """soft gathered cap: a puffed crown over the hair with a frilled edge"""
+    hair_cap(mb, bt, angtab([(0, 1.748), (40, 1.745), (70, 1.733), (100, 1.712), (180, 1.672)]), off_out=.042, off_in=.026, top=1.876, rows=3, cols=16,
+             ears=False, mat='A_WHITE', jag=.007, jag_fn=lambda th: True, clumps=False, off_fn=lambda th, t: .014 * math.sin(math.pi * min(1.0, t * 1.2)))
+
+def ext_sleeve_rolls(mb, bt):
+    for sx in (-1, 1):
+        mb.loft(arm_rings(bt, sx, [(.44, .014), (.46, .022), (.52, .022), (.54, .014)]), 'C_TORSO', arm_w(sx))
+
+def ext_robe_skirt(mb, bt):
+    skirt(mb, bt, [.10, .20, .34, .50, .66, .80, .90, .99], (.10, .235, .20, .21, .030), off=.020, mat='C_TORSO', rim_mat='A_TRIM')
+    band_o = [_skirt_outer_ring(bt, z, [.10, .20, .34, .50, .66, .80, .90, .99], (.10, .235, .20, .21, .030), .026) for z in (.105, .15)]
+    mb.loft(band_o, 'A_TRIM', skirt_w, cap0=False, cap1=False, smooth=False)
+    belt(mb, bt, .94, 1.00, off=.040, mat='A_TRIM', buckle=False)
+
+def ext_robe_hose(mb, bt):
+    """dark hose from mid-shin down (the robe hides the rest; nothing can poke through it at the hips)"""
+    legs_both(mb, bt, [(1.36, .004), (1.5, .004), (1.72, .004), (1.95, .004), (2.04, .004)], 'C_LEGS')
+
+def ext_sleeve_trim(mb, bt):
+    for sx in (-1, 1):
+        mb.loft(arm_rings(bt, sx, [(1.78, .036), (1.80, .044), (1.86, .044), (1.88, .036)]), 'A_TRIM', arm_w(sx))
+
+def ext_spectacles(mb, bt):
+    """wire spectacles (head space): two small rims, bridge and temples back to the ears"""
+    T = HEAD_T[bt]
+    H = B('Head')
+    ez = 1.687
+    for sx in (-1, 1):
+        cx = .0265 * sx
+        y = face_y(cx, ez, T) - .007
+        w, h, t = .026, .020, .0022
+        for (bx, bz, sw, sh_) in ((cx, ez + h / 2, w, t), (cx, ez - h / 2, w, t), (cx - w / 2, ez, t, h), (cx + w / 2, ez, t, h)):
+            mb.box((bx, y, bz), (sw, .003, sh_), 'A_METAL', H)
+        rx = lerp_table(T, ez)[0]
+        tube(mb, [(sx * (.0265 + w / 2), y, ez + .004), (sx * (rx + .004), -.02, ez + .006), (sx * (rx + .002), .01, ez - .004)], [.0015] * 3,
+             'A_METAL', H, n=3, cap=False)
+    mb.box((0, face_y(0, ez + .004, T) - .009, ez + .004), (.010, .003, .0025), 'A_METAL', H)
+
+def ext_leather_apron(mb, bt):
+    apron(mb, bt, z_hem=.52, bib_top=1.33, half=.135, mat='A_LEATHER', off=.020)
+
+def ext_hard_cap(mb, bt):
+    zb = angtab([(0, 1.742), (90, 1.728), (180, 1.708)])
+    hair_cap(mb, bt, zb, off_out=.034, off_in=.022, top=1.858, rows=3, cols=14, ears=False, mat='A_LEATHER', clumps=False)
+    T = HEAD_T[bt]
+    ring = lambda o, dz: [tuple(head_surface(2 * math.pi * k / 16, zb(2 * math.pi * k / 16) + dz, o, T)) for k in range(16)]
+    mb.loft([ring(.030, -.002), ring(.058, -.004), ring(.058, .004), ring(.030, .008)], 'A_LEATHER', B('Head'), cap0=False, cap1=False, smooth=False)
+
+def ext_hauberk(mb, bt):
+    """bronze mail shirt to mid-thigh: rings of mail rows (alternating ridges), closed collar"""
+    zs = [.70, .74, .78, .82, .86, .90, .94, .98, 1.03, 1.08, 1.13, 1.18, 1.23, 1.28, 1.33, 1.38, 1.43, 1.47, 1.505]
+    def off(z):
+        return .010 + .036 * ss(1.00, .90, z) + .020 * ss(.90, .70, z) + (.004 if round(z * 100) % 2 else 0.0)
+    zs = [.70 + .026 * i for i in range(int((1.44 - .70) / .026) + 1)] + [1.47, 1.505]
+    rings = [body_ring(bt, z, off(z) + (.0035 if i % 2 else 0.0), 12) for i, z in enumerate(zs)]
+    rings[0] = [(x, y, z + (.005 if k % 2 else 0.0)) for k, (x, y, z) in enumerate(rings[0])]
+    mb.loft(rings, 'A_BRONZE', skirt_w, cap0=False, cap1=True,
+            matfn=lambda i, k: 'A_BRONZE_DK' if (i % 2 and zs[i] < 1.44) else 'A_BRONZE')   # v2.9b: rows of mail
+
+def ext_mail_sleeves(mb, bt):
+    """v2.9b: mail sleeves in the same bright / dark ring rows as the hauberk (replace the cloth sleeves)"""
+    us = [-.08, .06] + [.18 + .11 * i for i in range(15)] + [1.85]
+    spec = [(u, .011 + (.003 if i % 2 else 0.0)) for i, u in enumerate(us)] + [(1.88, .016), (1.97, .017)]
+    arms_both(mb, bt, spec, 'A_BRONZE', matfn=lambda i, k: 'A_BRONZE_DK' if (i % 2 and 1 < i < len(spec) - 1) else 'A_BRONZE')
+
+def ext_tabard(mb, bt):
+    tabard(mb, bt, z_hem=.60, half=.110, off=.034, mat='A_TABARD', trim='A_TRIM')
+    y = front_y(bt, 0, 1.24, .040)
+    mb.loft([[(-.045, y, 1.28), (.045, y, 1.28), (.045, y + .004, 1.28), (-.045, y + .004, 1.28)],
+             [(-.045, y, 1.20), (.045, y, 1.20), (.045, y + .004, 1.20), (-.045, y + .004, 1.20)],
+             [(0, y, 1.14), (.001, y, 1.14), (.001, y + .004, 1.14), (0, y + .004, 1.14)]], 'A_TRIM', SPINE_W, smooth=False)   # shield emblem
+    belt(mb, bt, .95, 1.00, off=.050, buckle=True)
+
+def ext_helmet(mb, bt):
+    zb = angtab([(0, 1.732), (70, 1.715), (100, 1.690), (180, 1.640)])
+    hair_cap(mb, bt, zb, off_out=.022, off_in=.006, top=1.846, rows=3, cols=14, ears=False, mat='A_BRONZE', clumps=False)
+    T = HEAD_T[bt]
+    ring = lambda o, dz: [tuple(head_surface(2 * math.pi * k / 16, zb(2 * math.pi * k / 16) + dz, o, T)) for k in range(16)]
+    mb.loft([ring(.018, -.004), ring(.030, -.004), ring(.030, .012), ring(.020, .012)], 'A_BRONZE', B('Head'), cap0=False, cap1=False, smooth=False)
+    ny = face_y(0, 1.70, T)
+    mb.box((0, ny - .010, 1.700), (.012, .008, .052), 'A_BRONZE', B('Head'))   # nasal guard
+
+def ext_sword_hip(mb, bt):
+    """scabbarded sword hanging from the belt on the left hip, angled back"""
+    H = B('Hips')
+    x0 = body_r(bt, .97)[0] + .065
+    top, tip = Vector((x0, -.02, .99)), Vector((x0 + .03, .22, .44))
+    ax = (tip - top).normalized()
+    mb.loft([xring(top + ax * t, ax, .016, .010, .010, 4, front=(1, 0, 0)) for t in (0.0, .60)] + [xring(tip, ax, .008, .006, .006, 4, front=(1, 0, 0))],
+            'A_WOOD', H, smooth=False)
+    mb.loft([xring(top - ax * t, ax, .006, .006, .006, 5) for t in (0.0, .10)], 'A_BELT', H, smooth=False)   # grip
+    mb.box(tuple(top - ax * .004), (.012, .075, .012), 'A_BRONZE', H, rot=ax.rotation_difference(Vector((0, 0, 1))).to_matrix().inverted())
+    mb.box(tuple(top - ax * .11), (.018, .018, .018), 'A_BRONZE', H)   # pommel
+
+def ext_waistcoat(mb, bt):
+    va = lambda z: .06 + max(0, z - 1.26) * 3.6
+    open_shell(mb, bt, [.93, .98, 1.04, 1.12, 1.20, 1.28, 1.35, 1.41, 1.45], va, .016, .007, mat='A_VEST', trim=None, w=torso_w, n_body=16)
+    for k in range(5):
+        z = 1.00 + .065 * k
+        p_ = body_point(bt, va(z) + .09, z, .018)
+        mb.box((p_.x, p_.y - .0006, z), (.011, .005, .011), 'A_METAL', SPINE_W((0, 0, z)))
+
+def ext_pointed_hat(mb, bt):
+    T = HEAD_T[bt]
+    H = B('Head')
+    zb = 1.780
+    brim_in = [tuple(head_surface(2 * math.pi * k / 16, zb, .040, T)) for k in range(16)]
+    brim_out = [(p[0] * 1.9, (p[1] - HEAD_YC) * 1.9 + HEAD_YC, zb - .012) for p in brim_in]
+    brim_top = [(p[0], p[1], p[2] + .010) for p in brim_out]
+    mb.loft([brim_in, brim_out, brim_top, [(p[0], p[1], p[2] + .012) for p in brim_in]], 'A_HAT', H, cap0=False, cap1=False, smooth=False)
+    rings, c = [], Vector((0, HEAD_YC, zb))
+    for i, (h, r) in enumerate(((0.0, 1.0), (.03, .96), (.10, .72), (.18, .46), (.25, .24), (.31, .02))):
+        cc = c + Vector((0, .05 * (h / .31) ** 2, h))
+        rings.append([tuple(cc + (Vector(p) - c) * r - Vector((0, 0, 0))) for p in brim_in])
+    mb.loft(rings, 'A_HAT', H, cap0=False, cap1=True)
+    mb.loft([[tuple(Vector(p) + (Vector(p) - c).normalized() * .004 + Vector((0, 0, .006 + dz))) for p in brim_in] for dz in (0.0, .024)],
+            'A_TRIM', H, cap0=False, cap1=False, smooth=False)   # hat band
+
+def ext_skirt_trim(mb, bt):
+    zsk, hem = [.12, .22, .36, .52, .68, .82, .92, 1.0], (.12, .235, .20, .21, .030)
+    mb.loft([_skirt_outer_ring(bt, z, zsk, hem, .020) for z in (.125, .17)], 'A_TRIM', skirt_w, cap0=False, cap1=False, smooth=False)
+
+def ext_oilskin_coat(mb, bt):
+    torso_style(mb, bt, 'coat')
+
+def ext_wool_cap(mb, bt):
+    zb = angtab([(0, 1.736), (90, 1.712), (180, 1.672)])
+    hair_cap(mb, bt, zb, off_out=.034, off_in=.020, top=1.878, rows=3, cols=14, ears=False, mat='A_WOOL', clumps=False)
+    T = HEAD_T[bt]
+    ring = lambda o, dz: [tuple(head_surface(2 * math.pi * k / 14, zb(2 * math.pi * k / 14) + dz, o, T)) for k in range(14)]
+    mb.loft([ring(.030, -.002), ring(.046, .006), ring(.046, .030), ring(.034, .038)], 'A_WOOL', B('Head'), cap0=False, cap1=False)   # rolled brim
+
+def ext_striped_shirt(mb, bt):
+    zs = [.968, 1.005, 1.045, 1.085, 1.125, 1.165, 1.205, 1.245, 1.285, 1.325, 1.365, 1.405, 1.44, 1.47, 1.496, 1.518]
+    torso_loft(mb, bt, zs, .004, 'C_TORSO', matfn=lambda i, k: 'A_SHIRT' if (i % 2 and zs[i] < 1.43) else 'C_TORSO')
+    collar(mb, bt)
+
+def ext_rolled_trousers(mb, bt):
+    pelvis(mb, bt)
+    belt(mb, bt)
+    legs_both(mb, bt, [(u, .010) for u in U_LEG if u < 1.25] + [(1.30, .011), (1.32, .026), (1.44, .026), (1.46, .012)])
+    legs_skin(mb, bt, 1.34)
+
+def _coil_path(bt, dz, off, n=24, droop=0.0):
+    pts = []
+    for k in range(n):
+        ph = 2 * math.pi * k / n
+        z = 1.14
+        for _ in range(8):
+            rx = body_r(bt, min(max(z, .96), 1.44))[0]
+            x = (rx + .03) * math.copysign(abs(math.sin(ph)) ** (2 / TORSO_P), math.sin(ph))
+            z = .5 * z + .5 * (1.14 + dz + 1.05 * x - droop * ss(.02, -.20, x))
+        zc = min(max(z, .90), 1.47)
+        pts.append(body_point(bt, ph, zc, off + .5 * droop * ss(.02, -.20, x)))
+    return pts
+
+def ext_rope_coil(mb, bt):
+    """v2.9b: a coil of rope worn over the left shoulder and across to the right hip: four separate twisted strands
+    (visible gaps between them) bundled together, with three dark bindings round the bundle"""
+    n = 24
+    for j in range(5):   # the loops hang to different lengths, so they fan apart at the hip like a real coil
+        pts = _coil_path(bt, -.040 + .020 * j, .030 + .004 * (j % 2), n, droop=.018 * (4 - j))
+        rings = [xring(p_, pts[(k + 1) % n] - pts[k - 1], .0115 if k % 2 else .0095, .0115 if k % 2 else .0095, .0115 if k % 2 else .0095, 5,
+                       front=(0, 0, 1)) for k, p_ in enumerate(pts)]
+        rings.append(rings[0])
+        mb.loft(rings, 'A_ROPE', torso_w, cap0=False, cap1=False)
+    mid = _coil_path(bt, 0.0, .032, n)
+    zs = [p_.z for p_ in mid]
+    k_top = zs.index(max(zs))
+    for k in (k_top, (k_top + n // 5) % n, (k_top - n // 5) % n):   # bindings: shoulder top, chest, shoulder blade
+        c = mid[k]
+        ax = mid[(k + 1) % n] - mid[k - 1]
+        out = Vector((c.x, c.y - body_r(bt, min(max(c.z, .96), 1.44))[3], 0)).normalized()
+        rs = [xring(c + ax.normalized() * d, ax, .058, .020, .020, 6, front=tuple(out)) for d in (-.012, .012)]
+        mb.loft(rs, 'A_BELT', torso_w, smooth=False)
+
+EXTRA_FN = {'hood': (ext_hood, True), 'capelet': (ext_capelet, False), 'jerkin': (ext_jerkin, False), 'hatchet_belt': (ext_hatchet_belt, False),
+            'apron_dress': (ext_apron_dress, False), 'apron_skirt': (ext_apron_skirt, False), 'mob_cap': (ext_mob_cap, True), 'sleeve_rolls': (ext_sleeve_rolls, False),
+            'robe_skirt': (ext_robe_skirt, False), 'robe_hose': (ext_robe_hose, False), 'sleeve_trim': (ext_sleeve_trim, False), 'spectacles': (ext_spectacles, True),
+            'leather_apron': (ext_leather_apron, False), 'hard_cap': (ext_hard_cap, True), 'hauberk': (ext_hauberk, False),
+            'tabard': (ext_tabard, False), 'mail_sleeves': (ext_mail_sleeves, False), 'helmet': (ext_helmet, True), 'sword_hip': (ext_sword_hip, False), 'waistcoat': (ext_waistcoat, False),
+            'pointed_hat': (ext_pointed_hat, True), 'skirt_trim': (ext_skirt_trim, False), 'oilskin_coat': (ext_oilskin_coat, False),
+            'wool_cap': (ext_wool_cap, True), 'striped_shirt': (ext_striped_shirt, False), 'rolled_trousers': (ext_rolled_trousers, False),
+            'rope_coil': (ext_rope_coil, False)}
+
+def _posed_prop(arm, pose, bone, build, bm, name, coll):
+    """a rigid prop authored in `pose` (world space), mapped back into the rest pose of `bone` and weighted 100% to it"""
+    set_pose(arm, pose)
+    pb = arm.pose.bones[B(bone)]
+    M = pb.matrix @ pb.bone.matrix_local.inverted()
+    mb = MB()
+    build(mb, B(bone))
+    Mi = M.inverted()
+    for v in mb.bm.verts:
+        v.co = Mi @ v.co
+    clear_pose(arm)
+    return mb.to_object(name, bm, arm, coll=coll)
+
+def tutor_props(tid, arm, bm, coll):
+    t = TUTORS[tid]
+    out = {}
+    base = upright(PT(tid))
+    if tid == 'durgin':
+        g = grip_of(base, 'Right')
+        d = Vector((.05, .72, .69)).normalized()
+        def build(mb, bone):
+            mb.loft([xring(g + d * t_, d, .013, .013, .013, 6) for t_ in (-.14, .30, .70)], 'A_WOOD', bone)
+            head_c = g + d * .70
+            side = d.cross(Vector((1, 0, 0))).normalized()
+            mb.loft([xring(head_c + side * t_, side, .017 * (1 - abs(t_) * 2.2), .016 * (1 - abs(t_) * 2.2), .016 * (1 - abs(t_) * 2.2), 5)
+                     for t_ in (-.20, -.08, 0.0, .08, .20)], 'A_METAL', bone)
+        out['Pick'] = _posed_prop(arm, base, 'RightHand', build, bm, 'Durgin_Pick', coll)
+    elif tid == 'aldous':
+        g = grip_of(base, 'Right')
+        def build(mb, bone):
+            c = g + Vector((0, 0, -.16))
+            mb.loft([xring(g + Vector((0, 0, dz)), (0, 0, 1), .004, .004, .004, 4) for dz in (-.05, 0.0)], 'A_METAL', bone, smooth=False)
+            mb.loft([xring(c + Vector((0, 0, dz)), (0, 0, 1), r, r, r, 6) for dz, r in ((-.07, .044), (-.06, .050), (-.05, .040), (.05, .040), (.06, .050),
+                                                                                           (.075, .030), (.10, .012))], 'A_METAL', bone, smooth=False)
+            mb.loft([xring(c + Vector((0, 0, dz)), (0, 0, 1), .034, .034, .034, 6) for dz in (-.05, .05)], 'A_GLASS', bone, smooth=False)
+        out['Lantern'] = _posed_prop(arm, base, 'RightHand', build, bm, 'Aldous_Lantern', coll)
+    elif tid == 'ilse':
+        g = grip_of(base, 'Right')
+        top = g.z + .66
+        def build(mb, bone):
+            srings = lambda spec: [xring((g.x, g.y, z), (0, 0, 1), r, r, r, 6) for z, r in spec]
+            mb.loft(srings([(0.0, .013), (.5, .015), (g.z, .017), (top - .04, .018)]), 'A_WOOD', bone)
+            mb.loft(srings([(top - .05, .016), (top - .02, .028), (top + .01, .016)]), 'A_WOOD', bone, smooth=False)
+            c = Vector((g.x, g.y, top + .045))
+            mb.loft([xring(c + Vector((0, 0, dz)), (0, 0, 1), r, r, r, 6) for dz, r in ((-.036, .006), (-.025, .026), (0.0, .036), (.025, .026), (.036, .006))],
+                    'A_GEM', bone)
+        out['Staff'] = _posed_prop(arm, base, 'RightHand', build, bm, 'Ilse_Staff', coll)
+    elif tid == 'ansel':
+        def build(mb, bone):
+            c = Vector((.225, -.05, 1.17))
+            mb.box(tuple(c), (.036, .15, .20), 'A_BOOK', bone)
+            mb.box(tuple(c + Vector((.0, -.006, 0))), (.030, .15, .188), 'A_SHIRT', bone)
+        out['Book'] = _posed_prop(arm, base, 'LeftArm', build, bm, 'Ansel_Book', coll)
+    elif tid == 'maud':
+        g = grip_of(base, 'Left')
+        def build(mb, bone):
+            c = Vector((g.x - .02, g.y - .035, g.z + .105))
+            mb.box(tuple(c), (.18, .036, .25), 'A_BOOK', bone)
+            mb.box(tuple(c + Vector((0, -.004, 0))), (.168, .030, .238), 'A_SHIRT', bone)
+        out['Ledger'] = _posed_prop(arm, base, 'LeftHand', build, bm, 'Maud_Ledger', coll)
+    return out
+
+def build_tutor(tid, kit_objs, kit_mats):
+    t = TUTORS[tid]
+    bt = t['bt']
+    arm = build_armature()
+    arm.name = arm.data.name = 'Armature_' + tid.capitalize()
+    coll = bpy.data.collections.new('Tutor_' + tid)
+    bpy.context.scene.collection.children.link(coll)
+    bm = {}
+    for mn, m in kit_mats.items():
+        m2 = m.copy()
+        hx = t['colors'].get(mn)
+        set_mat_color(m2, _dz(hx) if hx else '#%02x%02x%02x' % tuple(round(c * 255) for c in MAT_SRGB[m.name]))
+        bm[mn] = m2
+    for mn, hx in t['mats'].items():
+        bm[mn] = new_mat(mn, _dz(hx))
+    objs = {}
+    for slot, idx in t['parts'].items():
+        src = kit_objs[part_name(bt, slot, idx)]
+        ob = src.copy()
+        ob.data = src.data.copy()
+        nm = '%s_%s' % (tid.capitalize(), slot)
+        ob.name = ob.data.name = nm
+        co = None
+        if t.get('build') and ob.data.shape_keys:
+            kb = ob.data.shape_keys.key_blocks['Build_' + t['build'].capitalize()]
+            co = [v.co.copy() for v in kb.data]
+        if ob.data.shape_keys:
+            ob.shape_key_clear()
+        if co:
+            for v, c in zip(ob.data.vertices, co):
+                v.co = c
+        for i, ms in enumerate(ob.data.materials):
+            ob.data.materials[i] = bm[ms.name.split('.')[0]]
+        coll.objects.link(ob)
+        ob.parent = arm
+        ob.modifiers['Armature'].object = arm
+        objs[ob.name] = ob
+    set_build(t.get('build', 'average'))
+    try:
+        for ex in t['extras']:
+            if ex in ('pick_shoulder', 'lantern_hand', 'staff_orb', 'book_arm', 'ledger'):
+                continue
+            fn, head_space = EXTRA_FN[ex]
+            mb = MB()
+            fn(mb, bt)
+            if head_space:
+                head_xform(mb)
+            nm = '%s_%s' % (tid.capitalize(), ''.join(w.capitalize() for w in ex.split('_')))
+            objs[nm] = mb.to_object(nm, bm, arm, coll=coll)
+    finally:
+        set_build('average')
+    for k, ob in tutor_props(tid, arm, bm, coll).items():
+        objs[ob.name] = ob
+    defs = tutor_clip_defs(tid)
+    ad = arm.animation_data_create()
+    acts = {}
+    for name, (frames, keys, loop) in defs.items():
+        act = make_clip(arm, '%s_%s' % (tid, name), frames, keys)
+        ad.action = None
+        tr = ad.nla_tracks.new()
+        tr.name = name
+        st = tr.strips.new(name, 0, act)
+        st.name = name
+        acts[name] = act
+    ad.action = None
+    return arm, bm, objs, acts, defs
+
+def export_glb(path, arm, meshes, mode='ACTIONS', morph=False):
     bpy.ops.object.select_all(action='DESELECT')
     for o in bpy.context.scene.objects:
         o.hide_set(False)
@@ -2050,7 +3798,8 @@ def export_glb(path, arm, meshes, mode='ACTIONS'):
     bpy.context.view_layer.objects.active = arm
     kw = dict(filepath=path, export_format='GLB', use_selection=True, export_yup=True, export_apply=False,
               export_animations=True, export_animation_mode=mode, export_force_sampling=True, export_nla_strips=True,
-              export_frame_range=False, export_skins=True, export_morph=False, export_materials='EXPORT',
+              export_frame_range=False, export_skins=True, export_morph=morph, export_morph_normal=morph, export_morph_animation=False,
+              export_materials='EXPORT',
               export_texcoords=False, export_optimize_animation_size=False, export_def_bones=False, export_reset_pose_bones=True)
     props = bpy.ops.export_scene.gltf.get_rna_type().properties.keys()
     kw = {k: v for k, v in kw.items() if k in props or k == 'filepath'}
@@ -2113,6 +3862,7 @@ def validate(out_glb, want_meshes, want_clips, exact_clips=False):
     names = [n.get('name') for n in j['nodes']]
     res['missing_meshes'] = [m for m in want_meshes if m not in names]
     res['materials'] = sorted({m['name'] for m in j.get('materials', [])})
+    res['morph_targets'] = {m.get('name'): (m.get('extras') or {}).get('targetNames', []) for m in j.get('meshes', []) if (m.get('extras') or {}).get('targetNames')}
     res['texture_count'] = len(j.get('textures', [])) + len(j.get('images', []))
     bpy.ops.wm.read_factory_settings(use_empty=True)
     bpy.ops.import_scene.gltf(filepath=out_glb)
@@ -2288,7 +4038,20 @@ def build_props(arm):
         ob.matrix_basis = mw
         ob.hide_render = True
         return ob
-    return {'axe': mk('Prop_Axe', [((0, -.22, 0), (.03, .62, .03), wood), ((0, -.50, -.05), (.018, .09, .15), steel)], B('RightHand'))}
+    def mk_grip(name, parts, bone):
+        ob = mk(name, parts, bone)
+        pb = arm.pose.bones[bone]
+        ob.matrix_parent_inverse = Matrix.Translation((0, -pb.bone.length, 0))
+        ob.matrix_basis = Matrix.Translation((0, .03, .04)) @ Euler((.18, 0, -.08)).to_matrix().to_4x4()
+        return ob
+    red, tan = flat('P_Red', (0.30, 0.05, 0.04)), flat('P_Tan', (0.45, 0.33, 0.18))
+    grip = {'tinderbox': mk_grip('Prop_Tinderbox', [((0, 0, 0), (.035, .065, .025), red), ((0, .0, .014), (.03, .05, .004), steel)], B('RightHand')),
+            'fish': mk_grip('Prop_Fish', [((0, .02, 0), (.022, .15, .045), steel), ((0, .11, 0), (.004, .04, .05), steel)], B('RightHand')),
+            'net': mk_grip('Prop_Net', [((0, .10, 0), (.014, .26, .014), wood), ((0, .30, 0), (.012, .16, .16), tan)], B('RightHand'))}
+    return dict(grip, **{'axe': mk('Prop_Axe', [((0, -.22, 0), (.03, .62, .03), wood), ((0, -.50, -.05), (.018, .09, .15), steel)], B('RightHand')),
+            'pick': mk('Prop_Pick', [((0, -.25, 0), (.03, .66, .03), wood), ((0, -.55, 0), (.025, .04, .42), steel)], B('RightHand')),
+            'sword': mk('Prop_Sword', [((0, -.42, 0), (.012, .66, .05), steel), ((0, -.08, 0), (.03, .03, .16), steel),
+                                       ((0, .02, 0), (.025, .16, .025), wood)], B('RightHand'))})
 
 COMPOSE_PY = r'''
 import sys, json
@@ -2466,7 +4229,7 @@ GRID_VIEW = {'Torso': ((0, 0, 1.20), 1.00, (.45, -.87, .12)), 'Arms': ((0, 0, 1.
 BG_REF = [214, 214, 218]
 BG_GAME = [138, 138, 134]
 
-def run_renders(arm, mats, objs, clips, bram):
+def run_renders(arm, mats, objs, clips, bram, tutors=None):
     os.makedirs(RENDER_DIR, exist_ok=True)
     setup_render()
     set_render_colors(True)
@@ -2531,10 +4294,12 @@ def run_renders(arm, mats, objs, clips, bram):
     shots = []
     for cname, fr, vd, pr in (('idle', 30, (.55, -.82, .18), None), ('walk', 0, (.95, -.3, .15), None), ('chop', 0, (.5, -.85, .2), 'axe'),
                               ('chop', 10, (.5, -.85, .2), 'axe'), ('cast', 14, (.8, -.6, .2), None), ('run', 4, (.95, -.3, .15), None)):
-        props['axe'].hide_render = pr != 'axe'
+        for pk in props:
+            props[pk].hide_render = pk != pr
         set_clip(arm, clips[cname], fr)
         shots.append(cell(shoot(j('clip_%s_%d.png' % (cname, fr)), (360, 480), vd, (0, 0, .95), 2.1), '%s f%d' % (cname, fr), bg=BG_GAME))
-    props['axe'].hide_render = True
+    for pk in props:
+        props[pk].hide_render = True
     set_clip(arm, clips['talk'], 12)
     shots.append(cell(shoot(j('clip_talk_12.png'), (360, 480), (.55, -.82, .18), (0, 0, .95), 2.1), 'kit talk f12', bg=BG_GAME))
     arm.animation_data.action = None
@@ -2545,6 +4310,52 @@ def run_renders(arm, mats, objs, clips, bram):
          'cells': [cell(bram_talk, 'bram talk f12', bg=BG_GAME), cell(bram_wave, 'bram wave f14', bg=BG_GAME), cell(bram_walk, 'bram walk f0', bg=BG_GAME)]},
     ], 'Clip key frames (kit rig = player.glb bones)')
     sheets['clips'] = j('clips.png')
+    # v2.7 animation strips: every clip, 8 frames, side view + game camera; loop-seam frames for looping clips
+    GVs, GPs = (.42, -.72, .78), (5.0, 85)
+    PROP_OF = {'chop': 'axe', 'mine': 'pick', 'attack_slash': 'sword', 'attack': 'sword', 'attack_stab': 'sword', 'attack_crush': 'sword',
+               'firemake': 'tinderbox', 'cook': 'fish', 'net': 'net',
+               'block': 'sword', 'smith': None}
+    def strip_rows(a, acts, loops, tag, props_on):
+        rows_s, seam_rows = [], []
+        for cname, act in acts.items():
+            f0, f1 = int(act.frame_range[0]), int(act.frame_range[1])
+            loop = loops.get(cname, False)
+            n = f1 - f0
+            frs = [f0 + round(k * n / 8) for k in range(8)] if loop else [f0 + round(k * n / 7) for k in range(8)]
+            for pk in props_on:
+                props_on[pk].hide_render = pk != PROP_OF.get(cname)
+            a.animation_data.action = act
+            cs = []
+            for fr in frs:
+                bpy.context.scene.frame_set(fr)
+                cs.append(cell(shoot(j('grid', 'strip_%s_%s_%d_side.png' % (tag, cname, fr)), (150, 190), (-1, .02, .10), (0, 0, .95), 2.3), '%s f%d side' % (cname, fr), bg=BG_REF))
+            for fr in frs:
+                bpy.context.scene.frame_set(fr)
+                cs.append(cell(shoot(j('grid', 'strip_%s_%s_%d_game.png' % (tag, cname, fr)), (150, 190), GVs, (0, 0, .85), 2.0, ground=True, persp=GPs),
+                               '%s f%d game' % (cname, fr), bg=BG_GAME))
+            rows_s.append({'title': '%s  (%d frames, %s)' % (cname, n, 'loop' if loop else 'once'), 'height': 190, 'cells': cs})
+            if loop:
+                sc_ = []
+                for fr, lab in ((f1 - 2, 'end-2'), (f1 - 1, 'end-1'), (f0, 'start (= end)'), (f0 + 1, 'start+1')):
+                    bpy.context.scene.frame_set(fr)
+                    sc_.append(cell(shoot(j('grid', 'seam_%s_%s_%d.png' % (tag, cname, fr)), (150, 190), (-1, .02, .10), (0, 0, .95), 2.3), '%s %s' % (cname, lab), bg=BG_REF))
+                seam_rows.append({'title': cname, 'height': 190, 'cells': sc_})
+        for pk in props_on:
+            props_on[pk].hide_render = True
+        a.animation_data.action = None
+        return rows_s, seam_rows
+    default_colors('A')
+    show_only(outfit_objs(objs, 'A', DEFAULT_OUTFIT['A']))
+    loops_k = {n: n not in ('attack_slash', 'attack', 'attack_stab', 'attack_crush', 'bow', 'cast', 'block', 'hit', 'death', 'wave') for n in clips}
+    rs_k, seams_k = strip_rows(arm, clips, loops_k, 'A', props)
+    compose(j('anim_strips_A.png'), rs_k, 'Every kit clip: 8 frames, side view (left) + game camera (right) -- default A')
+    show_only(list(bobjs.values()))
+    rs_b, seams_b = strip_rows(barm, bacts, {'idle': True, 'talk': True, 'walk': True, 'wave': False}, 'bram', {})
+    compose(j('anim_strips_bram.png'), rs_b, 'Guide Bram clips: 8 frames, side view + game camera (staff planted / swung in walk)')
+    compose(j('anim_loop_seams.png'), seams_k + seams_b, 'Loop seams: the last frames flow into the first (no pop)')
+    sheets['anim_A'], sheets['anim_bram'], sheets['anim_seams'] = j('anim_strips_A.png'), j('anim_strips_bram.png'), j('anim_loop_seams.png')
+    default_colors('A')
+    show_only(outfit_objs(objs, 'A', DEFAULT_OUTFIT['A']))
     # (2) slot grids: one slot varied at a time on the default body
     for bt in ('A', 'B'):
         default_colors(bt)
@@ -2552,7 +4363,7 @@ def run_renders(arm, mats, objs, clips, bram):
         for slot in SLOTS:
             if slot not in KIT[bt]:
                 continue
-            cells_f, cells_b = [], []
+            cells_f, cells_b, cells_t, cells_sd, cells_q = [], [], [], [], []
             for idx in range(1, len(KIT[bt][slot]) + 1):
                 sel = dict(DEFAULT_OUTFIT[bt])
                 sel[slot] = idx
@@ -2561,12 +4372,23 @@ def run_renders(arm, mats, objs, clips, bram):
                 show_only(outfit_objs(objs, bt, sel))
                 nm = part_name(bt, slot, idx)
                 lab = '%02d %s' % (idx, KIT[bt][slot][idx - 1][1])[:30]
-                if slot in ('Hair', 'Jaw'):
-                    if slot == 'Hair':
-                        p = shoot(j('grid', nm + '_f.png'), (240, 280), (.55, -.80, .12), (0, -.01, 1.55), .78)
-                        q = shoot(j('grid', nm + '_b.png'), (240, 280), (-.55, .80, .12), (0, -.01, 1.55), .78)
+                if slot in ('Hair', 'Jaw', 'Makeup'):
+                    if slot == 'Hair':   # v2.8: true front, 3/4, side, true back and top of every hair option
+                        p = shoot(j('grid', nm + '_front.png'), (240, 280), (0, -1, .10), (0, -.01, 1.55), .78)
+                        pq = shoot(j('grid', nm + '_f.png'), (240, 280), (.55, -.80, .12), (0, -.01, 1.55), .78)
+                        q = shoot(j('grid', nm + '_b.png'), (240, 280), (0, 1, .14), (0, -.01, 1.55), .78)
+                        t = shoot(j('grid', nm + '_t.png'), (240, 240), (.05, .30, 1.0), (0, 0, 1.70), .42)
+                        sd = shoot(j('grid', nm + '_s.png'), (240, 280), (-1, -.04, .06), (0, -.01, 1.55), .78)
+                        cells_sd.append(cell(sd, '%02d side' % idx, bg=BG_REF))
                         cells_f.append(cell(p, lab, bg=BG_REF))
+                        cells_q.append(cell(pq, '%02d 3/4' % idx, bg=BG_REF))
                         cells_b.append(cell(q, '%02d back' % idx, bg=BG_REF))
+                        cells_t.append(cell(t, '%02d top' % idx, bg=BG_REF))
+                    elif slot == 'Makeup':   # face close-ups, makeup shown in its default colour (rose)
+                        p = shoot(j('grid', nm + '.png'), (240, 260), (0, -1, .03), (0, -.02, 1.63), .36)
+                        q = shoot(j('grid', nm + '_34.png'), (240, 260), (.55, -.83, .06), (0, -.02, 1.63), .36)
+                        cells_f.append(cell(p, lab, bg=BG_REF))
+                        cells_b.append(cell(q, '%02d 3/4' % idx, bg=BG_REF))
                     else:
                         p = shoot(j('grid', nm + '.png'), (240, 280), (.55, -.80, .10), (0, -.02, 1.60), .50)
                         q = shoot(j('grid', nm + '_side.png'), (240, 280), (-1, -.05, .05), (0, -.02, 1.60), .50)
@@ -2576,9 +4398,15 @@ def run_renders(arm, mats, objs, clips, bram):
                     ctr, orth, vd = GRID_VIEW[slot]
                     p = shoot(j('grid', nm + '.png'), (250, 300), vd, ctr, orth)
                     cells_f.append(cell(p, lab, bg=BG_REF))
-            rows.append({'title': '%s (%d)' % (slot, len(cells_f)), 'height': 280 if slot != 'Hair' else 260, 'cells': cells_f})
+            rows.append({'title': '%s (%d)%s' % (slot, len(cells_f), ' -- front' if slot == 'Hair' else ''), 'height': 280 if slot != 'Hair' else 260, 'cells': cells_f})
+            if cells_q:
+                rows.append({'title': '%s -- 3/4 view' % slot, 'height': 260, 'cells': cells_q})
             if cells_b:
-                rows.append({'title': '%s -- %s view' % (slot, 'back' if slot == 'Hair' else 'side'), 'height': 260, 'cells': cells_b})
+                rows.append({'title': '%s -- %s view' % (slot, {'Hair': 'back', 'Makeup': '3/4'}.get(slot, 'side')), 'height': 260, 'cells': cells_b})
+            if cells_sd:
+                rows.append({'title': '%s -- side view (neck / skull base)' % slot, 'height': 260, 'cells': cells_sd})
+            if cells_t:
+                rows.append({'title': '%s -- top view' % slot, 'height': 220, 'cells': cells_t})
         compose(j('grid_%s.png' % bt), rows, 'Body type %s -- every option of every slot (others at default)' % bt)
         sheets['grid_' + bt] = j('grid_%s.png' % bt)
     # (3) six random outfits with random palette colours
@@ -2605,12 +4433,14 @@ def run_renders(arm, mats, objs, clips, bram):
     ], 'compare.png -- v2 renders next to their references')
     sheets['compare'] = j('compare.png')
     # (e) v1 vs v2
-    # joints: every arms / legs option on several torsos (shoulder + hip transitions)
+    # joints: every torso x arms, torso x legs (front + back) and legs x feet combination
     for bt in ('A', 'B'):
         default_colors(bt)
         rows = []
         torsos = list(range(1, len(KIT[bt]['Torso']) + 1))
-        for slot, ctr, orth in (('Arms', (0, 0, 1.18), 1.15), ('Legs', (0, 0, .70), 1.35)):
+        for slot, ctr, orth, vd, tag in (('Arms', (0, 0, 1.18), 1.15, (.55, -.83, .10), 'front'),
+                                         ('Legs', (0, 0, .78), 1.25, (.55, -.83, .10), 'front'),
+                                         ('Legs', (0, 0, .78), 1.25, (-.55, .83, .10), 'back')):
             for idx in range(1, len(KIT[bt][slot]) + 1):
                 cells_j = []
                 for ti in torsos:
@@ -2618,11 +4448,51 @@ def run_renders(arm, mats, objs, clips, bram):
                     sel[slot] = idx
                     sel['Torso'] = ti
                     show_only(outfit_objs(objs, bt, sel))
-                    p = shoot(j('grid', 'joint_%s_%s%02d_T%02d.png' % (bt, slot, idx, ti)), (170, 200), (.55, -.83, .10), ctr, orth)
-                    cells_j.append(cell(p, 'T%02d %s' % (ti, KIT[bt]['Torso'][ti - 1][0])[:22], bg=BG_REF))
-                rows.append({'title': '%s %02d %s  x every torso' % (slot, idx, KIT[bt][slot][idx - 1][0]), 'height': 190, 'cells': cells_j})
-        compose(j('joints_%s.png' % bt), rows, 'Body %s joint check: every Arms and Legs option on every Torso' % bt)
+                    p = shoot(j('grid', 'joint_%s_%s%02d_T%02d_%s.png' % (bt, slot, idx, ti, tag)), (150, 180), vd, ctr, orth)
+                    cells_j.append(cell(p, 'T%02d %s' % (ti, KIT[bt]['Torso'][ti - 1][0])[:20], bg=BG_REF))
+                rows.append({'title': '%s %02d %s x every torso (%s)' % (slot, idx, KIT[bt][slot][idx - 1][0], tag), 'height': 170, 'cells': cells_j})
+        for li in range(1, len(KIT[bt]['Legs']) + 1):
+            cells_j = []
+            for fi in range(1, len(KIT[bt]['Feet']) + 1):
+                sel = dict(DEFAULT_OUTFIT[bt])
+                sel['Legs'] = li
+                sel['Feet'] = fi
+                show_only(outfit_objs(objs, bt, sel))
+                for vtag, vd in (('34', (.55, -.83, .12)), ('side', (-1, .02, .10))):
+                    p = shoot(j('grid', 'joint_%s_L%02d_F%02d_%s.png' % (bt, li, fi, vtag)), (150, 180), vd, (0, 0, .24), .62)
+                    cells_j.append(cell(p, 'F%02d %s %s' % (fi, KIT[bt]['Feet'][fi - 1][0], vtag), bg=BG_REF))
+            rows.append({'title': 'Legs %02d %s x every feet option (ankle)' % (li, KIT[bt]['Legs'][li - 1][0]), 'height': 170, 'cells': cells_j})
+        compose(j('joints_%s.png' % bt), rows, 'Body %s joints: torso x arms, torso x legs (front + back), legs x feet' % bt)
         sheets['joints_' + bt] = j('joints_%s.png' % bt)
+    # ankle close-ups in motion + neutral face close-ups
+    cells_a = []
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        for fi in range(1, len(KIT[bt]['Feet']) + 1):
+            sel = dict(DEFAULT_OUTFIT[bt])
+            sel['Feet'] = fi
+            if bt == 'B':
+                sel['Legs'] = 4   # plain trousers so the ankle is visible
+            show_only(outfit_objs(objs, bt, sel))
+            for cname, fr in (('walk', 0), ('walk', 6), ('run', 4)):
+                arm.animation_data.action = clips[cname]
+                bpy.context.scene.frame_set(fr)
+                p = shoot(j('grid', 'ankle_%s_F%02d_%s%d.png' % (bt, fi, cname, fr)), (200, 200), (-1, .05, .12), (0, 0, .30), .75)
+                cells_a.append(cell(p, '%s F%02d %s f%d' % (bt, fi, cname, fr), bg=BG_REF))
+    arm.animation_data.action = None
+    set_pose(arm, P())
+    compose(j('ankle_closeups.png'), [{'height': 200, 'cells': cells_a[:9]}, {'height': 200, 'cells': cells_a[9:]}],
+            'Ankles in motion: every feet option joins the leg (walk f0 / f6, run f4)')
+    sheets['ankles'] = j('ankle_closeups.png')
+    cells_f = []
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        show_only(outfit_objs(objs, bt, DEFAULT_OUTFIT[bt]))
+        for tag, vd in (('front', (0, -1, .02)), ('34', (.55, -.83, .06)), ('side', (-1, -.03, .04))):
+            p = shoot(j('grid', 'face_%s_%s.png' % (bt, tag)), (280, 300), vd, (0, -.02, 1.63), .40)
+            cells_f.append(cell(p, '%s %s (neutral)' % (bt, tag), bg=BG_REF))
+    compose(j('face_closeups.png'), [{'height': 300, 'cells': cells_f}], 'Neutral faces: level brows and eyes, straight mouth, clean jaw wedge')
+    sheets['faces'] = j('face_closeups.png')
     default_colors('A')
     # game camera: ~45 deg down, ~5 m away, idle pose, same camera for all three
     GV, GC, GP = (.42, -.72, .78), (0, 0, .85), (5.0, 85)
@@ -2639,20 +4509,328 @@ def run_renders(arm, mats, objs, clips, bram):
     bpy.context.scene.frame_set(0)
     gcells.append(cell(shoot(j('game_bram.png'), (420, 560), GV, GC, 2.0, ground=True, persp=GP), 'Guide Bram (idle, game camera)', bg=BG_GAME))
     barm.animation_data.action = None
-    compose(j('game_camera.png'), [{'height': 520, 'cells': gcells}], 'Game camera (~45 deg down, 5 m, 85 mm), idle clip: v2.5 vs the 2004-era references')
+    compose(j('game_camera.png'), [{'height': 520, 'cells': gcells}], 'Game camera (~45 deg down, 5 m, 85 mm), idle clip: v2.7 vs the 2004-era references')
     sheets['game_camera'] = j('game_camera.png')
-    prev = os.path.join(D, 'prev_v24')
-    if os.path.isdir(prev):
-        compose(j('v24_vs_v25.png'), [
-            {'height': 560, 'cells': [cell(os.path.join(prev, 'turn_A_front.png'), 'v2.4 (too round)', bg=BG_REF), cell(turn[('A', 'front')], 'v2.5', bg=BG_REF),
-                                      cell(os.path.join(prev, 'turn_B_front.png'), 'v2.4 B', bg=BG_REF), cell(turn[('B', 'front')], 'v2.5 B', bg=BG_REF),
-                                      cell(os.path.join(prev, 'bram_34.png'), 'v2.4 Bram', bg=BG_GAME), cell(bram_34, 'v2.5 Bram', bg=BG_GAME)]},
-            {'height': 520, 'cells': [cell(os.path.join(prev, 'game_A.png'), 'v2.4 game cam A', bg=BG_GAME), cell(j('game_A.png'), 'v2.5 game cam A', bg=BG_GAME),
-                                      cell(os.path.join(prev, 'game_B.png'), 'v2.4 B', bg=BG_GAME), cell(j('game_B.png'), 'v2.5 B', bg=BG_GAME),
-                                      cell(os.path.join(prev, 'game_bram.png'), 'v2.4 Bram', bg=BG_GAME), cell(j('game_bram.png'), 'v2.5 Bram', bg=BG_GAME)]},
-        ], 'v2.4 (too round) vs v2.5 (angular silhouette, panel shading, measured proportions)')
-        sheets['v24_vs_v25'] = j('v24_vs_v25.png')
+    sheets.update(v28_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34))
+    sheets.update(v29_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34, bram, tutors or {}))
     sheets.update(rs_style_sheets(arm, mats, objs, clips, default_colors, j))
+    return sheets
+
+def v29_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34, bram, tutors):
+    """v2.9 proof: creator builds (slim / average / stout) and feet sizes, face before/after, lean check, tutor lineup +
+    close-ups + clip frames, v2.8 vs v2.9"""
+    sheets = {}
+    sc = bpy.context.scene
+    def outfit(bt, **over):
+        sel = dict(DEFAULT_OUTFIT[bt])
+        sel.update(over)
+        return outfit_objs(objs, bt, sel)
+    def morph(obs, **vals):
+        for o in objs.values():
+            if o.data.shape_keys:
+                for kb in o.data.shape_keys.key_blocks[1:]:
+                    kb.value = vals.get(kb.name, 0.0)
+    def rest():
+        arm.animation_data.action = None
+        set_pose(arm, P())
+    rest()
+    # (1) creator: body build
+    rows = []
+    looks = {'A': [({}, 'default'), (dict(Torso=3, Legs=2, Arms=2), 'vest + shorts + bare arms'), (dict(Torso=6, Legs=3, Arms=3), 'gambeson + flares + loose sleeves')],
+             'B': [({}, 'default'), (dict(Torso=2, Legs=2, Arms=3), 'sports top + short skirt + bare arms'), (dict(Torso=4, Legs=4, Arms=5), 'laced shirt + trousers + cuffs')]}
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        for over, lab in looks[bt]:
+            cs = []
+            for bname, vals in (('Slim', {'Build_Slim': 1.0}), ('Average', {}), ('Stout', {'Build_Stout': 1.0})):
+                show_only(outfit(bt, **over))
+                morph(None, **vals)
+                arm.animation_data.action = clips['idle']
+                sc.frame_set(0)
+                for vt, vd in (('front', (0, -1, .05)), ('side', (-1, .02, .05)), ('3/4', V34)):
+                    pth = shoot(j('grid', 'build_%s_%s_%s_%s.png' % (bt, lab[:6].replace(' ', ''), bname, vt.replace('/', ''))), (230, 360), vd, (0, 0, .93), 2.05)
+                    cs.append(cell(pth, '%s %s' % (bname, vt), bg=BG_REF))
+            rows.append({'title': 'Body %s -- %s: Build_Slim 1.0 / average / Build_Stout 1.0 (idle f0)' % (bt, lab), 'height': 300, 'cells': cs})
+    morph(None)
+    compose(j('creator_builds.png'), rows, 'Creator body build: morphs Build_Slim / Build_Stout on every part -- clothes follow the body')
+    sheets['creator_builds'] = j('creator_builds.png')
+    # (2) creator: feet sizes (Feet_Small / default / Feet_Large = v2.8), hems meeting the feet
+    rows = []
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        for fi in (1, 2, 3):
+            for li in ((1, 3) if bt == 'A' else (4, 6)):
+                cs = []
+                for fname, vals in (('Small', {'Feet_Small': 1.0}), ('Normal (v2.9 default)', {}), ('Large (= v2.8)', {'Feet_Large': 1.0})):
+                    show_only(outfit(bt, Feet=fi, Legs=li))
+                    morph(None, **vals)
+                    rest()
+                    pth = shoot(j('grid', 'feet_%s_F%d_L%d_%s.png' % (bt, fi, li, fname[:5])), (220, 200), (.55, -.80, .25), (0, -.02, .15), .62)
+                    cs.append(cell(pth, fname, bg=BG_REF))
+                    pth = shoot(j('grid', 'feet_%s_F%d_L%d_%s_side.png' % (bt, fi, li, fname[:5])), (220, 200), (-1, .02, .08), (0, -.02, .15), .62)
+                    cs.append(cell(pth, fname + ' side', bg=BG_REF))
+                rows.append({'title': 'Body %s -- Feet %02d %s with Legs %02d %s' % (bt, fi, KIT[bt]['Feet'][fi - 1][0], li, KIT[bt]['Legs'][li - 1][0]),
+                             'height': 170, 'cells': cs})
+    morph(None)
+    compose(j('creator_feet.png'), rows, 'Creator feet size: Feet_Small / default (v2.9, smaller) / Feet_Large (= v2.8 size); trouser hems still meet the feet')
+    sheets['creator_feet'] = j('creator_feet.png')
+    # (3) face before / after
+    rows = []
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        show_only(outfit(bt))
+        rest()
+        cs = []
+        for tag, vd in (('front', (0, -1, .02)), ('3/4', (.55, -.83, .06)), ('side', (-1, -.03, .04))):
+            old = os.path.join(PREV_DIR, 'grid', 'face28_%s_%s.png' % (bt, tag.replace('/', '')))
+            new = shoot(j('grid', 'face29_%s_%s.png' % (bt, tag.replace('/', ''))), (260, 280), vd, (0, -.02, 1.63), .40)
+            if os.path.exists(old):
+                cs.append(cell(old, 'v2.8 %s' % tag, bg=BG_REF))
+            cs.append(cell(new, 'v2.9 %s (thinner)' % tag, bg=BG_REF))
+        rows.append({'title': 'Body %s: head width x1.12 -> x1.065, jaw rows taper more' % bt, 'height': 280, 'cells': cs})
+    compose(j('face_before_after.png'), rows, 'Face: v2.8 vs v2.9 (a bit thinner by default, both bodies)')
+    sheets['face_before_after'] = j('face_before_after.png')
+    # (4) lean check: side view with a vertical line through the posed hips joint
+    lm = bpy.data.materials.new('LeanLine')
+    lm.use_nodes = True
+    bsdf = next(n for n in lm.node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
+    bsdf.inputs['Base Color'].default_value = (.9, .05, .05, 1)
+    if 'Emission Color' in bsdf.inputs:
+        bsdf.inputs['Emission Color'].default_value = (1, .05, .05, 1)
+        bsdf.inputs['Emission Strength'].default_value = 2.0
+    bmx = bmesh.new()
+    bmesh.ops.create_cube(bmx, size=1.0)
+    for v in bmx.verts:
+        v.co = Vector((v.co.x * .004, v.co.y * .006, v.co.z * 2.1 + 1.05))
+    lme = bpy.data.meshes.new('LeanLine')
+    bmx.to_mesh(lme)
+    bmx.free()
+    lme.materials.append(lm)
+    line = bpy.data.objects.new('LeanLine', lme)
+    sc.collection.objects.link(line)
+    rows = []
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        vis = outfit(bt)
+        cs = []
+        for cname, fr in (('idle', 0), ('idle', 30), ('walk', 0), ('walk', 4), ('walk', 8), ('walk', 11), ('run', 4), ('run', 12)):
+            show_only(vis + [line])
+            arm.animation_data.action = clips[cname]
+            sc.frame_set(fr)
+            h = arm.matrix_world @ arm.pose.bones[B('Hips')].head
+            hd = arm.matrix_world @ arm.pose.bones[B('Head')].head
+            tilt = math.degrees(math.atan2(-(hd - h).y, (hd - h).z))
+            line.location = (-.40, h.y, 0)
+            pth = shoot(j('grid', 'lean_%s_%s_%d.png' % (bt, cname, fr)), (220, 360), (-1, 0, 0), (0, 0, .93), 2.1)
+            cs.append(cell(pth, '%s f%d: %+.1f deg' % (cname, fr, tilt), bg=BG_REF))
+        rows.append({'title': 'Body %s side view -- red line = vertical through the hips joint; number = measured hips->head forward tilt' % bt,
+                     'height': 360, 'cells': cs})
+    line.hide_render = True
+    arm.animation_data.action = None
+    compose(j('lean_check.png'), rows, 'Lean check: idle and walk 0.0 deg (vertical spine chain), run capped at 3 deg')
+    sheets['lean_check'] = j('lean_check.png')
+    # (5) tutors
+    if tutors:
+        barm, bobjs, bacts = bram
+        GV, GC, GP = (.42, -.72, .78), (0, 0, .85), (5.0, 85)
+        lineup = [cell(REF_NPC, 'Character.jpg (reference)')]
+        order = [('bram', 'Guide Bram', barm, bobjs, bacts)] + [(tid, TUTORS[tid]['name'], a_, o_, c_) for tid, (a_, o_, c_) in tutors.items()]
+        for tid, nm, tarm, tobjs, tacts in order:
+            for tr in (tarm.animation_data.nla_tracks if tarm.animation_data else []):
+                tr.mute = True
+        for tid, nm, tarm, tobjs, tacts in order:
+            show_only(list(tobjs.values()))
+            tarm.animation_data.action = tacts['idle']
+            sc.frame_set(0)
+            lineup.append(cell(shoot(j('grid', 'tutor_game_%s.png' % tid), (300, 470), GV, GC, 2.0, ground=True, persp=GP), nm, bg=BG_GAME))
+        compose(j('tutor_lineup.png'), [{'height': 440, 'cells': lineup[:6]}, {'height': 440, 'cells': lineup[6:]}],
+                'Tutor lineup at the game camera (~45 deg down, 5 m, 85 mm), idle f0 -- all built from the kit + their own extras')
+        sheets['tutor_lineup'] = j('tutor_lineup.png')
+        rows = []
+        for tid, nm, tarm, tobjs, tacts in order[1:]:
+            show_only(list(tobjs.values()))
+            cs = []
+            tarm.animation_data.action = tacts['idle']
+            sc.frame_set(0)
+            for vt, vd in (('front', (0, -1, .05)), ('3/4', V34), ('side', (-1, .02, .05)), ('back', (0, 1, .08))):
+                cs.append(cell(shoot(j('grid', 'tutor_%s_%s.png' % (tid, vt.replace('/', ''))), (260, 400), vd, (0, 0, .95), 2.1), '%s %s' % (nm, vt), bg=BG_REF))
+            for cname, fr, vd in (('talk', 12, (.55, -.82, .18)), ('wave', 14, (.55, -.82, .18)), ('walk', 0, (-1, .02, .1)), ('walk', 14, (-1, .02, .1))):
+                tarm.animation_data.action = tacts[cname]
+                sc.frame_set(fr)
+                cs.append(cell(shoot(j('grid', 'tutor_%s_%s%d.png' % (tid, cname, fr)), (260, 400), vd, (0, 0, .95), 2.1), '%s f%d' % (cname, fr), bg=BG_GAME))
+            tarm.animation_data.action = None
+            rows.append({'title': '%s (%s) -- %s' % (nm, TUTORS[tid]['role'], ', '.join(TUTORS[tid]['extras'])), 'height': 330, 'cells': cs})
+        compose(j('tutor_closeups.png'), rows, 'Tutors close: front / 3/4 / side / back (idle), talk, wave, walk')
+        sheets['tutor_closeups'] = j('tutor_closeups.png')
+        # faces close
+        cs = []
+        for tid, nm, tarm, tobjs, tacts in order:
+            show_only(list(tobjs.values()))
+            tarm.animation_data.action = tacts['idle']
+            sc.frame_set(0)
+            cs.append(cell(shoot(j('grid', 'tutor_face_%s.png' % tid), (240, 260), (.45, -.88, .06), (0, -.02, 1.66), .52), nm, bg=BG_REF))
+            tarm.animation_data.action = None
+        compose(j('tutor_faces.png'), [{'height': 250, 'cells': cs[:5]}, {'height': 250, 'cells': cs[5:]}], 'Tutor heads close (3/4)')
+        sheets['tutor_faces'] = j('tutor_faces.png')
+    # (6) v2.8 vs v2.9
+    prev = PREV_DIR
+    if os.path.isdir(prev):
+        pg = lambda n: os.path.join(prev, 'grid', n)
+        pair = lambda old, new, lab, bg=BG_REF: [cell(old, 'v2.8 ' + lab, bg=bg), cell(new, 'v2.9 ' + lab, bg=bg)]
+        rows = [
+            {'title': 'Defaults (front) and game camera', 'height': 460,
+             'cells': pair(os.path.join(prev, 'turn_A_front.png'), turn[('A', 'front')], 'A') + pair(os.path.join(prev, 'turn_B_front.png'), turn[('B', 'front')], 'B')
+             + pair(os.path.join(prev, 'game_A.png'), j('game_A.png'), 'game A', BG_GAME) + pair(os.path.join(prev, 'game_B.png'), j('game_B.png'), 'game B', BG_GAME)},
+            {'title': 'Walk (side): v2.8 20 frames, 0.80 m step, sway + roll  ->  v2.9 15 frames, 0.60 m step, upright, no sway / roll', 'height': 200,
+             'cells': sum((pair(pg('strip_A_walk_%d_side.png' % f0), j('grid', 'strip_A_walk_%d_side.png' % f1), 'walk f%d' % f1)
+                           for f0, f1 in ((0, 0), (5, 4), (10, 8), (15, 11))), [])},
+            {'title': 'Idle (side)', 'height': 200, 'cells': pair(pg('strip_A_idle_0_side.png'), j('grid', 'strip_A_idle_0_side.png'), 'idle f0')
+             + pair(pg('strip_A_cook_0_side.png'), j('grid', 'strip_A_cook_0_side.png'), 'cook f0') + pair(pg('strip_A_net_0_side.png'), j('grid', 'strip_A_net_0_side.png'), 'net f0')},
+            {'title': 'Feet (v2.9 default is smaller; v2.8 size = Feet_Large)', 'height': 250,
+             'cells': sum((pair(pg('Kit_A_Feet_%02d.png' % i), j('grid', 'Kit_A_Feet_%02d.png' % i), 'A F%02d' % i) for i in (1, 2, 3)), [])},
+        ]
+        rows = [{**r, 'cells': [c for c in r['cells'] if os.path.exists(c['path'])]} for r in rows]
+        compose(j('v28_vs_v29.png'), rows, 'v2.8 vs v2.9 (same framing)')
+        sheets['v28_vs_v29'] = j('v28_vs_v29.png')
+    return sheets
+
+def v28_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34):
+    """v2.8 proof sheets: every arms x torso at the shoulder cap, wrist close-ups, every legs x sandals (rest + motion),
+    makeup / face close-ups, back of the neck, and v2.7 vs v2.8"""
+    sheets = {}
+    def outfit(bt, **over):
+        sel = dict(DEFAULT_OUTFIT[bt])
+        sel.update(over)
+        return outfit_objs(objs, bt, sel)
+    def set_clip(act, fr):
+        arm.animation_data.action = act
+        bpy.context.scene.frame_set(fr)
+    def rest():
+        arm.animation_data.action = None
+        set_pose(arm, P())
+    def bone_head(short):
+        bpy.context.view_layer.update()
+        return tuple(arm.matrix_world @ arm.pose.bones[B(short)].head)
+    # (a) shoulders: every Arms option on every Torso -- 3/4 front, front and back at the (left) shoulder cap
+    rest()
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        rows = []
+        cx = .15 if bt == 'A' else .12
+        for ai in range(1, len(KIT[bt]['Arms']) + 1):
+            for vtag, vd in (('3/4 front', (.6, -.8, .15)), ('front', (0, -1, .10)), ('3/4 back', (.5, .85, .15))):
+                cs = []
+                for ti in range(1, len(KIT[bt]['Torso']) + 1):
+                    show_only(outfit(bt, Arms=ai, Torso=ti, Hair=2))
+                    p = shoot(j('grid', 'sh_%s_A%02d_T%02d_%s.png' % (bt, ai, ti, vtag.replace('/', '').replace(' ', ''))), (170, 170), vd, (cx, 0, 1.36), .34)
+                    cs.append(cell(p, 'T%02d %s' % (ti, KIT[bt]['Torso'][ti - 1][0])[:22], bg=BG_REF))
+                rows.append({'title': 'Arms %02d %s x every torso -- %s' % (ai, KIT[bt]['Arms'][ai - 1][0], vtag), 'height': 150, 'cells': cs})
+        compose(j('shoulders_%s.png' % bt), rows, 'Body %s shoulder caps: every arms option on every torso (no bumps, gaps or overlaps)' % bt)
+        sheets['shoulders_' + bt] = j('shoulders_%s.png' % bt)
+    # (b) wrists: forearm -> hand taper, every hands option on bare / sleeved / cuffed arms, both bodies
+    rows = []
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        arm_opts = {'A': [(2, 'bare forearm (musclebound)'), (1, 'sleeve'), (3, 'loose sleeve'), (7, 'tight sleeve')],
+                    'B': [(3, 'bare arms'), (1, 'sleeve'), (2, 'short sleeves'), (5, 'large cuffs')]}[bt]
+        for hi in range(1, 4):
+            cs = []
+            for ai, alab in arm_opts:
+                show_only(outfit(bt, Arms=ai, Hands=hi, Hair=2))
+                ctr = Vector(bone_head('LeftHand')) + Vector((0, 0, -.015))
+                for vtag, vd in (('front', (.25, -1, .05)), ('outside', (1, -.3, .10)), ('back', (.3, 1, .05))):
+                    p = shoot(j('grid', 'wr_%s_H%02d_A%02d_%s.png' % (bt, hi, ai, vtag)), (170, 170), vd, tuple(ctr), .22)
+                    cs.append(cell(p, '%s / %s' % (alab, vtag), bg=BG_REF))
+            rows.append({'title': 'Body %s -- Hands %02d %s' % (bt, hi, KIT[bt]['Hands'][hi - 1][0]), 'height': 150, 'cells': cs})
+    compose(j('wrists.png'), rows, 'Wrists: the hand\'s first ring IS the bare forearm\'s last ring (no step); gloves hug the forearm; wraps spiral round wrist + palm')
+    sheets['wrists'] = j('wrists.png')
+    # (c) sandals: every legs option x sandals, rest + walk + run, both bodies
+    rows = []
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        for vtag, clip_fr, vd, ctr, orth in (('rest 3/4', None, (.55, -.80, .25), (0, 0, .16), .50), ('rest side', None, (-1, .02, .06), (0, 0, .16), .50),
+                                             ('walk f4', ('walk', 4), (-1, .03, .10), (0, 0, .22), .70), ('walk f12', ('walk', 12), (-1, .03, .10), (0, 0, .22), .70),
+                                             ('run f5', ('run', 5), (-1, .03, .10), (0, 0, .22), .70)):
+            cs = []
+            for li in range(1, len(KIT[bt]['Legs']) + 1):
+                show_only(outfit(bt, Legs=li, Feet=3, Hair=2))
+                if clip_fr:
+                    set_clip(clips[clip_fr[0]], clip_fr[1])
+                else:
+                    rest()
+                p = shoot(j('grid', 'sd_%s_L%02d_%s.png' % (bt, li, vtag.replace('/', '').replace(' ', ''))), (170, 170), vd, ctr, orth)
+                cs.append(cell(p, 'L%02d %s' % (li, KIT[bt]['Legs'][li - 1][0])[:22], bg=BG_REF))
+            rows.append({'title': 'Body %s -- every legs option with sandals -- %s' % (bt, vtag), 'height': 150, 'cells': cs})
+    rest()
+    compose(j('sandals.png'), rows, 'Sandals: bare foot seated IN the sole, joined to the bare ankle; trousers cover the leg above (rest, walk, run)')
+    sheets['sandals'] = j('sandals.png')
+    # (d) faces incl. makeup: A + B neutral, every makeup option, makeup colours
+    rows = []
+    cs = []
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        show_only(outfit(bt))
+        for vtag, vd in (('front', (0, -1, .02)), ('3/4', (.55, -.83, .06)), ('side', (-1, -.03, .04))):
+            p = shoot(j('grid', 'face28_%s_%s.png' % (bt, vtag.replace('/', ''))), (260, 280), vd, (0, -.02, 1.63), .40)
+            cs.append(cell(p, '%s %s (neutral)' % (bt, vtag), bg=BG_REF))
+    rows.append({'title': 'Neutral faces (default outfits)', 'height': 280, 'cells': cs})
+    default_colors('B')
+    for vtag, vd in (('front', (0, -1, .02)), ('3/4', (.55, -.83, .06))):
+        cs = []
+        for mi in range(1, len(KIT['B']['Makeup']) + 1):
+            show_only(outfit('B', Makeup=mi, Hair=7))
+            p = shoot(j('grid', 'mk_%02d_%s.png' % (mi, vtag.replace('/', ''))), (240, 260), vd, (0, -.02, 1.63), .34)
+            cs.append(cell(p, 'Makeup %02d %s' % (mi, KIT['B']['Makeup'][mi - 1][0]), bg=BG_REF))
+        rows.append({'title': 'Body B makeup options (C_MAKEUP, default rose) -- %s' % vtag, 'height': 260, 'cells': cs})
+    cs = []
+    show_only(outfit('B', Makeup=5, Hair=7))
+    for ci, hx in enumerate(PALETTES['makeup']):
+        apply_outfit_colors(mats, {'makeup': hx})
+        p = shoot(j('grid', 'mk_col_%d.png' % ci), (240, 260), (.55, -.83, .06), (0, -.02, 1.63), .34)
+        cs.append(cell(p, 'full, colour %d %s' % (ci + 1, ['rose', 'coral', 'berry', 'plum', 'soft brown', 'bronze'][ci]), bg=BG_REF))
+    rows.append({'title': 'Makeup palette channel `makeup` on Makeup 05 (full)', 'height': 260, 'cells': cs})
+    default_colors('B')
+    cs = []
+    for bt, hi in (('A', 1), ('B', 1), ('B', 2), ('B', 5)):
+        default_colors(bt)
+        show_only(outfit(bt, Hair=hi))
+        for vtag, vd in (('back', (0, 1, .10)), ('3/4 back', (-.6, .8, .2))):
+            p = shoot(j('grid', 'neck_%s_H%02d_%s.png' % (bt, hi, vtag.replace('/', '').replace(' ', ''))), (200, 200), vd, (0, .02, 1.50), .40)
+            cs.append(cell(p, '%s Hair %02d %s' % (bt, hi, vtag), bg=BG_REF))
+    rows.append({'title': 'Back of the neck / collar (v2.8: the neck stays inside every collar, ears stay inside long hair)', 'height': 200, 'cells': cs})
+    default_colors('A')
+    compose(j('faces_makeup.png'), rows, 'Faces, B makeup slot (Kit_B_Makeup_01..05) and the back of the neck')
+    sheets['faces_makeup'] = j('faces_makeup.png')
+    # (e) v2.7 vs v2.8
+    prev = PREV_DIR
+    if os.path.isdir(prev):
+        pg = lambda n: os.path.join(prev, 'grid', n)
+        def pair(old, new, lab):
+            return [cell(old, 'v2.7 ' + lab, bg=BG_REF), cell(new, 'v2.8 ' + lab, bg=BG_REF)]
+        rows = [
+            {'title': 'Dreadlocks (A 03, B 04): rooted in parted rows on a thin scalp layer', 'height': 230,
+             'cells': pair(pg('Kit_A_Hair_03_f.png'), j('grid', 'Kit_A_Hair_03_f.png'), 'A dreads 3/4') + pair(pg('Kit_A_Hair_03_b.png'), j('grid', 'Kit_A_Hair_03_b.png'), 'A dreads back')
+             + pair(pg('Kit_A_Hair_03_t.png'), j('grid', 'Kit_A_Hair_03_t.png'), 'A dreads top') + pair(pg('Kit_B_Hair_04_b.png'), j('grid', 'Kit_B_Hair_04_b.png'), 'B dreads back')},
+            {'title': 'Tonsure side, arched mohawk, B long hair over the ears', 'height': 230,
+             'cells': pair(pg('Kit_A_Hair_06_s.png'), j('grid', 'Kit_A_Hair_06_s.png'), 'tonsure side') + pair(pg('Kit_A_Hair_10_s.png'), j('grid', 'Kit_A_Hair_10_s.png'), 'mohawk side')
+             + pair(pg('Kit_A_Hair_10_f.png'), j('grid', 'Kit_A_Hair_10_f.png'), 'mohawk 3/4') + pair(pg('Kit_B_Hair_01_b.png'), j('grid', 'Kit_B_Hair_01_b.png'), 'B long back')},
+            {'title': 'Torsos: light buttons, closed vest, laced V, stitching, two-toned seam', 'height': 250,
+             'cells': sum((pair(pg('Kit_A_Torso_%02d.png' % i), j('grid', 'Kit_A_Torso_%02d.png' % i), 'T%02d' % i) for i in (2, 3, 5, 6, 8)), [])},
+            {'title': 'Hands (bare / gloves / wraps) and sandals', 'height': 250,
+             'cells': sum((pair(pg('Kit_%s_Hands_%02d.png' % (bt, i)), j('grid', 'Kit_%s_Hands_%02d.png' % (bt, i)), '%s H%02d' % (bt, i)) for bt, i in (('A', 1), ('A', 2), ('A', 3), ('B', 3))), [])
+             + pair(pg('Kit_A_Feet_03.png'), j('grid', 'Kit_A_Feet_03.png'), 'A sandals')},
+            {'title': 'Walk (side, f0 / f5 / f10 / f15): v2.8 upright, hip sway + roll, shoulders counter-rotate, head steady, soft contact knee', 'height': 200,
+             'cells': sum((pair(pg('strip_A_walk_%d_side.png' % f), j('grid', 'strip_A_walk_%d_side.png' % f), 'walk f%d' % f) for f in (0, 5, 10, 15)), [])},
+            {'title': 'Defaults', 'height': 480,
+             'cells': [cell(os.path.join(prev, 'turn_A_front.png'), 'v2.7 A', bg=BG_REF), cell(turn[('A', 'front')], 'v2.8 A', bg=BG_REF),
+                       cell(os.path.join(prev, 'turn_B_front.png'), 'v2.7 B', bg=BG_REF), cell(turn[('B', 'front')], 'v2.8 B', bg=BG_REF),
+                       cell(os.path.join(prev, 'game_A.png'), 'v2.7 game cam A', bg=BG_GAME), cell(j('game_A.png'), 'v2.8 game cam A', bg=BG_GAME),
+                       cell(os.path.join(prev, 'game_B.png'), 'v2.7 B', bg=BG_GAME), cell(j('game_B.png'), 'v2.8 B', bg=BG_GAME)]},
+        ]
+        rows = [{**r, 'cells': [c for c in r['cells'] if os.path.exists(c['path'])]} for r in rows]
+        compose(j('v27_vs_v28.png'), rows, 'v2.7 vs v2.8 (same framing)')
+        sheets['v27_vs_v28'] = j('v27_vs_v28.png')
+    rest()
     return sheets
 
 def rs_style_sheets(arm, mats, objs, clips, default_colors, j):
@@ -2666,10 +4844,10 @@ def rs_style_sheets(arm, mats, objs, clips, default_colors, j):
     for bt in ('A', 'B'):
         default_colors(bt)
         show_only(outfit_objs(objs, bt, DEFAULT_OUTFIT[bt]))
-        cells.append(cell(shoot(j('rs_%s_creator.png' % bt), (300, 420), (.42, -.86, .22), (0, 0, .93), 2.0), 'v2.5 %s, creator angle (idle)' % bt, bg=[74, 66, 56]))
+        cells.append(cell(shoot(j('rs_%s_creator.png' % bt), (300, 420), (.42, -.86, .22), (0, 0, .93), 2.0), 'v2.7 %s, creator angle (idle)' % bt, bg=[74, 66, 56]))
         cells.append(cell(shoot(j('rs_%s_dagger.png' % bt), (300, 480), (-.80, .20, .56), (0, 0, .90), 2.1, ground=True, persp=(5.0, 85)),
-                          'v2.5 %s, dagger-ref angle (idle)' % bt, bg=[112, 118, 48]))
-    compose(j('rs_style_compare.png'), [{'height': 520, 'cells': cells}], 'v2.5 defaults next to the 2004-style references (similar angle and size)')
+                          'v2.7 %s, dagger-ref angle (idle)' % bt, bg=[112, 118, 48]))
+    compose(j('rs_style_compare.png'), [{'height': 520, 'cells': cells}], 'v2.7 defaults next to the 2004-style references (similar angle and size)')
     out['rs_style'] = j('rs_style_compare.png')
     # outline-only comparison: reference silhouettes next to ours at matching views
     default_colors('A')
@@ -2684,15 +4862,15 @@ def rs_style_sheets(arm, mats, objs, clips, default_colors, j):
     sa_dg = shoot(j('sil_A_dagger.png'), (300, 480), (-.80, .20, .56), (0, 0, .90), 2.1, persp=(5.0, 85))
     compose(j('silhouette_compare.png'), [
         {'title': 'front / side: male_b concept vs v2.5 default A (outline only)', 'height': 420,
-         'cells': [cell(REF_TURN, 'male_b front (ref)', crop=[80, 70, 480, 720], sil='rowbg'), cell(sa_front, 'v2.5 A front', sil='alpha'),
-                   cell(REF_TURN, 'male_b side (ref)', crop=[590, 70, 830, 720], sil='rowbg'), cell(sa_side, 'v2.5 A side', sil='alpha')]},
+         'cells': [cell(REF_TURN, 'male_b front (ref)', crop=[80, 70, 480, 720], sil='rowbg'), cell(sa_front, 'v2.7 A front', sil='alpha'),
+                   cell(REF_TURN, 'male_b side (ref)', crop=[590, 70, 830, 720], sil='rowbg'), cell(sa_side, 'v2.7 A side', sil='alpha')]},
         {'title': '3/4 and high angle: creator + DragonDagger refs vs v2.5 A (outline only)', 'height': 420,
          'cells': [cell(REF_CREATOR, 'creator (ref)', crop=[310, 210, 520, 470], sil='flat'), cell(sa_34, 'v2.5 A 3/4', sil='alpha'),
                    cell(REF_DAGGER, 'DragonDagger (ref)', crop=[480, 170, 830, 1410], sil='olive'), cell(sa_dg, 'v2.5 A same angle', sil='alpha')]},
     ], 'Silhouette check: straight segments and corners, measured proportions')
     out['silhouette'] = j('silhouette_compare.png')
     out['measured_outlines'] = measure_outlines([
-        ['ref_male_b_front', REF_TURN, 'rowbg', [80, 70, 480, 720]], ['v25_A_front', sa_front, 'alpha', None]])
+        ['ref_male_b_front', REF_TURN, 'rowbg', [80, 70, 480, 720]], ['v27_A_front', sa_front, 'alpha', None]])
     print('[MEASURE]', json.dumps(out['measured_outlines']))
     # front idle: measured horizontal gap between the hand's inner edge and the thigh's outer edge
     gcells = []
@@ -2778,19 +4956,82 @@ REF_RATIOS = {   # measured from Bible_References screenshots (style reference o
     'hand_width_length_over_H': {'male_b': [.034, .085], 'creator': [.05, .06], 'dagger': [.05, .05]},
 }
 
-REVIEW = [   # v2.5 -- after measuring the references and two compare/silhouette iterations
-    'SILHOUETTE: angular -- chamfered-box torso (flat front, chamfers, sides, back), 5-sided limb prisms, block head with a flat face, '
-    'jaw wedge, nose ridge and a flat-topped crown, 4-sided block hands, box boots with flat soles; hair as angular panels + locks.',
-    'SHADING: panel shading -- smooth across each broad panel, hard edges where the form turns >= 40 deg and at material boundaries; '
-    'soft key from upper front-left, high ambient, shaded sides ~25-35% darker; mid-saturation palette.',
-    'MEASURED: head/H, head w/h, shoulder span/H, crotch height/H and thigh width/H measured on male_b and our front outline with the same '
-    'code -- ours within ~5-10% (see REPORT ratios); limbs and torso depth were bulked 10-12% after the first silhouette pass, head '
-    'widened 12% / shortened 9% after the second. Hands clear of the body on every frame of every clip (numeric check kept).',
-    'STILL DIFFERS: RS idle has the elbows bent more with the hands a little forward; RS faces are more crudely painted; our long hair '
-    'locks are neater than RS hair; small details (buttons, stitches, rips) are finer than RS would model; B default is 1,9k tris.',
+REVIEW = [   # v2.9 -- the owner's play-test points, each checked on the sheets and numerically
+    '1 BODY BUILD: every kit part carries glTF morph targets Build_Stout / Build_Slim (the whole kit rebuilt on stout / slim body tables: '
+    'rounder belly and chest, thicker upper arms and thighs / narrower; stout arms also move out so sleeves clear the hips). Clothes follow by '
+    'construction; hair and beards keep their clearance. Checked over every option combination (build_check) and on creator_builds.png.',
+    '2 FEET: default feet ~11% smaller (A 1.12 -> 1.00, B .98 -> .875); Feet_Large restores the v2.8 size, Feet_Small is one size smaller; '
+    'hems / collars / boot shafts are unchanged, so every legs option still meets the foot (creator_feet.png).',
+    '3 FACE: head width x1.12 -> x1.065 and the jaw rows taper more (both bodies, face_before_after.png).',
+    '4 LEAN: the rest skeleton leans 4.2 deg forward; idle / walk / talk / wave now solve the spine so the posed hips->head chain is vertical on '
+    'every frame (0.0 deg measured), run capped at 3 deg (lean_check.png, manifest lean_deg).',
+    '5 WALK: OSRS-like -- 15 frames, 0.60 m step, straight-ish legs (knee ~14 deg at contact, ~11 deg mid-stance), arms swinging at the sides '
+    'in a plane parallel to the midline, no sway / roll, 1.2 cm bob, head steady; slide-free at 2.4 m/s at timeScale 1 (FK-measured).',
+    '6 SKILLS: new firemake (kneel, tinderbox strikes at the logs), cook (fish held out over the fire / range and turned), net (two-handed '
+    'raise / cast / soak / draw). The right hand grip = the runtime tool attach point (hand local 0,.03,.04), solved onto its target.',
+    'TUTORS: wenna, hettie, ansel, durgin, corrick, maud, ilse, aldous, tobin rebuilt from the kit + their own extras (holm_tutor_<id>_v2.glb) '
+    'with idle / talk / wave / walk; Bram rebuilt on the v2.9 kit (thinner face, smaller feet, upright).',
 ]
 
+def measure_lean(arm, acts):
+    """forward tilt (deg) of the posed hips-joint -> head-joint line on EVERY frame of each clip (the evaluated armature,
+    exactly what the game plays); + = leaning forward"""
+    out = {}
+    sc = bpy.context.scene
+    for name, act in acts.items():
+        arm.animation_data.action = act
+        f0, f1 = int(act.frame_range[0]), int(act.frame_range[1])
+        ts = []
+        for f in range(f0, f1 + 1):
+            sc.frame_set(f)
+            h = arm.matrix_world @ arm.pose.bones[B('Hips')].head
+            hd = arm.matrix_world @ arm.pose.bones[B('Head')].head
+            d = hd - h
+            ts.append(math.degrees(math.atan2(-d.y, d.z)))
+        out[name] = [round(min(ts), 2), round(max(ts), 2)]
+    arm.animation_data.action = None
+    return out
+
+def rebuild_tutors(ids):
+    """v2.9b: rebuild only the named tutors (same v29 files); the kit, Bram and the other tutors are not written"""
+    reset_scene()
+    mats = make_kit_materials('A')
+    arm = build_armature()
+    kit = {}
+    for tid in ids:
+        t = TUTORS[tid]
+        for slot, idx in t['parts'].items():
+            nm = part_name(t['bt'], slot, idx)
+            if nm not in kit:
+                ob = build_part(t['bt'], slot, idx, mats, arm)
+                add_morphs(ob, t['bt'], slot, idx)
+                kit[nm] = ob
+    names, meta = {}, {}
+    for tid in ids:
+        tarm, tm, tobjs, tacts, tdefs = build_tutor(tid, kit, mats)
+        th = hand_clearance(tarm, tacts)
+        assert_hands(th, tid)
+        tl = measure_lean(tarm, tacts)
+        assert max(abs(v) for n in ('idle', 'walk') for v in tl[n]) < .5, 'tutor %s leans: %s' % (tid, tl)
+        export_glb(os.path.join(CAND, 'holm_tutor_%s_v2.glb' % tid), tarm, list(tobjs.values()), 'NLA_TRACKS')
+        names[tid] = list(tobjs.keys())
+        meta[tid] = {'hands': th, 'lean_deg': tl, 'tris': {n: tri_count(o) for n, o in tobjs.items()}, 'defs': tdefs}
+    res = {tid: validate(os.path.join(CAND, 'holm_tutor_%s_v2.glb' % tid), names[tid], ['idle', 'talk', 'walk', 'wave'], exact_clips=True) for tid in ids}
+    mp = os.path.join(WS, 'manifest.json')
+    m = json.load(open(mp, encoding='utf-8'))
+    for tid in ids:
+        e = m['tutors'][tid]
+        e.update(kit_parts=[part_name(TUTORS[tid]['bt'], sl, i) for sl, i in TUTORS[tid]['parts'].items()], extras=TUTORS[tid]['extras'],
+                 tris=meta[tid]['tris'], tris_total=sum(meta[tid]['tris'].values()), hand_clearance=meta[tid]['hands'],
+                 lean_deg=meta[tid]['lean_deg'], validation=res[tid]['PASS'])
+        m['validation']['tutor_' + tid] = res[tid]['PASS']
+    with open(mp, 'w', encoding='utf-8') as fh:
+        json.dump(m, fh, indent=2)
+    print('TUTORS REBUILT', json.dumps({tid: (res[tid]['PASS'], sum(meta[tid]['tris'].values())) for tid in ids}))
+
 def main():
+    if '--tutors' in ARGS:
+        return rebuild_tutors(ARGS[ARGS.index('--tutors') + 1].split(','))
     os.makedirs(WS, exist_ok=True)
     os.makedirs(os.path.join(RENDER_DIR, 'grid'), exist_ok=True)
     reset_scene()
@@ -2802,6 +5043,12 @@ def main():
     hands_kit['_bind_pose_no_clip'] = hand_clearance(arm, {'bind': probe}).get('bind')
     bpy.data.actions.remove(probe)
     assert_hands(hands_kit, 'kit')
+    lean = measure_lean(arm, {n: clips[n] for n in ('idle', 'walk', 'talk', 'wave', 'run')})
+    print('[LEAN]', json.dumps(lean))
+    for n in ('idle', 'walk', 'talk', 'wave'):
+        assert max(abs(v) for v in lean[n]) < .5, 'spine leans in %s: %s' % (n, lean[n])
+    assert lean['run'][1] < 3.1, 'run leans more than 3 deg: %s' % lean['run']
+    build_check = verify_builds(objs, arm, clips)
     arm.animation_data.action = clips['idle']
     parts = []
     for bt in ('A', 'B'):
@@ -2811,13 +5058,15 @@ def main():
                 parts.append({'name': ob.name, 'body_type': bt, 'slot': slot, 'index': idx, 'style': KIT[bt][slot][idx - 1][0],
                               'description': KIT[bt][slot][idx - 1][1], 'tris': tri_count(ob),
                               'inner_sharp_edge_fraction': ob.get('inner_sharp_fraction', 0.0),
-                              'materials': [m.name for m in ob.data.materials]})
+                              'materials': [m.name for m in ob.data.materials],
+                              'morphs': [kb.name for kb in ob.data.shape_keys.key_blocks[1:]] if ob.data.shape_keys else [],
+                              'morph_max_displacement_m': MORPH_DATA[ob.name]['max_disp']})
     default_tris = {bt: sum(tri_count(o) for o in outfit_objs(objs, bt, DEFAULT_OUTFIT[bt])) for bt in ('A', 'B')}
     heights = {bt: round(rest_top(outfit_objs(objs, bt, DEFAULT_OUTFIT[bt])), 4) for bt in ('A', 'B')}
     worst = {}
     for bt in ('A', 'B'):
         worst[bt] = sum(max(tri_count(objs[part_name(bt, s, i)]) for i in range(1, len(KIT[bt][s]) + 1)) for s in SLOTS if s in KIT[bt])
-    export_glb(OUT_KIT, arm, list(objs.values()), 'ACTIONS')
+    export_glb(OUT_KIT, arm, list(objs.values()), 'ACTIONS', morph=True)
     kit_clip_names = list(clips.keys())
     # Bram (built after the kit export so his actions are not swept into the kit GLB)
     barm, bmats, bobjs, bacts, bdefs = build_bram(objs, mats)
@@ -2826,16 +5075,35 @@ def main():
     worst_inner = max(p['inner_sharp_edge_fraction'] for p in parts)
     print('[SHADING] worst inner-sharp parts', sorted(((p['inner_sharp_edge_fraction'], p['name']) for p in parts), reverse=True)[:12])
     assert worst_inner < .90, 'shading is not panel-based (%.3f of inner edges hard)' % worst_inner
+    for gname in ('walk', 'run', 'bram_walk'):
+        assert GAIT_REPORT[gname]['max_planted_speed_error_mps'] < .05, 'planted foot slides in %s: %s' % (gname, GAIT_REPORT[gname])
+        assert GAIT_REPORT[gname]['max_stance_reach_error_m'] < .006, 'stance foot cannot reach the ground in %s: %s' % (gname, GAIT_REPORT[gname])
+    assert GAIT_REPORT['bram_walk']['staff_tip_error_m'] < .01, 'staff tip slides while planted: %s' % GAIT_REPORT['bram_walk']
+    print('[GAIT]', json.dumps(GAIT_REPORT))
     bram_tris = {n: tri_count(o) for n, o in bobjs.items()}
     bram_height = round(rest_top([o for n, o in bobjs.items() if n != 'Bram_Staff']), 4)
     for o in objs.values():
         o.hide_set(True)
     export_glb(OUT_BRAM, barm, list(bobjs.values()), 'NLA_TRACKS')
+    lean_bram = measure_lean(barm, bacts)
+    # v2.9 tutors
+    tutors, tutor_meta, tutor_names = {}, {}, {}
+    for tid in TUTORS:
+        tarm, tmats, tobjs, tacts, tdefs = build_tutor(tid, objs, mats)
+        th = hand_clearance(tarm, tacts)
+        assert_hands(th, tid)
+        tl = measure_lean(tarm, tacts)
+        assert max(abs(v) for n in ('idle', 'walk') for v in tl[n]) < .5, 'tutor %s leans: %s' % (tid, tl)
+        tutors[tid] = (tarm, tobjs, tacts)
+        tutor_names[tid] = (tarm.name, list(tobjs.keys()), list(tacts.keys()))
+        tutor_meta[tid] = {'hands': th, 'lean_deg': tl, 'tris': {n: tri_count(o) for n, o in tobjs.items()}, 'defs': tdefs}
+    for tid, (tarm, tobjs, tacts) in tutors.items():
+        export_glb(os.path.join(CAND, 'holm_tutor_%s_v2.glb' % tid), tarm, list(tobjs.values()), 'NLA_TRACKS')
     for o in objs.values():
         o.hide_set(False)
     blend = os.path.join(WS, 'characters.blend')
     bpy.ops.wm.save_as_mainfile(filepath=blend)
-    pal = {'version': 2, 'note': 'sRGB hex; material names C_HAIR (hair+jaw+brows), C_TORSO (torso+arm cloth), C_LEGS, C_FEET, C_SKIN',
+    pal = {'version': 2, 'note': 'sRGB hex; material names C_HAIR (hair+jaw+brows), C_TORSO (torso+arm cloth), C_LEGS, C_FEET, C_SKIN, C_MAKEUP (body B makeup overlays)',
            'channels': {ch: {'material': CHANNEL_MAT[ch], 'colors': PALETTES[ch]} for ch in PALETTES},
            'accents_fixed': ACCENTS, 'defaults': {bt: {ch: PALETTES[ch][i] for ch, i in DEFAULT_COLORS[bt].items()} for bt in 'AB'},
            'default_outfit': {bt: {s: part_name(bt, s, i) for s, i in DEFAULT_OUTFIT[bt].items()} for bt in 'AB'},
@@ -2844,6 +5112,11 @@ def main():
         json.dump(pal, fh, indent=2)
     res_kit = validate(OUT_KIT, [p['name'] for p in parts], kit_clip_names, exact_clips=True)
     res_bram = validate(OUT_BRAM, list(bobjs.keys()), ['idle', 'talk', 'walk', 'wave'], exact_clips=True)
+    res_tut = {tid: validate(os.path.join(CAND, 'holm_tutor_%s_v2.glb' % tid), tutor_names[tid][1], ['idle', 'talk', 'walk', 'wave'], exact_clips=True)
+               for tid in tutor_names}
+    mt = res_kit['morph_targets']
+    missing = [p['name'] for p in parts if not set(MORPHS_ALL + (MORPHS_FEET if p['slot'] == 'Feet' else [])) <= set(mt.get(p['name'], []))]
+    assert not missing, 'kit meshes without their morph targets in the GLB: %s' % missing[:10]
     print('VALIDATION kit', json.dumps({k: v for k, v in res_kit.items() if k != 'clips'}))
     print('VALIDATION bram', json.dumps(res_bram))
     bpy.ops.wm.open_mainfile(filepath=blend)
@@ -2859,9 +5132,12 @@ def main():
                 MAT_SRGB[m.name] = tuple(bs.inputs['Base Color'].default_value)[:3]
     clips = {n: bpy.data.actions[n] for n in kit_clip_names}
     barm = bpy.data.objects['Armature_Bram']
+    tut_r = {}
+    for tid, (an, on, cn) in tutor_names.items():
+        tut_r[tid] = (bpy.data.objects[an], {n: bpy.data.objects[n] for n in on}, {n: bpy.data.actions['%s_%s' % (tid, n)] for n in cn})
     bobjs = {n: bpy.data.objects[n] for n in bobjs}
     bacts = {n: bpy.data.actions['bram_' + n] for n in bdefs}
-    sheets = run_renders(arm, mats, objs, clips, (barm, bobjs, bacts)) if DO_RENDER else {}
+    sheets = run_renders(arm, mats, objs, clips, (barm, bobjs, bacts), tut_r) if DO_RENDER else {}
     rel = lambda p: os.path.relpath(p, REPO).replace('\\', '/')
     manifest = {
         'asset': 'holm_kit_v2', 'builder': 'tools/blender/build_holm_characters_v2.py', 'blend': rel(blend),
@@ -2882,12 +5158,36 @@ def main():
                  'tris': bram_tris, 'tris_total': sum(bram_tris.values()), 'materials': res_bram['materials'],
                  'clips': {n: {'duration_s': res_bram['clips'].get(n), 'frames': bdefs[n][0], 'loop': bdefs[n][2]} for n in bdefs}},
         'validation': {'kit': res_kit['PASS'], 'bram': res_bram['PASS']},
+        'gait': dict(GAIT_REPORT, runtime_note='walk is authored natively for 2.4 m/s at timeScale 1.0 (play walk with timeScale = moveSpeed/2.4); '
+                     'run is authored for 4.2 m/s at timeScale 1.0 (play run while running with timeScale = moveSpeed/4.2). Both are slide-free at those '
+                     'rates: the planted foot ground speed is measured back through FK (see measured_planted_foot_speed_mps).'),
         'hand_clearance': {'kit': hands_kit, 'bram': hands_bram, 'rule': 'hand centre >= %.2f m from the crotch point, never across the centreline, never between the legs; idle hands >= .045 m outside the thigh line' % HAND_MIN_CROTCH},
         'shading': {'rule': 'panel shading: smooth across each broad panel; hard edges at material boundaries, piece rims and wherever the form turns > %d deg' % SHARP_DEG,
                     'max_inner_sharp_edge_fraction': max(p['inner_sharp_edge_fraction'] for p in parts)},
         'renders': {k: (rel(v) if isinstance(v, str) else v) for k, v in sheets.items()},
         'reference_ratios_measured': REF_RATIOS,
+        'creator_morphs': {'every_kit_part': MORPHS_ALL, 'feet_parts_also': MORPHS_FEET,
+                           'runtime': 'glTF morph targets (mesh.extras.targetNames) -> three.js morphTargetDictionary. Body build: Slim = Build_Slim 1, '
+                                      'Average = both 0, Stout = Build_Stout 1 (in-between values blend). Feet: Small = Feet_Small 1, Normal = 0, Large = Feet_Large 1 '
+                                      '(the v2.8 size). Set the same influences on every visible kit part (parts that do not move carry zero morphs).',
+                           'glb_morph_targets_ok': True},
+        'build_check': build_check,
+        'lean_deg': {'rule': 'forward tilt of the posed hips-joint -> head-joint line, every frame (0 = vertical); the rest skeleton itself leans 4.2 deg',
+                     'kit': lean, 'bram': lean_bram},
+        'skill_clips': {'grip': 'right hand bone local (0, .03, .04) = where crafting_action_visuals.js attaches a held tool; the clips solve that point onto its target',
+                        'firemake': 'kneel on the right knee, strike the tinderbox down at logs ~0.45 m in front (grip 0.34-0.52 m high), 30 frames, 2 strikes',
+                        'cook': 'hold the fish out over the fire / range (grip ~0.94 m high, 0.42 m in front) and turn it over and back (hand roll 0-140 deg), 40 frames',
+                        'net': 'two-handed: raise overhead -> cast forward and down -> let it soak -> draw it in, 48 frames',
+                        'max_ik_reach_error_m': round(REACH_ERR[0], 4)},
+        'tutors': {tid: {'name': TUTORS[tid]['name'], 'role': TUTORS[tid]['role'], 'glb': rel(os.path.join(CAND, 'holm_tutor_%s_v2.glb' % tid)),
+                         'body_type': TUTORS[tid]['bt'], 'build': TUTORS[tid].get('build', 'average'),
+                         'kit_parts': [part_name(TUTORS[tid]['bt'], sl, i) for sl, i in TUTORS[tid]['parts'].items()], 'extras': TUTORS[tid]['extras'],
+                         'tris': tutor_meta[tid]['tris'], 'tris_total': sum(tutor_meta[tid]['tris'].values()),
+                         'clips': {n: {'frames': d[0], 'loop': d[2]} for n, d in tutor_meta[tid]['defs'].items()}, 'walk_speed_mps': TUTOR_WALK_SPEED,
+                         'hand_clearance': tutor_meta[tid]['hands'], 'lean_deg': tutor_meta[tid]['lean_deg'],
+                         'validation': res_tut[tid]['PASS']} for tid in TUTORS},
     }
+    manifest['validation'].update({'tutor_' + tid: res_tut[tid]['PASS'] for tid in TUTORS})
     with open(os.path.join(WS, 'manifest.json'), 'w', encoding='utf-8') as fh:
         json.dump(manifest, fh, indent=2)
     write_report(manifest, res_kit, res_bram)
@@ -2895,14 +5195,14 @@ def main():
     print('BRAM', manifest['bram']['tris_total'], bram_height)
 
 def write_report(m, rk, rb):
-    L = ['# holm_kit_v2 (v2.5 pass) -- modular 2004-style identity kit + Guide Bram\n',
+    L = ['# holm_kit_v2 (v2.9 candidate) -- modular 2004-style identity kit + Guide Bram + the nine Holm tutors\n',
          'Built by `tools/blender/build_holm_characters_v2.py` (Blender 4.5 headless). Every mesh, weight and clip is authored '
          'procedurally in Blender (angular low-poly, panel shading: smooth panels, hard edges at >=40 deg turns and material boundaries, smooth weights); no imported models, no textures.\n',
          '## Files\n',
          '- `%s` -- rig + all %d kit parts + %d clips' % (m['glb']['kit'], m['part_count'], len(m['clips'])),
-         '- `%s` -- palettes (hair 12, torso 16, legs 16, feet 6, skin 8) + accents + defaults' % m['glb']['palettes'],
+         '- `%s` -- palettes (hair 12, torso 16, legs 16, feet 6, skin 8, makeup 6) + accents + defaults' % m['glb']['palettes'],
          '- `%s` -- Guide Bram (kit parts + staff), clips idle/talk/walk/wave' % m['glb']['bram'],
-         '- `%s`, `manifest.json`, this report; proof sheets in `scratchpad/holm_characters_v2/`\n' % m['blend'],
+         '- `%s`, `manifest.json`, this report; proof sheets in `scratchpad/holm_characters_%s/`\n' % (m['blend'], TAG),
          '## Rig contract vs assets/models/player.glb\n']
     bm = m['bone_match_vs_player_glb']
     L.append('- bone names match: **%s** (order %s, hierarchy %s, Blender re-import %s); rest deviation %.5f m / %.3f deg' % (
@@ -2931,7 +5231,9 @@ def write_report(m, rk, rb):
     L.append('- The kit GLB ships every part visible (glTF has no hide flag): after load, show exactly one `Kit_<bt>_<Slot>_<nn>` per slot '
              '(body type A: 7 slots, B: 6) and hide the rest, e.g. `rig.traverse(o=>{var m=/^Kit_([AB])_(\\w+?)_(\\d\\d)$/.exec(o.name);if(m)o.visible=sel[m[1]][m[2]]===+m[3]})` '
              '(three.js may name a multi-material skinned mesh as a Group with the part name -- match the parent name too, as holm_island_player.js already does).')
-    L.append('- Recolour by channel: materials `C_HAIR`/`C_TORSO`/`C_LEGS`/`C_FEET`/`C_SKIN` (strip a `.NNN` suffix); accents `A_*` stay fixed. '
+    L.append('- v2.8 adds ONE slot: `Makeup` on body B (`Kit_B_Makeup_01..05`, 01 = none: a hidden placeholder sliver inside the skull), '
+             'material `C_MAKEUP`, palette channel `makeup` in palettes.json. Body A has no Makeup slot. Part count 82 -> 87.')
+    L.append('- Recolour by channel: materials `C_HAIR`/`C_TORSO`/`C_LEGS`/`C_FEET`/`C_SKIN`/`C_MAKEUP` (strip a `.NNN` suffix); accents `A_*` stay fixed. '
              'This replaces the v1 `R_*` region names, so `recolorPlayer`/`holm_island_player.js` need a small mapping update before switching over.')
     L.append('- Measure/scale the character AFTER hiding unused parts (installPlayerGLB normalises the bbox to 1.85 m).')
     L.append('- `talk`/`wave` are included on the kit rig for NPCs; Bram GLB is drop-in for `holm_island_tutors.js` (clip names idle/talk/walk/wave).\n')
@@ -2945,6 +5247,20 @@ def write_report(m, rk, rb):
         L.append('## Self-review against the references\n')
         L += ['- ' + r for r in REVIEW]
         L.append('')
+    if m.get('tutors'):
+        L.append('## Tutors (v2.9)\n')
+        L.append('| id | name | body | build | glb | tris | extras |')
+        L.append('|---|---|---|---|---|---|---|')
+        for tid, t in m['tutors'].items():
+            L.append('| %s | %s | %s | %s | `%s` | %d | %s |' % (tid, t['name'], t['body_type'], t['build'], t['glb'], t['tris_total'], ', '.join(t['extras'])))
+        L.append('\nEach tutor GLB: the same 23-bone rig, clips idle / talk / wave / walk (walk %.2f m/s at timeScale 1), upright spine, hands checked every frame.\n' % TUTOR_WALK_SPEED)
+    if m.get('creator_morphs'):
+        L.append('## Creator morphs (v2.9)\n')
+        L.append('- ' + m['creator_morphs']['runtime'])
+        bc = m.get('build_check', {})
+        L.append('- build check: %d part pairs x %s; new clip vertices by rule: `%s`' % (bc.get('part_pairs_checked', 0), ', '.join(bc.get('poses', [])),
+                 json.dumps({k: v for k, v in bc.get('new_clip_vertices_by_rule', {}).items() if v})))
+        L.append('- lean (deg, min/max over every frame): `%s`\n' % json.dumps(m.get('lean_deg', {}).get('kit', {})))
     L.append('## Validation\n')
     L.append('```json\n%s\n```\n' % json.dumps({'kit': {k: v for k, v in rk.items() if k != 'clips'}, 'bram': rb}, indent=1))
     with open(os.path.join(WS, 'REPORT.md'), 'w', encoding='utf-8') as fh:

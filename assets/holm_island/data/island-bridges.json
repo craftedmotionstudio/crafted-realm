@@ -1,12 +1,20 @@
 {
  "schema": "holm-island-bridges-v1",
- "note": "Deck tiles measured from the Sept 13 terrain water mask (HolmIslandNav.bridgeFrom); world tiles; deck lifted rise above the higher bank.",
+ "note": "Deck tiles measured from the Sept 13 terrain (HolmIslandNav.bridgeFrom): the water mask plus the creek banks under the creek water line (2026-09-25 world fixes); world tiles; deck lifted rise above the higher bank. bedY = lowest deck-tile ground, waterY = drawn creek surface under the first and last deck tiles over water, clearance = deckY - max waterY.",
  "bridges": [
   {
    "id": "timber_teaching_bridge",
    "label": "Timber teaching bridge",
    "orientation": "EW",
    "tiles": [
+    [
+     43,
+     87
+    ],
+    [
+     44,
+     87
+    ],
     [
      45,
      87
@@ -18,24 +26,37 @@
     [
      47,
      87
-    ]
-   ],
-   "ends": [
-    [
-     44,
-     87
     ],
     [
      48,
      87
+    ],
+    [
+     49,
+     87
+    ]
+   ],
+   "ends": [
+    [
+     42,
+     87
+    ],
+    [
+     50,
+     87
     ]
    ],
    "endY": [
-    1.271,
-    1.431
+    2.638,
+    3.391
    ],
-   "deckY": 1.631,
-   "bedY": 1.061
+   "deckY": 3,
+   "bedY": 1.061,
+   "waterY": [
+    1.785,
+    2.025
+   ],
+   "clearance": 0.975
   },
   {
    "id": "stone_village_bridge",
@@ -43,17 +64,15 @@
    "orientation": "EW",
    "tiles": [
     [
+     61,
+     53
+    ],
+    [
      62,
      53
     ],
     [
      63,
-     53
-    ]
-   ],
-   "ends": [
-    [
-     61,
      53
     ],
     [
@@ -61,12 +80,27 @@
      53
     ]
    ],
-   "endY": [
-    3.524,
-    3.412
+   "ends": [
+    [
+     60,
+     53
+    ],
+    [
+     65,
+     53
+    ]
    ],
-   "deckY": 3.824,
-   "bedY": 3.118
+   "endY": [
+    3.997,
+    4.02
+   ],
+   "deckY": 4.52,
+   "bedY": 3.118,
+   "waterY": [
+    3.931,
+    3.966
+   ],
+   "clearance": 0.554
   }
  ]
 }

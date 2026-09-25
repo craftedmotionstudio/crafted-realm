@@ -28,9 +28,9 @@
  "fishing": [
   {
    "id": "survival-perch",
-   "x": 43.5,
-   "z": 91.5,
-   "y": 1.62,
+   "x": 44.45,
+   "z": 90.5,
+   "y": 1.72,
    "stance": [
     "survival",
     "fishing"
@@ -76,5 +76,5 @@
   }
  ],
  "rockBlockRadius": 0.45,
- "notes": "Tree spots picked by script: open land 6-8 tiles from the survival camp, off paths, >= 2.2 from habitat, reachable from the dock, 3+ open neighbours. Fishing ripple on the creek tile south of the measured fishing-stage stance; y = creek surface (plan creek point 43,91 at 1.6). Rocks are filled from the cavern's socket empties once measured."
+ "notes": "Tree spots picked by script: open land 6-8 tiles from the survival camp, off paths, >= 2.2 from habitat, reachable from the dock, 3+ open neighbours. Fishing ripple off the open east end of the fishing stage, straight ahead of the measured stance (43.5,90.5), between the stage's two reed clumps and its marker pole (2026-09-25 world fixes: the old spot 43.5,91.5 lay behind the stage's south rail); y = the drawn creek surface there (HolmArrivalWater.surface, 1.703) + .017, as before. Rocks are filled from the cavern's socket empties once measured."
 }

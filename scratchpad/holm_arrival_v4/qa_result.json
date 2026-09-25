@@ -22,7 +22,7 @@
       "label": "v4 art is loaded: guide house v2 (>20k tris), Lantern Keeper statue, branching oak; no drawn grid",
       "ok": true,
       "detail": {
-        "houseTris": 49436,
+        "houseTris": 53026,
         "statue": true,
         "oak": true,
         "grid": null
@@ -69,9 +69,9 @@
       "ok": true,
       "detail": {
         "p": [
-          66.5,
+          65.5,
           3,
-          105.5
+          103.5
         ],
         "provider": "tutors-holm-arrival-qa",
         "doors": {
@@ -86,7 +86,7 @@
       "ok": true,
       "detail": {
         "at": [
-          66.5,
+          65.5,
           3,
           100.5
         ],
@@ -171,5 +171,5 @@
       }
     }
   ],
-  "seconds": 55
+  "seconds": 61
 }

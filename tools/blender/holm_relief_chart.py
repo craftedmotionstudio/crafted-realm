@@ -6,6 +6,7 @@ the creek, worn paths, bridges, trees from the habitat study and small models of
 real island positions (building placements from the measured navigation files). A compass rose, walnut frame
 and a brass name plate finish it. Original design.
 """
+ROUTE_INFO={}
 import bpy,bmesh,json,math,random
 from pathlib import Path
 from mathutils import Vector
@@ -62,6 +63,9 @@ def contours(H,W,D,L):
 
 def build(B):
  root=B['ROOT'];parent=B['root']
+ # v4 (guide house v4, 2026-09-25 z-fighting sweep): terrace steps and ribbon lifts of at least 3.5 mm, so no two
+ # chart layers lie within 3 mm of each other, and every terrace fill faces up
+ V4=B.get('GUIDE_VERSION',3)>=4;LIFT=.0035 if V4 else .0015
  # ---- where the chart lies: on the chart table, house-local plan coordinates
  CX,CZ,TOP=B['CHART_X'],B['CHART_Z'],B['CHART_TOP']
  OW,OD=1.86,1.30;BAR=.075;IW,ID=OW-2*BAR,OD-2*BAR
@@ -75,7 +79,7 @@ def build(B):
  # palette: related tones per family (sRGB display values)
  sea=M('Chart sea deep','#2e5a84');sea2=M('Chart sea shallows','#6f9fc0');foam=M('Chart surf line','#c9dcd6')
  sand=M('Chart sand','#d6c28a')
- lands=[(0.0,.006,sand),(1.3,.013,M('Chart meadow','#9cb363')),(3.0,.022,M('Chart pasture','#7c9a4b')),(5.0,.032,M('Chart woodland','#5d7c3d')),
+ lands=[(0.0,.0105 if V4 else .006,sand),(1.3,.0165 if V4 else .013,M('Chart meadow','#9cb363')),(3.0,.022,M('Chart pasture','#7c9a4b')),(5.0,.032,M('Chart woodland','#5d7c3d')),
         (7.0,.044,M('Chart heath brown','#8c7a50')),(9.5,.057,M('Chart upland stone','#9f927a')),(12.0,.070,M('Chart crown stone','#c3b99d'))]
  side=M('Chart relief edge','#6b5238');board=M('Chart board','#8a6a45')
  walnut=M('Chart frame walnut','#4b3120');walnut2=M('Chart frame lip','#6d4a2c');brass=M('Chart brass','#b89a4c');ink=M('Chart ink','#34261a')
@@ -101,7 +105,7 @@ def build(B):
  A.build(parent)
  # ---- terraces from the terrain's own contours
  bm=bmesh.new();mats=[sea2,foam]+[m for _,_,m in lands]+[side];mi={m.name:i for i,m in enumerate(mats)}
- levels=[(-0.9,.0015,sea2),(-0.25,.0028,foam)]+lands
+ levels=[(-0.9,LIFT,sea2),(-0.25,.007 if V4 else .0028,foam)]+lands
  prev_y=0.0;count={}
  for L,top,m in levels:
   y=ySea+top;loops=[]
@@ -116,7 +120,11 @@ def build(B):
   if edges:
    res=bmesh.ops.triangle_fill(bm,use_beauty=True,use_dissolve=False,edges=edges,normal=(0,0,1))
    for f in res['geom']:
-    if isinstance(f,bmesh.types.BMFace):f.material_index=mi[m.name]
+    if isinstance(f,bmesh.types.BMFace):
+     f.material_index=mi[m.name]
+     if V4:
+      f.normal_update()
+      if f.normal.z<0:f.normal_flip()
   # side walls down to the level below (the relief edge reads as carved board)
   for vs in vs_all:
    for i in range(len(vs)):
@@ -129,12 +137,13 @@ def build(B):
   R.poly([(v.co.x,v.co.z,-v.co.y) for v in f.verts],[tuple(range(len(f.verts)))],mats[f.material_index])
  bm.free();R.build(parent)
  def ytop(tx,tz):
-  h=hat(tx,tz);t=0 if h<-.9 else .0015
+  h=hat(tx,tz);t=0 if h<-.9 else LIFT
   for L,top,_ in levels:
    if h>=L:t=top
   return ySea+t
  A=Acc('GroundFurnishingChartDetail')
- def ribbon(pts,width,m,lift=.0015,step=2.0):
+ def ribbon(pts,width,m,lift=None,step=2.0):
+  lift=LIFT if lift is None else lift
   sm=[]
   for (x0,z0),(x1,z1) in zip(pts,pts[1:]):
    n=max(1,int(math.hypot(x1-x0,z1-z0)/step))
@@ -210,6 +219,118 @@ def build(B):
  for t in trees:
   x,z=P(t['x'],t['z']);y=ytop(t['x'],t['z']);m=treeG[rng.randrange(3)];r=.011*t.get('scale',1)
   A.lathe(x,z,y,[(r,.006),(0,.03*t.get('scale',1))] if t['asset']=='coastal-pine' else [(r*.7,.004),(r*1.1,.013),(r*.6,.026),(0,.03)],5,m,top=False,bottom=True,rot=rng.random())
+ # ---- v5 (2026-09-25, "Trace the route with one finger"): the lesson route as raised gold strips, one per leg,
+ # following the painted paths, and a gold pin on each stop's model. ChartRoute_01..09 / ChartStop_01..10 are
+ # separate objects carrying extras {"hiddenByDefault": true}; the game shows them in sequence.
+ if B.get('GUIDE_VERSION',3)>=5:
+  gold=M('Chart route gold','#ffcc3a',emit=1.3);gold2=M('Chart route gold edge','#d99a1e',emit=.8)
+  stops=[('guide',(66,99)),('survival',(sv['x'],sv['z'])),('bakehouse',(k['x'],k['z'])),('lodge',(q['x'],q['z'])),('quarry',(qy['x'],qy['z'])),
+         ('keep',(kp['x'],kp['z'])),('bank',(bk['x'],bk['z'])),('mage',(mg['x']+3,mg['z']-2)),('lastlight',(ll['x'],ll['z'])),('haven',(hv['x'],hv['z']))]
+  tops={'guide':ytop(66,99)+.03+.026+.012,'survival':ytop(sv['x'],sv['z'])+.028,'bakehouse':ytop(k['x'],k['z'])+.026+.022,'lodge':ytop(q['x'],q['z'])+.028+.03,
+        'quarry':ytop(qy['x'],qy['z'])+.042,'keep':ytop(kp['x'],kp['z'])+.082,'bank':ytop(bk['x'],bk['z'])+.054,'mage':ytop(mg['x']+3,mg['z']-2)+.12,
+        'lastlight':ytop(ll['x'],ll['z'])+.148,'haven':ySea+.012}
+  # path network in world tiles: every painted polyline, the landing spur, and the mage house joining its three paths
+  segs=[]
+  lines=[[tuple(q) for q in p_['points']] for p_ in plan['paths']]+[[(61,118),(61,114),(66,114),(66,104)]]
+  for L in lines:
+   for a,b in zip(L,L[1:]):
+    if a!=b:segs.append((a,b))
+  mc=(mg['x'],mg['z'])
+  for e in ((108,58),(114,51),(114,64)):segs.append((mc,e))
+  def proj(p,a,b):
+   ax,az=a;bx,bz=b;dx,dz=bx-ax,bz-az;L2=dx*dx+dz*dz or 1e-9;t=max(0,min(1,((p[0]-ax)*dx+(p[1]-az)*dz)/L2));return (ax+t*dx,az+t*dz),t
+  anchors={'guide':(66,93),'mage':mc}
+  for sid,c in stops:
+   if sid in anchors:continue
+   best=min(((math.dist(proj(c,a,b)[0],c),i) for i,(a,b) in enumerate(segs)));i=best[1];pt,t=proj(c,*segs[i])
+   pt=(round(pt[0],3),round(pt[1],3));a,b=segs[i]
+   if pt not in (a,b):segs[i]=(a,pt);segs.append((pt,b))
+   anchors[sid]=pt
+  adj={}
+  for a,b in segs:
+   d=math.dist(a,b);adj.setdefault(a,[]).append((b,d));adj.setdefault(b,[]).append((a,d))
+  import heapq
+  def route(a,b):
+   dist={a:0};prev={};h=[(0,a)]
+   while h:
+    d,u=heapq.heappop(h)
+    if u==b:break
+    if d>dist[u]:continue
+    for v,w in adj[u]:
+     if d+w<dist.get(v,1e18):dist[v]=d+w;prev[v]=u;heapq.heappush(h,(d+w,v))
+   out=[b]
+   while out[-1]!=a:out.append(prev[out[-1]])
+   return out[::-1]
+  def simplify(L):
+   L=[p_ for i,p_ in enumerate(L) if i==0 or p_!=L[i-1]];changed=True
+   while changed and len(L)>2:
+    changed=False
+    for i in range(1,len(L)-1):
+     u=(L[i][0]-L[i-1][0],L[i][1]-L[i-1][1]);v=(L[i+1][0]-L[i][0],L[i+1][1]-L[i][1]);nu,nv=math.hypot(*u),math.hypot(*v)
+     if nu<1e-9 or nv<1e-9 or (u[0]*v[0]+u[1]*v[1])/(nu*nv)<-.5:L.pop(i);changed=True;break
+   return L
+  def on_bridge(x,z):
+   for br in plan['bridges']:
+    if abs(x-br['x'])<=2.4 and abs(z-br['z'])<=1.1:return ytop(br['x'],br['z'])+.008
+   return None
+  HW=.0034;TH=.0035
+  legs=[]
+  for li in range(9):
+   (sa,ca),(sb,cb)=stops[li],stops[li+1]
+   WP=simplify(route(anchors[sa],anchors[sb]))
+   pts=[]
+   for a,b in zip(WP,WP[1:]):
+    n=max(1,int(math.dist(a,b)/1.25))
+    for j in range(n):pts.append((a[0]+(b[0]-a[0])*j/n,a[1]+(b[1]-a[1])*j/n))
+   pts.append(WP[-1])
+   lane=((li+1)%3-1)*.0072
+   C=[P(*p_) for p_ in pts]
+   tops_=[]
+   for a,b in zip(pts,pts[1:]):
+    y=max(ytop(*a),ytop(*b))+LIFT+.004
+    for m_ in ((a[0]+b[0])/2,(a[1]+b[1])/2),a,b:
+     bt=on_bridge(*m_)
+     if bt is not None:y=max(y,bt+.0035)
+    tops_.append(y)
+   # merge runs of collinear pieces at one height (the densifying only exists to follow terrace steps)
+   keep=[0]
+   for i in range(1,len(pts)-1):
+    d0=(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);d1=(pts[i+1][0]-pts[i][0],pts[i+1][1]-pts[i][1])
+    if abs(d0[0]*d1[1]-d0[1]*d1[0])>1e-9 or abs(tops_[i]-tops_[i-1])>1e-9:keep.append(i)
+   keep.append(len(pts)-1)
+   tops_=[tops_[a] for a in keep[:-1]];pts=[pts[a] for a in keep]
+   C=[P(*p_) for p_ in pts]
+   def nrm(u):L_=math.hypot(*u) or 1;return (-u[1]/L_,u[0]/L_)
+   dirs=[(C[i+1][0]-C[i][0],C[i+1][1]-C[i][1]) for i in range(len(C)-1)]
+   def joint(i,off):
+    if i==0:n_=nrm(dirs[0]);k_=1
+    elif i==len(C)-1:n_=nrm(dirs[-1]);k_=1
+    else:
+     n0,n1=nrm(dirs[i-1]),nrm(dirs[i]);n_=(n0[0]+n1[0],n0[1]+n1[1]);L_=math.hypot(*n_) or 1;n_=(n_[0]/L_,n_[1]/L_);k_=max(.5,n_[0]*n0[0]+n_[1]*n0[1])
+    return (C[i][0]+n_[0]*off/k_,C[i][1]+n_[1]*off/k_)
+   R_=Acc('ChartRoute_%02d'%(li+1))
+   for i in range(len(C)-1):
+    y1=tops_[i];y0=y1-TH
+    l0,r0,l1,r1=joint(i,lane+HW),joint(i,lane-HW),joint(i+1,lane+HW),joint(i+1,lane-HW)
+    V=[(l0[0],y0,l0[1]),(r0[0],y0,r0[1]),(r1[0],y0,r1[1]),(l1[0],y0,l1[1]),(l0[0],y1,l0[1]),(r0[0],y1,r0[1]),(r1[0],y1,r1[1]),(l1[0],y1,l1[1])]
+    R_.poly(V,[(4,5,6,7),(0,3,2,1),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7)],gold)
+   legs.append(R_)
+  info_route=[]
+  for li,R_ in enumerate(legs):
+   o=R_.build(parent);o['hiddenByDefault']=True;o['routeLeg']=li+1;o['from']=stops[li][0];o['to']=stops[li+1][0];info_route.append(o.name)
+  for si,(sid,c) in enumerate(stops):
+   x,z=P(*c);y=tops[sid];S_=Acc('ChartStop_%02d'%(si+1))
+   if sid=='haven':x,z=x,z+.09
+   if sid!='guide':S_.tube((x,y+.001,z),(x,y+.02,z),.0018,5,gold2)
+   ry=y+(.012 if sid=='guide' else .02);n=10;ring=[]
+   for i in range(n):
+    a=2*math.pi*i/n;ring.append((x+math.cos(a)*.013,z+math.sin(a)*.013,x+math.cos(a)*.0065,z+math.sin(a)*.0065))
+   for i in range(n):
+    (ox0,oz0,ix0,iz0),(ox1,oz1,ix1,iz1)=ring[i],ring[(i+1)%n]
+    V=[(ix0,ry,iz0),(ox0,ry,oz0),(ox1,ry,oz1),(ix1,ry,iz1),(ix0,ry+.003,iz0),(ox0,ry+.003,oz0),(ox1,ry+.003,oz1),(ix1,ry+.003,iz1)]
+    S_.poly(V,[(4,7,6,5),(0,1,2,3),(0,4,5,1),(1,5,6,2),(2,6,7,3),(3,7,4,0)],gold)
+   o=S_.build(parent);o['hiddenByDefault']=True;o['stop']=si+1;o['place']=sid
+  ROUTE_INFO.update({'legs':[(stops[i][0],stops[i+1][0]) for i in range(9)],'stops':[s_[0] for s_ in stops]})
  # ---- compass rose on the open sea in the south-west, and the brass name plate on the frame
  rx,rz=CX-IW/2+.17,CZ+ID/2-.17;ry=ySea+.002;R=.085
  for i in range(8):

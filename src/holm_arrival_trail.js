@@ -25,7 +25,10 @@ function geometry(layout,sample,offset){
  for(let z=Math.floor(Math.min(...zs)-half);z<Math.max(...zs)+half;z+=step)for(let x=Math.floor(Math.min(...xs)-half);x<Math.max(...xs)+half;x+=step){
   if(distance(x+step/2,z+step/2)>half+step)continue;
   if(z+step<=house.z+7.4)continue; // stop at the Blender porch's outer edge
-  for(const triangle of [[[x,z],[x,z+step],[x+step,z]],[[x+step,z],[x,z+step],[x+step,z+step]]]){
+  // split each small square on the same diagonal as the ground tile under it (HolmOverhaulGround.chunk alternates the
+  // tile diagonal with (x+z)&1), so no trail triangle straddles a ground crease and the trail never dips under the ground
+  const odd=(Math.floor(x+1e-9)+Math.floor(z+1e-9))&1;
+  for(const triangle of odd?[[[x,z],[x,z+step],[x+step,z+step]],[[x,z],[x+step,z+step],[x+step,z]]]:[[[x,z],[x,z+step],[x+step,z]],[[x+step,z],[x,z+step],[x+step,z+step]]]){
    const poly=clip(clip(triangle,field),p=>p[1]-house.z-7.4);if(poly.length<3)continue;
    const base=vertices.length/3;
    for(const [xx,zz] of poly){const y=sample(xx,zz);if(!Number.isFinite(y))throw Error("[HolmArrivalTrail] nonfinite ground");vertices.push(xx+offset.x,y+.025,zz+offset.z);
@@ -47,7 +50,10 @@ function terrainSampler(bundle){
   if(!Number.isFinite(x)||!Number.isFinite(z)||x<0||z<0||x>bundle.width||z>bundle.depth)throw Error('[HolmArrivalTrail] sample outside terrain');
   const ix=Math.min(bundle.width-1,Math.floor(x)),iz=Math.min(bundle.depth-1,Math.floor(z)),fx=x-ix,fz=z-iz,w=bundle.width+1;
   const a=bundle.heights[iz*w+ix],b=bundle.heights[iz*w+ix+1],c=bundle.heights[(iz+1)*w+ix],d=bundle.heights[(iz+1)*w+ix+1];
-  // Same a,c,b / b,c,d diagonal as the actual streamed terrain triangles.
+  // Same diagonal as the actual streamed ground (HolmOverhaulGround.chunk, owner reviews 5+6): even tiles a,c,b / b,c,d,
+  // odd tiles ((ix+iz)&1) a,c,d / a,d,b. The fixed b-c diagonal left the drawn ground up to 8 cm over the trail on odd
+  // tiles: a green triangle on the brown path at its turn toward the Guide House (owner play-test 2026-09-25).
+  if((ix+iz)&1)return fz>=fx?a+fz*(c-a)+fx*(d-c):a+fx*(b-a)+fz*(d-b);
   return fx+fz<=1?a+fx*(b-a)+fz*(c-a):d+(1-fx)*(c-d)+(1-fz)*(b-d);
  };
 }

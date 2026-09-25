@@ -9,7 +9,7 @@ const TERRAIN='.studio-workspaces/holm-overhaul-terrain-v1/working/assets/world/
 const NEW_BUILDINGS=['survival','quarry','bank','mage','haven','lastlight','cavern'];
 const TREE_TRUNK={oak:.45,birch:.3,'coastal-pine':.35};
 const bridgeFrom=(t,b)=>require('../src/holm_island_nav').bridgeFrom(t,b);
-const HABITAT_V2='.studio-workspaces/holm-habitat-v3/working/vegetation.json';
+const HABITAT_V2='.studio-workspaces/holm-habitat-v4/working/vegetation.json';
 function load(opts){
  const terrain=read(TERRAIN),dock=read('docs/rebuild/holm-overhaul/arrival-dock.json');
  const base={layout:read('docs/rebuild/holm-overhaul/arrival-layout.json'),envelopes:read('docs/rebuild/holm-overhaul/guide-house-collision-envelopes.json'),terrain,
@@ -35,8 +35,8 @@ function load(opts){
  L.rocks.forEach(k=>{const r=L.rockBlockRadius;blockers.push({id:'lesson:'+k.id,mode:'overlap',x0:k.x-r,x1:k.x+r,z0:k.z-r,z1:k.z+r})});
  const buildings=[
   {id:'keep',graph:read('.studio-workspaces/holm-keep-navigation-v7/candidates/navigation.json')},
-  {id:'bakehouse',graph:read('.studio-workspaces/holm-kitchen-navigation-v5/candidates/navigation.json')},
-  {id:'lodge',graph:read('.studio-workspaces/holm-quest-terrain-navigation-v3/candidates/navigation.json')}]
+  {id:'bakehouse',graph:read('.studio-workspaces/holm-kitchen-navigation-v6/candidates/navigation.json')},
+  {id:'lodge',graph:read('.studio-workspaces/holm-quest-terrain-navigation-v4/candidates/navigation.json')}]
   // M4.4 buildings, measured by tools/blender/extract_holm_building_navigation.py from their specs
   .concat(NEW_BUILDINGS.map(id=>({id,graph:read(read('docs/rebuild/holm-overhaul/buildings/'+id+'.nav.json').out+'/navigation.json')})));
  const plan=read('docs/rebuild/holm-overhaul/plan.json');

@@ -1400,14 +1400,20 @@
       "z": 87,
       "orientation": "EW",
       "label": "Timber teaching bridge",
-      "rise": 0.2
+      "rise": 0.2,
+      "span": [
+        43,
+        49
+      ],
+      "deckY": 3.0,
+      "note": "2026-09-25 world fixes: the deck spans bank top to bank top (the east bank climbs 1.3 in one tile beside the widened creek)"
     },
     {
       "x": 62,
       "z": 53,
       "orientation": "EW",
       "label": "Stone village bridge",
-      "rise": 0.3
+      "rise": 0.5
     }
   ],
   "paths": [
