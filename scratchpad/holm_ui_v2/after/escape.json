@@ -1,0 +1,72 @@
+[
+ {
+  "window": "07_bank",
+  "opened": true,
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_shop",
+  "opened": true,
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_worldmap",
+  "opened": true,
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_quest_scroll",
+  "opened": true,
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_droptable",
+  "opened": true,
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_overlays",
+  "opened": true,
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_deeds",
+  "opened": true,
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_smithing",
+  "opened": true,
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_music_menu",
+  "opened": true,
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_dialogue",
+  "opened": true,
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_equip_stats",
+  "hasCloseButton": true,
+  "closedByEscape": true
+ },
+ {
+  "window": "07_bestiary_drops",
+  "hasCloseButton": true,
+  "closedByEscape": true
+ }
+]

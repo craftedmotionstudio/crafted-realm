@@ -25,10 +25,10 @@ async function login(page){
   else {
     await page.evaluate(() => document.getElementById('btn-new').click());
     await page.waitForFunction(() => document.getElementById('login-create').style.display !== 'none', {timeout: 8000});
-    await page.evaluate(() => document.getElementById('btn-begin').click());
+    await page.evaluate(() => (document.getElementById('btn-begin').click(),(()=>{try{CharCfg._new=false}catch(e){}})()));
   }
-  await page.waitForFunction(() => document.getElementById('login-play').style.display !== 'none', {timeout: 8000});
-  await page.evaluate(() => { try { CharCfg._new = false; } catch (e) {} document.getElementById('play-btn').click(); });
+  await page.waitForFunction(() => (document.getElementById('login-play').style.display !== 'none'||(typeof running!=='undefined'&&running)), {timeout: 8000});
+  await page.evaluate(() => { try { CharCfg._new = false; } catch (e) {} if(!(typeof running!=='undefined'&&running))document.getElementById('play-btn').click(); });
   await page.waitForFunction(() => { if (typeof running === 'undefined' || !running) return false; const b = document.getElementById('enter-buffer'); return !b || b.style.display === 'none'; }, {timeout: 30000});
   return hadSave;
 }

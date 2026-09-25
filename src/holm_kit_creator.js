@@ -16,13 +16,16 @@ var HolmKitCreator=(function(){
    if(has)e.lbl.textContent=HolmKit.label(st.look.body,d[0],st.look.parts[d[0]])});
   COLOUR.forEach(function(c){var e=st.els['c_'+c[0]];if(!e)return;e.sw.style.background=HolmKit.palette(c[0])[st.look.colors[c[0]]]||'#000';
    if(c[0]==='makeup')e.row.style.display=HolmKit.hasSlot(st.look.body,'Makeup')?'':'none'});
-  ['A','B'].forEach(function(b){var e=st.els['body_'+b];if(e)e.classList.toggle('on',st.look.body===b)})}
+  ['A','B'].forEach(function(b){var e=st.els['body_'+b];if(e)e.classList.toggle('on',st.look.body===b)});
+  var cap=function(s){return s.charAt(0).toUpperCase()+s.slice(1)};if(st.els.shape_build)st.els.shape_build.textContent=cap(st.look.build||'average');if(st.els.shape_feet)st.els.shape_feet.textContent=cap(st.look.feet||'normal')}
  function cyclePart(slot,dir){var n=HolmKit.options(st.look.body,slot).length;if(!n)return;st.look.parts[slot]=((st.look.parts[slot]-1+dir+n)%n)+1;refresh()}
  function cycleColour(ch,dir){var n=HolmKit.palette(ch).length;st.look.colors[ch]=(st.look.colors[ch]+dir+n)%n;refresh()}
- function setBody(b){if(st.look.body===b)return;var keep=st.look.colors;st.look=HolmKit.defaults(b);st.look.colors=keep;refresh()}
+ function setBody(b){if(st.look.body===b)return;var keep=st.look.colors,build=st.look.build,feet=st.look.feet;st.look=HolmKit.defaults(b);st.look.colors=keep;st.look.build=build;st.look.feet=feet;refresh()}
+ function cycleShape(key,list,dir){var i=list.indexOf(st.look[key]);st.look[key]=list[(i+dir+list.length)%list.length];refresh()}
  function randomise(){var b=Math.random()<.5?'A':'B',l=HolmKit.defaults(b);
   HolmKit.SLOTS.forEach(function(s){var n=HolmKit.options(b,s).length;if(n)l.parts[s]=1+Math.floor(Math.random()*n)});
-  HolmKit.CHANNELS.forEach(function(c){l.colors[c]=Math.floor(Math.random()*HolmKit.palette(c).length)});st.look=l;refresh()}
+  HolmKit.CHANNELS.forEach(function(c){l.colors[c]=Math.floor(Math.random()*HolmKit.palette(c).length)});
+  l.build=HolmKit.BUILDS[Math.floor(Math.random()*3)];l.feet=HolmKit.FEET[Math.floor(Math.random()*3)];st.look=l;refresh()}
  // The 2004 creator window (ui_osrs_kit.js / osrs_kit.css): a stone-framed Design column, the character turning in a clear
  // framed window in the middle, the Colour column and Body type on the right, Randomise + Confirm under the character.
  function arrowRow(parent,label,left,right,extra){var r=el('div');r.className='kc-row';var a=el('button');a.type='button';a.className='kc-arrow l';a.title='Previous '+label.toLowerCase();a.onclick=function(){click();left()};
@@ -38,6 +41,8 @@ var HolmKitCreator=(function(){
   COLOUR.forEach(function(c){var sw=el('div');sw.className='kc-swatch';var r=arrowRow(cc,c[1],function(){cycleColour(c[0],-1)},function(){cycleColour(c[0],1)},sw);st.els['c_'+c[0]]={row:r.row,sw:sw}});
   var bt=el('div',null,'<h4>Body type</h4>');bt.style.marginTop='12px';var bb=el('div');bb.className='kc-body';
   ['A','B'].forEach(function(b){var x=el('button',null,b);x.type='button';x.className='kit-btn';x.title='Body type '+b;x.onclick=function(){click();setBody(b)};bb.appendChild(x);st.els['body_'+b]=x});bt.appendChild(bb);cc.appendChild(bt);
+  // body build and feet size (morph targets on every part)
+  [['build','Build',HolmKit.BUILDS],['feet','Feet size',HolmKit.FEET]].forEach(function(s){arrowRow(cc,s[1],function(){cycleShape(s[0],s[2],-1)},function(){cycleShape(s[0],s[2],1)});var lbl=el('div');lbl.className='kc-sub';cc.appendChild(lbl);st.els['shape_'+s[0]]=lbl});
   w.appendChild(dc);w.appendChild(view);w.appendChild(cc);
   var acts=el('div');acts.className='kc-actions';
   var rnd=el('button',null,'Randomise');rnd.type='button';rnd.className='kit-btn';rnd.title='Roll a random look';rnd.onclick=function(){click();randomise()};

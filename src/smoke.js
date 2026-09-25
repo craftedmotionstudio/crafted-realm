@@ -383,11 +383,14 @@
     badge('SMOKE: logging in…');
     var hadSave=false; try{ hadSave = SaveGame.exists(); }catch(e){}
     if(hadSave){ click('btn-continue'); }
-    else { click('btn-new'); await waitFor(function(){ return el('login-create').style.display!=='none'; }, 4000); click('btn-begin'); }
-    var atPlay = await waitFor(function(){ return el('login-play').style.display!=='none'; }, 6000);
+    // a new adventurer enters in ONE step: naming them (Begin) goes straight onto the Holm; the ready screen is for Continue
+    else { click('btn-new'); await waitFor(function(){ return el('login-create').style.display!=='none'; }, 4000); click('btn-begin');
+      try{ CharCfg._new=false; }catch(e){} }   // suppress the Character Design modal (decided 500 ms after entry) — it blocks the walk test
+    var inWorld=function(){ return typeof running!=='undefined' && running; };
+    var atPlay = await waitFor(function(){ return el('login-play').style.display!=='none' || inWorld(); }, 6000);
     if(!atPlay) return finish('login flow never reached the play screen');
     try{ CharCfg._new=false; }catch(e){}    // suppress the Character Design modal — it blocks the walk test
-    click('play-btn');
+    if(!inWorld()) click('play-btn');
     var tPlay=performance.now();
     var settled = await waitFor(function(){
       if(typeof running==='undefined' || !running) return false;
