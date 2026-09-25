@@ -24,7 +24,9 @@ var HolmKit=(function(){
  function defaults(body){body=body==='B'?'B':'A';var parts={},colors={},def=st.palettes&&st.palettes.defaults&&st.palettes.defaults[body]||{};
   SLOTS.forEach(function(s){if(hasSlot(body,s))parts[s]=1});
   CHANNELS.forEach(function(c){var p=palette(c),i=p.indexOf(def[c]);colors[c]=i>=0?i:0});return {body:body,parts:parts,colors:colors}}
- function normalize(look){var d=defaults(look&&look.body);if(!look)return d;var out={body:d.body,parts:{},colors:{}};
+ // body build and feet size (owner 2026-09-25): morph targets Build_Slim/Build_Stout and Feet_Small/Feet_Large on every part
+ var BUILDS=['slim','average','stout'],FEET=['small','normal','large'];
+ function normalize(look){var d=defaults(look&&look.body);d.build='average';d.feet='normal';if(!look)return d;var out={body:d.body,parts:{},colors:{},build:BUILDS.indexOf(look.build)>=0?look.build:'average',feet:FEET.indexOf(look.feet)>=0?look.feet:'normal'};
   SLOTS.forEach(function(s){if(!hasSlot(out.body,s))return;var n=options(out.body,s).length,v=look.parts&&Number(look.parts[s]);out.parts[s]=v>=1&&v<=n?v:d.parts[s]});
   CHANNELS.forEach(function(c){var n=palette(c).length,v=look.colors&&Number(look.colors[c]);out.colors[c]=v>=0&&v<n?v:d.colors[c]});return out}
  function partName(body,slot,idx){return 'Kit_'+body+'_'+slot+'_'+(idx<10?'0':'')+idx}
@@ -35,8 +37,10 @@ var HolmKit=(function(){
    var own=(o.parent&&/^Kit_[AB]_[A-Za-z]+_\d+/.test(o.parent.name||''))?null:m[1];if(own)o.visible=!!want[own]});
   var done={};rig.traverse(function(o){if(!(o.isMesh||o.isSkinnedMesh))return;[].concat(o.material).forEach(function(q){if(!q||!q.name||done[q.uuid])return;
    CHANNELS.forEach(function(c){if(q.name.replace(/[._]\d+$/,'')===MAT[c]){var hex=palette(c)[look.colors[c]];if(hex){q.color.set(hex);q.needsUpdate=true;done[q.uuid]=true}}})})});
+  var want2={Build_Slim:look.build==='slim'?1:0,Build_Stout:look.build==='stout'?1:0,Feet_Small:look.feet==='small'?1:0,Feet_Large:look.feet==='large'?1:0};
+  rig.traverse(function(o){var dict=o.morphTargetDictionary;if(!dict||!o.morphTargetInfluences)return;for(var k in want2)if(dict[k]!==undefined)o.morphTargetInfluences[dict[k]]=want2[k]});
   return look}
  function label(body,slot,idx){var o=options(body,slot).filter(function(x){return x.index===idx})[0];return o?o.label:(slot+' '+idx)}
- return {load:load,ready:ready,SLOTS:SLOTS,CHANNELS:CHANNELS,options:options,palette:palette,hasSlot:hasSlot,defaults:defaults,normalize:normalize,apply:apply,label:label,partName:partName};
+ return {BUILDS:BUILDS,FEET:FEET,load:load,ready:ready,SLOTS:SLOTS,CHANNELS:CHANNELS,options:options,palette:palette,hasSlot:hasSlot,defaults:defaults,normalize:normalize,apply:apply,label:label,partName:partName};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmKit;

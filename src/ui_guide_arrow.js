@@ -1,4 +1,7 @@
 /* ============ GuideArrow — world-space tutorial guidance pointer ============
+ * 2026-09-25 (owner: "I can't say I love the appearance of the arrow"): the marker is now the old-school hint arrow,
+ * a chunky yellow downward arrow with a dark outline bobbing just above the exact target, and its label sits on a
+ * small parchment tag above it. Both are canvas-drawn (our own art). The screen-edge pointer uses the same arrow.
  * A pulsing beacon on the current objective tile (cloned TileMarkers Line square
  * + _labelSprite text) PLUS a screen-edge DOM arrow that points toward the target
  * when it's off-screen or behind the camera. Driven per tutorial step via
@@ -11,7 +14,8 @@ const GuideArrow = {
   /* content hooks: fn(spec,label) -> {spec?,label?} | null, evaluated every frame so a hint can
    * follow the player (inside a building -> its exit door; underground -> the exit ladder;
    * cooking -> the live fire). spec:null from a hook hides the beacon for that frame. */
-  _redirects:[], keepAfterComplete:false, _shown:null,
+  _redirects:[], keepAfterComplete:false, _shown:null, _hint:null,
+  drawsHintArrow:true,   // tells the island's Blender marker to stand down (holm_island_fx)
   addRedirect(fn){ if(typeof fn==='function' && this._redirects.indexOf(fn)<0) this._redirects.push(fn); },
   _resolve(){
     let spec=this._spec, label=this._label;
@@ -29,6 +33,7 @@ const GuideArrow = {
     if(!this._spec){                                  // clear: hide the world beacon, arrow follows in tick
       if(this._line) this._line.visible=false;
       if(this._sprite) this._sprite.visible=false;
+      if(this._hint) this._hint.visible=false;
       if(this._arrow) this._arrow.style.display='none';
     }
   },
@@ -51,32 +56,67 @@ const GuideArrow = {
     return null;                                       // e.g. friendly not spawned yet
   },
 
-  /* floating label — same canvas-sprite trick as TileMarkers._labelSprite / NPC name tags */
+  /* the hint arrow itself: drawn once on a canvas, a billboard whose tip sits on the target */
+  _arrowCanvas(){
+    const c=document.createElement('canvas'); c.width=128; c.height=160;
+    const x=c.getContext('2d');
+    const shape=()=>{ x.beginPath(); x.moveTo(42,10); x.lineTo(86,10); x.lineTo(86,74); x.lineTo(114,74); x.lineTo(64,148);
+      x.lineTo(14,74); x.lineTo(42,74); x.closePath(); };
+    x.save(); x.translate(4,5); shape(); x.fillStyle='rgba(0,0,0,.45)'; x.fill(); x.restore();        // drop shadow
+    shape(); x.lineJoin='round'; x.lineWidth=10; x.strokeStyle='#140e04'; x.stroke();                  // dark outline
+    const g=x.createLinearGradient(14,0,114,0);
+    g.addColorStop(0,'#ffe25a'); g.addColorStop(.45,'#ffd21e'); g.addColorStop(.55,'#f2b60c'); g.addColorStop(1,'#c98a00');
+    shape(); x.fillStyle=g; x.fill();
+    x.lineWidth=3; x.strokeStyle='rgba(255,250,200,.85)';                                              // lit left edges
+    x.beginPath(); x.moveTo(46,14); x.lineTo(46,78); x.moveTo(22,79); x.lineTo(62,138); x.stroke();
+    x.strokeStyle='rgba(120,70,0,.55)';                                                                 // shaded right edges
+    x.beginPath(); x.moveTo(82,14); x.lineTo(82,78); x.moveTo(106,79); x.lineTo(67,138); x.stroke();
+    return c;
+  },
+  _arrowSpriteMake(){
+    const tex=new THREE.CanvasTexture(this._arrowCanvas());
+    const spr=new THREE.Sprite(new THREE.SpriteMaterial({map:tex, depthTest:false, transparent:true}));
+    spr.center.set(0.5,0);                                                    // the tip is the sprite's anchor
+    spr.scale.set(0.72,0.9,1); spr.renderOrder=996; spr.name='guide-hint-arrow';
+    return spr;
+  },
+  /* the label: a small parchment tag with dark lettering, hung above the arrow */
   _labelSprite(text){
     const c=document.createElement('canvas');
     let x=c.getContext('2d');
-    x.font='bold 13px Verdana';
-    const w=Math.min(256, Math.ceil(x.measureText(text).width)+14);
-    c.width=w; c.height=20;                            // resizing resets ctx state
+    x.font='bold 15px Verdana';
+    const w=Math.min(300, Math.ceil(x.measureText(text).width)+26), h=28;
+    c.width=w+6; c.height=h+6;                                               // resizing resets ctx state
     x=c.getContext('2d');
-    x.font='bold 13px Verdana'; x.textAlign='center';
-    x.fillStyle='#000'; x.fillText(text, w/2+1, 15);
-    x.fillStyle='#ffe14d'; x.fillText(text, w/2, 14);
+    const r=(X,Y,W,H,R)=>{ x.beginPath(); x.moveTo(X+R,Y); x.lineTo(X+W-R,Y); x.quadraticCurveTo(X+W,Y,X+W,Y+R); x.lineTo(X+W,Y+H-R);
+      x.quadraticCurveTo(X+W,Y+H,X+W-R,Y+H); x.lineTo(X+R,Y+H); x.quadraticCurveTo(X,Y+H,X,Y+H-R); x.lineTo(X,Y+R); x.quadraticCurveTo(X,Y,X+R,Y); x.closePath(); };
+    x.fillStyle='rgba(0,0,0,.4)'; r(4,4,w,h,4); x.fill();
+    const g=x.createLinearGradient(0,1,0,h);
+    g.addColorStop(0,'#efe2b8'); g.addColorStop(1,'#d2bd86');
+    r(1,1,w,h,4); x.fillStyle=g; x.fill(); x.lineWidth=2; x.strokeStyle='#3a2710'; x.stroke();
+    x.strokeStyle='rgba(120,85,40,.35)'; x.lineWidth=1; r(4,4,w-6,h-6,2); x.stroke();
+    x.font='bold 15px Verdana'; x.textAlign='center'; x.textBaseline='middle';
+    x.fillStyle='#2a1a08'; x.fillText(text, 1+w/2, 1+h/2+1);
     const spr=new THREE.Sprite(new THREE.SpriteMaterial(
       {map:new THREE.CanvasTexture(c), depthTest:false, transparent:true}));
-    spr.scale.set(w/58, 20/58, 1);                     // same px→world ratio as makeNameTag
-    spr.renderOrder=995;
+    spr.center.set(0.5,0);
+    spr.scale.set(c.width/70, c.height/70, 1);
+    spr.renderOrder=997;
     return spr;
+  },
+  /* the same arrow for the screen-edge pointer (points UP; the tick rotates it) */
+  _edgeArrowUrl(){
+    const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 3 L36 22 L27 22 L27 37 L13 37 L13 22 L4 22 Z" fill="#ffd21e" stroke="#140e04" stroke-width="3" stroke-linejoin="round"/><path d="M15 23 V35 M7.5 21 L19 7.5" stroke="rgba(255,250,200,.85)" stroke-width="1.6" fill="none"/></svg>';
+    return 'url("data:image/svg+xml,'+encodeURIComponent(svg)+'")';
   },
 
   _mkArrow(){
     const a=document.createElement('div');
     a.id='guide-edge-arrow';
-    // a pure-CSS triangle (borders) pointing UP by default — no external image (strict CSP)
-    a.style.cssText='position:fixed;z-index:75;display:none;pointer-events:none;'+
-      'width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;'+
-      'border-bottom:22px solid #ffd24a;transform-origin:50% 55%;'+
-      'filter:drop-shadow(0 0 4px rgba(0,0,0,.7));opacity:.92;';
+    // the hint arrow in miniature, pointing UP by default (the tick rotates it toward the target)
+    a.style.cssText='position:fixed;z-index:75;display:none;pointer-events:none;width:34px;height:34px;'+
+      'background:center/contain no-repeat '+this._edgeArrowUrl()+';transform-origin:50% 50%;'+
+      'filter:drop-shadow(0 2px 2px rgba(0,0,0,.6));';
     document.body.appendChild(a);
     return a;
   },
@@ -95,25 +135,22 @@ const GuideArrow = {
     if(!ctr){                                          // nothing (or not yet resolvable) to point at
       if(this._line) this._line.visible=false;
       if(this._sprite) this._sprite.visible=false;
+      if(this._hint) this._hint.visible=false;
       if(this._arrow) this._arrow.style.display='none';
       return;
     }
     const {cx,cz}=ctr;
     const t=performance.now()*0.005, pulse=0.5+0.5*Math.sin(t);   // 0..1 gentle breathe
 
-    // ---- world beacon: pulsing Line square + floating label -------------------
-    if(!this._line && typeof _setSquareGeom==='function'){
-      this._line=new THREE.Line(new THREE.BufferGeometry(),
-        new THREE.LineBasicMaterial({color:0xffd24a, transparent:true, opacity:0.9, depthTest:false}));
-      this._line.renderOrder=995; scene.add(this._line);
-    }
-    if(this._line){
-      _setSquareGeom(this._line.geometry, cx, cz, 0.40+pulse*0.08, 0.06);
-      this._line.material.opacity=0.55+pulse*0.4;
-      this._line.visible=true;
-    }
-    // over the object when its height is known (interiors, upper floors, the cavern), else the ground
+    // ---- world hint: the yellow arrow bobbing just above the exact target, its label on a parchment tag ----
+    // over the object when its height is known (interiors, upper floors, the cavern), else above the ground
     const gy=(live.spec&&typeof live.spec.y==='number')?live.spec.y-0.4:(groundY(cx,cz)||0);
+    const bob=0.5+0.5*Math.sin(performance.now()*0.0042);          // a slow, gentle bob
+    const tipY=(live.spec&&typeof live.spec.y==='number')?live.spec.y-0.25:gy+1.5;
+    if(!this._hint){ this._hint=this._arrowSpriteMake(); scene.add(this._hint); }
+    if(this._hint.parent!==scene) scene.add(this._hint);
+    this._hint.position.set(cx, tipY+bob*0.28, cz);
+    this._hint.visible=true;
     if(live.label){
       if(!this._sprite || this._sprite._txt!==live.label){
         if(this._sprite){ scene.remove(this._sprite);
@@ -123,7 +160,7 @@ const GuideArrow = {
         scene.add(this._sprite);
       }
       const lift=(live.spec&&typeof live.spec.labelLift==='number')?live.spec.labelLift:0;   // e.g. a door label above a dais
-      this._sprite.position.set(cx, gy+0.9+lift+pulse*0.15, cz);   // gentle float
+      this._sprite.position.set(cx, tipY+bob*0.28+this._hint.scale.y+0.08+lift, cz);
       this._sprite.visible=true;
     } else if(this._sprite){ this._sprite.visible=false; }
 

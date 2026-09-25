@@ -77,6 +77,8 @@ var HolmIslandGuide=(function(){
   var sel=tab?'.tab-btn[data-tab="'+tab+'"]':'.tab-btn[data-tab="inv"]';
   document.querySelectorAll('.tab-btn.holm-guide-pulse').forEach(function(b){if(!on||!b.matches(sel))b.classList.remove('holm-guide-pulse')});
   if(on)document.querySelectorAll(sel).forEach(function(b){b.classList.add('holm-guide-pulse')});
+  // and the slot of the item to use gets a pulsing gold ring (ui_osrs_kit.js UI.highlightItem)
+  if(typeof UI!=='undefined'&&UI.highlightItem)UI.highlightItem(on&&item?item:null);
   if(!document.getElementById('holm-guide-style')){var s=document.createElement('style');s.id='holm-guide-style';
    s.textContent='@keyframes holmGuidePulse{0%,100%{box-shadow:0 0 0 0 rgba(255,215,64,.0)}50%{box-shadow:0 0 0 3px rgba(255,215,64,.95)}}.tab-btn.holm-guide-pulse{animation:holmGuidePulse 1s infinite}';document.head.appendChild(s)}
  }

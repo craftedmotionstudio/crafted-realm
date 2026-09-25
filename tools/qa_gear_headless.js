@@ -61,7 +61,7 @@ async function shot(page, name) {
       if (typeof running !== 'undefined' && running && (!buf || buf.style.display === 'none')) return 'ready';
       const cont = vis('btn-continue'), fresh = vis('btn-new'), begin = vis('btn-begin'), play = vis('play-btn');
       let hadSave = false; try { hadSave = SaveGame.exists(); } catch (e) {}
-      if (begin) { begin.click(); return 'clicked begin'; }
+      if (begin) { begin.click(); try { CharCfg._new = false; } catch (e) {} return 'clicked begin'; }
       if (play) { try { CharCfg._new = false; } catch (e) {} play.click(); return 'clicked play'; }
       if (hadSave && cont) { cont.click(); return 'clicked continue'; }
       if (fresh) { fresh.click(); return 'clicked new adventurer'; }
