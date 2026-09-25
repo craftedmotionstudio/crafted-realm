@@ -1,0 +1,1677 @@
+{
+ "phase": "after",
+ "base": "http://localhost:8094/?holmIsland=1&qaProfile=skilltools-muhfmo7q",
+ "errors": [
+  "Failed to load resource: the server responded with a status of 404 (File not found)",
+  "Failed to load resource: the server responded with a status of 404 (File not found)",
+  "Failed to load resource: the server responded with a status of 404 (File not found)"
+ ],
+ "shots": [
+  {
+   "name": "held_hatchet_idle_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "axe",
+     "item": "hatchet",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_hatchet_idle_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "axe",
+     "item": "hatchet",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_hatchet_walk_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "axe",
+     "item": "hatchet",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 36.5
+    }
+   }
+  },
+  {
+   "name": "held_hatchet_walk_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "axe",
+     "item": "hatchet",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 36.5
+    }
+   }
+  },
+  {
+   "name": "held_hatchet_run_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "axe",
+     "item": "hatchet",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 50.2
+    }
+   }
+  },
+  {
+   "name": "held_hatchet_run_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "axe",
+     "item": "hatchet",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 50.2
+    }
+   }
+  },
+  {
+   "name": "held_pickaxe_idle_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "pick",
+     "item": "pickaxe",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_pickaxe_idle_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "pick",
+     "item": "pickaxe",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_pickaxe_walk_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "pick",
+     "item": "pickaxe",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 36.5
+    }
+   }
+  },
+  {
+   "name": "held_pickaxe_walk_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "pick",
+     "item": "pickaxe",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 36.5
+    }
+   }
+  },
+  {
+   "name": "held_pickaxe_run_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "pick",
+     "item": "pickaxe",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 50.2
+    }
+   }
+  },
+  {
+   "name": "held_pickaxe_run_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "pick",
+     "item": "pickaxe",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 50.2
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger_idle_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger_idle_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger_walk_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 38.4
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger_walk_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 38.4
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger_run_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 50.4
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger_run_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 50.4
+    }
+   }
+  },
+  {
+   "name": "held_bronze_sword_idle_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_bronze_sword_idle_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_bronze_sword_walk_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 38.4
+    }
+   }
+  },
+  {
+   "name": "held_bronze_sword_walk_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 38.4
+    }
+   }
+  },
+  {
+   "name": "held_bronze_sword_run_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 50.4
+    }
+   }
+  },
+  {
+   "name": "held_bronze_sword_run_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 50.4
+    }
+   }
+  },
+  {
+   "name": "held_worn_bow_idle_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "bow",
+     "item": "worn_bow",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_worn_bow_idle_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "bow",
+     "item": "worn_bow",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_worn_bow_walk_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "bow",
+     "item": "worn_bow",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 9.2
+    }
+   }
+  },
+  {
+   "name": "held_worn_bow_walk_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "bow",
+     "item": "worn_bow",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 9.2
+    }
+   }
+  },
+  {
+   "name": "held_worn_bow_run_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "bow",
+     "item": "worn_bow",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 98.8
+    }
+   }
+  },
+  {
+   "name": "held_worn_bow_run_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "bow",
+     "item": "worn_bow",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 98.8
+    }
+   }
+  },
+  {
+   "name": "held_apprentice_staff_idle_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "staff",
+     "item": "apprentice_staff",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_apprentice_staff_idle_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "staff",
+     "item": "apprentice_staff",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_apprentice_staff_walk_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "staff",
+     "item": "apprentice_staff",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 34.5
+    }
+   }
+  },
+  {
+   "name": "held_apprentice_staff_walk_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "staff",
+     "item": "apprentice_staff",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 34.5
+    }
+   }
+  },
+  {
+   "name": "held_apprentice_staff_run_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "staff",
+     "item": "apprentice_staff",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 47.6
+    }
+   }
+  },
+  {
+   "name": "held_apprentice_staff_run_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "staff",
+     "item": "apprentice_staff",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 47.6
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger+wood_shield_idle_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger+wood_shield_idle_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 0
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger+wood_shield_walk_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 38.4
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger+wood_shield_walk_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 38.4
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger+wood_shield_run_q",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 50.4
+    }
+   }
+  },
+  {
+   "name": "held_bronze_dagger+wood_shield_run_side",
+   "info": {
+    "tool": {
+     "active": false,
+     "hiddenGear": 0
+    },
+    "toolAudit": {
+     "ok": false,
+     "reason": "no tool in hand"
+    },
+    "weaponVisible": true,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_dagger",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 50.4
+    }
+   }
+  },
+  {
+   "name": "skill_chop_f0_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "chop",
+     "tool": "hatchet",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "chop",
+     "tool": "hatchet",
+     "ref": 11,
+     "axisDeg": 93.3,
+     "rollDeg": 172,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "axe",
+     "item": "hatchet",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 143.5
+    }
+   }
+  },
+  {
+   "name": "skill_chop_f0_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "chop",
+     "tool": "hatchet",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "chop",
+     "tool": "hatchet",
+     "ref": 11,
+     "axisDeg": 93.3,
+     "rollDeg": 172,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "axe",
+     "item": "hatchet",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 143.5
+    }
+   }
+  },
+  {
+   "name": "skill_chop_f11_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "chop",
+     "tool": "hatchet",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "chop",
+     "tool": "hatchet",
+     "ref": 11,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "axe",
+     "item": "hatchet",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 34.2
+    }
+   }
+  },
+  {
+   "name": "skill_chop_f11_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "chop",
+     "tool": "hatchet",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "chop",
+     "tool": "hatchet",
+     "ref": 11,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "axe",
+     "item": "hatchet",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 34.2
+    }
+   }
+  },
+  {
+   "name": "skill_mine_f0_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "mine",
+     "tool": "pickaxe",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "mine",
+     "tool": "pickaxe",
+     "ref": 9,
+     "axisDeg": 120.8,
+     "rollDeg": 60.2,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 24.2
+    }
+   }
+  },
+  {
+   "name": "skill_mine_f0_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "mine",
+     "tool": "pickaxe",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "mine",
+     "tool": "pickaxe",
+     "ref": 9,
+     "axisDeg": 120.8,
+     "rollDeg": 60.2,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 24.2
+    }
+   }
+  },
+  {
+   "name": "skill_mine_f9_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "mine",
+     "tool": "pickaxe",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "mine",
+     "tool": "pickaxe",
+     "ref": 9,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 22.3
+    }
+   }
+  },
+  {
+   "name": "skill_mine_f9_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "mine",
+     "tool": "pickaxe",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "mine",
+     "tool": "pickaxe",
+     "ref": 9,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 22.3
+    }
+   }
+  },
+  {
+   "name": "skill_net_f8_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "net",
+     "tool": "fishing_net",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "net",
+     "tool": "fishing_net",
+     "ref": 20,
+     "axisDeg": 113.3,
+     "rollDeg": 112.4,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 135
+    }
+   }
+  },
+  {
+   "name": "skill_net_f8_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "net",
+     "tool": "fishing_net",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "net",
+     "tool": "fishing_net",
+     "ref": 20,
+     "axisDeg": 113.3,
+     "rollDeg": 112.4,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 135
+    }
+   }
+  },
+  {
+   "name": "skill_net_f20_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "net",
+     "tool": "fishing_net",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "net",
+     "tool": "fishing_net",
+     "ref": 20,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 27.4
+    }
+   }
+  },
+  {
+   "name": "skill_net_f20_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "net",
+     "tool": "fishing_net",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "net",
+     "tool": "fishing_net",
+     "ref": 20,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 27.4
+    }
+   }
+  },
+  {
+   "name": "skill_firemake_f4_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "firemake",
+     "tool": "tinderbox",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "firemake",
+     "tool": "tinderbox",
+     "ref": 4,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 15.5
+    }
+   }
+  },
+  {
+   "name": "skill_firemake_f4_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "firemake",
+     "tool": "tinderbox",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "firemake",
+     "tool": "tinderbox",
+     "ref": 4,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 15.5
+    }
+   }
+  },
+  {
+   "name": "skill_firemake_f10_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "firemake",
+     "tool": "tinderbox",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "firemake",
+     "tool": "tinderbox",
+     "ref": 4,
+     "axisDeg": 13.4,
+     "rollDeg": 16.7,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 7.8
+    }
+   }
+  },
+  {
+   "name": "skill_firemake_f10_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "firemake",
+     "tool": "tinderbox",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "firemake",
+     "tool": "tinderbox",
+     "ref": 4,
+     "axisDeg": 13.4,
+     "rollDeg": 16.7,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 7.8
+    }
+   }
+  },
+  {
+   "name": "skill_cook_f0_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "cook",
+     "tool": "raw_perch",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "cook",
+     "tool": "raw_perch",
+     "ref": 16,
+     "axisDeg": 11.2,
+     "rollDeg": 138.3,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 40.9
+    }
+   }
+  },
+  {
+   "name": "skill_cook_f0_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "cook",
+     "tool": "raw_perch",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "cook",
+     "tool": "raw_perch",
+     "ref": 16,
+     "axisDeg": 11.2,
+     "rollDeg": 138.3,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 40.9
+    }
+   }
+  },
+  {
+   "name": "skill_cook_f16_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "cook",
+     "tool": "raw_perch",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "cook",
+     "tool": "raw_perch",
+     "ref": 16,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 118.9
+    }
+   }
+  },
+  {
+   "name": "skill_cook_f16_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "cook",
+     "tool": "raw_perch",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "cook",
+     "tool": "raw_perch",
+     "ref": 16,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 118.9
+    }
+   }
+  },
+  {
+   "name": "skill_smith_f0_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "smith",
+     "tool": "hammer",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "smith",
+     "tool": "hammer",
+     "ref": 7,
+     "axisDeg": 89.8,
+     "rollDeg": 93.4,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 8.7
+    }
+   }
+  },
+  {
+   "name": "skill_smith_f0_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "smith",
+     "tool": "hammer",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "smith",
+     "tool": "hammer",
+     "ref": 7,
+     "axisDeg": 89.8,
+     "rollDeg": 93.4,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 8.7
+    }
+   }
+  },
+  {
+   "name": "skill_smith_f7_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "smith",
+     "tool": "hammer",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "smith",
+     "tool": "hammer",
+     "ref": 7,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 34.9
+    }
+   }
+  },
+  {
+   "name": "skill_smith_f7_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "smith",
+     "tool": "hammer",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "smith",
+     "tool": "hammer",
+     "ref": 7,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 34.9
+    }
+   }
+  },
+  {
+   "name": "skill_smelt_f0_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "smelt",
+     "tool": "copper_ore",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "smelt",
+     "tool": "copper_ore",
+     "ref": 14,
+     "axisDeg": 73.6,
+     "rollDeg": 64.2,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 78
+    }
+   }
+  },
+  {
+   "name": "skill_smelt_f0_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "smelt",
+     "tool": "copper_ore",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "smelt",
+     "tool": "copper_ore",
+     "ref": 14,
+     "axisDeg": 73.6,
+     "rollDeg": 64.2,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 78
+    }
+   }
+  },
+  {
+   "name": "skill_smelt_f14_q",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "smelt",
+     "tool": "copper_ore",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "smelt",
+     "tool": "copper_ore",
+     "ref": 14,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 73.6
+    }
+   }
+  },
+  {
+   "name": "skill_smelt_f14_side",
+   "info": {
+    "tool": {
+     "active": true,
+     "skill": "smelt",
+     "tool": "copper_ore",
+     "hiddenGear": 2
+    },
+    "toolAudit": {
+     "ok": true,
+     "skill": "smelt",
+     "tool": "copper_ore",
+     "ref": 14,
+     "axisDeg": 0,
+     "rollDeg": 0,
+     "gripToPalm": 0
+    },
+    "weaponVisible": false,
+    "audit": {
+     "ok": true,
+     "model": "sword",
+     "item": "bronze_sword",
+     "gripToPalm": 0,
+     "neutralAngleDeg": 73.6
+    }
+   }
+  }
+ ]
+}

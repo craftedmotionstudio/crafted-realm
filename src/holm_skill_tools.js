@@ -18,14 +18,15 @@
 var HolmSkillTools=(function(){
  'use strict';
  var FPS=24;
- // skill: clips (first found wins), reference frame, tool key, world directions at the reference frame
+ // skill: clips (first found wins), reference frame (24 fps; the strike / scoop / hold of the kit v2.9 clips, read off the
+ // right hand's path: lowest + furthest forward), tool key, world directions at the reference frame
  var SKILLS={
-  chop:    {clips:['chop'],ref:10,tool:'axe',  axis:[0.2,-0.2,0.96], rollAim:[1,0,0]},     // haft at the trunk, edge biting sideways
-  mine:    {clips:['mine'],ref:11,tool:'pick', axis:[0,-0.35,0.94],  rollAim:[0,1,0]},     // haft forward-down, lower pick into the rock
-  net:     {clips:['net'],ref:24,tool:'net',   axis:[0,-0.55,0.84],  rollAim:[0,1,0]},     // handle down into the water, hoop scooping flat
-  firemake:{clips:['firemake','cook'],ref:9,tool:'tinderbox',axis:[1,0,0],rollAim:[0,1,0]}, // box across the fist, lid up
-  cook:    {clips:['cook'],ref:9,tool:'food',  axis:[0,-0.3,0.95],   rollAim:[0,1,0]},     // held by the tail over the fire
-  smith:   {clips:['smith'],ref:10,tool:'hammer',axis:[0,-0.1,1],    rollAim:[0,-1,0]},    // head forward, face down on the anvil
+  chop:    {clips:['chop'],ref:11,tool:'axe',  axis:[0.2,-0.2,0.96], rollAim:[1,0,0]},     // haft at the trunk, edge biting sideways
+  mine:    {clips:['mine'],ref:9,tool:'pick', axis:[0,-0.35,0.94],  rollAim:[0,1,0]},     // haft forward-down, lower pick into the rock
+  net:     {clips:['net'],ref:20,tool:'net',   axis:[0,-0.55,0.84],  rollAim:[0,1,0]},     // handle down into the water, hoop scooping flat
+  firemake:{clips:['firemake','cook'],ref:4,tool:'tinderbox',axis:[1,0,0],rollAim:[0,1,0]}, // box across the fist, lid up
+  cook:    {clips:['cook'],ref:16,tool:'food',  axis:[0,-0.3,0.95],   rollAim:[0,1,0]},     // held by the tail over the fire
+  smith:   {clips:['smith'],ref:7,tool:'hammer',axis:[0,-0.1,1],    rollAim:[0,-1,0]},    // head forward, face down on the anvil
   smelt:   {clips:['smelt'],ref:14,tool:'ore', axis:[1,0,0],         rollAim:[0,1,0]}      // a lump of ore in the fist
  };
  // tool: where the model comes from and its own frame (mesh-local, glTF): grip point, long axis, roll side

@@ -8,7 +8,7 @@
         "provider": "tutors-holm-arrival-qa",
         "stats": {
           "nodes": 11116,
-          "edges": 19351,
+          "edges": 19353,
           "owners": {
             "land": 8060,
             "b:keep": 901,
@@ -446,9 +446,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 11,
+        "arrowsUsed": 8,
         "magic": true,
-        "runesUsed": 8
+        "runesUsed": 5
       }
     },
     {
@@ -456,14 +456,14 @@
       "ok": true,
       "detail": {
         "before": [
-          104.5,
-          6.176,
-          53.5
+          100.5,
+          6.807,
+          47.5
         ],
         "after": [
-          104.5,
-          6.176,
-          53.5
+          100.5,
+          6.807,
+          47.5
         ]
       }
     },
@@ -475,5 +475,5 @@
       }
     }
   ],
-  "seconds": 869
+  "seconds": 903
 }

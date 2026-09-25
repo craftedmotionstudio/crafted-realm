@@ -14,20 +14,10 @@ const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmIsland=1&qaP
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const HELD=[['hatchet',null],['pickaxe',null],['bronze_dagger',null],['bronze_sword',null],['worn_bow',null],['apprentice_staff',null],['bronze_dagger','wood_shield']];
 // skill -> [Player.action type, clip, frames]; frames are kit clip frames (24 fps)
-const SKILLS=[['chop','gather:tree','chop',[0,10]],['mine','gather:rock','mine',[0,11]],['net','gather:fish','net',[16,24]],
-  ['firemake','lightfire','firemake|cook',[9,27]],['cook','cook','cook',[9,18]],['smith','smith','smith',[0,10]],['smelt','smelt','smelt',[0,14]]];
-async function enter(page){
-  await page.waitForFunction(()=>{const w=document.getElementById('welcome-screen');return w&&w.style.display==='flex';},{timeout:90000});
-  const had=await page.evaluate(()=>{try{return SaveGame.exists();}catch(e){return false;}});
-  if(had)await page.evaluate(()=>document.getElementById('btn-continue').click());
-  else{await page.evaluate(()=>document.getElementById('btn-new').click());
-    await page.waitForFunction(()=>document.getElementById('login-create').style.display!=='none',{timeout:8000});
-    await page.evaluate(()=>document.getElementById('btn-begin').click());}
-  await page.waitForFunction(()=>document.getElementById('login-play').style.display!=='none',{timeout:8000});
-  await page.evaluate(()=>{try{CharCfg._new=false;}catch(e){}document.getElementById('play-btn').click();});
-  await page.waitForFunction(()=>{if(typeof running==='undefined'||!running)return false;const b=document.getElementById('enter-buffer');return !b||b.style.display==='none';},{timeout:120000});
-  await sleep(2500);
-}
+const SKILLS=[['chop','gather:tree','chop',[0,11]],['mine','gather:rock','mine',[0,9]],['net','gather:fish','net',[8,20]],
+  ['firemake','lightfire','firemake|cook',[4,10]],['cook','cook','cook',[0,16]],['smith','smith','smith',[0,7]],['smelt','smelt','smelt',[0,14]]];
+// the real login flow, shared with the island QA / playthrough drivers (tracks login changes)
+const {enter}=require('./holm_island_driver_lib');
 (async()=>{
   const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',
     args:['--window-size=1280,860','--hide-scrollbars','--mute-audio','--no-first-run','--use-angle=d3d11','--enable-webgl','--ignore-gpu-blocklist'],
