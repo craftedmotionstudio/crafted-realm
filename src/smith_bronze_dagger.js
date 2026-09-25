@@ -31,6 +31,7 @@
      model-based drawModelIcon path, so the pack shows a dagger not a sword. */
   function makeIcon(){
     if(typeof ICONS==='undefined' || ICONS['bronze_dagger']) return;
+    if(typeof HOLM_ITEM_ICONS!=='undefined' && HOLM_ITEM_ICONS.has('bronze_dagger')) return;   // the Blender icon wins
     if(typeof document==='undefined') return;
     const c=document.createElement('canvas'); c.width=32; c.height=32;
     const x=c.getContext('2d'); if(!x) return;

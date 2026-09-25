@@ -86,7 +86,10 @@ var HolmIslandGuide=(function(){
   else{var s=Tutorial.steps[Tutorial.step];a=s?aim(s.id):null}
   if(a&&(a.pack||a.tab)){packPulse(true,a.pack,a.tab);GuideArrow.setTarget(null);return}
   packPulse(false);
-  a=viaGuideDoor(viaDoor(a));var p=a&&(a.point?{x:a.point.x,y:a.point.y+1.4,z:a.point.z}:world(a.obj));if(!p){return}
+  a=viaGuideDoor(viaDoor(a));
+  // down in the Guide House cellar every objective is back up the ladder first
+  if(a&&typeof HolmGuideCellar!=='undefined'){var rc=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord();if(rc&&HolmGuideCellar.below(rc.surface)){var lad=named('CellarLadder');if(lad)a={obj:lad,label:'Climb up the ladder'}}}
+  var p=a&&(a.point?{x:a.point.x,y:a.point.y+1.4,z:a.point.z}:world(a.obj));if(!p){return}
   GuideArrow.keepAfterComplete=!!Tutorial.complete;GuideArrow.setTarget({x:p.x,z:p.z,y:p.y,exact:true},a.label);
  }
  return {update:update,aim:aim};

@@ -22,7 +22,7 @@
       "label": "v4 art is loaded: guide house v2 (>20k tris), Lantern Keeper statue, branching oak; no drawn grid",
       "ok": true,
       "detail": {
-        "houseTris": 21153,
+        "houseTris": 49250,
         "statue": true,
         "oak": true,
         "grid": null
@@ -171,5 +171,5 @@
       }
     }
   ],
-  "seconds": 55
+  "seconds": 59
 }

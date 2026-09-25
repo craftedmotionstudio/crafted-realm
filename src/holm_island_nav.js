@@ -50,11 +50,12 @@ var HolmIslandNav=(function(){
    // the measured patch: every tile inside the node bounds belongs to this building (walkable or not)
    var x0=Math.min.apply(null,nodes.map(function(n){return n.tx})),x1=Math.max.apply(null,nodes.map(function(n){return n.tx}));
    var z0=Math.min.apply(null,nodes.map(function(n){return n.tz})),z1=Math.max.apply(null,nodes.map(function(n){return n.tz}));
-   return {id:b.id,graph:g,origin:o,nodes:nodes,tiles:tiles,rect:{x0:x0,x1:x1,z0:z0,z1:z1},priority:b.priority||0};
+   return {id:b.id,graph:g,origin:o,nodes:nodes,tiles:tiles,rect:{x0:x0,x1:x1,z0:z0,z1:z1},priority:b.priority||0,overlay:!!b.overlay};
   });
   // Where measured patches overlap, the smaller patch claims first: it belongs to the building standing there
   // (the lodge's patch carries a long terrain lane that reaches the quarry's approach).
-  buildings.slice().sort(function(a,b){return (a.rect.x1-a.rect.x0+1)*(a.rect.z1-a.rect.z0+1)-(b.rect.x1-b.rect.x0+1)*(b.rect.z1-b.rect.z0+1)||(a.id<b.id?-1:1)})
+  // an overlay storey (the Guide House cellar) lies under another owner's tiles: it claims none of them
+  buildings.filter(function(b){return !b.overlay}).sort(function(a,b){return (a.rect.x1-a.rect.x0+1)*(a.rect.z1-a.rect.z0+1)-(b.rect.x1-b.rect.x0+1)*(b.rect.z1-b.rect.z0+1)||(a.id<b.id?-1:1)})
    .forEach(function(b){for(var z=b.rect.z0;z<=b.rect.z1;z++)for(var x=b.rect.x0;x<=b.rect.x1;x++){var k=key(x,z);if(!owned[k])owned[k]='b:'+b.id}});
   // ---- arrival: its approach/dock/house tiles, all door states, plus the house footprint ----
   var arrivalGraphs=Object.create(null);
@@ -95,7 +96,7 @@ var HolmIslandNav=(function(){
    // Blender patches measured the carved creek bed as walkable terrain (the water surface was not in their
    // collision set): terrain stances on water tiles are dropped, so every owner obeys the same water rule.
    buildings.forEach(function(b){b.nodes.forEach(function(n){var k=key(n.tx,n.tz);
-    if(owned[k]==='b:'+b.id&&!blocked[k]&&!shut(n,b)&&!(openGround(n.surface)&&wet(n.tx,n.tz)&&!decks[k]))add(n,'b:'+b.id)})});
+    if(b.overlay||owned[k]==='b:'+b.id&&!blocked[k]&&!shut(n,b)&&!(openGround(n.surface)&&wet(n.tx,n.tz)&&!decks[k]))add(n,'b:'+b.id)})});
    if(arrival){var ag=arrivalGraph(doors);ag.nodes.forEach(function(n){add({id:n.id,surface:n.surface,x:n.x,y:n.y,z:n.z,tx:Math.floor(n.x),tz:Math.floor(n.z),arrival:true},'arrival')});
     Object.keys(ag.links).forEach(function(id){ag.links[id].forEach(function(t){if(by[id]&&by[t])link(by[id],by[t])})})}
    // land-land cardinal links

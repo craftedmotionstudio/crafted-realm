@@ -1,0 +1,3720 @@
+{
+ "schema": 1,
+ "status": "candidate-not-runtime-wired",
+ "file": "equipment.glb",
+ "blend": "equipment.blend",
+ "sha256": "e68fd632291d6334bbce1c29b9abe5c9233deeca586b52ca25565d0ddd3922c7",
+ "axes": "glTF Y-up, 1 unit = 1 tile (= 1 m, player 1.85 tall)",
+ "colour": "authored sRGB used as-is, roughness 1, metallic 0, no textures; smooth with sharp edges > 30 deg",
+ "recolour": {
+  "M_METAL": "tier hex (METALS in src/world_gear.js)",
+  "M_METAL_DARK": "tier x0.72",
+  "M_METAL_MID": "tier x0.86",
+  "M_METAL_EDGE": "tier lerp white 0.3",
+  "M_CLOTH": "cloth hex",
+  "M_CLOTH_DARK": "cloth x0.72",
+  "M_GEM": "gem hex"
+ },
+ "frames": {
+  "grip": "origin = hand grip; same frame as gear_models_v1 templates + EquipBuilder specs; `grip` = the spec palm point (mesh-local glTF); `legacy` = quaternion into the old world_gear.js builder frame; `lay` = quaternion that lays it flat for drops / icons",
+  "bind": "authored in the bind pose of assets/models/holm_kit_v2.glb (same skeleton as holm_player_v1.glb); every child mesh has extras.bone; fit through the skin inverse bind matrix"
+ },
+ "runtime": "src/holm_equipment.js",
+ "models": [
+  {
+   "id": "eq_dagger",
+   "kind": "dagger",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Leaf-flat dagger: fullered blade, up-tipped quillons, cord grip, ball pommel",
+   "triangles": 282,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.0801,
+     -0.372,
+     -0.0217
+    ],
+    "max": [
+     0.0801,
+     0.11,
+     0.0217
+    ]
+   },
+   "size": [
+    0.16,
+    0.482,
+    0.043
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WRAP"
+   ],
+   "serves": [
+    "bronze_dagger",
+    "iron_dagger"
+   ],
+   "lay": [
+    0.5,
+    -0.5,
+    0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0.02,
+    0
+   ],
+   "axis": [
+    0,
+    -1,
+    0
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "equipSpec": "sword"
+  },
+  {
+   "id": "eq_sword",
+   "kind": "sword",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Arming sword: fullered blade with honed bevels, blade-curled quillons, ecusson, cord grip, wheel pommel",
+   "triangles": 398,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.1715,
+     -0.717,
+     -0.036
+    ],
+    "max": [
+     0.1715,
+     0.132,
+     0.036
+    ]
+   },
+   "size": [
+    0.343,
+    0.849,
+    0.072
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WRAP"
+   ],
+   "serves": [
+    "bronze_sword",
+    "crag_maul",
+    "iron_sword",
+    "aurel_sword",
+    "copper_sword",
+    "steel_sword",
+    "undercrag_sword",
+    "veyrite_sword",
+    "whitsteel_sword"
+   ],
+   "lay": [
+    0.5,
+    -0.5,
+    0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0.025,
+    0
+   ],
+   "axis": [
+    0,
+    -1,
+    0
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "equipSpec": "sword"
+  },
+  {
+   "id": "eq_longsword",
+   "kind": "longsword",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Longsword: long fullered blade, straight block cross, hand-and-a-half grip, faceted pommel",
+   "triangles": 390,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.177,
+     -0.877,
+     -0.0228
+    ],
+    "max": [
+     0.177,
+     0.165,
+     0.0228
+    ]
+   },
+   "size": [
+    0.354,
+    1.042,
+    0.046
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WRAP"
+   ],
+   "serves": [
+    "aurel_longsword",
+    "bronze_longsword",
+    "copper_longsword",
+    "iron_longsword",
+    "steel_longsword",
+    "undercrag_longsword",
+    "veyrite_longsword",
+    "whitsteel_longsword"
+   ],
+   "lay": [
+    0.5,
+    -0.5,
+    0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0.025,
+    0
+   ],
+   "axis": [
+    0,
+    -1,
+    0
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "equipSpec": "longsword"
+  },
+  {
+   "id": "eq_sabre",
+   "kind": "sabre",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Sabre: curved blade that widens toward a clipped tip, S-guard, bird-head pommel",
+   "triangles": 306,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.0959,
+     -0.84,
+     -0.0217
+    ],
+    "max": [
+     0.2926,
+     0.122,
+     0.0217
+    ]
+   },
+   "size": [
+    0.388,
+    0.962,
+    0.043
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WRAP"
+   ],
+   "serves": [
+    "aurel_sabre",
+    "bronze_sabre",
+    "copper_sabre",
+    "iron_sabre",
+    "steel_sabre",
+    "undercrag_sabre",
+    "veyrite_sabre",
+    "whitsteel_sabre"
+   ],
+   "lay": [
+    0.5,
+    -0.5,
+    0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0.028,
+    0
+   ],
+   "axis": [
+    0,
+    -1,
+    0
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "equipSpec": "sabre"
+  },
+  {
+   "id": "eq_greatsword",
+   "kind": "greatsword",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Two-hander: broad fullered blade, winged cross, long two-hand grip, wheel pommel",
+   "triangles": 398,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.2164,
+     -0.2,
+     -0.042
+    ],
+    "max": [
+     0.2164,
+     1.15,
+     0.042
+    ]
+   },
+   "size": [
+    0.433,
+    1.35,
+    0.084
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WRAP"
+   ],
+   "serves": [
+    "aurel_greatsword",
+    "bronze_greatsword",
+    "copper_greatsword",
+    "iron_greatsword",
+    "steel_greatsword",
+    "undercrag_greatsword",
+    "veyrite_greatsword",
+    "whitsteel_greatsword"
+   ],
+   "lay": [
+    0.5,
+    0.5,
+    -0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0,
+    0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": "greatsword"
+  },
+  {
+   "id": "eq_mace",
+   "kind": "mace",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Flanged mace: iron haft, six flanges on a core, top spike, cord grip",
+   "triangles": 376,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.1252,
+     -0.18,
+     -0.14
+    ],
+    "max": [
+     0.1252,
+     0.72,
+     0.14
+    ]
+   },
+   "size": [
+    0.25,
+    0.9,
+    0.28
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WRAP"
+   ],
+   "serves": [
+    "aurel_mace",
+    "bronze_mace",
+    "copper_mace",
+    "iron_mace",
+    "steel_mace",
+    "undercrag_mace",
+    "veyrite_mace",
+    "whitsteel_mace"
+   ],
+   "lay": [
+    0.707107,
+    0.707107,
+    0.0,
+    0.0
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0,
+    0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": "mace"
+  },
+  {
+   "id": "eq_warhammer",
+   "kind": "warhammer",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Warhammer: oak haft with langets, square striking face (+X), drooping back spike",
+   "triangles": 294,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.16,
+     -0.19,
+     -0.06
+    ],
+    "max": [
+     0.151,
+     0.615,
+     0.06
+    ]
+   },
+   "size": [
+    0.311,
+    0.805,
+    0.12
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WOOD",
+    "M_WOOD_DARK",
+    "M_WRAP"
+   ],
+   "serves": [
+    "aurel_warhammer",
+    "bronze_warhammer",
+    "copper_warhammer",
+    "iron_warhammer",
+    "steel_warhammer",
+    "undercrag_warhammer",
+    "veyrite_warhammer",
+    "whitsteel_warhammer"
+   ],
+   "lay": [
+    0.5,
+    0.5,
+    -0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0,
+    0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": "warhammer"
+  },
+  {
+   "id": "eq_battleaxe",
+   "kind": "battleaxe",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Battleaxe: twin crescent blades with honed edges, socket, top spike, long grip",
+   "triangles": 382,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.268,
+     -0.26,
+     -0.036
+    ],
+    "max": [
+     0.268,
+     0.6,
+     0.036
+    ]
+   },
+   "size": [
+    0.536,
+    0.86,
+    0.072
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WOOD",
+    "M_WOOD_DARK",
+    "M_WRAP"
+   ],
+   "serves": [
+    "aurel_battleaxe",
+    "bronze_battleaxe",
+    "copper_battleaxe",
+    "iron_battleaxe",
+    "steel_battleaxe",
+    "undercrag_battleaxe",
+    "veyrite_battleaxe",
+    "whitsteel_battleaxe"
+   ],
+   "lay": [
+    0.5,
+    0.5,
+    -0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    -0.14,
+    0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "roll": [
+    0,
+    0,
+    1
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": "battleaxe"
+  },
+  {
+   "id": "eq_hatchet",
+   "kind": "hatchet",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Hatchet: bearded wedge head (edge +X), socket and poll, oak haft with a swollen butt and grip wrap",
+   "triangles": 330,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.054,
+     -0.365,
+     -0.03
+    ],
+    "max": [
+     0.232,
+     0.371,
+     0.03
+    ]
+   },
+   "size": [
+    0.286,
+    0.736,
+    0.06
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WOOD",
+    "M_WOOD_DARK",
+    "M_WRAP"
+   ],
+   "serves": [
+    "hatchet",
+    "iron_hatchet",
+    "aurel_hatchet",
+    "copper_hatchet",
+    "steel_hatchet",
+    "undercrag_hatchet",
+    "veyrite_hatchet",
+    "whitsteel_hatchet"
+   ],
+   "lay": [
+    0.5,
+    0.5,
+    -0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    -0.1,
+    0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "roll": [
+    0,
+    0,
+    1
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": "axe"
+  },
+  {
+   "id": "eq_pickaxe",
+   "kind": "pickaxe",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Pickaxe: two curved faceted picks from a socket, oak haft, grip wrap",
+   "triangles": 258,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.2917,
+     -0.35,
+     -0.034
+    ],
+    "max": [
+     0.2917,
+     0.355,
+     0.034
+    ]
+   },
+   "size": [
+    0.583,
+    0.705,
+    0.068
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WOOD",
+    "M_WOOD_DARK",
+    "M_WRAP"
+   ],
+   "serves": [
+    "iron_pickaxe",
+    "pickaxe",
+    "aurel_pickaxe",
+    "copper_pickaxe",
+    "steel_pickaxe",
+    "undercrag_pickaxe",
+    "veyrite_pickaxe",
+    "whitsteel_pickaxe"
+   ],
+   "lay": [
+    0.5,
+    0.5,
+    -0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    -0.1,
+    0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "roll": [
+    0,
+    0,
+    1
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": "pick"
+  },
+  {
+   "id": "eq_shortbow",
+   "kind": "shortbow",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Recurve shortbow: riser toward +X, flattened limbs with recurved tips, leather grip wrap, string",
+   "triangles": 346,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.0019,
+     -0.522,
+     -0.0319
+    ],
+    "max": [
+     0.1716,
+     0.422,
+     0.0319
+    ]
+   },
+   "size": [
+    0.173,
+    0.944,
+    0.064
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_LEATHER_DARK",
+    "M_STRING",
+    "M_WOOD",
+    "M_WOOD_DARK",
+    "M_WRAP"
+   ],
+   "serves": [
+    "ash_bow",
+    "worn_bow"
+   ],
+   "lay": [
+    0.5,
+    -0.5,
+    0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0.13,
+    -0.1,
+    0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": "bow"
+  },
+  {
+   "id": "eq_longbow",
+   "kind": "longbow",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Longbow: tall D-profile stave, brass nocks and arrow plate, grip wrap, string",
+   "triangles": 346,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     0.0048,
+     -0.6536,
+     -0.0342
+    ],
+    "max": [
+     0.2218,
+     0.5936,
+     0.0342
+    ]
+   },
+   "size": [
+    0.217,
+    1.247,
+    0.068
+   ],
+   "materials": [
+    "M_BRASS",
+    "M_LEATHER_DARK",
+    "M_STRING",
+    "M_WOOD",
+    "M_WOOD_DARK",
+    "M_WRAP"
+   ],
+   "serves": [
+    "gale_longbow"
+   ],
+   "lay": [
+    0.5,
+    -0.5,
+    0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0.185,
+    -0.11,
+    0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": "longbow"
+  },
+  {
+   "id": "eq_staff",
+   "kind": "staff",
+   "slot": "weapon",
+   "frame": "grip",
+   "description": "Staff: knotted oak stave, brass ferrule and bands, three carved prongs holding an orb (M_GEM)",
+   "triangles": 385,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.0626,
+     -0.43,
+     -0.0605
+    ],
+    "max": [
+     0.0781,
+     1.0535,
+     0.0748
+    ]
+   },
+   "size": [
+    0.141,
+    1.483,
+    0.135
+   ],
+   "materials": [
+    "M_BRASS",
+    "M_GEM",
+    "M_LEATHER_DARK",
+    "M_WOOD",
+    "M_WOOD_DARK"
+   ],
+   "serves": [
+    "apprentice_staff",
+    "ember_staff",
+    "storm_staff"
+   ],
+   "lay": [
+    0.5,
+    0.5,
+    -0.5,
+    0.5
+   ],
+   "attach": "RightHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0,
+    0
+   ],
+   "axis": [
+    0,
+    1,
+    0
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": "staff"
+  },
+  {
+   "id": "eq_round_shield",
+   "kind": "round_shield",
+   "slot": "shield",
+   "frame": "grip",
+   "description": "Round plank shield: four planks, tier-metal rim, domed boss and straps, rear handle; face +X",
+   "triangles": 376,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.0533,
+     -0.3334,
+     -0.33
+    ],
+    "max": [
+     0.096,
+     0.3334,
+     0.33
+    ]
+   },
+   "size": [
+    0.149,
+    0.667,
+    0.66
+   ],
+   "materials": [
+    "M_LEATHER_DARK",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE",
+    "M_WOOD",
+    "M_WOOD_DARK"
+   ],
+   "serves": [
+    "wood_shield"
+   ],
+   "lay": [
+    0.707107,
+    0.707107,
+    0.0,
+    0.0
+   ],
+   "attach": "LeftHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0,
+    0
+   ],
+   "axis": [
+    1,
+    0,
+    0
+   ],
+   "roll": [
+    0,
+    1,
+    0
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": null
+  },
+  {
+   "id": "eq_sqshield",
+   "kind": "sqshield",
+   "slot": "shield",
+   "frame": "grip",
+   "description": "Square shield: curved sheet convex to +X, raised rim, sunken field, cross band and boss",
+   "triangles": 366,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.162,
+     -0.52,
+     -0.28
+    ],
+    "max": [
+     0.096,
+     0.33,
+     0.28
+    ]
+   },
+   "size": [
+    0.258,
+    0.85,
+    0.56
+   ],
+   "materials": [
+    "M_LEATHER_DARK",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE"
+   ],
+   "serves": [
+    "aurel_sqshield",
+    "bronze_sqshield",
+    "copper_sqshield",
+    "iron_sqshield",
+    "steel_sqshield",
+    "undercrag_sqshield",
+    "veyrite_sqshield",
+    "whitsteel_sqshield"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.707107,
+    0.707107
+   ],
+   "attach": "LeftHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0,
+    0
+   ],
+   "axis": [
+    1,
+    0,
+    0
+   ],
+   "roll": [
+    0,
+    1,
+    0
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": null
+  },
+  {
+   "id": "eq_kiteshield",
+   "kind": "kiteshield",
+   "slot": "shield",
+   "frame": "grip",
+   "description": "Kite shield: tall kite outline, raised rim, centre ridge, field boss and cross-band, rear handle; face +X",
+   "triangles": 338,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.0563,
+     -0.8,
+     -0.372
+    ],
+    "max": [
+     0.1376,
+     0.3,
+     0.372
+    ]
+   },
+   "size": [
+    0.194,
+    1.1,
+    0.744
+   ],
+   "materials": [
+    "M_LEATHER_DARK",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE"
+   ],
+   "serves": [
+    "aurel_kiteshield",
+    "bronze_kiteshield",
+    "copper_kiteshield",
+    "iron_kiteshield",
+    "steel_kiteshield",
+    "undercrag_kiteshield",
+    "veyrite_kiteshield",
+    "whitsteel_kiteshield"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.707107,
+    0.707107
+   ],
+   "attach": "LeftHand",
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0,
+    0
+   ],
+   "axis": [
+    1,
+    0,
+    0
+   ],
+   "roll": [
+    0,
+    1,
+    0
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": null
+  },
+  {
+   "id": "eq_arrow",
+   "kind": "arrow",
+   "slot": "ammo",
+   "frame": "grip",
+   "description": "Arrow (projectile): metal head, wooden shaft, three string-colour vanes; points glTF +Z",
+   "triangles": 44,
+   "budget": 400,
+   "bounds": {
+    "min": [
+     -0.034,
+     -0.0294,
+     -0.322
+    ],
+    "max": [
+     0.034,
+     0.0294,
+     0.4
+    ]
+   },
+   "size": [
+    0.068,
+    0.059,
+    0.722
+   ],
+   "materials": [
+    "M_LEATHER_DARK",
+    "M_METAL_EDGE",
+    "M_STRING",
+    "M_WOOD",
+    "M_WOOD_DARK"
+   ],
+   "serves": [],
+   "lay": [
+    0.0,
+    0.707107,
+    0.0,
+    0.707107
+   ],
+   "attach": null,
+   "origin": "hand grip",
+   "grip": [
+    0,
+    0,
+    0
+   ],
+   "axis": [
+    0,
+    0,
+    1
+   ],
+   "roll": [
+    1,
+    0,
+    0
+   ],
+   "legacy": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "equipSpec": null
+  },
+  {
+   "id": "eq_fullhelm",
+   "kind": "fullhelm",
+   "slot": "head",
+   "frame": "bind",
+   "description": "Full helm: rounded bucket with eye slit, breath groove, crest ridge, flared neck lip, temple rivets",
+   "triangles": 408,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.1434,
+     1.49,
+     -0.124
+    ],
+    "max": [
+     0.1434,
+     1.93,
+     0.189
+    ]
+   },
+   "size": [
+    0.287,
+    0.44,
+    0.313
+   ],
+   "materials": [
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE"
+   ],
+   "serves": [
+    "bronze_helm",
+    "aurel_helm",
+    "copper_helm",
+    "iron_helm",
+    "steel_helm",
+    "undercrag_helm",
+    "veyrite_helm",
+    "whitsteel_helm"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_fullhelm__Head",
+     "bone": "Head",
+     "triangles": 408
+    }
+   ]
+  },
+  {
+   "id": "eq_medhelm",
+   "kind": "medhelm",
+   "slot": "head",
+   "frame": "bind",
+   "description": "Open helm: crowned cap with brow band, nasal guard, low comb and a sallet tail at the back",
+   "triangles": 292,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.134,
+     1.542,
+     -0.122
+    ],
+    "max": [
+     0.134,
+     1.925,
+     0.182
+    ]
+   },
+   "size": [
+    0.268,
+    0.383,
+    0.304
+   ],
+   "materials": [
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE"
+   ],
+   "serves": [
+    "aurel_medhelm",
+    "bronze_medhelm",
+    "copper_medhelm",
+    "iron_medhelm",
+    "steel_medhelm",
+    "undercrag_medhelm",
+    "veyrite_medhelm",
+    "whitsteel_medhelm"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_medhelm__Head",
+     "bone": "Head",
+     "triangles": 292
+    }
+   ]
+  },
+  {
+   "id": "eq_hat",
+   "kind": "hat",
+   "slot": "head",
+   "frame": "bind",
+   "description": "Pointed cloth hat: wavy brim, band, slumped cone tip (M_CLOTH)",
+   "triangles": 234,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.215,
+     1.716,
+     -0.205
+    ],
+    "max": [
+     0.215,
+     2.1,
+     0.245
+    ]
+   },
+   "size": [
+    0.43,
+    0.384,
+    0.45
+   ],
+   "materials": [
+    "M_CLOTH",
+    "M_CLOTH_DARK"
+   ],
+   "serves": [
+    "apprentice_hat",
+    "glimmer_hat",
+    "wizard_hat"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_hat__Head",
+     "bone": "Head",
+     "triangles": 234
+    }
+   ]
+  },
+  {
+   "id": "eq_platebody",
+   "kind": "platebody",
+   "slot": "body",
+   "frame": "bind",
+   "description": "Platebody: breastplate with centre ridge, three overlapping belly lames, gorget, 3-lame pauldrons, rerebraces, vambraces",
+   "triangles": 810,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.3519,
+     0.905,
+     -0.1633
+    ],
+    "max": [
+     0.3519,
+     1.565,
+     0.188
+    ]
+   },
+   "size": [
+    0.704,
+    0.66,
+    0.351
+   ],
+   "materials": [
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE"
+   ],
+   "serves": [
+    "bronze_plate",
+    "aurel_platebody",
+    "copper_platebody",
+    "iron_platebody",
+    "steel_platebody",
+    "undercrag_platebody",
+    "veyrite_platebody",
+    "whitsteel_platebody"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_platebody__Spine1",
+     "bone": "Spine1",
+     "triangles": 384
+    },
+    {
+     "node": "eq_platebody__LeftArm",
+     "bone": "LeftArm",
+     "triangles": 142
+    },
+    {
+     "node": "eq_platebody__LeftForeArm",
+     "bone": "LeftForeArm",
+     "triangles": 71
+    },
+    {
+     "node": "eq_platebody__RightArm",
+     "bone": "RightArm",
+     "triangles": 142
+    },
+    {
+     "node": "eq_platebody__RightForeArm",
+     "bone": "RightForeArm",
+     "triangles": 71
+    }
+   ]
+  },
+  {
+   "id": "eq_leather_body",
+   "kind": "leather_body",
+   "slot": "body",
+   "frame": "bind",
+   "description": "Leather body: panelled jerkin, laced front, belt and brass buckle, short sleeves",
+   "triangles": 504,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.2698,
+     0.93,
+     -0.15
+    ],
+    "max": [
+     0.2698,
+     1.525,
+     0.172
+    ]
+   },
+   "size": [
+    0.54,
+    0.595,
+    0.322
+   ],
+   "materials": [
+    "M_BRASS",
+    "M_LEATHER",
+    "M_LEATHER_DARK",
+    "M_WOOD_DARK"
+   ],
+   "serves": [
+    "leather_body"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_leather_body__Spine1",
+     "bone": "Spine1",
+     "triangles": 428
+    },
+    {
+     "node": "eq_leather_body__LeftArm",
+     "bone": "LeftArm",
+     "triangles": 38
+    },
+    {
+     "node": "eq_leather_body__RightArm",
+     "bone": "RightArm",
+     "triangles": 38
+    }
+   ]
+  },
+  {
+   "id": "eq_chainbody",
+   "kind": "chainbody",
+   "slot": "body",
+   "frame": "bind",
+   "description": "Chainbody: hip-length mail shirt (staggered two-tone rows), leather hem and collar trim, short sleeves",
+   "triangles": 556,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.2857,
+     0.825,
+     -0.1693
+    ],
+    "max": [
+     0.2857,
+     1.555,
+     0.168
+    ]
+   },
+   "size": [
+    0.571,
+    0.73,
+    0.337
+   ],
+   "materials": [
+    "M_LEATHER_DARK",
+    "M_METAL",
+    "M_METAL_MID"
+   ],
+   "serves": [
+    "aurel_chainbody",
+    "bronze_chainbody",
+    "copper_chainbody",
+    "iron_chainbody",
+    "steel_chainbody",
+    "undercrag_chainbody",
+    "veyrite_chainbody",
+    "whitsteel_chainbody"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_chainbody__Spine1",
+     "bone": "Spine1",
+     "triangles": 448
+    },
+    {
+     "node": "eq_chainbody__LeftArm",
+     "bone": "LeftArm",
+     "triangles": 54
+    },
+    {
+     "node": "eq_chainbody__RightArm",
+     "bone": "RightArm",
+     "triangles": 54
+    }
+   ]
+  },
+  {
+   "id": "eq_platelegs",
+   "kind": "platelegs",
+   "slot": "legs",
+   "frame": "bind",
+   "description": "Platelegs: laminated fauld with front tassets, ridged cuisses, knee cops, greaves",
+   "triangles": 504,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.228,
+     0.1092,
+     -0.1975
+    ],
+    "max": [
+     0.228,
+     1.035,
+     0.1866
+    ]
+   },
+   "size": [
+    0.456,
+    0.926,
+    0.384
+   ],
+   "materials": [
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE"
+   ],
+   "serves": [
+    "bronze_legs",
+    "aurel_platelegs",
+    "copper_platelegs",
+    "iron_platelegs",
+    "steel_platelegs",
+    "undercrag_platelegs",
+    "veyrite_platelegs",
+    "whitsteel_platelegs"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_platelegs__Hips",
+     "bone": "Hips",
+     "triangles": 192
+    },
+    {
+     "node": "eq_platelegs__LeftUpLeg",
+     "bone": "LeftUpLeg",
+     "triangles": 48
+    },
+    {
+     "node": "eq_platelegs__LeftLeg",
+     "bone": "LeftLeg",
+     "triangles": 108
+    },
+    {
+     "node": "eq_platelegs__RightUpLeg",
+     "bone": "RightUpLeg",
+     "triangles": 48
+    },
+    {
+     "node": "eq_platelegs__RightLeg",
+     "bone": "RightLeg",
+     "triangles": 108
+    }
+   ]
+  },
+  {
+   "id": "eq_plateskirt",
+   "kind": "plateskirt",
+   "slot": "legs",
+   "frame": "bind",
+   "description": "Plateskirt: fluted plate skirt to the shin on a leather belt with brass buckle",
+   "triangles": 236,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.3122,
+     0.46,
+     -0.2516
+    ],
+    "max": [
+     0.3122,
+     1.046,
+     0.263
+    ]
+   },
+   "size": [
+    0.624,
+    0.586,
+    0.515
+   ],
+   "materials": [
+    "M_BRASS",
+    "M_LEATHER_DARK",
+    "M_METAL",
+    "M_METAL_DARK",
+    "M_METAL_EDGE"
+   ],
+   "serves": [
+    "aurel_plateskirt",
+    "bronze_plateskirt",
+    "copper_plateskirt",
+    "iron_plateskirt",
+    "steel_plateskirt",
+    "undercrag_plateskirt",
+    "veyrite_plateskirt",
+    "whitsteel_plateskirt"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_plateskirt__Hips",
+     "bone": "Hips",
+     "triangles": 236
+    }
+   ]
+  },
+  {
+   "id": "eq_chaps",
+   "kind": "chaps",
+   "slot": "legs",
+   "frame": "bind",
+   "description": "Leather chaps: belt and buckle, thigh and shin covers with outside seams, knee patches",
+   "triangles": 320,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.224,
+     0.1503,
+     -0.1905
+    ],
+    "max": [
+     0.224,
+     1.035,
+     0.17
+    ]
+   },
+   "size": [
+    0.448,
+    0.885,
+    0.361
+   ],
+   "materials": [
+    "M_BRASS",
+    "M_LEATHER",
+    "M_LEATHER_DARK"
+   ],
+   "serves": [
+    "leather_chaps"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_chaps__Hips",
+     "bone": "Hips",
+     "triangles": 68
+    },
+    {
+     "node": "eq_chaps__LeftUpLeg",
+     "bone": "LeftUpLeg",
+     "triangles": 38
+    },
+    {
+     "node": "eq_chaps__LeftLeg",
+     "bone": "LeftLeg",
+     "triangles": 88
+    },
+    {
+     "node": "eq_chaps__RightUpLeg",
+     "bone": "RightUpLeg",
+     "triangles": 38
+    },
+    {
+     "node": "eq_chaps__RightLeg",
+     "bone": "RightLeg",
+     "triangles": 88
+    }
+   ]
+  },
+  {
+   "id": "eq_gloves",
+   "kind": "gloves",
+   "slot": "hands",
+   "frame": "bind",
+   "description": "Leather gloves: flared gauntlet cuffs, mitts with thumbs",
+   "triangles": 232,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.312,
+     0.7656,
+     -0.0748
+    ],
+    "max": [
+     0.312,
+     1.014,
+     0.0716
+    ]
+   },
+   "size": [
+    0.624,
+    0.248,
+    0.146
+   ],
+   "materials": [
+    "M_LEATHER",
+    "M_LEATHER_DARK"
+   ],
+   "serves": [
+    "leather_gloves"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_gloves__LeftHand",
+     "bone": "LeftHand",
+     "triangles": 116
+    },
+    {
+     "node": "eq_gloves__RightHand",
+     "bone": "RightHand",
+     "triangles": 116
+    }
+   ]
+  },
+  {
+   "id": "eq_boots",
+   "kind": "boots",
+   "slot": "feet",
+   "frame": "bind",
+   "description": "Leather boots: rounded toe, dark sole, folded cuff, brass ankle buckle",
+   "triangles": 458,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.2426,
+     0.0,
+     -0.1865
+    ],
+    "max": [
+     0.2426,
+     0.3473,
+     0.2
+    ]
+   },
+   "size": [
+    0.485,
+    0.347,
+    0.386
+   ],
+   "materials": [
+    "M_BRASS",
+    "M_LEATHER",
+    "M_LEATHER_DARK"
+   ],
+   "serves": [
+    "leather_boots"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_boots__LeftFoot",
+     "bone": "LeftFoot",
+     "triangles": 106
+    },
+    {
+     "node": "eq_boots__LeftLeg",
+     "bone": "LeftLeg",
+     "triangles": 123
+    },
+    {
+     "node": "eq_boots__RightFoot",
+     "bone": "RightFoot",
+     "triangles": 106
+    },
+    {
+     "node": "eq_boots__RightLeg",
+     "bone": "RightLeg",
+     "triangles": 123
+    }
+   ]
+  },
+  {
+   "id": "eq_amulet",
+   "kind": "amulet",
+   "slot": "amulet",
+   "frame": "bind",
+   "description": "Amulet: brass chain loop, round setting, gem (M_GEM)",
+   "triangles": 144,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.093,
+     1.3127,
+     -0.0878
+    ],
+    "max": [
+     0.093,
+     1.4948,
+     0.1664
+    ]
+   },
+   "size": [
+    0.186,
+    0.182,
+    0.254
+   ],
+   "materials": [
+    "M_BRASS",
+    "M_GEM"
+   ],
+   "serves": [
+    "amulet_of_might",
+    "amulet_of_precision",
+    "amulet_of_warding",
+    "holy_symbol"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_amulet__Spine2",
+     "bone": "Spine2",
+     "triangles": 144
+    }
+   ]
+  },
+  {
+   "id": "eq_cape",
+   "kind": "cape",
+   "slot": "cape",
+   "frame": "bind",
+   "description": "Cape: rolled collar, folds that alternate down to a flared hem, dark lining, brass clasps (M_CLOTH)",
+   "triangles": 330,
+   "budget": 820,
+   "bounds": {
+    "min": [
+     -0.31,
+     0.53,
+     -0.388
+    ],
+    "max": [
+     0.31,
+     1.5109,
+     0.0421
+    ]
+   },
+   "size": [
+    0.62,
+    0.981,
+    0.43
+   ],
+   "materials": [
+    "M_BRASS",
+    "M_CLOTH",
+    "M_CLOTH_DARK"
+   ],
+   "serves": [
+    "guild_sigil",
+    "trav_cape_blue",
+    "trav_cape_green",
+    "trav_cape_red"
+   ],
+   "lay": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "parts": [
+    {
+     "node": "eq_cape__Spine2",
+     "bone": "Spine2",
+     "triangles": 330
+    }
+   ]
+  }
+ ],
+ "items": [
+  {
+   "id": "amulet_of_might",
+   "name": "Amulet of Might",
+   "slot": "amulet",
+   "model": "amulet",
+   "tier": "",
+   "today": "amuletMesh",
+   "kind": "amulet",
+   "generated": false
+  },
+  {
+   "id": "amulet_of_precision",
+   "name": "Amulet of Precision",
+   "slot": "amulet",
+   "model": "amulet",
+   "tier": "",
+   "today": "amuletMesh",
+   "kind": "amulet",
+   "generated": false
+  },
+  {
+   "id": "amulet_of_warding",
+   "name": "Amulet of Warding",
+   "slot": "amulet",
+   "model": "amulet",
+   "tier": "",
+   "today": "amuletMesh",
+   "kind": "amulet",
+   "generated": false
+  },
+  {
+   "id": "apprentice_hat",
+   "name": "Apprentice hat",
+   "slot": "head",
+   "model": "hat",
+   "tier": "cloth",
+   "today": "inline brim+cone (game3_systems / fx_humanoid)",
+   "kind": "hat",
+   "generated": false
+  },
+  {
+   "id": "apprentice_staff",
+   "name": "Apprentice staff",
+   "slot": "weapon",
+   "model": "staff",
+   "tier": "",
+   "today": "staffMesh",
+   "kind": "staff",
+   "generated": false
+  },
+  {
+   "id": "ash_bow",
+   "name": "Ash shortbow",
+   "slot": "weapon",
+   "model": "bow",
+   "tier": "",
+   "today": "gear_shortbow GLB (gear_models_v1) over bowMesh",
+   "kind": "shortbow",
+   "generated": false
+  },
+  {
+   "id": "bronze_dagger",
+   "name": "Bronze dagger",
+   "slot": "weapon",
+   "model": "sword",
+   "tier": "bronze",
+   "today": "gear_dagger GLB (gear_models_v1) over swordMesh",
+   "kind": "dagger",
+   "generated": false
+  },
+  {
+   "id": "bronze_helm",
+   "name": "Bronze helm",
+   "slot": "head",
+   "model": "helm",
+   "tier": "bronze",
+   "today": "gear_fullhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "fullhelm",
+   "generated": false
+  },
+  {
+   "id": "bronze_legs",
+   "name": "Bronze platelegs",
+   "slot": "legs",
+   "model": "legs",
+   "tier": "bronze",
+   "today": "legArmorMesh / fx_humanoid thigh cylinders",
+   "kind": "platelegs",
+   "generated": false
+  },
+  {
+   "id": "bronze_plate",
+   "name": "Bronze platebody",
+   "slot": "body",
+   "model": "plate",
+   "tier": "bronze",
+   "today": "bodyArmorMesh",
+   "kind": "platebody",
+   "generated": false
+  },
+  {
+   "id": "bronze_sword",
+   "name": "Bronze sword",
+   "slot": "weapon",
+   "model": "sword",
+   "tier": "bronze",
+   "today": "gear_sword GLB (gear_models_v1) over swordMesh",
+   "kind": "sword",
+   "generated": false
+  },
+  {
+   "id": "cloth_robe_skirt",
+   "name": "Cloth robe skirt",
+   "slot": "legs",
+   "model": "robe",
+   "tier": "cloth",
+   "today": "torso/legs recolour (no mesh)",
+   "kind": null,
+   "generated": false
+  },
+  {
+   "id": "cloth_robe_top",
+   "name": "Cloth robe top",
+   "slot": "body",
+   "model": "robe",
+   "tier": "cloth",
+   "today": "torso/legs recolour (no mesh)",
+   "kind": null,
+   "generated": false
+  },
+  {
+   "id": "crag_maul",
+   "name": "Crag maul",
+   "slot": "weapon",
+   "model": "sword",
+   "tier": "crag",
+   "today": "gear_sword GLB (gear_models_v1) over swordMesh",
+   "kind": "sword",
+   "generated": false
+  },
+  {
+   "id": "ember_staff",
+   "name": "Ember staff",
+   "slot": "weapon",
+   "model": "staff",
+   "tier": "",
+   "today": "staffMesh",
+   "kind": "staff",
+   "generated": false
+  },
+  {
+   "id": "gale_longbow",
+   "name": "Gale longbow",
+   "slot": "weapon",
+   "model": "longbow",
+   "tier": "",
+   "today": "gear_longbow GLB (gear_models_v1) over bowMesh",
+   "kind": "longbow",
+   "generated": false
+  },
+  {
+   "id": "glimmer_hat",
+   "name": "Glimmer hat",
+   "slot": "head",
+   "model": "hat",
+   "tier": "glimmer",
+   "today": "inline brim+cone (game3_systems / fx_humanoid)",
+   "kind": "hat",
+   "generated": false
+  },
+  {
+   "id": "glimmer_robe_top",
+   "name": "Glimmer robe top",
+   "slot": "body",
+   "model": "robe",
+   "tier": "glimmer",
+   "today": "torso/legs recolour (no mesh)",
+   "kind": null,
+   "generated": false
+  },
+  {
+   "id": "guild_sigil",
+   "name": "Wardens' sigil",
+   "slot": "cape",
+   "model": "cape",
+   "tier": "",
+   "today": "capeMesh",
+   "kind": "cape",
+   "generated": false
+  },
+  {
+   "id": "hatchet",
+   "name": "Bronze hatchet",
+   "slot": "weapon",
+   "model": "axe",
+   "tier": "bronze",
+   "today": "gear_hatchet GLB (gear_models_v1) over axeMesh",
+   "kind": "hatchet",
+   "generated": false
+  },
+  {
+   "id": "holy_symbol",
+   "name": "Holy symbol",
+   "slot": "amulet",
+   "model": "amulet",
+   "tier": "holy",
+   "today": "amuletMesh",
+   "kind": "amulet",
+   "generated": false
+  },
+  {
+   "id": "iron_dagger",
+   "name": "Iron dagger",
+   "slot": "weapon",
+   "model": "",
+   "tier": "iron",
+   "today": "gear_dagger GLB (gear_models_v1) over none: gearMesh returns null (no model field)",
+   "kind": "dagger",
+   "generated": false
+  },
+  {
+   "id": "iron_hatchet",
+   "name": "Iron hatchet",
+   "slot": "weapon",
+   "model": "axe",
+   "tier": "iron",
+   "today": "gear_hatchet GLB (gear_models_v1) over axeMesh",
+   "kind": "hatchet",
+   "generated": false
+  },
+  {
+   "id": "iron_pickaxe",
+   "name": "Iron pickaxe",
+   "slot": "weapon",
+   "model": "pick",
+   "tier": "iron",
+   "today": "gear_pickaxe GLB (gear_models_v1) over pickMesh",
+   "kind": "pickaxe",
+   "generated": false
+  },
+  {
+   "id": "iron_sword",
+   "name": "Iron sword",
+   "slot": "weapon",
+   "model": "sword",
+   "tier": "iron",
+   "today": "gear_sword GLB (gear_models_v1) over swordMesh",
+   "kind": "sword",
+   "generated": false
+  },
+  {
+   "id": "leather_body",
+   "name": "Leather body",
+   "slot": "body",
+   "model": "plate",
+   "tier": "leather",
+   "today": "bodyArmorMesh",
+   "kind": "leather_body",
+   "generated": false
+  },
+  {
+   "id": "leather_boots",
+   "name": "Leather boots",
+   "slot": "feet",
+   "model": "boots",
+   "tier": "leather",
+   "today": "bootMesh",
+   "kind": "boots",
+   "generated": false
+  },
+  {
+   "id": "leather_chaps",
+   "name": "Leather chaps",
+   "slot": "legs",
+   "model": "chaps",
+   "tier": "leather",
+   "today": "chapsCover",
+   "kind": "chaps",
+   "generated": false
+  },
+  {
+   "id": "leather_gloves",
+   "name": "Leather gloves",
+   "slot": "hands",
+   "model": "gloves",
+   "tier": "leather",
+   "today": "gloveMesh",
+   "kind": "gloves",
+   "generated": false
+  },
+  {
+   "id": "monk_robe_bottom",
+   "name": "Monk robe bottom",
+   "slot": "legs",
+   "model": "robe",
+   "tier": "monk",
+   "today": "torso/legs recolour (no mesh)",
+   "kind": null,
+   "generated": false
+  },
+  {
+   "id": "monk_robe_top",
+   "name": "Monk robe top",
+   "slot": "body",
+   "model": "robe",
+   "tier": "monk",
+   "today": "torso/legs recolour (no mesh)",
+   "kind": null,
+   "generated": false
+  },
+  {
+   "id": "pickaxe",
+   "name": "Bronze pickaxe",
+   "slot": "weapon",
+   "model": "pick",
+   "tier": "bronze",
+   "today": "gear_pickaxe GLB (gear_models_v1) over pickMesh",
+   "kind": "pickaxe",
+   "generated": false
+  },
+  {
+   "id": "storm_staff",
+   "name": "Storm staff",
+   "slot": "weapon",
+   "model": "staff",
+   "tier": "",
+   "today": "staffMesh",
+   "kind": "staff",
+   "generated": false
+  },
+  {
+   "id": "trav_cape_blue",
+   "name": "Traveller's cape (blue)",
+   "slot": "cape",
+   "model": "cape",
+   "tier": "",
+   "today": "capeMesh",
+   "kind": "cape",
+   "generated": false
+  },
+  {
+   "id": "trav_cape_green",
+   "name": "Traveller's cape (green)",
+   "slot": "cape",
+   "model": "cape",
+   "tier": "",
+   "today": "capeMesh",
+   "kind": "cape",
+   "generated": false
+  },
+  {
+   "id": "trav_cape_red",
+   "name": "Traveller's cape (red)",
+   "slot": "cape",
+   "model": "cape",
+   "tier": "",
+   "today": "capeMesh",
+   "kind": "cape",
+   "generated": false
+  },
+  {
+   "id": "wizard_hat",
+   "name": "Wizard hat",
+   "slot": "head",
+   "model": "hat",
+   "tier": "wizard",
+   "today": "inline brim+cone (game3_systems / fx_humanoid)",
+   "kind": "hat",
+   "generated": false
+  },
+  {
+   "id": "wood_shield",
+   "name": "Wooden shield",
+   "slot": "shield",
+   "model": "shield",
+   "tier": "bronze",
+   "today": "gear_shield GLB (gear_models_v1) over shieldMesh",
+   "kind": "round_shield",
+   "generated": false
+  },
+  {
+   "id": "worn_bow",
+   "name": "Worn shortbow",
+   "slot": "weapon",
+   "model": "bow",
+   "tier": "",
+   "today": "gear_shortbow GLB (gear_models_v1) over bowMesh",
+   "kind": "shortbow",
+   "generated": false
+  },
+  {
+   "id": "aurel_battleaxe",
+   "name": "Aurel battleaxe",
+   "slot": "weapon",
+   "model": "battleaxe",
+   "tier": "aurel",
+   "today": "gear_battleaxe GLB (gear_models_v1) over axeMesh",
+   "kind": "battleaxe",
+   "generated": true
+  },
+  {
+   "id": "aurel_chainbody",
+   "name": "Aurel chainbody",
+   "slot": "body",
+   "model": "chainbody",
+   "tier": "aurel",
+   "today": "chainBodyMesh",
+   "kind": "chainbody",
+   "generated": true
+  },
+  {
+   "id": "aurel_greatsword",
+   "name": "Aurel greatsword",
+   "slot": "weapon",
+   "model": "greatsword",
+   "tier": "aurel",
+   "today": "gear_greatsword GLB (gear_models_v1) over swordMesh",
+   "kind": "greatsword",
+   "generated": true
+  },
+  {
+   "id": "aurel_hatchet",
+   "name": "Aurel hatchet",
+   "slot": "weapon",
+   "model": "axe",
+   "tier": "aurel",
+   "today": "gear_hatchet GLB (gear_models_v1) over axeMesh",
+   "kind": "hatchet",
+   "generated": true
+  },
+  {
+   "id": "aurel_helm",
+   "name": "Aurel helm",
+   "slot": "head",
+   "model": "helm",
+   "tier": "aurel",
+   "today": "gear_fullhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "fullhelm",
+   "generated": true
+  },
+  {
+   "id": "aurel_kiteshield",
+   "name": "Aurel kiteshield",
+   "slot": "shield",
+   "model": "kiteshield",
+   "tier": "aurel",
+   "today": "gear_kiteshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "kiteshield",
+   "generated": true
+  },
+  {
+   "id": "aurel_longsword",
+   "name": "Aurel longsword",
+   "slot": "weapon",
+   "model": "longsword",
+   "tier": "aurel",
+   "today": "gear_longsword GLB (gear_models_v1) over swordMesh",
+   "kind": "longsword",
+   "generated": true
+  },
+  {
+   "id": "aurel_mace",
+   "name": "Aurel mace",
+   "slot": "weapon",
+   "model": "mace",
+   "tier": "aurel",
+   "today": "gear_mace GLB (gear_models_v1) over swordMesh",
+   "kind": "mace",
+   "generated": true
+  },
+  {
+   "id": "aurel_medhelm",
+   "name": "Aurel med helm",
+   "slot": "head",
+   "model": "medhelm",
+   "tier": "aurel",
+   "today": "gear_medhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "medhelm",
+   "generated": true
+  },
+  {
+   "id": "aurel_pickaxe",
+   "name": "Aurel pickaxe",
+   "slot": "weapon",
+   "model": "pick",
+   "tier": "aurel",
+   "today": "gear_pickaxe GLB (gear_models_v1) over pickMesh",
+   "kind": "pickaxe",
+   "generated": true
+  },
+  {
+   "id": "aurel_platebody",
+   "name": "Aurel platebody",
+   "slot": "body",
+   "model": "plate",
+   "tier": "aurel",
+   "today": "bodyArmorMesh",
+   "kind": "platebody",
+   "generated": true
+  },
+  {
+   "id": "aurel_platelegs",
+   "name": "Aurel platelegs",
+   "slot": "legs",
+   "model": "legs",
+   "tier": "aurel",
+   "today": "legArmorMesh / fx_humanoid thigh cylinders",
+   "kind": "platelegs",
+   "generated": true
+  },
+  {
+   "id": "aurel_plateskirt",
+   "name": "Aurel plateskirt",
+   "slot": "legs",
+   "model": "plateskirt",
+   "tier": "aurel",
+   "today": "plateSkirtMesh",
+   "kind": "plateskirt",
+   "generated": true
+  },
+  {
+   "id": "aurel_sabre",
+   "name": "Aurel sabre",
+   "slot": "weapon",
+   "model": "sabre",
+   "tier": "aurel",
+   "today": "gear_scimitar GLB (gear_models_v1) over swordMesh",
+   "kind": "sabre",
+   "generated": true
+  },
+  {
+   "id": "aurel_sqshield",
+   "name": "Aurel sq shield",
+   "slot": "shield",
+   "model": "sqshield",
+   "tier": "aurel",
+   "today": "gear_sqshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "sqshield",
+   "generated": true
+  },
+  {
+   "id": "aurel_sword",
+   "name": "Aurel sword",
+   "slot": "weapon",
+   "model": "sword",
+   "tier": "aurel",
+   "today": "gear_sword GLB (gear_models_v1) over swordMesh",
+   "kind": "sword",
+   "generated": true
+  },
+  {
+   "id": "aurel_warhammer",
+   "name": "Aurel warhammer",
+   "slot": "weapon",
+   "model": "warhammer",
+   "tier": "aurel",
+   "today": "gear_warhammer GLB (gear_models_v1) over axeMesh",
+   "kind": "warhammer",
+   "generated": true
+  },
+  {
+   "id": "bronze_battleaxe",
+   "name": "Bronze battleaxe",
+   "slot": "weapon",
+   "model": "battleaxe",
+   "tier": "bronze",
+   "today": "gear_battleaxe GLB (gear_models_v1) over axeMesh",
+   "kind": "battleaxe",
+   "generated": true
+  },
+  {
+   "id": "bronze_chainbody",
+   "name": "Bronze chainbody",
+   "slot": "body",
+   "model": "chainbody",
+   "tier": "bronze",
+   "today": "chainBodyMesh",
+   "kind": "chainbody",
+   "generated": true
+  },
+  {
+   "id": "bronze_greatsword",
+   "name": "Bronze greatsword",
+   "slot": "weapon",
+   "model": "greatsword",
+   "tier": "bronze",
+   "today": "gear_greatsword GLB (gear_models_v1) over swordMesh",
+   "kind": "greatsword",
+   "generated": true
+  },
+  {
+   "id": "bronze_kiteshield",
+   "name": "Bronze kiteshield",
+   "slot": "shield",
+   "model": "kiteshield",
+   "tier": "bronze",
+   "today": "gear_kiteshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "kiteshield",
+   "generated": true
+  },
+  {
+   "id": "bronze_longsword",
+   "name": "Bronze longsword",
+   "slot": "weapon",
+   "model": "longsword",
+   "tier": "bronze",
+   "today": "gear_longsword GLB (gear_models_v1) over swordMesh",
+   "kind": "longsword",
+   "generated": true
+  },
+  {
+   "id": "bronze_mace",
+   "name": "Bronze mace",
+   "slot": "weapon",
+   "model": "mace",
+   "tier": "bronze",
+   "today": "gear_mace GLB (gear_models_v1) over swordMesh",
+   "kind": "mace",
+   "generated": true
+  },
+  {
+   "id": "bronze_medhelm",
+   "name": "Bronze med helm",
+   "slot": "head",
+   "model": "medhelm",
+   "tier": "bronze",
+   "today": "gear_medhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "medhelm",
+   "generated": true
+  },
+  {
+   "id": "bronze_plateskirt",
+   "name": "Bronze plateskirt",
+   "slot": "legs",
+   "model": "plateskirt",
+   "tier": "bronze",
+   "today": "plateSkirtMesh",
+   "kind": "plateskirt",
+   "generated": true
+  },
+  {
+   "id": "bronze_sabre",
+   "name": "Bronze sabre",
+   "slot": "weapon",
+   "model": "sabre",
+   "tier": "bronze",
+   "today": "gear_scimitar GLB (gear_models_v1) over swordMesh",
+   "kind": "sabre",
+   "generated": true
+  },
+  {
+   "id": "bronze_sqshield",
+   "name": "Bronze sq shield",
+   "slot": "shield",
+   "model": "sqshield",
+   "tier": "bronze",
+   "today": "gear_sqshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "sqshield",
+   "generated": true
+  },
+  {
+   "id": "bronze_warhammer",
+   "name": "Bronze warhammer",
+   "slot": "weapon",
+   "model": "warhammer",
+   "tier": "bronze",
+   "today": "gear_warhammer GLB (gear_models_v1) over axeMesh",
+   "kind": "warhammer",
+   "generated": true
+  },
+  {
+   "id": "copper_battleaxe",
+   "name": "Copper battleaxe",
+   "slot": "weapon",
+   "model": "battleaxe",
+   "tier": "copper",
+   "today": "gear_battleaxe GLB (gear_models_v1) over axeMesh",
+   "kind": "battleaxe",
+   "generated": true
+  },
+  {
+   "id": "copper_chainbody",
+   "name": "Copper chainbody",
+   "slot": "body",
+   "model": "chainbody",
+   "tier": "copper",
+   "today": "chainBodyMesh",
+   "kind": "chainbody",
+   "generated": true
+  },
+  {
+   "id": "copper_greatsword",
+   "name": "Copper greatsword",
+   "slot": "weapon",
+   "model": "greatsword",
+   "tier": "copper",
+   "today": "gear_greatsword GLB (gear_models_v1) over swordMesh",
+   "kind": "greatsword",
+   "generated": true
+  },
+  {
+   "id": "copper_hatchet",
+   "name": "Copper hatchet",
+   "slot": "weapon",
+   "model": "axe",
+   "tier": "copper",
+   "today": "gear_hatchet GLB (gear_models_v1) over axeMesh",
+   "kind": "hatchet",
+   "generated": true
+  },
+  {
+   "id": "copper_helm",
+   "name": "Copper helm",
+   "slot": "head",
+   "model": "helm",
+   "tier": "copper",
+   "today": "gear_fullhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "fullhelm",
+   "generated": true
+  },
+  {
+   "id": "copper_kiteshield",
+   "name": "Copper kiteshield",
+   "slot": "shield",
+   "model": "kiteshield",
+   "tier": "copper",
+   "today": "gear_kiteshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "kiteshield",
+   "generated": true
+  },
+  {
+   "id": "copper_longsword",
+   "name": "Copper longsword",
+   "slot": "weapon",
+   "model": "longsword",
+   "tier": "copper",
+   "today": "gear_longsword GLB (gear_models_v1) over swordMesh",
+   "kind": "longsword",
+   "generated": true
+  },
+  {
+   "id": "copper_mace",
+   "name": "Copper mace",
+   "slot": "weapon",
+   "model": "mace",
+   "tier": "copper",
+   "today": "gear_mace GLB (gear_models_v1) over swordMesh",
+   "kind": "mace",
+   "generated": true
+  },
+  {
+   "id": "copper_medhelm",
+   "name": "Copper med helm",
+   "slot": "head",
+   "model": "medhelm",
+   "tier": "copper",
+   "today": "gear_medhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "medhelm",
+   "generated": true
+  },
+  {
+   "id": "copper_pickaxe",
+   "name": "Copper pickaxe",
+   "slot": "weapon",
+   "model": "pick",
+   "tier": "copper",
+   "today": "gear_pickaxe GLB (gear_models_v1) over pickMesh",
+   "kind": "pickaxe",
+   "generated": true
+  },
+  {
+   "id": "copper_platebody",
+   "name": "Copper platebody",
+   "slot": "body",
+   "model": "plate",
+   "tier": "copper",
+   "today": "bodyArmorMesh",
+   "kind": "platebody",
+   "generated": true
+  },
+  {
+   "id": "copper_platelegs",
+   "name": "Copper platelegs",
+   "slot": "legs",
+   "model": "legs",
+   "tier": "copper",
+   "today": "legArmorMesh / fx_humanoid thigh cylinders",
+   "kind": "platelegs",
+   "generated": true
+  },
+  {
+   "id": "copper_plateskirt",
+   "name": "Copper plateskirt",
+   "slot": "legs",
+   "model": "plateskirt",
+   "tier": "copper",
+   "today": "plateSkirtMesh",
+   "kind": "plateskirt",
+   "generated": true
+  },
+  {
+   "id": "copper_sabre",
+   "name": "Copper sabre",
+   "slot": "weapon",
+   "model": "sabre",
+   "tier": "copper",
+   "today": "gear_scimitar GLB (gear_models_v1) over swordMesh",
+   "kind": "sabre",
+   "generated": true
+  },
+  {
+   "id": "copper_sqshield",
+   "name": "Copper sq shield",
+   "slot": "shield",
+   "model": "sqshield",
+   "tier": "copper",
+   "today": "gear_sqshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "sqshield",
+   "generated": true
+  },
+  {
+   "id": "copper_sword",
+   "name": "Copper sword",
+   "slot": "weapon",
+   "model": "sword",
+   "tier": "copper",
+   "today": "gear_sword GLB (gear_models_v1) over swordMesh",
+   "kind": "sword",
+   "generated": true
+  },
+  {
+   "id": "copper_warhammer",
+   "name": "Copper warhammer",
+   "slot": "weapon",
+   "model": "warhammer",
+   "tier": "copper",
+   "today": "gear_warhammer GLB (gear_models_v1) over axeMesh",
+   "kind": "warhammer",
+   "generated": true
+  },
+  {
+   "id": "iron_battleaxe",
+   "name": "Iron battleaxe",
+   "slot": "weapon",
+   "model": "battleaxe",
+   "tier": "iron",
+   "today": "gear_battleaxe GLB (gear_models_v1) over axeMesh",
+   "kind": "battleaxe",
+   "generated": true
+  },
+  {
+   "id": "iron_chainbody",
+   "name": "Iron chainbody",
+   "slot": "body",
+   "model": "chainbody",
+   "tier": "iron",
+   "today": "chainBodyMesh",
+   "kind": "chainbody",
+   "generated": true
+  },
+  {
+   "id": "iron_greatsword",
+   "name": "Iron greatsword",
+   "slot": "weapon",
+   "model": "greatsword",
+   "tier": "iron",
+   "today": "gear_greatsword GLB (gear_models_v1) over swordMesh",
+   "kind": "greatsword",
+   "generated": true
+  },
+  {
+   "id": "iron_helm",
+   "name": "Iron helm",
+   "slot": "head",
+   "model": "helm",
+   "tier": "iron",
+   "today": "gear_fullhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "fullhelm",
+   "generated": true
+  },
+  {
+   "id": "iron_kiteshield",
+   "name": "Iron kiteshield",
+   "slot": "shield",
+   "model": "kiteshield",
+   "tier": "iron",
+   "today": "gear_kiteshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "kiteshield",
+   "generated": true
+  },
+  {
+   "id": "iron_longsword",
+   "name": "Iron longsword",
+   "slot": "weapon",
+   "model": "longsword",
+   "tier": "iron",
+   "today": "gear_longsword GLB (gear_models_v1) over swordMesh",
+   "kind": "longsword",
+   "generated": true
+  },
+  {
+   "id": "iron_mace",
+   "name": "Iron mace",
+   "slot": "weapon",
+   "model": "mace",
+   "tier": "iron",
+   "today": "gear_mace GLB (gear_models_v1) over swordMesh",
+   "kind": "mace",
+   "generated": true
+  },
+  {
+   "id": "iron_medhelm",
+   "name": "Iron med helm",
+   "slot": "head",
+   "model": "medhelm",
+   "tier": "iron",
+   "today": "gear_medhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "medhelm",
+   "generated": true
+  },
+  {
+   "id": "iron_platebody",
+   "name": "Iron platebody",
+   "slot": "body",
+   "model": "plate",
+   "tier": "iron",
+   "today": "bodyArmorMesh",
+   "kind": "platebody",
+   "generated": true
+  },
+  {
+   "id": "iron_platelegs",
+   "name": "Iron platelegs",
+   "slot": "legs",
+   "model": "legs",
+   "tier": "iron",
+   "today": "legArmorMesh / fx_humanoid thigh cylinders",
+   "kind": "platelegs",
+   "generated": true
+  },
+  {
+   "id": "iron_plateskirt",
+   "name": "Iron plateskirt",
+   "slot": "legs",
+   "model": "plateskirt",
+   "tier": "iron",
+   "today": "plateSkirtMesh",
+   "kind": "plateskirt",
+   "generated": true
+  },
+  {
+   "id": "iron_sabre",
+   "name": "Iron sabre",
+   "slot": "weapon",
+   "model": "sabre",
+   "tier": "iron",
+   "today": "gear_scimitar GLB (gear_models_v1) over swordMesh",
+   "kind": "sabre",
+   "generated": true
+  },
+  {
+   "id": "iron_sqshield",
+   "name": "Iron sq shield",
+   "slot": "shield",
+   "model": "sqshield",
+   "tier": "iron",
+   "today": "gear_sqshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "sqshield",
+   "generated": true
+  },
+  {
+   "id": "iron_warhammer",
+   "name": "Iron warhammer",
+   "slot": "weapon",
+   "model": "warhammer",
+   "tier": "iron",
+   "today": "gear_warhammer GLB (gear_models_v1) over axeMesh",
+   "kind": "warhammer",
+   "generated": true
+  },
+  {
+   "id": "steel_battleaxe",
+   "name": "Steel battleaxe",
+   "slot": "weapon",
+   "model": "battleaxe",
+   "tier": "steel",
+   "today": "gear_battleaxe GLB (gear_models_v1) over axeMesh",
+   "kind": "battleaxe",
+   "generated": true
+  },
+  {
+   "id": "steel_chainbody",
+   "name": "Steel chainbody",
+   "slot": "body",
+   "model": "chainbody",
+   "tier": "steel",
+   "today": "chainBodyMesh",
+   "kind": "chainbody",
+   "generated": true
+  },
+  {
+   "id": "steel_greatsword",
+   "name": "Steel greatsword",
+   "slot": "weapon",
+   "model": "greatsword",
+   "tier": "steel",
+   "today": "gear_greatsword GLB (gear_models_v1) over swordMesh",
+   "kind": "greatsword",
+   "generated": true
+  },
+  {
+   "id": "steel_hatchet",
+   "name": "Steel hatchet",
+   "slot": "weapon",
+   "model": "axe",
+   "tier": "steel",
+   "today": "gear_hatchet GLB (gear_models_v1) over axeMesh",
+   "kind": "hatchet",
+   "generated": true
+  },
+  {
+   "id": "steel_helm",
+   "name": "Steel helm",
+   "slot": "head",
+   "model": "helm",
+   "tier": "steel",
+   "today": "gear_fullhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "fullhelm",
+   "generated": true
+  },
+  {
+   "id": "steel_kiteshield",
+   "name": "Steel kiteshield",
+   "slot": "shield",
+   "model": "kiteshield",
+   "tier": "steel",
+   "today": "gear_kiteshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "kiteshield",
+   "generated": true
+  },
+  {
+   "id": "steel_longsword",
+   "name": "Steel longsword",
+   "slot": "weapon",
+   "model": "longsword",
+   "tier": "steel",
+   "today": "gear_longsword GLB (gear_models_v1) over swordMesh",
+   "kind": "longsword",
+   "generated": true
+  },
+  {
+   "id": "steel_mace",
+   "name": "Steel mace",
+   "slot": "weapon",
+   "model": "mace",
+   "tier": "steel",
+   "today": "gear_mace GLB (gear_models_v1) over swordMesh",
+   "kind": "mace",
+   "generated": true
+  },
+  {
+   "id": "steel_medhelm",
+   "name": "Steel med helm",
+   "slot": "head",
+   "model": "medhelm",
+   "tier": "steel",
+   "today": "gear_medhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "medhelm",
+   "generated": true
+  },
+  {
+   "id": "steel_pickaxe",
+   "name": "Steel pickaxe",
+   "slot": "weapon",
+   "model": "pick",
+   "tier": "steel",
+   "today": "gear_pickaxe GLB (gear_models_v1) over pickMesh",
+   "kind": "pickaxe",
+   "generated": true
+  },
+  {
+   "id": "steel_platebody",
+   "name": "Steel platebody",
+   "slot": "body",
+   "model": "plate",
+   "tier": "steel",
+   "today": "bodyArmorMesh",
+   "kind": "platebody",
+   "generated": true
+  },
+  {
+   "id": "steel_platelegs",
+   "name": "Steel platelegs",
+   "slot": "legs",
+   "model": "legs",
+   "tier": "steel",
+   "today": "legArmorMesh / fx_humanoid thigh cylinders",
+   "kind": "platelegs",
+   "generated": true
+  },
+  {
+   "id": "steel_plateskirt",
+   "name": "Steel plateskirt",
+   "slot": "legs",
+   "model": "plateskirt",
+   "tier": "steel",
+   "today": "plateSkirtMesh",
+   "kind": "plateskirt",
+   "generated": true
+  },
+  {
+   "id": "steel_sabre",
+   "name": "Steel sabre",
+   "slot": "weapon",
+   "model": "sabre",
+   "tier": "steel",
+   "today": "gear_scimitar GLB (gear_models_v1) over swordMesh",
+   "kind": "sabre",
+   "generated": true
+  },
+  {
+   "id": "steel_sqshield",
+   "name": "Steel sq shield",
+   "slot": "shield",
+   "model": "sqshield",
+   "tier": "steel",
+   "today": "gear_sqshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "sqshield",
+   "generated": true
+  },
+  {
+   "id": "steel_sword",
+   "name": "Steel sword",
+   "slot": "weapon",
+   "model": "sword",
+   "tier": "steel",
+   "today": "gear_sword GLB (gear_models_v1) over swordMesh",
+   "kind": "sword",
+   "generated": true
+  },
+  {
+   "id": "steel_warhammer",
+   "name": "Steel warhammer",
+   "slot": "weapon",
+   "model": "warhammer",
+   "tier": "steel",
+   "today": "gear_warhammer GLB (gear_models_v1) over axeMesh",
+   "kind": "warhammer",
+   "generated": true
+  },
+  {
+   "id": "undercrag_battleaxe",
+   "name": "Undercrag battleaxe",
+   "slot": "weapon",
+   "model": "battleaxe",
+   "tier": "undercrag",
+   "today": "gear_battleaxe GLB (gear_models_v1) over axeMesh",
+   "kind": "battleaxe",
+   "generated": true
+  },
+  {
+   "id": "undercrag_chainbody",
+   "name": "Undercrag chainbody",
+   "slot": "body",
+   "model": "chainbody",
+   "tier": "undercrag",
+   "today": "chainBodyMesh",
+   "kind": "chainbody",
+   "generated": true
+  },
+  {
+   "id": "undercrag_greatsword",
+   "name": "Undercrag greatsword",
+   "slot": "weapon",
+   "model": "greatsword",
+   "tier": "undercrag",
+   "today": "gear_greatsword GLB (gear_models_v1) over swordMesh",
+   "kind": "greatsword",
+   "generated": true
+  },
+  {
+   "id": "undercrag_hatchet",
+   "name": "Undercrag hatchet",
+   "slot": "weapon",
+   "model": "axe",
+   "tier": "undercrag",
+   "today": "gear_hatchet GLB (gear_models_v1) over axeMesh",
+   "kind": "hatchet",
+   "generated": true
+  },
+  {
+   "id": "undercrag_helm",
+   "name": "Undercrag helm",
+   "slot": "head",
+   "model": "helm",
+   "tier": "undercrag",
+   "today": "gear_fullhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "fullhelm",
+   "generated": true
+  },
+  {
+   "id": "undercrag_kiteshield",
+   "name": "Undercrag kiteshield",
+   "slot": "shield",
+   "model": "kiteshield",
+   "tier": "undercrag",
+   "today": "gear_kiteshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "kiteshield",
+   "generated": true
+  },
+  {
+   "id": "undercrag_longsword",
+   "name": "Undercrag longsword",
+   "slot": "weapon",
+   "model": "longsword",
+   "tier": "undercrag",
+   "today": "gear_longsword GLB (gear_models_v1) over swordMesh",
+   "kind": "longsword",
+   "generated": true
+  },
+  {
+   "id": "undercrag_mace",
+   "name": "Undercrag mace",
+   "slot": "weapon",
+   "model": "mace",
+   "tier": "undercrag",
+   "today": "gear_mace GLB (gear_models_v1) over swordMesh",
+   "kind": "mace",
+   "generated": true
+  },
+  {
+   "id": "undercrag_medhelm",
+   "name": "Undercrag med helm",
+   "slot": "head",
+   "model": "medhelm",
+   "tier": "undercrag",
+   "today": "gear_medhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "medhelm",
+   "generated": true
+  },
+  {
+   "id": "undercrag_pickaxe",
+   "name": "Undercrag pickaxe",
+   "slot": "weapon",
+   "model": "pick",
+   "tier": "undercrag",
+   "today": "gear_pickaxe GLB (gear_models_v1) over pickMesh",
+   "kind": "pickaxe",
+   "generated": true
+  },
+  {
+   "id": "undercrag_platebody",
+   "name": "Undercrag platebody",
+   "slot": "body",
+   "model": "plate",
+   "tier": "undercrag",
+   "today": "bodyArmorMesh",
+   "kind": "platebody",
+   "generated": true
+  },
+  {
+   "id": "undercrag_platelegs",
+   "name": "Undercrag platelegs",
+   "slot": "legs",
+   "model": "legs",
+   "tier": "undercrag",
+   "today": "legArmorMesh / fx_humanoid thigh cylinders",
+   "kind": "platelegs",
+   "generated": true
+  },
+  {
+   "id": "undercrag_plateskirt",
+   "name": "Undercrag plateskirt",
+   "slot": "legs",
+   "model": "plateskirt",
+   "tier": "undercrag",
+   "today": "plateSkirtMesh",
+   "kind": "plateskirt",
+   "generated": true
+  },
+  {
+   "id": "undercrag_sabre",
+   "name": "Undercrag sabre",
+   "slot": "weapon",
+   "model": "sabre",
+   "tier": "undercrag",
+   "today": "gear_scimitar GLB (gear_models_v1) over swordMesh",
+   "kind": "sabre",
+   "generated": true
+  },
+  {
+   "id": "undercrag_sqshield",
+   "name": "Undercrag sq shield",
+   "slot": "shield",
+   "model": "sqshield",
+   "tier": "undercrag",
+   "today": "gear_sqshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "sqshield",
+   "generated": true
+  },
+  {
+   "id": "undercrag_sword",
+   "name": "Undercrag sword",
+   "slot": "weapon",
+   "model": "sword",
+   "tier": "undercrag",
+   "today": "gear_sword GLB (gear_models_v1) over swordMesh",
+   "kind": "sword",
+   "generated": true
+  },
+  {
+   "id": "undercrag_warhammer",
+   "name": "Undercrag warhammer",
+   "slot": "weapon",
+   "model": "warhammer",
+   "tier": "undercrag",
+   "today": "gear_warhammer GLB (gear_models_v1) over axeMesh",
+   "kind": "warhammer",
+   "generated": true
+  },
+  {
+   "id": "veyrite_battleaxe",
+   "name": "Veyrite battleaxe",
+   "slot": "weapon",
+   "model": "battleaxe",
+   "tier": "veyrite",
+   "today": "gear_battleaxe GLB (gear_models_v1) over axeMesh",
+   "kind": "battleaxe",
+   "generated": true
+  },
+  {
+   "id": "veyrite_chainbody",
+   "name": "Veyrite chainbody",
+   "slot": "body",
+   "model": "chainbody",
+   "tier": "veyrite",
+   "today": "chainBodyMesh",
+   "kind": "chainbody",
+   "generated": true
+  },
+  {
+   "id": "veyrite_greatsword",
+   "name": "Veyrite greatsword",
+   "slot": "weapon",
+   "model": "greatsword",
+   "tier": "veyrite",
+   "today": "gear_greatsword GLB (gear_models_v1) over swordMesh",
+   "kind": "greatsword",
+   "generated": true
+  },
+  {
+   "id": "veyrite_hatchet",
+   "name": "Veyrite hatchet",
+   "slot": "weapon",
+   "model": "axe",
+   "tier": "veyrite",
+   "today": "gear_hatchet GLB (gear_models_v1) over axeMesh",
+   "kind": "hatchet",
+   "generated": true
+  },
+  {
+   "id": "veyrite_helm",
+   "name": "Veyrite helm",
+   "slot": "head",
+   "model": "helm",
+   "tier": "veyrite",
+   "today": "gear_fullhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "fullhelm",
+   "generated": true
+  },
+  {
+   "id": "veyrite_kiteshield",
+   "name": "Veyrite kiteshield",
+   "slot": "shield",
+   "model": "kiteshield",
+   "tier": "veyrite",
+   "today": "gear_kiteshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "kiteshield",
+   "generated": true
+  },
+  {
+   "id": "veyrite_longsword",
+   "name": "Veyrite longsword",
+   "slot": "weapon",
+   "model": "longsword",
+   "tier": "veyrite",
+   "today": "gear_longsword GLB (gear_models_v1) over swordMesh",
+   "kind": "longsword",
+   "generated": true
+  },
+  {
+   "id": "veyrite_mace",
+   "name": "Veyrite mace",
+   "slot": "weapon",
+   "model": "mace",
+   "tier": "veyrite",
+   "today": "gear_mace GLB (gear_models_v1) over swordMesh",
+   "kind": "mace",
+   "generated": true
+  },
+  {
+   "id": "veyrite_medhelm",
+   "name": "Veyrite med helm",
+   "slot": "head",
+   "model": "medhelm",
+   "tier": "veyrite",
+   "today": "gear_medhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "medhelm",
+   "generated": true
+  },
+  {
+   "id": "veyrite_pickaxe",
+   "name": "Veyrite pickaxe",
+   "slot": "weapon",
+   "model": "pick",
+   "tier": "veyrite",
+   "today": "gear_pickaxe GLB (gear_models_v1) over pickMesh",
+   "kind": "pickaxe",
+   "generated": true
+  },
+  {
+   "id": "veyrite_platebody",
+   "name": "Veyrite platebody",
+   "slot": "body",
+   "model": "plate",
+   "tier": "veyrite",
+   "today": "bodyArmorMesh",
+   "kind": "platebody",
+   "generated": true
+  },
+  {
+   "id": "veyrite_platelegs",
+   "name": "Veyrite platelegs",
+   "slot": "legs",
+   "model": "legs",
+   "tier": "veyrite",
+   "today": "legArmorMesh / fx_humanoid thigh cylinders",
+   "kind": "platelegs",
+   "generated": true
+  },
+  {
+   "id": "veyrite_plateskirt",
+   "name": "Veyrite plateskirt",
+   "slot": "legs",
+   "model": "plateskirt",
+   "tier": "veyrite",
+   "today": "plateSkirtMesh",
+   "kind": "plateskirt",
+   "generated": true
+  },
+  {
+   "id": "veyrite_sabre",
+   "name": "Veyrite sabre",
+   "slot": "weapon",
+   "model": "sabre",
+   "tier": "veyrite",
+   "today": "gear_scimitar GLB (gear_models_v1) over swordMesh",
+   "kind": "sabre",
+   "generated": true
+  },
+  {
+   "id": "veyrite_sqshield",
+   "name": "Veyrite sq shield",
+   "slot": "shield",
+   "model": "sqshield",
+   "tier": "veyrite",
+   "today": "gear_sqshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "sqshield",
+   "generated": true
+  },
+  {
+   "id": "veyrite_sword",
+   "name": "Veyrite sword",
+   "slot": "weapon",
+   "model": "sword",
+   "tier": "veyrite",
+   "today": "gear_sword GLB (gear_models_v1) over swordMesh",
+   "kind": "sword",
+   "generated": true
+  },
+  {
+   "id": "veyrite_warhammer",
+   "name": "Veyrite warhammer",
+   "slot": "weapon",
+   "model": "warhammer",
+   "tier": "veyrite",
+   "today": "gear_warhammer GLB (gear_models_v1) over axeMesh",
+   "kind": "warhammer",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_battleaxe",
+   "name": "Whitsteel battleaxe",
+   "slot": "weapon",
+   "model": "battleaxe",
+   "tier": "whitsteel",
+   "today": "gear_battleaxe GLB (gear_models_v1) over axeMesh",
+   "kind": "battleaxe",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_chainbody",
+   "name": "Whitsteel chainbody",
+   "slot": "body",
+   "model": "chainbody",
+   "tier": "whitsteel",
+   "today": "chainBodyMesh",
+   "kind": "chainbody",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_greatsword",
+   "name": "Whitsteel greatsword",
+   "slot": "weapon",
+   "model": "greatsword",
+   "tier": "whitsteel",
+   "today": "gear_greatsword GLB (gear_models_v1) over swordMesh",
+   "kind": "greatsword",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_hatchet",
+   "name": "Whitsteel hatchet",
+   "slot": "weapon",
+   "model": "axe",
+   "tier": "whitsteel",
+   "today": "gear_hatchet GLB (gear_models_v1) over axeMesh",
+   "kind": "hatchet",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_helm",
+   "name": "Whitsteel helm",
+   "slot": "head",
+   "model": "helm",
+   "tier": "whitsteel",
+   "today": "gear_fullhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "fullhelm",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_kiteshield",
+   "name": "Whitsteel kiteshield",
+   "slot": "shield",
+   "model": "kiteshield",
+   "tier": "whitsteel",
+   "today": "gear_kiteshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "kiteshield",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_longsword",
+   "name": "Whitsteel longsword",
+   "slot": "weapon",
+   "model": "longsword",
+   "tier": "whitsteel",
+   "today": "gear_longsword GLB (gear_models_v1) over swordMesh",
+   "kind": "longsword",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_mace",
+   "name": "Whitsteel mace",
+   "slot": "weapon",
+   "model": "mace",
+   "tier": "whitsteel",
+   "today": "gear_mace GLB (gear_models_v1) over swordMesh",
+   "kind": "mace",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_medhelm",
+   "name": "Whitsteel med helm",
+   "slot": "head",
+   "model": "medhelm",
+   "tier": "whitsteel",
+   "today": "gear_medhelm GLB (gear_models_v1) over helmMesh",
+   "kind": "medhelm",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_pickaxe",
+   "name": "Whitsteel pickaxe",
+   "slot": "weapon",
+   "model": "pick",
+   "tier": "whitsteel",
+   "today": "gear_pickaxe GLB (gear_models_v1) over pickMesh",
+   "kind": "pickaxe",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_platebody",
+   "name": "Whitsteel platebody",
+   "slot": "body",
+   "model": "plate",
+   "tier": "whitsteel",
+   "today": "bodyArmorMesh",
+   "kind": "platebody",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_platelegs",
+   "name": "Whitsteel platelegs",
+   "slot": "legs",
+   "model": "legs",
+   "tier": "whitsteel",
+   "today": "legArmorMesh / fx_humanoid thigh cylinders",
+   "kind": "platelegs",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_plateskirt",
+   "name": "Whitsteel plateskirt",
+   "slot": "legs",
+   "model": "plateskirt",
+   "tier": "whitsteel",
+   "today": "plateSkirtMesh",
+   "kind": "plateskirt",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_sabre",
+   "name": "Whitsteel sabre",
+   "slot": "weapon",
+   "model": "sabre",
+   "tier": "whitsteel",
+   "today": "gear_scimitar GLB (gear_models_v1) over swordMesh",
+   "kind": "sabre",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_sqshield",
+   "name": "Whitsteel sq shield",
+   "slot": "shield",
+   "model": "sqshield",
+   "tier": "whitsteel",
+   "today": "gear_sqshield GLB (gear_models_v1) over shieldMesh",
+   "kind": "sqshield",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_sword",
+   "name": "Whitsteel sword",
+   "slot": "weapon",
+   "model": "sword",
+   "tier": "whitsteel",
+   "today": "gear_sword GLB (gear_models_v1) over swordMesh",
+   "kind": "sword",
+   "generated": true
+  },
+  {
+   "id": "whitsteel_warhammer",
+   "name": "Whitsteel warhammer",
+   "slot": "weapon",
+   "model": "warhammer",
+   "tier": "whitsteel",
+   "today": "gear_warhammer GLB (gear_models_v1) over axeMesh",
+   "kind": "warhammer",
+   "generated": true
+  }
+ ],
+ "icons": [
+  {
+   "id": "bronze_dagger",
+   "file": "assets/icons/items/bronze_dagger.png"
+  },
+  {
+   "id": "bronze_sword",
+   "file": "assets/icons/items/bronze_sword.png"
+  },
+  {
+   "id": "iron_sword",
+   "file": "assets/icons/items/iron_sword.png"
+  },
+  {
+   "id": "hatchet",
+   "file": "assets/icons/items/hatchet.png"
+  },
+  {
+   "id": "iron_hatchet",
+   "file": "assets/icons/items/iron_hatchet.png"
+  },
+  {
+   "id": "pickaxe",
+   "file": "assets/icons/items/pickaxe.png"
+  },
+  {
+   "id": "iron_pickaxe",
+   "file": "assets/icons/items/iron_pickaxe.png"
+  },
+  {
+   "id": "worn_bow",
+   "file": "assets/icons/items/worn_bow.png"
+  },
+  {
+   "id": "apprentice_staff",
+   "file": "assets/icons/items/apprentice_staff.png"
+  },
+  {
+   "id": "wood_shield",
+   "file": "assets/icons/items/wood_shield.png"
+  },
+  {
+   "id": "leather_body",
+   "file": "assets/icons/items/leather_body.png"
+  },
+  {
+   "id": "bronze_plate",
+   "file": "assets/icons/items/bronze_plate.png"
+  },
+  {
+   "id": "bronze_legs",
+   "file": "assets/icons/items/bronze_legs.png"
+  }
+ ],
+ "totals": {
+  "models": 30,
+  "triangles": 10643,
+  "materials": 14,
+  "equipableItems": 166,
+  "itemsCovered": 161
+ }
+}

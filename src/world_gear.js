@@ -9,6 +9,7 @@
 
 /* ---------- 3D weapon / armour models (worn + ground) ---------- */
 function swordMesh(metal){
+  const he=typeof HolmEquipment!=='undefined'&&HolmEquipment.mesh('sword',metal,{frame:'legacy'}); if(he) return he;   // Blender model (holm_equipment_v1) when loaded
   const g=new THREE.Group();
   const blade=new THREE.Mesh(new THREE.BoxGeometry(0.055,0.66,0.13),mat(metal));
   blade.position.y=0.45; g.add(blade);
@@ -25,6 +26,7 @@ function swordMesh(metal){
   return g;
 }
 function bowMesh(){
+  const he=typeof HolmEquipment!=='undefined'&&HolmEquipment.mesh('shortbow',null,{frame:'legacy'}); if(he) return he;   // Blender model (holm_equipment_v1) when loaded
   const g=new THREE.Group();
   const limb=new THREE.Mesh(new THREE.TorusGeometry(0.46,0.035,5,12,Math.PI*1.15),mat(0x6b4426));
   limb.rotation.z=Math.PI*0.93; g.add(limb);
@@ -34,6 +36,7 @@ function bowMesh(){
   return g;
 }
 function arrowMesh(){
+  const he=typeof HolmEquipment!=='undefined'&&HolmEquipment.mesh('arrow',0x9aa0a8,{frame:'legacy'}); if(he) return he;   // Blender model (holm_equipment_v1) when loaded
   const g=new THREE.Group();
   const shaft=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.02,0.66,4),mat(0x8a6a3e));
   g.add(shaft);
@@ -46,6 +49,7 @@ function arrowMesh(){
   return wrap;
 }
 function axeMesh(metal){
+  const he=typeof HolmEquipment!=='undefined'&&HolmEquipment.mesh('hatchet',metal,{frame:'legacy'}); if(he) return he;   // Blender model (holm_equipment_v1) when loaded
   const g=new THREE.Group();
   const handle=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.035,0.6,5),mat(0x6b4426));
   g.add(handle);
@@ -56,6 +60,7 @@ function axeMesh(metal){
   return g;
 }
 function pickMesh(metal){
+  const he=typeof HolmEquipment!=='undefined'&&HolmEquipment.mesh('pickaxe',metal,{frame:'legacy'}); if(he) return he;   // Blender model (holm_equipment_v1) when loaded
   const g=new THREE.Group();
   const handle=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.035,0.6,5),mat(0x6b4426));
   g.add(handle);
@@ -68,6 +73,7 @@ function pickMesh(metal){
   return g;
 }
 function shieldMesh(){
+  const he=typeof HolmEquipment!=='undefined'&&HolmEquipment.mesh('round_shield',0x8a6437,{frame:'legacy'}); if(he) return he;   // Blender model (holm_equipment_v1) when loaded
   const g=new THREE.Group();
   const disc=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,0.06,10),mat(0x8a5e34));
   disc.rotation.z=Math.PI/2; g.add(disc);
@@ -88,6 +94,7 @@ function helmMesh(metal){
   return g;
 }
 function staffMesh(orb){
+  const he=typeof HolmEquipment!=='undefined'&&HolmEquipment.mesh('staff',null,{frame:'legacy',gem:orb}); if(he) return he;   // Blender model (holm_equipment_v1) when loaded
   const g=new THREE.Group();
   const shaft=new THREE.Mesh(new THREE.CylinderGeometry(0.028,0.035,1.1,6),mat(0x6b4426));
   shaft.position.y=0.25; g.add(shaft);
@@ -225,6 +232,7 @@ function bootMesh(col){
 
 /* ground model for any item id */
 function itemGroundMesh(id){
+  const heg=typeof HolmEquipment!=='undefined'&&HolmEquipment.groundMesh(id); if(heg) return heg;   // Blender drop model
   const g=new THREE.Group();
   const def=ITEMS[id];
   if(def && def.model && !['robe','hat','legs','chainbody','plateskirt','chaps','gloves','boots'].includes(def.model)){

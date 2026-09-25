@@ -10,7 +10,7 @@ var HolmArrivalQA=(function(){
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
  function revision(){return island?'holm-island-v1':loaded.package.navigation.graphRevision}
  // v4 (2026-09-24, M3R): guide house v2, branching oak, Lantern Keeper statue, trunk-footprint tree blockers
- var ID=island&&typeof HolmIsland!=='undefined'?HolmIsland.ID:'tutors-holm-arrival-qa',EXPORT='8d488d326998f957';
+ var ID=island&&typeof HolmIsland!=='undefined'?HolmIsland.ID:'tutors-holm-arrival-qa',EXPORT='14f379caa32bee5a';
  function active(){return !!provider&&CRWorldMode.providerId===ID}
  function graphForDoors(d){var key=JSON.stringify(d)+(island&&nav&&nav.gateKey?'|'+nav.gateKey():'');return graphs[key]||(graphs[key]=nav.compile(d))}
  function spawn(){return loaded.package.navigation.doorStates['closed-closed'].graph.nodes.find(function(n){return n.id===loaded.package.spawn.nodeId})}
@@ -18,7 +18,7 @@ var HolmArrivalQA=(function(){
   if(!requested)return null;
   var production=typeof HolmIsland!=='undefined'&&HolmIsland.production();
   if((!production&&!QAProfile.isolated)||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
-  loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v4/exports/',exportId:EXPORT});
+  loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v5/exports/',exportId:EXPORT});
   nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
   var pack=loaded.package,chunks=JSON.parse(JSON.stringify(pack.terrain.chunks)),b=loaded.documents.layout.building,s=spawn();
   chunks.forEach(function(c){c.layers.terrain.exclusions=[{x:b.world.x-b.width/2,z:b.world.z-b.depth/2,w:b.width,d:b.depth}]});
@@ -27,7 +27,7 @@ var HolmArrivalQA=(function(){
    islandData=await HolmIslandExtras.loadData();
    var bw=b.world,scenic=loaded.documents.envelopes.blockers.filter(function(q){return q.surface==='exterior'&&/^Blender declared/.test(q.source||'')}).map(function(q){return {id:q.id,x0:q.x0+bw.x,x1:q.x1+bw.x,z0:q.z0+bw.z,z1:q.z1+bw.z}});
    var gateData=typeof HolmIslandGates!=='undefined'?await HolmIslandGates.loadData():{gates:[]};
-   nav=HolmIslandNav.create({gates:gateData.gates,terrain:loaded.documents.terrain,arrival:nav,buildings:islandData.buildings,blockers:scenic.concat(islandData.blockers),bridges:islandData.bridges,
+   nav=HolmIslandNav.create({gates:gateData.gates,terrain:loaded.documents.terrain,arrival:nav,buildings:islandData.buildings.concat(typeof HolmGuideCellar!=='undefined'?[HolmGuideCellar.building()]:[]),blockers:scenic.concat(islandData.blockers),bridges:islandData.bridges,
     arrivalFootprints:[{x0:bw.x-b.width/2,x1:bw.x+b.width/2,z0:bw.z-b.depth/2,z1:bw.z+b.depth/2}]});graphs={};
   }
   provider=WorldV2.register({contractVersion:1,id:ID,label:island?(typeof HolmIsland!=='undefined'&&HolmIsland.production()?'Tutor’s Holm':'Tutor\u2019s Holm \u00b7 island draft'):'Tutor’s Holm · arrival draft',worldRevision:pack.provider.worldRevision,
@@ -37,6 +37,7 @@ var HolmArrivalQA=(function(){
     buildTerrain:async function(p){
      WorldV2Terrain.init(p);p.updateResidency(s.x,s.z,true);
      owner=await HolmArrivalModelOwner.create({THREE:THREE,scene:scene,WORLD:WORLD,loaded:loaded});owner.setDoors(doors);
+     if(island&&typeof HolmGuideCellar!=='undefined')try{HolmGuideCellar.bind({scene:scene,WORLD:WORLD})}catch(err){console.error('[HolmArrivalQA] cellar',err)}
      if(island){
       extras=await HolmIslandExtras.load({THREE:THREE,scene:scene,WORLD:WORLD,data:islandData,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}});
       // M5.1 lesson stations on the island (trees, fishing spot, ore rocks, furnace, anvil, beacon lever)
@@ -172,6 +173,12 @@ var HolmArrivalQA=(function(){
    var id=service.stanceNodeIds[0],node=graphForDoors(doors).nodes.find(function(n){return n.id===id});
    if(node&&bridge.order(node))pending={id:id,kind:service.kind};return true;
   }
+  // the Guide House cellar (2004 trapdoor): walk to the hatch or the ladder foot, then stand on the other storey
+  if(island&&typeof HolmGuideCellar!=='undefined'){var cz=HolmGuideCellar.click(u,point,graphForDoors(doors),bridge.snapshot().surface);
+   if(cz){if(cz.chat){UI.chat(cz.chat,'plain');return true}
+    if(cz.walk){if(!bridge.order(cz.walk))UI.chat('You cannot reach that from here.','plain');return true}
+    if(Math.hypot(cz.from.x-player.position.x,cz.from.z-player.position.z)<.3&&Math.abs(cz.from.y-player.position.y)<.6&&!bridge.snapshot().moving){HolmGuideCellar.climb(cz,placeAt);return true}
+    if(bridge.order(cz.from))pending={id:cz.from.id,kind:'cellar',climb:cz};else UI.chat('You cannot reach that from here.','plain');return true}}
   // 2004 staircase: a click on the flight walks to its foot (or its head) and climbs to the other floor in one step
   if(island&&u.arrivalSurface==='stair'){var sc=stairClimb();
    if(!sc){UI.chat('You cannot reach the stairs from here.','plain');return true}
@@ -195,6 +202,7 @@ var HolmArrivalQA=(function(){
   if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);if(lessons)HolmIslandLessons.update();if(island&&typeof HolmIslandTutors!=='undefined')HolmIslandTutors.update(dt);if(island&&typeof HolmIslandPlayer!=='undefined')HolmIslandPlayer.update();if(island&&typeof HolmIslandFx!=='undefined')HolmIslandFx.update(dt,THREE,scene);if(island&&typeof HolmIslandGuide!=='undefined')HolmIslandGuide.update(dt);if(island&&typeof HolmIslandGates!=='undefined'){HolmIslandGates.refresh();HolmIslandGates.update(dt);
    // an opened gate changes the composed graph: the follower holds its graph, so re-seat it on the current one
    var gk=nav.gateKey?nav.gateKey():'';if(gk!==lastGateKey){if(bridge.setDoors({arrival:doors.arrival,garden:doors.garden}))lastGateKey=gk}}owner.update(dt,pose.surface);
+  if(island&&typeof HolmGuideCellar!=='undefined')HolmGuideCellar.update(dt,pose.surface);
   if(island){if(stairMesh===undefined)stairMesh=scene.getObjectByName('StairFlight')||null;if(stairMesh)stairMesh.userData.label=pose.surface==='upper'?'Climb-down Staircase':'Climb-up Staircase'}
   if(pending&&pose.nodeId===pending.id&&!pose.moving){var p0=pending,kind=pending.kind,door=pending.door;pending=null;
    if(kind==='island_service'){var call=p0.service.call;
@@ -204,6 +212,7 @@ var HolmArrivalQA=(function(){
     var mod=typeof window!=='undefined'&&window[call[0]];if(!mod&&/^[A-Za-z_]\w*$/.test(call[0])){try{mod=new Function('return typeof '+call[0]+'!==\'undefined\'?'+call[0]+':null')()}catch(e){mod=null}}
     if(mod&&typeof mod[call[1]]==='function')mod[call[1]]();return}
    if(kind==='world'){act(p0.obj,p0.point);return}
+   if(kind==='cellar'){HolmGuideCellar.climb(p0.climb,placeAt);return}
    if(kind==='stair'){climbStairs(p0.climb);if(p0.then&&!bridge.order(p0.then))UI.chat('There is no open route to that spot.','plain');return}
    if(kind==='tutor'){HolmIslandTutors.talk(p0.tutor);return}
    if(kind==='door')toggleDoor(door);else if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}

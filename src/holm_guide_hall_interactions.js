@@ -16,10 +16,18 @@ var HolmGuideHall=(function(){
   }
   function studyRoute(){
     if(!onHolm()) return;
+    // the Blender island (HolmIsland.live) has its own route, in lesson order, as the chart's little buildings show it
+    if(typeof HolmIsland!=='undefined'&&HolmIsland.live()){
+      UI.dialogue('Relief chart of Tutor\'s Holm',
+        'You are here, at the Guide House above the landing. Your route runs clockwise: the survival camp by the creek for wood, fire and fish; the bakehouse; the Quest Lodge; the quarry and the training cavern beneath it; Warden\'s Keep for weapons; the Holm Bank; the Mage Tower on the headland; and last the Lastlight lighthouse. When its beacon burns, the skiff at the haven carries you to the mainland.',
+        [{label:'Trace the route with one finger.'}],'🧭');
+      UI.chat('[GUIDE HOUSE] Survival camp • Bakehouse • Quest Lodge • Quarry and cavern • Warden\'s Keep • Holm Bank • Mage Tower • Lastlight • the haven skiff.','sys');
+    } else {
     UI.dialogue('Relief chart of Tutor\'s Holm',
       'Arrival Cove begins the route. The northern teaching door leads to Survival Wood, then the path bends through Lesson Green, the training cavern, Warden\'s Ridge, Mage Headland, and finally Departure Dock. The path never requires guessing: each district prepares you for the next.',
       [{label:'Trace the route with one finger.'}],'🧭');
     UI.chat('[GUIDE HALL] South door: Arrival Cove • North door: Survival Wood • Eastern terminus: Departure Dock.','sys');
+    }
     try{ if(typeof Tutorial!=='undefined') Tutorial.notify('orient','route'); }catch(e){}
   }
   function readRegister(){

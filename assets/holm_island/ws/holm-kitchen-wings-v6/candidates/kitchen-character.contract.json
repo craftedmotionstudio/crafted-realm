@@ -1,0 +1,606 @@
+{
+  "schema": "holm.kitchen-character.v6",
+  "status": "Interior pass 2026-09-25 over v5 (floors re-tiled in place, furniture oak, dressing off-node); navigation re-extracted in holm-kitchen-navigation-v4",
+  "coordinates": "Blender X,Y plan Z up; glTF X,Y,Z = Blender X,Z,-Y",
+  "upperFloor": {
+    "top": 3.3,
+    "underside": 3.16,
+    "aperture": [
+      -1.1,
+      -1.15,
+      0.65,
+      3.55
+    ],
+    "roomBounds": [
+      -4.87,
+      -2.87,
+      0.87,
+      4.87
+    ],
+    "wallTop": 6.15,
+    "minimumWallHeadroom": 2.85
+  },
+  "stairs": {
+    "axis": "Blender +Y / glTF -Z",
+    "clearWidth": 1.5,
+    "treadDepth": 0.28125,
+    "rise": 0.20625,
+    "count": 16,
+    "treadTopCenters": [
+      {
+        "index": 0,
+        "blender": [
+          -0.25,
+          -0.8093750000000001,
+          0.20625
+        ],
+        "gltf": [
+          -0.25,
+          0.20625,
+          0.8093750000000001
+        ]
+      },
+      {
+        "index": 1,
+        "blender": [
+          -0.25,
+          -0.5281250000000001,
+          0.4125
+        ],
+        "gltf": [
+          -0.25,
+          0.4125,
+          0.5281250000000001
+        ]
+      },
+      {
+        "index": 2,
+        "blender": [
+          -0.25,
+          -0.24687500000000007,
+          0.6187499999999999
+        ],
+        "gltf": [
+          -0.25,
+          0.6187499999999999,
+          0.24687500000000007
+        ]
+      },
+      {
+        "index": 3,
+        "blender": [
+          -0.25,
+          0.03437499999999993,
+          0.825
+        ],
+        "gltf": [
+          -0.25,
+          0.825,
+          -0.03437499999999993
+        ]
+      },
+      {
+        "index": 4,
+        "blender": [
+          -0.25,
+          0.31562499999999993,
+          1.03125
+        ],
+        "gltf": [
+          -0.25,
+          1.03125,
+          -0.31562499999999993
+        ]
+      },
+      {
+        "index": 5,
+        "blender": [
+          -0.25,
+          0.5968749999999999,
+          1.2374999999999998
+        ],
+        "gltf": [
+          -0.25,
+          1.2374999999999998,
+          -0.5968749999999999
+        ]
+      },
+      {
+        "index": 6,
+        "blender": [
+          -0.25,
+          0.8781249999999999,
+          1.4437499999999999
+        ],
+        "gltf": [
+          -0.25,
+          1.4437499999999999,
+          -0.8781249999999999
+        ]
+      },
+      {
+        "index": 7,
+        "blender": [
+          -0.25,
+          1.1593749999999998,
+          1.65
+        ],
+        "gltf": [
+          -0.25,
+          1.65,
+          -1.1593749999999998
+        ]
+      },
+      {
+        "index": 8,
+        "blender": [
+          -0.25,
+          1.4406249999999998,
+          1.85625
+        ],
+        "gltf": [
+          -0.25,
+          1.85625,
+          -1.4406249999999998
+        ]
+      },
+      {
+        "index": 9,
+        "blender": [
+          -0.25,
+          1.7218749999999998,
+          2.0625
+        ],
+        "gltf": [
+          -0.25,
+          2.0625,
+          -1.7218749999999998
+        ]
+      },
+      {
+        "index": 10,
+        "blender": [
+          -0.25,
+          2.003125,
+          2.26875
+        ],
+        "gltf": [
+          -0.25,
+          2.26875,
+          -2.003125
+        ]
+      },
+      {
+        "index": 11,
+        "blender": [
+          -0.25,
+          2.284375,
+          2.4749999999999996
+        ],
+        "gltf": [
+          -0.25,
+          2.4749999999999996,
+          -2.284375
+        ]
+      },
+      {
+        "index": 12,
+        "blender": [
+          -0.25,
+          2.5656250000000003,
+          2.68125
+        ],
+        "gltf": [
+          -0.25,
+          2.68125,
+          -2.5656250000000003
+        ]
+      },
+      {
+        "index": 13,
+        "blender": [
+          -0.25,
+          2.8468750000000003,
+          2.8874999999999997
+        ],
+        "gltf": [
+          -0.25,
+          2.8874999999999997,
+          -2.8468750000000003
+        ]
+      },
+      {
+        "index": 14,
+        "blender": [
+          -0.25,
+          3.1281250000000003,
+          3.09375
+        ],
+        "gltf": [
+          -0.25,
+          3.09375,
+          -3.1281250000000003
+        ]
+      },
+      {
+        "index": 15,
+        "blender": [
+          -0.25,
+          3.4093750000000003,
+          3.3
+        ],
+        "gltf": [
+          -0.25,
+          3.3,
+          -3.4093750000000003
+        ]
+      }
+    ],
+    "bottomLandingBlender": [
+      -0.25,
+      -1.75,
+      0
+    ],
+    "topLandingBlender": [
+      -0.25,
+      4.1,
+      3.3
+    ],
+    "apertureClearAboveFlight": true
+  },
+  "groundApproach": {
+    "southWallInnerY": -2.87,
+    "stairFirstEdgeY": -0.95,
+    "clearSouthDepth": 1.895,
+    "preparationToStairSideGap": 0.88,
+    "courtDoorSpan": [
+      -2.7,
+      -0.9
+    ],
+    "entryCenter": [
+      1,
+      -1.8,
+      0
+    ],
+    "routeSketchBlender": [
+      [
+        1.5,
+        -2.1
+      ],
+      [
+        0.5,
+        -2.1
+      ],
+      [
+        -0.25,
+        -2.1
+      ],
+      [
+        -1.65,
+        -2.1
+      ],
+      [
+        -1.65,
+        0.5
+      ],
+      [
+        -2.5,
+        0.5
+      ]
+    ],
+    "note": "Supersedes v2 nominal measurements; frozen mesh navigation is authoritative."
+  },
+  "doorClearances": [
+    {
+      "id": "court-entry",
+      "clearWidthBetweenJambs": 1.64,
+      "clearHeightAboveThreshold": 2.47,
+      "thresholdTop": 0.07,
+      "lintelUnderside": 2.54
+    },
+    {
+      "id": "pantry-connection",
+      "width": 1.9,
+      "height": 2.55
+    }
+  ],
+  "mainRoof": {
+    "eave": 6.22,
+    "ridge": 8.55
+  },
+  "pantryUnchanged": true,
+  "triangleCount": 7052,
+  "materialCount": 13,
+  "meshCount": 59,
+  "meshNames": [
+    "Kitchen_Chimney_0",
+    "Kitchen_Floor_0",
+    "Kitchen_Floor_1",
+    "Kitchen_Furnishings_0",
+    "Kitchen_Glazing_0",
+    "Kitchen_GroundFront_0",
+    "Kitchen_GroundFront_1",
+    "Kitchen_GroundFront_2",
+    "Kitchen_GroundFront_3",
+    "Kitchen_Oven_0",
+    "Kitchen_Oven_1",
+    "Kitchen_Pantry_0",
+    "Kitchen_Pantry_1",
+    "Kitchen_Pantry_2",
+    "Kitchen_RecipeBoard_0",
+    "Kitchen_RecipeBoard_1",
+    "Kitchen_Roof_0",
+    "Kitchen_Roof_1",
+    "Kitchen_Shell_0",
+    "Kitchen_Shell_1",
+    "Kitchen_Shell_2",
+    "Kitchen_Shell_Shutters",
+    "Kitchen_Stair_0",
+    "Kitchen_Stair_Tread00_0",
+    "Kitchen_Stair_Tread01_0",
+    "Kitchen_Stair_Tread02_0",
+    "Kitchen_Stair_Tread03_0",
+    "Kitchen_Stair_Tread04_0",
+    "Kitchen_Stair_Tread05_0",
+    "Kitchen_Stair_Tread06_0",
+    "Kitchen_Stair_Tread07_0",
+    "Kitchen_Stair_Tread08_0",
+    "Kitchen_Stair_Tread09_0",
+    "Kitchen_Stair_Tread10_0",
+    "Kitchen_Stair_Tread11_0",
+    "Kitchen_Stair_Tread12_0",
+    "Kitchen_Stair_Tread13_0",
+    "Kitchen_Stair_Tread14_0",
+    "Kitchen_Stair_Tread15_0",
+    "Kitchen_SupplyBuckets_Iron",
+    "Kitchen_SupplyBuckets_Smoked_oak",
+    "Kitchen_SupplyDoughBowl_Kitchen_pottery",
+    "Kitchen_SupplyWaterButt_Iron",
+    "Kitchen_SupplyWaterButt_Smoked_oak",
+    "Kitchen_SupplyWaterSurface",
+    "Kitchen_Tools_0",
+    "Kitchen_UpperFloor_0",
+    "Kitchen_UpperFurnishing_0",
+    "Kitchen_UpperFurnishing_1",
+    "Kitchen_UpperFurnishing_2",
+    "Kitchen_UpperFurnishing_3",
+    "Kitchen_UpperShell_0",
+    "Kitchen_UpperShell_1",
+    "Kitchen_UpperShell_2",
+    "Kitchen_UpperShell_3",
+    "Kitchen_UpperShell_Shutters",
+    "Kitchen_Worktable_0",
+    "Kitchen_Worktable_1",
+    "Kitchen_Worktable_2"
+  ],
+  "unfinished": [
+    "runtime floor/nav and cardinal follower",
+    "door and fire animation",
+    "all station bindings and lesson/save QA",
+    "reference visual acceptance",
+    "Safe Publish"
+  ],
+  "glb": {
+    "sha256": "3681d0feb35f6f44be9992822e46b0f6a290e28ce431dc6260df5cf3f5020216",
+    "bytes": 628172,
+    "triangles": 7052,
+    "meshes": 59,
+    "primitives": 62,
+    "embeddedTextures": 4
+  },
+  "provenance": {
+    "source": "tools\\blender\\build_holm_kitchen_supplies.py",
+    "sourceSha256": "b6714b0f57851900e0866d4026f1995c7f41abfdbf67eaca05307bac4d1a4a83",
+    "baseModelSha256": "fa911f4634af7dd959d03430b25eb5765328cc46d52e792b4e2c944a87cc597e",
+    "baseBlendSha256": "51ce8421970acac47a3dd2bde51af6136ef674ff7c5988d406228c79e1b50019",
+    "textureOrigin": "All four original v4 embedded textures retained"
+  },
+  "circulationRepair": {
+    "stairShiftBlenderY": 0.35,
+    "changedMeshVertices": {
+      "Kitchen_UpperFloor_0": 8,
+      "Kitchen_Stair_Tread00_0": 8,
+      "Kitchen_Stair_Tread01_0": 8,
+      "Kitchen_Stair_Tread02_0": 8,
+      "Kitchen_Stair_Tread03_0": 8,
+      "Kitchen_Stair_Tread04_0": 8,
+      "Kitchen_Stair_Tread05_0": 8,
+      "Kitchen_Stair_Tread06_0": 8,
+      "Kitchen_Stair_Tread07_0": 8,
+      "Kitchen_Stair_Tread08_0": 8,
+      "Kitchen_Stair_Tread09_0": 8,
+      "Kitchen_Stair_Tread10_0": 8,
+      "Kitchen_Stair_Tread11_0": 8,
+      "Kitchen_Stair_Tread12_0": 8,
+      "Kitchen_Stair_Tread13_0": 8,
+      "Kitchen_Stair_Tread14_0": 8,
+      "Kitchen_Stair_Tread15_0": 8,
+      "Kitchen_Stair_0": 112,
+      "Kitchen_UpperFurnishing_0": 56
+    },
+    "reason": "First stair railing blocked the cardinal entrance lane at local glTF z=1.5; south doorway lane at z=2.5 also clips jamb."
+  },
+  "supplyAdditions": {
+    "meshes": [
+      {
+        "name": "Kitchen_SupplyBuckets_Smoked_oak",
+        "boundsBlender": {
+          "min": [
+            3.6050000190734863,
+            1.2200000286102295,
+            0.0
+          ],
+          "max": [
+            5.045000076293945,
+            1.8799999952316284,
+            0.8575000166893005
+          ]
+        },
+        "positionBlender": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "triangles": 344
+      },
+      {
+        "name": "Kitchen_SupplyBuckets_Iron",
+        "boundsBlender": {
+          "min": [
+            3.748500108718872,
+            1.3161506652832031,
+            0.3160000145435333
+          ],
+          "max": [
+            4.901500225067139,
+            1.7838493585586548,
+            0.8399999737739563
+          ]
+        },
+        "positionBlender": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "triangles": 368
+      },
+      {
+        "name": "Kitchen_SupplyDoughBowl_Kitchen_pottery",
+        "boundsBlender": {
+          "min": [
+            -4.644990921020508,
+            -1.814990758895874,
+            1.0199999809265137
+          ],
+          "max": [
+            -4.115009307861328,
+            -1.2850092649459839,
+            1.1699999570846558
+          ]
+        },
+        "positionBlender": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "triangles": 156
+      },
+      {
+        "name": "Kitchen_SupplyWaterButt_Smoked_oak",
+        "boundsBlender": {
+          "min": [
+            5.140010833740234,
+            1.2400108575820923,
+            0.0
+          ],
+          "max": [
+            5.759989261627197,
+            1.8599891662597656,
+            0.8500000238418579
+          ]
+        },
+        "positionBlender": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "triangles": 156
+      },
+      {
+        "name": "Kitchen_SupplyWaterButt_Iron",
+        "boundsBlender": {
+          "min": [
+            5.142399787902832,
+            1.242400050163269,
+            0.10750000178813934
+          ],
+          "max": [
+            5.757599830627441,
+            1.8575999736785889,
+            0.7124999761581421
+          ]
+        },
+        "positionBlender": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "triangles": 192
+      },
+      {
+        "name": "Kitchen_SupplyWaterSurface",
+        "boundsBlender": {
+          "min": [
+            5.190999984741211,
+            1.2909998893737793,
+            0.7200000286102295
+          ],
+          "max": [
+            5.7089996337890625,
+            1.809000015258789,
+            0.7200000286102295
+          ]
+        },
+        "positionBlender": [
+          5.449999809265137,
+          1.5499999523162842,
+          0.7200000286102295
+        ],
+        "triangles": 12
+      }
+    ],
+    "addedTriangles": 1228,
+    "preservedOriginalMeshCount": 53,
+    "preservationChecks": [
+      "Exact original local vertices, world matrices, polygon indices, per-face material indices, flat shading and UV arrays",
+      "Original material datablocks reused without mutation"
+    ],
+    "bucketCentersBlender": [
+      [
+        4,
+        1.55,
+        0.25
+      ],
+      [
+        4.65,
+        1.55,
+        0.25
+      ]
+    ],
+    "bowlCenterBlender": [
+      -4.38,
+      -1.55,
+      1.02
+    ],
+    "bowlPlacementReason": "Leaves 0.095 tile gap from existing west loaf and remains on table",
+    "waterLoop": {
+      "clip": "SupplyWaterQuietLoop",
+      "seconds": 2,
+      "sampleFrames": 17,
+      "centerZRange": [
+        0.718,
+        0.722
+      ],
+      "xyScaleRange": [
+        0.996,
+        1.004
+      ],
+      "surfaceRadius": 0.259,
+      "sampledBoundsBlender": {
+        "min": [
+          5.189964,
+          1.289964,
+          0.718
+        ],
+        "max": [
+          5.7100360000000006,
+          1.810036,
+          0.722
+        ]
+      },
+      "endpointsIdentical": true
+    },
+    "navigationAcceptance": null,
+    "visualAcceptance": null
+  }
+}

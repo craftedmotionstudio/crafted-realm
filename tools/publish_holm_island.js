@@ -15,11 +15,12 @@ const fs=require('fs'),path=require('path');
 const ROOT=path.resolve(__dirname,'..'),W=require('./studio_workspace.js');
 const WS='.studio-workspaces',DATA='docs/rebuild/holm-overhaul';
 const DIRS=[ // workspace folders the island loads (candidates/, working/ or exports/)
-'holm-keep-navigation-v4/candidates','holm-kitchen-navigation-v3/candidates','holm-kitchen-wings-v5/candidates',
- 'holm-quest-lodge-v3/candidates','holm-quest-foundation-v1/candidates','holm-quest-placement-v1/candidates','holm-quest-terrain-navigation-v1/candidates',
- 'holm-warden-keep-v5/candidates','holm-tree-family-v3/candidates','holm-habitat-v2/working','holm-island-bridges-v1/candidates',
- 'holm-props-v1/candidates','holm-props-v2/candidates','holm-props-v3/candidates','holm-props-v4/candidates','holm-items-v1/candidates',
- ...['survival','quarry','bank','mage','haven','lastlight','cavern'].flatMap(b=>['holm-'+b+'-v1/candidates','holm-'+b+'-navigation-v1/candidates'])];
+'holm-keep-navigation-v5/candidates','holm-kitchen-navigation-v4/candidates','holm-kitchen-wings-v6/candidates',
+ 'holm-quest-lodge-v4/candidates','holm-quest-foundation-v1/candidates','holm-quest-placement-v1/candidates','holm-quest-terrain-navigation-v2/candidates',
+ 'holm-warden-keep-v6/candidates','holm-tree-family-v3/candidates','holm-habitat-v2/working','holm-island-bridges-v1/candidates',
+ 'holm-props-v1/candidates','holm-props-v2/candidates','holm-props-v3/candidates','holm-props-v4/candidates','holm-items-v1/candidates','holm-equipment-v1/candidates',
+ 'holm-bank-v2/candidates','holm-bank-navigation-v2/candidates',
+ ...['survival','quarry','mage','haven','lastlight','cavern'].flatMap(b=>['holm-'+b+'-v1/candidates','holm-'+b+'-navigation-v1/candidates'])];
 const DATA_FILES=['plan.json','island-bridges.json','island-gates.json','island-ladders.json','island-lessons.json'];
 const KEEP=/\.(glb|json|png|bin)$/i;
 // the arrival package export is a sealed bundle (its manifest names its .blend sources): published whole
@@ -31,7 +32,10 @@ function collect(){
  DATA_FILES.forEach(n=>rows.push({src:path.join(ROOT,DATA,n),target:'assets/holm_island/data/'+n}));
  return rows;
 }
-const mode=process.argv[2]||'plan',rows=collect(),id='holm-island-publish-v1';
+// a Studio workspace's target list is fixed at init: when the island gains files, publish through the next version
+function workspaceId(rows){let v=1;for(;;v++){const m=path.join(ROOT,WS,'holm-island-publish-v'+v,'studio-workspace.json');if(!fs.existsSync(m))return 'holm-island-publish-v'+v;
+  const have=new Set(JSON.parse(fs.readFileSync(m,'utf8')).targets.map(t=>t.path));if(rows.every(r=>have.has(r.target)))return 'holm-island-publish-v'+v}}
+const mode=process.argv[2]||'plan',rows=collect(),id=workspaceId(rows);
 const bytes=rows.reduce((a,r)=>a+fs.statSync(r.src).size,0);
 console.log('[HOLM PUBLISH] '+rows.length+' files, '+(bytes/1048576).toFixed(1)+' MB -> assets/holm_island/');
 if(mode==='plan'){rows.slice(0,12).forEach(r=>console.log('  '+r.target));if(rows.length>12)console.log('  …');process.exit(0)}

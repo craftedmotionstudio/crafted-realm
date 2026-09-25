@@ -1,0 +1,757 @@
+{
+  "nodes": [
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -4.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Oven_1",
+      "distance": 0.05000019073486328
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -3.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Kitchen_Oven_0",
+      "distance": 0.020000457763671875
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -2.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Kitchen_Oven_0",
+      "distance": 0.022361084818840027
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -1.5,
+      "y": 3.299999237060547,
+      "capsuleBase": 3.300002098083496,
+      "object": "Kitchen_UpperFurnishing_Dressing",
+      "distance": 0.2204422950744629
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -0.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.300002098083496,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.12500005960464478
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 0.5,
+      "y": 3.3000011444091797,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.005998849868774414
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 1.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.005998849868774414
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 1.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Kitchen_Worktable_0",
+      "distance": 0.22155511379241943
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 2.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.030998706817626953
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -4.5,
+      "y": 3.299999237060547,
+      "capsuleBase": 3.3000001907348633,
+      "object": "Kitchen_UpperFurnishing_Dressing",
+      "distance": 0.007883264683187008
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -4.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Oven_1",
+      "distance": 0.044000253081321716
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -3.5,
+      "y": 3.299999237060547,
+      "capsuleBase": 3.3000001907348633,
+      "object": "Kitchen_Chimney_0",
+      "distance": 0.05000019073486328
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -3.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Kitchen_Oven_1",
+      "distance": 0.11599953472614288
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -2.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Oven_0",
+      "distance": 0.11599977314472198
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -1.5,
+      "y": 3.299999237060547,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.19999980926513672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -0.5,
+      "y": 3.299999237060547,
+      "capsuleBase": 3.300002098083496,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.23584939539432526
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 0.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.300002098083496,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.005997896194458008
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 1.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.005998849868774414
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 1.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Worktable_0",
+      "distance": 0.22155535221099854
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 2.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.030998706817626953
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -4.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Kitchen_Chimney_0",
+      "distance": 0.09999990463256836
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -4.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Oven_1",
+      "distance": 0.044000253081321716
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -3.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Kitchen_Chimney_0",
+      "distance": 0.09999990463256836
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -3.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Oven_0",
+      "distance": 0.039999961853027344
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -2.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Oven_0",
+      "distance": 0.009999990463256836
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": 1.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Worktable_0",
+      "distance": 0.22155535221099854
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": -3.5,
+      "y": -4.76837158203125e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Tools_0",
+      "distance": 0.15090487897396088
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": -1.5,
+      "y": 1.1920928955078125e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Furnishings_Dressing",
+      "distance": 0.12103258818387985
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": -0.5,
+      "y": 1.1920928955078125e-07,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Kitchen_Stair_Tread04_0",
+      "distance": 0.19879058003425598
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": -3.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Kitchen_Stair_0",
+      "distance": 0.08176034688949585
+    },
+    {
+      "reason": "footprint-support",
+      "x": 0.74,
+      "z": -2.5,
+      "y": 2.6812496185302734
+    },
+    {
+      "reason": "footprint-support",
+      "x": 0.74,
+      "z": -1.5,
+      "y": 1.8562498092651367
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": -1.5,
+      "y": -1.1920928955078125e-07,
+      "capsuleBase": 0.0,
+      "object": "Kitchen_Stair_0",
+      "distance": 0.2131287306547165
+    },
+    {
+      "reason": "footprint-support",
+      "x": 0.74,
+      "z": -0.5,
+      "y": 1.2375001907348633
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": -0.5,
+      "y": 1.1920928955078125e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Stair_Tread04_0",
+      "distance": 0.19879046082496643
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": 0.5,
+      "y": 0.41250038146972656,
+      "capsuleBase": 0.6446751952171326,
+      "object": "Kitchen_Stair_0",
+      "distance": 0.2208171784877777
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": -4.5,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Kitchen_Pantry_1",
+      "distance": 0.19006583094596863
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": -1.5,
+      "y": 0.0,
+      "capsuleBase": 1.9073486328125e-06,
+      "object": "Kitchen_Pantry_2",
+      "distance": 0.047479964792728424
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": -0.5,
+      "y": -0.06999969482421875,
+      "capsuleBase": -0.06999874114990234,
+      "object": "Kitchen_Shell_2",
+      "distance": 0.2308678925037384
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": 2.5,
+      "y": -0.06999969482421875,
+      "capsuleBase": -0.06999969482421875,
+      "object": "Kitchen_Shell_2",
+      "distance": 0.07000017166137695
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -4.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 1.9073486328125e-06,
+      "object": "Kitchen_Pantry_1",
+      "distance": 0.19006583094596863
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -1.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Kitchen_Furnishings_Dressing",
+      "distance": 0.019999980926513672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -4.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Kitchen_Pantry_1",
+      "distance": 0.1900656372308731
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -1.5,
+      "y": 0.0,
+      "capsuleBase": 2.86102294921875e-06,
+      "object": "Kitchen_SupplyBuckets_Smoked_oak",
+      "distance": 0.005997136235237122
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -0.5,
+      "y": -0.06999969482421875,
+      "capsuleBase": -0.06999874114990234,
+      "object": "Kitchen_Furnishings_0",
+      "distance": 0.1806464046239853
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -4.5,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Kitchen_Pantry_1",
+      "distance": 0.1900656372308731
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -3.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Kitchen_Worktable_0",
+      "distance": 0.22712646424770355
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -2.5,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 1.9073486328125e-06,
+      "object": "Kitchen_Worktable_0",
+      "distance": 0.22712552547454834
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -1.5,
+      "y": 1.9073486328125e-06,
+      "capsuleBase": 1.9073486328125e-06,
+      "object": "Kitchen_SupplyWaterButt_Smoked_oak",
+      "distance": 0.14990754425525665
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -0.5,
+      "y": -0.06999969482421875,
+      "capsuleBase": -0.06999874114990234,
+      "object": "Kitchen_Furnishings_0",
+      "distance": 0.2293320596218109
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -3.5,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Kitchen_Worktable_0",
+      "distance": 0.22155463695526123
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -2.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Kitchen_Worktable_0",
+      "distance": 0.22155463695526123
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -0.5,
+      "y": -0.06999969482421875,
+      "capsuleBase": -0.06999874114990234,
+      "object": "Kitchen_Furnishings_0",
+      "distance": 0.1806464046239853
+    }
+  ],
+  "edges": [
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.45,
+      "z": -1.5,
+      "y": -0.1667804718017578,
+      "capsuleBase": -0.135772705078125,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.23266378045082092,
+      "from": "-6:-2:0",
+      "to": "-5:-2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.35,
+      "z": -0.5,
+      "y": -0.17466449737548828,
+      "capsuleBase": -0.13909053802490234,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.19499969482421875,
+      "from": "-6:-1:0",
+      "to": "-5:-1:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.45,
+      "z": 0.5,
+      "y": -0.20360469818115234,
+      "capsuleBase": -0.16522789001464844,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.2388893961906433,
+      "from": "-6:0:0",
+      "to": "-5:0:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.35,
+      "z": 2.5,
+      "y": -0.18769454956054688,
+      "capsuleBase": -0.1495361328125,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.19499969482421875,
+      "from": "-6:2:0",
+      "to": "-5:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 2.65,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Kitchen_GroundFront_1",
+      "distance": 0.19499993324279785,
+      "from": "-5:2:0",
+      "to": "-5:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 2.65,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_GroundFront_1",
+      "distance": 0.19499993324279785,
+      "from": "-4:2:0",
+      "to": "-4:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": 2.65,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Kitchen_GroundFront_1",
+      "distance": 0.19499993324279785,
+      "from": "-3:2:1",
+      "to": "-3:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": -5.35,
+      "y": -0.048099517822265625,
+      "capsuleBase": -0.03343009948730469,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.19499921798706055,
+      "from": "-2:-6:0",
+      "to": "-2:-5:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.4,
+      "z": -3.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.300002098083496,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.20750010013580322,
+      "from": "-2:-4:0",
+      "to": "-1:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.4,
+      "z": -2.5,
+      "y": 3.3000001907348633,
+      "capsuleBase": 3.3000011444091797,
+      "object": "Kitchen_UpperFurnishing_0",
+      "distance": 0.2386983036994934,
+      "from": "-2:-3:0",
+      "to": "-1:-3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.4,
+      "z": -0.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Stair_0",
+      "distance": 0.23200851678848267,
+      "from": "-2:-1:1",
+      "to": "-1:-1:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.4,
+      "z": 0.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 0.0,
+      "object": "Kitchen_Stair_0",
+      "distance": 0.23386125266551971,
+      "from": "-2:0:1",
+      "to": "-1:0:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": 2.65,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_GroundFront_1",
+      "distance": 0.19499993324279785,
+      "from": "-2:2:1",
+      "to": "-2:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": -5.35,
+      "y": -0.04722309112548828,
+      "capsuleBase": -0.031829833984375,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.19499921798706055,
+      "from": "-1:-6:0",
+      "to": "-1:-5:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": 2.65,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_GroundFront_1",
+      "distance": 0.19499993324279785,
+      "from": "-1:2:1",
+      "to": "-1:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": -5.35,
+      "y": -0.04678821563720703,
+      "capsuleBase": -0.03098297119140625,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.19499921798706055,
+      "from": "0:-6:0",
+      "to": "0:-5:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.65,
+      "z": -4.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.1949998140335083,
+      "from": "0:-5:1",
+      "to": "1:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.6,
+      "z": 2.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 0.06999993324279785,
+      "object": "Kitchen_GroundFront_2",
+      "distance": 0.24186772108078003,
+      "from": "0:2:1",
+      "to": "1:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": 2.65,
+      "y": 0.0,
+      "capsuleBase": 0.06999993324279785,
+      "object": "Kitchen_GroundFront_1",
+      "distance": 0.19499993324279785,
+      "from": "0:2:1",
+      "to": "0:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": -5.35,
+      "y": -0.046751976013183594,
+      "capsuleBase": -0.030820846557617188,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.19499921798706055,
+      "from": "1:-6:0",
+      "to": "1:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": -1.75,
+      "y": -1.9073486328125e-06,
+      "capsuleBase": 1.9073486328125e-06,
+      "object": "Kitchen_Pantry_2",
+      "distance": 0.2416146993637085,
+      "from": "1:-3:0",
+      "to": "1:-2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": -1.35,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.1950000524520874,
+      "from": "1:-2:0",
+      "to": "1:-1:0"
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 2.7,
+      "z": 7.5,
+      "y": 0.09130477905273438,
+      "from": "2:7:0",
+      "to": "3:7:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -5.35,
+      "y": -0.05036449432373047,
+      "capsuleBase": -0.03664970397949219,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.19499921798706055,
+      "from": "6:-6:0",
+      "to": "6:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.65,
+      "z": -4.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.19500017166137695,
+      "from": "6:-5:0",
+      "to": "7:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.65,
+      "z": -1.5,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Kitchen_Shell_1",
+      "distance": 0.19500017166137695,
+      "from": "6:-2:0",
+      "to": "7:-2:0"
+    }
+  ]
+}

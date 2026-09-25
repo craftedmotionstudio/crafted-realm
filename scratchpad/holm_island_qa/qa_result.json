@@ -7,10 +7,10 @@
       "detail": {
         "provider": "tutors-holm-arrival-qa",
         "stats": {
-          "nodes": 11113,
-          "edges": 19356,
+          "nodes": 11116,
+          "edges": 19353,
           "owners": {
-            "land": 8066,
+            "land": 8060,
             "b:keep": 901,
             "b:bakehouse": 272,
             "b:lodge": 387,
@@ -21,10 +21,23 @@
             "b:haven": 159,
             "b:lastlight": 223,
             "b:cavern": 85,
+            "b:guide-cellar": 9,
             "arrival": 163
           }
         },
         "roots": 321
+      }
+    },
+    {
+      "label": "every clickable on the island is an authored Blender model (no code-built stand-ins, no old-island leftovers)",
+      "ok": false,
+      "detail": {
+        "clickables": 1016,
+        "leftovers": [
+          "cellar_floor"
+        ],
+        "leftoverCount": 1,
+        "visiblePrimitives": []
       }
     },
     {
@@ -62,7 +75,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 6,
+        "deckSamples": 5,
         "deckY": 1.631
       }
     },
@@ -88,7 +101,7 @@
       "label": "every step on the way is cardinal",
       "ok": true,
       "detail": {
-        "samples": 360,
+        "samples": 370,
         "diagonal": 0
       }
     },
@@ -424,7 +437,7 @@
     },
     {
       "label": "M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Wind Strike kills credit their styles",
-      "ok": false,
+      "ok": true,
       "detail": {
         "spawned": [
           "keep-court",
@@ -434,10 +447,10 @@
           "mage-yard"
         ],
         "melee": true,
-        "ranged": "never became the target",
-        "arrowsUsed": 0,
+        "ranged": true,
+        "arrowsUsed": 5,
         "magic": true,
-        "runesUsed": 7
+        "runesUsed": 10
       }
     },
     {
@@ -446,13 +459,13 @@
       "detail": {
         "before": [
           100.5,
-          7.246,
-          45.5
+          6.807,
+          47.5
         ],
         "after": [
           100.5,
-          7.246,
-          45.5
+          6.807,
+          47.5
         ]
       }
     },
@@ -464,5 +477,5 @@
       }
     }
   ],
-  "seconds": 830
+  "seconds": 841
 }

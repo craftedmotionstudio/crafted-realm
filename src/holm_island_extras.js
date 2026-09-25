@@ -8,13 +8,13 @@ var HolmIslandExtras=(function(){
  'use strict';
  var WS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/'):'/.studio-workspaces/');
  var BUILDINGS=[
-  {id:'keep',graph:WS+'holm-keep-navigation-v4/candidates/navigation.json',model:WS+'holm-warden-keep-v5/candidates/keep.glb'},
-  {id:'bakehouse',graph:WS+'holm-kitchen-navigation-v3/candidates/navigation.json',model:WS+'holm-kitchen-wings-v5/candidates/kitchen-character.glb'},
-  {id:'lodge',graph:WS+'holm-quest-terrain-navigation-v1/candidates/navigation.json',model:WS+'holm-quest-lodge-v3/candidates/lodge.glb',
+  {id:'keep',graph:WS+'holm-keep-navigation-v5/candidates/navigation.json',model:WS+'holm-warden-keep-v6/candidates/keep.glb'},
+  {id:'bakehouse',graph:WS+'holm-kitchen-navigation-v4/candidates/navigation.json',model:WS+'holm-kitchen-wings-v6/candidates/kitchen-character.glb'},
+  {id:'lodge',graph:WS+'holm-quest-terrain-navigation-v2/candidates/navigation.json',model:WS+'holm-quest-lodge-v4/candidates/lodge.glb',
    extra:{url:WS+'holm-quest-foundation-v1/candidates/foundation.glb',placement:WS+'holm-quest-placement-v1/candidates/placement.json'}}]
   // M4.4: new Blender buildings, graphs measured by tools/blender/extract_holm_building_navigation.py
-  .concat([['survival','Survival_','survival'],['quarry','Quarry_','mine'],['bank','Bank_','bank'],['mage','Mage_','mage'],['haven','Haven_','ferry'],['lastlight','Lastlight_','lastlight'],['cavern','Cavern_',null]].map(function(r){
-   return {id:r[0],prefix:r[1],plan:r[2],graph:WS+'holm-'+r[0]+'-navigation-v1/candidates/navigation.json',model:WS+'holm-'+r[0]+'-v1/candidates/'+r[0]+'.glb'}}));
+  .concat([['survival','Survival_','survival'],['quarry','Quarry_','mine'],['bank','Bank_','bank',2],['mage','Mage_','mage'],['haven','Haven_','ferry'],['lastlight','Lastlight_','lastlight'],['cavern','Cavern_',null]].map(function(r){
+   return {id:r[0],prefix:r[1],plan:r[2],graph:WS+'holm-'+r[0]+'-navigation-v'+(r[3]||1)+'/candidates/navigation.json',model:WS+'holm-'+r[0]+'-v'+(r[3]||1)+'/candidates/'+r[0]+'.glb'}}));
  var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v2/working/vegetation.json',PROPS=WS+'holm-props-v1/candidates/props.glb';
  // M4.5 habitat v2: the tree family's own files, everything else (shrubs, rocks, flowers, logs, signposts) from the prop pack
  var TREE_FAMILY={oak:1,birch:1,'coastal-pine':1,'meadow-tuft':1,'creek-reeds':1};
@@ -152,7 +152,7 @@ var HolmIslandExtras=(function(){
   var cutFor=null;
   // pose.surface 'b:<building>:<layer>:<mesh>' away from the building's terrain = inside that building
   function cutaway(pose){
-   var m=pose&&/^b:([^:]+):\d+:(.*)$/.exec(pose.surface||''),inside=m&&!/Terrain$/.test(m[2])?m[1]:null;
+   var m=pose&&/^b:([^:]+):\d+:(.*)$/.exec(pose.surface||''),inside=m&&!/Terrain$/.test(m[2])&&models[m[1]]?m[1]:null;   // only this module's buildings (not the Guide House cellar storey)
    if(inside===null&&cutFor===null)return;
    if(inside!==cutFor&&cutFor!==null){models[cutFor].scene.traverse(function(n){if(n.isMesh){n.visible=true;[].concat(n.material).forEach(function(mm){if(mm)mm.clippingPlanes=[]})}})}
    cutFor=inside;if(!inside||!CUTAWAY[inside])return;
