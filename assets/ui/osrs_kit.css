@@ -271,7 +271,7 @@ html.osrs-kit #chatbox .loot{color:#7f4200;} html.osrs-kit #chatbox .npc{color:#
 #chatbox[data-filter="private"]>*,#chatbox[data-filter="clan"]>*,#chatbox[data-filter="trade"]>*,#chatbox[data-filter="yell"]>*{display:none;}
 #chatbox[data-filter="private"]::before,#chatbox[data-filter="clan"]::before,#chatbox[data-filter="trade"]::before,#chatbox[data-filter="yell"]::before{
   display:block;color:#5a4424;font-style:italic;content:"Nothing here yet: this channel opens when shared worlds arrive.";}
-html.osrs-kit #chat-tabs .chtab{flex:1 1 0;min-width:0;cursor:pointer;padding:3px 1px 2px;border:0;border-radius:2px 2px 6px 6px;
+html.osrs-kit #chat-tabs .chtab{flex:1 1 0;min-width:0;cursor:pointer;padding:2px 1px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:0;border-radius:2px 2px 6px 6px;
   font:bold 10px var(--k-font);color:#fff;text-shadow:var(--k-shadow);line-height:1.05;text-align:center;
   background:linear-gradient(rgba(255,255,255,.06),rgba(0,0,0,.2)),var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
 html.osrs-kit #chat-tabs .chtab small{display:block;font:bold 9px var(--k-font);color:var(--k-green);margin-top:1px;}
@@ -364,9 +364,7 @@ body.kit-creator-open #xp-drops,body.kit-creator-open #guide-edge-arrow,body.kit
   html.osrs-kit #hud-rail .rail-btn{width:28px;height:24px;}
   html.osrs-kit #chat-tabs{display:none;}
   #chat-input-row{padding:2px 6px;background:#e0d6bd;font:bold 12px var(--k-font);}
-  .kc-window{grid-template-columns:1fr 1fr;grid-template-rows:30px auto 1fr 44px;}
-  .kc-view{display:none;}
-  .kc-actions{grid-column:1/-1;}
+
 }
 @media (min-width:881px) and (max-height:660px){
   html.osrs-kit #side-panel.steel{height:326px;}
@@ -378,3 +376,58 @@ body.kit-creator-open #xp-drops,body.kit-creator-open #guide-edge-arrow,body.kit
   50%{box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 0 0 3px rgba(255,215,64,.95),inset 0 0 10px rgba(255,215,64,.7);filter:brightness(1.35);}}
 html.osrs-kit .music-track:hover{text-decoration:underline;}
 html.osrs-kit .music-track.active{color:var(--k-yellow);}
+
+/* ============================ round 2 (owner play-test) ============================ */
+/* the OSRS close X: a small stone block with a red-orange cross, top-right of every window */
+html.osrs-kit .kit-x{position:absolute!important;top:7px!important;right:7px!important;left:auto!important;bottom:auto!important;z-index:6;
+  width:25px!important;height:25px!important;padding:3px!important;margin:0!important;border:0!important;border-radius:2px!important;cursor:pointer;
+  display:block;line-height:0!important;font-size:0!important;color:transparent!important;transform:none!important;
+  background:linear-gradient(rgba(255,255,255,.08),rgba(0,0,0,.2)),var(--tex-stone-smooth,#5a5245)!important;
+  box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 2px 3px rgba(0,0,0,.45)!important;}
+html.osrs-kit .kit-x .kit-ico{filter:none;}
+html.osrs-kit .kit-x:hover{filter:brightness(1.25);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 0 0 3px rgba(255,120,40,.35)!important;}
+html.osrs-kit .kit-x:active{box-shadow:inset 1px 1px 3px rgba(0,0,0,.75),0 0 0 1px var(--k-ink)!important;filter:brightness(.9);}
+html.osrs-kit .kit-x:focus-visible{outline:2px solid #ffd24a;outline-offset:1px;}
+html.osrs-kit #quest-scroll-modal .kit-x{top:16px!important;right:18px!important;}
+html.osrs-kit #music-menu{padding-top:8px;} html.osrs-kit #music-menu .kit-x{top:4px!important;right:4px!important;width:21px!important;height:21px!important;}
+html.osrs-kit .kit-pane-title{position:relative;}
+html.osrs-kit .kit-x-pane{top:-2px!important;right:-2px!important;width:22px!important;height:22px!important;}
+html.osrs-kit #drops-list{position:relative;} html.osrs-kit #drops-list>.kit-x-pane{top:0!important;right:0!important;}
+html.osrs-kit #drops-list .drops-back{color:var(--k-orange);font:bold 11px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit #drops-list .drops-back:hover{color:var(--k-yellow);text-decoration:underline;}
+/* tall windows scroll inside the frame so their title and X stay on screen */
+@media (min-width:881px){html.osrs-kit .modal.steel:not(#dialogue-modal){max-height:88vh;overflow-y:auto;}}
+/* the anvil window, in the kit's frame */
+html.osrs-kit #smith-grid-overlay>div{position:relative;background:var(--tex-slate,#3e3529)!important;border:0!important;border-radius:3px!important;padding:14px 18px 14px!important;
+  box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),0 0 0 5px #4b4336,0 0 0 6px var(--k-ink),0 10px 26px rgba(0,0,0,.7)!important;}
+html.osrs-kit #smith-grid-overlay>div>div:first-child span{font:19px var(--k-title)!important;color:var(--k-orange);text-shadow:var(--k-shadow);}
+html.osrs-kit #smith-grid-overlay .opt{border:0;border-radius:2px;color:var(--k-orange);font:bold 11px var(--k-font);text-shadow:var(--k-shadow);
+  background:linear-gradient(rgba(255,255,255,.06),rgba(0,0,0,.16)),var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+html.osrs-kit #admin-panel{padding-top:14px;}
+
+/* the tutorial's item ring: a pulsing gold ring round the pack slot to use */
+html.osrs-kit #inv-grid .inv-slot.kit-hint{z-index:1;}
+html.osrs-kit #inv-grid .inv-slot.kit-hint::after{content:"";position:absolute;inset:0;border-radius:6px;pointer-events:none;
+  box-shadow:0 0 0 2px #1a1206,inset 0 0 0 2px #ffd84a,0 0 10px 2px rgba(255,210,70,.7),inset 0 0 12px rgba(255,210,70,.45);animation:kitSlotRing 1s ease-in-out infinite;}
+@keyframes kitSlotRing{0%,100%{opacity:.55;transform:scale(.94)}50%{opacity:1;transform:scale(1.04)}}
+
+/* side-tab icons are now drawn SVGs */
+html.osrs-kit #side-panel svg.tab-ico{width:26px;height:26px;display:block;margin:auto;overflow:visible;}
+
+/* character creator on narrow windows: columns shrink first, the character frame always stays */
+@media (max-width:780px){
+  .kc-window{grid-template-columns:minmax(150px,190px) minmax(90px,1fr) minmax(150px,190px);gap:8px;width:98vw;}
+  .kc-col{padding:6px 6px;} .kc-col h4{font-size:16px;margin-bottom:3px;}
+  .kc-arrow{width:30px;height:24px;} .kc-row{gap:4px;margin:2px 0;} .kc-label{font-size:11px;}
+  .kc-body .kit-btn{width:48px;}
+  .kc-actions .kit-btn{padding:7px 10px;}
+}
+@media (max-width:560px){
+  .kc-window{grid-template-columns:118px minmax(70px,1fr) 118px;gap:6px;height:min(640px,96vh);padding:4px;}
+  .kc-title{font-size:17px;}
+  .kc-col{padding:4px 3px;} .kc-col h4{font-size:14px;}
+  .kc-arrow{width:24px;height:22px;} .kc-arrow::after{border-top-width:5px;border-bottom-width:5px;}
+  .kc-label{font-size:10px;} .kc-sub{font-size:9px;margin-bottom:2px;} .kc-swatch{width:14px;height:14px;}
+  .kc-body{gap:4px;} .kc-body .kit-btn{width:38px;font-size:11px;padding:5px 2px;}
+  .kc-actions .kit-btn{padding:6px 7px;font-size:11px;}
+}
