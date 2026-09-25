@@ -382,6 +382,8 @@ const UI = {
     return {x:(v.x*0.5+0.5)*innerWidth, y:(-v.y*0.5+0.5)*innerHeight};
   },
   floatDmg(obj, dmg){
+    // combat feel: OSRS-style pooled splats on the combat layer, shown at the moment of impact (src/combat_fx.js)
+    if(typeof CombatFX!=='undefined' && CombatFX.hit){ CombatFX.hit(obj, dmg); return; }
     if(dmg>0 && typeof hitReact==='function') hitReact(obj);   // every hitsplat that lands flinches the body
     else if(dmg<=0 && typeof blockReact==='function') blockReact(obj);   // a fully-absorbed hit (0 splat) raises a guard
     const p=this.worldToScreen(obj);
@@ -392,6 +394,8 @@ const UI = {
     setTimeout(()=>d.remove(), 800);
   },
   xpDrop(skill, amt){
+    // OSRS-style drops rising beside the minimap, pooled (src/combat_fx.js); this stays the funnel the XP tracker wraps
+    if(typeof CombatFX!=='undefined' && CombatFX.xpDrop){ CombatFX.xpDrop(skill, amt); return; }
     let host=document.getElementById('xp-drops');
     if(!host){ host=document.createElement('div'); host.id='xp-drops'; document.body.appendChild(host); }
     const d=document.createElement('div'); d.className='xp-drop';

@@ -9,7 +9,8 @@ var HolmIslandTrials=(function(){
  var TYPE='holm_practice_grubkin',npcs=[];
  // our own entry, derived like the base data (npcMaxHit)
  var DEF={glbChar:'holm_grubkin_v1',glbHeight:.75,name:'Practice grubkin',level:1,examine:'A tame grubkin the wardens keep for sparring. It snaps, but only for show.',
-  hp:5,att:1,str:1,def:1,aBonus:0,sBonus:0,dBonus:0,dStab:0,dSlash:0,dCrush:0,speedTicks:6,color:0x8a7a3a,size:.8,aggro:false,respawn:6,drops:[],harmless:true};
+  hp:5,att:1,str:1,def:1,aBonus:0,sBonus:0,dBonus:0,dStab:0,dSlash:0,dCrush:0,speedTicks:6,color:0x8a7a3a,size:.8,aggro:false,respawn:6,drops:[],harmless:true,
+  deathStyle:'flip'};   // presentation only (combat feel): a crawler dies rolling onto its back, then sinks away
  // pens: near a building's measured target, on graph nodes 2-3 tiles from the stance, spread apart
  var PENS=[{id:'keep-court',building:'keep',target:'court',count:3},{id:'mage-yard',building:'mage',target:'entrance',count:2}];
  function register(){if(typeof NPC_TYPES==='undefined')return false;if(!NPC_TYPES[TYPE]){var t=Object.assign({},DEF);t.npcMaxHit=1;NPC_TYPES[TYPE]=t}return true}
