@@ -73,18 +73,20 @@ var HolmIslandCurriculum=(function(){
   try{if(typeof HolmIslandGates!=='undefined')HolmIslandGates.refresh({instant:true,force:true})}catch(e){}
   return true;
  }
- // QA only: record lessons as done (the drivers visit later areas without replaying earlier ones), then open gates
+ // QA only: record lessons as done (the drivers visit later areas without replaying earlier ones), then open gates;
+ // the tutors of granted lessons count as spoken to (HolmIslandTalk.adopt), the tutor of the lesson now due does not
  function qaGrant(ids){if(!on||!(typeof QAProfile!=='undefined'&&QAProfile.isolated))return false;var p=HolmCurriculumProgress.normalize({curriculumVersion:6,completedLessonIds:(Tutorial.completedLessonIds||[]).concat(ids)});
-  Tutorial.completedLessonIds=p.completedLessonIds.slice();Tutorial.complete=!!p.complete;Tutorial.step=p.step;try{Tutorial.banner()}catch(e){}
+  Tutorial.completedLessonIds=p.completedLessonIds.slice();Tutorial.complete=!!p.complete;Tutorial.step=p.step;adoptTalks();try{Tutorial.banner()}catch(e){}
   try{if(typeof HolmIslandGates!=='undefined')HolmIslandGates.refresh({instant:true,force:true})}catch(e){}return true}
  // QA only: set the ledger exactly (gates stay open: they only ever open), so a driver can make a lesson current again
  function qaSetLedger(ids){if(!on||!(typeof QAProfile!=='undefined'&&QAProfile.isolated))return false;var p=HolmCurriculumProgress.normalize({curriculumVersion:6,completedLessonIds:ids});
-  Tutorial.completedLessonIds=p.completedLessonIds.slice();Tutorial.complete=!!p.complete;Tutorial.step=p.step;try{Tutorial.banner()}catch(e){}return true}
+  Tutorial.completedLessonIds=p.completedLessonIds.slice();Tutorial.complete=!!p.complete;Tutorial.step=p.step;adoptTalks();try{Tutorial.banner()}catch(e){}return true}
+ function adoptTalks(){try{if(typeof HolmIslandTalk!=='undefined')HolmIslandTalk.adopt()}catch(e){}}
  // graduation on the island: the last lesson opens the pier gate; Ferryman Tobin's skiff takes the adventurer to the
  // mainland with the departure pack (the live rules: HolmTutorialFlow.departure + Tutorial.grantDeparturePack)
  function installFinish(){if(!on||!Tutorial.finish||Tutorial._islandFinish)return;Tutorial._islandFinish=true;
   Tutorial.finish=function(){this.complete=true;this.step=this.steps.length;
-   try{var el=document.getElementById('objective'),txt=document.getElementById('obj-text');if(el&&txt){el.style.display='block';txt.textContent='Lastlight is lit. Board Ferryman Tobin\'s skiff at the Departure Haven.'}
+   try{var el=document.getElementById('objective'),txt=document.getElementById('obj-text');if(el&&txt){el.style.display='block';txt.textContent=(typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.objective())||'Lastlight is lit. Board Ferryman Tobin\'s skiff at the Departure Haven.'}
     var h=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('haven','boat');if(h&&typeof GuideArrow!=='undefined'){GuideArrow.keepAfterComplete=true;GuideArrow.setTarget({x:h.x,z:h.z},'Board the skiff')}}catch(e){}
    UI.chat('You have completed every lesson on Tutor\'s Holm. The pier gate at the Departure Haven is open.','xp');
    UI.dialogue('Keeper Aldous','That light will carry to the mainland. Go down to the haven; Tobin will row you across.',[{label:'Thank you.'}],'img:assets/icons/tutors/aldous.png');

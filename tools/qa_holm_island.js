@@ -4,10 +4,13 @@
  * teaching bridge to the bakehouse courtyard, on to the Quest Lodge approach, then the Warden's Keep gate.
  * Checks the deck is really walked, steps stay cardinal, reload restores the spot, and there are no errors.
  * Building interiors wait for M4.2 (their roofs do not cut away in game yet).
+ * 2004 rule (HolmIslandTalk, owner play-test 2026-09-25): a new adventurer's first objective is Guide Bram; the
+ * bakehouse stations refuse until Cook Hettie has been spoken to (real click on her), and her chat gives the steps.
  * Run: SMOKE_BASE=http://localhost:8088 node tools/qa_holm_island.js */
 'use strict';
 const fs=require('fs'),path=require('path'),puppeteer=require('puppeteer-core');
 const OUT=path.join(__dirname,'..','scratchpad','holm_island_qa');fs.mkdirSync(OUT,{recursive:true});
+const L=require('./holm_island_driver_lib');L.setOut(OUT);   // shared real-input helpers (talking to tutors)
 const PROFILE='island-qa-'+Date.now().toString(36);
 const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmIsland=1&qaProfile='+PROFILE;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));const checks=[],t0=Date.now();
@@ -149,6 +152,11 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      const chat0=await page.evaluate(()=>{const out=[];const ch=UI.chat;UI.chat=function(t){out.push(t);return ch.apply(this,arguments)};let m=null;scene.getObjectByName('island-gate-bakehouse-door').traverse(o=>{if(!m&&o.isMesh)m=o});handleClick(m,m.getWorldPosition(new THREE.Vector3()));UI.chat=ch;return out});
      ok('M5.2a: the island runs the 18-lesson curriculum (v6), every lesson with an arrow at its station',g0.v===6&&g0.n===18&&g0.lesson==='study_route'&&g0.targets===18,g0);
      ok('M5.2b: the bakehouse door is shut for a new adventurer and says why',!g0.route&&chat0.some(c=>/bakehouse door is barred/.test(c)),{route:g0.route,chat:chat0});
+     // 2004 rule: the first objective is Guide Bram, and his relief chart refuses (without walking) until he is spoken to
+     {const b0=await page.evaluate(()=>{const out=[];const ch=UI.chat;UI.chat=function(t){out.push(t);return ch.apply(this,arguments)};let m=null;scene.traverse(o=>{if(!m&&o.userData&&o.userData.kind==='arrival_chart')m=o});
+       const p0=[player.position.x,player.position.z];handleClick(m,m.getWorldPosition(new THREE.Vector3()));UI.chat=ch;
+       return {banner:document.getElementById('obj-text').textContent,due:HolmIslandTalk.pending()&&HolmIslandTalk.pending().id,chat:out,moved:+Math.hypot(player.position.x-p0[0],player.position.z-p0[1]).toFixed(2),lesson:Tutorial.steps[Tutorial.step].id}});
+      ok('2004 rule: a new adventurer is told to talk to Guide Bram first, and the relief chart refuses until then',b0.banner==='Talk to Guide Bram in the Guide House.'&&b0.due==='bram'&&b0.chat.includes('You should speak to Guide Bram first.')&&b0.lesson==='study_route',b0);}
      await page.evaluate(ids=>HolmIslandCurriculum.qaGrant(ids),['study_route','equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish']);await sleep(2500);
      const g1=await page.evaluate(()=>({route:!!HolmArrivalQA.qaRoute('bakehouse','oven'),open:HolmIslandGates.isOpen('bakehouse-door'),lodge:HolmIslandGates.isOpen('lodge-door'),lesson:Tutorial.steps[Tutorial.step].id}));
      ok('M5.2b: with the survival lessons done the bakehouse door opens (the Quest Lodge stays shut)',g1.route&&g1.open&&!g1.lodge&&g1.lesson==='bake_bread',g1);}
@@ -161,6 +169,16 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     await shot(page,'02_bakehouse');
     // M4.2 bread lesson in the Blender bakehouse, every station by a real click on its authored mesh
     await page.evaluate(()=>{Player.inv=Player.inv.map(s=>s&&['bread','bread_dough','bucket','bucket_flour','bucket_water','dough'].includes(s.id)?null:s);UI.refreshInv()});
+    // 2004 rule: the bakehouse stations refuse until Cook Hettie has been spoken to; the banner and arrow send you to her
+    {const pre=await page.evaluate(()=>({banner:document.getElementById('obj-text').textContent,arrow:GuideArrow._label,due:HolmIslandTalk.pending()&&HolmIslandTalk.pending().id}));
+     const c=await clickService(page,'Take bucket');const chat=await L.lastChat(page,4),buckets=await count(page,'bucket');
+     ok('2004 rule: stations refuse before speaking to the tutor (bakehouse bucket rack, Cook Hettie), banner and arrow say talk to her',
+      !c.error&&pre.due==='hettie'&&pre.banner==='Talk to Cook Hettie in the bakehouse.'&&/Talk to Cook Hettie|Enter the bakehouse/.test(pre.arrow)&&chat.includes('You should speak to Cook Hettie first.')&&buckets===0,{pre,click:c.error||'ok',chat,buckets});
+     await shot(page,'02a_refused');
+     const t=await L.talkTo(page,'hettie',{onPage:async i=>{if(i===0)await shot(page,'02a_hettie_talk')}});
+     const post=await page.evaluate(()=>({banner:document.getElementById('obj-text').textContent,due:HolmIslandTalk.pending()&&HolmIslandTalk.pending().id}));
+     ok('2004 rule: a real click on Cook Hettie opens her chat with the bakehouse steps, and her area opens (banner back on the lesson)',
+      t.ok&&t.talked&&t.pages.length>=3&&t.pages.some(x=>/buckets/.test(x))&&t.pages.some(x=>/oven/.test(x))&&!post.due&&/bakehouse, fill a bucket/.test(post.banner),{talk:t.error||{talked:t.talked,pages:t.pages},post});}
     let step=await clickService(page,'Take bucket');
     const inside=await page.evaluate(()=>{const k=scene.getObjectByName('island-building-bakehouse');let roof=null;k.traverse(o=>{if(o.isMesh&&roof===null){for(let q=o;q;q=q.parent)if(/^Kitchen_Roof_/.test(q.name)){roof=o.visible;break}}});return {roof,pose:[player.position.x,player.position.y,player.position.z]}});
     ok('the bucket rack walks the player inside the bakehouse and the roof cuts away',!step.error&&inside.roof===false,{step,inside});
@@ -181,10 +199,11 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     tr=[];r=await walkTo(page,'lodge','board',true,tr);
     ok('walks on to the Quest Lodge approach',!r.error&&Math.hypot(r.at[0]-35.5,r.at[2]-53)<3.5,r);
     await shot(page,'03_lodge');
-    // M4.2 quest board inside the Blender Quest Lodge
+    // M4.2 quest board inside the Blender Quest Lodge (2004 rule: Loremaster Ansel is spoken to first, by a real click)
+    const ansel=await L.talkTo(page,'ansel');
     step=await clickService(page,'Study quest board');
     const lodge=await page.evaluate(()=>({dialogue:!!document.querySelector('#dialogue:not([style*="display: none"]),.dialogue-box:not([style*="display: none"])'),status:HolmQuestLodge.status(),pose:[player.position.x,player.position.z]}));
-    ok('walks into the Quest Lodge and studies the quest board',!step.error&&Math.hypot(lodge.pose[0]-31.5,lodge.pose[1]-53.5)<1.2,{step,lodge});
+    ok('talks to Loremaster Ansel, then walks into the Quest Lodge and studies the quest board',!!ansel.talked&&!step.error&&Math.hypot(lodge.pose[0]-31.5,lodge.pose[1]-53.5)<1.2,{ansel:ansel.error||{talked:ansel.talked,pages:(ansel.pages||[]).length},step,lodge});
     await closeDialogue(page);await shot(page,'03b_board');
     // 3. across the island to the Warden's Keep gate
     tr=[];r=await walkTo(page,'keep','gate',true,tr);

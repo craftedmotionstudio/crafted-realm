@@ -15,7 +15,8 @@ function world(opts){
     bridge:{order:n=>{log.orders.push(n.id);return opts.reachable!==false},setDoors:d=>{log.setDoors.push(d);return true},snapshot:()=>pose},
     owner:{setDoors:(d,o)=>log.animated.push(!!(o&&o.animate)),update(){}},
     THREE:{Box3:function(){this.setFromObject=()=>this;this.getCenter=v=>Object.assign(v,doorPos)},Vector3:function(){}},
-    UI:{chat:t=>log.chat.push(t)},HolmGuideHall:{},isGroundName:()=>false,loaded:{package:{navigation:{interactions:[]}}}
+    UI:{chat:t=>log.chat.push(t)},HolmGuideHall:{},isGroundName:()=>false,loaded:{package:{navigation:{interactions:[]}}},
+    scene:{getObjectByName:()=>null}   // no swing geometry in this fixture: doorSwing() returns null (door swing, 9670a03)
   };
   vm.createContext(ctx);vm.runInContext(body,ctx);
   ctx.arrive=id=>{pose={nodeId:id,moving:false}};

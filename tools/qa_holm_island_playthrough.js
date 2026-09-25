@@ -1,15 +1,16 @@
 /* Tutor's Holm complete playthrough (owner acceptance: at least 10 complete runs, everything working).
  * A fresh adventurer on the island draft (?holmIsland=1) plays the whole 18-lesson curriculum IN ORDER with real input
  * and NO granted progress: each lesson is done only when the game itself advances the tutorial. The driver behaves
- * like a player reading the hint line: it talks to each area's tutor (chat-box, click to continue), walks by clicking
- * tiles, uses stations, inventory and the spellbook by clicking them, retries what a player would retry (burnt fish,
- * missed spells), then boards the ferry. Every run is logged (time, lessons, per-lesson seconds, errors, save/reload)
+ * like a player reading the hint line: when the banner says "Talk to <tutor>" it clicks that tutor and reads the chat
+ * box page by page (2004 rule: an area's lessons wait for its tutor; every talk must register, and the camp's oaks must
+ * refuse before Wenna is spoken to), walks by clicking tiles, uses stations, inventory and the spellbook by clicking
+ * them, retries what a player would retry (burnt fish, missed spells), then speaks to Tobin and boards the ferry. Every run is logged (time, lessons, per-lesson seconds, errors, save/reload)
  * to scratchpad/holm_island_playthrough/runs.jsonl and summarised in docs/rebuild/HOLM_PLAYTHROUGHS.md.
  * Run: SMOKE_BASE=http://localhost:8088 node tools/qa_holm_island_playthrough.js [runs=1] */
 'use strict';
 const fs=require('fs'),path=require('path'),puppeteer=require('puppeteer-core');
 const L=require('./holm_island_driver_lib');
-const {sleep,shot,enter,pos,walkTo,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count}=L;
+const {sleep,shot,enter,pos,walkTo,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,objective,lastChat}=L;
 const OUT=path.join(__dirname,'..','scratchpad','holm_island_playthrough');L.setOut(OUT);
 const RUNS=Math.max(1,parseInt(process.argv[2]||'1',10));
 const BASE0=(process.env.SMOKE_BASE||'http://127.0.0.1:8777');
@@ -21,13 +22,12 @@ async function clickKind(page,kind,extra){   // click an object by its userData.
     let r=o;while(r.parent&&r.parent!==scene&&!r.name)r=r.parent;if(!o.name)o.name='pt-'+kind+'-'+Math.random().toString(36).slice(2,7);return o.name},kind,extra||null);
   return name?clickNamed(page,name):{error:'no '+kind};
 }
-async function talk(page,id){   // click the tutor, then click through every page of their chat box
-  const c=await clickNamed(page,'island-tutor-'+id);if(c.error)return c;
-  if(!await waitFor(page,()=>{const d=document.getElementById('dialogue-modal');return d&&getComputedStyle(d).display!=='none'},null,60000))return {error:'no dialogue'};
-  const pages=[];for(let i=0;i<8;i++){const t=await page.evaluate(()=>{const d=document.getElementById('dialogue-modal');return getComputedStyle(d).display==='none'?null:d.textContent.replace(/\s+/g,' ').trim()});if(!t)break;pages.push(t.slice(0,160));
-    const b=await page.evaluate(()=>{const bs=Array.from(document.querySelectorAll('#dialogue-modal button')).filter(b=>b.getBoundingClientRect().width>0);return bs.length?bs[0].textContent.trim():null});if(!b)break;
-    await clickButtonText(page,'#dialogue-modal button',b);await sleep(500)}
-  return {ok:true,pages:pages.length};
+// the run's record of every tutor met: did the banner say "Talk to <tutor>" first, how many pages, did it register
+let TALKS=[];
+async function talk(page,id){
+  const banner=await objective(page),r=await L.talkTo(page,id);
+  TALKS.push({id,banner:!!r.name&&banner.indexOf('Talk to '+r.name)>=0,pages:r.pages?r.pages.length:0,talked:!!r.talked,error:r.error||null});
+  return r;
 }
 async function wield(page,id){if(await page.evaluate(id=>Player.equip.weapon===id,id))return true;return clickInventory(page,id)}
 async function spellbook(page,spell){   // open the Spellbook tab and click the spell's button, like a player
@@ -44,9 +44,13 @@ async function fight(page,pen,id,opts){for(let k=0;k<4;k++){await attack(page,pe
 // ---- the lessons, in the curriculum's order ----
 const DO={
  async study_route(p){await clickKind(p,'arrival_door',['arrivalDoor','arrival']);await waitFor(p,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.doors&&r.doors.arrival},null,40000);
-  await talk(p,'bram');return clickKind(p,'arrival_chart')},
+  await L.enterGuideHouse(p);await talk(p,'bram');return clickKind(p,'arrival_chart')},
  async equip_hatchet(p){if(!await p.evaluate(()=>Player.count('hatchet')>0))await clickKind(p,'arrival_provisions');await waitFor(p,()=>Player.count('hatchet')>0,null,30000);return clickInventory(p,'hatchet')},
- async chop_logs(p){await walkTo(p,'survival','trail',true,[]);await talk(p,'wenna');for(const t of ['oak-1','oak-2','oak-3']){if(await p.evaluate(()=>Player.count('logs')>0))break;const c=await clickNamed(p,'island-lesson-survival-'+t);if(!c.error)await waitFor(p,()=>Player.count('logs')>0,null,90000)}},
+ async chop_logs(p){await walkTo(p,'survival','trail',true,[]);
+  // the owner's play-test: a player who goes straight for a tree is sent to Wenna first
+  {const c=await clickNamed(p,'island-lesson-survival-oak-1');await sleep(1200);const chat=await lastChat(p,4);
+   TALKS.push({id:'wenna-refusal',refused:!c.error&&chat.some(t=>/speak to Wenna first/.test(t))&&await count(p,'logs')===0})}
+  await talk(p,'wenna');for(const t of ['oak-1','oak-2','oak-3']){if(await p.evaluate(()=>Player.count('logs')>0))break;const c=await clickNamed(p,'island-lesson-survival-'+t);if(!c.error)await waitFor(p,()=>Player.count('logs')>0,null,90000)}},
  async light_fire(p){await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)},
  async catch_fish(p){await walkTo(p,'survival','fishing',false,[]);await clickInventory(p,'fishing_net');await clickNamed(p,'island-lesson-survival-perch');await waitFor(p,()=>Player.count('raw_perch')>0,null,150000)},
  async cook_fish(p){for(let k=0;k<8&&await lesson(p)==='cook_fish';k++){
@@ -76,7 +80,7 @@ const DO={
   for(const w of ['ladder3-top','ladder2-top','ladder1-top'])await clickService(p,'Climb-down ladder',w)}};
 async function playOnce(browser,n){
   const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(String(e&&e.stack||e).slice(0,300)));
-  const t0=Date.now(),per={},profile='playthrough-'+n+'-'+Date.now().toString(36);let status='incomplete',note='';
+  const t0=Date.now(),per={},profile='playthrough-'+n+'-'+Date.now().toString(36);let status='incomplete',note='';TALKS=[];
   try{
     await page.goto(BASE0+(process.env.HOLM_MODE==='draft'?'/?holmIsland=1&qaProfile=':'/?qaProfile=')+profile,{waitUntil:'load',timeout:120000});await enter(page);
     await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
@@ -89,10 +93,10 @@ async function playOnce(browser,n){
       if(await lesson(page)===id){status='stuck';const cs=await page.evaluate(()=>({target:!!Player.target,spell:Player.spell||null,weapon:Player.equip.weapon,air:Player.count('air_rune'),arrows:Player.count('arrows'),hp:Player.hp,dist:Player.target&&Player.target.mesh?+Math.hypot(player.position.x-Player.target.mesh.position.x,player.position.z-Player.target.mesh.position.z).toFixed(2):null}));
        note=note||('stuck at '+id+' '+JSON.stringify(cs));await shot(page,'run'+n+'_stuck_'+id);break}
       if(id==='cook_fish'||id==='forge_dagger'||id==='open_bank'){   // save + reload mid-run: progress must come back exactly
-        const before=await page.evaluate(()=>({step:Tutorial.step,ledger:(Tutorial.completedLessonIds||[]).length}));await page.evaluate(()=>SaveGame.save(true));
+        const before=await page.evaluate(()=>({step:Tutorial.step,ledger:(Tutorial.completedLessonIds||[]).length,talked:(Tutorial.talkedTutors||[]).slice().sort().join()}));await page.evaluate(()=>SaveGame.save(true));
         await page.reload({waitUntil:'load'});await enter(page);await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
-        const after=await page.evaluate(()=>({step:Tutorial.step,ledger:(Tutorial.completedLessonIds||[]).length}));
-        if(after.step!==before.step||after.ledger!==before.ledger){status='save-mismatch';note='after '+id+' '+JSON.stringify({before,after});break}}
+        const after=await page.evaluate(()=>({step:Tutorial.step,ledger:(Tutorial.completedLessonIds||[]).length,talked:(Tutorial.talkedTutors||[]).slice().sort().join()}));
+        if(after.step!==before.step||after.ledger!==before.ledger||after.talked!==before.talked){status='save-mismatch';note='after '+id+' '+JSON.stringify({before,after});break}}
     }
     if(status==='complete'){   // departure: board the ferry at the haven (Tobin first)
       await walkTo(page,'haven','shore',true,[]);await talk(page,'tobin');const b=await clickService(page,'Ferry','boat');
@@ -100,16 +104,19 @@ async function playOnce(browser,n){
       if(!sailed){status='departure-failed';note='ferry did not sail ('+(b.error||'clicked')+')'}
       await shot(page,'run'+n+'_end');
     }
+    // 2004 rule: all ten tutors met in order, each announced on the banner first and registered by the game
+    const met=TALKS.filter(t=>t.id.indexOf('-')<0),bad=met.filter(t=>!t.banner||!t.talked||t.error),refusal=TALKS.find(t=>t.id==='wenna-refusal');
+    if(status==='complete'&&(met.length<10||bad.length||!(refusal&&refusal.refused))){status='talk-flow';note='talks '+JSON.stringify(TALKS).slice(0,400)}
     note=note||('first hint: '+hint0.slice(0,60));
   }catch(e){status='driver-error';note=String(e).slice(0,300);await shot(page,'run'+n+'_error')}
-  const rec={run:n,profile,status,minutes:+((Date.now()-t0)/60000).toFixed(1),lessons:Object.keys(per).length,perLessonSeconds:per,errors:errors.slice(0,5),note,at:new Date().toISOString()};
+  const rec={run:n,profile,status,minutes:+((Date.now()-t0)/60000).toFixed(1),lessons:Object.keys(per).length,perLessonSeconds:per,talks:TALKS,errors:errors.slice(0,5),note,at:new Date().toISOString()};
   fs.appendFileSync(path.join(OUT,'runs.jsonl'),JSON.stringify(rec)+'\n');await page.close();return rec;
 }
 (async()=>{
   const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',
     args:['--window-size=1538,900','--hide-scrollbars','--mute-audio','--no-first-run'],defaultViewport:{width:1538,height:900}});
   const results=[];
-  try{for(let i=1;i<=RUNS;i++){const r=await playOnce(browser,i);results.push(r);console.log('[PLAYTHROUGH] run '+i+' '+r.status+' in '+r.minutes+' min, lessons '+r.lessons+'/18, page errors '+r.errors.length+(r.note?' | '+r.note:''))}}
+  try{for(let i=1;i<=RUNS;i++){const r=await playOnce(browser,i);results.push(r);console.log('[PLAYTHROUGH] run '+i+' '+r.status+' in '+r.minutes+' min, lessons '+r.lessons+'/18, tutors met '+r.talks.filter(t=>t.talked).length+'/10, page errors '+r.errors.length+(r.note?' | '+r.note:''))}}
   finally{await browser.close()}
   const ok=results.filter(r=>r.status==='complete'&&!r.errors.length).length;
   console.log('[PLAYTHROUGH] '+ok+'/'+results.length+' complete runs with zero errors');process.exit(ok===results.length?0:1);

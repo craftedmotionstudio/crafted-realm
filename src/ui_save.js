@@ -35,7 +35,9 @@ const SaveGame = {
         departurePackClaimed:!!Tutorial.departurePackClaimed,
         cellarRationClaimed:!!Tutorial.cellarRationClaimed,
         optional:Tutorial.optional||{},combatKitClaims:Tutorial.combatKitClaims||{},
-        completedLessonIds:Array.isArray(Tutorial.completedLessonIds)?Tutorial.completedLessonIds.slice():undefined},
+        completedLessonIds:Array.isArray(Tutorial.completedLessonIds)?Tutorial.completedLessonIds.slice():undefined,
+        // island tutors already spoken to (HolmIslandTalk: an area's lessons wait for its tutor)
+        talkedTutors:Array.isArray(Tutorial.talkedTutors)?Tutorial.talkedTutors.slice():undefined},
       pos:[player.position.x, player.position.z],
       arrivalSurface:arrival,
       plane:Player.plane||0,
@@ -130,6 +132,8 @@ const SaveGame = {
         }
         Tutorial.step=migratedStep>=0?migratedStep:0;
       }
+      // island tutors spoken to: the saved list, plus every tutor with a completed lesson (saves from before the rule)
+      if(d.tut&&typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.active())HolmIslandTalk.restore(d.tut);
       let relocated=false, relocationReason=null,restoredPlane=false;
       const savedPlane=Number(d.plane)||0;
       if(savedPlane!==0&&d.pos&&typeof Planes!=='undefined'){

@@ -143,6 +143,8 @@ var HolmArrivalQA=(function(){
   if(!active()||!bridge)return false;
   var u=obj.userData||{};pending=null;Player.target=null;Player.action=null;
   if(u.kind==='island_sign'&&island){UI.chat(u.islandSign,'plain');return true}
+  // 2004 rule: the current lesson's area waits until its tutor has been spoken to (stations, lesson objects, grubkins)
+  if(island&&typeof HolmIslandTalk!=='undefined'){var tm=HolmIslandTalk.refusal(u);if(tm){UI.chat(tm,'plain');return true}}
   // M5.2b: a shut door says why; an open one is walked through like the floor beneath it
   if(u.kind==='island_gate'&&island){var gm=HolmIslandGates.message(u.islandGate);if(gm){UI.chat(gm,'plain');return true}if(bridge.order({x:point.x,y:point.y,z:point.z}))return true;UI.chat('There is no open route to that spot.','plain');return true}
   // M6.1: a tutor: walk to a stance beside them, then talk (chat-box dialogue)
@@ -214,7 +216,7 @@ var HolmArrivalQA=(function(){
   return false;
  }
  function update(dt){
-  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);if(lessons)HolmIslandLessons.update();if(island&&typeof HolmIslandTutors!=='undefined')HolmIslandTutors.update(dt);if(island&&typeof HolmIslandPlayer!=='undefined')HolmIslandPlayer.update();if(island&&typeof HolmIslandFx!=='undefined')HolmIslandFx.update(dt,THREE,scene);if(island&&typeof HolmIslandGuide!=='undefined')HolmIslandGuide.update(dt);if(island&&typeof HolmIslandGates!=='undefined'){HolmIslandGates.refresh();HolmIslandGates.update(dt);
+  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);if(lessons)HolmIslandLessons.update();if(island&&typeof HolmIslandTutors!=='undefined')HolmIslandTutors.update(dt);if(island&&typeof HolmIslandPlayer!=='undefined')HolmIslandPlayer.update();if(island&&typeof HolmIslandFx!=='undefined')HolmIslandFx.update(dt,THREE,scene);if(island&&typeof HolmIslandGuide!=='undefined')HolmIslandGuide.update(dt);if(island&&typeof HolmIslandTalk!=='undefined')HolmIslandTalk.update();if(island&&typeof HolmIslandGates!=='undefined'){HolmIslandGates.refresh();HolmIslandGates.update(dt);
    // an opened gate changes the composed graph: the follower holds its graph, so re-seat it on the current one
    var gk=nav.gateKey?nav.gateKey():'';if(gk!==lastGateKey){if(bridge.setDoors({arrival:doors.arrival,garden:doors.garden}))lastGateKey=gk}}owner.update(dt,pose.surface);
   if(island&&typeof HolmGuideCellar!=='undefined')HolmGuideCellar.update(dt,pose.surface);
