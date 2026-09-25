@@ -60,10 +60,12 @@ var HolmIslandGuide=(function(){
  // a station inside a building while the player is outside: lead to the building's door first (2004 style)
  var NAMES={bakehouse:'bakehouse',lodge:'Quest Lodge',bank:'Holm Bank',keep:"Warden's Keep",mage:'Mage Tower',lastlight:'Lastlight',quarry:'Quarry Gate',survival:'survival camp',haven:'haven'};
  var DOOR={bakehouse:'entrance',lodge:'entrance',bank:'entrance',lastlight:'door',mage:'entrance'};
- function viaDoor(a){var s=a&&a.obj&&a.obj.userData&&a.obj.userData.islandService,b=s&&s.building;if(!b||!DOOR[b]||typeof HolmArrivalQA==='undefined')return a;
+ function viaDoor(a){var s=a&&a.obj&&a.obj.userData&&a.obj.userData.islandService,b=(a&&a.building)||(s&&s.building);if(!b||!DOOR[b]||typeof HolmArrivalQA==='undefined')return a;
   var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord(),surf=rec&&rec.surface||'';if(surf.indexOf('b:'+b+':')===0&&!/Terrain$/.test(surf))return a;   // already inside
+  // standing at the doorway already: the marker goes on the thing itself (a tutor just inside, the station)
+  var d=HolmArrivalQA.qaStance(b,DOOR[b]);if(d&&Math.hypot(player.position.x-d.x,player.position.z-d.z)<1.6&&Math.abs(player.position.y-d.y)<1)return a;
   var gate=named('island-gate-'+b+'-door');if(gate)return {obj:gate,label:'Enter the '+NAMES[b]};
-  var d=HolmArrivalQA.qaStance(b,DOOR[b]);return d?{point:d,label:'Enter the '+NAMES[b]}:a}
+  return d?{point:d,label:'Enter the '+NAMES[b]}:a}
  // the Guide House (the arrival package, first lessons): the chart and the tools are inside, so from outside the
  // marker goes on its south door, "Open the door" while it is shut, as the first thing a new adventurer does
  function viaGuideDoor(a){if(!a||!a.obj||typeof HolmArrivalQA==='undefined')return a;var house=named('GuideHouse'),door=named('DoorSouthLeaf');if(!house||!door)return a;
@@ -78,12 +80,18 @@ var HolmIslandGuide=(function(){
   if(!document.getElementById('holm-guide-style')){var s=document.createElement('style');s.id='holm-guide-style';
    s.textContent='@keyframes holmGuidePulse{0%,100%{box-shadow:0 0 0 0 rgba(255,215,64,.0)}50%{box-shadow:0 0 0 3px rgba(255,215,64,.95)}}.tab-btn.holm-guide-pulse{animation:holmGuidePulse 1s infinite}';document.head.appendChild(s)}
  }
+ // 2004 rule (HolmIslandTalk): while the current lesson's tutor has not been spoken to, the marker is on the tutor
+ // (by way of their building's door when they stand inside it)
+ function talkAim(){var t=typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.pending(),o=t&&named('island-tutor-'+t.id);if(!o)return null;
+  return {obj:o,label:'Talk to '+t.name,building:typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.inside?HolmIslandTutors.inside(t.id):null}}
  function update(dt){
   if(typeof HolmIsland==='undefined'||!HolmIsland.live()||typeof Tutorial==='undefined'||typeof GuideArrow==='undefined'||typeof scene==='undefined')return;
-  st.t+=dt||0;if(st.t<.5)return;st.t=0;
+  // re-aim every half second, and at once when the lesson or the tutor due changes (no stale arrow after a talk)
+  var due=typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.pending(),key=(Tutorial.complete?'done':Tutorial.step)+'|'+(due?due.id:'');
+  st.t+=dt||0;if(st.t<.5&&key===st.key)return;st.t=0;st.key=key;
   var a;
-  if(Tutorial.complete){var boat=null;scene.traverse(function(n){if(!boat&&/^Haven_ServiceBoat_/.test(n.name||''))boat=n});a=boat?{obj:boat,label:'Board the skiff'}:null}
-  else{var s=Tutorial.steps[Tutorial.step];a=s?aim(s.id):null}
+  if(Tutorial.complete){var boat=null;scene.traverse(function(n){if(!boat&&/^Haven_ServiceBoat_/.test(n.name||''))boat=n});a=talkAim()||(boat?{obj:boat,label:'Board the skiff'}:null)}
+  else{var s=Tutorial.steps[Tutorial.step];a=s?(talkAim()||aim(s.id)):null}
   if(a&&(a.pack||a.tab)){packPulse(true,a.pack,a.tab);GuideArrow.setTarget(null);return}
   packPulse(false);
   a=viaGuideDoor(viaDoor(a));
