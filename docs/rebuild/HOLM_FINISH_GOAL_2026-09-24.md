@@ -13,6 +13,24 @@ turns them into one ordered path that ends with a finished island in the **live 
 A work loop reads this file at the start of each tick, picks the first unchecked item, works it to verified
 completion, ticks it with a proof link, and stops only when every item is ticked or a blocker is recorded.
 
+## Owner goal statement (2026-09-24, latest — governs)
+
+"Provide me a **complete tutorial island** based on all of the requests we've put together." With it, two standing
+rules restated by the owner:
+- **Everything is designed in Blender.** Every building, prop, plant, rock, NPC, enemy, player and station is a
+  Blender-authored low-poly asset. No code-built primitives stand in for a visual in the finished island (known
+  stand-ins are listed and replaced: e.g. teaching fires now use the Blender campfire).
+- **Reuse as much from 2004scape as possible, and also make our own.** Take everything structural it offers: the
+  tutorial step order and pacing, instructor-per-area layout, door/gate gating, chat-box dialogue driving each step,
+  hint arrow + hint box, taught failure (burn, miss, retry), tick timing, and MIT server logic (with credit in
+  `THIRD_PARTY_ASSETS.md`) where it fits our engine. The license limits in `REFERENCE_2004SCAPE.md` still bind:
+  Jagex models, maps, textures, sprites, audio, dialogue text and names are never copied; Client2 is study-only.
+  Our own names, text and Blender models fill every one of those slots.
+
+"Complete" means all of: the Blender island (M3R-M4), all 18 lessons (M5), gated progression and one tutor per area
+with chat-box dialogue, practice enemies and the Blender player (M6), live cutover with saves carried forward and a
+timed playthrough (M7), and the owner's acceptance.
+
 ## Owner style direction (2026-09-24)
 
 "We want this like **2004 old school RuneScape** as much as possible." Every visual and feel decision in this goal
@@ -280,15 +298,24 @@ old coordinates on the grid pathfinder. Bundles, in order:
       717 -> 527 (close views 142-292). Live smoke boot 1.8 s unchanged. Gates: island 21/21, arrival 12/12, units, smoke.
 
 ### M4 — The rest of the island (original items)
-- [ ] Place the bakehouse, quest lodge and keep candidates on the compiled terrain with services bound to their
-      new coordinates (bread and quest board rebinding from the curriculum audit).
-- [ ] Build the connected redesigns not yet started: bank, mine entrance with the cavern, mage tower, and the
-      Lastlight keeper wing. Use the same Blender → nav extract → Studio → Safe Publish path as the keep and lodge.
-- [ ] Complete the habitat, vegetation, roads and signage across the whole island, with no barren prototype
-      stretches left.
-- [ ] Measure and fix performance for the whole island (draw calls, streaming hitches, boot time).
+- [x] Place the bakehouse, quest lodge and keep candidates on the compiled terrain with services bound to their
+      new coordinates (bread and quest board rebinding from the curriculum audit). (done by M4.1+M4.2)
+- [x] Build the connected redesigns not yet started: bank, mine entrance with the cavern, mage tower, and the
+      Lastlight keeper wing. Use the same Blender → nav extract → Studio → Safe Publish path as the keep and lodge. (done by M4.4+M4.4b; in-game Studio publish still to do at M7 cutover)
+- [x] Complete the habitat, vegetation, roads and signage across the whole island, with no barren prototype
+      stretches left. (done by M4.5)
+- [x] Measure and fix performance for the whole island (draw calls, streaming hitches, boot time). (done by M4.6)
 
 ### M5 — All 18 lessons
+- [x] **M5.1 Lesson stations on the new island** (Blender, the game's own systems). 2026-09-24: world-object bridge in
+      the island provider (walk the graph to a stance beside a tree/spot/rock/fire/furnace/anvil, then the game's
+      handleClick runs the normal action, so XP, gather rates, recipes and Tutorial.notify stay the live rules);
+      three teaching oaks (tree family v3 over a Blender stump), Blender fishing ripple, Blender campfire for lit
+      fires, firemaker's step on the graph; Blender cavern (ore workings, holm-cavern-v1) offshore at y -30 joined
+      to the quarry shaft by a 2004-style ladder (credits descend/cave), Blender copper/tin/depleted rocks at its
+      sockets, furnace and anvil stations; Lastlight lever lights the Blender lamp (beacon/lit). `qa_holm_island.js`
+      PASS 24/24 real pointer (chop, fire, fish, cook with burn-and-retry, shaft down, copper, tin, smelt, forge,
+      ladder up, each lesson's notify event recorded). Route 20/20, arrival 12/12, units, world-v2, smoke green.
 - [ ] Activate the 18-lesson migration helper in runtime; old 13-lesson saves keep their credit.
 - [ ] Restore `bake_bread` and `learn_quests` as required lessons on the new buildings.
 - [ ] Restore `melee_trial`, `ranged_trial`, `magic_trial` with atomic kits, styled-kill attribution, ammo and

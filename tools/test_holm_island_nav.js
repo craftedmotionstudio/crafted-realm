@@ -22,6 +22,7 @@ check('whole island: every planned place is reachable from the landing on one gr
 check('Blender buildings join the land: every measured target of every building is reachable on foot or by its measured ladders (lane points ceded to a neighbour excepted)',()=>{
  // ladders change storey instantly (2004 style), so they join the walk graph only here, as jumps between measured ends
  const jump={},add=(a,b)=>(jump[a]=jump[a]||[]).push(b);
+ for(const L of I.ladders){const end=e=>{const B=I.buildings.find(x=>x.id===e[0]),t=B&&B.graph.targets.find(x=>x.id===e[1]);assert(t,'ladder '+L.id+' end '+e);return 'b:'+e[0]+':'+t.nodeId};const a=end(L.a),b=end(L.b);assert(g.byId[a]&&g.byId[b]);add(a,b);add(b,a)}
  for(const B of I.buildings)for(const c of B.graph.climbs||[]){assert(c.footId&&c.topId,B.id+' ladder '+c.id+' unmeasured');const a='b:'+B.id+':'+c.footId,b='b:'+B.id+':'+c.topId;assert(g.byId[a]&&g.byId[b],B.id+' ladder '+c.id+' ends missing');add(a,b);add(b,a)}
  const R=new Set([spawn.id]),q=[spawn.id];while(q.length){const u=q.pop();for(const t of g.links[u].concat(jump[u]||[]))if(!R.has(t)){R.add(t);q.push(t)}}
  for(const B of I.buildings)for(const t of B.graph.targets){if(B.id==='lodge'&&t.id==='north-lane')continue;assert(R.has('b:'+B.id+':'+t.nodeId),B.id+'.'+t.id+' unreachable')}

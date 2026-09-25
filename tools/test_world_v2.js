@@ -206,7 +206,7 @@ check('Climb-down is the winch frame\'s left-click while the descend lesson is c
   /const bold=u\.label \? \/<b>\(\[\^<\]\+\)<\\\/b>\/\.exec\(String\(u\.label\)\) : null;/.test(fs.readFileSync(path.join(ROOT,'src','dispatch.js'),'utf8'))&&
   /const p=Interact\.entriesFor\(hit,null\)\.filter\(function\(en\)\{return en\.primary;\}\); if\(p\.length\) return p\[0\]\.html;/.test(uiPickSource));
 check('Holm teaching fires burn 150 s, tutorial menus hide Mark Tile, the net says where it is walking, and the departure banner survives graduation',
-  /fire\.userData\.ttl=\(typeof CRWorldMode!=='undefined'&&CRWorldMode\.providerId==='tutors-holm-v2'\)\?150:65;/.test(mainSource)&&
+  /fire\.userData\.ttl=\(typeof CRWorldMode!=='undefined'&&\/\^tutors-holm-\(v2\|arrival-qa\)\$\/\.test\(CRWorldMode\.providerId\)\)\?150:65;/.test(mainSource)&&
   /const inTutorial=\(typeof Tutorial!=='undefined' && Tutorial\.steps && !Tutorial\.complete\);/.test(fs.readFileSync(path.join(ROOT,'src','overlays_world.js'),'utf8'))&&
   /message\('You head for the fishing spot, net in hand\.'\)/.test(fs.readFileSync(path.join(ROOT,'src','fishing_edge_u5.js'),'utf8'))&&
   /function showDepartureBanner\(\)/.test(fs.readFileSync(path.join(ROOT,'src','tutorial_holm.js'),'utf8'))&&

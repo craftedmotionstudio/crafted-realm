@@ -353,13 +353,15 @@ function update(dt){
           const fx=player.position.x, fz=player.position.z;
           const fire=makeCampfire(fx,fz);
           // Holm teaching fires outlive the fishing detour (play review F-16); mainland fires keep the OSRS-ish minute
-          fire.userData.ttl=(typeof CRWorldMode!=='undefined'&&CRWorldMode.providerId==='tutors-holm-v2')?150:65;
+          fire.userData.ttl=(typeof CRWorldMode!=='undefined'&&/^tutors-holm-(v2|arrival-qa)$/.test(CRWorldMode.providerId))?150:65;
           Player.addXp('Firemaking', 40);
           UI.chat('The fire catches and the logs begin to burn.','xp');
           UI.refreshInv();
           // the firemaker steps west, as tradition demands
           const wx=fx-1.1;
-          if(!collides(wx,fz,0.3) && (groundY(wx,fz)||-9)>-1.2) player.position.set(wx, groundY(wx,fz), fz);
+          // the island draft walks its graph player; it takes the step itself (west first, like the live game)
+          if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.stepAside&&HolmArrivalQA.stepAside()){}
+          else if(!collides(wx,fz,0.3) && (groundY(wx,fz)||-9)>-1.2) player.position.set(wx, groundY(wx,fz), fz);
         }
         Player.action=null;
       }

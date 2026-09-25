@@ -1,0 +1,80 @@
+{
+  "id": "cavern",
+  "prefix": "Cavern_",
+  "triangles": 13229,
+  "materials": 19,
+  "materialNames": [
+    "Cavern coal",
+    "Cavern copper ore",
+    "Cavern crate wood",
+    "Cavern dark timber",
+    "Cavern dressed stone",
+    "Cavern floor gravel",
+    "Cavern furnace glow",
+    "Cavern furnace stone",
+    "Cavern hemp rope",
+    "Cavern iron",
+    "Cavern pit prop",
+    "Cavern quench water",
+    "Cavern rock",
+    "Cavern rock shadow",
+    "Cavern rock strata",
+    "Cavern shaft dark",
+    "Cavern tin ore",
+    "Cavern torch flame",
+    "Cavern trodden floor"
+  ],
+  "dimensionsTiles": {
+    "x": 20.07,
+    "z": 16.04,
+    "y": 7.13
+  },
+  "placement": {
+    "x": 200,
+    "y": -30,
+    "z": 60
+  },
+  "sockets": {
+    "Cavern_SocketCopper_1": [
+      0.5,
+      0,
+      -5.5
+    ],
+    "Cavern_SocketCopper_2": [
+      3.5,
+      0,
+      -5.5
+    ],
+    "Cavern_SocketTin_1": [
+      7.5,
+      0,
+      -4.5
+    ],
+    "Cavern_SocketTin_2": [
+      7.5,
+      0,
+      -2.5
+    ]
+  },
+  "meshes": {
+    "Cavern_ShellRock": 2544,
+    "Cavern_Floor": 668,
+    "Cavern_RoofCeiling": 403,
+    "Cavern_ShellSkin": 1296,
+    "Cavern_ShellRockTop": 1160,
+    "Cavern_ShellPillar": 78,
+    "Cavern_Rubble": 272,
+    "Cavern_ShellVein": 142,
+    "Cavern_Timber": 1032,
+    "Cavern_Torch": 1400,
+    "Cavern_TorchFlame": 200,
+    "Cavern_ServiceLadderUp_Ladder": 512,
+    "Cavern_RoofShaftHead": 124,
+    "Cavern_RoofBoulders": 254,
+    "Cavern_Rail": 132,
+    "Cavern_FurnishingCart": 220,
+    "Cavern_Furnishing": 2168,
+    "Cavern_ServiceFurnace_Furnace": 442,
+    "Cavern_ServiceAnvil_Anvil": 182
+  }
+}

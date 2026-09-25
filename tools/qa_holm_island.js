@@ -90,6 +90,29 @@ async function clickService(page,label,which){
   if(!xy)return {error:'service not clickable '+label};
   await press(page,xy);await settle(page,30000);await sleep(900);return {ok:true};
 }
+// M5.1: click a named world object (lesson tree, fishing spot, ore rock, furnace, anvil, campfire) where the game's pick() hits it
+async function clickNamed(page,name){
+  await closeDialogue(page);   // a level-up dialogue covers the canvas like it would for a player
+  const xy=await page.evaluate(async name=>{const sleep=ms=>new Promise(r=>setTimeout(r,ms));const o=scene.getObjectByName(name);if(!o)return null;
+    const pt=new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3()).toArray();const dx=0,dz=0,d=0;
+    const owns=h=>{for(let q=h&&h.obj;q;q=q.parent)if(q===o)return true;return false};
+    // frame the camera on the target (a player turns the view toward what they want to click); cleared after the click
+    // (surface targets only: qaView takes its height from the island terrain, and the cavern lies offshore below it)
+    if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaView)HolmArrivalQA.qaView(pt[0],pt[2],pt[1]>-5?undefined:new THREE.Box3().setFromObject(o).min.y);
+    for(const [yaw,pitch,dist] of [[d>.5?Math.atan2(dx,dz):0,1.1,Math.max(10,d*1.5)],[0,1.3,12],[Math.PI/2,1.3,12],[Math.PI,1.3,12],[-Math.PI/2,1.3,12]]){
+      camCtl.yaw=yaw;camCtl.pitch=pitch;camCtl.dist=dist;await sleep(1300);
+      const rect=renderer.domElement.getBoundingClientRect(),pr=new THREE.Vector3(pt[0],pt[1],pt[2]).project(camera),cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top;
+      for(let r=0;r<=120;r+=4)for(let a=0;a<360;a+=(r?15:360)){const x=Math.round(cx+Math.cos(a*Math.PI/180)*r),y=Math.round(cy+Math.sin(a*Math.PI/180)*r);
+        if(x<0||y<0||x>=rect.width||y>=rect.height||document.elementFromPoint(x,y)!==renderer.domElement)continue;if(owns(pick({clientX:x,clientY:y})))return [x,y]}}
+    const rect=renderer.domElement.getBoundingClientRect(),pr=new THREE.Vector3(pt[0],pt[1],pt[2]).project(camera),cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top,top=document.elementFromPoint(Math.round(cx),Math.round(cy)),h=pick({clientX:cx,clientY:cy});
+    window.__clickDiag={name,pt:pt.map(v=>+v.toFixed(2)),screen:[Math.round(cx),Math.round(cy)],rect:[rect.width,rect.height],cover:top&&(top.id||top.className||top.tagName),pick:h&&h.obj.name,player:[player.position.x,player.position.y,player.position.z].map(v=>+v.toFixed(2)),cam:camera.position.toArray().map(v=>+v.toFixed(1))};
+    return null},name);
+  if(!xy){console.log('    clickNamed diag '+JSON.stringify(await page.evaluate(()=>window.__clickDiag)));await shot(page,'zz_click_'+name);await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {error:'not clickable '+name}}
+  await press(page,xy);await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {ok:true};
+}
+async function clickButtonText(page,sel,text){const xy=await page.evaluate((sel,text)=>{const b=Array.from(document.querySelectorAll(sel)).find(x=>x.textContent.trim()===text||x.title===text);if(!b)return null;const r=b.getBoundingClientRect();return [r.x+r.width/2,r.y+r.height/2]},sel,text);
+  if(!xy)return false;await page.mouse.click(xy[0],xy[1]);await sleep(600);return true}
+const waitFor=(page,fn,arg,ms)=>page.waitForFunction(fn,{timeout:ms||60000},arg).then(()=>true).catch(()=>false);
 async function clickInventory(page,itemId){
   const idx=await page.evaluate(id=>{try{document.querySelector('.tab-btn[data-tab="inv"]').click()}catch(e){}UI.refreshInv();return Player.inv.findIndex(s=>s&&s.id===id)},itemId);
   if(idx<0)return false;const sel='#inv-grid .inv-slot:nth-child('+(idx+1)+')';
@@ -112,7 +135,7 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     await shot(page,'01_dock');
     const bridges=JSON.parse(fs.readFileSync(path.join(__dirname,'..','docs/rebuild/holm-overhaul/island-bridges.json'),'utf8')).bridges;
     const timber=bridges.find(b=>/timber/.test(b.id));
-    const onlyNew=process.env.ISLAND_QA_ONLY==='m44';
+    const onlyNew=/^m(44|51)$/.test(process.env.ISLAND_QA_ONLY||''),onlyLessons=process.env.ISLAND_QA_ONLY==='m51';
     if(!onlyNew){
     // 1. dock -> bakehouse courtyard, over the timber bridge
     let tr=[];let r=await walkTo(page,'bakehouse','entrance',true,tr);
@@ -153,18 +176,23 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     ok('crosses the island to the Warden\'s Keep gate',!r.error&&r.reached&&Math.hypot(r.at[0]-r.reached.x,r.at[2]-r.reached.z)<.6&&diagonal(tr)===0,{...r,diagonal:diagonal(tr)});
     await shot(page,'04_keep');
     }
+    // M5.1: every lesson's Tutorial.notify event is recorded so credit wiring is proven, not just items
+    await page.evaluate(()=>{window.__notes=[];const n=Tutorial.notify.bind(Tutorial);Tutorial.notify=function(ev,m){window.__notes.push(ev+'/'+m);return n(ev,m)}});
     // M4.4: the five new Blender buildings, each reached on foot and its key station clicked like a player
     const stanceOf=(b,t)=>page.evaluate((b,t)=>{const r=HolmArrivalQA.qaRoute(b,t);return r?r[r.length-1]:null},b,t);
     const near=async(b,t,tol)=>{const s=await stanceOf(b,t),p=await pos(page);return !!s&&Math.hypot(p[0]-s.x,p[2]-s.z)<(tol||.6)&&Math.abs(p[1]-s.y)<.35};
-    const visit=async(b,entryTarget,label,target,extra,enter)=>{const tr2=[];const w=await walkTo(page,b,entryTarget,true,tr2);if(enter)await enter();const c=await clickService(page,label);
+    const visit=async(b,entryTarget,label,target,extra,enter,walkOnly)=>{const tr2=[];const w=await walkTo(page,b,entryTarget,true,tr2);if(enter)await enter();
+      const c=walkOnly?await walkTo(page,b,target,false,[]):await clickService(page,label);
       await shot(page,'05_'+b);const at=await pos(page);const ok2=!w.error&&!c.error&&await near(b,target,.6);return {ok:ok2,walk:w.error||'ok',click:c.error||'ok',at,diagonal:diagonal(tr2),...(extra?await extra():{})}};
+    if(!onlyLessons){
     let v=await visit('bank','entrance','Use bank counter','counter',()=>page.evaluate(()=>({bankOpen:(document.getElementById('bank-modal')||{style:{}}).style.display==='block'})));
     ok('Bank: walks in and the teller counter opens the bank',v.ok&&v.bankOpen&&v.diagonal===0,v);
     await page.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}});
     // like a player: walk in through the west door first (roofs cut away once inside), then the telescope is in sight
     v=await visit('mage','entrance','Telescope','observatory',null,async()=>{const t2=[];await walkTo(page,'mage','runes',false,t2)});ok('Mage tower: climbs both stairs to the telescope in the observatory',v.ok&&v.at[1]>11.5,v);
     v=await visit('haven','shore','Ferry','boat');ok('Departure Haven: walks the pier down to the ferry on the landing stage',v.ok&&v.at[0]>134,v);
-    v=await visit('quarry','approach','Quarry shaft','shaft');ok('Quarry Gate: walks through the portal to the shaft mouth',v.ok,v);
+    v=await visit('quarry','approach','Climb-down shaft ladder','shaft',null,null,true);v.shaftTiles=await(async()=>{const s=await stanceOf('quarry','shaft');return s?+Math.hypot(v.at[0]-s.x,v.at[2]-s.z).toFixed(2):null})();
+    ok('Quarry Gate: walks through the portal to the shaft mouth',v.walk==='ok'&&v.click==='ok'&&v.shaftTiles!==null&&v.shaftTiles<=1.05,v);
     v=await visit('survival','trail','Fishing spot','fishing');ok('Survival camp: down the bank stair to the fishing stage',v.ok,v);
     // M4.4b Lastlight: in by the storm door, up three ladders (instant storey change, 2004 style) to the beacon lever, and back down
     {const w=await walkTo(page,'lastlight','door',true,[]);const y0=(await pos(page))[1],steps=[];
@@ -173,7 +201,46 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      const lever=await page.evaluate(()=>{return HolmArrivalQA.qaStance('lastlight','lever')});
      ok('Lastlight: storm door, stores, all three ladders climbed by click, lever reached on the lantern deck',!w.error&&steps.every(s=>s[1]==='ok')&&top[1]>y0+5&&!!lever&&Math.hypot(top[0]-lever.x,top[2]-lever.z)<.6&&Math.abs(top[1]-lever.y)<.35,{walk:w.error||'ok',y0,steps,top,lever});
      const down=[];for(const which of ['ladder3-top','ladder2-top','ladder1-top']){const c=await clickService(page,'Climb-down ladder',which);down.push([which,c.error||'ok',...(await pos(page)).map(v=>+v.toFixed(2))])}
+     ok('Lastlight: the beacon lever lights the lamp (beacon/lit credited)',await page.evaluate(()=>Player.lastlightLit===true&&window.__notes.some(n=>n==='beacon/lit')),{notes:await page.evaluate(()=>window.__notes.slice(-4))});
      const back=await pos(page);ok('Lastlight: all three ladders climbed back down to the ground floor',down.every(s=>s[1]==='ok')&&Math.abs(back[1]-y0)<1.2,{down,back});}
+    }
+    // M5.1 lesson stations, all by real clicks: chop, light a fire, net a perch, cook it, down the quarry shaft ladder to the
+    // cavern, mine copper and tin, smelt bronze, forge a dagger, back up the ladder. The game's own systems do the work.
+    {await page.evaluate(()=>{Player.inv=Player.inv.map(()=>null);['hatchet','tinderbox','fishing_net','pickaxe','hammer'].forEach(i=>Player.addItem(i,1));UI.refreshInv()});
+     await clickInventory(page,'hatchet');const L={};const note=e=>page.evaluate(e=>window.__notes.includes(e),e);
+     let c=await clickNamed(page,'island-lesson-survival-oak-1');L.chop=c.error||(await waitFor(page,()=>Player.count('logs')>0,null,120000))&&await note('gather/logs');
+     const p0=await pos(page);await clickInventory(page,'tinderbox');await clickInventory(page,'logs');
+     L.fire=(await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000))&&await note('firemake/fire');await sleep(1500);const p1=await pos(page);
+     // off the fire tile by exactly one cardinal step (west unless blocked, as in the live game)
+     L.stepWest=Math.abs(Math.abs(p1[0]-p0[0])+Math.abs(p1[2]-p0[2])-1)<.05;
+     await walkTo(page,'survival','fishing',false,[]);await clickInventory(page,'fishing_net');c=await clickNamed(page,'island-lesson-survival-perch');L.fish=c.error||(await waitFor(page,()=>Player.count('raw_perch')>0,null,150000))&&await note('gather/raw_perch');
+     // a teaching fire lasts 150 s; if it burnt out during the fishing trip, chop another oak and light a new one (lesson text says so)
+     await walkTo(page,'survival','trail',true,[]);
+     if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){L.relit=true;await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);
+      await clickInventory(page,'tinderbox');await clickInventory(page,'logs');await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
+     L.cookTries=0;
+     for(let k=0;k<6&&!(await note('cook/cooked_perch'));k++){L.cookTries++;
+      if(!await page.evaluate(()=>Player.count('raw_perch')>0)){await walkTo(page,'survival','fishing',false,[]);await clickInventory(page,'fishing_net');await clickNamed(page,'island-lesson-survival-perch');
+       await waitFor(page,()=>Player.count('raw_perch')>0,null,150000);await walkTo(page,'survival','trail',true,[])}
+      if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);
+       await clickInventory(page,'tinderbox');await clickInventory(page,'logs');await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
+      const before=await page.evaluate(()=>Player.count('cooked_perch')+Player.count('burnt_perch'));
+      c=await clickNamed(page,'island-campfire');await waitFor(page,b=>Player.count('cooked_perch')+Player.count('burnt_perch')>b,before,120000)}
+     L.cook=await note('cook/cooked_perch');
+     L.cookNote=await page.evaluate(()=>window.__notes.filter(n=>n.indexOf('cook/')===0));
+     await shot(page,'06_survival_lessons');
+     await walkTo(page,'quarry','approach',true,[]);c=await clickService(page,'Climb-down shaft ladder','shaft');L.descend=c.error||(await waitFor(page,()=>player.position.y<-20,null,150000))&&await note('descend/cave');
+     c=await clickNamed(page,'island-lesson-cavern-copper-1');L.copper=c.error||(await waitFor(page,()=>Player.count('copper_ore')>0,null,90000))&&await note('gather/copper_ore');
+     c=await clickNamed(page,'island-lesson-cavern-tin-1');L.tin=c.error||(await waitFor(page,()=>Player.count('tin_ore')>0,null,90000))&&await note('gather/tin_ore');
+     await shot(page,'07_cavern');
+     await walkTo(page,'cavern','furnace',false,[]);c=await clickNamed(page,'island-lesson-furnace');await sleep(3500);await clickButtonText(page,'#dialogue-modal button','Smelt a Bronze bar.');
+     L.smelt=c.error||(await waitFor(page,()=>Player.count('bronze_bar')>0,null,30000))&&await note('smelt/bar');
+     await walkTo(page,'cavern','anvil',false,[]);c=await clickNamed(page,'island-lesson-anvil');await sleep(3500);await clickButtonText(page,'#smith-grid-overlay div[title]','Bronze dagger');
+     L.smith=c.error||(await waitFor(page,()=>Player.count('bronze_dagger')>0,null,30000))&&await note('smith/forged');
+     await shot(page,'08_forge');
+     c=await clickService(page,'Climb-up ladder','ladder');L.up=c.error||(await waitFor(page,()=>player.position.y>0,null,60000));
+     ok('M5.1 survival lessons on the island: chop, light a fire (step west on the graph), net a perch, cook it',L.chop===true&&L.fire===true&&L.stepWest&&L.fish===true&&L.cook===true&&L.cookNote.length>0,L);
+     ok('M5.1 cavern lessons: shaft ladder down (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up',L.descend===true&&L.copper===true&&L.tin===true&&L.smelt===true&&L.smith===true&&L.up===true,L);}
     // 4. reload restores the spot on the island graph
     await page.evaluate(()=>SaveGame.save());const before=await pos(page);
     await page.reload({waitUntil:'load'});try{await enter(page)}catch(e){console.log('    reload console errors: '+JSON.stringify(consoleErrors.slice(-6)));throw e}const after=await pos(page);

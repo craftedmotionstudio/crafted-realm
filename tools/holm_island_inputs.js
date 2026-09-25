@@ -6,7 +6,7 @@ const read=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
 const Scenery=require('../src/holm_arrival_scenery'),Provision=require('../src/holm_arrival_provisions'),Dock=require('../src/holm_arrival_dock');
 const Terrain=require('../src/holm_overhaul_terrain');
 const TERRAIN='.studio-workspaces/holm-overhaul-terrain-v1/working/assets/world/authoring/holm-overhaul.terrain.bundle.json';
-const NEW_BUILDINGS=['survival','quarry','bank','mage','haven','lastlight'];
+const NEW_BUILDINGS=['survival','quarry','bank','mage','haven','lastlight','cavern'];
 const TREE_TRUNK={oak:.45,birch:.3,'coastal-pine':.35};
 const bridgeFrom=(t,b)=>require('../src/holm_island_nav').bridgeFrom(t,b);
 const HABITAT_V2='.studio-workspaces/holm-habitat-v2/working/vegetation.json';
@@ -21,7 +21,7 @@ function load(opts){
  const blockers=scenery.blockers.map(x=>({id:x.id,x0:x.x0,x1:x.x1,z0:x.z0,z1:x.z1}));
  const plan0=read('docs/rebuild/holm-overhaul/plan.json'),PLANID={survival:'survival',quarry:'mine',bank:'bank',mage:'mage',haven:'ferry',lastlight:'lastlight'},built=new Set();
  // same rule as HolmIslandExtras.loadData: trees a new building stands on are left out
- for(const id of NEW_BUILDINGS){const spec=read('docs/rebuild/holm-overhaul/buildings/'+id+'.nav.json'),g=read(spec.out+'/navigation.json'),pl=plan0.places.find(q=>q.id===PLANID[id]);
+ for(const id of NEW_BUILDINGS){const spec=read('docs/rebuild/holm-overhaul/buildings/'+id+'.nav.json'),g=read(spec.out+'/navigation.json'),pl=plan0.places.find(q=>q.id===PLANID[id]);if(!pl)continue;   // the cavern lies offshore, off the plan
   for(let z=Math.floor(pl.z-pl.d/2)-1;z<=Math.ceil(pl.z+pl.d/2)+1;z++)for(let x=Math.floor(pl.x-pl.w/2)-1;x<=Math.ceil(pl.x+pl.w/2)+1;x++)built.add(x+','+z);
   g.nodes.forEach(n=>{if(!/Terrain$/.test(n.surface))built.add(Math.floor(n.x+g.placement.x)+','+Math.floor(n.z+g.placement.z))})}
  // habitat v2 (M4.5) carries its own blocker radii; v1 (the Sept 13 anchors) blocks by tree trunk only
@@ -29,6 +29,10 @@ function load(opts){
  const hab=useV2?read(HABITAT_V2):read('.studio-workspaces/holm-habitat-v1/working/vegetation.json'),radius=useV2?hab.blockers:TREE_TRUNK;
  const veg=hab.placements.filter(p=>!built.has(Math.floor(p.x)+','+Math.floor(p.z)));
  veg.forEach(p=>{const r=radius[p.asset];if(r)blockers.push({id:'habitat:'+p.id,mode:'overlap',x0:p.x-r*p.scale,x1:p.x+r*p.scale,z0:p.z-r*p.scale,z1:p.z+r*p.scale})});
+ // M5.1 lesson trees and ore rocks (same rule as HolmIslandLessons.blockers)
+ const L=read('docs/rebuild/holm-overhaul/island-lessons.json');
+ L.trees.forEach(t=>{const r=L.treeBlockRadius*(t.scale||1);blockers.push({id:'lesson:'+t.id,mode:'overlap',x0:t.x-r,x1:t.x+r,z0:t.z-r,z1:t.z+r})});
+ L.rocks.forEach(k=>{const r=L.rockBlockRadius;blockers.push({id:'lesson:'+k.id,mode:'overlap',x0:k.x-r,x1:k.x+r,z0:k.z-r,z1:k.z+r})});
  const buildings=[
   {id:'keep',graph:read('.studio-workspaces/holm-keep-navigation-v4/candidates/navigation.json')},
   {id:'bakehouse',graph:read('.studio-workspaces/holm-kitchen-navigation-v3/candidates/navigation.json')},
@@ -37,7 +41,7 @@ function load(opts){
   .concat(NEW_BUILDINGS.map(id=>({id,graph:read(read('docs/rebuild/holm-overhaul/buildings/'+id+'.nav.json').out+'/navigation.json')})));
  const plan=read('docs/rebuild/holm-overhaul/plan.json');
  const bridges=plan.bridges.map(x=>bridgeFrom(terrain,x));
- return {terrain,arrival,dock,scenery,blockers,buildings,bridges,plan,
+ return {terrain,arrival,dock,scenery,blockers,buildings,bridges,plan,lessons:L,ladders:read('docs/rebuild/holm-overhaul/island-ladders.json').ladders,
   arrivalFootprints:[{x0:w.x-b.width/2,x1:w.x+b.width/2,z0:w.z-b.depth/2,z1:w.z+b.depth/2}]};
 }
 module.exports={load,bridgeFrom,TREE_TRUNK,NEW_BUILDINGS};

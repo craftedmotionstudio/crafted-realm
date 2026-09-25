@@ -5,7 +5,7 @@ var HolmArrivalQA=(function(){
  var qs=new URLSearchParams(location.search),island=qs.get('holmIsland')==='1',requested=qs.get('arrivalQA')==='1'||island,loaded=null,provider=null,owner=null,bridge=null,pending=null;
  // M4.5: worn paths tint the island ground before any chunk renders (island draft only)
  if(island&&typeof HolmIslandPaths!=='undefined'&&typeof HolmOverhaulGround!=='undefined')HolmOverhaulGround.setPaths(HolmIslandPaths.tiles);
- var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null,heldRecord=null;
+ var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null,heldRecord=null,lessons=null,passThrough=false;
  // ?holmIsland=1 (M4.1): the same provider over the whole Sept 13 island: the arrival graph composed with the
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
  function revision(){return island?'holm-island-v1':loaded.package.navigation.graphRevision}
@@ -37,6 +37,8 @@ var HolmArrivalQA=(function(){
      owner=await HolmArrivalModelOwner.create({THREE:THREE,scene:scene,WORLD:WORLD,loaded:loaded});owner.setDoors(doors);
      if(island){
       extras=await HolmIslandExtras.load({THREE:THREE,scene:scene,WORLD:WORLD,data:islandData,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}});
+      // M5.1 lesson stations on the island (trees, fishing spot, ore rocks, furnace, anvil, beacon lever)
+      if(typeof HolmIslandLessons!=='undefined')lessons=await HolmIslandLessons.load({THREE:THREE,scene:scene,WORLD:WORLD,models:extras.models,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}});
      }
      water=HolmArrivalWater.create(THREE,loaded.documents.terrain.creek);scene.add(water.group);
      trail=HolmArrivalTrail.create(THREE,loaded.documents.layout,HolmArrivalTrail.terrainSampler(loaded.documents.terrain));
@@ -47,7 +49,7 @@ var HolmArrivalQA=(function(){
      for(const d of pack.navigation.doors){var leaf=owner.house.getObjectByName(d.leafPart);if(leaf){leaf.userData.kind='arrival_door';leaf.userData.arrivalDoor=d.id;leaf.userData.label='Open / close door';if(WORLD.clickables.indexOf(leaf)<0)WORLD.clickables.push(leaf)}}
     },populate:function(){},chartCollision:function(){},
     loadChunk:function(c,p){return WorldV2Terrain.loadChunk(c,p)},unloadChunk:function(h){WorldV2Terrain.unloadChunk(h)},
-    dispose:function(){HolmArrivalPlayer.detach();if(extras){extras.dispose();extras=null}if(owner)owner.dispose();if(water)water.dispose();if(trail){scene.remove(trail);[WORLD.grounds,WORLD.clickables].forEach(function(a){var i=a.indexOf(trail);if(i>=0)a.splice(i,1)});trail.geometry.dispose();trail.material.dispose();trail=null;}if(chart){scene.remove(chart);var i=WORLD.clickables.indexOf(chart);if(i>=0)WORLD.clickables.splice(i,1);chart.geometry.dispose();chart.material.dispose()}WorldV2Terrain.dispose()},
+    dispose:function(){HolmArrivalPlayer.detach();if(lessons){HolmIslandLessons.dispose(WORLD,scene);lessons=null}if(extras){extras.dispose();extras=null}if(owner)owner.dispose();if(water)water.dispose();if(trail){scene.remove(trail);[WORLD.grounds,WORLD.clickables].forEach(function(a){var i=a.indexOf(trail);if(i>=0)a.splice(i,1)});trail.geometry.dispose();trail.material.dispose();trail=null;}if(chart){scene.remove(chart);var i=WORLD.clickables.indexOf(chart);if(i>=0)WORLD.clickables.splice(i,1);chart.geometry.dispose();chart.material.dispose()}WorldV2Terrain.dispose()},
     snapshot:function(){return {arrivalDraft:true,terrain:WorldV2Terrain.snapshot(),pose:bridge?bridge.snapshot():null,doors:doors}}
    }});
   WorldV2.activate(ID);CRWorldMode.attachProvider(provider);return provider;
@@ -100,10 +102,29 @@ var HolmArrivalQA=(function(){
   });
   return best;
  }
+ var WORLD_KINDS={resource:1,fire:1,bank:1,furnace:1,anvil:1};
+ // the stance beside a station: a graph node 0.5-1.7 tiles away horizontally at about the station's height, nearest the player
+ function beside(at){var best=null,score=Infinity;graphForDoors(doors).nodes.forEach(function(n){var h=Math.hypot(n.x-at.x,n.z-at.z);
+  if(h<.5||h>1.7||Math.abs(n.y-at.y)>2.2)return;var s=Math.hypot(n.x-player.position.x,n.z-player.position.z)+h*2;if(s<score){score=s;best=n}});return best}
+ // pass the click to the game's handler (it sets the action); cancel the direct walk it orders, the player is in reach
+ function act(obj,point){passThrough=true;try{if(typeof window.handleClick==='function')window.handleClick(obj,point);else handleClickGame(obj,point)}finally{passThrough=false}if(bridge)bridge.stop()}
+ function handleClickGame(obj,point){try{return new Function('o','p','return handleClick(o,p)')(obj,point)}catch(e){console.error(e)}}
  function handleClick(obj,point){
+  if(passThrough)return false;
   if(!active()||!bridge)return false;
   var u=obj.userData||{};pending=null;Player.target=null;Player.action=null;
   if(u.kind==='island_sign'&&island){UI.chat(u.islandSign,'plain');return true}
+  // M5.1: the game's own stations (trees, fishing spot, rocks, fires, furnace, anvil, bank booths). Walk the graph to a
+  // stance beside the object, then hand the click to the game's handleClick, which runs the normal action.
+  if(island&&!passThrough&&WORLD_KINDS[u.kind]){
+   if(u.kind==='resource'&&!u.alive){UI.chat('There is nothing left to gather here.','plain');return true}
+   // stand-off measured from the station's footprint centre at its base (a furnace's bounding centre is head-high)
+   var bx=new THREE.Box3().setFromObject(obj),at=bx.getCenter(new THREE.Vector3());at.y=bx.min.y;if(u.kind==='resource'||u.kind==='fire')at.copy(obj.getWorldPosition(new THREE.Vector3()));
+   var near=beside(at);
+   if(near&&Math.hypot(near.x-player.position.x,near.z-player.position.z)<.3&&!bridge.snapshot().moving){act(obj,point);return true}
+   if(near&&bridge.order(near))pending={id:near.id,kind:'world',obj:obj,point:point};else UI.chat('You cannot reach that from here.','plain');
+   return true;
+  }
   if(u.kind==='island_service'&&u.islandService&&island){   // M4.2: walk to the measured stance, then serve
    var sv=u.islandService,sg=graphForDoors(doors),stance=sg.byId&&sg.byId[sv.node];
    if(stance&&bridge.order({x:stance.x,y:stance.y,z:stance.z,surface:stance.surface}))pending={id:sv.node,kind:'island_service',service:sv};
@@ -138,16 +159,22 @@ var HolmArrivalQA=(function(){
   return false;
  }
  function update(dt){
-  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);owner.update(dt,pose.surface);
+  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);if(lessons)HolmIslandLessons.update();owner.update(dt,pose.surface);
   if(pending&&pose.nodeId===pending.id&&!pose.moving){var p0=pending,kind=pending.kind,door=pending.door;pending=null;
    if(kind==='island_service'){var call=p0.service.call;
-    if(p0.service.climb){var up=graphForDoors(doors).byId[p0.service.climb];if(up)placeAt(up);else UI.chat('The ladder leads nowhere yet.','plain');if(!call)return}
+    if(p0.service.climb){var up=graphForDoors(doors).byId[p0.service.climb];if(up){placeAt(up);if(p0.service.notify)try{Tutorial.notify(p0.service.notify[0],p0.service.notify[1])}catch(e){}}else UI.chat('The ladder leads nowhere yet.','plain');if(!call)return}
     if(!call){UI.chat(p0.service.label+'. (Its lesson comes with the full tutorial.)','plain');return}
     // module globals may be lexical (const UI), so resolve by name rather than only on window
     var mod=typeof window!=='undefined'&&window[call[0]];if(!mod&&/^[A-Za-z_]\w*$/.test(call[0])){try{mod=new Function('return typeof '+call[0]+'!==\'undefined\'?'+call[0]+':null')()}catch(e){mod=null}}
     if(mod&&typeof mod[call[1]]==='function')mod[call[1]]();return}
+   if(kind==='world'){act(p0.obj,p0.point);return}
    if(kind==='door')toggleDoor(door);else if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
  }
+ // the firemaker's step off the fire tile on the graph: west first, then east, south, north (island draft only)
+ function stepAside(){if(!island||!active()||!bridge)return false;var g=graphForDoors(doors),cur=g.byId[bridge.snapshot().nodeId];if(!cur)return false;
+  var nb=(g.links[cur.id]||[]).map(function(id){return g.byId[id]});
+  for(var d of [[-1,0],[1,0],[0,1],[0,-1]]){var n=nb.filter(function(m){return Math.round(m.x-cur.x)===d[0]&&Math.round(m.z-cur.z)===d[1]})[0];if(n&&bridge.order(n))return true}
+  return true}
  // QA only (read-only): where a building's measured target stands on the composed graph (any storey).
  function qaStance(buildingId,targetId){
   if(!active()||!island||!islandData)return null;var b=islandData.buildings.filter(function(x){return x.id===buildingId})[0],t=b&&b.graph.targets.filter(function(x){return x.id===targetId})[0];
@@ -161,10 +188,10 @@ var HolmArrivalQA=(function(){
   var g=graphForDoors(doors),from=bridge.snapshot().nodeId,r=from&&nav.route(g,from,'b:'+buildingId+':'+t.nodeId);
   return r?r.map(function(id){var n=g.byId[id];return {id:id,x:n.x,y:n.y,z:n.z,surface:n.surface}}):null;
  }
- return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaStance:qaStance,
+ return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaStance:qaStance,stepAside:stepAside,
   islandActive:function(){return active()&&island},
   // review captures only: stream and frame a place without moving the adventurer
-  qaView:function(x,z){if(!active())return null;provider.updateResidency(x,z,true);var y=height(x,z);window.__qaCameraFocus={x:x,y:Number.isFinite(y)?y:0,z:z};return window.__qaCameraFocus},
+  qaView:function(x,z,y0){if(!active())return null;provider.updateResidency(x,z,true);var y=Number.isFinite(y0)?y0:height(x,z);window.__qaCameraFocus={x:x,y:Number.isFinite(y)?y:0,z:z};return window.__qaCameraFocus},   // y0: explicit height (the offshore cavern has no terrain)
   qaViewClear:function(){window.__qaCameraFocus=null},
   // the bakehouse oven stance, for the kitchen module's cook proxy on the island
   islandRangePoint:function(){if(!active()||!island)return null;var n=graphForDoors(doors).byId['b:bakehouse:-3:-2:1'];return n?{x:n.x,y:n.y,z:n.z}:null},

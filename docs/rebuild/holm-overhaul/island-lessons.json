@@ -1,0 +1,80 @@
+{
+ "schema": "holm-island-lessons-v1",
+ "status": "M5.1 island draft lesson stations (Blender props, the game's own gather/cook/smelt/smith systems)",
+ "trees": [
+  {
+   "id": "survival-oak-1",
+   "x": 30.5,
+   "z": 77.5,
+   "yaw": 0.4,
+   "scale": 0.85
+  },
+  {
+   "id": "survival-oak-2",
+   "x": 34.5,
+   "z": 77.5,
+   "yaw": 2.1,
+   "scale": 0.8
+  },
+  {
+   "id": "survival-oak-3",
+   "x": 23.5,
+   "z": 85.5,
+   "yaw": 4,
+   "scale": 0.9
+  }
+ ],
+ "treeBlockRadius": 0.45,
+ "fishing": [
+  {
+   "id": "survival-perch",
+   "x": 43.5,
+   "z": 91.5,
+   "y": 1.62,
+   "stance": [
+    "survival",
+    "fishing"
+   ]
+  }
+ ],
+ "rocks": [
+  {
+   "id": "cavern-copper-1",
+   "ore": "copper",
+   "x": 200.5,
+   "y": -30,
+   "z": 54.5,
+   "yaw": 0.3,
+   "socket": "Cavern_SocketCopper_1"
+  },
+  {
+   "id": "cavern-copper-2",
+   "ore": "copper",
+   "x": 203.5,
+   "y": -30,
+   "z": 54.5,
+   "yaw": 2.2,
+   "socket": "Cavern_SocketCopper_2"
+  },
+  {
+   "id": "cavern-tin-1",
+   "ore": "tin",
+   "x": 207.5,
+   "y": -30,
+   "z": 55.5,
+   "yaw": 4.1,
+   "socket": "Cavern_SocketTin_1"
+  },
+  {
+   "id": "cavern-tin-2",
+   "ore": "tin",
+   "x": 207.5,
+   "y": -30,
+   "z": 57.5,
+   "yaw": 5.4,
+   "socket": "Cavern_SocketTin_2"
+  }
+ ],
+ "rockBlockRadius": 0.45,
+ "notes": "Tree spots picked by script: open land 6-8 tiles from the survival camp, off paths, >= 2.2 from habitat, reachable from the dock, 3+ open neighbours. Fishing ripple on the creek tile south of the measured fishing-stage stance; y = creek surface (plan creek point 43,91 at 1.6). Rocks are filled from the cavern's socket empties once measured."
+}

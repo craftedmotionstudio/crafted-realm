@@ -7,10 +7,10 @@
       "detail": {
         "provider": "tutors-holm-arrival-qa",
         "stats": {
-          "nodes": 11040,
-          "edges": 19269,
+          "nodes": 11122,
+          "edges": 19381,
           "owners": {
-            "land": 8069,
+            "land": 8066,
             "b:keep": 901,
             "b:bakehouse": 274,
             "b:lodge": 388,
@@ -20,17 +20,18 @@
             "b:mage": 298,
             "b:haven": 163,
             "b:lastlight": 224,
+            "b:cavern": 85,
             "arrival": 163
           }
         },
-        "roots": 289
+        "roots": 301
       }
     },
     {
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 5,
+        "deckSamples": 6,
         "deckY": 1.631
       }
     },
@@ -220,15 +221,16 @@
       "label": "Quarry Gate: walks through the portal to the shaft mouth",
       "ok": true,
       "detail": {
-        "ok": true,
+        "ok": false,
         "walk": "ok",
         "click": "ok",
         "at": [
           35.5,
-          7.146,
-          28.5
+          7.15,
+          29.5
         ],
-        "diagonal": 0
+        "diagonal": 0,
+        "shaftTiles": 1
       }
     },
     {
@@ -304,6 +306,16 @@
       }
     },
     {
+      "label": "Lastlight: the beacon lever lights the lamp (beacon/lit credited)",
+      "ok": true,
+      "detail": {
+        "notes": [
+          "bank/open",
+          "beacon/lit"
+        ]
+      }
+    },
+    {
       "label": "Lastlight: all three ladders climbed back down to the ground floor",
       "ok": true,
       "detail": {
@@ -338,18 +350,60 @@
       }
     },
     {
+      "label": "M5.1 survival lessons on the island: chop, light a fire (step west on the graph), net a perch, cook it",
+      "ok": true,
+      "detail": {
+        "chop": true,
+        "fire": true,
+        "stepWest": true,
+        "fish": true,
+        "cookTries": 2,
+        "cook": true,
+        "cookNote": [
+          "cook/cooked_perch"
+        ],
+        "descend": true,
+        "copper": true,
+        "tin": true,
+        "smelt": true,
+        "smith": true,
+        "up": true
+      }
+    },
+    {
+      "label": "M5.1 cavern lessons: shaft ladder down (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up",
+      "ok": true,
+      "detail": {
+        "chop": true,
+        "fire": true,
+        "stepWest": true,
+        "fish": true,
+        "cookTries": 2,
+        "cook": true,
+        "cookNote": [
+          "cook/cooked_perch"
+        ],
+        "descend": true,
+        "copper": true,
+        "tin": true,
+        "smelt": true,
+        "smith": true,
+        "up": true
+      }
+    },
+    {
       "label": "reload restores the island position",
       "ok": true,
       "detail": {
         "before": [
-          122.5,
-          14.3,
-          23.5
+          35.5,
+          7.146,
+          28.5
         ],
         "after": [
-          122.5,
-          14.3,
-          23.5
+          35.5,
+          7.146,
+          28.5
         ]
       }
     },
@@ -361,5 +415,5 @@
       }
     }
   ],
-  "seconds": 520
+  "seconds": 749
 }
