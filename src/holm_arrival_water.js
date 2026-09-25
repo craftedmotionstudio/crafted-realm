@@ -22,17 +22,29 @@ var HolmArrivalWater=(function(){
  }
  function create(T,creek,offset){
   offset=offset||{x:0,z:0};var data=ribbon(creek,offset),time={value:0},disposed=false;
-  // Unlit blue-gray keeps the quiet reference palette independent of warm sun lighting.
-  // Low contrast, sparse glints avoid repeating ocean-wide stripes.
-  var material=new T.MeshBasicMaterial({color:0x8291a2,transparent:true,opacity:.96,side:T.DoubleSide,stencilWrite:true,stencilRef:1,stencilFunc:T.NotEqualStencilFunc,stencilZPass:T.KeepStencilOp});
+  // 2004-style water (owner 2026-09-25: "more like old school RuneScape water"): unlit saturated blues in three chunky
+  // tones that drift slowly on a diagonal, as the old scrolling water texture did, with sparse light streaks. The
+  // pattern is our own procedural value noise in world space, so the ocean, the creek mouth and the creek share it.
+  var material=new T.MeshBasicMaterial({color:0x4a6fa6,transparent:true,opacity:.97,side:T.DoubleSide,stencilWrite:true,stencilRef:1,stencilFunc:T.NotEqualStencilFunc,stencilZPass:T.KeepStencilOp});
   material.onBeforeCompile=function(shader){
    shader.uniforms.holmWaterTime=time;
    shader.vertexShader='varying vec3 holmWaterPosition;\n'+shader.vertexShader;
    shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nholmWaterPosition = position;');
-   shader.fragmentShader='uniform float holmWaterTime;\nvarying vec3 holmWaterPosition;\n'+shader.fragmentShader;
-   shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nfloat waveA = sin(holmWaterPosition.x * .19 + holmWaterPosition.z * .43 - holmWaterTime * .32);\nfloat waveB = sin(holmWaterPosition.z * .31 - holmWaterPosition.x * .27 + holmWaterTime * .21);\nfloat glint = smoothstep(.985, 1.0, waveA) * smoothstep(.82, .99, waveB);\ndiffuseColor.rgb *= .995 + .005 * waveA;\ndiffuseColor.rgb += vec3(.008, .009, .01) * glint;');
+   shader.fragmentShader='uniform float holmWaterTime;\nvarying vec3 holmWaterPosition;\n'+
+    'float hwHash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}\n'+
+    'float hwNoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(hwHash(i),hwHash(i+vec2(1.0,0.0)),f.x),mix(hwHash(i+vec2(0.0,1.0)),hwHash(i+vec2(1.0,1.0)),f.x),f.y);}\n'+
+    shader.fragmentShader;
+   shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\n'+
+    'vec2 hwQ = holmWaterPosition.xz * 0.42 + vec2(holmWaterTime * 0.07, holmWaterTime * 0.03);\n'+
+    'float hwN = hwNoise(hwQ) * 0.62 + hwNoise(hwQ * 2.3 + 17.0) * 0.38;\n'+
+    'vec3 hwDeep = vec3(0.24, 0.38, 0.62), hwMid = vec3(0.27, 0.43, 0.68), hwLight = vec3(0.34, 0.52, 0.77);\n'+
+    'vec3 hwC = mix(hwDeep, hwMid, smoothstep(0.36, 0.48, hwN));\n'+
+    'hwC = mix(hwC, hwLight, smoothstep(0.72, 0.77, hwN));\n'+
+    'float hwStreak = smoothstep(0.93, 0.975, hwNoise(vec2(hwQ.x * 0.55 - holmWaterTime * 0.04, hwQ.y * 2.6) + 3.0));\n'+
+    'hwC = mix(hwC, vec3(0.55, 0.70, 0.89), hwStreak * 0.40);\n'+
+    'diffuseColor.rgb = hwC;');
   };
-  material.customProgramCacheKey=function(){return 'holm-arrival-water-v2'};
+  material.customProgramCacheKey=function(){return 'holm-arrival-water-v3'};
   var group=new T.Group();group.name='ArrivalWater';
   // Horizontal positions in both meshes let one world-scale pattern cross the mouth.
   var oceanGeometry=new T.BufferGeometry();

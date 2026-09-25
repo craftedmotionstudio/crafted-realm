@@ -73,7 +73,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 5,
+        "deckSamples": 6,
         "deckY": 1.631
       }
     },
@@ -399,7 +399,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 1,
+        "cookTries": 2,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -420,7 +420,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 1,
+        "cookTries": 2,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -444,11 +444,11 @@
           "mage-yard",
           "mage-yard"
         ],
-        "melee": "never became the target",
+        "melee": true,
         "ranged": "never became the target",
         "arrowsUsed": 0,
         "magic": true,
-        "runesUsed": 6
+        "runesUsed": 4
       }
     },
     {
@@ -475,5 +475,5 @@
       }
     }
   ],
-  "seconds": 809
+  "seconds": 861
 }
