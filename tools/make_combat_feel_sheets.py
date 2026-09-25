@@ -71,8 +71,9 @@ def crop_box(c, w=700, h=470):
     x0 = int(max(0, min(1538 - w, c[0] - w / 2))); y0 = int(max(0, min(900 - h, c[1] - h / 2)))
     return (x0, y0, x0 + w, y0 + h)
 
-def strip(run, t0, offs, labels, title, note='', w=700, h=470, cols=5, who=(0, 1)):
-    box = crop_box(run.span(t0 + min(offs), t0 + max(offs), who), w, h)
+def strip(run, t0, offs, labels, title, note='', w=700, h=470, cols=5, who=(0, 1), dy=0):
+    c = run.span(t0 + min(offs), t0 + max(offs), who)
+    box = crop_box((c[0], c[1] + dy, c[2]), w, h)
     tw, th = 300, int(300 * h / w)
     rows = (len(offs) + cols - 1) // cols; pad, head, cap = 6, 48 if note else 30, 22
     im = Image.new('RGB', (cols * (tw + pad) + pad, head + rows * (th + cap + pad)), (24, 21, 17))
@@ -157,11 +158,11 @@ def main():
                                ['1st', 'pop', '2nd (above)', '3rd (left)', '4th (right)', 'four stacked', 'oldest fading', 'fading', 'fading', 'clear'],
                                'Stacking: four hits inside 1.2 s (demo)', 'OSRS pattern: centre, above, left, right; each pops in (scale 1.45 to 1) and fades over its last 0.28 s', 560, 380, who=(1,)))
     if have('hurt'):
-        r = Run(raw, 'hurt'); pl = r.splats(on_player=True)
+        r = Run(raw, 'hurt'); pl = r.splats('hit', on_player=True)   # anchor on the demo's red 3 (the grubkin keeps landing 0s)
         if pl:
             parts.append(strip(r, pl[0][0], [-150, 0, 60, 150, 300, 700, 780, 900, 1300, 2000],
                                ['before', 'hit: 3', 'pop', 'hit clip', 'bar trail', 'block: 0', 'guard', 'stacked', 'fading', 'after'],
-                               'The adventurer hurt (demo)', "red splat + the kit's hit clip, the overhead bar drops with a pale trail; then a blue 0 with the block clip", 560, 380, who=(0,)))
+                               'The adventurer hurt (demo)', "red splat + the kit's hit clip, the overhead bar drops with a pale trail; then a blue 0 with the block clip", 560, 380, who=(0,), dy=-70))
     if parts: stack(parts, os.path.join(out, 'sheet_stack_and_player.png'))
     if len(sys.argv) > 3: compare_all(sys.argv[3], raw, out)
 

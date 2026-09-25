@@ -1,0 +1,428 @@
+{
+ "pass": true,
+ "checks": [
+  {
+   "l": "melee: combat_fx.js allocates under 4 KB/s while fighting (pools; no per-frame garbage)",
+   "ok": true,
+   "d": {
+    "bytesPerSec": 298,
+    "byFn": {
+     "allocEv": 88,
+     "tone": 532,
+     "nz": 468,
+     "react": 300,
+     "sparks": 140,
+     "spawn": 380,
+     "allocPart": 260,
+     "burstDir": 140,
+     "tickXp": 80
+    }
+   }
+  },
+  {
+   "l": "melee: CombatFX.update + draw average under 0.5 ms a frame",
+   "ok": true,
+   "d": {
+    "frames": 301,
+    "update": [
+     0.0525,
+     0.1
+    ],
+    "draw": [
+     0.2236,
+     0.5
+    ]
+   }
+  },
+  {
+   "l": "melee: the fight really ran (damage dealt, effects spawned)",
+   "ok": true,
+   "d": {
+    "dealt": 2,
+    "stats": {
+     "t": 10.402,
+     "splats": 2,
+     "particles": 0,
+     "particlePool": 5,
+     "projectiles": 0,
+     "fxPool": 0,
+     "arrowPool": 0,
+     "pending": 0,
+     "eventPool": 2,
+     "xpRows": 2,
+     "xpPool": 2,
+     "shaking": false,
+     "reducedMotion": false
+    }
+   }
+  },
+  {
+   "l": "ranged: combat_fx.js allocates under 4 KB/s while fighting (pools; no per-frame garbage)",
+   "ok": true,
+   "d": {
+    "bytesPerSec": 2020,
+    "byFn": {
+     "xpDrop": 80,
+     "hit": 460,
+     "setExpect": 84,
+     "launch": 752,
+     "allocFx": 480,
+     "impactTime": 188,
+     "update": 2600,
+     "attackingNow": 264,
+     "addSplat": 404,
+     "tickParts": 72,
+     "releaseFx": 2052,
+     "handPos": 364,
+     "hands": 240,
+     "(anon)": 476,
+     "arrowFromPool": 1380,
+     "gate": 156,
+     "flyFx": 2400,
+     "pathAt": 236,
+     "landFx": 1064,
+     "spawn": 320,
+     "allocPart": 1032,
+     "dust": 508,
+     "present": 364,
+     "react": 196
+    }
+   }
+  },
+  {
+   "l": "ranged: CombatFX.update + draw average under 0.5 ms a frame",
+   "ok": true,
+   "d": {
+    "frames": 326,
+    "update": [
+     0.0724,
+     0.2
+    ],
+    "draw": [
+     0.1012,
+     0.2
+    ]
+   }
+  },
+  {
+   "l": "ranged: the fight really ran (damage dealt, effects spawned)",
+   "ok": true,
+   "d": {
+    "dealt": 3,
+    "stats": {
+     "t": 20.213,
+     "splats": 1,
+     "particles": 8,
+     "particlePool": 8,
+     "projectiles": 0,
+     "fxPool": 1,
+     "arrowPool": 1,
+     "pending": 0,
+     "eventPool": 2,
+     "xpRows": 2,
+     "xpPool": 2,
+     "shaking": false,
+     "reducedMotion": false
+    }
+   }
+  },
+  {
+   "l": "magic: combat_fx.js allocates under 4 KB/s while fighting (pools; no per-frame garbage)",
+   "ok": true,
+   "d": {
+    "bytesPerSec": 1084,
+    "byFn": {
+     "xpDrop": 2104,
+     "xpHostEl": 124,
+     "launch": 756,
+     "gate": 88,
+     "block": 76,
+     "tickParts": 72,
+     "handPos": 172,
+     "hands": 120,
+     "releaseFx": 1208,
+     "spawn": 440,
+     "tex": 328,
+     "allocPart": 1808,
+     "tinted": 76,
+     "landFx": 1132,
+     "rnd": 72,
+     "flushHits": 108
+    }
+   }
+  },
+  {
+   "l": "magic: CombatFX.update + draw average under 0.5 ms a frame",
+   "ok": true,
+   "d": {
+    "frames": 288,
+    "update": [
+     0.1063,
+     0.4
+    ],
+    "draw": [
+     0.1806,
+     0.4
+    ]
+   }
+  },
+  {
+   "l": "magic: the fight really ran (damage dealt, effects spawned)",
+   "ok": true,
+   "d": {
+    "dealt": 7,
+    "stats": {
+     "t": 29.935,
+     "splats": 1,
+     "particles": 0,
+     "particlePool": 18,
+     "projectiles": 0,
+     "fxPool": 1,
+     "arrowPool": 1,
+     "pending": 0,
+     "eventPool": 2,
+     "xpRows": 3,
+     "xpPool": 3,
+     "shaking": false,
+     "reducedMotion": false
+    }
+   }
+  },
+  {
+   "l": "pools stay bounded (particles <= 160, arrows <= 6, projectiles/events small)",
+   "ok": true,
+   "d": {
+    "t": 31.477,
+    "splats": 0,
+    "particles": 0,
+    "particlePool": 18,
+    "projectiles": 0,
+    "fxPool": 1,
+    "arrowPool": 1,
+    "pending": 1,
+    "eventPool": 2,
+    "xpRows": 0,
+    "xpPool": 3,
+    "shaking": false,
+    "reducedMotion": false
+   }
+  },
+  {
+   "l": "zero page errors",
+   "ok": true,
+   "d": {
+    "errs": []
+   }
+  }
+ ],
+ "result": {
+  "melee": {
+   "secs": 8.016,
+   "combatFxBytesPerSec": 298,
+   "topSources": [
+    [
+     "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
+     21959
+    ],
+    [
+     "(native)",
+     7753
+    ],
+    [
+     "src/frame_stage_metrics.js",
+     7126
+    ],
+    [
+     "src/ui_map.js",
+     2285
+    ],
+    [
+     "src/holm_overhaul_terrain.js",
+     1168
+    ],
+    [
+     "src/holm_arrival_door_motion.js",
+     799
+    ]
+   ],
+   "combatFxByFn": {
+    "allocEv": 88,
+    "tone": 532,
+    "nz": 468,
+    "react": 300,
+    "sparks": 140,
+    "spawn": 380,
+    "allocPart": 260,
+    "burstDir": 140,
+    "tickXp": 80
+   },
+   "frames": 301,
+   "updAvg": 0.0525,
+   "updP95": 0.1,
+   "drawAvg": 0.2236,
+   "drawP95": 0.5,
+   "hits": 99998,
+   "stats": {
+    "t": 10.402,
+    "splats": 2,
+    "particles": 0,
+    "particlePool": 5,
+    "projectiles": 0,
+    "fxPool": 0,
+    "arrowPool": 0,
+    "pending": 0,
+    "eventPool": 2,
+    "xpRows": 2,
+    "xpPool": 2,
+    "shaking": false,
+    "reducedMotion": false
+   }
+  },
+  "ranged": {
+   "secs": 8.005,
+   "combatFxBytesPerSec": 2020,
+   "topSources": [
+    [
+     "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
+     10111
+    ],
+    [
+     "src/frame_stage_metrics.js",
+     7019
+    ],
+    [
+     "(native)",
+     2629
+    ],
+    [
+     "src/combat_fx.js",
+     2020
+    ],
+    [
+     "src/game3_systems.js",
+     422
+    ],
+    [
+     "src/workyard_waterworks_u4.js",
+     301
+    ]
+   ],
+   "combatFxByFn": {
+    "xpDrop": 80,
+    "hit": 460,
+    "setExpect": 84,
+    "launch": 752,
+    "allocFx": 480,
+    "impactTime": 188,
+    "update": 2600,
+    "attackingNow": 264,
+    "addSplat": 404,
+    "tickParts": 72,
+    "releaseFx": 2052,
+    "handPos": 364,
+    "hands": 240,
+    "(anon)": 476,
+    "arrowFromPool": 1380,
+    "gate": 156,
+    "flyFx": 2400,
+    "pathAt": 236,
+    "landFx": 1064,
+    "spawn": 320,
+    "allocPart": 1032,
+    "dust": 508,
+    "present": 364,
+    "react": 196
+   },
+   "frames": 326,
+   "updAvg": 0.0724,
+   "updP95": 0.2,
+   "drawAvg": 0.1012,
+   "drawP95": 0.2,
+   "hits": 99997,
+   "stats": {
+    "t": 20.213,
+    "splats": 1,
+    "particles": 8,
+    "particlePool": 8,
+    "projectiles": 0,
+    "fxPool": 1,
+    "arrowPool": 1,
+    "pending": 0,
+    "eventPool": 2,
+    "xpRows": 2,
+    "xpPool": 2,
+    "shaking": false,
+    "reducedMotion": false
+   }
+  },
+  "magic": {
+   "secs": 8.013,
+   "combatFxBytesPerSec": 1084,
+   "topSources": [
+    [
+     "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
+     18007
+    ],
+    [
+     "src/frame_stage_metrics.js",
+     7069
+    ],
+    [
+     "(native)",
+     3959
+    ],
+    [
+     "src/combat_fx.js",
+     1084
+    ],
+    [
+     "src/game5_main.js",
+     838
+    ],
+    [
+     "src/game3_systems.js",
+     649
+    ]
+   ],
+   "combatFxByFn": {
+    "xpDrop": 2104,
+    "xpHostEl": 124,
+    "launch": 756,
+    "gate": 88,
+    "block": 76,
+    "tickParts": 72,
+    "handPos": 172,
+    "hands": 120,
+    "releaseFx": 1208,
+    "spawn": 440,
+    "tex": 328,
+    "allocPart": 1808,
+    "tinted": 76,
+    "landFx": 1132,
+    "rnd": 72,
+    "flushHits": 108
+   },
+   "frames": 288,
+   "updAvg": 0.1063,
+   "updP95": 0.4,
+   "drawAvg": 0.1806,
+   "drawP95": 0.4,
+   "hits": 99993,
+   "stats": {
+    "t": 29.935,
+    "splats": 1,
+    "particles": 0,
+    "particlePool": 18,
+    "projectiles": 0,
+    "fxPool": 1,
+    "arrowPool": 1,
+    "pending": 0,
+    "eventPool": 2,
+    "xpRows": 3,
+    "xpPool": 3,
+    "shaking": false,
+    "reducedMotion": false
+   }
+  }
+ }
+}

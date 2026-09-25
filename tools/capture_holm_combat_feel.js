@@ -108,7 +108,7 @@ const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmIsland=1&qaP
     if(want('melee_crush'))log.runs.push(await fight('melee_crush','melee',{styleIdx:1,hp:30,ms:8000,dist:7.5,pitch:.72,yawOff:.4}));
     if(want('melee_slash'))log.runs.push(await fight('melee_slash','melee',{styleIdx:2,hp:30,ms:8000,dist:7.5,pitch:.72,yawOff:-.4}));
     if(want('ranged'))log.runs.push(await fight('ranged','ranged',{far:true,hp:30,ms:16000,killAfter:8000,stopAfterDeath:3500,dist:10,pitch:.62}));
-    if(want('magic'))log.runs.push(await fight('magic','magic',{far:true,hp:30,ms:16000,killAfter:8000,stopAfterDeath:3500,dist:10,pitch:.62}));
+    if(want('magic'))log.runs.push(await fight('magic','magic',{far:true,hp:30,ms:22000,killAfter:8000,stopAfterDeath:3500,dist:10,pitch:.62}));
     // presentation demo (not a fight): four hits in quick succession show the OSRS stacking pattern, and a hurt adventurer
     // shows the red splat, the kit's hit clip and the overhead bar. Only CombatFX.hit is called (+ the capture's own hp dip).
     if(want('stack'))log.runs.push(await fight('stack','melee',{styleIdx:0,hp:30,ms:3200,dist:7.5,pitch:.75,noAttack:true,demo:'stack',focus:'npc'}));
