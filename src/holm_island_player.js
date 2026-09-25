@@ -22,7 +22,9 @@ var HolmIslandPlayer=(function(){
  var MAP={slash:'attack_slash',stab:'attack_stab',crush:'attack_crush',bow:'bow',cast:'cast',mine:'mine',smith:'smith',smelt:'smelt',chop:'chop',net:'net',cook:'cook',climb:'climb',block:'block',hit:'hit'};
  function clipFor(type){var a=typeof Player!=='undefined'&&Player.action,u=a&&a.obj&&a.obj.userData;
   if(a&&a.type==='gather'&&u){if(u.rtype==='tree')return 'chop';if(u.rtype==='fish')return 'net';if(u.rtype==='rock')return 'mine'}
-  if(a&&(a.type==='lightfire'||a.type==='cook'))return 'cook';
+  // firemaking plays the kit's own 'firemake' clip once it ships, the cook (tend the fire) clip until then
+  if(a&&a.type==='lightfire'){var gc=player&&player.userData&&player.userData.gmix&&player.userData.gmix.clips;return gc&&gc.firemake?'firemake':'cook'}
+  if(a&&a.type==='cook')return 'cook';
   return MAP[type||'slash']||'attack_slash'}
  function play(name){var gm=player&&player.userData&&player.userData.gmix,act=gm&&gm.clips&&gm.clips[name];if(!act)return false;
   act.reset();act.setLoop(THREE.LoopOnce,1);act.clampWhenFinished=name==='death';act.weight=1;act.play();gm.attack=act;return true}   // playerGLBAnim treats gm.attack as the body-owning one-shot
@@ -67,7 +69,9 @@ var HolmIslandPlayer=(function(){
   var a=typeof Player!=='undefined'&&Player.action,gm=st.root&&player===st.root&&player.userData.gmix;if(!gm)return;
   // gear refits can re-show meshes: keep exactly the chosen body, hair and beard (cheap, about twenty meshes)
   var now=Date.now();if(!st.lastLook||now-st.lastLook>1000){st.lastLook=now;applyLook(st.rig)}
-  if(a&&a.type==='cook'&&!(gm.attack&&gm.attack.isRunning()))play('cook')}
+  if(a&&a.type==='cook'&&!(gm.attack&&gm.attack.isRunning()))play('cook');
+  // OSRS: the weapon and shield go away and the skill's tool is in the hand while the action runs
+  if(typeof HolmSkillTools!=='undefined')HolmSkillTools.update()}
  return {load:load,update:update,play:play,refreshLook:refreshLook,active:function(){return !!st.root&&typeof player!=='undefined'&&player===st.root},look:look};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandPlayer;

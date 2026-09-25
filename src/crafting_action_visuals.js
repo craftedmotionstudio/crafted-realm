@@ -101,7 +101,10 @@
     }
   }
   function update(actor,action,dt){
-    var want=desired(action);
+    // the island kit plays authored mine/smith/smelt clips and HolmSkillTools puts the Blender tool in its hand:
+    // no code-built tool and no procedural arm pose on top of the clip (sparks and furnace glow still play)
+    var own=global.HolmSkillTools&&global.HolmSkillTools.handles&&global.HolmSkillTools.handles(actor);
+    var want=own?null:desired(action);
     if(!want){if(active)cleanup();}
     else if(!active||active.action!==action||active.kind!==want){cleanup();begin(want,action);}
     if(active)poseGLB(active.kind,dt);

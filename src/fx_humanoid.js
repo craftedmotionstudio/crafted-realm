@@ -257,6 +257,10 @@ function refreshGLBGear(){
   const gm = player.userData.gmix;
   if(gm && gm.idle){
     if(gm.attack) gm.attack.stop(); if(gm.block) gm.block.stop();
+    // the island kit also carries a run clip and one-shot skill clips (chop, mine, net, ...): a fit solved while
+    // any of them still has weight lands in a blended pose (equip after running = a tilted bow / staff)
+    if(gm.run) gm.run.weight=0;
+    if(gm.clips) for(const k in gm.clips){ const c=gm.clips[k]; if(c && c!==gm.idle && c!==gm.walk && c!==gm.run) c.stop(); }
     gm.idle.weight=1; if(gm.walk) gm.walk.weight=0; gm.w=0;
     gm.idle.time=0; gm.mixer.update(0);
   }
@@ -334,7 +338,7 @@ function refreshGLBGear(){
       axes.sort((p,q)=>q[0]-p[0]);
       bladeLocal=axes[0][1];
     }
-    const a=attach('weapon', 'RightHand', wm);
+    const a=attach('weapon', (window.EquipBuilder&&EquipBuilder.handFor)?EquipBuilder.handFor(d.model):'RightHand', wm);   // bows ride the left hand
     if(a && window.EquipBuilder && EquipBuilder.specs[d.model]){
       /* EQUIP BUILDER path (owner directive): deterministic axis/roll basis +
        * grip placed IN THE PALM (finger-derived), not at the wrist */
@@ -386,15 +390,19 @@ function refreshGLBGear(){
       axes.sort((p,q)=>p[0]-q[0]);
       nLocal=axes[0][1]; upLocal=axes[2][1];               // thinnest = face normal, longest = height
     }
-    const a=attach('shield', 'LeftHand', sm);
+    /* OSRS: the shield is strapped to the LEFT FOREARM with its face out. Character frame +X is the character's
+     * LEFT on every rig we ship (player.glb, holm_player_v1, holm_kit_v2: LeftHand at +X, facing +Z), so the old
+     * out-back normal (-0.9,0,-0.45) actually pointed the boss into the body (owner play-test 2026-09-25). */
+    const onFore=!!_glbBone(rig,'LeftForeArm');
+    const a=attach('shield', onFore?'LeftForeArm':'LeftHand', sm);
     if(a){
       // owner r7: the sq (riot) shield GUARDS THE FRONT — face normal out-forward
       // so the convex face leads and the concave side wraps the body; other
-      // shields keep the classic out-back side carry. Solved as ONE full basis.
+      // shields keep the classic side carry, face out with a slight forward turn. Solved as ONE full basis.
       const sdef=ITEMS[e.shield];
       const nW=inChar((sdef && sdef.model==='sqshield')
-        ? new THREE.Vector3(-0.72,0,0.69)
-        : new THREE.Vector3(-0.9,0,-0.45));
+        ? new THREE.Vector3(0.72,0,0.69)
+        : new THREE.Vector3(0.94,0,0.34));
       const upRaw=(sdef && sdef.model==='sqshield') ? new THREE.Vector3(0,0.71,0.71) : UP;  // owner r8: full 45deg lean
       const upW=inChar(upRaw).sub(nW.clone().multiplyScalar(inChar(upRaw).dot(nW))).normalize();
       const worldM=new THREE.Matrix4().makeBasis(nW, upW, new THREE.Vector3().crossVectors(nW,upW));
@@ -403,7 +411,14 @@ function refreshGLBGear(){
       const qBone=new THREE.Quaternion(); a.bone.getWorldQuaternion(qBone);
       a.m.quaternion.copy(qBone.invert().multiply(new THREE.Quaternion().setFromRotationMatrix(
         worldM.multiply(localM.invert()))));
-      a.m.position.set(0.12, (sdef && sdef.model==='sqshield') ? -0.05 : 0.03, 0.04);  // off the torso; riot shield rides a touch lower
+      if(onFore){
+        // strap point: 55% down the forearm (elbow -> wrist), pushed out from the arm so the back clears the sleeve
+        const hand=_glbBone(rig,'LeftHand');
+        const pE=a.bone.getWorldPosition(new THREE.Vector3()), pW=hand?hand.getWorldPosition(new THREE.Vector3()):pE.clone();
+        const pt=pE.clone().lerp(pW,0.55).add(inChar(LEFT).multiplyScalar((sdef && sdef.model==='sqshield') ? 0.1 : 0.065));
+        if(sdef && sdef.model==='sqshield') pt.y-=0.05;                     // riot shield rides a touch lower
+        a.m.position.copy(a.bone.worldToLocal(pt));
+      } else a.m.position.set(0.12, (sdef && sdef.model==='sqshield') ? -0.05 : 0.03, 0.04);  // off the torso; riot shield rides a touch lower
     }
   }
   /* OSRS-style HEAD REPLACEMENT (owner 2026-07-17): a full helm doesn't sit on
