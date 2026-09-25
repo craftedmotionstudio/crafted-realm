@@ -1,0 +1,19 @@
+{
+ "source": ".studio-workspaces/holm-guide-house-overhaul-v5/candidates/holm_guide_house_overhaul_v5.blend",
+ "outBlend": ".studio-workspaces/holm-guide-house-oldschool-v1/candidates/holm_guide_house_oldschool_v1.blend",
+ "outGlb": ".studio-workspaces/holm-guide-house-oldschool-v1/candidates/holm_guide_house_oldschool_v1.glb",
+ "report": ".studio-workspaces/holm-guide-house-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|HearthFlame)",
+  "woodOnly": "(Furnishing(?!Walls)|Ladder|Hatch)",
+  "floors": "Floor$"
+ },
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-guide-house-overhaul-v5/candidates/holm_guide_house_overhaul_v5.glb",
+ "arrivalPackage": {
+  "stage": "tools/stage_holm_arrival_package_oldschool.js",
+  "reference": ".studio-workspaces/holm-arrival-package-v9/candidates/holm-arrival.package.json",
+  "candidate": ".studio-workspaces/holm-arrival-package-oldschool-v1/candidates/holm-arrival.package.json"
+ }
+}

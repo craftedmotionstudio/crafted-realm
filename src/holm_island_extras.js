@@ -63,7 +63,11 @@ var HolmIslandExtras=(function(){
  function linearMaps(T,n){(Array.isArray(n.material)?n.material:[n.material]).forEach(function(m){if(!m)return;if(m.map&&T.LinearEncoding!==undefined){m.map.encoding=T.LinearEncoding;m.needsUpdate=true}if('roughness' in m){m.roughness=1;m.metalness=0;m.needsUpdate=true}})}
  async function loadData(){
   var buildings=[];
-  for(var i=0;i<BUILDINGS.length;i++){var b=BUILDINGS[i],graph=await json(b.graph),p=graph.placement||graph.origin;
+  for(var i=0;i<BUILDINGS.length;i++){var b=BUILDINGS[i],graph=null,os=typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.building(b.id);
+   // old-school look (2026-09-25): the textured Blender candidate with its own measured graph (same stances, new model hash);
+   // when that pair is not served here (e.g. not yet published) the previous model and graph are kept
+   if(os)try{graph=await json(WS+os.graph);b=Object.assign({},b,{graph:WS+os.graph,model:WS+os.model,look:'oldschool'})}catch(e){graph=null;console.warn('[HolmIslandExtras] old-school '+b.id+' unavailable; previous model kept')}
+   if(!graph)graph=await json(b.graph);var p=graph.placement||graph.origin;
    buildings.push({id:b.id,graph:graph,placement:{x:p.x,y:p.y,z:p.z},source:b})}
   // Sept 13 habitat trees that a new building now stands on are left out (models and blockers alike): the planned
   // footprint plus a tile of margin, and every tile holding one of the building's floors, stairs or decks.
@@ -91,7 +95,7 @@ var HolmIslandExtras=(function(){
   function nameOf(o,prefix){for(var q=o;q;q=q.parent)if(q.name&&q.name.indexOf(prefix)===0)return q.name;return ''}
   for(var i=0;i<data.buildings.length;i++){var b=data.buildings[i],src=b.source,buf=await bytes(src.model),p=b.placement;
    need(await sha(buf)===b.graph.modelSha256,b.id+' model bytes differ from the model its navigation graph was measured on');
-   var gltf=await parse(T,buf);place(gltf.scene,p.x,p.y,p.z,0).name='island-building-'+b.id;models[b.id]={scene:gltf.scene,placement:p};
+   var gltf=await parse(T,buf);place(gltf.scene,p.x,p.y,p.z,0).name='island-building-'+b.id;if(src.look&&typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.prepareModel(T,gltf.scene);models[b.id]={scene:gltf.scene,placement:p};
    if(gltf.animations&&gltf.animations.length){var mx=new T.AnimationMixer(gltf.scene);gltf.animations.forEach(function(c){
      var a=mx.clipAction(c);
      // the lodge graph was measured with its door open: hold the door at the open pose so walls match walking

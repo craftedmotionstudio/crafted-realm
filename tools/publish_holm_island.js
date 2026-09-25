@@ -21,7 +21,9 @@ const DIRS=[ // workspace folders the island loads (candidates/, working/ or exp
  'holm-props-v1/candidates','holm-props-v2/candidates','holm-props-v3/candidates','holm-props-v4/candidates','holm-props-v5/candidates','holm-items-v1/candidates','holm-equipment-v1/candidates',
  'holm-bank-v3/candidates','holm-bank-navigation-v3/candidates',
  ...['survival','quarry','mage','haven','lastlight'].flatMap(b=>['holm-'+b+'-v3/candidates','holm-'+b+'-navigation-v3/candidates']),
- ...['cavern'].flatMap(b=>['holm-'+b+'-v1/candidates','holm-'+b+'-navigation-v1/candidates'])];
+ ...['cavern'].flatMap(b=>['holm-'+b+'-v1/candidates','holm-'+b+'-navigation-v1/candidates']),
+ // old-school look (2026-09-25, src/holm_oldschool_look.js): textured survival camp + its re-measured graph
+ 'holm-survival-oldschool-v1/candidates','holm-survival-oldschool-navigation-v1/candidates'];
 const DATA_FILES=['plan.json','island-bridges.json','island-gates.json','island-ladders.json','island-lessons.json'];
 const KEEP=/\.(glb|json|png|bin)$/i;
 // the arrival package export is a sealed bundle (its manifest names its .blend sources): published whole

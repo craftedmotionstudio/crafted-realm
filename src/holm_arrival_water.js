@@ -94,6 +94,22 @@ var HolmArrivalWater=(function(){
     'diffuseColor.rgb = hwC;');
   };
   material.customProgramCacheKey=function(){return 'holm-arrival-water-v3'};
+  // Old-school look (2026-09-25, HolmOldschoolLook): the kit's pale grey-blue water texture in world space, two layers
+  // drifting slowly against each other (the old client's scrolling water), unlit and near-opaque.
+  var osWater=typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()&&HolmOldschoolLook.waterTexture();
+  if(osWater){
+   material.color.setHex(0xffffff);material.opacity=.98;
+   material.onBeforeCompile=function(shader){
+    shader.uniforms.holmWaterTime=time;shader.uniforms.holmWaterMap={value:osWater};
+    shader.vertexShader='varying vec3 holmWaterPosition;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nholmWaterPosition = position;');
+    shader.fragmentShader='uniform float holmWaterTime;\nuniform sampler2D holmWaterMap;\nvarying vec3 holmWaterPosition;\n'+shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\n'+
+     'vec2 hwP = holmWaterPosition.xz;\n'+
+     'vec3 hwA = texture2D(holmWaterMap, hwP / 3.0 + vec2(holmWaterTime * 0.020, holmWaterTime * 0.008)).rgb;\n'+
+     'vec3 hwB = texture2D(holmWaterMap, hwP.yx / 4.7 + vec2(0.31 - holmWaterTime * 0.011, 0.57 + holmWaterTime * 0.014)).rgb;\n'+
+     'diffuseColor.rgb = mix(hwA, hwB, 0.4);');
+   };
+   material.customProgramCacheKey=function(){return 'holm-arrival-water-oldschool-v1'};
+  }
   var group=new T.Group();group.name='ArrivalWater';
   // Horizontal positions in both meshes let one world-scale pattern cross the mouth.
   var oceanGeometry=new T.BufferGeometry();

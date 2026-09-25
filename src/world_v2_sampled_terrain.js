@@ -9,12 +9,21 @@ var WorldV2SampledTerrain=(function(){
    !Array.isArray(t.heights)||t.heights.length!==81||!t.heights.every(Number.isFinite)||
    !Array.isArray(t.materials)||t.materials.length!==81||!t.materials.every(function(n){return Number.isInteger(n)&&n>=0&&n<=4}))throw Error('[WorldV2SampledTerrain] invalid authored chunk');
   var data=HolmOverhaulChunks.surface(chunk,exclusions||[]),geometry=new THREE.BufferGeometry();
+  if(typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()&&material&&material.userData&&material.userData.oldschoolGround){
+   // Old-school look (2026-09-25): same positions, gouraud light baked per vertex, ground-texture weights per vertex.
+   var os=HolmOverhaulGround.chunkOldschool(data);
+   geometry.setAttribute('position',new THREE.Float32BufferAttribute(os.positions,3));
+   geometry.setAttribute('color',new THREE.Float32BufferAttribute(os.colors,3));
+   geometry.setAttribute('groundMix',new THREE.Float32BufferAttribute(os.ground,4));
+   geometry.computeVertexNormals();geometry.computeBoundingBox();geometry.computeBoundingSphere();
+  }else{
   // Owner reviews 5+6 (2026-09-24): tile-true ground, one close shade per tile (HolmOverhaulGround), with the
   // game's .62 palette calibration kept; flat Lambert light shades each tile's slope.
   var tiles=HolmOverhaulGround.chunk(data),colors=tiles.colors.map(function(c){return c*.62});
   geometry.setAttribute('position',new THREE.Float32BufferAttribute(tiles.positions,3));
   geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
   geometry.computeVertexNormals();geometry.computeBoundingBox();geometry.computeBoundingSphere();
+  }
   var mesh=new THREE.Mesh(geometry,material);mesh.name='ground-chunk-'+chunk.id;mesh.receiveShadow=true;
   mesh.userData.sampledTerrain=true;return mesh;
  }
