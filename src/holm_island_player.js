@@ -7,7 +7,7 @@
  * after a ladder, death. Island draft only (?holmIsland=1): the live game keeps its player until the cutover (M7). */
 var HolmIslandPlayer=(function(){
  'use strict';
- var URL='assets/models/holm_player_v1.glb?v=1',st={root:null,clips:{},busy:null};
+ var URL='assets/models/holm_kit_v2.glb?v=5',st={root:null,clips:{},busy:null};
  var HAIR={short:'Hair_Short',long:'Hair_Long',ponytail:'Hair_Ponytail',bun:'Hair_Bun',mohawk:'Hair_Mohawk'};
  function hex(n){return '#'+('000000'+(Number(n)>>>0).toString(16)).slice(-6)}
  function look(){var c=typeof CharCfg!=='undefined'?CharCfg:{};return {female:c.gender==='f',hair:HAIR[c.hairStyle]||(c.hairStyle==='bald'?null:'Hair_Short'),beard:!!c.beard&&c.gender!=='f',
@@ -30,14 +30,18 @@ var HolmIslandPlayer=(function(){
   swing=function(g,type){if(g===player&&g.userData&&g.userData.holmPlayer){play(clipFor(type));return}return prev(g,type)}}
  function load(o){
   st.swapActor=o&&o.swapActor;
-  return new Promise(function(ok){
+  var kit=typeof HolmKit!=='undefined'?HolmKit.load().catch(function(e){console.error('[HolmIslandPlayer] kit catalog',e)}):Promise.resolve();
+  return kit.then(function(){return new Promise(function(ok){
    new THREE.GLTFLoader().load(URL,function(gltf){try{st.gltf=gltf;ok({loaded:true})}catch(e){ok({failed:true})}},undefined,function(e){console.error('[HolmIslandPlayer] player model failed; the code-built adventurer stays',e);ok({clips:0,failed:true})});
-  });
+  })});
  }
+ // the 2004-style kit: exactly one part per slot and the five colour channels, from the character's saved look
+ function applyLook(rig){if(typeof HolmKit!=='undefined'&&HolmKit.ready()){var l=HolmKit.apply(rig,typeof CharCfg!=='undefined'?CharCfg.kit:null);if(l&&typeof CharCfg!=='undefined')CharCfg.kit=l;return true}applyVariants(rig);return false}
+ function refreshLook(){if(st.rig)applyLook(st.rig)}
  function install(){
   var gltf=st.gltf;st.gltf=null;if(!gltf)return;
   try{
-    var rig=gltf.scene;applyVariants(rig);
+    var rig=gltf.scene;applyLook(rig);
     var regionMats={};rig.traverse(function(m){if(m.isMesh||m.isSkinnedMesh){m.castShadow=true;m.frustumCulled=false;[].concat(m.material).forEach(function(q){if(!q)return;if('metalness' in q)q.metalness=0;if('roughness' in q)q.roughness=1;
      if(q.name){var k=q.name.replace(/^R_/i,'').replace(/[._]\d+$/,'').toLowerCase();(regionMats[k]=regionMats[k]||[]).push(q)}})}});
     // measure the visible character only (hidden variants would shrink it)
@@ -51,10 +55,10 @@ var HolmIslandPlayer=(function(){
     if(typeof makeNameTag==='function'){var tag=makeNameTag((typeof CharCfg!=='undefined'&&CharCfg.name)||'Adventurer');tag.position.y=2.1;c.add(tag)}
     // carry over what the old body had (its worn gear is re-fitted below)
     scene.remove(player);player=c;scene.add(player);
-    if(typeof recolorPlayer==='function')recolorPlayer(look().colors);
+    if(!(typeof HolmKit!=='undefined'&&HolmKit.ready())&&typeof recolorPlayer==='function')recolorPlayer(look().colors);
     try{if(typeof refreshGLBGear==='function')refreshGLBGear()}catch(e){}
     if(st.swapActor)st.swapActor(c);
-    applyVariants(rig);hookSwing();st.root=c;st.rig=rig;
+    applyLook(rig);hookSwing();st.root=c;st.rig=rig;
   }catch(e){console.error('[HolmIslandPlayer] install failed; the code-built adventurer stays',e)}
  }
  // per frame: tending a fire or the range plays the cook clip between the game's own action ticks
@@ -62,8 +66,8 @@ var HolmIslandPlayer=(function(){
   if(st.gltf&&typeof player!=='undefined'&&player&&player.position&&typeof scene!=='undefined'){install();return}
   var a=typeof Player!=='undefined'&&Player.action,gm=st.root&&player===st.root&&player.userData.gmix;if(!gm)return;
   // gear refits can re-show meshes: keep exactly the chosen body, hair and beard (cheap, about twenty meshes)
-  var now=Date.now();if(!st.lastLook||now-st.lastLook>1000){st.lastLook=now;applyVariants(st.rig)}
+  var now=Date.now();if(!st.lastLook||now-st.lastLook>1000){st.lastLook=now;applyLook(st.rig)}
   if(a&&a.type==='cook'&&!(gm.attack&&gm.attack.isRunning()))play('cook')}
- return {load:load,update:update,play:play,active:function(){return !!st.root&&typeof player!=='undefined'&&player===st.root},look:look};
+ return {load:load,update:update,play:play,refreshLook:refreshLook,active:function(){return !!st.root&&typeof player!=='undefined'&&player===st.root},look:look};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandPlayer;

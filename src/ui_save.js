@@ -43,7 +43,7 @@ const SaveGame = {
         document.getElementById('zone-label').textContent:null,
       world:this.worldMeta(),
       tracked:Quest.tracked,
-      look:{name:CharCfg.name, gender:CharCfg.gender, shirt:CharCfg.shirt, skin:CharCfg.skin,
+      look:{kit:CharCfg.kit||undefined, name:CharCfg.name, gender:CharCfg.gender, shirt:CharCfg.shirt, skin:CharCfg.skin,
             hair:CharCfg.hair, hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs},
       styles:Player.attackStyles, autoRetaliate:Player.autoRetaliate,
       music:{unlocked:Music.unlocked, mode:Music.mode, current:Music.current},
@@ -93,6 +93,7 @@ const SaveGame = {
       if(d.look){ CharCfg.name=d.look.name||'Adventurer';
         CharCfg.shirt=d.look.shirt||0x3a6ea5; CharCfg.skin=d.look.skin||0xd8a878;
         if(d.look.gender) CharCfg.gender=d.look.gender;
+        if(d.look.kit&&typeof d.look.kit==='object') CharCfg.kit=d.look.kit;
         if(d.look.hair!==undefined) CharCfg.hair=d.look.hair;
         if(d.look.hairStyle) CharCfg.hairStyle=d.look.hairStyle;
         if(d.look.beard!==undefined) CharCfg.beard=d.look.beard;

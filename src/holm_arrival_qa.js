@@ -30,7 +30,7 @@ var HolmArrivalQA=(function(){
    nav=HolmIslandNav.create({gates:gateData.gates,terrain:loaded.documents.terrain,arrival:nav,buildings:islandData.buildings,blockers:scenic.concat(islandData.blockers),bridges:islandData.bridges,
     arrivalFootprints:[{x0:bw.x-b.width/2,x1:bw.x+b.width/2,z0:bw.z-b.depth/2,z1:bw.z+b.depth/2}]});graphs={};
   }
-  provider=WorldV2.register({contractVersion:1,id:ID,label:island?'Tutor\u2019s Holm \u00b7 island draft':'Tutor’s Holm · arrival draft',worldRevision:pack.provider.worldRevision,
+  provider=WorldV2.register({contractVersion:1,id:ID,label:island?(typeof HolmIsland!=='undefined'&&HolmIsland.production()?'Tutor’s Holm':'Tutor\u2019s Holm \u00b7 island draft'):'Tutor’s Holm · arrival draft',worldRevision:pack.provider.worldRevision,
    initialRect:{x0:0,z0:0,w:144,h:128},residentRadius:4,renderStrategy:'holm-overhaul-sampled',defaultLandmark:'holm_arrival',
    landmarks:{holm_arrival:{id:'holm_arrival',label:'Arrival landing',x:s.x,z:s.z}},chunks:chunks,
    hooks:{
@@ -85,6 +85,7 @@ var HolmArrivalQA=(function(){
   placeAt(node);
  }
  // Stand the player on a graph node (boot, restore, and 2004-style ladders, which change storey instantly).
+ var stairMesh;
  function placeAt(node){
   HolmArrivalPlayer.detach();player.position.set(node.x,node.y,node.z);Player.plane=0;Player.path=[];Player.moveTo=null;
   provider.updateResidency(node.x,node.z,true);
@@ -171,6 +172,16 @@ var HolmArrivalQA=(function(){
    var id=service.stanceNodeIds[0],node=graphForDoors(doors).nodes.find(function(n){return n.id===id});
    if(node&&bridge.order(node))pending={id:id,kind:service.kind};return true;
   }
+  // 2004 staircase: a click on the flight walks to its foot (or its head) and climbs to the other floor in one step
+  if(island&&u.arrivalSurface==='stair'){var sc=stairClimb();
+   if(!sc){UI.chat('You cannot reach the stairs from here.','plain');return true}
+   if(Math.hypot(sc.from.x-player.position.x,sc.from.z-player.position.z)<.3&&Math.abs(sc.from.y-player.position.y)<.6&&!bridge.snapshot().moving){climbStairs(sc);return true}
+   if(bridge.order(sc.from))pending={id:sc.from.id,kind:'stair',climb:sc};else UI.chat('You cannot reach the stairs from here.','plain');return true}
+  // a spot on the other floor of the Guide House: the stairs are climbed, not walked (2004), then on to the spot
+  var tgt=u.arrivalSurface||(u.islandGround||isGroundName(obj.name)?'outside':null);
+  if(island&&tgt&&tgt!=='stair'){var cur=bridge.snapshot().surface;
+   if((cur==='upper')!==(tgt==='upper')){var sc2=stairClimb(),dest={x:point.x,y:point.y,z:point.z};if(u.arrivalSurface)dest.surface=u.arrivalSurface;
+    if(sc2&&bridge.order(sc2.from)){pending={id:sc2.from.id,kind:'stair',climb:sc2,then:dest};return true}}}
   if(u.arrivalSurface||u.islandGround||isGroundName(obj.name)){
    var p={x:point.x,y:point.y,z:point.z};if(u.arrivalSurface)p.surface=u.arrivalSurface;
    if(!bridge.order(p)){
@@ -184,6 +195,7 @@ var HolmArrivalQA=(function(){
   if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);if(lessons)HolmIslandLessons.update();if(island&&typeof HolmIslandTutors!=='undefined')HolmIslandTutors.update(dt);if(island&&typeof HolmIslandPlayer!=='undefined')HolmIslandPlayer.update();if(island&&typeof HolmIslandFx!=='undefined')HolmIslandFx.update(dt,THREE,scene);if(island&&typeof HolmIslandGuide!=='undefined')HolmIslandGuide.update(dt);if(island&&typeof HolmIslandGates!=='undefined'){HolmIslandGates.refresh();HolmIslandGates.update(dt);
    // an opened gate changes the composed graph: the follower holds its graph, so re-seat it on the current one
    var gk=nav.gateKey?nav.gateKey():'';if(gk!==lastGateKey){if(bridge.setDoors({arrival:doors.arrival,garden:doors.garden}))lastGateKey=gk}}owner.update(dt,pose.surface);
+  if(island){if(stairMesh===undefined)stairMesh=scene.getObjectByName('StairFlight')||null;if(stairMesh)stairMesh.userData.label=pose.surface==='upper'?'Climb-down Staircase':'Climb-up Staircase'}
   if(pending&&pose.nodeId===pending.id&&!pose.moving){var p0=pending,kind=pending.kind,door=pending.door;pending=null;
    if(kind==='island_service'){var call=p0.service.call;
     if(p0.service.climb){var up=graphForDoors(doors).byId[p0.service.climb];if(up){placeAt(up);if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active())HolmIslandPlayer.play('climb');if(p0.service.notify)try{Tutorial.notify(p0.service.notify[0],p0.service.notify[1])}catch(e){}}else UI.chat('The ladder leads nowhere yet.','plain');if(!call)return}
@@ -192,9 +204,17 @@ var HolmArrivalQA=(function(){
     var mod=typeof window!=='undefined'&&window[call[0]];if(!mod&&/^[A-Za-z_]\w*$/.test(call[0])){try{mod=new Function('return typeof '+call[0]+'!==\'undefined\'?'+call[0]+':null')()}catch(e){mod=null}}
     if(mod&&typeof mod[call[1]]==='function')mod[call[1]]();return}
    if(kind==='world'){act(p0.obj,p0.point);return}
+   if(kind==='stair'){climbStairs(p0.climb);if(p0.then&&!bridge.order(p0.then))UI.chat('There is no open route to that spot.','plain');return}
    if(kind==='tutor'){HolmIslandTutors.talk(p0.tutor);return}
    if(kind==='door')toggleDoor(door);else if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
  }
+ // the Guide House stairs: the ground node at the foot of the flight and the upper node at its head (layout is building-local)
+ function stairClimb(){var l=loaded.documents.layout,s=l.stairs,bw=l.building.world,g=graphForDoors(doors),up=bridge.snapshot().surface!=='upper';
+  function near(surface,x,z){var best=null,d=Infinity;g.nodes.forEach(function(n){if(n.surface!==surface)return;var h=Math.hypot(n.x-x,n.z-z);if(h<d){d=h;best=n}});return d<2.5?best:null}
+  var foot=near('ground',bw.x+s.x,bw.z+s.startZ+.5),head=near('upper',bw.x+s.x,bw.z+s.endZ-.5);if(!foot||!head)return null;
+  return up?{from:foot,to:head}:{from:head,to:foot}}
+ // 2004 stairs have no climb animation: the adventurer simply stands on the other floor, facing on into the room
+ function climbStairs(sc){placeAt(sc.to);var dz=sc.to.z-sc.from.z,dx=sc.to.x-sc.from.x;if(Math.hypot(dx,dz)>.1)player.rotation.y=Math.atan2(dx,dz)}
  // the firemaker's step off the fire tile on the graph: west first, then east, south, north (island draft only)
  function stepAside(){if(!island||!active()||!bridge)return false;var g=graphForDoors(doors),cur=g.byId[bridge.snapshot().nodeId];if(!cur)return false;
   var nb=(g.links[cur.id]||[]).map(function(id){return g.byId[id]});

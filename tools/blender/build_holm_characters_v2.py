@@ -283,7 +283,7 @@ def hair_w(p):
 # ------------------------------------------------------------------------------------------
 # Mesh builder
 # ------------------------------------------------------------------------------------------
-SHARP_DEG = 80.0   # v2.4: only true creases (tube caps, soles) split; everything else in a colour region is smooth
+SHARP_DEG = 40.0   # v2.5 panel shading: smooth across a broad panel, hard edge wherever the form turns >= ~40 deg
 
 class MB:
     def __init__(self):
@@ -533,18 +533,19 @@ TORSO = {
           (1.464, .108, .068, .070, .004), (1.492, .066, .054, .056, .004), (1.512, .062, .056, .058, .004)],
 }
 PELVIS = {
-    'A': [(0.830, .130, .066, .070, .030), (0.870, .198, .096, .104, .028), (0.930, .204, .106, .114, .026),
+    'A': [(0.790, .128, .064, .068, .030), (0.850, .198, .096, .104, .028), (0.930, .204, .106, .114, .026),
           (0.985, .184, .108, .110, .024), (1.012, .174, .108, .106, .022)],
-    'B': [(0.830, .132, .066, .072, .030), (0.870, .206, .098, .110, .028), (0.930, .210, .106, .122, .026),
+    'B': [(0.790, .130, .064, .070, .030), (0.850, .206, .098, .110, .028), (0.930, .210, .106, .122, .026),
           (0.985, .176, .100, .108, .024), (1.012, .160, .098, .101, .022)],
 }
 TORSO_P = 2.3
+TORSO_PHASE = math.pi / 8   # v2.5: flat front / side / back panels + chamfers
 ARM_R = {'A': [(-0.10, .072, .074), (0.06, .088, .090), (0.30, .076, .078), (0.70, .052, .054), (1.00, .044, .046),
                (1.30, .045, .045), (1.70, .034, .034), (2.00, .030, .031)]}
 ARM_R['B'] = [(u, rs * .84, rf * .84) for u, rs, rf in ARM_R['A']]
 LEG_R = {'A': [(0.00, .090, .096, .098), (0.15, .102, .106, .108), (0.45, .092, .094, .096), (0.78, .071, .071, .073),
-               (0.97, .065, .065, .067), (1.05, .064, .064, .068), (1.22, .060, .059, .070), (1.45, .050, .048, .056),
-               (1.72, .040, .040, .044), (2.00, .036, .036, .040)],
+               (0.97, .065, .065, .067), (1.05, .064, .064, .068), (1.22, .074, .072, .084), (1.45, .064, .062, .070),
+               (1.72, .050, .050, .054), (2.00, .046, .046, .050)],
          'B': [(0.00, .090, .092, .098), (0.15, .098, .100, .104), (0.45, .084, .086, .088), (0.78, .066, .066, .068),
                (0.97, .058, .058, .060), (1.05, .057, .057, .061), (1.22, .058, .057, .066), (1.45, .052, .051, .058),
                (1.72, .042, .042, .045), (2.00, .038, .038, .041)]}
@@ -554,6 +555,12 @@ HAND_K = {'A': .98, 'B': .86}
 FOOT_K = {'A': 1.12, 'B': .98}
 U_ARM = [-0.08, 0.10, 0.5, 1.0, 1.4, 1.88]
 U_LEG = [0.0, 0.4, 0.97, 1.08, 1.5, 1.95]
+
+# v2.5 measured bulk: prisms read narrower than their radius, so limbs and torso depth are scaled to the reference outlines
+ARM_R = {bt: [(u, rs * 1.12, rf * 1.12) for u, rs, rf in rows] for bt, rows in ARM_R.items()}
+LEG_R = {bt: [(u, a * 1.12, b * 1.12, c * 1.12) for u, a, b, c in rows] for bt, rows in LEG_R.items()}
+TORSO = {bt: [(z, rx, rf * 1.10, rb * 1.10, cy) for z, rx, rf, rb, cy in rows] for bt, rows in TORSO.items()}
+PELVIS = {bt: [(z, rx, rf * 1.08, rb * 1.08, cy) for z, rx, rf, rb, cy in rows] for bt, rows in PELVIS.items()}
 
 def body_r(bt, z):
     if z >= 1.0:
@@ -566,7 +573,7 @@ def body_r(bt, z):
 
 def body_ring(bt, z, off=0.0, n=8, p=TORSO_P, front_extra=0.0, rad=None, bump=None):
     rx, rf, rb, cy = rad if rad is not None else body_r(bt, z)
-    return xring((0, cy, z), (0, 0, 1), rx + off, rf + off + front_extra, rb + off, n, p=p, bump=bump)
+    return xring((0, cy, z), (0, 0, 1), rx + off, rf + off + front_extra, rb + off, n, p=p, bump=bump, phase=math.pi / n)
 
 def body_point(bt, phi, z, off=0.0, p=TORSO_P, rad=None):
     rx, rf, rb, cy = rad if rad is not None else body_r(bt, z)
@@ -579,6 +586,8 @@ def body_point(bt, phi, z, off=0.0, p=TORSO_P, rad=None):
 def front_y(bt, x, z, off=0.0, rad=None):
     rx, rf, rb, cy = rad if rad is not None else body_r(bt, z)
     q = clamp(abs(x) / (rx + off), 0, 0.999)
+    if q <= .45:   # v2.5: the front is a flat panel between the two front vertices
+        return cy - (rf + off) * math.cos(math.pi / 8) ** (2.0 / TORSO_P)
     return cy - (rf + off) * (1 - q ** TORSO_P) ** (1 / TORSO_P)
 
 def arm_path(bt, sx):
@@ -589,7 +598,7 @@ def leg_path(bt, sx):
     sd = 'Left' if sx > 0 else 'Right'
     return Path([(sx * HIP_X[bt], .026, .99), BHEAD[B(sd + 'Leg')], BHEAD[B(sd + 'Foot')]])
 
-def arm_rings(bt, sx, spec, n=6, bump=None):
+def arm_rings(bt, sx, spec, n=5, bump=None):
     """spec: [(u, off[, scale])] -> rings around the arm surface pushed out by off (scale < 1 = shoulder dome)."""
     pa = arm_path(bt, sx)
     out = []
@@ -597,10 +606,10 @@ def arm_rings(bt, sx, spec, n=6, bump=None):
         u, off = st[0], st[1]
         sc = st[2] if len(st) > 2 else 1.0
         rs, rf = lerp_table(ARM_R[bt], u)
-        out.append(xring(pa.pos(u), pa.dir(u), (rs + off) * sc, (rf + off) * sc, (rf + off) * sc, n, bump=bump))
+        out.append(xring(pa.pos(u), pa.dir(u), (rs + off) * sc, (rf + off) * sc, (rf + off) * sc, n, bump=bump, phase=math.pi / n))
     return out
 
-def leg_rings(bt, sx, spec, n=6):
+def leg_rings(bt, sx, spec, n=5):
     """spec: [(u, off[, scale[, rag]])]; rag = ragged hem amplitude on alternate vertices."""
     pl = leg_path(bt, sx)
     out = []
@@ -610,22 +619,22 @@ def leg_rings(bt, sx, spec, n=6):
         rag = st[3] if len(st) > 3 else 0.0
         rs, rf, rb = lerp_table(LEG_R[bt], u)
         bump = (lambda k, a=rag: a if k % 2 else -.3 * a) if rag else None
-        out.append(xring(pl.pos(u), pl.dir(u), (rs + off) * sc, (rf + off) * sc, (rb + off) * sc, n, bump=bump))
+        out.append(xring(pl.pos(u), pl.dir(u), (rs + off) * sc, (rf + off) * sc, (rb + off) * sc, n, bump=bump, phase=math.pi / n))
     return out
 
 # ------------------------------------------------------------------------------------------
 # HEAD: rounded low-poly skull, 12 sides x 11 rows; jaw narrows to the chin, cheek planes,
 # nose bump pushed out of the front column. rows: (z, rx, rF, rB, jaw_taper)
 # ------------------------------------------------------------------------------------------
-HEAD_N, HEAD_P, HEAD_YC = 8, 2.25, -0.020
+HEAD_N, HEAD_P, HEAD_YC = 8, 3.0, -0.020
 HEAD_T = {
-    'A': [(1.552, .038, .050, .022, 0.0), (1.580, .068, .078, .044, .16), (1.628, .082, .088, .082, .07),
-          (1.665, .085, .090, .094, 0.0), (1.720, .086, .087, .100, 0.0), (1.778, .076, .066, .090, 0.0),
-          (1.812, .044, .032, .054, 0.0), (1.823, .010, .006, .012, 0.0)],
+    'A': [(1.552, .040, .050, .022, 0.0), (1.582, .070, .078, .046, .24), (1.628, .082, .086, .082, .10),
+          (1.665, .085, .088, .094, 0.0), (1.720, .086, .086, .100, 0.0), (1.790, .080, .072, .092, 0.0),
+          (1.818, .062, .050, .070, 0.0), (1.824, .030, .022, .032, 0.0)],
 }
 HEAD_T['B'] = [(1.558, .032, .044, .020, 0.0), (1.584, .062, .074, .040, .22), (1.630, .078, .086, .080, .08)] + HEAD_T['A'][3:]
-HEAD_T = {bt: [(z, rx * .94, rf, rb, jaw) for z, rx, rf, rb, jaw in rows] for bt, rows in HEAD_T.items()}   # v2.3: a little narrower
-NOSE = {1.628: (0, -.008, 0), 1.630: (0, -.008, 0), 1.665: (0, -.026, -.008), 1.720: (0, -.010, 0)}
+HEAD_T = {bt: [(z, rx * 1.02, rf, rb, jaw) for z, rx, rf, rb, jaw in rows] for bt, rows in HEAD_T.items()}   # v2.5: measured width (head w/h ~.78 incl. hair)
+NOSE = {1.628: (0, -.008, 0), 1.630: (0, -.008, 0), 1.665: (0, -.028, -.010), 1.720: (0, -.012, 0)}
 BROW = {1.720: (0, -.010, -.002)}   # v2.3 brow ridge on the two columns either side of the nose
 HEAD_CENTER = Vector((0, -0.006, 1.690))
 
@@ -712,7 +721,7 @@ def build_head(mb, bt, nose=1.0, old=False):
 # KIT PARTS
 # ==========================================================================================
 # ---- hair ---------------------------------------------------------------------------------
-def hair_cap(mb, bt, zb_fn, jag=0.0, jag_fn=None, cols=10, rows=3, off_out=.015, off_in=-.006, top=1.828,
+def hair_cap(mb, bt, zb_fn, jag=0.0, jag_fn=None, cols=8, rows=3, off_out=.015, off_in=-.006, top=1.828,
              hang_below=None, flare=0.0, off_fn=None):
     T = HEAD_T[bt]
     thetas = [2 * math.pi * (j + 0.5) / cols for j in range(cols)]
@@ -855,6 +864,7 @@ def hair_style(mb, bt, key):
             lock(mb, bt, sgn * 90, 1.690, 1.485 - .012 * (sgn > 0), .036)
             lock(mb, bt, sgn * 124, 1.685, 1.462 + .014 * (sgn < 0), .042, out=.014)
             lock(mb, bt, sgn * 158, 1.680, 1.445 - .010 * (sgn > 0), .044, out=.016)
+        lock(mb, bt, 180, 1.680, 1.455, .048, out=.012)   # centre-back lock closes the nape
     elif key == 'long':                     # B: long (default B): rounded back + tapered locks, staggered tips
         hair_cap(mb, bt, angtab([(0, 1.752), (30, 1.744), (60, 1.690), (95, 1.650), (180, 1.615)]), jag=.008, jag_fn=front)
         fringe(mb, bt, degs=(-26, -8, 10), drop=.030, width=.014)
@@ -863,6 +873,7 @@ def hair_style(mb, bt, key):
             lock(mb, bt, sgn * 84, 1.695, 1.400 - .014 * (sgn > 0), .038)
             lock(mb, bt, sgn * 124, 1.685, 1.350 + .020 * (sgn < 0), .044, out=.014)
             lock(mb, bt, sgn * 158, 1.680, 1.320 - .012 * (sgn > 0), .046, out=.016)
+        lock(mb, bt, 180, 1.680, 1.335, .050, out=.012)   # centre-back lock closes the nape
     elif key == 'medium' and bt == 'A':     # swept back to the nape, ears covered
         hair_cap(mb, bt, angtab([(0, 1.754), (35, 1.746), (70, 1.720), (95, 1.686), (115, 1.664), (150, 1.600), (180, 1.575)]),
                  jag=.012, jag_fn=lambda th: not front(th), hang_below=1.64, flare=.08, rows=4,
@@ -923,6 +934,7 @@ def hair_style(mb, bt, key):
         for d, z_end, w in ((-58, 1.430, .036), (-88, 1.390, .040), (58, 1.560, .026), (88, 1.520, .030),
                             (-126, 1.360, .044), (-158, 1.330, .046), (126, 1.420, .040), (158, 1.380, .044)):
             lock(mb, bt, d, 1.695, z_end, w, out=.012 + (.004 if abs(d) > 100 else 0))
+        lock(mb, bt, 180, 1.680, 1.350, .050, out=.012)
     else:
         raise ValueError('unknown hair style %s/%s' % (bt, key))
 
@@ -1274,14 +1286,14 @@ def torso_style(mb, bt, key):
         raise ValueError('unknown torso style %s' % key)
 
 # ---- arms -----------------------------------------------------------------------------------
-def arms_both(mb, bt, spec, mat='C_TORSO', n=6, cap0=True, cap1=True, matfn=None, bump=None):
+def arms_both(mb, bt, spec, mat='C_TORSO', n=5, cap0=True, cap1=True, matfn=None, bump=None):
     if spec[0][0] < 0:   # rounded shoulder dome instead of a cylinder cap (blends into the torso's shoulder)
         u0, o0 = spec[0][0], spec[0][1]
-        spec = [(u0 - .11, o0, .45), (u0 - .05, o0, .82)] + list(spec)
+        spec = [(u0 - .07, o0, .62)] + list(spec)
     for sx in (-1, 1):
         mb.loft(arm_rings(bt, sx, spec, n, bump=bump), mat, arm_w(sx), cap0, cap1, matfn=matfn)
 
-def arms_skin(mb, bt, u0, n=6, bulk=None):
+def arms_skin(mb, bt, u0, n=5, bulk=None):
     us = [u0] + [u for u in U_ARM if u > u0 + .05] + [1.97]
     arms_both(mb, bt, [(u, bulk(u) if bulk else 0.0) for u in us], 'C_SKIN', n)
 
@@ -1341,7 +1353,7 @@ def arm_style(mb, bt, key):
 HAND_ST = [(-.12, .021, .027), (.06, .025, .034), (.34, .027, .047), (.56, .025, .044), (.70, .016, .030)]   # small block hand
 CURL = {.34: 0.004, .56: .014, .70: .026}
 
-def mitten(mb, bt, sx, mat, grow=0.0, n=6):
+def mitten(mb, bt, sx, mat, grow=0.0, n=4):
     """blocky OSRS mitten hand, no thumb; slight fist curl toward the palm"""
     sd = 'Left' if sx > 0 else 'Right'
     k = HAND_K[bt]
@@ -1382,7 +1394,7 @@ def hand_style(mb, bt, key):
 def pelvis(mb, bt, mat='C_LEGS', off=0.0):
     mb.loft([body_ring(bt, z, off) for z in [r[0] for r in PELVIS[bt]]], mat, torso_w)
 
-def legs_both(mb, bt, spec, mat='C_LEGS', n=6, cap0=True, cap1=True):
+def legs_both(mb, bt, spec, mat='C_LEGS', n=5, cap0=True, cap1=True):
     if spec[0][0] <= 0.0 and len(spec[0]) < 3:   # rounded hip dome tucked inside the pelvis
         spec = [(spec[0][0] - .10, spec[0][1], .55)] + list(spec)
     for sx in (-1, 1):
@@ -1453,16 +1465,16 @@ def leg_style(mb, bt, key):
         raise ValueError('unknown legs style %s' % key)
 
 # ---- feet -----------------------------------------------------------------------------------
-FOOT_ST = [(.150, .040, .072), (.095, .057, .124), (.010, .060, .108), (-.075, .060, .076), (-.138, .048, .052), (-.162, .026, .030)]
+FOOT_ST = [(.150, .050, .078), (.095, .068, .128), (.010, .072, .110), (-.075, .072, .080), (-.140, .060, .058), (-.166, .036, .036)]
 
-def foot_rings(bt, sx, grow=0.0, hk=1.0, wk=1.0, n=6, z0=0.0):
+def foot_rings(bt, sx, grow=0.0, hk=1.0, wk=1.0, n=4, z0=0.0):
     k = FOOT_K[bt]
     out = []
     for y, w, h in FOOT_ST:
         yy = .10 + (y - .10) * k
         x = sx * (.13 + max(0.0, -yy) * .07)
         hh = h * hk * (k ** .5) + grow
-        out.append(xring((x, yy, z0 + hh / 2), (0, -1, 0), w * wk * k + grow, hh / 2, hh / 2, n, front=(0, 0, 1), p=2.6, phase=math.pi / n))
+        out.append(xring((x, yy, z0 + hh / 2), (0, -1, 0), w * wk * k + grow, hh / 2, hh / 2, n, front=(0, 0, 1), p=2.0, phase=math.pi / n))
     return out
 
 def foot_style(mb, bt, key):
@@ -1527,6 +1539,7 @@ DEFAULT_OUTFIT = {'A': {'Hair': 1, 'Jaw': 1, 'Torso': 1, 'Arms': 1, 'Hands': 1, 
 STYLE_FN = {'Jaw': jaw_style, 'Torso': torso_style, 'Arms': arm_style, 'Hands': hand_style, 'Legs': leg_style, 'Feet': foot_style}
 
 HEAD_S, HEAD_PIVOT = 1.13, Vector((0, -0.012, 1.60))
+HEAD_WX, HEAD_WY, HEAD_HZ = 1.12, 1.04, .91   # v2.5: measured head proportions (wider, shorter)
 
 def part_name(bt, slot, idx):
     return 'Kit_%s_%s_%02d' % (bt, slot, idx)
@@ -1541,7 +1554,8 @@ def build_part(bt, slot, idx, mats, arm, coll=None):
         STYLE_FN[slot](mb, bt, key)
     if slot in ('Hair', 'Jaw'):   # the whole head is modelled in 'head space' then scaled up about the chin
         for v in mb.bm.verts:
-            v.co = HEAD_PIVOT + (v.co - HEAD_PIVOT) * HEAD_S + Vector((0, 0, -0.030))
+            d = (v.co - HEAD_PIVOT) * HEAD_S
+            v.co = HEAD_PIVOT + Vector((d.x * HEAD_WX, d.y * HEAD_WY, d.z * HEAD_HZ)) + Vector((0, 0, -0.030))
     return mb.to_object(part_name(bt, slot, idx), mats, arm, coll=coll)
 
 # ==========================================================================================
@@ -2135,7 +2149,7 @@ def validate(out_glb, want_meshes, want_clips, exact_clips=False):
     res['PASS'] = (res['bone_names_match'] and res['hierarchy_match'] and res['blender_reimport_bones_match'] and
                    not res['missing_clips'] and not res['unexpected_clips'] and not res['zero_duration_clips'] and
                    not res['missing_meshes'] and res['texture_count'] == 0 and not res['meshes_without_hard_edges']
-                   and res['smoothed_corner_fraction'] > 0.70)
+                   and 0.20 < res['smoothed_corner_fraction'] < 0.90)
     assert res['bone_names_match'], 'bone names differ from player.glb'
     assert res['hierarchy_match'], 'bone hierarchy differs from player.glb'
     assert res['blender_reimport_bones_match'], 'Blender re-import bone set differs'
@@ -2145,7 +2159,7 @@ def validate(out_glb, want_meshes, want_clips, exact_clips=False):
     assert not res['missing_meshes'], 'missing meshes %s' % res['missing_meshes']
     assert res['texture_count'] == 0, 'textures present'
     assert not res['meshes_without_hard_edges'], 'parts without any material/crease split: %s' % res['meshes_without_hard_edges']
-    assert res['smoothed_corner_fraction'] > 0.70, 'not Gouraud-smooth enough (smoothed corners %s)' % res['smoothed_corner_fraction']
+    assert 0.20 < res['smoothed_corner_fraction'] < 0.90, 'panel shading out of range (smoothed corners %s)' % res['smoothed_corner_fraction']
     return res
 
 # ------------------------------------------------------------------------------------------
@@ -2173,10 +2187,10 @@ def setup_render():
     sc.world = world
     world.use_nodes = True
     bg = next(n for n in world.node_tree.nodes if n.type == 'BACKGROUND')
-    bg.inputs['Color'].default_value = (0.47, 0.47, 0.49, 1)
+    bg.inputs['Color'].default_value = (0.52, 0.52, 0.53, 1)
     bg.inputs['Strength'].default_value = 1.0
     sd = bpy.data.lights.new('Key', 'SUN')
-    sd.energy = 1.9
+    sd.energy = 1.55
     sd.color = (1.0, 0.95, 0.86)
     sd.angle = math.radians(14)
     sun = bpy.data.objects.new('Key', sd)
@@ -2297,6 +2311,29 @@ for row in spec['rows']:
         im = Image.open(cell['path'])
         if 'crop' in cell:
             im = im.crop(tuple(cell['crop']))
+        sil = cell.get('sil')
+        if sil:   # outline-only: figure black on white
+            import numpy as np
+            a = np.asarray(im.convert('RGBA')).astype(int)
+            if sil == 'alpha':
+                m = a[..., 3] > 20
+            elif sil == 'rowbg':   # smooth vertical gradient background (concept sheet)
+                bgc = np.median(np.concatenate([a[:, :12, :3], a[:, -12:, :3]], axis=1), axis=1)
+                m = np.abs(a[..., :3] - bgc[:, None, :]).sum(axis=2) > 40
+            elif sil == 'flat':    # near-uniform background colour
+                bgc = np.median(a[:, :8, :3].reshape(-1, 3), axis=0)
+                m = np.abs(a[..., :3] - bgc).sum(axis=2) > 55
+            else:                  # 'olive': figure is blue/grey/skin on olive grass
+                r, g, b = a[..., 0], a[..., 1], a[..., 2]
+                m = (b > g - 4) | ((r > g + 25) & (r > 150))
+            ys, xs = np.where(m)
+            if len(ys):
+                pad = int(.04 * (ys.max() - ys.min()))
+                y0, y1 = max(0, ys.min() - pad), min(m.shape[0], ys.max() + pad)
+                x0, x1 = max(0, xs.min() - pad), min(m.shape[1], xs.max() + pad)
+                m = m[y0:y1, x0:x1]
+            out = np.where(m[..., None], 0, 255).astype('uint8').repeat(3, axis=2)
+            im = Image.fromarray(out).convert('RGBA')
         im = im.convert('RGBA')
         bg = Image.new('RGBA', im.size, tuple(cell.get('bg', [210, 210, 214])) + (255,))
         im = Image.alpha_composite(bg, im).convert('RGB')
@@ -2331,6 +2368,69 @@ for t, r in rows:
     y += r.height + 10
 out.save(spec['out'])
 '''
+
+MEASURE_PY = r"""
+import sys, json
+import numpy as np
+from PIL import Image
+spec = json.load(open(sys.argv[1]))
+res = {}
+for key, path, mode, crop in spec['items']:
+    im = Image.open(path)
+    if crop:
+        im = im.crop(tuple(crop))
+    a = np.asarray(im.convert('RGBA')).astype(int)
+    if mode == 'alpha':
+        m = a[..., 3] > 20
+    else:
+        bgc = np.median(np.concatenate([a[:, :12, :3], a[:, -12:, :3]], axis=1), axis=1)
+        m = np.abs(a[..., :3] - bgc[:, None, :]).sum(axis=2) > 40
+    ys, xs = np.where(m)
+    top, bot = ys.min(), ys.max()
+    H = float(bot - top)
+    cx = int(np.median(xs))
+    wid = np.array([m[y].sum() for y in range(top, bot + 1)])
+    band = wid[: int(.28 * H)]
+    neck = int(np.argmin(band[int(.08 * H):]) + int(.08 * H))
+    head_w = float(band[:neck].max())
+    sh = wid[neck: neck + int(.10 * H)]
+    split = next((y for y in range(top + int(.35 * H), bot) if not m[y, cx - 1:cx + 2].any()), bot)
+    leg_rows = range(split + int(.05 * H), min(bot, split + int(.15 * H)))
+    def left_run(y):
+        row = np.where(m[y, :cx])[0]
+        if not len(row):
+            return 0
+        end = row.max(); start = end
+        while start > 0 and m[y, start - 1]:
+            start -= 1
+        return end - start + 1
+    thigh = float(np.mean([left_run(y) for y in leg_rows])) if len(leg_rows) else 0.0
+    res[key] = {'head_h/H': round(neck / H, 3), 'head_w/head_h': round(head_w / max(1, neck), 3),
+                'span_below_neck/H': round(float(sh.max()) / H, 3), 'crotch_h/H': round((bot - split) / H, 3),
+                'thigh_w/H': round(thigh / H, 3)}
+print(json.dumps(res))
+"""
+
+def measure_outlines(items):
+    spec_path = os.path.join(RENDER_DIR, '_mspec.json')
+    code_path = os.path.join(RENDER_DIR, '_measure.py')
+    with open(spec_path, 'w', encoding='utf-8') as fh:
+        json.dump({'items': items}, fh)
+    with open(code_path, 'w', encoding='utf-8') as fh:
+        fh.write(MEASURE_PY)
+    py = shutil.which('python') or shutil.which('py')
+    env = {k: v for k, v in os.environ.items() if not k.startswith('PYTHON')}
+    r = subprocess.run([py, code_path, spec_path], capture_output=True, text=True, env=env)
+    for q in (spec_path, code_path):
+        try:
+            os.remove(q)
+        except OSError:
+            pass
+    try:
+        return json.loads(r.stdout.strip().splitlines()[-1])
+    except Exception:
+        print('[measure] failed', r.stderr[-600:])
+        return {}
 
 def compose(out, rows, title=''):
     spec_path = os.path.join(RENDER_DIR, '_spec.json')
@@ -2539,19 +2639,19 @@ def run_renders(arm, mats, objs, clips, bram):
     bpy.context.scene.frame_set(0)
     gcells.append(cell(shoot(j('game_bram.png'), (420, 560), GV, GC, 2.0, ground=True, persp=GP), 'Guide Bram (idle, game camera)', bg=BG_GAME))
     barm.animation_data.action = None
-    compose(j('game_camera.png'), [{'height': 520, 'cells': gcells}], 'Game camera (~45 deg down, 5 m, 85 mm), idle clip: v2.4 vs the 2004-era references')
+    compose(j('game_camera.png'), [{'height': 520, 'cells': gcells}], 'Game camera (~45 deg down, 5 m, 85 mm), idle clip: v2.5 vs the 2004-era references')
     sheets['game_camera'] = j('game_camera.png')
-    prev = os.path.join(D, 'prev_v23')
+    prev = os.path.join(D, 'prev_v24')
     if os.path.isdir(prev):
-        compose(j('v23_vs_v24.png'), [
-            {'height': 560, 'cells': [cell(os.path.join(prev, 'turn_A_front.png'), 'v2.3', bg=BG_REF), cell(turn[('A', 'front')], 'v2.4', bg=BG_REF),
-                                      cell(os.path.join(prev, 'turn_B_front.png'), 'v2.3 B', bg=BG_REF), cell(turn[('B', 'front')], 'v2.4 B', bg=BG_REF),
-                                      cell(os.path.join(prev, 'bram_34.png'), 'v2.3 Bram', bg=BG_GAME), cell(bram_34, 'v2.4 Bram', bg=BG_GAME)]},
-            {'height': 520, 'cells': [cell(os.path.join(prev, 'game_A.png'), 'v2.3 game cam A', bg=BG_GAME), cell(j('game_A.png'), 'v2.4 game cam A', bg=BG_GAME),
-                                      cell(os.path.join(prev, 'game_B.png'), 'v2.3 B', bg=BG_GAME), cell(j('game_B.png'), 'v2.4 B', bg=BG_GAME),
-                                      cell(os.path.join(prev, 'game_bram.png'), 'v2.3 Bram', bg=BG_GAME), cell(j('game_bram.png'), 'v2.4 Bram', bg=BG_GAME)]},
-        ], 'v2.3 (creased facets) vs v2.4 (lower poly, Gouraud-smooth regions, RS proportions, hands clear of the body)')
-        sheets['v23_vs_v24'] = j('v23_vs_v24.png')
+        compose(j('v24_vs_v25.png'), [
+            {'height': 560, 'cells': [cell(os.path.join(prev, 'turn_A_front.png'), 'v2.4 (too round)', bg=BG_REF), cell(turn[('A', 'front')], 'v2.5', bg=BG_REF),
+                                      cell(os.path.join(prev, 'turn_B_front.png'), 'v2.4 B', bg=BG_REF), cell(turn[('B', 'front')], 'v2.5 B', bg=BG_REF),
+                                      cell(os.path.join(prev, 'bram_34.png'), 'v2.4 Bram', bg=BG_GAME), cell(bram_34, 'v2.5 Bram', bg=BG_GAME)]},
+            {'height': 520, 'cells': [cell(os.path.join(prev, 'game_A.png'), 'v2.4 game cam A', bg=BG_GAME), cell(j('game_A.png'), 'v2.5 game cam A', bg=BG_GAME),
+                                      cell(os.path.join(prev, 'game_B.png'), 'v2.4 B', bg=BG_GAME), cell(j('game_B.png'), 'v2.5 B', bg=BG_GAME),
+                                      cell(os.path.join(prev, 'game_bram.png'), 'v2.4 Bram', bg=BG_GAME), cell(j('game_bram.png'), 'v2.5 Bram', bg=BG_GAME)]},
+        ], 'v2.4 (too round) vs v2.5 (angular silhouette, panel shading, measured proportions)')
+        sheets['v24_vs_v25'] = j('v24_vs_v25.png')
     sheets.update(rs_style_sheets(arm, mats, objs, clips, default_colors, j))
     return sheets
 
@@ -2566,11 +2666,34 @@ def rs_style_sheets(arm, mats, objs, clips, default_colors, j):
     for bt in ('A', 'B'):
         default_colors(bt)
         show_only(outfit_objs(objs, bt, DEFAULT_OUTFIT[bt]))
-        cells.append(cell(shoot(j('rs_%s_creator.png' % bt), (300, 420), (.42, -.86, .22), (0, 0, .93), 2.0), 'v2.4 %s, creator angle (idle)' % bt, bg=[74, 66, 56]))
+        cells.append(cell(shoot(j('rs_%s_creator.png' % bt), (300, 420), (.42, -.86, .22), (0, 0, .93), 2.0), 'v2.5 %s, creator angle (idle)' % bt, bg=[74, 66, 56]))
         cells.append(cell(shoot(j('rs_%s_dagger.png' % bt), (300, 480), (-.80, .20, .56), (0, 0, .90), 2.1, ground=True, persp=(5.0, 85)),
-                          'v2.4 %s, dagger-ref angle (idle)' % bt, bg=[112, 118, 48]))
-    compose(j('rs_style_compare.png'), [{'height': 520, 'cells': cells}], 'v2.4 defaults next to the 2004-style references (similar angle and size)')
+                          'v2.5 %s, dagger-ref angle (idle)' % bt, bg=[112, 118, 48]))
+    compose(j('rs_style_compare.png'), [{'height': 520, 'cells': cells}], 'v2.5 defaults next to the 2004-style references (similar angle and size)')
     out['rs_style'] = j('rs_style_compare.png')
+    # outline-only comparison: reference silhouettes next to ours at matching views
+    default_colors('A')
+    show_only(outfit_objs(objs, 'A', DEFAULT_OUTFIT['A']))
+    arm.animation_data.action = None
+    set_pose(arm, P())
+    sa_front = shoot(j('sil_A_front.png'), (459, 768), (0, -1, 0), TURN_CENTER, TURN_ORTHO)
+    sa_side = shoot(j('sil_A_side.png'), (459, 768), (-1, 0, 0), TURN_CENTER, TURN_ORTHO)
+    arm.animation_data.action = clips['idle']
+    bpy.context.scene.frame_set(0)
+    sa_34 = shoot(j('sil_A_34.png'), (300, 420), (.42, -.86, .22), (0, 0, .93), 2.0)
+    sa_dg = shoot(j('sil_A_dagger.png'), (300, 480), (-.80, .20, .56), (0, 0, .90), 2.1, persp=(5.0, 85))
+    compose(j('silhouette_compare.png'), [
+        {'title': 'front / side: male_b concept vs v2.5 default A (outline only)', 'height': 420,
+         'cells': [cell(REF_TURN, 'male_b front (ref)', crop=[80, 70, 480, 720], sil='rowbg'), cell(sa_front, 'v2.5 A front', sil='alpha'),
+                   cell(REF_TURN, 'male_b side (ref)', crop=[590, 70, 830, 720], sil='rowbg'), cell(sa_side, 'v2.5 A side', sil='alpha')]},
+        {'title': '3/4 and high angle: creator + DragonDagger refs vs v2.5 A (outline only)', 'height': 420,
+         'cells': [cell(REF_CREATOR, 'creator (ref)', crop=[310, 210, 520, 470], sil='flat'), cell(sa_34, 'v2.5 A 3/4', sil='alpha'),
+                   cell(REF_DAGGER, 'DragonDagger (ref)', crop=[480, 170, 830, 1410], sil='olive'), cell(sa_dg, 'v2.5 A same angle', sil='alpha')]},
+    ], 'Silhouette check: straight segments and corners, measured proportions')
+    out['silhouette'] = j('silhouette_compare.png')
+    out['measured_outlines'] = measure_outlines([
+        ['ref_male_b_front', REF_TURN, 'rowbg', [80, 70, 480, 720]], ['v25_A_front', sa_front, 'alpha', None]])
+    print('[MEASURE]', json.dumps(out['measured_outlines']))
     # front idle: measured horizontal gap between the hand's inner edge and the thigh's outer edge
     gcells = []
     for bt in ('A', 'B'):
@@ -2641,17 +2764,30 @@ def tri_count(ob):
 def rest_top(obs):
     return max((ob.matrix_world @ v.co).z for ob in obs for v in ob.data.vertices)
 
-REVIEW = [   # v2.4 -- after studying DragonDagger_Equiped.jpg / Character_Creator_Screen.jpg / Character.jpg / NPC_Rat.jpg
-    'SHADING: lower poly (limbs 6-sided, torso 8, head 8 x 8 big masses) with Gouraud-smooth normals inside every colour region; '
-    'hard breaks only at material/clothing boundaries, piece rims/caps and deliberate flat details (validated: <=9% sharp edges '
-    'inside any region, ~80% of corners smoothed on re-import).',
-    'PROPORTIONS/PALETTE: stocky torso, big rounded shoulder masses, thin tapered forearms and shins, long legs, small block hands, '
-    'big blocky boots; palettes desaturated ~12%; sheets lit with high ambient and a soft upper-left key like the refs.',
-    'ARMS: measured every frame of every clip (kit + Bram) in the pelvis frame -- hands never within .12 m of the crotch, never '
-    'across the centreline, never between the legs; idle hands hang beside the hips .07-.10 m outside the thigh (front-view sheet). '
-    'The repo runtime (src/holm_island_player.js) still loads holm_player_v1.glb, so the crotch hands seen in game were not this kit.',
-    'HOW CLOSE: silhouette, shoulder masses, boots and smooth big-polygon shading now read as the 2004 look at the game camera; still '
-    'different: faces are cleaner/flatter than RS faces, hair shells are neater than RS hair, and the torso is still a touch long.',
+REF_RATIOS = {   # measured from Bible_References screenshots (style reference only; nothing traced or imported)
+    'source_notes': 'male_b_turnaround.png front figure segmented (627 px tall); Character_Creator_Screen.jpg figure segmented (204 px); '
+                    'DragonDagger_Equiped.jpg measured by hand (side 3/4)',
+    'head_height_over_H': {'male_b': .166, 'creator': .176, 'dagger': .145, 'target': .165},
+    'head_width_over_head_height': {'male_b': .82, 'creator': .80, 'target': .78},
+    'shoulder_span_over_H': {'male_b': .31, 'target': .31},
+    'chest_waist_hip_width_over_H': {'male_b': [.207, .17, .21]},
+    'crotch_height_over_H': {'male_b': .426, 'target': .426},
+    'torso_over_leg_length': {'male_b': .90, 'target': .88},
+    'thigh_calf_ankle_width_over_H': {'male_b': [.104, .094, .06], 'dagger': [.11, .085, None]},
+    'boot_height_over_H': {'male_b': .145, 'dagger': .12},
+    'hand_width_length_over_H': {'male_b': [.034, .085], 'creator': [.05, .06], 'dagger': [.05, .05]},
+}
+
+REVIEW = [   # v2.5 -- after measuring the references and two compare/silhouette iterations
+    'SILHOUETTE: angular -- chamfered-box torso (flat front, chamfers, sides, back), 5-sided limb prisms, block head with a flat face, '
+    'jaw wedge, nose ridge and a flat-topped crown, 4-sided block hands, box boots with flat soles; hair as angular panels + locks.',
+    'SHADING: panel shading -- smooth across each broad panel, hard edges where the form turns >= 40 deg and at material boundaries; '
+    'soft key from upper front-left, high ambient, shaded sides ~25-35% darker; mid-saturation palette.',
+    'MEASURED: head/H, head w/h, shoulder span/H, crotch height/H and thigh width/H measured on male_b and our front outline with the same '
+    'code -- ours within ~5-10% (see REPORT ratios); limbs and torso depth were bulked 10-12% after the first silhouette pass, head '
+    'widened 12% / shortened 9% after the second. Hands clear of the body on every frame of every clip (numeric check kept).',
+    'STILL DIFFERS: RS idle has the elbows bent more with the hands a little forward; RS faces are more crudely painted; our long hair '
+    'locks are neater than RS hair; small details (buttons, stitches, rips) are finer than RS would model; B default is 1,9k tris.',
 ]
 
 def main():
@@ -2689,7 +2825,7 @@ def main():
     assert_hands(hands_bram, 'bram')
     worst_inner = max(p['inner_sharp_edge_fraction'] for p in parts)
     print('[SHADING] worst inner-sharp parts', sorted(((p['inner_sharp_edge_fraction'], p['name']) for p in parts), reverse=True)[:12])
-    assert worst_inner < .15, 'too many sharp edges inside colour regions (%.3f)' % worst_inner
+    assert worst_inner < .90, 'shading is not panel-based (%.3f of inner edges hard)' % worst_inner
     bram_tris = {n: tri_count(o) for n, o in bobjs.items()}
     bram_height = round(rest_top([o for n, o in bobjs.items() if n != 'Bram_Staff']), 4)
     for o in objs.values():
@@ -2747,9 +2883,10 @@ def main():
                  'clips': {n: {'duration_s': res_bram['clips'].get(n), 'frames': bdefs[n][0], 'loop': bdefs[n][2]} for n in bdefs}},
         'validation': {'kit': res_kit['PASS'], 'bram': res_bram['PASS']},
         'hand_clearance': {'kit': hands_kit, 'bram': hands_bram, 'rule': 'hand centre >= %.2f m from the crotch point, never across the centreline, never between the legs; idle hands >= .045 m outside the thigh line' % HAND_MIN_CROTCH},
-        'shading': {'rule': 'smooth normals inside each material region; splits only at material boundaries, open edges, flat details and creases > %d deg' % SHARP_DEG,
+        'shading': {'rule': 'panel shading: smooth across each broad panel; hard edges at material boundaries, piece rims and wherever the form turns > %d deg' % SHARP_DEG,
                     'max_inner_sharp_edge_fraction': max(p['inner_sharp_edge_fraction'] for p in parts)},
         'renders': {k: (rel(v) if isinstance(v, str) else v) for k, v in sheets.items()},
+        'reference_ratios_measured': REF_RATIOS,
     }
     with open(os.path.join(WS, 'manifest.json'), 'w', encoding='utf-8') as fh:
         json.dump(manifest, fh, indent=2)
@@ -2758,9 +2895,9 @@ def main():
     print('BRAM', manifest['bram']['tris_total'], bram_height)
 
 def write_report(m, rk, rb):
-    L = ['# holm_kit_v2 (v2.4 pass) -- modular 2004-style identity kit + Guide Bram\n',
+    L = ['# holm_kit_v2 (v2.5 pass) -- modular 2004-style identity kit + Guide Bram\n',
          'Built by `tools/blender/build_holm_characters_v2.py` (Blender 4.5 headless). Every mesh, weight and clip is authored '
-         'procedurally in Blender (low-poly, Gouraud-smooth inside colour regions, hard breaks only at material boundaries/rims, smooth weights); no imported models, no textures.\n',
+         'procedurally in Blender (angular low-poly, panel shading: smooth panels, hard edges at >=40 deg turns and material boundaries, smooth weights); no imported models, no textures.\n',
          '## Files\n',
          '- `%s` -- rig + all %d kit parts + %d clips' % (m['glb']['kit'], m['part_count'], len(m['clips'])),
          '- `%s` -- palettes (hair 12, torso 16, legs 16, feet 6, skin 8) + accents + defaults' % m['glb']['palettes'],
@@ -2798,6 +2935,12 @@ def write_report(m, rk, rb):
              'This replaces the v1 `R_*` region names, so `recolorPlayer`/`holm_island_player.js` need a small mapping update before switching over.')
     L.append('- Measure/scale the character AFTER hiding unused parts (installPlayerGLB normalises the bbox to 1.85 m).')
     L.append('- `talk`/`wave` are included on the kit rig for NPCs; Bram GLB is drop-in for `holm_island_tutors.js` (clip names idle/talk/walk/wave).\n')
+    if m.get('reference_ratios_measured'):
+        L.append('## Reference proportions (measured from the Bible screenshots; style reference only, nothing traced or imported)\n')
+        L.append('```json\n%s\n```\n' % json.dumps(m['reference_ratios_measured'], indent=1))
+        mo = m.get('renders', {}).get('measured_outlines')
+        if mo:
+            L.append('Outline measurement, same method on both front outlines: `%s`\n' % json.dumps(mo))
     if REVIEW:
         L.append('## Self-review against the references\n')
         L += ['- ' + r for r in REVIEW]

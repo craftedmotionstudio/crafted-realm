@@ -64,6 +64,13 @@ var HolmIslandGuide=(function(){
   var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord(),surf=rec&&rec.surface||'';if(surf.indexOf('b:'+b+':')===0&&!/Terrain$/.test(surf))return a;   // already inside
   var gate=named('island-gate-'+b+'-door');if(gate)return {obj:gate,label:'Enter the '+NAMES[b]};
   var d=HolmArrivalQA.qaStance(b,DOOR[b]);return d?{point:d,label:'Enter the '+NAMES[b]}:a}
+ // the Guide House (the arrival package, first lessons): the chart and the tools are inside, so from outside the
+ // marker goes on its south door, "Open the door" while it is shut, as the first thing a new adventurer does
+ function viaGuideDoor(a){if(!a||!a.obj||typeof HolmArrivalQA==='undefined')return a;var house=named('GuideHouse'),door=named('DoorSouthLeaf');if(!house||!door)return a;
+  var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord();if(!rec||rec.surface!=='exterior')return a;
+  var box=new THREE.Box3().setFromObject(house),t=a.obj.getWorldPosition(new THREE.Vector3());
+  if(t.x<box.min.x||t.x>box.max.x||t.z<box.min.z||t.z>box.max.z)return a;
+  return {obj:door,label:rec.doors&&rec.doors.arrival?'Enter the Guide House':'Open the door'}}
  function packPulse(on,item,tab){   // point at the pack (or a side tab) the 2004 way: the tab flashes
   var sel=tab?'.tab-btn[data-tab="'+tab+'"]':'.tab-btn[data-tab="inv"]';
   document.querySelectorAll('.tab-btn.holm-guide-pulse').forEach(function(b){if(!on||!b.matches(sel))b.classList.remove('holm-guide-pulse')});
@@ -79,7 +86,7 @@ var HolmIslandGuide=(function(){
   else{var s=Tutorial.steps[Tutorial.step];a=s?aim(s.id):null}
   if(a&&(a.pack||a.tab)){packPulse(true,a.pack,a.tab);GuideArrow.setTarget(null);return}
   packPulse(false);
-  a=viaDoor(a);var p=a&&(a.point?{x:a.point.x,y:a.point.y+1.4,z:a.point.z}:world(a.obj));if(!p){return}
+  a=viaGuideDoor(viaDoor(a));var p=a&&(a.point?{x:a.point.x,y:a.point.y+1.4,z:a.point.z}:world(a.obj));if(!p){return}
   GuideArrow.keepAfterComplete=!!Tutorial.complete;GuideArrow.setTarget({x:p.x,z:p.z,y:p.y,exact:true},a.label);
  }
  return {update:update,aim:aim};
