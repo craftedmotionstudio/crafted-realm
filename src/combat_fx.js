@@ -121,7 +121,7 @@ var CombatFX=(function(){
 
  /* ---------------- hit splats (pooled; drawn on a 2D layer above the 3D view, below the interface) ---------------- */
  var splats=[];for(var si=0;si<40;si++)splats.push({on:false,obj:null,dmg:0,kind:0,t0:0,slot:0,txt:'0'});
- var FONTS=[];for(var fi=0;fi<=24;fi++)FONTS.push('bold '+fi+'px Tahoma, Verdana, sans-serif');
+ var FONTS=[];for(var fi=0;fi<=40;fi++)FONTS.push('bold '+fi+'px Tahoma, Verdana, sans-serif');
  function addSplat(o,dmg,kind){
   var s=st(o),slot=-1,oldest=null,i,q,sp=null;
   for(i=0;i<4;i++){q=s.slots[i];if(!q||!q.on||q.obj!==o){slot=i;break}if(!oldest||q.t0<oldest.t0)oldest=q}
@@ -133,7 +133,8 @@ var CombatFX=(function(){
  function splatsOn(o){var s=o.userData&&o.userData._cfx;if(!s)return false;for(var i=0;i<4;i++){var q=s.slots[i];if(q&&q.on&&q.obj===o)return true}return false}
 
  /* ---------------- 2D layer: splats + health bars ---------------- */
- var layer=null,g2=null,dpr=1,LW=0,LH=0,drewLast=false,SPR=null;
+ // K: splats and bars scale with the view (owner review: they read small); 1 at 680 px tall, ~1.3 at 900, OSRS proportions
+ var layer=null,g2=null,dpr=1,LW=0,LH=0,K=1,drewLast=false,SPR=null;
  function ensureLayer(){
   if(layer)return layer;if(typeof document==='undefined')return null;
   var gc=document.getElementById('game-canvas');if(!gc)return null;
@@ -141,11 +142,11 @@ var CombatFX=(function(){
   layer.style.cssText='position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;';
   gc.insertAdjacentElement('afterend',layer);g2=layer.getContext('2d');sizeLayer();return layer}
  function sizeLayer(){var w=innerWidth,h=innerHeight,d=Math.min(2,window.devicePixelRatio||1);if(w===LW&&h===LH&&d===dpr&&SPR)return;
-  LW=w;LH=h;dpr=d;layer.width=Math.round(w*d);layer.height=Math.round(h*d);SPR=makeSplatSprites()}
+  LW=w;LH=h;dpr=d;K=Math.max(0.85,Math.min(1.5,h/680));layer.width=Math.round(w*d);layer.height=Math.round(h*d);SPR=makeSplatSprites()}
  // our own splat: an irregular nine-lobed blot, dark rim, soft highlight (0 red hit, 1 blue miss, 2 gold-rimmed max hit)
  function makeSplatSprites(){
   var out=[],cols=[['#f25a3c','#b3241a','#5a0a05','#2a0402'],['#76a0ea','#2c4f9c','#12244d','#081329'],['#f25a3c','#b3241a','#5a0a05','#ffd24a']];
-  var S=Math.round(40*dpr);
+  var S=Math.round(40*K*dpr);
   for(var k=0;k<3;k++){var c=document.createElement('canvas');c.width=c.height=S;var x=c.getContext('2d'),cx=S/2,cy=S/2,R=S*0.38;
    x.beginPath();for(var i=0;i<=90;i++){var a=i/90*Math.PI*2,r=R*(0.86+0.09*Math.cos(9*a+0.6)+0.05*Math.cos(4*a+1.9));var px=cx+Math.cos(a)*r*1.07,py=cy+Math.sin(a)*r*0.95;if(i)x.lineTo(px,py);else x.moveTo(px,py)}
    x.closePath();var gr=x.createRadialGradient(cx-R*.25,cy-R*.3,R*.1,cx,cy,R*1.05);gr.addColorStop(0,cols[k][0]);gr.addColorStop(.62,cols[k][1]);gr.addColorStop(1,cols[k][2]);
@@ -155,12 +156,12 @@ var CombatFX=(function(){
  function project(p){p.project(camera);if(p.z>1||p.z<-1)return false;p.x=(p.x+1)/2*LW;p.y=(1-p.y)/2*LH;return true}
  var BAR_W=34,BAR_H=5;
  function drawBar(o,frac,s){
-  if(!project(head(o,V1)))return;var x=Math.round(V1.x-BAR_W/2),y=Math.round(V1.y-BAR_H);
-  g2.fillStyle='#000';g2.fillRect(x-1,y-1,BAR_W+2,BAR_H+2);
-  g2.fillStyle='#c8190e';g2.fillRect(x,y,BAR_W,BAR_H);
-  var gw=Math.round(BAR_W*Math.max(0,Math.min(1,frac)));
-  if(s&&s.trail>frac&&s.trailT<0.45){var tw=Math.round(BAR_W*Math.min(1,s.trail))-gw;if(tw>0){g2.globalAlpha=1-s.trailT/0.45;g2.fillStyle='#ffe9a8';g2.fillRect(x+gw,y,tw,BAR_H);g2.globalAlpha=1}}
-  g2.fillStyle='#22c42c';g2.fillRect(x,y,gw,BAR_H);
+  if(!project(head(o,V1)))return;var BW=Math.round(BAR_W*K),BH=Math.max(5,Math.round(BAR_H*K)),x=Math.round(V1.x-BW/2),y=Math.round(V1.y-BH);
+  g2.fillStyle='#000';g2.fillRect(x-1,y-1,BW+2,BH+2);
+  g2.fillStyle='#c8190e';g2.fillRect(x,y,BW,BH);
+  var gw=Math.round(BW*Math.max(0,Math.min(1,frac)));
+  if(s&&s.trail>frac&&s.trailT<0.45){var tw=Math.round(BW*Math.min(1,s.trail))-gw;if(tw>0){g2.globalAlpha=1-s.trailT/0.45;g2.fillStyle='#ffe9a8';g2.fillRect(x+gw,y,tw,BH);g2.globalAlpha=1}}
+  g2.fillStyle='#22c42c';g2.fillRect(x,y,gw,BH);
   g2.fillStyle='rgba(255,255,255,.3)';g2.fillRect(x,y,gw,1)}
  function barFrac(o,s){var f=s&&s.pending>0?s.shown:liveFrac(o);return f<0?1:f}
  function draw(){
@@ -188,9 +189,9 @@ var CombatFX=(function(){
    if(!o.parent&&!isPlayer(o)){sp.on=false;continue}
    if(o.visible===false||!project(torso(o,V2)))continue;
    var age=T-sp.t0,a=age>SPLAT_LIFE-SPLAT_FADE?Math.max(0,(SPLAT_LIFE-age)/SPLAT_FADE):1,sc=age<SPLAT_POP?1.45-0.45*(age/SPLAT_POP):1;
-   var off=SLOTS[sp.slot],cx=V2.x+off[0],cy=V2.y+off[1],w=40*sc;
+   var off=SLOTS[sp.slot],cx=V2.x+off[0]*K,cy=V2.y+off[1]*K,w=40*K*sc;
    g2.globalAlpha=a;g2.drawImage(SPR[sp.kind],cx-w/2,cy-w/2,w,w);
-   var txt=sp.txt;g2.font=FONTS[Math.min(24,Math.round(15*sc))];
+   var txt=sp.txt;g2.font=FONTS[Math.min(40,Math.round(15*K*sc))];
    g2.fillStyle='#000';g2.fillText(txt,cx+1,cy+1.5);g2.fillStyle=sp.kind===2?'#fff2b8':'#fff';g2.fillText(txt,cx,cy+0.5)}
   g2.globalAlpha=1;
  }

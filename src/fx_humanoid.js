@@ -160,6 +160,21 @@ function playerGLBAnim(root, dt, moving, speed){
         bone.quaternion.premultiply(qP.clone().invert().multiply(dW).multiply(qP));
       }
     }
+    // staff carry (owner review): the walk/run swing laid the staff flat like a spear; 2004 carries a staff upright,
+    // the staff arm still while the legs and the free arm move. The right arm chain follows the idle clip's pose,
+    // blended in with the walk weight (kit and legacy rigs alike; only bones the idle clip animates).
+    if(wdef && wdef.model==='staff' && g.idle && g.w>0.01){
+      let arm = root.userData._staffArm;
+      if(arm===undefined){
+        arm=[]; const rig=root.userData.rigInner||root, tracks={};
+        g.idle.getClip().tracks.forEach(tr=>{ const m=/^(.*).quaternion$/.exec(tr.name); if(m) tracks[m[1]]=tr; });
+        rig.traverse(o=>{ if(!(o.isBone||o.type==='Bone')) return;
+          if(!/Right(Shoulder|Arm|ForeArm|Hand)$/.test(o.name) || !tracks[o.name]) return;
+          arm.push({bone:o, interp:tracks[o.name].createInterpolant(), q:new THREE.Quaternion()}); });
+        root.userData._staffArm = arm;
+      }
+      for(const a of arm){ a.q.fromArray(a.interp.evaluate(g.idle.time)); a.bone.quaternion.slerp(a.q, g.w); }
+    }
   }
 }
 

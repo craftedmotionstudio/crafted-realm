@@ -64,7 +64,7 @@ var HolmIslandGuide=(function(){
   var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord(),surf=rec&&rec.surface||'';if(surf.indexOf('b:'+b+':')===0&&!/Terrain$/.test(surf))return a;   // already inside
   // standing at the doorway already: the marker goes on the thing itself (a tutor just inside, the station)
   var d=HolmArrivalQA.qaStance(b,DOOR[b]);if(d&&Math.hypot(player.position.x-d.x,player.position.z-d.z)<1.6&&Math.abs(player.position.y-d.y)<1)return a;
-  var gate=named('island-gate-'+b+'-door');if(gate)return {obj:gate,label:'Enter the '+NAMES[b]};
+  var gate=named('island-gate-'+b+'-door');if(gate)return {obj:gate,door:true,label:'Enter the '+NAMES[b]};
   return d?{point:d,label:'Enter the '+NAMES[b]}:a}
  // the Guide House (the arrival package, first lessons): the chart and the tools are inside, so from outside the
  // marker goes on its south door, "Open the door" while it is shut, as the first thing a new adventurer does
@@ -72,7 +72,11 @@ var HolmIslandGuide=(function(){
   var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord();if(!rec||rec.surface!=='exterior')return a;
   var box=new THREE.Box3().setFromObject(house),t=a.obj.getWorldPosition(new THREE.Vector3());
   if(t.x<box.min.x||t.x>box.max.x||t.z<box.min.z||t.z>box.max.z)return a;
-  return {obj:door,label:rec.doors&&rec.doors.arrival?'Enter the Guide House':'Open the door'}}
+  return {obj:door,door:true,label:rec.doors&&rec.doors.arrival?'Enter the Guide House':'Open the door'}}
+ // a door's arrow floats in front of the leaf at head height, not on its top edge: under a porch roof the top edge put
+ // the arrow and its tag off the top of the screen once the adventurer walked up to it
+ function doorPoint(o){var b=new THREE.Box3().setFromObject(o);if(b.isEmpty())return world(o);var c=b.getCenter(new THREE.Vector3()),dx=player.position.x-c.x,dz=player.position.z-c.z,d=Math.hypot(dx,dz)||1,k=Math.min(.7,d*.5);
+  return {x:c.x+dx/d*k,y:c.y,z:c.z+dz/d*k}}
  function packPulse(on,item,tab){   // point at the pack (or a side tab) the 2004 way: the tab flashes
   var sel=tab?'.tab-btn[data-tab="'+tab+'"]':'.tab-btn[data-tab="inv"]';
   document.querySelectorAll('.tab-btn.holm-guide-pulse').forEach(function(b){if(!on||!b.matches(sel))b.classList.remove('holm-guide-pulse')});
@@ -99,7 +103,7 @@ var HolmIslandGuide=(function(){
   a=viaGuideDoor(viaDoor(a));
   // down in the Guide House cellar every objective is back up the ladder first
   if(a&&typeof HolmGuideCellar!=='undefined'){var rc=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord();if(rc&&HolmGuideCellar.below(rc.surface)){var lad=named('CellarLadder');if(lad)a={obj:lad,label:'Climb up the ladder'}}}
-  var p=a&&(a.point?{x:a.point.x,y:a.point.y+1.4,z:a.point.z}:world(a.obj));if(!p){return}
+  var p=a&&(a.point?{x:a.point.x,y:a.point.y+1.4,z:a.point.z}:a.door?doorPoint(a.obj):world(a.obj));if(!p){return}
   GuideArrow.keepAfterComplete=!!Tutorial.complete;GuideArrow.setTarget({x:p.x,z:p.z,y:p.y,exact:true},a.label);
  }
  return {update:update,aim:aim};
