@@ -1,0 +1,50 @@
+{
+  "format": "crafted-realm-map",
+  "version": 1,
+  "name": "scarlands_test",
+  "about": "Hand-authored W1 test map: the Commons respawn (safe), the Ditch with two crossings, the Wilderness (levels 1-10, north is +z) holding a 64x64 Scarlands pocket with ruins, one multi-combat square, and a few monsters. Coordinates are tiles; x east, z north.",
+  "level": 0,
+  "bounds": { "x1": 0, "z1": 0, "x2": 63, "z2": 127 },
+  "respawn": { "x": 32, "z": 10, "radius": 2 },
+  "blocked": [
+    [5, 5, 6, 6], [50, 20, 51, 21], [12, 30, 12, 30], [40, 34, 41, 34], [31, 12, 32, 13],
+    [40, 60, 43, 63], [6, 90, 9, 92], [58, 75, 60, 76], [22, 78, 23, 79], [52, 116, 54, 117]
+  ],
+  "water": [
+    [0, 44, 14, 45], [17, 44, 46, 45], [49, 44, 63, 45],
+    [14, 100, 18, 103]
+  ],
+  "walls": [
+    [20, 18, 22, 18, "S"], [24, 18, 27, 18, "S"], [20, 25, 27, 25, "N"], [20, 18, 20, 25, "W"], [27, 18, 27, 25, "E"],
+    [8, 70, 19, 70, "N"], [21, 70, 32, 70, "N"],
+    [26, 84, 29, 84, "S"], [31, 84, 36, 84, "S"], [26, 92, 32, 92, "N"], [34, 92, 36, 92, "N"],
+    [26, 84, 26, 92, "W"], [36, 84, 36, 88, "E"], [36, 90, 36, 92, "E"]
+  ],
+  "areas": {
+    "wilderness": [{ "x1": 0, "z1": 48, "x2": 63, "z2": 127 }],
+    "multi": [{ "x1": 40, "z1": 96, "x2": 55, "z2": 111 }],
+    "named": [
+      { "name": "Veyhollow Commons", "x1": 0, "z1": 0, "x2": 63, "z2": 43 },
+      { "name": "The Ditch", "x1": 0, "z1": 44, "x2": 63, "z2": 47 },
+      { "name": "The Scarlands", "x1": 0, "z1": 56, "x2": 63, "z2": 119 }
+    ]
+  },
+  "spawns": [
+    { "npc": "burrowrat", "x": 38, "z": 30, "wander": 4 },
+    { "npc": "burrowrat", "x": 42, "z": 32, "wander": 4 },
+    { "npc": "burrowrat", "x": 45, "z": 28, "wander": 4 },
+    { "npc": "pasturehen", "x": 10, "z": 15, "wander": 3 },
+    { "npc": "pasturehen", "x": 13, "z": 17, "wander": 3 },
+    { "npc": "gnarlgob", "x": 30, "z": 52, "hunt": 3 },
+    { "npc": "gnarlgob", "x": 34, "z": 53, "hunt": 3 },
+    { "npc": "gnarlgob", "x": 26, "z": 50, "hunt": 3 },
+    { "npc": "mosswolf", "x": 12, "z": 66, "hunt": 3 },
+    { "npc": "mosswolf", "x": 18, "z": 67, "hunt": 3 },
+    { "npc": "skeleton", "x": 46, "z": 90, "hunt": 2 },
+    { "npc": "skeleton", "x": 50, "z": 92, "hunt": 2 },
+    { "npc": "bryn_raider", "x": 46, "z": 100, "hunt": 3 },
+    { "npc": "bryn_raider", "x": 50, "z": 104, "hunt": 3 },
+    { "npc": "cinder_shade", "x": 20, "z": 114, "hunt": 3 },
+    { "npc": "cinder_shade", "x": 26, "z": 118, "hunt": 3 }
+  ]
+}
