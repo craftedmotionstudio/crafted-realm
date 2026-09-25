@@ -394,7 +394,7 @@ var CombatFX=(function(){
     var im=document.createElement('img');im.alt='';im.style.cssText='width:18px;height:18px;vertical-align:middle;margin-right:3px;';im.onerror=function(){this.style.visibility='hidden'};
     var tx=document.createElement('span');el.appendChild(im);el.appendChild(tx);host.appendChild(el);r={el:el,img:im,txt:tx,on:false,t0:0,skill:'',x:0,y0:0,y1:0};xpRows.push(r)}}
   if(r.el.parentNode!==host)host.appendChild(r.el);
-  if(r.skill!==skill){r.skill=skill;r.img.style.visibility='visible';r.img.src='assets/icons/skills/'+String(skill).toLowerCase()+'_cut.png'}
+  if(r.skill!==skill){r.skill=skill;r.img.style.visibility='visible';r.img.src='assets/icons/ui/v3/skills18/'+String(skill).toLowerCase()+'.png?v=1'}
   var n=Math.round(amt);r.txt.textContent=(n>0?'+':'')+n;
   if(xpBurstFrame!==frame){xpBurstFrame=frame;xpBurstN=0}var row=xpBurstN++;
   // anchor: just left of the minimap, rising from its lower edge to its top (follows the responsive layout)

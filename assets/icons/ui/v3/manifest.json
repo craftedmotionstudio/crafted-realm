@@ -1,0 +1,1221 @@
+{
+ "schema": 1,
+ "source": [
+  "tools/blender/build_ui_icons_v1.py",
+  "tools/process_ui_icons_v3.py"
+ ],
+ "note": "original low-poly Blender props rendered and pixel-finished; no third-party art",
+ "files": [
+  {
+   "icon": "c_axe_block",
+   "file": "combat/axe_block.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_axe_lunge",
+   "file": "combat/axe_lunge.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_axe_slash",
+   "file": "combat/axe_slash.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_axe_smash",
+   "file": "combat/axe_smash.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_axe_stab",
+   "file": "combat/axe_stab.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_block_unarmed",
+   "file": "combat/block_unarmed.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_bow_accurate",
+   "file": "combat/bow_accurate.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_bow_longrange",
+   "file": "combat/bow_longrange.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_bow_rapid",
+   "file": "combat/bow_rapid.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_kick",
+   "file": "combat/kick.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_mace_block",
+   "file": "combat/mace_block.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_mace_lunge",
+   "file": "combat/mace_lunge.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_mace_slash",
+   "file": "combat/mace_slash.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_mace_smash",
+   "file": "combat/mace_smash.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_mace_stab",
+   "file": "combat/mace_stab.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_pick_block",
+   "file": "combat/pick_block.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_pick_lunge",
+   "file": "combat/pick_lunge.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_pick_slash",
+   "file": "combat/pick_slash.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_pick_smash",
+   "file": "combat/pick_smash.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_pick_stab",
+   "file": "combat/pick_stab.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_punch",
+   "file": "combat/punch.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_retaliate",
+   "file": "combat/retaliate.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_shove",
+   "file": "combat/shove.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_staff_cast",
+   "file": "combat/staff_cast.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_staff_focus",
+   "file": "combat/staff_focus.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_sword_block",
+   "file": "combat/sword_block.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_sword_lunge",
+   "file": "combat/sword_lunge.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_sword_slash",
+   "file": "combat/sword_slash.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_sword_smash",
+   "file": "combat/sword_smash.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "c_sword_stab",
+   "file": "combat/sword_stab.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_angry",
+   "file": "emotes/angry.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_bow",
+   "file": "emotes/bow.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_cheer",
+   "file": "emotes/cheer.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_clap",
+   "file": "emotes/clap.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_dance",
+   "file": "emotes/dance.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_laugh",
+   "file": "emotes/laugh.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_no",
+   "file": "emotes/no.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_shrug",
+   "file": "emotes/shrug.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_sit",
+   "file": "emotes/sit.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_think",
+   "file": "emotes/think.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_wave",
+   "file": "emotes/wave.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_yes",
+   "file": "emotes/yes.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "ghost_ammo",
+   "file": "ghosts/ammo.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "ghost_amulet",
+   "file": "ghosts/amulet.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "ghost_body",
+   "file": "ghosts/body.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "ghost_cape",
+   "file": "ghosts/cape.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "ghost_feet",
+   "file": "ghosts/feet.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "ghost_hands",
+   "file": "ghosts/hands.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "ghost_head",
+   "file": "ghosts/head.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "ghost_legs",
+   "file": "ghosts/legs.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "ghost_ring",
+   "file": "ghosts/ring.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "ghost_shield",
+   "file": "ghosts/shield.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "ghost_weapon",
+   "file": "ghosts/weapon.png",
+   "w": 28,
+   "h": 28,
+   "finish": "ghost"
+  },
+  {
+   "icon": "login_title",
+   "file": "login/title.png",
+   "w": 400,
+   "h": 50,
+   "finish": "sprite"
+  },
+  {
+   "icon": "login_torch_base",
+   "file": "login/torch_base.png",
+   "w": 80,
+   "h": 55,
+   "finish": "sprite"
+  },
+  {
+   "icon": "login_torch_head",
+   "file": "login/torch_head.png",
+   "w": 60,
+   "h": 48,
+   "finish": "sprite"
+  },
+  {
+   "icon": "misc_bell",
+   "file": "misc/bell.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "orb_run",
+   "file": "misc/boot.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "chathead",
+   "file": "misc/chathead.png",
+   "w": 64,
+   "h": 64,
+   "finish": "sprite"
+  },
+  {
+   "icon": "misc_chest",
+   "file": "misc/chest.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "close_x",
+   "file": "misc/close.png",
+   "w": 17,
+   "h": 17,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_logout",
+   "file": "misc/door.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "globe",
+   "file": "misc/globe.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "orb_heart",
+   "file": "misc/heart.png",
+   "w": 16,
+   "h": 16,
+   "finish": "sprite"
+  },
+  {
+   "icon": "hint_arrow",
+   "file": "misc/hint_arrow.png",
+   "w": 64,
+   "h": 80,
+   "finish": "sprite"
+  },
+  {
+   "icon": "hint_arrow_up",
+   "file": "misc/hint_arrow_up.png",
+   "w": 34,
+   "h": 34,
+   "finish": "sprite"
+  },
+  {
+   "icon": "rail_medal",
+   "file": "misc/medal.png",
+   "w": 16,
+   "h": 16,
+   "finish": "sprite"
+  },
+  {
+   "icon": "medal_off",
+   "file": "misc/medal_off.png",
+   "w": 16,
+   "h": 16,
+   "finish": "sprite"
+  },
+  {
+   "icon": "rail_music",
+   "file": "misc/note.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "misc_roof",
+   "file": "misc/roof.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "compass",
+   "file": "orb/compass.png",
+   "w": 36,
+   "h": 36,
+   "finish": "sprite"
+  },
+  {
+   "icon": "orbfill_blue",
+   "file": "orb/fill_blue.png",
+   "w": 26,
+   "h": 26,
+   "finish": "flat"
+  },
+  {
+   "icon": "orbfill_green",
+   "file": "orb/fill_green.png",
+   "w": 26,
+   "h": 26,
+   "finish": "flat"
+  },
+  {
+   "icon": "orbfill_grey",
+   "file": "orb/fill_grey.png",
+   "w": 26,
+   "h": 26,
+   "finish": "flat"
+  },
+  {
+   "icon": "orbfill_red",
+   "file": "orb/fill_red.png",
+   "w": 26,
+   "h": 26,
+   "finish": "flat"
+  },
+  {
+   "icon": "orbfill_teal",
+   "file": "orb/fill_teal.png",
+   "w": 26,
+   "h": 26,
+   "finish": "flat"
+  },
+  {
+   "icon": "orbfill_yellow",
+   "file": "orb/fill_yellow.png",
+   "w": 26,
+   "h": 26,
+   "finish": "flat"
+  },
+  {
+   "icon": "globe",
+   "file": "orb/globe.png",
+   "w": 26,
+   "h": 26,
+   "finish": "sprite"
+  },
+  {
+   "icon": "orb_heart",
+   "file": "orb/heart.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "minimap_ring",
+   "file": "orb/minimap_ring.png",
+   "w": 172,
+   "h": 172,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_prayers",
+   "file": "orb/prayer.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "orb_run",
+   "file": "orb/run.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "orb_socket",
+   "file": "orb/socket.png",
+   "w": 34,
+   "h": 34,
+   "finish": "sprite"
+  },
+  {
+   "icon": "orb_spec",
+   "file": "orb/spec.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_burst_str",
+   "file": "prayers/burst_str.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_clarity",
+   "file": "prayers/clarity.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_hawk_eye",
+   "file": "prayers/hawk_eye.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_incredible_ref",
+   "file": "prayers/incredible_ref.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_mystic_lore",
+   "file": "prayers/mystic_lore.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_mystic_will",
+   "file": "prayers/mystic_will.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_protect_magic",
+   "file": "prayers/protect_magic.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_protect_melee",
+   "file": "prayers/protect_melee.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_protect_range",
+   "file": "prayers/protect_range.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_reflexes",
+   "file": "prayers/reflexes.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_rock_skin",
+   "file": "prayers/rock_skin.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_sharp_eye",
+   "file": "prayers/sharp_eye.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_steel_skin",
+   "file": "prayers/steel_skin.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_superhuman",
+   "file": "prayers/superhuman.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_thick_skin",
+   "file": "prayers/thick_skin.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "p_ultimate_str",
+   "file": "prayers/ultimate_str.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
+   "icon": "rail_coins",
+   "file": "rail/coins.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_combat",
+   "file": "rail/combat.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "rail_layers",
+   "file": "rail/layers.png",
+   "w": 20,
+   "h": 20,
+   "finish": "sprite"
+  },
+  {
+   "icon": "rail_look",
+   "file": "rail/look.png",
+   "w": 20,
+   "h": 20,
+   "finish": "sprite"
+  },
+  {
+   "icon": "rail_medal",
+   "file": "rail/medal.png",
+   "w": 20,
+   "h": 20,
+   "finish": "sprite"
+  },
+  {
+   "icon": "rail_music",
+   "file": "rail/music.png",
+   "w": 20,
+   "h": 20,
+   "finish": "sprite"
+  },
+  {
+   "icon": "rail_muted",
+   "file": "rail/muted.png",
+   "w": 20,
+   "h": 20,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_attack",
+   "file": "skills/attack.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_cooking",
+   "file": "skills/cooking.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_defence",
+   "file": "skills/defence.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_firemaking",
+   "file": "skills/firemaking.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_fishing",
+   "file": "skills/fishing.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_fletching",
+   "file": "skills/fletching.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_hitpoints",
+   "file": "skills/hitpoints.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_magic",
+   "file": "skills/magic.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_mining",
+   "file": "skills/mining.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_prayer",
+   "file": "skills/prayer.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_ranged",
+   "file": "skills/ranged.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_smithing",
+   "file": "skills/smithing.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_strength",
+   "file": "skills/strength.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_thieving",
+   "file": "skills/thieving.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_woodcutting",
+   "file": "skills/woodcutting.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_attack",
+   "file": "skills18/attack.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_cooking",
+   "file": "skills18/cooking.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_defence",
+   "file": "skills18/defence.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_firemaking",
+   "file": "skills18/firemaking.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_fishing",
+   "file": "skills18/fishing.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_fletching",
+   "file": "skills18/fletching.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_hitpoints",
+   "file": "skills18/hitpoints.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_magic",
+   "file": "skills18/magic.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_mining",
+   "file": "skills18/mining.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_prayer",
+   "file": "skills18/prayer.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_ranged",
+   "file": "skills18/ranged.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_smithing",
+   "file": "skills18/smithing.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_strength",
+   "file": "skills18/strength.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_thieving",
+   "file": "skills18/thieving.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "s_woodcutting",
+   "file": "skills18/woodcutting.png",
+   "w": 18,
+   "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_confuse",
+   "file": "spells/confuse.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_earth_blast",
+   "file": "spells/earth_blast.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_earth_bolt",
+   "file": "spells/earth_bolt.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_earth_strike",
+   "file": "spells/earth_strike.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_fire_blast",
+   "file": "spells/fire_blast.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_fire_bolt",
+   "file": "spells/fire_bolt.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_fire_strike",
+   "file": "spells/fire_strike.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_high_alch",
+   "file": "spells/high_alch.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_home_tele",
+   "file": "spells/home_tele.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_low_alch",
+   "file": "spells/low_alch.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_tele_brynholt",
+   "file": "spells/tele_brynholt.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_tele_dunes",
+   "file": "spells/tele_dunes.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_tele_gloomfen",
+   "file": "spells/tele_gloomfen.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_tele_quarry",
+   "file": "spells/tele_quarry.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_water_blast",
+   "file": "spells/water_blast.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_water_bolt",
+   "file": "spells/water_bolt.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_water_strike",
+   "file": "spells/water_strike.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_weaken",
+   "file": "spells/weaken.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_wind_blast",
+   "file": "spells/wind_blast.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_wind_bolt",
+   "file": "spells/wind_bolt.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "sp_wind_strike",
+   "file": "spells/wind_strike.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_clan",
+   "file": "tabs/clan.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_combat",
+   "file": "tabs/combat.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_drops",
+   "file": "tabs/drops.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_emotes",
+   "file": "tabs/emotes.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_equip",
+   "file": "tabs/equip.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_friends",
+   "file": "tabs/friends.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_ignore",
+   "file": "tabs/ignore.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_inv",
+   "file": "tabs/inv.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_logout",
+   "file": "tabs/logout.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_music",
+   "file": "tabs/music.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_prayers",
+   "file": "tabs/prayers.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_quests",
+   "file": "tabs/quests.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_settings",
+   "file": "tabs/settings.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_skills",
+   "file": "tabs/skills.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  },
+  {
+   "icon": "tab_spells",
+   "file": "tabs/spells.png",
+   "w": 28,
+   "h": 28,
+   "finish": "sprite"
+  }
+ ]
+}

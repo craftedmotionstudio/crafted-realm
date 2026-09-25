@@ -117,7 +117,7 @@ UI.refreshSkills = function(){
     const frac = next ? Math.min(1,(xp-cur)/Math.max(1,next-cur)) : 1;
     const cell=document.createElement('div'); cell.className='skill-cell';
     cell.innerHTML=`
-      <img src="assets/icons/skills/${s.toLowerCase()}_cut.png" onerror="this.style.display='none'">
+      <img src="assets/icons/ui/v3/skills/${s.toLowerCase()}.png?v=1" onerror="this.style.display='none'">
       <span class="sk-lv">${lv}<i>/99</i></span>
       <div class="sk-bar"><div style="width:${frac*100}%"></div></div>`;
     cell.title = `${s} — level ${lv}\n${xp.toLocaleString()} XP`+

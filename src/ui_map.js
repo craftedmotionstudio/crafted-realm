@@ -49,7 +49,7 @@ function drawWorldMap(){
   const wA=mx(-175,-119), wB=mx(-151,-91);
   ctx.strokeRect(wA.x, wA.y, wB.x-wA.x, wB.y-wA.y);
   // place names, the cartographer's hand
-  ctx.font='bold 12px Verdana'; ctx.textAlign='center';
+  ctx.font='bold 12px "Realm Small", Verdana'; ctx.textAlign='center';
   const label=(x,z,t)=>{ const p=mx(x,z);
     ctx.fillStyle='#1a1208'; ctx.fillText(t,p.x+1,p.y+1);
     ctx.fillStyle='#ffe9b0'; ctx.fillText(t,p.x,p.y); };
