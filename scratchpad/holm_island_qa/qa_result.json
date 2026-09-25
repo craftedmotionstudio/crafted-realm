@@ -30,13 +30,11 @@
     },
     {
       "label": "every clickable on the island is an authored Blender model (no code-built stand-ins, no old-island leftovers)",
-      "ok": false,
+      "ok": true,
       "detail": {
-        "clickables": 1016,
-        "leftovers": [
-          "cellar_floor"
-        ],
-        "leftoverCount": 1,
+        "clickables": 1040,
+        "leftovers": [],
+        "leftoverCount": 0,
         "visiblePrimitives": []
       }
     },
@@ -101,7 +99,7 @@
       "label": "every step on the way is cardinal",
       "ok": true,
       "detail": {
-        "samples": 370,
+        "samples": 367,
         "diagonal": 0
       }
     },
@@ -343,9 +341,9 @@
         "lever": {
           "id": "b:lastlight:3:-2:0",
           "x": 124.5,
-          "y": 23.300002,
+          "y": 23.3,
           "z": 24.5,
-          "surface": "b:lastlight:0:Lastlight_UpperFloorGallery"
+          "surface": "b:lastlight:0:Lastlight_UpperFloorGalleryTiles"
         }
       }
     },
@@ -437,7 +435,7 @@
     },
     {
       "label": "M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Wind Strike kills credit their styles",
-      "ok": true,
+      "ok": false,
       "detail": {
         "spawned": [
           "keep-court",
@@ -446,11 +444,11 @@
           "mage-yard",
           "mage-yard"
         ],
-        "melee": true,
-        "ranged": true,
-        "arrowsUsed": 5,
+        "melee": "never became the target",
+        "ranged": "never became the target",
+        "arrowsUsed": 0,
         "magic": true,
-        "runesUsed": 10
+        "runesUsed": 6
       }
     },
     {
@@ -477,5 +475,5 @@
       }
     }
   ],
-  "seconds": 841
+  "seconds": 809
 }

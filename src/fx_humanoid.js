@@ -412,7 +412,13 @@ function refreshGLBGear(){
     headBone.scale.setScalar(fullHelm ? 0.02 : player.userData._headScale0);
     headBone.updateWorldMatrix(true,false);
   }
-  if(e.head){
+  // Blender worn armour (holm_equipment_v1): each piece authored in the kit's rest pose and parented to its bones;
+  // a slot falls back to the older builders below when the model or item mapping is missing
+  const HE=(typeof HolmEquipment!=='undefined'&&HolmEquipment.status().ready)?HolmEquipment:null;
+  const fitWorn=(key,id)=>{ const r=HE&&id?HE.forItem(id):null; if(!r||r.frame!=='bind') return false;
+    const h=HE.fit(rig,r.kind,r.metal,Object.assign({compensateBoneScale:true},r.opts)); if(!h) return false;
+    h.parts.forEach((p,i)=>{ p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); gear[key+'_he'+i]=p; }); return true; };
+  if(e.head && !fitWorn('head',e.head)){
     const hdef=ITEMS[e.head];
     let hm=gearMesh(e.head);
     if(!hm && hdef && hdef.model==='hat'){
@@ -446,8 +452,8 @@ function refreshGLBGear(){
       }
     }
   }
-  if(e.amulet){ const a=attach('amulet', 'Neck', gearMesh(e.amulet)); if(a) a.m.position.set(0,-0.02,0.11); }
-  if(e.cape){
+  if(e.amulet && !fitWorn('amulet',e.amulet)){ const a=attach('amulet', 'Neck', gearMesh(e.amulet)); if(a) a.m.position.set(0,-0.02,0.11); }
+  if(e.cape && !fitWorn('cape',e.cape)){
     const a=attach('cape', 'Spine2', gearMesh(e.cape));
     if(a){ a.m.rotation.set(0.1,0,0); a.m.position.set(0,-0.25,-0.14); }
   }
@@ -466,7 +472,7 @@ function refreshGLBGear(){
     meshRoot.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
     wrap.add(inner); bone.add(wrap); gear[key]=wrap;
   }
-  if(e.body && ITEMS[e.body].model!=='robe'){
+  if(e.body && ITEMS[e.body].model!=='robe' && !fitWorn('body',e.body)){
     const bdef=ITEMS[e.body];
     const isChain = bdef.model==='chainbody';
     const bmesh = isChain ? chainBodyMesh(tierMetal(bdef)) : bodyArmorMesh(tierMetal(bdef));
@@ -474,7 +480,7 @@ function refreshGLBGear(){
     // as a mail shirt rather than a barrel
     wrapOnBone(bmesh, 'Spine1', new THREE.Vector3(0.74,0.82,0.74), 'bodyPlate');
   }
-  if(e.legs){
+  if(e.legs && !fitWorn('legs',e.legs)){
     const ldef=ITEMS[e.legs], col=tierMetal(ldef);
     if(ldef.model==='plateskirt'){
       wrapOnBone(plateSkirtMesh(col), _glbBone(rig,'Hips')?'Hips':'Spine',
@@ -491,7 +497,7 @@ function refreshGLBGear(){
     }
   }
   // set 3: gloves (hands slot) + boots (feet slot) — per-limb, local to the bone
-  if(e.hands && ITEMS[e.hands].model==='gloves'){
+  if(e.hands && ITEMS[e.hands].model==='gloves' && !fitWorn('hands',e.hands)){
     const col=tierMetal(ITEMS[e.hands]);
     ['LeftHand','RightHand'].forEach(bn=>{
       const bone=_glbBone(rig,bn); if(!bone) return;
@@ -499,7 +505,7 @@ function refreshGLBGear(){
       bone.add(gm); gear[bn+'_glove']=gm;
     });
   }
-  if(e.feet && ITEMS[e.feet].model==='boots'){
+  if(e.feet && ITEMS[e.feet].model==='boots' && !fitWorn('feet',e.feet)){
     const col=tierMetal(ITEMS[e.feet]);
     ['LeftFoot','RightFoot'].forEach(bn=>{
       const bone=_glbBone(rig,bn); if(!bone) return;

@@ -73,7 +73,7 @@ function pickMesh(metal){
   return g;
 }
 function shieldMesh(){
-  const he=typeof HolmEquipment!=='undefined'&&HolmEquipment.mesh('round_shield',0x8a6437,{frame:'legacy'}); if(he) return he;   // Blender model (holm_equipment_v1) when loaded
+  const he=typeof HolmEquipment!=='undefined'&&HolmEquipment.mesh('round_shield',0xb87a3a,{frame:'legacy'}); if(he) return he;   // Blender model (holm_equipment_v1) when loaded
   const g=new THREE.Group();
   const disc=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,0.06,10),mat(0x8a5e34));
   disc.rotation.z=Math.PI/2; g.add(disc);
@@ -117,7 +117,8 @@ function capeMesh(color){
   c.position.set(0,0.95,-0.16);
   return c;
 }
-const METALS = {copper:0xc6794a, bronze:0x8a6437, iron:0x9aa0a8, steel:0xd0d4dc, whitsteel:0xe8ecf2,
+const METALS = {copper:0xc6794a, bronze:0xb87a3a,   // bronze as the item art paints it (0x8a6437 read as leather)
+  iron:0x9aa0a8, steel:0xd0d4dc, whitsteel:0xe8ecf2,
   aurel:0xd4a83e, veyrite:0x3ec6b4, undercrag:0x6a5a7a, leather:0x8a5e34, cloth:0x7a86b8, glimmer:0xb48ae0};
 function tierMetal(def){ return METALS[def.tier] !== undefined ? METALS[def.tier] : 0x8a6437; }
 /* one mesh router for any equipable item — used worn AND on the ground */

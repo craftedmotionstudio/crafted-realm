@@ -8,12 +8,12 @@ var HolmIslandExtras=(function(){
  'use strict';
  var WS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/'):'/.studio-workspaces/');
  var BUILDINGS=[
-  {id:'keep',graph:WS+'holm-keep-navigation-v5/candidates/navigation.json',model:WS+'holm-warden-keep-v6/candidates/keep.glb'},
+  {id:'keep',graph:WS+'holm-keep-navigation-v6/candidates/navigation.json',model:WS+'holm-warden-keep-v7/candidates/keep.glb'},
   {id:'bakehouse',graph:WS+'holm-kitchen-navigation-v4/candidates/navigation.json',model:WS+'holm-kitchen-wings-v6/candidates/kitchen-character.glb'},
   {id:'lodge',graph:WS+'holm-quest-terrain-navigation-v2/candidates/navigation.json',model:WS+'holm-quest-lodge-v4/candidates/lodge.glb',
    extra:{url:WS+'holm-quest-foundation-v1/candidates/foundation.glb',placement:WS+'holm-quest-placement-v1/candidates/placement.json'}}]
   // M4.4: new Blender buildings, graphs measured by tools/blender/extract_holm_building_navigation.py
-  .concat([['survival','Survival_','survival'],['quarry','Quarry_','mine'],['bank','Bank_','bank',2],['mage','Mage_','mage'],['haven','Haven_','ferry'],['lastlight','Lastlight_','lastlight'],['cavern','Cavern_',null]].map(function(r){
+  .concat([['survival','Survival_','survival',2],['quarry','Quarry_','mine',2],['bank','Bank_','bank',2],['mage','Mage_','mage',2],['haven','Haven_','ferry',2],['lastlight','Lastlight_','lastlight',2],['cavern','Cavern_',null]].map(function(r){
    return {id:r[0],prefix:r[1],plan:r[2],graph:WS+'holm-'+r[0]+'-navigation-v'+(r[3]||1)+'/candidates/navigation.json',model:WS+'holm-'+r[0]+'-v'+(r[3]||1)+'/candidates/'+r[0]+'.glb'}}));
  var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v2/working/vegetation.json',PROPS=WS+'holm-props-v1/candidates/props.glb';
  // M4.5 habitat v2: the tree family's own files, everything else (shrubs, rocks, flowers, logs, signposts) from the prop pack

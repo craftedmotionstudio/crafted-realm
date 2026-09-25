@@ -1,0 +1,327 @@
+{
+ "floors": [
+  [
+   "Lastlight_FloorTower",
+   1,
+   0.0
+  ],
+  [
+   "Lastlight_FloorWing",
+   7,
+   0.0
+  ],
+  [
+   "Lastlight_FloorPorch",
+   1,
+   0.0
+  ],
+  [
+   "Lastlight_UpperFloorKeeper",
+   5,
+   3.0
+  ],
+  [
+   "Lastlight_UpperFloorWatch",
+   5,
+   6.0
+  ],
+  [
+   "Lastlight_UpperFloorGallery",
+   8,
+   9.0
+  ]
+ ],
+ "dressedFaces": 12,
+ "triangles": [
+  24797,
+  28705
+ ],
+ "materialCopies": [
+  [
+   "Lastlight_FloorPorch",
+   "Lastlight dressed sandstone"
+  ],
+  [
+   "Lastlight_FloorTower",
+   "Lastlight dressed sandstone"
+  ],
+  [
+   "Lastlight_FloorWing",
+   "Lastlight dressed sandstone"
+  ],
+  [
+   "Lastlight_Furnishing",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_Furnishing",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_Furnishing",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_Furnishing",
+   "Lastlight lantern glass"
+  ],
+  [
+   "Lastlight_Furnishing",
+   "Lastlight beacon flame"
+  ],
+  [
+   "Lastlight_Furnishing",
+   "Lastlight fieldstone"
+  ],
+  [
+   "Lastlight_Furnishing",
+   "Lastlight dressed sandstone"
+  ],
+  [
+   "Lastlight_Furnishing",
+   "Lastlight stone shade"
+  ],
+  [
+   "Lastlight_Roof",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_Roof",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_Roof",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_Roof",
+   "Lastlight fieldstone"
+  ],
+  [
+   "Lastlight_Roof",
+   "Lastlight dressed sandstone"
+  ],
+  [
+   "Lastlight_Roof",
+   "Lastlight stone lit"
+  ],
+  [
+   "Lastlight_Roof",
+   "Lastlight stone shade"
+  ],
+  [
+   "Lastlight_ServiceBeacon_Lamp",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_ServiceBeacon_Lamp",
+   "Lastlight lantern glass"
+  ],
+  [
+   "Lastlight_ServiceBeacon_Lamp",
+   "Lastlight beacon flame"
+  ],
+  [
+   "Lastlight_ServiceDoor_Storm",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_ServiceDoor_Storm",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_ServiceDoor_Storm",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_ServiceLadder1Down_Hatch",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_ServiceLadder1Down_Hatch",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_ServiceLadder1Down_Hatch",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_ServiceLadder1Up_Ladder",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_ServiceLadder1Up_Ladder",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_ServiceLadder1Up_Ladder",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_ServiceLadder2Down_Hatch",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_ServiceLadder2Down_Hatch",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_ServiceLadder2Down_Hatch",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_ServiceLadder2Up_Ladder",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_ServiceLadder2Up_Ladder",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_ServiceLadder2Up_Ladder",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_ServiceLadder3Down_Hatch",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_ServiceLadder3Down_Hatch",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_ServiceLadder3Down_Hatch",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_ServiceLadder3Up_Ladder",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_ServiceLadder3Up_Ladder",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_ServiceLadder3Up_Ladder",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_ServiceLever_Deck",
+   "Lastlight dressed sandstone"
+  ],
+  [
+   "Lastlight_ServiceLever_Deck",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_ServiceLever_Deck",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_ServiceStores_Workbench",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_ServiceStores_Workbench",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_ServiceStores_Workbench",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_ServiceStores_Workbench",
+   "Lastlight lantern glass"
+  ],
+  [
+   "Lastlight_StepPorch",
+   "Lastlight dressed sandstone"
+  ],
+  [
+   "Lastlight_UpperFloorGallery",
+   "Lastlight stone lit"
+  ],
+  [
+   "Lastlight_UpperFurnishingKeeper",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_UpperFurnishingKeeper",
+   "Lastlight beacon flame"
+  ],
+  [
+   "Lastlight_UpperFurnishingKeeper",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_UpperFurnishingKeeper",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_UpperFurnishingWatch",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_UpperFurnishingWatch",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_UpperFurnishingWatch",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_UpperGallery",
+   "Lastlight dressed sandstone"
+  ],
+  [
+   "Lastlight_UpperGallery",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_UpperJoistDeck",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_UpperJoistKeeper",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_UpperJoistWatch",
+   "Lastlight dark frame oak"
+  ],
+  [
+   "Lastlight_UpperLantern",
+   "Lastlight fieldstone"
+  ],
+  [
+   "Lastlight_UpperLantern",
+   "Lastlight dressed sandstone"
+  ],
+  [
+   "Lastlight_UpperLantern",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_Yard",
+   "Lastlight aged oak"
+  ],
+  [
+   "Lastlight_Yard",
+   "Lastlight wrought iron"
+  ],
+  [
+   "Lastlight_Yard",
+   "Lastlight dark frame oak"
+  ]
+ ],
+ "acc": {
+  "Lastlight_FloorTowerTiles": 652,
+  "Lastlight_FloorWingTiles": 414,
+  "Lastlight_FloorPorchTiles": 72,
+  "Lastlight_UpperFloorKeeperTiles": 462,
+  "Lastlight_UpperFloorWatchTiles": 398,
+  "Lastlight_UpperFloorGalleryTiles": 1138,
+  "Lastlight_FurnishingDressing": 428,
+  "Lastlight_UpperFurnishingDressing": 358
+ }
+}

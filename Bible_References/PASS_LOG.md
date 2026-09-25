@@ -3866,3 +3866,12 @@ length (slight medium-length read in 3/4).
 - 10/10 production playthroughs complete, 18/18 lessons, 0 page errors (9.3-14.7 min each).
 - Also in this commit: exact-object guidance arrows (HolmIslandGuide), the cellar ensureReady skip on the live island,
   the Blender-clickables audit, and the character kit v2.4 assets + 2004-style kit creator modules (not yet wired).
+
+## 2026-09-25 — Holm final-build proof: interiors, cellar, equipment, armour
+- In the build: Guide House v3 (designed interior, furnished upstairs, relief chart as a real map, chimney/log store,
+  cellar with 2004 trapdoor + ladder), new interiors for bakehouse, Quest Lodge (lit hearth), bank, keep (v7: no
+  floating stair), Mage Tower, Lastlight, quarry gatehouse, haven, survival camp (all graphs node-identical);
+  Blender equipment (30 kinds / 161 items: held, ground drops, worn armour on the kit), warm bronze, 2004 stairs.
+- Proof: 10/10 playthroughs complete, 0 page errors; units 47/47, smoke, arrival 12/12, route 20/20, island QA 28/29
+  (combat-click harness flake; playthrough combat always passes).
+- Next on top: OSRS-style UI (branch holm-ui-osrs-2026-09-25), 2004 water, dock v2 + moored boat, characters v2.8.

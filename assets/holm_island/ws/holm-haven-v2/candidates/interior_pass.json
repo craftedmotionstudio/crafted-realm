@@ -1,0 +1,165 @@
+{
+ "floors": [],
+ "dressedFaces": 8,
+ "triangles": [
+  18916,
+  19350
+ ],
+ "materialCopies": [
+  [
+   "Haven_DeckLanding",
+   "Aged oak"
+  ],
+  [
+   "Haven_DeckPier",
+   "Aged oak"
+  ],
+  [
+   "Haven_FloorShelter",
+   "Dressed sandstone"
+  ],
+  [
+   "Haven_FloorShelter",
+   "Warm fieldstone"
+  ],
+  [
+   "Haven_FloorShelter",
+   "Stone lit faces"
+  ],
+  [
+   "Haven_Furnishing",
+   "Stone lit faces"
+  ],
+  [
+   "Haven_Furnishing",
+   "Aged oak"
+  ],
+  [
+   "Haven_Furnishing",
+   "Dark frame oak"
+  ],
+  [
+   "Haven_Furnishing",
+   "Tarred iron"
+  ],
+  [
+   "Haven_Mooring",
+   "Aged oak"
+  ],
+  [
+   "Haven_Mooring",
+   "Tarred iron"
+  ],
+  [
+   "Haven_Mooring",
+   "Dark frame oak"
+  ],
+  [
+   "Haven_PierFrame",
+   "Aged oak"
+  ],
+  [
+   "Haven_PierFrame",
+   "Dark frame oak"
+  ],
+  [
+   "Haven_PierFrame",
+   "Tarred iron"
+  ],
+  [
+   "Haven_PierRail",
+   "Aged oak"
+  ],
+  [
+   "Haven_PierRail",
+   "Tarred iron"
+  ],
+  [
+   "Haven_PierRail",
+   "Dark frame oak"
+  ],
+  [
+   "Haven_PierRail",
+   "Dressed sandstone"
+  ],
+  [
+   "Haven_PierStone",
+   "Warm fieldstone"
+  ],
+  [
+   "Haven_PierStone",
+   "Stone shaded faces"
+  ],
+  [
+   "Haven_PierStone",
+   "Stone lit faces"
+  ],
+  [
+   "Haven_PierStone",
+   "Dressed sandstone"
+  ],
+  [
+   "Haven_Props",
+   "Aged oak"
+  ],
+  [
+   "Haven_Props",
+   "Tarred iron"
+  ],
+  [
+   "Haven_RoofDeck",
+   "Dark frame oak"
+  ],
+  [
+   "Haven_RoofRidge",
+   "Aged oak"
+  ],
+  [
+   "Haven_ServiceBoat_Fittings",
+   "Aged oak"
+  ],
+  [
+   "Haven_ServiceBoat_Fittings",
+   "Dark frame oak"
+  ],
+  [
+   "Haven_ServiceBoat_Fittings",
+   "Tarred iron"
+  ],
+  [
+   "Haven_ServiceBoat_Gangplank",
+   "Aged oak"
+  ],
+  [
+   "Haven_ServiceBoat_Hull",
+   "Aged oak"
+  ],
+  [
+   "Haven_ServiceBoat_Rig",
+   "Aged oak"
+  ],
+  [
+   "Haven_ServiceBoat_Rig",
+   "Dark frame oak"
+  ],
+  [
+   "Haven_ServiceNotice_Board",
+   "Dark frame oak"
+  ],
+  [
+   "Haven_ServiceNotice_Board",
+   "Dressed sandstone"
+  ],
+  [
+   "Haven_ServiceNotice_Board",
+   "Aged oak"
+  ],
+  [
+   "Haven_ServiceNotice_Board",
+   "Tarred iron"
+  ]
+ ],
+ "acc": {
+  "Haven_FurnishingDressing": 434
+ }
+}

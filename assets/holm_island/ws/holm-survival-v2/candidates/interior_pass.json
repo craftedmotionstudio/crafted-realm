@@ -1,0 +1,305 @@
+{
+ "floors": [],
+ "dressedFaces": 1,
+ "triangles": [
+  21301,
+  21339
+ ],
+ "materialCopies": [
+  [
+   "Survival_Coppice",
+   "Aged oak"
+  ],
+  [
+   "Survival_Coppice",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_DeckJetty",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_DeckJetty",
+   "Weathered plank"
+  ],
+  [
+   "Survival_FloorCanopy",
+   "Weathered plank"
+  ],
+  [
+   "Survival_FloorPorch",
+   "Warm fieldstone"
+  ],
+  [
+   "Survival_FloorStore",
+   "Weathered plank"
+  ],
+  [
+   "Survival_FloorStore",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_FloorYard",
+   "Stone shaded faces"
+  ],
+  [
+   "Survival_FloorYard",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_FloorYard",
+   "Stone lit faces"
+  ],
+  [
+   "Survival_FrameCanopy",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_FrameCanopy",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_FrameCanopy",
+   "Aged oak"
+  ],
+  [
+   "Survival_FrameLink",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_FrameLink",
+   "Aged oak"
+  ],
+  [
+   "Survival_FramePentice",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_FramePentice",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_FramePentice",
+   "Aged oak"
+  ],
+  [
+   "Survival_FurnishingCanopy",
+   "Weathered plank"
+  ],
+  [
+   "Survival_FurnishingCanopy",
+   "Aged oak"
+  ],
+  [
+   "Survival_FurnishingCanopy",
+   "Twine and bulrush"
+  ],
+  [
+   "Survival_FurnishingCanopy",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_FurnishingCanopy",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_FurnishingStore",
+   "Weathered plank"
+  ],
+  [
+   "Survival_FurnishingStore",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_FurnishingStore",
+   "Aged oak"
+  ],
+  [
+   "Survival_FurnishingStore",
+   "Blackened iron"
+  ],
+  [
+   "Survival_FurnishingYard",
+   "Aged oak"
+  ],
+  [
+   "Survival_FurnishingYard",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_JettyFrame",
+   "Aged oak"
+  ],
+  [
+   "Survival_JettyFrame",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_JettyFrame",
+   "Twine and bulrush"
+  ],
+  [
+   "Survival_JettyFrame",
+   "Stone lit faces"
+  ],
+  [
+   "Survival_JettyFrame",
+   "Warm fieldstone"
+  ],
+  [
+   "Survival_PlinthCanopy",
+   "Warm fieldstone"
+  ],
+  [
+   "Survival_PlinthCanopy",
+   "Stone lit faces"
+  ],
+  [
+   "Survival_PlinthCanopy",
+   "Stone shaded faces"
+  ],
+  [
+   "Survival_PlinthCanopy",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_PlinthYard",
+   "Warm fieldstone"
+  ],
+  [
+   "Survival_PlinthYard",
+   "Stone lit faces"
+  ],
+  [
+   "Survival_PlinthYard",
+   "Stone shaded faces"
+  ],
+  [
+   "Survival_Reeds",
+   "Twine and bulrush"
+  ],
+  [
+   "Survival_RoofLink",
+   "Aged oak"
+  ],
+  [
+   "Survival_RoofStore",
+   "Aged oak"
+  ],
+  [
+   "Survival_RoofStore",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_RoofThatch",
+   "Aged oak"
+  ],
+  [
+   "Survival_RoofThatch",
+   "Weathered plank"
+  ],
+  [
+   "Survival_RoofThatch",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_RoofTruss",
+   "Aged oak"
+  ],
+  [
+   "Survival_RoofTruss",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_ServiceFirePit_Ring",
+   "Warm fieldstone"
+  ],
+  [
+   "Survival_ServiceFirePit_Ring",
+   "Stone lit faces"
+  ],
+  [
+   "Survival_ServiceFirePit_Ring",
+   "Stone shaded faces"
+  ],
+  [
+   "Survival_ServiceFirePit_Ring",
+   "Aged oak"
+  ],
+  [
+   "Survival_ServiceFirePit_Ring",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_ServiceFirePit_Ring",
+   "Blackened iron"
+  ],
+  [
+   "Survival_ServiceFishing_Reeds",
+   "Twine and bulrush"
+  ],
+  [
+   "Survival_ServiceFishing_Reeds",
+   "Aged oak"
+  ],
+  [
+   "Survival_ServiceLogPile_Stack",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_ServiceLogPile_Stack",
+   "Aged oak"
+  ],
+  [
+   "Survival_ServiceLogPile_Stack",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_ServiceLogPile_Stack",
+   "Blackened iron"
+  ],
+  [
+   "Survival_ServiceTools_Rack",
+   "Aged oak"
+  ],
+  [
+   "Survival_ServiceTools_Rack",
+   "Dark frame oak"
+  ],
+  [
+   "Survival_ServiceTools_Rack",
+   "Weathered plank"
+  ],
+  [
+   "Survival_ServiceTools_Rack",
+   "Blackened iron"
+  ],
+  [
+   "Survival_ServiceTools_Rack",
+   "Stone shaded faces"
+  ],
+  [
+   "Survival_ServiceTools_Rack",
+   "Twine and bulrush"
+  ],
+  [
+   "Survival_StepBank",
+   "Weathered plank"
+  ],
+  [
+   "Survival_StepLink",
+   "Warm fieldstone"
+  ],
+  [
+   "Survival_StepLink",
+   "Dressed sandstone"
+  ],
+  [
+   "Survival_StepYard",
+   "Dressed sandstone"
+  ]
+ ],
+ "acc": {
+  "Survival_FurnishingDressing": 38
+ }
+}

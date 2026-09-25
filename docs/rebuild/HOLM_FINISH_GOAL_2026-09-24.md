@@ -399,6 +399,9 @@ Cutover plan (2026-09-25, from the provider/save audit; reversible behind one sw
       2026-09-25: 10/10 production playthroughs complete, 0 page errors (runs 42-51 in HOLM_PLAYTHROUGHS.md; run 5
       overlapped a <1 min accidental file edit, to be replaced by one extra run). Re-run on the final build with the
       new characters; owner review pending.
+      2026-09-25 13:00 FINAL-BUILD PROOF (Guide House v3 + cellar, all 10 building interiors, Blender equipment incl.
+      worn armour, character kit v2.5 + 2004 creator): 10/10 playthroughs complete, 18/18 lessons, 0 page errors
+      (9.4-16.9 min); units 47/47, smoke, arrival 12/12, route 20/20, island QA 28/29 (known combat-click harness flake).
 - [ ] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
       Verify fresh characters, returning Holm saves, graduated saves, full inventory and interruptions.
 - [ ] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload

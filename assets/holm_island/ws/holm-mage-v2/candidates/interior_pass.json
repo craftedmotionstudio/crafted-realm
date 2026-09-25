@@ -1,0 +1,171 @@
+{
+ "floors": [
+  [
+   "Mage_FloorGround",
+   3,
+   0.0
+  ],
+  [
+   "Mage_FloorGround",
+   7,
+   0.0
+  ],
+  [
+   "Mage_UpperFloorLibrary",
+   8,
+   3.0
+  ],
+  [
+   "Mage_UpperFloorObservatory",
+   8,
+   6.0
+  ]
+ ],
+ "dressedFaces": 10,
+ "triangles": [
+  24531,
+  27926
+ ],
+ "materialCopies": [
+  [
+   "Mage_Door",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_Door",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_FloorGround",
+   "Mage dressed sandstone"
+  ],
+  [
+   "Mage_Furnishing",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_Furnishing",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_Furnishing",
+   "Mage dressed sandstone"
+  ],
+  [
+   "Mage_Furnishing",
+   "Mage fieldstone"
+  ],
+  [
+   "Mage_RailStairLibrary",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_RailStairLibrary",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_Roof",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_Roof",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_Roof",
+   "Mage fieldstone"
+  ],
+  [
+   "Mage_Roof",
+   "Mage dressed sandstone"
+  ],
+  [
+   "Mage_Roof",
+   "Mage stone lit"
+  ],
+  [
+   "Mage_Roof",
+   "Mage stone shade"
+  ],
+  [
+   "Mage_Roof",
+   "Mage limewash"
+  ],
+  [
+   "Mage_ServiceLectern_Library",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_ServiceRuneTable_Workroom",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_ServiceRuneTable_Workroom",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_ServiceTelescope_Observatory",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_StairLibrary",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_StairLibrary",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_StairObservatory",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_StairObservatory",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_UpperFurnishing",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_UpperFurnishing",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_UpperGallery",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_UpperGallery",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_UpperJoist",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_UpperRail",
+   "Mage dark frame oak"
+  ],
+  [
+   "Mage_UpperRail",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_Yard",
+   "Mage aged oak"
+  ],
+  [
+   "Mage_Yard",
+   "Mage dark frame oak"
+  ]
+ ],
+ "acc": {
+  "Mage_FloorGroundTilesFlags": 996,
+  "Mage_FloorGroundTilesBoards": 523,
+  "Mage_UpperFloorLibraryTiles": 610,
+  "Mage_UpperFloorObservatoryTiles": 804,
+  "Mage_FurnishingDressing": 395,
+  "Mage_UpperFurnishingDressing": 67
+ }
+}

@@ -1,8 +1,8 @@
 {
   "id": "haven",
   "prefix": "Haven_",
-  "model": ".studio-workspaces/holm-haven-v1/candidates/haven.glb",
-  "out": ".studio-workspaces/holm-haven-navigation-v1/candidates",
+  "model": ".studio-workspaces/holm-haven-v2/candidates/haven.glb",
+  "out": ".studio-workspaces/holm-haven-navigation-v2/candidates",
   "placement": {"x": 124, "y": 2.0, "z": 103},
   "local": {"x0": -6, "x1": 18, "z0": -7, "z1": 4},
   "start": [-4.5, 0.0, 0.5],

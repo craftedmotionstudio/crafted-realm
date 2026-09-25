@@ -1,0 +1,156 @@
+{
+ "floors": [
+  [
+   "Quarry_FloorMain",
+   1,
+   0.0
+  ],
+  [
+   "Quarry_FloorLeanToMain",
+   1,
+   0.0
+  ],
+  [
+   "Quarry_UpperFloorMain",
+   2,
+   2.8
+  ]
+ ],
+ "dressedFaces": 10,
+ "triangles": [
+  18102,
+  19828
+ ],
+ "materialCopies": [
+  [
+   "Quarry_CaveMain",
+   "Quarry dark frame oak"
+  ],
+  [
+   "Quarry_CaveMain",
+   "Quarry iron"
+  ],
+  [
+   "Quarry_CaveMain",
+   "Quarry aged oak"
+  ],
+  [
+   "Quarry_FloorApproachMain",
+   "Quarry stone lit faces"
+  ],
+  [
+   "Quarry_FurnishingMain",
+   "Quarry stone shaded faces"
+  ],
+  [
+   "Quarry_FurnishingMain",
+   "Quarry aged oak"
+  ],
+  [
+   "Quarry_FurnishingMain",
+   "Quarry iron"
+  ],
+  [
+   "Quarry_FurnishingMain",
+   "Quarry dark frame oak"
+  ],
+  [
+   "Quarry_FurnishingMain",
+   "Quarry fieldstone"
+  ],
+  [
+   "Quarry_FurnishingMain",
+   "Quarry dressed sandstone"
+  ],
+  [
+   "Quarry_RoofMain",
+   "Quarry stone lit faces"
+  ],
+  [
+   "Quarry_RoofMain",
+   "Quarry fieldstone"
+  ],
+  [
+   "Quarry_RoofMain",
+   "Quarry dressed sandstone"
+  ],
+  [
+   "Quarry_RoofMain",
+   "Quarry stone shaded faces"
+  ],
+  [
+   "Quarry_RoofMain",
+   "Quarry aged oak"
+  ],
+  [
+   "Quarry_RoofMain",
+   "Quarry dark frame oak"
+  ],
+  [
+   "Quarry_RoofMain",
+   "Quarry iron"
+  ],
+  [
+   "Quarry_RoofMain",
+   "Quarry limewash plaster"
+  ],
+  [
+   "Quarry_ServiceBench_Repair",
+   "Quarry aged oak"
+  ],
+  [
+   "Quarry_ServiceBench_Repair",
+   "Quarry dark frame oak"
+  ],
+  [
+   "Quarry_ServiceBench_Repair",
+   "Quarry iron"
+  ],
+  [
+   "Quarry_ServiceShaft_Mouth",
+   "Quarry aged oak"
+  ],
+  [
+   "Quarry_ServiceShaft_Mouth",
+   "Quarry dark frame oak"
+  ],
+  [
+   "Quarry_ServiceShaft_Mouth",
+   "Quarry iron"
+  ],
+  [
+   "Quarry_ServiceWinch_Windlass",
+   "Quarry aged oak"
+  ],
+  [
+   "Quarry_ServiceWinch_Windlass",
+   "Quarry iron"
+  ],
+  [
+   "Quarry_ServiceWinch_Windlass",
+   "Quarry dark frame oak"
+  ],
+  [
+   "Quarry_StairTreads",
+   "Quarry aged oak"
+  ],
+  [
+   "Quarry_StepMain",
+   "Quarry dressed sandstone"
+  ],
+  [
+   "Quarry_UpperFurnishingMain",
+   "Quarry aged oak"
+  ],
+  [
+   "Quarry_UpperStructureMain",
+   "Quarry dark frame oak"
+  ]
+ ],
+ "acc": {
+  "Quarry_FloorMainTiles": 920,
+  "Quarry_FloorLeanToMainTiles": 192,
+  "Quarry_UpperFloorMainTiles": 96,
+  "Quarry_FurnishingDressing": 518
+ }
+}
