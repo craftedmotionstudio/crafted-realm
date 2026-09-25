@@ -1,0 +1,141 @@
+{
+  "base": "http://localhost:8093/?qaProfile=tutor-talk-muhfqm8v",
+  "log": [
+    {
+      "k": "start",
+      "v": {
+        "banner": "Talk to Guide Bram in the Guide House.",
+        "arrow": "Open the door",
+        "due": "bram",
+        "lesson": "study_route"
+      }
+    },
+    {
+      "k": "enter",
+      "v": {
+        "ok": true
+      }
+    },
+    {
+      "k": "inside",
+      "v": {
+        "banner": "Talk to Guide Bram in the Guide House.",
+        "arrow": "Talk to Guide Bram",
+        "due": "bram",
+        "lesson": "study_route"
+      }
+    },
+    {
+      "k": "bram chart before talk",
+      "v": {
+        "chat": [
+          "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+          "Press ` (backquote) at any time for the Administrator Console.",
+          "You should speak to Guide Bram first."
+        ],
+        "state": {
+          "banner": "Talk to Guide Bram in the Guide House.",
+          "arrow": "Talk to Guide Bram",
+          "due": "bram",
+          "lesson": "study_route"
+        }
+      }
+    },
+    {
+      "k": "bram after",
+      "v": {
+        "banner": "Enter the Guide House and study the relief chart of Tutor's Holm.",
+        "arrow": "Study the chart",
+        "due": null,
+        "lesson": "study_route"
+      }
+    },
+    {
+      "k": "wenna before",
+      "v": {
+        "banner": "Talk to Wenna at the survival camp, west along the path.",
+        "arrow": "Talk to Wenna",
+        "due": "wenna",
+        "lesson": "chop_logs"
+      }
+    },
+    {
+      "k": "wenna oak before talk",
+      "v": {
+        "chat": [
+          "Press ` (backquote) at any time for the Administrator Console.",
+          "You should speak to Guide Bram first.",
+          "You should speak to Wenna first."
+        ],
+        "logs": 0
+      }
+    },
+    {
+      "k": "wenna after",
+      "v": {
+        "banner": "Follow the path west to the survival camp and chop down one of the oaks.",
+        "arrow": "Chop an oak",
+        "due": null,
+        "lesson": "chop_logs"
+      }
+    },
+    {
+      "k": "hettie before",
+      "v": {
+        "banner": "Talk to Cook Hettie in the bakehouse.",
+        "arrow": "Talk to Cook Hettie",
+        "due": "hettie",
+        "lesson": "bake_bread"
+      }
+    },
+    {
+      "k": "hettie bucket before talk",
+      "v": {
+        "chat": [
+          "You should speak to Guide Bram first.",
+          "You should speak to Wenna first.",
+          "You should speak to Cook Hettie first."
+        ],
+        "buckets": 0
+      }
+    },
+    {
+      "k": "hettie after",
+      "v": {
+        "banner": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+        "arrow": "Take a bucket",
+        "due": null,
+        "lesson": "bake_bread"
+      }
+    }
+  ],
+  "said": {
+    "bram_03_talk": [
+      "Welcome to Tutor's Holm, friend. I am Guide Bram. Every adventurer starts here, and I start every adventurer.",
+      "See the relief chart on the table? Click it and study the island before you set off.",
+      "It shows every place you will learn something: the camp, the bakehouse, the lodge, the quarry, the keep, the bank, the tower, and Lastlight out on the point.",
+      "After that, your tools. They hang on the provision rack by the wall: a hatchet, a tinderbox, a net and the rest. Click the rack to take them."
+    ],
+    "wenna_03_talk": [
+      "Hello there. I am Wenna, and this is the survival camp.",
+      "Out here you learn to look after yourself: wood, fire, fish and a hot supper.",
+      "First, wood. Click one of the oaks by the camp and your hatchet will do the rest.",
+      "Keep at it until the logs come away. Some swings miss; that is woodcutting.",
+      "Logs in hand, you will want a fire. Ask me again if you forget how."
+    ],
+    "wenna_04_again_light_fire": [
+      "Good, you have logs. Now for a fire.",
+      "Click the tinderbox in your pack, then click the logs.",
+      "Stand clear once it catches. You will step aside on your own."
+    ],
+    "hettie_03_talk": [
+      "Mind the flour. I am Cook Hettie, and this is my bakehouse.",
+      "My kitchen, my rules. Today you are baking a loaf of bread.",
+      "Take two empty buckets from the rack by the door.",
+      "Fill one with flour at the pantry and the other with water at the butt.",
+      "Take some dough from the proving bowl, then click the dough in your pack to knead it all together.",
+      "Last of all, click your bread dough, then the oven. Watch it does not burn."
+    ]
+  },
+  "errors": []
+}

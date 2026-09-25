@@ -109,9 +109,15 @@ async function clickButtonText(page,sel,text){await page.waitForFunction((sel,te
   if(!xy)return false;await page.mouse.click(xy[0],xy[1]);await sleep(600);return true}
 const waitFor=(page,fn,arg,ms)=>page.waitForFunction(fn,{timeout:ms||60000},arg).then(()=>true).catch(()=>false);
 async function clickInventory(page,itemId){
-  const idx=await page.evaluate(id=>{try{document.querySelector('.tab-btn[data-tab="inv"]').click()}catch(e){}UI.refreshInv();return Player.inv.findIndex(s=>s&&s.id===id)},itemId);
-  if(idx<0)return false;const sel='#inv-grid .inv-slot:nth-child('+(idx+1)+')';
-  await page.waitForSelector(sel,{visible:true,timeout:5000});await page.click(sel);await sleep(700);return true;
+  // the pack re-renders whenever an item lands (a last log from the tree, an XP drop): a slot found a moment ago can
+  // be replaced before the click reaches it ("Node is detached"), so look the slot up again and retry, as a player would
+  for(let k=0;k<4;k++){
+    const idx=await page.evaluate(id=>{try{document.querySelector('.tab-btn[data-tab="inv"]').click()}catch(e){}UI.refreshInv();return Player.inv.findIndex(s=>s&&s.id===id)},itemId);
+    if(idx<0)return false;const sel='#inv-grid .inv-slot:nth-child('+(idx+1)+')';
+    try{await page.waitForSelector(sel,{visible:true,timeout:5000});await page.click(sel);await sleep(700);return true}
+    catch(e){if(!/detached|not clickable|not an Element|No node/i.test(String(e))||k===3)throw e;await sleep(400)}
+  }
+  return false;
 }
 async function closeDialogue(page){await page.keyboard.press('Escape').catch(()=>{});await sleep(300);await page.evaluate(()=>{try{if(UI.closeDialogue)UI.closeDialogue()}catch(e){}});}
 const count=(page,id)=>page.evaluate(id=>Player.count(id),id);
