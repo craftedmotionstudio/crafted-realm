@@ -115,7 +115,54 @@ async function clickInventory(page,itemId){
 }
 async function closeDialogue(page){await page.keyboard.press('Escape').catch(()=>{});await sleep(300);await page.evaluate(()=>{try{if(UI.closeDialogue)UI.closeDialogue()}catch(e){}});}
 const count=(page,id)=>page.evaluate(id=>Player.count(id),id);
+const objective=page=>page.evaluate(()=>{const t=document.getElementById('obj-text');return t?t.textContent:''});
+const lastChat=(page,n)=>page.evaluate(n=>Array.from(document.querySelectorAll('#chatbox > div')).slice(-(n||3)).map(d=>d.textContent.trim()),n);
+// Into the Guide House through its open front door, like a player: tilt the camera down to look in through the doorway
+// (the upper floor covers the room from above until you are inside) and click a floor tile just inside the door.
+async function enterGuideHouse(page){
+  for(let k=0;k<3;k++){
+    if(await page.evaluate(()=>{const r=HolmArrivalQA.saveRecord();return !!r&&r.surface!=='exterior'}))return {ok:true};
+    const xy=await page.evaluate(async()=>{const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+      const house=new THREE.Box3().setFromObject(scene.getObjectByName('GuideHouse')),door=new THREE.Box3().setFromObject(scene.getObjectByName('DoorSouthLeaf')).getCenter(new THREE.Vector3());
+      for(const [yaw,pitch,dist] of [[0,.55,10],[0,.7,12],[.35,.55,10],[-.35,.55,10]]){camCtl.yaw=yaw;camCtl.pitch=pitch;camCtl.dist=dist;await sleep(1300);
+        const rect=renderer.domElement.getBoundingClientRect(),pr=door.clone().project(camera),cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top;let best=null,score=Infinity;
+        for(let r=0;r<=300;r+=6)for(let a=0;a<360;a+=(r?12:360)){const x=Math.round(cx+Math.cos(a*Math.PI/180)*r),y=Math.round(cy+Math.sin(a*Math.PI/180)*r);
+          if(x<0||y<0||x>=rect.width||y>=rect.height||document.elementFromPoint(x,y)!==renderer.domElement)continue;const h=pick({clientX:x,clientY:y});
+          if(!h||!h.obj.userData||h.obj.userData.arrivalSurface!=='ground')continue;const p=h.point;
+          if(p.x<house.min.x+.6||p.x>house.max.x-.6||p.z<house.min.z+.6||p.z>door.z-.8)continue;
+          const s=Math.abs(Math.hypot(p.x-door.x,p.z-door.z)-1.8);if(s<score){score=s;best=[x,y]}}
+        if(best)return best}
+      return null});
+    if(!xy)return {error:'no floor tile inside the Guide House in sight'};
+    await press(page,xy);await settle(page,20000);await sleep(600);
+  }
+  return await page.evaluate(()=>{const r=HolmArrivalQA.saveRecord();return !!r&&r.surface!=='exterior'})?{ok:true}:{error:'still outside the Guide House'};
+}
+// 2004 rule (HolmIslandTalk): an area's lessons wait until its tutor has been spoken to. Talk like a player: click the
+// tutor (the island walks there and opens their chat box), read each page and click its button until the box closes.
+// onPage(i,text) runs while a page is showing (screenshots). Returns what was said and whether the game counts the tutor
+// as spoken to. A missed click is tried again, up to three times; a tutor who cannot be seen from outside (under their
+// building's roof) is reached the way a player would, by walking in to where they stand first.
+async function talkTo(page,id,opts){
+  opts=opts||{};let last={error:'not tried'};
+  const who=await page.evaluate(id=>{const c=HolmIslandTutors.cast().find(c=>c.id===id);return c?{name:c.name,at:c.at.building||null}:null},id);if(!who)return {error:'no tutor '+id};const name=who.name;
+  for(let k=0;k<(opts.tries||3);k++){
+    if(k>0&&who.at)await walkTo(page,who.at[0],who.at[1],false,[]);
+    const c=await clickNamed(page,'island-tutor-'+id);if(c.error){last=c;continue}
+    if(!await waitFor(page,name=>{const d=document.getElementById('dialogue-modal'),n=document.getElementById('dlg-name');return d&&getComputedStyle(d).display!=='none'&&n&&n.textContent===name},name,60000)){last={error:'no dialogue from '+name};continue}
+    const pages=[];
+    for(let i=0;i<12;i++){
+      const t=await page.evaluate(name=>{const d=document.getElementById('dialogue-modal'),n=document.getElementById('dlg-name');return getComputedStyle(d).display==='none'||!n||n.textContent!==name?null:document.getElementById('dlg-text').textContent},name);if(t===null)break;
+      pages.push(t);if(opts.onPage)await opts.onPage(i,t);
+      const b=await page.evaluate(()=>{const bs=Array.from(document.querySelectorAll('#dialogue-modal button')).filter(b=>b.getBoundingClientRect().width>0);return bs.length?bs[0].textContent.trim():null});if(!b)break;
+      await clickButtonText(page,'#dialogue-modal button',b);await sleep(350);
+    }
+    const talked=await page.evaluate(id=>typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.talked(id),id);
+    return {ok:true,name,pages,talked};
+  }
+  return last;
+}
 function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.filter(q=>off(q[0])&&off(q[2])).length;}
 
 
-module.exports={sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal};
+module.exports={sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse};
