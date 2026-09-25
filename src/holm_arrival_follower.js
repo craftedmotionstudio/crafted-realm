@@ -59,7 +59,9 @@ var HolmArrivalFollower=(function(){
    return snapshot();
   }
   function setSpeed(value){need(Number.isFinite(value)&&value>0,'positive finite speed required');speed=value}
-  return {order:order,update:update,stop:stop,setDoors:setDoors,snapshot:snapshot,setSpeed:setSpeed};
+  // read-only: the tiles still ahead (the occupied edge's far end, then the queued route), for the minimap route line
+  function remaining(){var out=[];if(edge)out.push({x:edge.b.x,y:edge.b.y,z:edge.b.z});for(var i=0;i<path.length;i++){var n=nodes[path[i]];if(n)out.push({x:n.x,y:n.y,z:n.z})}return out}
+  return {order:order,update:update,stop:stop,setDoors:setDoors,snapshot:snapshot,setSpeed:setSpeed,remaining:remaining};
  }
  return {create:create,MAX_DT:MAX_DT,MAX_EDGES:MAX_EDGES};
 })();

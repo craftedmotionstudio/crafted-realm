@@ -53,7 +53,7 @@ var HolmArrivalPlayer=(function(){
    if(!next||!next.position||Math.hypot(next.position.x-pose.x,next.position.y-pose.y,next.position.z-pose.z)>1e-5)throw Error('[HolmArrivalPlayer] replacement actor changed the supported stance');
    actor=next;
   }
-  return {order:order,update:update,stop:stop,setDoors:setDoors,snapshot:follower.snapshot,replaceActor:replaceActor};
+  return {order:order,update:update,stop:stop,setDoors:setDoors,snapshot:follower.snapshot,replaceActor:replaceActor,route:follower.remaining};
  }
  function active(){
   if(!session||typeof CRWorldMode==='undefined'||CRWorldMode.providerId!==session.providerId||typeof player==='undefined')return false;
@@ -70,6 +70,7 @@ var HolmArrivalPlayer=(function(){
   var controls=typeof Controls==='undefined'?null:Controls;
   return session.bridge.update(dt,{keys:controls&&!controls.chatting?controls.keys:{},yaw:typeof camCtl!=='undefined'?camCtl.yaw:0,locked:typeof CharCreator!=='undefined'&&CharCreator.active});
  }
- return {create:create,attach:attach,detach:detach,active:active,order:function(p){return session.bridge.order(p)},update:update};
+ return {create:create,attach:attach,detach:detach,active:active,order:function(p){return session.bridge.order(p)},update:update,
+  route:function(){return session&&session.bridge.route?session.bridge.route():[]}};   // read-only, for the minimap route line
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmArrivalPlayer;

@@ -80,7 +80,7 @@ var CRMinimap=(function(){
   var telemetry={layerVersion:2,staticBuilds:0,markerBuilds:0,dynamicFrames:0,
     staticCacheHits:0,markerCacheHits:0,cacheKey:'',lastStaticMs:0,maxStaticMs:0,
     lastMarkerMs:0,maxMarkerMs:0,lastPaintMs:0,maxPaintMs:0,dynamicMarkers:0,
-    maxDynamicMarkers:0,dynamicLimit:128,clicks:0,lastClickWorld:null};
+    maxDynamicMarkers:0,dynamicLimit:128,clicks:0,lastClickWorld:null,routeTiles:0,compassYaw:null};
   var BCOL={water:'#2c4a66',grass:'#4d6b35',autumn:'#a06a28',swamp:'#453655',
     desert:'#c2a862',snow:'#dbe0de',scar:'#54453a',rock:'#8a8276'};
   function elapsed(t){ return +(performance.now()-t).toFixed(3); }
@@ -90,7 +90,7 @@ var CRMinimap=(function(){
     var p=provider(), tx=player.position.x, tz=player.position.z;
     var ccx=Math.floor(tx/8), ccz=Math.floor(tz/8);
     var plane=(typeof Player!=='undefined'&&Player.plane)||0;
-    var key=(p?p.id:'legacy')+':'+(p?p.worldRevision:0)+':p'+plane+':'+ccx+','+ccz;
+    var key=(p?p.id:'legacy')+':'+(p?p.worldRevision:0)+':p'+plane+':'+ccx+','+ccz+(islandFloorTiles()?':f'+floorCache.key:'');
     if(key===cache.key){ telemetry.staticCacheHits++; return false; }
     cache.key=key; cache.cx=ccx*8+4; cache.cz=ccz*8+4; cache.markerSignature='';
     telemetry.cacheKey=key; return true;
@@ -145,6 +145,7 @@ var CRMinimap=(function(){
       }
       ctx.stroke();
     }
+    drawIslandFloors(ctx);
     var p=provider(), meta=p&&p.mapMetadata;
     if(meta&&Array.isArray(meta.riskAreas)) for(var ri=0;ri<meta.riskAreas.length;ri++){
       var risk=meta.riskAreas[ri], rr=Number(risk.r||risk.radius||5)*SCALE;
@@ -159,6 +160,31 @@ var CRMinimap=(function(){
     }
     var ms=elapsed(t); telemetry.staticBuilds++; telemetry.lastStaticMs=ms;
     telemetry.maxStaticMs=Math.max(telemetry.maxStaticMs,ms);
+  }
+  // Tutor's Holm: every roofed floor, porch and jetty tile of the walk graph, drawn as a floor with pale wall
+  // edges the way the old minimap drew buildings. The tile set is cached per graph (doors/gates change it rarely).
+  var floorCache={key:'',tiles:null};
+  function islandFloorTiles(){
+    if(typeof HolmArrivalQA==='undefined'||!HolmArrivalQA.islandActive||!HolmArrivalQA.islandActive())return null;
+    var ns=HolmArrivalQA.graphNodes(),key=ns.length+':'+(ns[0]&&ns[0].id);
+    if(floorCache.key===key)return floorCache.tiles;
+    var tiles=Object.create(null);
+    for(var i=0;i<ns.length;i++){var n=ns[i],sf=n.surface||'',kind=sf.split(':')[0];
+      if(n.y<-5||kind==='land'||kind==='upper'||kind==='stair')continue;
+      var k=Math.floor(n.x)+','+Math.floor(n.z);if(!tiles[k])tiles[k]=(kind==='deck'||kind==='dock')?2:1;}
+    floorCache.key=key;floorCache.tiles=tiles;return tiles;
+  }
+  function drawIslandFloors(ctx){
+    var tiles=islandFloorTiles();if(!tiles)return;var half=CACHE/(2*SCALE)+2,s=SCALE;
+    for(var k in tiles){var c=k.split(','),x=+c[0],z=+c[1];if(Math.abs(x-cache.cx)>half||Math.abs(z-cache.cz)>half)continue;
+      var q=worldToCache(x,z);ctx.fillStyle=tiles[k]===2?'#8a6a40':'#6e4f33';ctx.fillRect(q.x,q.y,s+.6,s+.6);}
+    ctx.fillStyle='#ece4d2';
+    for(var k2 in tiles){if(tiles[k2]!==1)continue;var c2=k2.split(','),x2=+c2[0],z2=+c2[1];if(Math.abs(x2-cache.cx)>half||Math.abs(z2-cache.cz)>half)continue;
+      var q2=worldToCache(x2,z2);
+      if(!tiles[x2+','+(z2-1)])ctx.fillRect(q2.x,q2.y,s+.6,1);
+      if(!tiles[x2+','+(z2+1)])ctx.fillRect(q2.x,q2.y+s-.4,s+.6,1);
+      if(!tiles[(x2-1)+','+z2])ctx.fillRect(q2.x,q2.y,1,s+.6);
+      if(!tiles[(x2+1)+','+z2])ctx.fillRect(q2.x+s-.4,q2.y,1,s+.6);}
   }
   function markerSignature(){
     var s=[];
@@ -189,7 +215,39 @@ var CRMinimap=(function(){
     var dx=(x-px)*SCALE, dz=(z-pz)*SCALE;
     if(dx*dx+dz*dz>(R+4)*(R+4)) return;
     var ca=Math.cos(yaw),sa=Math.sin(yaw),sx=dx*ca-dz*sa,sy=dx*sa+dz*ca;
-    ctx.fillStyle=color; ctx.fillRect(W/2+sx-size/2,W/2+sy-size/2,size,size); count.n++;
+    // OSRS dots: a bright core on a dark one-pixel rim so they read on any terrain
+    var x0=Math.round(W/2+sx-size/2),y0=Math.round(W/2+sy-size/2);
+    ctx.fillStyle='#000';ctx.fillRect(x0-1,y0-1,size+2,size+2);
+    ctx.fillStyle=color; ctx.fillRect(x0,y0,size,size); count.n++;
+  }
+  // world -> minimap pixel (rotated with the camera like the terrain)
+  function toMap(x,z,px,pz,yaw){var dx=(x-px)*SCALE,dz=(z-pz)*SCALE,ca=Math.cos(yaw),sa=Math.sin(yaw);return {x:W/2+dx*ca-dz*sa,y:W/2+dx*sa+dz*ca};}
+  // The tiles the walker will actually follow: the island bridge's remaining graph route, else the legacy BFS path.
+  function routePoints(){
+    try{
+      if(typeof HolmArrivalPlayer!=='undefined'&&HolmArrivalPlayer.active()&&HolmArrivalPlayer.route)return HolmArrivalPlayer.route();
+    }catch(e){}
+    return (typeof Player!=='undefined'&&Player.path)||[];
+  }
+  function drawRoute(ctx,yaw,px,pz){
+    var pts=routePoints(); if(!pts||!pts.length) return null;
+    var n=Math.min(pts.length,400),path=[toMap(px,pz,px,pz,yaw)];
+    for(var i=0;i<n;i++) path.push(toMap(pts[i].x,pts[i].z,px,pz,yaw));
+    ctx.save();ctx.beginPath();ctx.arc(W/2,W/2,R,0,7);ctx.clip();
+    ctx.lineJoin='round';ctx.lineCap='round';
+    function stroke(w,c){ctx.strokeStyle=c;ctx.lineWidth=w;ctx.beginPath();for(var k=0;k<path.length;k++)k?ctx.lineTo(path[k].x,path[k].y):ctx.moveTo(path[k].x,path[k].y);ctx.stroke();}
+    stroke(4.4,'rgba(0,0,0,.8)');stroke(2.2,'#ffffff');
+    ctx.restore();
+    telemetry.routeTiles=pts.length;
+    return pts[pts.length-1];
+  }
+  function drawFlag(ctx,x,y){
+    // the OSRS red destination flag: a dark pole planted on the tile, a red pennant with a black edge
+    ctx.fillStyle='#000';ctx.fillRect(Math.round(x)-1,Math.round(y)-12,3,13);
+    ctx.fillStyle='#d9cfb0';ctx.fillRect(Math.round(x),Math.round(y)-11,1,11);
+    ctx.beginPath();ctx.moveTo(x+1,y-12);ctx.lineTo(x+10,y-9);ctx.lineTo(x+1,y-5.5);ctx.closePath();
+    ctx.fillStyle='#e0241b';ctx.fill();ctx.lineWidth=1;ctx.strokeStyle='#1a0303';ctx.stroke();
+    ctx.fillStyle='rgba(0,0,0,.45)';ctx.beginPath();ctx.ellipse(x+.5,y+1,3,1.3,0,0,7);ctx.fill();
   }
   function drawDynamic(ctx,yaw,px,pz){
     var count={n:0};
@@ -199,17 +257,22 @@ var CRMinimap=(function(){
         drawDot(ctx,n.mesh.position.x,n.mesh.position.z,n.t.boss?'#ff4d4d':'#ffff00',4,px,pz,yaw,count); }
       for(var j=0;j<WORLD.clickables.length;j++){ var o=WORLD.clickables[j]; if(o.userData&&o.userData.kind==='friendly')
         drawDot(ctx,o.position.x,o.position.z,'#ffff00',4,px,pz,yaw,count); }
+      // island folk: tutors are yellow (friendly), the trial pens' foes yellow as well, like any NPC
+      try{ if(typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors){ var tl=HolmIslandTutors.tutors();
+        for(var ti=0;ti<tl.length;ti++) drawDot(ctx,tl[ti].x,tl[ti].z,'#ffff00',4,px,pz,yaw,count); }
+        if(typeof HolmIslandTrials!=='undefined'&&HolmIslandTrials.npcs){ var tn=HolmIslandTrials.npcs();
+        for(var tj=0;tj<tn.length;tj++){ var m=tn[tj]; if(!m.dead&&m.mesh) drawDot(ctx,m.mesh.position.x,m.mesh.position.z,'#ffff00',4,px,pz,yaw,count); } } }catch(e){}
       for(var k=0;k<WORLD.drops.length;k++){ var d=WORLD.drops[k];
         drawDot(ctx,d.position.x,d.position.z,'#ff3a2a',3,px,pz,yaw,count); }
     }
-    var dest=(Player.path&&Player.path.length)?Player.path[Player.path.length-1]:Player.moveTo;
+    var end=drawRoute(ctx,yaw,px,pz);
+    var dest=end||((Player.path&&Player.path.length)?Player.path[Player.path.length-1]:Player.moveTo);
+    telemetry.routeTiles=end?telemetry.routeTiles:0;
     if(dest){
-      var dx=(dest.x-px)*SCALE,dz=(dest.z-pz)*SCALE,ca=Math.cos(yaw),sa=Math.sin(yaw);
-      var x=W/2+dx*ca-dz*sa,y=W/2+dx*sa+dz*ca;
-      if((x-W/2)*(x-W/2)+(y-W/2)*(y-W/2)<=(R+8)*(R+8)){
-        ctx.strokeStyle='#d8d2c4';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-8);ctx.stroke();
-        ctx.fillStyle='#e03a2a';ctx.beginPath();ctx.moveTo(x,y-8);ctx.lineTo(x+6,y-6);ctx.lineTo(x,y-4);ctx.closePath();ctx.fill();
-      }
+      var q=toMap(dest.x,dest.z,px,pz,yaw),x=q.x,y=q.y;
+      var dd=Math.hypot(x-W/2,y-W/2);
+      if(dd>R-4){ x=W/2+(x-W/2)*(R-4)/dd; y=W/2+(y-W/2)*(R-4)/dd; }   // off the map: pin the flag to the rim, pointing the way
+      drawFlag(ctx,x,y);
     }
     telemetry.dynamicMarkers=count.n; telemetry.maxDynamicMarkers=Math.max(telemetry.maxDynamicMarkers,count.n);
   }
@@ -229,10 +292,13 @@ var CRMinimap=(function(){
     var ox=(cache.cx-px)*SCALE-CACHE/2,oy=(cache.cz-pz)*SCALE-CACHE/2;
     ctx.drawImage(staticCanvas,ox,oy);ctx.drawImage(markerCanvas,ox,oy);ctx.restore();
     drawDynamic(ctx,yaw,px,pz);
-    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(W/2,W/2,3.2,0,7);ctx.fill();
-    var na=yaw+Math.PI,nx=W/2+Math.sin(na)*(R-9)*-1,ny=W/2+Math.cos(na)*(R-9);
-    ctx.fillStyle='#1a1208';ctx.beginPath();ctx.arc(nx,ny,7.5,0,7);ctx.fill();
-    ctx.fillStyle='#ffd24a';ctx.font='bold 10px Verdana';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('N',nx,ny+0.5);
+    // you: the OSRS white square with a dark rim at the exact centre
+    ctx.fillStyle='#000';ctx.fillRect(W/2-3,W/2-3,6,6);ctx.fillStyle='#fff';ctx.fillRect(W/2-2,W/2-2,4,4);
+    // inner rim shading: the map sits recessed in its stone ring
+    var g=ctx.createRadialGradient(W/2,W/2,R-10,W/2,W/2,R);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,.55)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(W/2,W/2,R,0,7);ctx.fill();
+    // the compass needle lives on its own button (ui_osrs_kit.js); tell it where north is, only when it changes
+    if(typeof window.CRCompassSet==='function'&&Math.abs(yaw-(telemetry.compassYaw||1e9))>0.004){telemetry.compassYaw=yaw;window.CRCompassSet(yaw);}
     telemetry.dynamicFrames++; var ms=elapsed(t); telemetry.lastPaintMs=ms;telemetry.maxPaintMs=Math.max(telemetry.maxPaintMs,ms);
   }
   function screenToWorld(x,y,origin,yaw){

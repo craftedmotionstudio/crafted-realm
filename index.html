@@ -489,7 +489,7 @@
   #build-stamp.min{font-size:0;padding:5px 6px;}
   #build-stamp.min:before{content:'\25CF';font-size:11px;}  /* collapsed: a single dot */
 </style>
-<link rel="stylesheet" href="assets/ui/login_overhaul.css?v=3">
+<link rel="stylesheet" href="assets/ui/login_overhaul.css?v=4">
 </head>
 <body>
 <canvas id="game-canvas"></canvas>
@@ -661,12 +661,12 @@
   <div class="tab-pane" id="pane-equip"><div id="equip-list"></div>
     <div style="margin-top:8px;color:#9a8e78;font-size:11px">Click items in your pack to wield or wear them. Your character shows what you equip.</div>
   </div>
-  <div class="tab-pane social-pane" id="pane-clan"><h3>Clan hall</h3><p class="ui-copy">Your clan roster and shared channel will appear here when shared worlds open.</p><div class="ui-empty">No clan joined</div><button class="set-btn wide" disabled>Find a clan</button></div>
-  <div class="tab-pane social-pane" id="pane-friends"><h3>Friends</h3><div class="ui-list"><div>Friends list <span>0 / 200</span></div></div><div class="ui-empty">Your road is quiet—for now.</div><button class="set-btn wide" disabled>Add friend</button></div>
-  <div class="tab-pane social-pane" id="pane-ignore"><h3>Ignore list</h3><div class="ui-list"><div>Ignored players <span>0 / 100</span></div></div><div class="ui-empty">No adventurers ignored.</div><button class="set-btn wide" disabled>Add name</button></div>
-  <div class="tab-pane social-pane" id="pane-emotes"><h3>Emotes</h3><div class="emote-grid"><button title="Yes">✓</button><button title="No">×</button><button title="Bow">⌄</button><button title="Angry">!</button><button title="Think">?</button><button title="Wave">~</button><button title="Cheer">↑</button><button title="Laugh">□</button><button title="Dance">♫</button><button title="Sit">⌑</button><button title="Shrug">⌁</button><button title="Clap">◆</button></div><p class="ui-copy">Select an emote to express yourself.</p></div>
-  <div class="tab-pane social-pane" id="pane-music"><h3>Music player</h3><div class="music-track active">Tutor's Holm</div><div class="music-track">Under the Hearth</div><div class="music-track locked">???</div><button class="set-btn wide" onclick="UI.toggleMusic()">Toggle music</button></div>
-  <div class="tab-pane social-pane" id="pane-logout"><h3>Leaving so soon?</h3><p class="ui-copy">Your progress is saved locally before you return to the welcome screen.</p><button class="set-btn wide" onclick="UI.manualSave()">Save now</button><button class="set-btn wide logout" onclick="UI.logout()">Log out</button></div>
+  <div class="tab-pane social-pane" id="pane-clan"><h3>Clan Chat</h3><div class="kit-count"><span>Talking in: <b style="color:#fff">Not in chat</b></span></div><div class="kit-list"><span class="muted">Clan channels open when shared worlds arrive.</span></div><div class="kit-row-btns"><button class="set-btn" disabled>Join Chat</button><button class="set-btn" disabled>Clan Setup</button></div></div>
+  <div class="tab-pane social-pane" id="pane-friends"><h3>Friends List</h3><div class="kit-count"><span>Friends</span><span>0 / 200</span></div><div class="kit-list"><span class="muted">Your road is quiet, for now.</span></div><div class="kit-row-btns"><button class="set-btn" disabled>Add Friend</button><button class="set-btn" disabled>Del Friend</button></div></div>
+  <div class="tab-pane social-pane" id="pane-ignore"><h3>Ignore List</h3><div class="kit-count"><span>Ignored</span><span>0 / 100</span></div><div class="kit-list"><span class="muted">No adventurers ignored.</span></div><div class="kit-row-btns"><button class="set-btn" disabled>Add Name</button><button class="set-btn" disabled>Del Name</button></div></div>
+  <div class="tab-pane social-pane" id="pane-emotes"><h3>Emotes</h3><div class="emote-grid"><button title="Yes">&#10003;<small>Yes</small></button><button title="No">&#215;<small>No</small></button><button title="Bow">&#8964;<small>Bow</small></button><button title="Angry">!<small>Angry</small></button><button title="Think">?<small>Think</small></button><button title="Wave">~<small>Wave</small></button><button title="Cheer">&#8593;<small>Cheer</small></button><button title="Laugh">&#9786;<small>Laugh</small></button><button title="Dance">&#9835;<small>Dance</small></button><button title="Sit">&#8913;<small>Sit</small></button><button title="Shrug">&#8961;<small>Shrug</small></button><button title="Clap">&#10070;<small>Clap</small></button></div></div>
+  <div class="tab-pane social-pane" id="pane-music"><h3>Music Player</h3><div class="music-now">Playing: <b>Tutor's Holm</b></div><div class="kit-list"><div class="music-track active">Tutor's Holm</div><div class="music-track unlocked">Under the Hearth</div><div class="music-track locked">???</div></div><button class="set-btn wide" onclick="UI.toggleMusic()">Toggle music</button></div>
+  <div class="tab-pane social-pane" id="pane-logout"><div class="kit-logout"><p class="ui-copy">When you have finished playing Crafted Realm, always use the button below to log out safely.</p><button class="set-btn wide logout" onclick="UI.logout()">Click here to log out</button><button class="set-btn" onclick="UI.manualSave()">Save now</button></div></div>
   <div id="tab-bar-bottom-legacy" hidden>
     <div class="tab-btn" data-tab="prayers" title="Prayer book">🙏</div>
     <div class="tab-btn" data-tab="spells" title="Spellbook">🪄</div>
@@ -929,7 +929,7 @@
 <script src="src/ui_prayer_magic.js?v=1"></script>
 <script src="src/ui_combat.js?v=1"></script>
 <script src="src/ui_minimap.js?v=1"></script>
-<script src="src/ui_map.js?v=4"></script>
+<script src="src/ui_map.js?v=5"></script>
 <script src="src/ui_shop.js?v=1"></script>
   <script src="src/ui_save.js?v=15"></script>
   <script src="src/new_adventurer_reset.js?v=1"></script>
@@ -1016,8 +1016,8 @@
 <script src="src/char_styles.js"></script>
 <script src="src/boot_coordinator.js?v=2"></script>
 <script src="src/crafting_action_visuals.js?v=3"></script>
-<script src="src/holm_arrival_follower.js?v=1"></script>
-<script src="src/holm_arrival_player.js?v=4"></script>
+<script src="src/holm_arrival_follower.js?v=2"></script>
+<script src="src/holm_arrival_player.js?v=5"></script>
 <script src="src/holm_overhaul_terrain.js?v=1"></script>
 <script src="src/holm_arrival_navigation.js?v=2"></script>
 <script src="src/holm_arrival_approach.js?v=1"></script>
@@ -1032,7 +1032,7 @@
 <script src="src/holm_arrival_trail.js?v=1"></script>
 <script src="src/holm_arrival_water.js?v=3"></script>
 <script src="src/holm_arrival_porch_target.js?v=1"></script>
-<script src="src/holm_island_paths_data.js?v=1"></script><script src="src/holm_island_nav.js?v=5"></script><script src="src/holm_island_lessons.js?v=8"></script><script src="src/holm_island_gates.js?v=3"></script><script src="src/holm_island_trials.js?v=3"></script><script src="src/holm_island_tutors.js?v=3"></script><script src="src/holm_kit.js?v=1"></script><script src="src/holm_island_player.js?v=4"></script><script src="src/holm_island_fx.js?v=3"></script><script src="src/holm_island_guide.js?v=4"></script><script src="src/holm_kit_creator.js?v=1"></script><script src="src/holm_island_extras.js?v=16"></script><script src="src/holm_guide_cellar.js?v=2"></script><script src="src/holm_arrival_qa.js?v=42"></script>
+<script src="src/holm_island_paths_data.js?v=1"></script><script src="src/holm_island_nav.js?v=5"></script><script src="src/holm_island_lessons.js?v=8"></script><script src="src/holm_island_gates.js?v=3"></script><script src="src/holm_island_trials.js?v=3"></script><script src="src/holm_island_tutors.js?v=3"></script><script src="src/holm_kit.js?v=1"></script><script src="src/holm_island_player.js?v=4"></script><script src="src/holm_island_fx.js?v=3"></script><script src="src/holm_island_guide.js?v=4"></script><script src="src/holm_kit_creator.js?v=2"></script><script src="src/holm_island_extras.js?v=16"></script><script src="src/holm_guide_cellar.js?v=2"></script><script src="src/holm_arrival_qa.js?v=42"></script>
 <script src="src/holm_v3_terrain.js?v=2"></script>
 <script src="src/holm_v3_render.js?v=8"></script>
 <script src="src/holm_tile_house.js?v=8"></script>
@@ -1042,6 +1042,7 @@
 <script src="src/frame_stage_metrics.js?v=1"></script><script src="src/game5_main.js?v=h56"></script>
 <script src="src/perf_probe.js?v=1"></script>
 <script src="src/tut_firemaking.js?v=1"></script>
+<script src="src/ui_osrs_kit.js?v=1"></script><!-- LAST: the one OSRS interface kit (assets/ui/osrs_kit.css) -->
 <script>
   /* sync the settings volume sliders to saved values on load */
   window.addEventListener('load', function(){ try{
