@@ -7,6 +7,10 @@
  *   - 40 melee and 40 ranged attacks from ordinary (harmful) NPC types at the player
  * and records every damage roll, every XP grant (skill + amount, in order), and the attack cooldown each swing sets.
  * Projectiles are landed by calling updateProjectiles in 0.1 s steps (the flight time is presentation only).
+ * Only the combat code's own draws are seeded: Math.random is routed by its caller, so a draw made from
+ * game3_systems.js (the accuracy and damage rolls, drops) takes the next value of the seeded combat stream, while any
+ * other caller (three.js generateUUID when a mesh is built, particles, UI) takes a separate stream. Building a
+ * projectile mesh per shot (the old visuals) or none (CombatFX pools them) therefore cannot shift a roll.
  * The fingerprint is compared with tools/fixtures/holm_combat_numbers_baseline.json, recorded on the commit BEFORE
  * the combat feel pass (9670a03). RECORD=1 rewrites the baseline (only ever do that on unchanged combat code).
  * Run: SMOKE_BASE=http://localhost:8095 node tools/qa_holm_combat_numbers.js */
@@ -31,7 +35,9 @@ async function fingerprint(page){
     const xpLog=[];const addXp=Player.addXp;
     const extras=[];
     try{
-      Math.random=mulberry(20260925);
+      const combatRng=mulberry(20260925),otherRng=mulberry(777);let draws=0,otherDraws=0;
+      Math.random=function(){const line=(new Error().stack||'').split(String.fromCharCode(10))[2]||'';
+        if(/game3_systems\.js/.test(line)){draws++;return combatRng()}otherDraws++;return otherRng()};
       Player.addXp=function(s,a){xpLog.push([s,+(+a).toFixed(6)]);return addXp.apply(this,arguments)};
       Player.autoRetaliate=false;Player.activePrayers=new Set();Player.specArmed=false;Player.action=null;
       const L={Attack:20,Strength:22,Defence:15,Ranged:21,Magic:19,Hitpoints:25,Prayer:1};
@@ -60,7 +66,7 @@ async function fingerprint(page){
           npcAttack(npc,0.6);const cd=+npc.attackCd.toFixed(4);land();
           out.npcHits.push([kind,Math.round(hp0-Player.hp),cd,xpLog.slice(x0)])}
       });
-      out.meta.levels=L;
+      out.meta.levels=L;out.meta.combatDraws=draws;out.meta.otherDraws=otherDraws;
     }catch(e){out.error=String(e&&e.stack||e).slice(0,600)}
     finally{
       Math.random=saved.random;Player.addXp=addXp;
@@ -71,7 +77,7 @@ async function fingerprint(page){
       try{UI.refreshInv();UI.refreshHud();UI.refreshSkills()}catch(e){}
     }
     const sum=a=>a.reduce((s,r)=>s+r[1],0),xpSum=a=>{const m={};a.forEach(r=>r[3].forEach(([s,v])=>m[s]=+((m[s]||0)+v).toFixed(4)));return m};
-    out.summary={swings:out.swings.length,attacksMade:out.swings.filter(r=>r[2]>0).length,npcAttacksMade:out.npcHits.filter(r=>r[2]>0).length,npcHits:out.npcHits.length,playerDamage:sum(out.swings),npcDamage:sum(out.npcHits),
+    out.summary={combatDraws:out.meta.combatDraws,swings:out.swings.length,attacksMade:out.swings.filter(r=>r[2]>0).length,npcAttacksMade:out.npcHits.filter(r=>r[2]>0).length,npcHits:out.npcHits.length,playerDamage:sum(out.swings),npcDamage:sum(out.npcHits),
       zeros:out.swings.filter(r=>r[1]===0).length,xp:xpSum(out.swings.concat(out.npcHits))};
     return out;
   });
@@ -83,7 +89,8 @@ async function fingerprint(page){
   let pass=false;
   try{
     const page=await browser.newPage();const errs=[];page.on('pageerror',e=>errs.push(String(e).slice(0,300)));
-    await page.goto(BASE,{waitUntil:'load',timeout:120000});await enter(page);
+    // python's http.server can refuse a burst of connections (listen backlog 5) and a lost script breaks the boot: retry
+    for(let a=1;;a++){try{await page.goto(BASE+'&try='+a,{waitUntil:'load',timeout:120000});await enter(page);break}catch(e){if(a>=3)throw e;console.log('  boot retry '+a);errs.length=0}}
     await page.waitForFunction(()=>typeof HolmIslandTrials!=='undefined'&&HolmIslandTrials.npcs().length>0,{timeout:60000});
     const fp=await fingerprint(page);
     if(fp.error){console.log('  FAIL fingerprint run: '+fp.error);}
