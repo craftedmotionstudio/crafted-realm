@@ -297,7 +297,14 @@ class MB:
         self.bm = bmesh.new()
         self.dl = self.bm.verts.layers.deform.verify()
         self.rl = self.bm.faces.layers.int.new('rim')   # 1 = cap / rim strip: a real edge of a piece (hard break allowed)
+        self.pl = self.bm.verts.layers.int.new('pin')   # v3.0: >0 = index+1 into self.pins (a pinned shading normal)
+        self.pins = []
         self.mats = []
+
+    def pin(self, v, n):
+        """v3.0: give vertex v a fixed shading normal (shared seams: torso armhole ring == arm top ring)"""
+        self.pins.append(Vector(n).normalized())
+        v[self.pl] = len(self.pins)
 
     def _mi(self, mat):
         if mat not in self.mats:
@@ -343,6 +350,39 @@ class MB:
         bmesh.ops.recalc_face_normals(self.bm, faces=allf)
         return vs
 
+    def loft_ah(self, bt, rings, params, mat, w, ah='zip', cap0=True, cap1=True, smooth=True, matfn=None, mat_at=None, rim_depth=.010):
+        """v3.0 torso-layer loft (closed rings) with both armholes cut (see armhole_cut). params[i][k] = (phi, z)."""
+        vs = [[self._v(p, w) for p in r] for r in rings]
+        n = len(vs[0])
+        allf = []
+        rim = None
+        if ah == 'vest':   # a strip folding the layer's armhole edge in toward the body (closes the gap to the layer below)
+            cache = {}
+            def rim(i, j):
+                if (i, j) not in cache:
+                    co = vs[i][j].co
+                    c = Vector((0, body_r(bt, co.z)[3], co.z))
+                    d = Vector((co.x - c.x, co.y - c.y, 0))
+                    cache[(i, j)] = self._v(tuple(co - d.normalized() * rim_depth), w)
+                return cache[(i, j)]
+        skip, zf = armhole_cut(self, bt, vs, params, ah, mat_at or (lambda z: mat), rim_to=rim)
+        allf += zf
+        for i in range(len(vs) - 1):
+            a, b = vs[i], vs[i + 1]
+            for k in range(n):
+                if (i, k) in skip:
+                    continue
+                q = (a[k], a[(k + 1) % n], b[(k + 1) % n], b[k])
+                if len(set(q)) < 4:
+                    continue
+                self._face(q, matfn(i, k) if matfn else mat, smooth, allf)
+        if cap0:
+            self._face(vs[0], mat, smooth, allf, rim=True)
+        if cap1:
+            self._face(vs[-1], mat, smooth, allf, rim=True)
+        bmesh.ops.recalc_face_normals(self.bm, faces=allf)
+        return vs
+
     def thick_loft(self, outer, inner, mat, w, matfn=None, smooth=True, rim_mat=None, top_closed=True):
         """Closed thick tube (skirts, flared cuffs): outer/inner ring lists (same count); ring 0 = open hem
         (joined by a rim strip), last ring joined by a top strip."""
@@ -365,16 +405,25 @@ class MB:
     def _vrow(self, r, w):
         return [self._v(p, w if callable(w) else w) for p in r]
 
-    def shell(self, outer, inner, matfn, w, smooth=True, edge_mat=None, wrap=False):
+    def shell(self, outer, inner, matfn, w, smooth=True, edge_mat=None, wrap=False, bt=None, params=None, ah=None, mat_at=None):
         """Thick patch. outer/inner [row][col]; matfn(i, j, side) -> material. Row 0 = free edge.
-        wrap=True closes the columns into a loop and caps the last row (hair caps)."""
+        wrap=True closes the columns into a loop and caps the last row (hair caps).
+        v3.0 ah ('zip' | 'hole' | 'vest') + params[i][j] = (phi, z): cut the armholes (outer zipped to the seam ring /
+        both surfaces opened / opened with a rim joining outer and inner)."""
         R, C = len(outer), len(outer[0])
         vo = [[self._v(outer[i][j], w) for j in range(C)] for i in range(R)]
         vi = [[self._v(inner[i][j], w) for j in range(C)] for i in range(R)]
         allf = []
+        skip = set()
+        if ah and params is not None:
+            mid = mat_at or (lambda z: matfn(1, C // 2, 'o'))
+            skip, zf = armhole_cut(self, bt, vo, params, ah, mid, rim_to=(lambda i, j: vi[i][j]) if ah == 'vest' else None)
+            allf += zf
         cols = range(C) if wrap else range(C - 1)
         for i in range(R - 1):
             for j in cols:
+                if (i, j) in skip:
+                    continue
                 j2 = (j + 1) % C
                 self._face((vo[i][j], vo[i][j2], vo[i + 1][j2], vo[i + 1][j]), matfn(i, j, 'o'), smooth, allf)
                 self._face((vi[i][j], vi[i + 1][j], vi[i + 1][j2], vi[i][j2]), matfn(i, j, 'i'), smooth, allf, rim=True)
@@ -455,6 +504,17 @@ class MB:
         self.inner_sharp = inner_sharp / max(1, inner)
         self.bm.to_mesh(me)
         self.bm.free()
+        pins = self.pins
+        if 'pin' in me.attributes:
+            pv = [a.value for a in me.attributes['pin'].data]
+            if pins and any(pv):   # v3.0: seam vertices share one shading normal across parts (no break torso -> arm)
+                cn = [c.vector.copy() for c in me.corner_normals]
+                for li, lp in enumerate(me.loops):
+                    k = pv[lp.vertex_index]
+                    if k:
+                        cn[li] = pins[k - 1]
+                me.normals_split_custom_set([tuple(v) for v in cn])
+            me.attributes.remove(me.attributes['pin'])
         for m in self.mats:
             me.materials.append(mats[m])
         ob = bpy.data.objects.new(name, me)
@@ -563,8 +623,8 @@ PELVIS = {
 }
 TORSO_P = 2.3
 TORSO_PHASE = math.pi / 8   # v2.5: flat front / side / back panels + chamfers
-ARM_R = {'A': [(-0.10, .066, .068), (0.06, .080, .082), (0.30, .072, .074), (0.70, .052, .054), (1.00, .044, .046),
-               (1.30, .045, .045), (1.70, .034, .034), (2.00, .030, .031)]}
+ARM_R = {'A': [(0.00, .056, .058), (0.40, .053, .055), (0.65, .050, .052), (0.85, .047, .048), (1.00, .045, .047),
+               (1.30, .046, .046), (1.70, .037, .037), (2.00, .034, .035)]}   # v3.0: slim upper arm under a round deltoid cap
 ARM_R['B'] = [(u, rs * .84, rf * .84) for u, rs, rf in ARM_R['A']]
 LEG_R = {'A': [(0.00, .090, .096, .098), (0.15, .102, .106, .108), (0.45, .092, .094, .096), (0.78, .071, .071, .073),
                (0.97, .065, .065, .067), (1.05, .064, .064, .068), (1.22, .074, .072, .084), (1.45, .064, .062, .070),
@@ -578,11 +638,9 @@ HAND_K = {'A': .98, 'B': .86}
 FOOT_K = {'A': 1.00, 'B': .875}   # v2.9: smaller default feet (v2.8 was A 1.12 / B .98 = the Feet_Large morph)
 FOOT_K_LARGE = {'A': 1.12, 'B': .98}
 FOOT_K_SMALL = {'A': .91, 'B': .80}
-U_ARM = [-0.08, 0.10, 0.5, 0.88, 1.0, 1.12, 1.4, 1.88]
 U_LEG = [0.0, 0.4, 0.84, 1.0, 1.14, 1.5, 1.95]
 
 # v2.5 measured bulk: prisms read narrower than their radius, so limbs and torso depth are scaled to the reference outlines
-ARM_R = {bt: [(u, rs * 1.12, rf * 1.12) for u, rs, rf in rows] for bt, rows in ARM_R.items()}
 LEG_R = {bt: [(u, a * 1.12, b * 1.12, c * 1.12) for u, a, b, c in rows] for bt, rows in LEG_R.items()}
 TORSO = {bt: [(z, rx, rf * 1.10, rb * 1.10, cy) for z, rx, rf, rb, cy in rows] for bt, rows in TORSO.items()}
 PELVIS = {bt: [(z, rx, rf * 1.08, rb * 1.08, cy) for z, rx, rf, rb, cy in rows] for bt, rows in PELVIS.items()}
@@ -682,9 +740,15 @@ def front_y(bt, x, z, off=0.0, rad=None):
         return cy - (rf + off) * math.cos(math.pi / 8) ** (2.0 / TORSO_P)
     return cy - (rf + off) * (1 - q ** TORSO_P) ** (1 / TORSO_P)
 
+# v3.0: the arm path starts at the deltoid (the cap from the armhole seam covers u < U_CAP); the upper arm hangs just off
+# the torso side (A vertical, B angled out to the shared elbow joint)
+ARM_TOP = {'A': (.256, .016, 1.310), 'B': (.205, .016, 1.300)}
+U_CAP = .65
+
 def arm_path(bt, sx):
     sd = 'Left' if sx > 0 else 'Right'
-    return Path([(sx * SHOULDER_X[bt], .012, 1.378), BHEAD[B(sd + 'ForeArm')], BHEAD[B(sd + 'Hand')]])
+    x, y, z = ARM_TOP[bt]
+    return Path([(sx * x, y, z), BHEAD[B(sd + 'ForeArm')], BHEAD[B(sd + 'Hand')]])
 
 def leg_path(bt, sx):
     sd = 'Left' if sx > 0 else 'Right'
@@ -708,7 +772,7 @@ def arm_rings(bt, sx, spec, n=5, bump=None, taper=False):
         rs, rf = lerp_table(ARM_R[bt], u)
         if taper:
             rs, rf = rs * wrist_taper(u), rf * wrist_taper(u)
-        c = pa.pos(u) - Vector((0, 0, SHOULDER_DROP * ss(.40, -.10, u)))   # v2.8: cap top flush with the torso's shoulder line
+        c = pa.pos(u)
         if BUILD['arm_out']:
             ax = pa.dir(u)
             lat = Vector((sx, 0, 0)) - ax * (ax.x * sx)
@@ -733,6 +797,184 @@ def leg_rings(bt, sx, spec, n=6):
             c = c - lat.normalized() * BUILD['leg_in'](bt, u)
         out.append(xring(c, pl.dir(u), (rs + off) * sc, (rf + off) * sc, (rb + off) * sc, n, bump=bump, phase=math.pi / n))
     return out
+
+# ------------------------------------------------------------------------------------------
+# v3.0 SHOULDER SEAM (owner review 2026-09-25: "the shoulders just don't really merge into the arms ... they look like
+# separate entities"). Every torso layer that carries a sleeve has an ARMHOLE whose rim is one canonical seam ring per
+# body type and side (AH_K vertices on the body surface); every arm option STARTS on that same ring (identical positions,
+# skin weights and shading normals), then a round deltoid cap flows from the seam into the upper arm. The part boundary
+# is watertight in every pose and shades as one surface.
+# ------------------------------------------------------------------------------------------
+AH_K = 10
+ARMHOLE = {'A': dict(zc=1.318, dz=.097, dphi=math.radians(34), off=.006),
+           'B': dict(zc=1.306, dz=.090, dphi=math.radians(34), off=.006)}
+AH_ZROW = {'A': 1.211, 'B': 1.207}
+DELTOID = {'A': ((.224, .012, 1.305), .090), 'B': ((.190, .012, 1.293), .078)}   # the cap's round mass (hair keeps clear of it)   # an extra torso row just under the armpit keeps the armhole window tight
+AH_MARGIN = (math.radians(3), .004)
+
+def ah_param(bt, sx, k):
+    """(phi, z) of seam vertex k on the body surface. psi = 0 is the shoulder point (top), then the front edge, the
+    armpit, the back edge; the ring's vertices sit half a step off psi = 0."""
+    ah = ARMHOLE[bt]
+    psi = 2 * math.pi * (k + .5) / AH_K
+    phi = math.pi / 2 - ah['dphi'] * math.sin(psi)
+    return (phi if sx > 0 else 2 * math.pi - phi), ah['zc'] + ah['dz'] * math.cos(psi), psi
+
+def seam_point(bt, sx, k):
+    phi, z, _ = ah_param(bt, sx, k)
+    return body_point(bt, phi, z, ARMHOLE[bt]['off'])
+
+def seam_normal(bt, sx, k):
+    """outward normal of the smooth body surface at seam vertex k (both parts use it: no shading break)"""
+    phi, z, _ = ah_param(bt, sx, k)
+    o, e = ARMHOLE[bt]['off'], 1e-3
+    dp = body_point(bt, phi + e, z, o) - body_point(bt, phi - e, z, o)
+    dz = body_point(bt, phi, z + e, o) - body_point(bt, phi, z - e, o)
+    n = dp.cross(dz)
+    p = body_point(bt, phi, z, o)
+    if n.dot(p - Vector((0, body_r(bt, z)[3], p.z))) < 0:
+        n = -n
+    return n.normalized()
+
+def seam_ring(bt, sx):
+    return [seam_point(bt, sx, k) for k in range(AH_K)]
+
+def _ah_uv(bt, sx, phi, z):
+    ah = ARMHOLE[bt]
+    pc = math.pi / 2 if sx > 0 else 3 * math.pi / 2
+    d = (phi - pc + math.pi) % (2 * math.pi) - math.pi
+    return d / ah['dphi'], (z - ah['zc']) / ah['dz']
+
+def ah_window(bt, sx, params):
+    """row / column index window of a (phi, z) grid that covers the armhole ellipse (+ margin); None if the grid does
+    not reach the shoulder. params[i][j] = (phi, z); phi increases with j (0..2pi, no wrap inside the window)."""
+    ah = ARMHOLE[bt]
+    mphi, mz = AH_MARGIN
+    zlo, zhi = ah['zc'] - ah['dz'] - mz, ah['zc'] + ah['dz'] + mz
+    pc = math.pi / 2 if sx > 0 else 3 * math.pi / 2
+    plo, phi_hi = pc - ah['dphi'] - mphi, pc + ah['dphi'] + mphi
+    zs = [row[0][1] for row in params]
+    lows = [i for i, z in enumerate(zs) if z <= zlo]
+    highs = [i for i, z in enumerate(zs) if z >= zhi]
+    if not lows or not highs:
+        return None
+    i0, i1 = max(lows), min(highs)
+    j0, j1 = None, None
+    for i in range(i0, i1 + 1):
+        cols = [p[0] for p in params[i]]
+        a = [j for j, ph in enumerate(cols) if ph <= plo]
+        b = [j for j, ph in enumerate(cols) if ph >= phi_hi]
+        if not a or not b:
+            return None
+        j0 = max(a) if j0 is None else min(j0, max(a))
+        j1 = min(b) if j1 is None else max(j1, min(b))
+    return i0, i1, j0, j1
+
+def _window_loop(i0, i1, j0, j1):
+    """grid index pairs round the window rectangle (closed loop)"""
+    loop = [(i0, j) for j in range(j0, j1 + 1)] + [(i, j1) for i in range(i0 + 1, i1 + 1)]
+    loop += [(i1, j) for j in range(j1 - 1, j0 - 1, -1)] + [(i, j0) for i in range(i1 - 1, i0, -1)]
+    return loop
+
+def _ccw(uv):
+    a = 0.0
+    for (x0, y0), (x1, y1) in zip(uv, uv[1:] + uv[:1]):
+        a += x0 * y1 - x1 * y0
+    return a > 0
+
+def stitch_loops(A, B):
+    """triangles joining two nested closed loops, both CCW, each item (vert, angle); angular sweep (star-shaped loops)"""
+    na, nb = len(A), len(B)
+    ia = min(range(na), key=lambda i: A[i][1])
+    ib = min(range(nb), key=lambda i: B[i][1])
+    A = A[ia:] + A[:ia]
+    B = B[ib:] + B[:ib]
+    ua = [a for _, a in A] + [A[0][1] + 2 * math.pi]
+    ub = [b for _, b in B] + [B[0][1] + 2 * math.pi]
+    tris, i, j = [], 0, 0
+    while i < na or j < nb:
+        adv_a = j >= nb or (i < na and ua[i + 1] <= ub[j + 1])
+        if adv_a:
+            tris.append((A[i][0], A[(i + 1) % na][0], B[j % nb][0]))
+            i += 1
+        else:
+            tris.append((A[i % na][0], B[(j + 1) % nb][0], B[j % nb][0]))
+            j += 1
+    return tris
+
+def armhole_cut(mb, bt, vs, params, mode, mat_at, closed=True, rim_to=None, w=None):
+    """v3.0: cut both armholes out of a torso layer grid (vs[i][j] bmesh verts, params[i][j] = (phi, z)).
+    mode 'zip'  : the window is re-meshed as a zipper band ending exactly on the canonical seam ring (a sleeve attaches);
+         'hole' : the window is just removed (a layer hidden under an outer garment);
+         'vest' : removed, and the rim is closed by a strip down to rim_to (vert rows of the inner surface / a copy at a
+                  smaller offset) -- a sleeveless garment's armhole edge.
+    Returns the set of skipped cells {(i, j)} and the new faces."""
+    skip, faces = set(), []
+    if not mode:
+        return skip, faces
+    for sx in (1, -1):
+        win = ah_window(bt, sx, params)
+        if win is None:
+            continue
+        i0, i1, j0, j1 = win
+        if mode == 'hole':   # tuck the layer's shoulder in under the garment above it (no hole to see through)
+            for i in range(i0 + 1, i1):
+                for j in range(j0 + 1, j1):
+                    co = vs[i][j].co
+                    c = Vector((0, body_r(bt, co.z)[3], co.z))
+                    d = Vector((co.x - c.x, co.y - c.y, 0))
+                    vs[i][j].co = co - d.normalized() * .018
+            continue
+        for i in range(i0, i1):
+            for j in range(j0, j1):
+                skip.add((i, j))
+        loop = _window_loop(i0, i1, j0, j1)
+        if mode == 'zip':
+            uvb = [_ah_uv(bt, sx, *params[i][j]) for i, j in loop]
+            seam = []
+            for k in range(AH_K):
+                p = seam_point(bt, sx, k)
+                v = mb._v(p, seam_w(bt, sx, k))
+                mb.pin(v, seam_normal(bt, sx, k))
+                seam.append(v)
+            uvs = [_ah_uv(bt, sx, *ah_param(bt, sx, k)[:2]) for k in range(AH_K)]
+            A = [(vs[i][j], math.atan2(v_, u_)) for (i, j), (u_, v_) in zip(loop, uvb)]
+            Bq = [(v, math.atan2(v_, u_)) for v, (u_, v_) in zip(seam, uvs)]
+            if not _ccw(uvb):
+                A = A[::-1]
+            if not _ccw(uvs):
+                Bq = Bq[::-1]
+            A = [(v, a % (2 * math.pi)) for v, a in A]
+            Bq = [(v, a % (2 * math.pi)) for v, a in Bq]
+            for tri in stitch_loops(A, Bq):
+                c = sum((t.co for t in tri), Vector()) / 3
+                # material of the removed cell under the triangle's centre (by height, e.g. a two-toned yoke)
+                m = mat_at(c.z)
+                faces.append(mb._face(tri, m, True, []))
+        elif mode == 'vest' and rim_to is not None:
+            # the armhole edge hugs the seam (a sleeveless garment's armhole sits just outside the sleeve seam)
+            ah = ARMHOLE[bt]
+            pc = math.pi / 2 if sx > 0 else 3 * math.pi / 2
+            for i, j in loop:
+                phi, z = params[i][j]
+                u, v = _ah_uv(bt, sx, phi, z)
+                th = math.atan2(v, u)
+                u2, v2 = u + (1.12 * math.cos(th) - u) * .65, v + (1.12 * math.sin(th) - v) * .65
+                phi2, z2 = pc + u2 * ah['dphi'], ah['zc'] + v2 * ah['dz']
+                for vert in (vs[i][j], rim_to(i, j)):
+                    co = vert.co
+                    base = body_point(bt, phi, z, 0.0)
+                    c = Vector((0, body_r(bt, z)[3], z))
+                    o = Vector((co.x - c.x, co.y - c.y, 0)).length - Vector((base.x - c.x, base.y - c.y, 0)).length
+                    vert.co = body_point(bt, phi2, z2, o)
+            for (ia, ja), (ib, jb) in zip(loop, loop[1:] + loop[:1]):
+                q = (vs[ia][ja], vs[ib][jb], rim_to(ib, jb), rim_to(ia, ja))
+                if len(set(q)) == 4:
+                    faces.append(mb._face(q, mat_at(vs[ia][ja].co.z), True, [], rim=True))
+    return skip, faces
+
+def seam_w(bt, sx, k):
+    return torso_w(seam_point(bt, sx, k))
 
 # ------------------------------------------------------------------------------------------
 # HEAD: rounded low-poly skull, 12 sides x 11 rows; jaw narrows to the chin, cheek planes,
@@ -979,11 +1221,12 @@ def clear_of_body(bt, p_head, margin=.022):
             need = math.hypot(bp.x, bp.y - cy)
             if have < need:
                 w.x, w.y = dx * need / have, cy + dy * need / have
-        for sx in (-1, 1):   # deltoid masses
-            c = Vector((sx * (SHOULDER_X[bt] + .01 + (BUILD['arm_out'](bt, 0.0) if BUILD['arm_out'] else 0.0)), .01, 1.385))
+        for sx in (-1, 1):   # deltoid masses (v3.0: the round cap from the armhole seam)
+            dc, dr = DELTOID[bt]
+            c = Vector((sx * (dc[0] + (BUILD['arm_out'](bt, U_CAP) if BUILD['arm_out'] else 0.0)), dc[1], dc[2]))
             d = w - c
-            rr = .105 * BUILD['deltoid']
-            if 1.28 < w.z < 1.52 and d.length < rr:
+            rr = (dr + .012) * BUILD['deltoid']
+            if 1.20 < w.z < 1.52 and d.length < rr:
                 w = c + d.normalized() * rr
     return world_to_head(w)
 
@@ -1407,15 +1650,31 @@ def makeup_style(mb, bt, key):
             rows.append([(-hw + 2 * hw * j / 4, z) for j in range(5)])
         face_patch(mb, bt, rows)
 
-def torso_loft(mb, bt, zs, off, mat, n=8, cap_bot=True, w=torso_w, front_extra=None, matfn=None, bump=None, ring0_jag=0.0):
-    rings = []
+def ah_rows(bt, zs):
+    """v3.0: the ring heights with the armpit row added (when the layer reaches the shoulder) -> (zs, original index of
+    each ring's lower original ring)"""
+    za = AH_ZROW[bt]
+    if min(zs) < za - .02 and max(zs) > ARMHOLE[bt]['zc'] and all(abs(z - za) > .012 for z in zs):
+        out = sorted(zs + [za])
+    else:
+        out = list(zs)
+    orig = [max(i for i, z0 in enumerate(zs) if z0 <= z + 1e-9) if z >= zs[0] else 0 for z in out]
+    return out, orig
+
+def torso_loft(mb, bt, zs, off, mat, n=8, cap_bot=True, w=torso_w, front_extra=None, matfn=None, bump=None, ring0_jag=0.0, ah='zip', phase=None):
+    zs, orig = ah_rows(bt, list(zs))
+    rings, params = [], []
+    ph = math.pi / n if phase is None else phase
     for z in zs:
         o = off(z) if callable(off) else off
         fe = front_extra(z) if front_extra else 0.0
-        rings.append(body_ring(bt, z, o, n, front_extra=fe, bump=bump))
+        rings.append(body_ring(bt, z, o, n, front_extra=fe, bump=bump, phase=phase))
+        params.append([(2 * math.pi * k / n + ph, z) for k in range(n)])
     if ring0_jag:   # ragged hem: every other hem vertex pulled up
         rings[0] = [(x, y, z + (ring0_jag if k % 2 else 0.0)) for k, (x, y, z) in enumerate(rings[0])]
-    return mb.loft(rings, mat, w, cap0=cap_bot, cap1=True, matfn=matfn)
+    mf = (lambda i, k: matfn(orig[i], k)) if matfn else None
+    mat_at = (lambda z: mf(max(i for i, z0 in enumerate(zs) if z0 <= z + 1e-9) if z >= zs[0] else 0, 0)) if mf else None
+    return mb.loft_ah(bt, rings, params, mat, w, ah=ah, cap0=cap_bot, cap1=True, matfn=mf, mat_at=mat_at)
 
 def shirt(mb, bt, mat='C_TORSO', hem=None, off=.004, hem_off=.016):
     """tucked shirt (hem=None) or untucked tunic down to z=hem"""
@@ -1438,12 +1697,13 @@ def belt(mb, bt, z0=.960, z1=1.010, off=.012, mat='A_BELT', buckle=True, n=8):
         mb.box((0, y - .002, zc), (.036, .008, .034), 'A_METAL', B('Hips'))
 
 def open_shell(mb, bt, zs, alpha, off, thick, mat='C_TORSO', trim='A_TRIM', hem_trim=True, collar_trim=True, hem_rad=None,
-               n_body=6, trim_w=.024, w=skirt_w, lining=None):
+               n_body=6, trim_w=.024, w=skirt_w, lining=None, ah='zip'):
     """Open-front garment (jacket/coat/vest) following the body. zs bottom -> top. alpha(z) = half opening angle.
     hem_rad: (z_hem, rx, rF, rB, cy) flare target below the waist."""
-    outer, inner = [], []
+    outer, inner, params = [], [], []
     if hem_rad:   # v2.9: coat / jacket hems follow the body build
         hem_rad = (hem_rad[0],) + tuple(v * BUILD['skirt'] for v in hem_rad[1:4]) + tuple(hem_rad[4:])
+    zs = ah_rows(bt, list(zs))[0]   # v3.0: + the armpit row
     for z in zs:
         rad = body_r(bt, z)
         if hem_rad and z < 0.95:
@@ -1457,6 +1717,7 @@ def open_shell(mb, bt, zs, alpha, off, thick, mat='C_TORSO', trim='A_TRIM', hem_
         phis = [a0, a0 + d] + [a0 + d + (2 * math.pi - 2 * a0 - 2 * d) * k / n_body for k in range(1, n_body)] + [2 * math.pi - a0 - d, 2 * math.pi - a0]
         outer.append([tuple(body_point(bt, ph, z, o, rad=rad)) for ph in phis])
         inner.append([tuple(body_point(bt, ph, z, o - thick, rad=rad)) for ph in phis])
+        params.append([(ph, z) for ph in phis])
     R, C = len(zs), len(outer[0])
     def mf(i, j, side):
         if trim and (j == 0 or j == C - 2):
@@ -1466,7 +1727,7 @@ def open_shell(mb, bt, zs, alpha, off, thick, mat='C_TORSO', trim='A_TRIM', hem_
         if trim and collar_trim and i == R - 2:
             return trim
         return lining if (side == 'i' and lining) else mat
-    mb.shell(outer, inner, mf, w, edge_mat=trim or mat)
+    mb.shell(outer, inner, mf, w, edge_mat=trim or mat, bt=bt, params=params, ah=ah, mat_at=lambda z: mat)
 
 def laces(mb, bt, z0, z1, off, mat='A_BELT', n=3, half=.020):
     for k in range(n):
@@ -1648,17 +1909,30 @@ def v_opening(mb, bt, z0, z1, half, off_fn, zs_cloth, laces_n=4, under='C_SKIN',
             mb.box(tuple((p0 + p1) / 2), (d.length, .0030, .0045), lace, SPINE_W((0, 0, zc)),
                    rot=Euler((0, -math.atan2(d.z, d.x), 0)).to_matrix())
 
+def body_arc_band(mb, bt, z, off, phi0, phi1, mat, h=.012, n=8):
+    """v3.0: a raised band on the body between two angles (open ends tucked into the sleeve seams)"""
+    sec = [(z - h / 2 - .002, off - .004), (z - h / 2, off), (z + h / 2, off), (z + h / 2 + .002, off - .004)]
+    grid = [[mb._v(tuple(body_point(bt, phi0 + (phi1 - phi0) * c / n, zz, oo)), torso_w) for c in range(n + 1)] for zz, oo in sec]
+    allf = []
+    for r in range(3):
+        for c in range(n):
+            mb._face((grid[r][c], grid[r][c + 1], grid[r + 1][c + 1], grid[r + 1][c]), mat, False, allf)
+    for c in (0, n):
+        mb._face([grid[r][c] for r in range(4)], mat, False, allf, rim=True)
+    bmesh.ops.recalc_face_normals(mb.bm, faces=allf)
+
 def yoke_band(mb, bt, z, off, mat='A_BELT', h=.012):
-    """v2.8: a closed seam band all the way round the body (two-toned yoke boundary)"""
-    rings = [body_ring(bt, z - h / 2 - .002, off - .004, 16), body_ring(bt, z - h / 2, off, 16),
-             body_ring(bt, z + h / 2, off, 16), body_ring(bt, z + h / 2 + .002, off - .004, 16)]
-    mb.loft(rings, mat, torso_w, cap0=False, cap1=False, smooth=False)
+    """v2.8: a seam band round the body (two-toned yoke boundary). v3.0: front and back arcs ending at the sleeve seams."""
+    e = ARMHOLE[bt]['dphi'] + math.radians(2)
+    body_arc_band(mb, bt, z, off, -(math.pi / 2 - e), math.pi / 2 - e, mat, h, n=10)
+    body_arc_band(mb, bt, z, off, math.pi / 2 + e, 1.5 * math.pi - e, mat, h, n=10)
 
 def gambeson_stitches(mb, bt, n, zs, off_fn, mat='A_BELT'):
     """v2.8 stitching top: dark stitch lines run in the quilt grooves (front and back panels), evenly spaced"""
     for k in (-4, -2, 0, 2, 4, n // 2 - 2, n // 2, n // 2 + 2):
         phi = 2 * math.pi * k / n
-        pts = [tuple(body_point(bt, phi, z, off_fn(z) + .0012)) for z in zs]
+        near = abs(math.sin(phi)) > math.cos(ARMHOLE[bt]['dphi'] + math.radians(14))   # v3.0: lines near a sleeve seam stop below it
+        pts = [tuple(body_point(bt, phi, z, off_fn(z) + .0012)) for z in zs if not near or z < AH_ZROW[bt] - .006]
         surface_strip(mb, pts, mat, torso_w, width=.0050, depth=.0030, cy=body_r(bt, 1.2)[3], n=3)
 
 def rip(mb, bt, x, z, w=.050, h=.036, seed=0):
@@ -1696,7 +1970,7 @@ def shirt_zs(bt, hem=None, yoke=False):
         zs = [hem, (hem + .94) / 2 if hem < .90 else .92, .96, 1.00] + zs[1:]   # v2.6: rings at the belt so the hem clears it
     if yoke and 1.30 not in zs:
         zs = sorted(zs + [1.30])
-    return zs
+    return ah_rows(bt, zs)[0]   # v3.0: + the armpit row (tight armhole window)
 
 def ring_front_y(bt, x, z, off, n=8):
     """y of the front of the actual (faceted) body_ring polygon at x"""
@@ -1718,18 +1992,22 @@ def cloth_y(bt, x, z, zs, off_fn):
             return ring_front_y(bt, x, zs[i], off_fn(zs[i])) * (1 - t) + ring_front_y(bt, x, zs[i + 1], off_fn(zs[i + 1])) * t
     return ring_front_y(bt, x, z, off_fn(z))
 
-def shirt2(mb, bt, mat='C_TORSO', hem=None, off=.004, hem_off=.016, matfn=None, jag=0.0, pleat_below=0.0, n=8, channels=0.0, flat=False):
+def shirt2(mb, bt, mat='C_TORSO', hem=None, off=.004, hem_off=.016, matfn=None, jag=0.0, pleat_below=0.0, n=8, channels=0.0, flat=False, ah='zip'):
     zs = shirt_zs(bt, hem, bool(matfn))
     o = shirt_off(hem, off, hem_off)
     def _bump(z):
         if channels and z < 1.43:
             return lambda k: channels * (k % 2)
         return (lambda k: .008 * (k % 2)) if z < pleat_below else None
-    rings = [body_ring(bt, z, o(z), n, bump=_bump(z), phase=0.0 if channels else None) for z in zs]   # channels: a groove on the centre line
+    ph = 0.0 if channels else (math.radians(7.5) if n == 24 else None)   # v3.0: 24-gon columns land on the armhole edges
+    rings = [body_ring(bt, z, o(z), n, bump=_bump(z), phase=ph) for z in zs]   # channels: a groove on the centre line
+    php = math.pi / n if ph is None else ph
+    params = [[(2 * math.pi * k / n + php, z) for k in range(n)] for z in zs]
     if jag:
         notch = {3: 2.2, 8: 1.8}   # two deep rips cut into the hem silhouette
         rings[0] = [(x, y, z + (jag * notch.get(k, 1.0) if (k % 2 or k in notch) else 0.0)) for k, (x, y, z) in enumerate(rings[0])]
-    mb.loft(rings, mat, torso_w, matfn=(lambda i, k: matfn(zs[i], zs[i + 1])) if matfn else None, smooth=not flat)
+    mat_at = (lambda z: matfn(z, z + 1e-3)) if matfn else None
+    mb.loft_ah(bt, rings, params, mat, torso_w, ah=ah, matfn=(lambda i, k: matfn(zs[i], zs[i + 1])) if matfn else None, smooth=not flat, mat_at=mat_at)
 
 def torso_style(mb, bt, key):
     """v2.7: each option has its own silhouette / pattern (2004 creator categories, our own meshes).
@@ -1749,16 +2027,16 @@ def torso_style(mb, bt, key):
         # v2.8: one closed leather shell -- enough panels (16) and stand-off that no shirt corner can show through it
         va = lambda z: 0.05 + max(0, z - 1.28) * 4.4
         open_shell(mb, bt, [.90, .96, 1.02, 1.10, 1.20, 1.30, 1.38, 1.43, 1.47],
-                   va, .017, .007, mat='A_BELT', trim=None, w=torso_w, n_body=16)
+                   va, .017, .007, mat='A_BELT', trim=None, w=torso_w, n_body=16, ah='vest')   # v3.0: a real sleeveless armhole
         for k in range(5):   # dark buttons down the closing edge of the left panel
             z = .99 + .07 * k
             p = body_point(bt, va(z) + .10, z, .019)
             mb.box((p.x, p.y - .0006, z), (.013, .005, .013), 'A_EYES', SPINE_W((0, 0, z)))
     elif key == 'jacket':                          # hip-length open jacket with lapels and trim over a linen shirt
-        shirt2(mb, bt, mat='A_SHIRT')
+        shirt2(mb, bt, mat='A_SHIRT', ah='hole')   # v3.0: hidden under the jacket, which carries the sleeve seam
         open_shell(mb, bt, [.82, .88, .94, 1.00, 1.08, 1.18, 1.28, 1.36, 1.42, 1.46, 1.49],
                    lambda z: 0.26 + max(0, z - 1.26) * 4.6 + max(0, .98 - z) * .9, lambda z: .019 + .012 * ss(1.08, 1.00, z) + .022 * ss(.97, .82, z), .010,
-                   hem_rad=(.82, .212, .134, .144, .026), n_body=8)
+                   hem_rad=(.82, .212, .134, .144, .026), n_body=12)
     elif key == 'shirt':                           # untucked shirt with a laced V front
         hem = .88 if bt == 'A' else .90
         shirt2(mb, bt, hem=hem)
@@ -1786,69 +2064,204 @@ def torso_style(mb, bt, key):
     elif key == 'pleated':                         # B: pleated peplum top
         shirt2(mb, bt, hem=.90, hem_off=.024, pleat_below=1.10)
     elif key == 'coat':                            # Guide Bram's long open coat (tutor extra built with kit rules)
-        shirt2(mb, bt, mat='A_SHIRT')
+        shirt2(mb, bt, mat='A_SHIRT', ah='hole')
         open_shell(mb, bt, [.56, .70, .84, .95, 1.08, 1.24, 1.35, 1.42, 1.475],
                    lambda z: (0.16 + max(0, z - 1.28) * 4.6 + max(0, .95 - z) * .40), lambda z: .020 + .012 * ss(1.06, .99, z) + .030 * ss(.99, .82, z), .010,
-                   hem_rad=(.56, .228, .162, .192, .030), n_body=9)
+                   hem_rad=(.56, .228, .162, .192, .030), n_body=12)
     else:
         raise ValueError('unknown torso style %s' % key)
 
 # ---- arms -----------------------------------------------------------------------------------
-def arms_both(mb, bt, spec, mat='C_TORSO', n=5, cap0=True, cap1=True, matfn=None, bump=None, taper=False):
-    if spec[0][0] < 0:   # rounded shoulder dome instead of a cylinder cap (blends into the torso's shoulder)
-        u0, o0 = spec[0][0], spec[0][1]
-        spec = [(u0 - .07, o0, .62)] + list(spec)
+def _spec_off(spec, u):
+    """sleeve offset at u, linear between the spec rows"""
+    us = [st[0] for st in spec]
+    if u <= us[0]:
+        return spec[0][1]
+    for a, b in zip(spec, spec[1:]):
+        if a[0] <= u <= b[0]:
+            t = (u - a[0]) / (b[0] - a[0]) if b[0] > a[0] else 0.0
+            return a[1] + (b[1] - a[1]) * t
+    return spec[-1][1]
+
+def _cap_frame(bt, sx):
+    pa = arm_path(bt, sx)
+    d = pa.dir(U_CAP)
+    f0 = Vector((0, -1, 0))
+    f = (f0 - d * f0.dot(d)).normalized()
+    s_ = d.cross(f).normalized()
+    c = pa.pos(U_CAP)
+    if BUILD['arm_out']:
+        lat = Vector((sx, 0, 0)) - d * (d.x * sx)
+        c = c + lat.normalized() * BUILD['arm_out'](bt, U_CAP)
+    return pa, d, f, s_, c
+
+def cap_angle(sx, k):
+    """xring angle (0 = front, pi/2 = the ring's s side) of the arm-ring vertex that seam vertex k runs down to: the armhole
+    top runs down the OUTER side of the arm, the armpit down the inner side, front to front, back to back"""
+    psi = 2 * math.pi * (k + .5) / AH_K
+    return (1.5 * math.pi + psi) if sx > 0 else (.5 * math.pi - psi)
+
+def cap_points(bt, sx, off_end, ts, fullness=1.0, bulge=0.0, push=0.0):
+    """v3.0 deltoid cap: for each seam vertex k a cubic meridian from the seam (leaving along the body surface, turned
+    outward) to the arm ring at U_CAP (arriving along the arm axis). Returns rings[t][k] (AH_K points each)."""
+    pa, d, f, s_, c = _cap_frame(bt, sx)
+    rs, rf = lerp_table(ARM_R[bt], U_CAP)
+    seam = seam_ring(bt, sx)
+    cen = sum(seam, Vector()) / AH_K
+    out = [[None] * AH_K for _ in ts]
+    for k in range(AH_K):
+        a = cap_angle(sx, k)
+        P3 = c + s_ * ((rs + off_end) * math.sin(a)) + f * ((rf + off_end) * math.cos(a))
+        P0 = seam[k]
+        n = seam_normal(bt, sx, k)
+        tin = cen - P0
+        tin = (tin - n * tin.dot(n)).normalized()
+        psi = 2 * math.pi * (k + .5) / AH_K
+        cp = math.cos(psi)
+        T0 = (n * (.80 - .45 * max(0.0, -cp)) + tin * (.75 * cp)).normalized()
+        L = (P3 - P0).length
+        P1 = P0 + T0 * (L * .38 * fullness)
+        P2 = P3 - d * (L * .40)
+        for i, t in enumerate(ts):
+            u_ = 1 - t
+            p = P0 * u_ ** 3 + P1 * (3 * u_ * u_ * t) + P2 * (3 * u_ * t * t) + P3 * t ** 3
+            if bulge or push:
+                ax = c + d * (p - c).dot(d)
+                r = (p - ax)
+                r = r.normalized() if r.length > 1e-6 else n
+                nn = (n * (1 - t) + r * t).normalized()
+                p = p + r * (bulge * math.sin(math.pi * t)) + nn * push
+            out[i][k] = p
+    return out
+
+CAP_TS = (.14, .32, .52, .74)
+
+def arm_from_seam(mb, bt, sx, spec, mat, n=5, cap1=True, matfn=None, taper=False, fullness=1.0, bulge=0.0, cap_mat=None):
+    """v3.0: one arm part that STARTS on the canonical seam ring (same verts / weights / normals as every torso armhole),
+    rounds over the deltoid (AH_K-sided cap) and continues as the n-sided sleeve / arm of `spec` [(u, off)]"""
+    w_arm = arm_w(sx)
+    off_end = _spec_off(spec, U_CAP)
+    ts = list(CAP_TS) + [1.0]
+    rings = cap_points(bt, sx, off_end, ts, fullness, bulge)
+    allf = []
+    cm = cap_mat or mat
+    seam = []
+    for k in range(AH_K):
+        v = mb._v(seam_point(bt, sx, k), seam_w(bt, sx, k))
+        mb.pin(v, seam_normal(bt, sx, k))
+        seam.append(v)
+    rows = [seam]
+    for t, ring in zip(ts, rings):
+        row = []
+        for k, p in enumerate(ring):
+            sw = seam_w(bt, sx, k)
+            row.append(mb._v(p, wnorm(wmix(sw, w_arm(p), ss(0.0, .85, t)))))
+        rows.append(row)
+    for a, b in zip(rows, rows[1:]):
+        for k in range(AH_K):
+            q = (a[k], a[(k + 1) % AH_K], b[(k + 1) % AH_K], b[k])
+            mb._face(q, cm, True, allf)
+    # the n-sided arm below the cap
+    us = [U_CAP + .10] + [st[0] for st in spec if st[0] > U_CAP + .14]
+    rest = [(u, _spec_off(spec, u)) for u in us]
+    q_rings = arm_rings(bt, sx, rest, n, taper=taper)
+    qv = [[mb._v(p, w_arm) for p in r] for r in q_rings]
+    # decagon -> n-gon transition (each n-gon vertex runs from the decagon vertex at the same angle)
+    D = rows[-1]
+    ang = [cap_angle(sx, k) % (2 * math.pi) for k in range(AH_K)]
+    order = sorted(range(AH_K), key=lambda k: ang[k])
+    qang = [(2 * math.pi * m / n + math.pi / n) % (2 * math.pi) for m in range(n)]
+    pos = {}
+    for m, qa in enumerate(qang):
+        pos[m] = min(range(AH_K), key=lambda j: abs((ang[order[j]] - qa + math.pi) % (2 * math.pi) - math.pi))
+    Q0 = qv[0]
+    for m in range(n):
+        j0, j1 = pos[m], pos[(m + 1) % n]
+        if j1 <= j0:
+            j1 += AH_K
+        arc = [D[order[j % AH_K]] for j in range(j0, j1 + 1)]
+        qa, qb = Q0[m], Q0[(m + 1) % n]
+        h = len(arc) // 2
+        for j in range(len(arc) - 1):
+            mb._face((arc[j], arc[j + 1], qa if j < h else qb), cm, True, allf)
+        mb._face((arc[h], qb, qa), cm, True, allf)
+    for i in range(len(qv) - 1):
+        a, b = qv[i], qv[i + 1]
+        for k in range(n):
+            quad = (a[k], a[(k + 1) % n], b[(k + 1) % n], b[k])
+            mb._face(quad, matfn(i, k) if matfn else mat, True, allf)
+    if cap1:
+        mb._face(qv[-1], mat, True, allf, rim=True)
+    bmesh.ops.recalc_face_normals(mb.bm, faces=allf)
+
+def arms_both(mb, bt, spec, mat='C_TORSO', n=5, cap0=True, cap1=True, matfn=None, bump=None, taper=False, fullness=1.0, bulge=0.0, cap_mat=None):
+    if spec[0][0] <= 0.0:   # v3.0: starts at the shoulder -> on the canonical seam ring, with the deltoid cap
+        for sx in (-1, 1):
+            arm_from_seam(mb, bt, sx, spec, mat, n, cap1, matfn, taper, fullness, bulge, cap_mat)
+        return
     for sx in (-1, 1):
         mb.loft(arm_rings(bt, sx, spec, n, bump=bump, taper=taper), mat, arm_w(sx), cap0, cap1, matfn=matfn)
 
-def arms_skin(mb, bt, u0, n=5, bulk=None):
+U_ARM = [0.0, .65, .75, .85, 1.0, 1.12, 1.4, 1.88]   # v3.0 ring stations (cap to U_CAP, elbow at 1.0)
+
+def arms_skin(mb, bt, u0, n=5, bulk=None, fullness=1.0):
     us = [u0] + [u for u in U_ARM if u > u0 + .05] + [1.80, WRIST_U]
     us = sorted(set(us))
-    arms_both(mb, bt, [(u, bulk(u) if bulk else 0.0) for u in us], 'C_SKIN', n, taper=True, cap1=False)   # open end: the hand continues it
+    arms_both(mb, bt, [(u, bulk(u) if bulk else 0.0) for u in us], 'C_SKIN', n, taper=True, cap1=False, fullness=fullness)   # open end: the hand continues it
 
-def sleeve_thick(mb, bt, spec, mat='C_TORSO', trim=None, t=.008):
+def sleeve_thick(mb, bt, spec, mat='C_TORSO', trim=None, t=.008, fullness=1.0):
+    """bell / cuffed sleeve: the flared part is a thick tube (open cuff); above it the arm comes from the seam"""
     for sx in (-1, 1):
         outer = arm_rings(bt, sx, spec)
         inner = arm_rings(bt, sx, [(u, o - t) for u, o in spec])
         mb.thick_loft(list(reversed(outer)), list(reversed(inner)), mat, arm_w(sx),
                       matfn=(lambda i, k: trim if i == 0 else mat) if trim else None, rim_mat=trim or mat)
-    arms_both(mb, bt, [(spec[0][0], spec[0][1] + .002), (spec[1][0], spec[1][1] + .002), (.35, spec[2][1] if len(spec) > 2 else .01)], mat)
+    top = spec[0]
+    arms_both(mb, bt, [(0.0, .006), (U_CAP, top[1] - .002), (top[0] + .07, top[1] - .003)], mat, fullness=fullness)
 
-LONG_SLEEVE = [(-.08, .004), (.08, .010), (.4, .010), (.88, .010), (1.0, .010), (1.12, .010), (1.4, .010), (1.6, .009), (1.85, .009), (1.88, .016), (1.97, .017)]
-MUSCLE = lambda k: (lambda u: k * (.016 * math.sin(math.pi * clamp((u - .15) / .75)) + .010 * math.sin(math.pi * clamp((u - 1.05) / .6))))
+LONG_SLEEVE = [(0.0, .006), (.65, .010), (.85, .010), (1.0, .010), (1.12, .010), (1.4, .010), (1.6, .009), (1.85, .009), (1.88, .016), (1.97, .017)]
+MUSCLE = lambda k: (lambda u: k * (.014 * math.sin(math.pi * clamp((u - .62) / .42)) + .010 * math.sin(math.pi * clamp((u - 1.05) / .6))))
+
+def shoulder_pad(mb, bt, mat='A_BELT'):
+    """v3.0: a leather pad following the deltoid cap (a thick shell over it, closed rims)"""
+    ts = [.10, .26, .44, .62, .80, .90]
+    for sx in (-1, 1):
+        off_end = _spec_off(LONG_SLEEVE, U_CAP)
+        outer = cap_points(bt, sx, off_end, ts, push=.030)
+        inner = cap_points(bt, sx, off_end, ts, push=.012)
+        mb.thick_loft([[tuple(p) for p in r] for r in reversed(outer)], [[tuple(p) for p in r] for r in reversed(inner)], mat, arm_w(sx))
 
 def arm_style(mb, bt, key):
-    """v2.2 option names follow the 2004 creator's categories (our own meshes)."""
+    """v2.2 option names follow the 2004 creator's categories (our own meshes). v3.0: every option starts on the seam."""
     if key == 'regular':
         arms_both(mb, bt, LONG_SLEEVE)
     elif key == 'long sleeved':
         arms_both(mb, bt, [(u, o * .7) for u, o in LONG_SLEEVE])
     elif key in ('musclebound', 'muscley'):
         k = 1.0 if key == 'musclebound' else .6
-        arms_both(mb, bt, [(-.08, .006), (.06, .012 + .006 * k), (.28, .016 + .008 * k), (.38, .016 + .008 * k), (.41, .013)])
-        arms_skin(mb, bt, .30, bulk=MUSCLE(k))
+        arms_both(mb, bt, [(0.0, .006), (.65, .012 + .006 * k), (.76, .015 + .006 * k), (.82, .013 + .004 * k)], fullness=1.0 + .15 * k, bulge=.006 * k)
+        arms_skin(mb, bt, .72, bulk=MUSCLE(k))
     elif key == 'loose sleeved':
-        sleeve_thick(mb, bt, [(-.08, .006), (.08, .014), (.4, .018), (.8, .024), (1.0, .028), (1.3, .032), (1.6, .036), (1.86, .038)])
+        sleeve_thick(mb, bt, [(.78, .016), (1.0, .026), (1.3, .032), (1.6, .036), (1.86, .038)])
         arms_skin(mb, bt, 1.70)
     elif key in ('large cuffed', 'large cuffs'):
-        sleeve_thick(mb, bt, [(-.08, .006), (.08, .013), (.4, .013), (.8, .012), (1.0, .012), (1.3, .012), (1.58, .013), (1.64, .028), (1.84, .032)],
-                     trim='A_TRIM')
+        sleeve_thick(mb, bt, [(.78, .013), (1.0, .012), (1.3, .012), (1.58, .013), (1.64, .028), (1.84, .032)], trim='A_TRIM')
         arms_both(mb, bt, [(1.60, .004), (1.80, .006), (1.92, .010), (1.97, .010)], 'A_SHIRT')
     elif key == 'thin':
-        arms_both(mb, bt, [(u, o - .012) for u, o in LONG_SLEEVE])
+        arms_both(mb, bt, [(u, o - .012) for u, o in LONG_SLEEVE], fullness=.9)
     elif key == 'shoulder pads':
         arms_both(mb, bt, LONG_SLEEVE)
-        arms_both(mb, bt, [(-.10, .030), (.02, .037), (.16, .037), (.25, .031), (.29, .014)], 'A_BELT')   # v2.8: rounded lower edge
+        shoulder_pad(mb, bt)
     elif key == 'tight sleeves':
         arms_both(mb, bt, [(u, o * .4) for u, o in LONG_SLEEVE])
         arms_both(mb, bt, [(1.78, .008), (1.80, .012), (1.93, .012), (1.95, .008)], 'A_BELT')
     elif key == 'short sleeves':
-        arms_both(mb, bt, [(-.08, .004), (.06, .010), (.30, .012), (.46, .014), (.49, .013)])
-        arms_skin(mb, bt, .40)
+        arms_both(mb, bt, [(0.0, .004), (.65, .010), (.78, .012), (.83, .011)])
+        arms_skin(mb, bt, .74)
     elif key == 'bare arms':
-        arms_skin(mb, bt, -.08)
+        arms_skin(mb, bt, 0.0)
     elif key == 'frilly':                          # elbow sleeve + linen frill
-        arms_both(mb, bt, [(-.08, .004), (.06, .008), (.35, .008), (.70, .008), (.96, .009), (1.02, .008)])
+        arms_both(mb, bt, [(0.0, .004), (.65, .008), (.85, .008), (.96, .009), (1.02, .008)])
         spec = [(.98, .006), (1.04, .014), (1.12, .024)]
         for sx in (-1, 1):
             outer = arm_rings(bt, sx, spec, n=12, bump=lambda k: .005 * (k % 2))
@@ -1962,7 +2375,7 @@ def skirt(mb, bt, zs, hem_rad, off=.012, mat='C_LEGS', n=10, pleats=0.0, matfn=N
         inner.append(body_ring(bt, z, off - .007, n, rad=rad))
     mb.thick_loft(outer, inner, mat, skirt_w, matfn=matfn, rim_mat=rim_mat)
 
-TROUSERS = [(u, .010) for u in U_LEG[:-1]] + [(1.90, .012), (1.96, .015), (2.03, .012)]   # hem runs into the shoe / boot
+TROUSERS = [(u, .010) for u in U_LEG[:-1]] + [(1.90, .011), (1.96, .012), (2.03, .010)]   # hem runs into the shoe / boot
 
 def leg_style(mb, bt, key):
     """v2.2 option names follow the 2004 creator's categories (our own meshes)."""
@@ -2009,55 +2422,152 @@ def leg_style(mb, bt, key):
         raise ValueError('unknown legs style %s' % key)
 
 # ---- feet -----------------------------------------------------------------------------------
-FOOT_ST = [(.150, .050, .078), (.095, .068, .128), (.010, .072, .110), (-.075, .072, .080), (-.140, .060, .058), (-.166, .036, .036)]
+# v3.0 (owner review 2026-09-25: "the boots and the feet look a little bit blocky still"): OSRS feet are small rounded
+# wedges. Every foot is ONE continuous loft of horizontal rounded slices (sole -> toe box -> instep -> ankle) that runs on
+# into rings round the shin (boot shaft / shoe collar / bare ankle): few big faces, smooth inside, a crisp toe-box line,
+# a flat underside but no sole slab, no box sides.
+# slices (A, FOOT_K 1): (z, y_front, y_back, half_width_outer, half_width_inner); the ankle joint is at y .10, z .12
+FOOT_SL = [(0.000, -.134, .150, .050, .046),
+           (0.013, -.146, .160, .058, .053),
+           (0.036, -.144, .165, .061, .056),
+           (0.058, -.116, .168, .060, .056),
+           (0.080, -.066, .170, .062, .058),
+           (0.101, .000, .172, .066, .063),
+           (0.117, .024, .174, .069, .067)]   # the last slice is the round ankle the shaft / collar rises from
+BARE_SL = [(0.000, -.132, .146, .046, .042),
+           (0.013, -.142, .154, .054, .049),
+           (0.034, -.140, .158, .056, .051),
+           (0.054, -.110, .160, .054, .050),
+           (0.074, -.058, .160, .054, .050),
+           (0.094, .008, .158, .054, .051),
+           (0.112, .044, .154, .053, .052)]   # bare foot: narrows to the bare ankle
+FOOT_N = 10
+FOOT_P = 2.35
 
-def foot_rings(bt, sx, grow=0.0, hk=1.0, wk=1.0, n=4, z0=0.0, bottom=None):
-    """bottom: v2.8 -- place the foot so its flat sole face lies exactly at this height (sandal foot resting ON the sole)"""
+def foot_slice(bt, sx, z, yf, yb, wo, wi, grow=0.0, wk=1.0, hk=1.0, n=FOOT_N):
+    """one rounded horizontal outline; vertex angle a from the front (-y) toward +x, phase pi/n (blunt toe face, no point)"""
     k = FOOT_K[bt]
+    yf, yb = .10 + (yf - .10) * k, .10 + (yb - .10) * k
+    kz = k ** .5 * hk
+    yc = (yf + yb) / 2
+    lf, lb = yc - yf + grow, yb - yc + grow
+    e = 2.0 / FOOT_P
+    pts = []
+    for j in range(n):
+        a = 2 * math.pi * j / n + math.pi / n
+        sa, ca = math.sin(a), math.cos(a)
+        w = ((wo if sa * sx > 0 else wi) * k ** .8 * wk + grow)
+        x = w * math.copysign(abs(sa) ** e, sa)
+        y = yc - (lf if ca >= 0 else lb) * math.copysign(abs(ca) ** e, ca)
+        x += sx * .13 + sx * max(0.0, .02 - y) * .10   # toes turn out a little
+        pts.append((x, y, z * kz))
+    return pts
+
+def shin_rings(bt, sx, spec, n=FOOT_N):
+    """rings round the lower leg in the foot's vertex convention (a from the front toward +x)"""
+    pl = leg_path(bt, sx)
     out = []
-    for y, w, h in FOOT_ST:
-        yy = .10 + (y - .10) * k
-        x = sx * (.13 + max(0.0, -yy) * .07)
-        hh = h * hk * (k ** .5) + grow
-        if bottom is not None:
-            hb = h * hk * (k ** .5)
-            zc = bottom + hb / 2 * math.cos(math.pi / n)
-        else:
-            zc = z0 + hh / 2
-        out.append(xring((x, yy, zc), (0, -1, 0), w * wk * k + grow, hh / 2, hh / 2, n, front=(0, 0, 1), p=2.0, phase=math.pi / n))
+    for u, off in spec:
+        rs, rf, rb = lerp_table(LEG_R[bt], u)
+        c = pl.pos(u)
+        if BUILD['leg_in']:
+            ax = pl.dir(u)
+            lat = Vector((sx, 0, 0)) - ax * (ax.x * sx)
+            c = c - lat.normalized() * BUILD['leg_in'](bt, u)
+        d = pl.dir(u)
+        f = (Vector((0, -1, 0)) - d * Vector((0, -1, 0)).dot(d)).normalized()
+        s_ = (Vector((1, 0, 0)) - d * d.x - f * f.x).normalized()
+        ring = []
+        for j in range(n):
+            a = 2 * math.pi * j / n + math.pi / n
+            r = rf if math.cos(a) >= 0 else rb
+            ring.append(tuple(c + s_ * ((rs + off) * math.sin(a)) + f * ((r + off) * math.cos(a))))
+        out.append(ring)
     return out
+
+def foot_loft(mb, bt, sx, mat, shin_spec, grow=0.0, wk=1.0, hk=1.0, z_bottom=None, slices=None, cap_top=True):
+    """sole -> shin in one loft (horizontal slices, then rings round the shin); flat sole face (a rim: hard edge)"""
+    sl = slices or FOOT_SL
+    rings = []
+    for z, yf, yb, wo, wi in sl:
+        r = foot_slice(bt, sx, z, yf, yb, wo, wi, grow, wk, hk)
+        if z_bottom is not None:
+            r = [(x, y, z_ + z_bottom) for x, y, z_ in r]
+        rings.append(r)
+    rings += shin_rings(bt, sx, shin_spec)
+    mb.loft(rings, mat, foot_w(sx), cap0=True, cap1=cap_top)
+    return rings
+
+BOOT_SHAFT = [(1.97, .020), (1.88, .021), (1.77, .022), (1.68, .023), (1.645, .025)]   # short shaft, a slight flare at the top
+SHOE_COLLAR = [(1.955, .018), (1.93, .019)]
+
+def sandal_straps(mb, bt, sx, rings, ys, z0, mat='A_BELT', width=.016, off=.0045):
+    """straps over the bare foot: a band round the foot outline at each y (sole -> over the top -> sole)"""
+    for y0 in ys:
+        loops = []
+        for yy in (y0 - width / 2, y0 + width / 2):
+            side_pts = {1: [], -1: []}
+            for r in rings[:len(FOOT_SL)]:
+                z = r[0][2]
+                n = len(r)
+                cands = []
+                for j in range(n):
+                    a, b = Vector(r[j]), Vector(r[(j + 1) % n])
+                    if (a.y - yy) * (b.y - yy) <= 0 and abs(b.y - a.y) > 1e-9:
+                        t = (yy - a.y) / (b.y - a.y)
+                        cands.append(a.lerp(b, t))
+                if len(cands) >= 2:
+                    cands.sort(key=lambda p: p.x)
+                    side_pts[-1].append(cands[0])
+                    side_pts[1].append(cands[-1])
+            if not side_pts[1]:
+                continue
+            cx = (side_pts[1][0].x + side_pts[-1][0].x) / 2
+            front = [Vector(min(r, key=lambda q: q[1])) for r in rings[:len(FOOT_SL)]]   # the foot's top line (front meridian)
+            top = None
+            for a, b in zip(front, front[1:]):
+                if (a.y - yy) * (b.y - yy) <= 0 and abs(b.y - a.y) > 1e-9:
+                    top = a.lerp(b, (yy - a.y) / (b.y - a.y))
+                    top.x = cx
+            path = side_pts[-1] + ([top] if top is not None else []) + list(reversed(side_pts[1]))
+            loops.append([tuple(p + Vector((math.copysign(off, p.x - cx) * min(1.0, abs(p.x - cx) / .02), 0, off if p.z > z0 + .03 else 0))) for p in path])
+        if len(loops) == 2 and len(loops[0]) == len(loops[1]):
+            inner = [[(x - math.copysign(off * 1.6, x - (loops[0][0][0] + loops[0][-1][0]) / 2), y, z) for x, y, z in lp] for lp in loops]
+            vo = [[mb._v(p, foot_w(sx)) for p in lp] for lp in loops]
+            vi = [[mb._v(p, foot_w(sx)) for p in lp] for lp in inner]
+            allf = []
+            m = len(loops[0])
+            for i in range(m - 1):
+                mb._face((vo[0][i], vo[0][i + 1], vo[1][i + 1], vo[1][i]), mat, False, allf)
+                mb._face((vi[0][i], vi[1][i], vi[1][i + 1], vi[0][i + 1]), mat, False, allf, rim=True)
+                mb._face((vo[0][i], vi[0][i], vi[0][i + 1], vo[0][i + 1]), mat, False, allf, rim=True)
+                mb._face((vo[1][i], vo[1][i + 1], vi[1][i + 1], vi[1][i]), mat, False, allf, rim=True)
+            for i in (0, m - 1):
+                mb._face((vo[0][i], vo[1][i], vi[1][i], vi[0][i]), mat, False, allf, rim=True)
+            bmesh.ops.recalc_face_normals(mb.bm, faces=allf)
 
 def foot_style(mb, bt, key):
     for sx in (-1, 1):
         fw = foot_w(sx)
         if key == 'boots':
-            mb.loft(foot_rings(bt, sx, .006), 'C_FEET', fw)
-            mb.loft(leg_rings(bt, sx, [(1.50, .028), (1.53, .034), (1.75, .026), (1.98, .026), (2.10, .020, .9)]), 'C_FEET', fw)
+            foot_loft(mb, bt, sx, 'C_FEET', BOOT_SHAFT, grow=.004)
         elif key == 'shoes':
-            mb.loft(foot_rings(bt, sx, .002, hk=.78, wk=.9), 'C_FEET', fw)
-            mb.loft(leg_rings(bt, sx, [(1.88, .018), (1.92, .020), (2.02, .018), (2.10, .012, .9)]), 'C_FEET', fw)
+            foot_loft(mb, bt, sx, 'C_FEET', SHOE_COLLAR, grow=.001, hk=.92)
         elif key == 'sandals':
-            mb.loft(foot_rings(bt, sx, 0.0, hk=.85, wk=.95, bottom=.0150), 'C_SKIN', fw)   # v2.8: the foot's sole face sits IN the sandal sole (no gap)
-            mb.loft(leg_rings(bt, sx, [(1.86, 0.0), (1.96, .002), (2.06, .004, .9)]), 'C_SKIN', fw)   # ankle joins shin to foot
+            SOLE = .011
+            # thin sole following the foot outline (no slab): two slices a touch wider than the foot
             k = FOOT_K[bt]
-            sole = []
-            for y, w, h in FOOT_ST:
-                yy = .10 + (y - .10) * k
-                x = sx * (.13 + max(0.0, -yy) * .07)
-                sole.append(xring((x, yy + (.004 if y > .14 else 0), .009), (0, -1, 0), w * k * .95 + .006, .009, .009, 4, front=(0, 0, 1), p=4, phase=math.pi / 4))
+            base = FOOT_SL[1]
+            base = BARE_SL[1]
+            sole = [foot_slice(bt, sx, 0.0, base[1] - .004, base[2] + .004, base[3], base[4], grow=.005),
+                    foot_slice(bt, sx, 0.0, base[1] - .004, base[2] + .004, base[3], base[4], grow=.005)]
+            sole[1] = [(x, y, SOLE) for x, y, z in sole[1]]
             mb.loft(sole, 'A_BELT', fw, smooth=False)
-            for yc in (.02, -.075):
-                yy = .10 + (yc - .10) * k
-                rings = []
-                for dy in (-.008, .008):
-                    rr = foot_rings(bt, sx, .005, hk=.85, wk=.95, bottom=.0150)
-                    # find the foot profile at yy: interpolate between the two nearest stations
-                    ys = [.10 + (s[0] - .10) * k for s in FOOT_ST]
-                    i = max(i for i in range(len(ys) - 1) if ys[i] >= yy + dy)
-                    t = (ys[i] - (yy + dy)) / (ys[i] - ys[i + 1])
-                    rings.append([tuple(Vector(a).lerp(Vector(b), t)) for a, b in zip(rr[i], rr[i + 1])])
-                mb.loft(rings, 'A_BELT', fw, cap0=False, cap1=False, smooth=False)
-            mb.loft(leg_rings(bt, sx, [(1.90, .006), (1.95, .007)]), 'A_BELT', fw, cap0=False, cap1=False, smooth=False)
+            # the bare foot stands IN the sole (its underside 2 mm below the sole top) and runs up into the bare ankle
+            rings = foot_loft(mb, bt, sx, 'C_SKIN', [(1.955, .002), (1.90, .001), (1.84, 0.0)], hk=.92, z_bottom=SOLE - .002,
+                              slices=BARE_SL)
+            sandal_straps(mb, bt, sx, rings, (.10 + (-.070 - .10) * k, .10 + (.035 - .10) * k), SOLE)
+            mb.loft(shin_rings(bt, sx, [(1.935, .006), (1.895, .007)]), 'A_BELT', fw, cap0=False, cap1=False, smooth=False)   # ankle strap
 
 # ------------------------------------------------------------------------------------------
 # KIT REGISTRY: (style key, description). Index = part number (01..).
@@ -2160,7 +2670,7 @@ def build_armature():
 # Axes (Blender, character faces -Y): +X = character's left, -Y = forward, +Z = up.
 # +rx tips a bone's top forward (legs/arms: swings them BACK); -rx raises limbs forward.
 # ------------------------------------------------------------------------------------------
-REST = {'LeftArm': (0, 12, 0), 'RightArm': (0, -12, 0), 'LeftForeArm': (-10, 0, 0), 'RightForeArm': (-10, 0, 0)}
+REST = {}   # v3.0: the arms' idle stance lives in stance_local(); Euler arm specs are deltas over it
 
 def P(**kw):
     d = dict(REST)
@@ -2180,11 +2690,31 @@ def mirror_pose(p):
             out[nk] = (v[0], -v[1], -v[2])
     return out
 
-# v2.2 OSRS stance, added to every Euler-authored pose (aims are absolute directions and stay as authored):
-# upper arms swing out, a small elbow bend with the forearm angled out so the hands hang beside the hips clear of
-# the thighs, legs slightly apart with the feet kept flat.
-STANCE = {'LeftArm': (0, -16, 0), 'RightArm': (0, 16, 0), 'LeftForeArm': (-4, -13, 0), 'RightForeArm': (-4, 13, 0),
-          'LeftUpLeg': (0, -3, 0), 'RightUpLeg': (0, 3, 0), 'LeftFoot': (0, 3, 0), 'RightFoot': (0, -3, 0)}
+# v3.0 OSRS stance (owner review 2026-09-25: "not the same stance as the old school RuneScape characters").
+# Legs / spine / head: added to every Euler-authored pose -- legs a little apart with soft knees and the feet turned
+# slightly out (flat on the ground), chest up, head a touch forward.
+STANCE = {'LeftUpLeg': (-2.5, -3, 6), 'RightUpLeg': (-2.5, 3, -6), 'LeftLeg': (5, 0, 0), 'RightLeg': (5, 0, 0),
+          'LeftFoot': (-2.5, 3, 0), 'RightFoot': (-2.5, -3, 0),
+          'Spine1': (2, 0, 0), 'Spine2': (-4, 0, 0), 'Neck': (6, 0, 0), 'Head': (-4, 0, 0)}
+# Arms: the upper arm hangs just off the torso, the elbow bends ~33 deg so the forearm comes FORWARD and the loosely closed
+# hand sits in front of the hip / upper thigh (outside the thigh, never at the crotch). Authored as absolute directions in
+# the idle; stored as each bone's local rotation (stance_local), so an Euler arm spec in any clip is a delta over the
+# stance (a walk swing pivots the bent arm at the shoulder) and a bone left out of a pose keeps its stance bend.
+STANCE_ARM_AIM = {'LeftArm': (.135, -.012, -.250), 'LeftForeArm': (.045, -.430, -.900), 'LeftHand': (.035, -.500, -.865)}
+STANCE_ARM_AIM.update({k.replace('Left', 'Right'): (-v[0], v[1], v[2]) for k, v in list(STANCE_ARM_AIM.items())})
+_STANCE_LOCAL = {}
+
+def stance_local():
+    """local (parent-frame) rotations of the arm bones in the idle stance"""
+    if not _STANCE_LOCAL:
+        pose = {k: ('aim', v) for k, v in STANCE_ARM_AIM.items()}
+        rots = pose_rotations(None, upright(pose, to='Neck'))
+        _STANCE_LOCAL.update({k: rots[B(k)] for k in STANCE_ARM_AIM})
+    return _STANCE_LOCAL
+
+def stance_flex_deg(side='Left'):
+    a, f = Vector(STANCE_ARM_AIM[side + 'Arm']).normalized(), Vector(STANCE_ARM_AIM[side + 'ForeArm']).normalized()
+    return math.degrees(a.angle(f))
 
 def pose_rotations(arm, pose):
     """-> {bone: armature-space 3x3 delta R} honoring 'aim' via accumulated parent rotations."""
@@ -2196,7 +2726,9 @@ def pose_rotations(arm, pose):
             base = spec if spec is not None else (0, 0, 0)
             spec = tuple(a + b for a, b in zip(base, STANCE[short]))
         pacc = acc[parent] if parent else Matrix.Identity(3)
-        if spec is None:
+        if short in STANCE_ARM_AIM and (spec is None or isinstance(spec[0], (int, float))):
+            R = Euler([math.radians(a) for a in (spec or (0, 0, 0))], 'XYZ').to_matrix() @ stance_local()[short]
+        elif spec is None:
             R = Matrix.Identity(3)
         elif spec[0] == 'mat':      # v2.7: exact armature-space orientation (used for Bram's staff hand)
             R = pacc.inverted() @ spec[1]
@@ -2272,8 +2804,8 @@ def clip_defs():
     C = {}
     C['idle'] = (60, [   # v2.9: vertical spine (measured on the posed chain), a calm breath: chest up, shoulders a touch up
         (0, upright(P())),
-        (30, upright(P(Spine1=(-1.5, 0, 0), Spine2=(-1, 0, 0), Head=(2.5, 0, 0), LeftArm=(0, 11, 0), RightArm=(0, -11, 0),
-                       LeftForeArm=(-12, 0, 0), RightForeArm=(-12, 0, 0), loc=(0, 0, .004)))),
+        (30, upright(P(Spine1=(-1.5, 0, 0), Spine2=(-1, 0, 0), Head=(2.5, 0, 0), LeftArm=(1.5, -1, 0), RightArm=(1.5, 1, 0),
+                       LeftForeArm=(-2.5, 0, 0), RightForeArm=(-2.5, 0, 0), loc=(0, 0, .004)))),   # v3.0: deltas over the stance
         (60, upright(P())),
     ], True)
     wc = P(LeftUpLeg=(-26, 0, 0), LeftLeg=(6, 0, 0), LeftFoot=(-10, 0, 0), RightUpLeg=(20, 0, 0), RightLeg=(20, 0, 0),
@@ -2291,7 +2823,7 @@ def clip_defs():
            Spine=(11, 0, 0), Head=(-9, 0, 0), loc=(0, 0, .03))
     C['run'] = (16, cycle(16, [(0, rc), (4, rp)]), True)
 
-    ready = P(RightArm=(-18, -18, 0), RightForeArm=(-28, 0, 0))
+    ready = P(RightArm=(-16, -2, 0), RightForeArm=(-22, 0, 0))   # v3.0: deltas over the stance (sword raised in front)
     step = dict(LeftUpLeg=(-20, 0, 0), LeftLeg=(18, 0, 0), LeftFoot=(2, 0, 0), RightUpLeg=(12, 0, 0), RightLeg=(8, 0, 0), RightFoot=(-20, 0, 0))
     C['attack_slash'] = (18, [
         (0, ready),
@@ -2314,7 +2846,7 @@ def clip_defs():
                 LeftArm=A(.5, .3, -.8), LeftForeArm=A(.2, .1, -.9), loc=(0, 0, -.045))),
         (18, ready),
     ], False)
-    ready2 = P(RightArm=(-15, -18, 0), LeftArm=(-15, 18, 0), RightForeArm=(-25, 0, 0), LeftForeArm=(-25, 0, 0))
+    ready2 = P(RightArm=(-14, -2, 0), LeftArm=(-14, 2, 0), RightForeArm=(-18, 0, 0), LeftForeArm=(-18, 0, 0))
     smash = PP(crouch(-22, 38), RightArm=A(-.05, -.75, -.65), RightForeArm=A(.10, -.8, -.6), LeftArm=A(.10, -.75, -.65),
                LeftForeArm=A(-.10, -.8, -.6), Spine=(12, 0, 0), Spine1=(18, 0, 0), Head=(-12, 0, 0))
     C['attack_crush'] = (21, [
@@ -2399,20 +2931,20 @@ def clip_defs():
     C['block'] = (12, [(0, P()), (4, blk), (8, blk), (12, P())], False)
     C['hit'] = (12, [
         (0, P()),
-        (3, P(Spine=(-12, 0, 0), Spine1=(-8, 0, 0), Head=(-16, 0, 8), LeftArm=(-15, -10, 0), RightArm=(-15, 10, 0),
-              LeftForeArm=(-40, 0, 0), RightForeArm=(-40, 0, 0), loc=(0, .035, -.01))),
+        (3, P(Spine=(-12, 0, 0), Spine1=(-8, 0, 0), Head=(-16, 0, 8), LeftArm=(-15, -12, 0), RightArm=(-15, 12, 0),
+              LeftForeArm=(-22, 0, 0), RightForeArm=(-22, 0, 0), loc=(0, .035, -.01))),
         (6, P(Spine=(-6, 0, 0), Head=(-6, 0, 4), loc=(0, .02, 0))),
         (12, P()),
     ], False)
     down = dict(Hips=(-90, 0, 0), LeftUpLeg=(-12, 0, -4), LeftLeg=(22, 0, 0), LeftFoot=(28, 0, 0), RightUpLeg=(-3, 0, 6),
-                RightLeg=(6, 0, 0), RightFoot=(35, 0, 0), LeftArm=(-20, -62, 0), RightArm=(-10, 58, 0),
-                LeftForeArm=(-30, 0, 0), RightForeArm=(-15, 0, 0), Spine1=(-4, 0, 0))
+                RightLeg=(6, 0, 0), RightFoot=(35, 0, 0), LeftArm=(-20, -66, 0), RightArm=(-10, 62, 0),
+                LeftForeArm=(-8, 0, 0), RightForeArm=(8, 0, 0), Spine1=(-4, 0, 0))
     C['death'] = (40, [
         (0, P()),
         (6, P(Spine=(-10, 0, 0), Head=(-15, 0, 0), loc=(0, .02, 0))),
-        (14, PP(crouch(-38, 75), Spine=(15, 0, 0), Spine1=(8, 0, 0), Head=(20, 0, 0), LeftArm=(5, 10, 0), RightArm=(5, -10, 0))),
+        (14, PP(crouch(-38, 75), Spine=(15, 0, 0), Spine1=(8, 0, 0), Head=(20, 0, 0), LeftArm=(5, -4, 0), RightArm=(5, 4, 0))),
         (24, P(Hips=(-45, 0, 0), LeftUpLeg=(-30, 0, 0), LeftLeg=(55, 0, 0), RightUpLeg=(-38, 0, 0), RightLeg=(65, 0, 0),
-               Spine1=(-5, 0, 0), Head=(10, 0, 0), LeftArm=(-25, -40, 0), RightArm=(-25, 40, 0), loc=(0, .18, -.55))),
+               Spine1=(-5, 0, 0), Head=(10, 0, 0), LeftArm=(-25, -48, 0), RightArm=(-25, 48, 0), loc=(0, .18, -.55))),
         (32, PP(down, Head=(-8, 0, 25), loc=(0, .32, -.77))),
         (40, PP(down, Head=(-5, 0, 30), loc=(0, .32, -.775))),
     ], False)
@@ -2550,18 +3082,20 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
                       Spine=(lean, -hr * .55, (sy - hy) * .45), Spine1=(0, -hr * .30, (sy - hy) * .35), Spine2=(0, -hr * .15, (sy - hy) * .20),
                       Neck=(0, 0, -sy * .5 * head_stab), Head=(-lean * head_counter, 0, -sy * .5 * head_stab),
                       loc=(sway * cs, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
-        if arms and not osrs:
-            kw.update(LeftArm=(arm_swing * c, 12, 0), RightArm=(-arm_swing * c, -12, 0),
-                      LeftForeArm=(-(fore + fore_swing * max(0.0, -c)), 0, 0), RightForeArm=(-(fore + fore_swing * max(0.0, c)), 0, 0))
+        sf = stance_flex_deg()
+        if arms and not osrs:   # v3.0: Euler arm specs are deltas over the stance (whose elbow is already bent ~sf deg)
+            kw.update(LeftArm=(arm_swing * c, -3, 0), RightArm=(-arm_swing * c, 3, 0),
+                      LeftForeArm=(-(fore - sf + fore_swing * max(0.0, -c)), 0, 0), RightForeArm=(-(fore - sf + fore_swing * max(0.0, c)), 0, 0))
         if arms and osrs:      # arms swing at the sides in a plane parallel to the body's midline (never across the body)
+            # v3.0: the bent stance arm pivots at the shoulder (Euler deltas over the stance): swing forward / back, a little
+            # more elbow bend on the forward swing, and a touch of abduction on the back swing so the hand clears the hip
             abd, flex = osrs
             for side in swing_sides:
                 sx = 1 if side == 'Left' else -1
-                ph = math.radians(-arm_swing * c * sx)          # + = forward; the left arm is back when the left foot lands
-                a0, a1 = math.radians(abd), math.radians(abd + 3)
-                e = ph + math.radians(flex + fore_swing * max(0.0, ph) / max(1e-6, math.radians(arm_swing)))
-                kw[side + 'Arm'] = ('aim', (sx * math.sin(a0), -math.cos(a0) * math.sin(ph), -math.cos(a0) * math.cos(ph)))
-                kw[side + 'ForeArm'] = ('aim', (sx * math.sin(a1), -math.cos(a1) * math.sin(e), -math.cos(a1) * math.cos(e)))
+                sw = -arm_swing * c * sx                      # + = forward; the left arm is back when the left foot lands
+                back = max(0.0, -sw) / max(1e-6, arm_swing)
+                kw[side + 'Arm'] = (-sw, -sx * abd * back, 0)
+                kw[side + 'ForeArm'] = (-(flex + fore_swing * max(0.0, sw) / max(1e-6, arm_swing)), 0, 0)
         pose = P(**kw)
         for side, off in (('Left', 0.0), ('Right', .5)):
             sx = 1 if side == 'Left' else -1
@@ -2619,16 +3153,20 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
                          'max_stance_reach_error_m': round(worst, 4)}
     return keys
 
-def chain_tilt(pose):
-    """forward tilt (deg) of the posed spine chain: hips joint -> head joint (neck top), + = leaning forward"""
+def chain_tilt(pose, to='Head'):
+    """forward tilt (deg) of the posed spine chain: hips joint -> head joint (neck top), + = leaning forward.
+    v3.0: to='Neck' measures the spine alone (hips -> neck base), so a head carried a touch forward is not 'lean'."""
     hd, _ = fk(pose)
-    d = hd[B('Head')] - hd[B('Hips')]
+    d = hd[B(to)] - hd[B('Hips')]
     return math.degrees(math.atan2(-d.y, d.z))
 
-def upright(pose, target=0.0, cap=False):
+UPRIGHT_TO = 'Neck'   # v3.0: the spine chain (hips -> neck base) is vertical; the neck carries the head a touch forward
+
+def upright(pose, target=0.0, cap=False, to=None):
     """v2.9: set the Spine pitch so the posed hips -> head chain leans exactly `target` degrees (the rest skeleton itself
     leans ~4 deg forward). cap=True only pulls it back when it leans MORE than target."""
-    t = chain_tilt(pose)
+    to = to or UPRIGHT_TO
+    t = chain_tilt(pose, to)
     if cap and t <= target:
         return pose
     sp = pose.get('Spine', (0, 0, 0))
@@ -2637,10 +3175,10 @@ def upright(pose, target=0.0, cap=False):
         if abs(t - target) < .02:
             break
         pose['Spine'] = (sp[0] + 1.0, sp[1], sp[2])
-        g = chain_tilt(pose) - t
+        g = chain_tilt(pose, to) - t
         sp = (sp[0] - (t - target) / (g if abs(g) > 1e-4 else 1.0), sp[1], sp[2])
         pose['Spine'] = sp
-        t = chain_tilt(pose)
+        t = chain_tilt(pose, to)
     return pose
 
 REACH_ERR = [0.0]
@@ -2703,7 +3241,7 @@ def v27_clips():
     # v2.9 WALK (OSRS-like): compact 0.64 m step, straight-ish legs, arms swinging at the sides, no sway / roll, minimal bob,
     # head steady, vertical spine. Slide-free at 2.4 m/s at timeScale 1 (15 frames = 0.5 s, 1.20 m stride, 0.60 m step).
     C['walk'] = (15, best_gait('walk', 15, GAME_WALK_SPEED, .58, lift=.045, drop=.005, bob=.012, front=.24, p_on=10, p_off=-22,
-                                arm_swing=20, fore=0, lean=0, twist=2.5, foot_x=.13, bob_phase=0.0, osrs=(16.0, 10.0), fore_swing=10,
+                                arm_swing=20, fore=0, lean=0, twist=2.5, foot_x=.13, bob_phase=0.0, osrs=(7.0, 0.0), fore_swing=10,
                                 lean_cap=(0.0, False)), True)
     # RUN: longer step, slight forward lean, arms bent ~90 deg pumping, moderate foot lift, brief flight
     C['run'] = (16, best_gait('run', 16, GAME_RUN_SPEED, .38, lift=.12, drop=.070, bob=.020, front=.20, p_on=8, p_off=-34,
@@ -2796,7 +3334,7 @@ def bram_walk_clip(frames=28, speed=1.30):
     alternate steps (while planted its tip stays fixed on the ground), then lifted and swung forward. The staff is rigid in
     his right hand; the hand orientation and the arm (IK) are solved so the tip lands exactly on its target."""
     keys = best_gait('bram_walk', frames, speed, .60, lift=.045, drop=.005, bob=.010, front=.20, p_on=10, p_off=-20,
-                     arm_swing=14, fore=0, lean=0, twist=2, foot_x=.13, base=PB(), osrs=(13.0, 10.0), fore_swing=8,
+                     arm_swing=14, fore=0, lean=0, twist=2, foot_x=.13, base=PB(), osrs=(6.0, 0.0), fore_swing=8,
                      swing_sides=('Left',), lean_cap=(0.0, False))
     head0, acc0 = fk(PB())
     RH = B('RightHand')
@@ -2859,6 +3397,7 @@ def clear_pose(arm):
 # ------------------------------------------------------------------------------------------
 CROTCH = Vector((0, .03, .86))
 HAND_MIN_CROTCH = .12     # hand centre to crotch point (~.08 from the hand surface)
+HAND_HALF = .032          # v3.0: hand half-thickness (centre -> surface) for the thigh surface gap
 
 def hand_clearance(arm, acts):
     sc = bpy.context.scene
@@ -2879,8 +3418,20 @@ def hand_clearance(arm, acts):
                 w['min_side_x'] = min(w['min_side_x'], c.x * sx)
                 if abs(c.x) < .11 and .50 < c.z < .95 and abs(c.y - .03) < .13:
                     w['between_legs_frames'] += 1
+                # v3.0: surface gap between the hand and the NEAREST thigh (either leg), measured on the posed thigh segment
+                for lsd in ('Left', 'Right'):
+                    ul, lg = arm.pose.bones[B(lsd + 'UpLeg')], arm.pose.bones[B(lsd + 'Leg')]
+                    a = to_pelvis @ ul.head
+                    b = to_pelvis @ lg.head
+                    ab = b - a
+                    t = clamp((c - a).dot(ab) / ab.length_squared)
+                    r_th = .125 - .035 * t   # thigh + trouser radius, hip -> knee
+                    w['min_hand_thigh_gap'] = min(w.get('min_hand_thigh_gap', 9.0), (c - (a + ab * t)).length - r_th - HAND_HALF)
                 if .60 < c.z < 1.0 and abs(c.y - .03) < .16:   # beside the thigh: horizontal gap to the thigh's outer line
                     w['min_outside_thigh'] = min(w['min_outside_thigh'], c.x * sx - (HIP_X['A'] + .105))
+                if name == 'idle':
+                    w['idle_hand_x_max'] = max(w.get('idle_hand_x_max', 0.0), c.x * sx)
+                    w['idle_hand_y_max'] = max(w.get('idle_hand_y_max', -9.0), c.y)
         res[name] = {k: (round(v, 4) if isinstance(v, float) else v) for k, v in w.items()}
     arm.animation_data.action = None
     return res
@@ -2891,9 +3442,13 @@ def assert_hands(report, label):
     print('[HANDS] %s' % label, json.dumps(report))
     assert not bad, 'hands enter the crotch / cross the centreline in %s: %s' % (label, json.dumps(bad))
     idle = report.get('idle')
-    if idle:
-        assert idle['min_outside_thigh'] >= .045, 'idle hands too close to the thighs: %s' % idle
-        assert idle['min_outside_thigh'] <= .20, 'idle arms splayed out like an A-pose: %s' % idle
+    if idle:   # v3.0 OSRS idle: hands in FRONT of the hips / upper thighs, clear of the thighs, not splayed out
+        assert idle['min_hand_thigh_gap'] >= .004, 'idle hands touch the thighs: %s' % idle
+        assert idle['idle_hand_x_max'] <= .30, 'idle arms splayed out like an A-pose: %s' % idle
+        assert idle['idle_hand_y_max'] <= -.03, 'idle hands are not in front of the hips: %s' % idle
+    for n in ('walk', 'run', 'talk', 'wave'):
+        if n in report:
+            assert report[n]['min_hand_thigh_gap'] >= -.01, 'hands pass through the thighs in %s: %s' % (n, report[n])
 
 # ------------------------------------------------------------------------------------------
 # Build
@@ -2937,11 +3492,12 @@ def keep_clearance(bt, base, var, kind):
         if c0 < .08 and c1 < c0 + .002:
             p1 = p1 + rdir * (c0 + .002 - c1)
         for sx in (-1, 1):
-            if 1.26 < p0.z < 1.52:
-                cb = Vector((sx * (SHOULDER_X[bt] + .01), .01, 1.385))
+            if 1.20 < p0.z < 1.52:
+                dc, dr = DELTOID[bt]
+                cb = Vector((sx * dc[0], dc[1], dc[2]))
                 cv = cb + Vector((sx * (sh + grow1 - grow0), 0, 0))
-                d0 = (p0 - cb).length - .105
-                rv = .105 * (1.18 if kind == 'stout' else .96)
+                d0 = (p0 - cb).length - dr
+                rv = dr * (1.18 if kind == 'stout' else .96)
                 d1 = (p1 - cv).length - rv
                 extra = .014 if kind == 'stout' else .002   # a stouter arm swinging forward in the walk still clears draped hair
                 if d0 < .06 and d1 < d0 + extra:
@@ -3091,14 +3647,14 @@ def verify_builds(objs, arm=None, clips=None):
                               (lambda h: lambda p: h + .02 < p.z < .985 and abs(p.x) < .30)(hem), ('rest', 'idle f0', 'walk f5', 'walk f15')))
         for x in nm('Arms'):
             for y in nm('Torso'):
-                rules.append((bt, 'arms clear of the torso', x, y, 'in', lambda p: p.z < 1.22, POSED))
+                rules.append((bt, 'arms clear of the torso', x, y, 'in', lambda p: p.z < 1.19, POSED))   # v3.0: below the armpit seam
             for y in nm('Legs'):
                 rules.append((bt, 'arms clear of the legs', x, y, 'in', lambda p: True, POSED))
         for x in nm('Hands'):
             for y in nm('Torso') + nm('Legs'):
                 rules.append((bt, 'hands clear of torso/legs', x, y, 'in', lambda p: True, POSED))
         for x in nm('Legs'):
-            rules.append((bt, 'boot shaft covers the leg', x, part_name(bt, 'Feet', 1), 'out', lambda p: .05 < p.z < .28, ('rest', 'walk f0', 'walk f10')))
+            rules.append((bt, 'boot shaft covers the leg', x, part_name(bt, 'Feet', 1), 'out', lambda p: .05 < p.z < .24, ('rest', 'walk f0', 'walk f10')))
             rules.append((bt, 'shoe collar covers the ankle', x, part_name(bt, 'Feet', 2), 'out', lambda p: .07 < p.z < .14 and abs(abs(p.x) - .13) < .06,
                           ('rest', 'walk f0', 'walk f10')))
     summary, worst, base_wrong = {}, [], {}
@@ -3357,7 +3913,7 @@ def tutor_clip_defs(tid):
     C['wave'] = (40, [(0, upright(PT(tid)))] + [(8 + 6 * i, upright(PT(tid, mir(dict(WAVE_UP, LeftForeArm=fa))))) for i, fa in enumerate(WAVE_FA)]
                  + [(40, upright(PT(tid)))], False)
     C['walk'] = (28, best_gait('walk_' + tid, 28, TUTOR_WALK_SPEED, .60, lift=.045, drop=.005, bob=.010, front=.20, p_on=10, p_off=-20,
-                               arm_swing=14, fore=0, lean=0, twist=2, foot_x=.13, base=PT(tid), osrs=(13.0, 10.0), fore_swing=8,
+                               arm_swing=14, fore=0, lean=0, twist=2, foot_x=.13, base=PT(tid), osrs=(6.0, 0.0), fore_swing=8,
                                swing_sides=t['free'], lean_cap=(0.0, False)), True)
     return C
 
@@ -3387,7 +3943,7 @@ def ext_capelet(mb, bt):
         mb.box((sx * .030, front_y(bt, .03, 1.45, .016), 1.45), (.012, .010, .012), 'A_METAL', SPINE_W((0, 0, 1.45)))
 
 def ext_jerkin(mb, bt):
-    shirt2(mb, bt, mat='A_LEATHER', hem=.86, off=.015, hem_off=.022)
+    shirt2(mb, bt, mat='A_LEATHER', hem=.86, off=.015, hem_off=.022, ah='vest')   # v3.0: sleeveless, the shirt's sleeves show
     o = shirt_off(.86, .015, .022)
     zs = shirt_zs(bt, .86)
     for k in range(4):
@@ -3479,7 +4035,7 @@ def ext_mob_cap(mb, bt):
 
 def ext_sleeve_rolls(mb, bt):
     for sx in (-1, 1):
-        mb.loft(arm_rings(bt, sx, [(.44, .014), (.46, .022), (.52, .022), (.54, .014)]), 'C_TORSO', arm_w(sx))
+        mb.loft(arm_rings(bt, sx, [(.76, .014), (.78, .022), (.85, .022), (.87, .014)]), 'C_TORSO', arm_w(sx))   # v3.0: at the short sleeve's end
 
 def ext_robe_skirt(mb, bt):
     skirt(mb, bt, [.10, .20, .34, .50, .66, .80, .90, .99], (.10, .235, .20, .21, .030), off=.020, mat='C_TORSO', rim_mat='A_TRIM')
@@ -3529,14 +4085,16 @@ def ext_hauberk(mb, bt):
     zs = [.70 + .026 * i for i in range(int((1.44 - .70) / .026) + 1)] + [1.47, 1.505]
     rings = [body_ring(bt, z, off(z) + (.0035 if i % 2 else 0.0), 12) for i, z in enumerate(zs)]
     rings[0] = [(x, y, z + (.005 if k % 2 else 0.0)) for k, (x, y, z) in enumerate(rings[0])]
-    mb.loft(rings, 'A_BRONZE', skirt_w, cap0=False, cap1=True,
-            matfn=lambda i, k: 'A_BRONZE_DK' if (i % 2 and zs[i] < 1.44) else 'A_BRONZE')   # v2.9b: rows of mail
+    params = [[(2 * math.pi * k / 12 + math.pi / 12, z) for k in range(12)] for z in zs]
+    mb.loft_ah(bt, rings, params, 'A_BRONZE', skirt_w, ah='zip', cap0=False, cap1=True,
+               matfn=lambda i, k: 'A_BRONZE_DK' if (i % 2 and zs[i] < 1.44) else 'A_BRONZE')   # v2.9b: rows of mail; v3.0 armholes
 
 def ext_mail_sleeves(mb, bt):
     """v2.9b: mail sleeves in the same bright / dark ring rows as the hauberk (replace the cloth sleeves)"""
-    us = [-.08, .06] + [.18 + .11 * i for i in range(15)] + [1.85]
-    spec = [(u, .011 + (.003 if i % 2 else 0.0)) for i, u in enumerate(us)] + [(1.88, .016), (1.97, .017)]
-    arms_both(mb, bt, spec, 'A_BRONZE', matfn=lambda i, k: 'A_BRONZE_DK' if (i % 2 and 1 < i < len(spec) - 1) else 'A_BRONZE')
+    us = [.75 + .08 * i for i in range(14)]   # v3.0: rows below the deltoid cap (the cap is plain bronze)
+    spec = [(0.0, .011)] + [(u, .011 + (.003 if i % 2 else 0.0)) for i, u in enumerate(us)] + [(1.85, .011), (1.88, .016), (1.97, .017)]
+    nrow = len(us) + 3
+    arms_both(mb, bt, spec, 'A_BRONZE', matfn=lambda i, k: 'A_BRONZE_DK' if (i % 2 and i < nrow - 3) else 'A_BRONZE')
 
 def ext_tabard(mb, bt):
     tabard(mb, bt, z_hem=.60, half=.110, off=.034, mat='A_TABARD', trim='A_TRIM')
@@ -3569,7 +4127,8 @@ def ext_sword_hip(mb, bt):
 
 def ext_waistcoat(mb, bt):
     va = lambda z: .06 + max(0, z - 1.26) * 3.6
-    open_shell(mb, bt, [.93, .98, 1.04, 1.12, 1.20, 1.28, 1.35, 1.41, 1.45], va, .016, .007, mat='A_VEST', trim=None, w=torso_w, n_body=16)
+    open_shell(mb, bt, [.93, .98, 1.04, 1.12, 1.20, 1.28, 1.35, 1.41, 1.45], va, .016, .007, mat='A_VEST', trim=None, w=torso_w, n_body=16,
+               ah='vest')   # v3.0: a real waistcoat armhole
     for k in range(5):
         z = 1.00 + .065 * k
         p_ = body_point(bt, va(z) + .09, z, .018)
@@ -4973,8 +5532,9 @@ REVIEW = [   # v2.9 -- the owner's play-test points, each checked on the sheets 
     'with idle / talk / wave / walk; Bram rebuilt on the v2.9 kit (thinner face, smaller feet, upright).',
 ]
 
-def measure_lean(arm, acts):
-    """forward tilt (deg) of the posed hips-joint -> head-joint line on EVERY frame of each clip (the evaluated armature,
+def measure_lean(arm, acts, to='Neck'):
+    """forward tilt (deg) of the posed hips-joint -> neck-base line (v3.0: the spine chain; to='Head' includes the neck,
+    which carries the head a touch forward in the OSRS stance) on EVERY frame of each clip (the evaluated armature,
     exactly what the game plays); + = leaning forward"""
     out = {}
     sc = bpy.context.scene
@@ -4985,7 +5545,7 @@ def measure_lean(arm, acts):
         for f in range(f0, f1 + 1):
             sc.frame_set(f)
             h = arm.matrix_world @ arm.pose.bones[B('Hips')].head
-            hd = arm.matrix_world @ arm.pose.bones[B('Head')].head
+            hd = arm.matrix_world @ arm.pose.bones[B(to)].head
             d = hd - h
             ts.append(math.degrees(math.atan2(-d.y, d.z)))
         out[name] = [round(min(ts), 2), round(max(ts), 2)]
@@ -5044,7 +5604,9 @@ def main():
     bpy.data.actions.remove(probe)
     assert_hands(hands_kit, 'kit')
     lean = measure_lean(arm, {n: clips[n] for n in ('idle', 'walk', 'talk', 'wave', 'run')})
-    print('[LEAN]', json.dumps(lean))
+    lean_head = measure_lean(arm, {n: clips[n] for n in ('idle', 'walk', 'talk', 'wave', 'run')}, to='Head')
+    print('[LEAN]', json.dumps(lean), '[HEAD]', json.dumps(lean_head))
+    assert max(abs(v) for v in lean_head['idle']) < 2.5, 'head too far forward in the idle: %s' % lean_head['idle']
     for n in ('idle', 'walk', 'talk', 'wave'):
         assert max(abs(v) for v in lean[n]) < .5, 'spine leans in %s: %s' % (n, lean[n])
     assert lean['run'][1] < 3.1, 'run leans more than 3 deg: %s' % lean['run']
