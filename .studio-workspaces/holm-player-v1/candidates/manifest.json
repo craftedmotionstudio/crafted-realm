@@ -1,0 +1,363 @@
+{
+  "asset": "holm_player_v1",
+  "glb": "assets/models/holm_player_v1.glb",
+  "glb_default_look": "assets/models/holm_player_v1_default.glb",
+  "builder": "tools/blender/build_holm_player_v1.py",
+  "blend": ".studio-workspaces/holm-player-v1/candidates/player.blend",
+  "forward_axis": {
+    "gltf": "+Z",
+    "blender": "-Y",
+    "note": "same as assets/models/player.glb; installPlayerGLB keeps rig.rotation.y = 0"
+  },
+  "up_axis": "+Y (glTF)",
+  "units": "metres",
+  "feet_at": 0.0,
+  "height_m": {
+    "Body_Male+Hair_Short": 1.8418,
+    "Body_Male (bald)": 1.814,
+    "all_variants_bbox": 1.8712
+  },
+  "bones": [
+    {
+      "name": "mixamorig:Hips",
+      "parent": null
+    },
+    {
+      "name": "mixamorig:Spine",
+      "parent": "mixamorig:Hips"
+    },
+    {
+      "name": "mixamorig:Spine1",
+      "parent": "mixamorig:Spine"
+    },
+    {
+      "name": "mixamorig:Spine2",
+      "parent": "mixamorig:Spine1"
+    },
+    {
+      "name": "mixamorig:Neck",
+      "parent": "mixamorig:Spine2"
+    },
+    {
+      "name": "mixamorig:Head",
+      "parent": "mixamorig:Neck"
+    },
+    {
+      "name": "mixamorig:HeadTop_End",
+      "parent": "mixamorig:Head"
+    },
+    {
+      "name": "mixamorig:LeftShoulder",
+      "parent": "mixamorig:Spine2"
+    },
+    {
+      "name": "mixamorig:LeftArm",
+      "parent": "mixamorig:LeftShoulder"
+    },
+    {
+      "name": "mixamorig:LeftForeArm",
+      "parent": "mixamorig:LeftArm"
+    },
+    {
+      "name": "mixamorig:LeftHand",
+      "parent": "mixamorig:LeftForeArm"
+    },
+    {
+      "name": "mixamorig:RightShoulder",
+      "parent": "mixamorig:Spine2"
+    },
+    {
+      "name": "mixamorig:RightArm",
+      "parent": "mixamorig:RightShoulder"
+    },
+    {
+      "name": "mixamorig:RightForeArm",
+      "parent": "mixamorig:RightArm"
+    },
+    {
+      "name": "mixamorig:RightHand",
+      "parent": "mixamorig:RightForeArm"
+    },
+    {
+      "name": "mixamorig:LeftUpLeg",
+      "parent": "mixamorig:Hips"
+    },
+    {
+      "name": "mixamorig:LeftLeg",
+      "parent": "mixamorig:LeftUpLeg"
+    },
+    {
+      "name": "mixamorig:LeftFoot",
+      "parent": "mixamorig:LeftLeg"
+    },
+    {
+      "name": "mixamorig:LeftToeBase",
+      "parent": "mixamorig:LeftFoot"
+    },
+    {
+      "name": "mixamorig:RightUpLeg",
+      "parent": "mixamorig:Hips"
+    },
+    {
+      "name": "mixamorig:RightLeg",
+      "parent": "mixamorig:RightUpLeg"
+    },
+    {
+      "name": "mixamorig:RightFoot",
+      "parent": "mixamorig:RightLeg"
+    },
+    {
+      "name": "mixamorig:RightToeBase",
+      "parent": "mixamorig:RightFoot"
+    }
+  ],
+  "bone_match_vs_player_glb": {
+    "bone_names_match": true,
+    "bone_order_match": true,
+    "hierarchy_match": true,
+    "blender_reimport_bones_match": true,
+    "max_rest_translation_delta_m": 5e-05,
+    "max_rest_rotation_delta_deg": 0.013
+  },
+  "clips": {
+    "idle": {
+      "duration_s": 2,
+      "frames": 60,
+      "fps": 30,
+      "loop": true
+    },
+    "walk": {
+      "duration_s": 0.8,
+      "frames": 24,
+      "fps": 30,
+      "loop": true
+    },
+    "run": {
+      "duration_s": 0.5333,
+      "frames": 16,
+      "fps": 30,
+      "loop": true
+    },
+    "attack_slash": {
+      "duration_s": 0.6,
+      "frames": 18,
+      "fps": 30,
+      "loop": false
+    },
+    "attack_stab": {
+      "duration_s": 0.6,
+      "frames": 18,
+      "fps": 30,
+      "loop": false
+    },
+    "attack_crush": {
+      "duration_s": 0.7,
+      "frames": 21,
+      "fps": 30,
+      "loop": false
+    },
+    "bow": {
+      "duration_s": 1.2,
+      "frames": 36,
+      "fps": 30,
+      "loop": false
+    },
+    "cast": {
+      "duration_s": 1,
+      "frames": 30,
+      "fps": 30,
+      "loop": false
+    },
+    "chop": {
+      "duration_s": 1,
+      "frames": 30,
+      "fps": 30,
+      "loop": true
+    },
+    "mine": {
+      "duration_s": 1,
+      "frames": 30,
+      "fps": 30,
+      "loop": true
+    },
+    "net": {
+      "duration_s": 1.6,
+      "frames": 48,
+      "fps": 30,
+      "loop": true
+    },
+    "cook": {
+      "duration_s": 1.2,
+      "frames": 36,
+      "fps": 30,
+      "loop": true
+    },
+    "smith": {
+      "duration_s": 1,
+      "frames": 30,
+      "fps": 30,
+      "loop": true
+    },
+    "smelt": {
+      "duration_s": 1.2,
+      "frames": 36,
+      "fps": 30,
+      "loop": true
+    },
+    "climb": {
+      "duration_s": 1,
+      "frames": 30,
+      "fps": 30,
+      "loop": true
+    },
+    "block": {
+      "duration_s": 0.4,
+      "frames": 12,
+      "fps": 30,
+      "loop": false
+    },
+    "hit": {
+      "duration_s": 0.4,
+      "frames": 12,
+      "fps": 30,
+      "loop": false
+    },
+    "death": {
+      "duration_s": 1.3333,
+      "frames": 40,
+      "fps": 30,
+      "loop": false
+    },
+    "attack": {
+      "duration_s": 0.6,
+      "frames": 18,
+      "fps": 30,
+      "loop": false,
+      "alias_of": "attack_slash"
+    }
+  },
+  "variant_meshes": {
+    "bodies": [
+      "Body_Male",
+      "Body_Female"
+    ],
+    "hair": [
+      "Hair_Short",
+      "Hair_Long",
+      "Hair_Ponytail",
+      "Hair_Bun",
+      "Hair_Mohawk"
+    ],
+    "hair_none": "bald = hide all Hair_*",
+    "beard": [
+      "Beard_Full"
+    ],
+    "beard_none": "Beard_None = hide Beard_Full"
+  },
+  "material_regions": [
+    "R_SKIN",
+    "R_HAIR",
+    "R_TUNIC",
+    "R_BELT",
+    "R_LEGS",
+    "R_BOOTS",
+    "R_EYES"
+  ],
+  "material_count": 7,
+  "default_colors_srgb": {
+    "R_SKIN": "#b18b71",
+    "R_HAIR": "#6a4a2a",
+    "R_TUNIC": "#647a4e",
+    "R_BELT": "#402a15",
+    "R_LEGS": "#3b2e1e",
+    "R_BOOTS": "#6e4626",
+    "R_EYES": "#1e1612"
+  },
+  "tris_per_mesh": {
+    "Body_Male": 1440,
+    "Body_Female": 1464,
+    "Hair_Short": 380,
+    "Hair_Long": 508,
+    "Hair_Ponytail": 468,
+    "Hair_Bun": 456,
+    "Hair_Mohawk": 76,
+    "Beard_Full": 282
+  },
+  "tris_per_variant_combo": {
+    "Body_Male+Bald+Beard_None": 1440,
+    "Body_Male+Bald+Beard_Full": 1722,
+    "Body_Male+Hair_Short+Beard_None": 1820,
+    "Body_Male+Hair_Short+Beard_Full": 2102,
+    "Body_Male+Hair_Long+Beard_None": 1948,
+    "Body_Male+Hair_Long+Beard_Full": 2230,
+    "Body_Male+Hair_Ponytail+Beard_None": 1908,
+    "Body_Male+Hair_Ponytail+Beard_Full": 2190,
+    "Body_Male+Hair_Bun+Beard_None": 1896,
+    "Body_Male+Hair_Bun+Beard_Full": 2178,
+    "Body_Male+Hair_Mohawk+Beard_None": 1516,
+    "Body_Male+Hair_Mohawk+Beard_Full": 1798,
+    "Body_Female+Bald+Beard_None": 1464,
+    "Body_Female+Bald+Beard_Full": 1746,
+    "Body_Female+Hair_Short+Beard_None": 1844,
+    "Body_Female+Hair_Short+Beard_Full": 2126,
+    "Body_Female+Hair_Long+Beard_None": 1972,
+    "Body_Female+Hair_Long+Beard_Full": 2254,
+    "Body_Female+Hair_Ponytail+Beard_None": 1932,
+    "Body_Female+Hair_Ponytail+Beard_Full": 2214,
+    "Body_Female+Hair_Bun+Beard_None": 1920,
+    "Body_Female+Hair_Bun+Beard_Full": 2202,
+    "Body_Female+Hair_Mohawk+Beard_None": 1540,
+    "Body_Female+Hair_Mohawk+Beard_Full": 1822
+  },
+  "max_tris_body_hair_beard": 2254,
+  "validation": {
+    "full": true,
+    "default_look": true
+  },
+  "renders": [
+    "scratchpad/holm_player_v1/turn_front.png",
+    "scratchpad/holm_player_v1/turn_side.png",
+    "scratchpad/holm_player_v1/turn_back.png",
+    "scratchpad/holm_player_v1/body_male.png",
+    "scratchpad/holm_player_v1/body_female.png",
+    "scratchpad/holm_player_v1/body_female_side.png",
+    "scratchpad/holm_player_v1/hair_hair_short_front.png",
+    "scratchpad/holm_player_v1/hair_hair_short_back.png",
+    "scratchpad/holm_player_v1/hair_hair_long_front.png",
+    "scratchpad/holm_player_v1/hair_hair_long_back.png",
+    "scratchpad/holm_player_v1/hair_hair_ponytail_front.png",
+    "scratchpad/holm_player_v1/hair_hair_ponytail_back.png",
+    "scratchpad/holm_player_v1/hair_hair_bun_front.png",
+    "scratchpad/holm_player_v1/hair_hair_bun_back.png",
+    "scratchpad/holm_player_v1/hair_hair_mohawk_front.png",
+    "scratchpad/holm_player_v1/hair_hair_mohawk_back.png",
+    "scratchpad/holm_player_v1/hair_bald_front.png",
+    "scratchpad/holm_player_v1/hair_bald_back.png",
+    "scratchpad/holm_player_v1/hair_beard_full_front.png",
+    "scratchpad/holm_player_v1/hair_beard_full_back.png",
+    "scratchpad/holm_player_v1/hair_long_female.png",
+    "scratchpad/holm_player_v1/hair_bun_female.png",
+    "scratchpad/holm_player_v1/color_default.png",
+    "scratchpad/holm_player_v1/color_a.png",
+    "scratchpad/holm_player_v1/color_b.png",
+    "scratchpad/holm_player_v1/clip_idle.png",
+    "scratchpad/holm_player_v1/clip_walk.png",
+    "scratchpad/holm_player_v1/clip_run.png",
+    "scratchpad/holm_player_v1/clip_attack_slash.png",
+    "scratchpad/holm_player_v1/clip_attack_stab.png",
+    "scratchpad/holm_player_v1/clip_attack_crush.png",
+    "scratchpad/holm_player_v1/clip_bow.png",
+    "scratchpad/holm_player_v1/clip_cast.png",
+    "scratchpad/holm_player_v1/clip_chop.png",
+    "scratchpad/holm_player_v1/clip_mine.png",
+    "scratchpad/holm_player_v1/clip_net.png",
+    "scratchpad/holm_player_v1/clip_cook.png",
+    "scratchpad/holm_player_v1/clip_smith.png",
+    "scratchpad/holm_player_v1/clip_smelt.png",
+    "scratchpad/holm_player_v1/clip_climb.png",
+    "scratchpad/holm_player_v1/clip_block.png",
+    "scratchpad/holm_player_v1/clip_hit.png",
+    "scratchpad/holm_player_v1/clip_death.png",
+    "scratchpad/holm_player_v1/sheet.png"
+  ]
+}

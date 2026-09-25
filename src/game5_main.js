@@ -105,7 +105,10 @@ function computePath(sx, sz, tx, tz){
   return {pts, reached:found};
 }
 function orderWalk(point){
-  if(typeof HolmArrivalPlayer!=='undefined'&&HolmArrivalPlayer.active())return HolmArrivalPlayer.order(point);
+  if(typeof HolmArrivalPlayer!=='undefined'&&HolmArrivalPlayer.active()){
+    if(HolmArrivalPlayer.order(point))return true;
+    return !!(Player.target&&typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.approach&&HolmArrivalQA.approach(point));
+  }
   Player.moveTo=point.clone ? point.clone() : new THREE.Vector3(point.x, point.y||0, point.z);
   Player._navAge=0; Player._navTries=0; Player._navBest=1e9; Player._navStall=0;
   Player._navDetour=null; Player._navDetour2=null;
@@ -583,7 +586,7 @@ function update(dt){
     if(n.target==='player' || wantsAggro){
       n.target='player';
       // OSRS leash: monsters won't be dragged far from their patch — they give up and head home
-      if(distP>16 || n.mesh.position.distanceTo(n.home)>14){ n.target=null; n.returning=true; }
+      if(distP>16 || n.mesh.position.distanceTo(n.home)>(n.leash||14)){ n.target=null; n.returning=true; }
       else npcAttack(n, dt);
     } else if(n.returning){
       const dh=n.home.clone().sub(n.mesh.position); dh.y=0;
@@ -602,7 +605,7 @@ function update(dt){
       if(n.wanderT<=0){ n.wanderT=3+Math.random()*4;
         n.wDir = new THREE.Vector3(Math.random()-0.5,0,Math.random()-0.5).normalize(); }
       if(n.wDir){
-        if(n.mesh.position.distanceTo(n.home)>=10)
+        if(n.mesh.position.distanceTo(n.home)>=(n.wanderR||10))
           n.wDir = n.home.clone().sub(n.mesh.position).setY(0).normalize();
         const nx=n.mesh.position.x+n.wDir.x*dt*0.7, nz=n.mesh.position.z+n.wDir.z*dt*0.7;
         if(collides(nx,nz,0.2)){ n.wanderT=0.1; }

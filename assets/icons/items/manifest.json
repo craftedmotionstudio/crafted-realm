@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "size": [
+    96,
+    96
+  ],
+  "background": "transparent",
+  "source": "tools/blender/build_holm_items_v1.py",
+  "camera": "orthographic, 50 deg elevation, auto-framed to bounds, 7% margin",
+  "icons": [
+    {
+      "id": "tinderbox",
+      "file": "tinderbox.png"
+    },
+    {
+      "id": "hammer",
+      "file": "hammer.png"
+    },
+    {
+      "id": "bucket",
+      "file": "bucket.png"
+    },
+    {
+      "id": "bucket_water",
+      "file": "bucket_water.png"
+    },
+    {
+      "id": "bucket_flour",
+      "file": "bucket_flour.png"
+    },
+    {
+      "id": "dough",
+      "file": "dough.png"
+    },
+    {
+      "id": "bread_dough",
+      "file": "bread_dough.png"
+    },
+    {
+      "id": "bread",
+      "file": "bread.png"
+    },
+    {
+      "id": "logs",
+      "file": "logs.png"
+    },
+    {
+      "id": "raw_perch",
+      "file": "raw_perch.png"
+    },
+    {
+      "id": "cooked_perch",
+      "file": "cooked_perch.png"
+    },
+    {
+      "id": "burnt_perch",
+      "file": "burnt_perch.png"
+    },
+    {
+      "id": "copper_ore",
+      "file": "copper_ore.png"
+    },
+    {
+      "id": "tin_ore",
+      "file": "tin_ore.png"
+    },
+    {
+      "id": "bronze_bar",
+      "file": "bronze_bar.png"
+    },
+    {
+      "id": "fishing_net",
+      "file": "fishing_net.png"
+    },
+    {
+      "id": "coins",
+      "file": "coins.png"
+    },
+    {
+      "id": "arrows",
+      "file": "arrows.png"
+    },
+    {
+      "id": "air_rune",
+      "file": "air_rune.png"
+    },
+    {
+      "id": "mind_rune",
+      "file": "mind_rune.png"
+    },
+    {
+      "id": "leather_body",
+      "file": "leather_body.png"
+    },
+    {
+      "id": "wood_shield",
+      "file": "wood_shield.png"
+    },
+    {
+      "id": "bones",
+      "file": "bones.png"
+    },
+    {
+      "id": "pot_of_flour",
+      "file": "pot_of_flour.png"
+    }
+  ]
+}

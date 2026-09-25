@@ -34,7 +34,8 @@ const SaveGame = {
         lessonId:(!Tutorial.complete&&Tutorial.steps&&Tutorial.steps[Tutorial.step])?Tutorial.steps[Tutorial.step].id:null,
         departurePackClaimed:!!Tutorial.departurePackClaimed,
         cellarRationClaimed:!!Tutorial.cellarRationClaimed,
-        optional:Tutorial.optional||{},combatKitClaims:Tutorial.combatKitClaims||{}},
+        optional:Tutorial.optional||{},combatKitClaims:Tutorial.combatKitClaims||{},
+        completedLessonIds:Array.isArray(Tutorial.completedLessonIds)?Tutorial.completedLessonIds.slice():undefined},
       pos:[player.position.x, player.position.z],
       arrivalSurface:arrival,
       plane:Player.plane||0,
@@ -107,6 +108,9 @@ const SaveGame = {
       if(d.tut && d.tut.complete){
         Tutorial.complete=true; Tutorial.step=Tutorial.steps.length;
         const ob=document.getElementById('objective'); if(ob) ob.style.display='none';
+      } else if(d.tut&&Number(Tutorial.curriculumVersion)===6&&typeof HolmIslandCurriculum!=='undefined'&&HolmIslandCurriculum.active()){
+        // island draft (M5.2a): the 18-lesson ledger decides the step (v4/v5 saves migrate by their known prefix)
+        HolmIslandCurriculum.restore(d.tut);
       } else if(d.tut){
         const activeVersion=Number(Tutorial.curriculumVersion)||0;
         const savedVersion=Number(d.tut.curriculumVersion)||0;

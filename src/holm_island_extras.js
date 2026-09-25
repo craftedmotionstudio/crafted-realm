@@ -39,7 +39,7 @@ var HolmIslandExtras=(function(){
   quarry:[{prefix:'Quarry_ServiceShaft_',target:'shaft',label:'Climb-down shaft ladder',ladder:'quarry-shaft'},{prefix:'Quarry_ServiceWinch_',target:'winch',label:'Winch'},{prefix:'Quarry_ServiceBench_',target:'bench',label:'Repair bench'}],
   mage:[{prefix:'Mage_ServiceRuneTable_',target:'runes',label:'Rune table'},{prefix:'Mage_ServiceLectern_',target:'lectern',label:'Lectern'},{prefix:'Mage_ServiceTelescope_',target:'observatory',label:'Telescope'}],
   cavern:[{prefix:'Cavern_ServiceLadderUp_',target:'ladder',label:'Climb-up ladder',ladder:'quarry-shaft'}],
- haven:[{prefix:'Haven_ServiceBoat_',target:'boat',label:'Ferry'},{prefix:'Haven_ServiceNotice_',target:'notice',label:'Departure notice'}],
+ haven:[{prefix:'Haven_ServiceBoat_',target:'boat',label:'Ferry',call:['HolmIslandCurriculum','board']},{prefix:'Haven_ServiceNotice_',target:'notice',label:'Departure notice'}],
  lastlight:[{prefix:'Lastlight_ServiceStores_',target:'stores',label:'Repair stores'},
   {prefix:'Lastlight_ServiceLadder1Up_',target:'ladder1-foot',climb:'ladder1',end:'foot',label:'Climb-up ladder'},{prefix:'Lastlight_ServiceLadder1Down_',target:'ladder1-top',climb:'ladder1',end:'top',label:'Climb-down ladder'},
   {prefix:'Lastlight_ServiceLadder2Up_',target:'ladder2-foot',climb:'ladder2',end:'foot',label:'Climb-up ladder'},{prefix:'Lastlight_ServiceLadder2Down_',target:'ladder2-top',climb:'ladder2',end:'top',label:'Climb-down ladder'},

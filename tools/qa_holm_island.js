@@ -91,8 +91,8 @@ async function clickService(page,label,which){
   await press(page,xy);await settle(page,30000);await sleep(900);return {ok:true};
 }
 // M5.1: click a named world object (lesson tree, fishing spot, ore rock, furnace, anvil, campfire) where the game's pick() hits it
-async function clickNamed(page,name){
-  await closeDialogue(page);   // a level-up dialogue covers the canvas like it would for a player
+async function clickNamed(page,name,opts){
+  if(!(opts&&opts.keepDialogs))await closeDialogue(page);   // a level-up dialogue covers the canvas like it would for a player
   const xy=await page.evaluate(async name=>{const sleep=ms=>new Promise(r=>setTimeout(r,ms));const o=scene.getObjectByName(name);if(!o)return null;
     const pt=new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3()).toArray();const dx=0,dz=0,d=0;
     const owns=h=>{for(let q=h&&h.obj;q;q=q.parent)if(q===o)return true;return false};
@@ -110,7 +110,7 @@ async function clickNamed(page,name){
   if(!xy){console.log('    clickNamed diag '+JSON.stringify(await page.evaluate(()=>window.__clickDiag)));await shot(page,'zz_click_'+name);await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {error:'not clickable '+name}}
   await press(page,xy);await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {ok:true};
 }
-async function clickButtonText(page,sel,text){const xy=await page.evaluate((sel,text)=>{const b=Array.from(document.querySelectorAll(sel)).find(x=>x.textContent.trim()===text||x.title===text);if(!b)return null;const r=b.getBoundingClientRect();return [r.x+r.width/2,r.y+r.height/2]},sel,text);
+async function clickButtonText(page,sel,text){await page.waitForFunction((sel,text)=>Array.from(document.querySelectorAll(sel)).some(x=>(x.textContent.trim()===text||x.title===text)&&x.getBoundingClientRect().width>0),{timeout:20000},sel,text).catch(()=>{});const xy=await page.evaluate((sel,text)=>{const b=Array.from(document.querySelectorAll(sel)).find(x=>x.textContent.trim()===text||x.title===text);if(!b)return null;const r=b.getBoundingClientRect();return [r.x+r.width/2,r.y+r.height/2]},sel,text);
   if(!xy)return false;await page.mouse.click(xy[0],xy[1]);await sleep(600);return true}
 const waitFor=(page,fn,arg,ms)=>page.waitForFunction(fn,{timeout:ms||60000},arg).then(()=>true).catch(()=>false);
 async function clickInventory(page,itemId){
@@ -137,6 +137,14 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     const timber=bridges.find(b=>/timber/.test(b.id));
     const onlyNew=/^m(44|51)$/.test(process.env.ISLAND_QA_ONLY||''),onlyLessons=process.env.ISLAND_QA_ONLY==='m51';
     if(!onlyNew){
+    // M5.2a/b: a fresh adventurer runs the 18-lesson island curriculum and meets shut doors, 2004-style
+    {const g0=await page.evaluate(()=>({v:Tutorial.curriculumVersion,n:Tutorial.steps.length,lesson:Tutorial.steps[Tutorial.step].id,targets:Tutorial.steps.filter(s=>s.target).length,route:!!HolmArrivalQA.qaRoute('bakehouse','oven')}));
+     const chat0=await page.evaluate(()=>{const out=[];const ch=UI.chat;UI.chat=function(t){out.push(t);return ch.apply(this,arguments)};let m=null;scene.getObjectByName('island-gate-bakehouse-door').traverse(o=>{if(!m&&o.isMesh)m=o});handleClick(m,m.getWorldPosition(new THREE.Vector3()));UI.chat=ch;return out});
+     ok('M5.2a: the island runs the 18-lesson curriculum (v6), every lesson with an arrow at its station',g0.v===6&&g0.n===18&&g0.lesson==='study_route'&&g0.targets===18,g0);
+     ok('M5.2b: the bakehouse door is shut for a new adventurer and says why',!g0.route&&chat0.some(c=>/bakehouse door is barred/.test(c)),{route:g0.route,chat:chat0});
+     await page.evaluate(ids=>HolmIslandCurriculum.qaGrant(ids),['study_route','equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish']);await sleep(2500);
+     const g1=await page.evaluate(()=>({route:!!HolmArrivalQA.qaRoute('bakehouse','oven'),open:HolmIslandGates.isOpen('bakehouse-door'),lodge:HolmIslandGates.isOpen('lodge-door'),lesson:Tutorial.steps[Tutorial.step].id}));
+     ok('M5.2b: with the survival lessons done the bakehouse door opens (the Quest Lodge stays shut)',g1.route&&g1.open&&!g1.lodge&&g1.lesson==='bake_bread',g1);}
     // 1. dock -> bakehouse courtyard, over the timber bridge
     let tr=[];let r=await walkTo(page,'bakehouse','entrance',true,tr);
     const onDeck=tr.filter(q=>timber.tiles.some(t=>Math.floor(q[0])===t[0]&&Math.floor(q[2])===t[1])&&Math.abs(q[1]-timber.deckY)<.12).length;
@@ -176,6 +184,11 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     ok('crosses the island to the Warden\'s Keep gate',!r.error&&r.reached&&Math.hypot(r.at[0]-r.reached.x,r.at[2]-r.reached.z)<.6&&diagonal(tr)===0,{...r,diagonal:diagonal(tr)});
     await shot(page,'04_keep');
     }
+    // the building visits and lesson stations below revisit every area: record the whole curriculum as done (QA only)
+    await page.evaluate(()=>HolmIslandCurriculum.qaGrant(HolmCurriculumProgress.lessonIds));await sleep(1500);
+    // every gate is now open (they never close); keep the tutorial running (all but the last lesson) so the game's
+    // credit hooks, which stand down once the tutorial is complete, still fire for the stations below
+    const keepRunning=()=>page.evaluate(()=>HolmIslandCurriculum.qaSetLedger(HolmCurriculumProgress.lessonIds.slice(0,-1)));await keepRunning();
     // M5.1: every lesson's Tutorial.notify event is recorded so credit wiring is proven, not just items
     await page.evaluate(()=>{window.__notes=[];const n=Tutorial.notify.bind(Tutorial);Tutorial.notify=function(ev,m){window.__notes.push(ev+'/'+m);return n(ev,m)}});
     // M4.4: the five new Blender buildings, each reached on foot and its key station clicked like a player
@@ -202,7 +215,7 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      ok('Lastlight: storm door, stores, all three ladders climbed by click, lever reached on the lantern deck',!w.error&&steps.every(s=>s[1]==='ok')&&top[1]>y0+5&&!!lever&&Math.hypot(top[0]-lever.x,top[2]-lever.z)<.6&&Math.abs(top[1]-lever.y)<.35,{walk:w.error||'ok',y0,steps,top,lever});
      const down=[];for(const which of ['ladder3-top','ladder2-top','ladder1-top']){const c=await clickService(page,'Climb-down ladder',which);down.push([which,c.error||'ok',...(await pos(page)).map(v=>+v.toFixed(2))])}
      ok('Lastlight: the beacon lever lights the lamp (beacon/lit credited)',await page.evaluate(()=>Player.lastlightLit===true&&window.__notes.some(n=>n==='beacon/lit')),{notes:await page.evaluate(()=>window.__notes.slice(-4))});
-     const back=await pos(page);ok('Lastlight: all three ladders climbed back down to the ground floor',down.every(s=>s[1]==='ok')&&Math.abs(back[1]-y0)<1.2,{down,back});}
+     const back=await pos(page);ok('Lastlight: all three ladders climbed back down to the ground floor',down.every(s=>s[1]==='ok')&&Math.abs(back[1]-y0)<1.2,{down,back});await keepRunning();}
     }
     // M5.1 lesson stations, all by real clicks: chop, light a fire, net a perch, cook it, down the quarry shaft ladder to the
     // cavern, mine copper and tin, smelt bronze, forge a dagger, back up the ladder. The game's own systems do the work.
@@ -241,6 +254,23 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      c=await clickService(page,'Climb-up ladder','ladder');L.up=c.error||(await waitFor(page,()=>player.position.y>0,null,60000));
      ok('M5.1 survival lessons on the island: chop, light a fire (step west on the graph), net a perch, cook it',L.chop===true&&L.fire===true&&L.stepWest&&L.fish===true&&L.cook===true&&L.cookNote.length>0,L);
      ok('M5.1 cavern lessons: shaft ladder down (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up',L.descend===true&&L.copper===true&&L.tin===true&&L.smelt===true&&L.smith===true&&L.up===true,L);}
+    // M5.3 combat trials on practice grubkins (Blender-rigged), by real clicks: dagger in the keep court, shortbow from
+    // range, Wind Strike by the mage tower; each kill credits its style through the game's npcKilled hook
+    {const T={};const note=e=>page.evaluate(e=>window.__notes.includes(e),e);
+     T.spawned=await page.evaluate(()=>HolmIslandTrials.npcs().map(n=>n.islandPen));
+     const live=pen=>page.evaluate(pen=>{const n=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen===pen);return n?n.mesh.name:null},pen);
+     // a grubkin can shuffle between aiming and clicking; like a player, click again until it is the target
+     const attack=async(pen,opts)=>{let c={error:'no live grubkin'};for(let i=0;i<4;i++){c=await clickNamed(page,await live(pen),opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c}return c.error?c:{error:'never became the target'}};
+     await page.evaluate(()=>{Player.inv=Player.inv.map(()=>null);['bronze_dagger','worn_bow'].forEach(i=>Player.addItem(i,1));Player.addItem('arrows',30);Player.addItem('air_rune',15);Player.addItem('mind_rune',15);UI.refreshInv()});
+     await clickInventory(page,'bronze_dagger');let c=await attack('keep-court');T.melee=c.error||await waitFor(page,()=>window.__notes.includes('killStyle/melee'),null,150000);
+     await shot(page,'09_melee_trial');
+     await clickInventory(page,'worn_bow');c=await attack('keep-court');T.ranged=c.error||await waitFor(page,()=>window.__notes.includes('killStyle/ranged'),null,90000);
+     T.arrowsUsed=30-await page.evaluate(()=>Player.count('arrows'));
+     // Escape (used to close dialogues) also cancels autocast: close first, then choose Wind Strike, then click
+     await closeDialogue(page);await page.evaluate(()=>{if(Player.spell!=='wind_strike')Player.selectSpell('wind_strike')});c=await attack('mage-yard',{keepDialogs:true});T.magic=c.error||await waitFor(page,()=>window.__notes.includes('killStyle/magic'),null,150000);
+     T.runesUsed=15-await page.evaluate(()=>Player.count('air_rune'));await page.evaluate(()=>{try{if(Player.spell==='wind_strike')Player.selectSpell('wind_strike')}catch(e){}});await shot(page,'10_magic_trial');
+     ok('M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Wind Strike kills credit their styles',
+      T.spawned.filter(p=>p==='keep-court').length>=2&&T.spawned.includes('mage-yard')&&T.melee===true&&T.ranged===true&&T.magic===true&&T.arrowsUsed>0&&T.runesUsed>0,T);}
     // 4. reload restores the spot on the island graph
     await page.evaluate(()=>SaveGame.save());const before=await pos(page);
     await page.reload({waitUntil:'load'});try{await enter(page)}catch(e){console.log('    reload console errors: '+JSON.stringify(consoleErrors.slice(-6)));throw e}const after=await pos(page);

@@ -1,0 +1,148 @@
+{
+  "asset": "holm_grubkin_v1",
+  "runtime_path": "assets/models/holm_grubkin_v1.glb",
+  "script": "tools/blender/build_holm_grubkin_v1.py",
+  "blend": ".studio-workspaces/holm-grubkin-v1/candidates/grubkin.blend",
+  "tris": 1218,
+  "bones": 20,
+  "bone_names": [
+    "root",
+    "body",
+    "thorax",
+    "head",
+    "mand_L",
+    "mand_R",
+    "leg_TL_up",
+    "leg_TL_lo",
+    "leg_TR_up",
+    "leg_TR_lo",
+    "abdomen",
+    "tail",
+    "leg_AL_up",
+    "leg_AL_lo",
+    "leg_AR_up",
+    "leg_AR_lo",
+    "leg_BL_up",
+    "leg_BL_lo",
+    "leg_BR_up",
+    "leg_BR_lo"
+  ],
+  "materials": {
+    "grub-hide": [
+      0.62,
+      0.5,
+      0.25
+    ],
+    "grub-band": [
+      0.33,
+      0.25,
+      0.14
+    ],
+    "grub-belly": [
+      0.87,
+      0.79,
+      0.6
+    ],
+    "grub-plate": [
+      0.52,
+      0.27,
+      0.15
+    ],
+    "grub-bone": [
+      0.9,
+      0.84,
+      0.66
+    ],
+    "grub-eye": [
+      0.96,
+      0.66,
+      0.16
+    ]
+  },
+  "clips": {
+    "idle": {
+      "seconds": 2,
+      "frames": 60,
+      "fps": 30,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.8,
+      "frames": 24,
+      "fps": 30,
+      "loop": true
+    },
+    "attack": {
+      "seconds": 0.6,
+      "frames": 18,
+      "fps": 30,
+      "loop": false
+    },
+    "block": {
+      "seconds": 0.4,
+      "frames": 12,
+      "fps": 30,
+      "loop": false
+    }
+  },
+  "glb_animation_names": [
+    "idle",
+    "walk",
+    "attack",
+    "block"
+  ],
+  "bounds": {
+    "blender_min": [
+      -0.615,
+      -0.6606,
+      0.0
+    ],
+    "blender_max": [
+      0.615,
+      0.59,
+      0.723
+    ],
+    "height": 0.723,
+    "length": 1.2506,
+    "width": 1.23
+  },
+  "forward_axis": {
+    "gltf": "+Z",
+    "blender": "-Y",
+    "note": "matches v07.glb and three.js Object3D.lookAt (local +Z faces target)"
+  },
+  "up_axis": {
+    "gltf": "+Y",
+    "blender": "+Z"
+  },
+  "origin": "ground-contact centre",
+  "suggested_npc_fields": {
+    "glbChar": "holm_grubkin_v1",
+    "glbHeight": 0.75
+  },
+  "budgets": {
+    "tris": 3000,
+    "materials": 6,
+    "bones": 24
+  },
+  "validation": {
+    "skinned_mesh_present": true,
+    "clips_present": true,
+    "clip_durations_nonzero": true,
+    "tris_within_budget": true,
+    "bones_within_budget": true,
+    "materials_within_budget": true,
+    "no_image_textures": true
+  },
+  "renders": [
+    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude\\scratchpad\\holm_grubkin_v1\\01_three_quarter_scale.png",
+    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude\\scratchpad\\holm_grubkin_v1\\02_side.png",
+    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude\\scratchpad\\holm_grubkin_v1\\03_front.png",
+    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude\\scratchpad\\holm_grubkin_v1\\04_idle.png",
+    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude\\scratchpad\\holm_grubkin_v1\\05_walk.png",
+    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude\\scratchpad\\holm_grubkin_v1\\06_attack.png",
+    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude\\scratchpad\\holm_grubkin_v1\\07_block.png",
+    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude\\scratchpad\\holm_grubkin_v1\\08_attack_snap.png",
+    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Claude\\scratchpad\\holm_grubkin_v1\\sheet.png"
+  ]
+}

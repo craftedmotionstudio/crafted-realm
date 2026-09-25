@@ -27,6 +27,22 @@ rules restated by the owner:
   Jagex models, maps, textures, sprites, audio, dialogue text and names are never copied; Client2 is study-only.
   Our own names, text and Blender models fill every one of those slots.
 
+### Owner acceptance requirements (2026-09-24, latest; the goal stays open until every one is met and proven)
+- [ ] **Keep the goal intact until completely done.** No item is dropped or declared done without its proof.
+- [ ] **At least 10 complete playthroughs** of the finished island (fresh adventurer -> all 18 lessons -> departure),
+      with everything working, by real input. Each run logged (time, lessons credited, errors, save/reload) in
+      `docs/rebuild/HOLM_PLAYTHROUGHS.md`; any failure fixed and the count restarted for that defect.
+- [ ] **Clear direction, objective and process** at every moment: one objective line (hint box) naming exactly
+      what to do next, a world arrow/beacon on the target, the tutor's chat-box dialogue explaining the lesson,
+      locked doors that say why, and no step where a new player has to guess.
+- [ ] **All NPCs, characters and items run through Blender:** tutors, practice enemies, the player model and its
+      worn gear, and every item a player sees on the island (inventory icons rendered from Blender models, dropped
+      items and wielded tools/weapons), with no code-built or legacy stand-ins left on the island.
+- [ ] **Everything that could have an animation has one:** tutors (idle, talk, walk), enemies (idle, walk,
+      attack, block/hit, death), the player (walk, run, skilling swings, combat, climb), doors and gates (swing),
+      fires (flicker), fishing spots (ripple), trees (breeze, fall), the beacon (light), levers, the ferry/skiff,
+      water, and any station with moving parts.
+
 "Complete" means all of: the Blender island (M3R-M4), all 18 lessons (M5), gated progression and one tutor per area
 with chat-box dialogue, practice enemies and the Blender player (M6), live cutover with saves carried forward and a
 timed playthrough (M7), and the owner's acceptance.
@@ -316,12 +332,31 @@ old coordinates on the grid pathfinder. Bundles, in order:
       sockets, furnace and anvil stations; Lastlight lever lights the Blender lamp (beacon/lit). `qa_holm_island.js`
       PASS 24/24 real pointer (chop, fire, fish, cook with burn-and-retry, shaft down, copper, tin, smelt, forge,
       ladder up, each lesson's notify event recorded). Route 20/20, arrival 12/12, units, world-v2, smoke green.
-- [ ] Activate the 18-lesson migration helper in runtime; old 13-lesson saves keep their credit.
-- [ ] Restore `bake_bread` and `learn_quests` as required lessons on the new buildings.
-- [ ] Restore `melee_trial`, `ranged_trial`, `magic_trial` with atomic kits, styled-kill attribution, ammo and
+- [x] **M5.2a 18-lesson curriculum on the island** (v6 ledger, our own hint lines, an arrow per station, saves keep
+      the ledger; v5 saves migrate). 2026-09-24: src/holm_island_curriculum.js, ui_save v6 branch, test 6/6.
+- [x] **M5.2b 2004-style progress gates**: Blender door leaves (holm-props-v3) on the bakehouse, Quest Lodge, bank,
+      Lastlight and the haven pier gate; closed doorways leave the graph until the lesson before is done; station
+      gates on the quarry shaft and rune table. src/holm_island_gates.js, docs/rebuild/holm-overhaul/island-gates.json.
+- [x] **M5.3 Combat trials** on Blender practice grubkins (holm_grubkin_v1: idle/walk/attack/block) in the keep court
+      and the mage yard; dagger, shortbow (+kit) and Wind Strike (+runes) kills credit their styles. qa 28/28.
+- [x] Activate the 18-lesson migration helper in runtime; old 13-lesson saves keep their credit. (M5.2a, island draft)
+- [x] Restore `bake_bread` and `learn_quests` as required lessons on the new buildings. (M5.2a)
+- [x] Restore `melee_trial`, `ranged_trial`, `magic_trial` with atomic kits, styled-kill attribution, ammo and
       rune recovery, and aligned lesson copy (spell XP is granted on hit or miss).
 
 ### M6 — People
+Plan bundles (2026-09-24, from the player/item/animation audit):
+- [x] **M6.1 Tutors**: ten Blender tutors on one rig (idle/talk/walk/wave), one per area, curriculum-aware chat-box
+      lessons (src/holm_island_tutors.js).
+      2026-09-24: holm_tutor_{bram..tobin}.glb placed beside their stations, face and wave at the player, talk clip while
+      the chat box is open; dialogue follows the ledger (before/during/after their lessons). Portraits still emoji.
+- [ ] **M6.2 Blender player**: editable source on the existing Mixamo bone names and region materials, appearance
+      options (colours, hair styles, beard, body), clips idle/walk/run/attack(slash,stab,crush)/bow/cast/chop/mine/
+      net/smith/smelt/cook/climb/death/block; swing() picks a named clip per type; saved looks preserved.
+- [ ] **M6.3 Blender items**: every island item modelled (hand + ground), inventory icons rendered in Blender from
+      the same models (assets/icons/items/), iconFor/gear hooks use them.
+- [ ] **M6.4 Animation pass**: lever pull + beacon beam, tree fall on chop, fishing ripple clip, furnace glow + anvil
+      sparks, island building doors, Blender guide marker, ferry departure, grubkin death, bank.
 - [ ] Chunk-owned NPC lifecycle. Prove it first with one non-attackable tutor (Bram) at an authored socket:
       load/unload, failure, dialogue persistence.
 - [ ] Full tutor cast (chef, quest guide, combat instructor, mage, banker, Lastlight keeper), modeled and animated.

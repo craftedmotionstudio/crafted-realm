@@ -7,24 +7,55 @@
       "detail": {
         "provider": "tutors-holm-arrival-qa",
         "stats": {
-          "nodes": 11122,
-          "edges": 19381,
+          "nodes": 11113,
+          "edges": 19356,
           "owners": {
             "land": 8066,
             "b:keep": 901,
-            "b:bakehouse": 274,
-            "b:lodge": 388,
+            "b:bakehouse": 272,
+            "b:lodge": 387,
             "b:survival": 255,
             "b:quarry": 110,
-            "b:bank": 195,
+            "b:bank": 194,
             "b:mage": 298,
-            "b:haven": 163,
-            "b:lastlight": 224,
+            "b:haven": 159,
+            "b:lastlight": 223,
             "b:cavern": 85,
             "arrival": 163
           }
         },
-        "roots": 301
+        "roots": 321
+      }
+    },
+    {
+      "label": "M5.2a: the island runs the 18-lesson curriculum (v6), every lesson with an arrow at its station",
+      "ok": true,
+      "detail": {
+        "v": 6,
+        "n": 18,
+        "lesson": "study_route",
+        "targets": 18,
+        "route": false
+      }
+    },
+    {
+      "label": "M5.2b: the bakehouse door is shut for a new adventurer and says why",
+      "ok": true,
+      "detail": {
+        "route": false,
+        "chat": [
+          "The bakehouse door is barred. Finish your lessons at the survival camp first."
+        ]
+      }
+    },
+    {
+      "label": "M5.2b: with the survival lessons done the bakehouse door opens (the Quest Lodge stays shut)",
+      "ok": true,
+      "detail": {
+        "route": true,
+        "open": true,
+        "lodge": false,
+        "lesson": "bake_bread"
       }
     },
     {
@@ -57,7 +88,7 @@
       "label": "every step on the way is cardinal",
       "ok": true,
       "detail": {
-        "samples": 316,
+        "samples": 367,
         "diagonal": 0
       }
     },
@@ -357,7 +388,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 2,
+        "cookTries": 1,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -378,7 +409,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 2,
+        "cookTries": 1,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -392,18 +423,36 @@
       }
     },
     {
+      "label": "M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Wind Strike kills credit their styles",
+      "ok": true,
+      "detail": {
+        "spawned": [
+          "keep-court",
+          "keep-court",
+          "keep-court",
+          "mage-yard",
+          "mage-yard"
+        ],
+        "melee": true,
+        "ranged": true,
+        "arrowsUsed": 7,
+        "magic": true,
+        "runesUsed": 6
+      }
+    },
+    {
       "label": "reload restores the island position",
       "ok": true,
       "detail": {
         "before": [
-          35.5,
-          7.146,
-          28.5
+          105.5,
+          6.122,
+          54.5
         ],
         "after": [
-          35.5,
-          7.146,
-          28.5
+          105.5,
+          6.122,
+          54.5
         ]
       }
     },
@@ -415,5 +464,5 @@
       }
     }
   ],
-  "seconds": 749
+  "seconds": 847
 }

@@ -22,8 +22,14 @@ function _gearSprite(id){
   const us=id.indexOf('_');
   return us>0 && GEAR_SPRITE_TEMPLATES.has(id.slice(us+1));
 }
+/* Tutorial island items rendered in Blender from their own models (tools/blender/build_holm_items_v1.py ->
+   assets/icons/items/<id>.png; finish goal M6.3). Returned as an <img> src like the gear sprites. */
+const HOLM_ITEM_ICONS = new Set(['tinderbox','hammer','bucket','bucket_water','bucket_flour','pot_of_flour','dough',
+  'bread_dough','bread','logs','raw_perch','cooked_perch','burnt_perch','copper_ore','tin_ore','bronze_bar','fishing_net',
+  'coins','arrows','air_rune','mind_rune','leather_body','wood_shield','bones']);
 function iconFor(id){
   if(ICONS[id]) return ICONS[id];
+  if(HOLM_ITEM_ICONS.has(id)) return (ICONS[id]='assets/icons/items/'+id+'.png');
   if(_gearSprite(id)) return (ICONS[id]='assets/icons/gear/'+id+'.png');
   const c=document.createElement('canvas'); c.width=32; c.height=32;
   const x=c.getContext('2d');

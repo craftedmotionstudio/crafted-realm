@@ -29,6 +29,14 @@ var HolmIslandNav=(function(){
    for(var z=Math.floor(b.z0);z<=Math.floor(b.z1-EPS);z++)for(var x=Math.floor(b.x0);x<=Math.floor(b.x1-EPS);x++)
     if(b.mode==='overlap'||(x+.5>b.x0&&x+.5<b.x1&&z+.5>b.z0&&z+.5<b.z1))blocked[key(x,z)]=b.id||true;
   });
+  // ---- progress gates (M5.2b, 2004 Tutorial Island style): a building's doorway tiles stay shut until its gate is
+  // opened by the lesson before it. Gates only ever open; the cache key carries the open set. ----
+  var gateAt=Object.create(null),openGates=Object.create(null);
+  (input.gates||[]).forEach(function(g){need(g&&typeof g.id==='string'&&typeof g.building==='string'&&Array.isArray(g.tiles)&&g.tiles.length,'invalid gate');
+   g.tiles.forEach(function(t){need(Number.isInteger(t[0])&&Number.isInteger(t[1]),'gate tiles are integers');gateAt[key(t[0],t[1])]={id:g.id,building:g.building}})});
+  function gateKey(){return Object.keys(openGates).filter(function(k){return openGates[k]}).sort().join(',')}
+  function setGates(open){var changed=false;Object.keys(open||{}).forEach(function(k){if(open[k]&&!openGates[k]){openGates[k]=true;changed=true}});return changed}
+  function shut(n,b){var g=gateAt[key(n.tx,n.tz)];return !!(g&&g.building===b.id&&!openGates[g.id])}
   // ---- Blender building graphs, placed in world space ----
   var buildings=(input.buildings||[]).map(function(b){
    var g=b.graph,o=b.placement||g.placement||g.origin;
@@ -79,7 +87,7 @@ var HolmIslandNav=(function(){
   }
   var cache=Object.create(null);
   function compile(doors){
-   doors=doors||{arrival:false,garden:false};var dk=doorKey(doors);if(cache[dk])return cache[dk];
+   doors=doors||{arrival:false,garden:false};var dk=doorKey(doors)+'|'+gateKey();if(cache[dk])return cache[dk];
    var nodes=[],links=Object.create(null),byTile=Object.create(null),by=Object.create(null);
    function add(n,owner){n.owner=owner;nodes.push(n);by[n.id]=n;links[n.id]=[];var k=key(n.tx,n.tz);(byTile[k]=byTile[k]||[]).push(n)}
    function link(a,b){if(links[a.id].indexOf(b.id)<0){links[a.id].push(b.id);links[b.id].push(a.id)}}
@@ -87,7 +95,7 @@ var HolmIslandNav=(function(){
    // Blender patches measured the carved creek bed as walkable terrain (the water surface was not in their
    // collision set): terrain stances on water tiles are dropped, so every owner obeys the same water rule.
    buildings.forEach(function(b){b.nodes.forEach(function(n){var k=key(n.tx,n.tz);
-    if(owned[k]==='b:'+b.id&&!blocked[k]&&!(openGround(n.surface)&&wet(n.tx,n.tz)&&!decks[k]))add(n,'b:'+b.id)})});
+    if(owned[k]==='b:'+b.id&&!blocked[k]&&!shut(n,b)&&!(openGround(n.surface)&&wet(n.tx,n.tz)&&!decks[k]))add(n,'b:'+b.id)})});
    if(arrival){var ag=arrivalGraph(doors);ag.nodes.forEach(function(n){add({id:n.id,surface:n.surface,x:n.x,y:n.y,z:n.z,tx:Math.floor(n.x),tz:Math.floor(n.z),arrival:true},'arrival')});
     Object.keys(ag.links).forEach(function(id){ag.links[id].forEach(function(t){if(by[id]&&by[t])link(by[id],by[t])})})}
    // land-land cardinal links
@@ -132,7 +140,7 @@ var HolmIslandNav=(function(){
   }
   function edge(a,b,doors){var g=compile(doors);return !!(g.links[a.id]&&g.links[a.id].indexOf(b.id)>=0)}
   function stats(doors){var g=compile(doors),e=0;Object.keys(g.links).forEach(function(k){e+=g.links[k].length});var own={};g.nodes.forEach(function(n){own[n.owner]=(own[n.owner]||0)+1});return {nodes:g.nodes.length,edges:e/2,owners:own}}
-  return {compile:compile,route:route,support:support,point:point,edge:edge,stats:stats,height:function(x,z){return sample(x,z)}};
+  return {compile:compile,route:route,support:support,point:point,edge:edge,stats:stats,height:function(x,z){return sample(x,z)},setGates:setGates,gateKey:gateKey};
  }
  // A plan crossing (concept x/z + orientation) becomes deck tiles: snap along its axis to the nearest creek tile
  // (within 4), span every wet tile to dry land both sides; the deck sits b.rise (default .2) above the higher bank.

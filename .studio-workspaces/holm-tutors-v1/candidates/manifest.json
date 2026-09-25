@@ -1,0 +1,708 @@
+{
+  "pack": "holm-tutors-v1",
+  "status": "candidate",
+  "source": "tools/blender/build_holm_tutors_v1.py",
+  "blender": "4.5",
+  "fps": 24,
+  "colourRule": "material colours authored as seen sRGB; roughness 1; metallic 0; emission strength 1.0",
+  "rig": {
+    "bones": 19,
+    "names": [
+      "hips",
+      "spine",
+      "chest",
+      "neck",
+      "head",
+      "shoulder_L",
+      "uparm_L",
+      "forearm_L",
+      "hand_L",
+      "thigh_L",
+      "shin_L",
+      "foot_L",
+      "shoulder_R",
+      "uparm_R",
+      "forearm_R",
+      "hand_R",
+      "thigh_R",
+      "shin_R",
+      "foot_R"
+    ],
+    "skinning": "rigid per part; skirts blend hips->thighs"
+  },
+  "budget": {
+    "triangles": 2500,
+    "materials": 8,
+    "bones": 24
+  },
+  "tutors": [
+    {
+      "id": "holm_tutor_bram",
+      "name": "Guide Bram",
+      "location": "Guide House",
+      "file": "assets/models/holm_tutor_bram.glb",
+      "triangles": 942,
+      "materials": 8,
+      "materialNames": [
+        "bram_trousers",
+        "bram_tunic",
+        "bram_skin",
+        "bram_dark",
+        "bram_grey",
+        "bram_hood",
+        "bram_leather",
+        "bram_wood"
+      ],
+      "bones": 19,
+      "boneNames": [
+        "hips",
+        "spine",
+        "chest",
+        "neck",
+        "head",
+        "shoulder_L",
+        "uparm_L",
+        "forearm_L",
+        "hand_L",
+        "thigh_L",
+        "shin_L",
+        "foot_L",
+        "shoulder_R",
+        "uparm_R",
+        "forearm_R",
+        "hand_R",
+        "thigh_R",
+        "shin_R",
+        "foot_R"
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "seconds": 2.5,
+          "loop": true
+        },
+        {
+          "name": "talk",
+          "seconds": 2.0,
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "seconds": 1.0,
+          "loop": true
+        },
+        {
+          "name": "wave",
+          "seconds": 1.2083,
+          "loop": false
+        }
+      ],
+      "height": 2.05,
+      "heightNote": "rest-pose bbox incl. headwear/props (use as glbHeight to keep 1:1 scale)",
+      "forwardAxis": "+Z (glTF) == -Y (Blender); character left = +X",
+      "holdsRightHand": true,
+      "sha256": "9c0b350039903aa597686a25f5c6ca869c985f475090f8cd5e27f0e2bd7d7678"
+    },
+    {
+      "id": "holm_tutor_wenna",
+      "name": "Wenna",
+      "location": "Survival camp",
+      "file": "assets/models/holm_tutor_wenna.glb",
+      "triangles": 1022,
+      "materials": 8,
+      "materialNames": [
+        "wenna_trousers",
+        "wenna_jerkin",
+        "wenna_moss",
+        "wenna_skin",
+        "wenna_dark",
+        "wenna_hair",
+        "wenna_boots",
+        "wenna_iron"
+      ],
+      "bones": 19,
+      "boneNames": [
+        "hips",
+        "spine",
+        "chest",
+        "neck",
+        "head",
+        "shoulder_L",
+        "uparm_L",
+        "forearm_L",
+        "hand_L",
+        "thigh_L",
+        "shin_L",
+        "foot_L",
+        "shoulder_R",
+        "uparm_R",
+        "forearm_R",
+        "hand_R",
+        "thigh_R",
+        "shin_R",
+        "foot_R"
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "seconds": 2.5,
+          "loop": true
+        },
+        {
+          "name": "talk",
+          "seconds": 2.0,
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "seconds": 1.0,
+          "loop": true
+        },
+        {
+          "name": "wave",
+          "seconds": 1.2083,
+          "loop": false
+        }
+      ],
+      "height": 1.86,
+      "heightNote": "rest-pose bbox incl. headwear/props (use as glbHeight to keep 1:1 scale)",
+      "forwardAxis": "+Z (glTF) == -Y (Blender); character left = +X",
+      "holdsRightHand": false,
+      "sha256": "264fd03908d44cb8da5835adf467f277304e3befaa6694bd07aa55bc9a1555c5"
+    },
+    {
+      "id": "holm_tutor_hettie",
+      "name": "Cook Hettie",
+      "location": "Bakehouse",
+      "file": "assets/models/holm_tutor_hettie.glb",
+      "triangles": 906,
+      "materials": 8,
+      "materialNames": [
+        "hettie_ochre",
+        "hettie_skin",
+        "hettie_dark",
+        "hettie_hair",
+        "hettie_cheeks",
+        "hettie_shoes",
+        "hettie_white",
+        "hettie_flour"
+      ],
+      "bones": 19,
+      "boneNames": [
+        "hips",
+        "spine",
+        "chest",
+        "neck",
+        "head",
+        "shoulder_L",
+        "uparm_L",
+        "forearm_L",
+        "hand_L",
+        "thigh_L",
+        "shin_L",
+        "foot_L",
+        "shoulder_R",
+        "uparm_R",
+        "forearm_R",
+        "hand_R",
+        "thigh_R",
+        "shin_R",
+        "foot_R"
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "seconds": 2.5,
+          "loop": true
+        },
+        {
+          "name": "talk",
+          "seconds": 2.0,
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "seconds": 1.0,
+          "loop": true
+        },
+        {
+          "name": "wave",
+          "seconds": 1.2083,
+          "loop": false
+        }
+      ],
+      "height": 1.93,
+      "heightNote": "rest-pose bbox incl. headwear/props (use as glbHeight to keep 1:1 scale)",
+      "forwardAxis": "+Z (glTF) == -Y (Blender); character left = +X",
+      "holdsRightHand": false,
+      "sha256": "f5a1d26ece7703981a5ae9b6597915799777d62231e0663d5c0692bcfcf0c8f4"
+    },
+    {
+      "id": "holm_tutor_ansel",
+      "name": "Loremaster Ansel",
+      "location": "Quest Lodge",
+      "file": "assets/models/holm_tutor_ansel.glb",
+      "triangles": 990,
+      "materials": 8,
+      "materialNames": [
+        "ansel_robe",
+        "ansel_skin",
+        "ansel_dark",
+        "ansel_hair",
+        "ansel_trim",
+        "ansel_leather",
+        "ansel_paper",
+        "ansel_book"
+      ],
+      "bones": 19,
+      "boneNames": [
+        "hips",
+        "spine",
+        "chest",
+        "neck",
+        "head",
+        "shoulder_L",
+        "uparm_L",
+        "forearm_L",
+        "hand_L",
+        "thigh_L",
+        "shin_L",
+        "foot_L",
+        "shoulder_R",
+        "uparm_R",
+        "forearm_R",
+        "hand_R",
+        "thigh_R",
+        "shin_R",
+        "foot_R"
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "seconds": 2.5,
+          "loop": true
+        },
+        {
+          "name": "talk",
+          "seconds": 2.0,
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "seconds": 1.0,
+          "loop": true
+        },
+        {
+          "name": "wave",
+          "seconds": 1.2083,
+          "loop": false
+        }
+      ],
+      "height": 1.87,
+      "heightNote": "rest-pose bbox incl. headwear/props (use as glbHeight to keep 1:1 scale)",
+      "forwardAxis": "+Z (glTF) == -Y (Blender); character left = +X",
+      "holdsRightHand": false,
+      "sha256": "62d1ad2e52f9185f3638de8507140a54461918819b1ce54b8548edddfb684232"
+    },
+    {
+      "id": "holm_tutor_durgin",
+      "name": "Foreman Durgin",
+      "location": "Quarry & ore workings",
+      "file": "assets/models/holm_tutor_durgin.glb",
+      "triangles": 970,
+      "materials": 8,
+      "materialNames": [
+        "durgin_trousers",
+        "durgin_smock",
+        "durgin_skin",
+        "durgin_black",
+        "durgin_leather",
+        "durgin_iron",
+        "durgin_wax",
+        "durgin_flame"
+      ],
+      "bones": 19,
+      "boneNames": [
+        "hips",
+        "spine",
+        "chest",
+        "neck",
+        "head",
+        "shoulder_L",
+        "uparm_L",
+        "forearm_L",
+        "hand_L",
+        "thigh_L",
+        "shin_L",
+        "foot_L",
+        "shoulder_R",
+        "uparm_R",
+        "forearm_R",
+        "hand_R",
+        "thigh_R",
+        "shin_R",
+        "foot_R"
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "seconds": 2.5,
+          "loop": true
+        },
+        {
+          "name": "talk",
+          "seconds": 2.0,
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "seconds": 1.0,
+          "loop": true
+        },
+        {
+          "name": "wave",
+          "seconds": 1.2083,
+          "loop": false
+        }
+      ],
+      "height": 1.99,
+      "heightNote": "rest-pose bbox incl. headwear/props (use as glbHeight to keep 1:1 scale)",
+      "forwardAxis": "+Z (glTF) == -Y (Blender); character left = +X",
+      "holdsRightHand": false,
+      "sha256": "5520cd782fdacfcaef4166a75ff1e2027669660ff7cac0e981c879dbcf1a27e5"
+    },
+    {
+      "id": "holm_tutor_corrick",
+      "name": "Warden Corrick",
+      "location": "Warden's Keep",
+      "file": "assets/models/holm_tutor_corrick.glb",
+      "triangles": 968,
+      "materials": 7,
+      "materialNames": [
+        "corrick_under",
+        "corrick_leather",
+        "corrick_tabard",
+        "corrick_bronze",
+        "corrick_skin",
+        "corrick_dark",
+        "corrick_hair"
+      ],
+      "bones": 19,
+      "boneNames": [
+        "hips",
+        "spine",
+        "chest",
+        "neck",
+        "head",
+        "shoulder_L",
+        "uparm_L",
+        "forearm_L",
+        "hand_L",
+        "thigh_L",
+        "shin_L",
+        "foot_L",
+        "shoulder_R",
+        "uparm_R",
+        "forearm_R",
+        "hand_R",
+        "thigh_R",
+        "shin_R",
+        "foot_R"
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "seconds": 2.5,
+          "loop": true
+        },
+        {
+          "name": "talk",
+          "seconds": 2.0,
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "seconds": 1.0,
+          "loop": true
+        },
+        {
+          "name": "wave",
+          "seconds": 1.2083,
+          "loop": false
+        }
+      ],
+      "height": 1.855,
+      "heightNote": "rest-pose bbox incl. headwear/props (use as glbHeight to keep 1:1 scale)",
+      "forwardAxis": "+Z (glTF) == -Y (Blender); character left = +X",
+      "holdsRightHand": false,
+      "sha256": "07f924e7bd793f24243db40ba05b1d7f773765b6e0b9b2077563defdad66ab27"
+    },
+    {
+      "id": "holm_tutor_maud",
+      "name": "Teller Maud",
+      "location": "Holm Bank",
+      "file": "assets/models/holm_tutor_maud.glb",
+      "triangles": 968,
+      "materials": 8,
+      "materialNames": [
+        "maud_skirt",
+        "maud_waistcoat",
+        "maud_blouse",
+        "maud_skin",
+        "maud_dark",
+        "maud_hair",
+        "maud_shoes",
+        "maud_brass"
+      ],
+      "bones": 19,
+      "boneNames": [
+        "hips",
+        "spine",
+        "chest",
+        "neck",
+        "head",
+        "shoulder_L",
+        "uparm_L",
+        "forearm_L",
+        "hand_L",
+        "thigh_L",
+        "shin_L",
+        "foot_L",
+        "shoulder_R",
+        "uparm_R",
+        "forearm_R",
+        "hand_R",
+        "thigh_R",
+        "shin_R",
+        "foot_R"
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "seconds": 2.5,
+          "loop": true
+        },
+        {
+          "name": "talk",
+          "seconds": 2.0,
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "seconds": 1.0,
+          "loop": true
+        },
+        {
+          "name": "wave",
+          "seconds": 1.2083,
+          "loop": false
+        }
+      ],
+      "height": 1.875,
+      "heightNote": "rest-pose bbox incl. headwear/props (use as glbHeight to keep 1:1 scale)",
+      "forwardAxis": "+Z (glTF) == -Y (Blender); character left = +X",
+      "holdsRightHand": false,
+      "sha256": "0c74b216f0c770690040897fc0a6d15202904aa0da9d778b5ece4dd7e4237167"
+    },
+    {
+      "id": "holm_tutor_ilse",
+      "name": "Magister Ilse",
+      "location": "Mage Tower",
+      "file": "assets/models/holm_tutor_ilse.glb",
+      "triangles": 988,
+      "materials": 7,
+      "materialNames": [
+        "ilse_robe",
+        "ilse_skin",
+        "ilse_dark",
+        "ilse_hair",
+        "ilse_silver",
+        "ilse_leather",
+        "ilse_dark_robe"
+      ],
+      "bones": 19,
+      "boneNames": [
+        "hips",
+        "spine",
+        "chest",
+        "neck",
+        "head",
+        "shoulder_L",
+        "uparm_L",
+        "forearm_L",
+        "hand_L",
+        "thigh_L",
+        "shin_L",
+        "foot_L",
+        "shoulder_R",
+        "uparm_R",
+        "forearm_R",
+        "hand_R",
+        "thigh_R",
+        "shin_R",
+        "foot_R"
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "seconds": 2.5,
+          "loop": true
+        },
+        {
+          "name": "talk",
+          "seconds": 2.0,
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "seconds": 1.0,
+          "loop": true
+        },
+        {
+          "name": "wave",
+          "seconds": 1.2083,
+          "loop": false
+        }
+      ],
+      "height": 2.17,
+      "heightNote": "rest-pose bbox incl. headwear/props (use as glbHeight to keep 1:1 scale)",
+      "forwardAxis": "+Z (glTF) == -Y (Blender); character left = +X",
+      "holdsRightHand": false,
+      "sha256": "7df272e7731d32a106daa0852592be5911e7967ddb8dcdff3683dc8580cb8bb1"
+    },
+    {
+      "id": "holm_tutor_aldous",
+      "name": "Keeper Aldous",
+      "location": "Lastlight",
+      "file": "assets/models/holm_tutor_aldous.glb",
+      "triangles": 1092,
+      "materials": 8,
+      "materialNames": [
+        "aldous_mustard",
+        "aldous_skin",
+        "aldous_dark",
+        "aldous_white",
+        "aldous_ruddy",
+        "aldous_trousers",
+        "aldous_navy",
+        "aldous_glow"
+      ],
+      "bones": 19,
+      "boneNames": [
+        "hips",
+        "spine",
+        "chest",
+        "neck",
+        "head",
+        "shoulder_L",
+        "uparm_L",
+        "forearm_L",
+        "hand_L",
+        "thigh_L",
+        "shin_L",
+        "foot_L",
+        "shoulder_R",
+        "uparm_R",
+        "forearm_R",
+        "hand_R",
+        "thigh_R",
+        "shin_R",
+        "foot_R"
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "seconds": 2.5,
+          "loop": true
+        },
+        {
+          "name": "talk",
+          "seconds": 2.0,
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "seconds": 1.0,
+          "loop": true
+        },
+        {
+          "name": "wave",
+          "seconds": 1.2083,
+          "loop": false
+        }
+      ],
+      "height": 1.94,
+      "heightNote": "rest-pose bbox incl. headwear/props (use as glbHeight to keep 1:1 scale)",
+      "forwardAxis": "+Z (glTF) == -Y (Blender); character left = +X",
+      "holdsRightHand": true,
+      "sha256": "76125a973f6795876fd9a32894577a9337a5b71056295c9a34975363c36a6ac0"
+    },
+    {
+      "id": "holm_tutor_tobin",
+      "name": "Ferryman Tobin",
+      "location": "Departure Haven",
+      "file": "assets/models/holm_tutor_tobin.glb",
+      "triangles": 1452,
+      "materials": 8,
+      "materialNames": [
+        "tobin_trousers",
+        "tobin_white",
+        "tobin_navy",
+        "tobin_skin",
+        "tobin_dark",
+        "tobin_hair",
+        "tobin_sash",
+        "tobin_rope"
+      ],
+      "bones": 19,
+      "boneNames": [
+        "hips",
+        "spine",
+        "chest",
+        "neck",
+        "head",
+        "shoulder_L",
+        "uparm_L",
+        "forearm_L",
+        "hand_L",
+        "thigh_L",
+        "shin_L",
+        "foot_L",
+        "shoulder_R",
+        "uparm_R",
+        "forearm_R",
+        "hand_R",
+        "thigh_R",
+        "shin_R",
+        "foot_R"
+      ],
+      "clips": [
+        {
+          "name": "idle",
+          "seconds": 2.5,
+          "loop": true
+        },
+        {
+          "name": "talk",
+          "seconds": 2.0,
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "seconds": 1.0,
+          "loop": true
+        },
+        {
+          "name": "wave",
+          "seconds": 1.2083,
+          "loop": false
+        }
+      ],
+      "height": 1.945,
+      "heightNote": "rest-pose bbox incl. headwear/props (use as glbHeight to keep 1:1 scale)",
+      "forwardAxis": "+Z (glTF) == -Y (Blender); character left = +X",
+      "holdsRightHand": false,
+      "sha256": "b68d2439adbcbb2bdab1f64d7fb6bf3241a9343d7ffd2f47ac050f2ee72863eb"
+    }
+  ]
+}
