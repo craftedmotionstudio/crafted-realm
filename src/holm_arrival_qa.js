@@ -104,13 +104,20 @@ var HolmArrivalQA=(function(){
   if(record&&record.doors&&typeof record.doors.arrival==='boolean'&&typeof record.doors.garden==='boolean'){doors=record.doors;owner.setDoors(doors)}
   bindPlayer(record);
  }
- function toggleDoor(id){
+ function toggleDoor(id,enter){
   var next={arrival:doors.arrival,garden:doors.garden};next[id]=!next[id];
-  if(bridge.setDoors(next)){doors=next;owner.setDoors(doors,{animate:true})}else UI.chat('Step clear of the doorway first.','plain');
+  if(bridge.setDoors(next)){doors=next;owner.setDoors(doors,{animate:true});
+   // opened from outside: once the leaf has swung clear, step through into the doorway (the roof lifts, the room shows)
+   if(enter&&next[id]&&!insideHouse(player.position)){var inn=doorwayInside(id);if(inn)setTimeout(function(){if(bridge&&!bridge.snapshot().moving&&doors[id])bridge.order(inn)},650)}}
+  else UI.chat('Step clear of the doorway first.','plain');
  }
+ // the house footprint and the first floor node inside a door
+ function insideHouse(p){if(!loaded||!loaded.documents||!loaded.documents.layout)return true;var b=loaded.documents.layout.building,w=b.world;return Math.abs(p.x-w.x)<b.width/2&&Math.abs(p.z-w.z)<b.depth/2}
+ function doorwayInside(id){if(typeof scene==='undefined'||!scene||!scene.getObjectByName)return null;var h=scene.getObjectByName(id==='garden'?'DoorNorthHinge':'DoorSouthHinge');if(!h)return null;var c=h.getWorldPosition(new THREE.Vector3()),best=null,d=Infinity;
+  graphForDoors(doors).nodes.forEach(function(n){if(n.surface!=='ground'||!insideHouse(n))return;var k=Math.hypot(n.x-c.x,n.z-c.z);if(k<d){d=k;best=n}});return d<2.5?best:null}
  // Nearest walkable node within reach of the door, preferring the player's own side of it.
  // the leaf's swing: its hinge and the radius it sweeps (leaf length plus the adventurer's own radius)
- function doorSwing(id){var hinge=scene.getObjectByName(id==='garden'?'DoorNorthHinge':'DoorSouthHinge'),leaf=scene.getObjectByName(id==='garden'?'DoorNorthLeaf':'DoorSouthLeaf');if(!hinge||!leaf)return null;
+ function doorSwing(id){if(typeof scene==='undefined'||!scene||!scene.getObjectByName)return null;var hinge=scene.getObjectByName(id==='garden'?'DoorNorthHinge':'DoorSouthHinge'),leaf=scene.getObjectByName(id==='garden'?'DoorNorthLeaf':'DoorSouthLeaf');if(!hinge||!leaf)return null;
   var h=hinge.getWorldPosition(new THREE.Vector3()),b=new THREE.Box3().setFromObject(leaf),r=0;[[b.min.x,b.min.z],[b.max.x,b.min.z],[b.min.x,b.max.z],[b.max.x,b.max.z]].forEach(function(c){r=Math.max(r,Math.hypot(c[0]-h.x,c[1]-h.z))});
   return {hinge:{x:h.x,z:h.z},r:r+.35}}
  function inSwing(n,swing){return !!swing&&Math.hypot(n.x-swing.hinge.x,n.z-swing.hinge.z)<swing.r}
@@ -172,7 +179,7 @@ var HolmArrivalQA=(function(){
     else UI.chat('There is no open route to that door.','plain');
     return true;
    }
-   toggleDoor(u.arrivalDoor);return true;
+   toggleDoor(u.arrivalDoor,true);return true;
   }
   if(u.kind==='arrival_chart'||u.kind==='arrival_provisions'){
    var service=loaded.package.navigation.interactions.find(function(s){return s.kind===(u.kind==='arrival_chart'?'holm_orientation':'holm_provisions')});
@@ -222,7 +229,7 @@ var HolmArrivalQA=(function(){
    if(kind==='cellar'){HolmGuideCellar.climb(p0.climb,placeAt);return}
    if(kind==='stair'){climbStairs(p0.climb);if(p0.then&&!bridge.order(p0.then))UI.chat('There is no open route to that spot.','plain');return}
    if(kind==='tutor'){HolmIslandTutors.talk(p0.tutor);return}
-   if(kind==='door')toggleDoor(door);else if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
+   if(kind==='door')toggleDoor(door,true);else if(kind==='holm_provisions')HolmGuideHall.collectTools();else HolmGuideHall.studyRoute()}
  }
  // the Guide House stairs: the ground node at the foot of the flight and the upper node at its head (layout is building-local)
  function stairClimb(){var l=loaded.documents.layout,s=l.stairs,bw=l.building.world,g=graphForDoors(doors),up=bridge.snapshot().surface!=='upper';
