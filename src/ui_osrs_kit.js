@@ -37,7 +37,7 @@ function el(tag,cls,html){var e=doc.createElement(tag);if(cls)e.className=cls;if
 function click(){try{if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click()}catch(e){}}
 
 /* ---------------------------------------------------------------- 0. style */
-var link=el('link');link.rel='stylesheet';link.href='assets/ui/osrs_kit.css?v=1';
+var link=el('link');link.rel='stylesheet';link.href='assets/ui/osrs_kit.css?v=2';
 var fonts=el('link');fonts.rel='stylesheet';
 fonts.href='https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap';
 (doc.head||root).appendChild(fonts);(doc.head||root).appendChild(link);
@@ -345,16 +345,35 @@ function torchTick(t){
 }
 
 /* ------------------------------------------------------------- 11. boot */
+// music tab: the real track list (green = unlocked, red = not yet heard), click a green one to play it
+function refreshMusicKit(){try{
+ var pane=$('pane-music');if(!pane||typeof TRACKS==='undefined'||typeof Music==='undefined')return;var list=pane.querySelector('.kit-list'),now=pane.querySelector('.music-now b');if(!list)return;
+ list.innerHTML='';var cur=Music.current&&TRACKS[Music.current]?TRACKS[Music.current].name:'None';if(now)now.textContent=Music.on?cur:'(music off)';
+ Object.keys(TRACKS).forEach(function(id){var un=(Music.unlocked||[]).indexOf(id)>=0,d=el('div','music-track'+(un?' unlocked':' locked')+(Music.on&&Music.current===id?' active':''));d.textContent=TRACKS[id].name;
+  d.style.cursor='pointer';tipify(d,un?'Play '+TRACKS[id].name:'Not unlocked yet');
+  d.addEventListener('click',function(){click();if(!un){UI.chat('You have not unlocked this piece of music yet!','plain');return}
+   try{Music.mode='manual';Music.play(id);if(!Music.on)Music.start()}catch(e){}setTimeout(refreshMusicKit,50)});list.appendChild(d)})}catch(e){console.warn('[ui-kit] music',e)}}
+function wireMusicTab(){Array.prototype.forEach.call(doc.querySelectorAll('.tab-btn[data-tab="music"]'),function(b){if(b.__kitm)return;b.__kitm=true;b.addEventListener('click',refreshMusicKit)});
+ var tb=doc.querySelector('#pane-music .set-btn');if(tb&&!tb.__kitm){tb.__kitm=true;tb.addEventListener('click',function(){setTimeout(refreshMusicKit,60)})}}
+// the old client never showed markup in the chat: strip the few inline tags some messages carry
+function patchChat(){if(typeof UI==='undefined'||UI.__kitChat)return;UI.__kitChat=true;var c0=UI.chat;
+ UI.chat=function(msg,cls){if(typeof msg==='string'&&msg.indexOf('<')>=0)msg=msg.replace(/<\/?(b|i|u|br|span)[^>]*>/g,'');return c0.call(this,msg,cls)}}
+// village folk speak through the same crisp overhead text as the player
+function patchVillageChatter(){if(typeof window.sayOverhead==='function'&&!window.sayOverhead.__kit){var f=function(mesh,text,secs){sayOverhead(mesh,text,secs||3.4);return null};f.__kit=true;window.sayOverhead=f}}
 // emotes: a player who clicks one sees it happen (a line in the chat, the gesture over their head)
 function wireEmotes(){Array.prototype.forEach.call(doc.querySelectorAll('#pane-emotes .emote-grid button'),function(b){if(b.__kit)return;b.__kit=true;var n=(b.getAttribute('title')||'').trim();tipify(b,n);
  b.addEventListener('click',function(){click();var v={Yes:'nod',No:'shake your head',Bow:'bow',Angry:'fume',Think:'ponder',Wave:'wave',Cheer:'cheer',Laugh:'laugh',Dance:'dance a jig',Sit:'sit a moment',Shrug:'shrug',Clap:'clap'}[n]||'gesture';
   UI.chat('You '+v+'.','plain');if(typeof player!=='undefined'&&player)sayOverhead(player,'*'+v.split(' ')[0]+'*',2.4)})})}
+// the hidden legacy tab rows come first in the DOM, so scripts that click querySelector('.tab-btn[data-tab=..]') light
+// up an invisible button: mirror the open tab onto the visible rows after every tab click
+function syncTabs(){doc.addEventListener('click',function(e){var b=e.target&&e.target.closest?e.target.closest('.tab-btn'):null;if(!b||!b.dataset.tab)return;var t=b.dataset.tab;
+ Array.prototype.forEach.call(doc.querySelectorAll('#tab-bar .tab-btn,#tab-bar-bottom .tab-btn'),function(x){x.classList.toggle('active',x.dataset.tab===t)})})}
 function tabTips(){Array.prototype.forEach.call(doc.querySelectorAll('#tab-bar .tab-btn,#tab-bar-bottom .tab-btn'),function(b){tipify(b)});
  var so=$('objective');if(so){var sb=so.querySelector('button');if(sb)tipify(sb,'Skip the island tutorial')}
  var z=$('zone-box');if(z)z.setAttribute('aria-label','Current area')}
 var mo=null;
 function boot(){
- retireLayers();installTip();buildCluster();buildRail();buildChat();tabTips();patchControls();patchNames();patchMinimapWalk();patchHud();buildTorches();refreshChatName();wireEmotes();
+ retireLayers();installTip();buildCluster();buildRail();buildChat();tabTips();patchControls();patchNames();patchMinimapWalk();patchHud();buildTorches();refreshChatName();wireEmotes();syncTabs();wireMusicTab();patchChat();patchVillageChatter();
  // late-built HUD buttons (overlays, deeds, appearance) join the rail as they appear
  if(!adoptTools()){mo=new MutationObserver(function(){if(adoptTools()){mo.disconnect();mo=null}});mo.observe(doc.body,{childList:true,subtree:true});setTimeout(function(){if(mo){mo.disconnect();mo=null}},120000)}
  setTimeout(retireLayers,0);

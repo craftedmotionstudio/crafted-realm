@@ -61,6 +61,7 @@ html.osrs-kit ::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#6c624f
   html.osrs-kit #side-panel #tab-bar .tab-btn.active,html.osrs-kit #side-panel #tab-bar-bottom .tab-btn.active{
     background:linear-gradient(rgba(150,32,18,.62),rgba(92,16,8,.7)),var(--tex-stone,#5a5245);
     box-shadow:inset 1px 1px 0 rgba(255,170,130,.35),inset -1px -1px 0 rgba(0,0,0,.6),0 0 0 1px var(--k-ink),inset 0 0 6px rgba(0,0,0,.5);}
+  html.osrs-kit #side-panel .tab-btn.holm-guide-pulse{animation:kitTabPulse 1s infinite;}
   html.osrs-kit #side-panel .tab-ico{width:25px;height:25px;margin:0;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.8));}
   html.osrs-kit #side-panel .tab-btn.active .tab-ico{filter:drop-shadow(1px 1px 0 rgba(0,0,0,.8)) brightness(1.12);}
   /* the content slate between the pillars: a fixed OSRS-size panel that scrolls long lists */
@@ -111,13 +112,14 @@ html.osrs-kit .npc-row{background:rgba(0,0,0,.18);border:0;border-bottom:1px sol
 html.osrs-kit .npc-row:hover{background:rgba(255,236,160,.1);color:var(--k-yellow);}
 
 /* settings */
-html.osrs-kit #pane-settings .set-row{padding:6px 5px;margin:0 0 4px;border:0;border-radius:2px;color:var(--k-orange);text-shadow:var(--k-shadow);
+html.osrs-kit #pane-settings .set-row{padding:4px 5px;margin:0 0 3px;border:0;border-radius:2px;color:var(--k-orange);text-shadow:var(--k-shadow);
   background:rgba(0,0,0,.22);box-shadow:inset 0 0 0 1px rgba(0,0,0,.55);font:bold 11px var(--k-font);}
 html.osrs-kit .set-slider{accent-color:#b8862a;}
 
 /* social panes: friends / ignore / clan / emotes / music / logout */
-html.osrs-kit .social-pane{padding:8px 8px;color:var(--k-orange);font:12px var(--k-font);display:flex;flex-direction:column;}
-html.osrs-kit #side-panel .social-pane.active{display:flex;}
+html.osrs-kit .social-pane{padding:8px 8px;color:var(--k-orange);font:12px var(--k-font);flex-direction:column;}
+html.osrs-kit .tab-pane.social-pane:not(.active){display:none;}
+html.osrs-kit #side-panel .tab-pane.social-pane.active{display:flex;}
 html.osrs-kit .kit-list{flex:1 1 auto;min-height:120px;margin:2px 0 8px;padding:6px;overflow:auto;background:rgba(0,0,0,.28);
   box-shadow:inset 0 0 0 1px var(--k-ink),inset 2px 2px 5px rgba(0,0,0,.5);color:#fff;font:12px var(--k-font);text-shadow:var(--k-shadow);}
 html.osrs-kit .kit-list .muted{color:#9a8e78;font-style:italic;}
@@ -134,7 +136,7 @@ html.osrs-kit .emote-grid button:hover{filter:brightness(1.2);outline:0;}
 html.osrs-kit .emote-grid button:active{box-shadow:inset 1px 1px 3px rgba(0,0,0,.7),0 0 0 1px var(--k-ink);}
 html.osrs-kit .music-now{text-align:center;color:var(--k-orange);font:bold 11px var(--k-font);text-shadow:var(--k-shadow);margin-bottom:4px;}
 html.osrs-kit .music-now b{color:var(--k-green);}
-html.osrs-kit .music-track{padding:2px 4px;margin:0;border:0;background:none;color:#ff3030;font:12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit .music-track{padding:2px 4px;margin:0;border:0;background:none;color:#ff3030;cursor:pointer;font:12px var(--k-font);text-shadow:var(--k-shadow);}
 html.osrs-kit .music-track.active{color:var(--k-green);border:0;}
 html.osrs-kit .music-track.unlocked{color:var(--k-green);}
 html.osrs-kit .kit-logout{margin:auto 0;text-align:center;}
@@ -370,3 +372,9 @@ body.kit-creator-open #xp-drops,body.kit-creator-open #guide-edge-arrow,body.kit
   html.osrs-kit #side-panel.steel{height:326px;}
   #hud-rail{bottom:335px;}
 }
+
+/* the guide's 'look here' flash on a side tab: the tab itself glows gold, as the old tutorial did */
+@keyframes kitTabPulse{0%,100%{box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);filter:none;}
+  50%{box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 0 0 3px rgba(255,215,64,.95),inset 0 0 10px rgba(255,215,64,.7);filter:brightness(1.35);}}
+html.osrs-kit .music-track:hover{text-decoration:underline;}
+html.osrs-kit .music-track.active{color:var(--k-yellow);}

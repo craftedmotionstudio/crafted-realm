@@ -111,5 +111,5 @@
 
 #welcome-screen.login-high-contrast #welcome-box::before{background:rgba(0,0,0,.96)!important;}
 #welcome-screen.login-high-contrast .login-note,#welcome-screen.login-high-contrast .login-hint,#welcome-screen.login-high-contrast .login-toggle small{color:#fff!important;}
-@media (max-width:620px){.kit-torch{display:none}.login-title-wrap{top:3vh}.login-subtitle{font-size:13px}}
+@media (max-width:620px){.kit-torch{display:none}.login-title-wrap{top:76px}.login-subtitle{font-size:13px}}
 @media (max-height:680px){.login-title-wrap{top:2vh}#welcome-logo{font-size:40px!important}.login-subtitle{display:none}#welcome-box{top:55%!important}}
