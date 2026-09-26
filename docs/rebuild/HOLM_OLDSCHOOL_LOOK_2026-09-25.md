@@ -51,10 +51,12 @@ override `?oldschool=0` / `?oldschool=1`. Off runs the previous code paths uncha
 | Props packs v1 (habitat), v3 (gates), v5 (lessons) | `holm-props{1,3,5}-oldschool-v1` | v1/v3 .blend, v5 GLB import at 24 fps | none |
 | Dock + moored boat, provision rack | `holm-arrival-dock-oldschool-v1`, `holm-provision-rack-oldschool-v1` | .blend | arrival package v2 |
 | Hazels, fieldstones, garden wall, bench, waypost, cargo | `holm-arrival-garden-oldschool-v1`, `holm-landing-props-oldschool-v1` | GLB import | landscape re-measure `holm-arrival-landscape-measure-oldschool-v1` (equal to v4 within 1e-5 apart from render vertex counts) |
-| Arrival package | `holm-arrival-package-oldschool-v2` (export pinned in the look module) | Safe Publish | navigation identical to v9 apart from revision strings |
+| Lantern Keeper statue v4 (v3.0 body) | `holm-arrival-statue-oldschool-v1` | .blend; every stone face `rock` (spec `vertexColour.texture`), lantern and lettering untouched, lantern glass/flame emissive kept | landscape re-measure `holm-arrival-landscape-measure-oldschool-v2` (measure v5, equal to the untextured v5 measurement) |
+| Arrival package | `holm-arrival-package-oldschool-v3` (export pinned in the look module; v2 had statue v3) | Safe Publish | navigation identical to v9 apart from revision strings |
 
-Not rolled out: props v4 (lever, beam, marker, ripple, flames: nothing texturable), the Lantern Keeper statue (v4 in
-progress by the character agent; run the recipe on it when it lands), characters (other agents).
+Not rolled out: props v4 (lever, beam, marker, ripple, flames: nothing texturable), characters (other agents).
+The arrival step reads `docs/rebuild/holm-overhaul/oldschool/arrival.json` (measure script + swaps, untextured reference,
+stage script, package id, navigation reference).
 
 ## Texture kit (assets/textures/oldschool, 64 x 64, our own procedural recipes)
 
@@ -70,8 +72,8 @@ colour. Rebuild: `node tools/build_oldschool_textures.js` (deterministic).
   building's own extractor with folders swapped (bakehouse, lodge), or, for the keep whose .blend no longer matches its
   GLB, carries the graph over with the new hash (sound: the structure proof shows every triangle is unchanged).
   Runtime swaps a building's model and graph together and only when both are served.
-- Arrival: everything in the arrival package export; `tools/stage_holm_arrival_package_oldschool.js` (v2) swaps all
-  arrival models, the landscape is re-measured, and the navigation equals v9's apart from the `graphRevision` strings
+- Arrival: everything in the arrival package export; `tools/stage_holm_arrival_package_oldschool.js` (v3) swaps all
+  arrival models (statue v4 included), the landscape is re-measured, and the navigation equals v9's apart from the `graphRevision` strings
   (they hash every source file by design). Island saves use `holm-island-v1`, so they restore unchanged; an arrival-only
   (`?arrivalQA=1`) save from v9 restores at the landing.
 - `tools/check_holm_look_navigation.js` boots both looks and compares the composed island graph (10,901 nodes), heights,

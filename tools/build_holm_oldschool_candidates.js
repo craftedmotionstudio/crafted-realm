@@ -11,8 +11,9 @@
  *     - "rehash": when the source .blend no longer matches its exported GLB (the keep), the GLB itself is textured
  *       (spec "import") and the reference graph is carried over with only modelSha256 changed; this is sound because
  *       the structure proof above shows every triangle of the model is unchanged, so every measured stance is too;
- * 3. arrival step (when any "arrival" spec ran, or with the argument "arrival"): re-measures the arrival landscape
- *    models (measure_holm_arrival_landscape_v4.py with the folders swapped; bounds, clips and triangles must equal v4),
+ * 3. arrival step (when any "arrival" spec ran, or with the argument "arrival"), per oldschool/arrival.json: re-measures
+ *    the arrival landscape models with the folders swapped (bounds, clips and triangles must equal the same script's
+ *    measurement of the untextured models),
  *    stages the arrival package (tools/stage_holm_arrival_package_oldschool.js, Safe Publish export), proves its
  *    navigation equals v9's apart from the source-hash revision strings, and writes the export id into
  *    src/holm_oldschool_look.js.
@@ -75,24 +76,24 @@ for(const f of specs){
  console.log(f,JSON.stringify(r));
 }
 if(arrivalTouched){
- // landscape models: the v4 measure, folders swapped; everything but file names and hashes must be equal
- relock('4.5','tools/blender/measure_holm_arrival_landscape_v4.py',[
-  ['holm-arrival-garden-v1/candidates','holm-arrival-garden-oldschool-v1/candidates'],['holm-landing-props-v1/candidates','holm-landing-props-oldschool-v1/candidates'],
-  ['holm-tree-family-v3/candidates/arrival_oak_v3.glb','holm-tree-family-oldschool-v1/candidates/arrival_oak_v3.glb'],
-  ['holm-arrival-landscape-measure-v4/candidates','holm-arrival-landscape-measure-oldschool-v1/candidates']]);
- const m4=json('.studio-workspaces/holm-arrival-landscape-measure-v4/candidates/measured.json'),mo=json('.studio-workspaces/holm-arrival-landscape-measure-oldschool-v1/candidates/measured.json');
+ // docs/rebuild/holm-overhaul/oldschool/arrival.json: which landscape measure script to re-run (folders swapped to the
+ // textured candidates), the untextured reference measurement it must equal, the stage script and package id
+ const A=json('docs/rebuild/holm-overhaul/oldschool/arrival.json');
+ relock('4.5',A.measure.script,A.measure.swaps);
+ relock('4.5',A.measure.script,A.reference.swaps);   // the same script on the untextured models, for the proof
+ const ref=json(A.reference.out),mo=json(A.measure.out);
  // equal apart from file names, hashes and vertex counts (UV seams split render vertices; triangles must match exactly),
  // numbers within 1e-5 (animation key times round-trip through float32)
  const near=(x,y,p)=>{if(typeof x==='number'&&typeof y==='number'){if(Math.abs(x-y)>1e-5)throw Error('arrival landscape measurement differs at '+p+': '+x+' vs '+y);return}
   if(x&&y&&typeof x==='object'&&typeof y==='object'){const ks=new Set([...Object.keys(x),...Object.keys(y)]);ks.forEach(k=>{if(!['file','sha256','vertices'].includes(k))near(x[k],y[k],p+'.'+k)});return}
   if(x!==y)throw Error('arrival landscape measurement differs at '+p)};
- near(m4,mo,'measured');
- const st=run(process.execPath,['tools/stage_holm_arrival_package_oldschool.js']),m=/"exportId":\s*"([0-9a-f]+)"/.exec(st);if(!m)throw Error('no arrival export id');
- const a=json('.studio-workspaces/holm-arrival-package-v9/candidates/holm-arrival.package.json').navigation,b=json('.studio-workspaces/holm-arrival-package-oldschool-v2/candidates/holm-arrival.package.json').navigation;
- if(strip(a,['graphRevision','compatibleGraphRevisions'])!==strip(b,['graphRevision','compatibleGraphRevisions']))throw Error('arrival navigation differs from v9');
+ near(ref,mo,'measured');
+ const st=run(process.execPath,[A.stage]),m=/"exportId":\s*"([0-9a-f]+)"/.exec(st);if(!m)throw Error('no arrival export id');
+ const a=json(A.navigationReference).navigation,b=json('.studio-workspaces/'+A.package+'/candidates/holm-arrival.package.json').navigation;
+ if(strip(a,['graphRevision','compatibleGraphRevisions'])!==strip(b,['graphRevision','compatibleGraphRevisions']))throw Error('arrival navigation differs from '+A.navigationReference);
  const look=abs('src/holm_oldschool_look.js');let src=fs.readFileSync(look,'utf8');
- src=src.replace(/(arrival:\{baseUrl:'\/\.studio-workspaces\/)holm-arrival-package-oldschool-v\d+(\/exports\/',exportId:')[0-9a-f]*(')/,'$1holm-arrival-package-oldschool-v2$2'+m[1]+'$3');fs.writeFileSync(look,src);
- results.arrival={exportId:m[1],package:'holm-arrival-package-oldschool-v2',landscapeMeasure:'holm-arrival-landscape-measure-oldschool-v1',navigationIdentical:true};
+ src=src.replace(/(arrival:\{baseUrl:'\/\.studio-workspaces\/)holm-arrival-package-oldschool-v\d+(\/exports\/',exportId:')[0-9a-f]*(')/,'$1'+A.package+'$2'+m[1]+'$3');fs.writeFileSync(look,src);
+ results.arrival={exportId:m[1],package:A.package,landscapeMeasure:A.measure.out,navigationIdenticalTo:A.navigationReference};
  console.log('arrival',JSON.stringify(results.arrival));
 }
 // merged with earlier runs, so a partial rebuild keeps the other assets' results

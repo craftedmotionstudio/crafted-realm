@@ -51,7 +51,12 @@ const CLOSEUPS=[
  {name:'c22_garden_hazel',x:72,z:107,yaw:.6,pitch:.85,dist:12},
  {name:'c23_lesson_trees_fire',x:30,z:81,yaw:.6,pitch:.85,dist:14},
  {name:'c24_cavern_ores',x:203,z:55,y0:-30,yaw:.6,pitch:1.0,dist:10,hide:'^Cavern_(Roof|ShellRockTop)'},
- {name:'c25_bakehouse_gate',x:44.5,z:69,yaw:.2,pitch:.8,dist:8}];
+ {name:'c25_bakehouse_gate',x:44.5,z:69,yaw:.2,pitch:.8,dist:8},
+ // the Lantern Keeper statue (62.3,108.4) at the game camera: default pitch 1.08, fully zoomed in (12) and at the default 33,
+ // from the arrival path and from the lawn on its west side (the game's default yaw looks at it through the porch roof)
+ {name:'c26_statue_path_zoomed',x:62.3,z:108.4,yaw:.7,pitch:1.08,dist:12},
+ {name:'c27_statue_west_zoomed',x:62.3,z:108.4,yaw:-.9,pitch:1.08,dist:12},
+ {name:'c28_statue_game_default',x:62.3,z:108.4,yaw:.7,pitch:1.08,dist:33}];
 const SET=process.env.LOOK_SET==='closeup'?CLOSEUPS:VIEWS;
 const only=process.env.LOOK_ONLY?process.env.LOOK_ONLY.split(','):null;
 (async()=>{

@@ -1,0 +1,65 @@
+{
+ "tag": "statue_before",
+ "url": "http://127.0.0.1:8097/?holmIsland=1&qaProfile=look-statue_before-muhq0pv6",
+ "look": {
+  "look": "oldschool",
+  "active": true,
+  "textures": [
+   "sand",
+   "mud",
+   "rock",
+   "dirt",
+   "grass_a",
+   "grass_b",
+   "water"
+  ],
+  "stats": {
+   "groundMaterials": 2,
+   "textures": 7,
+   "models": 32,
+   "maps": 746
+  },
+  "arrival": {
+   "baseUrl": "/.studio-workspaces/holm-arrival-package-oldschool-v2/exports/",
+   "exportId": "5369a48889f7c8bc"
+  },
+  "swaps": [
+   "survival",
+   "keep",
+   "kitchen",
+   "lodge",
+   "bank",
+   "mage",
+   "lastlight",
+   "quarry",
+   "haven",
+   "cavern",
+   "trees",
+   "props1",
+   "bridges",
+   "props3",
+   "props5"
+  ]
+ },
+ "views": [
+  {
+   "view": "c27_statue_west_zoomed",
+   "calls": 324,
+   "triangles": 187317,
+   "textures": 270,
+   "programs": 17,
+   "fps": 49,
+   "worstMs": 57.3
+  }
+ ],
+ "pageErrors": [
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+ ],
+ "missing": [
+  "/BUILD_INFO.json?_=1790386714572",
+  "/favicon.ico",
+  "/favicon.ico"
+ ]
+}

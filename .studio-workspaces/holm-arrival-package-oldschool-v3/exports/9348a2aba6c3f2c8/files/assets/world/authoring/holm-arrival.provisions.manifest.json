@@ -1,0 +1,99 @@
+{
+  "schema": "crafted-realms-local-prop-v1",
+  "id": "holm-provision-rack-v1",
+  "units": "tiles",
+  "coordinateSystem": "glTF X/Y-up/Z",
+  "origin": "floor centre",
+  "frontDirection": [
+    0,
+    0,
+    1
+  ],
+  "dimensions": {
+    "width": 1.6,
+    "depth": 0.55,
+    "height": 1.7
+  },
+  "localBounds": {
+    "min": [
+      -0.800000011920929,
+      0,
+      -0.2750000059604645
+    ],
+    "max": [
+      0.800000011920929,
+      1.7000000476837158,
+      0.2750000059604645
+    ]
+  },
+  "semanticInteractionMeshes": [
+    "ProvisionsRack",
+    "ProvisionHatchet",
+    "ProvisionNet",
+    "ProvisionTinderbox"
+  ],
+  "primaryInteractionMesh": "ProvisionsRack",
+  "triangles": 1816,
+  "materials": 8,
+  "primitives": 15,
+  "meshFamilies": [
+    "ProvisionsRack",
+    "ProvisionHatchet",
+    "ProvisionNet",
+    "ProvisionTinderbox"
+  ],
+  "animationNames": [],
+  "sourceFile": "provisions.blend",
+  "modelFile": "provisions.glb",
+  "revision": 2,
+  "builder": "tools/blender/build_holm_provision_rack_v2.py",
+  "palette": {
+    "Oak heart": [
+      0.29,
+      0.18,
+      0.095
+    ],
+    "Oak cut edges": [
+      0.46,
+      0.31,
+      0.16
+    ],
+    "Oak dark joints": [
+      0.16,
+      0.095,
+      0.05
+    ],
+    "Forged iron": [
+      0.23,
+      0.26,
+      0.25
+    ],
+    "Warm bronze": [
+      0.49,
+      0.275,
+      0.12
+    ],
+    "Hemp cord": [
+      0.61,
+      0.53,
+      0.34
+    ],
+    "Oiled leather": [
+      0.37,
+      0.19,
+      0.095
+    ],
+    "Teaching ochre": [
+      0.66,
+      0.43,
+      0.16
+    ]
+  },
+  "visualAcceptance": false,
+  "worldPlacement": null,
+  "notes": "Secured static teaching props. Inventory sprites remain 2D. Main session owns Studio review and placement.",
+  "oldschool": {
+    "texturedFrom": ".studio-workspaces/holm-provision-rack-v2/candidates/manifest.json",
+    "recipe": "tools/blender/apply_oldschool_textures.py"
+  }
+}

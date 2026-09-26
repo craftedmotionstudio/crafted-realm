@@ -1,0 +1,21 @@
+{
+ "note": "Arrival step of tools/build_holm_oldschool_candidates.js. v3 (2026-09-26): the Lantern Keeper statue v4 (textured) joins; measured by the character agent's measure_holm_arrival_landscape_v5.py with the folders swapped to the textured candidates. The untextured reference is the same script on the untextured models, written to scratchpad.",
+ "measure": {
+  "script": "tools/blender/measure_holm_arrival_landscape_v5.py",
+  "swaps": [
+   ["holm-arrival-garden-v1/candidates", "holm-arrival-garden-oldschool-v1/candidates"],
+   ["holm-landing-props-v1/candidates", "holm-landing-props-oldschool-v1/candidates"],
+   ["holm-tree-family-v3/candidates/arrival_oak_v3.glb", "holm-tree-family-oldschool-v1/candidates/arrival_oak_v3.glb"],
+   ["holm-arrival-statue-v4/candidates/lantern_keeper_statue_v4.glb", "holm-arrival-statue-oldschool-v1/candidates/lantern_keeper_statue_v4.glb"],
+   ["holm-arrival-landscape-measure-v5/candidates", "holm-arrival-landscape-measure-oldschool-v2/candidates"]
+  ],
+  "out": ".studio-workspaces/holm-arrival-landscape-measure-oldschool-v2/candidates/measured.json"
+ },
+ "reference": {
+  "swaps": [[".studio-workspaces/holm-arrival-landscape-measure-v5/candidates", "scratchpad/holm_look_v1/measure-v5-untextured-reference"]],
+  "out": "scratchpad/holm_look_v1/measure-v5-untextured-reference/measured.json"
+ },
+ "stage": "tools/stage_holm_arrival_package_oldschool.js",
+ "package": "holm-arrival-package-oldschool-v3",
+ "navigationReference": ".studio-workspaces/holm-arrival-package-v9/candidates/holm-arrival.package.json"
+}
