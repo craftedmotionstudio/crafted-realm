@@ -201,6 +201,86 @@
     0.7691
    ],
    "use": "birch trunks"
+  },
+  "scorched_earth": {
+   "file": "assets/textures/oldschool/scorched_earth.png",
+   "size": 64,
+   "mean": [
+    0.7778,
+    0.7223,
+    0.6669
+   ],
+   "use": "Scarlands burnt soil (ground)"
+  },
+  "ash": {
+   "file": "assets/textures/oldschool/ash.png",
+   "size": 64,
+   "mean": [
+    0.8499,
+    0.8418,
+    0.8158
+   ],
+   "use": "Scarlands ash drifts (ground)"
+  },
+  "cracked_mud": {
+   "file": "assets/textures/oldschool/cracked_mud.png",
+   "size": 64,
+   "mean": [
+    0.809,
+    0.7653,
+    0.6917
+   ],
+   "use": "Scarlands baked mud (ground)"
+  },
+  "burnt_grass": {
+   "file": "assets/textures/oldschool/burnt_grass.png",
+   "size": 64,
+   "mean": [
+    0.5587,
+    0.5011,
+    0.3572
+   ],
+   "use": "the burnt edge of the meadow (ground)"
+  },
+  "dark_rock": {
+   "file": "assets/textures/oldschool/dark_rock.png",
+   "size": 64,
+   "mean": [
+    0.7204,
+    0.6976,
+    0.6789
+   ],
+   "use": "Scarlands rock outcrops, dark boulders"
+  },
+  "bone_dirt": {
+   "file": "assets/textures/oldschool/bone_dirt.png",
+   "size": 64,
+   "mean": [
+    0.7107,
+    0.6409,
+    0.5571
+   ],
+   "use": "bone-strewn dirt (ground, bone piles)"
+  },
+  "charred_planks": {
+   "file": "assets/textures/oldschool/charred_planks.png",
+   "size": 64,
+   "mean": [
+    0.5593,
+    0.4972,
+    0.4337
+   ],
+   "use": "burnt boards, carts, crossings"
+  },
+  "ruined_stone": {
+   "file": "assets/textures/oldschool/ruined_stone.png",
+   "size": 64,
+   "mean": [
+    0.6827,
+    0.6703,
+    0.6445
+   ],
+   "use": "fire-scarred ruins: walls, pillars, arches"
   }
  }
 }
