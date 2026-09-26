@@ -22,16 +22,16 @@ var OsrsMenuItems=(function(){
  /* ---------- which grid a slot lives in ---------- */
  function gridOf(el){
   if(!el||!el.closest)return null;
-  if(el.closest('#inv-grid'))return 'pack';
-  if(el.closest('#bank-grid'))return 'bank';
-  if(el.closest('#bank-inv-grid'))return 'bank-pack';
-  if(el.closest('#shop-grid'))return 'shop';
-  if(el.closest('#shop-inv-grid'))return 'shop-pack';
+  if(el.closest('#inv-grid'))return 'slot-pack';
+  if(el.closest('#bank-grid'))return 'slot-bank';
+  if(el.closest('#bank-inv-grid'))return 'slot-deposit';
+  if(el.closest('#shop-grid'))return 'slot-shop';
+  if(el.closest('#shop-inv-grid'))return 'slot-sell';
   return null;
  }
  function slotEntity(el,item,onclick){
   var g=gridOf(el);if(!g||!item)return null;
-  var idx=g==='bank'?Player.bank.indexOf(item):g==='shop'?-1:Player.inv.indexOf(item);
+  var idx=g==='slot-bank'?Player.bank.indexOf(item):g==='slot-shop'?-1:Player.inv.indexOf(item);
   return {kind:g,item:item,id:item.id,index:idx,el:el,onclick:onclick,key:el};
  }
 
@@ -66,7 +66,7 @@ var OsrsMenuItems=(function(){
  }
  function useRows(ent,desc){
   var id=M.using();if(!id)return [];
-  if(ent.kind!=='pack')return [];
+  if(ent.kind!=='slot-pack')return [];
   var from=M.useSlot();if(from<0)from=slotOf(id,-1);
   if(ent.index===from)return [];
   return [{option:'Use',item:M.itemName(id),target:desc.name,targetType:'item',priority:100,fn:function(){itemOnItem(from,ent.index)}}];
@@ -92,13 +92,13 @@ var OsrsMenuItems=(function(){
    if(typeof refreshPlayerGear==='function')refreshPlayerGear();UI.refreshEquip();if(UI.refreshInv)UI.refreshInv()}}}];
  }
 
- var SLOT_KINDS=['pack','bank','bank-pack','shop','shop-pack','worn'];
+ var SLOT_KINDS=['slot-pack','slot-bank','slot-deposit','slot-shop','slot-sell','slot-worn'];
  M.registerProvider({id:'items',order:10,kinds:SLOT_KINDS,
   describe:function(ent){var d=def(ent.id);return {name:d.name||ent.id,type:'item',examine:d.examine||d.desc||null}},
   entries:function(ent,ctx){
-   var rows=ent.kind==='pack'?packEntries(ent):ent.kind==='bank'?bankEntries(ent):ent.kind==='bank-pack'?depositEntries(ent):
-    ent.kind==='shop'?shopEntries(ent):ent.kind==='shop-pack'?sellEntries(ent):ent.kind==='worn'?wornEntries(ent):[];
-   if(ent.kind!=='pack')rows.push({option:'Examine',examine:true,fn:function(){InvMenu.examine(ent.id)}});
+   var rows=ent.kind==='slot-pack'?packEntries(ent):ent.kind==='slot-bank'?bankEntries(ent):ent.kind==='slot-deposit'?depositEntries(ent):
+    ent.kind==='slot-shop'?shopEntries(ent):ent.kind==='slot-sell'?sellEntries(ent):ent.kind==='slot-worn'?wornEntries(ent):[];
+   if(ent.kind!=='slot-pack')rows.push({option:'Examine',examine:true,fn:function(){InvMenu.examine(ent.id)}});
    // shift: the colour tags (RuneLite-style), kept off the plain 2004 menu
    if(ctx&&ctx.shift&&typeof ItemTags!=='undefined'){var cur=ItemTags.get(ent.id);
     ItemTags.COLORS.forEach(function(c){if(c.id!==cur)rows.push({option:'Tag-'+c.id,priority:-10,below:true,fn:function(){ItemTags.set(ent.id,c.id);UI.chat(nameOf(ent.id)+' tagged '+c.name.toLowerCase()+'.','sys')}})});
@@ -108,17 +108,17 @@ var OsrsMenuItems=(function(){
 
  function menuFor(ent,shift){
   var ctx={shift:!!shift,walk:null,cancel:null};
-  if(M.using()&&ent.kind==='pack'){ctx.use=M.using();ctx.useEntries=useRows;ctx.cancel=function(){M.endUse()}}
+  if(M.using()&&ent.kind==='slot-pack'){ctx.use=M.using();ctx.useEntries=useRows;ctx.cancel=function(){M.endUse()}}
   return M.build([ent],ctx);
  }
  // left click: the top row (in use-mode: the item goes on this one; the selected item itself puts it away)
  function leftClick(ent,ev){
-  if(ent.kind==='pack'){
+  if(ent.kind==='slot-pack'){
    if(Player.alchMode){UI.useItem(ent.index);return}            // an alchemy spell waiting for its item keeps its click
    if(M.using()){var from=M.useSlot();if(from<0)from=slotOf(M.using(),-1);if(from===ent.index||(from<0&&M.using()===ent.id)){M.endUse();return}
-    itemOnItem(from,ent.index);return}
+    M.record({option:'Use',item:M.itemName(M.using()),target:(def(ent.id).name||ent.id),targetType:'item'},'left');itemOnItem(from,ent.index);return}
   }
-  var rows=menuFor(ent,false),top=rows[0];if(top&&typeof top.fn==='function')top.fn();
+  var rows=menuFor(ent,false),top=rows[0];if(top){M.record(top,'left');if(typeof top.fn==='function')top.fn()}
  }
  function hover(ent){
   var rows=menuFor(ent,false),top=rows[0];
@@ -140,14 +140,16 @@ var OsrsMenuItems=(function(){
 
  /* ---------- worn equipment (the paper doll's filled slots) ---------- */
  function wornKey(el){
+  var m=/(?:^|\s)slot-([a-z]+)(?:\s|$)/.exec(el.className||'');   // the UI kit's doll: kit-slot slot-<key>
+  if(m&&Object.prototype.hasOwnProperty.call(Player.equip,m[1]))return Player.equip[m[1]]?m[1]:null;
   var t=String(el.title||'').split('\n')[0];if(!t)return null;
   for(var k in Player.equip){var v=Player.equip[k];if(v&&def(v).name===t)return k}
   return null;
  }
  if(typeof document!=='undefined')document.addEventListener('contextmenu',function(e){
-  var el=e.target&&e.target.closest&&e.target.closest('#equip-doll .doll-slot.filled, #equip-list .equip-row');if(!el)return;
+  var el=e.target&&e.target.closest&&e.target.closest('#equip-list .kit-doll .kit-slot.filled, #equip-doll .doll-slot.filled, #equip-list .equip-row');if(!el)return;
   var k=wornKey(el);if(!k)return;e.preventDefault();e.stopPropagation();
-  M.show(e.clientX,e.clientY,menuFor({kind:'worn',slot:k,id:Player.equip[k],key:el},e.shiftKey),{source:'slot'});
+  M.show(e.clientX,e.clientY,menuFor({kind:'slot-worn',slot:k,id:Player.equip[k],key:el},e.shiftKey),{source:'slot'});
  });
 
  /* ---------- "Enter amount:" (Withdraw-X, Deposit-X) ---------- */

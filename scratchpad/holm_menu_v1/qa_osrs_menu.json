@@ -1,0 +1,818 @@
+{
+ "at": "2026-09-26T15:31:39.470Z",
+ "pass": 64,
+ "fail": 0,
+ "results": [
+  {
+   "ok": true,
+   "m": "statue: Read-plaque / Walk here / Examine / Cancel",
+   "d": [
+    "Read-plaque Statue",
+    "Walk here",
+    "Examine Statue",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "the box is titled \"Choose Option\"",
+   "d": "Choose Option"
+  },
+  {
+   "ok": true,
+   "m": "the box opens with its top edge at the cursor, centred on it",
+   "d": {
+    "rect": {
+     "x": 707,
+     "y": 387,
+     "w": 125,
+     "h": 73
+    },
+    "xy": [
+     769,
+     387
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "top-left line: \"Read-plaque Statue / 2 more options\"",
+   "d": "Read-plaque Statue / 2 more options"
+  },
+  {
+   "ok": true,
+   "m": "verb white, object name cyan",
+   "d": {
+    "text": "Read-plaque Statue",
+    "parts": [
+     {
+      "t": "Read-plaque",
+      "c": "rgb(255, 255, 255)",
+      "cls": "om-v"
+     },
+     {
+      "t": "Statue",
+      "c": "rgb(0, 255, 255)",
+      "cls": "om-t om-object"
+     }
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "Examine Statue prints our own line",
+   "d": [
+    "The Lantern Keeper, carved in pale stone. There is a plaque on the plinth."
+   ]
+  },
+  {
+   "ok": true,
+   "m": "a move 6 px below the box keeps it open",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "a move 16 px outside the box closes it",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "Escape closes it",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "a click outside only closes the box (no walk, no row)",
+   "d": {
+    "before": {
+     "last": 1790436593978,
+     "pos": [
+      61.5,
+      1,
+      118.5
+     ]
+    },
+    "after": {
+     "last": 1790436593978,
+     "pos": [
+      61.5,
+      1,
+      118.5
+     ],
+     "open": false
+    }
+   }
+  },
+  {
+   "ok": true,
+   "m": "left click runs the top row (Read-plaque Statue)",
+   "d": {
+    "want": "Read-plaque Statue",
+    "last": {
+     "text": "Read-plaque Statue",
+     "option": "Read-plaque",
+     "target": "Statue",
+     "via": "left",
+     "at": 1790436599279
+    },
+    "ran": true
+   }
+  },
+  {
+   "ok": true,
+   "m": "...which walks to the plinth and reads the plaque",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "pack: Use / Drop / Examine / Cancel for crowns",
+   "d": [
+    "Use Crowns",
+    "Drop Crowns",
+    "Examine Crowns",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "both items lie on the ground",
+   "d": [
+    "qa-drop-coins",
+    "qa-drop-bones"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "ground stack: one Take per item, Walk here, one Examine per item, Cancel",
+   "d": [
+    "Take Bones",
+    "Take Crowns",
+    "Walk here",
+    "Examine Bones",
+    "Examine Crowns",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "item names orange",
+   "d": {
+    "text": "Take Bones",
+    "parts": [
+     {
+      "t": "Take",
+      "c": "rgb(255, 255, 255)",
+      "cls": "om-v"
+     },
+     {
+      "t": "Bones",
+      "c": "rgb(255, 144, 64)",
+      "cls": "om-t om-item"
+     }
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "left click takes the top item",
+   "d": {
+    "want": "Take Bones",
+    "last": {
+     "text": "Take Bones",
+     "option": "Take",
+     "target": "Bones",
+     "via": "left",
+     "at": 1790436609828
+    },
+    "ran": true
+   }
+  },
+  {
+   "ok": true,
+   "m": "...and it is picked up (one item left on the tile)",
+   "d": "Bones"
+  },
+  {
+   "ok": true,
+   "m": "door: Open / Walk here / Examine / Cancel",
+   "d": [
+    "Open Door",
+    "Walk here",
+    "Examine Door",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "Examine Door",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "left click runs Open Door",
+   "d": {
+    "want": "Open Door",
+    "last": {
+     "text": "Open Door",
+     "option": "Open",
+     "target": "Door",
+     "via": "left",
+     "at": 1790436614473
+    },
+    "ran": true
+   }
+  },
+  {
+   "ok": true,
+   "m": "...and the door opens",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "into the Guide House",
+   "d": {
+    "ok": true
+   }
+  },
+  {
+   "ok": true,
+   "m": "relief chart: Study / Walk here / Examine / Cancel",
+   "d": [
+    "Study Relief chart",
+    "Walk here",
+    "Examine Relief chart",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "the Study row keeps the tutor-first refusal",
+   "d": [
+    "You should speak to Guide Bram first."
+   ]
+  },
+  {
+   "ok": true,
+   "m": "so does the left click (the same top row)",
+   "d": {
+    "want": "Study Relief chart",
+    "last": {
+     "text": "Study Relief chart",
+     "option": "Study",
+     "target": "Relief chart",
+     "via": "left",
+     "at": 1790436627280
+    },
+    "ran": true
+   }
+  },
+  {
+   "ok": true,
+   "m": "Guide Bram: Talk-to first, Walk here, Examine, Cancel last",
+   "d": [
+    "Talk-to Guide Bram",
+    "Walk here",
+    "Examine Guide Bram",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "NPC name yellow",
+   "d": {
+    "text": "Talk-to Guide Bram",
+    "parts": [
+     {
+      "t": "Talk-to",
+      "c": "rgb(255, 255, 255)",
+      "cls": "om-v"
+     },
+     {
+      "t": "Guide Bram",
+      "c": "rgb(255, 255, 0)",
+      "cls": "om-t om-npc"
+     }
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "the Talk-to row walks to Bram and opens his chat",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "Bram counts as spoken to",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "now the chart's left click studies it",
+   "d": {
+    "want": "Study Relief chart",
+    "last": {
+     "text": "Study Relief chart",
+     "option": "Study",
+     "target": "Relief chart",
+     "via": "left",
+     "at": 1790436639977
+    },
+    "ran": true
+   }
+  },
+  {
+   "ok": true,
+   "m": "...and the study_route lesson completes",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "provision rack: Collect-tools / Walk here / Examine / Cancel",
+   "d": [
+    "Collect-tools Provision rack",
+    "Walk here",
+    "Examine Provision rack",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "the Collect-tools row hands out the tools",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "pack hatchet: Wield / Use / Drop / Examine / Cancel",
+   "d": [
+    "Wield Bronze hatchet",
+    "Use Bronze hatchet",
+    "Drop Bronze hatchet",
+    "Examine Bronze hatchet",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "pack hover line: \"Wield Bronze hatchet / 3 more options\"",
+   "d": "Wield Bronze hatchet / 3 more options"
+  },
+  {
+   "ok": true,
+   "m": "item name orange in the pack menu",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "left click on the hatchet runs Wield (the top row)",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "left click on the tinderbox picks it up (Use)",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "use-mode top-left line: \"Use Tinderbox -> Relief chart / 1 more option\"",
+   "d": "Use Tinderbox -> Relief chart / 1 more option"
+  },
+  {
+   "ok": true,
+   "m": "use-mode menu: Use Tinderbox -> Relief chart / Walk here / Cancel",
+   "d": [
+    "Use Tinderbox -> Relief chart",
+    "Walk here",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "tinderbox on the chart: \"Nothing interesting happens.\" and the tinderbox is put away",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "worn hatchet: Remove / Examine / Cancel",
+   "d": [
+    "Remove Bronze hatchet",
+    "Examine Bronze hatchet",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "bank, pack side: Deposit-1/5/10/All/X, Examine, Cancel",
+   "d": [
+    "Deposit-1 Crowns",
+    "Deposit-5 Crowns",
+    "Deposit-10 Crowns",
+    "Deposit-All Crowns",
+    "Deposit-X Crowns",
+    "Examine Crowns",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "Deposit-10 moves ten crowns",
+   "d": {
+    "b0": {
+     "bank": 0,
+     "inv": 100
+    },
+    "b1": {
+     "bank": 10,
+     "inv": 90
+    }
+   }
+  },
+  {
+   "ok": true,
+   "m": "left click deposits one (Deposit-1 is the top row)",
+   "d": {
+    "b1": {
+     "bank": 10,
+     "inv": 90
+    },
+    "b2": {
+     "bank": 11,
+     "inv": 89
+    }
+   }
+  },
+  {
+   "ok": true,
+   "m": "bank, vault side: Withdraw-1/5/10/All/X, Examine, Cancel",
+   "d": [
+    "Withdraw-1 Crowns",
+    "Withdraw-5 Crowns",
+    "Withdraw-10 Crowns",
+    "Withdraw-All Crowns",
+    "Withdraw-X Crowns",
+    "Examine Crowns",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "Withdraw-X asks \"Enter amount:\"",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "...and withdraws the amount typed",
+   "d": {
+    "b2": {
+     "bank": 11,
+     "inv": 89
+    },
+    "b3": {
+     "bank": 8,
+     "inv": 92
+    }
+   }
+  },
+  {
+   "ok": true,
+   "m": "shop stock: Value, Buy-1/5/10, Examine, Cancel",
+   "d": [
+    "Value Bronze hatchet",
+    "Buy-1 Bronze hatchet",
+    "Buy-5 Bronze hatchet",
+    "Buy-10 Bronze hatchet",
+    "Examine Bronze hatchet",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "left click on stock tells its Value (no purchase)",
+   "d": {
+    "c0": {
+     "c": 92,
+     "n": 0
+    },
+    "c1": {
+     "c": 92,
+     "n": 0
+    },
+    "chat": [
+     "Bronze hatchet: currently costs 20 crowns."
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "Buy-1 buys one",
+   "d": {
+    "c0": {
+     "c": 92,
+     "n": 0
+    },
+    "c2": {
+     "c": 72,
+     "n": 1
+    }
+   }
+  },
+  {
+   "ok": true,
+   "m": "shop, pack side: Value, Sell-1/5/10, Examine, Cancel",
+   "d": [
+    "Value Bronze hatchet",
+    "Sell-1 Bronze hatchet",
+    "Sell-5 Bronze hatchet",
+    "Sell-10 Bronze hatchet",
+    "Examine Bronze hatchet",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "Sell-1 sells it back",
+   "d": {
+    "c2": {
+     "c": 72,
+     "n": 1
+    },
+    "c3": {
+     "c": 80,
+     "n": 0
+    }
+   }
+  },
+  {
+   "ok": true,
+   "m": "stairs: Climb-up / Walk here / Examine / Cancel",
+   "d": [
+    "Climb-up Staircase",
+    "Walk here",
+    "Examine Staircase",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "cellar hatch: Climb-down / Walk here / Examine / Cancel",
+   "d": [
+    "Climb-down Trapdoor",
+    "Walk here",
+    "Examine Trapdoor",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "oak: Chop down / Walk here / Examine / Cancel",
+   "d": [
+    "Chop down Oak",
+    "Walk here",
+    "Examine Oak",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "fishing spot: Net / Walk here / Examine / Cancel",
+   "d": [
+    "Net Fishing spot",
+    "Walk here",
+    "Examine Fishing spot",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "net in use: Use Small net -> Fishing spot / Walk here / Cancel",
+   "d": [
+    "Use Small net -> Fishing spot",
+    "Walk here",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "Escape (menu closed) puts the net away",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "grubkin: Attack (level-1) / Walk here / Examine / Cancel",
+   "d": [
+    "Attack Practice grubkin (level-1)",
+    "Walk here",
+    "Examine Practice grubkin (level-1)",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "(level-1) coloured green-yellow against combat 3, the name yellow",
+   "d": {
+    "text": "Attack Practice grubkin (level-1)",
+    "parts": [
+     {
+      "t": "Attack",
+      "c": "rgb(255, 255, 255)",
+      "cls": "om-v"
+     },
+     {
+      "t": "Practice grubkin",
+      "c": "rgb(255, 255, 0)",
+      "cls": "om-t om-npc"
+     },
+     {
+      "t": "(level-1)",
+      "c": "rgb(192, 255, 0)",
+      "cls": "om-lv"
+     }
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "left click attacks it (the existing target path)",
+   "d": {
+    "want": "Attack Practice grubkin (level-1)",
+    "last": {
+     "text": "Attack Practice grubkin (level-1)",
+     "option": "Attack",
+     "target": "Practice grubkin",
+     "via": "left",
+     "at": 1790436692141
+    },
+    "ran": true
+   }
+  },
+  {
+   "ok": true,
+   "m": "no page errors",
+   "d": []
+  }
+ ],
+ "errors": [],
+ "shots": [
+  {
+   "name": "01_statue",
+   "rect": [
+    707,
+    387,
+    125,
+    73
+   ]
+  },
+  {
+   "name": "02_ground_stack",
+   "rect": [
+    718,
+    566,
+    102,
+    99
+   ]
+  },
+  {
+   "name": "03_door",
+   "rect": [
+    723,
+    455,
+    93,
+    73
+   ]
+  },
+  {
+   "name": "04_relief_chart",
+   "rect": [
+    704,
+    531,
+    131,
+    73
+   ]
+  },
+  {
+   "name": "05_guide_bram",
+   "rect": [
+    706,
+    493,
+    126,
+    73
+   ]
+  },
+  {
+   "name": "06_provision_rack",
+   "rect": [
+    684,
+    492,
+    171,
+    73
+   ]
+  },
+  {
+   "name": "07_pack_hatchet",
+   "rect": [
+    1309,
+    583,
+    151,
+    86
+   ]
+  },
+  {
+   "name": "08_use_tinderbox_chart",
+   "rect": [
+    679,
+    531,
+    181,
+    60
+   ]
+  },
+  {
+   "name": "15_worn_hatchet",
+   "rect": [
+    1276,
+    685,
+    151,
+    60
+   ]
+  },
+  {
+   "name": "16_bank_deposit",
+   "rect": [
+    598,
+    437,
+    117,
+    112
+   ]
+  },
+  {
+   "name": "17_bank_withdraw",
+   "rect": [
+    536,
+    377,
+    124,
+    112
+   ]
+  },
+  {
+   "name": "18_shop_stock",
+   "rect": [
+    552,
+    296,
+    151,
+    99
+   ]
+  },
+  {
+   "name": "09_stairs",
+   "rect": [
+    710,
+    393,
+    118,
+    73
+   ]
+  },
+  {
+   "name": "10_cellar_hatch",
+   "rect": [
+    703,
+    617,
+    132,
+    73
+   ]
+  },
+  {
+   "name": "11_oak",
+   "rect": [
+    722,
+    286,
+    95,
+    73
+   ]
+  },
+  {
+   "name": "12_fishing_spot",
+   "rect": [
+    704,
+    471,
+    131,
+    73
+   ]
+  },
+  {
+   "name": "13_use_net_fishing_spot",
+   "rect": [
+    681,
+    471,
+    177,
+    60
+   ]
+  },
+  {
+   "name": "14_grubkin",
+   "rect": [
+    666,
+    536,
+    207,
+    73
+   ]
+  }
+ ]
+}

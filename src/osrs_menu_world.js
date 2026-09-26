@@ -224,15 +224,15 @@ var OsrsMenuWorld=(function(){
  /* ---------- the Interact dispatcher: every registered option, primary first ---------- */
  M.registerProvider({id:'interact',order:5,kinds:'*',
   entries:function(ent,ctx){
-   if(typeof Interact==='undefined'||!Interact.optionsFor)return [];
+   if(!ent.obj||typeof Interact==='undefined'||!Interact.optionsFor)return [];   // world entities only (not item slots)
    return Interact.optionsFor({obj:ent.obj,point:ent.point},ctx&&ctx.e).map(function(r){
     return {option:r.option,target:r.target,targetType:r.npc?'npc':'object',priority:r.primary?300:20,examine:r.option==='Examine',fn:r.fn}});
   }});
 
  /* ---------- anything else with a kind: a name and an Examine; an authored inspect line ---------- */
  M.registerProvider({id:'generic',order:1000,kinds:'*',
-  describe:function(ent){var u=ent.u,sl=splitLabel(u.label);return {name:u.inspectName||sl.name||cap(u.name||'')||cap(String(u.kind||'').replace(/^holm_/,'').replace(/_/g,' ')),type:'object',examine:u.examine||u.inspectMessage||null}},
-  entries:function(ent){var u=ent.u;
+  describe:function(ent){if(!ent.u)return null;var u=ent.u,sl=splitLabel(u.label);return {name:u.inspectName||sl.name||cap(u.name||'')||cap(String(u.kind||'').replace(/^holm_/,'').replace(/_/g,' ')),type:'object',examine:u.examine||u.inspectMessage||null}},
+  entries:function(ent){var u=ent.u;if(!u)return [];
    if(u.inspectMessage&&!u.inspectOnly&&u.kind!=='prop')return [{option:'Inspect',priority:10,fn:function(){UI.chat(u.inspectMessage,'plain')}}];
    return [];
   }});
@@ -250,6 +250,7 @@ var OsrsMenuWorld=(function(){
  function leftClick(e){
   var r=menuFor(e),top=r.entries[0];
   if(!r.scan.top&&!r.scan.walk&&!M.using())return null;
+  if(top)M.record(top,'left');
   if(top&&typeof top.fn==='function'){try{top.fn()}catch(err){console.error('[OsrsMenu] left click '+M.rowText(top),err)}}
   return top||null;
  }

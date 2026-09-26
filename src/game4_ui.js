@@ -647,6 +647,9 @@ canvasEl.addEventListener('mouseup', e=>{
   if(Date.now() < (typeof _swallowClickUntil!=='undefined' ? _swallowClickUntil : 0)) return;
   camCtl.down=false;
   if(camCtl.dragging){ camCtl.dragging=false; return; }
+  // only the left button acts on the world: a right click opens the menu (contextmenu) and does nothing else
+  // (on Windows its mouseup used to run the left-click action as well)
+  if(e.button!==undefined && e.button!==0) return;
   if(OsrsMenu.swallowing()){ OsrsMenu.swallowed(); return; }   // that press only closed the open menu (2004)
   if(typeof CharCreator!=='undefined' && CharCreator.active) return;   // designing: ignore world clicks
   if(window.Build && Build.active){ Build.onClick(e); return; }   // editor: place prop

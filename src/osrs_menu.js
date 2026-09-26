@@ -153,8 +153,11 @@ var OsrsMenu=(function(){
  var view={open:false,entries:[],rect:null,swallowUntil:0,opened:0};
  function el(){return typeof document!=='undefined'?document.getElementById('ctx-menu'):null}
  function rowsEl(){return typeof document!=='undefined'?document.getElementById('ctx-rows'):null}
+ // the last row run (by a menu pick or a left click): QA reads it (tools/qa_osrs_menu.js)
+ var last=null;
+ function record(en,via){last={text:rowText(en),option:en.option,target:en.target,via:via,at:Date.now()};return last}
  function run(en){
-  hide();if(!en)return;
+  hide();if(!en)return;record(en,'menu');
   try{if(typeof Sfx!=='undefined'&&Sfx.click&&en.option!=='Cancel')Sfx.click()}catch(e){}
   if(typeof en.fn==='function'){try{en.fn()}catch(e){console.error('[OsrsMenu] '+rowText(en),e)}}
  }
@@ -173,13 +176,16 @@ var OsrsMenu=(function(){
   var left=Math.round(x-w/2),top=Math.round(y);
   left=Math.max(0,Math.min(left,W-w));top=Math.max(0,Math.min(top,H-h));
   m.style.left=left+'px';m.style.top=top+'px';
-  view.open=true;view.entries=entries;view.rect={x:left,y:top,w:w,h:h};view.opened=Date.now();view.source=opts.source||'world';
+  view.open=true;view.entries=entries;view.rect={x:left,y:top,w:w,h:h};view.at={x:x,y:y};view.opened=Date.now();view.source=opts.source||'world';
   return true;
  }
  function hide(){var m=el();if(m){m.style.display='none';var rows=rowsEl();if(rows)Array.prototype.forEach.call(rows.children,function(c){c.classList.remove('om-hot')})}view.open=false;view.entries=[];view.rect=null}
  function isOpen(){return view.open}
- // ~10 px of slack round the box, as the old client allowed
- function strayed(x,y){var r=view.rect;if(!r)return true;return x<r.x-10||x>r.x+r.w+10||y<r.y-10||y>r.y+r.h+10}
+ // ~10 px of slack round the box, as the old client allowed (a box pushed back inside the screen also keeps the
+ // spot it was opened from, so the first nudge of the mouse does not close it)
+ function strayed(x,y){var r=view.rect;if(!r)return true;var a=view.at||{x:r.x,y:r.y};
+  var x0=Math.min(r.x,a.x),x1=Math.max(r.x+r.w,a.x),y0=Math.min(r.y,a.y),y1=Math.max(r.y+r.h,a.y);
+  return x<x0-10||x>x1+10||y<y0-10||y>y1+10}
  function inside(target){var m=el();return !!(m&&target&&m.contains&&m.contains(target))}
 
  /* ---------------- use-mode: an item picked with "Use" waits for its target ----------------
@@ -203,7 +209,7 @@ var OsrsMenu=(function(){
   addEventListener('mousemove',function(e){if(view.open&&strayed(e.clientX,e.clientY))hide()},true);
   addEventListener('keydown',function(e){
    if(e.key!=='Escape')return;
-   if(view.open){hide();return}
+   if(view.open){hide();e.stopImmediatePropagation();e.preventDefault();return}   // Escape closes the menu only (not the bank or shop under it)
    if(using())endUse();
   },true);
   // a press outside the open menu only closes it: the same click never also walks or acts
@@ -221,7 +227,7 @@ var OsrsMenu=(function(){
   registerProvider:registerProvider,registerGround:registerGround,registerHook:registerHook,unregister:unregister,providers:function(){return providers.slice()},
   describe:describe,build:build,sort:sort,normalise:normalise,rowHtml:rowHtml,rowText:rowText,hoverHtml:hoverHtml,hoverText:hoverText,moreCount:moreCount,
   examineChat:examineChat,show:show,hide:hide,isOpen:isOpen,run:run,strayed:strayed,entries:function(){return view.entries.slice()},rect:function(){return view.rect},
-  swallowing:swallowing,swallowed:swallowed,
+  swallowing:swallowing,swallowed:swallowed,record:record,last:function(){return last},
   using:using,itemName:itemName,startUse:startUse,endUse:endUse,useSlot:function(){return view.useSlot===undefined?-1:view.useSlot}};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=OsrsMenu;
