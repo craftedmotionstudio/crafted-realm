@@ -95,3 +95,51 @@ Total pass 1: **8.5 / 10**. Weakest: 12 (phone), 18 (PvP HUD), 19 (level-25 magi
 Fixed during pass 1 (found by the benches): driver artifacts aside, building floors had no diagonals (measured
 profiles counted as stairs) -> flat profiles now get diagonals; a despawned aggressor held the single-way lock; the
 broodmother's wind-up was too short to react to (2 -> 3 ticks); leather took the ranged-armour role (spells kept out).
+
+### Pass 2 (2026-09-26): phone readability, the Scarlands HUD, mages in their robes
+
+Fixes from pass 1's weakest criteria:
+- 12: a phone-size (430x860) fight on the Proving Ground meadow: the splat draws at 51 px with its health bar and XP
+  drops by the minimap (`pass2/phone_fight.jpg`, `pass2/pvm.json`).
+- 18: `src/ui_pvp_hud.js` (PvpHud): the "Level: N" plaque, the skull on the HUD and over the head, the multi-combat
+  sign, and the Ditch warning with the adventurer's own numbers and the pictures of what they would keep
+  (`shared/pvp.js ditchWarningLines`); Blender-rendered icons pk_skull, multi_combat, wild_plaque
+  (`pass2/pvp_hud_ditch.jpg`, `pass2/pvp_hud_skulled.jpg`); the online layer drives it from the status block
+  (COMBAT_CLIENT_HOOKS.md). Food and prayer matter (bench variants change winners and lengths).
+- bench realism: mages wear their best robes (glimmer from level 15); the PvM driver no longer picks a foe felled by
+  an earlier scenario (the one flaky check); NPC tile outlines show the engine's true tile.
+
+Evidence: `pass2/bench_pass2.md` (full bench), `pass2/pvm.json` (40/40 live checks).
+
+| # | score | change |
+|---|---|---|
+| 1-11 | 0.5 each | unchanged, re-run green |
+| 12 | 0.5 | phone fight evidence |
+| 13, 14, 16, 17 | 0.5 each | unchanged, re-run green |
+| 15 | 0.25 | online part pending |
+| 18 | 0.5 | Scarlands HUD + Ditch warning + kept-items pictures, measured fight lengths |
+| 19 | 0.25 | the triangle holds at 40 and 60 (melee > ranged 100%, ranged > magic 78-82%, magic > melee 65-68% with food) but at 25 magic beats both (water bolt 10 against a level-25 archer's max hit of 4) |
+| 20 | 0 | online |
+
+Total pass 2: **9.0 / 10**. Remaining offline gap: 19 at level 25.
+
+### Pass 3 (2026-09-26): the level-25 archer
+
+Diagnosis (pass-2 bench + hand check): at level 25 the ash shortbow (23 ranged strength) gives a rapid max hit of
+floor((33 x 87 + 320) / 640) = 4, one short of 5; against water bolt's 10 that let magic beat ranged 60-75%.
+Fix: the ash shortbow carries 26 ranged strength (the bow in our data carries its arrows' strength; 26 sits between
+the 2004 mithril 22 and adamant 31 arrows a level-20..30 archer used). Now a level-25 archer hits 5, level 40 hits 7,
+level 60 hits 10.
+Also: plain entry points for the menu providers (`LocalCombat.attack`, `castOn`, `canAttack`).
+
+Result (`pass3/bench_pass3.md`, 60 fights per pairing, sides alternated, with food):
+
+| level | melee vs ranged | ranged vs magic | magic vs melee |
+|---|---|---|---|
+| 25 | melee 93% | ranged 65% | magic 100% |
+| 40 | melee 100% | ranged 78% | magic 68% |
+| 60 | melee 100% | ranged 90% | magic 65% |
+
+Every style wins one matchup and loses one at every level point: no style dominates; PvM kill times with food sit
+at 26-66 s against monsters of the adventurer's level, PvP fights between equals last 23-100 s without food and
+85-290 s with ten trout each.
