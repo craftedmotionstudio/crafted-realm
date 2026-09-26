@@ -2845,7 +2845,7 @@ def clip_defs():
     lunge = dict(RightUpLeg=(-30, 0, 0), RightLeg=(28, 0, 0), RightFoot=(2, 0, 0), LeftUpLeg=(16, 0, 0), LeftLeg=(12, 0, 0), LeftFoot=(-28, 0, 0))
     C['attack_stab'] = (18, [
         (0, ready),
-        (5, P(RightArm=A(-.30, .55, -.75), RightForeArm=A(.05, -1, .05), Spine1=(0, 0, -14), LeftArm=A(.35, -.5, -.75),
+        (5, P(RightArm=A(-.46, .50, -.72), RightForeArm=A(-.04, -1, .05), Spine1=(0, 0, -14), LeftArm=A(.35, -.5, -.75),   # v3.0: wind-up clear of the hip
               LeftForeArm=A(0, -1, -.2))),
         (9, PP(lunge, RightArm=A(-.05, -1, .08), RightForeArm=A(0, -1, .05), Spine=(8, 0, 0), Spine1=(6, 0, 14),
                LeftArm=A(.5, .3, -.8), LeftForeArm=A(.2, .1, -.9), loc=(0, 0, -.05))),
@@ -2864,8 +2864,10 @@ def clip_defs():
         (16, smash),
         (21, ready2),
     ], False)
-    draw = P(LeftArm=A(.25, -.95, .12), LeftForeArm=A(.20, -1, .12), RightArm=A(-.95, .15, .18), RightForeArm=A(.95, -.30, .05),
+    draw = P(LeftArm=A(.25, -.95, .12), LeftForeArm=A(.20, -1, .12),
              Spine1=(0, 0, -14), Head=(0, 0, 12), LeftUpLeg=(-8, 0, 0), RightUpLeg=(6, 0, 0))
+    # v3.0: the string hand anchors in front of the right side of the chin (it used to sink into the chest), elbow out to the side
+    arm_reach(draw, 'Right', Vector((-.13, -.25, 1.44)), (.25, -.15, .95), 0, pole=(-.9, .35, .25))
     C['bow'] = (36, [
         (0, P()),
         (8, P(LeftArm=A(.25, -.95, .12), LeftForeArm=A(.20, -1, .12), RightArm=A(-.35, -.85, .10), RightForeArm=A(.55, -.80, .05),
