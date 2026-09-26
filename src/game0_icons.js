@@ -28,7 +28,9 @@ const HOLM_ITEM_ICONS = new Set(['tinderbox','hammer','bucket','bucket_water','b
   'bread_dough','bread','logs','raw_perch','cooked_perch','burnt_perch','copper_ore','tin_ore','bronze_bar','fishing_net',
   'coins','arrows','air_rune','mind_rune','leather_body','wood_shield','bones',
   // holm_equipment_v1 renders (Blender)
-  'bronze_dagger','bronze_sword','iron_sword','iron_hatchet','pickaxe','iron_pickaxe','hatchet','worn_bow','apprentice_staff','bronze_plate','bronze_legs']);
+  'bronze_dagger','bronze_sword','iron_sword','iron_hatchet','pickaxe','iron_pickaxe','hatchet','worn_bow','apprentice_staff','bronze_plate','bronze_legs',
+  // coffee (build_holm_items_v1.py, 2026-09-26)
+  'coffee_4','coffee_3','coffee_2','coffee_1','roasted_beans']);
 function iconFor(id){
   if(ICONS[id]) return ICONS[id];
   if(HOLM_ITEM_ICONS.has(id)) return (ICONS[id]='assets/icons/items/'+id+'.png');

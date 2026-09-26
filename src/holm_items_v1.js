@@ -7,10 +7,10 @@
  * loads, or for any other id, the previous mesh is used. QA introspection via window.HolmItems.status(). */
 (function(){
   'use strict';
-  var URL=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/holm-items-v1/candidates/items.glb'):'/.studio-workspaces/holm-items-v1/candidates/items.glb')+'?v=1';
+  var URL=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/holm-items-v1/candidates/items.glb'):'/.studio-workspaces/holm-items-v1/candidates/items.glb')+'?v=2';
   var IDS=['tinderbox','hammer','bucket','bucket_water','bucket_flour','pot_of_flour','dough','bread_dough','bread','logs',
     'raw_perch','cooked_perch','burnt_perch','copper_ore','tin_ore','bronze_bar','fishing_net','coins','arrows','air_rune',
-    'mind_rune','leather_body','wood_shield','bones'];
+    'mind_rune','leather_body','wood_shield','bones','coffee_4','coffee_3','coffee_2','coffee_1','roasted_beans'];
   var templates={},ready=false,failed=null;
   if(typeof itemGroundMesh!=='function'||typeof THREE==='undefined'||!THREE.GLTFLoader){console.warn('[HolmItems] no itemGroundMesh/GLTFLoader');return}
   var previous=itemGroundMesh;
