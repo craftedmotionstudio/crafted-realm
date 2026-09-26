@@ -53,7 +53,7 @@ var HolmOverhaulGround=(function(){
  var LOOK={
   // muted old-school underlays (sand, grass, rock, creek bed, sea floor): olive grass, khaki sand, grey rock
   palette:[[182,166,114],[132,154,50],[134,126,104],[122,108,76],[128,138,112]],dirt:[168,150,104],
-  light:[.52,.62,.58],ambient:.55,diffuse:.62,minLight:.6,maxLight:1.3,scale:.76,
+  light:[.52,.62,.58],ambient:.55,diffuse:.72,minLight:.55,maxLight:1.32,scale:.76,
   blendInner:6,patch:.13,jitter:.07,
   // broad meadow variation (about twelve tiles across): lighter yellow-olive fields against deeper green hollows
   broad:.16,warm:.1};
