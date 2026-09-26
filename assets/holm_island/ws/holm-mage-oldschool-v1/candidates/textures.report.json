@@ -1,0 +1,325 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-mage-v3/candidates/mage.blend",
+ "materials": {
+  "Mage aged oak": {
+   "texture": "beam",
+   "authored": [
+    0.3,
+    0.2,
+    0.12
+   ],
+   "tint": [
+    0.3659,
+    0.3469,
+    0.3086
+   ]
+  },
+  "Mage aged oak (not clipped)": {
+   "texture": "beam",
+   "authored": [
+    0.3,
+    0.2,
+    0.12
+   ],
+   "tint": [
+    0.3659,
+    0.3469,
+    0.3086
+   ]
+  },
+  "Mage clay cool": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.33,
+    0.19,
+    0.15
+   ],
+   "tint": [
+    0.4364,
+    0.4523,
+    0.4829
+   ]
+  },
+  "Mage clay tile": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.39,
+    0.22,
+    0.17
+   ],
+   "tint": [
+    0.5157,
+    0.5237,
+    0.5473
+   ]
+  },
+  "Mage clay warm": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.45,
+    0.27,
+    0.19
+   ],
+   "tint": [
+    0.5951,
+    0.6427,
+    0.6117
+   ]
+  },
+  "Mage dark frame oak": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Mage dark frame oak (not clipped)": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Mage dressed sandstone": {
+   "texture": "rock",
+   "authored": [
+    0.57,
+    0.53,
+    0.42
+   ],
+   "tint": [
+    0.7115,
+    0.6616,
+    0.5465
+   ]
+  },
+  "Mage dressed sandstone (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.57,
+    0.53,
+    0.42
+   ],
+   "tint": [
+    0.7115,
+    0.6616,
+    0.5465
+   ]
+  },
+  "Mage fieldstone": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.4
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5205
+   ]
+  },
+  "Mage fieldstone (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.4
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5205
+   ]
+  },
+  "Mage floorboards": {
+   "texture": "planks",
+   "authored": [
+    0.43,
+    0.32,
+    0.2
+   ],
+   "tint": [
+    0.5759,
+    0.5911,
+    0.5754
+   ]
+  },
+  "Mage limewash": {
+   "texture": "plaster",
+   "authored": [
+    0.8,
+    0.74,
+    0.6
+   ],
+   "tint": [
+    0.9149,
+    0.8724,
+    0.763
+   ]
+  },
+  "Mage limewash (not clipped)": {
+   "texture": "plaster",
+   "authored": [
+    0.8,
+    0.74,
+    0.6
+   ],
+   "tint": [
+    0.9149,
+    0.8724,
+    0.763
+   ]
+  },
+  "Mage ochre thatch": {
+   "texture": "thatch",
+   "authored": [
+    0.55,
+    0.43,
+    0.2
+   ],
+   "tint": [
+    0.801,
+    0.739,
+    0.5576
+   ]
+  },
+  "Mage stone lit": {
+   "texture": "rock",
+   "authored": [
+    0.52,
+    0.54,
+    0.46
+   ],
+   "tint": [
+    0.6491,
+    0.6741,
+    0.5986
+   ]
+  },
+  "Mage stone lit (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.52,
+    0.54,
+    0.46
+   ],
+   "tint": [
+    0.6491,
+    0.6741,
+    0.5986
+   ]
+  },
+  "Mage stone shade": {
+   "texture": "rock",
+   "authored": [
+    0.37,
+    0.4,
+    0.35
+   ],
+   "tint": [
+    0.4619,
+    0.4993,
+    0.4554
+   ]
+  },
+  "Mage stone shade (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.37,
+    0.4,
+    0.35
+   ],
+   "tint": [
+    0.4619,
+    0.4993,
+    0.4554
+   ]
+  },
+  "Mage thatch shade": {
+   "texture": "thatch",
+   "authored": [
+    0.44,
+    0.33,
+    0.15
+   ],
+   "tint": [
+    0.6408,
+    0.5671,
+    0.4182
+   ]
+  },
+  "Mage thatch sunlit": {
+   "texture": "thatch",
+   "authored": [
+    0.63,
+    0.51,
+    0.26
+   ],
+   "tint": [
+    0.9176,
+    0.8764,
+    0.7248
+   ]
+  },
+  "Holm flat colour - planks": {
+   "texture": "planks",
+   "vertexColour": true
+  },
+  "Holm flat colour - plaster": {
+   "texture": "plaster",
+   "vertexColour": true
+  },
+  "Holm flat colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Mage_FloorGroundTilesBoards": {
+   "planks": 370
+  },
+  "Mage_FloorGroundTilesFlags": {
+   "plaster": 69
+  },
+  "Mage_FurnishingDressing": {
+   "beam": 28
+  },
+  "Mage_UpperFloorLibraryTiles": {
+   "planks": 303
+  },
+  "Mage_UpperFloorObservatoryTiles": {
+   "planks": 400
+  }
+ },
+ "keptImages": [],
+ "meshes": 26,
+ "glb": {
+  "path": ".studio-workspaces/holm-mage-oldschool-v1/candidates/mage.glb",
+  "bytes": 2167444,
+  "sha256": "d964b4724e6369058940f870d43a3f9e5cc14f0f5956798e9d38b79c52b82a1f"
+ },
+ "images": [
+  "beam",
+  "planks",
+  "plaster",
+  "rock",
+  "roof_tiles",
+  "thatch"
+ ]
+}

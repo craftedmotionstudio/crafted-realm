@@ -1,0 +1,213 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-kitchen-wings-v8/candidates/kitchen-character.blend",
+ "materials": {
+  "Holm flat colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  },
+  "Holm flat colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  },
+  "Holm flat colour - planks": {
+   "texture": "planks",
+   "vertexColour": true
+  },
+  "Holm flat colour - plaster": {
+   "texture": "plaster",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Kitchen_Chimney_Stack": {
+   "beam": 1512
+  },
+  "Kitchen_Court_Dressing": {
+   "rock": 69,
+   "beam": 134
+  },
+  "Kitchen_Floor_Base": {
+   "beam": 10,
+   "planks": 2
+  },
+  "Kitchen_Floor_Flags": {
+   "planks": 1050
+  },
+  "Kitchen_Floor_Threshold": {
+   "rock": 6
+  },
+  "Kitchen_Furnishings_Hall": {
+   "beam": 318
+  },
+  "Kitchen_Glazing_Windows": {
+   "beam": 429
+  },
+  "Kitchen_Hearth_Breast": {
+   "beam": 1550
+  },
+  "Kitchen_Hearth_Firebox": {
+   "rock": 85,
+   "beam": 157
+  },
+  "Kitchen_Oven_Body": {
+   "beam": 427,
+   "rock": 27
+  },
+  "Kitchen_OvenFire": {
+   "rock": 10,
+   "beam": 72
+  },
+  "Kitchen_Pantry_FlourBin": {
+   "beam": 74,
+   "plaster": 22
+  },
+  "Kitchen_RecipeBoard_Board": {
+   "beam": 53,
+   "plaster": 50
+  },
+  "Kitchen_Roof_Gables": {
+   "plaster": 2,
+   "beam": 72
+  },
+  "Kitchen_Roof_StoreGable": {
+   "beam": 31
+  },
+  "Kitchen_Roof_Thatch": {
+   "beam": 2175
+  },
+  "Kitchen_Shell_DoorFrame": {
+   "beam": 45
+  },
+  "Kitchen_Shell_Facing": {
+   "rock": 3105
+  },
+  "Kitchen_Shell_Lining": {
+   "plaster": 545
+  },
+  "Kitchen_Shell_Quoins": {
+   "plaster": 336,
+   "rock": 336
+  },
+  "Kitchen_Shell_Reveals": {
+   "plaster": 12
+  },
+  "Kitchen_Shell_StoreDoor": {
+   "beam": 45
+  },
+  "Kitchen_Shell_Walls": {
+   "rock": 620
+  },
+  "Kitchen_Stair_Stringers": {
+   "beam": 48
+  },
+  "Kitchen_Stair_Tread00": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread01": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread02": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread03": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread04": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread05": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread06": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread07": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread08": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread09": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread10": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread11": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread12": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread13": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread14": {
+   "beam": 6
+  },
+  "Kitchen_Stair_Tread15": {
+   "beam": 6
+  },
+  "Kitchen_Store_Beams": {
+   "beam": 18
+  },
+  "Kitchen_Store_Shelves": {
+   "beam": 1314
+  },
+  "Kitchen_SupplyBuckets_Rack": {
+   "beam": 157
+  },
+  "Kitchen_SupplyDoughBowl_Trough": {
+   "beam": 65
+  },
+  "Kitchen_SupplyWaterButt": {
+   "beam": 101
+  },
+  "Kitchen_Tools_Oven": {
+   "beam": 26
+  },
+  "Kitchen_UpperFloor_Boards": {
+   "beam": 16,
+   "planks": 39
+  },
+  "Kitchen_UpperFloor_Joists": {
+   "beam": 62
+  },
+  "Kitchen_UpperFurnishing_Loft": {
+   "beam": 186
+  },
+  "Kitchen_UpperFurnishing_Rail": {
+   "beam": 77
+  },
+  "Kitchen_UpperHearth_Breast": {
+   "beam": 995
+  },
+  "Kitchen_UpperShell_Frame": {
+   "plaster": 182,
+   "beam": 565
+  },
+  "Kitchen_UpperShell_Glazing": {
+   "beam": 154,
+   "plaster": 30
+  },
+  "Kitchen_Worktable_Kneading": {
+   "beam": 178
+  }
+ },
+ "keptImages": [],
+ "meshes": 61,
+ "glb": {
+  "path": ".studio-workspaces/holm-kitchen-oldschool-v1/candidates/kitchen-character.glb",
+  "bytes": 3646068,
+  "sha256": "ea05c5afd23f5d3bc050d55315026f492ca953a719f56df2ff3a68e53e489f84"
+ },
+ "images": [
+  "beam",
+  "planks",
+  "plaster",
+  "rock"
+ ]
+}

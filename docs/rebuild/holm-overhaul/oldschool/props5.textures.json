@@ -1,0 +1,22 @@
+{
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-props-v5/candidates/props.glb",
+ "factorToSrgb": false,
+ "outBlend": ".studio-workspaces/holm-props5-oldschool-v1/candidates/props.blend",
+ "outGlb": ".studio-workspaces/holm-props5-oldschool-v1/candidates/props.glb",
+ "report": ".studio-workspaces/holm-props5-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "Flame",
+  "maxVariants": 2,
+  "minShare": 0.15
+ },
+ "manifest": {
+  "from": ".studio-workspaces/holm-props-v5/candidates/manifest.json",
+  "to": ".studio-workspaces/holm-props5-oldschool-v1/candidates/manifest.json"
+ },
+ "import": ".studio-workspaces/holm-props-v5/candidates/props.glb",
+ "exportAnimationMode": "NLA_TRACKS",
+ "fps": 24,
+ "slideToZero": false
+}

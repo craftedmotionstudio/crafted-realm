@@ -1,0 +1,411 @@
+{
+  "schema": 1,
+  "status": "candidate-not-visual-or-runtime-accepted",
+  "axes": "glTF Y-up, 1 unit = tile",
+  "references": [
+    "Bible_References/Landscape_Option.jpg",
+    "Bible_References/Town2.jpg"
+  ],
+  "blend": "tree-family.blend",
+  "assets": [
+    {
+      "name": "oak",
+      "file": "oak.glb",
+      "habitat": "Sheltered meadow and settlement margins; isolated mature trees, occasional uneven pair",
+      "triangles": 2434,
+      "materials": 2,
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -3.8360841274261475,
+          0,
+          -2.810910224914551
+        ],
+        "max": [
+          3.194967031478882,
+          6.046743392944336,
+          3.413623809814453
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -3.8521766662597656,
+          0,
+          -2.810910224914551
+        ],
+        "max": [
+          3.194967031478882,
+          6.048574924468994,
+          3.444679021835327
+        ]
+      },
+      "sampledFrames": [
+        1,
+        4,
+        7,
+        10,
+        13,
+        16,
+        19,
+        22,
+        25,
+        28,
+        31,
+        34,
+        37,
+        40,
+        43,
+        46,
+        49,
+        52,
+        55,
+        58,
+        61,
+        64,
+        67,
+        70,
+        73,
+        76,
+        79,
+        82,
+        85,
+        88,
+        91,
+        94,
+        97,
+        100,
+        103,
+        106,
+        109,
+        112,
+        115,
+        118,
+        121
+      ],
+      "clips": [
+        "Breeze"
+      ],
+      "sha256": "20b5b0cb1247b23694c651913c2697b41c202d112e328ccb85ff9ba403dd9050"
+    },
+    {
+      "name": "birch",
+      "file": "birch.glb",
+      "habitat": "Cool creek terraces and woodland edge; loose small groups with open sightlines",
+      "triangles": 1356,
+      "materials": 2,
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -1.4238170385360718,
+          0,
+          -0.7761140465736389
+        ],
+        "max": [
+          1.5524824857711792,
+          6.518646240234375,
+          0.8431444764137268
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -1.4399529695510864,
+          0,
+          -0.8200022578239441
+        ],
+        "max": [
+          1.5721205472946167,
+          6.519346714019775,
+          0.8805379271507263
+        ]
+      },
+      "sampledFrames": [
+        1,
+        4,
+        7,
+        10,
+        13,
+        16,
+        19,
+        22,
+        25,
+        28,
+        31,
+        34,
+        37,
+        40,
+        43,
+        46,
+        49,
+        52,
+        55,
+        58,
+        61,
+        64,
+        67,
+        70,
+        73,
+        76,
+        79,
+        82,
+        85,
+        88,
+        91,
+        94,
+        97,
+        100,
+        103,
+        106,
+        109,
+        112,
+        115,
+        118,
+        121
+      ],
+      "clips": [
+        "Breeze"
+      ],
+      "sha256": "545fd672377ca0f43833366ad726cdb2e5117764300570ddfc0fa337791c6ce4"
+    },
+    {
+      "name": "coastal-pine",
+      "file": "coastal-pine.glb",
+      "habitat": "Exposed headland and rocky upper slopes; sparse, consistently wind-shaped silhouettes",
+      "triangles": 436,
+      "materials": 2,
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.8695445656776428,
+          0,
+          -1.2346067428588867
+        ],
+        "max": [
+          3.070775032043457,
+          5.875708103179932,
+          0.9740496873855591
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.8817858695983887,
+          0,
+          -1.2630038261413574
+        ],
+        "max": [
+          3.094727039337158,
+          5.885655879974365,
+          1.0081781148910522
+        ]
+      },
+      "sampledFrames": [
+        1,
+        4,
+        7,
+        10,
+        13,
+        16,
+        19,
+        22,
+        25,
+        28,
+        31,
+        34,
+        37,
+        40,
+        43,
+        46,
+        49,
+        52,
+        55,
+        58,
+        61,
+        64,
+        67,
+        70,
+        73,
+        76,
+        79,
+        82,
+        85,
+        88,
+        91,
+        94,
+        97,
+        100,
+        103,
+        106,
+        109,
+        112,
+        115,
+        118,
+        121
+      ],
+      "clips": [
+        "Breeze"
+      ],
+      "sha256": "a80e26841e0c02d7b2ce60531f27028b97224dd7d990cf0a5c473237a49342d5"
+    },
+    {
+      "name": "meadow-tuft",
+      "file": "meadow-tuft.glb",
+      "habitat": "Sparse grass islands at fence feet and meadow margins; leave broad open ground",
+      "triangles": 39,
+      "materials": 1,
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          -0.41384193301200867,
+          0.009999999776482582,
+          -0.3812662959098816
+        ],
+        "max": [
+          0.3955862522125244,
+          0.5100982785224915,
+          0.27131396532058716
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.41577059030532837,
+          0.007186189293861389,
+          -0.38468289375305176
+        ],
+        "max": [
+          0.3979906737804413,
+          0.5117167830467224,
+          0.2749037742614746
+        ]
+      },
+      "sampledFrames": [
+        1,
+        4,
+        7,
+        10,
+        13,
+        16,
+        19,
+        22,
+        25,
+        28,
+        31,
+        34,
+        37,
+        40,
+        43,
+        46,
+        49,
+        52,
+        55,
+        58,
+        61,
+        64,
+        67,
+        70,
+        73,
+        76,
+        79,
+        82,
+        85,
+        88,
+        91,
+        94,
+        97,
+        100,
+        103,
+        106,
+        109,
+        112,
+        115,
+        118,
+        121
+      ],
+      "clips": [
+        "Breeze"
+      ],
+      "sha256": "39f17982f7b19eea7c3038e63dd1575f60071fb05c8ec0de9b4f80d76c33aeef"
+    },
+    {
+      "name": "creek-reeds",
+      "file": "creek-reeds.glb",
+      "habitat": "Small uneven clumps only at shallow creek banks and sheltered wet edges",
+      "triangles": 207,
+      "materials": 2,
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.4649146795272827,
+          0.009999999776482582,
+          -0.2505244016647339
+        ],
+        "max": [
+          0.30665749311447144,
+          1.312012791633606,
+          0.32398268580436707
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.4690493047237396,
+          0.007299408782273531,
+          -0.25059637427330017
+        ],
+        "max": [
+          0.3113110661506653,
+          1.3148142099380493,
+          0.3317224979400635
+        ]
+      },
+      "sampledFrames": [
+        1,
+        4,
+        7,
+        10,
+        13,
+        16,
+        19,
+        22,
+        25,
+        28,
+        31,
+        34,
+        37,
+        40,
+        43,
+        46,
+        49,
+        52,
+        55,
+        58,
+        61,
+        64,
+        67,
+        70,
+        73,
+        76,
+        79,
+        82,
+        85,
+        88,
+        91,
+        94,
+        97,
+        100,
+        103,
+        106,
+        109,
+        112,
+        115,
+        118,
+        121
+      ],
+      "clips": [
+        "Breeze"
+      ],
+      "sha256": "e0e60660c7e440e68a7b8a7d6905db7417f757b813cf66682a8a5e94f574cd06"
+    }
+  ],
+  "oldschool": {
+    "texturedFrom": ".studio-workspaces/holm-tree-family-v3/candidates/manifest.json",
+    "recipe": "tools/blender/apply_oldschool_textures.py"
+  }
+}

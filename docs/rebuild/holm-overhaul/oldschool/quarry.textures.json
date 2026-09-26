@@ -1,0 +1,20 @@
+{
+ "source": ".studio-workspaces/holm-quarry-v3/candidates/quarry.blend",
+ "blender": "5.1",
+ "reference": ".studio-workspaces/holm-quarry-v3/candidates/quarry.glb",
+ "outBlend": ".studio-workspaces/holm-quarry-oldschool-v1/candidates/quarry.blend",
+ "outGlb": ".studio-workspaces/holm-quarry-oldschool-v1/candidates/quarry.glb",
+ "report": ".studio-workspaces/holm-quarry-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|.*Flame)",
+  "woodOnly": "Furnish|Furniture|Ladder|Hatch",
+  "floors": "Floor|Deck",
+  "maxVariants": 2,
+  "minShare": 0.15
+ },
+ "navigation": {
+  "spec": "docs/rebuild/holm-overhaul/buildings/quarry-oldschool.nav.json",
+  "reference": ".studio-workspaces/holm-quarry-navigation-v3/candidates/navigation.json"
+ }
+}

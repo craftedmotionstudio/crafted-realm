@@ -22,8 +22,10 @@ const DIRS=[ // workspace folders the island loads (candidates/, working/ or exp
  'holm-bank-v3/candidates','holm-bank-navigation-v3/candidates',
  ...['survival','quarry','mage','haven','lastlight'].flatMap(b=>['holm-'+b+'-v3/candidates','holm-'+b+'-navigation-v3/candidates']),
  ...['cavern'].flatMap(b=>['holm-'+b+'-v1/candidates','holm-'+b+'-navigation-v1/candidates']),
- // old-school look (2026-09-25, src/holm_oldschool_look.js): textured survival camp + its re-measured graph
- 'holm-survival-oldschool-v1/candidates','holm-survival-oldschool-navigation-v1/candidates'];
+ // old-school look (2026-09-25/26, src/holm_oldschool_look.js SWAPS): every textured building + its re-measured graph,
+ // the textured tree family, bridges and prop packs
+ ...['survival','keep','kitchen','quest-lodge','bank','mage','lastlight','quarry','haven','cavern'].flatMap(b=>['holm-'+b+'-oldschool-v1/candidates','holm-'+b+'-oldschool-navigation-v1/candidates']),
+ 'holm-tree-family-oldschool-v1/candidates','holm-island-bridges-oldschool-v1/candidates','holm-props1-oldschool-v1/candidates','holm-props3-oldschool-v1/candidates','holm-props5-oldschool-v1/candidates'];
 const DATA_FILES=['plan.json','island-bridges.json','island-gates.json','island-ladders.json','island-lessons.json'];
 const KEEP=/\.(glb|json|png|bin)$/i;
 // the arrival package export is a sealed bundle (its manifest names its .blend sources): published whole

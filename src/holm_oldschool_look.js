@@ -8,9 +8,10 @@
  *  - water: the pale grey-blue kit water texture drifting slowly (HolmArrivalWater reads waterTexture());
  *  - scene: black void past the draw distance (fogRange(), used by the game loop), a lower side sun and a dimmer sky
  *    fill so hills and walls shade like the old client; no cast shadows, no post effects;
- *  - buildings: textured Blender candidates (UVs + kit textures) for the Guide House (arrival package
- *    'holm-arrival-package-oldschool-v1') and the survival camp ('holm-survival-oldschool-v1'), each with its
- *    re-measured navigation graph, so the hash locks stay valid.
+ *  - models: textured Blender candidates (UVs + kit textures, tools/build_holm_oldschool_candidates.js) for every
+ *    island building, bridge, tree, prop pack and arrival model: the arrival package 'holm-arrival-package-oldschool-v2'
+ *    and the folder swaps in SWAPS (each building swaps its model AND its re-measured graph, so hash locks hold).
+ *    A swap is used only when every probe file is served (preload); otherwise the previous files stay.
  * Switch: GameConfig.holmOldschoolLook (default on in this branch); ?oldschool=0 / ?oldschool=1 overrides for one
  * session. Off = the previous look, byte for byte the old code paths. */
 var HolmOldschoolLook=(function(){
@@ -27,12 +28,36 @@ var HolmOldschoolLook=(function(){
  var TUNE={grassA:{k:1,s:1.6},grassB:{k:.7,s:3.3},sand:{k:.85,s:2},rock:{k:.9,s:2},earth:{k:.9,s:1.6},path:{k:.95,s:1.5}};
  // the textured Blender candidates this look switches to (each with its own navigation graph / package export)
  var ASSETS={
-  // tools/stage_holm_arrival_package_oldschool.js: v9 with the textured Guide House (graphs node-identical to v9)
-  arrival:{baseUrl:'/.studio-workspaces/holm-arrival-package-oldschool-v1/exports/',exportId:'3b0e65f7729fa27b'},
-  // docs/rebuild/holm-overhaul/oldschool/survival.textures.json + buildings/survival-oldschool.nav.json (graph node-identical to v3)
-  buildings:{survival:{graph:'holm-survival-oldschool-navigation-v1/candidates/navigation.json',model:'holm-survival-oldschool-v1/candidates/survival.glb'}}};
+  // tools/stage_holm_arrival_package_oldschool.js: v9 with every arrival model textured (graphs identical to v9)
+  arrival:{baseUrl:'/.studio-workspaces/holm-arrival-package-oldschool-v2/exports/',exportId:'5369a48889f7c8bc'}};
+ // Folder swaps (paths after '.studio-workspaces/'): [previous, textured] pairs switched together, probe = files that
+ // must be served first. Buildings pair the model folder with its re-measured graph folder (graphs node-identical).
+ function building(prev,prevNav,id,file){return {id:id,map:[[prev,'holm-'+id+'-oldschool-v1/candidates/'],[prevNav,'holm-'+id+'-oldschool-navigation-v1/candidates/']],
+  probe:['holm-'+id+'-oldschool-v1/candidates/'+file,'holm-'+id+'-oldschool-navigation-v1/candidates/navigation.json']}}
+ var SWAPS=[
+  building('holm-survival-v3/candidates/','holm-survival-navigation-v3/candidates/','survival','survival.glb'),
+  building('holm-warden-keep-v8/candidates/','holm-keep-navigation-v7/candidates/','keep','keep.glb'),
+  building('holm-kitchen-wings-v8/candidates/','holm-kitchen-navigation-v6/candidates/','kitchen','kitchen-character.glb'),
+  {id:'lodge',map:[['holm-quest-lodge-v6/candidates/','holm-quest-lodge-oldschool-v1/candidates/'],['holm-quest-terrain-navigation-v4/candidates/','holm-quest-lodge-oldschool-navigation-v1/candidates/']],
+   probe:['holm-quest-lodge-oldschool-v1/candidates/lodge.glb','holm-quest-lodge-oldschool-navigation-v1/candidates/navigation.json']},
+  building('holm-bank-v3/candidates/','holm-bank-navigation-v3/candidates/','bank','bank.glb'),
+  building('holm-mage-v3/candidates/','holm-mage-navigation-v3/candidates/','mage','mage.glb'),
+  building('holm-lastlight-v3/candidates/','holm-lastlight-navigation-v3/candidates/','lastlight','lastlight.glb'),
+  building('holm-quarry-v3/candidates/','holm-quarry-navigation-v3/candidates/','quarry','quarry.glb'),
+  building('holm-haven-v3/candidates/','holm-haven-navigation-v3/candidates/','haven','haven.glb'),
+  building('holm-cavern-v1/candidates/','holm-cavern-navigation-v1/candidates/','cavern','cavern.glb'),
+  {id:'trees',map:[['holm-tree-family-v3/candidates/','holm-tree-family-oldschool-v1/candidates/']],
+   probe:['oak','birch','coastal-pine','meadow-tuft','creek-reeds'].map(function(n){return 'holm-tree-family-oldschool-v1/candidates/'+n+'.glb'})},
+  {id:'bridges',map:[['holm-island-bridges-v2/candidates/','holm-island-bridges-oldschool-v1/candidates/']],
+   probe:['manifest.json','timber_teaching_bridge.glb','stone_village_bridge.glb'].map(function(n){return 'holm-island-bridges-oldschool-v1/candidates/'+n})},
+  {id:'props1',map:[['holm-props-v1/candidates/','holm-props1-oldschool-v1/candidates/']],probe:['holm-props1-oldschool-v1/candidates/props.glb']},
+  {id:'props3',map:[['holm-props-v3/candidates/','holm-props3-oldschool-v1/candidates/']],probe:['holm-props3-oldschool-v1/candidates/props.glb']},
+  {id:'props5',map:[['holm-props-v5/candidates/','holm-props5-oldschool-v1/candidates/']],probe:['holm-props5-oldschool-v1/candidates/props.glb']}];
+ var verified=[];
  // void + light (tuned against Bible_References, see docs/rebuild/HOLM_OLDSCHOOL_LOOK_2026-09-25.md)
- var SCENE={fogNear:24,fogFar:32,background:0x000000,hemiSky:0xd8dccf,hemiGround:0x6f6a58,hemi:.62,sun:1.0,sunColor:0xfff0d8,sunPos:[60,48,52]};
+ // hemi .82 + a sun a little higher (rollout review 2026-09-26): floors and interiors keep the previous look's brightness
+ // (the first pass's .62 fill left the Guide House floor ~20% darker), walls still shade by facing
+ var SCENE={fogNear:24,fogFar:32,background:0x000000,hemiSky:0xd8dccf,hemiGround:0x6f6a58,hemi:.82,sun:1.0,sunColor:0xfff0d8,sunPos:[60,60,52]};
  var tex={},loading=null,groundMat=null,active=false,saved=null,stats={groundMaterials:0,textures:0,models:0,maps:0};
  function enabled(){return on}
  function loadOne(THREE,name){
@@ -49,7 +74,12 @@ var HolmOldschoolLook=(function(){
   // kit.json is the single source of the texture means (fallbacks above only if it cannot be read)
   var kit=typeof fetch==='function'?fetch(KIT+'kit.json').then(function(r){return r.ok?r.json():null}).then(function(k){
    if(k&&k.textures)Object.keys(MEAN).forEach(function(n){if(k.textures[n]&&Array.isArray(k.textures[n].mean))MEAN[n]=k.textures[n].mean})}).catch(function(){}):Promise.resolve();
-  if(!loading)loading=Promise.all(Object.keys(GROUND).map(function(k){return loadOne(THREE,GROUND[k])}).concat([loadOne(THREE,'water'),kit])).then(function(){return true});
+  // which textured candidates are served here (the published copies in production); each swap is all-or-nothing
+  var ws=typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/'):'/.studio-workspaces/';
+  var probes=typeof fetch!=='function'?Promise.resolve():Promise.all(SWAPS.map(function(s){
+   return Promise.all(s.probe.map(function(p){return fetch(ws+p,{method:'HEAD',cache:'no-store'}).then(function(r){return r.ok},function(){return false})}))
+    .then(function(ok){if(ok.every(Boolean))verified.push(s);else console.warn('[HolmOldschoolLook] '+s.id+' textured candidate not served; previous model kept')})}));
+  if(!loading)loading=Promise.all(Object.keys(GROUND).map(function(k){return loadOne(THREE,GROUND[k])}).concat([loadOne(THREE,'water'),kit,probes])).then(function(){return true});
   return loading;
  }
  function v3(a){return 'vec3('+a.map(function(n){return n.toFixed(4)}).join(',')+')'}
@@ -117,10 +147,12 @@ var HolmOldschoolLook=(function(){
   stats.models++;stats.maps+=n;return n;
  }
  function arrivalPackage(){return on&&ASSETS.arrival.exportId?ASSETS.arrival:null}
- function building(id){return on&&ASSETS.buildings[id]||null}
- function snapshot(){return {look:on?'oldschool':'previous',active:active,textures:Object.keys(tex),stats:stats,arrival:arrivalPackage(),buildings:on?Object.keys(ASSETS.buildings):[]}}
+ // a model or data URL as the island loaders build it -> the textured candidate's URL when that swap is verified
+ function url(u){if(!on||typeof u!=='string')return u;verified.forEach(function(s){s.map.forEach(function(m){if(u.indexOf(m[0])>=0)u=u.split(m[0]).join(m[1])})});return u}
+ function swapped(id){return verified.some(function(s){return s.id===id})}
+ function snapshot(){return {look:on?'oldschool':'previous',active:active,textures:Object.keys(tex),stats:stats,arrival:arrivalPackage(),swaps:verified.map(function(s){return s.id})}}
  return {enabled:enabled,preload:preload,groundMaterial:groundMaterial,restyleTrail:restyleTrail,waterTexture:waterTexture,activate:activate,deactivate:deactivate,
-  voidActive:voidActive,fogRange:fogRange,prepareModel:prepareModel,arrivalPackage:arrivalPackage,building:building,snapshot:snapshot,
-  TUNE:TUNE,SCENE:SCENE,ASSETS:ASSETS};
+  voidActive:voidActive,fogRange:fogRange,prepareModel:prepareModel,arrivalPackage:arrivalPackage,url:url,swapped:swapped,snapshot:snapshot,
+  TUNE:TUNE,SCENE:SCENE,ASSETS:ASSETS,SWAPS:SWAPS};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmOldschoolLook;

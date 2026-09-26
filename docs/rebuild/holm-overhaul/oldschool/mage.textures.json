@@ -1,0 +1,20 @@
+{
+ "source": ".studio-workspaces/holm-mage-v3/candidates/mage.blend",
+ "blender": "5.1",
+ "reference": ".studio-workspaces/holm-mage-v3/candidates/mage.glb",
+ "outBlend": ".studio-workspaces/holm-mage-oldschool-v1/candidates/mage.blend",
+ "outGlb": ".studio-workspaces/holm-mage-oldschool-v1/candidates/mage.glb",
+ "report": ".studio-workspaces/holm-mage-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|.*Flame)",
+  "woodOnly": "Furnish|Furniture|Ladder|Hatch",
+  "floors": "Floor|Deck",
+  "maxVariants": 2,
+  "minShare": 0.15
+ },
+ "navigation": {
+  "spec": "docs/rebuild/holm-overhaul/buildings/mage-oldschool.nav.json",
+  "reference": ".studio-workspaces/holm-mage-navigation-v3/candidates/navigation.json"
+ }
+}

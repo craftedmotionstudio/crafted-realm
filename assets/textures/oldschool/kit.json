@@ -96,9 +96,9 @@
    "file": "assets/textures/oldschool/brick.png",
    "size": 64,
    "mean": [
-    0.5995,
-    0.3899,
-    0.2963
+    0.82,
+    0.5333,
+    0.4053
    ],
    "use": "fired brick walls, chimneys"
   },
@@ -106,9 +106,9 @@
    "file": "assets/textures/oldschool/stone_course.png",
    "size": 64,
    "mean": [
-    0.7312,
-    0.7209,
-    0.6791
+    0.8116,
+    0.8002,
+    0.7538
    ],
    "use": "fieldstone / ashlar walls and plinths"
   },
@@ -126,9 +126,9 @@
    "file": "assets/textures/oldschool/planks.png",
    "size": 64,
    "mean": [
-    0.4858,
-    0.3523,
-    0.2261
+    0.7466,
+    0.5414,
+    0.3476
    ],
    "use": "floorboards, doors, decks, board walls"
   },
@@ -136,9 +136,9 @@
    "file": "assets/textures/oldschool/beam.png",
    "size": 64,
    "mean": [
-    0.4386,
-    0.3084,
-    0.208
+    0.82,
+    0.5766,
+    0.3888
    ],
    "use": "timber frames, posts, beams, furniture"
   },
@@ -156,11 +156,51 @@
    "file": "assets/textures/oldschool/roof_tiles.png",
    "size": 64,
    "mean": [
-    0.492,
-    0.2733,
-    0.2021
+    0.7562,
+    0.4201,
+    0.3106
    ],
    "use": "clay tile and shingle roofs"
+  },
+  "leaves": {
+   "file": "assets/textures/oldschool/leaves.png",
+   "size": 64,
+   "mean": [
+    0.5478,
+    0.6553,
+    0.3955
+   ],
+   "use": "tree crowns, shrubs, hazel, tufts (leaves over darker clumps)"
+  },
+  "needles": {
+   "file": "assets/textures/oldschool/needles.png",
+   "size": 64,
+   "mean": [
+    0.451,
+    0.5658,
+    0.4736
+   ],
+   "use": "pine crowns"
+  },
+  "bark": {
+   "file": "assets/textures/oldschool/bark.png",
+   "size": 64,
+   "mean": [
+    0.8054,
+    0.6408,
+    0.4615
+   ],
+   "use": "oak / pine trunks, logs"
+  },
+  "bark_birch": {
+   "file": "assets/textures/oldschool/bark_birch.png",
+   "size": 64,
+   "mean": [
+    0.8427,
+    0.8218,
+    0.7691
+   ],
+   "use": "birch trunks"
   }
  }
 }

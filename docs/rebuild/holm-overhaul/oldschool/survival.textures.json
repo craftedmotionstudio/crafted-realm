@@ -6,7 +6,8 @@
  "vertexColour": {
   "material": "Holm flat colour",
   "woodOnly": "Furnishing",
-  "floors": "Floor"
+  "floors": "Floor",
+  "maxVariants": 2
  },
  "blender": "5.1",
  "navigation": {

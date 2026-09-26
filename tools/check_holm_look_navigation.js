@@ -24,7 +24,8 @@ async function probe(browser,look){
   WORLD.clickables.forEach(o=>{if(o.userData&&/arrival_door|arrival_hatch|arrival_provisions|arrival_chart/.test(o.userData.kind||''))clickNames.push(o.userData.kind+':'+(o.name||''))});
   const surv=scene.getObjectByName('island-building-survival');let maps=0;if(surv)surv.traverse(o=>{if(o.isMesh)[].concat(o.material).forEach(m=>{if(m&&m.map)maps++})});
   let houseMaps=0;if(house)house.traverse(o=>{if(o.isMesh)[].concat(o.material).forEach(m=>{if(m&&m.map)houseMaps++})});
-  return {nodes,heights,stats:HolmArrivalQA.islandStats(),clicks:clickNames.sort(),survivalMaps:maps,houseMaps,look:typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.snapshot().look:null};
+  const snap=typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.snapshot():{};
+  return {nodes,heights,stats:HolmArrivalQA.islandStats(),clicks:clickNames.sort(),survivalMaps:maps,houseMaps,look:snap.look||null,swaps:snap.swaps||[]};
  });
  await page.close();r.errors=errs;return r;
 }
@@ -32,9 +33,9 @@ async function probe(browser,look){
  const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',args:['--window-size=1280,800','--mute-audio','--enable-gpu','--ignore-gpu-blocklist'],defaultViewport:{width:1280,height:800}});
  const a=await probe(browser,0),b=await probe(browser,1);await browser.close();
  const h=v=>crypto.createHash('sha256').update(JSON.stringify(v)).digest('hex').slice(0,16);
- const out={previous:{look:a.look,nodes:a.nodes.length,graph:h(a.nodes),heights:h(a.heights),stats:a.stats,clicks:a.clicks.length,houseMaps:a.houseMaps,survivalMaps:a.survivalMaps,errors:a.errors.length},
+ const out={swapsLoaded:b.swaps,previous:{look:a.look,nodes:a.nodes.length,graph:h(a.nodes),heights:h(a.heights),stats:a.stats,clicks:a.clicks.length,houseMaps:a.houseMaps,survivalMaps:a.survivalMaps,errors:a.errors.length},
   oldschool:{look:b.look,nodes:b.nodes.length,graph:h(b.nodes),heights:h(b.heights),stats:b.stats,clicks:b.clicks.length,houseMaps:b.houseMaps,survivalMaps:b.survivalMaps,errors:b.errors.length}};
- const ok=h(a.nodes)===h(b.nodes)&&h(a.heights)===h(b.heights)&&JSON.stringify(a.stats)===JSON.stringify(b.stats)&&JSON.stringify(a.clicks)===JSON.stringify(b.clicks)&&b.houseMaps>0&&b.survivalMaps>0&&a.houseMaps===0&&!a.errors.length&&!b.errors.length;
+ const ok=h(a.nodes)===h(b.nodes)&&h(a.heights)===h(b.heights)&&JSON.stringify(a.stats)===JSON.stringify(b.stats)&&JSON.stringify(a.clicks)===JSON.stringify(b.clicks)&&b.houseMaps>0&&b.survivalMaps>0&&a.houseMaps===0&&!a.errors.length&&!b.errors.length&&a.swaps.length===0&&b.swaps.length===15;
  console.log(JSON.stringify(out,null,1));console.log('[LOOK NAVIGATION] '+(ok?'PASS':'FAIL')+' graph/heights/stats/clickables identical across looks; textured maps only in the old-school look');
  process.exit(ok?0:1);
 })().catch(e=>{console.error(e);process.exit(1)});

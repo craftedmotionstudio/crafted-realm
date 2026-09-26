@@ -1,0 +1,434 @@
+{
+ "bakehouse.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-kitchen-oldschool-v1/candidates/kitchen-character.glb",
+   "bytes": 3646068,
+   "sha256": "ea05c5afd23f5d3bc050d55315026f492ca953a719f56df2ff3a68e53e489f84"
+  },
+  "textured": 4,
+  "primitives": [
+   85,
+   100
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-kitchen-oldschool-navigation-v1/candidates",
+   "nodes": 278,
+   "modelSha256": "ea05c5afd23f5d3bc050d55315026f492ca953a719f56df2ff3a68e53e489f84",
+   "identicalApartFrom": [
+    "modelSha256"
+   ]
+  }
+ },
+ "bank.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-bank-oldschool-v1/candidates/bank.glb",
+   "bytes": 2011620,
+   "sha256": "a1cce16a4aa05b9f9614ab9e88042871fd55de2a65274d2b9b31e953f9e557c2"
+  },
+  "textured": 17,
+  "primitives": [
+   108,
+   110
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-bank-oldschool-navigation-v1/candidates",
+   "nodes": 197,
+   "modelSha256": "a1cce16a4aa05b9f9614ab9e88042871fd55de2a65274d2b9b31e953f9e557c2",
+   "nodeIdentical": true
+  }
+ },
+ "bridge-stone.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/stone_village_bridge.glb",
+   "bytes": 213108,
+   "sha256": "a0e285f794f05b98aded638774bd16a78b4e21cf59c5fa3ce12fc30815da2a5b"
+  },
+  "textured": 3,
+  "primitives": [
+   4,
+   4
+  ]
+ },
+ "bridge-timber.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/timber_teaching_bridge.glb",
+   "bytes": 141692,
+   "sha256": "8cea1d6b8c0a7aa9fc5b1d3d82cbd885a9b1f596c2415099e967464f5cf7199f"
+  },
+  "textured": 3,
+  "primitives": [
+   4,
+   4
+  ]
+ },
+ "cavern.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-cavern-oldschool-v1/candidates/cavern.glb",
+   "bytes": 1147196,
+   "sha256": "68c5e1b346ed63e162bafac2c5d3e16184060a601c0b531dc3eacead5b97f64c"
+  },
+  "textured": 12,
+  "primitives": [
+   70,
+   70
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-cavern-oldschool-navigation-v1/candidates",
+   "nodes": 89,
+   "modelSha256": "68c5e1b346ed63e162bafac2c5d3e16184060a601c0b531dc3eacead5b97f64c",
+   "nodeIdentical": true
+  }
+ },
+ "dock.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-arrival-dock-oldschool-v1/candidates/dock.glb",
+   "bytes": 284608,
+   "sha256": "22c8cd0480e98a2deedf250ac8f2d99ff8adefcc7faf01dbd4fbd0f88d18c6e9"
+  },
+  "textured": 5,
+  "primitives": [
+   21,
+   21
+  ]
+ },
+ "garden-fieldstones.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-arrival-garden-oldschool-v1/candidates/arrival_fieldstones_v1.glb",
+   "bytes": 24136,
+   "sha256": "abb864da2b482ebe01381999e75fd52e8fe314181695e5a7428cb87ce27753ad"
+  },
+  "textured": 2,
+  "primitives": [
+   3,
+   3
+  ]
+ },
+ "garden-hazel.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-arrival-garden-oldschool-v1/candidates/arrival_hazel_v1.glb",
+   "bytes": 156244,
+   "sha256": "dba3a06ae3f6e47a88030560f415725d8b7572b063981d17f1942113eaa22165"
+  },
+  "textured": 4,
+  "primitives": [
+   4,
+   4
+  ]
+ },
+ "guide-house.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-guide-house-oldschool-v1/candidates/holm_guide_house_oldschool_v1.glb",
+   "bytes": 4952768,
+   "sha256": "202f1e22eafcc7f751e2663898473f68faddec9faaeab5931456a72915974ac8"
+  },
+  "textured": 17,
+  "primitives": [
+   92,
+   102
+  ]
+ },
+ "haven.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-haven-oldschool-v1/candidates/haven.glb",
+   "bytes": 1381868,
+   "sha256": "07ebd086db449549a5f7adb6e4d3945626b2127d65a50a55e02105580faa0d91"
+  },
+  "textured": 21,
+  "primitives": [
+   89,
+   90
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-haven-oldschool-navigation-v1/candidates",
+   "nodes": 167,
+   "modelSha256": "07ebd086db449549a5f7adb6e4d3945626b2127d65a50a55e02105580faa0d91",
+   "nodeIdentical": true
+  }
+ },
+ "keep.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+   "bytes": 1188532,
+   "sha256": "b8065dc02c2d28bff0f8d8f7e02db648ac1c8462099ec8b74f57c1c7f1da726e"
+  },
+  "textured": 8,
+  "primitives": [
+   37,
+   37
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-keep-oldschool-navigation-v1/candidates",
+   "nodes": 909,
+   "modelSha256": "b8065dc02c2d28bff0f8d8f7e02db648ac1c8462099ec8b74f57c1c7f1da726e",
+   "rehashedOnIdenticalGeometry": true
+  }
+ },
+ "landing-bench.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/bench.glb",
+   "bytes": 37556,
+   "sha256": "f4d4172c3a898b6a5e50b8c63f09feea88da160d0298c91ef4818071ae3cecbb"
+  },
+  "textured": 2,
+  "primitives": [
+   2,
+   2
+  ]
+ },
+ "landing-cargo.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/cargo.glb",
+   "bytes": 93292,
+   "sha256": "4129574e4d0c14c703031980dbd4459f042da76571d00389831412d50d51576b"
+  },
+  "textured": 2,
+  "primitives": [
+   3,
+   3
+  ]
+ },
+ "landing-wall.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/wall.glb",
+   "bytes": 49488,
+   "sha256": "d1f3191fee7a7b1988de16abe5888f74fe3e997677246488729d7c48dbfe08f3"
+  },
+  "textured": 4,
+  "primitives": [
+   4,
+   4
+  ]
+ },
+ "landing-waypost.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/waypost.glb",
+   "bytes": 32292,
+   "sha256": "4c28e0aaf93a3c3b137178da706510390f39eed57a9db7786b67a3f7ba1cc1f9"
+  },
+  "textured": 2,
+  "primitives": [
+   3,
+   3
+  ]
+ },
+ "lastlight.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-lastlight-oldschool-v1/candidates/lastlight.glb",
+   "bytes": 2131888,
+   "sha256": "9d58b22e41f1e461ad96a0130e35cc985d5f419afcb5d49879f6848fe8323b25"
+  },
+  "textured": 21,
+  "primitives": [
+   137,
+   141
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-lastlight-oldschool-navigation-v1/candidates",
+   "nodes": 229,
+   "modelSha256": "9d58b22e41f1e461ad96a0130e35cc985d5f419afcb5d49879f6848fe8323b25",
+   "nodeIdentical": true
+  }
+ },
+ "lodge.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/lodge.glb",
+   "bytes": 935704,
+   "sha256": "6618934d1ee39fd283ed8c9bf8d93a8f71519bc49ccc71233abd8cc5feed3263"
+  },
+  "textured": 9,
+  "primitives": [
+   52,
+   54
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-quest-lodge-oldschool-navigation-v1/candidates",
+   "nodes": 494,
+   "modelSha256": "6618934d1ee39fd283ed8c9bf8d93a8f71519bc49ccc71233abd8cc5feed3263",
+   "identicalApartFrom": [
+    "modelSha256",
+    "modelUrl",
+    "renderDataUrl"
+   ]
+  }
+ },
+ "mage.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-mage-oldschool-v1/candidates/mage.glb",
+   "bytes": 2167444,
+   "sha256": "d964b4724e6369058940f870d43a3f9e5cc14f0f5956798e9d38b79c52b82a1f"
+  },
+  "textured": 24,
+  "primitives": [
+   94,
+   96
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-mage-oldschool-navigation-v1/candidates",
+   "nodes": 311,
+   "modelSha256": "d964b4724e6369058940f870d43a3f9e5cc14f0f5956798e9d38b79c52b82a1f",
+   "nodeIdentical": true
+  }
+ },
+ "props1.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-props1-oldschool-v1/candidates/props.glb",
+   "bytes": 188872,
+   "sha256": "bf6a4c7b42cc61231205526734b2793c313d267d3082ac5ab15c5b745dd8c5a4"
+  },
+  "textured": 8,
+  "primitives": [
+   30,
+   30
+  ]
+ },
+ "props3.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-props3-oldschool-v1/candidates/props.glb",
+   "bytes": 85932,
+   "sha256": "a6d70cfb93823a0d086558f8e382a7e6e466699cc32eed8fbe790e44f7dea2e6"
+  },
+  "textured": 5,
+  "primitives": [
+   16,
+   16
+  ]
+ },
+ "props5.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-props5-oldschool-v1/candidates/props.glb",
+   "bytes": 362096,
+   "sha256": "9bb8752eff8465ab9256257bdcfc4ae5dd0c4a8d0f33ad1ae9ad5709473ea055"
+  },
+  "textured": 7,
+  "primitives": [
+   33,
+   33
+  ]
+ },
+ "provisions.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-provision-rack-oldschool-v1/candidates/provisions.glb",
+   "bytes": 133780,
+   "sha256": "91cbe3e78fca5b4f0d1b404a31715fc3393d1045d46ada261b0145c7b6fa4f0a"
+  },
+  "textured": 3,
+  "primitives": [
+   15,
+   15
+  ]
+ },
+ "quarry.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-quarry-oldschool-v1/candidates/quarry.glb",
+   "bytes": 1468468,
+   "sha256": "e823e6884368bdc5fffe13571c45a47b85b719844873f141ea1c045fec52a194"
+  },
+  "textured": 27,
+  "primitives": [
+   74,
+   75
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-quarry-oldschool-navigation-v1/candidates",
+   "nodes": 112,
+   "modelSha256": "e823e6884368bdc5fffe13571c45a47b85b719844873f141ea1c045fec52a194",
+   "nodeIdentical": true
+  }
+ },
+ "survival.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-survival-oldschool-v1/candidates/survival.glb",
+   "bytes": 1614836,
+   "sha256": "487ec5d8c0f9d5ba490a1d14a2649127bbcc89093c22e89f4b01d0a82f4faee2"
+  },
+  "textured": 23,
+  "primitives": [
+   105,
+   106
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-survival-oldschool-navigation-v1/candidates",
+   "nodes": 259,
+   "modelSha256": "487ec5d8c0f9d5ba490a1d14a2649127bbcc89093c22e89f4b01d0a82f4faee2",
+   "nodeIdentical": true
+  }
+ },
+ "tree-arrival_oak_v3.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/arrival_oak_v3.glb",
+   "bytes": 217100,
+   "sha256": "f4b8841b8ca9f17506fc0212e9c04b8e62374ac6222c939119f1a8fba74f07c6"
+  },
+  "textured": 2,
+  "primitives": [
+   2,
+   2
+  ]
+ },
+ "tree-birch.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/birch.glb",
+   "bytes": 130056,
+   "sha256": "545fd672377ca0f43833366ad726cdb2e5117764300570ddfc0fa337791c6ce4"
+  },
+  "textured": 2,
+  "primitives": [
+   2,
+   2
+  ]
+ },
+ "tree-coastal-pine.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/coastal-pine.glb",
+   "bytes": 45480,
+   "sha256": "a80e26841e0c02d7b2ce60531f27028b97224dd7d990cf0a5c473237a49342d5"
+  },
+  "textured": 2,
+  "primitives": [
+   2,
+   2
+  ]
+ },
+ "tree-creek-reeds.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/creek-reeds.glb",
+   "bytes": 30916,
+   "sha256": "e0e60660c7e440e68a7b8a7d6905db7417f757b813cf66682a8a5e94f574cd06"
+  },
+  "textured": 2,
+  "primitives": [
+   2,
+   2
+  ]
+ },
+ "tree-meadow-tuft.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/meadow-tuft.glb",
+   "bytes": 10696,
+   "sha256": "39f17982f7b19eea7c3038e63dd1575f60071fb05c8ec0de9b4f80d76c33aeef"
+  },
+  "textured": 1,
+  "primitives": [
+   1,
+   1
+  ]
+ },
+ "tree-oak.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/oak.glb",
+   "bytes": 217092,
+   "sha256": "20b5b0cb1247b23694c651913c2697b41c202d112e328ccb85ff9ba403dd9050"
+  },
+  "textured": 2,
+  "primitives": [
+   2,
+   2
+  ]
+ },
+ "arrival": {
+  "exportId": "5369a48889f7c8bc",
+  "package": "holm-arrival-package-oldschool-v2",
+  "landscapeMeasure": "holm-arrival-landscape-measure-oldschool-v1",
+  "navigationIdentical": true
+ }
+}

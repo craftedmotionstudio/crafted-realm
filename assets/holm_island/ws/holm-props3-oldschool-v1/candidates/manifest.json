@@ -1,0 +1,171 @@
+{
+  "schema": 1,
+  "status": "candidate-not-visual-or-runtime-accepted",
+  "axes": "glTF Y-up, 1 unit = tile",
+  "colour": "material colours are authored sRGB, drawn as-is (no linear conversion); no emissive",
+  "references": [
+    "Bible_References/Landscape_Option.jpg",
+    "Bible_References/Town2.jpg",
+    "tools/blender/holm_guide_house_doors.py (timber + iron colours)"
+  ],
+  "blend": "props.blend",
+  "file": "props.glb",
+  "sha256": "a6d70cfb93823a0d086558f8e382a7e6e466699cc32eed8fbe790e44f7dea2e6",
+  "assets": [
+    {
+      "name": "door-leaf",
+      "root": "door-leaf",
+      "file": "props.glb",
+      "habitat": "Oak plank door leaf that closes a tutorial doorway until its lesson is done; runtime scales X to the doorway (1.0-2.0) and rotates the root about Y at the hinge to open it",
+      "pivot": "hinge line at floor level; closed leaf spans +X 0..1, thickness centred on z=0; front face = +Z",
+      "triangles": 566,
+      "materials": 7,
+      "materialNames": [
+        "iron",
+        "iron-worn",
+        "oak",
+        "oak-dark",
+        "oak-end",
+        "oak-light",
+        "plank-gap"
+      ],
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.02512613870203495,
+          0.009999999776482582,
+          -0.04500000178813934
+        ],
+        "max": [
+          1.0030531883239746,
+          2.2995238304138184,
+          0.08277817815542221
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.02512613870203495,
+          0.009999999776482582,
+          -0.04500000178813934
+        ],
+        "max": [
+          1.0030531883239746,
+          2.2995238304138184,
+          0.08277817815542221
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": 0.009999999776482582,
+      "sha256": "a6d70cfb93823a0d086558f8e382a7e6e466699cc32eed8fbe790e44f7dea2e6"
+    },
+    {
+      "name": "yard-gate",
+      "root": "yard-gate",
+      "file": "props.glb",
+      "habitat": "Timber yard gate that bars a lesson path until the lesson is done; runtime scales X (1.0-4.0, pier gate) and rotates the root about Y at the hinge to open it",
+      "pivot": "hinge line at ground level; closed gate spans +X 0..1, thickness centred on z=0; front face = +Z",
+      "triangles": 388,
+      "materials": 6,
+      "materialNames": [
+        "iron",
+        "iron-worn",
+        "oak",
+        "oak-dark",
+        "oak-end",
+        "oak-light"
+      ],
+      "meshes": 2,
+      "bounds": {
+        "min": [
+          -0.023193359375,
+          0.05999999865889549,
+          -0.06199999898672104
+        ],
+        "max": [
+          1,
+          1.2793991565704346,
+          0.09200000017881393
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.023193359375,
+          0.05999999865889549,
+          -0.06199999898672104
+        ],
+        "max": [
+          1,
+          1.2793991565704346,
+          0.09200000017881393
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": 0.05999999865889549,
+      "sha256": "a6d70cfb93823a0d086558f8e382a7e6e466699cc32eed8fbe790e44f7dea2e6"
+    },
+    {
+      "name": "gate-post",
+      "root": "gate-post",
+      "file": "props.glb",
+      "habitat": "Squared timber gate post; runtime stands one each side of a yard gate",
+      "pivot": "ground centre",
+      "triangles": 78,
+      "materials": 3,
+      "materialNames": [
+        "oak",
+        "oak-dark",
+        "oak-end"
+      ],
+      "meshes": 1,
+      "bounds": {
+        "min": [
+          -0.1120000034570694,
+          -0.029999999329447746,
+          -0.1120000034570694
+        ],
+        "max": [
+          0.1120000034570694,
+          1.4500000476837158,
+          0.1120000034570694
+        ]
+      },
+      "animatedBounds": {
+        "min": [
+          -0.1120000034570694,
+          -0.029999999329447746,
+          -0.1120000034570694
+        ],
+        "max": [
+          0.1120000034570694,
+          1.4500000476837158,
+          0.1120000034570694
+        ]
+      },
+      "sampledFrames": [
+        1
+      ],
+      "clips": [],
+      "groundMinY": -0.029999999329447746,
+      "sha256": "a6d70cfb93823a0d086558f8e382a7e6e466699cc32eed8fbe790e44f7dea2e6"
+    }
+  ],
+  "totals": {
+    "triangles": 1032,
+    "materials": 7,
+    "assets": 3,
+    "budget": {
+      "triangles": 1500,
+      "materials": 8
+    }
+  },
+  "oldschool": {
+    "texturedFrom": ".studio-workspaces/holm-props-v3/candidates/manifest.json",
+    "recipe": "tools/blender/apply_oldschool_textures.py"
+  }
+}

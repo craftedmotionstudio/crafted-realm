@@ -1,0 +1,13 @@
+{
+ "import": ".studio-workspaces/holm-landing-props-v1/candidates/wall.glb",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-landing-props-v1/candidates/wall.glb",
+ "arrival": true,
+ "outBlend": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/wall.blend",
+ "outGlb": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/wall.glb",
+ "report": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/wall.report.json",
+ "manifest": {
+  "from": ".studio-workspaces/holm-landing-props-v1/candidates/manifest.json",
+  "to": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/manifest.json"
+ }
+}

@@ -1,0 +1,267 @@
+{
+ "tag": "closeup_before",
+ "url": "http://127.0.0.1:8097/?holmIsland=1&qaProfile=look-closeup_before-muhn3lac",
+ "look": {
+  "look": "oldschool",
+  "active": true,
+  "textures": [
+   "grass_a",
+   "grass_b",
+   "sand",
+   "rock",
+   "mud",
+   "dirt",
+   "water"
+  ],
+  "stats": {
+   "groundMaterials": 2,
+   "textures": 7,
+   "models": 2,
+   "maps": 140
+  },
+  "arrival": {
+   "baseUrl": "/.studio-workspaces/holm-arrival-package-oldschool-v1/exports/",
+   "exportId": "3b0e65f7729fa27b"
+  },
+  "buildings": [
+   "survival"
+  ]
+ },
+ "views": [
+  {
+   "view": "c01_keep",
+   "calls": 318,
+   "triangles": 147533,
+   "textures": 247,
+   "programs": 32,
+   "fps": 61,
+   "worstMs": 24.6
+  },
+  {
+   "view": "c02_bakehouse",
+   "calls": 382,
+   "triangles": 184948,
+   "textures": 276,
+   "programs": 33,
+   "fps": 61,
+   "worstMs": 23.8
+  },
+  {
+   "view": "c03_quest_lodge",
+   "calls": 394,
+   "triangles": 183259,
+   "textures": 276,
+   "programs": 33,
+   "fps": 61,
+   "worstMs": 20.9
+  },
+  {
+   "view": "c04_bank",
+   "calls": 396,
+   "triangles": 172788,
+   "textures": 276,
+   "programs": 33,
+   "fps": 61,
+   "worstMs": 21.2
+  },
+  {
+   "view": "c05_mage_tower",
+   "calls": 380,
+   "triangles": 185698,
+   "textures": 276,
+   "programs": 33,
+   "fps": 61,
+   "worstMs": 22.3
+  },
+  {
+   "view": "c06_lastlight",
+   "calls": 396,
+   "triangles": 156131,
+   "textures": 276,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 20.4
+  },
+  {
+   "view": "c07_lastlight_interior",
+   "calls": 353,
+   "triangles": 142248,
+   "textures": 276,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 20.3
+  },
+  {
+   "view": "c08_quarry_gatehouse",
+   "calls": 347,
+   "triangles": 149180,
+   "textures": 276,
+   "programs": 34,
+   "fps": 60,
+   "worstMs": 29.2
+  },
+  {
+   "view": "c09_cavern",
+   "calls": 323,
+   "triangles": 136556,
+   "textures": 276,
+   "programs": 34,
+   "fps": 60,
+   "worstMs": 25.7
+  },
+  {
+   "view": "c10_haven",
+   "calls": 350,
+   "triangles": 144273,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 21.3
+  },
+  {
+   "view": "c11_timber_bridge",
+   "calls": 350,
+   "triangles": 162270,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 25.7
+  },
+  {
+   "view": "c12_stone_bridge",
+   "calls": 273,
+   "triangles": 137407,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 21.2
+  },
+  {
+   "view": "c13_dock_boat",
+   "calls": 286,
+   "triangles": 137540,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 21.5
+  },
+  {
+   "view": "c14_oaks_tufts",
+   "calls": 349,
+   "triangles": 163651,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 21.5
+  },
+  {
+   "view": "c15_birch",
+   "calls": 352,
+   "triangles": 189285,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 20.8
+  },
+  {
+   "view": "c16_coastal_pine",
+   "calls": 278,
+   "triangles": 135109,
+   "textures": 279,
+   "programs": 34,
+   "fps": 60,
+   "worstMs": 45.5
+  },
+  {
+   "view": "c17_creek_reeds",
+   "calls": 268,
+   "triangles": 129797,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 21.3
+  },
+  {
+   "view": "c18_habitat_props",
+   "calls": 277,
+   "triangles": 141009,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 28.9
+  },
+  {
+   "view": "c19_signpost",
+   "calls": 329,
+   "triangles": 166049,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 24.7
+  },
+  {
+   "view": "c20_provisions",
+   "calls": 284,
+   "triangles": 153613,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 24.4
+  },
+  {
+   "view": "c21_landing_props",
+   "calls": 316,
+   "triangles": 177130,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 26.7
+  },
+  {
+   "view": "c22_garden_hazel",
+   "calls": 344,
+   "triangles": 189329,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 19.8
+  },
+  {
+   "view": "c23_lesson_trees_fire",
+   "calls": 413,
+   "triangles": 173927,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 20.1
+  },
+  {
+   "view": "c24_cavern_ores",
+   "calls": 282,
+   "triangles": 134490,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 20.5
+  },
+  {
+   "view": "c25_bakehouse_gate",
+   "calls": 348,
+   "triangles": 166863,
+   "textures": 279,
+   "programs": 34,
+   "fps": 61,
+   "worstMs": 21
+  }
+ ],
+ "pageErrors": [
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+ ],
+ "missing": [
+  "/BUILD_INFO.json?_=1790381807404",
+  "/favicon.ico",
+  "/favicon.ico"
+ ]
+}

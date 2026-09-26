@@ -1,0 +1,20 @@
+{
+ "source": ".studio-workspaces/holm-lastlight-v3/candidates/lastlight.blend",
+ "blender": "5.1",
+ "reference": ".studio-workspaces/holm-lastlight-v3/candidates/lastlight.glb",
+ "outBlend": ".studio-workspaces/holm-lastlight-oldschool-v1/candidates/lastlight.blend",
+ "outGlb": ".studio-workspaces/holm-lastlight-oldschool-v1/candidates/lastlight.glb",
+ "report": ".studio-workspaces/holm-lastlight-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|.*Flame)",
+  "woodOnly": "Furnish|Furniture|Ladder|Hatch",
+  "floors": "Floor|Deck",
+  "maxVariants": 2,
+  "minShare": 0.15
+ },
+ "navigation": {
+  "spec": "docs/rebuild/holm-overhaul/buildings/lastlight-oldschool.nav.json",
+  "reference": ".studio-workspaces/holm-lastlight-navigation-v3/candidates/navigation.json"
+ }
+}

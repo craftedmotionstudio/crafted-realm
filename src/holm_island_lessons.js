@@ -29,7 +29,8 @@ var HolmIslandLessons=(function(){
  }
  async function load(o){
   var T=o.THREE,scene=o.scene,W=o.WORLD,sample=o.sample,models=o.models||{},d=st.data||(st.data=await json(DATA));
-  var pack=await parse(T,PROPS),oak=await parse(T,OAK);matte(T,pack.scene);matte(T,oak.scene);
+  var L=typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook:null;   // old-school look: textured prop pack and oak when served
+  var pack=await parse(T,L?L.url(PROPS):PROPS),oak=await parse(T,L?L.url(OAK):OAK);matte(T,pack.scene);matte(T,oak.scene);
   var oakMin=new T.Box3().setFromObject(oak.scene).min.y;
   d.trees.forEach(function(t){var y=sample(t.x,t.z);if(!Number.isFinite(y))return;
    // children[0] stays when felled (the game hides the rest): the stump first, the tree over it

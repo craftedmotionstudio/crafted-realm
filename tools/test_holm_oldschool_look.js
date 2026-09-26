@@ -42,7 +42,7 @@ check('2 gouraud light: flat ground lights 1.0; every lattice vertex has one lig
 
 check('3 texture kit: every kit.json entry is a 64 px PNG with a sane mean; the look module fallbacks match kit.json',()=>{
  const kit=JSON.parse(fs.readFileSync(path.join(root,'assets/textures/oldschool/kit.json'),'utf8'));
- const need=['grass_a','grass_b','grass_c','dirt','path','sand','rock','mud','water','brick','stone_course','plaster','planks','beam','thatch','roof_tiles'];
+ const need=['grass_a','grass_b','grass_c','dirt','path','sand','rock','mud','water','brick','stone_course','plaster','planks','beam','thatch','roof_tiles','leaves','needles','bark','bark_birch'];
  need.forEach(n=>{const t=kit.textures[n];assert(t,'kit has '+n);const b=fs.readFileSync(path.join(root,t.file));
   assert.strictEqual(b.slice(1,4).toString(),'PNG',n+' is a PNG');assert.strictEqual(b.readUInt32BE(16),64,n+' width');assert.strictEqual(b.readUInt32BE(20),64,n+' height');
   assert(t.mean.length===3&&t.mean.every(v=>v>.15&&v<.98),n+' mean '+t.mean)});
@@ -51,11 +51,15 @@ check('3 texture kit: every kit.json entry is a 64 px PNG with a sane mean; the 
  Object.keys(MEAN).forEach(n=>MEAN[n].forEach((v,i)=>assert(Math.abs(v-kit.textures[n].mean[i])<.02,'fallback mean '+n+' '+v+' vs kit '+kit.textures[n].mean[i])));
 });
 
-check('4 switch: config on by default, ?oldschool=0 turns it off (no textured assets), ?oldschool=1 forces it on',()=>{
+check('4 switch: config on by default, ?oldschool=0 turns it off (no textured assets), ?oldschool=1 forces it on; every island model has a verified-only swap',()=>{
  const file=path.join(root,'src/holm_oldschool_look.js');
  function load(search,cfg){delete require.cache[require.resolve(file)];global.location={search:search};global.GameConfig=cfg;const m=require(file);delete global.location;delete global.GameConfig;return m}
- const def=load('',{holmOldschoolLook:true});assert(def.enabled());assert(def.arrivalPackage()&&/^[0-9a-f]{16}$/.test(def.arrivalPackage().exportId),'arrival export pinned');assert(def.building('survival'));
- const off=load('?oldschool=0',{holmOldschoolLook:true});assert(!off.enabled());assert.strictEqual(off.arrivalPackage(),null);assert.strictEqual(off.building('survival'),null);assert.strictEqual(off.waterTexture(),null);
+ const def=load('',{holmOldschoolLook:true});assert(def.enabled());assert(def.arrivalPackage()&&/^[0-9a-f]{16}$/.test(def.arrivalPackage().exportId),'arrival export pinned');
+ // swaps stay off until preload has verified the textured files are served: an unverified swap never changes a URL
+ const u='/.studio-workspaces/holm-warden-keep-v8/candidates/keep.glb';assert.strictEqual(def.url(u),u,'unverified swap leaves the URL');
+ const ids=def.SWAPS.map(s=>s.id);['survival','keep','kitchen','lodge','bank','mage','lastlight','quarry','haven','cavern','trees','bridges','props1','props3','props5'].forEach(id=>assert(ids.includes(id),'swap '+id));
+ def.SWAPS.forEach(s=>{assert(s.probe.length>=1);if(s.map.length===2)assert(s.probe.some(p=>/navigation\.json$/.test(p)),s.id+' probes its graph too')});
+ const off=load('?oldschool=0',{holmOldschoolLook:true});assert(!off.enabled());assert.strictEqual(off.arrivalPackage(),null);assert.strictEqual(off.url(u),u);assert.strictEqual(off.waterTexture(),null);
  const cfgOff=load('',{holmOldschoolLook:false});assert(!cfgOff.enabled());
  const forced=load('?oldschool=1',{holmOldschoolLook:false});assert(forced.enabled());
  const r=def.fogRange(33);assert(r.near>33&&r.far>r.near&&r.color===0);

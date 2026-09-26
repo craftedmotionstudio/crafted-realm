@@ -1,0 +1,20 @@
+{
+ "source": ".studio-workspaces/holm-cavern-v1/candidates/cavern.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-cavern-v1/candidates/cavern.glb",
+ "outBlend": ".studio-workspaces/holm-cavern-oldschool-v1/candidates/cavern.blend",
+ "outGlb": ".studio-workspaces/holm-cavern-oldschool-v1/candidates/cavern.glb",
+ "report": ".studio-workspaces/holm-cavern-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|.*Flame)",
+  "woodOnly": "Furnish|Furniture|Ladder|Hatch",
+  "floors": "Floor|Deck",
+  "maxVariants": 2,
+  "minShare": 0.15
+ },
+ "navigation": {
+  "spec": "docs/rebuild/holm-overhaul/buildings/cavern-oldschool.nav.json",
+  "reference": ".studio-workspaces/holm-cavern-navigation-v1/candidates/navigation.json"
+ }
+}

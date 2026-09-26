@@ -1,0 +1,112 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-props-v5/candidates/props.glb",
+ "materials": {
+  "bark": {
+   "texture": "bark",
+   "authored": [
+    0.27,
+    0.205,
+    0.135
+   ],
+   "tint": [
+    0.3352,
+    0.3199,
+    0.2925
+   ]
+  },
+  "ore-tin": {
+   "texture": "rock",
+   "authored": [
+    0.78,
+    0.8,
+    0.82
+   ],
+   "tint": [
+    0.9737,
+    0.9986,
+    1.0
+   ]
+  },
+  "rock": {
+   "texture": "rock",
+   "authored": [
+    0.53,
+    0.47,
+    0.39
+   ],
+   "tint": [
+    0.6616,
+    0.5867,
+    0.5075
+   ]
+  },
+  "rock-dark": {
+   "texture": "rock",
+   "authored": [
+    0.39,
+    0.34,
+    0.28
+   ],
+   "tint": [
+    0.4868,
+    0.4244,
+    0.3643
+   ]
+  },
+  "rock-spent": {
+   "texture": "rock",
+   "authored": [
+    0.25,
+    0.23,
+    0.21
+   ],
+   "tint": [
+    0.3121,
+    0.2871,
+    0.2733
+   ]
+  },
+  "wood-cut": {
+   "texture": "beam",
+   "authored": [
+    0.66,
+    0.53,
+    0.34
+   ],
+   "tint": [
+    0.8049,
+    0.9192,
+    0.8745
+   ]
+  },
+  "wood-ring": {
+   "texture": "beam",
+   "authored": [
+    0.5,
+    0.37,
+    0.22
+   ],
+   "tint": [
+    0.6098,
+    0.6417,
+    0.5658
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 13,
+ "glb": {
+  "path": ".studio-workspaces/holm-props5-oldschool-v1/candidates/props.glb",
+  "bytes": 362096,
+  "sha256": "9bb8752eff8465ab9256257bdcfc4ae5dd0c4a8d0f33ad1ae9ad5709473ea055"
+ },
+ "images": [
+  "bark",
+  "beam",
+  "rock"
+ ]
+}

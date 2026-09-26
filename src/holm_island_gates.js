@@ -48,8 +48,12 @@ var HolmIslandGates=(function(){
  async function load(o){
   await loadData();st.nav=o.nav;
   var e=earned();Object.keys(e).forEach(function(id){st.open[id]=true});st.nav.setGates(st.open);st.seen=lessonCount();
-  var pack=await new Promise(function(ok,no){new o.THREE.GLTFLoader().load(PROPS,ok,undefined,no)});
-  pack.scene.traverse(function(n){if(n.isMesh)[].concat(n.material).forEach(function(m){if(m&&'roughness' in m){m.roughness=1;m.metalness=0}})});
+  var src=typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.url(PROPS):PROPS;   // old-school look: textured gate pack when served
+  var pack=await new Promise(function(ok,no){new o.THREE.GLTFLoader().load(src,ok,undefined,no)});
+  pack.scene.traverse(function(n){if(n.isMesh)[].concat(n.material).forEach(function(m){if(m&&'roughness' in m){m.roughness=1;m.metalness=0}
+   // colour maps are display values like every colour in the game (r128's loader tags them sRGB and would darken them)
+   if(m&&m.map&&o.THREE.LinearEncoding!==undefined){m.map.encoding=o.THREE.LinearEncoding;m.needsUpdate=true}})});
+  if(typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.prepareModel(o.THREE,pack.scene);
   place(o.THREE,o.scene,o.WORLD,pack);st.ready=true;return {gates:st.data.gates.length,open:Object.keys(st.open).length};
  }
  function message(id){var g=st.data&&st.data.gates.filter(function(q){return q.id===id})[0];return g?(st.open[id]?null:g.message):null}

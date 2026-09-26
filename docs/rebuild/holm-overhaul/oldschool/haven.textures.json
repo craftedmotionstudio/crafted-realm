@@ -1,0 +1,20 @@
+{
+ "source": ".studio-workspaces/holm-haven-v3/candidates/haven.blend",
+ "blender": "5.1",
+ "reference": ".studio-workspaces/holm-haven-v3/candidates/haven.glb",
+ "outBlend": ".studio-workspaces/holm-haven-oldschool-v1/candidates/haven.blend",
+ "outGlb": ".studio-workspaces/holm-haven-oldschool-v1/candidates/haven.glb",
+ "report": ".studio-workspaces/holm-haven-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|.*Flame)",
+  "woodOnly": "Furnish|Furniture|Ladder|Hatch",
+  "floors": "Floor|Deck",
+  "maxVariants": 2,
+  "minShare": 0.15
+ },
+ "navigation": {
+  "spec": "docs/rebuild/holm-overhaul/buildings/haven-oldschool.nav.json",
+  "reference": ".studio-workspaces/holm-haven-navigation-v3/candidates/navigation.json"
+ }
+}

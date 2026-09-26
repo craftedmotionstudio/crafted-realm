@@ -1,0 +1,86 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-quest-lodge-v6/candidates/lodge.blend",
+ "materials": {
+  "Lodge furniture oak": {
+   "texture": "beam",
+   "authored": [
+    0.4314,
+    0.2941,
+    0.1804
+   ],
+   "tint": [
+    0.5261,
+    0.5101,
+    0.464
+   ]
+  },
+  "Lodge stair oak": {
+   "texture": "beam",
+   "authored": [
+    0.3529,
+    0.2353,
+    0.1412
+   ],
+   "tint": [
+    0.4304,
+    0.4081,
+    0.3631
+   ]
+  },
+  "Oat plaster": {
+   "texture": "plaster",
+   "authored": [
+    0.75,
+    0.72,
+    0.61
+   ],
+   "tint": [
+    0.8577,
+    0.8489,
+    0.7757
+   ]
+  },
+  "Holm flat colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  },
+  "Holm flat colour - planks": {
+   "texture": "planks",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Lodge_FurnishingDressing": {
+   "beam": 329
+  },
+  "Lodge_GroundFloor_Boards": {
+   "planks": 411
+  },
+  "Lodge_UpperFloor_Boards": {
+   "planks": 209
+  },
+  "Lodge_UpperFurnishingDressing": {
+   "beam": 46
+  }
+ },
+ "keptImages": [
+  "Blue gray slate",
+  "Light gray limestone",
+  "Muted wheat thatch",
+  "Warm oak"
+ ],
+ "meshes": 40,
+ "glb": {
+  "path": ".studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/lodge.glb",
+  "bytes": 935704,
+  "sha256": "6618934d1ee39fd283ed8c9bf8d93a8f71519bc49ccc71233abd8cc5feed3263"
+ },
+ "images": [
+  "beam",
+  "planks",
+  "plaster"
+ ]
+}

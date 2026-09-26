@@ -44,6 +44,11 @@ class Tex{
  // posterise to a few levels per channel: the flat, banded look of an 8-bit-era palette texture
  quant(levels){for(let i=0;i<this.c.length;i++)this.c[i]=Math.round(clamp(this.c[i],0,1)*levels)/levels}
  bytes(){const b=Buffer.alloc(this.c.length);for(let i=0;i<b.length;i++)b[i]=Math.round(clamp(this.c[i],0,1)*255);return b}
+ // detail headroom: building/tree textures are multiplied by a tint = authored colour / texture mean (Blender recipe);
+ // lifting the texture so its brightest channel mean is ~.82 (no texel clipped) keeps that tint under 1 for light
+ // authored colours, so light wood, plaster and leaves keep their brightness (owner review: darker Guide House floor)
+ headroom(target){let mx=0,top=0;const m=this.mean();for(let i=0;i<this.c.length;i++)top=Math.max(top,this.c[i]);mx=Math.max(...m);
+  const s=Math.min(target/mx,.999/top);if(s>1)for(let i=0;i<this.c.length;i++)this.c[i]*=s;return this}
  mean(){const m=[0,0,0],n=this.n*this.n;for(let i=0;i<n;i++){m[0]+=clamp(this.c[i*3],0,1);m[1]+=clamp(this.c[i*3+1],0,1);m[2]+=clamp(this.c[i*3+2],0,1)}return m.map(v=>+(v/n).toFixed(4))}
 }
 // periodic Voronoi: jittered cells on a gx x gy grid; returns nearest/second distance and the cell id
@@ -148,14 +153,44 @@ R.roof_tiles=()=>{const t=new Tex(64),r=rng(161),n=fbm(162,8,2),tone=[];for(let 
  t.fill((u,v,x,y)=>{const row=Math.floor(y/8),off=row%2?4:0,col=Math.floor(((x+off)%64)/8),iy=y%8,ix=(x+off)%8,k=tone[(row*8+col)%32]*(.94+n(u,v)*.1);
   let c=[.6*k,.33*k,.24*k];if(iy===0||ix===7)return [.28,.16,.12];if(iy>=6)c=mixc(c,[1,.85,.75],.1);if(iy<=1)c=mixc(c,[0,0,0],.18);return c});
  t.quant(20);return t};
+// ---- trees (2004 trees: a leaf texture of lighter leaves over darker clumps and gaps, and a fissured bark) ----
+function leafy(seed,base,dabs,gap,clumpScale){const t=new Tex(64),r=rng(seed),cl=fbm(seed+1,clumpScale,2);
+ t.fill(()=>gap);
+ for(let i=0;i<dabs;i++){const cx=r()*64,cy=r()*64,a=r()*Math.PI,rx=1.4+r()*1.8,ry=.8+r()*1,k=.78+r()*.26,ca=Math.cos(a),sa=Math.sin(a);
+  for(let y=Math.floor(cy-3);y<=cy+3;y++)for(let x=Math.floor(cx-3);x<=cx+3;x++){const dx=x+.5-cx,dy=y+.5-cy,u=(dx*ca+dy*sa)/rx,v=(-dx*sa+dy*ca)/ry;
+   if(u*u+v*v<=1)t.set(x,y,[base[0]*k,base[1]*k,base[2]*k])}
+  t.blend(Math.floor(cx-ca),Math.floor(cy-sa),[1,1,.85],.35)}   // a lit leaf tip
+ // darker clumps: whole regions of the crown sit in shade
+ for(let y=0;y<64;y++)for(let x=0;x<64;x++){const q=cl(x/64,y/64);if(q<.45)t.mul(x,y,.62+q*.5)}
+ return t}
+R.leaves=()=>{const t=leafy(171,[.72,.86,.52],640,[.3,.38,.2],4);t.quant(20);return t.headroom(.82)};
+R.needles=()=>{const t=new Tex(64),r=rng(181),cl=fbm(182,4,2);t.fill(()=>[.28,.36,.3]);
+ for(let i=0;i<700;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64),len=2+Math.floor(r()*4),dx=r()<.5?1:-1,k=.75+r()*.3;
+  for(let s=0;s<len;s++)t.set(x+(s*dx>>1),y+s,[.62*k,.8*k,.66*k])}
+ for(let y=0;y<64;y++)for(let x=0;x<64;x++){const q=cl(x/64,y/64);if(q<.45)t.mul(x,y,.62+q*.5)}
+ t.quant(20);return t.headroom(.82)};
+R.bark=()=>{const t=new Tex(64),r=rng(191),n=vnoise(192,4),g=vnoise(193,32);
+ // ridges and fissures running up the trunk (v), wobbling; a couple of knots and cross cracks
+ t.fill((u,v,x,y)=>{const w=x+(n(u,v)-.5)*6,f=Math.abs(Math.sin(w*Math.PI/5.3)),k=f<.28?.5:.8+(g(u,v)-.5)*.16+(f>.9?.08:0);return [.58*k,.46*k,.34*k]});
+ for(let i=0;i<3;i++){const cx=r()*64,cy=r()*64;for(let y=-2;y<=2;y++)for(let x=-2;x<=2;x++)if(x*x+y*y<=4)t.mul(Math.floor(cx+x),Math.floor(cy+y),.62)}
+ for(let i=0;i<8;i++){const y=Math.floor(r()*64),x0=Math.floor(r()*64);for(let s=0;s<3;s++)t.mul(x0+s,y,.72)}
+ t.quant(20);return t.headroom(.82)};
+R.bark_birch=()=>{const t=new Tex(64),r=rng(201),n=fbm(202,4,2);
+ t.fill((u,v)=>{const k=.9+(n(u,v)-.5)*.1;return [k,k*.98,k*.92]});
+ for(let i=0;i<40;i++){const y=Math.floor(r()*64),x=Math.floor(r()*64),len=3+Math.floor(r()*7);for(let s=0;s<len;s++){t.set(x+s,y,[.22,.2,.18]);if(r()<.3)t.set(x+s,y+1,[.4,.38,.34])}}
+ for(let i=0;i<5;i++){const cx=r()*64,cy=r()*64;for(let y=-3;y<=3;y++)for(let x=-2;x<=2;x++)if(x*x/4+y*y/9<=1)t.mul(Math.floor(cx+x),Math.floor(cy+y),.55)}
+ t.quant(20);return t.headroom(.82)};
 const USE={grass_a:'terrain grass (large scale)',grass_b:'terrain grass (second scale, breaks repetition)',grass_c:'meadow / worn grass variant',
  dirt:'bare earth, trodden ground, creek banks',path:'cobbled / gravel paths',sand:'beach and sandy shore',rock:'rock outcrops, cliff faces',
  mud:'creek bed and wet ground',water:'sea, creek and pond surface',brick:'fired brick walls, chimneys',stone_course:'fieldstone / ashlar walls and plinths',
  plaster:'limewash plaster panels',planks:'floorboards, doors, decks, board walls',beam:'timber frames, posts, beams, furniture',
- thatch:'straw / reed thatch roofs',roof_tiles:'clay tile and shingle roofs'};
+ thatch:'straw / reed thatch roofs',roof_tiles:'clay tile and shingle roofs',
+ leaves:'tree crowns, shrubs, hazel, tufts (leaves over darker clumps)',needles:'pine crowns',bark:'oak / pine trunks, logs',bark_birch:'birch trunks'};
+// building textures get detail headroom too (see Tex.headroom)
+const HEADROOM=['brick','stone_course','plaster','planks','beam','thatch','roof_tiles'];
 const kit={schema:'crafted-realm-oldschool-texture-kit-v1',generator:'tools/build_oldschool_textures.js',textures:{}};
 for(const [name,make] of Object.entries(R)){
- const t=make(),file=name+'.png';fs.writeFileSync(path.join(OUT,file),png(t.n,t.n,t.bytes()));
+ const t=make(),file=name+'.png';if(HEADROOM.includes(name))t.headroom(.82);fs.writeFileSync(path.join(OUT,file),png(t.n,t.n,t.bytes()));
  kit.textures[name]={file:'assets/textures/oldschool/'+file,size:t.n,mean:t.mean(),use:USE[name]};
  console.log(name.padEnd(13),t.n+'px','mean',t.mean().join(','));
 }

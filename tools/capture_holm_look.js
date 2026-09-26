@@ -24,6 +24,35 @@ const VIEWS=[
  {name:'08_keep_court',x:87,z:35,yaw:.7,pitch:1.05,dist:30},
  {name:'09_lighthouse_approach',x:119,z:34,yaw:.1,pitch:.8,dist:30},
  {name:'10_hill_panorama',x:74,z:44,yaw:.15,pitch:.65,dist:55}];
+// LOOK_SET=closeup: one close view per rolled-out asset (2026-09-25 rollout); hide = regex of scene nodes lifted for a
+// look inside (the roof cutaway the game does when you walk in); y0 = explicit focus height (offshore cavern)
+const CLOSEUPS=[
+ {name:'c01_keep',x:87,z:35,yaw:.6,pitch:.8,dist:20},
+ {name:'c02_bakehouse',x:44,z:67,yaw:.5,pitch:.85,dist:16},
+ {name:'c03_quest_lodge',x:36,z:51,yaw:.6,pitch:.85,dist:17},
+ {name:'c04_bank',x:86,z:57,yaw:.6,pitch:.85,dist:16},
+ {name:'c05_mage_tower',x:114,z:58,yaw:.6,pitch:.8,dist:18},
+ {name:'c06_lastlight',x:121,z:26,yaw:.4,pitch:.8,dist:20},
+ {name:'c07_lastlight_interior',x:121,z:26,yaw:.4,pitch:1.15,dist:16,hide:'^Lastlight_(Roof|Upper)'},
+ {name:'c08_quarry_gatehouse',x:36,z:33,yaw:.6,pitch:.85,dist:16},
+ {name:'c09_cavern',x:203,z:58,y0:-30,yaw:.6,pitch:1.0,dist:18,hide:'^Cavern_(Roof|ShellRockTop)'},
+ {name:'c10_haven',x:124,z:103,yaw:.6,pitch:.85,dist:16},
+ {name:'c11_timber_bridge',x:46,z:87.5,yaw:.5,pitch:.8,dist:10},
+ {name:'c12_stone_bridge',x:62.5,z:53.5,yaw:.5,pitch:.8,dist:10},
+ {name:'c13_dock_boat',x:63,z:123.5,yaw:.8,pitch:.85,dist:12},
+ {name:'c14_oaks_tufts',x:29,z:100,yaw:.6,pitch:.7,dist:14},
+ {name:'c15_birch',x:54,z:83,yaw:.6,pitch:.7,dist:12},
+ {name:'c16_coastal_pine',x:116,z:109,yaw:.6,pitch:.7,dist:12},
+ {name:'c17_creek_reeds',x:65.8,z:45.8,yaw:.6,pitch:.8,dist:8},
+ {name:'c18_habitat_props',x:67,z:22,yaw:.6,pitch:.8,dist:14},
+ {name:'c19_signpost',x:34.5,z:59,yaw:.6,pitch:.8,dist:8},
+ {name:'c20_provisions',x:68,z:95,yaw:.3,pitch:1.1,dist:9,interior:true},
+ {name:'c21_landing_props',x:60,z:117,yaw:.7,pitch:.85,dist:12},
+ {name:'c22_garden_hazel',x:72,z:107,yaw:.6,pitch:.85,dist:12},
+ {name:'c23_lesson_trees_fire',x:30,z:81,yaw:.6,pitch:.85,dist:14},
+ {name:'c24_cavern_ores',x:203,z:55,y0:-30,yaw:.6,pitch:1.0,dist:10,hide:'^Cavern_(Roof|ShellRockTop)'},
+ {name:'c25_bakehouse_gate',x:44.5,z:69,yaw:.2,pitch:.8,dist:8}];
+const SET=process.env.LOOK_SET==='closeup'?CLOSEUPS:VIEWS;
 const only=process.env.LOOK_ONLY?process.env.LOOK_ONLY.split(','):null;
 (async()=>{
  const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',
@@ -42,10 +71,11 @@ const only=process.env.LOOK_ONLY?process.env.LOOK_ONLY.split(','):null;
  // world only: hide every DOM layer but the game canvas
  await page.addStyleTag({content:'body *{visibility:hidden !important} #game-canvas{visibility:visible !important}'});
  const rows=[];
- for(const v of VIEWS){
+ for(const v of SET){
   if(only&&!only.includes(v.name))continue;
   await page.evaluate(v=>{
-   HolmArrivalQA.qaView(v.x,v.z);camCtl.yaw=v.yaw;camCtl.pitch=v.pitch;camCtl.dist=v.dist;
+   HolmArrivalQA.qaView(v.x,v.z,v.y0);camCtl.yaw=v.yaw;camCtl.pitch=v.pitch;camCtl.dist=v.dist;
+   const hide=v.hide?new RegExp(v.hide):null;scene.traverse(n=>{if(n.userData.__lookHide!==undefined){n.visible=n.userData.__lookHide;delete n.userData.__lookHide}if(hide&&hide.test(n.name)){n.userData.__lookHide=n.visible;n.visible=false}});
    const h=scene.getObjectByName('world-object-holm_guide_hall');
    if(h)h.traverse(n=>{if(/^(Roof|Gable|UpperShell|UpperFloor|UpperFurnishing|UpperHearth)/.test(n.name)){if(n.userData.__lookVis===undefined)n.userData.__lookVis=n.visible;n.visible=v.interior?false:n.userData.__lookVis}});
   },v);

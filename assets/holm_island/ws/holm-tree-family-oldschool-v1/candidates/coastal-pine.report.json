@@ -1,0 +1,48 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-tree-family-v3/candidates/coastal-pine.glb",
+ "materials": {
+  "pine-bark": {
+   "texture": "bark",
+   "replacedImage": "pine-bark",
+   "oldMean": [
+    0.2901,
+    0.2351,
+    0.1801
+   ],
+   "tint": [
+    0.3602,
+    0.3669,
+    0.3902
+   ]
+  },
+  "pine-needles": {
+   "texture": "needles",
+   "replacedImage": "pine-needles",
+   "oldMean": [
+    0.218,
+    0.2929,
+    0.203
+   ],
+   "tint": [
+    0.4833,
+    0.5177,
+    0.4286
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 2,
+ "glb": {
+  "path": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/coastal-pine.glb",
+  "bytes": 45480,
+  "sha256": "a80e26841e0c02d7b2ce60531f27028b97224dd7d990cf0a5c473237a49342d5"
+ },
+ "images": [
+  "bark",
+  "needles"
+ ]
+}

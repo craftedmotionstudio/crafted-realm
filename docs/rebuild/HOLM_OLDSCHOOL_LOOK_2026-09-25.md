@@ -1,4 +1,4 @@
-# Tutor's Holm: old-school world look (2026-09-25)
+# Tutor's Holm: old-school world look (2026-09-25, island rollout 2026-09-26)
 
 Owner: "Overall this game has to feel a little bit more old school medieval, like old school RuneScape. Right now it
 does feel a little bit too polished ... this needs to feel like a cozy medieval old school RuneScape style game."
@@ -17,72 +17,89 @@ override `?oldschool=0` / `?oldschool=1`. Off runs the previous code paths uncha
   grey-blue textured surface. Past the draw distance the screen is black.
 - Correction to the brief: in the references the **grass itself is mostly untextured** (the speckle comes from colour
   variation and modern grass blades). We add only a faint grass speckle; the texture work is on paths, sand, rock,
-  water and buildings.
+  water, buildings, trees and props.
 
 ## What changed
 
 | Area | Files | Notes |
 |---|---|---|
-| Switch + ground material + fog/lights + model prep | `src/holm_oldschool_look.js` (new), `src/config.js` | ground = unlit `MeshBasicMaterial`, vertex colour x kit detail textures (divided by their mean) |
+| Switch, ground material, fog/lights, model swaps | `src/holm_oldschool_look.js` (new), `src/config.js` | ground = unlit `MeshBasicMaterial`, vertex colour x kit detail textures (divided by their mean); `SWAPS` = verified folder swaps for every textured model |
 | Ground builder | `src/holm_overhaul_ground.js` (`chunkOldschool`, `lightAt`, `setTerrain`, `LOOK`) | same positions/diagonals as `chunk()` (unit-tested), per-tile blended underlay, per-vertex baked light, per-vertex texture weights |
 | Terrain adapter | `src/world_v2_sampled_terrain.js`, `src/world_v2_terrain.js` | old-school branch only when the switch is on |
 | Water | `src/holm_arrival_water.js` | kit water texture in world space, two slow drifting layers; old shader kept when off |
 | Black void | `src/game5_main.js` | fog target from `HolmOldschoolLook.fogRange()` while the island look is active |
-| Island wiring | `src/holm_arrival_qa.js`, `src/holm_island_extras.js` | preload kit, textured arrival package / survival pair with fallback to v9 / v3 if not served |
+| Island wiring | `src/holm_arrival_qa.js`, `src/holm_island_extras.js`, `src/holm_island_lessons.js`, `src/holm_island_gates.js` | preload kit + probe the textured files; every model URL goes through `HolmOldschoolLook.url()`; gate pack maps drawn as display values |
 | Trail | via `HolmOldschoolLook.restyleTrail` | arrival trail = worn-path earth with the ground's light |
-| Kit | `tools/build_oldschool_textures.js`, `assets/textures/oldschool/*.png`, `kit.json`, `tools/sheet_oldschool_kit.py` | 16 textures, 64 px, seeded procedural, tileable |
-| Blender recipe | `tools/blender/apply_oldschool_textures.py`, specs `docs/rebuild/holm-overhaul/oldschool/*.textures.json` | UVs + kit textures on an existing .blend, new workspace only |
-| One-command rebuild + proofs | `tools/build_holm_oldschool_candidates.js`, `tools/compare_glb_structure.js`, `tools/stage_holm_arrival_package_oldschool.js` | re-locks hashes (graph re-measure / package re-stage) and pins the export id |
-| Checks / captures | `tools/test_holm_oldschool_look.js`, `tools/check_holm_look_navigation.js`, `tools/capture_holm_look.js`, `tools/make_holm_look_sheets.py` | |
-| Publish list | `tools/publish_holm_island.js`, `assets/holm_island/ws/holm-survival-oldschool-*` | production copies of the survival pair |
+| Kit | `tools/build_oldschool_textures.js`, `assets/textures/oldschool/*.png`, `kit.json`, `tools/sheet_oldschool_kit.py` | 20 textures, 64 px, seeded procedural, tileable; building/tree textures lifted to ~.82 mean ("detail headroom") so light authored colours are never clamped |
+| Blender recipe | `tools/blender/apply_oldschool_textures.py`, specs `docs/rebuild/holm-overhaul/oldschool/*.textures.json` (30) | UVs + kit textures on an existing .blend or an imported GLB, new workspace only |
+| One-command rebuild + proofs | `tools/build_holm_oldschool_candidates.js`, `tools/compare_glb_structure.js`, `tools/blender/relock_with_swapped_paths.py`, `tools/stage_holm_arrival_package_oldschool.js` | structure/animation proof per GLB, graph re-lock per building, landscape re-measure, arrival package v2, export id pinned |
+| Checks / captures | `tools/test_holm_oldschool_look.js`, `tools/check_holm_look_navigation.js`, `tools/capture_holm_look.js` (10 views + `LOOK_SET=closeup` 25 views), `tools/make_holm_look_sheets.py`, `tools/make_holm_look_closeup_sheets.py` | |
+| Publish list | `tools/publish_holm_island.js`, `assets/holm_island/ws/*oldschool*` | production copies of every swapped folder |
 
-New workspaces (gitignored, copy them with the branch or rebuild with `node tools/build_holm_oldschool_candidates.js`):
-`holm-guide-house-oldschool-v1`, `holm-survival-oldschool-v1`, `holm-survival-oldschool-navigation-v1`,
-`holm-arrival-package-oldschool-v1` (export pinned in `src/holm_oldschool_look.js`).
+## Rolled out (2026-09-26): every model on the island
+
+| Asset | Workspace (model / graph) | Route | Re-lock |
+|---|---|---|---|
+| Guide House | `holm-guide-house-oldschool-v1` | .blend | arrival package v2 |
+| Survival camp | `holm-survival-oldschool-v1` / `-navigation-v1` | .blend | re-measured, node-identical |
+| Warden's Keep | `holm-keep-oldschool-v1` / `-navigation-v1` | GLB import (keep.blend no longer matches keep.glb) | graph carried over, hash changed; geometry proven identical |
+| Bakehouse | `holm-kitchen-oldschool-v1` / `-navigation-v1` | .blend | own extractor v6 re-run, identical |
+| Quest Lodge | `holm-quest-lodge-oldschool-v1` / `-navigation-v1` | .blend | own extractor v4 re-run, identical apart from model hash/paths |
+| Bank, Mage, Lastlight (+ interiors), Quarry gatehouse, Haven, Cavern | `holm-<id>-oldschool-v1` / `-navigation-v1` | .blend | re-measured, node-identical |
+| Bridges | `holm-island-bridges-oldschool-v1` | .blend | none (data-driven) |
+| Tree family (oak, birch, pine, tuft, reeds, arrival oak) | `holm-tree-family-oldschool-v1` | GLB import, leaf/bark images replaced | arrival oak: landscape re-measure |
+| Props packs v1 (habitat), v3 (gates), v5 (lessons) | `holm-props{1,3,5}-oldschool-v1` | v1/v3 .blend, v5 GLB import at 24 fps | none |
+| Dock + moored boat, provision rack | `holm-arrival-dock-oldschool-v1`, `holm-provision-rack-oldschool-v1` | .blend | arrival package v2 |
+| Hazels, fieldstones, garden wall, bench, waypost, cargo | `holm-arrival-garden-oldschool-v1`, `holm-landing-props-oldschool-v1` | GLB import | landscape re-measure `holm-arrival-landscape-measure-oldschool-v1` (equal to v4 within 1e-5 apart from render vertex counts) |
+| Arrival package | `holm-arrival-package-oldschool-v2` (export pinned in the look module) | Safe Publish | navigation identical to v9 apart from revision strings |
+
+Not rolled out: props v4 (lever, beam, marker, ripple, flames: nothing texturable), the Lantern Keeper statue (v4 in
+progress by the character agent; run the recipe on it when it lands), characters (other agents).
 
 ## Texture kit (assets/textures/oldschool, 64 x 64, our own procedural recipes)
 
 grass_a, grass_b, grass_c (speckle variants), dirt (earth + pebbles), path (cobble), sand, rock (granular stone), mud
-(creek bed), water, brick, stone_course, plaster, planks, beam (grain), thatch, roof_tiles. `kit.json` records each
-texture's mean colour; both the ground shader and the Blender recipe divide by it so a texture adds pattern without
-moving the authored average colour. Rebuild: `node tools/build_oldschool_textures.js` (deterministic).
+(creek bed), water, brick, stone_course, plaster, planks, beam (grain), thatch, roof_tiles, leaves (light leaves over
+darker clumps and gaps), needles, bark (fissures + knots), bark_birch. `kit.json` records each texture's mean colour;
+the ground shader and the Blender recipe divide by it, so a texture adds pattern without moving the authored average
+colour. Rebuild: `node tools/build_oldschool_textures.js` (deterministic).
 
 ## Hash locks
 
-- Survival camp: the navigation graph stores `modelSha256`; the textured GLB is re-measured
-  (`docs/rebuild/holm-overhaul/buildings/survival-oldschool.nav.json`) and proven node-identical to v3 apart from the hash.
-- Guide House: part of the arrival package export. `tools/stage_holm_arrival_package_oldschool.js` = v9 with the textured
-  house; its navigation is identical to v9's apart from the `graphRevision` strings (they hash every source file by
-  design). Island saves use `holm-island-v1`, so they restore unchanged; an arrival-only (`?arrivalQA=1`) save from v9
-  restores at the landing.
-- `tools/check_holm_look_navigation.js` boots both looks and compares the composed island graph, heights, stats and
-  clickables (PASS in `?holmIsland=1` and in production rehearsal `LOOK_MODE=live`).
+- Buildings: every navigation graph stores `modelSha256`; the build tool re-measures (general extractor), re-runs the
+  building's own extractor with folders swapped (bakehouse, lodge), or, for the keep whose .blend no longer matches its
+  GLB, carries the graph over with the new hash (sound: the structure proof shows every triangle is unchanged).
+  Runtime swaps a building's model and graph together and only when both are served.
+- Arrival: everything in the arrival package export; `tools/stage_holm_arrival_package_oldschool.js` (v2) swaps all
+  arrival models, the landscape is re-measured, and the navigation equals v9's apart from the `graphRevision` strings
+  (they hash every source file by design). Island saves use `holm-island-v1`, so they restore unchanged; an arrival-only
+  (`?arrivalQA=1`) save from v9 restores at the landing.
+- `tools/check_holm_look_navigation.js` boots both looks and compares the composed island graph (10,901 nodes), heights,
+  stats and clickables, and requires all 15 swaps loaded (PASS in `?holmIsland=1` and production rehearsal `LOOK_MODE=live`).
 
-## Rollout checklist for every other building (hand to Blender agents)
+## Checklist for new or changed assets (hand to Blender agents)
 
-1. Pick the building's current candidate `.blend` (the one its GLB was exported from) and note the Blender version
-   that saved it (`head -c 20 file.blend`: `BLENDER-v405` = 4.5, `BLENDER17-01v0501` = 5.1).
-2. Write `docs/rebuild/holm-overhaul/oldschool/<id>.textures.json`:
-   `source` (.blend), `blender`, `reference` (its current GLB), `outBlend`/`outGlb`/`report` in a NEW workspace
-   `.studio-workspaces/holm-<id>-oldschool-v1/candidates/`, and `vertexColour` rules if it uses `Holm flat colour`
-   (`skip` for maps/flames/glows, `woodOnly` for furniture objects, `floors` for floor objects).
-   Add `rules` only if the default material-name table does not fit (first match wins; `null` keeps flat colour).
-3. If the building has a measured stance graph, copy its `buildings/<id>.nav.json` to `<id>-oldschool.nav.json` with
-   `model` = the new GLB and `out` = `.studio-workspaces/holm-<id>-oldschool-navigation-v1/candidates`, and add
-   `"navigation": {"spec": ..., "reference": <current navigation.json>}` to the textures spec.
-   (Keep/bakehouse/lodge use their own extractors `extract_holm_keep_navigation_v*.py` etc.: re-run the one that made
-   their current graph on the new GLB.)
-4. Run `node tools/build_holm_oldschool_candidates.js <id>`. It stops unless the GLB keeps every node name, parent,
-   transform, extra, animation and triangle of the reference and the re-measured graph is node-identical.
-5. Look at the building in Blender or the game; adjust `rules` (texture, metres per repeat) and re-run. Typical repeats:
-   stone/rock 0.9 m, planks 1.0 m, beam 0.8 m, plaster 1.5 m, roof tiles 1.1 m, thatch 1.4 m.
-6. Add `<id>: {graph, model}` to `ASSETS.buildings` in `src/holm_oldschool_look.js` (the loader falls back to the old
-   pair if the new one is not served) and add both workspace folders to `DIRS` in `tools/publish_holm_island.js`, then
-   `node tools/publish_holm_island.js apply` (commit only the new `assets/holm_island/ws/...oldschool...` folders).
-7. Prove: `node tools/test_holm_oldschool_look.js`, `SMOKE_BASE=... node tools/check_holm_look_navigation.js`,
-   `LOOK_ONLY=<view> node tools/capture_holm_look.js` + `python tools/make_holm_look_sheets.py`; then the island QA
-   on a quiet machine.
-8. Things the recipe does not do: trees/leaf cards, props packs (`holm-props-v*`, habitat), bridges, the dock and the
-   characters keep their current materials; they take the same recipe (props: per-object GLBs, one spec each).
-   Modelled per-tile colour noise (e.g. warm/cool clay tiles) can be merged into one textured material in the source
-   when a building is next rebuilt; the texture then carries the variation.
+1. Find the asset's source: the `.blend` its GLB was exported from, and the Blender version that saved it
+   (`head -c 20 file.blend`: `BLENDER-v405` = 4.5, `BLENDER17-01v0501` = 5.1; a zstd header means open it in 5.1).
+   If the .blend holds several exported GLBs, or no longer matches the GLB, use `"import": "<the GLB>"` instead.
+2. Write `docs/rebuild/holm-overhaul/oldschool/<id>.textures.json`: `source` or `import`, `blender`, `reference` (the
+   current GLB), `outBlend`/`outGlb`/`report` in a NEW workspace `.studio-workspaces/holm-<id>-oldschool-v1/candidates/`,
+   `vertexColour` if it uses `Holm flat colour` (`skip`, `woodOnly`, `floors`, `maxVariants` 2, `minShare` .15), `rules`
+   to override the material-name table (`[[regex, texture|null, metres]]`, tried first), `replaceExisting` to swap
+   authored images (trees), `factorToSrgb` when the runtime converts flat colours to sRGB (props v1), `manifest` to copy
+   a manifest with refreshed hashes, and for imported clips `exportAnimationMode: NLA_TRACKS`, `fps` (the clips' rate)
+   and `slideToZero` (false if the clips start at frame 1).
+3. Re-lock: `navigation` (general extractor spec copy), `extractor` (own extractor + folder swaps + ignore keys),
+   `rehash` (only when the geometry proof passes and the source .blend cannot be re-measured), or `arrival: true`.
+4. Run `node tools/build_holm_oldschool_candidates.js <spec-prefix>` (add `arrival` for arrival assets). It stops unless
+   the GLB keeps every node, parent, transform, extra, animation key and triangle of the reference and every re-lock
+   proof holds.
+5. Review the close-up (`LOOK_SET=closeup LOOK_ONLY=<view> node tools/capture_holm_look.js`), adjust `rules`, re-run.
+   Typical repeats: rock 0.9 m, planks 1.0 m, beam 0.8 m, plaster 1.5 m, roof tiles 1.1 m, thatch 1.4 m, leaves 0.9 m.
+6. Add a swap to `SWAPS` in `src/holm_oldschool_look.js` (building pairs: model + graph folders and both probes), add the
+   folders to `DIRS` in `tools/publish_holm_island.js`, run `node tools/publish_holm_island.js apply` and commit only the
+   new `assets/holm_island/ws/...oldschool...` folders (revert anything else it rewrites).
+7. Prove: `node tools/test_holm_oldschool_look.js`, `SMOKE_BASE=... node tools/check_holm_look_navigation.js` (update the
+   swap count), close-up and 10-view sheets, then the island QA on a quiet machine.
+8. Keep draw calls in check: each vertex-colour class split is one more draw call per mesh (`maxVariants`); named
+   materials are textured in place (no new draw calls).

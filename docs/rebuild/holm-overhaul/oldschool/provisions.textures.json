@@ -1,0 +1,13 @@
+{
+ "source": ".studio-workspaces/holm-provision-rack-v2/candidates/provisions.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-provision-rack-v2/candidates/provisions.glb",
+ "arrival": true,
+ "outBlend": ".studio-workspaces/holm-provision-rack-oldschool-v1/candidates/provisions.blend",
+ "outGlb": ".studio-workspaces/holm-provision-rack-oldschool-v1/candidates/provisions.glb",
+ "report": ".studio-workspaces/holm-provision-rack-oldschool-v1/candidates/textures.report.json",
+ "manifest": {
+  "from": ".studio-workspaces/holm-provision-rack-v2/candidates/manifest.json",
+  "to": ".studio-workspaces/holm-provision-rack-oldschool-v1/candidates/manifest.json"
+ }
+}

@@ -1,0 +1,40 @@
+{
+ "source": ".studio-workspaces/holm-kitchen-wings-v8/candidates/kitchen-character.blend",
+ "blender": "5.1",
+ "reference": ".studio-workspaces/holm-kitchen-wings-v8/candidates/kitchen-character.glb",
+ "outBlend": ".studio-workspaces/holm-kitchen-oldschool-v1/candidates/kitchen-character.blend",
+ "outGlb": ".studio-workspaces/holm-kitchen-oldschool-v1/candidates/kitchen-character.glb",
+ "report": ".studio-workspaces/holm-kitchen-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|.*Flame)",
+  "woodOnly": "Furnish|Furniture|Ladder|Hatch",
+  "floors": "Floor|Deck",
+  "maxVariants": 2,
+  "minShare": 0.2
+ },
+ "copy": [
+  [
+   ".studio-workspaces/holm-kitchen-wings-v8/candidates/kitchen-character.contract.json",
+   ".studio-workspaces/holm-kitchen-oldschool-v1/candidates/kitchen-character.contract.json"
+  ]
+ ],
+ "extractor": {
+  "script": "tools/blender/extract_holm_kitchen_navigation_v6.py",
+  "replace": [
+   [
+    "holm-kitchen-wings-v8/candidates",
+    "holm-kitchen-oldschool-v1/candidates"
+   ],
+   [
+    "holm-kitchen-navigation-v6/candidates",
+    "holm-kitchen-oldschool-navigation-v1/candidates"
+   ]
+  ],
+  "out": ".studio-workspaces/holm-kitchen-oldschool-navigation-v1/candidates",
+  "reference": ".studio-workspaces/holm-kitchen-navigation-v6/candidates/navigation.json",
+  "ignore": [
+   "modelSha256"
+  ]
+ }
+}

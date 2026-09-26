@@ -41,7 +41,7 @@ var HolmArrivalQA=(function(){
     buildTerrain:async function(p){
      if(typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.activate(scene);
      WorldV2Terrain.init(p);p.updateResidency(s.x,s.z,true);
-     owner=await HolmArrivalModelOwner.create({THREE:THREE,scene:scene,WORLD:WORLD,loaded:loaded});owner.setDoors(doors);if(typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.prepareModel(THREE,owner.house);
+     owner=await HolmArrivalModelOwner.create({THREE:THREE,scene:scene,WORLD:WORLD,loaded:loaded});owner.setDoors(doors);if(typeof HolmOldschoolLook!=='undefined')scene.children.forEach(function(o){if(/^world-object-/.test(o.name))HolmOldschoolLook.prepareModel(THREE,o)});
      if(island&&typeof HolmGuideCellar!=='undefined')try{HolmGuideCellar.bind({scene:scene,WORLD:WORLD})}catch(err){console.error('[HolmArrivalQA] cellar',err)}
      if(island){
       extras=await HolmIslandExtras.load({THREE:THREE,scene:scene,WORLD:WORLD,data:islandData,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}});
