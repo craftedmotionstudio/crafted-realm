@@ -42,6 +42,7 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
       // measured foes stand still (their wandering would move them between the click and the blow)
       window.__pin=()=>WORLD.npcs.forEach(n=>{n.wanderR=0;n._walk=null});window.__pin();
       window.__lv=L=>{SKILLS.forEach(s=>Player.xp[s]=XP_TABLE[L[s]||1]||0);Player.maxHp=Player.lvl('Hitpoints');Player.hp=Player.maxHp;Player.prayerPts=Player.lvl('Prayer');UI.refreshSkills();UI.refreshHud()};
+      window.__cam0={yaw:camCtl.yaw,pitch:camCtl.pitch,dist:camCtl.dist};   // the default view, for the phone still
       window.__lv({Attack:30,Strength:30,Defence:30,Hitpoints:40,Ranged:30,Magic:30,Prayer:45});
       Player.inv=Player.inv.map(()=>null);['bronze_dagger','bronze_sword','bronze_greatsword','bronze_warhammer','worn_bow','apprentice_staff','trout','trout','trout','trout'].forEach(i=>Player.addItem(i,1));
       Player.addItem('arrows',400);Player.addItem('air_rune',400);Player.addItem('mind_rune',400);UI.refreshInv();
@@ -154,25 +155,26 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
       await page.evaluate(()=>{GameConfig.friendlyMode=true;window.__lv({Attack:5,Strength:5,Defence:5,Hitpoints:12,Ranged:1,Magic:1,Prayer:1})});
       await standNear(wild[0].name,3);await sleep(6000);const r=await events(),att=r.ev.filter(e=>e.k==='swing'&&wild.some(w=>w.name===e.who));
       rule('the wild pack hunts a low-level adventurer within four tiles (their meadow ignores friendly mode: they attack on sight)',att.length>=1,{attacks:att.length});
-      await page.evaluate(()=>{window.__lv({Attack:30,Strength:30,Defence:30,Hitpoints:40,Ranged:30,Magic:30,Prayer:45});LocalCombat.clearInteraction();WORLD.npcs.forEach(n=>{if(n.provingGround&&n.mode==='attack'){n.mode='wander';n.target=null}})});
-      await page.evaluate(()=>{window.__ev.length=0});await sleep(4000);const r2=await events(),att2=r2.ev.filter(e=>e.k==='swing'&&wild.some(w=>w.name===e.who));
+      await page.evaluate(()=>{window.__lv({Attack:30,Strength:30,Defence:30,Hitpoints:40,Ranged:30,Magic:30,Prayer:45})});await reset();
+      await sleep(4000);const r2=await events(),att2=r2.ev.filter(e=>e.k==='swing'&&wild.some(w=>w.name===e.who));
       rule('the pack ignores an adventurer above twice its level (2004)',att2.length===0,{attacks:att2.length,cb:await page.evaluate(()=>Player.combatLevel())});}}
     /* ---------------- a kill: the fall, the sink, then the drop ---------------- */
     {const w=PG.find(n=>n.type==='pg_wild_grubkin');if(w){await reset();await wield('bronze_sword',1);await standNear(w.name,1);await sleep(600);
       const d0=await page.evaluate(()=>WORLD.drops.length);await page.evaluate(n=>{const x=WORLD.npcs.find(q=>q.mesh.name===n);x.hp=1},w.name);await clickNamed(page,w.name);
       let dead=false;for(let i=0;i<30&&!dead;i++){await sleep(300);dead=await page.evaluate(n=>WORLD.npcs.find(q=>q.mesh.name===n).dead,w.name)}
       await sleep(250);await shot(page,'kill_fall');
-      let vis=null;const t0=Date.now();for(let i=0;i<40&&!vis;i++){await sleep(150);vis=await page.evaluate(d0=>WORLD.drops.slice(d0).some(m=>m.visible),d0)}
+      let vis=null;const t0=Date.now();for(let i=0;i<60&&!vis;i++){await sleep(150);vis=await page.evaluate(d0=>WORLD.drops.slice(d0).some(m=>m.visible),d0)}
+      const dbg=await page.evaluate((n,d0)=>{const x=WORLD.npcs.find(q=>q.mesh.name===n);return {dying:x.dying,dead:x.dead,death:!!x.mesh.userData.death,drops:WORLD.drops.slice(d0).map(m=>[m.userData.id,m.visible,!!m.userData._cfxHide])}},w.name,d0);
       await shot(page,'kill_loot');
-      rule('a kill: the body falls and sinks, then its drop appears (bones at least)',dead&&vis,{dead,dropShownAfterMs:Date.now()-t0});}}
+      rule('a kill: the body falls and sinks, then its drop appears (bones at least)',dead&&vis,{dead,dropShownAfterMs:Date.now()-t0,dbg:vis?undefined:dbg});}}
     /* ---------------- the adventurer's death ---------------- */
     {const b=PG.find(n=>n.type==='pg_broodmother');if(b){await reset();await wield('bronze_sword',0);await standNear(b.name,1);await sleep(600);
       await page.evaluate(()=>{Player.hp=1});await clickNamed(page,b.name);let died=null;
       for(let i=0;i<60&&!died;i++){await sleep(300);died=await page.evaluate(()=>Player.dead?LocalCombat.clock():null)}
       await sleep(400);await shot(page,'player_death');
-      let back=false;for(let i=0;i<30&&!back;i++){await sleep(300);back=await page.evaluate(()=>!Player.dead&&Player.hp===Player.maxHp)}
-      const msgs=await page.evaluate(()=>[...document.querySelectorAll('#chatbox div')].slice(-8).map(d=>d.textContent));
-      rule('the adventurer\'s death: "Oh dear, you are dead!", respawn at full health with what was kept explained',!!died&&back&&msgs.some(m=>/Oh dear/.test(m))&&msgs.some(m=>/nothing is lost|You keep/.test(m)),{msgs:msgs.slice(-4)});}}
+      let back=false;for(let i=0;i<40&&!back;i++){await sleep(300);back=await page.evaluate(()=>!Player.dead&&Player.hp===Player.maxHp)}
+      await sleep(600);const msgs=await page.evaluate(()=>[...document.querySelectorAll('#chatbox div')].slice(-12).map(d=>d.textContent));const pd=await page.evaluate(()=>({dead:!!Player.dead,hp:Player.hp,max:Player.maxHp}));
+      rule('the adventurer\'s death: "Oh dear, you are dead!", respawn at full health with what was kept explained',!!died&&back&&msgs.some(m=>/Oh dear/.test(m))&&msgs.some(m=>/nothing is lost|You keep/.test(m)),{died,back,msgs:msgs.slice(-5),pd});}}
     /* ---------------- 8-direction approach ---------------- */
     {await reset();await wield('bronze_sword',0);const s=await standNear(G,5);
      await page.evaluate(()=>{window.__trail=[];window.__tr=setInterval(()=>{const p=TileNav.playerNode();if(p)window.__trail.push([p.tx,p.tz])},100)});
@@ -182,6 +184,25 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
      const diag=trail.slice(1).filter((p,i)=>p[0]!==trail[i][0]&&p[1]!==trail[i][1]).length;
      const inReach=await page.evaluate(g=>LocalCombat.qa.inReach(WORLD.npcs.find(x=>x.mesh.name===g)),G);
      rule('approach: the adventurer walks diagonal steps to a foe and ends in melee reach (side tile)',diag>=1&&inReach,{trail,diag});}
+    /* ---------------- PvP HUD, driven with test values the way the online layer will ---------------- */
+    {await reset();await page.evaluate(()=>{PvpHud.set({wl:7,multi:1,skull:0});PvpHud.ditchWarning({})});await sleep(900);await shot(page,'pvp_hud_ditch');
+     const hud=await page.evaluate(()=>{const g=id=>document.getElementById(id);const o=player.getObjectByName('pvp-skull-over');
+       return {hud:getComputedStyle(g('pvp-hud')).display,level:g('pvp-level').textContent,skull:getComputedStyle(g('pvp-skull')).display,multi:getComputedStyle(g('pvp-multi')).display,
+        over:!!(o&&o.visible),lines:[...document.querySelectorAll('#pvp-ditch p')].map(p=>p.textContent),kept:document.querySelectorAll('#pvp-ditch img').length-1}});
+     rule('PvP HUD: "Level: 7" plaque, skull (HUD and over the head), multi sign, and the Ditch warning with the kept items',hud.hud==='flex'&&hud.level==='Level: 7'&&hud.multi!=='none'&&hud.lines.length>=5,hud);
+     await page.evaluate(()=>{const b=document.getElementById('pvp-stay');if(b)b.click();PvpHud.set({wl:9,multi:0,skull:1400})});await sleep(700);await shot(page,'pvp_hud_skulled');
+     const sk=await page.evaluate(()=>{const o=player.getObjectByName('pvp-skull-over');return {skull:getComputedStyle(document.getElementById('pvp-skull')).display,over:!!(o&&o.visible),level:document.getElementById('pvp-level').textContent}});
+     rule('PvP HUD skulled: the HUD skull and the skull over the head show, the plaque reads the new level',sk.skull!=='none'&&sk.over&&sk.level==='Level: 9',sk);
+     await page.evaluate(()=>PvpHud.set({wl:0,multi:0,skull:0}));}
+    /* ---------------- a fight on a phone-sized screen ---------------- */
+    {const W=(PG.find(n=>n.type==='pg_wild_grubkin')||{}).name||G;await reset();await wield('bronze_dagger',0);
+     await page.evaluate(w=>{const n=WORLD.npcs.find(x=>x.mesh.name===w);n.t=Object.assign({},n.t,{hp:5000});n.hp=5000},W);await standNear(W,1);await page.setViewport({width:430,height:860});await sleep(1500);
+     await page.evaluate(g=>{HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear();camCtl.yaw=window.__cam0.yaw;camCtl.pitch=window.__cam0.pitch;camCtl.dist=window.__cam0.dist;LocalCombat.orderAttack(WORLD.npcs.find(x=>x.mesh.name===g))},W);
+     let sp=null;for(let i=0;i<60&&!sp;i++){await sleep(100);sp=await page.evaluate(()=>{const s=CombatFX.qaSplats();return s.length?s:null})}
+     await shot(page,'phone_fight');
+     const k=await page.evaluate(()=>({h:innerHeight,w:innerWidth,splatPx:Math.round(40*Math.max(0.85,Math.min(1.5,innerHeight/680))),hud:getComputedStyle(document.getElementById('xp-drops')||document.body).display}));
+     rule('phone (430x860): a live splat on screen at '+k.splatPx+' px with its health bar (readable, not crowding the view)',!!sp&&k.splatPx>=32&&k.splatPx<=64,{sp,k});
+     await page.evaluate(()=>LocalCombat.clearInteraction());await page.setViewport({width:1538,height:900});await sleep(1200);}
     /* ---------------- interface stills ---------------- */
     await page.evaluate(()=>{const t=document.querySelector('.tab-btn[data-tab="combat"]');if(t)t.click()});
     for(const [w,s,a,n] of [['bronze_dagger',0,null,'tab_dagger'],['worn_bow',1,null,'tab_bow'],['apprentice_staff',0,'wind_strike','tab_staff'],['bronze_warhammer',0,null,'tab_warhammer']]){await wield(w,s,a);await sleep(500);

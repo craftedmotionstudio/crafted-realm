@@ -490,6 +490,13 @@
    "finish": "sprite"
   },
   {
+   "icon": "multi_combat",
+   "file": "misc/multi_combat.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
    "icon": "rail_music",
    "file": "misc/note.png",
    "w": 18,
@@ -497,10 +504,31 @@
    "finish": "sprite"
   },
   {
+   "icon": "pk_skull",
+   "file": "misc/pk_skull.png",
+   "w": 24,
+   "h": 24,
+   "finish": "sprite"
+  },
+  {
+   "icon": "pk_skull",
+   "file": "misc/pk_skull_over.png",
+   "w": 40,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
    "icon": "misc_roof",
    "file": "misc/roof.png",
    "w": 18,
    "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "wild_plaque",
+   "file": "misc/wild_plaque.png",
+   "w": 64,
+   "h": 34,
    "finish": "sprite"
   },
   {
