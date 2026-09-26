@@ -1,0 +1,4614 @@
+{
+ "tick": 600,
+ "started": "2026-09-26T13:01:47.382Z",
+ "fights": [
+  {
+   "name": "pvp-melee",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynfh20 (level-51)",
+      "Follow Brynfh20 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 1,
+      "b": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull timer",
+     "detail": 2000
+    },
+    {
+     "ok": true,
+     "label": "a third adventurer is refused (single-way combat)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 460,
+      "killer": "brynfh20",
+      "victim": "ashfh20",
+      "x": 60,
+      "z": 66,
+      "dropped": [
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "steel_longsword",
+        1
+       ],
+       [
+        "iron_platebody",
+        1
+       ],
+       [
+        "steel_sqshield",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 30,
+      "z": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [],
+      "promised": []
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [],
+      "kept": []
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Brynfh20.You kept nothing.10 items were left where you fell, for your killer.You wake in the Commons. The supply ches"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 1,
+      "after": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 132,
+       "splats": 132,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 66,
+       "matchedNext": 66,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 132,
+       "splats": 132,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 66,
+       "matchedNext": 66,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Ashfh20's hits on Brynfh20 at 4 (max 8)",
+     "detail": {
+      "biggest": 4,
+      "cap": 4
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 66,
+      "opponent": 66,
+      "observer": 66,
+      "self": 66
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 66,
+      "opponent": 66,
+      "observer": 66,
+      "self": 66
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "winner": "Brynfh20",
+   "loser": "Ashfh20",
+   "ticks": 347,
+   "seconds": 197.1,
+   "fx": {
+    "attacker": {
+     "hits": 132,
+     "splats": 132,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 66,
+     "matchedNext": 66,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 132,
+     "splats": 132,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 66,
+     "matchedNext": 66,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass2/strip_pvp_melee.png"
+  },
+  {
+   "name": "pvp-ranged",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynfh20 (level-51)",
+      "Follow Brynfh20 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 0,
+      "b": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker sees their own skull timer",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 839,
+      "killer": "brynfh20",
+      "victim": "ashfh20",
+      "x": 57,
+      "z": 66,
+      "dropped": [
+       [
+        "arrows",
+        246
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_green",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 33,
+      "z": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "promised": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "kept": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Brynfh20.You kept:7 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": false,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [
+       "arrows"
+      ],
+      "pile": 7
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "Brynfh20: timeout waiting for pick up the pile"
+    }
+   ],
+   "leftClickAttack": true,
+   "winner": "Brynfh20",
+   "loser": "Ashfh20",
+   "ticks": 290,
+   "seconds": 152.5
+  },
+  {
+   "name": "pvp-magic",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynfh20 (level-51)",
+      "Follow Brynfh20 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 0,
+      "b": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker sees their own skull timer",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "style, prayer and food switches answer on the next tick",
+     "detail": {
+      "style": 504,
+      "prayer": 614,
+      "eat": 592
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 1184,
+      "killer": "brynfh20",
+      "victim": "ashfh20",
+      "x": 57,
+      "z": 66,
+      "dropped": [
+       [
+        "water_rune",
+        322
+       ],
+       [
+        "chaos_rune",
+        161
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_blue",
+        1
+       ],
+       [
+        "amulet_of_warding",
+        1
+       ],
+       [
+        "cloth_robe_skirt",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 31,
+      "z": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ],
+      "promised": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ],
+      "kept": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Brynfh20.You kept:9 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "Brynfh20: timeout waiting for pick up the pile"
+    }
+   ],
+   "leftClickAttack": true,
+   "responsiveness": {
+    "ms": {
+     "style": 504,
+     "prayer": 614,
+     "eat": 592
+    },
+    "ticks": {
+     "style": 0.84,
+     "prayer": 1.02,
+     "eat": 0.99
+    }
+   },
+   "winner": "Brynfh20",
+   "loser": "Ashfh20",
+   "ticks": 213,
+   "seconds": 104.3
+  },
+  {
+   "name": "pvm-melee-gnarlgob",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the gnarlgob dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       375012,
+       376052
+      ],
+      [
+       "Defence",
+       372729,
+       372729
+      ],
+      [
+       "Hitpoints",
+       374387,
+       374730
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 6,
+      "npcShown": 6,
+      "meServer": 8,
+      "meShown": 8
+     }
+    },
+    {
+     "ok": false,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 15,
+       "splats": 15,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 7,
+       "matchedNext": 7,
+       "generic": 1,
+       "late": 0,
+       "deaths": 2
+      }
+     }
+    },
+    {
+     "ok": false,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 35,
+       "id": "bones",
+       "q": 1,
+       "x": 30,
+       "z": 52,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 36,
+       "id": "bones",
+       "q": 1,
+       "x": 30,
+       "z": 52,
+       "own": true,
+       "hidden": true
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 36.2,
+   "ticks": 37,
+   "fx": {
+    "attacker": {
+     "hits": 15,
+     "splats": 15,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 7,
+     "matchedNext": 7,
+     "generic": 1,
+     "late": 0,
+     "deaths": 2
+    }
+   },
+   "genericLog": [
+    {
+     "n": 1332,
+     "to": [
+      "p",
+      1
+     ],
+     "dmg": 0,
+     "swings": [
+      {
+       "att": [
+        "p",
+        1
+       ],
+       "tgt": [
+        "n",
+        6
+       ],
+       "land": 1333,
+       "used": false,
+       "born": 1332
+      }
+     ],
+     "proj": []
+    }
+   ],
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass2/strip_pvm_melee.png"
+  },
+  {
+   "name": "pvm-ranged-mosswolf",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the mosswolf dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Ranged",
+       373878,
+       374598
+      ],
+      [
+       "Hitpoints",
+       374730,
+       374966
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 8,
+      "npcShown": 8,
+      "meServer": 8,
+      "meShown": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 16,
+       "splats": 16,
+       "projectiles": 8,
+       "matchedProjectile": 8,
+       "matchedSwing": 8,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": false,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 39,
+       "id": "arrows",
+       "q": 5,
+       "x": 17,
+       "z": 63,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 40,
+       "id": "bones",
+       "q": 1,
+       "x": 17,
+       "z": 63,
+       "own": true,
+       "hidden": true
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 24.1,
+   "ticks": 40,
+   "fx": {
+    "attacker": {
+     "hits": 16,
+     "splats": 16,
+     "projectiles": 8,
+     "matchedProjectile": 8,
+     "matchedSwing": 8,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass2/strip_pvm_ranged.png"
+  },
+  {
+   "name": "pvm-magic-skeleton",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the skeleton dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Magic",
+       379437,
+       382087
+      ],
+      [
+       "Hitpoints",
+       374966,
+       375627
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 6,
+      "npcShown": 6,
+      "meServer": 10,
+      "meShown": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 18,
+       "splats": 18,
+       "projectiles": 10,
+       "matchedProjectile": 8,
+       "matchedSwing": 10,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": false,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 41,
+       "id": "bones",
+       "q": 1,
+       "x": 43,
+       "z": 87,
+       "own": true,
+       "hidden": true
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 25.4,
+   "ticks": 42,
+   "fx": {
+    "attacker": {
+     "hits": 18,
+     "splats": 18,
+     "projectiles": 10,
+     "matchedProjectile": 8,
+     "matchedSwing": 10,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass2/strip_pvm_magic.png"
+  },
+  {
+   "name": "pvm-melee-moss_seer",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "Ashfh20: timeout waiting for kit melee"
+    }
+   ]
+  },
+  {
+   "name": "pvm-ranged-skeleton",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "Ashfh20: timeout waiting for kit ranged"
+    }
+   ]
+  },
+  {
+   "name": "pvm-magic-gnarlgob",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the gnarlgob dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Magic",
+       390562,
+       391662
+      ],
+      [
+       "Hitpoints",
+       377406,
+       377696
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 3,
+      "npcShown": 3,
+      "meServer": 5,
+      "meShown": 5
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 9,
+       "splats": 9,
+       "projectiles": 4,
+       "matchedProjectile": 4,
+       "matchedSwing": 5,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": false,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 52,
+       "id": "bones",
+       "q": 1,
+       "x": 34,
+       "z": 50,
+       "own": true,
+       "hidden": true
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 8.9,
+   "ticks": 15,
+   "fx": {
+    "attacker": {
+     "hits": 9,
+     "splats": 9,
+     "projectiles": 4,
+     "matchedProjectile": 4,
+     "matchedSwing": 5,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvm-melee-bryn_raider",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the bryn_raider dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       376052,
+       377612
+      ],
+      [
+       "Defence",
+       372729,
+       372729
+      ],
+      [
+       "Hitpoints",
+       377696,
+       378212
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 7,
+      "npcShown": 7,
+      "meServer": 7,
+      "meShown": 7
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "ok": false,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 14,
+       "splats": 14,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 6,
+       "matchedNext": 7,
+       "generic": 1,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": false,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 53,
+       "id": "bones",
+       "q": 1,
+       "x": 44,
+       "z": 97,
+       "own": true,
+       "hidden": true
+      },
+      {
+       "uid": 54,
+       "id": "coins",
+       "q": 79,
+       "x": 44,
+       "z": 97,
+       "own": true,
+       "hidden": true
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 20.4,
+   "ticks": 34,
+   "fx": {
+    "attacker": {
+     "hits": 14,
+     "splats": 14,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 6,
+     "matchedNext": 7,
+     "generic": 1,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "genericLog": [
+    {
+     "n": 1332,
+     "to": [
+      "p",
+      1
+     ],
+     "dmg": 0,
+     "swings": [
+      {
+       "att": [
+        "p",
+        1
+       ],
+       "tgt": [
+        "n",
+        6
+       ],
+       "land": 1333,
+       "used": false,
+       "born": 1332
+      }
+     ],
+     "proj": []
+    },
+    {
+     "n": 2208,
+     "to": [
+      "p",
+      1
+     ],
+     "dmg": 0,
+     "swings": [
+      {
+       "att": [
+        "p",
+        1
+       ],
+       "tgt": [
+        "n",
+        15
+       ],
+       "land": 2209,
+       "used": false,
+       "born": 2208
+      }
+     ],
+     "proj": []
+    }
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-ranged-moss_seer",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "Ashfh20: timeout waiting for kit ranged"
+    }
+   ]
+  },
+  {
+   "name": "pvm-magic-cinder_shade",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "Ashfh20: timeout waiting for kit magic"
+    }
+   ]
+  },
+  {
+   "name": "pvp-melee-vs-magic",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynfh20 (level-51)",
+      "Follow Brynfh20 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 0,
+      "b": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker sees their own skull timer",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 2891,
+      "killer": "brynfh20",
+      "victim": "ashfh20",
+      "x": 61,
+      "z": 65,
+      "dropped": [
+       [
+        "coins",
+        100
+       ],
+       [
+        "bones",
+        1
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 30,
+      "z": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "amulet_of_precisionx1",
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "promised": [
+       "amulet_of_precisionx1",
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "amulet_of_precisionx1",
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "kept": [
+       "amulet_of_precisionx1",
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Brynfh20.You kept:7 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 10,
+      "after": 17
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 36,
+       "splats": 36,
+       "projectiles": 26,
+       "matchedProjectile": 12,
+       "matchedSwing": 24,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 36,
+       "splats": 36,
+       "projectiles": 26,
+       "matchedProjectile": 12,
+       "matchedSwing": 24,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Ashfh20's hits on Brynfh20 at 4 (max 8)",
+     "detail": {
+      "biggest": 4,
+      "cap": 4
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 12,
+      "opponent": 12,
+      "observer": 12,
+      "self": 12
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 24,
+      "opponent": 24,
+      "observer": 24,
+      "self": 24
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": false,
+   "winner": "Brynfh20",
+   "loser": "Ashfh20",
+   "ticks": 138,
+   "seconds": 61.6,
+   "fx": {
+    "attacker": {
+     "hits": 36,
+     "splats": 36,
+     "projectiles": 26,
+     "matchedProjectile": 12,
+     "matchedSwing": 24,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 36,
+     "splats": 36,
+     "projectiles": 26,
+     "matchedProjectile": 12,
+     "matchedSwing": 24,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-ranged-vs-melee",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynfh20 (level-51)",
+      "Follow Brynfh20 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 0,
+      "b": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker sees their own skull timer",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 3276,
+      "killer": "ashfh20",
+      "victim": "brynfh20",
+      "x": 58,
+      "z": 66,
+      "dropped": [
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 32,
+      "z": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "promised": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ashfh20.You kept:7 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 2,
+      "after": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 113,
+       "splats": 113,
+       "projectiles": 57,
+       "matchedProjectile": 57,
+       "matchedSwing": 0,
+       "matchedNext": 56,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 113,
+       "splats": 113,
+       "projectiles": 57,
+       "matchedProjectile": 57,
+       "matchedSwing": 0,
+       "matchedNext": 56,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Brynfh20's hits on Ashfh20 at 4 (max 8)",
+     "detail": {
+      "biggest": 3,
+      "cap": 4
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 56,
+      "opponent": 56,
+      "observer": 56,
+      "self": 56
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 57,
+      "opponent": 57,
+      "observer": 57,
+      "self": 57
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "winner": "Ashfh20",
+   "loser": "Brynfh20",
+   "ticks": 302,
+   "seconds": 160.2,
+   "fx": {
+    "attacker": {
+     "hits": 113,
+     "splats": 113,
+     "projectiles": 57,
+     "matchedProjectile": 57,
+     "matchedSwing": 0,
+     "matchedNext": 56,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 113,
+     "splats": 113,
+     "projectiles": 57,
+     "matchedProjectile": 57,
+     "matchedSwing": 0,
+     "matchedNext": 56,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-magic-vs-ranged",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynfh20 (level-51)",
+      "Follow Brynfh20 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 0,
+      "b": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker sees their own skull timer",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 3552,
+      "killer": "ashfh20",
+      "victim": "brynfh20",
+      "x": 61,
+      "z": 66,
+      "dropped": [
+       [
+        "arrows",
+        267
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_green",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 32,
+      "z": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "promised": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "kept": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ashfh20.You kept:7 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "Ashfh20: timeout waiting for pick up the pile"
+    }
+   ],
+   "leftClickAttack": false,
+   "winner": "Ashfh20",
+   "loser": "Brynfh20",
+   "ticks": 194,
+   "seconds": 94.8
+  },
+  {
+   "name": "pvp-melee-swapped",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Ashfh20 (level-51)",
+      "Follow Ashfh20 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 0,
+      "b": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker sees their own skull timer",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "style, prayer and food switches answer on the next tick",
+     "detail": {
+      "style": 550,
+      "prayer": 412,
+      "eat": 568
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 3904,
+      "killer": "ashfh20",
+      "victim": "brynfh20",
+      "x": 60,
+      "z": 66,
+      "dropped": [
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 31,
+      "z": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "promised": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ashfh20.You kept:7 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 1,
+      "after": 8
+     }
+    },
+    {
+     "ok": false,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 82,
+       "splats": 82,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 32,
+       "matchedNext": 41,
+       "generic": 9,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 82,
+       "splats": 82,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 32,
+       "matchedNext": 41,
+       "generic": 9,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 41,
+      "opponent": 41,
+      "observer": 41,
+      "self": 41
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 41,
+      "opponent": 41,
+      "observer": 41,
+      "self": 41
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "responsiveness": {
+    "ms": {
+     "style": 550,
+     "prayer": 412,
+     "eat": 568
+    },
+    "ticks": {
+     "style": 0.92,
+     "prayer": 0.69,
+     "eat": 0.95
+    }
+   },
+   "winner": "Ashfh20",
+   "loser": "Brynfh20",
+   "ticks": 223,
+   "seconds": 110,
+   "fx": {
+    "attacker": {
+     "hits": 82,
+     "splats": 82,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 32,
+     "matchedNext": 41,
+     "generic": 9,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 82,
+     "splats": 82,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 32,
+     "matchedNext": 41,
+     "generic": 9,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "genericLog": {
+    "A": [
+     {
+      "n": 3727,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3728,
+        "used": false,
+        "born": 3727
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3732,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 4,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3733,
+        "used": false,
+        "born": 3732
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3737,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3738,
+        "used": false,
+        "born": 3737
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3742,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3743,
+        "used": false,
+        "born": 3742
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3747,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3748,
+        "used": false,
+        "born": 3747
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3760,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3761,
+        "used": false,
+        "born": 3760
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3765,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3766,
+        "used": false,
+        "born": 3765
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3770,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 3,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3771,
+        "used": false,
+        "born": 3770
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3886,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3887,
+        "used": false,
+        "born": 3886
+       }
+      ],
+      "proj": []
+     }
+    ],
+    "O": [
+     {
+      "n": 3727,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3728,
+        "used": false,
+        "born": 3727
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3732,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 4,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3733,
+        "used": false,
+        "born": 3732
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3737,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3738,
+        "used": false,
+        "born": 3737
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3742,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3743,
+        "used": false,
+        "born": 3742
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3747,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3748,
+        "used": false,
+        "born": 3747
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3760,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3761,
+        "used": false,
+        "born": 3760
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3765,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3766,
+        "used": false,
+        "born": 3765
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3770,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 3,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3771,
+        "used": false,
+        "born": 3770
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3886,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3887,
+        "used": false,
+        "born": 3886
+       }
+      ],
+      "proj": []
+     }
+    ]
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-ranged-swapped",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Ashfh20 (level-51)",
+      "Follow Ashfh20 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 0,
+      "b": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker sees their own skull timer",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 4169,
+      "killer": "ashfh20",
+      "victim": "brynfh20",
+      "x": 57,
+      "z": 66,
+      "dropped": [
+       [
+        "arrows",
+        268
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_green",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 31,
+      "z": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "amulet_of_precisionx1",
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "promised": [
+       "amulet_of_precisionx1",
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "amulet_of_precisionx1",
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "kept": [
+       "amulet_of_precisionx1",
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ashfh20.You kept:6 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 7
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "Ashfh20: timeout waiting for pick up the pile"
+    }
+   ],
+   "leftClickAttack": true,
+   "winner": "Ashfh20",
+   "loser": "Brynfh20",
+   "ticks": 182,
+   "seconds": 87.5
+  },
+  {
+   "name": "pvp-reconnect",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynfh20 (level-51)",
+      "Follow Brynfh20 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 0,
+      "b": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker sees their own skull timer",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the dropped adventurer stays in the world (x-log protection)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the client logs in again and re-attaches to the same adventurer",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "logging out mid-fight is refused (the combat logout lock)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 4490,
+      "killer": "ashfh20",
+      "victim": "brynfh20",
+      "x": 61,
+      "z": 66,
+      "dropped": [
+       [
+        "arrows",
+        267
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_green",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 32,
+      "z": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "promised": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "kept": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ashfh20.You kept:7 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 1,
+      "after": 8
+     }
+    },
+    {
+     "ok": false,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 66,
+       "splats": 66,
+       "projectiles": 32,
+       "matchedProjectile": 32,
+       "matchedSwing": 31,
+       "matchedNext": 0,
+       "generic": 3,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 68,
+       "splats": 68,
+       "projectiles": 33,
+       "matchedProjectile": 33,
+       "matchedSwing": 35,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 33,
+      "opponent": 33,
+      "observer": 33,
+      "self": 32
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 35,
+      "opponent": 34,
+      "observer": 35,
+      "self": 35
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": false,
+   "winner": "Ashfh20",
+   "loser": "Brynfh20",
+   "ticks": 192,
+   "seconds": 91.2,
+   "fx": {
+    "attacker": {
+     "hits": 66,
+     "splats": 66,
+     "projectiles": 32,
+     "matchedProjectile": 32,
+     "matchedSwing": 31,
+     "matchedNext": 0,
+     "generic": 3,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 68,
+     "splats": 68,
+     "projectiles": 33,
+     "matchedProjectile": 33,
+     "matchedSwing": 35,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "genericLog": {
+    "A": [
+     {
+      "n": 1332,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         6
+        ],
+        "land": 1333,
+        "used": false,
+        "born": 1332
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2208,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2209,
+        "used": false,
+        "born": 2208
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2282,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2283,
+        "used": false,
+        "born": 2282
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2302,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2303,
+        "used": false,
+        "born": 2302
+       },
+       {
+        "att": [
+         "n",
+         13
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 2302,
+        "used": true,
+        "born": 2302
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2322,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 3,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2323,
+        "used": false,
+        "born": 2322
+       },
+       {
+        "att": [
+         "n",
+         13
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 2322,
+        "used": true,
+        "born": 2322
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2342,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 3,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2343,
+        "used": false,
+        "born": 2342
+       },
+       {
+        "att": [
+         "n",
+         13
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 2342,
+        "used": true,
+        "born": 2342
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2362,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2363,
+        "used": false,
+        "born": 2362
+       },
+       {
+        "att": [
+         "n",
+         13
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 2362,
+        "used": true,
+        "born": 2362
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2382,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2383,
+        "used": false,
+        "born": 2382
+       },
+       {
+        "att": [
+         "n",
+         13
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 2382,
+        "used": true,
+        "born": 2382
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2402,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 2,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         13
+        ],
+        "land": 2403,
+        "used": false,
+        "born": 2402
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2441,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2442,
+        "used": false,
+        "born": 2441
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2461,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2462,
+        "used": false,
+        "born": 2461
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2481,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 1,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2482,
+        "used": false,
+        "born": 2481
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2550,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2551,
+        "used": false,
+        "born": 2550
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2624,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2625,
+        "used": false,
+        "born": 2624
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2644,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2645,
+        "used": false,
+        "born": 2644
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2664,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 2,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         15
+        ],
+        "land": 2665,
+        "used": false,
+        "born": 2664
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2689,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         16
+        ],
+        "land": 2690,
+        "used": false,
+        "born": 2689
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2709,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         16
+        ],
+        "land": 2710,
+        "used": false,
+        "born": 2709
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 2719,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "n",
+         13
+        ],
+        "land": 2720,
+        "used": false,
+        "born": 2719
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3727,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3728,
+        "used": false,
+        "born": 3727
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3732,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 4,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3733,
+        "used": false,
+        "born": 3732
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3737,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3738,
+        "used": false,
+        "born": 3737
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3742,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3743,
+        "used": false,
+        "born": 3742
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3747,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3748,
+        "used": false,
+        "born": 3747
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3760,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3761,
+        "used": false,
+        "born": 3760
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3765,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3766,
+        "used": false,
+        "born": 3765
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3770,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 3,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3771,
+        "used": false,
+        "born": 3770
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3886,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3887,
+        "used": false,
+        "born": 3886
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 4343,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": null,
+        "land": 4343,
+        "used": false,
+        "born": 4343
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 4348,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": null,
+        "land": 4348,
+        "used": false,
+        "born": 4348
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 4353,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 8,
+      "swings": [
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": null,
+        "land": 4353,
+        "used": false,
+        "born": 4353
+       }
+      ],
+      "proj": []
+     }
+    ],
+    "O": [
+     {
+      "n": 3727,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3728,
+        "used": false,
+        "born": 3727
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3732,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 4,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3733,
+        "used": false,
+        "born": 3732
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3737,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3738,
+        "used": false,
+        "born": 3737
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3742,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3743,
+        "used": false,
+        "born": 3742
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3747,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3748,
+        "used": false,
+        "born": 3747
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3760,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3761,
+        "used": false,
+        "born": 3760
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3765,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3766,
+        "used": false,
+        "born": 3765
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3770,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 3,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3771,
+        "used": false,
+        "born": 3770
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 3886,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 3887,
+        "used": false,
+        "born": 3886
+       }
+      ],
+      "proj": []
+     }
+    ]
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-magic-vs-melee",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynfh20 (level-51)",
+      "Follow Brynfh20 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 0,
+      "b": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the attacker sees their own skull timer",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 4781,
+      "killer": "brynfh20",
+      "victim": "ashfh20",
+      "x": 57,
+      "z": 66,
+      "dropped": [
+       [
+        "water_rune",
+        324
+       ],
+       [
+        "chaos_rune",
+        162
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_blue",
+        1
+       ],
+       [
+        "amulet_of_warding",
+        1
+       ],
+       [
+        "cloth_robe_skirt",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 31,
+      "z": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ],
+      "promised": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ],
+      "kept": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Brynfh20.You kept:9 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 1,
+      "after": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 52,
+       "splats": 52,
+       "projectiles": 38,
+       "matchedProjectile": 15,
+       "matchedSwing": 0,
+       "matchedNext": 37,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 52,
+       "splats": 52,
+       "projectiles": 38,
+       "matchedProjectile": 15,
+       "matchedSwing": 0,
+       "matchedNext": 37,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Ashfh20's hits on Brynfh20 at 6 (max 10)",
+     "detail": {
+      "biggest": 6,
+      "cap": 6
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 37,
+      "opponent": 37,
+      "observer": 37,
+      "self": 37
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynfh20 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 15,
+      "opponent": 15,
+      "observer": 15,
+      "self": 15
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": false,
+   "winner": "Brynfh20",
+   "loser": "Ashfh20",
+   "ticks": 206,
+   "seconds": 102.3,
+   "fx": {
+    "attacker": {
+     "hits": 52,
+     "splats": 52,
+     "projectiles": 38,
+     "matchedProjectile": 15,
+     "matchedSwing": 0,
+     "matchedNext": 37,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 52,
+     "splats": 52,
+     "projectiles": 38,
+     "matchedProjectile": 15,
+     "matchedSwing": 0,
+     "matchedNext": 37,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvm-melee-hex_adept",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the hex_adept dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       393548,
+       395268
+      ],
+      [
+       "Defence",
+       372729,
+       372729
+      ],
+      [
+       "Hitpoints",
+       387248,
+       387814
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 16,
+      "npcShown": 16,
+      "meServer": 0,
+      "meShown": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": []
+    },
+    {
+     "ok": false,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 16,
+       "splats": 16,
+       "projectiles": 16,
+       "matchedProjectile": 0,
+       "matchedSwing": 0,
+       "matchedNext": 16,
+       "generic": 0,
+       "late": 4,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": false,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 130,
+       "id": "bones",
+       "q": 1,
+       "x": 32,
+       "z": 103,
+       "own": true,
+       "hidden": true
+      },
+      {
+       "uid": 131,
+       "id": "coins",
+       "q": 63,
+       "x": 32,
+       "z": 103,
+       "own": true,
+       "hidden": true
+      },
+      {
+       "uid": 132,
+       "id": "chaos_rune",
+       "q": 2,
+       "x": 32,
+       "z": 103,
+       "own": true,
+       "hidden": true
+      },
+      {
+       "uid": 133,
+       "id": "air_rune",
+       "q": 8,
+       "x": 32,
+       "z": 103,
+       "own": true,
+       "hidden": true
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 46.9,
+   "ticks": 78,
+   "fx": {
+    "attacker": {
+     "hits": 16,
+     "splats": 16,
+     "projectiles": 16,
+     "matchedProjectile": 0,
+     "matchedSwing": 0,
+     "matchedNext": 16,
+     "generic": 0,
+     "late": 4,
+     "deaths": 1
+    }
+   },
+   "lateLog": [
+    {
+     "n": 4854,
+     "from": [
+      "n",
+      19
+     ],
+     "to": [
+      "p",
+      1
+     ],
+     "d": 1,
+     "off": 1,
+     "dist": 26.05,
+     "release": 0.25,
+     "flight": 0.85
+    },
+    {
+     "n": 4859,
+     "from": [
+      "n",
+      19
+     ],
+     "to": [
+      "p",
+      1
+     ],
+     "d": 1,
+     "off": 1,
+     "dist": 18.38,
+     "release": 0.25,
+     "flight": 0.85
+    },
+    {
+     "n": 4864,
+     "from": [
+      "n",
+      19
+     ],
+     "to": [
+      "p",
+      1
+     ],
+     "d": 1,
+     "off": 1,
+     "dist": 11.32,
+     "release": 0.25,
+     "flight": 0.85
+    },
+    {
+     "n": 4869,
+     "from": [
+      "n",
+      19
+     ],
+     "to": [
+      "p",
+      1
+     ],
+     "d": 1,
+     "off": 1,
+     "dist": 4.9,
+     "release": 0.25,
+     "flight": 0.586
+    }
+   ],
+   "strip": null
+  }
+ ],
+ "failures": [
+  "pvp-ranged: the attacker is skulled, the defender (retaliating) is not {\"a\":0,\"b\":0}",
+  "pvp-ranged: the attacker sees their own skull timer",
+  "pvp-ranged: the winner sees the whole pile as theirs {\"missing\":[\"arrows\"],\"pile\":7}",
+  "pvp-ranged: scenario ran \"Brynfh20: timeout waiting for pick up the pile\"",
+  "pvp-magic: the attacker is skulled, the defender (retaliating) is not {\"a\":0,\"b\":0}",
+  "pvp-magic: the attacker sees their own skull timer",
+  "pvp-magic: scenario ran \"Brynfh20: timeout waiting for pick up the pile\"",
+  "pvm-melee-gnarlgob: every splat is tied to its swing or projectile {\"attacker\":{\"hits\":15,\"splats\":15,\"projectiles\":0,\"matchedProjectile\":0,\"matchedSwing\":7,\"matchedNext\":7,\"generic\":1,\"late\":0,\"deaths\":2}}",
+  "pvm-melee-gnarlgob: the drop shows as ours once the body has sunk [{\"uid\":35,\"id\":\"bones\",\"q\":1,\"x\":30,\"z\":52,\"own\":true,\"hidden\":false},{\"uid\":36,\"id\":\"bones\",\"q\":1,\"x\":30,\"z\":52,\"own\":true,\"hidden\":true}]",
+  "pvm-ranged-mosswolf: the drop shows as ours once the body has sunk [{\"uid\":39,\"id\":\"arrows\",\"q\":5,\"x\":17,\"z\":63,\"own\":true,\"hidden\":false},{\"uid\":40,\"id\":\"bones\",\"q\":1,\"x\":17,\"z\":63,\"own\":true,\"hidden\":true}]",
+  "pvm-magic-skeleton: the drop shows as ours once the body has sunk [{\"uid\":41,\"id\":\"bones\",\"q\":1,\"x\":43,\"z\":87,\"own\":true,\"hidden\":true}]",
+  "pvm-melee-moss_seer: scenario ran \"Ashfh20: timeout waiting for kit melee\"",
+  "pvm-ranged-skeleton: scenario ran \"Ashfh20: timeout waiting for kit ranged\"",
+  "pvm-magic-gnarlgob: the drop shows as ours once the body has sunk [{\"uid\":52,\"id\":\"bones\",\"q\":1,\"x\":34,\"z\":50,\"own\":true,\"hidden\":true}]",
+  "pvm-melee-bryn_raider: every splat is tied to its swing or projectile {\"attacker\":{\"hits\":14,\"splats\":14,\"projectiles\":0,\"matchedProjectile\":0,\"matchedSwing\":6,\"matchedNext\":7,\"generic\":1,\"late\":0,\"deaths\":1}}",
+  "pvm-melee-bryn_raider: the drop shows as ours once the body has sunk [{\"uid\":53,\"id\":\"bones\",\"q\":1,\"x\":44,\"z\":97,\"own\":true,\"hidden\":true},{\"uid\":54,\"id\":\"coins\",\"q\":79,\"x\":44,\"z\":97,\"own\":true,\"hidden\":true}]",
+  "pvm-ranged-moss_seer: scenario ran \"Ashfh20: timeout waiting for kit ranged\"",
+  "pvm-magic-cinder_shade: scenario ran \"Ashfh20: timeout waiting for kit magic\"",
+  "pvp-melee-vs-magic: the attacker is skulled, the defender (retaliating) is not {\"a\":0,\"b\":0}",
+  "pvp-melee-vs-magic: the attacker sees their own skull timer",
+  "pvp-ranged-vs-melee: the attacker is skulled, the defender (retaliating) is not {\"a\":0,\"b\":0}",
+  "pvp-ranged-vs-melee: the attacker sees their own skull timer",
+  "pvp-magic-vs-ranged: the attacker is skulled, the defender (retaliating) is not {\"a\":0,\"b\":0}",
+  "pvp-magic-vs-ranged: the attacker sees their own skull timer",
+  "pvp-magic-vs-ranged: scenario ran \"Ashfh20: timeout waiting for pick up the pile\"",
+  "pvp-melee-swapped: the attacker is skulled, the defender (retaliating) is not {\"a\":0,\"b\":0}",
+  "pvp-melee-swapped: the attacker sees their own skull timer",
+  "pvp-melee-swapped: every splat is tied to its swing or projectile (no untimed hits, no late projectiles) {\"attacker\":{\"hits\":82,\"splats\":82,\"projectiles\":0,\"matchedProjectile\":0,\"matchedSwing\":32,\"matchedNext\":41,\"generic\":9,\"late\":0,\"deaths\":1},\"observer\":{\"hits\":82,\"splats\":82,\"projectiles\":0,\"matchedProjectile\":0,\"matchedSwing\":32,\"matchedNext\":41,\"generic\":9,\"late\":0,\"deaths\":1}}",
+  "pvp-ranged-swapped: the attacker is skulled, the defender (retaliating) is not {\"a\":0,\"b\":0}",
+  "pvp-ranged-swapped: the attacker sees their own skull timer",
+  "pvp-ranged-swapped: scenario ran \"Ashfh20: timeout waiting for pick up the pile\"",
+  "pvp-reconnect: the attacker is skulled, the defender (retaliating) is not {\"a\":0,\"b\":0}",
+  "pvp-reconnect: the attacker sees their own skull timer",
+  "pvp-reconnect: every splat is tied to its swing or projectile (no untimed hits, no late projectiles) {\"attacker\":{\"hits\":66,\"splats\":66,\"projectiles\":32,\"matchedProjectile\":32,\"matchedSwing\":31,\"matchedNext\":0,\"generic\":3,\"late\":0,\"deaths\":1},\"observer\":{\"hits\":68,\"splats\":68,\"projectiles\":33,\"matchedProjectile\":33,\"matchedSwing\":35,\"matchedNext\":0,\"generic\":0,\"late\":0,\"deaths\":1}}",
+  "pvp-magic-vs-melee: the attacker is skulled, the defender (retaliating) is not {\"a\":0,\"b\":0}",
+  "pvp-magic-vs-melee: the attacker sees their own skull timer",
+  "pvm-melee-hex_adept: every splat is tied to its swing or projectile {\"attacker\":{\"hits\":16,\"splats\":16,\"projectiles\":16,\"matchedProjectile\":0,\"matchedSwing\":0,\"matchedNext\":16,\"generic\":0,\"late\":4,\"deaths\":1}}",
+  "pvm-melee-hex_adept: the drop shows as ours once the body has sunk [{\"uid\":130,\"id\":\"bones\",\"q\":1,\"x\":32,\"z\":103,\"own\":true,\"hidden\":true},{\"uid\":131,\"id\":\"coins\",\"q\":63,\"x\":32,\"z\":103,\"own\":true,\"hidden\":true},{\"uid\":132,\"id\":\"chaos_rune\",\"q\":2,\"x\":32,\"z\":103,\"own\":true,\"hidden\":true},{\"uid\":133,\"id\":\"air_rune\",\"q\":8,\"x\":32,\"z\":103,\"own\":true,\"hidden\":true}]"
+ ],
+ "pageErrors": {
+  "A": [],
+  "B": [],
+  "O": []
+ },
+ "measured": {
+  "accuracy": {
+   "rolls": 1232,
+   "expectedHits": 509.2,
+   "observedHits": 504,
+   "z": -0.3
+  },
+  "damage": [
+   {
+    "max": 3,
+    "draws": 31,
+    "counts": [
+     5,
+     7,
+     8,
+     11
+    ],
+    "chi2": 2.42,
+    "dof": 3
+   },
+   {
+    "max": 4,
+    "draws": 47,
+    "counts": [
+     10,
+     11,
+     12,
+     6,
+     8
+    ],
+    "chi2": 2.47,
+    "dof": 4
+   },
+   {
+    "max": 6,
+    "draws": 32,
+    "counts": [
+     1,
+     7,
+     2,
+     7,
+     7,
+     3,
+     5
+    ],
+    "chi2": 8.69,
+    "dof": 6
+   },
+   {
+    "max": 7,
+    "draws": 108,
+    "counts": [
+     12,
+     10,
+     20,
+     13,
+     13,
+     14,
+     14,
+     12
+    ],
+    "chi2": 4.44,
+    "dof": 7
+   },
+   {
+    "max": 8,
+    "draws": 182,
+    "counts": [
+     18,
+     16,
+     22,
+     17,
+     19,
+     24,
+     20,
+     23,
+     23
+    ],
+    "chi2": 3.34,
+    "dof": 8
+   },
+   {
+    "max": 10,
+    "draws": 102,
+    "counts": [
+     7,
+     6,
+     11,
+     12,
+     5,
+     9,
+     11,
+     15,
+     8,
+     9,
+     9
+    ],
+    "chi2": 8.86,
+    "dof": 10
+   }
+  ],
+  "attackSpeed": [
+   {
+    "weapon": "steel_longsword",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 451,
+    "hist": {
+     "5": 420,
+     "8": 29,
+     "10": 1,
+     "12": 1
+    }
+   },
+   {
+    "weapon": "gale_longbow",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 265,
+    "hist": {
+     "5": 240,
+     "8": 23,
+     "11": 2
+    }
+   },
+   {
+    "weapon": "storm_staff",
+    "name": "cast",
+    "expect": 5,
+    "mode": 5,
+    "samples": 245,
+    "hist": {
+     "5": 226,
+     "8": 18,
+     "11": 1
+    }
+   },
+   {
+    "weapon": "monster",
+    "name": "attack",
+    "expect": 4,
+    "mode": 4,
+    "samples": 196,
+    "hist": {
+     "4": 196
+    }
+   },
+   {
+    "weapon": "monster",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 15,
+    "hist": {
+     "5": 15
+    }
+   }
+  ],
+  "projectileTiming": {
+   "matched": 406,
+   "mismatched": 0,
+   "examples": []
+  }
+ },
+ "movement": {
+  "Ashfh20": {
+   "maxBacklog": 39,
+   "catchUps": 587,
+   "teleports": 1,
+   "ticksSeen": 4908,
+   "tickGaps": 2,
+   "maxGapMs": 14617,
+   "reconnects": 1
+  },
+  "Brynfh20": {
+   "maxBacklog": 39,
+   "catchUps": 2150,
+   "teleports": 6,
+   "ticksSeen": 4908,
+   "tickGaps": 1,
+   "maxGapMs": 14628,
+   "reconnects": 0
+  },
+  "Oakfh20": {
+   "maxBacklog": 25,
+   "catchUps": 361,
+   "teleports": 1,
+   "ticksSeen": 4902,
+   "tickGaps": 1,
+   "maxGapMs": 14617,
+   "reconnects": 0
+  }
+ },
+ "finished": "2026-09-26T13:51:09.271Z",
+ "pass": false
+}

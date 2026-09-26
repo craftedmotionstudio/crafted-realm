@@ -88,7 +88,13 @@ class PathingEntity {
     this.stepsTaken = 0;
     this.tele = false;
   }
-  setAnim(name, extra) { this.anim = Object.assign({ name }, extra || {}); this.infoChanged = true; }
+  setAnim(name, extra) {
+    // animation priority (the 2004 client plays one sequence per tick by priority): a blow of your own (attack / cast)
+    // or a death outranks the defend flinch, so two fighters swinging on the same tick both show their swing (W2)
+    const a = this.anim;
+    if (a && name === 'defend' && (a.name === 'attack' || a.name === 'cast' || a.name === 'death')) return;
+    this.anim = Object.assign({ name }, extra || {}); this.infoChanged = true;
+  }
   addHit(amount, type) { this.hits.push({ amount, type: type || (amount > 0 ? 'hit' : 'block') }); this.infoChanged = true; }
 
   /* ---- waypoints ---- */

@@ -21,7 +21,8 @@
 'use strict';
 const path = require('path');
 const fs = require('fs');
-const { execFileSync } = require('child_process');
+const { execFile } = require('child_process');
+const execFileAsync = (cmd, a) => new Promise((res, rej) => execFile(cmd, a, (e, out) => (e ? rej(e) : res(out))));   // never block: the world ticks in this process
 const puppeteer = require('puppeteer-core');
 const { createServer } = require('../server/app');
 const { PathingEntity } = require('../server/engine/PathingEntity');
@@ -221,7 +222,7 @@ async function captureStrip(obs, name, ids, frames, gapMs) {
   // compose into one strip (python + PIL), keep only the strip
   const strip = path.join(OUT, `strip_${name}.jpg`);
   try {
-    execFileSync('python', ['-c', `
+    await execFileAsync('python', ['-c', `
 import sys
 from PIL import Image
 fs=sys.argv[2:]; ims=[Image.open(f).convert('RGB') for f in fs]

@@ -138,3 +138,28 @@ test('a new ws login may bring a look; a saved look wins', () => {
   const s = new HeadlessSession().attach(p);
   assert.ok(s);
 });
+
+test('animation priority: a swing (or a death) is not replaced by the defend flinch in the same tick', () => {
+  const w = fieldWorld({ areas: { wilderness: [{ x1: 0, z1: -600, x2: 39, z2: 39 }], multi: [], named: [] } });
+  const a = addPlayer(w, 'swingA', { levels: { Attack: 50, Strength: 50, Hitpoints: 60 }, pos: { x: 10, z: 20 }, equip: { weapon: 'steel_sword' } });
+  const b = addPlayer(w, 'swingB', { levels: { Attack: 50, Strength: 50, Hitpoints: 60 }, pos: { x: 11, z: 20 }, equip: { weapon: 'steel_sword' } });
+  const p = a.p;
+  p.setAnim('attack', { type: 'stab' }); p.setAnim('defend');
+  assert.equal(p.anim.name, 'attack');
+  p.setAnim('death'); p.setAnim('defend');
+  assert.equal(p.anim.name, 'death');
+  w.cycle();
+  // two duellists swinging on the same tick: each viewer sees the other's swing, never a bare 'defend'
+  a.s.intent({ t: 'op_player', pid: b.p.pid, op: 'attack' });
+  b.s.intent({ t: 'op_player', pid: a.p.pid, op: 'attack' });
+  let seenA = 0, seenB = 0;
+  for (let i = 0; i < 20; i++) {
+    w.cycle();
+    const ta = a.s.lastTick(), tb = b.s.lastTick();
+    const ub = ta.pl && ta.pl.upd && ta.pl.upd.find((u) => u.i === b.p.pid);
+    const ua = tb.pl && tb.pl.upd && tb.pl.upd.find((u) => u.i === a.p.pid);
+    if (ub && ub.a && ub.a.name === 'attack') seenB++;
+    if (ua && ua.a && ua.a.name === 'attack') seenA++;
+  }
+  assert.ok(seenA >= 3 && seenB >= 3, `both swings seen (${seenA}, ${seenB})`);
+});
