@@ -1,0 +1,142 @@
+== BUILDINGS (indoor-flag components, level 0, area>=4) : 423
+
+== TOWNS (cluster of buildings linked by <=14-tile gaps)
+{"town": "Lumbridge", "n_buildings": 10, "bbox_w": 49, "bbox_h": 68, "built_share": 0.209, "bldg_area_med": 43, "bldg_area_max": 251, "bldg_dims_med": "6x8", "nn_gap_med": 7.0, "path_share_outdoor": 0.224, "road_share_outdoor": 0.105, "water_share": 0.093, "h_p5_p95_tiles": [0.75, 3.12], "services": {"fishing_point": 2, "water_source": 3, "range": 2, "altar": 1, "general_store": 1, "furnace": 1, "axe_store": 1}, "centre": [3228, 3224]}
+{"town": "Draynor Village", "n_buildings": 6, "bbox_w": 20, "bbox_h": 44, "built_share": 0.443, "bldg_area_med": 49, "bldg_area_max": 154, "bldg_dims_med": "6x9", "nn_gap_med": 1.0, "path_share_outdoor": 0.412, "road_share_outdoor": 0.412, "water_share": 0.0, "h_p5_p95_tiles": [2.19, 2.94], "services": {"bank_store": 1}, "centre": [3093, 3260]}
+{"town": "Varrock", "n_buildings": 42, "bbox_w": 151, "bbox_h": 129, "built_share": 0.214, "bldg_area_med": 67, "bldg_area_max": 700, "bldg_dims_med": "8x10", "nn_gap_med": 3.0, "path_share_outdoor": 0.182, "road_share_outdoor": 0.149, "water_share": 0.007, "h_p5_p95_tiles": [1.44, 3.19], "services": {"rare_trees": 3, "water_source": 7, "range": 8, "altar": 2, "general_store": 1, "bank_store": 2, "beer_store": 3, "dungeonentrance": 2, "anvil": 3, "plate_store": 1, "flour_mill": 1, "archery_store": 1, "sword_store": 1, "magic_store": 1, "potions_store": 1, "staff_store": 1, "clothing_store": 2, "combattraining_store": 1}, "centre": [3213, 3442]}
+{"town": "Falador", "n_buildings": 27, "bbox_w": 162, "bbox_h": 86, "built_share": 0.172, "bldg_area_med": 50, "bldg_area_max": 636, "bldg_dims_med": "7x13", "nn_gap_med": 1.0, "path_share_outdoor": 0.121, "road_share_outdoor": 0.082, "water_share": 0.067, "h_p5_p95_tiles": [1.25, 4.38], "services": {"rare_trees": 3, "water_source": 4, "range": 7, "mining_site": 1, "general_store": 1, "bank_store": 2, "spinningwheel": 1, "beer_store": 1, "furnace": 1, "gem_store": 1, "chain_shop": 1, "mace_store": 1, "shield_store": 1}, "centre": [2985, 3352]}
+{"town": "Port Sarim", "n_buildings": 13, "bbox_w": 68, "bbox_h": 88, "built_share": 0.119, "bldg_area_med": 51, "bldg_area_max": 136, "bldg_dims_med": "6x9", "nn_gap_med": 5.0, "path_share_outdoor": 0.133, "road_share_outdoor": 0.105, "water_share": 0.39, "h_p5_p95_tiles": [0.62, 2.56], "services": {"fishing_point": 1, "water_source": 1, "range": 1, "altar": 1, "beer_store": 1, "fishing_store": 1, "agility_training": 72, "food_store": 1, "jewlery_store": 1, "magic_store": 1, "axe_store": 1}, "centre": [3024, 3219]}
+{"town": "Rimmington", "n_buildings": 4, "bbox_w": 46, "bbox_h": 17, "built_share": 0.385, "bldg_area_med": 80, "bldg_area_max": 100, "bldg_dims_med": "7x14", "nn_gap_med": 2.0, "path_share_outdoor": 0.165, "road_share_outdoor": 0.165, "water_share": 0.01, "h_p5_p95_tiles": [1.31, 2.19], "services": {"water_source": 1, "range": 1, "general_store": 1, "crafting_store": 1}, "centre": [2948, 3210]}
+{"town": "Al Kharid", "n_buildings": 11, "bbox_w": 59, "bbox_h": 48, "built_share": 0.329, "bldg_area_med": 42, "bldg_area_max": 370, "bldg_dims_med": "6x8", "nn_gap_med": 4.0, "path_share_outdoor": 0.007, "road_share_outdoor": 0.0, "water_share": 0.0, "h_p5_p95_tiles": [0.62, 3.12], "services": {"water_source": 2, "range": 1, "general_store": 1, "bank_store": 1, "furnace": 1, "silk_store": 1, "gem_store": 1, "crafting_store": 1, "kebab_store": 1, "tanner_store": 1, "scimitar_store": 1, "skirts_store": 1, "platelegs_store": 1}, "centre": [3294, 3183]}
+{"town": "Barbarian Village", "n_buildings": 7, "bbox_w": 27, "bbox_h": 39, "built_share": 0.235, "bldg_area_med": 32, "bldg_area_max": 80, "bldg_dims_med": "6x6", "nn_gap_med": 2.0, "path_share_outdoor": 0.217, "road_share_outdoor": 0.217, "water_share": 0.0, "h_p5_p95_tiles": [1.69, 4.69], "services": {"fishing_point": 1, "mining_site": 2, "spinningwheel": 1, "beer_store": 1, "pottery": 1, "helmet_store": 1}, "centre": [3086, 3426]}
+{"town": "Edgeville", "n_buildings": 7, "bbox_w": 45, "bbox_h": 47, "built_share": 0.192, "bldg_area_med": 63, "bldg_area_max": 96, "bldg_dims_med": "7x9", "nn_gap_med": 5.0, "path_share_outdoor": 0.144, "road_share_outdoor": 0.047, "water_share": 0.038, "h_p5_p95_tiles": [1.5, 4.62], "services": {"rare_trees": 2, "water_source": 1, "general_store": 1, "bank_store": 1, "dungeonentrance": 1}, "centre": [3089, 3497]}
+{"town": "Tutorial Island", "n_buildings": 3, "bbox_w": 25, "bbox_h": 45, "built_share": 0.205, "bldg_area_med": 68, "bldg_area_max": 116, "bldg_dims_med": "7x11", "nn_gap_med": 6.0, "path_share_outdoor": 0.111, "road_share_outdoor": 0.0, "water_share": 0.0, "h_p5_p95_tiles": [2.06, 10.62], "services": {"fishing_point": 1, "range": 1}, "centre": [3085, 3103]}
+{"town": "Brimhaven", "n_buildings": 6, "bbox_w": 57, "bbox_h": 53, "built_share": 0.295, "bldg_area_med": 151, "bldg_area_max": 288, "bldg_dims_med": "10x17", "nn_gap_med": 3.0, "path_share_outdoor": 0.199, "road_share_outdoor": 0.0, "water_share": 0.101, "h_p5_p95_tiles": [0.31, 4.19], "services": {"water_source": 2, "range": 2, "beer_store": 1, "food_store": 1, "amulet_store": 1}, "centre": [2787, 3180]}
+{"town": "Catherby", "n_buildings": 9, "bbox_w": 42, "bbox_h": 42, "built_share": 0.197, "bldg_area_med": 31, "bldg_area_max": 63, "bldg_dims_med": "5x7", "nn_gap_med": 2.0, "path_share_outdoor": 0.336, "road_share_outdoor": 0.331, "water_share": 0.429, "h_p5_p95_tiles": [0.0, 2.17], "services": {"fishing_point": 1, "water_source": 2, "range": 2, "general_store": 1, "bank_store": 1, "fishing_store": 1, "agility_training": 14, "candle_store": 1, "archery_store": 1}, "centre": [2817, 3435]}
+{"town": "Seers Village", "n_buildings": 10, "bbox_w": 94, "bbox_h": 59, "built_share": 0.28, "bldg_area_med": 94, "bldg_area_max": 567, "bldg_dims_med": "9x12", "nn_gap_med": 3.0, "path_share_outdoor": 0.232, "road_share_outdoor": 0.157, "water_share": 0.05, "h_p5_p95_tiles": [1.25, 3.12], "services": {"rare_trees": 6, "fishing_point": 1, "water_source": 8, "range": 1, "altar": 1, "mining_site": 1, "bank_store": 1, "beer_store": 1, "anvil": 1}, "centre": [2736, 3488]}
+{"town": "East Ardougne", "n_buildings": 34, "bbox_w": 135, "bbox_h": 130, "built_share": 0.123, "bldg_area_med": 55, "bldg_area_max": 277, "bldg_dims_med": "6x10", "nn_gap_med": 3.0, "path_share_outdoor": 0.226, "road_share_outdoor": 0.134, "water_share": 0.101, "h_p5_p95_tiles": [1.12, 3.75], "services": {"water_source": 3, "range": 2, "altar": 1, "general_store": 1, "bank_store": 2, "beer_store": 1, "dungeonentrance": 2, "pottery": 1, "furnace": 1, "agility_training": 8, "plate_store": 1, "food_store": 2, "silk_store": 2, "silver_store": 1, "spice_store": 1, "fur_store": 1, "gem_store": 1}, "centre": [2619, 3298]}
+{"town": "Yanille", "n_buildings": 26, "bbox_w": 111, "bbox_h": 129, "built_share": 0.164, "bldg_area_med": 46, "bldg_area_max": 690, "bldg_dims_med": "6x8", "nn_gap_med": 0.5, "path_share_outdoor": 0.061, "road_share_outdoor": 0.05, "water_share": 0.051, "h_p5_p95_tiles": [1.44, 2.81], "services": {"water_source": 8, "range": 5, "mining_site": 1, "general_store": 2, "bank_store": 1, "beer_store": 2, "dungeonentrance": 3, "anvil": 1, "cooking_store": 1}, "centre": [2588, 3135]}
+{"town": "Taverley", "n_buildings": 10, "bbox_w": 39, "bbox_h": 61, "built_share": 0.193, "bldg_area_med": 41, "bldg_area_max": 105, "bldg_dims_med": "6x7", "nn_gap_med": 3.0, "path_share_outdoor": 0.323, "road_share_outdoor": 0.075, "water_share": 0.007, "h_p5_p95_tiles": [1.25, 4.06], "services": {"water_source": 1, "herbalist_store": 1, "sword_store": 1}, "centre": [2899, 3446]}
+{"town": "Burthorpe", "n_buildings": 1, "bbox_w": 14, "bbox_h": 14, "built_share": 0.571, "bldg_area_med": 112, "bldg_area_max": 112, "bldg_dims_med": "14x14", "nn_gap_med": null, "path_share_outdoor": 0.119, "road_share_outdoor": 0.0, "water_share": 0.0, "h_p5_p95_tiles": [1.88, 2.12], "services": {}, "centre": [2896, 3511]}
+{"town": "Port Khazard", "n_buildings": 27, "bbox_w": 141, "bbox_h": 149, "built_share": 0.117, "bldg_area_med": 40, "bldg_area_max": 690, "bldg_dims_med": "6x9", "nn_gap_med": 1.0, "path_share_outdoor": 0.068, "road_share_outdoor": 0.04, "water_share": 0.197, "h_p5_p95_tiles": [1.14, 3.56], "services": {"water_source": 8, "range": 6, "altar": 2, "mining_site": 2, "general_store": 3, "bank_store": 1, "beer_store": 2, "dungeonentrance": 3, "anvil": 2, "cooking_store": 1, "agility_training": 29}, "centre": [2603, 3145]}
+{"town": "Musa Point", "n_buildings": 4, "bbox_w": 70, "bbox_h": 19, "built_share": 0.221, "bldg_area_med": 68, "bldg_area_max": 95, "bldg_dims_med": "6x11", "nn_gap_med": 5.0, "path_share_outdoor": 0.246, "road_share_outdoor": 0.0, "water_share": 0.312, "h_p5_p95_tiles": [0.0, 3.75], "services": {"water_source": 1, "general_store": 1, "beer_store": 1, "agility_training": 29}, "centre": [2936, 3148]}
+
+== BUILDING SIZE (all surface): area pct {5: 9.0, 25: 25.0, 50: 44.0, 75: 78.0, 95: 232.8} short side {5: 3.0, 25: 4.0, 50: 6.0, 75: 8.0, 95: 17.0} long side {5: 3.0, 25: 6.0, 50: 8.0, 75: 12.0, 95: 24.9}
+  share area<=30: 0.34  31-80: 0.42  81-200: 0.18  >200: 0.06
+
+== TRAVEL between town centres: straight(euclid) / chebyshev / walked path tiles, walk s, run s
+  Lumbridge         -> Draynor Village   straight  140 cheb  135 path  133  walk   80s run   40s  detour 0.99
+  Lumbridge         -> Varrock           straight  219 cheb  218 path  225  walk  135s run   68s  detour 1.03
+  Lumbridge         -> Al Kharid         straight   78 cheb   66 path   71  walk   43s run   21s  detour 1.08
+  Draynor Village   -> Port Sarim        straight   80 cheb   69 path   88  walk   53s run   26s  detour 1.28
+  Port Sarim        -> Rimmington        straight   77 cheb   76 path   76  walk   46s run   23s  detour 1.00
+  Draynor Village   -> Falador           straight  142 cheb  108 path  163  walk   98s run   49s  detour 1.51
+  Falador           -> Barbarian Village straight  125 cheb  101 path  152  walk   91s run   46s  detour 1.50
+  Barbarian Village -> Varrock           straight  128 cheb  127 path  130  walk   78s run   39s  detour 1.02
+  Barbarian Village -> Edgeville         straight   71 cheb   71 path   71  walk   43s run   21s  detour 1.00
+  Varrock           -> Edgeville         straight  136 cheb  124 path  192  walk  115s run   58s  detour 1.55
+  Falador           -> Rimmington        straight  147 cheb  142 path  192  walk  115s run   58s  detour 1.35
+  Draynor Village   -> Varrock           straight  218 cheb  182 path  276  walk  166s run   83s  detour 1.52
+  Catherby          -> Seers Village     straight   97 cheb   81 path   81  walk   49s run   24s  detour 1.00
+  Seers Village     -> East Ardougne     straight  223 cheb  190 path  190  walk  114s run   57s  detour 1.00
+  Taverley          -> Burthorpe         straight   65 cheb   65 path   67  walk   40s run   20s  detour 1.03
+  Falador           -> Taverley          straight  127 cheb   94 path  130  walk   78s run   39s  detour 1.38
+
+== SLOPE bands, all surface land: {'flat<1/16': 0.222, 'gentle 1/16-1/4': 0.387, 'moderate 1/4-1/2': 0.252, 'steep 1/2-1': 0.082, 'cliff>1': 0.058}
+== ELEVATION per 64x64 square (p2-p98 range in tiles), 206 land squares: {10: 2.19, 25: 2.69, 50: 3.75, 75: 6.33, 90: 8.35, 100: 14.94}
+   biome grass  n= 18 range tiles {25: 2.58, 50: 3.12, 75: 4.73, 90: 7.25}
+   biome mud    n= 38 range tiles {25: 2.77, 50: 3.97, 75: 6.11, 90: 7.96}
+   biome desert n= 20 range tiles {25: 3.01, 50: 3.75, 75: 8.14, 90: 9.01}
+   biome rock   n= 33 range tiles {25: 3.88, 50: 6.31, 75: 7.44, 90: 8.58}
+   biome snow   n=  6 range tiles {25: 8.21, 50: 8.28, 75: 8.36, 90: 8.51}
+   steep(>=1/2 tile per tile) share per square {25: 0.08, 50: 0.12, 75: 0.2, 90: 0.28, 100: 0.48}
+   most relief: [('39_54', 'other', np.float64(14.94)), ('39_55', 'other', np.float64(13.94)), ('44_49', 'mud', np.float64(13.19)), ('46_54', 'grass', np.float64(12.94)), ('47_54', 'other', np.float64(12.44)), ('44_54', 'rock', np.float64(11.56)), ('46_59', 'rock', np.float64(10.32)), ('53_50', 'desert', np.float64(9.88))]
+   (height note: tiles without explicit height use a smooth noise band 10..60 h = 0.6..3.75 tiles)
+
+== TOWN relief (land within building bbox + 20 tile margin), tiles
+  Lumbridge         range p2-p98 3.19  max-min 3.75  steep share 0.125  flat share 0.24  slopes 
+  Draynor Village   range p2-p98 2.43  max-min 3.62  steep share 0.057  flat share 0.22  slopes 
+  Varrock           range p2-p98 2.44  max-min 4.81  steep share 0.078  flat share 0.33  slopes 
+  Falador           range p2-p98 3.94  max-min 5.69  steep share 0.096  flat share 0.29  slopes 
+  Port Sarim        range p2-p98 3.06  max-min 4.06  steep share 0.090  flat share 0.20  slopes 
+  Rimmington        range p2-p98 2.88  max-min 3.62  steep share 0.124  flat share 0.27  slopes 
+  Al Kharid         range p2-p98 3.12  max-min 9.44  steep share 0.104  flat share 0.33  slopes 
+  Barbarian Village range p2-p98 4.69  max-min 5.62  steep share 0.133  flat share 0.22  slopes 
+  Edgeville         range p2-p98 4.06  max-min 5.62  steep share 0.155  flat share 0.24  slopes 
+  Tutorial Island   range p2-p98 10.62  max-min 10.62  steep share 0.358  flat share 0.20  slopes 
+  Brimhaven         range p2-p98 10.50  max-min 13.44  steep share 0.222  flat share 0.33  slopes 
+  Catherby          range p2-p98 7.52  max-min 10.44  steep share 0.149  flat share 0.26  slopes 
+  Seers Village     range p2-p98 4.69  max-min 8.00  steep share 0.074  flat share 0.33  slopes 
+  East Ardougne     range p2-p98 3.38  max-min 4.69  steep share 0.112  flat share 0.31  slopes 
+  Yanille           range p2-p98 4.69  max-min 7.81  steep share 0.106  flat share 0.42  slopes 
+  Taverley          range p2-p98 8.00  max-min 11.31  steep share 0.188  flat share 0.30  slopes 
+  Burthorpe         range p2-p98 8.91  max-min 12.81  steep share 0.297  flat share 0.18  slopes 
+  Port Khazard      range p2-p98 4.69  max-min 7.81  steep share 0.129  flat share 0.38  slopes 
+  Musa Point        range p2-p98 3.75  max-min 3.88  steep share 0.140  flat share 0.26  slopes 
+== ROAD WIDTH stone road tiles=9299  width distribution: {1: 0.02, 2: 0.19, 3: 0.361, 4: 0.202, 5: 0.046, 6: 0.036, 7: 0.046, 8: 0.021, 9: 0.077}
+== ROAD WIDTH dirt path  tiles=16704  width distribution: {1: 0.082, 2: 0.182, 3: 0.14, 4: 0.115, 5: 0.067, 6: 0.058, 7: 0.053, 8: 0.033, 9: 0.271}
+== ROAD WIDTH any path   tiles=26003  width distribution: {1: 0.059, 2: 0.18, 3: 0.212, 4: 0.141, 5: 0.061, 6: 0.052, 7: 0.053, 8: 0.03, 9: 0.213}
+   path share of outdoor land: whole core 0.072
+
+== INLAND WATER bodies: 69  size pct {25: 16.0, 50: 37.0, 75: 74.0, 90: 406.6, 99: 6814.8}  ponds(<=150): 57  lakes(151-2000): 10  big(>2000): 2
+   inland water width (min run) pct: {10: 5.0, 25: 10.0, 50: 28.0, 75: 34.0, 90: 37.0}
+   bridge-deck tiles: 6471
+   bridges: 58  span/width (tiles): [(3, 1), (3, 2), (4, 1), (4, 2), (4, 3), (4, 4), (5, 2), (5, 5), (6, 1), (6, 2), (7, 1), (7, 2), (7, 3), (8, 2), (9, 1), (9, 2), (9, 3), (9, 4), (10, 1), (10, 4), (10, 6), (11, 2), (11, 9), (11, 10), (12, 3), (13, 3), (14, 1), (14, 3), (14, 4), (15, 1)]
+   water share of land squares median {25: 0.0, 50: 0.01, 75: 0.12, 90: 0.46}
+== FISHING SPOTS (surface): 87
+   dist to nearest path/road tiles {25: 9.7, 50: 15.5, 75: 39.0, 90: 58.68}
+   dist to nearest bank tiles {10: 19.0, 25: 28.5, 50: 55.0, 75: 92.0, 90: 159.4}
+   spots per cluster (<=8 tile link): {25: 1.0, 50: 2.0, 75: 4.0, 100: 17.0} clusters 29
+
+== TREES per 100 land tiles per square: {10: 0.0, 25: 0.45, 50: 1.46, 75: 2.9, 90: 3.92, 100: 14.36}
+   biome grass  {25: 1.0, 50: 1.56, 75: 1.76, 90: 4.08}
+   biome mud    {25: 1.6, 50: 2.74, 75: 3.66, 90: 5.31}
+   biome desert {25: 0.0, 50: 0.0, 75: 0.62, 90: 3.36}
+   biome rock   {25: 0.0, 50: 0.42, 75: 0.81, 90: 1.58}
+   biome snow   {25: 0.0, 50: 0.0, 75: 0.0, 90: 0.0}
+   trees per square abs: {25: 17.0, 50: 51.0, 75: 93.5, 90: 135.0, 100: 578.0}
+   fence segments per square: {25: 0.0, 50: 29.0, 75: 114.5, 90: 211.5, 100: 447.0}
+   nearest-neighbour tree spacing (tiles) {10: 1.0, 25: 1.41, 50: 2.24, 75: 3.16, 90: 5.0}
+   share of trees within 1.5 tiles of another tree (clumping): 0.25
+
+== CLUTTER within town bbox (+6 tiles)
+  Lumbridge         area  4880 trees  57 fence  236  outdoor {'flowers/plants': 112, 'gravestone': 19, 'sacks': 2, 'sign': 2, 'standing_torch': 2}  | indoor {'bench/table': 14, 'barrel': 5, 'crate': 5, 'flowers/plants': 3, 'gravestone': 8, 'standing_torch': 2}
+  Draynor Village   area  1792 trees  33 fence  100  outdoor {'flowers/plants': 13, 'stall': 2, 'bench/table': 1, 'crate': 4, 'barrel': 6, 'cart': 2, 'crops': 10}  | indoor {'standing_torch': 2, 'bench/table': 12, 'crate': 13, 'barrel': 10, 'flowers/plants': 1, 'sacks': 2, 'hay': 1}
+  Varrock           area 22983 trees 424 fence  767  outdoor {'flowers/plants': 274, 'rocks(mine)': 11, 'bench/table': 9, 'hay': 2, 'gravestone': 1, 'sacks': 4, 'crops': 6, 'stall': 5, 'cart': 4, 'crate': 12, 'barrel': 11, 'well': 1}  | indoor {'crate': 82, 'sacks': 4, 'bench/table': 118, 'gravestone': 10, 'flowers/plants': 3, 'barrel': 20, 'hay': 5, 'standing_torch': 5}
+  Falador           area 17052 trees 255 fence  579  outdoor {'flowers/plants': 270, 'rocks(mine)': 13, 'standing_torch': 15, 'bench/table': 14, 'well': 1, 'cart': 1, 'barrel': 3, 'gravestone': 4}  | indoor {'bench/table': 51, 'gravestone': 6, 'crate': 15, 'barrel': 3}
+  Port Sarim        area  8000 trees 128 fence   97  outdoor {'flowers/plants': 67, 'rocks(mine)': 4, 'barrel': 4}  | indoor {'bench/table': 19, 'crate': 12, 'sacks': 1, 'barrel': 13, 'standing_torch': 9}
+  Rimmington        area  1682 trees  16 fence   62  outdoor {'flowers/plants': 63, 'standing_torch': 2, 'bench/table': 3, 'well': 1}  | indoor {'bench/table': 15, 'barrel': 3, 'crate': 10, 'sacks': 2}
+  Al Kharid         area  4260 trees  17 fence  105  outdoor {'flowers/plants': 7, 'barrel': 4, 'stall': 2}  | indoor {'bench/table': 29, 'crate': 18, 'barrel': 2, 'flowers/plants': 1, 'sacks': 2}
+  Barbarian Village area  1989 trees  22 fence  194  outdoor {'cart': 1, 'standing_torch': 10, 'flowers/plants': 29, 'rocks(mine)': 9, 'gravestone': 3, 'barrel': 1}  | indoor {'barrel': 5, 'bench/table': 12, 'gravestone': 1, 'hay': 2, 'sacks': 3, 'crate': 1}
+  Edgeville         area  3363 trees  20 fence   98  outdoor {'flowers/plants': 45, 'well': 1, 'bench/table': 3, 'cart': 1, 'sign': 8}  | indoor {'crate': 20, 'bench/table': 8, 'sacks': 4, 'barrel': 4, 'hay': 9, 'standing_torch': 4}
+  Tutorial Island   area  2109 trees  61 fence  183  outdoor {'flowers/plants': 66, 'barrel': 1, 'rocks(mine)': 2}  | indoor {'bench/table': 5, 'barrel': 1, 'flowers/plants': 1}
+  Brimhaven         area  4485 trees 189 fence   83  outdoor {'flowers/plants': 37, 'bench/table': 4, 'barrel': 8, 'sacks': 2, 'well': 1, 'stall': 1, 'cart': 1}  | indoor {'gravestone': 4, 'sacks': 3, 'crate': 13, 'bench/table': 29, 'barrel': 19}
+  Catherby          area  2916 trees  17 fence  100  outdoor {'flowers/plants': 58, 'crate': 1, 'barrel': 1, 'gravestone': 5}  | indoor {'barrel': 9, 'bench/table': 18, 'flowers/plants': 2, 'crate': 5}
+  Seers Village     area  7526 trees 128 fence  245  outdoor {'flowers/plants': 278, 'cart': 1, 'gravestone': 8, 'hedge': 89, 'bench/table': 4}  | indoor {'bench/table': 44, 'crate': 12, 'barrel': 7, 'flowers/plants': 49}
+  East Ardougne     area 20874 trees 361 fence 1729  outdoor {'flowers/plants': 325, 'bench/table': 12, 'cart': 5, 'sacks': 2, 'barrel': 22, 'crate': 12, 'gravestone': 61, 'rocks(mine)': 19, 'crops': 231, 'well': 1, 'hay': 28, 'standing_torch': 9, 'sign': 2, 'stall': 16}  | indoor {'bench/table': 70, 'barrel': 19, 'sacks': 5, 'crate': 25, 'gravestone': 7, 'flowers/plants': 10, 'standing_torch': 4}
+  Yanille           area 17343 trees 285 fence  448  outdoor {'flowers/plants': 396, 'hedge': 516, 'bench/table': 29, 'barrel': 13, 'sacks': 5, 'cart': 6, 'rocks(mine)': 34, 'crate': 2, 'gravestone': 8, 'sign': 10, 'hay': 18}  | indoor {'crate': 37, 'barrel': 18, 'bench/table': 72, 'hedge': 17, 'flowers/plants': 10}
+  Taverley          area  3723 trees  18 fence  292  outdoor {'bench/table': 14, 'flowers/plants': 162, 'crops': 12, 'hedge': 88, 'standing_torch': 3, 'gravestone': 1}  | indoor {'bench/table': 17, 'flowers/plants': 11, 'crate': 3}
+  Burthorpe         area   676 trees   3 fence   18  outdoor {}  | indoor {}
+  Port Khazard      area 24633 trees 371 fence  502  outdoor {'flowers/plants': 482, 'hedge': 516, 'bench/table': 31, 'barrel': 21, 'sacks': 6, 'cart': 10, 'gravestone': 10, 'rocks(mine)': 50, 'crate': 4, 'sign': 10, 'hay': 18}  | indoor {'crate': 37, 'barrel': 21, 'bench/table': 79, 'hedge': 17, 'flowers/plants': 10}
+  Musa Point        area  2542 trees  77 fence   69  outdoor {'flowers/plants': 24, 'well': 1, 'bench/table': 2, 'crate': 1}  | indoor {'barrel': 7, 'bench/table': 3, 'sacks': 1, 'crate': 1, 'gravestone': 1, 'standing_torch': 3}
+
+== LADDERS/TRAPDOORS/CAVES on level 0: 64  indoor share 0.45
+   outdoor ones dist to path {25: 2.0, 50: 7.0, 75: 71.45, 90: 131.32}
+   dungeon icons: 21
+   dungeon icon: (dist to path, dist to nearest town centre, max local slope) [(0.0, 29, 0.0), (0.0, 29, 0.62), (1.0, 61, 1.25), (2.2, 72, 5.94), (3.0, 67, 0.12), (3.0, 81, 0.0), (3.2, 49, 2.0), (3.2, 72, 2.06), (6.0, 59, 0.0), (8.5, 79, 0.12), (12.4, 72, 0.38), (15.0, 22, 0.0), (17.5, 51, 0.56), (19.2, 103, 0.0), (26.4, 71, 1.44), (41.0, 71, 2.25), (43.8, 59, 0.0), (67.1, 89, 3.44), (95.6, 359, 1.94), (126.0, 360, 1.5), (175.5, 429, 0.19)]
+
+== WILDERNESS EDGE (z=3520, x 2944..3391)
+   locs near edge (name, shape, z): top [(('grass_light_1', 22, 3521), 37), (('grass_light_1', 22, 3522), 31), (('grass_light_2', 22, 3521), 30), (('grass_light_1', 22, 3523), 30), (('grass_light_2', 22, 3522), 26), (('fencing', 0, 3518), 26), (('grass_light_1', 22, 3516), 25), (('grass_light_2', 22, 3523), 22), (('grass_light_1', 22, 3518), 21), (('grass_light_1', 22, 3520), 19), (('grass_light_1', 22, 3517), 16), (('grass_light_2', 22, 3516), 15), (('grass_light_2', 22, 3517), 14), (('oldcastlewall', 0, 3519), 14), (('grass_light_3', 22, 3521), 13), (('grass_light_3', 22, 3522), 13), (('grass_light_1', 22, 3519), 11), (('grass_light_2', 22, 3520), 11), (('broken_twig', 22, 3523), 10), (('tree', 10, 3518), 9), (('dugupsoil1_light', 22, 3517), 8), (('broken_twig', 22, 3517), 8), (('broken_twig', 22, 3516), 7), (('grass_light_2', 22, 3518), 7), (('dugupsoil2_light', 22, 3520), 7)]
+   z=3500 land 444  path 79  water 4  trees 8  mean h 3.64 tiles
+   z=3510 land 446  path 95  water 2  trees 10  mean h 3.56 tiles
+   z=3515 land 446  path 92  water 2  trees 6  mean h 3.62 tiles
+   z=3518 land 446  path 49  water 2  trees 18  mean h 3.62 tiles
+   z=3519 land 446  path 34  water 2  trees 5  mean h 3.64 tiles
+   z=3520 land 445  path 33  water 3  trees 2  mean h 3.61 tiles
+   z=3521 land 444  path 26  water 4  trees 10  mean h 3.54 tiles
+   z=3525 land 445  path 29  water 3  trees 14  mean h 3.31 tiles
+   z=3540 land 445  path 108  water 3  trees 3  mean h 3.34 tiles
+   south band 3456-3519   trees/100 1.58  path share 0.152  indoor share 0.078  steep 0.159  relief p2-98 8.50 tiles  water 0.008
+   wild 1-10 3520-3599    trees/100 2.06  path share 0.082  indoor share 0.000  steep 0.136  relief p2-98 8.00 tiles  water 0.003
+   wild 20-30 3680-3759   trees/100 2.74  path share 0.008  indoor share 0.007  steep 0.122  relief p2-98 8.62 tiles  water 0.007
+   deep 40+ 3840-3967     trees/100 0.76  path share 0.000  indoor share 0.008  steep 0.155  relief p2-98 8.94 tiles  water 0.098

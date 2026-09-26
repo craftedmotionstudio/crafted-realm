@@ -1,0 +1,76 @@
+== TUTOR'S HOLM (live Sept 13 terrain, 144x128 lattice)
+dry tiles 11660 creek tiles 255 bbox x 8 135 z 9 122 w 128 h 114
+heights (tiles) pct {
+  '0': -0.43,
+  '5': 0.83,
+  '25': 2.14,
+  '50': 3.74,
+  '75': 5.88,
+  '95': 8.01,
+  '100': 14.03
+}
+1-tile band shares [
+  0.058, 0.071, 0.256,
+  0.161, 0.123, 0.094,
+  0.088, 0.055, 0.055,
+  0.005, 0.005, 0.004,
+  0.005, 0.008, 0.013
+]
+slope bands: flat<1/16 0.279 gentle 0.366 moderate 0.171 steep 0.134 cliff>1 0.05
+max single-tile rise 5.19
+  dist from shore 0-2 mean h 0.76 p10/p90 {"10":0.08,"90":1.47} n 762
+  dist from shore 2-5 mean h 2.96 p10/p90 {"10":1.24,"90":5.98} n 1112
+  dist from shore 5-10 mean h 4.14 p10/p90 {"10":2,"90":8} n 1766
+  dist from shore 10-20 mean h 4.83 p10/p90 {"10":2,"90":8} n 3116
+  dist from shore 20-40 mean h 4.79 p10/p90 {"10":2.49,"90":7.95} n 4036
+relief per 32x32 block (p2-p98, tiles) 7 2.47 6.93 4.16 3.88 3.51 7.76 4.23 2.54 4.03 13.73 11.19 5.07 2.52
+
+== BUILDINGS (plan footprints)
+  landing   8x5 area 40  pad h 1  nearest other building gap 12
+  guide     12x10 area 120  pad h 3  nearest other building gap 12
+  survival  12x10 area 120  pad h 2  nearest other building gap 8
+  kitchen   11x8 area 88  pad h 4  nearest other building gap 8
+  quest     10x8 area 80  pad h 5  nearest other building gap 8
+  mine      10x8 area 80  pad h 7  nearest other building gap 10
+  keep      20x18 area 360  pad h 8  nearest other building gap 9
+  bank      11x8 area 88  pad h 6  nearest other building gap 9
+  mage      12x11 area 132  pad h 6  nearest other building gap 11
+  lastlight 10x10 area 100  pad h 14  nearest other building gap 19
+  ferry     9x6 area 54  pad h 1  nearest other building gap 37
+
+== ROUTE legs (8-dir BFS over dry tiles + bridge decks, pad centre to pad centre)
+  landing   -> guide      19 tiles  walk 11s run 6s  pad h 1 -> 3   (Bram (guide house))
+  guide     -> survival   35 tiles  walk 21s run 11s  pad h 3 -> 2   (Wenna (survival camp))
+  survival  -> kitchen    17 tiles  walk 10s run 5s  pad h 2 -> 4   (Hettie (bakehouse))
+  kitchen   -> quest      16 tiles  walk 10s run 5s  pad h 4 -> 5   (Ansel (quest lodge))
+  quest     -> mine       18 tiles  walk 11s run 5s  pad h 5 -> 7   (Durgin (quarry gate))
+  mine      -> keep       51 tiles  walk 31s run 15s  pad h 7 -> 8   ((cavern, back up same shaft) -> Corrick (keep))
+  keep      -> bank       22 tiles  walk 13s run 7s  pad h 8 -> 6   (Maud (bank))
+  bank      -> mage       28 tiles  walk 17s run 8s  pad h 6 -> 6   (Ilse (mage))
+  mage      -> lastlight  32 tiles  walk 19s run 10s  pad h 6 -> 14   (Aldous (Lastlight))
+  lastlight -> ferry      77 tiles  walk 46s run 23s  pad h 14 -> 1   (Tobin (haven))
+  surface total 315 tiles 189s walk 95s run
+  guide->survival without bridges would be 130 tiles
+
+== PATHS: path tiles 756 (worn centre 751) share of dry land 0.065 centre-only share 0.064
+  worn path width distribution {"1":0.04,"2":0.783,"3":0.037,"4":0.017,"5":0.008,"6":0.009,"7":0.011,"8":0.031,"9":0.064}
+
+== VEGETATION: placements 526 trees 94 trees/100 dry tiles 0.81
+  tree nearest-neighbour spacing {"10":2.9,"25":3.66,"50":4.5,"75":6.4,"90":7.61} clumped share(<=1.5) 0.00
+  by asset {"oak":59,"birch":21,"coastal-pine":14,"meadow-tuft":123,"creek-reeds":8,"shrub-b":69,"flower-patch":97,"rock-group":34,"stones-small":24,"fallen-log":16,"shrub-a":59,"signpost":2}
+
+== LANDMARK distances (straight tiles)
+  landing      0  20  45  54  72  89  87  66  80 110  65
+  guide       20   0  38  39  57  72  67  47  63  91  58
+  survival    45  38   0  21  33  51  74  61  87 107  95
+  kitchen     54  39  21   0  18  35  54  43  71  87  88
+  quest       72  57  33  18   0  18  53  50  78  89 102
+  mine        89  72  51  35  18   0  51  55  82  85 112
+  keep        87  67  74  54  53  51   0  22  35  35  77
+  bank        66  47  61  43  50  55  22   0  28  47  60
+  mage        80  63  87  71  78  82  35  28   0  33  46
+  lastlight  110  91 107  87  89  85  35  47  33   0  77
+  ferry       65  58  95  88 102 112  77  60  46  77   0
+
+== CREEK: points 14 water line from 5.2 to 0 width 2.4 bank 2.5 depth 0.8
+  length 108 tiles, mean fall 0.048 per tile

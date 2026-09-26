@@ -1,0 +1,25 @@
+== HOLM v2 PROPOSAL (sketch evaluator)
+dry tiles 11621 pond tiles 40 creek tiles 253
+heights pct {"0":-0.73,"5":0.81,"25":1.6,"50":3.54,"75":6.71,"95":11,"100":17.5}
+1-tile band shares [0.072,0.271,0.117,0.085,0.095,0.067,0.059,0.064,0.031,0.037,0.016,0.048,0.002,0.004,0.005,0.004,0.005,0.019]
+slope bands: flat 0.24 gentle 0.277 moderate 0.163 steep 0.191 cliff>1 0.128  (walk limit 1.05: share above 0.118)
+relief per 32x32 block 9.3 4.2 9 7.8 4.7 4.6 10.9 8.7 4.1 4.4 17.3 15.2 6.6 2.4  median 7.8
+pond bbox 23 31 93 99 water level 1.25 ground 4-6 tiles from water: pct {"10":1.82,"50":3.4,"90":4}
+site heights {"landing":0.96,"guide":4.4,"survival":4,"fire beach":1.55,"pond centre":0.98,"kitchen":5.4,"garden terrace":5.4,"mill":3.43,"wheel (creek below weir)":1.29,"quest":6.4,"mine":9,"keep":11,"creek under keep (66,37)":4.42,"bank":7,"mage":7.6,"lastlight":17.5,"beacon cove":1,"old haven site":1.12,"farm":2.4,"timber bridge site":0.68,"stone bridge site":2.72}
+cliff tiles: within 3 of sea 424  inland 1065
+
+== v2 ROUTE (slope-limited BFS, pad centres)
+  landing                -> guide (Bram)            19 tiles  walk 11s  height 1.0 -> 4.4 (+3.4)
+  guide (Bram)           -> survival camp (Wenna)   35 tiles  walk 21s  height 4.4 -> 4.0 (-0.4)
+  survival camp (Wenna)  -> fire beach / pond       16 tiles  walk 10s  height 4.0 -> 1.7 (-2.3)
+  fire beach / pond      -> bakehouse (Hettie)      33 tiles  walk 20s  height 1.7 -> 5.4 (+3.7)
+  bakehouse (Hettie)     -> garden terrace          6 tiles  walk 4s  height 5.4 -> 5.4 (+0.0)
+  garden terrace         -> quest lodge (Ansel)     15 tiles  walk 9s  height 5.4 -> 6.4 (+1.0)
+  quest lodge (Ansel)    -> quarry gate (Durgin)    14 tiles  walk 8s  height 6.4 -> 9.0 (+2.6)
+  quarry gate (Durgin) -> cave: underground mine, furnace, anvil, then the new exit ladder into the keep undercroft
+  keep court (Corrick)   -> bank (Maud)             17 tiles  walk 10s  height 11.0 -> 7.0 (-4.0)
+  bank (Maud)            -> mage (Ilse)             28 tiles  walk 17s  height 7.0 -> 7.6 (+0.6)
+  mage (Ilse)            -> Lastlight (Aldous)      39 tiles  walk 23s  height 7.6 -> 17.5 (+9.9)
+  Lastlight (Aldous)     -> beacon stair head       16 tiles  walk 10s  height 17.5 -> 13.2 (-4.3)
+  + beacon stair structure to the cove ~12 tiles; surface total 250 tiles ( 150 s walk )
+  reach without bridges: guide->survival 130
