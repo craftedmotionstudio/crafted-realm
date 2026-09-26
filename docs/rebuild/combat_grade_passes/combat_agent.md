@@ -224,3 +224,9 @@ Between the level points (`pass4/sweep_pass4_between.txt`, 60 fights, food), sta
 | 20 | online | graded by the online agent's run |
 
 Total pass 4: **9.25 / 10** = every offline criterion at 0.5; the remaining 0.75 is online (15's online half, 20).
+
+Gates on the pass-4 tree (2026-09-26): every `tools/test_*.js` PASS; `npm run test:server` 78/78;
+`tools/run_smoke_headless.js` PASS (visible and hidden boot; an earlier attempt timed out at boot while the machine sat
+at 99% CPU from other agents' browsers, the retry passed with boot 2.1 s); `tools/qa_holm_combat_numbers.js` PASS (live =
+headless); `tools/qa_combat_pvm.js` 40/40; `tools/qa_holm_island_playthrough.js 2`: 2/2 runs, 18/18 lessons, 10/10
+tutors, 0 page errors (14.1 and 11.3 min).
