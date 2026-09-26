@@ -145,3 +145,83 @@ skull / pile-pickup checks of 10 duels failed on test logic (below). Measured ov
   predator / prey rule; the death pile is the killer's private stacks on the death tile (arrows merge into an older
   stack); the pick-up waits for that pile only; far walks are re-clicked; a special attack through a weapon switch;
   reach per style.
+
+---
+
+## Pass 3 (2026-09-26, full run after the pass 2 fixes)
+
+Run: `online_evidence/pass3/online_report.json` + `run.log` (18 of 20 scenarios ran; the report's end-of-run block is
+missing because the driver crashed on a logged-out page, below), strips `pass3/strip_{pvp,pvm}_{melee,ranged,magic}.jpg`,
+screens `pass3/screen_pvp_1538x900.jpg`, `screen_pvp_phone.jpg`. A focused PvM re-run before it
+(`--only pvm-magic-skeleton,pvm-melee-moss_seer,pvm-magic-cinder_shade`) measured the movement fix: the busiest page's
+replay backlog fell from 48 steps to 4, catch-up sprints from 991 to 0.
+
+**Passed: 15.** All three single-style duels (melee, ranged, magic), all ten PvM fights (every style against every
+monster, protection prayers blocking every monster hit, loot shown 3.7-4.6 s after the kill: the death clip and the
+sink, then the pile), `pvp-melee-swapped`, `pvp-ranged-swapped` (Protect Item: 4 kept).
+
+- **Every splat tied to its swing or projectile:** 1278 splats over the three pages: 656 on a projectile, 282 on a
+  same-tick swing, 340 on a next-tick swing (the PID rule); **0 untimed, 0 late**. Pass 2 had 9 untimed in one duel
+  and 4 late spells.
+- **Splats = server hits on all three pages** in every duel that ran (e.g. pvp-ranged 70/70/70/70 and 71/71/71/71).
+- **Kept on death = the preview** in every death (0 skulled, 3, 4 with Protect Item); the death screen names the killer.
+- **Reach:** melee attackers adjacent 100% of samples, ranged and magic at range 100%.
+- **Switching (real UI clicks):** style 0.4-0.6 ticks, prayer 0.71-0.96, a bite 1.14-1.16 (next tick).
+- **Duels between equal kits:** 71-223 s (median 131 s).
+
+**Failed: 3, not run: 2.**
+
+1. `pvp-ranged-vs-melee` - **a real bug:** a bow's special attack spent its energy but its swing was not flagged
+   `spec` (only melee specials were), so no client could play the special draw. Fixed in `server/engine/combat.js`
+   (ranged on monsters and players), test in `server/test/online_w2.test.js`.
+2. `pvp-melee-vs-magic` - driver: `kitUp` treated "already holding the kit's weapon" as "has the kit", so the defender
+   was sent to the duel while their client was still walking to the chest for fresh food. The driver now waits for the
+   server's own record of a new kit.
+3. `pvp-magic-vs-ranged` - driver: the winner ate after the last blow and the observer still showed the hitpoints of
+   that blow. That is the 2004 rule (someone else's hitpoints travel only with a hit), so the check now accepts either
+   the server's hitpoints or those of the last hit.
+4. `pvp-reconnect` hit the same kit fault as 2: with no fight running, the "logout refused" check logged the adventurer
+   out for real, and the last two scenarios found no game on that page. The driver now logs a page back in before each
+   scenario and ends a reconnect check early when nothing holds the adventurer.
+
+Also fixed after pass 3: **the ticks keep a background tab logged in** (`src/net_client.js`). After 5 minutes hidden,
+Chrome holds a tab's timers to one wake-up a minute, which would stretch the 10 s ping past the server's 60 s silence
+limit; socket messages still arrive, so a tick is now answered with a ping when nothing went out for 10 s (test in
+`tools/test_online_client.js`). A breath (the bestiary wyrmling's) now flies orange.
+
+| # | Criterion | Score | Notes |
+|---|---|---|---|
+| 1 | Accuracy | 0.5 | pass 2's live z = -0.3 over 1232 rolls stands; no formula changed |
+| 2 | Max hit, 0..max | 0.5 | as pass 2; protected caps held in every duel (4/4, 4/4, 6/6, 3/4) |
+| 3 | Attack speeds | 0.5 | as pass 2 (focused re-run: staff 23/23 gaps of 5, longsword 6/6 of 5, monsters 27/27 of 4, 6/6 of 5) |
+| 4 | Hit delays, splat on arrival | 0.5 | 0 untimed, 0 late of 1278 splats; projectile hits on the predicted tick |
+| 5 | Retaliation, single-way | 0.5 | every defender retaliated; third adventurer refused |
+| 6 | Eating | 0.5 | bite on the next tick, +3 on the attack clock |
+| 7 | Prayers | 0.5 | monsters fully blocked (every hit 0), players capped at 60%, Protect Item +1 |
+| 8 | PvP rules | 0.5 | skull by the 2004 predator rule, level range menu, kept 0/3/4 = preview, private pile |
+| 9 | PvM rules | 0.5 | 10/10 PvM: aggression, XP per style, private drop shown after the sink, bones picked up |
+| 10 | Animations, impact frame | 0.5 | same-tick duel swings now all shown (282 same-tick matches, 0 untimed) |
+| 11 | Projectiles, misses | 0.5 | 656 projectile splats, 0 late; splashes read |
+| 12 | Readability | 0.5 | desktop and phone screens |
+| 13 | Death reads | 0.5 | every monster's loot appears once its body has sunk; own death screen explains kept / killer |
+| 14 | Controls | 0.5 | reach 100% per style, left-click attack, switches next tick |
+| 15 | 8-direction, no rubber band | 0.5 | backlog 48 -> 4 steps, no catch-up sprints (focused re-run); every page agreed on every tile |
+| 16 | Weapon variety, specials | 0.25 | sword special fires and shows; the bow special's swing was unflagged (fixed after this pass) |
+| 17 | Monster variety | 0.25 | the playable map still has no ranged monster; the bestiary (below) brings one |
+| 18 | PvP tension | 0.5 | duels 71-223 s, food and prayer decided several |
+| 19 | Balance | 0.25 | kit matchups 46-58% (sim); tier tables are the combat agent's |
+| 20 | Online robustness | 0.25 | 0 desyncs, 0 double or lost hits in every duel that ran; but 5 scenarios failed or never ran (driver faults) |
+
+**Pass 3 total: 8.75 / 10.** Owned criteria (4, 5, 7, 8, 10-15, 18, 19 kits, 20): 6.0 / 6.5 = **9.2 / 10**.
+
+### The Scarlands bestiary, dropped in read-only
+
+`online_evidence/bestiary_dropin/` (`lineup.jpg`, `strip_archer.jpg`, `strip_mage.jpg`, `strip_wyrmling.jpg`,
+`result.json`): the live tree's bestiary v1 (manifest + GLBs) served locally and its `npcType` blocks injected in memory
+(nothing in this branch or the live tree changed); one adventurer with the ranged kit fights each creature alone to its
+death. All six creatures load (one mixer each, 0 failures, 0 page errors). Raider archer: 11 arrows on us, all tied to
+their projectiles; ember mage: 5 bolts, all tied; cinder wyrmling (2x2): 7 melee blows tied to its swings and 3 breaths
+(every third attack, magic-rolled), 0 late, 0 untimed; each death plays its clip, sinks, and the drop appears. When the
+bestiary merge lands, criterion 17 has its ranged and magic monsters and a boss-like foe with a telegraphed breath.
+Note for the bestiary: the wyrmling's head reaches over the adjacent tile (the model is about 3.5 tiles long on a 2x2
+footprint), so it covers a melee fighter standing north of it.
