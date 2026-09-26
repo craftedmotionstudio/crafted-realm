@@ -111,7 +111,7 @@ var OnlineFX=(function(){
    var kind=f.k==='arrow'?'arrow':'magic',off=OnlineTiming.landingOffset(who(att),who(tgt),f.d),landSec=off*TICK;
    var release=impactOf(att,kind==='arrow'?'bow':f.k==='breath'?'breath':'cast'),flight=OnlineTiming.flightTime(kind,dist(att,tgt));
    var plan=OnlineTiming.projectilePlan(landSec,release,flight);if(plan.late>0.05){stats.late++;lateLog.push({n:n,from:f.from,to:f.to,d:f.d,off:off,dist:+dist(att,tgt).toFixed(2),release:+release.toFixed(3),flight:+flight.toFixed(3)});if(lateLog.length>40)lateLog.shift()}
-   var p={att:att,tgt:tgt,kind:kind,landTick:n+off,start:plan.start,release:plan.release,speed:plan.speed,arriveAt:now()+plan.arrive,splash:!!f.splash,sp:f.sp||null,hits:[],f:null,done:false,born:n};
+   var p={att:att,tgt:tgt,kind:kind,landTick:n+off,start:plan.start,release:plan.release,speed:plan.speed,arriveAt:now()+plan.arrive,splash:!!f.splash,sp:f.sp||null,tint:f.k==='breath'?0xff5a14:null,hits:[],f:null,done:false,born:n};
    projectiles.push(p);stats.projectiles++;plans[refOf(att).join(':')]=p;
    (function(p){schedule(p.start,function(){launch(p)})})(p);
   }
@@ -142,7 +142,7 @@ var OnlineFX=(function(){
  }
  function launch(p){
   var ao=obj(p.att),to=obj(p.tgt);if(!ao||!to||typeof CombatFX==='undefined'){p.done=true;return}
-  var tint=null;if(p.sp&&typeof SPELLS!=='undefined'&&SPELLS[p.sp]&&SPELLS[p.sp].color!=null)tint=SPELLS[p.sp].color;
+  var tint=p.tint;if(p.sp&&typeof SPELLS!=='undefined'&&SPELLS[p.sp]&&SPELLS[p.sp].color!=null)tint=SPELLS[p.sp].color;   // a breath burns orange
   p.f=CombatFX.launch(p.kind,ao,to,{dmg:p.splash?0:1,tint:tint,spell:p.sp,release:p.release});
   p.arriveAt=now()+p.release+OnlineTiming.flightTime(p.kind,dist(p.att,p.tgt));
   // hits that arrived before the launch (a late tick) wait for the visual like any other
