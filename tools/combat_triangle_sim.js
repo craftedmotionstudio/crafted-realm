@@ -18,7 +18,7 @@ fs.readFileSync=function(p,...a){const s=rf.call(fs,p,...a);
   return s};
 const {fieldWorld,addPlayer}=require('../server/test/helpers');
 const G=require('../server/content/GameData.js').load();const SPELLS=G.SPELLS,ITEMS=G.ITEMS;
-fs.readFileSync=rf;
+// (the hook stays: the engine loads its own copy of the content when a world is built)
 const N=+(process.argv[2]||100),LEVELS=(process.argv[3]||'25,40,60').split(',').map(Number),VARS=(process.argv[4]||'food').split(',');
 const TIERS=[['bronze',1],['iron',5],['steel',10],['whitsteel',15],['aurel',20],['veyrite',30],['undercrag',40]];
 const tierFor=L=>TIERS.filter(t=>t[1]<=L).pop()[0];
