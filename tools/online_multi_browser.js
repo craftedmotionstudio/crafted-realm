@@ -137,7 +137,10 @@ async function kitUp(c, kit) {
   const s0 = await c.state();
   await c.q((k) => CROnlineQA.kit(k), kit);
   const want = { melee: 'steel_longsword', ranged: 'gale_longbow', magic: 'storm_staff' }[kit];
-  await c.until((s) => s.equip.weapon === want && s.ui.set.run !== undefined, 150000, 'kit ' + kit);
+  await c.until((s) => s.equip.weapon === want && s.ui.set.run !== undefined, 150000, 'kit ' + kit).catch(async (e) => {
+    const p = sp(c.name), s = await c.state();
+    throw new Error(e.message + ' ' + JSON.stringify({ at: p && [p.x, p.z], tick: world.tick, lockUntil: p && p.preventLogoutUntil, target: p && p.target && (p.target.nid != null ? 'n' + p.target.nid : 'p' + p.target.pid), hp: p && p.hp, waypoints: p && p.path.length, chat: s.chat.slice(-5) }));
+  });
   await c.q(() => CROnlineQA.send({ t: 'run', on: true }));
   return s0;
 }
