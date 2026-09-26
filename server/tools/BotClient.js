@@ -26,11 +26,17 @@ class BotClient {
       this.ws.on('open', resolve);
       this.ws.on('error', reject);
       this.ws.on('message', (d) => this.onMessage(JSON.parse(d.toString())));
-      this.ws.on('close', () => { this.closed = true; this.check(); });
+      this.ws.on('close', () => { this.closed = true; if (this.keepAlive) clearInterval(this.keepAlive); this.check(null); });
     });
   }
   send(obj) { if (this.ws && this.ws.readyState === 1) this.ws.send(JSON.stringify(obj)); }
-  close() { if (this.ws) this.ws.close(); }
+  close() { if (this.keepAlive) clearInterval(this.keepAlive); this.keepAlive = null; if (this.ws) this.ws.close(); }
+  /** clients must say something at least every 60 s of ticks (100 ticks) or be logged out; ping every 20 ticks */
+  startKeepAlive(tickMs) {
+    if (this.keepAlive) clearInterval(this.keepAlive);
+    this.keepAlive = setInterval(() => this.send({ t: 'ping', n: this.tick }), Math.max(50, tickMs * 20));
+    if (this.keepAlive.unref) this.keepAlive.unref();
+  }
 
   onMessage(m) {
     this.log.push(m.t);
@@ -73,16 +79,16 @@ class BotClient {
     if (m.msg) for (const x of m.msg) this.messages.push(x[1]);
     if (m.fx) this.fx.push(...m.fx);
   }
-  /** resolve with the first message for which pred(msg, bot) is truthy */
-  waitFor(pred, timeoutMs, label) {
+  /** resolve with the first FUTURE message for which pred(msg, bot) is truthy */
+  waitFor(pred, timeoutMs, label, checkNow) {
     return new Promise((resolve, reject) => {
       const w = { pred, resolve, timer: setTimeout(() => { this.waiters = this.waiters.filter((x) => x !== w); reject(new Error(`${this.name}: timeout waiting for ${label || 'condition'} (tick ${this.tick})`)); }, timeoutMs || 10000) };
       this.waiters.push(w);
-      this.check(this.last);
+      if (checkNow) this.check(null);
     });
   }
-  /** wait until pred(bot) holds after some message */
-  until(pred, timeoutMs, label) { return this.waitFor(() => pred(this), timeoutMs, label); }
+  /** wait until pred(bot) holds (checked now and after every message) */
+  until(pred, timeoutMs, label) { return this.waitFor(() => pred(this), timeoutMs, label, true); }
   check(m) {
     for (const w of this.waiters.slice()) {
       let ok = false;
@@ -92,7 +98,12 @@ class BotClient {
   }
 
   /* ---- protocol helpers ---- */
-  async hello() { this.send({ t: 'hello', v: Protocol.VERSION, client: 'bot' }); return this.waitFor((m) => m && m.t === 'hello', 5000, 'hello'); }
+  async hello() {
+    this.send({ t: 'hello', v: Protocol.VERSION, client: 'bot' });
+    const m = await this.waitFor((x) => x && x.t === 'hello', 5000, 'hello');
+    this.startKeepAlive(m.tickMs);
+    return m;
+  }
   async register(user, pass) {
     this.send({ t: 'register', user, pass });
     const m = await this.waitFor((x) => x && (x.t === 'register_ok' || x.t === 'auth_fail'), 10000, 'register');
