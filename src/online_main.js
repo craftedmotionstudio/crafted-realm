@@ -48,6 +48,7 @@ var OnlineMain=(function(){
  (function rafMark(){lastRaf=performance.now();requestAnimationFrame(rafMark)})();
  function onlineUpdate(dt){
   if(!st.entered){return}
+  st.updates=(st.updates||0)+1;
   // a hidden or occluded page is stepped by the game's timer heartbeat, which skips the combat layer: step it here so
   // splats expire, bodies sink and their loot appears on time even while nobody is looking
   if(performance.now()-lastRaf>250&&typeof CombatFX!=='undefined'&&CombatFX.update)CombatFX.update(dt);
@@ -271,6 +272,11 @@ var OnlineMain=(function(){
   screenOf:function(kind,id){var o=null;if(kind==='player'){var e=OnlineActors.players().get(id);o=e&&e.root}else if(kind==='npc'){var n=OnlineActors.npcs().get(id);o=n&&n.rec.mesh}else if(kind==='me')o=player;if(!o)return null;
    var v=new THREE.Vector3();o.getWorldPosition(v);v.y+=1;v.project(camera);return {x:(v.x+1)/2*innerWidth,y:(1-v.y)/2*innerHeight}},
   fxLog:function(){return OnlineFX.log()},
+  /** why a monster's loot is still hidden: the bodies still falling or sinking, and the frame clocks */
+  debugLoot:function(){var A=OnlineActors.st,out={now:performance.now(),lastRafAgo:Math.round(performance.now()-lastRaf),updates:st.updates,corpses:[],dying:[],hidden:[]};
+   A.corpses.forEach(function(c){var d=c.rec.mesh.userData.death;out.corpses.push({nid:c.id,tile:c.tile,dying:c.rec.dying,death:d?{t:+d.t.toFixed(2),wait:!!d.wait,dur:d.dur}:null})});
+   A.npcs.forEach(function(e){if(e.rec.dying||e.rec.dead){var d=e.rec.mesh.userData.death;out.dying.push({nid:e.id,tile:e.tile,dying:e.rec.dying,dead:e.rec.dead,death:d?{t:+d.t.toFixed(2),wait:!!d.wait}:null})}});
+   A.objs.forEach(function(r){if(r.mesh.userData._cfxHide)out.hidden.push({uid:r.uid,id:r.id,x:r.x,z:r.z})});return out},
   /** frame a capture: the camera looks at the middle of these entities (review captures only) */
   focus:function(refs,dist){var pts=[];(refs||[]).forEach(function(r){var e=r[0]==='me'?OnlineActors.me():r[0]==='npc'?OnlineActors.npcs().get(r[1]):OnlineActors.players().get(r[1]);var o=e&&OnlineActors.entObj(e);if(o)pts.push(o.position)});
    if(!pts.length){window.__qaCameraFocus=null;return false}var f={x:0,y:0,z:0};pts.forEach(function(p){f.x+=p.x/pts.length;f.y+=p.y/pts.length;f.z+=p.z/pts.length});window.__qaCameraFocus=f;if(dist)camCtl.dist=dist;return true},

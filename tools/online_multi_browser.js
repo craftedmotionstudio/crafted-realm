@@ -535,6 +535,7 @@ async function pvmFight(fight, A, O, o) {
   const pile = st.objs.filter((x) => x.own && x.x === tile.x && x.z === tile.z);
   const bones = pile.find((x) => /bones/.test(x.id));
   check(fight, !!bones && pile.every((x) => !x.hidden), 'the drop shows as ours once the body has sunk', pile);
+  if (pile.some((x) => x.hidden)) fight.lootDebug = await A.q(() => CROnlineQA.debugLoot());
   if (bones) {
     const n0 = st.inv.filter((x) => x && /bones/.test(x[0])).length;
     await A.q((uid) => CROnlineQA.send({ t: 'op_obj', uid, op: 'take' }), bones.uid);
