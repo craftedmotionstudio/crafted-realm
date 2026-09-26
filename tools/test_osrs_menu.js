@@ -216,7 +216,7 @@ const text=(M,rows)=>rows.map(r=>M.rowText(r));
  const g4=src('game4_ui.js');
  ok(/if\(e\.button!==undefined && e\.button!==0\) return;/.test(g4),'only the left button acts on the world');
  ok(/OsrsMenuWorld\.leftClick\(e\);/.test(g4)&&/OsrsMenuWorld\.open\(e\);/.test(g4)&&/OsrsMenuWorld\.open\(fake,\{touch:true\}\);/.test(g4),'left click, right click and long press go through the one menu');
- ok(/function pick\(e\)\{ return pickAll\(e\)\.top; \}/.test(g4),'pick() is the top of pickAll()');
+ ok(/function pick\(e\)\{ return pickAll\(e, true\)\.top; \}/.test(g4),'pick() is the top of pickAll()');
  const om=src('osrs_menu.js');
  ok(/if\(using\(\)&&!windowOpen\(\)\)endUse\(\);/.test(om)&&/if\(view\.open\)\{hide\(\);e\.stopImmediatePropagation\(\)/.test(om),'Escape: the menu first, then an open window, then the item in use');
 }

@@ -552,7 +552,7 @@ const canvasEl = document.getElementById('game-canvas');
 function isGroundName(n){ return n==='ground' || (typeof n==='string' && n.indexOf('ground-chunk-')===0); }
 // The whole ray, not just its first hit (OSRS menu, owner 2026-09-26): top is what a click acts on (pick() below),
 // list is every interactive object the ray meets, in order, for the right-click menu (src/osrs_menu_world.js).
-function pickAll(e){
+function pickAll(e, firstOnly){
   mouse.x = (e.clientX/innerWidth)*2-1;
   mouse.y = -(e.clientY/innerHeight)*2+1;
   raycaster.setFromCamera(mouse, camera);
@@ -573,8 +573,8 @@ function pickAll(e){
       const objectPlane=o.userData&&o.userData.plane;
       if(objectPlane!==undefined && objectPlane!==(Player.plane||0)) continue;
       if(o.userData&&o.userData.kind==='lighthouseDoor'&&player&&Math.hypot(player.position.x-o.position.x,player.position.z-o.position.z)>14) continue;
+      if(top){ if(firstOnly) break; list.push({obj:o, point:h.point, distance:h.distance}); continue; }
       list.push({obj:o, point:h.point, distance:h.distance});
-      if(top) continue;
       if(o.userData&&o.userData.serviceProxy){
         // a smaller box nested inside the current one is the more specific station
         const box=new THREE.Box3().setFromObject(o),vol=box.getSize(new THREE.Vector3());
@@ -591,7 +591,7 @@ function pickAll(e){
   if(!top&&proxyHit) top={obj:proxyHit.obj, point:proxyHit.point};
   return {top, list};
 }
-function pick(e){ return pickAll(e).top; }
+function pick(e){ return pickAll(e, true).top; }   // the first entity only (stops at it, as pick always did)
 
 // Inspect-only scenery belongs in the right-click menu.  Its left-click and
 // hover primary action are the reachable ground beneath the cursor, matching
