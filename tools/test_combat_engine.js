@@ -141,6 +141,18 @@ for(const [kind,t,fn] of [['ranged',{ranged:'arrow',attackRange:7},d=>Math.floor
 {const h=fresh();h.P.autoRetaliate=false;h.place(30,30);const n=h.spawn('gnarlgob',31,30,{t:{aggro:true,alwaysAggro:true,hp:500,maxRange:3}});h.tick(3);h.ctx.orderWalk({x:45.5,z:30.5});h.tick(25);
  check('the leash: a monster gives up past its range from spawn',n.mode==='wander',{mode:n.mode,nt:n.node});}
 
+/* 11b. a telegraphed special: the wind-up is announced, stepping away dodges it, standing in reach takes it */
+{const sp={every:2,windup:2,maxHit:20,msg:'It rears up!',missMsg:'You step clear.'};
+ const h=fresh();h.P.autoRetaliate=false;const n=h.spawn('gnarlgob',21,20,{t:{aggro:true,alwaysAggro:true,hp:500,att:99,aBonus:200,special:sp}});
+ h.until(()=>h.log.msgs.some(m=>m[0]==='It rears up!'),40);const t0=h.LC.clock(),hp0=h.P.hp;
+ check('a special is telegraphed (message + ring) before it lands',h.log.msgs.some(m=>m[0]==='It rears up!'));
+ h.tick(2);const big=h.log.hits.filter(x=>x.obj===h.ctx.player&&x.tick>=t0);
+ check('standing in reach through the wind-up takes the blow '+sp.windup+' ticks later',big.length===1&&big[0].tick===t0+2,{hits:big.map(x=>[x.tick,x.dmg])});}
+{const sp={every:1,windup:2,maxHit:20,msg:'It rears up!',missMsg:'You step clear.'};
+ const h=fresh();h.P.autoRetaliate=false;const n=h.spawn('gnarlgob',21,20,{t:{aggro:true,alwaysAggro:true,hp:500,att:99,aBonus:200,special:sp}});
+ h.until(()=>h.log.msgs.some(m=>m[0]==='It rears up!'),40);h.ctx.orderWalk({x:17.5,z:20.5});h.tick(3);
+ check('stepping out of reach during the wind-up dodges the special',h.log.msgs.some(m=>m[0]==='You step clear.')&&!h.log.hits.some(x=>x.obj===h.ctx.player&&x.dmg>0),h.log.msgs.slice(-3));}
+
 /* 12. specials and 0..max damage */
 {const h=fresh();h.wield('bronze_sword');h.P.spec=100;h.P.specArmed=true;const n=h.spawn('pasturehen',21,20,{t:{hp:5000}});h.LC.orderAttack(n);h.tick(2);
  check('an armed special spends its energy on the next swing',h.P.spec===75&&!h.P.specArmed&&h.log.msgs.some(m=>/lunge/i.test(m[0])),{spec:h.P.spec});}

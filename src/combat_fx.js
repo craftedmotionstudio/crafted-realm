@@ -422,7 +422,7 @@ var CombatFX=(function(){
   for(i=0;i<splats.length;i++)if(splats[i].on&&T-splats[i].t0>=SPLAT_LIFE)splats[i].on=false;
   var pl=typeof player!=='undefined'&&player;if(pl&&pl.userData&&pl.userData._cfx)pl.userData._cfx.trailT+=dt;
   var npcs=(typeof WORLD!=='undefined'&&WORLD.npcs)||[];for(i=0;i<npcs.length;i++){var s=npcs[i].mesh&&npcs[i].mesh.userData._cfx;if(s)s.trailT+=dt}
-  tickRecoil(dt);tickParts(dt);tickDying();tickDrops();tickXp();applyShake(dt);tickSounds();
+  tickRecoil(dt);tickParts(dt);tickDying();tickDrops();tickXp();applyShake(dt);tickSounds();tickRings();
  }
  // makeHPBar's replacement: the bar is drawn on the 2D layer, so the 3D sprite becomes an empty placeholder with the same API
  function hpBar(){var o=new THREE.Object3D();o.visible=false;o.name='cfx-hpbar';return {spr:o,frac:1,draw:function(fr){this.frac=fr}}}
@@ -432,6 +432,19 @@ var CombatFX=(function(){
  function qaSplats(){var out=[];for(var i=0;i<splats.length;i++){var s=splats[i];if(s.on)out.push({dmg:s.dmg,kind:['hit','miss','max'][s.kind],slot:s.slot,age:+(T-s.t0).toFixed(3),player:isPlayer(s.obj),name:s.obj.name||''})}return out}
  // QA read-outs (never used by the game): the bar value a body shows right now, and whether the camera is shaking
  function qaBar(o){var s=o&&o.userData&&o.userData._cfx;return +barFrac(o,s).toFixed(4)}
+ /* ---------------- telegraphs: a ring on the ground fills under a monster winding up a special (fair warning) ---------------- */
+ var rings=[];
+ function telegraph(obj,seconds,radius){if(!init()||!obj||typeof scene==='undefined')return;var r=null;for(var i=0;i<rings.length;i++)if(!rings[i].on){r=rings[i];break}
+  if(!r){var g=new THREE.RingGeometry(.82,1,40),m=new THREE.MeshBasicMaterial({color:0xff5a2a,transparent:true,opacity:.8,depthWrite:false,side:THREE.DoubleSide});
+   var fill=new THREE.Mesh(new THREE.CircleGeometry(1,40),new THREE.MeshBasicMaterial({color:0xff3a1a,transparent:true,opacity:.22,depthWrite:false,side:THREE.DoubleSide}));
+   var ring=new THREE.Mesh(g,m);ring.rotation.x=-Math.PI/2;fill.rotation.x=-Math.PI/2;var grp=new THREE.Group();grp.add(ring);grp.add(fill);grp.renderOrder=4;grp.name='cfx-telegraph';
+   r={grp:grp,ring:ring,fill:fill,on:false};rings.push(r)}
+  r.on=true;r.obj=obj;r.t0=T;r.dur=Math.max(.3,seconds||1.2);r.rad=radius||1.5;if(r.grp.parent!==scene)scene.add(r.grp);r.grp.visible=true;snd.charge()}
+ function tickRings(){for(var i=0;i<rings.length;i++){var r=rings[i];if(!r.on)continue;var k=(T-r.t0)/r.dur;
+   if(k>=1.25||!r.obj.parent){r.on=false;r.grp.visible=false;continue}
+   V1.setFromMatrixPosition(r.obj.matrixWorld);r.grp.position.set(V1.x,V1.y+.06,V1.z);r.ring.scale.setScalar(r.rad);
+   var f=Math.min(1,k);r.fill.scale.setScalar(Math.max(.05,r.rad*f));r.fill.material.opacity=k<1?.18+.22*f:.4*(1.25-k)/.25;
+   r.ring.material.opacity=k<1?.55+.4*Math.abs(Math.sin(k*Math.PI*4)):.8*(1.25-k)/.25}}
  function expectHit(obj,delay,kind,f,isMax,atype,frac){if(!obj||!init())return;setExpect(obj,delay||0,kind,f&&!f.landed?f:null,isMax,atype,frac)}
  var sndQ=[];
  function sound(name,arg,delay){if(!init())return;if(delay>0){sndQ.push({at:T+delay,name:name,arg:arg});return}if(snd[name])snd[name](arg)}
@@ -442,7 +455,7 @@ var CombatFX=(function(){
  function track(obj,frac){if(!obj)return;untrack(obj);tracked.push({obj:obj,frac:typeof frac==='function'?frac:function(){return -1}})}
  function untrack(obj){for(var i=tracked.length-1;i>=0;i--)if(tracked[i].obj===obj)tracked.splice(i,1)}
  return {update:update,draw:draw,hit:hit,melee:melee,npcMelee:npcMelee,launch:launch,expectProjectile:expectProjectile,onKill:onKill,xpDrop:xpDrop,hpBar:hpBar,
-  now:function(){return T},expect:expectHit,sound:sound,swingSound:swingSound,track:track,untrack:untrack,
+  now:function(){return T},expect:expectHit,sound:sound,swingSound:swingSound,track:track,untrack:untrack,telegraph:telegraph,
   impactTime:impactTime,speedFor:speedFor,reducedMotion:reducedMotion,stats:stats,qaSplats:qaSplats,qaBar:qaBar};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=CombatFX;

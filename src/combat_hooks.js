@@ -70,6 +70,8 @@ var CombatHooks=(function(){
  function death(npc,drops,silent){var f=fx();emit({k:'death',npc:npc,t:now()});
   if(npc&&npc.mesh&&typeof startDeath==='function'&&!npc.t.glb&&!npc.t.skinnedRig){npc.dying=true;startDeath(npc.mesh)}else if(npc&&npc.mesh&&!(npc.t&&!npc.t.glb&&!npc.t.skinnedRig))npc.mesh.visible=false;
   if(f&&f.onKill)try{f.onKill(npc,drops||[],!!silent)}catch(e){}}
+ /** a telegraph: a ring on the ground under `obj` that fills over `seconds` (a special attack winding up) */
+ function telegraph(obj,seconds,radius){var f=fx();emit({k:'telegraph',obj:obj,seconds:seconds,t:now()});if(f&&f.telegraph)try{f.telegraph(obj,seconds,radius)}catch(e){}}
  function xp(skill,amount){emit({k:'xp',skill:skill,amt:amount})}
  function message(text,kind){if(typeof UI!=='undefined'&&UI.chat)UI.chat(text,kind||'combat');emit({k:'msg',text:text})}
  /** per frame (after the game update): start the animations that were timed to land on a tick */
@@ -78,6 +80,6 @@ var CombatHooks=(function(){
  /** bodies that are not NPCs or the adventurer (online players, remote NPC views) can get a health bar */
  function track(obj,frac){var f=fx();if(f&&f.track)f.track(obj,frac)}
  function untrack(obj){var f=fx();if(f&&f.untrack)f.untrack(obj)}
- return {TICK_S:TICK_S,impactDelay:impactDelay,attackAnim:attackAnim,meleeSwing:meleeSwing,projectile:projectile,hit:hit,death:death,xp:xp,message:message,update:update,on:on,track:track,untrack:untrack};
+ return {TICK_S:TICK_S,impactDelay:impactDelay,attackAnim:attackAnim,meleeSwing:meleeSwing,projectile:projectile,hit:hit,death:death,telegraph:telegraph,xp:xp,message:message,update:update,on:on,track:track,untrack:untrack};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=CombatHooks;

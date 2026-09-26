@@ -125,8 +125,9 @@ var LocalCombat=(function(){
   if(n.dead||n.lcDying)return;
   if(n.mode==='wander'){wander(n);return}
   if(n.mode==='none')return;
-  if(!validateTarget(n)){resetDefaults(n);return}
+  if(!validateTarget(n)){n._windup=null;resetDefaults(n);return}
   n.wanderCounter=0;n._chase=true;
+  if(n._windup){if(clock>=n._windup.at)resolveSpecial(n);return}   // winding up: it holds its ground
   if(npcInRange(n)){npcAttack(n);return}
   var moved=chaseStep(n,ptile());
   if(moved&&n.t.givechase===false){resetDefaults(n);return}
@@ -146,10 +147,24 @@ var LocalCombat=(function(){
   if(Player.lastCombat+C.SINGLE_COMBAT_TICKS>clock&&Player.aggressiveNpc&&Player.aggressiveNpc!==n&&alive(Player.aggressiveNpc))return false;
   return true}
  function npcSetAttackVars(n){Player.lastCombat=clock;Player.aggressiveNpc=n;n.attackingPlayer=true}
+ /* A telegraphed special (our design; 2004 monsters had none): every `every`-th attack the monster rears up for
+  * `windup` ticks (a message, the animation and a ring on the ground), then strikes whoever is still in its reach
+  * with its own max hit. Stepping out of reach or praying against its style turns it aside. t.special =
+  * {every, windup, maxHit, msg, hitMsg, missMsg}. */
+ function startSpecial(n){var sp=n.t.special;n._windup={at:clock+(sp.windup||2)};n.actionDelay=clock+(n.t.speedTicks||4)+(sp.windup||2);
+  npcSetAttackVars(n);say(sp.msg||('The '+n.t.name.toLowerCase()+' rears up...'),'combat');
+  CombatHooks.attackAnim(n.mesh,'block');CombatHooks.telegraph(n.mesh,(sp.windup||2)*TICK_S,sp.radius||1.5)}
+ function resolveSpecial(n){var sp=n.t.special;n._windup=null;
+  if(!npcInRange(n)){say(sp.missMsg||'You step clear of the blow.','combat');CombatHooks.attackAnim(n.mesh,'crush');return}
+  var lv=nlevels(n),type=n.attackType,hit=C.hitRoll(rng,C.npcAttackRoll(n.t,lv,prayers()),stats().stats.defenceRoll[type]),dmg=hit?C.damageRoll(rng,sp.maxHit||C.npcMaxHit(n.t,lv)):0;
+  var sw=CombatHooks.meleeSwing(n.mesh,player,'crush',0);if(sp.hitMsg&&dmg>0)say(sp.hitMsg,'combat');
+  Player.cbQueue.add('npc_damage',0,function(){damagePlayer(dmg,n,{kind:'npcMelee',delay:Math.max(0,sw.impactAt-(typeof CombatFX!=='undefined'&&CombatFX.now?CombatFX.now():0)),atype:'crush'})});
+  Player.cbQueue.add('npc_retaliate',0,function(){autoRetaliate(n)})}
  function npcAttack(n){
   if(Player.dead){resetDefaults(n);return}
   if(n.actionDelay>clock)return;
   if(!npcCheckNotCombat(n)){resetDefaults(n);return}
+  if(n.t.special&&!n.t.harmless){n.specialCount=(n.specialCount|0)+1;if(n.specialCount%(n.t.special.every||4)===0){startSpecial(n);return}}
   var def=n.t,type=n.attackType,lv=nlevels(n);
   var atk=C.npcAttackRoll(def,lv,prayers()),defRoll=stats().stats.defenceRoll[type],max=C.npcMaxHit(def,lv);
   var hit=C.hitRoll(rng,atk,defRoll),damage=hit?C.damageRoll(rng,max):0,rate=def.speedTicks>0?def.speedTicks:C.DEFAULT_ATTACK_RATE;
@@ -279,7 +294,7 @@ var LocalCombat=(function(){
  }
  function respawn(n){
   n.dead=false;n.dying=false;n.lcDying=false;n.hp=n.t.hp;n.queue.clear();n.mode='wander';n.actionDelay=-1000;n.lastCombat=-1000;n.aggressivePlayer=false;
-  n.heroDmg=0;n.target=null;n.respawnAt=-1;n._to=null;n._walk=null;n.curses=null;
+  n.heroDmg=0;n.target=null;n.respawnAt=-1;n._to=null;n._walk=null;n.curses=null;n._windup=null;n.specialCount=0;
   var sp=n.spawnNode||n.node,m=n.mesh;n.node=sp;m.visible=true;m.rotation.set(0,0,0);
   if(m.userData._baseScale!==undefined)m.scale.setScalar(m.userData._baseScale);
   if(sp)m.position.set(sp.x,sp.y,sp.z);if(n.hpbar&&n.hpbar.spr)n.hpbar.spr.visible=false;
