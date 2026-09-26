@@ -20,6 +20,28 @@ Environment: `CR_PORT` (port), `CR_DB` (sqlite file, default `server/data/runtim
 folder is git-ignored; back up `world.db` and `save.key` together (saves signed with a lost key will
 not load).
 
+## Play the online alpha locally (W2)
+
+```
+python tools/serve_static.py 8100 .                      # the game client (static files, 127.0.0.1 only)
+set CR_PORT=8200 && npm run server                         # the world (PowerShell: $env:CR_PORT=8200; npm run server)
+open http://127.0.0.1:8100/?online=1                       # a second browser / window = a second adventurer
+```
+
+`?online=1` connects to `ws://<page host>:8200` (`&server=ws://host:port` for another world). Create an account on
+the login screen; new adventurers start in the Commons at the map's alpha levels (`map.alpha.startStats`, combat
+level 51, Prayer 43) and take a fighting kit (melee, ranged or magic) from the supply chest beside the campfire. Walk
+north over a Ditch crossing into the Scarlands (Wilderness 1-10) to fight. Without `?online=1` the game is the
+offline single-player build, unchanged. The server listens on 127.0.0.1 unless `CR_HOST` says otherwise.
+
+The client side lives in `src/online_*.js` + `src/net_client.js` (loaded only in online mode by `src/online_boot.js`):
+`online_world.js` (the map as the old-school world, or the Scarlands art kit when the map names a `placement`,
+`online_kit.js`), `online_actors.js` (other adventurers with the character kit, monsters, loot, tick interpolation),
+`online_fx.js` (swings, splats and projectiles timed to the server's hits), `online_ui.js` (login, panels, PvP
+interface), `online_main.js` (glue, intents, QA hooks). Tests: `node tools/test_online_client.js` (unit),
+`node tools/online_multi_browser.js` (three real browsers, 20 fights; needs the static server on 8100; starts its own
+world on 8201), `node tools/online_pvp_balance.js` (kit matchups and PvM time-to-kill).
+
 ## Layout
 
 ```

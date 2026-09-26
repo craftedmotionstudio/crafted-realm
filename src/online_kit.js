@@ -13,7 +13,7 @@ var OnlineKit=(function(){
  'use strict';
  var KIND_TEX={grass:'grass_a',dirt:'dirt',burnt_grass:'burnt_grass',scorched_earth:'scorched_earth',ash:'ash',cracked_mud:'cracked_mud',dark_rock:'dark_rock',bone_dirt:'bone_dirt'};
  var LOOK={light:[.52,.62,.58],ambient:.55,diffuse:.72,min:.55,max:1.32,scale:.76,patch:.13,jitter:.07};
- var TEX='assets/textures/oldschool/';
+ var TEX='assets/textures/oldschool/';   // overridable per map (map.kitTextures)
  var st={place:null,G:null,cut:null,walk:null,kit:null,group:null,stats:{instancedMeshes:0,instances:0,pieces:0},covered:null};
  function json(u){return fetch(u,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error(u+' '+r.status);return r.json()})}
  function texture(name){return new Promise(function(res,rej){new THREE.TextureLoader().load(TEX+name+'.png',function(t){
@@ -88,6 +88,7 @@ var OnlineKit=(function(){
  function load(map){
   if(!map||!map.placement)return Promise.resolve(false);
   var manifestUrl=map.kit||'assets/scarlands/kit-v1/manifest.json';
+  if(map.kitTextures)TEX=map.kitTextures;   // where the kit's ground textures are served (default: the old-school kit folder)
   return Promise.all([json(map.placement),json(manifestUrl),json(TEX+'kit.json').catch(function(){return {textures:{}}})]).then(function(r){
    st.place=r[0];st.kit=r[1];st.G=st.place.ground;st.cut={};st.walk={};
    (st.G.cut||[]).forEach(function(c){st.cut[c[0]+','+c[1]]=c[2]});(st.G.walk||[]).forEach(function(c){st.walk[c[0]+','+c[1]]=c[2]});
