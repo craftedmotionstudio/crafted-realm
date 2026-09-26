@@ -1,0 +1,11 @@
+{
+ "source": ".studio-workspaces/holm-arrival-statue-v4/candidates/lantern_keeper_statue_v4.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-arrival-statue-v4/candidates/lantern_keeper_statue_v4.glb",
+ "arrival": true,
+ "outBlend": ".studio-workspaces/holm-arrival-statue-oldschool-v1/candidates/lantern_keeper_statue_v4.blend",
+ "outGlb": ".studio-workspaces/holm-arrival-statue-oldschool-v1/candidates/lantern_keeper_statue_v4.glb",
+ "report": ".studio-workspaces/holm-arrival-statue-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {"material": "Holm flat colour", "texture": "rock", "skip": "^LanternKeeper(Lantern|Lettering)$"},
+ "manifest": {"from": ".studio-workspaces/holm-arrival-statue-v4/candidates/manifest.json", "to": ".studio-workspaces/holm-arrival-statue-oldschool-v1/candidates/manifest.json"}
+}
