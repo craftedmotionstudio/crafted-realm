@@ -807,6 +807,7 @@ function animate(){
   update(dt);
   if(typeof CombatFX!=='undefined') CombatFX.update(dt);   // combat feel: splat timing, projectiles, particles, XP drops, shake
   if(typeof CombatHooks!=='undefined') CombatHooks.update();   // attack animations timed so their impact meets the hit tick
+  if(typeof HolmProvingGround!=='undefined') HolmProvingGround.update();
   // Dynamic map paint is bounded; terrain and resource layers cache independently.
   const now=performance.now();
   if(now-_minimapPaintAt>=80){ _minimapPaintAt=now; drawMinimap(); }

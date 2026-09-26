@@ -55,6 +55,8 @@ var HolmArrivalQA=(function(){
       if(typeof HolmIslandPlayer!=='undefined')try{await HolmIslandPlayer.load({swapActor:function(o){if(bridge&&bridge.replaceActor)bridge.replaceActor(o)}})}catch(err){console.error('[HolmArrivalQA] player',err)}
       // M5.3: practice grubkins for the combat trials
       if(typeof HolmIslandTrials!=='undefined')try{HolmIslandTrials.load(HolmArrivalQA)}catch(err){console.error('[HolmArrivalQA] trials',err)}
+      // the Proving Ground past the keep: a poacher, a warlock, a wild pack and the broodmother (combat agent)
+      if(typeof HolmProvingGround!=='undefined')try{HolmProvingGround.load(HolmArrivalQA)}catch(err){console.error('[HolmArrivalQA] proving ground',err)}
       // M5.2b: progress gates (doors that open as lessons are done)
       if(typeof HolmIslandGates!=='undefined')try{await HolmIslandGates.load({THREE:THREE,scene:scene,WORLD:WORLD,nav:nav})}catch(err){console.error('[HolmArrivalQA] gates',err)}
       // M5.2a: the island curriculum's arrows point at the stations that now exist

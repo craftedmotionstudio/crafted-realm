@@ -95,8 +95,9 @@ var CombatFX=(function(){
   s.pending++;s.lastEv=ev;s.lastHit=Math.max(s.lastHit,T);
   if(ev.fireAt<=T)present(ev);
  }
+ var qlog=[];function ql(e){qlog.push(e);if(qlog.length>600)qlog.shift()}   // QA read-out only (tools/qa_combat_pvm.js)
  function present(ev){
-  ev.on=false;var o=ev.obj,s=st(o);s.pending=Math.max(0,s.pending-1);s.lastHit=T;
+  ev.on=false;var o=ev.obj,s=st(o);ql({k:'splat',t:+T.toFixed(4),name:o.name||'',player:isPlayer(o),dmg:ev.dmg|0,kind:ev.kind});s.pending=Math.max(0,s.pending-1);s.lastHit=T;
   var nf=ev.frac>=0?ev.frac:s.shown;if(nf<s.shown){s.trail=Math.max(s.trail,s.shown);s.trailT=0}s.shown=nf;
   addSplat(o,ev.dmg,ev.max?2:(ev.dmg>0?0:1));
   var ud=o.userData||{};if(!ud.death||ev.kill)react(o,ev.dmg);
@@ -261,7 +262,7 @@ var CombatFX=(function(){
    f.glowR=spawn(handPos(src,'R',V3),hx,.05,.5,life,.9,true);if(f.glowR){f.glowR.fx=f;f.glowR.hand='R'}}
   return f}
  function releaseFx(f){
-  f.state=1;var src=f.src,dst=f.dst;
+  f.state=1;var src=f.src,dst=f.dst;ql({k:'release',t:+T.toFixed(4),kind:f.kind,from:isPlayer(src)?'player':(src.name||''),to:isPlayer(dst)?'player':(dst.name||'')});
   if(f.kind==='arrow'){handPos(src,'L',f.p0);snd.bow()}
   else{handPos(src,'L',V3);handPos(src,'R',V4);f.p0.copy(V3).add(V4).multiplyScalar(.5);snd.release(f.wind);kill(f.glowL);kill(f.glowR);f.glowL=f.glowR=null;
    spawn(f.p0,tinted(f.tint,.5),.16,.62,.18,.6,true,'ring')}
@@ -288,7 +289,7 @@ var CombatFX=(function(){
    spawn(f.pos,tinted(f.tint,.35),f.wind?.3:.26,.02,.2,.55,true)}   // the comet tail
   if(k>=1)landFx(f)}
  function landFx(f){
-  f.landed=true;f.state=2;f.on=false;f.landT=T;var at=V3.copy(f.pos),i,p;
+  f.landed=true;f.state=2;f.on=false;f.landT=T;ql({k:'land',t:+T.toFixed(4),kind:f.kind,to:isPlayer(f.dst)?'player':(f.dst&&f.dst.name||''),splash:f.splash===true});var at=V3.copy(f.pos),i,p;
   if(f.arrow){f.arrow.m.visible=false;f.arrow.busy=false;f.arrow=null}
   kill(f.core);kill(f.halo);kill(f.glowL);kill(f.glowR);f.core=f.halo=f.glowL=f.glowR=null;for(i=0;i<f.wisps.length;i++)kill(f.wisps[i]);f.wisps.length=0;
   if(f.kind==='arrow'){snd.arrowHit(f.dmg>0);dust(at,f.dmg>0?4:3,f.dmg>0?0xc9b48a:0x9a9080,.16);
@@ -455,7 +456,7 @@ var CombatFX=(function(){
  function track(obj,frac){if(!obj)return;untrack(obj);tracked.push({obj:obj,frac:typeof frac==='function'?frac:function(){return -1}})}
  function untrack(obj){for(var i=tracked.length-1;i>=0;i--)if(tracked[i].obj===obj)tracked.splice(i,1)}
  return {update:update,draw:draw,hit:hit,melee:melee,npcMelee:npcMelee,launch:launch,expectProjectile:expectProjectile,onKill:onKill,xpDrop:xpDrop,hpBar:hpBar,
-  now:function(){return T},expect:expectHit,sound:sound,swingSound:swingSound,track:track,untrack:untrack,telegraph:telegraph,
+  now:function(){return T},qaLog:function(){return qlog.slice()},qaClearLog:function(){qlog.length=0},expect:expectHit,sound:sound,swingSound:swingSound,track:track,untrack:untrack,telegraph:telegraph,
   impactTime:impactTime,speedFor:speedFor,reducedMotion:reducedMotion,stats:stats,qaSplats:qaSplats,qaBar:qaBar};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=CombatFX;

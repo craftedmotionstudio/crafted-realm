@@ -400,7 +400,10 @@ function spawnNpc(typeId, x, z){
     }
   }
   let mesh;
-  if(t.glbChar && typeof charNpcModel==='function'){   // hero-pipeline character (baked idle/walk clips)
+  if(t.kitFoe && typeof HolmProvingGround!=='undefined'){   // a character-kit humanoid foe (bow / staff clips)
+    mesh = HolmProvingGround.kitModel(t);
+  }
+  else if(t.glbChar && typeof charNpcModel==='function'){   // hero-pipeline character (baked idle/walk clips)
     mesh = charNpcModel(t);
   }
   else if(t.glb){                            // pipeline image-to-3D model (Gemini sprite -> SF3D/Pixal3D GLB)

@@ -23,6 +23,7 @@ var CombatHooks=(function(){
  function attackAnim(obj,type,delay){
   if(!obj)return;emit({k:'anim',obj:obj,type:type,delay:delay||0,t:now()});
   if(delay>0){pendingAnims.push({obj:obj,type:type,at:now()+delay});return}
+  emit({k:'animStart',obj:obj,type:type,t:now()});
   try{if(typeof swing==='function')swing(obj,type)}catch(e){}
  }
  /**
@@ -75,7 +76,7 @@ var CombatHooks=(function(){
  function xp(skill,amount){emit({k:'xp',skill:skill,amt:amount})}
  function message(text,kind){if(typeof UI!=='undefined'&&UI.chat)UI.chat(text,kind||'combat');emit({k:'msg',text:text})}
  /** per frame (after the game update): start the animations that were timed to land on a tick */
- function update(){if(!pendingAnims.length)return;var t=now();for(var i=pendingAnims.length-1;i>=0;i--){var a=pendingAnims[i];if(a.at<=t){pendingAnims.splice(i,1);try{if(typeof swing==='function')swing(a.obj,a.type)}catch(e){}}}}
+ function update(){if(!pendingAnims.length)return;var t=now();for(var i=pendingAnims.length-1;i>=0;i--){var a=pendingAnims[i];if(a.at<=t){pendingAnims.splice(i,1);emit({k:'animStart',obj:a.obj,type:a.type,t:t});try{if(typeof swing==='function')swing(a.obj,a.type)}catch(e){}}}}
  function on(fn){listeners.push(fn);return function(){var i=listeners.indexOf(fn);if(i>=0)listeners.splice(i,1)}}
  /** bodies that are not NPCs or the adventurer (online players, remote NPC views) can get a health bar */
  function track(obj,frac){var f=fx();if(f&&f.track)f.track(obj,frac)}
