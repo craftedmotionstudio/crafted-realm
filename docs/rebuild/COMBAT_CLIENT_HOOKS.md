@@ -64,6 +64,17 @@ the frame the hit arrives). `meleeSwing(att, tgt, type, 1)` starts the swing so 
 server applies a player's melee hit on the NPC's next turn); with `0` the swing starts now and the splat waits for
 the impact frame (`CombatFX.impactTime`).
 
+### The Scarlands HUD (`src/ui_pvp_hud.js`, `PvpHud`)
+
+| Server data | Call |
+|---|---|
+| `me.wl`, `me.multi`, `me.skull` (status block) | `PvpHud.set({wl, multi, skull})`: the "Level: N" plaque, the multi-combat sign, the HUD skull with minutes left and the skull over the adventurer |
+| another player's `sk` (skulled) in `pl.add` / `pl.upd` | `PvpHud.overheadSkull(bodyObj, !!sk)` |
+| the adventurer clicks the Ditch | `PvpHud.ditchWarning({onCross: () => sendWalkAcross(), onStay: () => {}})`: the rules with their own numbers (`CRShared.pvp.ditchWarningLines` through `ditchWarning()` in game4_ui.js), the items they would keep (pictures), Cross / Stay |
+
+`keptOnDeathPreview({skulled})` (game4_ui.js) gives the kept-items list for any other panel (the equipment pane's
+"Kept on death" view already uses it).
+
 ## 3. Telemetry and QA
 
 `CombatHooks.on(fn)` registers a listener that receives every presentation event
