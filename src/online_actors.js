@@ -176,14 +176,24 @@ var OnlineActors=(function(){
  function addNpc(s){
   if(st.npcs.has(s.i))removeNpc(s.i,true);
   var t=typeof NPC_TYPES!=='undefined'&&NPC_TYPES[s.ty];if(!t){console.warn('[OnlineActors] unknown npc type '+s.ty);return null}
-  var w=toW(s.x,s.z);
-  var prevForce=spawnNpc.force;spawnNpc.force=true;var n=null;
-  try{n=spawnNpc(s.ty,w.x,w.z)}finally{spawnNpc.force=prevForce}
+  var w=toW(s.x,s.z),sz=s.sz||1,off={x:(sz-1)/2,z:-(sz-1)/2};   // a 2x2 monster stands on its south-west tile + 1
+  var n=null;
+  if(typeof OnlineBestiary!=='undefined'&&OnlineBestiary.has(t)){
+   // the Scarlands bestiary: the creature's own rig and clips
+   var mesh=OnlineBestiary.build(t);
+   n={typeId:s.ty,t:t,mesh:mesh,hp:t.hp,home:new THREE.Vector3(w.x,0,w.z),dead:false,target:null,moving:false,bestiary:true,
+    hpbar:typeof makeHPBar==='function'?makeHPBar(mesh,t.barH||2.2):{spr:new THREE.Object3D(),draw:function(){}}};
+   Object.assign(mesh.userData,{kind:'onl_npc',npc:n});
+   scene.add(mesh);WORLD.clickables.push(mesh);WORLD.npcs.push(n);
+  }else{
+   var prevForce=spawnNpc.force;spawnNpc.force=true;
+   try{n=spawnNpc(s.ty,w.x,w.z)}finally{spawnNpc.force=prevForce}
+  }
   if(!n)return null;
-  var e=new Ent('npc',s.i);e.ty=s.ty;e.t=t;e.rec=n;e.hp=s.hp||[t.hp,t.hp];e.face=s.f||null;e.tile={x:s.x,z:s.z};e.mover=new OnlineMover.Mover(w.x,w.z);
+  var e=new Ent('npc',s.i);e.ty=s.ty;e.t=t;e.rec=n;e.hp=s.hp||[t.hp,t.hp];e.face=s.f||null;e.tile={x:s.x,z:s.z};e.off=off;e.mover=new OnlineMover.Mover(w.x,w.z);
   n.hp=e.hp[0];n.nid=s.i;n.online=true;
   var ud=n.mesh.userData;ud.kind='onl_npc';ud.nid=s.i;ud.label='Attack <b>'+t.name+'</b> (level '+t.level+')';
-  n.mesh.position.set(w.x,groundAt(w.x,w.z),w.z);n.mesh.rotation.y=OnlineMap.hash(s.i,1,2)*Math.PI*2;
+  n.mesh.position.set(w.x+off.x,groundAt(w.x+off.x,w.z+off.z),w.z+off.z);n.mesh.rotation.y=OnlineMap.hash(s.i,1,2)*Math.PI*2;
   st.npcs.set(s.i,e);st.stats.npcsBuilt++;
   return e;
  }
@@ -260,7 +270,7 @@ var OnlineActors=(function(){
    e.rec.target=me&&e.face&&e.face[0]==='p'&&e.face[1]===me.id?'player':null;
   });
   st.npcs.forEach(function(e){var n=e.rec,o=n.mesh;
-   if(!n.dying){e.mover.update(ms);o.position.set(e.mover.x,groundAt(e.mover.x,e.mover.z),e.mover.z);turnTo(o,e,dt);n.moving=e.mover.moving}
+   if(!n.dying){e.mover.update(ms);var ox=e.mover.x+(e.off?e.off.x:0),oz=e.mover.z+(e.off?e.off.z:0);o.position.set(ox,groundAt(ox,oz),oz);turnTo(o,e,dt);n.moving=e.mover.moving;n.speed=e.mover.speed}
    n.hp=e.hp[0];n.target=me&&e.face&&e.face[0]==='p'&&e.face[1]===me.id?'player':null;
    var wasDying=n.dying;npcAnim(n,dt);
    if(wasDying&&!n.dying)revealLootAt(e.tile);   // the body has sunk: its loot pops up
@@ -269,6 +279,10 @@ var OnlineActors=(function(){
  }
  function npcAnim(n,dt){
   var o=n.mesh,ud=o.userData;
+  if(ud.bestiary){
+   if(n.dying){if(!OnlineBestiary.tickDeath(o,dt)){n.dying=false;o.visible=false}return}
+   OnlineBestiary.tick(o,dt,n.moving,n.speed);n.moving=false;return;
+  }
   if(n.dying){if(typeof tickDeath!=='function'||!tickDeath(o,dt)){n.dying=false;o.visible=false}return}
   var P=ud.parts;ud.inCombat=n.target==='player';
   if(ud.gmix&&typeof charNpcAnim==='function')charNpcAnim(n,dt);
@@ -280,7 +294,8 @@ var OnlineActors=(function(){
  }
  function npcDeath(e){
   var n=e.rec;if(n.dead)return;n.dead=true;n.dying=true;
-  if(typeof startDeath==='function')startDeath(n.mesh);
+  if(n.mesh.userData.bestiary)OnlineBestiary.startDeath(n.mesh);
+  else if(typeof startDeath==='function')startDeath(n.mesh);
   if(typeof CombatFX!=='undefined'&&CombatFX.onKill)CombatFX.onKill(n,[],false);
   unlist(WORLD.clickables,n.mesh);
  }

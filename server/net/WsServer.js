@@ -148,7 +148,7 @@ class WsServer {
       // W2: the static map (terrain, collision, areas, decor) so a client can build the world before logging in
       if (req.url === '/map') {
         res.writeHead(200, { 'content-type': 'application/json', 'access-control-allow-origin': '*', 'cache-control': 'no-cache' });
-        res.end(this.mapJson || (this.mapJson = JSON.stringify(WsServer.publicMap(this.world.map))));
+        res.end(this.mapJson || (this.mapJson = JSON.stringify(WsServer.publicMap(this.world.map, this.world.content))));
         return;
       }
       res.writeHead(404); res.end();
@@ -174,6 +174,14 @@ class WsServer {
 }
 
 /** the map as clients see it: everything but the monster spawn table (NPCs arrive in the ticks) */
-WsServer.publicMap = function (map) { const out = Object.assign({}, map); delete out.spawns; if (out.alpha) { out.alpha = Object.assign({}, out.alpha); delete out.alpha.about; } return out; };
+WsServer.publicMap = function (map, content) {
+  const out = Object.assign({}, map); delete out.spawns; if (out.alpha) { out.alpha = Object.assign({}, out.alpha); delete out.alpha.about; }
+  // the monster kinds this map spawns, as the server knows them (a client older than the server's content still draws them)
+  if (content && content.NPC_TYPES) {
+    out.npcTypes = {};
+    for (const s of map.spawns || []) { const d = content.NPC_TYPES[s.npc]; if (!d || out.npcTypes[s.npc]) continue; const c = Object.assign({}, d); delete c.drops; out.npcTypes[s.npc] = c; }
+  }
+  return out;
+};
 WsServer.Session = Session;
 module.exports = WsServer;

@@ -72,7 +72,7 @@
     { "npc": "mosswolf", "x": 12, "z": 66, "hunt": 3 },
     { "npc": "mosswolf", "x": 18, "z": 67, "hunt": 3 },
     { "npc": "moss_seer", "x": 8, "z": 58, "wander": 3, "hunt": 3 },
-    { "npc": "moss_seer", "x": 50, "z": 58, "wander": 3, "hunt": 3 },
+    { "npc": "moss_seer", "x": 4, "z": 64, "wander": 3, "hunt": 3 },
     { "npc": "skeleton", "x": 46, "z": 90, "hunt": 2 },
     { "npc": "skeleton", "x": 50, "z": 92, "hunt": 2 },
     { "npc": "bryn_raider", "x": 46, "z": 100, "hunt": 3 },

@@ -308,6 +308,8 @@ var OnlineWorld=(function(){
  }
  function setup(map){
   st.map=map;st.model=OnlineMap.create(map);
+  // monster kinds this client does not know yet come with the map (the server's content can be newer)
+  if(map.npcTypes&&typeof NPC_TYPES!=='undefined')Object.keys(map.npcTypes).forEach(function(id){if(!NPC_TYPES[id])NPC_TYPES[id]=map.npcTypes[id]});
   var b=map.bounds,D=st.model.depth;
   st.L=OnlineMap.lattice(st.model,st.kit?function(wi,wj){return OnlineKit.cornerH(b.x1+wi,b.z1+(D-wj))}:null);
   st.paths=st.kit?{}:OnlineMap.paths(st.model);
@@ -335,6 +337,7 @@ var OnlineWorld=(function(){
  function buildAll(){
   var look=typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.preload?HolmOldschoolLook.preload(THREE).catch(function(){}):Promise.resolve();
   return Promise.all([fetchMap(),look]).then(function(r){
+   if(typeof OnlineBestiary!=='undefined')OnlineBestiary.load(r[0]);   // monsters arrive after login; the manifest is small
    return (typeof OnlineKit!=='undefined'?OnlineKit.load(r[0]):Promise.resolve(false)).then(function(kit){r.push(kit);return r});
   }).then(function(r){
    st.kit=r[2]||null;

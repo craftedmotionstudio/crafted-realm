@@ -58,7 +58,8 @@ var OnlineFX=(function(){
  function dist(a,b){var p=a.mover,q=b.mover;return Math.hypot(p.x-q.x,p.z-q.z)}
  function impactOf(e,type){
   if(isKit(e))return OnlineTiming.KIT_IMPACT[type]||.3;
-  var o=obj(e);return typeof CombatFX!=='undefined'&&CombatFX.impactTime?CombatFX.impactTime(o,type):.22;
+  var o=obj(e);
+  if(o&&o.userData&&o.userData.bestiary&&typeof OnlineBestiary!=='undefined'){var bt=OnlineBestiary.eventTime(o,type==='bow'?'ranged':type==='cast'?'magic':type==='breath'?'breath':'melee');if(bt!=null)return bt}return typeof CombatFX!=='undefined'&&CombatFX.impactTime?CombatFX.impactTime(o,type):.22;
  }
  /* ---- swings and reactions ---- */
  function playAttack(e,type,spec,speed){
@@ -67,11 +68,13 @@ var OnlineFX=(function(){
    var clip=type==='ranged'?'bow':type==='magic'?'cast':'attack_'+(type||'slash');
    var base=typeof CombatFX!=='undefined'&&CombatFX.speedFor?CombatFX.speedFor(clip):1;
    if(!A().playClip(e,clip,spec?1.15:(speed&&speed>1?base*speed:undefined))&&typeof swing==='function')swing(o,type)
-  }else if(typeof swing==='function')swing(o,type==='ranged'?'bow':type==='magic'?'cast':type);
+  }else if(o.userData&&o.userData.bestiary&&typeof OnlineBestiary!=='undefined')OnlineBestiary.play(o,type==='ranged'?'shoot':type==='magic'?'cast':type==='breath'?'breath':'attack',speed&&speed>1?speed:1);
+  else if(typeof swing==='function')swing(o,type==='ranged'?'bow':type==='magic'?'cast':type);
  }
  function react(e,dmg){
   if(!e||e.dead)return;
   if(e.kind==='player'&&e.gmix){var gm=e.gmix,busy=gm.attack&&gm.attack.isRunning&&gm.attack.isRunning();if(!busy)A().playClip(e,dmg>0?'hit':'block')}
+  else if(e.kind==='npc'&&typeof OnlineBestiary!=='undefined'){var bo=obj(e);if(bo&&bo.userData.bestiary&&!OnlineBestiary.busy(bo))OnlineBestiary.play(bo,dmg>0?'hit':'block')}
  }
  /* ---- hits ---- */
  function setHp(e,hp){if(!hp)return;e.hp=hp;if(e.kind==='npc')e.rec.hp=hp[0];if(e.isMe&&typeof OnlineUI!=='undefined')OnlineUI.setMyHp(hp)}
@@ -106,7 +109,7 @@ var OnlineFX=(function(){
   for(i=0;i<(ev.fx||[]).length;i++){
    var f=ev.fx[i],att=A().entByRef(f.from),tgt=A().entByRef(f.to);if(!att||!tgt)continue;
    var kind=f.k==='arrow'?'arrow':'magic',off=OnlineTiming.landingOffset(who(att),who(tgt),f.d),landSec=off*TICK;
-   var release=impactOf(att,kind==='arrow'?'bow':'cast'),flight=OnlineTiming.flightTime(kind,dist(att,tgt));
+   var release=impactOf(att,kind==='arrow'?'bow':f.k==='breath'?'breath':'cast'),flight=OnlineTiming.flightTime(kind,dist(att,tgt));
    var plan=OnlineTiming.projectilePlan(landSec,release,flight);if(plan.late>0.05){stats.late++;lateLog.push({n:n,from:f.from,to:f.to,d:f.d,off:off,dist:+dist(att,tgt).toFixed(2),release:+release.toFixed(3),flight:+flight.toFixed(3)});if(lateLog.length>40)lateLog.shift()}
    var p={att:att,tgt:tgt,kind:kind,landTick:n+off,start:plan.start,release:plan.release,speed:plan.speed,arriveAt:now()+plan.arrive,splash:!!f.splash,sp:f.sp||null,hits:[],f:null,done:false,born:n};
    projectiles.push(p);stats.projectiles++;plans[refOf(att).join(':')]=p;
@@ -115,10 +118,10 @@ var OnlineFX=(function(){
   // animations: swings (timed to their landing), deaths, eating
   for(i=0;i<(ev.anims||[]).length;i++){
    var a=ev.anims[i],e=a.ent,an=a.a;if(!e||!an)continue;
-   if(an.name==='attack'||an.name==='cast'){
-    var type=an.name==='cast'?'magic':(an.type||'slash');
+   if(an.name==='attack'||an.name==='cast'||an.name==='breath'){
+    var type=an.name==='cast'?'magic':an.name==='breath'?'breath':(an.type||'slash');
     var plan2=plans[refOf(e).join(':')];
-    if(type==='ranged'||type==='magic'){(function(e,type,spec,st,sp){schedule(st,function(){playAttack(e,type,spec,sp)})})(e,type,an.spec,plan2?plan2.start:0,plan2?plan2.speed:1);continue}
+    if(type==='ranged'||type==='magic'||type==='breath'){(function(e,type,spec,st,sp){schedule(st,function(){playAttack(e,type,spec,sp)})})(e,type,an.spec,plan2?plan2.start:0,plan2?plan2.speed:1);continue}
     var tgt2=A().entByRef(e.face)||(e.isMe?null:null);
     var off2=tgt2?OnlineTiming.landingOffset(who(e),who(tgt2),0):0;
     var sw={att:e,tgt:tgt2,type:type,landTick:n+off2,mode:off2===0?'same':'next',used:false,born:n,maxHit:e.isMe&&typeof OnlineUI!=='undefined'?OnlineUI.myMaxHit():0};
