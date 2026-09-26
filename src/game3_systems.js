@@ -318,9 +318,7 @@ const Player = {
   usingItem:null,        // selected pack item awaiting a "use on" target
 };
 
-/* ---------- OSRS combat math lives in src/combat_math.js ----------
-   (rollAccuracy / osrsMaxHit / npcDef / npcWeakness — extracted so the exact
-   formulas are test-locked headlessly by tools/test_combat.js) */
+/* ---------- combat formulas: shared/combat.js (the 2004 rules, test-locked by tools/test_combat.js) ---------- */
 
 /* ---------- visible gear on the character ---------- */
 function refreshPlayerGear(){

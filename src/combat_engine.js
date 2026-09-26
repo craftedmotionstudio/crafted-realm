@@ -21,7 +21,7 @@ var LocalCombat=(function(){
  /** the adventurer's logical tile: cached for the whole tick (it cannot change while the tick resolves) */
  function ptile(){if(inTick){if(PT===undefined||PT===null)PT=TileNav.playerNode();return PT}return TileNav.playerNode()}
  function ready(){if(!C&&typeof CRShared!=='undefined'&&CRShared.combat){C=CRShared.combat;PVP=CRShared.pvp;DR=CRShared.drops;R=CRShared.rng;rng=rng||R.math;wrng=wrng||R.math}
-  return !!C&&on&&typeof Player!=='undefined'&&typeof WORLD!=='undefined'}
+  return !!C&&typeof Player!=='undefined'&&typeof WORLD!=='undefined'}
  var COMBAT_QUEUES=['npc_retaliate','npc_damage','death'];
  /* ------------------------------------------------------------------------------------------------ queues */
  function Queue(kind){this.kind=kind;this.items=[]}
@@ -139,9 +139,11 @@ var LocalCombat=(function(){
   if(n.wanderCounter++>=500){n.wanderCounter=0;if(sp&&!same(n.node,sp)){n.node=sp;n._to=null;n.mesh.position.set(sp.x,sp.y,sp.z)}}
  }
  /* ------------------------------------------------------------------------------------------------ npc -> player */
+ /** is this NPC still standing in the world and able to fight? (a despawned or dying aggressor never locks you) */
+ function alive(a){return !!a&&!a.dead&&!a.lcDying&&WORLD.npcs.indexOf(a)>=0}
  function npcCheckNotCombat(n){
   if(isMulti())return true;
-  if(Player.lastCombat+C.SINGLE_COMBAT_TICKS>clock&&Player.aggressiveNpc&&Player.aggressiveNpc!==n&&!Player.aggressiveNpc.dead&&!Player.aggressiveNpc.lcDying)return false;
+  if(Player.lastCombat+C.SINGLE_COMBAT_TICKS>clock&&Player.aggressiveNpc&&Player.aggressiveNpc!==n&&alive(Player.aggressiveNpc))return false;
   return true}
  function npcSetAttackVars(n){Player.lastCombat=clock;Player.aggressiveNpc=n;n.attackingPlayer=true}
  function npcAttack(n){
@@ -189,7 +191,7 @@ var LocalCombat=(function(){
  function pvmInCombatCheck(n){
   if(isMulti())return true;
   var a=Player.aggressiveNpc;
-  if(Player.lastCombat+C.SINGLE_COMBAT_TICKS>clock&&a&&a!==n&&!a.dead&&!a.lcDying){say('You are already under attack!','combat');return false}
+  if(Player.lastCombat+C.SINGLE_COMBAT_TICKS>clock&&a&&a!==n&&alive(a)){say('You are already under attack!','combat');return false}
   return true}
  function npcRetaliate(n,delay){n.queue.add('retaliate',delay,function(){npcDefaultRetaliate(n)});n.aggressivePlayer=true;if(n.lastCombat<clock)n.lastCombat=clock}
  function npcDefaultRetaliate(n){
@@ -246,9 +248,9 @@ var LocalCombat=(function(){
   if(!pvmInCombatCheck(n))return false;if(!npcAttackable(n))return false;
   var sp=req.spell;spendRunes(sp);Player.addXp('Magic',C.spellXp10(sp)/10);Player.actionDelay=clock+C.MAGIC_ATTACK_RATE;
   var pt=ptile(),dist=pt&&n.node?TileNav.cheb(pt,n.node):1,delay=C.magicHitDelay(dist);
+  var s=stats(),max=capOf(n,sp.max),h,landed=C.hitRoll(rng,s.stats.attackRoll.magic,C.npcDefenceRoll(n.t,nlevels(n),'magic'));
   CombatHooks.attackAnim(player,'cast');
-  var s=stats(),max=capOf(n,sp.max),h;
-  if(C.hitRoll(rng,s.stats.attackRoll.magic,C.npcDefenceRoll(n.t,nlevels(n),'magic'))){
+  if(landed){
    var damage=C.damageRoll(rng,max);npcRetaliate(n,delay);
    h=CombatHooks.projectile(player,n.mesh,'spell',delay,{dmg:damage,max:damage>0&&damage>=max&&max>=3,tint:sp.color,spell:id,splash:false});
    n.queue.add('damage',delay,function(){npcDamage(n,damage,{kind:'magic',style:'magic',fx:h})});
@@ -350,8 +352,8 @@ var LocalCombat=(function(){
   playerInteraction();
  }
  /* ------------------------------------------------------------------------------------------------ the tick */
- function tick(){
-  if(!ready())return;P();clock++;inTick=true;PT=null;
+ function tick(force){
+  if(!ready()||(!on&&!force))return;P();clock++;inTick=true;PT=null;
   if(worldQ.length){var due=worldQ.filter(function(q){return q.at<=clock});worldQ=worldQ.filter(function(q){return q.at>clock});due.forEach(function(q){try{q.fn()}catch(e){console.error(e)}})}
   var ns=WORLD.npcs.slice();for(var i=0;i<ns.length;i++){try{npcTurn(ns[i])}catch(e){console.error('[LocalCombat] npc turn',e)}}
   try{playerTurn()}catch(e){console.error('[LocalCombat] player turn',e)}
@@ -433,7 +435,9 @@ var LocalCombat=(function(){
   qa:{npc:function(n){return n&&n._lc?{node:n.node&&{tx:n.node.tx,tz:n.node.tz},mode:n.mode,actionDelay:n.actionDelay,lastCombat:n.lastCombat,hp:n.hp,queue:n.queue.items.map(function(r){return [r.name,r.delay]}),lastAttackTick:n.lastAttackTick,dying:!!n.lcDying,dead:!!n.dead,respawnAt:n.respawnAt}:null},
    player:function(){P();var pt=ptile();return {clock:clock,tile:pt&&{tx:pt.tx,tz:pt.tz},actionDelay:Player.actionDelay,eatDelay:Player.eatDelay,lastCombat:Player.lastCombat,
     aggressiveNpc:!!Player.aggressiveNpc,queue:Player.cbQueue.items.map(function(r){return [r.name,r.delay]}),targetOp:Player.targetOp,dead:!!Player.dead,lastAttackTick:Player.lastAttackTick,prayerCounter:Player.prayerCounter}},
-   inReach:function(n,op){return inReach(n,op||'attack')}}
+   inReach:function(n,op){return inReach(n,op||'attack')},
+   // seeded fingerprints (tools/combat_fingerprint.js): run ticks synchronously while the game loop's ticks are off
+   tick:function(){tick(true)},provoke:function(n){if(ready()){N(n);startAttacking(n)}}}
  };
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=LocalCombat;

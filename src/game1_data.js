@@ -359,7 +359,7 @@ const NPC_TYPES = {
              drops:[ {id:'big_bones',q:1,p:1}, {id:'ashes',q:1,p:1}, {id:'coins',q:[70,180],p:1}, {id:'chaos_rune',q:[2,6],p:0.4}, {id:'aurel_sword',q:1,p:0.04}, {id:'aurel_platelegs',q:1,p:0.03}, {id:'veyrite_sword',q:1,p:0.01} ]},
 };
 /* derive an OSRS-style npc max hit from its strength stats */
-function npcMaxHit(t){ return Math.max(1, Math.floor(0.5 + (t.str+8)*(t.sBonus+64)/640)); }
+function npcMaxHit(t){ return Math.floor(((t.str+9)*(t.sBonus+64)+320)/640); }   // 2004 (shared/combat.js npcMaxHit): level + 9, 0..max
 
 const SHOPS = {
   bowyer: {name:"Rask's Bows & Shafts", stock:[

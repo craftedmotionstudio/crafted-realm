@@ -1,19 +1,9 @@
-/* ============ combat_math — the OSRS-exact combat core (GOAL.md §15) ============
- * The pure math every combat roll flows through, isolated so it can be
- * test-locked headlessly (tools/test_combat.js) the same way validate_content.js
- * gates the data. DO NOT tweak these formulas casually — they are the
- * documented Old School formulas and gameplay balance is built on them:
- *   attack roll  = (effLvl+8) * (bonus+64)
- *   hit chance   = a > d ? 1 - (d+2)/(2*(a+1)) : a/(2*(d+1))
- *   max hit      = floor(0.5 + effStr * (strBonus + 64) / 640)
- * Loaded before game3_systems.js (which consumes these globals).
+/* ============ combat_math — monster weakness helpers (appraisal only) ============
+ * The combat RULES (accuracy rolls, max hits, delays, XP) are the 2004 ones in shared/combat.js, run by the offline
+ * engine (src/combat_engine.js) and the server alike; there is no second formula set. What stays here is the
+ * examine/appraise hint: which melee attack type a monster's defence split is softest against.
+ * Loaded before game3_systems.js; tools/test_combat.js locks both the shared formulas and these helpers.
  */
-function rollAccuracy(attRoll, defRoll){
-  return attRoll > defRoll ? 1 - (defRoll+2)/(2*(attRoll+1)) : attRoll/(2*(defRoll+1));
-}
-function osrsMaxHit(effStr, sBonus){
-  return Math.max(1, Math.floor(0.5 + effStr*(sBonus+64)/640));
-}
 /* a monster's defence vs a given melee attack type (stab/slash/crush). Falls back to the flat
    dBonus when the monster has no weakness/resistance defined, so untouched monsters are unchanged. */
 function npcDef(t, type){
