@@ -68,7 +68,7 @@
    "wildernessLevels": [14, 20],
    "npcType": { "name": "Cinder wyrmling", "level": 56, "hp": 120, "att": 48, "str": 46, "def": 42, "mag": 50, "magicAttack": 24, "aBonus": 22, "sBonus": 24, "dBonus": 28, "dStab": 30, "dSlash": 34, "dCrush": 40, "dRanged": 30, "dMagic": 20,
                 "atype": "slash", "speedTicks": 5, "aggro": true, "respawn": 90, "size": 2, "boss": false, "model": "cinder_wyrmling" },
-   "attacks": [{ "clip": "attack", "type": "slash", "range": 1, "maxHitFormula": true },
+   "attacks": [{ "clip": "attack", "type": "slash", "range": 0, "maxHitFormula": true },
                { "clip": "breath", "type": "magic", "range": 5, "maxHit": 14, "every": 3, "note": "needs a small NPC script (like the ash wyrm's) to alternate; blocked fully by Protect from Magic like any NPC magic" }],
    "drops": { "always": [{ "item": "big_bones", "qty": 1 }, { "item": "ashes", "qty": 1 }], "rolls": 128, "main": [{ "w": 40, "item": "coins", "qty": [250, 600] }, { "w": 20, "item": "fire_rune", "qty": [30, 60] },
             { "w": 14, "item": "chaos_rune", "qty": [8, 20] }, { "w": 5, "item": "aurel_sword", "qty": 1 }, { "w": 4, "item": "aurel_platelegs", "qty": 1 }, { "w": 2, "item": "veyrite_sword", "qty": 1 },

@@ -51,7 +51,7 @@ for (const d of DATA.creatures) {
   else { need(!NPCS[d.id], d.id + ' already exists in NPC_TYPES: mark it existing'); def = d.npcType; }
   const L = C.npcLevels(def), type = C.npcAttackType(def);
   const stats = { level: def.level, hitpoints: def.hp, attack: def.att, strength: def.str, defence: def.def, ranged: L.ranged, magic: L.magic,
-    attackStyle: type, attackSpeedTicks: def.speedTicks, attackSpeedSeconds: +(def.speedTicks * 0.6).toFixed(1), attackRange: def.attackRange != null ? def.attackRange : (['stab', 'slash', 'crush'].includes(type) ? 1 : 7),
+    attackStyle: type, attackSpeedTicks: def.speedTicks, attackSpeedSeconds: +(def.speedTicks * 0.6).toFixed(1), attackRange: def.attackRange != null ? def.attackRange : (['stab', 'slash', 'crush'].includes(type) ? 0 : 7),
     maxHit: C.npcMaxHit(def, L), aggressive: !!def.aggro, respawnSeconds: def.respawn, sizeTiles: def.size >= 2 ? 2 : 1 };
   // drops: every item must exist (or be flagged proposed, and then must NOT exist yet)
   const dt = JSON.parse(JSON.stringify(d.drops));
@@ -79,7 +79,7 @@ const manifest = {
     events: 'impact = the frame the hit lands (melee: show the hitsplat); release = the frame the projectile leaves (ranged/magic); until = the last frame of a sustained breath',
     walk: 'clips are in place; the server moves the NPC one tile per 600 ms tick (1.67 m/s); play walk at timeScale = speed / walk_speed_mps',
     materials: 'colours are display values (the game renders without colour management): colour maps LinearEncoding + NearestFilter, roughness 1, metalness 0; glow materials are emissive',
-    stats: 'npcType = a suggested src/game1_data.js NPC_TYPES entry; stats.maxHit / attackStyle are computed with shared/combat.js (the server rules); drops = a draft in server/data/drops.json format'
+    stats: 'npcType = a suggested src/game1_data.js NPC_TYPES entry; stats.maxHit / attackStyle are computed with shared/combat.js (the server rules); attackRange in tiles as server/engine/Npc.js reads it (0 = melee, adjacent); drops = a draft in server/data/drops.json format'
   },
   creatures,
   itemSuggestions: DATA.itemSuggestions

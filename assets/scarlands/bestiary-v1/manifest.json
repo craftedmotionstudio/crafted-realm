@@ -9,7 +9,7 @@
   "events": "impact = the frame the hit lands (melee: show the hitsplat); release = the frame the projectile leaves (ranged/magic); until = the last frame of a sustained breath",
   "walk": "clips are in place; the server moves the NPC one tile per 600 ms tick (1.67 m/s); play walk at timeScale = speed / walk_speed_mps",
   "materials": "colours are display values (the game renders without colour management): colour maps LinearEncoding + NearestFilter, roughness 1, metalness 0; glow materials are emissive",
-  "stats": "npcType = a suggested src/game1_data.js NPC_TYPES entry; stats.maxHit / attackStyle are computed with shared/combat.js (the server rules); drops = a draft in server/data/drops.json format"
+  "stats": "npcType = a suggested src/game1_data.js NPC_TYPES entry; stats.maxHit / attackStyle are computed with shared/combat.js (the server rules); attackRange in tiles as server/engine/Npc.js reads it (0 = melee, adjacent); drops = a draft in server/data/drops.json format"
  },
  "creatures": [
   {
@@ -86,7 +86,7 @@
     "attackStyle": "stab",
     "attackSpeedTicks": 4,
     "attackSpeedSeconds": 2.4,
-    "attackRange": 1,
+    "attackRange": 0,
     "maxHit": 2,
     "aggressive": true,
     "respawnSeconds": 12,
@@ -118,7 +118,7 @@
     {
      "clip": "attack",
      "type": "stab",
-     "range": 1
+     "range": 0
     }
    ],
    "projectile": null,
@@ -227,7 +227,7 @@
     "attackStyle": "slash",
     "attackSpeedTicks": 4,
     "attackSpeedSeconds": 2.4,
-    "attackRange": 1,
+    "attackRange": 0,
     "maxHit": 3,
     "aggressive": true,
     "respawnSeconds": 25,
@@ -259,7 +259,7 @@
     {
      "clip": "attack",
      "type": "slash",
-     "range": 1
+     "range": 0
     }
    ],
    "projectile": null,
@@ -730,7 +730,7 @@
     "attackStyle": "stab",
     "attackSpeedTicks": 4,
     "attackSpeedSeconds": 2.4,
-    "attackRange": 1,
+    "attackRange": 0,
     "maxHit": 6,
     "aggressive": true,
     "respawnSeconds": 40,
@@ -748,7 +748,7 @@
     {
      "clip": "attack",
      "type": "stab",
-     "range": 1
+     "range": 0
     }
    ],
    "projectile": null,
@@ -882,7 +882,7 @@
     "attackStyle": "slash",
     "attackSpeedTicks": 5,
     "attackSpeedSeconds": 3,
-    "attackRange": 1,
+    "attackRange": 0,
     "maxHit": 8,
     "aggressive": true,
     "respawnSeconds": 90,
@@ -917,7 +917,7 @@
     {
      "clip": "attack",
      "type": "slash",
-     "range": 1,
+     "range": 0,
      "maxHitFormula": true
     },
     {
