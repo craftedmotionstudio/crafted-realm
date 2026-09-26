@@ -25,9 +25,9 @@ TITLE_FONT = next((f for f in ('C:/Windows/Fonts/georgiab.ttf', '/usr/share/font
 
 # ------------------------------------------------------------------ materials (authored sRGB; e_ emissive, n_ mottled, v_ veined)
 PAL = {
-    'brick_a': (.50, .51, .50), 'brick_b': (.46, .47, .46), 'brick_c': (.53, .53, .51), 'brick_d': (.43, .44, .43), 'mortar': (.20, .21, .20),
+    'brick_a': (.49, .51, .51), 'brick_b': (.45, .47, .47), 'brick_c': (.52, .54, .53), 'brick_d': (.42, .44, .44), 'mortar': (.19, .21, .21),
     'flag_a': (.36, .37, .36), 'flag_b': (.31, .32, .31), 'flag_c': (.40, .41, .39), 'grout': (.12, .12, .12),
-    'n_pillar': (.58, .59, .57), 'n_pillar_dk': (.44, .45, .44), 'n_arch': (.55, .56, .54), 'vault': (.40, .41, .40), 'groove': (.22, .22, .22),
+    'n_pillar': (.55, .58, .57), 'n_pillar_dk': (.42, .45, .44), 'n_arch': (.53, .56, .55), 'vault': (.40, .41, .40), 'groove': (.22, .22, .22),
     'e_mist': (.80, .86, .80), 'iron': (.34, .34, .36), 'iron_dk': (.18, .18, .19), 'steel': (.62, .64, .67),
     'e_fire_dk': (.80, .16, .03), 'e_fire': (1.0, .50, .08), 'e_fire_core': (1.0, .86, .36), 'e_ember': (1.0, .62, .18), 'coal': (.14, .10, .08),
     'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
@@ -239,7 +239,7 @@ def render_hall():
     cam.data.type = 'PERSP'; cam.data.lens = 24; cam.data.sensor_width = 36; cam.data.shift_x = cam.data.shift_y = 0
     cam.location = Vector((0, -12.5, 2.6)); cam.rotation_euler = (Vector((0, 0, 3.6)) - cam.location).to_track_quat('-Z', 'Y').to_euler()
     sun = bpy.data.objects.new('HallSun', bpy.data.lights.new('HallSun', 'SUN')); scene.collection.objects.link(sun)
-    sun.data.energy = .62; sun.data.color = (.84, .90, .90); sun.data.angle = math.radians(12)
+    sun.data.energy = .7; sun.data.color = (.80, .88, .90); sun.data.angle = math.radians(12)
     sun.rotation_euler = Vector((.25, .9, -.55)).normalized().to_track_quat('-Z', 'Y').to_euler()
     mist = bpy.data.objects.new('MistLight', bpy.data.lights.new('MistLight', 'AREA')); scene.collection.objects.link(mist)
     mist.data.energy = 2600; mist.data.size = 5; mist.data.color = (.78, .88, .80); mist.location = (0, 17, 3.5)
@@ -250,7 +250,7 @@ def render_hall():
         L.location = (sx * 6.4, -4.0, 3.2); L.data.color = (1.0, .55, .22); L.data.shadow_soft_size = .4; fires.append(L)
     scene.render.resolution_x, scene.render.resolution_y = 1536, 864
     outs = {}
-    for variant, power in (('dim', 220), ('lit', 950)):
+    for variant, power in (('dim', 110), ('lit', 720)):
         for L in fires: L.data.energy = power
         out = RAW / ('hall_%s.png' % variant); scene.render.filepath = str(out); bpy.ops.render.render(write_still=True); outs[variant] = out.name
         print(TAG, 'hall', variant)

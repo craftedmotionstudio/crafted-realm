@@ -46,15 +46,16 @@
 .login-subtitle{display:none;}
 
 /* the carved-slate panel: a Blender-rendered 9-slice (208 x 176, 22 px corners, shown 2x) */
-#welcome-box{position:absolute!important;z-index:14!important;left:50%!important;top:61%!important;transform:translate(-50%,-50%)!important;
-  width:min(440px,calc(100vw - 20px))!important;min-height:0;box-sizing:border-box;padding:0 6px!important;text-align:center;overflow:visible!important;
+#welcome-box{position:absolute!important;z-index:14!important;left:50%!important;top:61%!important;
+  transform:translate(calc(-50% + var(--sx,0px)),calc(-50% + var(--sy,0px)))!important;will-change:transform;   /* own layer: grayscale text AA, snapped to whole pixels by ui_osrs_kit.js */
+  width:min(540px,calc(100vw - 20px))!important;min-height:0;box-sizing:border-box;padding:6px 10px 2px!important;text-align:center;overflow:visible!important;
   border:44px solid transparent!important;border-radius:0!important;border-image:url("../icons/ui/v3/login/panel.png?v=1") 22 fill stretch!important;border-image-width:44px!important;
   background:none!important;box-shadow:none!important;image-rendering:pixelated;}
 #welcome-box::before,#welcome-box::after{display:none!important;}
 .login-panel-rivets{display:none;}
 .login-stage{position:relative;}
 .login-stage h3{margin:0 0 8px!important;color:var(--lg-yellow)!important;font:bold 12px var(--lg-font)!important;text-shadow:1px 1px 0 #000!important;}
-.login-kicker{color:var(--lg-orange);font:12px var(--lg-font);letter-spacing:0;margin:-6px 0 2px;text-shadow:1px 1px 0 #000;}
+.login-kicker{color:var(--lg-orange);font:12px var(--lg-font);letter-spacing:0;margin:0 0 2px;text-shadow:1px 1px 0 #000;}
 .login-status-row{display:flex;gap:4px;justify-content:center;margin:0 0 8px;}
 .login-status-row span{padding:1px 6px;color:#c8ccd4;font:12px var(--lg-font);text-shadow:1px 1px 0 #000;background:rgba(10,12,16,.45);box-shadow:inset 0 0 0 1px rgba(0,0,0,.6);}
 #welcome-box p{color:#fff;font:12px/15px var(--lg-font);margin:6px 0 8px;text-shadow:1px 1px 0 #000;}
@@ -75,6 +76,12 @@
 .lg-btn-primary:hover:not(:disabled),#play-btn:hover,.lg-btn-danger:hover{border-image-source:url("../icons/ui/v3/login/btn_red_hover.png?v=1")!important;color:var(--lg-yellow)!important;}
 .lg-btn-primary:disabled{border-image-source:url("../icons/ui/v3/login/btn_off.png?v=1")!important;}
 #play-btn{min-height:48px;letter-spacing:0;}
+/* the two first choices side by side, as the old login laid out its pair of stone buttons */
+#login-choose:not([style*="none"]){display:grid!important;grid-template-columns:1fr 1fr;column-gap:10px;align-items:stretch;}
+#login-choose>*{grid-column:1/-1;}
+#login-choose>#btn-continue{grid-column:1;} #login-choose>#btn-new{grid-column:2;}
+#login-choose>.lg-btn{margin:8px 0 4px!important;}
+@media (max-width:480px){#login-choose:not([style*="none"]){grid-template-columns:1fr}#login-choose>#btn-continue,#login-choose>#btn-new{grid-column:1}}
 .login-note{min-height:14px;color:#a8b0bc;font:12px var(--lg-font);margin:6px 0 0;text-shadow:1px 1px 0 #000;}.login-note.has-save{color:#7fdc6e;}
 .login-utility-row{display:flex;justify-content:center;gap:16px;margin-top:6px;}
 .login-utility-row button,.login-back{border:0;background:none;color:var(--lg-orange);text-decoration:none;font:bold 12px var(--lg-font);cursor:pointer;text-shadow:1px 1px 0 #000;padding:2px 4px;border-radius:0;}
@@ -116,6 +123,9 @@
 #welcome-screen.login-high-contrast .login-note,#welcome-screen.login-high-contrast .login-hint,#welcome-screen.login-high-contrast .login-toggle small,
 #welcome-screen.login-high-contrast .lg-btn small{color:#fff!important;}
 #welcome-screen.login-high-contrast .login-hall-lit{opacity:.25!important;}
-@media (max-width:760px){.login-brazier{display:none}.login-title-wrap{top:40px;width:94vw}#welcome-box{top:58%!important}}
+@media (max-width:760px){.login-brazier{display:none}.login-title-wrap{top:58px;width:94vw}#welcome-box{top:58%!important}}
 @media (max-width:760px) and (max-height:760px){#welcome-box{top:62%!important}}
 @media (max-height:620px){.login-title-wrap{width:min(600px,94vw,70vh)}#welcome-box{top:63%!important}.login-footer{display:none}}
+
+/* small lettering outside the panel also gets its own layer (grayscale antialiasing keeps the bitmap font free of colour fringes) */
+.login-footer,.world-badge{will-change:transform;}

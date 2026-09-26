@@ -295,7 +295,15 @@ function buildTorches(){
   // a wandering flicker: mostly the steady glow, now and then a brighter or dimmer lick (hard steps, no easing)
   var target=reduced?.5+(r()-.5)*.12:.35+r()*.55;torch.prev=torch.prev*.45+target*.55;lit.style.opacity=(Math.round(torch.prev*8)/8).toFixed(3)},reduced0()?260:120);
  function reduced0(){return ws.classList.contains('login-reduced-motion')}
+ snapPanel(ws);
 }
+// the bitmap font only looks crisp on whole pixels: the panel is centred with translate(-50%,-50%), which lands on a half
+// pixel whenever its size is odd, so nudge it back onto the grid whenever its size or the window changes
+function snapPanel(ws){var box=$('welcome-box');if(!box||box.__snap)return;box.__snap=true;
+ var fix=function(){if(ws.style.display!=='flex')return;box.style.setProperty('--sx','0px');box.style.setProperty('--sy','0px');var r=box.getBoundingClientRect();
+  box.style.setProperty('--sx',(Math.round(r.left)-r.left).toFixed(3)+'px');box.style.setProperty('--sy',(Math.round(r.top)-r.top).toFixed(3)+'px')};
+ try{new ResizeObserver(function(){requestAnimationFrame(fix)}).observe(box)}catch(e){}
+ addEventListener('resize',function(){requestAnimationFrame(fix)});setTimeout(fix,300);setInterval(function(){if(ws.style.display==='flex')fix()},1500)}
 
 /* ------------------------------------------- 12. windows: X + Escape */
 // Every window that can open carries the same stone X in its top-right corner, and Escape closes the topmost one.
