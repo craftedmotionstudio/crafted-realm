@@ -25,6 +25,8 @@ const { execFileSync } = require('child_process');
 const puppeteer = require('puppeteer-core');
 const { createServer } = require('../server/app');
 const { PathingEntity } = require('../server/engine/PathingEntity');
+const C = require('../shared/combat.js');
+const OnlineTiming = require('../src/online_fx.js');
 
 const args = process.argv.slice(2);
 const arg = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
@@ -47,11 +49,30 @@ const log = (...a) => console.log('[online]', ...a);
 /* ------------------------------------------------------------------------------------------------ */
 let app, world;
 const serverHits = [];     // {tick, to:'p3'|'n12', amount}
+const serverAnims = [];    // {tick, who, name, type, expect}: every swing / cast, with the weapon's 2004 attack delay
+const serverFx = [];       // {tick, from, to, d}: every projectile the server announced
+const rolls = { n: 0, expected: 0, hits: 0, damage: {} };   // live accuracy rolls and damage draws
 const serverEvents = [];   // world logger events
 async function startServer() {
   app = await createServer({ db: ':memory:', saveKey: 'online-driver-save-key-0123456789abcdef', cost: { N: 1024 }, port: PORT, host: '127.0.0.1',
     authPerMinute: 1000, quiet: true, world: { seed: 20260926, tickMs: TICK, logger: (event, data) => { serverEvents.push(Object.assign({ event, tick: world ? world.tick : -1 }, data)); } } });
   world = app.world;
+  // accuracy: every hit roll the server makes, against the closed-form chance; damage draws by max hit
+  const hitRoll0 = C.hitRoll, dmg0 = C.damageRoll;
+  C.hitRoll = function (rng, a, d) { const r = hitRoll0.call(this, rng, a, d); rolls.n++; rolls.expected += C.hitChance(a, d); if (r) rolls.hits++; return r; };
+  C.damageRoll = function (rng, max) { const v = dmg0.call(this, rng, max); const b = rolls.damage[max] || (rolls.damage[max] = new Array(Math.max(0, max) + 1).fill(0)); b[v]++; return v; };
+  const anim0 = PathingEntity.prototype.setAnim;
+  PathingEntity.prototype.setAnim = function (name, extra) {
+    if (name === 'attack' || name === 'cast') {
+      let expect = null;
+      if (this.pid != null && this.nid == null && typeof this.weapon === 'function') expect = name === 'cast' ? C.MAGIC_ATTACK_RATE : C.attackDelay(this.weapon(), this.style().style, false);
+      else if (this.def) expect = this.def.speedTicks || C.DEFAULT_ATTACK_RATE;
+      serverAnims.push({ tick: world.tick, who: this.nid != null ? 'n' + this.nid : 'p' + this.pid, name, type: extra && extra.type, expect, weapon: this.equip ? this.equip.weapon : null });
+    }
+    return anim0.call(this, name, extra);
+  };
+  const fx0 = world.broadcastFx.bind(world);
+  world.broadcastFx = function (src, fx) { serverFx.push({ tick: world.tick, from: fx.from, to: fx.to, d: fx.d, k: fx.k, splash: !!fx.splash }); return fx0(src, fx); };
   const orig = PathingEntity.prototype.addHit;
   PathingEntity.prototype.addHit = function (amount, type) {
     serverHits.push({ tick: world.tick, to: this.nid != null ? 'n' + this.nid : 'p' + this.pid, amount });
@@ -149,13 +170,15 @@ function fighterBrain(c, opts) {
   let stop = false;
   const o = opts || {};
   const run = (async () => {
-    let prayed = false;
+    let prayed = false, ateAt = 0;
     while (!stop) {
       try {
         const s = await c.state();
         if (s && s.me && !s.me.dead) {
           if (o.protect && !prayed && s.me) { await c.q((id) => CROnlineQA.send({ t: 'prayer', id, on: true }), o.protect); prayed = true; }
-          if (s.hp[0] > 0 && s.hp[0] <= Math.floor(s.hp[1] * 0.45)) await c.q(() => CROnlineQA.eatFirst());
+          if (s.hp[0] > 0 && s.hp[0] <= Math.floor(s.hp[1] * 0.45)) { if ((await c.q(() => CROnlineQA.eatFirst())) >= 0) ateAt = Date.now(); }
+          // eating drops the attack order (2004): like a player, click the opponent again a moment later
+          else if (o.opponent && ateAt && Date.now() - ateAt > TICK * 1.5) { ateAt = 0; const me = sp(c.name); if (me && !me.target) await c.q((n) => CROnlineQA.attackPlayerByName(n), o.opponent); }
         }
       } catch (e) { /* page busy */ }
       await sleep(Math.max(250, TICK / 2));
@@ -166,7 +189,9 @@ function fighterBrain(c, opts) {
 /** frames from the observer page around the fighters (for the feel criteria) */
 async function captureStrip(obs, name, ids, frames, gapMs) {
   const shots = [];
+  await obs.page.bringToFront();   // only the front page renders every frame in headless Chrome
   await obs.q((refs) => CROnlineQA.focus(refs, 20), ids);
+  await sleep(900);                 // let the follow camera settle on the new focus
   for (let i = 0; i < frames; i++) {
     await obs.q((refs) => CROnlineQA.focus(refs), ids);
     const pts = [];
@@ -219,7 +244,8 @@ async function pvpFight(fight, A0, B0, O, opts) {
   const since = world.tick, sinceMs = Date.now();
   const fxA0 = (await A.state()).fx, fxO0 = (await O.state()).fx;
   if (o.protectItemA) await A.q(() => CROnlineQA.send({ t: 'prayer', id: 'protect_item', on: true }));
-  const brains = [fighterBrain(A, { protect: o.protectA }), fighterBrain(B, { protect: o.protectB })];
+  const maxA = await A.q(() => OnlineUI.myMaxHit()), maxB = await B.q(() => OnlineUI.myMaxHit());
+  const brains = [fighterBrain(A, { protect: o.protectA, opponent: B.name }), fighterBrain(B, { protect: o.protectB, opponent: A.name })];
   // A attacks with a real left click on B (the top menu entry), B retaliates automatically
   const at = await A.q((pid) => CROnlineQA.screenOf('player', pid), bPid);
   if (at) { await A.page.mouse.move(at.x, at.y); await sleep(80); await A.page.mouse.down(); await A.page.mouse.up(); }
@@ -236,6 +262,19 @@ async function pvpFight(fight, A0, B0, O, opts) {
   check(fight, seenA && seenA.sk === 1 && seenB && !seenB.sk, 'the attacker is skulled, the defender (retaliating) is not', { a: seenA && seenA.sk, b: seenB && seenB.sk });
   const aSelf = await A.state();
   check(fight, aSelf.ui.skull > 0, 'the attacker sees their own skull timer', aSelf.ui.skull);
+  // readability at the desktop size and on a phone-sized window, mid-fight (criterion 12)
+  if (o.screens) {
+    await O.page.bringToFront();
+    await O.q((refs) => CROnlineQA.focus(refs, 22), [['player', aPid], ['player', bPid]]);
+    await O.page.setViewport({ width: 1538, height: 900 }); await sleep(1500);
+    await O.q((refs) => CROnlineQA.focus(refs), [['player', aPid], ['player', bPid]]);
+    await O.page.screenshot({ path: path.join(OUT, 'screen_' + o.screens + '_1538x900.png') });
+    await O.page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2 }); await sleep(1500);
+    await O.q((refs) => CROnlineQA.focus(refs, 26), [['player', aPid], ['player', bPid]]);
+    await sleep(600);
+    await O.page.screenshot({ path: path.join(OUT, 'screen_' + o.screens + '_phone.png') });
+    await O.page.setViewport({ width: 1280, height: 800 }); await O.q(() => CROnlineQA.unfocus());
+  }
   // single-way combat: a third adventurer cannot join outside a multi-combat area
   if (o.thirdParty) {
     await O.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
@@ -293,11 +332,14 @@ async function pvpFight(fight, A0, B0, O, opts) {
   await sleep(TICK * 2);
   const dropped = (kill && kill.dropped) || [];
   const ws = await winner.state(), os2 = await O.state();
-  const pile = ws.objs.filter((x) => x.own);
+  // the death pile on the server: created at the death, owned by the winner
+  const deathTick = kill ? kill.tick : since;
+  const serverPile = [...world.objs.values()].filter((x) => x.owner === winner.name.toLowerCase() && x.createdTick >= deathTick - 1).map((x) => x.uid);
+  const pile = ws.objs.filter((x) => x.own && serverPile.includes(x.uid));
   const want = dropped.map((d) => d[0]).concat(['bones']);
   const missing = want.filter((id) => !pile.some((x) => x.id === id));
   check(fight, missing.length === 0, 'the winner sees the whole pile as theirs', { missing, pile: pile.length });
-  const leaked = os2.objs.filter((x) => pile.some((p) => p.uid === x.uid));
+  const leaked = os2.objs.filter((x) => serverPile.includes(x.uid));
   check(fight, leaked.length === 0, 'the observer cannot see the private pile', leaked.length);
   // the winner picks everything up (as many as fit)
   const invBefore = ws.inv.filter(Boolean).length;
@@ -306,7 +348,14 @@ async function pvpFight(fight, A0, B0, O, opts) {
   check(fight, wAfter.inv.filter(Boolean).length > invBefore, 'loot reaches the winner\'s pack', { before: invBefore, after: wAfter.inv.filter(Boolean).length });
   const fxA1 = (await A.state()).fx, fxO1 = (await O.state()).fx;
   fight.fx = { attacker: fxDelta(fxA0, fxA1), observer: fxDelta(fxO0, fxO1) };
+  if (fight.fx.attacker.generic || fight.fx.observer.generic) fight.genericLog = { A: await A.q(() => OnlineFX.generic()), O: await O.q(() => OnlineFX.generic()) };
   check(fight, fight.fx.attacker.generic === 0 && fight.fx.observer.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile (no untimed hits, no late projectiles)', fight.fx);
+  // protection prayers against players: the max hit is cut by 40% (never more than floor(max * 0.6) lands)
+  for (const [def, att, max, pr] of [[B, A, maxA, o.protectB], [A, B, maxB, o.protectA]]) {
+    if (!pr) continue;
+    const key = 'p' + (def === A ? aPid : bPid), got = hitsSince(since, key).map((h) => h.amount), cap = C.pvpProtectedMaxHit(max);
+    check(fight, got.length > 0 && Math.max(...got) <= cap, 'protection caps ' + att.name + '\'s hits on ' + def.name + ' at ' + cap + ' (max ' + max + ')', { biggest: Math.max(...got), cap });
+  }
   // hits: every server hit on each fighter shows exactly one splat on the attacker's page and the observer's
   for (const [tgt, other] of [[A, B], [B, A]]) {
     const key = 'p' + (tgt === A ? aPid : bPid), ref = ['p', tgt === A ? aPid : bPid];
@@ -408,6 +457,7 @@ async function pvmFight(fight, A, O, o) {
     await A.q((id) => CROnlineQA.send({ t: 'prayer', id, on: false }), o.protect);
   }
   fight.fx = { attacker: fxDelta(fx0, st.fx) };
+  if (fight.fx.attacker.generic) fight.genericLog = await A.q(() => OnlineFX.generic());
   check(fight, fight.fx.attacker.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile', fight.fx);
   // loot: the kill's pile is ours (bones always drop), shown once the body has sunk, and we pick the bones up
   const pile = st.objs.filter((x) => x.own && x.x === tile.x && x.z === tile.z);
@@ -424,11 +474,45 @@ async function pvmFight(fight, A, O, o) {
 }
 
 /* ------------------------------------------------------------------------------------------------ */
+/* measurements over the whole run (COMBAT_GRADE criteria 1-4)                                        */
+/* ------------------------------------------------------------------------------------------------ */
+function measure() {
+  const out = {};
+  // 1) accuracy: observed hits vs the sum of per-roll chances (a z-score; |z| < 3 is a match)
+  const varSum = rolls.n ? rolls.expected * (1 - rolls.expected / rolls.n) : 0;
+  out.accuracy = { rolls: rolls.n, expectedHits: +rolls.expected.toFixed(1), observedHits: rolls.hits, z: varSum ? +((rolls.hits - rolls.expected) / Math.sqrt(varSum)).toFixed(2) : null };
+  // 2) damage 0..max uniform: chi-square per max hit with enough draws
+  out.damage = Object.keys(rolls.damage).map((m) => { const b = rolls.damage[m], n = b.reduce((a, x) => a + x, 0), e = n / b.length;
+    const chi = b.reduce((a, x) => a + (x - e) * (x - e) / e, 0); return { max: +m, draws: n, counts: b, chi2: +chi.toFixed(2), dof: b.length - 1 }; }).filter((r) => r.draws >= 30);
+  // 3) attack speed: gaps between one attacker's swings, compared with the weapon's 2004 delay
+  const gaps = {};
+  const byWho = {};
+  for (const a of serverAnims) (byWho[a.who] = byWho[a.who] || []).push(a);
+  for (const who in byWho) { const l = byWho[who]; for (let i = 1; i < l.length; i++) { const g = l[i].tick - l[i - 1].tick, k = (l[i].weapon || who.charAt(0) === 'n' && 'monster' || 'unarmed') + ':' + l[i].name + ':' + l[i].expect;
+    if (l[i].expect === l[i - 1].expect && g <= 12) (gaps[k] = gaps[k] || []).push(g); } }
+  out.attackSpeed = Object.keys(gaps).map((k) => { const l = gaps[k], hist = {}; l.forEach((g) => { hist[g] = (hist[g] || 0) + 1; });
+    const mode = +Object.keys(hist).sort((a, b) => hist[b] - hist[a])[0]; const [weapon, name, expect] = k.split(':'); return { weapon, name, expect: +expect, mode, samples: l.length, hist }; });
+  // 4) projectile hit delays: the first hit on the target after the announcement lands when the client expects it
+  let ok = 0, bad = [];
+  for (const fx of serverFx) {
+    if (fx.splash) continue;
+    const to = fx.to[0] + fx.to[1], from = fx.from[0] + fx.from[1];
+    const h = serverHits.find((x) => x.to === to && x.tick >= fx.tick);
+    if (!h) continue;
+    const att = fx.from[0] === 'n' ? { kind: 'npc' } : { kind: 'player', pid: fx.from[1] }, tgt = fx.to[0] === 'n' ? { kind: 'npc' } : { kind: 'player', pid: fx.to[1] };
+    const want = OnlineTiming.landingOffset(att, tgt, fx.d), got = h.tick - fx.tick;
+    if (want === got) ok++; else if (bad.length < 20) bad.push({ from, to, d: fx.d, want, got });
+  }
+  out.projectileTiming = { matched: ok, mismatched: bad.length, examples: bad };
+  return out;
+}
+
+/* ------------------------------------------------------------------------------------------------ */
 /* main                                                                                               */
 /* ------------------------------------------------------------------------------------------------ */
 const SCENARIOS = [
   // PvP, each style on its own, with eating and protection prayers (the defender prays against the attacker's style)
-  { name: 'pvp-melee', kind: 'pvp', kitA: 'melee', kitB: 'melee', protectB: 'protect_melee', strip: 'pvp_melee', thirdParty: true },
+  { name: 'pvp-melee', kind: 'pvp', kitA: 'melee', kitB: 'melee', protectB: 'protect_melee', strip: 'pvp_melee', thirdParty: true, screens: 'pvp' },
   { name: 'pvp-ranged', kind: 'pvp', kitA: 'ranged', kitB: 'ranged', protectB: 'protect_range', strip: 'pvp_ranged' },
   { name: 'pvp-magic', kind: 'pvp', kitA: 'magic', kitB: 'magic', protectB: 'protect_magic', strip: 'pvp_magic' },
   // PvM, each style against the test map's monsters (melee and magic monsters; protection prayers against them)
@@ -476,6 +560,7 @@ const SCENARIOS = [
     log(sc.name, ok ? 'PASS' : 'FAIL', fight.winner ? `(${fight.winner} beat ${fight.loser} in ${fight.seconds}s / ${fight.ticks} ticks)` : '');
   }
   report.pageErrors = { A: A.errors, B: B.errors, O: O.errors };
+  report.measured = measure();
   report.finished = new Date().toISOString();
   report.pass = report.failures.length === 0 && [A, B, O].every((c) => c.errors.length === 0);
   fs.writeFileSync(path.join(OUT, 'online_report.json'), JSON.stringify(report, null, 1));

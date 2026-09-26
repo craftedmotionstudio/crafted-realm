@@ -44,7 +44,7 @@ var OnlineFX=(function(){
  'use strict';
  if(typeof window==='undefined')return null;
  var TICK=0.6;   // seconds per server tick (setTickMs from the welcome)
- var later=[],swings=[],projectiles=[],log=[],stats={hits:0,splats:0,projectiles:0,matchedProjectile:0,matchedSwing:0,matchedNext:0,generic:0,late:0,swingsPlayed:0,deaths:0};
+ var later=[],swings=[],projectiles=[],log=[],generic=[],stats={hits:0,splats:0,projectiles:0,matchedProjectile:0,matchedSwing:0,matchedNext:0,generic:0,late:0,swingsPlayed:0,deaths:0};
  function now(){return performance.now()/1000}
  function schedule(sec,fn){if(sec<=0.001){fn();return}later.push({at:now()+sec,fn:fn})}
  function runLater(){if(!later.length)return;var t=now(),due=[];for(var i=later.length-1;i>=0;i--)if(later[i].at<=t){due.push(later[i]);later.splice(i,1)}due.sort(function(a,b){return a.at-b.at});
@@ -94,6 +94,7 @@ var OnlineFX=(function(){
    return}
   // 3) anything else (a late tick, a swing we could not see): show it now
   stats.generic++;splat(e,amount,hp);react(e,amount);
+  generic.push({n:n,to:refOf(e),dmg:amount,swings:swings.map(function(s){return {att:refOf(s.att),tgt:s.tgt?refOf(s.tgt):null,land:s.landTick,used:s.used,born:s.born}}),proj:projectiles.map(function(p){return {tgt:refOf(p.tgt),land:p.landTick,done:p.done,splash:p.splash}})});if(generic.length>40)generic.shift();
  }
  /* ---- one server tick ---- */
  function onTick(n,ev){
@@ -147,5 +148,5 @@ var OnlineFX=(function(){
  function frame(){runLater()}
  function reset(){later=[];swings=[];projectiles=[]}
  function setTickMs(ms){TICK=(ms||600)/1000}
- return {onTick:onTick,frame:frame,reset:reset,setTickMs:setTickMs,stats:function(){return Object.assign({pending:later.length,flying:projectiles.length},stats)},log:function(){return log.slice()}};
+ return {onTick:onTick,frame:frame,reset:reset,setTickMs:setTickMs,stats:function(){return Object.assign({pending:later.length,flying:projectiles.length},stats)},generic:function(){return generic.slice()},log:function(){return log.slice()}};
 })();

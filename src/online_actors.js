@@ -9,17 +9,18 @@
 (function(root,factory){var api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.OnlineMover=api})(typeof globalThis!=='undefined'?globalThis:this,function(){
  'use strict';
  /** a step queue that replays server steps over time; positions are world points {x,z} */
- function Mover(x,z){this.x=x;this.z=z;this.q=[];this.seg=null;this.moving=false;this.speed=0;this.dirX=0;this.dirZ=0}
+ function Mover(x,z){this.x=x;this.z=z;this.q=[];this.seg=null;this.moving=false;this.speed=0;this.dirX=0;this.dirZ=0;this.maxBacklog=0;this.catchUps=0;this.teles=0}
  /** steps from one tick: every step gets tickMs / count (walk 600, run 300) */
  Mover.prototype.push=function(points,tickMs){
   if(!points||!points.length)return;var dur=(tickMs||600)/points.length;
   for(var i=0;i<points.length;i++)this.q.push({x:points[i].x,z:points[i].z,dur:dur});
  };
- Mover.prototype.tele=function(x,z){this.x=x;this.z=z;this.q.length=0;this.seg=null;this.moving=false;this.speed=0};
+ Mover.prototype.tele=function(x,z){this.teles++;this.x=x;this.z=z;this.q.length=0;this.seg=null;this.moving=false;this.speed=0};
  /** advance by dtMs; returns true while moving. Falls behind by more than two ticks -> catches up faster. */
  Mover.prototype.update=function(dtMs){
   var budget=dtMs,moved=false,dist=0,backlog=this.q.length+(this.seg?1:0);
-  var rush=backlog>6?2.2:backlog>4?1.5:1;
+  if(backlog>this.maxBacklog)this.maxBacklog=backlog;
+  var rush=backlog>6?2.2:backlog>4?1.5:1;if(rush>1)this.catchUps++;
   budget*=rush;
   while(budget>0){
    if(!this.seg){var n=this.q.shift();if(!n)break;this.seg={fx:this.x,fz:this.z,tx:n.x,tz:n.z,dur:Math.max(1,n.dur),t:0}}
@@ -216,7 +217,7 @@ var OnlineActors=(function(){
   st.corpses.forEach(function(e){if(e.tile.x===o.x&&e.tile.z===o.z)dying=true});
   if(dying){m.userData._cfxHide=true;m.visible=false}
   scene.add(m);WORLD.clickables.push(m);WORLD.drops.push(m);
-  var rec={uid:o.i,id:o.id,q:o.q,x:o.x,z:o.z,own:!!o.own,pub:o.pub,mesh:m,at:performance.now()};st.objs.set(o.i,rec);st.stats.objsBuilt++;
+  var rec={uid:o.i,id:o.id,q:o.q,x:o.x,z:o.z,own:!!o.own,pub:o.pub,mesh:m,at:performance.now(),publicAt:o.own?performance.now()+(o.pub||0)*st.tickMs:0};st.objs.set(o.i,rec);st.stats.objsBuilt++;
   return rec;
  }
  function removeObj(uid){var r=st.objs.get(uid);if(!r)return;st.objs.delete(uid);scene.remove(r.mesh);unlist(WORLD.clickables,r.mesh);unlist(WORLD.drops,r.mesh)}
@@ -289,10 +290,10 @@ var OnlineActors=(function(){
   Array.from(st.objs.keys()).forEach(removeObj);
  }
  function snapshot(){
-  var me=st.me,out={me:me?{pid:me.id,tile:me.tile,x:+me.mover.x.toFixed(2),z:+me.mover.z.toFixed(2),pending:me.mover.pending(),dead:me.dead}:null,players:[],npcs:[],objs:[],stats:st.stats};
+  var me=st.me,out={me:me?{pid:me.id,tile:me.tile,x:+me.mover.x.toFixed(2),z:+me.mover.z.toFixed(2),pending:me.mover.pending(),dead:me.dead,maxBacklog:me.mover.maxBacklog,catchUps:me.mover.catchUps,teles:me.mover.teles}:null,players:[],npcs:[],objs:[],stats:st.stats};
   st.players.forEach(function(e){out.players.push({pid:e.id,name:e.name,cb:e.cb,tile:e.tile,x:+e.mover.x.toFixed(2),z:+e.mover.z.toFixed(2),hp:e.hp,sk:e.sk,oh:e.oh,eq:e.eq,rig:!!e.rig,dead:e.dead,face:e.face})});
   st.npcs.forEach(function(e){out.npcs.push({nid:e.id,ty:e.ty,tile:e.tile,hp:e.hp,dead:e.rec.dead,face:e.face})});
-  st.objs.forEach(function(r){out.objs.push({uid:r.uid,id:r.id,q:r.q,x:r.x,z:r.z,own:r.own,hidden:!!r.mesh.userData._cfxHide})});
+  st.objs.forEach(function(r){out.objs.push({uid:r.uid,id:r.id,q:r.q,x:r.x,z:r.z,own:r.own&&performance.now()<r.publicAt,hidden:!!r.mesh.userData._cfxHide})});
   return out;
  }
  return {st:st,initMe:initMe,me:function(){return st.me},addPlayer:addPlayer,removePlayer:removePlayer,updatePlayer:updatePlayer,
