@@ -208,7 +208,7 @@ async function captureStrip(obs, name, ids, frames, gapMs) {
   }
   await obs.q(() => CROnlineQA.unfocus());
   // compose into one strip (python + PIL), keep only the strip
-  const strip = path.join(OUT, `strip_${name}.png`);
+  const strip = path.join(OUT, `strip_${name}.jpg`);
   try {
     execFileSync('python', ['-c', `
 import sys
@@ -218,7 +218,7 @@ if ims:
   w,h=ims[0].size; cols=min(6,len(ims)); rows=(len(ims)+cols-1)//cols
   out=Image.new('RGB',(cols*w//2,rows*h//2),(0,0,0))
   for i,im in enumerate(ims): out.paste(im.resize((w//2,h//2)),((i%cols)*w//2,(i//cols)*h//2))
-  out.save(sys.argv[1])`, strip, ...shots.map((s) => s.file)]);
+  out.save(sys.argv[1], quality=84)`, strip, ...shots.map((s) => s.file)]);
     for (const s of shots) fs.unlinkSync(s.file);
   } catch (e) { log('strip failed', e.message); }
   return strip;
@@ -269,11 +269,11 @@ async function pvpFight(fight, A0, B0, O, opts) {
     await O.q((refs) => CROnlineQA.focus(refs, 22), [['player', aPid], ['player', bPid]]);
     await O.page.setViewport({ width: 1538, height: 900 }); await sleep(1500);
     await O.q((refs) => CROnlineQA.focus(refs), [['player', aPid], ['player', bPid]]);
-    await O.page.screenshot({ path: path.join(OUT, 'screen_' + o.screens + '_1538x900.png') });
+    await O.page.screenshot({ path: path.join(OUT, 'screen_' + o.screens + '_1538x900.jpg'), type: 'jpeg', quality: 85 });
     await O.page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2 }); await sleep(1500);
     await O.q((refs) => CROnlineQA.focus(refs, 26), [['player', aPid], ['player', bPid]]);
     await sleep(600);
-    await O.page.screenshot({ path: path.join(OUT, 'screen_' + o.screens + '_phone.png') });
+    await O.page.screenshot({ path: path.join(OUT, 'screen_' + o.screens + '_phone.jpg'), type: 'jpeg', quality: 85 });
     await O.page.setViewport({ width: 1280, height: 800 }); await O.q(() => CROnlineQA.unfocus());
   }
   // switching mid-fight answers on the next tick (criterion 14): a style button, a prayer, a bite, all real UI clicks
