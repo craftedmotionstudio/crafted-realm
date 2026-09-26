@@ -182,7 +182,7 @@ var OsrsMenuWorld=(function(){
    if(k==='npc'){var t=u.npc&&u.npc.t||{};return {name:t.name||'Creature',type:'npc',level:t.level,examine:t.examine||('It\'s '+article(t.name||'creature')+'.')}}
    if(k==='friendly')return {name:u.name||sl.name||'Stranger',type:'npc',examine:u.examine||u.desc||('One of the folk of the realm.')};
    if(k==='resource')return resourceDesc(u);
-   if(k==='drop'){var d=itemDef(u.id);return {name:d.name||u.id,type:'item',examine:d.examine||d.desc||null}}
+   if(k==='drop'){var d=itemDef(u.id);return {name:d.name||u.id,type:'item',examine:typeof InvMenu!=='undefined'?function(){InvMenu.examine(u.id)}:(d.examine||d.desc||null)}}   // the pack's own examine line (stacks read as stacks)
    if(k==='fire')return u.range?{name:sl.name||'Range',type:'object',examine:'A hot range, banked for cooking.'}:{name:'Fire',type:'object',examine:'A crackling fire. Good for cooking on.'};
    if(k==='furnace')return {name:'Furnace',type:'object',examine:LEGACY_EXAMINE.furnace};
    if(k==='anvil')return {name:'Anvil',type:'object',examine:LEGACY_EXAMINE.anvil};
@@ -248,7 +248,7 @@ var OsrsMenuWorld=(function(){
  function menuFor(e,extra){var s=scan(e);var ctx=context(s,e,extra);var entries=M.build(s.entities,ctx);return {scan:s,ctx:ctx,entries:entries}}
  // OSRS rule: a left click runs exactly the top row
  function leftClick(e){
-  var r=menuFor(e),top=r.entries[0];
+  var r=menuFor(e,{shift:false}),top=r.entries[0];   // the shift extras live on the right-click menu only
   if(!r.scan.top&&!r.scan.walk&&!M.using())return null;
   if(top)M.record(top,'left');
   if(top&&typeof top.fn==='function'){try{top.fn()}catch(err){console.error('[OsrsMenu] left click '+M.rowText(top),err)}}

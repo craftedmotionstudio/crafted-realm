@@ -631,7 +631,7 @@ canvasEl.addEventListener('mousemove', e=>{
   } else {
     // the top-left line is the TOP row of the old-school menu (src/osrs_menu_world.js): exactly what a left click
     // does, then "/ N more options" (every other row but Cancel)
-    const r=OsrsMenuWorld.menuFor(e), hit=r.scan.top, top=r.entries[0];
+    const r=OsrsMenuWorld.menuFor(e,{shift:false}), hit=r.scan.top, top=r.entries[0];
     _hoverNpc = (hit && hit.obj.userData && hit.obj.userData.kind==='npc') ? hit.obj.userData.npc : null;
     const inspectOnly=!!(hit&&hit.obj.userData&&hit.obj.userData.inspectOnly);
     const inspectGround=inspectOnly?walkPointForHit(hit,e):null;

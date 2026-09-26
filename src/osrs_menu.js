@@ -105,7 +105,8 @@ var OsrsMenu=(function(){
     var hasExamine=got.some(function(en){return en.examine||en.option==='Examine'});
     if(!hasExamine&&desc.examine!==false&&!ctx.noExamine){
      var txt=desc.examine;
-     got.push({option:'Examine',target:desc.name,targetType:desc.type,examine:true,fn:function(){examineChat(typeof txt==='function'?txt():txt,desc.name)}});
+     // examine: a line of text, or a function that prints its own line (returning a string prints that instead)
+     got.push({option:'Examine',target:desc.name,targetType:desc.type,examine:true,fn:function(){if(typeof txt!=='function'){examineChat(txt,desc.name);return}var r=txt();if(typeof r==='string')examineChat(r,desc.name)}});
     }
    }
    got.forEach(function(en){
@@ -210,7 +211,8 @@ var OsrsMenu=(function(){
   addEventListener('keydown',function(e){
    if(e.key!=='Escape')return;
    if(view.open){hide();e.stopImmediatePropagation();e.preventDefault();return}   // Escape closes the menu only (not the bank or shop under it)
-   if(using())endUse();
+   // an open window or chat box takes the Escape first (the game closes it); otherwise Escape puts the item in use away
+   if(using()&&!windowOpen())endUse();
   },true);
   // a press outside the open menu only closes it: the same click never also walks or acts
   addEventListener('mousedown',function(e){
@@ -219,6 +221,10 @@ var OsrsMenu=(function(){
    if(e.button===0){e.stopPropagation();e.preventDefault()}
   },true);
   addEventListener('contextmenu',function(e){if(inside(e.target))e.preventDefault()},true);
+ }
+ function windowOpen(){
+  if(typeof document==='undefined')return false;
+  return Array.prototype.some.call(document.querySelectorAll('.modal'),function(m){return m.style.display&&m.style.display!=='none'&&m.offsetParent!==null});
  }
  function swallowing(){return Date.now()<view.swallowUntil}
  function swallowed(){view.swallowUntil=0}

@@ -52,7 +52,8 @@ var OsrsMenuItems=(function(){
  function slotOf(id,prefer){if(prefer>=0&&Player.inv[prefer]&&Player.inv[prefer].id===id)return prefer;return Player.inv.findIndex(function(s){return s&&s.id===id})}
  var BREAD={bucket_flour:1,bucket_water:1,dough:1};
  function itemOnItem(fromSlot,toSlot){
-  var a=Player.inv[fromSlot]&&Player.inv[fromSlot].id||M.using(),b=Player.inv[toSlot]&&Player.inv[toSlot].id;
+  var a=M.using()||(Player.inv[fromSlot]&&Player.inv[fromSlot].id),b=Player.inv[toSlot]&&Player.inv[toSlot].id;
+  fromSlot=slotOf(a,fromSlot);
   M.endUse();if(!a||!b)return false;
   var pair=function(x,y){return (a===x&&b===y)||(a===y&&b===x)};
   var logsAt=function(){return a==='logs'?slotOf('logs',fromSlot):slotOf('logs',toSlot)};
