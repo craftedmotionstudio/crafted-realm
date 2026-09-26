@@ -4,7 +4,8 @@ Owner, 2026-09-26: "the overall feel is a little bit too polished; it needs to f
 like the Bible references style ... I think it might be [a textures thing]". Every look change is measured here, per
 surface class (grass, path, sand, foliage, trunk, wall, roof, water), on the same numbers for our captures and the refs:
   L, S, H   HLS lightness / saturation / hue (degrees) of the region's mean colour (0..1, 0..1, 0..360)
-  sd        spread of lightness inside the region (std of per-pixel luma, 0..255): blotchy vs even surfaces
+  sd        local lightness spread: std of luma inside 16 x 16 px blocks wholly in the region, averaged (0..255):
+            blotchy vs even surfaces, independent of plane-to-plane light (a sunlit vs a shaded roof face)
   fine      local texture contrast: mean |luma difference| between neighbouring pixels inside the region (0..255),
             measured with every image scaled to the same 900 px screen height (our captures' height; large refs are
             area-averaged down, small 2004-size refs are nearest-scaled up the way a pixel-scaled client shows them)
@@ -33,6 +34,7 @@ NORM_H = 900
 COARSE = 4
 MIN_PIXELS = 600          # a class needs this many (eroded, 900-scale) pixels in a view to be measured
 ERODE = 2
+VOID = 10                 # screenshot luma below this = the black void past the draw distance (not a surface)
 # the flat class colours of the capture mask pass (tools/capture_holm_look.js MASK_CLASSES, keep in step)
 CLASSES = {'grass': (0, 200, 0), 'path': (200, 100, 0), 'sand': (230, 220, 0), 'foliage': (0, 80, 255),
            'trunk': (120, 40, 160), 'wall': (255, 0, 255), 'roof': (255, 0, 0), 'water': (0, 220, 220)}
@@ -64,6 +66,17 @@ def pair_contrast(y, m):
     return float(d.mean()) if d.size else float('nan')
 
 
+def local_sd(y, m, k=16):
+    """mean lightness spread inside k x k blocks that lie wholly in the region: the blotchiness of a surface, not the
+    difference between a sunlit and a shaded roof plane (ref boxes sit on one plane, our masks cover whole models)"""
+    h, w = (y.shape[0] // k) * k, (y.shape[1] // k) * k
+    yb = y[:h, :w].reshape(h // k, k, w // k, k)
+    mb = m[:h, :w].reshape(h // k, k, w // k, k).all(axis=(1, 3))
+    if not mb.any():
+        return float(y[m].std())
+    return float(yb.std(axis=(1, 3))[mb].mean())
+
+
 def pool(a, m, k):
     h, w = (a.shape[0] // k) * k, (a.shape[1] // k) * k
     a2 = a[:h, :w].reshape(h // k, k, w // k, k, *a.shape[2:]).mean(axis=(1, 3))
@@ -82,7 +95,7 @@ def measure(arr, mask, native=None):
     y = luma(arr)
     ca, cm = pool(arr, mask, COARSE)
     r = {'n': n, 'rgb': [round(float(v), 1) for v in mean], 'L': round(l, 4), 'S': round(s, 4), 'H': round(h * 360, 1),
-         'sd': round(float(y[mask].std()), 3), 'fine': round(pair_contrast(y, mask), 3),
+         'sd': round(local_sd(y, mask), 3), 'fine': round(pair_contrast(y, mask), 3),
          'coarse': round(pair_contrast(luma(ca), cm), 3)}
     if native is not None:
         r['native'] = round(pair_contrast(luma(native[0]), native[1]), 3)
@@ -199,12 +212,15 @@ def draw_regions():
     print('regions ->', d_out)
 
 
-def class_masks(mask_img):
-    """mask png -> {class: bool mask}, eroded so silhouette edges never count"""
+def class_masks(mask_img, void=None):
+    """mask png -> {class: bool mask}, eroded so silhouette edges never count; `void` = pixels lost in the black
+    void past the draw distance (the mask pass draws without fog, so surfaces there would otherwise count)"""
     a = np.asarray(mask_img, np.int16)
     out = {}
     for cls, c in CLASSES.items():
         m = (np.abs(a - np.array(c, np.int16)).max(axis=2) <= MATCH)
+        if void is not None:
+            m &= ~void
         for _ in range(ERODE if m.any() else 0):   # erode by one pixel per pass (4-neighbour)
             e = m.copy()
             e[1:, :] &= m[:-1, :]
@@ -236,7 +252,7 @@ def measure_dir(d):
         if mk.size != im.size:
             mk = mk.resize(im.size, Image.NEAREST)
         nat = np.asarray(im, np.float32)
-        masks = class_masks(mk)
+        masks = class_masks(mk, luma(nat) < VOID)
         norm = normalise(im)
         arr = np.asarray(norm, np.float32)
         view = {}
@@ -329,6 +345,17 @@ def main():
         print_compare(sys.argv[2:])
     elif cmd == 'compare':
         print_compare(sys.argv[2:])
+    elif cmd == 'views':
+        bands = get_bands()
+        for d in sys.argv[2:]:
+            p = resolve(d) / 'measure.json'
+            res = json.loads(p.read_text())['views'] if p.exists() else measure_dir(d)
+            print(resolve(d).name)
+            for view, classes in res.items():
+                for cls, r in classes.items():
+                    b = bands.get(cls, {})
+                    print(f'  {view[:24]:24s} {cls:8s} n={r["n"]:7d} ' + ' '.join(
+                        f'{k}={fmt(k, r[k]).strip()}{flag(r[k], b.get(k)) if not (k == "H" and r["S"] < GREY) else " "}' for k in METRICS))
     else:
         print(__doc__)
         sys.exit(2)

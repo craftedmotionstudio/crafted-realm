@@ -861,7 +861,8 @@ function animate(){
   const now=performance.now();
   if(now-_minimapPaintAt>=80){ _minimapPaintAt=now; drawMinimap(); }
   const mapEnd=performance.now();
-  renderer.render(scene, camera);
+  // classic pixels (look pass 2): the world at 2004 size, scaled up with hard pixels, when the option is on
+  if(!(typeof ClassicPixels!=='undefined'&&ClassicPixels.render(renderer,scene,camera))) renderer.render(scene, camera);
   if(typeof CombatFX!=='undefined') CombatFX.draw();       // 2D combat layer: hitsplats + health bars (also ends the shake offset)
   if(_frameStages)_frameStages.record({start:frameNow,updateEnd:now,mapEnd:mapEnd,renderEnd:performance.now(),visible:frameVisible,focused:frameFocused});
 }
