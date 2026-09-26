@@ -509,6 +509,7 @@ function finishPlayerDeath(w, p) {
   for (const sk of w.content.SKILLS) p.setLevel(sk, p.base(sk));
   p.runEnergy = 10000;
   p.skullUntil = 0;
+  p.caffeinatedUntil = 0;
   p.prayers.clear(); p.prayerCounter = 0; p.clearTimer('prayer_drain'); p.out.prayersDirty = true;
   p.heroPoints.clear();
   p.predators = []; p.preys = [];

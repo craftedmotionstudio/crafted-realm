@@ -11,6 +11,7 @@
  */
 const C = require('../../shared/combat.js');
 const PVP = require('../../shared/pvp.js');
+const D = require('../../shared/drinks.js');
 const Player = require('./Player');
 
 const isInt = (v) => Number.isInteger(v);
@@ -79,6 +80,8 @@ const HANDLERS = {
   eat(w, p, m) {
     if (!isInt(m.slot) || m.slot < 0 || m.slot >= Player.INV_SIZE || !canAct(p)) return false;
     const s = p.inv[m.slot]; const def = s && p.itemDef(s.id);
+    // a dosed drink (coffee) goes through the same intent: 2004 potions have no eat or attack delay
+    if (s && D.isDrink(s.id)) { p.drink(m.slot); return; }
     if (!def || !(def.heal > 0)) return false;
     p.clearInteraction();
     if (!C.canEat(p.eatDelay, w.tick)) return;

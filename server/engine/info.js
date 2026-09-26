@@ -45,9 +45,10 @@ function buildTick(w, p) {
   // status block: sent whenever any value in it changes (energy in whole percents)
   const wl = p.wildLevel(), multi = p.inMulti() ? 1 : 0, skull = Math.max(0, p.skullUntil - tick), cb = p.combatLevel();
   const pp = [p.cur('Prayer'), p.base('Prayer')];
-  const sig = [p.hp, p.maxHp, pp[0], pp[1], Math.floor(p.runEnergy / 100), wl, multi, skull > 0 ? 1 : 0, cb].join('|');
+  const caf = Math.max(0, (p.caffeinatedUntil || 0) - tick);
+  const sig = [p.hp, p.maxHp, pp[0], pp[1], Math.floor(p.runEnergy / 100), wl, multi, skull > 0 ? 1 : 0, cb, caf > 0 ? 1 : 0].join('|');
   if (p.out.selfDirty || sig !== p.lastSeen.sig) {
-    me.hp = hpPair(p); me.pp = pp; me.en = p.runEnergy; me.wl = wl; me.multi = multi; me.skull = skull; me.cb = cb;
+    me.hp = hpPair(p); me.pp = pp; me.en = p.runEnergy; me.wl = wl; me.multi = multi; me.skull = skull; me.cb = cb; me.caf = caf;
     p.lastSeen.sig = sig;
     p.out.selfDirty = false;
   }
