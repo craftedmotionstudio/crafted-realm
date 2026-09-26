@@ -51,6 +51,13 @@ check('3 manifest: ' + kit.pieces.length + ' pieces, each a node in the GLB with
     if (c.cut) c.cut.cells.forEach(t => assert(inside(t)));
     if (c.walk) c.walk.cells.forEach(t => assert(c.cut && c.cut.cells.some(q => q[0] === t[0] && q[1] === t[1]), p.id + ' walk over cut'));
   });
+  // the published copies (tools/publish_scarlands_kit.js) are byte-identical to the candidates they came from
+  const pub = path.join(ROOT, 'assets/scarlands/kit-v1/');
+  if (fs.existsSync(pub)) {
+    assert.strictEqual(require('crypto').createHash('sha256').update(fs.readFileSync(pub + 'scarlands_kit.glb')).digest('hex'), kit.glb.sha256, 'published GLB is stale: node tools/publish_scarlands_kit.js apply');
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(pub + 'manifest.json', 'utf8')), kit, 'published manifest is stale');
+    assert.deepStrictEqual(read('assets/scarlands/proof/placement.json'), read('docs/rebuild/scarlands/proof_placement.json'), 'published placement is stale');
+  }
   ['ditch_straight', 'ditch_crossing_planks', 'ditch_crossing_stone', 'wild_warning_sign', 'ruin_arch', 'depth_stone'].forEach(id => assert(kit.pieces.some(p => p.id === id), id));
 });
 

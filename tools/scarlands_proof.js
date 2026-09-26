@@ -11,8 +11,9 @@
 (function(){
  'use strict';
  var qs = new URLSearchParams(location.search);
- var KIT = qs.get('kit') || '../.studio-workspaces/scarlands-kit-v1/candidates/manifest.json';
- var PLACE = qs.get('placement') || '../docs/rebuild/scarlands/proof_placement.json';
+ // the published copies (tools/publish_scarlands_kit.js); ?kit= / ?placement= point at candidates or another layout
+ var KIT = qs.get('kit') || '../assets/scarlands/kit-v1/manifest.json';
+ var PLACE = qs.get('placement') || '../assets/scarlands/proof/placement.json';
  var TEX = '../assets/textures/oldschool/';
  var hud = document.getElementById('hud');
  var renderer = new THREE.WebGLRenderer({ antialias: true });
