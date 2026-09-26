@@ -78,8 +78,12 @@ async function startServer() {
   const orig = PathingEntity.prototype.addHit;
   PathingEntity.prototype.addHit = function (amount, type) {
     serverHits.push({ tick: world.tick, to: this.nid != null ? 'n' + this.nid : 'p' + this.pid, amount, prayers: this.prayers ? Array.from(this.prayers) : null });
+    this.qaLastHitTick = world.tick;
     return orig.call(this, amount, type);
   };
+  // the hitpoints the other adventurers were last told (2004: someone else's hitpoints travel only with a hit)
+  const info0 = world.processInfo.bind(world);
+  world.processInfo = function () { for (const p of world.activePlayers()) if (p.qaLastHitTick === world.tick) p.qaHpAtHit = p.hp; return info0(); };
   log('game server on ws://127.0.0.1:' + app.port + ' tick ' + TICK + ' ms');
 }
 function sp(name) { return world.playerByKey(String(name).toLowerCase()); }
@@ -450,13 +454,14 @@ async function closeOverlays(cs) { for (const c of cs) await c.q(() => OnlineUI.
 async function syncCheck(fight, clients) {
   await sleep(TICK * 3);
   const truth = new Map();
-  for (const p of world.activePlayers()) truth.set(p.pid, { x: p.x, z: p.z, hp: p.hp });
+  for (const p of world.activePlayers()) truth.set(p.pid, { x: p.x, z: p.z, hp: p.hp, hpAtHit: p.qaHpAtHit });
   const bad = [];
   for (const c of clients) {
     const s = await c.state();
     const me = truth.get(s.me.pid);
     if (me && (me.x !== s.me.tile.x || me.z !== s.me.tile.z || me.hp !== s.hp[0])) bad.push({ page: c.name, who: 'self', client: [s.me.tile.x, s.me.tile.z, s.hp[0]], server: me });
-    for (const p of s.players) { const t = truth.get(p.pid); if (t && (t.x !== p.tile.x || t.z !== p.tile.z || t.hp !== p.hp[0])) bad.push({ page: c.name, who: p.name, client: [p.tile.x, p.tile.z, p.hp[0]], server: t }); }
+    // someone else's hitpoints: the server's now, or (they ate or healed since) what their last hit said, as in 2004
+    for (const p of s.players) { const t = truth.get(p.pid); if (t && (t.x !== p.tile.x || t.z !== p.tile.z || (t.hp !== p.hp[0] && t.hpAtHit !== p.hp[0]))) bad.push({ page: c.name, who: p.name, client: [p.tile.x, p.tile.z, p.hp[0]], server: t }); }
     // the drawn position has caught up with the tile
     const w = await c.q(() => { const m = OnlineActors.me(); const t = OnlineWorld.model().toWorld(m.tile.x, m.tile.z); return Math.hypot(m.mover.x - t.x, m.mover.z - t.z); });
     if (w > 0.5) bad.push({ page: c.name, who: 'drawn self', off: w });   // a background page steps its frames coarsely; a rubber band would be a tile or more
