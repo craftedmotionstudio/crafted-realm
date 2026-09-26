@@ -8,7 +8,7 @@ var HolmArrivalQA=(function(){
  var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null,heldRecord=null,lessons=null,passThrough=false,lastGateKey='';
  // ?holmIsland=1 (M4.1): the same provider over the whole Sept 13 island: the arrival graph composed with the
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
- function revision(){return island?'holm-island-v1':loaded.package.navigation.graphRevision}
+ function revision(){return island?'holm-island-v2':loaded.package.navigation.graphRevision}   // v2: the Holm v2 land (2026-09-26); v1 island stances do not restore onto it
  // v4 (2026-09-24, M3R): guide house v2, branching oak, Lantern Keeper statue, trunk-footprint tree blockers
  var ID=island&&typeof HolmIsland!=='undefined'?HolmIsland.ID:'tutors-holm-arrival-qa',EXPORT='64098cdbe5d0631d';
  function active(){return !!provider&&CRWorldMode.providerId===ID}
@@ -19,7 +19,8 @@ var HolmArrivalQA=(function(){
   var production=typeof HolmIsland!=='undefined'&&HolmIsland.production();
   if((!production&&!QAProfile.isolated)||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
   // old-school look (2026-09-25): the textured Guide House ships in its own arrival package export (same graph)
-  var osPkg=typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.arrivalPackage():null;
+  // Holm v2 land (2026-09-26): the island's terrain lives in the v2-land arrival package (HolmV2Land), in both looks
+  var osPkg=island&&typeof HolmV2Land!=='undefined'?HolmV2Land.arrival():typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.arrivalPackage():null;
   loaded=null;if(osPkg)try{loaded=await HolmArrivalExportLoader.load({baseUrl:osPkg.baseUrl,exportId:osPkg.exportId})}catch(e){console.warn('[HolmArrivalQA] old-school arrival package unavailable; the previous package is kept',e&&e.message)}
   if(!loaded)loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v9/exports/',exportId:EXPORT});
   if(typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){HolmOverhaulGround.setTerrain(loaded.documents.terrain);await HolmOldschoolLook.preload(THREE)}

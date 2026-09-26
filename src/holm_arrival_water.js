@@ -117,8 +117,29 @@ var HolmArrivalWater=(function(){
   oceanGeometry.setIndex([0,2,1,0,3,2]);oceanGeometry.computeVertexNormals();
   var riverGeometry=new T.BufferGeometry();riverGeometry.setAttribute('position',new T.Float32BufferAttribute(data.positions,3));riverGeometry.setIndex(data.indices);riverGeometry.computeVertexNormals();
   var ocean=new T.Mesh(oceanGeometry,material),river=new T.Mesh(riverGeometry,material);ocean.name='ArrivalOcean';river.name='ArrivalCreek';group.add(ocean,river);
-  return {group:group,material:material,update:function(dt){if(!disposed&&Number.isFinite(dt)&&dt>=0)time.value+=Math.min(dt,.1)},dispose:function(){if(disposed)return;disposed=true;if(group.parent)group.parent.remove(group);oceanGeometry.dispose();riverGeometry.dispose();material.dispose()}};
+  // Holm v2 land (2026-09-26): still pond water (terrain v2 basins) is a flat sheet at the pond level over every tile whose
+  // drawn ground dips below it; the bank above the level hides the rest, so the shore is the terrain's own contour
+  var pondGeometry=null,pd=terrain&&ponds(terrain);
+  if(pd&&pd.indices.length){pondGeometry=new T.BufferGeometry();pondGeometry.setAttribute('position',new T.Float32BufferAttribute(pd.positions,3));pondGeometry.setIndex(pd.indices);pondGeometry.computeVertexNormals();
+   var pond=new T.Mesh(pondGeometry,material);pond.name='ArrivalPond';group.add(pond)}
+  return {group:group,material:material,ponds:pd?pd.ponds:[],update:function(dt){if(!disposed&&Number.isFinite(dt)&&dt>=0)time.value+=Math.min(dt,.1)},dispose:function(){if(disposed)return;disposed=true;if(group.parent)group.parent.remove(group);oceanGeometry.dispose();riverGeometry.dispose();if(pondGeometry)pondGeometry.dispose();material.dispose()}};
  }
- return {ribbon:ribbon,surface:surface,drawnHeight:drawn,create:create};
+ // pond sheets: one quad per tile (in the basin's reach) whose lowest corner lies under the pond level
+ function ponds(terrain){
+  if(!terrain||!Array.isArray(terrain.ponds)||!terrain.ponds.length)return null;
+  var W=terrain.width,S=W+1,h=terrain.heights,positions=[],indices=[],out=[],seen={};
+  // flood from the pond's own water tiles (kind 3) through neighbours whose ground dips under the level, within the basin:
+  // never a sheet over a low beach or the creek outside the bowl
+  terrain.ponds.forEach(function(p){var n=0,y=p.level+.02,q=[];
+   function lo(x,z){return Math.min(h[z*S+x],h[z*S+x+1],h[(z+1)*S+x],h[(z+1)*S+x+1])}
+   function inBasin(x,z){return Math.hypot((x+.5-p.x)/p.rx,(z+.5-p.z)/p.rz)<1.3}
+   for(var z=0;z<terrain.depth;z++)for(var x=0;x<W;x++)if(terrain.water[z*W+x]===3&&inBasin(x,z)&&!seen[x+','+z]){seen[x+','+z]=1;q.push([x,z])}
+   for(var i=0;i<q.length;i++){var t=q[i];[[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){var nx=t[0]+d[0],nz=t[1]+d[1],k=nx+','+nz;
+     if(nx<0||nz<0||nx>=W||nz>=terrain.depth||seen[k]||terrain.water[nz*W+nx]===1||terrain.water[nz*W+nx]===2||!inBasin(nx,nz)||lo(nx,nz)>=p.level)return;seen[k]=1;q.push([nx,nz])})}
+   q.forEach(function(t){var x=t[0],z=t[1],b=positions.length/3;positions.push(x,y,z,x+1,y,z,x,y,z+1,x+1,y,z+1);indices.push(b,b+2,b+1,b+1,b+2,b+3);n++});
+   out.push({id:p.id,level:p.level,tiles:n})});
+  return {positions:positions,indices:indices,ponds:out};
+ }
+ return {ribbon:ribbon,surface:surface,drawnHeight:drawn,create:create,ponds:ponds};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmArrivalWater;

@@ -1,0 +1,7 @@
+{
+ "schema": "holm-island-ladders-v1",
+ "status": "M5.1 cross-building ladders (2004-style instant storey change between separate areas)",
+ "ladders": [
+  {"id": "quarry-shaft", "a": ["quarry", "shaft"], "b": ["cavern", "ladder"], "downFrom": "a", "notifyDown": ["descend", "cave"]}
+ ]
+}

@@ -20,6 +20,8 @@ KEYS=spec.get('supportKeywords',['Floor','Stair','Step','Deck','Porch','Landing'
 model_bytes=MODEL.read_bytes();SHA=hashlib.sha256(model_bytes).hexdigest()
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=str(MODEL))
+# optional spec 'frame': evaluate the imported clips at this frame (a door held open the way the runtime holds it)
+if 'frame' in spec:bpy.context.scene.frame_set(int(spec['frame']))
 deps=bpy.context.evaluated_depsgraph_get()
 verts=[];faces=[];labels=[];support_faces=[];support_labels=[]
 def owner_name(ob):
@@ -37,7 +39,8 @@ for ob in bpy.context.scene.objects:
   n=(verts[f[1]]-verts[f[0]]).cross(verts[f[2]]-verts[f[0]]).normalized()
   if n.z>.7 and any(k in name for k in KEYS):support_faces.append(f);support_labels.append(name)
  eo.to_mesh_clear()
-terrain_path=ROOT/'.studio-workspaces/holm-overhaul-terrain-v1/working/assets/world/authoring/holm-overhaul.terrain.bundle.json'
+# Holm v2 land (2026-09-26): an optional spec 'terrain' names the terrain bundle to measure on (default: the Sept 13 terrain)
+terrain_path=ROOT/spec.get('terrain','.studio-workspaces/holm-overhaul-terrain-v1/working/assets/world/authoring/holm-overhaul.terrain.bundle.json')
 terrain_bytes=terrain_path.read_bytes();terrain=json.loads(terrain_bytes);W=terrain['width'];stride=W+1
 for wz in range(P['z']+L['z0']-1,P['z']+L['z1']+2):
  for wx in range(P['x']+L['x0']-1,P['x']+L['x1']+2):

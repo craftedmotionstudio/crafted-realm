@@ -1,6 +1,6 @@
 {
  "schema": "holm-island-gates-v1",
- "status": "M5.2b progress gates (2004 Tutorial Island style): doorway tiles stay shut in the island graph until the lesson named in requires is complete; station gates refuse with a chat line until then. Holm v2 land (2026-09-26): each leaf height rises with its building seat (tools/rebuild_holm_v2land.js).",
+ "status": "M5.2b progress gates (2004 Tutorial Island style): doorway tiles stay shut in the island graph until the lesson named in requires is complete; station gates refuse with a chat line until then.",
  "gates": [
   {
    "id": "bakehouse-door",
@@ -20,7 +20,7 @@
    },
    "requires": "cook_fish",
    "message": "The bakehouse door is barred. Finish your lessons at the survival camp first.",
-   "y": 5.47
+   "y": 4.14
   },
   {
    "id": "lodge-door",
@@ -40,7 +40,7 @@
    },
    "requires": "bake_bread",
    "message": "The Quest Lodge stays shut until you have baked your first loaf.",
-   "y": 6.4
+   "y": 5.02
   },
   {
    "id": "bank-door",
@@ -60,7 +60,7 @@
    },
    "requires": "ranged_trial",
    "message": "The Holm Bank opens its doors once your combat trials are done.",
-   "y": 7.312
+   "y": 6.312
   },
   {
    "id": "lastlight-door",
@@ -80,7 +80,7 @@
    },
    "requires": "magic_trial",
    "message": "The keeper has bolted the storm door. Finish your magic lesson first.",
-   "y": 17.8
+   "y": 14.3
   },
   {
    "id": "haven-gate",

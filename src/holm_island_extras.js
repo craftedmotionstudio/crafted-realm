@@ -35,7 +35,7 @@ var HolmIslandExtras=(function(){
    {prefix:'Lodge_FurnishingMap_',target:'map',label:'Study region chart',call:['HolmQuestLodge','studyChart']}],
   // M4.4 stations; lesson handlers are rebound to them in M5 (a click without a call walks there and says so)
   bank:[{prefix:'Bank_ServiceCounter_',target:'counter',label:'Use bank counter',call:['UI','openBank']},{prefix:'Bank_ServiceVault_',target:'vault',label:'Open vault',call:['UI','openBank']},{prefix:'Bank_ServiceShelves_',target:'shop',label:'Browse goods'}],
-  survival:[{prefix:'Survival_ServiceTools_',target:'tools',label:'Tool rack'},{prefix:'Survival_ServiceFirePit_',target:'fire',label:'Fire ring'},{prefix:'Survival_ServiceLogPile_',target:'logs',label:'Log pile'},{prefix:'Survival_ServiceFishing_',target:'fishing',label:'Fishing spot',proxy:false}],
+  survival:[{prefix:'Survival_ServiceTools_',target:'tools',label:'Tool rack'},{prefix:'Survival_ServiceFirePit_',target:'fire',label:'Fire ring'},{prefix:'Survival_ServiceLogPile_',target:'logs',label:'Log pile'}],   // v2 land: the creek fishing stage is gone; fishing is taught at the Minnow Hollow pond (HolmFishing)
   quarry:[{prefix:'Quarry_ServiceShaft_',target:'shaft',label:'Climb-down shaft ladder',ladder:'quarry-shaft'},{prefix:'Quarry_ServiceWinch_',target:'winch',label:'Winch'},{prefix:'Quarry_ServiceBench_',target:'bench',label:'Repair bench'}],
   mage:[{prefix:'Mage_ServiceRuneTable_',target:'runes',label:'Rune table'},{prefix:'Mage_ServiceLectern_',target:'lectern',label:'Lectern'},{prefix:'Mage_ServiceTelescope_',target:'observatory',label:'Telescope'}],
   cavern:[{prefix:'Cavern_ServiceLadderUp_',target:'ladder',label:'Climb-up ladder',ladder:'quarry-shaft'}],
@@ -66,11 +66,17 @@ var HolmIslandExtras=(function(){
   // old-school look: kit textures crisp up close, mip-mapped far away
   if(m.map&&typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){m.map.magFilter=T.NearestFilter;m.map.minFilter=T.LinearMipmapLinearFilter}if('roughness' in m){m.roughness=1;m.metalness=0;m.needsUpdate=true}})}
  async function loadData(){
-  var buildings=[];
-  for(var i=0;i<BUILDINGS.length;i++){var b=BUILDINGS[i];
+  var buildings=[],reg=null;
+  // Holm v2 land (2026-09-26): every building's model and the graph re-measured on the v2 land at its seat (HolmV2Land registry)
+  if(typeof HolmV2Land!=='undefined')reg=await json(HolmV2Land.registryUrl());
+  for(var i=0;i<BUILDINGS.length;i++){var b=BUILDINGS[i],pin=reg&&reg.buildings&&reg.buildings[b.id];
+   if(pin){var look=typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()?'oldschool':undefined;
+    b=Object.assign({},b,{graph:HolmV2Land.url('.studio-workspaces/'+pin.graph+'/candidates/navigation.json'),model:HolmV2Land.url(pin.model),look:look,v2land:true});
+    if(b.extra&&pin.extraPlacement)b.extra=Object.assign({},b.extra,{placement:HolmV2Land.url(pin.extraPlacement)})}
+   else{
    // old-school look (2026-09-25): the textured Blender candidate and its re-measured graph (same stances, new model hash),
    // swapped as a pair only when both are served (HolmOldschoolLook.preload verified them); otherwise the previous pair
-   var gu=lookUrl(b.graph),mu=lookUrl(b.model);if(gu!==b.graph||mu!==b.model)b=Object.assign({},b,{graph:gu,model:mu,look:'oldschool'});
+   var gu=lookUrl(b.graph),mu=lookUrl(b.model);if(gu!==b.graph||mu!==b.model)b=Object.assign({},b,{graph:gu,model:mu,look:'oldschool'})}
    var graph=await json(b.graph),p=graph.placement||graph.origin;
    buildings.push({id:b.id,graph:graph,placement:{x:p.x,y:p.y,z:p.z},source:b})}
   // Sept 13 habitat trees that a new building now stands on are left out (models and blockers alike): the planned
@@ -81,12 +87,12 @@ var HolmIslandExtras=(function(){
    if(pl)for(var z=Math.floor(pl.z-pl.d/2)-1;z<=Math.ceil(pl.z+pl.d/2)+1;z++)for(var x=Math.floor(pl.x-pl.w/2)-1;x<=Math.ceil(pl.x+pl.w/2)+1;x++)built[x+','+z]=true;
    if(b.source.plan)b.graph.nodes.forEach(function(n){if(!/Terrain$/.test(n.surface))built[Math.floor(n.x+b.placement.x)+','+Math.floor(n.z+b.placement.z)]=true});
   });
-  var hab=await json(HABITAT),radius=hab.blockers||TRUNK;
+  var hab=await json(reg&&reg.habitat?HolmV2Land.url(reg.habitat):HABITAT),radius=hab.blockers||TRUNK;
   var veg=hab.placements.filter(function(p){return !built[Math.floor(p.x)+','+Math.floor(p.z)]}),blockers=[];
   veg.forEach(function(p){var r=radius[p.asset];if(r)blockers.push({id:'habitat:'+p.id,mode:'overlap',x0:p.x-r*p.scale,x1:p.x+r*p.scale,z0:p.z-r*p.scale,z1:p.z+r*p.scale})});
   // M5.1 lesson trees and ore rocks block like habitat trees
   if(typeof HolmIslandLessons!=='undefined')blockers=blockers.concat(await HolmIslandLessons.blockers());
-  return {buildings:buildings,habitat:veg,blockers:blockers,bridges:(await json(BRIDGES)).bridges,ladders:(await json(LADDERS)).ladders};
+  return {buildings:buildings,habitat:veg,blockers:blockers,bridges:(await json(BRIDGES)).bridges,ladders:(await json(LADDERS)).ladders,bridgeModels:reg&&reg.bridgeModels?HolmV2Land.url(reg.bridgeModels)+'/':null};
  }
  async function load(o){
   var T=o.THREE,scene=o.scene,W=o.WORLD,sample=o.sample,data=o.data,roots=[],mixers=[],grounds=[];
@@ -158,7 +164,7 @@ var HolmIslandExtras=(function(){
     im.frustumCulled=false;   // r128 culls an InstancedMesh by its base geometry only; one batch spans the island
     list.forEach(function(m,i){im.setMatrixAt(i,M4.multiplyMatrices(m,n.matrixWorld))});im.instanceMatrix.needsUpdate=true;scene.add(im);roots.push(im)})});
   // ---- bridges, built to the measured deck tiles ----
-  var BM=lookUrl(BRIDGE_MODELS),bridgeModels=(await json(BM+'manifest.json')).bridges;
+  var BM=data.bridgeModels||lookUrl(BRIDGE_MODELS),bridgeModels=(await json(BM+'manifest.json')).bridges;   // v2 land: rebuilt on the new decks
   for(var q=0;q<bridgeModels.length;q++){var m=bridgeModels[q],gb=await parse(T,await bytes(BM+m.file));place(gb.scene,m.centre[0],0,m.centre[2],0).name='island-bridge-'+m.id}
   var cutFor=null;
   // pose.surface 'b:<building>:<layer>:<mesh>' away from the building's terrain = inside that building

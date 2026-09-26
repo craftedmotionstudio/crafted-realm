@@ -13,7 +13,7 @@ var HolmArrivalApproach=(function(){
   need(Array.isArray(a.waypoints)&&a.waypoints.length>1,'missing approach waypoints');
   a.waypoints.forEach(function(p){need(Array.isArray(p)&&p.length===3&&p.every(Number.isFinite),'invalid waypoint')});
   Terrain.sample(b,0,0);
-  need(b.heights.every(Number.isFinite)&&Array.isArray(b.water)&&b.water.length===b.width*b.depth&&b.water.every(function(v){return v===0||v===1||v===2}),'invalid terrain cells');
+  need(b.heights.every(Number.isFinite)&&Array.isArray(b.water)&&b.water.length===b.width*b.depth&&b.water.every(function(v){return v===0||v===1||v===2||v===3}),'invalid terrain cells');
   var strips=[],half=a.clearWidth/2-r,seam=w.z+c.building.depth/2+2;
   for(var i=1;i<a.waypoints.length;i++){
    var p=a.waypoints[i-1],q=a.waypoints[i],run=Math.abs(p[0]-q[0])+Math.abs(p[2]-q[2]);
