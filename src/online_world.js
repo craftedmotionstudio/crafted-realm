@@ -59,18 +59,23 @@
  function smooth(x,z,scale,k){var fx=x/scale,fz=z/scale,ix=Math.floor(fx),iz=Math.floor(fz),u=fx-ix,w=fz-iz;u=u*u*(3-2*u);w=w*w*(3-2*w);
   function q(a,c){return hash(a,c,k)*2-1}return (q(ix,iz)*(1-u)+q(ix+1,iz)*u)*(1-w)+(q(ix,iz+1)*(1-u)+q(ix+1,iz+1)*u)*w}
  var WATER_Y=-0.55, BED_Y=-1.45, LIP_Y=-0.62;
- /** lattice of (W+1)*(D+1) corner heights and materials (0 sand, 1 grass, 2 rock, 3 earth, 4 bed) + path weights */
+ var PAD=8;   // ground drawn past the bounds on every side, so the pocket ends in banks and treeline, not a cliff into the void
+ /** lattice of (W+1+2P)*(D+1+2P) corner heights and materials (0 sand, 1 grass, 2 rock, 3 earth, 4 bed); lattice
+  *  index (i, j) is world corner (i - P, j - P) */
  function lattice(m){
-  var W=m.width,D=m.depth,b=m.bounds,h=new Float32Array((W+1)*(D+1)),mat=new Uint8Array((W+1)*(D+1));
+  var W=m.width+2*PAD,D=m.depth+2*PAD,b=m.bounds,h=new Float32Array((W+1)*(D+1)),mat=new Uint8Array((W+1)*(D+1));
   var wild=(m.map.areas&&m.map.areas.wilderness&&m.map.areas.wilderness[0])||null;
-  function tileAt(i,j){return {x:i+b.x1,z:b.z2-j}}
+  function tileAt(wi,wj){return {x:wi+b.x1,z:b.z2-wj}}
   for(var j=0;j<=D;j++)for(var i=0;i<=W;i++){
-   var nW=0,nIn=0,nBlock=0;
-   for(var dj=-1;dj<=0;dj++)for(var di=-1;di<=0;di++){var t=tileAt(i+di,j+dj);if(!m.inBounds(t.x,t.z))continue;nIn++;var k=m.kind(t.x,t.z);if(k===2)nW++;else if(k===1)nBlock++}
-   var s=tileAt(Math.min(W-1,i),Math.min(D-1,j)),wl=m.wildernessLevel(s.x,s.z);
+   var wi=i-PAD,wj=j-PAD,nW=0,nIn=0;
+   for(var dj=-1;dj<=0;dj++)for(var di=-1;di<=0;di++){var t=tileAt(wi+di,wj+dj);if(!m.inBounds(t.x,t.z))continue;nIn++;if(m.kind(t.x,t.z)===2)nW++}
+   var s=tileAt(Math.max(0,Math.min(m.width-1,wi)),Math.max(0,Math.min(m.depth-1,wj))),wl=m.wildernessLevel(s.x,s.z);
    // gentle old-school undulation; the Scarlands roll harder and rise towards the north
    var amp=wl>0?0.45+Math.min(0.35,wl*0.04):0.18;
    var y=smooth(i,j,7,3)*amp+smooth(i,j,19,5)*amp*1.2+(wl>0?wl*0.05:0);
+   // outside the bounds the land banks up into low hills (never walkable: the server treats it as solid)
+   var out=Math.max(0,-wi,wi-m.width,-wj,wj-m.depth);
+   if(out>0)y+=Math.min(3.2,out*0.42)+smooth(i,j,4,9)*0.35*Math.min(1,out/2);
    if(nW>0&&nW===nIn)y=BED_Y+smooth(i,j,3,7)*0.12;else if(nW>0)y=LIP_Y+0.08*smooth(i,j,2,8);
    h[j*(W+1)+i]=y;
    // materials: grass in the Commons, scorched earth and rock in the Scarlands (grass thinning out past the Ditch)
@@ -79,9 +84,10 @@
    else if(wild&&sz>=wild.z1-2){var into=sz-(wild.z1-2),r=hash(i,j,11),n=smooth(i,j,6,13);
     if(into<5&&r<0.55-into*0.1)mt=1;else mt=n>0.35?2:(n<-0.45?0:3)}
    else if(smooth(i,j,9,17)>0.62)mt=0;
+   if(out>2&&smooth(i,j,5,19)>0.3)mt=2;
    mat[j*(W+1)+i]=mt;
   }
-  return {W:W,D:D,h:h,m:mat};
+  return {W:W,D:D,P:PAD,h:h,m:mat};
  }
  /** worn dirt paths between the respawn, the crossings and the ruins (tile key 'i,j' -> weight 0..1) */
  function paths(m){
@@ -91,16 +97,16 @@
     var len=Math.hypot(c.x-a.x,c.z-a.z),n=Math.max(1,Math.ceil(len*3));
     for(var s=0;s<=n;s++){var x=a.x+(c.x-a.x)*s/n,z=a.z+(c.z-a.z)*s/n;
      for(var dz=-2;dz<=2;dz++)for(var dx=-2;dx<=2;dx++){var ti=Math.floor(x)+dx,tj=Math.floor(z)+dz,d=Math.hypot(ti+.5-x,tj+.5-z);
-      if(d<=wid){var k=ti+','+tj,w=d<=wid*0.55?1:0.5;if(!(out[k]>=w))out[k]=w}}}}});
+      if(d<=wid){var k=(ti+PAD)+','+(tj+PAD),w=d<=wid*0.55?1:0.5;if(!(out[k]>=w))out[k]=w}}}}});
   return out;
  }
  /** bilinear height at a world point (entities stand on this; water tiles report the water surface) */
  function heightAt(L,x,z){
-  var i=Math.max(0,Math.min(L.W-1e-6,x)),j=Math.max(0,Math.min(L.D-1e-6,z)),i0=Math.floor(i),j0=Math.floor(j),fx=i-i0,fz=j-j0,W1=L.W+1;
+  var i=Math.max(0,Math.min(L.W-1e-6,x+L.P)),j=Math.max(0,Math.min(L.D-1e-6,z+L.P)),i0=Math.floor(i),j0=Math.floor(j),fx=i-i0,fz=j-j0,W1=L.W+1;
   var a=L.h[j0*W1+i0],b=L.h[j0*W1+i0+1],c=L.h[(j0+1)*W1+i0],d=L.h[(j0+1)*W1+i0+1];
   return (a*(1-fx)+b*fx)*(1-fz)+(c*(1-fx)+d*fx)*fz;
  }
- return {create:create,lattice:lattice,paths:paths,heightAt:heightAt,hash:hash,smooth:smooth,WATER_Y:WATER_Y};
+ return {create:create,lattice:lattice,paths:paths,heightAt:heightAt,hash:hash,smooth:smooth,WATER_Y:WATER_Y,PAD:PAD};
 });
 
 /* ---------------- the 3D world (browser only) ---------------- */
@@ -182,7 +188,7 @@ var OnlineWorld=(function(){
    else{var tl=HolmOverhaulGround.chunk(surface);geo.setAttribute('position',new THREE.Float32BufferAttribute(tl.positions,3));
     geo.setAttribute('color',new THREE.Float32BufferAttribute(tl.colors.map(function(c){return c*.62}),3))}
    geo.computeVertexNormals();geo.computeBoundingBox();geo.computeBoundingSphere();
-   var mesh=new THREE.Mesh(geo,st.groundMat);mesh.name='ground-chunk-'+cx+','+cz;mesh.receiveShadow=true;
+   var mesh=new THREE.Mesh(geo,st.groundMat);mesh.name='ground-chunk-'+cx+','+cz;mesh.receiveShadow=true;mesh.position.set(-L.P,0,-L.P);
    scene.add(mesh);WORLD.clickables.push(mesh);WORLD.grounds.push(mesh);st.meshes.push(mesh);st.stats.chunks++;
   }
  }
@@ -257,13 +263,12 @@ var OnlineWorld=(function(){
  /* a treeline and dead wood outside the bounds frame the playable pocket; the black void swallows the rest */
  function border(){
   var m=M(),b=m.bounds,out=[],W=m.width,D=m.depth,wild=(m.map.areas.wilderness||[])[0];
-  for(var j=-3;j<D+3;j+=3)for(var side=0;side<2;side++){
-   var i=side?W+1+Math.floor(OnlineMap.hash(j,side,1)*3):-2-Math.floor(OnlineMap.hash(j,side,2)*3);
-   var sz=b.z2-j,isWild=wild&&sz>=wild.z1-1,r=OnlineMap.hash(i,j,3);
-   var kind=isWild?(r<0.45?'deadtree':r<0.8?'rocks':'stones'):(r<0.4?'oak':r<0.75?'pine':'birch');
-   out.push({kind:kind,wx:i+.5,wz:j+.5,scale:0.8+r*0.5,rot:Math.floor(r*360)});
-  }
-  for(var i2=-4;i2<W+4;i2+=3){var r2=OnlineMap.hash(i2,9,4);out.push({kind:r2<0.5?'oak':'pine',wx:i2+.5,wz:D+1.5+r2*2,scale:0.9+r2*0.4,rot:Math.floor(r2*360)})}
+  function kindAt(wz,r){var sz=b.z2-Math.floor(wz),isWild=wild&&sz>=wild.z1-1;
+   return isWild?(r<0.45?'deadtree':r<0.75?'rocks':r<0.9?'stones':'deadtree'):(r<0.4?'oak':r<0.75?'pine':'birch')}
+  function add(wx,wz,seed){var r=OnlineMap.hash(Math.floor(wx*3),Math.floor(wz*3),seed);out.push({kind:kindAt(Math.max(0,Math.min(D-1,wz)),r),wx:wx,wz:wz,scale:0.8+r*0.5,rot:Math.floor(r*360)})}
+  for(var row=0;row<2;row++){var off=2.5+row*2.6;
+   for(var j=-4;j<D+4;j+=3){add(-off-OnlineMap.hash(j,row,2)*1.5,j+.5+row*1.4,5+row);add(W+off+OnlineMap.hash(j,row,3)*1.5,j+.5+row*1.4,7+row)}
+   for(var i=-2;i<W+2;i+=3){add(i+.5+row*1.4,-off-OnlineMap.hash(i,row,4)*1.5,9+row);add(i+.5+row*1.4,D+off+OnlineMap.hash(i,row,5)*1.5,11+row)}}
   return out;
  }
  /* ground flavour on open tiles: meadow tufts and flowers in the Commons, stones and dead tufts north of the Ditch */

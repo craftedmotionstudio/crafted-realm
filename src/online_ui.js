@@ -42,7 +42,8 @@ var OnlineUI=(function(){
  }
 
  /* ---------------- login ---------------- */
- function buildLogin(){
+ function buildLogin(n){
+  if(n)st.net=n;
   css();
   var box=$('welcome-box');if(!box||$('login-online'))return;
   var sec=document.createElement('section');sec.id='login-online';sec.className='login-stage';
@@ -55,7 +56,9 @@ var OnlineUI=(function(){
    '<p id="online-status" class="login-note"></p>'+
    '<p class="login-hint">PvP beyond the Ditch. Anyone may attack you there.</p>';
   box.appendChild(sec);
-  document.querySelectorAll('#welcome-box .login-stage').forEach(function(s){s.style.display=s===sec?'block':'none'});
+  // the local-save stages leave the page (the welcome flow's Escape key must not bring them back)
+  document.querySelectorAll('#welcome-box .login-stage').forEach(function(s){if(s!==sec)s.remove()});sec.style.display='block';
+  if(typeof HolmKit!=='undefined')HolmKit.load().catch(function(){});
   var badge=document.querySelector('.world-badge');if(badge)badge.innerHTML='<b>WORLD 1</b><small>ONLINE</small><span id="online-badge-state">OFFLINE</span>';
   var row=document.querySelector('#welcome-screen .login-footer');if(row)row.innerHTML='Original game by <span class="gold">Crafted Motion</span><br>Crafted Realm online alpha &middot; local test server';
   $('online-login').onclick=function(){click();doLogin(false)};
@@ -92,8 +95,7 @@ var OnlineUI=(function(){
    if(!register)return null;
    return n.register(user,pass).then(function(m){if(m.t!=='register_ok'&&m.code!=='name_taken')throw m;if(m.code==='name_taken')throw m;status('Account created. Logging in...','ok')});
   }).then(function(){
-   var look=(typeof CharCfg!=='undefined'&&CharCfg.kit&&!register)?null:lookFor(user);
-   return n.login(user,pass,look||lookFor(user));
+   return n.login(user,pass,lookFor(user));   // used only when the account has no saved look yet
   }).then(function(m){
    busy(false);
    if(!m||m.t!=='welcome'){status((m&&m.text)||'Login failed.','err');return}
@@ -221,6 +223,12 @@ var OnlineUI=(function(){
   o.querySelector('#onl-death-ok').onclick=function(){click();closeOverlay()};
   st.deathShown=true;
  }
+ /** the supply chest: pick a kit (it replaces your pack and gear) */
+ function chestDialog(kits,take){
+  var rows=Object.keys(kits).map(function(k){var kt=kits[k],w=kt.equip&&kt.equip.weapon;return '<button data-k="'+esc(k)+'">'+(w?'<img alt="" style="width:28px;height:25px;vertical-align:middle;margin-right:6px;image-rendering:pixelated" src="'+iconFor(w)+'">':'')+esc(kt.label||k)+'</button>'}).join('');
+  var o=overlay('<h4>Supply chest</h4><p>Take a fighting kit. It <b>replaces</b> everything in your pack and everything you wear.</p><div class="row" style="flex-direction:column">'+rows+'<button data-k="">Leave it</button></div>');
+  Array.prototype.forEach.call(o.querySelectorAll('button[data-k]'),function(b){b.onclick=function(){click();closeOverlay();if(b.getAttribute('data-k'))take(b.getAttribute('data-k'))}});
+ }
  function connection(text){var c=$('onl-conn');if(!c){c=document.createElement('div');c.id='onl-conn';document.body.appendChild(c)}c.textContent=text||'';c.style.display=text?'block':'none'}
 
  /* ---------------- clicks become intents ---------------- */
@@ -296,6 +304,6 @@ var OnlineUI=(function(){
   d.appendChild(n);d.appendChild(m);box.appendChild(d);box.scrollTop=box.scrollHeight;while(box.children.length>60)box.removeChild(box.firstChild);
  }
  return {buildLogin:buildLogin,install:install,applyWelcome:applyWelcome,applyTick:applyTick,setMyHp:setMyHp,confirmWalk:confirmWalk,wildHud:wildHud,
-  keptList:keptList,onMyDeath:onMyDeath,showDeath:showDeath,connection:connection,status:status,myMaxHit:myMaxHit,publicLine:publicLine,state:function(){return st.state},
+  keptList:keptList,chestDialog:chestDialog,onMyDeath:onMyDeath,showDeath:showDeath,connection:connection,status:status,myMaxHit:myMaxHit,publicLine:publicLine,state:function(){return st.state},
   closeOverlay:closeOverlay,lookFor:lookFor,myName:function(){return st.myName}};
 })();

@@ -33,7 +33,7 @@ var CROnline=(function(){
  if(typeof Persist!=='undefined'&&Persist.setStore)Persist.setStore(store);
  api.memoryStore=store;
  // the Holm island is the offline tutorial; the online alpha always boots the server's map
- if(typeof GameConfig!=='undefined')GameConfig.holmIslandLive=false;
+ if(typeof GameConfig!=='undefined'){GameConfig.holmIslandLive=false;GameConfig.holmIslandPublished=true}   // published Blender copies (assets/holm_island/)
  document.documentElement.setAttribute('data-online','1');
  return api;
 })();
