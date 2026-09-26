@@ -128,6 +128,9 @@ function playerGLBAnim(root, dt, moving, speed){
   const g = root.userData && root.userData.gmix; if(!g) return;
   speed = speed || 1;
   g.w += ((moving?1:0) - g.w) * Math.min(1, dt*10);   // smooth idle<->walk blend
+  g.moving = !!moving;
+  // an emote (HolmIslandPlayer.emote, also a gm.attack one-shot) stops the moment the player walks / runs or raises the guard
+  if(g.emote && g.emote.isRunning() && (moving || (g.block && g.block.isRunning()))){ g.emote.stop(); g.emote = null; }
   // a one-shot attack/block owns the whole body while it runs
   const busy = (g.attack && g.attack.isRunning()) || (g.block && g.block.isRunning());
   if(g.idle) g.idle.weight = busy ? 0 : (1 - g.w);
@@ -291,6 +294,8 @@ function refreshGLBGear(){
   (maps.hair||[]).forEach(m=>{ m.visible=!e.head; });
   rig.traverse(o=>{
     if(!o.isMesh) return;
+    // the character kit's hair / beards: the helm's `hides` show the kit's bald head instead (HolmKit.apply)
+    if(/^Kit_/.test(o.name||'') || (o.parent && /^Kit_/.test(o.parent.name||''))) return;
     const mats=Array.isArray(o.material)?o.material:[o.material];
     const hairy=/hair|pony|braid/i.test(o.name||'') ||
                 mats.some(m=>m && /hair|pony|braid/i.test(m.name||''));
@@ -448,11 +453,13 @@ function refreshGLBGear(){
     headBone.scale.setScalar(fullHelm ? 0.02 : player.userData._headScale0);
     headBone.updateWorldMatrix(true,false);
   }
-  // Blender worn armour (holm_equipment_v1): each piece authored in the kit's rest pose and parented to its bones;
-  // a slot falls back to the older builders below when the model or item mapping is missing
+  // Blender worn armour (holm_equipment_v2): helms ride the Head bone ('bind'); the suits are skinned to the kit
+  // skeleton ('skin') and deform with the kit; an amulet / cape takes the Over_<body armour> shape of what is worn under
+  // it. A slot falls back to the older builders below when the model or item mapping is missing (or the rig is not the kit)
   const HE=(typeof HolmEquipment!=='undefined'&&HolmEquipment.status().ready)?HolmEquipment:null;
-  const fitWorn=(key,id)=>{ const r=HE&&id?HE.forItem(id):null; if(!r||r.frame!=='bind') return false;
-    const h=HE.fit(rig,r.kind,r.metal,Object.assign({compensateBoneScale:true},r.opts)); if(!h) return false;
+  const bodyKind=(HE&&e.body&&HE.forItem(e.body))?HE.forItem(e.body).kind:null;
+  const fitWorn=(key,id)=>{ const r=HE&&id?HE.forItem(id):null; if(!r||(r.frame!=='bind'&&r.frame!=='skin')) return false;
+    const h=HE.fit(rig,r.kind,r.metal,Object.assign({compensateBoneScale:true,over:bodyKind},r.opts)); if(!h) return false;
     h.parts.forEach((p,i)=>{ p.traverse(o=>{ if(o.isMesh) o.castShadow=true; }); gear[key+'_he'+i]=p; }); return true; };
   if(e.head && !fitWorn('head',e.head)){
     const hdef=ITEMS[e.head];
@@ -548,6 +555,10 @@ function refreshGLBGear(){
       const bt=bootMesh(col); bt.position.set(0,0.01,0.02); bt.castShadow=true;
       bone.add(bt); gear[bn+'_boot']=bt;
     });
+  }
+  // the character kit: re-show what the removed gear hid and hide what the new gear replaces, in the same frame
+  if(player.userData.holmPlayer && typeof HolmKit!=='undefined' && HolmKit.ready()){
+    try{ HolmKit.apply(rig, typeof CharCfg!=='undefined'?CharCfg.kit:null); }catch(err){ console.warn('[refreshGLBGear] kit look',err); }
   }
 }
 

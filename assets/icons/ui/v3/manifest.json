@@ -224,6 +224,20 @@
    "finish": "sprite"
   },
   {
+   "icon": "emote_beckon",
+   "file": "emotes/beckon.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_blow_kiss",
+   "file": "emotes/blow_kiss.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
    "icon": "emote_bow",
    "file": "emotes/bow.png",
    "w": 30,
@@ -245,8 +259,36 @@
    "finish": "sprite"
   },
   {
+   "icon": "emote_cry",
+   "file": "emotes/cry.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
    "icon": "emote_dance",
    "file": "emotes/dance.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_headbang",
+   "file": "emotes/headbang.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_jig",
+   "file": "emotes/jig.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_jump_for_joy",
+   "file": "emotes/jump_for_joy.png",
    "w": 30,
    "h": 40,
    "finish": "sprite"
@@ -266,6 +308,27 @@
    "finish": "sprite"
   },
   {
+   "icon": "emote_panic",
+   "file": "emotes/panic.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_raspberry",
+   "file": "emotes/raspberry.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_salute",
+   "file": "emotes/salute.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
    "icon": "emote_shrug",
    "file": "emotes/shrug.png",
    "w": 30,
@@ -280,6 +343,13 @@
    "finish": "sprite"
   },
   {
+   "icon": "emote_spin",
+   "file": "emotes/spin.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
    "icon": "emote_think",
    "file": "emotes/think.png",
    "w": 30,
@@ -289,6 +359,13 @@
   {
    "icon": "emote_wave",
    "file": "emotes/wave.png",
+   "w": 30,
+   "h": 40,
+   "finish": "sprite"
+  },
+  {
+   "icon": "emote_yawn",
+   "file": "emotes/yawn.png",
    "w": 30,
    "h": 40,
    "finish": "sprite"

@@ -7,7 +7,7 @@
  * after a ladder, death. Island draft only (?holmIsland=1): the live game keeps its player until the cutover (M7). */
 var HolmIslandPlayer=(function(){
  'use strict';
- var URL='assets/models/holm_kit_v2.glb?v=8',st={root:null,clips:{},busy:null};
+ var URL='assets/models/holm_kit_v2.glb?v=10',st={root:null,clips:{},busy:null};
  var HAIR={short:'Hair_Short',long:'Hair_Long',ponytail:'Hair_Ponytail',bun:'Hair_Bun',mohawk:'Hair_Mohawk'};
  function hex(n){return '#'+('000000'+(Number(n)>>>0).toString(16)).slice(-6)}
  function look(){var c=typeof CharCfg!=='undefined'?CharCfg:{};return {female:c.gender==='f',hair:HAIR[c.hairStyle]||(c.hairStyle==='bald'?null:'Hair_Short'),beard:!!c.beard&&c.gender!=='f',
@@ -27,10 +27,35 @@ var HolmIslandPlayer=(function(){
   if(a&&a.type==='cook')return 'cook';
   return MAP[type||'slash']||'attack_slash'}
  function play(name){var gm=player&&player.userData&&player.userData.gmix,act=gm&&gm.clips&&gm.clips[name];if(!act)return false;
+  // any other one-shot (a combat swing, a skilling stroke, a hit, a climb) ends a running emote at once
+  if(gm.emote&&gm.emote!==act)gm.emote.stop();gm.emote=null;
   // combat feel: the bow draw and the cast run a touch faster so the arrow / spell leaves on a snappy release frame
   // (CombatFX.impactTime reads the same speeds); every other clip plays at its authored pace
   act.timeScale=typeof CombatFX!=='undefined'&&CombatFX.speedFor?CombatFX.speedFor(name):1;
   act.reset();act.setLoop(THREE.LoopOnce,1);act.clampWhenFinished=name==='death';act.weight=1;act.play();gm.attack=act;return true}   // playerGLBAnim treats gm.attack as the body-owning one-shot
+ /* Emotes (the Emotes tab): emote(key) plays the kit clip 'emote_<key>' once as the body-owning one-shot (never clamped: the body
+  * returns to idle when it ends). Before the kit carries the emote set, 'wave' falls back to the kit's own wave clip and every other
+  * key returns false (the tab then shows only its chat line). Walking or running, a block, a combat swing, a skilling stroke or a
+  * hit ends a running emote (playerGLBAnim / play); an emote never cuts a combat swing short: clicked during one (or while the
+  * player is still moving) it waits up to 1.5 s for the body to be free. A new emote restarts over the old one. Worn gear and
+  * tools stay as they are. Returns the clip name that plays (or will play), or false. */
+ var EMOTE_FALLBACK={wave:'wave'},COMBAT_CLIP=/^(attack_|bow$|cast$|block$|hit$|death$)/,EMOTE_WAIT=1500;
+ function emoteKey(k){return String(k||'').trim().toLowerCase().replace(/\s+/g,'_')}
+ function emoteClip(gm,key){var n='emote_'+key;if(gm.clips[n])return n;var f=EMOTE_FALLBACK[key];return f&&gm.clips[f]?f:null}
+ function bodyBusy(gm){                                   // true while a combat one-shot (or the death pose) owns the body
+  if(gm.block&&gm.block.isRunning())return true;var a=gm.attack;if(!a||a===gm.emote||!a.getClip)return false;var n=a.getClip().name;
+  if(n==='death')return a.isScheduled();return a.isRunning()&&COMBAT_CLIP.test(n)}   // the clamped death pose holds until respawn
+ function startEmote(gm,name){var act=gm.clips[name],prev=gm.attack;st.pending=null;
+  if(prev&&prev!==act&&prev!==gm.emote&&prev.isRunning())prev.stop();   // a skilling stroke gives way (combat swings are waited for)
+  if(!play(name))return false;gm.emote=act;return name}
+ function emote(key){
+  key=emoteKey(key);var gm=st.root&&typeof player!=='undefined'&&player===st.root&&player.userData.gmix;if(!gm||!gm.clips||!key)return false;
+  var name=emoteClip(gm,key);if(!name){st.pending=null;return false}
+  if(bodyBusy(gm)||gm.moving){st.pending={name:name,until:Date.now()+EMOTE_WAIT};return name}
+  return startEmote(gm,name)}
+ function emoteStatus(){var gm=st.root&&player===st.root&&player.userData.gmix;var e=gm&&gm.emote;
+  return {playing:!!(e&&e.isRunning()),clip:e&&e.isRunning()?e.getClip().name:null,pending:st.pending?st.pending.name:null,
+   clips:gm&&gm.clips?Object.keys(gm.clips).filter(function(n){return /^emote_/.test(n)}):[]}}
  function hookSwing(){if(st.hooked||typeof swing!=='function')return;st.hooked=true;var prev=swing;
   swing=function(g,type){if(g===player&&g.userData&&g.userData.holmPlayer){play(clipFor(type));return}return prev(g,type)}}
  function load(o){
@@ -73,8 +98,10 @@ var HolmIslandPlayer=(function(){
   // gear refits can re-show meshes: keep exactly the chosen body, hair and beard (cheap, about twenty meshes)
   var now=Date.now();if(!st.lastLook||now-st.lastLook>1000){st.lastLook=now;applyLook(st.rig)}
   if(a&&a.type==='cook'&&!(gm.attack&&gm.attack.isRunning()))play('cook');
+  // an emote clicked during a combat swing (or on the move) starts as soon as the body is free, or is dropped after 1.5 s
+  if(st.pending){if(Date.now()>st.pending.until)st.pending=null;else if(!bodyBusy(gm)&&!gm.moving)startEmote(gm,st.pending.name)}
   // OSRS: the weapon and shield go away and the skill's tool is in the hand while the action runs
   if(typeof HolmSkillTools!=='undefined')HolmSkillTools.update()}
- return {load:load,update:update,play:play,refreshLook:refreshLook,active:function(){return !!st.root&&typeof player!=='undefined'&&player===st.root},look:look};
+ return {load:load,update:update,play:play,emote:emote,emoteStatus:emoteStatus,refreshLook:refreshLook,active:function(){return !!st.root&&typeof player!=='undefined'&&player===st.root},look:look};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandPlayer;

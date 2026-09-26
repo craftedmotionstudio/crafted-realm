@@ -70,7 +70,16 @@ var SPR={music:'rail/music',muted:'rail/muted',layers:'rail/layers',medal:'rail/
  close:'misc/close',door:'misc/door',note:'misc/note',bell:'misc/bell',roof:'misc/roof',chest:'misc/chest',boot:'misc/boot',mglobe:'misc/globe',
  mheart:'misc/heart',mmedal:'misc/medal',mmedal_off:'misc/medal_off'};
 ['combat','skills','quests','inv','equip','prayers','spells','drops','clan','friends','ignore','logout','settings','emotes','music'].forEach(function(t){SPR['t_'+t]='tabs/'+t});
-['yes','no','bow','angry','think','wave','cheer','laugh','dance','sit','shrug','clap'].forEach(function(n){SPR['emote_'+n]='emotes/'+n});
+// the emote tab, in the tab's order (owner 2026-09-26: the whole classic set, four to a row). key = the name in lower case with
+// spaces -> underscores: the sprite emotes/<key>.png and the kit clip emote_<key>; v = the chat line ("You <v>."), o = the overhead word
+var EMOTES={yes:{v:'nod',o:'nod'},no:{v:'shake your head',o:'head shake'},bow:{v:'bow',o:'bow'},angry:{v:'fume',o:'fume'},
+ think:{v:'ponder',o:'ponder'},wave:{v:'wave',o:'wave'},shrug:{v:'shrug',o:'shrug'},cheer:{v:'cheer',o:'cheer'},
+ beckon:{v:'beckon',o:'beckon'},laugh:{v:'laugh',o:'laugh'},jump_for_joy:{v:'jump for joy',o:'jump for joy'},yawn:{v:'yawn',o:'yawn'},
+ dance:{v:'dance',o:'dance'},jig:{v:'dance a jig',o:'jig'},spin:{v:'spin around',o:'spin'},headbang:{v:'headbang',o:'headbang'},
+ cry:{v:'cry',o:'sob'},blow_kiss:{v:'blow a kiss',o:'blow kiss'},panic:{v:'panic',o:'panic'},raspberry:{v:'blow a raspberry',o:'raspberry'},
+ clap:{v:'clap',o:'clap'},salute:{v:'salute',o:'salute'}};
+function emoteKey(name){return String(name||'').trim().toLowerCase().replace(/\s+/g,'_')}
+Object.keys(EMOTES).forEach(function(k){SPR['emote_'+k]='emotes/'+k});
 function sprSrc(name){var p=SPR[name]||name;return SPR_BASE+p+'.png'+SPRV}
 function spr(name,cls,alt){return '<img class="kit-spr '+(cls||'')+'" src="'+sprSrc(name)+'" alt="'+(alt||'')+'" draggable="false">'}
 function svg(name,cls){return spr(name,cls)}   // legacy name: every former SVG icon is now a sprite
@@ -407,14 +416,18 @@ var TUTORS=['aldous','ansel','bram','corrick','durgin','hettie','ilse','maud','t
 function patchDialogue(){if(typeof UI==='undefined'||!UI.dialogue||UI.dialogue.__kit)return;var d0=UI.dialogue;
  UI.dialogue=function(name,text,opts,face){var r=d0.apply(this,arguments);try{var h=$('dlg-head');if(h&&!h.querySelector('img')){
   var low=String(name||'').toLowerCase(),id=null;TUTORS.forEach(function(t){if(new RegExp('\\b'+t+'\\b').test(low))id=t});
-  h.textContent='';if(id)h.innerHTML='<img src="assets/icons/tutors/'+id+'.png?v=29" alt="">';else h.innerHTML=spr('misc/chathead','kit-chathead')}}catch(e){}return r};UI.dialogue.__kit=true}
+  h.textContent='';if(id)h.innerHTML='<img src="assets/icons/tutors/'+id+'.png?v=31" alt="">';else h.innerHTML=spr('misc/chathead','kit-chathead')}}catch(e){}return r};UI.dialogue.__kit=true}
 // village folk speak through the same crisp overhead text as the player
 function patchVillageChatter(){if(typeof window.sayOverhead==='function'&&!window.sayOverhead.__kit){var f=function(mesh,text,secs){sayOverhead(mesh,text,secs||3.4);return null};f.__kit=true;window.sayOverhead=f}}
-// emotes: a player who clicks one sees it happen (a line in the chat, the gesture over their head)
-function wireEmotes(){Array.prototype.forEach.call(doc.querySelectorAll('#pane-emotes .emote-grid button'),function(b){if(b.__kit)return;b.__kit=true;var n=(b.getAttribute('title')||'').trim();tipify(b,n);
- if(SPR['emote_'+n.toLowerCase()])b.innerHTML=spr('emote_'+n.toLowerCase())+'<small>'+n+'</small>';
- b.addEventListener('click',function(){click();var v={Yes:'nod',No:'shake your head',Bow:'bow',Angry:'fume',Think:'ponder',Wave:'wave',Cheer:'cheer',Laugh:'laugh',Dance:'dance a jig',Sit:'sit a moment',Shrug:'shrug',Clap:'clap'}[n]||'gesture';
-  UI.chat('You '+v+'.','plain');if(typeof player!=='undefined'&&player)sayOverhead(player,'*'+v.split(' ')[0]+'*',2.4)})})}
+// emotes: a player who clicks one sees it happen (a line in the chat, the word over their head, and the kit character
+// performs it: HolmIslandPlayer.emote plays the clip emote_<key> once, or only the chat line while the kit has no such clip)
+function playEmote(key){var e=EMOTES[key]||{v:'gesture',o:'gesture'};
+ UI.chat('You '+e.v+'.','plain');if(typeof player!=='undefined'&&player)sayOverhead(player,'*'+e.o+'*',2.4);
+ try{if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.emote)HolmIslandPlayer.emote(key)}catch(err){console.warn('[ui-kit] emote',err)}}
+function wireEmotes(){Array.prototype.forEach.call(doc.querySelectorAll('#pane-emotes .emote-grid button'),function(b){if(b.__kit)return;b.__kit=true;
+ var n=(b.getAttribute('title')||'').trim(),key=b.getAttribute('data-emote')||emoteKey(n);tipify(b,n);
+ if(SPR['emote_'+key]){b.innerHTML=spr('emote_'+key)+'<small></small>';b.lastChild.textContent=n}
+ b.addEventListener('click',function(){click();playEmote(key)})})}
 // the hidden legacy tab rows come first in the DOM, so scripts that click querySelector('.tab-btn[data-tab=..]') light
 // up an invisible button: mirror the open tab onto the visible rows after every tab click
 function syncTabs(){doc.addEventListener('click',function(e){var b=e.target&&e.target.closest?e.target.closest('.tab-btn'):null;if(!b||!b.dataset.tab)return;var t=b.dataset.tab;
@@ -447,5 +460,5 @@ if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',boot);else
 window.addEventListener('load',function(){retireLayers();wireChatTabs();adoptTools();patchControls();patchNames();patchMinimapWalk();patchHud();patchInvHint();tabIcons();decoratePanes();patchDeeds();patchDialogue();patchQuests();decorateWindows();orbFills()});
 // once the adventurer is in the world: sweep any name sprites made before the kit loaded, refresh the chat name
 var sweeps=0,sweep=setInterval(function(){if(typeof running!=='undefined'&&running){hideNameSprites();refreshChatName();orbFills();if(++sweeps>=6)clearInterval(sweep)}},2500);
-window.UIKit={sayOverhead:sayOverhead,refreshEquip:refreshEquipKit,textures:setTex};
+window.UIKit={sayOverhead:sayOverhead,refreshEquip:refreshEquipKit,textures:setTex,emote:playEmote,emotes:Object.keys(EMOTES)};
 })();
