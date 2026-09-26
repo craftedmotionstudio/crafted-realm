@@ -65,4 +65,6 @@ Line '  -> Ctrl+C here stops the server.' 'DarkGray'
 Write-Host ''
 
 # 4. Serve in the foreground (blocking). Closing this window / Ctrl+C stops the one server.
-python -m http.server $port --bind 127.0.0.1
+# tools/serve_static.py = http.server with a deep accept queue: the plain one (backlog 5) drops some of the ~300 script
+# requests a page makes at boot, which silently loads a half-built game.
+python tools/serve_static.py $port $root
