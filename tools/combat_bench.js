@@ -5,8 +5,8 @@
  *      damage taken, XP per hour.
  *   B. PvP matchups on the AUTHORITATIVE server engine (server/engine World + headless players, shared/ rules):
  *      melee vs ranged vs magic at equal levels and matching tier gear, N fights per pairing, both players attacking
- *      from 4 tiles apart in the Wilderness; win rates and fight lengths. Variants: no food; food (eat at half health,
- *      then click again, the 2004 rhythm); food + the protection prayer against the opponent's style.
+ *      from 4 tiles apart in the Wilderness; win rates and fight lengths. Variants: no food; food (eat at half health or when one
+ *      max hit could finish you, then click again, the 2004 rhythm); food + the protection prayer against the opponent's style.
  *   C. Mirror fights (the same style both sides) for the "sensible fight length" of criterion 18.
  * Writes docs/rebuild/combat_grade_passes/bench_<tag>.json and .md. Run: node tools/combat_bench.js [tag] [--quick] */
 'use strict';
@@ -82,7 +82,9 @@ function pvpFight(seed,L,sa,sb,opts){
   for(let i=0;i<1500&&!winner;i++){
     for(const [me,them] of [[A,B],[B,A]]){const p=me.p;
       if(p.dead)continue;
-      if(opts.food&&p.hp<=Math.floor(p.maxHp/2)){const slot=p.inv.findIndex(s=>s&&s.id==='trout');if(slot>=0&&p.eatDelay<w.tick){me.s.intent({t:'eat',slot});me.s.intent({t:'op_player',pid:them.p.pid,op:'attack'})}}
+      // eat like a player who watches the other's max hit: at half health, or sooner when one hit could finish you
+      const o=them.p,oMax=o.autocast&&SPELLS[o.autocast]?SPELLS[o.autocast].max:o.combatStats().stats.maxHit;
+      if(opts.food&&p.hp<=Math.max(Math.floor(p.maxHp/2),oMax+1)){const slot=p.inv.findIndex(s=>s&&s.id==='trout');if(slot>=0&&p.eatDelay<w.tick){me.s.intent({t:'eat',slot});me.s.intent({t:'op_player',pid:them.p.pid,op:'attack'})}}
       else if(!p.target&&!them.p.dead)me.s.intent({t:'op_player',pid:them.p.pid,op:'attack'});
       if(opts.pray&&p.cur('Prayer')<=0){}   // out of prayer: fight on
     }

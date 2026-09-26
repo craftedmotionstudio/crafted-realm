@@ -102,7 +102,7 @@ const ITEMS = {
 
   /* ranged: bow tiers (arrows shared) */
   worn_bow:     {name:'Worn shortbow', stack:false, value:30,  equip:'weapon', style:'ranged', speedTicks:4, aBonus:8,  sBonus:7,  model:'bow', reqSkill:'Ranged', reqLvl:1, needs:'arrows'},
-  ash_bow:      {name:'Ash shortbow',  stack:false, value:160, equip:'weapon', style:'ranged', speedTicks:4, aBonus:17, sBonus:23, model:'bow', reqSkill:'Ranged', reqLvl:10, needs:'arrows'},
+  ash_bow:      {name:'Ash shortbow',  stack:false, value:160, equip:'weapon', style:'ranged', speedTicks:4, aBonus:17, sBonus:26, model:'bow', reqSkill:'Ranged', reqLvl:10, needs:'arrows'},
   gale_longbow: {name:'Gale longbow',  stack:false, value:520, equip:'weapon', style:'ranged', speedTicks:6, aBonus:30, sBonus:30, model:'longbow', reqSkill:'Ranged', reqLvl:25, needs:'arrows'},
   arrows:       {name:'Arrows', stack:true, value:2},
 
