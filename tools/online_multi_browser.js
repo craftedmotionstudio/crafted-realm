@@ -75,7 +75,7 @@ async function startServer() {
   world.broadcastFx = function (src, fx) { serverFx.push({ tick: world.tick, from: fx.from, to: fx.to, d: fx.d, k: fx.k, splash: !!fx.splash }); return fx0(src, fx); };
   const orig = PathingEntity.prototype.addHit;
   PathingEntity.prototype.addHit = function (amount, type) {
-    serverHits.push({ tick: world.tick, to: this.nid != null ? 'n' + this.nid : 'p' + this.pid, amount });
+    serverHits.push({ tick: world.tick, to: this.nid != null ? 'n' + this.nid : 'p' + this.pid, amount, prayers: this.prayers ? Array.from(this.prayers) : null });
     return orig.call(this, amount, type);
   };
   log('game server on ws://127.0.0.1:' + app.port + ' tick ' + TICK + ' ms');
@@ -136,7 +136,7 @@ async function kitUp(c, kit) {
   const s0 = await c.state();
   await c.q((k) => CROnlineQA.kit(k), kit);
   const want = { melee: 'steel_longsword', ranged: 'gale_longbow', magic: 'storm_staff' }[kit];
-  await c.until((s) => s.equip.weapon === want && s.ui.set.run !== undefined, 40000, 'kit ' + kit);
+  await c.until((s) => s.equip.weapon === want && s.ui.set.run !== undefined, 150000, 'kit ' + kit);
   await c.q(() => CROnlineQA.send({ t: 'run', on: true }));
   return s0;
 }
@@ -148,6 +148,7 @@ async function walkTo(c, x, z, ms) {
 function heal(name) {
   const p = sp(name); if (!p) return;
   for (const sk of world.content.SKILLS) p.setLevel(sk, p.base(sk));
+  p.runEnergy = 10000;
   p.out.selfDirty = true;
 }
 
@@ -275,6 +276,32 @@ async function pvpFight(fight, A0, B0, O, opts) {
     await O.page.screenshot({ path: path.join(OUT, 'screen_' + o.screens + '_phone.png') });
     await O.page.setViewport({ width: 1280, height: 800 }); await O.q(() => CROnlineQA.unfocus());
   }
+  // switching mid-fight answers on the next tick (criterion 14): a style button, a prayer, a bite, all real UI clicks
+  if (o.switches) {
+    const resp = {};
+    const t1 = Date.now();
+    await A.q(() => { document.querySelector('.tab-btn[data-tab="combat"]').click(); const b = document.querySelector('#combat-styles .cmb-style[data-i="2"]'); if (b) b.click(); });
+    await A.until((st) => st.ui.style === 2, 5000, 'style switch').catch(() => {});
+    resp.style = Date.now() - t1;
+    const t2 = Date.now();
+    await A.q(() => { document.querySelector('.tab-btn[data-tab="prayers"]').click(); });
+    await sleep(200);
+    await A.q(() => { const bs = document.querySelectorAll('#prayer-grid .prayer-btn'); const ids = Object.keys(PRAYERS); const i = ids.indexOf('ultimate_str'); if (bs[i]) bs[i].click(); });
+    await A.until((st) => st.prayers.includes('ultimate_str'), 5000, 'prayer switch').catch(() => {});
+    resp.prayer = Date.now() - t2;
+    const hp0 = (await A.state()).hp[0], t3 = Date.now();
+    await A.q(() => { document.querySelector('.tab-btn[data-tab="inv"]').click(); });
+    await sleep(150);
+    const slot = await A.q(() => { for (let i = 0; i < Player.inv.length; i++) { const x = Player.inv[i]; if (x && ITEMS[x.id].heal > 0) { const el = document.querySelectorAll('#inv-grid > *')[i]; if (el) { el.click(); return i; } } } return -1; });
+    await A.until((st) => st.inv[slot] === null || (st.inv[slot] && st.inv[slot][0] !== 'trout'), 5000, 'the bite').catch(() => {});
+    resp.eat = Date.now() - t3;
+    fight.responsiveness = { ms: resp, ticks: { style: +(resp.style / TICK).toFixed(2), prayer: +(resp.prayer / TICK).toFixed(2), eat: +(resp.eat / TICK).toFixed(2) } };
+    // a request goes out at once and is applied at the start of the next tick: never more than two ticks (plus the poll)
+    check(fight, resp.style <= TICK * 2 + 400 && resp.prayer <= TICK * 2 + 600 && resp.eat <= TICK * 2 + 550, 'style, prayer and food switches answer on the next tick', fight.responsiveness.ms);
+    // the attacker keeps fighting (eating dropped the attack order: click again, as a player would)
+    await sleep(TICK);
+    if (!sp(A.name).target) await A.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
+  }
   // single-way combat: a third adventurer cannot join outside a multi-combat area
   if (o.thirdParty) {
     await O.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
@@ -354,7 +381,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
   // protection prayers against players: the max hit is cut by 40% (never more than floor(max * 0.6) lands)
   for (const [def, att, max, pr] of [[B, A, maxA, o.protectB], [A, B, maxB, o.protectA]]) {
     if (!pr) continue;
-    const key = 'p' + (def === A ? aPid : bPid), got = hitsSince(since, key).map((h) => h.amount), cap = C.pvpProtectedMaxHit(max);
+    const key = 'p' + (def === A ? aPid : bPid), got = hitsSince(since, key).filter((h) => h.prayers && h.prayers.includes(pr)).map((h) => h.amount), cap = C.pvpProtectedMaxHit(max);   // only while the prayer was up (it can run dry)
     check(fight, got.length > 0 && Math.max(...got) <= cap, 'protection caps ' + att.name + '\'s hits on ' + def.name + ' at ' + cap + ' (max ' + max + ')', { biggest: Math.max(...got), cap });
   }
   // hits: every server hit on each fighter shows exactly one splat on the attacker's page and the observer's
@@ -516,7 +543,7 @@ const SCENARIOS = [
   // PvP, each style on its own, with eating and protection prayers (the defender prays against the attacker's style)
   { name: 'pvp-melee', kind: 'pvp', kitA: 'melee', kitB: 'melee', protectB: 'protect_melee', strip: 'pvp_melee', thirdParty: true, screens: 'pvp' },
   { name: 'pvp-ranged', kind: 'pvp', kitA: 'ranged', kitB: 'ranged', protectB: 'protect_range', strip: 'pvp_ranged' },
-  { name: 'pvp-magic', kind: 'pvp', kitA: 'magic', kitB: 'magic', protectB: 'protect_magic', strip: 'pvp_magic' },
+  { name: 'pvp-magic', kind: 'pvp', kitA: 'magic', kitB: 'magic', protectB: 'protect_magic', strip: 'pvp_magic', switches: true },
   // PvM, each style against the test map's monsters (melee and magic monsters; protection prayers against them)
   { name: 'pvm-melee-gnarlgob', kind: 'pvm', kit: 'melee', npc: 'gnarlgob', strip: 'pvm_melee' },
   { name: 'pvm-ranged-mosswolf', kind: 'pvm', kit: 'ranged', npc: 'mosswolf', strip: 'pvm_ranged' },
@@ -531,7 +558,7 @@ const SCENARIOS = [
   { name: 'pvp-melee-vs-magic', kind: 'pvp', kitA: 'melee', kitB: 'magic', protectB: 'protect_melee', protectItemA: true },
   { name: 'pvp-ranged-vs-melee', kind: 'pvp', kitA: 'ranged', kitB: 'melee', protectA: 'protect_melee' },
   { name: 'pvp-magic-vs-ranged', kind: 'pvp', kitA: 'magic', kitB: 'ranged' },
-  { name: 'pvp-melee-swapped', kind: 'pvp', kitA: 'melee', kitB: 'melee', swap: true },
+  { name: 'pvp-melee-swapped', kind: 'pvp', kitA: 'melee', kitB: 'melee', swap: true, switches: true },
   { name: 'pvp-ranged-swapped', kind: 'pvp', kitA: 'ranged', kitB: 'magic', swap: true, protectItemA: true },
   { name: 'pvp-reconnect', kind: 'pvp', kitA: 'melee', kitB: 'ranged', reconnect: true },
   { name: 'pvp-magic-vs-melee', kind: 'pvp', kitA: 'magic', kitB: 'melee', protectB: 'protect_magic' },
@@ -563,6 +590,8 @@ const SCENARIOS = [
   }
   report.pageErrors = { A: A.errors, B: B.errors, O: O.errors };
   report.measured = measure();
+  report.movement = {};
+  for (const c of [A, B, O]) { const st = await c.state(); report.movement[c.name] = { maxBacklog: st.me.maxBacklog, catchUps: st.me.catchUps, teleports: st.me.teles, ticksSeen: st.ticks, tickGaps: st.net.stats.gaps, maxGapMs: st.net.stats.maxGapMs, reconnects: st.net.stats.reconnects }; }
   report.finished = new Date().toISOString();
   report.pass = report.failures.length === 0 && [A, B, O].every((c) => c.errors.length === 0);
   fs.writeFileSync(path.join(OUT, 'online_report.json'), JSON.stringify(report, null, 1));

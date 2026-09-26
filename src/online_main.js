@@ -91,7 +91,7 @@ var OnlineMain=(function(){
   var a=OW.map().alpha,me=myTile();if(!a||!a.chest||!me)return;
   var reach=a.reach||2;
   if(Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=reach){net.send({t:'kit',name:name});return}
-  st.pending={kind:'kit',name:name,until:performance.now()+15000};
+  st.pending={kind:'kit',name:name,until:performance.now()+120000};   // cleared by any other order
   var m=OW.model(),best=null,bd=1e9;
   for(var dz=-1;dz<=1;dz++)for(var dx=-1;dx<=1;dx++){var x=a.chest.x+dx,z=a.chest.z+dz;if(!m.walkable(x,z))continue;var d=Math.abs(x-me.x)+Math.abs(z-me.z);if(d<bd){bd=d;best={x:x,z:z}}}
   if(best){net.send({t:'walk',x:best.x,z:best.z});st.dest=best}

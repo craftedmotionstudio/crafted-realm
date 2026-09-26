@@ -53,6 +53,8 @@ var OnlineFX=(function(){
  function obj(e){return A().entObj(e)}
  function isKit(e){return e.kind==='me'||e.kind==='player'}
  function refOf(e){return e.kind==='npc'?['n',e.id]:['p',e.id]}
+ /** what the timing rules need to know about an entity: monster or adventurer, and the adventurer's pid */
+ function who(e){return e.kind==='npc'?{kind:'npc'}:{kind:'player',pid:e.id}}
  function dist(a,b){var p=a.mover,q=b.mover;return Math.hypot(p.x-q.x,p.z-q.z)}
  function impactOf(e,type){
   if(isKit(e))return OnlineTiming.KIT_IMPACT[type]||.3;
@@ -103,7 +105,7 @@ var OnlineFX=(function(){
   var plans={};
   for(i=0;i<(ev.fx||[]).length;i++){
    var f=ev.fx[i],att=A().entByRef(f.from),tgt=A().entByRef(f.to);if(!att||!tgt)continue;
-   var kind=f.k==='arrow'?'arrow':'magic',off=OnlineTiming.landingOffset(att,tgt,f.d),landSec=off*TICK;
+   var kind=f.k==='arrow'?'arrow':'magic',off=OnlineTiming.landingOffset(who(att),who(tgt),f.d),landSec=off*TICK;
    var release=impactOf(att,kind==='arrow'?'bow':'cast'),flight=OnlineTiming.flightTime(kind,dist(att,tgt));
    var plan=OnlineTiming.projectilePlan(landSec,release,flight);if(plan.late>0.05){stats.late++;lateLog.push({n:n,from:f.from,to:f.to,d:f.d,off:off,dist:+dist(att,tgt).toFixed(2),release:+release.toFixed(3),flight:+flight.toFixed(3)});if(lateLog.length>40)lateLog.shift()}
    var p={att:att,tgt:tgt,kind:kind,landTick:n+off,start:plan.start,release:plan.release,speed:plan.speed,arriveAt:now()+plan.arrive,splash:!!f.splash,sp:f.sp||null,hits:[],f:null,done:false,born:n};
@@ -118,7 +120,7 @@ var OnlineFX=(function(){
     var plan2=plans[refOf(e).join(':')];
     if(type==='ranged'||type==='magic'){(function(e,type,spec,st,sp){schedule(st,function(){playAttack(e,type,spec,sp)})})(e,type,an.spec,plan2?plan2.start:0,plan2?plan2.speed:1);continue}
     var tgt2=A().entByRef(e.face)||(e.isMe?null:null);
-    var off2=tgt2?OnlineTiming.landingOffset(e,tgt2,0):0;
+    var off2=tgt2?OnlineTiming.landingOffset(who(e),who(tgt2),0):0;
     var sw={att:e,tgt:tgt2,type:type,landTick:n+off2,mode:off2===0?'same':'next',used:false,born:n,maxHit:e.isMe&&typeof OnlineUI!=='undefined'?OnlineUI.myMaxHit():0};
     swings.push(sw);
     var delay=off2>0?OnlineTiming.swingDelay(off2*TICK,impactOf(e,type)):0;
