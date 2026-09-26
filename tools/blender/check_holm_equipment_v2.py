@@ -32,7 +32,7 @@ TAG = arg('--label', 'v2')
 DO_RENDER = '--no-render' not in ARGS
 QUICK = '--quick' in ARGS
 ONLY = set(arg('--only', '').split(',')) - {''}
-KIT = os.path.join(ROOT, 'assets', 'models', 'holm_kit_v2.glb')
+KIT = arg('--kit', os.path.join(ROOT, 'assets', 'models', 'holm_kit_v2.glb'))
 os.makedirs(os.path.join(OUT, 'cells'), exist_ok=True)
 import build_holm_characters_v2 as K
 K.RENDER_DIR = OUT
@@ -255,9 +255,10 @@ def solve_shield(kind):
     Lm = basis(nl, ul)
     R = W @ Lm.inverted()
     pE = bone_world('LeftForeArm').translation; pW = bone_world('LeftHand').translation
-    pt = pE.lerp(pW, .55) + Vector((1, 0, 0)) * (.1 if sq else .065)
+    SQ = [float(x) for x in arg('--sq', '.1,0,.05').split(',')]      # riot shield strap: out, forward, drop (fx_humanoid)
+    pt = pE.lerp(pW, .55) + Vector((1, 0, 0)) * (SQ[0] if sq else .065)
     if sq:
-        pt.z -= .05
+        pt += Vector((0, -SQ[1], -SQ[2]))
     return 'LeftForeArm', Matrix.Translation(pt) @ R.to_4x4()
 def place_held(kind, L, clip, fr):
     key = (kind, L.bt, L.build)
