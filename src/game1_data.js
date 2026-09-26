@@ -90,20 +90,20 @@ const ITEMS = {
   wood_shield:  {name:'Wooden shield',    stack:false, value:20, equip:'shield', dBonus:5, model:'shield', tier:'bronze', reqSkill:'Defence', reqLvl:1},
   bronze_helm:  {name:'Bronze helm',      stack:false, value:18, equip:'head',   dBonus:4, model:'helm', tier:'bronze', reqSkill:'Defence', reqLvl:1},
   bronze_plate: {name:'Bronze platebody', stack:false, value:80, equip:'body',   dBonus:11, model:'plate', tier:'bronze', reqSkill:'Defence', reqLvl:1},
-  leather_body: {name:'Leather body',     stack:false, value:14, equip:'body',   dBonus:4, model:'plate', tier:'leather', reqSkill:'Defence', reqLvl:1},
+  leather_body: {name:'Leather body',     stack:false, value:14, equip:'body',   dBonus:4, dStab:4, dSlash:5, dCrush:5, dMagic:14, dRanged:8, aRanged:5, model:'plate', tier:'leather', reqSkill:'Defence', reqLvl:1},
   /* top-100 set 3 (2026-07-17): leather set — standalone leather items (like leather_body),
      NOT metal-tiered. Introduces the hands + feet equip slots. */
-  leather_chaps:  {name:'Leather chaps',  stack:false, value:12, equip:'legs',  dBonus:3, model:'chaps',  tier:'leather', reqSkill:'Defence', reqLvl:1},
-  leather_gloves: {name:'Leather gloves', stack:false, value:6,  equip:'hands', dBonus:1, model:'gloves', tier:'leather', reqSkill:'Defence', reqLvl:1},
-  leather_boots:  {name:'Leather boots',  stack:false, value:6,  equip:'feet',  dBonus:1, model:'boots',  tier:'leather', reqSkill:'Defence', reqLvl:1},
+  leather_chaps:  {name:'Leather chaps',  stack:false, value:12, equip:'legs',  dBonus:3, dStab:2, dSlash:2, dCrush:2, dMagic:8, dRanged:5, aRanged:4, model:'chaps',  tier:'leather', reqSkill:'Defence', reqLvl:1},
+  leather_gloves: {name:'Leather gloves', stack:false, value:6,  equip:'hands', dBonus:1, dMagic:3, dRanged:2, aRanged:3, model:'gloves', tier:'leather', reqSkill:'Defence', reqLvl:1},
+  leather_boots:  {name:'Leather boots',  stack:false, value:6,  equip:'feet',  dBonus:1, dMagic:2, dRanged:2, model:'boots',  tier:'leather', reqSkill:'Defence', reqLvl:1},
   bronze_legs:  {name:'Bronze platelegs', stack:false, value:60, equip:'legs',   dBonus:7, model:'legs', tier:'bronze', reqSkill:'Defence', reqLvl:1},
 
   fishing_net:  {name:'Small net', stack:false, value:12, tool:'fishing', power:1.0, useOn:'fish'},
 
   /* ranged: bow tiers (arrows shared) */
-  worn_bow:     {name:'Worn shortbow', stack:false, value:30,  equip:'weapon', style:'ranged', speedTicks:5, aBonus:8,  sBonus:7,  model:'bow', reqSkill:'Ranged', reqLvl:1, needs:'arrows'},
-  ash_bow:      {name:'Ash shortbow',  stack:false, value:160, equip:'weapon', style:'ranged', speedTicks:5, aBonus:17, sBonus:15, model:'bow', reqSkill:'Ranged', reqLvl:10, needs:'arrows'},
-  gale_longbow: {name:'Gale longbow',  stack:false, value:520, equip:'weapon', style:'ranged', speedTicks:6, aBonus:28, sBonus:26, model:'longbow', reqSkill:'Ranged', reqLvl:25, needs:'arrows'},
+  worn_bow:     {name:'Worn shortbow', stack:false, value:30,  equip:'weapon', style:'ranged', speedTicks:4, aBonus:8,  sBonus:7,  model:'bow', reqSkill:'Ranged', reqLvl:1, needs:'arrows'},
+  ash_bow:      {name:'Ash shortbow',  stack:false, value:160, equip:'weapon', style:'ranged', speedTicks:4, aBonus:17, sBonus:23, model:'bow', reqSkill:'Ranged', reqLvl:10, needs:'arrows'},
+  gale_longbow: {name:'Gale longbow',  stack:false, value:520, equip:'weapon', style:'ranged', speedTicks:6, aBonus:30, sBonus:30, model:'longbow', reqSkill:'Ranged', reqLvl:25, needs:'arrows'},
   arrows:       {name:'Arrows', stack:true, value:2},
 
   /* magic: staves cast without selecting runes; runes still consumed */
@@ -123,15 +123,15 @@ const ITEMS = {
   mind_rune:  {name:'Mind runes',  stack:true, value:3},
   chaos_rune: {name:'Chaos runes', stack:true, value:25},
   nature_rune:{name:'Nature runes',stack:true, value:40},
-  wizard_hat: {name:'Wizard hat',  stack:false, value:30, equip:'head', dBonus:1, magB:2, model:'hat', tier:'wizard', reqSkill:'Magic', reqLvl:1},
+  wizard_hat: {name:'Wizard hat',  stack:false, value:30, equip:'head', dBonus:1, magB:2, dStab:0, dSlash:0, dCrush:0, dRanged:0, dMagic:2, model:'hat', tier:'wizard', reqSkill:'Magic', reqLvl:1},
   apprentice_staff:  {name:'Apprentice staff', stack:false, value:35,  equip:'weapon', style:'magic', speedTicks:5, aBonus:6,  sBonus:2, model:'staff', reqSkill:'Magic', reqLvl:1},
   ember_staff:       {name:'Ember staff',      stack:false, value:180, equip:'weapon', style:'magic', speedTicks:5, aBonus:13, sBonus:4, provides:'fire_rune', model:'staff', reqSkill:'Magic', reqLvl:10},
   storm_staff:       {name:'Storm staff',      stack:false, value:560, equip:'weapon', style:'magic', speedTicks:5, aBonus:22, sBonus:6, provides:'air_rune', model:'staff', reqSkill:'Magic', reqLvl:25},
-  cloth_robe_top:    {name:'Cloth robe top',   stack:false, value:12,  equip:'body', dBonus:1, mBonus:3,  model:'robe', tier:'cloth', reqSkill:'Magic', reqLvl:1},
-  cloth_robe_skirt:  {name:'Cloth robe skirt', stack:false, value:10,  equip:'legs', dBonus:1, mBonus:2,  model:'robe', tier:'cloth', reqSkill:'Magic', reqLvl:1},
-  apprentice_hat:    {name:'Apprentice hat',   stack:false, value:8,   equip:'head', dBonus:0, mBonus:2,  model:'hat',  tier:'cloth', reqSkill:'Magic', reqLvl:1},
-  glimmer_robe_top:  {name:'Glimmer robe top', stack:false, value:240, equip:'body', dBonus:3, mBonus:9,  model:'robe', tier:'glimmer', reqSkill:'Magic', reqLvl:15},
-  glimmer_hat:       {name:'Glimmer hat',      stack:false, value:120, equip:'head', dBonus:1, mBonus:5,  model:'hat',  tier:'glimmer', reqSkill:'Magic', reqLvl:15},
+  cloth_robe_top:    {name:'Cloth robe top',   stack:false, value:12,  equip:'body', dBonus:1, mBonus:3, dRanged:0, dMagic:3, model:'robe', tier:'cloth', reqSkill:'Magic', reqLvl:1},
+  cloth_robe_skirt:  {name:'Cloth robe skirt', stack:false, value:10,  equip:'legs', dBonus:1, mBonus:2, dRanged:0, dMagic:2, model:'robe', tier:'cloth', reqSkill:'Magic', reqLvl:1},
+  apprentice_hat:    {name:'Apprentice hat',   stack:false, value:8,   equip:'head', dBonus:0, mBonus:2, dMagic:2, model:'hat',  tier:'cloth', reqSkill:'Magic', reqLvl:1},
+  glimmer_robe_top:  {name:'Glimmer robe top', stack:false, value:240, equip:'body', dBonus:3, mBonus:9, dRanged:1, dMagic:9, model:'robe', tier:'glimmer', reqSkill:'Magic', reqLvl:15},
+  glimmer_hat:       {name:'Glimmer hat',      stack:false, value:120, equip:'head', dBonus:1, mBonus:5, dRanged:0, dMagic:5, model:'hat',  tier:'glimmer', reqSkill:'Magic', reqLvl:15},
 
   /* amulets + capes */
   amulet_of_might:     {name:'Amulet of Might',     stack:false, value:220, equip:'amulet', sBonus:4, model:'amulet', reqSkill:'Defence', reqLvl:1},
@@ -147,16 +147,41 @@ const ITEMS = {
 /* metal tiers: Copper/Bronze/Iron/Steel are generic; Whitsteel, Aurel, Veyrite, Undercrag are
    MotionScape originals. tpow = explicit tool power (woodcutting/mining), monotonic with tier.
    Existing Bronze/Iron/Steel/Aurel/Veyrite tpow values reproduce the old 1+ti*0.45 curve exactly. */
+/* Combat balance (combat agent 2026-09-26, docs/rebuild/combat_grade_passes/combat_agent.md): generated weapons scale
+   by wmult and armour by amult, shaped like the 2004 ladders (a level-40 sabre's strength ~ the 2004 rune scimitar's
+   +44, a level-40 platebody ~ 5.5x bronze), so melee no longer outgrows ranged and magic gear. */
 const TIERS = [
-  {key:'copper',    label:'Copper',    metal:0xc6794a, req:1,  mult:0.85, price:1,   tpow:0.8},
-  {key:'bronze',    label:'Bronze',    metal:0xb08d57, req:1,  mult:1.0,  price:1,   tpow:1.0},
-  {key:'iron',      label:'Iron',      metal:0x9aa0a8, req:5,  mult:2.0,  price:4,   tpow:1.45},
-  {key:'steel',     label:'Steel',     metal:0xd0d4dc, req:10, mult:3.2,  price:12,  tpow:1.9},
-  {key:'whitsteel', label:'Whitsteel', metal:0xe8ecf2, req:15, mult:4.0,  price:26,  tpow:2.1},
-  {key:'aurel',     label:'Aurel',     metal:0xd4a83e, req:20, mult:5.0,  price:45,  tpow:2.35},
-  {key:'veyrite',   label:'Veyrite',   metal:0x3ec6b4, req:30, mult:7.5,  price:140, tpow:2.8},
-  {key:'undercrag', label:'Undercrag', metal:0x6a5a7a, req:40, mult:9.0,  price:300, tpow:3.25},
+  {key:'copper',    label:'Copper',    metal:0xc6794a, req:1,  mult:0.85, wmult:0.85, amult:0.85, price:1,   tpow:0.8},
+  {key:'bronze',    label:'Bronze',    metal:0xb08d57, req:1,  mult:1.0,  wmult:1.0,  amult:1.0,  price:1,   tpow:1.0},
+  {key:'iron',      label:'Iron',      metal:0x9aa0a8, req:5,  mult:2.0,  wmult:1.5,  amult:1.4,  price:4,   tpow:1.45},
+  {key:'steel',     label:'Steel',     metal:0xd0d4dc, req:10, mult:3.2,  wmult:2.2,  amult:2.1,  price:12,  tpow:1.9},
+  {key:'whitsteel', label:'Whitsteel', metal:0xe8ecf2, req:15, mult:4.0,  wmult:2.6,  amult:2.6,  price:26,  tpow:2.1},
+  {key:'aurel',     label:'Aurel',     metal:0xd4a83e, req:20, mult:5.0,  wmult:3.2,  amult:3.1,  price:45,  tpow:2.35},
+  {key:'veyrite',   label:'Veyrite',   metal:0x3ec6b4, req:30, mult:7.5,  wmult:4.0,  amult:4.3,  price:140, tpow:2.8},
+  {key:'undercrag', label:'Undercrag', metal:0x6a5a7a, req:40, mult:9.0,  wmult:5.0,  amult:5.5,  price:300, tpow:3.25},
 ];
+/* 2004 armour shape per piece: defence per damage type relative to the piece's base defence, a small NEGATIVE magic
+   defence, and the flat magic / ranged ATTACK penalties metal carries (2004 plate: magic -30, ranged -15). This is the
+   combat triangle: metal stops blades and arrows but not spells; leather keeps some magic out; robes stop spells only. */
+const ARMOUR_PROFILE = {
+  helm:      {stab:1.0,  slash:1.1, crush:0.8,  ranged:0.85, mdef:-1, matt:-6,  ratt:-3},
+  medhelm:   {stab:1.0,  slash:1.1, crush:0.8,  ranged:0.85, mdef:-1, matt:-3,  ratt:-1},
+  plate:     {stab:1.0,  slash:1.0, crush:0.85, ranged:0.85, mdef:-6, matt:-30, ratt:-15},
+  legs:      {stab:1.0,  slash:0.95,crush:0.8,  ranged:0.8,  mdef:-4, matt:-21, ratt:-7},
+  plateskirt:{stab:1.0,  slash:0.95,crush:0.8,  ranged:0.8,  mdef:-4, matt:-21, ratt:-7},
+  chainbody: {stab:0.85, slash:1.0, crush:1.2,  ranged:0.75, mdef:-1, matt:-15, ratt:0},
+  kiteshield:{stab:1.0,  slash:1.1, crush:0.8,  ranged:0.85, mdef:-1, matt:-8,  ratt:-2},
+  sqshield:  {stab:1.0,  slash:1.1, crush:0.8,  ranged:0.85, mdef:-1, matt:-6,  ratt:-2},
+  shield:    {stab:1.0,  slash:1.1, crush:0.8,  ranged:1.0,  mdef:0,  matt:0,   ratt:0},   // a wooden shield
+};
+function applyArmourProfile(def, profile){
+  const pr=ARMOUR_PROFILE[profile]; if(!pr || !(def.dBonus>0)) return def;
+  const d=def.dBonus;
+  def.dStab=Math.round(d*pr.stab); def.dSlash=Math.round(d*pr.slash); def.dCrush=Math.round(d*pr.crush);
+  def.dRanged=Math.round(d*pr.ranged); def.dMagic=pr.mdef;
+  if(pr.matt) def.mBonus=pr.matt; if(pr.ratt) def.aRanged=pr.ratt;
+  return def;
+}
 /* melee weapon templates also carry per-style attack bonuses (aStab/aSlash/aCrush,
    pre-mult base values scaled by tier in buildTieredGear) for the stab/slash/crush
    combat triangle. Swords: stab-lead; sabres (scimitar): slash-lead; battleaxes/axes:
@@ -209,13 +234,14 @@ function buildTieredGear(items){
         weight: GEAR_WEIGHTS[tpl.model]||1,
         reqSkill:tpl.reqSkill||'Attack', reqLvl:t.req};
       if(tpl.equip){ def.equip=tpl.equip;
+        const wm=t.wmult!=null?t.wmult:t.mult, am=t.amult!=null?t.amult:t.mult;
         if(tpl.style){ def.style=tpl.style; def.speedTicks=tpl.speedTicks;
-          def.aBonus=Math.round(tpl.a*t.mult); def.sBonus=Math.round(tpl.s*t.mult);
+          def.aBonus=Math.round(tpl.a*wm); def.sBonus=Math.round(tpl.s*wm);
           if(tpl.style==='melee'){   // stab/slash/crush attack split scales with the tier, like aBonus
-            def.aStab =Math.round((tpl.aStab ||0)*t.mult);
-            def.aSlash=Math.round((tpl.aSlash||0)*t.mult);
-            def.aCrush=Math.round((tpl.aCrush||0)*t.mult); } }
-        else def.dBonus=Math.round(tpl.d*t.mult);
+            def.aStab =Math.round((tpl.aStab ||0)*wm);
+            def.aSlash=Math.round((tpl.aSlash||0)*wm);
+            def.aCrush=Math.round((tpl.aCrush||0)*wm); } }
+        else { def.dBonus=Math.round(tpl.d*am); applyArmourProfile(def, tpl.model); }
       }
       if(tpl.tool){ def.tool=tpl.tool; def.power=(t.tpow!=null ? t.tpow : 1+ti*0.45); }
       items[id]=def;
@@ -227,6 +253,8 @@ const EQUIP_SLOTS = [['head','Head'],['body','Body'],['legs','Legs'],['weapon','
                      ['hands','Hands'],['feet','Feet']];   // set 3: gloves + boots slots
 
 buildTieredGear(ITEMS);
+/* the hand-authored bronze pieces and the wooden shield take the same 2004 armour shape as the generated ones */
+[['bronze_plate','plate'],['bronze_legs','legs'],['bronze_helm','helm'],['wood_shield','shield']].forEach(([id,pr])=>{ if(ITEMS[id]) applyArmourProfile(ITEMS[id], pr); });
 
 const SKILLS = ['Attack','Strength','Defence','Hitpoints','Ranged','Magic','Prayer',
                 'Woodcutting','Mining','Fishing','Cooking','Firemaking','Smithing','Fletching','Thieving'];

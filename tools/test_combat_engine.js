@@ -19,7 +19,7 @@ const C=H.create().ctx.CRShared.combat;
 function swingsOf(h){return h.log.swings.filter(s=>s.att===h.ctx.player).map(s=>s.tick).concat(h.log.anims.filter(a=>a.obj===h.ctx.player&&(a.type==='bow'||a.type==='cast')).map(a=>a.tick)).sort((a,b)=>a-b)}
 function gaps(a){const g=[];for(let i=1;i<a.length;i++)g.push(a[i]-a[i-1]);return g}
 for(const [w,idx,want,label] of [['bronze_dagger',0,4,'dagger'],['bronze_sword',0,4,'sword'],['bronze_greatsword',0,7,'two-handed'],['bronze_warhammer',0,6,'warhammer'],
-  ['worn_bow',0,5,'shortbow accurate'],['worn_bow',1,4,'shortbow rapid (-1)'],['gale_longbow',0,6,'longbow']]){
+  ['worn_bow',0,4,'shortbow accurate (2004: 4)'],['worn_bow',1,3,'shortbow rapid (-1)'],['gale_longbow',0,6,'longbow']]){
   const h=fresh();h.wield(w);h.P.styleIndex=idx;h.give('arrows',200);
   const n=h.spawn('pasturehen',21,20,tough);h.LC.orderAttack(n);h.tick(40);
   const g=gaps(swingsOf(h));check('attack delay '+label+' = '+want+' ticks',g.length>=5&&g.every(x=>x===want),g);
