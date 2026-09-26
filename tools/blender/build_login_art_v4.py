@@ -32,7 +32,7 @@ PAL = {
     'n_pillar': (.55, .58, .57), 'n_pillar_dk': (.42, .45, .44), 'n_arch': (.53, .56, .55), 'vault': (.40, .41, .40), 'groove': (.22, .22, .22),
     'e_mist': (.80, .86, .80), 'iron': (.34, .34, .36), 'iron_dk': (.18, .18, .19), 'steel': (.62, .64, .67),
     'e_fire_dk': (.84, .26, .04), 'e_fire': (1.0, .58, .10), 'e_fire_core': (1.0, .90, .46), 'e_ember': (1.0, .62, .18), 'coal': (.14, .10, .08),
-    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.43, .44, .44), 'helm': (.80, .82, .85), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
+    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.38, .39, .40), 'helm': (.80, .82, .85), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
     'n_rim': (.50, .51, .55), 'v_marble': (.44, .45, .50), 'rim_groove': (.16, .16, .18),
     'btn_face': (.30, .30, .33), 'btn_face_hi': (.40, .40, .44), 'btn_face_red': (.42, .15, .10), 'btn_face_red_hi': (.52, .20, .13), 'btn_face_off': (.22, .22, .23),
     'btn_rim': (.56, .56, .60), 'btn_rim_red': (.62, .40, .34), 'btn_rim_off': (.40, .40, .42),
@@ -362,7 +362,7 @@ def emblem_sword(c, s=1.0, rot=(0, 0, 0)):
     """a plain arming sword: diamond-section blade, a straight crossguard, a leather grip and a round pommel"""
     m = M(); L = 1.9; w = .085; t = .03; z0 = .32
     m.hull([Vector((x, y, z)) for x in (-w, w) for y in (-t * .2, t * .2) for z in (z0, L - .2)] + [Vector((0, -t, z)) for z in (z0, L - .2)] +
-           [Vector((0, t, z)) for z in (z0, L - .2)] + [Vector((0, 0, L))], lambda n, cc: 'steel' if n.x * .6 + n.z * .3 - n.y > 0 else 'n_rim')
+           [Vector((0, t, z)) for z in (z0, L - .2)] + [Vector((0, 0, L))], lambda n, cc: 'helm' if n.x * .6 + n.z * .3 - n.y > 0 else 'steel')
     m.box((0, 0, z0 - .03), (.3, .05, .045), 'iron', .015)
     m.cyl((0, 0, .08), (0, 0, z0 - .06), .045, 'wood_dk', n=6)
     m.sph((0, 0, .05), .07, 'iron', 8, 4)
@@ -424,9 +424,9 @@ def lintel(text='CRAFTED REALM', L=9.2, H=1.34, D=.7, seed=31):
     front = -D / 2
     cutters = []
     # the letters, one cutter each (overlapping glyphs in one mesh confuse the solver), laid out by their own widths
-    glyphs = []; x = 0.0; gap = .07
+    glyphs = []; x = 0.0; gap = .045
     for ch in text:
-        if ch == ' ': x += .26; continue
+        if ch == ' ': x += .24; continue
         tm = text_mesh(ch, .74, .5); xs = [v.co.x for v in tm.vertices]
         tm.transform(Matrix.Translation((x - min(xs), 0, 0))); x += (max(xs) - min(xs)) + gap; glyphs.append(tm)
     width = x - gap; zs = [v.co.z for tm in glyphs for v in tm.vertices]

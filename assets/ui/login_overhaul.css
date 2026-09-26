@@ -41,7 +41,7 @@
 .login-crest{display:none;}
 #welcome-logo{position:static!important;display:block;margin:0 auto!important;transform:none!important;width:100%;height:auto;aspect-ratio:8/3;
   font-size:0!important;line-height:0!important;color:transparent!important;-webkit-text-fill-color:transparent!important;-webkit-text-stroke:0!important;
-  background:url("../icons/ui/v3/login/logo.png?v=4") center/contain no-repeat!important;image-rendering:pixelated;filter:none!important;text-shadow:none!important;}
+  background:url("../icons/ui/v3/login/logo.png?v=5") center/contain no-repeat!important;image-rendering:pixelated;filter:none!important;text-shadow:none!important;}
 #welcome-logo::after{display:none!important;}
 .login-subtitle{display:none;}
 
