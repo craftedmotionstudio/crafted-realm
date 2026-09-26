@@ -408,7 +408,12 @@ async function pvpFight(fight, A0, B0, O, opts) {
   check(fight, leaked.length === 0, 'the observer cannot see the private pile', leaked.length);
   // the winner picks everything up (as many as fit)
   const invBefore = ws.inv.filter(Boolean).length;
-  for (const it of pile) { await winner.q((uid) => CROnlineQA.send({ t: 'op_obj', uid, op: 'take' }), it.uid); await sleep(TICK * 1.2); }
+  // like a player: walk onto the pile, then take the items one by one (a new order replaces a walk in progress)
+  if (kill) await walkTo(winner, kill.x, kill.z, 30000).catch(() => {});
+  for (const it of pile) {
+    await winner.q((uid) => CROnlineQA.send({ t: 'op_obj', uid, op: 'take' }), it.uid);
+    await winner.until((s) => !s.objs.some((x) => x.uid === it.uid) || s.inv.filter(Boolean).length >= 28, 8000, 'take ' + it.id).catch(() => {});
+  }
   const wAfter = await winner.until((s) => s.objs.filter((x) => pile.some((p) => p.uid === x.uid)).length === 0 || s.inv.filter(Boolean).length >= 28, 45000, 'pick up the pile');
   check(fight, wAfter.inv.filter(Boolean).length > invBefore, 'loot reaches the winner\'s pack', { before: invBefore, after: wAfter.inv.filter(Boolean).length });
   const fxA1 = (await A.state()).fx, fxO1 = (await O.state()).fx;
