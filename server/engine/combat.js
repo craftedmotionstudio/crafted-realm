@@ -201,10 +201,12 @@ function magicOnNpc(w, p, npc, spellId, fromAutocast) {
   p.actionDelay = w.tick + C.MAGIC_ATTACK_RATE;
   const dist = coord.distanceTo(npc, p);
   const delay = C.magicHitDelay(dist);
-  p.setAnim('cast', { spell: spellId });
   const { stats } = p.combatStats();
-  if (C.hitRoll(w.rng, stats.attackRoll.magic, C.npcDefenceRoll(npc.def, npc.levels, 'magic'))) {
-    const damage = C.damageRoll(w.rng, Math.min(spell.max, npc.def.maxDealt != null ? npc.def.maxDealt : spell.max));
+  // an armed special on the wielded weapon (the staff's Power Surge) scales this cast, as it scales a swing or a shot
+  const sp = maybeSpecial(p, stats.attackRoll.magic, spell.max);
+  p.setAnim('cast', { spell: spellId, spec: sp.spec ? 1 : undefined });
+  if (C.hitRoll(w.rng, sp.attackRoll, C.npcDefenceRoll(npc.def, npc.levels, 'magic'))) {
+    const damage = C.damageRoll(w.rng, Math.min(sp.maxHit, npc.def.maxDealt != null ? npc.def.maxDealt : sp.maxHit));
     npcRetaliate(w, npc, p, delay);
     npc.queue.add('damage', delay, () => npcDamage(w, npc, damage));
     const capped = Math.min(damage, npc.hp);
@@ -325,10 +327,11 @@ function magicOnPlayer(w, p, t, spellId, fromAutocast) {
   p.actionDelay = w.tick + C.MAGIC_ATTACK_RATE;
   const dur = C.spellDuration(coord.distanceToSW(p, t));
   const delay = Math.floor(dur / 30) + 1;
-  p.setAnim('cast', { spell: spellId });
   const { stats } = p.combatStats();
-  if (C.hitRoll(w.rng, stats.attackRoll.magic, t.combatStats().stats.defenceRoll.magic)) {
-    let max = spell.max;
+  const sp = maybeSpecial(p, stats.attackRoll.magic, spell.max);   // the staff's Power Surge (see magicOnNpc)
+  p.setAnim('cast', { spell: spellId, spec: sp.spec ? 1 : undefined });
+  if (C.hitRoll(w.rng, sp.attackRoll, t.combatStats().stats.defenceRoll.magic)) {
+    let max = sp.maxHit;
     if (C.isProtected(t.prayers, 'magic')) max = C.pvpProtectedMaxHit(max);
     const damage = Math.min(C.damageRoll(w.rng, max), t.hp);
     pvpDamage(w, p, t, delay, damage);

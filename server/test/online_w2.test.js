@@ -283,3 +283,30 @@ test('bestiary v1 in the online map: every creature spawned in its Scarlands ban
   assert.ok(C.npcMaxHit(G.NPC_TYPES.ember_mage, C.npcLevels(G.NPC_TYPES.ember_mage)) === 6);
   w.collision.unload();
 });
+
+test('the staff special scales a cast (Power Surge on the magic path): energy spent, the max hit x1.4, the cast flagged', () => {
+  const w = fieldWorld({ spawns: [{ npc: 'korthul', x: 15, z: 20, wander: 0, hunt: 0, maxRange: 0 }], areas: { wilderness: [{ x1: 0, z1: -600, x2: 39, z2: 39 }], multi: [], named: [] } });
+  w.rng = alwaysHit(1);   // every roll hits for the maximum
+  const npc = [...w.npcs.values()][0];
+  const lv = { Attack: 40, Strength: 40, Defence: 40, Hitpoints: 60, Ranged: 40, Magic: 60, Prayer: 43 };
+  const runes = [['water_rune', 100], ['chaos_rune', 50]];
+  const a = addPlayer(w, 'surgeA', { levels: lv, pos: { x: 10, z: 20 }, equip: { weapon: 'storm_staff' }, inv: runes, autocast: 'water_bolt' });
+  const b = addPlayer(w, 'surgeB', { levels: lv, pos: { x: 10, z: 24 }, equip: { weapon: 'storm_staff' }, inv: runes, autocast: 'water_bolt' });
+  const spec = w.content.SPECIALS.staff, max = w.content.SPELLS.water_bolt.max;
+  const castSeen = (from, pid, n) => { let seen = 0; for (let i = 0; i < n; i++) { w.cycle(); const t = from.lastTick(); const u = t.pl && t.pl.upd && t.pl.upd.find((x) => x.i === pid); if (u && u.a && u.a.name === 'cast' && u.a.spec) seen++; } return seen; };
+  a.s.intent({ t: 'spec', on: true });
+  a.s.intent({ t: 'op_npc', nid: npc.nid, op: 'attack' });
+  assert.equal(castSeen(b.s, a.p.pid, 6), 1, 'the special cast is flagged for viewers');
+  assert.equal(a.p.specEnergy, 100 - spec.cost);
+  assert.equal(npc.maxHp - npc.hp >= Math.floor(max * spec.dmg), true, 'the first bolt hit for the surged maximum');
+  assert.ok(Math.floor(max * spec.dmg) > max, 'the surge raises the ceiling');
+  // on another adventurer
+  a.s.intent({ t: 'walk', x: 10, z: 21 }); for (let i = 0; i < 8; i++) w.cycle();
+  b.p.specEnergy = 100; b.s.intent({ t: 'spec', on: true });
+  const hp0 = a.p.hp;
+  b.s.intent({ t: 'op_player', pid: a.p.pid, op: 'attack' });
+  assert.equal(castSeen(a.s, b.p.pid, 6), 1, 'a special cast on an adventurer, flagged');
+  assert.equal(b.p.specEnergy, 100 - spec.cost);
+  assert.ok(hp0 - a.p.hp >= Math.floor(max * spec.dmg), 'the surged bolt landed on the adventurer');
+  w.collision.unload();
+});
