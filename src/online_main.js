@@ -114,38 +114,18 @@ var OnlineMain=(function(){
    var key=me.x+','+me.z;if(key===p.lastKey)p.still=(p.still||0)+1;else{p.lastKey=key;p.still=0}
    if(p.still>=2){p.still=0;var best=kitApproach(a,me);if(best){net.send({t:'walk',x:best.x,z:best.z});st.dest=best}}}
  }
- function lvlSpan(my,their){return '<span style="color:'+OnlineActors.combatColour(my,their)+'">(level-'+their+')</span>'}
- function canAttackPlayer(e){
-  var P=CRShared.pvp,m=OW.model(),me=myTile();if(!me||!e.tile)return {ok:false};
-  var myWl=m.wildernessLevel(me.x,me.z),theirWl=m.wildernessLevel(e.tile.x,e.tile.z),myCb=OnlineUI.state().cb;
-  var r=P.levelCheck(myCb,myWl,e.cb,theirWl);return {ok:!r,reason:r};
- }
  function castOn(kind,e,spell){st.pending=null;st.dest=null;Player.moveTo=null;OnlineUI.clearArmed();if(kind==='p')st.pvpAttacks++;net.send(kind==='n'?{t:'cast_npc',nid:e.id,spell:spell}:{t:'cast_player',pid:e.id,spell:spell})}
+ // the actions the menu rows send (src/online_menu.js builds the rows; a menu-provider system can register it as is)
+ var MENU_ACTIONS={attackNpc:function(e){attackNpc(e)},attackPlayer:function(e){attackPlayer(e)},castOn:castOn,follow:function(e){follow(e)},
+  take:function(uid){take(uid)},kit:function(k){kit(k)},openChest:function(){var a=OW.map().alpha;if(a&&a.kits)OnlineUI.chestDialog(a.kits,kit)},
+  examine:function(text){UI.chat(text,'plain')},note:function(text){UI.chat(text,'sys')}};
  function entriesFor(hit,ev){
-  var out=[],o=hit&&hit.obj,u=(o&&o.userData)||{},myCb=OnlineUI.state().cb,armed=OnlineUI.armedSpell(),asp=armed&&SPELLS[armed];
-  if(u.kind==='onl_npc'){var ne=OnlineActors.npcs().get(u.nid);
-   if(ne&&!ne.rec.dead&&asp)out.push({html:'Cast <b style="color:#0f0">'+asp.name+'</b> -&gt; <b style="color:#ff0">'+ne.t.name+'</b> '+lvlSpan(myCb,ne.t.level),fn:function(){castOn('n',ne,armed)}});
-   if(ne&&!ne.rec.dead){out.push({html:'Attack <b style="color:#ff0">'+ne.t.name+'</b> '+lvlSpan(myCb,ne.t.level),fn:function(){attackNpc(ne)}});
-    out.push({html:'Examine <b style="color:#ff0">'+ne.t.name+'</b>',fn:function(){UI.chat(ne.t.examine||('A '+ne.t.name.toLowerCase()+'.'),'plain')}})}}
-  else if(u.kind==='onl_player'){var pe=OnlineActors.players().get(u.pid);
-   if(pe&&!pe.dead){var can=canAttackPlayer(pe);
-    if(can.ok&&asp)out.push({html:'Cast <b style="color:#0f0">'+asp.name+'</b> -&gt; <b style="color:#fff">'+pe.name+'</b> '+lvlSpan(myCb,pe.cb),fn:function(){castOn('p',pe,armed)}});
-    if(can.ok)out.push({html:'Attack <b style="color:#fff">'+pe.name+'</b> '+lvlSpan(myCb,pe.cb),fn:function(){attackPlayer(pe)}});
-    out.push({html:'Follow <b style="color:#fff">'+pe.name+'</b> '+lvlSpan(myCb,pe.cb),fn:function(){follow(pe)}})}}
-  else if(u.kind==='onl_obj'){
-   var t=null;OnlineActors.objs().forEach(function(r){if(r.uid===u.uid)t=r});
-   if(t)OnlineActors.objs().forEach(function(r){if(r.x!==t.x||r.z!==t.z||r.mesh.userData._cfxHide)return;var d=ITEMS[r.id];
-    out.push({html:'Take <b style="color:#ff9040">'+d.name+'</b>'+(r.q>1?' ('+r.q+')':''),fn:function(){take(r.uid)}})});
-   if(t)out.push({html:'Examine <b style="color:#ff9040">'+ITEMS[t.id].name+'</b>',fn:function(){UI.chat(ITEMS[t.id].examine||('It\'s '+ITEMS[t.id].name.toLowerCase()+'.'),'plain')}});
-  }
-  else if(u.kind==='onl_chest'){var a=OW.map().alpha;
-   if(a&&a.kits){out.push({html:'Open <b style="color:#0ff">Supply chest</b>',fn:function(){OnlineUI.chestDialog(a.kits,kit)}});
-    Object.keys(a.kits).forEach(function(k){out.push({html:'Take-'+k+'-kit <b style="color:#0ff">Supply chest</b>',fn:function(){kit(k)}})})}
-   out.push({html:'Examine <b style="color:#0ff">Supply chest</b>',fn:function(){UI.chat('Fighting kits for anyone brave enough to cross the Ditch. Taking one swaps your pack and gear for it.','plain')}});
-  }
-  else if(u.kind==='onl_scenery'&&(u.examine||u.label)){out.push({html:'Examine',fn:function(){UI.chat(u.examine||'Nothing interesting.','plain')}})}
+  var out=OnlineMenu.entries(hit,MENU_ACTIONS);
   var gp=ev?groundPick(ev):null;
-  out.push({html:'Walk here',fn:function(){var p=gp||(hit&&hit.point);if(p)walkTile(tileOfPoint(p))}});
+  var walkRow={html:'Walk here',fn:function(){var p=gp||(hit&&hit.point);if(p)walkTile(tileOfPoint(p))},kind:'walk'};
+  // 2004: another adventurer's left click walks, unless you may attack them here (then Attack leads)
+  var u0=hit&&hit.obj&&hit.obj.userData||{};
+  if(u0.kind==='onl_player'&&!(out[0]&&(out[0].kind==='attack'||out[0].kind==='cast')))out.unshift(walkRow);else out.push(walkRow);
   out.push({html:'Cancel',fn:null});
   return out;
  }

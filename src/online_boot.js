@@ -19,7 +19,7 @@ var CROnline=(function(){
   return 'ws://'+host+':'+(qs.get('port')||'8200');
  }
  var SCRIPTS=['shared/combat.js?v=w2a','shared/pvp.js?v=w2a','src/net_client.js?v=w2a','src/online_kit.js?v=w2a','src/online_bestiary.js?v=w2a','src/online_world.js?v=w2a','src/online_actors.js?v=w2a',
-  'src/online_fx.js?v=w2a','src/online_ui.js?v=w2a','src/online_main.js?v=w2a'];
+  'src/online_fx.js?v=w2a','src/online_ui.js?v=w2a','src/online_menu.js?v=w2a','src/online_main.js?v=w2a'];
  var api={enabled:enabled,server:qs.get('server')||defaultServer(),params:qs,
   writeScripts:function(){
    if(!enabled)return;
