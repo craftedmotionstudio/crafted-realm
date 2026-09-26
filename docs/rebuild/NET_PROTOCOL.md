@@ -70,7 +70,7 @@ otherwise delayed. Ids (`pid`, `nid`, `uid`) must be of something currently in t
 | `op_obj` | `uid` (int), `op` = `"take"` | Walk to a ground item and pick it up. |
 | `cast_npc` | `nid`, `spell` (id from `SPELLS`) | Cast one combat spell on an NPC (continues only if it is also the autocast spell). |
 | `cast_player` | `pid`, `spell` | The same on a player. |
-| `eat` | `slot` (0-27) | Eat food in that pack slot. One bite per 3 ticks; adds 3 ticks to the attack timer; clears the current attack order (as in 2004). |
+| `eat` | `slot` (0-27) | Eat food in that pack slot. One bite per 3 ticks; adds 3 ticks to the attack timer; clears the current attack order (as in 2004). The same intent drinks a dose of a drink (coffee, `shared/drinks.js`): no eat or attack delay, the attack order stays (2004 potions); +20% run energy and `caf` ticks of 25% slower run drain. |
 | `equip` | `slot` (0-27) | Wield/wear the item in that pack slot (swaps with what is worn). Level requirements apply. |
 | `unequip` | `slot` = `head` `cape` `amulet` `weapon` `body` `shield` `legs` `hands` `feet` | Take it off into the pack. |
 | `drop` | `slot` (0-27) | Drop the whole stack on your tile (private to you for 100 ticks, gone after 200). |
@@ -110,14 +110,15 @@ otherwise delayed. Ids (`pid`, `nid`, `uid`) must be of something currently in t
   "inv": [["coins", 250], null, ...28 slots],
   "eq": { "weapon": "iron_sword", "body": "bronze_plate" },
   "set": { "run": 1, "style": 0, "ar": 1, "ac": null, "spec": 100 },
-  "en": 10000, "skull": 0, "pr": [], "lk": { "body": "A", "parts": {}, "colors": {} } }
+  "en": 10000, "skull": 0, "caf": 0, "pr": [], "lk": { "body": "A", "parts": {}, "colors": {} } }
 ```
 
 W2: `map.alpha` (when the map has an alpha block) is `{chest:{x,z}, reach, kits:{name:{label, equip, inv}}}`; `lk` is
 your saved look (or `null`).
 
 `xp10` is experience in tenths (so 5.5 xp is 55). `en` is run energy 0-10000 (100.00%). `skull` is
-ticks left. `pr` lists active prayer ids.
+ticks left. `caf` is ticks of coffee left (run energy drains 25% slower while it is above 0). `pr` lists active
+prayer ids.
 
 ### `tick` (the per-tick delta)
 
@@ -143,7 +144,7 @@ Only keys with content are present. `n` is the server tick number.
   instead of `mv` means a jump (respawn, teleport, npc reset). `a` = animation, `h` = hit splats
   `[amount, "hit"|"block"]` taken this tick, `c` = your overhead chat. The status block (`hp`
   `[current,max]`, `pp` prayer points `[current,max]`, `en`, `wl` Wilderness level, `multi`, `skull`
-  ticks left, `cb` combat level) is sent whenever any of its values changes (energy by whole
+  ticks left, `cb` combat level, `caf` coffee ticks left) is sent whenever any of its values changes (energy by whole
   percents).
 - `pl` / `np`: everything within **15 tiles** (Chebyshev) on your level; at most 255 of each.
   Process `del` before `add` (a slot id can be reused in the same tick). `add` carries the full
@@ -168,7 +169,7 @@ Only keys with content are present. `n` is the server tick number.
 - `msg`: game messages `[kind, text]`; kinds `game`, `combat`, `level`.
 
 Animation names in `a.name`: `attack` (`type`: stab/slash/crush/ranged, `spec: 1` for a special),
-`defend`, `cast` (`spell`), `death`, `eat`, `teleport`, and (W2) `breath`. One animation per entity per tick:
+`defend`, `cast` (`spell`), `death`, `eat`, `drink`, `teleport`, and (W2) `breath`. One animation per entity per tick:
 `defend` never replaces an attack, cast or death set earlier in the same tick.
 
 ### Codes

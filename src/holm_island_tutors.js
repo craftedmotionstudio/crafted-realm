@@ -63,7 +63,7 @@ var HolmIslandTutors=(function(){
   melee_trial:function(){return ['Wield that bronze dagger: click it in your pack and it goes in your hand.','The grubkins in the court are tame; they snap, but only for show.','Click one to attack it, and stay on it until it drops.']},
   ranged_trial:function(){return ['Good. Now the shortbow. Click it in your pack to wield it; your arrows go with it.','Click a grubkin to shoot it. Keep your distance and keep shooting until it drops.']},
   open_bank:function(){return ['Click my counter to open your account and see what is inside.','Anything you store here is safe. When you are done, the Mage Tower is next.']},
-  magic_trial:function(){return ['Air and mind runes make Wind Strike, and you have both in your pack.','Open your spellbook and click Wind Strike to choose it.','Then click one of the grubkins in the yard. A spell can miss, just like a sword. Cast again.']},
+  magic_trial:function(){return ['Air and mind runes make Wind Strike, and you have both in your pack.','Open your spellbook and click Wind Strike to choose it.','Then click one of the grubkins in the yard. Each click casts once: choose Wind Strike again for the next. A spell can splash, just like a sword can miss.','With a staff in your hand, a chosen spell keeps casting on its own.']},
   relight_lastlight:function(){return ['Climb the three ladders to the lantern deck and pull the beacon lever.','Once the light is burning, go down to the haven. Tobin will row you across.']}};
  var st={npcs:[],api:null,mixers:[],talking:null,waved:{}};
  function nextOf(){return typeof Tutorial!=='undefined'&&!Tutorial.complete&&Tutorial.steps[Tutorial.step]?Tutorial.steps[Tutorial.step].id:null}

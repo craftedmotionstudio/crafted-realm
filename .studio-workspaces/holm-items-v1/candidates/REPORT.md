@@ -35,9 +35,14 @@ Built by `tools/blender/build_holm_items_v1.py` (Blender 4.5 headless). Candidat
 | leather_body | 166 | 0.61 / 0.07 / 0.47 | 3 | yes |
 | wood_shield | 268 | 0.64 / 0.09 / 0.64 | 3 | yes |
 | bones | 104 | 0.42 / 0.08 / 0.13 | 1 | yes |
+| coffee_4 | 196 | 0.23 / 0.22 / 0.18 | 3 | yes |
+| coffee_3 | 170 | 0.23 / 0.17 / 0.18 | 3 | yes |
+| coffee_2 | 170 | 0.23 / 0.17 / 0.18 | 3 | yes |
+| coffee_1 | 170 | 0.23 / 0.17 / 0.18 | 3 | yes |
+| roasted_beans | 295 | 0.27 / 0.16 / 0.15 | 4 | yes |
 | pot_of_flour | 338 | 0.37 / 0.36 / 0.34 | 4 | yes |
 
-**Totals:** 24 items (23 unique models + alias `pot_of_flour`), 4417 triangles (unique), 16 materials (budget 16), no textures.
+**Totals:** 29 items (28 unique models + alias `pot_of_flour`), 5418 triangles (unique), 16 materials (budget 16), no textures.
 
 ## Id check
 

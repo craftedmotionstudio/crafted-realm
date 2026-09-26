@@ -12,7 +12,7 @@ var HolmIslandTrials=(function(){
   hp:5,att:1,str:1,def:1,aBonus:0,sBonus:0,dBonus:0,dStab:0,dSlash:0,dCrush:0,speedTicks:6,color:0x8a7a3a,size:.8,aggro:false,respawn:6,drops:[],harmless:true,
   deathStyle:'flip'};   // presentation only (combat feel): a crawler dies rolling onto its back, then sinks away
  // pens: near a building's measured target, on graph nodes 2-3 tiles from the stance, spread apart
- var PENS=[{id:'keep-court',building:'keep',target:'court',count:3},{id:'mage-yard',building:'mage',target:'entrance',count:2}];
+ var PENS=[{id:'keep-court',building:'keep',target:'court',count:3,hp:4},{id:'mage-yard',building:'mage',target:'entrance',count:2,hp:3}];
  function register(){if(typeof NPC_TYPES==='undefined')return false;if(!NPC_TYPES[TYPE]){var t=Object.assign({},DEF);t.npcMaxHit=1;NPC_TYPES[TYPE]=t}return true}
  function spots(api,pen){
   var s=api.qaStance(pen.building,pen.target);if(!s)return [];
@@ -25,6 +25,10 @@ var HolmIslandTrials=(function(){
   PENS.forEach(function(pen){spots(api,pen).forEach(function(n,i){
    spawnNpc.force=true;var npc;try{npc=spawnNpc(TYPE,n.x,n.z)}finally{spawnNpc.force=false}
    if(!npc)return;npc.home.set(n.x,n.y,n.z);npc.mesh.position.set(n.x,n.y,n.z);npc.leash=12;npc.wanderR=1.5;   // a grubkin chasing an archer must not reset (and heal) before it dies: leash wide, idle wander small
+   // 2004 Tutorial Island paced its practice foes to the lesson (a chicken for the first spells): under the 2004 rules
+   // (0..max damage, single casts) the mage yard's grubkins have 3 hitpoints so fifteen teaching runes are always
+   // enough; the keep court's keep 4 (thirty arrows). A per-instance copy: the shared type is never changed.
+   if(pen.hp){npc.t=Object.assign({},npc.t,{hp:pen.hp});npc.hp=pen.hp}
    npc.islandPen=pen.id;npc.mesh.name='island-trial-'+pen.id+'-'+i;npcs.push(npc)})});
   return {npcs:npcs.length,pens:PENS.map(function(p){return p.id})};
  }

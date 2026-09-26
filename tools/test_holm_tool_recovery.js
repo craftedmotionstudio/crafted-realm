@@ -7,7 +7,7 @@ const context={console:{info(){}}};vm.createContext(context);
 });
 const recovery=context.HolmToolRecovery;
 const defs=Object.fromEntries(['hatchet','tinderbox','fishing_net','pickaxe','hammer','bread'].map(id=>[id,{stack:false}]));
-const empty=()=>Array(24).fill(null);
+const empty=()=>Array(28).fill(null);
 const plain=value=>JSON.parse(JSON.stringify(value));
 let passed=0;
 function check(name,fn){fn();passed++;console.log('PASS '+name);}
@@ -41,7 +41,7 @@ check('owned in both bank and inventory needs no withdrawal',()=>{
   assert(r.ok);assert.strictEqual(r.bankOwned.length,0);
 });
 check('insufficient inventory space returns no partial proposal',()=>{
-  const inv=Array.from({length:24},()=>({id:'bread',qty:1}));inv[23]=null;
+  const inv=Array.from({length:28},()=>({id:'bread',qty:1}));inv[27]=null;
   const before=JSON.stringify(inv),r=recovery.plan(inv,{},[],defs,'equip_hatchet');
   assert.strictEqual(r.code,'insufficient-space');assert.strictEqual(r.missingSlots,2);assert(!('inventory' in r));
   assert.strictEqual(JSON.stringify(inv),before);

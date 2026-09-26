@@ -246,18 +246,23 @@ function refreshEquipKit(){
    wrap.appendChild(d)})});
   host.appendChild(wrap);
  }else if(equipView==='stats'){
-  var sum=function(f){return Player._sumBonus?Player._sumBonus(f):0};
-  var rows=[['Attack bonus',sum('aBonus')],['Strength bonus',sum('sBonus')],['Defence bonus',Player.defBonus?Player.defBonus():sum('dBonus')],['Magic bonus',Player.magBonus?Player.magBonus():0],['Prayer bonus',sum('prayB')],
+  // the 2004 bonus sheet: five attack and five defence bonuses, strength, ranged strength, prayer (shared/combat.js)
+  var sum=function(f){return Player._sumBonus?Player._sumBonus(f):0},B=null;
+  try{if(typeof LocalCombat!=='undefined'&&LocalCombat.ready())B=LocalCombat.stats().bonuses}catch(e){}
+  var rows=B?[['Stab attack',B.stab],['Slash attack',B.slash],['Crush attack',B.crush],['Magic attack',B.magic],['Ranged attack',B.ranged],
+    ['Stab defence',B.dStab],['Slash defence',B.dSlash],['Crush defence',B.dCrush],['Magic defence',B.dMagic],['Ranged defence',B.dRanged],
+    ['Strength',B.str],['Ranged strength',B.rStr],['Prayer',B.prayer],
+    ['Attack speed',Math.round(Player.weaponSpeed()/(typeof TICK!=='undefined'?TICK:.6))+' ticks'],['Weight',Player.weight().toFixed(1)+' kg']]
+   :[['Attack bonus',sum('aBonus')],['Strength bonus',sum('sBonus')],['Defence bonus',Player.defBonus?Player.defBonus():sum('dBonus')],['Magic bonus',Player.magBonus?Player.magBonus():0],['Prayer bonus',sum('prayB')],
    ['Attack speed',Math.round(Player.weaponSpeed()/(typeof TICK!=='undefined'?TICK:.6))+' ticks'],['Weight',Player.weight().toFixed(1)+' kg']];
   var t=el('div','kit-stats');rows.forEach(function(r){var v=r[1],cls=typeof v==='number'?(v>0?'pos':v<0?'neg':''):'';var line=el('div','kit-stat');
    line.innerHTML='<span></span><b class="'+cls+'"></b>';line.firstChild.textContent=r[0];line.lastChild.textContent=typeof v==='number'?(v>0?'+'+v:String(v)):v;t.appendChild(line)});
   host.appendChild(t);
  }else{
-  var all=[];Player.inv.forEach(function(s){if(s&&ITEMS[s.id])all.push({id:s.id,val:ITEMS[s.id].value||0})});
-  for(var sk in Player.equip){var q=Player.equip[sk];if(q&&ITEMS[q])all.push({id:q,val:ITEMS[q].value||0})}
-  all.sort(function(a,b){return b.val-a.val});var kept=all.slice(0,3),kb=el('div','kit-kept');
-  for(var i=0;i<3;i++){var c=el('div','kit-slot'+(kept[i]?' filled':''));if(kept[i]){var img=el('img');img.src=iconFor(kept[i].id);c.appendChild(img);tipify(c,ITEMS[kept[i].id].name)}kb.appendChild(c)}
-  host.appendChild(kb);host.appendChild(el('p','kit-copy','If you fall, you keep your three most valuable items. Everything else is left where you fell.'));
+  // 2004: the three priciest single units (a stack gives one), four with Protect Item (shared/pvp.js keptOnDeath)
+  var pv=typeof keptOnDeathPreview==='function'?keptOnDeathPreview():{kept:[],protect:false},kept=pv.kept,n=pv.protect?4:3,kb=el('div','kit-kept');
+  for(var i=0;i<n;i++){var c=el('div','kit-slot'+(kept[i]?' filled':''));if(kept[i]){var img=el('img');img.src=iconFor(kept[i].id);c.appendChild(img);tipify(c,ITEMS[kept[i].id].name)}kb.appendChild(c)}
+  host.appendChild(kb);host.appendChild(el('p','kit-copy',typeof keptOnDeathNote==='function'?keptOnDeathNote():'If you fall, you keep your three most valuable items. Everything else is left where you fell.'));
  }
  var bar=el('div','kit-equip-bar');
  [['stats','Equipment stats'],['death','Kept on death']].forEach(function(b){var btn=el('button','kit-btn'+(equipView===b[0]?' on':''),b[1]);btn.type='button';

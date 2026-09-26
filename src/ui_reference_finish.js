@@ -65,13 +65,14 @@ var style=document.createElement('style');style.id='ui-reference-finish';style.t
 
   /* Reference inventory: icons sit on one recessed stone field, not in 28
      identical modern boxes. Empty locations stay quiet; hover remains clear. */
-  #pane-inv{padding:12px 10px 14px;}
-  #inv-grid{grid-template-columns:repeat(4,1fr);gap:5px 7px;min-height:282px;align-content:start;}
-  #inv-grid .inv-slot{height:53px;border:0;border-radius:3px;background:transparent;
+  /* the 2004 backpack: 4 x 7 = 28 slots, all in view without scrolling (combat agent 2026-09-26) */
+  #pane-inv{padding:8px 10px 8px;}
+  #inv-grid{grid-template-columns:repeat(4,1fr);gap:4px 7px;min-height:283px;align-content:start;}
+  #inv-grid .inv-slot{height:37px;border:0;border-radius:3px;background:transparent;
     box-shadow:none;filter:drop-shadow(2px 3px 2px rgba(0,0,0,.34));}
   #inv-grid .inv-slot:hover{outline:1px solid rgba(255,224,105,.78);
     background:radial-gradient(ellipse,rgba(255,220,120,.13),transparent 70%);}
-  #inv-grid .inv-slot img{width:38px;height:38px;image-rendering:pixelated;object-fit:contain;}
+  #inv-grid .inv-slot img{width:34px;height:34px;image-rendering:pixelated;object-fit:contain;}
   #inv-grid .inv-qty{top:2px;left:1px;color:#ffff42;font-size:11px;}
 
   /* Tuck compact information orbs against the minimap instead of creating a

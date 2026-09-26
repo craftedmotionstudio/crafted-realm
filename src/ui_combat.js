@@ -9,12 +9,13 @@
    is one full-width bar with a small armoured figure.
 
    COSMETIC ONLY. UI.refreshCombat (game4_ui.js) still builds the pane and owns every handler:
-       .cmb-weap                    weapon name + class
-       .cmb-style[.active] data-i=N one per STYLE_DEFS entry (onclick sets Player.attackStyles)
+       .cmb-weap[data-cat]          weapon name + its 2004 category
+       .cmb-style[.active] data-i=N one per button of the category (shared/combat.js CATEGORY_STYLES: data-label,
+                                    data-style, data-type); onclick sets Player.styleIndex through the combat engine
        .set-row > #retal-btn        auto-retaliate toggle (onclick flips Player.autoRetaliate)
    A MutationObserver re-dresses those elements after each rebuild: it only prepends children and
    rewrites the inner HTML of elements whose handlers are element properties (kept by innerHTML edits),
-   so the style -> XP / accuracy mapping in STYLE_DEFS is untouched. Styling lives in assets/ui/osrs_kit.css.
+   so the style -> XP / accuracy mapping (shared/combat.js) is untouched. Styling lives in assets/ui/osrs_kit.css.
    ============================================================================ */
 (function(){
 'use strict';
@@ -22,36 +23,32 @@ if(window.__uiCombatBooted) return;            // guard against a double script 
 window.__uiCombatBooted = true;
 
 var PIC = 'assets/icons/ui/v3/combat/', V = '?v=2';
-// weapon model -> family shown in the tab (pictures + names only; the maths still come from STYLE_DEFS by index)
-var FAMILY = {sword:'sword', sabre:'sword', longsword:'sword', greatsword:'sword', scimitar:'sword', dagger:'sword',
-  axe:'axe', battleaxe:'axe', hatchet:'axe', pick:'pick', mace:'mace', warhammer:'mace', maul:'mace',
-  bow:'bow', longbow:'bow', shortbow:'bow', staff:'staff', wand:'staff'};
-var CATEGORY = {unarmed:'Unarmed', sword:'Sword', axe:'Axe', pick:'Pickaxe', mace:'Blunt', bow:'Bow', staff:'Staff', magic:'Spellcasting'};
-// family -> style key -> [shown name, picture]
-var STYLES = {
-  unarmed:{accurate:['Punch','punch'], aggressive:['Kick','kick'], controlled:['Shove','shove'], defensive:['Block','block_unarmed']},
-  sword:  {accurate:['Stab','sword_stab'], aggressive:['Lunge','sword_lunge'], controlled:['Slash','sword_slash'], defensive:['Block','sword_block']},
-  axe:    {accurate:['Chop','axe_lunge'], aggressive:['Smash','axe_smash'], controlled:['Hack','axe_slash'], defensive:['Block','axe_block']},
-  pick:   {accurate:['Spike','pick_stab'], aggressive:['Smash','pick_smash'], controlled:['Impale','pick_lunge'], defensive:['Block','pick_block']},
-  mace:   {accurate:['Pound','mace_smash'], aggressive:['Pummel','mace_slash'], controlled:['Spike','mace_stab'], defensive:['Block','mace_block']},
-  bow:    {accurate:['Accurate','bow_accurate'], rapid:['Rapid','bow_rapid'], longrange:['Longrange','bow_longrange']},
-  staff:  {standard:['Cast','staff_cast'], defensive:['Focus','staff_focus']}
+// 2004 weapon category (shared/combat.js weaponCategory) -> the name shown in the tab
+var CATEGORY = {unarmed:'Unarmed', stab:'Stab sword', slash:'Slash sword', spiked:'Spiked', blunt:'Blunt', twohanded:'Two-handed sword',
+  axe:'Axe', pickaxe:'Pickaxe', staff:'Staff', bow:'Bow', thrown:'Thrown'};
+// category -> button label -> picture (our own Blender props with a swing arc; tools/blender/build_ui_icons_v1.py)
+var PICS = {
+  unarmed:  {Punch:'punch', Kick:'kick', Block:'block_unarmed'},
+  stab:     {Stab:'sword_stab', Lunge:'sword_lunge', Slash:'sword_slash', Block:'sword_block'},
+  slash:    {Chop:'sword_smash', Slash:'sword_slash', Lunge:'sword_lunge', Block:'sword_block'},
+  spiked:   {Pound:'mace_smash', Pummel:'mace_slash', Spike:'mace_stab', Block:'mace_block'},
+  blunt:    {Pound:'mace_smash', Pummel:'mace_slash', Block:'mace_block'},
+  twohanded:{Chop:'sword_smash', Slash:'sword_slash', Smash:'mace_smash', Block:'sword_block'},
+  axe:      {Chop:'axe_slash', Hack:'axe_lunge', Smash:'axe_smash', Block:'axe_block'},
+  pickaxe:  {Spike:'pick_stab', Impale:'pick_lunge', Smash:'pick_smash', Block:'pick_block'},
+  staff:    {Bash:'staff_cast', Pound:'mace_smash', Focus:'staff_focus'},
+  bow:      {Accurate:'bow_accurate', Rapid:'bow_rapid', Longrange:'bow_longrange'},
+  thrown:   {Accurate:'bow_accurate', Rapid:'bow_rapid', Longrange:'bow_longrange'}
 };
-var TRAINS = {Attack:'Attack', Strength:'Strength', Defence:'Defence', Shared:'Attack, Strength and Defence', Ranged:'Ranged',
-  RangedDef:'Ranged and Defence', Magic:'Magic', MagicDef:'Magic and Defence'};
+var TRAINS = {accurate:'Attack', aggressive:'Strength', defensive:'Defence', controlled:'Attack, Strength and Defence',
+  ranged_accurate:'Ranged', ranged_rapid:'Ranged', ranged_longrange:'Ranged and Defence'};
+var STYLE_NAME = {accurate:'Accurate', aggressive:'Aggressive', defensive:'Defensive', controlled:'Controlled',
+  ranged_accurate:'Accurate', ranged_rapid:'Rapid', ranged_longrange:'Longrange'};
 
 function combatLevel(){
   // NB: Player is a top-level lexical const — a bare global, NOT on window (CLAUDE.md scope gotcha).
   try{ if(typeof Player!=='undefined' && Player && typeof Player.combatLevel==='function') return Player.combatLevel(); }catch(e){}
   return null;
-}
-function family(cls){
-  try{
-    if(cls==='magic') return 'staff';
-    var w = Player.equip && Player.equip.weapon, it = w && ITEMS[w];
-    if(!it) return cls==='ranged' ? 'bow' : 'unarmed';
-    return FAMILY[it.model] || (cls==='ranged' ? 'bow' : 'sword');
-  }catch(e){ return 'unarmed'; }
 }
 function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 function pic(name, cls){ return '<img class="kit-spr '+cls+'" src="'+PIC+name+'.png'+V+'" alt="" draggable="false">'; }
@@ -63,30 +60,28 @@ function augment(){
   if(!host) return;
   obs.disconnect();
   try{
-    var cls = (typeof Player!=='undefined' && Player.weaponStyle) ? Player.weaponStyle() : 'melee';
-    var list = (typeof STYLE_DEFS!=='undefined' && (STYLE_DEFS[cls] || STYLE_DEFS.melee)) || [];
-    var fam = family(cls), names = STYLES[fam] || STYLES.unarmed;
+    var weap = host.querySelector('.cmb-weap'), cat = (weap && weap.getAttribute('data-cat')) || 'unarmed';
 
-    /* --- header: weapon name, its family, combat level --- */
-    var weap = host.querySelector('.cmb-weap');
+    /* --- header: weapon name, its 2004 category, combat level --- */
     if(weap && !weap.querySelector('.cr-wname')){
       var raw = (weap.textContent||'').trim();
       var name = raw.split('·')[0].trim() || raw || 'Unarmed';
       var lvl = combatLevel();
       weap.innerHTML = '<div class="cr-wname">'+esc(name)+'</div>'+
-        '<div class="cr-wcat">Category: '+esc(cls==='magic'&&!(Player.equip&&Player.equip.weapon) ? CATEGORY.magic : (CATEGORY[fam]||fam))+'</div>'+
+        '<div class="cr-wcat">Category: '+esc(CATEGORY[cat]||cat)+'</div>'+
         (lvl!=null ? '<div class="cr-clvl">Combat Lvl: '+lvl+'</div>' : '');
     }
 
     /* --- style tiles: picture + name (the <b>/<small> text and the onclick stay) --- */
     Array.prototype.forEach.call(host.querySelectorAll('.cmb-style'), function(el){
       if(el.querySelector('.cr-pic')) return;
-      var s = list[+el.dataset.i] || {}, n = names[s.key] || [s.name || s.label || 'Style', null];
-      var tip = n[0]+' ('+(s.label||s.key||'')+')\nTrains '+(TRAINS[s.xp]||s.xp||'')+
-        (s.speedDelta ? '\nAttacks a little faster' : '')+(s.rangeBonus ? '\nReaches a little further' : '')+
-        (s.atype ? '\n'+s.atype.charAt(0).toUpperCase()+s.atype.slice(1)+' damage' : '');
-      el.setAttribute('data-tip', tip); el.setAttribute('aria-label', n[0]+', '+(s.label||''));
-      el.insertAdjacentHTML('afterbegin', (n[1] ? pic(n[1], 'cr-pic') : '')+'<span class="cr-sname">'+esc(n[0])+'</span>');
+      var label = el.getAttribute('data-label') || 'Style', st = el.getAttribute('data-style') || '', ty = el.getAttribute('data-type') || '';
+      var pics = PICS[cat] || PICS.unarmed, picName = pics[label] || null;
+      var tip = label+' ('+(STYLE_NAME[st]||st)+')\nTrains '+(TRAINS[st]||st)+
+        (st==='ranged_rapid' ? '\nAttacks one tick faster' : '')+(st==='ranged_longrange' ? '\nReaches two tiles further' : '')+
+        (ty ? '\n'+ty.charAt(0).toUpperCase()+ty.slice(1)+' damage' : '');
+      el.setAttribute('data-tip', tip); el.setAttribute('aria-label', label+', '+(STYLE_NAME[st]||st));
+      el.insertAdjacentHTML('afterbegin', (picName ? pic(picName, 'cr-pic') : '')+'<span class="cr-sname">'+esc(label)+'</span>');
     });
 
     /* --- auto-retaliate: one full-width bar with the armoured figure, red when On --- */

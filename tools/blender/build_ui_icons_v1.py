@@ -905,6 +905,23 @@ I('p_incredible_ref', 'prayers', lambda m: p_hourglass(m, 'gold', 'e_gold', True
 I('p_protect_magic', 'prayers', lambda m: p_ward(m, 'blue', 'magic'), [O('prayers/protect_magic.png', 30)], el=4)
 I('p_protect_range', 'prayers', lambda m: p_ward(m, 'green', 'range'), [O('prayers/protect_range.png', 30)], el=4)
 I('p_protect_melee', 'prayers', lambda m: p_ward(m, 'red', 'melee'), [O('prayers/protect_melee.png', 30)], el=4)
+# Protect Item (2004, level 25; combat agent 2026-09-26): a small iron-banded chest with a gold padlock and a pale halo
+def p_chest_locked(m):
+    k = m.mark(); p_chest(m); m.tf(k, S(.92))
+    m.ring2((0, -.3, .14), .09, .055, .03, 'gold', n=10, a0=0, a1=math.pi, side='gold_dk')
+    m.box((0, -.3, .02), (.1, .03, .09), 'gold', .02)
+    m.box((0, -.335, .0), (.02, .01, .035), 'black')
+    m.ring2((0, .05, .52), .26, .21, .03, 'e_white', n=18)
+I('p_protect_item', 'prayers', p_chest_locked, [O('prayers/protect_item.png', 30)], el=10, yaw=-14)
+# PvP HUD (combat agent 2026-09-26): the skull over a player who attacked first, the multi-combat sign, the
+# Scarlands level plaque behind the level number (all our own props)
+I('pk_skull', 'misc', lambda m: p_skull(m, False, 'bone', 'bone_dk'), [O('misc/pk_skull.png', 24), O('misc/pk_skull_over.png', 40)], el=6, yaw=0)
+I('multi_combat', 'misc', crossed_swords, [O('misc/multi_combat.png', 24)], el=8)
+def p_plaque(m):
+    m.ext(rrect(-.5, -.26, .5, .26, .08, 3), .1, 'wood', 'wood_dk', bev=.03)
+    m.ext(rrect(-.44, -.2, .44, .2, .06, 3), .04, 'cloth_red', y=-.08)
+    for sx in (-1, 1): m.sph((sx * .42, -.1, .18), .035, 'iron', 6, 3)
+I('wild_plaque', 'misc', p_plaque, [O('misc/wild_plaque.png', 64, 34)], el=4, aspect=(2, 1.1))
 
 # -- spells (24 px, fixed framing so strike < bolt < blast)
 def el_wind(m, s):
