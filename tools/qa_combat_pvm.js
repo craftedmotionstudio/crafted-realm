@@ -36,13 +36,20 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
     // the in-page recorder: every presentation event with the engine clock, and the FX log
     await page.evaluate(()=>{
       window.__ev=[];CombatHooks.on(e=>{const o=e.obj||e.att||e.src;window.__ev.push({k:e.k,tick:LocalCombat.clock(),t:+(CombatFX.now()).toFixed(4),who:o===player?'player':(o&&o.name)||'',dst:e.dst===player?'player':(e.dst&&e.dst.name)||'',
-        type:e.type,dmg:e.dmg,kind:e.kind,ticks:e.ticks,impactAt:e.impactAt,arriveAt:e.arriveAt,splash:e.splash})});
+        type:e.type,dmg:e.dmg,kind:e.kind,ticks:e.ticks,dist:e.dist,impactAt:e.impactAt,arriveAt:e.arriveAt,splash:e.splash});
+        // the broodmother test: a player who sees the ring steps out of reach at once (the reflex the telegraph asks for)
+        if(e.k==='telegraph'&&window.__dodge){const pt=TileNav.playerNode();for(const [dx,dz] of window.__dodge){const m=TileNav.nodeAt(pt.tx+dx,pt.tz+dz,pt.y);if(m&&TileNav.bfs(pt,q=>q.tx===m.tx&&q.tz===m.tz,{max:200})){LocalCombat.clearInteraction();TileNav.walkPlayerTo(m);window.__dodged=[m.tx,m.tz];break}}}});
+      // measured foes stand still (their wandering would move them between the click and the blow)
+      window.__pin=()=>WORLD.npcs.forEach(n=>{n.wanderR=0;n._walk=null});window.__pin();
       window.__lv=L=>{SKILLS.forEach(s=>Player.xp[s]=XP_TABLE[L[s]||1]||0);Player.maxHp=Player.lvl('Hitpoints');Player.hp=Player.maxHp;Player.prayerPts=Player.lvl('Prayer');UI.refreshSkills();UI.refreshHud()};
       window.__lv({Attack:30,Strength:30,Defence:30,Hitpoints:40,Ranged:30,Magic:30,Prayer:45});
       Player.inv=Player.inv.map(()=>null);['bronze_dagger','bronze_sword','bronze_greatsword','bronze_warhammer','worn_bow','apprentice_staff','trout','trout','trout','trout'].forEach(i=>Player.addItem(i,1));
       Player.addItem('arrows',400);Player.addItem('air_rune',400);Player.addItem('mind_rune',400);UI.refreshInv();
     });
-    const reset=()=>page.evaluate(()=>{window.__ev.length=0;CombatFX.qaClearLog();LocalCombat.clearInteraction();Player.hp=Player.maxHp;Player.activePrayers.clear();refreshOverhead()});
+    // a clean slate: no order, nothing queued on either side, every earlier hit landed, then the logs start
+    const reset=async()=>{await page.evaluate(()=>{LocalCombat.clearInteraction();WORLD.npcs.forEach(n=>{if(n.queue)n.queue.clear();if(n.mode==='attack'){n.mode='wander';n.target=null}n._windup=null});
+      if(Player.cbQueue)Player.cbQueue.clear();Player.hp=Player.maxHp;Player.activePrayers.clear();refreshOverhead();window.__pin();window.__dodge=null});
+      await sleep(2000);await page.evaluate(()=>{window.__ev.length=0;CombatFX.qaClearLog()})};
     // stand on a node `dist` tiles from a foe (straight east/west/north/south, a clear line), then click it for real
     async function standNear(name,dist){
       return page.evaluate((name,dist)=>{const n=WORLD.npcs.find(x=>x.mesh.name===name);if(!n)return {error:'no '+name};LocalCombat.register(n);const nt=n.node;
@@ -64,7 +71,8 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
       if(label==='dagger Stab')await shot(page,'melee_dagger');
       const r=await events();await page.evaluate(()=>LocalCombat.clearInteraction());
       const sw=r.ev.filter(e=>e.k==='swing'&&e.who==='player'),hits=r.fx.filter(f=>f.k==='splat'&&f.name===G);
-      rule('melee '+label+': a swing every '+want+' ticks (click '+(c.ok?'ok':'failed')+')',sw.length>=3&&gaps(sw.map(e=>e.tick)).every(g=>g===want),{ticks:sw.map(e=>e.tick),stand:s});
+      const chat=sw.length<3?await page.evaluate(()=>[...document.querySelectorAll('#chatbox div')].slice(-4).map(d=>d.textContent)):undefined;
+      rule('melee '+label+': a swing every '+want+' ticks (click '+(c.ok?'ok':'failed')+')',sw.length>=3&&gaps(sw.map(e=>e.tick)).every(g=>g===want),{ticks:sw.map(e=>e.tick),stand:s,chat});
       // each splat shows at its swing's impact frame (within one frame, ~1/30 s)
       const d=sw.slice(0,hits.length).map((e,i)=>+(hits[i].t-e.impactAt).toFixed(3));
       rule('melee '+label+': the splat lands on the impact frame (swing '+(want)+'-tick weapon)',d.length>=2&&d.every(x=>Math.abs(x)<=0.07),{splatMinusImpact:d});
@@ -76,13 +84,13 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
     console.log('ranged');
     for(const [style,want,label] of [[0,4,'Accurate'],[1,3,'Rapid'],[2,4,'Longrange']]){
       await reset();await wield('worn_bow',style);const s=await standNear(G,4);await sleep(900);
-      await clickNamed(page,G);await sleep(5000);
+      await clickNamed(page,G);await sleep(want*600*3+1600);
       if(label==='Rapid'){await sleep(100);await shot(page,'ranged_arrow')}
       await page.evaluate(()=>LocalCombat.clearInteraction());await sleep(2600);
       const r=await events(),shots=r.ev.filter(e=>e.k==='projectile'&&e.who==='player'),hitEv=r.ev.filter(e=>e.k==='hit'&&e.who===G),lands=r.fx.filter(f=>f.k==='land'&&f.to===G),spl=r.fx.filter(f=>f.k==='splat'&&f.name===G);
       rule('ranged '+label+': a shot every '+want+' ticks',shots.length>=3&&gaps(shots.map(e=>e.tick)).every(g=>g===want),shots.map(e=>e.tick));
-      const dl=shots.slice(0,hitEv.length).map((e,i)=>hitEv[i].tick-e.tick);
-      rule('ranged '+label+': each hit lands floor((46+5*4+30)/30) = 3 ticks after its shot',dl.length>=2&&dl.every(x=>x===3),dl);
+      const dl=shots.slice(0,hitEv.length).map((e,i)=>[hitEv[i].tick-e.tick,Math.floor((46+5*e.dist+30)/30),e.dist]);
+      rule('ranged '+label+': each hit lands floor((46+5d+30)/30) ticks after its shot (d = tiles at the shot)',dl.length>=2&&dl.every(x=>x[0]===x[1]),dl);
       const sp=spl.slice(0,lands.length).map((f,i)=>+(f.t-lands[i].t).toFixed(3));
       rule('ranged '+label+': the splat shows when the arrow lands',sp.length>=2&&sp.every(x=>x>=-0.001&&x<=0.07),sp);
       data['ranged_'+label]={shots:shots.map(e=>e.tick),hitDelay:dl,splatMinusLand:sp};
@@ -93,7 +101,7 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
      await page.evaluate(()=>LocalCombat.clearInteraction());await sleep(3000);
      const r=await events(),casts=r.ev.filter(e=>e.k==='projectile'&&e.who==='player'),hitEv=r.ev.filter(e=>e.k==='hit'&&e.who===G),lands=r.fx.filter(f=>f.k==='land'&&f.to===G),spl=r.fx.filter(f=>f.k==='splat'&&f.name===G);
      rule('magic autocast (staff): a cast every 5 ticks',casts.length>=3&&gaps(casts.map(e=>e.tick)).every(g=>g===5),casts.map(e=>e.tick));
-     rule('magic: every cast flies floor((46+10*4)/30)+1 = 3 ticks',casts.every(c=>c.ticks===3),casts.map(c=>c.ticks));
+     rule('magic: every cast flies floor((46+10d)/30)+1 ticks',casts.length>=2&&casts.every(c=>c.ticks===Math.floor((46+10*c.dist)/30)+1),casts.map(c=>[c.ticks,c.dist]));
      const landed=lands.filter(l=>!l.splash),sp=spl.slice(0,landed.length).map((f,i)=>+(f.t-landed[i].t).toFixed(3));
      rule('magic: a landed spell shows its splat on arrival; a splash shows none',sp.every(x=>x>=-0.001&&x<=0.07)&&spl.length===casts.filter(c=>!c.splash).length-0,{sp,casts:casts.length,splashes:casts.filter(c=>c.splash).length,splats:spl.length});
      data.magic={casts:casts.map(e=>[e.tick,e.splash?1:0]),splatMinusLand:sp};}
@@ -124,11 +132,12 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
      await page.evaluate(()=>{LocalCombat.togglePrayer('protect_melee')});
      // the telegraphed slam: wait for the wind-up, record the ring, step away and dodge
      await page.evaluate(()=>{window.__ev.length=0;CombatFX.qaClearLog()});
-     let tele=null;for(let i=0;i<40&&!tele;i++){await sleep(500);tele=await page.evaluate(()=>window.__ev.find(e=>e.k==='telegraph')||null)}
-     if(tele){await sleep(200);await shot(page,'broodmother_telegraph');
-      const away=await page.evaluate(()=>{const pt=TileNav.playerNode();for(const [dx,dz] of [[0,3],[3,0],[0,-3],[-3,0]]){const m=TileNav.nodeAt(pt.tx+dx,pt.tz+dz,pt.y);if(m){TileNav.walkPlayerTo(m);return [m.tx,m.tz]}}return null});
-      await sleep(2600);const msgs=await page.evaluate(()=>[...document.querySelectorAll('#chatbox div')].slice(-6).map(d=>d.textContent));
-      rule('the broodmother\'s slam is telegraphed (message + ground ring) and stepping away dodges it',!!away&&msgs.some(m=>/slams the empty ground/.test(m)),{away,msgs});}
+     await page.evaluate(()=>{window.__dodge=[[0,2],[2,0],[0,-2],[-2,0],[2,2],[-2,-2]];window.__dodged=null});
+     let tele=null;for(let i=0;i<60&&!tele;i++){await sleep(250);tele=await page.evaluate(()=>window.__ev.find(e=>e.k==='telegraph')||null)}
+     if(tele){await sleep(350);await shot(page,'broodmother_telegraph');
+      await sleep(2600);const away=await page.evaluate(()=>window.__dodged),msgs=await page.evaluate(()=>[...document.querySelectorAll('#chatbox div')].slice(-6).map(d=>d.textContent));
+      rule('the broodmother slam is telegraphed (message + ground ring) and stepping away dodges it',!!away&&msgs.some(m=>/rears up/.test(m))&&msgs.some(m=>/slams the empty ground/.test(m)),{away,msgs:msgs.slice(-3)});
+      await page.evaluate(()=>{window.__dodge=null});}
      else rule('the broodmother\'s slam is telegraphed (message + ground ring) and stepping away dodges it',false,'no telegraph in 20 s');
      await page.evaluate(()=>LocalCombat.clearInteraction());
     }
@@ -137,7 +146,8 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
     for(const type of ['pg_poacher','pg_warlock']){const f=PG.find(n=>n.type===type);if(!f)continue;
      await reset();await page.evaluate(()=>{Player.maxHp=99;Player.hp=99});await wield('bronze_sword',0);await standNear(f.name,1);await sleep(700);await clickNamed(page,f.name);await sleep(7000);
      const r=await events(),pj=r.ev.filter(e=>e.k==='projectile'&&e.who===f.name),lands=r.fx.filter(x=>x.k==='land'&&x.to==='player'),spl=r.fx.filter(x=>x.k==='splat'&&x.player);
-     rule(f.type+': fires '+(type==='pg_poacher'?'arrows':'spells')+' at the adventurer, each landing on its hit tick',pj.length>=1&&lands.length>=1,{shots:pj.map(e=>[e.tick,e.ticks,e.splash?1:0]),lands:lands.length,splats:spl.length});
+     const dbg=pj.length?undefined:await page.evaluate(n=>{const x=WORLD.npcs.find(q=>q.mesh.name===n);return {target:Player.target&&Player.target.mesh.name,qa:LocalCombat.qa.npc(x),me:LocalCombat.qa.player(),chat:[...document.querySelectorAll('#chatbox div')].slice(-3).map(d=>d.textContent)}},f.name);
+     rule(f.type+': fires '+(type==='pg_poacher'?'arrows':'spells')+' at the adventurer, each landing on its hit tick',pj.length>=1&&lands.length>=1,{shots:pj.map(e=>[e.tick,e.ticks,e.dist,e.splash?1:0]),lands:lands.length,splats:spl.length,dbg});
      await page.evaluate(()=>LocalCombat.clearInteraction());}
     /* ---------------- the pack: aggression ---------------- */
     {const wild=PG.filter(n=>n.type==='pg_wild_grubkin');if(wild.length){await reset();

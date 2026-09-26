@@ -138,10 +138,12 @@ var HolmIslandNav=(function(){
    })});
    // diagonals (owner decision 2026-09-25: 8-direction movement like 2004). A diagonal joins two stances only where the
    // 2004 rule allows it: both orthogonal neighbours stand on this storey and all four straight links exist (so no
-   // wall corner, fence, door frame, water edge or storey change is ever cut), none of those links is an authored
-   // stair profile, and every rise stays within one land step. The arrival house keeps its own cardinal graph.
+   // wall corner, fence, door frame, water edge or storey change is ever cut), none of those links climbs (a measured
+   // profile that rises more than a third of a step is a stair or a slope and keeps its straight treads), and every
+   // rise stays within one land step. The arrival house keeps its own cardinal graph.
    function linked(a,b){return links[a.id].indexOf(b.id)>=0}
-   function flat(a,b){return !profileOf(a,b)&&Math.abs(a.y-b.y)<=LAND_STEP+EPS}
+   function flat(a,b){if(Math.abs(a.y-b.y)>LAND_STEP+EPS)return false;var pr=profileOf(a,b);if(!pr)return true;
+    var lo=Infinity,hi=-Infinity;for(var i=0;i<pr.length;i++){lo=Math.min(lo,pr[i].y);hi=Math.max(hi,pr[i].y)}return hi-lo<=0.35}
    nodes.forEach(function(n){if(n.owner==='arrival')return;[[1,1],[1,-1]].forEach(function(d){
     (byTile[key(n.tx+d[0],n.tz+d[1])]||[]).forEach(function(m){if(m.owner==='arrival'||linked(n,m))return;
      var ok=(byTile[key(n.tx+d[0],n.tz)]||[]).some(function(o1){return o1.owner!=='arrival'&&linked(n,o1)&&linked(o1,m)&&flat(n,o1)&&flat(o1,m)})&&

@@ -50,7 +50,7 @@ var CombatHooks=(function(){
   var rel=opts.release!=null?opts.release:impactDelay(src,kind==='arrow'?'bow':'cast');
   if(rel>arrive-.12)rel=Math.max(0,arrive*.5);   // a one-tick NPC shot releases early enough to fly
   var h=null;if(f&&f.launch)try{h=f.launch(kind==='arrow'?'arrow':'bolt',src,dst,{dmg:opts.dmg|0,max:!!opts.max,tint:opts.tint,spell:opts.spell,release:rel,arriveIn:arrive,splash:!!opts.splash})}catch(e){}
-  emit({k:'projectile',src:src,dst:dst,kind:kind,ticks:ticks,arriveAt:now()+arrive,releaseAt:now()+rel,spell:opts.spell||null,splash:!!opts.splash,handle:h});
+  emit({k:'projectile',src:src,dst:dst,kind:kind,ticks:ticks,dist:opts.dist,arriveAt:now()+arrive,releaseAt:now()+rel,spell:opts.spell||null,splash:!!opts.splash,handle:h});
   return h;
  }
  /**

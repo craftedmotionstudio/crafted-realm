@@ -32,7 +32,7 @@ var HolmProvingGround=(function(){
   pg_broodmother:{name:'Grubkin broodmother',level:18,examine:'Every grubkin on the Holm came from somewhere. This is where.',
    hp:48,att:16,str:16,def:14,aBonus:8,sBonus:10,dBonus:8,dStab:12,dSlash:10,dCrush:4,dRanged:6,dMagic:4,speedTicks:5,atype:'crush',
    glbChar:'holm_grubkin_v1',glbHeight:1.55,color:0x4a3a1a,size:1.6,aggro:false,maxRange:8,respawn:60,deathStyle:'flip',tint:0x6a5236,
-   special:{every:4,windup:2,maxHit:9,radius:1.8,msg:'The broodmother rears up, ready to slam the ground!',hitMsg:'The ground shakes as the broodmother slams into you!',missMsg:'The broodmother slams the empty ground.'},
+   special:{every:4,windup:3,maxHit:9,radius:1.8,msg:'The broodmother rears up, ready to slam the ground!',hitMsg:'The ground shakes as the broodmother slams into you!',missMsg:'The broodmother slams the empty ground.'},
    dropTable:{always:[{item:'big_bones',qty:1}],rolls:128,main:[{w:50,item:'coins',qty:[40,120]},{w:24,item:'trout',qty:[2,3]},{w:8,item:'ash_bow',qty:1},{w:6,item:'glimmer_hat',qty:1},{w:4,item:'amulet_of_might',qty:1},{w:4,item:'amulet_of_precision',qty:1}]},
    drops:[{id:'big_bones',q:1,p:1}]}
  };

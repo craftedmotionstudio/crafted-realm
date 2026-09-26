@@ -175,7 +175,7 @@ var LocalCombat=(function(){
    var dist=pt&&n.node?TileNav.cheb(n.node,pt):1,delay=type==='ranged'?C.npcRangedHitDelay(dist):C.npcMagicHitDelay(dist);
    n.actionDelay=clock+rate;
    CombatHooks.attackAnim(n.mesh,type==='ranged'?'bow':'cast');
-   var h=CombatHooks.projectile(n.mesh,player,type==='ranged'?'arrow':'spell',Math.max(1,delay),{dmg:damage,splash:type==='magic'&&!hit,tint:type==='magic'?(def.spellTint||0xc86aff):undefined,spell:def.spell||null});
+   var h=CombatHooks.projectile(n.mesh,player,type==='ranged'?'arrow':'spell',Math.max(1,delay),{dmg:damage,splash:type==='magic'&&!hit,tint:type==='magic'?(def.spellTint||0xc86aff):undefined,spell:def.spell||null,dist:dist});
    if(type==='ranged'||hit){var d=damage;
     Player.cbQueue.add('npc_damage',delay,function(){damagePlayer(d,n,{kind:type==='ranged'?'arrow':'magic',fx:h})});
     Player.cbQueue.add('npc_retaliate',delay,function(){autoRetaliate(n)})}
@@ -243,7 +243,7 @@ var LocalCombat=(function(){
   var pt=ptile(),dist=pt&&n.node?TileNav.cheb(pt,n.node):1,delay=C.rangedHitDelay(dist);
   if(ammo)dropAmmo(ammo,n,Math.floor(C.arrowDuration(dist)/30));
   CombatHooks.attackAnim(player,'bow');
-  var dmg=damage,isMax=damage>0&&damage>=max&&max>=3,h=CombatHooks.projectile(player,n.mesh,'arrow',delay,{dmg:dmg,max:isMax});
+  var dmg=damage,isMax=damage>0&&damage>=max&&max>=3,h=CombatHooks.projectile(player,n.mesh,'arrow',delay,{dmg:dmg,max:isMax,dist:dist});
   npcRetaliate(n,delay);
   n.queue.add('damage',delay,function(){npcDamage(n,dmg,{kind:'arrow',style:'ranged',fx:h})});
   Player.lastAttackTick=clock;if(sp.spec)Player.lastSpec=clock;
@@ -267,10 +267,10 @@ var LocalCombat=(function(){
   CombatHooks.attackAnim(player,'cast');
   if(landed){
    var damage=C.damageRoll(rng,max);npcRetaliate(n,delay);
-   h=CombatHooks.projectile(player,n.mesh,'spell',delay,{dmg:damage,max:damage>0&&damage>=max&&max>=3,tint:sp.color,spell:id,splash:false});
+   h=CombatHooks.projectile(player,n.mesh,'spell',delay,{dmg:damage,max:damage>0&&damage>=max&&max>=3,tint:sp.color,spell:id,splash:false,dist:dist});
    n.queue.add('damage',delay,function(){npcDamage(n,damage,{kind:'magic',style:'magic',fx:h})});
    var capped=Math.min(damage,n.hp);giveXp(C.combatXp(C.magicDamageStyle(s.style.style),capped));n.heroDmg+=capped}
-  else{h=CombatHooks.projectile(player,n.mesh,'spell',delay,{dmg:0,tint:sp.color,spell:id,splash:true});npcRetaliate(n,0);n.lastSplashTick=clock}
+  else{h=CombatHooks.projectile(player,n.mesh,'spell',delay,{dmg:0,tint:sp.color,spell:id,splash:true,dist:dist});npcRetaliate(n,0);n.lastSplashTick=clock}
   Player.lastAttackTick=clock;
   return fromAutocast||autocastSpell()===id}
  /* ------------------------------------------------------------------------------------------------ damage, death */
