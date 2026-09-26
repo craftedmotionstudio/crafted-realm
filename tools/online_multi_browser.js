@@ -67,7 +67,7 @@ async function startServer() {
       let expect = null;
       if (this.pid != null && this.nid == null && typeof this.weapon === 'function') expect = name === 'cast' ? C.MAGIC_ATTACK_RATE : C.attackDelay(this.weapon(), this.style().style, false);
       else if (this.def) expect = this.def.speedTicks || C.DEFAULT_ATTACK_RATE;
-      serverAnims.push({ tick: world.tick, who: this.nid != null ? 'n' + this.nid : 'p' + this.pid, name, type: extra && extra.type, expect, weapon: this.equip ? this.equip.weapon : null });
+      serverAnims.push({ tick: world.tick, who: this.nid != null ? 'n' + this.nid : 'p' + this.pid, name, type: extra && extra.type, spec: !!(extra && extra.spec), expect, weapon: this.equip ? this.equip.weapon : null });
     }
     return anim0.call(this, name, extra);
   };
@@ -301,6 +301,22 @@ async function pvpFight(fight, A0, B0, O, opts) {
     // the attacker keeps fighting (eating dropped the attack order: click again, as a player would)
     await sleep(TICK);
     if (!sp(A.name).target) await A.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
+  }
+  // the special attack: switch to the kit's spec weapon from the pack, arm the orb, strike, switch back (criterion 16)
+  if (o.spec) {
+    const specWeapon = { melee: 'steel_sword', ranged: 'ash_bow' }[o.swap ? o.kitB : o.kitA] || 'steel_sword';
+    const main = (await A.state()).equip.weapon, e0 = (await A.state()).ui.set.spec;
+    const clickInv = (id) => A.q((want) => { document.querySelector('.tab-btn[data-tab="inv"]').click(); const i = Player.inv.findIndex((x) => x && x.id === want); if (i >= 0) document.querySelectorAll('#inv-grid > *')[i].click(); return i; }, id);
+    await clickInv(specWeapon);
+    const switched = await A.until((st) => st.equip.weapon === specWeapon, 6000, 'spec weapon').then(() => true, () => false);
+    await A.q(() => document.getElementById('spec-orb').click());
+    await A.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
+    const used = await A.until((st) => st.ui.set.spec < e0, 20000, 'the special attack').then(() => true, () => false);
+    const specAnims = serverAnims.filter((a) => a.tick >= since && a.who === 'p' + aPid && a.spec).length;
+    check(fight, switched && used && specAnims > 0, 'the special attack fires from the orb after a weapon switch (energy spent, special swing seen)', { switched, energyBefore: e0, energyAfter: (await A.state()).ui.set.spec, specSwings: specAnims });
+    await clickInv(main);
+    await A.until((st) => st.equip.weapon === main, 6000, 'main weapon back').catch(() => {});
+    await A.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
   }
   // single-way combat: a third adventurer cannot join outside a multi-combat area
   if (o.thirdParty) {
@@ -556,9 +572,9 @@ const SCENARIOS = [
   { name: 'pvm-magic-cinder_shade', kind: 'pvm', kit: 'magic', npc: 'cinder_shade', protect: 'protect_melee', maxMs: 240000 },
   // mixed PvP, roles swapped, Protect Item, a dropped connection mid-fight
   { name: 'pvp-melee-vs-magic', kind: 'pvp', kitA: 'melee', kitB: 'magic', protectB: 'protect_melee', protectItemA: true },
-  { name: 'pvp-ranged-vs-melee', kind: 'pvp', kitA: 'ranged', kitB: 'melee', protectA: 'protect_melee' },
+  { name: 'pvp-ranged-vs-melee', kind: 'pvp', kitA: 'ranged', kitB: 'melee', protectA: 'protect_melee', spec: true },
   { name: 'pvp-magic-vs-ranged', kind: 'pvp', kitA: 'magic', kitB: 'ranged' },
-  { name: 'pvp-melee-swapped', kind: 'pvp', kitA: 'melee', kitB: 'melee', swap: true, switches: true },
+  { name: 'pvp-melee-swapped', kind: 'pvp', kitA: 'melee', kitB: 'melee', swap: true, switches: true, spec: true },
   { name: 'pvp-ranged-swapped', kind: 'pvp', kitA: 'ranged', kitB: 'magic', swap: true, protectItemA: true },
   { name: 'pvp-reconnect', kind: 'pvp', kitA: 'melee', kitB: 'ranged', reconnect: true },
   { name: 'pvp-magic-vs-melee', kind: 'pvp', kitA: 'magic', kitB: 'melee', protectB: 'protect_magic' },

@@ -91,10 +91,10 @@
     "kits": {
       "melee": { "label": "steel fighter kit", "style": 1,
         "equip": { "head": "steel_medhelm", "body": "iron_platebody", "legs": "leather_chaps", "shield": "steel_sqshield", "weapon": "steel_longsword", "amulet": "amulet_of_precision", "cape": "trav_cape_red", "hands": "leather_gloves", "feet": "leather_boots" },
-        "inv": [["trout", 1], ["trout", 1], ["trout", 1], ["trout", 1], ["coins", 100]] },
+        "inv": [["trout", 1], ["trout", 1], ["trout", 1], ["trout", 1], ["steel_sword", 1], ["coins", 100]] },
       "ranged": { "label": "gale archer kit", "style": 1,
         "equip": { "head": "steel_medhelm", "body": "steel_platebody", "legs": "steel_platelegs", "weapon": "gale_longbow", "amulet": "amulet_of_precision", "cape": "trav_cape_green", "hands": "leather_gloves", "feet": "leather_boots" },
-        "inv": [["arrows", 300], ["trout", 1], ["trout", 1], ["trout", 1], ["trout", 1], ["trout", 1], ["coins", 100]] },
+        "inv": [["arrows", 300], ["trout", 1], ["trout", 1], ["trout", 1], ["trout", 1], ["trout", 1], ["ash_bow", 1], ["coins", 100]] },
       "magic": { "label": "storm caster kit", "style": 0, "autocast": "water_bolt",
         "equip": { "head": "steel_medhelm", "body": "glimmer_robe_top", "legs": "cloth_robe_skirt", "shield": "steel_sqshield", "weapon": "storm_staff", "amulet": "amulet_of_warding", "cape": "trav_cape_blue", "hands": "leather_gloves", "feet": "leather_boots" },
         "inv": [["water_rune", 400], ["chaos_rune", 200], ["trout", 1], ["trout", 1], ["trout", 1], ["trout", 1], ["coins", 100]] }
