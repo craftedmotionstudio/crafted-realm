@@ -185,7 +185,7 @@ Changes (formulas untouched; `src/game1_data.js`, `src/magic_spells.js`), each a
 | glimmer robe top / hat | magic attack +5 / +3 (was 9 / 5); magic defence 15 / 8 (was 9 / 5) | wizard robes +3 / +2 attack; the defence keeps robes above plate against spells from level 15 |
 | leather body / chaps / gloves / boots | magic def 6 / 3 / 1 / 1 (was 20 / 12 / 5 / 3, a pass-2 stopgap) | leather keeps a little magic out; the new ladder carries the rest |
 | metal armour (ARMOUR_PROFILE) | magic defence helm +4, body +8, legs +6, shield +6 (a set +24; was the 2004 -1/-6/-4/-1) | the 2004 casting penalties stay (body -30 magic attack: you cannot cast in plate); the defence is still the lowest of the three sets (ranged sets +23 and +28, robes +36) |
-| Fire Blast (NEW spell, 59) | max 16, fire 5 / air 4 / spark 1 | the 2004 book's last blast (59, 16); the Blender sprite already existed |
+| Fire Blast, shown as "Ember Wrath" per NAMING_BIBLE (NEW spell `fire_blast`, 59) | max 16, fire 5 / air 4 / spark 1 | the 2004 book's last blast (59, 16); the Blender sprite already existed |
 
 Result (`pass4/bench_pass4.md`: server engine, 100 fights per pairing, sides alternated, each style in its own
 level's best gear; win rate of the favoured style, fight length mean (sd; 10th-90th percentile)):
