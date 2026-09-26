@@ -30,10 +30,12 @@
      * and ONLY the pommel shows below the hand; battleaxe: held at the BOTTOM
      * of the haft; bows: gripped at the curved WOOD riser (+X belly), never the
      * string line at x=0. */
-    sword:     {axis:[0,-1,0], roll:[1,0,0],  neutral:[0,0.35,0.94],  rollAim:[1,0,0],  grip:[0,0.025,0], palmAlong:0.085},
-    longsword: {axis:[0,-1,0], roll:[1,0,0],  neutral:[0,0.35,0.94],  rollAim:[1,0,0],  grip:[0,0.025,0], palmAlong:0.085},
-    sabre:     {axis:[0,-1,0], roll:[1,0,0],  neutral:[0,0.35,0.94],  rollAim:[1,0,0],  grip:[0,0.028,0], palmAlong:0.085},
-    dagger:    {axis:[0,-1,0], roll:[1,0,0],  neutral:[0,0.35,0.94],  rollAim:[1,0,0],  grip:[0,0.02,0],  palmAlong:0.075},
+    /* kit v3.1 (2026-09-26): the idle hands hang at the SIDES of the thighs, so a blade's crossguard now stands
+     * vertical (rollAim up: edge up / down, the natural grip) instead of spanning into the thigh; direction unchanged */
+    sword:     {axis:[0,-1,0], roll:[1,0,0],  neutral:[0,0.35,0.94],  rollAim:[0,1,0],  grip:[0,0.025,0], palmAlong:0.085},
+    longsword: {axis:[0,-1,0], roll:[1,0,0],  neutral:[0,0.35,0.94],  rollAim:[0,1,0],  grip:[0,0.025,0], palmAlong:0.085},
+    sabre:     {axis:[0,-1,0], roll:[1,0,0],  neutral:[0,0.35,0.94],  rollAim:[0,1,0],  grip:[0,0.028,0], palmAlong:0.085},
+    dagger:    {axis:[0,-1,0], roll:[1,0,0],  neutral:[0,0.35,0.94],  rollAim:[0,1,0],  grip:[0,0.02,0],  palmAlong:0.075},
     battleaxe: {axis:[0,1,0],  roll:[0,0,1],  neutral:[0,0.67,0.74],  rollAim:[1,0,0],  grip:[0,-0.14,0], palmAlong:0.085},  // owner r6: ~48deg from vertical (+17deg over r5)
     /* set 2 — authored head/blade +Y, spec-driven (no bbox guessing); one-hand
      * crush weapons rest at attention like blades; 2h same but heavier */
