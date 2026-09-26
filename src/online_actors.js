@@ -114,7 +114,7 @@ var OnlineActors=(function(){
 
  /* ---- me ---- */
  function initMe(welcome){
-  var ent=new Ent('me',welcome.pid);ent.isMe=true;ent.name=welcome.name;ent.face=welcome.f||null;   // a reconnect mid-fight: whom we fightent.mover=baseTile(welcome.x,welcome.z);ent.tile={x:welcome.x,z:welcome.z};
+  var ent=new Ent('me',welcome.pid);ent.isMe=true;ent.name=welcome.name;ent.face=welcome.f||null;ent.mover=baseTile(welcome.x,welcome.z);ent.tile={x:welcome.x,z:welcome.z};   // face: a reconnect mid-fight, whom we fight
   st.me=ent;placeMe(0);return ent;
  }
  function placeMe(){var e=st.me;if(!e||!player)return;player.position.set(e.mover.x,groundAt(e.mover.x,e.mover.z),e.mover.z)}
