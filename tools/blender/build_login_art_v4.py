@@ -32,7 +32,7 @@ PAL = {
     'n_pillar': (.55, .58, .57), 'n_pillar_dk': (.42, .45, .44), 'n_arch': (.53, .56, .55), 'vault': (.40, .41, .40), 'groove': (.22, .22, .22),
     'e_mist': (.80, .86, .80), 'iron': (.34, .34, .36), 'iron_dk': (.18, .18, .19), 'steel': (.62, .64, .67),
     'e_fire_dk': (.84, .26, .04), 'e_fire': (1.0, .58, .10), 'e_fire_core': (1.0, .90, .46), 'e_ember': (1.0, .62, .18), 'coal': (.14, .10, .08),
-    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.60, .60, .58), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
+    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.43, .44, .44), 'helm': (.80, .82, .85), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
     'n_rim': (.50, .51, .55), 'v_marble': (.44, .45, .50), 'rim_groove': (.16, .16, .18),
     'btn_face': (.30, .30, .33), 'btn_face_hi': (.40, .40, .44), 'btn_face_red': (.42, .15, .10), 'btn_face_red_hi': (.52, .20, .13), 'btn_face_off': (.22, .22, .23),
     'btn_rim': (.56, .56, .60), 'btn_rim_red': (.62, .40, .34), 'btn_rim_off': (.40, .40, .42),
@@ -354,9 +354,9 @@ def emblem_hammer(c, s=1.0, rot=(0, -28, -18)):
     m = M()
     m.cyl((0, 0, -.62), (0, 0, .4), .06, 'wood', n=6, caps='wood_dk')
     m.box((0, 0, -.55), (.075, .075, .12), 'wood_dk')
-    m.hull(cbox((0, 0, .5), (.34, .14, .14), .04), 'iron')
-    m.hull(cbox((.36, 0, .5), (.05, .16, .16), .02), 'steel')
-    m.hull([Vector((-.34, y, .5 + z)) for y in (-.12, .12) for z in (-.12, .12)] + [Vector((-.56, 0, .5))], 'iron_dk')
+    m.hull(cbox((0, 0, .5), (.34, .14, .14), .04), lambda n, cc: 'helm' if n.z > .5 else 'steel')
+    m.hull(cbox((.36, 0, .5), (.05, .16, .16), .02), 'helm')
+    m.hull([Vector((-.34, y, .5 + z)) for y in (-.12, .12) for z in (-.12, .12)] + [Vector((-.56, 0, .5))], 'steel')
     ob = to_object(m, 'hammer'); ob.location = c; ob.scale = (s, s, s); ob.rotation_euler = tuple(math.radians(v) for v in rot); return ob
 def emblem_sword(c, s=1.0, rot=(0, 0, 0)):
     """a plain arming sword: diamond-section blade, a straight crossguard, a leather grip and a round pommel"""
@@ -370,7 +370,7 @@ def emblem_sword(c, s=1.0, rot=(0, 0, 0)):
 def emblem_helm(c, s=1.0):
     """a plain round-topped helm with a nasal bar, cheek plates and a riveted brow band (our own design)"""
     m = M()
-    m.hull(ell((0, 0, .1), (.42, .4, .5), 14, 7, floor=.1), lambda n, cc: 'steel' if n.z > .2 else 'n_rim')
+    m.hull(ell((0, 0, .1), (.42, .4, .5), 14, 7, floor=.1), lambda n, cc: 'helm' if n.z > .2 else 'steel')
     m.lathe([(.43, .02), (.44, .12), (.43, .22)], 16, 'iron')
     for a in [math.pi * (1.2 + .15 * k) for k in range(5)]:
         m.sph((math.cos(a) * .44, math.sin(a) * .44, .12), .03, 'steel', 5, 3)
@@ -380,24 +380,29 @@ def emblem_helm(c, s=1.0):
         m.box((sx * .2, -.39, .0), (.12, .02, .03), 'ink')
     m.hull(cbox((0, 0, .62), (.05, .3, .05), .02), 'iron')
     ob = to_object(m, 'helm'); ob.location = c; ob.scale = (s, s, s); return ob
-def carve(target, cutters, mat_name='cut'):
-    """boolean-subtract each cutter mesh from target in turn (EXACT solver, hole tolerant); the cut faces take mat_name.
-    A cut that would empty the target (a bad cutter) is skipped and reported."""
+def carve(target, cutters, mat_name='cut', tolerant=True):
+    """boolean-subtract each cutter mesh from target in turn (EXACT solver); the cut faces take mat_name.
+    tolerant=False tries the strict solve first (it keeps letter counters) and falls back to the hole-tolerant one when
+    the strict solve makes no cut; a cut that would empty the target (a bad cutter) is skipped and reported."""
     for me in cutters:
         bm = bmesh.new(); bm.from_mesh(me); bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:]); bm.to_mesh(me); bm.free()
         me.materials.clear(); me.materials.append(mat(mat_name))
         for poly in me.polygons: poly.material_index = 0
         cut = bpy.data.objects.new('cutter', me); scene.collection.objects.link(cut); bpy.context.view_layer.update()
-        md = target.modifiers.new('carve', 'BOOLEAN'); md.operation = 'DIFFERENCE'; md.object = cut
-        try: md.solver = 'EXACT'
-        except Exception: pass
-        for k, v in (('use_hole_tolerant', True), ('use_self', True), ('material_mode', 'TRANSFER')):
-            try: setattr(md, k, v)
+        n0 = len(target.data.vertices)
+        for tol in ((False, True) if not tolerant else (True,)):
+            md = target.modifiers.new('carve', 'BOOLEAN'); md.operation = 'DIFFERENCE'; md.object = cut
+            try: md.solver = 'EXACT'
             except Exception: pass
-        dg = bpy.context.evaluated_depsgraph_get(); new = bpy.data.meshes.new_from_object(target.evaluated_get(dg))
-        target.modifiers.clear()
-        if len(new.vertices) >= len(target.data.vertices) * .5: target.data = new
-        else: print(TAG, 'carve skipped a cutter that emptied the stone', len(new.vertices)); bpy.data.meshes.remove(new)
+            for k, v in (('use_hole_tolerant', tol), ('use_self', tol), ('material_mode', 'TRANSFER')):
+                try: setattr(md, k, v)
+                except Exception: pass
+            dg = bpy.context.evaluated_depsgraph_get(); new = bpy.data.meshes.new_from_object(target.evaluated_get(dg))
+            target.modifiers.clear()
+            if len(new.vertices) >= n0 * .5 and len(new.vertices) != n0: target.data = new; break
+            bpy.data.meshes.remove(new)
+        else:
+            print(TAG, 'carve: a cutter made no usable cut')
         bpy.data.objects.remove(cut, do_unlink=True)
     for poly in target.data.polygons: poly.use_smooth = False
 def lintel(text='CRAFTED REALM', L=9.2, H=1.34, D=.7, seed=31):
@@ -418,10 +423,17 @@ def lintel(text='CRAFTED REALM', L=9.2, H=1.34, D=.7, seed=31):
     beam = to_object(m, 'lintel')
     front = -D / 2
     cutters = []
-    tm = text_mesh(text, .74, .5)          # the letters, sunk .09 into the face
-    xs = [v.co.x for v in tm.vertices]; zs = [v.co.z for v in tm.vertices]
-    k = min((L - 1.1) / (max(xs) - min(xs)), (H * .62) / (max(zs) - min(zs)))
-    tm.transform(Matrix.Translation((0, front - .41, -.02)) @ Matrix.Scale(k, 4)); cutters.append(tm)
+    # the letters, one cutter each (overlapping glyphs in one mesh confuse the solver), laid out by their own widths
+    glyphs = []; x = 0.0; gap = .07
+    for ch in text:
+        if ch == ' ': x += .26; continue
+        tm = text_mesh(ch, .74, .5); xs = [v.co.x for v in tm.vertices]
+        tm.transform(Matrix.Translation((x - min(xs), 0, 0))); x += (max(xs) - min(xs)) + gap; glyphs.append(tm)
+    width = x - gap; zs = [v.co.z for tm in glyphs for v in tm.vertices]
+    k = min((L - 1.1) / width, (H * .62) / (max(zs) - min(zs))); zc = (max(zs) + min(zs)) / 2
+    for tm in glyphs:
+        tm.transform(Matrix.Translation((0, front - .41, -.02)) @ Matrix.Scale(k, 4) @ Matrix.Translation((-width / 2, 0, -zc)))
+    letters = len(glyphs); cutters += glyphs
     # the incised border: a thin groove ring inset from the edges
     bm = bmesh.new()
     def slab(x0, x1, z0, z1):
@@ -431,14 +443,14 @@ def lintel(text='CRAFTED REALM', L=9.2, H=1.34, D=.7, seed=31):
     for x0, x1, z0, z1 in ((-bx, bx, bz - g, bz), (-bx, bx, -bz, -bz + g), (-bx, -bx + g, -bz, bz), (bx - g, bx, -bz, bz)): slab(x0, x1, z0, z1)
     bme = bpy.data.meshes.new('border'); bm.to_mesh(bme); bm.free(); cutters.append(bme)
     for i in range(14):                    # chips knocked out of the front arrises and corners
-        side = rng.choice(('top', 'bot', 'end'))
+        side = rng.choice(('top', 'top', 'end'))       # (chips on the underside only read as dark dashes in shadow)
         if side == 'end': c = (rng.choice((-1, 1)) * L / 2, front + .05, rng.uniform(-H / 2, H / 2))
         else: c = (rng.uniform(-L / 2 + .3, L / 2 - .3), front + .03, (H / 2 + .03 if side == 'top' else -H / 2 - .03))
         r = rng.uniform(.07, .15)
         bmc = bmesh.new()
         for p in blob(c, (r, r * .8, r * .9), 500 + i, n=12, cuts=1): bmc.verts.new(p)
         bmesh.ops.convex_hull(bmc, input=list(bmc.verts)); cme = bpy.data.meshes.new('chip'); bmc.to_mesh(cme); bmc.free(); cutters.append(cme)
-    nv0 = len(beam.data.vertices); carve(beam, cutters[:2], 'cut'); carve(beam, cutters[2:], 'chip'); print(TAG, 'lintel carve', nv0, '->', len(beam.data.vertices), 'verts', len(cutters), 'cutters')
+    nv0 = len(beam.data.vertices); carve(beam, cutters[:letters], 'cut', tolerant=False); carve(beam, cutters[letters:letters + 1], 'cut'); carve(beam, cutters[letters + 1:], 'chip'); print(TAG, 'lintel carve', nv0, '->', len(beam.data.vertices), 'verts', len(cutters), 'cutters')
     for me in cutters: bpy.data.meshes.remove(me)
     return beam
 def keystone(c, W0=1.0, W1=1.35, Hk=1.25, D=.72, ch=.07):
