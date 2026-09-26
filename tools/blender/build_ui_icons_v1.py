@@ -348,11 +348,15 @@ def p_flame(m, sc=1.0, c=(0, 0), y=0.0, cols=('e_fire_dk', 'e_fire', 'e_fire_cor
     for k, (col, s2, dz) in enumerate(zip(cols, (1.0, .72, .42), (0, .0, .0))):
         m.ext([(c[0] + x * sc * s2, c[1] + z * sc * s2) for x, z in shape], .04, col, y=y - k * .05)
 def p_coins(m, n=4, col='gold', seed=2):
-    edge = ('gold_dk', 'brass') if col == 'gold' else ('bronze', 'leather_lt')
-    for (x, y, cnt) in ((-.2, .1, n + 1), (.2, -.02, max(2, n - 1))):
-        for i in range(cnt):
-            m.ptube([(x + (i % 2) * .012, y, i * .07), (x + (i % 2) * .012, y, i * .07 + .062)], .26, 14, edge[i % 2], cap0=col, cap1=col)
-    m.ptube([(.02, -.34, 0), (.02, -.34, .06)], .26, 14, edge[0], cap0=col, cap1=col)
+    """a small fan of crowns seen face-on (round faces with a struck rim and a raised centre read as coins even at
+    18 px) standing on a short stack"""
+    rim, face = ('gold_dk', 'e_gold') if col == 'gold' else ('leather', 'bronze')
+    for i in range(n - 1):
+        m.ptube([(0, .1, -.34 + i * .07), (0, .1, -.34 + i * .07 + .055)], .34, 16, rim if i % 2 else face, cap0=face, cap1=face)
+    for k, (x, z, y) in enumerate(((-.2, .06, .02), (.2, .1, -.02), (0, .02, -.08))):
+        m.ext(circ(16, .24, (x, z)), .05, face, rim, bev=.03, y=y)
+        m.ring2((x, y - .04, z), .19, .15, .02, rim, n=16)
+        m.ext(star2(4, .07, .03, (x, z)), .02, rim, y=y - .05)
 def p_skull(m, horns=True, bone='bone', dk='bone_dk'):
     m.hull(ell((0, 0, .12), (.33, .3, .3), 10, 6), bone)
     m.hull(cbox((0, -.1, -.14), (.2, .16, .12), .05), bone)
@@ -764,7 +768,7 @@ I('tab_settings', 'tabs', lambda m: (p_spanner(m), m.tf(0, rotY(-45))), [O('tabs
 I('tab_emotes', 'tabs', lambda m: p_figure(m, 'cheer'), [O('tabs/emotes.png', 28)], el=6, yaw=-10)
 I('tab_music', 'tabs', p_harp, [O('tabs/music.png', 28)], el=6, yaw=-14)
 # -- rail + orbs + minimap
-I('rail_coins', 'rail', p_coins, [O('rail/coins.png', 18)], el=38, yaw=20)
+I('rail_coins', 'rail', p_coins, [O('rail/coins.png', 18)], el=16, yaw=0, colors=10)
 I('rail_music', 'rail', p_note, [O('rail/music.png', 20), O('misc/note.png', 18)], el=6, yaw=-12)
 I('rail_muted', 'rail', lambda m: p_cross_x(m, 'red', 'red_dk', .44, .08), [O('rail/muted.png', 20)], el=4)
 def p_spyglass(m):
@@ -941,7 +945,9 @@ def tele(token, s=.75):
 I('sp_confuse', 'spells', confuse, [O('spells/confuse.png', 24)], el=10)
 I('sp_weaken', 'spells', weaken, [O('spells/weaken.png', 24)], el=8)
 I('sp_home_tele', 'spells', tele(lambda m, s: p_house(m, s * 1.0)), [O('spells/home_tele.png', 24)], el=6)
-I('sp_tele_quarry', 'spells', tele(lambda m, s: p_rocks(m, s * .9, 'stone', 11)), [O('spells/tele_quarry.png', 24)], el=6)
+def quarry_token(m, s):
+    k = m.mark(); p_pick(m, L=.9); m.tf(k, rotY(-40) @ S(s * .95) @ T(0, 0, -.45))
+I('sp_tele_quarry', 'spells', tele(quarry_token), [O('spells/tele_quarry.png', 24)], el=6)
 I('sp_tele_gloomfen', 'spells', tele(lambda m, s: p_deadtree(m, s)), [O('spells/tele_gloomfen.png', 24)], el=6)
 I('sp_tele_brynholt', 'spells', tele(lambda m, s: p_snowflake(m, s * .95)), [O('spells/tele_brynholt.png', 24)], el=4)
 I('sp_tele_dunes', 'spells', tele(lambda m, s: p_sun_dune(m, s * .9)), [O('spells/tele_dunes.png', 24)], el=4)

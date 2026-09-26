@@ -23,7 +23,7 @@ def sheet(name, out, label, scale=1.0, ref=None):
     for d, t in ((B, 'BEFORE'), (A, 'AFTER')):
         ims = [i for i in (load(os.path.join(d, n), scale) for n in (name if isinstance(name, list) else [name])) if i]
         if not ims: continue
-        w = max(i.width for i in ims); h = sum(i.height for i in ims) + 6 * (len(ims) - 1)
+        w = max(max(i.width for i in ims), 340); h = sum(i.height for i in ims) + 6 * (len(ims) - 1)   # room for the label
         c = Image.new('RGB', (w, h), BG); y = 0
         for i in ims: c.paste(i, (0, y)); y += i.height + 6
         cols.append((t, c))
