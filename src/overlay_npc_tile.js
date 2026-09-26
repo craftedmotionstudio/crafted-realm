@@ -16,8 +16,9 @@ const NpcTileOutline = {
     return l;
   },
   _place(line, npc, half, lift){
-    const p=npc.mesh.position;
-    _setSquareGeom(line.geometry, Math.floor(p.x)+0.5, Math.floor(p.z)+0.5, half, lift);
+    // the TRUE tile (RuneLite): the combat engine's logical tile, where the NPC stands for every rule, not the glide
+    const p=npc.mesh.position, t=npc.node;
+    _setSquareGeom(line.geometry, t?t.tx+0.5:Math.floor(p.x)+0.5, t?t.tz+0.5:Math.floor(p.z)+0.5, half, lift);
     line.visible=true;
   },
   _frame(){
