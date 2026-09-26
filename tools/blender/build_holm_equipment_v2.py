@@ -738,12 +738,12 @@ def buckle(mb, bt, z, off, mat=BR, w=None, size=(.034, .008, .030)):
 # ---------------------------------------------------------------- body armour
 def sk_platebody(mb, bt, over=None):
     n = 12
-    OFF, BACK = .026, -.008
+    OFF, BACK = .026, -.010
     def bump(z):
         ridge = .012 if 1.10 < z < 1.44 else 0.0
         return lambda k: (ridge if k == 0 else 0.0) + (BACK * KB.ss(1.16, 1.30, z) if k in (5, 6, 7) else 0.0)
     rows = [(.895, .050), (.925, .046), (.965, .040), (.965, .030), (1.025, .036), (1.025, .028), (1.085, .032), (1.085, .026),
-            (1.16, OFF), (1.26, OFF), (1.34, OFF), (1.428, .024), (1.466, .022), (1.500, .026), (1.528, .030)]
+            (1.16, OFF), (1.26, OFF), (1.34, OFF), (1.428, .020), (1.466, .016), (1.492, .020), (1.512, .024)]
     def mat_row(i):
         z0, o0 = rows[min(i, len(rows) - 1)]
         if i == 0 or (i + 1 < len(rows) and abs(rows[i + 1][0] - z0) < 1e-9):
@@ -753,7 +753,7 @@ def sk_platebody(mb, bt, over=None):
         return MT if i < 7 or i > 7 else MD
     with seam_at(bt, OFF):
         suit_torso(mb, bt, rows, n, bump=bump, mat_row=mat_row)
-        fold(mb, bt, 1.528, .030, .010, n, MD, dz=.004)
+        fold(mb, bt, 1.512, .024, .010, n, MD, dz=.004)
         fold(mb, bt, .895, .050, .036, n, MD, dz=.012)
         spec = [(0.0, OFF), (.65, .030), (.82, .030), (.93, .028), (.97, .044), (1.03, .048), (1.08, .038), (1.13, .027),
                 (1.40, .026), (1.70, .024), (1.84, .026), (1.88, .040), (1.97, .044)]
@@ -771,8 +771,8 @@ def sk_platebody(mb, bt, over=None):
 def sk_chainbody(mb, bt, over=None):
     n = 14
     OFF = .018
-    rows = [(.83, .044), (.845, .044), (.90, .034), (.97, .026), (1.04, OFF), (1.12, OFF), (1.20, OFF), (1.28, OFF), (1.36, OFF),
-            (1.428, .018), (1.466, .018), (1.500, .020), (1.522, .022)]
+    rows = [(.83, .050), (.845, .050), (.90, .042), (.97, .032), (1.04, OFF), (1.12, OFF), (1.20, OFF), (1.28, OFF), (1.36, OFF),
+            (1.428, .018), (1.466, .017), (1.492, .018), (1.510, .020)]
     last = len(rows) - 1
     def mat_face(i, k):
         if i <= 1 or i >= last - 1:
@@ -780,8 +780,8 @@ def sk_chainbody(mb, bt, over=None):
         return MM if (i + k) % 2 else MT   # staggered mail rows
     with seam_at(bt, OFF):
         suit_torso(mb, bt, rows, n, mat_face=mat_face, mat_row=lambda i: MT)
-        fold(mb, bt, 1.522, .022, .006, n, LK, dz=.004)
-        fold(mb, bt, .83, .044, .030, n, LK, dz=.012)
+        fold(mb, bt, 1.510, .020, .006, n, LK, dz=.004)
+        fold(mb, bt, .83, .050, .036, n, LK, dz=.012)
         spec = [(0.0, OFF), (.65, .020), (.80, .020), (.95, .020), (1.05, .020), (1.20, .019), (1.35, .019), (1.50, .018),
                 (1.65, .018), (1.80, .019), (1.86, .026), (1.97, .028)]
         us = [KB.U_CAP + .10] + [s[0] for s in spec if s[0] > KB.U_CAP + .14]
@@ -794,8 +794,8 @@ def sk_chainbody(mb, bt, over=None):
 def sk_leather_body(mb, bt, over=None):
     n = 16
     OFF = .014
-    rows = [(.90, .026), (.93, .024), (.97, .020), (1.02, OFF), (1.10, OFF), (1.19, OFF), (1.28, OFF), (1.36, OFF), (1.428, .014),
-            (1.466, .014), (1.498, .016), (1.518, .018)]
+    rows = [(.90, .034), (.93, .032), (.97, .030), (1.02, .026), (1.06, .018), (1.10, OFF), (1.19, OFF), (1.28, OFF), (1.36, OFF), (1.428, .014),
+            (1.466, .014), (1.490, .015), (1.508, .017)]
     last = len(rows) - 1
     seams = {3, 13}
     def mat_face(i, k):
@@ -808,10 +808,10 @@ def sk_leather_body(mb, bt, over=None):
         return None
     with seam_at(bt, OFF):
         suit_torso(mb, bt, rows, n, mat_face=mat_face, mat_row=lambda i: LE)
-        fold(mb, bt, 1.518, .018, .004, n, LK, dz=.004)
-        fold(mb, bt, .90, .026, .014, n, LK, dz=.010)
-        band(mb, bt, .955, .985, .030, n, LK)
-        buckle(mb, bt, .970, .034)
+        fold(mb, bt, 1.508, .017, .004, n, LK, dz=.004)
+        fold(mb, bt, .90, .034, .020, n, LK, dz=.010)
+        band(mb, bt, .972, 1.016, .036, n, LK)
+        buckle(mb, bt, .994, .040)
         for z in (1.08, 1.16, 1.24, 1.32):          # lacing crosses on the front
             y = KB.front_y(bt, 0, z, OFF) - .004
             for sg in (-1, 1):
@@ -859,10 +859,10 @@ def sk_platelegs(mb, bt, over=None):
 def sk_plateskirt(mb, bt, over=None):
     n = 16
     zs = [.46, .62, .80, .90, .985, 1.0]
-    KB.skirt(mb, bt, zs, (.46, .31, .258, .246, .030), off=.030, mat=MT, n=n, pleats=.020,
+    KB.skirt(mb, bt, zs, (.46, .31, .258, .246, .030), off=.042, mat=MT, n=n, pleats=.020,
              matfn=lambda i, k: MD if i == 0 else (ME if k % 2 else MT), rim_mat=MD)
-    band(mb, bt, .985, 1.045, .040, n, LK)
-    buckle(mb, bt, 1.015, .044)
+    band(mb, bt, .985, 1.045, .050, n, LK)
+    buckle(mb, bt, 1.015, .054)
 
 def sk_chaps(mb, bt, over=None):
     n = 12
@@ -886,12 +886,12 @@ def sk_gloves(mb, bt, over=None):
     for sx in (-1, 1):
         W, ax, L, k, wts = KB.hand_frame(bt, sx)
         rings, ws, mats = [], [], []
-        for u, eo in ((1.76, .030), (1.80, .036), (1.86, .034), (1.92, .022)):
-            rings.append(KB.arm_rings(bt, sx, [(u, eo)], n=6, taper=True)[0]); ws.append(KB.arm_w(sx)); mats.append(LK)
-        rings.append(KB.arm_rings(bt, sx, [(KB.WRIST_U, .010)], n=6, taper=True)[0]); ws.append(KB.arm_w(sx)); mats.append(LE)
+        for u, eo in ((1.78, .014), (1.81, .026), (1.86, .032), (1.93, .032)):
+            rings.append(KB.arm_rings(bt, sx, [(u, eo)], n=6)[0]); ws.append(KB.arm_w(sx)); mats.append(LK)
+        rings.append(KB.arm_rings(bt, sx, [(1.965, .028)], n=6)[0]); ws.append(KB.arm_w(sx)); mats.append(LE)
         for t, th, wd in KB.HAND_ST:
             c = W + ax * (t * L) + Vector((-sx * KB.CURL.get(t, 0.0) * k, 0, 0)) + KB.hand_shift(bt, sx, ax)
-            g = .008 if t < .5 else .005
+            g = .018 if t < .1 else (.009 if t < .5 else .005)
             rings.append(KB.xring(c, ax, th * k + g, wd * k + g, wd * k + g, 6, phase=math.pi / 6)); ws.append(wts); mats.append(LE)
         mb.loft(rings, LE, ws, cap0=False, cap1=True, matfn=lambda i, kk: mats[i] if i < 3 else LE)
 
@@ -914,52 +914,157 @@ def sk_boots(mb, bt, over=None):
         c = sum((Vector(p) for p in st[0]), Vector()) / len(st[0])
         mb.box((c.x + sx * .058, c.y, c.z - .01), (.008, .022, .018), BR, KB.foot_w(sx))
 
-# ---------------------------------------------------------------- amulet / cape (sit over the body armour when one is worn)
-SUIT_OFF = {None: 0.0, 'platebody': .030, 'chainbody': .020, 'leather_body': .016}
+# ---------------------------------------------------------------- amulet / cape: clearance over what is worn under them
+# The amulet and the cape are shaped over the layer under them, measured from the real meshes (rest pose, current build):
+# the base shape clears the kit's plain torso (Torso 01); Over_Torso_<nn> the kit torso option nn (collars, lapels,
+# waistcoats); Over_<kind> the body armour. The cape's lower part also clears every kit legs option and leg armour (skirts,
+# flares, tassets), so it hangs free of them. The runtime switches exactly one Over_* on (none = the plain torso).
+from mathutils.bvhtree import BVHTree
+UNDER = {}
+def under_bvh(bt, key):
+    """BVH of an under-layer at the current build: ('torso', n) kit torso option n, ('suit', kind), ('legs', 'all')"""
+    ck = (bt, key, KB.BUILD['name'])
+    if ck not in UNDER:
+        vs, fs = [], []
+        def add(fn):
+            mb = KB.MB(); fn(mb)
+            mb.bm.verts.ensure_lookup_table(); mb.bm.verts.index_update()
+            k = len(vs)
+            vs.extend(v.co.copy() for v in mb.bm.verts); fs.extend([k + v.index for v in f.verts] for f in mb.bm.faces)
+            mb.bm.free()
+        if key[0] == 'torso':
+            add(lambda mb: KB.torso_style(mb, bt, KB.KIT[bt]['Torso'][key[1] - 1][0]))
+        elif key[0] == 'hair':
+            add(lambda mb: KB.hair_style(mb, bt, KB.KIT[bt]['Hair'][key[1] - 1][0]))
+        elif key[0] == 'suit':
+            add(lambda mb: SUIT_FN[key[1]](mb, bt, None))
+        else:
+            for k_, _ in KB.KIT[bt]['Legs']:
+                add(lambda mb, k_=k_: KB.leg_style(mb, bt, k_))
+            for kind in ('platelegs', 'plateskirt', 'chaps'):
+                add(lambda mb, kind=kind: SUIT_FN[kind](mb, bt, None))
+        UNDER[ck] = BVHTree.FromPolygons(vs, fs)
+    return UNDER[ck]
+def under_off(bt, key, phi, z):
+    """outermost offset of an under-layer over the body surface at (phi, z), along the body's offset direction"""
+    bvh = under_bvh(bt, key)
+    p0 = KB.body_point(bt, phi, z, 0.0)
+    n = KB.body_point(bt, phi, z, .01) - p0
+    n.normalize()
+    start, best = p0 - n * .05, None
+    for _ in range(16):
+        hit = bvh.ray_cast(start, n, .30)
+        if hit[0] is None:
+            break
+        best = (hit[0] - p0).dot(n)
+        start = hit[0] + n * 1e-4
+    return best
+def over_keys(over):
+    """the under-layers of a shape: None = the plain torso, 'Torso_<nn>' a kit torso option, 'Hair_<nn>' the plain torso +
+    a kit hair option (the cape hangs over long hair), else a body armour kind"""
+    if over is None:
+        return [('torso', 1)]
+    if over.startswith('Torso_'):
+        return [('torso', int(over[6:]))]
+    if over.startswith('Hair_'):
+        return [('torso', 1), ('hair', int(over[5:]))]
+    return [('suit', over)]
+def near_dist(bt, keys, p):
+    best = None
+    for k in keys:
+        r = under_bvh(bt, k).find_nearest(p)
+        if r[0] is not None and (best is None or r[3] < best):
+            best = r[3]
+    return best
+def push_clear(bt, over, p, d, R, legs=False):
+    """move p along d until it is R clear of every under-layer surface (a tube / shell edge resting on a slope)"""
+    keys = over_keys(over) + ([('legs', 'all')] if legs else [])
+    d = Vector(d).normalized()
+    for _ in range(40):
+        g = near_dist(bt, keys, p)
+        if g is None or g >= R:
+            break
+        p = p + d * max(.0015, R - g)
+    return p
+def out_dir(bt, phi, z, up=0.0):
+    n = KB.body_point(bt, phi, z, .01) - KB.body_point(bt, phi, z, 0.0)
+    n.normalize()
+    return (n + Vector((0, 0, up))).normalized()
+def clear_off(bt, over, phi, z, spread=((0.0, 0.0),), legs=False):
+    """offset clearing the under-layer over a small footprint [(dphi, dz)] (+ every legs option / leg armour)"""
+    keys = over_keys(over) + ([('legs', 'all')] if legs else [])
+    vals = [under_off(bt, k, phi + dp, z + dz) for k in keys for dp, dz in spread]
+    vals = [v for v in vals if v is not None]
+    return max(vals) if vals else 0.0
+FOOT = [(dp, dz) for dp in (-.10, 0.0, .10) for dz in (-.010, 0.0, .010)]
+
+NECK_X = {'A': .094, 'B': .084}       # half width of the necklace at the base of the neck
+FOOT_A = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.008, 0.0, .008)]
+def x_to_phi(bt, x, z, off):
+    """the body_point angle (front half) whose point has this x"""
+    e = 2.0 / KB.TORSO_P
+    q = min(.999, abs(x) / (KB.body_r(bt, z)[0] + off))
+    return math.copysign(math.asin(min(1.0, q ** (1 / e))), x)
 def sk_amulet(mb, bt, over=None):
-    so = SUIT_OFF[over]
+    N, R = 16, .0055
+    X, ZB = NECK_X[bt], 1.464
     pts = []
-    N = 16
     for j in range(N):
-        phi = 2 * math.pi * j / N
-        c = math.cos(phi)
-        z = 1.425 - .065 * c + (.03 if over == 'platebody' else 0.0) * (1 - c) / 2
-        coll = .016 * KB.ss(1.455, 1.47, z)
-        pts.append(KB.body_point(bt, phi, z, .010 + so + coll))
+        u = 2 * math.pi * j / N
+        if math.cos(u) >= -1e-9:                     # front half: a U from the neck base down to the chest
+            x, z = X * math.sin(u), ZB - .104 * max(0.0, math.cos(u)) ** 1.6
+            phi = x_to_phi(bt, x, z, .02)
+        else:                                       # back half: round the back of the neck
+            ps = x_to_phi(bt, X, ZB, .02)
+            a = (u - math.pi / 2) / math.pi         # 0 .. 1 from the left side round the back to the right side
+            phi = ps + (2 * math.pi - 2 * ps) * a
+            z = ZB
+        o = clear_off(bt, over, phi, z, FOOT_A) + R + .004
+        p = KB.body_point(bt, phi, z, o)
+        pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42, 1.47, z)), R + .002))
     rings = []
     for j, p in enumerate(pts):
         t = (pts[(j + 1) % N] - pts[j - 1])
-        rings.append(KB.xring(p, t, .0055, .0055, .0055, 3, front=(0, 0, 1)))
+        rings.append(KB.xring(p, t, R, R, R, 3, front=(0, 0, 1)))
     rings.append(rings[0])
-    mb.loft(rings, BR, KB.torso_w, cap0=False, cap1=False)
-    zc = 1.338
-    y = KB.front_y(bt, 0, zc, .012 + so) - .004
+    mb.loft(rings, BR, lambda q: KB.torso_w(Vector((q.x, q.y, q.z - .012))), cap0=False, cap1=False)
+    zc = 1.338                                    # the pendant rests on whatever is under it (its back face 2 mm off it)
+    o = clear_off(bt, over, 0.0, zc, [(dp, dz) for dp in (-.22, -.11, 0.0, .11, .22) for dz in (-.03, 0.0, .03)]) + .008
+    y = KB.front_y(bt, 0, zc, o) - .004
     c = Vector((0, y, zc))
     disc = [KB.xring(c + Vector((0, dy, 0)), (0, -1, 0), r, r, r, 10, front=(0, 0, 1)) for dy, r in ((.006, .026), (.001, .034), (-.006, .030))]
     mb.loft(disc, BR, KB.SPINE_W((0, 0, zc)), cap0=True, cap1=True)
     gem = [KB.xring(c + Vector((0, dy, 0)), (0, -1, 0), r, r * 1.2, r * 1.2, 6, front=(0, 0, 1)) for dy, r in ((-.005, .016), (-.012, .012), (-.016, .004))]
     mb.loft(gem, GM, KB.SPINE_W((0, 0, zc)), cap0=False, cap1=True)
-    top = KB.body_point(bt, 0.0, 1.36, .010 + so)
+    top = pts[0]
     mb.loft([KB.xring(c + Vector((0, .002, .034)), (0, 0, 1), .006, .006, .006, 4), KB.xring(top, (0, 0, 1), .006, .006, .006, 4)], BR,
             KB.SPINE_W((0, 0, zc)))
 
+CAPE_ROWS = [(1.472, 42, .010), (1.40, 44, .014), (1.30, 46, .018), (1.10, 48, .030), (.82, 51, .050), (.53, 54, .066)]
+FOOT_C = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.010, 0.0, .010)]   # (between the shoulder blades, clear of the arms)
 def sk_cape(mb, bt, over=None):
-    so = SUIT_OFF[over] + (.028 if over == 'platebody' else 0.0)
-    rows = [(1.472, 72, .020), (1.40, 80, .030), (1.30, 84, .042), (1.10, 86, .060), (.82, 88, .085), (.53, 90, .105)]
     cols = 11
     outer, inner = [], []
-    bx = KB.body_r(bt, 1.30)[0]
-    for z, span, st in rows:
-        zz = max(z, 1.10)
+    for z, span, st in CAPE_ROWS:
         ro, ri = [], []
         for c in range(cols):
             u = -1 + 2 * c / (cols - 1)
             phi = math.pi + math.radians(span) * u
-            base = KB.body_point(bt, phi, zz, st + so)
             fold = (.010 if c % 2 else -.004) * KB.ss(1.35, 1.0, z)
-            if z < 1.10:          # below the shoulder blades the cape hangs straight, flaring a little
-                sw = KB.body_point(bt, phi, 1.10, st + so)
+            if z >= 1.10:
+                base = KB.body_point(bt, phi, z, clear_off(bt, over, phi, z, FOOT_C) + .012 + st)
+                inner_p = push_clear(bt, over, base - Vector((0, .010, 0)), out_dir(bt, phi, z, .5 * KB.ss(1.40, 1.47, z)), .005)
+                base = inner_p + Vector((0, .010, 0))
+            else:                                   # below the shoulder blades it hangs straight, flaring a little
+                sw = KB.body_point(bt, phi, 1.10, clear_off(bt, over, phi, 1.10, FOOT_C) + .012 + .030)
                 base = Vector((sw.x * (1 + (1.10 - z) * .25), sw.y + (1.10 - z) * .06, z))
+                p0 = KB.body_point(bt, phi, z, 0.0)
+                n = KB.body_point(bt, phi, z, .01) - p0
+                n.normalize()
+                need = clear_off(bt, over, phi, z, FOOT_C, legs=True) + .016 + st * .3
+                have = (base - p0).dot(n)
+                if have < need:                     # hang free of the hips, skirts, flares and leg armour
+                    base = base + n * (need - have)
             base = base + Vector((0, fold, 0))
             ro.append(tuple(base)); ri.append(tuple(base - Vector((0, .010, 0))))
         outer.append(ro); inner.append(ri)
@@ -967,13 +1072,14 @@ def sk_cape(mb, bt, over=None):
     mb.shell(outer, inner, lambda i, j, s: CL if s == 'o' else CK, KB.SPINE_W, edge_mat=CK)
     col = []
     for j in range(13):
-        phi = math.pi / 2 + math.pi * j / 12 + (0 if True else 0)
-        col.append(KB.body_point(bt, phi, 1.478, .024 + so + (.008 if over == 'platebody' else 0.0)))
+        phi = math.radians(115) + math.radians(130) * j / 12
+        q = KB.body_point(bt, phi, 1.478, clear_off(bt, over, phi, 1.478, FOOT_C) + .020)
+        col.append(push_clear(bt, over, q, out_dir(bt, phi, 1.478, .8), .021))
     rings = [KB.xring(p, (col[min(j + 1, 12)] - col[max(j - 1, 0)]), .018, .018, .018, 5, front=(0, 0, 1)) for j, p in enumerate(col)]
-    mb.loft(rings, CL, KB.torso_w, cap0=True, cap1=True, cap_mat=CK)
+    mb.loft(rings, CL, KB.SPINE_W, cap0=True, cap1=True, cap_mat=CK)      # the collar rides the spine like the cape
     for sx in (-1, 1):
         p = col[0] if sx > 0 else col[-1]
-        mb.box(tuple(p + Vector((0, -.012, -.006))), (.024, .014, .024), BR, KB.torso_w)
+        mb.box(tuple(p + Vector((0, -.012, -.006))), (.024, .014, .024), BR, KB.SPINE_W)
 
 SKINNED = [   # kind, builder, slot, hides (kit slots it replaces), morphs beyond the builds, description
     ('platebody', sk_platebody, 'body', ['Torso', 'Arms'], [],
@@ -992,12 +1098,13 @@ SKINNED = [   # kind, builder, slot, hides (kit slots it replaces), morphs beyon
      'Leather gloves: flared gauntlet cuffs, mitt hands (no thumbs, like the kit)'),
     ('boots', sk_boots, 'feet', ['Feet'], ['Feet_Small', 'Feet_Large'],
      'Leather boots: rounded toe, dark sole edge, folded cuff, ankle strap with a brass buckle'),
-    ('amulet', sk_amulet, 'amulet', [], ['Over_platebody', 'Over_chainbody', 'Over_leather_body'],
+    ('amulet', sk_amulet, 'amulet', [], ['Over_platebody', 'Over_chainbody', 'Over_leather_body', 'Over_Torso_*'],
      'Amulet: brass chain loop, round setting, gem (M_GEM); sits over whatever body armour is worn'),
-    ('cape', sk_cape, 'cape', [], ['Over_platebody', 'Over_chainbody', 'Over_leather_body'],
+    ('cape', sk_cape, 'cape', [], ['Over_platebody', 'Over_chainbody', 'Over_leather_body', 'Over_Torso_*', 'Over_Hair_*'],
      'Cape: rolled collar, folds down to a flared hem, dark lining, brass clasps (M_CLOTH); hangs over any body armour'),
 ]
-HIDES = {'medhelm': ['Hair'], 'hat': ['Hair']}   # rigid helms that replace the hair (the kit shows its bald head)
+SUIT_FN = {k: f for k, f, *_ in SKINNED}
+HIDES = {'fullhelm': ['Hair'], 'medhelm': ['Hair'], 'hat': ['Hair']}   # rigid helms that replace the hair (the kit shows its bald head)
 
 # kind: (builder, slot, frame, equipSpec, grip glTF, axis glTF, roll glTF, legacy quat xyzw, description)
 Q_ID, Q_FLIPX = [0, 0, 0, 1], [1, 0, 0, 0]
@@ -1177,7 +1284,13 @@ for kind, fn, slot, hides, extra, desc in SKINNED:
                 KB.FOOT_K = KB.FOOT_K_LARGE; keys['Feet_Large'] = mb_coords(fn, bt)
             finally: KB.FOOT_K = fk0
         for e in extra:
-            if e.startswith('Over_'): keys[e] = mb_coords(fn, bt, e[5:])
+            if e in ('Over_Torso_*', 'Over_Hair_*'):   # only the kit options that need a different shape
+                slot = e[5:-2]
+                for t in range(2 if slot == 'Torso' else 1, len(KB.KIT[bt][slot]) + 1):
+                    co = mb_coords(fn, bt, '%s_%02d' % (slot, t))
+                    if max((a - b).length for a, b in zip(co, base)) > .002:
+                        keys['Over_%s_%02d' % (slot, t)] = co
+            elif e.startswith('Over_'): keys[e] = mb_coords(fn, bt, e[5:])
         ob.shape_key_add(name='Basis', from_mix=False)
         for k, co in keys.items():
             assert len(co) == len(base), ('%s %s changed the topology' % (nm, k), len(co), len(base))

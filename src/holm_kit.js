@@ -31,14 +31,22 @@ var HolmKit=(function(){
   CHANNELS.forEach(function(c){var n=palette(c).length,v=look.colors&&Number(look.colors[c]);out.colors[c]=v>=0&&v<n?v:d.colors[c]});return out}
  function partName(body,slot,idx){return 'Kit_'+body+'_'+slot+'_'+(idx<10?'0':'')+idx}
  // show exactly the chosen part per slot (a glTF ships every part visible) and paint the five channels
- function apply(rig,look){if(!rig||!ready())return false;look=normalize(look);var want={};
-  SLOTS.forEach(function(s){if(look.parts[s])want[partName(look.body,s,look.parts[s])]=true});
+ // worn equipment replaces kit slots (holm_equipment v2 extras.hides: a platebody the torso + arms, a helm the hair ->
+ // the bald head 02); the saved look keeps the player's own choice
+ function hidden(rig){if(typeof HolmEquipment!=='undefined'&&HolmEquipment.hiddenSlots)return HolmEquipment.hiddenSlots(rig);return {}}
+ function apply(rig,look){if(!rig||!ready())return false;look=normalize(look);var want={},hid=hidden(rig);
+  SLOTS.forEach(function(s){if(!look.parts[s])return;if(hid[s]){if(s==='Hair')want[partName(look.body,s,2)]=true;return}
+   want[partName(look.body,s,look.parts[s])]=true});
   rig.traverse(function(o){var n=o.name||'';var m=/^(Kit_[AB]_[A-Za-z]+_\d+)/.exec(n);if(!m)return;
    var own=(o.parent&&/^Kit_[AB]_[A-Za-z]+_\d+/.test(o.parent.name||''))?null:m[1];if(own)o.visible=!!want[own]});
   var done={};rig.traverse(function(o){if(!(o.isMesh||o.isSkinnedMesh))return;[].concat(o.material).forEach(function(q){if(!q||!q.name||done[q.uuid])return;
    CHANNELS.forEach(function(c){if(q.name.replace(/[._]\d+$/,'')===MAT[c]){var hex=palette(c)[look.colors[c]];if(hex){q.color.set(hex);q.needsUpdate=true;done[q.uuid]=true}}})})});
   var want2={Build_Slim:look.build==='slim'?1:0,Build_Stout:look.build==='stout'?1:0,Feet_Small:look.feet==='small'?1:0,Feet_Large:look.feet==='large'?1:0};
-  rig.traverse(function(o){var dict=o.morphTargetDictionary;if(!dict||!o.morphTargetInfluences)return;for(var k in want2)if(dict[k]!==undefined)o.morphTargetInfluences[dict[k]]=want2[k]});
+  // an amulet / cape (holm_equipment v2) takes the shape of the kit torso under it (Over_Torso_<nn>) unless armour hides
+  // it, and a cape hangs over long hair (Over_Hair_<nn>) unless a helm shows the bald head
+  var over={Torso:hid.Torso?0:(look.parts.Torso||0),Hair:hid.Hair?0:(look.parts.Hair||0)};
+  rig.traverse(function(o){var dict=o.morphTargetDictionary;if(!dict||!o.morphTargetInfluences)return;for(var k in want2)if(dict[k]!==undefined)o.morphTargetInfluences[dict[k]]=want2[k];
+   for(var t in dict){var m=/^Over_(Torso|Hair)_(\d+)$/.exec(t);if(m)o.morphTargetInfluences[dict[t]]=Number(m[2])===over[m[1]]?1:0}});
   return look}
  function label(body,slot,idx){var o=options(body,slot).filter(function(x){return x.index===idx})[0];return o?o.label:(slot+' '+idx)}
  return {BUILDS:BUILDS,FEET:FEET,load:load,ready:ready,SLOTS:SLOTS,CHANNELS:CHANNELS,options:options,palette:palette,hasSlot:hasSlot,defaults:defaults,normalize:normalize,apply:apply,label:label,partName:partName};

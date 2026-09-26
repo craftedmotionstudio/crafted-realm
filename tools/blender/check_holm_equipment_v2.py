@@ -197,7 +197,10 @@ def apply_look(L, clip, fr):
             c.hide_render = False
             if c.data.shape_keys:
                 for kb in c.data.shape_keys.key_blocks[1:]:
-                    kb.value = 1.0 if (kb.name in mv or kb.name == over) else 0.0
+                    hair_i = 0 if 'Hair' in L.hides() else L.parts.get('Hair', 0)
+                    kb.value = 1.0 if (kb.name in mv or kb.name == over or
+                                       (over is None and kb.name == 'Over_Torso_%02d' % L.parts.get('Torso', 0)) or
+                                       kb.name == 'Over_Hair_%02d' % hair_i) else 0.0
             placed.append(c)
     for held in (L.weapon, L.shield):
         if held:
@@ -274,7 +277,19 @@ def place_held(kind, L, clip, fr):
     return out
 
 # ---------------------------------------------------------------- measurement
-def evaluated(objs):
+OUTER = {}
+def outer_polys(o):
+    """rest-pose polygons of a kit part that face away from the body / head axis (a hair shell's visible outside)"""
+    if o.name not in OUTER:
+        keep = set()
+        for p in o.data.polygons:
+            c = p.center
+            r = c - Vector((0, -.02, min(max(c.z, 1.0), 1.68)))
+            if p.normal.dot(r) > 0:
+                keep.add(p.index)
+        OUTER[o.name] = keep
+    return OUTER[o.name]
+def evaluated(objs, only_outer=False):
     dg = bpy.context.evaluated_depsgraph_get()
     res = []
     for o in objs:
@@ -284,7 +299,8 @@ def evaluated(objs):
         nm = mw.to_3x3().inverted().transposed()
         co = [mw @ v.co for v in me.vertices]
         no = [(nm @ v.normal).normalized() for v in me.vertices]
-        tris = [tuple(p.vertices) for p in me.polygons]
+        keep = outer_polys(o) if only_outer else None
+        tris = [tuple(p.vertices) for p in me.polygons if keep is None or p.index in keep]
         oe.to_mesh_clear()
         res.append((o, co, no, tris))
     return res
@@ -355,17 +371,23 @@ SPANS = {
     'gloves':      {'Hands': lambda bt, p: True, 'Arms': lambda bt, p: u_arm(bt, 1 if p.x > 0 else -1, p) > 1.93},
     'boots':       {'Feet': lambda bt, p: p.z < .26, 'Legs': lambda bt, p: p.z < .24 and leg_dist(bt, p) < .030},
 }
-def exposure(L, kind, placed_ev, span_parts):
-    """kit vertices in the kind's span whose outward ray (normal) misses the equipment. span_parts: [(slot, obj)]"""
-    bvh = union_bvh(placed_ev)
+HIDDEN_DEPTH = .03   # a hidden slot is only an envelope: its ray starts this far inside (a fold may push it out; a hole may not)
+def exposure(L, kind, placed_ev, span_parts, occl_ev=()):
+    """kit vertices in the kind's span whose outward ray (normal) misses the equipment. span_parts: [(slot, obj)].
+    Visible layers: the ray starts on the vertex (nothing may poke out). Hidden slots (the item replaces them): the ray
+    starts HIDDEN_DEPTH inside, i.e. there must be equipment over every point of the body (no hole to look into)."""
     res = {'n': 0, 'exposed': 0, 'where': []}
-    if bvh is None:
+    if not placed_ev:
         return res
     sp = SPANS.get(kind, {})
+    hid = L.hides()
     for slot, o in span_parts:
         fn = sp.get(slot)
         if not fn:
             continue
+        back = HIDDEN_DEPTH if (slot in hid and slot != 'Hair') else -.002
+        # occluders: the equipment and every other visible kit part (a ray that ends in the neck or a leg is not a hole)
+        bvh = union_bvh(list(placed_ev) + [x for x in occl_ev if x[0] is not o])
         ev = evaluated([o])[0]
         rc = rest_co(o, L)
         for i, (p, n) in enumerate(zip(ev[1], ev[2])):
@@ -377,7 +399,7 @@ def exposure(L, kind, placed_ev, span_parts):
             if d.length < 1e-6:
                 continue
             d.normalize()
-            hit = bvh.ray_cast(p + d * .002, d, .40)
+            hit = bvh.ray_cast(p - d * back, d, 2.2)      # (a ray up the inside of a leg or the suit ends in the head)
             if hit[0] is None:
                 res['exposed'] += 1
                 if len(res['where']) < 6:
@@ -437,7 +459,7 @@ def variants(kind, bt):
     return [dict()]
 
 RESULTS = {'equip': os.path.relpath(EQUIP, ROOT).replace('\\', '/'), 'kit': 'assets/models/holm_kit_v2.glb', 'frames': FRAMES,
-           'worn': {}, 'held': {}}
+           'worn': {}, 'held': {}, 'rows': {}}
 def run_worn():
     for kind in WORN:
         if not any(k == kind for k, _ in EQ):
@@ -466,18 +488,23 @@ def run_worn():
                                             return PROBE[bt][sl]           # a hidden slot is probed with its plain body envelope
                                         return L.parts[sl]
                                     spans = [(sl, KITM[kit_name(bt, sl, probe(sl))]) for sl in SPANS[kind] if sl in L.parts]
-                                    ex = exposure(L, kind, pev, spans)
+                                    ex = exposure(L, kind, pev, spans, evaluated(L.kit_visible()))
                                     r.update(n=ex['n'], exposed=ex['exposed'], where=ex['where'])
                                 if kind in ('platebody', 'chainbody', 'leather_body'):
                                     hair = [KITM[kit_name(bt, 'Hair', L.parts['Hair'])]]
-                                    r['hair_through'], r['hair_at'] = overlaps(evaluated(hair), pev)
+                                    # only the hair's outside counts: armour inside the hair shell is covered by it (hair over the armour)
+                                    r['hair_through'], r['hair_at'] = overlaps(evaluated(hair, only_outer=True), pev)
                                 if kind in ('amulet', 'cape'):
                                     mine = [x for x in pev if x[0] in [c for c, _ in L.eq(kind)['parts']]]
                                     others = [x for x in pev if x not in mine]
-                                    body = evaluated(L.kit_visible()) + others
+                                    vis = L.kit_visible()
+                                    body = evaluated([o for o in vis if '_Hair_' not in o.name]) + evaluated([o for o in vis if '_Hair_' in o.name], only_outer=True) + others
                                     r['through'], r['through_at'] = overlaps(mine, body)
+                                    if r['through']:
+                                        r['through_parts'] = {b_[0].name: n_ for b_ in body for n_ in [overlaps(mine, [b_])[0]] if n_}
                                 rows.append(r)
         bad = [r for r in rows if r.get('exposed', 0) > EXPOSED_TOL or r.get('through') or r.get('hair_through')]
+        RESULTS['rows'][kind] = rows
         RESULTS['worn'][kind] = {'tests': len(rows), 'failing': len(bad), 'max_exposed': max((r.get('exposed', 0) for r in rows), default=0),
                                  'worst': sorted(bad, key=lambda r: -(r.get('exposed', 0) + r.get('through', 0)))[:12]}
         print('[EQCHECK] worn %-12s tests %4d failing %3d  %.0fs' % (kind, len(rows), len(bad), time.time() - t0))
@@ -507,11 +534,35 @@ def run_held():
                     rows.append({'bt': bt, 'build': build, 'clip': clip, 'frame': fr, 'through_body': n, 'at': at, 'through_arms_hands': na})
         bad = [r for r in rows if r['through_body']]
         idle_bad = [r for r in bad if r['clip'] in ('idle', 'walk', 'run')]
+        RESULTS['rows'][kind] = rows
         RESULTS['held'][kind] = {'tests': len(rows), 'failing': len(bad), 'failing_idle_walk_run': len(idle_bad),
                                  'arms_hands_contacts': sum(1 for r in rows if r['through_arms_hands']),
                                  'worst': sorted(bad, key=lambda r: -r['through_body'])[:10]}
         print('[EQCHECK] held %-12s tests %4d failing %3d (idle/walk/run %d)' % (kind, len(rows), len(bad), len(idle_bad)))
 
+DEBUG = arg('--debug', '')
+if DEBUG:     # run a debugging snippet against the loaded scene instead of the test matrix
+    exec(open(DEBUG, encoding='utf8').read())
+    WORN, HELD, DO_RENDER = [], [], False
+SHOTS = arg('--shots', '')
+if SHOTS:     # debugging close-ups: a JSON list of {bt, build, kit, worn, weapon, shield, feet, clip, fr, ctr, orth, vd, label}
+    K.setup_render()
+    for o in bpy.data.objects:
+        if o.type == 'MESH' and o.name not in KITM and not any(o in [c for c, _ in e['parts']] for e in EQ.values()):
+            o.hide_render = True
+    cells = []
+    for i, sh in enumerate(json.load(open(SHOTS))):
+        L = Look(sh['bt'], sh.get('build', 'average'), sh.get('kit', {}), sh.get('worn', []), weapon=sh.get('weapon'),
+                 shield=sh.get('shield'), feet=sh.get('feet'))
+        eq_metal(METAL['iron'])
+        apply_look(L, sh.get('clip', 'idle'), sh.get('fr', 0))
+        p_ = K.shoot(os.path.join(OUT, 'cells', 'shot_%s_%02d.png' % (TAG, i)), tuple(sh.get('res', (320, 320))), tuple(sh.get('vd', (.55, -.8, .18))),
+                     tuple(sh.get('ctr', (0, 0, 1.3))), sh.get('orth', .6), ground=False, persp=None)
+        cells.append(K.cell(p_, sh.get('label', '%d' % i), bg=[214, 214, 218]))
+    rows = [{'title': '', 'height': 330, 'cells': cells[j:j + 6]} for j in range(0, len(cells), 6)]
+    K.compose(os.path.join(OUT, 'shots_%s.png' % TAG), rows, 'close-ups ' + TAG)
+    print('[EQCHECK] SHOTS', os.path.join(OUT, 'shots_%s.png' % TAG))
+    WORN, HELD, DO_RENDER = [], [], False
 run_worn()
 run_held()
 summary = {'worn_failing': {k: v['failing'] for k, v in RESULTS['worn'].items()},
