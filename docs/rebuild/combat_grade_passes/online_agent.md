@@ -76,3 +76,72 @@ Strips / screens: `pass1/strip_pvp_ranged.jpg`, `strip_pvp_melee.jpg`, `screen_p
   weapon switch and the orb (kits now carry a steel sword / ash bow for it), movement backlog metrics, the unmatched
   hit and late projectile logs, live accuracy / damage / attack-speed / hit-delay measurements, no tutorial guide
   arrow online.
+
+---
+
+## Pass 2 (2026-09-26, first complete 20-scenario run)
+
+Run: `online_evidence/pass2/online_report.json` (20 scenarios, 4908 ticks, three pages), strips
+`pass2/strip_{pvp,pvm}_{melee,ranged,magic}.jpg`, screens `pass2/screen_pvp_1538x900.jpg`, `screen_pvp_phone.jpg`.
+11 PvP duels to the death and 6 PvM kills completed; 4 PvM scenarios never started (the kit walk, below) and the
+skull / pile-pickup checks of 10 duels failed on test logic (below). Measured over the run (`report.measured`):
+
+- **Accuracy (live):** 1232 server hit rolls, 509.2 hits expected from the per-roll 2004 chances, 504 observed:
+  z = -0.3.
+- **Damage 0..max:** 502 draws; chi-square per max hit 3/4/6/7/8/10 = 2.4/2.5/8.7/4.4/3.3/8.9 on 3/4/6/7/8/10
+  degrees of freedom: uniform.
+- **Attack speed (server swings):** steel longsword 5 ticks (420 of 451 gaps), gale longbow on rapid 5 (240/265; 6 - 1),
+  storm staff casts 5 (226/245), monsters 4 (196/196) and 5 (15/15); the other gaps are 8 = 5 + the 3-tick bite delay.
+- **Projectile hit delays:** 406 of 406 arrow and spell hits landed on exactly the tick the client's landing rule
+  (distance delay + the 2004 PID rule) predicts.
+- **Switching mid-fight (real UI clicks):** style button 0.84 ticks, prayer button 1.02, a bite 0.99 (next tick).
+- **Kept on death (every death):** equal to the client's own preview: 0 when skulled, 3 unskulled, 4 with Protect Item
+  (pvp-melee-vs-magic, pvp-ranged-swapped).
+- **Protection vs players:** the biggest protected hit never passed the cap: 4/4, 3/4, 6/6 (melee, ranged, magic max
+  8, 7 and 10 cut by 40%); vs monsters: every moss seer, hex adept, skeleton and raider hit a 0 while praying.
+- **Reconnect mid-fight:** the dropped adventurer stayed in the world, the client re-attached, logging out mid-fight
+  was refused (logout lock), the duel finished normally.
+- **Page errors:** none on any page.
+
+| # | Criterion | Score | Notes |
+|---|---|---|---|
+| 1 | Accuracy | 0.5 | live z = -0.3 over 1232 rolls + the server's exhaustive roll test |
+| 2 | Max hit, 0..max | 0.5 | chi-square uniform for every max hit with 30+ draws; protected caps hold |
+| 3 | Attack speeds | 0.5 | measured per weapon and for monsters, rapid -1 and the bite's +3 visible |
+| 4 | Hit delays, splat on arrival | 0.25 | 406/406 server delays match; but duels where both swing on the same tick still showed untimed splats (9 of 82 in pvp-melee-swapped) and 4 late spells during a 14.6 s stall |
+| 5 | Retaliation, single-way | 0.5 | as pass 1, plus every duel's defender retaliating |
+| 6 | Eating | 0.5 | bite answers next tick (0.99), +3 on the attack clock measured (8-tick gaps), server test for the dropped attack order |
+| 7 | Prayers | 0.5 | NPC protection total, player protection 40% measured, drain ran a prayer dry mid-duel, Protect Item +1 twice |
+| 8 | PvP rules | 0.5 | level HUD + range menu, skull (incl. the 2004 no-skull-when-striking-back rule), kept 3/0/+1 = preview, killer's private pile, logout lock mid-fight, single-way refusal; teleport block only in server tests (the test map ends at level 10) |
+| 9 | PvM rules | 0.25 | aggression, XP per style, private drops; loot stayed hidden after 6 kills on a background page |
+| 10 | Animations, impact frame | 0.25 | same-tick duel swings were replaced by the defend flinch on the server (one animation per tick): those swings never showed |
+| 11 | Projectiles, misses | 0.25 | arrows and bolts fly and land with the splat (strips); 4 late spells behind a stall |
+| 12 | Readability | 0.5 | desktop and phone screens |
+| 13 | Death reads | 0.25 | own death + respawn explained; monster loot pop broken on background pages |
+| 14 | Controls | 0.5 | left-click attack, "Attack Name (level-51)" only in range, melee closes in, ranged / magic shoot from 4 tiles, switches next tick |
+| 15 | 8-direction, no rubber band | 0.25 | movement backlog up to 39 steps during the stall (catch-up sprints) |
+| 16 | Weapon variety, specials | 0.25 | no special attack exercised yet |
+| 17 | Monster variety | 0.25 | melee + magic monsters; no ranged monster in the content |
+| 18 | PvP tension | 0.5 | duels 62-197 s (median 105 s) between equal kits; food and prayer decided several |
+| 19 | Balance | 0.25 | kit matchups 46-58% (sim), live duel winners split 6/5; no tier tables (combat agent) |
+| 20 | Online robustness | 0.25 | zero page desyncs, splat counts = server hits on all three pages in every duel, no lost loot, reconnect keeps the lock; but 4 of 20 scenarios never started |
+
+**Pass 2 total: 7.5 / 10** (owned criteria: 7.6 / 10).
+
+### Fixed after pass 2
+
+- **Server animation priority** (`server/engine/PathingEntity.js`): the defend flinch no longer replaces an attack,
+  cast or death set earlier in the same tick. Two duellists with the same weapon speed swing on the same tick; the
+  later one's blow used to overwrite the first one's swing with "defend", so that swing never reached any client.
+  Test: `server/test/online_w2.test.js` (animation priority).
+- **View adds carry this tick's animation and hits** (`server/engine/info.js`): a monster that walks into view and
+  swings in the same tick used to show an untimed splat.
+- **The combat layer keeps stepping on a hidden or occluded page** (`src/online_main.js`): the game's timer heartbeat
+  skipped `CombatFX.update`, so bodies never sank and their loot stayed hidden until the page was looked at.
+- **Far walks go in legs**: the server's path finder searches 64 tiles out (as in 2004); a kit taken from across the
+  map now walks there in legs and asks again while the 16-tick fighting lock refuses it.
+- **Driver**: the world runs in the driver's own process, and composing a strip with a blocking child process froze
+  every tick for 14.6 s (all three pages saw the same gap); now asynchronous. Expected skull follows the 2004
+  predator / prey rule; the death pile is the killer's private stacks on the death tile (arrows merge into an older
+  stack); the pick-up waits for that pile only; far walks are re-clicked; a special attack through a weapon switch;
+  reach per style.
