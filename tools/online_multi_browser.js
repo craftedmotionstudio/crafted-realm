@@ -137,6 +137,21 @@ async function register(c, user) {
   await c.until((s) => s.entered && s.me, 30000, 'enter the world');
   await sleep(500);
 }
+/** a page that left the world (a logout that went through) loads again and logs back in, so one scenario's failure
+ *  does not take the next ones down with it */
+async function ensureInWorld(c) {
+  const inside = await c.q(() => !!(window.CROnlineQA && CROnlineQA.state().entered && CROnlineQA.state().net.state === 'game')).catch(() => false);
+  if (inside) return false;
+  log('  (' + c.name + ' is not in the world: loading the page again and logging in)');
+  await c.page.goto(BASE + '/?online=1&server=' + encodeURIComponent('ws://127.0.0.1:' + app.port) + '&t=' + Date.now(), { waitUntil: 'domcontentloaded', timeout: 90000 });
+  const t0 = Date.now();
+  while (!(await c.page.evaluate(() => !!window.CR_WORLD_READY && !!document.getElementById('online-login')))) { if (Date.now() - t0 > 120000) throw new Error(c.name + ': the world never finished loading'); await sleep(300); }
+  await c.page.evaluate((u, pw) => { document.getElementById('online-user').value = u; document.getElementById('online-pass').value = pw; }, c.name, 'alpha-pass-' + c.name);
+  await c.page.click('#online-login');
+  await c.until((s) => s.entered && s.me, 30000, 're-enter the world');
+  await sleep(500);
+  return true;
+}
 /** take a kit at the chest (walks there first) */
 async function kitUp(c, kit) {
   const s0 = await c.state();
@@ -635,6 +650,7 @@ const SCENARIOS = [
     const fight = { name: sc.name, checks: [] };
     report.fights.push(fight);
     try {
+      for (const c of [A, B, O]) if (await ensureInWorld(c)) fight.reentered = (fight.reentered || []).concat(c.name);
       if (sc.kind === 'pvp') await pvpFight(fight, A, B, O, sc);
       else if (sc.kind === 'pvm') await pvmFight(fight, A, O, sc);
     } catch (e) { check(fight, false, 'scenario ran', e.message); }
@@ -647,7 +663,7 @@ const SCENARIOS = [
   report.pageErrors = { A: A.errors, B: B.errors, O: O.errors };
   report.measured = measure();
   report.movement = {};
-  for (const c of [A, B, O]) { const st = await c.state(); report.movement[c.name] = { maxBacklog: st.me.maxBacklog, catchUps: st.me.catchUps, teleports: st.me.teles, ticksSeen: st.ticks, tickGaps: st.net.stats.gaps, maxGapMs: st.net.stats.maxGapMs, reconnects: st.net.stats.reconnects }; }
+  for (const c of [A, B, O]) { const st = await c.state().catch(() => null); if (!st || !st.me) { report.movement[c.name] = { unavailable: true }; continue; } report.movement[c.name] = { maxBacklog: st.me.maxBacklog, catchUps: st.me.catchUps, teleports: st.me.teles, ticksSeen: st.ticks, tickGaps: st.net.stats.gaps, maxGapMs: st.net.stats.maxGapMs, reconnects: st.net.stats.reconnects }; }
   report.finished = new Date().toISOString();
   report.pass = report.failures.length === 0 && [A, B, O].every((c) => c.errors.length === 0);
   fs.writeFileSync(path.join(OUT, 'online_report.json'), JSON.stringify(report, null, 1));
