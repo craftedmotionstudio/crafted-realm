@@ -49,7 +49,7 @@ const SaveGame = {
             hair:CharCfg.hair, hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs},
       styleIndex:Player.styleIndex|0, autocast:Player.autocast||null, autoRetaliate:Player.autoRetaliate,
       music:{unlocked:Music.unlocked, mode:Music.mode, current:Music.current},
-      energy:Player.energy, runOn:Player.runOn, spec:Player.spec,
+      energy:Player.energy, runOn:Player.runOn, spec:Player.spec, caf:Player.caffeinated||0,
       prayerPts:Player.prayerPts,
       spell:Player.autocast||null,
       waterworks:typeof WorkyardWaterworksU4!=='undefined'&&WorkyardWaterworksU4.saveState?
@@ -84,6 +84,7 @@ const SaveGame = {
         Player.styleIndex=Math.max(0,Math.min(3,Number(d.styles[fam])||0)); }
       if(d.autoRetaliate!==undefined) Player.autoRetaliate=!!d.autoRetaliate;
       if(d.energy!==undefined){ Player.energy=d.energy; Player.runOn=!!d.runOn; }
+      Player.caffeinated=Math.max(0, Number(d.caf)||0);   // coffee: seconds of slower run drain left
       if(d.spec!==undefined) Player.spec=d.spec;
       if(d.prayerPts!==undefined) Player.prayerPts=Math.min(Math.ceil(d.prayerPts), Player.maxPrayer());   // whole points (2004)
       // autocast needs a staff (2004); an armed single cast is never saved

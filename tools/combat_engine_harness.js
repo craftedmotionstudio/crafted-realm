@@ -21,7 +21,7 @@ function create(opts){
   vm.createContext(ctx);
   const run=(src,file)=>vm.runInContext(src,ctx,{filename:file});
   // ---- the rules and the content ----
-  for(const f of ['shared/rng.js','shared/xp.js','shared/combat.js','shared/pvp.js','shared/drops.js','shared/movement.js'])run(read(f),f);
+  for(const f of ['shared/rng.js','shared/xp.js','shared/combat.js','shared/pvp.js','shared/drops.js','shared/movement.js','shared/drinks.js'])run(read(f),f);
   run(read('src/game1_data.js')+'\n;globalThis.ITEMS=ITEMS;globalThis.NPC_TYPES=NPC_TYPES;globalThis.SKILLS=SKILLS;globalThis.XP_TABLE=XP_TABLE;globalThis.TICK=TICK;globalThis.levelFromXp=levelFromXp;','src/game1_data.js');
   run(read('src/magic_spells.js')+'\n;globalThis.SPELLS=SPELLS;','src/magic_spells.js');
   const dag=/const DAGGER = (\{[\s\S]*?\n  \});/.exec(read('src/smith_bronze_dagger.js'));

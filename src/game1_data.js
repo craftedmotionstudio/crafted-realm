@@ -33,6 +33,13 @@ const ITEMS = {
   cooked_perch: {name:'Mirrorperch', stack:false, value:12, heal:4},
   burnt_perch:  {name:'Burnt mirrorperch', stack:false, value:1, examine:'Cooked with confidence, not skill.'},
   hollow_ale:   {name:'Hollow ale', stack:false, value:4, heal:5},
+  /* coffee (combat agent 2026-09-26, owner request; rules in shared/drinks.js, client src/coffee.js): four sips in a
+     mug, each +20% run energy and 2 minutes of 25% slower run drain; brewed on a range from roasted beans and water */
+  roasted_beans: {name:'Roasted beans', stack:false, value:5,  weight:0.2, examine:'Dark, oily and fragrant. They want hot water and a range.'},
+  coffee_4:      {name:'Coffee (4)',    stack:false, value:24, weight:0.4, drink:'coffee', examine:'A steaming mug of strong coffee. Four good sips.'},
+  coffee_3:      {name:'Coffee (3)',    stack:false, value:18, weight:0.4, drink:'coffee', examine:'Strong coffee, three sips left.'},
+  coffee_2:      {name:'Coffee (2)',    stack:false, value:12, weight:0.3, drink:'coffee', examine:'Half a mug of coffee, still warm.'},
+  coffee_1:      {name:'Coffee (1)',    stack:false, value:6,  weight:0.3, drink:'coffee', examine:'One last sip of coffee.'},
 
   /* ===== TOP-100 batch 1 (2026-07-17): missing common items — data layer only.
      Gathering/crafting sources wire in through later content passes; missing
@@ -441,7 +448,9 @@ const SHOPS = {
     /* top-100 batch 1 general-store lines (2026-07-17) */
     {id:'bucket',price:2},{id:'jug',price:1},{id:'pot',price:1},{id:'bowl',price:5},
     {id:'rope',price:22},{id:'shears',price:2},{id:'spade',price:6},{id:'chisel',price:3},
-    {id:'cabbage',price:2},{id:'potato',price:2},{id:'onion',price:2},{id:'egg',price:3},{id:'cheese',price:6}]},
+    {id:'cabbage',price:2},{id:'potato',price:2},{id:'onion',price:2},{id:'egg',price:3},{id:'cheese',price:6},
+    /* coffee (2026-09-26): the beans and a jug of water to brew it, or a ready mug */
+    {id:'roasted_beans',price:6},{id:'jug_water',price:2},{id:'coffee_4',price:30}]},
   smith:    {name:'Stonereach Smithy', stock:[
     {id:'copper_sword',price:20},{id:'copper_helm',price:14},{id:'copper_pickaxe',price:45},{id:'copper_hatchet',price:45},
     {id:'bronze_sword',price:30},{id:'bronze_longsword',price:48},{id:'bronze_helm',price:22},{id:'bronze_plate',price:95},{id:'bronze_legs',price:75},

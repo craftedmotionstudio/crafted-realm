@@ -30,6 +30,7 @@ Do not call `LocalCombat.orderAttack` / `eat` / `togglePrayer` online; send the 
 | spell armed from the spellbook, then a target | `LocalCombat.selectSpell(id)` then `orderAttack` | `{t:'cast_npc', nid, spell}` / `{t:'cast_player', pid, spell}` |
 | autocast (staff) | `LocalCombat.selectSpell(id)` with a staff | `{t:'autocast', spell}` |
 | eat | `LocalCombat.eat(slot)` | `{t:'eat', slot}` |
+| drink a dose (coffee) | `Coffee.sip(slot)` (through `UI.useItem`) | `{t:'eat', slot}` (the server branches on the item); render `me.caf` as `Player.caffeinated = caf * 0.6` seconds (the "Caffeinated m:ss" chip and the slower drain read it) |
 | prayer on/off | `LocalCombat.togglePrayer(id)` | `{t:'prayer', id, on}` |
 | combat style button | `LocalCombat.setStyle(i)` | `{t:'style', index:i}` |
 | auto retaliate | `Player.autoRetaliate = v` | `{t:'auto_retaliate', on:v}` |

@@ -92,7 +92,7 @@ const Player = {
   lvl(s){ return levelFromXp(this.xp[s]); },
   energy:100, runOn:true, _regenT:0,
   prayerPts:1, activePrayers:new Set(),
-  spell:null, alchMode:null, teleCd:0, stunT:0,
+  spell:null, alchMode:null, teleCd:0, stunT:0, caffeinated:0,
   hasSpace(){ return this.inv.some(s=>!s); },
   staffProvides(){ const w=this.equip.weapon; return (w && ITEMS[w].provides) || null; },
   hasRunes(spell){
@@ -193,8 +193,10 @@ const Player = {
     // and the switchback was walked at 2.4 tiles/s. The island is a teaching route, not an endurance test,
     // so the Holm drains at a quarter rate and regenerates three times faster. Mainland rules are untouched.
     const holmPace = (typeof CRWorldMode!=='undefined' && CRWorldMode.providerId==='tutors-holm-v2');
+    // coffee (shared/drinks.js): while caffeinated, running drains 25% slower
+    const caf = (this.caffeinated>0 && typeof CRShared!=='undefined' && CRShared.drinks) ? CRShared.drinks.DRINKS.coffee.drainMult : 1;
     if(moving && this.runOn && this.energy>0){
-      this.energy = Math.max(0, this.energy - dt*(1.4 + 2.2*(this.weight()/64))*(holmPace?0.25:1));
+      this.energy = Math.max(0, this.energy - dt*caf*(1.4 + 2.2*(this.weight()/64))*(holmPace?0.25:1));
       if(this.energy<=0){ this.runOn=false; UI.chat("You've run out of energy and slow to a walk.",'plain'); UI.refreshRun(); }
     } else if(this.energy<100){
       this.energy = Math.min(100, this.energy + dt*0.9*(holmPace?3:1));
@@ -202,6 +204,7 @@ const Player = {
     this.tickPrayers(dt);
     if(this.teleCd>0) this.teleCd=Math.max(0, this.teleCd-dt);
     if(this.stunT>0) this.stunT=Math.max(0, this.stunT-dt);
+    if(this.caffeinated>0){ this.caffeinated=Math.max(0, this.caffeinated-dt); if(this.caffeinated===0) UI.chat('The coffee wears off.','plain'); }
     // special-attack energy regenerates +10% every 30s (OSRS), i.e. +1% per 3s
     this.specT=(this.specT||0)+dt;
     if(this.specT>=3){ this.specT-=3; if(this.spec<100){ this.spec=Math.min(100,(this.spec||0)+1); if(UI.refreshSpec) UI.refreshSpec(); } }
@@ -881,7 +884,7 @@ function playerDeath(){
   Player.hp = Player.maxHp;   // respawn with full hitpoints and prayer, prayers off (2004)
   Player.prayerPts = Player.maxPrayer(); Player.activePrayers.clear();
   if(typeof refreshOverhead==='function') refreshOverhead();
-  Player.energy = 100;
+  Player.energy = 100; Player.caffeinated = 0;
   Player.target=null; Player.action=null; Player.moveTo=null;
   WORLD.npcs.forEach(n=>{ if(n.target==='player') n.target=null; });
   if(!Tutorial.complete&&typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.islandActive&&HolmArrivalQA.islandActive()&&HolmArrivalQA.respawnIsland&&HolmArrivalQA.respawnIsland()){
