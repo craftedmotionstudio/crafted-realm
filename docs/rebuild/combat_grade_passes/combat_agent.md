@@ -143,3 +143,18 @@ Result (`pass3/bench_pass3.md`, 60 fights per pairing, sides alternated, with fo
 Every style wins one matchup and loses one at every level point: no style dominates; PvM kill times with food sit
 at 26-66 s against monsters of the adventurer's level, PvP fights between equals last 23-100 s without food and
 85-290 s with ten trout each.
+
+Grader review of pass 3 (coordinator, 2026-09-26): criteria 1-14 and 16-18 agreed; **19 stays 0.25**: a 100% matchup
+(melee over ranged at 40/60, magic over melee at 25) is a foregone conclusion, not a triangle. Ask: keep the 2004
+formulas, tune our item stats and gear assumptions so the favoured style wins roughly 60-85% at every level point and
+the underdog can still win with good food/prayer play; report fight-length spread, not only win rates. 15 (online
+part) and 20 are graded by the online agent's run.
+
+| # | pass 3 score |
+|---|---|
+| 1-14, 16-18 | as pass 2 (12 and 18 at 0.5) |
+| 15 | 0.25 (online part) |
+| 19 | 0.25 |
+| 20 | online |
+
+Total pass 3: **9.0 / 10** (offline 9.0 of 9.5 reachable; 20 online).
