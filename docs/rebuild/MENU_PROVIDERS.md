@@ -56,7 +56,7 @@ OsrsMenu.registerProvider({
   order: 50,                   // providers run in this order (the world's own: holm 10, world 20, interact 5, generic 1000)
   kinds: ['player'],           // entity kinds (userData.kind) it answers, or '*' for every world entity
   describe(entity) {           // optional: the entity's identity (the first provider that answers wins)
-    return { name: 'Zezima', type: 'player', level: 3, examine: false };   // examine: text, a function, or false (no Examine)
+    return { name: 'Brannoc', type: 'player', level: 3, examine: false };   // examine: text, a function, or false (no Examine)
   },
   entries(entity, ctx, desc) { // the rows; ctx.e is the mouse event, ctx.shift the shift key, ctx.entities the whole list
     return [{ option: 'Follow', priority: 90, fn(){ ... } }];
@@ -119,6 +119,12 @@ the rest after them. Nothing else to do.
 
 Every row calls the same click the game always handled (`handleClick` -> `HolmArrivalQA.handleClick`), so walking to
 the stance, the tutor-first refusals (`HolmIslandTalk`) and the lessons are unchanged for left and right clicks alike.
+
+## Names and text
+
+New menu names and examine lines follow `docs/rebuild/NAMING_BIBLE.md`: our own, old-school sounding, no RuneScape
+names; internal ids never change. Examine lines ported from the old menu (`LEGACY_EXAMINE` in `osrs_menu_world.js`)
+are left for the one renaming pass.
 
 ## Tests
 

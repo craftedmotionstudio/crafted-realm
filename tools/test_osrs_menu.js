@@ -86,7 +86,7 @@ const text=(M,rows)=>rows.map(r=>M.rowText(r));
  ok(/style="color:#c0ff00">\(level-1\)/.test(h),'(level-1) green-yellow for a lower level (player 3)');
  ok(/om-object" style="color:#00ffff">Door/.test(M.rowHtml({option:'Open',target:'Door',targetType:'object'})),'object name cyan');
  ok(/om-item" style="color:#ff9040">Bones/.test(M.rowHtml({option:'Take',target:'Bones',targetType:'item'})),'item name orange');
- ok(/om-player" style="color:#ffffff">Zezima/.test(M.rowHtml({option:'Follow',target:'Zezima',targetType:'player',level:3})),'player name white');
+ ok(/om-player" style="color:#ffffff">Brannoc/.test(M.rowHtml({option:'Follow',target:'Brannoc',targetType:'player',level:3})),'player name white');
  const u=M.rowHtml({option:'Use',item:'Tinderbox',target:'Emberwood logs',targetType:'item'});
  ok(M.plain(u)==='Use Tinderbox -> Emberwood logs'&&/om-i" style="color:#ff9040">Tinderbox/.test(u),'use row: "Use <item> -> <target>" with the item orange');
  ok(M.rowHtml({html:'Walk <b>here</b>',fn:null})==='Walk <b>here</b>','legacy {html, fn} rows render as given (Ctx.show callers)');
@@ -143,7 +143,7 @@ const text=(M,rows)=>rows.map(r=>M.rowText(r));
  // the player hook: another layer's provider adds player rows (online agent: Follow, Trade with, Attack, Report)
  M.registerProvider({id:'t-players',kinds:['player'],describe:e=>({name:e.u.player.name,type:'player',level:e.u.player.level,examine:false}),
   entries:e=>[{option:'Follow',priority:90,fn(){}},{option:'Trade with',priority:80,fn(){}},{option:'Report',priority:10,fn(){}}]});
- eq(menu(obj('pl',{kind:'player',player:{name:'Zezima',level:3}})),['Follow Zezima (level-3)','Trade with Zezima (level-3)','Report Zezima (level-3)','Walk here','Cancel'],'player rows through the provider hook (no Examine on players)');
+ eq(menu(obj('pl',{kind:'player',player:{name:'Brannoc',level:3}})),['Follow Brannoc (level-3)','Trade with Brannoc (level-3)','Report Brannoc (level-3)','Walk here','Cancel'],'player rows through the provider hook (no Examine on players)');
 }
 
 /* ---------- 4: use-mode ---------- */
