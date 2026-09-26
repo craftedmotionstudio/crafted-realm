@@ -90,12 +90,12 @@ const ITEMS = {
   wood_shield:  {name:'Wooden shield',    stack:false, value:20, equip:'shield', dBonus:5, model:'shield', tier:'bronze', reqSkill:'Defence', reqLvl:1},
   bronze_helm:  {name:'Bronze helm',      stack:false, value:18, equip:'head',   dBonus:4, model:'helm', tier:'bronze', reqSkill:'Defence', reqLvl:1},
   bronze_plate: {name:'Bronze platebody', stack:false, value:80, equip:'body',   dBonus:11, model:'plate', tier:'bronze', reqSkill:'Defence', reqLvl:1},
-  leather_body: {name:'Leather body',     stack:false, value:14, equip:'body',   dBonus:4, dStab:4, dSlash:5, dCrush:5, dMagic:14, dRanged:8, aRanged:5, model:'plate', tier:'leather', reqSkill:'Defence', reqLvl:1},
+  leather_body: {name:'Leather body',     stack:false, value:14, equip:'body',   dBonus:4, dStab:4, dSlash:5, dCrush:5, dMagic:20, dRanged:8, aRanged:5, model:'plate', tier:'leather', reqSkill:'Defence', reqLvl:1},
   /* top-100 set 3 (2026-07-17): leather set — standalone leather items (like leather_body),
      NOT metal-tiered. Introduces the hands + feet equip slots. */
-  leather_chaps:  {name:'Leather chaps',  stack:false, value:12, equip:'legs',  dBonus:3, dStab:2, dSlash:2, dCrush:2, dMagic:8, dRanged:5, aRanged:4, model:'chaps',  tier:'leather', reqSkill:'Defence', reqLvl:1},
-  leather_gloves: {name:'Leather gloves', stack:false, value:6,  equip:'hands', dBonus:1, dMagic:3, dRanged:2, aRanged:3, model:'gloves', tier:'leather', reqSkill:'Defence', reqLvl:1},
-  leather_boots:  {name:'Leather boots',  stack:false, value:6,  equip:'feet',  dBonus:1, dMagic:2, dRanged:2, model:'boots',  tier:'leather', reqSkill:'Defence', reqLvl:1},
+  leather_chaps:  {name:'Leather chaps',  stack:false, value:12, equip:'legs',  dBonus:3, dStab:2, dSlash:2, dCrush:2, dMagic:12, dRanged:5, aRanged:4, model:'chaps',  tier:'leather', reqSkill:'Defence', reqLvl:1},
+  leather_gloves: {name:'Leather gloves', stack:false, value:6,  equip:'hands', dBonus:1, dMagic:5, dRanged:2, aRanged:3, model:'gloves', tier:'leather', reqSkill:'Defence', reqLvl:1},
+  leather_boots:  {name:'Leather boots',  stack:false, value:6,  equip:'feet',  dBonus:1, dMagic:3, dRanged:2, model:'boots',  tier:'leather', reqSkill:'Defence', reqLvl:1},
   bronze_legs:  {name:'Bronze platelegs', stack:false, value:60, equip:'legs',   dBonus:7, model:'legs', tier:'bronze', reqSkill:'Defence', reqLvl:1},
 
   fishing_net:  {name:'Small net', stack:false, value:12, tool:'fishing', power:1.0, useOn:'fish'},

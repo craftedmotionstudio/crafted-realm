@@ -470,8 +470,9 @@ UI.refreshCombat = function(){
     list.map((s,i)=>'<div class="cmb-style'+(i===cur?' active':'')+'" data-i="'+i+'" data-cat="'+cat+'" data-style="'+s.style+'" data-type="'+s.type+'" data-label="'+s.label+'">'+
       '<b>'+s.label+' <span style="color:#7fd2ff">['+cap(s.type)+']</span></b>'+
       '<small>trains '+combatStyleTrains(s)+'</small></div>').join('')+
-    (staff?'<div class="set-row cmb-autocast" style="margin-top:6px"><span>Autocast'+(ac?': <b>'+ac.name+'</b>':'')+'</span>'+
-      '<button class="set-btn" id="autocast-btn">'+(ac?'Clear':'Choose')+'</button></div>':'')+
+    (staff?'<div class="set-row cmb-autocast" style="margin-top:6px">'+
+      '<button class="set-btn" id="autocast-btn" style="width:100%" title="'+(ac?'Click to stop autocasting':'Choose a combat spell to cast with every attack')+'">'+
+      (ac?'Autocast: '+ac.name:'Choose autocast spell')+'</button></div>':'')+
     '<div class="set-row" style="margin-top:9px"><span>Auto-retaliate</span>'+
       '<button class="set-btn" id="retal-btn">'+(Player.autoRetaliate?'On':'Off')+'</button></div>';
   host.querySelectorAll('.cmb-style').forEach(el=>{

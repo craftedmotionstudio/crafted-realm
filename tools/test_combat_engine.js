@@ -153,6 +153,23 @@ for(const [kind,t,fn] of [['ranged',{ranged:'arrow',attackRange:7},d=>Math.floor
  h.until(()=>h.log.msgs.some(m=>m[0]==='It rears up!'),40);h.ctx.orderWalk({x:17.5,z:20.5});h.tick(3);
  check('stepping out of reach during the wind-up dodges the special',h.log.msgs.some(m=>m[0]==='You step clear.')&&!h.log.hits.some(x=>x.obj===h.ctx.player&&x.dmg>0),h.log.msgs.slice(-3));}
 
+/* 11c. switching mid-fight answers on the next attack: style (Accurate -> Rapid), prayer, weapon */
+{const h=fresh();h.wield('worn_bow');h.give('arrows',100);h.P.styleIndex=0;const n=h.spawn('pasturehen',24,20,{t:{hp:5000,speedTicks:1000}});h.LC.orderAttack(n);h.tick(9);
+ h.LC.setStyle(1);h.tick(12);const t=swingsOf(h),g=gaps(t);
+ check('switching Accurate -> Rapid mid-fight: the timer already set runs out, then every gap is 3 ticks (2004)',g[0]===4&&g.slice(-2).every(x=>x===3),{ticks:t,gaps:g});}
+{const h=fresh();h.wield('bronze_sword');const n=h.spawn('pasturehen',21,20,{t:{hp:5000,speedTicks:1000}});h.LC.orderAttack(n);h.tick(6);
+ h.wield('bronze_greatsword');h.tick(20);const g=gaps(swingsOf(h));
+ check('swapping to a two-handed sword mid-fight: the swing after the swap uses 7 ticks',g.slice(-2).every(x=>x===7),g);}
+/* 11d. every weapon family has a special (with its energy cost) and its own speed / reach */
+{const h=fresh(),I=h.ctx.ITEMS,S=h.ctx.SPECIALS;const models=new Set(Object.keys(I).filter(k=>I[k].equip==='weapon'&&I[k].style).map(k=>I[k].model).filter(Boolean));
+ const missing=[...models].filter(m=>!S[m]);check('every weapon family ('+models.size+' models) has a special attack',missing.length===0,missing);
+ const speeds={};Object.keys(I).forEach(k=>{const d=I[k];if(d.equip==='weapon'&&d.style&&d.model)speeds[d.model]=d.speedTicks});
+ check('families differ: dagger/sword 4, greatsword 7, warhammer 6, battleaxe 5, shortbow 4, longbow 6, staff 5',
+  [speeds.sword,speeds.greatsword,speeds.warhammer,speeds.battleaxe,speeds.bow,speeds.longbow,speeds.staff].join()==='4,7,6,5,4,6,5',speeds);}
+/* 11e. loot timers: a drop is private for 100 ticks and gone 200 ticks after it fell (2004) */
+{const src=require('fs').readFileSync(require('path').join(__dirname,'..','src','game3_systems.js'),'utf8');
+ check('drop lifecycle is the 2004 100 / 200 ticks',/life:200\*TICK, publicAt:100\*TICK/.test(src));}
+
 /* 12. specials and 0..max damage */
 {const h=fresh();h.wield('bronze_sword');h.P.spec=100;h.P.specArmed=true;const n=h.spawn('pasturehen',21,20,{t:{hp:5000}});h.LC.orderAttack(n);h.tick(2);
  check('an armed special spends its energy on the next swing',h.P.spec===75&&!h.P.specArmed&&h.log.msgs.some(m=>/lunge/i.test(m[0])),{spec:h.P.spec});}
