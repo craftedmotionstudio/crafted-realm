@@ -211,6 +211,14 @@ const text=(M,rows)=>rows.map(r=>M.rowText(r));
  ok(idx.indexOf('src/osrs_menu.js?v=')>0&&idx.indexOf('src/osrs_menu.js?v=')<idx.indexOf('src/game4_ui.js?v=')&&idx.indexOf('src/osrs_menu_world.js?v=')>idx.indexOf('src/game4_ui.js?v=')&&
   idx.indexOf('src/osrs_menu_items.js?v=')>idx.indexOf('src/item_tags.js?v='),'script order: model before game4_ui, world after it, slot menus after item_tags');
  ok(fs.existsSync(path.join(ROOT,'docs','rebuild','MENU_PROVIDERS.md')),'the provider API is documented (docs/rebuild/MENU_PROVIDERS.md)');
+ // the input wiring in game4_ui.js: a right click's mouseup never acts, a left click runs the top row, a right click
+ // (and a long press) open the menu; pick() is the first entity of the whole ray
+ const g4=src('game4_ui.js');
+ ok(/if\(e\.button!==undefined && e\.button!==0\) return;/.test(g4),'only the left button acts on the world');
+ ok(/OsrsMenuWorld\.leftClick\(e\);/.test(g4)&&/OsrsMenuWorld\.open\(e\);/.test(g4)&&/OsrsMenuWorld\.open\(fake,\{touch:true\}\);/.test(g4),'left click, right click and long press go through the one menu');
+ ok(/function pick\(e\)\{ return pickAll\(e\)\.top; \}/.test(g4),'pick() is the top of pickAll()');
+ const om=src('osrs_menu.js');
+ ok(/if\(using\(\)&&!windowOpen\(\)\)endUse\(\);/.test(om)&&/if\(view\.open\)\{hide\(\);e\.stopImmediatePropagation\(\)/.test(om),'Escape: the menu first, then an open window, then the item in use');
 }
 console.log(pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);
