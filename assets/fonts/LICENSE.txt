@@ -1,0 +1,15 @@
+Realm Small (realm_small.ttf, realm_small_bold.ttf)
+==================================================
+
+Realm Small is Crafted Realm's own bitmap-look interface font. Every glyph was drawn pixel by pixel for this
+project in tools/build_pixel_font.py (12 px em: 8 px capitals, 6 px x-height, 3 px descenders, 1 px strokes; the
+bold cut doubles each stem one pixel to the right) and compiled to TrueType with fontTools. No third-party font
+data, outlines or bitmaps were used, copied or traced (in particular nothing from Jagex / RuneScape fonts).
+
+Copyright (c) 2026 Crafted Motion. Made for, and free to use in, Crafted Realm.
+
+The owner may publish the font for others under the SIL Open Font License 1.1 (https://openfontlicense.org)
+by adding the OFL text here; until then it ships only as part of the game.
+
+Rebuild: python tools/build_pixel_font.py   (writes both .ttf files and scratchpad/holm_ui_v3/font_specimen.png)
+Use at font-size 12px (or 24px) so one glyph pixel lands on one screen pixel.

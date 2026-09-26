@@ -2,6 +2,9 @@
  * 2026-09-25 (owner: "I can't say I love the appearance of the arrow"): the marker is now the old-school hint arrow,
  * a chunky yellow downward arrow with a dark outline bobbing just above the exact target, and its label sits on a
  * small parchment tag above it. Both are canvas-drawn (our own art). The screen-edge pointer uses the same arrow.
+ * UI round 3 (owner: "less polished, more old-school"): the arrow is now the pixel sprite rendered from our own
+ * Blender arrow (assets/icons/ui/v3/misc/hint_arrow*.png, drawn 2x with nearest sampling; the vector drawing stays
+ * as the fallback until the image has loaded) and the label is square parchment lettered in our bitmap font.
  * A pulsing beacon on the current objective tile (cloned TileMarkers Line square
  * + _labelSprite text) PLUS a screen-edge DOM arrow that points toward the target
  * when it's off-screen or behind the camera. Driven per tutorial step via
@@ -9,6 +12,7 @@
  * step's optional {target,arrowLabel} fields Just Work (steps without them = no-op).
  *   spec: {x,z} | {friendlyId:'bram'} | {mesh} | null(clear).  r128 THREE.
  * Self-boots once scene/WORLD/UI/Tutorial exist (setInterval guard, like the towns). */
+const GUIDE_ARROW_IMG=(function(){try{const im=new Image();im.src='assets/icons/ui/v3/misc/hint_arrow.png?v=2';return im}catch(e){return null}})();
 const GuideArrow = {
   _spec:null, _label:'', _line:null, _sprite:null, _arrow:null, _raf:null, _wrapped:false,
   /* content hooks: fn(spec,label) -> {spec?,label?} | null, evaluated every frame so a hint can
@@ -60,6 +64,10 @@ const GuideArrow = {
   _arrowCanvas(){
     const c=document.createElement('canvas'); c.width=128; c.height=160;
     const x=c.getContext('2d');
+    const im=GUIDE_ARROW_IMG;
+    if(im && im.complete && im.naturalWidth){               // the rendered sprite, doubled pixel for pixel; its tip sits on the bottom edge
+      x.imageSmoothingEnabled=false; x.drawImage(im, 0, 0, im.naturalWidth*2, im.naturalHeight*2); return c;
+    }
     const shape=()=>{ x.beginPath(); x.moveTo(42,10); x.lineTo(86,10); x.lineTo(86,74); x.lineTo(114,74); x.lineTo(64,148);
       x.lineTo(14,74); x.lineTo(42,74); x.closePath(); };
     x.save(); x.translate(4,5); shape(); x.fillStyle='rgba(0,0,0,.45)'; x.fill(); x.restore();        // drop shadow
@@ -75,6 +83,7 @@ const GuideArrow = {
   },
   _arrowSpriteMake(){
     const tex=new THREE.CanvasTexture(this._arrowCanvas());
+    if(THREE.NearestFilter){ tex.magFilter=THREE.NearestFilter; tex.minFilter=THREE.LinearFilter; }
     const spr=new THREE.Sprite(new THREE.SpriteMaterial({map:tex, depthTest:false, transparent:true}));
     spr.center.set(0.5,0);                                                    // the tip is the sprite's anchor
     spr.scale.set(0.72,0.9,1); spr.renderOrder=996; spr.name='guide-hint-arrow';
@@ -82,30 +91,33 @@ const GuideArrow = {
   },
   /* the label: a small parchment tag with dark lettering, hung above the arrow */
   _labelSprite(text){
+    // square parchment tag, a hard dark border, lettering in our bitmap font drawn at 2x (24 px = 12 px pixels doubled)
+    const FONT='bold 24px "Realm Small", Verdana';
     const c=document.createElement('canvas');
     let x=c.getContext('2d');
-    x.font='bold 15px Verdana';
-    const w=Math.min(300, Math.ceil(x.measureText(text).width)+26), h=28;
-    c.width=w+6; c.height=h+6;                                               // resizing resets ctx state
-    x=c.getContext('2d');
-    const r=(X,Y,W,H,R)=>{ x.beginPath(); x.moveTo(X+R,Y); x.lineTo(X+W-R,Y); x.quadraticCurveTo(X+W,Y,X+W,Y+R); x.lineTo(X+W,Y+H-R);
-      x.quadraticCurveTo(X+W,Y+H,X+W-R,Y+H); x.lineTo(X+R,Y+H); x.quadraticCurveTo(X,Y+H,X,Y+H-R); x.lineTo(X,Y+R); x.quadraticCurveTo(X,Y,X+R,Y); x.closePath(); };
-    x.fillStyle='rgba(0,0,0,.4)'; r(4,4,w,h,4); x.fill();
-    const g=x.createLinearGradient(0,1,0,h);
-    g.addColorStop(0,'#efe2b8'); g.addColorStop(1,'#d2bd86');
-    r(1,1,w,h,4); x.fillStyle=g; x.fill(); x.lineWidth=2; x.strokeStyle='#3a2710'; x.stroke();
-    x.strokeStyle='rgba(120,85,40,.35)'; x.lineWidth=1; r(4,4,w-6,h-6,2); x.stroke();
-    x.font='bold 15px Verdana'; x.textAlign='center'; x.textBaseline='middle';
-    x.fillStyle='#2a1a08'; x.fillText(text, 1+w/2, 1+h/2+1);
+    x.font=FONT;
+    const w=Math.min(560, Math.ceil(x.measureText(text).width)+28), h=36;
+    c.width=w+4; c.height=h+4;                                               // resizing resets ctx state
+    x=c.getContext('2d'); x.imageSmoothingEnabled=false;
+    x.fillStyle='rgba(0,0,0,.45)'; x.fillRect(4,4,w,h);                    // hard drop shadow
+    x.fillStyle='#140e04'; x.fillRect(0,0,w,h);                             // 2 px ink border
+    x.fillStyle='#dccfa4'; x.fillRect(2,2,w-4,h-4);                         // parchment
+    x.fillStyle='#f0e6c4'; x.fillRect(2,2,w-4,2); x.fillRect(2,2,2,h-4);    // lit top / left edge
+    x.fillStyle='#a8946c'; x.fillRect(2,h-4,w-4,2); x.fillRect(w-4,2,2,h-4);// shaded bottom / right edge
+    x.font=FONT; x.textAlign='center'; x.textBaseline='middle';
+    x.fillStyle='#2a1a08'; x.fillText(text, Math.round(w/2), Math.round(h/2)+1);
+    const tex=new THREE.CanvasTexture(c);
+    if(THREE.NearestFilter){ tex.magFilter=THREE.NearestFilter; tex.minFilter=THREE.LinearFilter; }
     const spr=new THREE.Sprite(new THREE.SpriteMaterial(
-      {map:new THREE.CanvasTexture(c), depthTest:false, transparent:true}));
+      {map:tex, depthTest:false, transparent:true}));
     spr.center.set(0.5,0);
-    spr.scale.set(c.width/70, c.height/70, 1);
+    spr.scale.set(c.width/80, c.height/80, 1);
     spr.renderOrder=997;
     return spr;
   },
   /* the same arrow for the screen-edge pointer (points UP; the tick rotates it) */
   _edgeArrowUrl(){
+    if(GUIDE_ARROW_IMG) return 'url("assets/icons/ui/v3/misc/hint_arrow_up.png?v=2")';
     const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 3 L36 22 L27 22 L27 37 L13 37 L13 22 L4 22 Z" fill="#ffd21e" stroke="#140e04" stroke-width="3" stroke-linejoin="round"/><path d="M15 23 V35 M7.5 21 L19 7.5" stroke="rgba(255,250,200,.85)" stroke-width="1.6" fill="none"/></svg>';
     return 'url("data:image/svg+xml,'+encodeURIComponent(svg)+'")';
   },
@@ -116,7 +128,7 @@ const GuideArrow = {
     // the hint arrow in miniature, pointing UP by default (the tick rotates it toward the target)
     a.style.cssText='position:fixed;z-index:75;display:none;pointer-events:none;width:34px;height:34px;'+
       'background:center/contain no-repeat '+this._edgeArrowUrl()+';transform-origin:50% 50%;'+
-      'filter:drop-shadow(0 2px 2px rgba(0,0,0,.6));';
+      'image-rendering:pixelated;';
     document.body.appendChild(a);
     return a;
   },

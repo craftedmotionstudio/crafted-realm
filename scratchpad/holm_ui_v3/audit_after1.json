@@ -1,0 +1,1762 @@
+{
+ "login": [
+  {
+   "el": "div#welcome-screen",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "welcome-screen > div.world-badge",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "welcome-screen > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "welcome-screen > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "welcome-screen > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#login-music-toggle",
+   "flags": [
+    "radius 50",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "div#welcome-logo",
+   "flags": [
+    "gradient",
+    "filter drop-shadow(rgb(42, 22, 2) 0px 3px 0px) ",
+    "font \"Cinzel Decorative\""
+   ]
+  },
+  {
+   "el": "welcome-screen > div.login-subtitle",
+   "flags": [
+    "text-shadow blur",
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "main#welcome-box",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "welcome-box > i",
+   "flags": [
+    "gradient",
+    "radius 50"
+   ]
+  },
+  {
+   "el": "welcome-box > i",
+   "flags": [
+    "gradient",
+    "radius 50"
+   ]
+  },
+  {
+   "el": "welcome-box > i",
+   "flags": [
+    "gradient",
+    "radius 50"
+   ]
+  },
+  {
+   "el": "welcome-box > i",
+   "flags": [
+    "gradient",
+    "radius 50"
+   ]
+  },
+  {
+   "el": "login-choose > div.login-kicker",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "login-choose > h3",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "login-choose > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "login-choose > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "login-choose > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#btn-continue",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "btn-continue > strong",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "small#continue-detail",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#btn-new",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "btn-new > strong",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "btn-new > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "p#login-note",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#btn-login-options",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#btn-login-fullscreen",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "welcome-screen > div.login-footer",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "welcome-screen > span.gold",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "hud": [
+  {
+   "el": "button#music-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#overlays-btn",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "button#deeds-btn",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "button#char-styler-btn",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "button#compass-btn",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "button#worldmap-btn",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "div#chat-title",
+   "flags": [
+    "font-size 0px"
+   ]
+  }
+ ],
+ "tab combat": [],
+ "tab skills": [],
+ "tab quests": [],
+ "tab inv": [],
+ "tab equip": [],
+ "tab prayers": [
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab spells": [
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab drops": [
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font-size 10px"
+   ]
+  }
+ ],
+ "tab clan": [],
+ "tab friends": [],
+ "tab ignore": [],
+ "tab logout": [],
+ "tab settings": [
+  {
+   "el": "input#vol-music",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "input#vol-sfx",
+   "flags": [
+    "font Arial"
+   ]
+  }
+ ],
+ "tab emotes": [],
+ "tab music": [],
+ "right-click": [],
+ "win bank": [
+  {
+   "el": "bank-modal > p",
+   "flags": [
+    "font-size 11px"
+   ]
+  },
+  {
+   "el": "input#bank-search",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "bank-presets > button.preset-load",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "bank-presets > button.preset-load",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "bank-presets > button.preset-load",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "button#preset-save",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "bank-inv-grid > span.inv-qty",
+   "flags": [
+    "font-size 10px"
+   ]
+  }
+ ],
+ "win shop": [
+  {
+   "el": "shop-modal > p",
+   "flags": [
+    "font-size 11px"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "shop-inv-grid > span.inv-qty",
+   "flags": [
+    "font-size 10px"
+   ]
+  }
+ ],
+ "win worldmap": [
+  {
+   "el": "input#map-search",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "win quest scroll": [
+  {
+   "el": "div#quest-scroll-modal",
+   "flags": [
+    "gradient",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "quest-scroll-modal > button.quest-scroll-close.kit-x",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "div#quest-scroll-difficulty",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "h2#quest-scroll-title",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "div#quest-scroll-giver",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > p.quest-scroll-desc",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > h3",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span.quest-stage-mark",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span.quest-stage-mark",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span.quest-stage-mark",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span.quest-stage-mark",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > h3",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > div.quest-reward",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > b",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > div.quest-reward",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > b",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "button#quest-scroll-track",
+   "flags": [
+    "gradient",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "span#quest-scroll-points",
+   "flags": [
+    "font Georgia"
+   ]
+  }
+ ],
+ "win droptable": [],
+ "win overlays": [
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-list > input",
+   "flags": [
+    "font-size 13.3333px"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-settings > div.osrs-title",
+   "flags": [
+    "font-size 11px"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "overlays-modal > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  }
+ ],
+ "win deeds": [
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > div.osrs-title",
+   "flags": [
+    "font-size 11px"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font-size 10px"
+   ]
+  }
+ ],
+ "win music menu": [
+  {
+   "el": "music-menu > span",
+   "flags": [
+    "font-size 13px"
+   ]
+  },
+  {
+   "el": "music-menu > button.kit-x.kit-x-added",
+   "flags": [
+    "font-size 0px"
+   ]
+  }
+ ],
+ "win dialogue": [
+  {
+   "el": "div#dlg-head",
+   "flags": [
+    "font-size 34px"
+   ]
+  }
+ ],
+ "win smithing": [
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 11px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 8px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > span",
+   "flags": [
+    "text-shadow blur",
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 10px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font-size 9px"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > button.kit-x.kit-x-added",
+   "flags": [
+    "font-size 0px"
+   ]
+  }
+ ],
+ "creator": [
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "font Arial"
+   ]
+  }
+ ]
+}

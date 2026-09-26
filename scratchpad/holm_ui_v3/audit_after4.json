@@ -1,0 +1,38 @@
+{
+ "login": [],
+ "hud": [],
+ "tab combat": [],
+ "tab skills": [],
+ "tab quests": [],
+ "tab inv": [],
+ "tab equip": [],
+ "tab prayers": [],
+ "tab spells": [],
+ "tab drops": [],
+ "tab clan": [],
+ "tab friends": [],
+ "tab ignore": [],
+ "tab logout": [],
+ "tab settings": [],
+ "tab emotes": [],
+ "tab music": [],
+ "right-click": [],
+ "win bank": [],
+ "win shop": [],
+ "win worldmap": [],
+ "win quest scroll": [],
+ "win droptable": [],
+ "win overlays": [],
+ "win deeds": [],
+ "win music menu": [
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "emoji"
+   ]
+  }
+ ],
+ "win dialogue": [],
+ "win smithing": [],
+ "creator": []
+}

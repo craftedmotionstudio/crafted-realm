@@ -251,7 +251,7 @@ const UI = {
       const next=lv<99?XP_TABLE[lv+1]:xp, cur=XP_TABLE[lv];
       const frac=lv<99?Math.min(1,(xp-cur)/Math.max(1,next-cur)):1;
       const row=document.createElement('div'); row.className='skill-row';
-      row.innerHTML=`<span><img src="assets/icons/skills/${s.toLowerCase()}_cut.png" class="skill-ico" onerror="this.style.display='none'">${s}</span><span class="lvl">${lv}/99</span>`;
+      row.innerHTML=`<span><img src="assets/icons/ui/v3/skills/${s.toLowerCase()}.png?v=1" class="skill-ico" onerror="this.style.display='none'">${s}</span><span class="lvl">${lv}/99</span>`;
       row.title=`${Math.floor(xp).toLocaleString()} XP`;
       el.appendChild(row);
       const bar=document.createElement('div'); bar.className='skill-xp';
@@ -399,7 +399,7 @@ const UI = {
     let host=document.getElementById('xp-drops');
     if(!host){ host=document.createElement('div'); host.id='xp-drops'; document.body.appendChild(host); }
     const d=document.createElement('div'); d.className='xp-drop';
-    d.innerHTML=`<img src="assets/icons/skills/${skill.toLowerCase()}_cut.png" onerror="this.style.display='none'">+${Math.round(amt)}`;
+    d.innerHTML=`<img src="assets/icons/ui/v3/skills18/${skill.toLowerCase()}.png?v=1" onerror="this.style.display='none'">+${Math.round(amt)}`;
     host.appendChild(d);
     let t=0; const iv=setInterval(()=>{ t++;
       d.style.transform='translateY(-'+(t*0.9)+'px)'; d.style.opacity=String(Math.max(0,1-t/46));

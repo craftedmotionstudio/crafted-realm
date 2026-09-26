@@ -1,173 +1,111 @@
 /* ============================================================================
-   UI_COMBAT — OSRS Combat-tab re-skin (UI track slice #2).
-   SELF-CONTAINED: owns ONE injected <style> block + a MutationObserver that
-   applies purely-cosmetic DOM augmentations to the combat pane. It does NOT
-   rewire the real style-selection or auto-retaliate logic — those handlers are
-   attached by UI.refreshCombat (game4_ui.js) and are left fully intact.
+   UI_COMBAT — the Combat Options tab, drawn like Bible_References/UI_Combat.jpg.
 
-   Target (do NOT edit game4_ui.js): the combat pane `#combat-styles`, which
-   UI.refreshCombat rebuilds via innerHTML into:
-       .cmb-weap                       (weapon name + class)
-       .cmb-style[.active] data-i=N    (one per attack style; has onclick)
-       .set-row > #retal-btn           (auto-retaliate toggle; button has onclick)
+   Round 3 (owner 2026-09-25: "combat options must use images or Blender models, not basic shapes"):
+   every style button shows a picture rendered from our own Blender props (fist, boot, open hand,
+   crossed arms, sword / axe / pick / mace with a swing arc, bow with a target, staff with a spark;
+   tools/blender/build_ui_icons_v1.py -> assets/icons/ui/v3/combat/*.png), the chosen style is the red
+   stone tile, the header gives the weapon name, its family and the combat level, and Auto Retaliate
+   is one full-width bar with a small armoured figure.
 
-   Reference: Bible_References/UI_Combat.jpg — weapon-name header, "Combat Lvl:N",
-   attack styles as selectable stone tiles (active = red) laid out in a grid, and
-   a full-width Auto-Retaliate tile that goes red when On.
-
-   How we stay non-destructive:
-     - Layout/colour is 100% CSS scoped under #combat-styles.
-     - Cosmetic DOM (combat-level line, per-tile icons, retaliate icon/label) is
-       re-applied by an observer AFTER each refreshCombat rebuild. We only ever
-       PREPEND children or rewrite innerHTML of elements that carry NO handler
-       (.cmb-weap) or whose handler is an element property that innerHTML edits
-       preserve (#retal-btn). We never replace .cmb-style / #retal-btn elements,
-       so their onclick handlers survive. The observer is disconnected while we
-       mutate and reconnected after, so it can never loop.
-   Guarded behind @media(min-width:881px) to leave the mobile drawer untouched.
+   COSMETIC ONLY. UI.refreshCombat (game4_ui.js) still builds the pane and owns every handler:
+       .cmb-weap                    weapon name + class
+       .cmb-style[.active] data-i=N one per STYLE_DEFS entry (onclick sets Player.attackStyles)
+       .set-row > #retal-btn        auto-retaliate toggle (onclick flips Player.autoRetaliate)
+   A MutationObserver re-dresses those elements after each rebuild: it only prepends children and
+   rewrites the inner HTML of elements whose handlers are element properties (kept by innerHTML edits),
+   so the style -> XP / accuracy mapping in STYLE_DEFS is untouched. Styling lives in assets/ui/osrs_kit.css.
    ============================================================================ */
 (function(){
 'use strict';
 if(window.__uiCombatBooted) return;            // guard against a double script tag
 window.__uiCombatBooted = true;
 
-/* ------------------------------------------------------------------ CSS ---- */
-const css = document.createElement('style');
-css.id = 'ui-combat-style';
-css.textContent = `
-@media (min-width:881px){
-  /* pane -> 2-column tile grid (weapon header + retaliate span full width) */
-  #combat-styles{
-    display:grid; grid-template-columns:1fr 1fr; gap:8px;
-    align-content:start; padding:2px 2px 4px;
-  }
-
-  /* --- weapon-name header + combat level ------------------------------- */
-  #combat-styles .cmb-weap{
-    grid-column:1 / -1; padding:2px 0 3px; margin:0;
-    text-align:center; line-height:1.15;
-  }
-  #combat-styles .cr-wname{
-    color:var(--orange,#ff981f); font:bold 17px Verdana;
-    text-shadow:1px 1px 0 #000; letter-spacing:.3px;
-  }
-  #combat-styles .cr-clvl{
-    color:#ecdcb2; font:bold 12px Verdana; margin-top:2px;
-    text-shadow:1px 1px 0 #000;
-  }
-
-  /* --- attack-style stone tiles --------------------------------------- */
-  #combat-styles .cmb-style{
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:4px; min-height:74px; margin:0; padding:8px 6px; cursor:pointer;
-    text-align:center; color:#efe6cf; border:0; border-radius:6px;
-    background:linear-gradient(#564a3a,#37301f);
-    box-shadow:inset 0 1px 0 #7a6c58, inset 0 0 0 1px #14110b, 0 1px 2px rgba(0,0,0,.55);
-    transition:background .08s, box-shadow .08s;
-  }
-  #combat-styles .cmb-style:hover{
-    background:linear-gradient(#63563f,#403626);
-    box-shadow:inset 0 1px 0 #8a7a62, inset 0 0 0 1px #14110b, 0 0 5px rgba(255,180,90,.25);
-  }
-  #combat-styles .cmb-style.active{
-    color:#fff;
-    background:linear-gradient(#9a4331,#5a1f14);
-    box-shadow:inset 0 1px 0 #d67a58, inset 0 0 0 1px #2a0d06, 0 0 8px rgba(255,120,60,.42);
-  }
-  #combat-styles .cmb-style b{ display:block; font:bold 12px Verdana; }
-  /* the reference tiles show only icon + name — hide the sub-text + atype tag */
-  #combat-styles .cmb-style small{ display:none; }
-  #combat-styles .cmb-style b span{ display:none; }
-  #combat-styles .cr-ico{ font-size:23px; line-height:1; filter:saturate(.6) brightness(1.04); }
-
-  /* --- auto-retaliate full-width tile --------------------------------- */
-  #combat-styles .set-row{
-    grid-column:1 / -1; display:block; border:0; padding:0; margin:3px 0 0;
-  }
-  #combat-styles .set-row > span{ display:none; }   /* fold label into the button */
-  #combat-styles #retal-btn{
-    width:100%; display:flex; align-items:center; justify-content:center; gap:9px;
-    padding:11px 8px; border:0; border-radius:6px; cursor:pointer;
-    font:bold 13px Verdana; color:#efe6cf; text-shadow:1px 1px 0 #000;
-    background:linear-gradient(#564a3a,#37301f);
-    box-shadow:inset 0 1px 0 #7a6c58, inset 0 0 0 1px #14110b, 0 1px 2px rgba(0,0,0,.55);
-    transition:background .08s, box-shadow .08s;
-  }
-  #combat-styles #retal-btn:hover{ background:linear-gradient(#63563f,#403626); }
-  #combat-styles #retal-btn.cr-on{
-    color:#fff; background:linear-gradient(#9a4331,#5a1f14);
-    box-shadow:inset 0 1px 0 #d67a58, inset 0 0 0 1px #2a0d06, 0 0 8px rgba(255,120,60,.42);
-  }
-  #combat-styles #retal-btn.cr-on:hover{ background:linear-gradient(#a84a37,#661f14); }
-  #combat-styles #retal-btn .cr-knight{ font-size:20px; line-height:1; }
-}
-`;
-document.head.appendChild(css);
-
-/* -------------------------------------------------- cosmetic augmentation -- */
-/* Pick a readable glyph for a style tile from its label / attack-type text. */
-function styleIcon(txt){
-  const t = (txt||'').toLowerCase();
-  if(/punch|jab/.test(t))                 return '\u{1F44A}'; // fist
-  if(/kick/.test(t))                      return '\u{1F9B5}'; // leg
-  if(/block|defend|defensive|guard/.test(t)) return '\u{1F6E1}'; // shield
-  if(/stab|lunge|impale/.test(t))         return '\u{1F5E1}';  // dagger
-  if(/slash|hack|chop|slice/.test(t))     return '⚔';     // crossed swords
-  if(/crush|smash|pound|pummel|spike/.test(t)) return '\u{1F528}'; // hammer
-  if(/accurate|rapid|longrange|arrow|bolt|range/.test(t)) return '\u{1F3F9}'; // bow
-  if(/magic|spell|blast|bolt|strike|surge|cast/.test(t))  return '✨';     // sparkles
-  return '⚔'; // default: crossed swords
-}
+var PIC = 'assets/icons/ui/v3/combat/', V = '?v=2';
+// weapon model -> family shown in the tab (pictures + names only; the maths still come from STYLE_DEFS by index)
+var FAMILY = {sword:'sword', sabre:'sword', longsword:'sword', greatsword:'sword', scimitar:'sword', dagger:'sword',
+  axe:'axe', battleaxe:'axe', hatchet:'axe', pick:'pick', mace:'mace', warhammer:'mace', maul:'mace',
+  bow:'bow', longbow:'bow', shortbow:'bow', staff:'staff', wand:'staff'};
+var CATEGORY = {unarmed:'Unarmed', sword:'Sword', axe:'Axe', pick:'Pickaxe', mace:'Blunt', bow:'Bow', staff:'Staff', magic:'Spellcasting'};
+// family -> style key -> [shown name, picture]
+var STYLES = {
+  unarmed:{accurate:['Punch','punch'], aggressive:['Kick','kick'], controlled:['Shove','shove'], defensive:['Block','block_unarmed']},
+  sword:  {accurate:['Stab','sword_stab'], aggressive:['Lunge','sword_lunge'], controlled:['Slash','sword_slash'], defensive:['Block','sword_block']},
+  axe:    {accurate:['Chop','axe_lunge'], aggressive:['Smash','axe_smash'], controlled:['Hack','axe_slash'], defensive:['Block','axe_block']},
+  pick:   {accurate:['Spike','pick_stab'], aggressive:['Smash','pick_smash'], controlled:['Impale','pick_lunge'], defensive:['Block','pick_block']},
+  mace:   {accurate:['Pound','mace_smash'], aggressive:['Pummel','mace_slash'], controlled:['Spike','mace_stab'], defensive:['Block','mace_block']},
+  bow:    {accurate:['Accurate','bow_accurate'], rapid:['Rapid','bow_rapid'], longrange:['Longrange','bow_longrange']},
+  staff:  {standard:['Cast','staff_cast'], defensive:['Focus','staff_focus']}
+};
+var TRAINS = {Attack:'Attack', Strength:'Strength', Defence:'Defence', Shared:'Attack, Strength and Defence', Ranged:'Ranged',
+  RangedDef:'Ranged and Defence', Magic:'Magic', MagicDef:'Magic and Defence'};
 
 function combatLevel(){
-  // NB: Player is a top-level lexical const — a bare global, NOT on window
-  // (CLAUDE.md scope gotcha). Reference it by name, guarded by typeof.
-  try{ if(typeof Player!=='undefined' && Player && typeof Player.combatLevel==='function') return Player.combatLevel(); }
-  catch(e){}
+  // NB: Player is a top-level lexical const — a bare global, NOT on window (CLAUDE.md scope gotcha).
+  try{ if(typeof Player!=='undefined' && Player && typeof Player.combatLevel==='function') return Player.combatLevel(); }catch(e){}
   return null;
 }
+function family(cls){
+  try{
+    if(cls==='magic') return 'staff';
+    var w = Player.equip && Player.equip.weapon, it = w && ITEMS[w];
+    if(!it) return cls==='ranged' ? 'bow' : 'unarmed';
+    return FAMILY[it.model] || (cls==='ranged' ? 'bow' : 'sword');
+  }catch(e){ return 'unarmed'; }
+}
+function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function pic(name, cls){ return '<img class="kit-spr '+cls+'" src="'+PIC+name+'.png'+V+'" alt="" draggable="false">'; }
 
-const obs = new MutationObserver(augment);
+var obs = new MutationObserver(augment);
 
 function augment(){
-  const host = document.getElementById('combat-styles');
+  var host = document.getElementById('combat-styles');
   if(!host) return;
   obs.disconnect();
   try{
-    /* --- header: weapon name (drop the "· class" suffix) + combat level --- */
-    const weap = host.querySelector('.cmb-weap');
+    var cls = (typeof Player!=='undefined' && Player.weaponStyle) ? Player.weaponStyle() : 'melee';
+    var list = (typeof STYLE_DEFS!=='undefined' && (STYLE_DEFS[cls] || STYLE_DEFS.melee)) || [];
+    var fam = family(cls), names = STYLES[fam] || STYLES.unarmed;
+
+    /* --- header: weapon name, its family, combat level --- */
+    var weap = host.querySelector('.cmb-weap');
     if(weap && !weap.querySelector('.cr-wname')){
-      const raw  = (weap.textContent||'').trim();
-      const name = raw.split('·')[0].trim() || raw || 'Unarmed';
-      const lvl  = combatLevel();
-      weap.innerHTML =
-        '<div class="cr-wname">'+name+'</div>'+
+      var raw = (weap.textContent||'').trim();
+      var name = raw.split('·')[0].trim() || raw || 'Unarmed';
+      var lvl = combatLevel();
+      weap.innerHTML = '<div class="cr-wname">'+esc(name)+'</div>'+
+        '<div class="cr-wcat">Category: '+esc(cls==='magic'&&!(Player.equip&&Player.equip.weapon) ? CATEGORY.magic : (CATEGORY[fam]||fam))+'</div>'+
         (lvl!=null ? '<div class="cr-clvl">Combat Lvl: '+lvl+'</div>' : '');
     }
 
-    /* --- style tiles: prepend an icon (keeps <b>/<small> + onclick intact) - */
-    host.querySelectorAll('.cmb-style').forEach(el=>{
-      if(el.querySelector('.cr-ico')) return;
-      const ico = document.createElement('span');
-      ico.className = 'cr-ico';
-      ico.textContent = styleIcon(el.textContent);
-      el.insertBefore(ico, el.firstChild);
+    /* --- style tiles: picture + name (the <b>/<small> text and the onclick stay) --- */
+    Array.prototype.forEach.call(host.querySelectorAll('.cmb-style'), function(el){
+      if(el.querySelector('.cr-pic')) return;
+      var s = list[+el.dataset.i] || {}, n = names[s.key] || [s.name || s.label || 'Style', null];
+      var tip = n[0]+' ('+(s.label||s.key||'')+')\nTrains '+(TRAINS[s.xp]||s.xp||'')+
+        (s.speedDelta ? '\nAttacks a little faster' : '')+(s.rangeBonus ? '\nReaches a little further' : '')+
+        (s.atype ? '\n'+s.atype.charAt(0).toUpperCase()+s.atype.slice(1)+' damage' : '');
+      el.setAttribute('data-tip', tip); el.setAttribute('aria-label', n[0]+', '+(s.label||''));
+      el.insertAdjacentHTML('afterbegin', (n[1] ? pic(n[1], 'cr-pic') : '')+'<span class="cr-sname">'+esc(n[0])+'</span>');
     });
 
-    /* --- auto-retaliate: fold into one full-width tile, colour by state --- */
-    const rb = document.getElementById('retal-btn');
+    /* --- auto-retaliate: one full-width bar with the armoured figure, red when On --- */
+    var rb = document.getElementById('retal-btn');
     if(rb){
-      const on = (rb.textContent||'').trim().toLowerCase() === 'on';
-      rb.classList.toggle('cr-on', on);
-      // innerHTML edit preserves the element's onclick property (toggle logic).
-      rb.innerHTML = '<span class="cr-knight">\u{1F6E1}</span>Auto Retaliate ('+(on?'On':'Off')+')';
+      if(!rb.querySelector('.cr-knight')){
+        var on = (typeof Player!=='undefined') ? !!Player.autoRetaliate : (rb.textContent||'').trim().toLowerCase() === 'on';
+        rb.classList.toggle('cr-on', on);
+        // innerHTML edit preserves the element's onclick property (toggle logic).
+        rb.innerHTML = pic('retaliate', 'cr-knight')+'<span class="cr-rtext">Auto Retaliate<br>('+(on?'On':'Off')+')</span>';
+        rb.setAttribute('data-tip', 'Fight back automatically when attacked');
+      }
     }
   }catch(e){ /* never let cosmetics break the combat pane */ }
   finally{ obs.observe(host, {childList:true}); }
 }
 
 function boot(){
-  const host = document.getElementById('combat-styles');
+  var host = document.getElementById('combat-styles');
   if(!host) return;
   obs.observe(host, {childList:true});
   augment();   // in case the pane was already populated

@@ -1,0 +1,60 @@
+{
+ "label": "before",
+ "escape": [
+  {
+   "window": "10_bank",
+   "opened": true,
+   "closedByEscape": true
+  },
+  {
+   "window": "10_shop",
+   "opened": true,
+   "closedByEscape": true
+  },
+  {
+   "window": "10_worldmap",
+   "opened": true,
+   "closedByEscape": true
+  },
+  {
+   "window": "10_quest_scroll",
+   "opened": true,
+   "closedByEscape": true
+  },
+  {
+   "window": "10_droptable",
+   "opened": true,
+   "closedByEscape": true
+  },
+  {
+   "window": "10_overlays",
+   "opened": true,
+   "closedByEscape": true
+  },
+  {
+   "window": "10_deeds",
+   "opened": true,
+   "closedByEscape": true
+  },
+  {
+   "window": "10_smithing",
+   "opened": true,
+   "closedByEscape": true
+  },
+  {
+   "window": "10_music_menu",
+   "opened": true,
+   "closedByEscape": true
+  },
+  {
+   "window": "10_dialogue",
+   "opened": true,
+   "closedByEscape": true
+  }
+ ],
+ "errors": [
+  "console: Failed to load resource: the server responded with a status of 404 (Not Found)",
+  "console: Failed to load resource: the server responded with a status of 404 (Not Found)",
+  "console: Failed to load resource: the server responded with a status of 404 (Not Found)"
+ ]
+}

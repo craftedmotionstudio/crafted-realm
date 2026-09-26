@@ -1,146 +1,154 @@
 /* ============================================================================
-   Crafted Realm — old-school interface kit (loaded by src/ui_osrs_kit.js).
-   Weathered stone frames, slate panels, parchment chat, orange/yellow bitmap-style
-   lettering with hard black shadows. Textures are painted at runtime into
-   --tex-stone / --tex-stone-dark / --tex-slate / --tex-slate-dark / --tex-parch.
-   All artwork is our own (CSS, canvas, hand-written SVG).
+   Crafted Realm -- old-school interface kit, round 3 (loaded by src/ui_osrs_kit.js).
+   Owner 2026-09-25: "less polished, more old-school medieval, cozy". So the chrome is
+   hand-painted pixel stone, slate and parchment tiles (assets/ui/tex, tools/build_ui_textures_v3.py),
+   hard 1-2 px borders, square corners, no gradients, no glows and no soft modern shadows; every
+   icon is a pixel sprite rendered from our own Blender props (assets/icons/ui/v3); all lettering is
+   "Realm Small", our own bitmap-look font (assets/fonts), in yellow / orange / white with a 1 px
+   black shadow. Textures reach the CSS as --tex-* custom properties (set by ui_osrs_kit.js).
    ============================================================================ */
+@font-face{font-family:'Realm Small';src:url('../fonts/realm_small.ttf?v=2') format('truetype');font-weight:400;font-style:normal;font-display:block;}
+@font-face{font-family:'Realm Small';src:url('../fonts/realm_small_bold.ttf?v=2') format('truetype');font-weight:700;font-style:normal;font-display:block;}
 :root{
-  --k-ink:#0d0b08; --k-lo:#241f18; --k-mid:#4d463b; --k-hi:#8c826d; --k-glint:rgba(255,238,205,.22);
-  --k-pane:#3e3529; --k-orange:#ff981f; --k-yellow:#ffff00; --k-green:#00ff00; --k-gold:#ffd24a;
-  --k-bevel:inset 1px 1px 0 rgba(255,238,205,.20),inset -1px -1px 0 rgba(0,0,0,.55);
-  --k-frame:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),inset 0 0 0 2px #7b7060,inset 0 0 0 3px #2a241c;
-  --k-font:Verdana,Tahoma,Geneva,sans-serif;
-  --k-title:'IM Fell English SC',Georgia,'Times New Roman',serif;
-  --k-quill:'IM Fell English',Georgia,'Times New Roman',serif;
+  --k-ink:#0d0b08; --k-lo:#241f18; --k-mid:#4d463b; --k-hi:#8c826d;
+  --k-pane:#3e3529; --k-orange:#ff981f; --k-yellow:#ffff00; --k-green:#00ff00; --k-gold:#ffd24a; --k-white:#ffffff;
+  /* hard 1 px bevel: lit top/left, shaded bottom/right, ink outline */
+  --k-bevel:inset 1px 1px 0 #a39680,inset -1px -1px 0 #1d1912;
+  --k-sunk:inset 1px 1px 0 #1d1912,inset -1px -1px 0 #7d725f;
+  --k-frame:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),inset 0 0 0 2px #857a66,inset 0 0 0 3px #2a241c;
+  --k-font:'Realm Small',Verdana,Tahoma,sans-serif;
+  --k-title:'Realm Small',Verdana,Tahoma,sans-serif;
+  --k-quill:'Realm Small',Verdana,Tahoma,sans-serif;
   --k-shadow:1px 1px 0 #000;
 }
 
 /* ============================== shared pieces ============================== */
-html.osrs-kit .steel{background:var(--tex-stone-dark,#3a342b);border:0;box-shadow:var(--k-frame),0 4px 14px rgba(0,0,0,.6);}
-#hud-tip{position:fixed;z-index:10000;display:none;pointer-events:none;max-width:240px;padding:2px 6px 3px;
-  background:#ffffa0;color:#000;border:1px solid #000;font:11px var(--k-font);line-height:1.3;white-space:pre-line;
-  box-shadow:2px 2px 0 rgba(0,0,0,.45);}
-.kit-ico{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.55));}
-.kit-btn,html.osrs-kit .set-btn{font:bold 11px var(--k-font);color:var(--k-orange);text-shadow:var(--k-shadow);cursor:pointer;
-  padding:6px 8px;border:0;border-radius:2px;
-  background:linear-gradient(rgba(255,255,255,.06),rgba(0,0,0,.14)),var(--tex-stone-smooth,#5a5245);
-  box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);transition:filter .08s;}
-.kit-btn:hover,html.osrs-kit .set-btn:hover{filter:brightness(1.18);color:var(--k-yellow);}
-.kit-btn:active,.kit-btn.on,html.osrs-kit .set-btn:active{box-shadow:inset 1px 1px 3px rgba(0,0,0,.7),0 0 0 1px var(--k-ink);filter:brightness(.92);}
-.kit-btn.on{color:var(--k-yellow);background:linear-gradient(rgba(140,28,16,.55),rgba(80,12,6,.62)),var(--tex-stone-smooth,#5a5245);}
-html.osrs-kit .set-btn:disabled{opacity:.5;cursor:default;filter:none;color:#9a8e78;}
-html.osrs-kit .set-btn.logout{color:#fff;background:linear-gradient(rgba(160,26,18,.85),rgba(92,10,6,.9)),var(--tex-stone-smooth,#5a5245);}
+html.osrs-kit body{font-family:var(--k-font);}
+html.osrs-kit .steel{background:var(--tex-stone-dark,#3a342b);border:0;border-radius:0;box-shadow:var(--k-frame);}
+html.osrs-kit .osrs-title{font:bold 12px var(--k-font);color:var(--k-orange);text-shadow:var(--k-shadow);}
+#hud-tip{position:fixed;z-index:10000;display:none;pointer-events:none;max-width:240px;padding:1px 5px 2px;
+  background:#ffffa0;color:#000;border:1px solid #000;border-radius:0;font:12px/14px var(--k-font);white-space:pre-line;box-shadow:none;}
+.kit-ico{width:100%;height:100%;display:block;overflow:visible;}
+.kit-spr{display:block;image-rendering:pixelated;image-rendering:crisp-edges;pointer-events:none;-webkit-user-drag:none;}
+.kit-btn,html.osrs-kit .set-btn{font:bold 12px var(--k-font);color:var(--k-orange);text-shadow:var(--k-shadow);cursor:pointer;
+  padding:5px 8px;border:0;border-radius:0;background:var(--tex-stone,#5a5245);
+  box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);transition:none;}
+.kit-btn:hover,html.osrs-kit .set-btn:hover{background-image:var(--tex-stone-lit,none);color:var(--k-yellow);}
+.kit-btn:active,.kit-btn.on,html.osrs-kit .set-btn:active{box-shadow:var(--k-sunk),0 0 0 1px var(--k-ink);}
+.kit-btn.on{color:var(--k-yellow);background:var(--tex-stone-red,#6a2014);}
+html.osrs-kit .set-btn:disabled{cursor:default;color:#8d826c;background:var(--tex-stone-dark,#3a342b);}
+html.osrs-kit .set-btn.logout{color:#fff;background:var(--tex-stone-red,#6a2014);}
 html.osrs-kit ::-webkit-scrollbar{width:12px;}
 html.osrs-kit ::-webkit-scrollbar-track{background:#1c1812;box-shadow:inset 0 0 0 1px var(--k-ink);}
-html.osrs-kit ::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#6c624f,#4b4337);border:1px solid var(--k-ink);box-shadow:var(--k-bevel);}
+html.osrs-kit ::-webkit-scrollbar-thumb{background:var(--tex-stone,#6c624f);border:1px solid var(--k-ink);box-shadow:var(--k-bevel);}
+html.osrs-kit ::-webkit-scrollbar-button{display:none;}
 
 /* ================================ side panel ================================ */
 @media (min-width:881px){
   html.osrs-kit #side-panel.steel{position:absolute;right:6px;bottom:6px;top:auto;width:242px;height:386px;
-    display:flex;flex-direction:column;padding:5px 11px;border:0;border-radius:3px;
+    display:flex;flex-direction:column;padding:5px 11px;border:0;border-radius:0;
     background:var(--tex-stone-dark,#3a342b);
-    box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),inset 0 0 0 2px #857a66,inset 0 0 0 3px #2a241c,0 6px 16px rgba(0,0,0,.62);}
+    box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),inset 0 0 0 2px #857a66,inset 0 0 0 3px #2a241c;}
   /* carved pillars down both sides, between the tab rows (drawn; never clickable) */
   html.osrs-kit #side-panel.steel::before,html.osrs-kit #side-panel.steel::after{content:"";position:absolute;top:41px;bottom:41px;width:8px;z-index:1;
-    pointer-events:none;border-radius:2px;
-    background:linear-gradient(90deg,rgba(0,0,0,.6),rgba(255,236,200,.16) 35%,rgba(0,0,0,.08) 60%,rgba(0,0,0,.62)),var(--tex-stone,#6b6354);
-    box-shadow:0 0 0 1px var(--k-ink);}
+    pointer-events:none;border-radius:0;background:var(--tex-stone,#6b6354) -3px 0;
+    box-shadow:0 0 0 1px var(--k-ink),inset 1px 0 0 #a39680,inset -2px 0 0 #2a241c;}
   html.osrs-kit #side-panel.steel::before{left:2px;} html.osrs-kit #side-panel.steel::after{right:2px;}
   html.osrs-kit #side-panel #tab-bar,html.osrs-kit #side-panel #tab-bar-bottom{display:flex;flex:0 0 34px;gap:2px;background:transparent;padding:0;margin:0 -7px;}
-  html.osrs-kit #side-panel .tab-btn{flex:1 1 0;min-width:0;height:34px;padding:0;margin:0;border:0;position:relative;
+  html.osrs-kit #side-panel .tab-btn{flex:1 1 0;min-width:0;height:34px;padding:0;margin:0;border:0;border-radius:0;position:relative;
     display:flex;align-items:center;justify-content:center;cursor:pointer;
-    background:linear-gradient(rgba(255,255,255,.05),rgba(0,0,0,.2)),var(--tex-stone,#5a5245);
-    box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);transition:filter .08s;}
-  html.osrs-kit #side-panel #tab-bar .tab-btn{border-radius:7px 7px 1px 1px;}
-  html.osrs-kit #side-panel #tab-bar-bottom .tab-btn{border-radius:1px 1px 7px 7px;}
-  html.osrs-kit #side-panel .tab-btn:nth-child(2n){background-position:0 0,-40px -30px;}
-  html.osrs-kit #side-panel .tab-btn:nth-child(3n){background-position:0 0,-80px -60px;}
-  html.osrs-kit #side-panel .tab-btn:hover{filter:brightness(1.2);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),inset 0 0 0 1px rgba(255,214,90,.55);}
-  html.osrs-kit #side-panel .tab-btn:active{filter:brightness(.9);}
+    background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);transition:none;filter:none;}
+  html.osrs-kit #side-panel .tab-btn:nth-child(2n){background-position:-40px -30px;}
+  html.osrs-kit #side-panel .tab-btn:nth-child(3n){background-position:-17px -48px;}
+  html.osrs-kit #side-panel .tab-btn:hover{background-image:var(--tex-stone-lit,none);}
   html.osrs-kit #side-panel #tab-bar .tab-btn.active,html.osrs-kit #side-panel #tab-bar-bottom .tab-btn.active{
-    background:linear-gradient(rgba(150,32,18,.62),rgba(92,16,8,.7)),var(--tex-stone,#5a5245);
-    box-shadow:inset 1px 1px 0 rgba(255,170,130,.35),inset -1px -1px 0 rgba(0,0,0,.6),0 0 0 1px var(--k-ink),inset 0 0 6px rgba(0,0,0,.5);}
-  html.osrs-kit #side-panel .tab-btn.holm-guide-pulse{animation:kitTabPulse 1s infinite;}
-  html.osrs-kit #side-panel .tab-ico{width:25px;height:25px;margin:0;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.8));}
-  html.osrs-kit #side-panel .tab-btn.active .tab-ico{filter:drop-shadow(1px 1px 0 rgba(0,0,0,.8)) brightness(1.12);}
+    background:var(--tex-stone-red,#6a2014);box-shadow:inset 1px 1px 0 #c0604a,inset -1px -1px 0 #2a0a05,0 0 0 1px var(--k-ink);}
+  html.osrs-kit #side-panel .tab-btn.holm-guide-pulse{animation:kitTabPulse 1s steps(2,jump-none) infinite;}
+  html.osrs-kit #side-panel .tab-btn .kit-spr{width:28px;height:28px;}
   /* the content slate between the pillars: a fixed OSRS-size panel that scrolls long lists */
   html.osrs-kit #side-panel .tab-pane{flex:1 1 auto;min-height:0;height:auto;margin:3px 0;padding:6px 7px;overflow-y:auto;overflow-x:hidden;
-    border:0;border-radius:0;background:var(--tex-slate,#3e3529);
-    box-shadow:inset 0 0 0 1px var(--k-ink),inset 2px 2px 6px rgba(0,0,0,.45);}
+    border:0;border-radius:0;background:var(--tex-slate,#3e3529);box-shadow:inset 0 0 0 1px var(--k-ink),inset 1px 1px 0 2px #221d16;}
   html.osrs-kit #side-panel .tab-pane:not(.active){display:none;}
 }
 
 /* panel headings + common text (all widths) */
 html.osrs-kit .panel-banner,html.osrs-kit .kit-pane-title,html.osrs-kit .social-pane h3{margin:0 0 6px;padding:0;border:0;background:none;box-shadow:none;
-  text-align:center;font:17px var(--k-title);letter-spacing:.3px;color:var(--k-orange);text-shadow:var(--k-shadow);}
-html.osrs-kit .ui-copy,html.osrs-kit .kit-copy{color:var(--k-orange);font:12px/1.45 var(--k-font);text-shadow:var(--k-shadow);text-align:center;margin:8px 4px 12px;}
-html.osrs-kit .bonus-head{color:var(--k-orange);text-shadow:var(--k-shadow);}
+  text-align:center;font:bold 12px var(--k-title);letter-spacing:0;color:var(--k-orange);text-shadow:var(--k-shadow);}
+html.osrs-kit .ui-copy,html.osrs-kit .kit-copy{color:var(--k-orange);font:12px/15px var(--k-font);text-shadow:var(--k-shadow);text-align:center;margin:8px 4px 12px;}
+html.osrs-kit .bonus-head{color:var(--k-orange);text-shadow:var(--k-shadow);font:bold 12px var(--k-font);}
 
 /* inventory */
-html.osrs-kit #inv-grid .inv-slot{background:transparent;border:0;box-shadow:none;border-radius:2px;}
-html.osrs-kit #inv-grid .inv-slot:hover{outline:0;background:radial-gradient(ellipse,rgba(255,236,160,.16),transparent 70%);box-shadow:inset 0 0 0 1px rgba(255,255,0,.35);}
-html.osrs-kit #inv-grid .inv-qty{color:var(--k-yellow);font:bold 11px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit #inv-grid .inv-slot{background:transparent;border:0;box-shadow:none;border-radius:0;filter:none;}
+html.osrs-kit #inv-grid .inv-slot:hover{outline:0;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,160,.35);}
+html.osrs-kit #inv-grid .inv-qty{color:var(--k-yellow);font:12px var(--k-font);text-shadow:var(--k-shadow);}
 
 /* stats */
-html.osrs-kit #osk-grid{background:var(--k-ink);border:1px solid var(--k-ink);gap:1px;}
-html.osrs-kit .osk-cell{background:linear-gradient(rgba(255,255,255,.05),rgba(0,0,0,.12)),var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel);min-height:36px;}
+html.osrs-kit #osk-grid{background:var(--k-ink);border:1px solid var(--k-ink);border-radius:0;gap:1px;}
+html.osrs-kit .osk-cell{background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel);min-height:34px;filter:none;}
+html.osrs-kit .osk-cell:nth-child(2n){background-position:-23px -17px;} html.osrs-kit .osk-cell:nth-child(3n){background-position:-41px -35px;}
 html.osrs-kit .osk-cell::after{display:none;}
-html.osrs-kit .osk-cell:hover{filter:brightness(1.15);box-shadow:var(--k-bevel),inset 0 0 0 1px rgba(255,214,90,.6);}
-html.osrs-kit #osk-total{border-radius:2px;background:var(--tex-slate-dark,#221d15);box-shadow:inset 0 0 0 1px var(--k-ink),var(--k-bevel);color:var(--k-yellow);}
-
-/* combat */
-html.osrs-kit #combat-styles .cmb-style,html.osrs-kit #combat-styles .cr-retal,html.osrs-kit #combat-styles #retal-btn{
-  background:linear-gradient(rgba(255,255,255,.05),rgba(0,0,0,.16)),var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);border:0;border-radius:2px;}
-html.osrs-kit #combat-styles .cmb-style:hover{filter:brightness(1.18);}
-html.osrs-kit #combat-styles .cmb-style.active{background:linear-gradient(rgba(150,32,18,.65),rgba(92,16,8,.72)),var(--tex-stone-smooth,#5a5245);}
+html.osrs-kit .osk-cell:hover{background-image:var(--tex-stone-lit,none);box-shadow:var(--k-bevel),inset 0 0 0 1px #d4a83e;}
+html.osrs-kit .osk-ico{width:24px;height:24px;margin:0 3px;image-rendering:pixelated;filter:none;}
+html.osrs-kit .osk-cur,html.osrs-kit .osk-max{color:var(--k-yellow);font:12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit .osk-cur{top:3px;right:21px;} html.osrs-kit .osk-max{bottom:3px;right:6px;}
+html.osrs-kit #osk-grid{display:grid;grid-template-columns:repeat(3,1fr);}
+html.osrs-kit .osk-cell{position:relative;display:flex;align-items:center;overflow:hidden;}
+html.osrs-kit .osk-cur,html.osrs-kit .osk-max,html.osrs-kit .osk-slash{position:absolute;line-height:12px;pointer-events:none;}
+html.osrs-kit .osk-slash{right:15px;top:11px;color:var(--k-yellow);font:12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit #osk-total{margin-top:3px;border:0;border-radius:0;background:var(--tex-slate-dark,#221d15);box-shadow:inset 0 0 0 1px var(--k-ink),var(--k-bevel);
+  color:var(--k-yellow);font:12px var(--k-font);padding:4px 4px;text-shadow:var(--k-shadow);letter-spacing:0;}
 
 /* quests: the plain OSRS journal list */
-html.osrs-kit #pane-quests #quest-list{background:none;border:0;box-shadow:none;padding:0;max-height:none;}
+html.osrs-kit #pane-quests #quest-list{background:none;border:0;box-shadow:none;padding:0;max-height:none;font:12px var(--k-font);}
 html.osrs-kit #pane-quests #quest-list>div:first-child{background:none;border:0;box-shadow:none;text-align:center;color:var(--k-orange);font:bold 12px var(--k-font);text-shadow:var(--k-shadow);padding:2px 0 6px;margin:0 0 4px;border-bottom:1px solid rgba(0,0,0,.5);}
-html.osrs-kit #pane-quests .quest-row{background:none;border:0;border-radius:0;padding:2px 3px;margin:0;box-shadow:none;cursor:pointer;}
+html.osrs-kit #pane-quests .quest-row{background:none;border:0;border-radius:0;padding:2px 3px;margin:0;box-shadow:none;cursor:pointer;font:12px var(--k-font);}
+html.osrs-kit #pane-quests .quest-row *{font-family:var(--k-font)!important;font-size:12px!important;}
 html.osrs-kit #pane-quests .quest-row:hover{background:rgba(255,236,160,.08);}
 html.osrs-kit #pane-quests .quest-row:hover b{text-decoration:underline;}
 
-/* prayer / magic tiles */
-html.osrs-kit #prayer-grid button,html.osrs-kit #spell-grid button{border-radius:2px;}
-html.osrs-kit #prayer-grid .bonus-head,html.osrs-kit #spell-grid .bonus-head{background:var(--tex-slate-dark,#221d15);box-shadow:inset 0 0 0 1px var(--k-ink);border:0;}
-
 /* bestiary */
-html.osrs-kit #drops-search,html.osrs-kit #pane-drops input{background:#1c1812;color:var(--k-yellow);border:0;box-shadow:inset 0 0 0 1px var(--k-ink),inset 1px 1px 3px rgba(0,0,0,.7);}
-html.osrs-kit .npc-row{background:rgba(0,0,0,.18);border:0;border-bottom:1px solid rgba(0,0,0,.45);color:var(--k-orange);text-shadow:var(--k-shadow);}
+html.osrs-kit #drops-search,html.osrs-kit #pane-drops input{background:#1c1812;color:var(--k-yellow);border:0;border-radius:0;font:12px var(--k-font);box-shadow:inset 0 0 0 1px var(--k-ink),var(--k-sunk);}
+html.osrs-kit .npc-row{background:rgba(0,0,0,.18);border:0;border-radius:0;border-bottom:1px solid rgba(0,0,0,.45);color:var(--k-orange);text-shadow:var(--k-shadow);font:12px var(--k-font);}
 html.osrs-kit .npc-row:hover{background:rgba(255,236,160,.1);color:var(--k-yellow);}
+html.osrs-kit #drops-list,html.osrs-kit #drops-list *{font-family:var(--k-font)!important;}
 
-/* settings */
-html.osrs-kit #pane-settings .set-row{padding:4px 5px;margin:0 0 3px;border:0;border-radius:2px;color:var(--k-orange);text-shadow:var(--k-shadow);
-  background:rgba(0,0,0,.22);box-shadow:inset 0 0 0 1px rgba(0,0,0,.55);font:bold 11px var(--k-font);}
+/* settings: a row per option, each with its own little sprite */
+html.osrs-kit #pane-settings .set-row{display:flex;align-items:center;gap:6px;padding:3px 5px;margin:0 0 3px;border:0;border-radius:0;color:var(--k-orange);text-shadow:var(--k-shadow);
+  background:rgba(0,0,0,.22);box-shadow:inset 0 0 0 1px rgba(0,0,0,.55);font:bold 12px var(--k-font);}
+html.osrs-kit #pane-settings .set-row>span{flex:1 1 auto;}
+html.osrs-kit #pane-settings .set-row .kit-spr{flex:0 0 18px;width:18px;height:18px;}
+html.osrs-kit #pane-settings .set-btn.wide{display:block;width:100%;margin:5px 0 0;}
 html.osrs-kit .set-slider{accent-color:#b8862a;}
 
 /* social panes: friends / ignore / clan / emotes / music / logout */
 html.osrs-kit .social-pane{padding:8px 8px;color:var(--k-orange);font:12px var(--k-font);flex-direction:column;}
 html.osrs-kit .tab-pane.social-pane:not(.active){display:none;}
 html.osrs-kit #side-panel .tab-pane.social-pane.active{display:flex;}
-html.osrs-kit .kit-list{flex:1 1 auto;min-height:120px;margin:2px 0 8px;padding:6px;overflow:auto;background:rgba(0,0,0,.28);
-  box-shadow:inset 0 0 0 1px var(--k-ink),inset 2px 2px 5px rgba(0,0,0,.5);color:#fff;font:12px var(--k-font);text-shadow:var(--k-shadow);}
-html.osrs-kit .kit-list .muted{color:#9a8e78;font-style:italic;}
-html.osrs-kit .kit-count{display:flex;justify-content:space-between;color:var(--k-orange);font:bold 11px var(--k-font);text-shadow:var(--k-shadow);padding:0 2px 3px;}
+html.osrs-kit .kit-list{flex:1 1 auto;min-height:120px;margin:2px 0 8px;padding:5px;overflow:auto;background:rgba(0,0,0,.28);border-radius:0;
+  box-shadow:inset 0 0 0 1px var(--k-ink),var(--k-sunk);color:#fff;font:12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit .kit-list .muted{color:#9a8e78;font-style:normal;}
+html.osrs-kit .kit-count{display:flex;justify-content:space-between;color:var(--k-orange);font:bold 12px var(--k-font);text-shadow:var(--k-shadow);padding:0 2px 3px;}
 html.osrs-kit .kit-row-btns{display:flex;gap:5px;}
 html.osrs-kit .kit-row-btns .set-btn{flex:1;margin:0;}
 html.osrs-kit .ui-empty,html.osrs-kit .ui-list>div{display:none;}
-html.osrs-kit .emote-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:2px 0 6px;}
-html.osrs-kit .emote-grid button{height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;
-  color:var(--k-yellow);font:bold 17px Georgia,serif;border:0;border-radius:2px;text-shadow:var(--k-shadow);
-  background:linear-gradient(rgba(255,255,255,.05),rgba(0,0,0,.16)),var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
-html.osrs-kit .emote-grid button small{font:bold 9px var(--k-font);color:var(--k-orange);}
-html.osrs-kit .emote-grid button:hover{filter:brightness(1.2);outline:0;}
-html.osrs-kit .emote-grid button:active{box-shadow:inset 1px 1px 3px rgba(0,0,0,.7),0 0 0 1px var(--k-ink);}
-html.osrs-kit .music-now{text-align:center;color:var(--k-orange);font:bold 11px var(--k-font);text-shadow:var(--k-shadow);margin-bottom:4px;}
+html.osrs-kit .emote-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin:2px 0 6px;}
+html.osrs-kit .emote-grid button{height:58px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;cursor:pointer;padding:2px 0 1px;
+  color:var(--k-orange);font:12px var(--k-font);border:0;border-radius:0;text-shadow:var(--k-shadow);outline:0;
+  background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+html.osrs-kit .emote-grid button:nth-child(2n){background-position:-31px -22px;}
+html.osrs-kit .emote-grid button .kit-spr{width:30px;height:40px;margin:0 auto;}
+html.osrs-kit .emote-grid button small{font:12px var(--k-font);color:var(--k-orange);line-height:12px;}
+html.osrs-kit .emote-grid button:hover{background-image:var(--tex-stone-lit,none);outline:0;}
+html.osrs-kit .emote-grid button:hover small{color:var(--k-yellow);}
+html.osrs-kit .emote-grid button:active{box-shadow:var(--k-sunk),0 0 0 1px var(--k-ink);}
+html.osrs-kit .music-now{text-align:center;color:var(--k-orange);font:bold 12px var(--k-font);text-shadow:var(--k-shadow);margin-bottom:4px;}
 html.osrs-kit .music-now b{color:var(--k-green);}
-html.osrs-kit .music-track{padding:2px 4px;margin:0;border:0;background:none;color:#ff3030;cursor:pointer;font:12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit .music-track{padding:1px 4px;margin:0;border:0;background:none;color:#ff3030;cursor:pointer;font:12px var(--k-font);text-shadow:var(--k-shadow);}
 html.osrs-kit .music-track.active{color:var(--k-green);border:0;}
 html.osrs-kit .music-track.unlocked{color:var(--k-green);}
 html.osrs-kit .kit-logout{margin:auto 0;text-align:center;}
-html.osrs-kit .kit-logout .set-btn.logout{display:block;margin:12px auto 8px;width:auto;padding:9px 18px;font:bold 13px var(--k-font);}
+html.osrs-kit .kit-logout .kit-spr{margin:0 auto 6px;}
+html.osrs-kit .kit-logout .set-btn.logout{display:block;margin:12px auto 8px;width:auto;padding:8px 16px;font:bold 12px var(--k-font);}
 
 /* ============================ worn equipment ============================= */
 html.osrs-kit #pane-equip>div:not(#equip-list){display:none;}
@@ -149,20 +157,20 @@ html.osrs-kit #equip-list.kit-equip{display:flex;flex-direction:column;min-heigh
   grid-template-columns:repeat(3,38px);grid-template-rows:repeat(5,38px);column-gap:22px;row-gap:5px;}
 .kit-doll .doll-lines{position:absolute;inset:0;width:158px;height:210px;pointer-events:none;}
 .kit-doll .doll-lines path{fill:none;stroke:#1b1711;stroke-width:5;stroke-linecap:square;}
-.kit-slot{position:relative;z-index:1;width:38px;height:38px;border-radius:3px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(rgba(255,255,255,.05),rgba(0,0,0,.18)),var(--tex-stone-smooth,#5a5245);
-  box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),inset 0 0 8px rgba(0,0,0,.35);}
+.kit-slot{position:relative;z-index:1;width:38px;height:38px;border-radius:0;display:flex;align-items:center;justify-content:center;
+  background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+.kit-slot:nth-child(2n){background-position:-20px -14px;}
 .kit-slot.gap{visibility:hidden;}
-.kit-slot .doll-ghost{width:28px;height:28px;fill:rgba(20,16,11,.62);stroke:rgba(20,16,11,.62);filter:drop-shadow(1px 1px 0 rgba(255,238,205,.12));}
-.kit-slot.locked{filter:saturate(.4) brightness(.8);}
+.kit-slot .kit-ghost{width:28px;height:28px;image-rendering:pixelated;}
+.kit-slot.locked .kit-ghost{opacity:.55;}
 .kit-slot.filled{cursor:pointer;}
-.kit-slot img{width:33px;height:33px;object-fit:contain;image-rendering:auto;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.6));}
-.kit-slot.filled:hover{box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),inset 0 0 0 1px rgba(255,255,0,.7);filter:brightness(1.1);}
+.kit-slot img{width:33px;height:33px;object-fit:contain;image-rendering:auto;filter:none;}
+.kit-slot.filled:hover{box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),inset 0 0 0 1px #ffff00;}
 .kit-equip-bar{display:flex;gap:5px;margin-top:auto;}
-.kit-equip-bar .kit-btn{flex:1;font-size:10px;padding:6px 2px;white-space:nowrap;}
+.kit-equip-bar .kit-btn{flex:1;font-size:12px;padding:5px 2px;white-space:nowrap;}
 .kit-stats{margin:4px 2px 8px;}
-.kit-stat{display:flex;justify-content:space-between;padding:3px 4px;border-bottom:1px solid rgba(0,0,0,.4);font:bold 11px var(--k-font);color:var(--k-orange);text-shadow:var(--k-shadow);}
-.kit-stat b{color:var(--k-yellow);} .kit-stat b.pos{color:var(--k-green);} .kit-stat b.neg{color:#ff3030;}
+.kit-stat{display:flex;justify-content:space-between;padding:2px 4px;border-bottom:1px solid rgba(0,0,0,.4);font:12px var(--k-font);color:var(--k-orange);text-shadow:var(--k-shadow);}
+.kit-stat b{color:var(--k-yellow);font-weight:normal;} .kit-stat b.pos{color:var(--k-green);} .kit-stat b.neg{color:#ff3030;}
 .kit-kept{display:flex;gap:10px;justify-content:center;margin:18px 0 6px;}
 
 /* ============================ minimap cluster ============================ */
@@ -171,96 +179,102 @@ html.osrs-kit #equip-list.kit-equip{display:flex;flex-direction:column;min-heigh
 @media (min-width:881px){
   html.osrs-kit #minimap-frame{position:absolute;left:94px;top:10px;right:auto;width:152px;height:152px;border:0;border-radius:50%;z-index:1;
     background:#0d0b08;box-shadow:none;}
-  /* the carved stone ring (decoration only) */
-  html.osrs-kit #minimap-frame::before{content:"";position:absolute;inset:-10px;border-radius:50%;z-index:-1;pointer-events:none;
-    background:radial-gradient(circle,rgba(0,0,0,0) 62%,rgba(0,0,0,.35) 66%,rgba(0,0,0,0) 70%),var(--tex-stone,#6b6354);
-    box-shadow:0 0 0 1px var(--k-ink),inset 2px 2px 1px rgba(255,238,205,.2),inset -2px -3px 5px rgba(0,0,0,.65),0 4px 10px rgba(0,0,0,.55);border:0;}
-  html.osrs-kit #minimap-frame::after{content:"";position:absolute;inset:6px;border-radius:50%;z-index:3;pointer-events:none;
-    box-shadow:0 0 0 2px #1b1711,inset 0 0 0 1px #000,inset 0 0 6px 1px rgba(0,0,0,.6);}
+  /* the carved stone ring: one pixel sprite rendered from a Blender ring of dressed blocks */
+  html.osrs-kit #minimap-frame::before{content:"";position:absolute;inset:-10px;border-radius:0;z-index:4;pointer-events:none;border:0;box-shadow:none;
+    background:var(--spr-mmring) center/172px 172px no-repeat;image-rendering:pixelated;}
+  html.osrs-kit #minimap-frame::after{display:none;}
   html.osrs-kit #minimap{position:absolute;left:4px;top:4px;width:144px;height:144px;border-radius:50%;z-index:2;cursor:pointer;}
-  html.osrs-kit #compass-btn,html.osrs-kit #worldmap-btn{position:absolute;z-index:4;border:0;border-radius:50%;padding:4px;cursor:pointer;
-    background:var(--tex-stone-smooth,#5a5245);transform:none;line-height:0;
-    box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 2px 5px rgba(0,0,0,.55);}
-  html.osrs-kit #compass-btn{left:-12px;top:-12px;bottom:auto;width:38px;height:38px;}
-  html.osrs-kit #worldmap-btn{left:auto;right:-8px;bottom:-8px;width:34px;height:34px;padding:4px;}
-  html.osrs-kit #compass-btn:hover,html.osrs-kit #worldmap-btn:hover{filter:brightness(1.2);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 0 0 3px rgba(255,214,90,.35),0 2px 5px rgba(0,0,0,.55);}
-  html.osrs-kit #compass-btn:active,html.osrs-kit #worldmap-btn:active{box-shadow:inset 1px 1px 3px rgba(0,0,0,.7),0 0 0 1px var(--k-ink);}
+  html.osrs-kit #compass-btn,html.osrs-kit #worldmap-btn{position:absolute;z-index:5;border:0;border-radius:0;padding:0;cursor:pointer;
+    background:none;transform:none;line-height:0;box-shadow:none;filter:none;}
+  html.osrs-kit #compass-btn{left:-12px;top:-12px;bottom:auto;width:36px;height:36px;}
+  html.osrs-kit #worldmap-btn{left:auto;right:-8px;bottom:-8px;width:34px;height:34px;background:var(--spr-socket) center/34px 34px no-repeat;}
+  html.osrs-kit #worldmap-btn .kit-spr{width:26px;height:26px;margin:4px;}
+  html.osrs-kit #compass-btn .kit-spr{width:36px;height:36px;}
+  html.osrs-kit #compass-btn:hover,html.osrs-kit #worldmap-btn:hover{filter:brightness(1.15);box-shadow:none;}
+  html.osrs-kit #compass-btn:active,html.osrs-kit #worldmap-btn:active{filter:brightness(.85);box-shadow:none;}
 
-  /* stat orbs on the ring's left arc, numbers on little slate plaques (OSRS order: HP, Prayer, Run, Special) */
+  /* stat orbs on the ring's left arc: a painted sphere in a stone socket, the empty share drained from the top,
+     the number on a small slate plaque (OSRS order: HP, Prayer, Run, Special) */
   html.osrs-kit #orbs{position:absolute;left:0;top:0;right:auto;width:100px;height:200px;display:block;}
   html.osrs-kit #mm-cluster .orb,html.osrs-kit #mm-cluster #run-orb{position:absolute;width:30px;height:30px;border-radius:50%;border:0;padding:0;margin:0;
-    display:block;right:auto;cursor:default;font:bold 11px var(--k-font);
-    background:radial-gradient(circle at 42% 38%,var(--c1),var(--c2) 78%);
-    box-shadow:0 0 0 2px #2c261d,0 0 0 3px var(--k-ink),inset 0 0 0 1px rgba(0,0,0,.6),inset 0 -3px 5px rgba(0,0,0,.45),0 2px 4px rgba(0,0,0,.6);}
-  html.osrs-kit #mm-cluster .orb::before,html.osrs-kit #mm-cluster #run-orb::before{content:"";position:absolute;inset:0;border-radius:50%;
-    background:rgba(12,10,7,.78);clip-path:inset(0 0 calc(var(--f,1) * 100%) 0);pointer-events:none;}
-  html.osrs-kit #mm-cluster .orb-ico{position:absolute;inset:6px;background:center/contain no-repeat;pointer-events:none;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.6));}
-  html.osrs-kit #mm-cluster .orb .num,html.osrs-kit #mm-cluster #run-pct{position:absolute;right:100%;top:6px;margin-right:-5px;z-index:-1;
-    width:31px;height:18px;padding-right:5px;line-height:18px;text-align:center;font:bold 11px var(--k-font);text-shadow:var(--k-shadow);
-    background:var(--tex-slate-dark,#221d15);border-radius:3px 0 0 3px;box-shadow:0 0 0 1px var(--k-ink),var(--k-bevel);}
+    display:block;right:auto;cursor:default;font:12px var(--k-font);filter:none;
+    background:var(--orb-fill) center/26px 26px no-repeat;box-shadow:none;}
+  html.osrs-kit #mm-cluster .orb::before,html.osrs-kit #mm-cluster #run-orb::before{content:"";position:absolute;inset:2px;border-radius:50%;
+    background:#15110c;clip-path:inset(0 0 calc(var(--f,1) * 100%) 0);pointer-events:none;opacity:.86;}
+  html.osrs-kit #mm-cluster .orb::after,html.osrs-kit #mm-cluster #run-orb::after{content:"";position:absolute;inset:-2px;pointer-events:none;
+    background:var(--spr-socket) center/34px 34px no-repeat;image-rendering:pixelated;}
+  html.osrs-kit #mm-cluster .orb-ico{position:absolute;left:6px;top:6px;width:18px;height:18px;z-index:2;background:center/18px 18px no-repeat;pointer-events:none;filter:none;image-rendering:pixelated;}
+  html.osrs-kit #mm-cluster .orb .num,html.osrs-kit #mm-cluster #run-pct{position:absolute;right:100%;top:6px;margin-right:-3px;z-index:-1;
+    width:31px;height:18px;padding-right:4px;line-height:18px;text-align:center;font:12px var(--k-font);text-shadow:var(--k-shadow);
+    background:var(--tex-slate-dark,#221d15);border-radius:0;box-shadow:0 0 0 1px var(--k-ink),var(--k-bevel);}
   html.osrs-kit #mm-cluster .orb .lbl{display:none;}
-  html.osrs-kit #mm-cluster #hp-orb{left:56px;top:30px;--c1:#e0463a;--c2:#4c0b07;}
+  html.osrs-kit #mm-cluster #hp-orb{left:56px;top:30px;--orb-fill:var(--spr-fill-red);}
   html.osrs-kit #mm-cluster #hp-orb .orb-ico{background-image:var(--ico-heart);}
-  html.osrs-kit #mm-cluster .orb-pray{left:48px;top:66px;--c1:#8cc0ee;--c2:#12294a;}
+  html.osrs-kit #mm-cluster .orb-pray{left:48px;top:66px;--orb-fill:var(--spr-fill-blue);}
   html.osrs-kit #mm-cluster .orb-pray .orb-ico{background-image:var(--ico-prayer);}
   html.osrs-kit #mm-cluster #pray-orb{color:var(--k-green)!important;}
-  html.osrs-kit #mm-cluster #run-orb{left:52px;top:102px;--c1:#f0cc5c;--c2:#5a3c08;cursor:pointer;color:var(--k-green);}
-  html.osrs-kit #mm-cluster #run-orb.walking{--c1:#a39c8c;--c2:#2e2a22;}
+  html.osrs-kit #mm-cluster #run-orb{left:52px;top:102px;--orb-fill:var(--spr-fill-yellow);cursor:pointer;color:var(--k-green);}
+  html.osrs-kit #mm-cluster #run-orb.walking{--orb-fill:var(--spr-fill-grey);}
   html.osrs-kit #mm-cluster #run-orb .orb-ico{background-image:var(--ico-run);}
-  html.osrs-kit #mm-cluster #spec-orb{left:66px;top:136px;--c1:#63c3e0;--c2:#0b3242;cursor:pointer;}
+  html.osrs-kit #mm-cluster #spec-orb{left:66px;top:136px;--orb-fill:var(--spr-fill-teal);cursor:pointer;}
   html.osrs-kit #mm-cluster #spec-orb .orb-ico{background-image:var(--ico-spec);}
   html.osrs-kit #mm-cluster #spec-orb .num{color:var(--k-green)!important;}
-  html.osrs-kit #mm-cluster #spec-orb.armed{box-shadow:0 0 0 2px #e7d27a,0 0 0 3px var(--k-ink),0 0 10px 2px rgba(120,220,255,.75);}
-  html.osrs-kit #mm-cluster #run-orb:hover,html.osrs-kit #mm-cluster #spec-orb:hover{filter:brightness(1.18);}
-  html.osrs-kit #mm-cluster #run-orb:active,html.osrs-kit #mm-cluster #spec-orb:active{filter:brightness(.88);}
+  html.osrs-kit #mm-cluster #spec-orb.armed::after{background-image:var(--spr-socket-lit,var(--spr-socket));}
+  html.osrs-kit #mm-cluster #spec-orb.armed{--orb-fill:var(--spr-fill-green);}
+  html.osrs-kit #mm-cluster #run-orb:hover,html.osrs-kit #mm-cluster #spec-orb:hover{filter:brightness(1.15);}
+  html.osrs-kit #mm-cluster #run-orb:active,html.osrs-kit #mm-cluster #spec-orb:active{filter:brightness(.85);}
 }
 
 /* ================================ tool rail ================================ */
 #hud-rail{position:fixed;z-index:31;display:flex;align-items:center;gap:3px;box-sizing:border-box;
-  right:6px;bottom:395px;width:242px;height:34px;padding:3px 5px;border-radius:3px;
-  background:var(--tex-stone-dark,#3a342b);box-shadow:var(--k-frame),0 3px 8px rgba(0,0,0,.5);}
+  right:6px;bottom:395px;width:242px;height:34px;padding:3px 5px;border-radius:0;
+  background:var(--tex-stone-dark,#3a342b);box-shadow:var(--k-frame);}
 #hud-rail .rail-info{display:flex;gap:3px;}
 #hud-rail .rail-tools{display:flex;gap:3px;margin-left:auto;}
-html.osrs-kit #hud-rail .rail-plaque{position:relative;width:auto;height:24px;min-width:44px;margin:0;padding:0 6px 0 22px;border:0;border-radius:2px;
+html.osrs-kit #hud-rail .rail-plaque{position:relative;width:auto;height:24px;min-width:44px;margin:0;padding:0 6px 0 23px;border:0;border-radius:0;
   display:flex;flex-direction:row;align-items:center;justify-content:flex-end;cursor:default;
   background:var(--tex-slate-dark,#221d15) 0 0;box-shadow:inset 0 0 0 1px var(--k-ink),var(--k-bevel);}
-html.osrs-kit #hud-rail .rail-plaque::before{content:"";position:absolute;left:3px;top:3px;width:17px;height:17px;background:center/contain no-repeat;}
+html.osrs-kit #hud-rail .rail-plaque::before{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;background:center/18px 18px no-repeat;image-rendering:pixelated;}
 html.osrs-kit #hud-rail .plaque-combat::before{background-image:var(--ico-swords);}
 html.osrs-kit #hud-rail .plaque-coins::before{background-image:var(--ico-coins);}
-html.osrs-kit #hud-rail .rail-plaque .num{font:bold 12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit #hud-rail .rail-plaque .num{font:12px var(--k-font);text-shadow:var(--k-shadow);}
 html.osrs-kit #hud-rail .rail-plaque .lbl{display:none;}
-html.osrs-kit #hud-rail .rail-btn{position:relative;width:30px;height:27px;padding:3px 4px;margin:0;border:0;border-radius:2px;cursor:pointer;line-height:0;font-size:0;color:transparent;
+html.osrs-kit #hud-rail .rail-btn{position:relative;width:30px;height:27px;padding:0;margin:0;border:0;border-radius:0;cursor:pointer;line-height:0;font-size:0;color:transparent;
+  display:flex;align-items:center;justify-content:center;
   left:auto;right:auto;top:auto;bottom:auto;transform:none;
-  background:linear-gradient(rgba(255,255,255,.07),rgba(0,0,0,.18)),var(--tex-stone-smooth,#5a5245);
-  box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);transition:filter .08s;}
-html.osrs-kit #hud-rail .rail-btn:hover{filter:brightness(1.22);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),inset 0 0 0 1px rgba(255,214,90,.6);}
-html.osrs-kit #hud-rail .rail-btn:active{filter:brightness(.88);box-shadow:inset 1px 1px 3px rgba(0,0,0,.75),0 0 0 1px var(--k-ink);}
-html.osrs-kit #hud-rail .rail-btn .kit-ico-over{position:absolute;inset:4px 5px;width:auto;height:auto;}
-html.osrs-kit #hud-rail #music-btn.muted .kit-ico:first-child{opacity:.55;}
-html.osrs-kit #music-menu{position:fixed;right:252px;left:auto;top:auto;bottom:300px;z-index:55;
-  background:var(--tex-slate,#3e3529);border:0;box-shadow:var(--k-frame),0 4px 12px rgba(0,0,0,.6);}
-html.osrs-kit #music-menu h4{color:var(--k-orange);font:17px var(--k-title);text-align:center;}
+  background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);transition:none;filter:none;}
+html.osrs-kit #hud-rail .rail-btn .kit-spr{width:20px;height:20px;}
+html.osrs-kit #hud-rail .rail-btn:hover{background-image:var(--tex-stone-lit,none);}
+html.osrs-kit #hud-rail .rail-btn:active{box-shadow:var(--k-sunk),0 0 0 1px var(--k-ink);}
+html.osrs-kit #hud-rail .rail-btn .kit-spr-over{position:absolute;left:5px;top:3px;width:20px;height:20px;}
+html.osrs-kit #hud-rail #music-btn.muted .kit-spr:first-child{opacity:.55;}
+html.osrs-kit #music-menu{position:fixed;right:252px;left:auto;top:auto;bottom:300px;z-index:55;border-radius:0;font:12px var(--k-font);
+  background:var(--tex-slate,#3e3529);border:0;box-shadow:var(--k-frame);}
+html.osrs-kit #music-menu *{font-family:var(--k-font)!important;}
+html.osrs-kit #music-menu h4{color:var(--k-orange);font:bold 12px var(--k-title);text-align:center;}
+html.osrs-kit #music-menu .mtrack{border-radius:0;background:transparent;box-shadow:none;}
 html.osrs-kit #music-menu .mtrack:hover{border-color:transparent;background:rgba(255,236,160,.1);}
 
 /* ================================= chat box ================================= */
 @media (min-width:881px){
   html.osrs-kit #chatbox-frame.steel{position:absolute;left:6px;bottom:6px;width:520px;height:190px;display:flex;flex-direction:column;
-    padding:3px 6px 5px;border:0;border-radius:3px;background:var(--tex-stone-dark,#3a342b);
-    box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),inset 0 0 0 2px #857a66,inset 0 0 0 3px #2a241c,0 5px 14px rgba(0,0,0,.6);}
-  html.osrs-kit #chat-title{flex:0 0 8px;height:8px;margin:0 auto 3px;width:70px;padding:0;font-size:0;color:transparent;cursor:ns-resize;
-    background:repeating-linear-gradient(90deg,rgba(255,238,205,.35) 0 2px,rgba(0,0,0,.6) 2px 4px) center/60px 3px no-repeat;}
-  html.osrs-kit #chatbox{flex:1 1 auto;height:auto;min-height:0;margin:0;padding:4px 8px 2px;border:0;
-    background:var(--tex-parch,#d8ccb4);box-shadow:inset 0 0 0 1px var(--k-ink),inset 0 0 14px rgba(90,60,20,.35);
-    font:12px/1.36 var(--k-font);color:#000;}
-  html.osrs-kit #chat-input-row{flex:0 0 20px;display:flex;align-items:center;gap:5px;padding:0 8px;cursor:text;
-    background:var(--tex-parch,#d8ccb4) 0 -40px;box-shadow:inset 0 0 0 1px var(--k-ink),inset 0 1px 0 rgba(90,60,20,.4);font:bold 12px var(--k-font);color:#000;}
+    padding:3px 6px 5px;border:0;border-radius:0;background:var(--tex-stone-dark,#3a342b);
+    box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),inset 0 0 0 2px #857a66,inset 0 0 0 3px #2a241c;}
+  html.osrs-kit #chat-title{flex:0 0 8px;height:8px;margin:0 auto 3px;width:60px;padding:0;font-size:0;color:transparent;cursor:ns-resize;border-radius:0;
+    background:none;border-top:2px dotted #8c826d;border-bottom:2px dotted #8c826d;box-sizing:border-box;}
+  html.osrs-kit #chatbox{flex:1 1 auto;height:auto;min-height:0;margin:0;padding:3px 7px 2px;border:0;border-radius:0;
+    background:var(--tex-parch,#d8ccb4);box-shadow:inset 0 0 0 1px var(--k-ink),inset 1px 1px 0 1px #a8946c;
+    font:12px/14px var(--k-font);color:#000;}
+  html.osrs-kit #chat-input-row{flex:0 0 18px;display:flex;align-items:center;gap:5px;padding:0 7px;cursor:text;
+    background:var(--tex-parch,#d8ccb4) 0 -40px;box-shadow:inset 0 0 0 1px var(--k-ink);font:12px var(--k-font);color:#000;}
   html.osrs-kit #chat-input-row:hover .chat-hint{opacity:.9;}
   html.osrs-kit #chat-tabs{position:static;flex:0 0 26px;display:flex;gap:3px;margin-top:4px;}
 }
+html.osrs-kit #chatbox *{font-family:var(--k-font)!important;font-size:12px!important;}
 #chat-input-row .chat-me{color:#000;white-space:nowrap;}
-#chat-input-row .chat-hint{color:#0000c8;opacity:.55;font-weight:normal;white-space:nowrap;}
+#chat-input-row .chat-hint{color:#0000c8;opacity:.6;font-weight:normal;white-space:nowrap;}
 #chat-input-row.typing .chat-hint{display:none;}
-#chat-input-row #chat-line{flex:1 1 auto;min-width:0;height:17px;padding:0;margin:0;border:0;outline:0;background:transparent;
+#chat-input-row #chat-line{flex:1 1 auto;min-width:0;height:16px;padding:0;margin:0;border:0;outline:0;background:transparent;
   font:12px var(--k-font);color:#0000ff;caret-color:#000;}
 html.osrs-kit #chatbox .public .chat-name{color:#000;}
 html.osrs-kit #chatbox .public .chat-msg{color:#0000ff;}
@@ -270,61 +284,71 @@ html.osrs-kit #chatbox .loot{color:#7f4200;} html.osrs-kit #chatbox .npc{color:#
 #chatbox[data-filter="public"]>:not(.public){display:none;}
 #chatbox[data-filter="private"]>*,#chatbox[data-filter="clan"]>*,#chatbox[data-filter="trade"]>*,#chatbox[data-filter="yell"]>*{display:none;}
 #chatbox[data-filter="private"]::before,#chatbox[data-filter="clan"]::before,#chatbox[data-filter="trade"]::before,#chatbox[data-filter="yell"]::before{
-  display:block;color:#5a4424;font-style:italic;content:"Nothing here yet: this channel opens when shared worlds arrive.";}
-html.osrs-kit #chat-tabs .chtab{flex:1 1 0;min-width:0;cursor:pointer;padding:2px 1px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:0;border-radius:2px 2px 6px 6px;
-  font:bold 10px var(--k-font);color:#fff;text-shadow:var(--k-shadow);line-height:1.05;text-align:center;
-  background:linear-gradient(rgba(255,255,255,.06),rgba(0,0,0,.2)),var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
-html.osrs-kit #chat-tabs .chtab small{display:block;font:bold 9px var(--k-font);color:var(--k-green);margin-top:1px;}
-html.osrs-kit #chat-tabs .chtab:hover{filter:brightness(1.2);}
-html.osrs-kit #chat-tabs .chtab.active{color:var(--k-yellow);background:linear-gradient(rgba(255,230,160,.14),rgba(0,0,0,.05)),var(--tex-stone,#6b6354);
-  box-shadow:inset 1px 1px 0 rgba(255,238,205,.35),inset -1px -1px 0 rgba(0,0,0,.5),0 0 0 1px var(--k-ink),inset 0 0 0 1px rgba(255,214,90,.45);}
-html.osrs-kit #chat-tabs .chtab.report{color:#fff;background:linear-gradient(rgba(170,28,18,.8),rgba(100,12,6,.85)),var(--tex-stone-smooth,#5a5245);}
+  display:block;color:#5a4424;content:"Nothing here yet: this channel opens when shared worlds arrive.";}
+html.osrs-kit #chat-tabs .chtab{flex:1 1 0;min-width:0;cursor:pointer;padding:1px 1px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:0;border-radius:0;
+  font:12px/12px var(--k-font);color:#fff;text-shadow:var(--k-shadow);text-align:center;
+  background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);filter:none;}
+html.osrs-kit #chat-tabs .chtab:nth-child(2n){background-position:-26px -12px;}
+html.osrs-kit #chat-tabs .chtab small{display:block;font:12px/12px var(--k-font);color:var(--k-green);margin-top:0;}
+html.osrs-kit #chat-tabs .chtab:hover{background-image:var(--tex-stone-lit,none);}
+html.osrs-kit #chat-tabs .chtab.active{color:var(--k-yellow);background:var(--tex-stone-lit,#6b6354);
+  box-shadow:var(--k-sunk),0 0 0 1px var(--k-ink),inset 0 0 0 2px #c8a040;}
+html.osrs-kit #chat-tabs .chtab.report{color:#fff;background:var(--tex-stone-red,#6a2014);}
 
 /* overhead chat: yellow with a hard black outline, like the old client */
 #overhead-layer{position:fixed;inset:0;pointer-events:none;z-index:24;overflow:hidden;}
-.overhead-text{position:absolute;left:0;top:0;white-space:nowrap;font:bold 14px var(--k-font);color:#ffff00;will-change:transform;
+.overhead-text{position:absolute;left:0;top:0;white-space:nowrap;font:bold 12px var(--k-font);color:#ffff00;will-change:transform;
   text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000,0 1px 0 #000,1px 0 0 #000;}
 
 /* ============================ dialogue in the chat area ============================ */
 @media (min-width:881px){
   html.osrs-kit #dialogue-modal.modal{position:fixed;left:6px;bottom:6px;top:auto;transform:none;width:520px;min-width:0;max-width:none;
-    min-height:190px;max-height:62vh;overflow:auto;z-index:36;padding:8px 14px 10px;border:0;border-radius:3px;
-    background:var(--tex-parch,#d8ccb4);box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),inset 0 0 18px rgba(90,60,20,.35),0 6px 16px rgba(0,0,0,.6);}
-  html.osrs-kit #dialogue-modal #dlg-name{text-align:center;color:#800000;font:20px var(--k-title);text-shadow:none;margin:0 0 4px;}
+    min-height:190px;max-height:62vh;overflow:auto;z-index:36;padding:8px 14px 10px;border:0;border-radius:0;
+    background:var(--tex-parch,#d8ccb4);box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),inset 1px 1px 0 1px #a8946c;}
+  html.osrs-kit #dialogue-modal #dlg-name{text-align:center;color:#800000;font:bold 12px var(--k-title);text-shadow:none;margin:2px 0 6px;}
   html.osrs-kit #dialogue-modal #dlg-wrap{align-items:center;}
-  html.osrs-kit #dialogue-modal #dlg-head{background:transparent;border:0;}
-  html.osrs-kit #dialogue-modal #dlg-text{background:none;border:0;padding:2px 4px;text-align:center;color:#000;font:17px/1.35 var(--k-quill);min-height:0;}
-  html.osrs-kit #dialogue-modal .opt{display:block;width:100%;margin:2px 0;padding:3px 8px;text-align:center;border:0;background:transparent;
-    color:#0000c8;font:16px var(--k-quill);cursor:pointer;border-radius:2px;}
-  html.osrs-kit #dialogue-modal .opt:hover{color:#fff;background:rgba(60,40,15,.55);text-shadow:var(--k-shadow);}
-  html.osrs-kit #dialogue-modal .close-x{top:4px;right:8px;color:#800000;font:bold 14px var(--k-font);}
+  html.osrs-kit #dialogue-modal #dlg-head{background:transparent;border:0;border-radius:0;box-shadow:none;}
+  html.osrs-kit #dialogue-modal #dlg-text{background:none;border:0;padding:2px 4px;text-align:center;color:#000;font:12px/16px var(--k-quill);min-height:0;}
+  html.osrs-kit #dialogue-modal .opt{display:block;width:100%;margin:1px 0;padding:2px 8px;text-align:center;border:0;background:transparent;box-shadow:none;
+    color:#0000ff;font:12px/16px var(--k-quill);cursor:pointer;border-radius:0;}
+  html.osrs-kit #dialogue-modal .opt:hover{color:#fff;background:transparent;text-shadow:var(--k-shadow);}
+  html.osrs-kit #dialogue-modal .close-x{top:4px;right:8px;}
 }
 
 /* ============================ other windows ============================ */
-html.osrs-kit .modal.steel{background:var(--tex-slate,#3e3529);border:0;border-radius:3px;
-  box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),0 0 0 5px #4b4336,0 0 0 6px var(--k-ink),0 10px 26px rgba(0,0,0,.7);}
-html.osrs-kit .modal.steel>h3{font:20px var(--k-title);color:var(--k-orange);text-align:center;text-shadow:var(--k-shadow);}
-html.osrs-kit .modal .close-x{width:20px;height:20px;line-height:18px;text-align:center;border-radius:2px;color:#fff;font:bold 12px var(--k-font);
-  background:linear-gradient(rgba(170,28,18,.85),rgba(100,12,6,.9)),var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
-html.osrs-kit .modal .close-x:hover{filter:brightness(1.25);}
-html.osrs-kit #ctx-menu{background:#5d5447;border:1px solid #000;padding:0;box-shadow:0 3px 10px rgba(0,0,0,.6);}
-html.osrs-kit #ctx-menu .ctx-head{background:#000;color:#5d5447;font:bold 12px var(--k-font);padding:2px 6px;border:0;}
-html.osrs-kit #ctx-menu .ctx-row{padding:2px 6px;background:transparent;}
+html.osrs-kit .modal{border-radius:0;}
+html.osrs-kit .modal.steel{background:var(--tex-slate,#3e3529);border:0;border-radius:0;font-family:var(--k-font);
+  box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),0 0 0 5px #4b4336,0 0 0 6px var(--k-ink),inset 1px 1px 0 1px #6d6250;}
+html.osrs-kit .modal.steel::after{content:"";position:absolute;inset:-5px;pointer-events:none;border:4px solid transparent;
+  border-image:var(--tex-frame-thin) 4 repeat;image-rendering:pixelated;}
+html.osrs-kit .modal.steel *{font-family:var(--k-font);}
+html.osrs-kit .modal.steel>h3,html.osrs-kit .modal.steel .osrs-title{font:bold 12px var(--k-title);color:var(--k-orange);text-align:center;text-shadow:var(--k-shadow);}
+html.osrs-kit .modal.steel p,html.osrs-kit .modal.steel td,html.osrs-kit .modal.steel div{font-size:12px;}
+html.osrs-kit .modal.steel button{border-radius:0;font:bold 12px var(--k-font);}
+html.osrs-kit .modal .close-x{width:20px;height:20px;line-height:18px;text-align:center;border-radius:0;color:#fff;font:bold 12px var(--k-font);
+  background:var(--tex-stone-red,#6a2014);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+html.osrs-kit .big-grid .inv-slot,html.osrs-kit .big-grid>div{border-radius:0;}
+html.osrs-kit #ctx-menu{background:#5d5447;border:1px solid #000;border-radius:0;padding:0;box-shadow:none;font:12px var(--k-font);min-width:120px;}
+html.osrs-kit #ctx-menu .ctx-head{background:#000;color:#5d5447;font:bold 12px var(--k-font);padding:1px 4px 2px;border:0;border-radius:0;margin:1px;}
+html.osrs-kit #ctx-menu .ctx-row{padding:1px 4px 2px;background:transparent;font:bold 12px var(--k-font);color:#fff;text-shadow:var(--k-shadow);border:0;border-radius:0;}
+html.osrs-kit #ctx-menu .ctx-row *{font:inherit;}
 html.osrs-kit #ctx-menu .ctx-row:hover{background:transparent;color:#ffff00;}
 
 /* tutorial hint: a parchment scroll pinned in a stone frame */
-html.osrs-kit #objective.steel{padding:5px 18px 6px;background:var(--tex-parch,#d8ccb4);border-radius:2px;
-  box-shadow:0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),inset 0 0 14px rgba(90,60,20,.4),0 5px 12px rgba(0,0,0,.55);}
-html.osrs-kit #objective .obj-label{color:#800000;font:15px var(--k-title);text-shadow:none;letter-spacing:.5px;}
-html.osrs-kit #objective .obj-text{color:#000;font:bold 12px/1.35 var(--k-font);text-shadow:none;}
-html.osrs-kit #objective button{margin-top:4px;padding:2px 10px;border:0;border-radius:2px;cursor:pointer;color:var(--k-orange);font:bold 10px var(--k-font);text-shadow:var(--k-shadow);
-  background:var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
-html.osrs-kit #objective button:hover{filter:brightness(1.2);color:var(--k-yellow);}
-html.osrs-kit #zone-box.steel{padding:4px 12px;border-radius:2px;}
-html.osrs-kit #zone-label{font:17px var(--k-title);color:var(--k-orange);text-shadow:var(--k-shadow);}
-html.osrs-kit #build-stamp{left:534px;right:auto;bottom:6px;}
-html.osrs-kit #test-travel-toggle{border:0;border-radius:3px;background:var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 3px 8px rgba(0,0,0,.5);}
-html.osrs-kit #test-travel-toggle:hover{filter:brightness(1.2);}
+html.osrs-kit #objective.steel{padding:5px 18px 6px;background:var(--tex-parch,#d8ccb4);border-radius:0;
+  box-shadow:0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),inset 1px 1px 0 1px #a8946c;}
+html.osrs-kit #objective .obj-label{color:#800000;font:bold 12px var(--k-title);text-shadow:none;letter-spacing:0;}
+html.osrs-kit #objective .obj-text{color:#000;font:12px/15px var(--k-font);text-shadow:none;}
+html.osrs-kit #objective button{margin-top:4px;padding:2px 10px;border:0;border-radius:0;cursor:pointer;color:var(--k-orange);font:bold 12px var(--k-font);text-shadow:var(--k-shadow);
+  background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+html.osrs-kit #objective button:hover{background-image:var(--tex-stone-lit,none);color:var(--k-yellow);}
+html.osrs-kit #zone-box.steel{padding:4px 12px;border-radius:0;}
+html.osrs-kit #zone-label{font:bold 12px var(--k-title);color:var(--k-orange);text-shadow:var(--k-shadow);letter-spacing:0;font-variant:normal;}
+html.osrs-kit #action-text{font:bold 12px var(--k-font)!important;color:#fff;text-shadow:var(--k-shadow)!important;border-radius:0!important;}
+html.osrs-kit #build-stamp{left:534px;right:auto;bottom:6px;font:12px var(--k-font);border-radius:0;}
+html.osrs-kit #test-travel-toggle{border:0;border-radius:0;background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+html.osrs-kit #test-travel-toggle:hover{background-image:var(--tex-stone-lit,none);}
+html.osrs-kit #xp-drops,html.osrs-kit #xp-drops *{font-family:var(--k-font)!important;}
 
 /* ============================ character creator ============================ */
 body.kit-creator-open #mm-cluster,body.kit-creator-open #hud-rail,body.kit-creator-open #side-panel,body.kit-creator-open #objective,
@@ -333,28 +357,28 @@ body.kit-creator-open #xp-drops,body.kit-creator-open #guide-edge-arrow,body.kit
 .kc-window{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,96vw);height:min(600px,94vh);box-sizing:border-box;
   display:grid;grid-template-columns:230px 1fr 230px;grid-template-rows:34px 1fr 42px;gap:12px;padding:6px;pointer-events:none;
   font:12px var(--k-font);color:#fff;}
-.kc-title{grid-column:1/-1;display:flex;align-items:center;justify-content:center;font:22px var(--k-title);color:var(--k-orange);text-shadow:var(--k-shadow);
-  background:var(--tex-stone-dark,#3a342b);border-radius:2px;pointer-events:auto;box-shadow:0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),var(--k-bevel);}
-.kc-col{pointer-events:auto;padding:8px 9px;background:var(--tex-slate,#3e3529);border-radius:2px;overflow:auto;
-  box-shadow:0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),inset 2px 2px 6px rgba(0,0,0,.45),0 8px 18px rgba(0,0,0,.55);}
-.kc-col h4{margin:2px 0 6px;text-align:center;font:19px var(--k-title);color:var(--k-orange);text-shadow:var(--k-shadow);font-weight:normal;}
-.kc-view{position:relative;border-radius:2px;box-shadow:0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),inset 0 0 60px rgba(0,0,0,.5);}
+.kc-title{grid-column:1/-1;display:flex;align-items:center;justify-content:center;font:bold 24px var(--k-title);color:var(--k-orange);text-shadow:var(--k-shadow);
+  background:var(--tex-stone-dark,#3a342b);border-radius:0;pointer-events:auto;box-shadow:0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),var(--k-bevel);}
+.kc-col{pointer-events:auto;padding:8px 9px;background:var(--tex-slate,#3e3529);border-radius:0;overflow:auto;
+  box-shadow:0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),var(--k-sunk);}
+.kc-col h4{margin:2px 0 6px;text-align:center;font:bold 12px var(--k-title);color:var(--k-orange);text-shadow:var(--k-shadow);}
+.kc-view{position:relative;border-radius:0;box-shadow:0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink);}
 .kc-row{display:flex;align-items:center;gap:6px;margin:3px 0;}
 .kc-label{flex:1;text-align:center;color:var(--k-orange);font:bold 12px var(--k-font);text-shadow:var(--k-shadow);}
-.kc-sub{color:var(--k-yellow);font:10px var(--k-font);text-align:center;margin:-3px 0 4px;text-shadow:var(--k-shadow);}
-.kc-arrow{width:38px;height:26px;border:0;border-radius:2px;cursor:pointer;padding:0;
-  background:linear-gradient(rgba(255,255,255,.06),rgba(0,0,0,.18)),var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
-.kc-arrow::after{content:"";display:block;margin:auto;width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;filter:drop-shadow(1px 1px 0 #000);}
-.kc-arrow.l::after{border-right:9px solid #d9d0b8;} .kc-arrow.r::after{border-left:9px solid #d9d0b8;}
-.kc-arrow:hover{filter:brightness(1.22);} .kc-arrow:active{box-shadow:inset 1px 1px 3px rgba(0,0,0,.75),0 0 0 1px var(--k-ink);}
-.kc-swatch{width:18px;height:18px;border-radius:2px;box-shadow:0 0 0 1px var(--k-ink),inset 1px 1px 0 rgba(255,255,255,.25);}
+.kc-sub{color:var(--k-yellow);font:12px var(--k-font);text-align:center;margin:-3px 0 4px;text-shadow:var(--k-shadow);}
+.kc-arrow{width:38px;height:26px;border:0;border-radius:0;cursor:pointer;padding:0;
+  background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+.kc-arrow::after{content:"";display:block;margin:auto;width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;filter:none;}
+.kc-arrow.l::after{border-right:8px solid #e8dcc0;} .kc-arrow.r::after{border-left:8px solid #e8dcc0;}
+.kc-arrow:hover{background-image:var(--tex-stone-lit,none);} .kc-arrow:active{box-shadow:var(--k-sunk),0 0 0 1px var(--k-ink);}
+.kc-swatch{width:18px;height:18px;border-radius:0;box-shadow:0 0 0 1px var(--k-ink),inset 1px 1px 0 rgba(255,255,255,.25);}
 .kc-body{display:flex;gap:8px;justify-content:center;margin-top:4px;}
-.kc-body .kit-btn{width:64px;font-size:13px;}
+.kc-body .kit-btn{width:64px;font-size:12px;}
 .kc-body .kit-btn.on{color:var(--k-yellow);}
 .kc-actions{grid-column:2;display:flex;gap:8px;justify-content:center;align-items:center;pointer-events:auto;}
 .kc-actions .kit-btn{box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 0 0 3px #4b4336,0 0 0 4px var(--k-ink);}
-.kc-actions .kit-btn{padding:8px 18px;font-size:12px;}
-.kc-actions .kc-confirm{color:#fff;background:linear-gradient(rgba(40,110,30,.75),rgba(18,60,12,.85)),var(--tex-stone-smooth,#5a5245);}
+.kc-actions .kit-btn{padding:7px 16px;font-size:12px;}
+.kc-actions .kc-confirm{color:#fff;background:var(--tex-stone-green,#2d5a1e);}
 
 /* ================================ mobile ================================ */
 @media (max-width:880px){
@@ -363,71 +387,200 @@ body.kit-creator-open #xp-drops,body.kit-creator-open #guide-edge-arrow,body.kit
   #hud-rail .rail-info{display:none;}
   html.osrs-kit #hud-rail .rail-btn{width:28px;height:24px;}
   html.osrs-kit #chat-tabs{display:none;}
-  #chat-input-row{padding:2px 6px;background:#e0d6bd;font:bold 12px var(--k-font);}
-
+  #chat-input-row{padding:2px 6px;background:#e0d6bd;font:12px var(--k-font);}
+  html.osrs-kit #side-panel .tab-btn .kit-spr{width:28px;height:28px;}
+  html.osrs-kit #compass-btn .kit-spr,html.osrs-kit #worldmap-btn .kit-spr{width:26px;height:26px;}
 }
 @media (min-width:881px) and (max-height:660px){
   html.osrs-kit #side-panel.steel{height:326px;}
   #hud-rail{bottom:335px;}
 }
 
-/* the guide's 'look here' flash on a side tab: the tab itself glows gold, as the old tutorial did */
-@keyframes kitTabPulse{0%,100%{box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);filter:none;}
-  50%{box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 0 0 3px rgba(255,215,64,.95),inset 0 0 10px rgba(255,215,64,.7);filter:brightness(1.35);}}
+/* the guide's 'look here' flash on a side tab: the tab itself blinks gold, as the old tutorial did (hard on/off) */
+@keyframes kitTabPulse{0%,100%{box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+  50%{box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),inset 0 0 0 2px #ffd740,0 0 0 2px #ffd740;}}
 html.osrs-kit .music-track:hover{text-decoration:underline;}
 html.osrs-kit .music-track.active{color:var(--k-yellow);}
 
-/* ============================ round 2 (owner play-test) ============================ */
-/* the OSRS close X: a small stone block with a red-orange cross, top-right of every window */
+/* ============================ close X + sub-panes ============================ */
+/* the OSRS close X: a small stone block carrying the rendered cross, top-right of every window */
 html.osrs-kit .kit-x{position:absolute!important;top:7px!important;right:7px!important;left:auto!important;bottom:auto!important;z-index:6;
-  width:25px!important;height:25px!important;padding:3px!important;margin:0!important;border:0!important;border-radius:2px!important;cursor:pointer;
-  display:block;line-height:0!important;font-size:0!important;color:transparent!important;transform:none!important;
-  background:linear-gradient(rgba(255,255,255,.08),rgba(0,0,0,.2)),var(--tex-stone-smooth,#5a5245)!important;
-  box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 2px 3px rgba(0,0,0,.45)!important;}
-html.osrs-kit .kit-x .kit-ico{filter:none;}
-html.osrs-kit .kit-x:hover{filter:brightness(1.25);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink),0 0 0 3px rgba(255,120,40,.35)!important;}
-html.osrs-kit .kit-x:active{box-shadow:inset 1px 1px 3px rgba(0,0,0,.75),0 0 0 1px var(--k-ink)!important;filter:brightness(.9);}
+  width:23px!important;height:23px!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;cursor:pointer;
+  display:flex!important;align-items:center;justify-content:center;line-height:0!important;font-size:0!important;color:transparent!important;transform:none!important;
+  background:var(--tex-stone,#5a5245)!important;box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink)!important;}
+html.osrs-kit .kit-x .kit-spr{width:17px;height:17px;}
+html.osrs-kit .kit-x:hover{background-image:var(--tex-stone-lit,none)!important;}
+html.osrs-kit .kit-x:active{box-shadow:var(--k-sunk),0 0 0 1px var(--k-ink)!important;}
 html.osrs-kit .kit-x:focus-visible{outline:2px solid #ffd24a;outline-offset:1px;}
 html.osrs-kit #quest-scroll-modal .kit-x{top:16px!important;right:18px!important;}
 html.osrs-kit #music-menu{padding-top:8px;} html.osrs-kit #music-menu .kit-x{top:4px!important;right:4px!important;width:21px!important;height:21px!important;}
 html.osrs-kit .kit-pane-title{position:relative;}
-html.osrs-kit .kit-x-pane{top:-2px!important;right:-2px!important;width:22px!important;height:22px!important;}
+html.osrs-kit .kit-x-pane{top:-2px!important;right:-2px!important;width:21px!important;height:21px!important;}
 html.osrs-kit #drops-list{position:relative;} html.osrs-kit #drops-list>.kit-x-pane{top:0!important;right:0!important;}
-html.osrs-kit #drops-list .drops-back{color:var(--k-orange);font:bold 11px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit #drops-list .drops-back{color:var(--k-orange);font:bold 12px var(--k-font);text-shadow:var(--k-shadow);}
 html.osrs-kit #drops-list .drops-back:hover{color:var(--k-yellow);text-decoration:underline;}
 /* tall windows scroll inside the frame so their title and X stay on screen */
 @media (min-width:881px){html.osrs-kit .modal.steel:not(#dialogue-modal){max-height:88vh;overflow-y:auto;}}
 /* the anvil window, in the kit's frame */
-html.osrs-kit #smith-grid-overlay>div{position:relative;background:var(--tex-slate,#3e3529)!important;border:0!important;border-radius:3px!important;padding:14px 18px 14px!important;
-  box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),0 0 0 5px #4b4336,0 0 0 6px var(--k-ink),0 10px 26px rgba(0,0,0,.7)!important;}
-html.osrs-kit #smith-grid-overlay>div>div:first-child span{font:19px var(--k-title)!important;color:var(--k-orange);text-shadow:var(--k-shadow);}
-html.osrs-kit #smith-grid-overlay .opt{border:0;border-radius:2px;color:var(--k-orange);font:bold 11px var(--k-font);text-shadow:var(--k-shadow);
-  background:linear-gradient(rgba(255,255,255,.06),rgba(0,0,0,.16)),var(--tex-stone-smooth,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+html.osrs-kit #smith-grid-overlay>div{position:relative;background:var(--tex-slate,#3e3529)!important;border:0!important;border-radius:0!important;padding:14px 18px 14px!important;
+  box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),0 0 0 5px #4b4336,0 0 0 6px var(--k-ink)!important;}
+html.osrs-kit #smith-grid-overlay *{font-family:var(--k-font)!important;}
+html.osrs-kit #smith-grid-overlay>div>div:first-child span{font:bold 12px var(--k-title)!important;color:var(--k-orange);text-shadow:var(--k-shadow);}
+html.osrs-kit #smith-grid-overlay .opt{border:0;border-radius:0;color:var(--k-orange);font:12px var(--k-font);text-shadow:var(--k-shadow);
+  background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
 html.osrs-kit #admin-panel{padding-top:14px;}
 
-/* the tutorial's item ring: a pulsing gold ring round the pack slot to use */
+/* the tutorial's item ring: a blinking gold ring round the pack slot to use (hard pixels, no glow) */
 html.osrs-kit #inv-grid .inv-slot.kit-hint{z-index:1;}
-html.osrs-kit #inv-grid .inv-slot.kit-hint::after{content:"";position:absolute;inset:0;border-radius:6px;pointer-events:none;
-  box-shadow:0 0 0 2px #1a1206,inset 0 0 0 2px #ffd84a,0 0 10px 2px rgba(255,210,70,.7),inset 0 0 12px rgba(255,210,70,.45);animation:kitSlotRing 1s ease-in-out infinite;}
-@keyframes kitSlotRing{0%,100%{opacity:.55;transform:scale(.94)}50%{opacity:1;transform:scale(1.04)}}
-
-/* side-tab icons are now drawn SVGs */
-html.osrs-kit #side-panel svg.tab-ico{width:26px;height:26px;display:block;margin:auto;overflow:visible;}
+html.osrs-kit #inv-grid .inv-slot.kit-hint::after{content:"";position:absolute;inset:0;border-radius:0;pointer-events:none;
+  box-shadow:0 0 0 1px #1a1206,inset 0 0 0 2px #ffd84a,inset 0 0 0 3px #1a1206;animation:kitSlotRing .6s steps(2,jump-none) infinite;}
+@keyframes kitSlotRing{0%,100%{opacity:.35}50%{opacity:1}}
 
 /* character creator on narrow windows: columns shrink first, the character frame always stays */
 @media (max-width:780px){
   .kc-window{grid-template-columns:minmax(150px,190px) minmax(90px,1fr) minmax(150px,190px);gap:8px;width:98vw;}
-  .kc-col{padding:6px 6px;} .kc-col h4{font-size:16px;margin-bottom:3px;}
-  .kc-arrow{width:30px;height:24px;} .kc-row{gap:4px;margin:2px 0;} .kc-label{font-size:11px;}
+  .kc-col{padding:6px 6px;} .kc-col h4{margin-bottom:3px;}
+  .kc-arrow{width:30px;height:24px;} .kc-row{gap:4px;margin:2px 0;}
   .kc-body .kit-btn{width:48px;}
   .kc-actions .kit-btn{padding:7px 10px;}
 }
 @media (max-width:560px){
   .kc-window{grid-template-columns:118px minmax(70px,1fr) 118px;gap:6px;height:min(640px,96vh);padding:4px;}
-  .kc-title{font-size:17px;}
-  .kc-col{padding:4px 3px;} .kc-col h4{font-size:14px;}
+  .kc-col{padding:4px 3px;}
   .kc-arrow{width:24px;height:22px;} .kc-arrow::after{border-top-width:5px;border-bottom-width:5px;}
-  .kc-label{font-size:10px;} .kc-sub{font-size:9px;margin-bottom:2px;} .kc-swatch{width:14px;height:14px;}
-  .kc-body{gap:4px;} .kc-body .kit-btn{width:38px;font-size:11px;padding:5px 2px;}
-  .kc-actions .kit-btn{padding:6px 7px;font-size:11px;}
+  .kc-swatch{width:14px;height:14px;}
+  .kc-body{gap:4px;} .kc-body .kit-btn{width:38px;padding:5px 2px;}
+  .kc-actions .kit-btn{padding:6px 7px;}
 }
+
+/* ============================ combat options (UI_Combat.jpg) ============================ */
+html.osrs-kit #combat-styles{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;align-content:start;padding:2px 3px 4px;font:12px var(--k-font);}
+html.osrs-kit #combat-styles .cmb-weap{grid-column:1/-1;padding:1px 0 4px;margin:0;text-align:center;line-height:15px;background:none;border:0;box-shadow:none;}
+html.osrs-kit #combat-styles .cr-wname{color:var(--k-orange);font:bold 12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit #combat-styles .cr-wcat{color:#c8b890;font:12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit #combat-styles .cr-clvl{color:var(--k-orange);font:12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit #combat-styles .cmb-style{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:62px;margin:0;padding:4px 2px 3px;cursor:pointer;
+  text-align:center;color:var(--k-orange);border:0;border-radius:0;transition:none;filter:none;
+  background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+html.osrs-kit #combat-styles .cmb-style:nth-child(2n){background-position:-29px -17px;}
+html.osrs-kit #combat-styles .cmb-style:hover{background-image:var(--tex-stone-lit,none);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
+html.osrs-kit #combat-styles .cmb-style.active{background:var(--tex-stone-red,#6a2014);box-shadow:inset 1px 1px 0 #c0604a,inset -1px -1px 0 #2a0a05,0 0 0 1px var(--k-ink);}
+html.osrs-kit #combat-styles .cmb-style.active .cr-sname{color:var(--k-white);}
+html.osrs-kit #combat-styles .cmb-style>b,html.osrs-kit #combat-styles .cmb-style>small{display:none;}
+html.osrs-kit #combat-styles .cr-pic{width:36px;height:36px;}
+html.osrs-kit #combat-styles .cr-sname{display:block;color:var(--k-orange);font:12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit #combat-styles .cr-strain{display:block;color:#c8b890;font:12px var(--k-font);text-shadow:var(--k-shadow);}
+html.osrs-kit #combat-styles .set-row{grid-column:1/-1;display:block;border:0;padding:0;margin:4px 0 0!important;background:none;box-shadow:none;}
+html.osrs-kit #combat-styles .set-row>span{display:none;}
+html.osrs-kit #combat-styles #retal-btn{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:10px;padding:3px 10px;border:0;border-radius:0;cursor:pointer;min-height:48px;
+  font:12px var(--k-font);color:var(--k-orange);text-shadow:var(--k-shadow);background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);transition:none;}
+html.osrs-kit #combat-styles #retal-btn:hover{background-image:var(--tex-stone-lit,none);}
+html.osrs-kit #combat-styles #retal-btn.cr-on{color:var(--k-white);background:var(--tex-stone-red,#6a2014);box-shadow:inset 1px 1px 0 #c0604a,inset -1px -1px 0 #2a0a05,0 0 0 1px var(--k-ink);}
+html.osrs-kit #combat-styles #retal-btn .cr-knight{width:30px;height:40px;flex:0 0 30px;}
+html.osrs-kit #combat-styles #retal-btn .cr-rtext{flex:1 1 auto;text-align:center;line-height:14px;}
+
+/* ============================ prayer book + spellbook ============================ */
+html.osrs-kit #prayer-grid,html.osrs-kit #spell-grid{display:grid;gap:2px;padding:4px 2px;border-radius:0;background:none;box-shadow:none;}
+html.osrs-kit #prayer-grid{grid-template-columns:repeat(4,1fr);} html.osrs-kit #spell-grid{grid-template-columns:repeat(5,1fr);}
+html.osrs-kit #prayer-grid .bonus-head,html.osrs-kit #spell-grid .bonus-head{grid-column:1/-1;margin:0 0 3px;padding:3px 5px;border:0;border-radius:0;
+  background:var(--tex-slate-dark,#221d15);box-shadow:inset 0 0 0 1px var(--k-ink),var(--k-bevel);color:var(--k-orange);font:12px var(--k-font);text-shadow:var(--k-shadow);text-align:center;}
+html.osrs-kit #prayer-grid .prayer-btn,html.osrs-kit #spell-grid .prayer-btn{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;
+  margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;cursor:pointer;font-size:0;filter:none;transition:none;}
+html.osrs-kit #prayer-grid .prayer-btn .kit-spr{width:30px;height:30px;} html.osrs-kit #spell-grid .prayer-btn .kit-spr{width:24px;height:24px;}
+html.osrs-kit #prayer-grid .prayer-btn b,html.osrs-kit #spell-grid .prayer-btn b,html.osrs-kit #prayer-grid .prayer-btn .lv,html.osrs-kit #spell-grid .prayer-btn .lv{display:none!important;}
+html.osrs-kit #prayer-grid .prayer-btn:hover,html.osrs-kit #spell-grid .prayer-btn:hover{box-shadow:inset 0 0 0 1px rgba(255,255,160,.45);}
+html.osrs-kit #prayer-grid .prayer-btn.sel,html.osrs-kit #spell-grid .prayer-btn.sel{background:rgba(255,230,140,.2);box-shadow:inset 0 0 0 1px #d8b048,inset 0 0 0 2px rgba(0,0,0,.4);}
+html.osrs-kit #prayer-grid .prayer-btn.locked .kit-spr,html.osrs-kit #spell-grid .prayer-btn.locked .kit-spr{filter:grayscale(1) brightness(.42);}
+html.osrs-kit #prayer-grid .prayer-btn.locked,html.osrs-kit #spell-grid .prayer-btn.locked{opacity:1;cursor:default;}
+
+/* settings sliders: a sunken iron groove and a small stone block for the handle (no rounded browser widgets) */
+html.osrs-kit input[type=range].set-slider{-webkit-appearance:none;appearance:none;flex:0 0 104px;width:104px;height:16px;margin:0;padding:0;background:transparent;cursor:pointer;}
+html.osrs-kit input[type=range].set-slider:focus{outline:0;}
+html.osrs-kit input[type=range].set-slider::-webkit-slider-runnable-track{height:6px;border:0;border-radius:0;background:#16120d;box-shadow:inset 0 0 0 1px #0d0b08,inset 1px 1px 0 1px #2c261d,0 1px 0 #6d6250;}
+html.osrs-kit input[type=range].set-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:10px;height:16px;margin-top:-5px;border:0;border-radius:0;
+  background:#3a5fb0;box-shadow:inset 1px 1px 0 #9ec0f0,inset -1px -1px 0 #16254a,0 0 0 1px #0d0b08;}
+html.osrs-kit input[type=range].set-slider::-moz-range-track{height:6px;border:0;border-radius:0;background:#16120d;box-shadow:inset 0 0 0 1px #0d0b08;}
+html.osrs-kit input[type=range].set-slider::-moz-range-thumb{width:10px;height:16px;border:0;border-radius:0;background:var(--tex-stone-lit,#8a7f6a);box-shadow:inset 1px 1px 0 #cfc2a4,inset -1px -1px 0 #2a241c,0 0 0 1px #0d0b08;}
+html.osrs-kit #pane-settings .set-row:has(.set-slider)>span{line-height:12px;}
+
+/* ============================ round 3: every window and control in the pixel font ============================ */
+html.osrs-kit button,html.osrs-kit input,html.osrs-kit select,html.osrs-kit textarea{font-family:var(--k-font);}
+/* old inline sizes were 8-16 px; the bitmap font is drawn for 12 px, so every window's lettering is 12 px */
+html.osrs-kit .modal.steel *:not(.kit-x):not(#dlg-head):not(.kit-spr),html.osrs-kit #smith-grid-overlay *:not(.kit-x),
+html.osrs-kit #pane-drops *,html.osrs-kit #music-menu *,html.osrs-kit #side-panel .tab-pane *{font-size:12px!important;}
+html.osrs-kit .modal.steel{line-height:15px;}
+html.osrs-kit .modal.steel input[type=text],html.osrs-kit .modal.steel input:not([type]),html.osrs-kit .modal.steel input[type=search],
+html.osrs-kit #bank-search,html.osrs-kit #map-search{background:#16120d!important;color:var(--k-yellow)!important;border:0!important;border-radius:0!important;
+  box-shadow:inset 0 0 0 1px var(--k-ink),var(--k-sunk)!important;font:12px var(--k-font)!important;padding:3px 5px!important;}
+html.osrs-kit .modal.steel button:not(.kit-x):not(.opt),html.osrs-kit #preset-save,html.osrs-kit .preset-load{border:0!important;border-radius:0!important;color:var(--k-orange)!important;
+  background:var(--tex-stone,#5a5245)!important;box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink)!important;text-shadow:var(--k-shadow);}
+html.osrs-kit .modal.steel button:not(.kit-x):not(.opt):hover{background-image:var(--tex-stone-lit,none)!important;color:var(--k-yellow)!important;}
+html.osrs-kit .big-grid{gap:2px!important;}
+html.osrs-kit .big-grid>*{border-radius:0!important;background:rgba(0,0,0,.22)!important;box-shadow:inset 0 0 0 1px rgba(0,0,0,.55)!important;border:0!important;}
+html.osrs-kit .big-grid>*:hover{box-shadow:inset 0 0 0 1px #ffff00!important;}
+html.osrs-kit .price-tag,html.osrs-kit .inv-qty{font:12px var(--k-font)!important;color:var(--k-yellow)!important;text-shadow:var(--k-shadow)!important;}
+/* pixel checkboxes (overlays window): a sunk slate square, a rendered green tick when on */
+html.osrs-kit .modal.steel input[type=checkbox]{-webkit-appearance:none;appearance:none;width:13px;height:13px;margin:1px 5px 0 0;border:0;border-radius:0;flex:0 0 13px;cursor:pointer;
+  background:#16120d;box-shadow:inset 0 0 0 1px var(--k-ink),var(--k-sunk);vertical-align:-2px;}
+html.osrs-kit .modal.steel input[type=checkbox]:checked{background:#16120d var(--spr-tick) center/11px 11px no-repeat;image-rendering:pixelated;}
+html.osrs-kit #overlays-modal label b,html.osrs-kit #overlays-modal b{color:var(--k-orange);font-weight:bold;}
+/* the anvil window: square item cells with hard lines */
+html.osrs-kit #smith-grid-overlay>div *{border-radius:0!important;}
+html.osrs-kit #smith-grid-overlay>div div[style*="box-shadow"],html.osrs-kit #smith-grid-overlay>div div[style*="border"]{box-shadow:inset 0 0 0 1px rgba(0,0,0,.6)!important;}
+html.osrs-kit #smith-grid-overlay span,html.osrs-kit #smith-grid-overlay div{text-shadow:1px 1px 0 #000!important;}
+html.osrs-kit #smith-grid-overlay .kit-spr{display:inline-block;vertical-align:-4px;margin-right:4px;}
+/* the world map: square frame, pixel search box */
+html.osrs-kit #worldmap-modal canvas{border-radius:0!important;box-shadow:0 0 0 1px var(--k-ink),0 0 0 3px #4b4336,0 0 0 4px var(--k-ink)!important;image-rendering:pixelated;}
+html.osrs-kit #map-search-list{border-radius:0!important;box-shadow:0 0 0 1px var(--k-ink)!important;font:12px var(--k-font)!important;}
+html.osrs-kit .map-hint{color:#c8b890!important;font:12px var(--k-font)!important;text-shadow:var(--k-shadow);}
+/* deeds list: medal sprites in place of emoji */
+html.osrs-kit #deeds-modal .kit-medal{display:inline-block;width:16px;height:16px;vertical-align:-3px;margin-right:3px;}
+html.osrs-kit #deeds-modal .osrs-title{color:var(--k-orange)!important;}
+/* the dialogue chathead (tutor portraits or the rendered stand-in) */
+html.osrs-kit #dialogue-modal #dlg-head{width:64px;height:64px;flex:0 0 64px;font-size:0!important;line-height:0;}
+html.osrs-kit #dialogue-modal #dlg-head img{width:64px!important;height:64px!important;image-rendering:auto;}
+html.osrs-kit #dialogue-modal #dlg-head img.kit-spr{image-rendering:pixelated;}
+
+/* ============================ the quest scroll (UI_QuestScrollScreen.jpg) ============================ */
+html.osrs-kit #quest-scroll-modal{width:min(560px,90vw)!important;border:12px solid transparent!important;border-image:var(--tex-frame-parch) 12 fill round!important;background:var(--tex-parch,#d8ccb4)!important;
+  background-clip:padding-box!important;box-shadow:none!important;border-radius:0!important;padding:26px 34px 22px!important;color:#000080;font:12px/16px var(--k-font)!important;image-rendering:pixelated;}
+html.osrs-kit #quest-scroll-modal::before,html.osrs-kit #quest-scroll-modal::after{display:none!important;}
+html.osrs-kit #quest-scroll-modal *{font-family:var(--k-font)!important;font-size:12px!important;line-height:16px;text-shadow:none!important;}
+html.osrs-kit #quest-scroll-modal .quest-scroll-head{border-bottom:1px solid #8a7248;padding-bottom:8px;margin-bottom:10px;}
+html.osrs-kit #quest-scroll-modal .quest-scroll-head h2{margin:3px 40px;color:#800000;font-weight:bold!important;font-size:24px!important;line-height:28px!important;}
+html.osrs-kit #quest-scroll-modal #quest-scroll-difficulty{color:#5a3c14;font-variant:normal;letter-spacing:0;}
+html.osrs-kit #quest-scroll-modal #quest-scroll-giver{color:#5a3c14;font-style:normal;}
+html.osrs-kit #quest-scroll-modal .quest-scroll-desc{color:#000080;}
+html.osrs-kit #quest-scroll-modal .quest-scroll-section{background:none;border:0;border-top:1px solid #a88f60;padding:6px 4px 2px;margin:8px 0;}
+html.osrs-kit #quest-scroll-modal .quest-scroll-section h3{color:#800000;font-weight:bold!important;}
+html.osrs-kit #quest-scroll-modal .quest-stage{color:#000080;}
+html.osrs-kit #quest-scroll-modal .quest-stage.current{color:#000080;font-weight:bold;}
+html.osrs-kit #quest-scroll-modal .quest-stage.done{color:#800000;}
+html.osrs-kit #quest-scroll-modal .quest-stage-mark{color:#5a3c14;}
+html.osrs-kit #quest-scroll-modal .quest-reward{background:none;border:0;padding:2px 6px;color:#000080;}
+html.osrs-kit #quest-scroll-modal .quest-scroll-button{border:0;border-radius:0;color:var(--k-orange);background:var(--tex-stone,#5a5245);text-shadow:var(--k-shadow)!important;
+  box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);padding:5px 14px;font-weight:bold!important;}
+html.osrs-kit #quest-scroll-modal .quest-scroll-button.tracked{background:var(--tex-stone-red,#6a2014);color:#fff;}
+html.osrs-kit #quest-scroll-modal #quest-scroll-points{color:#5a3c14;}
+
+html.osrs-kit .kit-inline{display:inline-block;vertical-align:middle;margin:0 2px;image-rendering:pixelated;}
+
+/* narrow / mobile HUD: the stacked stat orbs use the same painted spheres in stone sockets, pixel numbers */
+@media (max-width:880px){
+  html.osrs-kit #orbs .orb{position:relative;}
+  html.osrs-kit #orbs .orb,html.osrs-kit #run-orb{border:0!important;border-radius:50%!important;box-shadow:none!important;
+    background:var(--orb-fill,var(--spr-fill-grey)) center/86% 86% no-repeat!important;image-rendering:pixelated;font:12px var(--k-font)!important;}
+  html.osrs-kit #orbs .orb::after,html.osrs-kit #run-orb::after{content:"";position:absolute;inset:-3px;pointer-events:none;background:var(--spr-socket) center/100% 100% no-repeat;image-rendering:pixelated;}
+  html.osrs-kit #orbs .orb .num,html.osrs-kit #run-orb #run-pct{font:12px var(--k-font)!important;text-shadow:1px 1px 0 #000!important;position:relative;z-index:1;}
+  html.osrs-kit #orbs .orb .lbl{display:none!important;}
+  html.osrs-kit #hp-orb{--orb-fill:var(--spr-fill-red);} html.osrs-kit #orbs .orb-pray{--orb-fill:var(--spr-fill-blue);}
+  html.osrs-kit #spec-orb{--orb-fill:var(--spr-fill-teal);} html.osrs-kit #run-orb{--orb-fill:var(--spr-fill-yellow);}
+  html.osrs-kit .mob-toggle{border-radius:0!important;background:var(--tex-stone,#5a5245)!important;box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink)!important;}
+}
+
+/* quest journal colours (red = not started, yellow = under way, green = done), XP drops in the pixel font */
+html.osrs-kit #quest-list .q-not b{color:#ff0000;} html.osrs-kit #quest-list .q-prog b{color:#ffff00;} html.osrs-kit #quest-list .q-done b{color:#00ff00;}
+html.osrs-kit #quest-list b{text-shadow:1px 1px 0 #000;font-weight:bold;}
+html.osrs-kit #quest-list .kit-inline{vertical-align:-2px;margin:0 3px 0 0;}
+html.osrs-kit .xp-drop{font:bold 12px var(--k-font)!important;color:#fff;text-shadow:1px 1px 0 #000!important;}
+html.osrs-kit .xp-drop img{image-rendering:pixelated;}

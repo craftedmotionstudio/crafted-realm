@@ -1,0 +1,5493 @@
+{
+ "login": [
+  {
+   "el": "div#welcome-screen",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "welcome-screen > div.world-badge",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "welcome-screen > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "welcome-screen > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "welcome-screen > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#login-music-toggle",
+   "flags": [
+    "radius 50",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "div#welcome-logo",
+   "flags": [
+    "gradient",
+    "filter drop-shadow(rgb(42, 22, 2) 0px 3px 0px) ",
+    "font \"Cinzel Decorative\""
+   ]
+  },
+  {
+   "el": "welcome-screen > div.login-subtitle",
+   "flags": [
+    "text-shadow blur",
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "main#welcome-box",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "welcome-box > i",
+   "flags": [
+    "gradient",
+    "radius 50"
+   ]
+  },
+  {
+   "el": "welcome-box > i",
+   "flags": [
+    "gradient",
+    "radius 50"
+   ]
+  },
+  {
+   "el": "welcome-box > i",
+   "flags": [
+    "gradient",
+    "radius 50"
+   ]
+  },
+  {
+   "el": "welcome-box > i",
+   "flags": [
+    "gradient",
+    "radius 50"
+   ]
+  },
+  {
+   "el": "login-choose > div.login-kicker",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "login-choose > h3",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "login-choose > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "login-choose > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "login-choose > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#btn-continue",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "btn-continue > strong",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "small#continue-detail",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#btn-new",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "btn-new > strong",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "btn-new > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "p#login-note",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#btn-login-options",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#btn-login-fullscreen",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "welcome-screen > div.login-footer",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "welcome-screen > span.gold",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "hud": [
+  {
+   "el": "div#side-panel",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "tab-bar > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar > div.tab-btn.active",
+   "flags": [
+    "gradient",
+    "radius 7",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "tab-bar > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "div#pane-inv",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > span.inv-qty",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > div.tab-btn",
+   "flags": [
+    "gradient",
+    "radius 7"
+   ]
+  },
+  {
+   "el": "tab-bar-bottom > svg.tab-ico.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.8) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "div#hud-rail",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "hud-rail > div.orb.rail-plaque",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "span#cmb-orb",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "hud-rail > div.orb.rail-plaque",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "span#coin-orb",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#music-btn",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "music-btn > svg.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.55) 1px 1px "
+   ]
+  },
+  {
+   "el": "button#overlays-btn",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "overlays-btn > svg.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.55) 1px 1px "
+   ]
+  },
+  {
+   "el": "button#deeds-btn",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "deeds-btn > svg.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.55) 1px 1px "
+   ]
+  },
+  {
+   "el": "button#char-styler-btn",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "char-styler-btn > svg.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.55) 1px 1px "
+   ]
+  },
+  {
+   "el": "button#compass-btn",
+   "flags": [
+    "radius 50",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "compass-btn > svg.kit-ico.compass-face",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.55) 1px 1px "
+   ]
+  },
+  {
+   "el": "button#worldmap-btn",
+   "flags": [
+    "radius 50",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "worldmap-btn > svg.kit-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.55) 1px 1px "
+   ]
+  },
+  {
+   "el": "div#hp-orb",
+   "flags": [
+    "gradient",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "span#hp-orb-num",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "hp-orb > i.orb-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.6) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "div#pray-orb-wrap",
+   "flags": [
+    "gradient",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "span#pray-orb",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pray-orb-wrap > i.orb-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.6) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "div#spec-orb",
+   "flags": [
+    "gradient",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "span#spec-num",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spec-orb > i.orb-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.6) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "div#run-orb",
+   "flags": [
+    "gradient",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "span#run-pct",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "run-orb > i.orb-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.6) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "div#chatbox-frame",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "div#chat-title",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "div#chatbox",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "chatbox > div.xp",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chatbox > div.sys",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chatbox > div.plain",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chatbox > div.sys",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-input-row > span.chat-me",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-input-row > span.chat-hint",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > div.chtab.active",
+   "flags": [
+    "gradient",
+    "radius 6",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > div.chtab",
+   "flags": [
+    "gradient",
+    "radius 6",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > div.chtab",
+   "flags": [
+    "gradient",
+    "radius 6",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > div.chtab",
+   "flags": [
+    "gradient",
+    "radius 6",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > div.chtab",
+   "flags": [
+    "gradient",
+    "radius 6",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > div.chtab",
+   "flags": [
+    "gradient",
+    "radius 6",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > div.chtab",
+   "flags": [
+    "gradient",
+    "radius 6",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "chat-tabs > div.chtab.report",
+   "flags": [
+    "gradient",
+    "radius 6",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "div#objective",
+   "flags": [
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "objective > div.obj-label",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "div#obj-text",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "objective > button",
+   "flags": [
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "div#zone-box",
+   "flags": [
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "div#zone-label",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  }
+ ],
+ "tab combat": [
+  {
+   "el": "div#pane-combat",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "combat-styles > div.cr-wname",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "combat-styles > div.cr-clvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "combat-styles > div.cmb-style.active",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "combat-styles > span.cr-ico",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "combat-styles > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "combat-styles > div.cmb-style",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "combat-styles > span.cr-ico",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "combat-styles > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "combat-styles > div.cmb-style",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "combat-styles > span.cr-ico",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "combat-styles > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "combat-styles > div.cmb-style",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "combat-styles > span.cr-ico",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "combat-styles > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#retal-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "retal-btn > span.cr-knight",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab skills": [
+  {
+   "el": "div#pane-skills",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "div#osk-grid",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > div.osk-cell",
+   "flags": [
+    "gradient"
+   ]
+  },
+  {
+   "el": "osk-grid > img.osk-ico",
+   "flags": [
+    "filter drop-shadow(rgba(0, 0, 0, 0.5) 1px 1px 0"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-cur",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-grid > span.osk-max",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "div#osk-total",
+   "flags": [
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "osk-total > b",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab quests": [
+  {
+   "el": "div#pane-quests",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "quest-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "quest-list > div",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab inv": [
+  {
+   "el": "div#pane-inv",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > span.inv-qty",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  },
+  {
+   "el": "inv-grid > div.inv-slot",
+   "flags": [
+    "radius 2",
+    "filter drop-shadow(rgba(0, 0, 0, 0.34) 2px 3px "
+   ]
+  }
+ ],
+ "tab equip": [
+  {
+   "el": "div#pane-equip",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-pane-title",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-head",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-cape",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-amulet",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-ammo",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-weapon",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-body",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-shield",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-legs",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-hands",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-feet",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > div.kit-slot.slot-ring",
+   "flags": [
+    "gradient",
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "equip-list > svg.doll-ghost",
+   "flags": [
+    "filter drop-shadow(rgba(255, 238, 205, 0.12) 1p"
+   ]
+  },
+  {
+   "el": "equip-list > button.kit-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "equip-list > button.kit-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab prayers": [
+  {
+   "el": "div#pane-prayers",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "div#prayer-grid",
+   "flags": [
+    "gradient",
+    "radius 5",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "prayer-grid > div.bonus-head",
+   "flags": [
+    "radius 4",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "prayer-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab spells": [
+  {
+   "el": "div#pane-spells",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "div#spell-grid",
+   "flags": [
+    "gradient",
+    "radius 5",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "spell-grid > div.bonus-head",
+   "flags": [
+    "radius 4",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "spell-grid > button.style-btn.prayer-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab drops": [
+  {
+   "el": "div#pane-drops",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "input#drops-search",
+   "flags": [
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "drops-list > span.lvl",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab clan": [
+  {
+   "el": "div#pane-clan",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-clan > h3",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "pane-clan > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-clan > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-clan > div.kit-list",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-clan > span.muted",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-clan > button.set-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-clan > button.set-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab friends": [
+  {
+   "el": "div#pane-friends",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-friends > h3",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "pane-friends > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-friends > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-friends > div.kit-list",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-friends > span.muted",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-friends > button.set-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-friends > button.set-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab ignore": [
+  {
+   "el": "div#pane-ignore",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-ignore > h3",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "pane-ignore > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-ignore > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-ignore > div.kit-list",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-ignore > span.muted",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-ignore > button.set-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-ignore > button.set-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab logout": [
+  {
+   "el": "div#pane-logout",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-logout > p.ui-copy",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-logout > button.set-btn.wide",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-logout > button.set-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab settings": [
+  {
+   "el": "div#pane-settings",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-settings > div.set-row",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "pane-settings > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-settings > button.set-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-settings > div.set-row",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "pane-settings > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-settings > button.set-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-settings > div.set-row",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "pane-settings > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-settings > div.set-row",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "pane-settings > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-settings > div.set-row",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "pane-settings > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "button#roofs-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-settings > div.set-row",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "pane-settings > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-settings > button.set-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-settings > button.set-btn.wide",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-settings > button.set-btn.wide",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab emotes": [
+  {
+   "el": "div#pane-emotes",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-emotes > h3",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-emotes > button",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "pane-emotes > small",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "tab music": [
+  {
+   "el": "div#pane-music",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-music > h3",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "pane-music > div.music-now",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.kit-list",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.locked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.locked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.unlocked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.unlocked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.locked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.locked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.locked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.locked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.unlocked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.unlocked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.locked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.locked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.locked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.unlocked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > div.music-track.unlocked",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "pane-music > button.set-btn.wide",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  }
+ ],
+ "right-click": [
+  {
+   "el": "div#ctx-menu",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "ctx-menu > div.ctx-head",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "ctx-rows > div.ctx-row",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "ctx-rows > div.ctx-row",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "ctx-rows > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "ctx-rows > div.ctx-row",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "win bank": [
+  {
+   "el": "div#bank-modal",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "bank-modal > span.close-x.kit-x",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "bank-modal > h3",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "bank-modal > p",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "bank-qol-bar > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "input#bank-search",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "span#bank-presets",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "bank-presets > button.preset-load",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "bank-presets > button.preset-load",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "bank-presets > button.preset-load",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "button#preset-save",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "bank-grid > i",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "bank-modal > h3",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "bank-inv-grid > span.inv-qty",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "win shop": [
+  {
+   "el": "div#shop-modal",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "shop-modal > span.close-x.kit-x",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "h3#shop-title",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "shop-modal > p",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "shop-grid > span.price-tag",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "shop-modal > h3",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "shop-inv-grid > span.inv-qty",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "win worldmap": [
+  {
+   "el": "div#worldmap-modal",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "worldmap-modal > span.close-x.kit-x",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "worldmap-modal > h3",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "input#map-search",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "worldmap-modal > div.map-hint",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "win quest scroll": [
+  {
+   "el": "div#quest-scroll-modal",
+   "flags": [
+    "gradient",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "quest-scroll-modal > button.quest-scroll-close.kit-x",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "div#quest-scroll-difficulty",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "h2#quest-scroll-title",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "div#quest-scroll-giver",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > p.quest-scroll-desc",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > h3",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span.quest-stage-mark",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span.quest-stage-mark",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span.quest-stage-mark",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span.quest-stage-mark",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > h3",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > div.quest-reward",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > b",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > div.quest-reward",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > b",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "quest-scroll-body > span",
+   "flags": [
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "button#quest-scroll-track",
+   "flags": [
+    "gradient",
+    "font Georgia"
+   ]
+  },
+  {
+   "el": "span#quest-scroll-points",
+   "flags": [
+    "font Georgia"
+   ]
+  }
+ ],
+ "win droptable": [
+  {
+   "el": "div#droptable-modal",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "droptable-modal > span.close-x.kit-x",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "droptable-modal > div.osrs-title",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "droptable-modal > td",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "droptable-modal > td",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "droptable-modal > td",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "droptable-modal > td",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "droptable-modal > td",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "droptable-modal > td",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "droptable-modal > td",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "droptable-modal > td",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "droptable-modal > td",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "win overlays": [
+  {
+   "el": "div#overlays-modal",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "overlays-modal > span.close-x.kit-x",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "overlays-modal > div.osrs-title",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-list > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-settings > div.osrs-title",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "overlays-settings > button",
+   "flags": [
+    "font Arial"
+   ]
+  },
+  {
+   "el": "overlays-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "win deeds": [
+  {
+   "el": "div#deeds-modal",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "deeds-modal > span.close-x.kit-x",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "deeds-modal > div.osrs-title",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > b",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div.osrs-title",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "deeds-modal > span",
+   "flags": [
+    "font Verdana"
+   ]
+  }
+ ],
+ "win music menu": [
+  {
+   "el": "div#music-menu",
+   "flags": [
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "music-menu > h4",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "music-menu > span",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack.mode",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > div.mtrack.mode",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "music-menu > button.kit-x.kit-x-added",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur"
+   ]
+  }
+ ],
+ "win dialogue": [
+  {
+   "el": "div#dialogue-modal",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "dialogue-modal > span.close-x.kit-x",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "h3#dlg-name",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "div#dlg-head",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "p#dlg-text",
+   "flags": [
+    "font \"IM Fell English\""
+   ]
+  },
+  {
+   "el": "dlg-opts > button.opt",
+   "flags": [
+    "radius 2",
+    "font \"IM Fell English\""
+   ]
+  }
+ ],
+ "win smithing": [
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 3",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > span",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > span",
+   "flags": [
+    "text-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "radius 6"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > div",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > button.opt",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "smith-grid-overlay > button.kit-x.kit-x-added",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur"
+   ]
+  }
+ ],
+ "creator": [
+  {
+   "el": "kit-creator > div.kc-title",
+   "flags": [
+    "radius 2",
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-col.kc-design",
+   "flags": [
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "kit-creator > h4",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-sub",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-sub",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-sub",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-sub",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-sub",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-sub",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-sub",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-view",
+   "flags": [
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-col.kc-colour",
+   "flags": [
+    "radius 2",
+    "box-shadow blur"
+   ]
+  },
+  {
+   "el": "kit-creator > h4",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-swatch",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-swatch",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-swatch",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-swatch",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-swatch",
+   "flags": [
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > h4",
+   "flags": [
+    "font \"IM Fell English SC\""
+   ]
+  },
+  {
+   "el": "kit-creator > button.kit-btn.on",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "box-shadow blur",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kit-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-sub",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.l",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-label",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kc-arrow.r",
+   "flags": [
+    "gradient",
+    "radius 2"
+   ]
+  },
+  {
+   "el": "kit-creator > div.kc-sub",
+   "flags": [
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kit-btn",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  },
+  {
+   "el": "kit-creator > button.kit-btn.kc-confirm",
+   "flags": [
+    "gradient",
+    "radius 2",
+    "font Verdana"
+   ]
+  }
+ ]
+}
