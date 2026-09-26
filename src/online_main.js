@@ -151,29 +151,23 @@ var OnlineMain=(function(){
   }
  }
  function castOn(kind,e,spell){st.pending=null;st.dest=null;Player.moveTo=null;OnlineUI.clearArmed();if(kind==='p')st.pvpAttacks++;net.send(kind==='n'?{t:'cast_npc',nid:e.id,spell:spell}:{t:'cast_player',pid:e.id,spell:spell})}
- // the actions the menu rows send (src/online_menu.js builds the rows; a menu-provider system can register it as is)
+ // the actions the menu rows send: src/online_menu.js registers the online entities with the one old-school menu
+ // (src/osrs_menu.js); a left click runs the top row, a right click opens "Choose Option"
  var MENU_ACTIONS={attackNpc:function(e){attackNpc(e)},attackPlayer:function(e){attackPlayer(e)},castOn:castOn,follow:function(e){follow(e)},
   take:function(uid){take(uid)},kit:function(k){kit(k)},openChest:function(){var a=OW.map().alpha;if(a&&a.kits)OnlineUI.chestDialog(a.kits,kit)},
+  unequip:function(slot){if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click();net.send({t:'unequip',slot:slot})},
   examine:function(text){UI.chat(text,'plain')},note:function(text){UI.chat(text,'sys')}};
- function entriesFor(hit,ev){
-  var out=OnlineMenu.entries(hit,MENU_ACTIONS);
-  var gp=ev?groundPick(ev):null;
-  var walkRow={html:'Walk here',fn:function(){var p=gp||(hit&&hit.point);if(p)walkTile(tileOfPoint(p))},kind:'walk'};
-  // 2004: another adventurer's left click walks, unless you may attack them here (then Attack leads)
-  var u0=hit&&hit.obj&&hit.obj.userData||{};
-  if(u0.kind==='onl_player'&&!(out[0]&&(out[0].kind==='attack'||out[0].kind==='cast')))out.unshift(walkRow);else out.push(walkRow);
-  out.push({html:'Cancel',fn:null});
-  return out;
- }
+ var ONL=/^onl_(npc|player|obj|chest)$/;
  function installInput(){
   if(st.installedInput)return;st.installedInput=true;
-  window.buildCtxEntries=entriesFor;
+  OnlineMenu.register(MENU_ACTIONS);
+  // the game's click (the menu's Walk here, the minimap, older callers): an online entity runs its top menu row,
+  // anything else is a walk to that tile
   window.handleClick=function(obj,point){
    if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click();
-   if(OnlineUI.armedSpell()&&!(obj&&obj.userData&&/onl_(npc|player)/.test(obj.userData.kind||'')))OnlineUI.clearArmed();
    var u=obj&&obj.userData||{};
-   var list=entriesFor({obj:obj,point:point},null);
-   if(list.length>2&&list[0].fn&&u.kind&&u.kind!=='onl_scenery'){list[0].fn();return}
+   if(OnlineUI.armedSpell()&&!/^onl_(npc|player)$/.test(u.kind||''))OnlineUI.clearArmed();
+   if(ONL.test(u.kind||'')){var rows=OnlineMenu.rows(obj,point)||[],top=rows[0];if(top&&top.fn&&top.option!=='Walk here'&&top.option!=='Cancel'){top.fn();return}}
    if(point)walkTile(tileOfPoint(point));
   };
   window.minimapWalkTo=function(p){walkTile(tileOfPoint(p))};
@@ -284,7 +278,7 @@ var OnlineMain=(function(){
   attackNpcNearest:function(ty){var me=myTile(),best=null,bd=1e9;OnlineActors.npcs().forEach(function(e){if(e.rec.dead||(ty&&e.ty!==ty))return;var d=Math.max(Math.abs(e.tile.x-me.x),Math.abs(e.tile.z-me.z));if(d<bd){bd=d;best=e}});if(!best)return null;attackNpc(best);return {nid:best.id,ty:best.ty,d:bd}},
   eatFirst:function(){for(var i=0;i<Player.inv.length;i++){var s=Player.inv[i];if(s&&ITEMS[s.id].heal>0){net.send({t:'eat',slot:i});return i}}return -1},
   menuFor:function(kind,id){var o=null;if(kind==='player'){var e=OnlineActors.players().get(id);o=e&&e.root}else if(kind==='npc'){var n=OnlineActors.npcs().get(id);o=n&&n.rec.mesh}if(!o)return null;
-   return entriesFor({obj:o,point:o.position},null).map(function(x){var d=document.createElement('div');d.innerHTML=x.html;return d.textContent})},
+   return OnlineMenu.rowsFor(o,o.position)},
   screenOf:function(kind,id){var o=null;if(kind==='player'){var e=OnlineActors.players().get(id);o=e&&e.root}else if(kind==='npc'){var n=OnlineActors.npcs().get(id);o=n&&n.rec.mesh}else if(kind==='me')o=player;if(!o)return null;
    var v=new THREE.Vector3();o.getWorldPosition(v);v.y+=1;v.project(camera);return {x:(v.x+1)/2*innerWidth,y:(1-v.y)/2*innerHeight}},
   fxLog:function(){return OnlineFX.log()},
@@ -301,5 +295,5 @@ var OnlineMain=(function(){
   logout:function(){return net.send({t:'logout'})},
   drop:function(){return net.simulateDrop()}
  };
- return {net:net,enter:enter,entriesFor:entriesFor,walkTile:walkTile,st:st};
+ return {net:net,enter:enter,menuRows:function(obj,point){return OnlineMenu.rowsFor(obj,point)},walkTile:walkTile,st:st};
 })();

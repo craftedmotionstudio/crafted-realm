@@ -1,0 +1,130 @@
+{
+ "at": "2026-09-26T17:49:32.060Z",
+ "results": [
+  {
+   "ok": true,
+   "label": "Commons: another adventurer has Walk here on top, Follow / Trade with / Report under it, no Attack, no Examine",
+   "detail": [
+    "Walk here",
+    "Follow Hollis (level-51)",
+    "Trade with Hollis (level-51)",
+    "Report Hollis",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "label": "Commons: a left click on another adventurer walks (no attack)",
+   "detail": {
+    "target": false
+   }
+  },
+  {
+   "ok": true,
+   "label": "Scarlands: \"Attack Hollis (level-N)\" on top, then Walk here",
+   "detail": [
+    "Attack Hollis (level-51)",
+    "Walk here",
+    "Follow Hollis (level-51)",
+    "Trade with Hollis (level-51)",
+    "Report Hollis",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "label": "the hover line reads the top row and \"/ N more options\"",
+   "detail": "Attack Hollis (level-51) / 4 more options"
+  },
+  {
+   "ok": true,
+   "label": "Scarlands: a left click on the adventurer attacks (the server's target)",
+   "detail": {
+    "target": 2
+   }
+  },
+  {
+   "ok": true,
+   "label": "a monster: \"Attack Gnarlgob (level-N)\", Walk here, Examine Gnarlgob, Cancel",
+   "detail": [
+    "Attack Gnarlgob (level-5)",
+    "Walk here",
+    "Examine Gnarlgob (level-5)",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "label": "a readied spell: \"Cast <spell> -> Gnarlgob (level-N)\" on top",
+   "detail": [
+    "Cast Water Bolt -> Gnarlgob (level-5)",
+    "Attack Gnarlgob (level-5)",
+    "Walk here",
+    "Examine Gnarlgob (level-5)",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "label": "a left click on the monster attacks it",
+   "detail": {
+    "target": 6
+   }
+  },
+  {
+   "ok": true,
+   "label": "items on one tile: one Take and one Examine per item, Take on top",
+   "detail": {
+    "rows": [
+     "Take Bones",
+     "Take Crowns (7)",
+     "Walk here",
+     "Examine Bones",
+     "Examine Crowns",
+     "Cancel"
+    ],
+    "onTile": 2
+   }
+  },
+  {
+   "ok": true,
+   "label": "a left click on the pile takes the top item into the pack",
+   "detail": null
+  },
+  {
+   "ok": true,
+   "label": "the supply chest: Open, Take-<kit>-kit per kit, Examine",
+   "detail": [
+    "Open Supply chest",
+    "Take-melee-kit Supply chest",
+    "Take-ranged-kit Supply chest",
+    "Take-magic-kit Supply chest",
+    "Walk here",
+    "Examine Supply chest",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "label": "worn equipment: Remove on top",
+   "detail": [
+    "Remove Steel med helm",
+    "Examine Steel med helm",
+    "Cancel"
+   ]
+  },
+  {
+   "ok": true,
+   "label": "Remove sends the unequip intent: the server moves it back to the pack",
+   "detail": {
+    "slot": "head",
+    "item": "steel_medhelm"
+   }
+  },
+  {
+   "ok": true,
+   "label": "no page errors",
+   "detail": []
+  }
+ ]
+}
