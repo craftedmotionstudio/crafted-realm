@@ -20,6 +20,9 @@ const SPELLS = {
   wind_blast:  {name:'Wind Blast',   req:41, max:13, baseXp:25.5, icon:'\u{1F32A}', color:0x8ab0d0, runes:{air_rune:3, spark_rune:1}},
   water_blast: {name:'Water Blast',  req:47, max:14, baseXp:28.5, icon:'\u{1F30A}', color:0x1a5ac0, runes:{water_rune:3, air_rune:3, spark_rune:1}},
   earth_blast: {name:'Earth Blast',  req:53, max:15, baseXp:31.5, icon:'\u{1F5FB}', color:0x5a3e22, runes:{earth_rune:4, air_rune:3, spark_rune:1}},
+  // the 2004 book's last blast (combat pass 4): without it a level-59+ mage's best spell stopped at 15 while blades and
+  // arrows kept growing with Strength and Ranged; its sprite already exists (assets/icons/ui/v3/spells/fire_blast.png)
+  fire_blast:  {name:'Fire Blast',   req:59, max:16, baseXp:34.5, icon:'\u{2604}',  color:0xe8501e, runes:{fire_rune:5, air_rune:4, spark_rune:1}},
   confuse:     {name:'Confuse', req:3,  utility:'curse', stat:'att', cut:0.95, baseXp:13, icon:'\u{1F4AB}', color:0x8a8aa8, runes:{body_rune:1, water_rune:3, earth_rune:2}},
   weaken:      {name:'Weaken',  req:11, utility:'curse', stat:'str', cut:0.95, baseXp:21, icon:'\u{1F4C9}', color:0x6a8a6a, runes:{body_rune:1, water_rune:3, earth_rune:2}},
   home_tele:    {name:'Veyhollow Teleport',  req:1,  utility:'teleport', dest:'commons',  cd:60, icon:'\u{1F3E0}', baseXp:0,  runes:{}},

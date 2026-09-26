@@ -119,7 +119,8 @@ function capeMesh(color){
 }
 const METALS = {copper:0xc6794a, bronze:0xb87a3a,   // bronze as the item art paints it (0x8a6437 read as leather)
   iron:0x9aa0a8, steel:0xd0d4dc, whitsteel:0xe8ecf2,
-  aurel:0xd4a83e, veyrite:0x3ec6b4, undercrag:0x6a5a7a, leather:0x8a5e34, cloth:0x7a86b8, glimmer:0xb48ae0};
+  aurel:0xd4a83e, veyrite:0x3ec6b4, undercrag:0x6a5a7a, leather:0x8a5e34, cloth:0x7a86b8, glimmer:0xb48ae0,
+  riveted:0x6e4a2a, fenhide:0x4f6b3a, starweave:0x3c3c8c, blackthorn:0x3a2a22, duskwood:0x4a3a5a};
 function tierMetal(def){ return METALS[def.tier] !== undefined ? METALS[def.tier] : 0x8a6437; }
 /* one mesh router for any equipable item — used worn AND on the ground */
 function gearMesh(id){

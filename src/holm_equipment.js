@@ -24,7 +24,7 @@ var HolmEquipment=(function(){
   battleaxe:'battleaxe',axe:'hatchet',pick:'pickaxe',bow:'shortbow',longbow:'longbow',staff:'staff',shield:'round_shield',
   sqshield:'sqshield',kiteshield:'kiteshield',helm:'fullhelm',medhelm:'medhelm',hat:'hat',plate:'platebody',legs:'platelegs',
   chainbody:'chainbody',plateskirt:'plateskirt',chaps:'chaps',gloves:'gloves',boots:'boots',amulet:'amulet',cape:'cape'};
- var ID_KIND={bronze_dagger:'dagger',iron_dagger:'dagger',leather_body:'leather_body'};
+ var ID_KIND={bronze_dagger:'dagger',iron_dagger:'dagger',leather_body:'leather_body',riveted_body:'leather_body',fenhide_body:'leather_body'};
  var HAT_CLOTH={wizard:0x3a5aad,cloth:0x7a86b8,glimmer:0xb48ae0};
  var st={templates:{},ready:false,failed:null,loading:false,mats:{},waiters:[],installed:false};
 

@@ -5,7 +5,7 @@
 const ICONS = {};
 const TIER_CSS = {copper:'#c6794a', bronze:'#b08d57', iron:'#9aa0a8', steel:'#d0d4dc', whitsteel:'#e8ecf2',
   aurel:'#d4a83e', veyrite:'#3ec6b4', undercrag:'#6a5a7a', leather:'#8a5e34', cloth:'#7a86b8', glimmer:'#b48ae0',
-  monk:'#8a6a44'};
+  monk:'#8a6a44', riveted:'#6e4a2a', fenhide:'#4f6b3a', starweave:'#3c3c8c', blackthorn:'#3a2a22', duskwood:'#4a3a5a'};
 /* Nano Banana (Gemini) gear sprites — richer painted inventory art generated from
    the actual 3D models (assets/icons/gear/<id>.png). The bronze/leather tier is
    painted from the models; the other 7 metal tiers are per-tier recolours of the
