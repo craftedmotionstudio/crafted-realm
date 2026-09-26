@@ -64,7 +64,7 @@ setTex();
 
 /* --------------------------------------------------------------- 2. icons */
 // Every icon is a pixel sprite rendered from one of our own low-poly Blender props (assets/icons/ui/v3/**).
-var SPRV='?v=5',SPR_BASE='assets/icons/ui/v3/';
+var SPRV='?v=6',SPR_BASE='assets/icons/ui/v3/';
 var SPR={music:'rail/music',muted:'rail/muted',layers:'rail/layers',medal:'rail/medal',look:'rail/look',swords:'rail/combat',coins:'rail/coins',
  heart:'orb/heart',prayer:'orb/prayer',run:'orb/run',spec:'orb/spec',compass:'orb/compass',globe:'orb/globe',socket:'orb/socket',mmring:'orb/minimap_ring',
  close:'misc/close',door:'misc/door',note:'misc/note',bell:'misc/bell',roof:'misc/roof',chest:'misc/chest',boot:'misc/boot',mglobe:'misc/globe',

@@ -3,7 +3,8 @@
  *   - a dim stone hall seen through a great archway: square pillars, coursed brick, a misty vaulted corridor (hall_dim.png,
  *     768 x 432, shown about 2x) with a second render lit by the fires (hall_lit.png) flickering over it (ui_osrs_kit.js)
  *   - two iron braziers on twisted stands at the edges, each with an 8-frame fire sprite sheet (CSS steps animation)
- *   - the title: CRAFTED REALM engraved on stone slabs, a hanging lantern and a smith's hammer (logo.png, shown 2x)
+ *   - the title (v4.1): CRAFTED REALM cut into one long dressed-stone lintel with chipped arrises and an incised border; on
+ *     its keystone a plain helm with a smith's hammer and a sword crossed behind it (logo.png, shown 2x)
  *   - a carved-slate panel with a raised bevelled rim and stone buttons (9-slices), yellow / white lettering in our
  *     bitmap font "Realm Small"
  * No gradients, glows or rounded CSS corners on the chrome (the vignette is scene lighting). Every id and stage class used by
@@ -26,20 +27,21 @@
    bottom row sits 12 px (24 px at 2x) into the bowl */
 .login-brazier{position:absolute;z-index:6;bottom:3vh;width:240px;height:336px;pointer-events:none;transform-origin:50% 100%;
   transform:scale(var(--lb-scale,1));}
-.login-brazier-left{left:max(-24px,calc(50% - 790px));} .login-brazier-right{right:max(-24px,calc(50% - 790px));}
+/* v4.1: the braziers stay inside the window (the fire is centred on the bowl, so it never spills off-screen) */
+.login-brazier-left{left:max(8px,calc(50% - 760px));} .login-brazier-right{right:max(8px,calc(50% - 760px));}
 .login-brazier .lb-stand{position:absolute;left:0;bottom:0;width:240px;height:336px;image-rendering:pixelated;}
 .login-brazier .lb-fire{position:absolute;left:0;bottom:312px;width:240px;height:336px;image-rendering:pixelated;
-  background:url("../icons/ui/v3/login/flame_sheet.png?v=2") 0 0/1920px 336px no-repeat;}   /* frames stepped by ui_osrs_kit.js */
+  background:url("../icons/ui/v3/login/flame_sheet.png?v=3") 0 0/1920px 336px no-repeat;}   /* frames stepped by ui_osrs_kit.js */
 .login-brazier-right .lb-fire{transform:scaleX(-1);}
 @media (max-height:860px){.login-brazier{--lb-scale:.8}}
 @media (max-height:700px){.login-brazier{--lb-scale:.64}}
 
-/* the title: CRAFTED REALM on engraved stone slabs (logo.png 400 x 150, shown up to 2x) */
+/* the title: CRAFTED REALM cut into one stone lintel under a helm-and-weapons keystone (logo.png 400 x 150, shown up to 2x) */
 .login-title-wrap{position:absolute;z-index:12;left:50%;top:1vh;transform:translateX(-50%);width:min(800px,94vw,80vh);text-align:center;}
 .login-crest{display:none;}
 #welcome-logo{position:static!important;display:block;margin:0 auto!important;transform:none!important;width:100%;height:auto;aspect-ratio:8/3;
   font-size:0!important;line-height:0!important;color:transparent!important;-webkit-text-fill-color:transparent!important;-webkit-text-stroke:0!important;
-  background:url("../icons/ui/v3/login/logo.png?v=1") center/contain no-repeat!important;image-rendering:pixelated;filter:none!important;text-shadow:none!important;}
+  background:url("../icons/ui/v3/login/logo.png?v=5") center/contain no-repeat!important;image-rendering:pixelated;filter:none!important;text-shadow:none!important;}
 #welcome-logo::after{display:none!important;}
 .login-subtitle{display:none;}
 

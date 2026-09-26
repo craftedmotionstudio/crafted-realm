@@ -4,7 +4,7 @@ Run: python tools/make_login_sheets_v4.py"""
 import os, json
 from PIL import Image, ImageDraw, ImageFont
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-R = os.path.join(ROOT, 'scratchpad', 'holm_login_v4')
+R = os.path.join(ROOT, 'scratchpad', os.environ.get('LOGIN_OUT','holm_login_v4'))
 B, A, O = os.path.join(R, 'before'), os.path.join(R, 'after'), os.path.join(R, 'sheets')
 REF = os.path.join(ROOT, 'Bible_References', 'Login_2004_Reference.png')
 os.makedirs(O, exist_ok=True)
@@ -47,6 +47,7 @@ sheet('04_play.png', '06_ready.png', 'adventure ready (continue)', .62)
 sheet('05_confirm.png', '07_erase_confirm.png', 'erase confirm', .62)
 sheet(['11_fire_0.png', '11_fire_1.png', '11_fire_2.png', '11_fire_3.png'], '08_fire_frames.png', 'brazier fire, 4 frames 140 ms apart', .8, cols='row')
 sheet('08_1280x720.png', '09_1280x720.png', '1280 x 720', .8, ref=True)
+sheet('08b_1920x1080.png', '09b_1920x1080.png', '1920 x 1080', .5, ref=True)
 sheet('09_760x820.png', '10_760x820.png', 'narrow 760 x 820', .8)
 sheet('10_390x844.png', '11_phone_390x844.png', 'phone 390 x 844', 1.0)
 rep = {}

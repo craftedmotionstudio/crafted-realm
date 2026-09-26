@@ -84,6 +84,13 @@ for e in man:
         written.append(save(outline(img, inner=False, shadow=False) if e.get('outline') else img, e['file']))
     elif k == 'sheet':
         frames = [box(load(RAW / f), o['w'], o['h']) for f in e['raw']]
+        if e.get('centre'):   # sit every frame's base on the bowl's centre line (the fire's foot must not drift or lean)
+            cf = []
+            for f in frames:
+                al = f[..., 3].copy(); al[:int(o['h'] * .62)] = 0; xs = np.arange(o['w'])
+                cx = (al.sum(0) * xs).sum() / max(1e-6, al.sum()); sx = int(round(o['w'] / 2 - .5 - cx))
+                cf.append(np.roll(f, sx, axis=1) if sx else f)
+            frames = cf
         masks = [f[..., 3] >= .42 for f in frames]; u8s = [to_u8(punch(f[..., :3], 1.12)) for f in frames]
         pal = palette_of([u[m] for u, m in zip(u8s, masks)], e.get('colors', 12))
         sheet = np.zeros((o['h'], o['w'] * len(frames), 4))

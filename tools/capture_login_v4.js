@@ -8,7 +8,7 @@
 'use strict';
 const fs=require('fs'),path=require('path'),puppeteer=require('puppeteer-core');
 const LABEL=process.argv[2]||'after';
-const OUT=path.join(__dirname,'..','scratchpad','holm_login_v4',LABEL);fs.mkdirSync(OUT,{recursive:true});
+const OUT=path.join(__dirname,'..','scratchpad',process.env.LOGIN_OUT||'holm_login_v4',LABEL);fs.mkdirSync(OUT,{recursive:true});
 const BASE=process.env.SMOKE_BASE||'http://127.0.0.1:8777';
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 (async()=>{
@@ -39,7 +39,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
   await stage('login-play','04_play','play');
   await stage('login-confirm-new','05_confirm');
   await page.evaluate(()=>LoginOverhaul.setStage('login-choose'));await sleep(300);
-  for(const [w,h,n] of [[1280,720,'08_1280x720'],[760,820,'09_760x820'],[390,844,'10_390x844']]){await page.setViewport({width:w,height:h});await sleep(1200);await shot(n)}
+  for(const [w,h,n] of [[1280,720,'08_1280x720'],[1920,1080,'08b_1920x1080'],[760,820,'09_760x820'],[390,844,'10_390x844']]){await page.setViewport({width:w,height:h});await sleep(1200);await shot(n)}
   const report={label:LABEL,welcomeShownMs:shown,loginAssetBytes:bytes,assets,errors};
   fs.writeFileSync(path.join(OUT,'report.json'),JSON.stringify(report,null,1));console.log(JSON.stringify(report));
   await browser.close();

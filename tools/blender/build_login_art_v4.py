@@ -1,4 +1,6 @@
-"""Login art v4 (owner 2026-09-26: "our login artwork should look more like the old 2004 login"): our own dim stone
+"""Login art v4.1 (v4 owner 2026-09-26: "our login artwork should look more like the old 2004 login"; v4.1 the same day:
+"carve the name into one long stone lintel so it's clearly ours", "the flames should sit on the bowls", "drop the lantern,
+keep the hammer, add a sword and/or a helmet"): our own dim stone
 hall seen through a great archway -- square pillars, coursed brick walls, a misty corridor receding behind, flagstones --
 plus the iron braziers and their fire, the CRAFTED REALM carved-stone title, and the carved-slate login panel and buttons.
 Everything is modelled here (original designs; nothing traced or copied from any game's art or logo: our title is two
@@ -30,7 +32,7 @@ PAL = {
     'n_pillar': (.55, .58, .57), 'n_pillar_dk': (.42, .45, .44), 'n_arch': (.53, .56, .55), 'vault': (.40, .41, .40), 'groove': (.22, .22, .22),
     'e_mist': (.80, .86, .80), 'iron': (.34, .34, .36), 'iron_dk': (.18, .18, .19), 'steel': (.62, .64, .67),
     'e_fire_dk': (.84, .26, .04), 'e_fire': (1.0, .58, .10), 'e_fire_core': (1.0, .90, .46), 'e_ember': (1.0, .62, .18), 'coal': (.14, .10, .08),
-    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
+    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.38, .39, .40), 'helm': (.80, .82, .85), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
     'n_rim': (.50, .51, .55), 'v_marble': (.44, .45, .50), 'rim_groove': (.16, .16, .18),
     'btn_face': (.30, .30, .33), 'btn_face_hi': (.40, .40, .44), 'btn_face_red': (.42, .15, .10), 'btn_face_red_hi': (.52, .20, .13), 'btn_face_off': (.22, .22, .23),
     'btn_rim': (.56, .56, .60), 'btn_rim_red': (.62, .40, .34), 'btn_rim_off': (.40, .40, .42),
@@ -121,13 +123,16 @@ MANIFEST = []
 def clear_scene(keep=('Cam', 'Key', 'Fill')):
     for ob in list(scene.objects):
         if ob.name not in keep: bpy.data.objects.remove(ob, do_unlink=True)
-def ortho_render(name, obs, w, h, el=6.0, yaw=0.0, margin=.02, exact=False, key_e=.95, amb=.34, fill_e=.18, outs=None, style='sprite', colors=16):
+def ortho_render(name, obs, w, h, el=6.0, yaw=0.0, margin=.02, exact=False, key_e=.95, amb=.34, fill_e=.18, outs=None, style='sprite', colors=16, shadows=True):
     """front-ish orthographic render framed to the objects' projected bounds (exact=True: no margin, for 9-slices)"""
     scene.render.film_transparent = True
     BG.inputs[0].default_value = (1, .97, .92, 1); BG.inputs[1].default_value = amb
     key.hide_render = fill.hide_render = False; key.data.energy = key_e; fill.data.energy = fill_e; key.data.angle = math.radians(2)
+    try: key.data.use_shadow = shadows
+    except Exception: pass
     cam.data.type = 'ORTHO'
-    for ob in obs: ob.rotation_euler = (0, 0, math.radians(yaw))
+    for ob in obs:
+        if yaw: ob.rotation_euler = (ob.rotation_euler.x, ob.rotation_euler.y, math.radians(yaw))
     e = math.radians(el); cam.location = Vector((0, -math.cos(e), math.sin(e))) * 60
     cam.rotation_euler = (-cam.location).to_track_quat('-Z', 'Y').to_euler(); bpy.context.view_layer.update()
     inv = cam.matrix_world.inverted(); dg = bpy.context.evaluated_depsgraph_get(); pts = []
@@ -276,22 +281,28 @@ def build_brazier():
         m.hull(blob((x, y, 2.07), (.11, .1, .06), 40 + i, n=9, cuts=1), 'e_ember' if i % 3 else 'coal')
     return m
 def flame_frame(m, f, nf=8):
-    """one frame of a looping fire: tongues whose height, sway and width breathe on a period of nf frames"""
-    rng = random.Random(11)
-    specs = [(rng.uniform(-.56, .56), rng.uniform(.8, 1.75), rng.uniform(.16, .25), rng.uniform(0, 1), rng.uniform(.8, 1.4)) for _ in range(11)]
-    specs.sort(key=lambda s: -s[1])
+    """one frame of a looping fire, centred on the bowl: tongues spread evenly either side of the middle (the tallest at
+    the centre), heights, sway and width breathe on a period of nf frames; neighbouring tongues sway in opposite phase so
+    the fire as a whole stays upright over the coals"""
+    rng = random.Random(11); n = 11
+    specs = []
+    for i in range(n):
+        u = i / (n - 1) * 2 - 1                                   # -1 .. 1 across the bowl
+        specs.append((u * .5 + rng.uniform(-.04, .04), (1.75 - .85 * abs(u)) * rng.uniform(.88, 1.08), rng.uniform(.17, .24),
+                      (i % 2) * .5 + rng.uniform(-.08, .08), rng.uniform(.8, 1.3)))
+    specs.sort(key=lambda sp: -sp[1])
     t = f / nf
     for layer, (col, ks, dy) in enumerate((('e_fire_dk', 1.0, .0), ('e_fire', .74, -.06), ('e_fire_core', .45, -.12))):
         for i, (x0, h, w, ph, fr) in enumerate(specs):
             if layer == 2 and i % 2: continue
-            hh = h * ks * (1 + .18 * math.sin(TAU * (t * fr + ph)))
+            hh = h * ks * (1 + .16 * math.sin(TAU * (t * fr + ph)))
             pts = []; rr = []
             for j in range(7):
-                u = j / 6; sway = .16 * math.sin(TAU * (t + ph + u * .6)) * u * (1.2 if layer == 0 else 1)
-                pts.append((x0 * (1 - u * .5) * (1 if layer == 0 else .8) + sway, dy, 2.02 + u * hh)); rr.append(max(.008, w * ks * (1 - u) ** .7 * (1.25 if layer == 0 else 1.15)))
+                u = j / 6; sway = .11 * math.sin(TAU * (t + ph + u * .6)) * u
+                pts.append((x0 * (1 - u * .55) * (1 if layer == 0 else .8) + sway, dy, 2.02 + u * hh)); rr.append(max(.008, w * ks * (1 - u) ** .7 * (1.25 if layer == 0 else 1.15)))
             m.ptube(pts, rr, 7, col, up=(0, 1, 0), flat=.35, cap0=col, cap1=col)   # flattened in depth, full width
-    for k in range(3):                     # sparks rising
-        u = (t + k / 3) % 1; x = .3 * math.sin(TAU * (k * .37 + u * .5)); m.box((x, -.15, 2.3 + u * 1.9), (.025, .02, .025), 'e_fire_core')
+    for k in range(3):                     # sparks rising straight up the middle
+        u = (t + k / 3) % 1; x = .22 * math.sin(TAU * (k * .37 + u * .5)); m.box((x, -.15, 2.3 + u * 1.9), (.025, .02, .025), 'e_fire_core')
 def render_brazier():
     # brazier and fire share one scale (50 px per unit at 1x): brazier frame x -0.8..0.8, z -0.05..2.19; fire frame
     # x -0.8..0.8, z 1.95..4.19, so in the page the fire box sits on the brazier box overlapping it by 12 px (1x)
@@ -306,7 +317,7 @@ def render_brazier():
         m = M(); flame_frame(m, f); ob = to_object(m, 'flame%d' % f)
         raws.append(fixed_ortho('flame_%d' % f, 480, 672, 0, 3.07, 2.24, el=0).name)
         bpy.data.objects.remove(ob, do_unlink=True)
-    MANIFEST.append({'name': 'flame', 'raw': raws, 'kind': 'sheet', 'out': {'w': 120, 'h': 168}, 'file': 'login/flame_sheet.png', 'colors': 12})
+    MANIFEST.append({'name': 'flame', 'raw': raws, 'kind': 'sheet', 'out': {'w': 120, 'h': 168}, 'file': 'login/flame_sheet.png', 'colors': 12, 'centre': True})
 
 # ================================================================== 3. the title: CRAFTED REALM on engraved stone slabs
 def text_mesh(ch, size, depth):
@@ -339,36 +350,132 @@ def slab_letter(ch, c, scale, tilt, seed):
     bpy.data.objects.remove(cut, do_unlink=True)
     slab.location = c; slab.rotation_euler = (0, math.radians(tilt), math.radians(rng.uniform(-6, 6)))
     return slab
-def emblem_lantern(c, s=1.0):
-    m = M()
-    m.lathe([(.26, -.5), (.26, -.44), (.2, -.4), (.2, -.36)], 8, 'iron', cap0='iron_dk', phase=math.pi / 8)
-    m.lathe([(.28, .3), (.3, .34), (.02, .66)], 8, 'iron_dk', cap0='iron', phase=math.pi / 8)
-    m.lathe([(.08, .64), (.08, .72)], 6, 'iron')
-    m.ring2((0, 0, .86), .13, .08, .05, 'iron', n=12)
-    m.lathe([(.19, -.36), (.19, .3)], 8, 'e_lamp', phase=math.pi / 8)
-    for k in range(8):
-        a = TAU * k / 8 + math.pi / 8
-        if k % 2 == 0: m.cyl((math.cos(a) * .21, math.sin(a) * .21, -.37), (math.cos(a) * .21, math.sin(a) * .21, .31), .025, 'iron_dk', n=4)
-    for z in (-.02,): m.lathe([(.215, z - .025), (.215, z + .025)], 8, 'iron', phase=math.pi / 8)
-    m.hull(blob((0, 0, -.05), (.06, .06, .12), 7, n=10, cuts=1), 'e_ember')
-    ob = to_object(m, 'lantern'); ob.location = c; ob.scale = (s, s, s); ob.rotation_euler = (0, math.radians(-6), math.radians(12)); return ob
-def emblem_hammer(c, s=1.0):
+def emblem_hammer(c, s=1.0, rot=(0, -28, -18)):
     m = M()
     m.cyl((0, 0, -.62), (0, 0, .4), .06, 'wood', n=6, caps='wood_dk')
     m.box((0, 0, -.55), (.075, .075, .12), 'wood_dk')
-    m.hull(cbox((0, 0, .5), (.34, .14, .14), .04), 'iron')
-    m.hull(cbox((.36, 0, .5), (.05, .16, .16), .02), 'steel')
-    m.hull([Vector((-.34, y, .5 + z)) for y in (-.12, .12) for z in (-.12, .12)] + [Vector((-.56, 0, .5))], 'iron_dk')
-    ob = to_object(m, 'hammer'); ob.location = c; ob.scale = (s, s, s); ob.rotation_euler = (0, math.radians(-28), math.radians(-18)); return ob
+    m.hull(cbox((0, 0, .5), (.34, .14, .14), .04), lambda n, cc: 'helm' if n.z > .5 else 'steel')
+    m.hull(cbox((.36, 0, .5), (.05, .16, .16), .02), 'helm')
+    m.hull([Vector((-.34, y, .5 + z)) for y in (-.12, .12) for z in (-.12, .12)] + [Vector((-.56, 0, .5))], 'steel')
+    ob = to_object(m, 'hammer'); ob.location = c; ob.scale = (s, s, s); ob.rotation_euler = tuple(math.radians(v) for v in rot); return ob
+def emblem_sword(c, s=1.0, rot=(0, 0, 0)):
+    """a plain arming sword: diamond-section blade, a straight crossguard, a leather grip and a round pommel"""
+    m = M(); L = 1.9; w = .085; t = .03; z0 = .32
+    m.hull([Vector((x, y, z)) for x in (-w, w) for y in (-t * .2, t * .2) for z in (z0, L - .2)] + [Vector((0, -t, z)) for z in (z0, L - .2)] +
+           [Vector((0, t, z)) for z in (z0, L - .2)] + [Vector((0, 0, L))], lambda n, cc: 'helm' if n.x * .6 + n.z * .3 - n.y > 0 else 'steel')
+    m.box((0, 0, z0 - .03), (.3, .05, .045), 'iron', .015)
+    m.cyl((0, 0, .08), (0, 0, z0 - .06), .045, 'wood_dk', n=6)
+    m.sph((0, 0, .05), .07, 'iron', 8, 4)
+    ob = to_object(m, 'sword'); ob.location = c; ob.scale = (s, s, s); ob.rotation_euler = tuple(math.radians(v) for v in rot); return ob
+def emblem_helm(c, s=1.0):
+    """a plain round-topped helm with a nasal bar, cheek plates and a riveted brow band (our own design)"""
+    m = M()
+    m.hull(ell((0, 0, .1), (.42, .4, .5), 14, 7, floor=.1), lambda n, cc: 'helm' if n.z > .2 else 'steel')
+    m.lathe([(.43, .02), (.44, .12), (.43, .22)], 16, 'iron')
+    for a in [math.pi * (1.2 + .15 * k) for k in range(5)]:
+        m.sph((math.cos(a) * .44, math.sin(a) * .44, .12), .03, 'steel', 5, 3)
+    m.hull(cbox((0, -.43, -.12), (.055, .04, .26), .02), 'iron')
+    for sx in (-1, 1):
+        m.hull([Vector((sx * x, y, z)) for x in (.18, .4) for y in (-.36, -.22) for z in (-.02, .1)] + [Vector((sx * .3, -.28, -.46)), Vector((sx * .38, -.2, -.44))], 'n_rim')
+        m.box((sx * .2, -.39, .0), (.12, .02, .03), 'ink')
+    m.hull(cbox((0, 0, .62), (.05, .3, .05), .02), 'iron')
+    ob = to_object(m, 'helm'); ob.location = c; ob.scale = (s, s, s); return ob
+def carve(target, cutters, mat_name='cut', tolerant=True):
+    """boolean-subtract each cutter mesh from target in turn (EXACT solver); the cut faces take mat_name.
+    tolerant=False tries the strict solve first (it keeps letter counters) and falls back to the hole-tolerant one when
+    the strict solve makes no cut; a cut that would empty the target (a bad cutter) is skipped and reported."""
+    for me in cutters:
+        bm = bmesh.new(); bm.from_mesh(me); bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:]); bm.to_mesh(me); bm.free()
+        me.materials.clear(); me.materials.append(mat(mat_name))
+        for poly in me.polygons: poly.material_index = 0
+        cut = bpy.data.objects.new('cutter', me); scene.collection.objects.link(cut); bpy.context.view_layer.update()
+        n0 = len(target.data.vertices)
+        for tol in ((False, True) if not tolerant else (True,)):
+            md = target.modifiers.new('carve', 'BOOLEAN'); md.operation = 'DIFFERENCE'; md.object = cut
+            try: md.solver = 'EXACT'
+            except Exception: pass
+            for k, v in (('use_hole_tolerant', tol), ('use_self', tol), ('material_mode', 'TRANSFER')):
+                try: setattr(md, k, v)
+                except Exception: pass
+            dg = bpy.context.evaluated_depsgraph_get(); new = bpy.data.meshes.new_from_object(target.evaluated_get(dg))
+            target.modifiers.clear()
+            if len(new.vertices) >= n0 * .5 and len(new.vertices) != n0: target.data = new; break
+            bpy.data.meshes.remove(new)
+        else:
+            print(TAG, 'carve: a cutter made no usable cut')
+        bpy.data.objects.remove(cut, do_unlink=True)
+    for poly in target.data.polygons: poly.use_smooth = False
+def lintel(text='CRAFTED REALM', L=9.2, H=1.34, D=.7, seed=31):
+    """one long dressed-stone lintel: a slightly irregular beam with chamfered, chipped arrises, an incised border and the
+    name cut deep into its face"""
+    rng = random.Random(seed); m = M()
+    pts = []
+    for sx in (-1, 1):
+        for sz in (-1, 1):
+            for sy in (-1, 1):
+                x, z, y = sx * L / 2, sz * H / 2, sy * D / 2
+                ch = rng.uniform(.05, .1)
+                pts += [Vector((x - sx * ch, y, z)), Vector((x, y - sy * ch, z)), Vector((x, y, z - sz * ch))]
+    for k in range(9):                    # the long top and bottom arrises wander a little: hand-dressed, not machined
+        x = -L / 2 + L * (k + .5) / 9
+        for sz in (-1, 1): pts.append(Vector((x, -D / 2 + .04, sz * (H / 2 + rng.uniform(-.015, .02)))))
+    m.hull(pts, 'n_lintel')
+    beam = to_object(m, 'lintel')
+    front = -D / 2
+    cutters = []
+    # the letters, one cutter each (overlapping glyphs in one mesh confuse the solver), laid out by their own widths
+    glyphs = []; x = 0.0; gap = .045
+    for ch in text:
+        if ch == ' ': x += .24; continue
+        tm = text_mesh(ch, .74, .5); xs = [v.co.x for v in tm.vertices]
+        tm.transform(Matrix.Translation((x - min(xs), 0, 0))); x += (max(xs) - min(xs)) + gap; glyphs.append(tm)
+    width = x - gap; zs = [v.co.z for tm in glyphs for v in tm.vertices]
+    k = min((L - 1.1) / width, (H * .62) / (max(zs) - min(zs))); zc = (max(zs) + min(zs)) / 2
+    for tm in glyphs:
+        tm.transform(Matrix.Translation((0, front - .41, -.02)) @ Matrix.Scale(k, 4) @ Matrix.Translation((-width / 2, 0, -zc)))
+    letters = len(glyphs); cutters += glyphs
+    # the incised border: a thin groove ring inset from the edges
+    bm = bmesh.new()
+    def slab(x0, x1, z0, z1):
+        v = [bm.verts.new((x, y, z)) for x in (x0, x1) for y in (front - .2, front + .035) for z in (z0, z1)]
+        bmesh.ops.convex_hull(bm, input=v)
+    bx, bz, g = L / 2 - .2, H / 2 - .16, .028
+    for x0, x1, z0, z1 in ((-bx, bx, bz - g, bz), (-bx, bx, -bz, -bz + g), (-bx, -bx + g, -bz, bz), (bx - g, bx, -bz, bz)): slab(x0, x1, z0, z1)
+    bme = bpy.data.meshes.new('border'); bm.to_mesh(bme); bm.free(); cutters.append(bme)
+    for i in range(14):                    # chips knocked out of the front arrises and corners
+        side = rng.choice(('top', 'top', 'end'))       # (chips on the underside only read as dark dashes in shadow)
+        if side == 'end': c = (rng.choice((-1, 1)) * L / 2, front + .05, rng.uniform(-H / 2, H / 2))
+        else: c = (rng.uniform(-L / 2 + .3, L / 2 - .3), front + .03, (H / 2 + .03 if side == 'top' else -H / 2 - .03))
+        r = rng.uniform(.07, .15)
+        bmc = bmesh.new()
+        for p in blob(c, (r, r * .8, r * .9), 500 + i, n=12, cuts=1): bmc.verts.new(p)
+        bmesh.ops.convex_hull(bmc, input=list(bmc.verts)); cme = bpy.data.meshes.new('chip'); bmc.to_mesh(cme); bmc.free(); cutters.append(cme)
+    nv0 = len(beam.data.vertices); carve(beam, cutters[:letters], 'cut', tolerant=False); carve(beam, cutters[letters:letters + 1], 'cut'); carve(beam, cutters[letters + 1:], 'chip'); print(TAG, 'lintel carve', nv0, '->', len(beam.data.vertices), 'verts', len(cutters), 'cutters')
+    for me in cutters: bpy.data.meshes.remove(me)
+    return beam
+def keystone(c, W0=1.0, W1=1.35, Hk=1.25, D=.72, ch=.07):
+    """a tapered keystone, wider at the top, with chamfered edges"""
+    m = M(); x, y, z = c; pts = []
+    for sz in (-1, 1):
+        hw = (W1 if sz > 0 else W0) / 2
+        for sx in (-1, 1):
+            for sy in (-1, 1):
+                X, Y, Z = x + sx * hw, y + sy * D / 2, z + sz * Hk / 2
+                pts += [Vector((X - sx * ch, Y, Z)), Vector((X, Y - sy * ch, Z)), Vector((X, Y, Z - sz * ch))]
+    m.hull(pts, 'n_key')
+    return to_object(m, 'keystone')
 def render_logo():
-    obs = []; rng = random.Random(21)
-    for i, ch in enumerate('CRAFTED'):
-        u = i - 3; obs.append(slab_letter(ch, (u * .93, 0, .64 - .035 * u * u), 1.0 + rng.uniform(-.04, .05), rng.uniform(-7, 7), 100 + i))
-    for i, ch in enumerate('REALM'):
-        u = i - 2; obs.append(slab_letter(ch, (u * .98, .04, -.5 + .02 * u * u), 1.06 + rng.uniform(-.04, .05), rng.uniform(-7, 7), 200 + i))
-    obs.append(emblem_lantern((-2.78, -.1, -.52), .82))
-    obs.append(emblem_hammer((2.8, -.1, -.52), .78))
-    ortho_render('logo', obs, 1600, 600, el=6, yaw=0, key_e=1.0, amb=.32)
+    H = 1.34; obs = [lintel(H=H)]
+    Hk = 1.5; kz = H / 2 + Hk / 2 - .16               # the keystone stands on the lintel's centre, its foot let into the top
+    obs.append(keystone((0, -.02, kz), W0=1.25, W1=1.65, Hk=Hk, D=.8))
+    c = Vector((0, 0, kz + .2))                       # the crossing point, behind the helm
+    a = math.radians(42); ss = 1.38
+    d = Vector((math.sin(a), 0, math.cos(a)))        # sword: pommel lower-left, point upper-right
+    obs.append(emblem_sword(tuple(c - d * .95 * ss + Vector((0, -.55, 0))), ss, rot=(0, 42, 0)))
+    d2 = Vector((-math.sin(a), 0, math.cos(a)))      # hammer: haft lower-right, head upper-left
+    obs.append(emblem_hammer(tuple(c + d2 * .07 + Vector((0, -.62, 0))), 1.45, rot=(0, -42, 0)))
+    obs.append(emblem_helm((0, -1.02, kz + .1), 1.12))
+    ortho_render('logo', obs, 1600, 600, el=9, yaw=0, key_e=1.0, amb=.32, shadows=False)
     for o in obs: bpy.data.objects.remove(o, do_unlink=True)
     MANIFEST.append({'name': 'logo', 'raw': 'logo.png', 'kind': 'sprite', 'out': {'w': 400, 'h': 150}, 'file': 'login/logo.png', 'colors': 30})
 
