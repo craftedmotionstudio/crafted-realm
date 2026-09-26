@@ -93,14 +93,40 @@ var OnlineMain=(function(){
  function attackPlayer(e){st.pending=null;st.dest=null;Player.moveTo=null;st.pvpAttacks++;net.send({t:'op_player',pid:e.id,op:'attack'})}
  function follow(e){net.send({t:'op_player',pid:e.id,op:'follow'})}
  function take(uid){st.pending=null;net.send({t:'op_obj',uid:uid,op:'take'})}
+ /* ---- long walks: the server's path finder searches 64 tiles out (as in 2004, where you could not click further
+  *      either), so a far destination is reached in legs, the way a player clicks again and again: over the Ditch at
+  *      the nearest crossing, then at most 48 tiles a leg ---- */
+ function crossings(){
+  if(st.crossings)return st.crossings;var m=OW.model(),out=[],b=m.bounds,rows=[];
+  for(var z=b.z1;z<=b.z2;z++){var water=0;for(var x=b.x1;x<=b.x2;x++)if(m.isWater(x,z))water++;if(water>(b.x2-b.x1)/2)rows.push(z)}
+  if(rows.length){var z0=rows[0],z1=rows[rows.length-1];for(var x2=b.x1;x2<=b.x2;x2++){var ok=true;for(var zz=z0;zz<=z1;zz++)if(!m.walkable(x2,zz))ok=false;if(ok)out.push(x2)}
+   st.crossings={south:z0-1,north:z1+1,xs:out}}else st.crossings={xs:[]};
+  return st.crossings}
+ function legToward(from,to){
+  var m=OW.model(),c=crossings();
+  if(c.xs.length&&((from.z<=c.south&&to.z>=c.north)||(from.z>=c.north&&to.z<=c.south))){
+   var bx=c.xs[0],bd=1e9;c.xs.forEach(function(x){var d=Math.abs(x-from.x)+Math.abs(x-to.x);if(d<bd){bd=d;bx=x}});
+   var near=from.z>=c.north?{x:bx,z:c.north}:{x:bx,z:c.south},far=from.z>=c.north?{x:bx,z:c.south}:{x:bx,z:c.north};
+   return Math.max(Math.abs(from.x-near.x),Math.abs(from.z-near.z))<=1?far:(Math.max(Math.abs(from.x-near.x),Math.abs(from.z-near.z))>48?legToward(from,near):near);
+  }
+  var d=Math.max(Math.abs(to.x-from.x),Math.abs(to.z-from.z));
+  if(d<=48)return to;
+  var k=48/d,p={x:Math.round(from.x+(to.x-from.x)*k),z:Math.round(from.z+(to.z-from.z)*k)};
+  return m.nearestWalkable(p.x,p.z,5)||p;
+ }
+ /** walk to a tile however far, in legs; then() runs on arrival */
+ function walkFar(to,then){
+  st.pending={kind:'walk',to:to,then:then||null,until:performance.now()+180000,lastKey:null,still:0,leg:null};
+  stepFar(st.pending);
+ }
+ function stepFar(p){var me=myTile();if(!me)return;var leg=legToward(me,p.to);p.leg=leg;net.send({t:'walk',x:leg.x,z:leg.z});st.dest=leg}
  function kit(name){
   var a=OW.map().alpha,me=myTile();if(!a||!a.chest||!me)return;
   var reach=a.reach||2;
-  // kept until the kit arrives: the chest refuses while you are still fighting (the 16-tick lock), so ask again
-  st.pending={kind:'kit',name:name,until:performance.now()+120000,sentAt:0};   // cleared by any other order
-  if(Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=reach){st.pending.sentAt=performance.now();net.send({t:'kit',name:name});return}
-  var best=kitApproach(a,me);
-  if(best){net.send({t:'walk',x:best.x,z:best.z});st.dest=best}
+  var ask=function(){st.pending={kind:'kit',name:name,until:performance.now()+120000,sentAt:performance.now()};net.send({t:'kit',name:name})};
+  // kept until the kit arrives: the chest refuses while you are still fighting (the 16-tick lock), so it asks again
+  if(Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=reach){ask();return}
+  var best=kitApproach(a,me);if(best)walkFar(best,ask);
  }
  /** the tile beside the chest nearest to where we stand */
  function kitApproach(a,me){var m=OW.model(),best=null,bd=1e9;
@@ -108,11 +134,14 @@ var OnlineMain=(function(){
   return best}
  function checkPending(){
   var p=st.pending;if(!p)return;if(performance.now()>p.until){st.pending=null;return}
-  if(p.kind==='kit'){var a=OW.map().alpha,me=myTile();if(!me)return;
-   if(Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=(a.reach||2)){if(performance.now()-p.sentAt>3000){p.sentAt=performance.now();net.send({t:'kit',name:p.name})}return}
-   // a long way off: the path finder only searches 64 tiles out (as in 2004), so keep walking in legs like a player re-clicking
-   var key=me.x+','+me.z;if(key===p.lastKey)p.still=(p.still||0)+1;else{p.lastKey=key;p.still=0}
-   if(p.still>=2){p.still=0;var best=kitApproach(a,me);if(best){net.send({t:'walk',x:best.x,z:best.z});st.dest=best}}}
+  var me=myTile();if(!me)return;
+  if(p.kind==='kit'){if(performance.now()-p.sentAt>3000){p.sentAt=performance.now();net.send({t:'kit',name:p.name})}return}
+  if(p.kind==='walk'){
+   if(me.x===p.to.x&&me.z===p.to.z){st.pending=null;if(p.then)p.then();return}
+   var key=me.x+','+me.z;if(key===p.lastKey)p.still++;else{p.lastKey=key;p.still=0}
+   // arrived at this leg, or stopped short (blocked, or the search ended): the next leg
+   if((p.leg&&me.x===p.leg.x&&me.z===p.leg.z)||p.still>=2){p.still=0;stepFar(p)}
+  }
  }
  function castOn(kind,e,spell){st.pending=null;st.dest=null;Player.moveTo=null;OnlineUI.clearArmed();if(kind==='p')st.pvpAttacks++;net.send(kind==='n'?{t:'cast_npc',nid:e.id,spell:spell}:{t:'cast_player',pid:e.id,spell:spell})}
  // the actions the menu rows send (src/online_menu.js builds the rows; a menu-provider system can register it as is)
@@ -240,7 +269,7 @@ var OnlineMain=(function(){
    var ov=document.getElementById('onl-overlay');s.overlay=ov&&ov.style.display!=='none'?ov.textContent.slice(0,400):null;
    var chat=document.getElementById('chatbox');s.chat=chat?Array.prototype.slice.call(chat.children,-30).map(function(d){return d.textContent}):[];
    return s},
-  walk:function(x,z){return net.send({t:'walk',x:x,z:z})},
+  walk:function(x,z){var me=myTile();if(me&&Math.max(Math.abs(me.x-x),Math.abs(me.z-z))>40){walkFar({x:x,z:z});return true}return net.send({t:'walk',x:x,z:z})},
   send:function(m){return net.send(m)},
   kit:kit,
   ditchOk:function(){OnlineUI.state();return true},

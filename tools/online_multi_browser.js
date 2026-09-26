@@ -467,6 +467,7 @@ async function syncCheck(fight, clients) {
 const WEST = [[16, 40], [16, 47]];
 async function pvmFight(fight, A, O, o) {
   log('fight', fight.name, A.name, 'vs', o.npc);
+  await A.page.bringToFront();   // the fighter's own window is the one in front, as in play
   heal(A.name);
   await kitUp(A, o.kit);
   const home = world.map.spawns.filter((s1) => s1.npc === o.npc);
