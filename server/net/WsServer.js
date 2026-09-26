@@ -12,6 +12,7 @@ const { WebSocketServer } = require('ws');
 const Protocol = require('./Protocol');
 const { TokenBucket, WindowLimiter } = require('./RateLimiter');
 const Player = require('../engine/Player');
+const LOOK = require('../engine/look');
 
 const MSG_BURST = 40, MSG_PER_SEC = 20;       // per connection
 const STRIKES_TO_KICK = 50;                   // dropped/malformed messages before disconnect
@@ -59,7 +60,7 @@ class Session {
     if (m.t === 'hello') {
       if (m.v !== Protocol.VERSION) { this.send({ t: 'error', code: 'version', need: Protocol.VERSION }); this.close('version'); return; }
       this.state = 'hello';
-      this.send({ t: 'hello', v: Protocol.VERSION, tickMs: this.world.tickMs, server: 'crafted-realm-w1' });
+      this.send({ t: 'hello', v: Protocol.VERSION, tickMs: this.world.tickMs, server: 'crafted-realm-w2' });
       return;
     }
     if (m.t === 'register' || m.t === 'login') {
@@ -108,6 +109,7 @@ class Session {
     try { data = this.server.store ? this.server.store.loadData(acct.id) : null; }
     catch (e) { w.log('save_invalid', { key: acct.username, code: e.code }); this.send({ t: 'auth_fail', code: 'save_invalid', text: 'Your save could not be read. Contact a moderator.' }); return; }
     const p = new Player(w, acct, data);
+    if (!p.look && m.look) p.look = LOOK.sanitize(m.look);   // W2: a new adventurer brings the look made in the client
     p.session = this;
     this.player = p;
     this.state = 'auth';

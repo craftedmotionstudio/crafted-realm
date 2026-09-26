@@ -14,6 +14,7 @@ const C = require('../../shared/combat.js');
 const P = require('../../shared/pvp.js');
 const X = require('../../shared/xp.js');
 const M = require('../../shared/movement.js');
+const LOOK = require('./look');
 
 const INV_SIZE = 28;
 const EQUIP_SLOTS = ['head', 'cape', 'amulet', 'weapon', 'body', 'shield', 'legs', 'hands', 'feet'];
@@ -40,10 +41,13 @@ class Player extends PathingEntity {
     this.active = false;
 
     const skills = world.content.SKILLS;
+    // W2 alpha: a brand-new adventurer (no save) may start at the map's alpha levels (map.alpha.startStats)
+    const start = (!save && world.map && world.map.alpha && world.map.alpha.startStats) || {};
     this.xp10 = {}; this.levels = {};
     for (const sk of skills) {
       const st = s.stats && s.stats[sk];
-      this.xp10[sk] = st ? st.xp10 : (sk === 'Hitpoints' ? X.xp10ForLevel(10) : 0);
+      const startLevel = start[sk] > 1 ? Math.min(99, start[sk] | 0) : (sk === 'Hitpoints' ? 10 : 1);
+      this.xp10[sk] = st ? st.xp10 : (startLevel > 1 ? X.xp10ForLevel(startLevel) : 0);
       this.levels[sk] = st ? st.cur : this.base(sk);
     }
     this.inv = new Array(INV_SIZE).fill(null);
@@ -60,6 +64,8 @@ class Player extends PathingEntity {
     this.specArmed = false;
     this.playtime = s.playtime | 0;
     this.skullRemaining = s.skull | 0;       // applied at login (pvp.skullUntilOnLogin)
+    this.look = LOOK.sanitize(s.look);       // character-kit appearance (W2), null = the client's default
+    this.lastKitTick = -1000;
 
     this.prayers = new Set();
     this.prayerCounter = 0;
@@ -379,6 +385,7 @@ class Player extends PathingEntity {
       style: this.styleIndex, autoRetaliate: this.autoRetaliate, autocast: this.autocast, spec: this.specEnergy,
       skull: this.active ? P.skullRemainingOnLogout(this.skullUntil, this.world.tick) : this.skullRemaining,
       playtime: this.playtime,
+      look: this.look || undefined,
     };
   }
 }

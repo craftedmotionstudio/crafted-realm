@@ -6,13 +6,16 @@
  *   CR_DB        sqlite file (default server/data/runtime/world.db)
  *   CR_SAVE_KEY  save-signing secret, >= 32 chars (default: generated into server/data/runtime/save.key)
  *   CR_LOG       'debug' to also log chat, pickups and npc deaths
+ *   CR_HOST      interface to listen on (default 127.0.0.1: local development only; a hosted world
+ *                sets it explicitly, e.g. 0.0.0.0 behind its firewall)
  * See server/README.md.
  */
 const { createServer } = require('./app');
 
 (async () => {
-  const app = await createServer({});
-  console.log(JSON.stringify({ at: new Date().toISOString(), event: 'listening', port: app.port, tickMs: app.world.tickMs, npcs: app.world.npcs.size }));
+  const host = process.env.CR_HOST || '127.0.0.1';
+  const app = await createServer({ host });
+  console.log(JSON.stringify({ at: new Date().toISOString(), event: 'listening', host, port: app.port, tickMs: app.world.tickMs, npcs: app.world.npcs.size }));
   let stopping = false;
   const stop = async (sig) => {
     if (stopping) return; stopping = true;
