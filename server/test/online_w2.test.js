@@ -115,6 +115,9 @@ test('the self block carries facing; private loot is flagged for its owner; deat
   w.cycle();
   const faced = killer.s.received.filter((m) => m.t === 'tick' && m.me && m.me.f);
   assert.ok(faced.length && faced[faced.length - 1].me.f[0] === 'p' && faced[faced.length - 1].me.f[1] === victim.p.pid, 'me.f names the target');
+  // a client re-attached mid-fight learns whom it fights from the welcome
+  assert.deepEqual(w.welcome(killer.p).f, ['p', victim.p.pid], 'welcome.f names the target');
+  assert.deepEqual(w.welcome(victim.p).f, ['p', killer.p.pid], 'and the retaliating victim, its attacker');
   runUntil(w, () => victim.s.received.some((m) => m.death), 60);
   const death = victim.s.received.find((m) => m.death).death;
   assert.equal(death.by, 'killer');

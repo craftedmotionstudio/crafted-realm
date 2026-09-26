@@ -158,6 +158,7 @@ Only keys with content are present. `n` is the server tick number.
   adventurer is lying dead right now; `me.f` is your own facing / attack target when it changes (auto-retaliate,
   follow, a new attack); a top-level `death: {kept: [[id, qty]], by: name|null, lost: n}` arrives with your respawn
   (and the chat line `You kept: ...`).
+- W2: `welcome.f` is whom you face / fight at login, as `me.f` (so a client re-attached mid-fight times its own blows).
 - W2: `np.add` carries `sz` for a monster bigger than one tile (its south-west tile is `x`/`z`); an `add` of anyone
   who swings or is hit in the tick they come into view carries that tick's `a` / `h` (so the first splat is timed).
 - `fx`: projectiles to draw, `d` = ticks until the server applies the hit, so the visual can land
@@ -200,7 +201,7 @@ frames up to 4096 bytes; a client that falls 1 MB behind on reading is disconnec
 - **v1 + W2 additions (2026-09-26, compatible: new optional fields and intents only)**: `look` and `kit` intents,
   `look` on login, `welcome.lk`, `welcome.map.alpha`, `lk` / `dd` in player snapshots, `me.f`, `own` / `pub` on
   ground items, the `death` summary, `GET /map`, `CR_HOST` (default 127.0.0.1), `sz` on multi-tile monsters, the
-  `breath` animation and projectile, this tick's `a` / `h` on view adds, `defend` as the lowest animation. Clients: `src/net_client.js`
+  `breath` animation and projectile, this tick's `a` / `h` on view adds, `defend` as the lowest animation, `welcome.f`. Clients: `src/net_client.js`
   (`?online=1`), `server/tools/BotClient.js`.
 
 - **v1 (2026-09-25, W1)**: first version: accounts, movement, combat (melee/ranged/magic, PvM and PvP),

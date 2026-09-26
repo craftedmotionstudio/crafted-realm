@@ -140,4 +140,4 @@ function buildTick(w, p) {
   return msg;
 }
 
-module.exports = { buildTick, VIEW };
+module.exports = { buildTick, VIEW, faceRef };

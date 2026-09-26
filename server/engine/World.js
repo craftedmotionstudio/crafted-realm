@@ -387,6 +387,7 @@ class World {
       set: { run: p.runEnabled ? 1 : 0, style: p.styleIndex, ar: p.autoRetaliate ? 1 : 0, ac: p.autocast, spec: p.specEnergy },
       en: p.runEnergy, skull: Math.max(0, p.skullUntil - this.tick), pr: Array.from(p.prayers),
       lk: p.look || null,
+      f: info.faceRef(p),   // W2: whom you face / fight right now (a reconnect mid-fight picks the fight up again)
     };
   }
   /** what a client needs to draw the alpha supply chest (W2): kit names and the chest tile, or null */
