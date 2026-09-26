@@ -198,10 +198,17 @@ var HolmEquipment=(function(){
     m.morphTargetInfluences[d[k]]=t?(Number(t[2])===on[t[1]]?1:0):/^Over_/.test(k)?(opts.over&&k==='Over_'+opts.over?1:0):(inf[k]||0)}});
   var hides=[].concat(g.userData.hides||[]);
   g.name='holmEq_'+kind;g.userData.holmEquipment=kind;g.userData.holmHides=hides;
+  g.userData.holmKitMorphs=[].concat(g.userData.kit_morphs||[]);   // e.g. Hair_Over / Jaw_Over: hair and beards lie over it
   g.position.set(0,0,0);g.quaternion.identity();g.scale.set(1,1,1);
-  rig.add(g);applyHides(rig,body,hides);
+  rig.add(g);applyHides(rig,body,hides);applyKitMorphs(rig);
   return {kind:kind,body:body,parts:[g],hides:hides,remove:function(){if(g.parent)g.parent.remove(g)}};
  }
+ /* kit morphs switched on by worn items ({Hair_Over:1,...}); HolmKit.apply calls this every look refresh */
+ var KIT_ITEM_MORPHS=['Hair_Over','Jaw_Over'];
+ function kitMorphs(rig){var m={};if(!rig)return m;rig.traverse(function(o){var a=o.userData&&o.userData.holmKitMorphs;if(a&&a.length)a.forEach(function(k){m[k]=1})});return m}
+ function applyKitMorphs(rig){var m=kitMorphs(rig);
+  rig.traverse(function(o){var d=o.morphTargetDictionary;if(!d||!o.morphTargetInfluences||!(KIT_RE.test(o.name||'')||(o.parent&&KIT_RE.test(o.parent.name||''))))return;
+   KIT_ITEM_MORPHS.forEach(function(k){if(d[k]!==undefined)o.morphTargetInfluences[d[k]]=m[k]?1:0})})}
  /* the kit slots hidden by the equipment on a rig ({Torso:true,...}); HolmKit.apply calls this every look refresh */
  function hiddenSlots(rig){var h={};if(!rig)return h;rig.traverse(function(o){var a=o.userData&&o.userData.holmHides;if(a&&a.length)a.forEach(function(s){h[s]=true})});return h}
 
@@ -221,7 +228,7 @@ var HolmEquipment=(function(){
  function status(){return {ready:st.ready,loading:st.loading,failed:st.failed,kinds:kinds(),
   bodyB:Object.keys(st.templates).filter(function(k){return /\|B$/.test(k)}).map(kindOf),installed:st.installed,version:2}}
  return {load:load,onReady:onReady,mesh:mesh,itemMesh:itemMesh,groundMesh:groundMesh,forItem:forItem,fit:fit,install:install,
-  status:status,kinds:kinds,hiddenSlots:hiddenSlots,kitBody:kitBody};
+  status:status,kinds:kinds,hiddenSlots:hiddenSlots,kitMorphs:kitMorphs,kitBody:kitBody};
 })();
 if(typeof window!=='undefined')window.HolmEquipment=HolmEquipment;
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmEquipment;

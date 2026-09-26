@@ -65,7 +65,7 @@ for o in [o for o in bpy.data.objects if o not in before]:
         else:
             parts = [(c, c.get('bone')) for c in o.children_recursive if c.type == 'MESH']
         EQ[(kind, body)] = {'root': o, 'parts': parts, 'frame': o.get('frame'), 'slot': o.get('slot'),
-                            'hides': list(o.get('hides', [])), 'grip': list(o.get('grip', [0, 0, 0])) if o.get('grip') is not None else None}
+                            'hides': list(o.get('hides', [])), 'kit_morphs': list(o.get('kit_morphs', [])), 'grip': list(o.get('grip', [0, 0, 0])) if o.get('grip') is not None else None}
 for e in EQ.values():
     for c, _ in e['parts']:
         c['rest'] = [list(r) for r in c.matrix_world]
@@ -154,6 +154,10 @@ class Look:
         return [KITM[kit_name(s.bt, sl, s.parts[sl])] for sl in h if sl in s.parts and sl != 'Hair' and kit_name(s.bt, sl, s.parts[sl]) in KITM]
     def morphs(s):
         d = dict(BUILDS[s.build])
+        for k in s.worn:           # kit morphs a worn item switches on (Hair_Over / Jaw_Over: hair and beards over it)
+            e = s.eq(k)
+            if e:
+                d.update({m: 1.0 for m in e.get('kit_morphs', [])})
         if s.feet == 'small': d['Feet_Small'] = 1.0
         if s.feet == 'large': d['Feet_Large'] = 1.0
         return d
@@ -315,7 +319,7 @@ def union_bvh(ev):
 REST_CO = {}
 def rest_co(o, L):
     """bind-pose vertex positions of a kit part with the look's morphs (span tests use rest coordinates)"""
-    key = (o.name, L.build, L.feet)
+    key = (o.name, tuple(sorted(L.morphs().items())))
     if key not in REST_CO:
         base = [v.co.copy() for v in o.data.vertices]
         if o.data.shape_keys:
@@ -446,11 +450,13 @@ def variants(kind, bt):
     n = lambda slot: len(K.KIT[bt].get(slot, []))
     if kind in ('medhelm', 'hat', 'fullhelm'):
         return [dict(Jaw=1), dict(Jaw=3)] if bt == 'A' else [dict()]
-    if kind in ('amulet', 'cape'):
+    if kind == 'amulet':
         return [dict(Torso=t) for t in range(1, n('Torso') + 1)]
+    if kind == 'cape':
+        return [dict(Torso=t) for t in range(1, n('Torso') + 1)] + [dict(Hair=h) for h in ((3, 4) if bt == 'A' else (4, 6, 11))] +                ([dict(Jaw=3)] if bt == 'A' else [])
     if kind in ('chainbody', 'leather_body', 'platebody'):
-        hairs = (1, 3, 4) if bt == 'A' else (1, 4, 6)
-        return [dict(Legs=l) for l in range(1, n('Legs') + 1)] + [dict(Hair=h) for h in hairs[1:]]
+        hairs = (1, 3, 4) if bt == 'A' else (1, 4, 6, 11)
+        return [dict(Legs=l) for l in range(1, n('Legs') + 1)] + [dict(Hair=h) for h in hairs[1:]] +                ([dict(Jaw=3), dict(Jaw=4)] if bt == 'A' else [])
     if kind == 'plateskirt':
         return [dict(Legs=l) for l in range(1, n('Legs') + 1)]
     if kind == 'gloves':
@@ -491,8 +497,8 @@ def run_worn():
                                     spans = [(sl, KITM[kit_name(bt, sl, probe(sl))]) for sl in SPANS[kind] if sl in L.parts]
                                     ex = exposure(L, kind, pev, spans, evaluated(L.kit_visible()))
                                     r.update(n=ex['n'], exposed=ex['exposed'], where=ex['where'])
-                                if kind in ('platebody', 'chainbody', 'leather_body'):
-                                    hair = [KITM[kit_name(bt, 'Hair', L.parts['Hair'])]]
+                                if kind in ('platebody', 'chainbody', 'leather_body', 'cape'):
+                                    hair = [KITM[kit_name(bt, 'Hair', L.parts['Hair'])]] +                                            ([KITM[kit_name(bt, 'Jaw', L.parts['Jaw'])]] if 'Jaw' in L.parts else [])
                                     # only the hair's outside counts: armour inside the hair shell is covered by it (hair over the armour)
                                     r['hair_through'], r['hair_at'] = overlaps(evaluated(hair, only_outer=True), pev)
                                 if kind in ('amulet', 'cape'):
@@ -502,7 +508,7 @@ def run_worn():
                                     body = evaluated([o for o in vis if '_Hair_' not in o.name]) + evaluated([o for o in vis if '_Hair_' in o.name], only_outer=True) + others
                                     r['through'], r['through_at'] = overlaps(mine, body)
                                     if r['through']:
-                                        r['through_parts'] = {b_[0].name: n_ for b_ in body for n_ in [overlaps(mine, [b_])[0]] if n_}
+                                        r['through_parts'] = {b_[0].name: [o_[0], o_[1][:2]] for b_ in body for o_ in [overlaps(mine, [b_])] if o_[0]}
                                 rows.append(r)
         bad = [r for r in rows if r.get('exposed', 0) > EXPOSED_TOL or r.get('through') or r.get('hair_through')]
         RESULTS['rows'][kind] = rows

@@ -693,9 +693,10 @@ def suit_torso(mb, bt, rows, n, w=None, phase=0.0, bump=None, ah='zip', cap_top=
     mb.loft_ah(bt, rings, params, mf(0, 0), w or KB.torso_w, ah=ah, cap0=cap_bot, cap1=cap_top, matfn=mf, mat_at=mat_at)
     return zz
 
-def fold(mb, bt, z, off0, off1, n, mat, w=None, phase=0.0, dz=0.0):
+def fold(mb, bt, z, off0, off1, n, mat, w=None, phase=0.0, dz=0.0, bump=None):
     """a rolled edge: a short band turning in from off0 to off1 (open collar / hem rims)"""
-    mb.loft([KB.body_ring(bt, z, off0, n, phase=phase), KB.body_ring(bt, z + dz, off1, n, phase=phase)], mat, w or KB.torso_w, cap0=False, cap1=False)
+    mb.loft([KB.body_ring(bt, z, off0, n, phase=phase, bump=bump), KB.body_ring(bt, z + dz, off1, n, phase=phase, bump=bump)], mat,
+            w or KB.torso_w, cap0=False, cap1=False)
 
 def pauldron(mb, bt, sx, ts, pushes, inner, mats, off_end):
     """plate over the deltoid cap: thick shell riding the kit cap (its own skin weights), lames stepping out"""
@@ -743,7 +744,7 @@ def sk_platebody(mb, bt, over=None):
         ridge = .012 if 1.10 < z < 1.44 else 0.0
         return lambda k: (ridge if k == 0 else 0.0) + (BACK * KB.ss(1.16, 1.30, z) if k in (5, 6, 7) else 0.0)
     rows = [(.895, .050), (.925, .046), (.965, .040), (.965, .030), (1.025, .036), (1.025, .028), (1.085, .032), (1.085, .026),
-            (1.16, OFF), (1.26, OFF), (1.34, OFF), (1.428, .020), (1.466, .016), (1.492, .020), (1.512, .024)]
+            (1.16, OFF), (1.26, OFF), (1.34, OFF), (1.428, .020), (1.466, .016), (1.488, .018), (1.505, .020)]
     def mat_row(i):
         z0, o0 = rows[min(i, len(rows) - 1)]
         if i == 0 or (i + 1 < len(rows) and abs(rows[i + 1][0] - z0) < 1e-9):
@@ -753,7 +754,7 @@ def sk_platebody(mb, bt, over=None):
         return MT if i < 7 or i > 7 else MD
     with seam_at(bt, OFF):
         suit_torso(mb, bt, rows, n, bump=bump, mat_row=mat_row)
-        fold(mb, bt, 1.512, .024, .010, n, MD, dz=.004)
+        fold(mb, bt, 1.505, .020, .008, n, MD, dz=.004)
         fold(mb, bt, .895, .050, .036, n, MD, dz=.012)
         spec = [(0.0, OFF), (.65, .030), (.82, .030), (.93, .028), (.97, .044), (1.03, .048), (1.08, .038), (1.13, .027),
                 (1.40, .026), (1.70, .024), (1.84, .026), (1.88, .040), (1.97, .044)]
@@ -772,16 +773,17 @@ def sk_chainbody(mb, bt, over=None):
     n = 14
     OFF = .018
     rows = [(.83, .050), (.845, .050), (.90, .042), (.97, .032), (1.04, OFF), (1.12, OFF), (1.20, OFF), (1.28, OFF), (1.36, OFF),
-            (1.428, .018), (1.466, .017), (1.492, .018), (1.510, .020)]
+            (1.428, .018), (1.466, .017), (1.488, .017), (1.503, .018)]
     last = len(rows) - 1
     def mat_face(i, k):
         if i <= 1 or i >= last - 1:
             return LK                      # leather hem and collar trim
         return MM if (i + k) % 2 else MT   # staggered mail rows
     with seam_at(bt, OFF):
-        suit_torso(mb, bt, rows, n, mat_face=mat_face, mat_row=lambda i: MT)
-        fold(mb, bt, 1.510, .020, .006, n, LK, dz=.004)
-        fold(mb, bt, .83, .050, .036, n, LK, dz=.012)
+        hip = lambda z: (lambda k: .020 * math.sin(2 * math.pi * k / n) ** 2 * KB.ss(1.03, .95, z))
+        suit_torso(mb, bt, rows, n, mat_face=mat_face, mat_row=lambda i: MT, bump=hip)
+        fold(mb, bt, 1.503, .018, .006, n, LK, dz=.004)
+        fold(mb, bt, .83, .050, .036, n, LK, dz=.012, bump=hip(.83))
         spec = [(0.0, OFF), (.65, .020), (.80, .020), (.95, .020), (1.05, .020), (1.20, .019), (1.35, .019), (1.50, .018),
                 (1.65, .018), (1.80, .019), (1.86, .026), (1.97, .028)]
         us = [KB.U_CAP + .10] + [s[0] for s in spec if s[0] > KB.U_CAP + .14]
@@ -795,7 +797,7 @@ def sk_leather_body(mb, bt, over=None):
     n = 16
     OFF = .014
     rows = [(.90, .034), (.93, .032), (.97, .030), (1.02, .026), (1.06, .018), (1.10, OFF), (1.19, OFF), (1.28, OFF), (1.36, OFF), (1.428, .014),
-            (1.466, .014), (1.490, .015), (1.508, .017)]
+            (1.466, .014), (1.486, .014), (1.502, .015)]
     last = len(rows) - 1
     seams = {3, 13}
     def mat_face(i, k):
@@ -808,7 +810,7 @@ def sk_leather_body(mb, bt, over=None):
         return None
     with seam_at(bt, OFF):
         suit_torso(mb, bt, rows, n, mat_face=mat_face, mat_row=lambda i: LE)
-        fold(mb, bt, 1.508, .017, .004, n, LK, dz=.004)
+        fold(mb, bt, 1.502, .015, .004, n, LK, dz=.004)
         fold(mb, bt, .90, .034, .020, n, LK, dz=.010)
         band(mb, bt, .972, 1.016, .036, n, LK)
         buckle(mb, bt, .994, .040)
@@ -859,10 +861,10 @@ def sk_platelegs(mb, bt, over=None):
 def sk_plateskirt(mb, bt, over=None):
     n = 16
     zs = [.46, .62, .80, .90, .985, 1.0]
-    KB.skirt(mb, bt, zs, (.46, .31, .258, .246, .030), off=.042, mat=MT, n=n, pleats=.020,
+    KB.skirt(mb, bt, zs, (.46, .31, .258, .246, .030), off=.052, mat=MT, n=n, pleats=.020,
              matfn=lambda i, k: MD if i == 0 else (ME if k % 2 else MT), rim_mat=MD)
-    band(mb, bt, .985, 1.045, .050, n, LK)
-    buckle(mb, bt, 1.015, .054)
+    band(mb, bt, .985, 1.045, .060, n, LK)
+    buckle(mb, bt, 1.015, .064)
 
 def sk_chaps(mb, bt, over=None):
     n = 12
@@ -889,6 +891,7 @@ def sk_gloves(mb, bt, over=None):
         for u, eo in ((1.78, .014), (1.81, .026), (1.86, .032), (1.93, .032)):
             rings.append(KB.arm_rings(bt, sx, [(u, eo)], n=6)[0]); ws.append(KB.arm_w(sx)); mats.append(LK)
         rings.append(KB.arm_rings(bt, sx, [(1.965, .028)], n=6)[0]); ws.append(KB.arm_w(sx)); mats.append(LE)
+        rings.append(KB.arm_rings(bt, sx, [(2.0, .026)], n=6)[0]); ws.append(KB.arm_w(sx)); mats.append(LE)
         for t, th, wd in KB.HAND_ST:
             c = W + ax * (t * L) + Vector((-sx * KB.CURL.get(t, 0.0) * k, 0, 0)) + KB.hand_shift(bt, sx, ax)
             g = .018 if t < .1 else (.009 if t < .5 else .005)
@@ -1019,9 +1022,9 @@ def sk_amulet(mb, bt, over=None):
             a = (u - math.pi / 2) / math.pi         # 0 .. 1 from the left side round the back to the right side
             phi = ps + (2 * math.pi - 2 * ps) * a
             z = ZB
-        o = clear_off(bt, over, phi, z, FOOT_A) + R + .004
+        o = clear_off(bt, over, phi, z, FOOT_A) + R + .007 + .006 * KB.ss(1.40, 1.46, z)
         p = KB.body_point(bt, phi, z, o)
-        pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42, 1.47, z)), R + .002))
+        pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42, 1.47, z)), R + .005))
     rings = []
     for j, p in enumerate(pts):
         t = (pts[(j + 1) % N] - pts[j - 1])
@@ -1070,16 +1073,16 @@ def sk_cape(mb, bt, over=None):
         outer.append(ro); inner.append(ri)
     outer, inner = list(reversed(outer)), list(reversed(inner))
     mb.shell(outer, inner, lambda i, j, s: CL if s == 'o' else CK, KB.SPINE_W, edge_mat=CK)
-    col = []
-    for j in range(13):
-        phi = math.radians(115) + math.radians(130) * j / 12
-        q = KB.body_point(bt, phi, 1.478, clear_off(bt, over, phi, 1.478, FOOT_C) + .020)
-        col.append(push_clear(bt, over, q, out_dir(bt, phi, 1.478, .8), .021))
-    rings = [KB.xring(p, (col[min(j + 1, 12)] - col[max(j - 1, 0)]), .018, .018, .018, 5, front=(0, 0, 1)) for j, p in enumerate(col)]
-    mb.loft(rings, CL, KB.SPINE_W, cap0=True, cap1=True, cap_mat=CK)      # the collar rides the spine like the cape
+    col = []   # a slim rolled top edge along the cape's top (hair falls over it), brass clasps at its two ends
+    for j in range(11):
+        phi = math.pi + math.radians(CAPE_ROWS[0][1]) * (-1 + 2 * j / 10)
+        q = KB.body_point(bt, phi, 1.474, clear_off(bt, over, phi, 1.474, FOOT_C) + .012 + CAPE_ROWS[0][2] - .005)
+        col.append(push_clear(bt, over, q, out_dir(bt, phi, 1.474, .6), .010))
+    rings = [KB.xring(p, (col[min(j + 1, 10)] - col[max(j - 1, 0)]), .009, .009, .009, 5, front=(0, 0, 1)) for j, p in enumerate(col)]
+    mb.loft(rings, CK, KB.SPINE_W, cap0=True, cap1=True, cap_mat=CK)      # the edge rides the spine like the cape
     for sx in (-1, 1):
-        p = col[0] if sx > 0 else col[-1]
-        mb.box(tuple(p + Vector((0, -.012, -.006))), (.024, .014, .024), BR, KB.SPINE_W)
+        p = col[0] if sx < 0 else col[-1]
+        mb.box(tuple(p + Vector((0, -.004, -.004))), (.018, .012, .018), BR, KB.SPINE_W)
 
 SKINNED = [   # kind, builder, slot, hides (kit slots it replaces), morphs beyond the builds, description
     ('platebody', sk_platebody, 'body', ['Torso', 'Arms'], [],
@@ -1100,11 +1103,13 @@ SKINNED = [   # kind, builder, slot, hides (kit slots it replaces), morphs beyon
      'Leather boots: rounded toe, dark sole edge, folded cuff, ankle strap with a brass buckle'),
     ('amulet', sk_amulet, 'amulet', [], ['Over_platebody', 'Over_chainbody', 'Over_leather_body', 'Over_Torso_*'],
      'Amulet: brass chain loop, round setting, gem (M_GEM); sits over whatever body armour is worn'),
-    ('cape', sk_cape, 'cape', [], ['Over_platebody', 'Over_chainbody', 'Over_leather_body', 'Over_Torso_*', 'Over_Hair_*'],
+    ('cape', sk_cape, 'cape', [], ['Over_platebody', 'Over_chainbody', 'Over_leather_body', 'Over_Torso_*'],
      'Cape: rolled collar, folds down to a flared hem, dark lining, brass clasps (M_CLOTH); hangs over any body armour'),
 ]
 SUIT_FN = {k: f for k, f, *_ in SKINNED}
-HIDES = {'fullhelm': ['Hair'], 'medhelm': ['Hair'], 'hat': ['Hair']}   # rigid helms that replace the hair (the kit shows its bald head)
+HIDES = {'fullhelm': ['Hair'], 'medhelm': ['Hair'], 'hat': ['Hair']}
+# kit morphs an item switches on while worn (kit v3.1e): hair and beards lie OVER body armour and capes
+KIT_MORPHS = {k: ['Hair_Over', 'Jaw_Over'] for k in ('platebody', 'chainbody', 'leather_body', 'cape')}   # rigid helms that replace the hair (the kit shows its bald head)
 
 # kind: (builder, slot, frame, equipSpec, grip glTF, axis glTF, roll glTF, legacy quat xyzw, description)
 Q_ID, Q_FLIPX = [0, 0, 0, 1], [1, 0, 0, 0]
@@ -1297,6 +1302,8 @@ for kind, fn, slot, hides, extra, desc in SKINNED:
             kb = ob.shape_key_add(name=k, from_mix=False); kb.data.foreach_set('co', [c for v in co for c in v]); kb.value = 0.0
         MORPH_REPORT[nm] = {k: round(max((a - b).length for a, b in zip(co, base)), 4) for k, co in keys.items()}
         ob['eq_kind'] = kind; ob['slot'] = slot; ob['frame'] = 'skin'; ob['body'] = bt; ob['hides'] = list(hides); ob['morphs'] = list(keys)
+        if KIT_MORPHS.get(kind):
+            ob['kit_morphs'] = KIT_MORPHS[kind]
         BUILT.append(dict(kind=kind, key=kind if bt == 'A' else kind + '_B', root=ob, obs=[(ob, None)], slot=slot, frame='skin',
                           spec=None, grip=None, axis=None, roll=None, legacy=None, desc=desc, body=bt, hides=list(hides), morphs=list(keys)))
         print(TAG, nm, len(base), 'verts', 'morphs', MORPH_REPORT[nm])

@@ -42,6 +42,8 @@ var HolmKit=(function(){
   var done={};rig.traverse(function(o){if(!(o.isMesh||o.isSkinnedMesh))return;[].concat(o.material).forEach(function(q){if(!q||!q.name||done[q.uuid])return;
    CHANNELS.forEach(function(c){if(q.name.replace(/[._]\d+$/,'')===MAT[c]){var hex=palette(c)[look.colors[c]];if(hex){q.color.set(hex);q.needsUpdate=true;done[q.uuid]=true}}})})});
   var want2={Build_Slim:look.build==='slim'?1:0,Build_Stout:look.build==='stout'?1:0,Feet_Small:look.feet==='small'?1:0,Feet_Large:look.feet==='large'?1:0};
+  // hair and beards lie over a worn platebody / chainbody / leather body / cape (kit v3.1e Hair_Over / Jaw_Over)
+  var km=(typeof HolmEquipment!=='undefined'&&HolmEquipment.kitMorphs)?HolmEquipment.kitMorphs(rig):{};want2.Hair_Over=km.Hair_Over?1:0;want2.Jaw_Over=km.Jaw_Over?1:0;
   // an amulet / cape (holm_equipment v2) takes the shape of the kit torso under it (Over_Torso_<nn>) unless armour hides
   // it, and a cape hangs over long hair (Over_Hair_<nn>) unless a helm shows the bald head
   var over={Torso:hid.Torso?0:(look.parts.Torso||0),Hair:hid.Hair?0:(look.parts.Hair||0)};

@@ -1,5 +1,8 @@
 """build_holm_characters_v2.py -- Crafted Realms MODULAR IDENTITY KIT v2 (2004-style) + Guide Bram from the kit.
 
+v3.1e (holm equipment v2, tag v31e): v3.1 + the Hair_Over / Jaw_Over morph on every hair / beard part -- hair and
+beards lie over body armour and capes (armour_clearance); nothing else changes.
+
 v3.1 (owner review 2026-09-26, tag v31): "they're still not standing up vertically like the old school characters" -- the
 idle stands UP: spine and neck straight up, chest up, head level (not carried forward), shoulders back and level, legs
 straight and nearly parallel under the hips (the rest skeleton's backward-slanting legs are brought under the hips), arms
@@ -45,7 +48,7 @@ Bram GLB: idle talk walk wave (holding his staff).
 Run:  "C:\\Program Files\\Blender Foundation\\Blender 4.5\\blender.exe" -b --python tools/blender/build_holm_characters_v2.py -- [--no-render] [--quick]
 Outputs (candidates only, never the live assets): .studio-workspaces/holm-characters-<tag>/candidates/{kit.glb,
   bram.glb, palettes.json, characters.blend, manifest.json, REPORT.md}, scratchpad/holm_characters_<tag>/*.png
-  (default tag v31; the reviewed sets v2 / v27 / v28 / v29 / v30 are refused)
+  (default tag v31e; the reviewed sets v2 / v27 / v28 / v29 / v30 / v31 are refused)
 """
 import bpy, bmesh, math, json, os, sys, struct, subprocess, shutil, random
 from mathutils import Vector, Matrix, Quaternion, Euler
@@ -54,9 +57,9 @@ from mathutils.bvhtree import BVHTree
 REPO = r"C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude"
 REF_GLB = os.path.join(REPO, "assets", "models", "player.glb")
 _ARGV = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
-TAG = _ARGV[_ARGV.index("--tag") + 1] if "--tag" in _ARGV else "v31"   # output set: .studio-workspaces/holm-characters-<tag>/
+TAG = _ARGV[_ARGV.index("--tag") + 1] if "--tag" in _ARGV else "v31e"   # output set: .studio-workspaces/holm-characters-<tag>/
 CAND = os.path.join(REPO, ".studio-workspaces", "holm-characters-%s" % TAG, "candidates")
-assert TAG not in ("v2", "v27", "v28", "v29", "v30"), "refusing to overwrite a reviewed kit set (holm-characters-%s)" % TAG
+assert TAG not in ("v2", "v27", "v28", "v29", "v30", "v31"), "refusing to overwrite a reviewed kit set (holm-characters-%s)" % TAG
 OUT_KIT = os.path.join(CAND, "kit.glb")
 OUT_PAL = os.path.join(CAND, "palettes.json")
 OUT_BRAM = os.path.join(CAND, "bram.glb")
@@ -73,7 +76,7 @@ FPS = 30
 ARGS = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 DO_RENDER = "--no-render" not in ARGS
 QUICK = "--quick" in ARGS
-VL = {'v29': 'v2.9', 'v30': 'v3.0', 'v31': 'v3.1'}.get(TAG, TAG)   # label on the review sheets
+VL = {'v29': 'v2.9', 'v30': 'v3.0', 'v31': 'v3.1', 'v31e': 'v3.1e'}.get(TAG, TAG)   # label on the review sheets
 
 # ------------------------------------------------------------------------------------------
 # Skeleton: verbatim (head, tail, roll) from assets/models/player.glb (same table as v1).
@@ -3811,6 +3814,32 @@ def keep_clearance(bt, base, var, kind):
                     p1 = cv + (p1 - cv).normalized() * ((p1 - cv).length + (d0 + extra - d1))
         var[i] = p1
 
+# v3.1e (holm equipment v2): hair and beards lie OVER body armour and capes -- the Hair_Over / Jaw_Over morph moves every
+# hair / beard vertex that hangs by the torso out from it (and from the deltoid caps) by up to ARMOUR_CLEAR, fading out
+# above the neck; the head, face and neck skin never move. The runtime turns it on while a platebody, chainbody, leather
+# body or cape is worn (holm_equipment extras.kit_morphs).
+ARMOUR_CLEAR = .034
+def armour_clearance(bt, ob, base, slot):
+    hair_mat = [i for i, m in enumerate(ob.data.materials) if m and m.name.split('.')[0] == 'C_HAIR']
+    hv = set(v for pl in ob.data.polygons if pl.material_index in hair_mat for v in pl.vertices)
+    z0, z1 = (1.56, 1.47) if slot == 'Hair' else (1.575, 1.50)
+    out = []
+    for i, p in enumerate(base):
+        q = p.copy()
+        if i in hv and p.z < z0:
+            f = ss(z0, z1, p.z)
+            c0, rdir = _clearance(bt, p, TORSO, PELVIS)
+            if c0 < .10:
+                q = q + rdir * ARMOUR_CLEAR * f
+            for sx in (-1, 1):   # the deltoid caps (pauldrons sit there)
+                dc, dr = DELTOID[bt]
+                cb = Vector((sx * dc[0], dc[1], dc[2]))
+                d0 = (q - cb).length - dr
+                if 1.18 < p.z < 1.52 and d0 < .045:
+                    q = cb + (q - cb).normalized() * ((q - cb).length + (.045 - d0) * f)
+        out.append(q)
+    return out
+
 MORPHS_ALL = ['Build_Stout', 'Build_Slim']
 MORPHS_FEET = ['Feet_Large', 'Feet_Small']
 MORPH_DATA = {}   # part name -> {'base': [...], morph: [...], 'tris': [(i, j, k)]}
@@ -3821,6 +3850,8 @@ def add_morphs(ob, bt, slot, idx):
     tables, so the shape key has the part's exact topology and every layer follows the same body."""
     base = [v.co.copy() for v in ob.data.vertices]
     keys = {'Build_Stout': part_coords(bt, slot, idx, 'stout'), 'Build_Slim': part_coords(bt, slot, idx, 'slim')}
+    if slot in ('Hair', 'Jaw'):
+        keys[slot + '_Over'] = armour_clearance(bt, ob, base, slot)
     if slot == 'Feet':
         keys['Feet_Large'] = part_coords(bt, slot, idx, feet=FOOT_K_LARGE)
         keys['Feet_Small'] = part_coords(bt, slot, idx, feet=FOOT_K_SMALL)
