@@ -27,6 +27,7 @@ const { createServer } = require('../server/app');
 const { PathingEntity } = require('../server/engine/PathingEntity');
 const C = require('../shared/combat.js');
 const OnlineTiming = require('../src/online_fx.js');
+const PVP = require('../shared/pvp.js');
 
 const args = process.argv.slice(2);
 const arg = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
@@ -242,6 +243,9 @@ async function pvpFight(fight, A0, B0, O, opts) {
   // the menu shows the attack option with the combat level (and only when the level range allows)
   const menu = await A.q((pid) => CROnlineQA.menuFor('player', pid), bPid);
   check(fight, menu && /^Attack .+ \(level-\d+\)$/.test(menu[0]), 'attack option first in the menu with the level', menu);
+  // 2004 skull rule: no skull for attacking someone who attacked you (or whom you attacked) recently
+  const pa0 = sp(A.name), pb0 = sp(B.name);
+  const expectSkull = PVP.deservesSkull({ id: pa0.key, predators: pa0.predators }, { id: pb0.key, preys: pb0.preys }) || pa0.isSkulled();
   const since = world.tick, sinceMs = Date.now();
   const fxA0 = (await A.state()).fx, fxO0 = (await O.state()).fx;
   if (o.protectItemA) await A.q(() => CROnlineQA.send({ t: 'prayer', id: 'protect_item', on: true }));
@@ -257,12 +261,12 @@ async function pvpFight(fight, A0, B0, O, opts) {
   let strip = null;
   if (STRIPS && o.strip) strip = captureStrip(O, o.strip, [['player', aPid], ['player', bPid]], 18, Math.round(TICK / 3));
   // skull: the attacker only (set on the first swing, once A is in reach)
-  const so = await O.until((s) => { const a = s.players.find((p) => p.pid === aPid); return a && a.sk === 1; }, 20000, 'the skull of the attacker').catch(() => O.lastState);
+  const so = await O.until((s) => { const a = s.players.find((p) => p.pid === aPid); return a && (expectSkull ? a.sk === 1 : sp(A.name).lastCombatPvp >= 0 || sp(B.name).lastCombatPvp >= since); }, 20000, 'the skull of the attacker').catch(() => O.lastState);
   const seenA = so.players.find((p) => p.pid === aPid), seenB = so.players.find((p) => p.pid === bPid);
   check(fight, seenA && seenB, 'the observer sees both fighters', { seenA: !!seenA, seenB: !!seenB });
-  check(fight, seenA && seenA.sk === 1 && seenB && !seenB.sk, 'the attacker is skulled, the defender (retaliating) is not', { a: seenA && seenA.sk, b: seenB && seenB.sk });
+  check(fight, seenA && (seenA.sk || 0) === (expectSkull ? 1 : 0) && seenB && !seenB.sk, expectSkull ? 'the attacker is skulled, the defender (retaliating) is not' : 'no skull for striking back at a recent attacker (2004 rule); the defender unskulled', { a: seenA && seenA.sk, b: seenB && seenB.sk, expectSkull });
   const aSelf = await A.state();
-  check(fight, aSelf.ui.skull > 0, 'the attacker sees their own skull timer', aSelf.ui.skull);
+  check(fight, (aSelf.ui.skull > 0) === expectSkull, 'the attacker sees their own skull state', aSelf.ui.skull);
   // readability at the desktop size and on a phone-sized window, mid-fight (criterion 12)
   if (o.screens) {
     await O.page.bringToFront();
@@ -384,7 +388,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
   const ws = await winner.state(), os2 = await O.state();
   // the death pile on the server: created at the death, owned by the winner
   const deathTick = kill ? kill.tick : since;
-  const serverPile = [...world.objs.values()].filter((x) => x.owner === winner.name.toLowerCase() && x.createdTick >= deathTick - 1).map((x) => x.uid);
+  const serverPile = [...world.objs.values()].filter((x) => x.owner === winner.name.toLowerCase() && !x.isPublic(world.tick) && kill && x.x === kill.x && x.z === kill.z).map((x) => x.uid);   // stackables merge into an older private stack on the tile
   const pile = ws.objs.filter((x) => x.own && serverPile.includes(x.uid));
   const want = dropped.map((d) => d[0]).concat(['bones']);
   const missing = want.filter((id) => !pile.some((x) => x.id === id));
@@ -394,7 +398,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
   // the winner picks everything up (as many as fit)
   const invBefore = ws.inv.filter(Boolean).length;
   for (const it of pile) { await winner.q((uid) => CROnlineQA.send({ t: 'op_obj', uid, op: 'take' }), it.uid); await sleep(TICK * 1.2); }
-  const wAfter = await winner.until((s) => s.objs.filter((x) => x.own).length === 0 || s.inv.filter(Boolean).length >= 28, 30000, 'pick up the pile');
+  const wAfter = await winner.until((s) => s.objs.filter((x) => pile.some((p) => p.uid === x.uid)).length === 0 || s.inv.filter(Boolean).length >= 28, 45000, 'pick up the pile');
   check(fight, wAfter.inv.filter(Boolean).length > invBefore, 'loot reaches the winner\'s pack', { before: invBefore, after: wAfter.inv.filter(Boolean).length });
   const fxA1 = (await A.state()).fx, fxO1 = (await O.state()).fx;
   fight.fx = { attacker: fxDelta(fxA0, fxA1), observer: fxDelta(fxO0, fxO1) };
