@@ -23,7 +23,7 @@ function playerSnapshot(q, tick) {
 }
 /** W2: an entity that comes into view in the middle of a swing (or a hit) carries this tick's animation and hits */
 function thisTick(e, s) { if (e.anim) s.a = e.anim; if (e.hits.length) s.h = e.hits.map((h) => [h.amount, h.type]); return s; }
-function npcSnapshot(n) { return thisTick(n, { i: n.nid, ty: n.typeId, x: n.x, z: n.z, hp: hpPair(n), f: faceRef(n) }); }
+function npcSnapshot(n) { const s = { i: n.nid, ty: n.typeId, x: n.x, z: n.z, hp: hpPair(n), f: faceRef(n) }; if (n.size > 1) s.sz = n.size; return thisTick(n, s); }
 
 /** movement + masks shared by player and npc updates; returns null when nothing changed */
 function commonUpdate(e, id) {

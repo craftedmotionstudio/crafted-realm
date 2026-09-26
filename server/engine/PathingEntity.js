@@ -89,10 +89,10 @@ class PathingEntity {
     this.tele = false;
   }
   setAnim(name, extra) {
-    // animation priority (the 2004 client plays one sequence per tick by priority): a blow of your own (attack / cast)
-    // or a death outranks the defend flinch, so two fighters swinging on the same tick both show their swing (W2)
-    const a = this.anim;
-    if (a && name === 'defend' && (a.name === 'attack' || a.name === 'cast' || a.name === 'death')) return;
+    // animation priority (the 2004 client plays one sequence per tick by priority): the defend flinch is the lowest, so
+    // anything already set this tick (a swing, a cast, a breath, a bite, a death) stays; two fighters swinging on the
+    // same tick both show their swing (W2)
+    if (this.anim && name === 'defend') return;
     this.anim = Object.assign({ name }, extra || {}); this.infoChanged = true;
   }
   addHit(amount, type) { this.hits.push({ amount, type: type || (amount > 0 ? 'hit' : 'block') }); this.infoChanged = true; }

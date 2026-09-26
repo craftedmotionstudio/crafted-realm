@@ -163,3 +163,61 @@ test('animation priority: a swing (or a death) is not replaced by the defend fli
   }
   assert.ok(seenA >= 3 && seenB >= 3, `both swings seen (${seenA}, ${seenB})`);
 });
+
+/* the Scarlands bestiary conventions (W2 prep): 2x2 monsters, a breath every third attack */
+function bestiaryWorld(extraType, spawn) {
+  const G = require('../content/GameData').get();
+  const content = Object.assign({}, G, { NPC_TYPES: Object.assign({}, G.NPC_TYPES, extraType), DROP_TABLES: Object.assign({}, G.DROP_TABLES, { test_wyrm: { always: [{ item: 'bones', qty: 1 }] } }) });
+  const map = require('./helpers').fieldMap({ spawns: [spawn], areas: { wilderness: [{ x1: 0, z1: -600, x2: 39, z2: 39 }], multi: [], named: [] } });
+  return new World({ map, content, seed: 5 });
+}
+const WYRM = { test_wyrm: { name: 'Test wyrm', level: 56, hp: 120, att: 48, str: 46, def: 42, mag: 50, magicAttack: 24, aBonus: 22, sBonus: 24, dBonus: 28, atype: 'slash', speedTicks: 5, aggro: true, respawn: 90, size: 2, breath: { every: 3, max: 14, range: 5 } } };
+
+test('bestiary: a size-2 monster takes a 2x2 footprint (older fractional sizes stay one tile) and tells clients its size', () => {
+  const Npc = require('../engine/Npc');
+  assert.equal(Npc.footprint({ size: 2 }), 2);
+  assert.equal(Npc.footprint({ size: 0.78 }), 1);
+  assert.equal(Npc.footprint({ size: 1.05 }), 1);
+  assert.equal(Npc.footprint({ tiles: 3, size: 0.5 }), 3);
+  const w = bestiaryWorld(WYRM, { npc: 'test_wyrm', x: 20, z: 10, wander: 0, hunt: 0 });
+  const wyrm = [...w.npcs.values()][0];
+  assert.equal(wyrm.size, 2);
+  const Npc2 = require('../engine/Npc');
+  assert.equal(w.collision.canTravel(0, 22, 11, -1, 0, 1, Npc2.NPC_FLAG), false, 'its second row/column is occupied');
+  assert.equal(w.collision.canTravel(0, 22, 12, -1, 0, 1, Npc2.NPC_FLAG), true, 'but not beyond its footprint');
+  const a = addPlayer(w, 'wyrmview', { pos: { x: 17, z: 10 } });
+  w.cycle();
+  const add = a.s.received.filter((m) => m.t === 'tick' && m.np).flatMap((m) => m.np.add).find((n) => n.ty === 'test_wyrm');
+  assert.equal(add.sz, 2);
+});
+
+test('bestiary: the breath comes every third attack as a magic projectile with its own max hit; Protect from Magic blocks it', () => {
+  const w = bestiaryWorld(WYRM, { npc: 'test_wyrm', x: 20, z: 10, wander: 0, hunt: 0, maxRange: 20 });
+  w.rng = alwaysHit(1);
+  const a = addPlayer(w, 'breathed', { levels: { Hitpoints: 99, Defence: 1 }, pos: { x: 19, z: 10 } });
+  const wyrm = [...w.npcs.values()][0];
+  wyrm.startAttacking(a.p);
+  const fx = [];
+  for (let i = 0; i < 40; i++) w.cycle();
+  const anims = a.s.received.filter((m) => m.t === 'tick' && m.np).flatMap((m) => (m.np.upd || []).concat(m.np.add || [])).filter((u) => u.i === wyrm.nid && u.a).map((u) => u.a.name);
+  for (const m of a.s.received) if (m.fx) fx.push(...m.fx);
+  const swings = anims.filter((n) => n === 'attack' || n === 'breath');
+  assert.ok(swings.length >= 6, 'it fought: ' + swings.join(','));
+  swings.forEach((n, i) => assert.equal(n, (i + 1) % 3 === 0 ? 'breath' : 'attack', 'attack ' + (i + 1)));
+  assert.ok(fx.some((f) => f.k === 'breath' && f.from[0] === 'n'), 'a breath projectile was announced');
+  // alwaysHit(1) deals floor(max * 1): the breath's max (14), the claws' max hit otherwise
+  const hits = a.s.received.filter((m) => m.t === 'tick' && m.me && m.me.h).flatMap((m) => m.me.h.map((h) => h[0]));
+  assert.ok(hits.includes(14), 'a full breath lands for 14: ' + hits.join(','));
+  // praying against magic: breath hits become 0 (monster protection is total)
+  const b = addPlayer(w, 'prayed', { levels: { Hitpoints: 99, Prayer: 50 }, pos: { x: 22, z: 11 } });
+  b.s.intent({ t: 'prayer', id: 'protect_magic', on: true });
+  w.cycle();
+  a.p.dead = true; a.p.active = false; w.removePlayer(a.p);
+  wyrm.resetDefaults(); wyrm.attackCount = 2; wyrm.actionDelay = -1; wyrm.startAttacking(b.p);
+  b.s.clear();
+  for (let i = 0; i < 12; i++) w.cycle();
+  const bh = b.s.received.filter((m) => m.t === 'tick' && m.me && m.me.h).flatMap((m) => m.me.h.map((h) => h[0]));
+  const bfx = b.s.received.filter((m) => m.fx).flatMap((m) => m.fx).filter((f) => f.k === 'breath');
+  assert.ok(bfx.length >= 1 && bfx.every((f) => f.splash === 1), 'the breath splashes on Protect from Magic');
+  assert.ok(!bh.includes(14), 'no breath damage while praying: ' + bh.join(','));
+});
