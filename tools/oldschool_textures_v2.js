@@ -26,13 +26,15 @@ module.exports=function registerV2(k){
  // ---- foliage: many small leaves in close olive tones, shallow shade pockets, no dark camouflage patches ----
  function softLeaves(seed,base,count,rMax,pocket){const t=new Tex(64),r=rng(seed),sh=fbm(seed+1,2,3),fine=vnoise(seed+2,16);
   t.fill((u,v)=>{const q=.9+(sh(u,v)-.5)*.14;return [base[0]*q,base[1]*q,base[2]*q]});
-  for(let i=0;i<count;i++){const cx=r()*64,cy=r()*64,a=r()*Math.PI,rx=1+r()*rMax,ry=.6+r()*.7,q=.86+r()*.26,ca=Math.cos(a),sa=Math.sin(a);
+  for(let i=0;i<count;i++){const cx=r()*64,cy=r()*64,a=r()*Math.PI,rx=1+r()*rMax,ry=.6+r()*.7,q=.78+r()*.42,ca=Math.cos(a),sa=Math.sin(a);
    const c=[base[0]*q*(1+(r()-.5)*.06),base[1]*q,base[2]*q*(1+(r()-.5)*.12)];
    for(let y=Math.floor(cy-3);y<=cy+3;y++)for(let x=Math.floor(cx-3);x<=cx+3;x++){const dx=x+.5-cx,dy=y+.5-cy,uu=(dx*ca+dy*sa)/rx,vv=(-dx*sa+dy*ca)/ry;
     if(uu*uu+vv*vv<=1)t.set(x,y,c)}}
   for(let y=0;y<64;y++)for(let x=0;x<64;x++){const q=fine(x/64,y/64);if(q<.32)t.mul(x,y,pocket+q*(1-pocket)/.32)}
+  // a lit edge on some leaves: the small light flecks the reference crowns show up close
+  for(let i=0;i<260;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64);t.blend(x,y,[1,1,.8],.22)}
   return t}
- R.leaves_soft=()=>{const t=softLeaves(311,[.5,.6,.31],900,1.5,.8);t.quant(28);return t.headroom(.82)};
+ R.leaves_soft=()=>{const t=softLeaves(311,[.5,.6,.31],900,1.5,.62);t.quant(28);return t.headroom(.82)};
  R.needles_soft=()=>{const t=new Tex(64),r=rng(321),sh=fbm(322,2,3),base=[.4,.54,.44];
   t.fill((u,v)=>{const q=.9+(sh(u,v)-.5)*.14;return [base[0]*q,base[1]*q,base[2]*q]});
   for(let i=0;i<800;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64),len=2+Math.floor(r()*4),dx=r()<.5?1:-1,q=.88+r()*.22;

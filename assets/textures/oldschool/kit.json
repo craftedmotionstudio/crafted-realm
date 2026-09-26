@@ -306,9 +306,9 @@
    "file": "assets/textures/oldschool/leaves_soft.png",
    "size": 64,
    "mean": [
-    0.682,
-    0.82,
-    0.4253
+    0.6063,
+    0.724,
+    0.3808
    ],
    "use": "look v2: tree crowns, shrubs, hazel, tufts (small close-toned leaves)"
   },

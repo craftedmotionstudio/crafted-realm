@@ -39,17 +39,24 @@ var HolmOldschoolLook=(function(){
  var GROUND=ver>1?{grassA:'grass_a',grassB:'grass_b',sand:'sand_soft',rock:'rock',earth:'mud',path:'dirt_soft'}:
   {grassA:'grass_a',grassB:'grass_b',sand:'sand',rock:'rock',earth:'mud',path:'dirt'};
  var MEAN={grass_a:[.8211,.8479,.7621],grass_b:[.8424,.8424,.7588],sand:[.9027,.881,.8353],rock:[.8011,.8011,.7685],dirt:[.8423,.8091,.7599],mud:[.8137,.7912,.7348],
-  dirt_soft:[.865,.8352,.7789],sand_soft:[.8909,.8737,.8276],leaves:[.5478,.6553,.3955],leaves_soft:[.682,.82,.4253],needles:[.451,.5658,.4736],needles_soft:[.6035,.82,.6639],
+  dirt_soft:[.865,.8352,.7789],sand_soft:[.8909,.8737,.8276],leaves:[.5478,.6553,.3955],leaves_soft:[.6063,.724,.3808],needles:[.451,.5658,.4736],needles_soft:[.6035,.82,.6639],
   bark:[.8054,.6408,.4615],bark_soft:[.82,.6518,.4826],roof_tiles:[.7562,.4201,.3106],roof_tiles_soft:[.82,.4973,.3642],thatch:[.6866,.5819,.3587],thatch_soft:[.82,.6989,.4228],
-  stone_course:[.8116,.8002,.7538],stone_course_soft:[.82,.8165,.7788],plaster:[.8744,.8482,.7864],plaster_soft:[.8874,.8655,.8245]};
- // detail strength and world scale (tiles per texture repeat) per ground texture; v2 grass has no detail texture (k 0)
- var TUNE=ver>1?{grassA:{k:0,s:1.6},grassB:{k:0,s:3.3},sand:{k:.85,s:2},rock:{k:.9,s:2},earth:{k:.9,s:1.6},path:{k:.95,s:1.5}}:
+  stone_course:[.8116,.8002,.7538],beam:[.82,.5766,.3888],planks:[.7466,.5414,.3476],stone_course_soft:[.82,.8165,.7788],plaster:[.8744,.8482,.7864],plaster_soft:[.8874,.8655,.8245]};
+ // detail strength and world scale (tiles per texture repeat) per ground texture; v2 grass keeps only a faint trace
+ // of the broad grass texture (close views measured smoother than the refs with none)
+ var TUNE=ver>1?{grassA:{k:0,s:1.6},grassB:{k:.15,s:3.3},sand:{k:.85,s:2},rock:{k:.9,s:2},earth:{k:.9,s:1.6},path:{k:.95,s:1.5}}:
   {grassA:{k:1,s:1.6},grassB:{k:.7,s:3.3},sand:{k:.85,s:2},rock:{k:.9,s:2},earth:{k:.9,s:1.6},path:{k:.95,s:1.5}};
  // look v2 model textures: first-kit texture (the image name inside a textured candidate) -> its soft variant
+ var SOFT_REPEAT={leaves_soft:2};   // finer leaves: the refs' crowns show small leaves up close, soft from afar (mips)
  var SOFT={leaves:'leaves_soft',needles:'needles_soft',bark:'bark_soft',roof_tiles:'roof_tiles_soft',thatch:'thatch_soft',stone_course:'stone_course_soft',plaster:'plaster_soft'};
  // look v2 colour grade per surface family (by kit texture): gain, saturation (1 = unchanged), hue shift in degrees
- var GRADE={leaves:{gain:.74,sat:.82,hue:-5},needles:{gain:.78,sat:.8,hue:0},bark:{gain:.9,sat:.85,hue:0},roof_tiles:{gain:.95,sat:.78,hue:11},
-  thatch:{gain:.95,sat:.85,hue:0},plaster:{gain:.93,sat:.62,hue:0},stone_course:{gain:.95,sat:.7,hue:0},rock:{gain:1,sat:.8,hue:0}};
+ var GRADE={leaves:{gain:.74,sat:.82,hue:-5},needles:{gain:.78,sat:.8,hue:0},bark:{gain:.9,sat:.85,hue:0},roof_tiles:{gain:.95,sat:.7,hue:24},
+  thatch:{gain:.95,sat:.85,hue:0},plaster:{gain:.93,sat:.4,hue:0},stone_course:{gain:.95,sat:.7,hue:0},rock:{gain:1,sat:.55,hue:0},
+  shingle:{gain:.9,sat:.85,hue:0},slate:{gain:.95,sat:.8,hue:0},roofwood:{gain:.8,sat:.7,hue:0}};
+ var ROOF_WOOD={beam:true,planks:true};
+ function isRoof(o){for(var q=o,i=0;q&&i<3;q=q.parent,i++)if(/(^|_)Roof/i.test(q.name||''))return true;return false}
+ // candidates that carry their own (non-kit) images: graded with the family they belong to, image kept
+ var FAMILY={'roof-128':'shingle',lodge_slate:'slate',lodge_reed:'thatch','stone-128':'rock',lodge_stone:'rock'};
  // the textured Blender candidates this look switches to (each with its own navigation graph / package export)
  var ASSETS={
   // tools/stage_holm_arrival_package_oldschool.js: v9 with every arrival model textured (graphs identical to v9)
@@ -82,10 +89,11 @@ var HolmOldschoolLook=(function(){
  // hemi .82 + a sun a little higher (rollout review 2026-09-26): floors and interiors keep the previous look's brightness
  // (the first pass's .62 fill left the Guide House floor ~20% darker), walls still shade by facing
  var SCENE={fogNear:24,fogFar:32,background:0x000000,hemiSky:0xd8dccf,hemiGround:0x6f6a58,hemi:.82,sun:1.0,sunColor:0xfff0d8,sunPos:[60,60,52]};
- // v2: the void edge is a short fade a little further out (the 2004 client stopped drawing; no long dark gradient)
- var SCENE_V2={fogNear:27,fogFar:30};
+ // v2: the void edge is a short fade a little further out (the 2004 client stopped drawing; no long dark gradient);
+ // a less amber sun and ground bounce, so plaster and stone read grey like the refs (the warm light alone added ~.08 S)
+ var SCENE_V2={fogNear:27,fogFar:30,sunColor:0xfff6ea,hemiGround:0x6c6a60};
  if(ver>1)Object.keys(SCENE_V2).forEach(function(k){SCENE[k]=SCENE_V2[k]});
- var tex={},modelTex={},loading=null,groundMat=null,active=false,saved=null,stats={groundMaterials:0,textures:0,models:0,maps:0,regraded:0,swapped:0,vertexColoured:0};
+ var tex={},modelTex={},loading=null,groundMat=null,active=false,saved=null,stats={groundMaterials:0,textures:0,models:0,maps:0,regraded:0,swapped:0,vertexColoured:0,roofWood:0,kept:{}};
  function enabled(){return on}
  function version(){return on?ver:0}
  function loadOne(THREE,name){
@@ -108,7 +116,7 @@ var HolmOldschoolLook=(function(){
    return Promise.all(s.probe.map(function(p){return fetch(ws+p,{method:'HEAD',cache:'no-store'}).then(function(r){return r.ok},function(){return false})}))
     .then(function(ok){if(ok.every(Boolean))verified.push(s);else console.warn('[HolmOldschoolLook] '+s.id+' textured candidate not served; previous model kept')})}));
   if(typeof HolmOverhaulGround!=='undefined'&&HolmOverhaulGround.setLookVersion)HolmOverhaulGround.setLookVersion(ver);
-  var soft=ver>1?Object.keys(SOFT).map(function(n){return loadOne(THREE,SOFT[n]).then(function(t){modelTex[SOFT[n]]=modelTexture(THREE,t)})}):[];
+  var soft=ver>1?Object.keys(SOFT).map(function(n){return loadOne(THREE,SOFT[n]).then(function(t){var m=modelTex[SOFT[n]]=modelTexture(THREE,t),r=SOFT_REPEAT[SOFT[n]];if(r)m.repeat.set(r,r)})}):[];
   if(!loading)loading=Promise.all(Object.keys(GROUND).map(function(k){return loadOne(THREE,GROUND[k])}).concat([loadOne(THREE,'water'),kit,probes],soft)).then(function(){if(ver>1)hookLoader(THREE);return true});
   return loading;
  }
@@ -134,10 +142,16 @@ var HolmOldschoolLook=(function(){
   var parser=gltf&&gltf.parser,json=parser&&parser.json,assoc=parser&&parser.associations;if(!on||ver<2||!active||!json||!assoc||!gltf.scene)return 0;
   var seen=new Set(),n=0;
   gltf.scene.traverse(function(o){if(!o.isMesh)return;[].concat(o.material).forEach(function(m){
-   if(!m||!m.map)return;var ref=assoc.get(m.map);if(!ref||ref.type!=='textures'||!json.textures)return;
-   var td=json.textures[ref.index],img=td&&json.images&&json.images[td.source],name=img&&img.name,g=GRADE[name],soft=SOFT[name];
-   if(!g&&!soft)return;
-   var oldM=MEAN[name],to=soft&&modelTex[soft]?soft:null,newM=to?MEAN[to]:oldM;if(!oldM||!newM)return;
+   if(!m||!m.map)return;
+   // a material shared by several meshes: its map is already the soft texture; grade this mesh's corners too
+   if(m.userData.oldschoolV2){var gg=GRADE[FAMILY[m.userData.oldschoolV2]||m.userData.oldschoolV2];if(m.vertexColors&&gg&&m.userData.oldschoolScale)gradeCorners(o.geometry,gg,m.userData.oldschoolScale);return}
+   var ref=assoc.get(m.map);if(!ref||ref.type!=='textures'||!json.textures)return;
+   var td=json.textures[ref.index],img=td&&json.images&&json.images[td.source],name=img&&img.name,g=GRADE[FAMILY[name]||name],soft=SOFT[name];
+   // timber-textured roof meshes (vertex-coloured 'Holm flat colour - beam/planks' shingles, e.g. the bakehouse): graded
+   // on their own corners like a roof; the shared timber material itself (frames, doors) stays as authored
+   if(!g&&!soft&&ROOF_WOOD[name]&&m.vertexColors&&isRoof(o)){var rs=[m.color.r*MEAN[name][0],m.color.g*MEAN[name][1],m.color.b*MEAN[name][2]];if(gradeCorners(o.geometry,GRADE.roofwood,rs))stats.roofWood++;return}
+   if(!g&&!soft){if(name&&!seen.has(m)){seen.add(m);stats.kept[name]=(stats.kept[name]||0)+1}return}
+   var oldM=MEAN[name]||(FAMILY[name]?[.8,.8,.8]:null),to=soft&&modelTex[soft]?soft:null,newM=to?MEAN[to]:oldM;if(!oldM||!newM)return;
    if(!seen.has(m)&&!m.userData.oldschoolV2){seen.add(m);
     // the authored average colour (material colour x texture mean), kept for every mesh that shares this material
     var scale=m.userData.oldschoolScale=[m.color.r*oldM[0],m.color.g*oldM[1],m.color.b*oldM[2]];
@@ -226,6 +240,6 @@ var HolmOldschoolLook=(function(){
  function snapshot(){return {look:on?'oldschool':'previous',version:version(),active:active,textures:Object.keys(tex),stats:stats,arrival:arrivalPackage(),swaps:verified.map(function(s){return s.id})}}
  return {enabled:enabled,version:version,grade:grade,regrade:regrade,preload:preload,groundMaterial:groundMaterial,restyleTrail:restyleTrail,waterTexture:waterTexture,activate:activate,deactivate:deactivate,
   voidActive:voidActive,fogRange:fogRange,prepareModel:prepareModel,arrivalPackage:arrivalPackage,url:url,swapped:swapped,snapshot:snapshot,
-  TUNE:TUNE,SCENE:SCENE,ASSETS:ASSETS,SWAPS:SWAPS,SOFT:SOFT,GRADE:GRADE,MEAN:MEAN};
+  TUNE:TUNE,SCENE:SCENE,ASSETS:ASSETS,SWAPS:SWAPS,SOFT:SOFT,GRADE:GRADE,FAMILY:FAMILY,MEAN:MEAN};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmOldschoolLook;

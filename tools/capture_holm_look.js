@@ -31,6 +31,8 @@ function maskPass(on,C){
   if(/bark|trunk|fissured/i.test(n))return 'trunk';
   if(/thatch|shingle|clay|roof|gray slate/i.test(n))return 'roof';
   if(/guide_hall|island-building|Landscape_wall|island-bridge/.test(t)&&WALL.test(n)&&!/flag|floor|\bore\b|cave|cavern/i.test(n))return 'wall';
+  // timber-textured roofs (the bakehouse shingles are 'Holm flat colour - beam'): a roof by the mesh's own name
+  for(let q=o,i=0;q&&i<3;q=q.parent,i++)if(/(^|_)Roof/i.test(q.name||'')&&/beam|plank|shingle|flat colour/i.test(n))return 'roof';
   return 'other'}
  function ground(){if(st.ground)return st.ground;const g=new THREE.MeshBasicMaterial({fog:false});
   g.onBeforeCompile=sh=>{sh.vertexShader='attribute vec4 groundMix;\nvarying vec4 vGM;\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvGM = groundMix;');
