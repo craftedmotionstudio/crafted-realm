@@ -50,3 +50,48 @@ monsters roll with level + 9; XP is exact tenths (magic 2 per damage, controlled
 ## Passes
 
 (pass log below)
+
+### Pass 1 (2026-09-26): the 2004 engine, 8 directions, 28 slots, the Proving Ground
+
+State: `LocalCombat` runs every offline fight on shared/ rules; the island graph has 2004 diagonals; the pack has 28
+slots; eating, Protect Item, per-category styles and "Attack <name> (level-N)" are in; balance data follows the 2004
+triangle; the Proving Ground adds a poacher (ranged), a warlock (magic), a wild pack (aggressive) and the broodmother
+(boss-like, telegraphed slam).
+
+Evidence (all reproducible):
+- `node tools/test_combat.js` (golden values, 40,000-roll hit-rate sims per style PvM + PvP within 1%, worst 0.65%;
+  chi-square uniform 0..max; the seeded engine fingerprint);
+- `node tools/test_combat_engine.js` (66 checks on the real engine, headless: delays, retaliation, single-way, eating,
+  prayers, deaths, XP, 8-direction chase, safespots, specials, mid-fight switching, weapon families, loot timers);
+- `SMOKE_BASE=... node tools/qa_combat_pvm.js` (37/37 in the live game: `pass1/pvm.json` + stills in `pass1/`);
+- `SMOKE_BASE=... node tools/qa_holm_combat_numbers.js` (the live game = the headless fingerprint, byte for byte);
+- `node tools/combat_bench.js pass1` (`pass1/bench_pass1.md`, `pass1/bench_pvmfood.md`: PvM kill times, PvP matchups,
+  mirror fights); `npm run test:server` 78/78 (PvP rules, 2-client ws PvP).
+
+| # | criterion | score | evidence / gap |
+|---|---|---|---|
+| 1 | accuracy rolls per style, PvM + PvP | 0.5 | test_combat.js sims (30 cases, worst 0.65%), golden rolls |
+| 2 | max hits, uniform 0..max | 0.5 | golden max hits (melee str, ranged strength, spells), chi-square 15-dof, engine uniformity check |
+| 3 | attack speeds measured in game | 0.5 | pvm.json: dagger/sword 4, 2h 7, warhammer 6, shortbow 4 / rapid 3, autocast 5 (live ticks) |
+| 4 | hit delays, splat on arrival | 0.5 | live: arrows floor((46+5d+30)/30) at every d measured, spells floor((46+10d)/30)+1, splat - land 0..0.039 s |
+| 5 | retaliation, auto-retaliate, 8-tick lock | 0.5 | live retaliation 4 ticks (grubkin speed 6); engine: auto-retaliate +2, "You are already under attack!" |
+| 6 | eating | 0.5 | live: order dropped, +3 ticks; engine: 3-tick bites, full-health bites |
+| 7 | prayers | 0.5 | engine: roll boosts, drain 1/5 ticks, Thick Skin 1/20, Protect Item 4 kept; live: Protect from Melee blocks the broodmother; server: 40% vs players |
+| 8 | PvP rules | 0.5 | server tests (Wilderness level, range, skull 2000, 3/0/+1 kept, hero loot, logout lock, teleport block, single/multi) |
+| 9 | PvM rules | 0.5 | live: pack aggression + 2x-level rule; engine: leash, respawn, weighted drops, 100/200-tick loot, XP per style |
+| 10 | animation per category/style on the impact frame | 0.5 | live splat - impact frame within 0.042 s for dagger, sword, 2h, warhammer; kit clips per damage type (stab/slash/crush), bow, cast |
+| 11 | projectiles visible, timed; misses read | 0.5 | stills ranged_arrow / magic_orb; blue 0 splats; splash lands without a splat (pvm.json magic) |
+| 12 | readable at 1538x900 and on a phone | 0.25 | desktop stills fine; no phone-size fight evidence yet |
+| 13 | deaths read | 0.5 | kill_fall / kill_loot (drop shown ~1.45 s after the fall), player_death + "On Tutor's Holm nothing is lost" |
+| 14 | controls | 0.5 | live approach ends on a side tile; right-click "(level-18)"; engine: style / weapon switch answers next attack |
+| 15 | 8 directions in fights | 0.25 | live approach took 5 diagonal steps; engine safespot; online rubber-banding not testable here |
+| 16 | weapon variety + specials | 0.5 | engine: 12 families all with a special, distinct speeds; CATEGORY_STYLES per category (tab stills) |
+| 17 | monster variety | 0.5 | Proving Ground: melee, ranged, magic, aggressive pack, boss-like with a telegraph (still), weighted drops |
+| 18 | PvP tension | 0.25 | kept-items preview (skull-aware) and shared Ditch-warning text exist; fight lengths measured; no Wilderness/skull HUD in this client |
+| 19 | balance | 0.25 | triangle at 40/60 (melee > ranged 100%, ranged > magic 73-87%, magic > melee 52-63%); at 25 magic beats both |
+| 20 | online robustness | 0 | needs the online client (server-side 2-client PvP test exists) |
+
+Total pass 1: **8.5 / 10**. Weakest: 12 (phone), 18 (PvP HUD), 19 (level-25 magic), 15/20 (online).
+Fixed during pass 1 (found by the benches): driver artifacts aside, building floors had no diagonals (measured
+profiles counted as stairs) -> flat profiles now get diagonals; a despawned aggressor held the single-way lock; the
+broodmother's wind-up was too short to react to (2 -> 3 ticks); leather took the ranged-armour role (spells kept out).
