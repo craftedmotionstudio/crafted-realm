@@ -57,6 +57,14 @@ Our Three.js client and a mobile client speak JSON over WebSocket to our server.
       textured terrain, our own low-res texture kit on buildings/props, pale textured water, black void past the
       draw distance (proved on the Guide House and survival camp, then rolled out). Owner approval closes the Holm
       goal.
+- [ ] **W0b Holm v2 land** (owner 2026-09-26): more elevation and height across the island; a small recessed pond
+      where fishing is taught, with fishing that is actually fun (old-school: moving spots, splash feedback, varied
+      catches, rare finds); a watermill building with a turning wheel on the creek and a cozy garden terrace on a house
+      overlooking it; medieval clutter for realism (broken carriage, carts, barrels, hay, woodpiles); all shaped by a
+      study of how 2004/OSRS land, towns and distances are laid out (docs/rebuild/WORLD_LAYOUT_GUIDE.md), applied to
+      the island and the mainland slice. Right-click must work like OSRS (Choose Option over every entity).
+- [ ] **Coffee** (owner 2026-09-26): an energy-style drink in 4 doses that restores run energy and gives a slight
+      extra boost; a Blender mug/flask model and icon, a way to make or buy it, server + client rules.
 - [x] **W1 Combat core + server skeleton** (branch world-server-2026-09-25 087623f: 78 tests, 2-client PvP over ws, 50 bots 6.7 ms avg tick): `shared/combat` with 2004 formulas (0..max damage, ranged and magic
       strength handled separately, attack delay ticks, hit delays, retaliation, 8-tick single-combat lock),
       `shared/pvp` (Wilderness level, combat-level range, skull 2000 ticks, items kept on death 3/0 +1 Protect
