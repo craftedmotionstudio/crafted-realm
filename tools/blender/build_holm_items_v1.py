@@ -472,6 +472,44 @@ def b_bones():
         m.hull(pts, P('flour'))
     return m
 
+# coffee (combat agent 2026-09-26, owner request): a chunky cream-glazed mug with a loop handle; the coffee's
+# surface sits lower with every dose drunk (coffee_4 full .. coffee_1 a last swallow). Palette reuse only
+# (flour = glaze, wood-dark = coffee, crust = the glaze's brown rim band), so the 16-material budget holds.
+def b_mug(doses):
+    m = M(); n = 10
+    def ring(r, z): return [(r * math.cos(math.tau * i / n + .31), r * math.sin(math.tau * i / n + .31), z) for i in range(n)]
+    rb, rt, H, wall, floor = .078, .085, .165, .014, .022
+    rings = [ring(rb, 0), ring(rt, H - .018), ring(rt + .003, H), ring(rt - wall, H), ring(rb - wall, floor)]
+    m.loft(rings, lambda j, i: [P('flour'), P('crust'), P('flour'), P('flour')][j], cap0=P('flour'), cap1=P('wood-dark'))
+    # the loop handle on +X (keeps the longest axis along +X)
+    pts = [(rt - .004 + .052 * math.sin(math.pi * k / 6), 0, .04 + (H - .075) * (1 - math.cos(math.pi * k / 6)) / 2) for k in range(7)]
+    m.ptube(pts, .012, 5, P('flour'), up=(0, 1, 0), cap0=P('flour'), cap1=P('flour'))
+    if doses:
+        zl = floor + (H - .03 - floor) * doses / 4
+        ri = (rb - wall) + ((rt - wall) - (rb - wall)) * (zl - floor) / (H - floor)
+        m.poly(ring(ri, zl), P('wood-dark'))
+        if doses == 4:   # a wisp of steam over a fresh mug
+            m.ptube([(0, 0, H + .008), (.012, .006, H + .025), (-.006, .004, H + .038), (.008, -.002, H + .05)], [.012, .01, .008, .004], 4, P('flour'), cap1=P('flour'))
+    return m
+
+# roasted beans: a small tied sack, its mouth rolled open on a heap of dark beans, a few spilled in front
+def b_roasted_beans():
+    m = M(); rng = random.Random(4242)
+    sack = ell((0, 0, .07), (.085, .075, .07), nu=9, nv=4, floor=0)
+    m.hull(sack, lambda nn, cc: P('dough'))          # pale burlap
+    m.loft([[(.07 * math.cos(math.tau * i / 9), .062 * math.sin(math.tau * i / 9), .125) for i in range(9)],
+            [(.078 * math.cos(math.tau * i / 9), .07 * math.sin(math.tau * i / 9), .14) for i in range(9)]],
+           P('crust'), cap1=P('wood-dark'))            # the rolled-down mouth
+    def bean(c, s, seed):
+        pts = ell(c, (s, s * .72, s * .5), nu=6, nv=3)
+        m.hull(pts, lambda nn, cc: P('wood-dark') if nn.z > -.2 else P('char'))
+    for k in range(5):   # the heap in the mouth
+        a = math.tau * k / 5 + rng.uniform(-.3, .3); r = rng.uniform(.01, .04)
+        bean((r * math.cos(a), r * math.sin(a), .145 + rng.uniform(0, .008)), .017, 10 + k)
+    for k, (x, y) in enumerate(((.115, .02), (.135, -.03), (.1, -.05), (-.105, .03))):   # spilled beans
+        bean((x, y, .008), .016, 30 + k)
+    return m
+
 BUILDERS = [
     ('tinderbox', 'Small tin box, iron C-striker and flint', b_tinderbox, 30),
     ('hammer', 'Smithing hammer: oak handle, leather grip, iron head', b_hammer, 30),
@@ -496,6 +534,11 @@ BUILDERS = [
     ('leather_body', 'Leather jerkin laid flat, laced, belted', b_leather_body, 10),
     ('wood_shield', 'Round plank shield, iron rim and boss', b_wood_shield, 15),
     ('bones', 'A chunky long bone', b_bones, 35),
+    ('coffee_4', 'Mug of coffee, full and steaming', lambda: b_mug(4), 25),
+    ('coffee_3', 'Mug of coffee, three sips left', lambda: b_mug(3), 25),
+    ('coffee_2', 'Mug of coffee, half drunk', lambda: b_mug(2), 25),
+    ('coffee_1', 'Mug of coffee, one sip left', lambda: b_mug(1), 25),
+    ('roasted_beans', 'Small sack of dark roasted coffee beans, a few spilled', b_roasted_beans, 25),
 ]
 ALIASES = {'pot_of_flour': 'bucket_flour'}   # same model + icon, own root (shared mesh data)
 for iid, desc, fn, yaw in BUILDERS:

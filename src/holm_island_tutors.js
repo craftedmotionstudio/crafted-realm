@@ -63,7 +63,7 @@ var HolmIslandTutors=(function(){
   melee_trial:function(){return ['Wield that bronze dagger: click it in your pack and it goes in your hand.','The grubkins in the court are tame; they snap, but only for show.','Click one to attack it, and stay on it until it drops.']},
   ranged_trial:function(){return ['Good. Now the shortbow. Click it in your pack to wield it; your arrows go with it.','Click a grubkin to shoot it. Keep your distance and keep shooting until it drops.']},
   open_bank:function(){return ['Click my counter to open your account and see what is inside.','Anything you store here is safe. When you are done, the Mage Tower is next.']},
-  magic_trial:function(){return ['Air and mind runes make Wind Strike, and you have both in your pack.','Open your spellbook and click Wind Strike to choose it.','Then click one of the grubkins in the yard. A spell can miss, just like a sword. Cast again.']},
+  magic_trial:function(){return ['Air and mind runes make Wind Strike, and you have both in your pack.','Open your spellbook and click Wind Strike to choose it.','Then click one of the grubkins in the yard. Each click casts once: choose Wind Strike again for the next. A spell can splash, just like a sword can miss.','With a staff in your hand, a chosen spell keeps casting on its own.']},
   relight_lastlight:function(){return ['Climb the three ladders to the lantern deck and pull the beacon lever.','Once the light is burning, go down to the haven. Tobin will row you across.']}};
  var st={npcs:[],api:null,mixers:[],talking:null,waved:{}};
  function nextOf(){return typeof Tutorial!=='undefined'&&!Tutorial.complete&&Tutorial.steps[Tutorial.step]?Tutorial.steps[Tutorial.step].id:null}
@@ -91,7 +91,7 @@ var HolmIslandTutors=(function(){
  async function load(o){
   var T=o.THREE,api=o.api;st.api=api;
   for(var i=0;i<CAST.length;i++){var c=CAST[i],p=spot(api,c);if(!p)continue;
-   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+'_v2.glb?v=30',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
+   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+'_v2.glb?v=31',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
    var root=gltf.scene,g=new T.Group();root.traverse(function(m){if(m.isMesh||m.isSkinnedMesh){m.castShadow=true;m.frustumCulled=false;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});
    g.add(root);g.position.set(p.x,p.y,p.z);g.lookAt(p.faceX,p.y,p.faceZ);g.name='island-tutor-'+c.id;
    var mixer=new T.AnimationMixer(root),actions={};gltf.animations.forEach(function(cl){actions[cl.name]=mixer.clipAction(cl)});
@@ -109,7 +109,7 @@ var HolmIslandTutors=(function(){
   // on their turn, the chat opens their area's lessons once it ends (the banner and arrow then move on to the lesson)
   if(st.talking&&st.talking!==n)ended(st.talking);n.opens=turn(n.cast);
   n.group.lookAt(player.position.x,n.group.position.y,player.position.z);play(n,'talk');st.talking=n;
-  (function show(){n.paging=false;var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;n.paging=true;setTimeout(show,0)}else ended(n)}}],'img:assets/icons/tutors/'+n.cast.id+'.png?v=30')})();
+  (function show(){n.paging=false;var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;n.paging=true;setTimeout(show,0)}else ended(n)}}],'img:assets/icons/tutors/'+n.cast.id+'.png?v=31')})();
   return true;
  }
  // the chat is over (last page, or the box was closed): back to idle, and the tutor counts as spoken to

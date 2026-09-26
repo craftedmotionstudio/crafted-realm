@@ -71,6 +71,7 @@ var HolmArrivalPlayer=(function(){
   return session.bridge.update(dt,{keys:controls&&!controls.chatting?controls.keys:{},yaw:typeof camCtl!=='undefined'?camCtl.yaw:0,locked:typeof CharCreator!=='undefined'&&CharCreator.active});
  }
  return {create:create,attach:attach,detach:detach,active:active,order:function(p){return session.bridge.order(p)},update:update,
-  route:function(){return session&&session.bridge.route?session.bridge.route():[]}};   // read-only, for the minimap route line
+  route:function(){return session&&session.bridge.route?session.bridge.route():[]},
+  snapshot:function(){return session?session.bridge.snapshot():null}};   // read-only: the follower's pose (nodeId null mid-step), for combat reach   // read-only, for the minimap route line
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmArrivalPlayer;

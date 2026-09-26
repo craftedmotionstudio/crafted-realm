@@ -47,8 +47,10 @@ test('ranged: (46 + 5d + 30) / 30 tick delay; rapid shoots a tick faster', () =>
   runUntil(w, () => false, 12);
   const d = C.rangedHitDelay(5);   // 3
   assert.equal(d, 3);
-  assert.deepEqual(log.npc.map((e) => e.tick - T0), [0 + d, 5 + d]);   // shots at T0 and T0+5 (speed 5)
-  assert.equal(p.invCount('arrows'), 47);                            // three arrows loosed (T0, +5, +10)
+  // the bow's own speed (content: worn_bow is a 2004 shortbow, 4 ticks since the combat balance pass)
+  const sp = w.content.ITEMS.worn_bow.speedTicks, shots = [0, sp, 2 * sp, 3 * sp].filter((t) => t < 12);
+  assert.deepEqual(log.npc.map((e) => e.tick - T0), shots.map((t) => t + d).filter((t) => t < 12));
+  assert.equal(p.invCount('arrows'), 50 - shots.length);
   // rapid: a fresh archer shoots every 4 ticks
   const w2 = fieldWorld({ spawns: [spawn('korthul', 15, 10, { maxRange: 0 })] });
   w2.rng = alwaysHit(0);
@@ -58,7 +60,8 @@ test('ranged: (46 + 5d + 30) / 30 tick delay; rapid shoots a tick faster', () =>
   const U0 = w2.tick;
   r.s.intent({ t: 'op_npc', nid: npc2.nid, op: 'attack' });
   runUntil(w2, () => false, 12);
-  assert.deepEqual(log2.npc.map((e) => e.tick - U0), [3, 7, 11]);
+  const rs = sp - 1;   // rapid: one tick faster
+  assert.deepEqual(log2.npc.map((e) => e.tick - U0), [0, rs, 2 * rs, 3 * rs, 4 * rs].map((t) => t + d).filter((t) => t < 12));
   w2.collision.unload();
 });
 

@@ -18,7 +18,7 @@ const DIRS=[ // workspace folders the island loads (candidates/, working/ or exp
 'holm-keep-navigation-v7/candidates','holm-kitchen-navigation-v6/candidates','holm-kitchen-wings-v8/candidates',
  'holm-quest-lodge-v6/candidates','holm-quest-foundation-v1/candidates','holm-quest-placement-v1/candidates','holm-quest-terrain-navigation-v4/candidates',
  'holm-warden-keep-v8/candidates','holm-tree-family-v3/candidates','holm-habitat-v4/working','holm-island-bridges-v2/candidates',
- 'holm-props-v1/candidates','holm-props-v2/candidates','holm-props-v3/candidates','holm-props-v4/candidates','holm-props-v5/candidates','holm-items-v1/candidates','holm-equipment-v1/candidates',
+ 'holm-props-v1/candidates','holm-props-v2/candidates','holm-props-v3/candidates','holm-props-v4/candidates','holm-props-v5/candidates','holm-items-v1/candidates','holm-equipment-v1/candidates','holm-equipment-v2/candidates',
  'holm-bank-v3/candidates','holm-bank-navigation-v3/candidates',
  ...['survival','quarry','mage','haven','lastlight'].flatMap(b=>['holm-'+b+'-v3/candidates','holm-'+b+'-navigation-v3/candidates']),
  ...['cavern'].flatMap(b=>['holm-'+b+'-v1/candidates','holm-'+b+'-navigation-v1/candidates']),

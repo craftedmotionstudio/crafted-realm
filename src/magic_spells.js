@@ -20,6 +20,9 @@ const SPELLS = {
   wind_blast:  {name:'Wind Blast',   req:41, max:13, baseXp:25.5, icon:'\u{1F32A}', color:0x8ab0d0, runes:{air_rune:3, spark_rune:1}},
   water_blast: {name:'Water Blast',  req:47, max:14, baseXp:28.5, icon:'\u{1F30A}', color:0x1a5ac0, runes:{water_rune:3, air_rune:3, spark_rune:1}},
   earth_blast: {name:'Earth Blast',  req:53, max:15, baseXp:31.5, icon:'\u{1F5FB}', color:0x5a3e22, runes:{earth_rune:4, air_rune:3, spark_rune:1}},
+  // the 2004 book's last blast, Fire Blast, named Ember Wrath per docs/rebuild/NAMING_BIBLE.md (combat pass 4): without it a level-59+ mage's best spell stopped at 15 while blades and
+  // arrows kept growing with Strength and Ranged; its sprite already exists (assets/icons/ui/v3/spells/fire_blast.png)
+  fire_blast:  {name:'Ember Wrath',  req:59, max:16, baseXp:34.5, icon:'\u{2604}',  color:0xe8501e, runes:{fire_rune:5, air_rune:4, spark_rune:1}},
   confuse:     {name:'Confuse', req:3,  utility:'curse', stat:'att', cut:0.95, baseXp:13, icon:'\u{1F4AB}', color:0x8a8aa8, runes:{body_rune:1, water_rune:3, earth_rune:2}},
   weaken:      {name:'Weaken',  req:11, utility:'curse', stat:'str', cut:0.95, baseXp:21, icon:'\u{1F4C9}', color:0x6a8a6a, runes:{body_rune:1, water_rune:3, earth_rune:2}},
   home_tele:    {name:'Veyhollow Teleport',  req:1,  utility:'teleport', dest:'commons',  cd:60, icon:'\u{1F3E0}', baseXp:0,  runes:{}},
@@ -59,6 +62,8 @@ function castCurse(sp, npc){
   if(sp.stat==='str') npc.t = Object.assign({}, npc.t, {str: Math.max(1, Math.floor(npc.t.str*sp.cut))});
   Sfx.magicCast();
   fireProjectile('bolt', player, npc, 0, sp.color);
+  // the curse lands like a spell: the foe turns on you when it arrives (2004 npc_retaliate(delay))
+  if(typeof LocalCombat!=='undefined' && typeof CRShared!=='undefined'){ const d=Math.max(1,Math.round(Math.max(Math.abs(player.position.x-npc.mesh.position.x),Math.abs(player.position.z-npc.mesh.position.z)))); LocalCombat.npcRetaliate(npc, CRShared.combat.magicHitDelay(d)); }
   UI.chat(`Your ${sp.name.toLowerCase()} settles over the ${npc.t.name.toLowerCase()}.`,'xp');
   if(UI.refreshSpells) UI.refreshSpells();
 }

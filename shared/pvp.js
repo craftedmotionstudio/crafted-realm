@@ -200,7 +200,26 @@
     return best ? best.key : null;
   }
 
+  /**
+   * The Ditch warning (our own words): what an adventurer must understand before crossing, with their own numbers.
+   * o = {combatLevel, skulled, protectItem, keptNames: [names of what they would keep]}. Returns lines of text.
+   */
+  function ditchWarningLines(o) {
+    const p = o || {}, cb = p.combatLevel | 0, n = p.skulled ? 0 : KEPT_ITEMS + (p.protectItem ? 1 : 0);
+    const lines = [
+      'Beyond the Ditch lie the Scarlands. Other adventurers can attack you there, and you them.',
+      'At Scarlands level 1 you can fight adventurers within 1 combat level of you (' + Math.max(3, cb - 1) + ' to ' + (cb + 1) + '); every 8 steps north widens the range by one.',
+      n ? 'If you fall there you keep only your ' + n + ' most valuable item' + (n > 1 ? 's' : '') + '; the rest goes to whoever dealt you the most damage.'
+        : 'You are skulled: if you fall there you keep nothing, and it all goes to whoever dealt you the most damage.',
+      'Attacking an adventurer who did not attack you first puts a skull over your head for 20 minutes: a skulled adventurer keeps nothing (only Protect Item saves one thing).',
+      'Above level ' + TELEPORT_BLOCK_LEVEL + ' no ordinary teleport will carry you out, and you cannot leave the world within ' + Math.round(LOGOUT_LOCK_TICKS * 0.6) + ' seconds of a fight.',
+    ];
+    if (p.keptNames && p.keptNames.length) lines.push('You would keep: ' + p.keptNames.join(', ') + '.');
+    return lines;
+  }
+
   return {
+    ditchWarningLines,
     SKULL_TICKS, LOGOUT_LOCK_TICKS, TELEPORT_BLOCK_LEVEL, SINGLE_COMBAT_TICKS, KEPT_ITEMS, PREDATOR_SLOTS, PREY_SLOTS,
     EQUIP_SCAN_ORDER, REASON_TEXT,
     inRect, wildernessLevel, isMulti, levelCheck, singleCombatCheck, canAttack,

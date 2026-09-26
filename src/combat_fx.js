@@ -41,7 +41,9 @@ var CombatFX=(function(){
  function isPlayer(o){return typeof player!=='undefined'&&o===player}
  function st(o){var u=o.userData||(o.userData={});
   return u._cfx||(u._cfx={lastHit:-99,pending:0,shown:1,trail:1,trailT:9,slots:[null,null,null,null],lastEv:null,h:0,hAt:-99,recoil:-1,hands:undefined})}
- function liveFrac(o){if(isPlayer(o))return Player.maxHp>0?Math.max(0,Math.min(1,Player.hp/Player.maxHp)):1;
+ var tracked=[];   // [{obj, frac: () => 0..1}] extra bodies with a health bar (CombatHooks.track)
+ function trackedFrac(o){for(var i=0;i<tracked.length;i++)if(tracked[i].obj===o){try{var v=tracked[i].frac();return Number.isFinite(v)?Math.max(0,Math.min(1,v)):-1}catch(e){return -1}}return null}
+ function liveFrac(o){if(isPlayer(o))return Player.maxHp>0?Math.max(0,Math.min(1,Player.hp/Player.maxHp)):1;var tf=tracked.length?trackedFrac(o):null;if(tf!==null)return tf;
   var n=o.userData&&o.userData.npc;if(n&&n.t&&n.t.hp>0)return Math.max(0,Math.min(1,n.hp/n.t.hp));return -1}
  function maxHpOf(o){if(isPlayer(o))return Player.maxHp||10;var n=o.userData&&o.userData.npc;return n&&n.t?n.t.hp:10}
  // visible height of a body, measured once it has geometry (GLB bodies stream in after spawn) and re-measured rarely
@@ -77,14 +79,14 @@ var CombatFX=(function(){
  /* ---------------- scheduled presentation events ---------------- */
  var evs=[];
  function allocEv(){for(var i=0;i<evs.length;i++)if(!evs[i].on)return evs[i];var e={on:false,obj:null,fx:null,kill:null};evs.push(e);return e}
- var expect={obj:null,frame:-1,delay:0,kind:'',fx:null,max:false,atype:''};
- function setExpect(obj,delay,kind,fx,isMax,atype){expect.obj=obj;expect.frame=frame;expect.delay=delay;expect.kind=kind;expect.fx=fx||null;expect.max=!!isMax;expect.atype=atype||''}
+ var expect={obj:null,frame:-1,delay:0,kind:'',fx:null,max:false,atype:'',frac:null};
+ function setExpect(obj,delay,kind,fx,isMax,atype,frac){expect.obj=obj;expect.frame=frame;expect.delay=delay;expect.kind=kind;expect.fx=fx||null;expect.max=!!isMax;expect.atype=atype||'';expect.frac=Number.isFinite(frac)?frac:null}
 
  // UI.floatDmg funnel: every hitsplat in the game passes through here (the hp change has already happened)
  function hit(obj,dmg){
   if(!obj||!init())return;
   var e=(expect.obj===obj&&expect.frame===frame)?expect:null;
-  var s=st(obj),ev=allocEv(),fr=liveFrac(obj);dmg=dmg|0;
+  var s=st(obj),ev=allocEv(),fr=e&&e.frac!=null?e.frac:liveFrac(obj);dmg=dmg|0;
   if(s.pending===0&&fr>=0)s.shown=Math.max(0,Math.min(1,fr+(dmg>0?dmg/maxHpOf(obj):0)));   // the bar keeps the pre-hit value until the splat shows
   ev.on=true;ev.obj=obj;ev.dmg=dmg;ev.frac=fr;ev.kind=e?e.kind:'generic';ev.max=!!(e&&e.max&&dmg>0);ev.kill=null;ev.atype=e?e.atype:'';
   ev.fx=e?e.fx:null;ev.fireAt=e&&!ev.fx?T+Math.max(0,e.delay):T;
@@ -93,8 +95,9 @@ var CombatFX=(function(){
   s.pending++;s.lastEv=ev;s.lastHit=Math.max(s.lastHit,T);
   if(ev.fireAt<=T)present(ev);
  }
+ var qlog=[];function ql(e){qlog.push(e);if(qlog.length>600)qlog.shift()}   // QA read-out only (tools/qa_combat_pvm.js)
  function present(ev){
-  ev.on=false;var o=ev.obj,s=st(o);s.pending=Math.max(0,s.pending-1);s.lastHit=T;
+  ev.on=false;var o=ev.obj,s=st(o);ql({k:'splat',t:+T.toFixed(4),name:o.name||'',player:isPlayer(o),dmg:ev.dmg|0,kind:ev.kind});s.pending=Math.max(0,s.pending-1);s.lastHit=T;
   var nf=ev.frac>=0?ev.frac:s.shown;if(nf<s.shown){s.trail=Math.max(s.trail,s.shown);s.trailT=0}s.shown=nf;
   addSplat(o,ev.dmg,ev.max?2:(ev.dmg>0?0:1));
   var ud=o.userData||{};if(!ud.death||ev.kill)react(o,ev.dmg);
@@ -171,6 +174,7 @@ var CombatFX=(function(){
   var any=false,i,n,o,s,npcs=(typeof WORLD!=='undefined'&&WORLD.npcs)||[],pl=typeof player!=='undefined'&&player?player:null,ps=pl&&pl.userData?pl.userData._cfx:null;
   for(i=0;i<splats.length;i++)if(splats[i].on){any=true;break}
   for(i=0;i<npcs.length&&!any;i++){n=npcs[i];s=n.mesh&&n.mesh.userData._cfx;if((n.target==='player'&&!n.dead)||(s&&T-s.lastHit<BAR_LINGER))any=true}
+  for(i=0;i<tracked.length&&!any;i++){s=tracked[i].obj&&tracked[i].obj.userData&&tracked[i].obj.userData._cfx;if(s&&T-s.lastHit<BAR_LINGER)any=true}
   if(!any&&typeof Player!=='undefined'&&Player.target&&!Player.target.dead)any=true;
   if(!any&&ps&&T-ps.lastHit<BAR_LINGER)any=true;
   if(!any){if(drewLast){g2.setTransform(1,0,0,1,0,0);g2.clearRect(0,0,layer.width,layer.height);drewLast=false}return}
@@ -183,6 +187,7 @@ var CombatFX=(function(){
    if(n.dead){if(s&&(s.pending>0||splatsOn(o)))drawBar(o,barFrac(o,s),s);continue}
    if(engaged||(s&&T-s.lastHit<BAR_LINGER))drawBar(o,barFrac(o,s),s)}
   if(pl&&pl.visible!==false&&typeof Player!=='undefined'&&(engagedPlayer||(Player.target&&!Player.target.dead)||(ps&&T-ps.lastHit<BAR_LINGER)))drawBar(pl,barFrac(pl,ps),ps);
+  for(i=0;i<tracked.length;i++){o=tracked[i].obj;if(!o||o.visible===false||!o.parent)continue;s=o.userData&&o.userData._cfx;if(s&&T-s.lastHit<BAR_LINGER)drawBar(o,barFrac(o,s),s)}
   // splats (pool order; the newest in a slot replaces the oldest)
   g2.textAlign='center';g2.textBaseline='middle';
   for(i=0;i<splats.length;i++){var sp=splats[i];if(!sp.on)continue;o=sp.obj;
@@ -248,6 +253,7 @@ var CombatFX=(function(){
  function launch(kind,src,dst,opts){
   if(!init()||!src||!dst)return null;var f=allocFx(),o=opts||{};
   f.on=true;f.kind=kind==='arrow'?'arrow':'magic';f.src=src;f.dst=dst;f.t0=T;f.hits.length=0;f.landed=false;f.state=0;f.dmg=o.dmg|0;f.max=!!o.max;
+  f.arrive=o.arriveIn>0?T+o.arriveIn:null;f.splash=o.splash==null?null:!!o.splash;f.landT=null;
   f.release=T+(o.release!=null?o.release:impactTime(src,f.kind==='arrow'?'bow':'cast'));f.dur=.4;f.arc=0;
   f.tint.setHex(o.tint==null?(f.kind==='arrow'?0xffffff:0xc8d8e8):o.tint);f.wind=f.kind==='magic'&&(o.spell?/^wind_/.test(o.spell):false);
   f.core=f.halo=f.glowL=f.glowR=null;f.wisps.length=0;f.arrow=null;
@@ -256,12 +262,13 @@ var CombatFX=(function(){
    f.glowR=spawn(handPos(src,'R',V3),hx,.05,.5,life,.9,true);if(f.glowR){f.glowR.fx=f;f.glowR.hand='R'}}
   return f}
  function releaseFx(f){
-  f.state=1;var src=f.src,dst=f.dst;
+  f.state=1;var src=f.src,dst=f.dst;ql({k:'release',t:+T.toFixed(4),kind:f.kind,from:isPlayer(src)?'player':(src.name||''),to:isPlayer(dst)?'player':(dst.name||'')});
   if(f.kind==='arrow'){handPos(src,'L',f.p0);snd.bow()}
   else{handPos(src,'L',V3);handPos(src,'R',V4);f.p0.copy(V3).add(V4).multiplyScalar(.5);snd.release(f.wind);kill(f.glowL);kill(f.glowR);f.glowL=f.glowR=null;
    spawn(f.p0,tinted(f.tint,.5),.16,.62,.18,.6,true,'ring')}
   torso(dst,V3);var d=Math.max(.5,f.p0.distanceTo(V3));
   f.dur=f.kind==='arrow'?Math.max(.22,Math.min(.6,d/17+.1)):Math.max(.3,Math.min(.85,d/11+.14));
+  if(f.arrive!=null)f.dur=Math.max(.1,f.arrive-T);   // timed to the tick the hit applies (2004 hit delays by distance)
   f.arc=f.kind==='arrow'?Math.min(.9,.08*d+.12):Math.min(.5,.04*d+.06);
   f.pos.copy(f.p0);
   if(f.kind==='arrow'){f.arrow=arrowFromPool();if(f.arrow){var m=f.arrow.m;if(m.parent!==scene)scene.add(m);m.position.copy(f.p0);m.visible=true}}
@@ -282,12 +289,12 @@ var CombatFX=(function(){
    spawn(f.pos,tinted(f.tint,.35),f.wind?.3:.26,.02,.2,.55,true)}   // the comet tail
   if(k>=1)landFx(f)}
  function landFx(f){
-  f.landed=true;f.state=2;f.on=false;var at=V3.copy(f.pos),i,p;
+  f.landed=true;f.state=2;f.on=false;f.landT=T;ql({k:'land',t:+T.toFixed(4),kind:f.kind,to:isPlayer(f.dst)?'player':(f.dst&&f.dst.name||''),splash:f.splash===true});var at=V3.copy(f.pos),i,p;
   if(f.arrow){f.arrow.m.visible=false;f.arrow.busy=false;f.arrow=null}
   kill(f.core);kill(f.halo);kill(f.glowL);kill(f.glowR);f.core=f.halo=f.glowL=f.glowR=null;for(i=0;i<f.wisps.length;i++)kill(f.wisps[i]);f.wisps.length=0;
   if(f.kind==='arrow'){snd.arrowHit(f.dmg>0);dust(at,f.dmg>0?4:3,f.dmg>0?0xc9b48a:0x9a9080,.16);
    if(f.dmg>0)for(i=0;i<4;i++){p=spawn(at,0xfff0c0,.1,.02,.16,1,true);if(p){burstDir(p.v).multiplyScalar(2);p.grav=5}}}
-  else if(f.dmg>0){snd.magicHit(f.max);var c=tinted(f.tint,.4);
+  else if(f.splash===false||(f.splash==null&&f.dmg>0)){snd.magicHit(f.max);var c=tinted(f.tint,.4);
    spawn(at,c,.2,f.max?1.9:1.4,.3,.9,true,'ring');spawn(at,0xffffff,.7,.1,.18,.9,true);
    for(i=0;i<(f.wind?8:6);i++){p=spawn(at,c,.24,.04,.3+rnd()*.12,1,true,f.wind?'wisp':'dot');if(p){burstDir(p.v).multiplyScalar(2.6*(0.6+rnd()*.6));p.drag=3;p.spin=6;p.spr.material.rotation=rnd()*3}}}
   else{snd.splash();for(i=0;i<7;i++){var a=i/7*Math.PI*2,r=.7+rnd()*.5;p=spawn(at,i%2?0x9fb4d8:0xc9d6ee,.22,.78,.5+rnd()*.2,.7,false);if(p){p.v.set(Math.cos(a)*r,.5+rnd()*.6,Math.sin(a)*r);p.drag=3}}}
@@ -416,7 +423,7 @@ var CombatFX=(function(){
   for(i=0;i<splats.length;i++)if(splats[i].on&&T-splats[i].t0>=SPLAT_LIFE)splats[i].on=false;
   var pl=typeof player!=='undefined'&&player;if(pl&&pl.userData&&pl.userData._cfx)pl.userData._cfx.trailT+=dt;
   var npcs=(typeof WORLD!=='undefined'&&WORLD.npcs)||[];for(i=0;i<npcs.length;i++){var s=npcs[i].mesh&&npcs[i].mesh.userData._cfx;if(s)s.trailT+=dt}
-  tickRecoil(dt);tickParts(dt);tickDying();tickDrops();tickXp();applyShake(dt);
+  tickRecoil(dt);tickParts(dt);tickDying();tickDrops();tickXp();applyShake(dt);tickSounds();tickRings();
  }
  // makeHPBar's replacement: the bar is drawn on the 2D layer, so the 3D sprite becomes an empty placeholder with the same API
  function hpBar(){var o=new THREE.Object3D();o.visible=false;o.name='cfx-hpbar';return {spr:o,frac:1,draw:function(fr){this.frac=fr}}}
@@ -426,7 +433,30 @@ var CombatFX=(function(){
  function qaSplats(){var out=[];for(var i=0;i<splats.length;i++){var s=splats[i];if(s.on)out.push({dmg:s.dmg,kind:['hit','miss','max'][s.kind],slot:s.slot,age:+(T-s.t0).toFixed(3),player:isPlayer(s.obj),name:s.obj.name||''})}return out}
  // QA read-outs (never used by the game): the bar value a body shows right now, and whether the camera is shaking
  function qaBar(o){var s=o&&o.userData&&o.userData._cfx;return +barFrac(o,s).toFixed(4)}
+ /* ---------------- telegraphs: a ring on the ground fills under a monster winding up a special (fair warning) ---------------- */
+ var rings=[];
+ function telegraph(obj,seconds,radius){if(!init()||!obj||typeof scene==='undefined')return;var r=null;for(var i=0;i<rings.length;i++)if(!rings[i].on){r=rings[i];break}
+  if(!r){var g=new THREE.RingGeometry(.82,1,40),m=new THREE.MeshBasicMaterial({color:0xff5a2a,transparent:true,opacity:.8,depthWrite:false,side:THREE.DoubleSide});
+   var fill=new THREE.Mesh(new THREE.CircleGeometry(1,40),new THREE.MeshBasicMaterial({color:0xff3a1a,transparent:true,opacity:.22,depthWrite:false,side:THREE.DoubleSide}));
+   var ring=new THREE.Mesh(g,m);ring.rotation.x=-Math.PI/2;fill.rotation.x=-Math.PI/2;var grp=new THREE.Group();grp.add(ring);grp.add(fill);grp.renderOrder=4;grp.name='cfx-telegraph';
+   r={grp:grp,ring:ring,fill:fill,on:false};rings.push(r)}
+  r.on=true;r.obj=obj;r.t0=T;r.dur=Math.max(.3,seconds||1.2);r.rad=radius||1.5;if(r.grp.parent!==scene)scene.add(r.grp);r.grp.visible=true;snd.charge()}
+ function tickRings(){for(var i=0;i<rings.length;i++){var r=rings[i];if(!r.on)continue;var k=(T-r.t0)/r.dur;
+   if(k>=1.25||!r.obj.parent){r.on=false;r.grp.visible=false;continue}
+   V1.setFromMatrixPosition(r.obj.matrixWorld);r.grp.position.set(V1.x,V1.y+.06,V1.z);r.ring.scale.setScalar(r.rad);
+   var f=Math.min(1,k);r.fill.scale.setScalar(Math.max(.05,r.rad*f));r.fill.material.opacity=k<1?.18+.22*f:.4*(1.25-k)/.25;
+   r.ring.material.opacity=k<1?.55+.4*Math.abs(Math.sin(k*Math.PI*4)):.8*(1.25-k)/.25}}
+ function expectHit(obj,delay,kind,f,isMax,atype,frac){if(!obj||!init())return;setExpect(obj,delay||0,kind,f&&!f.landed?f:null,isMax,atype,frac)}
+ var sndQ=[];
+ function sound(name,arg,delay){if(!init())return;if(delay>0){sndQ.push({at:T+delay,name:name,arg:arg});return}if(snd[name])snd[name](arg)}
+ // the whoosh of a melee swing (a player's blade, a monster's arm) or the snap of an armless beast / grubkin
+ function swingSound(att,type,delay){if(!init()||!att)return;var ud=att.userData||{},n=ud.npc,t=n&&n.t||{},p=ud.parts;
+  if(!isPlayer(att)&&((p&&!p.armR)||(ud.gmix&&t.glbChar&&/grub/.test(t.glbChar))))sound('snap',null,delay);else sound('swing',type||'slash',delay)}
+ function tickSounds(){for(var i=sndQ.length-1;i>=0;i--)if(sndQ[i].at<=T){var q=sndQ[i];sndQ.splice(i,1);if(snd[q.name])snd[q.name](q.arg)}}
+ function track(obj,frac){if(!obj)return;untrack(obj);tracked.push({obj:obj,frac:typeof frac==='function'?frac:function(){return -1}})}
+ function untrack(obj){for(var i=tracked.length-1;i>=0;i--)if(tracked[i].obj===obj)tracked.splice(i,1)}
  return {update:update,draw:draw,hit:hit,melee:melee,npcMelee:npcMelee,launch:launch,expectProjectile:expectProjectile,onKill:onKill,xpDrop:xpDrop,hpBar:hpBar,
+  now:function(){return T},qaLog:function(){return qlog.slice()},qaClearLog:function(){qlog.length=0},expect:expectHit,sound:sound,swingSound:swingSound,track:track,untrack:untrack,telegraph:telegraph,
   impactTime:impactTime,speedFor:speedFor,reducedMotion:reducedMotion,stats:stats,qaSplats:qaSplats,qaBar:qaBar};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=CombatFX;

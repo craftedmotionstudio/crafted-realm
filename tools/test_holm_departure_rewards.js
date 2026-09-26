@@ -2,7 +2,7 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
 const root=path.resolve(__dirname,'..');let count=0;
 function fixture(){
-  const c={console,Tutorial:{complete:true,departurePackClaimed:false},Player:{inv:Array(24).fill(null),equip:{weapon:null,body:null}},
+  const c={console,Tutorial:{complete:true,departurePackClaimed:false},Player:{inv:Array(28).fill(null),equip:{weapon:null,body:null}},
     ITEMS:{},UI:{chat(){},refreshInv(){}},SaveGame:{save(){return true;}},CRWorldMode:{providerId:'tutors-holm-v2'},
     HolmTutorialFlow:{canDepart:t=>t.complete,departure:{dockTile:{x:1,z:1},destinationProvider:'commons',destinationLandmark:'arrival'}},
     document:{getElementById(){return null;}},WorldTravel:{go(){c.crossings++;}},crossings:0};

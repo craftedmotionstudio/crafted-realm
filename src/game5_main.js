@@ -5,11 +5,13 @@ let _runUiT=0;
    tick (deterministic, OSRS-style); movement, NPCs, FX, animation and camera stay per-frame. */
 let worldTickAcc=0, worldTickCount=0;
 
-/* ---------- pathfinding: TRUE tile BFS, OSRS-style ----------
-   One world unit = one tile. Movement is 4-directional only (N/S/E/W) — never diagonal,
-   exactly like Old School. We return EVERY tile centre along the route (no string-pulling)
-   so the path is a strict orthogonal staircase the follower walks tile by tile. */
+/* ---------- pathfinding: TRUE tile BFS, 2004-style ----------
+   One world unit = one tile. Movement is 8-directional like 2004 (owner decision 2026-09-25): a diagonal step is
+   allowed only when both orthogonal neighbours are walkable and both second legs are open (the 2004 collision rule),
+   so nobody cuts a wall corner. We return EVERY tile centre along the route (no string-pulling); a diagonal step
+   takes exactly as long as a straight one (one tile per step, like the 2004 tick). */
 const TILE_SZ = 1;
+const PATH_DIRS = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];   // straight first, then the diagonals
 /* the player's elevation source — groundY on the surface, a registered floor on
    upper storeys / in caves (src/planes.js). null = not standable on this plane. */
 function pElev(x, z){
@@ -71,25 +73,31 @@ function computePath(sx, sz, tx, tz){
   const key=(i,j)=>(i+512)*4096+(j+512);
   const prev=new Map(), seen=new Set();
   let q=[[sti,stj]]; seen.add(key(sti,stj));
-  let best=[sti,stj], bestD=Math.abs(sti-tti)+Math.abs(stj-ttj), found=false, guard=0;
+  let best=[sti,stj], bestD=Math.max(Math.abs(sti-tti),Math.abs(stj-ttj)), found=false, guard=0;
   while(q.length && !found && guard++<30000){
     const nq=[];
     for(const cell of q){
       const i=cell[0], j=cell[1];
       if(i===tti && j===ttj){ found=true; best=cell; break; }
-      const d=Math.abs(i-tti)+Math.abs(j-ttj);
+      const d=Math.max(Math.abs(i-tti),Math.abs(j-ttj));
       if(d<bestD){ bestD=d; best=cell; }
-      for(let dir=0; dir<4; dir++){
-        const ii=i+(dir===0?1:dir===1?-1:0), jj=j+(dir===2?1:dir===3?-1:0);
+      for(let dir=0; dir<8; dir++){
+        const ddx=PATH_DIRS[dir][0], ddz=PATH_DIRS[dir][1];
+        const ii=i+ddx, jj=j+ddz;
         if(Math.abs(ii-sti)>MAX || Math.abs(jj-stj)>MAX) continue;
         const k=key(ii,jj);
         if(seen.has(k)) continue;
-        let ok;
-        if(useGrid){
-          const s=CollisionGrid.canStep(i, j, ii-i, jj-j);
-          ok = (s===null) ? tileWalkable(ii,jj) : s;   // null = off-grid (e.g. Menagerie pad)
-        } else ok = tileWalkable(ii,jj);
-        if(!ok || !tileTransitionWalkable(i,j,ii,jj)){ seen.add(k); continue; }
+        const card=(ci,cj,cx,cz)=>{   // one cardinal step, the grid's flags when baked, else the analytic predicate
+          let ok;
+          if(useGrid){ const s=CollisionGrid.canStep(ci, cj, cx, cz); ok = (s===null) ? tileWalkable(ci+cx,cj+cz) : s; }   // null = off-grid (e.g. Menagerie pad)
+          else ok = tileWalkable(ci+cx,cj+cz);
+          return ok && tileTransitionWalkable(ci,cj,ci+cx,cj+cz);
+        };
+        // a diagonal is a step through both open orthogonal neighbours (never a corner cut); a blocked diagonal is not
+        // 'seen' so the same tile can still be reached straight from another tile
+        const ok = (ddx===0||ddz===0) ? card(i,j,ddx,ddz)
+          : (card(i,j,ddx,0) && card(i,j,0,ddz) && card(i+ddx,j,0,ddz) && card(i,j+ddz,ddx,0));
+        if(!ok){ if(ddx===0||ddz===0) seen.add(k); continue; }
         const r=roomOf(ii,jj);
         if(r && r!==tgtRoom && r!==startRoom){ seen.add(k); continue; }   // don't cut through buildings
         seen.add(k); prev.set(k,[i,j]); nq.push([ii,jj]);
@@ -155,21 +163,20 @@ function update(dt){
       orderWalk(Player.moveTo);
     }
     if(Player.path && Player.path.length){
-      // walk along the orthogonal tile route. Between two adjacent tile centres only one axis
-      // changes, so motion is strictly N/S/E/W — never diagonal — and corners are crisp because
-      // we land on each centre before turning toward the next.
+      // walk the tile route: 8 directions, landing on each centre before turning toward the next. The budget is in
+      // tile steps (Chebyshev), so a diagonal step takes as long as a straight one, like the 2004 tick.
       let budget=Player.moveSpeed()*dt;
       let guard=0;
       while(budget>1e-4 && Player.path.length && guard++<64){
         const wp=Player.path[0];
         const dx=wp.x-player.position.x, dz=wp.z-player.position.z;
-        const dd=Math.hypot(dx,dz);
-        if(dd<=budget+1e-4){
+        const dd=Math.hypot(dx,dz), steps=Math.max(Math.abs(dx),Math.abs(dz));
+        if(steps<=budget+1e-4){
           player.position.set(wp.x, wp.y, wp.z);
           if(dd>1e-5) player.lookAt(wp.x+dx, wp.y, wp.z+dz);
-          budget-=dd; Player.path.shift(); playerMovedThisFrame=true;
+          budget-=steps; Player.path.shift(); playerMovedThisFrame=true;
         } else {
-          const nx=player.position.x+dx/dd*budget, nz=player.position.z+dz/dd*budget;
+          const f=budget/steps, nx=player.position.x+dx*f, nz=player.position.z+dz*f;
           const ny=pElev(nx,nz);
           player.position.set(nx, ny===null?player.position.y:ny, nz);
           player.lookAt(wp.x, player.position.y, wp.z);
@@ -211,7 +218,8 @@ function update(dt){
   if(typeof Sched!=='undefined') Sched._tick();          // scheduled tick tasks (walk-then-do, repeats)
   Player.tickVitals(dt, playerMovedThisFrame);
   Player.regen(dt);
-  if(Player.target && !Player.target.dead) playerAttack(Player.target, dt);
+  // combat: the 2004 rules on the map clock, NPCs before the player (src/combat_engine.js, shared/combat.js)
+  if(typeof LocalCombat!=='undefined') LocalCombat.tick();
 
   // arrive early: once in range of the action target, stop pathing and act
   if(Player.action && Player.moveTo && Player.action.obj){
@@ -544,76 +552,17 @@ function update(dt){
   }   // ── end fixed-tick player-sim loop ──
   if(_nTicks && typeof TickHealth!=='undefined') TickHealth.sample(performance.now()-_tickT0, _nTicks);
 
+  // NPC AI, attacks, respawns and tile steps run on the tick in the combat engine; per frame they only glide between
+  // tile centres, run boss scripts and animate
   WORLD.npcs.forEach(n=>{
     if(n.dead){
       if(n.dying){                                  // play the death topple, then hide the corpse
         if(typeof tickDeath!=='function' || !tickDeath(n.mesh, dt)){ n.dying=false; n.mesh.visible=false; }
       }
-      n.respawnT-=dt;
-      if(n.respawnT<=0){ n.dead=false; n.dying=false; n.hp=n.t.hp; n.mesh.visible=true;
-        n.mesh.rotation.set(0,0,0);                 // undo the topple
-        if(n.mesh.userData._baseScale!==undefined) n.mesh.scale.setScalar(n.mesh.userData._baseScale);
-        n.mesh.position.set(n.home.x, gy(n.home.x,n.home.z), n.home.z);
-        n.hpbar.spr.visible=false;
-        WORLD.clickables.push(n.mesh); n.target=null; }
       return;
     }
     if(n.t.script && !n.exhibit && typeof BOSS_SCRIPTS!=='undefined' && BOSS_SCRIPTS[n.t.script]) BOSS_SCRIPTS[n.t.script](n, dt);
-    const distP = n.mesh.position.distanceTo(player.position);
-    // OSRS aggression: monsters ignore players above twice their level,
-    // and grow tolerant after ~10 minutes near them — except the Scarlands,
-    // whose horrors (like the Wilderness) never relent.
-    let wantsAggro = n.t.aggro && distP < 7 && !n.exhibit;   // penned exhibits never chase
-    if(typeof GameConfig!=='undefined' && GameConfig.friendlyMode) wantsAggro=false;   // friendly mode: nothing starts a fight
-    if(wantsAggro && n.target!=='player'){
-      const fearless = n.t.alwaysAggro || curZone==='scarlands';
-      if(!fearless){
-        if(Player.combatLevel() > n.t.level*2) wantsAggro=false;
-        else {
-          n.aggroT = (n.aggroT||0) + dt;
-          if(n.aggroT > 600) wantsAggro=false;   // tolerant after 10 minutes
-        }
-        // single-combat (OSRS): if the player is already fighting, others hold back.
-        // Only the Scarlands is multi-combat, like the Wilderness.
-        if(wantsAggro){
-          const busy = (Player.target && !Player.target.dead && Player.target!==n) ||
-            WORLD.npcs.some(o=>o!==n && !o.dead && o.target==='player');
-          if(busy) wantsAggro=false;
-        }
-      }
-    }
-    if(distP > 26) n.aggroT = 0;   // leaving the area resets tolerance
-    if(n.target==='player' || wantsAggro){
-      n.target='player';
-      // OSRS leash: monsters won't be dragged far from their patch — they give up and head home
-      if(distP>16 || n.mesh.position.distanceTo(n.home)>(n.leash||14)){ n.target=null; n.returning=true; }
-      else npcAttack(n, dt);
-    } else if(n.returning){
-      const dh=n.home.clone().sub(n.mesh.position); dh.y=0;
-      if(dh.length()<1.2){ n.returning=false; }
-      else {
-        const st=dh.normalize().multiplyScalar(2.6*dt);
-        const slid=slideMove(n.mesh.position.x,n.mesh.position.z,
-          n.mesh.position.x+st.x,n.mesh.position.z+st.z,0.2);
-        if(slid){ const y=groundY(slid[0],slid[1]);
-          if(y!==null){ n.mesh.position.set(slid[0],y,slid[1]); n.moving=true;
-            n.mesh.lookAt(n.home.x,y,n.home.z); } }
-        else n.returning=false;
-      }
-    } else if(!n.penStatic) {                     // penStatic exhibits idle in place (no pacing)
-      n.wanderT-=dt;
-      if(n.wanderT<=0){ n.wanderT=3+Math.random()*4;
-        n.wDir = new THREE.Vector3(Math.random()-0.5,0,Math.random()-0.5).normalize(); }
-      if(n.wDir){
-        if(n.mesh.position.distanceTo(n.home)>=(n.wanderR||10))
-          n.wDir = n.home.clone().sub(n.mesh.position).setY(0).normalize();
-        const nx=n.mesh.position.x+n.wDir.x*dt*0.7, nz=n.mesh.position.z+n.wDir.z*dt*0.7;
-        if(collides(nx,nz,0.2)){ n.wanderT=0.1; }
-        else { const y=groundY(nx,nz);
-          if(y!==null && y>-1){ n.mesh.position.set(nx,y,nz); n.moving=true;
-            n.mesh.lookAt(nx+n.wDir.x, y, nz+n.wDir.z); } }
-      }
-    }
+    if(typeof LocalCombat!=='undefined') LocalCombat.npcFrame(n, dt);
     const _P=n.mesh.userData.parts;
     n.mesh.userData.inCombat = (n.target==='player' && !n.dead);   // raise a combat stance while engaged
     if(n.mesh.userData.gmix && typeof charNpcAnim==='function') charNpcAnim(n, dt);   // GLB character (skeletal clips)
@@ -857,6 +806,8 @@ function animate(){
   const dt=Math.min(0.05, clock.getDelta());
   update(dt);
   if(typeof CombatFX!=='undefined') CombatFX.update(dt);   // combat feel: splat timing, projectiles, particles, XP drops, shake
+  if(typeof CombatHooks!=='undefined') CombatHooks.update();   // attack animations timed so their impact meets the hit tick
+  if(typeof HolmProvingGround!=='undefined') HolmProvingGround.update();
   // Dynamic map paint is bounded; terrain and resource layers cache independently.
   const now=performance.now();
   if(now-_minimapPaintAt>=80){ _minimapPaintAt=now; drawMinimap(); }

@@ -1,0 +1,6 @@
+== pass 4 final data, levels between the bench points (60 fights each)
+food L10  melee > ranged 50% (197 s, sd 20) | ranged > magic 20% (113 s, sd 21) | magic > melee 100% (126 s, sd 28)
+food L15  melee > ranged 100% (190 s, sd 29) | ranged > magic 2% (122 s, sd 24) | magic > melee 93% (140 s, sd 25)
+food L20  melee > ranged 92% (189 s, sd 30) | ranged > magic 50% (136 s, sd 18) | magic > melee 70% (136 s, sd 24)
+food L30  melee > ranged 80% (159 s, sd 24) | ranged > magic 87% (98 s, sd 13) | magic > melee 67% (126 s, sd 15)
+food L50  melee > ranged 53% (127 s, sd 21) | ranged > magic 78% (73 s, sd 14) | magic > melee 72% (87 s, sd 13)

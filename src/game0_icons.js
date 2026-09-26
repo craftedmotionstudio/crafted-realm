@@ -5,7 +5,7 @@
 const ICONS = {};
 const TIER_CSS = {copper:'#c6794a', bronze:'#b08d57', iron:'#9aa0a8', steel:'#d0d4dc', whitsteel:'#e8ecf2',
   aurel:'#d4a83e', veyrite:'#3ec6b4', undercrag:'#6a5a7a', leather:'#8a5e34', cloth:'#7a86b8', glimmer:'#b48ae0',
-  monk:'#8a6a44'};
+  monk:'#8a6a44', riveted:'#6e4a2a', fenhide:'#4f6b3a', starweave:'#3c3c8c', blackthorn:'#3a2a22', duskwood:'#4a3a5a'};
 /* Nano Banana (Gemini) gear sprites — richer painted inventory art generated from
    the actual 3D models (assets/icons/gear/<id>.png). The bronze/leather tier is
    painted from the models; the other 7 metal tiers are per-tier recolours of the
@@ -28,7 +28,9 @@ const HOLM_ITEM_ICONS = new Set(['tinderbox','hammer','bucket','bucket_water','b
   'bread_dough','bread','logs','raw_perch','cooked_perch','burnt_perch','copper_ore','tin_ore','bronze_bar','fishing_net',
   'coins','arrows','air_rune','mind_rune','leather_body','wood_shield','bones',
   // holm_equipment_v1 renders (Blender)
-  'bronze_dagger','bronze_sword','iron_sword','iron_hatchet','pickaxe','iron_pickaxe','hatchet','worn_bow','apprentice_staff','bronze_plate','bronze_legs']);
+  'bronze_dagger','bronze_sword','iron_sword','iron_hatchet','pickaxe','iron_pickaxe','hatchet','worn_bow','apprentice_staff','bronze_plate','bronze_legs',
+  // coffee (build_holm_items_v1.py, 2026-09-26)
+  'coffee_4','coffee_3','coffee_2','coffee_1','roasted_beans']);
 function iconFor(id){
   if(ICONS[id]) return ICONS[id];
   if(HOLM_ITEM_ICONS.has(id)) return (ICONS[id]='assets/icons/items/'+id+'.png');

@@ -186,6 +186,7 @@ const BuffTimers = {
       if(Player.stunT>0) chip('\u{1F4AB} Stunned '+Player.stunT.toFixed(1)+'s', '#e08080');
       if(Player.teleCd>0) chip('\u{1F3E0} Home tele '+Math.ceil(Player.teleCd)+'s', '#c0b49a');
       if(Player.energy<25) chip('\u{1F3C3} Energy '+Math.floor(Player.energy)+'%', '#e0c000');
+      if(Player.caffeinated>0){ const s=Math.ceil(Player.caffeinated); chip('Caffeinated '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0'), '#e0b070'); }
       this._el.innerHTML=chips.join('');
       this._el.style.display=chips.length?'block':'none';
     }, 250);

@@ -131,13 +131,14 @@ html.osrs-kit .kit-count{display:flex;justify-content:space-between;color:var(--
 html.osrs-kit .kit-row-btns{display:flex;gap:5px;}
 html.osrs-kit .kit-row-btns .set-btn{flex:1;margin:0;}
 html.osrs-kit .ui-empty,html.osrs-kit .ui-list>div{display:none;}
-html.osrs-kit .emote-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin:2px 0 6px;}
-html.osrs-kit .emote-grid button{height:58px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;cursor:pointer;padding:2px 0 1px;
+/* emotes: the classic tab of 22 pictured buttons, four to a row, scrolling; the name is the hover tip (as in the old client) */
+html.osrs-kit .emote-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;margin:2px 0 6px;flex:0 0 auto;}
+html.osrs-kit .emote-grid button{height:48px;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;cursor:pointer;padding:0;
   color:var(--k-orange);font:12px var(--k-font);border:0;border-radius:0;text-shadow:var(--k-shadow);outline:0;
   background:var(--tex-stone,#5a5245);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
 html.osrs-kit .emote-grid button:nth-child(2n){background-position:-31px -22px;}
 html.osrs-kit .emote-grid button .kit-spr{width:30px;height:40px;margin:0 auto;}
-html.osrs-kit .emote-grid button small{font:12px var(--k-font);color:var(--k-orange);line-height:12px;}
+html.osrs-kit .emote-grid button small{display:none;}
 html.osrs-kit .emote-grid button:hover{background-image:var(--tex-stone-lit,none);outline:0;}
 html.osrs-kit .emote-grid button:hover small{color:var(--k-yellow);}
 html.osrs-kit .emote-grid button:active{box-shadow:var(--k-sunk),0 0 0 1px var(--k-ink);}

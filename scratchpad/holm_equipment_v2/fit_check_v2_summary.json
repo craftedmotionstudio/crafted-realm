@@ -1,0 +1,354 @@
+{
+ "equip": ".studio-workspaces/holm-equipment-v2/candidates/equipment.glb",
+ "kit": "assets/models/holm_kit_v2.glb",
+ "frames": [
+  [
+   "idle",
+   0
+  ],
+  [
+   "idle",
+   30
+  ],
+  [
+   "walk",
+   0
+  ],
+  [
+   "walk",
+   4
+  ],
+  [
+   "walk",
+   7
+  ],
+  [
+   "walk",
+   11
+  ],
+  [
+   "run",
+   0
+  ],
+  [
+   "run",
+   4
+  ],
+  [
+   "run",
+   8
+  ],
+  [
+   "run",
+   12
+  ],
+  [
+   "attack_slash",
+   5
+  ],
+  [
+   "attack_slash",
+   9
+  ],
+  [
+   "attack_stab",
+   5
+  ],
+  [
+   "attack_stab",
+   9
+  ],
+  [
+   "attack_crush",
+   8
+  ],
+  [
+   "attack_crush",
+   12
+  ],
+  [
+   "block",
+   4
+  ],
+  [
+   "bow",
+   18
+  ],
+  [
+   "cast",
+   14
+  ]
+ ],
+ "summary": {
+  "worn_failing": {
+   "fullhelm": 0,
+   "medhelm": 0,
+   "hat": 0,
+   "amulet": 253,
+   "cape": 2499,
+   "platebody": 717,
+   "chainbody": 587,
+   "leather_body": 762,
+   "platelegs": 0,
+   "plateskirt": 563,
+   "chaps": 0,
+   "gloves": 14,
+   "boots": 631
+  },
+  "held_failing": {
+   "dagger": 0,
+   "sword": 0,
+   "longsword": 0,
+   "sabre": 0,
+   "greatsword": 0,
+   "mace": 18,
+   "warhammer": 0,
+   "battleaxe": 9,
+   "hatchet": 0,
+   "pickaxe": 0,
+   "shortbow": 6,
+   "longbow": 12,
+   "staff": 0,
+   "round_shield": 9,
+   "sqshield": 49,
+   "kiteshield": 11
+  },
+  "held_failing_idle_walk_run": {
+   "dagger": 0,
+   "sword": 0,
+   "longsword": 0,
+   "sabre": 0,
+   "greatsword": 0,
+   "mace": 12,
+   "warhammer": 0,
+   "battleaxe": 0,
+   "hatchet": 0,
+   "pickaxe": 0,
+   "shortbow": 0,
+   "longbow": 0,
+   "staff": 0,
+   "round_shield": 0,
+   "sqshield": 38,
+   "kiteshield": 0
+  }
+ },
+ "worn": {
+  "fullhelm": {
+   "tests": 171,
+   "failing": 0,
+   "max_exposed": 0
+  },
+  "medhelm": {
+   "tests": 171,
+   "failing": 0,
+   "max_exposed": 0
+  },
+  "hat": {
+   "tests": 171,
+   "failing": 0,
+   "max_exposed": 0
+  },
+  "amulet": {
+   "tests": 2964,
+   "failing": 253,
+   "max_exposed": 0
+  },
+  "cape": {
+   "tests": 4332,
+   "failing": 2499,
+   "max_exposed": 0
+  },
+  "platebody": {
+   "tests": 1254,
+   "failing": 717,
+   "max_exposed": 5
+  },
+  "chainbody": {
+   "tests": 1254,
+   "failing": 587,
+   "max_exposed": 2
+  },
+  "leather_body": {
+   "tests": 1254,
+   "failing": 762,
+   "max_exposed": 7
+  },
+  "platelegs": {
+   "tests": 114,
+   "failing": 0,
+   "max_exposed": 0
+  },
+  "plateskirt": {
+   "tests": 855,
+   "failing": 563,
+   "max_exposed": 32
+  },
+  "chaps": {
+   "tests": 114,
+   "failing": 0,
+   "max_exposed": 0
+  },
+  "gloves": {
+   "tests": 741,
+   "failing": 14,
+   "max_exposed": 8
+  },
+  "boots": {
+   "tests": 2565,
+   "failing": 631,
+   "max_exposed": 20
+  }
+ },
+ "held": {
+  "dagger": {
+   "tests": 96,
+   "failing": 0,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 96
+  },
+  "sword": {
+   "tests": 96,
+   "failing": 0,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 96
+  },
+  "longsword": {
+   "tests": 96,
+   "failing": 0,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 96
+  },
+  "sabre": {
+   "tests": 96,
+   "failing": 0,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 96
+  },
+  "greatsword": {
+   "tests": 96,
+   "failing": 0,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 96
+  },
+  "mace": {
+   "tests": 96,
+   "failing": 18,
+   "failing_idle_walk_run": 12,
+   "arms_hands_contacts": 96
+  },
+  "warhammer": {
+   "tests": 96,
+   "failing": 0,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 96
+  },
+  "battleaxe": {
+   "tests": 96,
+   "failing": 9,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 96
+  },
+  "hatchet": {
+   "tests": 96,
+   "failing": 0,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 96
+  },
+  "pickaxe": {
+   "tests": 96,
+   "failing": 0,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 96
+  },
+  "shortbow": {
+   "tests": 78,
+   "failing": 6,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 78
+  },
+  "longbow": {
+   "tests": 78,
+   "failing": 12,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 78
+  },
+  "staff": {
+   "tests": 72,
+   "failing": 0,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 72
+  },
+  "round_shield": {
+   "tests": 102,
+   "failing": 9,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 102
+  },
+  "sqshield": {
+   "tests": 102,
+   "failing": 49,
+   "failing_idle_walk_run": 38,
+   "arms_hands_contacts": 102
+  },
+  "kiteshield": {
+   "tests": 102,
+   "failing": 11,
+   "failing_idle_walk_run": 0,
+   "arms_hands_contacts": 102
+  }
+ },
+ "idle_walk": {
+  "fullhelm": {
+   "tests": 54,
+   "failing": 0
+  },
+  "medhelm": {
+   "tests": 54,
+   "failing": 0
+  },
+  "hat": {
+   "tests": 54,
+   "failing": 0
+  },
+  "amulet": {
+   "tests": 936,
+   "failing": 18
+  },
+  "cape": {
+   "tests": 1368,
+   "failing": 625
+  },
+  "platebody": {
+   "tests": 396,
+   "failing": 182
+  },
+  "chainbody": {
+   "tests": 396,
+   "failing": 180
+  },
+  "leather_body": {
+   "tests": 396,
+   "failing": 180
+  },
+  "platelegs": {
+   "tests": 36,
+   "failing": 0
+  },
+  "plateskirt": {
+   "tests": 270,
+   "failing": 144
+  },
+  "chaps": {
+   "tests": 36,
+   "failing": 0
+  },
+  "gloves": {
+   "tests": 234,
+   "failing": 0
+  },
+  "boots": {
+   "tests": 810,
+   "failing": 153
+  }
+ }
+}

@@ -53,7 +53,7 @@ const UI = {
       const b=document.createElement('button'); b.className='style-btn prayer-btn';
       const locked=Player.lvl('Magic')<sp.req;
       if(locked) b.classList.add('locked');
-      if(Player.spell===id || Player.alchMode===id) b.classList.add('sel');
+      if(Player.spell===id || Player.castSpell===id || Player.autocast===id || Player.alchMode===id) b.classList.add('sel');
       const cost=Object.keys(sp.runes).map(r=>sp.runes[r]+' '+ITEMS[r].name.split(' ')[0].toLowerCase()).join(', ');
       const sub = sp.utility==='teleport' ? 'no runes' : cost;
       const ready = locked ? '' : (sp.utility!=='teleport' && !Player.hasRunes(sp) ? ' style="color:#d86a5a"' : '');
@@ -125,7 +125,7 @@ const UI = {
       this.refreshInv(); this.refreshEquip(); return;
     }
     if(def.heal){
-      if(Player.hp>=Player.maxHp){ UI.chat('You are already at full hitpoints.','plain'); return; }
+      if(typeof LocalCombat!=='undefined' && LocalCombat.ready()){ LocalCombat.eat(i); return; }
       Player.hp=Math.min(Player.maxHp, Player.hp+def.heal);
       Player.inv[i]=null; Sfx.eat();
       UI.chat(`You eat the ${def.name.toLowerCase()}. It heals some health.`,'plain');
@@ -177,23 +177,21 @@ const UI = {
           refreshPlayerGear(); UI.refreshEquip(); } }; }
       el.appendChild(row);
     });
-    // combat style selector (like the 2007 combat options)
-    const cls = Player.weaponStyle();
-    const wname = Player.equip.weapon ? ITEMS[Player.equip.weapon].name
-                : Player.castMode ? 'Spellcasting' : 'Unarmed';
+    // combat style selector: the wielded weapon category's buttons (2004 combat options, shared/combat.js)
+    const LC=typeof LocalCombat!=='undefined' && LocalCombat.ready();
+    const wname = Player.equip.weapon ? ITEMS[Player.equip.weapon].name : 'Unarmed';
     const styBox=document.createElement('div'); styBox.id='style-box';
     const head=document.createElement('div'); head.className='bonus-head';
     head.textContent='Combat style — '+wname; styBox.appendChild(head);
     const grid=document.createElement('div'); grid.id='style-grid';
-    (STYLE_DEFS[cls]||STYLE_DEFS.melee).forEach((s,i)=>{
+    (LC?LocalCombat.styles():[]).forEach((s,i)=>{
       const b=document.createElement('button'); b.className='style-btn';
-      if((Player.attackStyles[cls]||0)===i) b.classList.add('sel');
-      const trains = s.xp==='Shared' ? 'Att/Str/Def' : s.xp==='RangedDef' ? 'Rng+Def'
-                   : s.xp==='MagicDef' ? 'Mag+Def' : s.xp;
+      if(Math.min(Player.styleIndex|0, LocalCombat.styles().length-1)===i) b.classList.add('sel');
+      const trains=combatStyleTrains(s);
       b.innerHTML=`<b>${s.label}</b><span>${trains}</span>`;
-      b.onclick=()=>{ Player.attackStyles[cls]=i; Sfx.click();
-        UI.chat(`Combat style: ${s.label} — training ${trains}${s.speedDelta?' (faster attacks)':''}${s.rangeBonus?' (longer reach)':''}.`,'plain');
-        UI.refreshEquip(); };
+      b.onclick=()=>{ LocalCombat.setStyle(i); Sfx.click();
+        UI.chat(`Combat style: ${s.label} (${s.type}) — training ${trains}${s.style==='ranged_rapid'?' (one tick faster)':''}${s.style==='ranged_longrange'?' (two tiles further)':''}.`,'plain');
+        UI.refreshEquip(); if(UI.refreshCombat) UI.refreshCombat(); };
       grid.appendChild(b);
     });
     styBox.appendChild(grid);
@@ -222,12 +220,8 @@ const UI = {
       box.appendChild(r);
     });
     el.appendChild(box);
-    // ---- Items Kept on Death ----
-    const all=[];
-    for(const s of Player.inv) if(s) all.push({id:s.id, val:(ITEMS[s.id].value||0)});
-    for(const sk in Player.equip){ const v=Player.equip[sk]; if(v) all.push({id:v, val:(ITEMS[v].value||0)}); }
-    all.sort((a,b)=>b.val-a.val);
-    const kept=all.slice(0,3);
+    // ---- Items Kept on Death (2004: the three priciest single units; +1 with Protect Item) ----
+    const kept=keptOnDeathPreview().kept;
     const kbox=document.createElement('div'); kbox.id='kept-box'; kbox.style.marginTop='8px';
     const kh=document.createElement('div'); kh.className='bonus-head'; kh.textContent='Items Kept on Death'; kbox.appendChild(kh);
     const krow=document.createElement('div'); krow.style.cssText='display:flex;gap:4px;margin-top:4px';
@@ -240,7 +234,7 @@ const UI = {
     kbox.appendChild(krow);
     const note=document.createElement('div');
     note.style.cssText='font-size:10px;color:#9a8e78;margin-top:5px;line-height:1.4';
-    note.textContent='On death you keep your 3 most valuable items. Everything else drops where you fall.';
+    note.textContent=keptOnDeathNote();
     kbox.appendChild(note);
     el.appendChild(kbox);
   },
@@ -436,23 +430,59 @@ document.querySelectorAll('.tab-btn').forEach(b=>{
   };
 });
 
-/* ---------- combat styles tab ---------- */
+/* ---------- combat styles tab ----------
+   The wielded weapon's category decides the buttons (2004 combat options; shared/combat.js CATEGORY_STYLES), one
+   index for every weapon (clamped). A staff adds the autocast row. ui_combat.js dresses the buttons with pictures. */
+function combatStyleTrains(s){
+  return ({accurate:'Attack',aggressive:'Strength',defensive:'Defence',controlled:'Attack, Strength and Defence',
+    ranged_accurate:'Ranged',ranged_rapid:'Ranged',ranged_longrange:'Ranged and Defence'})[s.style]||s.style;
+}
+/* the 2004 kept-on-death preview (shared/pvp.js keptOnDeath); opts.skulled for the Scarlands (online layer) */
+function keptOnDeathPreview(opts){
+  const protect=Player.activePrayers&&Player.activePrayers.has('protect_item'), skulled=!!(opts&&opts.skulled);
+  if(typeof CRShared==='undefined') return {kept:[], protect, skulled};
+  const r=CRShared.pvp.keptOnDeath(Player.inv.map(s=>s?{id:s.id,qty:s.qty}:null), Object.assign({},Player.equip),
+    {skulled, protectItem:protect, valueOf:id=>(ITEMS[id]&&ITEMS[id].value)||0, stackable:id=>!!(ITEMS[id]&&ITEMS[id].stack)});
+  return {kept:r.kept, protect, skulled};
+}
+/* the Ditch warning with this adventurer's own numbers (shared/pvp.js ditchWarningLines), for the online layer's
+   crossing dialogue: keptOnDeathPreview + combat level + skull */
+function ditchWarning(opts){
+  if(typeof CRShared==='undefined') return [];
+  const k=keptOnDeathPreview(opts);
+  return CRShared.pvp.ditchWarningLines({combatLevel:Player.combatLevel(), skulled:k.skulled, protectItem:k.protect,
+    keptNames:k.kept.map(x=>ITEMS[x.id]?ITEMS[x.id].name:x.id)});
+}
+function keptOnDeathNote(){
+  const k=keptOnDeathPreview();
+  return (typeof Tutorial!=='undefined'&&!Tutorial.complete)?'On Tutor\'s Holm nothing is lost when you fall. On the mainland you keep your three most valuable items (four with Protect Item); a stack counts as one.':
+    'If you fall you keep your '+(k.protect?'four':'three')+' most valuable items'+(k.protect?' (Protect Item)':'')+'; a stack counts as one. Everything else is left where you fell. A skull means you keep nothing.';
+}
 UI.refreshCombat = function(){
   const host=document.getElementById('combat-styles'); if(!host) return;
-  const cls=Player.weaponStyle();
-  const list=STYLE_DEFS[cls]||STYLE_DEFS.melee;
-  const cur=Math.min(Player.attackStyles[cls]||0, list.length-1);
-  const wpn=Player.equip.weapon?ITEMS[Player.equip.weapon].name:'Unarmed';
-  host.innerHTML='<div class="cmb-weap">'+wpn+' · '+cls+'</div>'+
-    list.map((s,i)=>'<div class="cmb-style'+(i===cur?' active':'')+'" data-i="'+i+'">'+
-      '<b>'+s.label+(s.atype?' <span style="color:#7fd2ff">['+s.atype[0].toUpperCase()+s.atype.slice(1)+']</span>':'')+'</b>'+
-      '<small>'+(s.xp==='Shared'?'shares XP across Attack/Strength/Defence'
-        :'trains '+s.xp)+'</small></div>').join('')+
+  const LC=typeof LocalCombat!=='undefined' && LocalCombat.ready();
+  const list=LC?LocalCombat.styles():[], cat=LC?LocalCombat.category():'unarmed';
+  const cur=Math.min(Player.styleIndex|0, Math.max(0,list.length-1));
+  const w=Player.equip.weapon?ITEMS[Player.equip.weapon]:null, wpn=w?w.name:'Unarmed';
+  const staff=!!(w&&w.style==='magic'), ac=staff&&Player.autocast&&SPELLS[Player.autocast]?SPELLS[Player.autocast]:null;
+  const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
+  host.innerHTML='<div class="cmb-weap" data-cat="'+cat+'">'+wpn+' · '+cat+'</div>'+
+    list.map((s,i)=>'<div class="cmb-style'+(i===cur?' active':'')+'" data-i="'+i+'" data-cat="'+cat+'" data-style="'+s.style+'" data-type="'+s.type+'" data-label="'+s.label+'">'+
+      '<b>'+s.label+' <span style="color:#7fd2ff">['+cap(s.type)+']</span></b>'+
+      '<small>trains '+combatStyleTrains(s)+'</small></div>').join('')+
+    (staff?'<div class="set-row cmb-autocast" style="margin-top:6px">'+
+      '<button class="set-btn" id="autocast-btn" style="width:100%" title="'+(ac?'Click to stop autocasting':'Choose a combat spell to cast with every attack')+'">'+
+      (ac?'Autocast: '+ac.name:'Choose autocast spell')+'</button></div>':'')+
     '<div class="set-row" style="margin-top:9px"><span>Auto-retaliate</span>'+
       '<button class="set-btn" id="retal-btn">'+(Player.autoRetaliate?'On':'Off')+'</button></div>';
   host.querySelectorAll('.cmb-style').forEach(el=>{
-    el.onclick=()=>{ Player.attackStyles[cls]=+el.dataset.i; Sfx.click(); UI.refreshCombat(); };
+    el.onclick=()=>{ if(LC) LocalCombat.setStyle(+el.dataset.i); Sfx.click(); UI.refreshCombat(); };
   });
+  const ab=document.getElementById('autocast-btn');
+  if(ab) ab.onclick=()=>{ Sfx.click();
+    if(Player.autocast){ Player.autocast=null; Player.spell=null; Player.castMode=false; UI.chat('Autocast cleared.','sys'); UI.refreshCombat(); if(UI.refreshSpells) UI.refreshSpells(); }
+    else { UI.chat('Choose a combat spell in your spellbook to autocast it with this staff.','sys');
+      const t=document.querySelector('.tab-btn[data-tab="spells"]'); if(t) t.click(); } };
   const rb=document.getElementById('retal-btn');
   if(rb) rb.onclick=()=>{ Player.autoRetaliate=!Player.autoRetaliate; Sfx.click(); UI.refreshCombat(); };
 };
@@ -691,6 +721,13 @@ function appraiseChat(npcOrType){
   const w = (typeof npcWeakness==='function') ? npcWeakness(t) : null;
   if(w) UI.chat(`It looks vulnerable to <b>${w}</b> — match your combat style's attack type to land more hits.`,'plain');
 }
+/* the 2004 menu colour of an opponent's level: green below yours, red above, yellow level (graded by the gap) */
+function combatLevelColour(lv){
+  const me=Player.combatLevel(), d=lv-me;
+  if(d<=-10) return '#00ff00'; if(d<=-7) return '#40ff00'; if(d<=-4) return '#80ff00'; if(d<=-1) return '#c0ff00';
+  if(d===0) return '#ffff00';
+  if(d>=10) return '#ff0000'; if(d>=7) return '#ff3000'; if(d>=4) return '#ff7000'; return '#ffb000';
+}
 function aOrAn(n){ return (/^[aeiou]/i.test(n)?'an ':'a ')+n.toLowerCase(); }
 // The menu for one hit as {html, fn} rows (older callers). Every menu is built by the one model now: the world's
 // providers live in src/osrs_menu_world.js (a port of the kinds this function used to list, plus the Holm's own).
@@ -880,7 +917,8 @@ function handleClick(obj, point){
     const sp=snapWalkTarget(point); if(!sp){ noWalkMessage(); return; }
     orderWalk(sp); moveMarker(sp); announceWalkOrder(sp); return; }
   if(u.kind==='npc' && !u.npc.dead){
-    Player.target = u.npc;
+    if(typeof LocalCombat!=='undefined' && LocalCombat.ready()) LocalCombat.orderAttack(u.npc);   // attack, or the armed single cast
+    else Player.target = u.npc;
     return;
   }
   if(u.kind==='drop'){ Player.action={type:'pickup', obj}; orderWalk(obj.position); return; }

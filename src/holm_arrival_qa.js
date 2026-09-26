@@ -55,6 +55,8 @@ var HolmArrivalQA=(function(){
       if(typeof HolmIslandPlayer!=='undefined')try{await HolmIslandPlayer.load({swapActor:function(o){if(bridge&&bridge.replaceActor)bridge.replaceActor(o)}})}catch(err){console.error('[HolmArrivalQA] player',err)}
       // M5.3: practice grubkins for the combat trials
       if(typeof HolmIslandTrials!=='undefined')try{HolmIslandTrials.load(HolmArrivalQA)}catch(err){console.error('[HolmArrivalQA] trials',err)}
+      // the Proving Ground past the keep: a poacher, a warlock, a wild pack and the broodmother (combat agent)
+      if(typeof HolmProvingGround!=='undefined')try{HolmProvingGround.load(HolmArrivalQA)}catch(err){console.error('[HolmArrivalQA] proving ground',err)}
       // M5.2b: progress gates (doors that open as lessons are done)
       if(typeof HolmIslandGates!=='undefined')try{await HolmIslandGates.load({THREE:THREE,scene:scene,WORLD:WORLD,nav:nav})}catch(err){console.error('[HolmArrivalQA] gates',err)}
       // M5.2a: the island curriculum's arrows point at the stations that now exist
@@ -283,6 +285,8 @@ var HolmArrivalQA=(function(){
   if(cur.nodeId===n.id){approachStall[key]=(approachStall[key]||0)+1;if(approachStall[key]>4){(approachBad[key]=approachBad[key]||{})[n.id]=true;delete approachCache[key];approachStall[key]=0}return true}
   approachStall[key]=0;return bridge.order({x:n.x,y:n.y,z:n.z,surface:n.surface})}
  function graphNodes(){return active()?graphForDoors(doors).nodes:[]}
+ // read-only: the composed graph for the current doors/gates (combat reach, approach and NPC steps: TileNav)
+ function navGraph(){return active()&&island?graphForDoors(doors):null}
  // death on the island: back to the arrival spawn stance on the graph (the old respawn teleports to v2 coordinates)
  function respawnIsland(){if(!island||!active())return false;pending=null;try{placeAt(spawn())}catch(e){return false}return true}
  // QA only (read-only): where a building's measured target stands on the composed graph (any storey).
@@ -298,12 +302,14 @@ var HolmArrivalQA=(function(){
   var g=graphForDoors(doors),from=bridge.snapshot().nodeId,r=from&&nav.route(g,from,'b:'+buildingId+':'+t.nodeId);
   return r?r.map(function(id){var n=g.byId[id];return {id:id,x:n.x,y:n.y,z:n.z,surface:n.surface}}):null;
  }
- return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaStance:qaStance,stepAside:stepAside,arrivalStance:arrivalStance,approach:approach,graphNodes:graphNodes,respawnIsland:respawnIsland,
+ return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaStance:qaStance,stepAside:stepAside,arrivalStance:arrivalStance,approach:approach,graphNodes:graphNodes,navGraph:navGraph,respawnIsland:respawnIsland,
   islandActive:function(){return active()&&island},
   doorOpen:function(id){return !!doors[id]},   // the Guide House doors, for the menu's Open / Close row
   // review captures only: stream and frame a place without moving the adventurer
   qaView:function(x,z,y0){if(!active())return null;provider.updateResidency(x,z,true);var y=Number.isFinite(y0)?y0:height(x,z);window.__qaCameraFocus={x:x,y:Number.isFinite(y)?y:0,z:z};return window.__qaCameraFocus},   // y0: explicit height (the offshore cavern has no terrain)
   qaViewClear:function(){window.__qaCameraFocus=null},
+  // combat bench only (tools/qa_combat_bench.js): stand the adventurer on a settled node of the composed graph
+  qaPlace:function(id){if(!active()||!island)return false;var n=graphForDoors(doors).byId[id];if(!n)return false;pending=null;placeAt(n);return true},
   // the bakehouse oven stance, for the kitchen module's cook proxy on the island
   islandRangePoint:function(){if(!active()||!island)return null;var n=graphForDoors(doors).byId['b:bakehouse:-4:-3:1'];return n?{x:n.x,y:n.y,z:n.z}:null},
   islandStats:function(){return island&&nav&&nav.stats?nav.stats(doors):null}};

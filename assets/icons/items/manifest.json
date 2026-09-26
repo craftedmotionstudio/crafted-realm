@@ -101,6 +101,26 @@
       "file": "bones.png"
     },
     {
+      "id": "coffee_4",
+      "file": "coffee_4.png"
+    },
+    {
+      "id": "coffee_3",
+      "file": "coffee_3.png"
+    },
+    {
+      "id": "coffee_2",
+      "file": "coffee_2.png"
+    },
+    {
+      "id": "coffee_1",
+      "file": "coffee_1.png"
+    },
+    {
+      "id": "roasted_beans",
+      "file": "roasted_beans.png"
+    },
+    {
       "id": "pot_of_flour",
       "file": "pot_of_flour.png"
     }
