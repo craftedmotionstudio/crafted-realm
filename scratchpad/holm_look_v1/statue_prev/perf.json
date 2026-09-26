@@ -1,0 +1,38 @@
+{
+ "tag": "statue_prev",
+ "url": "http://127.0.0.1:8097/?holmIsland=1&qaProfile=look-statue_prev-muhq01dr&oldschool=0",
+ "look": {
+  "look": "previous",
+  "active": false,
+  "textures": [],
+  "stats": {
+   "groundMaterials": 0,
+   "textures": 0,
+   "models": 0,
+   "maps": 0
+  },
+  "arrival": null,
+  "swaps": []
+ },
+ "views": [
+  {
+   "view": "c27_statue_west_zoomed",
+   "calls": 318,
+   "triangles": 187317,
+   "textures": 220,
+   "programs": 14,
+   "fps": 54,
+   "worstMs": 100.9
+  }
+ ],
+ "pageErrors": [
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+ ],
+ "missing": [
+  "/BUILD_INFO.json?_=1790386679338",
+  "/favicon.ico",
+  "/favicon.ico"
+ ]
+}

@@ -9,7 +9,8 @@
  *  - scene: black void past the draw distance (fogRange(), used by the game loop), a lower side sun and a dimmer sky
  *    fill so hills and walls shade like the old client; no cast shadows, no post effects;
  *  - models: textured Blender candidates (UVs + kit textures, tools/build_holm_oldschool_candidates.js) for every
- *    island building, bridge, tree, prop pack and arrival model: the arrival package 'holm-arrival-package-oldschool-v2'
+ *    island building, bridge, tree, prop pack and arrival model: the arrival package 'holm-arrival-package-oldschool-v3'
+ *    (v3, 2026-09-26: the Lantern Keeper statue v4 on the v3.0 body, pale stone, lantern glass still emissive)
  *    and the folder swaps in SWAPS (each building swaps its model AND its re-measured graph, so hash locks hold).
  *    A swap is used only when every probe file is served (preload); otherwise the previous files stay.
  * Switch: GameConfig.holmOldschoolLook (default on in this branch); ?oldschool=0 / ?oldschool=1 overrides for one
@@ -29,7 +30,7 @@ var HolmOldschoolLook=(function(){
  // the textured Blender candidates this look switches to (each with its own navigation graph / package export)
  var ASSETS={
   // tools/stage_holm_arrival_package_oldschool.js: v9 with every arrival model textured (graphs identical to v9)
-  arrival:{baseUrl:'/.studio-workspaces/holm-arrival-package-oldschool-v2/exports/',exportId:'5369a48889f7c8bc'}};
+  arrival:{baseUrl:'/.studio-workspaces/holm-arrival-package-oldschool-v3/exports/',exportId:'9348a2aba6c3f2c8'}};
  // Folder swaps (paths after '.studio-workspaces/'): [previous, textured] pairs switched together, probe = files that
  // must be served first. Buildings pair the model folder with its re-measured graph folder (graphs node-identical).
  function building(prev,prevNav,id,file){return {id:id,map:[[prev,'holm-'+id+'-oldschool-v1/candidates/'],[prevNav,'holm-'+id+'-oldschool-navigation-v1/candidates/']],

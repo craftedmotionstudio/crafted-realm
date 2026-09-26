@@ -426,9 +426,21 @@
   ]
  },
  "arrival": {
-  "exportId": "5369a48889f7c8bc",
-  "package": "holm-arrival-package-oldschool-v2",
-  "landscapeMeasure": "holm-arrival-landscape-measure-oldschool-v1",
-  "navigationIdentical": true
+  "exportId": "9348a2aba6c3f2c8",
+  "package": "holm-arrival-package-oldschool-v3",
+  "landscapeMeasure": ".studio-workspaces/holm-arrival-landscape-measure-oldschool-v2/candidates/measured.json",
+  "navigationIdenticalTo": ".studio-workspaces/holm-arrival-package-v9/candidates/holm-arrival.package.json"
+ },
+ "statue.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-arrival-statue-oldschool-v1/candidates/lantern_keeper_statue_v4.glb",
+   "bytes": 671432,
+   "sha256": "055ec2404fa2743d996a087283665fa5811a03059499625b6a1b571b9c664abd"
+  },
+  "textured": 1,
+  "primitives": [
+   8,
+   8
+  ]
  }
 }

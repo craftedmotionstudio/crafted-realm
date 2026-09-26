@@ -29,7 +29,7 @@ Spec (JSON, paths relative to the repo root):
    "replaceExisting": false, "factorToSrgb": false (true when the runtime converts flat colours linear->sRGB),
    "exportAnimationMode": optional glTF exporter animation mode (NLA_TRACKS for imported multi-object clips),
    "vertexColour": {"material": "Holm flat colour", "skip": regex, "woodOnly": regex, "floors": regex,
-                    "maxVariants": 2, "minShare": 0.15}}
+                    "maxVariants": 2, "minShare": 0.15, "texture": optional kit texture for every face}}
 """
 import bpy, json, sys, re, math, colorsys, hashlib
 from pathlib import Path
@@ -238,6 +238,8 @@ def vc_variant(src, tex):
 def classify(rgb, obj_name, up):
     if VC.get('skip') and re.search(VC['skip'], obj_name):
         return None
+    if VC.get('texture'):   # one material throughout (a carved statue: every face is the same stone)
+        return VC['texture']
     h, s, v = colorsys.rgb_to_hsv(*rgb)
     plaster = v >= 0.68 and 0.08 <= s <= 0.36 and 0.06 <= h <= 0.17
     wood = 0.03 <= h <= 0.13 and s >= 0.28 and v <= 0.82 and not plaster
