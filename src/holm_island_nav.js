@@ -1,5 +1,5 @@
 /* Tutor's Holm island navigation composer (finish goal M4.1, on the Sept 13 overhaul base).
- * One cardinal walk graph for the whole 144x128 island, satisfying the arrival follower's navigation contract
+ * One walk graph (cardinal links plus 2004-rule diagonals) for the whole 144x128 island, satisfying the arrival follower's navigation contract
  * ({compile(doors), route, support, point, edge}) so the existing HolmArrivalFollower/HolmArrivalPlayer drive it:
  *  - land: every dry tile centre of the terrain bundle (surface 'land'), height from the terrain sample;
  *  - the arrival house + approach + dock graph (HolmArrivalDock) owns its tiles and its two doors;
@@ -135,6 +135,18 @@ var HolmIslandNav=(function(){
    function seamable(n){return openGround(n.surface)||doorstep(n)}
    nodes.forEach(function(n){if(!seamable(n))return;[[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){
     (byTile[key(n.tx+d[0],n.tz+d[1])]||[]).forEach(function(m){if(m.owner!==n.owner&&seamable(m)&&Math.abs(m.y-n.y)<=SEAM_STEP+EPS)link(n,m)});
+   })});
+   // diagonals (owner decision 2026-09-25: 8-direction movement like 2004). A diagonal joins two stances only where the
+   // 2004 rule allows it: both orthogonal neighbours stand on this storey and all four straight links exist (so no
+   // wall corner, fence, door frame, water edge or storey change is ever cut), none of those links is an authored
+   // stair profile, and every rise stays within one land step. The arrival house keeps its own cardinal graph.
+   function linked(a,b){return links[a.id].indexOf(b.id)>=0}
+   function flat(a,b){return !profileOf(a,b)&&Math.abs(a.y-b.y)<=LAND_STEP+EPS}
+   nodes.forEach(function(n){if(n.owner==='arrival')return;[[1,1],[1,-1]].forEach(function(d){
+    (byTile[key(n.tx+d[0],n.tz+d[1])]||[]).forEach(function(m){if(m.owner==='arrival'||linked(n,m))return;
+     var ok=(byTile[key(n.tx+d[0],n.tz)]||[]).some(function(o1){return o1.owner!=='arrival'&&linked(n,o1)&&linked(o1,m)&&flat(n,o1)&&flat(o1,m)})&&
+      (byTile[key(n.tx,n.tz+d[1])]||[]).some(function(o2){return o2.owner!=='arrival'&&linked(n,o2)&&linked(o2,m)&&flat(n,o2)&&flat(o2,m)});
+     if(ok&&Math.abs(n.y-m.y)<=(n.owner==='land'&&m.owner==='land'?LAND_STEP:SEAM_STEP)+EPS)link(n,m)});
    })});
    return (cache[dk]={schema:'holm-island-graph-v1',nodes:nodes,links:links,byId:by,byTile:byTile});
   }

@@ -31,8 +31,16 @@ check('Blender buildings join the land: every measured target of every building 
   for(const id of ids){const t=B.graph.targets.find(x=>x.id===id);assert(t,b+' target '+id);assert(nav.route(g,spawn.id,'b:'+b+':'+t.nodeId),b+'.'+id+' unreachable')}
  }
 });
-check('cardinal only: every link is one tile north, south, east or west',()=>{
- for(const [id,ls] of Object.entries(g.links))for(const t of ls){const a=g.byId[id],b=g.byId[t];assert(Math.abs(Math.abs(a.x-b.x)+Math.abs(a.z-b.z)-1)<1e-6,id+' -> '+t)}
+check('8 directions like 2004: every link is one tile straight, or a diagonal whose two orthogonal neighbours are open (never a corner cut)',()=>{
+ let diag=0;const has=(u,v)=>g.links[u.id].indexOf(v.id)>=0;
+ for(const [id,ls] of Object.entries(g.links))for(const t of ls){const a=g.byId[id],b=g.byId[t],dx=Math.abs(a.x-b.x),dz=Math.abs(a.z-b.z);
+  if(Math.abs(dx+dz-1)<1e-6)continue;
+  assert(Math.abs(dx-1)<1e-6&&Math.abs(dz-1)<1e-6,id+' -> '+t+' is neither straight nor diagonal');diag++;
+  const side=(x,z)=>(g.byTile[x+','+z]||[]).some(o=>has(a,o)&&has(o,b));
+  assert(side(b.tx,a.tz)&&side(a.tx,b.tz),'corner cut '+id+' -> '+t);
+  assert(a.owner!=='arrival'&&b.owner!=='arrival','the arrival house keeps its cardinal graph '+id+' -> '+t)}
+ assert(diag>1000,'diagonals exist on open ground ('+diag/2+')');
+ console.log('    '+diag/2+' diagonal links');
 });
 check('water is refused except on bridge decks; the teaching bridge is a real shortcut over the creek',()=>{
  for(const n of g.nodes)if(n.owner==='land'&&n.surface==='land')assert(!wet(n.tx,n.tz),'land node on water '+n.id);

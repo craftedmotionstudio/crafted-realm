@@ -1,4 +1,4 @@
-/* Pure cardinal surface follower; no scene, player, save or provider side effects.
+/* Pure surface follower (straight and diagonal tile steps); no scene, player, save or provider side effects.
  * speed is horizontal tiles/second (stairs use authored tread support heights).
  * update consumes at most .25 seconds and 64 edges; excess time is discarded,
  * never accumulated into a later teleport. stop/repath finish the occupied edge.
@@ -27,7 +27,10 @@ var HolmArrivalFollower=(function(){
   function validEdge(a,b,g,ds){
    if(!a||!b||!g.links[a.id]||g.links[a.id].indexOf(b.id)<0)return false;
    var dx=Math.abs(a.x-b.x),dz=Math.abs(a.z-b.z);
-   return Math.abs(dx+dz-1)<EPS&&(dx<EPS||dz<EPS)&&!!nav.edge(a,b,ds);
+   // one tile straight, or one tile diagonally (8-direction movement like 2004; the graph only links a diagonal
+   // where both orthogonal neighbours are open). Either step takes the same time: the edge parameter runs 0..1.
+   var straight=Math.abs(dx+dz-1)<EPS&&(dx<EPS||dz<EPS),diagonal=Math.abs(dx-1)<EPS&&Math.abs(dz-1)<EPS;
+   return (straight||diagonal)&&!!nav.edge(a,b,ds);
   }
   function setDoors(value){
    var next=copyDoors(value),g=getGraph(copyDoors(next)),by=index(g);

@@ -5,11 +5,13 @@ let _runUiT=0;
    tick (deterministic, OSRS-style); movement, NPCs, FX, animation and camera stay per-frame. */
 let worldTickAcc=0, worldTickCount=0;
 
-/* ---------- pathfinding: TRUE tile BFS, OSRS-style ----------
-   One world unit = one tile. Movement is 4-directional only (N/S/E/W) — never diagonal,
-   exactly like Old School. We return EVERY tile centre along the route (no string-pulling)
-   so the path is a strict orthogonal staircase the follower walks tile by tile. */
+/* ---------- pathfinding: TRUE tile BFS, 2004-style ----------
+   One world unit = one tile. Movement is 8-directional like 2004 (owner decision 2026-09-25): a diagonal step is
+   allowed only when both orthogonal neighbours are walkable and both second legs are open (the 2004 collision rule),
+   so nobody cuts a wall corner. We return EVERY tile centre along the route (no string-pulling); a diagonal step
+   takes exactly as long as a straight one (one tile per step, like the 2004 tick). */
 const TILE_SZ = 1;
+const PATH_DIRS = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];   // straight first, then the diagonals
 /* the player's elevation source — groundY on the surface, a registered floor on
    upper storeys / in caves (src/planes.js). null = not standable on this plane. */
 function pElev(x, z){
@@ -71,25 +73,31 @@ function computePath(sx, sz, tx, tz){
   const key=(i,j)=>(i+512)*4096+(j+512);
   const prev=new Map(), seen=new Set();
   let q=[[sti,stj]]; seen.add(key(sti,stj));
-  let best=[sti,stj], bestD=Math.abs(sti-tti)+Math.abs(stj-ttj), found=false, guard=0;
+  let best=[sti,stj], bestD=Math.max(Math.abs(sti-tti),Math.abs(stj-ttj)), found=false, guard=0;
   while(q.length && !found && guard++<30000){
     const nq=[];
     for(const cell of q){
       const i=cell[0], j=cell[1];
       if(i===tti && j===ttj){ found=true; best=cell; break; }
-      const d=Math.abs(i-tti)+Math.abs(j-ttj);
+      const d=Math.max(Math.abs(i-tti),Math.abs(j-ttj));
       if(d<bestD){ bestD=d; best=cell; }
-      for(let dir=0; dir<4; dir++){
-        const ii=i+(dir===0?1:dir===1?-1:0), jj=j+(dir===2?1:dir===3?-1:0);
+      for(let dir=0; dir<8; dir++){
+        const ddx=PATH_DIRS[dir][0], ddz=PATH_DIRS[dir][1];
+        const ii=i+ddx, jj=j+ddz;
         if(Math.abs(ii-sti)>MAX || Math.abs(jj-stj)>MAX) continue;
         const k=key(ii,jj);
         if(seen.has(k)) continue;
-        let ok;
-        if(useGrid){
-          const s=CollisionGrid.canStep(i, j, ii-i, jj-j);
-          ok = (s===null) ? tileWalkable(ii,jj) : s;   // null = off-grid (e.g. Menagerie pad)
-        } else ok = tileWalkable(ii,jj);
-        if(!ok || !tileTransitionWalkable(i,j,ii,jj)){ seen.add(k); continue; }
+        const card=(ci,cj,cx,cz)=>{   // one cardinal step, the grid's flags when baked, else the analytic predicate
+          let ok;
+          if(useGrid){ const s=CollisionGrid.canStep(ci, cj, cx, cz); ok = (s===null) ? tileWalkable(ci+cx,cj+cz) : s; }   // null = off-grid (e.g. Menagerie pad)
+          else ok = tileWalkable(ci+cx,cj+cz);
+          return ok && tileTransitionWalkable(ci,cj,ci+cx,cj+cz);
+        };
+        // a diagonal is a step through both open orthogonal neighbours (never a corner cut); a blocked diagonal is not
+        // 'seen' so the same tile can still be reached straight from another tile
+        const ok = (ddx===0||ddz===0) ? card(i,j,ddx,ddz)
+          : (card(i,j,ddx,0) && card(i,j,0,ddz) && card(i+ddx,j,0,ddz) && card(i,j+ddz,ddx,0));
+        if(!ok){ if(ddx===0||ddz===0) seen.add(k); continue; }
         const r=roomOf(ii,jj);
         if(r && r!==tgtRoom && r!==startRoom){ seen.add(k); continue; }   // don't cut through buildings
         seen.add(k); prev.set(k,[i,j]); nq.push([ii,jj]);
@@ -155,21 +163,20 @@ function update(dt){
       orderWalk(Player.moveTo);
     }
     if(Player.path && Player.path.length){
-      // walk along the orthogonal tile route. Between two adjacent tile centres only one axis
-      // changes, so motion is strictly N/S/E/W — never diagonal — and corners are crisp because
-      // we land on each centre before turning toward the next.
+      // walk the tile route: 8 directions, landing on each centre before turning toward the next. The budget is in
+      // tile steps (Chebyshev), so a diagonal step takes as long as a straight one, like the 2004 tick.
       let budget=Player.moveSpeed()*dt;
       let guard=0;
       while(budget>1e-4 && Player.path.length && guard++<64){
         const wp=Player.path[0];
         const dx=wp.x-player.position.x, dz=wp.z-player.position.z;
-        const dd=Math.hypot(dx,dz);
-        if(dd<=budget+1e-4){
+        const dd=Math.hypot(dx,dz), steps=Math.max(Math.abs(dx),Math.abs(dz));
+        if(steps<=budget+1e-4){
           player.position.set(wp.x, wp.y, wp.z);
           if(dd>1e-5) player.lookAt(wp.x+dx, wp.y, wp.z+dz);
-          budget-=dd; Player.path.shift(); playerMovedThisFrame=true;
+          budget-=steps; Player.path.shift(); playerMovedThisFrame=true;
         } else {
-          const nx=player.position.x+dx/dd*budget, nz=player.position.z+dz/dd*budget;
+          const f=budget/steps, nx=player.position.x+dx*f, nz=player.position.z+dz*f;
           const ny=pElev(nx,nz);
           player.position.set(nx, ny===null?player.position.y:ny, nz);
           player.lookAt(wp.x, player.position.y, wp.z);
