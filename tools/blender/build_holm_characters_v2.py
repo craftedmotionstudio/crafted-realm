@@ -3829,16 +3829,17 @@ def armour_clearance(bt, ob, base, slot):
         if i in hv and p.z < z0:
             f = ss(z0, z1, p.z)
             c0, rdir = _clearance(bt, p, TORSO, PELVIS)
-            if c0 < .10:
-                q = q + rdir * ARMOUR_CLEAR[slot] * f
+            if c0 < .10:   # (a long beard's tip swings in to the chest when the head nods: more room further down)
+                q = q + rdir * (ARMOUR_CLEAR[slot] + (.035 * ss(1.50, 1.43, p.z) if slot == 'Jaw' else 0.0)) * f
             if slot == 'Hair' and abs(p.x) > .10 and 1.40 < p.z < 1.54:   # hair lying on the shoulder tops rises over plate
                 q = q + Vector((math.copysign(.45, p.x), 0, .89)) * .030 * f * ss(.10, .14, abs(p.x))
             for sx in (-1, 1):   # the deltoid caps (pauldrons sit there)
                 dc, dr = DELTOID[bt]
                 cb = Vector((sx * dc[0], dc[1], dc[2]))
                 d0 = (q - cb).length - dr
-                if 1.18 < p.z < 1.52 and d0 < .055:
-                    q = cb + (q - cb).normalized() * ((q - cb).length + (.055 - d0) * f)
+                dmin = .090 if slot == 'Hair' else .070    # (over the pauldrons)
+                if 1.18 < p.z < 1.52 and d0 < dmin:
+                    q = cb + (q - cb).normalized() * ((q - cb).length + (dmin - d0) * f)
         out.append(q)
     return out
 

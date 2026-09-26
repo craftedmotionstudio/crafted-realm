@@ -445,6 +445,8 @@ FRAMES = [('idle', 0), ('idle', 30), ('walk', 0), ('walk', 4), ('walk', 7), ('wa
 HELD_CLIPS = {'bow': [('bow', 8), ('bow', 18), ('bow', 26)], 'cast': [('cast', 8), ('cast', 14)]}
 if QUICK:
     FRAMES = [('idle', 0), ('walk', 0), ('attack_slash', 5)]
+if arg('--frames', ''):    # e.g. idle:0,idle:30,walk:0,walk:4
+    FRAMES = [(c, int(f)) for c, f in (x.split(':') for x in arg('--frames', '').split(','))]
 PROBE = {'A': {'Torso': 1, 'Arms': 1, 'Hands': 1, 'Legs': 1, 'Feet': 1}, 'B': {'Torso': 1, 'Arms': 1, 'Hands': 1, 'Legs': 4, 'Feet': 1}}
 EXPOSED_TOL = 2      # a couple of exposed vertices at a seam is noise, not a visible hole
 SLOT_OF = {'fullhelm': 'Hair', 'medhelm': 'Hair', 'hat': 'Hair'}
@@ -573,9 +575,16 @@ if SHOTS:     # debugging close-ups: a JSON list of {bt, build, kit, worn, weapo
     K.compose(os.path.join(OUT, 'shots_%s.png' % TAG), rows, 'close-ups ' + TAG)
     print('[EQCHECK] SHOTS', os.path.join(OUT, 'shots_%s.png' % TAG))
     WORN, HELD, DO_RENDER = [], [], False
+FROM = arg('--from', '')
+if FROM:      # sheets only, from an earlier run's results (the tests take an hour)
+    RESULTS.update(json.load(open(FROM)))
+    WORN_T, HELD_T = WORN, HELD
+    WORN, HELD = [], []
 run_worn()
 run_held()
-summary = {'worn_failing': {k: v['failing'] for k, v in RESULTS['worn'].items()},
+if FROM:
+    WORN, HELD = WORN_T, HELD_T
+summary = RESULTS['summary'] if FROM else {'worn_failing': {k: v['failing'] for k, v in RESULTS['worn'].items()},
            'held_failing': {k: v['failing'] for k, v in RESULTS['held'].items()},
            'held_failing_idle_walk_run': {k: v['failing_idle_walk_run'] for k, v in RESULTS['held'].items()}}
 RESULTS['summary'] = summary
@@ -616,7 +625,7 @@ if DO_RENDER:
                 rows.append({'title': 'Body %s, %s%s' % (bt, build, (' (over a platebody)' if with_ else '')), 'height': 250, 'cells': cells})
         wr = RESULTS['worn'].get(kind, {})
         K.compose(os.path.join(OUT, 'worn_%s.png' % kind), rows,
-                  '%s %s on the v3.0 kit -- both bodies, slim / average / stout, idle + extreme frames  (fit check: %s of %s tests failing)' %
+                  '%s %s on the v3.1 kit -- both bodies, slim / average / stout, idle + extreme frames  (fit check: %s of %s tests failing)' %
                   (TAG, kind, wr.get('failing', '?'), wr.get('tests', '?')))
     # held weapons + shields: one row per item, body A and B average, idle / walk / run / attack
     rows = []
@@ -635,5 +644,5 @@ if DO_RENDER:
         hr = RESULTS['held'].get(kind, {})
         rows.append({'title': '%s  (fit check: %s of %s tests with the item inside the body)' % (kind, hr.get('failing', '?'), hr.get('tests', '?')),
                      'height': 250, 'cells': cells})
-    K.compose(os.path.join(OUT, 'held_weapons_shields.png'), rows, '%s held weapons + shields on the v3.0 kit (EquipBuilder hold solved at idle f0)' % TAG)
+    K.compose(os.path.join(OUT, 'held_weapons_shields.png'), rows, '%s held weapons + shields on the v3.1 kit (EquipBuilder hold solved at idle f0)' % TAG)
 print('[EQCHECK] DONE %.0fs' % (time.time() - t0))

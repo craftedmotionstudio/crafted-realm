@@ -1034,7 +1034,7 @@ def sk_amulet(mb, bt, over=None):
     rings.append(rings[0])
     mb.loft(rings, BR, lambda q: KB.torso_w(Vector((q.x, q.y, q.z - .012))), cap0=False, cap1=False)
     zc = 1.338                                    # the pendant rests on whatever is under it (its back face 2 mm off it)
-    o = clear_off(bt, over, 0.0, zc, [(dp, dz) for dp in (-.26, -.13, 0.0, .13, .26) for dz in (-.04, -.02, 0.0, .02, .04)]) + .020
+    o = clear_off(bt, over, 0.0, zc, [(dp, dz) for dp in (-.26, -.13, 0.0, .13, .26) for dz in (-.04, -.02, 0.0, .02, .04)]) + .026
     y = KB.front_y(bt, 0, zc, o) - .004
     c = Vector((0, y, zc))
     disc = [KB.xring(c + Vector((0, dy, 0)), (0, -1, 0), r, r, r, 10, front=(0, 0, 1)) for dy, r in ((.006, .026), (.001, .034), (-.006, .030))]
@@ -1045,7 +1045,7 @@ def sk_amulet(mb, bt, over=None):
     mb.loft([KB.xring(c + Vector((0, .002, .034)), (0, 0, 1), .006, .006, .006, 4), KB.xring(top, (0, 0, 1), .006, .006, .006, 4)], BR,
             KB.SPINE_W((0, 0, zc)))
 
-CAPE_ROWS = [(1.472, 38, .006), (1.40, 40, .004), (1.30, 42, .004), (1.10, 45, .016), (.82, 49, .040), (.53, 52, .058)]
+CAPE_ROWS = [(1.472, 36, .006), (1.40, 37, .004), (1.30, 38, .004), (1.10, 42, .010), (.97, 44, .024), (.82, 47, .040), (.53, 50, .058)]
 FOOT_C = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.010, 0.0, .010)]   # (between the shoulder blades, clear of the arms)
 def sk_cape(mb, bt, over=None):
     cols = 11

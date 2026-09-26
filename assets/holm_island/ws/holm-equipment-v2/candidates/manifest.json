@@ -3,7 +3,7 @@
  "status": "runtime (src/holm_equipment.js loads it from assets/holm_island/ws/holm-equipment-v2/candidates/)",
  "file": "equipment.glb",
  "blend": "equipment.blend",
- "sha256": "7ecdf26ddb34d5d6a78830e457895c025213deac1b896809a6cd48a373312294",
+ "sha256": "79f3faf02b6a5a237c234f15a1f010b6a2a822daae66805a2cbfbeb9a3a73519",
  "axes": "glTF Y-up, 1 unit = 1 tile (= 1 m, player 1.85 tall)",
  "colour": "authored sRGB used as-is, roughness 1, metallic 0, no textures",
  "recolour": {
@@ -2193,7 +2193,7 @@
     "max": [
      0.1532,
      1.4695,
-     0.1566
+     0.1622
     ]
    },
    "materials": [
@@ -2258,7 +2258,7 @@
     "max": [
      0.137,
      1.4695,
-     0.1479
+     0.1535
     ]
    },
    "materials": [
@@ -2306,18 +2306,18 @@
    "frame": "skin",
    "body": "A",
    "description": "Cape: rolled collar, folds down to a flared hem, dark lining, brass clasps (M_CLOTH); hangs over any body armour",
-   "triangles": 390,
+   "triangles": 434,
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.3111,
+     -0.3008,
      0.53,
      -0.3557
     ],
     "max": [
-     0.3002,
-     1.4887,
-     -0.0744
+     0.2944,
+     1.4885,
+     -0.0767
     ]
    },
    "materials": [
@@ -2348,18 +2348,20 @@
     "Over_Torso_03",
     "Over_Torso_04",
     "Over_Torso_06",
+    "Over_Torso_07",
     "Over_Torso_08"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0279,
-    "Build_Slim": 0.0148,
-    "Over_platebody": 0.0301,
-    "Over_chainbody": 0.0251,
-    "Over_leather_body": 0.0238,
-    "Over_Torso_02": 0.0106,
-    "Over_Torso_03": 0.0256,
-    "Over_Torso_04": 0.0255,
-    "Over_Torso_06": 0.0237,
+    "Build_Stout": 0.0276,
+    "Build_Slim": 0.0147,
+    "Over_platebody": 0.0303,
+    "Over_chainbody": 0.024,
+    "Over_leather_body": 0.0228,
+    "Over_Torso_02": 0.0108,
+    "Over_Torso_03": 0.0251,
+    "Over_Torso_04": 0.025,
+    "Over_Torso_06": 0.0234,
+    "Over_Torso_07": 0.0123,
     "Over_Torso_08": 0.0176
    }
   },
@@ -2370,18 +2372,18 @@
    "frame": "skin",
    "body": "B",
    "description": "Cape: rolled collar, folds down to a flared hem, dark lining, brass clasps (M_CLOTH); hangs over any body armour",
-   "triangles": 390,
+   "triangles": 434,
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.3072,
+     -0.2965,
      0.53,
      -0.3568
     ],
     "max": [
-     0.2959,
-     1.4885,
-     -0.0688
+     0.2897,
+     1.4884,
+     -0.0709
     ]
    },
    "materials": [
@@ -2413,13 +2415,13 @@
     "Over_Torso_04"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0287,
-    "Build_Slim": 0.0172,
-    "Over_platebody": 0.0308,
-    "Over_chainbody": 0.0252,
-    "Over_leather_body": 0.0235,
-    "Over_Torso_02": 0.0068,
-    "Over_Torso_03": 0.0133,
+    "Build_Stout": 0.0276,
+    "Build_Slim": 0.0236,
+    "Over_platebody": 0.0304,
+    "Over_chainbody": 0.023,
+    "Over_leather_body": 0.0221,
+    "Over_Torso_02": 0.0064,
+    "Over_Torso_03": 0.0131,
     "Over_Torso_04": 0.0066
    }
   }
@@ -4102,7 +4104,7 @@
  ],
  "totals": {
   "models": 40,
-  "triangles": 20921,
+  "triangles": 21009,
   "materials": 14,
   "equipableItems": 166,
   "itemsCovered": 161
