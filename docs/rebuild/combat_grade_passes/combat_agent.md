@@ -158,3 +158,69 @@ part) and 20 are graded by the online agent's run.
 | 20 | online |
 
 Total pass 3: **9.0 / 10** (offline 9.0 of 9.5 reachable; 20 online).
+
+### Pass 4 (2026-09-26): the triangle at every level point (our item ladders, not the formulas)
+
+Diagnosis (pass-3 bench + `tools/combat_triangle_sim.js` sweeps, `pass4/sweep_pass4.txt`):
+- **40 and 60**: the metal ladder ran to level 40 but ranged stopped at the ash shortbow (10) and leather (1), magic at
+  the storm staff (25) and glimmer robes (15). A level-40 archer (+29 ranged attack) shot a +130 ranged-defence plate
+  set at a 24% hit chance, so melee won 100%.
+- **25**: our spells keep their 2004 fixed maximum hits (water bolt 10) while a level-25 aurel sabre hits 5. With
+  2004's small minus on metal magic defence (a set -12) the mage won 99% of food fights, and nothing on the mage's
+  side or the spell side moved it: the weakest mage gear 99%, bolt spells cut by two 95%, a +8 strength amulet on the
+  blade 97%. Only metal's magic defence moves that fight (set 0: 98%, +20: 89%, +24: 84%, +31: 72%).
+- **60**: every ladder stops at 40; blades and arrows keep growing with Strength and Ranged, the book stopped at
+  Earth Blast (15): without Fire Blast magic falls to 47% against the blade.
+
+Changes (formulas untouched; `src/game1_data.js`, `src/magic_spells.js`), each against the 2004 ladder:
+
+| item | now | 2004 anchor / why it still sits on the ladder |
+|---|---|---|
+| riveted leather body / chaps (NEW, Ranged 20) | +8 / +6 ranged attack; blade def 10-14 / 7-9; magic 16 / 9; ranged 16 / 10 | studded body/chaps (20): +8 / +6 ranged; less blade defence than studded (the ranger must still lose to a blade) and more magic defence (the ranger must beat a mage) |
+| fenhide body / chaps / vambraces (NEW, Ranged 40) | +15 / +8 / +8 ranged; blade 22-30 / 12-16 / 4; magic 16 / 8 / 3; ranged 30 / 16 / 6 | green hide set (40): +15 / +8 / +8 ranged, body ~20-30 blade defence |
+| blackthorn shortbow (NEW, Ranged 30) | +29 attack, 33 strength, 4 ticks | 30: +29 bow with +31 arrows (our bow carries its arrows' strength: one arrow type) |
+| duskwood shortbow (NEW, Ranged 40) | +45 attack, 44 strength | 40: +47 bow with +49 arrows |
+| starweave hat / top / skirt (NEW, Magic 40) | +12 / +36 / +26 magic attack; magic def 6 / 18 / 12; ranged def 3 / 8 / 6; no blade def | 40 robes: +4 / +20 / +15 in 2004; ours carry more because our staves stay near +10 and plate now has a small plus (the one number above the ladder, see below) |
+| storm staff / ember staff | +12 (was 22) / +10 (was 13) | 2004 staves are +10 at every level |
+| glimmer robe top / hat | magic attack +5 / +3 (was 9 / 5); magic defence 15 / 8 (was 9 / 5) | wizard robes +3 / +2 attack; the defence keeps robes above plate against spells from level 15 |
+| leather body / chaps / gloves / boots | magic def 6 / 3 / 1 / 1 (was 20 / 12 / 5 / 3, a pass-2 stopgap) | leather keeps a little magic out; the new ladder carries the rest |
+| metal armour (ARMOUR_PROFILE) | magic defence helm +4, body +8, legs +6, shield +6 (a set +24; was the 2004 -1/-6/-4/-1) | the 2004 casting penalties stay (body -30 magic attack: you cannot cast in plate); the defence is still the lowest of the three sets (ranged sets +23 and +28, robes +36) |
+| Fire Blast (NEW spell, 59) | max 16, fire 5 / air 4 / spark 1 | the 2004 book's last blast (59, 16); the Blender sprite already existed |
+
+Result (`pass4/bench_pass4.md`: server engine, 100 fights per pairing, sides alternated, each style in its own
+level's best gear; win rate of the favoured style, fight length mean (sd; 10th-90th percentile)):
+
+| level | melee vs ranged | ranged vs magic | magic vs melee |
+|---|---|---|---|
+| 25, food | 73% (183 s, sd 25; 152-217) | 68% (116 s, sd 17; 93-140) | 84% (134 s, sd 23; 104-159) |
+| 40, food | 67% (133 s, sd 20; 110-162) | 65% (82 s, sd 11; 69-96) | 68% (92 s, sd 14; 78-107) |
+| 60, food | 69% (117 s, sd 24; 86-146) | 72% (75 s, sd 12; 62-90) | 61% (84 s, sd 12; 68-97) |
+| 25 / 40 / 60, no food | 59 / 62 / 62% | 59 / 55 / 68% | 64 / 66 / 57% |
+
+The underdog can win with good play (same file):
+- prayer (only the underdog prays: protection plus its own stat prayers): at 25 (no protection prayers yet) the
+  favourite drops to 58% / 68% / 68%; at 40 the underdog wins 63% / 94% / 71%; at 60 92% / 99% / 92%.
+- armour: the blade that meets a mage in ranged armour: magic 84% -> 65% at 25, 68% -> 59% at 40, 61% -> 51% at 60.
+- both sides praying protection: 60 in band (70% / 78% / 58%); at 40 the 2004 prayer order shows (Protect from
+  Magic 37 and Missiles 40, Melee only at 43): the blade protects and nobody can protect from it, melee 95-96%.
+PvM (section A): every style kills a monster of its level in 26-58 s with food (sd 8-15 s), 30/30.
+
+Between the level points (`pass4/sweep_pass4_between.txt`, 60 fights, food), stated plainly:
+- 20-60 the triangle holds with integer max-hit steps showing: at 20 melee beats ranged 92% (a level-20..23 archer
+  hits 4, the aurel blade 5; from 24 both hit 5) and ranged/magic are even (50%); at 30 ranged beats magic 87%; at 50
+  53% / 78% / 72%.
+- **Below 20 magic is the strongest style** (level 10: magic beats ranged 80%, melee 100%; level 15: 98% / 93%), the
+  2004 low-level mage: Earth Strike hits 6 at 9 and Fire Strike 8 at 13 while a level-10..15 blade or bow hits 3-4.
+  No item within the ladders fixes it (the lever that fixed 25, metal magic defence, would have to rise far enough to
+  break 40 and 60; a stronger leather set moves ranged 2% -> 17% at 15). The levers are the owner's: the strike
+  spells' 2004 maximum hits, or level-10..19 weapons above the 2004 ladder. Left 2004-exact here.
+
+| # | score | change |
+|---|---|---|
+| 1-14 | 0.5 each | re-run green (unit tests, server 78/78, live fingerprint = headless, PvM driver 40/40) |
+| 15 | 0.25 | online part (rubber-banding) graded by the online agent |
+| 16-18 | 0.5 each | unchanged |
+| 19 | 0.5 | every favoured pairing wins 61-84% with food (55-68% without) at 25, 40 and 60; the underdog wins with prayer or the right armour; spread reported |
+| 20 | online | graded by the online agent's run |
+
+Total pass 4: **9.25 / 10** = every offline criterion at 0.5; the remaining 0.75 is online (15's online half, 20).
