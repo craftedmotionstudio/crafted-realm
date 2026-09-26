@@ -437,12 +437,21 @@ function combatStyleTrains(s){
   return ({accurate:'Attack',aggressive:'Strength',defensive:'Defence',controlled:'Attack, Strength and Defence',
     ranged_accurate:'Ranged',ranged_rapid:'Ranged',ranged_longrange:'Ranged and Defence'})[s.style]||s.style;
 }
-function keptOnDeathPreview(){
-  const protect=Player.activePrayers&&Player.activePrayers.has('protect_item');
-  if(typeof CRShared==='undefined') return {kept:[], protect};
+/* the 2004 kept-on-death preview (shared/pvp.js keptOnDeath); opts.skulled for the Scarlands (online layer) */
+function keptOnDeathPreview(opts){
+  const protect=Player.activePrayers&&Player.activePrayers.has('protect_item'), skulled=!!(opts&&opts.skulled);
+  if(typeof CRShared==='undefined') return {kept:[], protect, skulled};
   const r=CRShared.pvp.keptOnDeath(Player.inv.map(s=>s?{id:s.id,qty:s.qty}:null), Object.assign({},Player.equip),
-    {skulled:false, protectItem:protect, valueOf:id=>(ITEMS[id]&&ITEMS[id].value)||0, stackable:id=>!!(ITEMS[id]&&ITEMS[id].stack)});
-  return {kept:r.kept, protect};
+    {skulled, protectItem:protect, valueOf:id=>(ITEMS[id]&&ITEMS[id].value)||0, stackable:id=>!!(ITEMS[id]&&ITEMS[id].stack)});
+  return {kept:r.kept, protect, skulled};
+}
+/* the Ditch warning with this adventurer's own numbers (shared/pvp.js ditchWarningLines), for the online layer's
+   crossing dialogue: keptOnDeathPreview + combat level + skull */
+function ditchWarning(opts){
+  if(typeof CRShared==='undefined') return [];
+  const k=keptOnDeathPreview(opts);
+  return CRShared.pvp.ditchWarningLines({combatLevel:Player.combatLevel(), skulled:k.skulled, protectItem:k.protect,
+    keptNames:k.kept.map(x=>ITEMS[x.id]?ITEMS[x.id].name:x.id)});
 }
 function keptOnDeathNote(){
   const k=keptOnDeathPreview();
