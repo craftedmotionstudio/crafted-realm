@@ -29,11 +29,11 @@ function kitSetup(name, override) {
   const spell = k.autocast ? G.SPELLS[k.autocast] : null;
   const food = (k.inv || []).filter(([id]) => G.ITEMS[id] && G.ITEMS[id].heal > 0).reduce((n, [, q]) => n + q, 0);
   const heal = (k.inv || []).map(([id]) => G.ITEMS[id]).filter((d) => d && d.heal > 0).map((d) => d.heal)[0] || 0;
-  return { name, weapon, style, spell, bonuses: C.equipmentBonuses(worn), food, heal };
+  return { name, weapon, style, spell, bonuses: C.equipmentBonuses(worn), food, heal, lv: k.levels || LV };
 }
 function stats(setup, prayers) {
   return C.playerCombatStats({
-    levels: { attack: LV.Attack, strength: LV.Strength, defence: LV.Defence, ranged: LV.Ranged, magic: LV.Magic },
+    levels: { attack: setup.lv.Attack, strength: setup.lv.Strength, defence: setup.lv.Defence, ranged: setup.lv.Ranged, magic: setup.lv.Magic },
     bonuses: setup.bonuses, prayers: prayers || [], style: setup.style,
   });
 }
@@ -53,7 +53,7 @@ function row(a, d, protect) {
   const chance = C.hitChance(atk.roll, def);
   const max = protect ? C.pvpProtectedMaxHit(atk.max) : atk.max;
   const dpt = chance * (max / 2) / atk.rate;   // 0..max uniform on a hit
-  return { attacker: a.name, defender: d.name, protect: !!protect, type: atk.type, hitChance: +chance.toFixed(3), maxHit: max, rate: atk.rate, dmgPerTick: +dpt.toFixed(3), ttkNoFoodSec: +((LV.Hitpoints / dpt) * 0.6).toFixed(1) };
+  return { attacker: a.name, defender: d.name, protect: !!protect, type: atk.type, hitChance: +chance.toFixed(3), maxHit: max, rate: atk.rate, dmgPerTick: +dpt.toFixed(3), ttkNoFoodSec: +((d.lv.Hitpoints / dpt) * 0.6).toFixed(1) };
 }
 
 /** a duel between two kits, both starting in reach (the attacker hits first, the defender retaliates) */
@@ -61,7 +61,7 @@ function duel(rng, A, B, opts) {
   const o = opts || {};
   const side = (s, other) => {
     const atk = attackOf(s, []);
-    return { s, atk, hp: LV.Hitpoints, food: s.food, heal: s.heal, next: 0, eatDelay: -1, prot: o.protect ? protectFor(attackOf(other, []).type) : null };
+    return { s, atk, hp: s.lv.Hitpoints, max: s.lv.Hitpoints, food: s.food, heal: s.heal, next: 0, eatDelay: -1, prot: o.protect ? protectFor(attackOf(other, []).type) : null };
   };
   const a = side(A, B), b = side(B, A);
   b.next = 1 + Math.floor(a.atk.rate / 2);    // retaliation flinch
@@ -70,7 +70,7 @@ function duel(rng, A, B, opts) {
     for (const [me, them] of [[a, b], [b, a]]) {
       if (me.hp <= 0) continue;
       // eat at <= 45% (one bite per 3 ticks, +3 on the attack clock)
-      if (me.hp <= LV.Hitpoints * 0.45 && me.food > 0 && t > me.eatDelay) { me.food--; me.hp = Math.min(LV.Hitpoints, me.hp + me.heal); me.eatDelay = t + C.EAT_DELAY; me.next += C.EAT_ATTACK_DELAY; }
+      if (me.hp <= me.max * 0.45 && me.food > 0 && t > me.eatDelay) { me.food--; me.hp = Math.min(me.max, me.hp + me.heal); me.eatDelay = t + C.EAT_DELAY; me.next += C.EAT_ATTACK_DELAY; }
       if (t >= me.next) {
         const def = stats(them.s, them.prot ? [them.prot] : []).defenceRoll[me.atk.type];
         let dmg = 0;
@@ -130,5 +130,40 @@ function pvmTable(setups) {
   }
   return out;
 }
-if (require.main === module) main();
+/* ---- tiers: at each level band, the best gear of each style a player of that level can use (same levels for both) ---- */
+const TIERS = ['copper', 'bronze', 'iron', 'steel', 'whitsteel', 'aurel', 'veyrite', 'undercrag'];
+function best(ids, lvl) { let b = null; for (const id of ids) { const d = G.ITEMS[id]; if (d && (d.reqLvl || 1) <= lvl) b = id; } return b; }
+function tierKit(style, lvl) {
+  const levels = { Attack: lvl, Strength: lvl, Defence: lvl, Hitpoints: Math.max(10, lvl), Ranged: lvl, Magic: lvl, Prayer: 1 };
+  const armour = (pre) => ({ head: best(TIERS.map((t) => t + '_medhelm'), lvl), body: best(TIERS.map((t) => t + '_platebody').concat(['bronze_plate']), lvl), legs: best(TIERS.map((t) => t + '_platelegs').concat(['bronze_legs']), lvl) });
+  const food = [['trout', 1], ['trout', 1], ['trout', 1], ['trout', 1]];
+  if (style === 'melee') return { levels, style: 1, equip: Object.assign(armour(), { weapon: best(TIERS.map((t) => t + '_longsword'), lvl), shield: best(TIERS.map((t) => t + '_sqshield'), lvl) }), inv: food };
+  if (style === 'ranged') return { levels, style: 1, equip: { head: best(TIERS.map((t) => t + '_medhelm'), lvl), body: best(['leather_body'].concat(TIERS.map((t) => t + '_chainbody')), lvl), legs: 'leather_chaps', weapon: best(['worn_bow', 'ash_bow', 'gale_longbow'], lvl) }, inv: [['arrows', 500]].concat(food) };
+  const spell = best(['wind_strike', 'water_strike', 'earth_strike', 'fire_strike', 'wind_bolt', 'water_bolt', 'earth_bolt', 'fire_bolt', 'wind_blast', 'water_blast', 'earth_blast'].filter((id) => G.SPELLS[id]), lvl);
+  const spellReq = (id) => G.SPELLS[id].req;
+  let sp = null; for (const id of ['wind_strike', 'water_strike', 'earth_strike', 'fire_strike', 'wind_bolt', 'water_bolt', 'earth_bolt', 'fire_bolt', 'wind_blast', 'water_blast', 'earth_blast']) if (G.SPELLS[id] && spellReq(id) <= lvl) sp = id;
+  return { levels, style: 0, autocast: sp || spell, equip: { head: best(['wizard_hat', 'glimmer_hat'], lvl), body: best(['cloth_robe_top', 'glimmer_robe_top'], lvl), legs: 'cloth_robe_skirt', weapon: best(['apprentice_staff', 'ember_staff', 'storm_staff'], lvl), shield: best(TIERS.map((t) => t + '_sqshield'), lvl) }, inv: food };
+}
+function tierTable() {
+  const rng = RNG.create(9);
+  const out = [];
+  for (const lvl of [10, 20, 30, 40, 50]) {
+    const kits = {}; for (const st of ['melee', 'ranged', 'magic']) { const k = tierKit(st, lvl); for (const sl in k.equip) if (!k.equip[sl]) delete k.equip[sl]; kits[st] = kitSetup(st + '@' + lvl, k); }
+    const row = { level: lvl, gear: {}, ttkSec: {}, winRate: {} };
+    for (const st in kits) { const a = attackOf(kits[st], []); row.gear[st] = kits[st].weapon && kits[st].weapon.name + (kits[st].spell ? ' + ' + kits[st].spell.name : '');
+      const d = stats(kits[st], []).defenceRoll[a.type], dpt = C.hitChance(a.roll, d) * (a.max / 2) / a.rate; row.ttkSec[st] = +((kits[st].lv.Hitpoints / dpt) * 0.6).toFixed(1); }
+    for (const [x, y] of [['melee', 'ranged'], ['ranged', 'magic'], ['magic', 'melee']]) {
+      let w = 0; const n = 600; for (let i = 0; i < n; i++) { const r = duel(rng, kits[x], kits[y], {}); if (r.winner === 'a') w++; const r2 = duel(rng, kits[y], kits[x], {}); if (r2.winner === 'b') w++; }
+      row.winRate[x + '>' + y] = +(w / (2 * n)).toFixed(3);
+    }
+    out.push(row);
+  }
+  return out;
+}
+if (require.main === module) {
+  main();
+  const t = tierTable();
+  console.log('\nTiers (equal levels, best gear of each style at that level; mirror time to kill without food; cross win rates, both orders, with food)');
+  for (const r of t) console.log(`level ${String(r.level).padStart(2)}  ttk melee ${String(r.ttkSec.melee).padStart(5)}s ranged ${String(r.ttkSec.ranged).padStart(5)}s magic ${String(r.ttkSec.magic).padStart(5)}s   melee>ranged ${(r.winRate['melee>ranged'] * 100).toFixed(0)}%  ranged>magic ${(r.winRate['ranged>magic'] * 100).toFixed(0)}%  magic>melee ${(r.winRate['magic>melee'] * 100).toFixed(0)}%   [${r.gear.melee} | ${r.gear.ranged} | ${r.gear.magic}]`);
+}
 module.exports = { kitSetup, attackOf, duel, row, RNG };
