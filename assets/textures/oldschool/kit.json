@@ -296,9 +296,9 @@
    "file": "assets/textures/oldschool/scales_ember.png",
    "size": 64,
    "mean": [
-    0.4127,
-    0.1944,
-    0.1482
+    0.5384,
+    0.2532,
+    0.173
    ],
    "use": "cinder wyrmling scales"
   },

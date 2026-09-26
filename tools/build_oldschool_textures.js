@@ -242,14 +242,14 @@ R.hide_ash=()=>{const t=new Tex(64),vo=voronoi(291,4,5,.9),n=fbm(292,8,2),r=rng(
  t.fill((u,v)=>{const q=vo(u,v),e=q.d2-q.d1,k=.62+q.id*.18+(n(u,v)-.5)*.1;if(e<.05)return q.id>.72?[.95,.46,.16]:[.22,.2,.19];return e<.1?[k*.8,k*.78,k*.76]:[k,k*.97,k*.95]});
  for(let i=0;i<120;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64);t.mul(x,y,r()<.5?.82:1.1)}
  t.quant(20);return t};
-R.scales_ember=()=>{const t=new Tex(64),n=fbm(301,8,2),r=rng(302),tone=[],glow=[];for(let i=0;i<64;i++){tone.push(.78+r()*.22);glow.push(r()<.14)}
- // overlapping rounded scales hanging in offset rows (8 px wide, 6 px tall): lit at the top, shadowed at the rim, dark
- // gaps; a few scales have an ember-orange rim (the heat under the hide)
- t.fill((u,v,x,y)=>{const row=Math.floor(y/6),off=row%2?4:0,col=Math.floor(((x+off)%64)/8),iy=y%6,ix=(x+off)%8,id=(row*8+col)%64,k=tone[id]*(.9+n(u,v)*.15);
-  const dx=(ix+.5-4)/4,dy=(iy+.5)/6,rr=dx*dx+dy*dy;
-  if(rr>1)return [.12,.07,.06];
-  if(rr>.72)return glow[id]?[.92,.42,.14]:[.2,.1,.08];
-  let c=[.56*k,.24*k,.17*k];if(dy<.35)c=mixc(c,[1,.78,.6],.22*(1-dy/.35));return c});
+R.scales_ember=()=>{const t=new Tex(64),n=fbm(301,8,2),r=rng(302),tone=[],glow=[];for(let i=0;i<32;i++){tone.push(.84+r()*.16);glow.push(r()<.09)}
+ // bestiary pass 3: big overlapping rounded scales in offset rows (16 px wide, 8 px tall, so they tile), lit at the
+ // top, a soft darker rim and shallow gaps (no black checker at the game camera); a few scales have an ember rim
+ t.fill((u,v,x,y)=>{const row=Math.floor(y/8),off=row%2?8:0,col=Math.floor(((x+off)%64)/16),iy=y%8,ix=(x+off)%16,id=(row*4+col)%32,k=tone[id]*(.92+n(u,v)*.12);
+  const dx=(ix+.5-8)/8,dy=(iy+.5)/8,rr=dx*dx+dy*dy;
+  if(rr>1)return [.3*k,.14*k,.1*k];
+  if(rr>.8)return glow[id]?[.86,.4,.14]:[.4*k,.18*k,.12*k];
+  let c=[.56*k,.25*k,.17*k];if(dy<.4)c=mixc(c,[1,.78,.6],.18*(1-dy/.4));return c});
  t.quant(20);return t};
 R.fur_ashen=()=>{const t=new Tex(64),r=rng(311),n=fbm(312,4,2);
  // short coarse fur: dark roots, lighter tips in short strokes laid along v, singed patches

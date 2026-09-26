@@ -467,7 +467,8 @@ def cinder_rat():
     b = Body(rig)
     pts = [Vector(p) for p in ((0, .22, .2), (0, .14, .25), (0, .04, .3), (0, -.06, .29), (0, -.14, .25), (0, -.2, .23))]
     rad = [(.04, .04), (.09, .09), (.10, .11), (.09, .10), (.07, .075), (.05, .055)]
-    b.loft([ring_pts(p, (0, -1, 0), rx, rz, 8) for p, (rx, rz) in zip(pts, rad)], M['fur'], ['Hips', 'Spine', 'Chest'], mats=lambda i, k: M['belly'] if k in (5, 6) else M['fur'])
+    rings = [[q + Vector((0, 0, -rz * .3)) if q.z < p.z - 1e-6 else q for q in ring_pts(p, (0, -1, 0), rx * 1.08, rz, 8)] for p, (rx, rz) in zip(pts, rad)]   # hanging belly
+    b.loft(rings, M['fur'], ['Hips', 'Spine', 'Chest'], mats=lambda i, k: M['belly'] if k in (5, 6) else M['fur'])
     hpts = [Vector(p) for p in ((0, -.2, .24), (0, -.27, .26), (0, -.35, .235), (0, -.43, .21))]
     b.loft(path_rings(hpts, [(.05, .05), (.052, .05), (.032, .03), (.012, .012)], 8), M['fur'], ['Chest', 'Neck', 'Head'], cap0=False)
     b.blob((0, -.44, .21), .012, M['ear'], 'Head')                                                    # nose
@@ -516,7 +517,7 @@ def cinder_wyrmling():
              hind_leg=[(.30, .70, 1.0), (.36, .45, .58), (.36, .82, .24), (.36, .62, .03)],
              wing=[(.26, -.42, 1.50), (.95, -.15, 1.95), (1.65, .35, 1.55)])
     rig, bones = quadruped_rig('Rig_CinderWyrmling', Q)
-    M = dict(scale=mat('Wyrmling ember scales', '#5e2a20', 'scales_ember', 1.3), belly=mat('Wyrmling belly plates', '#b8783a', 'ruined_stone', .3),
+    M = dict(scale=mat('Wyrmling ember scales', '#5e2a20', 'scales_ember', 1.0), belly=mat('Wyrmling belly plates', '#b8783a', 'ruined_stone', .3),
              horn=mat('Wyrmling horn', '#3a302a', 'dark_rock', .25), claw=mat('Wyrmling claw', '#2a2220'),
              membrane=mat('Wyrmling wing membrane', '#6a2c1c', 'hide_ash', .6), eye=mat('Wyrmling eye (glow)', '#ffd060', emit='#ffb02a'),
              throat=mat('Wyrmling throat glow (glow)', '#d8601e', emit='#a8360c'), mouth=mat('Wyrmling maw (glow)', '#aa2a10', emit='#6a1a08'))
