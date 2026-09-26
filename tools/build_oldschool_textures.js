@@ -236,6 +236,27 @@ R.ruined_stone=()=>{const t=new Tex(64),n=fbm(281,8,2),r=rng(282),mortar=[.42,.4
     t.set(xx,y,c)}})});
  for(let y=0;y<64;y++){const soot=Math.max(0,(y-30)/34)*.35;for(let x=0;x<64;x++)t.mul(x,y,1-soot*(.7+.3*n(x/64,y/64)))}
  t.quant(20);return t};
+// ---- Scarlands bestiary (2026-09-26): creature skins ----
+R.hide_ash=()=>{const t=new Tex(64),vo=voronoi(291,4,5,.9),n=fbm(292,8,2),r=rng(293);
+ // slag-plated hide: dark grey plates of uneven size, soot between them, thin ember-orange cracks in a few seams
+ t.fill((u,v)=>{const q=vo(u,v),e=q.d2-q.d1,k=.62+q.id*.18+(n(u,v)-.5)*.1;if(e<.05)return q.id>.72?[.95,.46,.16]:[.22,.2,.19];return e<.1?[k*.8,k*.78,k*.76]:[k,k*.97,k*.95]});
+ for(let i=0;i<120;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64);t.mul(x,y,r()<.5?.82:1.1)}
+ t.quant(20);return t};
+R.scales_ember=()=>{const t=new Tex(64),n=fbm(301,8,2),r=rng(302),tone=[],glow=[];for(let i=0;i<64;i++){tone.push(.78+r()*.22);glow.push(r()<.14)}
+ // overlapping rounded scales hanging in offset rows (8 px wide, 6 px tall): lit at the top, shadowed at the rim, dark
+ // gaps; a few scales have an ember-orange rim (the heat under the hide)
+ t.fill((u,v,x,y)=>{const row=Math.floor(y/6),off=row%2?4:0,col=Math.floor(((x+off)%64)/8),iy=y%6,ix=(x+off)%8,id=(row*8+col)%64,k=tone[id]*(.9+n(u,v)*.15);
+  const dx=(ix+.5-4)/4,dy=(iy+.5)/6,rr=dx*dx+dy*dy;
+  if(rr>1)return [.12,.07,.06];
+  if(rr>.72)return glow[id]?[.92,.42,.14]:[.2,.1,.08];
+  let c=[.56*k,.24*k,.17*k];if(dy<.35)c=mixc(c,[1,.78,.6],.22*(1-dy/.35));return c});
+ t.quant(20);return t};
+R.fur_ashen=()=>{const t=new Tex(64),r=rng(311),n=fbm(312,4,2);
+ // short coarse fur: dark roots, lighter tips in short strokes laid along v, singed patches
+ t.fill((u,v)=>{const k=.66+(n(u,v)-.5)*.2;return [k,k*.93,k*.86]});
+ for(let i=0;i<700;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64),len=2+Math.floor(r()*3),k=.8+r()*.35;for(let s=0;s<len;s++)t.set(x,y+s,[.82*k,.76*k,.68*k]);t.mul(x,y+len,.7)}
+ for(let y=0;y<64;y++)for(let x=0;x<64;x++){const q=n(x/64,y/64);if(q<.36)t.mul(x,y,.7)}
+ t.quant(20);return t};
 const USE={grass_a:'terrain grass (large scale)',grass_b:'terrain grass (second scale, breaks repetition)',grass_c:'meadow / worn grass variant',
  dirt:'bare earth, trodden ground, creek banks',path:'cobbled / gravel paths',sand:'beach and sandy shore',rock:'rock outcrops, cliff faces',
  mud:'creek bed and wet ground',water:'sea, creek and pond surface',brick:'fired brick walls, chimneys',stone_course:'fieldstone / ashlar walls and plinths',
@@ -244,9 +265,10 @@ const USE={grass_a:'terrain grass (large scale)',grass_b:'terrain grass (second 
  leaves:'tree crowns, shrubs, hazel, tufts (leaves over darker clumps)',needles:'pine crowns',bark:'oak / pine trunks, logs',bark_birch:'birch trunks',
  scorched_earth:'Scarlands burnt soil (ground)',ash:'Scarlands ash drifts (ground)',cracked_mud:'Scarlands baked mud (ground)',
  burnt_grass:'the burnt edge of the meadow (ground)',dark_rock:'Scarlands rock outcrops, dark boulders',bone_dirt:'bone-strewn dirt (ground, bone piles)',
+ hide_ash:'ash stalker slag-plated hide',scales_ember:'cinder wyrmling scales',fur_ashen:'cinder rat fur',
  charred_planks:'burnt boards, carts, crossings',ruined_stone:'fire-scarred ruins: walls, pillars, arches'};
 // building textures get detail headroom too (see Tex.headroom)
-const HEADROOM=['brick','stone_course','plaster','planks','beam','thatch','roof_tiles','dark_rock','charred_planks','ruined_stone'];
+const HEADROOM=['brick','stone_course','plaster','planks','beam','thatch','roof_tiles','dark_rock','charred_planks','ruined_stone','hide_ash','scales_ember','fur_ashen'];
 const kit={schema:'crafted-realm-oldschool-texture-kit-v1',generator:'tools/build_oldschool_textures.js',textures:{}};
 for(const [name,make] of Object.entries(R)){
  const t=make(),file=name+'.png';if(HEADROOM.includes(name))t.headroom(.82);fs.writeFileSync(path.join(OUT,file),png(t.n,t.n,t.bytes()));
