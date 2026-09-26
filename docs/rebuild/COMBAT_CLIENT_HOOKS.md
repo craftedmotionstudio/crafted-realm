@@ -104,7 +104,7 @@ odds both ways), `clock()`, and `qa.player()` / `qa.npc(n)` for tests. Shared he
 `keptOnDeathPreview()` / `keptOnDeathNote()` (game4_ui.js, `CRShared.pvp.keptOnDeath`) and
 `combatLevelColour(level)` (the 2004 menu colour of an opponent's level).
 
-## 5. Known differences between the offline engine and the server (all intentional or content)
+## 6. Known differences between the offline engine and the server (all intentional or content)
 
 - Offline there is no PvP, no skull and no Wilderness; the kept-on-death rule runs with `skulled:false`.
 - Harmless practice monsters (`t.harmless`, Tutor's Holm) swing but queue no hit (same as the server).
