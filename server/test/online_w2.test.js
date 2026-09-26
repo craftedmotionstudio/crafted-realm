@@ -245,3 +245,41 @@ test('bestiary: the breath comes every third attack as a magic projectile with i
   assert.ok(bfx.length >= 1 && bfx.every((f) => f.splash === 1), 'the breath splashes on Protect from Magic');
   assert.ok(!bh.includes(14), 'no breath damage while praying: ' + bh.join(','));
 });
+
+/* the Scarlands bestiary v1 in the online test map (W2b) */
+test('bestiary v1 in the online map: every creature spawned in its Scarlands band, its drop table, its attack', () => {
+  const G = require('../content/GameData').get();
+  const C = require('../../shared/combat.js');
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'docs', 'rebuild', 'scarlands', 'bestiary_v1.data.json'), 'utf8'));
+  const w = new World({ map: MAP, seed: 7 });
+  const deepest = Math.floor((MAP.bounds.z2 - 48) / 8) + 1;
+  for (const c of data.creatures) {
+    const t = G.NPC_TYPES[c.id];
+    assert.ok(t, c.id + ' is an NPC type');
+    assert.equal(t.model, c.id, c.id + ' names its bestiary model');
+    assert.ok(G.DROP_TABLES[c.id], c.id + ' has its weighted drop table');
+    const spawned = [...w.npcs.values()].filter((n) => n.typeId === c.id);
+    assert.ok(spawned.length >= (c.pack ? c.pack.min : 1), c.id + ' spawned (' + spawned.length + ')');
+    for (const n of spawned) {
+      const l = Math.floor((n.startZ - 48) / 8) + 1;
+      assert.ok(l >= c.wildernessLevels[0] && l <= Math.min(c.wildernessLevels[1], deepest) || (c.wildernessLevels[0] > deepest && l === deepest), c.id + ' at level ' + l + ', band ' + c.wildernessLevels);
+    }
+  }
+  const one = (id) => [...w.npcs.values()].find((n) => n.typeId === id);
+  assert.equal(one('scar_raider_archer').attackType, 'ranged');
+  assert.equal(one('ember_mage').attackType, 'magic');
+  assert.equal(one('scar_raider_archer').attackRange, 7);
+  assert.equal(one('scar_raider_archer').huntRange, 7);
+  assert.equal(one('ember_mage').huntRange, 7);
+  assert.equal(one('cinder_wyrmling').size, 2);
+  assert.deepEqual(G.NPC_TYPES.cinder_wyrmling.breath, { every: 3, max: 14, range: 5 });
+  assert.equal(one('ash_stalker').attackType, 'stab');
+  // the rats come in packs: every rat has two or more others within 3 tiles
+  const rats = [...w.npcs.values()].filter((n) => n.typeId === 'cinder_rat');
+  for (const r of rats) assert.ok(rats.filter((o) => o !== r && Math.max(Math.abs(o.startX - r.startX), Math.abs(o.startZ - r.startZ)) <= 3).length >= 2, 'a rat in a pack');
+  // a few hundred ticks of the world with them in it
+  for (let i = 0; i < 300; i++) w.cycle();
+  assert.equal([...w.npcs.values()].filter((n) => n.active).length, w.npcs.size);
+  assert.ok(C.npcMaxHit(G.NPC_TYPES.ember_mage, C.npcLevels(G.NPC_TYPES.ember_mage)) === 6);
+  w.collision.unload();
+});
