@@ -257,7 +257,10 @@ var OnlineActors=(function(){
   }else gm.mixer.update(dt);
  }
  function frame(dt){
-  var ms=dt*1000,me=st.me;
+  // movement follows real time: the game caps a frame's dt at 50 ms, so on a slow machine (or a busy page) the capped
+  // clock would replay the server's steps slower than they arrive and fall behind; never less than the real time
+  var now=performance.now(),real=st.lastFrameAt?Math.min(250,now-st.lastFrameAt):dt*1000;st.lastFrameAt=now;
+  var ms=Math.max(dt*1000,real),me=st.me;
   if(me&&player){
    me.mover.update(ms);player.position.set(me.mover.x,groundAt(me.mover.x,me.mover.z),me.mover.z);
    turnTo(player,me,dt);

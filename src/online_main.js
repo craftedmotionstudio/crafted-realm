@@ -51,7 +51,13 @@ var OnlineMain=(function(){
   st.updates=(st.updates||0)+1;
   // a hidden or occluded page is stepped by the game's timer heartbeat, which skips the combat layer: step it here so
   // splats expire, bodies sink and their loot appears on time even while nobody is looking
-  if(performance.now()-lastRaf>250&&typeof CombatFX!=='undefined'&&CombatFX.update)CombatFX.update(dt);
+  // and on a slow frame the game caps dt at 50 ms: give the combat layer the rest of the real time, so splats and
+  // projectiles stay on the server's ticks however low the frame rate goes
+  var nowU=performance.now(),realU=st.lastUpdAt?Math.min(0.25,(nowU-st.lastUpdAt)/1000):dt;st.lastUpdAt=nowU;
+  if(typeof CombatFX!=='undefined'&&CombatFX.update){
+   if(nowU-lastRaf>250)CombatFX.update(dt);
+   else if(realU-dt>0.002)CombatFX.update(realU-dt);
+  }
   OnlineActors.frame(dt);
   OnlineFX.frame(dt);
   OW.tick(dt);
