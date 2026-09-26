@@ -64,6 +64,7 @@ FPS = 30
 ARGS = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 DO_RENDER = "--no-render" not in ARGS
 QUICK = "--quick" in ARGS
+VL = {'v29': 'v2.9', 'v30': 'v3.0'}.get(TAG, TAG)   # label on the review sheets
 
 # ------------------------------------------------------------------------------------------
 # Skeleton: verbatim (head, tail, roll) from assets/models/player.glb (same table as v1).
@@ -4897,14 +4898,14 @@ def run_renders(arm, mats, objs, clips, bram, tutors=None):
         turn[(bt, '34')] = shoot(j('default_%s_34.png' % bt), (420, 600), V34, (0, 0, .93), 2.05)
     compose(j('defaults_vs_refs.png'), [
         {'title': 'Reference: male_b_turnaround.png (target look)', 'height': 400, 'cells': [cell(REF_TURN, 'male_b_turnaround.png (reference)')]},
-        {'title': 'v2 kit: default body type A (male) front / side / back -- same framing', 'height': 400,
+        {'title': 'kit %s: default body type A (male) front / side / back -- same framing (stance pose)' % VL, 'height': 400,
          'cells': [cell(turn[('A', v)], 'A ' + v, bg=BG_REF) for v, _ in VIEWS]},
-        {'title': 'v2 kit: default body type B (female) front / side / back', 'height': 400,
+        {'title': 'kit %s: default body type B (female) front / side / back (stance pose)' % VL, 'height': 400,
          'cells': [cell(turn[('B', v)], 'B ' + v, bg=BG_REF) for v, _ in VIEWS]},
-        {'title': 'Reference: Character_Creator_Screen.jpg preview vs v2 defaults (3/4)', 'height': 380,
+        {'title': 'Reference: Character_Creator_Screen.jpg preview vs %s defaults (3/4)' % VL, 'height': 380,
          'cells': [cell(REF_CREATOR, 'creator preview (reference)', crop=[300, 205, 528, 470]),
-                   cell(turn[('A', '34')], 'v2 default A', bg=[74, 66, 56]), cell(turn[('B', '34')], 'v2 default B', bg=[74, 66, 56])]},
-    ], 'Crafted Realms kit v2 -- default characters vs references')
+                   cell(turn[('A', '34')], '%s default A' % VL, bg=[74, 66, 56]), cell(turn[('B', '34')], '%s default B' % VL, bg=[74, 66, 56])]},
+    ], 'Crafted Realms kit %s -- default characters vs references' % VL)
     sheets['defaults'] = j('defaults_vs_refs.png')
     if QUICK:
         return sheets
@@ -4924,9 +4925,9 @@ def run_renders(arm, mats, objs, clips, bram, tutors=None):
     barm.animation_data.action = None
     clear_pose(barm)
     compose(j('bram_vs_character.png'), [
-        {'height': 640, 'cells': [cell(REF_NPC, 'Character.jpg (reference)'), cell(bram_34, 'Guide Bram v2 (3/4, idle)', bg=BG_GAME),
+        {'height': 640, 'cells': [cell(REF_NPC, 'Character.jpg (reference)'), cell(bram_34, 'Guide Bram %s (3/4, idle)' % VL, bg=BG_GAME),
                                   cell(bram_front, 'front (idle f0)', bg=BG_REF), cell(bram_back, 'back (idle f0)', bg=BG_REF)]},
-    ], 'Guide Bram v2.2 -- kit parts (Hair_05 medium, Jaw_04 medium, Arms_04 large cuffed, Hands_01, Legs_01, Feet_02) + coat + staff')
+    ], 'Guide Bram %s -- kit parts (Hair_05 medium, Jaw_04 medium, Arms_04 large cuffed, Hands_01, Legs_01, Feet_02) + coat + staff' % VL)
     sheets['bram'] = j('bram_vs_character.png')
     # (5) key frames
     default_colors('A')
@@ -5065,12 +5066,12 @@ def run_renders(arm, mats, objs, clips, bram, tutors=None):
     default_colors('A')
     # overall compare.png
     compose(j('compare.png'), [
-        {'title': 'male_b_turnaround.png  vs  v2 default A (front / side / back)', 'height': 360,
-         'cells': [cell(REF_TURN, 'reference')] + [cell(turn[('A', v)], 'v2 ' + v, bg=BG_REF) for v, _ in VIEWS]},
-        {'title': 'Character.jpg vs Guide Bram v2  |  creator preview vs v2 defaults', 'height': 420,
-         'cells': [cell(REF_NPC, 'reference'), cell(bram_34, 'Bram v2', bg=BG_GAME), cell(REF_CREATOR, 'creator (reference)', crop=[300, 205, 528, 470]),
+        {'title': 'male_b_turnaround.png  vs  %s default A (front / side / back, stance pose)' % VL, 'height': 360,
+         'cells': [cell(REF_TURN, 'reference')] + [cell(turn[('A', v)], VL + ' ' + v, bg=BG_REF) for v, _ in VIEWS]},
+        {'title': 'Character.jpg vs Guide Bram %s  |  creator preview vs %s defaults' % (VL, VL), 'height': 420,
+         'cells': [cell(REF_NPC, 'reference'), cell(bram_34, 'Bram ' + VL, bg=BG_GAME), cell(REF_CREATOR, 'creator (reference)', crop=[300, 205, 528, 470]),
                    cell(turn[('A', '34')], 'v2 A', bg=[74, 66, 56]), cell(turn[('B', '34')], 'v2 B', bg=[74, 66, 56])]},
-    ], 'compare.png -- v2 renders next to their references')
+    ], 'compare.png -- %s renders next to their references' % VL)
     sheets['compare'] = j('compare.png')
     # (e) v1 vs v2
     # joints: every torso x arms, torso x legs (front + back) and legs x feet combination
@@ -5149,7 +5150,7 @@ def run_renders(arm, mats, objs, clips, bram, tutors=None):
     bpy.context.scene.frame_set(0)
     gcells.append(cell(shoot(j('game_bram.png'), (420, 560), GV, GC, 2.0, ground=True, persp=GP), 'Guide Bram (idle, game camera)', bg=BG_GAME))
     barm.animation_data.action = None
-    compose(j('game_camera.png'), [{'height': 520, 'cells': gcells}], 'Game camera (~45 deg down, 5 m, 85 mm), idle clip: v2.7 vs the 2004-era references')
+    compose(j('game_camera.png'), [{'height': 520, 'cells': gcells}], 'Game camera (~45 deg down, 5 m, 85 mm), idle clip: %s vs the 2004-era references' % VL)
     sheets['game_camera'] = j('game_camera.png')
     sheets.update(v28_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34))
     sheets.update(v29_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34, bram, tutors or {}))
@@ -5268,7 +5269,8 @@ def v29_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34, bram, t
                      'height': 360, 'cells': cs})
     line.hide_render = True
     arm.animation_data.action = None
-    compose(j('lean_check.png'), rows, 'Lean check: idle and walk 0.0 deg (vertical spine chain), run capped at 3 deg')
+    compose(j('lean_check.png'), rows, 'Lean check: the spine chain (hips -> neck base) is vertical in idle and walk (0.0 deg); the number is hips -> head, '
+            'i.e. incl. the head carried a touch forward (~1 deg); run capped at 3 deg')
     sheets['lean_check'] = j('lean_check.png')
     # (5) tutors
     if tutors:
@@ -5345,9 +5347,9 @@ def v30_sheets(arm, mats, objs, clips, default_colors, j):
         sel.update(over)
         return outfit_objs(objs, bt, sel)
     def pose(clip, fr):
-        if clip is None:
+        if clip is None:   # the true bind pose (no rotations)
             arm.animation_data.action = None
-            set_pose(arm, P())
+            clear_pose(arm)
         else:
             arm.animation_data.action = clips[clip]
             sc.frame_set(fr)
@@ -5573,10 +5575,10 @@ def rs_style_sheets(arm, mats, objs, clips, default_colors, j):
     for bt in ('A', 'B'):
         default_colors(bt)
         show_only(outfit_objs(objs, bt, DEFAULT_OUTFIT[bt]))
-        cells.append(cell(shoot(j('rs_%s_creator.png' % bt), (300, 420), (.42, -.86, .22), (0, 0, .93), 2.0), 'v2.7 %s, creator angle (idle)' % bt, bg=[74, 66, 56]))
+        cells.append(cell(shoot(j('rs_%s_creator.png' % bt), (300, 420), (.42, -.86, .22), (0, 0, .93), 2.0), '%s %s, creator angle (idle)' % (VL, bt), bg=[74, 66, 56]))
         cells.append(cell(shoot(j('rs_%s_dagger.png' % bt), (300, 480), (-.80, .20, .56), (0, 0, .90), 2.1, ground=True, persp=(5.0, 85)),
-                          'v2.7 %s, dagger-ref angle (idle)' % bt, bg=[112, 118, 48]))
-    compose(j('rs_style_compare.png'), [{'height': 520, 'cells': cells}], 'v2.7 defaults next to the 2004-style references (similar angle and size)')
+                          '%s %s, dagger-ref angle (idle)' % (VL, bt), bg=[112, 118, 48]))
+    compose(j('rs_style_compare.png'), [{'height': 520, 'cells': cells}], '%s defaults next to the 2004-style references (similar angle and size)' % VL)
     out['rs_style'] = j('rs_style_compare.png')
     # outline-only comparison: reference silhouettes next to ours at matching views
     default_colors('A')
@@ -5590,12 +5592,12 @@ def rs_style_sheets(arm, mats, objs, clips, default_colors, j):
     sa_34 = shoot(j('sil_A_34.png'), (300, 420), (.42, -.86, .22), (0, 0, .93), 2.0)
     sa_dg = shoot(j('sil_A_dagger.png'), (300, 480), (-.80, .20, .56), (0, 0, .90), 2.1, persp=(5.0, 85))
     compose(j('silhouette_compare.png'), [
-        {'title': 'front / side: male_b concept vs v2.5 default A (outline only)', 'height': 420,
-         'cells': [cell(REF_TURN, 'male_b front (ref)', crop=[80, 70, 480, 720], sil='rowbg'), cell(sa_front, 'v2.7 A front', sil='alpha'),
-                   cell(REF_TURN, 'male_b side (ref)', crop=[590, 70, 830, 720], sil='rowbg'), cell(sa_side, 'v2.7 A side', sil='alpha')]},
-        {'title': '3/4 and high angle: creator + DragonDagger refs vs v2.5 A (outline only)', 'height': 420,
-         'cells': [cell(REF_CREATOR, 'creator (ref)', crop=[310, 210, 520, 470], sil='flat'), cell(sa_34, 'v2.5 A 3/4', sil='alpha'),
-                   cell(REF_DAGGER, 'DragonDagger (ref)', crop=[480, 170, 830, 1410], sil='olive'), cell(sa_dg, 'v2.5 A same angle', sil='alpha')]},
+        {'title': 'front / side: male_b concept vs %s default A (outline only)' % VL, 'height': 420,
+         'cells': [cell(REF_TURN, 'male_b front (ref)', crop=[80, 70, 480, 720], sil='rowbg'), cell(sa_front, VL + ' A front', sil='alpha'),
+                   cell(REF_TURN, 'male_b side (ref)', crop=[590, 70, 830, 720], sil='rowbg'), cell(sa_side, VL + ' A side', sil='alpha')]},
+        {'title': '3/4 and high angle: creator + DragonDagger refs vs %s A (outline only)' % VL, 'height': 420,
+         'cells': [cell(REF_CREATOR, 'creator (ref)', crop=[310, 210, 520, 470], sil='flat'), cell(sa_34, VL + ' A 3/4', sil='alpha'),
+                   cell(REF_DAGGER, 'DragonDagger (ref)', crop=[480, 170, 830, 1410], sil='olive'), cell(sa_dg, VL + ' A same angle', sil='alpha')]},
     ], 'Silhouette check: straight segments and corners, measured proportions')
     out['silhouette'] = j('silhouette_compare.png')
     out['measured_outlines'] = measure_outlines([
