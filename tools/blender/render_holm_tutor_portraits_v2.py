@@ -1,4 +1,4 @@
-"""Chat-box portraits for the ten Tutor's Holm tutors from their v2.9 models (the v1 script,
+"""Chat-box portraits for the ten Tutor's Holm tutors from their v2.9 / v3.0 models (--cand picks the kit set) (the v1 script,
 render_holm_tutor_portraits.py, rendered the old blocky v1 tutors into assets/icons/tutors/).
 
 Same size and format as v1: 96x96 RGBA PNG, transparent background, head-and-shoulders 3/4 view from the tutor's left-front

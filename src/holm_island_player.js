@@ -7,7 +7,7 @@
  * after a ladder, death. Island draft only (?holmIsland=1): the live game keeps its player until the cutover (M7). */
 var HolmIslandPlayer=(function(){
  'use strict';
- var URL='assets/models/holm_kit_v2.glb?v=7',st={root:null,clips:{},busy:null};
+ var URL='assets/models/holm_kit_v2.glb?v=8',st={root:null,clips:{},busy:null};
  var HAIR={short:'Hair_Short',long:'Hair_Long',ponytail:'Hair_Ponytail',bun:'Hair_Bun',mohawk:'Hair_Mohawk'};
  function hex(n){return '#'+('000000'+(Number(n)>>>0).toString(16)).slice(-6)}
  function look(){var c=typeof CharCfg!=='undefined'?CharCfg:{};return {female:c.gender==='f',hair:HAIR[c.hairStyle]||(c.hairStyle==='bald'?null:'Hair_Short'),beard:!!c.beard&&c.gender!=='f',

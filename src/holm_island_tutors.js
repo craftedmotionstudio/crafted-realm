@@ -90,7 +90,7 @@ var HolmIslandTutors=(function(){
  async function load(o){
   var T=o.THREE,api=o.api;st.api=api;
   for(var i=0;i<CAST.length;i++){var c=CAST[i],p=spot(api,c);if(!p)continue;
-   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+'_v2.glb?v=29b',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
+   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+'_v2.glb?v=30',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
    var root=gltf.scene,g=new T.Group();root.traverse(function(m){if(m.isMesh||m.isSkinnedMesh){m.castShadow=true;m.frustumCulled=false;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});
    g.add(root);g.position.set(p.x,p.y,p.z);g.lookAt(p.faceX,p.y,p.faceZ);g.name='island-tutor-'+c.id;
    var mixer=new T.AnimationMixer(root),actions={};gltf.animations.forEach(function(cl){actions[cl.name]=mixer.clipAction(cl)});
@@ -108,7 +108,7 @@ var HolmIslandTutors=(function(){
   // on their turn, the chat opens their area's lessons once it ends (the banner and arrow then move on to the lesson)
   if(st.talking&&st.talking!==n)ended(st.talking);n.opens=turn(n.cast);
   n.group.lookAt(player.position.x,n.group.position.y,player.position.z);play(n,'talk');st.talking=n;
-  (function show(){n.paging=false;var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;n.paging=true;setTimeout(show,0)}else ended(n)}}],'img:assets/icons/tutors/'+n.cast.id+'.png?v=29')})();
+  (function show(){n.paging=false;var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;n.paging=true;setTimeout(show,0)}else ended(n)}}],'img:assets/icons/tutors/'+n.cast.id+'.png?v=30')})();
   return true;
  }
  // the chat is over (last page, or the box was closed): back to idle, and the tutor counts as spoken to
