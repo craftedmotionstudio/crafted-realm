@@ -7,8 +7,8 @@
    "Realm Small", our own bitmap-look font (assets/fonts), in yellow / orange / white with a 1 px
    black shadow. Textures reach the CSS as --tex-* custom properties (set by ui_osrs_kit.js).
    ============================================================================ */
-@font-face{font-family:'Realm Small';src:url('../fonts/realm_small.ttf') format('truetype');font-weight:400;font-style:normal;font-display:block;}
-@font-face{font-family:'Realm Small';src:url('../fonts/realm_small_bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:block;}
+@font-face{font-family:'Realm Small';src:url('../fonts/realm_small.ttf?v=2') format('truetype');font-weight:400;font-style:normal;font-display:block;}
+@font-face{font-family:'Realm Small';src:url('../fonts/realm_small_bold.ttf?v=2') format('truetype');font-weight:700;font-style:normal;font-display:block;}
 :root{
   --k-ink:#0d0b08; --k-lo:#241f18; --k-mid:#4d463b; --k-hi:#8c826d;
   --k-pane:#3e3529; --k-orange:#ff981f; --k-yellow:#ffff00; --k-green:#00ff00; --k-gold:#ffd24a; --k-white:#ffffff;
@@ -498,7 +498,7 @@ html.osrs-kit input[type=range].set-slider{-webkit-appearance:none;appearance:no
 html.osrs-kit input[type=range].set-slider:focus{outline:0;}
 html.osrs-kit input[type=range].set-slider::-webkit-slider-runnable-track{height:6px;border:0;border-radius:0;background:#16120d;box-shadow:inset 0 0 0 1px #0d0b08,inset 1px 1px 0 1px #2c261d,0 1px 0 #6d6250;}
 html.osrs-kit input[type=range].set-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:10px;height:16px;margin-top:-5px;border:0;border-radius:0;
-  background:var(--tex-stone-lit,#8a7f6a);box-shadow:inset 1px 1px 0 #cfc2a4,inset -1px -1px 0 #2a241c,0 0 0 1px #0d0b08;}
+  background:#3a5fb0;box-shadow:inset 1px 1px 0 #9ec0f0,inset -1px -1px 0 #16254a,0 0 0 1px #0d0b08;}
 html.osrs-kit input[type=range].set-slider::-moz-range-track{height:6px;border:0;border-radius:0;background:#16120d;box-shadow:inset 0 0 0 1px #0d0b08;}
 html.osrs-kit input[type=range].set-slider::-moz-range-thumb{width:10px;height:16px;border:0;border-radius:0;background:var(--tex-stone-lit,#8a7f6a);box-shadow:inset 1px 1px 0 #cfc2a4,inset -1px -1px 0 #2a241c,0 0 0 1px #0d0b08;}
 html.osrs-kit #pane-settings .set-row:has(.set-slider)>span{line-height:12px;}
@@ -567,7 +567,8 @@ html.osrs-kit .kit-inline{display:inline-block;vertical-align:middle;margin:0 2p
 
 /* narrow / mobile HUD: the stacked stat orbs use the same painted spheres in stone sockets, pixel numbers */
 @media (max-width:880px){
-  html.osrs-kit #orbs .orb,html.osrs-kit #run-orb{border:0!important;border-radius:50%!important;box-shadow:none!important;position:relative;
+  html.osrs-kit #orbs .orb{position:relative;}
+  html.osrs-kit #orbs .orb,html.osrs-kit #run-orb{border:0!important;border-radius:50%!important;box-shadow:none!important;
     background:var(--orb-fill,var(--spr-fill-grey)) center/86% 86% no-repeat!important;image-rendering:pixelated;font:12px var(--k-font)!important;}
   html.osrs-kit #orbs .orb::after,html.osrs-kit #run-orb::after{content:"";position:absolute;inset:-3px;pointer-events:none;background:var(--spr-socket) center/100% 100% no-repeat;image-rendering:pixelated;}
   html.osrs-kit #orbs .orb .num,html.osrs-kit #run-orb #run-pct{font:12px var(--k-font)!important;text-shadow:1px 1px 0 #000!important;position:relative;z-index:1;}
@@ -576,3 +577,10 @@ html.osrs-kit .kit-inline{display:inline-block;vertical-align:middle;margin:0 2p
   html.osrs-kit #spec-orb{--orb-fill:var(--spr-fill-teal);} html.osrs-kit #run-orb{--orb-fill:var(--spr-fill-yellow);}
   html.osrs-kit .mob-toggle{border-radius:0!important;background:var(--tex-stone,#5a5245)!important;box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink)!important;}
 }
+
+/* quest journal colours (red = not started, yellow = under way, green = done), XP drops in the pixel font */
+html.osrs-kit #quest-list .q-not b{color:#ff0000;} html.osrs-kit #quest-list .q-prog b{color:#ffff00;} html.osrs-kit #quest-list .q-done b{color:#00ff00;}
+html.osrs-kit #quest-list b{text-shadow:1px 1px 0 #000;font-weight:bold;}
+html.osrs-kit #quest-list .kit-inline{vertical-align:-2px;margin:0 3px 0 0;}
+html.osrs-kit .xp-drop{font:bold 12px var(--k-font)!important;color:#fff;text-shadow:1px 1px 0 #000!important;}
+html.osrs-kit .xp-drop img{image-rendering:pixelated;}

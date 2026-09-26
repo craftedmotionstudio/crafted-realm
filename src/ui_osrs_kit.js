@@ -42,7 +42,7 @@ function el(tag,cls,html){var e=doc.createElement(tag);if(cls)e.className=cls;if
 function click(){try{if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click()}catch(e){}}
 
 /* ---------------------------------------------------------------- 0. style */
-var link=el('link');link.rel='stylesheet';link.href='assets/ui/osrs_kit.css?v=5';
+var link=el('link');link.rel='stylesheet';link.href='assets/ui/osrs_kit.css?v=7';
 (doc.head||root).appendChild(link);   // fonts are bundled (assets/fonts, @font-face in the kit css): no runtime font fetch
 root.classList.add('osrs-kit');
 // retire the older chrome layers so one stylesheet owns the look (their DOM/handlers stay)
@@ -64,7 +64,7 @@ setTex();
 
 /* --------------------------------------------------------------- 2. icons */
 // Every icon is a pixel sprite rendered from one of our own low-poly Blender props (assets/icons/ui/v3/**).
-var SPRV='?v=2',SPR_BASE='assets/icons/ui/v3/';
+var SPRV='?v=4',SPR_BASE='assets/icons/ui/v3/';
 var SPR={music:'rail/music',muted:'rail/muted',layers:'rail/layers',medal:'rail/medal',look:'rail/look',swords:'rail/combat',coins:'rail/coins',
  heart:'orb/heart',prayer:'orb/prayer',run:'orb/run',spec:'orb/spec',compass:'orb/compass',globe:'orb/globe',socket:'orb/socket',mmring:'orb/minimap_ring',
  close:'misc/close',door:'misc/door',note:'misc/note',bell:'misc/bell',roof:'misc/roof',chest:'misc/chest',boot:'misc/boot',mglobe:'misc/globe',
@@ -337,7 +337,7 @@ function torchTick(t){
 var WINS=[
  {sel:'.modal'},
  {sel:'#smith-grid-overlay',host:function(e){return e.firstElementChild},close:function(e){e.style.display='none'}},
- {sel:'#music-menu',close:function(e){e.style.display='none'}},
+ {sel:'#music-menu',host:function(e){return e.firstElementChild||e},close:function(e){e.style.display='none'}},
  {sel:'#admin-panel',close:function(e){e.style.display='none'}},
  {sel:'#test-travel-panel'}
 ];
@@ -346,7 +346,9 @@ function isOpen(e){if(!e||!e.isConnected)return false;var cs=getComputedStyle(e)
 function ownClose(e){if(!e)return null;var kids=e.children;for(var i=0;i<kids.length;i++){var c=kids[i];if(c.classList&&(c.classList.contains('close-x')||c.classList.contains('quest-scroll-close')||c.classList.contains('kit-x')))return c}return null}
 function paintX(b){if(b.dataset.kitx)return;b.dataset.kitx='1';b.classList.add('kit-x');b.innerHTML=spr('close');b.setAttribute('role','button');b.setAttribute('tabindex','0');tipify(b,'Close');
  b.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();b.click()}})}
-function decorateWindows(){Array.prototype.forEach.call(doc.querySelectorAll('.modal,#smith-grid-overlay'),function(m){if(m.style.display!=='none')spriteEmojis(m)});
+function decorateWindows(){var mm=$('music-menu'),msp=mm&&mm.firstElementChild&&mm.firstElementChild.querySelector('span');if(msp&&!msp.classList.contains('close-x'))msp.classList.add('close-x');   // its own close (MusicMenu.close) becomes the kit X
+ Array.prototype.forEach.call(doc.querySelectorAll('.modal,#smith-grid-overlay,#music-menu'),function(m){if(m.style.display!=='none')spriteEmojis(m)});
+ var tt=$('test-travel-toggle');if(tt&&!tt.querySelector('.kit-spr')){tt.innerHTML=spr('mglobe');tt.style.lineHeight='0'}
  WINS.forEach(function(w){Array.prototype.forEach.call(doc.querySelectorAll(w.sel),function(e){
  if(e.id==='kit-creator')return;var host=w.host?w.host(e):e;if(!host)return;var x=ownClose(host)||ownClose(e);
  if(x){paintX(x);return}
@@ -407,13 +409,16 @@ function patchChat(){if(typeof UI==='undefined'||UI.__kitChat)return;UI.__kitCha
 var PICTO=/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]\s*/gu;
 function stripPicto(t){return String(t).replace(PICTO,'').replace(/^\s+/,'')}
 // ...and in windows the few that carried meaning become sprites
-var EMOJI_SPR={'⚒':'skills18/smithing','\u{1F4BE}':'misc/chest','\u{1F3C5}':'misc/medal','⬜':'misc/medal_off','\u{1F4DC}':'tabs/quests'};
+var EMOJI_SPR={'\u{1F3B5}':'misc/note','\u{1F3BC}':'misc/note','\u{1F6A9}':'misc/flag','⚒':'skills18/smithing','\u{1F4BE}':'misc/chest','\u{1F3C5}':'misc/medal','⬜':'misc/medal_off','\u{1F4DC}':'tabs/quests'};
 var EMOJI_RX=new RegExp(Object.keys(EMOJI_SPR).join('|'),'gu');
 function spriteEmojis(root){var tx=root&&root.textContent||'';EMOJI_RX.lastIndex=0;if(!EMOJI_RX.test(tx)){EMOJI_RX.lastIndex=0;return}EMOJI_RX.lastIndex=0;
  var w=doc.createTreeWalker(root,NodeFilter.SHOW_TEXT),n,hit=[];while((n=w.nextNode())){EMOJI_RX.lastIndex=0;if(n.nodeValue&&EMOJI_RX.test(n.nodeValue))hit.push(n)}
  hit.forEach(function(t){EMOJI_RX.lastIndex=0;var span=doc.createElement('span');
   span.innerHTML=t.nodeValue.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]}).replace(EMOJI_RX,function(e){return spr(EMOJI_SPR[e],'kit-inline')});
   if(t.parentNode)t.parentNode.replaceChild(span,t)});EMOJI_RX.lastIndex=0}
+// the quest journal marks the tracked quest with a flag: the rendered pennant instead of the emoji
+function patchQuests(){if(typeof UI==='undefined'||!UI.refreshQuests||UI.refreshQuests.__kit)return;var q0=UI.refreshQuests;
+ UI.refreshQuests=function(){var r=q0.apply(this,arguments);try{spriteEmojis($('quest-list'))}catch(e){}return r};UI.refreshQuests.__kit=true}
 // dialogue: a chathead in the old corner -- the tutor's rendered portrait, or a rendered stand-in head (never an emoji)
 var TUTORS=['aldous','ansel','bram','corrick','durgin','hettie','ilse','maud','tobin','wenna'];
 function patchDialogue(){if(typeof UI==='undefined'||!UI.dialogue||UI.dialogue.__kit)return;var d0=UI.dialogue;
@@ -450,13 +455,13 @@ function tabTips(){tabIcons();Array.prototype.forEach.call(doc.querySelectorAll(
  var z=$('zone-box');if(z)z.setAttribute('aria-label','Current area')}
 var mo=null;
 function boot(){
- retireLayers();installTip();buildCluster();buildRail();buildChat();tabTips();decoratePanes();patchDeeds();patchDialogue();patchControls();patchNames();patchMinimapWalk();patchHud();buildTorches();refreshChatName();wireEmotes();syncTabs();wireMusicTab();patchChat();patchVillageChatter();installWindows();patchInvHint();
+ retireLayers();installTip();buildCluster();buildRail();buildChat();tabTips();decoratePanes();patchDeeds();patchDialogue();patchQuests();patchControls();patchNames();patchMinimapWalk();patchHud();buildTorches();refreshChatName();wireEmotes();syncTabs();wireMusicTab();patchChat();patchVillageChatter();installWindows();patchInvHint();
  // late-built HUD buttons (overlays, deeds, appearance) join the rail as they appear
  if(!adoptTools()){mo=new MutationObserver(function(){if(adoptTools()){mo.disconnect();mo=null}});mo.observe(doc.body,{childList:true,subtree:true});setTimeout(function(){if(mo){mo.disconnect();mo=null}},120000)}
  setTimeout(retireLayers,0);
 }
 if(doc.readyState==='loading')doc.addEventListener('DOMContentLoaded',boot);else boot();
-window.addEventListener('load',function(){retireLayers();wireChatTabs();adoptTools();patchControls();patchNames();patchMinimapWalk();patchHud();patchInvHint();tabIcons();decoratePanes();patchDeeds();patchDialogue();decorateWindows();orbFills()});
+window.addEventListener('load',function(){retireLayers();wireChatTabs();adoptTools();patchControls();patchNames();patchMinimapWalk();patchHud();patchInvHint();tabIcons();decoratePanes();patchDeeds();patchDialogue();patchQuests();decorateWindows();orbFills()});
 // once the adventurer is in the world: sweep any name sprites made before the kit loaded, refresh the chat name
 var sweeps=0,sweep=setInterval(function(){if(typeof running!=='undefined'&&running){hideNameSprites();refreshChatName();orbFills();if(++sweeps>=6)clearInterval(sweep)}},2500);
 window.UIKit={sayOverhead:sayOverhead,refreshEquip:refreshEquipKit,textures:setTex};

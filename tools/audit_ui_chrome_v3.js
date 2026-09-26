@@ -1,7 +1,7 @@
 /* audit_ui_chrome_v3.js — the "less polished" check for UI round 3 (owner 2026-09-25): walks every visible element of
  * the interface (HUD, every side tab, the chat box, the right-click menu, each window, the login screen) and reports
  * computed styles that make the chrome look modern: gradients, rounded corners, blurred box / text shadows (glows),
- * blur / drop-shadow filters, and lettering not set in our bitmap font "Realm Small". Scene art (the 3D canvas, the
+ * blur / drop-shadow filters, lettering not set in our bitmap font "Realm Small", and emoji glyphs standing in for icons. Scene art (the 3D canvas, the
  * minimap canvas, item sprites, the login backdrop painting + torch light) is out of scope.
  * Output: scratchpad/holm_ui_v3/audit_<label>.json (+ a one-line summary per screen on stdout)
  * Run: SMOKE_BASE=http://127.0.0.1:8096 node tools/audit_ui_chrome_v3.js [label]   (exit 0 always; it is a report) */
@@ -30,6 +30,7 @@ function scan(roots){
       const fs0=parseFloat(cs.fontSize)===0;
       const txt=!fs0&&(Array.from(e.childNodes).some(n=>n.nodeType===3&&n.textContent.trim().length>0)||(/^(INPUT|TEXTAREA)$/.test(e.tagName)&&!/^(checkbox|radio|range|color)$/.test(e.type))||(e.tagName==='BUTTON'&&(e.innerText||'').trim().length>0));
       if(txt&&!/Realm Small/.test(cs.fontFamily))f.push('font '+cs.fontFamily.split(',')[0]);
+      if(!fs0&&Array.from(e.childNodes).some(n=>n.nodeType===3&&/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}]/u.test(n.textContent)))f.push('emoji');
       if(txt&&/Realm Small/.test(cs.fontFamily)&&![12,24].includes(Math.round(parseFloat(cs.fontSize))))f.push('font-size '+cs.fontSize);
       if(f.length)out.push({el:label(e),flags:f});
     })}));

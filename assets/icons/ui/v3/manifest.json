@@ -441,6 +441,13 @@
    "finish": "sprite"
   },
   {
+   "icon": "flag",
+   "file": "misc/flag.png",
+   "w": 14,
+   "h": 14,
+   "finish": "sprite"
+  },
+  {
    "icon": "globe",
    "file": "misc/globe.png",
    "w": 18,

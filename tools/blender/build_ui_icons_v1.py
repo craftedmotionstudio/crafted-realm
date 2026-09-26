@@ -767,7 +767,12 @@ I('tab_music', 'tabs', p_harp, [O('tabs/music.png', 28)], el=6, yaw=-14)
 I('rail_coins', 'rail', p_coins, [O('rail/coins.png', 18)], el=38, yaw=20)
 I('rail_music', 'rail', p_note, [O('rail/music.png', 20), O('misc/note.png', 18)], el=6, yaw=-12)
 I('rail_muted', 'rail', lambda m: p_cross_x(m, 'red', 'red_dk', .44, .08), [O('rail/muted.png', 20)], el=4)
-I('rail_layers', 'rail', p_layers, [O('rail/layers.png', 20)], el=36, yaw=-20)
+def p_spyglass(m):
+    """a brass spyglass (the overlays toggle: 'what you choose to see'): three drawn tubes, a leather grip, lens rims"""
+    m.lathe([(.2, -.62), (.2, -.2), (.17, -.2), (.17, .12), (.14, .12), (.14, .5), (.12, .5), (.12, .62)], 12, lambda j, i: ('brass', 'gold_dk', 'brass', 'gold_dk', 'brass', 'gold_dk', 'brass')[j], cap0='water_lt', cap1='iron_dk')
+    m.lathe([(.215, -.46), (.215, -.3)], 12, 'leather_dk')
+    for z, r in ((-.62, .23), (-.2, .2), (.12, .17), (.5, .15)): m.lathe([(r, z - .025), (r, z + .025)], 12, 'gold')
+I('rail_layers', 'rail', lambda m: (p_spyglass(m), m.tf(0, rotY(-55))), [O('rail/layers.png', 20)], el=14, yaw=-20)
 I('rail_medal', 'rail', p_medal, [O('rail/medal.png', 20), O('misc/medal.png', 16)], el=6, yaw=-10)
 I('medal_off', 'misc', lambda m: p_medal(m, False, 'stone', 'stone_dk'), [O('misc/medal_off.png', 16)], el=6, yaw=-10)
 I('rail_look', 'rail', p_bust, [O('rail/look.png', 20)], el=8, yaw=-20)
@@ -782,6 +787,7 @@ I('globe', 'orb', p_globe, [O('orb/globe.png', 26), O('misc/globe.png', 18)], el
 I('minimap_ring', 'orb', p_ring_big, [O('orb/minimap_ring.png', 172)], el=0, colors=20, style='sprite')
 I('close_x', 'misc', lambda m: p_cross_x(m, 'orange', 'red_dk'), [O('misc/close.png', 17)], el=4, colors=8)
 I('misc_bell', 'misc', p_bell, [O('misc/bell.png', 18)], el=10, yaw=-10)
+I('flag', 'misc', p_banner, [O('misc/flag.png', 14)], el=6, yaw=-14, colors=8)
 I('misc_roof', 'misc', lambda m: p_house(m, 1.3), [O('misc/roof.png', 18)], el=18, yaw=-30)
 I('misc_chest', 'misc', p_chest, [O('misc/chest.png', 18)], el=20, yaw=-25)
 def p_hint_arrow(m):
@@ -998,7 +1004,7 @@ def p_torch_head(m):
     m.ptube([(math.cos(a) * rim_bot, math.sin(a) * rim_bot, .05) for a in [TAU * i / 14 for i in range(14)]], .035, 5, 'iron', closed=True)
     for k in range(10):
         a = TAU * k / 10; m.ptube([(math.cos(a) * rim_bot, math.sin(a) * rim_bot, .05), (math.cos(a + .25) * rim_top, math.sin(a + .25) * rim_top, .55)], .028, 4, 'iron_dk')
-    m.hull(ell((0, 0, .5), (.46, .46, .12), 12, 4), 'e_fire_dk')
+    m.hull(ell((0, 0, .47), (.46, .46, .1), 12, 4), 'iron_dk')
     for i, (x, y) in enumerate(((-.2, -.1), (.12, -.2), (.22, .1), (-.08, .18), (0, -.02))):
         m.hull(blob((x, y, .56), (.13, .12, .08), 30 + i, n=9, cuts=1), 'e_fire' if i % 2 else 'e_fire_core')
     for a in (0, TAU / 3, 2 * TAU / 3): m.sph((math.cos(a) * rim_top, math.sin(a) * rim_top - .02, .55), .045, 'steel_dk', 5, 3)
@@ -1014,7 +1020,7 @@ def p_torch_base(m):
                d * .7 + Vector((0, 0, .06)), d * .7 + Vector((0, 0, .14)), d * .62 + Vector((0, 0, .15)), d * .6 + Vector((0, 0, .09))]
         m.ptube(pts, [.05, .045, .04, .035, .03, .028, .025, .02], 5, 'iron', cap0='iron', cap1='iron')
 I('login_title', 'login', p_title, [O('login/title.png', 400, 50)], el=8, yaw=0, aspect=(8, 1), colors=24, raw=1600, light={'key': 1.1, 'amb': .25, 'fill': .2})
-I('login_torch_head', 'login', p_torch_head, [O('login/torch_head.png', 60, 48)], el=24, yaw=0, aspect=(5, 4), colors=20)
+I('login_torch_head', 'login', p_torch_head, [O('login/torch_head.png', 60, 48)], el=12, yaw=0, aspect=(5, 4), colors=20)
 I('login_torch_base', 'login', p_torch_base, [O('login/torch_base.png', 80, 55)], el=20, yaw=10, aspect=(16, 11), colors=14)
 
 # ------------------------------------------------------------------ scene + render
