@@ -95,15 +95,16 @@ var OnlineMain=(function(){
  function kit(name){
   var a=OW.map().alpha,me=myTile();if(!a||!a.chest||!me)return;
   var reach=a.reach||2;
-  if(Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=reach){net.send({t:'kit',name:name});return}
-  st.pending={kind:'kit',name:name,until:performance.now()+120000};   // cleared by any other order
+  // kept until the kit arrives: the chest refuses while you are still fighting (the 16-tick lock), so ask again
+  st.pending={kind:'kit',name:name,until:performance.now()+120000,sentAt:0};   // cleared by any other order
+  if(Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=reach){st.pending.sentAt=performance.now();net.send({t:'kit',name:name});return}
   var m=OW.model(),best=null,bd=1e9;
   for(var dz=-1;dz<=1;dz++)for(var dx=-1;dx<=1;dx++){var x=a.chest.x+dx,z=a.chest.z+dz;if(!m.walkable(x,z))continue;var d=Math.abs(x-me.x)+Math.abs(z-me.z);if(d<bd){bd=d;best={x:x,z:z}}}
   if(best){net.send({t:'walk',x:best.x,z:best.z});st.dest=best}
  }
  function checkPending(){
   var p=st.pending;if(!p)return;if(performance.now()>p.until){st.pending=null;return}
-  if(p.kind==='kit'){var a=OW.map().alpha,me=myTile();if(me&&Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=(a.reach||2)){net.send({t:'kit',name:p.name});st.pending=null}}
+  if(p.kind==='kit'){var a=OW.map().alpha,me=myTile();if(me&&Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=(a.reach||2)&&performance.now()-p.sentAt>3000){p.sentAt=performance.now();net.send({t:'kit',name:p.name})}}
  }
  function lvlSpan(my,their){return '<span style="color:'+OnlineActors.combatColour(my,their)+'">(level-'+their+')</span>'}
  function canAttackPlayer(e){
@@ -191,6 +192,7 @@ var OnlineMain=(function(){
   }
   // ground items
   if(m.ob){(m.ob.del||[]).forEach(function(uid){A.removeObj(uid)});(m.ob.add||[]).forEach(function(o){A.addObj(o)})}
+  if(st.pending&&st.pending.kind==='kit'&&st.pending.sentAt&&m.eq)st.pending=null;   // the kit arrived
   OnlineFX.onTick(m.n,ev);
   OnlineUI.applyTick(m);
   // zone label: the area and the Scarlands level
