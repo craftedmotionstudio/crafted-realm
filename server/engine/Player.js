@@ -99,7 +99,13 @@ class Player extends PathingEntity {
   /* ---------------------------------------------------------------------------------------- */
   /* stats                                                                                     */
   /* ---------------------------------------------------------------------------------------- */
-  base(skill) { return X.levelForXp10(this.xp10[skill] | 0); }
+  /** base level from experience (cached; addXp clears it) */
+  base(skill) {
+    const c = this.baseCache || (this.baseCache = {});
+    let v = c[skill];
+    if (v === undefined) v = c[skill] = X.levelForXp10(this.xp10[skill] | 0);
+    return v;
+  }
   cur(skill) { return this.levels[skill] | 0; }
   get hp() { return this.levels.Hitpoints | 0; }
   get maxHp() { return this.base('Hitpoints'); }
@@ -109,7 +115,9 @@ class Player extends PathingEntity {
     if (!(xp10 > 0) || this.xp10[skill] == null) return;
     const before = this.base(skill);
     this.xp10[skill] = X.addXp10(this.xp10[skill], xp10);
+    delete this.baseCache[skill];
     const after = this.base(skill);
+    if (after !== before) this.cbCache = null;
     if (after > before) {
       this.levels[skill] += after - before;
       this.message(`Congratulations, your ${skill} level is now ${after}.`, 'level');
@@ -119,7 +127,8 @@ class Player extends PathingEntity {
     this.invalidate();
   }
   combatLevel() {
-    return C.combatLevel({ attack: this.base('Attack'), strength: this.base('Strength'), defence: this.base('Defence'),
+    if (this.cbCache != null) return this.cbCache;
+    return this.cbCache = C.combatLevel({ attack: this.base('Attack'), strength: this.base('Strength'), defence: this.base('Defence'),
       hitpoints: this.base('Hitpoints'), prayer: this.base('Prayer'), ranged: this.base('Ranged'), magic: this.base('Magic') });
   }
 
