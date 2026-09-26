@@ -31,7 +31,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
       const list = [...frames].sort((a, b) => a - b);
       rec.clips[name] = { frames: clip.frames, events: Object.fromEntries(['impact', 'release', 'until'].filter(k => clip[k] != null).map(k => [k, clip[k]])), shots: [] };
       for (const fr of list) {
-        await page.evaluate((id, clipName, fr, dist, ty) => { bvYaw(id, Math.PI / 3); bvPose(id, clipName, fr); bvView({ yaw: 0, pitch: 0.18, dist: dist * 1.05, target: [0, ty, 0] }); }, c.id, name, fr, dist, ty);
+        await page.evaluate((id, clipName, fr, dist, ty) => { bvYaw(id, Math.PI / 3); bvPose(id, clipName, fr); bvView({ yaw: 0, pitch: 0.18, dist: dist * 1.2, target: [0, ty, 0] }); }, c.id, name, fr, dist, ty);
         const f = c.id + '_' + name + '_' + String(fr).padStart(2, '0') + '.png'; await page.screenshot({ path: path.join(OUT, f) }); rec.clips[name].shots.push({ frame: fr, file: f });
       }
     }
@@ -43,12 +43,12 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   const widths = ids.map(id => id === 'player_ref' ? 1.5 : Math.max(1.5, Math.min(4.6, (MAN.creatures.find(c => c.id === id).model.length_m || 1) * 0.95)));
   const names = ids.map(id => id === 'player_ref' ? 'player' : MAN.creatures.find(c => c.id === id).name);
   const total = widths.reduce((a, b) => a + b, 0);
-  for (const [label, yaw, pitch] of [['lineup_front', 0.35, 0.1], ['lineup_side', 0, 0.06]]) {
+  for (const [label, yaw, pitch] of [['lineup_front', 0.35, 0.1], ['lineup_side', 0, 0.06], ['lineup_game', 0.35, 0.84]]) {
     await page.evaluate((ids, widths, names, yaw, pitch, total, side) => { bvShow(ids, { spacing: widths, labels: names, yaw: side ? Math.PI / 2 : 0.3 }); ids.forEach(i => { try { bvPose(i, 'idle', 0); } catch (e) {} });
-      bvView({ yaw: yaw, pitch, dist: total * 0.95, target: [total / 2, 0.9, 0] }); }, ids, widths, names, yaw, pitch, total, label === 'lineup_side');
+      bvView({ yaw: yaw, pitch, dist: pitch > 0.5 ? 16.7 : total * 0.95, target: [total / 2, pitch > 0.5 ? 0.6 : 0.9, 0] }); }, ids, widths, names, yaw, pitch, total, label === 'lineup_side');
     await sleep(200); await page.screenshot({ path: path.join(OUT, label + '.png') });
   }
-  shots.lineup = { ids, names, files: ['lineup_front.png', 'lineup_side.png'] };
+  shots.lineup = { ids, names, files: ['lineup_front.png', 'lineup_side.png', 'lineup_game.png'], game: 'the follow camera distance (~16.7 m, looking down ~48 deg, 30 deg lens)' };
   shots.errors = errs;
   fs.writeFileSync(path.join(OUT, 'shots.json'), JSON.stringify(shots, null, 1));
   console.log('[BESTIARY CAPTURE] ' + MAN.creatures.length + ' creatures, errors ' + errs.length + (errs.length ? '\n' + errs.slice(0, 5).join('\n') : ''));

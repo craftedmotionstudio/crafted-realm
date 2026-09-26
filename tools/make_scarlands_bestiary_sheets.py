@@ -75,7 +75,7 @@ def lineup_sheet(tag, shots):
     W = max(i.width for i in ims)
     sheet = Image.new('RGB', (W, 40 + sum(i.height + 8 for i in ims)), BG)
     g = ImageDraw.Draw(sheet)
-    g.text((10, 8), 'Scarlands bestiary size lineup (%s): 1 grid square = 1 tile = 1 m; left = a player-sized kit human' % tag, font=font(18, True), fill=INK)
+    g.text((10, 8), 'Scarlands bestiary size lineup (%s): 1 grid square = 1 tile = 1 m; left = a player-sized kit human; bottom = at the game camera distance' % tag, font=font(18, True), fill=INK)
     y = 40
     for im in ims:
         sheet.paste(im, (0, y)); y += im.height + 8

@@ -145,7 +145,7 @@ def ext_quiver(mb, bt):
     """a back quiver slung from the left hip to over the right shoulder, arrow fletchings showing (rigid on Spine2)"""
     S2 = B('Spine2')
     rx, rf, rb, cy = ck.body_r(bt, 1.30)
-    yb = cy + rb + .075
+    yb = cy + rb + .058
     bot, top = Vector((.09, yb - .015, 1.00)), Vector((-.11, yb + .01, 1.50))
     ax = (top - bot); axn = ax.normalized()
     rings = [ck.xring(bot + ax * t, ax, r, r * .8, r * .8, 6) for t, r in ((0, .036), (.04, .044), (.9, .050), (1.0, .056))]

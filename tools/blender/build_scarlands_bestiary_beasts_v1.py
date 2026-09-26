@@ -357,8 +357,8 @@ def leg(body, pts, radii, m, allowed, n=6, paw=None, claw_m=None):
     body.loft(rings, m, allowed, cap0=False)
     if paw:
         # a flat paw pad at the ground with toes
-        c = pts[-1]
-        body.loft([ring_pts(c + Vector((0, 0, h)), (0, 0, 1), paw[0] * k, paw[1] * k, 6) for h, k in ((.0, .9), (.04, 1.0), (.08, .7))], m, allowed)
+        c = pts[-1]; ph = min(1.4, paw[1] / .065)
+        body.loft([ring_pts(c + Vector((0, 0, h * ph)), (0, 0, 1), paw[0] * k, paw[1] * k, 6) for h, k in ((.0, .9), (.04, 1.0), (.08, .7))], m, allowed)
         if claw_m:
             for dx in (-paw[0] * .55, 0, paw[0] * .55):
                 body.cone(c + Vector((dx, -paw[1] * .8, .02)), (0, -1, -.3), .018, .07, 4, claw_m, allowed)
@@ -399,6 +399,8 @@ def ash_stalker():
         b.cone(Vector((.065 * s, -.72, 1.22)), (s * .3, .8, .5), .055, .19, 4, M['ear'], 'Head', flat=.4)  # swept ears
         for k in range(3):                                                                              # fangs
             b.cone(Vector((.02 * s * (1 + k * .5), -1.05 + k * .06, 1.0)), (0, 0, -1), .008, .04, 3, M['claw'], 'Head')
+    for i, (y, z, h, lean) in enumerate(((-.70, 1.24, .13, .9), (-.62, 1.22, .15, 1.0), (-.54, 1.17, .13, 1.1))):   # skull crest
+        b.cone(Vector((0, y, z)), (0, lean, .8), .04, h, 4, M['plate'], 'Head' if y < -.6 else 'Neck', flat=.35)
     # spine ridge of slag plates (shoulders to rump)
     for i, (y, z, h) in enumerate(((-.40, 1.14, .09), (-.26, 1.10, .11), (-.12, 1.04, .10), (.02, 1.0, .09), (.16, 1.0, .08), (.30, 1.01, .08), (.44, 1.02, .07))):
         bone = 'Chest' if y < -.2 else ('Spine' if y < .2 else 'Hips')
@@ -443,8 +445,8 @@ def ash_stalker():
     hit = [(0, {}), (3, flinch), (7, mix(flinch, root_loc=(0, .05, 0))), (12, {})]
     slump = {'Chest': (10, 0, 0), 'Neck': (20, 0, 0), 'Head': (-10, 0, 0), 'ThighL': (20, 0, 0), 'ThighR': (20, 0, 0), 'UpperArmL': (-20, 0, 0), 'UpperArmR': (-20, 0, 0),
              'ForeArmL': (30, 0, 0), 'ForeArmR': (30, 0, 0), 'root_loc': (0, 0, -.2)}
-    down = {'root_rot': (0, 88, 0), 'Neck': (6, 0, 14), 'Head': (0, 0, 10), 'Jaw': (16, 0, 0),
-            'UpperArmL': (18, 0, 10), 'UpperArmR': (-12, 0, -8), 'ThighL': (-14, 0, 0), 'ThighR': (22, 0, 0), 'Tail1': (0, 0, 18), 'Tail2': (0, 0, 14)}
+    down = {'root_rot': (0, 88, 0), 'Neck': (14, 0, -4), 'Head': (10, 0, -4), 'Jaw': (16, 0, 0),
+            'UpperArmL': (18, 0, 10), 'UpperArmR': (-12, 0, -8), 'ThighL': (-14, 0, 0), 'ThighR': (22, 0, 0), 'Tail1': (-12, 0, -6), 'Tail2': (-14, 0, -6)}
     death = [(0, {}), (4, flinch), (12, slump), (22, mix(down, root_rot=(0, 94, 0))), (28, down), (36, down)]
     clips = {'idle': (60, idle, True), 'walk': (18, walk, True), 'attack': (18, attack, False), 'hit': (12, hit, False), 'death': (36, death, False)}
     events = {'attack': {'impact': 8}}
@@ -476,8 +478,10 @@ def cinder_rat():
     for side, s in (('L', 1), ('R', -1)):
         fl = [Vector((p[0] * s, p[1], p[2])) for p in Q['front_leg']]
         hl = [Vector((p[0] * s, p[1], p[2])) for p in Q['hind_leg']]
-        leg(b, fl, [(.025, .03), (.016, .016), (.012, .012), (.01, .01)], M['fur'], ['Chest', 'UpperArm' + side, 'ForeArm' + side, 'Paw' + side], paw=(.018, .025))
-        leg(b, hl, [(.04, .05), (.02, .02), (.013, .013), (.01, .01)], M['fur'], ['Hips', 'Thigh' + side, 'Shin' + side, 'Foot' + side], paw=(.02, .035))
+        leg(b, [fl[0] + Vector((0, 0, .03)), fl[1], fl[2], fl[3]], [(.04, .05), (.018, .018), (.013, .013), (.011, .011)], M['fur'],
+            ['Chest', 'UpperArm' + side, 'ForeArm' + side, 'Paw' + side], paw=(.016, .022))
+        leg(b, [hl[0] + Vector((0, 0, .03)), hl[1], hl[2], hl[3]], [(.065, .075), (.026, .026), (.014, .014), (.011, .011)], M['fur'],
+            ['Hips', 'Thigh' + side, 'Shin' + side, 'Foot' + side], paw=(.018, .032))
     tpts = [Vector(p) for p in Q['tail']]
     b.loft(path_rings(tpts, [(.018, .018), (.013, .013), (.009, .009), (.004, .004)], 5), M['tail'], ['Hips', 'Tail1', 'Tail2', 'Tail3'], cap0=False)
     for y, z in ((.02, .38), (.1, .36), (-.06, .37)):                                                 # singed embers in the fur
@@ -497,7 +501,7 @@ def cinder_rat():
     attack = [(0, {}), (3, rear), (5, snap), (8, mix(snap, Jaw=(0, 0, 0))), (12, {})]
     flinch = {'Chest': (-8, 0, 10), 'Head': (-12, 0, 10), 'Tail1': (14, 0, -16), 'root_loc': (0, .05, 0)}
     hit = [(0, {}), (3, flinch), (6, mix(flinch, root_loc=(0, .025, 0))), (10, {})]
-    down = {'root_rot': (0, -90, 0), 'UpperArmL': (25, 0, 0), 'ThighL': (-25, 0, 0), 'Head': (0, 0, -10), 'Tail1': (0, 0, -20), 'Tail2': (0, 0, -20)}
+    down = {'root_rot': (0, -90, 0), 'UpperArmL': (25, 0, 0), 'ThighL': (-25, 0, 0), 'Head': (-10, 0, 0), 'Tail1': (-6, 0, 0), 'Tail2': (-16, 0, 0), 'Tail3': (-20, 0, 0)}
     death = [(0, {}), (3, flinch), (10, mix(down, root_rot=(0, -96, 0))), (16, down), (24, down)]
     clips = {'idle': (60, idle, True), 'walk': (12, walk, True), 'attack': (12, attack, False), 'hit': (10, hit, False), 'death': (24, death, False)}
     return rig, [ob], clips, {'attack': {'impact': 5}}, dict(mouth=('Head', (0, -0.43, 0.2)), speed_mps=1.67)
@@ -512,10 +516,10 @@ def cinder_wyrmling():
              hind_leg=[(.30, .70, 1.0), (.36, .45, .58), (.36, .82, .24), (.36, .62, .03)],
              wing=[(.26, -.42, 1.50), (.95, -.15, 1.95), (1.65, .35, 1.55)])
     rig, bones = quadruped_rig('Rig_CinderWyrmling', Q)
-    M = dict(scale=mat('Wyrmling ember scales', '#5e2a20', 'scales_ember', .7), belly=mat('Wyrmling belly plates', '#b8783a', 'ruined_stone', .3),
+    M = dict(scale=mat('Wyrmling ember scales', '#5e2a20', 'scales_ember', 1.3), belly=mat('Wyrmling belly plates', '#b8783a', 'ruined_stone', .3),
              horn=mat('Wyrmling horn', '#3a302a', 'dark_rock', .25), claw=mat('Wyrmling claw', '#2a2220'),
              membrane=mat('Wyrmling wing membrane', '#6a2c1c', 'hide_ash', .6), eye=mat('Wyrmling eye (glow)', '#ffd060', emit='#ffb02a'),
-             throat=mat('Wyrmling throat glow (glow)', '#ff7a22', emit='#ff5a14'), mouth=mat('Wyrmling maw (glow)', '#aa2a10', emit='#6a1a08'))
+             throat=mat('Wyrmling throat glow (glow)', '#d8601e', emit='#a8360c'), mouth=mat('Wyrmling maw (glow)', '#aa2a10', emit='#6a1a08'))
     b = Body(rig)
     pts = [Vector(p) for p in ((0, .98, 1.0), (0, .7, 1.08), (0, .35, 1.12), (0, 0, 1.12), (0, -.35, 1.18), (0, -.62, 1.24), (0, -.78, 1.32))]
     rad = [(.16, .15), (.32, .30), (.36, .34), (.34, .32), (.38, .38), (.33, .34), (.24, .25)]
@@ -591,7 +595,7 @@ def cinder_wyrmling():
                         'Tail1': (0, 0, -14), 'root_loc': (0, .12, 0)})
     hit = [(0, fold), (4, flinch), (8, mix(flinch, root_loc=(0, .06, 0))), (14, fold)]
     down = mix(fold, {'root_rot': (0, 80, 0), 'Neck': (8, 0, 18), 'Neck2': (6, 0, 12), 'Head': (0, 0, 14), 'Jaw': (20, 0, 0),
-                      'WingArmL': (10, -30, 40), 'WingArmR': (-20, 20, -10), 'UpperArmL': (20, 0, 0), 'ThighR': (18, 0, 0), 'Tail1': (0, 0, 16), 'Tail2': (0, 0, 16)})
+                      'WingArmL': (10, -30, 40), 'WingArmR': (-20, 20, -10), 'UpperArmL': (20, 0, 0), 'ThighR': (18, 0, 0), 'Tail1': (-6, 0, 0), 'Tail2': (-10, 0, 0), 'Tail3': (-12, 0, 0)})
     stagger = mix(flinch, {'root_loc': (.1, .1, -.18), 'ThighL': (18, 0, 0), 'ThighR': (18, 0, 0), 'UpperArmL': (-20, 0, 0), 'UpperArmR': (-24, 0, 0)})
     death = [(0, fold), (5, flinch), (14, stagger), (26, mix(down, root_rot=(0, 86, 0))), (34, down), (48, down)]
     clips = {'idle': (72, idle, True), 'walk': (24, walk, True), 'attack': (24, attack, False), 'breath': (36, breath, False), 'hit': (14, hit, False), 'death': (48, death, False)}
