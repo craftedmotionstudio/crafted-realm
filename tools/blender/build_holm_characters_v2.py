@@ -1,5 +1,11 @@
 """build_holm_characters_v2.py -- Crafted Realms MODULAR IDENTITY KIT v2 (2004-style) + Guide Bram from the kit.
 
+v3.0 (owner review 2026-09-25, tag v30): OSRS idle stance (arms just off the torso, elbows bent so the forearms come
+forward, hands in front of the hips, soft knees, toes out, chest up, head a touch forward -- stance_local / STANCE); ONE
+surface from the torso into the arm (every torso layer's armhole ends on a canonical seam ring that every arm option
+starts on, with pinned shared normals and a round deltoid cap -- armhole_cut / arm_from_seam); rounded wedge feet (one
+loft sole -> toe box -> ankle -> shaft -- foot_loft); hand clearance checked on the meshes on every frame of every clip.
+
 Why v2: the owner rejected the v1 box characters (cuboid limbs, square heads, block hands/feet) and asked for
 characters very close to the 2004-era look, customisable like its character creator: head/hair, jaw, torso,
 arms, hands, legs, feet, and five recolour channels. Every part here is our own design.
@@ -39,9 +45,9 @@ from mathutils.bvhtree import BVHTree
 REPO = r"C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude"
 REF_GLB = os.path.join(REPO, "assets", "models", "player.glb")
 _ARGV = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
-TAG = _ARGV[_ARGV.index("--tag") + 1] if "--tag" in _ARGV else "v29"   # output set: .studio-workspaces/holm-characters-<tag>/
+TAG = _ARGV[_ARGV.index("--tag") + 1] if "--tag" in _ARGV else "v30"   # output set: .studio-workspaces/holm-characters-<tag>/
 CAND = os.path.join(REPO, ".studio-workspaces", "holm-characters-%s" % TAG, "candidates")
-assert TAG != "v2", "refusing to write into holm-characters-v2 (reviewed v2.6 set, queued for the game)"
+assert TAG not in ("v2", "v27", "v28", "v29"), "refusing to overwrite a reviewed kit set (holm-characters-%s)" % TAG
 OUT_KIT = os.path.join(CAND, "kit.glb")
 OUT_PAL = os.path.join(CAND, "palettes.json")
 OUT_BRAM = os.path.join(CAND, "bram.glb")
@@ -49,7 +55,7 @@ V1_PLAYER = os.path.join(REPO, "assets", "models", "holm_player_v1_default.glb")
 V1_BRAM = os.path.join(REPO, "assets", "models", "holm_tutor_bram.glb")
 WS = CAND
 RENDER_DIR = os.path.join(REPO, "scratchpad", "holm_characters_%s" % TAG)
-PREV_DIR = os.path.join(REPO, "scratchpad", "holm_characters_v28")   # v2.8 sheets, read-only (before/after comparison)
+PREV_DIR = os.path.join(REPO, "scratchpad", "holm_characters_v28") if TAG == "v29" else "<none>"   # v2.8 sheets (v2.9 before/after only; v3.0 compares in render_holm_kit_compare_v30.py)
 BIBLE = os.path.join(REPO, "Bible_References")
 REF_TURN = os.path.join(BIBLE, "Character", "male_concepts", "male_b_turnaround.png")
 REF_CREATOR = os.path.join(BIBLE, "Character_Creator_Screen.jpg")
@@ -2062,7 +2068,7 @@ def torso_style(mb, bt, key):
         torso_loft(mb, bt, [.968, 1.00, 1.06, 1.125], 0.0, 'C_SKIN')
         torso_loft(mb, bt, [1.105, 1.14, 1.215, 1.27, 1.385, 1.43, 1.464, 1.492], lambda z: .006 if z > 1.11 else .010, 'C_TORSO')
     elif key == 'pleated':                         # B: pleated peplum top
-        shirt2(mb, bt, hem=.90, hem_off=.024, pleat_below=1.10)
+        shirt2(mb, bt, hem=.90, hem_off=.012, pleat_below=1.10)   # v3.0: a narrower peplum (the idle hands sit just outside it)
     elif key == 'coat':                            # Guide Bram's long open coat (tutor extra built with kit rules)
         shirt2(mb, bt, mat='A_SHIRT', ah='hole')
         open_shell(mb, bt, [.56, .70, .84, .95, 1.08, 1.24, 1.35, 1.42, 1.475],
@@ -2220,7 +2226,7 @@ def sleeve_thick(mb, bt, spec, mat='C_TORSO', trim=None, t=.008, fullness=1.0):
     arms_both(mb, bt, [(0.0, .006), (U_CAP, top[1] - .002), (top[0] + .07, top[1] - .003)], mat, fullness=fullness)
 
 LONG_SLEEVE = [(0.0, .006), (.65, .010), (.85, .010), (1.0, .010), (1.12, .010), (1.4, .010), (1.6, .009), (1.85, .009), (1.88, .016), (1.97, .017)]
-MUSCLE = lambda k: (lambda u: k * (.014 * math.sin(math.pi * clamp((u - .62) / .42)) + .010 * math.sin(math.pi * clamp((u - 1.05) / .6))))
+MUSCLE = lambda k: (lambda u: k * (.022 * math.sin(math.pi * clamp((u - .62) / .42)) + .016 * math.sin(math.pi * clamp((u - 1.05) / .6))))
 
 def shoulder_pad(mb, bt, mat='A_BELT'):
     """v3.0: a leather pad following the deltoid cap (a thick shell over it, closed rims)"""
@@ -2700,7 +2706,7 @@ STANCE = {'LeftUpLeg': (-2.5, -3, 6), 'RightUpLeg': (-2.5, 3, -6), 'LeftLeg': (5
 # hand sits in front of the hip / upper thigh (outside the thigh, never at the crotch). Authored as absolute directions in
 # the idle; stored as each bone's local rotation (stance_local), so an Euler arm spec in any clip is a delta over the
 # stance (a walk swing pivots the bent arm at the shoulder) and a bone left out of a pose keeps its stance bend.
-STANCE_ARM_AIM = {'LeftArm': (.135, -.012, -.250), 'LeftForeArm': (.045, -.430, -.900), 'LeftHand': (.035, -.500, -.865)}
+STANCE_ARM_AIM = {'LeftArm': (.135, .016, -.250), 'LeftForeArm': (.045, -.500, -.865), 'LeftHand': (.035, -.560, -.828)}
 STANCE_ARM_AIM.update({k.replace('Left', 'Right'): (-v[0], v[1], v[2]) for k, v in list(STANCE_ARM_AIM.items())})
 _STANCE_LOCAL = {}
 
@@ -2963,7 +2969,9 @@ HOLD = dict(RightArm=A(-.30, -.25, -.92), RightForeArm=A(-.10, -.85, -.52), Righ
 
 def kit_npc_clips():
     C = {}
-    C['talk'] = (48, [(f, upright(mirror_pose(P(**GEST_L[i % 4])))) for i, f in enumerate((0, 12, 24, 36))] + [(48, upright(mirror_pose(P(**GEST_L[0]))))], True)
+    # v3.0: the resting arm eases 3 deg out while the chest turns with the gesture (it stays clear of skirts / peplums)
+    C['talk'] = (48, [(f, upright(mirror_pose(P(RightArm=(0, 3, 0), **GEST_L[i % 4])))) for i, f in enumerate((0, 12, 24, 36))]
+                 + [(48, upright(mirror_pose(P(RightArm=(0, 3, 0), **GEST_L[0]))))], True)
     C['wave'] = (40, [(0, upright(P()))] + [(8 + 6 * i, upright(mirror_pose(P(**WAVE_UP, LeftForeArm=fa)))) for i, fa in enumerate(WAVE_FA)] + [(40, upright(P()))], False)
     return C
 
@@ -3241,7 +3249,7 @@ def v27_clips():
     # v2.9 WALK (OSRS-like): compact 0.64 m step, straight-ish legs, arms swinging at the sides, no sway / roll, minimal bob,
     # head steady, vertical spine. Slide-free at 2.4 m/s at timeScale 1 (15 frames = 0.5 s, 1.20 m stride, 0.60 m step).
     C['walk'] = (15, best_gait('walk', 15, GAME_WALK_SPEED, .58, lift=.045, drop=.005, bob=.012, front=.24, p_on=10, p_off=-22,
-                                arm_swing=20, fore=0, lean=0, twist=2.5, foot_x=.13, bob_phase=0.0, osrs=(7.0, 0.0), fore_swing=10,
+                                arm_swing=20, fore=0, lean=0, twist=2.5, foot_x=.13, bob_phase=0.0, osrs=(10.0, 0.0), fore_swing=10,
                                 lean_cap=(0.0, False)), True)
     # RUN: longer step, slight forward lean, arms bent ~90 deg pumping, moderate foot lift, brief flight
     C['run'] = (16, best_gait('run', 16, GAME_RUN_SPEED, .38, lift=.12, drop=.070, bob=.020, front=.20, p_on=8, p_off=-34,
@@ -3450,6 +3458,77 @@ def assert_hands(report, label):
         if n in report:
             assert report[n]['min_hand_thigh_gap'] >= -.01, 'hands pass through the thighs in %s: %s' % (n, report[n])
 
+
+# v3.0: mesh-level hand clearance on EVERY frame of EVERY clip, for representative outfits (the default A / B, the widest
+# tunic hem, the flared skirt) -- the evaluated hand mesh against the evaluated legs + torso meshes: how many hand vertices
+# are inside those parts (ray parity) and by how much (distance to the surface), per clip
+HAND_OUTFITS = {'A default': ('A', {}), 'A tunic hem (shirt) + flares': ('A', {'Torso': 5, 'Legs': 3}),
+                'B default (long skirt)': ('B', {}), 'B pleated peplum + short skirt': ('B', {'Torso': 3, 'Legs': 2})}
+HAND_STRICT = ('idle', 'walk', 'run', 'talk', 'wave')   # locomotion / idle / NPC clips: no hand may sink in at all (> 5 mm)
+
+def mesh_hand_clearance(arm, objs, clips):
+    sc = bpy.context.scene
+    dirs = [Vector((.577, .577, .577)), Vector((-.62, .31, .72)).normalized(), Vector((.21, -.91, .36)).normalized()]
+    def evaluated(o):
+        dg = bpy.context.evaluated_depsgraph_get()
+        oe = o.evaluated_get(dg)
+        me = oe.to_mesh()
+        co = [oe.matrix_world @ v.co for v in me.vertices]
+        tris = [tuple(p.vertices) for p in me.polygons]
+        oe.to_mesh_clear()
+        return co, tris
+    def inside(bvh, p):
+        votes = 0
+        for d in dirs:
+            n, o = 0, p
+            for _ in range(24):
+                hit = bvh.ray_cast(o, d)
+                if hit[0] is None:
+                    break
+                n += 1
+                o = hit[0] + d * 1e-5
+            votes += n % 2
+        return votes >= 2
+    out = {}
+    for label, (bt, over) in HAND_OUTFITS.items():
+        sel = dict(DEFAULT_OUTFIT[bt])
+        sel.update(over)
+        hand = objs[part_name(bt, 'Hands', sel['Hands'])]
+        others = [objs[part_name(bt, 'Legs', sel['Legs'])], objs[part_name(bt, 'Torso', sel['Torso'])]]
+        res = {}
+        for name, act in clips.items():
+            arm.animation_data.action = act
+            f0, f1 = int(act.frame_range[0]), int(act.frame_range[1])
+            worst_n, worst_d, worst_f = 0, 0.0, None
+            for f in range(f0, f1 + 1):
+                sc.frame_set(f)
+                hco, _ = evaluated(hand)
+                for o in others:
+                    co, tris = evaluated(o)
+                    bvh = BVHTree.FromPolygons(co, tris)
+                    # only hand vertices near the part can be inside it
+                    lo = Vector((min(c.x for c in co), min(c.y for c in co), min(c.z for c in co)))
+                    hi = Vector((max(c.x for c in co), max(c.y for c in co), max(c.z for c in co)))
+                    cand = [p for p in hco if lo.x <= p.x <= hi.x and lo.y <= p.y <= hi.y and lo.z <= p.z <= hi.z]
+                    n_in, d_in = 0, 0.0
+                    for p in cand:
+                        if inside(bvh, p):
+                            d = bvh.find_nearest(p)[3] or 0.0
+                            if d > .005:
+                                n_in += 1
+                                d_in = max(d_in, d)
+                    if n_in > worst_n or d_in > worst_d:
+                        worst_n, worst_d, worst_f = max(worst_n, n_in), max(worst_d, d_in), f
+            res[name] = {'hand_verts_inside': worst_n, 'max_depth_m': round(worst_d, 4), 'frame': worst_f}
+        out[label] = res
+    arm.animation_data.action = None
+    bad = {lab: {n: r for n, r in res.items() if n in HAND_STRICT and r['hand_verts_inside']} for lab, res in out.items()}
+    bad = {k: v for k, v in bad.items() if v}
+    print('[HANDS MESH]', json.dumps(out))
+    return {'rule': 'hand vertices inside the legs / torso part by more than 5 mm, every frame of every clip, per outfit (worst frame)',
+            'outfits': {k: dict(zip(('body', 'overrides'), v)) for k, v in HAND_OUTFITS.items()}, 'result': out,
+            'strict_clips': list(HAND_STRICT), 'PASS': not bad, 'failures': bad}
+
 # ------------------------------------------------------------------------------------------
 # Build
 # ------------------------------------------------------------------------------------------
@@ -3657,7 +3736,7 @@ def verify_builds(objs, arm=None, clips=None):
             rules.append((bt, 'boot shaft covers the leg', x, part_name(bt, 'Feet', 1), 'out', lambda p: .05 < p.z < .24, ('rest', 'walk f0', 'walk f10')))
             rules.append((bt, 'shoe collar covers the ankle', x, part_name(bt, 'Feet', 2), 'out', lambda p: .07 < p.z < .14 and abs(abs(p.x) - .13) < .06,
                           ('rest', 'walk f0', 'walk f10')))
-    summary, worst, base_wrong = {}, [], {}
+    summary, worst, base_wrong, wbr = {}, [], {}, {}
     for label, clip, frame in poses:
         states = ['Build_Stout', 'Build_Slim'] + (MORPHS_FEET if clip is None else [])
         C = {st: coords_for(clip, frame, st) for st in ['base'] + states}
@@ -3717,6 +3796,7 @@ def verify_builds(objs, arm=None, clips=None):
                 if new:
                     dmax = max(w1[j] for j in range(len(idx)) if w1[j] and not w0[j])
                     worst.append((len(new), dmax, x, y, st, label, [tuple(round(c, 3) for c in C[st][x][i]) for i in new[:3]]))
+                    wbr.setdefault(rule, []).append((len(new), round(dmax, 4), x, y, st, label))
                     summary[key + ' max_depth'] = max(summary.get(key + ' max_depth', 0.0), dmax)
     if arm is not None:
         for n in names:
@@ -3732,7 +3812,8 @@ def verify_builds(objs, arm=None, clips=None):
             'rules': sorted({r[1] for r in rules}), 'part_pairs_checked': len(rules), 'poses': [p[0] for p in poses],
             'combinations_covered': {bt: {'torso_x_legs_x_arms': len(KIT[bt]['Torso']) * len(KIT[bt]['Legs']) * len(KIT[bt]['Arms'])} for bt in 'AB'},
             'new_clip_vertices_by_rule': summary, 'already_wrong_at_average_build_vertices': base_wrong,
-            'worst': [list(w) for w in worst[:30]], 'PASS': not bad}
+            'worst': [list(w) for w in worst[:30]],
+            'worst_by_rule': {r: [list(w) for w in sorted(v, key=lambda w: (-w[0], -w[1]))[:400]] for r, v in wbr.items()}, 'PASS': not bad}
 
 def build_kit():
     mats = make_kit_materials('A')
@@ -5073,6 +5154,7 @@ def run_renders(arm, mats, objs, clips, bram, tutors=None):
     sheets.update(v28_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34))
     sheets.update(v29_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34, bram, tutors or {}))
     sheets.update(rs_style_sheets(arm, mats, objs, clips, default_colors, j))
+    sheets.update(v30_sheets(arm, mats, objs, clips, default_colors, j))
     return sheets
 
 def v29_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34, bram, tutors):
@@ -5251,6 +5333,92 @@ def v29_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34, bram, t
         rows = [{**r, 'cells': [c for c in r['cells'] if os.path.exists(c['path'])]} for r in rows]
         compose(j('v28_vs_v29.png'), rows, 'v2.8 vs v2.9 (same framing)')
         sheets['v28_vs_v29'] = j('v28_vs_v29.png')
+    return sheets
+
+def v30_sheets(arm, mats, objs, clips, default_colors, j):
+    """v3.0 review sheets: (b) every torso x arms shoulder at rest / the widest walk swing / the attack wind-up and the
+    overhead crush, (c) every feet option with three legs options (rest + walk), (d) walk and run strips, both bodies"""
+    sheets = {}
+    sc = bpy.context.scene
+    def outfit(bt, **over):
+        sel = dict(DEFAULT_OUTFIT[bt])
+        sel.update(over)
+        return outfit_objs(objs, bt, sel)
+    def pose(clip, fr):
+        if clip is None:
+            arm.animation_data.action = None
+            set_pose(arm, P())
+        else:
+            arm.animation_data.action = clips[clip]
+            sc.frame_set(fr)
+    def shoulder_center(side):
+        bpy.context.view_layer.update()
+        return tuple(arm.matrix_world @ arm.pose.bones[B(side + 'Arm')].head + Vector(((.07 if side == 'Left' else -.07), 0, -.05)))
+    # (b) shoulders
+    STATES = [('rest (bind pose)', None, 0, 'Left', (.60, -.80, .15)), ('idle f0', 'idle', 0, 'Left', (.60, -.80, .15)),
+              ('walk f0 (widest swing)', 'walk', 0, 'Left', (.55, .80, .18)), ('walk f7 (widest swing)', 'walk', 7, 'Left', (.60, -.80, .15)),
+              ('attack_slash f5 (sword arm wound up)', 'attack_slash', 5, 'Right', (-.55, -.80, .20)),
+              ('attack_crush f8 (both arms overhead)', 'attack_crush', 8, 'Right', (-.55, .80, .20))]
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        rows = []
+        for ai in range(1, len(KIT[bt]['Arms']) + 1):
+            for lab, clip, fr, side, vd in STATES:
+                cs = []
+                for ti in range(1, len(KIT[bt]['Torso']) + 1):
+                    show_only(outfit(bt, Arms=ai, Torso=ti, Hair=2))
+                    pose(clip, fr)
+                    p = shoot(j('grid', 'v30sh_%s_A%02d_T%02d_%s%d.png' % (bt, ai, ti, clip or 'rest', fr)), (170, 170), vd, shoulder_center(side), .40)
+                    cs.append(cell(p, 'T%02d %s' % (ti, KIT[bt]['Torso'][ti - 1][0])[:22], bg=BG_REF))
+                rows.append({'title': 'Arms %02d %s -- %s' % (ai, KIT[bt]['Arms'][ai - 1][0], lab), 'height': 150, 'cells': cs})
+        pose(None, 0)
+        compose(j('v30_shoulders_%s.png' % bt), rows, 'v3.0 body %s shoulders: every arms option on every torso -- one surface from the torso into the arm '
+                '(shared seam ring, pinned normals, deltoid cap), at rest and at the extreme walk / attack frames' % bt)
+        sheets['v30_shoulders_' + bt] = j('v30_shoulders_%s.png' % bt)
+    # (c) feet
+    rows = []
+    for bt, legs in (('A', (1, 3, 2)), ('B', (4, 1, 6))):
+        default_colors(bt)
+        for fi in range(1, len(KIT[bt]['Feet']) + 1):
+            cs = []
+            for li in legs:
+                show_only(outfit(bt, Feet=fi, Legs=li, Hair=2))
+                for lab, clip, fr, vd in (('3/4', None, 0, (.55, -.80, .25)), ('side', None, 0, (-1, .02, .08)), ('front', None, 0, (0, -1, .15)),
+                                          ('walk f4', 'walk', 4, (-1, .03, .10))):
+                    pose(clip, fr)
+                    ctr = (0, -.02, .15) if clip is None else (0, 0, .20)
+                    p = shoot(j('grid', 'v30ft_%s_F%02d_L%02d_%s.png' % (bt, fi, li, lab.replace('/', '').replace(' ', ''))), (180, 170), vd, ctr, .55 if clip is None else .75)
+                    cs.append(cell(p, 'L%02d %s %s' % (li, KIT[bt]['Legs'][li - 1][0], lab)[:26], bg=BG_REF))
+            rows.append({'title': 'Body %s -- Feet %02d %s with legs %s' % (bt, fi, KIT[bt]['Feet'][fi - 1][0], ', '.join(KIT[bt]['Legs'][li - 1][0] for li in legs)),
+                         'height': 160, 'cells': cs})
+    pose(None, 0)
+    compose(j('v30_feet.png'), rows, 'v3.0 feet: rounded wedges (one loft sole -> toe box -> ankle -> shaft), every option x three legs options')
+    sheets['v30_feet'] = j('v30_feet.png')
+    # (d) walk + run strips (8 frames each, side view + game camera), both bodies
+    rows = []
+    GVs, GPs = (.42, -.72, .78), (5.0, 85)
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        show_only(outfit(bt))
+        for cname in ('walk', 'run'):
+            act = clips[cname]
+            f0, f1 = int(act.frame_range[0]), int(act.frame_range[1])
+            frs = [f0 + round(k * (f1 - f0) / 8) for k in range(8)]
+            for view in ('side', 'game'):
+                cs = []
+                for fr in frs:
+                    pose(cname, fr)
+                    if view == 'side':
+                        p = shoot(j('grid', 'v30strip_%s_%s_%d_side.png' % (bt, cname, fr)), (170, 220), (-1, .02, .10), (0, 0, .95), 2.3)
+                        cs.append(cell(p, '%s f%d side' % (cname, fr), bg=BG_REF))
+                    else:
+                        p = shoot(j('grid', 'v30strip_%s_%s_%d_game.png' % (bt, cname, fr)), (170, 220), GVs, (0, 0, .85), 2.0, ground=True, persp=GPs)
+                        cs.append(cell(p, '%s f%d game' % (cname, fr), bg=BG_GAME))
+                rows.append({'title': 'Body %s %s (%d frames%s) -- %s' % (bt, cname, f1 - f0, ', 2.4 m/s' if cname == 'walk' else ', 4.2 m/s', view),
+                             'height': 220, 'cells': cs})
+    pose(None, 0)
+    compose(j('v30_walk_run.png'), rows, 'v3.0 walk and run: the bent stance arms swing from the shoulder; slide-free at the authored speeds')
+    sheets['v30_walk_run'] = j('v30_walk_run.png')
     return sheets
 
 def v28_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34):
@@ -5515,7 +5683,21 @@ REF_RATIOS = {   # measured from Bible_References screenshots (style reference o
     'hand_width_length_over_H': {'male_b': [.034, .085], 'creator': [.05, .06], 'dagger': [.05, .05]},
 }
 
-REVIEW = [   # v2.9 -- the owner's play-test points, each checked on the sheets and numerically
+REVIEW = [   # v3.0 -- the owner's 2026-09-25 review, each point checked on the sheets and numerically
+    'v3.0 STANCE: the OSRS idle -- upper arms hang just off the torso, elbows bent ~30-35 deg so the forearms come FORWARD and the loosely '
+    'closed hands sit in front of the hips / upper thighs (never inside the thighs or crotch), legs a little apart with soft knees, feet '
+    'turned slightly out, chest up, head a touch forward (spine chain vertical, head ~1 deg forward). The arm stance is stored as each arm '
+    'bone local rotation, so every clip starts / ends from it and the walk / run swing pivots the bent arm at the shoulder. Hands checked '
+    'on EVERY frame of EVERY clip: bone-based (crotch / centreline / thigh surface gap) and mesh-based (hand vertices vs the legs and torso '
+    'meshes of four outfits incl. the widest tunic hem, the peplum and the skirts) -- manifest hand_clearance / hand_clearance_mesh.',
+    'v3.0 SHOULDERS: every torso layer that carries a sleeve cuts an armhole whose rim is ONE canonical seam ring per body type and side; '
+    'every arms option starts on that same ring (identical positions, skin weights and pinned shading normals) and rounds over a deltoid '
+    'cap into the upper arm, so torso and arm are one watertight surface with no shading break, in every pose (sheets v30_shoulders_A/B: '
+    'every torso x arms at rest, idle, the widest walk swing, the attack wind-up and the overhead crush). Vests / jerkins get a real '
+    'sleeveless armhole hugging the seam; shirts under jackets / coats are tucked in under them.',
+    'v3.0 FEET: boots, shoes and sandals are rounded wedges -- one continuous loft from a flat sole through the toe box, instep and round '
+    'ankle into the boot shaft / shoe collar / bare ankle; blunt rounded toe, no box sides, no sole slab (sandals: a thin sole following '
+    'the foot outline, straps over the top). Feet_Small / Feet_Large rebuilt on the same loft; every legs option still meets the foot.',
     '1 BODY BUILD: every kit part carries glTF morph targets Build_Stout / Build_Slim (the whole kit rebuilt on stout / slim body tables: '
     'rounder belly and chest, thicker upper arms and thighs / narrower; stout arms also move out so sleeves clear the hips). Clothes follow by '
     'construction; hair and beards keep their clearance. Checked over every option combination (build_check) and on creator_builds.png.',
@@ -5611,6 +5793,8 @@ def main():
         assert max(abs(v) for v in lean[n]) < .5, 'spine leans in %s: %s' % (n, lean[n])
     assert lean['run'][1] < 3.1, 'run leans more than 3 deg: %s' % lean['run']
     build_check = verify_builds(objs, arm, clips)
+    hands_mesh = mesh_hand_clearance(arm, objs, clips)
+    assert hands_mesh['PASS'], 'hands sink into the legs / torso: %s' % json.dumps(hands_mesh['failures'])
     arm.animation_data.action = clips['idle']
     parts = []
     for bt in ('A', 'B'):
@@ -5734,8 +5918,10 @@ def main():
                                       '(the v2.8 size). Set the same influences on every visible kit part (parts that do not move carry zero morphs).',
                            'glb_morph_targets_ok': True},
         'build_check': build_check,
-        'lean_deg': {'rule': 'forward tilt of the posed hips-joint -> head-joint line, every frame (0 = vertical); the rest skeleton itself leans 4.2 deg',
-                     'kit': lean, 'bram': lean_bram},
+        'hand_clearance_mesh': hands_mesh,
+        'lean_deg': {'rule': 'v3.0: forward tilt of the posed hips-joint -> neck-base line (the spine chain), every frame (0 = vertical); '
+                             'head_forward_deg = the same to the head joint (the neck carries the head a touch forward); the rest skeleton leans 4.2 deg',
+                     'kit': lean, 'head_forward_deg': lean_head, 'bram': lean_bram},
         'skill_clips': {'grip': 'right hand bone local (0, .03, .04) = where crafting_action_visuals.js attaches a held tool; the clips solve that point onto its target',
                         'firemake': 'kneel on the right knee, strike the tinderbox down at logs ~0.45 m in front (grip 0.34-0.52 m high), 30 frames, 2 strikes',
                         'cook': 'hold the fish out over the fire / range (grip ~0.94 m high, 0.42 m in front) and turn it over and back (hand roll 0-140 deg), 40 frames',
@@ -5757,7 +5943,7 @@ def main():
     print('BRAM', manifest['bram']['tris_total'], bram_height)
 
 def write_report(m, rk, rb):
-    L = ['# holm_kit_v2 (v2.9 candidate) -- modular 2004-style identity kit + Guide Bram + the nine Holm tutors\n',
+    L = ['# holm_kit_v2 (%s candidate) -- modular 2004-style identity kit + Guide Bram + the nine Holm tutors\n' % {'v29': 'v2.9', 'v30': 'v3.0'}.get(TAG, TAG),
          'Built by `tools/blender/build_holm_characters_v2.py` (Blender 4.5 headless). Every mesh, weight and clip is authored '
          'procedurally in Blender (angular low-poly, panel shading: smooth panels, hard edges at >=40 deg turns and material boundaries, smooth weights); no imported models, no textures.\n',
          '## Files\n',
