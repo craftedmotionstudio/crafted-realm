@@ -145,8 +145,15 @@ async function kitUp(c, kit) {
   return s0;
 }
 async function walkTo(c, x, z, ms) {
+  // like a player: click again when the adventurer stops short (the path finder searches 64 tiles out, as in 2004)
+  let last = null, still = 0;
   await c.q((a, b) => CROnlineQA.walk(a, b), x, z);
-  await c.until((s) => s.me.tile.x === x && s.me.tile.z === z, ms || 60000, 'walk to ' + x + ',' + z);
+  await c.until((s) => {
+    if (s.me.tile.x === x && s.me.tile.z === z) return true;
+    const k = s.me.tile.x + ',' + s.me.tile.z; if (k === last) still++; else { last = k; still = 0; }
+    if (still >= 12) { still = 0; c.q((a, b) => CROnlineQA.walk(a, b), x, z).catch(() => {}); }
+    return false;
+  }, ms || 90000, 'walk to ' + x + ',' + z);
 }
 /** everyone restored to full health (the server's regen is slow; the driver tops fighters up between fights) */
 function heal(name) {

@@ -98,13 +98,20 @@ var OnlineMain=(function(){
   // kept until the kit arrives: the chest refuses while you are still fighting (the 16-tick lock), so ask again
   st.pending={kind:'kit',name:name,until:performance.now()+120000,sentAt:0};   // cleared by any other order
   if(Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=reach){st.pending.sentAt=performance.now();net.send({t:'kit',name:name});return}
-  var m=OW.model(),best=null,bd=1e9;
-  for(var dz=-1;dz<=1;dz++)for(var dx=-1;dx<=1;dx++){var x=a.chest.x+dx,z=a.chest.z+dz;if(!m.walkable(x,z))continue;var d=Math.abs(x-me.x)+Math.abs(z-me.z);if(d<bd){bd=d;best={x:x,z:z}}}
+  var best=kitApproach(a,me);
   if(best){net.send({t:'walk',x:best.x,z:best.z});st.dest=best}
  }
+ /** the tile beside the chest nearest to where we stand */
+ function kitApproach(a,me){var m=OW.model(),best=null,bd=1e9;
+  for(var dz=-1;dz<=1;dz++)for(var dx=-1;dx<=1;dx++){var x=a.chest.x+dx,z=a.chest.z+dz;if(!m.walkable(x,z))continue;var d=Math.abs(x-me.x)+Math.abs(z-me.z);if(d<bd){bd=d;best={x:x,z:z}}}
+  return best}
  function checkPending(){
   var p=st.pending;if(!p)return;if(performance.now()>p.until){st.pending=null;return}
-  if(p.kind==='kit'){var a=OW.map().alpha,me=myTile();if(me&&Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=(a.reach||2)&&performance.now()-p.sentAt>3000){p.sentAt=performance.now();net.send({t:'kit',name:p.name})}}
+  if(p.kind==='kit'){var a=OW.map().alpha,me=myTile();if(!me)return;
+   if(Math.max(Math.abs(me.x-a.chest.x),Math.abs(me.z-a.chest.z))<=(a.reach||2)){if(performance.now()-p.sentAt>3000){p.sentAt=performance.now();net.send({t:'kit',name:p.name})}return}
+   // a long way off: the path finder only searches 64 tiles out (as in 2004), so keep walking in legs like a player re-clicking
+   var key=me.x+','+me.z;if(key===p.lastKey)p.still=(p.still||0)+1;else{p.lastKey=key;p.still=0}
+   if(p.still>=2){p.still=0;var best=kitApproach(a,me);if(best){net.send({t:'walk',x:best.x,z:best.z});st.dest=best}}}
  }
  function lvlSpan(my,their){return '<span style="color:'+OnlineActors.combatColour(my,their)+'">(level-'+their+')</span>'}
  function canAttackPlayer(e){
