@@ -344,6 +344,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
   const preview = {};
   const t0 = Date.now();
   let loser = null, winner = null;
+  const dists = [];   // server distance between the fighters while both stand (reach per style, criterion 14)
   while (Date.now() - t0 < (o.maxMs || 400000)) {
     stopCheck();
     for (const c of [A, B]) {
@@ -352,12 +353,18 @@ async function pvpFight(fight, A0, B0, O, opts) {
       if (s.hp[0] > 0) preview[c.name] = await c.q(() => OnlineUI.keptList());
     }
     if (loser) break;
+    { const pa = sp(A.name), pb = sp(B.name); if (pa && pb && !pa.dead && !pb.dead && pa.target) dists.push(Math.max(Math.abs(pa.x - pb.x), Math.abs(pa.z - pb.z))); }
     await sleep(TICK / 2);
   }
   for (const b of brains) await b.stop();
   if (strip) strip = await strip;
   if (!loser) { check(fight, false, 'someone dies'); return; }
   winner = loser === A ? B : A;
+  { const kA = o.swap ? o.kitB : o.kitA, n = dists.length, near = dists.filter((d) => d <= 1).length / Math.max(1, n), far = dists.filter((d) => d >= 2).length / Math.max(1, n);
+    fight.reach = { attackerKit: kA, samples: n, adjacentShare: +near.toFixed(2), atRangeShare: +far.toFixed(2) };
+    const kB = o.swap ? o.kitA : o.kitB;
+    if (kA === 'melee' || kB !== 'melee')   // a melee defender walks up to a ranged attacker: nothing to check there
+      check(fight, n > 10 && (kA === 'melee' ? near >= 0.8 : far >= 0.8), 'the attacker fights from the right reach (melee adjacent, ranged and magic from range)', fight.reach); }
   fight.winner = winner.name; fight.loser = loser.name; fight.ticks = world.tick - since; fight.seconds = +((Date.now() - t0) / 1000).toFixed(1);
   const death = [...serverEvents].reverse().find((e) => e.event === 'death' && e.key === loser.name.toLowerCase());
   const kill = [...serverEvents].reverse().find((e) => e.event === 'pvp_kill' && e.victim === loser.name.toLowerCase());
