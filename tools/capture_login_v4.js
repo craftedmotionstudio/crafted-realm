@@ -30,7 +30,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
   // four frames of the left brazier's fire (animation check)
   const fire=await page.evaluate(()=>{const e=document.querySelector('.kit-torch-left,.login-brazier-left');if(!e)return null;const r=e.getBoundingClientRect();
     return {x:Math.max(0,r.x-40),y:Math.max(0,r.y-230),width:Math.min(300,innerWidth),height:Math.min(innerHeight-Math.max(0,r.y-230),520)}});
-  if(fire)for(let i=0;i<4;i++){await shot('11_fire_'+i,fire);await sleep(140)}
+    if(fire)for(let i=0;i<4;i++){await shot('11_fire_'+i,fire);await sleep(140)}
   const stage=async(id,n,extra)=>{await page.evaluate((id,extra)=>{if(extra==='play'){try{LoginOverhaul.updateProfileSummary({look:{name:'Adventurer'},xp:{Attack:1200},tut:{step:3},inv:[{id:'coins',qty:25}]})}catch(e){}
       document.getElementById('play-welcome').textContent='Welcome back, Adventurer'}LoginOverhaul.setStage(id)},id,extra);await sleep(500);await shot(n);
     const b=await rectOf('#welcome-box',14);if(b)await shot(n+'_panel',b)};

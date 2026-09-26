@@ -11,11 +11,11 @@
 #welcome-screen{
   --lg-ink:#0d0b08;--lg-orange:#ff981f;--lg-yellow:#ffff00;--lg-font:'Realm Small',Verdana,Tahoma,sans-serif;
   position:fixed;inset:0;z-index:90;overflow:hidden;color:#e9dcbc;isolation:isolate;font:12px var(--lg-font);
-  background:#161817 url("../icons/ui/v3/login/hall_dim.png?v=1") center 42%/cover no-repeat!important;image-rendering:pixelated;
+  background:#161817 url("../icons/ui/v3/login/hall_dim.png?v=2") center 42%/cover no-repeat!important;image-rendering:pixelated;
 }
 #welcome-screen::before{display:none;}
 .login-hall-lit{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.55;
-  background:url("../icons/ui/v3/login/hall_lit.png?v=1") center 42%/cover no-repeat;image-rendering:pixelated;}
+  background:url("../icons/ui/v3/login/hall_lit.png?v=2") center 42%/cover no-repeat;image-rendering:pixelated;}
 .login-sky-wash{display:none;}
 .login-vignette{position:absolute;inset:-2px;z-index:2;pointer-events:none;box-shadow:inset 0 0 140px 40px rgba(0,0,0,.6);}
 #login-embers{display:none;}
@@ -29,10 +29,8 @@
 .login-brazier-left{left:max(-24px,calc(50% - 790px));} .login-brazier-right{right:max(-24px,calc(50% - 790px));}
 .login-brazier .lb-stand{position:absolute;left:0;bottom:0;width:240px;height:336px;image-rendering:pixelated;}
 .login-brazier .lb-fire{position:absolute;left:0;bottom:312px;width:240px;height:336px;image-rendering:pixelated;
-  background:url("../icons/ui/v3/login/flame_sheet.png?v=1") 0 0/1920px 336px no-repeat;animation:lbFire .72s steps(8) infinite;}
-.login-brazier-right .lb-fire{transform:scaleX(-1);animation-delay:-.33s;}
-@keyframes lbFire{from{background-position:0 0}to{background-position:-1920px 0}}
-#welcome-screen.login-reduced-motion .login-brazier .lb-fire{animation-duration:1.8s;}
+  background:url("../icons/ui/v3/login/flame_sheet.png?v=2") 0 0/1920px 336px no-repeat;}   /* frames stepped by ui_osrs_kit.js */
+.login-brazier-right .lb-fire{transform:scaleX(-1);}
 @media (max-height:860px){.login-brazier{--lb-scale:.8}}
 @media (max-height:700px){.login-brazier{--lb-scale:.64}}
 
@@ -88,8 +86,11 @@
 .login-utility-row button:hover,.login-back:hover{color:var(--lg-yellow);text-decoration:underline;}
 .login-back{display:block;margin:6px auto 0;}
 .login-field-label{display:block;color:var(--lg-orange);font:bold 12px var(--lg-font);margin:2px 0 4px;text-shadow:1px 1px 0 #000;}
-#char-name{width:100%!important;box-sizing:border-box;padding:5px!important;margin:0 0 6px!important;text-align:center;font:bold 12px var(--lg-font)!important;color:var(--lg-yellow)!important;
+#char-name,#welcome-box input[type=text],#welcome-box input[type=password],#welcome-box input[type=email]{width:100%!important;box-sizing:border-box;padding:5px!important;margin:0 0 6px!important;text-align:center;font:bold 12px var(--lg-font)!important;color:var(--lg-yellow)!important;
   background:#15171b!important;border:0!important;border-radius:0!important;box-shadow:inset 0 0 0 1px var(--lg-ink),inset 1px 1px 0 1px #07080a,0 0 0 1px #6c7078!important;user-select:text;}
+/* hooks for further stages (e.g. the online sign-in): any field, label or stone button inside the panel takes the same look */
+#welcome-box label{color:var(--lg-orange);font:bold 12px var(--lg-font);text-shadow:1px 1px 0 #000;}
+#welcome-box .login-error,#welcome-box [role=alert]{color:#ff5a40;font:12px var(--lg-font);text-shadow:1px 1px 0 #000;}
 .login-choice-set{border:0;margin:2px 0;padding:0;}
 .login-choice-set legend{margin:0 auto;color:var(--lg-orange);font:bold 12px var(--lg-font);text-shadow:1px 1px 0 #000;}
 .swatches{display:flex;gap:6px;justify-content:center;margin:4px 0 6px!important;}

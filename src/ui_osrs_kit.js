@@ -280,7 +280,8 @@ function patchHud(){if(typeof UI==='undefined'||UI.__kitHud)return;UI.__kitHud=t
 // Login v4 (owner 2026-09-26: "more like the old 2004 login"): the welcome screen is our Blender stone hall
 // (assets/icons/ui/v3/login/hall_dim.png, the CSS background) with a second render of the same hall lit by the fires
 // (hall_lit.png) laid over it; its opacity flickers in hard little steps with the fire. Two iron braziers stand at the
-// edges, each carrying an 8-frame fire sprite sheet (CSS steps animation). All rendered by
+// edges, each carrying an 8-frame fire sprite sheet stepped here every 90 ms (JS, not a CSS animation, so it runs the same
+// everywhere and the reduced-motion option can slow it). All rendered by
 // tools/blender/build_login_art_v4.py + tools/process_login_art_v4.py. buildTorches keeps its name for the boot order.
 var torch={t:0,lit:null,prev:.55};
 function buildTorches(){
@@ -290,6 +291,9 @@ function buildTorches(){
   var b=el('div','login-brazier login-brazier-'+side);b.setAttribute('aria-hidden','true');
   b.innerHTML='<i class="lb-fire"></i><img class="lb-stand" src="'+SPR_BASE+'login/brazier.png'+SPRV+'" alt="" draggable="false">';
   ws.appendChild(b)});
+ var fires=Array.prototype.slice.call(ws.querySelectorAll('.login-brazier .lb-fire')),tick=0;
+ setInterval(function(){if(ws.style.display!=='flex')return;tick++;if(ws.classList.contains('login-reduced-motion')&&tick%3)return;
+  fires.forEach(function(f,i){var fr=(tick+i*3)%8;f.style.backgroundPosition=(-fr*f.clientWidth)+'px 0'})},90);
  var r=rng(7);
  torch.t=setInterval(function(){if(ws.style.display!=='flex')return;var reduced=ws.classList.contains('login-reduced-motion');
   // a wandering flicker: mostly the steady glow, now and then a brighter or dimmer lick (hard steps, no easing)
