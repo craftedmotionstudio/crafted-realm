@@ -1,0 +1,77 @@
+{
+  "about": "Weighted drop tables (shared/drops.js format). One roll of random(rolls) walks the 'main' ladder; unused weight = no main drop. NPC types without an entry fall back to their inline src/game1_data.js drops (converted exactly with drops.fromLegacy).",
+  "shared": {
+    "scar_rare": {
+      "rolls": 128,
+      "main": [
+        { "w": 20, "item": "nature_rune", "qty": [4, 12] },
+        { "w": 16, "item": "chaos_rune", "qty": [6, 15] },
+        { "w": 10, "item": "coins", "qty": [300, 600] },
+        { "w": 6, "item": "aurel_sword", "qty": 1 },
+        { "w": 4, "item": "aurel_platelegs", "qty": 1 },
+        { "w": 2, "item": "veyrite_sword", "qty": 1 },
+        { "w": 1, "item": "fen_charm", "qty": 1 }
+      ]
+    }
+  },
+  "npcs": {
+    "gnarlgob": {
+      "always": [{ "item": "bones", "qty": 1 }],
+      "rolls": 128,
+      "main": [
+        { "w": 40, "item": "coins", "qty": [3, 18] },
+        { "w": 12, "item": "mind_rune", "qty": [1, 4] },
+        { "w": 8, "item": "bronze_sword", "qty": 1 },
+        { "w": 6, "item": "bronze_helm", "qty": 1 },
+        { "w": 6, "item": "bread", "qty": 1 },
+        { "w": 1, "table": "scar_rare" }
+      ]
+    },
+    "mosswolf": {
+      "always": [{ "item": "bones", "qty": 1 }],
+      "rolls": 128,
+      "main": [
+        { "w": 48, "item": "coins", "qty": [10, 40] },
+        { "w": 16, "item": "raw_perch", "qty": 1 },
+        { "w": 8, "item": "wood_shield", "qty": 1 },
+        { "w": 6, "item": "bronze_helm", "qty": 1 },
+        { "w": 2, "table": "scar_rare" }
+      ]
+    },
+    "skeleton": {
+      "always": [{ "item": "bones", "qty": 1 }],
+      "rolls": 128,
+      "main": [
+        { "w": 50, "item": "coins", "qty": [8, 40] },
+        { "w": 16, "item": "mind_rune", "qty": [1, 4] },
+        { "w": 6, "item": "iron_sword", "qty": 1 },
+        { "w": 6, "item": "bronze_helm", "qty": 1 },
+        { "w": 3, "table": "scar_rare" }
+      ]
+    },
+    "bryn_raider": {
+      "always": [{ "item": "bones", "qty": 1 }],
+      "rolls": 128,
+      "main": [
+        { "w": 56, "item": "coins", "qty": [25, 80] },
+        { "w": 20, "item": "hollow_ale", "qty": 1 },
+        { "w": 8, "item": "steel_helm", "qty": 1 },
+        { "w": 6, "item": "steel_battleaxe", "qty": 1 },
+        { "w": 4, "table": "scar_rare" }
+      ]
+    },
+    "cinder_shade": {
+      "always": [{ "item": "big_bones", "qty": 1 }, { "item": "ashes", "qty": 1 }],
+      "rolls": 128,
+      "main": [
+        { "w": 60, "item": "coins", "qty": [70, 180] },
+        { "w": 20, "item": "chaos_rune", "qty": [2, 6] },
+        { "w": 5, "item": "aurel_sword", "qty": 1 },
+        { "w": 4, "item": "aurel_platelegs", "qty": 1 },
+        { "w": 1, "item": "veyrite_sword", "qty": 1 },
+        { "w": 8, "table": "scar_rare" }
+      ],
+      "tertiary": [{ "num": 1, "den": 64, "item": "trout", "qty": [1, 3] }]
+    }
+  }
+}

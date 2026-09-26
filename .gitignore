@@ -43,3 +43,6 @@ scratchpad/mixar_giant_mole_trial_2026-07-07.blend
 scratchpad/mixar_room_trial_2026-07-07.blend
 music_previews/crafted_realm_echoes_collection.zip
 music_previews/crafted_realm_echoes/echoes_of_the_old_roads_full_album.mp3
+
+# Game server runtime state (database, save-signing key)
+server/data/runtime/
