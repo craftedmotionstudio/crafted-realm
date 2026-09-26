@@ -348,6 +348,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
   check(fight, wAfter.inv.filter(Boolean).length > invBefore, 'loot reaches the winner\'s pack', { before: invBefore, after: wAfter.inv.filter(Boolean).length });
   const fxA1 = (await A.state()).fx, fxO1 = (await O.state()).fx;
   fight.fx = { attacker: fxDelta(fxA0, fxA1), observer: fxDelta(fxO0, fxO1) };
+  if (fight.fx.attacker.late || fight.fx.observer.late) fight.lateLog = { A: await A.q(() => OnlineFX.lateLog()), O: await O.q(() => OnlineFX.lateLog()) };
   if (fight.fx.attacker.generic || fight.fx.observer.generic) fight.genericLog = { A: await A.q(() => OnlineFX.generic()), O: await O.q(() => OnlineFX.generic()) };
   check(fight, fight.fx.attacker.generic === 0 && fight.fx.observer.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile (no untimed hits, no late projectiles)', fight.fx);
   // protection prayers against players: the max hit is cut by 40% (never more than floor(max * 0.6) lands)
@@ -385,7 +386,7 @@ async function syncCheck(fight, clients) {
     for (const p of s.players) { const t = truth.get(p.pid); if (t && (t.x !== p.tile.x || t.z !== p.tile.z || t.hp !== p.hp[0])) bad.push({ page: c.name, who: p.name, client: [p.tile.x, p.tile.z, p.hp[0]], server: t }); }
     // the drawn position has caught up with the tile
     const w = await c.q(() => { const m = OnlineActors.me(); const t = OnlineWorld.model().toWorld(m.tile.x, m.tile.z); return Math.hypot(m.mover.x - t.x, m.mover.z - t.z); });
-    if (w > 0.05) bad.push({ page: c.name, who: 'drawn self', off: w });
+    if (w > 0.5) bad.push({ page: c.name, who: 'drawn self', off: w });   // a background page steps its frames coarsely; a rubber band would be a tile or more
   }
   check(fight, bad.length === 0, 'every page agrees with the server (tiles, hitpoints)', bad);
 }
@@ -458,6 +459,7 @@ async function pvmFight(fight, A, O, o) {
   }
   fight.fx = { attacker: fxDelta(fx0, st.fx) };
   if (fight.fx.attacker.generic) fight.genericLog = await A.q(() => OnlineFX.generic());
+  if (fight.fx.attacker.late) fight.lateLog = await A.q(() => OnlineFX.lateLog());
   check(fight, fight.fx.attacker.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile', fight.fx);
   // loot: the kill's pile is ours (bones always drop), shown once the body has sunk, and we pick the bones up
   const pile = st.objs.filter((x) => x.own && x.x === tile.x && x.z === tile.z);

@@ -192,7 +192,7 @@ var OnlineActors=(function(){
   if(!now&&e.rec.dying){st.corpses.push(e);return}   // the body finishes falling and sinking first
   dropNpc(e);
  }
- function dropNpc(e){scene.remove(e.rec.mesh);unlist(WORLD.clickables,e.rec.mesh);unlist(WORLD.npcs,e.rec)}
+ function dropNpc(e){scene.remove(e.rec.mesh);unlist(WORLD.clickables,e.rec.mesh);unlist(WORLD.npcs,e.rec);if(e.rec.dead)revealLootAt(e.tile)}
  function updateNpc(u){
   var e=st.npcs.get(u.i);if(!e)return null;
   if(u.tele&&e.rec.dying){   // a respawn while the old body still sinks: finish it and start fresh
@@ -262,7 +262,8 @@ var OnlineActors=(function(){
   st.npcs.forEach(function(e){var n=e.rec,o=n.mesh;
    if(!n.dying){e.mover.update(ms);o.position.set(e.mover.x,groundAt(e.mover.x,e.mover.z),e.mover.z);turnTo(o,e,dt);n.moving=e.mover.moving}
    n.hp=e.hp[0];n.target=me&&e.face&&e.face[0]==='p'&&e.face[1]===me.id?'player':null;
-   npcAnim(n,dt);
+   var wasDying=n.dying;npcAnim(n,dt);
+   if(wasDying&&!n.dying)revealLootAt(e.tile);   // the body has sunk: its loot pops up
   });
   for(var i=st.corpses.length-1;i>=0;i--){var c=st.corpses[i];npcAnim(c.rec,dt);if(!c.rec.dying){revealLootAt(c.tile);dropNpc(c);st.corpses.splice(i,1)}}
  }

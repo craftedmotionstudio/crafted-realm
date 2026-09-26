@@ -44,7 +44,7 @@ var OnlineFX=(function(){
  'use strict';
  if(typeof window==='undefined')return null;
  var TICK=0.6;   // seconds per server tick (setTickMs from the welcome)
- var later=[],swings=[],projectiles=[],log=[],generic=[],stats={hits:0,splats:0,projectiles:0,matchedProjectile:0,matchedSwing:0,matchedNext:0,generic:0,late:0,swingsPlayed:0,deaths:0};
+ var later=[],swings=[],projectiles=[],log=[],generic=[],lateLog=[],stats={hits:0,splats:0,projectiles:0,matchedProjectile:0,matchedSwing:0,matchedNext:0,generic:0,late:0,swingsPlayed:0,deaths:0};
  function now(){return performance.now()/1000}
  function schedule(sec,fn){if(sec<=0.001){fn();return}later.push({at:now()+sec,fn:fn})}
  function runLater(){if(!later.length)return;var t=now(),due=[];for(var i=later.length-1;i>=0;i--)if(later[i].at<=t){due.push(later[i]);later.splice(i,1)}due.sort(function(a,b){return a.at-b.at});
@@ -105,7 +105,7 @@ var OnlineFX=(function(){
    var f=ev.fx[i],att=A().entByRef(f.from),tgt=A().entByRef(f.to);if(!att||!tgt)continue;
    var kind=f.k==='arrow'?'arrow':'magic',off=OnlineTiming.landingOffset(att,tgt,f.d),landSec=off*TICK;
    var release=impactOf(att,kind==='arrow'?'bow':'cast'),flight=OnlineTiming.flightTime(kind,dist(att,tgt));
-   var plan=OnlineTiming.projectilePlan(landSec,release,flight);if(plan.late>0.05)stats.late++;
+   var plan=OnlineTiming.projectilePlan(landSec,release,flight);if(plan.late>0.05){stats.late++;lateLog.push({n:n,from:f.from,to:f.to,d:f.d,off:off,dist:+dist(att,tgt).toFixed(2),release:+release.toFixed(3),flight:+flight.toFixed(3)});if(lateLog.length>40)lateLog.shift()}
    var p={att:att,tgt:tgt,kind:kind,landTick:n+off,start:plan.start,release:plan.release,speed:plan.speed,arriveAt:now()+plan.arrive,splash:!!f.splash,sp:f.sp||null,hits:[],f:null,done:false,born:n};
    projectiles.push(p);stats.projectiles++;plans[refOf(att).join(':')]=p;
    (function(p){schedule(p.start,function(){launch(p)})})(p);
@@ -148,5 +148,5 @@ var OnlineFX=(function(){
  function frame(){runLater()}
  function reset(){later=[];swings=[];projectiles=[]}
  function setTickMs(ms){TICK=(ms||600)/1000}
- return {onTick:onTick,frame:frame,reset:reset,setTickMs:setTickMs,stats:function(){return Object.assign({pending:later.length,flying:projectiles.length},stats)},generic:function(){return generic.slice()},log:function(){return log.slice()}};
+ return {onTick:onTick,frame:frame,reset:reset,setTickMs:setTickMs,stats:function(){return Object.assign({pending:later.length,flying:projectiles.length},stats)},generic:function(){return generic.slice()},lateLog:function(){return lateLog.slice()},log:function(){return log.slice()}};
 })();
