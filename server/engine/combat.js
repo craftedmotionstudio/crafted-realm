@@ -161,7 +161,7 @@ function rangedOnNpc(w, p, npc) {
   let damage = 0;
   const sp = maybeSpecial(p, stats.attackRoll.ranged, stats.maxHit);
   if (C.hitRoll(w.rng, sp.attackRoll, C.npcDefenceRoll(npc.def, npc.levels, 'ranged'))) {
-    damage = C.damageRoll(w.rng, sp.maxHit);
+    damage = C.damageRoll(w.rng, Math.min(sp.maxHit, npc.def.maxDealt != null ? npc.def.maxDealt : sp.maxHit));
     const capped = Math.min(damage, npc.hp);
     giveXp(p, C.combatXp(style.style, capped));
     npc.addHeroPoints(p.key, capped);
@@ -178,7 +178,17 @@ function rangedOnNpc(w, p, npc) {
   return CONTINUE;
 }
 
+/** player_magic_attack (the autocast dispatcher) checks the spell BEFORE waiting on the clock */
+function autocastReady(p, spellId) {
+  const pre = spellRequirements(p, spellId);
+  if (pre.ok) return true;
+  p.message(pre.text);
+  if (p.autocast === spellId) resetAutocast(p);
+  return false;
+}
+
 function magicOnNpc(w, p, npc, spellId, fromAutocast) {
+  if (fromAutocast && !autocastReady(p, spellId)) return STOP;
   // pvm_combat_spell_checks: wait for the clock, then requirements, then single-way, then attackable
   if (w.tick < p.actionDelay) return CONTINUE;
   const req = spellRequirements(p, spellId);
@@ -302,6 +312,7 @@ function rangedOnPlayer(w, p, t) {
 }
 
 function magicOnPlayer(w, p, t, spellId, fromAutocast) {
+  if (fromAutocast && !autocastReady(p, spellId)) return STOP;
   if (t.dead) return STOP;
   if (w.tick < p.actionDelay) return CONTINUE;
   const req = spellRequirements(p, spellId);

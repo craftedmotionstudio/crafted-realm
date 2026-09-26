@@ -92,7 +92,7 @@ class Player extends PathingEntity {
     this.out = { msgs: [], fx: [], invDirty: true, equipDirty: true, stats: new Set(skills), selfDirty: true, prayersDirty: true, settingsDirty: true };
     this.view = { players: new Map(), pver: new Map(), npcs: new Map(), objs: new Map() };
     this.appearanceVersion = 0;
-    this.lastSeen = { hp: -1, skull: null, overhead: null, cb: -1 };
+    this.lastSeen = { sig: null };
     this.cache = null;   // combat stat cache
   }
 

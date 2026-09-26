@@ -42,15 +42,13 @@ function buildTick(w, p) {
   if (p.anim) me.a = p.anim;
   if (p.hits.length) me.h = p.hits.map((h) => [h.amount, h.type]);
   if (p.chat) me.c = p.chat;
-  if (p.out.selfDirty || p.hits.length || p.lastSeen.hp !== p.hp) {
-    me.hp = hpPair(p);
-    me.pp = [p.cur('Prayer'), p.base('Prayer')];
-    me.en = p.runEnergy;
-    me.wl = p.wildLevel();
-    me.multi = p.inMulti() ? 1 : 0;
-    me.skull = Math.max(0, p.skullUntil - tick);
-    me.cb = p.combatLevel();
-    p.lastSeen.hp = p.hp;
+  // status block: sent whenever any value in it changes (energy in whole percents)
+  const wl = p.wildLevel(), multi = p.inMulti() ? 1 : 0, skull = Math.max(0, p.skullUntil - tick), cb = p.combatLevel();
+  const pp = [p.cur('Prayer'), p.base('Prayer')];
+  const sig = [p.hp, p.maxHp, pp[0], pp[1], Math.floor(p.runEnergy / 100), wl, multi, skull > 0 ? 1 : 0, cb].join('|');
+  if (p.out.selfDirty || sig !== p.lastSeen.sig) {
+    me.hp = hpPair(p); me.pp = pp; me.en = p.runEnergy; me.wl = wl; me.multi = multi; me.skull = skull; me.cb = cb;
+    p.lastSeen.sig = sig;
     p.out.selfDirty = false;
   }
   msg.me = me;

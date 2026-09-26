@@ -287,3 +287,38 @@ test('an npc boxed in by walls cannot be reached', () => {
   assert.ok(s.messages().includes("I can't reach that!"));
   w.collision.unload();
 });
+
+test('prayer drains on its 5-tick timer and switches off at 0 points', () => {
+  const w = fieldWorld({ areas: { wilderness: [], multi: [], named: [] } });
+  const { p, s } = addPlayer(w, 'monk', { levels: { Prayer: 43, Hitpoints: 20 }, pos: { x: 5, z: 5 } });
+  s.intent({ t: 'prayer', id: 'protect_melee', on: true });
+  w.cycle();
+  const T0 = w.tick - 1;
+  runUntil(w, () => w.tick > T0 + 50, 60);
+  assert.equal(p.cur('Prayer'), 43 - 10);          // effect 12 vs resistance 60: 1 point per 5 ticks
+  s.intent({ t: 'prayer', id: 'thick_skin', on: true });   // +3 effect: 75 per firing -> 1 point, 15 carried
+  p.setLevel('Prayer', 2);
+  runUntil(w, () => p.prayers.size === 0, 30);
+  assert.equal(p.cur('Prayer'), 0);
+  assert.ok(s.messages().some((m) => /run out of prayer points/.test(m)));
+  s.intent({ t: 'prayer', id: 'thick_skin', on: true });
+  w.cycle();
+  assert.equal(p.prayers.size, 0, 'no prayers without points');
+  w.collision.unload();
+});
+
+test('special attack hook: an armed special spends energy and scales that one swing', () => {
+  const w = fieldWorld({ spawns: [spawn('korthul', 11, 10)] });
+  w.rng = alwaysHit(1);
+  const npc = [...w.npcs.values()][0];
+  const { p, s } = addPlayer(w, 'lunger', fighter({ pos: { x: 10, z: 10 }, equip: { weapon: 'steel_sword' } }));
+  const spec = w.content.SPECIALS.sword;
+  assert.ok(spec, 'the client special table was loaded');
+  const max = p.combatStats().stats.maxHit;
+  s.intent({ t: 'spec', on: true });
+  s.intent({ t: 'op_npc', nid: npc.nid, op: 'attack' });
+  w.cycle(); w.cycle();
+  assert.equal(p.specEnergy, 100 - spec.cost);
+  assert.equal(npc.maxHp - npc.hp, Math.floor(max * spec.dmg));
+  w.collision.unload();
+});

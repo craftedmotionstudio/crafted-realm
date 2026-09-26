@@ -98,6 +98,7 @@ class Session {
       existing.session = this; existing.connected = true; existing.lastResponse = w.tick; existing.lastConnected = w.tick;
       existing.view = { players: new Map(), pver: new Map(), npcs: new Map(), objs: new Map() };
       existing.out.invDirty = existing.out.equipDirty = existing.out.selfDirty = existing.out.prayersDirty = existing.out.settingsDirty = true;
+      existing.lastSeen.sig = null;
       this.player = existing; this.state = 'game';
       this.send(Object.assign(w.welcome(existing), { reconnected: 1 }));
       w.log('reconnect', { key: existing.key });
