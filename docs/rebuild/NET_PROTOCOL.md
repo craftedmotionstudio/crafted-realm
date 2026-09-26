@@ -158,13 +158,17 @@ Only keys with content are present. `n` is the server tick number.
   adventurer is lying dead right now; `me.f` is your own facing / attack target when it changes (auto-retaliate,
   follow, a new attack); a top-level `death: {kept: [[id, qty]], by: name|null, lost: n}` arrives with your respawn
   (and the chat line `You kept: ...`).
+- W2: `np.add` carries `sz` for a monster bigger than one tile (its south-west tile is `x`/`z`); an `add` of anyone
+  who swings or is hit in the tick they come into view carries that tick's `a` / `h` (so the first splat is timed).
 - `fx`: projectiles to draw, `d` = ticks until the server applies the hit, so the visual can land
-  exactly with the splat. `splash: 1` = the spell missed.
+  exactly with the splat. `splash: 1` = the spell missed. `k`: `arrow`, `spell`, or (W2) `breath` (a monster's
+  scripted breath: magic-rolled, its own max hit, blocked by Protect from Magic).
 - `inv` (28 slots), `eq`, `st` (changed skills), `pr`, `set`: present when they changed.
 - `msg`: game messages `[kind, text]`; kinds `game`, `combat`, `level`.
 
 Animation names in `a.name`: `attack` (`type`: stab/slash/crush/ranged, `spec: 1` for a special),
-`defend`, `cast` (`spell`), `death`, `eat`, `teleport`.
+`defend`, `cast` (`spell`), `death`, `eat`, `teleport`, and (W2) `breath`. One animation per entity per tick:
+`defend` never replaces an attack, cast or death set earlier in the same tick.
 
 ### Codes
 
@@ -195,7 +199,8 @@ frames up to 4096 bytes; a client that falls 1 MB behind on reading is disconnec
 
 - **v1 + W2 additions (2026-09-26, compatible: new optional fields and intents only)**: `look` and `kit` intents,
   `look` on login, `welcome.lk`, `welcome.map.alpha`, `lk` / `dd` in player snapshots, `me.f`, `own` / `pub` on
-  ground items, the `death` summary, `GET /map`, `CR_HOST` (default 127.0.0.1). Clients: `src/net_client.js`
+  ground items, the `death` summary, `GET /map`, `CR_HOST` (default 127.0.0.1), `sz` on multi-tile monsters, the
+  `breath` animation and projectile, this tick's `a` / `h` on view adds, `defend` as the lowest animation. Clients: `src/net_client.js`
   (`?online=1`), `server/tools/BotClient.js`.
 
 - **v1 (2026-09-25, W1)**: first version: accounts, movement, combat (melee/ranged/magic, PvM and PvP),
