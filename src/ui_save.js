@@ -47,11 +47,11 @@ const SaveGame = {
       tracked:Quest.tracked,
       look:{kit:CharCfg.kit||undefined, name:CharCfg.name, gender:CharCfg.gender, shirt:CharCfg.shirt, skin:CharCfg.skin,
             hair:CharCfg.hair, hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs},
-      styles:Player.attackStyles, autoRetaliate:Player.autoRetaliate,
+      styleIndex:Player.styleIndex|0, autocast:Player.autocast||null, autoRetaliate:Player.autoRetaliate,
       music:{unlocked:Music.unlocked, mode:Music.mode, current:Music.current},
       energy:Player.energy, runOn:Player.runOn, spec:Player.spec,
       prayerPts:Player.prayerPts,
-      spell:Player.spell,
+      spell:Player.autocast||null,
       waterworks:typeof WorkyardWaterworksU4!=='undefined'&&WorkyardWaterworksU4.saveState?
         WorkyardWaterworksU4.saveState():null,
       fishingEdge:typeof WorkyardFishingU5!=='undefined'&&WorkyardFishingU5.saveState?
@@ -74,15 +74,22 @@ const SaveGame = {
     try{
       Object.assign(Player.xp, d.xp);
       Player.hp=d.hp; Player.maxHp=d.maxHp;
-      Player.inv=d.inv; Player.bank=d.bank; Player.equip=d.equip;
+      // 2004 backpack (28 slots): a 24-slot save keeps every item where it was and gains four empty slots
+      Player.inv=SaveGame.migrateInv(d.inv); Player.bank=d.bank; Player.equip=d.equip;
       Player.quests=d.quests||{}; Player.castMode=!!d.castMode;
       Quest.tracked=d.tracked||null;
-      if(d.styles) Object.assign(Player.attackStyles, d.styles);
+      // one 2004 style index (clamped to the wielded category); older saves kept one per family
+      if(Number.isInteger(d.styleIndex)) Player.styleIndex=Math.max(0,Math.min(3,d.styleIndex));
+      else if(d.styles){ const w=d.equip&&d.equip.weapon&&ITEMS[d.equip.weapon], fam=w&&w.style==='ranged'?'ranged':w&&w.style==='magic'?'magic':'melee';
+        Player.styleIndex=Math.max(0,Math.min(3,Number(d.styles[fam])||0)); }
       if(d.autoRetaliate!==undefined) Player.autoRetaliate=!!d.autoRetaliate;
       if(d.energy!==undefined){ Player.energy=d.energy; Player.runOn=!!d.runOn; }
       if(d.spec!==undefined) Player.spec=d.spec;
-      if(d.prayerPts!==undefined) Player.prayerPts=Math.min(d.prayerPts, Player.maxPrayer());
-      if(d.spell && SPELLS[d.spell]){ Player.spell=d.spell; Player.castMode=true; }
+      if(d.prayerPts!==undefined) Player.prayerPts=Math.min(Math.ceil(d.prayerPts), Player.maxPrayer());   // whole points (2004)
+      // autocast needs a staff (2004); an armed single cast is never saved
+      const _ac=d.autocast||d.spell, _w=d.equip&&d.equip.weapon&&ITEMS[d.equip.weapon];
+      Player.autocast=null; Player.spell=null; Player.castSpell=null; Player.castMode=false;
+      if(_ac && SPELLS[_ac] && _w && _w.style==='magic'){ Player.autocast=_ac; Player.spell=_ac; Player.castMode=true; }
       if(typeof WorkyardWaterworksU4!=='undefined'&&WorkyardWaterworksU4.restoreState)
         WorkyardWaterworksU4.restoreState(d.waterworks);
       if(typeof WorkyardFishingU5!=='undefined'&&WorkyardFishingU5.restoreState)
@@ -193,6 +200,14 @@ const SaveGame = {
       }
       return true;
     }catch(e){ this.lastLoad={ok:false,error:String(e&&e.message||e)}; return false; }
+  },
+  /** the 2004 backpack has 28 slots: pad an older 24-slot pack (every item keeps its slot) */
+  migrateInv(inv){
+    const out=Array.isArray(inv)?inv.slice(0,Math.max(28,inv.length)):[];
+    while(out.length<28) out.push(null);
+    // a longer pack than 28 (never saved by this game) folds its extra items into free slots rather than losing them
+    if(out.length>28){ const extra=out.splice(28).filter(Boolean); for(const it of extra){ const i=out.indexOf(null); if(i>=0) out[i]=it; } }
+    return out.map(s=>s&&s.id?s:null);
   },
   reset(){
     if(!this.available()) return;

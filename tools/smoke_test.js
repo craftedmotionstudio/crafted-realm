@@ -34,7 +34,7 @@ window.CR_smoke = function(){
   ok('Player.weaponSpeed()', typeof Player.weaponSpeed==='function' && Player.weaponSpeed()>0);
   ok('Player.moveSpeed()', typeof Player.moveSpeed==='function' && Player.moveSpeed()>0);
   ok('Player.count()', typeof Player.count==='function');
-  ok('Player.inv array (24)', Array.isArray(Player.inv) && Player.inv.length===24);
+  ok('Player.inv array (28, the 2004 backpack)', Array.isArray(Player.inv) && Player.inv.length===28);
   ok('Player.equip slots', has(Player,'equip'));
   ok('Player.xp map', has(Player,'xp') && typeof Player.xp.Attack==='number');
 
@@ -42,7 +42,10 @@ window.CR_smoke = function(){
   ok('autoRetaliate flag', typeof Player.autoRetaliate==='boolean');
   ok('spec energy 0..100', typeof Player.spec==='number' && Player.spec>=0 && Player.spec<=100);
   ok('specArmed flag', typeof Player.specArmed==='boolean');
-  ok('attackStyles map', has(Player,'attackStyles') && typeof Player.attackStyles.melee==='number');
+  ok('combat style index (2004, one per weapon category)', typeof Player.styleIndex==='number');
+  ok('shared 2004 rules loaded (CRShared.combat/pvp/drops)', typeof CRShared==='object' && !!CRShared.combat && !!CRShared.pvp && !!CRShared.drops);
+  ok('offline combat engine on the tick', typeof LocalCombat==='object' && LocalCombat.ready() && LocalCombat.clock()>0);
+  ok('combat presentation funnel', typeof CombatHooks==='object' && typeof CombatHooks.projectile==='function');
   ok('teleport spells present', !!SPELLS.tele_quarry && SPELLS.tele_quarry.utility==='teleport');
   ok('5 teleport spells', Object.keys(SPELLS).filter(function(k){return SPELLS[k].utility==='teleport';}).length===5);
   ok('UI.xpDrop()', typeof UI.xpDrop==='function');

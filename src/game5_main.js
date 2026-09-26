@@ -211,7 +211,8 @@ function update(dt){
   if(typeof Sched!=='undefined') Sched._tick();          // scheduled tick tasks (walk-then-do, repeats)
   Player.tickVitals(dt, playerMovedThisFrame);
   Player.regen(dt);
-  if(Player.target && !Player.target.dead) playerAttack(Player.target, dt);
+  // combat: the 2004 rules on the map clock, NPCs before the player (src/combat_engine.js, shared/combat.js)
+  if(typeof LocalCombat!=='undefined') LocalCombat.tick();
 
   // arrive early: once in range of the action target, stop pathing and act
   if(Player.action && Player.moveTo && Player.action.obj){
@@ -544,76 +545,17 @@ function update(dt){
   }   // ── end fixed-tick player-sim loop ──
   if(_nTicks && typeof TickHealth!=='undefined') TickHealth.sample(performance.now()-_tickT0, _nTicks);
 
+  // NPC AI, attacks, respawns and tile steps run on the tick in the combat engine; per frame they only glide between
+  // tile centres, run boss scripts and animate
   WORLD.npcs.forEach(n=>{
     if(n.dead){
       if(n.dying){                                  // play the death topple, then hide the corpse
         if(typeof tickDeath!=='function' || !tickDeath(n.mesh, dt)){ n.dying=false; n.mesh.visible=false; }
       }
-      n.respawnT-=dt;
-      if(n.respawnT<=0){ n.dead=false; n.dying=false; n.hp=n.t.hp; n.mesh.visible=true;
-        n.mesh.rotation.set(0,0,0);                 // undo the topple
-        if(n.mesh.userData._baseScale!==undefined) n.mesh.scale.setScalar(n.mesh.userData._baseScale);
-        n.mesh.position.set(n.home.x, gy(n.home.x,n.home.z), n.home.z);
-        n.hpbar.spr.visible=false;
-        WORLD.clickables.push(n.mesh); n.target=null; }
       return;
     }
     if(n.t.script && !n.exhibit && typeof BOSS_SCRIPTS!=='undefined' && BOSS_SCRIPTS[n.t.script]) BOSS_SCRIPTS[n.t.script](n, dt);
-    const distP = n.mesh.position.distanceTo(player.position);
-    // OSRS aggression: monsters ignore players above twice their level,
-    // and grow tolerant after ~10 minutes near them — except the Scarlands,
-    // whose horrors (like the Wilderness) never relent.
-    let wantsAggro = n.t.aggro && distP < 7 && !n.exhibit;   // penned exhibits never chase
-    if(typeof GameConfig!=='undefined' && GameConfig.friendlyMode) wantsAggro=false;   // friendly mode: nothing starts a fight
-    if(wantsAggro && n.target!=='player'){
-      const fearless = n.t.alwaysAggro || curZone==='scarlands';
-      if(!fearless){
-        if(Player.combatLevel() > n.t.level*2) wantsAggro=false;
-        else {
-          n.aggroT = (n.aggroT||0) + dt;
-          if(n.aggroT > 600) wantsAggro=false;   // tolerant after 10 minutes
-        }
-        // single-combat (OSRS): if the player is already fighting, others hold back.
-        // Only the Scarlands is multi-combat, like the Wilderness.
-        if(wantsAggro){
-          const busy = (Player.target && !Player.target.dead && Player.target!==n) ||
-            WORLD.npcs.some(o=>o!==n && !o.dead && o.target==='player');
-          if(busy) wantsAggro=false;
-        }
-      }
-    }
-    if(distP > 26) n.aggroT = 0;   // leaving the area resets tolerance
-    if(n.target==='player' || wantsAggro){
-      n.target='player';
-      // OSRS leash: monsters won't be dragged far from their patch — they give up and head home
-      if(distP>16 || n.mesh.position.distanceTo(n.home)>(n.leash||14)){ n.target=null; n.returning=true; }
-      else npcAttack(n, dt);
-    } else if(n.returning){
-      const dh=n.home.clone().sub(n.mesh.position); dh.y=0;
-      if(dh.length()<1.2){ n.returning=false; }
-      else {
-        const st=dh.normalize().multiplyScalar(2.6*dt);
-        const slid=slideMove(n.mesh.position.x,n.mesh.position.z,
-          n.mesh.position.x+st.x,n.mesh.position.z+st.z,0.2);
-        if(slid){ const y=groundY(slid[0],slid[1]);
-          if(y!==null){ n.mesh.position.set(slid[0],y,slid[1]); n.moving=true;
-            n.mesh.lookAt(n.home.x,y,n.home.z); } }
-        else n.returning=false;
-      }
-    } else if(!n.penStatic) {                     // penStatic exhibits idle in place (no pacing)
-      n.wanderT-=dt;
-      if(n.wanderT<=0){ n.wanderT=3+Math.random()*4;
-        n.wDir = new THREE.Vector3(Math.random()-0.5,0,Math.random()-0.5).normalize(); }
-      if(n.wDir){
-        if(n.mesh.position.distanceTo(n.home)>=(n.wanderR||10))
-          n.wDir = n.home.clone().sub(n.mesh.position).setY(0).normalize();
-        const nx=n.mesh.position.x+n.wDir.x*dt*0.7, nz=n.mesh.position.z+n.wDir.z*dt*0.7;
-        if(collides(nx,nz,0.2)){ n.wanderT=0.1; }
-        else { const y=groundY(nx,nz);
-          if(y!==null && y>-1){ n.mesh.position.set(nx,y,nz); n.moving=true;
-            n.mesh.lookAt(nx+n.wDir.x, y, nz+n.wDir.z); } }
-      }
-    }
+    if(typeof LocalCombat!=='undefined') LocalCombat.npcFrame(n, dt);
     const _P=n.mesh.userData.parts;
     n.mesh.userData.inCombat = (n.target==='player' && !n.dead);   // raise a combat stance while engaged
     if(n.mesh.userData.gmix && typeof charNpcAnim==='function') charNpcAnim(n, dt);   // GLB character (skeletal clips)
@@ -857,6 +799,7 @@ function animate(){
   const dt=Math.min(0.05, clock.getDelta());
   update(dt);
   if(typeof CombatFX!=='undefined') CombatFX.update(dt);   // combat feel: splat timing, projectiles, particles, XP drops, shake
+  if(typeof CombatHooks!=='undefined') CombatHooks.update();   // attack animations timed so their impact meets the hit tick
   // Dynamic map paint is bounded; terrain and resource layers cache independently.
   const now=performance.now();
   if(now-_minimapPaintAt>=80){ _minimapPaintAt=now; drawMinimap(); }

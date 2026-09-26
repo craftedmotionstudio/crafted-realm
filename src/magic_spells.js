@@ -59,6 +59,8 @@ function castCurse(sp, npc){
   if(sp.stat==='str') npc.t = Object.assign({}, npc.t, {str: Math.max(1, Math.floor(npc.t.str*sp.cut))});
   Sfx.magicCast();
   fireProjectile('bolt', player, npc, 0, sp.color);
+  // the curse lands like a spell: the foe turns on you when it arrives (2004 npc_retaliate(delay))
+  if(typeof LocalCombat!=='undefined' && typeof CRShared!=='undefined'){ const d=Math.max(1,Math.round(Math.max(Math.abs(player.position.x-npc.mesh.position.x),Math.abs(player.position.z-npc.mesh.position.z)))); LocalCombat.npcRetaliate(npc, CRShared.combat.magicHitDelay(d)); }
   UI.chat(`Your ${sp.name.toLowerCase()} settles over the ${npc.t.name.toLowerCase()}.`,'xp');
   if(UI.refreshSpells) UI.refreshSpells();
 }
