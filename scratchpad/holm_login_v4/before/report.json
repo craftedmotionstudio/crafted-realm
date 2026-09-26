@@ -1,0 +1,14 @@
+{
+ "label": "before",
+ "welcomeShownMs": 39139,
+ "loginAssetBytes": 593973,
+ "assets": {
+  "assets/ui/login_overhaul.css": 13317,
+  "http://127.0.0.1:8102/src/login_overhaul.js": 9178,
+  "assets/icons/ui/v3/login/torch_head.png": 1682,
+  "assets/icons/ui/v3/login/torch_base.png": 1551,
+  "assets/icons/ui/v3/login/title.png": 9330,
+  "assets/ui/login_bg.png": 558915
+ },
+ "errors": []
+}
