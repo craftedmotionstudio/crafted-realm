@@ -79,6 +79,16 @@ So, from the tick T of the swing:
 | NPC melee on a player | the same tick (NPCs act before players) |
 | NPC ranged / magic on a player | T + floor((32 + 5d) / 30) / T + floor((46 + 10d) / 30) |
 
+### Soak numbers (2026-09-25, this Windows dev machine, bots in the same process)
+
+| Bots | Real time | World.cycle avg / p50 / p95 / p99 / max (ms) | Sent per tick |
+|---|---|---|---|
+| 50 (25 PvP, 25 PvM) | 300 s, 550 ticks at 600 ms, 19 PvP kills | 6.7 / 5.7 / 11.8 / 27.7 / 91.8 | ~19 KB |
+| 100 | 120 s, 300 ticks | 11.7 / 11.1 / 21.7 / 52.1 / 68.7 | ~63 KB |
+
+The budget is 600 ms. Most of the cost is building and serialising the per-client deltas (`info`,
+`clientsOut`), which grows with players-in-view squared; the occasional spikes are GC / OS jitter.
+
 ## Collision map format (`server/data/maps/*.json`)
 
 ```json
