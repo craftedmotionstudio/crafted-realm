@@ -6,7 +6,7 @@
  * tools/rebuild_holm_v2land.js rewrites the export id below when the land is rebuilt. Pure data; no side effects. */
 var HolmV2Land=(function(){
  'use strict';
- var ARRIVAL={baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v1/exports/',exportId:'589df1bc6159c2a4'};
+ var ARRIVAL={baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v1/exports/',exportId:'2975e0f7fe4a1844'};
  var REGISTRY='/docs/rebuild/holm-overhaul/v2land.json';
  function asset(u){return typeof HolmIsland!=='undefined'?HolmIsland.asset(u):u}
  // registry path ('.studio-workspaces/...') -> the URL the island loads (published copy in production)

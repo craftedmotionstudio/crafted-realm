@@ -54,8 +54,8 @@ function load(opts){
  const L=read('docs/rebuild/holm-overhaul/island-lessons.json');
  L.trees.forEach(t=>{const r=L.treeBlockRadius*(t.scale||1);blockers.push({id:'lesson:'+t.id,mode:'overlap',x0:t.x-r,x1:t.x+r,z0:t.z-r,z1:t.z+r})});
  L.rocks.forEach(k=>{const r=L.rockBlockRadius;blockers.push({id:'lesson:'+k.id,mode:'overlap',x0:k.x-r,x1:k.x+r,z0:k.z-r,z1:k.z+r})});
- // the runtime's bridge data (tools/rebuild_holm_v2land.js measures the design's decks on the v2 land into it)
- const bridges=read('docs/rebuild/holm-overhaul/island-bridges.json').bridges;
+ // the design's crossings measured on the v2 land (tools/rebuild_holm_v2land.js writes the same into island-bridges.json)
+ const bridges=design.bridges.map(x=>Nav.bridgeFrom(terrain,x));
  return {terrain,design,seats,layout,arrival,dock,scenery,blockers,buildings,bridges,plan,lessons:L,status,
   ladders:read('docs/rebuild/holm-overhaul/island-ladders.json').ladders,
   arrivalFootprints:[{x0:w.x-b.width/2,x1:w.x+b.width/2,z0:w.z-b.depth/2,z1:w.z+b.depth/2}]};

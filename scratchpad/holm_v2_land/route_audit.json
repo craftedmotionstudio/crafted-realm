@@ -1,0 +1,225 @@
+{
+ "rows": [
+  {
+   "name": "study_route (chart)",
+   "reachable": true,
+   "walked": 34,
+   "seconds": 20.4,
+   "from": 1,
+   "to": 4.4,
+   "rise": 3.4,
+   "fall": 0,
+   "steepestLink": 0.275
+  },
+  {
+   "name": "equip_hatchet (rack)",
+   "reachable": true,
+   "walked": 4,
+   "seconds": 2.4,
+   "from": 4.4,
+   "to": 4.4,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "chop_logs (survival-oak-1)",
+   "reachable": true,
+   "walked": 58,
+   "seconds": 34.8,
+   "from": 4.4,
+   "to": 3,
+   "rise": 4.4,
+   "fall": 5.8,
+   "steepestLink": 0.797
+  },
+  {
+   "name": "light_fire (survival fire)",
+   "reachable": true,
+   "walked": 28,
+   "seconds": 16.8,
+   "from": 3,
+   "to": 3.6,
+   "rise": 1.7,
+   "fall": 1.1,
+   "steepestLink": 0.754
+  },
+  {
+   "name": "cook_fish (fire)",
+   "reachable": true,
+   "walked": 0,
+   "seconds": 0,
+   "from": 3.6,
+   "to": 3.6,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "bake_bread (oven)",
+   "reachable": true,
+   "walked": 54,
+   "seconds": 32.4,
+   "from": 3.6,
+   "to": 5.4,
+   "rise": 4.4,
+   "fall": 2.6,
+   "steepestLink": 0.667
+  },
+  {
+   "name": "learn_quests (board)",
+   "reachable": true,
+   "walked": 50,
+   "seconds": 30,
+   "from": 5.4,
+   "to": 6.4,
+   "rise": 2,
+   "fall": 1,
+   "steepestLink": 0.604
+  },
+  {
+   "name": "descend_cavern (shaft)",
+   "reachable": true,
+   "walked": 55,
+   "seconds": 33,
+   "from": 6.4,
+   "to": 9.15,
+   "rise": 4.2,
+   "fall": 1.5,
+   "steepestLink": 0.763
+  },
+  {
+   "name": "mine_copper",
+   "reachable": true,
+   "walked": 12,
+   "seconds": 7.2,
+   "from": 9.15,
+   "to": -30,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "mine_tin",
+   "reachable": true,
+   "walked": 6,
+   "seconds": 3.6,
+   "from": -30,
+   "to": -30,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "smelt_bronze (furnace)",
+   "reachable": true,
+   "walked": 10,
+   "seconds": 6,
+   "from": -30,
+   "to": -30,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "forge_dagger (anvil)",
+   "reachable": true,
+   "walked": 3,
+   "seconds": 1.8,
+   "from": -30,
+   "to": -30,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "melee/ranged trial (keep court)",
+   "reachable": true,
+   "walked": 174,
+   "seconds": 104.4,
+   "from": -30,
+   "to": 10.97,
+   "rise": 22.1,
+   "fall": 20.3,
+   "steepestLink": 0.893
+  },
+  {
+   "name": "open_bank (counter)",
+   "reachable": true,
+   "walked": 48,
+   "seconds": 28.8,
+   "from": 10.97,
+   "to": 7.3,
+   "rise": 1.4,
+   "fall": 5.1,
+   "steepestLink": 0.898
+  },
+  {
+   "name": "magic_trial (mage yard)",
+   "reachable": true,
+   "walked": 48,
+   "seconds": 28.8,
+   "from": 7.3,
+   "to": 7.52,
+   "rise": 4.4,
+   "fall": 4.2,
+   "steepestLink": 0.873
+  },
+  {
+   "name": "relight_lastlight (lever)",
+   "reachable": true,
+   "walked": 104,
+   "seconds": 62.4,
+   "from": 7.52,
+   "to": 26.8,
+   "rise": 13.2,
+   "fall": 2.9,
+   "steepestLink": 0.895
+  },
+  {
+   "name": "departure (skiff)",
+   "reachable": true,
+   "walked": 157,
+   "seconds": 94.2,
+   "from": 26.8,
+   "to": 0.95,
+   "rise": 4.2,
+   "fall": 21.1,
+   "steepestLink": 0.895
+  }
+ ],
+ "total": 845,
+ "unreachableTargets": [
+  "lodge:north-lane"
+ ],
+ "status": {
+  "keep": "measured",
+  "bakehouse": "measured",
+  "lodge": "measured",
+  "survival": "measured",
+  "quarry": "measured",
+  "bank": "measured",
+  "mage": "measured",
+  "haven": "measured",
+  "lastlight": "measured",
+  "cavern": "measured"
+ },
+ "stats": {
+  "nodes": 10848,
+  "edges": 17695,
+  "owners": {
+   "land": 7913,
+   "b:keep": 860,
+   "b:bakehouse": 237,
+   "b:lodge": 376,
+   "b:survival": 249,
+   "b:quarry": 108,
+   "b:bank": 182,
+   "b:mage": 298,
+   "b:haven": 163,
+   "b:lastlight": 208,
+   "b:cavern": 85,
+   "arrival": 169
+  }
+ }
+}

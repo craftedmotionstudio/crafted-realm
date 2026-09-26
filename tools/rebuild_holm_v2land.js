@@ -16,7 +16,7 @@ const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(abs(p))).digest(
 const args=process.argv.slice(2);
 function node(script,...a){const r=cp.spawnSync(process.execPath,[script,...a],{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024,windowsHide:true});
  if(r.status!==0){console.error((r.stdout||'').slice(-3000),(r.stderr||'').slice(-3000));throw Error(script+' failed')}return r.stdout}
-function blender(v,a){const r=cp.spawnSync('C:/Program Files/Blender Foundation/Blender '+v+'/blender.exe',['-b','--python-exit-code','1','--python',...a],{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024,windowsHide:true});
+function blender(v,a,blend){const r=cp.spawnSync('C:/Program Files/Blender Foundation/Blender '+v+'/blender.exe',['-b',...(blend?[blend]:[]),'--python-exit-code','1','--python',...a],{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024,windowsHide:true});
  if(r.status!==0){console.error((r.stdout||'').slice(-3000),(r.stderr||'').slice(-3000));throw Error('blender '+a[0]+' failed')}return r.stdout}
 const SNAP='docs/rebuild/holm-overhaul/v2land/v1-snapshot/',DATA='docs/rebuild/holm-overhaul/';
 // 1-2
@@ -57,7 +57,7 @@ if(args.includes('--bridges')){
  for(const [id,name,rule] of [['timber','timber_teaching_bridge',[['(?i)weathered oak|oak (lit|shade)','planks',1]]],['stone','stone_village_bridge',null]]){
   const base=read(DATA+'oldschool/bridge-'+id+'.textures.json'),spec=Object.assign({},base,{source:raw+'/'+name+'.blend',reference:raw+'/'+name+'.glb',outBlend:tex+'/'+name+'.blend',outGlb:tex+'/'+name+'.glb',report:tex+'/'+id+'.report.json',
    manifest:{from:raw+'/manifest.json',to:tex+'/manifest.json'}});if(rule)spec.rules=rule;
-  const sp='docs/rebuild/holm-overhaul/v2land/bridge-'+id+'.textures.json';write(sp,spec);blender(base.blender||'4.5',['tools/blender/apply_oldschool_textures.py','--',sp]);
+  const sp='docs/rebuild/holm-overhaul/v2land/bridge-'+id+'.textures.json';write(sp,spec);blender(base.blender||'4.5',['tools/blender/apply_oldschool_textures.py','--',sp],abs(spec.source));   // the recipe works on the opened .blend
  }
  // the textured manifest names the textured files' hashes
  const man=read(raw+'/manifest.json');man.bridges.forEach(b=>{b.sha256_glb=sha(tex+'/'+b.file);const bl=tex+'/'+b.file.replace(/\.glb$/,'.blend');if(fs.existsSync(abs(bl)))b.sha256_blend=sha(bl)});
