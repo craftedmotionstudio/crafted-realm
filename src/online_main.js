@@ -205,6 +205,8 @@ var OnlineMain=(function(){
   // the adventurer: the Blender character kit with the look saved on the server
   if(typeof CharCfg!=='undefined'&&w.lk)CharCfg.kit=w.lk;
   if(typeof HolmIslandPlayer!=='undefined'&&!HolmIslandPlayer.active())HolmIslandPlayer.load().catch(function(){});
+  // the offline tutorial's guidance arrow has no place online
+  if(typeof GuideArrow!=='undefined'&&GuideArrow.setTarget){try{GuideArrow.setTarget(null)}catch(e){}GuideArrow.setTarget=function(){}}
   if(!st.entered){
    st.entered=true;
    document.getElementById('welcome-screen').style.display='none';

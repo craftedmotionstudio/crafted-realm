@@ -276,7 +276,7 @@ var OnlineWorld=(function(){
   function kindAt(wz,r){var sz=b.z2-Math.floor(wz),isWild=wild&&sz>=wild.z1-1;
    return isWild?(r<0.45?'deadtree':r<0.75?'rocks':r<0.9?'stones':'deadtree'):(r<0.4?'oak':r<0.75?'pine':'birch')}
   function add(wx,wz,seed){var r=OnlineMap.hash(Math.floor(wx*3),Math.floor(wz*3),seed);out.push({kind:kindAt(Math.max(0,Math.min(D-1,wz)),r),wx:wx,wz:wz,scale:0.8+r*0.5,rot:Math.floor(r*360)})}
-  for(var row=0;row<2;row++){var off=2.5+row*2.6;
+  for(var row=0;row<2;row++){var off=3.5+row*2.6;
    for(var j=-4;j<D+4;j+=3){add(-off-OnlineMap.hash(j,row,2)*1.5,j+.5+row*1.4,5+row);add(W+off+OnlineMap.hash(j,row,3)*1.5,j+.5+row*1.4,7+row)}
    for(var i=-2;i<W+2;i+=3){add(i+.5+row*1.4,-off-OnlineMap.hash(i,row,4)*1.5,9+row);add(i+.5+row*1.4,D+off+OnlineMap.hash(i,row,5)*1.5,11+row)}}
   return out;

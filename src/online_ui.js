@@ -25,7 +25,7 @@ var OnlineUI=(function(){
   var s=document.createElement('style');s.id='online-ui-css';s.textContent=[
    '.online-field{width:100%;box-sizing:border-box;padding:5px;margin:0 0 8px;text-align:center;font:bold 12px var(--lg-font,Verdana);color:var(--lg-yellow,#ff0);background:#0f0d09;border:0;border-radius:0;box-shadow:inset 0 0 0 1px #1a140c,inset 1px 1px 0 1px #231e17,0 0 0 1px #5a5245;user-select:text;outline:none}',
    '#online-status.err{color:#ff7a5a}#online-status.ok{color:#7fdc6e}',
-   'html[data-online="1"] #objective{display:none!important}',
+   'html[data-online="1"] #objective,html[data-online="1"] #guide-edge-arrow{display:none!important}',
    '#onl-wild{position:absolute;right:252px;bottom:176px;z-index:30;display:none;pointer-events:none;text-align:center;font:bold 13px "Realm Small",Verdana,sans-serif;color:#ffff00;text-shadow:1px 1px 0 #000,0 0 3px #000}',
    '#onl-wild img{display:block;margin:0 auto;image-rendering:pixelated}#onl-wild .lvl{margin-top:1px}#onl-wild .multi{margin-top:4px;display:none}#onl-wild .skt{color:#ff981f;font-size:11px;margin-top:2px}',
    '#onl-overlay{position:absolute;inset:0;z-index:95;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.35);font:13px "Realm Small",Verdana,sans-serif}',
