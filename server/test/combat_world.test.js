@@ -322,3 +322,22 @@ test('special attack hook: an armed special spends energy and scales that one sw
   assert.equal(npc.maxHp - npc.hp, Math.floor(max * spec.dmg));
   w.collision.unload();
 });
+
+test('an npc caster retaliates from range: its spell lands floor((46 + 10d) / 30) ticks after the cast', () => {
+  const w = fieldWorld({ spawns: [spawn('hex_adept', 15, 10)] });
+  w.rng = alwaysHit(0);
+  const npc = [...w.npcs.values()][0];
+  assert.equal(npc.attackType, 'magic');
+  const { p, s } = addPlayer(w, 'archer', fighter({ pos: { x: 10, z: 10 }, equip: { weapon: 'worn_bow' }, inv: [['arrows', 50]] }));
+  const log = watchHits(w, { p });
+  const T0 = w.tick;
+  s.intent({ t: 'op_npc', nid: npc.nid, op: 'attack' });
+  runUntil(w, () => log.p.length > 0, 20);
+  // the npc retaliates when the arrow lands (npc_retaliate(delay): T0+3), flinches floor(5/2) = 2 ticks,
+  // casts at T0+5, and its spell takes floor((46 + 50) / 30) = 3 ticks
+  assert.equal(C.rangedHitDelay(5), 3);
+  assert.equal(C.npcMagicHitDelay(5), 3);
+  assert.equal(log.p[0].tick - T0, 3 + 2 + 3);
+  assert.deepEqual([npc.x, npc.z], [15, 10], 'a caster fights from where it stands');
+  w.collision.unload();
+});
