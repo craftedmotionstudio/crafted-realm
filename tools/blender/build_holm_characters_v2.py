@@ -2706,7 +2706,7 @@ STANCE = {'LeftUpLeg': (-2.5, -3, 6), 'RightUpLeg': (-2.5, 3, -6), 'LeftLeg': (5
 # hand sits in front of the hip / upper thigh (outside the thigh, never at the crotch). Authored as absolute directions in
 # the idle; stored as each bone's local rotation (stance_local), so an Euler arm spec in any clip is a delta over the
 # stance (a walk swing pivots the bent arm at the shoulder) and a bone left out of a pose keeps its stance bend.
-STANCE_ARM_AIM = {'LeftArm': (.135, .016, -.250), 'LeftForeArm': (.045, -.500, -.865), 'LeftHand': (.035, -.560, -.828)}
+STANCE_ARM_AIM = {'LeftArm': (.155, .016, -.250), 'LeftForeArm': (.045, -.500, -.865), 'LeftHand': (.035, -.560, -.828)}
 STANCE_ARM_AIM.update({k.replace('Left', 'Right'): (-v[0], v[1], v[2]) for k, v in list(STANCE_ARM_AIM.items())})
 _STANCE_LOCAL = {}
 
@@ -5351,9 +5351,9 @@ def v30_sheets(arm, mats, objs, clips, default_colors, j):
         else:
             arm.animation_data.action = clips[clip]
             sc.frame_set(fr)
-    def shoulder_center(side):
+    def shoulder_center(side, raised=False):
         bpy.context.view_layer.update()
-        return tuple(arm.matrix_world @ arm.pose.bones[B(side + 'Arm')].head + Vector(((.07 if side == 'Left' else -.07), 0, -.05)))
+        return tuple(arm.matrix_world @ arm.pose.bones[B(side + 'Arm')].head + Vector(((.07 if side == 'Left' else -.07), 0, .03 if raised else -.05)))
     # (b) shoulders
     STATES = [('rest (bind pose)', None, 0, 'Left', (.60, -.80, .15)), ('idle f0', 'idle', 0, 'Left', (.60, -.80, .15)),
               ('walk f0 (widest swing)', 'walk', 0, 'Left', (.55, .80, .18)), ('walk f7 (widest swing)', 'walk', 7, 'Left', (.60, -.80, .15)),
@@ -5368,7 +5368,9 @@ def v30_sheets(arm, mats, objs, clips, default_colors, j):
                 for ti in range(1, len(KIT[bt]['Torso']) + 1):
                     show_only(outfit(bt, Arms=ai, Torso=ti, Hair=2))
                     pose(clip, fr)
-                    p = shoot(j('grid', 'v30sh_%s_A%02d_T%02d_%s%d.png' % (bt, ai, ti, clip or 'rest', fr)), (170, 170), vd, shoulder_center(side), .40)
+                    raised = clip in ('attack_slash', 'attack_crush')
+                    p = shoot(j('grid', 'v30sh_%s_A%02d_T%02d_%s%d.png' % (bt, ai, ti, clip or 'rest', fr)), (170, 170), vd, shoulder_center(side, raised),
+                              .50 if raised else .40)
                     cs.append(cell(p, 'T%02d %s' % (ti, KIT[bt]['Torso'][ti - 1][0])[:22], bg=BG_REF))
                 rows.append({'title': 'Arms %02d %s -- %s' % (ai, KIT[bt]['Arms'][ai - 1][0], lab), 'height': 150, 'cells': cs})
         pose(None, 0)
