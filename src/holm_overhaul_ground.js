@@ -57,6 +57,13 @@ var HolmOverhaulGround=(function(){
   blendInner:6,patch:.13,jitter:.07,
   // broad meadow variation (about twelve tiles across): lighter yellow-olive fields against deeper green hollows
   broad:.16,warm:.1};
+ // look pass 2 (2026-09-26, src/holm_oldschool_look.js v2): measured against the Bible references, the grass underlay
+ // ~10% darker (the refs' olive meadow, L ~.29), the beach sand ~8% lighter, a little more per-tile jitter (close
+ // shades that still read as squares); everything else as the first look.
+ // setLookVersion(1) restores the first look's table exactly.
+ var LOOK_V1=JSON.stringify(LOOK),LOOK_V2={palette:[[197,179,123],[119,139,45],[134,126,104],[122,108,76],[128,138,112]],jitter:.09};
+ function setLookVersion(v){var src=JSON.parse(LOOK_V1);if(v>1)Object.keys(LOOK_V2).forEach(function(k){src[k]=JSON.parse(JSON.stringify(LOOK_V2[k]))});
+  Object.keys(src).forEach(function(k){LOOK[k]=src[k]});return LOOK}
  var lattice=null;
  // the whole island's height/material lattice, so edge vertices get their true slope and blend across chunk seams
  function setTerrain(t){lattice=t&&Array.isArray(t.heights)&&Array.isArray(t.materials)?{W:t.width,D:t.depth,h:t.heights,m:t.materials}:null}
@@ -123,6 +130,6 @@ var HolmOverhaulGround=(function(){
   var ix=Math.floor(x),iz=Math.floor(z),fx=x-ix,fz=z-iz;
   return (V(ix,iz)*(1-fx)+V(ix+1,iz)*fx)*(1-fz)+(V(ix,iz+1)*(1-fx)+V(ix+1,iz+1)*fx)*fz;
  }
- return {chunk:chunk,chunkOldschool:chunkOldschool,setTerrain:setTerrain,lightAt:lightAt,LOOK:LOOK,tileColour:tileColour,patch:patch,PALETTE:PALETTE,DIRT:DIRT,setPaths:setPaths};
+ return {chunk:chunk,chunkOldschool:chunkOldschool,setTerrain:setTerrain,setLookVersion:setLookVersion,LOOK_V2:LOOK_V2,lightAt:lightAt,LOOK:LOOK,tileColour:tileColour,patch:patch,PALETTE:PALETTE,DIRT:DIRT,setPaths:setPaths};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmOverhaulGround;

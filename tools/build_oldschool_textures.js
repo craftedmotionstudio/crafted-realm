@@ -269,6 +269,8 @@ const USE={grass_a:'terrain grass (large scale)',grass_b:'terrain grass (second 
  charred_planks:'burnt boards, carts, crossings',ruined_stone:'fire-scarred ruins: walls, pillars, arches'};
 // building textures get detail headroom too (see Tex.headroom)
 const HEADROOM=['brick','stone_course','plaster','planks','beam','thatch','roof_tiles','dark_rock','charred_planks','ruined_stone','hide_ash','scales_ember','fur_ashen'];
+// look pass 2 (2026-09-26): soft variants under new names (tools/oldschool_textures_v2.js); the first kit is unchanged
+require('./oldschool_textures_v2')({R,USE,HEADROOM,Tex,rng,vnoise,fbm,mixc});
 const kit={schema:'crafted-realm-oldschool-texture-kit-v1',generator:'tools/build_oldschool_textures.js',textures:{}};
 for(const [name,make] of Object.entries(R)){
  const t=make(),file=name+'.png';if(HEADROOM.includes(name))t.headroom(.82);fs.writeFileSync(path.join(OUT,file),png(t.n,t.n,t.bytes()));

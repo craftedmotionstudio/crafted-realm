@@ -311,6 +311,116 @@
     0.5708
    ],
    "use": "cinder rat fur"
+  },
+  "dirt_soft": {
+   "file": "assets/textures/oldschool/dirt_soft.png",
+   "size": 64,
+   "mean": [
+    0.865,
+    0.8352,
+    0.7789
+   ],
+   "use": "look v2: worn earth paths (soft, faint pebbles)"
+  },
+  "sand_soft": {
+   "file": "assets/textures/oldschool/sand_soft.png",
+   "size": 64,
+   "mean": [
+    0.8909,
+    0.8737,
+    0.8276
+   ],
+   "use": "look v2: beach sand (soft grain)"
+  },
+  "leaves_soft": {
+   "file": "assets/textures/oldschool/leaves_soft.png",
+   "size": 64,
+   "mean": [
+    0.6063,
+    0.724,
+    0.3808
+   ],
+   "use": "look v2: tree crowns, shrubs, hazel, tufts (small close-toned leaves)"
+  },
+  "needles_soft": {
+   "file": "assets/textures/oldschool/needles_soft.png",
+   "size": 64,
+   "mean": [
+    0.6035,
+    0.82,
+    0.6639
+   ],
+   "use": "look v2: pine crowns (soft)"
+  },
+  "bark_soft": {
+   "file": "assets/textures/oldschool/bark_soft.png",
+   "size": 64,
+   "mean": [
+    0.82,
+    0.6518,
+    0.4826
+   ],
+   "use": "look v2: oak / pine trunks (shallow fissures)"
+  },
+  "roof_tiles_soft": {
+   "file": "assets/textures/oldschool/roof_tiles_soft.png",
+   "size": 64,
+   "mean": [
+    0.82,
+    0.4973,
+    0.3642
+   ],
+   "use": "look v2: clay tile / shingle roofs (soft joints)"
+  },
+  "thatch_soft": {
+   "file": "assets/textures/oldschool/thatch_soft.png",
+   "size": 64,
+   "mean": [
+    0.82,
+    0.6989,
+    0.4228
+   ],
+   "use": "look v2: thatch roofs (close straw tones)"
+  },
+  "stone_course_soft": {
+   "file": "assets/textures/oldschool/stone_course_soft.png",
+   "size": 64,
+   "mean": [
+    0.82,
+    0.8165,
+    0.7788
+   ],
+   "use": "look v2: coursed stone walls (soft mortar)"
+  },
+  "planks_soft": {
+   "file": "assets/textures/oldschool/planks_soft.png",
+   "size": 64,
+   "mean": [
+    0.82,
+    0.5946,
+    0.3782
+   ],
+   "use": "look v2: boards, decks, doors (soft grain)"
+  },
+  "beam_soft": {
+   "file": "assets/textures/oldschool/beam_soft.png",
+   "size": 64,
+   "mean": [
+    0.82,
+    0.5983,
+    0.4044
+   ],
+   "use": "look v2: timber frames, posts (soft grain)"
+  },
+  "plaster_soft": {
+   "file": "assets/textures/oldschool/plaster_soft.png",
+   "size": 64,
+   "mean": [
+    0.8874,
+    0.8655,
+    0.8245
+   ],
+   "use": "look v2: limewash plaster (smooth)"
   }
  }
 }

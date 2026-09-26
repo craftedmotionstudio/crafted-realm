@@ -1,0 +1,147 @@
+{
+ "tag": "live",
+ "url": "http://127.0.0.1:8101/?holmIsland=1&qaProfile=look-live-muig0nhu",
+ "look": {
+  "look": "oldschool",
+  "active": true,
+  "textures": [
+   "grass_a",
+   "grass_b",
+   "sand",
+   "rock",
+   "mud",
+   "dirt",
+   "water"
+  ],
+  "stats": {
+   "groundMaterials": 2,
+   "textures": 7,
+   "models": 32,
+   "maps": 750
+  },
+  "arrival": {
+   "baseUrl": "/.studio-workspaces/holm-arrival-package-oldschool-v3/exports/",
+   "exportId": "9348a2aba6c3f2c8"
+  },
+  "swaps": [
+   "survival",
+   "keep",
+   "kitchen",
+   "lodge",
+   "bank",
+   "mage",
+   "lastlight",
+   "quarry",
+   "haven",
+   "cavern",
+   "trees",
+   "bridges",
+   "props1",
+   "props3",
+   "props5"
+  ],
+  "classic": null
+ },
+ "views": [
+  {
+   "view": "01_arrival_landing",
+   "calls": 413,
+   "triangles": 209754,
+   "textures": 274,
+   "programs": 51,
+   "fps": 32,
+   "worstMs": 71.1
+  },
+  {
+   "view": "02_guide_house_exterior",
+   "calls": 447,
+   "triangles": 229401,
+   "textures": 320,
+   "programs": 57,
+   "fps": 40,
+   "worstMs": 60.4
+  },
+  {
+   "view": "03_guide_house_interior",
+   "calls": 351,
+   "triangles": 190352,
+   "textures": 320,
+   "programs": 57,
+   "fps": 33,
+   "worstMs": 119.4
+  },
+  {
+   "view": "04_survival_camp",
+   "calls": 473,
+   "triangles": 216505,
+   "textures": 342,
+   "programs": 57,
+   "fps": 36,
+   "worstMs": 73.9
+  },
+  {
+   "view": "05_timber_bridge",
+   "calls": 363,
+   "triangles": 167970,
+   "textures": 342,
+   "programs": 57,
+   "fps": 39,
+   "worstMs": 100.5
+  },
+  {
+   "view": "06_fishing_spot",
+   "calls": 308,
+   "triangles": 153262,
+   "textures": 342,
+   "programs": 57,
+   "fps": 38,
+   "worstMs": 72
+  },
+  {
+   "view": "07_bakehouse_court",
+   "calls": 470,
+   "triangles": 210793,
+   "textures": 366,
+   "programs": 57,
+   "fps": 35,
+   "worstMs": 106
+  },
+  {
+   "view": "08_keep_court",
+   "calls": 364,
+   "triangles": 178536,
+   "textures": 402,
+   "programs": 57,
+   "fps": 39,
+   "worstMs": 78.2
+  },
+  {
+   "view": "09_lighthouse_approach",
+   "calls": 429,
+   "triangles": 173954,
+   "textures": 404,
+   "programs": 57,
+   "fps": 34,
+   "worstMs": 167.5
+  },
+  {
+   "view": "10_hill_panorama",
+   "calls": 592,
+   "triangles": 240563,
+   "textures": 407,
+   "programs": 57,
+   "fps": 28,
+   "worstMs": 93.3
+  }
+ ],
+ "pageErrors": [
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+ ],
+ "missing": [
+  "/BUILD_INFO.json?_=1790430390794",
+  "/favicon.ico",
+  "/favicon.ico"
+ ]
+}

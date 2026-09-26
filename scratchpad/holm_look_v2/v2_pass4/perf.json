@@ -1,0 +1,179 @@
+{
+ "tag": "v2_pass4",
+ "url": "http://127.0.0.1:8101/?holmIsland=1&qaProfile=look-v2_pass4-muiht8li",
+ "look": {
+  "look": "oldschool",
+  "version": 2,
+  "active": true,
+  "textures": [
+   "leaves_soft",
+   "needles_soft",
+   "bark_soft",
+   "roof_tiles_soft",
+   "thatch_soft",
+   "stone_course_soft",
+   "plaster_soft",
+   "grass_a",
+   "grass_b",
+   "sand_soft",
+   "rock",
+   "mud",
+   "dirt_soft",
+   "water"
+  ],
+  "stats": {
+   "groundMaterials": 2,
+   "textures": 14,
+   "models": 32,
+   "maps": 750,
+   "regraded": 159,
+   "swapped": 63,
+   "vertexColoured": 44,
+   "kept": {
+    "beam": 60,
+    "planks": 27,
+    "keep-wood": 1,
+    "lodge_wood": 1,
+    "dirt": 1,
+    "path": 1,
+    "bark_birch": 1,
+    "reed-seedheads": 1
+   }
+  },
+  "arrival": {
+   "baseUrl": "/.studio-workspaces/holm-arrival-package-oldschool-v3/exports/",
+   "exportId": "9348a2aba6c3f2c8"
+  },
+  "swaps": [
+   "survival",
+   "keep",
+   "kitchen",
+   "lodge",
+   "bank",
+   "mage",
+   "lastlight",
+   "quarry",
+   "haven",
+   "cavern",
+   "trees",
+   "bridges",
+   "props1",
+   "props3",
+   "props5"
+  ],
+  "classic": {
+   "enabled": false,
+   "forced": null,
+   "internal": [
+    0,
+    0
+   ],
+   "factor": 0,
+   "target": 503,
+   "frames": 0,
+   "palette": 0
+  }
+ },
+ "views": [
+  {
+   "view": "01_arrival_landing",
+   "calls": 413,
+   "triangles": 209754,
+   "textures": 258,
+   "programs": 34,
+   "fps": 43,
+   "worstMs": 47.4
+  },
+  {
+   "view": "02_guide_house_exterior",
+   "calls": 447,
+   "triangles": 229401,
+   "textures": 294,
+   "programs": 40,
+   "fps": 39,
+   "worstMs": 76.2
+  },
+  {
+   "view": "03_guide_house_interior",
+   "calls": 351,
+   "triangles": 190352,
+   "textures": 294,
+   "programs": 40,
+   "fps": 44,
+   "worstMs": 55
+  },
+  {
+   "view": "04_survival_camp",
+   "calls": 474,
+   "triangles": 216507,
+   "textures": 314,
+   "programs": 40,
+   "fps": 42,
+   "worstMs": 51.9
+  },
+  {
+   "view": "05_timber_bridge",
+   "calls": 364,
+   "triangles": 167972,
+   "textures": 314,
+   "programs": 40,
+   "fps": 45,
+   "worstMs": 42
+  },
+  {
+   "view": "06_fishing_spot",
+   "calls": 308,
+   "triangles": 153262,
+   "textures": 314,
+   "programs": 40,
+   "fps": 48,
+   "worstMs": 42.1
+  },
+  {
+   "view": "07_bakehouse_court",
+   "calls": 471,
+   "triangles": 210795,
+   "textures": 333,
+   "programs": 40,
+   "fps": 39,
+   "worstMs": 67.1
+  },
+  {
+   "view": "08_keep_court",
+   "calls": 364,
+   "triangles": 178536,
+   "textures": 359,
+   "programs": 40,
+   "fps": 42,
+   "worstMs": 54.9
+  },
+  {
+   "view": "09_lighthouse_approach",
+   "calls": 429,
+   "triangles": 173954,
+   "textures": 359,
+   "programs": 40,
+   "fps": 33,
+   "worstMs": 73.5
+  },
+  {
+   "view": "10_hill_panorama",
+   "calls": 592,
+   "triangles": 240563,
+   "textures": 362,
+   "programs": 40,
+   "fps": 39,
+   "worstMs": 49.9
+  }
+ ],
+ "pageErrors": [
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+ ],
+ "missing": [
+  "/BUILD_INFO.json?_=1790433398593",
+  "/favicon.ico",
+  "/favicon.ico"
+ ]
+}
