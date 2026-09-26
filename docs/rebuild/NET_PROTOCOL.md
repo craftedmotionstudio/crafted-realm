@@ -12,7 +12,10 @@ Keep this file in step with them and bump the version on any incompatible change
 ## Transport
 
 - WebSocket, text frames, one JSON object per frame, every object has a string `t`.
-- Default port `43594` (`CR_PORT`). `GET /health` on the same port returns `{ok, tick, players, cycleMs}`.
+- Default port `43594` (`CR_PORT`), interface `127.0.0.1` (`CR_HOST`; a hosted world sets it explicitly). `GET /health`
+  on the same port returns `{ok, tick, players, cycleMs}`; `GET /map` (W2) returns the map the world runs (bounds,
+  blocked / water / walls, areas, respawn, `decor`, `alpha`, optional `placement` for the Scarlands art kit; never the
+  monster spawn table) so a client can build the world before logging in. Both answer with CORS `*`.
 - Frames larger than 4096 bytes are refused.
 - Coordinates are **tiles**: `x` grows east, `z` grows **north** (the Wilderness is north of the Ditch).
   Level (floor) is `0` in W1. One client world unit should equal one tile.
@@ -49,7 +52,7 @@ logout {}             ---->
 |---|---|---|
 | `hello` | `v` (int, must be 1), `client` (string, optional) | First message. Wrong version: `error {code:'version', need:1}` and the socket closes. |
 | `register` | `user` (1-12 letters, digits, space, `-`, `_`), `pass` (8-64 chars) | Creates an account. Case-insensitive names. |
-| `login` | `user`, `pass` | Enters the world on the next tick. |
+| `login` | `user`, `pass`, `look` (optional, W2) | Enters the world on the next tick. `look` is the character-kit look (below); it is only used when the account has no saved look yet. |
 | `ping` | `n` (any, optional) | Answered at once with `pong`. Also allowed in game. |
 
 ### In game (intents)
@@ -78,6 +81,8 @@ otherwise delayed. Ids (`pid`, `nid`, `uid`) must be of something currently in t
 | `spec` | `on` (bool) | Arms the weapon's special attack for the next swing (our design; 2004 had none). |
 | `chat` | `text` (string) | Public overhead chat, up to 80 characters, one line per tick; `<` `>` and control characters are removed. |
 | `teleport` | `spell` (a `SPELLS` entry with `utility:'teleport'`) | 2-tick cast, then the jump. Refused above Wilderness level 20. |
+| `look` | `look` (object, W2) | Change your character-kit look `{body:'A'|'B', parts:{Hair,Jaw,Torso,Arms,Hands,Legs,Feet,Makeup: 1..64}, colors:{hair,torso,legs,feet,skin,makeup: 0..63}, build, feet}`; sanitised (`server/engine/look.js`); only outside the Scarlands and out of combat. |
+| `kit` | `name` (W2 alpha) | Take a fighting kit from the Commons supply chest (`map.alpha.kits`: `melee` / `ranged` / `magic`): replaces the whole pack and all worn gear, sets the style (and autocast). Only within `alpha.reach` tiles of `alpha.chest`, outside the Scarlands, out of combat, once per `alpha.cooldown` ticks. |
 | `logout` | | Leaves when the logout lock allows (not within 16 ticks of being hit or attacked). A refused request is dropped: ask again. |
 | `ping` | `n` | Keep-alive, see below. |
 
@@ -105,8 +110,11 @@ otherwise delayed. Ids (`pid`, `nid`, `uid`) must be of something currently in t
   "inv": [["coins", 250], null, ...28 slots],
   "eq": { "weapon": "iron_sword", "body": "bronze_plate" },
   "set": { "run": 1, "style": 0, "ar": 1, "ac": null, "spec": 100 },
-  "en": 10000, "skull": 0, "pr": [] }
+  "en": 10000, "skull": 0, "pr": [], "lk": { "body": "A", "parts": {}, "colors": {} } }
 ```
+
+W2: `map.alpha` (when the map has an alpha block) is `{chest:{x,z}, reach, kits:{name:{label, equip, inv}}}`; `lk` is
+your saved look (or `null`).
 
 `xp10` is experience in tenths (so 5.5 xp is 55). `en` is run energy 0-10000 (100.00%). `skull` is
 ticks left. `pr` lists active prayer ids.
@@ -144,14 +152,24 @@ Only keys with content are present. `n` is the server tick number.
   players `eq` (visible gear), `sk` (skull), `oh` (overhead prayer `melee`|`ranged`|`magic`|null),
   `cb` when their appearance changed.
 - `ob`: ground items within 15 tiles that you may see. Private loot is only sent to its owner until
-  it turns public; a re-sent `add` with the same `i` replaces the stack (quantity changed).
+  it turns public; a re-sent `add` with the same `i` replaces the stack (quantity changed). W2: an `add` of an item that is
+  still private to you carries `own: 1` and `pub` (ticks until everyone may see it).
+- W2: `pl.add` / `pl.upd` carry `lk` (the adventurer's character-kit look) and `pl.add` carries `dd: 1` when the
+  adventurer is lying dead right now; `me.f` is your own facing / attack target when it changes (auto-retaliate,
+  follow, a new attack); a top-level `death: {kept: [[id, qty]], by: name|null, lost: n}` arrives with your respawn
+  (and the chat line `You kept: ...`).
+- W2: `welcome.f` is whom you face / fight at login, as `me.f` (so a client re-attached mid-fight times its own blows).
+- W2: `np.add` carries `sz` for a monster bigger than one tile (its south-west tile is `x`/`z`); an `add` of anyone
+  who swings or is hit in the tick they come into view carries that tick's `a` / `h` (so the first splat is timed).
 - `fx`: projectiles to draw, `d` = ticks until the server applies the hit, so the visual can land
-  exactly with the splat. `splash: 1` = the spell missed.
+  exactly with the splat. `splash: 1` = the spell missed. `k`: `arrow`, `spell`, or (W2) `breath` (a monster's
+  scripted breath: magic-rolled, its own max hit, blocked by Protect from Magic).
 - `inv` (28 slots), `eq`, `st` (changed skills), `pr`, `set`: present when they changed.
 - `msg`: game messages `[kind, text]`; kinds `game`, `combat`, `level`.
 
 Animation names in `a.name`: `attack` (`type`: stab/slash/crush/ranged, `spec: 1` for a special),
-`defend`, `cast` (`spell`), `death`, `eat`, `teleport`.
+`defend`, `cast` (`spell`), `death`, `eat`, `teleport`, and (W2) `breath`. One animation per entity per tick:
+`defend` never replaces an attack, cast or death set earlier in the same tick.
 
 ### Codes
 
@@ -179,6 +197,12 @@ and 60 queued per player; 10 register/login attempts per minute per address; one
 frames up to 4096 bytes; a client that falls 1 MB behind on reading is disconnected.
 
 ## Change log
+
+- **v1 + W2 additions (2026-09-26, compatible: new optional fields and intents only)**: `look` and `kit` intents,
+  `look` on login, `welcome.lk`, `welcome.map.alpha`, `lk` / `dd` in player snapshots, `me.f`, `own` / `pub` on
+  ground items, the `death` summary, `GET /map`, `CR_HOST` (default 127.0.0.1), `sz` on multi-tile monsters, the
+  `breath` animation and projectile, this tick's `a` / `h` on view adds, `defend` as the lowest animation, `welcome.f`. Clients: `src/net_client.js`
+  (`?online=1`), `server/tools/BotClient.js`.
 
 - **v1 (2026-09-25, W1)**: first version: accounts, movement, combat (melee/ranged/magic, PvM and PvP),
   prayers, eating, equipment, ground items, chat, death and respawn, logout rules.

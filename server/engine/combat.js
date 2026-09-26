@@ -170,7 +170,7 @@ function rangedOnNpc(w, p, npc) {
   const dist = coord.distanceTo(npc, p);
   const delay = C.rangedHitDelay(dist);
   dropAmmo(w, p, ammo.id, npc, Math.floor(C.arrowDuration(dist) / 30));
-  p.setAnim('attack', { type: 'ranged' });
+  p.setAnim('attack', { type: 'ranged', spec: sp.spec ? 1 : undefined });
   projectile(w, p, npc, 'arrow', null, delay);
   npcRetaliate(w, npc, p, delay);
   const dmg = damage;
@@ -304,7 +304,7 @@ function rangedOnPlayer(w, p, t) {
   const dur = C.arrowDuration(coord.distanceToSW(p, t));
   const delay = Math.floor(dur / 30);   // pvp: duration / 30 (no +30, unlike pvm)
   dropAmmo(w, p, ammo.id, t, delay);
-  p.setAnim('attack', { type: 'ranged' });
+  p.setAnim('attack', { type: 'ranged', spec: sp.spec ? 1 : undefined });
   projectile(w, p, t, 'arrow', null, delay);
   pvpRetaliateQueue(w, p, t, delay);
   pvpDamage(w, p, t, delay, damage);
@@ -434,6 +434,7 @@ function npcAttack(w, npc, p) {
   if (!npcCheckNotCombat(w, npc, p)) { npc.resetDefaults(); return; }
   if (!npcCheckNotCombatSelf(w, npc, p)) return;
   const def = npc.def, type = npc.attackType;
+  if (def.breath && npcBreath(w, npc, p)) return;
   const atk = C.npcAttackRoll(def, npc.levels, p.prayers);
   const defRoll = p.combatStats().stats.defenceRoll[type];
   const max = C.npcMaxHit(def, npc.levels);
@@ -462,6 +463,35 @@ function npcAttack(w, npc, p) {
   if (npc.hp === 0) return;
   p.queue.add('npc_damage', 0, () => { p.preventLogoutUntil = PVP.logoutLockUntil(w.tick); damageSelf(w, p, damage, npc); });
   p.queue.add('npc_retaliate', 0, () => autoRetaliate(w, p, npc));
+}
+
+/**
+ * A scripted breath (W2, for the Scarlands bestiary's wyrmling; our design): every `breath.every`-th attack, when the
+ * target is within `breath.range`, the monster breathes instead of striking: a magic attack with its own max hit
+ * (`breath.max`), a 'breath' animation and a 'breath' projectile. Protect from Magic blocks it like any monster spell.
+ * Returns true when this attack was the breath.
+ */
+function npcBreath(w, npc, p) {
+  const br = npc.def.breath;
+  if (npc.actionDelay > w.tick || p.dead) return false;
+  if (!npcCheckNotCombat(w, npc, p) || !npcCheckNotCombatSelf(w, npc, p)) return false;
+  npc.attackCount = (npc.attackCount | 0) + 1;
+  const dist = coord.distanceTo(npc, p);
+  if (npc.attackCount % Math.max(1, br.every | 0 || 3) !== 0 || dist > (br.range || 5)) return false;
+  const magicDef = Object.assign({}, npc.def, { ranged: true, magicAttack: br.attack != null ? br.attack : npc.def.magicAttack });
+  const atk = C.npcAttackRoll(magicDef, npc.levels, p.prayers);
+  const hit = C.hitRoll(w.rng, atk, p.combatStats().stats.defenceRoll.magic);
+  const damage = hit ? C.damageRoll(w.rng, br.max | 0) : 0;
+  const delay = C.npcMagicHitDelay(dist);
+  npc.setAnim('breath');
+  npc.actionDelay = w.tick + (npc.def.speedTicks > 0 ? npc.def.speedTicks : C.DEFAULT_ATTACK_RATE);
+  projectile(w, npc, p, 'breath', hit ? null : { splash: 1 }, delay);
+  if (hit) {
+    p.queue.add('npc_damage', delay, () => { p.preventLogoutUntil = PVP.logoutLockUntil(w.tick); damageSelf(w, p, damage, npc); });
+    p.queue.add('npc_retaliate', delay, () => autoRetaliate(w, p, npc));
+  } else p.queue.add('npc_retaliate', 0, () => autoRetaliate(w, p, npc));
+  npcSetAttackVars(w, npc, p);
+  return true;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -520,6 +550,10 @@ function finishPlayerDeath(w, p) {
   p.out.invDirty = true; p.out.equipDirty = true; p.out.selfDirty = true; p.out.settingsDirty = true;
   p.invalidate();
   p.message('You wake in the Commons.', 'combat');
+  // W2: tell the client what was kept, so the respawn screen can explain it
+  const keptNames = kept.kept.map((k) => (items[k.id] ? items[k.id].name : k.id) + (k.qty > 1 ? ' x' + k.qty : ''));
+  p.message(keptNames.length ? 'You kept: ' + keptNames.join(', ') + '.' : 'You kept nothing.', 'combat');
+  p.out.death = { kept: kept.kept.map((k) => [k.id, k.qty]), by: hero ? hero.name : null, lost: dropped.length };
   w.log('death', { key: p.key, hero: heroKey, kept: kept.kept });
 }
 

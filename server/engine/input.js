@@ -12,6 +12,7 @@
 const C = require('../../shared/combat.js');
 const PVP = require('../../shared/pvp.js');
 const Player = require('./Player');
+const LOOK = require('./look');
 
 const isInt = (v) => Number.isInteger(v);
 const CHAT_MAX = 80;
@@ -178,6 +179,33 @@ const HANDLERS = {
       const r = w.teleportDestination(sp.dest);
       p.teleport(r.x, r.z, r.level);
     });
+  },
+  /* W2: change your character-kit look; only in safety (no Wilderness, not in combat) */
+  look(w, p, m) {
+    const look = LOOK.sanitize(m.look);
+    if (!look || !canAct(p)) return false;
+    if (p.wildLevel() > 0 || !PVP.canLogout(p.preventLogoutUntil, w.tick)) { p.message('You can only change your appearance somewhere safe.'); return; }
+    p.look = look; p.appearanceVersion++; p.infoChanged = true;
+  },
+  /* W2 alpha: the Commons supply chest swaps your pack and gear for a fresh fighting kit (map.alpha.kits) */
+  kit(w, p, m) {
+    const alpha = w.map.alpha;
+    const kit = alpha && alpha.kits && typeof m.name === 'string' && Object.prototype.hasOwnProperty.call(alpha.kits, m.name) ? alpha.kits[m.name] : null;
+    if (!kit || !canAct(p)) return false;
+    const chest = alpha.chest, reach = alpha.reach || 2;
+    if (p.wildLevel() > 0 || (chest && Math.max(Math.abs(p.x - chest.x), Math.abs(p.z - chest.z)) > reach)) { p.message('You need to stand at the supply chest in the Commons.'); return; }
+    if (!PVP.canLogout(p.preventLogoutUntil, w.tick)) { p.message('You cannot rummage in the chest while you are fighting.'); return; }
+    if (w.tick - p.lastKitTick < (alpha.cooldown || 5)) return;
+    p.lastKitTick = w.tick;
+    p.clearInteraction();
+    p.inv.fill(null);
+    for (const sl of Player.EQUIP_SLOTS) p.equip[sl] = null;
+    for (const sl in kit.equip || {}) if (Player.EQUIP_SLOTS.indexOf(sl) >= 0 && w.content.ITEMS[kit.equip[sl]]) p.equip[sl] = kit.equip[sl];
+    for (const it of kit.inv || []) if (Array.isArray(it) && w.content.ITEMS[it[0]]) p.invAdd(it[0], Math.max(1, it[1] | 0));
+    if (kit.style != null) p.styleIndex = kit.style | 0;
+    p.autocast = kit.autocast && w.content.SPELLS[kit.autocast] ? kit.autocast : null;
+    p.out.invDirty = true; p.out.equipDirty = true; p.out.settingsDirty = true; p.appearanceVersion++; p.infoChanged = true; p.invalidate();
+    p.message('You take the ' + (kit.label || m.name) + ' from the supply chest.');
   },
   logout(w, p) { p.requestLogout = true; },
   ping() { /* keeps lastResponse fresh */ },

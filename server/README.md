@@ -20,6 +20,49 @@ Environment: `CR_PORT` (port), `CR_DB` (sqlite file, default `server/data/runtim
 folder is git-ignored; back up `world.db` and `save.key` together (saves signed with a lost key will
 not load).
 
+## Play the online alpha locally (W2)
+
+```
+python tools/serve_static.py 8100 .                      # the game client (static files, 127.0.0.1 only)
+set CR_PORT=8200 && npm run server                         # the world (PowerShell: $env:CR_PORT=8200; npm run server)
+open http://127.0.0.1:8100/?online=1                       # a second browser / window = a second adventurer
+```
+
+`?online=1` connects to `ws://<page host>:8200` (`&server=ws://host:port` for another world). Create an account on
+the login screen; new adventurers start in the Commons at the map's alpha levels (`map.alpha.startStats`, combat
+level 51, Prayer 43) and take a fighting kit (melee, ranged or magic) from the supply chest beside the campfire. Walk
+north over a Ditch crossing into the Scarlands (Wilderness 1-10) to fight. Without `?online=1` the game is the
+offline single-player build, unchanged. The server listens on 127.0.0.1 unless `CR_HOST` says otherwise.
+
+The client side lives in `src/online_*.js` + `src/net_client.js` (loaded only in online mode by `src/online_boot.js`):
+`online_world.js` (the map as the old-school world, or the Scarlands art kit when the map names a `placement`,
+`online_kit.js`), `online_actors.js` (other adventurers with the character kit, monsters, loot, tick interpolation),
+`online_fx.js` (swings, splats and projectiles timed to the server's hits), `online_ui.js` (login, panels, PvP
+interface), `online_main.js` (glue, intents, QA hooks). Tests: `node tools/test_online_client.js` (unit),
+`node tools/online_multi_browser.js` (three real browsers, 20 fights; needs the static server on 8100; starts its own
+world on 8201), `node tools/online_pvp_balance.js` (kit matchups and PvM time-to-kill).
+
+**With the Scarlands art kit** (`docs/rebuild/scarlands/README.md`, on the live branch): the online client draws the
+kit instead of its own ground, water and walls whenever the map names a placement. After the kit branch is merged:
+take its proof layout with `"base": "server/data/maps/scarlands_test.json"` (so spawns, `alpha`, `decor` carry over)
+and add this map's extra blocked tiles (the chest, campfire, signposts, cart: the `onlyA` list of `--compare`) to its
+`extra.blocked`; run `node tools/scarlands_kit.js <layout> --map server/data/maps/scarlands_online.json --placement
+assets/scarlands/online/placement.json --compare server/data/maps/scarlands_test.json`; add
+`"placement": "assets/scarlands/online/placement.json"` (and `"kit"` / `"kitTextures"` if they are served elsewhere)
+to the generated map; run the world with `CR_MAP=server/data/maps/scarlands_online.json`. Checked read-only on
+2026-09-26 against the live tree's kit v1: 357 pieces in 73 instanced meshes, trench at -1.6, plank deck at +0.06,
+our Commons decor kept, no double walls (`docs/rebuild/combat_grade_passes/online_evidence/kit_*_dropin.jpg`).
+
+**With the Scarlands bestiary** (`assets/scarlands/bestiary-v1/manifest.json`, on the live branch): the server already
+takes multi-tile monsters (`size` 2+ or a `tiles` footprint, sent to clients as `sz`) and a scripted breath
+(`breath: {every, max, range}` on an NPC type: every Nth attack a magic-rolled breath with its own max hit, the
+`breath` animation and projectile, blocked by Protect from Magic); the client draws any monster whose `model` names a
+bestiary creature from its own GLB (`src/online_bestiary.js`: one mixer each, walk paced to the server, the
+`impact` / `release` frames timing swings and projectiles, death clip held then sunk). After the bestiary branch is
+merged: add each creature's `npcType` block to `NPC_TYPES` (`src/game1_data.js`; the cinder wyrmling with
+`breath: {every: 3, max: 14, range: 5}`), merge its draft drops into `server/data/drops.json`, place spawns in the
+map's bands, and (only if the manifest is served elsewhere) set `"bestiary"` on the map. Nothing changes until then.
+
 ## Layout
 
 ```

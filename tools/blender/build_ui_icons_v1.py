@@ -1029,6 +1029,27 @@ I('login_title', 'login', p_title, [O('login/title.png', 400, 50)], el=8, yaw=0,
 I('login_torch_head', 'login', p_torch_head, [O('login/torch_head.png', 60, 48)], el=12, yaw=0, aspect=(5, 4), colors=20)
 I('login_torch_base', 'login', p_torch_base, [O('login/torch_base.png', 80, 55)], el=20, yaw=10, aspect=(16, 11), colors=14)
 
+# -- PvP / Scarlands HUD (online alpha W2, 2026-09-25): the skull that hangs over a player who struck first, the Scarlands
+#    level plaque (skull over crossed bones) and the multi-combat mark (crossed swords). Our own props, same pixel finish.
+def pk_skull(m):
+    p_skull(m, False)
+def bone(m, a, b):
+    m.ptube([a, b], [.05, .05], 6, 'bone', cap0='bone', cap1='bone')
+    for p in (a, b):
+        for s in (-1, 1):
+            m.sph((p[0] + s * .0, p[1], p[2] + s * .045), (.06, .05, .06), 'bone_dk', 6, 3)
+def scar_skull(m):
+    k = m.mark(); bone(m, (-.62, .12, -.5), (.62, .12, .3)); bone(m, (-.62, .12, .3), (.62, .12, -.5)); m.tf(k, T(0, 0, -.02))
+    k = m.mark(); p_skull(m, False); m.tf(k, T(0, -.1, .08))
+def protect_item(m):
+    # a small iron-banded strongbox under a warding star: what you pray to keep
+    k = m.mark(); p_chest(m); m.tf(k, T(0, 0, -.12) @ S(1.05))
+    m.ext(star2(4, .26, .07, (0, .42)), .04, 'e_white', y=-.3); m.ext(star2(4, .15, .04, (0, .42), a0=math.pi/4), .03, 'e_yellow', y=-.33)
+I('p_protect_item', 'pvp', protect_item, [O('prayers/protect_item.png', 30)], el=14, yaw=-20)
+I('pvp_skull', 'pvp', pk_skull, [O('misc/pk_skull.png', 22), O('misc/pk_skull_32.png', 32)], el=10, yaw=-8)
+I('pvp_scarlands', 'pvp', scar_skull, [O('misc/scarlands.png', 28)], el=10)
+I('pvp_multi', 'pvp', crossed_swords, [O('misc/multi_combat.png', 26)], el=8)
+
 # ------------------------------------------------------------------ scene + render
 scene = bpy.context.scene
 for eng in ('BLENDER_EEVEE_NEXT', 'BLENDER_EEVEE'):

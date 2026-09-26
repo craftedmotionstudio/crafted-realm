@@ -16,9 +16,14 @@ function faceRef(e) { const t = e.target; if (!t || t.uid != null) return null; 
 function appearanceKey(q, tick) { return q.appearanceVersion + '|' + (q.skullUntil > tick ? 1 : 0) + '|' + (q.overhead() || '') + '|' + q.combatLevel(); }
 
 function playerSnapshot(q, tick) {
-  return { i: q.pid, nm: q.name, x: q.x, z: q.z, cb: q.combatLevel(), eq: q.appearance(), sk: q.skullUntil > tick ? 1 : 0, oh: q.overhead(), hp: hpPair(q), f: faceRef(q) };
+  const s = { i: q.pid, nm: q.name, x: q.x, z: q.z, cb: q.combatLevel(), eq: q.appearance(), sk: q.skullUntil > tick ? 1 : 0, oh: q.overhead(), hp: hpPair(q), f: faceRef(q) };
+  if (q.look) s.lk = q.look;                // W2: character-kit look
+  if (q.dead) s.dd = 1;                     // W2: lying dead right now (a late viewer draws the body, not a live player)
+  return thisTick(q, s);
 }
-function npcSnapshot(n) { return { i: n.nid, ty: n.typeId, x: n.x, z: n.z, hp: hpPair(n), f: faceRef(n) }; }
+/** W2: an entity that comes into view in the middle of a swing (or a hit) carries this tick's animation and hits */
+function thisTick(e, s) { if (e.anim) s.a = e.anim; if (e.hits.length) s.h = e.hits.map((h) => [h.amount, h.type]); return s; }
+function npcSnapshot(n) { const s = { i: n.nid, ty: n.typeId, x: n.x, z: n.z, hp: hpPair(n), f: faceRef(n) }; if (n.size > 1) s.sz = n.size; return thisTick(n, s); }
 
 /** movement + masks shared by player and npc updates; returns null when nothing changed */
 function commonUpdate(e, id) {
@@ -42,6 +47,7 @@ function buildTick(w, p) {
   if (p.anim) me.a = p.anim;
   if (p.hits.length) me.h = p.hits.map((h) => [h.amount, h.type]);
   if (p.chat) me.c = p.chat;
+  if (p.faceChanged) me.f = faceRef(p);    // W2: who you now face/attack (auto-retaliate, follow)
   // status block: sent whenever any value in it changes (energy in whole percents)
   const wl = p.wildLevel(), multi = p.inMulti() ? 1 : 0, skull = Math.max(0, p.skullUntil - tick), cb = p.combatLevel();
   const pp = [p.cur('Prayer'), p.base('Prayer')];
@@ -74,6 +80,7 @@ function buildTick(w, p) {
     if (p.view.pver.get(q.pid) !== ak) {
       u = u || { i: q.pid };
       u.eq = q.appearance(); u.sk = q.skullUntil > tick ? 1 : 0; u.oh = q.overhead(); u.cb = q.combatLevel();
+      if (q.look) u.lk = q.look;
       p.view.pver.set(q.pid, ak);
     }
     if (u) pl.upd.push(u);
@@ -106,7 +113,11 @@ function buildTick(w, p) {
   for (const [uid] of p.view.objs) if (!nowO.has(uid)) { ob.del.push(uid); p.view.objs.delete(uid); }
   for (const [uid, o] of nowO) {
     const prev = p.view.objs.get(uid);
-    if (!prev || prev.q !== o.qty) { ob.add.push({ i: uid, id: o.id, q: o.qty, x: o.x, z: o.z }); p.view.objs.set(uid, { o, q: o.qty }); }
+    if (!prev || prev.q !== o.qty) {
+      const a = { i: uid, id: o.id, q: o.qty, x: o.x, z: o.z };
+      if (o.owner === p.key && !o.isPublic(tick)) { a.own = 1; a.pub = o.revealTick - tick; }   // W2: yours alone for pub more ticks
+      ob.add.push(a); p.view.objs.set(uid, { o, q: o.qty });
+    }
   }
   if (ob.add.length || ob.del.length) msg.ob = ob;
 
@@ -125,7 +136,8 @@ function buildTick(w, p) {
     p.out.settingsDirty = false;
   }
   if (p.out.msgs.length) { msg.msg = p.out.msgs; p.out.msgs = []; }
+  if (p.out.death) { msg.death = p.out.death; p.out.death = null; }   // W2: what you kept and who beat you
   return msg;
 }
 
-module.exports = { buildTick, VIEW };
+module.exports = { buildTick, VIEW, faceRef };

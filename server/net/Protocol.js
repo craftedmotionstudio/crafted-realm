@@ -29,6 +29,8 @@ const INTENTS = {
   spec: { on: 'bool' },
   chat: { text: 'string' },
   teleport: { spell: 'string' },
+  look: { look: 'object' },          // W2: change your character-kit look (Commons, out of combat)
+  kit: { name: 'string' },           // W2 alpha: take a kit from the Commons supply chest (map.alpha.kits)
   logout: {},
   ping: {},
 };
@@ -37,6 +39,7 @@ function typeOk(v, t) {
   if (t === 'int') return Number.isInteger(v) && Math.abs(v) < 1e7;
   if (t === 'bool') return typeof v === 'boolean' || v === 0 || v === 1;
   if (t === 'string') return typeof v === 'string' && v.length <= 200;
+  if (t === 'object') return !!v && typeof v === 'object' && !Array.isArray(v);
   return true;
 }
 

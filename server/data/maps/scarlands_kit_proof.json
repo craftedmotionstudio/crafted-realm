@@ -24,6 +24,18 @@
    6
   ],
   [
+   28,
+   8,
+   28,
+   8
+  ],
+  [
+   36,
+   10,
+   36,
+   10
+  ],
+  [
    31,
    12,
    32,
@@ -34,6 +46,12 @@
    20,
    51,
    21
+  ],
+  [
+   21,
+   24,
+   21,
+   24
   ],
   [
    12,
@@ -48,6 +66,12 @@
    34
   ],
   [
+   32,
+   39,
+   32,
+   39
+  ],
+  [
    13,
    41,
    13,
@@ -58,6 +82,18 @@
    41,
    50,
    41
+  ],
+  [
+   14,
+   47,
+   14,
+   47
+  ],
+  [
+   46,
+   47,
+   46,
+   47
   ],
   [
    19,
@@ -141,6 +177,12 @@
    28,
    58,
    28,
+   58
+  ],
+  [
+   44,
+   58,
+   44,
    58
   ],
   [
@@ -913,6 +955,20 @@
    "hunt": 3
   },
   {
+   "npc": "moss_seer",
+   "x": 8,
+   "z": 58,
+   "wander": 3,
+   "hunt": 3
+  },
+  {
+   "npc": "moss_seer",
+   "x": 4,
+   "z": 64,
+   "wander": 3,
+   "hunt": 3
+  },
+  {
    "npc": "skeleton",
    "x": 46,
    "z": 90,
@@ -947,6 +1003,425 @@
    "x": 26,
    "z": 118,
    "hunt": 3
+  },
+  {
+   "npc": "hex_adept",
+   "x": 30,
+   "z": 104,
+   "wander": 3,
+   "hunt": 3
+  },
+  {
+   "npc": "hex_adept",
+   "x": 12,
+   "z": 110,
+   "wander": 3,
+   "hunt": 3
   }
- ]
+ ],
+ "decor": [
+  {
+   "kind": "path",
+   "width": 1.3,
+   "points": [
+    [
+     32,
+     11
+    ],
+    [
+     32,
+     30
+    ],
+    [
+     30,
+     38
+    ],
+    [
+     16,
+     42
+    ],
+    [
+     15.5,
+     46
+    ],
+    [
+     16,
+     52
+    ],
+    [
+     22,
+     62
+    ],
+    [
+     20,
+     70
+    ],
+    [
+     24,
+     80
+    ],
+    [
+     30,
+     84
+    ]
+   ]
+  },
+  {
+   "kind": "path",
+   "width": 1.2,
+   "points": [
+    [
+     32,
+     30
+    ],
+    [
+     36,
+     38
+    ],
+    [
+     47.5,
+     42
+    ],
+    [
+     47.5,
+     46
+    ],
+    [
+     46,
+     54
+    ],
+    [
+     40,
+     66
+    ],
+    [
+     34,
+     78
+    ],
+    [
+     33,
+     84
+    ]
+   ]
+  },
+  {
+   "kind": "path",
+   "width": 1,
+   "points": [
+    [
+     32,
+     11
+    ],
+    [
+     36,
+     10
+    ]
+   ]
+  },
+  {
+   "kind": "chest",
+   "x": 36,
+   "z": 10,
+   "rot": -90,
+   "examine": "A stout chest of fighting kits, left for anyone brave enough to cross the Ditch."
+  },
+  {
+   "kind": "campfire",
+   "x": 28,
+   "z": 8,
+   "examine": "A cheerful fire. The Commons keep it burning for returning adventurers."
+  },
+  {
+   "kind": "signpost",
+   "x": 32,
+   "z": 39,
+   "rot": 180,
+   "examine": "North: the Ditch, and the Scarlands past it. No law beyond the water."
+  },
+  {
+   "kind": "signpost",
+   "x": 14,
+   "z": 47,
+   "rot": 180,
+   "examine": "You are in the Scarlands. Anyone may attack you here."
+  },
+  {
+   "kind": "signpost",
+   "x": 46,
+   "z": 47,
+   "rot": 180,
+   "examine": "You are in the Scarlands. Anyone may attack you here."
+  },
+  {
+   "kind": "bridge",
+   "x": 15.5,
+   "z": 44.5,
+   "rot": 90,
+   "examine": "A stone crossing over the Ditch."
+  },
+  {
+   "kind": "bridge",
+   "x": 47.5,
+   "z": 44.5,
+   "rot": 90,
+   "examine": "A stone crossing over the Ditch."
+  },
+  {
+   "kind": "oak",
+   "x": 5.5,
+   "z": 5.5,
+   "scale": 0.9
+  },
+  {
+   "kind": "birch",
+   "x": 50.5,
+   "z": 20.5
+  },
+  {
+   "kind": "shrub",
+   "x": 12,
+   "z": 30
+  },
+  {
+   "kind": "log",
+   "x": 40.5,
+   "z": 34,
+   "rot": 90
+  },
+  {
+   "kind": "fieldstones",
+   "x": 31.5,
+   "z": 12.5,
+   "scale": 1.2
+  },
+  {
+   "kind": "cargo",
+   "x": 21,
+   "z": 24,
+   "scale": 0.8
+  },
+  {
+   "kind": "rocks",
+   "x": 41.5,
+   "z": 61.5,
+   "scale": 2.4
+  },
+  {
+   "kind": "deadtree",
+   "x": 7,
+   "z": 91.5
+  },
+  {
+   "kind": "rocks",
+   "x": 8.5,
+   "z": 90.5,
+   "scale": 1.4
+  },
+  {
+   "kind": "rocks",
+   "x": 59,
+   "z": 75.5,
+   "scale": 1.6
+  },
+  {
+   "kind": "deadtree",
+   "x": 22.5,
+   "z": 78.5,
+   "scale": 1.1
+  },
+  {
+   "kind": "rocks",
+   "x": 53,
+   "z": 116.5,
+   "scale": 1.7
+  },
+  {
+   "kind": "rubble",
+   "x": 28,
+   "z": 86
+  },
+  {
+   "kind": "rubble",
+   "x": 34,
+   "z": 90,
+   "rot": 60
+  },
+  {
+   "kind": "stones",
+   "x": 30,
+   "z": 91
+  },
+  {
+   "kind": "reeds",
+   "x": 13,
+   "z": 101
+  },
+  {
+   "kind": "reeds",
+   "x": 19,
+   "z": 102,
+   "rot": 120
+  },
+  {
+   "kind": "deadtree",
+   "x": 44,
+   "z": 58,
+   "scale": 0.8
+  }
+ ],
+ "alpha": {
+  "about": "W2 online alpha affordances (docs/rebuild/NET_PROTOCOL.md): brand-new adventurers start at these levels, and the supply chest beside the Commons respawn swaps your pack and gear for a fighting kit (the kit intent), so two people can meet in the Scarlands minutes after registering. Drop this block when the real mainland and its shops arrive (W3).",
+  "startStats": {
+   "Attack": 40,
+   "Strength": 40,
+   "Defence": 40,
+   "Hitpoints": 40,
+   "Ranged": 40,
+   "Magic": 40,
+   "Prayer": 43
+  },
+  "chest": {
+   "x": 36,
+   "z": 10
+  },
+  "reach": 2,
+  "cooldown": 5,
+  "kits": {
+   "melee": {
+    "label": "steel fighter kit",
+    "style": 1,
+    "equip": {
+     "head": "steel_medhelm",
+     "body": "iron_platebody",
+     "legs": "leather_chaps",
+     "shield": "steel_sqshield",
+     "weapon": "steel_longsword",
+     "amulet": "amulet_of_precision",
+     "cape": "trav_cape_red",
+     "hands": "leather_gloves",
+     "feet": "leather_boots"
+    },
+    "inv": [
+     [
+      "trout",
+      1
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "steel_sword",
+      1
+     ],
+     [
+      "coins",
+      100
+     ]
+    ]
+   },
+   "ranged": {
+    "label": "gale archer kit",
+    "style": 1,
+    "equip": {
+     "head": "steel_medhelm",
+     "body": "steel_platebody",
+     "legs": "steel_platelegs",
+     "weapon": "gale_longbow",
+     "amulet": "amulet_of_precision",
+     "cape": "trav_cape_green",
+     "hands": "leather_gloves",
+     "feet": "leather_boots"
+    },
+    "inv": [
+     [
+      "arrows",
+      300
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "ash_bow",
+      1
+     ],
+     [
+      "coins",
+      100
+     ]
+    ]
+   },
+   "magic": {
+    "label": "storm caster kit",
+    "style": 0,
+    "autocast": "water_bolt",
+    "equip": {
+     "head": "steel_medhelm",
+     "body": "glimmer_robe_top",
+     "legs": "cloth_robe_skirt",
+     "shield": "steel_sqshield",
+     "weapon": "storm_staff",
+     "amulet": "amulet_of_warding",
+     "cape": "trav_cape_blue",
+     "hands": "leather_gloves",
+     "feet": "leather_boots"
+    },
+    "inv": [
+     [
+      "water_rune",
+      400
+     ],
+     [
+      "chaos_rune",
+      200
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "trout",
+      1
+     ],
+     [
+      "coins",
+      100
+     ]
+    ]
+   }
+  }
+ }
 }
