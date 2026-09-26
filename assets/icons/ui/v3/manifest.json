@@ -490,6 +490,13 @@
    "finish": "sprite"
   },
   {
+   "icon": "pvp_multi",
+   "file": "misc/multi_combat.png",
+   "w": 26,
+   "h": 26,
+   "finish": "sprite"
+  },
+  {
    "icon": "rail_music",
    "file": "misc/note.png",
    "w": 18,
@@ -497,10 +504,31 @@
    "finish": "sprite"
   },
   {
+   "icon": "pvp_skull",
+   "file": "misc/pk_skull.png",
+   "w": 22,
+   "h": 22,
+   "finish": "sprite"
+  },
+  {
+   "icon": "pvp_skull",
+   "file": "misc/pk_skull_32.png",
+   "w": 32,
+   "h": 32,
+   "finish": "sprite"
+  },
+  {
    "icon": "misc_roof",
    "file": "misc/roof.png",
    "w": 18,
    "h": 18,
+   "finish": "sprite"
+  },
+  {
+   "icon": "pvp_scarlands",
+   "file": "misc/scarlands.png",
+   "w": 28,
+   "h": 28,
    "finish": "sprite"
   },
   {
