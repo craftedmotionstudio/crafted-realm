@@ -1,0 +1,83 @@
+{
+ "schema": "crafted-realm-scarlands-bestiary-data-v1",
+ "about": "Design data for the Scarlands bestiary v1 (our own creatures, STORY_BIBLE.md §1/§3). npcType = a suggested src/game1_data.js NPC_TYPES entry (the fields shared/combat.js reads: level, hp, att, str, def, rng, mag, aBonus, sBonus, dBonus, dStab, dSlash, dCrush, dRanged, dMagic, magicAttack, maxHit, atype, ranged, attackRange, speedTicks, aggro, respawn, size); ash_stalker already exists there, so it only lists what changes. drops = a draft table in server/data/drops.json format. itemSuggestions are proposals only (no item is added by this kit). Levels follow the Wilderness depth: z1 = 48, level = floor((z - 48) / 8) + 1 in the test map.",
+ "creatures": [
+  {
+   "id": "cinder_rat",
+   "name": "Cinder rat",
+   "examine": "A scorched scavenger that never travels alone. Its singed fur still smoulders.",
+   "role": "weak aggressive pack creature (spawn 3-5 together, first thing north of the Ditch)",
+   "wildernessLevels": [1, 4],
+   "pack": { "min": 3, "max": 5, "leash": 5 },
+   "npcType": { "name": "Cinder rat", "level": 7, "hp": 12, "att": 7, "str": 6, "def": 4, "aBonus": 3, "sBonus": 4, "dBonus": 2, "dStab": 2, "dSlash": 1, "dCrush": 4, "dRanged": 2, "dMagic": 0,
+                "atype": "stab", "speedTicks": 4, "aggro": true, "respawn": 12, "size": 1, "model": "cinder_rat" },
+   "drops": { "always": [{ "item": "bones", "qty": 1 }], "rolls": 128, "main": [{ "w": 40, "item": "coins", "qty": [3, 15] }, { "w": 24, "item": "ashes", "qty": 1 }, { "w": 10, "item": "fire_rune", "qty": [2, 5] }] }
+  },
+  {
+   "id": "scar_skeleton",
+   "name": "Scar skeleton",
+   "examine": "The Scarlands burned the flesh away and left the grudge. A thrust slides between its ribs; a blow shatters it.",
+   "role": "melee (sword and shield), the common undead of the ruins",
+   "wildernessLevels": [3, 9],
+   "npcType": { "name": "Scar skeleton", "level": 22, "hp": 34, "att": 20, "str": 18, "def": 20, "aBonus": 12, "sBonus": 11, "dBonus": 12, "dStab": 6, "dSlash": 14, "dCrush": 2, "dRanged": 18, "dMagic": 8,
+                "atype": "slash", "speedTicks": 4, "aggro": true, "respawn": 25, "size": 1, "model": "scar_skeleton" },
+   "drops": { "always": [{ "item": "bones", "qty": 1 }], "rolls": 128, "main": [{ "w": 46, "item": "coins", "qty": [20, 60] }, { "w": 14, "item": "mind_rune", "qty": [3, 8] }, { "w": 12, "item": "chaos_rune", "qty": [2, 5] },
+            { "w": 6, "item": "iron_sword", "qty": 1 }, { "w": 6, "item": "iron_medhelm", "qty": 1 }, { "w": 4, "item": "iron_sqshield", "qty": 1 }, { "w": 3, "table": "scar_rare" }] }
+  },
+  {
+   "id": "scar_raider_archer",
+   "name": "Ash raider",
+   "examine": "A northern raider who learned to shoot from behind the ruins. Heavy armour turns its arrows.",
+   "role": "ranged (short bow) raider, guards the camps; keeps its distance",
+   "wildernessLevels": [5, 12],
+   "npcType": { "name": "Ash raider", "level": 26, "hp": 36, "att": 14, "str": 14, "def": 18, "rng": 30, "aBonus": 18, "sBonus": 14, "dBonus": 12, "dStab": 10, "dSlash": 12, "dCrush": 10, "dRanged": 16, "dMagic": 8,
+                "ranged": "arrow", "attackRange": 7, "speedTicks": 5, "aggro": true, "respawn": 30, "size": 1, "humanoid": true, "model": "scar_raider_archer" },
+   "projectile": { "kind": "arrow", "fromBone": "LeftHand", "note": "release on the clip's release frame; flight time as the server's npc ranged hit delay" },
+   "drops": { "always": [{ "item": "bones", "qty": 1 }], "rolls": 128, "main": [{ "w": 44, "item": "coins", "qty": [30, 90] }, { "w": 30, "item": "arrows", "qty": [8, 20] }, { "w": 6, "item": "leather_body", "qty": 1 },
+            { "w": 6, "item": "leather_chaps", "qty": 1 }, { "w": 4, "item": "ash_bow", "qty": 1 }, { "w": 1, "item": "gale_longbow", "qty": 1 }, { "w": 4, "table": "scar_rare" }] }
+  },
+  {
+   "id": "ember_mage",
+   "name": "Ember mage",
+   "examine": "A robed caster who feeds on what the fire left. Arrows find it easily.",
+   "role": "magic (ember bolt) caster, the ruins and the deep camps",
+   "wildernessLevels": [6, 14],
+   "npcType": { "name": "Ember mage", "level": 30, "hp": 40, "att": 10, "str": 8, "def": 16, "mag": 34, "magicAttack": 22, "maxHit": 6, "aBonus": 6, "sBonus": 0, "dBonus": 10, "dStab": 8, "dSlash": 10, "dCrush": 8, "dRanged": 4, "dMagic": 26,
+                "ranged": true, "attackRange": 7, "speedTicks": 5, "aggro": true, "respawn": 30, "size": 1, "humanoid": true, "model": "ember_mage" },
+   "projectile": { "kind": "ember_bolt", "fromBone": "RightHand", "note": "a small orange fire bolt; release on the clip's release frame" },
+   "drops": { "always": [{ "item": "bones", "qty": 1 }], "rolls": 128, "main": [{ "w": 40, "item": "coins", "qty": [40, 100] }, { "w": 24, "item": "fire_rune", "qty": [10, 25] }, { "w": 16, "item": "chaos_rune", "qty": [3, 8] },
+            { "w": 3, "item": "ember_staff", "qty": 1 }, { "w": 3, "item": "glimmer_hat", "qty": 1 }, { "w": 1, "item": "amulet_of_warding", "qty": 1 }, { "w": 5, "table": "scar_rare" }] }
+  },
+  {
+   "id": "ash_stalker",
+   "name": "Ash stalker",
+   "examine": "It hunts where the land burned. Slag-plated hide turns aside blunt force — find the gap with a point.",
+   "role": "fast melee hound (existing NPC_TYPES entry, level 38): the model for it",
+   "wildernessLevels": [8, 16],
+   "existing": true,
+   "npcTypeChanges": { "atype": "stab", "model": "ash_stalker", "note": "stats unchanged; its attack is a bite (stab). Optional: speedTicks 3 if it should out-pace players, as a fast hound" },
+   "drops": { "always": [{ "item": "bones", "qty": 1 }, { "item": "beast_hide", "qty": 1 }], "rolls": 128, "main": [{ "w": 50, "item": "coins", "qty": [90, 220] }, { "w": 6, "item": "aurel_platebody", "qty": 1 },
+            { "w": 4, "item": "gale_longbow", "qty": 1 }, { "w": 2, "item": "veyrite_sword", "qty": 1 }, { "w": 6, "table": "scar_rare" }],
+            "tertiary": [{ "num": 1, "den": 48, "item": "stalker_fang", "qty": 1, "proposed": true }] }
+  },
+  {
+   "id": "cinder_wyrmling",
+   "name": "Cinder wyrmling",
+   "examine": "A young fire drake of the deep Scarlands. Its slag scales shrug off blunt blows; stay out of its breath.",
+   "role": "the deep-end brute (2x2 tiles): bites and claws up close, breathes fire at range every third attack",
+   "wildernessLevels": [14, 20],
+   "npcType": { "name": "Cinder wyrmling", "level": 56, "hp": 120, "att": 48, "str": 46, "def": 42, "mag": 50, "magicAttack": 24, "aBonus": 22, "sBonus": 24, "dBonus": 28, "dStab": 30, "dSlash": 34, "dCrush": 40, "dRanged": 30, "dMagic": 20,
+                "atype": "slash", "speedTicks": 5, "aggro": true, "respawn": 90, "size": 2, "boss": false, "model": "cinder_wyrmling" },
+   "attacks": [{ "clip": "attack", "type": "slash", "range": 1, "maxHitFormula": true },
+               { "clip": "breath", "type": "magic", "range": 5, "maxHit": 14, "every": 3, "note": "needs a small NPC script (like the ash wyrm's) to alternate; blocked fully by Protect from Magic like any NPC magic" }],
+   "drops": { "always": [{ "item": "big_bones", "qty": 1 }, { "item": "ashes", "qty": 1 }], "rolls": 128, "main": [{ "w": 40, "item": "coins", "qty": [250, 600] }, { "w": 20, "item": "fire_rune", "qty": [30, 60] },
+            { "w": 14, "item": "chaos_rune", "qty": [8, 20] }, { "w": 5, "item": "aurel_sword", "qty": 1 }, { "w": 4, "item": "aurel_platelegs", "qty": 1 }, { "w": 2, "item": "veyrite_sword", "qty": 1 },
+            { "w": 2, "item": "veyrite_medhelm", "qty": 1 }, { "w": 12, "table": "scar_rare" }],
+            "tertiary": [{ "num": 1, "den": 24, "item": "wyrmling_scale", "qty": 1, "proposed": true }] }
+  }
+ ],
+ "itemSuggestions": [
+  { "id": "stalker_fang", "name": "Stalker fang", "examine": "Still hot from the hunt.", "stack": false, "value": 180, "use": "crafting: an amulet string or a bone dagger (a later Crafting design)" },
+  { "id": "wyrmling_scale", "name": "Wyrmling scale", "examine": "A plate of cooled slag, light as bark.", "stack": true, "value": 400, "use": "smithing/crafting: a fire-resistant shield (a later design)" }
+ ]
+}
