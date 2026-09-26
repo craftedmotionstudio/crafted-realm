@@ -12,7 +12,7 @@
  'use strict';
  var qs = new URLSearchParams(location.search);
  // the published copies (tools/publish_scarlands_kit.js); ?kit= / ?placement= point at candidates or another layout
- var KIT = qs.get('kit') || '../assets/scarlands/kit-v1/manifest.json';
+ var KIT = qs.get('kit') || '../assets/scarlands/kit-v2/manifest.json';
  var PLACE = qs.get('placement') || '../assets/scarlands/proof/placement.json';
  var TEX = '../assets/textures/oldschool/';
  var hud = document.getElementById('hud');
@@ -61,7 +61,7 @@
      var tx = G.x1 + x, tz = G.z1 + z, kind = kindAt(x, z), depth = cut[tx + ',' + tz] || 0, isOver = over.indexOf(kind) >= 0;
      var k = LOOK.scale * (1 + patch(tx, tz) * LOOK.patch + (rnd(tx, tz, 1) - .5) * LOOK.jitter) / 255;
      var own = { c: G.kindColours[kind], w: G.kindNames.map(function(nm){ return nm === kind ? 1 : 0; }) };
-     var corners = [[x, z], [x + 1, z], [x + 1, z + 1], [x, z + 1]].map(function(c){ var h = depth ? -depth : cornerH(c[0], c[1]), li = depth ? 0.62 : light(c[0], c[1]);
+     var corners = [[x, z], [x + 1, z], [x + 1, z + 1], [x, z + 1]].map(function(c){ var h = depth ? -depth - 0.05 : cornerH(c[0], c[1]), li = depth ? 0.35 : light(c[0], c[1]);   // under the piece's own floor
        var u = isOver || depth ? own : underlayAt(c[0], c[1]);
        return { p: [G.x1 + c[0], h, -(G.z1 + c[1])], c: [Math.min(1, u.c[0] * k * li), Math.min(1, u.c[1] * k * li), Math.min(1, u.c[2] * k * li)], w: u.w }; });
      var tri = ((tx + tz) & 1) ? [0, 1, 2, 0, 2, 3] : [0, 1, 3, 1, 2, 3];

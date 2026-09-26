@@ -37,8 +37,8 @@ check('2 merging: rectangles and wall runs expand back to the same tiles and edg
 });
 
 // the Blender candidates live in the gitignored workspace; a fresh clone checks the committed, published copy instead
-const KIT_DIR = fs.existsSync(path.join(ROOT, '.studio-workspaces/scarlands-kit-v1/candidates/manifest.json'))
-  ? '.studio-workspaces/scarlands-kit-v1/candidates' : 'assets/scarlands/kit-v1';
+const KIT_DIR = fs.existsSync(path.join(ROOT, '.studio-workspaces/scarlands-kit-v2/candidates/manifest.json'))
+  ? '.studio-workspaces/scarlands-kit-v2/candidates' : 'assets/scarlands/kit-v2';
 const kit = read(KIT_DIR + '/manifest.json');
 check('3 manifest: ' + kit.pieces.length + ' pieces, each a node in the GLB with cells inside its footprint and authored rotations', () => {
   const glb = fs.readFileSync(path.join(ROOT, KIT_DIR, kit.glb.file));
@@ -55,7 +55,7 @@ check('3 manifest: ' + kit.pieces.length + ' pieces, each a node in the GLB with
     if (c.walk) c.walk.cells.forEach(t => assert(c.cut && c.cut.cells.some(q => q[0] === t[0] && q[1] === t[1]), p.id + ' walk over cut'));
   });
   // the published copies (tools/publish_scarlands_kit.js) are byte-identical to the candidates they came from
-  const pub = path.join(ROOT, 'assets/scarlands/kit-v1/');
+  const pub = path.join(ROOT, 'assets/scarlands/kit-v2/');
   if (fs.existsSync(pub)) {
     assert.strictEqual(require('crypto').createHash('sha256').update(fs.readFileSync(pub + 'scarlands_kit.glb')).digest('hex'), kit.glb.sha256, 'published GLB is stale: node tools/publish_scarlands_kit.js apply');
     assert.deepStrictEqual(JSON.parse(fs.readFileSync(pub + 'manifest.json', 'utf8')), kit, 'published manifest is stale');
