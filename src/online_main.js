@@ -27,12 +27,13 @@ var OnlineMain=(function(){
   return m.wildernessLevel(t.x,t.z)>0?'scar':'grass';
  };
 
- /* ---------------- PRAYERS gets the server's Protect Item (the prayer book lists what the server allows) ---------------- */
+ /* ---------------- PRAYERS gets the server's protect_item, shown as Keepsake Ward (docs/rebuild/NAMING_BIBLE.md; the
+  *                  prayer book lists what the server allows) ---------------- */
  (function(){
   if(typeof PRAYERS==='undefined'||PRAYERS.protect_item)return;
   var order=Object.keys(PRAYERS),copy={};order.forEach(function(k){copy[k]=PRAYERS[k]});
   order.forEach(function(k){delete PRAYERS[k]});
-  order.forEach(function(k){PRAYERS[k]=copy[k];if(k==='reflexes')PRAYERS.protect_item={name:'Protect Item',req:25,icon:'',drain:2,group:null}});
+  order.forEach(function(k){PRAYERS[k]=copy[k];if(k==='reflexes')PRAYERS.protect_item={name:'Keepsake Ward',req:25,icon:'',drain:2,group:null}});
  })();
 
  /* ---------------- nothing local may change items or experience: the server is the only source ---------------- */

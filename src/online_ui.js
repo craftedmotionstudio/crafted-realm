@@ -209,7 +209,7 @@ var OnlineUI=(function(){
   for(var i=0;i<n;i++){var c=document.createElement('div');c.className='kit-slot'+(k.kept[i]?' filled':'');
    if(k.kept[i]){var img=document.createElement('img');img.src=iconFor(k.kept[i].id);c.appendChild(img);c.title=ITEMS[k.kept[i].id].name+(k.kept[i].qty>1?' x'+k.kept[i].qty:'')}host.appendChild(c)}
   var p=host.parentNode.querySelector('.kit-copy');
-  if(p)p.innerHTML=(st.state.skull>0?'<b>You are skulled:</b> you keep nothing unless you pray Protect Item. ':'If you fall you keep your <b>'+(Player.activePrayers.has('protect_item')?'four':'three')+'</b> most valuable items. ')+
+  if(p)p.innerHTML=(st.state.skull>0?'<b>You are skulled:</b> you keep nothing unless you pray Keepsake Ward. ':'If you fall you keep your <b>'+(Player.activePrayers.has('protect_item')?'four':'three')+'</b> most valuable items. ')+
    (k.lost?k.lost+' other item'+(k.lost>1?'s':'')+' would be left where you fell.':'Everything you carry would be kept.');
  }
  /* ---------------- death ---------------- */
