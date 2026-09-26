@@ -97,6 +97,10 @@ Our Three.js client and a mobile client speak JSON over WebSocket to our server.
   is re-baselined once for it.
 - Eating: 2004 behaviour, eating cancels the attack order and delays the next hit by 3 ticks.
 
+- Holm v2 land (2026-09-26, from docs/rebuild/WORLD_LAYOUT_GUIDE.md): departure haven moves to Beacon Cove below
+  Lastlight (timber stair; old haven site becomes a farm); route tightened (cave passage climbs out in the keep, legs
+  6-39 tiles, ~250 tiles total); mainland gets a Frontier Post bank booth 24 tiles before the Ditch.
+
 ## Open decisions for the owner (defaults in use until answered)
 
 1. Hosting for the game server and database (default: build and test locally; the existing VPS is a candidate).
