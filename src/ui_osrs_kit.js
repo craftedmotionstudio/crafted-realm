@@ -433,7 +433,7 @@ var TUTORS=['aldous','ansel','bram','corrick','durgin','hettie','ilse','maud','t
 function patchDialogue(){if(typeof UI==='undefined'||!UI.dialogue||UI.dialogue.__kit)return;var d0=UI.dialogue;
  UI.dialogue=function(name,text,opts,face){var r=d0.apply(this,arguments);try{var h=$('dlg-head');if(h&&!h.querySelector('img')){
   var low=String(name||'').toLowerCase(),id=null;TUTORS.forEach(function(t){if(new RegExp('\\b'+t+'\\b').test(low))id=t});
-  h.textContent='';if(id)h.innerHTML='<img src="assets/icons/tutors/'+id+'.png?v=29" alt="">';else h.innerHTML=spr('misc/chathead','kit-chathead')}}catch(e){}return r};UI.dialogue.__kit=true}
+  h.textContent='';if(id)h.innerHTML='<img src="assets/icons/tutors/'+id+'.png?v=31" alt="">';else h.innerHTML=spr('misc/chathead','kit-chathead')}}catch(e){}return r};UI.dialogue.__kit=true}
 // village folk speak through the same crisp overhead text as the player
 function patchVillageChatter(){if(typeof window.sayOverhead==='function'&&!window.sayOverhead.__kit){var f=function(mesh,text,secs){sayOverhead(mesh,text,secs||3.4);return null};f.__kit=true;window.sayOverhead=f}}
 // emotes: a player who clicks one sees it happen (a line in the chat, the word over their head, and the kit character
