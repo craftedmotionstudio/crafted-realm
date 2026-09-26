@@ -19,7 +19,7 @@ var HolmIslandTalk=(function(){
  // the objective banner while a tutor is due
  var TALK={
   bram:'Talk to Guide Bram in the Guide House.',
-  wenna:'Talk to Wenna at the survival camp, west along the path.',
+  wenna:'Talk to Wenna at the head of the Minnow Hollow path, south of the survival camp.',
   hettie:'Talk to Cook Hettie in the bakehouse.',
   ansel:'Talk to Loremaster Ansel in the Quest Lodge.',
   durgin:'Talk to Foreman Durgin at the foot of the shaft ladder.',

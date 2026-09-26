@@ -4,7 +4,7 @@
 const assert=require('assert'),Nav=require('../src/holm_island_nav'),Follower=require('../src/holm_arrival_follower');
 const I=require('./holm_island_inputs').load();
 let passed=0;const check=(name,f)=>{f();passed++;console.log('PASS '+name);};
-const make=extra=>Nav.create(Object.assign({terrain:I.terrain,arrival:I.arrival,buildings:I.buildings,blockers:I.blockers,bridges:I.bridges,arrivalFootprints:I.arrivalFootprints},extra||{}));
+const make=extra=>Nav.create(Object.assign({terrain:I.terrain,arrival:I.arrival,buildings:I.buildings,blockers:I.blockers,bridges:I.navBridges||I.bridges,arrivalFootprints:I.arrivalFootprints},extra||{}));
 const nav=make(),open={arrival:true,garden:false},closed={arrival:false,garden:false},g=nav.compile(open);
 const spawn=g.nodes.find(n=>n.surface==='dock');
 function nearest(graph,x,z,any){for(let r=0;r<10;r++)for(let dz=-r;dz<=r;dz++)for(let dx=-r;dx<=r;dx++){const q=(graph.byTile[(Math.floor(x)+dx)+','+(Math.floor(z)+dz)]||[]).find(n=>any||n.owner==='land'||n.surface==='deck');if(q)return q}return null}
@@ -36,7 +36,7 @@ check('cardinal only: every link is one tile north, south, east or west',()=>{
 });
 check('water is refused except on bridge decks; the teaching bridge is a real shortcut over the creek',()=>{
  for(const n of g.nodes)if(n.owner==='land'&&n.surface==='land')assert(!wet(n.tx,n.tz),'land node on water '+n.id);
- const decks=g.nodes.filter(n=>n.surface==='deck');assert.strictEqual(decks.length,I.bridges.reduce((s,b)=>s+b.tiles.length,0));
+ const decks=g.nodes.filter(n=>n.surface==='deck');assert.strictEqual(decks.length,(I.navBridges||I.bridges).reduce((s,b)=>s+b.tiles.length,0));
  const nb=make({bridges:[]}),gb=nb.compile(open),kitchen=nearest(gb,44,62);
  // The Sept 13 creek rises inland, so its head can be walked round (open owner question, M4.5); the bridge must
  // still save real distance.

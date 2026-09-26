@@ -1000,7 +1000,8 @@ function handleClick(obj, point){
   if(u.kind==='resource'){
     if(!u.alive){ UI.chat('There is nothing left to gather here.','plain'); return; }
     if(u.rtype==='fish'){
-      if(Player.usingItem!=='fishing_net'){
+      // Minnow Hollow (Holm v2 land): the ripples take a plain click when a net is in the pack, 2004-style ("Net")
+      if(Player.usingItem!=='fishing_net'&&!(u.holmFishing!==undefined&&Player.count('fishing_net')>0)){
         UI.chat(Player.count('fishing_net')>0
           ? 'Nothing interesting happens. (Click your small net in your pack first, then click the fishing spot.)'
           : 'You need a small net to fish here. The Hollow Bazaar sells them.','plain');

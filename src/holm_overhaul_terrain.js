@@ -81,6 +81,7 @@ var HolmOverhaulTerrain=(function(){
     list('dimples',256).forEach(function(d){if(!Array.isArray(d)||d.length!==4||!range(d[0],0,144)||!range(d[1],0,128)||!range(d[2],.5,16)||!range(d[3],0,8))fail('invalid dimple');});
     list('basins',64).forEach(function(b){if(!object(b)||!range(b.x,0,144)||!range(b.z,0,128)||!range(b.rx,.5,64)||!range(b.rz,.5,64)||!range(b.depth,0,16)||!range(b.edge,.05,1)||(b.pond!==undefined&&!range(b.pond,-2,64)))fail('invalid basin '+(b&&b.id));id(b.id);});
     list('pads',256).forEach(function(p){
+      if(p&&p.material!==undefined&&(!Number.isInteger(p.material)||p.material<0||p.material>3))fail('invalid pad material');
       if(!object(p)||!range(p.w,.1,144)||!range(p.d,.1,128)||!range(p.x,p.w/2,144-p.w/2)||!range(p.z,p.d/2,128-p.d/2)||!range(p.height,0,64)||!range(p.blend,.01,32))fail('invalid pad '+(p&&p.id));
       id(p.id);
     });
@@ -163,9 +164,18 @@ var HolmOverhaulTerrain=(function(){
   function compileV2(source){
     var W=source.width,D=source.depth,S=W+1,heights=[],materials=[],water=[],min=Infinity,max=-Infinity,counts=[0,0,0,0];
     for(var z=0;z<=D;z++)for(var x=0;x<=W;x++){var v=evaluateV2(source,x,z);heights.push(v.height);materials.push(v.material);}
-    // the lattice under pond water reads as bed; steep ground reads as rock (the tiles the walk graph refuses)
-    for(z=0;z<D;z++)for(x=0;x<W;x++){var k=evaluateV2(source,x+.5,z+.5).water;water.push(k);counts[k]++;
+    // the lattice under pond water reads as bed; steep ground reads as rock (the tiles the walk graph refuses).
+    // Pond water is decided on the lattice the game walks and draws (the tile's bilinear centre and its drawn split
+    // diagonal, whichever is lower, under the level + .05), never on the analytic field, so no dry tile stands under
+    // the pond sheet (the creek keeps the v1 rule; HolmIslandNav adds its banks)
+    var ponds0=(source.basins||[]).filter(function(b){return b.pond!==undefined;});
+    function pondAt(x,z){var a=heights[z*S+x],b=heights[z*S+x+1],c=heights[(z+1)*S+x],d=heights[(z+1)*S+x+1];
+      var lo=Math.min((a+b+c+d)/4,(x+z)&1?(a+d)/2:(b+c)/2),cx=x+.5,cz=z+.5;
+      for(var i=0;i<ponds0.length;i++){var p=ponds0[i];if(ellipse(p,cx,cz)<1&&lo<p.pond+.05)return true;}return false;}
+    for(z=0;z<D;z++)for(x=0;x<W;x++){var k=evaluateV2(source,x+.5,z+.5).water;if(k===3||(k===0&&pondAt(x,z)))k=pondAt(x,z)?3:0;water.push(k);counts[k]++;
       if(k===3)[[x,z],[x+1,z],[x,z+1],[x+1,z+1]].forEach(function(p){var i=p[1]*S+p[0];if(materials[i]===1||materials[i]===0)materials[i]=3;});}
+    // a pad may carry its own ground (the Fire Beach shingle): the lattice inside the pad takes that material
+    (source.pads||[]).forEach(function(p){if(p.material===undefined)return;for(var zz=Math.ceil(p.z-p.d/2);zz<=Math.floor(p.z+p.d/2);zz++)for(var xx=Math.ceil(p.x-p.w/2);xx<=Math.floor(p.x+p.w/2);xx++)if(xx>=0&&zz>=0&&xx<=W&&zz<=D)materials[zz*S+xx]=p.material;});
     var rise=source.rock&&source.rock.rise;
     if(rise){var mats=materials.slice();
       for(z=0;z<=D;z++)for(x=0;x<=W;x++){var i=z*S+x;if(mats[i]!==1&&mats[i]!==0)continue;var h0=heights[i],m=0;

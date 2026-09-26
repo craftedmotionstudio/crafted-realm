@@ -10,7 +10,7 @@ var HolmIslandTutors=(function(){
  // id, name, where they stand (a building's measured target or an arrival service), the lessons they teach, and a face
  var CAST=[
   {id:'bram',name:'Guide Bram',at:{arrival:'holm_orientation'},lessons:['study_route','equip_hatchet'],face:'🧓'},
-  {id:'wenna',name:'Wenna',at:{building:['survival','logs']},lessons:['chop_logs','light_fire','catch_fish','cook_fish'],face:'🧝'},
+  {id:'wenna',name:'Wenna',at:{world:[34.5,89.5]},lessons:['chop_logs','light_fire','catch_fish','cook_fish'],face:'🧝'},
   {id:'hettie',name:'Cook Hettie',at:{building:['bakehouse','prep']},lessons:['bake_bread'],face:'👩‍🍳'},
   {id:'ansel',name:'Loremaster Ansel',at:{building:['lodge','map']},lessons:['learn_quests'],face:'🧑‍🏫'},
   {id:'durgin',name:'Foreman Durgin',at:{building:['cavern','ladder']},lessons:['descend_cavern','mine_copper','mine_tin','smelt_bronze','forge_dagger'],face:'🧔'},
@@ -24,7 +24,7 @@ var HolmIslandTutors=(function(){
  // with the tutor's welcome; asking again explains the current step (Wenna during light_fire explains the tinderbox).
  var HELLO={
   bram:['Welcome to Tutor\'s Holm, friend. I am Guide Bram. Every adventurer starts here, and I start every adventurer.'],
-  wenna:['Hello there. I am Wenna, and this is the survival camp.','Out here you learn to look after yourself: wood, fire, fish and a hot supper.'],
+  wenna:['Hello there. I am Wenna, and down there is Minnow Hollow.','Out here you learn to look after yourself: wood, fire, fish and a hot supper, all within a stone\'s throw of the pond.'],
   hettie:['Mind the flour. I am Cook Hettie, and this is my bakehouse.','My kitchen, my rules. Today you are baking a loaf of bread.'],
   ansel:['Ah, a new face. I am Loremaster Ansel. This lodge keeps the record of every task the Holm has to offer.','Quests are the stories of this land: folk with troubles, and rewards for those who help them.'],
   durgin:['Mind your head down here. I am Foreman Durgin, and these are the Holm\'s ore workings.','Every blade on this island starts as rock in this cavern. Today you will make one yourself.'],
@@ -40,13 +40,13 @@ var HolmIslandTutors=(function(){
   equip_hatchet:function(){return has('hatchet')
    ?['You have your tools. Open your pack and click the bronze hatchet to wield it.','Then follow the path west to the survival camp. Wenna will show you what a hatchet is for.']
    :['Your tools are on the provision rack by the wall. Click the rack to take them.','Then open your pack and click the bronze hatchet to wield it.']},
-  chop_logs:function(){return ['First, wood. Click one of the oaks by the camp and your hatchet will do the rest.','Keep at it until the logs come away. Some swings miss; that is woodcutting.','Logs in hand, you will want a fire. Ask me again if you forget how.']},
+  chop_logs:function(){return ['First, wood. The oaks on the rim of the hollow, just below us, are yours to cut. Click one and your hatchet will do the rest.','Keep at it until the logs come away. Some swings miss; that is woodcutting.','Logs in hand, you will want a fire. Ask me again if you forget how.']},
   light_fire:function(){return has('logs')
-   ?['Good, you have logs. Now for a fire.','Click the tinderbox in your pack, then click the logs.','Stand clear once it catches. You will step aside on your own.']
-   :['A fire needs logs. Chop one of the oaks by the camp first.','Then click your tinderbox, then the logs.']},
-  catch_fish:function(){return ['A fire wants something to cook. Take the bank stair down to the fishing stage over the creek.','Click the small net in your pack, then click the ripples in the water.','Keep netting until you land a perch.']},
+   ?['Good, you have logs. Take the path down into the hollow, to the Fire Beach by the water.','There, click the tinderbox in your pack, then click the logs.','Stand clear once it catches. You will step aside on your own.']
+   :['A fire needs logs. Chop one of the oaks on the rim of the hollow first.','Then go down to the Fire Beach, click your tinderbox, then the logs.']},
+  catch_fish:function(){return ['A fire wants something to cook, and the pond is full of perch.','Click the ripples on the water and you will cast your net. Some casts come up empty; keep at it.','Watch the pond. The fish move about, and when they do, the ripples go with them.']},
   cook_fish:function(){
-   if(!has('raw_perch'))return ['You need a raw perch first. Net one from the ripples off the fishing stage.','Then bring it back and click your fire to cook it.'];
+   if(!has('raw_perch'))return ['You need a raw perch first. Net one from the ripples on the pond.','Then click your fire on the beach to cook it.'];
    if(!lit())return ['Your fire has burnt out. Chop more logs and light another with your tinderbox.','Then click the fire to cook your perch.'];
    return ['Now cook that perch. Click your fire and you will cook it.','If it burns, do not fret. Net another and try again. Everyone burns their first few.']},
   bake_bread:function(){
@@ -81,8 +81,10 @@ var HolmIslandTutors=(function(){
   return ['Not yet, friend. '+(o?o.name+' has a lesson for you first.':'Finish your current lesson first.')];
  }
  function play(n,name,fade){var a=n.actions[name];if(!a||n.current===a)return;Object.keys(n.actions).forEach(function(k){if(n.actions[k]!==a)n.actions[k].fadeOut(fade||.25)});a.reset().fadeIn(fade||.25).play();n.current=a}
+ function worldStance(api,w){var best=null,d=Infinity;api.graphNodes().forEach(function(n){var k=Math.hypot(n.x-w[0],n.z-w[1]);if(k<d&&n.surface==='land'){d=k;best=n}});return best}
  function spot(api,c){
-  var s=c.at.arrival?api.arrivalStance(c.at.arrival):api.qaStance(c.at.building[0],c.at.building[1]);if(!s)return null;
+  // at: an arrival service, a building's measured target, or a world point (Wenna at the head of the Minnow Hollow path)
+  var s=c.at.arrival?api.arrivalStance(c.at.arrival):c.at.world?worldStance(api,c.at.world):api.qaStance(c.at.building[0],c.at.building[1]);if(!s)return null;
   var nodes=api.graphNodes(),best=null,score=Infinity;
   nodes.forEach(function(n){var d=Math.hypot(n.x-s.x,n.z-s.z);if(d<1.2||d>2.9||Math.abs(n.y-s.y)>.4)return;var sc=Math.abs(d-1.6)+((n.x*3+n.z*5)%7)*.01;if(sc<score){score=sc;best=n}});
   return best&&{x:best.x,y:best.y,z:best.z,surface:best.surface,faceX:s.x,faceZ:s.z};

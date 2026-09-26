@@ -56,7 +56,13 @@ function load(opts){
  L.rocks.forEach(k=>{const r=L.rockBlockRadius;blockers.push({id:'lesson:'+k.id,mode:'overlap',x0:k.x-r,x1:k.x+r,z0:k.z-r,z1:k.z+r})});
  // the design's crossings measured on the v2 land (tools/rebuild_holm_v2land.js writes the same into island-bridges.json)
  const bridges=design.bridges.map(x=>Nav.bridgeFrom(terrain,x));
- return {terrain,design,seats,layout,arrival,dock,scenery,blockers,buildings,bridges,plan,lessons:L,status,
+ // Minnow Hollow (phase 2): the set's solid pieces block where they stand, the jetty is a deck (same rule as HolmFishing.loadData)
+const decks=[];
+ const fishing=exists('docs/rebuild/holm-overhaul/island-fishing.json')?read('docs/rebuild/holm-overhaul/island-fishing.json'):null;
+ if(fishing){(fishing.set||[]).forEach((p,i)=>{if(!p.block)return;const hx=p.block[0],hz=p.block[1],c=Math.abs(Math.cos(p.yaw||0)),sn=Math.abs(Math.sin(p.yaw||0)),ex=hx*c+hz*sn,ez=hx*sn+hz*c;
+   blockers.push({id:'hollow:'+p.prop+':'+i,mode:'overlap',x0:p.x-ex,x1:p.x+ex,z0:p.z-ez,z1:p.z+ez})});
+  const j=fishing.jetty;decks.push({id:j.id,label:j.label,orientation:'EW',tiles:j.tiles,deckY:j.deckY})}
+ return {terrain,design,seats,layout,arrival,dock,scenery,blockers,buildings,bridges,decks,navBridges:bridges.concat(decks),plan,lessons:L,status,fishing,
   ladders:read('docs/rebuild/holm-overhaul/island-ladders.json').ladders,
   arrivalFootprints:[{x0:w.x-b.width/2,x1:w.x+b.width/2,z0:w.z-b.depth/2,z1:w.z+b.depth/2}]};
 }

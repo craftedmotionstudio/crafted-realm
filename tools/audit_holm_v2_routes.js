@@ -7,7 +7,7 @@
 'use strict';
 const fs=require('fs'),path=require('path'),Nav=require('../src/holm_island_nav');
 const I=require('./holm_v2_land_inputs').load();
-const nav=Nav.create({terrain:I.terrain,arrival:I.arrival,buildings:I.buildings,blockers:I.blockers,bridges:I.bridges,arrivalFootprints:I.arrivalFootprints});
+const nav=Nav.create({terrain:I.terrain,arrival:I.arrival,buildings:I.buildings,blockers:I.blockers,bridges:I.navBridges||I.bridges,arrivalFootprints:I.arrivalFootprints});
 const g=nav.compile({arrival:true,garden:true});
 const jump={},addJ=(a,b)=>{(jump[a]=jump[a]||[]).push(b);(jump[b]=jump[b]||[]).push(a)};
 const tgt=(b,t)=>{const B=I.buildings.find(x=>x.id===b),T=B&&B.graph.targets.find(x=>x.id===t);return T&&T.nodeId?'b:'+b+':'+T.nodeId:null};
@@ -19,15 +19,15 @@ function nearNode(x,z,y,pred){let best=null,d=1e9;g.nodes.forEach(n=>{if(pred&&!
 const spawn=g.nodes.find(n=>n.id==='dock:61,125')||g.nodes.find(n=>n.surface==='dock');
 // lesson stations: a node beside the object (0.5-1.7 tiles, as HolmArrivalQA.beside), a building target, or the arrival services
 const beside=(x,z,y)=>nearNode(x,z,y,n=>{const h=Math.hypot(n.x-x,n.z-z);return h>=.5&&h<=1.7&&(!Number.isFinite(y)||Math.abs(n.y-y)<2.2)});
-const L=I.lessons,T0=L.trees[0],F0=L.fishing[0];
+const L=I.lessons,T0=L.trees[0];
 const guideW=I.layout.building.world;
 const stations=[
  ['study_route (chart)',()=>g.byId['ground:65,97']],   // the arrival package's service stances (holm_orientation, holm_provisions)
  ['equip_hatchet (rack)',()=>g.byId['ground:68,96']],
  ['chop_logs ('+T0.id+')',()=>beside(T0.x,T0.z)],
- ['light_fire (survival fire)',()=>g.byId[tgt('survival','fire')]],
- ['catch_fish ('+F0.id+')',()=>F0.stance?g.byId[tgt(F0.stance[0],F0.stance[1])]:beside(F0.x,F0.z,F0.y)],
- ['cook_fish (fire)',()=>g.byId[tgt('survival','fire')]],
+ ['light_fire (Fire Beach)',()=>{const r=I.fishing.fireBeach.ring;return beside(r[0],r[1])}],
+ ['catch_fish (pond spot)',()=>{const c=I.fishing.candidates[0];return beside(c.water[0]+.5,c.water[1]+.5,I.fishing.pond.level)}],
+ ['cook_fish (beach fire)',()=>{const r=I.fishing.fireBeach.ring;return beside(r[0],r[1])}],
  ['bake_bread (oven)',()=>g.byId['b:bakehouse:-4:-3:1']],
  ['learn_quests (board)',()=>g.byId[tgt('lodge','board')]],
  ['descend_cavern (shaft)',()=>g.byId[tgt('quarry','shaft')]],
@@ -57,6 +57,9 @@ console.log('  surface + underground total',total,'tiles',(total*.6).toFixed(0),
 const R=bfs(spawn.id),miss=[];
 for(const B of I.buildings)for(const t of B.graph.targets||[]){if(!t.nodeId){miss.push(B.id+':'+t.id+' (unmeasured)');continue}const id='b:'+B.id+':'+t.nodeId;if(!(id in R))miss.push(B.id+':'+t.id)}
 console.log('  building targets unreachable:',miss.length?miss.join(', '):'none');
+// every Minnow Hollow fishing candidate has a reachable stance beside its ripple (0.5-1.7 tiles, as HolmArrivalQA.beside)
+const fishMiss=I.fishing.candidates.filter(c=>{const n=beside(c.water[0]+.5,c.water[1]+.5,I.fishing.pond.level);return !n||!(n.id in R)}).map(c=>c.id);
+console.log('  fishing candidates without a reachable stance:',fishMiss.length?fishMiss.join(', '):'none');if(fishMiss.length)fail++;
 const st=nav.stats({arrival:true,garden:true});console.log('  graph',JSON.stringify(st));
 const out=process.argv.indexOf('--json');if(out>0)fs.writeFileSync(process.argv[out+1],JSON.stringify({rows,total,unreachableTargets:miss,status:I.status,stats:st},null,1));
 if(fail)process.exit(1);

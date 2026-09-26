@@ -25,46 +25,57 @@
   {
    "name": "chop_logs (survival-oak-1)",
    "reachable": true,
-   "walked": 58,
-   "seconds": 34.8,
+   "walked": 44,
+   "seconds": 26.4,
    "from": 4.4,
-   "to": 3,
-   "rise": 4.4,
-   "fall": 5.8,
-   "steepestLink": 0.797
+   "to": 2.27,
+   "rise": 3.7,
+   "fall": 5.9,
+   "steepestLink": 0.777
   },
   {
-   "name": "light_fire (survival fire)",
+   "name": "light_fire (Fire Beach)",
    "reachable": true,
-   "walked": 28,
-   "seconds": 16.8,
-   "from": 3,
-   "to": 3.6,
-   "rise": 1.7,
-   "fall": 1.1,
-   "steepestLink": 0.754
+   "walked": 14,
+   "seconds": 8.4,
+   "from": 2.27,
+   "to": 1.69,
+   "rise": 1.2,
+   "fall": 1.8,
+   "steepestLink": 0.847
   },
   {
-   "name": "cook_fish (fire)",
+   "name": "catch_fish (pond spot)",
    "reachable": true,
-   "walked": 0,
-   "seconds": 0,
-   "from": 3.6,
-   "to": 3.6,
-   "rise": 0,
-   "fall": 0,
-   "steepestLink": 0
+   "walked": 24,
+   "seconds": 14.4,
+   "from": 1.69,
+   "to": 1.17,
+   "rise": 3.9,
+   "fall": 4.5,
+   "steepestLink": 0.847
+  },
+  {
+   "name": "cook_fish (beach fire)",
+   "reachable": true,
+   "walked": 24,
+   "seconds": 14.4,
+   "from": 1.17,
+   "to": 1.69,
+   "rise": 4.5,
+   "fall": 3.9,
+   "steepestLink": 0.847
   },
   {
    "name": "bake_bread (oven)",
    "reachable": true,
-   "walked": 54,
-   "seconds": 32.4,
-   "from": 3.6,
+   "walked": 62,
+   "seconds": 37.2,
+   "from": 1.69,
    "to": 5.4,
-   "rise": 4.4,
-   "fall": 2.6,
-   "steepestLink": 0.667
+   "rise": 7.1,
+   "fall": 3.4,
+   "steepestLink": 0.847
   },
   {
    "name": "learn_quests (board)",
@@ -188,7 +199,7 @@
    "steepestLink": 0.895
   }
  ],
- "total": 845,
+ "total": 873,
  "unreachableTargets": [
   "lodge:north-lane"
  ],
@@ -205,10 +216,10 @@
   "cavern": "measured"
  },
  "stats": {
-  "nodes": 10848,
-  "edges": 17695,
+  "nodes": 10829,
+  "edges": 17652,
   "owners": {
-   "land": 7913,
+   "land": 7894,
    "b:keep": 860,
    "b:bakehouse": 237,
    "b:lodge": 376,

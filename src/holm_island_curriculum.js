@@ -11,8 +11,8 @@ var HolmIslandCurriculum=(function(){
  // where each lesson is taught on the new island: a building's measured target, a lesson object, or an arrival service
  var WHERE={
   study_route:{arrival:'holm_orientation'},equip_hatchet:{arrival:'holm_provisions'},
-  chop_logs:{object:'island-lesson-survival-oak-1'},light_fire:{building:['survival','fire']},
-  catch_fish:{object:'island-lesson-survival-perch'},cook_fish:{building:['survival','fire']},
+  chop_logs:{object:'island-lesson-survival-oak-1'},light_fire:{object:'island-hollow-fire-ring'},
+  catch_fish:{object:'island-hollow-spot-0'},cook_fish:{object:'island-hollow-fire-ring'},
   bake_bread:{building:['bakehouse','oven']},learn_quests:{building:['lodge','board']},
   descend_cavern:{building:['quarry','shaft']},mine_copper:{object:'island-lesson-cavern-copper-1'},
   mine_tin:{object:'island-lesson-cavern-tin-1'},smelt_bronze:{object:'island-lesson-furnace'},
@@ -23,10 +23,10 @@ var HolmIslandCurriculum=(function(){
  var TEXT={
   study_route:['Enter the Guide House and study the relief chart of Tutor\'s Holm.','Study the chart'],
   equip_hatchet:['Take your tools from the provision rack, then click the bronze hatchet in your pack to wield it.','Wield the hatchet'],
-  chop_logs:['Follow the path west to the survival camp and chop down one of the oaks.','Chop an oak'],
-  light_fire:['Use your tinderbox on the logs in your pack to light a fire.','Light a fire'],
-  catch_fish:['Click your small net, then the ripples off the camp\'s fishing stage.','Net a fish'],
-  cook_fish:['Cook the fish on your fire. Burnt it? Net another and try again.','Cook the fish'],
+  chop_logs:['Follow the path west to the survival camp, then chop down one of the oaks on the rim of Minnow Hollow.','Chop an oak'],
+  light_fire:['Go down the path into Minnow Hollow and light a fire on the Fire Beach: use your tinderbox on the logs.','Light a fire'],
+  catch_fish:['Net a fish at the ripples on the pond. The fish move about: follow the ripples.','Net a fish'],
+  cook_fish:['Cook the fish on your fire on the beach. Burnt it? Net another and try again.','Cook the fish'],
   bake_bread:['In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.','Bake bread'],
   learn_quests:['Visit the Quest Lodge and study the quest board.','Study the quest board'],
   descend_cavern:['At the Quarry Gate, climb down the shaft ladder to the ore workings.','Climb down the shaft'],

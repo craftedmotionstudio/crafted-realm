@@ -243,6 +243,7 @@ function update(dt){
     else if(a.type==='gather'){
       const u=a.obj.userData;
       if(player.position.distanceTo(a.obj.position)>2.65){ orderWalk(a.obj.position); }
+      else if(u.holmFishing!==undefined&&typeof HolmFishing!=='undefined'&&HolmFishing.gatherTick(a,dt)){ /* Minnow Hollow: moving spots, visible rolls, varied catches (holm_fishing.js) */ }
       else {
         if(!u.alive){ Player.action=null; return; }
         let power;
@@ -519,24 +520,27 @@ function update(dt){
     else if(a.type==='cook'){
       if(player.position.distanceTo(a.obj.position)>2.4){ orderWalk(a.obj.position); }
       else {
-        if(Player.count('raw_perch')<1){ UI.chat('You have nothing raw to cook.','plain'); Player.action=null; return; }
+        // the raw fish in the pack, perch first (Minnow Hollow adds the reedpike, a touch harder to cook)
+        const fish=[{raw:'raw_perch',done:'cooked_perch',burnt:'burnt_perch',xp:32,name:'a mirrorperch',hard:0},
+                    {raw:'raw_reedpike',done:'cooked_reedpike',burnt:'burnt_reedpike',xp:45,name:'a reedpike',hard:.08}].find(f=>Player.count(f.raw)>0);
+        if(!fish){ UI.chat('You have nothing raw to cook.','plain'); Player.action=null; return; }
         a.t+=dt;
         if(a.t>=2){
           a.t=0;
           // never destroy a fish the pack can't hold — check space before the raw leaves the slot
           if(!Player.hasSpace || Player.hasSpace()){
-            Player.removeItem('raw_perch',1);
+            Player.removeItem(fish.raw,1);
             const rangeBonus = a.obj.userData.range ? 0.08 : 0;   // a proper range burns less than a campfire
-            if(Math.random()<Math.min(0.97, 0.6+rangeBonus+Player.lvl('Cooking')*0.02)){
-              Player.addItem('cooked_perch',1); Player.addXp('Cooking',32);
-              UI.chat('You roast a mirrorperch.','plain');
-              Tutorial.notify('cook','cooked_perch');
+            if(Math.random()<Math.min(0.97, 0.6-fish.hard+rangeBonus+Player.lvl('Cooking')*0.02)){
+              Player.addItem(fish.done,1); Player.addXp('Cooking',fish.xp);
+              UI.chat('You roast '+fish.name+'.','plain');
+              Tutorial.notify('cook',fish.done);
             } else {
-              Player.addItem('burnt_perch',1);
+              Player.addItem(fish.burnt,1);
               UI.chat('You accidentally burn the fish.','plain');
             }
           } else { UI.chat('Your pack is too full to cook anything.','plain'); Player.action=null; return; }
-          if(Player.count('raw_perch')<1) Player.action=null;
+          if(Player.count('raw_perch')<1&&Player.count('raw_reedpike')<1) Player.action=null;
         }
       }
     }

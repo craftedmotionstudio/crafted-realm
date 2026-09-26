@@ -92,7 +92,9 @@ var HolmIslandExtras=(function(){
   veg.forEach(function(p){var r=radius[p.asset];if(r)blockers.push({id:'habitat:'+p.id,mode:'overlap',x0:p.x-r*p.scale,x1:p.x+r*p.scale,z0:p.z-r*p.scale,z1:p.z+r*p.scale})});
   // M5.1 lesson trees and ore rocks block like habitat trees
   if(typeof HolmIslandLessons!=='undefined')blockers=blockers.concat(await HolmIslandLessons.blockers());
-  return {buildings:buildings,habitat:veg,blockers:blockers,bridges:(await json(BRIDGES)).bridges,ladders:(await json(LADDERS)).ladders,bridgeModels:reg&&reg.bridgeModels?HolmV2Land.url(reg.bridgeModels)+'/':null};
+  // v2 land phase 2: the Minnow Hollow set blocks where it stands and its jetty is a deck over the pond
+  var brs=(await json(BRIDGES)).bridges;if(typeof HolmFishing!=='undefined'){var fd=await HolmFishing.loadData();blockers=blockers.concat(fd.blockers);brs=brs.concat([fd.jetty])}
+  return {buildings:buildings,habitat:veg,blockers:blockers,bridges:brs,ladders:(await json(LADDERS)).ladders,bridgeModels:reg&&reg.bridgeModels?HolmV2Land.url(reg.bridgeModels)+'/':null};
  }
  async function load(o){
   var T=o.THREE,scene=o.scene,W=o.WORLD,sample=o.sample,data=o.data,roots=[],mixers=[],grounds=[];
