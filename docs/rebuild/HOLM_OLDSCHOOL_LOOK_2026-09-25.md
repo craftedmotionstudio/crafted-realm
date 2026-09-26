@@ -105,3 +105,70 @@ colour. Rebuild: `node tools/build_oldschool_textures.js` (deterministic).
    swap count), close-up and 10-view sheets, then the island QA on a quiet machine.
 8. Keep draw calls in check: each vertex-colour class split is one more draw call per mesh (`maxVariants`); named
    materials are textured in place (no new draw calls).
+
+## Look pass 2 (2026-09-26): measured against the refs, look v2, classic pixels
+
+Owner, 2026-09-26: "the overall feel is a little bit too polished; it needs to feel more like old school and follow more
+like the Bible references style ... I think it might be [a textures thing]". Branch `world-look2-2026-09-26`
+(worktree `CraftedRealms-Look2`). Every change was measured; no model, graph, triangle or hash changed (pixels only).
+
+### Measuring (tools/measure_look_vs_refs.py)
+
+- Surface classes grass, path, sand, foliage, trunk, wall, roof, water. Numbers: HLS L/S/H of the region's mean colour,
+  `sd` (lightness spread inside 16 px blocks: blotchiness, not roof-plane lighting), `fine` (mean |luma step| between
+  neighbouring pixels = local texture contrast) and `coarse` (the same on 4x4 averaged pixels = leaf-clump / blotch
+  scale), every image at a common 900 px screen height (big refs area-averaged, small 2004-size refs nearest-scaled).
+- Refs: hand-picked boxes in 10 Bible references (`docs/rebuild/holm-overhaul/oldschool/look_ref_regions.json`, check
+  with `python tools/measure_look_vs_refs.py regions`). Band = min..max over the refs, widened by a small tolerance;
+  grey surfaces (S < .08) have no hue band.
+- Ours: `LOOK_MASK=1 LOOK_ROOT=holm_look_v2 node tools/capture_holm_look.js` also writes `<view>.mask.png` (every mesh in a
+  flat class colour; ground split by its texture weights; foliage/trunk/wall/roof by material name, timber roofs by
+  mesh name), eroded 2 px, void pixels dropped. `capture`, `compare`, `views` commands print the tables.
+- Sheets: `python tools/make_holm_look_v2_sheets.py` -> `scratchpad/holm_look_v2/sheets/` (reference | live | v2 |
+  v2 + classic pixels | approved login mood, numbers table per view, `summary.png/json`).
+
+Diagnosis in numbers (live look, class averages over the 10 views): grass fine contrast 2.60 (refs .14-.85), foliage
+L .31 / S .41 / sd 27 / coarse 16 (refs <= .29 / .39 / 17 / 12: bright, saturated camouflage blotches), roof hue 30
+and tile contrast 13 (refs >= 38 / <= 9), plaster/stone S .18 (refs <= .15), paths/sand speckle. Grass lightness and
+water were already inside the band (distant water only looked dark in the long void fade).
+
+### Look v2 (default; `?lookv=1` or `GameConfig.holmLookVersion=1` = the first look, for A/B)
+
+| Area | Change |
+|---|---|
+| Kit (additive) | `tools/oldschool_textures_v2.js`, registered by one line in `build_oldschool_textures.js`: `dirt_soft`, `sand_soft`, `leaves_soft`, `needles_soft`, `bark_soft`, `roof_tiles_soft`, `thatch_soft`, `stone_course_soft`, `plaster_soft`, `planks_soft`, `beam_soft` (same layouts, low tone spread; first-kit PNGs byte-identical) |
+| Ground | grass without detail texture (a .15 trace of `grass_b`), per-tile underlay + gouraud slope light only; grass underlay ~10% darker, sand ~8% lighter, per-tile jitter .09 (`HolmOverhaulGround.setLookVersion`); soft earth/sand detail |
+| Models | `HolmOldschoolLook` hooks `GLTFLoader.parse` while the island look is active: each kit image in a textured candidate (image name) is swapped for its soft variant keeping the authored average colour, then graded per family (`GRADE`: leaves gain .74 sat .82 hue -5, roof tiles .95/.7/+24, plaster .93/.4, stone .55 sat, ...) on the material colour, or on the corner colours of vertex-coloured variants; own-image keep/lodge textures graded by `FAMILY`; timber-shingle roof meshes (bakehouse) get the roof-wood grade on their own corners |
+| Scene | void fade 27..30 past the camera distance (was 24..32), sun 0xfff6ea and ground bounce 0x6c6a60 (less amber: the warm light alone added ~.08 saturation to grey walls); hills shade from the baked ground light as before |
+
+Passes (class averages outside the band / per-view values outside, 10 views): live 14/137 -> pass 1 2/49 -> pass 2
+1/48 -> pass 3 0/43 -> pass 4 0/31 -> pass 5 0/28 -> pass 6 (final) 0/29 (pass 6 adds the bakehouse roof to the roof
+class, so it is measured on more surface than pass 5). Remaining per-view strays: the Lastlight clay roof (hue 35),
+bakehouse/guide house warm sandstone (S .16-.19 in two views), close-up paths by the creek (L .47-.52), the survival
+camp's small sand patch.
+
+### Classic pixels (`src/classic_pixels.js`, off by default)
+
+Settings -> "Classic pixels" (localStorage), `?classic=1/0`, `GameConfig.classicPixels`. The world is drawn into a render
+target of screen height / whole number (~503 lines: 900 px -> 769 x 450, 1440 -> 3x, 2160 -> 4x), no anti-aliasing,
+scaled up nearest, and every pixel is mapped to a fixed 64-colour island palette (+ black; median cut of the look-v2
+captures, `tools/build_classic_palette.py` -> `assets/textures/oldschool/classic_palette.json`, no dither): the finish
+of the owner-approved login art. `?classicPalette=0` = pixels without the palette step. UI, chat and 2D overlays stay
+sharp; picking and camera unchanged; `renderer.info` counts the world pass + 1 blit. Cost (uncapped, RTX 4070 laptop,
+headless, `node tools/bench_classic_pixels.js`, median fps off -> on): guide house 50 -> 46, bakehouse 47 -> 51, hill
+panorama 83 -> 86, i.e. no measurable cost (the island is draw-call / CPU bound, not fill bound).
+
+### Needs a Blender re-export to bake v2 in (runtime swap works meanwhile)
+
+The runtime swap/grade covers every textured candidate; baking it would drop the loader hook. Needed: an
+`apply_oldschool_textures.py` option that maps first-kit names to the `*_soft` names (leaves at 0.45 m, i.e. the runtime's
+2x repeat) and bakes `GRADE` into the tints / corner colours, then `build_holm_oldschool_candidates.js` into new
+`-oldschool-v2` workspaces with the usual re-locks and arrival package v4. Assets, by priority:
+1. foliage: tree family (oak, birch, coastal pine, meadow tuft, creek reeds, arrival oak v3), garden hazels, props
+   packs v1/v3/v5 shrubs, survival coppice;
+2. roofs: Guide House (clay tiles, VC), bakehouse (timber shingles, VC), Lastlight / quarry / bank / mage clay tiles,
+   survival + haven + mage thatch, keep shingles (`roof-128`), lodge slate/reed (own images);
+3. walls and timber: every building's plaster / stone / planks / beam (Guide House, bakehouse, lodge, keep, bank, mage,
+   Lastlight, quarry, haven, survival, cavern), bridges, dock + moored boat, provision rack, landing props, statue.
+Modelling notes (not texture): the survival camp thatch is a patchwork of differently coloured cards and the Guide
+House roof carries strong per-face tile colour variation; both still read busier than the refs' even roofs.

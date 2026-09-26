@@ -64,4 +64,59 @@ check('4 switch: config on by default, ?oldschool=0 turns it off (no textured as
  const forced=load('?oldschool=1',{holmOldschoolLook:false});assert(forced.enabled());
  const r=def.fogRange(33);assert(r.near>33&&r.far>r.near&&r.color===0);
 });
-console.log('[HOLM OLDSCHOOL LOOK] '+passed+'/4 checks passed');
+
+// ---- look v2 (look pass 2, 2026-09-26) ----
+const lookFile=path.join(root,'src/holm_oldschool_look.js');
+function loadLook(search,cfg){delete require.cache[require.resolve(lookFile)];global.location={search:search};global.GameConfig=cfg;const m=require(lookFile);delete global.location;delete global.GameConfig;return m}
+check('5 look versions: v2 by default, ?lookv=1 / holmLookVersion 1 give the first look exactly (ground table, detail, void)',()=>{
+ const v2=loadLook('',{holmOldschoolLook:true}),v1=loadLook('?lookv=1',{holmOldschoolLook:true}),c1=loadLook('',{holmOldschoolLook:true,holmLookVersion:1});
+ assert.strictEqual(v2.version(),2);assert.strictEqual(v1.version(),1);assert.strictEqual(c1.version(),1);assert.strictEqual(loadLook('?oldschool=0',{}).version(),0);
+ assert.deepStrictEqual(v1.TUNE.grassA,{k:1,s:1.6});assert.deepStrictEqual(v1.TUNE.grassB,{k:.7,s:3.3});assert(v2.TUNE.grassA.k===0&&v2.TUNE.grassB.k<.2,'v2 grass nearly smooth');
+ assert(v1.SCENE.fogNear===24&&v1.SCENE.fogFar===32&&v1.SCENE.sunColor===0xfff0d8,'first look void and sun');assert(v2.SCENE.fogFar-v2.SCENE.fogNear<=4,'v2 short void fade');
+ // the ground table: v2 changes only the listed keys and setLookVersion(1) restores the first table byte for byte
+ const before=JSON.stringify(Ground.LOOK);Ground.setLookVersion(2);
+ Object.keys(Ground.LOOK).forEach(k=>{if(!(k in Ground.LOOK_V2))assert.strictEqual(JSON.stringify(Ground.LOOK[k]),JSON.stringify(JSON.parse(before)[k]),'v2 keeps '+k)});
+ assert.notStrictEqual(JSON.stringify(Ground.LOOK.palette),JSON.stringify(JSON.parse(before).palette),'v2 underlays differ');
+ const ch=chunks[60],s=Chunks.surface(ch,[]),a=Ground.chunk(s),b=Ground.chunkOldschool(s);assert.deepStrictEqual(b.positions,a.positions,'v2 ground: same triangles');
+ b.colors.forEach(c=>assert(c>=0&&c<=1));
+ Ground.setLookVersion(1);assert.strictEqual(JSON.stringify(Ground.LOOK),before,'setLookVersion(1) restores the first look');
+});
+check('6 v2 kit: every soft variant exists in kit.json, keeps its first-kit texture size, and every graded family is known',()=>{
+ const kit=JSON.parse(fs.readFileSync(path.join(root,'assets/textures/oldschool/kit.json'),'utf8')).textures;const v2=loadLook('',{holmOldschoolLook:true});
+ Object.keys(v2.SOFT).forEach(n=>{assert(kit[n],'first kit '+n);const t=kit[v2.SOFT[n]];assert(t,'soft '+v2.SOFT[n]);assert(v2.MEAN[n]&&v2.MEAN[v2.SOFT[n]],'means for '+n);
+  const b=fs.readFileSync(path.join(root,t.file));assert.strictEqual(b.readUInt32BE(16),kit[n].size,v2.SOFT[n]+' size');assert.deepStrictEqual(v2.MEAN[v2.SOFT[n]].map(v=>+v.toFixed(2)),t.mean.map(v=>+v.toFixed(2)),v2.SOFT[n]+' mean')});
+ Object.values(v2.FAMILY).forEach(f=>assert(v2.GRADE[f],'grade family '+f));
+ Object.keys(v2.GRADE).forEach(k=>{const g=v2.GRADE[k];assert(g.gain>0&&g.gain<=1.1&&g.sat>=0&&g.sat<=1&&Math.abs(g.hue)<=30,'grade '+k)});
+ // grade(): identity at gain 1 / sat 1, greys stay grey, desaturation keeps luma
+ assert.deepStrictEqual(v2.grade([.3,.5,.2],{gain:1,sat:1,hue:0}),[.3,.5,.2]);
+ const grey=v2.grade([.4,.4,.4],{gain:.9,sat:.5,hue:0});assert(Math.abs(grey[0]-grey[2])<1e-9);
+ const d=v2.grade([.3,.5,.2],{gain:1,sat:.5,hue:0});assert(Math.abs((.299*d[0]+.587*d[1]+.114*d[2])-(.299*.3+.587*.5+.114*.2))<1e-9);
+ const pal=JSON.parse(fs.readFileSync(path.join(root,'assets/textures/oldschool/classic_palette.json'),'utf8'));
+ assert(pal.colors.length>=16&&pal.colors.length<=128&&pal.colors.some(c=>c[0]===0&&c[1]===0&&c[2]===0),'classic palette: 16..128 colours with black');
+});
+check('7 v2 regrade: kit-textured materials graded once, shared vertex-coloured materials grade every mesh\'s corners, other images untouched',()=>{
+ const v2=loadLook('',{holmOldschoolLook:true});v2.activate({children:[]});
+ function col(r,g,b){return {r,g,b,setRGB(x,y,z){this.r=x;this.g=y;this.b=z}}}
+ function mat(name,c,vc){return {name,map:{id:name},color:col(...c),vertexColors:!!vc,userData:{},needsUpdate:false}}
+ function geo(n){const a=new Float32Array(n*3).fill(1);return {attributes:{color:{array:a,itemSize:3,count:n,normalized:false}},userData:{}}}
+ const leaves=mat('olive-leaves',[.5,.5,.4]),plaster=mat('Holm flat colour - plaster',[1,1,1],true),hero=mat('A_SKIN',[.8,.6,.5]),keepRoof=mat('Keep warm shingles',[.7,.5,.4]);
+ const g1=geo(4),g2=geo(4);
+ const meshes=[{isMesh:true,material:leaves,geometry:geo(3)},{isMesh:true,material:plaster,geometry:g1},{isMesh:true,material:plaster,geometry:g2},{isMesh:true,material:hero,geometry:geo(3)},{isMesh:true,material:keepRoof,geometry:geo(3)}];
+ const images=['leaves','plaster','skin-atlas','roof-128'],assoc=new Map([[leaves.map,{type:'textures',index:0}],[plaster.map,{type:'textures',index:1}],[hero.map,{type:'textures',index:2}],[keepRoof.map,{type:'textures',index:3}]]);
+ const gltf={parser:{json:{textures:images.map((n,i)=>({source:i})),images:images.map(n=>({name:n}))},associations:assoc},scene:{traverse(f){meshes.forEach(f)}}};
+ const n=v2.regrade(gltf);assert.strictEqual(n,3,'leaves, plaster, keep roof graded');
+ assert(leaves.color.g<.5*.99&&leaves.userData.oldschoolV2==='leaves','leaves darker');assert.deepStrictEqual([hero.color.r,hero.color.g,hero.color.b],[.8,.6,.5],'character untouched');
+ [g1,g2].forEach((g,i)=>{assert(g.userData.oldschoolV2,'plaster mesh '+i+' corners graded');const a=g.attributes.color.array;assert(!(a[0]===1&&a[1]===1&&a[2]===1),'corner colour changed '+i)});
+ assert(keepRoof.userData.oldschoolV2==='roof-128'&&keepRoof.color.r<.7,'own-image roof graded by family');
+ assert.strictEqual(v2.regrade(gltf),0,'a second pass grades nothing again');
+ const v1=loadLook('?lookv=1',{holmOldschoolLook:true});v1.activate({children:[]});const m2=mat('olive-leaves',[.5,.5,.4]);
+ assert.strictEqual(v1.regrade({parser:{json:gltf.parser.json,associations:new Map([[m2.map,{type:'textures',index:0}]])},scene:{traverse(f){f({isMesh:true,material:m2,geometry:geo(3)})}}}),0,'the first look never regrades');
+});
+check('8 classic pixels: off by default, ?classic=1 forces it, whole-number scale to ~503 lines, no render without THREE',()=>{
+ const file=path.join(root,'src/classic_pixels.js');
+ function load(search,cfg){delete require.cache[require.resolve(file)];global.location={search:search};global.GameConfig=cfg;const m=require(file);delete global.location;delete global.GameConfig;return m}
+ const def=load('',{classicPixels:false});assert(!def.enabled());assert(load('?classic=1',{classicPixels:false}).enabled());assert(!load('?classic=0',{classicPixels:true}).enabled());
+ assert.deepStrictEqual([700,900,1080,1440,2160].map(h=>def.factorFor(h)),[2,2,2,3,4]);
+ assert.strictEqual(def.render({},{},{}),false,'off: the loop renders normally');
+});
+console.log('[HOLM OLDSCHOOL LOOK] '+passed+'/8 checks passed');

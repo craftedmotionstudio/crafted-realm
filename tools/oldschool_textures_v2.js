@@ -63,6 +63,14 @@ module.exports=function registerV2(k){
      if(y===y1-1||xx===c1-1)c=mixc(c,[0,0,0],.2);else if(y===y0)c=mixc(c,[1,1,1],.06);else if(y===y1-2)c=mixc(c,[0,0,0],.05);
      t.set(xx,y,c)}})});
   t.quant(28);return t};
+ // timber: the same boards and grain bands as the first kit at about half the tone spread, gaps a few shades darker
+ R.planks_soft=()=>{const t=new Tex(64),r=rng(381),n=vnoise(382,4),tone=[];for(let i=0;i<4;i++)tone.push(.9+r()*.1);
+  t.fill((u,v,x)=>{const b=Math.floor(x/16),ix=x%16,grain=Math.sin((ix*.9+tone[b]*7)+Math.sin(v*Math.PI*2*2+b)*1.5)*.5+.5,q=tone[b]*(.93+grain*.05+(n(u,v)-.5)*.04);
+   const c=[.62*q,.45*q,.29*q];return ix===15?mixc(c,[0,0,0],.3):ix===0?mixc(c,[1,.9,.75],.06):c});
+  t.quant(28);return t};
+ R.beam_soft=()=>{const t=new Tex(64),n=vnoise(391,2),g=vnoise(392,32),r=rng(393),band=[];for(let i=0;i<64;i++)band.push(r());
+  t.fill((u,v,x)=>{const w=Math.round((n(u,v)-.5)*3),b=band[((x+w)%64+64)%64],q=.8+(b<.18?-.06:b>.85?.035:0)+(g(u,v)-.5)*.04;return [.55*q,.4*q,.27*q]});
+  t.quant(28);return t};
  R.plaster_soft=()=>{const t=new Tex(64),n=fbm(371,2,3),m=vnoise(372,8);
   t.fill((u,v)=>{const q=.88+(n(u,v)-.5)*.05+(m(u,v)-.5)*.03;return [q,q*.975,q*.93]});
   t.quant(40);return t};
@@ -70,9 +78,9 @@ module.exports=function registerV2(k){
   leaves_soft:'look v2: tree crowns, shrubs, hazel, tufts (small close-toned leaves)',needles_soft:'look v2: pine crowns (soft)',
   bark_soft:'look v2: oak / pine trunks (shallow fissures)',roof_tiles_soft:'look v2: clay tile / shingle roofs (soft joints)',
   thatch_soft:'look v2: thatch roofs (close straw tones)',stone_course_soft:'look v2: coursed stone walls (soft mortar)',
-  plaster_soft:'look v2: limewash plaster (smooth)'});
- HEADROOM.push('roof_tiles_soft','thatch_soft','stone_course_soft','plaster_soft');
+  plaster_soft:'look v2: limewash plaster (smooth)',planks_soft:'look v2: boards, decks, doors (soft grain)',beam_soft:'look v2: timber frames, posts (soft grain)'});
+ HEADROOM.push('roof_tiles_soft','thatch_soft','stone_course_soft','plaster_soft','planks_soft','beam_soft');
  // first-kit texture -> its look v2 variant (read by the runtime swap and the Blender recipe)
  return {v2:{dirt:'dirt_soft',sand:'sand_soft',leaves:'leaves_soft',needles:'needles_soft',bark:'bark_soft',roof_tiles:'roof_tiles_soft',
-  thatch:'thatch_soft',stone_course:'stone_course_soft',plaster:'plaster_soft'}};
+  thatch:'thatch_soft',stone_course:'stone_course_soft',plaster:'plaster_soft',planks:'planks_soft',beam:'beam_soft'}};
 };

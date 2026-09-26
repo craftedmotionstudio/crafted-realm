@@ -362,6 +362,26 @@
    ],
    "use": "look v2: coursed stone walls (soft mortar)"
   },
+  "planks_soft": {
+   "file": "assets/textures/oldschool/planks_soft.png",
+   "size": 64,
+   "mean": [
+    0.82,
+    0.5946,
+    0.3782
+   ],
+   "use": "look v2: boards, decks, doors (soft grain)"
+  },
+  "beam_soft": {
+   "file": "assets/textures/oldschool/beam_soft.png",
+   "size": 64,
+   "mean": [
+    0.82,
+    0.5983,
+    0.4044
+   ],
+   "use": "look v2: timber frames, posts (soft grain)"
+  },
   "plaster_soft": {
    "file": "assets/textures/oldschool/plaster_soft.png",
    "size": 64,

@@ -41,18 +41,18 @@ var HolmOldschoolLook=(function(){
  var MEAN={grass_a:[.8211,.8479,.7621],grass_b:[.8424,.8424,.7588],sand:[.9027,.881,.8353],rock:[.8011,.8011,.7685],dirt:[.8423,.8091,.7599],mud:[.8137,.7912,.7348],
   dirt_soft:[.865,.8352,.7789],sand_soft:[.8909,.8737,.8276],leaves:[.5478,.6553,.3955],leaves_soft:[.6063,.724,.3808],needles:[.451,.5658,.4736],needles_soft:[.6035,.82,.6639],
   bark:[.8054,.6408,.4615],bark_soft:[.82,.6518,.4826],roof_tiles:[.7562,.4201,.3106],roof_tiles_soft:[.82,.4973,.3642],thatch:[.6866,.5819,.3587],thatch_soft:[.82,.6989,.4228],
-  stone_course:[.8116,.8002,.7538],beam:[.82,.5766,.3888],planks:[.7466,.5414,.3476],stone_course_soft:[.82,.8165,.7788],plaster:[.8744,.8482,.7864],plaster_soft:[.8874,.8655,.8245]};
+  stone_course:[.8116,.8002,.7538],beam:[.82,.5766,.3888],planks:[.7466,.5414,.3476],beam_soft:[.82,.5983,.4044],planks_soft:[.82,.5946,.3782],stone_course_soft:[.82,.8165,.7788],plaster:[.8744,.8482,.7864],plaster_soft:[.8874,.8655,.8245]};
  // detail strength and world scale (tiles per texture repeat) per ground texture; v2 grass keeps only a faint trace
  // of the broad grass texture (close views measured smoother than the refs with none)
  var TUNE=ver>1?{grassA:{k:0,s:1.6},grassB:{k:.15,s:3.3},sand:{k:.85,s:2},rock:{k:.9,s:2},earth:{k:.9,s:1.6},path:{k:.95,s:1.5}}:
   {grassA:{k:1,s:1.6},grassB:{k:.7,s:3.3},sand:{k:.85,s:2},rock:{k:.9,s:2},earth:{k:.9,s:1.6},path:{k:.95,s:1.5}};
  // look v2 model textures: first-kit texture (the image name inside a textured candidate) -> its soft variant
  var SOFT_REPEAT={leaves_soft:2};   // finer leaves: the refs' crowns show small leaves up close, soft from afar (mips)
- var SOFT={leaves:'leaves_soft',needles:'needles_soft',bark:'bark_soft',roof_tiles:'roof_tiles_soft',thatch:'thatch_soft',stone_course:'stone_course_soft',plaster:'plaster_soft'};
+ var SOFT={leaves:'leaves_soft',needles:'needles_soft',bark:'bark_soft',beam:'beam_soft',planks:'planks_soft',roof_tiles:'roof_tiles_soft',thatch:'thatch_soft',stone_course:'stone_course_soft',plaster:'plaster_soft'};
  // look v2 colour grade per surface family (by kit texture): gain, saturation (1 = unchanged), hue shift in degrees
  var GRADE={leaves:{gain:.74,sat:.82,hue:-5},needles:{gain:.78,sat:.8,hue:0},bark:{gain:.9,sat:.85,hue:0},roof_tiles:{gain:.95,sat:.7,hue:24},
   thatch:{gain:.95,sat:.85,hue:0},plaster:{gain:.93,sat:.4,hue:0},stone_course:{gain:.95,sat:.7,hue:0},rock:{gain:1,sat:.55,hue:0},
-  shingle:{gain:.9,sat:.85,hue:0},slate:{gain:.95,sat:.8,hue:0},roofwood:{gain:.8,sat:.7,hue:0}};
+  shingle:{gain:.9,sat:.85,hue:0},slate:{gain:.95,sat:.8,hue:0},roofwood:{gain:.7,sat:.62,hue:0}};
  var ROOF_WOOD={beam:true,planks:true};
  function isRoof(o){for(var q=o,i=0;q&&i<3;q=q.parent,i++)if(/(^|_)Roof/i.test(q.name||''))return true;return false}
  // candidates that carry their own (non-kit) images: graded with the family they belong to, image kept
@@ -138,28 +138,31 @@ var HolmOldschoolLook=(function(){
    for(var j=0;j<3;j++){var v=scale[j]>0?G[j]/scale[j]:arr[o+j]/norm;arr[o+j]=norm===1?v:Math.max(0,Math.min(norm,Math.round(v*norm)))}}
   a.needsUpdate=true;stats.vertexColoured++;return true;
  }
+ // the corner colours of one vertex-coloured mesh: its family's grade, or, for timber-textured roof meshes (the
+ // bakehouse's 'Holm flat colour - beam' shingles), the roof-wood grade; the shared timber material stays as authored
+ function corners(o,m,name){
+  var sc=m.userData.oldschoolScale,g=GRADE[FAMILY[name]||name];if(!m.vertexColors||!sc)return;
+  if(g)gradeCorners(o.geometry,g,sc);else if(ROOF_WOOD[name]&&isRoof(o)&&gradeCorners(o.geometry,GRADE.roofwood,sc))stats.roofWood++;
+ }
  function regrade(gltf){
   var parser=gltf&&gltf.parser,json=parser&&parser.json,assoc=parser&&parser.associations;if(!on||ver<2||!active||!json||!assoc||!gltf.scene)return 0;
   var seen=new Set(),n=0;
   gltf.scene.traverse(function(o){if(!o.isMesh)return;[].concat(o.material).forEach(function(m){
    if(!m||!m.map)return;
    // a material shared by several meshes: its map is already the soft texture; grade this mesh's corners too
-   if(m.userData.oldschoolV2){var gg=GRADE[FAMILY[m.userData.oldschoolV2]||m.userData.oldschoolV2];if(m.vertexColors&&gg&&m.userData.oldschoolScale)gradeCorners(o.geometry,gg,m.userData.oldschoolScale);return}
+   if(m.userData.oldschoolV2){corners(o,m,m.userData.oldschoolV2);return}
    var ref=assoc.get(m.map);if(!ref||ref.type!=='textures'||!json.textures)return;
    var td=json.textures[ref.index],img=td&&json.images&&json.images[td.source],name=img&&img.name,g=GRADE[FAMILY[name]||name],soft=SOFT[name];
-   // timber-textured roof meshes (vertex-coloured 'Holm flat colour - beam/planks' shingles, e.g. the bakehouse): graded
-   // on their own corners like a roof; the shared timber material itself (frames, doors) stays as authored
-   if(!g&&!soft&&ROOF_WOOD[name]&&m.vertexColors&&isRoof(o)){var rs=[m.color.r*MEAN[name][0],m.color.g*MEAN[name][1],m.color.b*MEAN[name][2]];if(gradeCorners(o.geometry,GRADE.roofwood,rs))stats.roofWood++;return}
    if(!g&&!soft){if(name&&!seen.has(m)){seen.add(m);stats.kept[name]=(stats.kept[name]||0)+1}return}
    var oldM=MEAN[name]||(FAMILY[name]?[.8,.8,.8]:null),to=soft&&modelTex[soft]?soft:null,newM=to?MEAN[to]:oldM;if(!oldM||!newM)return;
-   if(!seen.has(m)&&!m.userData.oldschoolV2){seen.add(m);
+   if(!seen.has(m)){seen.add(m);
     // the authored average colour (material colour x texture mean), kept for every mesh that shares this material
     var scale=m.userData.oldschoolScale=[m.color.r*oldM[0],m.color.g*oldM[1],m.color.b*oldM[2]];
     if(to){m.map=modelTex[to];stats.swapped++}
     if(m.vertexColors)m.color.setRGB(scale[0]/newM[0],scale[1]/newM[1],scale[2]/newM[2]);   // average kept; grade goes on the corners
     else{var G=g?grade(scale,g):scale;m.color.setRGB(G[0]/newM[0],G[1]/newM[1],G[2]/newM[2])}
     m.userData.oldschoolV2=name;m.needsUpdate=true;n++;stats.regraded++}
-   if(m.vertexColors&&g&&m.userData.oldschoolScale)gradeCorners(o.geometry,g,m.userData.oldschoolScale);
+   corners(o,m,name);
   })});
   return n;
  }

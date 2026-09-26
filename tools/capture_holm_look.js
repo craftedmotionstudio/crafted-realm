@@ -39,7 +39,7 @@ function maskPass(on,C){
    sh.fragmentShader='varying vec4 vGM;\n'+sh.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nfloat gG = 1.0 - dot(vGM, vec4(1.0));\nvec3 gC = '+v3(C.other)+';\nif (vGM.w > 0.5) gC = '+v3(C.path)+'; else if (vGM.x > 0.5) gC = '+v3(C.sand)+'; else if (gG > 0.5) gC = '+v3(C.grass)+';\ndiffuseColor.rgb = gC;')};
   g.customProgramCacheKey=()=>'look-mask-ground-v1';return st.ground=g}
  function maskOf(o,m){if(!m)return m;if(m.transparent&&m.opacity<.02)return m;if(m.userData&&m.userData.oldschoolGround)return ground();
-  const k=m.uuid+(o.isSkinnedMesh?'|s':'');if(st.cache.has(k))return st.cache.get(k);
+  const k=m.uuid+(o.isSkinnedMesh?'|s':'')+'|'+cls(o,m);if(st.cache.has(k))return st.cache.get(k);   // a shared material can be roof on one mesh only
   const c=cls(o,m),x=new THREE.MeshBasicMaterial({color:col(C[c]),fog:false,side:m.side,skinning:!!o.isSkinnedMesh,morphTargets:!!m.morphTargets,
    clippingPlanes:m.clippingPlanes||null,clipIntersection:!!m.clipIntersection,depthWrite:m.depthWrite,depthTest:m.depthTest,polygonOffset:!!m.polygonOffset,
    polygonOffsetFactor:m.polygonOffsetFactor||0,polygonOffsetUnits:m.polygonOffsetUnits||0});
@@ -127,8 +127,10 @@ const only=process.env.LOOK_ONLY?process.env.LOOK_ONLY.split(','):null;
   const stats=await page.evaluate(()=>{const r=typeof CRPerfProbe!=='undefined'?CRPerfProbe.renderStats():null;return r});
   const fps=await page.evaluate(()=>typeof CRPerfProbe!=='undefined'?CRPerfProbe.sample(2):null);
   await page.screenshot({path:path.join(OUT,v.name+'.png')});
-  if(MASK){await page.evaluate(`(${maskPass.toString()})(true,${JSON.stringify(MASK_CLASSES)})`);await sleep(700);
-   await page.screenshot({path:path.join(OUT,v.name+'.mask.png')});await page.evaluate(`(${maskPass.toString()})(false)`);await sleep(300)}
+  if(MASK){await page.evaluate(()=>{if(typeof ClassicPixels!=='undefined'&&ClassicPixels.suspendPalette)ClassicPixels.suspendPalette(true)});
+   await page.evaluate(`(${maskPass.toString()})(true,${JSON.stringify(MASK_CLASSES)})`);await sleep(700);
+   await page.screenshot({path:path.join(OUT,v.name+'.mask.png')});await page.evaluate(`(${maskPass.toString()})(false)`);
+   await page.evaluate(()=>{if(typeof ClassicPixels!=='undefined'&&ClassicPixels.suspendPalette)ClassicPixels.suspendPalette(false)});await sleep(300)}
   rows.push({view:v.name,calls:stats&&stats.calls,triangles:stats&&stats.triangles,textures:stats&&stats.textures,programs:stats&&stats.programs,fps:fps&&fps.fps,worstMs:fps&&fps.worstMs});
   console.log('captured',v.name,JSON.stringify(rows[rows.length-1]));
  }

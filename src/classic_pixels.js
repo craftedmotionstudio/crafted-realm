@@ -20,7 +20,7 @@ var ClassicPixels=(function(){
  var on=forced!==null?forced:stored()!==null?stored():(typeof GameConfig!=='undefined'&&GameConfig.classicPixels===true);
  var PALETTE_URL='assets/textures/oldschool/classic_palette.json',MAXP=128;
  var palWanted=qs.has('classicPalette')?Math.max(0,Math.min(MAXP,parseInt(qs.get('classicPalette'),10)||0)):MAXP;
- var rt=null,blit=null,size={w:0,h:0,f:0},frames=0,buf=null,palette=null,palLoading=false;
+ var rt=null,blit=null,size={w:0,h:0,f:0},frames=0,buf=null,palette=null,palLoading=false,suspended=false;
  // the palette (fetched once, the first time the option draws)
  function loadPalette(){
   if(palLoading||palette||!palWanted||typeof fetch!=='function')return;palLoading=true;
@@ -30,8 +30,10 @@ var ClassicPixels=(function(){
  function applyPalette(){
   if(!blit||!palette)return;var u=blit.quad.material.uniforms;
   for(var i=0;i<MAXP;i++){var c=palette[i]||[0,0,0];u.pal.value[i].set(c[0]/255,c[1]/255,c[2]/255)}
-  u.palN.value=palette.length;
+  u.palN.value=suspended?0:palette.length;
  }
+ // review captures (tools/capture_holm_look.js class masks) read exact colours: the palette step pauses meanwhile
+ function suspendPalette(v){suspended=!!v;if(blit)blit.quad.material.uniforms.palN.value=suspended||!palette?0:palette.length}
  function enabled(){return on}
  // whole-number scale: ~503 lines on any screen (900 px -> 2 -> 450 lines, 1440 -> 3 -> 480, 2160 -> 4 -> 540)
  function factorFor(h){return Math.max(2,Math.round(h/TARGET_H))}
@@ -78,6 +80,6 @@ var ClassicPixels=(function(){
  function toggle(){return set(!on)}
  function snapshot(){return {enabled:on,forced:forced,internal:[size.w,size.h],factor:size.f,target:TARGET_H,frames:frames,palette:palette?palette.length:0}}
  if(typeof window!=='undefined'&&window.addEventListener)window.addEventListener('load',refreshButton);
- return {enabled:enabled,render:render,set:set,toggle:toggle,snapshot:snapshot,factorFor:factorFor,dispose:dispose,TARGET_H:TARGET_H};
+ return {enabled:enabled,render:render,set:set,toggle:toggle,suspendPalette:suspendPalette,snapshot:snapshot,factorFor:factorFor,dispose:dispose,TARGET_H:TARGET_H};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=ClassicPixels;
