@@ -10,7 +10,18 @@
  */
 var OnlineBestiary=(function(){
  'use strict';
- var st={url:null,dir:'',manifest:null,byModel:{},gltf:{},loading:null,stats:{built:0,failed:[]}};
+ var st={url:null,dir:'',manifest:null,byModel:{},gltf:{},loading:null,stats:{built:0,failed:[]},fits:{}};
+ var TINT={ember_bolt:0xff6a1a,fire_bolt:0xff6a1a};   // projectile kinds (manifest creature.projectile.kind) with their own colour
+ /** the creature's reach on its footprint: with the origin at the footprint centre (the bestiary convention) a long
+  *  model's mouth can reach over the next tile and into whoever stands there (the 4.9 m cinder wyrmling on its 2x2
+  *  puts its mouth 1 m past the edge). Keep the mouth at most 0.3 m past the footprint's edge by setting the body back
+  *  along its own forward axis (never more than half the footprint); the tail overhangs behind, as big old-school
+  *  monsters do. Data-driven from anchors.mouth; a creature without the anchor is left as modelled. */
+ function fitBack(c){
+  var a=c&&c.model&&c.model.anchors&&c.model.anchors.mouth,p=a&&a.rest_gltf;if(!p)return 0;
+  var size=(c.npcType&&c.npcType.size>=2?Math.round(c.npcType.size):1),half=size/2;
+  return Math.max(0,Math.min(half,(+p[2]||0)-(half+0.3)));
+ }
  function load(map){
   if(st.loading)return st.loading;
   st.url=(map&&map.bestiary)||'assets/scarlands/bestiary-v1/manifest.json';
@@ -37,6 +48,7 @@ var OnlineBestiary=(function(){
   var ud=g.userData;ud.bestiary={c:c,mixer:null,clips:{},one:null,oneName:null,w:0,death:null};
   gltfOf(c).then(function(buf){return new Promise(function(res,rej){new THREE.GLTFLoader().parse(buf.slice(0),st.dir,res,rej)})}).then(function(gltf){
    var rig=gltf.scene;prepare(rig);g.add(rig);ud.rigInner=rig;
+   var back=fitBack(c);if(back>0){rig.position.z-=back;st.fits[c.id]=+back.toFixed(2)}
    var b=ud.bestiary,mixer=new THREE.AnimationMixer(rig);b.mixer=mixer;
    gltf.animations.forEach(function(cl){b.clips[cl.name]=mixer.clipAction(cl)});
    if(b.clips.idle){b.clips.idle.play();b.clips.idle.weight=1}
@@ -77,6 +89,9 @@ var OnlineBestiary=(function(){
   b.death={t:0,clip:ci?ci.frames/(ci.fps||30):1,hold:0.5,sink:0.7,baseY:o.position.y,depth:Math.max(0.6,(b.c.model&&b.c.model.height_m)||1)};return true}
  function tickDeath(o,dt){var b=o&&o.userData&&o.userData.bestiary,d=b&&b.death;if(!d)return false;d.t+=dt;if(b.mixer)b.mixer.update(dt);
   var s=d.t-d.clip-d.hold;if(s>0){var k=Math.min(1,s/d.sink);o.position.y=d.baseY-d.depth*k*k;if(k>=1)return false}return true}
- return {load:load,has:function(t){return !!creatureFor(t)},creature:creatureFor,build:build,eventTime:eventTime,play:play,busy:busy,tick:tick,
-  startDeath:startDeath,tickDeath:tickDeath,active:function(){return !!st.manifest},stats:function(){return {built:st.stats.built,failed:st.stats.failed.slice(),creatures:st.manifest?st.manifest.creatures.length:0}}};
+ /** the colour of this monster's own projectile (the ember mage's orange bolt), or null */
+ function projectileTint(o){var b=o&&o.userData&&o.userData.bestiary,k=b&&b.c&&b.c.projectile&&b.c.projectile.kind;return k&&TINT[k]!=null?TINT[k]:null}
+ return {load:load,has:function(t){return !!creatureFor(t)},fitBack:fitBack,projectileTint:projectileTint,creature:creatureFor,build:build,eventTime:eventTime,play:play,busy:busy,tick:tick,
+  startDeath:startDeath,tickDeath:tickDeath,active:function(){return !!st.manifest},stats:function(){return {built:st.stats.built,failed:st.stats.failed.slice(),creatures:st.manifest?st.manifest.creatures.length:0,fits:Object.assign({},st.fits)}}};
 })();
+if(typeof module==='object'&&module.exports)module.exports=OnlineBestiary;
