@@ -170,7 +170,7 @@ function rangedOnNpc(w, p, npc) {
   const dist = coord.distanceTo(npc, p);
   const delay = C.rangedHitDelay(dist);
   dropAmmo(w, p, ammo.id, npc, Math.floor(C.arrowDuration(dist) / 30));
-  p.setAnim('attack', { type: 'ranged' });
+  p.setAnim('attack', { type: 'ranged', spec: sp.spec ? 1 : undefined });
   projectile(w, p, npc, 'arrow', null, delay);
   npcRetaliate(w, npc, p, delay);
   const dmg = damage;
@@ -304,7 +304,7 @@ function rangedOnPlayer(w, p, t) {
   const dur = C.arrowDuration(coord.distanceToSW(p, t));
   const delay = Math.floor(dur / 30);   // pvp: duration / 30 (no +30, unlike pvm)
   dropAmmo(w, p, ammo.id, t, delay);
-  p.setAnim('attack', { type: 'ranged' });
+  p.setAnim('attack', { type: 'ranged', spec: sp.spec ? 1 : undefined });
   projectile(w, p, t, 'arrow', null, delay);
   pvpRetaliateQueue(w, p, t, delay);
   pvpDamage(w, p, t, delay, damage);

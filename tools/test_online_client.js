@@ -111,7 +111,7 @@ const MAP = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'server', 'dat
   /* ---- the connection, against a fake socket ---- */
   function fakeWorld() {
     const sockets = [];
-    const timers = []; let now = 0;
+    const timers = []; let now = 0;   // the client's clock (advance() moves it)
     class FakeWS {
       constructor(url) { this.url = url; this.readyState = 0; this.sent = []; sockets.push(this); setTimeout(() => { this.readyState = 1; this.onopen && this.onopen(); }, 0); }
       send(s) { const m = JSON.parse(s); this.sent.push(m); this.server(m); }
@@ -128,9 +128,11 @@ const MAP = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'server', 'dat
     const tm = { set: (f, ms) => { const h = { f, ms, every: true }; timers.push(h); return h; }, clear: (h) => { h.dead = true; },
       once: (f, ms) => { const h = { f, ms }; timers.push(h); return h; }, cancel: (h) => { h.dead = true; } };
     const fire = (every) => { for (const h of timers.slice()) if (!h.dead && !!h.every === every) { if (!every) h.dead = true; h.f(); } };
-    return { FakeWS, sockets, timers: tm, fire, now: () => now };
+    return { FakeWS, sockets, timers: tm, fire, now: () => now, advance: (ms) => { now += ms; } };
   }
   const flush = () => new Promise((r) => setTimeout(r, 20));
+  // the fake socket answers through a chain of timers: on a busy machine wait for the outcome, not a fixed time
+  const settle = async (pred, ms) => { const t0 = Date.now(); while (!pred() && Date.now() - t0 < (ms || 3000)) await flush(); };
   await test('connection: hello, register, login -> welcome, pings keep us alive', async () => {
     const f = fakeWorld();
     const c = new CRNet.Client({ url: 'ws://x', WebSocket: f.FakeWS, timers: f.timers });
@@ -139,10 +141,23 @@ const MAP = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'server', 'dat
     const w = await c.login('ash', 'password1', { body: 'A' });
     assert.strictEqual(w.t, 'welcome'); assert.strictEqual(c.state, 'game');
     assert.deepStrictEqual(f.sockets[0].sent.find((m) => m.t === 'login').look, { body: 'A' });
-    f.fire(true); await flush();
+    f.fire(true); await settle(() => c.rtt !== null);
     assert.ok(f.sockets[0].sent.some((m) => m.t === 'ping'), 'pinged');
     assert.ok(c.rtt !== null, 'measured the round trip');
     assert.ok(c.send({ t: 'walk', x: 1, z: 2 }));
+  });
+  await test('connection: the ticks keep a background tab alive (its timers held to one a minute)', async () => {
+    const f = fakeWorld();
+    const c = new CRNet.Client({ url: 'ws://x', WebSocket: f.FakeWS, timers: f.timers, now: f.now });
+    await c.connect(); await c.login('dara', 'password1');
+    const pings = () => f.sockets[0].sent.filter((m) => m.t === 'ping').length;
+    const p0 = pings();
+    f.advance(4000); f.sockets[0].reply({ t: 'tick', n: 11 }); await settle(() => c.lastTick === 11);
+    assert.strictEqual(pings(), p0, 'nothing extra while we spoke recently');
+    f.advance(6500); f.sockets[0].reply({ t: 'tick', n: 12 }); await settle(() => c.lastTick === 12);   // the interval timer never fired
+    assert.strictEqual(pings(), p0 + 1, 'a tick answered with a ping after 10 s of silence');
+    f.advance(600); f.sockets[0].reply({ t: 'tick', n: 13 }); await settle(() => c.lastTick === 13);
+    assert.strictEqual(pings(), p0 + 1, 'one ping, not one per tick');
   });
   await test('connection: a dropped socket in the world logs in again and re-attaches (reconnected)', async () => {
     const f = fakeWorld();
@@ -152,7 +167,7 @@ const MAP = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'server', 'dat
     c.on('dropped', () => events.push('dropped')); c.on('reconnected', (m) => events.push('reconnected:' + m.reconnected));
     c.simulateDrop(); await flush();
     assert.deepStrictEqual(events, ['dropped']);
-    f.fire(false); await flush(); await flush();
+    f.fire(false); await settle(() => events.length >= 2);
     assert.deepStrictEqual(events, ['dropped', 'reconnected:1']);
     assert.strictEqual(f.sockets.length, 2);
     assert.strictEqual(c.state, 'game');
@@ -162,7 +177,7 @@ const MAP = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'server', 'dat
     const c = new CRNet.Client({ url: 'ws://x', WebSocket: f.FakeWS, timers: f.timers });
     await c.connect(); await c.login('carys', 'password1');
     const ev = []; c.on('logout', () => ev.push('logout')); c.on('dropped', () => ev.push('dropped')); c.on('closed', () => ev.push('closed'));
-    c.logout(); await flush(); await flush();
+    c.logout(); await settle(() => ev.includes('closed'));
     assert.ok(ev.includes('logout') && !ev.includes('dropped'), ev.join(','));
     assert.strictEqual(c.creds, null);
     f.fire(false); await flush();

@@ -136,9 +136,12 @@ async function register(c, user) {
 /** take a kit at the chest (walks there first) */
 async function kitUp(c, kit) {
   const s0 = await c.state();
+  const k0 = sp(c.name) ? sp(c.name).lastKitTick : null;
   await c.q((k) => CROnlineQA.kit(k), kit);
   const want = { melee: 'steel_longsword', ranged: 'gale_longbow', magic: 'storm_staff' }[kit];
-  await c.until((s) => s.equip.weapon === want && s.ui.set.run !== undefined, 150000, 'kit ' + kit).catch(async (e) => {
+  // a fresh kit from the chest (the server's own record), not the weapon already in hand: someone who still holds that
+  // kit's weapon is walking to the chest for new food and ammunition and must not be sent to the fight half-way there
+  await c.until((s) => s.equip.weapon === want && s.ui.set.run !== undefined && sp(c.name) && sp(c.name).lastKitTick !== k0, 150000, 'kit ' + kit).catch(async (e) => {
     const p = sp(c.name), s = await c.state();
     throw new Error(e.message + ' ' + JSON.stringify({ at: p && [p.x, p.z], tick: world.tick, lockUntil: p && p.preventLogoutUntil, target: p && p.target && (p.target.nid != null ? 'n' + p.target.nid : 'p' + p.target.pid), hp: p && p.hp, waypoints: p && p.path.length, chat: s.chat.slice(-5) }));
   });

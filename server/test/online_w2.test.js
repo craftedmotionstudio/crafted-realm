@@ -164,6 +164,27 @@ test('animation priority: a swing (or a death) is not replaced by the defend fli
   assert.ok(seenA >= 3 && seenB >= 3, `both swings seen (${seenA}, ${seenB})`);
 });
 
+test('a bow special is flagged on its swing, for monsters and players alike (clients play the special draw)', () => {
+  const w = fieldWorld({ spawns: [{ npc: 'korthul', x: 15, z: 20, wander: 0, hunt: 0, maxRange: 0 }], areas: { wilderness: [{ x1: 0, z1: -600, x2: 39, z2: 39 }], multi: [], named: [] } });
+  w.rng = alwaysHit(0);
+  const npc = [...w.npcs.values()][0];
+  const lv = { Attack: 40, Strength: 40, Defence: 40, Hitpoints: 60, Ranged: 40, Magic: 40, Prayer: 43 };
+  const a = addPlayer(w, 'volleyA', { levels: lv, pos: { x: 10, z: 20 }, equip: { weapon: 'ash_bow' }, inv: [['arrows', 50]] });
+  const b = addPlayer(w, 'volleyB', { levels: lv, pos: { x: 10, z: 24 }, equip: { weapon: 'ash_bow' }, inv: [['arrows', 50]] });
+  const specsSeen = (fromSession, pid, n) => { let seen = 0; for (let i = 0; i < n; i++) { w.cycle(); const t = fromSession.lastTick(); const u = t.pl && t.pl.upd && t.pl.upd.find((x) => x.i === pid); if (u && u.a && u.a.name === 'attack' && u.a.spec) seen++; } return seen; };
+  // on a monster: the viewer (B) sees A's special volley
+  a.s.intent({ t: 'spec', on: true });
+  a.s.intent({ t: 'op_npc', nid: npc.nid, op: 'attack' });
+  assert.equal(specsSeen(b.s, a.p.pid, 3), 1, 'one special swing seen on the monster');
+  assert.equal(a.p.specEnergy, 50);
+  // on another adventurer in the Wilderness
+  a.s.intent({ t: 'walk', x: 10, z: 21 }); for (let i = 0; i < 8; i++) w.cycle();
+  b.s.intent({ t: 'spec', on: true });
+  b.s.intent({ t: 'op_player', pid: a.p.pid, op: 'attack' });
+  assert.equal(specsSeen(a.s, b.p.pid, 4), 1, 'one special swing seen on the adventurer');
+  w.collision.unload();
+});
+
 /* the Scarlands bestiary conventions (W2 prep): 2x2 monsters, a breath every third attack */
 function bestiaryWorld(extraType, spawn) {
   const G = require('../content/GameData').get();

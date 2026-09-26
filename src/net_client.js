@@ -1,7 +1,9 @@
 /* ============ CRNet — the online client's connection (W2) ============
  * One WebSocket to the authoritative server, speaking docs/rebuild/NET_PROTOCOL.md v1:
  *   hello -> register / login -> welcome -> a tick every 600 ms; intents out; ping every 10 s (the server logs out a
- *   client that is silent for 60 s); logout -> the server says when (the 16-tick combat lock).
+ *   client that is silent for 60 s); logout -> the server says when (the 16-tick combat lock). The ping also answers a
+ *   tick when nothing went out for 10 s: a browser tab left in the background for 5 minutes gets its timers held to
+ *   one wake-up a minute, but socket messages still arrive, so the ticks keep a hidden tab logged in.
  * Reconnect (2004 rules): if the socket drops while in the world, the adventurer stays standing on the server. We keep
  * the credentials in memory only (never stored) and log in again every 2 s; the server re-attaches the same adventurer
  * (welcome.reconnected) as long as it has not logged them out, so the logout lock still holds after a reconnect.
@@ -54,7 +56,7 @@
  };
  Client.prototype.sendRaw=function(obj){
   if(!this.ws||this.ws.readyState!==1)return false;
-  try{this.ws.send(JSON.stringify(obj));this.stats.sent++;return true}catch(e){return false}
+  try{this.ws.send(JSON.stringify(obj));this.stats.sent++;this.lastSentAt=this.now();return true}catch(e){return false}
  };
  /** an in-game intent ({t:'walk', x, z}, ...); refused unless we are in the world */
  Client.prototype.send=function(intent){if(this.state!=='game')return false;return this.sendRaw(intent)};
@@ -94,6 +96,7 @@
     if(this.lastTickAt){var gap=now-this.lastTickAt;if(gap>this.stats.maxGapMs)this.stats.maxGapMs=gap}
     if(this.lastTick>=0&&m.n!==this.lastTick+1)this.stats.gaps++;
     this.lastTick=m.n;this.lastTickAt=now;this.stats.ticks++;
+    if(now-(this.lastSentAt||0)>=PING_MS)this.ping();   // keep-alive driven by the ticks (see the top)
     this.emit('tick',m);return}
    case 'pong':if(this.pingSent[m.n]!=null){this.rtt=this.now()-this.pingSent[m.n];delete this.pingSent[m.n]}this.emit('pong',m);return;
    case 'logout':this.loggedOutReason=m.reason||'logout';this.creds=null;this.emit('logout',m);return;
@@ -101,9 +104,10 @@
    default:this.emit(m.t,m);
   }
  };
+ Client.prototype.ping=function(){var n=++this.pingN;this.pingSent[n]=this.now();this.sendRaw({t:'ping',n:n})};
  Client.prototype.startPings=function(){
   var self=this;if(this.pingTimer)this.timers.clear(this.pingTimer);
-  this.pingTimer=this.timers.set(function(){var n=++self.pingN;self.pingSent[n]=self.now();self.sendRaw({t:'ping',n:n})},PING_MS);
+  this.pingTimer=this.timers.set(function(){self.ping()},PING_MS);
  };
  Client.prototype.onClose=function(ws){
   if(ws!==this.ws)return;
