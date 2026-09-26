@@ -7,18 +7,19 @@
  * player is on now. Tutors turn to face the player, wave when first approached and gesture while talking. Island only. */
 var HolmIslandTutors=(function(){
  'use strict';
- // id, name, where they stand (a building's measured target or an arrival service), the lessons they teach, and a face
+ // id, name, where they stand (a building's measured target or an arrival service), the lessons they teach, a face, and
+ // the Examine line of their old-school menu (osrs_menu_world.js)
  var CAST=[
-  {id:'bram',name:'Guide Bram',at:{arrival:'holm_orientation'},lessons:['study_route','equip_hatchet'],face:'🧓'},
-  {id:'wenna',name:'Wenna',at:{building:['survival','logs']},lessons:['chop_logs','light_fire','catch_fish','cook_fish'],face:'🧝'},
-  {id:'hettie',name:'Cook Hettie',at:{building:['bakehouse','prep']},lessons:['bake_bread'],face:'👩‍🍳'},
-  {id:'ansel',name:'Loremaster Ansel',at:{building:['lodge','map']},lessons:['learn_quests'],face:'🧑‍🏫'},
-  {id:'durgin',name:'Foreman Durgin',at:{building:['cavern','ladder']},lessons:['descend_cavern','mine_copper','mine_tin','smelt_bronze','forge_dagger'],face:'🧔'},
-  {id:'corrick',name:'Warden Corrick',at:{building:['keep','court']},lessons:['melee_trial','ranged_trial'],face:'💂'},
-  {id:'maud',name:'Teller Maud',at:{building:['bank','counter']},lessons:['open_bank'],face:'👩‍💼'},
-  {id:'ilse',name:'Magister Ilse',at:{building:['mage','entrance']},lessons:['magic_trial'],face:'🧙'},
-  {id:'aldous',name:'Keeper Aldous',at:{building:['lastlight','stores']},lessons:['relight_lastlight'],face:'👴'},
-  {id:'tobin',name:'Ferryman Tobin',at:{building:['haven','notice']},lessons:[],face:'🧑'}];
+  {id:'bram',name:'Guide Bram',at:{arrival:'holm_orientation'},lessons:['study_route','equip_hatchet'],face:'🧓',examine:'The Holm\'s guide. He has welcomed more new arrivals than he can count.'},
+  {id:'wenna',name:'Wenna',at:{building:['survival','logs']},lessons:['chop_logs','light_fire','catch_fish','cook_fish'],face:'🧝',examine:'A hardy woman who lives off the land at the survival camp.'},
+  {id:'hettie',name:'Cook Hettie',at:{building:['bakehouse','prep']},lessons:['bake_bread'],face:'👩‍🍳',examine:'The bakehouse cook. There is flour on her apron and steel in her eye.'},
+  {id:'ansel',name:'Loremaster Ansel',at:{building:['lodge','map']},lessons:['learn_quests'],face:'🧑‍🏫',examine:'Keeper of the Quest Lodge records, and of a great many stories.'},
+  {id:'durgin',name:'Foreman Durgin',at:{building:['cavern','ladder']},lessons:['descend_cavern','mine_copper','mine_tin','smelt_bronze','forge_dagger'],face:'🧔',examine:'Foreman of the ore workings. There is quarry dust in every wrinkle.'},
+  {id:'corrick',name:'Warden Corrick',at:{building:['keep','court']},lessons:['melee_trial','ranged_trial'],face:'💂',examine:'A veteran warden who trains the Holm\'s new fighters.'},
+  {id:'maud',name:'Teller Maud',at:{building:['bank','counter']},lessons:['open_bank'],face:'👩‍💼',examine:'The Holm Bank teller. She never loses count.'},
+  {id:'ilse',name:'Magister Ilse',at:{building:['mage','entrance']},lessons:['magic_trial'],face:'🧙',examine:'Magister of the Mage Tower. Her robes smell faintly of storms.'},
+  {id:'aldous',name:'Keeper Aldous',at:{building:['lastlight','stores']},lessons:['relight_lastlight'],face:'👴',examine:'The old keeper of Lastlight, grey as the sea mist.'},
+  {id:'tobin',name:'Ferryman Tobin',at:{building:['haven','notice']},lessons:[],face:'🧑',examine:'The ferryman who rows new adventurers across to the mainland.'}];
  // our own lesson talk, 2004 style: a tutor must be spoken to before their area's lessons (HolmIslandTalk), and says
  // what to do for the step the player is on NOW, one short click-to-continue page at a time. The first visit opens
  // with the tutor's welcome; asking again explains the current step (Wenna during light_fire explains the tinderbox).

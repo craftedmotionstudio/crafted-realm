@@ -42,7 +42,7 @@ function el(tag,cls,html){var e=doc.createElement(tag);if(cls)e.className=cls;if
 function click(){try{if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click()}catch(e){}}
 
 /* ---------------------------------------------------------------- 0. style */
-var link=el('link');link.rel='stylesheet';link.href='assets/ui/osrs_kit.css?v=7';
+var link=el('link');link.rel='stylesheet';link.href='assets/ui/osrs_kit.css?v=8';
 (doc.head||root).appendChild(link);   // fonts are bundled (assets/fonts, @font-face in the kit css): no runtime font fetch
 root.classList.add('osrs-kit');
 // retire the older chrome layers so one stylesheet owns the look (their DOM/handlers stay)

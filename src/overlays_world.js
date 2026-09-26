@@ -354,9 +354,24 @@ const TileMarkers = {
     }
   },
   wrapMenu(){
-    if(this._wrapped || typeof buildCtxEntries!=='function') return;
-    const orig=buildCtxEntries;
+    if(this._wrapped) return;
     const self=this;
+    // the old-school menu model (src/osrs_menu.js): tile rows sit just above "Walk here" on shift + right click,
+    // the RuneLite way, so the plain 2004 menu stays clean (and never in the tutorial, play review F-19)
+    if(typeof OsrsMenu!=='undefined'){
+      OsrsMenu.registerGround({id:'tile-markers', order:50, entries(ctx){
+        const inTutorial=(typeof Tutorial!=='undefined' && Tutorial.steps && !Tutorial.complete);
+        if(!self._on || !ctx || !ctx.e || !ctx.shift || inTutorial || typeof groundPick!=='function') return [];
+        const gp=groundPick(ctx.e); if(!gp) return [];
+        const tx=Math.floor(gp.x), tz=Math.floor(gp.z), marked=self.at(tx,tz)>=0;
+        const out=[{option:marked?'Unmark':'Mark', target:'Tile', targetType:'object', fn:()=>self.toggleAt(gp)}];
+        if(marked) out.push({option:'Label', target:'Tile', targetType:'object', fn:()=>self.labelAt(tx,tz)});
+        return out;
+      }});
+      this._wrapped=true; return;
+    }
+    if(typeof buildCtxEntries!=='function') return;
+    const orig=buildCtxEntries;
     buildCtxEntries=function(hit, e){
       const entries=orig(hit, e);
       // Tutorial players do not get a developer/QoL row between their real options (play review F-19).
@@ -382,7 +397,7 @@ const TileMarkers = {
   stop(){ this._on=false; this.rebuild(); }
 };
 Overlays.register({ id:'tile-markers', name:'Tile markers',
-  desc:'Right-click the ground → "Mark Tile"; right-click a marked tile → "Label Tile" for floating text. Persists on this device.',
+  desc:'Shift + right-click the ground → "Mark Tile"; shift + right-click a marked tile → "Label Tile" for floating text. Persists on this device.',
   defaultOn:true, start:()=>TileMarkers.start(), stop:()=>TileMarkers.stop() });
 
 /* ============ 8. Declutter / performance toggles ============ */

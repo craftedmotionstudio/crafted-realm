@@ -550,7 +550,9 @@ const canvasEl = document.getElementById('game-canvas');
 // streamed world-v2 terrain chunk ('ground-chunk-<id>'). Click-to-walk must accept all three;
 // matching only the exact name left the whole Holm surface un-clickable (only the cavern floor walked).
 function isGroundName(n){ return n==='ground' || (typeof n==='string' && n.indexOf('ground-chunk-')===0); }
-function pick(e){
+// The whole ray, not just its first hit (OSRS menu, owner 2026-09-26): top is what a click acts on (pick() below),
+// list is every interactive object the ray meets, in order, for the right-click menu (src/osrs_menu_world.js).
+function pickAll(e){
   mouse.x = (e.clientX/innerWidth)*2-1;
   mouse.y = -(e.clientY/innerHeight)*2+1;
   raycaster.setFromCamera(mouse, camera);
@@ -558,7 +560,8 @@ function pick(e){
   // island service hit boxes are invisible stand-ins for small stations; when the ray passes through one and then
   // meets a real, visible station just behind it (the flour bin's box used to swallow the bucket rack, owner
   // play-test 2026-09-25), the real station is what the player pointed at. Floors behind a box keep the box.
-  let proxyHit=null;
+  let proxyHit=null, top=null;
+  const list=[];
   for(const h of hits){
     if((typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())||(typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active())){
       let visible=true;for(let parent=h.object;parent;parent=parent.parent)if(!parent.visible){visible=false;break}
@@ -570,6 +573,8 @@ function pick(e){
       const objectPlane=o.userData&&o.userData.plane;
       if(objectPlane!==undefined && objectPlane!==(Player.plane||0)) continue;
       if(o.userData&&o.userData.kind==='lighthouseDoor'&&player&&Math.hypot(player.position.x-o.position.x,player.position.z-o.position.z)>14) continue;
+      list.push({obj:o, point:h.point, distance:h.distance});
+      if(top) continue;
       if(o.userData&&o.userData.serviceProxy){
         // a smaller box nested inside the current one is the more specific station
         const box=new THREE.Box3().setFromObject(o),vol=box.getSize(new THREE.Vector3());
@@ -579,12 +584,14 @@ function pick(e){
       }
       if(proxyHit){ const u=o.userData||{};
         // a real station hit inside the box is what the player pointed at; anything else keeps the box
-        if(!(u.islandService&&proxyHit.box.containsPoint(h.point))) return {obj:proxyHit.obj, point:proxyHit.point}; }
-      return {obj:o, point:h.point};
+        if(!(u.islandService&&proxyHit.box.containsPoint(h.point))){ top={obj:proxyHit.obj, point:proxyHit.point}; continue; } }
+      top={obj:o, point:h.point};
     }
   }
-  return proxyHit?{obj:proxyHit.obj, point:proxyHit.point}:null;
+  if(!top&&proxyHit) top={obj:proxyHit.obj, point:proxyHit.point};
+  return {top, list};
 }
+function pick(e){ return pickAll(e).top; }
 
 // Inspect-only scenery belongs in the right-click menu.  Its left-click and
 // hover primary action are the reachable ground beneath the cursor, matching
@@ -622,16 +629,15 @@ canvasEl.addEventListener('mousemove', e=>{
   } else if(window.Build && Build.active){
     UI.action(null); hideHoverTile(); _hoverNpc=null;
   } else {
-    const hit = pick(e);
+    // the top-left line is the TOP row of the old-school menu (src/osrs_menu_world.js): exactly what a left click
+    // does, then "/ N more options" (every other row but Cancel)
+    const r=OsrsMenuWorld.menuFor(e), hit=r.scan.top, top=r.entries[0];
     _hoverNpc = (hit && hit.obj.userData && hit.obj.userData.kind==='npc') ? hit.obj.userData.npc : null;
     const inspectOnly=!!(hit&&hit.obj.userData&&hit.obj.userData.inspectOnly);
     const inspectGround=inspectOnly?walkPointForHit(hit,e):null;
-    const label=hoverPrimaryLabel(hit,!inspectOnly||!!inspectGround);
-    const onObj=!!(hit&&hit.obj.userData&&hit.obj.userData.label&&!inspectOnly);
-    // "/ N more options" = right-click entries minus the primary action and Cancel
-    const more = hit ? Math.max(0, buildCtxEntries(hit, e).length - 2) : 0;
-    UI.action(label, more);
-    canvasEl.style.cursor = onObj ? 'pointer' : 'crosshair';
+    if((hit||Player.usingItem) && top && top.option!=='Cancel') UI.action(OsrsMenu.rowHtml(top), OsrsMenu.moreCount(r.entries));
+    else UI.action(null);
+    canvasEl.style.cursor = (top && top.band==='entity') ? 'pointer' : 'crosshair';
     if(inspectGround)showHoverTile(inspectGround);
     else if(hit && hit.obj && isGroundName(hit.obj.name) && hit.point) showHoverTile(hit.point);
     else hideHoverTile();
@@ -641,61 +647,37 @@ canvasEl.addEventListener('mouseup', e=>{
   if(Date.now() < (typeof _swallowClickUntil!=='undefined' ? _swallowClickUntil : 0)) return;
   camCtl.down=false;
   if(camCtl.dragging){ camCtl.dragging=false; return; }
+  if(OsrsMenu.swallowing()){ OsrsMenu.swallowed(); return; }   // that press only closed the open menu (2004)
   if(typeof CharCreator!=='undefined' && CharCreator.active) return;   // designing: ignore world clicks
   if(window.Build && Build.active){ Build.onClick(e); return; }   // editor: place prop
-  const hit = pick(e); if(!hit) return;
-  if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.handleClick(hit.obj,hit.point))return;
-  // A small number of authored stations explicitly accept an inventory item
-  // while retaining their central Interact hook. Route only those marked
-  // targets through the dispatcher; legacy resources and every unmarked prop
-  // keep the existing direct item-on-world behavior below.
-  if(Player.usingItem && hit.obj.userData && hit.obj.userData.acceptsUseItem &&
-     typeof Interact!=='undefined' && Interact.entriesFor){
-    const itemEntries=Interact.entriesFor(hit,e).filter(function(en){return en.primary;});
-    if(itemEntries.length===1 && itemEntries[0].fn){itemEntries[0].fn();return;}
-  }
+  const hit = pick(e); if(!hit && !Player.usingItem) return;
   // A ladder is a traversal control, not ordinary scenery. Keep its left-click
   // deterministic even when a saved menu-swap rule or tile-marker overlay has
   // added or reordered contextual options for the same ray hit.
-  if(!Player.usingItem && hit.obj.userData && hit.obj.userData.kind==='climb'){
+  if(hit && !Player.usingItem && hit.obj.userData && hit.obj.userData.kind==='climb'){
     handleClick(hit.obj, hit.point);
     return;
   }
   // Authored scenery remains available to the OSRS-style right-click menu, but
   // an ordinary left click is still a movement order rather than an inspection.
-  if(!Player.usingItem && hit.obj.userData && hit.obj.userData.inspectOnly){
+  if(hit && !Player.usingItem && hit.obj.userData && hit.obj.userData.inspectOnly){
     const gp=walkPointForHit(hit,e);
     if(gp) minimapWalkTo(gp);
     return;
   }
-  // OSRS rule: left-click performs the TOP menu entry — so user swap rules (qol_ui)
-  // remap left-click automatically. use-item targeting keeps the legacy direct path.
-  if(!Player.usingItem && hit.obj.userData && hit.obj.userData.kind){
-    const entries = buildCtxEntries(hit, e);
-    if(entries.length>2 && entries[0].fn){ entries[0].fn(); return; }
-  }
-  handleClick(hit.obj, hit.point);
+  // OSRS rule: a left click runs exactly the TOP row of the menu (src/osrs_menu_world.js). For every Holm object that
+  // row is the same click as before (handleClick -> HolmArrivalQA.handleClick), user swap rules (qol_ui) remap it, and
+  // with an item in use it is "Use <item> -> <target>".
+  OsrsMenuWorld.leftClick(e);
 });
 canvasEl.addEventListener('wheel', e=>{
   camCtl.dist = Math.min(70, Math.max(12, camCtl.dist + e.deltaY*0.02));
 });
+// The one menu box (src/osrs_menu.js). Ctx.show(e, [{html, fn}]) keeps working for older callers and QA tools.
 const Ctx = {
-  open:false,
-  show(e, entries){
-    const m=document.getElementById('ctx-menu'), rows=document.getElementById('ctx-rows');
-    rows.innerHTML='';
-    entries.forEach(en=>{
-      const r=document.createElement('div'); r.className='ctx-row';
-      r.innerHTML=en.html;
-      r.onclick=(ev)=>{ ev&&ev.stopPropagation&&ev.stopPropagation(); Ctx.hide(); Sfx.click(); en.fn&&en.fn(); };
-      rows.appendChild(r);
-    });
-    m.style.display='block';
-    m.style.left=Math.min(e.clientX, innerWidth-180)+'px';
-    m.style.top=Math.min(e.clientY, innerHeight-entries.length*28-30)+'px';
-    this.open=true;
-  },
-  hide(){ document.getElementById('ctx-menu').style.display='none'; this.open=false; },
+  get open(){ return OsrsMenu.isOpen(); },
+  show(e, entries){ OsrsMenu.show(e.clientX, e.clientY, entries, {source:'legacy'}); },
+  hide(){ OsrsMenu.hide(); },
 };
 function appraiseChat(npcOrType){
   const t = npcOrType.t || npcOrType;
@@ -707,102 +689,15 @@ function appraiseChat(npcOrType){
   if(w) UI.chat(`It looks vulnerable to <b>${w}</b> — match your combat style's attack type to land more hits.`,'plain');
 }
 function aOrAn(n){ return (/^[aeiou]/i.test(n)?'an ':'a ')+n.toLowerCase(); }
-function buildCtxEntries(hit, e){
-  const entries=[];
-  if(hit && hit.obj){
-    const o=hit.obj, u=o.userData||{};
-    if(u.kind==='npc'){
-      const npc=u.npc;
-      if(npc && !npc.dead){
-        entries.push({html:`Attack <b>${npc.t.name}</b> <span class="lv">(level ${npc.t.level})</span>`,
-          fn:()=>{ Player.target=npc; Player.action=null; }});
-        if(PICKPOCKETS[npc.typeId])
-          entries.push({html:`Pickpocket <b>${npc.t.name}</b>`, fn:()=>tryPickpocket(npc)});
-        entries.push({html:`Appraise <b>${npc.t.name}</b>`, fn:()=>appraiseChat(npc)});
-        entries.push({html:`Examine <b>${npc.t.name}</b>`,
-          fn:()=>UI.chat(npc.t.examine||`It's ${aOrAn(npc.t.name)}.`,'plain')});
-      }
-    } else if(u.kind==='friendly'){
-      entries.push({html:`Talk-to <b>${u.name}</b>`, fn:()=>handleClick(o, o.position)});
-    } else if(u.kind==='resource' && u.alive){
-      entries.push({html:u.label, fn:()=>handleClick(o, hit.point||o.position)});
-      entries.push({html:'Examine', fn:()=>UI.chat(
-        u.rtype==='tree'?'A sturdy emberwood tree.':u.rtype==='rock'?
-          ((u.oreKind==='tin'?'Pale tin':u.oreKind==='clay'?'Workable clay':u.oreKind==='iron'?'Iron':u.oreKind==='coal'?'Coal':'Copper')+' shows through the stone.'):
-          'Fish dart beneath the surface.','plain')});
-    } else if(u.kind==='drop'){
-      entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
-      entries.push({html:`Examine <b>${ITEMS[u.id].name}</b>`,
-        fn:()=>UI.chat(ITEMS[u.id].examine||`It's ${aOrAn(ITEMS[u.id].name)}.`,'plain')});
-    } else if(u.kind==='climb'){
-      const pl=(Player.plane||0);
-      if(u.climb.up && u.climb.up.plane>pl)
-        entries.push({html:'Climb-up '+(u.label||'').replace(/^Climb /,''), fn:()=>handleClick(o, o.position)});
-      if(u.climb.down && u.climb.down.plane<pl)
-        entries.push({html:'Climb-down '+(u.label||'').replace(/^Climb /,''),
-          fn:()=>queueClimb(o, u.climb.down)});
-      if(!u.climb.up && !u.climb.down) entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
-    } else if(u.kind==='lighthouseDoor'){
-      entries.push({html:u.label||'Open <b>Lastlight door</b>',fn:()=>handleClick(o,o.position)});
-      entries.push({html:'Inspect <b>Lastlight door</b>',fn:()=>UI.chat(u.inspectMessage||'A weathered oak door set into the tower.','plain')});
-    } else if(u.kind==='lever'){
-      entries.push({html:u.label||'Operate <b>lever</b>',fn:()=>handleClick(o,o.position)});
-      entries.push({html:'Inspect <b>beacon lever</b>',fn:()=>UI.chat(u.inspectMessage||'A heavy bronze lever controls the Lastlight lens.','plain')});
-    } else if(u.kind==='trapdoor'){
-      entries.push({html:u.label||'Open <b>trapdoor</b>',fn:()=>handleClick(o,o.position)});
-      entries.push({html:'Inspect <b>trapdoor</b>',fn:()=>UI.chat(u.inspectMessage||'A sealed hatch descends beneath the lighthouse.','plain')});
-    } else if(u.kind==='altar'){
-      entries.push({html:'Pray at <b>Altar</b>', fn:()=>{ Player.action={type:'pray', obj:o, t:0}; Player.moveTo=o.position.clone(); }});
-      if(Player.count('bones')>0)
-        entries.push({html:'Offer bones at <b>Altar</b>', fn:()=>{ Player.action={type:'offer', obj:o, t:0}; Player.moveTo=o.position.clone(); }});
-      entries.push({html:'Examine', fn:()=>UI.chat('Candles gutter over old stone. The Dawn listens.','plain')});
-    } else if(u.kind==='fire'){
-      entries.push({html:'Cook on <b>Campfire</b>', fn:()=>handleClick(o, o.position)});
-    } else if(u.kind==='door'){
-      entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
-      entries.push({html:'Examine', fn:()=>UI.chat('Stout emberwood on iron hinges.','plain')});
-    } else if(u.kind==='signpost'){
-      entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
-    } else if(u.kind==='well'){
-      entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
-      entries.push({html:'Examine', fn:()=>UI.chat('Veyhollow\u2019s sweetest water, the wanderers swear.','plain')});
-    } else if(u.kind==='furnace'){
-      entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
-      entries.push({html:'Examine', fn:()=>UI.chat('Hot enough to make ore confess.','plain')});
-    } else if(u.kind==='anvil'){
-      entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
-      entries.push({html:'Examine', fn:()=>UI.chat('Scarred by ten thousand honest blows.','plain')});
-    } else if(u.kind==='stall'){
-      entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
-      entries.push({html:'Examine', fn:()=>UI.chat('The keeper seems distracted...','plain')});
-    } else if(u.kind==='cave'){
-      entries.push({html:u.label, fn:()=>handleClick(o, o.position)});
-      entries.push({html:'Examine', fn:()=>UI.chat('Cold air rises from the dark.','plain')});
-    } else if(u.kind==='bank'){
-      entries.push({html:'Use <b>Bank booth</b>', fn:()=>handleClick(o, o.position)});
-    } else if(u.kind==='prop'){
-      const inspectName=u.inspectName?` <b>${u.inspectName}</b>`:'';
-      entries.push({html:'Inspect'+inspectName,
-        fn:()=>UI.chat(u.inspectMessage||u.examine||'Just a curio of the realm.','plain')});
-    }
-    if(u.inspectMessage&&!u.inspectOnly){
-      const inspectName=u.inspectName?` <b>${u.inspectName}</b>`:'';
-      entries.push({html:'Inspect'+inspectName,fn:()=>UI.chat(u.inspectMessage,'plain')});
-    }
-  }
-  entries.push({html:'Walk here', fn:()=>{ const gp=walkPointForHit(hit,e);
-    if(gp) minimapWalkTo(gp); }});
-  entries.push({html:'Cancel', fn:null});
-  return entries;
-}
+// The menu for one hit as {html, fn} rows (older callers). Every menu is built by the one model now: the world's
+// providers live in src/osrs_menu_world.js (a port of the kinds this function used to list, plus the Holm's own).
+function buildCtxEntries(hit, e){ return OsrsMenuWorld.legacyEntries(hit, e); }
 canvasEl.addEventListener('contextmenu', e=>{
   e.preventDefault();
   if(!running) return;
   if(window.Build && Build.active){ Build.onRightClick(e); return; }   // editor: remove prop
-  const hit = pick(e);
-  Ctx.show(e, buildCtxEntries(hit, e));
+  OsrsMenuWorld.open(e);   // every entity under the cursor, 2004 order (src/osrs_menu_world.js)
 });
-canvasEl.addEventListener('mousedown', ()=>{ if(Ctx.open) Ctx.hide(); });
 /* ---------- touch: hold to open the action menu, like a long right-click ---------- */
 let _lpTimer=null, _lpStart=null;
 let _twoT=null;
@@ -821,8 +716,7 @@ canvasEl.addEventListener('touchstart', e=>{
   _lpTimer=setTimeout(()=>{
     _lpTimer=null;
     _swallowClickUntil=Date.now()+450;   // the lifted finger must not pick a row
-    const hit=pick(fake);
-    Ctx.show(fake, buildCtxEntries(hit, fake));
+    OsrsMenuWorld.open(fake,{touch:true});   // the same menu a right click opens
     const menu=document.getElementById('ctx-menu');
     if(menu){ menu.style.pointerEvents='none'; setTimeout(()=>{ menu.style.pointerEvents=''; }, 360); }
     if(navigator.vibrate) navigator.vibrate(18);
