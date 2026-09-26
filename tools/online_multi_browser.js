@@ -35,6 +35,8 @@ const ONLY = arg('only', null) ? arg('only').split(',') : null;
 const STRIPS = args.includes('--no-strips') ? false : true;
 const HEADFUL = args.includes('--headful');
 const PORT = Number(arg('port', 8201));
+const DEADLINE = Date.now() + Number(arg('deadline-min', 90)) * 60000;   // the whole run gives up (and cleans up) after this
+const STOP_FILE = path.join(OUT, 'STOP');                                  // touch this file to stop a run gracefully
 fs.mkdirSync(OUT, { recursive: true });
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -58,6 +60,13 @@ async function startServer() {
   log('game server on ws://127.0.0.1:' + app.port + ' tick ' + TICK + ' ms');
 }
 function sp(name) { return world.playerByKey(String(name).toLowerCase()); }
+function stopCheck() { if (Date.now() > DEADLINE || fs.existsSync(STOP_FILE)) throw new Error('run stopped (deadline or STOP file)'); }
+/** PvP fixtures: monsters do not hunt while two adventurers duel (they would join in: the test is about PvP) */
+function huntAll(on) { for (const n of world.npcs.values()) { if (n._huntSaved === undefined) n._huntSaved = n.huntEnabled; n.huntEnabled = on ? n._huntSaved : false; if (!on && n.target && n.target.pid != null) n.resetDefaults(); } }
+/** walk through waypoints (keeps clear of monster haunts) */
+async function walkRoute(c, pts, ms) { for (const p of pts) await walkTo(c, p[0], p[1], ms); }
+/** the way from the Commons over the east crossing to the eastern Scarlands, away from the monster spawns */
+const EAST = [[47, 40], [48, 47], [61, 49]];
 
 /* ------------------------------------------------------------------------------------------------ */
 /* browser clients                                                                                    */
@@ -71,6 +80,7 @@ class Client {
   async until(pred, ms, label) {
     const t0 = Date.now();
     for (;;) {
+      stopCheck();
       const s = await this.state();
       if (s && pred(s)) return s;
       if (Date.now() - t0 > ms) throw new Error(this.name + ': timeout waiting for ' + label);
@@ -191,8 +201,10 @@ async function pvpFight(fight, A, B, O, opts) {
   heal(A.name); heal(B.name);
   await kitUp(A, o.kitA); await kitUp(B, o.kitB);
   // meet in the Scarlands, a few tiles apart
-  const spot = o.spot || { x: 58, z: 68 };
-  await Promise.all([walkTo(A, spot.x - 2, spot.z), walkTo(B, spot.x + 2, spot.z), walkTo(O, spot.x, spot.z - 5)]);
+  const spot = o.spot || { x: 59, z: 66 };
+  huntAll(false);
+  const route = async (c, x, z) => { const s = await c.state(); if (s.me.tile.z < 47) await walkRoute(c, EAST); await walkTo(c, x, z); };
+  await Promise.all([route(A, spot.x - 2, spot.z), route(B, spot.x + 2, spot.z), route(O, spot.x, spot.z - 5)]);
   heal(A.name); heal(B.name);
   await sleep(TICK * 2);
   const sa = await A.state(), sb = await B.state();
@@ -205,16 +217,14 @@ async function pvpFight(fight, A, B, O, opts) {
   // A attacks with a real left click on B (the top menu entry), B retaliates automatically
   const at = await A.q((pid) => CROnlineQA.screenOf('player', pid), bPid);
   if (at) { await A.page.mouse.move(at.x, at.y); await sleep(80); await A.page.mouse.down(); await A.page.mouse.up(); }
-  await sleep(TICK * 3);
-  const attacked = await A.state();
-  if (!(attacked.me && attacked.me && serverEvents)) { /* keep going */ }
-  if (!sp(A.name).target) { await A.q((n) => CROnlineQA.attackPlayerByName(n), B.name); }
+  await sleep(TICK * 2);
+  fight.leftClickAttack = !!(sp(A.name).target && sp(A.name).target.pid === bPid);
+  if (!fight.leftClickAttack) { log('  (left click missed; attacking through the menu action)'); await A.q((n) => CROnlineQA.attackPlayerByName(n), B.name); }
   // frames of the exchange from the observer
   let strip = null;
   if (STRIPS && o.strip) strip = captureStrip(O, o.strip, [['player', aPid], ['player', bPid]], 18, Math.round(TICK / 3));
-  // skull: the attacker only
-  await sleep(TICK * 2);
-  const so = await O.state();
+  // skull: the attacker only (set on the first swing, once A is in reach)
+  const so = await O.until((s) => { const a = s.players.find((p) => p.pid === aPid); return a && a.sk === 1; }, 20000, 'the skull of the attacker').catch(() => O.lastState);
   const seenA = so.players.find((p) => p.pid === aPid), seenB = so.players.find((p) => p.pid === bPid);
   check(fight, seenA && seenB, 'the observer sees both fighters', { seenA: !!seenA, seenB: !!seenB });
   check(fight, seenA && seenA.sk === 1 && seenB && !seenB.sk, 'the attacker is skulled, the defender (retaliating) is not', { a: seenA && seenA.sk, b: seenB && seenB.sk });
@@ -224,7 +234,8 @@ async function pvpFight(fight, A, B, O, opts) {
   const preview = {};
   const t0 = Date.now();
   let loser = null, winner = null;
-  while (Date.now() - t0 < (o.maxMs || 600000)) {
+  while (Date.now() - t0 < (o.maxMs || 400000)) {
+    stopCheck();
     for (const c of [A, B]) {
       const s = await c.state();
       if (s.overlay && /you are dead/i.test(s.overlay)) { loser = c; break; }
@@ -274,7 +285,8 @@ async function pvpFight(fight, A, B, O, opts) {
   }
   fight.strip = strip ? path.relative(path.join(__dirname, '..'), strip).replace(/\\/g, '/') : null;
   await syncCheck(fight, [A, B, O]);
-  closeOverlays([A, B, O]);
+  await closeOverlays([A, B, O]);
+  huntAll(true);
 }
 async function closeOverlays(cs) { for (const c of cs) await c.q(() => OnlineUI.closeOverlay()); }
 /** every page's view of every adventurer matches the server once things are still */
@@ -306,6 +318,8 @@ const SCENARIOS = [
   browser = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: HEADFUL ? false : 'new',
     args: ['--mute-audio', '--no-first-run', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows'] });
   const tag = Date.now().toString(36).slice(-4);
+  try { fs.writeFileSync(path.join(OUT, 'chrome.pid'), String(browser.process().pid)); } catch (e) { /* not fatal */ }
+  if (fs.existsSync(STOP_FILE)) fs.unlinkSync(STOP_FILE);
   const A = await openClient('Ash' + tag), B = await openClient('Bryn' + tag), O = await openClient('Oak' + tag, { width: 1280, height: 800 });
   for (const c of [A, B, O]) await register(c, c.name);
   log('three adventurers in the world');

@@ -261,7 +261,14 @@ var OnlineUI=(function(){
    var sp=SPELLS[id];if(!sp)return false;
    if(sp.utility==='teleport'){send({t:'teleport',spell:id});return true}
    if(sp.utility){chat('That spell is not ready in the online world yet.');return false}
-   send({t:'autocast',spell:st.state.autocast===id?null:id});return true;
+   if(Player.lvl('Magic')<sp.req){chat('You need a Magic level of '+sp.req+' to cast '+sp.name+'.');return false}
+   var w=Player.equip.weapon&&ITEMS[Player.equip.weapon];
+   // with a staff the spell is set to autocast (the 2004 staff option); without one it is readied for a single cast:
+   // the next monster or adventurer you choose gets 'Cast <spell> -> <name>'
+   if(w&&w.style==='magic'){send({t:'autocast',spell:st.state.autocast===id?null:id});return true}
+   st.armedSpell=st.armedSpell===id?null:id;Player.spell=st.armedSpell;
+   chat(st.armedSpell?'Choose a target for '+sp.name+'.':'You lower your hand.','sys');try{UI.refreshSpells()}catch(e){}
+   return true;
   };
   Player.combatLevel=function(){return st.state.cb||3};
   UI.refreshCombat=refreshCombat;
@@ -303,7 +310,9 @@ var OnlineUI=(function(){
   var n=document.createElement('span');n.className='chat-name';n.textContent=name+': ';var m=document.createElement('span');m.className='chat-msg';m.textContent=text;
   d.appendChild(n);d.appendChild(m);box.appendChild(d);box.scrollTop=box.scrollHeight;while(box.children.length>60)box.removeChild(box.firstChild);
  }
- return {buildLogin:buildLogin,install:install,applyWelcome:applyWelcome,applyTick:applyTick,setMyHp:setMyHp,confirmWalk:confirmWalk,wildHud:wildHud,
+ function armedSpell(){return st.armedSpell||null}
+ function clearArmed(){if(st.armedSpell){st.armedSpell=null;Player.spell=st.state.autocast;try{UI.refreshSpells()}catch(e){}}}
+ return {armedSpell:armedSpell,clearArmed:clearArmed,buildLogin:buildLogin,install:install,applyWelcome:applyWelcome,applyTick:applyTick,setMyHp:setMyHp,confirmWalk:confirmWalk,wildHud:wildHud,
   keptList:keptList,chestDialog:chestDialog,onMyDeath:onMyDeath,showDeath:showDeath,connection:connection,status:status,myMaxHit:myMaxHit,publicLine:publicLine,state:function(){return st.state},
   closeOverlay:closeOverlay,lookFor:lookFor,myName:function(){return st.myName}};
 })();

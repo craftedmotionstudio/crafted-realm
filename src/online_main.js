@@ -104,13 +104,16 @@ var OnlineMain=(function(){
   var myWl=m.wildernessLevel(me.x,me.z),theirWl=m.wildernessLevel(e.tile.x,e.tile.z),myCb=OnlineUI.state().cb;
   var r=P.levelCheck(myCb,myWl,e.cb,theirWl);return {ok:!r,reason:r};
  }
+ function castOn(kind,e,spell){st.pending=null;st.dest=null;Player.moveTo=null;OnlineUI.clearArmed();if(kind==='p')st.pvpAttacks++;net.send(kind==='n'?{t:'cast_npc',nid:e.id,spell:spell}:{t:'cast_player',pid:e.id,spell:spell})}
  function entriesFor(hit,ev){
-  var out=[],o=hit&&hit.obj,u=(o&&o.userData)||{},myCb=OnlineUI.state().cb;
+  var out=[],o=hit&&hit.obj,u=(o&&o.userData)||{},myCb=OnlineUI.state().cb,armed=OnlineUI.armedSpell(),asp=armed&&SPELLS[armed];
   if(u.kind==='onl_npc'){var ne=OnlineActors.npcs().get(u.nid);
+   if(ne&&!ne.rec.dead&&asp)out.push({html:'Cast <b style="color:#0f0">'+asp.name+'</b> -&gt; <b style="color:#ff0">'+ne.t.name+'</b> '+lvlSpan(myCb,ne.t.level),fn:function(){castOn('n',ne,armed)}});
    if(ne&&!ne.rec.dead){out.push({html:'Attack <b style="color:#ff0">'+ne.t.name+'</b> '+lvlSpan(myCb,ne.t.level),fn:function(){attackNpc(ne)}});
     out.push({html:'Examine <b style="color:#ff0">'+ne.t.name+'</b>',fn:function(){UI.chat(ne.t.examine||('A '+ne.t.name.toLowerCase()+'.'),'plain')}})}}
   else if(u.kind==='onl_player'){var pe=OnlineActors.players().get(u.pid);
    if(pe&&!pe.dead){var can=canAttackPlayer(pe);
+    if(can.ok&&asp)out.push({html:'Cast <b style="color:#0f0">'+asp.name+'</b> -&gt; <b style="color:#fff">'+pe.name+'</b> '+lvlSpan(myCb,pe.cb),fn:function(){castOn('p',pe,armed)}});
     if(can.ok)out.push({html:'Attack <b style="color:#fff">'+pe.name+'</b> '+lvlSpan(myCb,pe.cb),fn:function(){attackPlayer(pe)}});
     out.push({html:'Follow <b style="color:#fff">'+pe.name+'</b> '+lvlSpan(myCb,pe.cb),fn:function(){follow(pe)}})}}
   else if(u.kind==='onl_obj'){
@@ -135,6 +138,7 @@ var OnlineMain=(function(){
   window.buildCtxEntries=entriesFor;
   window.handleClick=function(obj,point){
    if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click();
+   if(OnlineUI.armedSpell()&&!(obj&&obj.userData&&/onl_(npc|player)/.test(obj.userData.kind||'')))OnlineUI.clearArmed();
    var u=obj&&obj.userData||{};
    var list=entriesFor({obj:obj,point:point},null);
    if(list.length>2&&list[0].fn&&u.kind&&u.kind!=='onl_scenery'){list[0].fn();return}

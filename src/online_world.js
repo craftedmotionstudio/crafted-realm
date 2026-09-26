@@ -62,7 +62,7 @@
  var PAD=8;   // ground drawn past the bounds on every side, so the pocket ends in banks and treeline, not a cliff into the void
  /** lattice of (W+1+2P)*(D+1+2P) corner heights and materials (0 sand, 1 grass, 2 rock, 3 earth, 4 bed); lattice
   *  index (i, j) is world corner (i - P, j - P) */
- function lattice(m){
+ function lattice(m,override){
   var W=m.width+2*PAD,D=m.depth+2*PAD,b=m.bounds,h=new Float32Array((W+1)*(D+1)),mat=new Uint8Array((W+1)*(D+1));
   var wild=(m.map.areas&&m.map.areas.wilderness&&m.map.areas.wilderness[0])||null;
   function tileAt(wi,wj){return {x:wi+b.x1,z:b.z2-wj}}
@@ -77,6 +77,7 @@
    var out=Math.max(0,-wi,wi-m.width,-wj,wj-m.depth);
    if(out>0)y+=Math.min(3.2,out*0.42)+smooth(i,j,4,9)*0.35*Math.min(1,out/2);
    if(nW>0&&nW===nIn)y=BED_Y+smooth(i,j,3,7)*0.12;else if(nW>0)y=LIP_Y+0.08*smooth(i,j,2,8);
+   if(override&&wi>=0&&wj>=0&&wi<=m.width&&wj<=m.depth){var ov=override(wi,wj);if(ov!=null)y=ov}
    h[j*(W+1)+i]=y;
    // materials: grass in the Commons, scorched earth and rock in the Scarlands (grass thinning out past the Ditch)
    var sz=s.z,mt=1;
@@ -169,7 +170,10 @@ var OnlineWorld=(function(){
   if(o.clickable)WORLD.clickables.push(obj);
   return obj;
  }
- function groundAt(wx,wz){return st.L?OnlineMap.heightAt(st.L,wx,wz):0}
+ function groundAt(wx,wz){
+  var m=st.model;
+  if(st.kit&&m&&wx>=0&&wz>=0&&wx<m.width&&wz<m.depth){var y=OnlineKit.standY(wx+m.bounds.x1,m.bounds.z2+1-wz);if(y!=null)return y}
+  return st.L?OnlineMap.heightAt(st.L,wx,wz):0}
 
  /* ---------------- terrain ---------------- */
  function buildTerrain(){
@@ -180,7 +184,10 @@ var OnlineWorld=(function(){
   for(var cz=0;cz<D/8;cz++)for(var cx=0;cx<W/8;cx++){
    var positions=[],materials=[],indices=[];
    for(var v=0;v<=8;v++)for(var u=0;u<=8;u++){var i=cx*8+u,j=cz*8+v;positions.push(i,L.h[j*(W+1)+i],j);materials.push(L.m[j*(W+1)+i])}
-   for(var v2=0;v2<8;v2++)for(var u2=0;u2<8;u2++){var a=v2*9+u2;indices.push(a,a+1,a+9,a+9,a+1,a+10)}
+   for(var v2=0;v2<8;v2++)for(var u2=0;u2<8;u2++){var a=v2*9+u2,ti=cx*8+u2-L.P,tj=cz*8+v2-L.P;
+    if(st.kit&&ti>=0&&tj>=0&&ti<st.model.width&&tj<st.model.depth)continue;   // the kit draws the pocket itself
+    indices.push(a,a+1,a+9,a+9,a+1,a+10)}
+   if(!indices.length)continue;
    var surface={positions:positions,materials:materials,indices:indices},geo=new THREE.BufferGeometry();
    if(oldschool){var os=HolmOverhaulGround.chunkOldschool(surface);
     geo.setAttribute('position',new THREE.Float32BufferAttribute(os.positions,3));geo.setAttribute('color',new THREE.Float32BufferAttribute(os.colors,3));
@@ -208,10 +215,12 @@ var OnlineWorld=(function(){
  }
  function buildWater(){
   var m=M(),mat=waterMaterial();
-  (m.map.water||[]).forEach(function(r){
+  var rects=st.kit?OnlineKit.water():(m.map.water||[]);
+  rects.forEach(function(r){
    var a=m.toWorld(r[0],r[3]),c=m.toWorld(r[2],r[1]);   // north-west and south-east tile centres
    var x0=a.x-.5,z0=a.z-.5,x1=c.x+.5,z1=c.z+.5,pos=[],idx=[],nx=Math.max(1,Math.round(x1-x0)),nz=Math.max(1,Math.round(z1-z0));
-   for(var v=0;v<=nz;v++)for(var u=0;u<=nx;u++)pos.push(x0+u*(x1-x0)/nx,OnlineMap.WATER_Y,z0+v*(z1-z0)/nz);
+   var wy=st.kit?groundAt((x0+x1)/2,(z0+z1)/2)-0.12:OnlineMap.WATER_Y;
+   for(var v=0;v<=nz;v++)for(var u=0;u<=nx;u++)pos.push(x0+u*(x1-x0)/nx,wy,z0+v*(z1-z0)/nz);
    for(var v2=0;v2<nz;v2++)for(var u2=0;u2<nx;u2++){var k=v2*(nx+1)+u2;idx.push(k,k+nx+1,k+1,k+1,k+nx+1,k+nx+2)}
    var g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setIndex(idx);g.computeVertexNormals();
    var w=new THREE.Mesh(g,mat);w.name='online-water';w.renderOrder=1;scene.add(w);st.water.push(w);
@@ -228,6 +237,7 @@ var OnlineWorld=(function(){
    var c=m.toWorld(x,z);
    [[1,0,-.5,0],[2,.5,0,90],[4,0,.5,0],[8,-.5,0,90]].forEach(function(s){
     if(!(bits&s[0]))return;
+    if(st.kit&&OnlineKit.covered()[x+','+z+','+['','N','E','','S','','','','W'][s[0]]])return;
     var seg=cloneOf(wallPack,null);if(!seg)return;
     var ruined=ruin(x,z),hsh=OnlineMap.hash(x,z,s[0]);
     // scale the segment to exactly one tile edge; ruins stand broken and uneven
@@ -276,6 +286,7 @@ var OnlineWorld=(function(){
   var m=M(),b=m.bounds,out=[];
   for(var z=b.z1;z<=b.z2;z+=1)for(var x=b.x1;x<=b.x2;x+=1){
    if(!m.walkable(x,z))continue;var r=OnlineMap.hash(x,z,21);if(r>0.035)continue;
+   if(st.kit&&m.wildernessLevel(x,z)>0)continue;
    var wl=m.wildernessLevel(x,z),w=m.toWorld(x,z),jx=(OnlineMap.hash(x,z,22)-.5)*.6,jz=(OnlineMap.hash(x,z,23)-.5)*.6;
    out.push({kind:wl>0?(r<0.02?'stones':'tuft'):(r<0.018?'flowers':'tuft'),wx:w.x+jx,wz:w.z+jz,scale:wl>0?0.7:0.9,rot:Math.floor(r*9000)%360,dim:wl>0});
   }
@@ -296,7 +307,10 @@ var OnlineWorld=(function(){
     return fetch('server/data/maps/scarlands_test.json',{cache:'no-store'}).then(function(r){return r.json()})});
  }
  function setup(map){
-  st.map=map;st.model=OnlineMap.create(map);st.L=OnlineMap.lattice(st.model);st.paths=OnlineMap.paths(st.model);
+  st.map=map;st.model=OnlineMap.create(map);
+  var b=map.bounds,D=st.model.depth;
+  st.L=OnlineMap.lattice(st.model,st.kit?function(wi,wj){return OnlineKit.cornerH(b.x1+wi,b.z1+(D-wj))}:null);
+  st.paths=st.kit?{}:OnlineMap.paths(st.model);
  }
  function register(){
   var chunks=[];for(var cz=0;cz<16;cz++)for(var cx=0;cx<8;cx++)chunks.push({v:1,id:cx+','+cz,cx:cx,cz:cz,layers:{terrain:{},tileFlags:[],objects:[],interactions:[],mutations:[],spawns:[]}});
@@ -321,18 +335,24 @@ var OnlineWorld=(function(){
  function buildAll(){
   var look=typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.preload?HolmOldschoolLook.preload(THREE).catch(function(){}):Promise.resolve();
   return Promise.all([fetchMap(),look]).then(function(r){
+   return (typeof OnlineKit!=='undefined'?OnlineKit.load(r[0]):Promise.resolve(false)).then(function(kit){r.push(kit);return r});
+  }).then(function(r){
+   st.kit=r[2]||null;
    setup(r[0]);
+   if(st.kit){scene.add(st.kit.group);WORLD.clickables.push(st.kit.ground);WORLD.grounds.push(st.kit.ground)}
    // the landmark follows the real respawn
    var rs=st.model.toWorld(st.map.respawn.x,st.map.respawn.z);st.provider.landmarks.commons.x=rs.x;st.provider.landmarks.commons.z=rs.z;
    if(typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.activate)HolmOldschoolLook.activate(scene);
    buildTerrain();buildWater();
-   var decor=(st.map.decor||[]).filter(function(d){return d.kind!=='path'});
+   // with the kit, our own decor keeps to the Commons (the kit dresses the Scarlands and the Ditch crossings)
+   var KEEP={chest:1,campfire:1,signpost:1,oak:1,birch:1,pine:1,shrub:1,bush:1,log:1,flowers:1,fieldstones:1,cargo:1,torch:1,stump:1,tuft:1};
+   var decor=(st.map.decor||[]).filter(function(d){return d.kind!=='path'&&(!st.kit||(KEEP[d.kind]&&st.model.wildernessLevel(d.x|0,d.z|0)===0))});
    return Promise.all([loadPack('wall').then(buildWalls)].concat(decor.map(decorOne)).concat([placeLoose(border()),placeLoose(scatter())]));
   }).then(function(){st.ready=true;return true});
  }
  function tick(dt){st.waterTime.value+=dt}
  function snapshot(){return {id:ID,ready:st.ready,chunks:st.stats.chunks,props:st.stats.props,walls:st.stats.walls,failed:st.stats.failed.slice(),water:st.water.length,
-  bounds:st.map&&st.map.bounds}}
+  bounds:st.map&&st.map.bounds,kit:st.kit?OnlineKit.stats():null}}
  return {ID:ID,register:register,model:M,map:function(){return st.map},heightAt:groundAt,tick:tick,snapshot:snapshot,chest:function(){return st.chest},
   lattice:function(){return st.L},ready:function(){return st.ready}};
 })();
