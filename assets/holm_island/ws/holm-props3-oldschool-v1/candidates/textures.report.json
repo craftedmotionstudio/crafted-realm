@@ -1,0 +1,85 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-props-v3/candidates/props.blend",
+ "materials": {
+  "oak": {
+   "texture": "beam",
+   "authored": [
+    0.3,
+    0.2,
+    0.12
+   ],
+   "tint": [
+    0.3659,
+    0.3469,
+    0.3086
+   ]
+  },
+  "oak-dark": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "oak-end": {
+   "texture": "beam",
+   "authored": [
+    0.45,
+    0.33,
+    0.2
+   ],
+   "tint": [
+    0.5488,
+    0.5723,
+    0.5144
+   ]
+  },
+  "oak-light": {
+   "texture": "beam",
+   "authored": [
+    0.36,
+    0.245,
+    0.145
+   ],
+   "tint": [
+    0.439,
+    0.4249,
+    0.3729
+   ]
+  },
+  "plank-gap": {
+   "texture": "planks",
+   "authored": [
+    0.085,
+    0.06,
+    0.04
+   ],
+   "tint": [
+    0.1138,
+    0.1108,
+    0.1151
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 5,
+ "glb": {
+  "path": ".studio-workspaces/holm-props3-oldschool-v1/candidates/props.glb",
+  "bytes": 85932,
+  "sha256": "a6d70cfb93823a0d086558f8e382a7e6e466699cc32eed8fbe790e44f7dea2e6"
+ },
+ "images": [
+  "beam",
+  "planks"
+ ]
+}

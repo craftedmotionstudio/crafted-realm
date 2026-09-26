@@ -1,0 +1,42 @@
+{
+ "source": ".studio-workspaces/holm-quest-lodge-v6/candidates/lodge.blend",
+ "blender": "5.1",
+ "reference": ".studio-workspaces/holm-quest-lodge-v6/candidates/lodge.glb",
+ "outBlend": ".studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/lodge.blend",
+ "outGlb": ".studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/lodge.glb",
+ "report": ".studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|.*Flame)",
+  "woodOnly": "Furnish|Furniture|Ladder|Hatch",
+  "floors": "Floor|Deck",
+  "maxVariants": 2,
+  "minShare": 0.15
+ },
+ "copy": [
+  [
+   ".studio-workspaces/holm-quest-lodge-v6/candidates/material-contract.json",
+   ".studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/material-contract.json"
+  ]
+ ],
+ "extractor": {
+  "script": "tools/blender/extract_holm_quest_terrain_navigation_v4.py",
+  "replace": [
+   [
+    "holm-quest-lodge-v6/candidates",
+    "holm-quest-lodge-oldschool-v1/candidates"
+   ],
+   [
+    "holm-quest-terrain-navigation-v4/candidates",
+    "holm-quest-lodge-oldschool-navigation-v1/candidates"
+   ]
+  ],
+  "out": ".studio-workspaces/holm-quest-lodge-oldschool-navigation-v1/candidates",
+  "reference": ".studio-workspaces/holm-quest-terrain-navigation-v4/candidates/navigation.json",
+  "ignore": [
+   "modelSha256",
+   "modelUrl",
+   "renderDataUrl"
+  ]
+ }
+}

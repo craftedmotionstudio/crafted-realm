@@ -1,0 +1,14 @@
+{
+ "import": ".studio-workspaces/holm-tree-family-v3/candidates/creek-reeds.glb",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-tree-family-v3/candidates/creek-reeds.glb",
+ "replaceExisting": true,
+ "arrival": false,
+ "outBlend": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/creek-reeds.blend",
+ "outGlb": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/creek-reeds.glb",
+ "report": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/creek-reeds.report.json",
+ "manifest": {
+  "from": ".studio-workspaces/holm-tree-family-v3/candidates/manifest.json",
+  "to": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/manifest.json"
+ }
+}

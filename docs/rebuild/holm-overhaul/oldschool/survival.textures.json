@@ -1,0 +1,18 @@
+{
+ "source": ".studio-workspaces/holm-survival-v3/candidates/survival.blend",
+ "outBlend": ".studio-workspaces/holm-survival-oldschool-v1/candidates/survival.blend",
+ "outGlb": ".studio-workspaces/holm-survival-oldschool-v1/candidates/survival.glb",
+ "report": ".studio-workspaces/holm-survival-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "woodOnly": "Furnishing",
+  "floors": "Floor",
+  "maxVariants": 2
+ },
+ "blender": "5.1",
+ "navigation": {
+  "spec": "docs/rebuild/holm-overhaul/buildings/survival-oldschool.nav.json",
+  "reference": ".studio-workspaces/holm-survival-navigation-v3/candidates/navigation.json"
+ },
+ "reference": ".studio-workspaces/holm-survival-v3/candidates/survival.glb"
+}

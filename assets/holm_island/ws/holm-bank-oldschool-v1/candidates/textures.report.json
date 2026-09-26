@@ -1,0 +1,239 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-bank-v3/candidates/bank.blend",
+ "materials": {
+  "Bank Aged oak": {
+   "texture": "beam",
+   "authored": [
+    0.3,
+    0.2,
+    0.12
+   ],
+   "tint": [
+    0.3659,
+    0.3469,
+    0.3086
+   ]
+  },
+  "Bank Clay tile cool face": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.33,
+    0.19,
+    0.15
+   ],
+   "tint": [
+    0.4364,
+    0.4523,
+    0.4829
+   ]
+  },
+  "Bank Clay tile warm face": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.45,
+    0.27,
+    0.19
+   ],
+   "tint": [
+    0.5951,
+    0.6427,
+    0.6117
+   ]
+  },
+  "Bank Dark frame oak": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Bank Dressed sandstone": {
+   "texture": "rock",
+   "authored": [
+    0.57,
+    0.53,
+    0.42
+   ],
+   "tint": [
+    0.7115,
+    0.6616,
+    0.5465
+   ]
+  },
+  "Bank Flagstone dark": {
+   "texture": "rock",
+   "authored": [
+    0.41,
+    0.41,
+    0.39
+   ],
+   "tint": [
+    0.5118,
+    0.5118,
+    0.5075
+   ]
+  },
+  "Bank Flagstone pale": {
+   "texture": "rock",
+   "authored": [
+    0.56,
+    0.56,
+    0.52
+   ],
+   "tint": [
+    0.699,
+    0.699,
+    0.6766
+   ]
+  },
+  "Bank Limewash plaster": {
+   "texture": "plaster",
+   "authored": [
+    0.8,
+    0.74,
+    0.6
+   ],
+   "tint": [
+    0.9149,
+    0.8724,
+    0.763
+   ]
+  },
+  "Bank Limewash plaster shade": {
+   "texture": "plaster",
+   "authored": [
+    0.72,
+    0.66,
+    0.53
+   ],
+   "tint": [
+    0.8234,
+    0.7781,
+    0.674
+   ]
+  },
+  "Bank Muted clay": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.39,
+    0.22,
+    0.17
+   ],
+   "tint": [
+    0.5157,
+    0.5237,
+    0.5473
+   ]
+  },
+  "Bank Stone lit faces": {
+   "texture": "rock",
+   "authored": [
+    0.52,
+    0.54,
+    0.46
+   ],
+   "tint": [
+    0.6491,
+    0.6741,
+    0.5986
+   ]
+  },
+  "Bank Stone shaded faces": {
+   "texture": "rock",
+   "authored": [
+    0.37,
+    0.4,
+    0.35
+   ],
+   "tint": [
+    0.4619,
+    0.4993,
+    0.4554
+   ]
+  },
+  "Bank Vault slab gray": {
+   "texture": "rock",
+   "authored": [
+    0.35,
+    0.37,
+    0.38
+   ],
+   "tint": [
+    0.4369,
+    0.4619,
+    0.4945
+   ]
+  },
+  "Bank Warm fieldstone": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.4
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5205
+   ]
+  },
+  "Bank Warm floorboards": {
+   "texture": "planks",
+   "authored": [
+    0.43,
+    0.32,
+    0.2
+   ],
+   "tint": [
+    0.5759,
+    0.5911,
+    0.5754
+   ]
+  },
+  "Holm flat colour - planks": {
+   "texture": "planks",
+   "vertexColour": true
+  },
+  "Holm flat colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Bank_FloorWingBoards": {
+   "planks": 195
+  },
+  "Bank_FurnishingStrongroom": {
+   "beam": 231
+  },
+  "Bank_UpperFloorBoards": {
+   "planks": 213
+  },
+  "Bank_UpperFurnishingStrongbox": {
+   "beam": 17
+  }
+ },
+ "keptImages": [],
+ "meshes": 47,
+ "glb": {
+  "path": ".studio-workspaces/holm-bank-oldschool-v1/candidates/bank.glb",
+  "bytes": 2011620,
+  "sha256": "a1cce16a4aa05b9f9614ab9e88042871fd55de2a65274d2b9b31e953f9e557c2"
+ },
+ "images": [
+  "beam",
+  "planks",
+  "plaster",
+  "rock",
+  "roof_tiles"
+ ]
+}

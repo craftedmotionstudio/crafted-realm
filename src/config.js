@@ -21,6 +21,9 @@ const GameConfig = {
   holmIslandLive: true,
   // serve the island's Blender candidates from their published copies (assets/holm_island/, tools/publish_holm_island.js)
   holmIslandPublished: false,
+  // old-school island look (2026-09-25): gouraud textured ground, pale textured water, black void, textured Blender
+  // candidates (src/holm_oldschool_look.js); ?oldschool=0 shows the previous look for one session
+  holmOldschoolLook: true,
   _KEY: 'cr_config',
   load(){
     const d = (typeof Persist!=='undefined') ? Persist.getJSON(this._KEY, null) : null;

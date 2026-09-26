@@ -1,0 +1,48 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-tree-family-v3/candidates/birch.glb",
+ "materials": {
+  "birch-bark": {
+   "texture": "bark_birch",
+   "replacedImage": "birch-bark",
+   "oldMean": [
+    0.6693,
+    0.6593,
+    0.5493
+   ],
+   "tint": [
+    0.7942,
+    0.8023,
+    0.7142
+   ]
+  },
+  "birch-leaves": {
+   "texture": "leaves",
+   "replacedImage": "birch-leaves",
+   "oldMean": [
+    0.353,
+    0.388,
+    0.203
+   ],
+   "tint": [
+    0.6443,
+    0.592,
+    0.5132
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 2,
+ "glb": {
+  "path": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/birch.glb",
+  "bytes": 130056,
+  "sha256": "545fd672377ca0f43833366ad726cdb2e5117764300570ddfc0fa337791c6ce4"
+ },
+ "images": [
+  "bark_birch",
+  "leaves"
+ ]
+}

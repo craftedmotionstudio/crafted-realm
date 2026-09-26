@@ -1,0 +1,127 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-props-v1/candidates/props.blend",
+ "materials": {
+  "bark": {
+   "texture": "bark",
+   "authored": [
+    0.0593,
+    0.0347,
+    0.0163
+   ],
+   "tint": [
+    0.3352,
+    0.3199,
+    0.2925
+   ]
+  },
+  "board-weathered": {
+   "texture": "planks",
+   "authored": [
+    0.3547,
+    0.2738,
+    0.1549
+   ],
+   "tint": [
+    0.8438,
+    1.0,
+    1.0
+   ]
+  },
+  "leaf": {
+   "texture": "leaves",
+   "authored": [
+    0.066,
+    0.0946,
+    0.0208
+   ],
+   "tint": [
+    0.5203,
+    0.5188,
+    0.3919
+   ]
+  },
+  "leaf-light": {
+   "texture": "leaves",
+   "authored": [
+    0.1035,
+    0.126,
+    0.0347
+   ],
+   "tint": [
+    0.648,
+    0.5951,
+    0.5183
+   ]
+  },
+  "stone": {
+   "texture": "rock",
+   "authored": [
+    0.214,
+    0.2049,
+    0.1747
+   ],
+   "tint": [
+    0.6241,
+    0.6117,
+    0.5921
+   ]
+  },
+  "stone-dark": {
+   "texture": "rock",
+   "authored": [
+    0.1226,
+    0.116,
+    0.1005
+   ],
+   "tint": [
+    0.4806,
+    0.4681,
+    0.4554
+   ]
+  },
+  "timber": {
+   "texture": "beam",
+   "authored": [
+    0.1329,
+    0.0708,
+    0.0286
+   ],
+   "tint": [
+    0.4878,
+    0.5116,
+    0.4758
+   ]
+  },
+  "wood-cut": {
+   "texture": "beam",
+   "authored": [
+    0.3424,
+    0.2049,
+    0.0783
+   ],
+   "tint": [
+    0.7561,
+    0.8498,
+    0.7973
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 12,
+ "glb": {
+  "path": ".studio-workspaces/holm-props1-oldschool-v1/candidates/props.glb",
+  "bytes": 188872,
+  "sha256": "bf6a4c7b42cc61231205526734b2793c313d267d3082ac5ab15c5b745dd8c5a4"
+ },
+ "images": [
+  "bark",
+  "beam",
+  "leaves",
+  "planks",
+  "rock"
+ ]
+}

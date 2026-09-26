@@ -1,0 +1,2176 @@
+{
+  "nodes": [
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.5,
+      "z": -8.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 2.9802322387695312e-08
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.5,
+      "z": -4.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.0
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.5,
+      "z": 5.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 2.9802322387695312e-08
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -13.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -10.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.02157311700284481
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -8.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000076293945312
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -7.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.2363618165254593
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -6.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.2363618165254593
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -5.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.23636162281036377
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": -4.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000076293945312
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.26,
+      "z": -0.5,
+      "y": 3.801711082458496
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.40815597623238,
+      "z": -0.2782689121972912,
+      "y": 2.9255871772766113
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.26,
+      "z": 0.5,
+      "y": 3.1496267318725586
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.40815597623238,
+      "z": 0.7217310878027088,
+      "y": 2.2735042572021484
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.26,
+      "z": 1.5,
+      "y": 2.4975452423095703
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.40815597623238,
+      "z": 1.7217310878027088,
+      "y": 1.6214210987091064
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": 1.5,
+      "y": -1.1920928955078125e-07,
+      "capsuleBase": 1.9073486328125e-06,
+      "object": "Keep_Furnishing_Dressing",
+      "distance": 0.13892437517642975
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.26,
+      "z": 2.5,
+      "y": 1.8454608917236328
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.40815597623238,
+      "z": 2.721731087802709,
+      "y": 0.9693378806114197
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": 2.5,
+      "y": 5.960464477539063e-08,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Stair_1_30",
+      "distance": 0.2283855825662613
+    },
+    {
+      "reason": "footprint-support",
+      "x": -9.26,
+      "z": 3.5,
+      "y": 1.1933784484863281
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": 3.5,
+      "y": 0.31725460290908813,
+      "capsuleBase": 0.4737547039985657,
+      "object": "Keep_Stair_1_30",
+      "distance": 0.11750006675720215
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -9.5,
+      "z": 5.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_Dressing",
+      "distance": 0.06033269315958023
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -14.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.021571768447756767
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -13.5,
+      "y": 10.200000762939453
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -13.5,
+      "y": 6.800000190734863
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -13.5,
+      "y": 3.4000000953674316
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -13.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Tower_Highwatch_Level1_Stair_1_34",
+      "distance": 0.20095284283161163
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -12.5,
+      "y": 10.199999809265137
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -12.5,
+      "y": 6.800000190734863
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -12.5,
+      "y": 3.4000000953674316
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -12.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Tower_Highwatch_Level1_Stair_1_34",
+      "distance": 0.2340228259563446
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.26,
+      "z": -11.5,
+      "y": 10.199999809265137
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.330294372515228,
+      "z": -11.330294372515228,
+      "y": 6.800000190734863
+    },
+    {
+      "reason": "footprint-support",
+      "x": -8.330294372515228,
+      "z": -11.330294372515228,
+      "y": 3.40000057220459
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -11.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": 0.4249997138977051,
+      "object": "Keep_Tower_Highwatch_Level1_Stair_1_34",
+      "distance": 0.18470874428749084
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -9.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.02157311700284481
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -7.5,
+      "y": 4.76837158203125e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.20801366865634918
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -6.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.20801378786563873
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": -5.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.20801378786563873
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": 1.5,
+      "y": -1.1920928955078125e-07,
+      "capsuleBase": 1.1920928955078125e-07,
+      "object": "Keep_Furnishing_Dressing",
+      "distance": 0.026446444913744926
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": 2.5,
+      "y": -5.960464477539063e-08,
+      "capsuleBase": 5.960464477539063e-08,
+      "object": "Keep_Stair_1_30",
+      "distance": 0.2053300142288208
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -13.5,
+      "y": -0.02499997615814209,
+      "capsuleBase": -0.02499997615814209,
+      "object": "Keep_Tower_Highwatch_Level1_Stair_1_34",
+      "distance": 0.17766666412353516
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -12.5,
+      "y": -0.02499997615814209,
+      "capsuleBase": -0.02499997615814209,
+      "object": "Keep_Tower_Highwatch_Level1_Stair_1_34",
+      "distance": 0.23146501183509827
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -9.5,
+      "y": 6.800000190734863,
+      "capsuleBase": 6.800000190734863,
+      "object": "Keep_Roof_3_2",
+      "distance": 0.14999961853027344
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -0.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Stair_1_30",
+      "distance": 0.22176210582256317
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": 0.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.2602882385253906,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.1648106873035431
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.669705627484771,
+      "z": 1.6697056274847715,
+      "y": 3.200000762939453
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": 1.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Stair_1_30",
+      "distance": 0.22390469908714294
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.669705627484771,
+      "z": 2.6697056274847712,
+      "y": 3.1999998092651367
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": 2.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Stair_1_30",
+      "distance": 0.2104818969964981
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.669705627484771,
+      "z": 3.6697056274847712,
+      "y": 3.200000762939453
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": 3.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 0.4279167652130127,
+      "object": "Keep_Stair_1_30",
+      "distance": 0.20460332930088043
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -13.5,
+      "y": -0.02499997615814209,
+      "capsuleBase": -0.02499997615814209,
+      "object": "Keep_Tower_Highwatch_Level1_Stair_1_34",
+      "distance": 0.17766666412353516
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -12.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499997615814209,
+      "object": "Keep_Tower_Highwatch_Level1_Stair_1_34",
+      "distance": 0.23278166353702545
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -9.5,
+      "y": 6.800000190734863,
+      "capsuleBase": 6.800000190734863,
+      "object": "Keep_Roof_3_2",
+      "distance": 0.14999961853027344
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -7.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.21637924015522003
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -6.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.23420055210590363
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -4.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.14999961853027344
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -3.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.10599978268146515
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -2.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.14999961853027344
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -2.5,
+      "y": -4.76837158203125e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.117200568318367
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -14.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.021571094170212746
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -13.330294372515228,
+      "y": 10.199999809265137
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -13.330294372515228,
+      "y": 6.800000190734863
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -13.330294372515228,
+      "y": 3.4000000953674316
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -13.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Tower_Highwatch_Level1_Stair_1_34",
+      "distance": 0.20095284283161163
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -12.330294372515228,
+      "y": 10.199999809265137
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -12.330294372515228,
+      "y": 6.800000190734863
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -12.330294372515228,
+      "y": 3.4000000953674316
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -11.330294372515228,
+      "y": 10.199999809265137
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -11.330294372515228,
+      "y": 6.800000190734863
+    },
+    {
+      "reason": "footprint-support",
+      "x": -5.669705627484771,
+      "z": -11.330294372515228,
+      "y": 3.40000057220459
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -9.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.0215727798640728
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -7.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.1930672824382782
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -6.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.20044326782226562
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -4.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.08900094032287598
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -3.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.20044398307800293
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -2.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.08900094032287598
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": -2.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.21307455003261566
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -13.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -10.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.02157244272530079
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -7.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.20988133549690247
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -6.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.07905663549900055
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -4.5,
+      "y": 3.1999988555908203,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.08900117874145508
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -3.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.13905368745326996
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -2.5,
+      "y": 3.200000762939453,
+      "capsuleBase": 3.2000017166137695,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.08900189399719238
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -2.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.14777009189128876
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -4.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.15000009536743164
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -2.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.200000762939453,
+      "object": "Keep_Upper_Furnishing_4_13",
+      "distance": 0.15000009536743164
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": 5.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.09999990463256836
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02500009536743164,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.09999990463256836
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 2.5,
+      "z": -15.5,
+      "y": -3.561077117919922
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": -8.5,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.17500019073486328
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": -7.5,
+      "y": 0.0,
+      "capsuleBase": 1.9073486328125e-06,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.025000572204589844
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 2.5,
+      "z": -5.5,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.17499971389770508
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 3.5,
+      "z": -15.5,
+      "y": -3.977397918701172
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -8.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.19999980926513672
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -7.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.20155632495880127
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": -5.5,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.20044350624084473
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 4.5,
+      "z": -15.5,
+      "y": -3.9492359161376953
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -8.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.17500019073486328
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -7.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.025000572204589844
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": -5.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 1.9073486328125e-06,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.20044255256652832
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -8.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.17500019073486328
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -7.5,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.025000572204589844
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 5.5,
+      "z": -5.5,
+      "y": 9.5367431640625e-07,
+      "capsuleBase": 1.9073486328125e-06,
+      "object": "Keep_Furnishing_3_21",
+      "distance": 0.17500019073486328
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 7.5,
+      "z": -8.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.006571199279278517
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 7.5,
+      "z": -5.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.006571536418050528
+    },
+    {
+      "reason": "footprint-support",
+      "x": 7.408155976232378,
+      "z": -4.721731087802708,
+      "y": 3.200000762939453
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.5,
+      "z": -9.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.006572210695594549
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.5,
+      "z": -4.5,
+      "y": 3.1999998092651367,
+      "capsuleBase": 3.3500001430511475,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.006571873556822538
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.5,
+      "z": -4.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499985694885254,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.006572210695594549
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.5,
+      "z": -1.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02500009536743164,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.10000038146972656
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.5,
+      "z": 3.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02500009536743164,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.10000038146972656
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 9.5,
+      "z": -8.5,
+      "y": -0.02499997615814209,
+      "capsuleBase": -0.02499997615814209,
+      "object": "Keep_Tower_Eastturret_Level1_Stair_1_34",
+      "distance": 0.23155558109283447
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 9.5,
+      "z": -7.5,
+      "y": -0.02499997615814209,
+      "capsuleBase": -0.02499997615814209,
+      "object": "Keep_Tower_Eastturret_Level1_Stair_1_34",
+      "distance": 0.21319611370563507
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 9.5,
+      "z": -1.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.10000038146972656
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 9.5,
+      "z": 3.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.10000038146972656
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 10.5,
+      "z": -12.5,
+      "y": -1.2763328552246094
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": -8.5,
+      "y": -0.02499997615814209,
+      "capsuleBase": -0.02499997615814209,
+      "object": "Keep_Tower_Eastturret_Level1_Stair_1_34",
+      "distance": 0.23155558109283447
+    },
+    {
+      "reason": "footprint-support",
+      "x": 10.74,
+      "z": -7.5,
+      "y": 6.32161808013916
+    },
+    {
+      "reason": "footprint-support",
+      "x": 10.40815597623238,
+      "z": -7.278268912197291,
+      "y": 5.57717227935791
+    },
+    {
+      "reason": "footprint-support",
+      "x": 10.74,
+      "z": -7.5,
+      "y": 2.9716172218322754
+    },
+    {
+      "reason": "footprint-support",
+      "x": 10.40815597623238,
+      "z": -7.278268912197291,
+      "y": 2.227172374725342
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": -7.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499997615814209,
+      "object": "Keep_Tower_Eastturret_Level1_Stair_1_34",
+      "distance": 0.22600343823432922
+    },
+    {
+      "reason": "footprint-support",
+      "x": 10.74,
+      "z": -6.5,
+      "y": 7.25217342376709
+    },
+    {
+      "reason": "footprint-support",
+      "x": 10.74,
+      "z": -6.5,
+      "y": 4.6466169357299805
+    },
+    {
+      "reason": "footprint-support",
+      "x": 10.74,
+      "z": -6.5,
+      "y": 3.902172565460205
+    },
+    {
+      "reason": "footprint-support",
+      "x": 10.74,
+      "z": -6.5,
+      "y": 1.2966172695159912
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": -6.5,
+      "y": -0.02499997615814209,
+      "capsuleBase": 0.4187500476837158,
+      "object": "Keep_Tower_Eastturret_Level1_Stair_1_34",
+      "distance": 0.09656001627445221
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 11.5,
+      "z": -13.5,
+      "y": -2.9348983764648438
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 11.5,
+      "z": -12.5,
+      "y": -1.3821830749511719
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 11.5,
+      "z": -9.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.006572210695594549
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 11.5,
+      "z": -8.5,
+      "y": -0.02499997615814209,
+      "capsuleBase": -0.02499997615814209,
+      "object": "Keep_Tower_Eastturret_Level1_Stair_1_34",
+      "distance": 0.23155558109283447
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 11.5,
+      "z": -7.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499997615814209,
+      "object": "Keep_Tower_Eastturret_Level1_Stair_1_34",
+      "distance": 0.21527649462223053
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 11.5,
+      "z": -4.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.006572210695594549
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 12.5,
+      "z": -12.5,
+      "y": -1.587904930114746
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 12.5,
+      "z": -8.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.006571536418050528
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 12.5,
+      "z": -5.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.006571873556822538
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 13.5,
+      "z": -12.5,
+      "y": -1.8513298034667969
+    }
+  ],
+  "edges": [
+    {
+      "reason": "footprint-rise",
+      "x": -11.5,
+      "z": -5.0,
+      "y": -0.7647762298583984,
+      "from": "-12:-6:0",
+      "to": "-12:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.35,
+      "z": -12.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000076293945312,
+      "from": "-11:-13:0",
+      "to": "-10:-13:3"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.35,
+      "z": -11.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000076293945312,
+      "from": "-11:-12:0",
+      "to": "-10:-12:3"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.4,
+      "z": -3.5,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-11:-4:0",
+      "to": "-10:-4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.4,
+      "z": -2.5,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-11:-3:0",
+      "to": "-10:-3:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.4,
+      "z": -1.5,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-11:-2:0",
+      "to": "-10:-2:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.4,
+      "z": -0.5,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-11:-1:0",
+      "to": "-10:-1:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.4,
+      "z": 0.5,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-11:0:0",
+      "to": "-10:0:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -10.4,
+      "z": 4.5,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-11:4:0",
+      "to": "-10:4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -8.5,
+      "z": 5.6,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-9:5:1",
+      "to": "-9:6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": -15.35,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000076293945312,
+      "from": "-8:-16:0",
+      "to": "-8:-15:3"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.06,
+      "z": -12.5,
+      "y": 8.287500381469727,
+      "from": "-8:-13:0",
+      "to": "-7:-13:0"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.06,
+      "z": -12.5,
+      "y": 4.887499809265137,
+      "from": "-8:-13:1",
+      "to": "-7:-13:1"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.06,
+      "z": -12.5,
+      "y": 1.4874999523162842,
+      "from": "-8:-13:2",
+      "to": "-7:-13:2"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.06,
+      "z": -11.5,
+      "y": 7.224999904632568,
+      "from": "-8:-12:0",
+      "to": "-7:-12:1"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.06,
+      "z": -11.5,
+      "y": 3.8249998092651367,
+      "from": "-8:-12:1",
+      "to": "-7:-12:2"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.25,
+      "z": -11.5,
+      "y": 0.4249997138977051,
+      "capsuleBase": 0.6375000476837158,
+      "object": "Keep_Tower_Highwatch_Level1_Stair_1_34",
+      "distance": 0.23445962369441986,
+      "from": "-8:-12:2",
+      "to": "-7:-12:3"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -7.408155976232378,
+      "z": -9.178268912197291,
+      "y": 3.3999998569488525,
+      "from": "-8:-10:1",
+      "to": "-8:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -7.5,
+      "z": 5.6,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-8:5:1",
+      "to": "-8:6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": -15.35,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000076293945312,
+      "from": "-7:-16:0",
+      "to": "-7:-15:3"
+    },
+    {
+      "reason": "footprint-support",
+      "x": -6.408155976232378,
+      "z": -9.178268912197291,
+      "y": 3.3999998569488525,
+      "from": "-7:-10:1",
+      "to": "-7:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -6.5,
+      "z": 5.6,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-7:5:1",
+      "to": "-7:6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -5.5,
+      "z": 5.6,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-6:5:1",
+      "to": "-6:6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.35,
+      "z": -12.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.19999980926513672,
+      "from": "-5:-13:3",
+      "to": "-4:-13:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.35,
+      "z": -11.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.19999980926513672,
+      "from": "-5:-12:3",
+      "to": "-4:-12:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": -9.4,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-5:-10:0",
+      "to": "-5:-9:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 5.6,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-5:5:1",
+      "to": "-5:6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -4.5,
+      "z": 11.95,
+      "y": 0.20591354370117188,
+      "capsuleBase": 0.2073822021484375,
+      "object": "StagedTerrain",
+      "distance": 0.2429691106081009,
+      "from": "-5:11:0",
+      "to": "-5:12:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.5,
+      "z": -9.4,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-4:-10:0",
+      "to": "-4:-9:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": -8.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:-9:1",
+      "to": "-3:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": -5.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:-6:1",
+      "to": "-3:-6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": -4.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:-5:0",
+      "to": "-3:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": -3.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:-4:1",
+      "to": "-3:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": -2.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:-3:0",
+      "to": "-3:-3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": -1.5,
+      "y": -4.76837158203125e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:-2:1",
+      "to": "-3:-2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": 0.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:0:1",
+      "to": "-3:0:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": 1.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:1:1",
+      "to": "-3:1:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": 2.5,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:2:1",
+      "to": "-3:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": 3.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:3:1",
+      "to": "-3:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -3.4,
+      "z": 4.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-4:4:1",
+      "to": "-3:4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -9.4,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-3:-10:0",
+      "to": "-3:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -2.5,
+      "z": -5.4,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000051498413086,
+      "from": "-3:-6:0",
+      "to": "-3:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": -9.4,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-2:-10:0",
+      "to": "-2:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.5,
+      "z": -5.4,
+      "y": 0.0,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000051498413086,
+      "from": "-2:-6:0",
+      "to": "-2:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.4,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499985694885254,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.2100003957748413,
+      "from": "-2:4:1",
+      "to": "-1:4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.4,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499985694885254,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.2100003957748413,
+      "from": "-2:5:1",
+      "to": "-1:5:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.4,
+      "z": 6.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.2100003957748413,
+      "from": "-2:6:0",
+      "to": "-1:6:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.4,
+      "z": 7.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.2100003957748413,
+      "from": "-2:7:0",
+      "to": "-1:7:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.4,
+      "z": 8.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.2100003957748413,
+      "from": "-2:8:0",
+      "to": "-1:8:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -1.4,
+      "z": 9.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.2100003957748413,
+      "from": "-2:9:0",
+      "to": "-1:9:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": -9.4,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "-1:-10:0",
+      "to": "-1:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": -5.4,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000051498413086,
+      "from": "-1:-6:0",
+      "to": "-1:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.09999999999999998,
+      "z": 3.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.23690728843212128,
+      "from": "-1:3:0",
+      "to": "0:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": 3.6,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "-1:3:0",
+      "to": "-1:4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.09999999999999998,
+      "z": 4.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.23690728843212128,
+      "from": "-1:4:1",
+      "to": "0:4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.09999999999999998,
+      "z": 9.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.23690681159496307,
+      "from": "-1:9:1",
+      "to": "0:9:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": -0.5,
+      "z": 9.6,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.20999908447265625,
+      "from": "-1:9:1",
+      "to": "-1:10:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.09999999999999998,
+      "z": 10.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.23690681159496307,
+      "from": "-1:10:0",
+      "to": "0:10:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": -9.4,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "0:-10:0",
+      "to": "0:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": 3.55,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.19780056178569794,
+      "from": "0:3:0",
+      "to": "0:4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 0.5,
+      "z": 9.55,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.1977999061346054,
+      "from": "0:9:1",
+      "to": "0:10:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 1.5,
+      "z": -9.4,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "1:-10:0",
+      "to": "1:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.55,
+      "z": 3.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.23584966361522675,
+      "from": "3:3:0",
+      "to": "4:3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": 3.55,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.19780054688453674,
+      "from": "3:3:0",
+      "to": "3:4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.55,
+      "z": 4.5,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.23584966361522675,
+      "from": "3:4:1",
+      "to": "4:4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.55,
+      "z": 9.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.23584918677806854,
+      "from": "3:9:1",
+      "to": "4:9:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.5,
+      "z": 9.55,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.19779987633228302,
+      "from": "3:9:1",
+      "to": "3:10:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 3.55,
+      "z": 10.5,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_GroundFront_2_6",
+      "distance": 0.23584918677806854,
+      "from": "3:10:0",
+      "to": "4:10:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": 3.6,
+      "y": -0.024999618530273438,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000003814697266,
+      "from": "4:3:0",
+      "to": "4:4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.6,
+      "z": 4.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000051498413086,
+      "from": "4:4:1",
+      "to": "5:4:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.6,
+      "z": 5.5,
+      "y": 0.0,
+      "capsuleBase": 4.76837158203125e-07,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000051498413086,
+      "from": "4:5:1",
+      "to": "5:5:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.6,
+      "z": 6.5,
+      "y": -2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000051498413086,
+      "from": "4:6:1",
+      "to": "5:6:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.6,
+      "z": 7.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000051498413086,
+      "from": "4:7:1",
+      "to": "5:7:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.6,
+      "z": 8.5,
+      "y": 2.384185791015625e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000051498413086,
+      "from": "4:8:1",
+      "to": "5:8:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.6,
+      "z": 9.5,
+      "y": -4.76837158203125e-07,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000051498413086,
+      "from": "4:9:1",
+      "to": "5:9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 4.5,
+      "z": 9.6,
+      "y": 0.0,
+      "capsuleBase": 2.384185791015625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.20999908447265625,
+      "from": "4:9:1",
+      "to": "4:10:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -9.4,
+      "y": -0.02499866485595703,
+      "capsuleBase": -0.02499866485595703,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.21000003814697266,
+      "from": "6:-10:0",
+      "to": "6:-9:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 6.5,
+      "z": -5.4,
+      "y": -9.5367431640625e-07,
+      "capsuleBase": 9.5367431640625e-07,
+      "object": "Keep_GroundFront_2_36",
+      "distance": 0.21000051498413086,
+      "from": "6:-6:0",
+      "to": "6:-5:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.8,
+      "z": -6.5,
+      "y": 3.3499999046325684,
+      "capsuleBase": 3.3500001430511475,
+      "object": "Keep_Upper_Tower_Eastturret_Level1_Floor_1_13",
+      "distance": 0.23527754843235016,
+      "from": "8:-7:1",
+      "to": "9:-7:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.85,
+      "z": -6.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499985694885254,
+      "object": "Keep_Tower_Eastturret_Level1_Stair_1_34",
+      "distance": 0.23949633538722992,
+      "from": "8:-7:2",
+      "to": "9:-7:1"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.6,
+      "z": -3.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02500009536743164,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20999908447265625,
+      "from": "8:-4:1",
+      "to": "9:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.6,
+      "z": -2.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02500009536743164,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20999908447265625,
+      "from": "8:-3:1",
+      "to": "9:-3:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.6,
+      "z": -0.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499985694885254,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20999908447265625,
+      "from": "8:-1:1",
+      "to": "9:-1:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.6,
+      "z": 0.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499985694885254,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20999908447265625,
+      "from": "8:0:1",
+      "to": "9:0:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.6,
+      "z": 1.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499985694885254,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20999908447265625,
+      "from": "8:1:1",
+      "to": "9:1:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.6,
+      "z": 2.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499985694885254,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20999908447265625,
+      "from": "8:2:1",
+      "to": "9:2:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.6,
+      "z": 4.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499985694885254,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20999908447265625,
+      "from": "8:4:1",
+      "to": "9:4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 8.6,
+      "z": 5.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.02499985694885254,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20999908447265625,
+      "from": "8:5:1",
+      "to": "9:5:0"
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 9.5,
+      "z": -12.25,
+      "y": -0.8246650695800781,
+      "from": "9:-13:0",
+      "to": "9:-12:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 9.5,
+      "z": -10.35,
+      "y": -0.027220726013183594,
+      "capsuleBase": -0.025697708129882812,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000076293945312,
+      "from": "9:-11:0",
+      "to": "9:-10:2"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 9.5,
+      "z": -4.35,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000028610229492,
+      "from": "9:-5:2",
+      "to": "9:-4:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": -10.35,
+      "y": -0.027367591857910156,
+      "capsuleBase": -0.025743484497070312,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.19999980926513672,
+      "from": "10:-11:0",
+      "to": "10:-10:2"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 10.5,
+      "z": -4.35,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000028610229492,
+      "from": "10:-5:2",
+      "to": "10:-4:0"
+    },
+    {
+      "reason": "footprint-support",
+      "x": 11.84,
+      "z": -6.5,
+      "y": 6.490624904632568,
+      "from": "11:-7:0",
+      "to": "12:-7:0"
+    },
+    {
+      "reason": "footprint-support",
+      "x": 11.84,
+      "z": -6.5,
+      "y": 3.140625,
+      "from": "11:-7:1",
+      "to": "12:-7:1"
+    },
+    {
+      "reason": "footprint-rise",
+      "x": 12.5,
+      "z": -13.75,
+      "y": -3.473529815673828,
+      "from": "12:-15:0",
+      "to": "12:-14:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 12.65,
+      "z": -7.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000076293945312,
+      "from": "12:-8:2",
+      "to": "13:-8:0"
+    },
+    {
+      "reason": "capsule-obstruction",
+      "x": 12.65,
+      "z": -6.5,
+      "y": -0.02500009536743164,
+      "capsuleBase": -0.024999618530273438,
+      "object": "Keep_Shell_2_111",
+      "distance": 0.20000076293945312,
+      "from": "12:-7:2",
+      "to": "13:-7:0"
+    }
+  ]
+}

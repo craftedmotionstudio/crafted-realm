@@ -1,0 +1,12 @@
+{
+ "source": ".studio-workspaces/holm-island-bridges-v2/candidates/stone_village_bridge.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-island-bridges-v2/candidates/stone_village_bridge.glb",
+ "outBlend": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/stone_village_bridge.blend",
+ "outGlb": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/stone_village_bridge.glb",
+ "report": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/stone.report.json",
+ "manifest": {
+  "from": ".studio-workspaces/holm-island-bridges-v2/candidates/manifest.json",
+  "to": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/manifest.json"
+ }
+}

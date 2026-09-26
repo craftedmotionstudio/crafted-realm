@@ -1,0 +1,31 @@
+{
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-warden-keep-v8/candidates/keep.glb",
+ "outBlend": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.blend",
+ "outGlb": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+ "report": ".studio-workspaces/holm-keep-oldschool-v1/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|.*Flame)",
+  "woodOnly": "Furnish|Furniture|Ladder|Hatch",
+  "floors": "Floor|Deck",
+  "maxVariants": 2,
+  "minShare": 0.15
+ },
+ "import": ".studio-workspaces/holm-warden-keep-v8/candidates/keep.glb",
+ "rehash": {
+  "referenceDir": ".studio-workspaces/holm-keep-navigation-v7/candidates",
+  "out": ".studio-workspaces/holm-keep-oldschool-navigation-v1/candidates",
+  "files": [
+   "navigation.json",
+   "obstructions.json"
+  ]
+ },
+ "rules": [
+  [
+   "(?i)floor flags",
+   "stone_course",
+   1.6
+  ]
+ ]
+}

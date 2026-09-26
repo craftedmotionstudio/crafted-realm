@@ -1,0 +1,178 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-cavern-v1/candidates/cavern.blend",
+ "materials": {
+  "Cavern copper ore": {
+   "texture": "rock",
+   "authored": [
+    0.68,
+    0.38,
+    0.19
+   ],
+   "tint": [
+    0.8488,
+    0.4743,
+    0.2472
+   ]
+  },
+  "Cavern crate wood": {
+   "texture": "beam",
+   "authored": [
+    0.47,
+    0.34,
+    0.2
+   ],
+   "tint": [
+    0.5732,
+    0.5897,
+    0.5144
+   ]
+  },
+  "Cavern dark timber": {
+   "texture": "beam",
+   "authored": [
+    0.23,
+    0.16,
+    0.1
+   ],
+   "tint": [
+    0.2805,
+    0.2775,
+    0.2572
+   ]
+  },
+  "Cavern dressed stone": {
+   "texture": "rock",
+   "authored": [
+    0.58,
+    0.55,
+    0.49
+   ],
+   "tint": [
+    0.724,
+    0.6866,
+    0.6376
+   ]
+  },
+  "Cavern floor gravel": {
+   "texture": "path",
+   "authored": [
+    0.39,
+    0.35,
+    0.29
+   ],
+   "tint": [
+    0.4862,
+    0.4502,
+    0.3944
+   ]
+  },
+  "Cavern furnace stone": {
+   "texture": "rock",
+   "authored": [
+    0.47,
+    0.46,
+    0.42
+   ],
+   "tint": [
+    0.5867,
+    0.5742,
+    0.5465
+   ]
+  },
+  "Cavern pit prop": {
+   "texture": "beam",
+   "authored": [
+    0.4,
+    0.28,
+    0.16
+   ],
+   "tint": [
+    0.4878,
+    0.4856,
+    0.4115
+   ]
+  },
+  "Cavern rock": {
+   "texture": "rock",
+   "authored": [
+    0.35,
+    0.31,
+    0.27
+   ],
+   "tint": [
+    0.4369,
+    0.387,
+    0.3513
+   ]
+  },
+  "Cavern rock shadow": {
+   "texture": "rock",
+   "authored": [
+    0.25,
+    0.22,
+    0.19
+   ],
+   "tint": [
+    0.3121,
+    0.2746,
+    0.2472
+   ]
+  },
+  "Cavern rock strata": {
+   "texture": "rock",
+   "authored": [
+    0.5,
+    0.45,
+    0.37
+   ],
+   "tint": [
+    0.6241,
+    0.5617,
+    0.4815
+   ]
+  },
+  "Cavern tin ore": {
+   "texture": "rock",
+   "authored": [
+    0.63,
+    0.65,
+    0.64
+   ],
+   "tint": [
+    0.7864,
+    0.8114,
+    0.8328
+   ]
+  },
+  "Cavern trodden floor": {
+   "texture": "dirt",
+   "authored": [
+    0.31,
+    0.28,
+    0.24
+   ],
+   "tint": [
+    0.368,
+    0.3461,
+    0.3158
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 19,
+ "glb": {
+  "path": ".studio-workspaces/holm-cavern-oldschool-v1/candidates/cavern.glb",
+  "bytes": 1147196,
+  "sha256": "68c5e1b346ed63e162bafac2c5d3e16184060a601c0b531dc3eacead5b97f64c"
+ },
+ "images": [
+  "beam",
+  "dirt",
+  "path",
+  "rock"
+ ]
+}

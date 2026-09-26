@@ -1,0 +1,13 @@
+{
+ "import": ".studio-workspaces/holm-landing-props-v1/candidates/cargo.glb",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-landing-props-v1/candidates/cargo.glb",
+ "arrival": true,
+ "outBlend": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/cargo.blend",
+ "outGlb": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/cargo.glb",
+ "report": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/cargo.report.json",
+ "manifest": {
+  "from": ".studio-workspaces/holm-landing-props-v1/candidates/manifest.json",
+  "to": ".studio-workspaces/holm-landing-props-oldschool-v1/candidates/manifest.json"
+ }
+}

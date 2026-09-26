@@ -1,0 +1,33 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-tree-family-v3/candidates/meadow-tuft.glb",
+ "materials": {
+  "meadow-leaves": {
+   "texture": "leaves",
+   "replacedImage": "meadow-leaves",
+   "oldMean": [
+    0.3566,
+    0.3967,
+    0.2116
+   ],
+   "tint": [
+    0.651,
+    0.6053,
+    0.5351
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 1,
+ "glb": {
+  "path": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/meadow-tuft.glb",
+  "bytes": 10696,
+  "sha256": "39f17982f7b19eea7c3038e63dd1575f60071fb05c8ec0de9b4f80d76c33aeef"
+ },
+ "images": [
+  "leaves"
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "source": ".studio-workspaces/holm-arrival-dock-v4/candidates/dock.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-arrival-dock-v4/candidates/dock.glb",
+ "arrival": true,
+ "outBlend": ".studio-workspaces/holm-arrival-dock-oldschool-v1/candidates/dock.blend",
+ "outGlb": ".studio-workspaces/holm-arrival-dock-oldschool-v1/candidates/dock.glb",
+ "report": ".studio-workspaces/holm-arrival-dock-oldschool-v1/candidates/textures.report.json",
+ "rules": [
+  [
+   "(?i)sun-worn oak",
+   "planks",
+   1
+  ]
+ ],
+ "manifest": {
+  "from": ".studio-workspaces/holm-arrival-dock-v4/candidates/dock.manifest.json",
+  "to": ".studio-workspaces/holm-arrival-dock-oldschool-v1/candidates/dock.manifest.json"
+ }
+}

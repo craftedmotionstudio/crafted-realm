@@ -27,7 +27,10 @@ var WorldV2Terrain=(function(){
     state.sampled=sampled;
     if(sampled){
       if(typeof WorldV2SampledTerrain==='undefined')throw new Error('[WorldV2Terrain] sampled renderer missing');
-      state.texture=null;state.material=new THREE.MeshLambertMaterial({vertexColors:true,flatShading:true});
+      state.texture=null;
+      // old-school look (2026-09-25): unlit ground with baked gouraud light and the kit's ground textures
+      state.material=typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()?HolmOldschoolLook.groundMaterial(THREE):
+        new THREE.MeshLambertMaterial({vertexColors:true,flatShading:true});
     }else{
     state.texture=TEX.grass.clone(); state.texture.needsUpdate=true;
     state.texture.wrapS=state.texture.wrapT=THREE.RepeatWrapping;

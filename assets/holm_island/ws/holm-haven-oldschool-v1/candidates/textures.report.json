@@ -1,0 +1,291 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-haven-v3/candidates/haven.blend",
+ "materials": {
+  "Aged oak": {
+   "texture": "beam",
+   "authored": [
+    0.3,
+    0.2,
+    0.12
+   ],
+   "tint": [
+    0.3659,
+    0.3469,
+    0.3086
+   ]
+  },
+  "Aged oak (not clipped)": {
+   "texture": "beam",
+   "authored": [
+    0.3,
+    0.2,
+    0.12
+   ],
+   "tint": [
+    0.3659,
+    0.3469,
+    0.3086
+   ]
+  },
+  "Dark frame oak": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Dark frame oak (not clipped)": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Dressed sandstone": {
+   "texture": "rock",
+   "authored": [
+    0.57,
+    0.53,
+    0.42
+   ],
+   "tint": [
+    0.7115,
+    0.6616,
+    0.5465
+   ]
+  },
+  "Dressed sandstone (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.57,
+    0.53,
+    0.42
+   ],
+   "tint": [
+    0.7115,
+    0.6616,
+    0.5465
+   ]
+  },
+  "Honey oak strakes": {
+   "texture": "planks",
+   "authored": [
+    0.46,
+    0.31,
+    0.16
+   ],
+   "tint": [
+    0.6161,
+    0.5726,
+    0.4603
+   ]
+  },
+  "Limewash plaster": {
+   "texture": "plaster",
+   "authored": [
+    0.8,
+    0.74,
+    0.6
+   ],
+   "tint": [
+    0.9149,
+    0.8724,
+    0.763
+   ]
+  },
+  "Ochre thatch": {
+   "texture": "thatch",
+   "authored": [
+    0.62,
+    0.48,
+    0.22
+   ],
+   "tint": [
+    0.903,
+    0.8249,
+    0.6133
+   ]
+  },
+  "Ochre thatch sunlit": {
+   "texture": "thatch",
+   "authored": [
+    0.7,
+    0.56,
+    0.28
+   ],
+   "tint": [
+    1.0,
+    0.9624,
+    0.7806
+   ]
+  },
+  "Ochre thatch weathered": {
+   "texture": "thatch",
+   "authored": [
+    0.49,
+    0.37,
+    0.17
+   ],
+   "tint": [
+    0.7137,
+    0.6358,
+    0.4739
+   ]
+  },
+  "Pale plank edges": {
+   "texture": "planks",
+   "authored": [
+    0.5,
+    0.39,
+    0.26
+   ],
+   "tint": [
+    0.6697,
+    0.7204,
+    0.748
+   ]
+  },
+  "Sea green strake": {
+   "texture": "planks",
+   "authored": [
+    0.24,
+    0.35,
+    0.28
+   ],
+   "tint": [
+    0.3215,
+    0.6465,
+    0.8055
+   ]
+  },
+  "Stone lit faces": {
+   "texture": "rock",
+   "authored": [
+    0.52,
+    0.54,
+    0.46
+   ],
+   "tint": [
+    0.6491,
+    0.6741,
+    0.5986
+   ]
+  },
+  "Stone lit faces (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.52,
+    0.54,
+    0.46
+   ],
+   "tint": [
+    0.6491,
+    0.6741,
+    0.5986
+   ]
+  },
+  "Stone shaded faces": {
+   "texture": "rock",
+   "authored": [
+    0.37,
+    0.4,
+    0.35
+   ],
+   "tint": [
+    0.4619,
+    0.4993,
+    0.4554
+   ]
+  },
+  "Stone shaded faces (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.37,
+    0.4,
+    0.35
+   ],
+   "tint": [
+    0.4619,
+    0.4993,
+    0.4554
+   ]
+  },
+  "Sun-worn deck oak": {
+   "texture": "planks",
+   "authored": [
+    0.43,
+    0.32,
+    0.21
+   ],
+   "tint": [
+    0.5759,
+    0.5911,
+    0.6041
+   ]
+  },
+  "Warm fieldstone": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.4
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5205
+   ]
+  },
+  "Warm fieldstone (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.4
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5205
+   ]
+  },
+  "Holm flat colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Haven_FurnishingDressing": {
+   "beam": 100
+  }
+ },
+ "keptImages": [],
+ "meshes": 23,
+ "glb": {
+  "path": ".studio-workspaces/holm-haven-oldschool-v1/candidates/haven.glb",
+  "bytes": 1381868,
+  "sha256": "07ebd086db449549a5f7adb6e4d3945626b2127d65a50a55e02105580faa0d91"
+ },
+ "images": [
+  "beam",
+  "planks",
+  "plaster",
+  "rock",
+  "thatch"
+ ]
+}

@@ -1,0 +1,486 @@
+{
+ "nodes": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Haven_Props"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Haven_Props"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -5.5,
+   "y": 0.0,
+   "object": "Haven_ShellNorth"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -4.5,
+   "y": 0.14999771118164062,
+   "object": "Haven_ShellWest"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -3.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_ShellWest"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -2.5,
+   "y": 0.15000534057617188,
+   "object": "Haven_ShellWest"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -1.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_ShellWest"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Haven_Props"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Haven_Props"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -5.5,
+   "y": 0.0,
+   "object": "Haven_ShellNorth"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -4.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -3.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -2.5,
+   "y": 0.15000534057617188,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Haven_Props"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -5.5,
+   "y": 0.0,
+   "object": "Haven_ShellNorth"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -4.5,
+   "y": 0.15000534057617188,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Haven_Props"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -5.5,
+   "y": 0.0,
+   "object": "Haven_ShellNorth"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -4.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Haven_Props"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -5.5,
+   "y": 0.0,
+   "object": "Haven_ShellNorth"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -4.5,
+   "y": 0.14999771118164062,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Haven_Props"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -5.5,
+   "y": 0.0,
+   "object": "Haven_ShellNorth"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -4.5,
+   "y": 0.0,
+   "object": "Haven_ShellEast"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -3.5,
+   "y": 0.0,
+   "object": "Haven_ShellEast"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Haven_ShellEast"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -1.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_PierRail"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": 1.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_PierRail"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 6.721731087802708,
+   "z": -1.5918440237676217,
+   "y": 0.14999771118164062
+  },
+  {
+   "reason": "footprint-support",
+   "x": 6.330294372515229,
+   "z": -0.3302943725152286,
+   "y": -0.3636780083179474
+  },
+  {
+   "reason": "footprint-support",
+   "x": 6.26,
+   "z": 0.5,
+   "y": -0.49920180439949036
+  },
+  {
+   "reason": "footprint-support",
+   "x": 6.721731087802709,
+   "z": 1.5918440237676215,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 6.5,
+   "z": 1.5,
+   "y": -0.6500455141067505,
+   "object": "Haven_PierStone"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 7.278268912197291,
+   "z": -1.5918440237676215,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 7.5,
+   "z": -1.5,
+   "y": -0.9361652135848999,
+   "object": "Haven_PierStone"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 7.5,
+   "z": -0.5,
+   "y": -1.1039037704467773,
+   "object": "Haven_PierStone"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 7.5,
+   "z": 0.5,
+   "y": -1.2686092853546143,
+   "object": "Haven_PierStone"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 7.721731087802709,
+   "z": 1.5918440237676215,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 7.5,
+   "z": 1.5,
+   "y": -1.4253877401351929,
+   "object": "Haven_PierStone"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 8.27826891219729,
+   "z": -1.5918440237676215,
+   "y": -0.2500038146972656
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 8.5,
+   "z": -1.5,
+   "y": -1.665954828262329,
+   "object": "Haven_PierFrame"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 8.5,
+   "z": -0.5,
+   "y": -1.7756985425949097,
+   "object": "Haven_PierFrame"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 8.5,
+   "z": 0.5,
+   "y": -1.8591619729995728,
+   "object": "Haven_PierFrame"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 8.72173108780271,
+   "z": 1.5918440237676215,
+   "y": -0.2500038146972656
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 8.5,
+   "z": 1.5,
+   "y": -1.9218307733535767,
+   "object": "Haven_PierFrame"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 9.27826891219729,
+   "z": -1.5918440237676215,
+   "y": -0.6500015258789062
+  },
+  {
+   "reason": "footprint-support",
+   "x": 9.72173108780271,
+   "z": 1.5918440237676215,
+   "y": -0.6500015258789062
+  },
+  {
+   "reason": "footprint-support",
+   "x": 10.27826891219729,
+   "z": -1.5918440237676215,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 10.72173108780271,
+   "z": 1.5918440237676215,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 11.27826891219729,
+   "z": -1.5918440237676215,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 11.72173108780271,
+   "z": 1.5918440237676215,
+   "y": -1.0500030517578125
+  },
+  {
+   "reason": "footprint-support",
+   "x": 12.27826891219729,
+   "z": -1.5918440237676215,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 12.72173108780271,
+   "z": 1.5918440237676215,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 13.27826891219729,
+   "z": -1.5918440237676215,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": 13.72173108780271,
+   "z": 1.5918440237676215,
+   "y": -1.0500030517578125
+  },
+  {
+   "reason": "footprint-support",
+   "x": 14.27826891219729,
+   "z": -1.5918440237676215,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 14.72173108780271,
+   "z": 1.5918440237676215,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 15.330294372515228,
+   "z": -3.6697056274847712,
+   "y": -1.0500030517578125
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 15.5,
+   "z": -2.5,
+   "y": -1.0499992370605469,
+   "object": "Haven_Props"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 15.72173108780271,
+   "z": 1.5918440237676215,
+   "y": -1.0500068664550781
+  },
+  {
+   "reason": "footprint-support",
+   "x": 16.33029437251523,
+   "z": -3.6697056274847712,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 16.72173108780271,
+   "z": 1.5918440237676215,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": 17.74,
+   "z": -3.5,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 17.74,
+   "z": -2.5,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": 17.74,
+   "z": -1.5,
+   "y": -1.0499992370605469
+  }
+ ],
+ "edges": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -2.1,
+   "y": 0.0,
+   "object": "Haven_PierStone",
+   "from": "-3:-3:0",
+   "to": "-3:-2:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 1.8,
+   "y": 0.0,
+   "object": "Haven_PierStone",
+   "from": "-3:1:0",
+   "to": "-3:2:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -2.35,
+   "y": 0.0,
+   "object": "Haven_ServiceNotice_Board",
+   "from": "-2:-3:0",
+   "to": "-2:-2:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -2.35,
+   "y": 0.0,
+   "object": "Haven_ServiceNotice_Board",
+   "from": "-1:-3:0",
+   "to": "-1:-2:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.6,
+   "z": -1.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_ShellTimber",
+   "from": "2:-2:0",
+   "to": "3:-2:0"
+  }
+ ]
+}

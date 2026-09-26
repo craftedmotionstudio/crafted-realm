@@ -1,0 +1,58 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-island-bridges-v2/candidates/stone_village_bridge.blend",
+ "materials": {
+  "Dressed stone": {
+   "texture": "rock",
+   "authored": [
+    0.6,
+    0.58,
+    0.52
+   ],
+   "tint": [
+    0.749,
+    0.724,
+    0.6766
+   ]
+  },
+  "Stone shade": {
+   "texture": "rock",
+   "authored": [
+    0.4,
+    0.4,
+    0.37
+   ],
+   "tint": [
+    0.4993,
+    0.4993,
+    0.4815
+   ]
+  },
+  "Village stone": {
+   "texture": "rock",
+   "authored": [
+    0.5,
+    0.5,
+    0.46
+   ],
+   "tint": [
+    0.6241,
+    0.6241,
+    0.5986
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 1,
+ "glb": {
+  "path": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/stone_village_bridge.glb",
+  "bytes": 213108,
+  "sha256": "a0e285f794f05b98aded638774bd16a78b4e21cf59c5fa3ce12fc30815da2a5b"
+ },
+ "images": [
+  "rock"
+ ]
+}

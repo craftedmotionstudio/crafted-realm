@@ -1,0 +1,206 @@
+{
+ "schema": "crafted-realm-oldschool-texture-kit-v1",
+ "generator": "tools/build_oldschool_textures.js",
+ "textures": {
+  "grass_a": {
+   "file": "assets/textures/oldschool/grass_a.png",
+   "size": 64,
+   "mean": [
+    0.8211,
+    0.8479,
+    0.7621
+   ],
+   "use": "terrain grass (large scale)"
+  },
+  "grass_b": {
+   "file": "assets/textures/oldschool/grass_b.png",
+   "size": 64,
+   "mean": [
+    0.8424,
+    0.8424,
+    0.7588
+   ],
+   "use": "terrain grass (second scale, breaks repetition)"
+  },
+  "grass_c": {
+   "file": "assets/textures/oldschool/grass_c.png",
+   "size": 64,
+   "mean": [
+    0.8231,
+    0.8714,
+    0.772
+   ],
+   "use": "meadow / worn grass variant"
+  },
+  "dirt": {
+   "file": "assets/textures/oldschool/dirt.png",
+   "size": 64,
+   "mean": [
+    0.8423,
+    0.8091,
+    0.7599
+   ],
+   "use": "bare earth, trodden ground, creek banks"
+  },
+  "path": {
+   "file": "assets/textures/oldschool/path.png",
+   "size": 64,
+   "mean": [
+    0.8021,
+    0.7775,
+    0.7353
+   ],
+   "use": "cobbled / gravel paths"
+  },
+  "sand": {
+   "file": "assets/textures/oldschool/sand.png",
+   "size": 64,
+   "mean": [
+    0.9027,
+    0.881,
+    0.8353
+   ],
+   "use": "beach and sandy shore"
+  },
+  "rock": {
+   "file": "assets/textures/oldschool/rock.png",
+   "size": 64,
+   "mean": [
+    0.8011,
+    0.8011,
+    0.7685
+   ],
+   "use": "rock outcrops, cliff faces"
+  },
+  "mud": {
+   "file": "assets/textures/oldschool/mud.png",
+   "size": 64,
+   "mean": [
+    0.8137,
+    0.7912,
+    0.7348
+   ],
+   "use": "creek bed and wet ground"
+  },
+  "water": {
+   "file": "assets/textures/oldschool/water.png",
+   "size": 64,
+   "mean": [
+    0.5024,
+    0.538,
+    0.6124
+   ],
+   "use": "sea, creek and pond surface"
+  },
+  "brick": {
+   "file": "assets/textures/oldschool/brick.png",
+   "size": 64,
+   "mean": [
+    0.82,
+    0.5333,
+    0.4053
+   ],
+   "use": "fired brick walls, chimneys"
+  },
+  "stone_course": {
+   "file": "assets/textures/oldschool/stone_course.png",
+   "size": 64,
+   "mean": [
+    0.8116,
+    0.8002,
+    0.7538
+   ],
+   "use": "fieldstone / ashlar walls and plinths"
+  },
+  "plaster": {
+   "file": "assets/textures/oldschool/plaster.png",
+   "size": 64,
+   "mean": [
+    0.8744,
+    0.8482,
+    0.7864
+   ],
+   "use": "limewash plaster panels"
+  },
+  "planks": {
+   "file": "assets/textures/oldschool/planks.png",
+   "size": 64,
+   "mean": [
+    0.7466,
+    0.5414,
+    0.3476
+   ],
+   "use": "floorboards, doors, decks, board walls"
+  },
+  "beam": {
+   "file": "assets/textures/oldschool/beam.png",
+   "size": 64,
+   "mean": [
+    0.82,
+    0.5766,
+    0.3888
+   ],
+   "use": "timber frames, posts, beams, furniture"
+  },
+  "thatch": {
+   "file": "assets/textures/oldschool/thatch.png",
+   "size": 64,
+   "mean": [
+    0.6866,
+    0.5819,
+    0.3587
+   ],
+   "use": "straw / reed thatch roofs"
+  },
+  "roof_tiles": {
+   "file": "assets/textures/oldschool/roof_tiles.png",
+   "size": 64,
+   "mean": [
+    0.7562,
+    0.4201,
+    0.3106
+   ],
+   "use": "clay tile and shingle roofs"
+  },
+  "leaves": {
+   "file": "assets/textures/oldschool/leaves.png",
+   "size": 64,
+   "mean": [
+    0.5478,
+    0.6553,
+    0.3955
+   ],
+   "use": "tree crowns, shrubs, hazel, tufts (leaves over darker clumps)"
+  },
+  "needles": {
+   "file": "assets/textures/oldschool/needles.png",
+   "size": 64,
+   "mean": [
+    0.451,
+    0.5658,
+    0.4736
+   ],
+   "use": "pine crowns"
+  },
+  "bark": {
+   "file": "assets/textures/oldschool/bark.png",
+   "size": 64,
+   "mean": [
+    0.8054,
+    0.6408,
+    0.4615
+   ],
+   "use": "oak / pine trunks, logs"
+  },
+  "bark_birch": {
+   "file": "assets/textures/oldschool/bark_birch.png",
+   "size": 64,
+   "mean": [
+    0.8427,
+    0.8218,
+    0.7691
+   ],
+   "use": "birch trunks"
+  }
+ }
+}

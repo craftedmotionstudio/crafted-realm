@@ -1,0 +1,360 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-quarry-v3/candidates/quarry.blend",
+ "materials": {
+  "Quarry aged oak": {
+   "texture": "beam",
+   "authored": [
+    0.3,
+    0.2,
+    0.12
+   ],
+   "tint": [
+    0.3659,
+    0.3469,
+    0.3086
+   ]
+  },
+  "Quarry aged oak (not clipped)": {
+   "texture": "beam",
+   "authored": [
+    0.3,
+    0.2,
+    0.12
+   ],
+   "tint": [
+    0.3659,
+    0.3469,
+    0.3086
+   ]
+  },
+  "Quarry cave dark": {
+   "texture": "rock",
+   "authored": [
+    0.035,
+    0.03,
+    0.028
+   ],
+   "tint": [
+    0.0437,
+    0.0374,
+    0.0364
+   ]
+  },
+  "Quarry clay": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.39,
+    0.22,
+    0.17
+   ],
+   "tint": [
+    0.5157,
+    0.5237,
+    0.5473
+   ]
+  },
+  "Quarry clay tile cool": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.33,
+    0.19,
+    0.15
+   ],
+   "tint": [
+    0.4364,
+    0.4523,
+    0.4829
+   ]
+  },
+  "Quarry clay tile warm": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.45,
+    0.27,
+    0.19
+   ],
+   "tint": [
+    0.5951,
+    0.6427,
+    0.6117
+   ]
+  },
+  "Quarry copper ore": {
+   "texture": "rock",
+   "authored": [
+    0.58,
+    0.34,
+    0.18
+   ],
+   "tint": [
+    0.724,
+    0.4244,
+    0.2342
+   ]
+  },
+  "Quarry dark frame oak": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Quarry dark frame oak (not clipped)": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Quarry dressed sandstone": {
+   "texture": "rock",
+   "authored": [
+    0.57,
+    0.53,
+    0.42
+   ],
+   "tint": [
+    0.7115,
+    0.6616,
+    0.5465
+   ]
+  },
+  "Quarry dressed sandstone (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.57,
+    0.53,
+    0.42
+   ],
+   "tint": [
+    0.7115,
+    0.6616,
+    0.5465
+   ]
+  },
+  "Quarry fieldstone": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.4
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5205
+   ]
+  },
+  "Quarry fieldstone (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.4
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5205
+   ]
+  },
+  "Quarry floorboards": {
+   "texture": "planks",
+   "authored": [
+    0.43,
+    0.32,
+    0.2
+   ],
+   "tint": [
+    0.5759,
+    0.5911,
+    0.5754
+   ]
+  },
+  "Quarry limewash plaster": {
+   "texture": "plaster",
+   "authored": [
+    0.8,
+    0.74,
+    0.6
+   ],
+   "tint": [
+    0.9149,
+    0.8724,
+    0.763
+   ]
+  },
+  "Quarry limewash plaster (not clipped)": {
+   "texture": "plaster",
+   "authored": [
+    0.8,
+    0.74,
+    0.6
+   ],
+   "tint": [
+    0.9149,
+    0.8724,
+    0.763
+   ]
+  },
+  "Quarry rock face": {
+   "texture": "rock",
+   "authored": [
+    0.53,
+    0.46,
+    0.36
+   ],
+   "tint": [
+    0.6616,
+    0.5742,
+    0.4684
+   ]
+  },
+  "Quarry rock lit top": {
+   "texture": "rock",
+   "authored": [
+    0.64,
+    0.57,
+    0.44
+   ],
+   "tint": [
+    0.7989,
+    0.7115,
+    0.5725
+   ]
+  },
+  "Quarry rock shadow": {
+   "texture": "rock",
+   "authored": [
+    0.33,
+    0.28,
+    0.22
+   ],
+   "tint": [
+    0.4119,
+    0.3495,
+    0.2863
+   ]
+  },
+  "Quarry stone lit faces": {
+   "texture": "rock",
+   "authored": [
+    0.52,
+    0.54,
+    0.46
+   ],
+   "tint": [
+    0.6491,
+    0.6741,
+    0.5986
+   ]
+  },
+  "Quarry stone lit faces (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.52,
+    0.54,
+    0.46
+   ],
+   "tint": [
+    0.6491,
+    0.6741,
+    0.5986
+   ]
+  },
+  "Quarry stone shaded faces": {
+   "texture": "rock",
+   "authored": [
+    0.37,
+    0.4,
+    0.35
+   ],
+   "tint": [
+    0.4619,
+    0.4993,
+    0.4554
+   ]
+  },
+  "Quarry stone shaded faces (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.37,
+    0.4,
+    0.35
+   ],
+   "tint": [
+    0.4619,
+    0.4993,
+    0.4554
+   ]
+  },
+  "Quarry worn flagstone": {
+   "texture": "rock",
+   "authored": [
+    0.4,
+    0.39,
+    0.35
+   ],
+   "tint": [
+    0.4993,
+    0.4868,
+    0.4554
+   ]
+  },
+  "Holm flat colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  },
+  "Holm flat colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  },
+  "Holm flat colour - planks": {
+   "texture": "planks",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Quarry_FloorLeanToMainTiles": {
+   "rock": 96
+  },
+  "Quarry_FloorMainTiles": {
+   "rock": 456
+  },
+  "Quarry_FurnishingDressing": {
+   "beam": 147
+  },
+  "Quarry_UpperFloorMainTiles": {
+   "planks": 61
+  }
+ },
+ "keptImages": [],
+ "meshes": 24,
+ "glb": {
+  "path": ".studio-workspaces/holm-quarry-oldschool-v1/candidates/quarry.glb",
+  "bytes": 1468468,
+  "sha256": "e823e6884368bdc5fffe13571c45a47b85b719844873f141ea1c045fec52a194"
+ },
+ "images": [
+  "beam",
+  "planks",
+  "plaster",
+  "rock",
+  "roof_tiles"
+ ]
+}

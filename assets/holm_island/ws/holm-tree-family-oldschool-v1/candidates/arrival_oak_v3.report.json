@@ -1,0 +1,48 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-tree-family-v3/candidates/arrival_oak_v3.glb",
+ "materials": {
+  "oak-bark": {
+   "texture": "bark",
+   "replacedImage": "oak-bark",
+   "oldMean": [
+    0.2703,
+    0.2053,
+    0.1353
+   ],
+   "tint": [
+    0.3357,
+    0.3204,
+    0.2932
+   ]
+  },
+  "olive-leaves": {
+   "texture": "leaves",
+   "replacedImage": "olive-leaves",
+   "oldMean": [
+    0.283,
+    0.338,
+    0.153
+   ],
+   "tint": [
+    0.5166,
+    0.5158,
+    0.3868
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 2,
+ "glb": {
+  "path": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/arrival_oak_v3.glb",
+  "bytes": 217100,
+  "sha256": "f4b8841b8ca9f17506fc0212e9c04b8e62374ac6222c939119f1a8fba74f07c6"
+ },
+ "images": [
+  "bark",
+  "leaves"
+ ]
+}

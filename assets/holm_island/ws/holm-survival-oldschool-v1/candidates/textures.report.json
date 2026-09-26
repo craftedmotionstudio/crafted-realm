@@ -1,0 +1,318 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-survival-v3/candidates/survival.blend",
+ "materials": {
+  "Aged oak": {
+   "texture": "beam",
+   "authored": [
+    0.3,
+    0.2,
+    0.12
+   ],
+   "tint": [
+    0.3659,
+    0.3469,
+    0.3086
+   ]
+  },
+  "Aged oak (not clipped)": {
+   "texture": "beam",
+   "authored": [
+    0.3,
+    0.2,
+    0.12
+   ],
+   "tint": [
+    0.3659,
+    0.3469,
+    0.3086
+   ]
+  },
+  "Coppice leaf": {
+   "texture": "leaves",
+   "authored": [
+    0.24,
+    0.35,
+    0.13
+   ],
+   "tint": [
+    0.4381,
+    0.5341,
+    0.3287
+   ]
+  },
+  "Dark frame oak": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Dark frame oak (not clipped)": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Dressed sandstone": {
+   "texture": "rock",
+   "authored": [
+    0.57,
+    0.53,
+    0.42
+   ],
+   "tint": [
+    0.7115,
+    0.6616,
+    0.5465
+   ]
+  },
+  "Dressed sandstone (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.57,
+    0.53,
+    0.42
+   ],
+   "tint": [
+    0.7115,
+    0.6616,
+    0.5465
+   ]
+  },
+  "Hard-standing flag": {
+   "texture": "rock",
+   "authored": [
+    0.47,
+    0.45,
+    0.39
+   ],
+   "tint": [
+    0.5867,
+    0.5617,
+    0.5075
+   ]
+  },
+  "Oak shingle": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.34,
+    0.26,
+    0.18
+   ],
+   "tint": [
+    0.4496,
+    0.6189,
+    0.5795
+   ]
+  },
+  "Oak shingle weathered": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.26,
+    0.2,
+    0.15
+   ],
+   "tint": [
+    0.3438,
+    0.4761,
+    0.4829
+   ]
+  },
+  "Ochre thatch": {
+   "texture": "thatch",
+   "authored": [
+    0.5,
+    0.39,
+    0.16
+   ],
+   "tint": [
+    0.7282,
+    0.6702,
+    0.4461
+   ]
+  },
+  "Ochre thatch shade": {
+   "texture": "thatch",
+   "authored": [
+    0.4,
+    0.3,
+    0.12
+   ],
+   "tint": [
+    0.5826,
+    0.5156,
+    0.3345
+   ]
+  },
+  "Ochre thatch sunlit": {
+   "texture": "thatch",
+   "authored": [
+    0.58,
+    0.46,
+    0.2
+   ],
+   "tint": [
+    0.8447,
+    0.7905,
+    0.5576
+   ]
+  },
+  "Stone lit faces": {
+   "texture": "rock",
+   "authored": [
+    0.52,
+    0.54,
+    0.46
+   ],
+   "tint": [
+    0.6491,
+    0.6741,
+    0.5986
+   ]
+  },
+  "Stone lit faces (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.52,
+    0.54,
+    0.46
+   ],
+   "tint": [
+    0.6491,
+    0.6741,
+    0.5986
+   ]
+  },
+  "Stone shaded faces": {
+   "texture": "rock",
+   "authored": [
+    0.37,
+    0.4,
+    0.35
+   ],
+   "tint": [
+    0.4619,
+    0.4993,
+    0.4554
+   ]
+  },
+  "Stone shaded faces (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.37,
+    0.4,
+    0.35
+   ],
+   "tint": [
+    0.4619,
+    0.4993,
+    0.4554
+   ]
+  },
+  "Warm fieldstone": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.4
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5205
+   ]
+  },
+  "Warm fieldstone (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.4
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5205
+   ]
+  },
+  "Warm floorboards": {
+   "texture": "planks",
+   "authored": [
+    0.43,
+    0.32,
+    0.2
+   ],
+   "tint": [
+    0.5759,
+    0.5911,
+    0.5754
+   ]
+  },
+  "Weathered plank": {
+   "texture": "planks",
+   "authored": [
+    0.38,
+    0.29,
+    0.18
+   ],
+   "tint": [
+    0.509,
+    0.5356,
+    0.5178
+   ]
+  },
+  "Weathered plank (not clipped)": {
+   "texture": "planks",
+   "authored": [
+    0.38,
+    0.29,
+    0.18
+   ],
+   "tint": [
+    0.509,
+    0.5356,
+    0.5178
+   ]
+  },
+  "Holm flat colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Survival_FurnishingDressing": {
+   "beam": 1
+  }
+ },
+ "keptImages": [],
+ "meshes": 31,
+ "glb": {
+  "path": ".studio-workspaces/holm-survival-oldschool-v1/candidates/survival.glb",
+  "bytes": 1614836,
+  "sha256": "487ec5d8c0f9d5ba490a1d14a2649127bbcc89093c22e89f4b01d0a82f4faee2"
+ },
+ "images": [
+  "beam",
+  "leaves",
+  "planks",
+  "rock",
+  "roof_tiles",
+  "thatch"
+ ]
+}

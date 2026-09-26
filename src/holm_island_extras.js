@@ -54,16 +54,24 @@ var HolmIslandExtras=(function(){
  // M4.4 buildings follow the brief's naming contract: <Prefix>_Roof / _Upper / _Shell / _UpperShell / _Glazing
  ['Survival','Quarry','Bank','Mage','Haven','Lastlight','Cavern'].forEach(function(p){CUTAWAY[p.toLowerCase()]={roof:new RegExp('^'+p+'_Roof'),upper:new RegExp('^'+p+'_Upper'),clip:new RegExp('^'+p+'_(Shell|UpperShell|Glazing)'),lift:.5}});
  function need(ok,msg){if(!ok)throw Error('[HolmIslandExtras] '+msg)}
+ // the old-school look's textured candidates (trees, prop pack, bridges, buildings), when served
+ function lookUrl(u){return typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.url(u):u}
  async function bytes(url){var r=await fetch(url,{cache:'no-store'});need(r.ok,'missing '+url);return r.arrayBuffer()}
  async function json(url){return JSON.parse(new TextDecoder().decode(await bytes(url)))}
  async function sha(buf){var h=new Uint8Array(await crypto.subtle.digest('SHA-256',buf));return Array.from(h).map(function(n){return n.toString(16).padStart(2,'0')}).join('')}
  function parse(T,buf){return new Promise(function(res,rej){new T.GLTFLoader().parse(buf,'',res,rej)})}
  // same colour rule as the arrival owner: this game renders without colour management
  // ...and matte like the 2004 client (no specular sheen: Blender's default 0.4-0.5 roughness read as plastic in game)
- function linearMaps(T,n){(Array.isArray(n.material)?n.material:[n.material]).forEach(function(m){if(!m)return;if(m.map&&T.LinearEncoding!==undefined){m.map.encoding=T.LinearEncoding;m.needsUpdate=true}if('roughness' in m){m.roughness=1;m.metalness=0;m.needsUpdate=true}})}
+ function linearMaps(T,n){(Array.isArray(n.material)?n.material:[n.material]).forEach(function(m){if(!m)return;if(m.map&&T.LinearEncoding!==undefined){m.map.encoding=T.LinearEncoding;m.needsUpdate=true}
+  // old-school look: kit textures crisp up close, mip-mapped far away
+  if(m.map&&typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){m.map.magFilter=T.NearestFilter;m.map.minFilter=T.LinearMipmapLinearFilter}if('roughness' in m){m.roughness=1;m.metalness=0;m.needsUpdate=true}})}
  async function loadData(){
   var buildings=[];
-  for(var i=0;i<BUILDINGS.length;i++){var b=BUILDINGS[i],graph=await json(b.graph),p=graph.placement||graph.origin;
+  for(var i=0;i<BUILDINGS.length;i++){var b=BUILDINGS[i];
+   // old-school look (2026-09-25): the textured Blender candidate and its re-measured graph (same stances, new model hash),
+   // swapped as a pair only when both are served (HolmOldschoolLook.preload verified them); otherwise the previous pair
+   var gu=lookUrl(b.graph),mu=lookUrl(b.model);if(gu!==b.graph||mu!==b.model)b=Object.assign({},b,{graph:gu,model:mu,look:'oldschool'});
+   var graph=await json(b.graph),p=graph.placement||graph.origin;
    buildings.push({id:b.id,graph:graph,placement:{x:p.x,y:p.y,z:p.z},source:b})}
   // Sept 13 habitat trees that a new building now stands on are left out (models and blockers alike): the planned
   // footprint plus a tile of margin, and every tile holding one of the building's floors, stairs or decks.
@@ -91,7 +99,7 @@ var HolmIslandExtras=(function(){
   function nameOf(o,prefix){for(var q=o;q;q=q.parent)if(q.name&&q.name.indexOf(prefix)===0)return q.name;return ''}
   for(var i=0;i<data.buildings.length;i++){var b=data.buildings[i],src=b.source,buf=await bytes(src.model),p=b.placement;
    need(await sha(buf)===b.graph.modelSha256,b.id+' model bytes differ from the model its navigation graph was measured on');
-   var gltf=await parse(T,buf);place(gltf.scene,p.x,p.y,p.z,0).name='island-building-'+b.id;models[b.id]={scene:gltf.scene,placement:p};
+   var gltf=await parse(T,buf);place(gltf.scene,p.x,p.y,p.z,0).name='island-building-'+b.id;if(src.look&&typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.prepareModel(T,gltf.scene);models[b.id]={scene:gltf.scene,placement:p};
    if(gltf.animations&&gltf.animations.length){var mx=new T.AnimationMixer(gltf.scene);gltf.animations.forEach(function(c){
      var a=mx.clipAction(c);
      // the lodge graph was measured with its door open: hold the door at the open pose so walls match walking
@@ -124,8 +132,8 @@ var HolmIslandExtras=(function(){
   // ---- habitat: tree family v3 on the Sept 13 placements, grounded like the Studio, breeze playing ----
   var veg=data.habitat,names=Array.from(new Set(veg.map(function(p){return p.asset}))),srcs={},props=null;
   for(var j=0;j<names.length;j++){var nm=names[j],g2,scn;
-   if(TREE_FAMILY[nm]){g2=await parse(T,await bytes(TREES+nm+'.glb'));scn=g2.scene}
-   else{if(!props){props=await parse(T,await bytes(PROPS));
+   if(TREE_FAMILY[nm]){g2=await parse(T,await bytes(lookUrl(TREES+nm+'.glb')));scn=g2.scene}
+   else{if(!props){props=await parse(T,await bytes(lookUrl(PROPS)));
      // the pack stores linear factors (Blender convention); this game draws colours as authored sRGB, so convert back once
      var seenMat=new Set();props.scene.traverse(function(n){if(n.isMesh)[].concat(n.material).forEach(function(m){if(m&&!seenMat.has(m)&&m.color&&!m.map){seenMat.add(m);m.color.convertLinearToSRGB()}})})}var node=props.scene.getObjectByName(nm);need(node,'prop pack has no '+nm);g2={animations:[]};scn=new T.Group();var c0=node.clone(true);c0.position.set(0,0,0);c0.rotation.set(0,0,0);scn.add(c0)}
    scn.updateMatrixWorld(true);
@@ -150,8 +158,8 @@ var HolmIslandExtras=(function(){
     im.frustumCulled=false;   // r128 culls an InstancedMesh by its base geometry only; one batch spans the island
     list.forEach(function(m,i){im.setMatrixAt(i,M4.multiplyMatrices(m,n.matrixWorld))});im.instanceMatrix.needsUpdate=true;scene.add(im);roots.push(im)})});
   // ---- bridges, built to the measured deck tiles ----
-  var bridgeModels=(await json(BRIDGE_MODELS+'manifest.json')).bridges;
-  for(var q=0;q<bridgeModels.length;q++){var m=bridgeModels[q],gb=await parse(T,await bytes(BRIDGE_MODELS+m.file));place(gb.scene,m.centre[0],0,m.centre[2],0).name='island-bridge-'+m.id}
+  var BM=lookUrl(BRIDGE_MODELS),bridgeModels=(await json(BM+'manifest.json')).bridges;
+  for(var q=0;q<bridgeModels.length;q++){var m=bridgeModels[q],gb=await parse(T,await bytes(BM+m.file));place(gb.scene,m.centre[0],0,m.centre[2],0).name='island-bridge-'+m.id}
   var cutFor=null;
   // pose.surface 'b:<building>:<layer>:<mesh>' away from the building's terrain = inside that building
   function cutaway(pose){

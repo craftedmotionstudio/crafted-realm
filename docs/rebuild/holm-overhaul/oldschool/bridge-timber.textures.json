@@ -1,0 +1,19 @@
+{
+ "source": ".studio-workspaces/holm-island-bridges-v2/candidates/timber_teaching_bridge.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-island-bridges-v2/candidates/timber_teaching_bridge.glb",
+ "outBlend": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/timber_teaching_bridge.blend",
+ "outGlb": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/timber_teaching_bridge.glb",
+ "report": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/timber.report.json",
+ "rules": [
+  [
+   "(?i)weathered oak|oak (lit|shade)",
+   "planks",
+   1
+  ]
+ ],
+ "manifest": {
+  "from": ".studio-workspaces/holm-island-bridges-v2/candidates/manifest.json",
+  "to": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/manifest.json"
+ }
+}

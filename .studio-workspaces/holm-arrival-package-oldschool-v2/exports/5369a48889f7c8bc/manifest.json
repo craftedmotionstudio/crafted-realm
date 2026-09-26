@@ -1,0 +1,200 @@
+{
+  "exportId": "5369a48889f7c8bc",
+  "files": [
+    {
+      "baseHash": null,
+      "bytes": 511882,
+      "hash": "45250bda46dffbbc45f7e895b2f74eb6748e5130dcc9e09c3cd83d3bf5329fcf",
+      "path": "assets/blender/holm_arrival_bench_oldschool_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 618421,
+      "hash": "36910b4c86aa80d64a7105d1c77be43484f4dbd6a232c5e8b91552af8401909d",
+      "path": "assets/blender/holm_arrival_cargo_oldschool_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 924964,
+      "hash": "e20145bc39cbbac5bbf57bc2e34e78e7169e0cc0939b06abdcf8283cc39506e9",
+      "path": "assets/blender/holm_arrival_dock_oldschool_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 503667,
+      "hash": "d2acef7fb3897934bd73bb680fdc0acc65e8bf140fb8b1a57b854264d36e1db6",
+      "path": "assets/blender/holm_arrival_fieldstones_oldschool_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 765782,
+      "hash": "7461630ce673334246e2661970a835112430261d496a7456102f7dd0aa76a335",
+      "path": "assets/blender/holm_arrival_hazel_oldschool_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 810654,
+      "hash": "03a371f9f2897af84a8cabb6a668e743bb2dcf214db48a90d8395172e2a88cbb",
+      "path": "assets/blender/holm_arrival_oak_oldschool_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 1169587,
+      "hash": "b2cad4b3fff213ca019390ab3215c79f76a9b05cdbeee2a9dec59470db37fe99",
+      "path": "assets/blender/holm_arrival_statue_v3.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 599850,
+      "hash": "6a02b3fd6c763b89969931ab29f6ebd8467a65ccb14828238f37fca0022b8191",
+      "path": "assets/blender/holm_arrival_wall_oldschool_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 525914,
+      "hash": "9f54674dae00c26f4d7db7f039d717767014e66e52b5913333488f5b5a26d497",
+      "path": "assets/blender/holm_arrival_waypost_oldschool_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 6395768,
+      "hash": "953a64d3427837b98095443694866db33f5a9f7006e94e16302947b8df4e9b39",
+      "path": "assets/blender/holm_guide_house_oldschool_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 710049,
+      "hash": "ab0520d4df028b8dc131e812e9e37d3d3dbfefd4f5e4fafa60877166eb36bc09",
+      "path": "assets/blender/holm_provisions_oldschool_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 37556,
+      "hash": "f4d4172c3a898b6a5e50b8c63f09feea88da160d0298c91ef4818071ae3cecbb",
+      "path": "assets/models/holm_arrival_bench_oldschool_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 93292,
+      "hash": "4129574e4d0c14c703031980dbd4459f042da76571d00389831412d50d51576b",
+      "path": "assets/models/holm_arrival_cargo_oldschool_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 284608,
+      "hash": "22c8cd0480e98a2deedf250ac8f2d99ff8adefcc7faf01dbd4fbd0f88d18c6e9",
+      "path": "assets/models/holm_arrival_dock_oldschool_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 24136,
+      "hash": "abb864da2b482ebe01381999e75fd52e8fe314181695e5a7428cb87ce27753ad",
+      "path": "assets/models/holm_arrival_fieldstones_oldschool_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 156244,
+      "hash": "dba3a06ae3f6e47a88030560f415725d8b7572b063981d17f1942113eaa22165",
+      "path": "assets/models/holm_arrival_hazel_oldschool_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 217100,
+      "hash": "f4b8841b8ca9f17506fc0212e9c04b8e62374ac6222c939119f1a8fba74f07c6",
+      "path": "assets/models/holm_arrival_oak_oldschool_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 502892,
+      "hash": "cd0c3241b92e77fd8bcf07c39e591ad161a3832419e18629e271b3a0f6df9b2a",
+      "path": "assets/models/holm_arrival_statue_v3.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 49488,
+      "hash": "d1f3191fee7a7b1988de16abe5888f74fe3e997677246488729d7c48dbfe08f3",
+      "path": "assets/models/holm_arrival_wall_oldschool_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 32292,
+      "hash": "4c28e0aaf93a3c3b137178da706510390f39eed57a9db7786b67a3f7ba1cc1f9",
+      "path": "assets/models/holm_arrival_waypost_oldschool_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 4952768,
+      "hash": "202f1e22eafcc7f751e2663898473f68faddec9faaeab5931456a72915974ac8",
+      "path": "assets/models/holm_guide_house_oldschool_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 133780,
+      "hash": "91cbe3e78fca5b4f0d1b404a31715fc3393d1045d46ada261b0145c7b6fa4f0a",
+      "path": "assets/models/holm_provisions_oldschool_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 405,
+      "hash": "edd96f58867550dcc6c86d70e8524b6d8b7d11ce9e1b202697385cedc0753583",
+      "path": "assets/world/authoring/holm-arrival.dock.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 12403,
+      "hash": "dc6666bade52ae301364dd9d6dc81e1e1a8316a895a023d46e4505249c8fbe2b",
+      "path": "assets/world/authoring/holm-arrival.envelopes.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 22865,
+      "hash": "143375df41c21ae74917eb014a673bd1f1aad9a5c3f1e13ebd200ff536471996",
+      "path": "assets/world/authoring/holm-arrival.landscape-measure.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 1400,
+      "hash": "3a056fc923165c62760a9ed289c874f2e72eb07aed7d38bafb26c14bd2b2080e",
+      "path": "assets/world/authoring/holm-arrival.landscape.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 5454,
+      "hash": "6b569df5378e6ba6c49733b3ee0ef74cb8f6fe09b252883dc72d253f375e9175",
+      "path": "assets/world/authoring/holm-arrival.layout.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 2409834,
+      "hash": "55ca10672a167c1b5bfe50a39272b9545c8384f0950d212d16db378d6294f0a4",
+      "path": "assets/world/authoring/holm-arrival.package.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 372,
+      "hash": "3cafe31719846826ea6daae1f26d7cb0761ade63a5b936ceb30b7c2e9cd696cd",
+      "path": "assets/world/authoring/holm-arrival.provisions.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 1895,
+      "hash": "dcd48cf3a0b7d5f7796aca55762df7b4c80b3a87ce108e99b889d529b45ab852",
+      "path": "assets/world/authoring/holm-arrival.provisions.manifest.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 298202,
+      "hash": "655e69f88d24b389ccf6b7c90e61d60d1d9b4ccde32030b0a45754285feb1d98",
+      "path": "assets/world/authoring/holm-overhaul.terrain.bundle.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 4767,
+      "hash": "160f451226e401d15523c514e62b3895311f280cd19f4f499a1840fff7b39844",
+      "path": "assets/world/authoring/holm-overhaul.terrain.json"
+    }
+  ],
+  "schema": "crafted-realm-studio-export-v1",
+  "version": 1,
+  "workspaceId": "holm-arrival-package-oldschool-v2"
+}

@@ -1,0 +1,58 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-island-bridges-v2/candidates/timber_teaching_bridge.blend",
+ "materials": {
+  "Oak lit": {
+   "texture": "planks",
+   "authored": [
+    0.44,
+    0.31,
+    0.18
+   ],
+   "tint": [
+    0.5893,
+    0.5726,
+    0.5178
+   ]
+  },
+  "Oak shade": {
+   "texture": "planks",
+   "authored": [
+    0.27,
+    0.18,
+    0.1
+   ],
+   "tint": [
+    0.3616,
+    0.3325,
+    0.2877
+   ]
+  },
+  "Weathered oak": {
+   "texture": "planks",
+   "authored": [
+    0.36,
+    0.24,
+    0.14
+   ],
+   "tint": [
+    0.4822,
+    0.4433,
+    0.4028
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 1,
+ "glb": {
+  "path": ".studio-workspaces/holm-island-bridges-oldschool-v1/candidates/timber_teaching_bridge.glb",
+  "bytes": 141692,
+  "sha256": "8cea1d6b8c0a7aa9fc5b1d3d82cbd885a9b1f596c2415099e967464f5cf7199f"
+ },
+ "images": [
+  "planks"
+ ]
+}

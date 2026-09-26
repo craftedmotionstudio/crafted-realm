@@ -18,7 +18,11 @@ var HolmArrivalQA=(function(){
   if(!requested)return null;
   var production=typeof HolmIsland!=='undefined'&&HolmIsland.production();
   if((!production&&!QAProfile.isolated)||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
-  loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v9/exports/',exportId:EXPORT});
+  // old-school look (2026-09-25): the textured Guide House ships in its own arrival package export (same graph)
+  var osPkg=typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.arrivalPackage():null;
+  loaded=null;if(osPkg)try{loaded=await HolmArrivalExportLoader.load({baseUrl:osPkg.baseUrl,exportId:osPkg.exportId})}catch(e){console.warn('[HolmArrivalQA] old-school arrival package unavailable; the previous package is kept',e&&e.message)}
+  if(!loaded)loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v9/exports/',exportId:EXPORT});
+  if(typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){HolmOverhaulGround.setTerrain(loaded.documents.terrain);await HolmOldschoolLook.preload(THREE)}
   nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
   var pack=loaded.package,chunks=JSON.parse(JSON.stringify(pack.terrain.chunks)),b=loaded.documents.layout.building,s=spawn();
   chunks.forEach(function(c){c.layers.terrain.exclusions=[{x:b.world.x-b.width/2,z:b.world.z-b.depth/2,w:b.width,d:b.depth}]});
@@ -35,8 +39,9 @@ var HolmArrivalQA=(function(){
    landmarks:{holm_arrival:{id:'holm_arrival',label:'Arrival landing',x:s.x,z:s.z}},chunks:chunks,
    hooks:{
     buildTerrain:async function(p){
+     if(typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.activate(scene);
      WorldV2Terrain.init(p);p.updateResidency(s.x,s.z,true);
-     owner=await HolmArrivalModelOwner.create({THREE:THREE,scene:scene,WORLD:WORLD,loaded:loaded});owner.setDoors(doors);
+     owner=await HolmArrivalModelOwner.create({THREE:THREE,scene:scene,WORLD:WORLD,loaded:loaded});owner.setDoors(doors);if(typeof HolmOldschoolLook!=='undefined')scene.children.forEach(function(o){if(/^world-object-/.test(o.name))HolmOldschoolLook.prepareModel(THREE,o)});
      if(island&&typeof HolmGuideCellar!=='undefined')try{HolmGuideCellar.bind({scene:scene,WORLD:WORLD})}catch(err){console.error('[HolmArrivalQA] cellar',err)}
      if(island){
       extras=await HolmIslandExtras.load({THREE:THREE,scene:scene,WORLD:WORLD,data:islandData,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}});
@@ -58,6 +63,7 @@ var HolmArrivalQA=(function(){
      // the creek water fills its carved channel to the drawn bank (owner play-test 2026-09-25: no looking under its edge)
      water=HolmArrivalWater.create(THREE,loaded.documents.terrain.creek,null,loaded.documents.terrain);scene.add(water.group);
      trail=HolmArrivalTrail.create(THREE,loaded.documents.layout,HolmArrivalTrail.terrainSampler(loaded.documents.terrain));
+     if(typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.restyleTrail(THREE,trail);
      trail.userData={kind:"arrival_surface",arrivalSurface:"exterior"};scene.add(trail);WORLD.grounds.push(trail);WORLD.clickables.push(trail);
      var bounds=pack.navigation.interactions[0].localBounds;
      chart=new THREE.Mesh(new THREE.BoxGeometry(bounds.width,.3,bounds.depth),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
@@ -65,7 +71,7 @@ var HolmArrivalQA=(function(){
      for(const d of pack.navigation.doors){var leaf=owner.house.getObjectByName(d.leafPart);if(leaf){leaf.userData.kind='arrival_door';leaf.userData.arrivalDoor=d.id;leaf.userData.label='Open / close door';if(WORLD.clickables.indexOf(leaf)<0)WORLD.clickables.push(leaf)}}
     },populate:function(){},chartCollision:function(){},
     loadChunk:function(c,p){return WorldV2Terrain.loadChunk(c,p)},unloadChunk:function(h){WorldV2Terrain.unloadChunk(h)},
-    dispose:function(){HolmArrivalPlayer.detach();if(typeof HolmIslandTutors!=='undefined')HolmIslandTutors.dispose(WORLD,scene);if(typeof HolmIslandTrials!=='undefined')HolmIslandTrials.dispose();if(lessons){HolmIslandLessons.dispose(WORLD,scene);lessons=null}if(extras){extras.dispose();extras=null}if(owner)owner.dispose();if(water)water.dispose();if(trail){scene.remove(trail);[WORLD.grounds,WORLD.clickables].forEach(function(a){var i=a.indexOf(trail);if(i>=0)a.splice(i,1)});trail.geometry.dispose();trail.material.dispose();trail=null;}if(chart){scene.remove(chart);var i=WORLD.clickables.indexOf(chart);if(i>=0)WORLD.clickables.splice(i,1);chart.geometry.dispose();chart.material.dispose()}WorldV2Terrain.dispose()},
+    dispose:function(){HolmArrivalPlayer.detach();if(typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.deactivate(scene);if(typeof HolmIslandTutors!=='undefined')HolmIslandTutors.dispose(WORLD,scene);if(typeof HolmIslandTrials!=='undefined')HolmIslandTrials.dispose();if(lessons){HolmIslandLessons.dispose(WORLD,scene);lessons=null}if(extras){extras.dispose();extras=null}if(owner)owner.dispose();if(water)water.dispose();if(trail){scene.remove(trail);[WORLD.grounds,WORLD.clickables].forEach(function(a){var i=a.indexOf(trail);if(i>=0)a.splice(i,1)});trail.geometry.dispose();trail.material.dispose();trail=null;}if(chart){scene.remove(chart);var i=WORLD.clickables.indexOf(chart);if(i>=0)WORLD.clickables.splice(i,1);chart.geometry.dispose();chart.material.dispose()}WorldV2Terrain.dispose()},
     snapshot:function(){return {arrivalDraft:true,terrain:WorldV2Terrain.snapshot(),pose:bridge?bridge.snapshot():null,doors:doors}}
    }});
   WorldV2.activate(ID);CRWorldMode.attachProvider(provider);return provider;

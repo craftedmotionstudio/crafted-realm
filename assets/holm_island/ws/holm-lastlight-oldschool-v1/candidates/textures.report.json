@@ -1,0 +1,285 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-lastlight-v3/candidates/lastlight.blend",
+ "materials": {
+  "Lastlight aged oak": {
+   "texture": "beam",
+   "authored": [
+    0.31,
+    0.21,
+    0.12
+   ],
+   "tint": [
+    0.378,
+    0.3642,
+    0.3086
+   ]
+  },
+  "Lastlight aged oak (not clipped)": {
+   "texture": "beam",
+   "authored": [
+    0.31,
+    0.21,
+    0.12
+   ],
+   "tint": [
+    0.378,
+    0.3642,
+    0.3086
+   ]
+  },
+  "Lastlight clay cool": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.4,
+    0.17,
+    0.13
+   ],
+   "tint": [
+    0.529,
+    0.4047,
+    0.4185
+   ]
+  },
+  "Lastlight clay tile": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.52,
+    0.2,
+    0.14
+   ],
+   "tint": [
+    0.6876,
+    0.4761,
+    0.4507
+   ]
+  },
+  "Lastlight clay warm": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.6,
+    0.25,
+    0.16
+   ],
+   "tint": [
+    0.7934,
+    0.5951,
+    0.5151
+   ]
+  },
+  "Lastlight dark frame oak": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Lastlight dark frame oak (not clipped)": {
+   "texture": "beam",
+   "authored": [
+    0.22,
+    0.15,
+    0.09
+   ],
+   "tint": [
+    0.2683,
+    0.2601,
+    0.2315
+   ]
+  },
+  "Lastlight dressed sandstone": {
+   "texture": "rock",
+   "authored": [
+    0.58,
+    0.54,
+    0.44
+   ],
+   "tint": [
+    0.724,
+    0.6741,
+    0.5725
+   ]
+  },
+  "Lastlight dressed sandstone (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.58,
+    0.54,
+    0.44
+   ],
+   "tint": [
+    0.724,
+    0.6741,
+    0.5725
+   ]
+  },
+  "Lastlight fieldstone": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.42
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5465
+   ]
+  },
+  "Lastlight fieldstone (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.43,
+    0.46,
+    0.42
+   ],
+   "tint": [
+    0.5368,
+    0.5742,
+    0.5465
+   ]
+  },
+  "Lastlight floorboards": {
+   "texture": "planks",
+   "authored": [
+    0.43,
+    0.32,
+    0.2
+   ],
+   "tint": [
+    0.5759,
+    0.5911,
+    0.5754
+   ]
+  },
+  "Lastlight limewash": {
+   "texture": "plaster",
+   "authored": [
+    0.8,
+    0.74,
+    0.6
+   ],
+   "tint": [
+    0.9149,
+    0.8724,
+    0.763
+   ]
+  },
+  "Lastlight stone lit": {
+   "texture": "rock",
+   "authored": [
+    0.53,
+    0.55,
+    0.5
+   ],
+   "tint": [
+    0.6616,
+    0.6866,
+    0.6506
+   ]
+  },
+  "Lastlight stone lit (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.53,
+    0.55,
+    0.5
+   ],
+   "tint": [
+    0.6616,
+    0.6866,
+    0.6506
+   ]
+  },
+  "Lastlight stone shade": {
+   "texture": "rock",
+   "authored": [
+    0.36,
+    0.39,
+    0.36
+   ],
+   "tint": [
+    0.4494,
+    0.4868,
+    0.4684
+   ]
+  },
+  "Lastlight stone shade (not clipped)": {
+   "texture": "rock",
+   "authored": [
+    0.36,
+    0.39,
+    0.36
+   ],
+   "tint": [
+    0.4494,
+    0.4868,
+    0.4684
+   ]
+  },
+  "Holm flat colour - planks": {
+   "texture": "planks",
+   "vertexColour": true
+  },
+  "Holm flat colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  },
+  "Holm flat colour - plaster": {
+   "texture": "plaster",
+   "vertexColour": true
+  },
+  "Holm flat colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Lastlight_FloorPorchTiles": {
+   "planks": 9
+  },
+  "Lastlight_FloorTowerTiles": {
+   "rock": 383
+  },
+  "Lastlight_FloorWingTiles": {
+   "plaster": 66
+  },
+  "Lastlight_FurnishingDressing": {
+   "beam": 96
+  },
+  "Lastlight_UpperFloorGalleryTiles": {
+   "rock": 567
+  },
+  "Lastlight_UpperFloorKeeperTiles": {
+   "planks": 229
+  },
+  "Lastlight_UpperFloorWatchTiles": {
+   "planks": 190
+  },
+  "Lastlight_UpperFurnishingDressing": {
+   "beam": 77
+  }
+ },
+ "keptImages": [],
+ "meshes": 47,
+ "glb": {
+  "path": ".studio-workspaces/holm-lastlight-oldschool-v1/candidates/lastlight.glb",
+  "bytes": 2131888,
+  "sha256": "9d58b22e41f1e461ad96a0130e35cc985d5f419afcb5d49879f6848fe8323b25"
+ },
+ "images": [
+  "beam",
+  "planks",
+  "plaster",
+  "rock",
+  "roof_tiles"
+ ]
+}

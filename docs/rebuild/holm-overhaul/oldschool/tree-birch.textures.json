@@ -1,0 +1,14 @@
+{
+ "import": ".studio-workspaces/holm-tree-family-v3/candidates/birch.glb",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-tree-family-v3/candidates/birch.glb",
+ "replaceExisting": true,
+ "arrival": false,
+ "outBlend": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/birch.blend",
+ "outGlb": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/birch.glb",
+ "report": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/birch.report.json",
+ "manifest": {
+  "from": ".studio-workspaces/holm-tree-family-v3/candidates/manifest.json",
+  "to": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/manifest.json"
+ }
+}

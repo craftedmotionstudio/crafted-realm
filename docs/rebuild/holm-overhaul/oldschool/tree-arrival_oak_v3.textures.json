@@ -1,0 +1,14 @@
+{
+ "import": ".studio-workspaces/holm-tree-family-v3/candidates/arrival_oak_v3.glb",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-tree-family-v3/candidates/arrival_oak_v3.glb",
+ "replaceExisting": true,
+ "arrival": true,
+ "outBlend": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/arrival_oak_v3.blend",
+ "outGlb": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/arrival_oak_v3.glb",
+ "report": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/arrival_oak_v3.report.json",
+ "manifest": {
+  "from": ".studio-workspaces/holm-tree-family-v3/candidates/manifest.json",
+  "to": ".studio-workspaces/holm-tree-family-oldschool-v1/candidates/manifest.json"
+ }
+}

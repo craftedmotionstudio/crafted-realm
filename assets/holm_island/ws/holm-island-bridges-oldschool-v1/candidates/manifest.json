@@ -1,0 +1,99 @@
+{
+  "schema": "holm-island-bridges-models-v1",
+  "source": ".studio-workspaces/holm-world-fixes-v1/proposed/docs/rebuild/holm-overhaul/island-bridges.json",
+  "sourceSha256": "cd6fe3874ac17e396e43db4c612ca9d674334baf3d0c7f9fd5661212ad31aa23",
+  "deck": {
+    "timber_teaching_bridge": {
+      "tiles": [
+        [
+          43,
+          87
+        ],
+        [
+          44,
+          87
+        ],
+        [
+          45,
+          87
+        ],
+        [
+          46,
+          87
+        ],
+        [
+          47,
+          87
+        ],
+        [
+          48,
+          87
+        ],
+        [
+          49,
+          87
+        ]
+      ],
+      "deckY": 3,
+      "waterY": [
+        1.785,
+        2.025
+      ]
+    },
+    "stone_village_bridge": {
+      "tiles": [
+        [
+          61,
+          53
+        ],
+        [
+          62,
+          53
+        ],
+        [
+          63,
+          53
+        ],
+        [
+          64,
+          53
+        ]
+      ],
+      "deckY": 4.52,
+      "waterY": [
+        3.931,
+        3.966
+      ]
+    }
+  },
+  "bridges": [
+    {
+      "id": "timber_teaching_bridge",
+      "file": "timber_teaching_bridge.glb",
+      "centre": [
+        46.5,
+        0,
+        87.5
+      ],
+      "triangles": 1944,
+      "sha256_glb": "8cea1d6b8c0a7aa9fc5b1d3d82cbd885a9b1f596c2415099e967464f5cf7199f",
+      "sha256_blend": "6f189f0db06c590112604ea9a5c50c478a6190ec6eec0ae9f84f7588d3887aee"
+    },
+    {
+      "id": "stone_village_bridge",
+      "file": "stone_village_bridge.glb",
+      "centre": [
+        63,
+        0,
+        53.5
+      ],
+      "triangles": 2972,
+      "sha256_glb": "a0e285f794f05b98aded638774bd16a78b4e21cf59c5fa3ce12fc30815da2a5b",
+      "sha256_blend": "40d67616dbf00f2005b7fe78cddda15dd47fd4285b8c76143c97bed3dfb7f895"
+    }
+  ],
+  "oldschool": {
+    "texturedFrom": ".studio-workspaces/holm-island-bridges-v2/candidates/manifest.json",
+    "recipe": "tools/blender/apply_oldschool_textures.py"
+  }
+}
