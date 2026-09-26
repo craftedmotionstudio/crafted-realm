@@ -36,7 +36,7 @@ Bram GLB: idle talk walk wave (holding his staff).
 Run:  "C:\\Program Files\\Blender Foundation\\Blender 4.5\\blender.exe" -b --python tools/blender/build_holm_characters_v2.py -- [--no-render] [--quick]
 Outputs (candidates only, never the live assets): .studio-workspaces/holm-characters-<tag>/candidates/{kit.glb,
   bram.glb, palettes.json, characters.blend, manifest.json, REPORT.md}, scratchpad/holm_characters_<tag>/*.png
-  (default tag v28; --tag v2 is refused)
+  (default tag v30; the reviewed sets v2 / v27 / v28 / v29 are refused)
 """
 import bpy, bmesh, math, json, os, sys, struct, subprocess, shutil, random
 from mathutils import Vector, Matrix, Quaternion, Euler
