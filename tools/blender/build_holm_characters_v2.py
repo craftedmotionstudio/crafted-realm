@@ -2890,13 +2890,16 @@ def clip_defs():
         (26, PP(draw, RightArm=A(-.95, .30, .20), RightForeArm=A(-.40, .80, .20))),
         (36, P()),
     ], False)
+    # v3.1: the right wrist turns down-forward through the cast, so a staff (held along the hand, as in the idle) stays
+    # tilted back beside the head instead of swinging flat behind it
+    SW = A(-.10, -.70, -.70)
     C['cast'] = (30, [
         (0, P()),
-        (8, P(RightArm=A(-.35, -.5, -.8), RightForeArm=A(.6, -.6, .5), LeftArm=A(.35, -.5, -.8), LeftForeArm=A(-.6, -.6, .5),
-              Spine1=(-6, 0, 0), Head=(-4, 0, 0))),
-        (14, P(RightArm=A(-.2, -1, .15), RightForeArm=A(-.05, -1, .2), LeftArm=A(.2, -1, .15), LeftForeArm=A(.05, -1, .2),
+        (8, P(RightArm=A(-.35, -.5, -.8), RightForeArm=A(.6, -.6, .5), RightHand=A(-.05, -.75, -.66), LeftArm=A(.35, -.5, -.8),
+              LeftForeArm=A(-.6, -.6, .5), Spine1=(-6, 0, 0), Head=(-4, 0, 0))),
+        (14, P(RightArm=A(-.2, -1, .15), RightForeArm=A(-.05, -1, .2), RightHand=SW, LeftArm=A(.2, -1, .15), LeftForeArm=A(.05, -1, .2),
                Spine1=(8, 0, 0), LeftUpLeg=(-15, 0, 0), LeftLeg=(10, 0, 0), RightUpLeg=(10, 0, 0), loc=(0, 0, -.01))),
-        (20, P(RightArm=A(-.2, -1, .1), RightForeArm=A(-.05, -1, .15), LeftArm=A(.2, -1, .1), LeftForeArm=A(.05, -1, .15),
+        (20, P(RightArm=A(-.2, -1, .1), RightForeArm=A(-.05, -1, .15), RightHand=SW, LeftArm=A(.2, -1, .1), LeftForeArm=A(.05, -1, .15),
                Spine1=(7, 0, 0), LeftUpLeg=(-15, 0, 0), LeftLeg=(10, 0, 0), RightUpLeg=(10, 0, 0), loc=(0, 0, -.01))),
         (30, P()),
     ], False)
