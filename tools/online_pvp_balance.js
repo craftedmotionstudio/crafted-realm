@@ -5,6 +5,8 @@
  * prints the hit chance, max hit, attack speed and damage per tick, then simulates 2000 duels between the two kits
  * (both attack on their own clocks, eat a trout at <= 45% hitpoints like a player would, with the 3-tick bite and
  * +3 attack delay) and reports the win rate and the median / p90 fight length in seconds.
+ * It also prints the PvM table: every kit against every monster type on the test map (time to kill, damage taken
+ * per kill, with and without the matching protection prayer), so the alpha's monsters sit in a sensible band.
  * Run: node tools/online_pvp_balance.js [--json out.json]
  */
 'use strict';
@@ -106,8 +108,27 @@ function main() {
   for (const r of rows) console.log(`${r.attacker.padEnd(9)} ${r.defender.padEnd(9)} ${(r.protect ? 'protect' : '-').padEnd(8)} ${r.type.padEnd(7)} ${(r.hitChance * 100).toFixed(1).padStart(5)}  ${String(r.maxHit).padStart(3)}  ${String(r.rate).padStart(4)}  ${r.dmgPerTick.toFixed(3).padStart(8)}  ${String(r.ttkNoFoodSec).padStart(6)}s`);
   console.log('\nduel (both eat at <=45%)          A wins   median   p90');
   for (const d of duels) console.log(`${(d.a + ' vs ' + d.b + (d.protect ? ' +prot' : '')).padEnd(32)} ${(d.winRateA * 100).toFixed(1).padStart(6)}%  ${String(d.medianSec).padStart(6)}s ${String(d.p90Sec).padStart(6)}s`);
+  const pvm = pvmTable(setups);
+  console.log('\nPvM (per kill)                 hit%  max  ttk     taken  taken+prot  monster hit%  max');
+  for (const r of pvm) console.log(`${(r.kit + ' vs ' + r.npc).padEnd(28)} ${(r.hitChance * 100).toFixed(1).padStart(5)} ${String(r.maxHit).padStart(4)} ${String(r.ttkSec).padStart(5)}s ${String(r.takenPerKill).padStart(7)} ${String(r.takenProtected).padStart(9)}  ${(r.npcHitChance * 100).toFixed(1).padStart(10)}% ${String(r.npcMax).padStart(4)}`);
   const i = process.argv.indexOf('--json');
-  if (i > 0) fs.writeFileSync(process.argv[i + 1], JSON.stringify({ levels: LV, combatLevel: cb, rows, duels }, null, 2));
+  if (i > 0) fs.writeFileSync(process.argv[i + 1], JSON.stringify({ levels: LV, combatLevel: cb, rows, duels, pvm }, null, 2));
+}
+/** each kit against each monster type the test map spawns: expected time to kill and damage taken per kill */
+function pvmTable(setups) {
+  const types = Array.from(new Set(MAP.spawns.map((s1) => s1.npc)));
+  const out = [];
+  for (const s1 of setups) for (const ty of types) {
+    const def = G.NPC_TYPES[ty], lv = C.npcLevels(def), atk = attackOf(s1, []);
+    const chance = C.hitChance(atk.roll, C.npcDefenceRoll(def, lv, atk.type)), max = Math.min(atk.max, def.maxDealt != null ? def.maxDealt : atk.max);
+    const perTick = chance * (max / 2) / atk.rate, ttk = def.hp / Math.max(1e-9, perTick);
+    const ntype = C.npcAttackType(def), prot = ntype === 'magic' ? 'protect_magic' : ntype === 'ranged' ? 'protect_range' : 'protect_melee';
+    const pdef = stats(s1, []).defenceRoll[ntype], nAtk = C.npcAttackRoll(def, lv, []), nMax = C.npcMaxHit(def, lv), nRate = def.speedTicks || 4;
+    const nChance = C.hitChance(nAtk, pdef), taken = ttk * nChance * (nMax / 2) / nRate;
+    const nAtkP = C.npcAttackRoll(def, lv, [prot]), takenP = ttk * C.hitChance(nAtkP, pdef) * (nMax / 2) / nRate;
+    out.push({ kit: s1.name, npc: ty, level: def.level, hp: def.hp, hitChance: +chance.toFixed(3), maxHit: max, ttkSec: +(ttk * 0.6).toFixed(1), takenPerKill: +taken.toFixed(1), takenProtected: +takenP.toFixed(1), npcHitChance: +nChance.toFixed(3), npcMax: nMax, npcType: ntype });
+  }
+  return out;
 }
 if (require.main === module) main();
 module.exports = { kitSetup, attackOf, duel, row, RNG };
