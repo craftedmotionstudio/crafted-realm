@@ -91,11 +91,16 @@ async function startServer() {
   // the hitpoints the other adventurers were last told (2004: someone else's hitpoints travel only with a hit)
   const info0 = world.processInfo.bind(world);
   world.processInfo = function () { for (const p of world.activePlayers()) if (p.qaLastHitTick === world.tick) p.qaHpAtHit = p.hp; return info0(); };
+  const cyc0 = world.cycle.bind(world);
+  world.cycle = function () { const r = cyc0(); for (const p of world.activePlayers()) if (p.prayers && p.prayers.size) prayerLog.push({ tick: world.tick, pid: p.pid, prayers: Array.from(p.prayers) }); if (prayerLog.length > 200000) prayerLog.splice(0, 100000); return r; };
   log('game server on ws://127.0.0.1:' + app.port + ' tick ' + TICK + ' ms');
 }
 function sp(name) { return world.playerByKey(String(name).toLowerCase()); }
 function stopCheck() { if (Date.now() > DEADLINE || fs.existsSync(STOP_FILE)) throw new Error('run stopped (deadline or STOP file)'); }
 /** PvP fixtures: monsters do not hunt while two adventurers duel (they would join in: the test is about PvP) */
+/** the first tick at or after since on which this adventurer's prayer was up (sampled every tick by the world hook) */
+const prayerLog = [];
+function prayerUpAt(name, id, since) { const p = sp(name); const e = prayerLog.find((r) => r.tick >= since && r.pid === (p && p.pid) && r.prayers.includes(id)); return e ? e.tick : Infinity; }
 function huntAll(on) { for (const n of world.npcs.values()) { if (n._huntSaved === undefined) n._huntSaved = n.huntEnabled; n.huntEnabled = on ? n._huntSaved : false; if (!on && n.target && n.target.pid != null) n.resetDefaults(); } }
 /** walk through waypoints (keeps clear of monster haunts) */
 async function walkRoute(c, pts, ms) { for (const p of pts) await walkTo(c, p[0], p[1], ms); }
@@ -565,8 +570,13 @@ async function pvmFight(fight, A, O, o) {
   check(fight, nHitsNpc > 0 && onNpc === nHitsNpc && onMe === nHitsMe, 'splats match the server hits (monster and adventurer)', { npcServer: nHitsNpc, npcShown: onNpc, meServer: nHitsMe, meShown: onMe });
   const breathTicks = new Set(serverFx.filter((f) => f.k === 'breath' && f.tick >= since && f.to[0] === 'p' && f.to[1] === aPid).map((f) => f.tick + f.d));
   if (o.protect) {
-    const fromNpc = serverHits.filter((h) => h.tick >= since && h.to === 'p' + aPid && !breathTicks.has(h.tick));
-    check(fight, fromNpc.every((h) => h.amount === 0), 'the protection prayer blocks the monster completely', fromNpc.map((h) => h.amount));
+    // 2004: a monster's hit is judged against the prayer when it attacks, so a shot already in flight when the prayer
+    // went up (an archer shooting 7 tiles out) still lands, and a prayer that ran dry protects no more: the blows that
+    // count are those landing while the prayer is up, more than the longest flight (5 ticks) after it went up
+    const upAt = prayerUpAt(A.name, o.protect, since);
+    const fromNpc = serverHits.filter((h) => h.tick >= since && h.to === 'p' + aPid && !breathTicks.has(h.tick) && h.tick > upAt + 5 && h.prayers && h.prayers.includes(o.protect));
+    const ignored = serverHits.filter((h) => h.tick >= since && h.to === 'p' + aPid && !breathTicks.has(h.tick)).length - fromNpc.length;
+    check(fight, fromNpc.length > 0 && fromNpc.every((h) => h.amount === 0), 'the protection prayer blocks the monster completely', { blows: fromNpc.map((h) => h.amount), beforePrayerOrAfterItRanDry: ignored });
     await A.q((id) => CROnlineQA.send({ t: 'prayer', id, on: false }), o.protect);
   }
   fight.fx = { attacker: fxDelta(fx0, st.fx) };
