@@ -3818,11 +3818,11 @@ def keep_clearance(bt, base, var, kind):
 # hair / beard vertex that hangs by the torso out from it (and from the deltoid caps) by up to ARMOUR_CLEAR, fading out
 # above the neck; the head, face and neck skin never move. The runtime turns it on while a platebody, chainbody, leather
 # body or cape is worn (holm_equipment extras.kit_morphs).
-ARMOUR_CLEAR = .034
+ARMOUR_CLEAR = {'Hair': .040, 'Jaw': .048}   # hair over plate + a cape; a beard over the gorget
 def armour_clearance(bt, ob, base, slot):
     hair_mat = [i for i, m in enumerate(ob.data.materials) if m and m.name.split('.')[0] == 'C_HAIR']
     hv = set(v for pl in ob.data.polygons if pl.material_index in hair_mat for v in pl.vertices)
-    z0, z1 = (1.56, 1.47) if slot == 'Hair' else (1.575, 1.50)
+    z0, z1 = (1.60, 1.52) if slot == 'Hair' else (1.575, 1.50)
     out = []
     for i, p in enumerate(base):
         q = p.copy()
@@ -3830,13 +3830,15 @@ def armour_clearance(bt, ob, base, slot):
             f = ss(z0, z1, p.z)
             c0, rdir = _clearance(bt, p, TORSO, PELVIS)
             if c0 < .10:
-                q = q + rdir * ARMOUR_CLEAR * f
+                q = q + rdir * ARMOUR_CLEAR[slot] * f
+            if slot == 'Hair' and abs(p.x) > .10 and 1.40 < p.z < 1.54:   # hair lying on the shoulder tops rises over plate
+                q = q + Vector((math.copysign(.45, p.x), 0, .89)) * .030 * f * ss(.10, .14, abs(p.x))
             for sx in (-1, 1):   # the deltoid caps (pauldrons sit there)
                 dc, dr = DELTOID[bt]
                 cb = Vector((sx * dc[0], dc[1], dc[2]))
                 d0 = (q - cb).length - dr
-                if 1.18 < p.z < 1.52 and d0 < .045:
-                    q = cb + (q - cb).normalized() * ((q - cb).length + (.045 - d0) * f)
+                if 1.18 < p.z < 1.52 and d0 < .055:
+                    q = cb + (q - cb).normalized() * ((q - cb).length + (.055 - d0) * f)
         out.append(q)
     return out
 

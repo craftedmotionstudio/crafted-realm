@@ -253,8 +253,9 @@ def solve_shield(kind):
     order = sorted(range(3), key=lambda i: ext_g[i])
     nl, ul = axis_b[order[0]], axis_b[order[2]]
     sq = kind == 'sqshield'
-    nW = g2b((0.72, 0, 0.69) if sq else (0.94, 0, 0.34)).normalized()
-    upr = g2b((0, 0.71, 0.71) if sq else (0, 1, 0))
+    SQN = [float(x) for x in arg('--sqn', '0.72,0,0.69,0,0.71,0.71').split(',')]   # riot shield face normal + up (fx_humanoid)
+    nW = g2b(tuple(SQN[:3]) if sq else (0.94, 0, 0.34)).normalized()
+    upr = g2b(tuple(SQN[3:]) if sq else (0, 1, 0))
     W = basis(nW, upr)
     Lm = basis(nl, ul)
     R = W @ Lm.inverted()
@@ -397,6 +398,8 @@ def exposure(L, kind, placed_ev, span_parts, occl_ev=()):
         rc = rest_co(o, L)
         for i, (p, n) in enumerate(zip(ev[1], ev[2])):
             if not fn(L.bt, rc[i]) or rc[i].z < .012:     # the sole on the ground is never seen
+                continue
+            if back > 0 and n.z > .85:                     # the lid of a hidden part (e.g. a boot shaft top) is inside the item
                 continue
             res['n'] += 1
             # visible from a camera level with or above the vertex: the outward ray never points steeply down

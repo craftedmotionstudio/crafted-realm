@@ -496,12 +496,14 @@ def b_round():
     return m
 
 def b_sq():
-    """Curved rectangular shield, convex toward +X: raised rim, sunken field, cross band and boss."""
+    """Curved rectangular shield, convex toward +X: raised rim, sunken field, cross band and boss.
+    v2 (kit v3.1: the arms hang at the sides): a shallower curve and a hand shorter, so its edges no longer wrap into the
+    hips / chest when the arm swings or pumps (the v1 edges curled back 18 cm)."""
     m = M()
-    ys = [-.28, -.258, -.236, -.1, 0, .1, .236, .258, .28]
-    zs = [-.52, -.498, -.476, .06, .286, .308, .33]
+    ys = [-.26, -.238, -.216, -.1, 0, .1, .216, .238, .26]
+    zs = [-.44, -.418, -.396, .06, .256, .278, .30]
     W, Hn = len(ys), len(zs)
-    def X(y): return .042 - .182 * (y / .28) ** 2
+    def X(y): return .036 - .085 * (y / .26) ** 2
     def ringi(i, j): return min(i, W - 1 - i, j, Hn - 1 - j)
     k = len(m.v)
     for j, z in enumerate(zs):
@@ -766,13 +768,13 @@ def sk_platebody(mb, bt, over=None):
             return MT
         suit_sleeves(mb, bt, spec, MT, 8, matfn=spec_mats(spec, am))
         for sx in (-1, 1):
-            pauldron(mb, bt, sx, [.06, .22, .34, .46, .58, .72, .86], [.052, .050, .044, .050, .042, .046, .030], .022,
+            pauldron(mb, bt, sx, [.06, .22, .34, .46, .58, .72, .86], [.038, .036, .032, .036, .030, .033, .022], .018,
                      [ME, MT, MD, MT, MD, MT, ME], .030)
 
 def sk_chainbody(mb, bt, over=None):
     n = 14
     OFF = .018
-    rows = [(.83, .050), (.845, .050), (.90, .042), (.97, .032), (1.04, OFF), (1.12, OFF), (1.20, OFF), (1.28, OFF), (1.36, OFF),
+    rows = [(.83, .050), (.845, .050), (.90, .042), (.97, .034), (1.04, .024), (1.08, OFF), (1.12, OFF), (1.20, OFF), (1.28, OFF), (1.36, OFF),
             (1.428, .018), (1.466, .017), (1.488, .017), (1.503, .018)]
     last = len(rows) - 1
     def mat_face(i, k):
@@ -1002,7 +1004,7 @@ def clear_off(bt, over, phi, z, spread=((0.0, 0.0),), legs=False):
 FOOT = [(dp, dz) for dp in (-.10, 0.0, .10) for dz in (-.010, 0.0, .010)]
 
 NECK_X = {'A': .094, 'B': .084}       # half width of the necklace at the base of the neck
-FOOT_A = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.008, 0.0, .008)]
+FOOT_A = [(dp, dz) for dp in (-.20, -.10, 0.0, .10, .20) for dz in (-.010, 0.0, .010)]
 def x_to_phi(bt, x, z, off):
     """the body_point angle (front half) whose point has this x"""
     e = 2.0 / KB.TORSO_P
@@ -1022,9 +1024,9 @@ def sk_amulet(mb, bt, over=None):
             a = (u - math.pi / 2) / math.pi         # 0 .. 1 from the left side round the back to the right side
             phi = ps + (2 * math.pi - 2 * ps) * a
             z = ZB
-        o = clear_off(bt, over, phi, z, FOOT_A) + R + .007 + .006 * KB.ss(1.40, 1.46, z)
+        o = clear_off(bt, over, phi, z, FOOT_A) + R + .008 + .012 * KB.ss(1.40, 1.46, z)
         p = KB.body_point(bt, phi, z, o)
-        pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42, 1.47, z)), R + .005))
+        pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42, 1.47, z)), R + .008))
     rings = []
     for j, p in enumerate(pts):
         t = (pts[(j + 1) % N] - pts[j - 1])
@@ -1032,18 +1034,18 @@ def sk_amulet(mb, bt, over=None):
     rings.append(rings[0])
     mb.loft(rings, BR, lambda q: KB.torso_w(Vector((q.x, q.y, q.z - .012))), cap0=False, cap1=False)
     zc = 1.338                                    # the pendant rests on whatever is under it (its back face 2 mm off it)
-    o = clear_off(bt, over, 0.0, zc, [(dp, dz) for dp in (-.22, -.11, 0.0, .11, .22) for dz in (-.03, 0.0, .03)]) + .008
+    o = clear_off(bt, over, 0.0, zc, [(dp, dz) for dp in (-.26, -.13, 0.0, .13, .26) for dz in (-.04, -.02, 0.0, .02, .04)]) + .020
     y = KB.front_y(bt, 0, zc, o) - .004
     c = Vector((0, y, zc))
     disc = [KB.xring(c + Vector((0, dy, 0)), (0, -1, 0), r, r, r, 10, front=(0, 0, 1)) for dy, r in ((.006, .026), (.001, .034), (-.006, .030))]
-    mb.loft(disc, BR, KB.SPINE_W((0, 0, zc)), cap0=True, cap1=True)
+    mb.loft(disc, BR, KB.torso_w, cap0=True, cap1=True)      # (weighted like the chest under it)
     gem = [KB.xring(c + Vector((0, dy, 0)), (0, -1, 0), r, r * 1.2, r * 1.2, 6, front=(0, 0, 1)) for dy, r in ((-.005, .016), (-.012, .012), (-.016, .004))]
-    mb.loft(gem, GM, KB.SPINE_W((0, 0, zc)), cap0=False, cap1=True)
+    mb.loft(gem, GM, KB.torso_w, cap0=False, cap1=True)
     top = pts[0]
     mb.loft([KB.xring(c + Vector((0, .002, .034)), (0, 0, 1), .006, .006, .006, 4), KB.xring(top, (0, 0, 1), .006, .006, .006, 4)], BR,
             KB.SPINE_W((0, 0, zc)))
 
-CAPE_ROWS = [(1.472, 42, .010), (1.40, 44, .014), (1.30, 46, .018), (1.10, 48, .030), (.82, 51, .050), (.53, 54, .066)]
+CAPE_ROWS = [(1.472, 38, .006), (1.40, 40, .004), (1.30, 42, .004), (1.10, 45, .016), (.82, 49, .040), (.53, 52, .058)]
 FOOT_C = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.010, 0.0, .010)]   # (between the shoulder blades, clear of the arms)
 def sk_cape(mb, bt, over=None):
     cols = 11
@@ -1053,10 +1055,11 @@ def sk_cape(mb, bt, over=None):
         for c in range(cols):
             u = -1 + 2 * c / (cols - 1)
             phi = math.pi + math.radians(span) * u
-            fold = (.010 if c % 2 else -.004) * KB.ss(1.35, 1.0, z)
+            fold = (.008 if c % 2 else -.003) * KB.ss(1.30, 1.0, z)
             if z >= 1.10:
                 base = KB.body_point(bt, phi, z, clear_off(bt, over, phi, z, FOOT_C) + .012 + st)
-                inner_p = push_clear(bt, over, base - Vector((0, .010, 0)), out_dir(bt, phi, z, .5 * KB.ss(1.40, 1.47, z)), .005)
+                inner_p = push_clear(bt, over, base - Vector((0, .010, 0)), out_dir(bt, phi, z, .5 * KB.ss(1.40, 1.47, z)),
+                                     .005 + .010 * KB.ss(1.42, 1.47, z))   # (the shoulders draw back in the idle)
                 base = inner_p + Vector((0, .010, 0))
             else:                                   # below the shoulder blades it hangs straight, flaring a little
                 sw = KB.body_point(bt, phi, 1.10, clear_off(bt, over, phi, 1.10, FOOT_C) + .012 + .030)
@@ -1077,7 +1080,7 @@ def sk_cape(mb, bt, over=None):
     for j in range(11):
         phi = math.pi + math.radians(CAPE_ROWS[0][1]) * (-1 + 2 * j / 10)
         q = KB.body_point(bt, phi, 1.474, clear_off(bt, over, phi, 1.474, FOOT_C) + .012 + CAPE_ROWS[0][2] - .005)
-        col.append(push_clear(bt, over, q, out_dir(bt, phi, 1.474, .6), .010))
+        col.append(push_clear(bt, over, q, out_dir(bt, phi, 1.474, .6), .020))
     rings = [KB.xring(p, (col[min(j + 1, 10)] - col[max(j - 1, 0)]), .009, .009, .009, 5, front=(0, 0, 1)) for j, p in enumerate(col)]
     mb.loft(rings, CK, KB.SPINE_W, cap0=True, cap1=True, cap_mat=CK)      # the edge rides the spine like the cape
     for sx in (-1, 1):
@@ -1622,10 +1625,10 @@ if not NO_PROOF:
 def parse_specs():
     t = read('src/equip_builder.js'); out = {}
     for m_ in re.finditer(r"(\w+):\s*\{axis:\[([^\]]+)\],\s*roll:\[([^\]]+)\],\s*neutral:\[([^\]]+)\],\s*rollAim:\[([^\]]+)\],"
-                          r"\s*grip:\[([^\]]+)\],\s*palmAlong:([\d.]+)\}", t):
+                          r"\s*grip:\[([^\]]+)\],\s*palmAlong:([\d.]+)(,\s*hand:'(\w+)')?\}", t):
         f = lambda g: [float(x) for x in g.split(',')]
         out[m_.group(1)] = dict(axis=f(m_.group(2)), roll=f(m_.group(3)), neutral=f(m_.group(4)), rollAim=f(m_.group(5)),
-                                grip=f(m_.group(6)), palmAlong=float(m_.group(7)))
+                                grip=f(m_.group(6)), palmAlong=float(m_.group(7)), hand=m_.group(9) or 'RightHand')
     return out
 SPECS = parse_specs()
 SPEC_MISMATCH = [(b['kind'], b['spec'], b['grip'], SPECS[b['spec']]['grip']) for b in BUILT
@@ -1660,7 +1663,7 @@ def solve_held(arm, spec_key, grip_override=None):
     yl = Vector(sp['axis']).normalized(); xl0 = Vector(sp['roll']); xl = (xl0 - yl * xl0.dot(yl)).normalized(); zl = xl.cross(yl)
     Rg = Matrix((xW, yW, zW)).transposed() @ Matrix((xl, yl, zl)).transposed().inverted()
     Rb = C_G2B @ Rg @ C_G2B.inverted()
-    Mh, _ = bone_world(arm, 'RightHand')
+    Mh, _ = bone_world(arm, sp['hand'])      # (bows ride the left hand)
     palm = Mh.translation + Mh.to_3x3().col[1].normalized() * sp['palmAlong']
     grip = C_G2B @ Vector(grip_override or sp['grip'])
     return Matrix.Translation(palm - Rb @ grip) @ Rb.to_4x4(), palm
