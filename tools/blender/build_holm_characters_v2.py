@@ -2126,7 +2126,7 @@ def cap_points(bt, sx, off_end, ts, fullness=1.0, bulge=0.0, push=0.0):
         cp = math.cos(psi)
         T0 = (n * (.80 - .45 * max(0.0, -cp)) + tin * (.75 * cp)).normalized()
         L = (P3 - P0).length
-        P1 = P0 + T0 * (L * .38 * fullness)
+        P1 = P0 + T0 * (L * .29 * fullness)   # v3.0 review pass 2: a rounded shoulder without a puffed-sleeve notch
         P2 = P3 - d * (L * .40)
         for i, t in enumerate(ts):
             u_ = 1 - t
