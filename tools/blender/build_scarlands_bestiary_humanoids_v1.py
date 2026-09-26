@@ -128,9 +128,9 @@ def _ensure(mb_mats, mat, tint):
 
 # ---------- the foes ----------
 FOES = {
- 'scar_raider_archer': dict(bt='A', parts={'Hair': 8, 'Jaw': 6, 'Torso': 7, 'Arms': 7, 'Hands': 2, 'Legs': 5, 'Feet': 1},
+ 'scar_raider_archer': dict(bt='A', parts={'Hair': 2, 'Jaw': 6, 'Torso': 7, 'Arms': 7, 'Hands': 2, 'Legs': 5, 'Feet': 1},
    colors={'C_HAIR': '#3a2a22', 'C_TORSO': '#5c4a3a', 'C_LEGS': '#3e3a34', 'C_FEET': '#2e2620', 'C_SKIN': '#b88a66', 'A_BELT': '#3a2616', 'A_METAL': '#6a625a'},
-   mats={'A_GREEN': '#4a3e36'}, extras=['hood'],
+   mats={'A_GREEN': '#4a3e36', 'Q_LEATHER': '#4a3020', 'Q_DARK': '#2e1e14', 'Q_SHAFT': '#8a6a44', 'Q_FLETCH': '#c8b898'}, extras=['hood', 'quiver'],
    worn={'leather_body': {'M_LEATHER': '#5a3e28', 'M_LEATHER_DARK': '#3a281a', 'M_BRASS': '#8a6a3a', 'M_WOOD_DARK': '#3a2a1e'}},
    held=('shortbow', {'M_WOOD': '#6a4a2c', 'M_WOOD_DARK': '#4a3220', 'M_STRING': '#d8ccb0', 'M_LEATHER': '#5a3e28', 'M_LEATHER_DARK': '#3a281a', 'M_WRAP': '#7a2e22'}),
    attack='bow', alias='shoot'),
@@ -140,6 +140,22 @@ FOES = {
    held=('staff', {'M_WOOD': '#3a2a22', 'M_WOOD_DARK': '#241a16', 'M_BRASS': '#9a6a2a', 'M_LEATHER_DARK': '#2a1e16', 'M_GEM': '#ff7a1e'}),
    attack='cast', alias='cast'),
 }
+
+def ext_quiver(mb, bt):
+    """a back quiver slung from the left hip to over the right shoulder, arrow fletchings showing (rigid on Spine2)"""
+    S2 = B('Spine2')
+    rx, rf, rb, cy = ck.body_r(bt, 1.30)
+    yb = cy + rb + .075
+    bot, top = Vector((.09, yb - .015, 1.00)), Vector((-.11, yb + .01, 1.50))
+    ax = (top - bot); axn = ax.normalized()
+    rings = [ck.xring(bot + ax * t, ax, r, r * .8, r * .8, 6) for t, r in ((0, .036), (.04, .044), (.9, .050), (1.0, .056))]
+    mb.loft(rings, 'Q_LEATHER', S2, smooth=False, matfn=lambda i, k: 'Q_DARK' if i in (0, 2) else 'Q_LEATHER')
+    for k, (dx, dy) in enumerate(((-.018, -.008), (.016, .002), (.0, .02), (-.02, .022), (.02, -.014))):
+        base = top + Vector((dx, dy, 0)) - axn * .03
+        tip = base + axn * (.10 + .018 * (k % 3))
+        mb.loft([ck.xring(base, axn, .004, .004, .004, 4), ck.xring(tip, axn, .004, .004, .004, 4)], 'Q_SHAFT', S2, smooth=False)
+        mb.cone(ck.xring(tip - axn * .055, axn, .016, .005, .005, 3, phase=k * .7), tip + axn * .01, 'Q_FLETCH', S2, smooth=False)
+ck.EXTRA_FN['quiver'] = (ext_quiver, False)
 
 # the skeleton: our own bone mesh on the kit rig
 BONE_W = '#d4ccb4'; BONE_SOOT = '#7a7060'

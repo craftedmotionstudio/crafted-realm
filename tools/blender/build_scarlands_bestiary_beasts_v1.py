@@ -239,6 +239,62 @@ def make_clip(rig, name, frames, keys):
     st = tr.strips.new(tr.name, 0, act); st.name = tr.name
     return act
 
+def set_pose(rig, pose):
+    arm = rig.arm
+    root = next(n for n in rig.bones if rig.bones[n][4] == 'root')
+    for n in rig.bones:
+        if n == root:
+            continue
+        pb = arm.pose.bones[n]; pb.rotation_mode = 'XYZ'
+        pb.rotation_euler = Euler([math.radians(a) for a in pose.get(n, (0, 0, 0))], 'XYZ')
+    rpb = arm.pose.bones[root]; rpb.rotation_mode = 'QUATERNION'
+    rpb.location = arm.data.bones[root].matrix_local.to_3x3().inverted() @ Vector(pose.get('root_loc', (0, 0, 0)))
+    rpb.rotation_quaternion = to_local_quat(rig, root, pose.get('root_rot', (0, 0, 0)))
+
+def pose_bounds(rig, meshes, pose):
+    """the skinned mesh's lowest z and bbox centre (x, y) in a pose (no animation data applied)"""
+    ad = rig.arm.animation_data
+    if ad:
+        ad.action = None; ad.use_nla = False
+    set_pose(rig, pose); bpy.context.view_layer.update()
+    dg = bpy.context.evaluated_depsgraph_get(); pts = []
+    for o in meshes:
+        oe = o.evaluated_get(dg); me = oe.to_mesh()
+        pts += [o.matrix_world @ v.co for v in me.vertices]
+        oe.to_mesh_clear()
+    if ad:
+        ad.use_nla = True
+    xs = [p.x for p in pts]; ys = [p.y for p in pts]
+    return min(p.z for p in pts), (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
+
+def lerp_pose(a, b, t):
+    out = {}
+    for k in set(a) | set(b):
+        va, vb = a.get(k, (0, 0, 0)), b.get(k, (0, 0, 0))
+        out[k] = tuple(x + (y - x) * t for x, y in zip(va, vb))
+    return out
+
+def settle(rig, meshes, keys, step=2):
+    """death clips: resample every `step` frames (smoothstep between the authored keys), then lift / drop the whole
+    body so its lowest point touches the ground (no sinking while it rolls over about the Root at its feet) and slide
+    it sideways, in step with the roll, so the corpse ends centred on its tile"""
+    _, cx_end, _ = pose_bounds(rig, meshes, keys[-1][1])
+    rot_end = max(abs(a) for a in keys[-1][1].get('root_rot', (0, 0, 0))) or 1.0
+    frames = sorted(set(list(range(0, keys[-1][0] + 1, step)) + [f for f, _ in keys]))
+    out = []
+    for f in frames:
+        for (f0, p0), (f1, p1) in zip(keys, keys[1:]):
+            if f0 <= f <= f1:
+                t = (f - f0) / max(1, f1 - f0); pose = lerp_pose(p0, p1, t * t * (3 - 2 * t)); break
+        rot = max(abs(a) for a in pose.get('root_rot', (0, 0, 0)))
+        minz, _, _ = pose_bounds(rig, meshes, pose)
+        loc = Vector(pose.get('root_loc', (0, 0, 0)))
+        loc.z -= minz
+        loc.x -= cx_end * min(1.0, rot / rot_end)
+        pose = dict(pose); pose['root_loc'] = tuple(loc)
+        out.append((f, pose))
+    return out
+
 def mix(*poses, **extra):
     d = {}
     for p in poses:
@@ -332,15 +388,15 @@ def ash_stalker():
     b.loft(rings, M['hide'], torso, sharp=4.0, mats=lambda i, k: M['belly'] if k in (6, 7, 8) else M['hide'])
     # neck + head + snout
     npts = [Vector(p) for p in ((0, -.46, .98), (0, -.56, 1.05), (0, -.66, 1.11))]
-    b.loft(path_rings(npts, [(.11, .14), (.09, .11), (.085, .10)], 8), M['hide'], ['Chest', 'Neck', 'Head'], cap0=False, cap1=False)
+    b.loft(path_rings(npts, [(.13, .16), (.11, .13), (.10, .12)], 8), M['hide'], ['Chest', 'Neck', 'Head'], cap0=False, cap1=False)
     hpts = [Vector(p) for p in ((0, -.66, 1.13), (0, -.76, 1.16), (0, -.88, 1.12), (0, -1.02, 1.06), (0, -1.13, 1.03))]
-    b.loft(path_rings(hpts, [(.085, .10), (.095, .10), (.07, .07), (.05, .05), (.035, .035)], 8), M['hide'], 'Head', cap0=False)
+    b.loft(path_rings(hpts, [(.10, .12), (.115, .12), (.09, .085), (.065, .06), (.045, .042)], 8), M['hide'], 'Head', cap0=False)
     # lower jaw
     jpts = [Vector(p) for p in ((0, -.72, 1.06), (0, -.88, 1.02), (0, -1.08, .99))]
-    b.loft(path_rings(jpts, [(.07, .035), (.05, .03), (.03, .02)], 6), M['mouth'], 'Jaw')
+    b.loft(path_rings(jpts, [(.085, .04), (.065, .035), (.04, .025)], 6), M['mouth'], 'Jaw')
     for s in (1, -1):
-        b.blob((.055 * s, -.86, 1.15), .02, M['eye'], 'Head', (1, 1.3, .8))                            # ember eyes
-        b.cone(Vector((.05 * s, -.74, 1.2)), (s * .3, .8, .5), .045, .16, 4, M['ear'], 'Head', flat=.4)  # swept ears
+        b.blob((.078 * s, -.84, 1.165), .024, M['eye'], 'Head', (1, 1.3, .8))                          # ember eyes
+        b.cone(Vector((.065 * s, -.72, 1.22)), (s * .3, .8, .5), .055, .19, 4, M['ear'], 'Head', flat=.4)  # swept ears
         for k in range(3):                                                                              # fangs
             b.cone(Vector((.02 * s * (1 + k * .5), -1.05 + k * .06, 1.0)), (0, 0, -1), .008, .04, 3, M['claw'], 'Head')
     # spine ridge of slag plates (shoulders to rump)
@@ -351,10 +407,10 @@ def ash_stalker():
     for side, s in (('L', 1), ('R', -1)):
         fl = [Vector((p[0] * s, p[1], p[2])) for p in Q['front_leg']]
         hl = [Vector((p[0] * s, p[1], p[2])) for p in Q['hind_leg']]
-        leg(b, [fl[0] + Vector((0, 0, .06)), fl[1], fl[2], fl[3] + Vector((0, 0, .03))], [(.08, .09), (.045, .045), (.035, .035), (.03, .03)], M['hide'],
-            ['Chest', 'UpperArm' + side, 'ForeArm' + side, 'Paw' + side], paw=(.05, .06), claw_m=M['claw'])
-        leg(b, [hl[0] + Vector((0, 0, .06)), hl[1], hl[2], hl[3] + Vector((0, 0, .03))], [(.10, .12), (.06, .06), (.035, .035), (.03, .03)], M['hide'],
-            ['Hips', 'Thigh' + side, 'Shin' + side, 'Foot' + side], paw=(.05, .065), claw_m=M['claw'])
+        leg(b, [fl[0] + Vector((0, 0, .06)), fl[1], fl[2], fl[3] + Vector((0, 0, .03))], [(.10, .12), (.065, .065), (.05, .05), (.042, .042)], M['hide'],
+            ['Chest', 'UpperArm' + side, 'ForeArm' + side, 'Paw' + side], paw=(.062, .075), claw_m=M['claw'])
+        leg(b, [hl[0] + Vector((0, 0, .06)), hl[1], hl[2], hl[3] + Vector((0, 0, .03))], [(.13, .16), (.085, .085), (.05, .05), (.042, .042)], M['hide'],
+            ['Hips', 'Thigh' + side, 'Shin' + side, 'Foot' + side], paw=(.062, .08), claw_m=M['claw'])
     # tail: thin, ending in a plated tip
     tpts = [Vector(p) for p in Q['tail']]
     b.loft(path_rings(tpts, [(.05, .05), (.04, .04), (.03, .03), (.015, .015)], 6), M['hide'], ['Hips', 'Tail1', 'Tail2', 'Tail3'], cap0=False)
@@ -387,9 +443,9 @@ def ash_stalker():
     hit = [(0, {}), (3, flinch), (7, mix(flinch, root_loc=(0, .05, 0))), (12, {})]
     slump = {'Chest': (10, 0, 0), 'Neck': (20, 0, 0), 'Head': (-10, 0, 0), 'ThighL': (20, 0, 0), 'ThighR': (20, 0, 0), 'UpperArmL': (-20, 0, 0), 'UpperArmR': (-20, 0, 0),
              'ForeArmL': (30, 0, 0), 'ForeArmR': (30, 0, 0), 'root_loc': (0, 0, -.2)}
-    down = {'root_rot': (0, 88, 0), 'root_loc': (.30, 0, -.66), 'Neck': (6, 0, 14), 'Head': (0, 0, 10), 'Jaw': (16, 0, 0),
+    down = {'root_rot': (0, 88, 0), 'Neck': (6, 0, 14), 'Head': (0, 0, 10), 'Jaw': (16, 0, 0),
             'UpperArmL': (18, 0, 10), 'UpperArmR': (-12, 0, -8), 'ThighL': (-14, 0, 0), 'ThighR': (22, 0, 0), 'Tail1': (0, 0, 18), 'Tail2': (0, 0, 14)}
-    death = [(0, {}), (4, flinch), (12, slump), (22, mix(down, root_loc=(.3, 0, -.6))), (28, down), (36, down)]
+    death = [(0, {}), (4, flinch), (12, slump), (22, mix(down, root_rot=(0, 94, 0))), (28, down), (36, down)]
     clips = {'idle': (60, idle, True), 'walk': (18, walk, True), 'attack': (18, attack, False), 'hit': (12, hit, False), 'death': (36, death, False)}
     events = {'attack': {'impact': 8}}
     return rig, [ob], clips, events, dict(mouth=('Head', (0, -1.13, 1.03)), speed_mps=1.67)
@@ -441,8 +497,8 @@ def cinder_rat():
     attack = [(0, {}), (3, rear), (5, snap), (8, mix(snap, Jaw=(0, 0, 0))), (12, {})]
     flinch = {'Chest': (-8, 0, 10), 'Head': (-12, 0, 10), 'Tail1': (14, 0, -16), 'root_loc': (0, .05, 0)}
     hit = [(0, {}), (3, flinch), (6, mix(flinch, root_loc=(0, .025, 0))), (10, {})]
-    down = {'root_rot': (0, -90, 0), 'root_loc': (-.08, 0, -.16), 'UpperArmL': (25, 0, 0), 'ThighL': (-25, 0, 0), 'Head': (0, 0, -10), 'Tail1': (0, 0, -20), 'Tail2': (0, 0, -20)}
-    death = [(0, {}), (3, flinch), (10, mix(down, root_loc=(-.04, 0, -.1))), (16, down), (24, down)]
+    down = {'root_rot': (0, -90, 0), 'UpperArmL': (25, 0, 0), 'ThighL': (-25, 0, 0), 'Head': (0, 0, -10), 'Tail1': (0, 0, -20), 'Tail2': (0, 0, -20)}
+    death = [(0, {}), (3, flinch), (10, mix(down, root_rot=(0, -96, 0))), (16, down), (24, down)]
     clips = {'idle': (60, idle, True), 'walk': (12, walk, True), 'attack': (12, attack, False), 'hit': (10, hit, False), 'death': (24, death, False)}
     return rig, [ob], clips, {'attack': {'impact': 5}}, dict(mouth=('Head', (0, -0.43, 0.2)), speed_mps=1.67)
 
@@ -452,13 +508,13 @@ def cinder_rat():
 def cinder_wyrmling():
     Q = dict(hip_x=.28, shoulder_x=.28, rump=(0, .75, 1.05), mid=(0, .10, 1.10), chest=(0, -.55, 1.18), neck=(0, -.80, 1.35), head=(0, -1.35, 1.80), snout=(0, -1.95, 1.62),
              jaw_drop=.12, neck_bones=2, tail=[(0, .85, 1.02), (0, 1.35, .86), (0, 1.85, .62), (0, 2.30, .42), (0, 2.70, .30)],
-             front_leg=[(.30, -.58, 1.04), (.36, -.52, .58), (.36, -.62, .16), (.36, -.80, .03)],
+             front_leg=[(.30, -.58, 1.04), (.36, -.44, .60), (.36, -.62, .16), (.36, -.80, .03)],
              hind_leg=[(.30, .70, 1.0), (.36, .45, .58), (.36, .82, .24), (.36, .62, .03)],
              wing=[(.26, -.42, 1.50), (.95, -.15, 1.95), (1.65, .35, 1.55)])
     rig, bones = quadruped_rig('Rig_CinderWyrmling', Q)
-    M = dict(scale=mat('Wyrmling ember scales', '#6a3024', 'scales_ember', .35), belly=mat('Wyrmling belly plates', '#b8783a', 'ruined_stone', .3),
+    M = dict(scale=mat('Wyrmling ember scales', '#5e2a20', 'scales_ember', .7), belly=mat('Wyrmling belly plates', '#b8783a', 'ruined_stone', .3),
              horn=mat('Wyrmling horn', '#3a302a', 'dark_rock', .25), claw=mat('Wyrmling claw', '#2a2220'),
-             membrane=mat('Wyrmling wing membrane', '#5a2418', 'hide_ash', .4), eye=mat('Wyrmling eye (glow)', '#ffd060', emit='#ffb02a'),
+             membrane=mat('Wyrmling wing membrane', '#6a2c1c', 'hide_ash', .6), eye=mat('Wyrmling eye (glow)', '#ffd060', emit='#ffb02a'),
              throat=mat('Wyrmling throat glow (glow)', '#ff7a22', emit='#ff5a14'), mouth=mat('Wyrmling maw (glow)', '#aa2a10', emit='#6a1a08'))
     b = Body(rig)
     pts = [Vector(p) for p in ((0, .98, 1.0), (0, .7, 1.08), (0, .35, 1.12), (0, 0, 1.12), (0, -.35, 1.18), (0, -.62, 1.24), (0, -.78, 1.32))]
@@ -467,7 +523,7 @@ def cinder_wyrmling():
            mats=lambda i, k: M['belly'] if k in (6, 7, 8) else M['scale'])
     npts = [Vector(p) for p in ((0, -.74, 1.32), (0, -.95, 1.46), (0, -1.14, 1.62), (0, -1.32, 1.76))]
     b.loft(path_rings(npts, [(.22, .23), (.17, .18), (.15, .15), (.14, .14)], 8), M['scale'], ['Chest', 'Neck', 'Neck2', 'Head'], cap0=False, cap1=False,
-           mats=lambda i, k: M['throat'] if k in (6, 7) and i >= 1 else M['scale'])
+           mats=lambda i, k: M['throat'] if k in (5, 6) and i >= 1 else M['scale'])
     hpts = [Vector(p) for p in ((0, -1.30, 1.78), (0, -1.46, 1.84), (0, -1.66, 1.76), (0, -1.86, 1.68), (0, -1.98, 1.64))]
     b.loft(path_rings(hpts, [(.15, .15), (.17, .15), (.13, .11), (.09, .08), (.05, .05)], 8), M['scale'], 'Head', cap0=False)
     jpts = [Vector(p) for p in ((0, -1.40, 1.66), (0, -1.66, 1.58), (0, -1.92, 1.56))]
@@ -489,14 +545,21 @@ def cinder_wyrmling():
             ['Chest', 'UpperArm' + side, 'ForeArm' + side, 'Paw' + side], paw=(.11, .13), claw_m=M['claw'])
         leg(b, [hl[0] + Vector((0, 0, .1)), hl[1], hl[2], hl[3] + Vector((0, 0, .05))], [(.2, .24), (.12, .12), (.08, .08), (.07, .07)], M['scale'],
             ['Hips', 'Thigh' + side, 'Shin' + side, 'Foot' + side], paw=(.11, .15), claw_m=M['claw'])
-        # wing: two bone struts and a membrane fanning back to the body
+        # wing: arm + three finger struts from the wrist, a scalloped membrane between them and back to the flank
         w = [Vector((p[0] * s, p[1], p[2])) for p in Q['wing']]
-        b.loft(path_rings([w[0], w[1]], [(.05, .05), (.035, .035)], 5), M['horn'], ['WingArm' + side])
-        b.loft(path_rings([w[1], w[2]], [(.035, .035), (.015, .015)], 5), M['horn'], ['WingHand' + side])
-        body_pt = Vector((.22 * s, .45, 1.28)); mid_edge = w[1].lerp(w[2], .5) + Vector((0, .35, -.35))
         wa, wh = 'WingArm' + side, 'WingHand' + side
-        b.plate([w[0], w[1], mid_edge, body_pt], M['membrane'], [wa, wh, 'Spine'])
-        b.plate([w[1], w[2], mid_edge], M['membrane'], [wh])
+        tips = [w[2], Vector((1.30 * s, .78, 1.22)), Vector((.80 * s, .92, 1.18))]
+        body_pt = Vector((.24 * s, .62, 1.26))
+        b.loft(path_rings([w[0], w[1]], [(.055, .055), (.04, .04)], 5), M['horn'], [wa])
+        for tp in tips:
+            b.loft(path_rings([w[1], tp], [(.032, .032), (.012, .012)], 4), M['horn'], [wh])
+        b.cone(w[1] + Vector((0, 0, .02)), (s * .3, -.4, 1), .03, .14, 4, M['horn'], wh)                     # wrist thumb claw
+        def scallop(a, c, pull):
+            m_ = a.lerp(c, .5); return m_ + (w[1] - m_) * pull
+        edge = [tips[0], scallop(tips[0], tips[1], .22), tips[1], scallop(tips[1], tips[2], .22), tips[2], scallop(tips[2], body_pt, .18), body_pt]
+        for i in range(len(edge) - 1):
+            b.plate([w[1], edge[i], edge[i + 1]], M['membrane'], [wh] if i < 4 else [wa, wh, 'Spine'])
+        b.plate([w[0], w[1], body_pt], M['membrane'], [wa, wh, 'Spine'])
     tpts = [Vector(p) for p in Q['tail']]
     b.loft(path_rings(tpts, [(.15, .15), (.11, .11), (.08, .08), (.05, .05), (.02, .02)], 8), M['scale'], ['Hips', 'Tail1', 'Tail2', 'Tail3', 'Tail4'], cap0=False)
     b.cone(tpts[-1], (0, 1, -.2), .06, .25, 4, M['horn'], 'Tail4', flat=.3)
@@ -527,10 +590,10 @@ def cinder_wyrmling():
     flinch = mix(fold, {'Chest': (-8, 0, 8), 'Neck': (-16, 0, 10), 'Head': (-14, 0, 12), 'Jaw': (16, 0, 0), 'WingArmL': (-24, 0, 0), 'WingArmR': (-24, 0, 0),
                         'Tail1': (0, 0, -14), 'root_loc': (0, .12, 0)})
     hit = [(0, fold), (4, flinch), (8, mix(flinch, root_loc=(0, .06, 0))), (14, fold)]
-    down = mix(fold, {'root_rot': (0, 80, 0), 'root_loc': (.55, 0, -.88), 'Neck': (8, 0, 18), 'Neck2': (6, 0, 12), 'Head': (0, 0, 14), 'Jaw': (20, 0, 0),
+    down = mix(fold, {'root_rot': (0, 80, 0), 'Neck': (8, 0, 18), 'Neck2': (6, 0, 12), 'Head': (0, 0, 14), 'Jaw': (20, 0, 0),
                       'WingArmL': (10, -30, 40), 'WingArmR': (-20, 20, -10), 'UpperArmL': (20, 0, 0), 'ThighR': (18, 0, 0), 'Tail1': (0, 0, 16), 'Tail2': (0, 0, 16)})
     stagger = mix(flinch, {'root_loc': (.1, .1, -.18), 'ThighL': (18, 0, 0), 'ThighR': (18, 0, 0), 'UpperArmL': (-20, 0, 0), 'UpperArmR': (-24, 0, 0)})
-    death = [(0, fold), (5, flinch), (14, stagger), (26, mix(down, root_loc=(.45, 0, -.72))), (34, down), (48, down)]
+    death = [(0, fold), (5, flinch), (14, stagger), (26, mix(down, root_rot=(0, 86, 0))), (34, down), (48, down)]
     clips = {'idle': (72, idle, True), 'walk': (24, walk, True), 'attack': (24, attack, False), 'breath': (36, breath, False), 'hit': (14, hit, False), 'death': (48, death, False)}
     events = {'attack': {'impact': 11}, 'breath': {'release': 16, 'until': 26}}
     return rig, [ob], clips, events, dict(mouth=('Head', (0, -1.98, 1.6)), speed_mps=1.67, size_tiles=2)
@@ -539,6 +602,8 @@ def cinder_wyrmling():
 report = {'schema': 'crafted-realm-scarlands-bestiary-beasts-v1', 'builder': 'tools/blender/build_scarlands_bestiary_beasts_v1.py', 'blender': bpy.app.version_string, 'beasts': {}}
 for fid, fn in (('ash_stalker', ash_stalker), ('cinder_rat', cinder_rat), ('cinder_wyrmling', cinder_wyrmling)):
     rig, meshes, clips, events, extra = fn()
+    frames_, keys_, loop_ = clips['death']
+    clips['death'] = (frames_, settle(rig, meshes, keys_), loop_)
     for name, (frames, keys, loop) in clips.items():
         make_clip(rig, fid + '__' + name, frames, keys)
     rig.arm.animation_data.action = None
