@@ -82,7 +82,21 @@ the impact frame (`CombatFX.impactTime`).
 measure attack gaps, hit ticks and splat-versus-projectile timing, and the online layer can use it the same way to
 check it never shows a hit the server did not send.
 
-## 4. What the offline engine exposes (read-only for the interface)
+## 4. Plain entry points for the interface (the right-click menu providers)
+
+The menu system (CraftedRealms-Menu, `docs/rebuild/MENU_PROVIDERS.md`) calls these offline; online it sends the
+matching intent instead (section 1):
+
+| Menu option | Offline call |
+|---|---|
+| Attack <Name> (level-N) | `LocalCombat.attack(npc)` (= `orderAttack`: an armed spell turns it into a single cast) |
+| Cast <Spell> -> <Name> | `LocalCombat.castOn(npc, spellId)` (one cast; continues only when it is also the staff's autocast) |
+| (greying an option) | `LocalCombat.canAttack(npc)` |
+| Eat <Food> | `LocalCombat.eat(slot)` |
+
+`combatLevelColour(level)` (game4_ui.js) gives the 2004 colour of "(level-N)" relative to the adventurer.
+
+## 5. What the offline engine exposes (read-only for the interface)
 
 `LocalCombat.style()`, `styles()`, `category()`, `autocastSpell()`, `attackRange()`, `attackDelay()` (ticks),
 `stats()` (`{style, bonuses, stats}` from `CRShared.combat.playerCombatStats`), `appraise(npcType)` (exact per-swing

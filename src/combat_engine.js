@@ -438,7 +438,12 @@ var LocalCombat=(function(){
  return {
   ready:ready,tick:tick,npcFrame:npcFrame,clock:function(){return clock},TICK_S:TICK_S,
   setRng:function(r){rng=r||(R&&R.math)},rng:function(){return rng},setWanderRng:function(r){wrng=r||(R&&R.math)},enable:function(v){on=v!==false},
-  orderAttack:orderAttack,eat:eat,togglePrayer:togglePrayer,selectSpell:selectSpell,setStyle:setStyle,style:function(){return ready()?style():null},
+  orderAttack:orderAttack,eat:eat,togglePrayer:togglePrayer,selectSpell:selectSpell,setStyle:setStyle,
+  // plain entry points for the interface (the right-click menu providers call these; they never roll anything)
+  attack:function(npc){return orderAttack(npc)},
+  /** "Cast <spell> -> <npc>": one cast of a combat spell on a foe (2004 single cast; continues only as the autocast) */
+  castOn:function(npc,spellId){if(!ready()||!npc||npc.dead||typeof SPELLS==='undefined'||!SPELLS[spellId])return false;P();if(Player.dead)return false;N(npc);Player.action=null;Player.castSpell=null;setInteraction(npc,'cast',spellId);return true},
+  canAttack:function(npc){return ready()&&!!npc&&!npc.dead&&!npc.lcDying&&npc.t&&npc.t.attackable!==false},style:function(){return ready()?style():null},
   styles:function(){return ready()?styles():[]},category:function(){return ready()?category():'unarmed'},autocastSpell:function(){return ready()?autocastSpell():null},
   attackRange:function(){return ready()?attackRange():0},stats:function(){return ready()?stats():null},appraise:appraise,
   attackDelay:function(){if(!ready())return 4;return autocastSpell()?C.MAGIC_ATTACK_RATE:C.attackDelay(weapon(),style().style,false)},
