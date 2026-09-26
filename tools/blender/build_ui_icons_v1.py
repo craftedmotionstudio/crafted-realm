@@ -1041,6 +1041,11 @@ def bone(m, a, b):
 def scar_skull(m):
     k = m.mark(); bone(m, (-.62, .12, -.5), (.62, .12, .3)); bone(m, (-.62, .12, .3), (.62, .12, -.5)); m.tf(k, T(0, 0, -.02))
     k = m.mark(); p_skull(m, False); m.tf(k, T(0, -.1, .08))
+def protect_item(m):
+    # a small iron-banded strongbox under a warding star: what you pray to keep
+    k = m.mark(); p_chest(m); m.tf(k, T(0, 0, -.12) @ S(1.05))
+    m.ext(star2(4, .26, .07, (0, .42)), .04, 'e_white', y=-.3); m.ext(star2(4, .15, .04, (0, .42), a0=math.pi/4), .03, 'e_yellow', y=-.33)
+I('p_protect_item', 'pvp', protect_item, [O('prayers/protect_item.png', 30)], el=14, yaw=-20)
 I('pvp_skull', 'pvp', pk_skull, [O('misc/pk_skull.png', 22), O('misc/pk_skull_32.png', 32)], el=10, yaw=-8)
 I('pvp_scarlands', 'pvp', scar_skull, [O('misc/scarlands.png', 28)], el=10)
 I('pvp_multi', 'pvp', crossed_swords, [O('misc/multi_combat.png', 26)], el=8)

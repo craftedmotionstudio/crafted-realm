@@ -672,6 +672,13 @@
    "finish": "sprite"
   },
   {
+   "icon": "p_protect_item",
+   "file": "prayers/protect_item.png",
+   "w": 30,
+   "h": 30,
+   "finish": "sprite"
+  },
+  {
    "icon": "p_protect_magic",
    "file": "prayers/protect_magic.png",
    "w": 30,
