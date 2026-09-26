@@ -100,8 +100,8 @@ const ITEMS = {
      studded at 20, hide at 40) under our own names. Every piece adds ranged attack; blade defence stays well under
      plate's (a ranger loses to a blade), magic defence sits between plate's penalty and a robe's (a ranger beats a
      mage). Worn with the leather gloves and boots until the vambraces. */
-  riveted_body:      {name:'Riveted leather body', stack:false, value:220,  equip:'body',  dBonus:12, dStab:10, dSlash:14, dCrush:12, dMagic:14, dRanged:16, aRanged:8,  model:'plate',  tier:'riveted', reqSkill:'Ranged', reqLvl:20},
-  riveted_chaps:     {name:'Riveted chaps',        stack:false, value:160,  equip:'legs',  dBonus:8,  dStab:7,  dSlash:8,  dCrush:9,  dMagic:7,  dRanged:10, aRanged:6,  model:'chaps',  tier:'riveted', reqSkill:'Ranged', reqLvl:20},
+  riveted_body:      {name:'Riveted leather body', stack:false, value:220,  equip:'body',  dBonus:12, dStab:10, dSlash:14, dCrush:12, dMagic:16, dRanged:16, aRanged:8,  model:'plate',  tier:'riveted', reqSkill:'Ranged', reqLvl:20},
+  riveted_chaps:     {name:'Riveted chaps',        stack:false, value:160,  equip:'legs',  dBonus:8,  dStab:7,  dSlash:8,  dCrush:9,  dMagic:9,  dRanged:10, aRanged:6,  model:'chaps',  tier:'riveted', reqSkill:'Ranged', reqLvl:20},
   fenhide_body:      {name:'Fenhide body',         stack:false, value:1600, equip:'body',  dBonus:26, dStab:22, dSlash:30, dCrush:26, dMagic:16, dRanged:30, aRanged:15, model:'plate',  tier:'fenhide', reqSkill:'Ranged', reqLvl:40},
   fenhide_chaps:     {name:'Fenhide chaps',        stack:false, value:1100, equip:'legs',  dBonus:14, dStab:12, dSlash:14, dCrush:16, dMagic:8,  dRanged:16, aRanged:8,  model:'chaps',  tier:'fenhide', reqSkill:'Ranged', reqLvl:40},
   fenhide_vambraces: {name:'Fenhide vambraces',    stack:false, value:700,  equip:'hands', dBonus:4,  dStab:4,  dSlash:4,  dCrush:4,  dMagic:3,  dRanged:6,  aRanged:8,  model:'gloves', tier:'fenhide', reqSkill:'Ranged', reqLvl:40},
@@ -143,8 +143,8 @@ const ITEMS = {
   cloth_robe_top:    {name:'Cloth robe top',   stack:false, value:12,  equip:'body', dBonus:1, mBonus:3, dRanged:0, dMagic:3, model:'robe', tier:'cloth', reqSkill:'Magic', reqLvl:1},
   cloth_robe_skirt:  {name:'Cloth robe skirt', stack:false, value:10,  equip:'legs', dBonus:1, mBonus:2, dRanged:0, dMagic:2, model:'robe', tier:'cloth', reqSkill:'Magic', reqLvl:1},
   apprentice_hat:    {name:'Apprentice hat',   stack:false, value:8,   equip:'head', dBonus:0, mBonus:2, dMagic:2, model:'hat',  tier:'cloth', reqSkill:'Magic', reqLvl:1},
-  glimmer_robe_top:  {name:'Glimmer robe top', stack:false, value:240, equip:'body', dBonus:3, mBonus:5, dRanged:1, dMagic:9, model:'robe', tier:'glimmer', reqSkill:'Magic', reqLvl:15},
-  glimmer_hat:       {name:'Glimmer hat',      stack:false, value:120, equip:'head', dBonus:1, mBonus:3, dRanged:0, dMagic:5, model:'hat',  tier:'glimmer', reqSkill:'Magic', reqLvl:15},
+  glimmer_robe_top:  {name:'Glimmer robe top', stack:false, value:240, equip:'body', dBonus:3, mBonus:5, dRanged:1, dMagic:15, model:'robe', tier:'glimmer', reqSkill:'Magic', reqLvl:15},
+  glimmer_hat:       {name:'Glimmer hat',      stack:false, value:120, equip:'head', dBonus:1, mBonus:3, dRanged:0, dMagic:8, model:'hat',  tier:'glimmer', reqSkill:'Magic', reqLvl:15},
   /* the level-40 robes (pass 4): a mage's accuracy grows with the robes, like the 2004 ladder (wizard -> mystic), so a
      spell's fixed maximum stays a threat to plate at every level; robes still stop no blade and few arrows */
   starweave_hat:        {name:'Starweave hat',        stack:false, value:900,  equip:'head', dBonus:1, mBonus:12, dRanged:3, dMagic:6,  model:'hat',  tier:'starweave', reqSkill:'Magic', reqLvl:40},
@@ -185,8 +185,9 @@ const TIERS = [
    Magic defence (combat pass 4, docs/rebuild/combat_grade_passes/combat_agent.md): 2004 metal carried a small MINUS
    (-1 helm, -6 body, -4 legs, -1 shield). Our spells keep their 2004 fixed maximum hits, which outclass a level-25
    blade (water bolt 10 against an aurel sabre's 5), and with the 2004 minus a level-25 mage won 99% of food fights
-   against plate whatever the mage wore. A small flat PLUS (a full set +24, still below ranged armour's +23..30 per
-   body+legs and the robes') brings that fight to ~84% and keeps the triangle at every level. */
+   against plate whatever the mage wore. A small flat PLUS (a full set +24, still below the ranged sets' +27/+28 and the
+   glimmer/starweave robes' +25/+36) brings that fight to ~84% and keeps the triangle at the bench's level points 25, 40 and 60 (below
+   20 the 2004 strike and bolt spells still make magic the strongest style, as in 2004). */
 const ARMOUR_PROFILE = {
   helm:      {stab:1.0,  slash:1.1, crush:0.8,  ranged:0.85, mdef:4,  matt:-6,  ratt:-3},
   medhelm:   {stab:1.0,  slash:1.1, crush:0.8,  ranged:0.85, mdef:3,  matt:-3,  ratt:-1},
