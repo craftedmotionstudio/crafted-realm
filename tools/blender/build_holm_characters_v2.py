@@ -3056,12 +3056,15 @@ def emote_clips():
     # BOW: a formal bow from the hips, the right hand across the belly, the left hand behind the back
     def bowp(k=1.0):
         b = E(Spine=(18 * k, 0, 0), Spine1=(10 * k, 0, 0), Spine2=(4 * k, 0, 0), Head=(6 * k, 0, 0), loc=(0, .02 * k, -.004 * k))
-        hand(b, 'Right', 'Spine1', (.03, -.205, 1.10), (1, -.1, -.15), 0, (-.85, .2, -.5))
-        hand(b, 'Left', 'Spine1', (-.03, .19, 1.10), (-1, .1, -.2), 0, (.85, .3, -.4))
+        hand(b, 'Right', 'Spine', (.03, -.215, 1.10), (1, -.1, -.15), 0, (-.85, .2, -.5))    # (carried by the belly's own bone)
+        hand(b, 'Left', 'Spine', (-.03, .20, 1.10), (-1, .1, -.2), 0, (.85, .3, -.4))
         return b
-    # (the hands get there by way of a swing: the left arm back, the right arm forward -- never past the crotch)
-    prep = lambda: E(LeftArm=(32, -4, 0), LeftForeArm=(-25, 0, 0), RightArm=(-28, 0, 0), RightForeArm=(-55, 0, 0))
-    C['emote_bow'] = (56, [(0, I0()), (5, prep()), (10, bowp(.35)), (18, bowp()), (38, bowp()), (46, bowp(.35)), (51, prep()), (56, I0())], False)
+    def bow_mid():   # on the way: the right hand in front of the hip, the left behind the other hip (well clear of the crotch)
+        b = E(Spine=(4, 0, 0))
+        hand(b, 'Right', 'Hips', (-.15, -.20, 1.03), (.8, -.3, -.5), 0, (-.9, .2, -.4))
+        hand(b, 'Left', 'Hips', (.15, .17, 1.03), (-.8, .3, -.5), 0, (.9, .3, -.3))
+        return b
+    C['emote_bow'] = (56, [(0, I0()), (6, bow_mid()), (12, bowp(.35)), (20, bowp()), (38, bowp()), (45, bowp(.35)), (50, bow_mid()), (56, I0())], False)
     # ANGRY: leaning in, fists shaking in front of the chest
     def angry(up):
         a = E(Spine1=(6, 0, 0), Spine2=(2, 0, 0), Head=(10, 0, 0), Neck=(4, 0, 0))
@@ -3074,7 +3077,7 @@ def emote_clips():
     def think(t=0.0):
         a = E(Head=(8 + 2 * t, 7 + 2 * t, -3), Spine1=(2, 0, 0))
         hand(a, 'Right', 'Head', (-.012, -.15, 1.545), (-.15, -.25, .95), 0, (-.3, -.35, -.9))
-        hand(a, 'Left', 'Spine2', (-.07, -.22, 1.225), (-1, -.1, .15), 0, (.8, .15, -.55))
+        hand(a, 'Left', 'Spine1', (-.07, -.235, 1.225), (-1, -.1, .15), 0, (.8, .15, -.55))
         return a
     C['emote_think'] = (60, [(0, I0()), (12, think()), (26, think(1)), (40, think(0)), (48, think(.5)), (60, I0())], False)
     # WAVE: the right hand raised and waving (the NPC wave, longer)
@@ -3102,7 +3105,7 @@ def emote_clips():
     # LAUGH: leaning back, hands on the belly, shaking
     def laugh(k):
         a = E(Spine1=(-7 - 3 * k, 0, 0), Spine2=(-6, 0, 0), Head=(-14 - 4 * k, 0, 0), loc=(0, 0, -.006 * k))
-        both(a, 'Spine1', (.075, -.205, 1.10), (-.55, -.25, -.8), 0, (.9, .3, -.4))
+        both(a, 'Spine', (.075, -.215, 1.10), (-.55, -.25, -.8), 0, (.9, .3, -.4))
         return a
     C['emote_laugh'] = (48, [(0, I0()), (8, laugh(0)), (12, laugh(1)), (16, laugh(0)), (20, laugh(1)), (24, laugh(0)), (28, laugh(1)),
                              (32, laugh(0)), (38, laugh(.5)), (48, I0())], False)
@@ -3137,7 +3140,7 @@ def emote_clips():
         kn = {} if s == 0 else ({'LeftUpLeg': (-38, 0, 0), 'LeftLeg': (68, 0, 0), 'LeftFoot': (-15, 0, 0)} if s > 0 else
                                 {'RightUpLeg': (-38, 0, 0), 'RightLeg': (68, 0, 0), 'RightFoot': (-15, 0, 0)})
         a = E(kn, Spine1=(0, -3 * s, 0), Head=(0, 3 * s, 0), loc=(0, 0, .03 if s else -.012))
-        both(a, 'Hips', (.20, -.01, 1.00), (-.15, -.35, -.92), 0, (.9, .45, .1))
+        both(a, 'Hips', (.225, -.01, 1.00), (-.15, -.35, -.92), 0, (.9, .45, .1))
         return a
     C['emote_jig'] = (48, [(0, I0()), (6, jig(1)), (12, jig(0)), (18, jig(-1)), (24, jig(0)), (30, jig(1)), (36, jig(0)), (42, jig(-1)), (48, I0())], False)
     # SPIN: arms out, a full turn on the spot
@@ -5378,6 +5381,123 @@ def run_renders(arm, mats, objs, clips, bram, tutors=None):
     sheets.update(v29_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34, bram, tutors or {}))
     sheets.update(rs_style_sheets(arm, mats, objs, clips, default_colors, j))
     sheets.update(v30_sheets(arm, mats, objs, clips, default_colors, j))
+    sheets.update(v31_sheets(arm, mats, objs, clips, default_colors, j))
+    return sheets
+
+# ------------------------------------------------------------------------------------------
+# v3.1 review sheets: the stance next to the references and v3.0 (front / side / 3-4, both bodies, measured), every emote
+# as a strip of frames, the emote key poses up close
+# ------------------------------------------------------------------------------------------
+V30_STANCE = {'LeftUpLeg': (-2.5, -3, 6), 'RightUpLeg': (-2.5, 3, -6), 'LeftLeg': (5, 0, 0), 'RightLeg': (5, 0, 0),
+              'LeftFoot': (-2.5, 3, 0), 'RightFoot': (-2.5, -3, 0),
+              'Spine1': (2, 0, 0), 'Spine2': (-4, 0, 0), 'Neck': (6, 0, 0), 'Head': (-4, 0, 0)}
+V30_ARM_AIM = {'LeftArm': (.155, .016, -.250), 'LeftForeArm': (.045, -.500, -.865), 'LeftHand': (.035, -.560, -.828)}
+V30_ARM_AIM.update({k.replace('Left', 'Right'): (-v[0], v[1], v[2]) for k, v in list(V30_ARM_AIM.items())})
+
+def swap_stance(st, aims):
+    """use another stance for a comparison render; returns the one to put back"""
+    old = (dict(STANCE), dict(STANCE_ARM_AIM))
+    STANCE.clear(); STANCE.update(st)
+    STANCE_ARM_AIM.clear(); STANCE_ARM_AIM.update(aims)
+    _STANCE_LOCAL.clear()
+    return old
+
+def stance_metrics(pose):
+    """the idle stance, measured on the posed skeleton (degrees / metres; +y = back, +x = the character's left)"""
+    hd, acc = fk(pose)
+    m = {'spine_lean_deg': round(chain_tilt(pose, 'Neck'), 2), 'hips_to_head_lean_deg': round(chain_tilt(pose, 'Head'), 2)}
+    fw = acc[B('Head')] @ Vector((0, -1, 0))
+    m['face_pitch_up_deg'] = round(math.degrees(math.atan2(fw.z, -fw.y)), 1)
+    m['head_joint_behind_hips_m'] = round(hd[B('Head')].y - hd[B('Hips')].y, 3)
+    s_, e, w = hd[B('LeftArm')], hd[B('LeftForeArm')], hd[B('LeftHand')]
+    ua, fa, sw = e - s_, w - e, w - s_
+    m['elbow_flex_deg'] = round(math.degrees(ua.angle(fa)), 1)
+    m['forearm_forward_deg'] = round(math.degrees(math.atan2(-fa.y, -fa.z)), 1)
+    m['shoulder_to_wrist_out_deg'] = round(math.degrees(math.atan2(sw.x, -sw.z)), 1)
+    m['shoulder_to_wrist_forward_deg'] = round(math.degrees(math.atan2(-sw.y, -sw.z)), 1)
+    a, k, f = hd[B('LeftUpLeg')], hd[B('LeftLeg')], hd[B('LeftFoot')]
+    m['knee_flex_deg'] = round(math.degrees((k - a).angle(f - k)), 1)
+    m['ankle_behind_hip_m'] = round(f.y - a.y, 3)
+    m['feet_apart_m'] = round(2 * f.x, 3)
+    return m
+
+def v31_sheets(arm, mats, objs, clips, default_colors, j):
+    sheets = {}
+    REF_DAGGER = os.path.join(BIBLE, 'DragonDagger_Equiped.jpg')
+    arm.animation_data.action = None
+    cs, metrics = {}, {}
+    for lab, st in (('v3.0', (V30_STANCE, V30_ARM_AIM)), (VL, None)):
+        old = swap_stance(*st) if st else None
+        pose = upright(P())
+        metrics[lab] = stance_metrics(pose)
+        set_pose(arm, pose)
+        for bt in ('A', 'B'):
+            default_colors(bt)
+            show_only(outfit_objs(objs, bt, DEFAULT_OUTFIT[bt]))
+            for vn, vd, res, ctr, orth, bg in (('front', (0, -1, 0), TURN_RES, TURN_CENTER, TURN_ORTHO, BG_REF),
+                                               ('side', (-1, 0, 0), TURN_RES, TURN_CENTER, TURN_ORTHO, BG_REF),
+                                               ('34', (.42, -.86, .22), (300, 420), (0, 0, .93), 2.0, [74, 66, 56])):
+                pth = shoot(j('grid', 'stance_%s_%s_%s.png' % (lab.replace('.', ''), bt, vn)), res, vd, ctr, orth)
+                cs.setdefault((bt, vn), []).append(cell(pth, '%s %s' % (lab, bt), bg=bg))
+        if old:
+            swap_stance(*old)
+    set_pose(arm, P())
+    rows = [
+        {'title': 'FRONT, idle: male_b concept | A v3.0 | A %s | B v3.0 | B %s' % (VL, VL), 'height': 430,
+         'cells': [cell(REF_TURN, 'male_b front (ref)', crop=[80, 70, 480, 720])] + cs[('A', 'front')] + cs[('B', 'front')]},
+        {'title': 'SIDE, idle: male_b concept | A v3.0 | A %s | B v3.0 | B %s  -- stands up: legs plumb, head over the shoulders' % (VL, VL), 'height': 430,
+         'cells': [cell(REF_TURN, 'male_b side (ref)', crop=[590, 70, 830, 720])] + cs[('A', 'side')] + cs[('B', 'side')]},
+        {'title': '3/4 (creator angle): creator | Character.jpg | DragonDagger | A v3.0 | A %s | B v3.0 | B %s' % (VL, VL), 'height': 430,
+         'cells': [cell(REF_CREATOR, 'creator (ref)', crop=[310, 210, 520, 470]), cell(REF_NPC, 'Character.jpg (ref)', crop=[180, 90, 440, 720]),
+                   cell(REF_DAGGER, 'DragonDagger (ref)', crop=[430, 150, 880, 1420])] + cs[('A', '34')] + cs[('B', '34')]},
+    ]
+    note = '; '.join('%s: spine %.1f, face up %.1f, elbow %.0f, shoulder->wrist out %.0f / fwd %.0f, knee %.0f, ankle behind hip %.3f m' % (
+        k, v['spine_lean_deg'], v['face_pitch_up_deg'], v['elbow_flex_deg'], v['shoulder_to_wrist_out_deg'], v['shoulder_to_wrist_forward_deg'],
+        v['knee_flex_deg'], v['ankle_behind_hip_m']) for k, v in metrics.items())
+    compose(j('v31_stance_compare.png'), rows, 'Stance %s vs v3.0 next to the references -- %s' % (VL, note))
+    sheets['stance_compare'] = j('v31_stance_compare.png')
+    sheets['stance_metrics'] = metrics
+    print('[STANCE]', json.dumps(metrics))
+    # emote strips: every emote, seven frames across the clip, both bodies
+    names = ['emote_' + e for e in EMOTES]
+    VIEW = (.55, -.80, .22)
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        show_only(outfit_objs(objs, bt, DEFAULT_OUTFIT[bt]))
+        rows = []
+        for n in names:
+            act = clips[n]
+            arm.animation_data.action = act
+            f1 = int(act.frame_range[1])
+            cells = []
+            for fr in sorted({int(round(f1 * t)) for t in (0.0, .15, .3, .45, .6, .75, .9)}):
+                bpy.context.scene.frame_set(fr)
+                cells.append(cell(shoot(j('grid', 'emote_%s_%s_%d.png' % (bt, n[6:], fr)), (150, 190), VIEW, (0, 0, 1.0), 2.35), 'f%d' % fr, bg=BG_REF))
+            rows.append({'title': '%s  (%d frames, %.1f s)' % (n, f1, f1 / FPS), 'height': 200, 'cells': cells})
+        for part in range(0, len(rows), 11):
+            key = 'emotes_%s_%d' % (bt, part // 11 + 1)
+            compose(j('v31_%s.png' % key), rows[part:part + 11], '%s emotes, body %s (default outfit): frames across each clip' % (VL, bt))
+            sheets[key] = j('v31_%s.png' % key)
+    # key poses up close
+    KEYS = [('yes', 5), ('no', 6), ('bow', 18), ('angry', 13), ('think', 26), ('wave', 17), ('shrug', 16), ('cheer', 19), ('beckon', 16),
+            ('laugh', 12), ('jump_for_joy', 17), ('yawn', 28), ('yawn', 38), ('dance', 8), ('jig', 6), ('spin', 16), ('headbang', 5),
+            ('cry', 25), ('blow_kiss', 14), ('blow_kiss', 30), ('panic', 11), ('raspberry', 16), ('clap', 12), ('clap', 16), ('salute', 24)]
+    rows = []
+    for bt in ('A', 'B'):
+        default_colors(bt)
+        show_only(outfit_objs(objs, bt, DEFAULT_OUTFIT[bt]))
+        cells = []
+        for n, fr in KEYS:
+            arm.animation_data.action = clips['emote_' + n]
+            bpy.context.scene.frame_set(fr)
+            full = n in ('jump_for_joy', 'jig', 'spin', 'dance', 'bow', 'panic', 'cheer', 'yawn')
+            cells.append(cell(shoot(j('grid', 'emotekey_%s_%s_%d.png' % (bt, n, fr)), (230, 290), (.45, -.85, .2), (0, 0, 1.0 if full else 1.30),
+                                    2.3 if full else 1.25), '%s f%d' % (n, fr), bg=BG_REF))
+        for i in range(0, len(cells), 9):
+            rows.append({'title': 'body %s' % bt, 'height': 300, 'cells': cells[i:i + 9]})
+    compose(j('v31_emote_keys.png'), rows, '%s emote key poses (3/4 front): hands on the chin / mouth / eyes / ears / brow / belly follow the body' % VL)
+    sheets['emote_keys'] = j('v31_emote_keys.png')
+    arm.animation_data.action = None
     return sheets
 
 def v29_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34, bram, tutors):
@@ -5593,14 +5713,14 @@ def v30_sheets(arm, mats, objs, clips, default_colors, j):
                     show_only(outfit(bt, Arms=ai, Torso=ti, Hair=2))
                     pose(clip, fr)
                     raised = clip in ('attack_slash', 'attack_crush')
-                    p = shoot(j('grid', 'v30sh_%s_A%02d_T%02d_%s%d.png' % (bt, ai, ti, clip or 'rest', fr)), (170, 170), vd, shoulder_center(side, raised),
+                    p = shoot(j('grid', TAG + 'sh_%s_A%02d_T%02d_%s%d.png' % (bt, ai, ti, clip or 'rest', fr)), (170, 170), vd, shoulder_center(side, raised),
                               .50 if raised else .40)
                     cs.append(cell(p, 'T%02d %s' % (ti, KIT[bt]['Torso'][ti - 1][0])[:22], bg=BG_REF))
                 rows.append({'title': 'Arms %02d %s -- %s' % (ai, KIT[bt]['Arms'][ai - 1][0], lab), 'height': 150, 'cells': cs})
         pose(None, 0)
-        compose(j('v30_shoulders_%s.png' % bt), rows, 'v3.0 body %s shoulders: every arms option on every torso -- one surface from the torso into the arm '
+        compose(j(TAG + '_shoulders_%s.png' % bt), rows, VL + ' body %s shoulders: every arms option on every torso -- one surface from the torso into the arm '
                 '(shared seam ring, pinned normals, deltoid cap), at rest and at the extreme walk / attack frames' % bt)
-        sheets['v30_shoulders_' + bt] = j('v30_shoulders_%s.png' % bt)
+        sheets['shoulders_' + bt] = j(TAG + '_shoulders_%s.png' % bt)
     # (c) feet
     rows = []
     for bt, legs in (('A', (1, 3, 2)), ('B', (4, 1, 6))):
@@ -5613,13 +5733,13 @@ def v30_sheets(arm, mats, objs, clips, default_colors, j):
                                           ('walk f4', 'walk', 4, (-1, .03, .10))):
                     pose(clip, fr)
                     ctr = (0, -.02, .15) if clip is None else (0, 0, .20)
-                    p = shoot(j('grid', 'v30ft_%s_F%02d_L%02d_%s.png' % (bt, fi, li, lab.replace('/', '').replace(' ', ''))), (180, 170), vd, ctr, .55 if clip is None else .75)
+                    p = shoot(j('grid', TAG + 'ft_%s_F%02d_L%02d_%s.png' % (bt, fi, li, lab.replace('/', '').replace(' ', ''))), (180, 170), vd, ctr, .55 if clip is None else .75)
                     cs.append(cell(p, 'L%02d %s %s' % (li, KIT[bt]['Legs'][li - 1][0], lab)[:26], bg=BG_REF))
             rows.append({'title': 'Body %s -- Feet %02d %s with legs %s' % (bt, fi, KIT[bt]['Feet'][fi - 1][0], ', '.join(KIT[bt]['Legs'][li - 1][0] for li in legs)),
                          'height': 160, 'cells': cs})
     pose(None, 0)
-    compose(j('v30_feet.png'), rows, 'v3.0 feet: rounded wedges (one loft sole -> toe box -> ankle -> shaft), every option x three legs options')
-    sheets['v30_feet'] = j('v30_feet.png')
+    compose(j(TAG + '_feet.png'), rows, VL + ' feet: rounded wedges (one loft sole -> toe box -> ankle -> shaft), every option x three legs options')
+    sheets['feet'] = j(TAG + '_feet.png')
     # (d) walk + run strips (8 frames each, side view + game camera), both bodies
     rows = []
     GVs, GPs = (.42, -.72, .78), (5.0, 85)
@@ -5635,16 +5755,16 @@ def v30_sheets(arm, mats, objs, clips, default_colors, j):
                 for fr in frs:
                     pose(cname, fr)
                     if view == 'side':
-                        p = shoot(j('grid', 'v30strip_%s_%s_%d_side.png' % (bt, cname, fr)), (170, 220), (-1, .02, .10), (0, 0, .95), 2.3)
+                        p = shoot(j('grid', TAG + 'strip_%s_%s_%d_side.png' % (bt, cname, fr)), (170, 220), (-1, .02, .10), (0, 0, .95), 2.3)
                         cs.append(cell(p, '%s f%d side' % (cname, fr), bg=BG_REF))
                     else:
-                        p = shoot(j('grid', 'v30strip_%s_%s_%d_game.png' % (bt, cname, fr)), (170, 220), GVs, (0, 0, .85), 2.0, ground=True, persp=GPs)
+                        p = shoot(j('grid', TAG + 'strip_%s_%s_%d_game.png' % (bt, cname, fr)), (170, 220), GVs, (0, 0, .85), 2.0, ground=True, persp=GPs)
                         cs.append(cell(p, '%s f%d game' % (cname, fr), bg=BG_GAME))
                 rows.append({'title': 'Body %s %s (%d frames%s) -- %s' % (bt, cname, f1 - f0, ', 2.4 m/s' if cname == 'walk' else ', 4.2 m/s', view),
                              'height': 220, 'cells': cs})
     pose(None, 0)
-    compose(j('v30_walk_run.png'), rows, 'v3.0 walk and run: the bent stance arms swing from the shoulder; slide-free at the authored speeds')
-    sheets['v30_walk_run'] = j('v30_walk_run.png')
+    compose(j(TAG + '_walk_run.png'), rows, VL + ' walk and run: upright, the stance arms swing from the shoulder; slide-free at the authored speeds')
+    sheets['walk_run'] = j(TAG + '_walk_run.png')
     return sheets
 
 def v28_sheets(arm, mats, objs, clips, default_colors, j, turn, bram_34):
@@ -5909,7 +6029,16 @@ REF_RATIOS = {   # measured from Bible_References screenshots (style reference o
     'hand_width_length_over_H': {'male_b': [.034, .085], 'creator': [.05, .06], 'dagger': [.05, .05]},
 }
 
-REVIEW = [   # v3.0 -- the owner's 2026-09-25 review, each point checked on the sheets and numerically
+REVIEW = [   # v3.1 (2026-09-26) + v3.0 (2026-09-25) owner reviews, each point checked on the sheets and numerically
+    'v3.1 STANCE ("still not standing up vertically like the old school characters"): legs straight (knee ~1 deg) and plumb under the '
+    'hips (the rest skeleton puts the ankle 8.5 cm behind the hip; the thighs now swing 5.5 deg forward), nearly parallel with a touch of '
+    'toe-out; spine chain vertical with the chest up; neck back / head nodded so the head sits over the shoulders and the face is level; '
+    'shoulders drawn back; arms close to vertical with a ~10 deg elbow bend, the hands at the SIDES of the thighs just off them (not '
+    'held forward). Measured against v3.0 on v31_stance_compare.png (manifest renders.stance_metrics). Run capped at 2 deg of lean.',
+    'v3.1 EMOTES: yes, no, bow, angry, think, wave, shrug, cheer, beckon, laugh, jump for joy, yawn, dance, jig, spin, headbang, cry, '
+    'blow kiss, panic, raspberry, clap, salute -- kit clips emote_<key> (our own animation of each), starting and ending on idle f0; '
+    'hands placed on points carried by the body (chin, lips, eyes, ears, brow, belly, hips) so they stay on while the body moves '
+    '(v31_emotes_A/B_*.png strips, v31_emote_keys.png).',
     'v3.0 STANCE: the OSRS idle -- upper arms hang just off the torso, elbows bent ~30-35 deg so the forearms come FORWARD and the loosely '
     'closed hands sit in front of the hips / upper thighs (never inside the thighs or crotch), legs a little apart with soft knees, feet '
     'turned slightly out, chest up, head a touch forward (spine chain vertical, head ~1 deg forward). The arm stance is stored as each arm '
