@@ -284,14 +284,35 @@ var OnlineUI=(function(){
   },true);
   // the kept-on-death view is redrawn by the kit; keep our exact preview in it
   var re0=UI.refreshEquip;UI.refreshEquip=function(){var r=re0.apply(this,arguments);keptPreview();return r};
+  var eqHost=$('equip-list');
+  if(eqHost&&typeof MutationObserver!=='undefined'){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;try{keptPreview()}finally{setTimeout(function(){busy=false},0)}}).observe(eqHost,{childList:true})}
  }
+ /* the server's style buttons for the wielded weapon's 2004 category (shared/combat.js CATEGORY_STYLES), drawn already
+  * dressed like the offline tab (ui_combat.js leaves dressed tiles alone): a Blender picture per style, the label the
+  * server uses, and what it trains */
+ var CAT_FAMILY={unarmed:'unarmed',stab:'sword',slash:'sword',twohanded:'sword',axe:'axe',pickaxe:'pick',spiked:'mace',blunt:'mace',staff:'mace',bow:'bow',thrown:'bow'};
+ var CAT_NAME={unarmed:'Unarmed',stab:'Stab sword',slash:'Slash sword',twohanded:'Two-handed sword',axe:'Axe',pickaxe:'Pickaxe',spiked:'Spiked',blunt:'Blunt',staff:'Staff',bow:'Bow',thrown:'Thrown'};
+ function stylePic(fam,s){
+  var L=s.label;
+  if(fam==='unarmed')return L==='Punch'?'punch':L==='Kick'?'kick':'block_unarmed';
+  if(fam==='bow')return L==='Rapid'?'bow_rapid':L==='Longrange'?'bow_longrange':'bow_accurate';
+  if(L==='Block')return fam+'_block';
+  if(L==='Focus')return 'staff_focus';
+  var byType={stab:'_stab',slash:'_slash',crush:'_smash'}[s.type]||'_slash';
+  if(L==='Lunge'||L==='Impale')byType='_lunge';
+  return fam+byType;
+ }
+ var TRAIN={accurate:'Attack',aggressive:'Strength',defensive:'Defence',controlled:'Attack, Strength and Defence',ranged_accurate:'Ranged',ranged_rapid:'Ranged (faster)',ranged_longrange:'Ranged and Defence (longer reach)'};
  function refreshCombat(){
   var host=$('combat-styles');if(!host||!C())return;
   var w=Player.equip.weapon?ITEMS[Player.equip.weapon]:null,list=C().stylesFor(w),cur=Math.min(st.state.style|0,list.length-1);
-  var cat=C().weaponCategory(w),ac=st.state.autocast;
-  host.innerHTML='<div class="cmb-weap">'+esc(w?w.name:'Unarmed')+' &middot; '+cat+(ac&&SPELLS[ac]?' &middot; autocast '+esc(SPELLS[ac].name):'')+'</div>'+
-   list.map(function(s,i){return '<div class="cmb-style'+(i===cur?' active':'')+'" data-i="'+i+'"><b>'+esc(s.label)+' <span style="color:#7fd2ff">['+s.type.charAt(0).toUpperCase()+s.type.slice(1)+']</span></b><small>'+esc(s.style.replace('ranged_','').replace('_',' '))+'</small></div>'}).join('')+
-   '<div class="set-row" style="margin-top:9px"><span>Auto-retaliate</span><button class="set-btn" id="retal-btn">'+(Player.autoRetaliate?'On':'Off')+'</button></div>';
+  var cat=C().weaponCategory(w),fam=CAT_FAMILY[cat]||'sword',ac=st.state.autocast;
+  var pic=function(n,cls){return '<img class="kit-spr '+cls+'" src="assets/icons/ui/v3/combat/'+n+'.png?v=2" alt="" draggable="false">'};
+  host.innerHTML='<div class="cmb-weap"><div class="cr-wname">'+esc(w?w.name:'Unarmed')+'</div><div class="cr-wcat">Category: '+esc(CAT_NAME[cat]||cat)+
+    (ac&&SPELLS[ac]?' &middot; autocast '+esc(SPELLS[ac].name):'')+'</div><div class="cr-clvl">Combat Lvl: '+(st.state.cb||3)+'</div></div>'+
+   list.map(function(s,i){return '<div class="cmb-style'+(i===cur?' active':'')+'" data-i="'+i+'" data-tip="'+esc(s.label+' ('+s.type+')\nTrains '+(TRAIN[s.style]||s.style))+'" aria-label="'+esc(s.label)+'">'+
+    pic(stylePic(fam,s),'cr-pic')+'<span class="cr-sname">'+esc(s.label)+'</span><b>'+esc(s.label)+'</b><small>'+esc(TRAIN[s.style]||s.style)+'</small></div>'}).join('')+
+   '<div class="set-row" style="margin-top:9px"><span>Auto-retaliate</span><button class="set-btn'+(Player.autoRetaliate?' cr-on':'')+'" id="retal-btn">'+pic('retaliate','cr-knight')+'<span class="cr-rtext">Auto Retaliate<br>('+(Player.autoRetaliate?'On':'Off')+')</span></button></div>';
   host.querySelectorAll('.cmb-style').forEach(function(el){el.onclick=function(){click();send({t:'style',index:+el.dataset.i})}});
   var rb=$('retal-btn');if(rb)rb.onclick=function(){click();send({t:'auto_retaliate',on:!Player.autoRetaliate})};
  }
