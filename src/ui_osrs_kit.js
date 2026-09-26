@@ -277,58 +277,24 @@ function patchHud(){if(typeof UI==='undefined'||UI.__kitHud)return;UI.__kitHud=t
 }
 
 /* -------------------------------------------------- 10. login torches */
-// Two standing iron torches either side of the welcome box, running from the flame down to the floor: a riveted fire
-// basket on a collar, a twisted iron shaft with forged bands, and a tripod foot with scrolled toes (Blender-rendered
-// sprites + a pixel-painted shaft tile); the flame is painted live on a small canvas (layered tongues + embers), shown
-// 3x pixelated, and its light flickers on wall and floor.
-var torch={cv:[],raf:0,parts:[[],[]],last:0,glow:[],floor:[]};
-// the torch hardware is rendered from Blender (assets/icons/ui/v3/login/torch_head.png, torch_base.png) -- see buildTorches
+// Login v4 (owner 2026-09-26: "more like the old 2004 login"): the welcome screen is our Blender stone hall
+// (assets/icons/ui/v3/login/hall_dim.png, the CSS background) with a second render of the same hall lit by the fires
+// (hall_lit.png) laid over it; its opacity flickers in hard little steps with the fire. Two iron braziers stand at the
+// edges, each carrying an 8-frame fire sprite sheet (CSS steps animation). All rendered by
+// tools/blender/build_login_art_v4.py + tools/process_login_art_v4.py. buildTorches keeps its name for the boot order.
+var torch={t:0,lit:null,prev:.55};
 function buildTorches(){
- var ws=$('welcome-screen');if(!ws||ws.querySelector('.kit-torch'))return;
- ['left','right'].forEach(function(side,i){
-  var t=el('div','kit-torch kit-torch-'+side);t.setAttribute('aria-hidden','true');
-  // the flame canvas is a third of its display size and shown pixelated: a chunky old-school fire
-  t.innerHTML='<div class="torch-glow"></div><div class="torch-floorglow"></div><canvas class="torch-flame" width="54" height="77"></canvas>'+
-   '<img class="torch-head" src="'+SPR_BASE+'login/torch_head.png'+SPRV+'" alt="" draggable="false">'+
-   '<div class="torch-shaft"><i class="band b1"></i><i class="band b2"></i><i class="band b3"></i></div>'+
-   '<img class="torch-base" src="'+SPR_BASE+'login/torch_base.png'+SPRV+'" alt="" draggable="false">';
-  ws.appendChild(t);torch.cv[i]=t.querySelector('canvas');torch.glow[i]=t.querySelector('.torch-glow');torch.floor[i]=t.querySelector('.torch-floorglow')});
- setInterval(function(){if(!torch.raf&&ws.style.display==='flex')torch.raf=requestAnimationFrame(torchTick)},700);
- if(ws.style.display==='flex')torch.raf=requestAnimationFrame(torchTick);
-}
-var trng=rng(42);
-// smooth wandering noise (sum of sines) so the tongues sway instead of jittering
-function wob(t,k){return Math.sin(t*1.7+k*1.3)*.5+Math.sin(t*3.1+k*2.7)*.3+Math.sin(t*5.9+k*.7)*.2}
-function tongue(x,bx,by,w,h,tx,a,hot){
- var g=x.createLinearGradient(bx,by,bx+tx,by-h);
- if(hot){g.addColorStop(0,'rgba(255,252,225,'+a+')');g.addColorStop(.35,'rgba(255,226,120,'+a+')');g.addColorStop(.8,'rgba(255,150,40,'+(a*.5)+')');g.addColorStop(1,'rgba(255,120,20,0)')}
- else{g.addColorStop(0,'rgba(255,190,70,'+a+')');g.addColorStop(.4,'rgba(255,110,20,'+(a*.85)+')');g.addColorStop(.8,'rgba(190,40,6,'+(a*.45)+')');g.addColorStop(1,'rgba(120,20,0,0)')}
- x.fillStyle=g;x.beginPath();x.moveTo(bx-w/2,by);
- x.bezierCurveTo(bx-w/2,by-h*.42,bx+tx*.6-w*.18,by-h*.72,bx+tx,by-h);
- x.bezierCurveTo(bx+tx*.6+w*.18,by-h*.72,bx+w/2,by-h*.42,bx+w/2,by);
- x.quadraticCurveTo(bx,by+w*.32,bx-w/2,by);x.fill()}
-function torchTick(t){
- var ws=$('welcome-screen');if(!ws||ws.style.display!=='flex'){torch.raf=0;return}
- torch.raf=requestAnimationFrame(torchTick);
- var reduced=ws.classList.contains('login-reduced-motion');
- if(t-torch.last<(reduced?90:33))return;var dt=Math.min(.1,(t-(torch.last||t))/1000)||.033;torch.last=t;var ts=t/1000*(reduced?.4:1);
- for(var i=0;i<2;i++){var c=torch.cv[i];if(!c)continue;var x=c.getContext('2d'),P=torch.parts[i],W=160,H=230,bx=W/2,by=H-22;
-  x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,c.width,c.height);x.setTransform(c.width/W,0,0,c.height/H,0,0);x.globalCompositeOperation='lighter';
-  var breath=1+wob(ts*1.4,i*5)*.12;
-  // outer body, then the licking tongues, then the white-hot core
-  tongue(x,bx+wob(ts,i)*3,by,80,150*breath,wob(ts*1.2,i+1)*20,.55,false);
-  for(var k=0;k<5;k++){var off=(k-2)*12,hk=(95+k%2*28)*(1+wob(ts*1.8,k+i*7)*.22);tongue(x,bx+off,by-4,30-k*2,hk,wob(ts*2.2,k*3+i)*16+off*.4,.5,false)}
-  tongue(x,bx+wob(ts*2,i+9)*2,by,42,82*breath,wob(ts*2.6,i+4)*8,.75,true);
-  tongue(x,bx,by+2,18,40*breath,wob(ts*3,i+2)*4,.9,true);
-  // embers and the odd spark rising out of the flame
-  var spawn=reduced?1:3;for(var s2=0;s2<spawn;s2++)if(trng()<.6)P.push({x:bx+(trng()-.5)*30,y:by-40-trng()*50,vx:(trng()-.5)*14,vy:-(30+trng()*50),life:0,max:.8+trng()*1.2,r:.8+trng()*1.4});
-  for(var p2=P.length-1;p2>=0;p2--){var q=P[p2];q.life+=dt;if(q.life>q.max||q.y<0){P.splice(p2,1);continue}
-   q.vx+=wob(ts*3+p2,i)*20*dt;q.x+=q.vx*dt;q.y+=q.vy*dt;var f=q.life/q.max;x.fillStyle='rgba(255,'+(200-f*120|0)+',80,'+(1-f)+')';x.beginPath();x.arc(q.x,q.y,q.r,0,7);x.fill()}
-  x.globalCompositeOperation='source-over';
-  var fl=.82+wob(ts*4,i*3)*.12+(trng()-.5)*.06;
-  if(torch.glow[i])torch.glow[i].style.opacity=fl.toFixed(2);
-  if(torch.floor[i])torch.floor[i].style.opacity=(fl*.85).toFixed(2);
- }
+ var ws=$('welcome-screen');if(!ws||ws.querySelector('.login-brazier'))return;
+ var lit=el('div','login-hall-lit');lit.setAttribute('aria-hidden','true');ws.insertBefore(lit,ws.firstChild);torch.lit=lit;
+ ['left','right'].forEach(function(side){
+  var b=el('div','login-brazier login-brazier-'+side);b.setAttribute('aria-hidden','true');
+  b.innerHTML='<i class="lb-fire"></i><img class="lb-stand" src="'+SPR_BASE+'login/brazier.png'+SPRV+'" alt="" draggable="false">';
+  ws.appendChild(b)});
+ var r=rng(7);
+ torch.t=setInterval(function(){if(ws.style.display!=='flex')return;var reduced=ws.classList.contains('login-reduced-motion');
+  // a wandering flicker: mostly the steady glow, now and then a brighter or dimmer lick (hard steps, no easing)
+  var target=reduced?.5+(r()-.5)*.12:.35+r()*.55;torch.prev=torch.prev*.45+target*.55;lit.style.opacity=(Math.round(torch.prev*8)/8).toFixed(3)},reduced0()?260:120);
+ function reduced0(){return ws.classList.contains('login-reduced-motion')}
 }
 
 /* ------------------------------------------- 12. windows: X + Escape */
