@@ -375,6 +375,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
     await A.q(() => CROnlineQA.logout());
     const refusedOut = await A.until((st) => st.chat.some((t) => /can't log out until/i.test(t)), 8000, 'logout refusal').then(() => true, () => false);
     check(fight, refusedOut && !!sp(A.name) && sp(A.name).active, 'logging out mid-fight is refused (the combat logout lock)');
+    if (!sp(A.name)) throw new Error(A.name + ' logged out: the fight had not started, so nothing held them');
     if (!sp(A.name).target) await A.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
   }
   // fight to the death; remember each side's kept-on-death preview right up to the end
