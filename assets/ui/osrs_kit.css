@@ -357,7 +357,7 @@ body.kit-creator-open #xp-drops,body.kit-creator-open #guide-edge-arrow,body.kit
 .kc-window{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,96vw);height:min(600px,94vh);box-sizing:border-box;
   display:grid;grid-template-columns:230px 1fr 230px;grid-template-rows:34px 1fr 42px;gap:12px;padding:6px;pointer-events:none;
   font:12px var(--k-font);color:#fff;}
-.kc-title{grid-column:1/-1;display:flex;align-items:center;justify-content:center;font:bold 12px var(--k-title);color:var(--k-orange);text-shadow:var(--k-shadow);
+.kc-title{grid-column:1/-1;display:flex;align-items:center;justify-content:center;font:bold 24px var(--k-title);color:var(--k-orange);text-shadow:var(--k-shadow);
   background:var(--tex-stone-dark,#3a342b);border-radius:0;pointer-events:auto;box-shadow:0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),var(--k-bevel);}
 .kc-col{pointer-events:auto;padding:8px 9px;background:var(--tex-slate,#3e3529);border-radius:0;overflow:auto;
   box-shadow:0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),var(--k-sunk);}
@@ -542,12 +542,12 @@ html.osrs-kit #dialogue-modal #dlg-head img{width:64px!important;height:64px!imp
 html.osrs-kit #dialogue-modal #dlg-head img.kit-spr{image-rendering:pixelated;}
 
 /* ============================ the quest scroll (UI_QuestScrollScreen.jpg) ============================ */
-html.osrs-kit #quest-scroll-modal{border:10px solid transparent!important;border-image:var(--tex-frame-parch) 10 fill round!important;background:var(--tex-parch,#d8ccb4)!important;
+html.osrs-kit #quest-scroll-modal{width:min(560px,90vw)!important;border:12px solid transparent!important;border-image:var(--tex-frame-parch) 12 fill round!important;background:var(--tex-parch,#d8ccb4)!important;
   background-clip:padding-box!important;box-shadow:none!important;border-radius:0!important;padding:26px 34px 22px!important;color:#000080;font:12px/16px var(--k-font)!important;image-rendering:pixelated;}
 html.osrs-kit #quest-scroll-modal::before,html.osrs-kit #quest-scroll-modal::after{display:none!important;}
 html.osrs-kit #quest-scroll-modal *{font-family:var(--k-font)!important;font-size:12px!important;line-height:16px;text-shadow:none!important;}
 html.osrs-kit #quest-scroll-modal .quest-scroll-head{border-bottom:1px solid #8a7248;padding-bottom:8px;margin-bottom:10px;}
-html.osrs-kit #quest-scroll-modal .quest-scroll-head h2{margin:3px 40px;color:#800000;font-weight:bold!important;}
+html.osrs-kit #quest-scroll-modal .quest-scroll-head h2{margin:3px 40px;color:#800000;font-weight:bold!important;font-size:24px!important;line-height:28px!important;}
 html.osrs-kit #quest-scroll-modal #quest-scroll-difficulty{color:#5a3c14;font-variant:normal;letter-spacing:0;}
 html.osrs-kit #quest-scroll-modal #quest-scroll-giver{color:#5a3c14;font-style:normal;}
 html.osrs-kit #quest-scroll-modal .quest-scroll-desc{color:#000080;}
@@ -564,3 +564,15 @@ html.osrs-kit #quest-scroll-modal .quest-scroll-button.tracked{background:var(--
 html.osrs-kit #quest-scroll-modal #quest-scroll-points{color:#5a3c14;}
 
 html.osrs-kit .kit-inline{display:inline-block;vertical-align:middle;margin:0 2px;image-rendering:pixelated;}
+
+/* narrow / mobile HUD: the stacked stat orbs use the same painted spheres in stone sockets, pixel numbers */
+@media (max-width:880px){
+  html.osrs-kit #orbs .orb,html.osrs-kit #run-orb{border:0!important;border-radius:50%!important;box-shadow:none!important;position:relative;
+    background:var(--orb-fill,var(--spr-fill-grey)) center/86% 86% no-repeat!important;image-rendering:pixelated;font:12px var(--k-font)!important;}
+  html.osrs-kit #orbs .orb::after,html.osrs-kit #run-orb::after{content:"";position:absolute;inset:-3px;pointer-events:none;background:var(--spr-socket) center/100% 100% no-repeat;image-rendering:pixelated;}
+  html.osrs-kit #orbs .orb .num,html.osrs-kit #run-orb #run-pct{font:12px var(--k-font)!important;text-shadow:1px 1px 0 #000!important;position:relative;z-index:1;}
+  html.osrs-kit #orbs .orb .lbl{display:none!important;}
+  html.osrs-kit #hp-orb{--orb-fill:var(--spr-fill-red);} html.osrs-kit #orbs .orb-pray{--orb-fill:var(--spr-fill-blue);}
+  html.osrs-kit #spec-orb{--orb-fill:var(--spr-fill-teal);} html.osrs-kit #run-orb{--orb-fill:var(--spr-fill-yellow);}
+  html.osrs-kit .mob-toggle{border-radius:0!important;background:var(--tex-stone,#5a5245)!important;box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink)!important;}
+}

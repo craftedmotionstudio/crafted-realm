@@ -17,7 +17,7 @@
 'use strict';
 if(window.__uiPrayerMagicBooted) return;       // guard against a double script tag
 window.__uiPrayerMagicBooted = true;
-var BASE = 'assets/icons/ui/v3/', V = '?v=1';
+var BASE = 'assets/icons/ui/v3/', V = '?v=2';
 
 function dress(box, table, dir){
   if(!box || !table) return;

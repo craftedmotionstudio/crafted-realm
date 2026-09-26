@@ -2,7 +2,7 @@
 
 Every tile is painted pixel by pixel from a tiny palette (no gradients, no blur), seeded so it is reproducible, and
 wraps seamlessly. Outputs assets/ui/tex/*.png:
-  stone.png        light dressed-stone blocks (buttons, tabs, plaques)
+  stone.png        mottled dressed stone (buttons, tabs, stat cells, plaques)
   stone_dark.png   darker weathered blocks (panel + chat frames, the rail)
   stone_red.png    red-stained blocks (the selected tab / style / toggle)
   stone_lit.png    lighter blocks (hover)
@@ -156,23 +156,6 @@ def button(size, base, seed, border=3):
     return b
 
 
-def frame_parch(size=30, border=10, seed=41):
-    """9-slice torn parchment edge (the quest scroll): ragged transparent outer edge, a brown singed band, parchment inside"""
-    r = random.Random(seed); base = parchment(size, size, seed).load(); im = img(size, size); px = im.load()
-    rag = [[r.randint(0, 3) for _ in range(size)] for _ in range(4)]      # per-side ragged depth
-    for y in range(size):
-        for x in range(size):
-            ds = [(y, rag[0][x]), (size - 1 - y, rag[1][x]), (x, rag[2][y]), (size - 1 - x, rag[3][y])]
-            d = min(v - t for v, t in ds)
-            if d < 0: continue
-            c = base[x, y]
-            if d == 0: c = (70, 48, 22, 255)
-            elif d == 1: c = (122, 90, 48, 255)
-            elif d == 2: c = sh(c, -34)
-            elif d == 3 and r.random() < .5: c = sh(c, -18)
-            px[x, y] = c
-    return im
-
 def tick(n=11):
     im = img(n, n); px = im.load()
     pts = [(1, 5), (2, 6), (3, 7), (4, 8), (5, 7), (6, 6), (7, 5), (8, 4), (9, 3), (9, 2)]
@@ -195,11 +178,51 @@ def torch_shaft(w=8, h=12):
             px[x, y] = cols[(y + x) % 6] + (255,)
     return im
 
+
+def mottle(w, h, base, seed, tones=(-6, -3, 3, 6), blotches=46, speck=260, spread=(3, 9)):
+    """mottled dressed stone: hard-edged blotches in two or three nearby tones plus single-pixel pits and glints
+    (the flat grey-brown stone of the old interface buttons; no brick courses)"""
+    r = random.Random(seed); im = img(w, h, tuple(base) + (255,)); px = im.load()
+    for _ in range(blotches):
+        cx, cy, rad = r.randrange(w), r.randrange(h), r.randint(*spread); t = r.choice(tones)
+        for dy in range(-rad, rad + 1):
+            for dx in range(-rad, rad + 1):
+                if dx * dx * .8 + dy * dy * 1.3 <= rad * rad and r.random() < .7: px[(cx + dx) % w, (cy + dy) % h] = sh(base, t)
+    for _ in range(speck):
+        x, y = r.randrange(w), r.randrange(h); px[x, y] = sh(px[x, y], r.choice((-14, -10, 9)))
+    for _ in range(10):   # hairline cracks
+        x, y = r.randrange(w), r.randrange(h)
+        for k in range(r.randint(3, 7)):
+            px[x % w, y % h] = sh(base, -16); x += r.choice((1, 1, 0)); y += r.choice((0, 1, -1))
+    return im
+
+def frame_parch(size=48, border=12, seed=41):
+    """9-slice torn parchment edge (the quest scroll): a wandering ragged outer edge, a singed brown band, parchment inside"""
+    r = random.Random(seed); base = parchment(size, size, seed).load(); im = img(size, size); px = im.load()
+    def walk(n):
+        v, out = 2, []
+        for _ in range(n):
+            v = max(0, min(5, v + r.choice((-1, 0, 0, 1)))); out.append(v)
+        return out
+    rag = [walk(size) for _ in range(4)]
+    for y in range(size):
+        for x in range(size):
+            ds = [(y, rag[0][x]), (size - 1 - y, rag[1][x]), (x, rag[2][y]), (size - 1 - x, rag[3][y])]
+            d = min(v - t for v, t in ds)
+            if d < 0: continue
+            c = base[x, y]
+            if d == 0: c = (62, 42, 18, 255)
+            elif d == 1: c = (118, 86, 44, 255)
+            elif d == 2: c = sh(c, -40)
+            elif d <= 4: c = sh(c, -22 if d == 3 else -10)
+            px[x, y] = c
+    return im
+
 T = {}
-T['stone.png'] = blocks(64, 64, (96, 88, 74), 7, (76, 69, 57), rows=(10, 14), cols=(14, 26), tones=(-4, -2, 0, 2, 4), speck=.07, hi=7, lo=-8)
+T['stone.png'] = mottle(64, 64, (98, 90, 77), 7)
 T['stone_dark.png'] = blocks(64, 64, (70, 63, 52), 19, (40, 35, 28), rows=(10, 14), cols=(14, 26), tones=(-6, -3, 0, 3, 5), hi=10, lo=-12)
-T['stone_red.png'] = blocks(64, 64, (112, 38, 25), 7, (92, 28, 18), rows=(10, 14), cols=(14, 26), tones=(-3, -1, 0, 2, 3), speck=.07, hi=9, lo=-9)
-T['stone_lit.png'] = blocks(64, 64, (114, 105, 88), 7, (92, 84, 70), rows=(10, 14), cols=(14, 26), tones=(-4, -2, 0, 2, 4), speck=.07, hi=7, lo=-8)
+T['stone_red.png'] = mottle(64, 64, (118, 36, 22), 7, tones=(-7, -3, 3, 5))
+T['stone_lit.png'] = mottle(64, 64, (116, 107, 91), 7)
 T['slate.png'] = speckle(64, 64, (62, 54, 43), 3, 170, (-7, -4, 5), clumps=10)
 T['slate_dark.png'] = speckle(64, 64, (40, 34, 26), 11, 120, (-5, 5), clumps=6)
 T['parch.png'] = parchment(64, 64, 5)

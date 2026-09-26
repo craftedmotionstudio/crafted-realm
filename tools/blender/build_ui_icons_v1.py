@@ -34,7 +34,7 @@ PAL = {
     'skin': (.94, .73, .55), 'skin_dk': (.80, .56, .40), 'hair': (.38, .22, .10),
     'bone': (.93, .90, .80), 'bone_dk': (.72, .67, .55), 'horn': (.62, .55, .44),
     'parch': (.92, .85, .64), 'parch_dk': (.74, .63, .42), 'ink': (.30, .20, .10),
-    'stone': (.58, .56, .52), 'stone_lt': (.70, .68, .63), 'stone_dk': (.40, .38, .35), 'slate': (.30, .29, .27),
+    'stone': (.58, .54, .47), 'stone_lt': (.70, .66, .58), 'stone_dk': (.40, .37, .32), 'slate': (.30, .29, .27),
     'black': (.09, .08, .07), 'white': (.96, .96, .93), 'cream': (.97, .93, .80),
     'red': (.80, .13, .09), 'red_dk': (.52, .07, .05), 'blue': (.22, .40, .82), 'blue_dk': (.12, .20, .50),
     'green': (.30, .62, .22), 'green_dk': (.17, .38, .13), 'yellow': (.99, .85, .18), 'orange': (.95, .52, .12),
@@ -249,7 +249,7 @@ def p_bow(m, L=1.2, arrow=False, string=True):
     pts = []
     for i in range(11):
         u = i / 10 * 2 - 1; pts.append((-.3 * (1 - u*u) ** .8 + .06 * u*u, 0, u * .6 * L / 1.2))
-    m.ptube(pts, [.022, .03, .036, .04, .045, .05, .045, .04, .036, .03, .022], 6, 'wood')
+    m.ptube(pts, [.03, .04, .048, .054, .06, .066, .06, .054, .048, .04, .03], 6, 'wood_lt')
     m.ptube([(-.305, 0, -.09), (-.305, 0, .09)], .06, 6, 'leather', cap0='leather', cap1='leather')
     if string: m.cyl(pts[0], pts[-1], .009, 'cream', n=4)
     if arrow: p_arrow_at(m, (-.3, 0, 0), (.55, 0, 0))
@@ -785,10 +785,25 @@ I('misc_bell', 'misc', p_bell, [O('misc/bell.png', 18)], el=10, yaw=-10)
 I('misc_roof', 'misc', lambda m: p_house(m, 1.3), [O('misc/roof.png', 18)], el=18, yaw=-30)
 I('misc_chest', 'misc', p_chest, [O('misc/chest.png', 18)], el=20, yaw=-25)
 def p_hint_arrow(m):
-    m.ext([(-.2, .95), (.2, .95), (.2, .22), (.46, .22), (0, -.5), (-.46, .22), (-.2, .22)], .26, 'yellow', 'gold_dk', bev=.06)
+    m.ext([(-.2, .95), (.2, .95), (.2, .22), (.46, .22), (0, -.5), (-.46, .22), (-.2, .22)], .26, 'e_yellow', 'gold', bev=.06)
 I('hint_arrow', 'misc', p_hint_arrow, [O('misc/hint_arrow.png', 64, 80)], el=22, yaw=0, aspect=(4, 5), colors=10)
 I('hint_arrow_up', 'misc', lambda m: (p_hint_arrow(m), m.tf(0, rotY(180))), [O('misc/hint_arrow_up.png', 34)], el=0, yaw=0, colors=8)
-I('chathead', 'misc', p_bust, [O('misc/chathead.png', 64)], el=6, yaw=-24, colors=20)
+def p_chathead(m):
+    """a stand-in chathead for folk without a portrait: a big 3/4 head, cropped at the shoulders, with a face that reads"""
+    m.hull([Vector((x, y, z)) for x in (-.5, .5) for y in (-.2, .2) for z in (-.95, -.72)] + [Vector((x, y, -.6)) for x in (-.3, .3) for y in (-.14, .14)], 'tunic')
+    m.cyl((0, 0, -.7), (0, 0, -.45), .16, 'skin_dk', n=8)
+    m.hull(ell((0, 0, 0), (.36, .34, .44), 12, 8), 'skin')
+    m.hull(cbox((0, -.18, -.28), (.24, .16, .12), .08), 'skin')
+    m.hull(ell((0, .05, .14), (.39, .36, .36), 12, 7, floor=.06), 'hair')
+    m.hull(cbox((0, .22, -.02), (.34, .14, .26), .08), 'hair')
+    for sx in (-1, 1):
+        m.box((sx * .14, -.33, .04), (.07, .02, .035), 'white')
+        m.box((sx * .14 + .015, -.35, .035), (.03, .015, .03), 'black')
+        m.box((sx * .14, -.335, .12), (.09, .02, .018), 'hair')
+        m.sph((sx * .36, -.02, -.02), (.05, .07, .09), 'skin_dk', 6, 3)
+    m.hull([Vector((0, -.4, -.02)), Vector((-.05, -.34, .06)), Vector((.05, -.34, .06)), Vector((-.06, -.36, -.1)), Vector((.06, -.36, -.1)), Vector((0, -.44, -.09))], 'skin_dk')
+    m.box((0, -.34, -.22), (.1, .02, .016), 'red_dk')
+I('chathead', 'misc', p_chathead, [O('misc/chathead.png', 64)], el=4, yaw=-26, colors=22)
 
 # -- combat styles (36 px)
 def comp(*parts):

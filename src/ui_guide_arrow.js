@@ -12,7 +12,7 @@
  * step's optional {target,arrowLabel} fields Just Work (steps without them = no-op).
  *   spec: {x,z} | {friendlyId:'bram'} | {mesh} | null(clear).  r128 THREE.
  * Self-boots once scene/WORLD/UI/Tutorial exist (setInterval guard, like the towns). */
-const GUIDE_ARROW_IMG=(function(){try{const im=new Image();im.src='assets/icons/ui/v3/misc/hint_arrow.png?v=1';return im}catch(e){return null}})();
+const GUIDE_ARROW_IMG=(function(){try{const im=new Image();im.src='assets/icons/ui/v3/misc/hint_arrow.png?v=2';return im}catch(e){return null}})();
 const GuideArrow = {
   _spec:null, _label:'', _line:null, _sprite:null, _arrow:null, _raf:null, _wrapped:false,
   /* content hooks: fn(spec,label) -> {spec?,label?} | null, evaluated every frame so a hint can
@@ -117,7 +117,7 @@ const GuideArrow = {
   },
   /* the same arrow for the screen-edge pointer (points UP; the tick rotates it) */
   _edgeArrowUrl(){
-    if(GUIDE_ARROW_IMG) return 'url("assets/icons/ui/v3/misc/hint_arrow_up.png?v=1")';
+    if(GUIDE_ARROW_IMG) return 'url("assets/icons/ui/v3/misc/hint_arrow_up.png?v=2")';
     const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 3 L36 22 L27 22 L27 37 L13 37 L13 22 L4 22 Z" fill="#ffd21e" stroke="#140e04" stroke-width="3" stroke-linejoin="round"/><path d="M15 23 V35 M7.5 21 L19 7.5" stroke="rgba(255,250,200,.85)" stroke-width="1.6" fill="none"/></svg>';
     return 'url("data:image/svg+xml,'+encodeURIComponent(svg)+'")';
   },

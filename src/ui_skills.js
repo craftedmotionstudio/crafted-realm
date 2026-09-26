@@ -13,7 +13,7 @@
 (function(){
 'use strict';
 if(typeof UI==='undefined') return;   // nothing to skin without the UI object
-var ICO='assets/icons/ui/v3/skills/', V='?v=1';
+var ICO='assets/icons/ui/v3/skills/', V='?v=2';
 
 UI.refreshSkills = function(){
   const el=document.getElementById('skill-list'); if(!el) return;

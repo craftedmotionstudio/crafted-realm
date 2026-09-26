@@ -39,6 +39,14 @@ const W=1538,H=900;
   await page.mouse.move(tb[0],tb[1]);await sleep(500);
   const tipR=await unionOf(['#side-panel','#hud-tip'],6);if(tipR)await shot('05_tooltip',tipR);
   await page.mouse.move(W/2,H/2);
+  // tab rows (crops)
+  for(const [n,sel] of [['05b_tabs_top','#tab-bar'],['05c_tabs_bottom','#tab-bar-bottom']]){const r=await rectOf(sel,4);if(r)await shot(n,r)}
+  // the hint arrow over the current target, framed like a player would look at it
+  const tgt=await page.evaluate(async()=>{try{const s=GuideArrow._shown,c=s&&GuideArrow._center(s.spec);if(!c)return null;const y=typeof s.spec.y==='number'?s.spec.y:groundY(c.cx,c.cz);
+    HolmArrivalQA.qaView(c.cx,c.cz,y-1.4);const dx=player.position.x-c.cx,dz=player.position.z-c.cz;camCtl.yaw=Math.atan2(dx,dz);camCtl.pitch=1.05;camCtl.dist=17;await new Promise(r=>setTimeout(r,1800));
+    const v=new THREE.Vector3(c.cx,y,c.cz).project(camera);return {label:s.label,sx:(v.x+1)/2*innerWidth,sy:(1-v.y)/2*innerHeight}}catch(e){return null}});
+  if(tgt){const x=Math.max(0,Math.min(W-560,tgt.sx-280)),y=Math.max(0,Math.min(H-420,tgt.sy-300));await shot('05d_hint_arrow',{x,y,width:560,height:420})}
+  await page.evaluate(()=>{try{HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear()}catch(e){}});
   // every side tab
   await run(()=>{try{Player.xp.Attack=XP_TABLE[12];Player.xp.Prayer=XP_TABLE[30];Player.xp.Magic=XP_TABLE[25];Player.prayerPts=30;
     ['bronze_sword','wood_shield','air_rune','mind_rune','water_rune','earth_rune','fire_rune','bread','hatchet','pickaxe','worn_bow','apprentice_staff','arrows'].forEach(id=>{if(ITEMS[id])Player.addItem(id,id.endsWith('rune')||id==='arrows'?25:1)});
@@ -55,6 +63,11 @@ const W=1538,H=900;
   await run(()=>{try{Player.equip.weapon='bronze_sword';Player.equip.shield='wood_shield';if(ITEMS.leather_body)Player.equip.body='leather_body';if(ITEMS.bronze_legs)Player.equip.legs='bronze_legs';
     if(typeof refreshPlayerGear==='function')refreshPlayerGear();UI.refreshEquip();document.querySelector('#tab-bar .tab-btn[data-tab="equip"]').click()}catch(e){}});
   await sleep(500);await shot('07_equip_worn',pr);
+  // the tutorial's gold ring on a pack item
+  // (the island guide re-sets the ring every frame for its own step, so it is held for the shot)
+  await run(()=>{try{if(Player.count('hatchet')<1)Player.addItem('hatchet',1);document.querySelector('#tab-bar .tab-btn[data-tab="inv"]').click();UI.highlightItem&&UI.highlightItem('hatchet');
+    window.__hi=UI.highlightItem;UI.highlightItem=function(){};UI.refreshInv()}catch(e){}});
+  await sleep(700);await shot('07b_item_ring',pr);await run(()=>{try{if(window.__hi){UI.highlightItem=window.__hi;UI.highlightItem(null)}}catch(e){}});
   // combat tab per weapon family
   const WEAP=[['unarmed',null],['sword','bronze_sword'],['axe','hatchet'],['pick','pickaxe'],['mace','bronze_mace'],['bow','worn_bow'],['staff','apprentice_staff']];
   for(const [n,id] of WEAP){

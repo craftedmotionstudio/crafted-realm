@@ -42,7 +42,7 @@ function el(tag,cls,html){var e=doc.createElement(tag);if(cls)e.className=cls;if
 function click(){try{if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click()}catch(e){}}
 
 /* ---------------------------------------------------------------- 0. style */
-var link=el('link');link.rel='stylesheet';link.href='assets/ui/osrs_kit.css?v=4';
+var link=el('link');link.rel='stylesheet';link.href='assets/ui/osrs_kit.css?v=5';
 (doc.head||root).appendChild(link);   // fonts are bundled (assets/fonts, @font-face in the kit css): no runtime font fetch
 root.classList.add('osrs-kit');
 // retire the older chrome layers so one stylesheet owns the look (their DOM/handlers stay)
@@ -53,7 +53,7 @@ function retireLayers(){['ui-osrs-style','ui-minimap-style','ui-finish-css','ui-
 /* ------------------------------------------------------------ 1. textures */
 // hand-painted pixel tiles (tools/build_ui_textures_v3.py); handed to the CSS as custom properties with absolute urls
 function rng(seed){var s=seed>>>0;return function(){s=(s+0x6D2B79F5)>>>0;var t=s;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
-var TEXV='?v=1';
+var TEXV='?v=2';
 function abs(p){try{return new URL(p,doc.baseURI).href}catch(e){return p}}
 function cssUrl(p){return 'url("'+abs(p)+'")'}
 function setTex(){try{var S=root.style,T={'--tex-stone':'stone','--tex-stone-dark':'stone_dark','--tex-slate':'slate','--tex-stone-smooth':'stone',
@@ -64,7 +64,7 @@ setTex();
 
 /* --------------------------------------------------------------- 2. icons */
 // Every icon is a pixel sprite rendered from one of our own low-poly Blender props (assets/icons/ui/v3/**).
-var SPRV='?v=1',SPR_BASE='assets/icons/ui/v3/';
+var SPRV='?v=2',SPR_BASE='assets/icons/ui/v3/';
 var SPR={music:'rail/music',muted:'rail/muted',layers:'rail/layers',medal:'rail/medal',look:'rail/look',swords:'rail/combat',coins:'rail/coins',
  heart:'orb/heart',prayer:'orb/prayer',run:'orb/run',spec:'orb/spec',compass:'orb/compass',globe:'orb/globe',socket:'orb/socket',mmring:'orb/minimap_ring',
  close:'misc/close',door:'misc/door',note:'misc/note',bell:'misc/bell',roof:'misc/roof',chest:'misc/chest',boot:'misc/boot',mglobe:'misc/globe',

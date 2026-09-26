@@ -21,7 +21,7 @@
 if(window.__uiCombatBooted) return;            // guard against a double script tag
 window.__uiCombatBooted = true;
 
-var PIC = 'assets/icons/ui/v3/combat/', V = '?v=1';
+var PIC = 'assets/icons/ui/v3/combat/', V = '?v=2';
 // weapon model -> family shown in the tab (pictures + names only; the maths still come from STYLE_DEFS by index)
 var FAMILY = {sword:'sword', sabre:'sword', longsword:'sword', greatsword:'sword', scimitar:'sword', dagger:'sword',
   axe:'axe', battleaxe:'axe', hatchet:'axe', pick:'pick', mace:'mace', warhammer:'mace', maul:'mace',
