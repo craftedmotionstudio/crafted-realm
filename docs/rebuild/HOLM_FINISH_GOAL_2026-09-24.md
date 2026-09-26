@@ -402,6 +402,11 @@ Cutover plan (2026-09-25, from the provider/save audit; reversible behind one sw
       2026-09-25 13:00 FINAL-BUILD PROOF (Guide House v3 + cellar, all 10 building interiors, Blender equipment incl.
       worn armour, character kit v2.5 + 2004 creator): 10/10 playthroughs complete, 18/18 lessons, 0 page errors
       (9.4-16.9 min); units 47/47, smoke, arrival 12/12, route 20/20, island QA 28/29 (known combat-click harness flake).
+      2026-09-25 19:51 FINAL-BUILD PROOF bafff7d (play-test round: bakehouse v8, Guide House v5, statue v3, world fixes,
+      talk-first tutors, tools in hand, combat feel): 10/10 playthroughs complete (runs 88-97), 18/18 lessons, 10/10 tutors
+      met, 0 page errors (10.2-12.3 min); units 52/52, smoke fg+hidden, combat numbers lock, arrival 12/12, island QA 32/32.
+      Owner review 2026-09-25 opened round 3 (characters v3.0, statue v4, medieval UI, old-school world look) inside
+      WORLD_GOAL_2026-09-25.md W0.
 - [ ] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
       Verify fresh characters, returning Holm saves, graduated saves, full inventory and interruptions.
 - [ ] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload

@@ -3889,3 +3889,13 @@ length (slight medium-length read in 3/4).
 - Gates: units 48/48, smoke PASS (visible + hidden), arrival v4 12/12, island QA 29/29, 3/3 playthroughs complete
   (18/18 lessons, 0 page errors, 10.4-11.1 min).
 - Next: merge the talk-first tutors, tools-in-hand and combat-effects branches, then the final 10-run proof.
+
+## 2026-09-25 — Holm final proof on bafff7d + owner round 3 opened
+- Proof on bafff7d: 10/10 playthroughs complete (runs 88-97), 18/18 lessons, all 10 tutors spoken to first, 0 page
+  errors (10.2-12.3 min); units 52/52, smoke foreground + hidden PASS, combat numbers lock PASS, arrival 12/12,
+  island QA 32/32. tools/test_world_v2.js far-door lock fixed (doorStance gained its swing argument).
+- Arrival package v9 export committed (it was only on disk); the island now runs from a fresh clone.
+- Owner review: characters (OSRS stance, shoulder-arm merge, boots), statue arm, "too polished", icons must be
+  images/Blender renders, and the new World goal (docs/rebuild/WORLD_GOAL_2026-09-25.md): online, PvP-focused,
+  mobile, all skills, storyline. Owner decisions: 8-direction movement, 28-slot pack, exact 2004 combat, eating
+  cancels the attack order.

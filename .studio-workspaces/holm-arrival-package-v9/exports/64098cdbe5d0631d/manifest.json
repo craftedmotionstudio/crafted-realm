@@ -1,0 +1,176 @@
+{
+  "exportId": "64098cdbe5d0631d",
+  "files": [
+    {
+      "baseHash": null,
+      "bytes": 790820,
+      "hash": "80a2ae1f7d18faae939c53e903a3ac9c90e70e740023a0347d160d83a0929831",
+      "path": "assets/blender/holm_arrival_dock_overhaul_v4.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 706523,
+      "hash": "fa5f1431e276e2aadad4f2bb65c55103830db7de48d7a6a867144e0b40189999",
+      "path": "assets/blender/holm_arrival_garden_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 1169587,
+      "hash": "b2cad4b3fff213ca019390ab3215c79f76a9b05cdbeee2a9dec59470db37fe99",
+      "path": "assets/blender/holm_arrival_statue_v3.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 4903289,
+      "hash": "275cac8c873bb5e6dc359e9699b882f0c9ee98e06ad3d610bbc80d8217d5f822",
+      "path": "assets/blender/holm_guide_house_overhaul_v5.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 711507,
+      "hash": "e14084f13077e8e0b18ad762d3959c3061bc83d68b7f7e1636ce2f02ebcc58d0",
+      "path": "assets/blender/holm_landing_props_v1.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 641299,
+      "hash": "6c89684588c2d495a46606f80b32ab324081a0d4e348c56c534db2cd887a4877",
+      "path": "assets/blender/holm_provisions_v2.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 1039175,
+      "hash": "3394e40605100a40c6d2efd02cef22087da020ae56ed1e83d20d4a0ebdc8530f",
+      "path": "assets/blender/holm_tree_family_v3.blend"
+    },
+    {
+      "baseHash": null,
+      "bytes": 27128,
+      "hash": "f1e845b2d3febf29728b73bdf33b12921df0ebaa37e5367d06c0820922f1d232",
+      "path": "assets/models/holm_arrival_bench_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 64828,
+      "hash": "ebf80ba17fa9e15c04e61019bbabec5ed1bd8e604ec20b028645dd73f1fa82e3",
+      "path": "assets/models/holm_arrival_cargo_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 217836,
+      "hash": "437b66d2be2d4464d2c430a912ad823f335c595688190644d7ea5cd1ec078337",
+      "path": "assets/models/holm_arrival_dock_overhaul_v4.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 16924,
+      "hash": "6f39a9a961cba12c4ad3ddcd7dd747940af8c78e7ee9dfcf76fed258d95d368d",
+      "path": "assets/models/holm_arrival_fieldstones_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 107844,
+      "hash": "fa6a0c4e0fa4573a6ce1ad7f90b7b072c0193e5a8664661228b3bb9d37a8fe94",
+      "path": "assets/models/holm_arrival_hazel_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 223420,
+      "hash": "9899c9c5577cffbeec622e6d3484586d62df5659493b07cd15bc717ba5eb801b",
+      "path": "assets/models/holm_arrival_oak_v3.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 502892,
+      "hash": "cd0c3241b92e77fd8bcf07c39e591ad161a3832419e18629e271b3a0f6df9b2a",
+      "path": "assets/models/holm_arrival_statue_v3.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 28940,
+      "hash": "8731643cf6a30e92ee13ac9cd8feb2dc3849971c281b6012fb22ef93c77c7d89",
+      "path": "assets/models/holm_arrival_wall_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 19528,
+      "hash": "94a7a439bfaa8ca84d6c9d2297170a88f9e335faa06ed35ba8c854c2ab211d57",
+      "path": "assets/models/holm_arrival_waypost_v1.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 4033320,
+      "hash": "27c42007cec7af60cbc396d78d7e682cbad003c19fcda2fd172e03415eadab21",
+      "path": "assets/models/holm_guide_house_overhaul_v5.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 102528,
+      "hash": "ef9dfcd49ffff6b0b4b4311a292e7b7916126c862245ae26964fddf0e10cc531",
+      "path": "assets/models/holm_provisions_v2.glb"
+    },
+    {
+      "baseHash": null,
+      "bytes": 404,
+      "hash": "e50b7206d6fa095e646ec8b8df06eb2818bd10ba97b5176e6f3b27fde1832a8e",
+      "path": "assets/world/authoring/holm-arrival.dock.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 12403,
+      "hash": "dc6666bade52ae301364dd9d6dc81e1e1a8316a895a023d46e4505249c8fbe2b",
+      "path": "assets/world/authoring/holm-arrival.envelopes.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 22806,
+      "hash": "82128278dff10b6032dd7bcd853436da5309ce47745664122a0ad0706329cc74",
+      "path": "assets/world/authoring/holm-arrival.landscape-measure.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 1400,
+      "hash": "3a056fc923165c62760a9ed289c874f2e72eb07aed7d38bafb26c14bd2b2080e",
+      "path": "assets/world/authoring/holm-arrival.landscape.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 5454,
+      "hash": "6b569df5378e6ba6c49733b3ee0ef74cb8f6fe09b252883dc72d253f375e9175",
+      "path": "assets/world/authoring/holm-arrival.layout.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 2407920,
+      "hash": "acc48e6e82d43de6baa6e56f21c14c11a2031582615dc9130084679ecae9ba37",
+      "path": "assets/world/authoring/holm-arrival.package.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 352,
+      "hash": "756007d14487b2f7bdf8dd7287ea21dbe5b52e6cf549e6f9e14f8765c64fa579",
+      "path": "assets/world/authoring/holm-arrival.provisions.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 1822,
+      "hash": "4766df7c9c0c9d17254aac2e8d235a98acefdbdd126e4114438a1d6977fb31f9",
+      "path": "assets/world/authoring/holm-arrival.provisions.manifest.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 298202,
+      "hash": "655e69f88d24b389ccf6b7c90e61d60d1d9b4ccde32030b0a45754285feb1d98",
+      "path": "assets/world/authoring/holm-overhaul.terrain.bundle.json"
+    },
+    {
+      "baseHash": null,
+      "bytes": 4767,
+      "hash": "160f451226e401d15523c514e62b3895311f280cd19f4f499a1840fff7b39844",
+      "path": "assets/world/authoring/holm-overhaul.terrain.json"
+    }
+  ],
+  "schema": "crafted-realm-studio-export-v1",
+  "version": 1,
+  "workspaceId": "holm-arrival-package-v9"
+}

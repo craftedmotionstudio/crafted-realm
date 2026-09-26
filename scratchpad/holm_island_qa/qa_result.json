@@ -60,6 +60,19 @@
       }
     },
     {
+      "label": "2004 rule: a new adventurer is told to talk to Guide Bram first, and the relief chart refuses until then",
+      "ok": true,
+      "detail": {
+        "banner": "Talk to Guide Bram in the Guide House.",
+        "due": "bram",
+        "chat": [
+          "You should speak to Guide Bram first."
+        ],
+        "moved": 0,
+        "lesson": "study_route"
+      }
+    },
+    {
       "label": "M5.2b: with the survival lessons done the bakehouse door opens (the Quest Lodge stays shut)",
       "ok": true,
       "detail": {
@@ -73,7 +86,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 32,
+        "deckSamples": 14,
         "deckY": 3
       }
     },
@@ -99,8 +112,48 @@
       "label": "every step on the way is cardinal",
       "ok": true,
       "detail": {
-        "samples": 401,
+        "samples": 392,
         "diagonal": 0
+      }
+    },
+    {
+      "label": "2004 rule: stations refuse before speaking to the tutor (bakehouse bucket rack, Cook Hettie), banner and arrow say talk to her",
+      "ok": true,
+      "detail": {
+        "pre": {
+          "banner": "Talk to Cook Hettie in the bakehouse.",
+          "arrow": "Talk to Cook Hettie",
+          "due": "hettie"
+        },
+        "click": "ok",
+        "chat": [
+          "Press ` (backquote) at any time for the Administrator Console.",
+          "The bakehouse door is barred. Finish your lessons at the survival camp first.",
+          "You should speak to Guide Bram first.",
+          "You should speak to Cook Hettie first."
+        ],
+        "buckets": 0
+      }
+    },
+    {
+      "label": "2004 rule: a real click on Cook Hettie opens her chat with the bakehouse steps, and her area opens (banner back on the lesson)",
+      "ok": true,
+      "detail": {
+        "talk": {
+          "talked": true,
+          "pages": [
+            "Mind the flour. I am Cook Hettie, and this is my bakehouse.",
+            "My kitchen, my rules. Today you are baking a loaf of bread.",
+            "Take two empty buckets from the rack by the door.",
+            "Fill one with flour at the pantry and the other with water at the butt.",
+            "Take some dough from the proving bowl, then click the dough in your pack to knead it all together.",
+            "Last of all, click your bread dough, then the oven. Watch it does not burn."
+          ]
+        },
+        "post": {
+          "banner": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+          "due": null
+        }
       }
     },
     {
@@ -175,9 +228,13 @@
       }
     },
     {
-      "label": "walks into the Quest Lodge and studies the quest board",
+      "label": "talks to Loremaster Ansel, then walks into the Quest Lodge and studies the quest board",
       "ok": true,
       "detail": {
+        "ansel": {
+          "talked": true,
+          "pages": 5
+        },
         "step": {
           "ok": true
         },
@@ -399,7 +456,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 5,
+        "cookTries": 2,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -420,7 +477,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 5,
+        "cookTries": 2,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -446,9 +503,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 11,
+        "arrowsUsed": 7,
         "magic": true,
-        "runesUsed": 6
+        "runesUsed": 5
       }
     },
     {
@@ -456,14 +513,14 @@
       "ok": true,
       "detail": {
         "before": [
-          100.5,
-          7.082,
-          46.5
+          103.5,
+          6.253,
+          54.5
         ],
         "after": [
-          100.5,
-          7.082,
-          46.5
+          103.5,
+          6.253,
+          54.5
         ]
       }
     },
@@ -475,5 +532,5 @@
       }
     }
   ],
-  "seconds": 1046
+  "seconds": 882
 }

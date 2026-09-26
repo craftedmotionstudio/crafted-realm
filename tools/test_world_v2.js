@@ -128,7 +128,7 @@ check('the follow camera is clamped out of the surface terrain along its boom',
     /CollisionGrid\.hasLoS\(player\.position\.x,player\.position\.z,p\.x,p\.z\)/.test(reachSrc)&&
     /&&clearOfWalls\(\);/.test(reachSrc)&&/rearms\+\+<40/.test(reachSrc));
   check('the arrival draft walks to a far door and opens it on arrival (old-school door rule)',
-    /function doorStance\(pos\)\{/.test(fs.readFileSync(path.join(ROOT,'src','holm_arrival_qa.js'),'utf8'))&&
+    /function doorStance\(pos(,swing)?\)\{/.test(fs.readFileSync(path.join(ROOT,'src','holm_arrival_qa.js'),'utf8'))&&
     fs.existsSync(path.join(ROOT,'tools','test_holm_arrival_door_queue.js')));
   const invMenu=fs.readFileSync(path.join(ROOT,'src','inventory_menu.js'),'utf8');
   const tagsSrc=fs.readFileSync(path.join(ROOT,'src','item_tags.js'),'utf8');

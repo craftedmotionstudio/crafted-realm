@@ -1,0 +1,20 @@
+{
+  "schema": "holm-arrival-dock-study-v1",
+  "status": "Studio draft; not published or connected to ferry gameplay",
+  "world": {
+    "x": 61.5,
+    "y": 1,
+    "z": 123
+  },
+  "width": 3.4,
+  "depth": 9,
+  "support": {
+    "x0": -1.5,
+    "x1": 1.5,
+    "z0": -4.5,
+    "z1": 4.3
+  },
+  "entranceZ": 118.5,
+  "destination": "dock:61,126",
+  "model": "assets/models/holm_arrival_dock_overhaul_v4.glb"
+}
