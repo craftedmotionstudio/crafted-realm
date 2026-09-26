@@ -171,7 +171,9 @@ const HANDLERS = {
     p.clearInteraction(); p.clearWaypoints();
     p.setAnim('teleport');
     p.delayed = true; p.delayedUntil = w.tick + TELEPORT_DELAY;
-    w.schedule(TELEPORT_DELAY, () => {
+    // the world queue runs a delay-d job d+1 ticks later (post-decrement), so d-1 lands on the tick
+    // the p_delay ends, before that tick's player phase — as the resumed 2004 script does
+    w.schedule(TELEPORT_DELAY - 1, () => {
       if (!p.active || p.dead) return;
       const r = w.teleportDestination(sp.dest);
       p.teleport(r.x, r.z, r.level);
