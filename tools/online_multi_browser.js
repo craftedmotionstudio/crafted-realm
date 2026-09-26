@@ -511,9 +511,12 @@ async function pvmFight(fight, A, O, o) {
   fight.seconds = +((Date.now() - t0) / 1000).toFixed(1); fight.ticks = world.tick - since;
   check(fight, killed, 'the ' + o.npc + ' dies');
   if (!killed) return;
-  const tile = { x: npc.x, z: npc.z };
-  await sleep(TICK * 5);
-  const st = await A.state();
+  const tile = { x: npc.x, z: npc.z }, diedAt = Date.now();
+  // the body falls, lies a moment and sinks; its drop pops up then (measured)
+  let st = await A.state();
+  for (let i = 0; i < 40; i++) { const pile0 = st.objs.filter((x) => x.own && x.x === tile.x && x.z === tile.z); if (pile0.some((x) => /bones/.test(x.id)) && pile0.every((x) => !x.hidden)) break; await sleep(250); st = await A.state(); }
+  fight.lootShownAfterMs = Date.now() - diedAt;
+  await sleep(TICK * 2); st = await A.state();
   // xp for the style and Hitpoints
   const skill = { melee: ['Attack', 'Strength', 'Defence'], ranged: ['Ranged'], magic: ['Magic'] }[o.kit];
   const gained = skill.some((sk) => (st.ui.xp10[sk] || 0) > (xp0[sk] || 0)) && (st.ui.xp10.Hitpoints || 0) > (xp0.Hitpoints || 0);
