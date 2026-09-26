@@ -1,0 +1,1588 @@
+{
+ "schema": "crafted-realm-scarlands-kit-v1",
+ "version": 1,
+ "name": "The Scarlands art kit",
+ "about": "Burned Wilderness north of the Wilderness Ditch: dead trees, fire-scarred ruins, bones, the Ditch trench kit, warning sign, camp remnants, depth stones. Our own low-poly Blender designs with the old-school 64 px texture kit.",
+ "glb": {
+  "file": "scarlands_kit.glb",
+  "sha256": "02af4153b88482afa177330371d96a3de427b43392cef3ae1427de2220cd1986",
+  "bytes": 600236,
+  "primitives": 76,
+  "triangles": 6981
+ },
+ "source": {
+  "blend": "scarlands_kit.blend",
+  "builder": "tools/blender/build_scarlands_kit_v1.py",
+  "recipe": "tools/blender/apply_oldschool_textures.py",
+  "spec": "docs/rebuild/scarlands/scarlands-kit.textures.json",
+  "blender": "4.5.10 LTS"
+ },
+ "textures": [
+  "ash",
+  "bark",
+  "beam",
+  "bone_dirt",
+  "charred_planks",
+  "dark_rock",
+  "planks",
+  "ruined_stone",
+  "scorched_earth"
+ ],
+ "conventions": {
+  "units": "1 unit = 1 tile",
+  "axes": "glTF: +X east, -Z north, +Y up (Blender +Y north). Each piece is a root node at the origin; clone it and set its transform.",
+  "origin": "the centre of the piece footprint, on the ground (y = 0)",
+  "footprint": "w tiles along x (east) by d tiles along z (north), unrotated",
+  "rotation": "rot = clockwise quarter turns seen from above (north edge faces east at rot 1); only the listed rotations are authored; three.js yaw = -rot * PI / 2 in a scene where north is -z",
+  "cells": "collision cells (i, j): i east 0..w-1, j north 0..d-1 (j = 0 south row), unrotated; blocked = solid tile, water = unwalkable floor projectiles cross, walls = [i, j, side] edge walls, cut = lower the ground under these cells by depth (the Ditch), walk = walkable deck height over cut cells",
+  "placement": "tools/scarlands_kit.js turns a tile layout into the server collision map and the client placement list (rotated cells, world positions, yaw, instancing counts, ground grid)",
+  "materials": "colour maps are display values (the game renders without colour management): set map.encoding = LinearEncoding like the island loaders; flat materials are drawn as authored; the ember material is emissive",
+  "instancing": "every piece is a single mesh (one primitive per material); draw repeated pieces with one InstancedMesh per piece primitive"
+ },
+ "pieces": [
+  {
+   "id": "dead_tree_tall",
+   "node": "scar_dead_tree_tall",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "tree",
+    "dead"
+   ],
+   "about": "Tall burnt tree, four black limbs clawing upward.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 208,
+   "materials": [
+    "Scar charred bark",
+    "Scar charred bark edge"
+   ],
+   "bounds": {
+    "min": [
+     -1.114,
+     -0.041,
+     -0.918
+    ],
+    "max": [
+     1.169,
+     5.468,
+     0.995
+    ]
+   }
+  },
+  {
+   "id": "dead_tree_bent",
+   "node": "scar_dead_tree_bent",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "tree",
+    "dead"
+   ],
+   "about": "Wind-bent dead tree leaning away from the Ditch.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 200,
+   "materials": [
+    "Scar charred bark",
+    "Scar charred bark edge"
+   ],
+   "bounds": {
+    "min": [
+     -0.735,
+     -0.052,
+     -1.598
+    ],
+    "max": [
+     1.744,
+     4.479,
+     0.577
+    ]
+   }
+  },
+  {
+   "id": "dead_tree_split",
+   "node": "scar_dead_tree_split",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "tree",
+    "dead"
+   ],
+   "about": "Lightning-split trunk, two charred halves and jagged tops.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 128,
+   "materials": [
+    "Scar charred bark",
+    "Scar charred bark edge"
+   ],
+   "bounds": {
+    "min": [
+     -0.912,
+     -0.044,
+     -0.564
+    ],
+    "max": [
+     1.113,
+     3.719,
+     0.71
+    ]
+   }
+  },
+  {
+   "id": "dead_tree_snag",
+   "node": "scar_dead_tree_snag",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "tree",
+    "dead"
+   ],
+   "about": "Snapped snag: a short burnt stump of a trunk with two broken stubs.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 120,
+   "materials": [
+    "Scar charred bark",
+    "Scar charred bark edge"
+   ],
+   "bounds": {
+    "min": [
+     -0.583,
+     -0.044,
+     -0.57
+    ],
+    "max": [
+     0.571,
+     2.902,
+     0.583
+    ]
+   }
+  },
+  {
+   "id": "dead_shrub",
+   "node": "scar_dead_shrub",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "shrub",
+    "dead"
+   ],
+   "about": "Low twiggy burnt shrub; walkable, pure dressing.",
+   "collision": {},
+   "triangles": 84,
+   "materials": [
+    "Scar charred bark"
+   ],
+   "bounds": {
+    "min": [
+     -0.378,
+     -0.026,
+     -0.373
+    ],
+    "max": [
+     0.282,
+     0.609,
+     0.328
+    ]
+   }
+  },
+  {
+   "id": "stump_charred",
+   "node": "scar_stump_charred",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "stump"
+   ],
+   "about": "Burnt stump with a jagged top and flared roots.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 136,
+   "materials": [
+    "Scar charred bark",
+    "Scar charred bark edge"
+   ],
+   "bounds": {
+    "min": [
+     -0.458,
+     -0.039,
+     -0.479
+    ],
+    "max": [
+     0.458,
+     0.641,
+     0.479
+    ]
+   }
+  },
+  {
+   "id": "stump_split",
+   "node": "scar_stump_split",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "stump"
+   ],
+   "about": "Stump split in two by the heat, one half fallen outward.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 92,
+   "materials": [
+    "Scar charred bark",
+    "Scar charred bark edge"
+   ],
+   "bounds": {
+    "min": [
+     -0.422,
+     -0.036,
+     -0.41
+    ],
+    "max": [
+     0.774,
+     0.632,
+     0.407
+    ]
+   }
+  },
+  {
+   "id": "ruin_wall",
+   "node": "scar_ruin_wall",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "ruin",
+    "wall"
+   ],
+   "about": "Fire-scarred wall on the tile's north edge, ragged top (about 2.2 high).",
+   "collision": {
+    "walls": [
+     [
+      0,
+      0,
+      "N"
+     ]
+    ]
+   },
+   "triangles": 144,
+   "materials": [
+    "Scar ruined stone",
+    "Scar ruined stone sooted"
+   ],
+   "bounds": {
+    "min": [
+     -0.489,
+     0,
+     -0.714
+    ],
+    "max": [
+     0.49,
+     2.23,
+     -0.303
+    ]
+   }
+  },
+  {
+   "id": "ruin_wall_low",
+   "node": "scar_ruin_wall_low",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "ruin",
+    "wall"
+   ],
+   "about": "Broken-down wall on the north edge, knee to waist high.",
+   "collision": {
+    "walls": [
+     [
+      0,
+      0,
+      "N"
+     ]
+    ]
+   },
+   "triangles": 128,
+   "materials": [
+    "Scar ruined stone sooted",
+    "Scar ruined stone"
+   ],
+   "bounds": {
+    "min": [
+     -0.489,
+     0,
+     -0.696
+    ],
+    "max": [
+     0.487,
+     0.82,
+     -0.032
+    ]
+   }
+  },
+  {
+   "id": "ruin_wall_corner",
+   "node": "scar_ruin_wall_corner",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "ruin",
+    "wall"
+   ],
+   "about": "Corner of a ruined room: walls on the north and east edges.",
+   "collision": {
+    "walls": [
+     [
+      0,
+      0,
+      "N"
+     ],
+     [
+      0,
+      0,
+      "E"
+     ]
+    ]
+   },
+   "triangles": 204,
+   "materials": [
+    "Scar ruined stone",
+    "Scar ruined stone sooted"
+   ],
+   "bounds": {
+    "min": [
+     -0.489,
+     0,
+     -0.709
+    ],
+    "max": [
+     0.701,
+     1.66,
+     0.309
+    ]
+   }
+  },
+  {
+   "id": "ruin_wall_end",
+   "node": "scar_ruin_wall_end",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "ruin",
+    "wall"
+   ],
+   "about": "End of a wall run on the north edge, finished by a taller pier at the east end.",
+   "collision": {
+    "walls": [
+     [
+      0,
+      0,
+      "N"
+     ]
+    ]
+   },
+   "triangles": 216,
+   "materials": [
+    "Scar ruined stone sooted",
+    "Scar ruined stone"
+   ],
+   "bounds": {
+    "min": [
+     -0.49,
+     0,
+     -0.77
+    ],
+    "max": [
+     0.542,
+     2.5,
+     -0.225
+    ]
+   }
+  },
+  {
+   "id": "ruin_pillar",
+   "node": "scar_ruin_pillar",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "ruin",
+    "pillar"
+   ],
+   "about": "Standing pillar with plinth and a cracked capital (3 high).",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 84,
+   "materials": [
+    "Scar ruined stone sooted",
+    "Scar ruined stone"
+   ],
+   "bounds": {
+    "min": [
+     -0.405,
+     0,
+     -0.404
+    ],
+    "max": [
+     0.465,
+     3.078,
+     0.404
+    ]
+   }
+  },
+  {
+   "id": "ruin_pillar_broken",
+   "node": "scar_ruin_pillar_broken",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "ruin",
+    "pillar"
+   ],
+   "about": "Broken pillar stub with its fallen drum beside it.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 60,
+   "materials": [
+    "Scar ruined stone sooted",
+    "Scar ruined stone"
+   ],
+   "bounds": {
+    "min": [
+     -0.39,
+     0,
+     -0.493
+    ],
+    "max": [
+     0.942,
+     1.249,
+     0.39
+    ]
+   }
+  },
+  {
+   "id": "ruin_arch",
+   "node": "scar_ruin_arch",
+   "footprint": {
+    "w": 3,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1
+   ],
+   "tags": [
+    "ruin",
+    "arch",
+    "gateway"
+   ],
+   "about": "Ruined arch gateway three tiles wide: piers block the outer tiles, the middle is open.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ],
+     [
+      2,
+      0
+     ]
+    ]
+   },
+   "triangles": 512,
+   "materials": [
+    "Scar ruined stone",
+    "Scar ruined stone sooted"
+   ],
+   "bounds": {
+    "min": [
+     -1.344,
+     0,
+     -0.379
+    ],
+    "max": [
+     1.345,
+     3.457,
+     0.59
+    ]
+   }
+  },
+  {
+   "id": "rubble_small",
+   "node": "scar_rubble_small",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "rubble"
+   ],
+   "about": "A scatter of fallen blocks on scorched soil; walkable dressing.",
+   "collision": {},
+   "triangles": 74,
+   "materials": [
+    "Scar scorched earth",
+    "Scar ruined stone sooted",
+    "Scar ruined stone"
+   ],
+   "bounds": {
+    "min": [
+     -0.46,
+     -0.065,
+     -0.52
+    ],
+    "max": [
+     0.484,
+     0.234,
+     0.55
+    ]
+   }
+  },
+  {
+   "id": "rubble_large",
+   "node": "scar_rubble_large",
+   "footprint": {
+    "w": 2,
+    "d": 2
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "rubble"
+   ],
+   "about": "Heap of a collapsed wall: blocks, a broken column drum; solid.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   },
+   "triangles": 236,
+   "materials": [
+    "Scar scorched earth",
+    "Scar ruined stone sooted",
+    "Scar ruined stone"
+   ],
+   "bounds": {
+    "min": [
+     -1.092,
+     -0.164,
+     -0.904
+    ],
+    "max": [
+     1.298,
+     0.852,
+     1.061
+    ]
+   }
+  },
+  {
+   "id": "rock_boulder",
+   "node": "scar_rock_boulder",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "rock"
+   ],
+   "about": "Dark boulder filling a tile.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 80,
+   "materials": [
+    "Scar dark rock"
+   ],
+   "bounds": {
+    "min": [
+     -0.577,
+     -0.04,
+     -0.484
+    ],
+    "max": [
+     0.6,
+     0.561,
+     0.484
+    ]
+   }
+  },
+  {
+   "id": "rock_outcrop",
+   "node": "scar_rock_outcrop",
+   "footprint": {
+    "w": 2,
+    "d": 2
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "rock"
+   ],
+   "about": "Dark rock outcrop over 2x2 tiles, a tall shard and smaller stones.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   },
+   "triangles": 240,
+   "materials": [
+    "Scar dark rock"
+   ],
+   "bounds": {
+    "min": [
+     -1.091,
+     -0.152,
+     -0.886
+    ],
+    "max": [
+     0.97,
+     1.282,
+     1.04
+    ]
+   }
+  },
+  {
+   "id": "bones_skeleton",
+   "node": "scar_bones_skeleton",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "bones"
+   ],
+   "about": "An adventurer who did not make it back: a skeleton lying on its back; walkable.",
+   "collision": {},
+   "triangles": 732,
+   "materials": [
+    "Scar bone"
+   ],
+   "bounds": {
+    "min": [
+     -0.408,
+     -0.003,
+     -0.525
+    ],
+    "max": [
+     0.392,
+     0.219,
+     0.467
+    ]
+   }
+  },
+  {
+   "id": "bones_skull",
+   "node": "scar_bones_skull",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "bones"
+   ],
+   "about": "A skull on two crossed bones; walkable.",
+   "collision": {},
+   "triangles": 196,
+   "materials": [
+    "Scar bone"
+   ],
+   "bounds": {
+    "min": [
+     -0.329,
+     0.001,
+     -0.25
+    ],
+    "max": [
+     0.328,
+     0.228,
+     0.25
+    ]
+   }
+  },
+  {
+   "id": "bones_pile",
+   "node": "scar_bones_pile",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "bones"
+   ],
+   "about": "A heap of old bones on bone-strewn dirt; walkable.",
+   "collision": {},
+   "triangles": 640,
+   "materials": [
+    "Scar bone dirt",
+    "Scar bone"
+   ],
+   "bounds": {
+    "min": [
+     -0.483,
+     -0.101,
+     -0.448
+    ],
+    "max": [
+     0.485,
+     0.306,
+     0.388
+    ]
+   }
+  },
+  {
+   "id": "cart_broken",
+   "node": "scar_cart_broken",
+   "footprint": {
+    "w": 2,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "cart",
+    "camp"
+   ],
+   "about": "Burnt handcart tipped on a broken wheel, its shafts in the ash; solid.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ]
+   },
+   "triangles": 188,
+   "materials": [
+    "Scar charred planks",
+    "Scar rust iron"
+   ],
+   "bounds": {
+    "min": [
+     -1.005,
+     0,
+     -1.12
+    ],
+    "max": [
+     0.958,
+     1.012,
+     0.66
+    ]
+   }
+  },
+  {
+   "id": "ditch_straight",
+   "node": "scar_ditch_straight",
+   "footprint": {
+    "w": 1,
+    "d": 2
+   },
+   "rotations": [
+    0,
+    2
+   ],
+   "tags": [
+    "ditch"
+   ],
+   "about": "One tile of the Wilderness Ditch (1 wide, 2 deep): stone-faced south bank with a sharpened stake leaning north, raw north bank.",
+   "collision": {
+    "water": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    "cut": {
+     "depth": 1.6,
+     "cells": [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
+     ]
+    }
+   },
+   "triangles": 156,
+   "materials": [
+    "Scar ash bed",
+    "Scar ruined stone sooted",
+    "Scar ruined stone",
+    "Scar scorched earth",
+    "Scar charred planks"
+   ],
+   "bounds": {
+    "min": [
+     -0.5,
+     -1.6,
+     -1
+    ],
+    "max": [
+     0.5,
+     1.005,
+     1.176
+    ]
+   }
+  },
+  {
+   "id": "ditch_end",
+   "node": "scar_ditch_end",
+   "footprint": {
+    "w": 1,
+    "d": 2
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "ditch"
+   ],
+   "about": "The west end of a Ditch run (rotate 2 for the east end): the trench closed by a stone end wall.",
+   "collision": {
+    "water": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ]
+    ],
+    "cut": {
+     "depth": 1.6,
+     "cells": [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
+     ]
+    }
+   },
+   "triangles": 292,
+   "materials": [
+    "Scar ash bed",
+    "Scar ruined stone",
+    "Scar ruined stone sooted",
+    "Scar scorched earth"
+   ],
+   "bounds": {
+    "min": [
+     -0.57,
+     -1.6,
+     -1
+    ],
+    "max": [
+     0.5,
+     0,
+     1.082
+    ]
+   }
+  },
+  {
+   "id": "ditch_corner",
+   "node": "scar_ditch_corner",
+   "footprint": {
+    "w": 2,
+    "d": 2
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "ditch"
+   ],
+   "about": "The Ditch turning from its westward run to the north: stone faces on the outer south and east sides.",
+   "collision": {
+    "water": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    "cut": {
+     "depth": 1.6,
+     "cells": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       0
+      ],
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "triangles": 386,
+   "materials": [
+    "Scar ash bed",
+    "Scar ruined stone sooted",
+    "Scar ruined stone"
+   ],
+   "bounds": {
+    "min": [
+     -1,
+     -1.6,
+     -1
+    ],
+    "max": [
+     1.07,
+     -0.02,
+     1.087
+    ]
+   }
+  },
+  {
+   "id": "ditch_crossing_planks",
+   "node": "scar_ditch_crossing_planks",
+   "footprint": {
+    "w": 2,
+    "d": 2
+   },
+   "rotations": [
+    0,
+    2
+   ],
+   "tags": [
+    "ditch",
+    "crossing"
+   ],
+   "about": "A plank crossing over the carved Ditch (2 wide): walk on the deck, the trench runs on beneath.",
+   "collision": {
+    "cut": {
+     "depth": 1.6,
+     "cells": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       0
+      ],
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    "walk": {
+     "y": 0.06,
+     "cells": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       0
+      ],
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "triangles": 484,
+   "materials": [
+    "Scar ash bed",
+    "Scar ruined stone",
+    "Scar ruined stone sooted",
+    "Scar scorched earth",
+    "Scar weathered planks",
+    "Scar charred planks"
+   ],
+   "bounds": {
+    "min": [
+     -1.041,
+     -1.6,
+     -1.1
+    ],
+    "max": [
+     1.041,
+     0.9,
+     1.1
+    ]
+   }
+  },
+  {
+   "id": "ditch_crossing_stone",
+   "node": "scar_ditch_crossing_stone",
+   "footprint": {
+    "w": 2,
+    "d": 2
+   },
+   "rotations": [
+    0,
+    2
+   ],
+   "tags": [
+    "ditch",
+    "crossing"
+   ],
+   "about": "A stone causeway where the Ditch was filled in (2 wide): kerbs on both sides, ground left uncut.",
+   "collision": {},
+   "triangles": 204,
+   "materials": [
+    "Scar ruined stone sooted",
+    "Scar ruined stone"
+   ],
+   "bounds": {
+    "min": [
+     -1.069,
+     -0.04,
+     -1.113
+    ],
+    "max": [
+     1.07,
+     0.28,
+     1.019
+    ]
+   }
+  },
+  {
+   "id": "ditch_lip_wall",
+   "node": "scar_ditch_lip_wall",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    2
+   ],
+   "tags": [
+    "ditch",
+    "wall"
+   ],
+   "about": "Low rough wall on the north edge of a tile, the south lip of the Ditch; dressing (the trench itself stops walkers).",
+   "collision": {},
+   "triangles": 48,
+   "materials": [
+    "Scar ruined stone sooted",
+    "Scar ruined stone"
+   ],
+   "bounds": {
+    "min": [
+     -0.487,
+     0,
+     -0.677
+    ],
+    "max": [
+     0.488,
+     0.577,
+     -0.326
+    ]
+   }
+  },
+  {
+   "id": "wild_warning_sign",
+   "node": "scar_wild_warning_sign",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "sign"
+   ],
+   "about": "Wilderness warning sign: a weathered board on a post, a painted skull and crossed bones over a red band, facing south.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 172,
+   "materials": [
+    "Scar sign wood",
+    "Scar paint red",
+    "Scar bone"
+   ],
+   "bounds": {
+    "min": [
+     -0.652,
+     0,
+     -0.16
+    ],
+    "max": [
+     0.652,
+     2.5,
+     0.302
+    ]
+   }
+  },
+  {
+   "id": "camp_fire_remnant",
+   "node": "scar_camp_fire_remnant",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "camp",
+    "fire"
+   ],
+   "about": "A dead campfire: ring of dark stones, charred logs across an ash bed, a few embers still glowing.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 266,
+   "materials": [
+    "Scar ash bed",
+    "Scar dark rock",
+    "Scar charred bark",
+    "Scar charred bark edge",
+    "Scar ember (glow)"
+   ],
+   "bounds": {
+    "min": [
+     -0.52,
+     -0.011,
+     -0.505
+    ],
+    "max": [
+     0.536,
+     0.142,
+     0.498
+    ]
+   }
+  },
+  {
+   "id": "camp_tent_ruin",
+   "node": "scar_camp_tent_ruin",
+   "footprint": {
+    "w": 2,
+    "d": 2
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "camp"
+   ],
+   "about": "Burnt-out tent: a leaning A-frame of charred poles with rags of canvas, a bedroll in the ash; solid.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ]
+    ]
+   },
+   "triangles": 95,
+   "materials": [
+    "Scar charred planks",
+    "Scar torn canvas"
+   ],
+   "bounds": {
+    "min": [
+     -0.842,
+     -0.024,
+     -0.75
+    ],
+    "max": [
+     0.842,
+     1.417,
+     0.741
+    ]
+   }
+  },
+  {
+   "id": "camp_crates_burnt",
+   "node": "scar_camp_crates_burnt",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "camp"
+   ],
+   "about": "Two burnt supply crates, one split open.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 36,
+   "materials": [
+    "Scar charred planks"
+   ],
+   "bounds": {
+    "min": [
+     -0.469,
+     -0.064,
+     -0.42
+    ],
+    "max": [
+     0.564,
+     0.5,
+     0.511
+    ]
+   }
+  },
+  {
+   "id": "depth_stone",
+   "node": "scar_depth_stone",
+   "footprint": {
+    "w": 1,
+    "d": 1
+   },
+   "rotations": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "tags": [
+    "marker"
+   ],
+   "about": "A depth stone of the old wardens: a dark standing stone cut with notches, set every eight tiles north of the Ditch so travellers know how deep they are.",
+   "collision": {
+    "blocked": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "triangles": 140,
+   "materials": [
+    "Scar dark rock",
+    "Scar bone"
+   ],
+   "bounds": {
+    "min": [
+     -0.328,
+     -0.052,
+     -0.259
+    ],
+    "max": [
+     0.31,
+     1.467,
+     0.257
+    ]
+   }
+  }
+ ]
+}

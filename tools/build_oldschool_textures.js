@@ -180,14 +180,73 @@ R.bark_birch=()=>{const t=new Tex(64),r=rng(201),n=fbm(202,4,2);
  for(let i=0;i<40;i++){const y=Math.floor(r()*64),x=Math.floor(r()*64),len=3+Math.floor(r()*7);for(let s=0;s<len;s++){t.set(x+s,y,[.22,.2,.18]);if(r()<.3)t.set(x+s,y+1,[.4,.38,.34])}}
  for(let i=0;i<5;i++){const cx=r()*64,cy=r()*64;for(let y=-3;y<=3;y++)for(let x=-2;x<=2;x++)if(x*x/4+y*y/9<=1)t.mul(Math.floor(cx+x),Math.floor(cy+y),.55)}
  t.quant(20);return t.headroom(.82)};
+// ---- the Scarlands (burned Wilderness north of the Ditch, 2026-09-26): dangerous yet cozy old-school ----
+R.scorched_earth=()=>{const t=new Tex(64),n=fbm(211,4,3),m=vnoise(212,16),r=rng(213);
+ // dark burnt soil: charcoal flecks, a few dull ember specks, hairline heat cracks
+ t.fill((u,v)=>{const k=.8+(n(u,v)-.5)*.24+(m(u,v)-.5)*.1;return [k,k*.93,k*.86]});
+ for(let i=0;i<220;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64);t.mul(x,y,r()<.7?.62:.8)}
+ for(let i=0;i<12;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64);t.set(x,y,[1,.62,.34])}
+ for(let i=0;i<7;i++){let x=r()*64,y=r()*64,dx=r()-.5,dy=r()-.5;for(let s=0;s<6+r()*10;s++){t.mul(Math.floor(x),Math.floor(y),.7);x+=dx+(r()-.5);y+=dy+(r()-.5)}}
+ t.quant(20);return t};
+R.ash=()=>{const t=new Tex(64),n=fbm(221,4,3),m=vnoise(222,32),r=rng(223);
+ // pale grey drifted ash, soft ripples, dark cinders
+ t.fill((u,v)=>{const k=.86+(n(u,v)-.5)*.14+(m(u,v)-.5)*.05+Math.sin((u*3+n(u,v))*Math.PI*2)*.02;return [k,k*.99,k*.96]});
+ for(let i=0;i<90;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64);t.mul(x,y,.55+r()*.2);if(r()<.4)t.mul(x+1,y,.75)}
+ t.quant(24);return t};
+R.cracked_mud=()=>{const t=new Tex(64),vo=voronoi(231,6,6,.9),n=fbm(232,8,2);
+ // dry baked mud: plates with lighter curled rims and dark cracks between them
+ t.fill((u,v)=>{const q=vo(u,v),e=q.d2-q.d1,k=.82+q.id*.1+(n(u,v)-.5)*.08;if(e<.07)return [.46,.42,.37];const rim=e<.13?.06:0;return [k+rim,k*.95+rim,k*.86+rim]});
+ t.quant(22);return t};
+R.burnt_grass=()=>{const t=new Tex(64),r=rng(241),n=fbm(242,4,2);
+ // the burnt edge of a meadow: dead straw-coloured tufts over dark soil, black char patches
+ t.fill((u,v)=>{const k=.6+(n(u,v)-.5)*.16;return [k*.9,k*.82,k*.62]});
+ for(let i=0;i<300;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64),len=2+Math.floor(r()*3),k=.85+r()*.3;
+  for(let s=0;s<len;s++)t.set(x+(s===len-1&&r()<.5?1:0),y-s,[.9*k,.78*k,.46*k])}
+ for(let y=0;y<64;y++)for(let x=0;x<64;x++){const q=n(x/64,y/64);if(q<.4)t.mul(x,y,.72+q*.4)}   // soft char patches, not camouflage
+ t.quant(20);return t};
+R.dark_rock=()=>{const t=new Tex(64),n=fbm(251,4,4),vo=voronoi(252,5,5,.9),r=rng(253);
+ // dark volcanic-looking rock: faceted plates, soot, sharp dark fissures
+ t.fill((u,v)=>{const q=vo(u,v),e=q.d2-q.d1,k=.62+q.id*.22+(n(u,v)-.5)*.16;return e<.05?[.3,.29,.28]:[k,k*.97,k*.94]});
+ for(let i=0;i<140;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64);t.mul(x,y,r()<.6?.8:1.12)}
+ t.quant(20);return t};
+R.bone_dirt=()=>{const t=new Tex(64),n=fbm(261,4,3),r=rng(262);
+ // brown dirt strewn with small pale bone fragments (short shafts with knobbed ends) and grit
+ t.fill((u,v)=>{const k=.72+(n(u,v)-.5)*.2;return [k,k*.9,k*.78]});
+ for(let i=0;i<26;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64),len=2+Math.floor(r()*4),hz=r()<.5;
+  for(let s=0;s<len;s++){const px=hz?x+s:x,py=hz?y:y+s;t.set(px,py,[.95,.92,.82]);t.mul(hz?px:px+1,hz?py+1:py,.7)}
+  t.set(hz?x-1:x,hz?y:y-1,[.98,.95,.86]);t.set(hz?x+len:x,hz?y:y+len,[.98,.95,.86])}
+ for(let i=0;i<120;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64);t.mul(x,y,r()<.5?.8:1.1)}
+ t.quant(20);return t};
+R.charred_planks=()=>{const t=new Tex(64),r=rng(271),n=vnoise(272,8),tone=[];for(let i=0;i<4;i++)tone.push(.8+r()*.2);
+ // burnt boards: irregular charcoal checking along each board (cross splits every 3-7 px, a wandering long split),
+ // blocks of slightly different char, dark gaps between the boards
+ const rows=[],long=[];for(let b=0;b<4;b++){const cuts=new Set();let y=Math.floor(r()*4);while(y<64){cuts.add(y);y+=3+Math.floor(r()*5)}rows.push(cuts);long.push(3+Math.floor(r()*9))}
+ t.fill((u,v,x,y)=>{const b=Math.floor(x/16),ix=x%16;if(ix===15)return [.16,.14,.13];
+  const w=long[b]+Math.round(Math.sin(y*.35+b)*1.2),split=rows[b].has(y)||ix===w,seg=[...rows[b]].filter(c=>c<=y).length,k=tone[b]*(.8+((seg*7+b*3)%5)*.03+(n(u,v)-.5)*.1);
+  return split?[.28*k,.25*k,.23*k]:[.5*k,.44*k,.38*k]});
+ for(let i=0;i<10;i++){const x=Math.floor(r()*64),y=Math.floor(r()*64);t.blend(x,y,[.75,.45,.28],.5)}   // a little unburnt wood showing
+ t.quant(20);return t};
+R.ruined_stone=()=>{const t=new Tex(64),n=fbm(281,8,2),r=rng(282),mortar=[.42,.41,.39];
+ // coursed stone that has been through fire: blocks of uneven length, chipped corners, soot rising from below
+ const rows=[[0,13],[13,29],[29,44],[44,64]];
+ rows.forEach(([y0,y1])=>{let x=Math.floor(r()*14);const start=x,cuts=[];while(x<start+64){cuts.push(x);x+=9+Math.floor(r()*15)}
+  cuts.forEach((c0,i)=>{const c1=i+1<cuts.length?cuts[i+1]:start+64,k=.6+r()*.24,chip=r()<.35;
+   for(let y=y0;y<y1;y++)for(let xx=c0;xx<c1;xx++){let c;
+    if(y===y1-1||xx===c1-1||(chip&&y<y0+3&&xx<c0+3))c=mortar;else{const q=k*(.9+n(xx/64,y/64)*.2);c=[q,q*.98,q*.94];if(y===y0)c=mixc(c,[1,1,1],.14)}
+    t.set(xx,y,c)}})});
+ for(let y=0;y<64;y++){const soot=Math.max(0,(y-30)/34)*.35;for(let x=0;x<64;x++)t.mul(x,y,1-soot*(.7+.3*n(x/64,y/64)))}
+ t.quant(20);return t};
 const USE={grass_a:'terrain grass (large scale)',grass_b:'terrain grass (second scale, breaks repetition)',grass_c:'meadow / worn grass variant',
  dirt:'bare earth, trodden ground, creek banks',path:'cobbled / gravel paths',sand:'beach and sandy shore',rock:'rock outcrops, cliff faces',
  mud:'creek bed and wet ground',water:'sea, creek and pond surface',brick:'fired brick walls, chimneys',stone_course:'fieldstone / ashlar walls and plinths',
  plaster:'limewash plaster panels',planks:'floorboards, doors, decks, board walls',beam:'timber frames, posts, beams, furniture',
  thatch:'straw / reed thatch roofs',roof_tiles:'clay tile and shingle roofs',
- leaves:'tree crowns, shrubs, hazel, tufts (leaves over darker clumps)',needles:'pine crowns',bark:'oak / pine trunks, logs',bark_birch:'birch trunks'};
+ leaves:'tree crowns, shrubs, hazel, tufts (leaves over darker clumps)',needles:'pine crowns',bark:'oak / pine trunks, logs',bark_birch:'birch trunks',
+ scorched_earth:'Scarlands burnt soil (ground)',ash:'Scarlands ash drifts (ground)',cracked_mud:'Scarlands baked mud (ground)',
+ burnt_grass:'the burnt edge of the meadow (ground)',dark_rock:'Scarlands rock outcrops, dark boulders',bone_dirt:'bone-strewn dirt (ground, bone piles)',
+ charred_planks:'burnt boards, carts, crossings',ruined_stone:'fire-scarred ruins: walls, pillars, arches'};
 // building textures get detail headroom too (see Tex.headroom)
-const HEADROOM=['brick','stone_course','plaster','planks','beam','thatch','roof_tiles'];
+const HEADROOM=['brick','stone_course','plaster','planks','beam','thatch','roof_tiles','dark_rock','charred_planks','ruined_stone'];
 const kit={schema:'crafted-realm-oldschool-texture-kit-v1',generator:'tools/build_oldschool_textures.js',textures:{}};
 for(const [name,make] of Object.entries(R)){
  const t=make(),file=name+'.png';if(HEADROOM.includes(name))t.headroom(.82);fs.writeFileSync(path.join(OUT,file),png(t.n,t.n,t.bytes()));

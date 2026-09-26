@@ -1,0 +1,1822 @@
+{
+ "schema": "crafted-realm-scarlands-layout-v1",
+ "name": "scarlands_kit_proof",
+ "about": "The Scarlands kit laid over the W1 test map (tools/make_scarlands_proof_layout.js): the Commons (safe), the Ditch with a plank crossing and a stone causeway, and the 64x64 Scarlands pocket with its ruins, rocks, camp and dressing. Collision is generated from the placed pieces (tools/scarlands_kit.js).",
+ "base": "server/data/maps/scarlands_test.json",
+ "kit": ".studio-workspaces/scarlands-kit-v1/candidates/manifest.json",
+ "pieces": [
+  {
+   "piece": "ditch_end",
+   "x": 0,
+   "z": 44,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_end",
+   "x": 63,
+   "z": 44,
+   "rot": 2
+  },
+  {
+   "piece": "ditch_straight",
+   "x": 14,
+   "z": 44,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_straight",
+   "x": 17,
+   "z": 44,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_crossing_planks",
+   "x": 15,
+   "z": 44,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_end",
+   "x": 46,
+   "z": 44,
+   "rot": 2
+  },
+  {
+   "piece": "ditch_end",
+   "x": 49,
+   "z": 44,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_crossing_stone",
+   "x": 47,
+   "z": 44,
+   "rot": 0
+  },
+  {
+   "piece": "wild_warning_sign",
+   "x": 13,
+   "z": 41,
+   "rot": 0
+  },
+  {
+   "piece": "wild_warning_sign",
+   "x": 50,
+   "z": 41,
+   "rot": 0
+  },
+  {
+   "piece": "bones_skeleton",
+   "x": 14,
+   "z": 47,
+   "rot": 1
+  },
+  {
+   "piece": "bones_skull",
+   "x": 18,
+   "z": 48,
+   "rot": 3
+  },
+  {
+   "piece": "bones_pile",
+   "x": 50,
+   "z": 48,
+   "rot": 0
+  },
+  {
+   "piece": "camp_fire_remnant",
+   "x": 52,
+   "z": 50,
+   "rot": 0
+  },
+  {
+   "piece": "camp_crates_burnt",
+   "x": 53,
+   "z": 51,
+   "rot": 1
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 8,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 9,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 10,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 11,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 12,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 13,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 14,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 15,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 16,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 17,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 18,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_end",
+   "x": 19,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 21,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 22,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 23,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 24,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 25,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 26,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 27,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 28,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 29,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 30,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 31,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_end",
+   "x": 32,
+   "z": 70,
+   "rot": 0
+  },
+  {
+   "piece": "rubble_small",
+   "x": 20,
+   "z": 71,
+   "rot": 0
+  },
+  {
+   "piece": "rubble_small",
+   "x": 11,
+   "z": 69,
+   "rot": 0
+  },
+  {
+   "piece": "rubble_small",
+   "x": 27,
+   "z": 71,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_corner",
+   "x": 26,
+   "z": 84,
+   "rot": 2
+  },
+  {
+   "piece": "ruin_wall_corner",
+   "x": 26,
+   "z": 92,
+   "rot": 3
+  },
+  {
+   "piece": "ruin_wall_corner",
+   "x": 36,
+   "z": 84,
+   "rot": 1
+  },
+  {
+   "piece": "ruin_wall_corner",
+   "x": 36,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 27,
+   "z": 84,
+   "rot": 2
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 27,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 28,
+   "z": 84,
+   "rot": 2
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 28,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_end",
+   "x": 29,
+   "z": 84,
+   "rot": 2
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 29,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 30,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall_end",
+   "x": 31,
+   "z": 84,
+   "rot": 2
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 31,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 32,
+   "z": 84,
+   "rot": 2
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 32,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 33,
+   "z": 84,
+   "rot": 2
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 34,
+   "z": 84,
+   "rot": 2
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 34,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 35,
+   "z": 84,
+   "rot": 2
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 35,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 26,
+   "z": 85,
+   "rot": 3
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 36,
+   "z": 85,
+   "rot": 1
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 26,
+   "z": 86,
+   "rot": 3
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 36,
+   "z": 86,
+   "rot": 1
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 26,
+   "z": 87,
+   "rot": 3
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 36,
+   "z": 87,
+   "rot": 1
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 26,
+   "z": 88,
+   "rot": 3
+  },
+  {
+   "piece": "ruin_wall_end",
+   "x": 36,
+   "z": 88,
+   "rot": 1
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 26,
+   "z": 89,
+   "rot": 3
+  },
+  {
+   "piece": "ruin_wall_low",
+   "x": 26,
+   "z": 90,
+   "rot": 3
+  },
+  {
+   "piece": "ruin_wall_end",
+   "x": 36,
+   "z": 90,
+   "rot": 1
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 26,
+   "z": 91,
+   "rot": 3
+  },
+  {
+   "piece": "ruin_wall",
+   "x": 36,
+   "z": 91,
+   "rot": 1
+  },
+  {
+   "piece": "bones_skeleton",
+   "x": 29,
+   "z": 88,
+   "rot": 1
+  },
+  {
+   "piece": "rubble_small",
+   "x": 33,
+   "z": 86,
+   "rot": 0
+  },
+  {
+   "piece": "bones_skull",
+   "x": 34,
+   "z": 90,
+   "rot": 2
+  },
+  {
+   "piece": "camp_fire_remnant",
+   "x": 31,
+   "z": 90,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_pillar",
+   "x": 22,
+   "z": 86,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_pillar_broken",
+   "x": 22,
+   "z": 90,
+   "rot": 0
+  },
+  {
+   "piece": "ruin_arch",
+   "x": 29,
+   "z": 96,
+   "rot": 0
+  },
+  {
+   "piece": "rock_outcrop",
+   "x": 40,
+   "z": 60,
+   "rot": 0
+  },
+  {
+   "piece": "rubble_large",
+   "x": 42,
+   "z": 60,
+   "rot": 0
+  },
+  {
+   "piece": "rubble_large",
+   "x": 40,
+   "z": 62,
+   "rot": 0
+  },
+  {
+   "piece": "rock_outcrop",
+   "x": 42,
+   "z": 62,
+   "rot": 0
+  },
+  {
+   "piece": "rock_outcrop",
+   "x": 6,
+   "z": 90,
+   "rot": 0
+  },
+  {
+   "piece": "rock_outcrop",
+   "x": 8,
+   "z": 90,
+   "rot": 0
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 6,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 7,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "stump_charred",
+   "x": 8,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 9,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "rock_outcrop",
+   "x": 58,
+   "z": 75,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 60,
+   "z": 75,
+   "rot": 0
+  },
+  {
+   "piece": "stump_split",
+   "x": 60,
+   "z": 76,
+   "rot": 0
+  },
+  {
+   "piece": "rubble_large",
+   "x": 22,
+   "z": 78,
+   "rot": 0
+  },
+  {
+   "piece": "camp_tent_ruin",
+   "x": 52,
+   "z": 116,
+   "rot": 1
+  },
+  {
+   "piece": "camp_crates_burnt",
+   "x": 54,
+   "z": 116,
+   "rot": 0
+  },
+  {
+   "piece": "camp_fire_remnant",
+   "x": 54,
+   "z": 117,
+   "rot": 0
+  },
+  {
+   "piece": "cart_broken",
+   "x": 49,
+   "z": 112,
+   "rot": 1
+  },
+  {
+   "piece": "depth_stone",
+   "x": 19,
+   "z": 48,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 45,
+   "z": 48,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 19,
+   "z": 56,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 45,
+   "z": 56,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 19,
+   "z": 64,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 45,
+   "z": 64,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 19,
+   "z": 72,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 45,
+   "z": 72,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 19,
+   "z": 80,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 45,
+   "z": 80,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 19,
+   "z": 88,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 45,
+   "z": 88,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 19,
+   "z": 96,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 45,
+   "z": 96,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 19,
+   "z": 104,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 45,
+   "z": 104,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 19,
+   "z": 112,
+   "rot": 0
+  },
+  {
+   "piece": "depth_stone",
+   "x": 45,
+   "z": 112,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 6,
+   "z": 58,
+   "rot": 1
+  },
+  {
+   "piece": "stump_split",
+   "x": 5,
+   "z": 57,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 9,
+   "z": 56,
+   "rot": 1
+  },
+  {
+   "piece": "stump_split",
+   "x": 8,
+   "z": 55,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 6,
+   "z": 60,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 3,
+   "z": 59,
+   "rot": 0
+  },
+  {
+   "piece": "stump_split",
+   "x": 4,
+   "z": 60,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 8,
+   "z": 58,
+   "rot": 2
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 56,
+   "z": 63,
+   "rot": 3
+  },
+  {
+   "piece": "stump_split",
+   "x": 57,
+   "z": 64,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 53,
+   "z": 61,
+   "rot": 1
+  },
+  {
+   "piece": "stump_charred",
+   "x": 52,
+   "z": 62,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 59,
+   "z": 62,
+   "rot": 1
+  },
+  {
+   "piece": "stump_charred",
+   "x": 58,
+   "z": 61,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 58,
+   "z": 67,
+   "rot": 2
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 11,
+   "z": 79,
+   "rot": 1
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 13,
+   "z": 78,
+   "rot": 1
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 13,
+   "z": 82,
+   "rot": 2
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 12,
+   "z": 83,
+   "rot": 2
+  },
+  {
+   "piece": "stump_charred",
+   "x": 11,
+   "z": 82,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 10,
+   "z": 78,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 56,
+   "z": 93,
+   "rot": 1
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 61,
+   "z": 98,
+   "rot": 2
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 58,
+   "z": 94,
+   "rot": 0
+  },
+  {
+   "piece": "stump_split",
+   "x": 59,
+   "z": 95,
+   "rot": 2
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 60,
+   "z": 93,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 59,
+   "z": 97,
+   "rot": 2
+  },
+  {
+   "piece": "stump_charred",
+   "x": 58,
+   "z": 96,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 33,
+   "z": 107,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 36,
+   "z": 113,
+   "rot": 2
+  },
+  {
+   "piece": "stump_charred",
+   "x": 37,
+   "z": 112,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 39,
+   "z": 111,
+   "rot": 3
+  },
+  {
+   "piece": "stump_split",
+   "x": 40,
+   "z": 112,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 36,
+   "z": 111,
+   "rot": 2
+  },
+  {
+   "piece": "stump_split",
+   "x": 35,
+   "z": 110,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 38,
+   "z": 109,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 35,
+   "z": 107,
+   "rot": 1
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 6,
+   "z": 116,
+   "rot": 1
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 3,
+   "z": 116,
+   "rot": 2
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 4,
+   "z": 116,
+   "rot": 3
+  },
+  {
+   "piece": "stump_charred",
+   "x": 3,
+   "z": 117,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 8,
+   "z": 115,
+   "rot": 1
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 27,
+   "z": 59,
+   "rot": 2
+  },
+  {
+   "piece": "stump_split",
+   "x": 28,
+   "z": 58,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 26,
+   "z": 62,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 28,
+   "z": 63,
+   "rot": 1
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 41,
+   "z": 79,
+   "rot": 3
+  },
+  {
+   "piece": "stump_charred",
+   "x": 42,
+   "z": 80,
+   "rot": 1
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 40,
+   "z": 75,
+   "rot": 0
+  },
+  {
+   "piece": "stump_charred",
+   "x": 41,
+   "z": 74,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 38,
+   "z": 74,
+   "rot": 2
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 4,
+   "z": 52,
+   "rot": 2
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 54,
+   "z": 71,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 13,
+   "z": 64,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 53,
+   "z": 66,
+   "rot": 1
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 33,
+   "z": 81,
+   "rot": 2
+  },
+  {
+   "piece": "dead_tree_tall",
+   "x": 44,
+   "z": 124,
+   "rot": 0
+  },
+  {
+   "piece": "dead_tree_bent",
+   "x": 30,
+   "z": 112,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_split",
+   "x": 37,
+   "z": 117,
+   "rot": 3
+  },
+  {
+   "piece": "dead_tree_snag",
+   "x": 40,
+   "z": 119,
+   "rot": 1
+  },
+  {
+   "piece": "rock_outcrop",
+   "x": 39,
+   "z": 104,
+   "rot": 1
+  },
+  {
+   "piece": "rock_outcrop",
+   "x": 17,
+   "z": 90,
+   "rot": 3
+  },
+  {
+   "piece": "rock_outcrop",
+   "x": 36,
+   "z": 64,
+   "rot": 0
+  },
+  {
+   "piece": "rock_outcrop",
+   "x": 12,
+   "z": 106,
+   "rot": 1
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 35,
+   "z": 54,
+   "rot": 0
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 29,
+   "z": 78,
+   "rot": 3
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 9,
+   "z": 80,
+   "rot": 3
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 38,
+   "z": 86,
+   "rot": 3
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 53,
+   "z": 87,
+   "rot": 1
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 0,
+   "z": 98,
+   "rot": 2
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 47,
+   "z": 123,
+   "rot": 2
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 58,
+   "z": 104,
+   "rot": 2
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 40,
+   "z": 88,
+   "rot": 1
+  },
+  {
+   "piece": "rock_boulder",
+   "x": 28,
+   "z": 116,
+   "rot": 3
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 25,
+   "z": 63,
+   "rot": 2
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 0,
+   "z": 58,
+   "rot": 2
+  },
+  {
+   "piece": "rubble_small",
+   "x": 63,
+   "z": 49,
+   "rot": 3
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 24,
+   "z": 65,
+   "rot": 1
+  },
+  {
+   "piece": "bones_pile",
+   "x": 24,
+   "z": 88,
+   "rot": 3
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 35,
+   "z": 76,
+   "rot": 0
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 58,
+   "z": 78,
+   "rot": 2
+  },
+  {
+   "piece": "rubble_small",
+   "x": 50,
+   "z": 102,
+   "rot": 1
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 40,
+   "z": 124,
+   "rot": 3
+  },
+  {
+   "piece": "bones_skull",
+   "x": 0,
+   "z": 116,
+   "rot": 2
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 24,
+   "z": 54,
+   "rot": 1
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 11,
+   "z": 51,
+   "rot": 3
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 55,
+   "z": 68,
+   "rot": 2
+  },
+  {
+   "piece": "bones_skull",
+   "x": 27,
+   "z": 118,
+   "rot": 1
+  },
+  {
+   "piece": "bones_skull",
+   "x": 22,
+   "z": 87,
+   "rot": 2
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 59,
+   "z": 99,
+   "rot": 3
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 56,
+   "z": 48,
+   "rot": 2
+  },
+  {
+   "piece": "bones_skull",
+   "x": 40,
+   "z": 94,
+   "rot": 1
+  },
+  {
+   "piece": "rubble_small",
+   "x": 34,
+   "z": 64,
+   "rot": 0
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 27,
+   "z": 56,
+   "rot": 1
+  },
+  {
+   "piece": "rubble_small",
+   "x": 44,
+   "z": 118,
+   "rot": 0
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 13,
+   "z": 51,
+   "rot": 3
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 63,
+   "z": 113,
+   "rot": 2
+  },
+  {
+   "piece": "rubble_small",
+   "x": 19,
+   "z": 110,
+   "rot": 0
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 43,
+   "z": 110,
+   "rot": 2
+  },
+  {
+   "piece": "bones_skull",
+   "x": 1,
+   "z": 112,
+   "rot": 1
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 7,
+   "z": 49,
+   "rot": 1
+  },
+  {
+   "piece": "bones_skull",
+   "x": 21,
+   "z": 90,
+   "rot": 3
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 48,
+   "z": 123,
+   "rot": 0
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 7,
+   "z": 107,
+   "rot": 2
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 0,
+   "z": 92,
+   "rot": 0
+  },
+  {
+   "piece": "rubble_small",
+   "x": 41,
+   "z": 106,
+   "rot": 0
+  },
+  {
+   "piece": "bones_skull",
+   "x": 8,
+   "z": 123,
+   "rot": 2
+  },
+  {
+   "piece": "rubble_small",
+   "x": 10,
+   "z": 58,
+   "rot": 0
+  },
+  {
+   "piece": "bones_skull",
+   "x": 13,
+   "z": 110,
+   "rot": 3
+  },
+  {
+   "piece": "bones_skull",
+   "x": 19,
+   "z": 49,
+   "rot": 0
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 61,
+   "z": 66,
+   "rot": 2
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 29,
+   "z": 77,
+   "rot": 2
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 22,
+   "z": 67,
+   "rot": 1
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 7,
+   "z": 76,
+   "rot": 2
+  },
+  {
+   "piece": "rubble_small",
+   "x": 44,
+   "z": 67,
+   "rot": 1
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 35,
+   "z": 78,
+   "rot": 3
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 8,
+   "z": 107,
+   "rot": 1
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 19,
+   "z": 124,
+   "rot": 0
+  },
+  {
+   "piece": "bones_skull",
+   "x": 39,
+   "z": 79,
+   "rot": 1
+  },
+  {
+   "piece": "bones_pile",
+   "x": 8,
+   "z": 101,
+   "rot": 3
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 40,
+   "z": 49,
+   "rot": 3
+  },
+  {
+   "piece": "bones_pile",
+   "x": 4,
+   "z": 64,
+   "rot": 0
+  },
+  {
+   "piece": "rubble_small",
+   "x": 3,
+   "z": 80,
+   "rot": 0
+  },
+  {
+   "piece": "dead_shrub",
+   "x": 19,
+   "z": 60,
+   "rot": 0
+  },
+  {
+   "piece": "bones_pile",
+   "x": 5,
+   "z": 100,
+   "rot": 3
+  }
+ ],
+ "runs": [
+  {
+   "name": "the Ditch",
+   "piece": "ditch_straight",
+   "from": [
+    1,
+    44
+   ],
+   "to": [
+    62,
+    44
+   ],
+   "rot": 0,
+   "skip": [
+    [
+     14,
+     17
+    ],
+    [
+     46,
+     49
+    ]
+   ]
+  },
+  {
+   "name": "the Ditch lip wall",
+   "piece": "ditch_lip_wall",
+   "from": [
+    0,
+    43
+   ],
+   "to": [
+    63,
+    43
+   ],
+   "rot": 0,
+   "skip": [
+    [
+     15,
+     16
+    ],
+    [
+     47,
+     48
+    ]
+   ]
+  }
+ ],
+ "extra": {
+  "blocked": [
+   [
+    5,
+    5,
+    6,
+    6
+   ],
+   [
+    50,
+    20,
+    51,
+    21
+   ],
+   [
+    12,
+    30,
+    12,
+    30
+   ],
+   [
+    40,
+    34,
+    41,
+    34
+   ],
+   [
+    31,
+    12,
+    32,
+    13
+   ]
+  ],
+  "water": [
+   [
+    14,
+    100,
+    18,
+    103
+   ]
+  ],
+  "walls": [
+   [
+    20,
+    18,
+    22,
+    18,
+    "S"
+   ],
+   [
+    24,
+    18,
+    27,
+    18,
+    "S"
+   ],
+   [
+    20,
+    25,
+    27,
+    25,
+    "N"
+   ],
+   [
+    20,
+    18,
+    20,
+    25,
+    "W"
+   ],
+   [
+    27,
+    18,
+    27,
+    25,
+    "E"
+   ]
+  ],
+  "about": "The Commons trees, rocks and building and the Scarlands pool keep their test-map collision; they belong to other kits."
+ },
+ "ground": {
+  "default": "scorched_earth",
+  "rects": [
+   {
+    "kind": "grass",
+    "x1": 0,
+    "z1": 0,
+    "x2": 63,
+    "z2": 43
+   },
+   {
+    "kind": "dark_rock",
+    "x1": 39,
+    "z1": 59,
+    "x2": 44,
+    "z2": 64
+   },
+   {
+    "kind": "dark_rock",
+    "x1": 5,
+    "z1": 89,
+    "x2": 10,
+    "z2": 93
+   },
+   {
+    "kind": "dark_rock",
+    "x1": 57,
+    "z1": 74,
+    "x2": 61,
+    "z2": 77
+   },
+   {
+    "kind": "bone_dirt",
+    "x1": 27,
+    "z1": 85,
+    "x2": 35,
+    "z2": 91
+   },
+   {
+    "kind": "bone_dirt",
+    "x1": 51,
+    "z1": 115,
+    "x2": 55,
+    "z2": 118
+   }
+  ],
+  "patches": [
+   {
+    "kind": "ash",
+    "area": {
+     "x1": 0,
+     "z1": 50,
+     "x2": 63,
+     "z2": 127
+    },
+    "scale": 7,
+    "seed": 2,
+    "threshold": 0.7
+   },
+   {
+    "kind": "cracked_mud",
+    "area": {
+     "x1": 0,
+     "z1": 54,
+     "x2": 63,
+     "z2": 127
+    },
+    "scale": 9,
+    "seed": 4,
+    "threshold": 0.78
+   }
+  ],
+  "bands": [
+   {
+    "kind": "burnt_grass",
+    "z1": 46,
+    "z2": 48,
+    "jitter": 2,
+    "seed": 3
+   }
+  ],
+  "paths": [
+   {
+    "kind": "dirt",
+    "width": 2,
+    "points": [
+     [
+      16,
+      0
+     ],
+     [
+      16,
+      36
+     ],
+     [
+      16,
+      43
+     ]
+    ]
+   },
+   {
+    "kind": "dirt",
+    "width": 2,
+    "points": [
+     [
+      16,
+      46
+     ],
+     [
+      17,
+      60
+     ],
+     [
+      21,
+      70.5
+     ],
+     [
+      26,
+      78
+     ],
+     [
+      30,
+      84
+     ]
+    ]
+   },
+   {
+    "kind": "dirt",
+    "width": 2,
+    "points": [
+     [
+      48,
+      0
+     ],
+     [
+      48,
+      43
+     ]
+    ]
+   },
+   {
+    "kind": "dirt",
+    "width": 2,
+    "points": [
+     [
+      48,
+      46
+     ],
+     [
+      47,
+      70
+     ],
+     [
+      46,
+      90
+     ],
+     [
+      47,
+      100
+     ],
+     [
+      50,
+      112
+     ]
+    ]
+   },
+   {
+    "kind": "dirt",
+    "width": 1.6,
+    "points": [
+     [
+      30,
+      93
+     ],
+     [
+      30.5,
+      96
+     ],
+     [
+      30.5,
+      104
+     ]
+    ]
+   }
+  ],
+  "hills": {
+   "amplitude": 1.4,
+   "scale": 10
+  },
+  "flatten": [
+   {
+    "x1": 0,
+    "z1": 41,
+    "x2": 63,
+    "z2": 48,
+    "fade": 4
+   },
+   {
+    "x1": 7,
+    "z1": 69,
+    "x2": 33,
+    "z2": 71,
+    "fade": 2
+   },
+   {
+    "x1": 25,
+    "z1": 83,
+    "x2": 37,
+    "z2": 97,
+    "fade": 2
+   },
+   {
+    "x1": 20,
+    "z1": 17,
+    "x2": 28,
+    "z2": 26,
+    "fade": 2
+   },
+   {
+    "x1": 13,
+    "z1": 99,
+    "x2": 19,
+    "z2": 104,
+    "fade": 2
+   }
+  ]
+ }
+}
