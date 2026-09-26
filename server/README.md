@@ -53,6 +53,16 @@ to the generated map; run the world with `CR_MAP=server/data/maps/scarlands_onli
 2026-09-26 against the live tree's kit v1: 357 pieces in 73 instanced meshes, trench at -1.6, plank deck at +0.06,
 our Commons decor kept, no double walls (`docs/rebuild/combat_grade_passes/online_evidence/kit_*_dropin.jpg`).
 
+**With the Scarlands bestiary** (`assets/scarlands/bestiary-v1/manifest.json`, on the live branch): the server already
+takes multi-tile monsters (`size` 2+ or a `tiles` footprint, sent to clients as `sz`) and a scripted breath
+(`breath: {every, max, range}` on an NPC type: every Nth attack a magic-rolled breath with its own max hit, the
+`breath` animation and projectile, blocked by Protect from Magic); the client draws any monster whose `model` names a
+bestiary creature from its own GLB (`src/online_bestiary.js`: one mixer each, walk paced to the server, the
+`impact` / `release` frames timing swings and projectiles, death clip held then sunk). After the bestiary branch is
+merged: add each creature's `npcType` block to `NPC_TYPES` (`src/game1_data.js`; the cinder wyrmling with
+`breath: {every: 3, max: 14, range: 5}`), merge its draft drops into `server/data/drops.json`, place spawns in the
+map's bands, and (only if the manifest is served elsewhere) set `"bestiary"` on the map. Nothing changes until then.
+
 ## Layout
 
 ```
