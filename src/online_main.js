@@ -36,6 +36,8 @@ var OnlineMain=(function(){
  })();
 
  /* ---------------- nothing local may change items or experience: the server is the only source ---------------- */
+ // the combat agent's offline engine (docs/rebuild/COMBAT_CLIENT_HOOKS.md) never runs online
+ if(typeof LocalCombat!=='undefined'&&LocalCombat.enable)try{LocalCombat.enable(false)}catch(e){}
  Player.addItem=function(){return false};
  Player.removeItem=function(){return false};
  Player.addXp=function(){};
@@ -253,6 +255,11 @@ var OnlineMain=(function(){
   screenOf:function(kind,id){var o=null;if(kind==='player'){var e=OnlineActors.players().get(id);o=e&&e.root}else if(kind==='npc'){var n=OnlineActors.npcs().get(id);o=n&&n.rec.mesh}else if(kind==='me')o=player;if(!o)return null;
    var v=new THREE.Vector3();o.getWorldPosition(v);v.y+=1;v.project(camera);return {x:(v.x+1)/2*innerWidth,y:(1-v.y)/2*innerHeight}},
   fxLog:function(){return OnlineFX.log()},
+  /** frame a capture: the camera looks at the middle of these entities (review captures only) */
+  focus:function(refs,dist){var pts=[];(refs||[]).forEach(function(r){var e=r[0]==='me'?OnlineActors.me():r[0]==='npc'?OnlineActors.npcs().get(r[1]):OnlineActors.players().get(r[1]);var o=e&&OnlineActors.entObj(e);if(o)pts.push(o.position)});
+   if(!pts.length){window.__qaCameraFocus=null;return false}var f={x:0,y:0,z:0};pts.forEach(function(p){f.x+=p.x/pts.length;f.y+=p.y/pts.length;f.z+=p.z/pts.length});window.__qaCameraFocus=f;if(dist)camCtl.dist=dist;return true},
+  unfocus:function(){window.__qaCameraFocus=null;camCtl.dist=33},
+  npcTargeting:function(){var me=OnlineActors.me(),out=[];OnlineActors.npcs().forEach(function(e){if(e.face&&e.face[0]==='p'&&me&&e.face[1]===me.id&&!e.rec.dead)out.push(e.id)});return out},
   logout:function(){return net.send({t:'logout'})},
   drop:function(){return net.simulateDrop()}
  };

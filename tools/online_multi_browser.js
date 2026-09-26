@@ -166,18 +166,21 @@ function fighterBrain(c, opts) {
 /** frames from the observer page around the fighters (for the feel criteria) */
 async function captureStrip(obs, name, ids, frames, gapMs) {
   const shots = [];
+  await obs.q((refs) => CROnlineQA.focus(refs, 20), ids);
   for (let i = 0; i < frames; i++) {
+    await obs.q((refs) => CROnlineQA.focus(refs), ids);
     const pts = [];
     for (const id of ids) { const p = await obs.q((k, x) => CROnlineQA.screenOf(k, x), id[0], id[1]); if (p) pts.push(p); }
     if (!pts.length) { await sleep(gapMs); continue; }
     const cx = pts.reduce((a, p) => a + p.x, 0) / pts.length, cy = pts.reduce((a, p) => a + p.y, 0) / pts.length;
     const vp = obs.page.viewport();
-    const w = 420, h = 320, x = Math.max(0, Math.min(vp.width - w, Math.round(cx - w / 2))), y = Math.max(0, Math.min(vp.height - h, Math.round(cy - h / 2 - 20)));
+    const w = 440, h = 330, x = Math.max(0, Math.min(vp.width - w, Math.round(cx - w / 2))), y = Math.max(0, Math.min(vp.height - h, Math.round(cy - h / 2 - 20)));
     const file = path.join(OUT, `frame_${name}_${String(i).padStart(2, '0')}.png`);
     await obs.page.screenshot({ path: file, clip: { x, y, width: w, height: h } });
     shots.push({ file, t: Date.now() });
     await sleep(gapMs);
   }
+  await obs.q(() => CROnlineQA.unfocus());
   // compose into one strip (python + PIL), keep only the strip
   const strip = path.join(OUT, `strip_${name}.png`);
   try {
@@ -195,9 +198,10 @@ if ims:
   return strip;
 }
 
-async function pvpFight(fight, A, B, O, opts) {
+async function pvpFight(fight, A0, B0, O, opts) {
   const o = opts || {};
-  log('fight', fight.name);
+  const [A, B] = o.swap ? [B0, A0] : [A0, B0];   // A attacks, B defends
+  log('fight', fight.name, A.name, 'attacks', B.name);
   heal(A.name); heal(B.name);
   await kitUp(A, o.kitA); await kitUp(B, o.kitB);
   // meet in the Scarlands, a few tiles apart
@@ -213,6 +217,8 @@ async function pvpFight(fight, A, B, O, opts) {
   const menu = await A.q((pid) => CROnlineQA.menuFor('player', pid), bPid);
   check(fight, menu && /^Attack .+ \(level-\d+\)$/.test(menu[0]), 'attack option first in the menu with the level', menu);
   const since = world.tick, sinceMs = Date.now();
+  const fxA0 = (await A.state()).fx, fxO0 = (await O.state()).fx;
+  if (o.protectItemA) await A.q(() => CROnlineQA.send({ t: 'prayer', id: 'protect_item', on: true }));
   const brains = [fighterBrain(A, { protect: o.protectA }), fighterBrain(B, { protect: o.protectB })];
   // A attacks with a real left click on B (the top menu entry), B retaliates automatically
   const at = await A.q((pid) => CROnlineQA.screenOf('player', pid), bPid);
@@ -230,6 +236,28 @@ async function pvpFight(fight, A, B, O, opts) {
   check(fight, seenA && seenA.sk === 1 && seenB && !seenB.sk, 'the attacker is skulled, the defender (retaliating) is not', { a: seenA && seenA.sk, b: seenB && seenB.sk });
   const aSelf = await A.state();
   check(fight, aSelf.ui.skull > 0, 'the attacker sees their own skull timer', aSelf.ui.skull);
+  // single-way combat: a third adventurer cannot join outside a multi-combat area
+  if (o.thirdParty) {
+    await O.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
+    const refused = await O.until((st) => st.chat.some((t) => /already fighting them|already under attack/i.test(t)), 8000, 'a single-combat refusal').then(() => true, () => false);
+    check(fight, refused, 'a third adventurer is refused (single-way combat)');
+    const ot = (await O.state()).me.tile;
+    await O.q((x, z) => CROnlineQA.walk(x, z), ot.x, ot.z);
+  }
+  // a dropped connection mid-fight: the adventurer stays (logout lock), the client re-attaches, the fight goes on
+  if (o.reconnect) {
+    const nBefore = serverEvents.filter((e) => e.event === 'reconnect').length;
+    await A.q(() => CROnlineQA.drop());
+    await sleep(TICK * 2);
+    const stillThere = !!sp(A.name) && sp(A.name).active;
+    check(fight, stillThere, 'the dropped adventurer stays in the world (x-log protection)');
+    const back = await A.until((st) => st.net.state === 'game' && st.net.stats.reconnects > 0, 20000, 'reconnect').then(() => true, () => false);
+    check(fight, back && serverEvents.filter((e) => e.event === 'reconnect').length > nBefore, 'the client logs in again and re-attaches to the same adventurer');
+    await A.q(() => CROnlineQA.logout());
+    const refusedOut = await A.until((st) => st.chat.some((t) => /can't log out until/i.test(t)), 8000, 'logout refusal').then(() => true, () => false);
+    check(fight, refusedOut && !!sp(A.name) && sp(A.name).active, 'logging out mid-fight is refused (the combat logout lock)');
+    if (!sp(A.name).target) await A.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
+  }
   // fight to the death; remember each side's kept-on-death preview right up to the end
   const preview = {};
   const t0 = Date.now();
@@ -276,18 +304,24 @@ async function pvpFight(fight, A, B, O, opts) {
   for (const it of pile) { await winner.q((uid) => CROnlineQA.send({ t: 'op_obj', uid, op: 'take' }), it.uid); await sleep(TICK * 1.2); }
   const wAfter = await winner.until((s) => s.objs.filter((x) => x.own).length === 0 || s.inv.filter(Boolean).length >= 28, 30000, 'pick up the pile');
   check(fight, wAfter.inv.filter(Boolean).length > invBefore, 'loot reaches the winner\'s pack', { before: invBefore, after: wAfter.inv.filter(Boolean).length });
+  const fxA1 = (await A.state()).fx, fxO1 = (await O.state()).fx;
+  fight.fx = { attacker: fxDelta(fxA0, fxA1), observer: fxDelta(fxO0, fxO1) };
+  check(fight, fight.fx.attacker.generic === 0 && fight.fx.observer.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile (no untimed hits, no late projectiles)', fight.fx);
   // hits: every server hit on each fighter shows exactly one splat on the attacker's page and the observer's
   for (const [tgt, other] of [[A, B], [B, A]]) {
     const key = 'p' + (tgt === A ? aPid : bPid), ref = ['p', tgt === A ? aPid : bPid];
     const nServer = hitsSince(since, key).length;
     const onOther = await splatsOn(other, ref, sinceMs), onObs = await splatsOn(O, ref, sinceMs), onSelf = await splatsOn(tgt, ref, sinceMs);
-    check(fight, nServer > 0 && onOther === nServer && onObs === nServer && onSelf === nServer, 'splats on ' + tgt.name + ' match the server hits (no double or lost hits)', { server: nServer, opponent: onOther, observer: onObs, self: onSelf });
+    const selfOk = o.reconnect && tgt === A ? onSelf <= nServer : onSelf === nServer;   // a page offline for a moment misses the hits of those ticks
+    const otherOk = o.reconnect && other === A ? onOther <= nServer : onOther === nServer;
+    check(fight, nServer > 0 && otherOk && onObs === nServer && selfOk, 'splats on ' + tgt.name + ' match the server hits (no double or lost hits)', { server: nServer, opponent: onOther, observer: onObs, self: onSelf });
   }
   fight.strip = strip ? path.relative(path.join(__dirname, '..'), strip).replace(/\\/g, '/') : null;
   await syncCheck(fight, [A, B, O]);
   await closeOverlays([A, B, O]);
   huntAll(true);
 }
+function fxDelta(a, b) { const o = {}; for (const k of ['hits', 'splats', 'projectiles', 'matchedProjectile', 'matchedSwing', 'matchedNext', 'generic', 'late', 'deaths']) o[k] = ((b && b[k]) || 0) - ((a && a[k]) || 0); return o; }
 async function closeOverlays(cs) { for (const c of cs) await c.q(() => OnlineUI.closeOverlay()); }
 /** every page's view of every adventurer matches the server once things are still */
 async function syncCheck(fight, clients) {
@@ -308,10 +342,114 @@ async function syncCheck(fight, clients) {
 }
 
 /* ------------------------------------------------------------------------------------------------ */
+/* PvM: one adventurer against the server's monsters                                                 */
+/* ------------------------------------------------------------------------------------------------ */
+const WEST = [[16, 40], [16, 47]];
+async function pvmFight(fight, A, O, o) {
+  log('fight', fight.name, A.name, 'vs', o.npc);
+  heal(A.name);
+  await kitUp(A, o.kit);
+  const home = world.map.spawns.filter((s1) => s1.npc === o.npc);
+  const target0 = home[0];
+  const s0 = await A.state();
+  if (s0.me.tile.z < 47) await walkRoute(A, target0.x < 32 ? WEST : EAST);
+  // stand a few tiles from the haunt; the monster comes (they are aggressive) or we go to it
+  const stand = o.stand || { x: target0.x + (target0.x < 32 ? 4 : -4), z: target0.z - 3 };
+  await walkTo(A, stand.x, stand.z, 90000).catch(() => {});
+  heal(A.name);
+  if (o.protect) await A.q((id) => CROnlineQA.send({ t: 'prayer', id, on: true }), o.protect);
+  const since = world.tick, sinceMs = Date.now();
+  const st0 = await A.state();
+  const fx0 = st0.fx, xp0 = Object.assign({}, st0.ui.xp10), aPid = st0.me.pid;
+  // the monster already on us, else the nearest of its kind
+  let nid = null;
+  for (let tries = 0; tries < 20 && nid == null; tries++) {
+    const on = await A.q(() => CROnlineQA.npcTargeting());
+    const mine = on.map((id) => world.npcs.get(id)).find((n) => n && n.typeId === o.npc);
+    if (mine) { nid = mine.nid; await A.q((id) => CROnlineQA.send({ t: 'op_npc', nid: id, op: 'attack' }), nid); break; }
+    const r = await A.q((ty) => CROnlineQA.attackNpcNearest(ty), o.npc);
+    if (r) nid = r.nid; else await sleep(TICK * 2);
+  }
+  if (nid == null) { check(fight, false, 'found a ' + o.npc); return; }
+  const brain = fighterBrain(A, {});
+  let strip = null;
+  if (STRIPS && o.strip) strip = captureStrip(A, o.strip, [['me', 0], ['npc', nid]], 15, Math.round(TICK / 3));
+  const npc = world.npcs.get(nid);
+  const t0 = Date.now();
+  let killed = false;
+  while (Date.now() - t0 < (o.maxMs || 150000)) {
+    stopCheck();
+    if (!npc.active || npc.dying) { killed = true; break; }
+    const st = await A.state();
+    if (st.overlay && /you are dead/i.test(st.overlay)) break;
+    const me = sp(A.name);
+    if (me && !me.target && npc.active && !npc.dying) await A.q((id) => CROnlineQA.send({ t: 'op_npc', nid: id, op: 'attack' }), nid);
+    await sleep(TICK);
+  }
+  await brain.stop();
+  if (strip) strip = await strip;
+  fight.seconds = +((Date.now() - t0) / 1000).toFixed(1); fight.ticks = world.tick - since;
+  check(fight, killed, 'the ' + o.npc + ' dies');
+  if (!killed) return;
+  const tile = { x: npc.x, z: npc.z };
+  await sleep(TICK * 5);
+  const st = await A.state();
+  // xp for the style and Hitpoints
+  const skill = { melee: ['Attack', 'Strength', 'Defence'], ranged: ['Ranged'], magic: ['Magic'] }[o.kit];
+  const gained = skill.some((sk) => (st.ui.xp10[sk] || 0) > (xp0[sk] || 0)) && (st.ui.xp10.Hitpoints || 0) > (xp0.Hitpoints || 0);
+  check(fight, gained, 'experience for the style and Hitpoints arrives', skill.concat(['Hitpoints']).map((sk) => [sk, xp0[sk], st.ui.xp10[sk]]));
+  // splats: every hit on the monster and on us shown exactly once on our page
+  const nHitsNpc = hitsSince(since, 'n' + nid).length, onNpc = await splatsOn(A, ['n', nid], sinceMs);
+  const nHitsMe = hitsSince(since, 'p' + aPid).length, onMe = await splatsOn(A, ['p', aPid], sinceMs);
+  check(fight, nHitsNpc > 0 && onNpc === nHitsNpc && onMe === nHitsMe, 'splats match the server hits (monster and adventurer)', { npcServer: nHitsNpc, npcShown: onNpc, meServer: nHitsMe, meShown: onMe });
+  if (o.protect) {
+    const fromNpc = serverHits.filter((h) => h.tick >= since && h.to === 'p' + aPid);
+    check(fight, fromNpc.every((h) => h.amount === 0), 'the protection prayer blocks the monster completely', fromNpc.map((h) => h.amount));
+    await A.q((id) => CROnlineQA.send({ t: 'prayer', id, on: false }), o.protect);
+  }
+  fight.fx = { attacker: fxDelta(fx0, st.fx) };
+  check(fight, fight.fx.attacker.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile', fight.fx);
+  // loot: the kill's pile is ours (bones always drop), shown once the body has sunk, and we pick the bones up
+  const pile = st.objs.filter((x) => x.own && x.x === tile.x && x.z === tile.z);
+  const bones = pile.find((x) => /bones/.test(x.id));
+  check(fight, !!bones && pile.every((x) => !x.hidden), 'the drop shows as ours once the body has sunk', pile);
+  if (bones) {
+    const n0 = st.inv.filter((x) => x && /bones/.test(x[0])).length;
+    await A.q((uid) => CROnlineQA.send({ t: 'op_obj', uid, op: 'take' }), bones.uid);
+    const got = await A.until((s2) => s2.inv.filter((x) => x && /bones/.test(x[0])).length > n0, 20000, 'take the bones').then(() => true, () => false);
+    check(fight, got, 'the bones reach the pack');
+  }
+  fight.strip = strip ? path.relative(path.join(__dirname, '..'), strip).replace(/\\/g, '/') : null;
+  await syncCheck(fight, [A]);
+}
+
+/* ------------------------------------------------------------------------------------------------ */
 /* main                                                                                               */
 /* ------------------------------------------------------------------------------------------------ */
 const SCENARIOS = [
-  { name: 'pvp-melee', kind: 'pvp', kitA: 'melee', kitB: 'melee', protectB: 'protect_melee', strip: 'pvp_melee' },
+  // PvP, each style on its own, with eating and protection prayers (the defender prays against the attacker's style)
+  { name: 'pvp-melee', kind: 'pvp', kitA: 'melee', kitB: 'melee', protectB: 'protect_melee', strip: 'pvp_melee', thirdParty: true },
+  { name: 'pvp-ranged', kind: 'pvp', kitA: 'ranged', kitB: 'ranged', protectB: 'protect_range', strip: 'pvp_ranged' },
+  { name: 'pvp-magic', kind: 'pvp', kitA: 'magic', kitB: 'magic', protectB: 'protect_magic', strip: 'pvp_magic' },
+  // PvM, each style against the test map's monsters (melee and magic monsters; protection prayers against them)
+  { name: 'pvm-melee-gnarlgob', kind: 'pvm', kit: 'melee', npc: 'gnarlgob', strip: 'pvm_melee' },
+  { name: 'pvm-ranged-mosswolf', kind: 'pvm', kit: 'ranged', npc: 'mosswolf', strip: 'pvm_ranged' },
+  { name: 'pvm-magic-skeleton', kind: 'pvm', kit: 'magic', npc: 'skeleton', strip: 'pvm_magic' },
+  { name: 'pvm-melee-moss_seer', kind: 'pvm', kit: 'melee', npc: 'moss_seer', protect: 'protect_magic' },
+  { name: 'pvm-ranged-skeleton', kind: 'pvm', kit: 'ranged', npc: 'skeleton', protect: 'protect_melee' },
+  { name: 'pvm-magic-gnarlgob', kind: 'pvm', kit: 'magic', npc: 'gnarlgob' },
+  { name: 'pvm-melee-bryn_raider', kind: 'pvm', kit: 'melee', npc: 'bryn_raider', protect: 'protect_melee' },
+  { name: 'pvm-ranged-moss_seer', kind: 'pvm', kit: 'ranged', npc: 'moss_seer' },
+  { name: 'pvm-magic-cinder_shade', kind: 'pvm', kit: 'magic', npc: 'cinder_shade', protect: 'protect_melee', maxMs: 240000 },
+  // mixed PvP, roles swapped, Protect Item, a dropped connection mid-fight
+  { name: 'pvp-melee-vs-magic', kind: 'pvp', kitA: 'melee', kitB: 'magic', protectB: 'protect_melee', protectItemA: true },
+  { name: 'pvp-ranged-vs-melee', kind: 'pvp', kitA: 'ranged', kitB: 'melee', protectA: 'protect_melee' },
+  { name: 'pvp-magic-vs-ranged', kind: 'pvp', kitA: 'magic', kitB: 'ranged' },
+  { name: 'pvp-melee-swapped', kind: 'pvp', kitA: 'melee', kitB: 'melee', swap: true },
+  { name: 'pvp-ranged-swapped', kind: 'pvp', kitA: 'ranged', kitB: 'magic', swap: true, protectItemA: true },
+  { name: 'pvp-reconnect', kind: 'pvp', kitA: 'melee', kitB: 'ranged', reconnect: true },
+  { name: 'pvp-magic-vs-melee', kind: 'pvp', kitA: 'magic', kitB: 'melee', protectB: 'protect_magic' },
+  { name: 'pvm-melee-hex_adept', kind: 'pvm', kit: 'melee', npc: 'hex_adept', protect: 'protect_magic' },
 ];
 (async () => {
   await startServer();
@@ -329,7 +467,11 @@ const SCENARIOS = [
     report.fights.push(fight);
     try {
       if (sc.kind === 'pvp') await pvpFight(fight, A, B, O, sc);
+      else if (sc.kind === 'pvm') await pvmFight(fight, A, O, sc);
     } catch (e) { check(fight, false, 'scenario ran', e.message); }
+    huntAll(true);
+    await closeOverlays([A, B, O]).catch(() => {});
+    fs.writeFileSync(path.join(OUT, 'online_report.json'), JSON.stringify(report, null, 1));
     const ok = fight.checks.every((c) => c.ok);
     log(sc.name, ok ? 'PASS' : 'FAIL', fight.winner ? `(${fight.winner} beat ${fight.loser} in ${fight.seconds}s / ${fight.ticks} ticks)` : '');
   }
