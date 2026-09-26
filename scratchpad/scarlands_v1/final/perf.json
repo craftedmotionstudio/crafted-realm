@@ -1,0 +1,156 @@
+{
+ "tag": "final",
+ "views": [
+  {
+   "view": "s01_plank_crossing",
+   "mode": "day",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 19,
+   "programs": 3
+  },
+  {
+   "view": "s01_plank_crossing",
+   "mode": "void",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 19,
+   "programs": 3
+  },
+  {
+   "view": "s02_stone_causeway",
+   "mode": "day",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 19,
+   "programs": 3
+  },
+  {
+   "view": "s02_stone_causeway",
+   "mode": "void",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 19,
+   "programs": 3
+  },
+  {
+   "view": "s03_game_camera_crossing",
+   "mode": "day",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 19,
+   "programs": 3
+  },
+  {
+   "view": "s03_game_camera_crossing",
+   "mode": "void",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 19,
+   "programs": 3
+  },
+  {
+   "view": "s04_wall_line",
+   "mode": "day",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 19,
+   "programs": 3
+  },
+  {
+   "view": "s04_wall_line",
+   "mode": "void",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 19,
+   "programs": 3
+  },
+  {
+   "view": "s05_ruined_room",
+   "mode": "day",
+   "calls": 75,
+   "triangles": 66957,
+   "textures": 20,
+   "programs": 4
+  },
+  {
+   "view": "s05_ruined_room",
+   "mode": "void",
+   "calls": 75,
+   "triangles": 66957,
+   "textures": 20,
+   "programs": 4
+  },
+  {
+   "view": "s06_rock_camp",
+   "mode": "day",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 20,
+   "programs": 4
+  },
+  {
+   "view": "s06_rock_camp",
+   "mode": "void",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 20,
+   "programs": 4
+  },
+  {
+   "view": "s07_ditch_panorama",
+   "mode": "day",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 20,
+   "programs": 4
+  },
+  {
+   "view": "s07_ditch_panorama",
+   "mode": "void",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 20,
+   "programs": 4
+  },
+  {
+   "view": "s08_pocket_panorama",
+   "mode": "day",
+   "calls": 75,
+   "triangles": 66957,
+   "textures": 20,
+   "programs": 4
+  },
+  {
+   "view": "s08_pocket_panorama",
+   "mode": "void",
+   "calls": 75,
+   "triangles": 66957,
+   "textures": 20,
+   "programs": 4
+  },
+  {
+   "view": "s09_depth_road",
+   "mode": "day",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 20,
+   "programs": 4
+  },
+  {
+   "view": "s09_depth_road",
+   "mode": "void",
+   "calls": 74,
+   "triangles": 66955,
+   "textures": 20,
+   "programs": 4
+  }
+ ],
+ "drawn": {
+  "instancedMeshes": 149,
+  "instances": 932
+ },
+ "errors": [
+  "Failed to load resource: the server responded with a status of 404 (File not found)"
+ ]
+}
