@@ -27,17 +27,23 @@
  }
  /** CombatFX's visual flight time for a projectile over a distance (releaseFx), seconds */
  function flightTime(kind,dist){var d=Math.max(.5,dist);return kind==='arrow'?Math.max(.22,Math.min(.6,d/17+.1)):Math.max(.3,Math.min(.85,d/11+.14))}
- /** delay before the draw/cast starts so that release + flight end when the hit lands */
- function projectilePlan(landSec,release,flight){var start=Math.max(0,landSec-flight-release);return {start:start,release:release,arrive:start+release+flight,late:Math.max(0,release+flight-landSec)}}
+ /** when the draw/cast starts (and how much faster it plays when the hit lands sooner than the full draw) so that
+  *  release + flight end exactly when the server applies the hit; the draw never runs faster than MIN_RELEASE */
+ var MIN_RELEASE=.2;
+ function projectilePlan(landSec,release,flight){
+  var rel=release,speed=1;
+  if(rel+flight>landSec){rel=Math.max(MIN_RELEASE,landSec-flight);speed=release/rel}
+  var start=Math.max(0,landSec-flight-rel);
+  return {start:start,release:rel,speed:speed,arrive:start+rel+flight,late:Math.max(0,rel+flight-landSec)}}
  /** delay before a melee swing starts so its impact frame meets a splat that lands after landSec */
  function swingDelay(landSec,impact){return Math.max(0,landSec-impact)}
- return {KIT_IMPACT:KIT_IMPACT,landingOffset:landingOffset,flightTime:flightTime,projectilePlan:projectilePlan,swingDelay:swingDelay};
+ return {MIN_RELEASE:MIN_RELEASE,KIT_IMPACT:KIT_IMPACT,landingOffset:landingOffset,flightTime:flightTime,projectilePlan:projectilePlan,swingDelay:swingDelay};
 });
 
 var OnlineFX=(function(){
  'use strict';
  if(typeof window==='undefined')return null;
- var TICK=0.6;
+ var TICK=0.6;   // seconds per server tick (setTickMs from the welcome)
  var later=[],swings=[],projectiles=[],log=[],stats={hits:0,splats:0,projectiles:0,matchedProjectile:0,matchedSwing:0,matchedNext:0,generic:0,late:0,swingsPlayed:0,deaths:0};
  function now(){return performance.now()/1000}
  function schedule(sec,fn){if(sec<=0.001){fn();return}later.push({at:now()+sec,fn:fn})}
@@ -53,11 +59,12 @@ var OnlineFX=(function(){
   var o=obj(e);return typeof CombatFX!=='undefined'&&CombatFX.impactTime?CombatFX.impactTime(o,type):.22;
  }
  /* ---- swings and reactions ---- */
- function playAttack(e,type,spec){
+ function playAttack(e,type,spec,speed){
   var o=obj(e);if(!o)return;stats.swingsPlayed++;
   if(isKit(e)){
    var clip=type==='ranged'?'bow':type==='magic'?'cast':'attack_'+(type||'slash');
-   if(!A().playClip(e,clip,spec?1.15:undefined)&&typeof swing==='function')swing(o,type)
+   var base=typeof CombatFX!=='undefined'&&CombatFX.speedFor?CombatFX.speedFor(clip):1;
+   if(!A().playClip(e,clip,spec?1.15:(speed&&speed>1?base*speed:undefined))&&typeof swing==='function')swing(o,type)
   }else if(typeof swing==='function')swing(o,type==='ranged'?'bow':type==='magic'?'cast':type);
  }
  function react(e,dmg){
@@ -98,7 +105,7 @@ var OnlineFX=(function(){
    var kind=f.k==='arrow'?'arrow':'magic',off=OnlineTiming.landingOffset(att,tgt,f.d),landSec=off*TICK;
    var release=impactOf(att,kind==='arrow'?'bow':'cast'),flight=OnlineTiming.flightTime(kind,dist(att,tgt));
    var plan=OnlineTiming.projectilePlan(landSec,release,flight);if(plan.late>0.05)stats.late++;
-   var p={att:att,tgt:tgt,kind:kind,landTick:n+off,start:plan.start,release:release,arriveAt:now()+plan.arrive,splash:!!f.splash,sp:f.sp||null,hits:[],f:null,done:false,born:n};
+   var p={att:att,tgt:tgt,kind:kind,landTick:n+off,start:plan.start,release:plan.release,speed:plan.speed,arriveAt:now()+plan.arrive,splash:!!f.splash,sp:f.sp||null,hits:[],f:null,done:false,born:n};
    projectiles.push(p);stats.projectiles++;plans[refOf(att).join(':')]=p;
    (function(p){schedule(p.start,function(){launch(p)})})(p);
   }
@@ -108,7 +115,7 @@ var OnlineFX=(function(){
    if(an.name==='attack'||an.name==='cast'){
     var type=an.name==='cast'?'magic':(an.type||'slash');
     var plan2=plans[refOf(e).join(':')];
-    if(type==='ranged'||type==='magic'){(function(e,type,spec,st){schedule(st,function(){playAttack(e,type,spec)})})(e,type,an.spec,plan2?plan2.start:0);continue}
+    if(type==='ranged'||type==='magic'){(function(e,type,spec,st,sp){schedule(st,function(){playAttack(e,type,spec,sp)})})(e,type,an.spec,plan2?plan2.start:0,plan2?plan2.speed:1);continue}
     var tgt2=A().entByRef(e.face)||(e.isMe?null:null);
     var off2=tgt2?OnlineTiming.landingOffset(e,tgt2,0):0;
     var sw={att:e,tgt:tgt2,type:type,landTick:n+off2,mode:off2===0?'same':'next',used:false,born:n,maxHit:e.isMe&&typeof OnlineUI!=='undefined'?OnlineUI.myMaxHit():0};
@@ -139,5 +146,6 @@ var OnlineFX=(function(){
  }
  function frame(){runLater()}
  function reset(){later=[];swings=[];projectiles=[]}
- return {onTick:onTick,frame:frame,reset:reset,stats:function(){return Object.assign({pending:later.length,flying:projectiles.length},stats)},log:function(){return log.slice()}};
+ function setTickMs(ms){TICK=(ms||600)/1000}
+ return {onTick:onTick,frame:frame,reset:reset,setTickMs:setTickMs,stats:function(){return Object.assign({pending:later.length,flying:projectiles.length},stats)},log:function(){return log.slice()}};
 })();

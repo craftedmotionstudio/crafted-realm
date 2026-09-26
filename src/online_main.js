@@ -191,7 +191,7 @@ var OnlineMain=(function(){
  /* ---------------- entering the world ---------------- */
  function enter(w){
   st.welcome=w;
-  OnlineActors.setTickMs(w.tickMs);
+  OnlineActors.setTickMs(w.tickMs);OnlineFX.setTickMs(w.tickMs);
   OnlineActors.clearAll();OnlineFX.reset();
   OnlineUI.install(net);installInput();installUpdate();
   OnlineUI.applyWelcome(w);
