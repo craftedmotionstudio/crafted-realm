@@ -1,0 +1,12 @@
+{
+ "before": {
+  "welcomeShownMs": 39139,
+  "loginAssetBytes": 593973,
+  "errors": []
+ },
+ "after": {
+  "welcomeShownMs": 16850,
+  "loginAssetBytes": 253363,
+  "errors": []
+ }
+}
