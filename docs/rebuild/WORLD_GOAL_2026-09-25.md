@@ -18,6 +18,21 @@ mutation once online, and PvP rules must be understandable before crossing the D
 before the content grows, is also the cheaper order: every system written after this is born server-side.
 `HOLM_FINISH_GOAL_2026-09-24.md` stays open inside this goal (W0) until the owner approves the island.
 
+## Map vision (owner, 2026-09-26)
+
+First lock in Tutor's Holm (fun end to end), then build the heartland like the 2004 one but our own: a spawn town with
+a castle (our Lumbridge: Veyhollow Commons + Wardenholm Keep); south a swamp with a small town; east a desert town (our
+Al Kharid); west a village (our Draynor); north a big walled city (our Varrock); and the Wilderness for PvP (ours: the
+Scarlands beyond the Ditch, with a frontier bank). Big castles where needed, big towns with varied, unique building
+shapes, story flow between regions, every OSRS building type and its function present in our own version (organised
+our way), a long grindy open world where every skill trains somewhere, all Blender-built and old-school medieval.
+Plan: docs/rebuild/WORLD_CONTENT_PLAN.md (regions, building/function catalogue, per-skill grind ladder, metal-tier
+sources, build order), measured against docs/rebuild/WORLD_LAYOUT_GUIDE.md.
+
+Also wanted: an optional first-person camera (feasible: the follow camera is yaw/pitch/distance, so first person is the
+camera at head height with a wider field of view, the head hidden, mouse-look; click picking still works). Queued after
+the combat branch merges (it owns movement in game5_main.js).
+
 ## Reuse of 2004scape (see `REFERENCE_2004SCAPE.md`, survey 2026-09-25)
 
 | Piece | Licence | Use |
