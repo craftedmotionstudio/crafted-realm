@@ -74,7 +74,9 @@ const DO={
  async ranged_trial(p){await waitFor(p,()=>Player.count('worn_bow')>0||Player.equip.weapon==='worn_bow',null,15000);await wield(p,'worn_bow');await fight(p,'keep-court','ranged_trial')},
  async open_bank(p){await walkTo(p,'bank','entrance',true,[]);await talk(p,'maud');await clickService(p,'Use bank counter','counter');await waitLesson(p,'open_bank',60000);await p.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}})},
  async magic_trial(p){await walkTo(p,'mage','entrance',true,[]);await talk(p,'ilse');await waitFor(p,()=>Player.count('air_rune')>0,null,15000);await closeDialogue(p);await spellbook(p,'wind_strike');
-  await fight(p,'mage-yard','magic_trial',{keepDialogs:true})},
+  // 2004: without a staff each Wind Strike is one cast (choose the spell, then the grubkin), so a player repeats it
+  for(let k=0;k<40&&await lesson(p)==='magic_trial';k++){if(!await p.evaluate(()=>Player.spell==='wind_strike'))await spellbook(p,'wind_strike');
+   await attack(p,'mage-yard',{keepDialogs:true});await waitFor(p,()=>!Player.target,null,9000)}},
  async relight_lastlight(p){await walkTo(p,'lastlight','door',true,[]);await talk(p,'aldous');
   for(const w of ['ladder1-foot','ladder2-foot','ladder3-foot'])await clickService(p,'Climb-up ladder',w);await clickService(p,'Pull beacon lever','lever');await waitLesson(p,'relight_lastlight',30000);
   for(const w of ['ladder3-top','ladder2-top','ladder1-top'])await clickService(p,'Climb-down ladder',w)}};
