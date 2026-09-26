@@ -371,14 +371,15 @@ def p_figure(m, pose='idle', tunic='tunic', legs='trousers', skin='skin', hair='
     J = {'hipL': (-.1, 0, .86), 'hipR': (.1, 0, .86), 'kneeL': (-.12, 0, .46), 'kneeR': (.12, 0, .46), 'footL': (-.13, 0, .06), 'footR': (.13, 0, .06),
          'shL': (-.25, 0, 1.3), 'shR': (.25, 0, 1.3), 'elL': (-.31, 0, 1.02), 'elR': (.31, 0, 1.02), 'haL': (-.33, -.02, .76), 'haR': (.33, -.02, .76),
          'neck': (0, 0, 1.38), 'head': (0, 0, 1.58)}
-    lean = 0.0; hlean = 0.0; hturn = 0.0
+    lean = 0.0; hlean = 0.0; hturn = 0.0; lift = 0.0
     P = POSES.get(pose, {})
     for k, v in P.items():
         if k == 'lean': lean = v
         elif k == 'hlean': hlean = v
         elif k == 'hturn': hturn = v
+        elif k == 'lift': lift = v          # the whole body off the ground (jump for joy)
         else: J[k] = v
-    J = {k: Vector(v) for k, v in J.items()}
+    J = {k: Vector(v) + Vector((0, 0, lift)) for k, v in J.items()}
     if lean:  # bow forward (toward the camera, -Y) about the pelvis
         R = Matrix.Rotation(-math.radians(lean), 3, 'X'); piv = Vector((0, 0, .9))
         for k in ('shL', 'shR', 'elL', 'elR', 'haL', 'haR', 'neck', 'head'): J[k] = piv + R @ (J[k] - piv)
@@ -427,6 +428,22 @@ POSES = {
     'shrug': {'elL': (-.44, -.06, 1.08), 'haL': (-.62, -.12, 1.2), 'elR': (.44, -.06, 1.08), 'haR': (.62, -.12, 1.2), 'shL': (-.25, 0, 1.36), 'shR': (.25, 0, 1.36), 'hlean': 6},
     'clap': {'elL': (-.3, -.14, 1.06), 'haL': (-.03, -.3, 1.18), 'elR': (.3, -.14, 1.06), 'haR': (.03, -.3, 1.2)},
     'guard': {'elL': (-.36, -.16, 1.04), 'haL': (-.24, -.3, 1.08), 'elR': (.38, -.05, 1.0), 'haR': (.42, -.12, 1.08)},
+    # the full emote tab (owner 2026-09-26): the eleven gestures after the first row of twelve
+    'beckon': {'elL': (-.44, -.18, 1.14), 'haL': (-.66, -.34, 1.3), 'elR': (.3, -.02, 1.02), 'haR': (.3, -.06, .77), 'hlean': 4, 'hturn': -16},
+    'jump_for_joy': {'lift': .2, 'elL': (-.44, 0, 1.56), 'haL': (-.58, -.02, 1.84), 'elR': (.44, 0, 1.56), 'haR': (.58, -.02, 1.84),
+                     'kneeL': (-.26, -.06, .5), 'footL': (-.34, 0, .12), 'kneeR': (.26, -.06, .5), 'footR': (.34, 0, .12), 'hlean': -12},
+    'yawn': {'elL': (-.42, 0, 1.56), 'haL': (-.4, -.02, 1.9), 'elR': (.32, -.16, 1.14), 'haR': (.07, -.2, 1.47), 'hlean': -16},
+    'jig': {'elL': (-.47, -.02, 1.1), 'haL': (-.23, -.08, .9), 'elR': (.47, -.02, 1.1), 'haR': (.23, -.08, .9),
+            'kneeR': (.24, -.12, .5), 'footR': (.46, -.18, .24), 'hlean': -6, 'hturn': 10},
+    'spin': {'elL': (-.5, 0, 1.3), 'haL': (-.72, -.02, 1.3), 'elR': (.5, 0, 1.3), 'haR': (.72, -.02, 1.3), 'hturn': 32},
+    'headbang': {'lean': 26, 'hlean': 40, 'elR': (.44, -.04, 1.5), 'haR': (.46, -.08, 1.8), 'elL': (-.32, -.1, .98), 'haL': (-.3, -.2, .8)},
+    'cry': {'elL': (-.33, -.16, 1.12), 'haL': (-.08, -.21, 1.52), 'elR': (.33, -.16, 1.12), 'haR': (.08, -.21, 1.52), 'hlean': 18},
+    'blow_kiss': {'elR': (.36, -.16, 1.2), 'haR': (.3, -.3, 1.5), 'hlean': -6, 'hturn': 8},
+    'panic': {'elL': (-.46, -.02, 1.48), 'haL': (-.5, -.04, 1.84), 'elR': (.52, -.02, 1.3), 'haR': (.74, -.06, 1.56),
+              'kneeL': (-.14, -.22, .62), 'footL': (-.15, -.1, .32), 'hlean': -10, 'hturn': -14},
+    'raspberry': {'elL': (-.5, -.04, 1.44), 'haL': (-.21, -.04, 1.6), 'elR': (.5, -.04, 1.44), 'haR': (.21, -.04, 1.6), 'hlean': -4},
+    'salute': {'elR': (.47, -.08, 1.42), 'haR': (.15, -.17, 1.66), 'elL': (-.28, 0, 1.02), 'haL': (-.29, -.02, .76),
+               'footL': (-.1, 0, .06), 'footR': (.1, 0, .06), 'kneeL': (-.1, 0, .46), 'kneeR': (.1, 0, .46), 'hlean': -4},
 }
 def p_wizhat(m, col='blue', band='gold', stars=True):
     m.lathe([(.62, .0), (.64, .03), (.36, .06), (.34, .02)], 16, 'blue_dk' if col == 'blue' else col, cap0=col)
@@ -976,15 +993,77 @@ def sym_clap(m):
     for a in (-30, 0, 30):
         k = m.mark(); m.ext(rrect(-.018, .12, .018, .24, .01, 1), .03, 'white'); m.tf(k, rotY(a))
 SYM = {'yes': sym_tick, 'no': sym_x, 'think': sym_q, 'angry': sym_bang, 'dance': sym_note, 'clap': sym_clap}
+# symbols for the second set place themselves against the posed joints J (screen: x right, z up, -y toward the viewer)
+def drop2(c, r, n=10):
+    """a falling drop: round bottom, pointed top"""
+    return [(c[0] + r * math.cos(a), c[1] + r * math.sin(a)) for a in [math.radians(20 - 220 * i / n) for i in range(n + 1)]] + [(c[0], c[1] + r * 2.3)]
+def zed2(c, h, t):
+    """a letter Z (h = half height = half width, t = stroke)"""
+    w = h; d = t * 1.5; x, z = c
+    return [(x - w, z + h), (x + w, z + h), (x + w, z + h - t), (x - w + d, z - h + t), (x + w, z - h + t), (x + w, z - h),
+            (x - w, z - h), (x - w, z - h + t), (x + w - d, z + h - t), (x - w, z + h - t)]
+def arc_arrow(m, c, R, a0, a1, w, col='swoosh', side=None, y=-.3, n=12):
+    """a curved motion arrow in the picture plane: a band from angle a0 to a1 with a head at a1"""
+    sg = 1 if a1 > a0 else -1; outer, inner = [], []; rx, rz = R if isinstance(R, (tuple, list)) else (R, R)
+    def at(a, dr): return (c[0] + (rx + dr) * math.cos(a), c[1] + (rz + dr) * math.sin(a))
+    for i in range(n + 1):
+        a = a0 + (a1 - a0) * i / n; outer.append(at(a, w / 2)); inner.append(at(a, -w / 2))
+    tip = a1 + sg * (w * 2.0) / math.hypot(rx * math.sin(a1), rz * math.cos(a1))
+    head = [at(a1, w * 1.25), at(tip, 0), at(a1, -w * 1.25)]
+    m.ext(outer + head + inner[::-1], .04, col, side, y=y)
+def dashes(m, c, r0, r1, angs, w=.035, col='swoosh', y=-.3):
+    """short radiating marks (shock / motion lines) around a point"""
+    for a in angs:
+        k = m.mark(); m.ext(rrect(r0, -w / 2, r1, w / 2, w * .45, 1), .04, col, y=0); m.tf(k, T(c[0], y, c[1]) @ rotY(a))
+def s2_beckon(m, J):
+    h = J['haL']; x0, x1, z, w, hl = h.x + .04, h.x + .46, h.z + .32, .04, .18   # 'come this way': an arrow over the hand, pointing home
+    m.ext([(x0, z - w), (x1 - hl, z - w), (x1 - hl, z - w * 3.4), (x1, z), (x1 - hl, z + w * 3.4), (x1 - hl, z + w), (x0, z + w)], .05, 'swoosh', 'stone', y=-.45)
+def s2_jump(m, J):
+    m.hull(ell((0, .05, .0), (.36, .16, .02), 10, 3), 'slate')                      # the ground shadow the feet have left
+    for x in (-.34, .34): dashes(m, (x, .27), .0, .14, (-90,), .03, 'swoosh', y=-.2)  # a flick of motion under each foot
+def s2_yawn(m, J):
+    hx = J['head']
+    m.ext(zed2((hx.x + .4, hx.z + .08), .065, .03), .05, 'e_white', 'steel_dk', y=-.3)
+    m.ext(zed2((hx.x + .54, hx.z + .32), .095, .038), .05, 'e_white', 'steel_dk', y=-.3)
+def s2_jig(m, J):
+    k = m.mark(); p_note(m); m.tf(k, T(.6, -.3, J['head'].z + .26) @ S(.34))
+def s2_spin(m, J):
+    arc_arrow(m, (0, .5), (.5, .17), math.radians(200), math.radians(338), .06, 'swoosh', 'stone', y=-.35)    # the turn: in front of the legs ...
+    arc_arrow(m, (0, .5), (.5, .17), math.radians(18), math.radians(162), .06, 'swoosh', 'stone', y=.35)       # ... and round behind them
+def s2_headbang(m, J):
+    hx = J['head']; dashes(m, (hx.x, hx.z + .02), .22, .36, (110, 140, 40, 70), .035, 'swoosh', y=-.35)
+def s2_cry(m, J):
+    hx = J['head']
+    for x, z, r in ((-.24, -.06, .05), (-.3, -.3, .055), (.25, -.12, .05), (.3, -.36, .055)):
+        m.ext(drop2((hx.x + x, hx.z + z), r), .05, 'water_lt', 'water', y=-.32)
+def s2_kiss(m, J):
+    h = J['haR']; m.ext(heart2(.13, c=(h.x + .4, h.z + .12)), .06, 'red', 'red_dk', y=-.4)
+    m.ext(heart2(.09, c=(h.x + .54, h.z + .32)), .05, 'red', 'red_dk', y=-.4)
+def s2_panic(m, J):
+    hx = J['head']; dashes(m, (hx.x, hx.z + .04), .27, .41, (78, 102), .035, 'swoosh', y=-.1)   # shock marks over the head
+    m.ext(drop2((hx.x + .3, hx.z - .02), .045), .05, 'water_lt', 'water', y=-.4)                  # a bead of sweat
+def s2_raspberry(m, J):
+    hx = J['head']
+    m.hull(cbox((hx.x, hx.y - .2, hx.z - .1), (.05, .07, .035), .015), 'red')        # the tongue, out and down
+    for x, z in ((.08, -.13), (.14, -.05), (.03, -.22)): m.sph((hx.x + x + .06, hx.y - .3, hx.z + z), .03, 'water_lt', 5, 3)
+    for s in (-1, 1): m.box((s * .27, -.05, J['haR'].z + .08), (.03, .03, .08), 'skin')   # waggling fingers
+def s2_salute(m, J):
+    h = J['haR']; m.box((h.x - .06, h.y - .02, h.z + .04), (.1, .025, .03), 'skin')        # the flat hand at the brow
+SYM2 = {'beckon': s2_beckon, 'jump_for_joy': s2_jump, 'yawn': s2_yawn, 'jig': s2_jig, 'spin': s2_spin, 'headbang': s2_headbang, 'cry': s2_cry,
+        'blow_kiss': s2_kiss, 'panic': s2_panic, 'raspberry': s2_raspberry, 'salute': s2_salute}
 def emote(pose, nm):
     def f(m):
         J = p_figure(m, pose)
         if nm in SYM:
             k = m.mark(); SYM[nm](m); hx = J['head']
             m.tf(k, T(.36 if nm != 'clap' else 0, -.3, (hx.z + .22) if nm != 'clap' else J['haL'].z + .02))
+        if nm in SYM2: SYM2[nm](m, J)
     return f
 for nm, pose, yaw_ in (('yes', 'yes', -20), ('no', 'no', -10), ('bow', 'bow', -62), ('angry', 'angry', -12), ('think', 'think', -18), ('wave', 'wave', -12),
-                       ('cheer', 'cheer', -10), ('laugh', 'laugh', -14), ('dance', 'dance', -16), ('sit', 'sit', -38), ('shrug', 'shrug', -10), ('clap', 'clap', -26)):
+                       ('cheer', 'cheer', -10), ('laugh', 'laugh', -14), ('dance', 'dance', -16), ('sit', 'sit', -38), ('shrug', 'shrug', -10), ('clap', 'clap', -26),
+                       ('beckon', 'beckon', -30), ('jump_for_joy', 'jump_for_joy', -10), ('yawn', 'yawn', -14), ('jig', 'jig', -18), ('spin', 'spin', -8),
+                       ('headbang', 'headbang', -48), ('cry', 'cry', -12), ('blow_kiss', 'blow_kiss', -22), ('panic', 'panic', -12), ('raspberry', 'raspberry', -26),
+                       ('salute', 'salute', -20)):
     I('emote_' + nm, 'emotes', emote(pose, nm), [O('emotes/%s.png' % nm, 30, 40)], el=6, yaw=yaw_, aspect=(3, 4), span=2.24, ctr=(0, 0, 1.0))
 
 # -- login screen: the gilded title and the standing iron torches (rendered small, shown at 2x for chunky pixels)
