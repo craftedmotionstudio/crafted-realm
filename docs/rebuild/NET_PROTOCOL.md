@@ -168,7 +168,8 @@ Only keys with content are present. `n` is the server tick number.
 - `msg`: game messages `[kind, text]`; kinds `game`, `combat`, `level`.
 
 Animation names in `a.name`: `attack` (`type`: stab/slash/crush/ranged, `spec: 1` for a special),
-`defend`, `cast` (`spell`), `death`, `eat`, `teleport`, and (W2) `breath`. One animation per entity per tick:
+`defend`, `cast` (`spell`; W2b: `spec: 1` when the staff's special scales the cast), `death`, `eat`, `teleport`,
+and (W2) `breath`. One animation per entity per tick:
 `defend` never replaces an attack, cast or death set earlier in the same tick.
 
 ### Codes
