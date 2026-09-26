@@ -42,6 +42,17 @@ interface), `online_main.js` (glue, intents, QA hooks). Tests: `node tools/test_
 `node tools/online_multi_browser.js` (three real browsers, 20 fights; needs the static server on 8100; starts its own
 world on 8201), `node tools/online_pvp_balance.js` (kit matchups and PvM time-to-kill).
 
+**With the Scarlands art kit** (`docs/rebuild/scarlands/README.md`, on the live branch): the online client draws the
+kit instead of its own ground, water and walls whenever the map names a placement. After the kit branch is merged:
+take its proof layout with `"base": "server/data/maps/scarlands_test.json"` (so spawns, `alpha`, `decor` carry over)
+and add this map's extra blocked tiles (the chest, campfire, signposts, cart: the `onlyA` list of `--compare`) to its
+`extra.blocked`; run `node tools/scarlands_kit.js <layout> --map server/data/maps/scarlands_online.json --placement
+assets/scarlands/online/placement.json --compare server/data/maps/scarlands_test.json`; add
+`"placement": "assets/scarlands/online/placement.json"` (and `"kit"` / `"kitTextures"` if they are served elsewhere)
+to the generated map; run the world with `CR_MAP=server/data/maps/scarlands_online.json`. Checked read-only on
+2026-09-26 against the live tree's kit v1: 357 pieces in 73 instanced meshes, trench at -1.6, plank deck at +0.06,
+our Commons decor kept, no double walls (`docs/rebuild/combat_grade_passes/online_evidence/kit_*_dropin.jpg`).
+
 ## Layout
 
 ```
