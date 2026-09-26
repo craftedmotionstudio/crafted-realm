@@ -29,7 +29,8 @@ function loadout(style,L){
   if(style==='melee')return {weapon:item(t+'_sabre'),worn:{head:item(t+'_helm'),body:item(t+'_platebody'),legs:item(t+'_platelegs'),shield:item(t+'_kiteshield')},styleIndex:1,inv:[]};
   // ranged: the shortbow (the 2004 PKer's choice: 4 ticks, rapid 3); the longbow trades speed for 10-tile reach
   if(style==='ranged')return {weapon:L>=10?'ash_bow':'worn_bow',worn:{body:'leather_body',legs:'leather_chaps',hands:'leather_gloves',feet:'leather_boots'},styleIndex:1,inv:[['arrows',5000]]};
-  const sp=spellFor(L);return {weapon:L>=25?'storm_staff':L>=10?'ember_staff':'apprentice_staff',worn:{head:'wizard_hat',body:'cloth_robe_top'},styleIndex:0,autocast:sp,
+  // magic: the best staff and robes the level allows (glimmer from 15), autocasting the strongest spell
+  const sp=spellFor(L);return {weapon:L>=25?'storm_staff':L>=10?'ember_staff':'apprentice_staff',worn:L>=15?{head:'glimmer_hat',body:'glimmer_robe_top',legs:'cloth_robe_skirt'}:{head:'wizard_hat',body:'cloth_robe_top',legs:'cloth_robe_skirt'},styleIndex:0,autocast:sp,
     inv:Object.keys(SPELLS[sp].runes).map(r=>[r,5000])};
 }
 const levelsOf=L=>({Attack:L,Strength:L,Defence:L,Hitpoints:Math.max(10,L),Ranged:L,Magic:L,Prayer:Math.min(99,Math.max(1,L))});

@@ -159,7 +159,8 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
       await sleep(4000);const r2=await events(),att2=r2.ev.filter(e=>e.k==='swing'&&wild.some(w=>w.name===e.who));
       rule('the pack ignores an adventurer above twice its level (2004)',att2.length===0,{attacks:att2.length,cb:await page.evaluate(()=>Player.combatLevel())});}}
     /* ---------------- a kill: the fall, the sink, then the drop ---------------- */
-    {const w=PG.find(n=>n.type==='pg_wild_grubkin');if(w){await reset();await wield('bronze_sword',1);await standNear(w.name,1);await sleep(600);
+    {const wn=await page.evaluate(()=>{const x=HolmProvingGround.npcs().find(n=>n.typeId==='pg_wild_grubkin'&&!n.dead&&!n.lcDying);return x?x.mesh.name:null}),w=wn?{name:wn}:null;   // a live one (the pack test may have felled some)
+     if(w){await reset();await wield('bronze_sword',1);await standNear(w.name,1);await sleep(600);
       const d0=await page.evaluate(()=>WORLD.drops.length);await page.evaluate(n=>{const x=WORLD.npcs.find(q=>q.mesh.name===n);x.hp=1},w.name);await clickNamed(page,w.name);
       let dead=false;for(let i=0;i<30&&!dead;i++){await sleep(300);dead=await page.evaluate(n=>WORLD.npcs.find(q=>q.mesh.name===n).dead,w.name)}
       await sleep(250);await shot(page,'kill_fall');
