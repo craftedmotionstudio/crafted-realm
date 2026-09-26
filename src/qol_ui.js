@@ -107,7 +107,9 @@ const MenuQoL = {
     return u.kind ? u.kind+':'+this.text(u.label||'') : null;
   },
   wrap(){
-    if(this._wrapped || typeof buildCtxEntries!=='function') return;
+    if(this._wrapped) return;
+    if(typeof OsrsMenu!=='undefined'){ this.wrapModel(); return; }
+    if(typeof buildCtxEntries!=='function') return;
     const orig=buildCtxEntries;
     const self=this;
     buildCtxEntries=function(hit, e){
@@ -140,6 +142,38 @@ const MenuQoL = {
     };
     addEventListener('keydown', e=>{ if(e.key==='Shift') self._shift=true; });
     addEventListener('keyup',   e=>{ if(e.key==='Shift') self._shift=false; });
+    this._wrapped=true;
+  },
+  /* the old-school menu model (src/osrs_menu.js): a saved swap moves that row of the top entity to the top (so it is
+   * the left click too); the RuneLite-style extras (drop table, appraisal, set left-click) live on shift + right click */
+  wrapModel(){
+    const self=this;
+    addEventListener('keydown', e=>{ if(e.key==='Shift') self._shift=true; });
+    addEventListener('keyup',   e=>{ if(e.key==='Shift') self._shift=false; });
+    OsrsMenu.registerHook(function(entries, ctx, entities){
+      const ent=entities&&entities[0]; if(!ent||!ent.obj||ctx.use) return;
+      const key=self.targetKey({obj:ent.obj}), rule=key&&self.rules[key]; if(!rule) return;
+      const i=entries.findIndex(en=>en.entityIndex===0&&en.band==='entity'&&OsrsMenu.rowText(en)===rule);
+      if(i>0){ const out=entries.slice(), en=out.splice(i,1)[0]; out.unshift(en); return out; }
+    });
+    OsrsMenu.registerProvider({id:'qol-extras', order:900, kinds:['npc'], entries(ent, ctx){
+      const npc=ent.u&&ent.u.npc; if(!ctx||!ctx.shift||!npc||npc.dead) return [];
+      const out=[{option:'Appraise', priority:5, fn:()=>appraiseChat(npc)}];
+      if(npc.t.drops&&npc.t.drops.length) out.push({option:'Drop-table', priority:4, fn:()=>self.showDrops(npc.t)});
+      return out;
+    }});
+    OsrsMenu.registerHook(function(entries, ctx, entities){
+      const ent=entities&&entities[0]; if(!ctx||!ctx.shift||ctx.use||!ent||!ent.obj) return;
+      const key=self.targetKey({obj:ent.obj}); if(!key) return;
+      const own=entries.filter(en=>en.entityIndex===0&&en.band==='entity');
+      if(own.length<2) return;
+      const rows=own.map(en=>{ const label=OsrsMenu.rowText(en);
+        return OsrsMenu.normalise({option:'Left-click:', target:label, targetType:'none', band:'ground', fn:()=>{
+          self.rules[key]=label; self.saveRules();
+          UI.chat(`Left-click for ${key.split(':').slice(1).join(':')} is now “${label}”.`,'sys'); }}); });
+      const at=entries.findIndex(en=>en.band==='walk'||en.band==='below'||en.band==='examine'||en.band==='cancel');
+      const out=entries.slice(); out.splice(at<0?out.length:at, 0, ...rows); return out;
+    });
     this._wrapped=true;
   },
   showDrops(t){

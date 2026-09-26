@@ -119,7 +119,10 @@ async function clickInventory(page,itemId){
   }
   return false;
 }
-async function closeDialogue(page){await page.keyboard.press('Escape').catch(()=>{});await sleep(300);await page.evaluate(()=>{try{if(UI.closeDialogue)UI.closeDialogue()}catch(e){}});}
+// a player presses Escape only when a window or chat box is open (with nothing open, Escape puts away an item picked
+// up with "Use", old-school menu 2026-09-26, and the net must stay in hand on the way to the fishing spot)
+async function closeDialogue(page){const open=await page.evaluate(()=>Array.from(document.querySelectorAll('.modal')).some(m=>m.style.display&&m.style.display!=='none'&&m.offsetParent!==null)).catch(()=>true);
+  if(open){await page.keyboard.press('Escape').catch(()=>{});await sleep(300)}await page.evaluate(()=>{try{if(UI.closeDialogue)UI.closeDialogue()}catch(e){}});}
 const count=(page,id)=>page.evaluate(id=>Player.count(id),id);
 const objective=page=>page.evaluate(()=>{const t=document.getElementById('obj-text');return t?t.textContent:''});
 const lastChat=(page,n)=>page.evaluate(n=>Array.from(document.querySelectorAll('#chatbox > div')).slice(-(n||3)).map(d=>d.textContent.trim()),n);

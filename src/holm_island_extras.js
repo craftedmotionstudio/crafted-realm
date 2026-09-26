@@ -24,27 +24,27 @@ var HolmIslandExtras=(function(){
  // stations come from holm-kitchen-services-v1 (measured on this exact graph); the lodge from its graph targets.
  var SERVICES={
   bakehouse:[
-   {prefix:'Kitchen_SupplyBuckets_',node:'-2:1:0',label:'Take bucket',call:['HolmTeachingKitchen','takeBucket']},
-   {prefix:'Kitchen_Pantry_',node:'4:-4:0',label:'Fill bucket with flour',call:['HolmTeachingKitchen','fillFlour']},
-   {prefix:'Kitchen_SupplyWater',node:'-1:2:0',label:'Fill bucket with water',call:['HolmTeachingKitchen','fillWater']},
-   {prefix:'Kitchen_SupplyDoughBowl_',node:'-2:0:0',label:'Take dough',call:['HolmTeachingKitchen','takeDough']},
-   {prefix:'Kitchen_Oven_',node:'-4:-3:1',label:'Cook',call:['HolmTeachingKitchen','cookAtRange']},
-   {prefix:'Kitchen_RecipeBoard_',node:'0:-2:1',label:'Read recipe',call:['HolmTeachingKitchen','readRecipe']}],
+   {prefix:'Kitchen_SupplyBuckets_',node:'-2:1:0',label:'Take bucket',call:['HolmTeachingKitchen','takeBucket'],option:'Take-from',name:'Bucket rack',examine:'Empty buckets hang here, ready for flour and water.'},
+   {prefix:'Kitchen_Pantry_',node:'4:-4:0',label:'Fill bucket with flour',call:['HolmTeachingKitchen','fillFlour'],option:'Fill-bucket',name:'Flour bin',examine:'A bin of fine milled flour.'},
+   {prefix:'Kitchen_SupplyWater',node:'-1:2:0',label:'Fill bucket with water',call:['HolmTeachingKitchen','fillWater'],option:'Fill-bucket',name:'Water butt',examine:'Rainwater, clean enough for baking.'},
+   {prefix:'Kitchen_SupplyDoughBowl_',node:'-2:0:0',label:'Take dough',call:['HolmTeachingKitchen','takeDough'],option:'Take-dough',name:'Proving bowl',examine:'Dough left to rise under a damp cloth.'},
+   {prefix:'Kitchen_Oven_',node:'-4:-3:1',label:'Cook',call:['HolmTeachingKitchen','cookAtRange'],option:'Cook',name:'Oven',examine:'A brick bread oven, banked and hot.'},
+   {prefix:'Kitchen_RecipeBoard_',node:'0:-2:1',label:'Read recipe',call:['HolmTeachingKitchen','readRecipe'],option:'Read',name:'Recipe board',examine:'Cook Hettie\'s bread recipe, chalked up plain.'}],
   lodge:[
-   {prefix:'Lodge_FurnishingBoard_',target:'board',label:'Study quest board',call:['HolmQuestLodge','studyBoard']},
-   {prefix:'Lodge_FurnishingMap_',target:'map',label:'Study region chart',call:['HolmQuestLodge','studyChart']}],
+   {prefix:'Lodge_FurnishingBoard_',target:'board',label:'Study quest board',call:['HolmQuestLodge','studyBoard'],option:'Study',name:'Quest board',examine:'Notices of work that wants doing across the Holm.'},
+   {prefix:'Lodge_FurnishingMap_',target:'map',label:'Study region chart',call:['HolmQuestLodge','studyChart'],option:'Study',name:'Region chart',examine:'A chart of the lands beyond the Holm.'}],
   // M4.4 stations; lesson handlers are rebound to them in M5 (a click without a call walks there and says so)
-  bank:[{prefix:'Bank_ServiceCounter_',target:'counter',label:'Use bank counter',call:['UI','openBank']},{prefix:'Bank_ServiceVault_',target:'vault',label:'Open vault',call:['UI','openBank']},{prefix:'Bank_ServiceShelves_',target:'shop',label:'Browse goods'}],
-  survival:[{prefix:'Survival_ServiceTools_',target:'tools',label:'Tool rack'},{prefix:'Survival_ServiceFirePit_',target:'fire',label:'Fire ring'},{prefix:'Survival_ServiceLogPile_',target:'logs',label:'Log pile'},{prefix:'Survival_ServiceFishing_',target:'fishing',label:'Fishing spot',proxy:false}],
-  quarry:[{prefix:'Quarry_ServiceShaft_',target:'shaft',label:'Climb-down shaft ladder',ladder:'quarry-shaft'},{prefix:'Quarry_ServiceWinch_',target:'winch',label:'Winch'},{prefix:'Quarry_ServiceBench_',target:'bench',label:'Repair bench'}],
-  mage:[{prefix:'Mage_ServiceRuneTable_',target:'runes',label:'Rune table'},{prefix:'Mage_ServiceLectern_',target:'lectern',label:'Lectern'},{prefix:'Mage_ServiceTelescope_',target:'observatory',label:'Telescope'}],
-  cavern:[{prefix:'Cavern_ServiceLadderUp_',target:'ladder',label:'Climb-up ladder',ladder:'quarry-shaft'}],
- haven:[{prefix:'Haven_ServiceBoat_',target:'boat',label:'Ferry',call:['HolmIslandCurriculum','board']},{prefix:'Haven_ServiceNotice_',target:'notice',label:'Departure notice'}],
- lastlight:[{prefix:'Lastlight_ServiceStores_',target:'stores',label:'Repair stores'},
-  {prefix:'Lastlight_ServiceLadder1Up_',target:'ladder1-foot',climb:'ladder1',end:'foot',label:'Climb-up ladder'},{prefix:'Lastlight_ServiceLadder1Down_',target:'ladder1-top',climb:'ladder1',end:'top',label:'Climb-down ladder'},
-  {prefix:'Lastlight_ServiceLadder2Up_',target:'ladder2-foot',climb:'ladder2',end:'foot',label:'Climb-up ladder'},{prefix:'Lastlight_ServiceLadder2Down_',target:'ladder2-top',climb:'ladder2',end:'top',label:'Climb-down ladder'},
-  {prefix:'Lastlight_ServiceLadder3Up_',target:'ladder3-foot',climb:'ladder3',end:'foot',label:'Climb-up ladder'},{prefix:'Lastlight_ServiceLadder3Down_',target:'ladder3-top',climb:'ladder3',end:'top',label:'Climb-down ladder'},
-  {prefix:'Lastlight_ServiceLever_',target:'lever',label:'Pull beacon lever',call:['HolmIslandLessons','pullLever']},{prefix:'Lastlight_ServiceBeacon_',target:'beacon',label:'Beacon lamp'}]};
+  bank:[{prefix:'Bank_ServiceCounter_',target:'counter',label:'Use bank counter',call:['UI','openBank'],option:'Bank',name:'Bank counter',examine:'The teller keeps her ledgers here.'},{prefix:'Bank_ServiceVault_',target:'vault',label:'Open vault',call:['UI','openBank'],option:'Bank',name:'Vault',examine:'Iron-banded, and very heavy.'},{prefix:'Bank_ServiceShelves_',target:'shop',label:'Browse goods',option:'Browse',name:'Goods shelves',examine:'Odds and ends, not yet for sale.'}],
+  survival:[{prefix:'Survival_ServiceTools_',target:'tools',label:'Tool rack',option:'Search',name:'Tool rack',examine:'Spare tools for the camp.'},{prefix:'Survival_ServiceFirePit_',target:'fire',label:'Fire ring',option:'Search',name:'Fire ring',examine:'A ring of blackened stones.'},{prefix:'Survival_ServiceLogPile_',target:'logs',label:'Log pile',option:'Search',name:'Log pile',examine:'Split logs, stacked to dry.'},{prefix:'Survival_ServiceFishing_',target:'fishing',label:'Fishing spot',proxy:false,option:'Inspect',name:'Fishing stage',examine:'Reeds and a marker pole at the end of the fishing stage.'}],
+  quarry:[{prefix:'Quarry_ServiceShaft_',target:'shaft',label:'Climb-down shaft ladder',ladder:'quarry-shaft',option:'Climb-down',name:'Shaft ladder',examine:'A long ladder down into the ore workings.'},{prefix:'Quarry_ServiceWinch_',target:'winch',label:'Winch',option:'Inspect',name:'Winch',examine:'It hauls ore buckets up from the cavern.'},{prefix:'Quarry_ServiceBench_',target:'bench',label:'Repair bench',option:'Inspect',name:'Repair bench',examine:'Pick heads and hammer handles waiting to be mended.'}],
+  mage:[{prefix:'Mage_ServiceRuneTable_',target:'runes',label:'Rune table',option:'Study',name:'Rune table',examine:'Runes laid out in rows, air to chaos.'},{prefix:'Mage_ServiceLectern_',target:'lectern',label:'Lectern',option:'Study',name:'Lectern',examine:'A heavy book of spells lies open.'},{prefix:'Mage_ServiceTelescope_',target:'observatory',label:'Telescope',option:'Look-through',name:'Telescope',examine:'A brass telescope pointed at the sky.'}],
+  cavern:[{prefix:'Cavern_ServiceLadderUp_',target:'ladder',label:'Climb-up ladder',ladder:'quarry-shaft',option:'Climb-up',name:'Ladder',examine:'The shaft ladder back up to the Quarry Gate.'}],
+ haven:[{prefix:'Haven_ServiceBoat_',target:'boat',label:'Ferry',call:['HolmIslandCurriculum','board'],option:'Board',name:'Ferry',examine:'Ferryman Tobin\'s skiff, tarred and sound.'},{prefix:'Haven_ServiceNotice_',target:'notice',label:'Departure notice',option:'Read',name:'Departure notice',examine:'Sailings to the mainland, once Lastlight burns.'}],
+ lastlight:[{prefix:'Lastlight_ServiceStores_',target:'stores',label:'Repair stores',option:'Search',name:'Repair stores',examine:'Oil, wicks and spare glass for the lamp.'},
+  {prefix:'Lastlight_ServiceLadder1Up_',target:'ladder1-foot',climb:'ladder1',end:'foot',label:'Climb-up ladder',option:'Climb-up',name:'Ladder',examine:'A steep ladder inside the tower.'},{prefix:'Lastlight_ServiceLadder1Down_',target:'ladder1-top',climb:'ladder1',end:'top',label:'Climb-down ladder',option:'Climb-down',name:'Ladder',examine:'A steep ladder inside the tower.'},
+  {prefix:'Lastlight_ServiceLadder2Up_',target:'ladder2-foot',climb:'ladder2',end:'foot',label:'Climb-up ladder',option:'Climb-up',name:'Ladder',examine:'A steep ladder inside the tower.'},{prefix:'Lastlight_ServiceLadder2Down_',target:'ladder2-top',climb:'ladder2',end:'top',label:'Climb-down ladder',option:'Climb-down',name:'Ladder',examine:'A steep ladder inside the tower.'},
+  {prefix:'Lastlight_ServiceLadder3Up_',target:'ladder3-foot',climb:'ladder3',end:'foot',label:'Climb-up ladder',option:'Climb-up',name:'Ladder',examine:'A steep ladder inside the tower.'},{prefix:'Lastlight_ServiceLadder3Down_',target:'ladder3-top',climb:'ladder3',end:'top',label:'Climb-down ladder',option:'Climb-down',name:'Ladder',examine:'A steep ladder inside the tower.'},
+  {prefix:'Lastlight_ServiceLever_',target:'lever',label:'Pull beacon lever',call:['HolmIslandLessons','pullLever'],option:'Pull',name:'Beacon lever',examine:'A heavy bronze lever that works the lamp.'},{prefix:'Lastlight_ServiceBeacon_',target:'beacon',label:'Beacon lamp',option:'Inspect',name:'Beacon lamp',examine:'The great lamp of Lastlight.'}]};
  // Roof cutaways, as each building's Sept 13 walking study proved them: roof hidden, upper parts above the
  // player's floor hidden, shell walls clipped just above the player while inside.
  var CUTAWAY={
@@ -108,7 +108,7 @@ var HolmIslandExtras=(function(){
    gltf.scene.parent.updateMatrixWorld(true);   // placed group first, so service boxes are in world space
    (SERVICES[b.id]||[]).forEach(function(s){
     var local=s.node||(b.graph.targets.filter(function(t){return t.id===s.target})[0]||{}).nodeId;need(local,b.id+' service '+s.label+' has no stance');
-    var info={building:b.id,target:s.target,node:'b:'+b.id+':'+local,call:s.call,label:s.label},box=new T.Box3();
+    var info={building:b.id,target:s.target,node:'b:'+b.id+':'+local,call:s.call,label:s.label,option:s.option,name:s.name,examine:s.examine},box=new T.Box3();   // option/name/examine: its old-school menu row (osrs_menu_world.js)
     // ladders: walk to this end's stance, then stand on the other end (measured climbs in the building graph)
     // ladders between buildings (quarry shaft <-> cavern): stand on the other end's measured target
     if(s.ladder){var L=(data.ladders||[]).filter(function(q){return q.id===s.ladder})[0];need(L,b.id+' ladder '+s.ladder+' is not listed');

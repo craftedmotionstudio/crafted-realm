@@ -328,11 +328,24 @@ html.osrs-kit .modal.steel button{border-radius:0;font:bold 12px var(--k-font);}
 html.osrs-kit .modal .close-x{width:20px;height:20px;line-height:18px;text-align:center;border-radius:0;color:#fff;font:bold 12px var(--k-font);
   background:var(--tex-stone-red,#6a2014);box-shadow:var(--k-bevel),0 0 0 1px var(--k-ink);}
 html.osrs-kit .big-grid .inv-slot,html.osrs-kit .big-grid>div{border-radius:0;}
-html.osrs-kit #ctx-menu{background:#5d5447;border:1px solid #000;border-radius:0;padding:0;box-shadow:none;font:12px var(--k-font);min-width:120px;}
-html.osrs-kit #ctx-menu .ctx-head{background:#000;color:#5d5447;font:bold 12px var(--k-font);padding:1px 4px 2px;border:0;border-radius:0;margin:1px;}
-html.osrs-kit #ctx-menu .ctx-row{padding:1px 4px 2px;background:transparent;font:bold 12px var(--k-font);color:#fff;text-shadow:var(--k-shadow);border:0;border-radius:0;}
-html.osrs-kit #ctx-menu .ctx-row *{font:inherit;}
-html.osrs-kit #ctx-menu .ctx-row:hover{background:transparent;color:#ffff00;}
+/* the old-school "Choose Option" menu (src/osrs_menu.js; ref Bible_References/Lighthouse_entrance.jpg): a dark box with a
+   thin stone border, a black title strip, one row per option; verb white, NPC yellow, object cyan, item orange, player
+   white; the hovered row lights up yellow; no animation */
+html.osrs-kit #ctx-menu,#ctx-menu.osrs-menu{background:rgba(40,36,27,.94);border:1px solid #5d5447;border-radius:3px;padding:0 0 2px;box-shadow:none;
+  font:bold 12px var(--k-font);min-width:0;width:max-content;max-width:min(440px,96vw);transition:none;animation:none;}
+html.osrs-kit #ctx-menu .ctx-head,#ctx-menu.osrs-menu .ctx-head{background:#000;color:#c8b596;font:bold 12px var(--k-font);padding:1px 5px 2px;
+  border:0;border-bottom:1px solid #5d5447;border-radius:2px 2px 0 0;margin:0 0 1px;letter-spacing:0;text-shadow:none;}
+html.osrs-kit #ctx-menu .ctx-rows,#ctx-menu.osrs-menu .ctx-rows,#ctx-menu.osrs-menu #ctx-rows{background:transparent;}
+html.osrs-kit #ctx-menu .ctx-row,#ctx-menu.osrs-menu .ctx-row{padding:0 5px 1px 4px;line-height:15px;background:transparent;font:bold 12px var(--k-font);color:#fff;
+  text-shadow:var(--k-shadow);border:0;border-radius:0;white-space:nowrap;cursor:pointer;}
+html.osrs-kit #ctx-menu .ctx-row *,#ctx-menu.osrs-menu .ctx-row *{font:inherit;}
+html.osrs-kit #ctx-menu .ctx-row b,#ctx-menu.osrs-menu .ctx-row b{color:#00ffff;}
+html.osrs-kit #ctx-menu .ctx-row:hover,html.osrs-kit #ctx-menu .ctx-row.om-hot,#ctx-menu.osrs-menu .ctx-row:hover,#ctx-menu.osrs-menu .ctx-row.om-hot{background:rgba(255,255,255,.07);color:#ffff00;}
+html.osrs-kit #ctx-menu .ctx-row:hover .om-v,html.osrs-kit #ctx-menu .ctx-row.om-hot .om-v,#ctx-menu.osrs-menu .ctx-row:hover .om-v,#ctx-menu.osrs-menu .ctx-row.om-hot .om-v{color:#ffff00!important;}
+/* "Enter amount:" (Withdraw-X / Deposit-X) over the chat box */
+.om-amount{position:absolute;left:8px;bottom:34px;z-index:70;padding:3px 8px;background:#000;border:1px solid #5d5447;color:#ffff00;font:bold 12px var(--k-font,'Verdana');text-shadow:var(--k-shadow,1px 1px 0 #000);}
+.om-amount input{width:90px;background:transparent;border:0;outline:0;color:#fff;font:inherit;text-shadow:inherit;}
+@media (pointer:coarse){html.osrs-kit #ctx-menu .ctx-row,#ctx-menu.osrs-menu .ctx-row{padding:7px 12px;line-height:18px;}}
 
 /* tutorial hint: a parchment scroll pinned in a stone frame */
 html.osrs-kit #objective.steel{padding:5px 18px 6px;background:var(--tex-parch,#d8ccb4);border-radius:0;
