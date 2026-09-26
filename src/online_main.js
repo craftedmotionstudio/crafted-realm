@@ -44,8 +44,13 @@ var OnlineMain=(function(){
  if(typeof Deeds!=='undefined')Deeds.check=function(){};
 
  /* ---------------- the presentation-only frame update ---------------- */
+ var lastRaf=0;
+ (function rafMark(){lastRaf=performance.now();requestAnimationFrame(rafMark)})();
  function onlineUpdate(dt){
   if(!st.entered){return}
+  // a hidden or occluded page is stepped by the game's timer heartbeat, which skips the combat layer: step it here so
+  // splats expire, bodies sink and their loot appears on time even while nobody is looking
+  if(performance.now()-lastRaf>250&&typeof CombatFX!=='undefined'&&CombatFX.update)CombatFX.update(dt);
   OnlineActors.frame(dt);
   OnlineFX.frame(dt);
   OW.tick(dt);
@@ -171,7 +176,7 @@ var OnlineMain=(function(){
   // other adventurers
   if(m.pl){
    (m.pl.del||[]).forEach(function(pid){A.removePlayer(pid)});
-   (m.pl.add||[]).forEach(function(s){A.addPlayer(s)});
+   (m.pl.add||[]).forEach(function(s){var e=A.addPlayer(s);if(e&&s.a)ev.anims.push({ent:e,a:s.a});if(e&&s.h)ev.hits.push({ent:e,h:s.h,hp:s.hp})});
    (m.pl.upd||[]).forEach(function(u){
     var e=A.players().get(u.i);if(!e)return;
     if(u.tele&&e.dead){e.dead=false;A.stopDeathClip(e)}
@@ -181,7 +186,7 @@ var OnlineMain=(function(){
   // monsters
   if(m.np){
    (m.np.del||[]).forEach(function(nid){A.removeNpc(nid)});
-   (m.np.add||[]).forEach(function(s){A.addNpc(s)});
+   (m.np.add||[]).forEach(function(s){var e=A.addNpc(s);if(e&&s.a)ev.anims.push({ent:e,a:s.a});if(e&&s.h)ev.hits.push({ent:e,h:s.h,hp:s.hp})});
    (m.np.upd||[]).forEach(function(u){var e=A.updateNpc(u);if(!e)return;if(u.a)ev.anims.push({ent:e,a:u.a});if(u.h)ev.hits.push({ent:e,h:u.h,hp:u.hp})});
   }
   // ground items

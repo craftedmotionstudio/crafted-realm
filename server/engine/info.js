@@ -19,9 +19,11 @@ function playerSnapshot(q, tick) {
   const s = { i: q.pid, nm: q.name, x: q.x, z: q.z, cb: q.combatLevel(), eq: q.appearance(), sk: q.skullUntil > tick ? 1 : 0, oh: q.overhead(), hp: hpPair(q), f: faceRef(q) };
   if (q.look) s.lk = q.look;                // W2: character-kit look
   if (q.dead) s.dd = 1;                     // W2: lying dead right now (a late viewer draws the body, not a live player)
-  return s;
+  return thisTick(q, s);
 }
-function npcSnapshot(n) { return { i: n.nid, ty: n.typeId, x: n.x, z: n.z, hp: hpPair(n), f: faceRef(n) }; }
+/** W2: an entity that comes into view in the middle of a swing (or a hit) carries this tick's animation and hits */
+function thisTick(e, s) { if (e.anim) s.a = e.anim; if (e.hits.length) s.h = e.hits.map((h) => [h.amount, h.type]); return s; }
+function npcSnapshot(n) { return thisTick(n, { i: n.nid, ty: n.typeId, x: n.x, z: n.z, hp: hpPair(n), f: faceRef(n) }); }
 
 /** movement + masks shared by player and npc updates; returns null when nothing changed */
 function commonUpdate(e, id) {
