@@ -141,8 +141,14 @@ class WsServer {
     this.sessions = new Set();
     this.http = http.createServer((req, res) => {
       if (req.url === '/health') {
-        res.writeHead(200, { 'content-type': 'application/json' });
+        res.writeHead(200, { 'content-type': 'application/json', 'access-control-allow-origin': '*' });
         res.end(JSON.stringify({ ok: true, tick: this.world.tick, players: this.world.playerCount, cycleMs: this.world.stats.lastCycleMs }));
+        return;
+      }
+      // W2: the static map (terrain, collision, areas, decor) so a client can build the world before logging in
+      if (req.url === '/map') {
+        res.writeHead(200, { 'content-type': 'application/json', 'access-control-allow-origin': '*', 'cache-control': 'no-cache' });
+        res.end(this.mapJson || (this.mapJson = JSON.stringify(WsServer.publicMap(this.world.map))));
         return;
       }
       res.writeHead(404); res.end();
@@ -167,5 +173,7 @@ class WsServer {
   }
 }
 
+/** the map as clients see it: everything but the monster spawn table (NPCs arrive in the ticks) */
+WsServer.publicMap = function (map) { const out = Object.assign({}, map); delete out.spawns; if (out.alpha) { out.alpha = Object.assign({}, out.alpha); delete out.alpha.about; } return out; };
 WsServer.Session = Session;
 module.exports = WsServer;
