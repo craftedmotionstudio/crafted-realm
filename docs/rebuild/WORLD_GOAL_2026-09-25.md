@@ -71,6 +71,11 @@ Our Three.js client and a mobile client speak JSON over WebSocket to our server.
       weighted drops, respawns, aggression; server-owned.
 - [ ] **W4 Skills to 19**: add Crafting, Herblore, Agility, Runecrafting to the existing 15; every skill has a
       place to train in the slice and an early ladder of items.
+- [ ] **W4b Equipment and progression** (owner 2026-09-26: "once we lock in the characters we're going to need to build
+      out all the weapons, all the armor, the animations, and realistic progression for creating and obtaining the
+      different classes of armor"): every metal tier (copper → undercrag) as weapons and armour families in Blender on
+      the locked body, per-weapon-category attack animations, and a believable ladder to get each tier (mining +
+      smelting + smithing levels, monster drops, shops, quest rewards), balanced with the combat grade tables.
 - [ ] **W5 Storyline**: the STORY_BIBLE arc as a quest chain from the Holm to the Scarlands (our own names and
       text), 5 launch quests, quest journal, rewards.
 - [ ] **W6 Mobile**: touch HUD, tap-to-walk/long-press menus, installable PWA, phone performance budget.
@@ -91,6 +96,11 @@ Our Three.js client and a mobile client speak JSON over WebSocket to our server.
 3. Mobile store release (default: installable web app first, native wrapper later).
 
 ## Log
+
+- 2026-09-26 owner review: login art like the 2004 login (stone hall, braziers, carved-stone logo, stone box; our own
+  design); world still "too polished" (measured: ground ~25% too light, foliage textures 10-15x busier than the refs)
+  -> look pass 2 + optional classic-pixel render; characters must stand upright/vertical like OSRS (kit v3.1) and all
+  emotes must work; stance locked before the armour refit; then W4b equipment and progression.
 
 - 2026-09-25: goal opened from the owner's direction; surveys of the codebase and 2004scape done; W0 characters
   v3.0 and interface agents started in worktrees (CraftedRealms-Chars, CraftedRealms-UI2); W1 server/combat agent
