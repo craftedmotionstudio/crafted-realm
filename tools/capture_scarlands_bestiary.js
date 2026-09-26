@@ -6,7 +6,7 @@
 const fs = require('fs'), path = require('path'), puppeteer = require('puppeteer-core');
 const TAG = process.env.BV_TAG || 'capture', OUT = path.join(__dirname, '..', 'scratchpad', 'scarlands_bestiary_v1', TAG);
 fs.mkdirSync(OUT, { recursive: true });
-const BASE = (process.env.SMOKE_BASE || 'http://127.0.0.1:8777') + '/tools/scarlands_bestiary_view.html?clean=1' + (process.env.BV_MANIFEST ? '&manifest=' + process.env.BV_MANIFEST : '');
+const BASE = (process.env.SMOKE_BASE || 'http://127.0.0.1:8777') + '/tools/scarlands_bestiary_view.html?clean=1&manifest=' + (process.env.BV_MANIFEST || '../.studio-workspaces/scarlands-bestiary-v1/candidates/manifest.json');
 const MAN = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '.studio-workspaces/scarlands-bestiary-v1/candidates/manifest.json'), 'utf8'));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 (async () => {

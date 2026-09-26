@@ -1,0 +1,1026 @@
+{
+ "schema": "crafted-realm-scarlands-bestiary-v1",
+ "version": 1,
+ "name": "The Scarlands bestiary v1",
+ "about": "Six Scarlands foes: our own low-poly Blender designs, rigged and animated for three.js r128 (one GLB each). Humanoids share the character kit v3.0 rig and clips; beasts have their own rigs.",
+ "conventions": {
+  "axes": "glTF +Y up, +Z forward (the character kit convention), 1 unit = 1 m = 1 tile, feet on y = 0, model origin = the centre of its tile footprint",
+  "clips": "glTF animations named idle, walk, attack, hit, death (+ block / shoot / cast / breath); frames at 30 fps; loop flags as listed. Play non-looping clips with LoopOnce + clampWhenFinished; death holds its last frame",
+  "events": "impact = the frame the hit lands (melee: show the hitsplat); release = the frame the projectile leaves (ranged/magic); until = the last frame of a sustained breath",
+  "walk": "clips are in place; the server moves the NPC one tile per 600 ms tick (1.67 m/s); play walk at timeScale = speed / walk_speed_mps",
+  "materials": "colours are display values (the game renders without colour management): colour maps LinearEncoding + NearestFilter, roughness 1, metalness 0; glow materials are emissive",
+  "stats": "npcType = a suggested src/game1_data.js NPC_TYPES entry; stats.maxHit / attackStyle are computed with shared/combat.js (the server rules); drops = a draft in server/data/drops.json format"
+ },
+ "creatures": [
+  {
+   "id": "cinder_rat",
+   "name": "Cinder rat",
+   "examine": "A scorched scavenger that never travels alone. Its singed fur still smoulders.",
+   "role": "weak aggressive pack creature (spawn 3-5 together, first thing north of the Ditch)",
+   "wildernessLevels": [
+    1,
+    4
+   ],
+   "pack": {
+    "min": 3,
+    "max": 5,
+    "leash": 5
+   },
+   "model": {
+    "file": "cinder_rat.glb",
+    "sha256": "31e920ca6d8325c6b32b05c5ab343bbbc346b317568476d8d742a5a1053c8190",
+    "bytes": 198992,
+    "triangles": 847,
+    "height_m": 0.41,
+    "length_m": 1.131,
+    "rig": "own rig (22 bones, Root at the ground)",
+    "walk_speed_mps": 1.67,
+    "anchors": {
+     "mouth": {
+      "bone": "Head",
+      "rest_gltf": [
+       0,
+       0.2,
+       0.43
+      ],
+      "note": "rest-pose model-space point (glTF axes) riding this bone: spawn bites / breath there"
+     }
+    }
+   },
+   "clips": {
+    "idle": {
+     "frames": 60,
+     "fps": 30,
+     "loop": true
+    },
+    "walk": {
+     "frames": 12,
+     "fps": 30,
+     "loop": true
+    },
+    "attack": {
+     "frames": 12,
+     "fps": 30,
+     "loop": false,
+     "impact": 5
+    },
+    "hit": {
+     "frames": 10,
+     "fps": 30,
+     "loop": false
+    },
+    "death": {
+     "frames": 24,
+     "fps": 30,
+     "loop": false
+    }
+   },
+   "stats": {
+    "level": 7,
+    "hitpoints": 12,
+    "attack": 7,
+    "strength": 6,
+    "defence": 4,
+    "ranged": 7,
+    "magic": null,
+    "attackStyle": "stab",
+    "attackSpeedTicks": 4,
+    "attackSpeedSeconds": 2.4,
+    "attackRange": 1,
+    "maxHit": 2,
+    "aggressive": true,
+    "respawnSeconds": 12,
+    "sizeTiles": 1
+   },
+   "npcType": {
+    "name": "Cinder rat",
+    "level": 7,
+    "hp": 12,
+    "att": 7,
+    "str": 6,
+    "def": 4,
+    "aBonus": 3,
+    "sBonus": 4,
+    "dBonus": 2,
+    "dStab": 2,
+    "dSlash": 1,
+    "dCrush": 4,
+    "dRanged": 2,
+    "dMagic": 0,
+    "atype": "stab",
+    "speedTicks": 4,
+    "aggro": true,
+    "respawn": 12,
+    "size": 1,
+    "model": "cinder_rat"
+   },
+   "attacks": [
+    {
+     "clip": "attack",
+     "type": "stab",
+     "range": 1
+    }
+   ],
+   "projectile": null,
+   "drops": {
+    "always": [
+     {
+      "item": "bones",
+      "qty": 1
+     }
+    ],
+    "rolls": 128,
+    "main": [
+     {
+      "w": 40,
+      "item": "coins",
+      "qty": [
+       3,
+       15
+      ]
+     },
+     {
+      "w": 24,
+      "item": "ashes",
+      "qty": 1
+     },
+     {
+      "w": 10,
+      "item": "fire_rune",
+      "qty": [
+       2,
+       5
+      ]
+     }
+    ]
+   },
+   "dropMainWeight": "74 / 128"
+  },
+  {
+   "id": "scar_skeleton",
+   "name": "Scar skeleton",
+   "examine": "The Scarlands burned the flesh away and left the grudge. A thrust slides between its ribs; a blow shatters it.",
+   "role": "melee (sword and shield), the common undead of the ruins",
+   "wildernessLevels": [
+    3,
+    9
+   ],
+   "pack": null,
+   "model": {
+    "file": "scar_skeleton.glb",
+    "sha256": "9e83cb978a2e2a94e85e02275acd33741844d5202691704db5850486bfba6c0d",
+    "bytes": 476008,
+    "triangles": 2362,
+    "height_m": 1.925,
+    "length_m": null,
+    "rig": "kit v3.0 (23 mixamorig bones, glTF +Z forward)",
+    "walk_speed_mps": 1.67,
+    "anchors": null
+   },
+   "clips": {
+    "idle": {
+     "frames": 60,
+     "fps": 30,
+     "loop": true,
+     "from": "idle"
+    },
+    "walk": {
+     "frames": 15,
+     "fps": 30,
+     "loop": true,
+     "from": "walk"
+    },
+    "attack": {
+     "frames": 18,
+     "fps": 30,
+     "loop": false,
+     "from": "attack_slash",
+     "impact": 9
+    },
+    "hit": {
+     "frames": 12,
+     "fps": 30,
+     "loop": false,
+     "from": "hit"
+    },
+    "death": {
+     "frames": 40,
+     "fps": 30,
+     "loop": false,
+     "from": "death"
+    },
+    "block": {
+     "frames": 12,
+     "fps": 30,
+     "loop": false,
+     "from": "block"
+    }
+   },
+   "stats": {
+    "level": 22,
+    "hitpoints": 34,
+    "attack": 20,
+    "strength": 18,
+    "defence": 20,
+    "ranged": 20,
+    "magic": null,
+    "attackStyle": "slash",
+    "attackSpeedTicks": 4,
+    "attackSpeedSeconds": 2.4,
+    "attackRange": 1,
+    "maxHit": 3,
+    "aggressive": true,
+    "respawnSeconds": 25,
+    "sizeTiles": 1
+   },
+   "npcType": {
+    "name": "Scar skeleton",
+    "level": 22,
+    "hp": 34,
+    "att": 20,
+    "str": 18,
+    "def": 20,
+    "aBonus": 12,
+    "sBonus": 11,
+    "dBonus": 12,
+    "dStab": 6,
+    "dSlash": 14,
+    "dCrush": 2,
+    "dRanged": 18,
+    "dMagic": 8,
+    "atype": "slash",
+    "speedTicks": 4,
+    "aggro": true,
+    "respawn": 25,
+    "size": 1,
+    "model": "scar_skeleton"
+   },
+   "attacks": [
+    {
+     "clip": "attack",
+     "type": "slash",
+     "range": 1
+    }
+   ],
+   "projectile": null,
+   "drops": {
+    "always": [
+     {
+      "item": "bones",
+      "qty": 1
+     }
+    ],
+    "rolls": 128,
+    "main": [
+     {
+      "w": 46,
+      "item": "coins",
+      "qty": [
+       20,
+       60
+      ]
+     },
+     {
+      "w": 14,
+      "item": "mind_rune",
+      "qty": [
+       3,
+       8
+      ]
+     },
+     {
+      "w": 12,
+      "item": "chaos_rune",
+      "qty": [
+       2,
+       5
+      ]
+     },
+     {
+      "w": 6,
+      "item": "iron_sword",
+      "qty": 1
+     },
+     {
+      "w": 6,
+      "item": "iron_medhelm",
+      "qty": 1
+     },
+     {
+      "w": 4,
+      "item": "iron_sqshield",
+      "qty": 1
+     },
+     {
+      "w": 3,
+      "table": "scar_rare"
+     }
+    ]
+   },
+   "dropMainWeight": "91 / 128"
+  },
+  {
+   "id": "scar_raider_archer",
+   "name": "Ash raider",
+   "examine": "A northern raider who learned to shoot from behind the ruins. Heavy armour turns its arrows.",
+   "role": "ranged (short bow) raider, guards the camps; keeps its distance",
+   "wildernessLevels": [
+    5,
+    12
+   ],
+   "pack": null,
+   "model": {
+    "file": "scar_raider_archer.glb",
+    "sha256": "f82c17fe8c0e6cff98e3e75f6f6e270e578587bdb28b56e972d65621a1f2d42c",
+    "bytes": 513328,
+    "triangles": 3564,
+    "height_m": 1.876,
+    "length_m": null,
+    "rig": "kit v3.0 (23 mixamorig bones, glTF +Z forward)",
+    "walk_speed_mps": 1.67,
+    "anchors": null
+   },
+   "clips": {
+    "idle": {
+     "frames": 60,
+     "fps": 30,
+     "loop": true,
+     "from": "idle"
+    },
+    "walk": {
+     "frames": 15,
+     "fps": 30,
+     "loop": true,
+     "from": "walk"
+    },
+    "attack": {
+     "frames": 36,
+     "fps": 30,
+     "loop": false,
+     "from": "bow",
+     "release": 26
+    },
+    "hit": {
+     "frames": 12,
+     "fps": 30,
+     "loop": false,
+     "from": "hit"
+    },
+    "death": {
+     "frames": 40,
+     "fps": 30,
+     "loop": false,
+     "from": "death"
+    },
+    "shoot": {
+     "frames": 36,
+     "fps": 30,
+     "loop": false,
+     "from": "bow",
+     "release": 26
+    }
+   },
+   "stats": {
+    "level": 26,
+    "hitpoints": 36,
+    "attack": 14,
+    "strength": 14,
+    "defence": 18,
+    "ranged": 30,
+    "magic": null,
+    "attackStyle": "ranged",
+    "attackSpeedTicks": 5,
+    "attackSpeedSeconds": 3,
+    "attackRange": 7,
+    "maxHit": 5,
+    "aggressive": true,
+    "respawnSeconds": 30,
+    "sizeTiles": 1
+   },
+   "npcType": {
+    "name": "Ash raider",
+    "level": 26,
+    "hp": 36,
+    "att": 14,
+    "str": 14,
+    "def": 18,
+    "rng": 30,
+    "aBonus": 18,
+    "sBonus": 14,
+    "dBonus": 12,
+    "dStab": 10,
+    "dSlash": 12,
+    "dCrush": 10,
+    "dRanged": 16,
+    "dMagic": 8,
+    "ranged": "arrow",
+    "attackRange": 7,
+    "speedTicks": 5,
+    "aggro": true,
+    "respawn": 30,
+    "size": 1,
+    "humanoid": true,
+    "model": "scar_raider_archer"
+   },
+   "attacks": [
+    {
+     "clip": "attack",
+     "type": "ranged",
+     "range": 7
+    }
+   ],
+   "projectile": {
+    "kind": "arrow",
+    "fromBone": "LeftHand",
+    "note": "release on the clip's release frame; flight time as the server's npc ranged hit delay"
+   },
+   "drops": {
+    "always": [
+     {
+      "item": "bones",
+      "qty": 1
+     }
+    ],
+    "rolls": 128,
+    "main": [
+     {
+      "w": 44,
+      "item": "coins",
+      "qty": [
+       30,
+       90
+      ]
+     },
+     {
+      "w": 30,
+      "item": "arrows",
+      "qty": [
+       8,
+       20
+      ]
+     },
+     {
+      "w": 6,
+      "item": "leather_body",
+      "qty": 1
+     },
+     {
+      "w": 6,
+      "item": "leather_chaps",
+      "qty": 1
+     },
+     {
+      "w": 4,
+      "item": "ash_bow",
+      "qty": 1
+     },
+     {
+      "w": 1,
+      "item": "gale_longbow",
+      "qty": 1
+     },
+     {
+      "w": 4,
+      "table": "scar_rare"
+     }
+    ]
+   },
+   "dropMainWeight": "95 / 128"
+  },
+  {
+   "id": "ember_mage",
+   "name": "Ember mage",
+   "examine": "A robed caster who feeds on what the fire left. Arrows find it easily.",
+   "role": "magic (ember bolt) caster, the ruins and the deep camps",
+   "wildernessLevels": [
+    6,
+    14
+   ],
+   "pack": null,
+   "model": {
+    "file": "ember_mage.glb",
+    "sha256": "1765bcb80bf13ba271fb2bea9f47321f09829b217399f64d3cc1664bce39a157",
+    "bytes": 453608,
+    "triangles": 3181,
+    "height_m": 2.074,
+    "length_m": null,
+    "rig": "kit v3.0 (23 mixamorig bones, glTF +Z forward)",
+    "walk_speed_mps": 1.67,
+    "anchors": null
+   },
+   "clips": {
+    "idle": {
+     "frames": 60,
+     "fps": 30,
+     "loop": true,
+     "from": "idle"
+    },
+    "walk": {
+     "frames": 15,
+     "fps": 30,
+     "loop": true,
+     "from": "walk"
+    },
+    "attack": {
+     "frames": 30,
+     "fps": 30,
+     "loop": false,
+     "from": "cast",
+     "release": 14
+    },
+    "hit": {
+     "frames": 12,
+     "fps": 30,
+     "loop": false,
+     "from": "hit"
+    },
+    "death": {
+     "frames": 40,
+     "fps": 30,
+     "loop": false,
+     "from": "death"
+    },
+    "cast": {
+     "frames": 30,
+     "fps": 30,
+     "loop": false,
+     "from": "cast",
+     "release": 14
+    }
+   },
+   "stats": {
+    "level": 30,
+    "hitpoints": 40,
+    "attack": 10,
+    "strength": 8,
+    "defence": 16,
+    "ranged": 10,
+    "magic": 34,
+    "attackStyle": "magic",
+    "attackSpeedTicks": 5,
+    "attackSpeedSeconds": 3,
+    "attackRange": 7,
+    "maxHit": 6,
+    "aggressive": true,
+    "respawnSeconds": 30,
+    "sizeTiles": 1
+   },
+   "npcType": {
+    "name": "Ember mage",
+    "level": 30,
+    "hp": 40,
+    "att": 10,
+    "str": 8,
+    "def": 16,
+    "mag": 34,
+    "magicAttack": 22,
+    "maxHit": 6,
+    "aBonus": 6,
+    "sBonus": 0,
+    "dBonus": 10,
+    "dStab": 8,
+    "dSlash": 10,
+    "dCrush": 8,
+    "dRanged": 4,
+    "dMagic": 26,
+    "ranged": true,
+    "attackRange": 7,
+    "speedTicks": 5,
+    "aggro": true,
+    "respawn": 30,
+    "size": 1,
+    "humanoid": true,
+    "model": "ember_mage"
+   },
+   "attacks": [
+    {
+     "clip": "attack",
+     "type": "magic",
+     "range": 7
+    }
+   ],
+   "projectile": {
+    "kind": "ember_bolt",
+    "fromBone": "RightHand",
+    "note": "a small orange fire bolt; release on the clip's release frame"
+   },
+   "drops": {
+    "always": [
+     {
+      "item": "bones",
+      "qty": 1
+     }
+    ],
+    "rolls": 128,
+    "main": [
+     {
+      "w": 40,
+      "item": "coins",
+      "qty": [
+       40,
+       100
+      ]
+     },
+     {
+      "w": 24,
+      "item": "fire_rune",
+      "qty": [
+       10,
+       25
+      ]
+     },
+     {
+      "w": 16,
+      "item": "chaos_rune",
+      "qty": [
+       3,
+       8
+      ]
+     },
+     {
+      "w": 3,
+      "item": "ember_staff",
+      "qty": 1
+     },
+     {
+      "w": 3,
+      "item": "glimmer_hat",
+      "qty": 1
+     },
+     {
+      "w": 1,
+      "item": "amulet_of_warding",
+      "qty": 1
+     },
+     {
+      "w": 5,
+      "table": "scar_rare"
+     }
+    ]
+   },
+   "dropMainWeight": "92 / 128"
+  },
+  {
+   "id": "ash_stalker",
+   "name": "Ash stalker",
+   "examine": "It hunts where the land burned. Slag-plated hide turns aside blunt force — find the gap with a point.",
+   "role": "fast melee hound (existing NPC_TYPES entry, level 38): the model for it",
+   "wildernessLevels": [
+    8,
+    16
+   ],
+   "pack": null,
+   "model": {
+    "file": "ash_stalker.glb",
+    "sha256": "a20e19b70489cb83182b72738f64d23c2c59d462a7c7537f01390ec9a7d31f92",
+    "bytes": 226460,
+    "triangles": 892,
+    "height_m": 1.326,
+    "length_m": 2.473,
+    "rig": "own rig (22 bones, Root at the ground)",
+    "walk_speed_mps": 1.67,
+    "anchors": {
+     "mouth": {
+      "bone": "Head",
+      "rest_gltf": [
+       0,
+       1.03,
+       1.13
+      ],
+      "note": "rest-pose model-space point (glTF axes) riding this bone: spawn bites / breath there"
+     }
+    }
+   },
+   "clips": {
+    "idle": {
+     "frames": 60,
+     "fps": 30,
+     "loop": true
+    },
+    "walk": {
+     "frames": 18,
+     "fps": 30,
+     "loop": true
+    },
+    "attack": {
+     "frames": 18,
+     "fps": 30,
+     "loop": false,
+     "impact": 8
+    },
+    "hit": {
+     "frames": 12,
+     "fps": 30,
+     "loop": false
+    },
+    "death": {
+     "frames": 36,
+     "fps": 30,
+     "loop": false
+    }
+   },
+   "stats": {
+    "level": 38,
+    "hitpoints": 70,
+    "attack": 36,
+    "strength": 34,
+    "defence": 30,
+    "ranged": 36,
+    "magic": null,
+    "attackStyle": "stab",
+    "attackSpeedTicks": 4,
+    "attackSpeedSeconds": 2.4,
+    "attackRange": 1,
+    "maxHit": 6,
+    "aggressive": true,
+    "respawnSeconds": 40,
+    "sizeTiles": 1
+   },
+   "npcType": {
+    "existing": true,
+    "changes": {
+     "atype": "stab",
+     "model": "ash_stalker",
+     "note": "stats unchanged; its attack is a bite (stab). Optional: speedTicks 3 if it should out-pace players, as a fast hound"
+    }
+   },
+   "attacks": [
+    {
+     "clip": "attack",
+     "type": "stab",
+     "range": 1
+    }
+   ],
+   "projectile": null,
+   "drops": {
+    "always": [
+     {
+      "item": "bones",
+      "qty": 1
+     },
+     {
+      "item": "beast_hide",
+      "qty": 1
+     }
+    ],
+    "rolls": 128,
+    "main": [
+     {
+      "w": 50,
+      "item": "coins",
+      "qty": [
+       90,
+       220
+      ]
+     },
+     {
+      "w": 6,
+      "item": "aurel_platebody",
+      "qty": 1
+     },
+     {
+      "w": 4,
+      "item": "gale_longbow",
+      "qty": 1
+     },
+     {
+      "w": 2,
+      "item": "veyrite_sword",
+      "qty": 1
+     },
+     {
+      "w": 6,
+      "table": "scar_rare"
+     }
+    ],
+    "tertiary": [
+     {
+      "num": 1,
+      "den": 48,
+      "item": "stalker_fang",
+      "qty": 1,
+      "proposed": true
+     }
+    ]
+   },
+   "dropMainWeight": "68 / 128"
+  },
+  {
+   "id": "cinder_wyrmling",
+   "name": "Cinder wyrmling",
+   "examine": "A young fire drake of the deep Scarlands. Its slag scales shrug off blunt blows; stay out of its breath.",
+   "role": "the deep-end brute (2x2 tiles): bites and claws up close, breathes fire at range every third attack",
+   "wildernessLevels": [
+    14,
+    20
+   ],
+   "pack": null,
+   "model": {
+    "file": "cinder_wyrmling.glb",
+    "sha256": "01c3d051df47c357c250761d62d1d44eddf7e620f36e8e3fcea10b2a4bf5cfe9",
+    "bytes": 299820,
+    "triangles": 1104,
+    "height_m": 2.099,
+    "length_m": 4.941,
+    "rig": "own rig (28 bones, Root at the ground)",
+    "walk_speed_mps": 1.67,
+    "anchors": {
+     "mouth": {
+      "bone": "Head",
+      "rest_gltf": [
+       0,
+       1.6,
+       1.98
+      ],
+      "note": "rest-pose model-space point (glTF axes) riding this bone: spawn bites / breath there"
+     }
+    }
+   },
+   "clips": {
+    "idle": {
+     "frames": 72,
+     "fps": 30,
+     "loop": true
+    },
+    "walk": {
+     "frames": 24,
+     "fps": 30,
+     "loop": true
+    },
+    "attack": {
+     "frames": 24,
+     "fps": 30,
+     "loop": false,
+     "impact": 11
+    },
+    "breath": {
+     "frames": 36,
+     "fps": 30,
+     "loop": false,
+     "release": 16,
+     "until": 26
+    },
+    "hit": {
+     "frames": 14,
+     "fps": 30,
+     "loop": false
+    },
+    "death": {
+     "frames": 48,
+     "fps": 30,
+     "loop": false
+    }
+   },
+   "stats": {
+    "level": 56,
+    "hitpoints": 120,
+    "attack": 48,
+    "strength": 46,
+    "defence": 42,
+    "ranged": 48,
+    "magic": 50,
+    "attackStyle": "slash",
+    "attackSpeedTicks": 5,
+    "attackSpeedSeconds": 3,
+    "attackRange": 1,
+    "maxHit": 8,
+    "aggressive": true,
+    "respawnSeconds": 90,
+    "sizeTiles": 2
+   },
+   "npcType": {
+    "name": "Cinder wyrmling",
+    "level": 56,
+    "hp": 120,
+    "att": 48,
+    "str": 46,
+    "def": 42,
+    "mag": 50,
+    "magicAttack": 24,
+    "aBonus": 22,
+    "sBonus": 24,
+    "dBonus": 28,
+    "dStab": 30,
+    "dSlash": 34,
+    "dCrush": 40,
+    "dRanged": 30,
+    "dMagic": 20,
+    "atype": "slash",
+    "speedTicks": 5,
+    "aggro": true,
+    "respawn": 90,
+    "size": 2,
+    "boss": false,
+    "model": "cinder_wyrmling"
+   },
+   "attacks": [
+    {
+     "clip": "attack",
+     "type": "slash",
+     "range": 1,
+     "maxHitFormula": true
+    },
+    {
+     "clip": "breath",
+     "type": "magic",
+     "range": 5,
+     "maxHit": 14,
+     "every": 3,
+     "note": "needs a small NPC script (like the ash wyrm's) to alternate; blocked fully by Protect from Magic like any NPC magic"
+    }
+   ],
+   "projectile": null,
+   "drops": {
+    "always": [
+     {
+      "item": "big_bones",
+      "qty": 1
+     },
+     {
+      "item": "ashes",
+      "qty": 1
+     }
+    ],
+    "rolls": 128,
+    "main": [
+     {
+      "w": 40,
+      "item": "coins",
+      "qty": [
+       250,
+       600
+      ]
+     },
+     {
+      "w": 20,
+      "item": "fire_rune",
+      "qty": [
+       30,
+       60
+      ]
+     },
+     {
+      "w": 14,
+      "item": "chaos_rune",
+      "qty": [
+       8,
+       20
+      ]
+     },
+     {
+      "w": 5,
+      "item": "aurel_sword",
+      "qty": 1
+     },
+     {
+      "w": 4,
+      "item": "aurel_platelegs",
+      "qty": 1
+     },
+     {
+      "w": 2,
+      "item": "veyrite_sword",
+      "qty": 1
+     },
+     {
+      "w": 2,
+      "item": "veyrite_medhelm",
+      "qty": 1
+     },
+     {
+      "w": 12,
+      "table": "scar_rare"
+     }
+    ],
+    "tertiary": [
+     {
+      "num": 1,
+      "den": 24,
+      "item": "wyrmling_scale",
+      "qty": 1,
+      "proposed": true
+     }
+    ]
+   },
+   "dropMainWeight": "99 / 128"
+  }
+ ],
+ "itemSuggestions": [
+  {
+   "id": "stalker_fang",
+   "name": "Stalker fang",
+   "examine": "Still hot from the hunt.",
+   "stack": false,
+   "value": 180,
+   "use": "crafting: an amulet string or a bone dagger (a later Crafting design)"
+  },
+  {
+   "id": "wyrmling_scale",
+   "name": "Wyrmling scale",
+   "examine": "A plate of cooled slag, light as bark.",
+   "stack": true,
+   "value": 400,
+   "use": "smithing/crafting: a fire-resistant shield (a later design)"
+  }
+ ]
+}

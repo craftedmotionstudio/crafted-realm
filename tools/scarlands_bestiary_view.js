@@ -2,11 +2,12 @@
  * GLTFLoader, AnimationMixer, colours as display values, colour maps LinearEncoding + NearestFilter, the game's
  * hemisphere + sun light), and poses any clip at any frame for review sheets.
  * API (captures): bvReady, bvList(), bvShow(ids, opts), bvPose(id, clip, frame), bvView({yaw, pitch, dist, target, fov}),
- * bvStats(). Open: /tools/scarlands_bestiary_view.html[?manifest=<bestiary manifest>] */
+ * bvStats(). Open: /tools/scarlands_bestiary_view.html[?manifest=<bestiary manifest>] (default: the published
+ * assets/scarlands/bestiary-v1/manifest.json; captures pass the workspace candidates) */
 (function(){
  'use strict';
  var qs = new URLSearchParams(location.search);
- var MANIFEST = qs.get('manifest') || '../.studio-workspaces/scarlands-bestiary-v1/candidates/manifest.json';
+ var MANIFEST = qs.get('manifest') || '../assets/scarlands/bestiary-v1/manifest.json';
  var REF = qs.get('ref') || '../.studio-workspaces/holm-characters-v30/candidates/bram.glb';
  var hud = document.getElementById('hud'); if (qs.get('clean')) hud.style.display = 'none';
  var renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
@@ -57,7 +58,8 @@
  fetch(MANIFEST, { cache: 'no-store' }).then(function(r){ return r.json(); }).then(function(man){
    var base = MANIFEST.replace(/[^/]*$/, '');
    var jobs = man.creatures.map(function(c){ return load(base + c.model.file).then(function(g){ add(c.id, g, c); }); });
-   jobs.push(load(REF).then(function(g){ add('player_ref', g, { id: 'player_ref', name: 'player-sized human (kit v3.0)' }); }).catch(function(){}));
+   jobs.push(load(REF).catch(function(){ return load('../assets/models/holm_tutor_bram_v2.glb'); })
+     .then(function(g){ add('player_ref', g, { id: 'player_ref', name: 'player-sized human (kit v3.0)' }); }).catch(function(){}));
    return Promise.all(jobs).then(function(){ hud.textContent = 'Scarlands bestiary - ' + man.creatures.length + ' creatures'; render(); window.bvReady = true; });
  }).catch(function(e){ hud.textContent = 'ERROR ' + e.message; window.bvError = String(e); console.error(e); });
 })();

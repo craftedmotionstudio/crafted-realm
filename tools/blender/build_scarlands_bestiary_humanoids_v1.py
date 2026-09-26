@@ -185,8 +185,8 @@ def skeleton_parts(mb):
         fh, ft = P[B(s + 'Foot')]
         mb.box(tuple(fh + Vector((0, 0, -.045))), (.07, .07, .05), 'SK_BONE', B(s + 'Foot'))
         tt, te = P[B(s + 'ToeBase')]
-        mb.box(tuple(fh.lerp(tt, .5) + Vector((0, 0, -.07))), (.09, .14, .03), 'SK_BONE', B(s + 'Foot'), taper=.8)
-        mb.box(tuple(tt + Vector((0, -.04, -.08))), (.09, .08, .025), 'SK_SOOT', B(s + 'ToeBase'))
+        mb.box(tuple(fh.lerp(tt, .5) + Vector((0, 0, -.058))), (.09, .14, .03), 'SK_BONE', B(s + 'Foot'), taper=.8)
+        mb.box(tuple(tt + Vector((0, -.04, -.0175))), (.09, .08, .025), 'SK_SOOT', B(s + 'ToeBase'))   # toes on the ground, not 6 cm under it
     # spine: vertebrae as small blocks from the pelvis to the neck
     for bone in ('Spine', 'Spine1', 'Spine2', 'Neck'):
         h, t = P[B(bone)]
