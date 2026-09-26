@@ -225,3 +225,72 @@ their projectiles; ember mage: 5 bolts, all tied; cinder wyrmling (2x2): 7 melee
 bestiary merge lands, criterion 17 has its ranged and magic monsters and a boss-like foe with a telegraphed breath.
 Note for the bestiary: the wyrmling's head reaches over the adjacent tile (the model is about 3.5 tiles long on a 2x2
 footprint), so it covers a melee fighter standing north of it.
+
+---
+
+## Pass 4 (2026-09-26, full run after the pass 3 fixes, plus a focused re-run)
+
+Runs: `online_evidence/pass4/` (all 20 scenarios, 4721 ticks, three pages, report + `run.log`, strips, screens) and
+`online_evidence/pass4b/` (`--only pvp-melee,pvp-ranged-vs-melee,pvp-reconnect` after the one fix below).
+Review captures refreshed: `online_evidence/review/` (combat tab per kit, the special orb, kept on death, the Ditch
+warning and crossings, the attack menu).
+
+**Pass 4: 19 of 20 passed.** The one failure: in `pvp-reconnect` the page that dropped and re-attached showed 17 of its
+own blows untimed (the observer's 78 were all timed). A client re-attached mid-fight did not know whom it was fighting
+(the server only says so when the target changes), so its own swings had no target to time against. Fixed: the welcome
+carries `f` (`server/engine/World.js`, test in `server/test/online_w2.test.js`), the client starts from it.
+**Pass 4b: 3 of 3 passed**, the reconnected page 128 of 128 splats timed.
+
+Measured (pass 4, `report.measured`):
+
+- **Accuracy (live):** 1185 rolls, 472.7 hits expected, 454 observed: z = -1.11 (pass 2: z = -0.3 over 1232).
+- **Damage 0..max:** chi-square 10.8 / 5.8 / 8.4 / 7.3 / 4.2 on 4 / 6 / 7 / 8 / 10 degrees of freedom (max 4, 6, 7, 8,
+  10). Max 4 sits at p = 0.03, one table in five; 100,000 draws of the same roll on the server's RNG give 3.2 / 2.8 /
+  9.4 / 7.1 / 13.9, uniform.
+- **Attack speed (server swings):** steel longsword 5 ticks (354 of 379 gaps; the others 8 and 11 = one or two bites),
+  gale longbow on rapid 5 (321/346), storm staff 5 (265/287), monsters 4 (107/107) and 5 (17/17).
+- **Projectile hit delays:** 483 of 483 arrow and spell hits on the tick the client's landing rule predicts.
+- **Every splat tied:** 1777 splats over three pages, 927 on a projectile, 419 on a same-tick swing, 414 on a next-tick
+  swing; 17 untimed, all on the re-attached page (fixed, 0 of 617 in pass 4b); **0 late**.
+- **Splats = server hits** on the attacker's, the defender's and the observer's page in all 10 duels (the re-attached
+  page misses only the hits of the moment it was offline: 37 of 38).
+- **No desyncs:** every page agreed with the server on every tile and hitpoints after every fight; movement backlog at
+  most 4 steps, 0 catch-up sprints, on all three pages over 4721 ticks.
+- **Loot:** every duel's pile reached the winner's pack (the observer never saw it); every monster's drop appeared after
+  its body sank (3 ms - 4.7 s after the kill) and the bones reached the pack.
+- **Kept on death = the preview** in all 10 deaths (0 skulled; 3; 4 with Keepsake Ward, the id `protect_item`).
+- **Specials:** sword (25%) and bow (50%) specials fire from the orb after a weapon switch and are seen as special
+  swings on every page.
+- **Switching (real UI clicks):** style 0.27-1.15 ticks, prayer 0.93-1.17, a bite 0.85-0.91.
+- **Reconnect mid-fight:** the adventurer stays in the world, the client re-attaches, logging out is refused.
+- **Duels between equal kits:** 88-223 s (median 145 s). Mixed-style duels: magic won 3, ranged 2, melee 1.
+- **Page errors:** none.
+
+| # | Criterion | Score | Notes |
+|---|---|---|---|
+| 1 | Accuracy | 0.5 | z = -1.11 (1185 rolls) and -0.3 (1232) live; exhaustive server roll tests |
+| 2 | Max hit, 0..max | 0.5 | uniform (live, and 100k draws); protection caps held in every duel |
+| 3 | Attack speeds | 0.5 | per weapon and monster, rapid -1, the bite's +3 |
+| 4 | Hit delays, splat on arrival | 0.5 | 483/483 delays; 0 late; the re-attach gap fixed and re-run clean |
+| 5 | Retaliation, single-way | 0.5 | every defender; the third adventurer refused |
+| 6 | Eating | 0.5 | next tick, +3 on the attack clock |
+| 7 | Prayers | 0.5 | monsters 0, players capped at 60%, Keepsake Ward +1, drain |
+| 8 | PvP rules | 0.5 | Scarlands level, level range, skull by the predator rule, kept 0/3/4 = preview, private pile, logout lock |
+| 9 | PvM rules | 0.5 | 10/10 PvM, every style vs every monster kind, XP per style, private drops after the sink |
+| 10 | Animations, impact frame | 0.5 | 419 same-tick + 414 next-tick swings timed; special swings shown |
+| 11 | Projectiles, misses | 0.5 | 927 projectile splats, 0 late; splashes |
+| 12 | Readability | 0.5 | desktop and phone screens (on the phone the zone plaque is partly under the top icon row: game layout) |
+| 13 | Death reads | 0.5 | monster death, sink, loot; own death screen names the killer and what was kept |
+| 14 | Controls | 0.5 | reach per style 100%, left-click attack, switches next tick |
+| 15 | 8-direction, no rubber band | 0.5 | backlog <= 4 steps, 0 catch-ups, every page on the server's tiles |
+| 16 | Weapon variety, specials | 0.25 | sword and bow specials online; the staff special in the table is not wired on the server's magic path, axe and pick untested online (combat agent) |
+| 17 | Monster variety | 0.25 | the playable map has no ranged monster yet; the bestiary drop-in (pass 3) shows archer, mage and the breathing wyrmling working online |
+| 18 | PvP tension | 0.5 | duels 88-223 s; food, prayers and the skull decided them |
+| 19 | Balance | 0.25 | kit matchups 46-58% (sim), live mixed duels split 3/2/1; tier tables are the combat agent's |
+| 20 | Online robustness | 0.5 | 20 fights with three browsers: 0 desyncs, 0 double or lost hits, 0 lost loot, reconnect keeps the lock |
+
+**Pass 4 total: 9.25 / 10.** Owned criteria (4, 5, 7, 8, 10-15, 18, 19 kits, 20): 6.25 / 6.5 = **9.6 / 10**.
+
+What stands between 9.25 and 9.5 is outside this branch: 17 reaches 0.5 once the bestiary is merged into the playable
+map (evidence ready); 16 needs the staff special on the server's magic path and a special per family; 19 needs the tier
+tables in band (the combat agent's rebalance).
