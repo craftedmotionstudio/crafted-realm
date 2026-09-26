@@ -261,7 +261,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
   let strip = null;
   if (STRIPS && o.strip) strip = captureStrip(O, o.strip, [['player', aPid], ['player', bPid]], 18, Math.round(TICK / 3));
   // skull: the attacker only (set on the first swing, once A is in reach)
-  const so = await O.until((s) => { const a = s.players.find((p) => p.pid === aPid); return a && (expectSkull ? a.sk === 1 : sp(A.name).lastCombatPvp >= 0 || sp(B.name).lastCombatPvp >= since); }, 20000, 'the skull of the attacker').catch(() => O.lastState);
+  const so = await O.until((s) => { const a = s.players.find((p) => p.pid === aPid); return a && (expectSkull ? a.sk === 1 : sp(B.name).lastCombatPvp >= since); }, 20000, 'the skull of the attacker').catch(() => O.lastState);
   const seenA = so.players.find((p) => p.pid === aPid), seenB = so.players.find((p) => p.pid === bPid);
   check(fight, seenA && seenB, 'the observer sees both fighters', { seenA: !!seenA, seenB: !!seenB });
   check(fight, seenA && (seenA.sk || 0) === (expectSkull ? 1 : 0) && seenB && !seenB.sk, expectSkull ? 'the attacker is skulled, the defender (retaliating) is not' : 'no skull for striking back at a recent attacker (2004 rule); the defender unskulled', { a: seenA && seenA.sk, b: seenB && seenB.sk, expectSkull });
