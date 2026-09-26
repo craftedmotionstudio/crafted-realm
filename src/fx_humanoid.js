@@ -128,6 +128,9 @@ function playerGLBAnim(root, dt, moving, speed){
   const g = root.userData && root.userData.gmix; if(!g) return;
   speed = speed || 1;
   g.w += ((moving?1:0) - g.w) * Math.min(1, dt*10);   // smooth idle<->walk blend
+  g.moving = !!moving;
+  // an emote (HolmIslandPlayer.emote, also a gm.attack one-shot) stops the moment the player walks / runs or raises the guard
+  if(g.emote && g.emote.isRunning() && (moving || (g.block && g.block.isRunning()))){ g.emote.stop(); g.emote = null; }
   // a one-shot attack/block owns the whole body while it runs
   const busy = (g.attack && g.attack.isRunning()) || (g.block && g.block.isRunning());
   if(g.idle) g.idle.weight = busy ? 0 : (1 - g.w);
