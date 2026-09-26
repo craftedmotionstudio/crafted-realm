@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-/* Publish the Scarlands art kit v1 (W2/W3, 2026-09-26) through the Studio Safe Publish pipeline
+/* Publish the Scarlands art kit v2 (W2/W3, 2026-09-26) through the Studio Safe Publish pipeline
  * (tools/studio_workspace.js: stage, export, plan, journaled apply with backups and rollback):
- *   .studio-workspaces/scarlands-kit-v1/candidates/scarlands_kit.glb  -> assets/scarlands/kit-v1/scarlands_kit.glb
- *   .studio-workspaces/scarlands-kit-v1/candidates/manifest.json      -> assets/scarlands/kit-v1/manifest.json
+ *   .studio-workspaces/scarlands-kit-v2/candidates/scarlands_kit.glb  -> assets/scarlands/kit-v2/scarlands_kit.glb
+ *   .studio-workspaces/scarlands-kit-v2/candidates/manifest.json      -> assets/scarlands/kit-v2/manifest.json
  *   docs/rebuild/scarlands/proof_layout.json                          -> assets/scarlands/proof/layout.json
  *   docs/rebuild/scarlands/proof_placement.json                       -> assets/scarlands/proof/placement.json
  * Byte-identical copies, so the manifest's GLB hash and the placement's kit hash stay valid. The .blend sources stay in
@@ -10,8 +10,8 @@
 'use strict';
 const fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..'), W = require('./studio_workspace.js');
-const K = '.studio-workspaces/scarlands-kit-v1/candidates/';
-const ROWS = [[K + 'scarlands_kit.glb', 'assets/scarlands/kit-v1/scarlands_kit.glb'], [K + 'manifest.json', 'assets/scarlands/kit-v1/manifest.json'],
+const K = '.studio-workspaces/scarlands-kit-v2/candidates/';
+const ROWS = [[K + 'scarlands_kit.glb', 'assets/scarlands/kit-v2/scarlands_kit.glb'], [K + 'manifest.json', 'assets/scarlands/kit-v2/manifest.json'],
   ['docs/rebuild/scarlands/proof_layout.json', 'assets/scarlands/proof/layout.json'], ['docs/rebuild/scarlands/proof_placement.json', 'assets/scarlands/proof/placement.json']]
   .map(([src, target]) => ({ src: path.join(ROOT, src), target }));
 ROWS.forEach(r => { if (!fs.existsSync(r.src)) throw new Error('missing ' + path.relative(ROOT, r.src) + ' (run node tools/build_scarlands_kit.js first)'); });

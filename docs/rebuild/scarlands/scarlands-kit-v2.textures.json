@@ -1,0 +1,75 @@
+{
+ "source": ".studio-workspaces/scarlands-kit-v2/working/scarlands_kit.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/scarlands-kit-v2/working/scarlands_kit_flat.glb",
+ "outBlend": ".studio-workspaces/scarlands-kit-v2/candidates/scarlands_kit.blend",
+ "outGlb": ".studio-workspaces/scarlands-kit-v2/candidates/scarlands_kit.glb",
+ "report": ".studio-workspaces/scarlands-kit-v2/candidates/textures.report.json",
+ "rules": [
+  [
+   "(?i)ditch bank",
+   "dark_rock",
+   0.9
+  ],
+  [
+   "(?i)ditch mud",
+   "cracked_mud",
+   1.1
+  ],
+  [
+   "(?i)ditch puddle",
+   "water",
+   1.2
+  ],
+  [
+   "(?i)charred bark",
+   "bark",
+   0.8
+  ],
+  [
+   "(?i)ruined stone",
+   "ruined_stone",
+   1.2
+  ],
+  [
+   "(?i)dark rock",
+   "dark_rock",
+   1.0
+  ],
+  [
+   "(?i)charred plank",
+   "charred_planks",
+   1.0
+  ],
+  [
+   "(?i)ash bed",
+   "ash",
+   1.5
+  ],
+  [
+   "(?i)scorched",
+   "scorched_earth",
+   1.5
+  ],
+  [
+   "(?i)bone dirt",
+   "bone_dirt",
+   1.2
+  ],
+  [
+   "(?i)weathered plank",
+   "planks",
+   1.0
+  ],
+  [
+   "(?i)sign wood",
+   "beam",
+   0.8
+  ],
+  [
+   "(?i)^scar bone$",
+   null,
+   0
+  ]
+ ]
+}

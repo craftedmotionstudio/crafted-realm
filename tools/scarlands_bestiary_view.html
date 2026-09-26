@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Scarlands Bestiary</title>
+<style>
+ :root { --bg: #2a2622; --ink: #efe3c4; }
+ html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font: 13px/1.3 Verdana, sans-serif; overflow: hidden; }
+ canvas { display: block; }
+ #hud { position: fixed; left: 8px; top: 6px; pointer-events: none; text-shadow: 1px 1px 0 #000; }
+ .tag { position: fixed; transform: translate(-50%, 0); color: #f2e6c8; font: bold 13px Verdana, sans-serif; text-shadow: 1px 1px 0 #000, -1px -1px 0 #000; white-space: nowrap; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="hud">Scarlands bestiary - loading...</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="scarlands_bestiary_view.js"></script>
+</body>
+</html>

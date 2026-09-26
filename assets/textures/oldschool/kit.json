@@ -281,6 +281,36 @@
     0.6445
    ],
    "use": "fire-scarred ruins: walls, pillars, arches"
+  },
+  "hide_ash": {
+   "file": "assets/textures/oldschool/hide_ash.png",
+   "size": 64,
+   "mean": [
+    0.682,
+    0.6503,
+    0.632
+   ],
+   "use": "ash stalker slag-plated hide"
+  },
+  "scales_ember": {
+   "file": "assets/textures/oldschool/scales_ember.png",
+   "size": 64,
+   "mean": [
+    0.5384,
+    0.2532,
+    0.173
+   ],
+   "use": "cinder wyrmling scales"
+  },
+  "fur_ashen": {
+   "file": "assets/textures/oldschool/fur_ashen.png",
+   "size": 64,
+   "mean": [
+    0.6757,
+    0.6273,
+    0.5708
+   ],
+   "use": "cinder rat fur"
   }
  }
 }

@@ -24,7 +24,8 @@ P('ditch_crossing_planks', 15, 44, 0);
 P('ditch_end', 46, 44, 2); P('ditch_end', 49, 44, 0);   // the trench closes on both sides of the filled causeway
 P('ditch_crossing_stone', 47, 44, 0);
 for (let x = 0; x < 64; x++) take(x, 44, 1, 2);
-runs.push({ name: 'the Ditch lip wall', piece: 'ditch_lip_wall', from: [0, 43], to: [63, 43], rot: 0, skip: [[15, 16], [47, 48]] });
+// the lip wall is a broken rim: stretches of two to five tiles with gaps, never a continuous wall line (v2)
+for (let x = 0; x < 64; x++) { if ((x >= 14 && x <= 17) || (x >= 46 && x <= 49)) continue; if (((Math.sin(x * 12.9898) * 43758.5453) % 1 + 1) % 1 < 0.58) P('ditch_lip_wall', x, 43, 0); }   // own hash: the rest of the layout keeps its random sequence
 P('wild_warning_sign', 13, 41, 0); take(13, 41, 1, 1);
 P('wild_warning_sign', 50, 41, 0); take(50, 41, 1, 1);
 // just over each crossing: the first bones a traveller sees, and a cold camp where someone waited for them
@@ -96,7 +97,7 @@ for (let k = 0; k < 600 && pieces.filter(p => /shrub|bones|rubble_small/.test(p.
 const layout = {
   schema: 'crafted-realm-scarlands-layout-v1', name: 'scarlands_kit_proof',
   about: 'The Scarlands kit laid over the W1 test map (tools/make_scarlands_proof_layout.js): the Commons (safe), the Ditch with a plank crossing and a stone causeway, and the 64x64 Scarlands pocket with its ruins, rocks, camp and dressing. Collision is generated from the placed pieces (tools/scarlands_kit.js).',
-  base: 'server/data/maps/scarlands_test.json', kit: '.studio-workspaces/scarlands-kit-v1/candidates/manifest.json',
+  base: 'server/data/maps/scarlands_test.json', kit: '.studio-workspaces/scarlands-kit-v2/candidates/manifest.json',
   pieces, runs,
   extra: {
     blocked: [[5, 5, 6, 6], [50, 20, 51, 21], [12, 30, 12, 30], [40, 34, 41, 34], [31, 12, 32, 13]],

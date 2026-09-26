@@ -3,7 +3,7 @@
  "name": "scarlands_kit_proof",
  "about": "The Scarlands kit laid over the W1 test map (tools/make_scarlands_proof_layout.js): the Commons (safe), the Ditch with a plank crossing and a stone causeway, and the 64x64 Scarlands pocket with its ruins, rocks, camp and dressing. Collision is generated from the placed pieces (tools/scarlands_kit.js).",
  "base": "server/data/maps/scarlands_test.json",
- "kit": ".studio-workspaces/scarlands-kit-v1/candidates/manifest.json",
+ "kit": ".studio-workspaces/scarlands-kit-v2/candidates/manifest.json",
  "pieces": [
   {
    "piece": "ditch_end",
@@ -51,6 +51,222 @@
    "piece": "ditch_crossing_stone",
    "x": 47,
    "z": 44,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 0,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 2,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 3,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 4,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 5,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 7,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 8,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 9,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 12,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 19,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 21,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 23,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 24,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 25,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 26,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 27,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 28,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 29,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 32,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 33,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 34,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 35,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 38,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 42,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 43,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 50,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 51,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 53,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 54,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 56,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 57,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 58,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 59,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 60,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 61,
+   "z": 43,
+   "rot": 0
+  },
+  {
+   "piece": "ditch_lip_wall",
+   "x": 63,
+   "z": 43,
    "rot": 0
   },
   {
@@ -1485,29 +1701,6 @@
     [
      46,
      49
-    ]
-   ]
-  },
-  {
-   "name": "the Ditch lip wall",
-   "piece": "ditch_lip_wall",
-   "from": [
-    0,
-    43
-   ],
-   "to": [
-    63,
-    43
-   ],
-   "rot": 0,
-   "skip": [
-    [
-     15,
-     16
-    ],
-    [
-     47,
-     48
     ]
    ]
   }

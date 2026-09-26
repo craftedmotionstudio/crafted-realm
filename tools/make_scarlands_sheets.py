@@ -58,7 +58,7 @@ for r in rows:
     s = r.resize((r.width // 2, r.height // 2), Image.LANCZOS); ov.paste(s, (0, y)); y += s.height
 ov.save(OUT / 'overview.png')
 # the improvement passes, same camera
-passes = [t for t in ('pass0', 'pass1', 'pass2', 'pass3') if (BASE / t).exists()]
+passes = [t for t in ('pass0', 'pass1', 'pass2', 'pass3', 'ditch_v2a', 'ditch_v2b') if (BASE / t).exists()]
 passes = list(dict.fromkeys(passes))
 for view in ('s03_game_camera_crossing', 's05_ruined_room', 's08_pocket_panorama'):
     ims = [panel(BASE / t / (view + '_void.png'), 300) for t in passes]

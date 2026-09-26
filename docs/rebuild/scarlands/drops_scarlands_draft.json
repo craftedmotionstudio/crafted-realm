@@ -1,0 +1,301 @@
+{
+ "about": "DRAFT drop tables for the Scarlands bestiary v1 (docs/rebuild/scarlands/bestiary_v1.data.json), in server/data/drops.json format. Merge the npcs block into server/data/drops.json when the NPC_TYPES entries land; the shared table scar_rare is the one already in drops.json. Proposed items (stalker_fang, wyrmling_scale) are left out until they exist.",
+ "npcs": {
+  "cinder_rat": {
+   "always": [
+    {
+     "item": "bones",
+     "qty": 1
+    }
+   ],
+   "rolls": 128,
+   "main": [
+    {
+     "w": 40,
+     "item": "coins",
+     "qty": [
+      3,
+      15
+     ]
+    },
+    {
+     "w": 24,
+     "item": "ashes",
+     "qty": 1
+    },
+    {
+     "w": 10,
+     "item": "fire_rune",
+     "qty": [
+      2,
+      5
+     ]
+    }
+   ]
+  },
+  "scar_skeleton": {
+   "always": [
+    {
+     "item": "bones",
+     "qty": 1
+    }
+   ],
+   "rolls": 128,
+   "main": [
+    {
+     "w": 46,
+     "item": "coins",
+     "qty": [
+      20,
+      60
+     ]
+    },
+    {
+     "w": 14,
+     "item": "mind_rune",
+     "qty": [
+      3,
+      8
+     ]
+    },
+    {
+     "w": 12,
+     "item": "chaos_rune",
+     "qty": [
+      2,
+      5
+     ]
+    },
+    {
+     "w": 6,
+     "item": "iron_sword",
+     "qty": 1
+    },
+    {
+     "w": 6,
+     "item": "iron_medhelm",
+     "qty": 1
+    },
+    {
+     "w": 4,
+     "item": "iron_sqshield",
+     "qty": 1
+    },
+    {
+     "w": 3,
+     "table": "scar_rare"
+    }
+   ]
+  },
+  "scar_raider_archer": {
+   "always": [
+    {
+     "item": "bones",
+     "qty": 1
+    }
+   ],
+   "rolls": 128,
+   "main": [
+    {
+     "w": 44,
+     "item": "coins",
+     "qty": [
+      30,
+      90
+     ]
+    },
+    {
+     "w": 30,
+     "item": "arrows",
+     "qty": [
+      8,
+      20
+     ]
+    },
+    {
+     "w": 6,
+     "item": "leather_body",
+     "qty": 1
+    },
+    {
+     "w": 6,
+     "item": "leather_chaps",
+     "qty": 1
+    },
+    {
+     "w": 4,
+     "item": "ash_bow",
+     "qty": 1
+    },
+    {
+     "w": 1,
+     "item": "gale_longbow",
+     "qty": 1
+    },
+    {
+     "w": 4,
+     "table": "scar_rare"
+    }
+   ]
+  },
+  "ember_mage": {
+   "always": [
+    {
+     "item": "bones",
+     "qty": 1
+    }
+   ],
+   "rolls": 128,
+   "main": [
+    {
+     "w": 40,
+     "item": "coins",
+     "qty": [
+      40,
+      100
+     ]
+    },
+    {
+     "w": 24,
+     "item": "fire_rune",
+     "qty": [
+      10,
+      25
+     ]
+    },
+    {
+     "w": 16,
+     "item": "chaos_rune",
+     "qty": [
+      3,
+      8
+     ]
+    },
+    {
+     "w": 3,
+     "item": "ember_staff",
+     "qty": 1
+    },
+    {
+     "w": 3,
+     "item": "glimmer_hat",
+     "qty": 1
+    },
+    {
+     "w": 1,
+     "item": "amulet_of_warding",
+     "qty": 1
+    },
+    {
+     "w": 5,
+     "table": "scar_rare"
+    }
+   ]
+  },
+  "ash_stalker": {
+   "always": [
+    {
+     "item": "bones",
+     "qty": 1
+    },
+    {
+     "item": "beast_hide",
+     "qty": 1
+    }
+   ],
+   "rolls": 128,
+   "main": [
+    {
+     "w": 50,
+     "item": "coins",
+     "qty": [
+      90,
+      220
+     ]
+    },
+    {
+     "w": 6,
+     "item": "aurel_platebody",
+     "qty": 1
+    },
+    {
+     "w": 4,
+     "item": "gale_longbow",
+     "qty": 1
+    },
+    {
+     "w": 2,
+     "item": "veyrite_sword",
+     "qty": 1
+    },
+    {
+     "w": 6,
+     "table": "scar_rare"
+    }
+   ]
+  },
+  "cinder_wyrmling": {
+   "always": [
+    {
+     "item": "big_bones",
+     "qty": 1
+    },
+    {
+     "item": "ashes",
+     "qty": 1
+    }
+   ],
+   "rolls": 128,
+   "main": [
+    {
+     "w": 40,
+     "item": "coins",
+     "qty": [
+      250,
+      600
+     ]
+    },
+    {
+     "w": 20,
+     "item": "fire_rune",
+     "qty": [
+      30,
+      60
+     ]
+    },
+    {
+     "w": 14,
+     "item": "chaos_rune",
+     "qty": [
+      8,
+      20
+     ]
+    },
+    {
+     "w": 5,
+     "item": "aurel_sword",
+     "qty": 1
+    },
+    {
+     "w": 4,
+     "item": "aurel_platelegs",
+     "qty": 1
+    },
+    {
+     "w": 2,
+     "item": "veyrite_sword",
+     "qty": 1
+    },
+    {
+     "w": 2,
+     "item": "veyrite_medhelm",
+     "qty": 1
+    },
+    {
+     "w": 12,
+     "table": "scar_rare"
+    }
+   ]
+  }
+ }
+}
