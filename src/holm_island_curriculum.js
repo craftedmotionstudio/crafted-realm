@@ -11,8 +11,8 @@ var HolmIslandCurriculum=(function(){
  // where each lesson is taught on the new island: a building's measured target, a lesson object, or an arrival service
  var WHERE={
   study_route:{arrival:'holm_orientation'},equip_hatchet:{arrival:'holm_provisions'},
-  chop_logs:{object:'island-lesson-survival-oak-1'},light_fire:{building:['survival','fire']},
-  catch_fish:{object:'island-lesson-survival-perch'},cook_fish:{building:['survival','fire']},
+  chop_logs:{object:'island-lesson-survival-oak-1'},light_fire:{object:'island-hollow-fire-ring'},
+  catch_fish:{object:'island-hollow-spot-0'},cook_fish:{object:'island-hollow-fire-ring'},
   bake_bread:{building:['bakehouse','oven']},learn_quests:{building:['lodge','board']},
   descend_cavern:{building:['quarry','shaft']},mine_copper:{object:'island-lesson-cavern-copper-1'},
   mine_tin:{object:'island-lesson-cavern-tin-1'},smelt_bronze:{object:'island-lesson-furnace'},
@@ -23,17 +23,17 @@ var HolmIslandCurriculum=(function(){
  var TEXT={
   study_route:['Enter the Guide House and study the relief chart of Tutor\'s Holm.','Study the chart'],
   equip_hatchet:['Take your tools from the provision rack, then click the bronze hatchet in your pack to wield it.','Wield the hatchet'],
-  chop_logs:['Follow the path west to the survival camp and chop down one of the oaks.','Chop an oak'],
-  light_fire:['Use your tinderbox on the logs in your pack to light a fire.','Light a fire'],
-  catch_fish:['Click your small net, then the ripples off the camp\'s fishing stage.','Net a fish'],
-  cook_fish:['Cook the fish on your fire. Burnt it? Net another and try again.','Cook the fish'],
+  chop_logs:['Follow the path west to the survival camp, then chop down one of the oaks on the rim of Minnow Hollow.','Chop an oak'],
+  light_fire:['Go down the path into Minnow Hollow and light a fire on the Fire Beach: use your tinderbox on the logs.','Light a fire'],
+  catch_fish:['Net a fish at the ripples on the pond. The fish move about: follow the ripples.','Net a fish'],
+  cook_fish:['Cook the fish on your fire on the beach. Burnt it? Net another and try again.','Cook the fish'],
   bake_bread:['In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.','Bake bread'],
   learn_quests:['Visit the Quest Lodge and study the quest board.','Study the quest board'],
   descend_cavern:['At the Quarry Gate, climb down the shaft ladder to the ore workings.','Climb down the shaft'],
   mine_copper:['Mine a copper rock with your pickaxe.','Mine copper'],
   mine_tin:['Now mine a tin rock.','Mine tin'],
   smelt_bronze:['Smelt your copper and tin into a bronze bar at the furnace.','Use the furnace'],
-  forge_dagger:['Hammer the bar into a bronze dagger at the anvil, then climb back up the ladder.','Use the anvil'],
+  forge_dagger:['Hammer the bar into a bronze dagger at the anvil, then take the east drift up into the keep.','Use the anvil'],
   melee_trial:['Wield your dagger and defeat a practice foe in the Warden\'s Keep yard.','Melee trial'],
   ranged_trial:['Take up the shortbow and arrows and defeat a practice foe from range.','Ranged trial'],
   open_bank:['Open your account at the counter in the Holm Bank.','Open the bank'],
@@ -82,14 +82,14 @@ var HolmIslandCurriculum=(function(){
  function qaSetLedger(ids){if(!on||!(typeof QAProfile!=='undefined'&&QAProfile.isolated))return false;var p=HolmCurriculumProgress.normalize({curriculumVersion:6,completedLessonIds:ids});
   Tutorial.completedLessonIds=p.completedLessonIds.slice();Tutorial.complete=!!p.complete;Tutorial.step=p.step;adoptTalks();try{Tutorial.banner()}catch(e){}return true}
  function adoptTalks(){try{if(typeof HolmIslandTalk!=='undefined')HolmIslandTalk.adopt()}catch(e){}}
- // graduation on the island: the last lesson opens the pier gate; Ferryman Tobin's skiff takes the adventurer to the
+ // graduation on the island (v2 land: the haven stands at Lanternfoot Cove below Lastlight, with no gate): Ferryman Tobin's skiff takes the adventurer to the
  // mainland with the departure pack (the live rules: HolmTutorialFlow.departure + Tutorial.grantDeparturePack)
  function installFinish(){if(!on||!Tutorial.finish||Tutorial._islandFinish)return;Tutorial._islandFinish=true;
   Tutorial.finish=function(){this.complete=true;this.step=this.steps.length;
-   try{var el=document.getElementById('objective'),txt=document.getElementById('obj-text');if(el&&txt){el.style.display='block';txt.textContent=(typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.objective())||'Lastlight is lit. Board Ferryman Tobin\'s skiff at the Departure Haven.'}
+   try{var el=document.getElementById('objective'),txt=document.getElementById('obj-text');if(el&&txt){el.style.display='block';txt.textContent=(typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.objective())||'Lastlight is lit. Board Ferryman Tobin\'s skiff at Lanternfoot Cove.'}
     var h=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('haven','boat');if(h&&typeof GuideArrow!=='undefined'){GuideArrow.keepAfterComplete=true;GuideArrow.setTarget({x:h.x,z:h.z},'Board the skiff')}}catch(e){}
-   UI.chat('You have completed every lesson on Tutor\'s Holm. The pier gate at the Departure Haven is open.','xp');
-   UI.dialogue('Keeper Aldous','That light will carry to the mainland. Go down to the haven; Tobin will row you across.',[{label:'Thank you.'}],'img:assets/icons/tutors/aldous.png?v=31');
+   UI.chat('You have completed every lesson on Tutor\'s Holm. Ferryman Tobin is waiting at Lanternfoot Cove.','xp');
+   UI.dialogue('Keeper Aldous','That light will carry all the way to Hearthmere. Take the Keeper\'s Stair down to the cove; Tobin will row you across.',[{label:'Thank you.'}],'img:assets/icons/tutors/aldous.png?v=31');
    try{if(typeof SaveGame!=='undefined')SaveGame.save(true)}catch(e){}return true}}
  function board(){
   if(!on)return false;if(!Tutorial.complete){UI.chat('Tobin shakes his head. No sailing until Lastlight is lit.','plain');return false}

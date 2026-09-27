@@ -63,6 +63,19 @@ async function walkTo(page,building,target,stopOutside,trace){
   }
   return {reached,at:await pos(page)};
 }
+// Walk like a player to a world point (Holm v2 land): click reachable tiles a few steps along the planned route to the
+// walkable node nearest the point, repeat
+async function walkPoint(page,x,z,trace){
+  for(let hop=0;hop<40;hop++){
+    const route=await page.evaluate((x,z)=>HolmArrivalQA.qaRouteTo(x,z),x,z);if(!route)return {error:'no route'};
+    if(route.length<=1)return {reached:route[0],at:await pos(page)};
+    let clicked=false;
+    for(const ahead of [9,7,5,3,1]){const n=route[Math.min(route.length-1,ahead)];const xy=await aim(page,[n.x,n.y,n.z],[Math.floor(n.x),Math.floor(n.z)]);if(xy){await press(page,xy);clicked=true;break}}
+    if(!clicked)return {error:'no clickable tile ahead',at:await pos(page)};
+    await settle(page,30000);if(trace)trace.push(...await page.evaluate(()=>(window.__qaTrace||[]).splice(0)));
+  }
+  return {error:'too many hops',at:await pos(page)};
+}
 // Cardinal movement keeps x or z on a tile-centre line at every instant; a diagonal step leaves both off-centre.
 // M4.2: click an authored service mesh (by its island label) like a player; the provider walks to the measured
 // stance and runs the lesson handler on arrival.
@@ -174,4 +187,4 @@ async function talkTo(page,id,opts){
 function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.filter(q=>off(q[0])&&off(q[2])).length;}
 
 
-module.exports={sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse};
+module.exports={sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,walkPoint,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse};

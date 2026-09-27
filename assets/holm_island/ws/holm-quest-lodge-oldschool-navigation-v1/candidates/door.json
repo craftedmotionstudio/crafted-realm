@@ -2,7 +2,7 @@
   "schema": "holm-quest-door-v1",
   "modelSha256": "6618934d1ee39fd283ed8c9bf8d93a8f71519bc49ccc71233abd8cc5feed3263",
   "navigationSha256": "0e4671cfc6a8c71ac57e38fe88521c13808010c154ab9bc5f93e087c6349a1ab",
-  "blendSha256": "da2d075ca0a41e83393a8408ccee53eaee725088387300e29cf5c54c9515c336",
+  "blendSha256": "a4c547e75ec0f0767d381d8f58bc6238a7a6849175f9bfed1e963df5bf0af9e2",
   "clipName": "Lodge_DoorOpenClose",
   "closedTimeSeconds": 0,
   "openTimeSeconds": 2.4583333333333335,

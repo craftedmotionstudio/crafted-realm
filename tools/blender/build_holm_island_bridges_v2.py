@@ -15,8 +15,9 @@ ROOT=Path(__file__).resolve().parents[2]
 ARGS=sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else []
 SRC=Path(ARGS[0]).resolve() if ARGS else ROOT/'docs/rebuild/holm-overhaul/island-bridges.json'
 DATA=json.loads(SRC.read_text())
-OUT=ROOT/'.studio-workspaces/holm-island-bridges-v2/candidates';OUT.mkdir(parents=True,exist_ok=True)
-PROOF=ROOT/'scratchpad/holm_world_fixes_v1/bridges_v2';PROOF.mkdir(parents=True,exist_ok=True)
+# optional 2nd/3rd args (Holm v2 land, 2026-09-26): a NEW output workspace folder and proof folder for a rebuild on new deck data
+OUT=(ROOT/ARGS[1]) if len(ARGS)>1 else ROOT/'.studio-workspaces/holm-island-bridges-v2/candidates';OUT.mkdir(parents=True,exist_ok=True)
+PROOF=(ROOT/ARGS[2]) if len(ARGS)>2 else ROOT/'scratchpad/holm_world_fixes_v1/bridges_v2';PROOF.mkdir(parents=True,exist_ok=True)
 def material(name,c):
  m=bpy.data.materials.get(name) or bpy.data.materials.new(name);m.diffuse_color=(*c,1);return m
 def build(br):

@@ -1,0 +1,133 @@
+{
+ "schema": "holm-island-gates-v1",
+ "status": "M5.2b progress gates (2004 Tutorial Island style): doorway tiles stay shut in the island graph until the lesson named in requires is complete; station gates refuse with a chat line until then.",
+ "gates": [
+  {
+   "id": "bakehouse-door",
+   "building": "bakehouse",
+   "tiles": [
+    [
+     44,
+     68
+    ]
+   ],
+   "leaf": "door-leaf",
+   "edge": {
+    "axis": "x",
+    "at": 45,
+    "from": 68,
+    "to": 69
+   },
+   "requires": "cook_fish",
+   "message": "The bakehouse door is barred. Finish your lessons at the survival camp first.",
+   "y": 4.14
+  },
+  {
+   "id": "lodge-door",
+   "building": "lodge",
+   "tiles": [
+    [
+     35,
+     52
+    ]
+   ],
+   "leaf": "door-leaf",
+   "edge": {
+    "axis": "z",
+    "at": 53,
+    "from": 35,
+    "to": 36
+   },
+   "requires": "bake_bread",
+   "message": "The Quest Lodge stays shut until you have baked your first loaf.",
+   "y": 5.02
+  },
+  {
+   "id": "bank-door",
+   "building": "bank",
+   "tiles": [
+    [
+     86,
+     60
+    ]
+   ],
+   "leaf": "door-leaf",
+   "edge": {
+    "axis": "z",
+    "at": 61,
+    "from": 86,
+    "to": 87
+   },
+   "requires": "ranged_trial",
+   "message": "The Holm Bank opens its doors once your combat trials are done.",
+   "y": 6.312
+  },
+  {
+   "id": "lastlight-door",
+   "building": "lastlight",
+   "tiles": [
+    [
+     116,
+     26
+    ]
+   ],
+   "leaf": "door-leaf",
+   "edge": {
+    "axis": "x",
+    "at": 116,
+    "from": 26,
+    "to": 27
+   },
+   "requires": "magic_trial",
+   "message": "The keeper has bolted the storm door. Finish your magic lesson first.",
+   "y": 14.3
+  },
+  {
+   "id": "haven-gate",
+   "building": "haven",
+   "tiles": [
+    [
+     121,
+     101
+    ],
+    [
+     121,
+     102
+    ],
+    [
+     121,
+     103
+    ],
+    [
+     121,
+     104
+    ]
+   ],
+   "leaf": "yard-gate",
+   "posts": true,
+   "edge": {
+    "axis": "x",
+    "at": 121,
+    "from": 101,
+    "to": 105
+   },
+   "requires": "relight_lastlight",
+   "message": "The ferryman will not sail until Lastlight is burning.",
+   "y": 2.15
+  }
+ ],
+ "services": [
+  {
+   "building": "quarry",
+   "target": "shaft",
+   "requires": "learn_quests",
+   "message": "The shaft ladder is roped off. Visit the Quest Lodge first."
+  },
+  {
+   "building": "mage",
+   "target": "runes",
+   "requires": "open_bank",
+   "message": "The rune table is locked. Open your bank account first."
+  }
+ ]
+}

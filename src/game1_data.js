@@ -32,6 +32,14 @@ const ITEMS = {
   bread:        {name:'Bread', stack:false, value:4, heal:4, weight:0.3, examine:'Squashy but filling.'},
   cooked_perch: {name:'Mirrorperch', stack:false, value:12, heal:4},
   burnt_perch:  {name:'Burnt mirrorperch', stack:false, value:1, examine:'Cooked with confidence, not skill.'},
+  /* Minnow Hollow catches (Holm v2 land, 2026-09-26; src/holm_fishing.js) */
+  raw_reedpike:    {name:'Raw reedpike', stack:false, value:14, examine:'All teeth and temper. Lurks where the reeds are thickest.'},
+  cooked_reedpike: {name:'Reedpike', stack:false, value:24, heal:6, examine:'Flaky, bony and very good.'},
+  burnt_reedpike:  {name:'Burnt reedpike', stack:false, value:1, examine:'A pike-shaped piece of charcoal.'},
+  soggy_boot:      {name:'Soggy boot', stack:false, value:1, examine:'One boot, no owner, a great deal of pond.'},
+  pond_weed:       {name:'Clump of pondweed', stack:false, value:1, examine:'Slimy. The frogs will miss it.'},
+  sealed_bottle:   {name:'Sealed bottle', stack:false, value:3, examine:'A note inside reads: "Whoever finds this: the old keeper swore Lastlight was lit before the first tower stood. Look under the stair." The ink has run.'},
+  tarnished_ring:  {name:'Tarnished ring', stack:false, value:40, examine:'Silver under the grime, with a dull red stone. Somebody searched a long time for this.'},
   hollow_ale:   {name:'Hollow ale', stack:false, value:4, heal:5},
   /* coffee (combat agent 2026-09-26, owner request; rules in shared/drinks.js, client src/coffee.js): four sips in a
      mug, each +20% run energy and 2 minutes of 25% slower run drain; brewed on a range from roasted beans and water */

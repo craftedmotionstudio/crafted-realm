@@ -1,0 +1,153 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-garden-props-v1/candidates/props.blend",
+ "materials": {
+  "Coping sandstone": {
+   "texture": "rock",
+   "authored": [
+    0.6588,
+    0.6235,
+    0.5255
+   ],
+   "tint": [
+    0.8224,
+    0.7783,
+    0.6838
+   ]
+  },
+  "Garden bench planks": {
+   "texture": "planks",
+   "authored": [
+    0.5412,
+    0.4,
+    0.2588
+   ],
+   "tint": [
+    0.7249,
+    0.7388,
+    0.7446
+   ]
+  },
+  "Garden fieldstone": {
+   "texture": "stone_course",
+   "authored": [
+    0.5608,
+    0.5451,
+    0.498
+   ],
+   "tint": [
+    0.691,
+    0.6812,
+    0.6607
+   ]
+  },
+  "Garden fieldstone dark": {
+   "texture": "stone_course",
+   "authored": [
+    0.4667,
+    0.451,
+    0.4157
+   ],
+   "tint": [
+    0.575,
+    0.5636,
+    0.5515
+   ]
+  },
+  "Garden fieldstone light": {
+   "texture": "stone_course",
+   "authored": [
+    0.6314,
+    0.6118,
+    0.5569
+   ],
+   "tint": [
+    0.7779,
+    0.7645,
+    0.7387
+   ]
+  },
+  "Garden oak": {
+   "texture": "beam",
+   "authored": [
+    0.4314,
+    0.302,
+    0.1882
+   ],
+   "tint": [
+    0.5261,
+    0.5237,
+    0.4841
+   ]
+  },
+  "Garden oak dark": {
+   "texture": "beam",
+   "authored": [
+    0.3333,
+    0.2275,
+    0.1412
+   ],
+   "tint": [
+    0.4065,
+    0.3945,
+    0.3631
+   ]
+  },
+  "Skep straw": {
+   "texture": "thatch",
+   "authored": [
+    0.7804,
+    0.6471,
+    0.3608
+   ],
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "Skep straw bands": {
+   "texture": "thatch",
+   "authored": [
+    0.6118,
+    0.4863,
+    0.2353
+   ],
+   "tint": [
+    0.891,
+    0.8357,
+    0.656
+   ]
+  },
+  "Tub staves": {
+   "texture": "planks",
+   "authored": [
+    0.4784,
+    0.3373,
+    0.2039
+   ],
+   "tint": [
+    0.6408,
+    0.6229,
+    0.5867
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 11,
+ "glb": {
+  "path": ".studio-workspaces/holm-garden-props-os-v1/candidates/props.glb",
+  "bytes": 328104,
+  "sha256": "18d9b714b6da59dec67dd14ca546c038a8232d50b9d5d4b5c937227bfc3e5cba"
+ },
+ "images": [
+  "beam",
+  "planks",
+  "rock",
+  "stone_course",
+  "thatch"
+ ]
+}

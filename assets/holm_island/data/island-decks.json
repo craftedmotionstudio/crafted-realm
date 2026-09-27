@@ -1,0 +1,7 @@
+{
+ "schema": "holm-island-decks-v1",
+ "status": "Holm v2 land (2026-09-26): walking decks that are not creek crossings measured by bridgeFrom (a deck tile is walkable at deckY and seams to land within one seam step at its ends)",
+ "decks": [
+  { "id": "creakwheel_weir_walk", "label": "Creakwheel weir walk", "orientation": "EW", "tiles": [[58, 59], [59, 59], [60, 59], [61, 59], [62, 59]], "deckY": 3.35, "note": "planks on the weir crest (Mill_WeirWalk in the Creakwheel Mill model): the third creek crossing, lodge path -> mill" }
+ ]
+}

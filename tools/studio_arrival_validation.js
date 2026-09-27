@@ -7,7 +7,7 @@ const crypto=require('crypto'),util=require('util');
 const Package=require('../src/holm_arrival_package');
 const SCHEMA='crafted-realm-holm-arrival-package-v1';
 const ROLES={
- 'holm-overhaul-terrain-source-v1':'terrainSource',
+ 'holm-overhaul-terrain-source-v1':'terrainSource', 'holm-overhaul-terrain-source-v2':'terrainSource',
  'holm-overhaul-terrain-bundle-v1':'terrain',
  'holm-overhaul-arrival-layout-v1':'layout',
  'holm-guide-house-collision-envelopes-v1':'envelopes',

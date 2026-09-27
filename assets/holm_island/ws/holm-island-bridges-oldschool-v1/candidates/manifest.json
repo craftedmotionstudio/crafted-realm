@@ -77,7 +77,7 @@
       ],
       "triangles": 1944,
       "sha256_glb": "8cea1d6b8c0a7aa9fc5b1d3d82cbd885a9b1f596c2415099e967464f5cf7199f",
-      "sha256_blend": "6f189f0db06c590112604ea9a5c50c478a6190ec6eec0ae9f84f7588d3887aee"
+      "sha256_blend": "b34a4dc78b805bf4025588556fe68063662203c91317af22f0ad59c0d8027b4a"
     },
     {
       "id": "stone_village_bridge",
@@ -89,7 +89,7 @@
       ],
       "triangles": 2972,
       "sha256_glb": "a0e285f794f05b98aded638774bd16a78b4e21cf59c5fa3ce12fc30815da2a5b",
-      "sha256_blend": "40d67616dbf00f2005b7fe78cddda15dd47fd4285b8c76143c97bed3dfb7f895"
+      "sha256_blend": "abd12430c541333157c1d7eaba70f30518fa03819a6076a04205b9c775c95be4"
     }
   ],
   "oldschool": {

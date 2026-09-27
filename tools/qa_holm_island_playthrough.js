@@ -37,10 +37,24 @@ async function spellbook(page,spell){   // open the Spellbook tab and click the 
   await page.evaluate(()=>{const t=document.querySelector('.tab-btn[data-tab="inv"]');if(t)t.click()});
   return page.evaluate(()=>Player.spell==='wind_strike');
 }
-async function attack(page,pen,opts){for(let i=0;i<4;i++){const n=await page.evaluate(pen=>{const x=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen===pen);return x?x.mesh.name:null},pen);if(!n){await sleep(2000);continue}
+async function attack(page,pen,opts){for(let i=0;i<4;i++){// the grubkin already fighting you first (2004 single combat: "You are already under attack!" for any other), else the nearest
+  const n=await page.evaluate(pen=>{const l=HolmIslandTrials.npcs().filter(n=>!n.dead&&n.islandPen===pen);if(!l.length)return null;const d=n=>Math.hypot(n.mesh.position.x-player.position.x,n.mesh.position.z-player.position.z);
+   const mine=l.find(n=>n===Player.aggressiveNpc);return (mine||l.sort((a,b)=>d(a)-d(b))[0]).mesh.name},pen);if(!n){await sleep(2000);continue}
   const c=await clickNamed(page,n,opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c;await closeDialogue(page)}return {error:'no target'}}
 // a player who sees no progress clicks the foe again: up to four attack cycles, each waiting 40 s for the credit
 async function fight(page,pen,id,opts){for(let k=0;k<4;k++){await attack(page,pen,opts);if(await waitLesson(page,id,40000))return true}return false}
+async function toBeach(p){const r=await p.evaluate(()=>HolmFishing.fireRing());return L.walkPoint(p,r.ring[0]+.5,r.ring[1]+.6,[])}
+// to cook: stand beside the fire, never on its tile (a fire does not block its tile; from on top of it a click hits the ground)
+async function toFire(p){const f=await p.evaluate(()=>{const o=scene.getObjectByName('island-campfire');return o?[o.position.x,o.position.z]:null});if(!f)return toBeach(p);
+ for(const [dx,dz] of [[1,0],[-1,0],[0,-1],[0,1]]){await L.walkPoint(p,f[0]+dx,f[1]+dz,[]);const q=await pos(p);if(Math.hypot(q[0]-f[0],q[2]-f[1])>.9)return}}
+const spot=p=>p.evaluate(()=>{const s=HolmFishing.nearestSpot(player.position.x,player.position.z);return s?s.name:null});
+// still down in the ore workings (the guide arrow points at the drift ladder): climb it into the Warden's Keep hall
+async function upDrift(p){for(let k=0;k<3&&await p.evaluate(()=>player.position.y<-20);k++){await walkTo(p,'cavern','exit',false,[]);await clickService(p,'Climb-up drift ladder','exit');await waitFor(p,()=>player.position.y>0,null,60000)}}
+// net a fish like a player: when the spot moves on ("The fish have moved on.") or the net comes up empty for a while,
+// click the nearest live ripple again
+async function netFish(p){for(let k=0;k<6&&!await p.evaluate(()=>Player.count('raw_perch')>0);k++){
+  // a ripple takes a plain click while a net is in the pack (the menu's "Net"), or the net's "Use" on it
+  await clickNamed(p,await spot(p));await waitFor(p,()=>Player.count('raw_perch')>0,null,45000)}}
 // ---- the lessons, in the curriculum's order ----
 const DO={
  async study_route(p){await clickKind(p,'arrival_door',['arrivalDoor','arrival']);await waitFor(p,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.doors&&r.doors.arrival},null,40000);
@@ -51,13 +65,14 @@ const DO={
   {const c=await clickNamed(p,'island-lesson-survival-oak-1');await sleep(1200);const chat=await lastChat(p,4);
    TALKS.push({id:'wenna-refusal',refused:!c.error&&chat.some(t=>/speak to Wenna first/.test(t))&&await count(p,'logs')===0})}
   await talk(p,'wenna');for(const t of ['oak-1','oak-2','oak-3']){if(await p.evaluate(()=>Player.count('logs')>0))break;const c=await clickNamed(p,'island-lesson-survival-'+t);if(!c.error)await waitFor(p,()=>Player.count('logs')>0,null,90000)}},
- async light_fire(p){await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)},
- async catch_fish(p){await walkTo(p,'survival','fishing',false,[]);await clickInventory(p,'fishing_net');await clickNamed(p,'island-lesson-survival-perch');await waitFor(p,()=>Player.count('raw_perch')>0,null,150000)},
+ // v2 land (2026-09-27): the fire goes on the Fire Beach down in Minnow Hollow, the fish come from the live ripples on the pond
+ async light_fire(p){await toBeach(p);await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)},
+ async catch_fish(p){await netFish(p)},
  async cook_fish(p){for(let k=0;k<8&&await lesson(p)==='cook_fish';k++){
-   if(!await p.evaluate(()=>Player.count('raw_perch')>0)){await walkTo(p,'survival','fishing',false,[]);await clickInventory(p,'fishing_net');await clickNamed(p,'island-lesson-survival-perch');await waitFor(p,()=>Player.count('raw_perch')>0,null,150000)}
-   await walkTo(p,'survival','trail',true,[]);
+   if(!await p.evaluate(()=>Player.count('raw_perch')>0))await netFish(p);
+   await toFire(p);
    if(!await p.evaluate(()=>!!scene.getObjectByName('island-campfire'))){for(const t of ['oak-2','oak-3','oak-1']){if(await p.evaluate(()=>Player.count('logs')>0))break;await clickNamed(p,'island-lesson-survival-'+t);await waitFor(p,()=>Player.count('logs')>0,null,90000)}
-    await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
+    await toBeach(p);await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
    const b=await p.evaluate(()=>Player.count('cooked_perch')+Player.count('burnt_perch'));await clickNamed(p,'island-campfire');await waitFor(p,b=>Player.count('cooked_perch')+Player.count('burnt_perch')>b,b,120000)}},
  async bake_bread(p){await walkTo(p,'bakehouse','entrance',true,[]);await talk(p,'hettie');
   for(const l of ['Take bucket','Take bucket','Fill bucket with flour','Fill bucket with water','Take dough'])await clickService(p,l);
@@ -69,8 +84,10 @@ const DO={
  async mine_tin(p){await clickNamed(p,'island-lesson-cavern-tin-1');await waitFor(p,()=>Player.count('tin_ore')>0,null,90000)},
  async smelt_bronze(p){await clickNamed(p,'island-lesson-furnace');await clickButtonText(p,'#dialogue-modal button','Smelt a Bronze bar.');await waitFor(p,()=>Player.count('bronze_bar')>0,null,30000)},
  async forge_dagger(p){await clickNamed(p,'island-lesson-anvil');await clickButtonText(p,'#smith-grid-overlay div[title]','Bronze dagger');await waitFor(p,()=>Player.count('bronze_dagger')>0,null,30000);
-  await clickService(p,'Climb-up ladder','ladder');await waitFor(p,()=>player.position.y>0,null,60000)},
- async melee_trial(p){await walkTo(p,'keep','court',true,[]);await talk(p,'corrick');await wield(p,'bronze_dagger');await fight(p,'keep-court','melee_trial')},
+  // v2 land: out by the east drift, its ladder coming up through the trapdoor in the Warden's Keep hall
+  // the ladder is roped off until the dagger lesson is credited: wait for the game to move on first, as a player reads the chat
+  await waitLesson(p,'forge_dagger',30000);await upDrift(p)},
+ async melee_trial(p){await upDrift(p);await walkTo(p,'keep','court',true,[]);await talk(p,'corrick');await wield(p,'bronze_dagger');await fight(p,'keep-court','melee_trial')},
  async ranged_trial(p){await waitFor(p,()=>Player.count('worn_bow')>0||Player.equip.weapon==='worn_bow',null,15000);await wield(p,'worn_bow');await fight(p,'keep-court','ranged_trial')},
  async open_bank(p){await walkTo(p,'bank','entrance',true,[]);await talk(p,'maud');await clickService(p,'Use bank counter','counter');await waitLesson(p,'open_bank',60000);await p.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}})},
  async magic_trial(p){await walkTo(p,'mage','entrance',true,[]);await talk(p,'ilse');await waitFor(p,()=>Player.count('air_rune')>0,null,15000);await closeDialogue(p);await spellbook(p,'wind_strike');
@@ -94,7 +111,7 @@ async function playOnce(browser,n){
   const t0=Date.now(),per={},profile='playthrough-'+n+'-'+Date.now().toString(36);let status='incomplete',note='';TALKS=[];
   try{
     await page.goto(BASE0+(process.env.HOLM_MODE==='draft'?'/?holmIsland=1&qaProfile=':'/?qaProfile=')+profile,{waitUntil:'load',timeout:120000});await enter(page);
-    await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
+    await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,180000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
     const hint0=await page.evaluate(()=>document.getElementById('obj-text').textContent);
     for(let guard=0;guard<30;guard++){
       const id=await lesson(page);if(id==='complete'){status='complete';break}
@@ -105,12 +122,14 @@ async function playOnce(browser,n){
        note=note||('stuck at '+id+' '+JSON.stringify(cs));await shot(page,'run'+n+'_stuck_'+id);break}
       if(id==='cook_fish'||id==='forge_dagger'||id==='open_bank'){   // save + reload mid-run: progress must come back exactly
         const before=await page.evaluate(()=>({step:Tutorial.step,ledger:(Tutorial.completedLessonIds||[]).length,talked:(Tutorial.talkedTutors||[]).slice().sort().join()}));await page.evaluate(()=>SaveGame.save(true));
-        await page.reload({waitUntil:'load'});await enter(page);await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
+        await page.reload({waitUntil:'load'});await enter(page);await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,180000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
         const after=await page.evaluate(()=>({step:Tutorial.step,ledger:(Tutorial.completedLessonIds||[]).length,talked:(Tutorial.talkedTutors||[]).slice().sort().join()}));
         if(after.step!==before.step||after.ledger!==before.ledger||after.talked!==before.talked){status='save-mismatch';note='after '+id+' '+JSON.stringify({before,after});break}}
     }
     if(status==='complete'){   // departure: board the ferry at the haven (Tobin first)
-      await walkTo(page,'haven','shore',true,[]);await talk(page,'tobin');const b=await clickService(page,'Ferry','boat');
+      // v2 land: down the Keeper's Stair to Lanternfoot Cove, Tobin first, then out along the pier to the skiff ("Board her
+      // at the end of the pier")
+      await walkTo(page,'haven','shore',true,[]);await talk(page,'tobin');await closeDialogue(page);await walkTo(page,'haven','boat',false,[]);const b=await clickService(page,'Ferry','boat');
       const sailed=await waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,60000);
       if(!sailed){status='departure-failed';note='ferry did not sail ('+(b.error||'clicked')+')'}
       await shot(page,'run'+n+'_end');

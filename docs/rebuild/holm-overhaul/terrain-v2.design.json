@@ -1,0 +1,694 @@
+{
+ "schema": "holm-v2-land-design-v1",
+ "note": "Tutor's Holm v2 land (W0b, 2026-09-26): the design the terrain v2 source is built from (tools/build_holm_v2_terrain.js). Heights in tiles. Plateaus unite by max (terraces step, never spike); the buildings sit on seats (their measured ground contact from the Sept 13 terrain, lifted to the new foundation height). See docs/rebuild/WORLD_LAYOUT_GUIDE.md §3 and docs/rebuild/HOLM_V2_LAND.md.",
+ "base": 1.2,
+ "shore": {
+  "beachWidth": 2.6,
+  "shelfWidth": 4
+ },
+ "swell": {
+  "amp": 1.0,
+  "cell": 5,
+  "seed": 7
+ },
+ "rock": {
+  "rise": 0.95
+ },
+ "plateaus": [
+  {
+   "id": "quarry-mesa",
+   "x": 35,
+   "z": 35,
+   "rx": 21,
+   "rz": 23,
+   "height": 8.0,
+   "edge": 0.46
+  },
+  {
+   "id": "keep-crag",
+   "x": 87,
+   "z": 33,
+   "rx": 20,
+   "rz": 19,
+   "height": 9.7,
+   "edge": 0.42
+  },
+  {
+   "id": "north-ridge",
+   "x": 61,
+   "z": 22,
+   "rx": 14,
+   "rz": 8,
+   "height": 5.6,
+   "edge": 0.45
+  },
+  {
+   "id": "lastlight-crown",
+   "x": 120,
+   "z": 26,
+   "rx": 18,
+   "rz": 19,
+   "height": 15.4,
+   "edge": 0.6
+  },
+  {
+   "id": "crown-shoulder",
+   "x": 121,
+   "z": 48,
+   "rx": 13,
+   "rz": 7,
+   "height": 5.4,
+   "edge": 0.5
+  },
+  {
+   "id": "east-hill",
+   "x": 112,
+   "z": 60,
+   "rx": 17,
+   "rz": 22,
+   "height": 5.9,
+   "edge": 0.46
+  },
+  {
+   "id": "bank-shoulder",
+   "x": 88,
+   "z": 57,
+   "rx": 17,
+   "rz": 14,
+   "height": 5.6,
+   "edge": 0.6
+  },
+  {
+   "id": "keep-apron",
+   "x": 91,
+   "z": 49,
+   "rx": 12,
+   "rz": 6,
+   "height": 7.6,
+   "edge": 0.5
+  },
+  {
+   "id": "west-shelf",
+   "x": 44,
+   "z": 62,
+   "rx": 19,
+   "rz": 19,
+   "height": 4.1,
+   "edge": 0.46
+  },
+  {
+   "id": "mill-rise",
+   "x": 70,
+   "z": 66,
+   "rx": 10,
+   "rz": 12,
+   "height": 2.4,
+   "edge": 0.6
+  },
+  {
+   "id": "guide-knoll",
+   "x": 67,
+   "z": 98,
+   "rx": 18,
+   "rz": 15,
+   "height": 3.1,
+   "edge": 0.45
+  },
+  {
+   "id": "survival-bench",
+   "x": 31,
+   "z": 84,
+   "rx": 14,
+   "rz": 11,
+   "height": 2.6,
+   "edge": 0.45
+  },
+  {
+   "id": "west-downs",
+   "x": 26.5,
+   "z": 97,
+   "rx": 13.5,
+   "rz": 11,
+   "height": 2.9,
+   "edge": 0.5
+  },
+  {
+   "id": "west-cliff-rim",
+   "x": 16,
+   "z": 64,
+   "rx": 7,
+   "rz": 20,
+   "height": 2.8,
+   "edge": 0.55
+  },
+  {
+   "id": "south-hummock-1",
+   "x": 92,
+   "z": 93,
+   "rx": 8,
+   "rz": 6,
+   "height": 1.6,
+   "edge": 0.7
+  },
+  {
+   "id": "south-hummock-2",
+   "x": 104,
+   "z": 84,
+   "rx": 6,
+   "rz": 6,
+   "height": 1.3,
+   "edge": 0.7
+  }
+ ],
+ "basins": [
+  {
+   "id": "fishing-hollow",
+   "x": 26.5,
+   "z": 96,
+   "rx": 8,
+   "rz": 6,
+   "depth": 3.7,
+   "edge": 0.6,
+   "pond": 1.0
+  },
+  {
+   "id": "fishing-hollow-lobe",
+   "x": 31.5,
+   "z": 99,
+   "rx": 4.5,
+   "rz": 3.4,
+   "depth": 3.3,
+   "edge": 0.7,
+   "pond": 1.0
+  }
+ ],
+ "dimples": [
+  [
+   50,
+   42,
+   2.8,
+   1.0
+  ],
+  [
+   101,
+   44,
+   3.2,
+   1.1
+  ],
+  [
+   124,
+   50,
+   2.6,
+   0.9
+  ],
+  [
+   22,
+   50,
+   3,
+   1.0
+  ],
+  [
+   96,
+   70,
+   2.8,
+   0.8
+  ],
+  [
+   58,
+   84,
+   2.6,
+   0.8
+  ],
+  [
+   84,
+   86,
+   3,
+   0.8
+  ],
+  [
+   112,
+   102,
+   2.6,
+   0.7
+  ]
+ ],
+ "pads": [
+  {
+   "id": "landing",
+   "x": 61,
+   "z": 118,
+   "w": 10,
+   "d": 7,
+   "height": 1.0,
+   "blend": 4
+  },
+  {
+   "id": "fire-beach",
+   "x": 32.5,
+   "z": 101,
+   "w": 6,
+   "d": 2.5,
+   "height": 1.55,
+   "blend": 1.2,
+   "material": 0
+  },
+  {
+   "id": "garden-terrace",
+   "x": 52.9,
+   "z": 61.3,
+   "w": 5.8,
+   "d": 6.4,
+   "height": 5.4,
+   "blend": 1.2,
+   "material": 1
+  },
+  {
+   "id": "mill",
+   "x": 65.5,
+   "z": 63.5,
+   "w": 7,
+   "d": 9,
+   "height": 3.2,
+   "blend": 2
+  },
+  {
+   "id": "beacon-cove",
+   "x": 103.5,
+   "z": 15.5,
+   "w": 9,
+   "d": 7,
+   "height": 1.0,
+   "blend": 2.5,
+   "material": 0,
+   "note": "Lanternfoot Cove: the departure pier (the haven, moved) and the foot of the Keeper's Stair"
+  },
+  {
+   "id": "holm-farm",
+   "x": 110,
+   "z": 95,
+   "w": 12,
+   "d": 9,
+   "height": 2.4,
+   "blend": 3
+  }
+ ],
+ "grades": [
+  {
+   "id": "hollow-descent",
+   "halfWidth": 1,
+   "blend": 1.5,
+   "points": [
+    [
+     33,
+     89.5,
+     4.0
+    ],
+    [
+     33,
+     92,
+     3.2
+    ],
+    [
+     36,
+     92,
+     2.4
+    ],
+    [
+     36,
+     96,
+     1.7
+    ],
+    [
+     36,
+     99.5,
+     1.55
+    ],
+    [
+     33,
+     99.5,
+     1.55
+    ]
+   ]
+  },
+  {
+   "id": "keep-gate-approach",
+   "halfWidth": 1.5,
+   "blend": 2.5,
+   "points": [
+    [
+     95,
+     58,
+     6.6
+    ],
+    [
+     95,
+     50,
+     9.2
+    ],
+    [
+     89,
+     50,
+     10.4
+    ],
+    [
+     89,
+     46,
+     11
+    ]
+   ]
+  },
+  {
+   "id": "crown-climb",
+   "halfWidth": 1,
+   "blend": 2,
+   "points": [
+    [
+     114,
+     51,
+     7.6
+    ],
+    [
+     114,
+     46,
+     8.6
+    ],
+    [
+     128,
+     46,
+     10.8
+    ],
+    [
+     128,
+     38,
+     13.2
+    ],
+    [
+     115,
+     38,
+     16.2
+    ],
+    [
+     115,
+     31,
+     17.5
+    ]
+   ]
+  },
+  {
+   "id": "beacon-stair-head",
+   "halfWidth": 1,
+   "blend": 1.5,
+   "points": [
+    [
+     115,
+     31,
+     17.5
+    ],
+    [
+     111,
+     31,
+     16.3
+    ],
+    [
+     111,
+     22,
+     13.0
+    ]
+   ]
+  }
+ ],
+ "creek": {
+  "halfWidth": 1.2,
+  "bankWidth": 2.5,
+  "depth": 0.8,
+  "valley": {
+   "above": 0.9,
+   "rise": 0.12,
+   "radius": 10
+  },
+  "points": [
+   [
+    72,
+    30,
+    6.0
+   ],
+   [
+    66,
+    37,
+    5.6
+   ],
+   [
+    67.6,
+    39.2,
+    5.5
+   ],
+   [
+    68.4,
+    40.6,
+    4.8
+   ],
+   [
+    70,
+    44,
+    4.5
+   ],
+   [
+    64,
+    50,
+    3.8
+   ],
+   [
+    62,
+    56.5,
+    3.3
+   ],
+   [
+    60.4,
+    58.6,
+    3.15
+   ],
+   [
+    60.1,
+    59.8,
+    3.1
+   ],
+   [
+    60.0,
+    60.9,
+    2.05
+   ],
+   [
+    59.9,
+    64.6,
+    2.0
+   ],
+   [
+    58.5,
+    67.5,
+    1.95
+   ],
+   [
+    57,
+    71,
+    1.85
+   ],
+   [
+    49,
+    77,
+    1.75
+   ],
+   [
+    48,
+    86,
+    1.55
+   ],
+   [
+    43,
+    91,
+    1.3
+   ],
+   [
+    45,
+    99,
+    1.0
+   ],
+   [
+    39,
+    107,
+    0.6
+   ],
+   [
+    39,
+    115,
+    0.25
+   ],
+   [
+    35,
+    118,
+    0
+   ]
+  ]
+ },
+ "approach": {
+  "note": "arrival layout approach (landing -> Guide House door), also the terrain grade",
+  "clearWidth": 2,
+  "waypoints": [
+   [
+    61,
+    1,
+    118
+   ],
+   [
+    61,
+    1.9,
+    114
+   ],
+   [
+    66,
+    2.9,
+    114
+   ],
+   [
+    66,
+    4.4,
+    107
+   ],
+   [
+    66,
+    4.4,
+    104
+   ],
+   [
+    66,
+    4.4,
+    103
+   ]
+  ]
+ },
+ "seats": [
+  {
+   "id": "guide",
+   "arrival": true,
+   "y": 4.4,
+   "rect": [
+    53,
+    90,
+    80,
+    113
+   ],
+   "note": "the Guide House and its arrival yard (statue, garden walls, bench, hazels, oaks) keep the Sept 13 ground, lifted 1.4"
+  },
+  {
+   "id": "survival",
+   "nav": "holm-survival-oldschool-navigation-v1",
+   "y": 4.0,
+   "margin": 1,
+   "exclude": "^Survival_(DeckJetty|DeckLanding|StepBank)"
+  },
+  {
+   "id": "bakehouse",
+   "nav": "holm-kitchen-oldschool-navigation-v1",
+   "y": 5.4,
+   "margin": 1
+  },
+  {
+   "id": "lodge",
+   "nav": "holm-quest-lodge-oldschool-navigation-v1",
+   "y": 6.4,
+   "margin": 1
+  },
+  {
+   "id": "quarry",
+   "nav": "holm-quarry-oldschool-navigation-v1",
+   "y": 9.15,
+   "margin": 1
+  },
+  {
+   "id": "keep",
+   "nav": "holm-keep-oldschool-navigation-v1",
+   "y": 11.0,
+   "margin": 1
+  },
+  {
+   "id": "bank",
+   "nav": "holm-bank-oldschool-navigation-v1",
+   "y": 7.3,
+   "margin": 1
+  },
+  {
+   "id": "mage",
+   "nav": "holm-mage-oldschool-navigation-v1",
+   "y": 7.75,
+   "margin": 1
+  },
+  {
+   "id": "lastlight",
+   "nav": "holm-lastlight-oldschool-navigation-v1",
+   "y": 17.8,
+   "margin": 1
+  }
+ ],
+ "seatBlend": 2.0,
+ "bridges": [
+  {
+   "x": 49,
+   "z": 87,
+   "orientation": "EW",
+   "label": "Timber teaching bridge",
+   "span": [
+    43,
+    49
+   ],
+   "deckY": 2.3,
+   "note": "v2 land: the creek runs 0.3-0.45 lower here and its west bank falls from the survival bench; deck bank top to bank top"
+  },
+  {
+   "x": 62,
+   "z": 53,
+   "orientation": "EW",
+   "label": "Stone village bridge",
+   "span": [
+    60,
+    64
+   ],
+   "deckY": 4.3
+  }
+ ],
+ "cuts": [
+  {
+   "id": "keepers-stair-flight-1",
+   "halfWidth": 1.0,
+   "blend": 1.0,
+   "points": [
+    [
+     110.5,
+     21.2,
+     12.9
+    ],
+    [
+     110.5,
+     15.0,
+     6.8
+    ]
+   ],
+   "note": "the Keeper's Stair bed: its treads never sink into the crown"
+  },
+  {
+   "id": "keepers-stair-flight-2",
+   "halfWidth": 0.9,
+   "blend": 1.0,
+   "points": [
+    [
+     110.5,
+     14.5,
+     6.8
+    ],
+    [
+     104.2,
+     14.5,
+     0.9
+    ]
+   ]
+  }
+ ]
+}

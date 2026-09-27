@@ -1,0 +1,29 @@
+{
+ "script": "tools/blender/extract_holm_quest_terrain_navigation_v4.py",
+ "replace": [
+  [
+   "holm-overhaul-terrain-v1/working",
+   "holm-overhaul-terrain-v2/working"
+  ],
+  [
+   "holm-quest-lodge-v6/candidates",
+   "holm-quest-lodge-oldschool-v1/candidates"
+  ],
+  [
+   "holm-quest-terrain-navigation-v4/candidates",
+   "holm-quest-lodge-v2land-navigation-v1/candidates"
+  ],
+  [
+   "655e69f88d24b389ccf6b7c90e61d60d1d9b4ccde32030b0a45754285feb1d98",
+   "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e"
+  ],
+  [
+   "origin={'x':35,'y':5.02,'z':51}",
+   "origin={'x':35,'y':6.4,'z':51}"
+  ],
+  [
+   "-5.02",
+   "-6.4"
+  ]
+ ]
+}

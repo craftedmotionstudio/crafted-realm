@@ -11,7 +11,7 @@ var HolmIslandTutors=(function(){
  // the Examine line of their old-school menu (osrs_menu_world.js)
  var CAST=[
   {id:'bram',name:'Guide Bram',at:{arrival:'holm_orientation'},lessons:['study_route','equip_hatchet'],face:'🧓',examine:'The Holm\'s guide. He has welcomed more new arrivals than he can count.'},
-  {id:'wenna',name:'Wenna',at:{building:['survival','logs']},lessons:['chop_logs','light_fire','catch_fish','cook_fish'],face:'🧝',examine:'A hardy woman who lives off the land at the survival camp.'},
+  {id:'wenna',name:'Wenna',at:{world:[34.5,89.5]},lessons:['chop_logs','light_fire','catch_fish','cook_fish'],face:'🧝',examine:'A hardy woman who lives off the land around Minnow Hollow.'},
   {id:'hettie',name:'Cook Hettie',at:{building:['bakehouse','prep']},lessons:['bake_bread'],face:'👩‍🍳',examine:'The bakehouse cook. There is flour on her apron and steel in her eye.'},
   {id:'ansel',name:'Loremaster Ansel',at:{building:['lodge','map']},lessons:['learn_quests'],face:'🧑‍🏫',examine:'Keeper of the Quest Lodge records, and of a great many stories.'},
   {id:'durgin',name:'Foreman Durgin',at:{building:['cavern','ladder']},lessons:['descend_cavern','mine_copper','mine_tin','smelt_bronze','forge_dagger'],face:'🧔',examine:'Foreman of the ore workings. There is quarry dust in every wrinkle.'},
@@ -25,15 +25,15 @@ var HolmIslandTutors=(function(){
  // with the tutor's welcome; asking again explains the current step (Wenna during light_fire explains the tinderbox).
  var HELLO={
   bram:['Welcome to Tutor\'s Holm, friend. I am Guide Bram. Every adventurer starts here, and I start every adventurer.'],
-  wenna:['Hello there. I am Wenna, and this is the survival camp.','Out here you learn to look after yourself: wood, fire, fish and a hot supper.'],
-  hettie:['Mind the flour. I am Cook Hettie, and this is my bakehouse.','My kitchen, my rules. Today you are baking a loaf of bread.'],
+  wenna:['Hello there. I am Wenna, and down there is Minnow Hollow.','Out here you learn to look after yourself: wood, fire, fish and a hot supper, all within a stone\'s throw of the pond.'],
+  hettie:['Mind the flour. I am Cook Hettie, and this is my bakehouse.','The flour comes from Creakwheel Mill, just across the creek. You can watch the wheel turn from my garden, if you have a minute to sit.','My kitchen, my rules. Today you are baking a loaf of bread.'],
   ansel:['Ah, a new face. I am Loremaster Ansel. This lodge keeps the record of every task the Holm has to offer.','Quests are the stories of this land: folk with troubles, and rewards for those who help them.'],
   durgin:['Mind your head down here. I am Foreman Durgin, and these are the Holm\'s ore workings.','Every blade on this island starts as rock in this cavern. Today you will make one yourself.'],
   corrick:['Stand straight. I am Warden Corrick, and this keep is where the Holm learns to fight.'],
   maud:['Welcome to the Holm Bank. I am Teller Maud.','Anything you leave with us is kept safe, and the same account opens at every bank on the mainland.'],
   ilse:['Welcome, seeker. I am Magister Ilse, and this tower is mine.','Magic runs on runes, and every spell you cast uses some up. Mind yours.'],
   aldous:['You found your way to Lastlight. I am Keeper Aldous. I have kept this light longer than I care to say.','The beacon has gone dark, and Tobin will not sail until it burns again.'],
-  tobin:['So the light is burning again. I am Ferryman Tobin.']};
+  tobin:['So the light is burning again. I am Ferryman Tobin.','I tie up here in the cove because the beacon shines straight down on this water. No better mark to steer by.']};
  function has(id){try{return Player.count(id)>0}catch(e){return false}}
  function lit(){try{return !!scene.getObjectByName('island-campfire')}catch(e){return false}}
  var TEACH={
@@ -41,13 +41,13 @@ var HolmIslandTutors=(function(){
   equip_hatchet:function(){return has('hatchet')
    ?['You have your tools. Open your pack and click the bronze hatchet to wield it.','Then follow the path west to the survival camp. Wenna will show you what a hatchet is for.']
    :['Your tools are on the provision rack by the wall. Click the rack to take them.','Then open your pack and click the bronze hatchet to wield it.']},
-  chop_logs:function(){return ['First, wood. Click one of the oaks by the camp and your hatchet will do the rest.','Keep at it until the logs come away. Some swings miss; that is woodcutting.','Logs in hand, you will want a fire. Ask me again if you forget how.']},
+  chop_logs:function(){return ['First, wood. The oaks on the rim of the hollow, just below us, are yours to cut. Click one and your hatchet will do the rest.','Keep at it until the logs come away. Some swings miss; that is woodcutting.','Logs in hand, you will want a fire. Ask me again if you forget how.']},
   light_fire:function(){return has('logs')
-   ?['Good, you have logs. Now for a fire.','Click the tinderbox in your pack, then click the logs.','Stand clear once it catches. You will step aside on your own.']
-   :['A fire needs logs. Chop one of the oaks by the camp first.','Then click your tinderbox, then the logs.']},
-  catch_fish:function(){return ['A fire wants something to cook. Take the bank stair down to the fishing stage over the creek.','Click the small net in your pack, then click the ripples in the water.','Keep netting until you land a perch.']},
+   ?['Good, you have logs. Take the path down into the hollow, to the Fire Beach by the water.','There, click the tinderbox in your pack, then click the logs.','Stand clear once it catches. You will step aside on your own.']
+   :['A fire needs logs. Chop one of the oaks on the rim of the hollow first.','Then go down to the Fire Beach, click your tinderbox, then the logs.']},
+  catch_fish:function(){return ['A fire wants something to cook, and the pond is full of perch.','Click the ripples on the water and you will cast your net. Some casts come up empty; keep at it.','Watch the pond. The fish move about, and when they do, the ripples go with them.']},
   cook_fish:function(){
-   if(!has('raw_perch'))return ['You need a raw perch first. Net one from the ripples off the fishing stage.','Then bring it back and click your fire to cook it.'];
+   if(!has('raw_perch'))return ['You need a raw perch first. Net one from the ripples on the pond.','Then click your fire on the beach to cook it.'];
    if(!lit())return ['Your fire has burnt out. Chop more logs and light another with your tinderbox.','Then click the fire to cook your perch.'];
    return ['Now cook that perch. Click your fire and you will cook it.','If it burns, do not fret. Net another and try again. Everyone burns their first few.']},
   bake_bread:function(){
@@ -59,12 +59,12 @@ var HolmIslandTutors=(function(){
   mine_copper:function(){return ['Mining is simple enough. With a pickaxe in your pack, click a rock and you will mine it.','Copper shows orange in the rock, on the north face. Mine one copper ore.']},
   mine_tin:function(){return ['Now tin. It is the pale grey vein on the east wall. Mine one tin ore.','Copper and tin together make bronze.']},
   smelt_bronze:function(){return ['Copper and tin make bronze. Click the furnace in the smelting nook and choose a bronze bar.']},
-  forge_dagger:function(){return ['Take your bar and hammer to the anvil. Click it and choose the bronze dagger.','Then climb back up the ladder. Warden Corrick at the keep will want to see what you have made.']},
+  forge_dagger:function(){return ['Take your bar and hammer to the anvil. Click it and choose the bronze dagger.','Then follow the drift east, under the creek. The ladder at its end comes up through a trapdoor in the Warden\'s Keep, and Warden Corrick will want to see what you have made.']},
   melee_trial:function(){return ['Wield that bronze dagger: click it in your pack and it goes in your hand.','The grubkins in the court are tame; they snap, but only for show.','Click one to attack it, and stay on it until it drops.']},
   ranged_trial:function(){return ['Good. Now the shortbow. Click it in your pack to wield it; your arrows go with it.','Click a grubkin to shoot it. Keep your distance and keep shooting until it drops.']},
   open_bank:function(){return ['Click my counter to open your account and see what is inside.','Anything you store here is safe. When you are done, the Mage Tower is next.']},
   magic_trial:function(){return ['Air and mind runes make Wind Strike, and you have both in your pack.','Open your spellbook and click Wind Strike to choose it.','Then click one of the grubkins in the yard. Each click casts once: choose Wind Strike again for the next. A spell can splash, just like a sword can miss.','With a staff in your hand, a chosen spell keeps casting on its own.']},
-  relight_lastlight:function(){return ['Climb the three ladders to the lantern deck and pull the beacon lever.','Once the light is burning, go down to the haven. Tobin will row you across.']}};
+  relight_lastlight:function(){return ['Climb the three ladders to the lantern deck and pull the beacon lever.','Once the light is burning, take the Keeper\'s Stair down the cliff to Lanternfoot Cove. Tobin keeps his skiff at the pier there.']}};
  var st={npcs:[],api:null,mixers:[],talking:null,waved:{}};
  function nextOf(){return typeof Tutorial!=='undefined'&&!Tutorial.complete&&Tutorial.steps[Tutorial.step]?Tutorial.steps[Tutorial.step].id:null}
  function ownerOf(id){return CAST.filter(function(c){return c.lessons.indexOf(id)>=0})[0]}
@@ -73,7 +73,7 @@ var HolmIslandTutors=(function(){
  function turn(c){if(typeof Tutorial==='undefined')return false;if(Tutorial.complete)return c.id==='tobin';var cur=nextOf();return !!cur&&c.lessons.indexOf(cur)>=0}
  function pages(c){
   var cur=nextOf(),hello=spoken(c.id)?[]:(HELLO[c.id]||[]);
-  if(typeof Tutorial!=='undefined'&&Tutorial.complete)return c.id==='tobin'?hello.concat(['Lastlight is burning, so the skiff is ready whenever you are.','Board her at the end of the pier and I will row you across to the mainland.']):['You have finished your lessons. Tobin\'s skiff waits at the Departure Haven.'];
+  if(typeof Tutorial!=='undefined'&&Tutorial.complete)return c.id==='tobin'?hello.concat(['Lastlight is burning, so the skiff is ready whenever you are.','Board her at the end of the pier and I will row you across to Hearthmere.']):['You have finished your lessons. Tobin\'s skiff waits at Lanternfoot Cove, down the Keeper\'s Stair below Lastlight.'];
   if(cur&&c.lessons.indexOf(cur)>=0){var t=TEACH[cur];return hello.concat(t?t():['Go on then.'])}
   var o=cur&&ownerOf(cur);
   var done=c.lessons.length&&c.lessons.every(function(id){return Array.isArray(Tutorial.completedLessonIds)&&Tutorial.completedLessonIds.indexOf(id)>=0});
@@ -82,8 +82,10 @@ var HolmIslandTutors=(function(){
   return ['Not yet, friend. '+(o?o.name+' has a lesson for you first.':'Finish your current lesson first.')];
  }
  function play(n,name,fade){var a=n.actions[name];if(!a||n.current===a)return;Object.keys(n.actions).forEach(function(k){if(n.actions[k]!==a)n.actions[k].fadeOut(fade||.25)});a.reset().fadeIn(fade||.25).play();n.current=a}
+ function worldStance(api,w){var best=null,d=Infinity;api.graphNodes().forEach(function(n){var k=Math.hypot(n.x-w[0],n.z-w[1]);if(k<d&&n.surface==='land'){d=k;best=n}});return best}
  function spot(api,c){
-  var s=c.at.arrival?api.arrivalStance(c.at.arrival):api.qaStance(c.at.building[0],c.at.building[1]);if(!s)return null;
+  // at: an arrival service, a building's measured target, or a world point (Wenna at the head of the Minnow Hollow path)
+  var s=c.at.arrival?api.arrivalStance(c.at.arrival):c.at.world?worldStance(api,c.at.world):api.qaStance(c.at.building[0],c.at.building[1]);if(!s)return null;
   var nodes=api.graphNodes(),best=null,score=Infinity;
   nodes.forEach(function(n){var d=Math.hypot(n.x-s.x,n.z-s.z);if(d<1.2||d>2.9||Math.abs(n.y-s.y)>.4)return;var sc=Math.abs(d-1.6)+((n.x*3+n.z*5)%7)*.01;if(sc<score){score=sc;best=n}});
   return best&&{x:best.x,y:best.y,z:best.z,surface:best.surface,faceX:s.x,faceZ:s.z};
@@ -114,8 +116,13 @@ var HolmIslandTutors=(function(){
  }
  // the chat is over (last page, or the box was closed): back to idle, and the tutor counts as spoken to
  function ended(n){if(st.talking===n)st.talking=null;play(n,'idle');if(n.opens){n.opens=false;if(typeof HolmIslandTalk!=='undefined')HolmIslandTalk.markTalked(n.cast.id)}}
+ // v2 land phase 5 (draw calls): a tutor off screen is not drawn (the rigs keep frustumCulled off, as skinned bounds
+ // shift while animating, so each tutor is culled here by a standing-height sphere instead; it still animates)
+ var cull={f:null,m:null,s:null};
+ function onScreen(n){if(typeof camera==='undefined'||typeof THREE==='undefined'||!camera.projectionMatrix)return true;cull.f=cull.f||new THREE.Frustum();cull.m=cull.m||new THREE.Matrix4();cull.s=cull.s||new THREE.Sphere();
+  cull.m.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse);cull.f.setFromProjectionMatrix(cull.m);cull.s.center.copy(n.group.position);cull.s.center.y+=1;cull.s.radius=1.8;return cull.f.intersectsSphere(cull.s)}
  function update(dt){
-  st.npcs.forEach(function(n){n.mixer.update(dt);
+  st.npcs.forEach(function(n){n.mixer.update(dt);n.group.visible=onScreen(n);
    // wave once when the player first comes near, then settle back to idle
    var d=typeof player!=='undefined'?Math.hypot(player.position.x-n.group.position.x,player.position.z-n.group.position.z):99;
    if(d<4.5&&!st.waved[n.cast.id]&&st.talking!==n){st.waved[n.cast.id]=true;n.group.lookAt(player.position.x,n.group.position.y,player.position.z);play(n,'wave');

@@ -8,7 +8,7 @@ var HolmArrivalQA=(function(){
  var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null,heldRecord=null,lessons=null,passThrough=false,lastGateKey='';
  // ?holmIsland=1 (M4.1): the same provider over the whole Sept 13 island: the arrival graph composed with the
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
- function revision(){return island?'holm-island-v1':loaded.package.navigation.graphRevision}
+ function revision(){return island?'holm-island-v2':loaded.package.navigation.graphRevision}   // v2: the Holm v2 land (2026-09-26); v1 island stances do not restore onto it
  // v4 (2026-09-24, M3R): guide house v2, branching oak, Lantern Keeper statue, trunk-footprint tree blockers
  var ID=island&&typeof HolmIsland!=='undefined'?HolmIsland.ID:'tutors-holm-arrival-qa',EXPORT='64098cdbe5d0631d';
  function active(){return !!provider&&CRWorldMode.providerId===ID}
@@ -19,7 +19,8 @@ var HolmArrivalQA=(function(){
   var production=typeof HolmIsland!=='undefined'&&HolmIsland.production();
   if((!production&&!QAProfile.isolated)||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
   // old-school look (2026-09-25): the textured Guide House ships in its own arrival package export (same graph)
-  var osPkg=typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.arrivalPackage():null;
+  // Holm v2 land (2026-09-26): the island's terrain lives in the v2-land arrival package (HolmV2Land), in both looks
+  var osPkg=island&&typeof HolmV2Land!=='undefined'?HolmV2Land.arrival():typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.arrivalPackage():null;
   loaded=null;if(osPkg)try{loaded=await HolmArrivalExportLoader.load({baseUrl:osPkg.baseUrl,exportId:osPkg.exportId})}catch(e){console.warn('[HolmArrivalQA] old-school arrival package unavailable; the previous package is kept',e&&e.message)}
   if(!loaded)loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v9/exports/',exportId:EXPORT});
   if(typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){HolmOverhaulGround.setTerrain(loaded.documents.terrain);await HolmOldschoolLook.preload(THREE)}
@@ -47,6 +48,11 @@ var HolmArrivalQA=(function(){
       extras=await HolmIslandExtras.load({THREE:THREE,scene:scene,WORLD:WORLD,data:islandData,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}});
       // M5.1 lesson stations on the island (trees, fishing spot, ore rocks, furnace, anvil, beacon lever)
       if(typeof HolmIslandLessons!=='undefined')lessons=await HolmIslandLessons.load({THREE:THREE,scene:scene,WORLD:WORLD,models:extras.models,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}});
+      // v2 land phase 2: Minnow Hollow, the pond where fishing is taught (moving spots, pond life, sounds)
+      // v2 land: the Blender prop sets (Hettie's Garden, clutter, fences) and the Creakwheel Mill's sounds
+      if(typeof HolmIslandProps!=='undefined')try{await HolmIslandProps.load({THREE:THREE,scene:scene,WORLD:WORLD,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}})}catch(err){console.error('[HolmArrivalQA] props',err)}
+      if(typeof HolmMill!=='undefined')HolmMill.bind(scene);
+      if(typeof HolmFishing!=='undefined')try{await HolmFishing.load({THREE:THREE,scene:scene,WORLD:WORLD,sample:function(x,z){return HolmOverhaulTerrain.sample(loaded.documents.terrain,x,z)}})}catch(err){console.error('[HolmArrivalQA] fishing',err)}
       // M6.4: Blender-animated lever, beam, marker, ripple, furnace glow, sparks; tree fall and ferry departure
       if(typeof HolmIslandFx!=='undefined')try{await HolmIslandFx.load({THREE:THREE,scene:scene,models:extras.models,api:HolmArrivalQA})}catch(err){console.error('[HolmArrivalQA] fx',err)}
       // M6.1: one Blender tutor per area, with chat-box lessons
@@ -74,7 +80,7 @@ var HolmArrivalQA=(function(){
      for(const d of pack.navigation.doors){var leaf=owner.house.getObjectByName(d.leafPart);if(leaf){leaf.userData.kind='arrival_door';leaf.userData.arrivalDoor=d.id;leaf.userData.label='Open / close door';if(WORLD.clickables.indexOf(leaf)<0)WORLD.clickables.push(leaf)}}
     },populate:function(){},chartCollision:function(){},
     loadChunk:function(c,p){return WorldV2Terrain.loadChunk(c,p)},unloadChunk:function(h){WorldV2Terrain.unloadChunk(h)},
-    dispose:function(){HolmArrivalPlayer.detach();for(var si=WORLD.clickables.length-1;si>=0;si--){var sn0=WORLD.clickables[si];if(sn0&&sn0.userData&&sn0.userData.kind==='arrival_statue')WORLD.clickables.splice(si,1)}if(typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.deactivate(scene);if(typeof HolmIslandTutors!=='undefined')HolmIslandTutors.dispose(WORLD,scene);if(typeof HolmIslandTrials!=='undefined')HolmIslandTrials.dispose();if(lessons){HolmIslandLessons.dispose(WORLD,scene);lessons=null}if(extras){extras.dispose();extras=null}if(owner)owner.dispose();if(water)water.dispose();if(trail){scene.remove(trail);[WORLD.grounds,WORLD.clickables].forEach(function(a){var i=a.indexOf(trail);if(i>=0)a.splice(i,1)});trail.geometry.dispose();trail.material.dispose();trail=null;}if(chart){scene.remove(chart);var i=WORLD.clickables.indexOf(chart);if(i>=0)WORLD.clickables.splice(i,1);chart.geometry.dispose();chart.material.dispose()}WorldV2Terrain.dispose()},
+    dispose:function(){HolmArrivalPlayer.detach();for(var si=WORLD.clickables.length-1;si>=0;si--){var sn0=WORLD.clickables[si];if(sn0&&sn0.userData&&sn0.userData.kind==='arrival_statue')WORLD.clickables.splice(si,1)}if(typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.deactivate(scene);if(typeof HolmIslandTutors!=='undefined')HolmIslandTutors.dispose(WORLD,scene);if(typeof HolmIslandTrials!=='undefined')HolmIslandTrials.dispose();if(lessons){HolmIslandLessons.dispose(WORLD,scene);lessons=null}if(typeof HolmFishing!=='undefined')HolmFishing.dispose();if(typeof HolmIslandProps!=='undefined')HolmIslandProps.dispose();if(typeof HolmInstancedCells!=='undefined')HolmInstancedCells.dispose();if(typeof HolmMill!=='undefined')HolmMill.dispose();if(extras){extras.dispose();extras=null}if(owner)owner.dispose();if(water)water.dispose();if(trail){scene.remove(trail);[WORLD.grounds,WORLD.clickables].forEach(function(a){var i=a.indexOf(trail);if(i>=0)a.splice(i,1)});trail.geometry.dispose();trail.material.dispose();trail=null;}if(chart){scene.remove(chart);var i=WORLD.clickables.indexOf(chart);if(i>=0)WORLD.clickables.splice(i,1);chart.geometry.dispose();chart.material.dispose()}WorldV2Terrain.dispose()},
     snapshot:function(){return {arrivalDraft:true,terrain:WorldV2Terrain.snapshot(),pose:bridge?bridge.snapshot():null,doors:doors}}
    }});
   WorldV2.activate(ID);CRWorldMode.attachProvider(provider);return provider;
@@ -234,7 +240,7 @@ var HolmArrivalQA=(function(){
   return false;
  }
  function update(dt){
-  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);if(lessons)HolmIslandLessons.update();if(island&&typeof HolmIslandTutors!=='undefined')HolmIslandTutors.update(dt);if(island&&typeof HolmIslandPlayer!=='undefined')HolmIslandPlayer.update();if(island&&typeof HolmIslandFx!=='undefined')HolmIslandFx.update(dt,THREE,scene);if(island&&typeof HolmIslandGuide!=='undefined')HolmIslandGuide.update(dt);if(island&&typeof HolmIslandTalk!=='undefined')HolmIslandTalk.update();if(island&&typeof HolmIslandGates!=='undefined'){HolmIslandGates.refresh();HolmIslandGates.update(dt);
+  if(!active()||!bridge||!owner)return;if(water)water.update(dt);var pose=bridge.snapshot();if(extras)extras.update(dt,pose);if(island&&typeof HolmInstancedCells!=='undefined')HolmInstancedCells.update(dt,typeof camera!=='undefined'?camera:null);if(lessons)HolmIslandLessons.update();if(island&&typeof HolmFishing!=='undefined')HolmFishing.update(dt);if(island&&typeof HolmMill!=='undefined')HolmMill.update(dt);if(island&&typeof HolmIslandTutors!=='undefined')HolmIslandTutors.update(dt);if(island&&typeof HolmIslandPlayer!=='undefined')HolmIslandPlayer.update();if(island&&typeof HolmIslandFx!=='undefined')HolmIslandFx.update(dt,THREE,scene);if(island&&typeof HolmIslandGuide!=='undefined')HolmIslandGuide.update(dt);if(island&&typeof HolmIslandTalk!=='undefined')HolmIslandTalk.update();if(island&&typeof HolmIslandGates!=='undefined'){HolmIslandGates.refresh();HolmIslandGates.update(dt);
    // an opened gate changes the composed graph: the follower holds its graph, so re-seat it on the current one
    var gk=nav.gateKey?nav.gateKey():'';if(gk!==lastGateKey){if(bridge.setDoors({arrival:doors.arrival,garden:doors.garden}))lastGateKey=gk}}owner.update(dt,pose.surface);
   if(island&&typeof HolmGuideCellar!=='undefined')HolmGuideCellar.update(dt,pose.surface);
@@ -242,7 +248,7 @@ var HolmArrivalQA=(function(){
   if(pending&&pose.nodeId===pending.id&&!pose.moving){var p0=pending,kind=pending.kind,door=pending.door;pending=null;
    if(kind==='island_service'){var call=p0.service.call;
     if(p0.service.climb){var up=graphForDoors(doors).byId[p0.service.climb];if(up){placeAt(up);if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active())HolmIslandPlayer.play('climb');if(p0.service.notify)try{Tutorial.notify(p0.service.notify[0],p0.service.notify[1])}catch(e){}}else UI.chat('The ladder leads nowhere yet.','plain');if(!call)return}
-    if(!call){UI.chat(p0.service.label+'. (Its lesson comes with the full tutorial.)','plain');return}
+    if(!call){UI.chat(p0.service.say||(p0.service.label+'. (Its lesson comes with the full tutorial.)'),'plain');return}
     // module globals may be lexical (const UI), so resolve by name rather than only on window
     var mod=typeof window!=='undefined'&&window[call[0]];if(!mod&&/^[A-Za-z_]\w*$/.test(call[0])){try{mod=new Function('return typeof '+call[0]+'!==\'undefined\'?'+call[0]+':null')()}catch(e){mod=null}}
     if(mod&&typeof mod[call[1]]==='function')mod[call[1]]();return}
@@ -284,6 +290,9 @@ var HolmArrivalQA=(function(){
   // standing on the chosen node and still asked to close in: that node does not work for this target, pick another
   if(cur.nodeId===n.id){approachStall[key]=(approachStall[key]||0)+1;if(approachStall[key]>4){(approachBad[key]=approachBad[key]||{})[n.id]=true;delete approachCache[key];approachStall[key]=0}return true}
   approachStall[key]=0;return bridge.order({x:n.x,y:n.y,z:n.z,surface:n.surface})}
+ // QA only (read-only): the planned route from the player's node to the walkable node nearest a world point
+ function qaRouteTo(x,z){if(!active()||!island||!bridge)return null;var g=graphForDoors(doors),best=null,d=Infinity;g.nodes.forEach(function(n){var k=Math.hypot(n.x-x,n.z-z);if(k<d){d=k;best=n}});
+  var from=bridge.snapshot().nodeId,r=best&&from&&nav.route(g,from,best.id);return r?r.map(function(id){var n=g.byId[id];return {id:id,x:n.x,y:n.y,z:n.z,surface:n.surface}}):null}
  function graphNodes(){return active()?graphForDoors(doors).nodes:[]}
  // read-only: the composed graph for the current doors/gates (combat reach, approach and NPC steps: TileNav)
  function navGraph(){return active()&&island?graphForDoors(doors):null}
@@ -302,7 +311,7 @@ var HolmArrivalQA=(function(){
   var g=graphForDoors(doors),from=bridge.snapshot().nodeId,r=from&&nav.route(g,from,'b:'+buildingId+':'+t.nodeId);
   return r?r.map(function(id){var n=g.byId[id];return {id:id,x:n.x,y:n.y,z:n.z,surface:n.surface}}):null;
  }
- return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaStance:qaStance,stepAside:stepAside,arrivalStance:arrivalStance,approach:approach,graphNodes:graphNodes,navGraph:navGraph,respawnIsland:respawnIsland,
+ return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaRouteTo:qaRouteTo,qaStance:qaStance,stepAside:stepAside,arrivalStance:arrivalStance,approach:approach,graphNodes:graphNodes,navGraph:navGraph,respawnIsland:respawnIsland,
   islandActive:function(){return active()&&island},
   doorOpen:function(id){return !!doors[id]},   // the Guide House doors, for the menu's Open / Close row
   // review captures only: stream and frame a place without moving the adventurer

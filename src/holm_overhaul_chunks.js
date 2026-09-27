@@ -9,7 +9,7 @@ var HolmOverhaulChunks=(function(){
   need(b.width===144&&b.depth===128&&b.spacing===1,'invalid extent');
   need(Array.isArray(b.heights)&&b.heights.length===145*129&&b.heights.every(Number.isFinite),'invalid heights');
   need(Array.isArray(b.materials)&&b.materials.length===b.heights.length&&b.materials.every(n=>Number.isInteger(n)&&n>=0&&n<=4),'invalid materials');
-  need(Array.isArray(b.water)&&b.water.length===144*128&&b.water.every(n=>Number.isInteger(n)&&n>=0&&n<=2),'invalid water');
+  need(Array.isArray(b.water)&&b.water.length===144*128&&b.water.every(n=>Number.isInteger(n)&&n>=0&&n<=3),'invalid water');
   var chunks=[];
   for(var cz=0;cz<16;cz++)for(var cx=0;cx<18;cx++){
    var heights=[],materials=[],flags=[];
@@ -18,7 +18,7 @@ var HolmOverhaulChunks=(function(){
    }
    for(z=0;z<8;z++)for(x=0;x<8;x++){
     var tx=cx*8+x,tz=cz*8+z,kind=b.water[tz*144+tx];
-    if(kind)flags.push({x:tx,z:tz,mask:1,reason:kind===1?'overhaul-sea':'overhaul-creek'});
+    if(kind)flags.push({x:tx,z:tz,mask:1,reason:kind===1?'overhaul-sea':kind===3?'overhaul-pond':'overhaul-creek'});
    }
    chunks.push({v:1,id:cx+','+cz,cx:cx,cz:cz,layers:{
     terrain:{underlay:'holm-overhaul-v1',heightSource:'holm-overhaul-v1',revision:1,

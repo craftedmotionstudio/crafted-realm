@@ -1,0 +1,100 @@
+{
+ "schema": "holm-island-bridges-models-v1",
+ "source": "docs/rebuild/holm-overhaul/island-bridges.json",
+ "sourceSha256": "81c0768fabf95209096d129651d92d1d5a39d717b423dde8dd3d3dad2b2e2cbd",
+ "deck": {
+  "timber_teaching_bridge": {
+   "tiles": [
+    [
+     43,
+     87
+    ],
+    [
+     44,
+     87
+    ],
+    [
+     45,
+     87
+    ],
+    [
+     46,
+     87
+    ],
+    [
+     47,
+     87
+    ],
+    [
+     48,
+     87
+    ],
+    [
+     49,
+     87
+    ]
+   ],
+   "deckY": 2.3,
+   "waterY": [
+    1.45,
+    1.5
+   ]
+  },
+  "stone_village_bridge": {
+   "tiles": [
+    [
+     60,
+     53
+    ],
+    [
+     61,
+     53
+    ],
+    [
+     62,
+     53
+    ],
+    [
+     63,
+     53
+    ],
+    [
+     64,
+     53
+    ]
+   ],
+   "deckY": 4.3,
+   "waterY": [
+    3.522,
+    3.543
+   ]
+  }
+ },
+ "bridges": [
+  {
+   "id": "timber_teaching_bridge",
+   "file": "timber_teaching_bridge.glb",
+   "centre": [
+    46.5,
+    0,
+    87.5
+   ],
+   "triangles": 1944,
+   "sha256_glb": "e5a556978d39fee8743d014e97595708f11dbd009b4e1835e4c70f8b54eb4447",
+   "sha256_blend": "7f8887f1c460ab9be42d0973293be348a78a2e71470eed04503b4a98e1d992db"
+  },
+  {
+   "id": "stone_village_bridge",
+   "file": "stone_village_bridge.glb",
+   "centre": [
+    62.5,
+    0,
+    53.5
+   ],
+   "triangles": 3364,
+   "sha256_glb": "45190a7a6f0be4e41ca316347c00362a8afa70e0b436a8c9984d8bec02b3bf9b",
+   "sha256_blend": "42b41feb1a2c774069022e23e4f533137e3db9031dcc611b5ab4cad8bbdfc677"
+  }
+ ],
+ "v2land": "textured old-school rebuild of .studio-workspaces/holm-island-bridges-v3/candidates"
+}

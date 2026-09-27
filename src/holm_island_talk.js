@@ -19,7 +19,7 @@ var HolmIslandTalk=(function(){
  // the objective banner while a tutor is due
  var TALK={
   bram:'Talk to Guide Bram in the Guide House.',
-  wenna:'Talk to Wenna at the survival camp, west along the path.',
+  wenna:'Talk to Wenna at the head of the Minnow Hollow path, south of the survival camp.',
   hettie:'Talk to Cook Hettie in the bakehouse.',
   ansel:'Talk to Loremaster Ansel in the Quest Lodge.',
   durgin:'Talk to Foreman Durgin at the foot of the shaft ladder.',
@@ -27,7 +27,7 @@ var HolmIslandTalk=(function(){
   maud:'Talk to Teller Maud in the Holm Bank.',
   ilse:'Talk to Magister Ilse at the Mage Tower.',
   aldous:'Talk to Keeper Aldous inside Lastlight.',
-  tobin:'Lastlight is lit. Talk to Ferryman Tobin at the Departure Haven.'};
+  tobin:'Lastlight is lit. Talk to Ferryman Tobin at Lanternfoot Cove, down the Keeper\'s Stair.'};
  var BOARD='Lastlight is lit. Board Ferryman Tobin\'s skiff at the end of the pier.';
  function cast(){return typeof HolmIslandTutors!=='undefined'?HolmIslandTutors.cast():[]}
  function byId(id){return cast().filter(function(c){return c.id===id})[0]||null}

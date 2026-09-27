@@ -1,0 +1,31 @@
+{
+ "note": "Holm v2 land phase 4: the Keeper's Stair textured old-school",
+ "source": ".studio-workspaces/holm-keepers-stair-v2/candidates/stair.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-keepers-stair-v2/candidates/stair.glb",
+ "outBlend": ".studio-workspaces/holm-keepers-stair-os-v2/candidates/stair.blend",
+ "outGlb": ".studio-workspaces/holm-keepers-stair-os-v2/candidates/stair.glb",
+ "report": ".studio-workspaces/holm-keepers-stair-os-v2/candidates/textures.report.json",
+ "rules": [
+  [
+   "(?i)stair oak treads",
+   "planks",
+   0.8
+  ],
+  [
+   "(?i)landing flags",
+   "path",
+   1.0
+  ],
+  [
+   "(?i)footing",
+   "rock",
+   0.8
+  ],
+  [
+   "(?i)lantern|rope|iron",
+   null,
+   0
+  ]
+ ]
+}

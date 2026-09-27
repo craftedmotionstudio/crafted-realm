@@ -17,16 +17,19 @@ var HolmIslandGuide=(function(){
  function alive(prefix){var out=[];scene.traverse(function(o){if(o.name&&o.name.indexOf(prefix)===0&&o.userData&&o.userData.alive!==false&&o.visible!==false)out.push(o)});return out}
  function grubkin(pen){var n=typeof HolmIslandTrials!=='undefined'?HolmIslandTrials.npcs().filter(function(x){return !x.dead&&x.islandPen===pen}).map(function(x){return x.mesh}):[];return nearest(n)}
  function has(id){return typeof Player!=='undefined'&&Player.count(id)>0}
+ // Minnow Hollow (v2 land): the live ripple nearest the player (spots move), and whether the player stands on the Fire Beach
+ function pondSpot(){return typeof HolmFishing!=='undefined'&&typeof player!=='undefined'?HolmFishing.nearestSpot(player.position.x,player.position.z):null}
+ function onBeach(){var b=typeof HolmFishing!=='undefined'&&HolmFishing.fireRing();if(!b||typeof player==='undefined')return true;var a=b.area,p=player.position;return p.x>=a[0]-.5&&p.x<=a[2]+.5&&p.z>=a[1]-.5&&p.z<=a[3]+.5}
  // what to point at for the current step: {obj,label} in the world, or {pack,label} for a step done in the pack
  function aim(id){
   switch(id){
    case 'study_route':return {obj:byKind('arrival_chart'),label:'Study the chart'};
    case 'equip_hatchet':return has('hatchet')?{pack:'hatchet',label:'Wield the hatchet'}:{obj:byKind('arrival_provisions'),label:'Take your tools'};
    case 'chop_logs':return {obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
-   case 'light_fire':return has('logs')?{pack:'tinderbox',label:'Use the tinderbox on the logs'}:{obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
-   case 'catch_fish':return {obj:named('island-lesson-survival-perch'),label:'Net a fish'};
+   case 'light_fire':return has('logs')?(onBeach()?{pack:'tinderbox',label:'Use the tinderbox on the logs'}:{obj:named('island-hollow-fire-ring'),label:'Go down to the Fire Beach'}):{obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
+   case 'catch_fish':return {obj:pondSpot(),label:'Net a fish'};
    case 'cook_fish':
-    if(!has('raw_perch'))return {obj:named('island-lesson-survival-perch'),label:'Net a fish'};
+    if(!has('raw_perch'))return {obj:pondSpot(),label:'Net a fish'};
     if(named('island-campfire'))return {obj:named('island-campfire'),label:'Cook the fish'};
     return has('logs')?{pack:'tinderbox',label:'Light a fire'}:{obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
    case 'bake_bread':
@@ -58,6 +61,7 @@ var HolmIslandGuide=(function(){
   return null;
  }
  // a station inside a building while the player is outside: lead to the building's door first (2004 style)
+ var CAVERN_STEPS={descend_cavern:1,mine_copper:1,mine_tin:1,smelt_bronze:1,forge_dagger:1};
  var NAMES={bakehouse:'bakehouse',lodge:'Quest Lodge',bank:'Holm Bank',keep:"Warden's Keep",mage:'Mage Tower',lastlight:'Lastlight',quarry:'Quarry Gate',survival:'survival camp',haven:'haven'};
  var DOOR={bakehouse:'entrance',lodge:'entrance',bank:'entrance',lastlight:'door',mage:'entrance'};
  function viaDoor(a){var s=a&&a.obj&&a.obj.userData&&a.obj.userData.islandService,b=(a&&a.building)||(s&&s.building);if(!b||!DOOR[b]||typeof HolmArrivalQA==='undefined')return a;
@@ -101,6 +105,9 @@ var HolmIslandGuide=(function(){
   if(a&&(a.pack||a.tab)){packPulse(true,a.pack,a.tab);GuideArrow.setTarget(null);return}
   packPulse(false);
   a=viaGuideDoor(viaDoor(a));
+  // v2 land: in the ore workings, once the cavern lessons are done, every objective is up the east drift ladder first
+  if(a&&typeof HolmArrivalQA!=='undefined'&&!Tutorial.complete){var rw=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord(),s0=Tutorial.steps[Tutorial.step];
+   if(rw&&String(rw.surface||'').indexOf('b:cavern:')===0&&s0&&!CAVERN_STEPS[s0.id]){var dl=service('Climb-up drift ladder','exit');if(dl)a={obj:dl,label:'Climb the drift ladder'}}}
   // down in the Guide House cellar every objective is back up the ladder first
   if(a&&typeof HolmGuideCellar!=='undefined'){var rc=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord();if(rc&&HolmGuideCellar.below(rc.surface)){var lad=named('CellarLadder');if(lad)a={obj:lad,label:'Climb up the ladder'}}}
   var p=a&&(a.point?{x:a.point.x,y:a.point.y+1.4,z:a.point.z}:a.door?doorPoint(a.obj):world(a.obj));if(!p){return}

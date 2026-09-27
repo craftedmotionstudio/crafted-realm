@@ -1,0 +1,8 @@
+{
+ "note": "Holm v2 land: the survival camp without its creek fishing stage (fishing is taught at the Minnow Hollow pond)",
+ "source": ".studio-workspaces/holm-survival-oldschool-v1/candidates/survival.blend",
+ "remove": "^Survival_(DeckJetty|DeckLanding|StepBank|JettyFrame|Reeds|ServiceFishing)",
+ "outBlend": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.blend",
+ "outGlb": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb",
+ "report": ".studio-workspaces/holm-survival-v2land-v1/candidates/derive.report.json"
+}

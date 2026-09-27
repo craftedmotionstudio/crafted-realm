@@ -1,0 +1,346 @@
+{
+ "missed": [
+  "dress-haycombe-farm:hay-bale@112.5,93.3 (used 113,92)",
+  "dress-haycombe-farm:hay-bale@111.9,94.2 (used 112,93)",
+  "dress-lanternfoot-cove:net-rack@106.5,17.55 (used 106,17)",
+  "dress-lanternfoot-cove:fish-crates@108.2,17.3 (used 107,16)",
+  "dress-lanternfoot-cove:rowboat-upturned@95.6,16.2 (slope)",
+  "dress-wayside:lamp-post@84.5,64.5 (prot 84,64)",
+  "dress-wayside:lamp-post@113.5,29.5 (path 113,29)",
+  "dress-wayside:bench@112.5,30.5 (path 111,30)",
+  "dress-wayside:bench@58.5,63.5 (no-node 58,62)",
+  "dress-wayside:bench@88.5,64.5 (prot 87,64)",
+  "dress-wayside:bench@40.5,49.5 (floor 39,49 b:lodge:0:Lodge_GroundFloor_Boards)",
+  "dress-wayside:well@73.5,55.5 (slope)",
+  "yard:survival:crate",
+  "yard:survival:fish-crates",
+  "yard:survival:wheelbarrow",
+  "yard:bakehouse:bench",
+  "yard:bakehouse:barrel",
+  "yard:bakehouse:woodpile",
+  "yard:bakehouse:crate",
+  "yard:bank:market-stall",
+  "yard:bank:bench",
+  "yard:bank:crate-stack",
+  "yard:mill:barrel",
+  "yard:mill:crate",
+  "yard:mill:wheelbarrow",
+  "yard:mill:cart-wheel",
+  "yard:mill:crate-stack",
+  "yard:haven:fish-crates"
+ ],
+ "pathTiles": 1675,
+ "worn": 1078,
+ "routes": [
+  {
+   "from": [
+    64.5,
+    92.5
+   ],
+   "to": [
+    40.5,
+    87.5
+   ],
+   "primary": true,
+   "tiles": 31
+  },
+  {
+   "from": [
+    40.5,
+    87.5
+   ],
+   "to": [
+    33.5,
+    99.3
+   ],
+   "primary": false,
+   "tiles": 15
+  },
+  {
+   "from": [
+    40,
+    88
+   ],
+   "to": [
+    44.5,
+    68.5
+   ],
+   "primary": true,
+   "tiles": 31
+  },
+  {
+   "from": [
+    44.5,
+    68.5
+   ],
+   "to": [
+    35.5,
+    52.5
+   ],
+   "primary": true,
+   "tiles": 27
+  },
+  {
+   "from": [
+    35.5,
+    52.5
+   ],
+   "to": [
+    34.5,
+    38.5
+   ],
+   "primary": true,
+   "tiles": 29
+  },
+  {
+   "from": [
+    35.5,
+    52.5
+   ],
+   "to": [
+    70,
+    52.5
+   ],
+   "primary": true,
+   "tiles": 35
+  },
+  {
+   "from": [
+    70,
+    52.5
+   ],
+   "to": [
+    89.5,
+    42.5
+   ],
+   "primary": true,
+   "tiles": 79
+  },
+  {
+   "from": [
+    89.5,
+    42.5
+   ],
+   "to": [
+    86.5,
+    62.5
+   ],
+   "primary": true,
+   "tiles": 33
+  },
+  {
+   "from": [
+    86.5,
+    62.5
+   ],
+   "to": [
+    106.5,
+    58.5
+   ],
+   "primary": true,
+   "tiles": 28
+  },
+  {
+   "from": [
+    106.5,
+    58.5
+   ],
+   "to": [
+    115.5,
+    26.5
+   ],
+   "primary": true,
+   "tiles": 57
+  },
+  {
+   "from": [
+    115.5,
+    26.5
+   ],
+   "to": [
+    110.5,
+    24.5
+   ],
+   "primary": true,
+   "tiles": 12
+  },
+  {
+   "from": [
+    64.5,
+    92.5
+   ],
+   "to": [
+    78.5,
+    79
+   ],
+   "primary": true,
+   "tiles": 20
+  },
+  {
+   "from": [
+    78.5,
+    79
+   ],
+   "to": [
+    86.5,
+    62.5
+   ],
+   "primary": true,
+   "tiles": 32
+  },
+  {
+   "from": [
+    70,
+    52.5
+   ],
+   "to": [
+    78.5,
+    79
+   ],
+   "primary": false,
+   "tiles": 28
+  },
+  {
+   "from": [
+    44.5,
+    68.5
+   ],
+   "to": [
+    57.5,
+    59.5
+   ],
+   "primary": false,
+   "tiles": 40
+  },
+  {
+   "from": [
+    62.5,
+    59.5
+   ],
+   "to": [
+    64.5,
+    59.5
+   ],
+   "primary": false,
+   "tiles": 2
+  },
+  {
+   "from": [
+    44.5,
+    68.5
+   ],
+   "to": [
+    52.3,
+    57.6
+   ],
+   "primary": false,
+   "tiles": 33
+  },
+  {
+   "from": [
+    106.5,
+    58.5
+   ],
+   "to": [
+    110.5,
+    64.5
+   ],
+   "primary": false,
+   "tiles": 21
+  },
+  {
+   "from": [
+    106.5,
+    58.5
+   ],
+   "to": [
+    121.5,
+    78
+   ],
+   "primary": true,
+   "tiles": 28
+  },
+  {
+   "from": [
+    121.5,
+    78
+   ],
+   "to": [
+    117,
+    95
+   ],
+   "primary": true,
+   "tiles": 18
+  },
+  {
+   "from": [
+    104.5,
+    14.5
+   ],
+   "to": [
+    101.5,
+    16.5
+   ],
+   "primary": false,
+   "tiles": 5
+  }
+ ],
+ "trees": {
+  "base": 70,
+  "added": 197,
+  "total": 267,
+  "clumps": 39
+ },
+ "signposts": 4,
+ "clutter": 167,
+ "inYards": 146,
+ "yardShare": 0.87,
+ "decor": 1685,
+ "dryTiles": 11615,
+ "decorPer100": 14.5,
+ "byProp": {
+  "barn": 1,
+  "haystack": 2,
+  "hay-bale": 6,
+  "fence-run": 33,
+  "fence-gate": 2,
+  "sheep": 4,
+  "cow": 1,
+  "feed-trough": 1,
+  "water-trough": 3,
+  "cabbage-row": 3,
+  "scarecrow": 1,
+  "chicken": 5,
+  "well": 2,
+  "wheelbarrow": 2,
+  "tools-lean": 3,
+  "sack-pile": 8,
+  "lobster-pot-stack": 2,
+  "lobster-pot": 3,
+  "rope-coil": 3,
+  "anchor": 2,
+  "barrel": 18,
+  "cove-bell": 1,
+  "broken-carriage": 1,
+  "sack": 9,
+  "crate": 15,
+  "milestone": 6,
+  "lamp-post": 5,
+  "cart-wheel": 5,
+  "woodpile": 3,
+  "chopping-block": 1,
+  "barrel-apples": 2,
+  "crate-stack": 6,
+  "handcart": 4,
+  "bench": 3,
+  "market-stall": 1,
+  "grass-clump": 622,
+  "pebbles": 282,
+  "mushrooms": 117,
+  "bracken": 177,
+  "daisies": 139,
+  "thistle": 169,
+  "fern": 179
+ },
+ "reachableNodes": 9691
+}

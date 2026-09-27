@@ -25,5 +25,13 @@
       var t=n.clone(true);t.position.set(0,0,0);t.rotation.set(0,0,0);templates[id]=t});
     ready=true;
   },undefined,function(e){failed=String(e&&e.message||e);console.warn('[HolmItems] items.glb failed; code-built drops stay',e)});
-  window.HolmItems={status:function(){return {ready:ready,failed:failed,models:Object.keys(templates).length}},ids:IDS.slice()};
+  // Minnow Hollow catches (Holm v2 land, build_holm_fishing_items_v1.py): a second Blender pack, same contract
+  var FISH_URL=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/holm-fishing-items-v1/candidates/items.glb'):'/.studio-workspaces/holm-fishing-items-v1/candidates/items.glb')+'?v=1';
+  var FISH_IDS=['raw_reedpike','cooked_reedpike','burnt_reedpike','soggy_boot','pond_weed','sealed_bottle','tarnished_ring'];
+  new THREE.GLTFLoader().load(FISH_URL,function(gltf){
+    FISH_IDS.forEach(function(id){var n=gltf.scene.getObjectByName(id);if(!n)return;
+      n.traverse(function(m){if(m.isMesh){m.castShadow=true;m.receiveShadow=true;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});
+      var t=n.clone(true);t.position.set(0,0,0);t.rotation.set(0,0,0);templates[id]=t});
+  },undefined,function(e){console.warn('[HolmItems] fishing items.glb failed; code-built drops stay',e)});
+  window.HolmItems={status:function(){return {ready:ready,failed:failed,models:Object.keys(templates).length}},ids:IDS.concat(FISH_IDS)};
 })();

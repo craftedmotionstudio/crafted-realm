@@ -27,7 +27,7 @@ for(let i=0;i<SI.length;i+=3){const t=[SI[i],SI[i+1],SI[i+2]].map(k=>[SP[k*3],SP
  for(let z=Math.floor(Math.min(...zs));z<=Math.floor(Math.max(...zs));z++)for(let x=Math.floor(Math.min(...xs));x<=Math.floor(Math.max(...xs));x++)(sCell[x+','+z]=sCell[x+','+z]||[]).push(t)}
 function water(x,z){let best=null;for(const t of sCell[Math.floor(x)+','+Math.floor(z)]||[]){const y=bary(t,x,z);if(y!==null&&(best===null||y>best))best=y}return best}
 function creek(x,z){let best={d:Infinity};for(let i=1;i<C.points.length;i++){const a=C.points[i-1],b=C.points[i],dx=b[0]-a[0],dz=b[1]-a[1],t=Math.max(0,Math.min(1,((x-a[0])*dx+(z-a[1])*dz)/(dx*dx+dz*dz))),d=Math.hypot(x-a[0]-t*dx,z-a[1]-t*dz);if(d<best.d)best={d,level:a[2]+(b[2]-a[2])*t}}return best}
-const nav=Nav.create({terrain:T,arrival:I.arrival,buildings:I.buildings,blockers:I.blockers,bridges:I.bridges,arrivalFootprints:I.arrivalFootprints}),open={arrival:true,garden:false},g=nav.compile(open);
+const nav=Nav.create({terrain:T,arrival:I.arrival,buildings:I.buildings,blockers:I.blockers,bridges:I.navBridges||I.bridges,arrivalFootprints:I.arrivalFootprints}),open={arrival:true,garden:false},g=nav.compile(open);
 
 check('1a runtime bridge data is the measured crossing (island-bridges.json == bridgeFrom(plan))',()=>{
  const data=read('docs/rebuild/holm-overhaul/island-bridges.json').bridges;assert.strictEqual(data.length,I.bridges.length);
@@ -82,28 +82,14 @@ check('3 the moored boat: package v9 carries dock v4, whose closed sole rides ov
  const pkg=read('.studio-workspaces/holm-arrival-package-v9/candidates/holm-arrival.package.json');
  const dock=pkg.sources&&JSON.stringify(pkg).includes('holm_arrival_dock_overhaul_v4.glb');assert(dock,'package v9 names dock v4');
 });
-check('4 fishing: the ripple floats on the drawn creek, straight off the open end of the stage; the only stance is the stage end and no rail stands between',()=>{
- const L=read('docs/rebuild/holm-overhaul/island-lessons.json'),f=L.fishing.find(q=>q.id==='survival-perch'),w=water(f.x,f.z);
- assert(w!==null&&Math.abs(f.y-w-.017)<.03,'ripple y '+f.y+' vs creek '+w);
- const st=g.nodes.filter(n=>{const h=Math.hypot(n.x-f.x,n.z-f.z);return h>=.5&&h<=1.7&&Math.abs(n.y-f.y)<=2.2});
- assert.deepStrictEqual(st.map(n=>n.id),['b:survival:12:6:0']);
- // the survival GLB's jetty frame (rails, posts): no triangle crosses the line of sight from the stance to the ripple
- const B=I.buildings.find(x=>x.id==='survival'),spec=read('docs/rebuild/holm-overhaul/buildings/survival.nav.json'),o=B.graph.placement;
- const buf=fs.readFileSync(path.join(root,spec.model)),n=buf.readUInt32LE(12),G=JSON.parse(buf.subarray(20,20+n).toString('utf8')),bin=buf.subarray(20+n+8);
- function mat(q){const t=q.translation||[0,0,0],r=q.rotation||[0,0,0,1],s=q.scale||[1,1,1],[x,y,z,ww]=r;return [(1-2*(y*y+z*z))*s[0],(2*(x*y+z*ww))*s[0],(2*(x*z-y*ww))*s[0],0,(2*(x*y-z*ww))*s[1],(1-2*(x*x+z*z))*s[1],(2*(y*z+x*ww))*s[1],0,(2*(x*z+y*ww))*s[2],(2*(y*z-x*ww))*s[2],(1-2*(x*x+y*y))*s[2],0,t[0],t[1],t[2],1]}
- function mul(a,b){const r=new Array(16).fill(0);for(let i=0;i<4;i++)for(let j=0;j<4;j++)for(let k=0;k<4;k++)r[j*4+i]+=a[k*4+i]*b[j*4+k];return r}
- const tris=[];function walk(i,M,on){const q=G.nodes[i],W=mul(M,mat(q)),hit=on||/^Survival_(JettyFrame|Deck)/.test(q.name||'');
-  if(hit&&q.mesh!==undefined)G.meshes[q.mesh].primitives.forEach(p=>{const pa=G.accessors[p.attributes.POSITION],pv=G.bufferViews[pa.bufferView],ia=G.accessors[p.indices],iv=G.bufferViews[ia.bufferView];
-   const po=(pv.byteOffset||0)+(pa.byteOffset||0),io=(iv.byteOffset||0)+(ia.byteOffset||0),P=new Float32Array(Uint8Array.from(bin.subarray(po,po+pa.count*12)).buffer);
-   const Ix=ia.componentType===5125?new Uint32Array(Uint8Array.from(bin.subarray(io,io+ia.count*4)).buffer):new Uint16Array(Uint8Array.from(bin.subarray(io,io+ia.count*2)).buffer);
-   const v=k=>[0,1,2].map(c=>W[c]*P[k*3]+W[4+c]*P[k*3+1]+W[8+c]*P[k*3+2]+W[12+c]+[o.x,o.y,o.z][c]);for(let k=0;k<Ix.length;k+=3)tris.push([v(Ix[k]),v(Ix[k+1]),v(Ix[k+2])])});
-  (q.children||[]).forEach(c=>walk(c,W,hit))}
- G.scenes[0].nodes.forEach(r=>walk(r,[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],false));assert(tris.length>100,'jetty triangles '+tris.length);
- function hits(a,b){const d=[b[0]-a[0],b[1]-a[1],b[2]-a[2]];return tris.some(([p,q,r])=>{const e1=[q[0]-p[0],q[1]-p[1],q[2]-p[2]],e2=[r[0]-p[0],r[1]-p[1],r[2]-p[2]],h=[d[1]*e2[2]-d[2]*e2[1],d[2]*e2[0]-d[0]*e2[2],d[0]*e2[1]-d[1]*e2[0]],det=e1[0]*h[0]+e1[1]*h[1]+e1[2]*h[2];if(Math.abs(det)<1e-12)return false;
-  const s=[a[0]-p[0],a[1]-p[1],a[2]-p[2]],u=(s[0]*h[0]+s[1]*h[1]+s[2]*h[2])/det;if(u<0||u>1)return false;const qq=[s[1]*e1[2]-s[2]*e1[1],s[2]*e1[0]-s[0]*e1[2],s[0]*e1[1]-s[1]*e1[0]],v=(d[0]*qq[0]+d[1]*qq[1]+d[2]*qq[2])/det;if(v<0||u+v>1)return false;const t=(e2[0]*qq[0]+e2[1]*qq[1]+e2[2]*qq[2])/det;return t>1e-6&&t<1-1e-6})}
- const s=st[0],sight=to=>[.35,.6,.85].some(hh=>hits([s.x,s.y+hh,s.z],[to.x,to.y+.1,to.z]));
- assert(!sight(f),'a rail stands between the stance and the ripple');
- assert(sight({x:43.5,y:1.62,z:91.5}),'control: the old spot behind the south rail is blocked');
+check('4 fishing (Holm v2 land): every Minnow Hollow ripple candidate lies on pond water under the pond sheet, with a dry stance beside it in reach; candidates stand >= 2 apart; the jetty deck clears the pond',()=>{
+ const F=read('docs/rebuild/holm-overhaul/island-fishing.json'),Wt=Water.ponds(T),cover=new Set();for(let i=0;i<Wt.positions.length;i+=12)cover.add(Math.floor(Wt.positions[i])+','+Math.floor(Wt.positions[i+2]));
+ assert(Wt.ponds.some(p=>p.level===F.pond.level),'pond level');
+ F.candidates.forEach((c,i)=>{const [wx,wz]=c.water,[sx,sz]=c.stance;assert.strictEqual(T.water[wz*T.width+wx],3,c.id+' ripple is not on pond water');assert(cover.has(wx+','+wz),c.id+' ripple not under the pond sheet');
+  assert(T.water[sz*T.width+sx]===0||F.jetty.tiles.some(t=>t[0]===sx&&t[1]===sz),c.id+' stance is wet');assert.strictEqual(Math.abs(wx-sx)+Math.abs(wz-sz),1,c.id+' stance not beside the ripple');
+  const n=g.nodes.find(q=>Math.floor(q.x)===sx&&Math.floor(q.z)===sz);assert(n,c.id+' stance tile has no graph node');
+  F.candidates.forEach((o,j)=>{if(j>i)assert(Math.hypot(o.water[0]-wx,o.water[1]-wz)>=2-1e-9,c.id+' and '+o.id+' closer than 2')})});
+ const j=F.jetty;j.tiles.forEach(([x,z])=>{const d=g.nodes.find(q=>q.id==='deck:'+x+','+z);assert(d&&Math.abs(d.y-j.deckY)<1e-9,'jetty deck '+x+','+z);assert(j.deckY-F.pond.level>=.25,'jetty clears the pond')});
 });
 check('5a the arrival trail never dips under the ground the game draws (dense check inside every trail triangle)',()=>{
  const layout=read('docs/rebuild/holm-overhaul/arrival-layout.json'),geo=Trail.geometry(layout,Trail.terrainSampler(T)),P=geo.positions,Ix=geo.indices;let worst=-1;

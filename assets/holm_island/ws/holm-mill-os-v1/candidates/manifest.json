@@ -1,0 +1,72 @@
+{
+ "schema": 1,
+ "pack": "HOLM_MILL_V1",
+ "status": "candidate",
+ "axes": "glTF Y-up, 1 unit = tile, origin at the resting base centre",
+ "file": "mill.glb",
+ "blend": "mill.blend",
+ "sha256": "eb388cb4561de1ff21ce5c5c858040c374486af33f155d8034bad3863a41905c",
+ "assets": [
+  {
+   "name": "mill",
+   "root": "mill",
+   "triangles": 11405,
+   "materials": [
+    "Aged oak",
+    "Dressed sandstone quoin",
+    "Flour sackcloth",
+    "Grain",
+    "Hemp rope",
+    "Lantern glass",
+    "Leat water",
+    "Limewash plaster",
+    "Mill fieldstone",
+    "Mill fieldstone dark",
+    "Mill fieldstone light",
+    "Mill floor flag",
+    "Mill floorboard planks",
+    "Mill frame oak",
+    "Mill thatch",
+    "Mill thatch dark",
+    "Millstone grit stone",
+    "Sack twine",
+    "Shutter oak planks",
+    "Weir falling water",
+    "Weir foam",
+    "Wheel iron strap",
+    "Window recess shadow"
+   ],
+   "bounds": {
+    "min": [
+     -7.4,
+     -2.4,
+     -5.1
+    ],
+    "max": [
+     6.0228,
+     7.4912,
+     4.7
+    ]
+   },
+   "sha256": "eb388cb4561de1ff21ce5c5c858040c374486af33f155d8034bad3863a41905c",
+   "kind": "building",
+   "note": "origin = world (65, 3.2, 64), y 0 = ground floor; parts Mill_*"
+  }
+ ],
+ "totals": {
+  "triangles": 11405,
+  "assets": 1,
+  "materials": 23,
+  "budgetTriangles": 16000
+ },
+ "clips": [
+  "WheelTurn",
+  "FoamFlow",
+  "SplashPulse"
+ ],
+ "origin": {
+  "x": 65,
+  "y": 3.2,
+  "z": 64
+ }
+}

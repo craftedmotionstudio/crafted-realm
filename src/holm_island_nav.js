@@ -124,9 +124,12 @@ var HolmIslandNav=(function(){
    nodes.forEach(function(n){if(n.owner!=='land')return;[[1,0],[0,1]].forEach(function(d){
     (byTile[key(n.tx+d[0],n.tz+d[1])]||[]).forEach(function(m){if(m.owner==='land'&&landEdge(n,m))link(n,m)});
    })});
-   // building-internal links (measured), only between kept nodes
+   // building-internal links (measured), only between kept nodes. Holm v2 land (2026-09-26): a measured link between two
+   // stances on the building's terrain lane obeys the land's own step rule, so a steep bank or cliff inside a building's
+   // patch refuses the walk exactly as it does on open land (the capsule sampler alone allows ~3 tiles of rise per tile)
+   function steepLane(a,c){return /Terrain$/.test(a.surface)&&/Terrain$/.test(c.surface)&&Math.abs(a.y-c.y)>LAND_STEP+EPS}
    buildings.forEach(function(b){Object.keys(b.graph.links).forEach(function(lid){var a=by['b:'+b.id+':'+lid];if(!a)return;
-    b.graph.links[lid].forEach(function(t){var c=by['b:'+b.id+':'+t];if(c)link(a,c)})})});
+    b.graph.links[lid].forEach(function(t){var c=by['b:'+b.id+':'+t];if(c&&!steepLane(a,c))link(a,c)})})});
    // seams: open ground of different owners on cardinal neighbours within one step. A Guide House doorstep (an arrival
    // floor node outside the house footprint, e.g. beyond the garden door) counts as open ground, so the back door
    // leads onto the island (owner play-test 2026-09-25: the route went round to the front door)

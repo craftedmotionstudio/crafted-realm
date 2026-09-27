@@ -1,0 +1,830 @@
+{
+ "nodes": [
+  {
+   "reason": "footprint-support",
+   "x": -8.26,
+   "z": -6.5,
+   "y": -3.168304443359375
+  },
+  {
+   "reason": "footprint-support",
+   "x": -8.26,
+   "z": -5.5,
+   "y": -2.9171142578125
+  },
+  {
+   "reason": "footprint-support",
+   "x": -8.26,
+   "z": -4.5,
+   "y": -3.044769287109375
+  },
+  {
+   "reason": "footprint-support",
+   "x": -8.26,
+   "z": -3.5,
+   "y": -3.1217422485351562
+  },
+  {
+   "reason": "footprint-support",
+   "x": -8.26,
+   "z": -2.5,
+   "y": -2.8312835693359375
+  },
+  {
+   "reason": "footprint-support",
+   "x": -8.26,
+   "z": -1.5,
+   "y": -2.5524940490722656
+  },
+  {
+   "reason": "footprint-support",
+   "x": -8.26,
+   "z": -0.5,
+   "y": -2.286518096923828
+  },
+  {
+   "reason": "footprint-support",
+   "x": -8.74,
+   "z": 0.5,
+   "y": -2.0341339111328125
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -8.5,
+   "z": 1.5,
+   "y": -1.7951583862304688
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -8.5,
+   "z": 2.5,
+   "y": -1.5678176879882812
+  },
+  {
+   "reason": "footprint-support",
+   "x": -8.59184402376762,
+   "z": 6.278268912197292,
+   "y": -2.2482986450195312
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": -2.5,
+   "y": -0.29215240478515625,
+   "object": "Lastlight_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": -1.5,
+   "y": -0.2772979736328125,
+   "object": "Lastlight_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": -0.5,
+   "y": -0.15000152587890625,
+   "object": "Lastlight_ShellPorch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": 1.5,
+   "y": -0.15000152587890625,
+   "object": "Lastlight_ShellPorch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -1.5,
+   "y": -0.2999992370605469,
+   "object": "Lastlight_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -0.5,
+   "y": 2.4399986267089844,
+   "object": "Lastlight_Roof"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -0.5,
+   "y": 0.0,
+   "object": "Lastlight_ServiceDoor_Storm"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 0.5,
+   "y": 2.4399986267089844,
+   "object": "Lastlight_Roof"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 1.5,
+   "y": 2.4399986267089844,
+   "object": "Lastlight_Roof"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Lastlight_ServiceDoor_Storm"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 2.5,
+   "y": -0.2999992370605469,
+   "object": "Lastlight_ShellWing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 3.5,
+   "y": -0.2999992370605469,
+   "object": "Lastlight_ShellWing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 4.5,
+   "y": -0.2999992370605469,
+   "object": "Lastlight_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -2.5,
+   "y": -0.2999992370605469,
+   "object": "Lastlight_Roof"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -1.5,
+   "y": -3.814697265625e-06,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -0.5,
+   "y": 0.0,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 2.5,
+   "y": -3.814697265625e-06,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Lastlight_ServiceStores_Workbench"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 4.5,
+   "y": -0.2999992370605469,
+   "object": "Lastlight_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -2.5,
+   "y": -0.2999992370605469,
+   "object": "Lastlight_ShellWing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -1.5,
+   "y": 3.814697265625e-06,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Lastlight_ServiceStores_Workbench"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": 4.5,
+   "y": -0.412841796875,
+   "object": "Lastlight_ShellWing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -2.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -1.5,
+   "y": 9.5367431640625e-07,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 0.5,
+   "y": 0.0,
+   "object": "Lastlight_ShellTowerDoorway"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Lastlight_ServiceStores_Workbench"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 4.5,
+   "y": -0.6172409057617188,
+   "object": "Lastlight_ShellWing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -3.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.74,
+   "z": -2.5,
+   "y": 2.999999523162842
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -1.5,
+   "y": 6.0,
+   "object": "Lastlight_UpperFurnishingWatch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -1.5,
+   "y": 2.999999761581421,
+   "object": "Lastlight_UpperFurnishingKeeper"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -0.5,
+   "y": 6.0,
+   "object": "Lastlight_UpperFurnishingWatch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -0.5,
+   "y": 2.999999761581421,
+   "object": "Lastlight_UpperFurnishingKeeper"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5,
+   "z": 0.74,
+   "y": 2.999999523162842
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 0.5,
+   "y": -2.384185791015625e-07,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 1.5,
+   "y": -9.5367431640625e-07,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 2.5,
+   "y": -3.814697265625e-06,
+   "object": "Lastlight_ServiceStores_Workbench"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 3.5,
+   "y": -7.62939453125e-06,
+   "object": "Lastlight_ServiceStores_Workbench"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 4.5,
+   "y": -0.6257705688476562,
+   "object": "Lastlight_ShellWing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -4.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -0.74,
+   "z": -3.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -3.5,
+   "y": -2.384185791015625e-07,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -1.5,
+   "y": 8.999998092651367,
+   "object": "Lastlight_UpperLantern"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -0.5,
+   "y": 8.999996185302734,
+   "object": "Lastlight_UpperLantern"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 0.5,
+   "y": 6.0,
+   "object": "Lastlight_UpperFurnishingWatch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 0.5,
+   "y": 3.000000238418579,
+   "object": "Lastlight_UpperFurnishingKeeper"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 0.5,
+   "y": 2.384185791015625e-07,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -0.5,
+   "z": 1.74,
+   "y": 3.000000476837158
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 2.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 3.5,
+   "y": -0.2999992370605469,
+   "object": "Lastlight_ShellWing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 4.5,
+   "y": -0.6306381225585938,
+   "object": "Lastlight_Yard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -4.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -3.5,
+   "y": 6.0,
+   "object": "Lastlight_UpperShellWatch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -2.5,
+   "y": 9.000001907348633,
+   "object": "Lastlight_UpperLantern"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -1.5,
+   "y": 9.000001907348633,
+   "object": "Lastlight_ServiceBeacon_Lamp"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -0.5,
+   "y": 8.999998092651367,
+   "object": "Lastlight_ServiceBeacon_Lamp"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 0.5,
+   "y": 8.999998092651367,
+   "object": "Lastlight_UpperLantern"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 1.5,
+   "y": 5.999996185302734,
+   "object": "Lastlight_UpperShellWatch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 1.5,
+   "y": 3.0,
+   "object": "Lastlight_UpperFurnishingKeeper"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 1.5,
+   "y": 2.384185791015625e-07,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 2.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -4.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -3.5,
+   "y": 6.0,
+   "object": "Lastlight_UpperShellWatch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -3.5,
+   "y": 0.0,
+   "object": "Lastlight_ServiceLadder1Up_Ladder"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -2.5,
+   "y": 8.999998092651367,
+   "object": "Lastlight_UpperLantern"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -1.5,
+   "y": 9.0,
+   "object": "Lastlight_ServiceBeacon_Lamp"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -0.5,
+   "y": 8.999998092651367,
+   "object": "Lastlight_ServiceBeacon_Lamp"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 0.5,
+   "y": 9.000001907348633,
+   "object": "Lastlight_UpperLantern"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 1.5,
+   "y": 6.0,
+   "object": "Lastlight_UpperShellWatch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 1.5,
+   "y": 2.999999761581421,
+   "object": "Lastlight_UpperFurnishingKeeper"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 2.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -4.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 2.74,
+   "z": -3.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -3.5,
+   "y": -2.384185791015625e-07,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -2.5,
+   "y": 6.0,
+   "object": "Lastlight_UpperFurnishingWatch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -2.5,
+   "y": -2.384185791015625e-07,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -1.5,
+   "y": 9.0,
+   "object": "Lastlight_UpperLantern"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -0.5,
+   "y": 8.999996185302734,
+   "object": "Lastlight_UpperLantern"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 0.5,
+   "y": 0.0,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 2.74,
+   "z": 1.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 1.5,
+   "y": 2.384185791015625e-07,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 2.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -3.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 3.74,
+   "z": -2.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -1.5,
+   "y": 3.0,
+   "object": "Lastlight_ServiceLadder2Up_Ladder"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -1.5,
+   "y": 2.384185791015625e-07,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -0.5,
+   "y": 6.0,
+   "object": "Lastlight_UpperShellWatch"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -0.5,
+   "y": 3.000000238418579,
+   "object": "Lastlight_UpperFurnishingKeeper"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -0.5,
+   "y": -2.384185791015625e-07,
+   "object": "Lastlight_Furnishing"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 3.74,
+   "z": 0.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 0.5,
+   "y": -2.384185791015625e-07,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 1.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 4.669705627484771,
+   "z": -6.330294372515229,
+   "y": -2.5250244140625
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -2.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -1.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -0.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 0.5,
+   "y": -0.3000001907348633,
+   "object": "Lastlight_ShellTower"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 5.721731087802709,
+   "z": -6.408155976232378,
+   "y": -4.026710510253906
+  },
+  {
+   "reason": "footprint-support",
+   "x": 6.74,
+   "z": -6.5,
+   "y": -7.237815856933594
+  },
+  {
+   "reason": "footprint-support",
+   "x": 6.74,
+   "z": -5.5,
+   "y": -4.0363922119140625
+  },
+  {
+   "reason": "footprint-support",
+   "x": 6.5,
+   "z": -4.26,
+   "y": -2.58062744140625
+  },
+  {
+   "reason": "footprint-rise",
+   "x": 6.5,
+   "z": 5.5,
+   "y": -2.1457977294921875
+  }
+ ],
+ "edges": [
+  {
+   "reason": "footprint-rise",
+   "x": 3.5,
+   "z": -6.25,
+   "y": -0.6800537109375,
+   "from": "3:-7:0",
+   "to": "3:-6:0"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": 6.2,
+   "z": -3.5,
+   "y": -0.6465339660644531,
+   "from": "5:-4:0",
+   "to": "6:-4:0"
+  }
+ ]
+}

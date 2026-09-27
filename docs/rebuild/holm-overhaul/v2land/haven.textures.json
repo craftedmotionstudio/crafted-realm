@@ -1,0 +1,17 @@
+{
+ "source": ".studio-workspaces/holm-haven-v2land-fix-v2/candidates/haven.blend",
+ "blender": "5.1",
+ "reference": ".studio-workspaces/holm-haven-v2land-fix-v2/candidates/haven.glb",
+ "outBlend": ".studio-workspaces/holm-haven-v2land-os-v2/candidates/haven.blend",
+ "outGlb": ".studio-workspaces/holm-haven-v2land-os-v2/candidates/haven.glb",
+ "report": ".studio-workspaces/holm-haven-v2land-os-v2/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|.*Flame)",
+  "woodOnly": "Furnish|Furniture|Ladder|Hatch",
+  "floors": "Floor|Deck",
+  "maxVariants": 2,
+  "minShare": 0.15
+ },
+ "note": "Holm v2 land phase 4: the departure haven turned north at Lanternfoot Cove, textured with the haven's old-school recipe"
+}

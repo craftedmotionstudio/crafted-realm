@@ -1,0 +1,10 @@
+{
+ "note": "Holm v2 land phase 2: the Minnow Hollow prop pack textured old-school (materials by name: planks, beam, rock, bark)",
+ "source": ".studio-workspaces/holm-hollow-props-v1/candidates/props.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-hollow-props-v1/candidates/props.glb",
+ "outBlend": ".studio-workspaces/holm-hollow-props-os-v1/candidates/props.blend",
+ "outGlb": ".studio-workspaces/holm-hollow-props-os-v1/candidates/props.glb",
+ "report": ".studio-workspaces/holm-hollow-props-os-v1/candidates/textures.report.json",
+ "rules": [["(?i)^bucket oak", "planks", 0.6], ["(?i)boat strakes", "planks", 0.8], ["(?i)wicker", "thatch", 0.5], ["(?i)log bark", "bark", 0.6], ["(?i)ash bed|charred", null, 0], ["(?i)perch|pike|duck|frog|dragonfly|lily|fish|splash|droplet|net twine|cork", null, 0]]
+}

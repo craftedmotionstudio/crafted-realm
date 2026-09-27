@@ -1,0 +1,189 @@
+{
+ "schema": 1,
+ "pack": "HOLM_FISHING_ITEMS_V1",
+ "status": "candidate",
+ "axes": "glTF Y-up, 1 unit = tile, origin at the resting base centre",
+ "file": "items.glb",
+ "blend": "items.blend",
+ "sha256": "16efbfca890871a0d512596deae605446db126a9c8a14e25c450dd1a6bb72d76",
+ "assets": [
+  {
+   "name": "raw_reedpike",
+   "root": "raw_reedpike",
+   "triangles": 194,
+   "materials": [
+    "Fish eye",
+    "Pike belly",
+    "Pike fins",
+    "Pike scales",
+    "Pike spots"
+   ],
+   "bounds": {
+    "min": [
+     -0.3696,
+     0.0,
+     -0.1344
+    ],
+    "max": [
+     0.28,
+     0.112,
+     0.0896
+    ]
+   },
+   "sha256": "16efbfca890871a0d512596deae605446db126a9c8a14e25c450dd1a6bb72d76",
+   "kind": "item"
+  },
+  {
+   "name": "cooked_reedpike",
+   "root": "cooked_reedpike",
+   "triangles": 194,
+   "materials": [
+    "Fish eye",
+    "Roast pike",
+    "Roast pike belly",
+    "Roast pike char",
+    "Roast pike fins"
+   ],
+   "bounds": {
+    "min": [
+     -0.3564,
+     0.0,
+     -0.1296
+    ],
+    "max": [
+     0.27,
+     0.108,
+     0.0864
+    ]
+   },
+   "sha256": "16efbfca890871a0d512596deae605446db126a9c8a14e25c450dd1a6bb72d76",
+   "kind": "item"
+  },
+  {
+   "name": "burnt_reedpike",
+   "root": "burnt_reedpike",
+   "triangles": 94,
+   "materials": [
+    "Burnt pike",
+    "Burnt pike belly",
+    "Burnt pike fins",
+    "Fish eye"
+   ],
+   "bounds": {
+    "min": [
+     -0.3432,
+     0.0,
+     -0.1248
+    ],
+    "max": [
+     0.26,
+     0.104,
+     0.0832
+    ]
+   },
+   "sha256": "16efbfca890871a0d512596deae605446db126a9c8a14e25c450dd1a6bb72d76",
+   "kind": "item"
+  },
+  {
+   "name": "soggy_boot",
+   "root": "soggy_boot",
+   "triangles": 90,
+   "materials": [
+    "Boot cuff",
+    "Boot sole",
+    "Soggy leather",
+    "Weed strand"
+   ],
+   "bounds": {
+    "min": [
+     -0.16,
+     0.0,
+     -0.07
+    ],
+    "max": [
+     0.2,
+     0.37,
+     0.1007
+    ]
+   },
+   "sha256": "16efbfca890871a0d512596deae605446db126a9c8a14e25c450dd1a6bb72d76",
+   "kind": "item"
+  },
+  {
+   "name": "pond_weed",
+   "root": "pond_weed",
+   "triangles": 136,
+   "materials": [
+    "Pondweed",
+    "Pondweed dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.1993,
+     0.0,
+     -0.0844
+    ],
+    "max": [
+     0.2113,
+     0.1664,
+     0.1692
+    ]
+   },
+   "sha256": "16efbfca890871a0d512596deae605446db126a9c8a14e25c450dd1a6bb72d76",
+   "kind": "item"
+  },
+  {
+   "name": "sealed_bottle",
+   "root": "sealed_bottle",
+   "triangles": 108,
+   "materials": [
+    "Bottle glass",
+    "Rolled note",
+    "Seal wax"
+   ],
+   "bounds": {
+    "min": [
+     -0.14,
+     0.0,
+     -0.08
+    ],
+    "max": [
+     0.215,
+     0.16,
+     0.08
+    ]
+   },
+   "sha256": "16efbfca890871a0d512596deae605446db126a9c8a14e25c450dd1a6bb72d76",
+   "kind": "item"
+  },
+  {
+   "name": "tarnished_ring",
+   "root": "tarnished_ring",
+   "triangles": 120,
+   "materials": [
+    "Dull garnet",
+    "Tarnished silver"
+   ],
+   "bounds": {
+    "min": [
+     -0.075,
+     0.0,
+     -0.075
+    ],
+    "max": [
+     0.0941,
+     0.05,
+     0.075
+    ]
+   },
+   "sha256": "16efbfca890871a0d512596deae605446db126a9c8a14e25c450dd1a6bb72d76",
+   "kind": "item"
+  }
+ ],
+ "totals": {
+  "triangles": 936,
+  "assets": 7,
+  "materials": 23,
+  "budgetTriangles": 4000
+ }
+}

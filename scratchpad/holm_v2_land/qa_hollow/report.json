@@ -1,0 +1,262 @@
+{
+ "profile": "hollow-mujn5sak",
+ "pass": 13,
+ "total": 13,
+ "results": [
+  {
+   "name": "Minnow Hollow loads: 3 moving spots, the jetty, the Fire Beach ring, the pond sheet, ducks, frog, dragonflies",
+   "pass": true,
+   "info": {
+    "spots": [
+     {
+      "i": 0,
+      "candidate": "east-shallows",
+      "state": "on",
+      "x": 31.5,
+      "z": 96.5,
+      "timer": 93
+     },
+     {
+      "i": 1,
+      "candidate": "south-bank",
+      "state": "on",
+      "x": 25.5,
+      "z": 98.5,
+      "timer": 58
+     },
+     {
+      "i": 2,
+      "candidate": "beach-edge",
+      "state": "on",
+      "x": 30.5,
+      "z": 99.5,
+      "timer": 62
+     }
+    ],
+    "fauna": {
+     "frog": "sit",
+     "ducks": [
+      [
+       29.95,
+       96.74
+      ],
+      [
+       27.53,
+       97.7
+      ]
+     ],
+     "flies": 2
+    },
+    "ring": true,
+    "jetty": true,
+    "pond": true
+   }
+  },
+  {
+   "name": "talk-first: the oak refuses until Wenna has spoken",
+   "pass": true,
+   "info": {
+    "said": [
+     "You wield the Bronze hatchet.",
+     "You should speak to Wenna first."
+    ],
+    "refused": {
+     "ok": true
+    }
+   }
+  },
+  {
+   "name": "Wenna stands at the head of the Hollow Path and teaches the hollow",
+   "pass": true,
+   "info": {
+    "ok": true,
+    "name": "Wenna",
+    "pages": [
+     "Hello there. I am Wenna, and down there is Minnow Hollow.",
+     "Out here you learn to look after yourself: wood, fire, fish and a hot supper, all within a stone's throw of the pond.",
+     "First, wood. The oaks on the rim of the hollow, just below us, are yours to cut. Click one and your hatchet will do the rest.",
+     "Keep at it until the logs come away. Some swings miss; that is woodcutting.",
+     "Logs in hand, you will want a fire. Ask me again if you forget how."
+    ],
+    "talked": true
+   }
+  },
+  {
+   "name": "chop_logs: a teaching oak on the Minnow Hollow rim gives logs (gather/logs credited)",
+   "pass": true,
+   "info": {
+    "c": {
+     "ok": true
+    }
+   }
+  },
+  {
+   "name": "the Hollow Path leads down to the Fire Beach (real ground clicks)",
+   "pass": true,
+   "info": {
+    "p0": [
+     33.5,
+     1.55,
+     101.5
+    ],
+    "beachAt": [
+     34,
+     101.5
+    ]
+   }
+  },
+  {
+   "name": "light_fire: the fire burns on the Fire Beach (firemake credited)",
+   "pass": true,
+   "info": {
+    "fireAt": [
+     33.5,
+     101.5
+    ],
+    "area": [
+     29.5,
+     99.8,
+     35.5,
+     102.2
+    ]
+   }
+  },
+  {
+   "name": "catch_fish: the net at a ripple lands a mirrorperch; every roll visible (cast + splash), the first catch guaranteed on roll 2",
+   "pass": true,
+   "info": {
+    "spot": "island-hollow-spot-0",
+    "st1": {
+     "casts": 3,
+     "rolls": 2,
+     "splashes": 5,
+     "leaps": 3,
+     "moves": 4,
+     "movedOn": 0,
+     "plops": 0,
+     "soaks": 0,
+     "catches": {
+      "raw_perch": 1
+     },
+     "lastCatch": {
+      "item": "raw_perch",
+      "roll": 2,
+      "guaranteed": true
+     }
+    },
+    "seconds": 10.429
+   }
+  },
+  {
+   "name": "cook_fish: cooked on the beach fire (cook/cooked_perch credited), burns retried",
+   "pass": true,
+   "info": {
+    "tries": 5
+   }
+  },
+  {
+   "name": "the four survival lessons are credited in the ledger",
+   "pass": true,
+   "info": [
+    "study_route",
+    "equip_hatchet",
+    "chop_logs",
+    "light_fire",
+    "catch_fish",
+    "cook_fish"
+   ]
+  },
+  {
+   "name": "a spot telegraphs its move (bubbles, fade) and the player netting it is told \"The fish have moved on.\" and stops; it reappears on another candidate",
+   "pass": true,
+   "info": {
+    "was": {
+     "i": 2,
+     "candidate": "south-bank",
+     "state": "on",
+     "x": 25.5,
+     "z": 98.5,
+     "timer": 37
+    },
+    "now": {
+     "i": 2,
+     "candidate": "north-bank",
+     "state": "on",
+     "x": 27.5,
+     "z": 93.5,
+     "timer": 90
+    }
+   }
+  },
+  {
+   "name": "fishing after the lesson: several rolls, catches recorded (varied table: perch, reedpike from Fishing 5, junk, rares)",
+   "pass": true,
+   "info": {
+    "casts": 45,
+    "rolls": 35,
+    "splashes": 76,
+    "leaps": 30,
+    "moves": 35,
+    "movedOn": 6,
+    "plops": 1,
+    "soaks": 1,
+    "catches": {
+     "raw_perch": 6,
+     "tarnished_ring": 2
+    },
+    "lastCatch": {
+     "item": "raw_perch",
+     "roll": 3,
+     "guaranteed": false
+    }
+   }
+  },
+  {
+   "name": "the frog plops off its pad as the player comes near; the ducks paddle; a fish has leapt",
+   "pass": true,
+   "info": {
+    "fauna": {
+     "frog": "gone",
+     "ducks": [
+      [
+       25.23,
+       94.59
+      ],
+      [
+       27.78,
+       95.1
+      ]
+     ],
+     "flies": 2
+    },
+    "st3": {
+     "casts": 46,
+     "rolls": 36,
+     "splashes": 78,
+     "leaps": 30,
+     "moves": 36,
+     "movedOn": 6,
+     "plops": 2,
+     "soaks": 1,
+     "catches": {
+      "raw_perch": 6,
+      "tarnished_ring": 2
+     },
+     "lastCatch": {
+      "item": "raw_perch",
+      "roll": 3,
+      "guaranteed": false
+     }
+    }
+   }
+  },
+  {
+   "name": "no page errors",
+   "pass": true,
+   "info": {
+    "pageErrors": [],
+    "consoleErrors": []
+   }
+  }
+ ]
+}

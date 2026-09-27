@@ -1,0 +1,240 @@
+{
+ "rows": [
+  {
+   "name": "study_route (chart)",
+   "reachable": true,
+   "walked": 30,
+   "seconds": 18,
+   "from": 1,
+   "to": 4.4,
+   "rise": 3.4,
+   "fall": 0,
+   "steepestLink": 0.899
+  },
+  {
+   "name": "equip_hatchet (rack)",
+   "reachable": true,
+   "walked": 4,
+   "seconds": 2.4,
+   "from": 4.4,
+   "to": 4.4,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "chop_logs (survival-oak-1)",
+   "reachable": true,
+   "walked": 42,
+   "seconds": 25.2,
+   "from": 4.4,
+   "to": 2.27,
+   "rise": 3.7,
+   "fall": 5.9,
+   "steepestLink": 0.881
+  },
+  {
+   "name": "light_fire (Fire Beach)",
+   "reachable": true,
+   "walked": 10,
+   "seconds": 6,
+   "from": 2.27,
+   "to": 1.55,
+   "rise": 0.3,
+   "fall": 1.1,
+   "steepestLink": 0.431
+  },
+  {
+   "name": "catch_fish (pond spot)",
+   "reachable": true,
+   "walked": 21,
+   "seconds": 12.6,
+   "from": 1.55,
+   "to": 1.17,
+   "rise": 3.4,
+   "fall": 3.8,
+   "steepestLink": 0.839
+  },
+  {
+   "name": "cook_fish (beach fire)",
+   "reachable": true,
+   "walked": 21,
+   "seconds": 12.6,
+   "from": 1.17,
+   "to": 1.55,
+   "rise": 4.3,
+   "fall": 3.9,
+   "steepestLink": 0.839
+  },
+  {
+   "name": "bake_bread (oven)",
+   "reachable": true,
+   "walked": 50,
+   "seconds": 30,
+   "from": 1.55,
+   "to": 5.4,
+   "rise": 7,
+   "fall": 3.2,
+   "steepestLink": 0.864
+  },
+  {
+   "name": "learn_quests (board)",
+   "reachable": true,
+   "walked": 45,
+   "seconds": 27,
+   "from": 5.4,
+   "to": 6.4,
+   "rise": 1.2,
+   "fall": 0.2,
+   "steepestLink": 0.429
+  },
+  {
+   "name": "descend_cavern (shaft)",
+   "reachable": true,
+   "walked": 49,
+   "seconds": 29.4,
+   "from": 6.4,
+   "to": 9.15,
+   "rise": 3.2,
+   "fall": 0.4,
+   "steepestLink": 0.733
+  },
+  {
+   "name": "mine_copper",
+   "reachable": true,
+   "walked": 9,
+   "seconds": 5.4,
+   "from": 9.15,
+   "to": -30,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "mine_tin",
+   "reachable": true,
+   "walked": 6,
+   "seconds": 3.6,
+   "from": -30,
+   "to": -30,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "smelt_bronze (furnace)",
+   "reachable": true,
+   "walked": 9,
+   "seconds": 5.4,
+   "from": -30,
+   "to": -30,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "forge_dagger (anvil)",
+   "reachable": true,
+   "walked": 2,
+   "seconds": 1.2,
+   "from": -30,
+   "to": -30,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0
+  },
+  {
+   "name": "melee/ranged trial (keep court)",
+   "reachable": true,
+   "walked": 35,
+   "seconds": 21,
+   "from": -30,
+   "to": 10.97,
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0.025
+  },
+  {
+   "name": "open_bank (counter)",
+   "reachable": true,
+   "walked": 45,
+   "seconds": 27,
+   "from": 10.97,
+   "to": 7.3,
+   "rise": 1.3,
+   "fall": 5,
+   "steepestLink": 0.808
+  },
+  {
+   "name": "magic_trial (mage yard)",
+   "reachable": true,
+   "walked": 42,
+   "seconds": 25.2,
+   "from": 7.3,
+   "to": 7.52,
+   "rise": 4.1,
+   "fall": 3.9,
+   "steepestLink": 0.873
+  },
+  {
+   "name": "relight_lastlight (lever)",
+   "reachable": true,
+   "walked": 78,
+   "seconds": 46.8,
+   "from": 7.52,
+   "to": 26.8,
+   "rise": 10.6,
+   "fall": 0.3,
+   "steepestLink": 0.884
+  },
+  {
+   "name": "departure (skiff)",
+   "reachable": true,
+   "walked": 69,
+   "seconds": 41.4,
+   "from": 26.8,
+   "to": -0.05,
+   "rise": 0.9,
+   "fall": 18.8,
+   "steepestLink": 1.15
+  }
+ ],
+ "total": 567,
+ "unreachableTargets": [
+  "lodge:north-lane"
+ ],
+ "status": {
+  "keep": "measured",
+  "bakehouse": "measured",
+  "lodge": "measured",
+  "survival": "measured",
+  "quarry": "measured",
+  "bank": "measured",
+  "mage": "measured",
+  "haven": "measured",
+  "lastlight": "measured",
+  "cavern": "measured",
+  "mill": "measured",
+  "stair": "measured"
+ },
+ "stats": {
+  "nodes": 10469,
+  "edges": 27688,
+  "owners": {
+   "land": 7524,
+   "b:keep": 812,
+   "b:bakehouse": 208,
+   "b:lodge": 361,
+   "b:survival": 235,
+   "b:quarry": 98,
+   "b:bank": 170,
+   "b:mage": 288,
+   "b:haven": 92,
+   "b:lastlight": 201,
+   "b:cavern": 146,
+   "b:mill": 119,
+   "b:stair": 46,
+   "arrival": 169
+  }
+ }
+}

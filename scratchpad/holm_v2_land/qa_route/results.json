@@ -1,0 +1,207 @@
+{
+ "pass": 10,
+ "total": 10,
+ "results": [
+  {
+   "name": "route pieces load: the keep trapdoor (route prop), the drift ladder and trapdoor services joined, the Keeper's Stair, the haven at Lanternfoot Cove",
+   "pass": true,
+   "info": {
+    "hatch": [
+     77.5,
+     11,
+     35.5
+    ],
+    "stair": [
+     107,
+     0,
+     18
+    ],
+    "haven": [
+     101,
+     1,
+     14
+    ],
+    "exit": {
+     "node": "b:cavern:27:0:0",
+     "climb": "b:keep:-9:0:1"
+    },
+    "trap": {
+     "node": "b:keep:-9:0:1",
+     "climb": "b:cavern:27:0:0"
+    },
+    "boat": {
+     "node": "b:haven:0:-15:0",
+     "climb": null
+    }
+   }
+  },
+  {
+   "name": "before the dagger the drift ladder refuses (roped off) and the adventurer stays below",
+   "pass": true,
+   "info": {
+    "refuse": [
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Replacement tools placed in your pack: Bronze hatchet, Tinderbox, Small net, Bronze pickaxe, Hammer.",
+     "The drift ladder is roped off. Foreman Durgin wants to see a bronze dagger first."
+    ],
+    "s0": "b:cavern:0:Cavern_Floor"
+   }
+  },
+  {
+   "name": "with the dagger made, down in the workings the guide arrow points at the drift ladder",
+   "pass": true,
+   "info": {
+    "arrow": "Climb the drift ladder"
+   }
+  },
+  {
+   "name": "the drift ladder climbs out through the trapdoor into the Warden's Keep hall",
+   "pass": true,
+   "info": {
+    "p1": [
+     78.5,
+     11,
+     35.5
+    ],
+    "s1": "b:keep:1:Keep_Floor_Flags"
+   }
+  },
+  {
+   "name": "the trapdoor climbs back down to the exit chamber",
+   "pass": true,
+   "info": {
+    "p2": [
+     227.5,
+     -30,
+     60.5
+    ],
+    "s2": "b:cavern:0:Cavern_Floor"
+   }
+  },
+  {
+   "name": "from the hall the adventurer walks out to the keep court (Warden Corrick's trials)",
+   "pass": true,
+   "info": {
+    "w": {
+     "reached": {
+      "id": "b:keep:1:1:0",
+      "x": 88.5,
+      "y": 10.975,
+      "z": 36.5,
+      "surface": "b:keep:0:StagedTerrain"
+     },
+     "at": [
+      88.5,
+      10.975,
+      36.5
+     ]
+    },
+    "p3": [
+     88.5,
+     10.975,
+     36.5
+    ],
+    "s3": "b:keep:0:StagedTerrain"
+   }
+  },
+  {
+   "name": "Lastlight -> Keeper's Stair head -> mid landing -> foot on the shingle -> the haven, all on foot by real clicks",
+   "pass": true,
+   "info": {
+    "start": [
+     115.5,
+     17.8,
+     26.5
+    ],
+    "door": {
+     "id": "b:lastlight:-6:0:0",
+     "x": 115.5,
+     "y": 17.8,
+     "z": 26.5,
+     "surface": "b:lastlight:0:Lastlight_FloorPorchTiles"
+    },
+    "doorNode": "b:lastlight:-6:0:0",
+    "legRes": [
+     {
+      "b": "stair",
+      "t": "head",
+      "error": null,
+      "at": [
+       110.5,
+       13,
+       21.5
+      ],
+      "steps": 94
+     },
+     {
+      "b": "stair",
+      "t": "mid",
+      "error": null,
+      "at": [
+       110.5,
+       7.6,
+       15.5
+      ],
+      "steps": 124
+     },
+     {
+      "b": "stair",
+      "t": "foot",
+      "error": null,
+      "at": [
+       104.5,
+       0.974,
+       14.5
+      ],
+      "steps": 97
+     },
+     {
+      "b": "haven",
+      "t": "notice",
+      "error": null,
+      "at": [
+       100.5,
+       1.15,
+       14.5
+      ],
+      "steps": 35
+     }
+    ]
+   }
+  },
+  {
+   "name": "Ferryman Tobin at the cove speaks of Hearthmere and the beacon over the water",
+   "pass": true,
+   "info": {
+    "ok": true,
+    "name": "Ferryman Tobin",
+    "pages": [
+     "So the light is burning again. I am Ferryman Tobin.",
+     "I tie up here in the cove because the beacon shines straight down on this water. No better mark to steer by.",
+     "Lastlight is burning, so the skiff is ready whenever you are.",
+     "Board her at the end of the pier and I will row you across to Hearthmere."
+    ],
+    "talked": true
+   }
+  },
+  {
+   "name": "boarding the skiff at the end of the pier sails for the mainland",
+   "pass": true,
+   "info": {
+    "said": [
+     "The drift ladder is roped off. Foreman Durgin wants to see a bronze dagger first.",
+     "Warden's welcome pack: 25 crowns, bread, runes, arrows, a shield, leather body and teleport tabs. Your tools and forged dagger come with you.",
+     "Tobin pushes off from the pier.",
+     "The skiff noses into Veyhollow. Hollow Well Square lies just ahead.",
+     "Now entering: Veyhollow Commons."
+    ]
+   }
+  },
+  {
+   "name": "no page errors",
+   "pass": true,
+   "info": []
+  }
+ ],
+ "consoleErrors": []
+}

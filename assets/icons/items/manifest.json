@@ -123,6 +123,41 @@
     {
       "id": "pot_of_flour",
       "file": "pot_of_flour.png"
+    },
+    {
+      "id": "raw_reedpike",
+      "file": "raw_reedpike.png",
+      "source": "tools/blender/build_holm_fishing_items_v1.py"
+    },
+    {
+      "id": "cooked_reedpike",
+      "file": "cooked_reedpike.png",
+      "source": "tools/blender/build_holm_fishing_items_v1.py"
+    },
+    {
+      "id": "burnt_reedpike",
+      "file": "burnt_reedpike.png",
+      "source": "tools/blender/build_holm_fishing_items_v1.py"
+    },
+    {
+      "id": "soggy_boot",
+      "file": "soggy_boot.png",
+      "source": "tools/blender/build_holm_fishing_items_v1.py"
+    },
+    {
+      "id": "pond_weed",
+      "file": "pond_weed.png",
+      "source": "tools/blender/build_holm_fishing_items_v1.py"
+    },
+    {
+      "id": "sealed_bottle",
+      "file": "sealed_bottle.png",
+      "source": "tools/blender/build_holm_fishing_items_v1.py"
+    },
+    {
+      "id": "tarnished_ring",
+      "file": "tarnished_ring.png",
+      "source": "tools/blender/build_holm_fishing_items_v1.py"
     }
   ]
 }

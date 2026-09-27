@@ -27,6 +27,8 @@ function _gearSprite(id){
 const HOLM_ITEM_ICONS = new Set(['tinderbox','hammer','bucket','bucket_water','bucket_flour','pot_of_flour','dough',
   'bread_dough','bread','logs','raw_perch','cooked_perch','burnt_perch','copper_ore','tin_ore','bronze_bar','fishing_net',
   'coins','arrows','air_rune','mind_rune','leather_body','wood_shield','bones',
+  // Minnow Hollow catches (build_holm_fishing_items_v1.py, Blender)
+  'raw_reedpike','cooked_reedpike','burnt_reedpike','soggy_boot','pond_weed','sealed_bottle','tarnished_ring',
   // holm_equipment_v1 renders (Blender)
   'bronze_dagger','bronze_sword','iron_sword','iron_hatchet','pickaxe','iron_pickaxe','hatchet','worn_bow','apprentice_staff','bronze_plate','bronze_legs',
   // coffee (build_holm_items_v1.py, 2026-09-26)

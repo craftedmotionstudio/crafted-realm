@@ -1,0 +1,176 @@
+{
+ "schema": "holm-v2-land-registry-v1",
+ "buildings": {
+  "survival": {
+   "graph": "holm-survival-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb",
+   "placement": {
+    "x": 31,
+    "y": 4,
+    "z": 84
+   },
+   "nodes": 263,
+   "modelSha256": "741f374e4a702da697e0c6dfeb22403fe72ea483fe246406685d98dc2785a95c",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:23:42.253Z"
+  },
+  "quarry": {
+   "graph": "holm-quarry-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-quarry-oldschool-v1/candidates/quarry.glb",
+   "placement": {
+    "x": 36,
+    "y": 9.15,
+    "z": 33
+   },
+   "nodes": 110,
+   "modelSha256": "e823e6884368bdc5fffe13571c45a47b85b719844873f141ea1c045fec52a194",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:23:51.085Z"
+  },
+  "bank": {
+   "graph": "holm-bank-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-bank-oldschool-v1/candidates/bank.glb",
+   "placement": {
+    "x": 86,
+    "y": 7.3,
+    "z": 57
+   },
+   "nodes": 186,
+   "modelSha256": "a1cce16a4aa05b9f9614ab9e88042871fd55de2a65274d2b9b31e953f9e557c2",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:24:01.629Z"
+  },
+  "mage": {
+   "graph": "holm-mage-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-mage-oldschool-v1/candidates/mage.glb",
+   "placement": {
+    "x": 114,
+    "y": 7.75,
+    "z": 58
+   },
+   "nodes": 311,
+   "modelSha256": "d964b4724e6369058940f870d43a3f9e5cc14f0f5956798e9d38b79c52b82a1f",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:24:14.605Z"
+  },
+  "lastlight": {
+   "graph": "holm-lastlight-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-lastlight-oldschool-v1/candidates/lastlight.glb",
+   "placement": {
+    "x": 121,
+    "y": 17.8,
+    "z": 26
+   },
+   "nodes": 213,
+   "modelSha256": "9d58b22e41f1e461ad96a0130e35cc985d5f419afcb5d49879f6848fe8323b25",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:24:25.497Z"
+  },
+  "haven": {
+   "graph": "holm-haven-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-haven-v2land-os-v2/candidates/haven.glb",
+   "placement": {
+    "x": 101,
+    "y": 1,
+    "z": 14
+   },
+   "nodes": 99,
+   "modelSha256": "c627a97f5696ea5d3f4d1747325e4bc0e2944ecf03e83c92a4b9ad57094b208d",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:24:34.680Z"
+  },
+  "keep": {
+   "graph": "holm-keep-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+   "placement": {
+    "x": 87,
+    "y": 11,
+    "z": 35
+   },
+   "nodes": 868,
+   "modelSha256": "b8065dc02c2d28bff0f8d8f7e02db648ac1c8462099ec8b74f57c1c7f1da726e",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:24:54.272Z"
+  },
+  "bakehouse": {
+   "graph": "holm-kitchen-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-kitchen-oldschool-v1/candidates/kitchen-character.glb",
+   "placement": {
+    "x": 44,
+    "y": 5.4,
+    "z": 67
+   },
+   "nodes": 265,
+   "modelSha256": "ea05c5afd23f5d3bc050d55315026f492ca953a719f56df2ff3a68e53e489f84",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:25:04.961Z"
+  },
+  "lodge": {
+   "graph": "holm-quest-lodge-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/lodge.glb",
+   "placement": {
+    "x": 35,
+    "y": 6.4,
+    "z": 51
+   },
+   "nodes": 480,
+   "modelSha256": "6618934d1ee39fd283ed8c9bf8d93a8f71519bc49ccc71233abd8cc5feed3263",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:25:19.441Z",
+   "extraPlacement": ".studio-workspaces/holm-quest-placement-v2land-v1/candidates/placement.json"
+  },
+  "cavern": {
+   "graph": "holm-cavern-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.glb",
+   "placement": {
+    "x": 200,
+    "y": -30,
+    "z": 60
+   },
+   "nodes": 150,
+   "modelSha256": "b1c17908ccbacfe0651f1f8fa9a6811f19ad8e9ce097fd0171b052e82a5659f7",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:25:39.109Z"
+  },
+  "mill": {
+   "graph": "holm-mill-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-mill-os-v1/candidates/mill.glb",
+   "placement": {
+    "x": 65,
+    "y": 3.2,
+    "z": 64
+   },
+   "nodes": 146,
+   "modelSha256": "d2b6ae6b389ca9442f5eaf51c6937833e32901c7f501702ed80dff3aa69eacdb",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:25:28.742Z"
+  },
+  "stair": {
+   "graph": "holm-keepers-stair-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-keepers-stair-os-v2/candidates/stair.glb",
+   "placement": {
+    "x": 107,
+    "y": 0,
+    "z": 18
+   },
+   "nodes": 52,
+   "modelSha256": "f977f445566a04230834f2433f99fb660f1a042e20e2def9e50dcab76e32af20",
+   "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T04:25:47.132Z"
+  }
+ },
+ "habitat": ".studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json",
+ "bridgeModels": ".studio-workspaces/holm-island-bridges-v2land-v1/candidates"
+}

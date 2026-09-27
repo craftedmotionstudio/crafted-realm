@@ -1,0 +1,51 @@
+{
+ "tag": "p3_after",
+ "url": "http://127.0.0.1:8105/?holmIsland=1&qaProfile=v2land-p3_after-muja5qnx",
+ "views": [
+  {
+   "view": "v03_survival_hollow",
+   "calls": 607,
+   "triangles": 189215
+  },
+  {
+   "view": "v04_fishing_pond",
+   "calls": 500,
+   "triangles": 154788
+  },
+  {
+   "view": "v06_mill_garden",
+   "calls": 569,
+   "triangles": 198585
+  },
+  {
+   "view": "v07_bakehouse_lodge",
+   "calls": 624,
+   "triangles": 213498
+  },
+  {
+   "view": "v19_mill_wheel",
+   "calls": 440,
+   "triangles": 173335
+  },
+  {
+   "view": "v20_garden_to_wheel",
+   "calls": 510,
+   "triangles": 190850
+  },
+  {
+   "view": "v21_mill_weir_walk",
+   "calls": 450,
+   "triangles": 160592
+  }
+ ],
+ "pageErrors": [
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+ ],
+ "missing": [
+  "/BUILD_INFO.json?_=1790481005962",
+  "/favicon.ico",
+  "/favicon.ico"
+ ]
+}

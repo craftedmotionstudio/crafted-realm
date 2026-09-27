@@ -5,7 +5,7 @@
 var HolmArrivalExportLoader=(function(){
  'use strict';
  var Package=typeof module!=='undefined'&&module.exports?require('./holm_arrival_package'):HolmArrivalPackage;
- var roles={'holm-overhaul-terrain-source-v1':'terrainSource','holm-overhaul-terrain-bundle-v1':'terrain','holm-overhaul-arrival-layout-v1':'layout','holm-guide-house-collision-envelopes-v1':'envelopes','holm-arrival-dock-study-v1':'dock','holm-arrival-provisions-placement-v1':'provisionsPlacement','crafted-realms-local-prop-v1':'provisionsManifest','holm-arrival-landscape-study-v1':'landscapePlacement','holm-arrival-landscape-measure-v1':'landscapeMeasurement'};
+ var roles={'holm-overhaul-terrain-source-v1':'terrainSource','holm-overhaul-terrain-source-v2':'terrainSource','holm-overhaul-terrain-bundle-v1':'terrain','holm-overhaul-arrival-layout-v1':'layout','holm-guide-house-collision-envelopes-v1':'envelopes','holm-arrival-dock-study-v1':'dock','holm-arrival-provisions-placement-v1':'provisionsPlacement','crafted-realms-local-prop-v1':'provisionsManifest','holm-arrival-landscape-study-v1':'landscapePlacement','holm-arrival-landscape-measure-v1':'landscapeMeasurement'};
  function need(ok,message){if(!ok)throw Error('[HolmArrivalExportLoader] '+message)}
  function canonical(v){if(v===null||typeof v!=='object')return JSON.stringify(v);if(Array.isArray(v))return '['+v.map(canonical).join(',')+']';return '{'+Object.keys(v).sort().map(function(k){return JSON.stringify(k)+':'+canonical(v[k])}).join(',')+'}'}
  function safe(p){return typeof p==='string'&&/^[A-Za-z0-9_.-]+(?:\/[A-Za-z0-9_.-]+)+$/.test(p)&&p.split('/').every(function(s){return s!=='.'&&s!=='..'&&!s.endsWith('.')&&!/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(s)})}

@@ -1,0 +1,284 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-clutter-props-v1/candidates/props.blend",
+ "materials": {
+  "Barn thatch": {
+   "texture": "thatch",
+   "authored": [
+    0.6118,
+    0.5098,
+    0.2745
+   ],
+   "tint": [
+    0.891,
+    0.8761,
+    0.7653
+   ]
+  },
+  "Barrel lid boards": {
+   "texture": "planks",
+   "authored": [
+    0.4784,
+    0.3373,
+    0.2039
+   ],
+   "tint": [
+    0.6408,
+    0.6229,
+    0.5867
+   ]
+  },
+  "Barrel staves": {
+   "texture": "planks",
+   "authored": [
+    0.5412,
+    0.3765,
+    0.2196
+   ],
+   "tint": [
+    0.7249,
+    0.6954,
+    0.6318
+   ]
+  },
+  "Crate batten oak": {
+   "texture": "beam",
+   "authored": [
+    0.4314,
+    0.3176,
+    0.1961
+   ],
+   "tint": [
+    0.5261,
+    0.5509,
+    0.5043
+   ]
+  },
+  "Crate boards": {
+   "texture": "planks",
+   "authored": [
+    0.6039,
+    0.4784,
+    0.3059
+   ],
+   "tint": [
+    0.8089,
+    0.8837,
+    0.88
+   ]
+  },
+  "Crate boards dark": {
+   "texture": "planks",
+   "authored": [
+    0.5255,
+    0.4078,
+    0.2471
+   ],
+   "tint": [
+    0.7038,
+    0.7533,
+    0.7108
+   ]
+  },
+  "Crate boards light": {
+   "texture": "planks",
+   "authored": [
+    0.6588,
+    0.5412,
+    0.3529
+   ],
+   "tint": [
+    0.8824,
+    0.9996,
+    1.0
+   ]
+  },
+  "Field stone": {
+   "texture": "rock",
+   "authored": [
+    0.5569,
+    0.5412,
+    0.502
+   ],
+   "tint": [
+    0.6951,
+    0.6755,
+    0.6532
+   ]
+  },
+  "Field stone dark": {
+   "texture": "rock",
+   "authored": [
+    0.4627,
+    0.4471,
+    0.4157
+   ],
+   "tint": [
+    0.5776,
+    0.5581,
+    0.5409
+   ]
+  },
+  "Field stone light": {
+   "texture": "rock",
+   "authored": [
+    0.6353,
+    0.6157,
+    0.5647
+   ],
+   "tint": [
+    0.793,
+    0.7686,
+    0.7348
+   ]
+  },
+  "Hay": {
+   "texture": "thatch",
+   "authored": [
+    0.7882,
+    0.6667,
+    0.3529
+   ],
+   "tint": [
+    1.0,
+    1.0,
+    0.9839
+   ]
+  },
+  "Hay shade": {
+   "texture": "thatch",
+   "authored": [
+    0.6667,
+    0.549,
+    0.2667
+   ],
+   "tint": [
+    0.971,
+    0.9435,
+    0.7434
+   ]
+  },
+  "Lobster pot withies": {
+   "texture": "thatch",
+   "authored": [
+    0.5412,
+    0.4157,
+    0.2588
+   ],
+   "tint": [
+    0.7882,
+    0.7144,
+    0.7216
+   ]
+  },
+  "Oak frame": {
+   "texture": "beam",
+   "authored": [
+    0.4157,
+    0.2902,
+    0.1804
+   ],
+   "tint": [
+    0.5069,
+    0.5033,
+    0.464
+   ]
+  },
+  "Oak frame dark": {
+   "texture": "beam",
+   "authored": [
+    0.3333,
+    0.2314,
+    0.1451
+   ],
+   "tint": [
+    0.4065,
+    0.4013,
+    0.3732
+   ]
+  },
+  "Scarecrow straw": {
+   "texture": "thatch",
+   "authored": [
+    0.7804,
+    0.6471,
+    0.3608
+   ],
+   "tint": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "Stall shingle": {
+   "texture": "roof_tiles",
+   "authored": [
+    0.4863,
+    0.3529,
+    0.2431
+   ],
+   "tint": [
+    0.6431,
+    0.8401,
+    0.7828
+   ]
+  },
+  "Tilled soil": {
+   "texture": "dirt",
+   "authored": [
+    0.3529,
+    0.2667,
+    0.1882
+   ],
+   "tint": [
+    0.419,
+    0.3296,
+    0.2477
+   ]
+  },
+  "Weathered oak planks": {
+   "texture": "planks",
+   "authored": [
+    0.5255,
+    0.3961,
+    0.2471
+   ],
+   "tint": [
+    0.7038,
+    0.7316,
+    0.7108
+   ]
+  },
+  "Weathered oak planks dark": {
+   "texture": "planks",
+   "authored": [
+    0.4275,
+    0.3176,
+    0.1961
+   ],
+   "tint": [
+    0.5725,
+    0.5867,
+    0.5641
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 46,
+ "glb": {
+  "path": ".studio-workspaces/holm-clutter-props-os-v1/candidates/props.glb",
+  "bytes": 736064,
+  "sha256": "04d392c494bd5f932a60b37485a9bd5c3fa501aec47251e08381dd4b9b6ad329"
+ },
+ "images": [
+  "beam",
+  "dirt",
+  "planks",
+  "rock",
+  "roof_tiles",
+  "thatch"
+ ]
+}

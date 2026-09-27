@@ -1,0 +1,59 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-route-props-v2/candidates/props.blend",
+ "materials": {
+  "Hatch oak frame": {
+   "texture": "beam",
+   "authored": [
+    0.3686,
+    0.2588,
+    0.1569
+   ],
+   "tint": [
+    0.4495,
+    0.4489,
+    0.4035
+   ]
+  },
+  "Hatch oak planks": {
+   "texture": "planks",
+   "authored": [
+    0.4784,
+    0.3451,
+    0.2118
+   ],
+   "tint": [
+    0.6408,
+    0.6374,
+    0.6092
+   ]
+  },
+  "Ladder oak": {
+   "texture": "beam",
+   "authored": [
+    0.4157,
+    0.2941,
+    0.1804
+   ],
+   "tint": [
+    0.5069,
+    0.5101,
+    0.464
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 2,
+ "glb": {
+  "path": ".studio-workspaces/holm-route-props-os-v2/candidates/props.glb",
+  "bytes": 38280,
+  "sha256": "4edc81ee41a7e7848cbfdf4e5885da5b1343446ce37867031e0a2269963c2fe7"
+ },
+ "images": [
+  "beam",
+  "planks"
+ ]
+}

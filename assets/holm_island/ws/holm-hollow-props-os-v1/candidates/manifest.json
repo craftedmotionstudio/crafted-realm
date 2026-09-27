@@ -1,0 +1,516 @@
+{
+ "schema": 1,
+ "pack": "HOLM_HOLLOW_PROPS_V1",
+ "status": "candidate",
+ "axes": "glTF Y-up, 1 unit = tile, origin at the resting base centre",
+ "file": "props.glb",
+ "blend": "props.blend",
+ "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+ "assets": [
+  {
+   "name": "hollow-jetty",
+   "root": "hollow-jetty",
+   "triangles": 420,
+   "materials": [
+    "Hemp rope",
+    "Oak post",
+    "Weathered oak planks",
+    "Weathered oak planks dark"
+   ],
+   "bounds": {
+    "min": [
+     -3.1481,
+     -1.35,
+     -0.717
+    ],
+    "max": [
+     0.0,
+     0.55,
+     0.675
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "structure",
+   "note": "deck top y 0; shore end at x 0, runs to x -3"
+  },
+  {
+   "name": "log-step",
+   "root": "log-step",
+   "triangles": 48,
+   "materials": [
+    "Log bark",
+    "Log end grain",
+    "Oak post"
+   ],
+   "bounds": {
+    "min": [
+     -0.7,
+     -0.1,
+     -0.1351
+    ],
+    "max": [
+     0.7,
+     0.1962,
+     0.23
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "path",
+   "note": "across a path, long axis x"
+  },
+  {
+   "name": "lily-pad",
+   "root": "lily-pad",
+   "triangles": 20,
+   "materials": [
+    "Lily pad",
+    "Lily pad dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.3393,
+     0.002,
+     -0.3394
+    ],
+    "max": [
+     0.3585,
+     0.012,
+     0.3442
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "pond-life",
+   "note": "y 0 = water surface"
+  },
+  {
+   "name": "lily-pad-flower",
+   "root": "lily-pad-flower",
+   "triangles": 42,
+   "materials": [
+    "Lily flower",
+    "Lily flower heart",
+    "Lily pad",
+    "Lily pad dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.3393,
+     0.002,
+     -0.3394
+    ],
+    "max": [
+     0.3585,
+     0.09,
+     0.3442
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "pond-life",
+   "note": "y 0 = water surface"
+  },
+  {
+   "name": "stepping-stone",
+   "root": "stepping-stone",
+   "triangles": 47,
+   "materials": [
+    "Field stone",
+    "Field stone light"
+   ],
+   "bounds": {
+    "min": [
+     -0.2996,
+     -0.1,
+     -0.2954
+    ],
+    "max": [
+     0.2763,
+     0.14,
+     0.2889
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "path"
+  },
+  {
+   "name": "rowboat-beached",
+   "root": "rowboat-beached",
+   "triangles": 130,
+   "materials": [
+    "Boat keel oak",
+    "Boat strakes",
+    "Oar oak"
+   ],
+   "bounds": {
+    "min": [
+     -1.35,
+     0.09,
+     -0.4235
+    ],
+    "max": [
+     1.4,
+     0.6536,
+     0.6003
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "clutter"
+  },
+  {
+   "name": "drying-rack",
+   "root": "drying-rack",
+   "triangles": 216,
+   "materials": [
+    "Hemp rope",
+    "Oak post",
+    "Perch fins",
+    "Perch scales",
+    "Perch stripes"
+   ],
+   "bounds": {
+    "min": [
+     -0.95,
+     -0.008,
+     -0.3841
+    ],
+    "max": [
+     0.95,
+     1.508,
+     0.3841
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "clutter"
+  },
+  {
+   "name": "bucket-wood",
+   "root": "bucket-wood",
+   "triangles": 100,
+   "materials": [
+    "Bucket oak",
+    "Bucket water",
+    "Hemp rope",
+    "Iron hoop"
+   ],
+   "bounds": {
+    "min": [
+     -0.189,
+     0.0,
+     -0.189
+    ],
+    "max": [
+     0.189,
+     0.4675,
+     0.189
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "clutter"
+  },
+  {
+   "name": "fish-creel",
+   "root": "fish-creel",
+   "triangles": 76,
+   "materials": [
+    "Leather strap",
+    "Wicker",
+    "Wicker dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.2586,
+     0.0,
+     -0.1775
+    ],
+    "max": [
+     0.2586,
+     0.5543,
+     0.2175
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "clutter"
+  },
+  {
+   "name": "net-crate",
+   "root": "net-crate",
+   "triangles": 225,
+   "materials": [
+    "Cork float",
+    "Crate boards",
+    "Crate boards dark",
+    "Net twine"
+   ],
+   "bounds": {
+    "min": [
+     -0.34,
+     0.0,
+     -0.3
+    ],
+    "max": [
+     0.34,
+     0.6,
+     0.3733
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "clutter"
+  },
+  {
+   "name": "fire-ring",
+   "root": "fire-ring",
+   "triangles": 289,
+   "materials": [
+    "Ash bed",
+    "Charred wood",
+    "Field stone",
+    "Field stone dark",
+    "Field stone light"
+   ],
+   "bounds": {
+    "min": [
+     -0.5642,
+     -0.02,
+     -0.5584
+    ],
+    "max": [
+     0.5445,
+     0.1118,
+     0.5765
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "station",
+   "note": "the Fire Beach stance marker; a player fire burns in the middle"
+  },
+  {
+   "name": "duck",
+   "root": "duck",
+   "triangles": 221,
+   "materials": [
+    "Duck bill",
+    "Duck breast",
+    "Duck grey",
+    "Duck head green",
+    "Duck neck ring",
+    "Duck tail",
+    "Duck wing",
+    "Fish eye"
+   ],
+   "bounds": {
+    "min": [
+     -0.28,
+     -0.03,
+     -0.12
+    ],
+    "max": [
+     0.3,
+     0.3,
+     0.12
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "pond-life",
+   "note": "y 0 = water line; faces +x; the runtime paddles and bobs it"
+  },
+  {
+   "name": "frog",
+   "root": "frog",
+   "triangles": 197,
+   "materials": [
+    "Fish eye",
+    "Frog belly",
+    "Frog skin",
+    "Frog spots",
+    "Lily pad"
+   ],
+   "bounds": {
+    "min": [
+     -0.2889,
+     0.0057,
+     -0.299
+    ],
+    "max": [
+     0.2939,
+     0.129,
+     0.3
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "pond-life",
+   "note": "the frog sits on a lily pad; frog-body is the part the runtime hops"
+  },
+  {
+   "name": "dragonfly",
+   "root": "dragonfly",
+   "triangles": 44,
+   "materials": [
+    "Dragonfly body",
+    "Dragonfly wing"
+   ],
+   "bounds": {
+    "min": [
+     -0.09,
+     -0.012,
+     -0.09
+    ],
+    "max": [
+     0.0621,
+     0.012,
+     0.09
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "pond-life",
+   "note": "origin at the body; the runtime darts it along the reeds"
+  },
+  {
+   "name": "fish-perch",
+   "root": "fish-perch",
+   "triangles": 114,
+   "materials": [
+    "Fish eye",
+    "Perch fins",
+    "Perch scales",
+    "Perch stripes"
+   ],
+   "bounds": {
+    "min": [
+     -0.2244,
+     -0.0544,
+     -0.034
+    ],
+    "max": [
+     0.17,
+     0.0816,
+     0.034
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "fish",
+   "note": "faces +x, origin at the body centre"
+  },
+  {
+   "name": "fish-pike",
+   "root": "fish-pike",
+   "triangles": 214,
+   "materials": [
+    "Fish eye",
+    "Pike belly",
+    "Pike fins",
+    "Pike scales",
+    "Pike spots"
+   ],
+   "bounds": {
+    "min": [
+     -0.3696,
+     -0.0896,
+     -0.056
+    ],
+    "max": [
+     0.28,
+     0.1344,
+     0.056
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "fish",
+   "note": "faces +x, origin at the body centre"
+  },
+  {
+   "name": "fish-shadow",
+   "root": "fish-shadow",
+   "triangles": 11,
+   "materials": [
+    "Fish shadow"
+   ],
+   "bounds": {
+    "min": [
+     -0.38,
+     0.0,
+     -0.0856
+    ],
+    "max": [
+     0.26,
+     0.0,
+     0.0856
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "fx",
+   "note": "flat dark fish shape; the runtime draws it translucent under the water sheet"
+  },
+  {
+   "name": "splash-ring",
+   "root": "splash-ring",
+   "triangles": 34,
+   "materials": [
+    "Splash foam"
+   ],
+   "bounds": {
+    "min": [
+     -0.3513,
+     0.01,
+     -0.3563
+    ],
+    "max": [
+     0.3513,
+     0.09,
+     0.3563
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "fx",
+   "note": "flat foam ring, y 0 = water; grown and faded by the runtime"
+  },
+  {
+   "name": "droplet",
+   "root": "droplet",
+   "triangles": 20,
+   "materials": [
+    "Water droplet"
+   ],
+   "bounds": {
+    "min": [
+     -0.0245,
+     -0.005,
+     -0.0288
+    ],
+    "max": [
+     0.0303,
+     0.085,
+     0.0288
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "fx"
+  },
+  {
+   "name": "bubbles",
+   "root": "bubbles",
+   "triangles": 60,
+   "materials": [
+    "Water droplet"
+   ],
+   "bounds": {
+    "min": [
+     -0.0426,
+     0.0,
+     -0.0448
+    ],
+    "max": [
+     0.0691,
+     0.128,
+     0.0381
+    ]
+   },
+   "sha256": "ee810157130635c284182485296a2567870651bf421f4278a4bf022639d5329d",
+   "kind": "fx"
+  }
+ ],
+ "totals": {
+  "triangles": 2528,
+  "assets": 20,
+  "materials": 51,
+  "budgetTriangles": 12000
+ }
+}

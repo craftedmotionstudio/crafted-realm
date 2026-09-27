@@ -1,0 +1,21 @@
+{
+ "note": "Holm v2 land phase 4: route props textured old-school",
+ "source": ".studio-workspaces/holm-route-props-v2/candidates/props.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-route-props-v2/candidates/props.glb",
+ "outBlend": ".studio-workspaces/holm-route-props-os-v2/candidates/props.blend",
+ "outGlb": ".studio-workspaces/holm-route-props-os-v2/candidates/props.glb",
+ "report": ".studio-workspaces/holm-route-props-os-v2/candidates/textures.report.json",
+ "rules": [
+  [
+   "(?i)hatch oak planks",
+   "planks",
+   0.8
+  ],
+  [
+   "(?i)shaft dark|bell bronze|bell rope",
+   null,
+   0
+  ]
+ ]
+}

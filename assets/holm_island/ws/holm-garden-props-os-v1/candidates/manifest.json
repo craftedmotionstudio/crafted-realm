@@ -1,0 +1,347 @@
+{
+ "schema": 1,
+ "pack": "HOLM_GARDEN_PROPS_V1",
+ "status": "candidate",
+ "axes": "glTF Y-up, 1 unit = tile, origin at the resting base centre",
+ "file": "props.glb",
+ "blend": "props.blend",
+ "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+ "assets": [
+  {
+   "name": "parapet-run",
+   "root": "parapet-run",
+   "triangles": 232,
+   "materials": [
+    "Coping sandstone",
+    "Garden fieldstone",
+    "Garden fieldstone dark",
+    "Garden fieldstone light",
+    "Ivy leaves"
+   ],
+   "bounds": {
+    "min": [
+     -1.0,
+     0.0,
+     -0.2
+    ],
+    "max": [
+     1.0,
+     0.5,
+     0.2769
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "wall",
+   "block": [
+    1.0,
+    0.2
+   ]
+  },
+  {
+   "name": "parapet-post",
+   "root": "parapet-post",
+   "triangles": 42,
+   "materials": [
+    "Coping sandstone",
+    "Garden fieldstone"
+   ],
+   "bounds": {
+    "min": [
+     -0.26,
+     0.0,
+     -0.26
+    ],
+    "max": [
+     0.26,
+     0.88,
+     0.26
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "wall",
+   "block": [
+    0.25,
+    0.25
+   ]
+  },
+  {
+   "name": "garden-gate",
+   "root": "garden-gate",
+   "triangles": 42,
+   "materials": [
+    "Garden oak",
+    "Garden oak dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.5235,
+     0.05,
+     -0.8731
+    ],
+    "max": [
+     -0.1618,
+     0.85,
+     0.0086
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "gate"
+  },
+  {
+   "name": "herb-bed",
+   "root": "herb-bed",
+   "triangles": 784,
+   "materials": [
+    "Bed soil",
+    "Flower cream",
+    "Flower lavender",
+    "Garden bench planks",
+    "Garden leaves",
+    "Garden leaves dark",
+    "Garden leaves light"
+   ],
+   "bounds": {
+    "min": [
+     -0.8,
+     0.0,
+     -0.5743
+    ],
+    "max": [
+     0.8,
+     0.5062,
+     0.4
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "garden",
+   "block": [
+    0.8,
+    0.4
+   ]
+  },
+  {
+   "name": "arbour-bench",
+   "root": "arbour-bench",
+   "triangles": 864,
+   "materials": [
+    "Garden bench planks",
+    "Garden leaves",
+    "Garden leaves dark",
+    "Garden leaves light",
+    "Garden oak",
+    "Garden oak dark",
+    "Rose cream",
+    "Rose pink",
+    "Rose red"
+   ],
+   "bounds": {
+    "min": [
+     -1.0144,
+     0.0,
+     -0.7884
+    ],
+    "max": [
+     1.0947,
+     2.4851,
+     0.6547
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "garden",
+   "block": [
+    0.9,
+    0.45
+   ]
+  },
+  {
+   "name": "garden-table",
+   "root": "garden-table",
+   "triangles": 269,
+   "materials": [
+    "Earthen cup",
+    "Earthen jug",
+    "Garden bench planks",
+    "Garden oak",
+    "Garden oak dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.8802,
+     0.0,
+     -0.42
+    ],
+    "max": [
+     0.9,
+     0.93,
+     0.42
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "garden",
+   "block": [
+    0.45,
+    0.45
+   ]
+  },
+  {
+   "name": "flower-tub",
+   "root": "flower-tub",
+   "triangles": 222,
+   "materials": [
+    "Bed soil",
+    "Flower cream",
+    "Flower lavender",
+    "Flower marigold",
+    "Flower rose",
+    "Garden leaves",
+    "Garden leaves dark",
+    "Iron hoop",
+    "Tub staves"
+   ],
+   "bounds": {
+    "min": [
+     -0.3,
+     0.0,
+     -0.3
+    ],
+    "max": [
+     0.3,
+     0.5992,
+     0.3
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "garden",
+   "block": [
+    0.3,
+    0.3
+   ]
+  },
+  {
+   "name": "bee-skep",
+   "root": "bee-skep",
+   "triangles": 289,
+   "materials": [
+    "Bee",
+    "Bee stripe",
+    "Garden bench planks",
+    "Garden oak dark",
+    "Skep straw",
+    "Skep straw bands"
+   ],
+   "bounds": {
+    "min": [
+     -0.3,
+     0.0,
+     -0.3
+    ],
+    "max": [
+     0.3308,
+     1.1941,
+     0.3999
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "garden",
+   "block": [
+    0.25,
+    0.25
+   ]
+  },
+  {
+   "name": "bird-table",
+   "root": "bird-table",
+   "triangles": 180,
+   "materials": [
+    "Garden bench planks",
+    "Garden oak",
+    "Garden oak dark",
+    "Wren belly",
+    "Wren brown"
+   ],
+   "bounds": {
+    "min": [
+     -0.36,
+     0.0,
+     -0.32
+    ],
+    "max": [
+     0.36,
+     1.72,
+     0.32
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "garden",
+   "block": [
+    0.15,
+    0.15
+   ]
+  },
+  {
+   "name": "lantern-post",
+   "root": "lantern-post",
+   "triangles": 80,
+   "materials": [
+    "Garden oak dark",
+    "Iron hoop",
+    "Lantern glass"
+   ],
+   "bounds": {
+    "min": [
+     -0.0604,
+     -0.0012,
+     -0.0666
+    ],
+    "max": [
+     0.44,
+     1.7247,
+     0.1066
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "garden",
+   "block": [
+    0.12,
+    0.12
+   ]
+  },
+  {
+   "name": "rose-bush",
+   "root": "rose-bush",
+   "triangles": 312,
+   "materials": [
+    "Garden leaves",
+    "Garden leaves dark",
+    "Garden leaves light",
+    "Rose cream",
+    "Rose pink",
+    "Rose red"
+   ],
+   "bounds": {
+    "min": [
+     -0.3689,
+     -0.1317,
+     -0.3283
+    ],
+    "max": [
+     0.2564,
+     1.027,
+     0.341
+    ]
+   },
+   "sha256": "86cc330eb722c0caa2769548126dccf36d18d3c8d093b3ed73a816c9dfd4b0ee",
+   "kind": "garden",
+   "block": [
+    0.3,
+    0.2
+   ]
+  }
+ ],
+ "totals": {
+  "triangles": 3316,
+  "assets": 11,
+  "materials": 30,
+  "budgetTriangles": 12000
+ }
+}
