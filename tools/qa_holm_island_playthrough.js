@@ -41,6 +41,11 @@ async function attack(page,pen,opts){for(let i=0;i<4;i++){const n=await page.eva
   const c=await clickNamed(page,n,opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c;await closeDialogue(page)}return {error:'no target'}}
 // a player who sees no progress clicks the foe again: up to four attack cycles, each waiting 40 s for the credit
 async function fight(page,pen,id,opts){for(let k=0;k<4;k++){await attack(page,pen,opts);if(await waitLesson(page,id,40000))return true}return false}
+async function toBeach(p){const r=await p.evaluate(()=>HolmFishing.fireRing());return L.walkPoint(p,r.ring[0]+.5,r.ring[1]+.6,[])}
+// to cook: stand beside the fire, never on its tile (a fire does not block its tile; from on top of it a click hits the ground)
+async function toFire(p){const f=await p.evaluate(()=>{const o=scene.getObjectByName('island-campfire');return o?[o.position.x,o.position.z]:null});if(!f)return toBeach(p);
+ for(const [dx,dz] of [[1,0],[-1,0],[0,-1],[0,1]]){await L.walkPoint(p,f[0]+dx,f[1]+dz,[]);const q=await pos(p);if(Math.hypot(q[0]-f[0],q[2]-f[1])>.9)return}}
+const spot=p=>p.evaluate(()=>{const s=HolmFishing.nearestSpot(player.position.x,player.position.z);return s?s.name:null});
 // ---- the lessons, in the curriculum's order ----
 const DO={
  async study_route(p){await clickKind(p,'arrival_door',['arrivalDoor','arrival']);await waitFor(p,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.doors&&r.doors.arrival},null,40000);
@@ -51,13 +56,14 @@ const DO={
   {const c=await clickNamed(p,'island-lesson-survival-oak-1');await sleep(1200);const chat=await lastChat(p,4);
    TALKS.push({id:'wenna-refusal',refused:!c.error&&chat.some(t=>/speak to Wenna first/.test(t))&&await count(p,'logs')===0})}
   await talk(p,'wenna');for(const t of ['oak-1','oak-2','oak-3']){if(await p.evaluate(()=>Player.count('logs')>0))break;const c=await clickNamed(p,'island-lesson-survival-'+t);if(!c.error)await waitFor(p,()=>Player.count('logs')>0,null,90000)}},
- async light_fire(p){await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)},
- async catch_fish(p){await walkTo(p,'survival','fishing',false,[]);await clickInventory(p,'fishing_net');await clickNamed(p,'island-lesson-survival-perch');await waitFor(p,()=>Player.count('raw_perch')>0,null,150000)},
+ // v2 land (2026-09-27): the fire goes on the Fire Beach down in Minnow Hollow, the fish come from the live ripples on the pond
+ async light_fire(p){await toBeach(p);await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)},
+ async catch_fish(p){await clickInventory(p,'fishing_net');await clickNamed(p,await spot(p));await waitFor(p,()=>Player.count('raw_perch')>0,null,150000)},
  async cook_fish(p){for(let k=0;k<8&&await lesson(p)==='cook_fish';k++){
-   if(!await p.evaluate(()=>Player.count('raw_perch')>0)){await walkTo(p,'survival','fishing',false,[]);await clickInventory(p,'fishing_net');await clickNamed(p,'island-lesson-survival-perch');await waitFor(p,()=>Player.count('raw_perch')>0,null,150000)}
-   await walkTo(p,'survival','trail',true,[]);
+   if(!await p.evaluate(()=>Player.count('raw_perch')>0)){await clickInventory(p,'fishing_net');await clickNamed(p,await spot(p));await waitFor(p,()=>Player.count('raw_perch')>0,null,150000)}
+   await toFire(p);
    if(!await p.evaluate(()=>!!scene.getObjectByName('island-campfire'))){for(const t of ['oak-2','oak-3','oak-1']){if(await p.evaluate(()=>Player.count('logs')>0))break;await clickNamed(p,'island-lesson-survival-'+t);await waitFor(p,()=>Player.count('logs')>0,null,90000)}
-    await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
+    await toBeach(p);await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
    const b=await p.evaluate(()=>Player.count('cooked_perch')+Player.count('burnt_perch'));await clickNamed(p,'island-campfire');await waitFor(p,b=>Player.count('cooked_perch')+Player.count('burnt_perch')>b,b,120000)}},
  async bake_bread(p){await walkTo(p,'bakehouse','entrance',true,[]);await talk(p,'hettie');
   for(const l of ['Take bucket','Take bucket','Fill bucket with flour','Fill bucket with water','Take dough'])await clickService(p,l);
@@ -69,7 +75,8 @@ const DO={
  async mine_tin(p){await clickNamed(p,'island-lesson-cavern-tin-1');await waitFor(p,()=>Player.count('tin_ore')>0,null,90000)},
  async smelt_bronze(p){await clickNamed(p,'island-lesson-furnace');await clickButtonText(p,'#dialogue-modal button','Smelt a Bronze bar.');await waitFor(p,()=>Player.count('bronze_bar')>0,null,30000)},
  async forge_dagger(p){await clickNamed(p,'island-lesson-anvil');await clickButtonText(p,'#smith-grid-overlay div[title]','Bronze dagger');await waitFor(p,()=>Player.count('bronze_dagger')>0,null,30000);
-  await clickService(p,'Climb-up ladder','ladder');await waitFor(p,()=>player.position.y>0,null,60000)},
+  // v2 land: out by the east drift, its ladder coming up through the trapdoor in the Warden's Keep hall
+  await clickService(p,'Climb-up drift ladder','exit');await waitFor(p,()=>player.position.y>0,null,90000)},
  async melee_trial(p){await walkTo(p,'keep','court',true,[]);await talk(p,'corrick');await wield(p,'bronze_dagger');await fight(p,'keep-court','melee_trial')},
  async ranged_trial(p){await waitFor(p,()=>Player.count('worn_bow')>0||Player.equip.weapon==='worn_bow',null,15000);await wield(p,'worn_bow');await fight(p,'keep-court','ranged_trial')},
  async open_bank(p){await walkTo(p,'bank','entrance',true,[]);await talk(p,'maud');await clickService(p,'Use bank counter','counter');await waitLesson(p,'open_bank',60000);await p.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}})},

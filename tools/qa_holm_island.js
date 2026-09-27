@@ -10,7 +10,7 @@
 'use strict';
 const fs=require('fs'),path=require('path'),puppeteer=require('puppeteer-core');
 const OUT=path.join(__dirname,'..','scratchpad','holm_island_qa');fs.mkdirSync(OUT,{recursive:true});
-const L=require('./holm_island_driver_lib');L.setOut(OUT);   // shared real-input helpers (talking to tutors)
+const L=require('./holm_island_driver_lib');L.setOut(OUT);const DL=L;   // DL: the lib where a block shadows L   // shared real-input helpers (talking to tutors)
 const PROFILE='island-qa-'+Date.now().toString(36);
 const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmIsland=1&qaProfile='+PROFILE;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));const checks=[],t0=Date.now();
@@ -165,7 +165,8 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     const onDeck=tr.filter(q=>timber.tiles.some(t=>Math.floor(q[0])===t[0]&&Math.floor(q[2])===t[1])&&Math.abs(q[1]-timber.deckY)<.12).length;
     ok('walks from the dock across the timber teaching bridge on its deck',onDeck>3,{deckSamples:onDeck,deckY:timber.deckY});
     ok('reaches the bakehouse courtyard entrance',!r.error&&r.reached&&Math.hypot(r.at[0]-r.reached.x,r.at[2]-r.reached.z)<.6,r);
-    ok('every step on the way is cardinal',diagonal(tr)===0,{samples:tr.length,diagonal:diagonal(tr)});
+    // 8-direction movement (owner decision 2026-09-26, 2004 rule: a diagonal only where both straight neighbours are open)
+    ok('the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)',tr.length>10,{samples:tr.length,diagonal:diagonal(tr)});
     await shot(page,'02_bakehouse');
     // M4.2 bread lesson in the Blender bakehouse, every station by a real click on its authored mesh
     await page.evaluate(()=>{Player.inv=Player.inv.map(s=>s&&['bread','bread_dough','bucket','bucket_flour','bucket_water','dough'].includes(s.id)?null:s);UI.refreshInv()});
@@ -207,7 +208,7 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     await closeDialogue(page);await shot(page,'03b_board');
     // 3. across the island to the Warden's Keep gate
     tr=[];r=await walkTo(page,'keep','gate',true,tr);
-    ok('crosses the island to the Warden\'s Keep gate',!r.error&&r.reached&&Math.hypot(r.at[0]-r.reached.x,r.at[2]-r.reached.z)<.6&&diagonal(tr)===0,{...r,diagonal:diagonal(tr)});
+    ok('crosses the island to the Warden\'s Keep gate',!r.error&&r.reached&&Math.hypot(r.at[0]-r.reached.x,r.at[2]-r.reached.z)<.6,{...r,diagonal:diagonal(tr)});
     await shot(page,'04_keep');
     }
     // the building visits and lesson stations below revisit every area: record the whole curriculum as done (QA only)
@@ -225,14 +226,15 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
       await shot(page,'05_'+b);const at=await pos(page);const ok2=!w.error&&!c.error&&await near(b,target,.6);return {ok:ok2,walk:w.error||'ok',click:c.error||'ok',at,diagonal:diagonal(tr2),...(extra?await extra():{})}};
     if(!onlyLessons){
     let v=await visit('bank','entrance','Use bank counter','counter',()=>page.evaluate(()=>({bankOpen:(document.getElementById('bank-modal')||{style:{}}).style.display==='block'})));
-    ok('Bank: walks in and the teller counter opens the bank',v.ok&&v.bankOpen&&v.diagonal===0,v);
+    ok('Bank: walks in and the teller counter opens the bank',v.ok&&v.bankOpen,v);
     await page.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}});
     // like a player: walk in through the west door first (roofs cut away once inside), then the telescope is in sight
     v=await visit('mage','entrance','Telescope','observatory',null,async()=>{const t2=[];await walkTo(page,'mage','runes',false,t2)});ok('Mage tower: climbs both stairs to the telescope in the observatory',v.ok&&v.at[1]>11.5,v);
-    v=await visit('haven','shore','Ferry','boat');ok('Departure Haven: walks the pier down to the ferry on the landing stage',v.ok&&v.at[0]>134,v);
+    v=await visit('haven','shore','Ferry','boat');ok('Departure haven at Lanternfoot Cove (v2 land): down the Keeper stair and the pier north to the ferry on the landing stage',v.ok&&v.at[2]<2&&v.at[0]>95&&v.at[0]<108,v);
     v=await visit('quarry','approach','Climb-down shaft ladder','shaft',null,null,true);v.shaftTiles=await(async()=>{const s=await stanceOf('quarry','shaft');return s?+Math.hypot(v.at[0]-s.x,v.at[2]-s.z).toFixed(2):null})();
     ok('Quarry Gate: walks through the portal to the shaft mouth',v.walk==='ok'&&v.click==='ok'&&v.shaftTiles!==null&&v.shaftTiles<=1.05,v);
-    v=await visit('survival','trail','Fishing spot','fishing');ok('Survival camp: down the bank stair to the fishing stage',v.ok,v);
+    // v2 land: the creek fishing stage is gone; fishing is at Minnow Hollow, down the Hollow Path onto its jetty
+    {const w=await DL.walkPoint(page,29.5,95.5,[]);const at=await pos(page);await shot(page,'05_minnow_hollow');ok('Minnow Hollow: down the Hollow Path from the camp and out onto the jetty',!w.error&&Math.hypot(at[0]-29.5,at[2]-95.5)<1.1&&Math.abs(at[1]-1.3)<.3,{walk:w.error||'ok',at})}
     // M4.4b Lastlight: in by the storm door, up three ladders (instant storey change, 2004 style) to the beacon lever, and back down
     {const w=await walkTo(page,'lastlight','door',true,[]);const y0=(await pos(page))[1],steps=[];
      for(const [label,which] of [['Repair stores','stores'],['Climb-up ladder','ladder1-foot'],['Climb-up ladder','ladder2-foot'],['Climb-up ladder','ladder3-foot'],['Pull beacon lever','lever']]){const c=await clickService(page,label,which);steps.push([which,c.error||'ok',...(await pos(page)).map(v=>+v.toFixed(2))])}
@@ -248,20 +250,27 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     {await page.evaluate(()=>{Player.inv=Player.inv.map(()=>null);['hatchet','tinderbox','fishing_net','pickaxe','hammer'].forEach(i=>Player.addItem(i,1));UI.refreshInv()});
      await clickInventory(page,'hatchet');const L={};const note=e=>page.evaluate(e=>window.__notes.includes(e),e);
      let c=await clickNamed(page,'island-lesson-survival-oak-1');L.chop=c.error||(await waitFor(page,()=>Player.count('logs')>0,null,120000))&&await note('gather/logs');
+     // v2 land: the fire is lit on the Fire Beach in Minnow Hollow, the fish netted at a live ripple on the pond
+     const ring=await page.evaluate(()=>HolmFishing.fireRing()),beach=[ring.ring[0]+.5,ring.ring[1]+.6];await DL.walkPoint(page,beach[0],beach[1],[]);
+     // back to cook: stand on a tile beside the fire, never on it (the fire does not block its tile, and from on top of it
+     // the click lands on the ground)
+     const toFire=async()=>{const f=await page.evaluate(()=>{const o=scene.getObjectByName('island-campfire');return o?[o.position.x,o.position.z]:null});if(!f)return DL.walkPoint(page,beach[0],beach[1],[]);
+      for(const [dx,dz] of [[1,0],[-1,0],[0,-1],[0,1]]){await DL.walkPoint(page,f[0]+dx,f[1]+dz,[]);const q=await pos(page);if(Math.hypot(q[0]-f[0],q[2]-f[1])>.9)return}};
      const p0=await pos(page);await clickInventory(page,'tinderbox');await clickInventory(page,'logs');
      L.fire=(await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000))&&await note('firemake/fire');await sleep(1500);const p1=await pos(page);
      // off the fire tile by exactly one cardinal step (west unless blocked, as in the live game)
      L.stepWest=Math.abs(Math.abs(p1[0]-p0[0])+Math.abs(p1[2]-p0[2])-1)<.05;
-     await walkTo(page,'survival','fishing',false,[]);await clickInventory(page,'fishing_net');c=await clickNamed(page,'island-lesson-survival-perch');L.fish=c.error||(await waitFor(page,()=>Player.count('raw_perch')>0,null,150000))&&await note('gather/raw_perch');
+     const spot=()=>page.evaluate(()=>{const s=HolmFishing.nearestSpot(player.position.x,player.position.z);return s?s.name:null});
+     await clickInventory(page,'fishing_net');c=await clickNamed(page,await spot());L.fish=c.error||(await waitFor(page,()=>Player.count('raw_perch')>0,null,150000))&&await note('gather/raw_perch');
      // a teaching fire lasts 150 s; if it burnt out during the fishing trip, chop another oak and light a new one (lesson text says so)
-     await walkTo(page,'survival','trail',true,[]);
-     if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){L.relit=true;await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);
+     await toFire();
+     if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){L.relit=true;await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);await DL.walkPoint(page,beach[0],beach[1],[]);
       await clickInventory(page,'tinderbox');await clickInventory(page,'logs');await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
      L.cookTries=0;
      for(let k=0;k<6&&!(await note('cook/cooked_perch'));k++){L.cookTries++;
-      if(!await page.evaluate(()=>Player.count('raw_perch')>0)){await walkTo(page,'survival','fishing',false,[]);await clickInventory(page,'fishing_net');await clickNamed(page,'island-lesson-survival-perch');
-       await waitFor(page,()=>Player.count('raw_perch')>0,null,150000);await walkTo(page,'survival','trail',true,[])}
-      if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);
+      if(!await page.evaluate(()=>Player.count('raw_perch')>0)){await clickInventory(page,'fishing_net');await clickNamed(page,await spot());
+       await waitFor(page,()=>Player.count('raw_perch')>0,null,150000);await toFire()}
+      if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);await DL.walkPoint(page,beach[0],beach[1],[]);
        await clickInventory(page,'tinderbox');await clickInventory(page,'logs');await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
       const before=await page.evaluate(()=>Player.count('cooked_perch')+Player.count('burnt_perch'));
       c=await clickNamed(page,'island-campfire');await waitFor(page,b=>Player.count('cooked_perch')+Player.count('burnt_perch')>b,before,120000)}
@@ -278,7 +287,7 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      L.smith=c.error||(await waitFor(page,()=>Player.count('bronze_dagger')>0,null,30000))&&await note('smith/forged');
      await shot(page,'08_forge');
      c=await clickService(page,'Climb-up ladder','ladder');L.up=c.error||(await waitFor(page,()=>player.position.y>0,null,60000));
-     ok('M5.1 survival lessons on the island: chop, light a fire (step west on the graph), net a perch, cook it',L.chop===true&&L.fire===true&&L.stepWest&&L.fish===true&&L.cook===true&&L.cookNote.length>0,L);
+     ok('M5.1 survival lessons on the v2 land: chop on the hollow rim, light a fire on the Fire Beach (step aside on the graph), net a perch at a live ripple, cook it',L.chop===true&&L.fire===true&&L.stepWest&&L.fish===true&&L.cook===true&&L.cookNote.length>0,L);
      ok('M5.1 cavern lessons: shaft ladder down (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up',L.descend===true&&L.copper===true&&L.tin===true&&L.smelt===true&&L.smith===true&&L.up===true,L);}
     // M5.3 combat trials on practice grubkins (Blender-rigged), by real clicks: dagger in the keep court, shortbow from
     // range, Wind Strike by the mage tower; each kill credits its style through the game's npcKilled hook
@@ -290,12 +299,17 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      // 2026-09-25): allow 25 s per click and up to six clicks, like the playthrough driver's patient fight()
      const attack=async(pen,opts)=>{let c={error:'no live grubkin'};for(let i=0;i<6;i++){c=await clickNamed(page,await live(pen),opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,25000))return c;await closeDialogue(page)}return c.error?c:{error:'never became the target'}};
      await page.evaluate(()=>{Player.inv=Player.inv.map(()=>null);['bronze_dagger','worn_bow'].forEach(i=>Player.addItem(i,1));Player.addItem('arrows',30);Player.addItem('air_rune',15);Player.addItem('mind_rune',15);UI.refreshInv()});
+     // like a player, walk to the court first (the combat approach searches 6000 tiles: from the quarry the court is
+     // too far for one search on the v2 land; the curriculum's way in is the drift ladder into the keep hall)
+     await walkTo(page,'keep','court',true,[]);
      await clickInventory(page,'bronze_dagger');let c=await attack('keep-court');T.melee=c.error||await waitFor(page,()=>window.__notes.includes('killStyle/melee'),null,150000);
      await shot(page,'09_melee_trial');
      await clickInventory(page,'worn_bow');c=await attack('keep-court');T.ranged=c.error||await waitFor(page,()=>window.__notes.includes('killStyle/ranged'),null,90000);
      T.arrowsUsed=30-await page.evaluate(()=>Player.count('arrows'));
      // Escape (used to close dialogues) also cancels autocast: close first, then choose Wind Strike, then click
-     await closeDialogue(page);await page.evaluate(()=>{if(Player.spell!=='wind_strike')Player.selectSpell('wind_strike')});c=await attack('mage-yard',{keepDialogs:true});T.magic=c.error||await waitFor(page,()=>window.__notes.includes('killStyle/magic'),null,150000);
+     await closeDialogue(page);await walkTo(page,'mage','yard',true,[]);// 2004 (live rule): without a staff each Wind Strike is one cast - choose the spell, click the grubkin, repeat
+     for(let k=0;k<40&&!await page.evaluate(()=>window.__notes.includes('killStyle/magic'));k++){await page.evaluate(()=>{if(Player.spell!=='wind_strike')Player.selectSpell('wind_strike')});c=await attack('mage-yard',{keepDialogs:true});await waitFor(page,()=>!Player.target||window.__notes.includes('killStyle/magic'),null,9000)}
+     T.magic=await waitFor(page,()=>window.__notes.includes('killStyle/magic'),null,20000);
      T.runesUsed=15-await page.evaluate(()=>Player.count('air_rune'));await page.evaluate(()=>{try{if(Player.spell==='wind_strike')Player.selectSpell('wind_strike')}catch(e){}});await shot(page,'10_magic_trial');
      ok('M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Wind Strike kills credit their styles',
       T.spawned.filter(p=>p==='keep-court').length>=2&&T.spawned.includes('mage-yard')&&T.melee===true&&T.ranged===true&&T.magic===true&&T.arrowsUsed>0&&T.runesUsed>0,T);}

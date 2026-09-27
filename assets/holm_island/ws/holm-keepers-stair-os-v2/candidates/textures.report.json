@@ -1,0 +1,100 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-keepers-stair-v2/candidates/stair.blend",
+ "materials": {
+  "Stair footing stone": {
+   "texture": "rock",
+   "authored": [
+    0.5412,
+    0.5294,
+    0.4902
+   ],
+   "tint": [
+    0.6755,
+    0.6609,
+    0.6379
+   ]
+  },
+  "Stair footing stone dark": {
+   "texture": "rock",
+   "authored": [
+    0.4353,
+    0.4235,
+    0.3922
+   ],
+   "tint": [
+    0.5434,
+    0.5287,
+    0.5103
+   ]
+  },
+  "Stair landing flags": {
+   "texture": "path",
+   "authored": [
+    0.5804,
+    0.5647,
+    0.498
+   ],
+   "tint": [
+    0.7236,
+    0.7263,
+    0.6773
+   ]
+  },
+  "Stair oak posts": {
+   "texture": "beam",
+   "authored": [
+    0.3529,
+    0.2471,
+    0.1529
+   ],
+   "tint": [
+    0.4304,
+    0.4285,
+    0.3934
+   ]
+  },
+  "Stair oak rail": {
+   "texture": "beam",
+   "authored": [
+    0.4314,
+    0.302,
+    0.1882
+   ],
+   "tint": [
+    0.5261,
+    0.5237,
+    0.4841
+   ]
+  },
+  "Stair oak treads": {
+   "texture": "planks",
+   "authored": [
+    0.4902,
+    0.3529,
+    0.2196
+   ],
+   "tint": [
+    0.6566,
+    0.6519,
+    0.6318
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 8,
+ "glb": {
+  "path": ".studio-workspaces/holm-keepers-stair-os-v2/candidates/stair.glb",
+  "bytes": 180384,
+  "sha256": "f977f445566a04230834f2433f99fb660f1a042e20e2def9e50dcab76e32af20"
+ },
+ "images": [
+  "beam",
+  "path",
+  "planks",
+  "rock"
+ ]
+}

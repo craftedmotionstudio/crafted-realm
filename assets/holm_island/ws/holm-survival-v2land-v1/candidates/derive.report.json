@@ -1,0 +1,14 @@
+{
+ "source": ".studio-workspaces/holm-survival-oldschool-v1/candidates/survival.blend",
+ "removed": [
+  "Survival_DeckJetty",
+  "Survival_DeckLanding",
+  "Survival_JettyFrame",
+  "Survival_Reeds",
+  "Survival_ServiceFishing_Reeds",
+  "Survival_StepBank"
+ ],
+ "triangles": 20553,
+ "glbSha256": "741f374e4a702da697e0c6dfeb22403fe72ea483fe246406685d98dc2785a95c",
+ "blender": "5.1.2"
+}

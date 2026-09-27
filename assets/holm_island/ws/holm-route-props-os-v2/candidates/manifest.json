@@ -1,0 +1,76 @@
+{
+ "schema": 1,
+ "pack": "HOLM_ROUTE_PROPS_V2",
+ "status": "candidate",
+ "axes": "glTF Y-up, 1 unit = tile, origin at the resting base centre",
+ "file": "props.glb",
+ "blend": "props.blend",
+ "sha256": "65e51729a21365e926703e6d544798a9a44884456d7902a4859dcb1feadee356",
+ "assets": [
+  {
+   "name": "trapdoor-open",
+   "root": "trapdoor-open",
+   "triangles": 238,
+   "materials": [
+    "Hatch oak frame",
+    "Hatch oak planks",
+    "Iron strap",
+    "Ladder oak",
+    "Shaft dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.52,
+     -1.2,
+     -0.6285
+    ],
+    "max": [
+     0.52,
+     0.8531,
+     0.52
+    ]
+   },
+   "sha256": "65e51729a21365e926703e6d544798a9a44884456d7902a4859dcb1feadee356",
+   "kind": "route",
+   "block": [
+    0.45,
+    0.45
+   ]
+  },
+  {
+   "name": "cove-bell",
+   "root": "cove-bell",
+   "triangles": 130,
+   "materials": [
+    "Bell bronze",
+    "Bell rope",
+    "Hatch oak frame",
+    "Iron strap"
+   ],
+   "bounds": {
+    "min": [
+     -0.4,
+     0.0,
+     -0.1712
+    ],
+    "max": [
+     0.4,
+     1.7,
+     0.1712
+    ]
+   },
+   "sha256": "65e51729a21365e926703e6d544798a9a44884456d7902a4859dcb1feadee356",
+   "kind": "route",
+   "block": [
+    0.25,
+    0.25
+   ]
+  }
+ ],
+ "totals": {
+  "triangles": 368,
+  "assets": 2,
+  "materials": 7,
+  "budgetTriangles": 3000
+ }
+}

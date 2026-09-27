@@ -1,0 +1,451 @@
+{
+ "schema": "holm-island-fishing-v1",
+ "status": "Holm v2 land phase 2 (2026-09-26): Minnow Hollow, the recessed pond where fishing is taught (docs/rebuild/WORLD_LAYOUT_GUIDE.md \u00a73.3). Moving spots after the 2004 fishing rules (MIT logic studied in 2004scape, our own numbers and names; see THIRD_PARTY_ASSETS.md).",
+ "pond": {
+  "id": "fishing-hollow",
+  "name": "Minnow Hollow",
+  "level": 1,
+  "centre": [
+   27.2,
+   96.2
+  ]
+ },
+ "props": ".studio-workspaces/holm-hollow-props-os-v1/candidates/props.glb",
+ "rules": {
+  "note": "ticks are 0.6 s. The Holm moves spots faster than the mainland (60-100 vs 280-529 ticks) so a new player sees a move within the lesson. A roll every 5 ticks; the common fish follows the 2004 low/high curve out of 256 (48 at level 1 = 19%, 256 at 99).",
+  "activeSpots": 3,
+  "moveTicks": [
+   60,
+   100
+  ],
+  "fadeTicks": 2,
+  "appearAfterTicks": 1,
+  "rollTicks": 5,
+  "common": {
+   "item": "raw_perch",
+   "low": 48,
+   "high": 256,
+   "xp": 28,
+   "chat": "You catch a mirrorperch."
+  },
+  "big": {
+   "item": "raw_reedpike",
+   "minLevel": 5,
+   "share": 0.12,
+   "xp": 40,
+   "chat": "You catch a reedpike! It thrashes in the net."
+  },
+  "junk": {
+   "share": 0.03,
+   "items": [
+    [
+     "soggy_boot",
+     "You net a soggy old boot. Someone's loss."
+    ],
+    [
+     "pond_weed",
+     "You haul up a dripping clump of pondweed."
+    ]
+   ]
+  },
+  "rare": [
+   {
+    "item": "sealed_bottle",
+    "oneIn": 150,
+    "oncePerAccount": true,
+    "xp": 5,
+    "chat": "Something glints in the net: a sealed bottle with a note inside!"
+   },
+   {
+    "item": "tarnished_ring",
+    "oneIn": 400,
+    "xp": 5,
+    "chat": "A tarnished ring tangles in the mesh. Lucky!"
+   }
+  ],
+  "soak": {
+   "oneIn": 60,
+   "chat": "A big fish leaps and soaks you!"
+  },
+  "firstCatchRoll": 2,
+  "leapSeconds": [
+   15,
+   25
+  ]
+ },
+ "candidates": [
+  {
+   "id": "north-reeds",
+   "water": [
+    24,
+    93
+   ],
+   "stance": [
+    24,
+    92
+   ]
+  },
+  {
+   "id": "north-bank",
+   "water": [
+    27,
+    93
+   ],
+   "stance": [
+    27,
+    92
+   ]
+  },
+  {
+   "id": "jetty-end",
+   "water": [
+    27,
+    95
+   ],
+   "stance": [
+    28,
+    95
+   ]
+  },
+  {
+   "id": "east-shallows",
+   "water": [
+    31,
+    96
+   ],
+   "stance": [
+    32,
+    96
+   ]
+  },
+  {
+   "id": "beach-edge",
+   "water": [
+    30,
+    99
+   ],
+   "stance": [
+    31,
+    99
+   ]
+  },
+  {
+   "id": "south-bank",
+   "water": [
+    25,
+    98
+   ],
+   "stance": [
+    25,
+    99
+   ]
+  },
+  {
+   "id": "west-rim",
+   "water": [
+    22,
+    96
+   ],
+   "stance": [
+    21,
+    96
+   ]
+  }
+ ],
+ "jetty": {
+  "id": "hollow_jetty",
+  "label": "Minnow Hollow jetty",
+  "tiles": [
+   [
+    28,
+    95
+   ],
+   [
+    29,
+    95
+   ],
+   [
+    30,
+    95
+   ]
+  ],
+  "deckY": 1.3,
+  "model": {
+   "prop": "hollow-jetty",
+   "x": 31,
+   "z": 95.5,
+   "yaw": 0
+  }
+ },
+ "fireBeach": {
+  "name": "Fire Beach",
+  "ring": [
+   33.5,
+   100.9
+  ],
+  "area": [
+   29.5,
+   99.8,
+   35.5,
+   102.2
+  ]
+ },
+ "set": [
+  {
+   "prop": "fire-ring",
+   "x": 33.5,
+   "z": 100.9,
+   "yaw": 0
+  },
+  {
+   "prop": "rowboat-beached",
+   "x": 30.3,
+   "z": 101.1,
+   "yaw": 0.35,
+   "block": [
+    1.3,
+    0.5
+   ]
+  },
+  {
+   "prop": "drying-rack",
+   "x": 35.4,
+   "z": 101.6,
+   "yaw": 1.5708,
+   "block": [
+    0.4,
+    0.9
+   ]
+  },
+  {
+   "prop": "fish-creel",
+   "x": 32.4,
+   "z": 100.2,
+   "yaw": 0.6
+  },
+  {
+   "prop": "net-crate",
+   "x": 35.3,
+   "z": 99.9,
+   "yaw": 0.2,
+   "block": [
+    0.35,
+    0.35
+   ]
+  },
+  {
+   "prop": "bucket-wood",
+   "x": 31.9,
+   "z": 101.9,
+   "yaw": 0
+  },
+  {
+   "prop": "bucket-wood",
+   "x": 29.2,
+   "z": 95.9,
+   "yaw": 1.1,
+   "onJetty": true
+  },
+  {
+   "prop": "log-step",
+   "x": 33.5,
+   "z": 90.5,
+   "yaw": 0
+  },
+  {
+   "prop": "log-step",
+   "x": 33.5,
+   "z": 91.5,
+   "yaw": 0.05
+  },
+  {
+   "prop": "log-step",
+   "x": 34.5,
+   "z": 92.5,
+   "yaw": 1.5708
+  },
+  {
+   "prop": "stepping-stone",
+   "x": 29.3,
+   "z": 99.4,
+   "yaw": 0.3,
+   "water": true
+  },
+  {
+   "prop": "stepping-stone",
+   "x": 28.3,
+   "z": 99.6,
+   "yaw": 1.2,
+   "water": true
+  },
+  {
+   "prop": "stepping-stone",
+   "x": 27.4,
+   "z": 99.3,
+   "yaw": 2,
+   "water": true
+  }
+ ],
+ "fences": [
+  {
+   "x": 32.05,
+   "z": 89.3,
+   "yaw": -1.5708,
+   "note": "the drop side of the Hollow Path, 3 edges"
+  },
+  {
+   "x": 32.05,
+   "z": 91.4,
+   "yaw": -1.5708
+  },
+  {
+   "x": 29.6,
+   "z": 91.25,
+   "yaw": 0,
+   "note": "rim rail above the north bank"
+  },
+  {
+   "x": 21.8,
+   "z": 91.6,
+   "yaw": 0
+  }
+ ],
+ "lily": [
+  [
+   24.4,
+   95.8
+  ],
+  [
+   24.6,
+   97.3
+  ],
+  [
+   26.2,
+   95.6,
+   "flower"
+  ],
+  [
+   28.6,
+   97.6
+  ],
+  [
+   29.4,
+   96.3,
+   "flower"
+  ],
+  [
+   23.2,
+   97.8
+  ],
+  [
+   26.9,
+   98.4
+  ],
+  [
+   30.3,
+   97.7
+  ],
+  [
+   25.1,
+   94.1,
+   "flower"
+  ]
+ ],
+ "reeds": [
+  [
+   22.1,
+   94.2,
+   0.9
+  ],
+  [
+   21.4,
+   97.9,
+   1
+  ],
+  [
+   23.3,
+   99.2,
+   0.8
+  ],
+  [
+   29.6,
+   93.3,
+   0.9
+  ],
+  [
+   32.2,
+   97.8,
+   0.85
+  ],
+  [
+   26.4,
+   99.4,
+   0.9
+  ]
+ ],
+ "frog": {
+  "pad": [
+   23.3,
+   94.5
+  ],
+  "plopRadius": 2,
+  "backSeconds": 18
+ },
+ "ducks": [
+  {
+   "centre": [
+    26.8,
+    96.1
+   ],
+   "rx": 3.4,
+   "rz": 1.7,
+   "speed": 0.13,
+   "phase": 0
+  },
+  {
+   "centre": [
+    27.6,
+    96.4
+   ],
+   "rx": 2.6,
+   "rz": 1.3,
+   "speed": -0.17,
+   "phase": 2.1
+  }
+ ],
+ "dragonflies": [
+  {
+   "near": [
+    22.4,
+    95
+   ]
+  },
+  {
+   "near": [
+    30.8,
+    97.4
+   ]
+  }
+ ],
+ "shadows": 3,
+ "ambient": {
+  "centre": [
+   27.2,
+   96.2
+  ],
+  "inner": 7,
+  "fade": 4
+ },
+ "stumps": [
+  [
+   40.4,
+   94.6,
+   0.9
+  ],
+  [
+   38.9,
+   98.1,
+   0.8
+  ]
+ ]
+}

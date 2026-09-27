@@ -26,7 +26,14 @@ const DIRS=[ // workspace folders the island loads (candidates/, working/ or exp
  // the textured tree family, bridges and prop packs
  ...['survival','keep','kitchen','quest-lodge','bank','mage','lastlight','quarry','haven','cavern'].flatMap(b=>['holm-'+b+'-oldschool-v1/candidates','holm-'+b+'-oldschool-navigation-v1/candidates']),
  'holm-tree-family-oldschool-v1/candidates','holm-island-bridges-oldschool-v1/candidates','holm-props1-oldschool-v1/candidates','holm-props3-oldschool-v1/candidates','holm-props5-oldschool-v1/candidates'];
-const DATA_FILES=['plan.json','island-bridges.json','island-gates.json','island-ladders.json','island-lessons.json'];
+// Holm v2 land (2026-09-26/27, docs/rebuild/HOLM_V2_LAND.md): every folder the v2-land registry and data name - each building's
+// model and re-measured graph, the rebuilt bridges, the v2-land habitat, the lodge foundation placement, the prop packs
+// (Minnow Hollow, Hettie's Garden, the clutter, the route pieces) and the fishing items
+{const rd=f=>JSON.parse(fs.readFileSync(path.join(ROOT,DATA,f),'utf8')),strip=p=>String(p).replace(/^\/?\.studio-workspaces\//,''),dirOf=p=>strip(p).replace(/\/[^/]+$/,''),reg=rd('v2land.json'),add=d=>{if(!DIRS.includes(d))DIRS.push(d)};
+ Object.values(reg.buildings).forEach(b=>{add(b.graph+'/candidates');add(dirOf(b.model));if(b.extraPlacement)add(dirOf(b.extraPlacement))});
+ if(reg.bridgeModels)add(strip(reg.bridgeModels).replace(/\/$/,''));if(reg.habitat)add(dirOf(reg.habitat));
+ Object.values(rd('island-props.json').packs).forEach(p=>add(dirOf(p)));add(dirOf(rd('island-fishing.json').props));add('holm-fishing-items-v1/candidates');}
+const DATA_FILES=['plan.json','island-bridges.json','island-gates.json','island-ladders.json','island-lessons.json','island-props.json','island-decks.json','island-fishing.json','v2land.json'];
 const KEEP=/\.(glb|json|png|bin)$/i;
 // the arrival package export is a sealed bundle (its manifest names its .blend sources): published whole
 function walk(dir,all){const out=[];if(!fs.existsSync(dir))return out;for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory())out.push(...walk(p,all));else if(all||KEEP.test(e.name))out.push(p)}return out}

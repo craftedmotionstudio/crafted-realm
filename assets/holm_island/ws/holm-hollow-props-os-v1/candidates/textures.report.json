@@ -1,0 +1,218 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-hollow-props-v1/candidates/props.blend",
+ "materials": {
+  "Boat keel oak": {
+   "texture": "beam",
+   "authored": [
+    0.3098,
+    0.2275,
+    0.149
+   ],
+   "tint": [
+    0.3778,
+    0.3945,
+    0.3833
+   ]
+  },
+  "Boat strakes": {
+   "texture": "planks",
+   "authored": [
+    0.4902,
+    0.3569,
+    0.2314
+   ],
+   "tint": [
+    0.6566,
+    0.6591,
+    0.6656
+   ]
+  },
+  "Bucket oak": {
+   "texture": "planks",
+   "authored": [
+    0.4784,
+    0.3373,
+    0.2039
+   ],
+   "tint": [
+    0.6408,
+    0.6229,
+    0.5867
+   ]
+  },
+  "Crate boards": {
+   "texture": "planks",
+   "authored": [
+    0.549,
+    0.4157,
+    0.2667
+   ],
+   "tint": [
+    0.7354,
+    0.7678,
+    0.7672
+   ]
+  },
+  "Crate boards dark": {
+   "texture": "planks",
+   "authored": [
+    0.4549,
+    0.3412,
+    0.2275
+   ],
+   "tint": [
+    0.6093,
+    0.6302,
+    0.6543
+   ]
+  },
+  "Field stone": {
+   "texture": "rock",
+   "authored": [
+    0.5569,
+    0.5451,
+    0.5098
+   ],
+   "tint": [
+    0.6951,
+    0.6804,
+    0.6634
+   ]
+  },
+  "Field stone dark": {
+   "texture": "rock",
+   "authored": [
+    0.4471,
+    0.4392,
+    0.4118
+   ],
+   "tint": [
+    0.5581,
+    0.5483,
+    0.5358
+   ]
+  },
+  "Field stone light": {
+   "texture": "rock",
+   "authored": [
+    0.6392,
+    0.6275,
+    0.5882
+   ],
+   "tint": [
+    0.7979,
+    0.7832,
+    0.7654
+   ]
+  },
+  "Log bark": {
+   "texture": "bark",
+   "authored": [
+    0.3529,
+    0.251,
+    0.1569
+   ],
+   "tint": [
+    0.4382,
+    0.3917,
+    0.3399
+   ]
+  },
+  "Oak post": {
+   "texture": "beam",
+   "authored": [
+    0.3608,
+    0.2549,
+    0.1608
+   ],
+   "tint": [
+    0.44,
+    0.4421,
+    0.4135
+   ]
+  },
+  "Oar oak": {
+   "texture": "beam",
+   "authored": [
+    0.6039,
+    0.4549,
+    0.2824
+   ],
+   "tint": [
+    0.7365,
+    0.7889,
+    0.7262
+   ]
+  },
+  "Weathered oak planks": {
+   "texture": "planks",
+   "authored": [
+    0.5412,
+    0.4,
+    0.2588
+   ],
+   "tint": [
+    0.7249,
+    0.7388,
+    0.7446
+   ]
+  },
+  "Weathered oak planks dark": {
+   "texture": "planks",
+   "authored": [
+    0.4627,
+    0.3333,
+    0.2275
+   ],
+   "tint": [
+    0.6198,
+    0.6157,
+    0.6543
+   ]
+  },
+  "Wicker": {
+   "texture": "thatch",
+   "authored": [
+    0.651,
+    0.4863,
+    0.2745
+   ],
+   "tint": [
+    0.9481,
+    0.8357,
+    0.7653
+   ]
+  },
+  "Wicker dark": {
+   "texture": "thatch",
+   "authored": [
+    0.5255,
+    0.3765,
+    0.1843
+   ],
+   "tint": [
+    0.7654,
+    0.647,
+    0.5138
+   ]
+  }
+ },
+ "vertexColourFaces": {},
+ "keptImages": [],
+ "meshes": 21,
+ "glb": {
+  "path": ".studio-workspaces/holm-hollow-props-os-v1/candidates/props.glb",
+  "bytes": 256748,
+  "sha256": "a91aacc0b235fedd2d9dd0db300e4b35a3da6b34b3b889f0b09469f3ec371330"
+ },
+ "images": [
+  "bark",
+  "beam",
+  "planks",
+  "rock",
+  "thatch"
+ ]
+}

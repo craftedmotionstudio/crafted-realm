@@ -5,7 +5,7 @@
   "colour": "material colours are authored sRGB, drawn as-is (no linear conversion); roughness 1; no textures",
   "blend": "items.blend",
   "file": "items.glb",
-  "sha256": "c387ec9f59d1d8c5a5138f5afd4da18d8f126aebd655fbcdfbdc86c5b525ed91",
+  "sha256": "993b0e1436b356232d95e4ed6879e1522cd31b67a8832beefe27c6fc4846c115",
   "aliases": {
     "pot_of_flour": "bucket_flour"
   },
@@ -721,6 +721,162 @@
       "inGameData": true
     },
     {
+      "id": "coffee_4",
+      "root": "coffee_4",
+      "file": "items.glb",
+      "description": "Mug of coffee, full and steaming",
+      "triangles": 196,
+      "materials": [
+        "item-crust",
+        "item-flour",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.1132567822933197,
+          0.0,
+          -0.08799923956394196
+        ],
+        "max": [
+          0.1132567822933197,
+          0.21814203262329102,
+          0.08799923956394196
+        ]
+      },
+      "size": [
+        0.227,
+        0.218,
+        0.176
+      ],
+      "icon": "assets/icons/items/coffee_4.png",
+      "inGameData": true
+    },
+    {
+      "id": "coffee_3",
+      "root": "coffee_3",
+      "file": "items.glb",
+      "description": "Mug of coffee, three sips left",
+      "triangles": 170,
+      "materials": [
+        "item-crust",
+        "item-flour",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.1132567822933197,
+          0.0,
+          -0.08799923956394196
+        ],
+        "max": [
+          0.1132567822933197,
+          0.16500000655651093,
+          0.08799923956394196
+        ]
+      },
+      "size": [
+        0.227,
+        0.165,
+        0.176
+      ],
+      "icon": "assets/icons/items/coffee_3.png",
+      "inGameData": true
+    },
+    {
+      "id": "coffee_2",
+      "root": "coffee_2",
+      "file": "items.glb",
+      "description": "Mug of coffee, half drunk",
+      "triangles": 170,
+      "materials": [
+        "item-crust",
+        "item-flour",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.1132567822933197,
+          0.0,
+          -0.08799923956394196
+        ],
+        "max": [
+          0.1132567822933197,
+          0.16500000655651093,
+          0.08799923956394196
+        ]
+      },
+      "size": [
+        0.227,
+        0.165,
+        0.176
+      ],
+      "icon": "assets/icons/items/coffee_2.png",
+      "inGameData": true
+    },
+    {
+      "id": "coffee_1",
+      "root": "coffee_1",
+      "file": "items.glb",
+      "description": "Mug of coffee, one sip left",
+      "triangles": 170,
+      "materials": [
+        "item-crust",
+        "item-flour",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.1132567822933197,
+          0.0,
+          -0.08799923956394196
+        ],
+        "max": [
+          0.1132567822933197,
+          0.16500000655651093,
+          0.08799923956394196
+        ]
+      },
+      "size": [
+        0.227,
+        0.165,
+        0.176
+      ],
+      "icon": "assets/icons/items/coffee_1.png",
+      "inGameData": true
+    },
+    {
+      "id": "roasted_beans",
+      "root": "roasted_beans",
+      "file": "items.glb",
+      "description": "Small sack of dark roasted coffee beans, a few spilled",
+      "triangles": 295,
+      "materials": [
+        "item-char",
+        "item-crust",
+        "item-dough",
+        "item-wood-dark"
+      ],
+      "bounds": {
+        "min": [
+          -0.133856400847435,
+          0.0,
+          -0.07386057823896408
+        ],
+        "max": [
+          0.133856400847435,
+          0.15619516372680664,
+          0.07386057823896408
+        ]
+      },
+      "size": [
+        0.268,
+        0.156,
+        0.148
+      ],
+      "icon": "assets/icons/items/roasted_beans.png",
+      "inGameData": true
+    },
+    {
       "id": "pot_of_flour",
       "root": "pot_of_flour",
       "file": "items.glb",
@@ -754,9 +910,9 @@
     }
   ],
   "totals": {
-    "triangles": 4417,
+    "triangles": 5418,
     "materials": 16,
-    "items": 24,
+    "items": 29,
     "budget": {
       "perItemTriangles": 400,
       "materials": 16
