@@ -652,13 +652,19 @@ function measure() {
     const mode = +Object.keys(hist).sort((a, b) => hist[b] - hist[a])[0]; const [weapon, name, expect] = k.split(':'); return { weapon, name, expect: +expect, mode, samples: l.length, hist }; });
   // 4) projectile hit delays: the first hit on the target after the announcement lands when the client expects it
   let ok = 0, bad = [];
+  const claimed = new Set();
   for (const fx of serverFx) {
     if (fx.splash) continue;
     const to = fx.to[0] + fx.to[1], from = fx.from[0] + fx.from[1];
-    const h = serverHits.find((x) => x.to === to && x.tick >= fx.tick);
-    if (!h) continue;
+    // this projectile's hit: the one on its target at the tick the rule predicts, else the next unclaimed one (a 3-tick
+    // shortbow's new arrow leaves on the tick the previous one lands, so the first later hit is not always its own)
     const att = fx.from[0] === 'n' ? { kind: 'npc' } : { kind: 'player', pid: fx.from[1] }, tgt = fx.to[0] === 'n' ? { kind: 'npc' } : { kind: 'player', pid: fx.to[1] };
-    const want = OnlineTiming.landingOffset(att, tgt, fx.d), got = h.tick - fx.tick;
+    const want = OnlineTiming.landingOffset(att, tgt, fx.d);
+    let h = serverHits.find((x) => x.to === to && x.tick === fx.tick + want && !claimed.has(x));
+    if (!h) h = serverHits.find((x) => x.to === to && x.tick > fx.tick && !claimed.has(x));
+    if (!h) continue;
+    claimed.add(h);
+    const got = h.tick - fx.tick;
     if (want === got) ok++; else if (bad.length < 20) bad.push({ from, to, d: fx.d, want, got });
   }
   out.projectileTiming = { matched: ok, mismatched: bad.length, examples: bad };
