@@ -154,6 +154,8 @@ var OnlineUI=(function(){
   if(me&&me.pp){Player.prayerPts=me.pp[0];hud=true}
   if(me&&me.en!=null){st.state.en=me.en;Player.energy=Math.floor(me.en/100);try{UI.refreshRun()}catch(e){}}
   if(me&&me.cb!=null){st.state.cb=me.cb;hud=true}
+  // coffee: the server's caffeinated ticks as seconds (the "Caffeinated" chip reads it; online_main counts it down)
+  if(me&&me.caf!=null){Player.caffeinated=me.caf*0.6}
   if(me&&me.wl!=null){var was=st.state.wl;st.state.wl=me.wl;st.state.multi=me.multi;st.state.skull=me.skull;wildHud();
    if(was===0&&me.wl>0)chat('You have entered the Scarlands. Other adventurers may attack you here.','combat');
    if(was>0&&me.wl===0)chat('You leave the Scarlands.','sys');
@@ -162,7 +164,7 @@ var OnlineUI=(function(){
   if(gear){try{UI.refreshEquip();if(typeof refreshPlayerGear==='function')refreshPlayerGear();if(UI.refreshCombat)UI.refreshCombat()}catch(e){}}
   if(hud){try{UI.refreshHud()}catch(e){}}
   if(inv||gear||m.pr||(me&&me.skull!=null))keptPreview();
-  if(m.msg)m.msg.forEach(function(x){chat(x[1],x[0]==='combat'?'combat':x[0]==='level'?'xp':'plain')});
+  if(m.msg)m.msg.forEach(function(x){if(x[0]==='combat'&&typeof CombatHooks!=='undefined'&&CombatHooks.message)CombatHooks.message(x[1],'combat');else chat(x[1],x[0]==='combat'?'combat':x[0]==='level'?'xp':'plain')});
   if(m.death)showDeath(m.death);
  }
  function prayerOverhead(list){var P=C()&&C().PRAYERS;for(var i=0;i<(list||[]).length;i++){var d=P&&P[list[i]];if(d&&d.protect)return d.protect}return null}
@@ -170,6 +172,9 @@ var OnlineUI=(function(){
 
  /* ---------------- Scarlands HUD ---------------- */
  function wildHud(){
+  var s0=st.state;
+  // the game's Scarlands HUD (src/ui_pvp_hud.js): the level plaque, the multi sign, the skull and its minutes
+  if(typeof PvpHud!=='undefined'&&PvpHud.set){PvpHud.set({wl:s0.wl||0,multi:s0.multi?1:0,skull:s0.skull||0});var old=$('onl-wild');if(old)old.style.display='none';return}
   var el=$('onl-wild');
   if(!el){el=document.createElement('div');el.id='onl-wild';el.innerHTML='<img alt="" src="'+ICON.wild+'" width="28" height="28"><div class="lvl"></div><img class="multi" alt="Multi-combat" title="Multi-combat area" src="'+ICON.multi+'" width="26" height="26"><div class="skt"></div>';document.body.appendChild(el)}
   var s=st.state;el.style.display=s.wl>0||s.multi?'block':'none';
@@ -188,6 +193,8 @@ var OnlineUI=(function(){
  function confirmWalk(tile,go){
   var m=OnlineWorld.model(),me=OnlineActors.me();
   if(st.ditchOk||!me||m.wildernessLevel(me.tile.x,me.tile.z)>0||m.wildernessLevel(tile.x,tile.z)===0){go();return}
+  // the game's crossing warning (PvpHud: the rules with this adventurer's own numbers and the items they would keep)
+  if(typeof PvpHud!=='undefined'&&PvpHud.ditchWarning){PvpHud.ditchWarning({onCross:function(){click();st.ditchOk=true;go()},onStay:function(){click()}});return}
   var o=overlay('<h4>Warning!</h4><p>Past the Ditch lie the <b>Scarlands</b>. There, other adventurers can attack you, and the deeper you go the wider the range of fighters who can.</p>'+
    '<p>If you die there you keep only your three most valuable items (none if you are skulled). The rest is left for your killer.</p>'+
    '<label><input type="checkbox" id="onl-ditch-remember"> Do not warn me again this session</label><div class="row"><button id="onl-ditch-go">Enter the Scarlands</button><button id="onl-ditch-stay">Stay in the Commons</button></div>');
@@ -237,7 +244,7 @@ var OnlineUI=(function(){
   // pack: left click eats / wields / wears; right click gets the verbs first, then Drop / Examine
   UI.useItem=function(i){
    var s=Player.inv[i];if(!s)return;var def=ITEMS[s.id];click();
-   if(def.heal>0){send({t:'eat',slot:i});return}
+   if(def.heal>0||def.drink){send({t:'eat',slot:i});return}   // a drink (coffee) is the eat intent too; the server branches
    if(def.equip){send({t:'equip',slot:i});return}
    chat('Nothing interesting happens.');
   };

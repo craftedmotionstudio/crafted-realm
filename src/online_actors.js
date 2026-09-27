@@ -105,6 +105,12 @@ var OnlineActors=(function(){
    spr.position.set(0,y,0);spr.scale.set(s,s,1);spr.visible=true}
   // 2004 stacking: the skull sits above the prayer icon
   sprite('_ohPrayer',prayer?PRAYER_ICON[prayer]:null,2.55,0.62);
+  if(typeof PvpHud!=='undefined'&&PvpHud.overheadSkull){
+   // the game's own Scarlands skull (src/ui_pvp_hud.js); the adventurer's own comes with PvpHud.set
+   if(o!==player)PvpHud.overheadSkull(o,!!skull);
+   var ps=null;o.children.forEach(function(c){if(c.name==='pvp-skull-over')ps=c});if(ps&&skull)ps.position.y=prayer?3.2:2.55;
+   sprite('_ohSkull',null);return;
+  }
   sprite('_ohSkull',skull?'assets/icons/ui/v3/misc/pk_skull_32.png':null,prayer?3.2:2.55,0.55);
  }
 
@@ -133,6 +139,8 @@ var OnlineActors=(function(){
   WORLD.npcs.push(e.rec);
   st.players.set(s.i,e);
   setOverheads(e,e.sk,e.oh);
+  // the health bar over another adventurer follows the hitpoints the server sent (CombatHooks.track)
+  if(typeof CombatHooks!=='undefined'&&CombatHooks.track)CombatHooks.track(e.root,function(){return e.hp&&e.hp[1]?e.hp[0]/e.hp[1]:-1});
   e.rigPromise=buildRig(e.lk).then(function(r){
    if(st.players.get(s.i)!==e)return;
    e.rig=r.rig;e.gmix=r.gmix;rootObj.add(r.rig);rootObj.userData.rigInner=r.rig;rootObj.userData.gmix=r.gmix;rootObj.userData.isPlayerGLB=true;
@@ -145,6 +153,7 @@ var OnlineActors=(function(){
  function removePlayer(pid){
   var e=st.players.get(pid);if(!e)return;st.players.delete(pid);
   scene.remove(e.root);unlist(WORLD.clickables,e.root);unlist(WORLD.npcs,e.rec);
+  if(typeof CombatHooks!=='undefined'&&CombatHooks.untrack)CombatHooks.untrack(e.root);
  }
  function unlist(a,o){var i=a.indexOf(o);if(i>=0)a.splice(i,1)}
  function updatePlayer(u){
