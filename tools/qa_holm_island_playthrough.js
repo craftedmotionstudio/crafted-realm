@@ -144,7 +144,9 @@ async function playOnce(browser,n){
   const rec={run:n,profile,status,minutes:+((Date.now()-t0)/60000).toFixed(1),lessons:Object.keys(per).length,perLessonSeconds:per,talks:TALKS,errors:errors.slice(0,5),note,skillTools,at:new Date().toISOString()};
   fs.appendFileSync(path.join(OUT,'runs.jsonl'),JSON.stringify(rec)+'\n');await page.close();return rec;
 }
-(async()=>{
+// requireable (tools/ref2004/capture_tutorial.js reuses the lesson steps): the runs start only when run directly
+module.exports={DO,lesson,waitLesson,talk,clickKind,wield,spellbook,attack,fight,toBeach,toFire,spot,upDrift,netFish,talks:()=>TALKS,resetTalks:()=>{TALKS=[]}};
+if(require.main===module)(async()=>{
   const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',
     args:['--window-size=1538,900','--hide-scrollbars','--mute-audio','--no-first-run'],defaultViewport:{width:1538,height:900}});
   const results=[];
