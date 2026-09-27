@@ -409,6 +409,9 @@ Cutover plan (2026-09-25, from the provider/save audit; reversible behind one sw
       WORLD_GOAL_2026-09-25.md W0.
       2026-09-27: round 3 + Holm v2 land merged (fd21e58); combined proof 3/3 playthroughs complete, 0 page errors;
       three QA drivers being fixed; owner review of the v2 island and the v3.1 characters pending.
+      2026-09-27 11:48 FINAL-BUILD PROOF 61dcef7 (v2 land, kit v3.1f, equipment v3, 2004 combat, OSRS menu, naming):
+      10/10 playthroughs complete, 18/18 lessons, 10/10 tutors, 0 page errors; island QA 32/32, route v2 10/10, hollow
+      13/13, PvM 40/40, numbers lock PASS, menu 64/64 on rerun. Awaiting owner approval.
 - [ ] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
       Verify fresh characters, returning Holm saves, graduated saves, full inventory and interruptions.
 - [ ] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload

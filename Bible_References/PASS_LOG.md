@@ -3914,3 +3914,11 @@ length (slight medium-length read in 3/4).
   check) -> being fixed on combined-fixes-2026-09-27. Gates on fd21e58: all unit tests, server 98/98, smoke PASS.
 - Next: those fixes, then the owner's island review (upright characters, new land); W4b equipment tiers after the
   characters are locked.
+
+## 2026-09-27 — FINAL-BUILD PROOF on 61dcef7 (Holm v2 land + round 3, all merged)
+- 10/10 playthroughs complete, 18/18 lessons, 10/10 tutors spoken to first, 0 page errors (10.7-15.7 min).
+- Island QA 32/32, route v2 10/10, Minnow Hollow 13/13, combat PvM 40/40 (Proving Ground foes spawn on the v2 land),
+  combat numbers lock PASS, OSRS menu QA 62/64 in the proof run then 64/64 on three straight reruns (a load flake right
+  after the island/PvM drivers; the proof script now prints failing checks by name). Unit tests 87/87, server 98/98,
+  smoke fg 1.6 s + hidden 1.9 s.
+- Combat grade: offline 9.25, online 10/10 (owner bar 9.5 met). Ready for the owner's island review.
