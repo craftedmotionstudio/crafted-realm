@@ -310,3 +310,25 @@ test('the staff special scales a cast (Power Surge on the magic path): energy sp
   assert.ok(hp0 - a.p.hp >= Math.floor(max * spec.dmg), 'the surged bolt landed on the adventurer');
   w.collision.unload();
 });
+
+test('every weapon family\'s special fires on the server: energy spent by its cost, the swing flagged for viewers', () => {
+  const G = require('../content/GameData').get();
+  const pick = {};   // the lowest-requirement weapon of each family that has a special
+  for (const [id, it] of Object.entries(G.ITEMS)) if (it.equip === 'weapon' && G.SPECIALS[it.model] && (!pick[it.model] || (it.reqLvl || 0) < (G.ITEMS[pick[it.model]].reqLvl || 0))) pick[it.model] = id;
+  assert.ok(Object.keys(G.SPECIALS).every((f) => pick[f]), 'a weapon for every family with a special');
+  for (const fam of Object.keys(G.SPECIALS)) {
+    const w = fieldWorld({ spawns: [{ npc: 'korthul', x: 11, z: 20, wander: 0, hunt: 0, maxRange: 0 }] });
+    w.rng = alwaysHit(0);
+    const npc = [...w.npcs.values()][0];
+    const lv = { Attack: 60, Strength: 60, Defence: 60, Hitpoints: 60, Ranged: 60, Magic: 60, Prayer: 43 };
+    const a = addPlayer(w, 'fam' + fam, { levels: lv, pos: { x: 10, z: 20 }, equip: { weapon: pick[fam] }, inv: [['arrows', 50]] });
+    const v = addPlayer(w, 'view' + fam, { levels: lv, pos: { x: 10, z: 23 } });
+    a.s.intent({ t: 'spec', on: true });
+    a.s.intent({ t: 'op_npc', nid: npc.nid, op: 'attack' });
+    let flagged = 0;
+    for (let i = 0; i < 4; i++) { w.cycle(); const t = v.s.lastTick(); const u = t.pl && t.pl.upd && t.pl.upd.find((x) => x.i === a.p.pid); if (u && u.a && (u.a.name === 'attack' || u.a.name === 'cast') && u.a.spec) flagged++; }
+    assert.equal(a.p.specEnergy, 100 - G.SPECIALS[fam].cost, fam + ' (' + pick[fam] + ') spent ' + G.SPECIALS[fam].cost);
+    assert.equal(flagged, 1, fam + ' special swing seen');
+    w.collision.unload();
+  }
+});
