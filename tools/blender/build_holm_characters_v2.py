@@ -1072,31 +1072,39 @@ def face_y(x, z, table, nose=1.0):
             return ring_y(table[i]) * (1 - t) + ring_y(table[i + 1]) * t
     return ring_y(table[-1])
 
+FACE = {}   # v4 profiles: eye / brow / mouth overrides {'eye': (x, z, wA, hA, wB, hB), 'brow': (x, z, dz), 'mouth': (zA, zB, wA, wB, h)}
+
 def build_head(mb, bt, nose=1.0, old=False):
     """skull + face + ears + neck (C_SKIN), eyes + mouth (A_EYES), brows (C_HAIR)"""
     H = B('Head')
     fem = bt == 'B'
     T = HEAD_T[bt]
     mb.loft([head_row_pts(r, nose) for r in T], 'C_SKIN', H, smooth=True)
-    ey = 1.687
+    exx, ey, ewA, ehA, ewB, ehB = FACE.get('eye', (.0265, 1.687, .019, .0145, .020, .016))
+    bxx, by, bdz = FACE.get('brow', (.028, 1.706, 0.0))
     for sx in (-1, 1):   # v2.3: 2004-style small dark rectangles set closer, under a clear brow line
-        ex = .0265 * sx
-        mb.box((ex, face_y(ex, ey, T, nose) - .0008, ey), (.020 if fem else .019, .006, .016 if fem else .0145), 'A_EYES', H)
-        by = 1.706
+        ex = exx * sx
+        mb.box((ex, face_y(ex, ey, T, nose) - .0008, ey), (ewB if fem else ewA, .006, ehB if fem else ehA), 'A_EYES', H)
         bw, bh = (.027, .0055) if fem else ((.032, .009) if old else (.030, .008))
-        mb.box((.028 * sx, face_y(.028 * sx, by, T, nose) - .0022, by), (bw, .007, bh), 'C_HAIR', H,
-               rot=Matrix.Identity(3))   # v2.6: level brows = neutral, calm expression
+        if 'brow_size' in FACE:
+            bw, bh = FACE['brow_size'][1 if fem else 0]
+        mb.box((bxx * sx, face_y(bxx * sx, by, T, nose) - .0022, by), (bw, .007, bh), 'C_HAIR', H,
+               rot=Matrix.Rotation(math.radians(bdz * -sx), 3, 'Y'))   # v2.6: level brows = neutral, calm expression
         ez = 1.668
         rx = lerp_table(T, ez)[0]
         c0 = Vector((sx * (rx - .010), .004, ez))
         c1 = Vector((sx * (rx + .011), .010, ez + .002))
         mb.loft([xring(c0, (sx, 0, 0), .024, .020, .022, 4, (0, 0, 1)), xring(c1, (sx, 0, 0), .019, .015, .016, 4, (0, 0, 1))],   # v2.7b: simple ear block
                 'C_SKIN', H, smooth=True)
-    mz = 1.613 if fem else 1.611
-    mb.box((0, face_y(0, mz, T, nose) - .0010, mz), (.026 if fem else .034, .006, .0065), 'A_EYES', H)
-    mb.loft([xring((0, .002, 1.40), (0, -.08, 1), .060 / HEAD_WX, .054, .049, 6), xring((0, .000, 1.52), (0, -.02, 1), .056 / HEAD_WX, .050, .051, 6),   # v2.8: back of the neck stays inside the collar
+    mzA, mzB, mwA, mwB, mh = FACE.get('mouth', (1.611, 1.613, .034, .026, .0065))
+    mz = mzB if fem else mzA
+    if mh > 0:
+        mb.box((0, face_y(0, mz, T, nose) - .0010, mz), (mwB if fem else mwA, .006, mh), 'A_EYES', H)
+    nk = NECK_K
+    mb.loft([xring((0, .002, 1.40), (0, -.08, 1), nk * .060 / HEAD_WX, nk * .054, nk * .049, 6), xring((0, .000, 1.52), (0, -.02, 1), nk * .056 / HEAD_WX, nk * .050, nk * .051, 6),   # v2.8: back of the neck stays inside the collar
              xring((0, .010, 1.625), (0, .10, 1), .048 / HEAD_WX, .040, .050, 6)],   # v2.7: neck rises into the skull base (no step from the side)
             'C_SKIN', NECK_W, smooth=True)
+NECK_K = 1.0   # v4 profiles: neck thickness (the neck shows above a lower collar)
 
 # ==========================================================================================
 # KIT PARTS
@@ -1223,10 +1231,10 @@ def hair_spikes(mb, bt, count=14, seed=7, ln=(.05, .085), lean=(-.2, 1.0)):
 
 def head_to_world(v):
     d = Vector(v) - HEAD_PIVOT
-    return HEAD_PIVOT + Vector((d.x * HEAD_S * HEAD_WX, d.y * HEAD_S * HEAD_WY, d.z * HEAD_S * HEAD_HZ)) + Vector((0, 0, -0.030))
+    return HEAD_PIVOT + Vector((d.x * HEAD_S * HEAD_WX, d.y * HEAD_S * HEAD_WY, d.z * HEAD_S * HEAD_HZ)) + Vector((0, 0, HEAD_DZ))
 
 def world_to_head(w):
-    d = Vector(w) - Vector((0, 0, -0.030)) - HEAD_PIVOT
+    d = Vector(w) - Vector((0, 0, HEAD_DZ)) - HEAD_PIVOT
     return HEAD_PIVOT + Vector((d.x / (HEAD_S * HEAD_WX), d.y / (HEAD_S * HEAD_WY), d.z / (HEAD_S * HEAD_HZ)))
 
 def clear_of_body(bt, p_head, margin=.022):
@@ -2625,6 +2633,7 @@ STYLE_FN = {'Jaw': jaw_style, 'Torso': torso_style, 'Arms': arm_style, 'Hands': 
             'Makeup': makeup_style}
 
 HEAD_S, HEAD_PIVOT = 1.13, Vector((0, -0.012, 1.60))
+HEAD_DZ = -0.030   # v4: the head's lift after scaling (profiles raise it to show more neck)
 HEAD_WX, HEAD_WY, HEAD_HZ = 1.065, 1.04, .91   # v2.9: a bit thinner face (v2.8: 1.12)
 
 def part_name(bt, slot, idx):
@@ -2664,7 +2673,7 @@ def build_mb(bt, slot, idx):
 def head_xform(mb):
     for v in mb.bm.verts:
         d = (v.co - HEAD_PIVOT) * HEAD_S
-        v.co = HEAD_PIVOT + Vector((d.x * HEAD_WX, d.y * HEAD_WY, d.z * HEAD_HZ)) + Vector((0, 0, -0.030))
+        v.co = HEAD_PIVOT + Vector((d.x * HEAD_WX, d.y * HEAD_WY, d.z * HEAD_HZ)) + Vector((0, 0, HEAD_DZ))
 
 # ==========================================================================================
 # ARMATURE + PLAYER CLIPS -- retargeted verbatim from build_holm_player_v1.py (same 23 bones)
@@ -2799,6 +2808,18 @@ def make_clip(arm, name, frames, keys):
     act.use_frame_range = True
     act.frame_start, act.frame_end = 0, frames
     return act
+
+def set_interp(act, mode):
+    """v4: keyframe interpolation of a whole clip ('LINEAR' / 'CONSTANT' / 'BEZIER')"""
+    fcs = list(getattr(act, 'fcurves', []) or [])
+    if not fcs:
+        for layer in getattr(act, 'layers', []):
+            for strip in layer.strips:
+                for cb in strip.channelbags:
+                    fcs += list(cb.fcurves)
+    for fc in fcs:
+        for kp in fc.keyframe_points:
+            kp.interpolation = mode
 
 def crouch(th, kn, sides=('Left', 'Right')):
     """Knee bend that keeps the soles planted: thigh th (neg = forward), knee kn (pos)."""
@@ -3239,6 +3260,20 @@ def bram_clip_defs():
 #   walk clip authored natively for 2.4 m/s at timeScale 1.0  -> play with timeScale = moveSpeed / 2.4
 #   run  clip authored natively for 4.2 m/s at timeScale 1.0  -> play with timeScale = moveSpeed / 4.2 while running
 GAME_RUN_SPEED, GAME_WALK_SPEED = 4.2, 2.4
+GAIT = {}         # v4 profiles: best_gait overrides per clip {'walk': {...}, 'run': {...}}
+STEP_CLIPS = {}   # v4 profiles: old-client stepping {clip: (hold_frames, interpolation)} -- poses held, then a snap / a line
+def stepped(frames, keys, hold):
+    """old-client look: keep every `hold`-th pose (plus the last) and hold it until one frame before the next"""
+    ks = sorted(keys, key=lambda k: k[0])
+    pick = [k for k in ks if k[0] % hold == 0]
+    if pick[-1][0] != ks[-1][0]:
+        pick.append(ks[-1])
+    out = []
+    for (f, p), nxt in zip(pick, pick[1:] + [None]):
+        out.append((f, p))
+        if nxt is not None and nxt[0] - 1 > f:
+            out.append((nxt[0] - 1, p))
+    return out
 GAIT_REPORT = {}
 
 def fk(pose):
@@ -3484,13 +3519,18 @@ def v27_clips():
     # WALK: modest step (~.70 m), fairly straight legs, flat-ish feet with heel-strike / toe-off roll, upright, small bob
     # v2.9 WALK (OSRS-like): compact 0.64 m step, straight-ish legs, arms swinging at the sides, no sway / roll, minimal bob,
     # head steady, vertical spine. Slide-free at 2.4 m/s at timeScale 1 (15 frames = 0.5 s, 1.20 m stride, 0.60 m step).
-    C['walk'] = (15, best_gait('walk', 15, GAME_WALK_SPEED, .58, lift=.045, drop=.005, bob=.012, front=.24, p_on=10, p_off=-22,
-                                arm_swing=20, fore=0, lean=0, twist=2.5, foot_x=.13, bob_phase=0.0, osrs=(10.0, 0.0), fore_swing=10,
-                                lean_cap=(0.0, False)), True)
+    wk = dict(frames=15, duty=.58, lift=.045, drop=.005, bob=.012, front=.24, p_on=10, p_off=-22,
+              arm_swing=20, fore=0, lean=0, twist=2.5, foot_x=.13, bob_phase=0.0, osrs=(10.0, 0.0), fore_swing=10, lean_cap=(0.0, False))
+    wk.update(GAIT.get('walk', {}))
+    wf, wd = wk.pop('frames'), wk.pop('duty')
+    C['walk'] = (wf, best_gait('walk', wf, GAME_WALK_SPEED, wd, **wk), True)
     # RUN: longer step, slight forward lean, arms bent ~90 deg pumping, moderate foot lift, brief flight
-    C['run'] = (16, best_gait('run', 16, GAME_RUN_SPEED, .38, lift=.12, drop=.070, bob=.020, front=.20, p_on=8, p_off=-34,
-                               arm_swing=34, fore=88, lean=3, twist=7, foot_x=.13, kick=.09, bob_phase=.19, head_counter=1.0,
-                               fore_swing=6, hips_pitch=1, lean_cap=(2.0, True)), True)   # v3.1: upright run, never more than 2 deg of lean
+    rk = dict(frames=16, duty=.38, lift=.12, drop=.070, bob=.020, front=.20, p_on=8, p_off=-34,
+              arm_swing=34, fore=88, lean=3, twist=7, foot_x=.13, kick=.09, bob_phase=.19, head_counter=1.0,
+              fore_swing=6, hips_pitch=1, lean_cap=(2.0, True))   # v3.1: upright run, never more than 2 deg of lean
+    rk.update(GAIT.get('run', {}))
+    rf_, rd = rk.pop('frames'), rk.pop('duty')
+    C['run'] = (rf_, best_gait('run', rf_, GAME_RUN_SPEED, rd, **rk), True)
     stance = dict(LeftUpLeg=(-12, 0, 0), LeftLeg=(8, 0, 0), LeftFoot=(4, 0, 0), RightUpLeg=(7, 0, 0), RightLeg=(4, 0, 0), RightFoot=(-11, 0, 0))
     guard = dict(LeftArm=A(.40, -.42, -.81), LeftForeArm=A(.10, -.86, -.50))
     # CHOP: over the right shoulder -> down and forward to waist height (tree contact) -> small follow-through -> recover
@@ -4131,7 +4171,14 @@ def build_kit():
     defs.update(v27_clips())   # v2.7: grounded walk / run + re-authored chop, mine, net, cook
     defs.update(emote_clips())  # v3.1: the classic emote set (emote_<key>)
     for name, (frames, keys, loop) in defs.items():
+        interp = None
+        if name in STEP_CLIPS:
+            hold, interp = STEP_CLIPS[name]
+            if hold:
+                keys = stepped(frames, keys, hold)
         clips[name] = make_clip(arm, name, frames, keys)
+        if interp:
+            set_interp(clips[name], interp)
     al = clips['attack_slash'].copy()
     al.name = 'attack'
     al.use_fake_user = True
@@ -6197,7 +6244,18 @@ def rebuild_tutors(ids):
         json.dump(m, fh, indent=2)
     print('TUTORS REBUILT', json.dumps({tid: (res[tid]['PASS'], sum(meta[tid]['tris'].values())) for tid in ids}))
 
+PROFILE = None
+def apply_profile(name):
+    """v4 character options (owner review 2026-09-27): patch the shared body / head / face / gait tables before any part
+    is built (tools/blender/holm_char_profiles_v4.py)"""
+    global PROFILE
+    import holm_char_profiles_v4 as HP
+    HP.apply(sys.modules[__name__], name)
+    PROFILE = name
+
 def main():
+    if '--profile' in ARGS:
+        apply_profile(ARGS[ARGS.index('--profile') + 1])
     if '--tutors' in ARGS:
         return rebuild_tutors(ARGS[ARGS.index('--tutors') + 1].split(','))
     os.makedirs(WS, exist_ok=True)
