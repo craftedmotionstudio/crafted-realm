@@ -3,7 +3,7 @@
  "status": "runtime (src/holm_equipment.js loads it from assets/holm_island/ws/holm-equipment-v3/candidates/)",
  "file": "equipment.glb",
  "blend": "equipment.blend",
- "sha256": "fa8272210c50dbdde93a1bd9a0650d179c192976ab5fa2e59da1ac3385aa97bd",
+ "sha256": "ba9230008420c6411c25062a8c20b6d8786a2ff45e39b002022c1446020f584e",
  "axes": "glTF Y-up, 1 unit = 1 tile (= 1 m, player 1.85 tall)",
  "colour": "authored sRGB used as-is, roughness 1, metallic 0, no textures",
  "recolour": {
@@ -1424,12 +1424,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.3289,
+     -0.3363,
      0.895,
      -0.2071
     ],
     "max": [
-     0.3289,
+     0.3363,
      1.509,
      0.1766
     ]
@@ -1587,16 +1587,16 @@
    "frame": "skin",
    "body": "A",
    "description": "Leather body: panelled jerkin with a laced front, belt and brass buckle, leather sleeves with dark cuffs",
-   "triangles": 1108,
+   "triangles": 1240,
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.3199,
+     -0.3156,
      0.9,
      -0.1811
     ],
     "max": [
-     0.3199,
+     0.3156,
      1.506,
      0.1479
     ]
@@ -1625,7 +1625,7 @@
     "Build_Slim"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0544,
+    "Build_Stout": 0.0549,
     "Build_Slim": 0.025
    }
   },
@@ -1636,16 +1636,16 @@
    "frame": "skin",
    "body": "B",
    "description": "Leather body: panelled jerkin with a laced front, belt and brass buckle, leather sleeves with dark cuffs",
-   "triangles": 1108,
+   "triangles": 1240,
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.3145,
+     -0.3105,
      0.9,
      -0.1898
     ],
     "max": [
-     0.3145,
+     0.3105,
      1.506,
      0.1494
     ]
@@ -1674,7 +1674,7 @@
     "Build_Slim"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0524,
+    "Build_Stout": 0.0532,
     "Build_Slim": 0.0254
    }
   },
@@ -1793,7 +1793,7 @@
    "frame": "skin",
    "body": "A",
    "description": "Plateskirt: fluted plate skirt to the shin on a leather belt with a brass buckle, mail chausses below (replaces the legs)",
-   "triangles": 792,
+   "triangles": 1042,
    "budget": 3200,
    "bounds": {
     "min": [
@@ -1840,7 +1840,7 @@
    ],
    "morph_max_displacement_m": {
     "Build_Stout": 0.0362,
-    "Build_Slim": 0.0213
+    "Build_Slim": 0.0248
    }
   },
   {
@@ -1850,7 +1850,7 @@
    "frame": "skin",
    "body": "B",
    "description": "Plateskirt: fluted plate skirt to the shin on a leather belt with a brass buckle, mail chausses below (replaces the legs)",
-   "triangles": 792,
+   "triangles": 1042,
    "budget": 3200,
    "bounds": {
     "min": [
@@ -1896,8 +1896,8 @@
     "Build_Slim"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0312,
-    "Build_Slim": 0.0183
+    "Build_Stout": 0.0338,
+    "Build_Slim": 0.0237
    }
   },
   {
@@ -2205,13 +2205,13 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.1531,
+     -0.1424,
      1.304,
-     -0.1182
+     -0.1056
     ],
     "max": [
-     0.1532,
-     1.4695,
+     0.1425,
+     1.4756,
      0.1678
     ]
    },
@@ -2251,9 +2251,9 @@
     "Over_platebody": 0.0399,
     "Over_chainbody": 0.023,
     "Over_leather_body": 0.019,
-    "Over_Torso_02": 0.0125,
-    "Over_Torso_03": 0.0173,
-    "Over_Torso_04": 0.0193,
+    "Over_Torso_02": 0.0117,
+    "Over_Torso_03": 0.0186,
+    "Over_Torso_04": 0.0207,
     "Over_Torso_05": 0.0044,
     "Over_Torso_06": 0.015,
     "Over_Torso_08": 0.0114
@@ -2270,13 +2270,13 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.137,
+     -0.1253,
      1.304,
-     -0.1115
+     -0.0989
     ],
     "max": [
-     0.137,
-     1.4695,
+     0.1253,
+     1.4752,
      0.1591
     ]
    },
@@ -2311,8 +2311,8 @@
     "Build_Stout": 0.0193,
     "Build_Slim": 0.0128,
     "Over_platebody": 0.0355,
-    "Over_chainbody": 0.0178,
-    "Over_leather_body": 0.0138,
+    "Over_chainbody": 0.0181,
+    "Over_leather_body": 0.0149,
     "Over_Torso_02": 0.0021,
     "Over_Torso_04": 0.0072,
     "Over_Torso_05": 0.0029
@@ -2329,12 +2329,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.3008,
+     -0.3206,
      0.53,
-     -0.3557
+     -0.3817
     ],
     "max": [
-     0.2944,
+     0.3141,
      1.4876,
      -0.0797
     ]
@@ -2374,16 +2374,16 @@
    "morph_max_displacement_m": {
     "Build_Stout": 0.0276,
     "Build_Slim": 0.0147,
-    "Over_platebody": 0.0428,
-    "Over_chainbody": 0.031,
-    "Over_leather_body": 0.0272,
-    "Over_Torso_02": 0.0217,
-    "Over_Torso_03": 0.0285,
-    "Over_Torso_04": 0.0348,
-    "Over_Torso_05": 0.0125,
-    "Over_Torso_06": 0.0244,
-    "Over_Torso_07": 0.0125,
-    "Over_Torso_08": 0.0259
+    "Over_platebody": 0.0616,
+    "Over_chainbody": 0.0351,
+    "Over_leather_body": 0.0314,
+    "Over_Torso_02": 0.0259,
+    "Over_Torso_03": 0.0326,
+    "Over_Torso_04": 0.039,
+    "Over_Torso_05": 0.0167,
+    "Over_Torso_06": 0.0303,
+    "Over_Torso_07": 0.0167,
+    "Over_Torso_08": 0.03
    }
   },
   {
@@ -2397,12 +2397,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2965,
+     -0.3162,
      0.53,
-     -0.3568
+     -0.3828
     ],
     "max": [
-     0.2897,
+     0.3095,
      1.4875,
      -0.0737
     ]
@@ -2437,15 +2437,15 @@
     "Over_Torso_05"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0276,
+    "Build_Stout": 0.056,
     "Build_Slim": 0.0438,
-    "Over_platebody": 0.0417,
-    "Over_chainbody": 0.0308,
-    "Over_leather_body": 0.0268,
-    "Over_Torso_02": 0.0141,
-    "Over_Torso_03": 0.0143,
-    "Over_Torso_04": 0.0125,
-    "Over_Torso_05": 0.0125
+    "Over_platebody": 0.0605,
+    "Over_chainbody": 0.0349,
+    "Over_leather_body": 0.031,
+    "Over_Torso_02": 0.0183,
+    "Over_Torso_03": 0.0195,
+    "Over_Torso_04": 0.0167,
+    "Over_Torso_05": 0.0167
    }
   }
  ],
@@ -4227,7 +4227,7 @@
  ],
  "totals": {
   "models": 40,
-  "triangles": 21893,
+  "triangles": 22657,
   "materials": 14,
   "equipableItems": 176,
   "itemsCovered": 169

@@ -805,7 +805,7 @@ def sk_platebody(mb, bt, over=None):
         suit_torso(mb, bt, rows, n, bump=bump, mat_row=mat_row)
         fold(mb, bt, 1.505, .020, .008, n, MD, dz=.004)
         fold(mb, bt, .895, .050, .036, n, MD, dz=.012)
-        spec = [(0.0, OFF), (.65, .030), (.82, .030), (.93, .034), (.97, .046), (1.03, .050), (1.08, .042), (1.13, .032),
+        spec = [(0.0, OFF), (.65, .030), (.82, .032), (.93, .040), (.97, .052), (1.03, .056), (1.08, .048), (1.13, .036),
                 (1.40, .026), (1.70, .024), (1.84, .026), (1.88, .040), (1.97, .044)]
         def am(u0, u1, k):
             if u0 >= 1.86 or 0.95 < u0 < 1.10:
@@ -871,7 +871,7 @@ def sk_leather_body(mb, bt, over=None):
         spec = [(0.0, OFF), (.65, .016), (.80, .020), (.92, .024), (1.0, .026), (1.10, .024), (1.22, .018), (1.40, .015), (1.60, .015), (1.82, .016),
                 (1.86, .024), (1.97, .026)]
         us = [KB.U_CAP + .10] + [s[0] for s in spec if s[0] > KB.U_CAP + .14]
-        suit_sleeves(mb, bt, spec, LE, 6, matfn=lambda i, k: LK if us[min(i, len(us) - 1)] >= 1.82 else LE)
+        suit_sleeves(mb, bt, spec, LE, 8, matfn=lambda i, k: LK if us[min(i, len(us) - 1)] >= 1.82 else LE)
 
 # ---------------------------------------------------------------- legs
 def pelvis_rows(mb, bt, rows, n, mat_row, w=None, phase=0.0, bump=None):
@@ -976,7 +976,7 @@ def sk_boots(mb, bt, over=None):
         rings = []
         for z, yf, yb, wo, wi in sl:
             rings.append(KB.foot_slice(bt, sx, z, yf, yb, wo, wi, grow=.013, hk=1.05))
-        shaft = [(1.97, .038), (1.88, .040), (1.76, .040), (1.64, .042), (1.58, .044)]
+        shaft = [(1.97, .042), (1.88, .046), (1.76, .046), (1.64, .044), (1.58, .044)]   # (room over turn-ups in the run)
         rings += KB.shin_rings(bt, sx, shaft)
         fw, lw = KB.foot_w(sx), KB.leg_w(sx)
         # v3: the ankle ring blends; the shaft above rides the shin like a trouser leg (walk / run no longer open a gap)
@@ -984,13 +984,13 @@ def sk_boots(mb, bt, over=None):
         mb.loft(rings, LE, ws, cap0=True, cap1=False, matfn=lambda i, k: LK if i == 0 else LE)
         # folded cuff round the shaft top
         # (v3: the cuff's top turns in and closes round the leg -- no view down into the shaft)
-        cuff = KB.shin_rings(bt, sx, [(1.66, .044), (1.64, .054), (1.53, .054), (1.55, .044), (1.555, .013)])
+        cuff = KB.shin_rings(bt, sx, [(1.66, .044), (1.64, .054), (1.53, .054), (1.55, .044), (1.555, .009)])
         mb.loft(cuff, LK, lw, cap0=False, cap1=False, smooth=False)
         # ankle strap with a brass buckle on the outside
-        st = KB.shin_rings(bt, sx, [(1.92, .044), (1.88, .044)])
+        st = KB.shin_rings(bt, sx, [(1.92, .050), (1.88, .050)])
         mb.loft(st, LK, lw, cap0=False, cap1=False, smooth=False)
         c = sum((Vector(p) for p in st[0]), Vector()) / len(st[0])
-        mb.box((c.x + sx * .062, c.y, c.z - .01), (.008, .022, .018), BR, lw)
+        mb.box((c.x + sx * .068, c.y, c.z - .01), (.008, .022, .018), BR, lw)
 
 # ---------------------------------------------------------------- amulet / cape: clearance over what is worn under them
 # The amulet and the cape are shaped over the layer under them, measured from the real meshes (rest pose, current build):
@@ -1119,7 +1119,7 @@ def sk_amulet(mb, bt, over=None):
     mb.loft([KB.xring(c + Vector((0, .002, .034)), (0, 0, 1), .006, .006, .006, 4), KB.xring(top, (0, 0, 1), .006, .006, .006, 4)], BR,
             KB.SPINE_W((0, 0, zc)))
 
-CAPE_ROWS = [(1.472, 34, .008), (1.40, 35, .010), (1.30, 36, .010), (1.10, 41, .012), (.97, 44, .024), (.82, 47, .040), (.53, 50, .058)]
+CAPE_ROWS = [(1.472, 34, .008), (1.40, 35, .014), (1.30, 36, .022), (1.10, 41, .022), (.97, 44, .026), (.82, 47, .040), (.53, 50, .058)]
 FOOT_C = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.010, 0.0, .010)]   # (between the shoulder blades, clear of the arms)
 def sk_cape(mb, bt, over=None):
     cols = 11
@@ -1131,7 +1131,7 @@ def sk_cape(mb, bt, over=None):
             phi = math.pi + math.radians(span) * u
             fold = (.008 if c % 2 else -.003) * KB.ss(1.30, 1.0, z)
             if z >= 1.10:
-                lift = (.022 if over == 'platebody' else .012 if over else 0.0) * u * u * KB.ss(1.05, 1.25, z)   # (over the pauldrons)
+                lift = (.040 if over == 'platebody' else .016 if over else 0.0) * u * u * KB.ss(1.00, 1.20, z)   # (plate sides swing with the arms)
                 base = KB.body_point(bt, phi, z, clear_off(bt, over, phi, z, FOOT_C) + .012 + st + lift)
                 inner_p = push_clear(bt, over, base - Vector((0, .010, 0)), out_dir(bt, phi, z, .5 * KB.ss(1.40, 1.47, z)),
                                      .005 + .010 * KB.ss(1.42, 1.47, z))   # (the shoulders draw back in the idle)
@@ -1142,7 +1142,7 @@ def sk_cape(mb, bt, over=None):
                 p0 = KB.body_point(bt, phi, z, 0.0)
                 n = KB.body_point(bt, phi, z, .01) - p0
                 n.normalize()
-                need = clear_off(bt, over, phi, z, FOOT_C, legs=True) + .030 + st * .3
+                need = clear_off(bt, over, phi, z, FOOT_C, legs=True) + .042 + st * .3
                 have = (base - p0).dot(n)
                 if have < need:                     # hang free of the hips, skirts, flares and leg armour
                     base = base + n * (need - have)

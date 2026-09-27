@@ -2958,7 +2958,8 @@ def clip_defs():
            LeftUpLeg=(-65, 0, 0), LeftLeg=(85, 0, 0), LeftFoot=(-20, 0, 0), RightUpLeg=(-8, 0, 0), RightLeg=(12, 0, 0),
            Spine=(6, 0, 0), Head=(-14, 0, 0))
     C['climb'] = (30, cycle(30, [(0, cl)]), True)
-    blk = PP(crouch(-10, 18), LeftArm=A(.40, -.8, -.1), LeftForeArm=A(-.40, -.55, .72), RightArm=A(-.3, -.5, -.8),
+    # v3.1f: the guard arm stays out in front (a strapped shield covered the face and passed through the chest / neck)
+    blk = PP(crouch(-10, 18), LeftArm=A(.55, -.80, -.14), LeftForeArm=A(-.06, -.78, .62), RightArm=A(-.3, -.5, -.8),
              RightForeArm=A(.1, -1, .15), Spine=(6, 0, 0), Spine1=(0, 0, -6))
     C['block'] = (12, [(0, P()), (4, blk), (8, blk), (12, P())], False)
     C['hit'] = (12, [
