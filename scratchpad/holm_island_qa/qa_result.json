@@ -34,7 +34,7 @@
       "label": "every clickable on the island is an authored Blender model (no code-built stand-ins, no old-island leftovers)",
       "ok": true,
       "detail": {
-        "clickables": 1328,
+        "clickables": 1334,
         "leftovers": [],
         "leftoverCount": 0,
         "visiblePrimitives": []
@@ -88,7 +88,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 29,
+        "deckSamples": 30,
         "deckY": 2.3
       }
     },
@@ -114,8 +114,8 @@
       "label": "the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)",
       "ok": true,
       "detail": {
-        "samples": 356,
-        "diagonal": 26
+        "samples": 359,
+        "diagonal": 24
       }
     },
     {
@@ -270,7 +270,7 @@
           11,
           45.5
         ],
-        "diagonal": 49
+        "diagonal": 50
       }
     },
     {
@@ -316,7 +316,7 @@
           -0.05,
           -0.5
         ],
-        "diagonal": 13
+        "diagonal": 14
       }
     },
     {
@@ -331,7 +331,7 @@
           9.15,
           29.5
         ],
-        "diagonal": 59,
+        "diagonal": 62,
         "shaftTiles": 1
       }
     },
@@ -455,6 +455,35 @@
         "chop": true,
         "fire": true,
         "stepWest": true,
+        "nets": [
+          {
+            "spot": "east-shallows",
+            "ticksLeft": 45,
+            "result": "caught",
+            "seconds": 10,
+            "chat": [
+              "You catch a mirrorperch."
+            ]
+          },
+          {
+            "spot": "east-shallows",
+            "ticksLeft": 10,
+            "result": "moved on",
+            "seconds": 6,
+            "chat": [
+              "The fish have moved on."
+            ]
+          },
+          {
+            "spot": "beach-edge",
+            "ticksLeft": 59,
+            "result": "caught",
+            "seconds": 22,
+            "chat": [
+              "You catch a mirrorperch."
+            ]
+          }
+        ],
         "fish": true,
         "cookTries": 2,
         "cook": true,
@@ -476,6 +505,35 @@
         "chop": true,
         "fire": true,
         "stepWest": true,
+        "nets": [
+          {
+            "spot": "east-shallows",
+            "ticksLeft": 45,
+            "result": "caught",
+            "seconds": 10,
+            "chat": [
+              "You catch a mirrorperch."
+            ]
+          },
+          {
+            "spot": "east-shallows",
+            "ticksLeft": 10,
+            "result": "moved on",
+            "seconds": 6,
+            "chat": [
+              "The fish have moved on."
+            ]
+          },
+          {
+            "spot": "beach-edge",
+            "ticksLeft": 59,
+            "result": "caught",
+            "seconds": 22,
+            "chat": [
+              "You catch a mirrorperch."
+            ]
+          }
+        ],
         "fish": true,
         "cookTries": 2,
         "cook": true,
@@ -491,7 +549,7 @@
       }
     },
     {
-      "label": "M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Wind Strike kills credit their styles",
+      "label": "M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Gale Dart kills credit their styles",
       "ok": true,
       "detail": {
         "spawned": [
@@ -503,9 +561,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 20,
+        "arrowsUsed": 6,
         "magic": true,
-        "runesUsed": 12
+        "runesUsed": 2
       }
     },
     {
@@ -513,14 +571,14 @@
       "ok": true,
       "detail": {
         "before": [
-          105.5,
-          7.602,
-          55.5
+          110.5,
+          7.52,
+          64.5
         ],
         "after": [
-          105.5,
-          7.602,
-          55.5
+          110.5,
+          7.52,
+          64.5
         ]
       }
     },
@@ -532,5 +590,5 @@
       }
     }
   ],
-  "seconds": 1239
+  "seconds": 1176
 }

@@ -260,16 +260,27 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      L.fire=(await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000))&&await note('firemake/fire');await sleep(1500);const p1=await pos(page);
      // off the fire tile by exactly one cardinal step (west unless blocked, as in the live game)
      L.stepWest=Math.abs(Math.abs(p1[0]-p0[0])+Math.abs(p1[2]-p0[2])-1)<.05;
-     const spot=()=>page.evaluate(()=>{const s=HolmFishing.nearestSpot(player.position.x,player.position.z);return s?s.name:null});
-     await clickInventory(page,'fishing_net');c=await clickNamed(page,await spot());L.fish=c.error||(await waitFor(page,()=>Player.count('raw_perch')>0,null,150000))&&await note('gather/raw_perch');
+     // net a perch at a live ripple like a player: Minnow Hollow's ripples move every 60-100 ticks, so the one clicked can
+     // move on between the click and the catch (the player is told "The fish have moved on." and stops, 2004; about one
+     // net in four from the Fire Beach): then the nearest live ripple is netted again, up to four nets. Every net is
+     // recorded in L.nets: the spot, its ticks left when chosen, what came of it and the chat lines it drew.
+     await page.evaluate(()=>{if(window.__chatLog)return;window.__chatLog=[];const ch=UI.chat;UI.chat=function(t){window.__chatLog.push(String(t));return ch.apply(this,arguments)}});
+     L.nets=[];
+     const netPerch=async ms=>{for(let k=0;k<4&&!await page.evaluate(()=>Player.count('raw_perch')>0);k++){
+       const s=await page.evaluate(()=>{const g=HolmFishing.nearestSpot(player.position.x,player.position.z);if(!g)return null;const r=HolmFishing.spots().find(q=>'island-hollow-spot-'+q.i===g.name);return {name:g.name,candidate:r&&r.candidate,ticksLeft:r&&r.timer}});
+       const i0=await page.evaluate(()=>window.__chatLog.length),t0=Date.now();await clickInventory(page,'fishing_net');const c=s?await clickNamed(page,s.name):{error:'no live ripple'};
+       if(!c.error)await waitFor(page,i0=>Player.count('raw_perch')>0||window.__chatLog.slice(i0).some(t=>/The fish have moved on|nothing left to gather/.test(t)),i0,ms);
+       const r=await page.evaluate(i0=>({perch:Player.count('raw_perch')>0,chat:window.__chatLog.slice(i0).slice(-3)}),i0);
+       L.nets.push({spot:s&&s.candidate,ticksLeft:s&&s.ticksLeft,result:c.error||(r.perch?'caught':r.chat.some(t=>/moved on|nothing left/.test(t))?'moved on':'no catch'),seconds:Math.round((Date.now()-t0)/1000),chat:r.chat})}
+      return page.evaluate(()=>Player.count('raw_perch')>0)};
+     L.fish=(await netPerch(150000))&&await note('gather/raw_perch');
      // a teaching fire lasts 150 s; if it burnt out during the fishing trip, chop another oak and light a new one (lesson text says so)
      await toFire();
      if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){L.relit=true;await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);await DL.walkPoint(page,beach[0],beach[1],[]);
       await clickInventory(page,'tinderbox');await clickInventory(page,'logs');await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
      L.cookTries=0;
      for(let k=0;k<6&&!(await note('cook/cooked_perch'));k++){L.cookTries++;
-      if(!await page.evaluate(()=>Player.count('raw_perch')>0)){await clickInventory(page,'fishing_net');await clickNamed(page,await spot());
-       await waitFor(page,()=>Player.count('raw_perch')>0,null,150000);await toFire()}
+      if(!await page.evaluate(()=>Player.count('raw_perch')>0)){await netPerch(150000);await toFire()}
       if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);await DL.walkPoint(page,beach[0],beach[1],[]);
        await clickInventory(page,'tinderbox');await clickInventory(page,'logs');await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
       const before=await page.evaluate(()=>Player.count('cooked_perch')+Player.count('burnt_perch'));
