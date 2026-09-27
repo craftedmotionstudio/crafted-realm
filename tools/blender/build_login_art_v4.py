@@ -32,7 +32,7 @@ PAL = {
     'n_pillar': (.55, .58, .57), 'n_pillar_dk': (.42, .45, .44), 'n_arch': (.53, .56, .55), 'vault': (.40, .41, .40), 'groove': (.22, .22, .22),
     'e_mist': (.80, .86, .80), 'iron': (.34, .34, .36), 'iron_dk': (.18, .18, .19), 'steel': (.62, .64, .67),
     'e_fire_dk': (.84, .26, .04), 'e_fire': (1.0, .58, .10), 'e_fire_core': (1.0, .90, .46), 'e_ember': (1.0, .62, .18), 'coal': (.14, .10, .08),
-    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.38, .39, .40), 'key': (.31, .32, .34), 'key_dk': (.24, .25, .27), 'helm_dk': (.52, .54, .58), 'band': (.26, .26, .28), 'helm': (.80, .82, .85), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
+    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.38, .39, .40), 'key': (.31, .32, .34), 'key_dk': (.24, .25, .27), 'helm_dk': (.52, .54, .58), 'band': (.26, .26, .28), 'helm_hi': (.95, .96, .98), 'e_helm_hi': (.87, .88, .91), 'e_helm_mid': (.67, .69, .73), 'helm_mid': (.80, .82, .85), 'helm_lo': (.43, .45, .49), 'e_glint': (1.0, 1.0, .97), 'cool': (.46, .50, .57), 'cool_dk': (.33, .36, .42), 'cool_hi': (.58, .62, .69), 'wood_cool': (.36, .25, .15), 'gold_dim': (.62, .49, .20), 'helm': (.80, .82, .85), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
     'n_rim': (.50, .51, .55), 'v_marble': (.44, .45, .50), 'rim_groove': (.16, .16, .18),
     'btn_face': (.30, .30, .33), 'btn_face_hi': (.40, .40, .44), 'btn_face_red': (.42, .15, .10), 'btn_face_red_hi': (.52, .20, .13), 'btn_face_off': (.22, .22, .23),
     'btn_rim': (.56, .56, .60), 'btn_rim_red': (.62, .40, .34), 'btn_rim_off': (.40, .40, .42),
@@ -353,43 +353,67 @@ def slab_letter(ch, c, scale, tilt, seed):
     bpy.data.objects.remove(cut, do_unlink=True)
     slab.location = c; slab.rotation_euler = (0, math.radians(tilt), math.radians(rng.uniform(-6, 6)))
     return slab
-def emblem_hammer(c, s=1.0, rot=(0, -28, -18)):
-    """a war hammer: a long ash haft with a leather grip and iron bands, a heavy square-faced head and a curved back spike,
-    a short top spike (our own design)"""
-    m = M(); L = 2.1
-    m.cyl((0, 0, 0), (0, 0, L - .15), .055, 'wood', n=8, caps='wood_dk')
-    m.cyl((0, 0, .02), (0, 0, .42), .07, 'wood_dk', n=8)                      # grip wrap
-    for z in (.46, 1.2): m.cyl((0, 0, z), (0, 0, z + .06), .072, 'band', n=8)    # iron bands
-    m.sph((0, 0, -.02), .085, 'band', 8, 4)                                    # butt cap
-    hz = L - .02
-    m.hull(cbox((.14, 0, hz), (.25, .2, .22), .035), lambda n, cc: 'helm' if n.z > .5 else ('helm_dk' if n.x < .5 else 'steel'))   # the square head
-    m.hull(cbox((.42, 0, hz), (.045, .22, .24), .015), 'helm')                 # the flat striking face
-    m.hull([Vector((-.08, y, hz + z)) for y in (-.12, .12) for z in (-.13, .13)] + [Vector((-.4, 0, hz - .02)), Vector((-.6, 0, hz - .2))], 'helm_dk')   # the back spike, curving down
-    m.hull([Vector((x, y, hz + .2)) for x in (.04, .26) for y in (-.08, .08)] + [Vector((.15, 0, hz + .42))], 'helm_dk')   # top spike
+def emblem_hammer(c, s=1.0, rot=(0, -28, -18), cool=True):
+    """the war hammer as our game draws it (assets/models/props/gear_warhammer_v1.glb, measured): a straight haft, a big
+    symmetric block head across the top (0.30 wide x 0.155 tall x 0.15 deep on a 0.795 weapon) with bevelled edges and
+    the haft tip showing above it, a gold collar under the head, a grip wrap, a gold pommel. Scaled x2.6 for the emblem."""
+    m = M(); k = 2.6
+    W = lambda x, y, z: (x * k, y * k, z * k)
+    wood, metal, edge, gold, grip = ('wood_cool', 'cool', 'cool_hi', 'gold_dim', 'wood_dk') if cool else ('wood', 'steel', 'helm', 'brass', 'wood_dk')
+    m.cyl(W(0, 0, -.14), W(0, 0, .6), .022 * k, wood, n=8, caps=wood)                      # haft (its tip shows above the head)
+    m.hull(cbox(W(0, 0, .4845), (.15 * k, .075 * k, .0775 * k), .018 * k), lambda n, cc: edge if (abs(n.x) > .3 and abs(n.z) > .3) or n.z > .9 else metal)   # the block head
+    m.cyl(W(0, 0, .37), W(0, 0, .405), .031 * k, gold, n=8)                                  # gold collar
+    m.cyl(W(0, 0, -.065), W(0, 0, .065), .025 * k, grip, n=8)                                # grip wrap
+    m.sph(W(0, 0, -.165), .031 * k, gold, 8, 4)                                              # gold pommel
     ob = to_object(m, 'hammer'); ob.location = c; ob.scale = (s, s, s); ob.rotation_euler = tuple(math.radians(v) for v in rot); return ob
-def emblem_sword(c, s=1.0, rot=(0, 0, 0)):
+def emblem_sword(c, s=1.0, rot=(0, 0, 0), cool=False):
     """a plain arming sword: diamond-section blade, a straight crossguard, a leather grip and a round pommel"""
     m = M(); L = 1.9; w = .085; t = .03; z0 = .32
     m.hull([Vector((x, y, z)) for x in (-w, w) for y in (-t * .2, t * .2) for z in (z0, L - .2)] + [Vector((0, -t, z)) for z in (z0, L - .2)] +
-           [Vector((0, t, z)) for z in (z0, L - .2)] + [Vector((0, 0, L))], lambda n, cc: 'helm' if n.x * .6 + n.z * .3 - n.y > 0 else 'steel')
-    m.box((0, 0, z0 - .03), (.3, .05, .045), 'iron', .015)
+           [Vector((0, t, z)) for z in (z0, L - .2)] + [Vector((0, 0, L))], lambda n, cc: ('cool_hi' if cool else 'helm') if n.x * .6 + n.z * .3 - n.y > 0 else ('cool' if cool else 'steel'))
+    m.box((0, 0, z0 - .03), (.3, .05, .045), 'cool_dk' if cool else 'iron', .015)
     m.cyl((0, 0, .08), (0, 0, z0 - .06), .045, 'wood_dk', n=6)
-    m.sph((0, 0, .05), .07, 'iron', 8, 4)
+    m.sph((0, 0, .05), .07, 'cool_dk' if cool else 'iron', 8, 4)
     ob = to_object(m, 'sword'); ob.location = c; ob.scale = (s, s, s); ob.rotation_euler = tuple(math.radians(v) for v in rot); return ob
 def emblem_helm(c, s=1.0):
-    """a plain round-topped helm with a nasal bar, cheek plates and a riveted brow band (our own design); smooth enough
-    that its shading falls into a few clean bands at pixel size"""
+    """a plain round-topped helm with a nasal bar, cheek plates and a riveted brow band (our own design), polished bright:
+    three clean bands of steel on the dome and a hot glint up on the left where the key light catches it"""
     m = M()
-    m.hull(ell((0, 0, .1), (.44, .42, .52), 20, 10, floor=.1), lambda n, cc: 'helm' if n.z > .35 else ('steel' if n.x < .3 else 'helm_dk'))
+    def dome(n, cc):   # three clean bands: lit crown, mid steel, the shaded right flank
+        if n.x > .5: return 'helm_lo'
+        if n.z > .45 and n.x < .3: return 'e_helm_hi'      # the polished crown: flat and bright whatever the light
+        return 'e_helm_mid'
+    m.hull(ell((0, 0, .1), (.44, .42, .52), 20, 10, floor=.1), dome)
     m.lathe([(.45, .0), (.46, .1), (.45, .2)], 20, 'band')
     for a in [math.pi * (1.25 + .125 * k) for k in range(5)]:
-        m.sph((math.cos(a) * .46, math.sin(a) * .46, .1), .032, 'helm', 5, 3)
-    m.hull(cbox((0, -.44, -.14), (.07, .05, .28), .02), 'helm_dk')           # nasal
+        m.sph((math.cos(a) * .46, math.sin(a) * .46, .1), .034, 'helm_hi', 5, 3)
+    m.hull(cbox((0, -.44, -.14), (.07, .05, .28), .02), 'helm_lo')           # nasal
     for sx in (-1, 1):                                                         # cheek plates
-        m.hull([Vector((sx * x, y, z)) for x in (.2, .42) for y in (-.37, -.2) for z in (-.02, .08)] + [Vector((sx * .32, -.29, -.5)), Vector((sx * .4, -.2, -.48))], 'steel')
+        m.hull([Vector((sx * x, y, z)) for x in (.2, .42) for y in (-.37, -.2) for z in (-.02, .08)] + [Vector((sx * .32, -.29, -.5)), Vector((sx * .4, -.2, -.48))],
+               lambda n, cc, sx=sx: 'e_helm_hi' if n.x * sx < -.2 else 'e_helm_mid' if n.y < -.6 else 'helm_lo')
         m.box((sx * .21, -.41, .0), (.13, .02, .035), 'ink')                   # eye slit
-    m.hull(cbox((0, .0, .64), (.055, .32, .05), .02), 'band')                 # crest ridge
+    m.hull(cbox((0, .0, .64), (.055, .32, .05), .02), 'helm_mid')             # crest ridge
     ob = to_object(m, 'helm'); ob.location = c; ob.scale = (s, s, s); return ob
+def helm_glint(helm):
+    """the polished glint: a small bright streak just proud of the dome, up on the left (no ink edge round it)"""
+    m = M()
+    for (x, z, rx, rz) in ((-.15, .36, .1, .04), (-.27, .27, .04, .028)):
+        q = 1 - (x / .44) ** 2 - ((z - .1) / .52) ** 2; y = -.42 * math.sqrt(max(0, q)) - .03   # just proud of the dome surface
+        m.hull(ell((x, y, z), (rx, .012, rz), 10, 3), 'e_glint')
+    ob = to_object(m, 'glint'); ob.location = helm.location; ob.scale = helm.scale; return ob
+def helm_shadow(helm, off=(.09, .35, -.1)):
+    """a hard drop shadow of the helm cast onto the crest behind it: the helm's own shape, flat black, set just behind it"""
+    me = helm.data.copy(); ob = bpy.data.objects.new('helm_shadow', me); scene.collection.objects.link(ob)
+    ob.location = Vector(helm.location) + Vector(off); ob.scale = helm.scale; ob.rotation_euler = helm.rotation_euler
+    sh = bpy.data.materials.get('drop_shadow')
+    if not sh:
+        sh = bpy.data.materials.new('drop_shadow'); sh.use_nodes = True; nt = sh.node_tree
+        for n in list(nt.nodes): nt.nodes.remove(n)
+        em = nt.nodes.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (.012, .011, .012, 1); o = nt.nodes.new('ShaderNodeOutputMaterial')
+        nt.links.new(em.outputs[0], o.inputs['Surface'])
+    me.materials.clear(); me.materials.append(sh)
+    for poly in me.polygons: poly.material_index = 0
+    return ob
 def ink_shell(ob, t=.03):
     """an ink outline round one object (the inverted-hull trick): a Solidify shell pushed outward, normals flipped, in a
     black material that hides its front faces, so every piece of the emblem keeps a crisp dark edge at pixel size"""
@@ -491,17 +515,28 @@ def render_logo():
     H = 1.34; obs = [lintel(H=H)]
     Hk = 1.5; kz = H / 2 + Hk / 2 - .16               # the keystone stands on the lintel's centre, its foot let into the top
     obs.append(keystone((0, -.02, kz), W0=1.25, W1=1.65, Hk=Hk, D=.8))
-    # the crossed war hammer and sword stand well BEHIND the helm (depth -.5 / -.55 against the helm's -1.4) and reach past
-    # it on every side, so the helm clearly sits over the crossing
-    cz = kz + .12; a = math.radians(40)
-    d = Vector((math.sin(a), 0, math.cos(a))); ss = 1.3        # sword: pommel lower-left, point upper-right
-    obs.append(ink_shell(emblem_sword(tuple(Vector((0, -.55, cz)) - d * 1.0 * ss), ss, rot=(0, 40, 0))))
-    d2 = Vector((-math.sin(a), 0, math.cos(a))); hs = 1.02     # war hammer: butt lower-right, head upper-left
-    obs.append(ink_shell(emblem_hammer(tuple(Vector((0, -.5, cz)) - d2 * 1.08 * hs), hs, rot=(0, -40, 0))))
-    obs.append(ink_shell(emblem_helm((0, -1.4, kz + .08), 1.0), .035))
-    ortho_render('logo', obs, 1600, 600, el=9, yaw=0, key_e=1.0, amb=.34, shadows=False)
+    # the crest: the in-game war hammer and a sword crossed well BEHIND the helm, smaller, in cooler darker steel
+    cz = kz + .18; a = math.radians(42)
+    d = Vector((math.sin(a), 0, math.cos(a))); ss = 1.12        # sword: pommel lower-left, point upper-right
+    obs.append(ink_shell(emblem_sword(tuple(Vector((0, -.5, cz)) - d * .88 * ss), ss, rot=(0, 42, 0), cool=True)))   # point 1.13 out, clear of the helm
+    d2 = Vector((-math.sin(a), 0, math.cos(a))); hs = .9        # war hammer: pommel lower-right, block head upper-left
+    # its block head (1.26 up the haft at scale 1) sits 1.0 out from the crossing, clear of the helm
+    obs.append(ink_shell(emblem_hammer(tuple(Vector((0, -.46, cz)) + d2 * (1.12 - 1.26 * hs)), hs, rot=(0, -42, 0), cool=True)))
+    # the helm: larger, polished, in front, with a heavy ink edge and a hard drop shadow onto the crest
+    helm = ink_shell(emblem_helm((0, -1.5, kz + .02), 1.36), .045); obs.append(helm); obs.append(helm_glint(helm))
+    obs.append(helm_shadow(helm))
+    # a warm rim light from the braziers, low on the right, so the helm's edge glows against the cold crest
+    rim = bpy.data.objects.new('Rim', bpy.data.lights.new('Rim', 'SUN')); scene.collection.objects.link(rim)
+    rim.data.color = (1.0, .58, .26); rim.data.energy = 2.0; rim.data.angle = math.radians(3)
+    rim.rotation_euler = Vector((-.75, -.55, .12)).normalized().to_track_quat('-Z', 'Y').to_euler()   # from behind right toward the viewer: it only catches right-facing edges, never the lintel's face
+    try:   # Blender 4.x light linking: the rim touches only the helm (the lintel and keystone keep their v4.2 colours)
+        col = bpy.data.collections.new('rim_receivers'); col.objects.link(helm)
+        rim.light_linking.receiver_collection = col
+    except Exception as e: print(TAG, 'no light linking', e)
+    ortho_render('logo', obs, 1600, 600, el=9, yaw=0, key_e=1.05, amb=.32, shadows=False)
+    bpy.data.objects.remove(rim, do_unlink=True)
     for o in obs: bpy.data.objects.remove(o, do_unlink=True)
-    MANIFEST.append({'name': 'logo', 'raw': 'logo.png', 'kind': 'sprite', 'out': {'w': 400, 'h': 150}, 'file': 'login/logo.png', 'colors': 26})
+    MANIFEST.append({'name': 'logo', 'raw': 'logo.png', 'kind': 'sprite', 'out': {'w': 400, 'h': 150}, 'file': 'login/logo.png', 'colors': 56, 'keep_bright': True})
 
 # ================================================================== 4. the carved-slate panel and stone buttons (9-slices)
 def rounded_path(W, H, r, seg=6):

@@ -39,7 +39,8 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
   await stage('login-play','04_play','play');
   await stage('login-confirm-new','05_confirm');
   await page.evaluate(()=>LoginOverhaul.setStage('login-choose'));await sleep(300);
-  for(const [w,h,n] of [[1280,720,'08_1280x720'],[1920,1080,'08b_1920x1080'],[760,820,'09_760x820'],[390,844,'10_390x844']]){await page.setViewport({width:w,height:h});await sleep(1200);await shot(n)}
+  for(const [w,h,n] of [[1280,720,'08_1280x720'],[1920,1080,'08b_1920x1080'],[760,820,'09_760x820'],[390,844,'10_390x844']]){await page.setViewport({width:w,height:h});await sleep(1200);await shot(n);
+    if(w===1920){const lr=await rectOf('.login-title-wrap',10);if(lr)await shot('06b_logo_1920',lr)}}
   // the real new-adventurer path: name -> Begin -> the island -> the creator -> Confirm -> the washed-ashore note
   await page.setViewport({width:1538,height:900});await sleep(800);
   const flow={};

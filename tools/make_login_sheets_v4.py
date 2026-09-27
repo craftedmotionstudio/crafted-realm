@@ -39,7 +39,10 @@ def sheet(names, out, label, scale=1.0, ref=False, cols=None):
         dr.text((x + 6, 5), t + ('  ' + label if not t.startswith('REF') else ''), fill=(255, 210, 74), font=F); s.paste(c, (x, 32)); x += c.width + 12
     s.save(os.path.join(O, out))
 sheet('01_choose.png', '01_login_choose.png', 'welcome screen 1538 x 900', .62, ref=True)
-sheet('06_logo.png', '02_title.png', 'the title', 1.0)
+sheet('06_logo.png', '02_title.png', 'the title at 1538 (1x)', 1.0)
+sheet('06_logo.png', '02b_title_2x.png', 'the title at 1538 (2x zoom)', 2.0)
+sheet('06b_logo_1920.png', '02c_title_1920.png', 'the title at 1920 (1x)', 1.0)
+sheet('06b_logo_1920.png', '02d_title_1920_2x.png', 'the title at 1920 (2x zoom)', 2.0)
 sheet('07_panel.png', '03_panel.png', 'the login panel', 1.0)
 sheet('02_create.png', '04_new_adventurer.png', 'new adventurer', .62)
 sheet('03_options.png', '05_options.png', 'options', .62)
