@@ -3853,7 +3853,7 @@ def armour_clearance(bt, ob, base, slot, cape=False):
                 q = gathered_hair(q, f)
             c0, rdir = _clearance(bt, q, TORSO, PELVIS)
             if c0 < .10:   # (a long beard's tip swings in to the chest when the head nods: more room further down)
-                push = ARMOUR_CLEAR[slot] + (.035 * ss(1.50, 1.43, p.z) if slot == 'Jaw' else 0.0)
+                push = ARMOUR_CLEAR[slot] + (.052 * ss(1.50, 1.43, p.z) if slot == 'Jaw' else 0.0)
                 if slot == 'Hair':
                     push = max(push, ARMOUR_MIN - c0)          # (gathering can bring a lock in close to the neck)
                 q = q + rdir * push * f

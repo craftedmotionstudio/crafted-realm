@@ -790,7 +790,8 @@ def sk_platebody(mb, bt, over=None):
     OFF, BACK = .026, -.010
     def bump(z):
         ridge = .012 if 1.10 < z < 1.44 else 0.0
-        return lambda k: (ridge if k == 0 else 0.0) + (BACK * KB.ss(1.16, 1.30, z) if k in (5, 6, 7) else 0.0)
+        return lambda k: ((ridge if k == 0 else 0.0) + (BACK * KB.ss(1.16, 1.30, z) if k in (5, 6, 7) else 0.0)
+                          + .014 * math.sin(2 * math.pi * k / n) ** 2 * KB.ss(1.02, .95, z))     # (v3: the hips in the walk)
     rows = [(.895, .052), (.925, .050), (.965, .046), (.965, .032), (1.025, .038), (1.025, .028), (1.085, .032), (1.085, .026),
             (1.16, OFF), (1.26, OFF), (1.34, OFF), (1.428, .020), (1.466, .016), (1.488, .018), (1.505, .020)]
     def mat_row(i):
@@ -804,7 +805,7 @@ def sk_platebody(mb, bt, over=None):
         suit_torso(mb, bt, rows, n, bump=bump, mat_row=mat_row)
         fold(mb, bt, 1.505, .020, .008, n, MD, dz=.004)
         fold(mb, bt, .895, .050, .036, n, MD, dz=.012)
-        spec = [(0.0, OFF), (.65, .030), (.82, .030), (.93, .028), (.97, .044), (1.03, .048), (1.08, .038), (1.13, .027),
+        spec = [(0.0, OFF), (.65, .030), (.82, .030), (.93, .034), (.97, .046), (1.03, .050), (1.08, .042), (1.13, .032),
                 (1.40, .026), (1.70, .024), (1.84, .026), (1.88, .040), (1.97, .044)]
         def am(u0, u1, k):
             if u0 >= 1.86 or 0.95 < u0 < 1.10:
@@ -857,7 +858,8 @@ def sk_leather_body(mb, bt, over=None):
             return LK
         return None
     with seam_at(bt, OFF):
-        suit_torso(mb, bt, rows, n, mat_face=mat_face, mat_row=lambda i: LE)
+        hip = lambda z: (lambda k: .014 * math.sin(2 * math.pi * k / n) ** 2 * KB.ss(1.03, .95, z))
+        suit_torso(mb, bt, rows, n, mat_face=mat_face, mat_row=lambda i: LE, bump=hip)
         fold(mb, bt, 1.502, .015, .004, n, LK, dz=.004)
         fold(mb, bt, .90, .034, .020, n, LK, dz=.010)
         band(mb, bt, .972, 1.016, .036, n, LK)
@@ -866,7 +868,7 @@ def sk_leather_body(mb, bt, over=None):
             y = KB.front_y(bt, 0, z, OFF) - .004
             for sg in (-1, 1):
                 mb.box((0, y, z), (.048, .004, .006), WK, KB.SPINE_W((0, 0, z)), rot=Matrix.Rotation(math.radians(24 * sg), 3, 'Y'))
-        spec = [(0.0, OFF), (.65, .016), (.85, .016), (1.0, .016), (1.12, .016), (1.40, .015), (1.60, .015), (1.82, .016),
+        spec = [(0.0, OFF), (.65, .016), (.80, .020), (.92, .024), (1.0, .026), (1.10, .024), (1.22, .018), (1.40, .015), (1.60, .015), (1.82, .016),
                 (1.86, .024), (1.97, .026)]
         us = [KB.U_CAP + .10] + [s[0] for s in spec if s[0] > KB.U_CAP + .14]
         suit_sleeves(mb, bt, spec, LE, 6, matfn=lambda i, k: LK if us[min(i, len(us) - 1)] >= 1.82 else LE)
@@ -915,7 +917,7 @@ def plateskirt_w(p):
     k = KB.ss(-0.05, 0.05, p.x)
     return KB.wnorm(KB.wmix(KB.B('Hips'), [(KB.B('LeftUpLeg'), k), (KB.B('RightUpLeg'), 1 - k)], u))
 
-CHAUSSES = [(.62, .008), (.80, .010), (.97, .012), (1.08, .012), (1.30, .011), (1.55, .010), (1.75, .010), (1.90, .011),
+CHAUSSES = [(.02, .006), (.20, .008), (.45, .008), (.62, .008), (.80, .010), (.97, .012), (1.08, .012), (1.30, .011), (1.55, .010), (1.75, .010), (1.90, .011),
             (1.96, .012), (2.03, .010)]
 def sk_plateskirt(mb, bt, over=None):
     """v3: the plateskirt replaces the kit legs (hides Legs) and carries its own mail chausses from above the knee into
@@ -931,9 +933,10 @@ def sk_plateskirt(mb, bt, over=None):
         KB.skirt_w = w0
     band(mb, bt, .985, 1.045, .060, n, LK)
     buckle(mb, bt, 1.015, .064)
+    pelvis_rows(mb, bt, [(.79, .006), (.86, .006), (.93, .007), (.99, .008)], n, lambda i: MM if i % 2 else MT)
     for sx in (-1, 1):   # mail chausses (staggered two-tone rows like the chainbody), hem into the shoe like trousers
-        rings = KB.leg_rings(bt, sx, CHAUSSES, 8)
-        mb.loft(rings, MM, KB.leg_w(sx), cap0=False, cap1=True, matfn=lambda i, k: MM if (i + k) % 2 else MT, cap_mat=MD)
+        rings = KB.leg_rings(bt, sx, [(CHAUSSES[0][0] - .07, CHAUSSES[0][1], .5)] + CHAUSSES, 8)
+        mb.loft(rings, MM, KB.leg_w(sx), cap0=True, cap1=True, matfn=lambda i, k: MM if (i + k) % 2 else MT, cap_mat=MD)
 
 def sk_chaps(mb, bt, over=None):
     n = 12
@@ -977,7 +980,7 @@ def sk_boots(mb, bt, over=None):
         rings += KB.shin_rings(bt, sx, shaft)
         fw, lw = KB.foot_w(sx), KB.leg_w(sx)
         # v3: the ankle ring blends; the shaft above rides the shin like a trouser leg (walk / run no longer open a gap)
-        ws = [fw] * len(sl) + [lambda q, fw=fw, lw=lw: KB.wnorm(KB.wmix(fw(q), lw(q), .5))] + [lw] * (len(shaft) - 1)
+        ws = [fw] * (len(sl) - 1) + [lambda q, fw=fw, lw=lw: KB.wnorm(KB.wmix(fw(q), lw(q), .5))] + [lw] * len(shaft)
         mb.loft(rings, LE, ws, cap0=True, cap1=False, matfn=lambda i, k: LK if i == 0 else LE)
         # folded cuff round the shaft top
         # (v3: the cuff's top turns in and closes round the leg -- no view down into the shaft)
@@ -1094,7 +1097,8 @@ def sk_amulet(mb, bt, over=None):
             a = (u - math.pi / 2) / math.pi         # 0 .. 1 from the left side round the back to the right side
             phi = ps + (2 * math.pi - 2 * ps) * a
             z = ZB
-        o = clear_off(bt, over, phi, z, FOOT_A) + R + .008 + .012 * KB.ss(1.40, 1.46, z)
+        back = math.cos(u) < -1e-9
+        o = clear_off(bt, over, phi, z, FOOT_A) + R + (.002 if back else .008 + .012 * KB.ss(1.40, 1.46, z))
         p = KB.body_point(bt, phi, z, o)
         pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42, 1.47, z)), R + .008))
     rings = []
@@ -1138,7 +1142,7 @@ def sk_cape(mb, bt, over=None):
                 p0 = KB.body_point(bt, phi, z, 0.0)
                 n = KB.body_point(bt, phi, z, .01) - p0
                 n.normalize()
-                need = clear_off(bt, over, phi, z, FOOT_C, legs=True) + .016 + st * .3
+                need = clear_off(bt, over, phi, z, FOOT_C, legs=True) + .030 + st * .3
                 have = (base - p0).dot(n)
                 if have < need:                     # hang free of the hips, skirts, flares and leg armour
                     base = base + n * (need - have)
