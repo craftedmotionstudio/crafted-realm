@@ -1,0 +1,24 @@
+{
+ "label": "after",
+ "welcomeShownMs": 5615,
+ "loginAssetBytes": 250087,
+ "assets": {
+  "assets/ui/login_overhaul.css": 14582,
+  "http://127.0.0.1:8102/src/login_overhaul.js": 9180,
+  "assets/icons/ui/v3/login/brazier.png": 3480,
+  "assets/icons/ui/v3/login/hall_dim.png": 82829,
+  "assets/icons/ui/v3/login/hall_lit.png": 77363,
+  "assets/icons/ui/v3/login/flame_sheet.png": 11605,
+  "assets/icons/ui/v3/login/logo.png": 29851,
+  "assets/icons/ui/v3/login/panel.png": 19960,
+  "assets/icons/ui/v3/login/btn_off.png": 444,
+  "assets/icons/ui/v3/login/btn.png": 394,
+  "assets/icons/ui/v3/login/btn_red.png": 399
+ },
+ "flow": {
+  "creator": true,
+  "note": true,
+  "noteClosedByEnter": true
+ },
+ "errors": []
+}
