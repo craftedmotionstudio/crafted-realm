@@ -406,7 +406,8 @@ with its protection prayer twice).
 
 | # | Criterion | Score | Notes |
 |---|---|---|---|
-| 1-18, 20 | as pass 5 | 0.5 each | re-measured above |
+| 1-11, 13-18, 20 | as pass 5 | 0.5 each | re-measured above |
+| 12 | Readability | 0.25 | the full-helm bug made two duellists a purple wall in the desktop and phone screens (fixed after this pass) |
 | 19 | Balance | 0.5 | the kits on the combat agent's tested level-40 ladder: favoured pairings 63-68%, mirrors 50-54% (sim), live winners by the triangle; per-level tables in `combat_agent.md` pass 4 |
 
-**Pass 6 total: 10 / 10** on the criteria, pending a clean full run with the helm fix (pass 7). Owned: 6.5 / 6.5.
+**Pass 6 total: 9.75 / 10** (12 at 0.25 for the helm). Owned: 6.25 / 6.5 = 9.6 / 10.
