@@ -142,6 +142,15 @@ function playerGLBAnim(root, dt, moving, speed){
     if(g.walk){ g.walk.weight = busy ? 0 : (running ? 0 : g.w); g.walk.timeScale = Math.max(0.3, ms/2.4); }
   } else if(g.walk){ g.walk.weight = busy ? 0 : g.w; g.walk.timeScale = Math.max(0.5, speed); }
   g.mixer.update(dt);
+  // a full helm collapses the Head bone (refreshGLBGear) and the helm is sized against that collapse; the kit v3.1
+  // clips carry a Head.scale track that puts the bone back to 1 every frame (the helm then drew ~50x too large).
+  // Hold the collapse after each mixer step (same fix as OnlineActors.keepHelm).
+  if(root===player && root.userData._headScale0!==undefined && typeof Player!=='undefined' && Player.equip){
+    const hd=Player.equip.head, full=hd && typeof ITEMS!=='undefined' && ITEMS[hd] && ITEMS[hd].model==='helm';
+    if(full){ let hb=root.userData._helmHeadBone; if(hb===undefined){ hb=null; const rig=root.userData.rigInner||root;
+      rig.traverse(o=>{ if(!hb && (o.isBone||o.type==='Bone') && /Head$/.test(o.name)) hb=o; }); root.userData._helmHeadBone=hb; }
+      if(hb && Math.abs(hb.scale.x-0.02)>1e-4) hb.scale.setScalar(0.02); }
+  }
   // heavy 2h shoulder carry (owner r8): the arm swings OUT IN FRONT so the
   // greatsword leans back on the shoulder. Post-mixer additive pose, world-axis
   // pitch about the character's right axis; skipped while attack/block owns the body.
