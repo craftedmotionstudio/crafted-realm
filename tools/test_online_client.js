@@ -11,6 +11,7 @@ const OnlineMap = require('../src/online_world.js');
 const OnlineMover = require('../src/online_actors.js');
 const OnlineTiming = require('../src/online_fx.js');
 const CRNet = require('../src/net_client.js');
+const OnlineBestiary = require('../src/online_bestiary.js');
 const PVP = require('../shared/pvp.js');
 const C = require('../shared/combat.js');
 
@@ -106,6 +107,16 @@ const MAP = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'server', 'dat
       assert.ok(Math.abs(ap.arrive - asec) < 1e-9 && ap.late === 0 && ap.release >= OnlineTiming.MIN_RELEASE, 'arrow at distance ' + d + ' late ' + ap.late);
     }
     assert.strictEqual(OnlineTiming.swingDelay(0.6, 0.3), 0.3);
+  });
+
+  await test('bestiary rigs: a long creature is set back so its mouth stops 0.3 m past its footprint (the wyrmling)', () => {
+    const man = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'assets', 'scarlands', 'bestiary-v1', 'manifest.json'), 'utf8'));
+    const by = {}; for (const c of man.creatures) by[c.id] = c;
+    const reach = (id) => { const c = by[id], z = c.model.anchors && c.model.anchors.mouth ? c.model.anchors.mouth.rest_gltf[2] : 0; return z - OnlineBestiary.fitBack(c); };
+    assert.ok(Math.abs(reach('cinder_wyrmling') - 1.3) < 1e-9, 'wyrmling mouth at 1.3 m from the centre of its 2x2 (was ' + by.cinder_wyrmling.model.anchors.mouth.rest_gltf[2] + ')');
+    assert.ok(reach('ash_stalker') <= 0.8 + 1e-9);
+    assert.strictEqual(OnlineBestiary.fitBack(by.cinder_rat), 0, 'a short creature stays as modelled');
+    assert.strictEqual(OnlineBestiary.fitBack(by.scar_skeleton), 0, 'no mouth anchor: as modelled');
   });
 
   /* ---- the connection, against a fake socket ---- */

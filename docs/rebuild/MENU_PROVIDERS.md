@@ -94,6 +94,12 @@ OsrsMenu.registerProvider({ id: 'online-players', order: 30, kinds: ['player'],
 The name is drawn white and "(level-N)" in the level-difference colour; old-school player menus have no Examine
 (`examine: false`).
 
+**Implemented (W2b, `src/online_menu.js`)**: the online world registers `online-players`, `online-npcs`,
+`online-ground-items`, `online-chest`, `online-scenery` (kinds `onl_*`) and `online-worn` (Remove as the server's
+unequip intent). As in 2004, Follow, Trade with and Report sit under Walk here (`below: true`), so a plain left click
+on another adventurer walks unless Attack leads (the Scarlands, within the level range). Checked with real clicks:
+`node tools/qa_online_menu.js`.
+
 ## The Interact dispatcher
 
 Content registered with `Interact.register({target:'kind:holm_bank_booth', option:'Use', primary:true, ...})` shows up

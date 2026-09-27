@@ -1,0 +1,711 @@
+{
+ "tick": 600,
+ "started": "2026-09-27T05:07:40.520Z",
+ "fights": [
+  {
+   "name": "pvm-melee-moss_seer",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the moss_seer dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       372240,
+       372760
+      ],
+      [
+       "Defence",
+       372240,
+       372240
+      ],
+      [
+       "Hitpoints",
+       372240,
+       372411
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 4,
+      "npcShown": 4,
+      "meServer": 0,
+      "meShown": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [],
+      "beforePrayerOrAfterItRanDry": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 4,
+       "splats": 4,
+       "projectiles": 4,
+       "matchedProjectile": 0,
+       "matchedSwing": 0,
+       "matchedNext": 4,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 1,
+       "id": "bones",
+       "q": 1,
+       "x": 10,
+       "z": 58,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 2,
+       "id": "coins",
+       "q": 19,
+       "x": 10,
+       "z": 58,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 3,
+       "id": "air_rune",
+       "q": 4,
+       "x": 10,
+       "z": 58,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 4,
+       "id": "mind_rune",
+       "q": 5,
+       "x": 10,
+       "z": 58,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 10.7,
+   "ticks": 18,
+   "lootShownAfterMs": 4065,
+   "fx": {
+    "attacker": {
+     "hits": 4,
+     "splats": 4,
+     "projectiles": 4,
+     "matchedProjectile": 0,
+     "matchedSwing": 0,
+     "matchedNext": 4,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 4,
+    "byName": {
+     "attack": 4
+    },
+    "dists": [
+     3,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones",
+    "coins x19",
+    "air_rune x4",
+    "mind_rune x5"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-melee-hex_adept",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the hex_adept dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       372760,
+       374480
+      ],
+      [
+       "Defence",
+       372240,
+       372240
+      ],
+      [
+       "Hitpoints",
+       372411,
+       372978
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 13,
+      "npcShown": 13,
+      "meServer": 0,
+      "meShown": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [],
+      "beforePrayerOrAfterItRanDry": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 13,
+       "splats": 13,
+       "projectiles": 12,
+       "matchedProjectile": 0,
+       "matchedSwing": 0,
+       "matchedNext": 13,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 5,
+       "id": "bones",
+       "q": 1,
+       "x": 29,
+       "z": 103,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 6,
+       "id": "coins",
+       "q": 79,
+       "x": 29,
+       "z": 103,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 7,
+       "id": "chaos_rune",
+       "q": 3,
+       "x": 29,
+       "z": 103,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 8,
+       "id": "air_rune",
+       "q": 8,
+       "x": 29,
+       "z": 103,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 38.8,
+   "ticks": 64,
+   "lootShownAfterMs": 3448,
+   "fx": {
+    "attacker": {
+     "hits": 13,
+     "splats": 13,
+     "projectiles": 12,
+     "matchedProjectile": 0,
+     "matchedSwing": 0,
+     "matchedNext": 13,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 12,
+    "byName": {
+     "attack": 12
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones",
+    "coins x79",
+    "chaos_rune x3",
+    "air_rune x8"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-melee-cinder_rat",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the cinder_rat dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       374480,
+       375720
+      ],
+      [
+       "Defence",
+       372240,
+       372240
+      ],
+      [
+       "Hitpoints",
+       372978,
+       373386
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 5,
+      "npcShown": 5,
+      "meServer": 24,
+      "meShown": 24
+     }
+    },
+    {
+     "ok": true,
+     "label": "the pack: more than one cinder rat comes for you (during the fight, or once the first falls)",
+     "detail": {
+      "engagedDuringFight": 4,
+      "nextAfterTicks": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 35,
+       "splats": 35,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 24,
+       "matchedNext": 11,
+       "generic": 0,
+       "late": 0,
+       "deaths": 2
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 11,
+       "id": "bones",
+       "q": 1,
+       "x": 36,
+       "z": 57,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 12,
+       "id": "ashes",
+       "q": 1,
+       "x": 36,
+       "z": 57,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 57.9,
+   "ticks": 96,
+   "lootShownAfterMs": 5092,
+   "fx": {
+    "attacker": {
+     "hits": 35,
+     "splats": 35,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 24,
+     "matchedNext": 11,
+     "generic": 0,
+     "late": 0,
+     "deaths": 2
+    }
+   },
+   "monsterAttacks": {
+    "total": 5,
+    "byName": {
+     "attack": 5
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "pack": {
+    "engagedDuringFight": 4,
+    "nextAfterTicks": 0
+   },
+   "drop": [
+    "bones",
+    "ashes"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-melee-ember_mage",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the ember_mage dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       375720,
+       377320
+      ],
+      [
+       "Defence",
+       372240,
+       372240
+      ],
+      [
+       "Hitpoints",
+       373386,
+       373914
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 13,
+      "npcShown": 13,
+      "meServer": 0,
+      "meShown": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [],
+      "beforePrayerOrAfterItRanDry": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 13,
+       "splats": 13,
+       "projectiles": 12,
+       "matchedProjectile": 0,
+       "matchedSwing": 0,
+       "matchedNext": 13,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 13,
+       "id": "bones",
+       "q": 1,
+       "x": 34,
+       "z": 108,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 39,
+   "ticks": 65,
+   "lootShownAfterMs": 5806,
+   "fx": {
+    "attacker": {
+     "hits": 13,
+     "splats": 13,
+     "projectiles": 12,
+     "matchedProjectile": 0,
+     "matchedSwing": 0,
+     "matchedNext": 13,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 12,
+    "byName": {
+     "attack": 12
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones"
+   ],
+   "strip": null
+  }
+ ],
+ "failures": [],
+ "pageErrors": {
+  "A": [],
+  "B": [],
+  "O": []
+ },
+ "measured": {
+  "accuracy": {
+   "rolls": 98,
+   "expectedHits": 37.7,
+   "observedHits": 39,
+   "z": 0.27
+  },
+  "damage": [
+   {
+    "max": 7,
+    "draws": 36,
+    "counts": [
+     3,
+     7,
+     3,
+     5,
+     3,
+     4,
+     5,
+     6
+    ],
+    "chi2": 3.56,
+    "dof": 7
+   }
+  ],
+  "attackSpeed": [
+   {
+    "weapon": "monster",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 26,
+    "hist": {
+     "5": 26
+    }
+   },
+   {
+    "weapon": "steel_longsword",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 36,
+    "hist": {
+     "5": 35,
+     "11": 1
+    }
+   },
+   {
+    "weapon": "monster",
+    "name": "attack",
+    "expect": 4,
+    "mode": 4,
+    "samples": 21,
+    "hist": {
+     "4": 20,
+     "8": 1
+    }
+   }
+  ],
+  "projectileTiming": {
+   "matched": 1,
+   "mismatched": 0,
+   "examples": []
+  }
+ },
+ "movement": {
+  "Ashxlxe": {
+   "maxBacklog": 5,
+   "catchUps": 5,
+   "teleports": 1,
+   "ticksSeen": 575,
+   "tickGaps": 1,
+   "maxGapMs": 1099,
+   "reconnects": 0
+  },
+  "Brynxlxe": {
+   "maxBacklog": 0,
+   "catchUps": 0,
+   "teleports": 1,
+   "ticksSeen": 572,
+   "tickGaps": 1,
+   "maxGapMs": 958,
+   "reconnects": 0
+  },
+  "Oakxlxe": {
+   "maxBacklog": 0,
+   "catchUps": 0,
+   "teleports": 1,
+   "ticksSeen": 568,
+   "tickGaps": 1,
+   "maxGapMs": 1102,
+   "reconnects": 0
+  }
+ },
+ "finished": "2026-09-27T05:13:33.608Z",
+ "pass": true
+}

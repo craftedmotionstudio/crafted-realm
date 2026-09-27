@@ -41,7 +41,7 @@ var OsrsMenuItems=(function(){
   var i=ent.index,id=ent.id,d=def(id),out=[];if(i<0)return out;
   if(SPECIAL[id])out.push({option:SPECIAL[id],priority:200,fn:legacyUse(i)});
   if(d.equip)out.push({option:WIELD[d.equip]?'Wield':'Wear',priority:150,fn:legacyUse(i)});   // the one equip path: UI.useItem
-  else if(d.heal)out.push({option:drinkable(id,d)?'Drink':'Eat',priority:150,fn:legacyUse(i)});
+  else if(d.heal||d.drink)out.push({option:drinkable(id,d)?'Drink':'Eat',priority:150,fn:legacyUse(i)});   // coffee: a drink without healing
   else if(d.bury)out.push({option:'Bury',priority:150,fn:legacyUse(i)});
   out.push({option:'Use',priority:100,fn:function(){M.startUse(id,i)}});
   out.push({option:'Drop',priority:50,fn:function(){InvMenu.drop(i,ent.item)}});

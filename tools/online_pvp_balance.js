@@ -162,6 +162,9 @@ function tierTable() {
 }
 if (require.main === module) {
   main();
+  // the per-level tier tables are the combat agent's (tools/combat_triangle_sim.js: its tested ladder per level); this
+  // rough "best of each name" pick (metal armour on archers) is kept only behind --tiers
+  if (!process.argv.includes('--tiers')) return;
   const t = tierTable();
   console.log('\nTiers (equal levels, best gear of each style at that level; mirror time to kill without food; cross win rates, both orders, with food)');
   for (const r of t) console.log(`level ${String(r.level).padStart(2)}  ttk melee ${String(r.ttkSec.melee).padStart(5)}s ranged ${String(r.ttkSec.ranged).padStart(5)}s magic ${String(r.ttkSec.magic).padStart(5)}s   melee>ranged ${(r.winRate['melee>ranged'] * 100).toFixed(0)}%  ranged>magic ${(r.winRate['ranged>magic'] * 100).toFixed(0)}%  magic>melee ${(r.winRate['magic>melee'] * 100).toFixed(0)}%   [${r.gear.melee} | ${r.gear.ranged} | ${r.gear.magic}]`);

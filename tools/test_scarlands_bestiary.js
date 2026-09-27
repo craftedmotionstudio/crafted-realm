@@ -66,7 +66,11 @@ check('3 stats follow shared/combat.js; new ids are new', () => {
   for (const c of MAN.creatures) {
     let def;
     if (c.npcType.existing) { assert.ok(NPC_TYPES[c.id], c.id + ' should exist'); def = Object.assign({}, NPC_TYPES[c.id]); for (const [k, v] of Object.entries(c.npcType.changes)) if (k !== 'note') def[k] = v; }
-    else { assert.ok(!NPC_TYPES[c.id], c.id + ' collides with an existing NPC_TYPES id'); def = c.npcType; }
+    else if (NPC_TYPES[c.id]) {   // landed in NPC_TYPES (W2b): it must be the bestiary's own entry
+      assert.strictEqual(NPC_TYPES[c.id].model, c.id, c.id + ' in NPC_TYPES is not the bestiary entry');
+      for (const k of ['level', 'hp', 'att', 'str', 'def', 'atype', 'ranged', 'size', 'speedTicks']) assert.deepStrictEqual(NPC_TYPES[c.id][k], c.npcType[k], c.id + ' ' + k + ' differs from the manifest');
+      def = c.npcType;
+    } else def = c.npcType;
     const L = C.npcLevels(def);
     assert.strictEqual(c.stats.maxHit, C.npcMaxHit(def, L), c.id + ' max hit');
     assert.strictEqual(c.stats.attackStyle, C.npcAttackType(def), c.id + ' attack style');
@@ -82,7 +86,8 @@ check('4 draft drops validate against the game items and the server shared table
   for (const c of MAN.creatures) {
     const t = DRAFT.npcs[c.id]; assert.ok(t, c.id + ' has no draft table');
     assert.deepStrictEqual(D.validate(c.id, t, SERVER_DROPS.shared, itemExists), [], c.id);
-    assert.ok(!SERVER_DROPS.npcs[c.id], c.id + ' already has a table in server/data/drops.json');
+    // merged into server/data/drops.json (W2b): the server's table is exactly the draft
+    if (SERVER_DROPS.npcs[c.id]) assert.deepStrictEqual(SERVER_DROPS.npcs[c.id], t, c.id + ' server table differs from the draft');
     assert.deepStrictEqual(t.main, c.drops.main, c.id + ' draft vs manifest');
     for (const x of c.drops.tertiary || []) if (x.proposed) assert.ok(!ITEMS[x.item] && !(t.tertiary || []).some(y => y.item === x.item), c.id + ' proposed ' + x.item);
     // the always drop is there and the rare table is reachable

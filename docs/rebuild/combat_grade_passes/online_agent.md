@@ -294,3 +294,182 @@ Measured (pass 4, `report.measured`):
 What stands between 9.25 and 9.5 is outside this branch: 17 reaches 0.5 once the bestiary is merged into the playable
 map (evidence ready); 16 needs the staff special on the server's magic path and a special per family; 19 needs the tier
 tables in band (the combat agent's rebalance).
+
+---
+
+## Pass 5 (2026-09-26/27, W2b: the bestiary in the online world, the old-school menu, the combat hooks)
+
+Branch `world-online-w2b` (from the live head 36a4ae2; live 00ffa9e and 97424a1 merged in: the combat branch's
+LocalCombat, CombatHooks, PvpHud, Keepsake Ward, coffee, pass-4 gear ladder, kit v3.1 and equipment v2).
+
+What changed for the grade:
+
+- **The Scarlands bestiary v1 is in the online world** (criterion 17): the five creatures in `NPC_TYPES`, their drops in
+  `server/data/drops.json`, spawns in their bands (two cinder rat packs, scar skeletons in the ruins, ash raiders and
+  ember mages hunting 7 tiles out, ash stalkers, the cinder wyrmling at level 10). Drawn from their own rigs; the
+  wyrmling is set back 0.68 m on its 2x2 so its mouth stops 0.3 m past the footprint (it reached 1 m into the next
+  tile, over a melee fighter; for the art agent: the rig's origin at the footprint centre with a 4.9 m body puts the
+  mouth at 1.98 m, so either move the origin back or shorten the neck); the ember mage's bolt flies orange.
+- **Specials** (criterion 16): the staff's Power Surge now scales a cast on the server's magic path (it scaled only a
+  staff's bash), and a bow special is flagged on its swing (pass 3). A server test fires every family's special (all
+  12: sword, sabre, longsword, greatsword, axe, battleaxe, pick, mace, warhammer, bow, longbow, staff) with its own
+  cost and a flagged swing.
+- **The old-school menu online** (criterion 14): the online entities are `OsrsMenu` providers (`src/online_menu.js`); a
+  left click runs the top row. `tools/qa_online_menu.js`: 14/14 with real clicks (`online_evidence/menu/`).
+- **Combat hooks** (`docs/rebuild/COMBAT_CLIENT_HOOKS.md`): splats through `CombatHooks.hit` (with the body's hitpoint
+  fraction), other adventurers' bars via `CombatHooks.track`, combat messages via `CombatHooks.message`, the Scarlands
+  HUD, skulls and the Ditch warning from `PvpHud`; coffee's `me.caf`.
+
+Runs: `online_evidence/pass5/` (`--set all`: the core 20 and the bestiary 12, 7951 ticks, three pages) and
+`online_evidence/pass5b/` (the four scenarios whose checks were wrong, re-run: 4/4). Pass 5: 28/32; the four failures
+were the driver's: a protection check that failed when the monster died before landing a blow (moss seer, hex adept,
+ember mage: their spells all splashed while prayed against, so no blow counted) and a pack check that asked for a rat
+after the first fell while two had already come during the fight. With the checks fixed (5b): **32/32**.
+
+Measured (pass 5):
+
+- **Accuracy:** 1974 rolls, 823.8 hits expected, 813 observed: z = -0.49.
+- **Damage 0..max:** chi-square 0.25 / 6.0 / 9.7 / 4.5 / 9.5 / 20.2 on 4 / 6 / 7 / 8 / 10 / 14 degrees of freedom
+  (max 4, 6, 7, 8, 10, and 14 = the wyrmling's breath, 50 draws, p = 0.12): uniform.
+- **Attack speed:** longsword 5 (432/457), gale longbow rapid 5 (444/478), storm staff 5 (377/400), monsters 4 (159/159)
+  and 5 (302/302), the wyrmling's breath on the same clock (88/88 gaps of 5).
+- **Projectile hit delays:** 798 of 798 on the predicted tick.
+- **Every splat tied:** 2307 splats over three pages: 1210 on a projectile, 586 on a same-tick swing, 511 on a next-tick
+  swing; **0 untimed, 0 late**. Splats = server hits on all three pages in all 10 duels.
+- **Movement:** backlog at most 5 steps, 2 catch-ups in 7951 ticks.
+- **Specials online:** sword (25%), bow (50%) and now staff (55%) specials from the orb in PvP, each seen as a special
+  swing or cast.
+
+The bestiary online (pass 5, `online_evidence/pass5/strip_pvm_bestiary_{archer,mage,wyrmling}.jpg`):
+
+| Monster | Style | Evidence |
+|---|---|---|
+| Cinder rat (pack, level 7) | melee, aggressive pack | 2-4 rats came for the fighter in one fight (single-way combat lets one strike at a time) |
+| Ash raider (26) | ranged | shoots from 4 tiles (`dists` 4 on every shot against a ranged or magic fighter); every arrow a 0 under Protect from Missiles; its arrows drop (28) |
+| Ember mage (30) | magic | casts from 3 tiles; orange bolts; every bolt splashes under Protect from Magic |
+| Scar skeleton (22) | melee | ruins guard; killed by the ranged kit, 21 arrows all timed |
+| Ash stalker (38) | melee (stab bite) | 39 bites, every one blocked by Protect from Melee |
+| Cinder wyrmling (56, 2x2) | melee + breath | every third attack a breath (31 of 94, 29 of 88, 28 of 84; never two in a row), each a timed projectile; the bites are prayed off, the breath is magic and lands anyway (the telegraph: stand off or pray magic); drops: aurel platelegs, 511 coins, 50 fire runes, big bones, ashes |
+
+Every bestiary kill: the death clip, the body sinks, the drop appears 4.8-7.5 s after the kill and the bones reach the
+pack. The wyrmling fights ran 4-5 minutes with the fighter topped up server side (`sustain`): at the test map's level
+10 it is a 14-20-band monster against level-40 kits.
+
+| # | Criterion | Score | Notes |
+|---|---|---|---|
+| 1-15 | as pass 4 | 0.5 each | re-measured above; the menu provider and hooks changes re-verified (14/14 menu QA, 0 untimed / 0 late) |
+| 16 | Weapon variety, specials | 0.5 | every family's special fires on the server (12/12 test); sword, bow and staff specials seen online in PvP |
+| 17 | Monster variety | 0.5 | melee, ranged (from 4 tiles), magic (from 3), an aggressive pack, a 2x2 brute with a breath every third attack; every style against each, 12/12 |
+| 18 | PvP tension | 0.5 | duels 72-217 s (median 131 s); PvpHud plaque, skull minutes, the Ditch warning with the items kept |
+| 19 | Balance | 0.25 | with the merged pass-4 gear the alpha kits were out of band (the storm staff kit won 79% against both others): retuned after this pass (pass 6) |
+| 20 | Online robustness | 0.5 | 32 fights, three browsers: 0 desyncs, 0 double or lost hits, 0 lost loot, reconnect keeps the lock |
+
+**Pass 5 total: 9.75 / 10** (all but 19). Owned criteria: 6.25 / 6.5 = **9.6 / 10**.
+
+### Fixed after pass 5
+
+- **The alpha kits retuned to the combat agent's level-40 ladder** (`tools/combat_triangle_sim.js` loadouts: undercrag
+  sabre and plate, duskwood shortbow and fenhide, storm staff with Fire Bolt and starweave). `tools/online_pvp_balance.js`
+  (`online_evidence/balance_w2b.txt`): melee beats ranged 67%, ranged beats magic 68%, magic beats melee 63%, mirrors
+  50-54%; duels 46-134 s median without prayers, 85-286 s with. Before: magic 79% against both.
+- The driver's protection and pack checks (above).
+
+---
+
+## Pass 6 (2026-09-27, the retuned kits)
+
+Run: `online_evidence/pass6/` (`--set all`, 32 scenarios, 5820 ticks) and `online_evidence/pass6b/` (the two duels
+re-run with the fixed checks, with the fixed projectile-timing measure: 79 of 79 projectile hits on the predicted tick).
+Pass 6: 30/32; both failures were the driver's, and one real bug showed in the screens:
+
+- **A double knock-out** (ranged against magic: both fell on the same tick, their last blows in flight together, which
+  2004 allows): the driver looked for the winner's pile while the "winner" was waking in the Commons. Now checked as a
+  double knock-out (each credited with the other).
+- **The reconnect**: one splat on the re-attached page came from a blow swung while it was offline (it never saw that
+  swing): excused at the re-attach tick only. In the re-run the defender also kept a skull from the previous duel, which
+  the check did not allow for: fixed.
+- **The projectile-timing measure** paired a 3-tick shortbow's arrow with the previous arrow's hit (the new arrow
+  leaves on the tick the old one lands) and one arrow without a hit (its target already dead) cascaded into 20
+  "mismatches": now two passes (exact tick first).
+- **Bug (fixed): a full helm fifty times too large.** `online_evidence/pass6/screen_pvp_1538x900.jpg` shows two
+  adventurers in undercrag helms as a purple wall: the game collapses the head bone under a full helm and fits the
+  Blender helm against that collapse, but the kit v3.1 clips carry a `Head.scale` track that puts the bone back to 1
+  every frame. The online client now holds the collapse after each animation step (`OnlineActors.keepHelm`). The
+  offline game runs the same code on the same clips, so it very likely shows the same thing (for the equipment / kit
+  agents: drop the Head scale track from the kit clips at load, or stop collapsing the bone).
+
+Measured (pass 6): accuracy z = -0.21 over 1283 rolls; undercrag sabre 4 ticks (482/507), duskwood shortbow on rapid 3
+(256/271), storm staff 5 (158/176), monsters 4 and 5, the breath 5 (32/32); 1816 splats over three pages, 0 late, the
+one untimed at the re-attach; movement backlog at most 6 steps. Duels with the level-40 ladder: 45-242 s (median 64 s),
+each style winning where the triangle says (magic over melee, ranged over magic, melee over ranged; the underdog won
+with its protection prayer twice).
+
+| # | Criterion | Score | Notes |
+|---|---|---|---|
+| 1-11, 13-18, 20 | as pass 5 | 0.5 each | re-measured above |
+| 12 | Readability | 0.25 | the full-helm bug made two duellists a purple wall in the desktop and phone screens (fixed after this pass) |
+| 19 | Balance | 0.5 | the kits on the combat agent's tested level-40 ladder: favoured pairings 63-68%, mirrors 50-54% (sim), live winners by the triangle; per-level tables in `combat_agent.md` pass 4 |
+
+**Pass 6 total: 9.75 / 10** (12 at 0.25 for the helm). Owned: 6.25 / 6.5 = 9.6 / 10.
+
+---
+
+## Pass 7 (2026-09-27, the final W2b run)
+
+Run: `online_evidence/pass7/` (`--set all`: the core 20 and the bestiary 12, 5678 ticks, three pages; strips of every
+style in PvP and PvM and of the archer, the mage and the wyrmling; desktop and phone screens). **32 of 32 passed**,
+no page errors. Gates on the same tree: 83/83 `tools/test_*.js`, `npm run test:server` 98/98, the headless smoke
+PASS (visible and hidden boot), `tools/qa_online_menu.js` 14/14.
+
+Measured:
+
+- **Accuracy:** 1247 rolls, 563.6 hits expected, 566 observed: z = 0.14 (pass 5: -0.49 over 1974; pass 6: -0.21).
+- **Damage 0..max:** chi-square 4.2 / 19.4 / 19.3 / 14.9 on 5 / 8 / 9 / 12 degrees of freedom (max 5, 8, 9, 12). Two
+  tables sit at p = 0.013 and 0.023, the excess in different places each run (pass 6: zeros; pass 7: eights); the same
+  roll sequence on the server's RNG (an accuracy roll, the damage roll on a hit, other draws between) is uniform over
+  120,000 draws per seed (chi-square 4.2 / 6.4 / 16.5 on 8), so this is sampling, not a bias.
+- **Attack speed:** undercrag sabre 4 ticks (463/483), duskwood shortbow on rapid 3 (237/258), storm staff 5 (151/171),
+  monsters 4 (73/73) and 5 (131/131), the wyrmling's breath 5 (35/35); the rest are the bite's +3.
+- **Projectile hit delays:** 467 of 467 on the predicted tick (one arrow's target was already dead).
+- **Every splat tied:** 1759 splats over three pages: 711 on a projectile, 529 on a same-tick swing, 518 on a next-tick
+  swing, 0 late; the one untimed was the reconnected page's blow swung while it was offline.
+- **Movement:** backlog at most 5 steps, 3 catch-ups in 5678 ticks; every page on the server's tiles after every fight.
+- **Kept on death = the preview** in all 10 deaths (0 skulled, 3, 4 with Keepsake Ward); protection caps held (the
+  biggest protected hit 4-7 against caps of 4-7); a double knock-out (ranged against magic) handled.
+- **Switching:** style 0.29-0.57 ticks, prayer 0.92-0.99, a bite 0.81-1.11.
+- **Specials:** sword (25%), bow (50%), staff (55%) from the orb in PvP, each seen as a special swing or cast.
+- **Duels:** 39-180 s (median 66 s); the favoured style won where the triangle says, the underdog with its protection
+  prayer twice.
+- **The bestiary:** rats came four at a time for one fighter; the ash raider shot from 4 tiles, the ember mage cast from
+  3-4; the wyrmling breathed every third attack (15 of 45, 8 of 26, 12 of 36); drops: an aurel sword and 495 coins from
+  the wyrmling, a leather body from an archer; every drop appeared 5.1-7.5 s after the kill (the death clip, then the sink).
+
+| # | Criterion | Score | Evidence |
+|---|---|---|---|
+| 1 | Accuracy | 0.5 | z = 0.14 / -0.21 / -0.49 live; exhaustive server roll tests |
+| 2 | Max hit, 0..max | 0.5 | live tables within sampling (see above); 120k-draw simulation of the same sequence uniform; protection caps held |
+| 3 | Attack speeds | 0.5 | every weapon of the ladder and every monster on its clock, rapid -1, the bite's +3, the breath |
+| 4 | Hit delays, splat on arrival | 0.5 | 467/467 delays; 0 late |
+| 5 | Retaliation, single-way | 0.5 | every defender; the third adventurer refused; the rat pack one at a time |
+| 6 | Eating | 0.5 | next tick, +3 on the attack clock; coffee is the eat intent (`me.caf`) |
+| 7 | Prayers | 0.5 | monsters fully blocked (spells splash, arrows and bites 0), players capped at 60%, Keepsake Ward +1 |
+| 8 | PvP rules | 0.5 | Scarlands level (PvpHud plaque), level range in the menu, skull by the predator rule (a skull carried from an earlier fight kept), kept 0/3/4 = preview, private pile, logout lock, double knock-out |
+| 9 | PvM rules | 0.5 | 22 PvM fights: every style against every monster kind, XP per style, private drops after the sink |
+| 10 | Animations, impact frame | 0.5 | 529 same-tick + 518 next-tick swings on their impact frames; bestiary impact / release frames; special swings |
+| 11 | Projectiles, misses | 0.5 | 711 projectile splats, 0 late; splashes; the orange ember bolt and breath |
+| 12 | Readability | 0.5 | desktop and phone screens with the undercrag duellists (the full-helm fix), PvpHud, splats, bars, skull |
+| 13 | Death reads | 0.5 | monsters' death clips and sinks, then the drop; the own death screen names the killer and what was kept |
+| 14 | Controls | 0.5 | the old-school menu online (left click = the top row; 14/14 real clicks), reach per style, switches next tick |
+| 15 | 8-direction, no rubber band | 0.5 | backlog at most 5 steps, 3 catch-ups in 5678 ticks, every page on the server's tiles |
+| 16 | Weapon variety, specials | 0.5 | every family's special fires on the server (12/12); sword, bow and staff specials seen online |
+| 17 | Monster variety | 0.5 | melee, ranged, magic, an aggressive pack, a 2x2 brute with a telegraphed breath; drops worth fighting for |
+| 18 | PvP tension | 0.5 | duels 39-180 s; the Ditch warning with the items kept, the skull minutes, food and prayer decided fights |
+| 19 | Balance | 0.5 | kits on the combat agent's tested level-40 ladder: favoured pairings 63-68%, mirrors 50-54%, live winners by the triangle |
+| 20 | Online robustness | 0.5 | 32 fights with three browsers: 0 desyncs, 0 double or lost hits, 0 lost loot, reconnect keeps the lock |
+
+**Pass 7 total: 10 / 10.** Owned criteria: 6.5 / 6.5 = **10 / 10**.
+
+Open items (not scored against this branch): the per-level tier tables stay the combat agent's
+(`tools/combat_triangle_sim.js`); the wyrmling sits at the test map's deepest level (10) though its band is 14-20; the
+full-helm head-scale bug very likely shows offline too (the fix belongs in the kit clips or the fitter); the kit art
+(Scarlands kit v2) is not switched on in the online test map yet (`server/README.md` has the steps).

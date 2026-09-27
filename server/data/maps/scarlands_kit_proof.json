@@ -1017,6 +1017,126 @@
    "z": 110,
    "wander": 3,
    "hunt": 3
+  },
+  {
+   "npc": "cinder_rat",
+   "x": 36,
+   "z": 57,
+   "wander": 2,
+   "hunt": 3,
+   "maxRange": 5
+  },
+  {
+   "npc": "cinder_rat",
+   "x": 37,
+   "z": 58,
+   "wander": 2,
+   "hunt": 3,
+   "maxRange": 5
+  },
+  {
+   "npc": "cinder_rat",
+   "x": 35,
+   "z": 58,
+   "wander": 2,
+   "hunt": 3,
+   "maxRange": 5
+  },
+  {
+   "npc": "cinder_rat",
+   "x": 36,
+   "z": 59,
+   "wander": 2,
+   "hunt": 3,
+   "maxRange": 5
+  },
+  {
+   "npc": "cinder_rat",
+   "x": 44,
+   "z": 74,
+   "wander": 2,
+   "hunt": 3,
+   "maxRange": 5
+  },
+  {
+   "npc": "cinder_rat",
+   "x": 45,
+   "z": 75,
+   "wander": 2,
+   "hunt": 3,
+   "maxRange": 5
+  },
+  {
+   "npc": "cinder_rat",
+   "x": 43,
+   "z": 75,
+   "wander": 2,
+   "hunt": 3,
+   "maxRange": 5
+  },
+  {
+   "npc": "scar_skeleton",
+   "x": 29,
+   "z": 87,
+   "wander": 2,
+   "hunt": 3
+  },
+  {
+   "npc": "scar_skeleton",
+   "x": 33,
+   "z": 89,
+   "wander": 2,
+   "hunt": 3
+  },
+  {
+   "npc": "scar_raider_archer",
+   "x": 18,
+   "z": 84,
+   "wander": 1,
+   "hunt": 7
+  },
+  {
+   "npc": "scar_raider_archer",
+   "x": 54,
+   "z": 86,
+   "wander": 1,
+   "hunt": 7
+  },
+  {
+   "npc": "ember_mage",
+   "x": 34,
+   "z": 108,
+   "wander": 1,
+   "hunt": 7
+  },
+  {
+   "npc": "ember_mage",
+   "x": 58,
+   "z": 98,
+   "wander": 1,
+   "hunt": 7
+  },
+  {
+   "npc": "ash_stalker",
+   "x": 48,
+   "z": 114,
+   "wander": 3,
+   "hunt": 4
+  },
+  {
+   "npc": "ash_stalker",
+   "x": 8,
+   "z": 118,
+   "wander": 3,
+   "hunt": 4
+  },
+  {
+   "npc": "cinder_wyrmling",
+   "x": 30,
+   "z": 122,
+   "wander": 1,
+   "hunt": 4,
+   "maxRange": 10
   }
  ],
  "decor": [
@@ -1288,18 +1408,15 @@
   "cooldown": 5,
   "kits": {
    "melee": {
-    "label": "steel fighter kit",
+    "label": "Undercrag fighter kit",
     "style": 1,
     "equip": {
-     "head": "steel_medhelm",
-     "body": "iron_platebody",
-     "legs": "leather_chaps",
-     "shield": "steel_sqshield",
-     "weapon": "steel_longsword",
-     "amulet": "amulet_of_precision",
-     "cape": "trav_cape_red",
-     "hands": "leather_gloves",
-     "feet": "leather_boots"
+     "head": "undercrag_helm",
+     "body": "undercrag_platebody",
+     "legs": "undercrag_platelegs",
+     "shield": "undercrag_kiteshield",
+     "weapon": "undercrag_sabre",
+     "cape": "trav_cape_red"
     },
     "inv": [
      [
@@ -1329,26 +1446,20 @@
     ]
    },
    "ranged": {
-    "label": "gale archer kit",
+    "label": "Duskwood archer kit",
     "style": 1,
     "equip": {
-     "head": "steel_medhelm",
-     "body": "steel_platebody",
-     "legs": "steel_platelegs",
-     "weapon": "gale_longbow",
-     "amulet": "amulet_of_precision",
-     "cape": "trav_cape_green",
-     "hands": "leather_gloves",
-     "feet": "leather_boots"
+     "body": "fenhide_body",
+     "legs": "fenhide_chaps",
+     "hands": "fenhide_vambraces",
+     "feet": "leather_boots",
+     "weapon": "duskwood_bow",
+     "cape": "trav_cape_green"
     },
     "inv": [
      [
       "arrows",
       300
-     ],
-     [
-      "trout",
-      1
      ],
      [
       "trout",
@@ -1377,23 +1488,19 @@
     ]
    },
    "magic": {
-    "label": "storm caster kit",
+    "label": "Starweave caster kit",
     "style": 0,
-    "autocast": "water_bolt",
+    "autocast": "fire_bolt",
     "equip": {
-     "head": "steel_medhelm",
-     "body": "glimmer_robe_top",
-     "legs": "cloth_robe_skirt",
-     "shield": "steel_sqshield",
+     "head": "starweave_hat",
+     "body": "starweave_robe_top",
+     "legs": "starweave_robe_skirt",
      "weapon": "storm_staff",
-     "amulet": "amulet_of_warding",
-     "cape": "trav_cape_blue",
-     "hands": "leather_gloves",
-     "feet": "leather_boots"
+     "cape": "trav_cape_blue"
     },
     "inv": [
      [
-      "water_rune",
+      "fire_rune",
       400
      ],
      [

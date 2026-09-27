@@ -78,22 +78,31 @@ var OnlineFX=(function(){
  }
  /* ---- hits ---- */
  function setHp(e,hp){if(!hp)return;e.hp=hp;if(e.kind==='npc')e.rec.hp=hp[0];if(e.isMe&&typeof OnlineUI!=='undefined')OnlineUI.setMyHp(hp)}
- function splat(e,amount,hp){var o=obj(e);if(!o)return;setHp(e,hp);UI.floatDmg(o,amount);stats.splats++;e.lastHitAt=performance.now();
+ /** a splat through the game's one combat funnel (docs/rebuild/COMBAT_CLIENT_HOOKS.md: CombatHooks.hit), which waits
+  *  for the projectile handle or the impact delay, carries the body's hitpoint fraction and tells any QA listener */
+ function show(e,o,amount,opts){
+  opts=opts||{};var hp=e.hp,frac=hp&&hp[1]?hp[0]/hp[1]:undefined;
+  if(typeof CombatHooks!=='undefined'&&CombatHooks.hit){CombatHooks.hit(o,amount,{kind:opts.kind||'generic',fx:opts.fx||null,delay:opts.delay||0,atype:opts.atype||'',max:!!opts.max,frac:frac});return}
+  if(opts.fx&&typeof CombatFX!=='undefined')CombatFX.expectProjectile(opts.fx,o);
+  UI.floatDmg(o,amount);
+ }
+ function splat(e,amount,hp){var o=obj(e);if(!o)return;setHp(e,hp);show(e,o,amount,{kind:'generic'});stats.splats++;e.lastHitAt=performance.now();
   log.push({t:Date.now(),to:refOf(e),dmg:amount});if(log.length>400)log.shift()}
  function onHit(e,amount,type,hp,n){
   stats.hits++;
   // 1) a projectile flying at this target
   var best=null;for(var i=0;i<projectiles.length;i++){var p=projectiles[i];if(p.done||p.tgt!==e||p.splash)continue;if(p.landTick>n+1)continue;if(!best||p.landTick<best.landTick)best=p}
   if(best){best.done=true;stats.matchedProjectile++;
-   if(best.f){var o=obj(e);setHp(e,hp);if(typeof CombatFX!=='undefined')CombatFX.expectProjectile(best.f,o);UI.floatDmg(o,amount);stats.splats++;e.lastHitAt=performance.now();
+   if(best.f){var o=obj(e);setHp(e,hp);show(e,o,amount,{kind:best.kind==='arrow'?'arrow':'magic',fx:best.f});stats.splats++;e.lastHitAt=performance.now();
     log.push({t:Date.now(),to:refOf(e),dmg:amount,proj:1});schedule(Math.max(0,best.arriveAt-now()),function(){react(e,amount)})}
    else best.hits.push({amount:amount,hp:hp});
    return}
   // 2) a melee swing on this target that lands this tick (splat at the swing's impact frame)
   for(var j=0;j<swings.length;j++){var s=swings[j];if(s.used||s.tgt!==e||s.landTick!==n)continue;s.used=true;
    if(s.mode==='same'){stats.matchedSwing++;var ao=obj(s.att),to=obj(e);setHp(e,hp);
-    if(ao&&typeof CombatFX!=='undefined'&&CombatFX.melee)CombatFX.melee(ao,{mesh:to},s.type,amount,s.maxHit||0);
-    UI.floatDmg(to,amount);stats.splats++;e.lastHitAt=performance.now();log.push({t:Date.now(),to:refOf(e),dmg:amount,melee:1});
+    // the blow lands this tick: the splat waits for the swing's impact frame (and its sound plays with it)
+    if(ao&&typeof CombatFX!=='undefined'&&CombatFX.swingSound)try{CombatFX.swingSound(ao,s.type,0)}catch(err){}
+    show(e,to,amount,{kind:s.att&&s.att.kind==='npc'?'npcMelee':'melee',delay:impactOf(s.att,s.type),atype:s.type,max:!!(s.maxHit&&amount>=s.maxHit&&amount>=3)});stats.splats++;e.lastHitAt=performance.now();log.push({t:Date.now(),to:refOf(e),dmg:amount,melee:1});
     schedule(impactOf(s.att,s.type),function(){react(e,amount)})}
    else{stats.matchedNext++;splat(e,amount,hp);react(e,amount)}
    return}
@@ -111,7 +120,7 @@ var OnlineFX=(function(){
    var kind=f.k==='arrow'?'arrow':'magic',off=OnlineTiming.landingOffset(who(att),who(tgt),f.d),landSec=off*TICK;
    var release=impactOf(att,kind==='arrow'?'bow':f.k==='breath'?'breath':'cast'),flight=OnlineTiming.flightTime(kind,dist(att,tgt));
    var plan=OnlineTiming.projectilePlan(landSec,release,flight);if(plan.late>0.05){stats.late++;lateLog.push({n:n,from:f.from,to:f.to,d:f.d,off:off,dist:+dist(att,tgt).toFixed(2),release:+release.toFixed(3),flight:+flight.toFixed(3)});if(lateLog.length>40)lateLog.shift()}
-   var p={att:att,tgt:tgt,kind:kind,landTick:n+off,start:plan.start,release:plan.release,speed:plan.speed,arriveAt:now()+plan.arrive,splash:!!f.splash,sp:f.sp||null,tint:f.k==='breath'?0xff5a14:null,hits:[],f:null,done:false,born:n};
+   var p={att:att,tgt:tgt,kind:kind,landTick:n+off,start:plan.start,release:plan.release,speed:plan.speed,arriveAt:now()+plan.arrive,splash:!!f.splash,sp:f.sp||null,tint:f.k==='breath'?0xff5a14:(att.kind==='npc'&&typeof OnlineBestiary!=='undefined'?OnlineBestiary.projectileTint(obj(att)):null),hits:[],f:null,done:false,born:n};
    projectiles.push(p);stats.projectiles++;plans[refOf(att).join(':')]=p;
    (function(p){schedule(p.start,function(){launch(p)})})(p);
   }
@@ -146,7 +155,7 @@ var OnlineFX=(function(){
   p.f=CombatFX.launch(p.kind,ao,to,{dmg:p.splash?0:1,tint:tint,spell:p.sp,release:p.release});
   p.arriveAt=now()+p.release+OnlineTiming.flightTime(p.kind,dist(p.att,p.tgt));
   // hits that arrived before the launch (a late tick) wait for the visual like any other
-  for(var i=0;i<p.hits.length;i++){var e=p.tgt,h=p.hits[i];setHp(e,h.hp);CombatFX.expectProjectile(p.f,to);UI.floatDmg(to,h.amount);stats.splats++;e.lastHitAt=performance.now();
+  for(var i=0;i<p.hits.length;i++){var e=p.tgt,h=p.hits[i];setHp(e,h.hp);show(e,to,h.amount,{kind:p.kind==='arrow'?'arrow':'magic',fx:p.f});stats.splats++;e.lastHitAt=performance.now();
    log.push({t:Date.now(),to:refOf(e),dmg:h.amount,proj:1,late:1})}
   if(p.hits.length){p.done=true;p.hits.length=0}
  }

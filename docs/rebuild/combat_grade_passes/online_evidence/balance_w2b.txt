@@ -1,0 +1,88 @@
+Alpha start levels {"Attack":40,"Strength":40,"Defence":40,"Hitpoints":40,"Ranged":40,"Magic":40,"Prayer":43} -> combat level 51
+
+attacker  defender  prayer   type    hit%   max  rate  dmg/tick  ttk(no food)
+melee     melee     -        slash    24.4    9     4     0.275    87.3s
+melee     melee     protect  slash    24.4    5     4     0.153   157.1s
+melee     ranged    -        slash    47.8    9     4     0.538    44.6s
+melee     ranged    protect  slash    47.8    5     4     0.299    80.3s
+melee     magic     -        slash    68.3    9     4     0.769    31.2s
+melee     magic     protect  slash    68.3    5     4     0.427    56.2s
+ranged    melee     -        ranged   35.9    8     3     0.479    50.1s
+ranged    melee     protect  ranged   35.9    4     3     0.239   100.3s
+ranged    ranged    -        ranged   57.5    8     3     0.767    31.3s
+ranged    ranged    protect  ranged   57.5    4     3     0.383    62.6s
+ranged    magic     -        ranged   70.7    8     3     0.943    25.5s
+ranged    magic     protect  ranged   70.7    4     3     0.471    50.9s
+magic     melee     -        magic    70.9   12     5     0.851    28.2s
+magic     melee     protect  magic    70.9    7     5     0.497    48.3s
+magic     ranged    -        magic    69.6   12     5     0.835    28.7s
+magic     ranged    protect  magic    69.6    7     5     0.487    49.2s
+magic     magic     -        magic    67.0   12     5     0.804    29.8s
+magic     magic     protect  magic    67.0    7     5     0.469    51.2s
+
+duel (both eat at <=45%)          A wins   median   p90
+melee vs melee                     53.5%   134.4s  177.6s
+melee vs melee +prot               50.5%   242.4s    300s
+melee vs ranged                    67.3%    76.8s   98.4s
+melee vs ranged +prot              83.0%   138.6s  168.6s
+melee vs magic                     45.2%    50.4s   64.8s
+melee vs magic +prot               32.0%    85.8s  103.2s
+ranged vs melee                    34.7%    75.6s   97.2s
+ranged vs melee +prot              18.8%   138.6s  171.6s
+ranged vs ranged                   53.4%    54.6s   67.2s
+ranged vs ranged +prot             50.6%     105s    123s
+ranged vs magic                    68.3%    46.2s     57s
+ranged vs magic +prot              47.4%    85.2s  100.2s
+magic vs melee                     62.8%      51s     63s
+magic vs melee +prot               72.4%    85.8s  102.6s
+magic vs ranged                    40.2%      48s   58.8s
+magic vs ranged +prot              58.0%    85.2s  100.2s
+magic vs magic                     52.5%      51s     66s
+magic vs magic +prot               52.9%    85.8s  103.8s
+
+PvM (per kill)                 hit%  max  ttk     taken  taken+prot  monster hit%  max
+melee vs burrowrat            93.9    9   2.3s       0         0         3.5%    1
+melee vs pasturehen           93.9    9   1.7s       0         0         3.5%    1
+melee vs gnarlgob             92.5    9   7.5s     0.1         0         5.0%    1
+melee vs mosswolf             90.7    9  10.6s     0.3         0         5.9%    2
+melee vs moss_seer            91.9    9   7.5s     0.1         0        11.0%    1
+melee vs skeleton             85.5    9  18.1s       1         0         9.0%    3
+melee vs bryn_raider          83.7    9  24.2s     1.5         0        10.0%    3
+melee vs cinder_shade         72.4    9  45.7s     8.7         0        18.2%    5
+melee vs hex_adept            81.1    9  27.6s     3.9         0        28.3%    3
+melee vs cinder_rat           91.9    9     7s     0.1         0         5.1%    2
+melee vs scar_skeleton        78.4    9  23.1s     1.5         0        10.3%    3
+melee vs scar_raider_archer   80.4    9  23.9s     3.4         0        17.1%    5
+melee vs ember_mage           82.3    9  25.9s    11.2         0        43.3%    6
+melee vs ash_stalker          69.4    9  53.8s      12         0        17.9%    6
+melee vs cinder_wyrmling      52.2    9 122.5s    37.4         0        22.9%    8
+ranged vs burrowrat           95.2    8   1.9s       0         0         6.0%    1
+ranged vs pasturehen          95.2    8   1.4s       0         0         6.0%    1
+ranged vs gnarlgob            94.2    8   6.2s     0.1         0         8.6%    1
+ranged vs mosswolf            92.4    8   8.8s     0.4         0        10.1%    2
+ranged vs moss_seer           93.6    8   6.2s     0.1         0        10.5%    1
+ranged vs skeleton            88.9    8  14.7s     1.4         0        15.4%    3
+ranged vs bryn_raider         87.7    8  19.5s     2.1         0        17.2%    3
+ranged vs cinder_shade        78.0    8  35.8s    11.7         0        31.3%    5
+ranged vs hex_adept           85.1    8  22.2s       3         0        27.1%    3
+ranged vs cinder_rat          93.6    8   5.8s     0.3         0        10.7%    2
+ranged vs scar_skeleton       82.3    8  18.6s     2.3         0        20.1%    3
+ranged vs scar_raider_archer  83.9    8  19.3s     4.5         0        28.0%    5
+ranged vs ember_mage          87.3    8  20.6s     8.5         0        41.4%    6
+ranged vs ash_stalker         76.2    8  41.3s    19.6         0        37.9%    6
+ranged vs cinder_wyrmling     64.3    8    84s    50.1         0        44.8%    8
+magic vs burrowrat            95.6   12   2.1s       0         0         9.7%    1
+magic vs pasturehen           95.6   12   1.6s       0         0         9.7%    1
+magic vs gnarlgob             94.7   12   6.9s     0.2         0        13.9%    1
+magic vs mosswolf             93.0   12   9.7s     0.7         0        16.4%    2
+magic vs moss_seer            94.2   12   6.9s     0.1         0         9.7%    1
+magic vs skeleton             89.8   12  16.1s     2.5         0        25.0%    3
+magic vs bryn_raider          88.7   12  21.4s     3.7         0        27.9%    3
+magic vs cinder_shade         79.9   12  38.8s    20.5         0        50.7%    5
+magic vs hex_adept            86.4   12  24.3s       3         0        24.9%    3
+magic vs cinder_rat           94.3   12   6.4s     0.4         0        16.2%    2
+magic vs scar_skeleton        85.8   12  19.8s     4.1         0        33.3%    3
+magic vs scar_raider_archer   86.8   12  20.7s       7         0        40.6%    5
+magic vs ember_mage           73.7   12  27.2s    10.4         0        38.1%    6
+magic vs ash_stalker          78.2   12  44.7s    31.4         0        56.2%    6
+magic vs cinder_wyrmling      66.3   12  90.5s    79.9         0        66.2%    8

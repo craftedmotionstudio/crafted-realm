@@ -105,6 +105,12 @@ var OnlineActors=(function(){
    spr.position.set(0,y,0);spr.scale.set(s,s,1);spr.visible=true}
   // 2004 stacking: the skull sits above the prayer icon
   sprite('_ohPrayer',prayer?PRAYER_ICON[prayer]:null,2.55,0.62);
+  if(typeof PvpHud!=='undefined'&&PvpHud.overheadSkull){
+   // the game's own Scarlands skull (src/ui_pvp_hud.js); the adventurer's own comes with PvpHud.set
+   if(o!==player)PvpHud.overheadSkull(o,!!skull);
+   var ps=null;o.children.forEach(function(c){if(c.name==='pvp-skull-over')ps=c});if(ps&&skull)ps.position.y=prayer?3.2:2.55;
+   sprite('_ohSkull',null);return;
+  }
   sprite('_ohSkull',skull?'assets/icons/ui/v3/misc/pk_skull_32.png':null,prayer?3.2:2.55,0.55);
  }
 
@@ -133,6 +139,8 @@ var OnlineActors=(function(){
   WORLD.npcs.push(e.rec);
   st.players.set(s.i,e);
   setOverheads(e,e.sk,e.oh);
+  // the health bar over another adventurer follows the hitpoints the server sent (CombatHooks.track)
+  if(typeof CombatHooks!=='undefined'&&CombatHooks.track)CombatHooks.track(e.root,function(){return e.hp&&e.hp[1]?e.hp[0]/e.hp[1]:-1});
   e.rigPromise=buildRig(e.lk).then(function(r){
    if(st.players.get(s.i)!==e)return;
    e.rig=r.rig;e.gmix=r.gmix;rootObj.add(r.rig);rootObj.userData.rigInner=r.rig;rootObj.userData.gmix=r.gmix;rootObj.userData.isPlayerGLB=true;
@@ -145,6 +153,7 @@ var OnlineActors=(function(){
  function removePlayer(pid){
   var e=st.players.get(pid);if(!e)return;st.players.delete(pid);
   scene.remove(e.root);unlist(WORLD.clickables,e.root);unlist(WORLD.npcs,e.rec);
+  if(typeof CombatHooks!=='undefined'&&CombatHooks.untrack)CombatHooks.untrack(e.root);
  }
  function unlist(a,o){var i=a.indexOf(o);if(i>=0)a.splice(i,1)}
  function updatePlayer(u){
@@ -247,8 +256,20 @@ var OnlineActors=(function(){
   var cur=obj.rotation.y,d=((target-cur+Math.PI)%(Math.PI*2)+Math.PI*2)%(Math.PI*2)-Math.PI;
   obj.rotation.y=cur+d*Math.min(1,dt*14);
  }
+ /** a full helm collapses the head bone (fx_humanoid refreshGLBGear) and the Blender helm is fitted against that
+  *  collapse (HolmEquipment 'bind', compensateBoneScale); the kit v3.1 clips carry a Head.scale track that puts the bone
+  *  back to 1 every frame, which blew the helm up fifty times. Hold the collapse after each animation step. */
+ function keepHelm(root,eq){
+  var ud=root&&root.userData;if(!ud||ud._headScale0===undefined||!ud.rigInner)return;
+  var h=eq&&eq.head,full=!!(h&&typeof ITEMS!=='undefined'&&ITEMS[h]&&ITEMS[h].model==='helm');if(!full)return;
+  var hb=ud._onlHeadBone;if(hb===undefined){hb=null;ud.rigInner.traverse(function(o){if(!hb&&(o.isBone||o.type==='Bone')&&o.name.indexOf('Head')>=0)hb=o});ud._onlHeadBone=hb}
+  if(hb&&Math.abs(hb.scale.x-0.02)>1e-4)hb.scale.setScalar(0.02);
+ }
  function kitAnim(root,ent,dt,isMe){
   var gm=root.userData.gmix;if(!gm)return;
+  try{kitAnimStep(root,ent,dt,isMe,gm)}finally{keepHelm(root,isMe?Player.equip:ent.eq)}
+ }
+ function kitAnimStep(root,ent,dt,isMe,gm){
   if(ent.dead){gm.mixer.update(dt);return}
   var sp=ent.mover.speed/4.2;
   if(typeof playerGLBAnim==='function'){
@@ -319,5 +340,5 @@ var OnlineActors=(function(){
   addNpc:addNpc,removeNpc:removeNpc,updateNpc:updateNpc,addObj:addObj,removeObj:removeObj,applyMove:applyMove,
   frame:frame,entByRef:entByRef,entObj:entObj,playClip:playClip,stopDeathClip:stopDeathClip,npcDeath:npcDeath,setOverheads:setOverheads,say:say,
   dress:dress,clearAll:clearAll,snapshot:snapshot,combatColour:combatColour,kitBuffer:kitBuffer,setTickMs:function(ms){st.tickMs=ms||600},
-  players:function(){return st.players},npcs:function(){return st.npcs},objs:function(){return st.objs}};
+  players:function(){return st.players},npcs:function(){return st.npcs},objs:function(){return st.objs},keepHelm:keepHelm};
 })();

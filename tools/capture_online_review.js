@@ -39,7 +39,7 @@ fs.mkdirSync(OUT, { recursive: true });
     const panel = { x: 1286, y: 470, width: 252, height: 430 };
     for (const kit of ['melee', 'ranged', 'magic']) {
       await A.evaluate((k) => CROnlineQA.kit(k), kit);
-      const want = { melee: 'steel_longsword', ranged: 'gale_longbow', magic: 'storm_staff' }[kit];
+      const want = app.world.map.alpha.kits[kit].equip.weapon;
       for (let i = 0; i < 80 && !(await A.evaluate((w) => CROnlineQA.state().equip.weapon === w, want)); i++) await sleep(300);
       await A.evaluate(() => document.querySelector('.tab-btn[data-tab="combat"]').click()); await sleep(700);
       await shot(A, 'combat_tab_' + kit, panel);
@@ -59,7 +59,7 @@ fs.mkdirSync(OUT, { recursive: true });
     // the Ditch warning on the first walk into the Scarlands
     await A.evaluate(() => OnlineMain.walkTile({ x: 32, z: 52 }));
     await sleep(900); await shot(A, 'ditch_warning');
-    await A.evaluate(() => { const b = document.getElementById('onl-ditch-go'); if (b) b.click(); });
+    await A.evaluate(() => { const b = document.getElementById('pvp-cross') || document.getElementById('onl-ditch-go'); if (b) b.click(); });
     // the Ditch and its crossings (our own ground: water in a trench, stone crossings, the warning signs)
     for (const [name, x, z] of [['ditch_crossing_west', 16, 45], ['ditch_crossing_east', 47, 45]]) {
       await A.evaluate((x, z) => { const m = OnlineWorld.model(), w = m.toWorld(x, z); window.__qaCameraFocus = { x: w.x, y: OnlineWorld.heightAt(w.x, w.z), z: w.z }; camCtl.dist = 24; }, x, z);

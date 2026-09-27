@@ -337,8 +337,9 @@ var OnlineWorld=(function(){
  function buildAll(){
   var look=typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.preload?HolmOldschoolLook.preload(THREE).catch(function(){}):Promise.resolve();
   return Promise.all([fetchMap(),look]).then(function(r){
-   if(typeof OnlineBestiary!=='undefined')OnlineBestiary.load(r[0]);   // monsters arrive after login; the manifest is small
-   return (typeof OnlineKit!=='undefined'?OnlineKit.load(r[0]):Promise.resolve(false)).then(function(kit){r.push(kit);return r});
+   // the bestiary manifest (small) is in before the login screen, so the first monsters already get their own rigs
+   var beasts=typeof OnlineBestiary!=='undefined'?OnlineBestiary.load(r[0]):Promise.resolve(false);
+   return Promise.all([typeof OnlineKit!=='undefined'?OnlineKit.load(r[0]):Promise.resolve(false),beasts]).then(function(k){r.push(k[0]);return r});
   }).then(function(r){
    st.kit=r[2]||null;
    setup(r[0]);

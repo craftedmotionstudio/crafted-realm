@@ -87,8 +87,8 @@ test('alpha supply chest: kits only at the chest, out of combat; they replace pa
   for (let i = 0; i < MAP.alpha.cooldown; i++) w.cycle();   // the chest has a short cooldown
   near.s.intent({ t: 'kit', name: 'magic' });
   runUntil(w, () => near.p.equip.weapon === 'storm_staff', 10);
-  assert.equal(near.p.autocast, 'water_bolt');
-  assert.equal(near.p.autocastSpell(), 'water_bolt');
+  assert.equal(near.p.autocast, MAP.alpha.kits.magic.autocast);
+  assert.equal(near.p.autocastSpell(), MAP.alpha.kits.magic.autocast);
   // unknown kits are refused as bad input
   const before = near.p.badInput | 0;
   near.s.intent({ t: 'kit', name: 'toString' });
@@ -244,4 +244,91 @@ test('bestiary: the breath comes every third attack as a magic projectile with i
   const bfx = b.s.received.filter((m) => m.fx).flatMap((m) => m.fx).filter((f) => f.k === 'breath');
   assert.ok(bfx.length >= 1 && bfx.every((f) => f.splash === 1), 'the breath splashes on Protect from Magic');
   assert.ok(!bh.includes(14), 'no breath damage while praying: ' + bh.join(','));
+});
+
+/* the Scarlands bestiary v1 in the online test map (W2b) */
+test('bestiary v1 in the online map: every creature spawned in its Scarlands band, its drop table, its attack', () => {
+  const G = require('../content/GameData').get();
+  const C = require('../../shared/combat.js');
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'docs', 'rebuild', 'scarlands', 'bestiary_v1.data.json'), 'utf8'));
+  const w = new World({ map: MAP, seed: 7 });
+  const deepest = Math.floor((MAP.bounds.z2 - 48) / 8) + 1;
+  for (const c of data.creatures) {
+    const t = G.NPC_TYPES[c.id];
+    assert.ok(t, c.id + ' is an NPC type');
+    assert.equal(t.model, c.id, c.id + ' names its bestiary model');
+    assert.ok(G.DROP_TABLES[c.id], c.id + ' has its weighted drop table');
+    const spawned = [...w.npcs.values()].filter((n) => n.typeId === c.id);
+    assert.ok(spawned.length >= (c.pack ? c.pack.min : 1), c.id + ' spawned (' + spawned.length + ')');
+    for (const n of spawned) {
+      const l = Math.floor((n.startZ - 48) / 8) + 1;
+      assert.ok(l >= c.wildernessLevels[0] && l <= Math.min(c.wildernessLevels[1], deepest) || (c.wildernessLevels[0] > deepest && l === deepest), c.id + ' at level ' + l + ', band ' + c.wildernessLevels);
+    }
+  }
+  const one = (id) => [...w.npcs.values()].find((n) => n.typeId === id);
+  assert.equal(one('scar_raider_archer').attackType, 'ranged');
+  assert.equal(one('ember_mage').attackType, 'magic');
+  assert.equal(one('scar_raider_archer').attackRange, 7);
+  assert.equal(one('scar_raider_archer').huntRange, 7);
+  assert.equal(one('ember_mage').huntRange, 7);
+  assert.equal(one('cinder_wyrmling').size, 2);
+  assert.deepEqual(G.NPC_TYPES.cinder_wyrmling.breath, { every: 3, max: 14, range: 5 });
+  assert.equal(one('ash_stalker').attackType, 'stab');
+  // the rats come in packs: every rat has two or more others within 3 tiles
+  const rats = [...w.npcs.values()].filter((n) => n.typeId === 'cinder_rat');
+  for (const r of rats) assert.ok(rats.filter((o) => o !== r && Math.max(Math.abs(o.startX - r.startX), Math.abs(o.startZ - r.startZ)) <= 3).length >= 2, 'a rat in a pack');
+  // a few hundred ticks of the world with them in it
+  for (let i = 0; i < 300; i++) w.cycle();
+  assert.equal([...w.npcs.values()].filter((n) => n.active).length, w.npcs.size);
+  assert.ok(C.npcMaxHit(G.NPC_TYPES.ember_mage, C.npcLevels(G.NPC_TYPES.ember_mage)) === 6);
+  w.collision.unload();
+});
+
+test('the staff special scales a cast (Power Surge on the magic path): energy spent, the max hit x1.4, the cast flagged', () => {
+  const w = fieldWorld({ spawns: [{ npc: 'korthul', x: 15, z: 20, wander: 0, hunt: 0, maxRange: 0 }], areas: { wilderness: [{ x1: 0, z1: -600, x2: 39, z2: 39 }], multi: [], named: [] } });
+  w.rng = alwaysHit(1);   // every roll hits for the maximum
+  const npc = [...w.npcs.values()][0];
+  const lv = { Attack: 40, Strength: 40, Defence: 40, Hitpoints: 60, Ranged: 40, Magic: 60, Prayer: 43 };
+  const runes = [['water_rune', 100], ['chaos_rune', 50]];
+  const a = addPlayer(w, 'surgeA', { levels: lv, pos: { x: 10, z: 20 }, equip: { weapon: 'storm_staff' }, inv: runes, autocast: 'water_bolt' });
+  const b = addPlayer(w, 'surgeB', { levels: lv, pos: { x: 10, z: 24 }, equip: { weapon: 'storm_staff' }, inv: runes, autocast: 'water_bolt' });
+  const spec = w.content.SPECIALS.staff, max = w.content.SPELLS.water_bolt.max;
+  const castSeen = (from, pid, n) => { let seen = 0; for (let i = 0; i < n; i++) { w.cycle(); const t = from.lastTick(); const u = t.pl && t.pl.upd && t.pl.upd.find((x) => x.i === pid); if (u && u.a && u.a.name === 'cast' && u.a.spec) seen++; } return seen; };
+  a.s.intent({ t: 'spec', on: true });
+  a.s.intent({ t: 'op_npc', nid: npc.nid, op: 'attack' });
+  assert.equal(castSeen(b.s, a.p.pid, 6), 1, 'the special cast is flagged for viewers');
+  assert.equal(a.p.specEnergy, 100 - spec.cost);
+  assert.equal(npc.maxHp - npc.hp >= Math.floor(max * spec.dmg), true, 'the first bolt hit for the surged maximum');
+  assert.ok(Math.floor(max * spec.dmg) > max, 'the surge raises the ceiling');
+  // on another adventurer
+  a.s.intent({ t: 'walk', x: 10, z: 21 }); for (let i = 0; i < 8; i++) w.cycle();
+  b.p.specEnergy = 100; b.s.intent({ t: 'spec', on: true });
+  const hp0 = a.p.hp;
+  b.s.intent({ t: 'op_player', pid: a.p.pid, op: 'attack' });
+  assert.equal(castSeen(a.s, b.p.pid, 6), 1, 'a special cast on an adventurer, flagged');
+  assert.equal(b.p.specEnergy, 100 - spec.cost);
+  assert.ok(hp0 - a.p.hp >= Math.floor(max * spec.dmg), 'the surged bolt landed on the adventurer');
+  w.collision.unload();
+});
+
+test('every weapon family\'s special fires on the server: energy spent by its cost, the swing flagged for viewers', () => {
+  const G = require('../content/GameData').get();
+  const pick = {};   // the lowest-requirement weapon of each family that has a special
+  for (const [id, it] of Object.entries(G.ITEMS)) if (it.equip === 'weapon' && G.SPECIALS[it.model] && (!pick[it.model] || (it.reqLvl || 0) < (G.ITEMS[pick[it.model]].reqLvl || 0))) pick[it.model] = id;
+  assert.ok(Object.keys(G.SPECIALS).every((f) => pick[f]), 'a weapon for every family with a special');
+  for (const fam of Object.keys(G.SPECIALS)) {
+    const w = fieldWorld({ spawns: [{ npc: 'korthul', x: 11, z: 20, wander: 0, hunt: 0, maxRange: 0 }] });
+    w.rng = alwaysHit(0);
+    const npc = [...w.npcs.values()][0];
+    const lv = { Attack: 60, Strength: 60, Defence: 60, Hitpoints: 60, Ranged: 60, Magic: 60, Prayer: 43 };
+    const a = addPlayer(w, 'fam' + fam, { levels: lv, pos: { x: 10, z: 20 }, equip: { weapon: pick[fam] }, inv: [['arrows', 50]] });
+    const v = addPlayer(w, 'view' + fam, { levels: lv, pos: { x: 10, z: 23 } });
+    a.s.intent({ t: 'spec', on: true });
+    a.s.intent({ t: 'op_npc', nid: npc.nid, op: 'attack' });
+    let flagged = 0;
+    for (let i = 0; i < 4; i++) { w.cycle(); const t = v.s.lastTick(); const u = t.pl && t.pl.upd && t.pl.upd.find((x) => x.i === a.p.pid); if (u && u.a && (u.a.name === 'attack' || u.a.name === 'cast') && u.a.spec) flagged++; }
+    assert.equal(a.p.specEnergy, 100 - G.SPECIALS[fam].cost, fam + ' (' + pick[fam] + ') spent ' + G.SPECIALS[fam].cost);
+    assert.equal(flagged, 1, fam + ' special swing seen');
+    w.collision.unload();
+  }
 });

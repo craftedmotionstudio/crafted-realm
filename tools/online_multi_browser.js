@@ -14,8 +14,12 @@
  * pvm-<style>-<monster>, reconnect (socket dropped mid-fight: the logout lock holds, the client re-attaches), multi.
  * Frame strips of each style's fight are captured from the observer for the feel criteria.
  *
+ * Sets (--set): core (default, the 20 scenarios), bestiary (the Scarlands bestiary v1: every style against the ash raider
+ * (ranged), the ember mage (magic) and the cinder wyrmling (2x2, a breath every third attack), the cinder rat pack, the
+ * scar skeleton and the ash stalker), all.
+ *
  * Run (static server on 8100 first: python tools/serve_static.py 8100 .):
- *   node tools/online_multi_browser.js [--only pvp-melee] [--tick 600] [--out docs/rebuild/combat_grade_passes/online_evidence]
+ *   node tools/online_multi_browser.js [--set core|bestiary|all] [--only pvp-melee] [--tick 600] [--out <dir>]
  * Exit 0 when every scenario passes; a JSON report is written to <out>/online_report.json.
  */
 'use strict';
@@ -36,6 +40,7 @@ const BASE = arg('base', process.env.ONLINE_BASE || 'http://127.0.0.1:8100');
 const TICK = Number(arg('tick', 600));
 const OUT = path.resolve(arg('out', path.join(__dirname, '..', 'docs', 'rebuild', 'combat_grade_passes', 'online_evidence')));
 const ONLY = arg('only', null) ? arg('only').split(',') : null;
+const SET = arg('set', 'core');
 const STRIPS = args.includes('--no-strips') ? false : true;
 const HEADFUL = args.includes('--headful');
 const PORT = Number(arg('port', 8201));
@@ -65,11 +70,13 @@ async function startServer() {
   C.damageRoll = function (rng, max) { const v = dmg0.call(this, rng, max); const b = rolls.damage[max] || (rolls.damage[max] = new Array(Math.max(0, max) + 1).fill(0)); b[v]++; return v; };
   const anim0 = PathingEntity.prototype.setAnim;
   PathingEntity.prototype.setAnim = function (name, extra) {
-    if (name === 'attack' || name === 'cast') {
+    if (name === 'attack' || name === 'cast' || name === 'breath') {
       let expect = null;
       if (this.pid != null && this.nid == null && typeof this.weapon === 'function') expect = name === 'cast' ? C.MAGIC_ATTACK_RATE : C.attackDelay(this.weapon(), this.style().style, false);
       else if (this.def) expect = this.def.speedTicks || C.DEFAULT_ATTACK_RATE;
-      serverAnims.push({ tick: world.tick, who: this.nid != null ? 'n' + this.nid : 'p' + this.pid, name, type: extra && extra.type, spec: !!(extra && extra.spec), expect, weapon: this.equip ? this.equip.weapon : null });
+      const tg = this.target, sz = this.size || 1;
+      const dist = tg && tg.x != null ? Math.max(0, tg.x - (this.x + sz - 1), this.x - tg.x, tg.z - (this.z + sz - 1), this.z - tg.z) : null;
+      serverAnims.push({ tick: world.tick, who: this.nid != null ? 'n' + this.nid : 'p' + this.pid, name, type: extra && extra.type, spec: !!(extra && extra.spec), expect, weapon: this.equip ? this.equip.weapon : null, dist });
     }
     return anim0.call(this, name, extra);
   };
@@ -84,11 +91,16 @@ async function startServer() {
   // the hitpoints the other adventurers were last told (2004: someone else's hitpoints travel only with a hit)
   const info0 = world.processInfo.bind(world);
   world.processInfo = function () { for (const p of world.activePlayers()) if (p.qaLastHitTick === world.tick) p.qaHpAtHit = p.hp; return info0(); };
+  const cyc0 = world.cycle.bind(world);
+  world.cycle = function () { const r = cyc0(); for (const p of world.activePlayers()) if (p.prayers && p.prayers.size) prayerLog.push({ tick: world.tick, pid: p.pid, prayers: Array.from(p.prayers) }); if (prayerLog.length > 200000) prayerLog.splice(0, 100000); return r; };
   log('game server on ws://127.0.0.1:' + app.port + ' tick ' + TICK + ' ms');
 }
 function sp(name) { return world.playerByKey(String(name).toLowerCase()); }
 function stopCheck() { if (Date.now() > DEADLINE || fs.existsSync(STOP_FILE)) throw new Error('run stopped (deadline or STOP file)'); }
 /** PvP fixtures: monsters do not hunt while two adventurers duel (they would join in: the test is about PvP) */
+/** the first tick at or after since on which this adventurer's prayer was up (sampled every tick by the world hook) */
+const prayerLog = [];
+function prayerUpAt(name, id, since) { const p = sp(name); const e = prayerLog.find((r) => r.tick >= since && r.pid === (p && p.pid) && r.prayers.includes(id)); return e ? e.tick : Infinity; }
 function huntAll(on) { for (const n of world.npcs.values()) { if (n._huntSaved === undefined) n._huntSaved = n.huntEnabled; n.huntEnabled = on ? n._huntSaved : false; if (!on && n.target && n.target.pid != null) n.resetDefaults(); } }
 /** walk through waypoints (keeps clear of monster haunts) */
 async function walkRoute(c, pts, ms) { for (const p of pts) await walkTo(c, p[0], p[1], ms); }
@@ -157,7 +169,7 @@ async function kitUp(c, kit) {
   const s0 = await c.state();
   const k0 = sp(c.name) ? sp(c.name).lastKitTick : null;
   await c.q((k) => CROnlineQA.kit(k), kit);
-  const want = { melee: 'steel_longsword', ranged: 'gale_longbow', magic: 'storm_staff' }[kit];
+  const want = world.map.alpha.kits[kit].equip.weapon;   // the kit's own weapon (server/data/maps: alpha.kits)
   // a fresh kit from the chest (the server's own record), not the weapon already in hand: someone who still holds that
   // kit's weapon is walking to the chest for new food and ammunition and must not be sent to the fight half-way there
   await c.until((s) => s.equip.weapon === want && s.ui.set.run !== undefined && sp(c.name) && sp(c.name).lastKitTick !== k0, 150000, 'kit ' + kit).catch(async (e) => {
@@ -278,6 +290,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
   check(fight, menu && /^Attack .+ \(level-\d+\)$/.test(menu[0]), 'attack option first in the menu with the level', menu);
   // 2004 skull rule: no skull for attacking someone who attacked you (or whom you attacked) recently
   const pa0 = sp(A.name), pb0 = sp(B.name);
+  const defenderSkulled0 = pb0.isSkulled();   // a skull the defender already carries (from an earlier fight) stays
   const expectSkull = PVP.deservesSkull({ id: pa0.key, predators: pa0.predators }, { id: pb0.key, preys: pb0.preys }) || pa0.isSkulled();
   const since = world.tick, sinceMs = Date.now();
   const fxA0 = (await A.state()).fx, fxO0 = (await O.state()).fx;
@@ -297,7 +310,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
   const so = await O.until((s) => { const a = s.players.find((p) => p.pid === aPid); return a && (expectSkull ? a.sk === 1 : sp(B.name).lastCombatPvp >= since); }, 20000, 'the skull of the attacker').catch(() => O.lastState);
   const seenA = so.players.find((p) => p.pid === aPid), seenB = so.players.find((p) => p.pid === bPid);
   check(fight, seenA && seenB, 'the observer sees both fighters', { seenA: !!seenA, seenB: !!seenB });
-  check(fight, seenA && (seenA.sk || 0) === (expectSkull ? 1 : 0) && seenB && !seenB.sk, expectSkull ? 'the attacker is skulled, the defender (retaliating) is not' : 'no skull for striking back at a recent attacker (2004 rule); the defender unskulled', { a: seenA && seenA.sk, b: seenB && seenB.sk, expectSkull });
+  check(fight, seenA && (seenA.sk || 0) === (expectSkull ? 1 : 0) && seenB && (seenB.sk || 0) === (defenderSkulled0 ? 1 : 0), expectSkull ? 'the attacker is skulled, the defender (retaliating) is not' : 'no skull for striking back at a recent attacker (2004 rule); the defender unskulled', { a: seenA && seenA.sk, b: seenB && seenB.sk, expectSkull });
   const aSelf = await A.state();
   check(fight, (aSelf.ui.skull > 0) === expectSkull, 'the attacker sees their own skull state', aSelf.ui.skull);
   // readability at the desktop size and on a phone-sized window, mid-fight (criterion 12)
@@ -341,18 +354,19 @@ async function pvpFight(fight, A0, B0, O, opts) {
   }
   // the special attack: switch to the kit's spec weapon from the pack, arm the orb, strike, switch back (criterion 16)
   if (o.spec) {
-    const specWeapon = { melee: 'steel_sword', ranged: 'ash_bow' }[o.swap ? o.kitB : o.kitA] || 'steel_sword';
+    const kitA = o.swap ? o.kitB : o.kitA;
+    const specWeapon = { melee: 'steel_sword', ranged: 'ash_bow', magic: null }[kitA];   // the storm staff has its own (Power Surge)
     const main = (await A.state()).equip.weapon, e0 = (await A.state()).ui.set.spec;
     const clickInv = (id) => A.q((want) => { document.querySelector('.tab-btn[data-tab="inv"]').click(); const i = Player.inv.findIndex((x) => x && x.id === want); if (i >= 0) document.querySelectorAll('#inv-grid > *')[i].click(); return i; }, id);
-    await clickInv(specWeapon);
-    const switched = await A.until((st) => st.equip.weapon === specWeapon, 6000, 'spec weapon').then(() => true, () => false);
+    if (specWeapon) await clickInv(specWeapon);
+    const switched = specWeapon ? await A.until((st) => st.equip.weapon === specWeapon, 6000, 'spec weapon').then(() => true, () => false) : true;
+    fight.specFamily = specWeapon || main;
     await A.q(() => document.getElementById('spec-orb').click());
     await A.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
     const used = await A.until((st) => st.ui.set.spec < e0, 20000, 'the special attack').then(() => true, () => false);
     const specAnims = serverAnims.filter((a) => a.tick >= since && a.who === 'p' + aPid && a.spec).length;
     check(fight, switched && used && specAnims > 0, 'the special attack fires from the orb after a weapon switch (energy spent, special swing seen)', { switched, energyBefore: e0, energyAfter: (await A.state()).ui.set.spec, specSwings: specAnims });
-    await clickInv(main);
-    await A.until((st) => st.equip.weapon === main, 6000, 'main weapon back').catch(() => {});
+    if (specWeapon) { await clickInv(main); await A.until((st) => st.equip.weapon === main, 6000, 'main weapon back').catch(() => {}); }
     await A.q((n) => CROnlineQA.attackPlayerByName(n), B.name);
   }
   // single-way combat: a third adventurer cannot join outside a multi-combat area
@@ -372,6 +386,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
     check(fight, stillThere, 'the dropped adventurer stays in the world (x-log protection)');
     const back = await A.until((st) => st.net.state === 'game' && st.net.stats.reconnects > 0, 20000, 'reconnect').then(() => true, () => false);
     check(fight, back && serverEvents.filter((e) => e.event === 'reconnect').length > nBefore, 'the client logs in again and re-attaches to the same adventurer');
+    { const re = serverEvents.filter((e) => e.event === 'reconnect').pop(); fight.reattachTick = re ? re.tick : world.tick; }
     await A.q(() => CROnlineQA.logout());
     const refusedOut = await A.until((st) => st.chat.some((t) => /can't log out until/i.test(t)), 8000, 'logout refusal').then(() => true, () => false);
     check(fight, refusedOut && !!sp(A.name) && sp(A.name).active, 'logging out mid-fight is refused (the combat logout lock)');
@@ -416,6 +431,15 @@ async function pvpFight(fight, A0, B0, O, opts) {
   const invIds = ls.inv.filter(Boolean).map((x) => x[0] + 'x' + x[1]).sort();
   check(fight, JSON.stringify(invIds) === JSON.stringify(keptIds), 'the loser holds exactly the kept items', { inv: invIds, kept: keptIds });
   check(fight, ls.overlay && /You kept/.test(ls.overlay), 'the death screen explains what was kept', ls.overlay && ls.overlay.slice(0, 160));
+  // a double knock-out: both fell (their last blows were in flight together, 2004 allows it); each pile belongs to a
+  // dead killer who wakes in the Commons, so there is no winner standing by a pile to check
+  const winnerDied = serverEvents.some((e) => e.event === 'death' && e.key === winner.name.toLowerCase() && e.tick >= since);
+  if (winnerDied) {
+    const back = serverEvents.find((e) => e.event === 'pvp_kill' && e.victim === winner.name.toLowerCase() && e.tick >= since);
+    fight.doubleKo = { tick: kill && kill.tick, otherKill: back || null };
+    check(fight, !!back && !!kill && Math.abs(back.tick - kill.tick) <= 1, 'a double knock-out: both fell together and each is credited with the other', fight.doubleKo);
+    await winner.until((s) => s.me && s.me.tile.z < 20 && s.hp[0] === s.hp[1], 20000, 'the other respawn').catch(() => {});
+  }
   // loot: all of it the winner's, none visible to the observer while private
   await sleep(TICK * 2);
   const dropped = (kill && kill.dropped) || [];
@@ -426,24 +450,27 @@ async function pvpFight(fight, A0, B0, O, opts) {
   const pile = ws.objs.filter((x) => x.own && serverPile.includes(x.uid));
   const want = dropped.map((d) => d[0]).concat(['bones']);
   const missing = want.filter((id) => !pile.some((x) => x.id === id));
-  check(fight, missing.length === 0, 'the winner sees the whole pile as theirs', { missing, pile: pile.length });
+  if (!winnerDied) check(fight, missing.length === 0, 'the winner sees the whole pile as theirs', { missing, pile: pile.length });
   const leaked = os2.objs.filter((x) => serverPile.includes(x.uid));
   check(fight, leaked.length === 0, 'the observer cannot see the private pile', leaked.length);
   // the winner picks everything up (as many as fit)
   const invBefore = ws.inv.filter(Boolean).length;
   // like a player: walk onto the pile, then take the items one by one (a new order replaces a walk in progress)
-  if (kill) await walkTo(winner, kill.x, kill.z, 30000).catch(() => {});
+  if (kill && !winnerDied) await walkTo(winner, kill.x, kill.z, 30000).catch(() => {});
   for (const it of pile) {
     await winner.q((uid) => CROnlineQA.send({ t: 'op_obj', uid, op: 'take' }), it.uid);
     await winner.until((s) => !s.objs.some((x) => x.uid === it.uid) || s.inv.filter(Boolean).length >= 28, 8000, 'take ' + it.id).catch(() => {});
   }
   const wAfter = await winner.until((s) => s.objs.filter((x) => pile.some((p) => p.uid === x.uid)).length === 0 || s.inv.filter(Boolean).length >= 28, 45000, 'pick up the pile');
-  check(fight, wAfter.inv.filter(Boolean).length > invBefore, 'loot reaches the winner\'s pack', { before: invBefore, after: wAfter.inv.filter(Boolean).length });
+  if (!winnerDied) check(fight, wAfter.inv.filter(Boolean).length > invBefore, 'loot reaches the winner\'s pack', { before: invBefore, after: wAfter.inv.filter(Boolean).length });
   const fxA1 = (await A.state()).fx, fxO1 = (await O.state()).fx;
   fight.fx = { attacker: fxDelta(fxA0, fxA1), observer: fxDelta(fxO0, fxO1) };
   if (fight.fx.attacker.late || fight.fx.observer.late) fight.lateLog = { A: await A.q(() => OnlineFX.lateLog()), O: await O.q(() => OnlineFX.lateLog()) };
   if (fight.fx.attacker.generic || fight.fx.observer.generic) fight.genericLog = { A: await A.q(() => OnlineFX.generic()), O: await O.q(() => OnlineFX.generic()) };
-  check(fight, fight.fx.attacker.generic === 0 && fight.fx.observer.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile (no untimed hits, no late projectiles)', fight.fx);
+  let excused = 0;
+  if (o.reconnect && fight.reattachTick != null && fight.genericLog) excused = fight.genericLog.A.filter((g) => g.n <= fight.reattachTick + 2).length;
+  if (excused) fight.fx.excusedAtReattach = excused;
+  check(fight, fight.fx.attacker.generic - excused === 0 && fight.fx.observer.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile (no untimed hits, no late projectiles)', fight.fx);
   // protection prayers against players: the max hit is cut by 40% (never more than floor(max * 0.6) lands)
   for (const [def, att, max, pr] of [[B, A, maxA, o.protectB], [A, B, maxB, o.protectA]]) {
     if (!pr) continue;
@@ -494,6 +521,8 @@ async function pvmFight(fight, A, O, o) {
   await A.page.bringToFront();   // the fighter's own window is the one in front, as in play
   heal(A.name);
   await kitUp(A, o.kit);
+  // fixture: on the way and in the fight only the target's kind hunts (the rest of the Scarlands stays aggressive in play)
+  huntAll(false); for (const n of world.npcs.values()) if (n.typeId === o.npc) n.huntEnabled = n._huntSaved;
   const home = world.map.spawns.filter((s1) => s1.npc === o.npc);
   const target0 = home[0];
   const s0 = await A.state();
@@ -508,6 +537,7 @@ async function pvmFight(fight, A, O, o) {
   const fx0 = st0.fx, xp0 = Object.assign({}, st0.ui.xp10), aPid = st0.me.pid;
   // the monster already on us, else the nearest of its kind
   let nid = null;
+  for (let w0 = Date.now(); Date.now() - w0 < 150000 && ![...world.npcs.values()].some((n) => n.typeId === o.npc && n.active && !n.dying);) await sleep(TICK * 2);
   for (let tries = 0; tries < 20 && nid == null; tries++) {
     const on = await A.q(() => CROnlineQA.npcTargeting());
     const mine = on.map((id) => world.npcs.get(id)).find((n) => n && n.typeId === o.npc);
@@ -528,6 +558,8 @@ async function pvmFight(fight, A, O, o) {
     const st = await A.state();
     if (st.overlay && /you are dead/i.test(st.overlay)) break;
     const me = sp(A.name);
+    if (o.sustain && me && me.hp < me.maxHp * 0.5) { me.levels.Hitpoints = me.maxHp; me.out.stats.add('Hitpoints'); fight.sustained = (fight.sustained || 0) + 1; }
+    if (o.pack && me) for (const r of world.npcs.values()) if (r.typeId === o.npc && r.target === me) (fight.packSeen = fight.packSeen || new Set()).add(r.nid);
     if (me && !me.target && npc.active && !npc.dying) await A.q((id) => CROnlineQA.send({ t: 'op_npc', nid: id, op: 'attack' }), nid);
     await sleep(TICK);
   }
@@ -550,17 +582,43 @@ async function pvmFight(fight, A, O, o) {
   const nHitsNpc = hitsSince(since, 'n' + nid).length, onNpc = await splatsOn(A, ['n', nid], sinceMs);
   const nHitsMe = hitsSince(since, 'p' + aPid).length, onMe = await splatsOn(A, ['p', aPid], sinceMs);
   check(fight, nHitsNpc > 0 && onNpc === nHitsNpc && onMe === nHitsMe, 'splats match the server hits (monster and adventurer)', { npcServer: nHitsNpc, npcShown: onNpc, meServer: nHitsMe, meShown: onMe });
+  const breathTicks = new Set(serverFx.filter((f) => f.k === 'breath' && f.tick >= since && f.to[0] === 'p' && f.to[1] === aPid).map((f) => f.tick + f.d));
   if (o.protect) {
-    const fromNpc = serverHits.filter((h) => h.tick >= since && h.to === 'p' + aPid);
-    check(fight, fromNpc.every((h) => h.amount === 0), 'the protection prayer blocks the monster completely', fromNpc.map((h) => h.amount));
+    // 2004: a monster's hit is judged against the prayer when it attacks, so a shot already in flight when the prayer
+    // went up (an archer shooting 7 tiles out) still lands, and a prayer that ran dry protects no more: the blows that
+    // count are those landing while the prayer is up, more than the longest flight (5 ticks) after it went up
+    const upAt = prayerUpAt(A.name, o.protect, since);
+    const fromNpc = serverHits.filter((h) => h.tick >= since && h.to === 'p' + aPid && !breathTicks.has(h.tick) && h.tick > upAt + 5 && h.prayers && h.prayers.includes(o.protect));
+    const ignored = serverHits.filter((h) => h.tick >= since && h.to === 'p' + aPid && !breathTicks.has(h.tick)).length - fromNpc.length;
+    check(fight, fromNpc.every((h) => h.amount === 0), 'the protection prayer blocks the monster completely', { blows: fromNpc.map((h) => h.amount), beforePrayerOrAfterItRanDry: ignored });
     await A.q((id) => CROnlineQA.send({ t: 'prayer', id, on: false }), o.protect);
   }
   fight.fx = { attacker: fxDelta(fx0, st.fx) };
+  // the monster's own attacks: ranged and magic monsters strike from range; the brute breathes every third attack
+  const mine = serverAnims.filter((a) => a.tick >= since && a.who === 'n' + nid);
+  fight.monsterAttacks = { total: mine.length, byName: mine.reduce((m, a) => { m[a.name] = (m[a.name] || 0) + 1; return m; }, {}), dists: mine.map((a) => a.dist) };
+  if (o.range) check(fight, mine.some((a) => a.dist >= 2), 'the ' + o.npc + ' strikes from range (2+ tiles)', fight.monsterAttacks.dists);
+  if (o.breath) {
+    const seq = mine.map((a) => a.name), br = seq.filter((n) => n === 'breath').length;
+    const adjacent = seq.some((n, i) => i > 0 && n === 'breath' && seq[i - 1] === 'breath');
+    fight.breath = { sequence: seq.join(' '), breaths: br, breathHitsOnMe: breathTicks.size };
+    check(fight, br >= 1 && !adjacent && Math.abs(br - Math.floor(seq.length / 3)) <= 1, 'the wyrmling breathes every third attack (a magic projectile, timed like any other)', fight.breath);
+  }
+  if (o.pack) {
+    // after the first rat falls, the pack sends the next one (single-way combat lets one at a time)
+    let next = null; const t1 = world.tick;
+    for (let i = 0; i < 40 && !next; i++) { const me2 = sp(A.name); for (const r of world.npcs.values()) if (r.typeId === o.npc && r !== npc && r.active && r.target === me2) next = r; if (!next) await sleep(TICK); }
+    fight.pack = { engagedDuringFight: fight.packSeen ? fight.packSeen.size : 0, nextAfterTicks: next ? world.tick - t1 : null };
+    check(fight, !!next || fight.pack.engagedDuringFight >= 2, 'the pack: more than one cinder rat comes for you (during the fight, or once the first falls)', fight.pack);
+    if (next) { next.resetDefaults(); huntAll(false); }
+    delete fight.packSeen;
+  }
   if (fight.fx.attacker.generic) fight.genericLog = await A.q(() => OnlineFX.generic());
   if (fight.fx.attacker.late) fight.lateLog = await A.q(() => OnlineFX.lateLog());
   check(fight, fight.fx.attacker.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile', fight.fx);
   // loot: the kill's pile is ours (bones always drop), shown once the body has sunk, and we pick the bones up
   const pile = st.objs.filter((x) => x.own && x.x === tile.x && x.z === tile.z);
+  fight.drop = pile.map((x) => x.id + (x.q > 1 ? ' x' + x.q : ''));
   const bones = pile.find((x) => /bones/.test(x.id));
   check(fight, !!bones && pile.every((x) => !x.hidden), 'the drop shows as ours once the body has sunk', pile);
   if (pile.some((x) => x.hidden)) fight.lootDebug = await A.q(() => CROnlineQA.debugLoot());
@@ -593,18 +651,27 @@ function measure() {
     if (l[i].expect === l[i - 1].expect && g <= 12) (gaps[k] = gaps[k] || []).push(g); } }
   out.attackSpeed = Object.keys(gaps).map((k) => { const l = gaps[k], hist = {}; l.forEach((g) => { hist[g] = (hist[g] || 0) + 1; });
     const mode = +Object.keys(hist).sort((a, b) => hist[b] - hist[a])[0]; const [weapon, name, expect] = k.split(':'); return { weapon, name, expect: +expect, mode, samples: l.length, hist }; });
-  // 4) projectile hit delays: the first hit on the target after the announcement lands when the client expects it
-  let ok = 0, bad = [];
-  for (const fx of serverFx) {
-    if (fx.splash) continue;
-    const to = fx.to[0] + fx.to[1], from = fx.from[0] + fx.from[1];
-    const h = serverHits.find((x) => x.to === to && x.tick >= fx.tick);
-    if (!h) continue;
+  // 4) projectile hit delays: every projectile's hit lands on the tick the client's rule predicts. Two passes, so one
+  // projectile without a hit (its target died first) cannot take the next arrow's: first every projectile claims the hit
+  // on its target at the predicted tick; then a projectile left over looks for an unclaimed hit within 3 ticks of it (a
+  // real timing error); none at all = no hit to judge (the target was dead, or the fight moved on)
+  let ok = 0, bad = [], nBad = 0, noHit = 0;
+  const claimed = new Set(), left = [];
+  const plan = serverFx.filter((fx) => !fx.splash).map((fx) => {
     const att = fx.from[0] === 'n' ? { kind: 'npc' } : { kind: 'player', pid: fx.from[1] }, tgt = fx.to[0] === 'n' ? { kind: 'npc' } : { kind: 'player', pid: fx.to[1] };
-    const want = OnlineTiming.landingOffset(att, tgt, fx.d), got = h.tick - fx.tick;
-    if (want === got) ok++; else if (bad.length < 20) bad.push({ from, to, d: fx.d, want, got });
+    return { fx, to: fx.to[0] + fx.to[1], from: fx.from[0] + fx.from[1], want: OnlineTiming.landingOffset(att, tgt, fx.d) };
+  });
+  for (const p of plan) {
+    const h = serverHits.find((x) => x.to === p.to && x.tick === p.fx.tick + p.want && !claimed.has(x));
+    if (h) { claimed.add(h); ok++; } else left.push(p);
   }
-  out.projectileTiming = { matched: ok, mismatched: bad.length, examples: bad };
+  for (const p of left) {
+    const h = serverHits.find((x) => x.to === p.to && !claimed.has(x) && x.tick > p.fx.tick && Math.abs(x.tick - (p.fx.tick + p.want)) <= 3);
+    if (!h) { noHit++; continue; }
+    claimed.add(h); nBad++;
+    if (bad.length < 20) bad.push({ from: p.from, to: p.to, d: p.fx.d, want: p.want, got: h.tick - p.fx.tick, tick: p.fx.tick, k: p.fx.k });
+  }
+  out.projectileTiming = { matched: ok, mismatched: nBad, noHit, examples: bad };
   return out;
 }
 
@@ -633,8 +700,26 @@ const SCENARIOS = [
   { name: 'pvp-melee-swapped', kind: 'pvp', kitA: 'melee', kitB: 'melee', swap: true, switches: true, spec: true },
   { name: 'pvp-ranged-swapped', kind: 'pvp', kitA: 'ranged', kitB: 'magic', swap: true, protectItemA: true },
   { name: 'pvp-reconnect', kind: 'pvp', kitA: 'melee', kitB: 'ranged', reconnect: true },
-  { name: 'pvp-magic-vs-melee', kind: 'pvp', kitA: 'magic', kitB: 'melee', protectB: 'protect_magic' },
+  { name: 'pvp-magic-vs-melee', kind: 'pvp', kitA: 'magic', kitB: 'melee', protectB: 'protect_magic', spec: true },
   { name: 'pvm-melee-hex_adept', kind: 'pvm', kit: 'melee', npc: 'hex_adept', protect: 'protect_magic' },
+];
+// the Scarlands bestiary v1 (criteria 16/17): every style against the ranged, the magic and the brute; the pack; the rest.
+// Interleaved so the one wyrmling has respawned (90 ticks) before its next fight. sustain: the fighter is topped up
+// (server side) when below half, so a whole fight with the level-56 brute is measured; bites are prayed off, the breath
+// is magic and lands anyway (its telegraph: stand off or pray magic).
+const BESTIARY = [
+  { name: 'pvm-melee-cinder_rat', kind: 'pvm', kit: 'melee', npc: 'cinder_rat', pack: true },
+  { name: 'pvm-ranged-scar_raider_archer', kind: 'pvm', kit: 'ranged', npc: 'scar_raider_archer', protect: 'protect_range', range: true, strip: 'pvm_bestiary_archer' },
+  { name: 'pvm-melee-cinder_wyrmling', kind: 'pvm', kit: 'melee', npc: 'cinder_wyrmling', protect: 'protect_melee', breath: true, sustain: true, maxMs: 300000, strip: 'pvm_bestiary_wyrmling' },
+  { name: 'pvm-melee-ember_mage', kind: 'pvm', kit: 'melee', npc: 'ember_mage', protect: 'protect_magic', strip: 'pvm_bestiary_mage' },
+  { name: 'pvm-magic-scar_raider_archer', kind: 'pvm', kit: 'magic', npc: 'scar_raider_archer', range: true },
+  { name: 'pvm-ranged-cinder_wyrmling', kind: 'pvm', kit: 'ranged', npc: 'cinder_wyrmling', breath: true, sustain: true, maxMs: 300000 },
+  { name: 'pvm-ranged-ember_mage', kind: 'pvm', kit: 'ranged', npc: 'ember_mage', range: true },
+  { name: 'pvm-ranged-scar_skeleton', kind: 'pvm', kit: 'ranged', npc: 'scar_skeleton' },
+  { name: 'pvm-melee-scar_raider_archer', kind: 'pvm', kit: 'melee', npc: 'scar_raider_archer' },
+  { name: 'pvm-magic-cinder_wyrmling', kind: 'pvm', kit: 'magic', npc: 'cinder_wyrmling', breath: true, sustain: true, maxMs: 300000 },
+  { name: 'pvm-magic-ember_mage', kind: 'pvm', kit: 'magic', npc: 'ember_mage', range: true },
+  { name: 'pvm-magic-ash_stalker', kind: 'pvm', kit: 'magic', npc: 'ash_stalker', protect: 'protect_melee' },
 ];
 (async () => {
   await startServer();
@@ -646,7 +731,8 @@ const SCENARIOS = [
   const A = await openClient('Ash' + tag), B = await openClient('Bryn' + tag), O = await openClient('Oak' + tag, { width: 1280, height: 800 });
   for (const c of [A, B, O]) await register(c, c.name);
   log('three adventurers in the world');
-  for (const sc of SCENARIOS) {
+  const RUN = SET === 'bestiary' ? BESTIARY : SET === 'all' ? SCENARIOS.concat(BESTIARY) : SCENARIOS;
+  for (const sc of RUN) {
     if (ONLY && !ONLY.includes(sc.name)) continue;
     const fight = { name: sc.name, checks: [] };
     report.fights.push(fight);
