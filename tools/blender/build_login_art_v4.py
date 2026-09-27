@@ -32,7 +32,7 @@ PAL = {
     'n_pillar': (.55, .58, .57), 'n_pillar_dk': (.42, .45, .44), 'n_arch': (.53, .56, .55), 'vault': (.40, .41, .40), 'groove': (.22, .22, .22),
     'e_mist': (.80, .86, .80), 'iron': (.34, .34, .36), 'iron_dk': (.18, .18, .19), 'steel': (.62, .64, .67),
     'e_fire_dk': (.84, .26, .04), 'e_fire': (1.0, .58, .10), 'e_fire_core': (1.0, .90, .46), 'e_ember': (1.0, .62, .18), 'coal': (.14, .10, .08),
-    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.38, .39, .40), 'key': (.37, .38, .40), 'key_dk': (.28, .29, .31), 'helm_dk': (.52, .54, .58), 'band': (.26, .26, .28), 'helm': (.80, .82, .85), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
+    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.38, .39, .40), 'key': (.31, .32, .34), 'key_dk': (.24, .25, .27), 'helm_dk': (.52, .54, .58), 'band': (.26, .26, .28), 'helm': (.80, .82, .85), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
     'n_rim': (.50, .51, .55), 'v_marble': (.44, .45, .50), 'rim_groove': (.16, .16, .18),
     'btn_face': (.30, .30, .33), 'btn_face_hi': (.40, .40, .44), 'btn_face_red': (.42, .15, .10), 'btn_face_red_hi': (.52, .20, .13), 'btn_face_off': (.22, .22, .23),
     'btn_rim': (.56, .56, .60), 'btn_rim_red': (.62, .40, .34), 'btn_rim_off': (.40, .40, .42),
@@ -384,12 +384,25 @@ def emblem_helm(c, s=1.0):
     m.lathe([(.45, .0), (.46, .1), (.45, .2)], 20, 'band')
     for a in [math.pi * (1.25 + .125 * k) for k in range(5)]:
         m.sph((math.cos(a) * .46, math.sin(a) * .46, .1), .032, 'helm', 5, 3)
-    m.hull(cbox((0, -.44, -.14), (.06, .045, .28), .02), 'band')              # nasal
+    m.hull(cbox((0, -.44, -.14), (.07, .05, .28), .02), 'helm_dk')           # nasal
     for sx in (-1, 1):                                                         # cheek plates
         m.hull([Vector((sx * x, y, z)) for x in (.2, .42) for y in (-.37, -.2) for z in (-.02, .08)] + [Vector((sx * .32, -.29, -.5)), Vector((sx * .4, -.2, -.48))], 'steel')
         m.box((sx * .21, -.41, .0), (.13, .02, .035), 'ink')                   # eye slit
     m.hull(cbox((0, .0, .64), (.055, .32, .05), .02), 'band')                 # crest ridge
     ob = to_object(m, 'helm'); ob.location = c; ob.scale = (s, s, s); return ob
+def ink_shell(ob, t=.03):
+    """an ink outline round one object (the inverted-hull trick): a Solidify shell pushed outward, normals flipped, in a
+    black material that hides its front faces, so every piece of the emblem keeps a crisp dark edge at pixel size"""
+    ink = bpy.data.materials.get('ink_shell')
+    if not ink:
+        ink = bpy.data.materials.new('ink_shell'); ink.use_nodes = True; nt = ink.node_tree
+        for n in list(nt.nodes): nt.nodes.remove(n)
+        em = nt.nodes.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (.008, .007, .006, 1); out = nt.nodes.new('ShaderNodeOutputMaterial')
+        nt.links.new(em.outputs[0], out.inputs['Surface']); ink.use_backface_culling = True
+    ob.data.materials.append(ink)
+    md = ob.modifiers.new('ink', 'SOLIDIFY'); md.thickness = t / max(ob.scale); md.offset = 1.0; md.use_flip_normals = True
+    md.material_offset = len(ob.data.materials) - 1; md.use_rim = False
+    return ob
 def carve(target, cutters, mat_name='cut', tolerant=True):
     """boolean-subtract each cutter mesh from target in turn (EXACT solver); the cut faces take mat_name.
     tolerant=False tries the strict solve first (it keeps letter counters) and falls back to the hole-tolerant one when
@@ -482,10 +495,10 @@ def render_logo():
     # it on every side, so the helm clearly sits over the crossing
     cz = kz + .12; a = math.radians(40)
     d = Vector((math.sin(a), 0, math.cos(a))); ss = 1.3        # sword: pommel lower-left, point upper-right
-    obs.append(emblem_sword(tuple(Vector((0, -.55, cz)) - d * 1.0 * ss), ss, rot=(0, 40, 0)))
+    obs.append(ink_shell(emblem_sword(tuple(Vector((0, -.55, cz)) - d * 1.0 * ss), ss, rot=(0, 40, 0))))
     d2 = Vector((-math.sin(a), 0, math.cos(a))); hs = 1.02     # war hammer: butt lower-right, head upper-left
-    obs.append(emblem_hammer(tuple(Vector((0, -.5, cz)) - d2 * 1.08 * hs), hs, rot=(0, -40, 0)))
-    obs.append(emblem_helm((0, -1.4, kz + .08), 1.0))
+    obs.append(ink_shell(emblem_hammer(tuple(Vector((0, -.5, cz)) - d2 * 1.08 * hs), hs, rot=(0, -40, 0))))
+    obs.append(ink_shell(emblem_helm((0, -1.4, kz + .08), 1.0), .035))
     ortho_render('logo', obs, 1600, 600, el=9, yaw=0, key_e=1.0, amb=.34, shadows=False)
     for o in obs: bpy.data.objects.remove(o, do_unlink=True)
     MANIFEST.append({'name': 'logo', 'raw': 'logo.png', 'kind': 'sprite', 'out': {'w': 400, 'h': 150}, 'file': 'login/logo.png', 'colors': 26})
