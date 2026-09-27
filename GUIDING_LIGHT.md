@@ -14,7 +14,7 @@ letter, not a clone. Warm, low-poly, flat-shaded 2007 charm. (Full vision: `GOAL
 1. **Combat math + XP curve are OSRS-exact.** Never regress. (`game3_systems.js`, `game1_data.js`.)
    Browser 1.0 targets at least ~3× effective progression through action/quest/reward XP and unlock
    pacing—not by replacing or distorting the XP table.
-2. **1 world unit = 1 tile. Movement is 4-directional (N/S/E/W), never diagonal.**
+2. **1 world unit = 1 tile. Movement is 8-directional like 2004 (owner decision 2026-09-26; diagonal only when both orthogonal neighbours are walkable).**
 3. **Art: cozy 2007/OSRS, low-poly flat-shaded, WARM — cohesive over individually-cool.** Consistency wins.
 4. **Items are 2D icon sprites; 3D is only world props + worn gear.**
 5. **NPCs: only MODELLED (GLB) NPCs, added LAST** (user, 2026-07-04). Never mutate shared `NPC_TYPES` —

@@ -27,7 +27,7 @@ Plain **global `<script>` tags** (NOT ES modules) loaded in order from `index.ht
   `javascript_tool` can't see them). Confirmed globals usable from `javascript_tool`: `player`,
   `Player`, `scene`, `THREE`, `groundY`, `WORLD`, `SHOPS`, `ITEMS`, `SPELLS`, `UI`. The game's own
   functions (e.g. `orderWalk`, `worldTick`) are callable in-file but usually **not** on `window`.
-- **1 world unit = 1 tile.** Movement is **4-directional (N/S/E/W) only — never diagonal.**
+- **1 world unit = 1 tile.** Movement is **8-directional like 2004** (owner decision 2026-09-26; a diagonal step only when both orthogonal neighbours are walkable). Replaces the old 4-direction rule.
   `computePath` is a 4-dir tile BFS returning tile centres (no string-pulling).
 - **Combat math + the XP curve are OSRS-exact** (`game3_systems.js` accuracy/max-hit; `game1_data.js`
   XP_TABLE). **Do not regress them.**
