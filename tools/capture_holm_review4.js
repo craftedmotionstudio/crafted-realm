@@ -53,6 +53,20 @@ const VIEWS={
   rec.feet=await page.evaluate(()=>{const f=scene.getObjectByName('CellarFloor'),b=new THREE.Box3().setFromObject(f),p=player.position;return {y:+p.y.toFixed(3),floorTop:+b.max.y.toFixed(3),onFloor:Math.abs(p.y-b.max.y)<.08&&p.x>b.min.x&&p.x<b.max.x&&p.z>b.min.z&&p.z<b.max.z,info:HolmGuideCellar.info()}});
   await page.evaluate(()=>{camCtl.yaw=0.5;camCtl.pitch=1.0;camCtl.dist=8});const f=await snap(page,'4_cellar_real');
   const u=await L.clickNamed(page,'CellarLadder');rec.upClick=u;rec.up=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.surface==='ground'},null,40000);return f},
+ // 5: every building with a cutaway, from inside (the walls clipped over the adventurer: no floating beams or pictures)
+ async interiors(page,rec){rec.list=[];
+  const spots=[['bakehouse','prep'],['bakehouse','pantry'],['lodge','map'],['lodge','guest'],['keep','hall'],['bank','counter'],['bank','clerk'],['mage','lectern'],['mage','runes'],['lastlight','stores'],['mill','stones'],['haven','notice'],['quarry','bench']];
+  await page.evaluate(()=>HolmIslandCurriculum.qaGrant(HolmCurriculumProgress.lessonIds.slice(0,-1)));await sleep(2500);
+  for(const [b,t] of spots){const s=await page.evaluate((b,t)=>HolmArrivalQA.qaStance(b,t),b,t);if(!s){rec.list.push({b,t,error:'no stance'});continue}
+   for(const [k,yaw] of [['a',0.7],['b',-2.3]]){await page.evaluate((id,yaw)=>{HolmArrivalQA.qaPlace(id);camCtl.yaw=yaw;camCtl.pitch=0.95;camCtl.dist=10},s.id,yaw);
+    rec.list.push({b,t,k,surface:s.surface,file:await snap(page,'5_in_'+b+'_'+t+'_'+k)})}}
+  return rec.list.length},
+ // 5: the gated doorways (Quest Lodge "two doors on top of each other", and the others with a door of their own), shut for
+ // a new adventurer, then open once earned
+ async doors(page,rec){const G=[['lodge-door',35.5,53.2,0],['bank-door',86.5,61.2,0],['lastlight-door',115.8,26.5,-Math.PI/2],['bakehouse-door',45.2,68.5,Math.PI/2]];
+  const shoot=async tag=>{for(const [id,x,z,yaw] of G){await look(page,x,z,[yaw,0.7,7]);rec[tag+'_'+id]=await page.evaluate(id=>{const o=scene.getObjectByName('island-gate-'+id);return {open:HolmIslandGates.isOpen(id),propLeaf:!!o&&o.visible!==false}},id);await snap(page,'5_door_'+id+'_'+tag)}};
+  rec.at=await stand(page,40,60,'land',[0,1,10]);await shoot('shut');
+  await page.evaluate(()=>HolmIslandCurriculum.qaGrant(HolmCurriculumProgress.lessonIds.slice(0,-1)));await sleep(4000);await shoot('open');return true},
  // 9: the run orb on a new adventurer
  async run(page,rec){rec.runOn=await page.evaluate(()=>Player.runOn);rec.at=await stand(page,63,112,'exterior|land',[0.6,1.1,14]);return snap(page,'9_run_orb')},
  // 8: the statue and the tree beside it, seen at the spawn

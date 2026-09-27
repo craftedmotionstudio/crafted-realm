@@ -137,11 +137,12 @@ var HolmIslandExtras=(function(){
    var hr=tpl.clone(true);hr.position.set(0,0,0);hr.rotation.set(0,0,0);hatches[L0.id]=place(hr,h.x,hn.y+hb.placement.y,h.z,h.yaw||0);hatches[L0.id].name='island-hatch-'+L0.id}
   for(var i=0;i<data.buildings.length;i++){var b=data.buildings[i],src=b.source,buf=await bytes(src.model),p=b.placement;
    need(await sha(buf)===b.graph.modelSha256,b.id+' model bytes differ from the model its navigation graph was measured on');
-   var gltf=await parse(T,buf);place(gltf.scene,p.x,p.y,p.z,0).name='island-building-'+b.id;if(src.look&&typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.prepareModel(T,gltf.scene);models[b.id]={scene:gltf.scene,placement:p};
+   var gltf=await parse(T,buf);place(gltf.scene,p.x,p.y,p.z,0).name='island-building-'+b.id;if(src.look&&typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.prepareModel(T,gltf.scene);models[b.id]={scene:gltf.scene,placement:p,actions:{}};
    if(gltf.animations&&gltf.animations.length){var mx=new T.AnimationMixer(gltf.scene);gltf.animations.forEach(function(c){
-     var a=mx.clipAction(c);
-     // the lodge graph was measured with its door open: hold the door at the open pose so walls match walking
-     if(/DoorOpenClose$/.test(c.name)){a.setLoop(T.LoopOnce,1);a.clampWhenFinished=true;a.play();a.time=c.duration;a.paused=true}
+     var a=mx.clipAction(c);models[b.id].actions[c.name]=a;
+     // a door's authored swing (the lodge's runs shut -> open -> shut): paused, shut; the island gate that uses this door
+     // drives its time (HolmIslandGates, owner review 4: 'the door doesn't open')
+     if(/DoorOpenClose$/.test(c.name)){a.setLoop(T.LoopOnce,1);a.clampWhenFinished=true;a.play();a.time=0;a.paused=true}
      else if(!/^Door/.test(c.name))a.play()});mx.update(0);mixers.push(mx)}
    gltf.scene.parent.updateMatrixWorld(true);   // placed group first, so service boxes are in world space
    // the cutaway clips a building's shell parts by material: a material the shell shares with parts that stay whole (the
@@ -149,6 +150,23 @@ var HolmIslandExtras=(function(){
    // shell parts get their own copies (v2 land phase 6: the cavern's rock cap stayed drawn over the east drift)
    if(CUTAWAY[b.id]){var own=new Map();gltf.scene.traverse(function(n){if(!n.isMesh||!CUTAWAY[b.id].clip.test(partName(n,gltf.scene)))return;
     var cp=function(m){if(!m)return m;if(!own.has(m))own.set(m,m.clone());return own.get(m)};n.material=Array.isArray(n.material)?n.material.map(cp):cp(n.material)})}
+   // owner review 4 (2026-09-27): what hangs on the clipped walls, spans between them or stands in them (pictures, shelves,
+   // beams, frames, door leaves) is split off and clipped with them; what stands on a floor keeps its shape
+   // (HolmCutawayParts). Services, floors, stairs and animated parts (wheels, flames) are left whole; door leaves are cut.
+   if(CUTAWAY[b.id]&&typeof HolmCutawayParts!=='undefined')try{
+    var rr=CUTAWAY[b.id],anim=new Set(),svc=(SERVICES[b.id]||[]).map(function(s){return s.prefix}).filter(Boolean),lv={};
+    (gltf.animations||[]).forEach(function(c){c.tracks.forEach(function(t){anim.add(t.name.split('.')[0])})});
+    b.graph.nodes.forEach(function(n){if(!/Terrain$/.test(n.surface)){var k=Math.round(n.y*20)/20;lv[k]=(lv[k]||0)+1}});
+    var animOf=function(n){for(var q=n;q&&q!==gltf.scene;q=q.parent)if(q.name&&anim.has(q.name))return q.name;return null};
+    models[b.id].cut=HolmCutawayParts.prepare(T,gltf.scene,{name:function(n){return partName(n,gltf.scene)},levels:Object.keys(lv).filter(function(k){return lv[k]>=3}).map(Number),
+     ground:function(x,z){return sample(x,z)},
+     role:function(n,name){var an=animOf(n);if(an&&!/Door/i.test(an))return 'skip';if(!name)return 'skip';
+      if(rr.roof.test(name)||rr.clip.test(name))return 'cut';if(/Door/i.test(name)){n.userData.cutClip=true;n.material=Array.isArray(n.material)?n.material.map(function(m){return m&&m.clone()}):n.material&&n.material.clone();return 'cut'}
+      if(n.userData.islandFloor||/Stair|Step|Tread|Ladder|Deck|Pier|Walk/i.test(name))return 'keep';
+      if(svc.some(function(p){return name.indexOf(p)===0}))return 'keep';return 'process'}});
+   }catch(err){console.error('[HolmIslandExtras] cutaway parts '+b.id,err)}   // (door leaves stand in the wall: cut with it, kept whole and clickable, with their own material copies)
+   // model-space bottom of every part, for the upper-storey test (a part's geometry box ignores its node transform)
+   gltf.scene.traverse(function(n){if(n.isMesh)n.userData.cutMinY=new T.Box3().setFromObject(n).min.y-p.y});
    (SERVICES[b.id]||[]).forEach(function(s){
     var local=s.node||(b.graph.targets.filter(function(t){return t.id===s.target})[0]||{}).nodeId;need(local,b.id+' service '+s.label+' has no stance');
     var info={building:b.id,target:s.target,node:'b:'+b.id+':'+local,call:s.call,label:s.label,option:s.option,name:s.name,examine:s.examine,say:s.say},box=new T.Box3();   // option/name/examine: its old-school menu row (osrs_menu_world.js)
@@ -217,8 +235,9 @@ var HolmIslandExtras=(function(){
    if(typeof renderer!=='undefined'&&renderer)renderer.localClippingEnabled=true;
    M.scene.traverse(function(n){if(!n.isMesh)return;var name=partName(n,M.scene);
     n.visible=!r.roof.test(name);
-    if(r.upper.test(name)){if(!n.geometry.boundingBox)n.geometry.computeBoundingBox();n.visible=n.geometry.boundingBox.min.y<=localY+.45}
-    [].concat(n.material).forEach(function(mm){if(mm)mm.clippingPlanes=r.clip.test(name)?[clipPlane]:[]})});
+    // an upper-storey part shows only from its own floor up (owner review 4: the Quest Lodge's second storey hid the board)
+    if(r.upper.test(name)){var my=n.userData.cutMinY;if(my===undefined){if(!n.geometry.boundingBox)n.geometry.computeBoundingBox();my=n.geometry.boundingBox.min.y}n.visible=my<=localY+.45}
+    var cl=r.clip.test(name)||n.userData.cutClip===true;[].concat(n.material).forEach(function(mm){if(mm)mm.clippingPlanes=cl?[clipPlane]:[]})});
   }
   function update(dt,pose){mixers.forEach(function(mm){mm.update(dt)});cutaway(pose)}
   function dispose(){

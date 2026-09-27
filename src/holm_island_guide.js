@@ -11,6 +11,8 @@ var HolmIslandGuide=(function(){
  var st={last:'',t:0,pack:null};
  function world(o){if(!o)return null;var v=new THREE.Vector3(),b=new THREE.Box3().setFromObject(o);if(b.isEmpty())o.getWorldPosition(v);else{b.getCenter(v);v.y=b.max.y}return {x:v.x,y:v.y,z:v.z}}
  function named(n){return typeof scene!=='undefined'?scene.getObjectByName(n):null}
+ // a gated doorway's leaf: the prop leaf, or the building's own door that the gate drives (owner review 4)
+ function gateLeaf(id){return named('island-gate-'+id)||(typeof HolmIslandGates!=='undefined'&&HolmIslandGates.leafObject?HolmIslandGates.leafObject(id):null)}
  function byKind(kind,extra){var hit=null;scene.traverse(function(m){if(!hit&&m.isMesh&&m.userData&&m.userData.kind===kind&&(!extra||m.userData[extra[0]]===extra[1]))hit=m});return hit}
  function service(label,target){var hit=null;scene.traverse(function(m){var s=m.userData&&m.userData.islandService;if(!hit&&m.isMesh&&s&&s.label===label&&(!target||s.target===target))hit=m});return hit}
  function nearest(list){var best=null,d=Infinity;list.forEach(function(o){if(!o)return;var p=o.getWorldPosition(new THREE.Vector3()),h=Math.hypot(p.x-player.position.x,p.z-player.position.z);if(h<d){d=h;best=o}});return best}
@@ -53,7 +55,7 @@ var HolmIslandGuide=(function(){
    case 'relight_lastlight':{
     // the storm door, then the ladder on whichever floor the player is on, then the lever
     var y=player.position.y,base=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('lastlight','door'),rel=base?y-base.y:0;
-    if(!base||Math.hypot(player.position.x-base.x,player.position.z-base.z)>9)return {obj:named('island-gate-lastlight-door')||service('Climb-up ladder','ladder1-foot'),label:'Enter Lastlight'};
+    if(!base||Math.hypot(player.position.x-base.x,player.position.z-base.z)>9)return {obj:gateLeaf('lastlight-door')||service('Climb-up ladder','ladder1-foot'),label:'Enter Lastlight'};
     if(rel<1.5)return {obj:service('Climb-up ladder','ladder1-foot'),label:'Climb the ladder'};
     if(rel<4.5)return {obj:service('Climb-up ladder','ladder2-foot'),label:'Climb the ladder'};
     if(rel<7.5)return {obj:service('Climb-up ladder','ladder3-foot'),label:'Climb the ladder'};
@@ -69,7 +71,7 @@ var HolmIslandGuide=(function(){
   var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord(),surf=rec&&rec.surface||'';if(surf.indexOf('b:'+b+':')===0&&!/Terrain$/.test(surf))return a;   // already inside
   // standing at the doorway already: the marker goes on the thing itself (a tutor just inside, the station)
   var d=HolmArrivalQA.qaStance(b,DOOR[b]);if(d&&Math.hypot(player.position.x-d.x,player.position.z-d.z)<1.6&&Math.abs(player.position.y-d.y)<1)return a;
-  var gate=named('island-gate-'+b+'-door');if(gate)return {obj:gate,door:true,label:'Enter the '+NAMES[b]};
+  var gate=gateLeaf(b+'-door');if(gate)return {obj:gate,door:true,label:'Enter the '+NAMES[b]};
   return d?{point:d,label:'Enter the '+NAMES[b]}:a}
  // the Guide House (the arrival package, first lessons): the chart and the tools are inside, so from outside the
  // marker goes on its south door, "Open the door" while it is shut, as the first thing a new adventurer does

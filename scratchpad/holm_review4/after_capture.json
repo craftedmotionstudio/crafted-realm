@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:8109/?qaProfile=review4-after-mukef077",
+  "base": "http://127.0.0.1:8109/?qaProfile=review4-after-mukf2ezo",
   "tag": "after",
   "views": {
     "realflow": {
@@ -129,6 +129,280 @@
       },
       "up": true,
       "file": "after_4_cellar_real.jpg"
+    },
+    "interiors": {
+      "list": [
+        {
+          "b": "bakehouse",
+          "t": "prep",
+          "k": "a",
+          "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+          "file": "after_5_in_bakehouse_prep_a.jpg"
+        },
+        {
+          "b": "bakehouse",
+          "t": "prep",
+          "k": "b",
+          "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+          "file": "after_5_in_bakehouse_prep_b.jpg"
+        },
+        {
+          "b": "bakehouse",
+          "t": "pantry",
+          "k": "a",
+          "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+          "file": "after_5_in_bakehouse_pantry_a.jpg"
+        },
+        {
+          "b": "bakehouse",
+          "t": "pantry",
+          "k": "b",
+          "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+          "file": "after_5_in_bakehouse_pantry_b.jpg"
+        },
+        {
+          "b": "lodge",
+          "t": "map",
+          "k": "a",
+          "surface": "b:lodge:0:Lodge_GroundFloor_Boards",
+          "file": "after_5_in_lodge_map_a.jpg"
+        },
+        {
+          "b": "lodge",
+          "t": "map",
+          "k": "b",
+          "surface": "b:lodge:0:Lodge_GroundFloor_Boards",
+          "file": "after_5_in_lodge_map_b.jpg"
+        },
+        {
+          "b": "lodge",
+          "t": "guest",
+          "k": "a",
+          "surface": "b:lodge:0:Lodge_UpperFloor_Boards",
+          "file": "after_5_in_lodge_guest_a.jpg"
+        },
+        {
+          "b": "lodge",
+          "t": "guest",
+          "k": "b",
+          "surface": "b:lodge:0:Lodge_UpperFloor_Boards",
+          "file": "after_5_in_lodge_guest_b.jpg"
+        },
+        {
+          "b": "keep",
+          "t": "hall",
+          "k": "a",
+          "surface": "b:keep:1:Keep_Floor_Flags",
+          "file": "after_5_in_keep_hall_a.jpg"
+        },
+        {
+          "b": "keep",
+          "t": "hall",
+          "k": "b",
+          "surface": "b:keep:1:Keep_Floor_Flags",
+          "file": "after_5_in_keep_hall_b.jpg"
+        },
+        {
+          "b": "bank",
+          "t": "counter",
+          "k": "a",
+          "surface": "b:bank:0:Bank_FloorHall",
+          "file": "after_5_in_bank_counter_a.jpg"
+        },
+        {
+          "b": "bank",
+          "t": "counter",
+          "k": "b",
+          "surface": "b:bank:0:Bank_FloorHall",
+          "file": "after_5_in_bank_counter_b.jpg"
+        },
+        {
+          "b": "bank",
+          "t": "clerk",
+          "k": "a",
+          "surface": "b:bank:0:Bank_UpperFloorRug",
+          "file": "after_5_in_bank_clerk_a.jpg"
+        },
+        {
+          "b": "bank",
+          "t": "clerk",
+          "k": "b",
+          "surface": "b:bank:0:Bank_UpperFloorRug",
+          "file": "after_5_in_bank_clerk_b.jpg"
+        },
+        {
+          "b": "mage",
+          "t": "lectern",
+          "k": "a",
+          "surface": "b:mage:1:Mage_UpperFloorLibraryTiles",
+          "file": "after_5_in_mage_lectern_a.jpg"
+        },
+        {
+          "b": "mage",
+          "t": "lectern",
+          "k": "b",
+          "surface": "b:mage:1:Mage_UpperFloorLibraryTiles",
+          "file": "after_5_in_mage_lectern_b.jpg"
+        },
+        {
+          "b": "mage",
+          "t": "runes",
+          "k": "a",
+          "surface": "b:mage:2:Mage_FloorGroundTilesFlags",
+          "file": "after_5_in_mage_runes_a.jpg"
+        },
+        {
+          "b": "mage",
+          "t": "runes",
+          "k": "b",
+          "surface": "b:mage:2:Mage_FloorGroundTilesFlags",
+          "file": "after_5_in_mage_runes_b.jpg"
+        },
+        {
+          "b": "lastlight",
+          "t": "stores",
+          "k": "a",
+          "surface": "b:lastlight:0:Lastlight_FloorWingTiles",
+          "file": "after_5_in_lastlight_stores_a.jpg"
+        },
+        {
+          "b": "lastlight",
+          "t": "stores",
+          "k": "b",
+          "surface": "b:lastlight:0:Lastlight_FloorWingTiles",
+          "file": "after_5_in_lastlight_stores_b.jpg"
+        },
+        {
+          "b": "mill",
+          "t": "stones",
+          "k": "a",
+          "surface": "b:mill:1:Mill_FloorFlags",
+          "file": "after_5_in_mill_stones_a.jpg"
+        },
+        {
+          "b": "mill",
+          "t": "stones",
+          "k": "b",
+          "surface": "b:mill:1:Mill_FloorFlags",
+          "file": "after_5_in_mill_stones_b.jpg"
+        },
+        {
+          "b": "haven",
+          "t": "notice",
+          "k": "a",
+          "surface": "b:haven:0:Haven_DeckPier",
+          "file": "after_5_in_haven_notice_a.jpg"
+        },
+        {
+          "b": "haven",
+          "t": "notice",
+          "k": "b",
+          "surface": "b:haven:0:Haven_DeckPier",
+          "file": "after_5_in_haven_notice_b.jpg"
+        },
+        {
+          "b": "quarry",
+          "t": "bench",
+          "k": "a",
+          "surface": "b:quarry:0:Quarry_FloorLeanToMainTiles",
+          "file": "after_5_in_quarry_bench_a.jpg"
+        },
+        {
+          "b": "quarry",
+          "t": "bench",
+          "k": "b",
+          "surface": "b:quarry:0:Quarry_FloorLeanToMainTiles",
+          "file": "after_5_in_quarry_bench_b.jpg"
+        }
+      ],
+      "file": 26
+    },
+    "doors": {
+      "at": {
+        "id": "b:lodge:4:7:0",
+        "x": 39.5,
+        "y": 5.5539000000000005,
+        "z": 58.5,
+        "surface": "b:lodge:0:IslandTerrain"
+      },
+      "shut_lodge-door": {
+        "open": false,
+        "propLeaf": false
+      },
+      "shut_bank-door": {
+        "open": false,
+        "propLeaf": true
+      },
+      "shut_lastlight-door": {
+        "open": false,
+        "propLeaf": true
+      },
+      "shut_bakehouse-door": {
+        "open": false,
+        "propLeaf": true
+      },
+      "open_lodge-door": {
+        "open": true,
+        "propLeaf": false
+      },
+      "open_bank-door": {
+        "open": true,
+        "propLeaf": true
+      },
+      "open_lastlight-door": {
+        "open": true,
+        "propLeaf": true
+      },
+      "open_bakehouse-door": {
+        "open": true,
+        "propLeaf": true
+      },
+      "file": true
+    },
+    "lodgein": {
+      "stance": {
+        "id": "b:lodge:2:1:0",
+        "x": 37.5,
+        "y": 6.4000010000000005,
+        "z": 52.5,
+        "surface": "b:lodge:0:Lodge_GroundFloor_Boards"
+      },
+      "at": {
+        "id": "b:lodge:2:1:0",
+        "x": 37.5,
+        "y": 6.4000010000000005,
+        "z": 52.5,
+        "surface": "b:lodge:0:Lodge_GroundFloor_Boards"
+      },
+      "file": "after_5_lodge_inside.jpg"
+    },
+    "lodgein2": {
+      "at": {
+        "id": "b:lodge:2:1:0",
+        "x": 37.5,
+        "y": 6.4000010000000005,
+        "z": 52.5,
+        "surface": "b:lodge:0:Lodge_GroundFloor_Boards"
+      },
+      "file": "after_5_lodge_inside_b.jpg"
+    },
+    "lodgeboard": {
+      "stance": {
+        "id": "b:lodge:-4:2:1",
+        "x": 31.5,
+        "y": 6.4,
+        "z": 53.5,
+        "surface": "b:lodge:1:Lodge_GroundFloor_Boards"
+      },
+      "at": {
+        "id": "b:lodge:-4:2:1",
+        "x": 31.5,
+        "y": 6.4,
+        "z": 53.5,
+        "surface": "b:lodge:1:Lodge_GroundFloor_Boards"
+      },
+      "route": null,
+      "file": "after_6_lodge_board.jpg"
     }
   },
   "errors": []
