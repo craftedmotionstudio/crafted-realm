@@ -14,7 +14,7 @@ Checks (numbers per kind / body / build / frame; worst cases listed):
   exposed  -- kit surface that must be under the equipment (the hidden slots it replaces, and the visible layers inside
               its span) whose outward ray does not hit the equipment: a gap / hole or a part poking through;
   sunk     -- held weapon / shield / amulet / cape vertices inside the kit body by more than 5 mm.
-Usage: blender -b --python tools/blender/check_holm_equipment_v2.py -- [--equip GLB] [--out DIR] [--label v2] [--no-render] [--quick]
+Usage: blender -b --python tools/blender/check_holm_equipment_v3.py -- [--equip GLB] [--kit GLB] [--out DIR] [--label v3] [--frames c:f,..] [--only k,..] [--from JSON] [--no-render] [--quick]
 Reads the kit (assets/models/holm_kit_v2.glb) and the equipment GLB; writes JSON + PNG sheets to --out only.
 """
 import bpy, sys, os, json, math, re, time
@@ -26,9 +26,9 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(k, d):
     return ARGS[ARGS.index(k) + 1] if k in ARGS else d
-EQUIP = arg('--equip', os.path.join(ROOT, '.studio-workspaces', 'holm-equipment-v2', 'candidates', 'equipment.glb'))
-OUT = arg('--out', os.path.join(ROOT, 'scratchpad', 'holm_equipment_v2'))
-TAG = arg('--label', 'v2')
+EQUIP = arg('--equip', os.path.join(ROOT, '.studio-workspaces', 'holm-equipment-v3', 'candidates', 'equipment.glb'))
+OUT = arg('--out', os.path.join(ROOT, 'scratchpad', 'holm_equipment_v3'))
+TAG = arg('--label', 'v3')
 DO_RENDER = '--no-render' not in ARGS
 QUICK = '--quick' in ARGS
 ONLY = set(arg('--only', '').split(',')) - {''}
