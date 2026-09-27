@@ -22,6 +22,10 @@ import os
 # HOLM_GUIDE_VERSION=5 builds v5 (owner play-test 2026-09-25): both doors fitted into oak frames with even 8 mm gaps and
 # a threshold, the hearth fire rebuilt as layered solid flames (holm_fire_kit), and the chart's lesson route
 # (ChartRoute_01..09, ChartStop_01..10, hidden by default via extras)
+# HOLM_GUIDE_VERSION=6 builds v6 (owner review 4, 2026-09-27): v5 with the cellar trapdoor in the south-west corner over a
+# small three-by-three cellar with a cabbage to pick (holm_guide_house_cellar_v6), every table and shelf piece of the ground
+# floor designed again (holm_guide_house_interior_v6 + holm_purposeful_props), and leaded glazing in every window of both
+# storeys and the dormer (holm_leaded_glazing: tinted panes, diamond cames)
 GUIDE_VERSION=int(os.environ.get('HOLM_GUIDE_VERSION','3'))
 OUT=ROOT/f'.studio-workspaces/holm-guide-house-overhaul-v{GUIDE_VERSION}/candidates'
 PROOF=ROOT/f'scratchpad/holm_interiors_v1/guide_v{GUIDE_VERSION}_asset'
@@ -120,6 +124,7 @@ for side,x in [('East',6),('West',-6)]:
 STAIRS=LAYOUT['stairs'];SZ0=STAIRS['startZ'];SZ1=STAIRS['endZ']
 # v3: plank floors (same walk planes: ground top y 0, upper top y 2.8 over 2.6) with the cellar hatch cut
 import holm_guide_house_cellar_v3 as cellar,holm_guide_house_interior_v3 as interior
+if GUIDE_VERSION>=6:import holm_guide_house_cellar_v6 as cellar,holm_guide_house_interior_v6 as interior_v6,holm_leaded_glazing as glz
 if GUIDE_VERSION>=4:interior.V4_BASE=.02
 Pal=interior.palette()
 floor_tones=family('Floor oak',['#8a6440','#7b5838','#94704a','#6f5033']);underlay=M('Floor underlay','#3a2a1c')
@@ -317,7 +322,16 @@ from holm_guide_house_doors import build as add_doors
 from holm_guide_house_exterior import build as add_porch
 B=globals();EXT.build(root)
 interior.ground_walls(Pal).build(root);interior.upper_walls(Pal,XE,ZN,2.8).build(root)
-interior.ground(B,Pal).build(root);interior.upper(B,Pal,XE,ZN).build(root)
+(interior_v6.ground if GUIDE_VERSION>=6 else interior.ground)(B,Pal).build(root);interior.upper(B,Pal,XE,ZN).build(root)
+if GUIDE_VERSION>=6:
+ # v6 leaded glazing, in the wall's middle plane between the jambs and either side of the mullion; each joins its shell
+ for side,zz in [('South',5),('North',-5)]:
+  for a,b,c,d in windows0:glz.window(B,'GroundShellGlazing','x',zz,a+.11,b-.11,c+.015,d-.10,mullion=.045)
+ for side,xx in [('East',6),('West',-6)]:
+  for a,b,c,d in ([[-3.7,-2.3,1,2.15],[1.7,3.1,1,2.15]] if side=='East' else [[1.7,3.1,1,2.15]]):glz.window(B,'GroundShellGlazing','z',xx,a+.02,b-.02,c+.02,d-.02)
+ for side,axis,c,u0,u1,out in upper:
+  for a,b in wins[side]:glz.window(B,'UpperShellGlazing',axis,c,a+.1,b-.1,WY0,WY1,mullion=.04)
+ glz.window(B,'RoofDormerGlazing','z',DF-.175,-.45,.45,TOP+.15,TOP+1.05,mullion=.04)
 hearth.build(B)
 cellar_info=cellar.build(B,Pal)
 add_doors(B);add_porch(B)

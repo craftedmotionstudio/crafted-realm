@@ -52,6 +52,9 @@ const VIEWS={
   rec.down=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&/guide-cellar/.test(r.surface)},null,40000);await sleep(1500);
   rec.feet=await page.evaluate(()=>{const f=scene.getObjectByName('CellarFloor'),b=new THREE.Box3().setFromObject(f),p=player.position;return {y:+p.y.toFixed(3),floorTop:+b.max.y.toFixed(3),onFloor:Math.abs(p.y-b.max.y)<.08&&p.x>b.min.x&&p.x<b.max.x&&p.z>b.min.z&&p.z<b.max.z,info:HolmGuideCellar.info()}});
   await page.evaluate(()=>{camCtl.yaw=0.5;camCtl.pitch=1.0;camCtl.dist=8});const f=await snap(page,'4_cellar_real');
+  // v6: the cabbage on the cellar floor, picked like a 2004 ground spawn; it grows back
+  if(await page.evaluate(()=>!!scene.getObjectByName('CellarCabbage'))){const n0=await page.evaluate(()=>Player.count('cabbage'));await L.clickNamed(page,'CellarCabbage');
+   rec.cabbage={picked:await waitFor(page,n=>Player.count('cabbage')>n,n0,30000),info:await page.evaluate(()=>HolmGuideCellar.info().cabbage)};await snap(page,'4_cellar_cabbage_picked')}
   const u=await L.clickNamed(page,'CellarLadder');rec.upClick=u;rec.up=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.surface==='ground'},null,40000);return f},
  // 5: every building with a cutaway, from inside (the walls clipped over the adventurer: no floating beams or pictures)
  async interiors(page,rec){rec.list=[];
@@ -78,6 +81,9 @@ const VIEWS={
  async statue2(page,rec){rec.at=await stand(page,64,110,'exterior|land',[-2.2,0.95,10]);return snap(page,'8_statue_tree_b')},
  // 4: the Guide House hatch and the cellar below it
  async hatch(page,rec){rec.at=await stand(page,64,100,'^ground$',[0.3,1.15,9]);return snap(page,'4_hatch')},
+ // v6: the trapdoor in the south-east corner by the stair foot, shut and then open (the adventurer about to climb down)
+ async hatch6(page,rec){rec.at=await stand(page,69.5,101.5,'^ground$',[-2.36,0.95,7]);const a=await snap(page,'4_hatch_corner');
+  await page.evaluate(()=>{const l=scene.getObjectByName('CellarHatchLid');if(l)l.rotation.x=-Math.PI/2});rec.open=await snap(page,'4_hatch_corner_open');await page.evaluate(()=>{const l=scene.getObjectByName('CellarHatchLid');if(l)l.rotation.x=0});return a},
  async cellar(page,rec){rec.at=await stand(page,63.5,99.5,'guide-cellar',[0.5,1.0,8]);rec.player=await page.evaluate(()=>[player.position.x,player.position.y,player.position.z].map(v=>+v.toFixed(2)));
   rec.floorTop=await page.evaluate(()=>{const f=scene.getObjectByName('CellarFloor');if(!f)return null;return +new THREE.Box3().setFromObject(f).max.y.toFixed(2)});return snap(page,'4_cellar')},
  // 7 + 5: the Guide House main room (windows, the table ware, the beams and pictures above the cut)

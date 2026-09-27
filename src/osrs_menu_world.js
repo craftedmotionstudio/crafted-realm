@@ -116,7 +116,7 @@ var OsrsMenuWorld=(function(){
  }
 
  /* ---------- Tutor's Holm ---------- */
- var HOLM_KINDS=['island_tutor','island_service','island_sign','island_gate','arrival_door','arrival_chart','arrival_provisions','arrival_hatch','arrival_cellar_ladder','arrival_statue','arrival_surface'];
+ var HOLM_KINDS=['island_tutor','island_service','island_sign','island_gate','arrival_door','arrival_chart','arrival_provisions','arrival_hatch','arrival_cellar_ladder','arrival_cellar_cabbage','arrival_statue','arrival_surface'];
  function tutorOf(id){try{return HolmIslandTutors.cast().filter(function(c){return c.id===id})[0]||null}catch(e){return null}}
  function stairDown(o){for(var q=o;q;q=q.parent)if(q.userData&&q.userData.label)return /Climb-down/.test(q.userData.label);return false}
  function doorOpen(id){try{return !!(HolmArrivalQA.doorOpen&&HolmArrivalQA.doorOpen(id))}catch(e){return false}}
@@ -126,6 +126,7 @@ var OsrsMenuWorld=(function(){
   arrival_provisions:'Spare teaching tools, for anyone who has lost theirs.',
   arrival_hatch:'A trapdoor in the floorboards. A ladder leads down into the dark.',
   arrival_cellar_ladder:'A short ladder back up to the Guide House.',
+  arrival_cellar_cabbage:'A fresh cabbage. Somebody keeps a few down here.',
   arrival_statue:'The Lantern Keeper, carved in pale stone. There is a plaque on the plinth.',
   stair:'A narrow oak staircase.',sign:'A weathered signpost where the paths meet.'};
  M.registerProvider({id:'holm',order:10,kinds:HOLM_KINDS,
@@ -140,6 +141,7 @@ var OsrsMenuWorld=(function(){
    if(k==='arrival_provisions')return {name:'Provision rack',type:'object',examine:HOLM_EXAMINE.arrival_provisions};
    if(k==='arrival_hatch')return {name:'Trapdoor',type:'object',examine:HOLM_EXAMINE.arrival_hatch};
    if(k==='arrival_cellar_ladder')return {name:'Ladder',type:'object',examine:HOLM_EXAMINE.arrival_cellar_ladder};
+   if(k==='arrival_cellar_cabbage')return {name:'Cabbage',type:'object',examine:HOLM_EXAMINE.arrival_cellar_cabbage};
    if(k==='arrival_statue')return {name:'Statue',type:'object',examine:HOLM_EXAMINE.arrival_statue};
    if(k==='arrival_surface'&&u.arrivalSurface==='stair')return {name:'Staircase',type:'object',examine:HOLM_EXAMINE.stair};
    return null;
@@ -155,6 +157,7 @@ var OsrsMenuWorld=(function(){
    if(k==='arrival_provisions')return [{option:'Collect-tools',priority:P,fn:click(ent)}];
    if(k==='arrival_hatch')return [{option:'Climb-down',priority:P,fn:click(ent)}];
    if(k==='arrival_cellar_ladder')return [{option:'Climb-up',priority:P,fn:click(ent)}];
+   if(k==='arrival_cellar_cabbage')return [{option:'Pick',priority:P,fn:click(ent)}];
    if(k==='arrival_statue')return [{option:'Read-plaque',priority:P,fn:click(ent)}];
    if(k==='arrival_surface'&&u.arrivalSurface==='stair')return [{option:stairDown(ent.obj)?'Climb-down':'Climb-up',priority:P,fn:click(ent)}];
    return [];

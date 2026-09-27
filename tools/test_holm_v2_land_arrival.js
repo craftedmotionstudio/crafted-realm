@@ -18,7 +18,7 @@ const PKG={documents:{terrain:{id:'v2'}}},drop=()=>new TypeError('Failed to fetc
  await check('1 a good read returns the pinned v2-land export',async()=>{
   const l=loader([PKG]),got=await V2.loadArrival(l,{wait:async()=>{}});
   assert.strictEqual(got,PKG);assert.strictEqual(l.calls.length,1);
-  assert.deepStrictEqual(l.calls[0],{baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v1/exports/',exportId:V2.ARRIVAL.exportId});
+  assert.deepStrictEqual(l.calls[0],{baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v2/exports/',exportId:V2.ARRIVAL.exportId});
  });
  await check('2 a dropped read is retried, with a warning per failed try and growing waits',async()=>{
   const waits=[],warns=[],l=loader([drop(),drop(),PKG]);
@@ -30,7 +30,7 @@ const PKG={documents:{terrain:{id:'v2'}}},drop=()=>new TypeError('Failed to fetc
   const l=loader([drop(),drop(),new Error('[HolmArrivalExportLoader] fetch failed manifest.json')]);let err=null;
   try{await V2.loadArrival(l,{wait:async()=>{}})}catch(e){err=e}
   assert(err&&/could not be read after 3 tries/.test(err.message)&&/fetch failed manifest\.json/.test(err.message)&&/pre-v2 package does not fit/.test(err.message),err&&err.message);
-  assert.strictEqual(l.calls.length,3);assert(l.calls.every(c=>/holm-arrival-package-v2land-v1/.test(c.baseUrl)&&!/package-v9/.test(c.baseUrl)));
+  assert.strictEqual(l.calls.length,3);assert(l.calls.every(c=>/holm-arrival-package-v2land-v2/.test(c.baseUrl)&&!/package-v9/.test(c.baseUrl)));
  });
  await check('4 an abort is not retried',async()=>{
   const a=new Error('Arrival export load aborted');a.name='AbortError';const l=loader([a,PKG]);let err=null;

@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:8109/?holmIsland=1&qaProfile=review4-after-mukffdjp",
+  "base": "http://127.0.0.1:8109/?qaProfile=review4-after-mukgrili",
   "tag": "after",
   "views": {
     "realflow": {
@@ -80,48 +80,57 @@
         "floorTop": 1.656,
         "onFloor": true,
         "info": {
-          "spec": "v5",
+          "spec": "v6",
           "floorY": 1.6500000000000004,
-          "hatchTop": "ground:65,98",
-          "foot": "b:guide-cellar:63:98:0",
+          "hatchTop": "ground:70,102",
+          "foot": "b:guide-cellar:71:102:0",
           "tiles": [
             [
-              61.5,
-              99.5
+              71.5,
+              101.5
             ],
             [
-              61.5,
-              100.5
+              70.5,
+              101.5
             ],
             [
-              62.5,
-              99.5
+              69.5,
+              101.5
             ],
             [
-              62.5,
-              100.5
+              71.5,
+              102.5
             ],
             [
-              63.5,
-              98.5
+              70.5,
+              102.5
             ],
             [
-              63.5,
-              99.5
+              69.5,
+              102.5
             ],
             [
-              63.5,
-              100.5
-            ],
-            [
-              64.5,
-              99.5
-            ],
-            [
-              64.5,
-              100.5
+              70.5,
+              103.5
             ]
-          ]
+          ],
+          "cabbage": {
+            "taken": false,
+            "node": "b:guide-cellar:69:101:0",
+            "visible": true
+          },
+          "lid": {
+            "axis": "x",
+            "angle": -1.5707963267948966
+          }
+        }
+      },
+      "cabbage": {
+        "picked": true,
+        "info": {
+          "taken": true,
+          "node": "b:guide-cellar:69:101:0",
+          "visible": false
         }
       },
       "upClick": {
@@ -448,6 +457,77 @@
         }
       ],
       "file": 5
+    },
+    "hatch": {
+      "at": {
+        "id": "ground:65,99",
+        "x": 65.5,
+        "y": 4.4,
+        "z": 99.5,
+        "surface": "ground"
+      },
+      "file": "after_4_hatch.jpg"
+    },
+    "guide1": {
+      "at": {
+        "id": "ground:65,100",
+        "x": 65.5,
+        "y": 4.4,
+        "z": 100.5,
+        "surface": "ground"
+      },
+      "file": "after_7_guide_room_south.jpg"
+    },
+    "guide2": {
+      "at": {
+        "id": "ground:65,98",
+        "x": 65.5,
+        "y": 4.4,
+        "z": 98.5,
+        "surface": "ground"
+      },
+      "file": "after_7_guide_room_ne.jpg"
+    },
+    "guide3": {
+      "at": {
+        "id": "ground:65,98",
+        "x": 65.5,
+        "y": 4.4,
+        "z": 98.5,
+        "surface": "ground"
+      },
+      "file": "after_7_guide_room_w.jpg"
+    },
+    "guidetable": {
+      "at": {
+        "id": "ground:65,98",
+        "x": 65.5,
+        "y": 4.4,
+        "z": 98.5,
+        "surface": "ground"
+      },
+      "file": "after_7_guide_table_close.jpg"
+    },
+    "hatch6": {
+      "at": {
+        "id": "ground:68,101",
+        "x": 68.5,
+        "y": 4.4,
+        "z": 101.5,
+        "surface": "ground"
+      },
+      "open": "after_4_hatch_corner_open.jpg",
+      "file": "after_4_hatch_corner.jpg"
+    },
+    "guidewin": {
+      "at": {
+        "id": "land:62,109",
+        "x": 62.5,
+        "y": 4.369891257142857,
+        "z": 109.5,
+        "surface": "land"
+      },
+      "file": "after_7_guide_windows_out.jpg"
     }
   },
   "errors": []
