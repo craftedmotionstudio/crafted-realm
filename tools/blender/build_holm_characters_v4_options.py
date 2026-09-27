@@ -32,8 +32,8 @@ K.RENDER_DIR = OUT
 QUICK = '--quick' in ARGS
 
 CLASSIC = {'A': {'Hair': 2, 'Jaw': 2, 'Torso': 1, 'Arms': 2, 'Hands': 1, 'Legs': 1, 'Feet': 1},
-           'B': {'Hair': 2, 'Torso': 1, 'Arms': 2, 'Hands': 1, 'Legs': 4, 'Feet': 1, 'Makeup': 1}}
-CLASSIC_COLORS = {'hair': '#3a2a1c', 'torso': '#8a8438', 'legs': '#2f6a36', 'feet': '#5a3a22', 'skin': '#c8966e'}
+           'B': {'Hair': 2, 'Torso': 2, 'Arms': 2, 'Hands': 1, 'Legs': 4, 'Feet': 1, 'Makeup': 1}}   # B: cropped top, bare midriff
+CLASSIC_COLORS = {'hair': '#3a2a1c', 'torso': '#7c7a2e', 'legs': '#1f6232', 'feet': '#4e321c', 'skin': '#c08a62'}
 
 
 GIF_PY = '''
@@ -149,12 +149,15 @@ def main():
         # the old client's close camera (pitch 22.5 deg, 2.23 body heights away, 53 deg horizontal field of view, aimed at
         # half height) at 0 / 45 / 90 ... deg around the figure, for the matched-angle comparison sheets
         Hh = res['body'][bt]['height_m']
+        wbg = next(n for n in sc.world.node_tree.nodes if n.type == 'BACKGROUND').inputs['Strength']
+        wbg.default_value = .55   # the old client's darker, contrastier lighting for the matched views
         for rel in (0, 256, 512, 768, 1024, 1280, 1536, 1792):
             a_ = math.radians(rel * 360.0 / 2048)
             vd = (-math.sin(a_) * math.cos(math.radians(22.5)), -math.cos(a_) * math.cos(math.radians(22.5)), math.sin(math.radians(22.5)))
             p = K.shoot(os.path.join(CELLS, '%s_%s_classic_rel%d.png' % (PROF, bt, rel)), (512, 334), vd, (0, 0, .497 * Hh), 2.0,
                         persp=(2.228 * Hh, 36.0))
             res['renders']['classic_%s_rel%d' % (bt, rel)] = p
+        wbg.default_value = 1.0
         cells['classic_' + bt] = row
     # ---- face close-ups (default outfit)
     for bt in ('A', 'B'):

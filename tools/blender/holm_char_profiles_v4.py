@@ -88,11 +88,11 @@ def _arms(K, elbow_up, wrist_up):
     K._STANCE_LOCAL.clear()
 
 # the 2004 woman: very slim -- a narrow waist (the bare midriff), slim hips and thighs, under puffed shoulders
-V_TORSO_B = [(0.940, .140, .1166, .1232, .026), (1.000, .125, .1078, .1100, .022), (1.060, .112, .1056, .1034, .018),
-             (1.140, .120, .1144, .1056, .014), (1.215, .136, .1452, .1078, .010), (1.270, .142, .1474, .1100, .008),
-             (1.330, .150, .1232, .1100, .008)]
-V_PELVIS_B = [(0.800, .110, .0691, .0756, .030), (0.850, .166, .1058, .1188, .028), (0.930, .168, .1145, .1318, .026),
-              (0.985, .150, .1080, .1166, .024), (1.012, .136, .1058, .1091, .022)]
+V_TORSO_B = [(0.940, .146, .1166, .1232, .026), (1.000, .125, .1078, .1100, .022), (1.060, .112, .1056, .1034, .018),
+             (1.140, .122, .1180, .1056, .014), (1.215, .138, .1640, .1078, .010), (1.270, .144, .1660, .1100, .008),
+             (1.330, .150, .1300, .1100, .008)]   # a fuller bust than v3.1f, as the reference's side view
+V_PELVIS_B = [(0.800, .112, .0691, .0756, .030), (0.850, .176, .1058, .1188, .028), (0.930, .178, .1145, .1318, .026),
+              (0.985, .154, .1080, .1166, .024), (1.012, .138, .1058, .1091, .022)]
 
 def _mix_rows(old, new, t):
     """blend two same-length row tables (every column, z included) -- t = 1: new"""
@@ -116,7 +116,7 @@ def _v_body(K, thigh_k=.80, hip_x=.100, long_legs=True, thigh_k_b=.84, hip_x_b=.
 # faster than 2004's (1.32 vs 1.01 H/s), so the walk keeps the 2004 STRIDE (23 frames = 0.77 s -> 1.01 H).
 # the reference strips also lean forward: ~5 deg in the walk, ~14 deg in the run (hips -> head)
 GAIT_2004 = {'walk': {'frames': 22, 'bob': .022, 'p_on': 2, 'p_off': -8, 'arm_swing': 33, 'plant_k': .65, 'lean_cap': (5.0, False)},
-             'run': {'frames': 21, 'duty': .30, 'bob': .035, 'bob_phase': .40, 'drop': .04, 'kick': .24, 'lift': .16, 'arm_swing': 80, 'fore': 62,
+             'run': {'frames': 21, 'duty': .30, 'bob': .035, 'bob_phase': .40, 'drop': .04, 'kick': .24, 'lift': .16, 'arm_swing': 80, 'fore': 45,
                      'plant_k': .95, 'lean_cap': (12.0, False)}}
 GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, False)),
           'run': dict(GAIT_2004['run'], frames=20, lean_cap=(8.0, False))}
@@ -126,7 +126,7 @@ TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 # the shared 2004 body (measured against the reference man and woman: designer front + the old client's close camera)
 BODY_2004 = dict(shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .074}, arm_out={'A': -.010, 'B': .004},
                  head_s=.94, head_s_bt={'B': .95}, head_wx=1.07, head_wy=.94, head_hz=1.00, head_dz=-.020, neck_k={'A': 1.10, 'B': .82},
-                 stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, deltoid_k=.85, arm_aim={'LeftArm': (.48, -.02, -.875)}, arms=(.05, .095), hand_k={'A': .86, 'B': .98}, arm_in={'B': .028},
+                 stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, deltoid_k=.85, arm_aim={'LeftArm': (.46, -.07, -.88), 'LeftForeArm': (.10, -.36, -.93), 'LeftHand': (.08, -.40, -.91)}, arms=(.05, .095), hand_k={'A': .86, 'B': .98}, arm_in={'B': .028},
                  head=HEAD_EGG, head_p=2.3, gait=GAIT_2004)
 FACE_2004 = dict(eye=(.0275, 1.690, .026, .0055, .024, .0050), eye_tick=(.010, -.004, .006, .0045), brow=None,
                  mouth=(1.612, 1.614, .030, .022, 0.0), ear=(.70, .004))
@@ -185,7 +185,9 @@ def _feet(K):
     # 6-sided trouser tube runs straight and a touch looser below the calf (its flats clear the 10-sided shoe / boot)
     K.BOOT_SHAFT = [(1.97, .005), (1.90, .005), (1.80, .005), (1.72, .005), (1.69, .006)]
     K.SHOE_COLLAR = [(1.955, .004), (1.925, .005)]
-    K.TROUSERS = [(u, .010) for u in K.U_LEG[:-1]] + [(1.60, .014), (1.66, .016), (1.80, .016), (1.90, .016), (1.955, .016), (1.985, .016)]
+    # the 2004 trousers: roomy at the thigh, in at the knee, a little fuller over the calf, straight to the shoe
+    K.TROUSERS = [(0.0, .010), (.4, .014), (.84, .016), (1.0, .014), (1.14, .017), (1.5, .013), (1.60, .015), (1.66, .016),
+                  (1.80, .016), (1.90, .016), (1.955, .016), (1.985, .016)]
 
 def apply(K, name):
     if not name:
