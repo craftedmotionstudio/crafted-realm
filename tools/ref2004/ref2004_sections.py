@@ -78,17 +78,18 @@ def anim_strip(folder, game, n=8):
 MOMENTS = [
     # name, 2004 still candidates, ours still candidates, 2004 anim folder, ours anim keyword
     ('arrival', ['arrival.png'], ['arrival.png'], None, None),
-    ('first_instructor_building', ['guide_dialogue.png', 'guide_interior.png'], ['dialogue_study_route.png', 'guide_interior.png'], None, None),
-    ('survival_instructor', ['survival_dialogue.png', 'survival_area.png'], ['dialogue_chop_logs.png', 'dialogue_equip_hatchet.png'], None, None),
+    ('first_instructor_building', ['guide_dialogue.png', 'guide_interior.png'], ['dialogue_bram.png', 'guide_interior.png'], None, None),
+    ('survival_instructor', ['survival_dialogue.png', 'survival_area.png'], ['dialogue_wenna.png'], None, None),
     ('woodcutting', [], [], 'woodcutting', ['chop', 'wood', 'axe', 'hatchet']),
     ('firemaking', [], [], 'firemaking', ['fire', 'light', 'tinder', 'kneel']),
     ('fishing', [], [], 'fishing', ['net', 'fish']),
     ('cooking', [], [], 'cooking', ['cook']),
-    ('chef_building', ['chef_dialogue.png', 'chef_building.png'], ['dialogue_bake_bread.png', 'chef_building.png'], 'baking', ['bake', 'knead']),
-    ('quest_guide_building', ['quest_dialogue.png', 'quest_building.png'], ['dialogue_learn_quests.png', 'quest_building.png'], None, None),
-    ('mine', ['mine.png', 'mining_dialogue.png'], ['mine.png', 'dialogue_descend_cavern.png'], 'mining', ['mine', 'pick']),
+    ('chef_building', ['chef_dialogue.png', 'chef_building.png'], ['dialogue_hettie.png', 'chef_building.png'], 'baking', ['bake', 'knead']),
+    ('quest_guide_building', ['quest_dialogue.png', 'quest_building.png'], ['dialogue_ansel.png', 'quest_building.png'], None, None),
+    ('mine', ['mine.png', 'mining_dialogue.png'], ['dialogue_durgin.png', 'mine.png'], 'mining', ['mine', 'pick']),
     ('smelting_smithing', [], [], 'smelting', ['smelt', 'smith', 'hammer', 'anvil']),
-    ('combat', ['combat_area.png', 'combat_dialogue.png'], ['combat_melee_trial_3.png', 'combat_melee_trial_2.png', 'combat_melee_trial_0.png'], 'combat', ['attack', 'slash', 'stab', 'punch', 'strike']),
+    ('combat', ['combat_area.png', 'combat_dialogue.png'], ['dialogue_corrick.png', 'combat_melee_trial_3.png', 'combat_melee_trial_0.png'], 'combat', ['attack', 'slash', 'stab', 'punch', 'strike']),
+    ('combat_hit', [], ['combat_melee_trial_4.png', 'combat_melee_trial_2.png'], 'combat', None),
     ('bank', ['bank.png'], ['bank.png'], 'bank', None),
 ]
 
@@ -102,7 +103,7 @@ def tutorial():
         # an animated moment: take a mid-action full frame from the sampler for the still
         f4 = os.path.join(d4, a4) if a4 else None
         if f4 and not a and os.path.isdir(f4):
-            a = first(os.path.join(f4, 'full_0010.png'), os.path.join(f4, 'full_00*.png'), os.path.join(f4, 'full_*.png'))
+            a = first(f4 + '.png', os.path.join(f4, 'full_0010.png'), os.path.join(f4, 'full_00*.png'), os.path.join(f4, 'full_*.png'))
         fo = None
         if ao:
             for p in oursdirs:
@@ -148,7 +149,7 @@ def ui():
         return load(p).crop(UI2004[key]).resize(((UI2004[key][2] - UI2004[key][0]) * 2, (UI2004[key][3] - UI2004[key][1]) * 2), Image.NEAREST)
     # 1) chat box with an NPC dialogue
     a = first(os.path.join(d4, 'guide_dialogue.png'), os.path.join(d4, 'chef_dialogue.png'))
-    b = first(os.path.join(do, 'dialogue_study_route.png'), os.path.join(do, 'dialogue_*.png'))
+    b = first(os.path.join(do, 'dialogue_bram.png'), os.path.join(do, 'dialogue_*.png'))
     if a and b:
         sheet = col([label(crop_2004(a, 'chat'), '2004 chat box, NPC dialogue (x2)'), label(crop_ours(b, 'chatbox-frame', 40), 'ours chat box, NPC dialogue (1:1)')])
         save_pair_sheet('ui_chat_dialogue.png', titled(sheet, 'Chat box with an NPC dialogue: text placement'), 'ui')
@@ -187,27 +188,25 @@ def ui():
 def scenery():
     d4, do = os.path.join(CAP, 'scenery', '2004'), os.path.join(CAP, 'scenery', 'ours')
     names4 = sorted(set(os.path.basename(p).split('_p128')[0] for p in glob.glob(os.path.join(d4, '*_p128_y0.png'))))
-    nameso = sorted(set(os.path.basename(p).split('_p128')[0] for p in glob.glob(os.path.join(do, '*_p128_y0.png'))))
     kinds = ['town', 'field', 'water']
     stats = {}
     for k in kinds:
         n4 = [n for n in names4 if n.startswith(k)]
-        no = [n for n in nameso if n.startswith(k)]
+        ours_lens = sorted(glob.glob(os.path.join(do, k + '_holm_p128_y*.png')))
         for i, n in enumerate(n4):
-            m = no[min(i, len(no) - 1)] if no else None
             rows_ = []
-            for y in [0, 1024]:
+            for j, y in enumerate([0, 1024]):
                 a = os.path.join(d4, '%s_p128_y%d.png' % (n, y))
                 vp = load(a).crop(UI2004['viewport']).resize((1536, 1002), Image.NEAREST)
-                bo = os.path.join(do, '%s_p128_y%d.png' % (m, y)) if m else None
-                bd = os.path.join(do, '%s_default_y%d.png' % (m, y)) if m else None
                 ims = [label(vp, '2004 %s, pitch 128 (viewport x3)' % n)]
-                if bo and os.path.exists(bo):
-                    ims.append(label(load(bo), 'ours %s, 2004 lens' % m))
-                if bd and os.path.exists(bd):
-                    ims.append(label(load(bd), 'ours %s, our default camera' % m))
+                bo = ours_lens[j] if j < len(ours_lens) else None
+                if bo:
+                    ims.append(label(load(bo), 'ours %s through the 2004 lens' % os.path.basename(bo)[:-4]))
+                    bd = bo.replace('_p128_', '_default_')
+                    if os.path.exists(bd):
+                        ims.append(label(load(bd), 'ours, our default camera'))
                 rows_.append(row(ims, gap=12))
-                stats.setdefault(k, []).append({'2004': image_stats(vp), 'ours': image_stats(load(bo)) if bo and os.path.exists(bo) else None})
+                stats.setdefault(k, []).append({'2004': image_stats(vp), 'ours': image_stats(load(bo)) if bo else None})
             save_pair_sheet('scenery_%s_%d.png' % (k, i), titled(col(rows_), 'Scenery: %s' % n.replace('_', ' ')), 'scenery')
     json.dump(stats, open(os.path.join(out2004('scenery'), 'image_stats.json'), 'w'), indent=1)
     print(json.dumps(summarise(stats), indent=1))
@@ -221,7 +220,7 @@ def image_stats(im):
     lum = 0.299 * a[..., 0] + 0.587 * a[..., 1] + 0.114 * a[..., 2]
     gx = np.abs(np.diff(lum, axis=1)).mean()
     gy = np.abs(np.diff(lum, axis=0)).mean()
-    q = (np.asarray(im.convert('RGB').resize((256, 168))) // 16).reshape(-1, 3)
+    q = (np.asarray(im.convert("RGB").resize((256, 168))).astype(np.int32) // 16).reshape(-1, 3)
     pal = len(np.unique(q[:, 0] * 256 + q[:, 1] * 16 + q[:, 2]))
     return {'mean_sat': round(float(sat.mean()), 3), 'lum_mean': round(float(lum.mean()), 3), 'lum_std': round(float(lum.std()), 3),
             'edge_density': round(float((gx + gy) * 100), 2), 'palette_4bit': pal}

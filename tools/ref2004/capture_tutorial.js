@@ -48,9 +48,13 @@ async function cap2004(browser){
       const k=(seen[name]=(seen[name]||0)+1);
       if(k>2)return fn();
       await away();await page.evaluate(()=>{window.gameClient.orbitCameraPitch=128});
-      await R.startSampler(page,{crop:{size:[160,190],below:24},fullEvery:10});
-      try{await fn()}finally{const l=await R.stopSampler(page);saveSamples(dir,name+(k>1?'_'+k:''),l,{moment:name,varp:await T.varp(page)});
-        log.push({name,k,frames:l.length});C.log('[2004] anim',name,l.length,'frames')}},
+      const nm=name+(k>1?'_'+k:'');
+      // when the action animation starts: one still at the default camera, then a closer side-on camera for the frames
+      let done=false;const cam=(async()=>{for(let i=0;i<200&&!done;i++){const a=await page.evaluate(()=>{const lp=window.gameClient.localPlayer;return lp?[lp.primaryAnim,lp.yaw]:[-1,0]});
+          if(a[0]!==-1){await R.grab(page,path.join(dir,nm+'.png'));await page.evaluate(y=>{window.gameClient.__cam={pitch:150,yaw:(y+512)&2047,distMul:.62}},a[1]);return}await C.sleep(100)}})();
+      await R.startSampler(page,{crop:{size:[200,240],below:30},fullEvery:10});
+      try{await fn()}finally{done=true;await cam;const l=await R.stopSampler(page);await page.evaluate(()=>{window.gameClient.__cam=null});
+        saveSamples(dir,nm,l,{moment:name,varp:await T.varp(page)});log.push({name,k,frames:l.length});C.log('[2004] anim',name,l.length,'frames')}},
     pageHook:(name)=>async(d,n)=>{if(n===0&&!seen[name]){seen[name]=1;await away();await C.sleep(700);await R.grab(page,path.join(dir,name+'.png'));log.push({name,dialog:d.text&&d.text.slice(0,0)})}}};
   if(!resume)await ctx.moment('arrival');
   const v=await T.play(ctx,UNTIL);
@@ -82,20 +86,29 @@ async function capOurs(browser){
   const defaultCam=async(face)=>{await page.evaluate((d,f)=>{camCtl.pitch=d.pitch;camCtl.dist=d.dist;if(f){const dx=f[0]-player.position.x,dz=f[1]-player.position.z;if(Math.hypot(dx,dz)>.5)camCtl.yaw=Math.atan2(-dx,-dz)}},DEF,face||null);await C.sleep(1300)};
   const shot=async(name)=>{await page.screenshot({path:path.join(dir,name+'.png')});log.push({name,lesson:await PT.lesson(page).catch(()=>null)});C.log('[ours] still',name)};
   await defaultCam();await shot('arrival');
+  // the first page of each tutor's dialogue: wrap the driver's talkTo (the playthrough calls it through the shared lib)
+  const talked={};const talk0=L.talkTo;
+  L.talkTo=(pg,id,opts)=>talk0(pg,id,Object.assign({},opts,{onPage:async(i,t)=>{if(opts&&opts.onPage)await opts.onPage(i,t);
+    if(i===0&&!talked[id]){talked[id]=1;while(busy)await C.sleep(30);busy=true;try{
+      const at=await pg.evaluate(id=>{const c=HolmIslandTutors.cast().find(c=>c.id===id);const m=c&&scene.getObjectByName('island-tutor-'+id);return m?[m.position.x,m.position.z]:null},id);
+      await defaultCam(at);await shot('dialogue_'+id)}finally{busy=false}}}}));
   // a watcher beside the driver: the first dialogue with each tutor, every skill animation, the bank, the fights
   const seen={};let busy=false,stop=false,fight=null;
   const watch=(async()=>{while(!stop){await C.sleep(220);if(busy)continue;busy=true;try{
-    const st=await page.evaluate(()=>{const vis=id=>{const e=document.getElementById(id);return !!(e&&e.style.display&&e.style.display!=='none'&&e.offsetParent!==null)};
+    const st=await page.evaluate(()=>{const vis=id=>{const e=document.getElementById(id);return !!(e&&getComputedStyle(e).display!=='none'&&e.getBoundingClientRect().width>0)};
       const gm=player&&player.userData&&player.userData.gmix;let clip=null;
       if(gm&&gm.clips)for(const k in gm.clips){const a=gm.clips[k];if(a&&a!==gm.idle&&a!==gm.walk&&a!==gm.run&&a.isRunning()&&a.getEffectiveWeight()>.5){clip=k;break}}
       const dm=document.getElementById('dialogue-modal');const who=dm&&vis('dialogue-modal')?(dm.textContent||'').trim().split(/\s+/)[0]:null;
       let lesson=null;try{lesson=Tutorial.complete?'complete':Tutorial.steps[Tutorial.step].id}catch(e){}
       return {dialog:vis('dialogue-modal'),who,bank:vis('bank-modal'),clip,lesson,target:!!(typeof Player!=='undefined'&&Player.target)}});
-    if(st.dialog){const key='dlg_'+st.lesson;if(!seen[key]){seen[key]=1;await defaultCam();await shot('dialogue_'+st.lesson)}}
     if(st.bank&&!seen.bank){seen.bank=1;await shot('bank')}
     if(st.clip&&(seen['clip_'+st.clip]||0)<1&&!st.dialog){seen['clip_'+st.clip]=1;const name='anim_'+st.clip;
-      await defaultCam();await O.startSampler(page,{crop:{size:[480,570],below:80}});await C.sleep(2600);
-      const l=await O.stopSampler(page);saveSamples(dir,name,l,{clip:st.clip,lesson:st.lesson});await shot(name);C.log('[ours] anim',st.clip,l.length,'frames')}
+      await defaultCam();await shot(name);
+      // then a closer side-on camera (the 2004 lens, character ~70% of the view height) for the frames
+      const inf=await O.info(page);const L4=O.LENS2004;
+      await O.hud(page,false);await O.setCam(page,{vfov:L4.vfov,elevDeg:26,dist:inf.height*2.6,lift:inf.height/2,yaw:inf.rotY+Math.PI/2});
+      await O.startSampler(page,{crop:{size:[600,720],below:110}});await C.sleep(2600);
+      const l=await O.stopSampler(page);await O.setCam(page,null);await O.hud(page,true);saveSamples(dir,name,l,{clip:st.clip,lesson:st.lesson});C.log('[ours] anim',st.clip,l.length,'frames')}
     if(st.target&&/trial/.test(st.lesson||'')){const k=(seen['fight_'+st.lesson]||0);if(k<10){seen['fight_'+st.lesson]=k+1;await shot('combat_'+st.lesson+'_'+k)}}
   }catch(e){}finally{busy=false}}})();
   const STOP_AFTER='open_bank';
@@ -122,7 +135,13 @@ async function capOurs(browser){
     if(!best)return null;const v=new THREE.Box3().setFromObject(best.m).getCenter(new THREE.Vector3()).project(camera),r=renderer.domElement.getBoundingClientRect();return [(v.x+1)/2*r.width+r.left,(1-v.y)/2*r.height+r.top]});
   if(npcXY){await page.mouse.click(npcXY[0],npcXY[1],{button:'right'});await C.sleep(500);await page.screenshot({path:path.join(dir,'menu_npc.png')});await page.keyboard.press('Escape');await page.mouse.move(1525,1000);await C.sleep(300)}
   await page.mouse.click(700,420,{button:'right'});await C.sleep(500);await page.screenshot({path:path.join(dir,'menu_ground.png')});await page.keyboard.press('Escape');
-  const uiRects=await page.evaluate(()=>{const o={};for(const id of ['side-panel','minimap-frame','chatbox-frame','run-orb','orbs','tab-bar','objective','zone-box']){const e=document.getElementById(id);if(!e)continue;const r=e.getBoundingClientRect();if(r.width>0)o[id]=[r.x,r.y,r.width,r.height].map(Math.round)}return o});
+  const uiRects=await page.evaluate(()=>{const o={};for(const id of ['side-panel','minimap-frame','chatbox-frame','run-orb','orbs','tab-bar','objective','zone-box']){const e=document.getElementById(id);if(!e)continue;const r=e.getBoundingClientRect();if(r.width>0)o[id]=[r.x,r.y,r.width,r.height].map(Math.round)}
+    // type and control sizes (px at 1530 x 1006) for the UI scale comparison
+    const fs=sel=>{const e=document.querySelector(sel);return e?parseFloat(getComputedStyle(e).fontSize):null};
+    const tb=document.querySelector('#tab-bar .tab-btn');const tr=tb?tb.getBoundingClientRect():null;
+    o.sizes={chatFont:fs('#chatbox-frame div'),dialogueFont:fs('#dlg-text'),objectiveFont:fs('#obj-text'),tabButton:tr?[Math.round(tr.width),Math.round(tr.height)]:null,
+      invSlot:(()=>{const s=document.querySelector('#inv-grid > *, .inv-slot');if(!s)return null;const r=s.getBoundingClientRect();return [Math.round(r.width),Math.round(r.height)]})(),
+      viewport:[innerWidth,innerHeight]};return o});
   C.writeJSON(path.join(dir,'log.json'),{per,log,uiRects,at:new Date().toISOString()});
   await page.close();
 }

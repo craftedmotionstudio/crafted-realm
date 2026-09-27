@@ -91,17 +91,26 @@ async function talkHint(ctx,pattern,opts){
 const inv=(S,re)=>S.sdk.findInventoryItem(re);
 async function useOnItem(S,a,b){const x=inv(S,a),y=inv(S,b);if(!x||!y){say('useOnItem missing',String(a),String(b));return false}
   await S.sdk.sendUseItemOnItem(x.slot,y.slot);await S.sdk.waitForTicks(3);return true}
-async function waitVarpChange(ctx,v,ms){const t0=Date.now();while(Date.now()-t0<(ms||20000)){if(await varp(ctx.page)!==v)return true;await C.sleep(250)}return false}
-async function waitItem(S,re,ms){const t0=Date.now();while(Date.now()-t0<(ms||30000)){if(inv(S,re))return true;await C.sleep(250)}return false}
+// a level-up message opens a dialog that stops the action in 2004: click through it while waiting
+async function dismiss(S){const d=W(S).dialog;if(d&&d.isOpen&&!(d.options||[]).some(o=>!/click here to continue/i.test(o.text))){await S.sdk.sendClickDialog(0);await S.sdk.waitForTicks(1);return true}return false}
+async function waitVarpChange(ctx,v,ms){const t0=Date.now();while(Date.now()-t0<(ms||20000)){if(await varp(ctx.page)!==v)return true;await dismiss(ctx.S);await C.sleep(250)}return false}
+async function waitItem(S,re,ms){const t0=Date.now();while(Date.now()-t0<(ms||30000)){if(inv(S,re))return true;if(await dismiss(S))return false;await C.sleep(250)}return false}
 async function haveFire(S){const l=await S.sdk.scanNearbyLocs(8);return l.find(x=>/^fire$/i.test(x.name))||null}
 
+// net a shrimp; retried: fires lit in a row block tiles the SDK's static path finder does not know about
+async function fish(c){for(let k=0;k<6;k++){if(inv(c.S,/raw shrimp/i))return true;
+    const r=await c.S.bot.interactNpc(/Fishing spot/i,/net/i);
+    if(r.success){if(await waitItem(c.S,/raw shrimp/i,30000))return true;continue}
+    say('fish attempt',k+1,':',r.message||r.reason);const s=c.S.sdk.findNearbyNpc(/Fishing spot/i);
+    if(s)await c.S.sdk.sendWalk(s.x+(k%2?1:-1),s.z+(k%3?1:-1),false);await C.sleep(5000)}
+  return false}
 // skill / item steps, by tutorial step (the talk and door steps are done by following the hint arrow)
 const SKILL={
   30:c=>c.moment('woodcutting',async()=>{const r=await c.S.bot.chopTree();if(!r.success)say('chop:',r.message||r.reason);await waitItem(c.S,/logs/i,20000)}),
   40:c=>c.moment('firemaking',async()=>{const r=await c.S.bot.burnLogs();if(!r.success)say('burn:',r.message||r.reason);await C.sleep(1500)}),
-  70:c=>c.moment('fishing',async()=>{const r=await c.S.bot.interactNpc(/Fishing spot/i,/net/i);if(!r.success)say('fish:',r.message||r.reason);await waitItem(c.S,/raw shrimp/i,40000);await C.sleep(600)}),
+  70:c=>c.moment('fishing',async()=>{await fish(c);await C.sleep(600)}),
   80:async c=>{
-    if(!inv(c.S,/raw shrimp/i)){await c.moment('fishing',async()=>{await c.S.bot.interactNpc(/Fishing spot/i,/net/i);await waitItem(c.S,/raw shrimp/i,40000)});}
+    if(!inv(c.S,/raw shrimp/i)){await c.moment('fishing',()=>fish(c));if(!inv(c.S,/raw shrimp/i))return}
     if(!await haveFire(c.S)){if(!inv(c.S,/logs/i)){await c.S.bot.chopTree();await waitItem(c.S,/logs/i,20000)}await c.S.bot.burnLogs();await C.sleep(1500)}
     await c.moment('cooking',async()=>{const r=await c.S.bot.useItemOnLoc(/raw shrimp/i,/fire/i);if(!r.success)say('cook:',r.message||r.reason);await waitVarpChange(c,80,15000);await C.sleep(800)})},
   90:c=>SKILL[80](c),
@@ -109,7 +118,7 @@ const SKILL={
     if(inv(c.S,/bucket of water/i)&&inv(c.S,/pot of flour/i)){await useOnItem(c.S,/bucket of water/i,/pot of flour/i);await waitItem(c.S,/bread dough/i,8000);return}
     return false},
   // controls tab: Run (the step's own text does not change when the tab is opened, so do it from 190 as well)
-  190:async c=>{const h=await hint(c.page);if(h.type)return false;await c.S.sdk.sendSetTab(12);await c.S.sdk.waitForTicks(1);await c.S.sdk.sendClickComponent(153);await c.S.sdk.waitForTicks(3)},
+  190:async c=>{await c.S.sdk.sendSetTab(12);await c.S.sdk.waitForTicks(1);await c.S.sdk.sendClickComponent(153);await c.S.sdk.waitForTicks(3);if(await varp(c.page)===190)return false},
   195:async c=>{await c.S.sdk.sendSetTab(12);await c.S.sdk.sendClickComponent(153);await c.S.sdk.waitForTicks(3)},
   320:c=>c.moment('smelting',async()=>{const r=await c.S.bot.useItemOnLoc(/tin ore|copper ore/i,/furnace/i);if(!r.success)say('smelt:',r.message||r.reason);await waitItem(c.S,/bronze bar/i,15000)}),
   340:async c=>{if(!inv(c.S,/hammer/i)||!inv(c.S,/bronze bar/i))return false;return c.moment('smithing',async()=>{const r=await c.S.bot.smithAtAnvil('dagger');if(!r.success)say('smith:',r.message||r.reason);await C.sleep(1500)})},

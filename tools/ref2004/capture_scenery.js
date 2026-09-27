@@ -15,7 +15,6 @@ const YAWS=[0,512,1024,1536];
 // world tiles on the local 2004 map (bot navigation targets only)
 const SPOTS_2004=[['town_lumbridge',3222,3219],['field_trees',3190,3236],['water_river',3239,3227],['town_varrock_square',3212,3428]];
 // our equivalents on Tutor's Holm (island coordinates, tiles)
-const SPOTS_OURS=[['town_holm_paths',39.5,59.5],['field_trees',33.5,78.5],['water_river',61.5,114.5],['town_bank_row',86.5,63.5]];
 
 async function cap2004(browser){
   const R=require('./lib/ref2004_client'),T=require('./lib/tutorial2004');
@@ -46,22 +45,42 @@ async function capOurs(browser){
   await page.mouse.move(1525,1000);
   const DEF=await page.evaluate(()=>({yaw:camCtl.yaw,pitch:camCtl.pitch,dist:camCtl.dist}));
   const L4=O.LENS2004;
-  for(const [name,x,z] of SPOTS_OURS){
-    const ok=await page.evaluate((x,z)=>{Player.runOn=true;return orderWalk(new THREE.Vector3(x,0,z))!==false},x,z);
-    await page.waitForFunction((x,z)=>Math.hypot(player.position.x-x,player.position.z-z)<.6&&!(Player.path&&Player.path.length)&&!Player.moveTo,{timeout:90000,polling:200},x,z).catch(()=>{});
-    const at=await page.evaluate(()=>[+player.position.x.toFixed(1),+player.position.z.toFixed(1)]);C.log('[ours] spot',name,ok?'':'(order refused)',JSON.stringify(at));
-    await C.sleep(1500);
-    // our default camera; our yaw 0 puts the camera on +z looking -z, the 2004 yaw 0 looks north (+z in 2004 terms):
-    // yaws are matched as "looking along" the same compass direction of each map, i.e. ours = PI - 2004 yaw
-    for(const y of YAWS){await page.evaluate((d,y)=>{camCtl.pitch=d.pitch;camCtl.dist=d.dist;camCtl.yaw=y},DEF,Math.PI-y*Math.PI/1024);await C.sleep(1600);
+  // candidate spots per kind: a few fixed island points plus spots a few tiles off named objects (lesson oaks, the
+  // fishing ripples, the fire ring); the first spot whose 2004-lens views see the adventurer from >= 2 yaws wins
+  const named=await page.evaluate(()=>{const out={};const add=(k,re)=>{const l=[];scene.traverse(m=>{if(l.length<4&&m.name&&re.test(m.name)){const b=new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3());l.push([b.x,b.z])}});out[k]=l};
+    add('field',/^island-lesson-survival-oak/);add('water',/fishing|ripple|pond/i);add('town',/^island-building-(bakehouse|lodge|bank|mill)$/);return out});
+  const kinds={town:[[39.5,59.5],[86.5,63.5],[47.5,71.5]],field:[[33.5,78.5]],water:[[61.5,114.5]]};
+  for(const k in named)for(const [x,z] of named[k])for(const [dx,dz] of [[4,0],[0,4],[-4,0],[0,-4]])kinds[k].push([Math.floor(x+dx)+.5,Math.floor(z+dz)+.5]);
+  const YAW8=[0,256,512,768,1024,1280,1536,1792];
+  const lens=y=>({vfov:L4.vfov,elevDeg:22.5,dist:L4.boomTiles(128),lift:L4.lookLift,yaw:Math.PI-y*Math.PI/1024});
+  for(const kind of ['town','field','water']){
+    let best=null;
+    for(const [x,z] of kinds[kind].slice(0,10)){
+      const ok=await page.evaluate((x,z)=>{Player.runOn=true;return orderWalk(new THREE.Vector3(x,0,z))!==false},x,z);if(!ok)continue;
+      await page.waitForFunction((x,z)=>Math.hypot(player.position.x-x,player.position.z-z)<.6&&!(Player.path&&Player.path.length)&&!Player.moveTo,{timeout:60000,polling:200},x,z).catch(()=>{});
+      const at=await page.evaluate(()=>[player.position.x,player.position.z]);if(Math.hypot(at[0]-x,at[1]-z)>1)continue;
+      await C.sleep(800);await O.hud(page,false);const vis={};
+      for(const y of YAW8){await O.setCam(page,lens(y));vis[y]=await O.playerPixels(page)}
+      await O.setCam(page,null);await O.hud(page,true);
+      const good=YAW8.filter(y=>vis[y]>=12000).sort((a,b)=>vis[b]-vis[a]);
+      C.log('[ours]',kind,'spot',x,z,'visible yaws',good.length);
+      if(!best||good.length>best.good.length)best={x,z,good,vis};
+      if(good.length>=3)break;
+    }
+    if(!best){C.log('[ours] no spot for',kind);continue}
+    const name=kind+'_holm';
+    await page.evaluate((x,z)=>{orderWalk(new THREE.Vector3(x,0,z))},best.x,best.z);
+    await page.waitForFunction((x,z)=>Math.hypot(player.position.x-x,player.position.z-z)<.6&&!(Player.path&&Player.path.length)&&!Player.moveTo,{timeout:60000,polling:200},best.x,best.z).catch(()=>{});
+    await C.sleep(1200);
+    const yaws=(best.good.length?best.good:YAW8.slice().sort((a,b)=>best.vis[b]-best.vis[a])).slice(0,2);
+    for(const y of yaws){await page.evaluate((d,y)=>{camCtl.pitch=d.pitch;camCtl.dist=d.dist;camCtl.yaw=y},DEF,Math.PI-y*Math.PI/1024);await C.sleep(1600);
       await page.screenshot({path:path.join(dir,name+'_default_y'+y+'.png')})}
     await O.hud(page,false);
-    for(const y of YAWS){await O.setCam(page,{vfov:L4.vfov,elevDeg:22.5,dist:L4.boomTiles(128),lift:L4.lookLift,yaw:Math.PI-y*Math.PI/1024});
-      await page.screenshot({path:path.join(dir,name+'_p128_y'+y+'.png')})}
-    await O.setCam(page,{vfov:L4.vfov,elevDeg:256*360/2048,dist:L4.boomTiles(256),lift:L4.lookLift,yaw:Math.PI-1536*Math.PI/1024});
-    await page.screenshot({path:path.join(dir,name+'_p256_y1536.png')});
+    for(const y of yaws){await O.setCam(page,lens(y));await page.screenshot({path:path.join(dir,name+'_p128_y'+y+'.png')})}
+    await O.setCam(page,{vfov:L4.vfov,elevDeg:256*360/2048,dist:L4.boomTiles(256),lift:L4.lookLift,yaw:Math.PI-yaws[0]*Math.PI/1024});
+    await page.screenshot({path:path.join(dir,name+'_p256_y'+yaws[0]+'.png')});
     await O.setCam(page,null);await O.hud(page,true);
-    log.push({name,at});
+    log.push({kind,name,spot:[best.x,best.z],yaws,visibility:best.vis});
   }
   C.writeJSON(path.join(dir,'log.json'),{log,at:new Date().toISOString()});
   await page.close();
