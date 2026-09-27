@@ -36,6 +36,22 @@ CLASSIC = {'A': {'Hair': 2, 'Jaw': 2, 'Torso': 1, 'Arms': 2, 'Hands': 1, 'Legs':
 CLASSIC_COLORS = {'hair': '#3a2a1c', 'torso': '#8a8438', 'legs': '#2f6a36', 'feet': '#5a3a22', 'skin': '#c8966e'}
 
 
+GIF_PY = '''
+import json, sys
+from PIL import Image
+d = json.load(open(sys.argv[1]))
+for k, fs in d['gifs'].items():
+    ims = []
+    for f in fs:
+        im = Image.open(f).convert('RGBA')
+        bg = Image.new('RGBA', im.size, tuple(d['bg']) + (255,))
+        bg.alpha_composite(im)
+        ims.append(bg.convert('P', palette=Image.ADAPTIVE, colors=128))
+    ims = ims * 3
+    ims[0].save('%s/%s_%s.gif' % (d['out'], d['prof'], k[4:]), save_all=True, append_images=ims[1:], duration=33, loop=0, disposal=2)
+'''
+
+
 def need_parts():
     need = set()
     for bt in ('A', 'B'):
@@ -237,6 +253,18 @@ def main():
     res['cells'] = cells
     with open(os.path.join(OUT, '%s_measure.json' % PROF), 'w', encoding='utf-8') as fh:
         json.dump(res, fh, indent=1)
+    if not QUICK:   # GIF loops (3 cycles, real time at 30 fps) with the system python + Pillow
+        gifs = {k: v for k, v in res['renders'].items() if k.startswith('gif_')}
+        spec = os.path.join(OUT, '_gifs.json')
+        with open(spec, 'w', encoding='utf-8') as fh:
+            json.dump({'out': OUT, 'prof': PROF, 'gifs': gifs, 'bg': K.BG_REF}, fh)
+        code = GIF_PY
+        import subprocess, shutil
+        py = shutil.which('python') or shutil.which('py')
+        env = {k: v for k, v in os.environ.items() if not k.startswith('PYTHON')}
+        r = subprocess.run([py, '-c', code, spec], capture_output=True, text=True, env=env)
+        print('[GIF]', r.returncode, r.stderr[-400:])
+        os.remove(spec)
     print('[V4OPT] done', PROF, json.dumps(res['gait']))
 
 

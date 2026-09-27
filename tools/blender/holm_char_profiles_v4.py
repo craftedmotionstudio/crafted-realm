@@ -29,6 +29,12 @@ SHELF = {   # (z, rx, rf, rb) -- the torso from the upper chest to the collar
     'B': [(1.385, .162, .110, .106), (1.418, .163, .100, .098), (1.442, .156, .090, .089), (1.458, .128, .078, .078),
           (1.470, .086, .066, .068), (1.480, .064, .058, .060), (1.486, .060, .058, .060)],
 }
+SHELF_SQ = {   # the 2004 "coat-hanger" line: a flat top from the collar almost to the arm, then a crisp corner into the sleeve
+    'A': [(1.380, .197, .126, .117), (1.420, .201, .118, .112), (1.452, .200, .108, .104), (1.472, .188, .094, .092),
+          (1.484, .144, .078, .078), (1.492, .088, .066, .068), (1.498, .070, .062, .064)],
+    'B': [(1.385, .162, .110, .106), (1.418, .164, .102, .099), (1.446, .162, .092, .090), (1.464, .150, .080, .080),
+          (1.476, .110, .068, .069), (1.484, .070, .059, .061), (1.490, .061, .058, .060)],
+}
 SHELF_C = {   # the stylised midpoint: a gentler shelf
     'A': [(1.380, .197, .126, .117), (1.425, .194, .110, .106), (1.455, .172, .092, .091), (1.475, .124, .076, .076),
           (1.488, .078, .065, .067), (1.496, .070, .062, .064)],
@@ -51,7 +57,7 @@ TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
 PROFILES = {
     'v4a': dict(label='Option A -- closest 2004: level shoulders, small head on a visible neck, flat faceted shading, stepped motion',
-                shelf=SHELF, arm_lift={'A': .030, 'B': .026}, arm_out={'A': .008, 'B': .006},
+                shelf=SHELF_SQ, arm_lift={'A': .046, 'B': .040}, arm_out={'A': .010, 'B': .008},
                 head_s=.96, head_dz=.004, neck_k=1.10, sharp=12.0,
                 head=HEAD_EGG, head_p=2.3,
                 face=dict(eye=(.0275, 1.690, .026, .0055, .024, .0050), eye_tick=(.010, -.004, .006, .0045), brow=None,
