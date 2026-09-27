@@ -49,7 +49,7 @@ function check(ok, label, detail) { results.push({ ok: !!ok, label, detail: deta
     // Wren takes the melee kit at the chest (worn gear for the Remove check)
     sp('Wren').teleport(35, 10, 0); await sleep(1200);
     await A.evaluate(() => CROnlineQA.kit('melee'));
-    for (let i = 0; i < 60 && !(await A.evaluate(() => CROnlineQA.state().equip.weapon === 'steel_longsword')); i++) await sleep(300);
+    for (let i = 0; i < 60 && !(await A.evaluate(() => CROnlineQA.state().equip.weapon === OnlineWorld.map().alpha.kits.melee.equip.weapon)); i++) await sleep(300);
     for (const n of world.npcs.values()) n.huntEnabled = false;   // nothing interrupts the clicks
     const rowsOpen = (page) => page.evaluate(() => { const m = document.getElementById('ctx-menu'); if (!m || m.style.display === 'none') return null; return Array.from(document.querySelectorAll('#ctx-rows .ctx-row')).map((r) => r.textContent.replace(/\s+/g, ' ').trim()); });
     const hoverLine = (page) => page.evaluate(() => { const e = document.getElementById('action-text') || document.querySelector('.action-text,#hover-action'); return e ? e.textContent.replace(/\s+/g, ' ').trim() : null; });

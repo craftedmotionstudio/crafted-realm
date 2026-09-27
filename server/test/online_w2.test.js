@@ -87,8 +87,8 @@ test('alpha supply chest: kits only at the chest, out of combat; they replace pa
   for (let i = 0; i < MAP.alpha.cooldown; i++) w.cycle();   // the chest has a short cooldown
   near.s.intent({ t: 'kit', name: 'magic' });
   runUntil(w, () => near.p.equip.weapon === 'storm_staff', 10);
-  assert.equal(near.p.autocast, 'water_bolt');
-  assert.equal(near.p.autocastSpell(), 'water_bolt');
+  assert.equal(near.p.autocast, MAP.alpha.kits.magic.autocast);
+  assert.equal(near.p.autocastSpell(), MAP.alpha.kits.magic.autocast);
   // unknown kits are refused as bad input
   const before = near.p.badInput | 0;
   near.s.intent({ t: 'kit', name: 'toString' });

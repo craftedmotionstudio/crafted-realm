@@ -39,7 +39,7 @@ fs.mkdirSync(OUT, { recursive: true });
     const panel = { x: 1286, y: 470, width: 252, height: 430 };
     for (const kit of ['melee', 'ranged', 'magic']) {
       await A.evaluate((k) => CROnlineQA.kit(k), kit);
-      const want = { melee: 'steel_longsword', ranged: 'gale_longbow', magic: 'storm_staff' }[kit];
+      const want = app.world.map.alpha.kits[kit].equip.weapon;
       for (let i = 0; i < 80 && !(await A.evaluate((w) => CROnlineQA.state().equip.weapon === w, want)); i++) await sleep(300);
       await A.evaluate(() => document.querySelector('.tab-btn[data-tab="combat"]').click()); await sleep(700);
       await shot(A, 'combat_tab_' + kit, panel);

@@ -169,7 +169,7 @@ async function kitUp(c, kit) {
   const s0 = await c.state();
   const k0 = sp(c.name) ? sp(c.name).lastKitTick : null;
   await c.q((k) => CROnlineQA.kit(k), kit);
-  const want = { melee: 'steel_longsword', ranged: 'gale_longbow', magic: 'storm_staff' }[kit];
+  const want = world.map.alpha.kits[kit].equip.weapon;   // the kit's own weapon (server/data/maps: alpha.kits)
   // a fresh kit from the chest (the server's own record), not the weapon already in hand: someone who still holds that
   // kit's weapon is walking to the chest for new food and ammunition and must not be sent to the fight half-way there
   await c.until((s) => s.equip.weapon === want && s.ui.set.run !== undefined && sp(c.name) && sp(c.name).lastKitTick !== k0, 150000, 'kit ' + kit).catch(async (e) => {
