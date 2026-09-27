@@ -1,0 +1,185 @@
+{
+ "owner_review": "2026-09-27",
+ "reference": "2004 captures read in place from C:/Users/iQwaZ/ref2004_captures/characters/2004 (never copied); side-by-side sheets only in C:/Users/iQwaZ/ref2004_captures/sheets/<opt>_vs_2004.png",
+ "build": "blender -b --python tools/blender/build_holm_characters_v4_options.py -- --profile <opt> --out scratchpad/holm_characters_v4/<opt>",
+ "grade": "python tools/holm_char_compare_v4.py --opt <opt> [--passes <designer-front passes jsonl>]",
+ "options": {
+  "v4a": {
+   "label": "Option A -- closest 2004: 2004 proportions, low-poly panel shading, old-client stepped motion (8 held poses, no in-betweens)",
+   "total": 9.34,
+   "criteria": {
+    "head/body ratio": 9.43,
+    "shoulder line": 9.23,
+    "neck": 9.18,
+    "arm hang": 9.36,
+    "legs/feet": 9.59,
+    "face": 9.0,
+    "shading": 9.0,
+    "walk": 10.0,
+    "run": 9.24
+   },
+   "gait": {
+    "walk": {
+     "frames": 22,
+     "cycle_s": 0.733,
+     "stride_H": 0.978,
+     "poses_per_cycle": 9,
+     "interpolation": "CONSTANT"
+    },
+    "run": {
+     "frames": 21,
+     "cycle_s": 0.7,
+     "stride_H": 1.633,
+     "poses_per_cycle": 9,
+     "interpolation": "CONSTANT"
+    }
+   },
+   "body": {
+    "A": {
+     "height_m": 1.8,
+     "chin_m": 1.534,
+     "collar_m": 1.5,
+     "head_h_m": 0.266,
+     "neck_front_m": 0.034
+    },
+    "B": {
+     "height_m": 1.788,
+     "chin_m": 1.539,
+     "collar_m": 1.492,
+     "head_h_m": 0.249,
+     "neck_front_m": 0.047
+    }
+   },
+   "files": {
+    "sheet": "v4a/v4a_sheet.png",
+    "scores": "v4a/v4a_scores.png",
+    "gifs": [
+     "v4a/v4a_A_walk.gif",
+     "v4a/v4a_A_run.gif",
+     "v4a/v4a_B_walk.gif",
+     "v4a/v4a_B_run.gif"
+    ],
+    "score_json": "v4a/v4a_score.json",
+    "measure_json": "v4a/v4a_measure.json"
+   }
+  },
+  "v4b": {
+   "label": "Option B -- the A figure, softer: smooth shading, in-betweened motion (the 8 poses joined by straight lines)",
+   "total": 9.14,
+   "criteria": {
+    "head/body ratio": 9.43,
+    "shoulder line": 9.23,
+    "neck": 9.18,
+    "arm hang": 9.36,
+    "legs/feet": 9.59,
+    "face": 8.5,
+    "shading": 8.5,
+    "walk": 9.58,
+    "run": 8.89
+   },
+   "gait": {
+    "walk": {
+     "frames": 22,
+     "cycle_s": 0.733,
+     "stride_H": 0.978,
+     "poses_per_cycle": 9,
+     "interpolation": "LINEAR"
+    },
+    "run": {
+     "frames": 21,
+     "cycle_s": 0.7,
+     "stride_H": 1.633,
+     "poses_per_cycle": 9,
+     "interpolation": "LINEAR"
+    }
+   },
+   "body": {
+    "A": {
+     "height_m": 1.8,
+     "chin_m": 1.534,
+     "collar_m": 1.5,
+     "head_h_m": 0.266,
+     "neck_front_m": 0.034
+    },
+    "B": {
+     "height_m": 1.788,
+     "chin_m": 1.539,
+     "collar_m": 1.492,
+     "head_h_m": 0.249,
+     "neck_front_m": 0.047
+    }
+   },
+   "files": {
+    "sheet": "v4b/v4b_sheet.png",
+    "scores": "v4b/v4b_scores.png",
+    "gifs": [
+     "v4b/v4b_A_walk.gif",
+     "v4b/v4b_A_run.gif",
+     "v4b/v4b_B_walk.gif",
+     "v4b/v4b_B_run.gif"
+    ],
+    "score_json": "v4b/v4b_score.json",
+    "measure_json": "v4b/v4b_measure.json"
+   }
+  },
+  "v4c": {
+   "label": "Option C -- stylised midpoint: 2004 build softened (larger head, milder V), flat faceted shading, smooth eased motion",
+   "total": 8.26,
+   "criteria": {
+    "head/body ratio": 8.16,
+    "shoulder line": 9.5,
+    "neck": 8.78,
+    "arm hang": 8.42,
+    "legs/feet": 8.72,
+    "face": 7.5,
+    "shading": 7.0,
+    "walk": 8.41,
+    "run": 7.88
+   },
+   "gait": {
+    "walk": {
+     "frames": 21,
+     "cycle_s": 0.7,
+     "stride_H": 0.915,
+     "poses_per_cycle": 9,
+     "interpolation": "BEZIER"
+    },
+    "run": {
+     "frames": 20,
+     "cycle_s": 0.667,
+     "stride_H": 1.524,
+     "poses_per_cycle": 9,
+     "interpolation": "BEZIER"
+    }
+   },
+   "body": {
+    "A": {
+     "height_m": 1.837,
+     "chin_m": 1.539,
+     "collar_m": 1.5,
+     "head_h_m": 0.298,
+     "neck_front_m": 0.039
+    },
+    "B": {
+     "height_m": 1.821,
+     "chin_m": 1.545,
+     "collar_m": 1.492,
+     "head_h_m": 0.277,
+     "neck_front_m": 0.053
+    }
+   },
+   "files": {
+    "sheet": "v4c/v4c_sheet.png",
+    "scores": "v4c/v4c_scores.png",
+    "gifs": [
+     "v4c/v4c_A_walk.gif",
+     "v4c/v4c_A_run.gif",
+     "v4c/v4c_B_walk.gif",
+     "v4c/v4c_B_run.gif"
+    ],
+    "score_json": "v4c/v4c_score.json",
+    "measure_json": "v4c/v4c_measure.json"
+   }
+  }
+ }
+}

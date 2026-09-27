@@ -280,8 +280,9 @@ def skirt_w(p):
     if p.z >= 0.97:
         return torso_w(p)
     u = 0.78 * ss(0.97, 0.50, p.z)
-    k = ss(-0.05, 0.05, p.x)
+    k = ss(-SKIRT_KW, SKIRT_KW, p.x)
     return wnorm(wmix(B('Hips'), [(B('LeftUpLeg'), k), (B('RightUpLeg'), 1 - k)], u))
+SKIRT_KW = .05   # v4 profiles: a wider left / right blend so a split stance does not tear a slit up the back of a skirt
 
 def arm_w(sx):
     sd = 'Left' if sx > 0 else 'Right'

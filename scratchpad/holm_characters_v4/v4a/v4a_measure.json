@@ -1,15 +1,55 @@
 {
  "profile": "v4a",
- "label": "Option A -- closest 2004: level shoulders, small head on a visible neck, flat faceted shading, stepped motion",
+ "label": "Option A -- closest 2004: 2004 proportions, low-poly panel shading, old-client stepped motion (8 held poses, no in-betweens)",
  "renders": {
   "classic_A_front": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_front.png",
   "classic_A_side": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_side.png",
   "classic_A_34": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_34.png",
   "classic_A_game": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_game.png",
+  "classic_A_rel0": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_rel0.png",
+  "classic_A_rel256": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_rel256.png",
+  "classic_A_rel512": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_rel512.png",
+  "classic_A_rel768": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_rel768.png",
+  "classic_A_rel1024": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_rel1024.png",
+  "classic_A_rel1280": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_rel1280.png",
+  "classic_A_rel1536": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_rel1536.png",
+  "classic_A_rel1792": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_classic_rel1792.png",
   "classic_B_front": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_front.png",
   "classic_B_side": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_side.png",
   "classic_B_34": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_34.png",
   "classic_B_game": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_game.png",
+  "classic_B_rel0": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_rel0.png",
+  "classic_B_rel256": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_rel256.png",
+  "classic_B_rel512": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_rel512.png",
+  "classic_B_rel768": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_rel768.png",
+  "classic_B_rel1024": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_rel1024.png",
+  "classic_B_rel1280": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_rel1280.png",
+  "classic_B_rel1536": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_rel1536.png",
+  "classic_B_rel1792": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_classic_rel1792.png",
+  "gaitsil_A_walk": [
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_00.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_01.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_02.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_03.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_04.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_05.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_06.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_07.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_08.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_09.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_10.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_11.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_12.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_13.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_14.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_15.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_16.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_17.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_18.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_19.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_20.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_walk_21.png"
+  ],
   "gif_A_walk": [
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_00.png",
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_01.png",
@@ -25,7 +65,37 @@
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_11.png",
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_12.png",
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_13.png",
-   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_14.png"
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_14.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_15.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_16.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_17.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_18.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_19.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_20.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_walk_21.png"
+  ],
+  "gaitsil_A_run": [
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_00.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_01.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_02.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_03.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_04.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_05.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_06.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_07.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_08.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_09.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_10.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_11.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_12.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_13.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_14.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_15.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_16.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_17.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_18.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_19.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_A_run_20.png"
   ],
   "gif_A_run": [
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_00.png",
@@ -43,7 +113,36 @@
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_12.png",
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_13.png",
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_14.png",
-   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_15.png"
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_15.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_16.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_17.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_18.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_19.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_A_run_20.png"
+  ],
+  "gaitsil_B_walk": [
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_00.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_01.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_02.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_03.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_04.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_05.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_06.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_07.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_08.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_09.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_10.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_11.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_12.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_13.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_14.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_15.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_16.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_17.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_18.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_19.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_20.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_walk_21.png"
   ],
   "gif_B_walk": [
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_00.png",
@@ -60,7 +159,37 @@
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_11.png",
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_12.png",
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_13.png",
-   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_14.png"
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_14.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_15.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_16.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_17.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_18.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_19.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_20.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_walk_21.png"
+  ],
+  "gaitsil_B_run": [
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_00.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_01.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_02.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_03.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_04.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_05.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_06.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_07.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_08.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_09.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_10.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_11.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_12.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_13.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_14.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_15.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_16.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_17.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_18.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_19.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gs_v4a_B_run_20.png"
   ],
   "gif_B_run": [
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_00.png",
@@ -78,109 +207,114 @@
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_12.png",
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_13.png",
    "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_14.png",
-   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_15.png"
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_15.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_16.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_17.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_18.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_19.png",
+   "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\gif_v4a_B_run_20.png"
   ]
  },
  "body": {
   "A": {
-   "height_m": 1.822,
-   "chin_m": 1.559,
-   "collar_m": 1.498,
-   "head_h_m": 0.263,
-   "neck_front_m": 0.061
+   "height_m": 1.8,
+   "chin_m": 1.534,
+   "collar_m": 1.5,
+   "head_h_m": 0.266,
+   "neck_front_m": 0.034
   },
   "B": {
-   "height_m": 1.822,
-   "chin_m": 1.564,
-   "collar_m": 1.49,
-   "head_h_m": 0.258,
-   "neck_front_m": 0.074
+   "height_m": 1.788,
+   "chin_m": 1.539,
+   "collar_m": 1.492,
+   "head_h_m": 0.249,
+   "neck_front_m": 0.047
   }
  },
  "gait": {
   "walk": {
-   "frames": 15,
-   "cycle_s": 0.5,
-   "steps_per_min": 240.0,
+   "frames": 22,
+   "cycle_s": 0.733,
+   "steps_per_min": 163.6,
    "speed_mps": 2.4,
-   "stride_m": 1.2,
-   "stride_H": 0.659,
-   "step_H": 0.329,
-   "bob_m": 0.0237,
-   "bob_H": 0.013,
-   "arm_swing_deg": 44.9,
-   "thigh_swing_deg": 56.1,
-   "hand_travel_H": 0.205,
-   "max_feet_apart_H": 0.299,
+   "stride_m": 1.76,
+   "stride_H": 0.978,
+   "step_H": 0.489,
+   "bob_m": 0.0431,
+   "bob_H": 0.0239,
+   "arm_swing_deg": 71.3,
+   "thigh_swing_deg": 55.9,
+   "hand_travel_H": 0.256,
+   "max_feet_apart_H": 0.308,
    "elbow_deg": [
-    25.7,
-    31.0
+    26.9,
+    33.0
    ],
-   "foot_lift_H": 0.045,
-   "poses_per_cycle": 6,
+   "foot_lift_H": 0.032,
+   "poses_per_cycle": 9,
    "interpolation": "CONSTANT"
   },
   "run": {
-   "frames": 16,
-   "cycle_s": 0.533,
-   "steps_per_min": 225.0,
+   "frames": 21,
+   "cycle_s": 0.7,
+   "steps_per_min": 171.4,
    "speed_mps": 4.2,
-   "stride_m": 2.24,
-   "stride_H": 1.229,
-   "step_H": 0.615,
-   "bob_m": 0.04,
-   "bob_H": 0.0219,
-   "arm_swing_deg": 72.1,
-   "thigh_swing_deg": 66.0,
-   "hand_travel_H": 0.21,
-   "max_feet_apart_H": 0.394,
+   "stride_m": 2.94,
+   "stride_H": 1.633,
+   "step_H": 0.817,
+   "bob_m": 0.0698,
+   "bob_H": 0.0388,
+   "arm_swing_deg": 174.3,
+   "thigh_swing_deg": 67.5,
+   "hand_travel_H": 0.435,
+   "max_feet_apart_H": 0.417,
    "elbow_deg": [
-    73.7,
-    79.0
+    35.1,
+    39.4
    ],
-   "foot_lift_H": 0.091,
+   "foot_lift_H": 0.119,
    "poses_per_cycle": 9,
    "interpolation": "CONSTANT"
   }
  },
  "gait_report": {
   "walk": {
-   "frames": 15,
-   "clip_seconds": 0.5,
-   "ground_speed_clip_mps": 2.4,
+   "frames": 22,
+   "clip_seconds": 0.733,
+   "ground_speed_clip_mps": 1.56,
    "spine_chain_forward_tilt_deg": [
-    -0.94,
-    -0.94
+    6.87,
+    6.88
    ],
-   "knee_flex_at_contact_deg": 13.8,
-   "knee_flex_mid_stance_deg": 11.3,
-   "measured_planted_foot_speed_mps": 2.4,
+   "knee_flex_at_contact_deg": 3.6,
+   "knee_flex_mid_stance_deg": 15.6,
+   "measured_planted_foot_speed_mps": 1.56,
    "max_planted_speed_error_mps": 0.0,
-   "stride_m": 1.2,
-   "step_m": 0.6,
+   "stride_m": 1.144,
+   "step_m": 0.572,
    "duty": 0.58,
-   "max_stance_reach_error_m": 0.0,
-   "front_m": 0.26,
-   "pelvis_drop_m": 0.015
+   "max_stance_reach_error_m": 0.0003,
+   "front_m": 0.3,
+   "pelvis_drop_m": 0.025
   },
   "run": {
-   "frames": 16,
-   "clip_seconds": 0.533,
-   "ground_speed_clip_mps": 4.2,
+   "frames": 21,
+   "clip_seconds": 0.7,
+   "ground_speed_clip_mps": 3.9899999999999998,
    "spine_chain_forward_tilt_deg": [
-    1.1,
-    1.1
+    14.12,
+    14.12
    ],
-   "knee_flex_at_contact_deg": 19.8,
-   "knee_flex_mid_stance_deg": 52.6,
-   "measured_planted_foot_speed_mps": 4.2,
+   "knee_flex_at_contact_deg": 9.7,
+   "knee_flex_mid_stance_deg": 9.0,
+   "measured_planted_foot_speed_mps": 3.99,
    "max_planted_speed_error_mps": 0.0,
-   "stride_m": 2.24,
-   "step_m": 1.12,
-   "duty": 0.38,
+   "stride_m": 2.793,
+   "step_m": 1.396,
+   "duty": 0.3,
    "max_stance_reach_error_m": 0.0,
-   "front_m": 0.32,
-   "pelvis_drop_m": 0.07
+   "front_m": 0.34,
+   "pelvis_drop_m": 0.04
   }
  },
  "sheet": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\v4a_sheet.png",
@@ -407,7 +541,7 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_01.png",
-    "label": "f2",
+    "label": "f3",
     "bg": [
      214,
      214,
@@ -416,15 +550,6 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_02.png",
-    "label": "f4",
-    "bg": [
-     214,
-     214,
-     218
-    ]
-   },
-   {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_03.png",
     "label": "f6",
     "bg": [
      214,
@@ -433,7 +558,7 @@
     ]
    },
    {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_04.png",
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_03.png",
     "label": "f8",
     "bg": [
      214,
@@ -442,16 +567,7 @@
     ]
    },
    {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_05.png",
-    "label": "f9",
-    "bg": [
-     214,
-     214,
-     218
-    ]
-   },
-   {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_06.png",
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_04.png",
     "label": "f11",
     "bg": [
      214,
@@ -460,8 +576,26 @@
     ]
    },
    {
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_05.png",
+    "label": "f14",
+    "bg": [
+     214,
+     214,
+     218
+    ]
+   },
+   {
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_06.png",
+    "label": "f16",
+    "bg": [
+     214,
+     214,
+     218
+    ]
+   },
+   {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_walk_07.png",
-    "label": "f13",
+    "label": "f19",
     "bg": [
      214,
      214,
@@ -481,7 +615,7 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_run_01.png",
-    "label": "f2",
+    "label": "f3",
     "bg": [
      214,
      214,
@@ -490,7 +624,7 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_run_02.png",
-    "label": "f4",
+    "label": "f5",
     "bg": [
      214,
      214,
@@ -499,15 +633,6 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_run_03.png",
-    "label": "f6",
-    "bg": [
-     214,
-     214,
-     218
-    ]
-   },
-   {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_run_04.png",
     "label": "f8",
     "bg": [
      214,
@@ -516,7 +641,7 @@
     ]
    },
    {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_run_05.png",
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_run_04.png",
     "label": "f10",
     "bg": [
      214,
@@ -525,8 +650,17 @@
     ]
    },
    {
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_run_05.png",
+    "label": "f13",
+    "bg": [
+     214,
+     214,
+     218
+    ]
+   },
+   {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_run_06.png",
-    "label": "f12",
+    "label": "f16",
     "bg": [
      214,
      214,
@@ -535,7 +669,7 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_A_run_07.png",
-    "label": "f14",
+    "label": "f18",
     "bg": [
      214,
      214,
@@ -555,7 +689,7 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_01.png",
-    "label": "f2",
+    "label": "f3",
     "bg": [
      214,
      214,
@@ -564,15 +698,6 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_02.png",
-    "label": "f4",
-    "bg": [
-     214,
-     214,
-     218
-    ]
-   },
-   {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_03.png",
     "label": "f6",
     "bg": [
      214,
@@ -581,7 +706,7 @@
     ]
    },
    {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_04.png",
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_03.png",
     "label": "f8",
     "bg": [
      214,
@@ -590,16 +715,7 @@
     ]
    },
    {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_05.png",
-    "label": "f9",
-    "bg": [
-     214,
-     214,
-     218
-    ]
-   },
-   {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_06.png",
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_04.png",
     "label": "f11",
     "bg": [
      214,
@@ -608,8 +724,26 @@
     ]
    },
    {
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_05.png",
+    "label": "f14",
+    "bg": [
+     214,
+     214,
+     218
+    ]
+   },
+   {
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_06.png",
+    "label": "f16",
+    "bg": [
+     214,
+     214,
+     218
+    ]
+   },
+   {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_walk_07.png",
-    "label": "f13",
+    "label": "f19",
     "bg": [
      214,
      214,
@@ -629,7 +763,7 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_run_01.png",
-    "label": "f2",
+    "label": "f3",
     "bg": [
      214,
      214,
@@ -638,7 +772,7 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_run_02.png",
-    "label": "f4",
+    "label": "f5",
     "bg": [
      214,
      214,
@@ -647,15 +781,6 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_run_03.png",
-    "label": "f6",
-    "bg": [
-     214,
-     214,
-     218
-    ]
-   },
-   {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_run_04.png",
     "label": "f8",
     "bg": [
      214,
@@ -664,7 +789,7 @@
     ]
    },
    {
-    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_run_05.png",
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_run_04.png",
     "label": "f10",
     "bg": [
      214,
@@ -673,8 +798,17 @@
     ]
    },
    {
+    "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_run_05.png",
+    "label": "f13",
+    "bg": [
+     214,
+     214,
+     218
+    ]
+   },
+   {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_run_06.png",
-    "label": "f12",
+    "label": "f16",
     "bg": [
      214,
      214,
@@ -683,7 +817,7 @@
    },
    {
     "path": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Chars4\\scratchpad\\holm_characters_v4\\v4a\\cells\\v4a_B_run_07.png",
-    "label": "f14",
+    "label": "f18",
     "bg": [
      214,
      214,

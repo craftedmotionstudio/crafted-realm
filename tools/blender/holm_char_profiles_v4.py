@@ -30,8 +30,8 @@ SHELF = {   # (z, rx, rf, rb) -- the torso from the upper chest to the collar
           (1.470, .086, .066, .068), (1.480, .064, .058, .060), (1.486, .060, .058, .060)],
 }
 SHELF_SQ = {   # the 2004 "coat-hanger" line: a flat top from the collar almost to the arm, then a crisp corner into the sleeve
-    'A': [(1.380, .182, .126, .117), (1.420, .183, .118, .112), (1.452, .183, .108, .104), (1.472, .178, .094, .092),
-          (1.486, .156, .080, .080), (1.494, .110, .068, .070), (1.500, .072, .062, .064)],
+    'A': [(1.380, .176, .126, .117), (1.420, .177, .118, .112), (1.452, .177, .108, .104), (1.472, .172, .094, .092),
+          (1.486, .152, .080, .080), (1.494, .108, .068, .070), (1.500, .072, .062, .064)],
     'B': [(1.385, .156, .110, .106), (1.418, .162, .102, .099), (1.446, .164, .092, .090), (1.464, .160, .080, .080),
           (1.478, .142, .069, .070), (1.486, .100, .060, .062), (1.492, .062, .058, .060)],
 }
@@ -54,9 +54,9 @@ HEAD_EGG['B'] = [(1.554, .032, .040, .032, 0.0), (1.572, .052, .060, .044, .17),
                  (1.630, .076, .084, .078, .05)] + HEAD_EGG['A'][4:]
 
 # the 2004 idle (measured on the reference front views): legs nearly parallel and close under narrow hips
-STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 3.0), 'RightUpLeg': (-5.5, 1, -3.0), 'Neck': (-5, 0, 0), 'Head': (17, 0, 0)}   # head bowed a touch
+STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 3.0), 'RightUpLeg': (-5.5, 1, -3.0), 'Neck': (10, 0, 0), 'Head': (6, 0, 0)}   # head carried forward, face level
 # the old client's ready pose: the left foot a little forward, the right back, toes turned out
-IDLE_FEET_2004 = {'Left': (.125, .17), 'Right': (-.125, -.03), 'drop': .02, 'toe': 8.0}   # the right foot forward
+IDLE_FEET_2004 = {'Left': (.125, .13), 'Right': (-.125, .01), 'drop': .012, 'toe': 8.0}   # the right foot forward
 
 # the 2004 man's V: broad square shoulders over a narrow waist at the belt and slim hips (body A, z < 1.38; final values)
 V_TORSO_A = [(0.940, .138, .1232, .1210, .026), (1.000, .136, .1210, .1166, .022), (1.080, .152, .1276, .1166, .018),
@@ -116,7 +116,7 @@ def _v_body(K, thigh_k=.80, hip_x=.100, long_legs=True, thigh_k_b=.84, hip_x_b=.
 # faster than 2004's (1.32 vs 1.01 H/s), so the walk keeps the 2004 STRIDE (23 frames = 0.77 s -> 1.01 H).
 # the reference strips also lean forward: ~5 deg in the walk, ~14 deg in the run (hips -> head)
 GAIT_2004 = {'walk': {'frames': 22, 'bob': .022, 'p_on': 2, 'p_off': -8, 'arm_swing': 33, 'plant_k': .65, 'lean_cap': (5.0, False)},
-             'run': {'frames': 21, 'duty': .30, 'bob': .035, 'bob_phase': .40, 'drop': .04, 'kick': .24, 'lift': .16, 'arm_swing': 80, 'fore': 45,
+             'run': {'frames': 21, 'duty': .30, 'bob': .035, 'bob_phase': .40, 'drop': .04, 'kick': .26, 'lift': .17, 'arm_swing': 86, 'fore': 40,
                      'plant_k': .95, 'lean_cap': (12.0, False)}}
 GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, False)),
           'run': dict(GAIT_2004['run'], frames=20, lean_cap=(8.0, False))}
@@ -126,9 +126,9 @@ TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 # the 2004 goatee is broad: from the mouth corners down over the chin
 GOATEE_2004 = dict(tip_z=1.500, thick=.016, th_max=62, top_front=1.604, top_side=1.610, side_bot=1.572, narrow=.55)
 # the shared 2004 body (measured against the reference man and woman: designer front + the old client's close camera)
-BODY_2004 = dict(shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .074}, arm_out={'A': -.022, 'B': .004},
+BODY_2004 = dict(shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .074}, arm_out={'A': -.034, 'B': .004},
                  head_s=.94, head_s_bt={'B': .95}, head_wx=1.07, head_wy=.94, head_hz=1.00, head_dz=-.020, neck_k={'A': 1.10, 'B': .82},
-                 stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, deltoid_k=.85, arm_aim={'LeftArm': (.46, -.07, -.88), 'LeftForeArm': (.10, -.36, -.93), 'LeftHand': (.08, -.40, -.91)}, arms=(.05, .095), hand_k={'A': .86, 'B': .98}, arm_in={'B': .028},
+                 stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, deltoid_k=.85, arm_aim={'LeftArm': (.46, -.07, -.88), 'LeftForeArm': (.10, -.36, -.93), 'LeftHand': (.08, -.40, -.91)}, arms=(.05, .095), hand_k={'A': .86, 'B': 1.12}, arm_in={'B': .028},
                  head=HEAD_EGG, head_p=2.3, gait=GAIT_2004, goatee=GOATEE_2004)
 # eyes: dark slits that still read at the game camera (the reference's are ~2 px at 240 px tall); the goatee is broad
 FACE_2004 = dict(eye=(.029, 1.690, .032, .0125, .030, .0115), eye_tick=(.012, -.007, .008, .006), brow=None,
@@ -230,6 +230,7 @@ def apply(K, name):
     K.GAIT.clear(); K.GAIT.update(P.get('gait', {}))
     if 'idle_feet' in P:
         K.IDLE_FEET = P['idle_feet']
+        K.SKIRT_KW = .16
     if 'stance' in P:        # idle stance: legs / spine / shoulders (Euler, over the rest skeleton)
         K.STANCE.update(P['stance'])
     if 'arm_aim' in P:       # idle arm hang (absolute directions, left side; mirrored for the right)
