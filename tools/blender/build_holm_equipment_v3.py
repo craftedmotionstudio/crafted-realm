@@ -791,7 +791,7 @@ def sk_platebody(mb, bt, over=None):
     def bump(z):
         ridge = .012 if 1.10 < z < 1.44 else 0.0
         return lambda k: (ridge if k == 0 else 0.0) + (BACK * KB.ss(1.16, 1.30, z) if k in (5, 6, 7) else 0.0)
-    rows = [(.895, .050), (.925, .046), (.965, .040), (.965, .030), (1.025, .036), (1.025, .028), (1.085, .032), (1.085, .026),
+    rows = [(.895, .052), (.925, .050), (.965, .046), (.965, .032), (1.025, .038), (1.025, .028), (1.085, .032), (1.085, .026),
             (1.16, OFF), (1.26, OFF), (1.34, OFF), (1.428, .020), (1.466, .016), (1.488, .018), (1.505, .020)]
     def mat_row(i):
         z0, o0 = rows[min(i, len(rows) - 1)]
@@ -1104,7 +1104,7 @@ def sk_amulet(mb, bt, over=None):
     rings.append(rings[0])
     mb.loft(rings, BR, lambda q: KB.torso_w(Vector((q.x, q.y, q.z - .012))), cap0=False, cap1=False)
     zc = 1.338                                    # the pendant rests on whatever is under it (its back face 2 mm off it)
-    o = clear_off(bt, over, 0.0, zc, [(dp, dz) for dp in (-.26, -.13, 0.0, .13, .26) for dz in (-.04, -.02, 0.0, .02, .04)]) + .026
+    o = clear_off(bt, over, 0.0, zc, [(dp, dz) for dp in (-.26, -.13, 0.0, .13, .26) for dz in (-.04, -.02, 0.0, .02, .04)]) + .032
     y = KB.front_y(bt, 0, zc, o) - .004
     c = Vector((0, y, zc))
     disc = [KB.xring(c + Vector((0, dy, 0)), (0, -1, 0), r, r, r, 10, front=(0, 0, 1)) for dy, r in ((.006, .026), (.001, .034), (-.006, .030))]
@@ -1115,7 +1115,7 @@ def sk_amulet(mb, bt, over=None):
     mb.loft([KB.xring(c + Vector((0, .002, .034)), (0, 0, 1), .006, .006, .006, 4), KB.xring(top, (0, 0, 1), .006, .006, .006, 4)], BR,
             KB.SPINE_W((0, 0, zc)))
 
-CAPE_ROWS = [(1.472, 34, .006), (1.40, 35, .004), (1.30, 36, .004), (1.10, 41, .010), (.97, 44, .024), (.82, 47, .040), (.53, 50, .058)]
+CAPE_ROWS = [(1.472, 34, .008), (1.40, 35, .010), (1.30, 36, .010), (1.10, 41, .012), (.97, 44, .024), (.82, 47, .040), (.53, 50, .058)]
 FOOT_C = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.010, 0.0, .010)]   # (between the shoulder blades, clear of the arms)
 def sk_cape(mb, bt, over=None):
     cols = 11
