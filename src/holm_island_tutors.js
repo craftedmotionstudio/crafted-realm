@@ -116,8 +116,13 @@ var HolmIslandTutors=(function(){
  }
  // the chat is over (last page, or the box was closed): back to idle, and the tutor counts as spoken to
  function ended(n){if(st.talking===n)st.talking=null;play(n,'idle');if(n.opens){n.opens=false;if(typeof HolmIslandTalk!=='undefined')HolmIslandTalk.markTalked(n.cast.id)}}
+ // v2 land phase 5 (draw calls): a tutor off screen is not drawn (the rigs keep frustumCulled off, as skinned bounds
+ // shift while animating, so each tutor is culled here by a standing-height sphere instead; it still animates)
+ var cull={f:null,m:null,s:null};
+ function onScreen(n){if(typeof camera==='undefined'||typeof THREE==='undefined'||!camera.projectionMatrix)return true;cull.f=cull.f||new THREE.Frustum();cull.m=cull.m||new THREE.Matrix4();cull.s=cull.s||new THREE.Sphere();
+  cull.m.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse);cull.f.setFromProjectionMatrix(cull.m);cull.s.center.copy(n.group.position);cull.s.center.y+=1;cull.s.radius=1.8;return cull.f.intersectsSphere(cull.s)}
  function update(dt){
-  st.npcs.forEach(function(n){n.mixer.update(dt);
+  st.npcs.forEach(function(n){n.mixer.update(dt);n.group.visible=onScreen(n);
    // wave once when the player first comes near, then settle back to idle
    var d=typeof player!=='undefined'?Math.hypot(player.position.x-n.group.position.x,player.position.z-n.group.position.z):99;
    if(d<4.5&&!st.waved[n.cast.id]&&st.talking!==n){st.waved[n.cast.id]=true;n.group.lookAt(player.position.x,n.group.position.y,player.position.z);play(n,'wave');

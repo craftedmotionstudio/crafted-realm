@@ -146,3 +146,29 @@ Proof:
 - All unit tests pass (`for t in tools/test_*.js`).
 - Sheets: `scratchpad/holm_v2_land/sheets/phase4_01..02.jpg` (before/after at the game camera: keep crag, crown climb,
   the cove, the farm site, the east) and `phase4_route.jpg` (the drift, the trapdoor, the stair, the cove, Tobin).
+
+## Phase 5: density - clumped trees, yards, the farm, the cove, the wayside, fences, decor, 3-wide paths
+
+| Piece | Files |
+|---|---|
+| Clutter pack (Blender) | `tools/blender/build_holm_clutter_props_v1.py` -> `holm-clutter-props-v1`, textured `holm-clutter-props-os-v1` (`v2land/clutter-props.textures.json`): 46 original pieces, 8,187 triangles - yard (barrel, apple barrel, crate, crate stack, sack, sack pile, hay bale, handcart, wheelbarrow, woodpile under a lean-to, chopping block with its axe, water trough, bench, well with roof and bucket, washing line, lamp post, milestone, spare cart wheel, rake and pitchfork, market stall), the broken carriage (the coach down on its smashed near wheel, the front wheel off and lying in the grass, the shaft snapped, a split trunk and clothes; examine "Somebody's journey ended early."), fences (split-rail run, post, a field gate swung open), farm (barn, haystack, scarecrow, cabbage row, sheep, cow, hen, feed trough), cove (lobster pot, pot stack, net rack, upturned rowboat, anchor, rope coil, fish crates) and the ground decor (grass clump, daisies, pebbles, mushrooms, fern, thistle, bracken). Faces meant to be seen from both sides are built as two faces on separate vertices (one poly call with a face and its reverse loses one in Blender: the phase 4 trapdoor leaf) |
+| The dressing, as data | `tools/stage_holm_v2land_dressing.js` (new, deterministic, re-runnable): writes the generated sets of `island-props.json` (`dress-yards`, `dress-haycombe-farm`, `dress-lanternfoot-cove`, `dress-wayside`, `dress-decor`), the tree and signpost adds of `v2land/habitat.v2land.json` (applied by the rebuild), `src/holm_island_paths_data.js`, and `scratchpad/holm_v2_land/dressing_report.json`. Every blocking piece is tried on the composed walk graph first and kept only if every other reachable stance stays reachable (ladders and climbs included); nothing stands on a worn path, a stance, a doorway, a bridge landing, a gate or the hollow set |
+| Paths | re-drawn on the v2 land: Dijkstra on the composed graph over open ground and the bridge decks along the old desire lines (`v2land/v1-snapshot/paths.json`), gentle slopes preferred; primary legs 3 tiles worn with a soft verge, secondary legs 1 worn with a soft verge; new legs to Minnow Hollow's Fire Beach, the Creakwheel Mill, Hettie's Garden, the Keeper's Stair head, the mage yard, Haycombe Farm and from the stair foot to the haven; the arrival trail's tiles kept. 1,675 tiles (1,078 worn) |
+| Trees | 197 new trees in 39 clumps of 3-7 (pines on the coast, the cliffs and the crown; birches by the creek and the pond; oaks and birches in the meadows), clear of paths (3 tiles), yards, stances and pads: **267** island trees (70 before) |
+| Clutter | **167** generated pieces (+ Hettie's Garden's 23 = 190), 87 % in yards: every building's kit hugs its walls (long side along the wall, the front away from it) - camp, bakehouse, lodge, quarry, keep, bank, mage tower, mill, Lastlight, haven; Haycombe Farm (barn, two haystacks, hay bales, a railed paddock with its gate, four sheep and a cow, troughs, a fenced kitchen garden with cabbage rows and a scarecrow, five hens, a well, a wheelbarrow); Lanternfoot Cove (pots, rope, anchor, barrels, the ferry bell at the pier root); the wayside (the broken carriage beside the old cart track at (81.6, 81.3), milestones, lamp posts, wells, a spare wheel, 14 small roadside clusters); 35 fence pieces and 2 gates |
+| Signposts | four new junction signposts (Minnow Hollow / Survival camp / Guide House; Creakwheel Mill / Bakehouse / Guide House; Keeper's Stair / Lastlight / Mage Tower; Haycombe Farm / Mage Tower) |
+| Ground decor | **1,685** pieces, 14.5 per 100 dry tiles (grass 622, pebbles 282, fern 179, bracken 177, thistle 169, daisies 139, mushrooms 117), denser in woodland, sparser on verges and the coast; no block, no shadow |
+| Draw calls | `src/holm_instanced_cells.js` (new, `HolmInstancedCells`): repeated still pieces (habitat trees, shrubs, clutter, decor) are drawn as one InstancedMesh per mesh per 32-tile cell, each cell shown only while its box is in view; trees keep their breeze as a canopy vertex sway instead of one animation mixer per tree (`src/holm_island_extras.js`, `src/holm_island_props.js`); tutors off screen are not drawn (their rigs keep frustum culling off for animation, so each is culled by a standing-height sphere, `src/holm_island_tutors.js`: 168 -> 17-32 calls in a view) |
+
+Proof:
+- Game-camera views (`scratchpad/holm_v2_land/p5_after/capture.json`): **255-630 draw calls** (budget 800), 119-463k
+  triangles. The two wide establishing views (camera distance 60, beyond the game's zoom) draw 1,218-1,277 calls, most of
+  them the buildings (375 in view there, unchanged by this phase).
+- Route audit: all 18 stations reachable, 567 tiles; the drift ladder and the Keeper's Stair legs as in phase 4; every
+  fishing stance, Hettie's Garden, the millstones and the weir walk reachable; lodge:north-lane (pre-existing) the one
+  unreachable target.
+- All unit tests pass (including `test_holm_world_fixes` 5b: no untinted tile splits a worn path).
+- Sheets: `scratchpad/holm_v2_land/sheets/phase5_01..06.jpg` (before/after, every view at the game camera) and
+  `phase5_details.jpg` (the farm, the carriage, the cove, a meadow's decor, the bank court, the clutter lineup).
+- Known: 28 authored or kit wishes found no valid ground near their spot (listed in `dressing_report.json`; mostly a bench
+  or lamp where a path, stance or slope sits); the generator skips them rather than block a route.

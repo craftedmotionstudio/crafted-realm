@@ -43,6 +43,9 @@ var HolmIslandProps=(function(){
    var still=list.filter(function(r){return !r.p.examine}),loose=list.filter(function(r){return !!r.p.examine});
    if(still.length<3){loose=loose.concat(still);still=[]}
    if(still.length){var mats=still.map(function(r){var s=r.p.scale||1;return new T.Matrix4().compose(new T.Vector3(r.p.x,r.y,r.p.z),Q.clone().setFromAxisAngle(UP,r.p.yaw||0),new T.Vector3(s,s,s))});
+    // v2 land phase 5: by 32-tile cell (HolmInstancedCells), culled per cell; ground decor casts no shadow
+    var man=st.manifests[pk],asset=man&&man.assets.filter(function(q){return q.name===prop})[0];
+    if(typeof HolmInstancedCells!=='undefined'){HolmInstancedCells.build(T,scene,tpl,mats,{name:'island-props-'+prop,castShadow:!(asset&&asset.kind==='decor')}).forEach(function(g){st.objs.push(g)})}else
     tpl.traverse(function(n){if(!n.isMesh)return;var im=new T.InstancedMesh(n.geometry,n.material,mats.length);im.name='island-props-batch-'+prop;im.castShadow=true;im.receiveShadow=true;im.frustumCulled=false;
      mats.forEach(function(m,j){im.setMatrixAt(j,M4.multiplyMatrices(m,n.matrixWorld))});im.instanceMatrix.needsUpdate=true;scene.add(im);st.objs.push(im)})}
    loose.forEach(function(r){var g=tpl.clone(true),s=r.p.scale||1;g.position.set(r.p.x,r.y,r.p.z);g.rotation.y=r.p.yaw||0;g.scale.setScalar(s);g.name='island-prop-'+r.set.id+'-'+prop+'-'+r.i;scene.add(g);st.objs.push(g);

@@ -1,0 +1,36 @@
+{
+ "note": "Holm v2 land phase 5: the island clutter pack textured old-school by material name (planks, beams, stone, thatch, hay); animals, cloth, plants and the ground decor keep flat close shades",
+ "source": ".studio-workspaces/holm-clutter-props-v1/candidates/props.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-clutter-props-v1/candidates/props.glb",
+ "outBlend": ".studio-workspaces/holm-clutter-props-os-v1/candidates/props.blend",
+ "outGlb": ".studio-workspaces/holm-clutter-props-os-v1/candidates/props.glb",
+ "report": ".studio-workspaces/holm-clutter-props-os-v1/candidates/textures.report.json",
+ "rules": [
+  [
+   "(?i)trunk leather|cabbage|coach|grass blades|fern|bracken|thistle|daisy|mushroom|pebble|hen |horn|cow hide|sheep|apples|fish silver|net floats|lamp glass",
+   null,
+   0
+  ],
+  [
+   "(?i)barrel staves|barrel lid",
+   "planks",
+   0.6
+  ],
+  [
+   "(?i)^hay|scarecrow straw",
+   "thatch",
+   0.6
+  ],
+  [
+   "(?i)tilled soil",
+   "dirt",
+   0.8
+  ],
+  [
+   "(?i)lobster pot withies",
+   "thatch",
+   0.4
+  ]
+ ]
+}

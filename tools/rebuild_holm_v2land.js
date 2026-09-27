@@ -49,9 +49,11 @@ const dropped=[];const keep=habSrc.placements.filter(p=>{const tx=Math.floor(p.x
  const bad=k!==0||Nav.creekBank(terrain,tx,tz)||rise(p.x,p.z)>1.25||onPad(p.x,p.z);if(bad)dropped.push(p.id);return !bad});
 // v2 land relabels (phase 4: the old haven signpost arm points at Haycombe Farm)
 const hov=read(DATA+'v2land/habitat.v2land.json');keep.forEach(p=>{const m=hov.armLabels[p.id];if(m&&p.arms)p.arms=p.arms.map(a=>m[a.label]?Object.assign({},a,{label:m[a.label]}):a)});
+// phase 5: the dressing's tree clumps and junction signposts (tools/stage_holm_v2land_dressing.js checked each on the walk graph)
+const added=(hov.add||[]).filter(p=>!keep.some(q=>q.id===p.id));keep.push(...added);
 write('.studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json',Object.assign({},habSrc,{note:'Holm v2 land (2026-09-26): holm-habitat-v4 without the '+dropped.length+' plants that now stand in the pond, the creek or on a cliff face',placements:keep,v2land:{from:'holm-habitat-v4',dropped}}));
 reg.habitat='.studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json';write(DATA+'v2land.json',reg);
-console.log('[V2LAND DATA] gates',gates.gates.map(g=>g.id+' y '+g.y).join(', '),'| bridges',bridges.map(b=>b.id+' deck '+b.deckY+' clear '+b.clearance).join(', '),'| habitat kept',keep.length,'dropped',dropped.length);
+console.log('[V2LAND DATA] gates',gates.gates.map(g=>g.id+' y '+g.y).join(', '),'| bridges',bridges.map(b=>b.id+' deck '+b.deckY+' clear '+b.clearance).join(', '),'| habitat kept',keep.length,'(dressing adds',added.length+') dropped',dropped.length);
 // 4 arrival package + pin
 const out=node('tools/stage_holm_arrival_package_v2land.js'),m=/"exportId":\s*"([0-9a-f]{16})"/.exec(out);if(!m)throw Error('no export id');
 const pin='src/holm_v2_land.js',src=fs.readFileSync(abs(pin),'utf8').replace(/exportId:'[0-9a-f]{16}'/,"exportId:'"+m[1]+"'");fs.writeFileSync(abs(pin),src);

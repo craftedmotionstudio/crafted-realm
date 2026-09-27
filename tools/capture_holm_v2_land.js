@@ -37,7 +37,12 @@ const VIEWS=[
  {name:'v21_mill_weir_walk',x:61,z:60,yaw:.5,pitch:.9,dist:18},
  // phase 4: the Keeper's Stair down the crown cliff and the haven's pier at Lanternfoot Cove
  {name:'v22_keepers_stair',x:108.5,z:18,yaw:3.6,pitch:.8,dist:24},
- {name:'v23_cove_pier',x:100.5,z:9,yaw:4.2,pitch:.9,dist:26}];
+ {name:'v23_cove_pier',x:100.5,z:9,yaw:4.2,pitch:.9,dist:26},
+ // phase 5 close-ups: Haycombe Farm, the broken carriage, the cove's fishermen's corner, a meadow's ground decor
+ {name:'v24_farm_close',x:109,z:95.5,yaw:.5,pitch:.95,dist:16},
+ {name:'v25_carriage_close',x:81.5,z:82,yaw:.7,pitch:.9,dist:11},
+ {name:'v26_cove_close',x:106.5,z:16.5,yaw:3.5,pitch:.95,dist:11},
+ {name:'v27_meadow_decor',x:96,z:86,yaw:.3,pitch:.85,dist:13}];
 const only=process.env.V2_ONLY?process.env.V2_ONLY.split(','):null;
 (async()=>{
  const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',

@@ -179,8 +179,8 @@
   {
    "name": "relight_lastlight (lever)",
    "reachable": true,
-   "walked": 77,
-   "seconds": 46.2,
+   "walked": 78,
+   "seconds": 46.8,
    "from": 7.52,
    "to": 26.8,
    "rise": 10.6,
@@ -199,7 +199,7 @@
    "steepestLink": 1.15
   }
  ],
- "total": 566,
+ "total": 567,
  "unreachableTargets": [
   "lodge:north-lane"
  ],
@@ -218,22 +218,22 @@
   "stair": "measured"
  },
  "stats": {
-  "nodes": 10938,
-  "edges": 30780,
+  "nodes": 10469,
+  "edges": 27688,
   "owners": {
-   "land": 7842,
-   "b:keep": 845,
-   "b:bakehouse": 235,
-   "b:lodge": 376,
-   "b:survival": 249,
-   "b:quarry": 108,
-   "b:bank": 182,
-   "b:mage": 298,
-   "b:haven": 99,
-   "b:lastlight": 208,
+   "land": 7524,
+   "b:keep": 812,
+   "b:bakehouse": 208,
+   "b:lodge": 361,
+   "b:survival": 235,
+   "b:quarry": 98,
+   "b:bank": 170,
+   "b:mage": 288,
+   "b:haven": 92,
+   "b:lastlight": 201,
    "b:cavern": 146,
-   "b:mill": 129,
-   "b:stair": 52,
+   "b:mill": 119,
+   "b:stair": 46,
    "arrival": 169
   }
  }

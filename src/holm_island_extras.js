@@ -17,6 +17,7 @@ var HolmIslandExtras=(function(){
    return {id:r[0],prefix:r[1],plan:r[2],graph:WS+'holm-'+r[0]+'-navigation-v'+(r[3]||1)+'/candidates/navigation.json',model:WS+'holm-'+r[0]+'-v'+(r[3]||1)+'/candidates/'+r[0]+'.glb'}}));
  var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v4/working/vegetation.json',PROPS=WS+'holm-props-v1/candidates/props.glb';
  // M4.5 habitat v2: the tree family's own files, everything else (shrubs, rocks, flowers, logs, signposts) from the prop pack
+ var CELLS=false;   // v2 land phase 5: habitat drawn by instanced cells (set when load() runs)
  var TREE_FAMILY={oak:1,birch:1,'coastal-pine':1,'meadow-tuft':1,'creek-reeds':1};
  var LADDERS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-ladders.json'):'/docs/rebuild/holm-overhaul/island-ladders.json'),BRIDGES=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-bridges.json'):'/docs/rebuild/holm-overhaul/island-bridges.json'),BRIDGE_MODELS=WS+'holm-island-bridges-v2/candidates/';
  var TRUNK={oak:.45,birch:.3,'coastal-pine':.35};
@@ -113,7 +114,7 @@ var HolmIslandExtras=(function(){
   return {buildings:buildings,habitat:veg,blockers:blockers,bridges:brs,ladders:ladders,bridgeModels:reg&&reg.bridgeModels?HolmV2Land.url(reg.bridgeModels)+'/':null};
  }
  async function load(o){
-  var T=o.THREE,scene=o.scene,W=o.WORLD,sample=o.sample,data=o.data,roots=[],mixers=[],grounds=[];
+  var T=o.THREE,scene=o.scene,W=o.WORLD,sample=o.sample,data=o.data,roots=[],mixers=[],grounds=[];CELLS=typeof HolmInstancedCells!=='undefined';
   function prepare(root){root.traverse(function(n){if(!n.isMesh)return;n.castShadow=true;n.receiveShadow=true;linearMaps(T,n);
    n.userData.islandGround=true;W.grounds.push(n);W.clickables.push(n);grounds.push(n)})}
   function place(root,x,y,z,yaw){var g=new T.Group();g.position.set(x,y,z);g.rotation.y=yaw||0;g.add(root);scene.add(g);roots.push(g);prepare(root);return g}
@@ -172,7 +173,8 @@ var HolmIslandExtras=(function(){
   // M4.6: still props (no breeze, not a signpost) are drawn as one InstancedMesh per asset mesh for the whole island
   var batch={},M4=new T.Matrix4(),Q=new T.Quaternion(),UP=new T.Vector3(0,1,0);
   veg.forEach(function(p,k){var s=srcs[p.asset],y=sample(p.x,p.z);if(!Number.isFinite(y))return;
-   if(!s.breeze&&p.asset!=='signpost'){(batch[p.asset]=batch[p.asset]||[]).push(new T.Matrix4().compose(new T.Vector3(p.x,y-s.minY*p.scale,p.z),Q.clone().setFromAxisAngle(UP,p.yaw),new T.Vector3(p.scale,p.scale,p.scale)));return}
+   // v2 land phase 5: with HolmInstancedCells every habitat piece but the signposts is drawn by cell, trees with a vertex sway
+   if((CELLS||!s.breeze)&&p.asset!=='signpost'){(batch[p.asset]=batch[p.asset]||[]).push(new T.Matrix4().compose(new T.Vector3(p.x,y-s.minY*p.scale,p.z),Q.clone().setFromAxisAngle(UP,p.yaw),new T.Vector3(p.scale,p.scale,p.scale)));return}
    var root=s.gltf.scene.clone(true);
    // signposts: one arm per branch, mounted down the post and turned to its path; clicking reads the arms
    if(p.asset==='signpost'&&arm){(p.arms||[]).forEach(function(a,ai){var am=arm.clone(true);am.position.set(0,1.55-ai*.25,0);am.rotation.set(0,a.yaw,0);root.add(am)});
@@ -183,6 +185,8 @@ var HolmIslandExtras=(function(){
    if(s.breeze){var mx=new T.AnimationMixer(root);mx.clipAction(s.breeze).play();mx.update((k*.371)%s.breeze.duration);mixers.push(mx)}
   });
   Object.keys(batch).forEach(function(name){var list=batch[name],src=srcs[name].gltf.scene;src.updateMatrixWorld(true);
+   if(CELLS){src.traverse(function(n){if(n.isMesh)linearMaps(T,n)});var br=srcs[name].breeze,an=br&&br.tracks.length?src.getObjectByName(br.tracks[0].name.split('.')[0]):null;
+    HolmInstancedCells.build(T,scene,src,list,{name:'island-habitat-'+name,amp:.022,sway:an?function(n){for(var q=n;q;q=q.parent)if(q===an)return true;return false}:null}).forEach(function(g){roots.push(g)});return}
    src.traverse(function(n){if(!n.isMesh)return;linearMaps(T,n);
     var im=new T.InstancedMesh(n.geometry,n.material,list.length);im.name='island-habitat-batch-'+name;im.castShadow=true;im.receiveShadow=true;
     im.frustumCulled=false;   // r128 culls an InstancedMesh by its base geometry only; one batch spans the island
