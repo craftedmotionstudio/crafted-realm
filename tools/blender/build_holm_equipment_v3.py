@@ -536,7 +536,47 @@ def b_sq():
     m.lathe([(.075, 0), (.072, .016), (.044, .044), (0, .054)], 10, lambda j, i: MD if j == 0 else MT, cap0=MD)
     rot_about_x_to_face(m, s0); m.transform(Matrix.Translation((X(0), 0, .06)), s0)
     m.ptube([(-.05, 0, -.07), (-.062, 0, -.04), (-.062, 0, .06), (-.05, 0, .09)], .012, 5, LK, cap0=LK, cap1=LK)
-    return m
+    mb = M()
+    sq_brace(mb, X)
+    return [(None, m), ('brace', mb)]      # (the brace is its own child: drops and icons leave it out)
+
+# v3 (kit v3.1: the arm hangs at the side, so a riot shield strapped close to the forearm swept into the hip, thigh and
+# chest): it rides further out on the forearm -- strap point 24 cm out from the forearm and 3 cm up (fx_humanoid
+# SQ_CARRY) -- on a leather arm cuff round the forearm and a braced strap to the shield's back, so it reads as held.
+SQ_CARRY = (.24, 0.0, -.03)          # out (character left), forward, drop -- the runtime uses the same numbers
+def sq_local_frame():
+    """shield-local <- character (Blender axes) rotation of the riot shield carry, the forearm point and direction at
+    the idle (same basis as fx_humanoid / check_holm_equipment_v3 solve_shield)"""
+    def basis(x, y):
+        x = x.normalized(); y = (y - x * y.dot(x)).normalized(); z = x.cross(y)
+        return Matrix((x, y, z)).transposed()
+    C = Matrix(((1, 0, 0), (0, 0, -1), (0, 1, 0)))
+    W = basis((C @ Vector((0.72, 0, 0.69))).normalized(), C @ Vector((0, 0.71, 0.71)))
+    Lm = basis(Vector((1, 0, 0)), Vector((0, 0, 1)))
+    R = W @ Lm.inverted()
+    hd, _ = KB.fk(KB.upright(KB.P()))
+    fa = (hd[KB.B('LeftHand')] - hd[KB.B('LeftForeArm')]).normalized()
+    out, fwd, drop = SQ_CARRY
+    arm = R.inverted() @ -Vector((out, -fwd, -drop))       # the forearm axis point, relative to the shield origin
+    return R, arm, (R.inverted() @ fa).normalized()
+def sq_brace(m, X):
+    R, arm, d = sq_local_frame()
+    a = Vector((0, 0, 1)) - d * d.z
+    a = a.normalized() if a.length > 1e-6 else Vector((0, 1, 0))
+    b = d.cross(a).normalized()
+    for off in (-.035, .035):          # a two-band leather cuff round the forearm (clear of the sleeve on every build)
+        c = arm + d * off
+        loop = [c + (a * math.cos(tau * i / 8) + b * math.sin(tau * i / 8)) * .072 for i in range(8)]
+        m.ptube(loop, .011, 4, LK, closed=True)
+    # the brace: from the cuff to the shield's back, two leather-wrapped bars riveted to the back plate
+    to_shield = Vector((1, 0, 0)) - d * d.x
+    to_shield = to_shield.normalized()
+    for off in (-.035, .035):
+        c = arm + d * off + to_shield * .072
+        y, z = max(-.20, min(.20, c.y)), max(-.36, min(.24, c.z))
+        e = Vector((X(y) - .022, y, z))
+        m.ptube([c, c.lerp(e, .5) + Vector((0, 0, .008)), e], .013, 5, LK, cap0=LK, cap1=LK)
+        m.hull([e + Vector((dx, dy, dz)) for dx in (0, .012) for dy in (-.018, .018) for dz in (-.018, .018)], MD)
 
 def b_kite():
     """Kite shield: raised rim, sunken band, bulging field with a centre ridge, boss at the grip; face +X."""
@@ -866,13 +906,34 @@ def sk_platelegs(mb, bt, over=None):
         inner = [[(x, y + .008, z) for x, y, z in r] for r in th]
         mb.shell(th, inner, lambda i, j, s: ME if i == 0 else MT, KB.skirt_w, edge_mat=ME)
 
+def plateskirt_w(p):
+    """v3: the plate skirt follows the thighs closely going down (a leg swinging forward carries its half of the skirt)"""
+    p = Vector(p)
+    if p.z >= 0.97:
+        return KB.torso_w(p)
+    u = 0.94 * KB.ss(0.97, 0.62, p.z)
+    k = KB.ss(-0.05, 0.05, p.x)
+    return KB.wnorm(KB.wmix(KB.B('Hips'), [(KB.B('LeftUpLeg'), k), (KB.B('RightUpLeg'), 1 - k)], u))
+
+CHAUSSES = [(.62, .008), (.80, .010), (.97, .012), (1.08, .012), (1.30, .011), (1.55, .010), (1.75, .010), (1.90, .011),
+            (1.96, .012), (2.03, .010)]
 def sk_plateskirt(mb, bt, over=None):
+    """v3: the plateskirt replaces the kit legs (hides Legs) and carries its own mail chausses from above the knee into
+    the shoe / boot (the trouser hem line), so no leg of any legs option can swing out through the plates"""
     n = 16
     zs = [.46, .62, .80, .90, .985, 1.0]
-    KB.skirt(mb, bt, zs, (.46, .31, .258, .246, .030), off=.052, mat=MT, n=n, pleats=.020,
-             matfn=lambda i, k: MD if i == 0 else (ME if k % 2 else MT), rim_mat=MD)
+    w0 = KB.skirt_w
+    KB.skirt_w = plateskirt_w
+    try:
+        KB.skirt(mb, bt, zs, (.46, .31, .258, .246, .030), off=.052, mat=MT, n=n, pleats=.020,
+                 matfn=lambda i, k: MD if i == 0 else (ME if k % 2 else MT), rim_mat=MD)
+    finally:
+        KB.skirt_w = w0
     band(mb, bt, .985, 1.045, .060, n, LK)
     buckle(mb, bt, 1.015, .064)
+    for sx in (-1, 1):   # mail chausses (staggered two-tone rows like the chainbody), hem into the shoe like trousers
+        rings = KB.leg_rings(bt, sx, CHAUSSES, 8)
+        mb.loft(rings, MM, KB.leg_w(sx), cap0=False, cap1=True, matfn=lambda i, k: MM if (i + k) % 2 else MT, cap_mat=MD)
 
 def sk_chaps(mb, bt, over=None):
     n = 12
@@ -912,18 +973,20 @@ def sk_boots(mb, bt, over=None):
         rings = []
         for z, yf, yb, wo, wi in sl:
             rings.append(KB.foot_slice(bt, sx, z, yf, yb, wo, wi, grow=.013, hk=1.05))
-        shaft = [(1.97, .036), (1.88, .036), (1.76, .036), (1.64, .038), (1.58, .040)]
+        shaft = [(1.97, .038), (1.88, .040), (1.76, .040), (1.64, .042), (1.58, .044)]
         rings += KB.shin_rings(bt, sx, shaft)
-        nr = len(rings)
-        mb.loft(rings, LE, KB.foot_w(sx), cap0=True, cap1=False, matfn=lambda i, k: LK if i == 0 else LE)
+        fw, lw = KB.foot_w(sx), KB.leg_w(sx)
+        # v3: the ankle ring blends; the shaft above rides the shin like a trouser leg (walk / run no longer open a gap)
+        ws = [fw] * len(sl) + [lambda q, fw=fw, lw=lw: KB.wnorm(KB.wmix(fw(q), lw(q), .5))] + [lw] * (len(shaft) - 1)
+        mb.loft(rings, LE, ws, cap0=True, cap1=False, matfn=lambda i, k: LK if i == 0 else LE)
         # folded cuff round the shaft top
-        cuff = KB.shin_rings(bt, sx, [(1.66, .040), (1.64, .050), (1.53, .050), (1.55, .040)])
-        mb.loft(cuff, LK, KB.foot_w(sx), cap0=False, cap1=False, smooth=False)
+        cuff = KB.shin_rings(bt, sx, [(1.66, .044), (1.64, .054), (1.53, .054), (1.55, .044)])
+        mb.loft(cuff, LK, lw, cap0=False, cap1=False, smooth=False)
         # ankle strap with a brass buckle on the outside
-        st = KB.shin_rings(bt, sx, [(1.92, .040), (1.88, .040)])
-        mb.loft(st, LK, KB.foot_w(sx), cap0=False, cap1=False, smooth=False)
+        st = KB.shin_rings(bt, sx, [(1.92, .044), (1.88, .044)])
+        mb.loft(st, LK, lw, cap0=False, cap1=False, smooth=False)
         c = sum((Vector(p) for p in st[0]), Vector()) / len(st[0])
-        mb.box((c.x + sx * .058, c.y, c.z - .01), (.008, .022, .018), BR, KB.foot_w(sx))
+        mb.box((c.x + sx * .062, c.y, c.z - .01), (.008, .022, .018), BR, lw)
 
 # ---------------------------------------------------------------- amulet / cape: clearance over what is worn under them
 # The amulet and the cape are shaped over the layer under them, measured from the real meshes (rest pose, current build):
@@ -1102,8 +1165,8 @@ SKINNED = [   # kind, builder, slot, hides (kit slots it replaces), morphs beyon
      'Leather body: panelled jerkin with a laced front, belt and brass buckle, leather sleeves with dark cuffs'),
     ('platelegs', sk_platelegs, 'legs', ['Legs'], [],
      'Platelegs: laminated fauld with front tassets, cuisses, knee cops, greaves to the ankle'),
-    ('plateskirt', sk_plateskirt, 'legs', [], [],
-     'Plateskirt: fluted plate skirt to the shin on a leather belt with a brass buckle'),
+    ('plateskirt', sk_plateskirt, 'legs', ['Legs'], [],
+     'Plateskirt: fluted plate skirt to the shin on a leather belt with a brass buckle, mail chausses below (replaces the legs)'),
     ('chaps', sk_chaps, 'legs', ['Legs'], [],
      'Leather chaps: leather breeches, belt and buckle, outside seams, knee patches'),
     ('gloves', sk_gloves, 'hands', ['Hands'], [],
@@ -1313,6 +1376,8 @@ for kind, fn, slot, hides, extra, desc in SKINNED:
         ob['eq_kind'] = kind; ob['slot'] = slot; ob['frame'] = 'skin'; ob['body'] = bt; ob['hides'] = list(hides); ob['morphs'] = list(keys)
         if KIT_MORPHS.get(kind):
             ob['kit_morphs'] = KIT_MORPHS[kind]
+        if kind == 'cape':
+            ob['kit_morphs_with'] = {'body': ['Hair_Cape']}
         BUILT.append(dict(kind=kind, key=kind if bt == 'A' else kind + '_B', root=ob, obs=[(ob, None)], slot=slot, frame='skin',
                           spec=None, grip=None, axis=None, roll=None, legacy=None, desc=desc, body=bt, hides=list(hides), morphs=list(keys)))
         print(TAG, nm, len(base), 'verts', 'morphs', MORPH_REPORT[nm])
@@ -1328,10 +1393,12 @@ def gl_bounds(lo, hi): return {'min': [round(lo[0], 4), round(lo[2], 4), round(-
                                'max': [round(hi[0], 4), round(hi[2], 4), round(-lo[1], 4)]}
 
 LIMIT = {'grip': 400, 'bind': 820, 'skin': 3200}
+LIMIT_KIND = {'sqshield': 600}      # v3: the riot shield's arm cuff + brace
 for b in BUILT:
     b['tris'] = tri_count_b(b)
-    if b['tris'] > LIMIT[b['frame']]: print(TAG, 'OVER BUDGET', b['key'], b['tris'])
-    assert b['tris'] <= LIMIT[b['frame']] or ALLOW_OVER, (b['key'], b['tris'])
+    lim = LIMIT_KIND.get(b['key'], LIMIT[b['frame']])
+    if b['tris'] > lim: print(TAG, 'OVER BUDGET', b['key'], b['tris'])
+    assert b['tris'] <= lim or ALLOW_OVER, (b['key'], b['tris'])
     lo, hi = raw_bounds(b['root'], b_objs(b)); b['lo'], b['hi'] = lo, hi
     if b['frame'] == 'grip':          # lay: long axis -> +X (far end from the grip), thin axis -> +Z (shield face up)
         ext = [hi[i] - lo[i] for i in range(3)]
@@ -1769,7 +1836,7 @@ manifest = {'schema': 2, 'status': 'runtime (src/holm_equipment.js loads it from
             'kit': 'assets/models/holm_kit_v2.glb (character kit v3.0)', 'runtime': 'src/holm_equipment.js', 'models': []}
 for b in BUILT:
     ent = {'id': b['root'].name, 'kind': b['kind'], 'slot': b['slot'], 'frame': b['frame'], 'body': b['body'], 'description': b['desc'],
-           'triangles': b['tris'], 'budget': LIMIT[b['frame']], 'bounds': gl_bounds(b['lo'], b['hi']),
+           'triangles': b['tris'], 'budget': LIMIT_KIND.get(b['key'], LIMIT[b['frame']]), 'bounds': gl_bounds(b['lo'], b['hi']),
            'materials': sorted({ob.data.materials[p.material_index].name for ob in b_objs(b) for p in ob.data.polygons}),
            'serves': SERVES.get(b['kind'], []), 'lay': b['lay'], 'hides': b['hides']}
     if b['frame'] == 'grip':
