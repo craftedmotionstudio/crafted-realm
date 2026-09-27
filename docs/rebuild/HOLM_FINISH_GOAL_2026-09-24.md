@@ -407,6 +407,8 @@ Cutover plan (2026-09-25, from the provider/save audit; reversible behind one sw
       met, 0 page errors (10.2-12.3 min); units 52/52, smoke fg+hidden, combat numbers lock, arrival 12/12, island QA 32/32.
       Owner review 2026-09-25 opened round 3 (characters v3.0, statue v4, medieval UI, old-school world look) inside
       WORLD_GOAL_2026-09-25.md W0.
+      2026-09-27: round 3 + Holm v2 land merged (fd21e58); combined proof 3/3 playthroughs complete, 0 page errors;
+      three QA drivers being fixed; owner review of the v2 island and the v3.1 characters pending.
 - [ ] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
       Verify fresh characters, returning Holm saves, graduated saves, full inventory and interruptions.
 - [ ] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload

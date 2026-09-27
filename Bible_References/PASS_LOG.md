@@ -3899,3 +3899,18 @@ length (slight medium-length read in 3/4).
   images/Blender renders, and the new World goal (docs/rebuild/WORLD_GOAL_2026-09-25.md): online, PvP-focused,
   mobile, all skills, storyline. Owner decisions: 8-direction movement, 28-slot pack, exact 2004 combat, eating
   cancels the attack order.
+
+## 2026-09-27 — Round 3 merged: Holm v2 land, kit v3.1 + emotes, equipment v3, combat 2004, online alpha, naming
+- Merged (holm-overhaul-wip-2026-09-24): login v4/v4.1 (Blender stone hall, lintel title), look pass 2 (+ classic
+  pixels option), OSRS Choose Option menu, exact 2004 combat on shared/ (8-direction movement, 28-slot pack, eating
+  cancels attack, Keepsake Ward, Proving Ground foes, coffee), online alpha + W2b (Scarlands kit + bestiary online,
+  player menus, staff special), kit v3.1/v3.1f (upright OSRS stance, 22 emotes, hair gathered under armour),
+  equipment v3 (zero clipping at idle/walk), full-helm size fix, Holm v2 land (relief ~5.5 player heights, Minnow
+  Hollow fishing, Creakwheel Mill, Hettie's Garden, drift into the keep, Keeper's Stair to Lanternfoot Cove, Haycombe
+  Farm, clutter pack, route 567 tiles), naming pass (NAMING_BIBLE applied, guard test).
+- Combat grade: offline 9.25 (all offline criteria), online 10/10 (32/32 three-browser scenarios) -> owner bar met.
+- Combined proof on 05dcbc0: 3/3 playthroughs complete (18/18 lessons, 10/10 tutors, 0 page errors), numbers lock,
+  route v2 10/10, Minnow Hollow 13/13; menu QA 58/60, combat PvM driver stopped early, island QA 31/32 (fishing
+  check) -> being fixed on combined-fixes-2026-09-27. Gates on fd21e58: all unit tests, server 98/98, smoke PASS.
+- Next: those fixes, then the owner's island review (upright characters, new land); W4b equipment tiers after the
+  characters are locked.
