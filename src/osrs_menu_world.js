@@ -123,7 +123,7 @@ var OsrsMenuWorld=(function(){
  function gateOpen(id){try{return !!HolmIslandGates.isOpen(id)}catch(e){return false}}
  var HOLM_EXAMINE={
   arrival_chart:'A painted relief of the whole Holm, with every lesson marked on it.',
-  arrival_provisions:'A rack of teaching tools, one set for every new arrival.',
+  arrival_provisions:'Spare teaching tools, for anyone who has lost theirs.',
   arrival_hatch:'A trapdoor in the floorboards. A ladder leads down into the dark.',
   arrival_cellar_ladder:'A short ladder back up to the Guide House.',
   arrival_statue:'The Lantern Keeper, carved in pale stone. There is a plaque on the plinth.',

@@ -19,19 +19,20 @@ var HolmGuideHall=(function(){
   function traceRoute(){
     if(tracing||typeof scene==='undefined')return;var legs=[],stops=[];for(var i=1;i<=10;i++){var s=scene.getObjectByName('ChartStop_'+(i<10?'0':'')+i),l=i<10&&scene.getObjectByName('ChartRoute_0'+i);if(s)stops.push(s);if(l)legs.push(l)}
     if(!stops.length){UI.chat('You trace the painted paths from the Guide House round the island to the haven.','plain');return}
-    var NAMES=['the Guide House','the survival camp','the bakehouse','the Quest Lodge','the quarry and training cavern','Warden\'s Keep','the Holm Bank','the Mage Tower','Lastlight','the skiff at the haven'];
+    var NAMES=['the Guide House','the survival camp','the bakehouse','the Quest Lodge','the quarry and training cavern','Warden\'s Keep','the Holm Bank','the Mage Tower','Lastlight','the skiff at Lanternfoot Cove'];
     tracing=true;UI.chat('You trace the route across the chart with one finger...','plain');var k=0;
     (function next(){if(k<stops.length){stops[k].visible=true;if(k>0&&legs[k-1])legs[k-1].visible=true;UI.chat((k+1)+'. '+NAMES[k].charAt(0).toUpperCase()+NAMES[k].slice(1)+'.','plain');k++;setTimeout(next,900);return}
      setTimeout(function(){legs.concat(stops).forEach(function(o){o.visible=false});tracing=false},9000)})();
   }
   function studyRoute(){
     if(!onHolm()) return;
-    // the Blender island (HolmIsland.live) has its own route, in lesson order, as the chart's little buildings show it
+    // the Blender island (HolmIsland.live) has its own route, in lesson order, as the chart's little buildings show it;
+    // owner review 4 (2026-09-27): a brief overview only (here is the Holm, this is where things are), no tools
     if(typeof HolmIsland!=='undefined'&&HolmIsland.live()){
       UI.dialogue('Relief chart of Tutor\'s Holm',
-        'You are here, at the Guide House above the landing. Your route runs clockwise: the survival camp by the creek for wood, fire and fish; the bakehouse; the Quest Lodge; the quarry and the training cavern beneath it; Warden\'s Keep for weapons; the Holm Bank; the Mage Tower on the headland; and last the Lastlight lighthouse. When its beacon burns, the skiff at the haven carries you to the mainland.',
+        'You are here, at the Guide House. The route runs round the island: the survival camp, the bakehouse, the Quest Lodge, the quarry and the ore workings under it, the Warden\'s Keep, the Holm Bank, the Mage Tower, and last Lastlight on the point. Light its beacon and Tobin rows you to the mainland from Lanternfoot Cove.',
         [{label:'Trace the route with one finger.',fn:traceRoute}],'🧭');
-      UI.chat('[GUIDE HOUSE] Survival camp • Bakehouse • Quest Lodge • Quarry and cavern • Warden\'s Keep • Holm Bank • Mage Tower • Lastlight • the haven skiff.','sys');
+      UI.chat('[GUIDE HOUSE] Survival camp • Bakehouse • Quest Lodge • Quarry and cavern • Warden\'s Keep • Holm Bank • Mage Tower • Lastlight • Lanternfoot Cove.','sys');
     } else {
     UI.dialogue('Relief chart of Tutor\'s Holm',
       'Arrival Cove begins the route. The northern teaching door leads to Survival Wood, then the path bends through Lesson Green, the training cavern, Warden\'s Ridge, Mage Headland, and finally Departure Dock. The path never requires guessing: each district prepares you for the next.',

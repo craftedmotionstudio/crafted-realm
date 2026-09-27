@@ -39,10 +39,18 @@
     if(Tutorial.complete) return;
     const s=Tutorial.steps[Tutorial.step];
     if(!s||!['equip_hatchet','mine_copper','forge_dagger'].includes(s.id)||granted[s.id]) return;
-    if(typeof HolmToolRecoveryService!=='undefined'&&HolmToolRecoveryService.recover()){
+    /* Tutor's Holm island (owner review 2026-09-27, 2004 Tutorial Island): a lesson's tools come from its tutor, so they
+     * wait until the tutor due now has been spoken to (Wenna hands over the hatchet, tinderbox and net; Durgin the
+     * pickaxe); HolmIslandTalk.markTalked refreshes the banner, which brings us back here. */
+    let from=null;
+    if(typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.active()){
+      if(HolmIslandTalk.pending()) return;
+      const t=HolmIslandTalk.due();from=t&&t.name;
+    }
+    if(typeof HolmToolRecoveryService!=='undefined'&&HolmToolRecoveryService.recover({from:from})){
       granted[s.id]=true;
     }else{
-      UI.chat('Make room, then collect your teaching tools from the Guide Hall provision rack.','sys');
+      UI.chat(from?'Your pack is too full for your tools. Make room, then speak to '+from+' again.':'Make room, then collect your teaching tools from the Guide Hall provision rack.','sys');
     }
   }
   const DEPARTURE_LINE='Board the skiff at Departure Dock.';

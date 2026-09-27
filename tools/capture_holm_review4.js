@@ -25,6 +25,25 @@ const VIEWS={
   rec.afterChart={pack:await page.evaluate(()=>Player.inv.filter(Boolean).map(s=>s.id)),banner:await page.evaluate(()=>document.getElementById('obj-text').textContent),arrow:await page.evaluate(()=>GuideArrow._label)};
   await page.evaluate(()=>document.querySelector('.tab-btn[data-tab="inv"]')&&document.querySelector('.tab-btn[data-tab="inv"]').click());
   rec.at=await stand(page,66,100,'^ground$',[0,1.05,10]);return snap(page,'1_after_chart_pack')},
+ // 1-3 by real input: the door, Bram, the chart; the MOVING ON box and an empty pack; Wenna hands over the tools; the
+ // hatchet wielded, an oak chopped and a fire lit right where the adventurer stands
+ async realflow(page,rec){
+  const chat=()=>page.evaluate(()=>Array.from(document.querySelectorAll('#chatbox > div')).slice(-4).map(d=>d.textContent.trim()));
+  const clickKind=async(kind,extra)=>{const name=await page.evaluate((kind,extra)=>{let o=null;scene.traverse(m=>{if(!o&&m.isMesh&&m.userData&&m.userData.kind===kind&&(!extra||m.userData[extra[0]]===extra[1]))o=m});if(!o)return null;if(!o.name)o.name='rv-'+kind;return o.name},kind,extra||null);return name?L.clickNamed(page,name):{error:'no '+kind}};
+  rec.runStartsOff=await page.evaluate(()=>Player.runOn===false);
+  await clickKind('arrival_door',['arrivalDoor','arrival']);await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.doors&&r.doors.arrival},null,40000);
+  rec.enter=await L.enterGuideHouse(page);const b=await L.talkTo(page,'bram');rec.bram=b.pages;
+  await clickKind('arrival_chart');await waitFor(page,()=>Tutorial.steps[Tutorial.step].id!=='study_route',null,60000);await sleep(1500);await L.closeDialogue(page);
+  await page.evaluate(()=>document.querySelector('.tab-btn[data-tab="inv"]')&&document.querySelector('.tab-btn[data-tab="inv"]').click());
+  rec.afterChart={pack:await page.evaluate(()=>Player.inv.filter(Boolean).map(s=>s.id)),box:await page.evaluate(()=>document.querySelector('#objective .obj-label').textContent+' | '+document.getElementById('obj-text').textContent),chat:await chat()};
+  await page.evaluate(()=>{camCtl.pitch=1.0;camCtl.dist=11});await snap(page,'1_3_after_chart_moving_on');
+  await L.walkTo(page,'survival','trail',true,[]);const w=await L.talkTo(page,'wenna');rec.wenna=w.pages;await waitFor(page,()=>Player.count('hatchet')>0,null,20000);
+  rec.afterWenna={pack:await page.evaluate(()=>Player.inv.filter(Boolean).map(s=>s.id)),chat:await chat()};await snap(page,'1_wenna_hands_tools');
+  await L.clickInventory(page,'hatchet');await L.clickNamed(page,'island-lesson-survival-oak-1');await waitFor(page,()=>Player.count('logs')>0,null,120000);
+  const p0=await page.evaluate(()=>[player.position.x,player.position.z]);await L.clickInventory(page,'tinderbox');await L.clickInventory(page,'logs');
+  await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500);
+  rec.fire={stood:p0.map(v=>+v.toFixed(1)),fire:await page.evaluate(()=>{const f=scene.getObjectByName('island-campfire');return f?[+f.position.x.toFixed(1),+f.position.z.toFixed(1)]:null}),chat:await chat()};
+  await page.evaluate(()=>{camCtl.yaw=0.6;camCtl.pitch=1.0;camCtl.dist=10});return snap(page,'2_fire_where_you_stand')},
  // 9: the run orb on a new adventurer
  async run(page,rec){rec.runOn=await page.evaluate(()=>Player.runOn);rec.at=await stand(page,63,112,'exterior|land',[0.6,1.1,14]);return snap(page,'9_run_orb')},
  // 8: the statue and the tree beside it, seen at the spawn

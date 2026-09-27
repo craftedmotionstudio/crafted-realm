@@ -697,6 +697,8 @@ function openSmithing(obj){
 function startFiremaking(slot){
   if(Player.count('tinderbox')<1){ UI.chat('You need a tinderbox to light a fire.','plain'); return false; }
   if(Player.action && Player.action.type==='lightfire') return false;
+  // Tutor's Holm island: open ground only, one fire to a tile (HolmArrivalQA.fireBlocked; owner review 2026-09-27)
+  if(typeof HolmArrivalQA!=='undefined' && HolmArrivalQA.fireBlocked){ const no=HolmArrivalQA.fireBlocked(); if(no){ UI.chat(no,'plain'); return false; } }
   Player.action={type:'lightfire', t:0, slot};
   Player.moveTo=null; Player.target=null; Player.path=[];
   return true;

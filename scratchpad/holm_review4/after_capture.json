@@ -1,0 +1,68 @@
+{
+  "base": "http://127.0.0.1:8109/?qaProfile=review4-after-muke4mrh",
+  "tag": "after",
+  "views": {
+    "realflow": {
+      "runStartsOff": true,
+      "enter": {
+        "ok": true
+      },
+      "bram": [
+        "Welcome to Tutor's Holm, friend. I am Guide Bram. Every adventurer starts here, and I start every adventurer.",
+        "See the relief chart on the table? Click it and have a look at the island before you set off.",
+        "It shows every place you will learn something: the camp, the bakehouse, the lodge, the quarry, the keep, the bank, the tower, and Lastlight out on the point.",
+        "Then out the back door and along the path west to the survival camp. Wenna will start you off with your first tools."
+      ],
+      "afterChart": {
+        "pack": [
+          "coins"
+        ],
+        "box": "— MOVING ON — | Guide Bram has shown you the island. Next, Wenna at the survival camp, west of the Guide House. Out the back door and along the path. Follow the arrow.",
+        "chat": [
+          "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+          "Press ` (backquote) at any time for the Administrator Console.",
+          "[GUIDE HOUSE] Survival camp • Bakehouse • Quest Lodge • Quarry and cavern • Warden's Keep • Holm Bank • Mage Tower • Lastlight • the haven skiff.",
+          "Guide Bram has shown you the island. Next, Wenna at the survival camp, west of the Guide House. Out the back door and along the path. Follow the arrow."
+        ]
+      },
+      "wenna": [
+        "Hello there. I am Wenna, and down there is Minnow Hollow.",
+        "Out here you learn to look after yourself: wood, fire, fish and a hot supper, all within a stone's throw of the pond.",
+        "Before anything else, you need tools. Here: a bronze hatchet, a tinderbox and a small net.",
+        "Open your pack and click the hatchet to wield it. Then I will show you what it is for."
+      ],
+      "afterWenna": {
+        "pack": [
+          "coins",
+          "hatchet",
+          "tinderbox",
+          "fishing_net"
+        ],
+        "chat": [
+          "Press ` (backquote) at any time for the Administrator Console.",
+          "[GUIDE HOUSE] Survival camp • Bakehouse • Quest Lodge • Quarry and cavern • Warden's Keep • Holm Bank • Mage Tower • Lastlight • the haven skiff.",
+          "Guide Bram has shown you the island. Next, Wenna at the survival camp, west of the Guide House. Out the back door and along the path. Follow the arrow.",
+          "Wenna hands you a Bronze hatchet, a Tinderbox and a Small net."
+        ]
+      },
+      "fire": {
+        "stood": [
+          38.5,
+          92.5
+        ],
+        "fire": [
+          38.5,
+          92.5
+        ],
+        "chat": [
+          "Wenna hands you a Bronze hatchet, a Tinderbox and a Small net.",
+          "You wield the Bronze hatchet.",
+          "You get some emberwood logs.",
+          "The fire catches and the logs begin to burn."
+        ]
+      },
+      "file": "after_2_fire_where_you_stand.jpg"
+    }
+  },
+  "errors": []
+}

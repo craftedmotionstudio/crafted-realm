@@ -184,7 +184,10 @@ async function talkTo(page,id,opts){
   }
   return last;
 }
+// owner review 4 (2026-09-27): a new adventurer walks (2004); a player turns running on by clicking the run orb
+async function runOrb(page){const off=await page.evaluate(()=>Player.runOn===false);const xy=await page.evaluate(()=>{const o=document.getElementById('run-orb');if(!o)return null;const b=o.getBoundingClientRect();return b.width>0?[b.x+b.width/2,b.y+b.height/2]:null});
+  if(xy&&!await page.evaluate(()=>Player.runOn)){await page.mouse.click(xy[0],xy[1]);await sleep(300)}return {startedOff:off,on:await page.evaluate(()=>Player.runOn===true),clicked:!!xy}}
 function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.filter(q=>off(q[0])&&off(q[2])).length;}
 
 
-module.exports={sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,walkPoint,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse};
+module.exports={sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,walkPoint,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse,runOrb};

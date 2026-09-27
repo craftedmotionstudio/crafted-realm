@@ -17,16 +17,17 @@ var HolmIslandGuide=(function(){
  function alive(prefix){var out=[];scene.traverse(function(o){if(o.name&&o.name.indexOf(prefix)===0&&o.userData&&o.userData.alive!==false&&o.visible!==false)out.push(o)});return out}
  function grubkin(pen){var n=typeof HolmIslandTrials!=='undefined'?HolmIslandTrials.npcs().filter(function(x){return !x.dead&&x.islandPen===pen}).map(function(x){return x.mesh}):[];return nearest(n)}
  function has(id){return typeof Player!=='undefined'&&Player.count(id)>0}
- // Minnow Hollow (v2 land): the live ripple nearest the player (spots move), and whether the player stands on the Fire Beach
+ // Minnow Hollow (v2 land): the live ripple nearest the player (spots move)
  function pondSpot(){return typeof HolmFishing!=='undefined'&&typeof player!=='undefined'?HolmFishing.nearestSpot(player.position.x,player.position.z):null}
- function onBeach(){var b=typeof HolmFishing!=='undefined'&&HolmFishing.fireRing();if(!b||typeof player==='undefined')return true;var a=b.area,p=player.position;return p.x>=a[0]-.5&&p.x<=a[2]+.5&&p.z>=a[1]-.5&&p.z<=a[3]+.5}
  // what to point at for the current step: {obj,label} in the world, or {pack,label} for a step done in the pack
  function aim(id){
   switch(id){
    case 'study_route':return {obj:byKind('arrival_chart'),label:'Study the chart'};
-   case 'equip_hatchet':return has('hatchet')?{pack:'hatchet',label:'Wield the hatchet'}:{obj:byKind('arrival_provisions'),label:'Take your tools'};
+   // owner review 4: Wenna hands over the tools (asked again when a full pack refused them)
+   case 'equip_hatchet':return has('hatchet')?{pack:'hatchet',label:'Wield the hatchet'}:{obj:named('island-tutor-wenna'),label:'Talk to Wenna'};
    case 'chop_logs':return {obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
-   case 'light_fire':return has('logs')?(onBeach()?{pack:'tinderbox',label:'Use the tinderbox on the logs'}:{obj:named('island-hollow-fire-ring'),label:'Go down to the Fire Beach'}):{obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
+   // owner review 4: the fire is lit where the adventurer stands (2004), so with logs in the pack the pack is the target
+   case 'light_fire':return has('logs')?{pack:'tinderbox',label:'Use the tinderbox on the logs'}:{obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
    case 'catch_fish':return {obj:pondSpot(),label:'Net a fish'};
    case 'cook_fish':
     if(!has('raw_perch'))return {obj:pondSpot(),label:'Net a fish'};
