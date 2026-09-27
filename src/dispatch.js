@@ -31,7 +31,9 @@ const Interact = {
     if(u.kind)                  return 'kind:'+u.kind;
     return null;
   },
-  entriesFor(hit, e){
+  /* every registered option for this hit, as plain data for the menu model (src/osrs_menu_world.js):
+   * [{option, target, primary, npc, fn}] in registration order */
+  optionsFor(hit, e){
     const key=this.keyFor(hit); if(!key) return [];
     const u=hit.obj.userData;
     const ctx={hit, obj:hit.obj, npc:u.npc||null, point:hit.point, e};
@@ -44,7 +46,7 @@ const Interact = {
       const bold=u.label ? /<b>([^<]+)<\/b>/.exec(String(u.label)) : null;
       const label=u.npc ? u.npc.t.name : (bold ? bold[1] : (u.label ? String(u.label).replace(/<[^>]+>/g,'') : (u.name || u.kind)));
       const primary=(typeof h.primary==='function') ? !!h.primary(ctx) : !!h.primary;
-      out.push({html:`${h.option} <b>${label}</b>`, primary, fn:()=>{
+      out.push({option:h.option, target:label, primary, npc:key.indexOf('npc:')===0, fn:()=>{
         if(h.walkTo && hit.obj.position && typeof Sched!=='undefined'){
           const target=(typeof THREE!=='undefined'&&hit.obj.getWorldPosition)
             ? hit.obj.getWorldPosition(new THREE.Vector3()) : hit.obj.position;
@@ -54,8 +56,13 @@ const Interact = {
     }
     return out;
   },
+  entriesFor(hit, e){
+    return this.optionsFor(hit, e).map(function(r){return {html:r.option+' <b>'+r.target+'</b>', primary:r.primary, fn:r.fn};});
+  },
   /* menu integration: compose with the existing builder (same pattern the QoL wraps use) */
   _wrap(){
+    // the old-school menu model reads optionsFor() through its own provider (src/osrs_menu_world.js)
+    if(typeof OsrsMenu!=='undefined'){ this._wrapped=true; return; }
     if(this._wrapped || typeof buildCtxEntries!=='function') return;
     const orig=buildCtxEntries;
     const self=this;

@@ -1,0 +1,77 @@
+Alpha start levels {"Attack":40,"Strength":40,"Defence":40,"Hitpoints":40,"Ranged":40,"Magic":40,"Prayer":43} -> combat level 51
+
+attacker  defender  prayer   type    hit%   max  rate  dmg/tick  ttk(no food)
+melee     melee     -        slash    41.1    8     5     0.329      73s
+melee     melee     protect  slash    41.1    4     5     0.164     146s
+melee     ranged    -        slash    36.2    8     5     0.290    82.9s
+melee     ranged    protect  slash    36.2    4     5     0.145   165.8s
+melee     magic     -        slash    48.0    8     5     0.384    62.5s
+melee     magic     protect  slash    48.0    4     5     0.192     125s
+ranged    melee     -        ranged   40.7    7     5     0.285    84.3s
+ranged    melee     protect  ranged   40.7    4     5     0.163   147.5s
+ranged    ranged    -        ranged   35.8    7     5     0.251    95.7s
+ranged    ranged    protect  ranged   35.8    4     5     0.143   167.5s
+ranged    magic     -        ranged   47.5    7     5     0.333    72.2s
+ranged    magic     protect  ranged   47.5    4     5     0.190   126.3s
+magic     melee     -        magic    42.0   10     5     0.420    57.2s
+magic     melee     protect  magic    42.0    6     5     0.252    95.4s
+magic     ranged    -        magic    36.9   10     5     0.369      65s
+magic     ranged    protect  magic    36.9    6     5     0.222   108.3s
+magic     magic     -        magic    49.0   10     5     0.490      49s
+magic     magic     protect  magic    49.0    6     5     0.294    81.6s
+
+duel (both eat at <=45%)          A wins   median   p90
+melee vs melee                     51.9%   114.6s    147s
+melee vs melee +prot               52.5%   229.2s  274.2s
+melee vs ranged                    46.9%     138s  175.2s
+melee vs ranged +prot              21.6%     252s  304.2s
+melee vs magic                     46.2%      96s  121.8s
+melee vs magic +prot               18.8%   166.8s  205.8s
+ranged vs melee                    57.9%   137.4s  175.2s
+ranged vs melee +prot              80.1%   253.2s    306s
+ranged vs ranged                   49.6%     168s    210s
+ranged vs ranged +prot             48.5%   292.2s  349.2s
+ranged vs magic                    51.7%   115.2s  142.8s
+ranged vs magic +prot              43.3%   197.4s  238.8s
+magic vs melee                     57.5%      96s    123s
+magic vs melee +prot               83.5%     168s    207s
+magic vs ranged                    51.4%   115.2s    147s
+magic vs ranged +prot              59.0%     195s    237s
+magic vs magic                     51.1%    79.8s  103.2s
+magic vs magic +prot               50.9%     132s  160.8s
+
+PvM (per kill)                 hit%  max  ttk     taken  taken+prot  monster hit%  max
+melee vs burrowrat            93.1    8   3.2s       0         0         5.6%    1
+melee vs pasturehen           93.1    8   2.4s       0         0         5.6%    1
+melee vs gnarlgob             91.6    8  10.6s     0.2         0         8.2%    1
+melee vs mosswolf             89.5    8  15.1s     0.6         0         9.6%    2
+melee vs moss_seer            90.9    8  10.7s     0.1         0         8.3%    1
+melee vs skeleton             83.7    8    26s     2.4         0        14.6%    3
+melee vs bryn_raider          81.7    8  34.9s     3.6         0        16.3%    3
+melee vs cinder_shade         69.0    8  67.4s    20.8         0        29.7%    5
+melee vs hex_adept            78.8    8    40s     4.3         0        21.3%    3
+ranged vs burrowrat           93.0    7   3.7s       0         0         5.0%    1
+ranged vs pasturehen          93.0    7   2.8s       0         0         5.0%    1
+ranged vs gnarlgob            91.5    7  12.2s     0.2         0         7.2%    1
+ranged vs mosswolf            88.9    7  17.4s     0.6         0         8.5%    2
+ranged vs moss_seer           90.7    7  12.3s     0.1         0         7.3%    1
+ranged vs skeleton            83.8    7  29.7s     2.4         0        12.9%    3
+ranged vs bryn_raider         82.0    7  39.7s     3.6         0        14.4%    3
+ranged vs cinder_shade        67.9    7  78.3s    21.3         0        26.1%    5
+ranged vs hex_adept           78.3    7    46s     4.3         0        18.8%    3
+magic vs burrowrat            93.2   10   2.6s       0         0         6.6%    1
+magic vs pasturehen           93.2   10   1.9s       0         0         6.6%    1
+magic vs gnarlgob             91.8   10   8.5s     0.2         0         9.5%    1
+magic vs mosswolf             89.3   10  12.1s     0.6         0        11.2%    2
+magic vs moss_seer            91.0   10   8.6s     0.1         0         9.7%    1
+magic vs skeleton             84.3   10  20.6s     2.2         0        17.1%    3
+magic vs bryn_raider          82.6   10  27.6s     3.3         0        19.1%    3
+magic vs cinder_shade         68.8   10    54s    19.5         0        34.7%    5
+magic vs hex_adept            79.0   10  31.9s       4         0        24.9%    3
+
+Tiers (equal levels, best gear of each style at that level; mirror time to kill without food; cross win rates, both orders, with food)
+level 10  ttk melee  46.5s ranged  62.8s magic  18.8s   melee>ranged 86%  ranged>magic 2%  magic>melee 88%   [Steel longsword | Ash shortbow | Ember staff + Earth Strike]
+level 20  ttk melee  44.8s ranged 100.4s magic    26s   melee>ranged 99%  ranged>magic 2%  magic>melee 51%   [Aurel longsword | Ash shortbow | Ember staff + Wind Bolt]
+level 30  ttk melee  43.3s ranged 123.7s magic  33.5s   melee>ranged 99%  ranged>magic 8%  magic>melee 21%   [Veyrite longsword | Gale longbow | Storm staff + Earth Bolt]
+level 40  ttk melee  42.5s ranged 130.5s magic  43.8s   melee>ranged 100%  ranged>magic 28%  magic>melee 7%   [Undercrag longsword | Gale longbow | Storm staff + Fire Bolt]
+level 50  ttk melee  42.5s ranged 142.7s magic  47.1s   melee>ranged 99%  ranged>magic 26%  magic>melee 4%   [Undercrag longsword | Gale longbow | Storm staff + Water Blast]

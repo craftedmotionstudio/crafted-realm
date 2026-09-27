@@ -78,5 +78,7 @@ test('content: shared prayer ids and levels match the client prayer book', () =>
       assert.equal(C.PRAYERS[id].pct, Math.round(client[id].boost[k] * 100), 'multiplier of ' + id);
     }
   }
-  assert.ok(C.PRAYERS.protect_item && !client.protect_item, 'protect item is the server-side addition');
+  // the client prayer book now carries Protect Item too (combat agent 2026-09-26: the offline engine runs shared/ rules)
+  assert.ok(C.PRAYERS.protect_item && client.protect_item && client.protect_item.req === C.PRAYERS.protect_item.level, 'protect item in both books');
+  for (const id in client) assert.equal(client[id].drain, C.PRAYERS[id].drain, 'drain effect of ' + id);
 });

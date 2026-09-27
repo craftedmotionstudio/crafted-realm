@@ -1,0 +1,899 @@
+{
+ "tick": 600,
+ "started": "2026-09-26T16:45:04.381Z",
+ "fights": [
+  {
+   "name": "pvp-melee",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynem88 (level-51)",
+      "Follow Brynem88 (level-51)",
+      "Trade with Brynem88 (level-51)",
+      "Report Brynem88",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 1,
+      "b": 0,
+      "expectSkull": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 2000
+    },
+    {
+     "ok": true,
+     "label": "a third adventurer is refused (single-way combat)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "melee",
+      "samples": 253,
+      "adjacentShare": 1,
+      "atRangeShare": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 322,
+      "killer": "brynem88",
+      "victim": "ashem88",
+      "x": 60,
+      "z": 66,
+      "dropped": [
+       [
+        "steel_sword",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "steel_longsword",
+        1
+       ],
+       [
+        "iron_platebody",
+        1
+       ],
+       [
+        "steel_sqshield",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 34,
+      "z": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [],
+      "promised": []
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [],
+      "kept": []
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Brynem88.You kept nothing.11 items were left where you fell, for your killer.You wake in the Commons. The supply ches"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 12
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 5,
+      "after": 16
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 72,
+       "splats": 72,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 35,
+       "matchedNext": 37,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 72,
+       "splats": 72,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 35,
+       "matchedNext": 37,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Ashem88's hits on Brynem88 at 4 (max 8)",
+     "detail": {
+      "biggest": 4,
+      "cap": 4
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashem88 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 37,
+      "opponent": 37,
+      "observer": 37,
+      "self": 37
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynem88 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 35,
+      "opponent": 35,
+      "observer": 35,
+      "self": 35
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reach": {
+    "attackerKit": "melee",
+    "samples": 253,
+    "adjacentShare": 1,
+    "atRangeShare": 0
+   },
+   "winner": "Brynem88",
+   "loser": "Ashem88",
+   "ticks": 194,
+   "seconds": 105.3,
+   "fx": {
+    "attacker": {
+     "hits": 72,
+     "splats": 72,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 35,
+     "matchedNext": 37,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 72,
+     "splats": 72,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 35,
+     "matchedNext": 37,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass4b/strip_pvp_melee.jpg"
+  },
+  {
+   "name": "pvp-ranged-vs-melee",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynem88 (level-51)",
+      "Follow Brynem88 (level-51)",
+      "Trade with Brynem88 (level-51)",
+      "Report Brynem88",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the special attack fires from the orb after a weapon switch (energy spent, special swing seen)",
+     "detail": {
+      "switched": true,
+      "energyBefore": 100,
+      "energyAfter": 50,
+      "specSwings": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 696,
+      "killer": "ashem88",
+      "victim": "brynem88",
+      "x": 58,
+      "z": 66,
+      "dropped": [
+       [
+        "steel_sword",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 30,
+      "z": 12
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "promised": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ashem88.You kept:8 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 5,
+      "after": 13
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 108,
+       "splats": 108,
+       "projectiles": 55,
+       "matchedProjectile": 55,
+       "matchedSwing": 0,
+       "matchedNext": 53,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 108,
+       "splats": 108,
+       "projectiles": 55,
+       "matchedProjectile": 55,
+       "matchedSwing": 0,
+       "matchedNext": 53,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Brynem88's hits on Ashem88 at 4 (max 8)",
+     "detail": {
+      "biggest": 4,
+      "cap": 4
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashem88 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 53,
+      "opponent": 53,
+      "observer": 53,
+      "self": 53
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynem88 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 55,
+      "opponent": 55,
+      "observer": 55,
+      "self": 55
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reach": {
+    "attackerKit": "ranged",
+    "samples": 425,
+    "adjacentShare": 1,
+    "atRangeShare": 0
+   },
+   "winner": "Ashem88",
+   "loser": "Brynem88",
+   "ticks": 286,
+   "seconds": 167.7,
+   "fx": {
+    "attacker": {
+     "hits": 108,
+     "splats": 108,
+     "projectiles": 55,
+     "matchedProjectile": 55,
+     "matchedSwing": 0,
+     "matchedNext": 53,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 108,
+     "splats": 108,
+     "projectiles": 55,
+     "matchedProjectile": 55,
+     "matchedSwing": 0,
+     "matchedNext": 53,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-reconnect",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynem88 (level-51)",
+      "Follow Brynem88 (level-51)",
+      "Trade with Brynem88 (level-51)",
+      "Report Brynem88",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the dropped adventurer stays in the world (x-log protection)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the client logs in again and re-attaches to the same adventurer",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "logging out mid-fight is refused (the combat logout lock)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "melee",
+      "samples": 517,
+      "adjacentShare": 1,
+      "atRangeShare": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 1126,
+      "killer": "brynem88",
+      "victim": "ashem88",
+      "x": 60,
+      "z": 66,
+      "dropped": [
+       [
+        "steel_sword",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 32,
+      "z": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "promised": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Brynem88.You kept:8 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 3,
+      "after": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 128,
+       "splats": 128,
+       "projectiles": 63,
+       "matchedProjectile": 63,
+       "matchedSwing": 65,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 129,
+       "splats": 129,
+       "projectiles": 64,
+       "matchedProjectile": 64,
+       "matchedSwing": 65,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashem88 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 64,
+      "opponent": 64,
+      "observer": 64,
+      "self": 63
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynem88 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 65,
+      "opponent": 65,
+      "observer": 65,
+      "self": 65
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reach": {
+    "attackerKit": "melee",
+    "samples": 517,
+    "adjacentShare": 1,
+    "atRangeShare": 0
+   },
+   "winner": "Brynem88",
+   "loser": "Ashem88",
+   "ticks": 342,
+   "seconds": 200.8,
+   "fx": {
+    "attacker": {
+     "hits": 128,
+     "splats": 128,
+     "projectiles": 63,
+     "matchedProjectile": 63,
+     "matchedSwing": 65,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 129,
+     "splats": 129,
+     "projectiles": 64,
+     "matchedProjectile": 64,
+     "matchedSwing": 65,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  }
+ ],
+ "failures": [],
+ "pageErrors": {
+  "A": [],
+  "B": [],
+  "O": []
+ },
+ "measured": {
+  "accuracy": {
+   "rolls": 309,
+   "expectedHits": 120.7,
+   "observedHits": 110,
+   "z": -1.25
+  },
+  "damage": [
+   {
+    "max": 7,
+    "draws": 45,
+    "counts": [
+     6,
+     8,
+     4,
+     8,
+     4,
+     4,
+     4,
+     7
+    ],
+    "chi2": 4.24,
+    "dof": 7
+   },
+   {
+    "max": 8,
+    "draws": 39,
+    "counts": [
+     5,
+     6,
+     3,
+     5,
+     2,
+     7,
+     3,
+     5,
+     3
+    ],
+    "chi2": 5.08,
+    "dof": 8
+   }
+  ],
+  "attackSpeed": [
+   {
+    "weapon": "steel_longsword",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 186,
+    "hist": {
+     "5": 174,
+     "8": 11,
+     "11": 1
+    }
+   },
+   {
+    "weapon": "gale_longbow",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 115,
+    "hist": {
+     "5": 108,
+     "8": 6,
+     "11": 1
+    }
+   }
+  ],
+  "projectileTiming": {
+   "matched": 119,
+   "mismatched": 0,
+   "examples": []
+  }
+ },
+ "movement": {
+  "Ashem88": {
+   "maxBacklog": 0,
+   "catchUps": 0,
+   "teleports": 1,
+   "ticksSeen": 1094,
+   "tickGaps": 2,
+   "maxGapMs": 1075,
+   "reconnects": 1
+  },
+  "Brynem88": {
+   "maxBacklog": 4,
+   "catchUps": 0,
+   "teleports": 2,
+   "ticksSeen": 1094,
+   "tickGaps": 1,
+   "maxGapMs": 1303,
+   "reconnects": 0
+  },
+  "Oakem88": {
+   "maxBacklog": 2,
+   "catchUps": 0,
+   "teleports": 1,
+   "ticksSeen": 1092,
+   "tickGaps": 1,
+   "maxGapMs": 1359,
+   "reconnects": 0
+  }
+ },
+ "finished": "2026-09-26T16:56:31.307Z",
+ "pass": true
+}

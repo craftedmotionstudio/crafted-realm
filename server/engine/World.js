@@ -370,6 +370,7 @@ class World {
       this.zones.enter(p, 'player');
       p.tele = true;
       p.skullUntil = PVP.skullUntilOnLogin(p.skullRemaining, this.tick);
+      p.caffeinatedUntil = p.caffeineRemaining > 0 ? this.tick + p.caffeineRemaining : 0;
       p.startTimers();
       this.log('login', { key: p.key, pid, tick: this.tick });
       if (p.session) p.session.onLogin(this.welcome(p));
@@ -381,12 +382,22 @@ class World {
     for (const sk of this.content.SKILLS) stats[sk] = [p.xp10[sk], p.base(sk), p.cur(sk)];
     return {
       t: 'welcome', pid: p.pid, name: p.name, tick: this.tick, tickMs: this.tickMs,
-      map: { name: this.map.name, bounds: this.map.bounds, areas: this.map.areas, respawn: this.map.respawn },
+      map: { name: this.map.name, bounds: this.map.bounds, areas: this.map.areas, respawn: this.map.respawn, alpha: this.alphaInfo() },
       x: p.x, z: p.z, level: p.level,
       stats, inv: p.inv.map((s) => (s ? [s.id, s.qty] : null)), eq: p.appearance(),
       set: { run: p.runEnabled ? 1 : 0, style: p.styleIndex, ar: p.autoRetaliate ? 1 : 0, ac: p.autocast, spec: p.specEnergy },
-      en: p.runEnergy, skull: Math.max(0, p.skullUntil - this.tick), pr: Array.from(p.prayers),
+      en: p.runEnergy, skull: Math.max(0, p.skullUntil - this.tick), caf: Math.max(0, p.caffeinatedUntil - this.tick), pr: Array.from(p.prayers),
+      lk: p.look || null,
+      f: info.faceRef(p),   // W2: whom you face / fight right now (a reconnect mid-fight picks the fight up again)
     };
+  }
+  /** what a client needs to draw the alpha supply chest (W2): kit names and the chest tile, or null */
+  alphaInfo() {
+    const a = this.map.alpha;
+    if (!a || !a.kits) return null;
+    const kits = {};
+    for (const k in a.kits) kits[k] = { label: a.kits[k].label || k, equip: a.kits[k].equip || {}, inv: a.kits[k].inv || [] };
+    return { chest: a.chest || null, kits, reach: a.reach || 2 };
   }
 
   processZones() {

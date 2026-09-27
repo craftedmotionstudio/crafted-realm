@@ -100,7 +100,8 @@ const layout = {
   base: 'server/data/maps/scarlands_test.json', kit: '.studio-workspaces/scarlands-kit-v2/candidates/manifest.json',
   pieces, runs,
   extra: {
-    blocked: [[5, 5, 6, 6], [50, 20, 51, 21], [12, 30, 12, 30], [40, 34, 41, 34], [31, 12, 32, 13]],
+    blocked: [[5, 5, 6, 6], [50, 20, 51, 21], [12, 30, 12, 30], [40, 34, 41, 34], [31, 12, 32, 13],
+      [36, 10, 36, 10], [28, 8, 28, 8], [32, 39, 32, 39], [14, 47, 14, 47], [46, 47, 46, 47], [44, 58, 44, 58], [21, 24, 21, 24]],   // W2 online alpha: supply chest, signposts, stones
     water: [[14, 100, 18, 103]],
     walls: [[20, 18, 22, 18, 'S'], [24, 18, 27, 18, 'S'], [20, 25, 27, 25, 'N'], [20, 18, 20, 25, 'W'], [27, 18, 27, 25, 'E']],
     about: 'The Commons trees, rocks and building and the Scarlands pool keep their test-map collision; they belong to other kits.' },

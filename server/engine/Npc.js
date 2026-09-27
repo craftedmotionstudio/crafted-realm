@@ -23,11 +23,18 @@ const DEFAULT_MAX_RANGE = 7;
 const DEFAULT_RANGED_ATTACK_RANGE = 7;
 const NPC_FLAG = 0x80000;   // rsmod CollisionFlag.NPC
 
+/** tile footprint of an NPC type: `tiles`, or an integer `size` of 2+ (the Scarlands bestiary convention); our older
+ *  types use `size` as a visual scale (0.5 .. 1.05), which is one tile */
+function footprint(def) {
+  if (def.tiles != null) return Math.max(1, def.tiles | 0);
+  return Number.isInteger(def.size) && def.size >= 2 ? def.size : 1;
+}
+
 class Npc extends PathingEntity {
   constructor(world, nid, typeId, spawn) {
     const def = world.content.NPC_TYPES[typeId];
     if (!def) throw new Error('unknown npc type ' + typeId);
-    super(world, spawn.x, spawn.z, spawn.level || 0, 1);
+    super(world, spawn.x, spawn.z, spawn.level || 0, footprint(def));
     this.nid = nid;
     this.typeId = typeId;
     this.def = def;
@@ -61,6 +68,7 @@ class Npc extends PathingEntity {
     this.regenClock = 0;
     this.dying = false; this.removeAt = -1;
     this.respawnAt = -1;
+    this.attackCount = 0;               // for scripted every-Nth specials (def.breath)
   }
 
   get hp() { return this.levels.hitpoints; }
@@ -210,4 +218,5 @@ class Npc extends PathingEntity {
 }
 
 Npc.NPC_FLAG = NPC_FLAG;
+Npc.footprint = footprint;
 module.exports = Npc;

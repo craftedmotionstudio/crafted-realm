@@ -1,0 +1,2723 @@
+{
+ "tick": 600,
+ "started": "2026-09-26T12:55:14.806Z",
+ "fights": [
+  {
+   "name": "pvp-melee",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Bryn7246 (level-51)",
+      "Follow Bryn7246 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 1,
+      "b": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull timer",
+     "detail": 2000
+    },
+    {
+     "ok": true,
+     "label": "a third adventurer is refused (single-way combat)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 379,
+      "killer": "ash7246",
+      "victim": "bryn7246",
+      "x": 61,
+      "z": 66,
+      "dropped": [
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 31,
+      "z": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "promised": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ash7246.You kept:7 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 1,
+      "after": 8
+     }
+    },
+    {
+     "ok": false,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 105,
+       "splats": 105,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 52,
+       "matchedNext": 0,
+       "generic": 53,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 105,
+       "splats": 105,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 52,
+       "matchedNext": 0,
+       "generic": 53,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": false,
+     "label": "protection caps Ash7246's hits on Bryn7246 at 4 (max 8)",
+     "detail": {
+      "biggest": 8,
+      "cap": 4
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash7246 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 52,
+      "opponent": 52,
+      "observer": 52,
+      "self": 52
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn7246 match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 53,
+      "opponent": 53,
+      "observer": 53,
+      "self": 53
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "winner": "Ash7246",
+   "loser": "Bryn7246",
+   "ticks": 279,
+   "seconds": 156.5,
+   "fx": {
+    "attacker": {
+     "hits": 105,
+     "splats": 105,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 52,
+     "matchedNext": 0,
+     "generic": 53,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 105,
+     "splats": 105,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 52,
+     "matchedNext": 0,
+     "generic": 53,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "genericLog": {
+    "A": [
+     {
+      "n": 170,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 169,
+        "used": false,
+        "born": 169
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 175,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 174,
+        "used": false,
+        "born": 174
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 180,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 179,
+        "used": false,
+        "born": 179
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 185,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 184,
+        "used": false,
+        "born": 184
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 190,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 189,
+        "used": false,
+        "born": 189
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 197,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 197,
+        "used": false,
+        "born": 197
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 198,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 197,
+        "used": false,
+        "born": 197
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 203,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 202,
+        "used": false,
+        "born": 202
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 208,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 8,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 207,
+        "used": false,
+        "born": 207
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 213,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 212,
+        "used": false,
+        "born": 212
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 213,
+        "used": false,
+        "born": 213
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 218,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 217,
+        "used": false,
+        "born": 217
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 218,
+        "used": false,
+        "born": 218
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 223,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 222,
+        "used": false,
+        "born": 222
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 223,
+        "used": false,
+        "born": 223
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 228,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 6,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 227,
+        "used": false,
+        "born": 227
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 228,
+        "used": false,
+        "born": 228
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 233,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 232,
+        "used": false,
+        "born": 232
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 238,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 6,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 237,
+        "used": false,
+        "born": 237
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 243,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 242,
+        "used": false,
+        "born": 242
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 248,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 247,
+        "used": false,
+        "born": 247
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 253,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 252,
+        "used": false,
+        "born": 252
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 258,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 257,
+        "used": false,
+        "born": 257
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 263,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 262,
+        "used": false,
+        "born": 262
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 268,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 267,
+        "used": false,
+        "born": 267
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 273,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 2,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 272,
+        "used": false,
+        "born": 272
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 281,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 3,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 280,
+        "used": false,
+        "born": 280
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 286,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 285,
+        "used": false,
+        "born": 285
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 291,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 290,
+        "used": false,
+        "born": 290
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 299,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 298,
+        "used": false,
+        "born": 298
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 299,
+        "used": false,
+        "born": 299
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 304,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 303,
+        "used": false,
+        "born": 303
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 304,
+        "used": false,
+        "born": 304
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 309,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 308,
+        "used": false,
+        "born": 308
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 309,
+        "used": false,
+        "born": 309
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 314,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 313,
+        "used": false,
+        "born": 313
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 314,
+        "used": false,
+        "born": 314
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 319,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 318,
+        "used": false,
+        "born": 318
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 319,
+        "used": false,
+        "born": 319
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 324,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 4,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 323,
+        "used": false,
+        "born": 323
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 324,
+        "used": false,
+        "born": 324
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 332,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 331,
+        "used": false,
+        "born": 331
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 337,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 4,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 336,
+        "used": false,
+        "born": 336
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 342,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 1,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 341,
+        "used": false,
+        "born": 341
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 347,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 346,
+        "used": false,
+        "born": 346
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 352,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 351,
+        "used": false,
+        "born": 351
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 357,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 356,
+        "used": false,
+        "born": 356
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 362,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 361,
+        "used": false,
+        "born": 361
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 367,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 366,
+        "used": false,
+        "born": 366
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 372,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 371,
+        "used": false,
+        "born": 371
+       }
+      ],
+      "proj": []
+     }
+    ],
+    "O": [
+     {
+      "n": 170,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 169,
+        "used": false,
+        "born": 169
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 175,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 174,
+        "used": false,
+        "born": 174
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 180,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 179,
+        "used": false,
+        "born": 179
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 185,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 184,
+        "used": false,
+        "born": 184
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 190,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 189,
+        "used": false,
+        "born": 189
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 197,
+      "to": [
+       "p",
+       2
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 197,
+        "used": false,
+        "born": 197
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 198,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 197,
+        "used": false,
+        "born": 197
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 203,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 202,
+        "used": false,
+        "born": 202
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 208,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 8,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 207,
+        "used": false,
+        "born": 207
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 213,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 212,
+        "used": false,
+        "born": 212
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 213,
+        "used": false,
+        "born": 213
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 218,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 217,
+        "used": false,
+        "born": 217
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 218,
+        "used": false,
+        "born": 218
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 223,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 222,
+        "used": false,
+        "born": 222
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 223,
+        "used": false,
+        "born": 223
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 228,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 6,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 227,
+        "used": false,
+        "born": 227
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 228,
+        "used": false,
+        "born": 228
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 233,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 232,
+        "used": false,
+        "born": 232
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 238,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 6,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 237,
+        "used": false,
+        "born": 237
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 243,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 242,
+        "used": false,
+        "born": 242
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 248,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 247,
+        "used": false,
+        "born": 247
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 253,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 252,
+        "used": false,
+        "born": 252
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 258,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 257,
+        "used": false,
+        "born": 257
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 263,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 262,
+        "used": false,
+        "born": 262
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 268,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 267,
+        "used": false,
+        "born": 267
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 273,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 2,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 272,
+        "used": false,
+        "born": 272
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 281,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 3,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 280,
+        "used": false,
+        "born": 280
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 286,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 285,
+        "used": false,
+        "born": 285
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 291,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 290,
+        "used": false,
+        "born": 290
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 299,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 298,
+        "used": false,
+        "born": 298
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 299,
+        "used": false,
+        "born": 299
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 304,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 303,
+        "used": false,
+        "born": 303
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 304,
+        "used": false,
+        "born": 304
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 309,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 308,
+        "used": false,
+        "born": 308
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 309,
+        "used": false,
+        "born": 309
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 314,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 313,
+        "used": false,
+        "born": 313
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 314,
+        "used": false,
+        "born": 314
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 319,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 318,
+        "used": false,
+        "born": 318
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 319,
+        "used": false,
+        "born": 319
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 324,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 4,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 323,
+        "used": false,
+        "born": 323
+       },
+       {
+        "att": [
+         "p",
+         1
+        ],
+        "tgt": [
+         "p",
+         2
+        ],
+        "land": 324,
+        "used": false,
+        "born": 324
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 332,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 331,
+        "used": false,
+        "born": 331
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 337,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 4,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 336,
+        "used": false,
+        "born": 336
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 342,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 1,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 341,
+        "used": false,
+        "born": 341
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 347,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 5,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 346,
+        "used": false,
+        "born": 346
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 352,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 351,
+        "used": false,
+        "born": 351
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 357,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 356,
+        "used": false,
+        "born": 356
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 362,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 361,
+        "used": false,
+        "born": 361
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 367,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 366,
+        "used": false,
+        "born": 366
+       }
+      ],
+      "proj": []
+     },
+     {
+      "n": 372,
+      "to": [
+       "p",
+       1
+      ],
+      "dmg": 0,
+      "swings": [
+       {
+        "att": [
+         "p",
+         2
+        ],
+        "tgt": [
+         "p",
+         1
+        ],
+        "land": 371,
+        "used": false,
+        "born": 371
+       }
+      ],
+      "proj": []
+     }
+    ]
+   },
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass1/strip_pvp_melee.png"
+  },
+  {
+   "name": "pvp-ranged",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "Ash7246: timeout waiting for kit ranged"
+    }
+   ]
+  },
+  {
+   "name": "pvp-magic",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Bryn7246 (level-51)",
+      "Follow Bryn7246 (level-51)",
+      "Walk here",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 1,
+      "b": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull timer",
+     "detail": 1593
+    },
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ],
+   "leftClickAttack": true
+  },
+  {
+   "name": "pvm-melee-gnarlgob",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvm-ranged-mosswolf",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvm-magic-skeleton",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvm-melee-moss_seer",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvm-ranged-skeleton",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvm-magic-gnarlgob",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvm-melee-bryn_raider",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvm-ranged-moss_seer",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvm-magic-cinder_shade",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvp-melee-vs-magic",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvp-ranged-vs-melee",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvp-magic-vs-ranged",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvp-melee-swapped",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvp-ranged-swapped",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvp-reconnect",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvp-magic-vs-melee",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  },
+  {
+   "name": "pvm-melee-hex_adept",
+   "checks": [
+    {
+     "ok": false,
+     "label": "scenario ran",
+     "detail": "run stopped (deadline or STOP file)"
+    }
+   ]
+  }
+ ],
+ "failures": [
+  "pvp-melee: every splat is tied to its swing or projectile (no untimed hits, no late projectiles) {\"attacker\":{\"hits\":105,\"splats\":105,\"projectiles\":0,\"matchedProjectile\":0,\"matchedSwing\":52,\"matchedNext\":0,\"generic\":53,\"late\":0,\"deaths\":1},\"observer\":{\"hits\":105,\"splats\":105,\"projectiles\":0,\"matchedProjectile\":0,\"matchedSwing\":52,\"matchedNext\":0,\"generic\":53,\"late\":0,\"deaths\":1}}",
+  "pvp-melee: protection caps Ash7246's hits on Bryn7246 at 4 (max 8) {\"biggest\":8,\"cap\":4}",
+  "pvp-ranged: scenario ran \"Ash7246: timeout waiting for kit ranged\"",
+  "pvp-magic: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvm-melee-gnarlgob: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvm-ranged-mosswolf: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvm-magic-skeleton: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvm-melee-moss_seer: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvm-ranged-skeleton: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvm-magic-gnarlgob: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvm-melee-bryn_raider: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvm-ranged-moss_seer: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvm-magic-cinder_shade: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvp-melee-vs-magic: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvp-ranged-vs-melee: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvp-magic-vs-ranged: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvp-melee-swapped: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvp-ranged-swapped: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvp-reconnect: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvp-magic-vs-melee: scenario ran \"run stopped (deadline or STOP file)\"",
+  "pvm-melee-hex_adept: scenario ran \"run stopped (deadline or STOP file)\""
+ ],
+ "pageErrors": {
+  "A": [],
+  "B": [],
+  "O": []
+ },
+ "measured": {
+  "accuracy": {
+   "rolls": 142,
+   "expectedHits": 61.3,
+   "observedHits": 62,
+   "z": 0.12
+  },
+  "damage": [],
+  "attackSpeed": [
+   {
+    "weapon": "steel_longsword",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 103,
+    "hist": {
+     "5": 95,
+     "8": 8
+    }
+   },
+   {
+    "weapon": "storm_staff",
+    "name": "cast",
+    "expect": 5,
+    "mode": 5,
+    "samples": 35,
+    "hist": {
+     "5": 31,
+     "8": 3,
+     "11": 1
+    }
+   }
+  ],
+  "projectileTiming": {
+   "matched": 17,
+   "mismatched": 0,
+   "examples": []
+  }
+ },
+ "finished": "2026-09-26T13:01:21.812Z",
+ "pass": false
+}

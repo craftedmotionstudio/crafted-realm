@@ -1,0 +1,843 @@
+{
+ "results": [
+  {
+   "name": "melee dagger Stab: a swing every 4 ticks (click ok)",
+   "ok": true,
+   "detail": {
+    "ticks": [
+     14,
+     18,
+     22,
+     26,
+     30
+    ],
+    "stand": {
+     "at": [
+      85,
+      34
+     ],
+     "foe": [
+      84,
+      34
+     ]
+    }
+   }
+  },
+  {
+   "name": "melee dagger Stab: the splat lands on the impact frame (swing 4-tick weapon)",
+   "ok": true,
+   "detail": {
+    "splatMinusImpact": [
+     -0.031,
+     0.011,
+     -0.016,
+     -0.013,
+     -0.013
+    ]
+   }
+  },
+  {
+   "name": "retaliation: the grubkin answers 1 + floor(6/2) = 4 ticks after the first swing",
+   "ok": true,
+   "detail": {
+    "player": 14,
+    "grubkin": 18
+   }
+  },
+  {
+   "name": "melee dagger Lunge: a swing every 4 ticks (click ok)",
+   "ok": true,
+   "detail": {
+    "ticks": [
+     41,
+     45,
+     49,
+     53,
+     57
+    ],
+    "stand": {
+     "at": [
+      85,
+      34
+     ],
+     "foe": [
+      84,
+      34
+     ]
+    }
+   }
+  },
+  {
+   "name": "melee dagger Lunge: the splat lands on the impact frame (swing 4-tick weapon)",
+   "ok": true,
+   "detail": {
+    "splatMinusImpact": [
+     -0.022,
+     -0.018,
+     -0.005,
+     0.034,
+     0.005
+    ]
+   }
+  },
+  {
+   "name": "melee sword Slash: a swing every 4 ticks (click ok)",
+   "ok": true,
+   "detail": {
+    "ticks": [
+     67,
+     71,
+     75,
+     79,
+     83
+    ],
+    "stand": {
+     "at": [
+      85,
+      34
+     ],
+     "foe": [
+      84,
+      34
+     ]
+    }
+   }
+  },
+  {
+   "name": "melee sword Slash: the splat lands on the impact frame (swing 4-tick weapon)",
+   "ok": true,
+   "detail": {
+    "splatMinusImpact": [
+     0.005,
+     0.008,
+     -0.004,
+     -0.012
+    ]
+   }
+  },
+  {
+   "name": "melee two-handed Chop: a swing every 7 ticks (click ok)",
+   "ok": true,
+   "detail": {
+    "ticks": [
+     93,
+     100,
+     107,
+     114,
+     121
+    ],
+    "stand": {
+     "at": [
+      85,
+      34
+     ],
+     "foe": [
+      84,
+      34
+     ]
+    }
+   }
+  },
+  {
+   "name": "melee two-handed Chop: the splat lands on the impact frame (swing 7-tick weapon)",
+   "ok": true,
+   "detail": {
+    "splatMinusImpact": [
+     -0.001,
+     -0.002,
+     0.042,
+     -0.011
+    ]
+   }
+  },
+  {
+   "name": "melee warhammer Pound: a swing every 6 ticks (click ok)",
+   "ok": true,
+   "detail": {
+    "ticks": [
+     131,
+     137,
+     143,
+     149,
+     155
+    ],
+    "stand": {
+     "at": [
+      85,
+      34
+     ],
+     "foe": [
+      84,
+      34
+     ]
+    }
+   }
+  },
+  {
+   "name": "melee warhammer Pound: the splat lands on the impact frame (swing 6-tick weapon)",
+   "ok": true,
+   "detail": {
+    "splatMinusImpact": [
+     0.002,
+     0.013,
+     0.004,
+     0.008
+    ]
+   }
+  },
+  {
+   "name": "ranged Accurate: a shot every 4 ticks",
+   "ok": true,
+   "detail": [
+    164,
+    168,
+    172,
+    176
+   ]
+  },
+  {
+   "name": "ranged Accurate: each hit lands floor((46+5d+30)/30) ticks after its shot (d = tiles at the shot)",
+   "ok": true,
+   "detail": [
+    [
+     3,
+     3,
+     4
+    ],
+    [
+     2,
+     2,
+     2
+    ],
+    [
+     2,
+     2,
+     1
+    ],
+    [
+     2,
+     2,
+     1
+    ]
+   ]
+  },
+  {
+   "name": "ranged Accurate: the splat shows when the arrow lands",
+   "ok": true,
+   "detail": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "ranged Rapid: a shot every 3 ticks",
+   "ok": true,
+   "detail": [
+    192,
+    195,
+    198,
+    201,
+    204
+   ]
+  },
+  {
+   "name": "ranged Rapid: each hit lands floor((46+5d+30)/30) ticks after its shot (d = tiles at the shot)",
+   "ok": true,
+   "detail": [
+    [
+     3,
+     3,
+     4
+    ],
+    [
+     3,
+     3,
+     3
+    ],
+    [
+     2,
+     2,
+     1
+    ],
+    [
+     2,
+     2,
+     1
+    ],
+    [
+     2,
+     2,
+     1
+    ]
+   ]
+  },
+  {
+   "name": "ranged Rapid: the splat shows when the arrow lands",
+   "ok": true,
+   "detail": [
+    0,
+    0,
+    0.039,
+    0,
+    0.023
+   ]
+  },
+  {
+   "name": "ranged Longrange: a shot every 4 ticks",
+   "ok": true,
+   "detail": [
+    217,
+    221,
+    225,
+    229
+   ]
+  },
+  {
+   "name": "ranged Longrange: each hit lands floor((46+5d+30)/30) ticks after its shot (d = tiles at the shot)",
+   "ok": true,
+   "detail": [
+    [
+     3,
+     3,
+     4
+    ],
+    [
+     2,
+     2,
+     2
+    ],
+    [
+     2,
+     2,
+     1
+    ],
+    [
+     2,
+     2,
+     1
+    ]
+   ]
+  },
+  {
+   "name": "ranged Longrange: the splat shows when the arrow lands",
+   "ok": true,
+   "detail": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "magic autocast (staff): a cast every 5 ticks",
+   "ok": true,
+   "detail": [
+    244,
+    249,
+    254,
+    259
+   ]
+  },
+  {
+   "name": "magic: every cast flies floor((46+10d)/30)+1 ticks",
+   "ok": true,
+   "detail": [
+    [
+     3,
+     4
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     3,
+     2
+    ]
+   ]
+  },
+  {
+   "name": "magic: a landed spell shows its splat on arrival; a splash shows none",
+   "ok": true,
+   "detail": {
+    "sp": [
+     0,
+     0,
+     0.022,
+     0.027
+    ],
+    "casts": 4,
+    "splashes": 0,
+    "splats": 4
+   }
+  },
+  {
+   "name": "single cast without a staff: the chosen spell casts once, then the adventurer stands",
+   "ok": true,
+   "detail": {
+    "armed": "wind_strike",
+    "casts": 1
+   }
+  },
+  {
+   "name": "eating mid-fight drops the attack order and adds 3 ticks to the attack timer",
+   "ok": true,
+   "detail": {
+    "before": 279,
+    "after": 282,
+    "clock": 293,
+    "target": false,
+    "hp": 35
+   }
+  },
+  {
+   "name": "after a bite the adventurer does not swing again until clicked (2004)",
+   "ok": true
+  },
+  {
+   "name": "right-click reads \"Attack Grubkin broodmother (level-18)\"",
+   "ok": true,
+   "detail": [
+    "Attack Grubkin broodmother (level-18)",
+    "Appraise Grubkin broodmother",
+    "Examine Grubkin broodmother"
+   ]
+  },
+  {
+   "name": "Protect from Melee: the broodmother's blows all miss while it is on",
+   "ok": true,
+   "detail": {
+    "hits": [
+     [
+      309,
+      0
+     ],
+     [
+      314,
+      0
+     ],
+     [
+      319,
+      0
+     ]
+    ],
+    "hp0": 99
+   }
+  },
+  {
+   "name": "the broodmother slam is telegraphed (message + ground ring) and stepping away dodges it",
+   "ok": true,
+   "detail": {
+    "away": [
+     73,
+     73
+    ],
+    "msgs": [
+     "The Proving Ground. Wild grubkins here attack on sight; the poacher, the warlock and the broodmother answer only a challenge.",
+     "The broodmother rears up, ready to slam the ground!",
+     "The broodmother slams the empty ground."
+    ]
+   }
+  },
+  {
+   "name": "pg_poacher: fires arrows at the adventurer, each landing on its hit tick",
+   "ok": true,
+   "detail": {
+    "shots": [
+     [
+      342,
+      1,
+      1,
+      0
+     ],
+     [
+      347,
+      1,
+      1,
+      0
+     ]
+    ],
+    "lands": 2,
+    "splats": 2
+   }
+  },
+  {
+   "name": "pg_warlock: fires spells at the adventurer, each landing on its hit tick",
+   "ok": true,
+   "detail": {
+    "shots": [
+     [
+      361,
+      1,
+      1,
+      1
+     ],
+     [
+      366,
+      1,
+      1,
+      1
+     ]
+    ],
+    "lands": 2,
+    "splats": 0
+   }
+  },
+  {
+   "name": "the wild pack hunts a low-level adventurer within four tiles (their meadow ignores friendly mode: they attack on sight)",
+   "ok": true,
+   "detail": {
+    "attacks": 3
+   }
+  },
+  {
+   "name": "the pack ignores an adventurer above twice its level (2004)",
+   "ok": true,
+   "detail": {
+    "attacks": 0,
+    "cb": 42
+   }
+  },
+  {
+   "name": "a kill: the body falls and sinks, then its drop appears (bones at least)",
+   "ok": true,
+   "detail": {
+    "dead": true,
+    "dropShownAfterMs": 1453
+   }
+  },
+  {
+   "name": "the adventurer's death: \"Oh dear, you are dead!\", respawn at full health with what was kept explained",
+   "ok": true,
+   "detail": {
+    "msgs": [
+     "The ground shakes as the broodmother slams into you!",
+     "Oh dear, you are dead!",
+     "On Tutor's Holm nothing is lost when you fall.",
+     "You wake on the Guide House porch. Guide Bram shakes his head kindly."
+    ]
+   }
+  },
+  {
+   "name": "approach: the adventurer walks diagonal steps to a foe and ends in melee reach (side tile)",
+   "ok": true,
+   "detail": {
+    "trail": [
+     [
+      99,
+      37
+     ],
+     [
+      99,
+      38
+     ],
+     [
+      98,
+      39
+     ],
+     [
+      97,
+      40
+     ],
+     [
+      96,
+      41
+     ],
+     [
+      95,
+      41
+     ],
+     [
+      95,
+      40
+     ],
+     [
+      94,
+      39
+     ],
+     [
+      94,
+      38
+     ],
+     [
+      94,
+      37
+     ],
+     [
+      94,
+      36
+     ],
+     [
+      95,
+      35
+     ]
+    ],
+    "diag": 5
+   }
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "detail": []
+  }
+ ],
+ "data": {
+  "melee_dagger Stab": {
+   "swings": [
+    14,
+    18,
+    22,
+    26,
+    30
+   ],
+   "splatMinusImpact": [
+    -0.031,
+    0.011,
+    -0.016,
+    -0.013,
+    -0.013
+   ]
+  },
+  "melee_dagger Lunge": {
+   "swings": [
+    41,
+    45,
+    49,
+    53,
+    57
+   ],
+   "splatMinusImpact": [
+    -0.022,
+    -0.018,
+    -0.005,
+    0.034,
+    0.005
+   ]
+  },
+  "melee_sword Slash": {
+   "swings": [
+    67,
+    71,
+    75,
+    79,
+    83
+   ],
+   "splatMinusImpact": [
+    0.005,
+    0.008,
+    -0.004,
+    -0.012
+   ]
+  },
+  "melee_two-handed Chop": {
+   "swings": [
+    93,
+    100,
+    107,
+    114,
+    121
+   ],
+   "splatMinusImpact": [
+    -0.001,
+    -0.002,
+    0.042,
+    -0.011
+   ]
+  },
+  "melee_warhammer Pound": {
+   "swings": [
+    131,
+    137,
+    143,
+    149,
+    155
+   ],
+   "splatMinusImpact": [
+    0.002,
+    0.013,
+    0.004,
+    0.008
+   ]
+  },
+  "ranged_Accurate": {
+   "shots": [
+    164,
+    168,
+    172,
+    176
+   ],
+   "hitDelay": [
+    [
+     3,
+     3,
+     4
+    ],
+    [
+     2,
+     2,
+     2
+    ],
+    [
+     2,
+     2,
+     1
+    ],
+    [
+     2,
+     2,
+     1
+    ]
+   ],
+   "splatMinusLand": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "ranged_Rapid": {
+   "shots": [
+    192,
+    195,
+    198,
+    201,
+    204
+   ],
+   "hitDelay": [
+    [
+     3,
+     3,
+     4
+    ],
+    [
+     3,
+     3,
+     3
+    ],
+    [
+     2,
+     2,
+     1
+    ],
+    [
+     2,
+     2,
+     1
+    ],
+    [
+     2,
+     2,
+     1
+    ]
+   ],
+   "splatMinusLand": [
+    0,
+    0,
+    0.039,
+    0,
+    0.023
+   ]
+  },
+  "ranged_Longrange": {
+   "shots": [
+    217,
+    221,
+    225,
+    229
+   ],
+   "hitDelay": [
+    [
+     3,
+     3,
+     4
+    ],
+    [
+     2,
+     2,
+     2
+    ],
+    [
+     2,
+     2,
+     1
+    ],
+    [
+     2,
+     2,
+     1
+    ]
+   ],
+   "splatMinusLand": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "magic": {
+   "casts": [
+    [
+     244,
+     0
+    ],
+    [
+     249,
+     0
+    ],
+    [
+     254,
+     0
+    ],
+    [
+     259,
+     0
+    ]
+   ],
+   "splatMinusLand": [
+    0,
+    0,
+    0.022,
+    0.027
+   ]
+  },
+  "provingGround": [
+   {
+    "name": "proving-ground-pg_poacher-0",
+    "type": "pg_poacher",
+    "level": 9
+   },
+   {
+    "name": "proving-ground-pg_warlock-1",
+    "type": "pg_warlock",
+    "level": 10
+   },
+   {
+    "name": "proving-ground-pg_broodmother-2",
+    "type": "pg_broodmother",
+    "level": 18
+   },
+   {
+    "name": "proving-ground-pg_wild_grubkin-3",
+    "type": "pg_wild_grubkin",
+    "level": 5
+   },
+   {
+    "name": "proving-ground-pg_wild_grubkin-4",
+    "type": "pg_wild_grubkin",
+    "level": 5
+   },
+   {
+    "name": "proving-ground-pg_wild_grubkin-5",
+    "type": "pg_wild_grubkin",
+    "level": 5
+   }
+  ]
+ },
+ "errors": []
+}

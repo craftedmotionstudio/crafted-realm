@@ -72,7 +72,7 @@ check('Bram asked again during equip_hatchet explains the rack, then wielding th
 });
 check('only the current lesson\'s tutor gates: at chop_logs the camp refuses until Wenna, other areas and walk-only spots do not',()=>{
  doLesson('equip_hatchet');assert.strictEqual(G.pending().id,'wenna');
- assert.strictEqual(W.els['obj-text'].textContent,'Talk to Wenna at the survival camp, west along the path.');
+ assert.strictEqual(W.els['obj-text'].textContent,'Talk to Wenna at the head of the Minnow Hollow path, south of the survival camp.');
  ['oak','perch','fire'].forEach(k=>assert.strictEqual(G.refusal(CLICK[k]),'You should speak to Wenna first.',k));
  ['fishingStage','bucket','court','yard','shaft','chart'].forEach(k=>assert.strictEqual(G.refusal(CLICK[k]),null,k));
 });

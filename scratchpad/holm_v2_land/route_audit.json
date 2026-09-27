@@ -3,13 +3,13 @@
   {
    "name": "study_route (chart)",
    "reachable": true,
-   "walked": 34,
-   "seconds": 20.4,
+   "walked": 30,
+   "seconds": 18,
    "from": 1,
    "to": 4.4,
    "rise": 3.4,
    "fall": 0,
-   "steepestLink": 0.275
+   "steepestLink": 0.899
   },
   {
    "name": "equip_hatchet (rack)",
@@ -25,85 +25,85 @@
   {
    "name": "chop_logs (survival-oak-1)",
    "reachable": true,
-   "walked": 44,
-   "seconds": 26.4,
+   "walked": 42,
+   "seconds": 25.2,
    "from": 4.4,
    "to": 2.27,
    "rise": 3.7,
    "fall": 5.9,
-   "steepestLink": 0.777
+   "steepestLink": 0.881
   },
   {
    "name": "light_fire (Fire Beach)",
    "reachable": true,
-   "walked": 14,
-   "seconds": 8.4,
+   "walked": 10,
+   "seconds": 6,
    "from": 2.27,
    "to": 1.69,
-   "rise": 1.2,
-   "fall": 1.8,
-   "steepestLink": 0.847
+   "rise": 0.7,
+   "fall": 1.3,
+   "steepestLink": 0.476
   },
   {
    "name": "catch_fish (pond spot)",
    "reachable": true,
-   "walked": 24,
-   "seconds": 14.4,
+   "walked": 21,
+   "seconds": 12.6,
    "from": 1.69,
    "to": 1.17,
-   "rise": 3.9,
-   "fall": 4.5,
-   "steepestLink": 0.847
+   "rise": 3.4,
+   "fall": 3.9,
+   "steepestLink": 0.839
   },
   {
    "name": "cook_fish (beach fire)",
    "reachable": true,
-   "walked": 24,
-   "seconds": 14.4,
+   "walked": 21,
+   "seconds": 12.6,
    "from": 1.17,
    "to": 1.69,
-   "rise": 4.5,
-   "fall": 3.9,
-   "steepestLink": 0.847
+   "rise": 4.3,
+   "fall": 3.7,
+   "steepestLink": 0.839
   },
   {
    "name": "bake_bread (oven)",
    "reachable": true,
-   "walked": 62,
-   "seconds": 37.2,
+   "walked": 50,
+   "seconds": 30,
    "from": 1.69,
    "to": 5.4,
-   "rise": 7.1,
-   "fall": 3.4,
-   "steepestLink": 0.847
+   "rise": 6.9,
+   "fall": 3.2,
+   "steepestLink": 0.864
   },
   {
    "name": "learn_quests (board)",
    "reachable": true,
-   "walked": 50,
-   "seconds": 30,
+   "walked": 45,
+   "seconds": 27,
    "from": 5.4,
    "to": 6.4,
-   "rise": 2,
-   "fall": 1,
-   "steepestLink": 0.604
+   "rise": 1.2,
+   "fall": 0.2,
+   "steepestLink": 0.429
   },
   {
    "name": "descend_cavern (shaft)",
    "reachable": true,
-   "walked": 55,
-   "seconds": 33,
+   "walked": 49,
+   "seconds": 29.4,
    "from": 6.4,
    "to": 9.15,
-   "rise": 4.2,
-   "fall": 1.5,
-   "steepestLink": 0.763
+   "rise": 3.2,
+   "fall": 0.4,
+   "steepestLink": 0.733
   },
   {
    "name": "mine_copper",
    "reachable": true,
-   "walked": 12,
-   "seconds": 7.2,
+   "walked": 9,
+   "seconds": 5.4,
    "from": 9.15,
    "to": -30,
    "rise": 0,
@@ -124,8 +124,8 @@
   {
    "name": "smelt_bronze (furnace)",
    "reachable": true,
-   "walked": 10,
-   "seconds": 6,
+   "walked": 9,
+   "seconds": 5.4,
    "from": -30,
    "to": -30,
    "rise": 0,
@@ -135,8 +135,8 @@
   {
    "name": "forge_dagger (anvil)",
    "reachable": true,
-   "walked": 3,
-   "seconds": 1.8,
+   "walked": 2,
+   "seconds": 1.2,
    "from": -30,
    "to": -30,
    "rise": 0,
@@ -146,60 +146,60 @@
   {
    "name": "melee/ranged trial (keep court)",
    "reachable": true,
-   "walked": 174,
-   "seconds": 104.4,
+   "walked": 142,
+   "seconds": 85.2,
    "from": -30,
    "to": 10.97,
-   "rise": 22.1,
-   "fall": 20.3,
+   "rise": 15.5,
+   "fall": 13.7,
    "steepestLink": 0.893
   },
   {
    "name": "open_bank (counter)",
    "reachable": true,
-   "walked": 48,
-   "seconds": 28.8,
+   "walked": 45,
+   "seconds": 27,
    "from": 10.97,
    "to": 7.3,
-   "rise": 1.4,
-   "fall": 5.1,
-   "steepestLink": 0.898
+   "rise": 1.3,
+   "fall": 5,
+   "steepestLink": 0.808
   },
   {
    "name": "magic_trial (mage yard)",
    "reachable": true,
-   "walked": 48,
-   "seconds": 28.8,
+   "walked": 42,
+   "seconds": 25.2,
    "from": 7.3,
    "to": 7.52,
-   "rise": 4.4,
-   "fall": 4.2,
+   "rise": 4.1,
+   "fall": 3.9,
    "steepestLink": 0.873
   },
   {
    "name": "relight_lastlight (lever)",
    "reachable": true,
-   "walked": 104,
-   "seconds": 62.4,
+   "walked": 77,
+   "seconds": 46.2,
    "from": 7.52,
    "to": 26.8,
-   "rise": 13.2,
-   "fall": 2.9,
-   "steepestLink": 0.895
+   "rise": 10.6,
+   "fall": 0.3,
+   "steepestLink": 0.884
   },
   {
    "name": "departure (skiff)",
    "reachable": true,
-   "walked": 157,
-   "seconds": 94.2,
+   "walked": 129,
+   "seconds": 77.4,
    "from": 26.8,
    "to": 0.95,
-   "rise": 4.2,
-   "fall": 21.1,
-   "steepestLink": 0.895
+   "rise": 3.4,
+   "fall": 20.3,
+   "steepestLink": 0.838
   }
  ],
- "total": 873,
+ "total": 733,
  "unreachableTargets": [
   "lodge:north-lane"
  ],
@@ -216,12 +216,12 @@
   "cavern": "measured"
  },
  "stats": {
-  "nodes": 10829,
-  "edges": 17652,
+  "nodes": 10838,
+  "edges": 30285,
   "owners": {
-   "land": 7894,
+   "land": 7899,
    "b:keep": 860,
-   "b:bakehouse": 237,
+   "b:bakehouse": 241,
    "b:lodge": 376,
    "b:survival": 249,
    "b:quarry": 108,

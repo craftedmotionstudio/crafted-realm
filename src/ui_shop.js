@@ -66,3 +66,70 @@ UI.openShop = function(shopKey, announce=true){
     if(announce && typeof Events!=='undefined') Events.emit('modalOpened', {id:'shop-modal'});
     if(announce) Sfx.coin();
   };
+
+/* ---- the old-school slot menus (src/osrs_menu_items.js): Withdraw-/Deposit-N, Value, Buy-N / Sell-N ----
+   Same rules as the clicks above (the vault stacks everything; the shop's scarcity price; sell at half value),
+   n may be Infinity (All). Each returns how many moved. */
+UI.bankWithdraw = function(i, n){
+  const s=Player.bank[i]; if(!s) return 0;
+  const def=ITEMS[s.id]||{};
+  let want=Math.min(n===Infinity?s.qty:n, s.qty);
+  if(!def.stack){ const free=Player.inv.filter(x=>!x).length;
+    if(!free){ UI.chat('Your pack is full.','plain'); return 0; } want=Math.min(want, free); }
+  if(want<=0 || !Player.addItem(s.id, want)) return 0;
+  s.qty-=want; if(s.qty<=0) Player.bank.splice(Player.bank.indexOf(s),1);
+  UI.openBank(false); return want;
+};
+UI.bankDeposit = function(i, n){
+  const s=Player.inv[i]; if(!s) return 0;
+  const id=s.id, def=ITEMS[id]||{}; let moved=0;
+  if(def.stack){ moved=Math.min(n===Infinity?s.qty:n, s.qty); s.qty-=moved; if(s.qty<=0) Player.inv[i]=null; }
+  else { const order=[i].concat(Player.inv.map((x,j)=>j).filter(j=>j!==i));
+    for(const j of order){ if(moved>=n) break; const x=Player.inv[j]; if(x&&x.id===id){ Player.inv[j]=null; moved+=x.qty||1; } } }
+  if(!moved) return 0;
+  const ex=Player.bank.find(b=>b.id===id); if(ex) ex.qty+=moved; else Player.bank.push({id, qty:moved});
+  UI.refreshInv(); UI.openBank(false); return moved;
+};
+UI._shopState = function(){
+  const shop=SHOPS[this.currentShop]||SHOPS.bazaar, DEF=10;
+  if(!shop._q){ shop._q={}; shop.stock.forEach(st=>shop._q[st.id]=DEF); }
+  return {shop, DEF, price:(base,q)=>Math.max(1, Math.round(base*(1+(DEF-q)*0.03)))};
+};
+UI.shopValue = function(id){
+  const {shop,DEF,price}=this._shopState(), st=shop.stock.find(x=>x.id===id); if(!st) return null;
+  const p=price(st.price, shop._q[id]!==undefined?shop._q[id]:DEF);
+  UI.chat(`${ITEMS[id].name}: currently costs ${p} crowns.`,'plain'); return p;
+};
+UI.shopBuy = function(id, n){
+  const def=ITEMS[id]||{name:id}; let got=0, spent=0;
+  for(let k=0;k<n;k++){
+    const {shop,DEF,price}=this._shopState(), st=shop.stock.find(x=>x.id===id); if(!st) break;
+    const cq=shop._q[id]!==undefined?shop._q[id]:DEF;
+    if(cq<=0){ UI.chat('The shopkeeper is out of stock of that.','plain'); break; }
+    const p=price(st.price, cq);
+    if(Player.count('coins')<p){ UI.chat('You don\'t have enough crowns for that.','plain'); break; }
+    if(!def.stack && !Player.inv.some(s=>!s) && Player.count('coins')!==p){ UI.chat('Your pack is full.','plain'); break; }
+    Player.removeItem('coins',p); if(!Player.addItem(id,1)){ Player.addItem('coins',p); break; }
+    shop._q[id]=cq-1; got++; spent+=p;
+  }
+  if(got){ Sfx.coin(); UI.chat(got===1?`You buy a ${def.name.toLowerCase()} for ${spent} crowns.`:`You buy ${got} ${def.name.toLowerCase()} for ${spent} crowns.`,'loot'); }
+  UI.openShop(false); return got;
+};
+UI.shopSellValue = function(id){
+  const def=ITEMS[id]||{name:id}, p=Math.max(1,Math.floor((def.value||0)/2));
+  UI.chat(`${def.name}: the shop will buy it for ${p} crowns.`,'plain'); return p;
+};
+UI.shopSell = function(i, n){
+  const s0=Player.inv[i]; if(!s0 || s0.id==='coins') return 0;
+  const id=s0.id, def=ITEMS[id]||{name:id}, {shop,DEF}=this._shopState(), price=Math.max(1,Math.floor((def.value||0)/2));
+  let sold=0;
+  while(sold<n){
+    const j=(Player.inv[i]&&Player.inv[i].id===id)?i:Player.inv.findIndex(x=>x&&x.id===id); if(j<0) break;
+    const s=Player.inv[j];
+    Player.inv[j]=(def.stack && s.qty>1) ? {id, qty:s.qty-1} : null;
+    Player.addItem('coins',price); sold++;
+    if(shop._q && shop._q[id]!==undefined) shop._q[id]=Math.min(DEF*2, shop._q[id]+1);
+  }
+  if(sold){ Sfx.coin(); UI.chat(sold===1?`You sell the ${def.name.toLowerCase()} for ${price} crowns.`:`You sell ${sold} ${def.name.toLowerCase()} for ${price*sold} crowns.`,'loot'); }
+  UI.refreshInv(); UI.openShop(false); return sold;
+};

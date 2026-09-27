@@ -793,10 +793,11 @@
 <script src="src/persist.js?v=1"></script>
 <script src="src/qa_profile.js?v=3"></script>
 <script src="src/config.js?v=5os2"></script>
+<script src="src/online_boot.js?v=3"></script><!-- ?online=1 only: server login + the Scarlands test world (W2); a no-op otherwise -->
 <script src="src/holm_island_live.js?v=3"></script>
 <script src="src/world_mode.js?v=3"></script>
 <script src="src/item_attrs.js?v=1"></script>
-<script src="src/game0_icons.js?v=h5f26a79c"></script>
+<script src="src/game0_icons.js?v=h3f1a3c8c"></script>
 <script src="src/worldgrid.js?v=4"></script>
   <script src="src/holm_landscape_data.js?v=25"></script>
   <script src="src/holm_lastlight_data.js?v=15"></script>
@@ -808,7 +809,7 @@
   <script src="src/holm_tutorial_flow_data.js?v=16"></script>
 <script>CRWorldMode.loadLegacyScript('src/tutorial_island.js?v=10')</script>
 <script>CRWorldMode.loadLegacyScript('src/tut_cave_dress.js?v=1')</script>
-<script src="src/game1_data.js?v=h72a2dc84"></script>
+<script src="src/game1_data.js?v=h164500ba"></script>
 <script src="src/chunks.js"></script>
 <script src="src/world_v2_contract.js?v=7"></script>
   <script src="src/world_v2_holm.js?v=28"></script>
@@ -831,10 +832,18 @@
   <script src="src/world_v2_objects.js?v=21"></script>
   <script src="src/world_v2_warmup.js?v=8"></script>
 <script>CRWorldMode.loadLegacyScript('src/tut_statue.js?v=1')</script>
-<script src="src/world_gear.js?v=3"></script>
+<script src="src/world_gear.js?v=3cb"></script>
 <script src="src/gear_models_v1.js?v=2"></script>
-<script src="src/holm_items_v1.js?v=h947970c2"></script>
-<script src="src/holm_equipment.js?v=2"></script>
+<script src="src/holm_items_v1.js?v=hc76f4d81"></script>
+<script src="src/holm_equipment.js?v=2cb_3"></script>
+<!-- the 2004 rules, one source for the offline engine and the server (UMD: window.CRShared.*) -->
+<script src="shared/rng.js?v=1"></script>
+<script src="shared/xp.js?v=1"></script>
+<script src="shared/combat.js?v=1"></script>
+<script src="shared/pvp.js?v=1"></script>
+<script src="shared/drops.js?v=1"></script>
+<script src="shared/movement.js?v=2"></script>
+<script src="shared/drinks.js?v=1"></script>
 <script>HolmEquipment.install();</script>
 <script src="src/world_scatter.js?v=2"></script>
 <script>CRWorldMode.loadLegacyScript('src/prop_grass_tufts.js?v=1')</script>
@@ -913,11 +922,14 @@
 <script>CRWorldMode.loadLegacyScript('src/item_spawns.js?v=2')</script>
 <script src="src/proc_beasts.js"></script>
 <script src="src/game_assets.js"></script>
-<script src="src/game3_systems.js?v=g14hcfx1"></script>
+<script src="src/game3_systems.js?v=g14hcfx1cb2pcf"></script>
+<script src="src/tile_nav.js?v=1"></script>
+<script src="src/combat_hooks.js?v=1b"></script>
+<script src="src/combat_engine.js?v=1c"></script>
 <script src="src/sfx_furnishings.js?v=5"></script>
 <script src="src/waterworks_u4_contract.js?v=1"></script>
 <script src="src/fishing_edge_u5_contract.js?v=1"></script>
-<script src="src/magic_spells.js?v=2"></script>
+<script src="src/magic_spells.js?v=2cb5"></script>
 <script src="src/fx_dragon.js?v=3d"></script>
 <script src="src/fx_mole.js?v=1"></script>
 <script src="src/fx_wolf.js?v=2"></script>
@@ -926,24 +938,29 @@
 <script src="src/audio_title_full.js?v=1"></script>
 <script src="src/audio_hearthside.js?v=1"></script>
 <script src="src/audio_minstrel.js?v=1"></script>
-<script src="src/game4_ui.js?v=h86580a7d"></script>
+<script src="src/osrs_menu.js?v=2"></script><!-- the one old-school menu model (right click, hover text, use-mode) -->
+<script src="src/game4_ui.js?v=he7b82353"></script>
+<script src="src/osrs_menu_world.js?v=2"></script>
 <script src="src/ui_osrs.js?v=1"></script>
 <script src="src/ui_prayer_magic.js?v=4"></script>
-<script src="src/ui_combat.js?v=3"></script>
+<script src="src/ui_combat.js?v=4cb2"></script>
 <script src="src/ui_minimap.js?v=1"></script>
 <script src="src/ui_map.js?v=7"></script>
-<script src="src/ui_shop.js?v=1"></script>
-  <script src="src/ui_save.js?v=16"></script>
+<script src="src/ui_shop.js?v=2om1"></script>
+  <script src="src/ui_save.js?v=17cb2cf"></script>
   <script src="src/new_adventurer_reset.js?v=1"></script>
   <script src="src/login_overhaul.js?v=5"></script>
 <script src="src/overlays.js?v=2"></script>
 <script src="src/tick_health.js?v=2"></script>
-<script src="src/overlays_world.js?v=5"></script>
-<script src="src/combat_fx.js?v=4"></script>
-<script src="src/overlay_npc_tile.js?v=1"></script>
-<script src="src/qol_ui.js?v=2"></script>
+<script src="src/overlays_world.js?v=6om1_cf"></script>
+<script src="src/combat_fx.js?v=5cb2b"></script>
+<script src="src/ui_pvp_hud.js?v=1"></script>
+<script src="src/overlay_npc_tile.js?v=1t"></script>
+<script src="src/coffee.js?v=1"></script>
+<script src="src/qol_ui.js?v=3om1"></script>
 <script src="src/inventory_menu.js?v=2"></script>
-<script src="src/item_tags.js?v=2"></script>
+<script src="src/item_tags.js?v=3om1"></script>
+<script src="src/osrs_menu_items.js?v=2"></script>
 <script src="src/ui_smith_grid.js?v=2"></script>
 <script src="src/smith_bronze_dagger.js?v=2"></script>
 <script src="src/ui_guide_arrow.js?v=7"></script>
@@ -952,7 +969,7 @@
 <script src="src/item_teleport_tabs.js?v=2"></script>
 <script src="src/map_search.js?v=1"></script>
   <script src="src/scheduler.js?v=1"></script>
-  <script src="src/dispatch.js?v=5"></script>
+  <script src="src/dispatch.js?v=6om1"></script>
   <script src="src/world_v2_travel.js?v=1"></script>
   <script src="src/admin_landmarks.js?v=3"></script>
 <script src="src/dev_travel.js?v=21"></script>
@@ -971,7 +988,7 @@
 <script src="src/holm_combat_kits.js?v=1"></script>
 <script src="src/tutorial_ext.js?v=3"></script>
   <script src="src/tutorial_holm.js?v=11"></script>
-  <script src="src/holm_curriculum_progress.js?v=1"></script><script src="src/holm_island_curriculum.js?v=h28a0794e"></script>
+  <script src="src/holm_curriculum_progress.js?v=1"></script><script src="src/holm_island_curriculum.js?v=h7456cf92"></script>
   <script src="src/holm_reward_plan.js?v=1"></script>
   <script src="src/holm_tool_recovery.js?v=1"></script>
   <script src="src/holm_tool_recovery_service.js?v=3"></script>
@@ -1001,8 +1018,8 @@
 <script src="src/ui_osrs.js?v=1"></script>
 <script src="src/ui_equip_quest.js?v=1"></script>
 <script src="src/ui_skills.js?v=3"></script>
-<script src="src/ui_combat.js?v=3"></script>
-<script src="src/ui_reference_finish.js?v=2"></script>
+<script src="src/ui_combat.js?v=4cb2"></script>
+<script src="src/ui_reference_finish.js?v=2inv28"></script>
 <script src="src/ui_quest_scroll.js?v=3"></script>
 <script src="src/equip_preview.js?v=1"></script>
 <script src="src/npc_chars.js?v=3cfx1"></script>
@@ -1012,15 +1029,15 @@
 <script>CRWorldMode.loadLegacyScript('src/starter_pen.js?v=5')</script>
 <script src="src/input_controls.js?v=2"></script>
 <script src="src/char_creator.js?v=5"></script>
-<script src="src/equip_builder.js?v=4"></script>
-<script src="src/fx_humanoid.js?v=g21"></script>
+<script src="src/equip_builder.js?v=5"></script>
+<script src="src/fx_humanoid.js?v=g21em1eq2"></script>
 <script src="src/char_quaternius.js?v=2"></script>
 <script src="src/char_customizer.js"></script>
 <script src="src/char_styles.js"></script>
 <script src="src/boot_coordinator.js?v=2"></script>
 <script src="src/crafting_action_visuals.js?v=4"></script><script src="src/holm_skill_tools.js?v=1"></script>
-<script src="src/holm_arrival_follower.js?v=2"></script>
-<script src="src/holm_arrival_player.js?v=5"></script>
+<script src="src/holm_arrival_follower.js?v=2cb2"></script>
+<script src="src/holm_arrival_player.js?v=5cb2"></script>
 <script src="src/holm_overhaul_terrain.js?v=h17c74682"></script>
 <script src="src/holm_arrival_navigation.js?v=2"></script>
 <script src="src/holm_arrival_approach.js?v=h674526b7"></script>
@@ -1035,18 +1052,18 @@
 <script src="src/holm_arrival_trail.js?v=2wf"></script>
 <script src="src/holm_arrival_water.js?v=hdeca526f"></script>
 <script src="src/holm_arrival_porch_target.js?v=1"></script>
-<script src="src/holm_v2_land.js?v=hbf6b37ac"></script><script src="src/holm_island_paths_data.js?v=2wf1"></script><script src="src/holm_island_nav.js?v=hd90818ba"></script><script src="src/holm_island_lessons.js?v=8s58os1"></script><script src="src/holm_fishing.js?v=hc03f7dbf"></script><script src="src/holm_island_gates.js?v=3os2"></script><script src="src/holm_island_trials.js?v=3cfx1"></script><script src="src/holm_island_tutors.js?v=h4f4fb09c"></script><script src="src/holm_island_talk.js?v=hcc3b6f70"></script><script src="src/holm_kit.js?v=1k8k9m"></script><script src="src/holm_island_player.js?v=5k8k9m_cfx1c30"></script><script src="src/holm_island_fx.js?v=3m"></script><script src="src/holm_island_guide.js?v=h53dc1a61"></script><script src="src/holm_kit_creator.js?v=2k8k9m"></script><script src="src/holm_island_extras.js?v=h13df2519"></script><script src="src/holm_guide_cellar.js?v=2"></script><script src="src/holm_arrival_qa.js?v=h06605fe3"></script>
+<script src="src/holm_v2_land.js?v=hbf6b37ac"></script><script src="src/holm_island_paths_data.js?v=2wf1"></script><script src="src/holm_island_nav.js?v=hfc1a6a45"></script><script src="src/holm_island_lessons.js?v=8s58os1"></script><script src="src/holm_fishing.js?v=hc03f7dbf"></script><script src="src/holm_island_gates.js?v=3os2"></script><script src="src/holm_island_trials.js?v=3cfx1cb2"></script><script src="src/holm_proving_ground.js?v=1b"></script><script src="src/holm_island_tutors.js?v=h502b4c49"></script><script src="src/holm_island_talk.js?v=hcc3b6f70"></script><script src="src/holm_kit.js?v=1k8k9m_eq2"></script><script src="src/holm_island_player.js?v=5k8k9m_cfx1c31em1eq2"></script><script src="src/holm_island_fx.js?v=3m"></script><script src="src/holm_island_guide.js?v=h53dc1a61"></script><script src="src/holm_kit_creator.js?v=2k8k9m"></script><script src="src/holm_island_extras.js?v=h31387f06"></script><script src="src/holm_guide_cellar.js?v=2"></script><script src="src/holm_arrival_qa.js?v=h577418e6"></script>
 <script src="src/holm_v3_terrain.js?v=2"></script>
 <script src="src/holm_v3_render.js?v=8"></script>
 <script src="src/holm_tile_house.js?v=8"></script>
 <script src="src/holm_tile_furniture.js?v=2"></script>
 <script src="src/holm_v3_scenery.js?v=11"></script>
 <script src="src/holm_v3_preview.js?v=6"></script>
-<script src="src/frame_stage_metrics.js?v=1"></script><script src="src/game5_main.js?v=h92518e9b"></script>
+<script src="src/frame_stage_metrics.js?v=1"></script><script>CROnline.writeScripts()</script><script src="src/game5_main.js?v=hfac4b282"></script>
 <script src="src/classic_pixels.js?v=2"></script>
 <script src="src/perf_probe.js?v=1"></script>
 <script src="src/tut_firemaking.js?v=1"></script>
-<script src="src/ui_osrs_kit.js?v=12"></script><!-- LAST: the one OSRS interface kit (assets/ui/osrs_kit.css) -->
+<script src="src/ui_osrs_kit.js?v=12om1b_9cb2_11"></script><!-- LAST: the one OSRS interface kit (assets/ui/osrs_kit.css) -->
 <script>
   /* sync the settings volume sliders to saved values on load */
   window.addEventListener('load', function(){ try{

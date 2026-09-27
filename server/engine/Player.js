@@ -14,6 +14,8 @@ const C = require('../../shared/combat.js');
 const P = require('../../shared/pvp.js');
 const X = require('../../shared/xp.js');
 const M = require('../../shared/movement.js');
+const LOOK = require('./look');
+const D = require('../../shared/drinks.js');
 
 const INV_SIZE = 28;
 const EQUIP_SLOTS = ['head', 'cape', 'amulet', 'weapon', 'body', 'shield', 'legs', 'hands', 'feet'];
@@ -40,10 +42,13 @@ class Player extends PathingEntity {
     this.active = false;
 
     const skills = world.content.SKILLS;
+    // W2 alpha: a brand-new adventurer (no save) may start at the map's alpha levels (map.alpha.startStats)
+    const start = (!save && world.map && world.map.alpha && world.map.alpha.startStats) || {};
     this.xp10 = {}; this.levels = {};
     for (const sk of skills) {
       const st = s.stats && s.stats[sk];
-      this.xp10[sk] = st ? st.xp10 : (sk === 'Hitpoints' ? X.xp10ForLevel(10) : 0);
+      const startLevel = start[sk] > 1 ? Math.min(99, start[sk] | 0) : (sk === 'Hitpoints' ? 10 : 1);
+      this.xp10[sk] = st ? st.xp10 : (startLevel > 1 ? X.xp10ForLevel(startLevel) : 0);
       this.levels[sk] = st ? st.cur : this.base(sk);
     }
     this.inv = new Array(INV_SIZE).fill(null);
@@ -60,6 +65,10 @@ class Player extends PathingEntity {
     this.specArmed = false;
     this.playtime = s.playtime | 0;
     this.skullRemaining = s.skull | 0;       // applied at login (pvp.skullUntilOnLogin)
+    this.look = LOOK.sanitize(s.look);       // character-kit appearance (W2), null = the client's default
+    this.lastKitTick = -1000;
+    this.caffeineRemaining = s.caf | 0;      // coffee: ticks of slower run drain left, applied at login
+    this.caffeinatedUntil = 0;
 
     this.prayers = new Set();
     this.prayerCounter = 0;
@@ -172,6 +181,19 @@ class Player extends PathingEntity {
     this.out.invDirty = true; this.invalidate();
     return take;
   }
+  /** one sip of a dosed drink (shared/drinks.js; 2004 potion rule: no eat delay, no attack delay, the fight goes on) */
+  drink(slot) {
+    const s = this.inv[slot]; if (!s || !D.isDrink(s.id)) return false;
+    const r = D.sip(s.id, this.runEnergy, M.MAX_ENERGY, this.world.tick);
+    this.runEnergy = Math.round(r.energy);
+    this.caffeinatedUntil = r.until;
+    if (r.next) { this.inv[slot] = { id: r.next, qty: 1 }; this.out.invDirty = true; this.invalidate(); }
+    else this.invSlotRemove(slot, 1);
+    this.setAnim('drink');
+    this.message(r.text);
+    this.out.selfDirty = true;
+    return true;
+  }
   wornDefs() { return EQUIP_SLOTS.map((sl) => this.itemDef(this.equip[sl])); }
   weightKg() { return M.carriedWeight(this.inv.map((s) => s && this.itemDef(s.id)), this.wornDefs()); }
   /** visible gear for other players' clients */
@@ -263,6 +285,9 @@ class Player extends PathingEntity {
     this.setTimer('skull', 1, () => {
       if (this.skullUntil && this.world.tick >= this.skullUntil) { this.skullUntil = 0; this.infoChanged = true; this.out.selfDirty = true; }
     }, true);
+    this.setTimer('caffeine', 1, () => {
+      if (this.caffeinatedUntil && this.world.tick >= this.caffeinatedUntil) { this.caffeinatedUntil = 0; this.out.selfDirty = true; this.message('The coffee wears off.'); }
+    }, true);
   }
 
   /* ---------------------------------------------------------------------------------------- */
@@ -280,7 +305,8 @@ class Player extends PathingEntity {
   updateEnergy() {
     if (this.delayed) return;
     const before = this.runEnergy;
-    this.runEnergy = M.energyTick(this.runEnergy, this.stepsTaken, this.weightKg(), this.cur('Agility') || 1);
+    this.runEnergy = M.energyTick(this.runEnergy, this.stepsTaken, this.weightKg(), this.cur('Agility') || 1,
+      D.drainMultiplier(this.caffeinatedUntil, this.world.tick));
     if (this.runEnergy === 0 && this.runEnabled) { this.runEnabled = false; this.out.settingsDirty = true; }
     if (Math.floor(before / 100) !== Math.floor(this.runEnergy / 100)) this.out.selfDirty = true;
   }
@@ -378,7 +404,9 @@ class Player extends PathingEntity {
       run: this.runEnabled, energy: this.runEnergy,
       style: this.styleIndex, autoRetaliate: this.autoRetaliate, autocast: this.autocast, spec: this.specEnergy,
       skull: this.active ? P.skullRemainingOnLogout(this.skullUntil, this.world.tick) : this.skullRemaining,
+      caf: this.active ? Math.max(0, this.caffeinatedUntil - this.world.tick) : this.caffeineRemaining,
       playtime: this.playtime,
+      look: this.look || undefined,
     };
   }
 }

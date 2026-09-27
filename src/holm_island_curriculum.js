@@ -89,7 +89,7 @@ var HolmIslandCurriculum=(function(){
    try{var el=document.getElementById('objective'),txt=document.getElementById('obj-text');if(el&&txt){el.style.display='block';txt.textContent=(typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.objective())||'Lastlight is lit. Board Ferryman Tobin\'s skiff at the Departure Haven.'}
     var h=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('haven','boat');if(h&&typeof GuideArrow!=='undefined'){GuideArrow.keepAfterComplete=true;GuideArrow.setTarget({x:h.x,z:h.z},'Board the skiff')}}catch(e){}
    UI.chat('You have completed every lesson on Tutor\'s Holm. The pier gate at the Departure Haven is open.','xp');
-   UI.dialogue('Keeper Aldous','That light will carry to the mainland. Go down to the haven; Tobin will row you across.',[{label:'Thank you.'}],'img:assets/icons/tutors/aldous.png?v=30');
+   UI.dialogue('Keeper Aldous','That light will carry to the mainland. Go down to the haven; Tobin will row you across.',[{label:'Thank you.'}],'img:assets/icons/tutors/aldous.png?v=31');
    try{if(typeof SaveGame!=='undefined')SaveGame.save(true)}catch(e){}return true}}
  function board(){
   if(!on)return false;if(!Tutorial.complete){UI.chat('Tobin shakes his head. No sailing until Lastlight is lit.','plain');return false}

@@ -64,6 +64,9 @@ var ItemTags = {
     const el=orig(item, onclick, price, showQty);
     if(item && el){
       ItemTags.decorate(el, item.id);
+      // the old-school slot menus (src/osrs_menu_items.js): right click opens the slot's menu, left click runs its
+      // top row; shift + right click adds these colour tags
+      if(typeof OsrsMenuItems!=='undefined'){ OsrsMenuItems.bindSlot(el, item, onclick); return el; }
       el.addEventListener('contextmenu', e=>{
         e.preventDefault(); e.stopPropagation();
         // pack slots lead with the old-school Drop / Examine rows (src/inventory_menu.js)

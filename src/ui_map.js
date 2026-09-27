@@ -254,7 +254,7 @@ var CRMinimap=(function(){
     // OSRS dot law: yellow for folk, red for spoils on the ground.
     if(typeof WORLD!=='undefined'){
       for(var i=0;i<WORLD.npcs.length;i++){ var n=WORLD.npcs[i]; if(!n.dead)
-        drawDot(ctx,n.mesh.position.x,n.mesh.position.z,n.t.boss?'#ff4d4d':'#ffff00',4,px,pz,yaw,count); }
+        drawDot(ctx,n.mesh.position.x,n.mesh.position.z,n.isPlayer?'#ffffff':n.t.boss?'#ff4d4d':'#ffff00',4,px,pz,yaw,count); }   // other adventurers (online) are white, as in 2004
       for(var j=0;j<WORLD.clickables.length;j++){ var o=WORLD.clickables[j]; if(o.userData&&o.userData.kind==='friendly')
         drawDot(ctx,o.position.x,o.position.z,'#ffff00',4,px,pz,yaw,count); }
       // island folk: tutors are yellow (friendly), the trial pens' foes yellow as well, like any NPC

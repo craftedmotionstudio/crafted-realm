@@ -1,0 +1,425 @@
+{
+ "tick": 600,
+ "started": "2026-09-26T12:51:04.783Z",
+ "fights": [
+  {
+   "name": "pvm-melee-gnarlgob",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the gnarlgob dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       372240,
+       373320
+      ],
+      [
+       "Defence",
+       372240,
+       372240
+      ],
+      [
+       "Hitpoints",
+       372240,
+       372597
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 2,
+      "npcShown": 2,
+      "meServer": 21,
+      "meShown": 21
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 25,
+       "splats": 25,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 21,
+       "matchedNext": 4,
+       "generic": 0,
+       "late": 0,
+       "deaths": 2
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 1,
+       "id": "bones",
+       "q": 1,
+       "x": 26,
+       "z": 52,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 2,
+       "id": "bones",
+       "q": 1,
+       "x": 26,
+       "z": 52,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 3,
+       "id": "coins",
+       "q": 16,
+       "x": 26,
+       "z": 52,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 57.7,
+   "ticks": 96,
+   "fx": {
+    "attacker": {
+     "hits": 25,
+     "splats": 25,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 21,
+     "matchedNext": 4,
+     "generic": 0,
+     "late": 0,
+     "deaths": 2
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvm-melee-moss_seer",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the moss_seer dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       373320,
+       373880
+      ],
+      [
+       "Defence",
+       372240,
+       372240
+      ],
+      [
+       "Hitpoints",
+       372597,
+       372780
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 7,
+      "npcShown": 7,
+      "meServer": 0,
+      "meShown": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": []
+    },
+    {
+     "ok": false,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 7,
+       "splats": 7,
+       "projectiles": 7,
+       "matchedProjectile": 0,
+       "matchedSwing": 0,
+       "matchedNext": 7,
+       "generic": 0,
+       "late": 1,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": false,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 4,
+       "id": "bones",
+       "q": 1,
+       "x": 9,
+       "z": 61,
+       "own": true,
+       "hidden": true
+      },
+      {
+       "uid": 5,
+       "id": "coins",
+       "q": 21,
+       "x": 9,
+       "z": 61,
+       "own": true,
+       "hidden": true
+      },
+      {
+       "uid": 6,
+       "id": "mind_rune",
+       "q": 2,
+       "x": 9,
+       "z": 61,
+       "own": true,
+       "hidden": true
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": false,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": [
+      {
+       "page": "Ash1p8r",
+       "who": "drawn self",
+       "off": 0.0833333333333286
+      }
+     ]
+    }
+   ],
+   "seconds": 20.9,
+   "ticks": 35,
+   "fx": {
+    "attacker": {
+     "hits": 7,
+     "splats": 7,
+     "projectiles": 7,
+     "matchedProjectile": 0,
+     "matchedSwing": 0,
+     "matchedNext": 7,
+     "generic": 0,
+     "late": 1,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvm-magic-gnarlgob",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the gnarlgob dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Magic",
+       372240,
+       373675
+      ],
+      [
+       "Hitpoints",
+       372780,
+       372963
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 6,
+      "npcShown": 6,
+      "meServer": 8,
+      "meShown": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 14,
+       "splats": 14,
+       "projectiles": 7,
+       "matchedProjectile": 6,
+       "matchedSwing": 8,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": false,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 7,
+       "id": "bones",
+       "q": 1,
+       "x": 35,
+       "z": 49,
+       "own": true,
+       "hidden": true
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 20.7,
+   "ticks": 34,
+   "fx": {
+    "attacker": {
+     "hits": 14,
+     "splats": 14,
+     "projectiles": 7,
+     "matchedProjectile": 6,
+     "matchedSwing": 8,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  }
+ ],
+ "failures": [
+  "pvm-melee-moss_seer: every splat is tied to its swing or projectile {\"attacker\":{\"hits\":7,\"splats\":7,\"projectiles\":7,\"matchedProjectile\":0,\"matchedSwing\":0,\"matchedNext\":7,\"generic\":0,\"late\":1,\"deaths\":1}}",
+  "pvm-melee-moss_seer: the drop shows as ours once the body has sunk [{\"uid\":4,\"id\":\"bones\",\"q\":1,\"x\":9,\"z\":61,\"own\":true,\"hidden\":true},{\"uid\":5,\"id\":\"coins\",\"q\":21,\"x\":9,\"z\":61,\"own\":true,\"hidden\":true},{\"uid\":6,\"id\":\"mind_rune\",\"q\":2,\"x\":9,\"z\":61,\"own\":true,\"hidden\":true}]",
+  "pvm-melee-moss_seer: every page agrees with the server (tiles, hitpoints) [{\"page\":\"Ash1p8r\",\"who\":\"drawn self\",\"off\":0.0833333333333286}]",
+  "pvm-magic-gnarlgob: the drop shows as ours once the body has sunk [{\"uid\":7,\"id\":\"bones\",\"q\":1,\"x\":35,\"z\":49,\"own\":true,\"hidden\":true}]"
+ ],
+ "pageErrors": {
+  "A": [],
+  "B": [],
+  "O": []
+ },
+ "measured": {
+  "accuracy": {
+   "rolls": 56,
+   "expectedHits": 19.1,
+   "observedHits": 20,
+   "z": 0.25
+  },
+  "damage": [],
+  "attackSpeed": [
+   {
+    "weapon": "steel_longsword",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 8,
+    "hist": {
+     "5": 8
+    }
+   },
+   {
+    "weapon": "storm_staff",
+    "name": "cast",
+    "expect": 5,
+    "mode": 5,
+    "samples": 6,
+    "hist": {
+     "5": 6
+    }
+   },
+   {
+    "weapon": "monster",
+    "name": "attack",
+    "expect": 4,
+    "mode": 4,
+    "samples": 27,
+    "hist": {
+     "4": 26,
+     "6": 1
+    }
+   },
+   {
+    "weapon": "monster",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 6,
+    "hist": {
+     "5": 6
+    }
+   }
+  ],
+  "projectileTiming": {
+   "matched": 6,
+   "mismatched": 0,
+   "examples": []
+  }
+ },
+ "finished": "2026-09-26T12:54:18.822Z",
+ "pass": false
+}

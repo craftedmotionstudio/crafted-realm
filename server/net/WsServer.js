@@ -12,6 +12,7 @@ const { WebSocketServer } = require('ws');
 const Protocol = require('./Protocol');
 const { TokenBucket, WindowLimiter } = require('./RateLimiter');
 const Player = require('../engine/Player');
+const LOOK = require('../engine/look');
 
 const MSG_BURST = 40, MSG_PER_SEC = 20;       // per connection
 const STRIKES_TO_KICK = 50;                   // dropped/malformed messages before disconnect
@@ -59,7 +60,7 @@ class Session {
     if (m.t === 'hello') {
       if (m.v !== Protocol.VERSION) { this.send({ t: 'error', code: 'version', need: Protocol.VERSION }); this.close('version'); return; }
       this.state = 'hello';
-      this.send({ t: 'hello', v: Protocol.VERSION, tickMs: this.world.tickMs, server: 'crafted-realm-w1' });
+      this.send({ t: 'hello', v: Protocol.VERSION, tickMs: this.world.tickMs, server: 'crafted-realm-w2' });
       return;
     }
     if (m.t === 'register' || m.t === 'login') {
@@ -108,6 +109,7 @@ class Session {
     try { data = this.server.store ? this.server.store.loadData(acct.id) : null; }
     catch (e) { w.log('save_invalid', { key: acct.username, code: e.code }); this.send({ t: 'auth_fail', code: 'save_invalid', text: 'Your save could not be read. Contact a moderator.' }); return; }
     const p = new Player(w, acct, data);
+    if (!p.look && m.look) p.look = LOOK.sanitize(m.look);   // W2: a new adventurer brings the look made in the client
     p.session = this;
     this.player = p;
     this.state = 'auth';
@@ -139,8 +141,14 @@ class WsServer {
     this.sessions = new Set();
     this.http = http.createServer((req, res) => {
       if (req.url === '/health') {
-        res.writeHead(200, { 'content-type': 'application/json' });
+        res.writeHead(200, { 'content-type': 'application/json', 'access-control-allow-origin': '*' });
         res.end(JSON.stringify({ ok: true, tick: this.world.tick, players: this.world.playerCount, cycleMs: this.world.stats.lastCycleMs }));
+        return;
+      }
+      // W2: the static map (terrain, collision, areas, decor) so a client can build the world before logging in
+      if (req.url === '/map') {
+        res.writeHead(200, { 'content-type': 'application/json', 'access-control-allow-origin': '*', 'cache-control': 'no-cache' });
+        res.end(this.mapJson || (this.mapJson = JSON.stringify(WsServer.publicMap(this.world.map, this.world.content))));
         return;
       }
       res.writeHead(404); res.end();
@@ -165,5 +173,15 @@ class WsServer {
   }
 }
 
+/** the map as clients see it: everything but the monster spawn table (NPCs arrive in the ticks) */
+WsServer.publicMap = function (map, content) {
+  const out = Object.assign({}, map); delete out.spawns; if (out.alpha) { out.alpha = Object.assign({}, out.alpha); delete out.alpha.about; }
+  // the monster kinds this map spawns, as the server knows them (a client older than the server's content still draws them)
+  if (content && content.NPC_TYPES) {
+    out.npcTypes = {};
+    for (const s of map.spawns || []) { const d = content.NPC_TYPES[s.npc]; if (!d || out.npcTypes[s.npc]) continue; const c = Object.assign({}, d); delete c.drops; out.npcTypes[s.npc] = c; }
+  }
+  return out;
+};
 WsServer.Session = Session;
 module.exports = WsServer;

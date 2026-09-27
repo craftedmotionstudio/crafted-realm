@@ -6,6 +6,8 @@
  *   src/engine/entity/PathingEntity.ts processMovement(): walk = 1 tile per tick, run = 2.
  * Weight counts non-stackable items carried or worn (stackables weigh nothing), per Player.ts
  * calculateRunWeight.
+ * Our addition: an optional drain multiplier (shared/drinks.js: coffee drains run energy 25% slower for 2 minutes);
+ * omitted it is 1 and every 2004 number above is unchanged.
  */
 (function (root, factory) {
   const api = factory();
@@ -18,14 +20,15 @@
   const WALK_STEPS = 1;
   const RUN_STEPS = 2;
 
-  /** one tick of run energy; returns the new energy */
-  function energyTick(energy, stepsTaken, weightKg, agilityLevel) {
+  /** one tick of run energy; returns the new energy (drainMult: optional, 1 = the 2004 cost) */
+  function energyTick(energy, stepsTaken, weightKg, agilityLevel, drainMult) {
     if (stepsTaken < 2) {
       const recovered = Math.floor((agilityLevel || 1) / 9) + 8;
       return Math.min(energy + recovered, MAX_ENERGY);
     }
     const w = Math.min(Math.max(weightKg || 0, 0), 64);
-    const loss = Math.floor(67 + (67 * w) / 64);
+    const m = (typeof drainMult === 'number' && drainMult >= 0) ? drainMult : 1;
+    const loss = Math.floor((67 + (67 * w) / 64) * m);
     return Math.max(energy - loss, 0);
   }
   /** carried weight in kg: non-stackable inventory + worn items (stackables weigh nothing) */

@@ -1,22 +1,26 @@
 /* ================= PLAYER & SYSTEMS ================= */
-/* ---------- the Prayer book — levels and drain straight from the classics ---------- */
+/* ---------- the Prayer book ----------
+   Names, order and pictures for the interface. The RULES (level, group, percent, the 2004 drain effect) live in
+   shared/combat.js PRAYERS and are applied by the combat engine (src/combat_engine.js); req/drain/boost here mirror
+   them for display only. Protect Item (2004, level 25) keeps one more item on death. */
 const PRAYERS = {
-  thick_skin:    {name:'Thick Skin',           req:1,  icon:'\u{1F6E1}',  drain:5,  group:'def', boost:{def:1.05}},
-  burst_str:     {name:'Burst of Strength',    req:4,  icon:'\u{1F4AA}',  drain:5,  group:'str', boost:{str:1.05}},
-  clarity:       {name:'Clarity of Thought',   req:7,  icon:'\u{1F3AF}',  drain:5,  group:'att', boost:{att:1.05}},
-  sharp_eye:     {name:'Sharp Eye',            req:8,  icon:'\u{1F3F9}',  drain:5,  group:'rng', boost:{rng:1.05}},
-  mystic_will:   {name:'Mystic Will',          req:9,  icon:'\u{1F52E}',  drain:5,  group:'mag', boost:{mag:1.05}},
-  rock_skin:     {name:'Rock Skin',            req:10, icon:'\u{1FAA8}',  drain:10, group:'def', boost:{def:1.10}},
-  superhuman:    {name:'Superhuman Strength',  req:13, icon:'\u26A1',     drain:10, group:'str', boost:{str:1.10}},
-  reflexes:      {name:'Improved Reflexes',    req:16, icon:'\u{1F441}',  drain:10, group:'att', boost:{att:1.10}},
-  hawk_eye:      {name:'Hawk Eye',             req:26, icon:'\u{1F985}',  drain:10, group:'rng', boost:{rng:1.10}},
-  mystic_lore:   {name:'Mystic Lore',          req:27, icon:'\u2728',     drain:10, group:'mag', boost:{mag:1.10}},
+  thick_skin:    {name:'Thick Skin',           req:1,  icon:'\u{1F6E1}',  drain:3,  group:'def', boost:{def:1.05}},
+  burst_str:     {name:'Burst of Strength',    req:4,  icon:'\u{1F4AA}',  drain:3,  group:'str', boost:{str:1.05}},
+  clarity:       {name:'Clarity of Thought',   req:7,  icon:'\u{1F3AF}',  drain:3,  group:'att', boost:{att:1.05}},
+  sharp_eye:     {name:'Sharp Eye',            req:8,  icon:'\u{1F3F9}',  drain:3,  group:'rng', boost:{rng:1.05}},
+  mystic_will:   {name:'Mystic Will',          req:9,  icon:'\u{1F52E}',  drain:3,  group:'mag', boost:{mag:1.05}},
+  rock_skin:     {name:'Rock Skin',            req:10, icon:'\u{1FAA8}',  drain:6,  group:'def', boost:{def:1.10}},
+  superhuman:    {name:'Superhuman Strength',  req:13, icon:'\u26A1',     drain:6,  group:'str', boost:{str:1.10}},
+  reflexes:      {name:'Improved Reflexes',    req:16, icon:'\u{1F441}',  drain:6,  group:'att', boost:{att:1.10}},
+  protect_item:  {name:'Protect Item',         req:25, icon:'\u{1F512}',  drain:2,  group:null},
+  hawk_eye:      {name:'Hawk Eye',             req:26, icon:'\u{1F985}',  drain:6,  group:'rng', boost:{rng:1.10}},
+  mystic_lore:   {name:'Mystic Lore',          req:27, icon:'\u2728',     drain:6,  group:'mag', boost:{mag:1.10}},
   steel_skin:    {name:'Steel Skin',           req:28, icon:'\u{1F9F1}',  drain:12, group:'def', boost:{def:1.15}},
   ultimate_str:  {name:'Ultimate Strength',    req:31, icon:'\u{1F4A5}',  drain:12, group:'str', boost:{str:1.15}},
   incredible_ref:{name:'Incredible Reflexes',  req:34, icon:'\u{1F3AF}',  drain:12, group:'att', boost:{att:1.15}},
-  protect_magic: {name:'Protect from Magic',   req:37, icon:'\u{1F535}',  drain:20, group:'overhead', protect:'magic',  over:0x3a6ab0},
-  protect_range: {name:'Protect from Missiles',req:40, icon:'\u{1F7E2}',  drain:20, group:'overhead', protect:'ranged', over:0x4a9a3a},
-  protect_melee: {name:'Protect from Melee',   req:43, icon:'\u{1F534}',  drain:20, group:'overhead', protect:'melee',  over:0xb03a3a},
+  protect_magic: {name:'Protect from Magic',   req:37, icon:'\u{1F535}',  drain:12, group:'overhead', protect:'magic',  over:0x3a6ab0},
+  protect_range: {name:'Protect from Missiles',req:40, icon:'\u{1F7E2}',  drain:12, group:'overhead', protect:'ranged', over:0x4a9a3a},
+  protect_melee: {name:'Protect from Melee',   req:43, icon:'\u{1F534}',  drain:12, group:'overhead', protect:'melee',  over:0xb03a3a},
 };
 
 /* ---------- Smithing, Fletching, Thieving — the 2006 trades, our way ---------- */
@@ -72,7 +76,7 @@ const STALL_KINDS = {
 
 const Player = {
   xp:{}, hp:10, maxHp:10,
-  inv: new Array(24).fill(null),
+  inv: new Array(28).fill(null),   // 2004 backpack: 28 slots (saves from the 24-slot pack are padded on load)
   bank: [],
   equip:{head:null, body:null, legs:null, weapon:null, shield:null, amulet:null, cape:null, hands:null, feet:null},
   quests:{},
@@ -88,7 +92,7 @@ const Player = {
   lvl(s){ return levelFromXp(this.xp[s]); },
   energy:100, runOn:true, _regenT:0,
   prayerPts:1, activePrayers:new Set(),
-  spell:null, alchMode:null, teleCd:0, stunT:0,
+  spell:null, alchMode:null, teleCd:0, stunT:0, caffeinated:0,
   hasSpace(){ return this.inv.some(s=>!s); },
   staffProvides(){ const w=this.equip.weapon; return (w && ITEMS[w].provides) || null; },
   hasRunes(spell){
@@ -107,6 +111,12 @@ const Player = {
   selectSpell(id){
     const sp=SPELLS[id]; if(!sp) return false;
     if(this.lvl('Magic')<sp.req){ UI.chat(`You need a Magic level of ${sp.req} to cast ${sp.name}.`,'plain'); return false; }
+    // combat spells: autocast with a staff, else armed for one cast on the next foe clicked (2004); src/combat_engine.js
+    if(!sp.utility && sp.max!=null && typeof LocalCombat!=='undefined' && LocalCombat.ready()){
+      const r=LocalCombat.selectSpell(id);
+      if(UI.refreshSpells) UI.refreshSpells(); UI.refreshEquip(); if(UI.refreshCombat) UI.refreshCombat();
+      return r;
+    }
     if(sp.utility==='teleport'){ castTeleport(sp); return true; }
     if(sp.utility==='curse'){
       if(!this.target || this.target.dead){ UI.chat('Choose a foe first, then cast the curse.','plain'); return false; }
@@ -139,6 +149,7 @@ const Player = {
     return false;
   },
   togglePrayer(id){
+    if(typeof LocalCombat!=='undefined' && LocalCombat.ready()) return LocalCombat.togglePrayer(id);   // 2004 rules (shared/combat.js)
     const p=PRAYERS[id]; if(!p) return false;
     if(this.lvl('Prayer')<p.req){ UI.chat(`You need a Prayer level of ${p.req} to use ${p.name}.`,'plain'); return false; }
     if(this.activePrayers.has(id)) this.activePrayers.delete(id);
@@ -158,6 +169,7 @@ const Player = {
     return b;
   },
   tickPrayers(dt){
+    if(typeof LocalCombat!=='undefined' && LocalCombat.ready()) return;   // the engine drains by the 2004 counter every 5 ticks
     if(!this.activePrayers.size) return;
     let drain=0; this.activePrayers.forEach(id=>drain+=PRAYERS[id].drain);
     drain *= 60/(60 + 2*this.prayBonus());   // worn devotion stretches every point, like the classics
@@ -181,8 +193,10 @@ const Player = {
     // and the switchback was walked at 2.4 tiles/s. The island is a teaching route, not an endurance test,
     // so the Holm drains at a quarter rate and regenerates three times faster. Mainland rules are untouched.
     const holmPace = (typeof CRWorldMode!=='undefined' && CRWorldMode.providerId==='tutors-holm-v2');
+    // coffee (shared/drinks.js): while caffeinated, running drains 25% slower
+    const caf = (this.caffeinated>0 && typeof CRShared!=='undefined' && CRShared.drinks) ? CRShared.drinks.DRINKS.coffee.drainMult : 1;
     if(moving && this.runOn && this.energy>0){
-      this.energy = Math.max(0, this.energy - dt*(1.4 + 2.2*(this.weight()/64))*(holmPace?0.25:1));
+      this.energy = Math.max(0, this.energy - dt*caf*(1.4 + 2.2*(this.weight()/64))*(holmPace?0.25:1));
       if(this.energy<=0){ this.runOn=false; UI.chat("You've run out of energy and slow to a walk.",'plain'); UI.refreshRun(); }
     } else if(this.energy<100){
       this.energy = Math.min(100, this.energy + dt*0.9*(holmPace?3:1));
@@ -190,6 +204,7 @@ const Player = {
     this.tickPrayers(dt);
     if(this.teleCd>0) this.teleCd=Math.max(0, this.teleCd-dt);
     if(this.stunT>0) this.stunT=Math.max(0, this.stunT-dt);
+    if(this.caffeinated>0){ this.caffeinated=Math.max(0, this.caffeinated-dt); if(this.caffeinated===0) UI.chat('The coffee wears off.','plain'); }
     // special-attack energy regenerates +10% every 30s (OSRS), i.e. +1% per 3s
     this.specT=(this.specT||0)+dt;
     if(this.specT>=3){ this.specT-=3; if(this.spec<100){ this.spec=Math.min(100,(this.spec||0)+1); if(UI.refreshSpec) UI.refreshSpec(); } }
@@ -197,6 +212,9 @@ const Player = {
   },
   moveSpeed(){ return (this.runOn && this.energy>0) ? 4.2 : 2.4; },
   combatLevel(){
+    if(typeof CRShared!=='undefined' && CRShared.combat)   // the 2004 integer form (shared/combat.js)
+      return CRShared.combat.combatLevel({attack:this.lvl('Attack'),strength:this.lvl('Strength'),defence:this.lvl('Defence'),
+        hitpoints:this.lvl('Hitpoints'),prayer:this.lvl('Prayer'),ranged:this.lvl('Ranged'),magic:this.lvl('Magic')});
     const base = 0.25*(this.lvl('Defence')+this.lvl('Hitpoints')+Math.floor(this.lvl('Prayer')/2));
     const melee = 0.325*(this.lvl('Attack')+this.lvl('Strength'));
     const rng = 0.325*Math.floor(this.lvl('Ranged')*1.5);
@@ -255,24 +273,19 @@ const Player = {
   count(id){ return this.inv.reduce((a,s)=>a+(s&&s.id===id?s.qty:0),0); },
   hasTool(t){ return this.inv.some(s=>s&&ITEMS[s.id].tool===t) ||
                      Object.values(this.equip).some(e=>e&&ITEMS[e].tool===t); },
+  // the family the wielded setup fights with: 'magic' while a staff autocasts (2004: autocast needs a staff)
   weaponStyle(){
-    if(this.spell && SPELLS[this.spell]) return 'magic';   // armed autocast holds the style; the cast itself checks runes
+    if(typeof LocalCombat!=='undefined' && LocalCombat.ready() && LocalCombat.autocastSpell()) return 'magic';
     const w=this.equip.weapon; return w?ITEMS[w].style||'melee':'melee'; },
-  attackStyles:{melee:0, ranged:0, magic:0},
+  // one combat-style index for every weapon, clamped to the wielded category's buttons (2004 com_mode);
+  // the buttons per category are shared/combat.js CATEGORY_STYLES
+  styleIndex:0, autocast:null, castSpell:null,
   autoRetaliate:true,
   spec:100, specArmed:false, specT:0,
-  curStyle(){
-    const cls=this.weaponStyle();
-    const list=STYLE_DEFS[cls]||STYLE_DEFS.melee;
-    return list[Math.min(this.attackStyles[cls]||0, list.length-1)];
-  },
-  styleBoost(k){ const s=this.curStyle(); return (s.boost&&s.boost[k])||0; },
-  weaponSpeed(){            // seconds, derived from OSRS-style tick counts
-    let ticks;
-    if(this.weaponStyle()==='magic') ticks=5;
-    else { const w=this.equip.weapon; ticks=(w?(ITEMS[w].speedTicks||4):4); }
-    ticks += this.curStyle().speedDelta||0;
-    return Math.max(2,ticks)*TICK; },
+  curStyle(){ return (typeof LocalCombat!=='undefined' && LocalCombat.ready()) ? LocalCombat.style() : {label:'Punch', style:'accurate', type:'crush'}; },
+  weaponSpeed(){            // seconds: the 2004 attack delay in ticks (rapid -1, magic 5) times the tick
+    const ticks=(typeof LocalCombat!=='undefined' && LocalCombat.ready()) ? LocalCombat.attackDelay() : 4;
+    return ticks*TICK; },
   _sumBonus(field){
     let t=0;
     for(const k in this.equip){ const v=this.equip[k];
@@ -308,9 +321,7 @@ const Player = {
   usingItem:null,        // selected pack item awaiting a "use on" target
 };
 
-/* ---------- OSRS combat math lives in src/combat_math.js ----------
-   (rollAccuracy / osrsMaxHit / npcDef / npcWeakness — extracted so the exact
-   formulas are test-locked headlessly by tools/test_combat.js) */
+/* ---------- combat formulas: shared/combat.js (the 2004 rules, test-locked by tools/test_combat.js) ---------- */
 
 /* ---------- visible gear on the character ---------- */
 function refreshPlayerGear(){
@@ -392,7 +403,10 @@ function spawnNpc(typeId, x, z){
     }
   }
   let mesh;
-  if(t.glbChar && typeof charNpcModel==='function'){   // hero-pipeline character (baked idle/walk clips)
+  if(t.kitFoe && typeof HolmProvingGround!=='undefined'){   // a character-kit humanoid foe (bow / staff clips)
+    mesh = HolmProvingGround.kitModel(t);
+  }
+  else if(t.glbChar && typeof charNpcModel==='function'){   // hero-pipeline character (baked idle/walk clips)
     mesh = charNpcModel(t);
   }
   else if(t.glb){                            // pipeline image-to-3D model (Gemini sprite -> SF3D/Pixal3D GLB)
@@ -484,7 +498,7 @@ function spawnFriendly(id, name, x, z, color, face, opts){
 /* soft separation so NPCs, bots and the player never overlap */
 function separateEntities(){
   const ents=[];
-  WORLD.npcs.forEach(n=>{ if(!n.dead) ents.push({m:n.mesh, r:0.45*(n.t.size||1)+0.15, push:1}); });
+  WORLD.npcs.forEach(n=>{ if(!n.dead) ents.push({m:n.mesh, r:0.45*(n.t.size||1)+0.15, push:n._lc?0:1}); });   // engine NPCs stand on tiles
   if(typeof Bots!=='undefined') Bots.list.forEach(b=>ents.push({m:b.mesh, r:0.4, push:1}));
   if(player) ents.push({m:player, r:0.4, push:0});   // the player doesn't get shoved
   for(let i=0;i<ents.length;i++) for(let j=i+1;j<ents.length;j++){
@@ -521,117 +535,61 @@ function makeDrop(id, qty, x, z){
   m.position.set(x, gy(x,z)+0.02, z);
   m.rotation.y = Math.random()*6;
   m.userData = {kind:'drop', id, qty, label:`Take <b>${def.name}</b>${qty>1?' ('+qty+')':''}`,
-    age:0, life:180, publicAt:60, owner:'player'};   // OSRS lifecycle: ~60s private → public → ~3min despawn
+    age:0, life:200*TICK, publicAt:100*TICK, owner:'player'};   // 2004 lifecycle: private 100 ticks, gone 200 ticks after the drop
   scene.add(m); WORLD.clickables.push(m); WORLD.drops.push(m);
   if(typeof Events!=='undefined') Events.emit('lootSpawned', {id, qty, x, z});
+}
+/* one ground stack per item and tile (arrows that fall under a target pile up instead of spawning a mesh each) */
+function addGroundStack(id, qty, x, z){
+  const tx=Math.floor(x), tz=Math.floor(z);
+  const m=(WORLD.drops||[]).find(d=>d.userData&&d.userData.id===id&&ITEMS[id]&&ITEMS[id].stack&&Math.floor(d.position.x)===tx&&Math.floor(d.position.z)===tz&&d.userData.age<d.userData.life-1);
+  if(m){ const u=m.userData; u.qty+=qty; u.age=0; u.label=`Take <b>${ITEMS[id].name}</b>${u.qty>1?' ('+u.qty+')':''}`; return m; }
+  makeDrop(id, qty, tx+0.5+(Math.random()-0.5)*0.4, tz+0.5+(Math.random()-0.5)*0.4);
+  return WORLD.drops[WORLD.drops.length-1];
 }
 function removeClickable(obj){
   const i=WORLD.clickables.indexOf(obj); if(i>=0) WORLD.clickables.splice(i,1);
 }
 
-/* ---------- projectiles (arrows arc through the air) ---------- */
+/* ---------- line of sight + a projectile with no hit (curses) ----------
+   Every combat projectile is launched by the combat engine through CombatHooks (src/combat_hooks.js) and lands on
+   the tick its hit applies. PROJECTILES / updateProjectiles stay as empty compatibility shims. */
 const PROJECTILES = [];
 /* Line-of-sight gate for ranged/magic combat. Delegates to the flag grid (collision_grid.js);
-   returns true ("no obstruction known") whenever the grid is absent/disabled/unbaked, so the
-   kill-switch (CollisionGrid.enabled=false) restores byte-identical pre-LoS combat. Takes the
-   two world positions (Vector3-like) — only x/z matter on the tile grid. */
+   returns true ("no obstruction known") whenever the grid is absent/disabled/unbaked. */
 function hasCombatLoS(from, to){
   if(typeof CollisionGrid==='undefined') return true;
   return CollisionGrid.hasLoS(from.x, from.z, to.x, to.z);
 }
 function fireProjectile(kind, fromObj, npc, dmg, tint, fx){
-  let mesh, dur, arc;
-  const from = fromObj.position.clone(); from.y += 1.2;
-  // combat feel: the visible arrow / spell orb is CombatFX's (it leaves the hand at the release frame and the splat
-  // shows when it lands). The logical flight below keeps its exact duration, so hits land when they always did.
-  if(typeof CombatFX!=='undefined' && CombatFX.launch){
-    dur = kind==='arrow' ? 0.55 : 0.5; arc = kind==='arrow' ? 1.6 : 0.4;
-    PROJECTILES.push({mesh:null, fx:CombatFX.launch(kind, fromObj, npc.mesh, Object.assign({dmg, tint}, fx||{})), from, npc, t:0, dur, arc, dmg, kind});
-    return;
-  }
-  if(kind==='arrow'){ mesh = arrowMesh(); dur = 0.55; arc = 1.6; }
-  else { // magic bolt — tinted by its school
-    mesh = new THREE.Group();
-    const orb=new THREE.Mesh(new THREE.SphereGeometry(0.13,6,6),
-      new THREE.MeshBasicMaterial({color:tint||0x6fd2ff}));
-    mesh.add(orb);
-    const glow=new THREE.Mesh(new THREE.SphereGeometry(0.22,6,6),
-      new THREE.MeshBasicMaterial({color:tint||0x9fe4ff, transparent:true, opacity:0.35}));
-    mesh.add(glow);
-    dur = 0.5; arc = 0.4;
-  }
-  mesh.position.copy(from);
-  scene.add(mesh);
-  PROJECTILES.push({mesh, from, npc, t:0, dur, arc, dmg, kind});
+  // a no-damage visual (curses); the flight is the 2004 spell delay for the distance
+  if(typeof CombatHooks==='undefined' || !npc || !npc.mesh) return null;
+  const d=Math.max(1, Math.round(Math.max(Math.abs(fromObj.position.x-npc.mesh.position.x), Math.abs(fromObj.position.z-npc.mesh.position.z))));
+  const ticks=(typeof CRShared!=='undefined') ? CRShared.combat.magicHitDelay(d) : 2;
+  return CombatHooks.projectile(fromObj, npc.mesh, kind==='arrow'?'arrow':'spell', ticks, {dmg:0, tint, splash:false});
 }
-function updateProjectiles(dt){
-  for(let i=PROJECTILES.length-1;i>=0;i--){
-    const p=PROJECTILES[i];
-    p.t += dt;
-    const f = Math.min(1, p.t/p.dur);
-    if(p.mesh){   // legacy visual (only when CombatFX is absent)
-      const to = p.toPlayer ? player.position.clone() : p.npc.mesh.position.clone();
-      to.y += p.toPlayer ? 1.1 : 0.7*p.npc.t.size;
-      const pos = p.from.clone().lerp(to, f);
-      pos.y += Math.sin(f*Math.PI)*p.arc;
-      // orient along travel direction
-      const ahead = p.from.clone().lerp(to, Math.min(1,f+0.05));
-      ahead.y += Math.sin(Math.min(1,f+0.05)*Math.PI)*p.arc;
-      p.mesh.position.copy(pos);
-      p.mesh.lookAt(ahead);
-    }
-    if(f>=1){
-      if(p.mesh) scene.remove(p.mesh);
-      PROJECTILES.splice(i,1);
-      // the hit lands now (unchanged); CombatFX shows its splat when the visible projectile arrives
-      if(p.fx && typeof CombatFX!=='undefined') CombatFX.expectProjectile(p.fx, p.toPlayer ? player : p.npc.mesh);
-      if(p.toPlayer){
-        Player.hp -= p.dmg; UI.floatDmg(player, p.dmg);
-        if(p.dmg>0){ Player.addXp('Defence', p.dmg*2); if(!p.fx) Sfx.takeHit(); }
-        UI.refreshHud();
-        if(Player.autoRetaliate && !Player.target && !Player.moveTo && !Player.action && p.npc && !p.npc.dead && Player.hp>0) Player.target=p.npc;
-        if(Player.hp<=0) playerDeath();
-      } else {
-        if(!p.npc.dead) applyHit(p.npc, p.dmg, p.xpTok || (p.kind==='arrow'?'Ranged':'Magic'));
-      }
-      if(!p.fx){ if(p.kind==='arrow') Sfx.arrowHit(); else Sfx.magicHit(); }
-    }
-  }
-}
+function updateProjectiles(dt){ /* the combat engine schedules every hit; nothing lands here any more */ }
 
-/* ---------- combat (OSRS-ish ticks: sword 2.4s, bow/magic 3.0s) ---------- */
-/* ---------- combat styles (OSRS-style training selector) ----------
-   Each weapon class offers styles that decide WHICH skill the damage trains
-   and grant small invisible boosts, exactly in the spirit of 2007:
-   melee: Accurate(+3 Att lvl) / Aggressive(+3 Str) / Defensive(+3 Def) / Controlled(+1 all, shared xp)
-   ranged: Accurate(+3 Rng) / Rapid(-1 tick speed) / Longrange(+2 tiles, trains Def too)
-   magic: Standard / Defensive (splits xp with Defence) */
-const STYLE_DEFS = {
-  melee: [
-    {key:'accurate',  name:'Stab',  label:'Accurate',   xp:'Attack',    boost:{att:3}, atype:'stab'},
-    {key:'aggressive',name:'Pound', label:'Aggressive', xp:'Strength',  boost:{str:3}, atype:'crush'},
-    {key:'controlled',name:'Slash', label:'Controlled', xp:'Shared',    boost:{att:1,str:1,def:1}, atype:'slash'},
-    {key:'defensive', name:'Block', label:'Defensive',  xp:'Defence',   boost:{def:3}, atype:'slash'},
-  ],
-  ranged: [
-    {key:'accurate',  name:'Accurate',  label:'Accurate',  xp:'Ranged',    boost:{rng:3}},
-    {key:'rapid',     name:'Rapid',     label:'Rapid',     xp:'Ranged',    speedDelta:-1},
-    {key:'longrange', name:'Longrange', label:'Longrange', xp:'RangedDef', boost:{def:3}, rangeBonus:2},
-  ],
-  magic: [
-    {key:'standard',  name:'Standard',  label:'Standard',  xp:'Magic'},
-    {key:'defensive', name:'Defensive', label:'Defensive', xp:'MagicDef', boost:{def:3}},
-  ],
-};
+/* ---------- combat ----------
+   The rules (accuracy, max hits, delays, styles per weapon category, XP) are shared/combat.js, run by the combat
+   engine (src/combat_engine.js) on the 600 ms tick. What stays here: the special attacks, boss scripts, deaths and
+   the presentation helpers (swing). */
 /* special attacks: armed via the spec orb, consume spec energy, and boost the accuracy &
    damage of that one swing. Keyed by weapon MODEL so a whole class shares a signature spec
-   — our own designs (not OSRS's). */
+   — our own designs (2004 had none; shared/combat.js applySpecial applies them on the server too). */
 const SPECIALS = {
-  sword: {name:'Lunge',        cost:25, acc:1.30, dmg:1.15, msg:'You lunge with deadly precision!'},
-  axe:   {name:'Cleave',       cost:50, acc:1.05, dmg:1.45, msg:'You cleave with brutal force!'},
-  pick:  {name:'Skull Crack',  cost:50, acc:1.10, dmg:1.35, msg:'You drive the pick home!'},
-  bow:   {name:'Rapid Volley', cost:50, acc:1.20, dmg:1.30, msg:'You loose a rapid volley!'},
-  staff: {name:'Power Surge',  cost:55, acc:1.15, dmg:1.40, msg:'Your staff surges with raw power!'},
+  sword:     {name:'Lunge',        cost:25, acc:1.30, dmg:1.15, msg:'You lunge with deadly precision!'},
+  sabre:     {name:'Riposte',      cost:25, acc:1.25, dmg:1.20, msg:'You turn the blade and cut back hard!'},
+  longsword: {name:'Long Reach',   cost:35, acc:1.20, dmg:1.25, msg:'You drive the long blade through their guard!'},
+  greatsword:{name:'Sweeping Arc', cost:60, acc:1.10, dmg:1.50, msg:'You heave the greatsword round in a sweeping arc!'},
+  axe:       {name:'Cleave',       cost:50, acc:1.05, dmg:1.45, msg:'You cleave with brutal force!'},
+  battleaxe: {name:'Rampage',      cost:60, acc:1.00, dmg:1.55, msg:'You wade in with a roaring swing!'},
+  pick:      {name:'Skull Crack',  cost:50, acc:1.10, dmg:1.35, msg:'You drive the pick home!'},
+  mace:      {name:'Bell Ringer',  cost:30, acc:1.25, dmg:1.25, msg:'You ring their helm like a bell!'},
+  warhammer: {name:'Stonebreaker', cost:50, acc:1.15, dmg:1.40, msg:'Your hammer comes down like falling stone!'},
+  bow:       {name:'Rapid Volley', cost:50, acc:1.20, dmg:1.30, msg:'You loose a rapid volley!'},
+  longbow:   {name:'Hawk Shot',    cost:55, acc:1.35, dmg:1.25, msg:'You draw long and loose a hawk shot!'},
+  staff:     {name:'Power Surge',  cost:55, acc:1.15, dmg:1.40, msg:'Your staff surges with raw power!'},
 };
 /* boss combat scripts: a lightweight per-NPC hook (set NPC_TYPES[x].script) run each frame while
    the boss lives, giving phases/specials/heals beyond the generic AI. Our own designs. */
@@ -663,10 +621,8 @@ const BOSS_SCRIPTS = {
             const warded = Player.protectedFrom('magic');   // our antifire stand-in
             let dmg = Math.ceil((n._enraged?14:9)+Math.random()*12);
             if(warded) dmg = Math.ceil(dmg*0.35);
-            Player.hp-=dmg; UI.floatDmg(player, dmg);
+            if(typeof LocalCombat!=='undefined') LocalCombat.damagePlayer(dmg, n, {kind:'generic'});
             UI.chat(warded ? 'You raise a prayer against the dragonfire.' : 'The Ash Wyrm breathes a torrent of fire!','combat');
-            UI.refreshHud();
-            if(Player.hp<=0) playerDeath();
           }
         }
       } else if(b.phase==='fire' && b.t>=b.fire){ n._breath=null; }
@@ -690,115 +646,20 @@ const BOSS_SCRIPTS = {
         const d=player.position.distanceTo(n.mesh.position);
         if(d<6 && !Player.protectedFrom('melee')){
           const dmg=Math.ceil((n._enraged?7:4)+Math.random()*8);
-          Player.hp-=dmg; UI.floatDmg(player, dmg);
-          UI.chat('Korthul slams the ground — the cavern quakes!','combat'); UI.refreshHud();
-          if(Player.hp<=0) playerDeath();
+          if(typeof LocalCombat!=='undefined') LocalCombat.damagePlayer(dmg, n, {kind:'generic'});
+          UI.chat('Korthul slams the ground — the cavern quakes!','combat');
         }
       }
     }
   },
 };
 function applyHit(npc, dmg, xpSkill){
+  // legacy entry point (sparring bots, scripted hits): the damage goes through the engine; no XP is granted here
+  if(typeof LocalCombat!=='undefined' && LocalCombat.ready()){ LocalCombat.npcDamage(npc, dmg, {kind:'generic', style:null}); return; }
   npc.hp -= dmg; UI.floatDmg(npc.mesh, dmg);
-  npc.hpbar.spr.visible = true; npc.hpbar.draw(Math.max(0,npc.hp/npc.t.hp));
-  npc.target = 'player';
-  if(dmg>0){
-    const give=(s,m)=>Player.addXp(s, Math.max(1,Math.ceil(dmg*m)));
-    switch(xpSkill){
-      case 'Shared':    give('Attack',1.34); give('Strength',1.34); give('Defence',1.34); break;
-      case 'RangedDef': give('Ranged',2);    give('Defence',2); break;
-      case 'MagicDef':  give('Magic',2);     give('Defence',2); break;
-      default:          give(xpSkill,4);
-    }
-    give('Hitpoints',1.33);
-  }
-  if(npc.hp<=0){
-    // The XP token travels with projectiles; current equipment can change in flight.
-    const attackStyle=({Attack:'melee',Strength:'melee',Defence:'melee',Shared:'melee',
-      Ranged:'ranged',RangedDef:'ranged',Magic:'magic',MagicDef:'magic'})[xpSkill]||null;
-    killNpc(npc,{attackStyle});
-  }
+  if(npc.hp<=0) killNpc(npc,{});
 }
-function playerAttack(npc, dt){
-  Player.attackCd -= dt;
-  const dist = player.position.distanceTo(npc.mesh.position);
-  const style = Player.weaponStyle();
-  const sdef = Player.curStyle();
-  const sizeReach = ((npc.t && npc.t.size)||1) * 0.8;   // big targets are struck at their edge
-  const range = (style==='melee' ? 1.4 + sizeReach : 9 + sizeReach) + (sdef.rangeBonus||0);
-  // ranged/magic need a clear line of sight (rsbox/rsmod LoS); melee (adjacent) never does.
-  // No LoS ⇒ treat like out-of-range and path closer until the wall no longer intervenes.
-  const noLoS = style!=='melee' && !hasCombatLoS(player.position, npc.mesh.position);
-  if(dist > range || noLoS){
-    // chase along a real path; recompute when the quarry strays from the path's end
-    const goalMoved = !Player.moveTo ||
-      Math.hypot(Player.moveTo.x-npc.mesh.position.x, Player.moveTo.z-npc.mesh.position.z) > 2.0;
-    if(goalMoved && typeof orderWalk==='function') orderWalk(npc.mesh.position);
-    else if(goalMoved) Player.moveTo = npc.mesh.position.clone();
-    return;
-  }
-  Player.moveTo = null; Player.path = [];
-  player.lookAt(npc.mesh.position.x, player.position.y, npc.mesh.position.z);
-  if(Player.attackCd > 0) return;
-  Player.attackCd = Player.weaponSpeed();
-  if(style==='ranged'){
-    if(!Player.equip.weapon || ITEMS[Player.equip.weapon].style!=='ranged'){ return; }
-    if(Player.count('arrows')<1){ UI.chat('There are no arrows left in your quiver.','plain'); Player.target=null; return; }
-    Player.removeItem('arrows',1);
-  }
-  let spellDef=null;
-  if(style==='magic'){
-    spellDef = SPELLS[Player.spell];
-    if(!spellDef){ Player.castMode=false; Player.target=null; return; }
-    if(!Player.hasRunes(spellDef)){
-      UI.chat('You do not have enough runes to cast this spell.','plain');
-      Player.spell=null; Player.castMode=false; Player.target=null;
-      if(UI.refreshSpells) UI.refreshSpells();
-      return;
-    }
-    Player.spendRunes(spellDef);
-  }
-  // special attack: if armed, the weapon has one, and we have the energy, fire it this swing
-  let spec=null;
-  const _wm = Player.equip.weapon ? ITEMS[Player.equip.weapon].model : null;
-  if(Player.specArmed && _wm && SPECIALS[_wm] && Player.spec>=SPECIALS[_wm].cost){
-    spec=SPECIALS[_wm]; Player.spec-=spec.cost; Player.specArmed=false;
-    if(UI.refreshSpec) UI.refreshSpec();
-    UI.chat(spec.msg,'combat');
-  }
-  const skillLv = (style==='ranged' ? Player.lvl('Ranged')+Player.styleBoost('rng')
-                 : style==='magic'  ? Player.lvl('Magic')
-                 : Math.floor(Player.lvl('Attack')*Player.prayerMult('att'))+Player.styleBoost('att'));
-  const atype = style==='melee' ? (sdef.atype||'slash') : null;   // stab/slash/crush from the chosen style
-  const attRoll = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus(atype))+64);
-  const defRoll = (npc.t.def+9) * (npcDef(npc.t, atype)+64);
-  let hitChance = rollAccuracy(attRoll, defRoll);
-  if(spec) hitChance = Math.min(1, hitChance*spec.acc);
-  let maxHit = style==='melee' ? osrsMaxHit(Math.floor(Player.lvl('Strength')*Player.prayerMult('str'))+Player.styleBoost('str')+8, Player.strBonus())
-               : style==='ranged' ? osrsMaxHit(Player.lvl('Ranged')+8, Player.strBonus())
-               : spellDef.max;   // each spell knows its own ceiling, like the classics
-  if(spec) maxHit = Math.ceil(maxHit*spec.dmg);
-  const dmg = Math.random()<hitChance ? Math.ceil(Math.random()*maxHit) : 0;
-  swing(player, style==='ranged' ? 'bow' : style==='magic' ? 'cast' : (atype||'slash'));
-  // combat feel (presentation only): CombatFX reads the roll already made above to time the splat to the swing's
-  // impact frame / the projectile's arrival and to mark a max hit; it never changes dmg, hp or XP
-  const _fx = typeof CombatFX!=='undefined';
-  if(style==='melee'){
-    if(_fx) CombatFX.melee(player, npc, atype||'slash', dmg, maxHit);
-    else { Sfx.swing(); if(dmg>0) Sfx.hitFlesh(); }
-    applyHit(npc, dmg, sdef.xp);
-  } else if(style==='ranged'){
-    if(!_fx) Sfx.bowShoot();
-    fireProjectile('arrow', player, npc, dmg, undefined, {max:dmg>0 && maxHit>=3 && dmg>=maxHit});
-    PROJECTILES[PROJECTILES.length-1].xpTok = sdef.xp;
-  } else {
-    if(!_fx) Sfx.magicCast();
-    Player.addXp('Magic', spellDef.baseXp);   // the cast itself teaches, hit or miss
-    fireProjectile('bolt', player, npc, dmg, spellDef.color, {spell:Player.spell, max:dmg>0 && maxHit>=3 && dmg>=maxHit});
-    const pr=PROJECTILES[PROJECTILES.length-1];
-    pr.xpTok = sdef.xp;
-  }
-}
+function playerAttack(npc){ /* the combat engine runs the player's attacks each tick (src/combat_engine.js) */ }
 
 /* ---------- the trades: furnace, anvil, tinderbox, knife, light fingers ---------- */
 function openSmelting(obj){
@@ -896,6 +757,7 @@ function killNpc(npc, opt){
     return;
   }
   npc.dead = true; npc.respawnT = npc.t.respawn;
+  npc.lastKilledStyle = opt.attackStyle||null;
   removeClickable(npc.mesh);
   if(npc.hpbar) npc.hpbar.spr.visible = false;
   // tip the corpse over instead of popping it out of existence; the update loop hides it when the topple ends.
@@ -906,127 +768,35 @@ function killNpc(npc, opt){
   if(!opt.silent) UI.chat(`You have defeated the ${npc.t.name}.`,'combat');
   if(typeof Events!=='undefined') Events.emit('npcKilled', {npc,attackStyle:opt.attackStyle||null});
   const _drops0 = WORLD.drops ? WORLD.drops.length : 0;
-  dropLoot(npc.mesh.position, npc.t.drops);
+  if(opt.dropList){   // rolled by the engine from the weighted table (shared/drops.js), piled on the NPC's tile
+    const at=opt.at||npc.mesh.position;
+    opt.dropList.forEach((d,i)=>makeDrop(d.id, d.qty, at.x+(i%3)*0.35-0.35, at.z+Math.floor(i/3)*0.35-0.2));
+  } else dropLoot(npc.mesh.position, npc.t.drops);
   // combat feel: the fall waits for the killing splat, the body lies a moment and sinks, then the drop shows
   if(typeof CombatFX!=='undefined') CombatFX.onKill(npc, WORLD.drops ? WORLD.drops.slice(_drops0) : [], !!opt.silent);
   if(Player.target===npc) Player.target=null;
   if(!opt.noQuest){ Quest.onKill(npc.typeId); Tutorial.notify('kill', npc.typeId); }
   if(!opt.silent && typeof CombatFX==='undefined') Sfx.kill();
 }
-function fireBoltAtPlayer(npc, dmg){
-  if(typeof CombatFX!=='undefined' && CombatFX.launch){   // visual via CombatFX; the logical bolt keeps its 0.5 s flight
-    PROJECTILES.push({mesh:null, fx:CombatFX.launch(npc.t.ranged==='arrow'?'arrow':'bolt', npc.mesh, player, {dmg, tint:npc.t.ranged==='arrow'?undefined:0xc86aff}),
-      from:npc.mesh.position.clone(), toPlayer:true, t:0, dur:0.5, arc:0.3, dmg, kind:'bolt'});   // (no npc field: as before, bolts never trigger auto-retaliate)
-    return;
-  }
-  const m = new THREE.Group();
-  const orb=new THREE.Mesh(new THREE.SphereGeometry(0.12,6,6),
-    new THREE.MeshBasicMaterial({color:0xc86aff}));
-  m.add(orb);
-  m.position.copy(npc.mesh.position); m.position.y += 1.4*npc.t.size;
-  scene.add(m);
-  PROJECTILES.push({mesh:m, from:m.position.clone(), toPlayer:true, t:0, dur:0.5, arc:0.3, dmg, kind:'bolt'});
-}
-function npcAttack(npc, dt){
-  npc.attackCd -= dt;
-  const dist = npc.mesh.position.distanceTo(player.position);
-  // always turn to face the target while in combat — including standing in melee range,
-  // so monsters track the player instead of keeping a stale heading
-  npc.mesh.lookAt(player.position.x, npc.mesh.position.y, player.position.z);
-  // spellcasters hold range and hurl bolts — but only with a clear line of sight; blocked by
-  // a wall they fall through to the approach code below and path toward the player (walk around).
-  if(npc.t.ranged && dist <= 8 && dist >= 2.2 && hasCombatLoS(npc.mesh.position, player.position)){
-    npc.mesh.lookAt(player.position.x, npc.mesh.position.y, player.position.z);
-    if(npc.attackCd>0) return;
-    npc.attackCd = npc.t.speedTicks*TICK;
-    const attRoll = (npc.t.att+8) * (npc.t.aBonus+64);
-    const defRoll = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus()+64);
-    let dmg = Math.random()<rollAccuracy(attRoll,defRoll) ? Math.ceil(Math.random()*npcMaxHit(npc.t)) : 0;
-    if(dmg>0 && Player.protectedFrom(npc.t.ranged==='arrow' ? 'ranged' : 'magic')) dmg=0;
-    if(npc.t.harmless) dmg=0;   // tutorial sparring foes (Tutor's Holm practice grubkins) never hurt
-    swing(npc.mesh, npc.t.ranged==='arrow' ? 'bow' : 'cast');
-    if(typeof CombatFX==='undefined') Sfx.magicCast();   // CombatFX voices the charge and release itself
-    fireBoltAtPlayer(npc, dmg);
-    return;
-  }
-  const meleeReach = 1.1 + ((npc.t.size||1)*0.8);   // big beasts strike from their edge
-  if(dist > meleeReach){
-    const dir = player.position.clone().sub(npc.mesh.position).setY(0).normalize();
-    let nx = npc.mesh.position.x + dir.x*dt*2.6, nz = npc.mesh.position.z + dir.z*dt*2.6;
-    let slid = slideMove(npc.mesh.position.x, npc.mesh.position.z, nx, nz, 0.2);
-    if(!slid){
-      for(const a of [0.9,-0.9]){
-        const ca=Math.cos(a), sa=Math.sin(a);
-        const sx=dir.x*dt*2.6*ca-dir.z*dt*2.6*sa, sz=dir.x*dt*2.6*sa+dir.z*dt*2.6*ca;
-        const t=slideMove(npc.mesh.position.x, npc.mesh.position.z,
-          npc.mesh.position.x+sx, npc.mesh.position.z+sz, 0.2);
-        if(t){ slid=t; break; }
-      }
-    }
-    if(!slid) return;
-    nx=slid[0]; nz=slid[1];
-    const y = groundY(nx,nz); if(y===null) return;
-    npc.moving = true;
-    npc.mesh.position.set(nx,y,nz);
-    npc.mesh.lookAt(player.position.x, npc.mesh.position.y, player.position.z);
-    return;
-  }
-  if(npc.attackCd>0) return;
-  npc.attackCd = npc.t.speedTicks*TICK;
-  swing(npc.mesh, npc.t.atype||'slash');   // humanoids visibly swing; armless beasts no-op
-  const attRoll = (npc.t.att+8) * (npc.t.aBonus+64);
-  const defRoll = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus(npc.t.atype||'crush')+64);
-  const hitChance = rollAccuracy(attRoll, defRoll);
-  let dmg = Math.random()<hitChance ? Math.ceil(Math.random()*npcMaxHit(npc.t)) : 0;
-  if(dmg>0 && Player.protectedFrom('melee')) dmg=0;   // the overhead turns the blow aside
-  if(npc.t.harmless) dmg=0;   // tutorial sparring foes (Tutor's Holm practice grubkins) never hurt
-  if(typeof CombatFX!=='undefined') CombatFX.npcMelee(npc, dmg);   // presentation: splat at the NPC's strike frame, its own sounds
-  Player.hp -= dmg; UI.floatDmg(player, dmg);
-  if(dmg>0){ Player.addXp('Defence', dmg*2); if(typeof CombatFX==='undefined') Sfx.takeHit(); } else if(typeof CombatFX==='undefined') Sfx.block();
-  UI.refreshHud();
-  // auto-retaliate: if idle when struck, fight back (OSRS behaviour)
-  if(Player.autoRetaliate && !Player.target && !Player.moveTo && !Player.action && !npc.dead && Player.hp>0) Player.target=npc;
-  if(Player.hp<=0) playerDeath();
-}
+
+function npcAttack(npc){ /* the combat engine runs NPC attacks each tick (src/combat_engine.js) */ }
 /* ---------- fight appraisal: odds of winning with CURRENT stats & gear ---------- */
 function appraiseFight(t){
-  const style = Player.weaponStyle();
-  const sdef = Player.curStyle();
-  // player offence
-  const skillLv = (style==='ranged' ? Player.lvl('Ranged')+Player.styleBoost('rng')
-                 : style==='magic'  ? Player.lvl('Magic')
-                 : Math.floor(Player.lvl('Attack')*Player.prayerMult('att'))+Player.styleBoost('att'));
-  const atype = style==='melee' ? (sdef.atype||'slash') : null;
-  const pAtt = (skillLv+8) * ((style==='magic'?10+Player.magBonus():Player.atkBonus(atype))+64);
-  const nDef = (t.def+9) * (npcDef(t, atype)+64);
-  const pAcc = rollAccuracy(pAtt, nDef);
-  const pMax = style==='melee' ? osrsMaxHit(Player.lvl('Strength')+Player.styleBoost('str')+8, Player.strBonus())
-             : style==='ranged' ? osrsMaxHit(Player.lvl('Ranged')+8, Player.strBonus())
-             : Math.max(2, 2+Math.floor(Player.lvl('Magic')/10));
-  const pSpd = Player.weaponSpeed();
-  // npc offence
-  const nAtt = (t.att+8) * (t.aBonus+64);
-  const pDef = (Math.floor(Player.lvl('Defence')*Player.prayerMult('def'))+Player.styleBoost('def')+8) * (Player.defBonus(t.atype||'crush')+64);
-  const nAcc = rollAccuracy(nAtt, pDef);
-  const nMax = npcMaxHit(t);
-  const nSpd = t.speedTicks*TICK;
-  // count the food in the pack — a prepared fighter eats through a hard fight
+  // exact per-swing odds (shared/combat.js hitChance) for the current setup, then a quick duel simulation in ticks
+  const a=(typeof LocalCombat!=='undefined') ? LocalCombat.appraise(t) : null;
+  if(!a) return 0.5;
   let foodHeals=[];
   Player.inv.forEach(s=>{ if(s && ITEMS[s.id].heal) for(let q=0;q<s.qty;q++) foodHeals.push(ITEMS[s.id].heal); });
-  foodHeals.sort((a,b)=>b-a);
-  // simulate
-  let wins=0; const TRIALS=240;
-  for(let s=0;s<TRIALS;s++){
-    let php=Player.maxHp, nhp=t.hp, pt=0, nt=0, food=foodHeals.slice();
-    for(let guard=0; guard<600; guard++){
-      if(pt<=nt){ if(Math.random()<pAcc) nhp-=Math.ceil(Math.random()*pMax); pt+=pSpd; }
-      else      { if(Math.random()<nAcc) php-=Math.ceil(Math.random()*nMax); nt+=nSpd; }
-      if(php<=Math.floor(Player.maxHp*0.5) && food.length){   // eat under half, like anyone sane
-        php=Math.min(Player.maxHp, php+food.shift());
-        pt+=TICK;                                             // eating costs a beat
-      }
+  foodHeals.sort((x,y)=>y-x);
+  let wins=0; const TRIALS=300, R=(n)=>Math.floor(Math.random()*(n+1));
+  for(let k=0;k<TRIALS;k++){
+    let php=Player.hp>0?Player.hp:Player.maxHp, nhp=t.hp, pt=0, nt=0, food=foodHeals.slice();
+    for(let tick=0; tick<3000; tick++){
+      if(tick>=pt){ if(Math.random()<a.acc) nhp-=R(a.max); pt=tick+a.speed; }
       if(nhp<=0){ wins++; break; }
+      if(tick>=nt){ if(Math.random()<a.nAcc) php-=R(a.nMax); nt=tick+a.nSpeed; }
       if(php<=0) break;
+      if(php<=Math.floor(Player.maxHp*0.5) && food.length){ php=Math.min(Player.maxHp, php+food.shift()); pt+=3; }   // a bite costs 3 ticks
     }
   }
   return wins/TRIALS;
@@ -1092,32 +862,31 @@ const Duel = {
 function playerDeath(){
   if(Duel.active){ Duel.lose(); return; }
   WORLD.deathCount = (WORLD.deathCount||0)+1;
-  UI.chat('Oh dear, you are dead!','combat');
   Sfx.death();
-  // OSRS-release rule: keep your THREE most valuable items; the rest fall where you died
-  if(Tutorial.complete){
+  const protect=Player.activePrayers && Player.activePrayers.has('protect_item');
+  // Tutor's Holm (tutorial not complete): nothing is lost, like 2004's tutorial
+  if(Tutorial.complete && typeof CRShared!=='undefined'){
     const here = player.position.clone();
-    const entries=[];
-    Player.inv.forEach((s,i)=>{ if(s) entries.push({src:'inv', i, id:s.id, qty:s.qty,
-      worth:(ITEMS[s.id].value||0) * (ITEMS[s.id].stack ? s.qty : 1)}); });
-    for(const slot in Player.equip){ const e=Player.equip[slot];
-      if(e) entries.push({src:'equip', slot, id:e, qty:1, worth:ITEMS[e].value||0}); }
-    entries.sort((a,b)=>b.worth-a.worth);
-    const kept=entries.slice(0,3), lost=entries.slice(3);
-    lost.forEach(en=>{
-      if(en.src==='inv') Player.inv[en.i]=null; else Player.equip[en.slot]=null;
-      makeDrop(en.id, en.qty, here.x+(Math.random()-0.5)*1.6, here.z+(Math.random()-0.5)*1.6);
-    });
-    if(lost.length){
-      UI.chat(`Your belongings fall where you died — you keep only: ${kept.map(k=>ITEMS[k.id].name).join(', ')||'nothing'}. Hurry back for the rest!`,'combat');
-    }
+    const inv=Player.inv.map(s=>s?{id:s.id,qty:s.qty}:null);
+    const r=CRShared.pvp.keptOnDeath(inv, Object.assign({}, Player.equip), {skulled:false, protectItem:protect,
+      valueOf:id=>(ITEMS[id]&&ITEMS[id].value)||0, destroyOnDeath:id=>!!(ITEMS[id]&&ITEMS[id].destroyOnDeath), stackable:id=>!!(ITEMS[id]&&ITEMS[id].stack)});
+    const dropped=[];
+    r.lostInv.forEach(s=>{ if(s&&s.qty>0) dropped.push([s.id,s.qty]); });
+    for(const slot in r.lostEquip) dropped.push([r.lostEquip[slot],1]);
+    Player.inv=new Array(28).fill(null); for(const k in Player.equip) Player.equip[k]=null;
+    r.kept.forEach(k=>Player.addItem(k.id,k.qty));
+    dropped.forEach(([id,qty],i)=>makeDrop(id, qty, here.x+((i%4)-1.5)*0.4, here.z+(Math.floor(i/4)-1)*0.4));
+    UI.chat(`You keep ${r.kept.length?r.kept.map(k=>ITEMS[k.id].name).join(', '):'nothing'}${protect?' (Protect Item kept one more)':''}.`+
+      (dropped.length?' Everything else lies where you fell. Hurry back for it!':''),'combat');
     refreshPlayerGear(); UI.refreshInv(); UI.refreshEquip();
-  }
+  } else if(!Tutorial.complete) UI.chat('On Tutor\'s Holm nothing is lost when you fall.','combat');
   setTimeout(()=>{ if(typeof SaveGame!=='undefined') SaveGame.save(true); }, 600);
-  Player.hp = Player.maxHp;   // respawn with full hitpoints, like OSRS
-  Player.energy = Math.min(100, Player.energy+30);
+  Player.hp = Player.maxHp;   // respawn with full hitpoints and prayer, prayers off (2004)
+  Player.prayerPts = Player.maxPrayer(); Player.activePrayers.clear();
+  if(typeof refreshOverhead==='function') refreshOverhead();
+  Player.energy = 100; Player.caffeinated = 0;
   Player.target=null; Player.action=null; Player.moveTo=null;
-  WORLD.npcs.forEach(n=>n.target=null);
+  WORLD.npcs.forEach(n=>{ if(n.target==='player') n.target=null; });
   if(!Tutorial.complete&&typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.islandActive&&HolmArrivalQA.islandActive()&&HolmArrivalQA.respawnIsland&&HolmArrivalQA.respawnIsland()){
     UI.chat('You wake on the Guide House porch. Guide Bram shakes his head kindly.','plain');refreshPlayerGear();UI.refreshHud();return;
   }
@@ -1133,6 +902,10 @@ function playerDeath(){
    Armless beasts have no armR, so this safely no-ops on them. */
 function swing(g, type){
   const gm=g.userData&&g.userData.gmix;                 // GLB character: play the baked attack clip
+  if(gm && gm.clips && gm.kitNpc){                      // a kit humanoid foe: the clip for this blow
+    const name={stab:'attack_stab',slash:'attack_slash',crush:'attack_crush',bow:'bow',cast:'cast',block:'block',hit:'hit',death:'death'}[type||'slash']||'attack_slash';
+    const act=gm.clips[name]||gm.clips.attack; if(act){ act.reset(); act.setLoop(THREE.LoopOnce,1); act.clampWhenFinished=name==='death'; act.weight=1; act.play(); gm.attack=act; } return;
+  }
   if(gm && gm.attack){ gm.attack.reset(); gm.attack.play(); return; }
   const p=g.userData&&g.userData.parts; if(!p) return;
   if(!p.armR){                                 // armless beast → a lunge/snap, not an arm swing

@@ -7,18 +7,19 @@
  * player is on now. Tutors turn to face the player, wave when first approached and gesture while talking. Island only. */
 var HolmIslandTutors=(function(){
  'use strict';
- // id, name, where they stand (a building's measured target or an arrival service), the lessons they teach, and a face
+ // id, name, where they stand (a building's measured target or an arrival service), the lessons they teach, a face, and
+ // the Examine line of their old-school menu (osrs_menu_world.js)
  var CAST=[
-  {id:'bram',name:'Guide Bram',at:{arrival:'holm_orientation'},lessons:['study_route','equip_hatchet'],face:'🧓'},
-  {id:'wenna',name:'Wenna',at:{world:[34.5,89.5]},lessons:['chop_logs','light_fire','catch_fish','cook_fish'],face:'🧝'},
-  {id:'hettie',name:'Cook Hettie',at:{building:['bakehouse','prep']},lessons:['bake_bread'],face:'👩‍🍳'},
-  {id:'ansel',name:'Loremaster Ansel',at:{building:['lodge','map']},lessons:['learn_quests'],face:'🧑‍🏫'},
-  {id:'durgin',name:'Foreman Durgin',at:{building:['cavern','ladder']},lessons:['descend_cavern','mine_copper','mine_tin','smelt_bronze','forge_dagger'],face:'🧔'},
-  {id:'corrick',name:'Warden Corrick',at:{building:['keep','court']},lessons:['melee_trial','ranged_trial'],face:'💂'},
-  {id:'maud',name:'Teller Maud',at:{building:['bank','counter']},lessons:['open_bank'],face:'👩‍💼'},
-  {id:'ilse',name:'Magister Ilse',at:{building:['mage','entrance']},lessons:['magic_trial'],face:'🧙'},
-  {id:'aldous',name:'Keeper Aldous',at:{building:['lastlight','stores']},lessons:['relight_lastlight'],face:'👴'},
-  {id:'tobin',name:'Ferryman Tobin',at:{building:['haven','notice']},lessons:[],face:'🧑'}];
+  {id:'bram',name:'Guide Bram',at:{arrival:'holm_orientation'},lessons:['study_route','equip_hatchet'],face:'🧓',examine:'The Holm\'s guide. He has welcomed more new arrivals than he can count.'},
+  {id:'wenna',name:'Wenna',at:{world:[34.5,89.5]},lessons:['chop_logs','light_fire','catch_fish','cook_fish'],face:'🧝',examine:'A hardy woman who lives off the land around Minnow Hollow.'},
+  {id:'hettie',name:'Cook Hettie',at:{building:['bakehouse','prep']},lessons:['bake_bread'],face:'👩‍🍳',examine:'The bakehouse cook. There is flour on her apron and steel in her eye.'},
+  {id:'ansel',name:'Loremaster Ansel',at:{building:['lodge','map']},lessons:['learn_quests'],face:'🧑‍🏫',examine:'Keeper of the Quest Lodge records, and of a great many stories.'},
+  {id:'durgin',name:'Foreman Durgin',at:{building:['cavern','ladder']},lessons:['descend_cavern','mine_copper','mine_tin','smelt_bronze','forge_dagger'],face:'🧔',examine:'Foreman of the ore workings. There is quarry dust in every wrinkle.'},
+  {id:'corrick',name:'Warden Corrick',at:{building:['keep','court']},lessons:['melee_trial','ranged_trial'],face:'💂',examine:'A veteran warden who trains the Holm\'s new fighters.'},
+  {id:'maud',name:'Teller Maud',at:{building:['bank','counter']},lessons:['open_bank'],face:'👩‍💼',examine:'The Holm Bank teller. She never loses count.'},
+  {id:'ilse',name:'Magister Ilse',at:{building:['mage','entrance']},lessons:['magic_trial'],face:'🧙',examine:'Magister of the Mage Tower. Her robes smell faintly of storms.'},
+  {id:'aldous',name:'Keeper Aldous',at:{building:['lastlight','stores']},lessons:['relight_lastlight'],face:'👴',examine:'The old keeper of Lastlight, grey as the sea mist.'},
+  {id:'tobin',name:'Ferryman Tobin',at:{building:['haven','notice']},lessons:[],face:'🧑',examine:'The ferryman who rows new adventurers across to the mainland.'}];
  // our own lesson talk, 2004 style: a tutor must be spoken to before their area's lessons (HolmIslandTalk), and says
  // what to do for the step the player is on NOW, one short click-to-continue page at a time. The first visit opens
  // with the tutor's welcome; asking again explains the current step (Wenna during light_fire explains the tinderbox).
@@ -62,7 +63,7 @@ var HolmIslandTutors=(function(){
   melee_trial:function(){return ['Wield that bronze dagger: click it in your pack and it goes in your hand.','The grubkins in the court are tame; they snap, but only for show.','Click one to attack it, and stay on it until it drops.']},
   ranged_trial:function(){return ['Good. Now the shortbow. Click it in your pack to wield it; your arrows go with it.','Click a grubkin to shoot it. Keep your distance and keep shooting until it drops.']},
   open_bank:function(){return ['Click my counter to open your account and see what is inside.','Anything you store here is safe. When you are done, the Mage Tower is next.']},
-  magic_trial:function(){return ['Air and mind runes make Wind Strike, and you have both in your pack.','Open your spellbook and click Wind Strike to choose it.','Then click one of the grubkins in the yard. A spell can miss, just like a sword. Cast again.']},
+  magic_trial:function(){return ['Air and mind runes make Wind Strike, and you have both in your pack.','Open your spellbook and click Wind Strike to choose it.','Then click one of the grubkins in the yard. Each click casts once: choose Wind Strike again for the next. A spell can splash, just like a sword can miss.','With a staff in your hand, a chosen spell keeps casting on its own.']},
   relight_lastlight:function(){return ['Climb the three ladders to the lantern deck and pull the beacon lever.','Once the light is burning, go down to the haven. Tobin will row you across.']}};
  var st={npcs:[],api:null,mixers:[],talking:null,waved:{}};
  function nextOf(){return typeof Tutorial!=='undefined'&&!Tutorial.complete&&Tutorial.steps[Tutorial.step]?Tutorial.steps[Tutorial.step].id:null}
@@ -92,7 +93,7 @@ var HolmIslandTutors=(function(){
  async function load(o){
   var T=o.THREE,api=o.api;st.api=api;
   for(var i=0;i<CAST.length;i++){var c=CAST[i],p=spot(api,c);if(!p)continue;
-   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+'_v2.glb?v=30',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
+   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+'_v2.glb?v=31',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
    var root=gltf.scene,g=new T.Group();root.traverse(function(m){if(m.isMesh||m.isSkinnedMesh){m.castShadow=true;m.frustumCulled=false;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});
    g.add(root);g.position.set(p.x,p.y,p.z);g.lookAt(p.faceX,p.y,p.faceZ);g.name='island-tutor-'+c.id;
    var mixer=new T.AnimationMixer(root),actions={};gltf.animations.forEach(function(cl){actions[cl.name]=mixer.clipAction(cl)});
@@ -110,7 +111,7 @@ var HolmIslandTutors=(function(){
   // on their turn, the chat opens their area's lessons once it ends (the banner and arrow then move on to the lesson)
   if(st.talking&&st.talking!==n)ended(st.talking);n.opens=turn(n.cast);
   n.group.lookAt(player.position.x,n.group.position.y,player.position.z);play(n,'talk');st.talking=n;
-  (function show(){n.paging=false;var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;n.paging=true;setTimeout(show,0)}else ended(n)}}],'img:assets/icons/tutors/'+n.cast.id+'.png?v=30')})();
+  (function show(){n.paging=false;var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;n.paging=true;setTimeout(show,0)}else ended(n)}}],'img:assets/icons/tutors/'+n.cast.id+'.png?v=31')})();
   return true;
  }
  // the chat is over (last page, or the box was closed): back to idle, and the tutor counts as spoken to

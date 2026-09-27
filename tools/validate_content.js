@@ -101,8 +101,10 @@ function checkNumField(obj, key, where, { required = false, min = 0, int = false
 }
 const STYLE_SET = new Set(['melee', 'ranged', 'magic']);
 // item bonus / numeric fields that combat & UI read — fractional ones (heal/weight/power) allowed
-const ITEM_NUM_FIELDS = ['aBonus', 'sBonus', 'dBonus', 'mBonus', 'magB', 'prayB',
-                         'dStab', 'dSlash', 'dCrush', 'heal', 'weight', 'power'];
+const ITEM_NUM_FIELDS = ['aBonus', 'sBonus', 'dBonus', 'prayB', 'heal', 'weight', 'power'];
+// 2004 bonuses can be negative (metal armour: magic -30 / ranged -15 attack, -6 magic defence); a roll multiplies by
+// (bonus + 64), so a per-type bonus must stay finite and above -64
+const ITEM_SIGNED_FIELDS = ['mBonus', 'magB', 'aStab', 'aSlash', 'aCrush', 'aRanged', 'dStab', 'dSlash', 'dCrush', 'dMagic', 'dRanged'];
 // NPC combat fields the accuracy / max-hit / defence formulas consume every tick
 const NPC_REQUIRED_NUM = ['level', 'hp', 'att', 'str', 'def', 'aBonus', 'sBonus', 'dBonus', 'speedTicks'];
 const NPC_OPT_NUM = ['dStab', 'dSlash', 'dCrush', 'respawn', 'size'];
@@ -144,6 +146,7 @@ for (const id in D.ITEMS) {
   if ('reqLvl' in it) checkNumField(it, 'reqLvl', `item '${id}'`, { min: 1, int: true });
   if (isNum(it.reqLvl) && it.reqLvl > 99) err(`item '${id}': reqLvl ${it.reqLvl} exceeds 99`);
   for (const k of ITEM_NUM_FIELDS) checkNumField(it, k, `item '${id}'`, { min: 0 });
+  for (const k of ITEM_SIGNED_FIELDS) checkNumField(it, k, `item '${id}'`, { min: -63 });
   if ('style' in it && !STYLE_SET.has(it.style)) err(`item '${id}': style '${it.style}' must be melee|ranged|magic`);
   // a wielded weapon needs an attack style + a positive swing speed, or combat can't tick it
   if (it.equip === 'weapon') {

@@ -1,0 +1,72 @@
+{
+ "stats": {
+  "b": {
+   "built": 4,
+   "failed": [],
+   "creatures": 6
+  },
+  "npcs": [
+   "gnarlgob",
+   "gnarlgob",
+   "cinder_rat",
+   "cinder_rat",
+   "scar_skeleton",
+   "ash_stalker",
+   "scar_raider_archer"
+  ]
+ },
+ "perFight": {
+  "archer": {
+   "hitsOnMe": 11,
+   "onMeProjectile": 11,
+   "onMeMelee": 0,
+   "onMeUntimed": 0,
+   "late": 0,
+   "hitsOnIt": 12,
+   "serverBreaths": 0,
+   "killedAtFrame": 37,
+   "lootSeen": 3,
+   "generic": 0
+  },
+  "mage": {
+   "hitsOnMe": 5,
+   "onMeProjectile": 5,
+   "onMeMelee": 0,
+   "onMeUntimed": 0,
+   "late": 0,
+   "hitsOnIt": 12,
+   "serverBreaths": 0,
+   "killedAtFrame": 37,
+   "lootSeen": 2,
+   "generic": 0
+  },
+  "wyrmling": {
+   "hitsOnMe": 8,
+   "onMeProjectile": 1,
+   "onMeMelee": 7,
+   "onMeUntimed": 0,
+   "late": 0,
+   "hitsOnIt": 12,
+   "serverBreaths": 3,
+   "killedAtFrame": 36,
+   "lootSeen": 10,
+   "generic": 0
+  }
+ },
+ "fx": {
+  "pending": 0,
+  "flying": 0,
+  "hits": 60,
+  "splats": 60,
+  "projectiles": 61,
+  "matchedProjectile": 53,
+  "matchedSwing": 7,
+  "matchedNext": 0,
+  "generic": 0,
+  "late": 0,
+  "swingsPlayed": 69,
+  "deaths": 3
+ },
+ "errors": [],
+ "note": "Read-only drop-in check (2026-09-26): the live tree bestiary v1 manifest + GLBs served locally, npcType blocks injected in memory (nothing in the repo changed); one adventurer (gale longbow kit) fights each creature alone to its death."
+}

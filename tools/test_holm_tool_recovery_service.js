@@ -4,7 +4,7 @@ const files=['holm_landscape_data.js','holm_tutorial_flow_data.js','holm_reward_
 function setup(){
   let saves=0,refreshes=0,snapshot=null;const messages=[];
   const c={console:{info(){}},CRWorldMode:{providerId:'tutors-holm-v2'},
-    Player:{inv:Array(24).fill(null),equip:{},bank:[]},ITEMS:{},
+    Player:{inv:Array(28).fill(null),equip:{},bank:[]},ITEMS:{},
     UI:{chat(m){messages.push(m);},refreshInv(){refreshes++;}},
     SaveGame:{save(silent){assert.strictEqual(silent,true);saves++;snapshot=JSON.stringify(c.Player.inv);return true;}}};
   ['hatchet','tinderbox','fishing_net','pickaxe','hammer','bread'].forEach(id=>{c.ITEMS[id]={stack:false,name:id};});
@@ -21,7 +21,7 @@ check('arrival provider uses the same atomic grant and inactive drafts cannot gr
   assert(t.recover());assert.strictEqual(t.saves(),1);
 });
 check('full pack refuses atomically with exact additional slot requirement',()=>{
-  const t=setup();t.c.Player.inv=Array.from({length:24},()=>({id:'bread',qty:1}));t.c.Player.inv[23]=null;
+  const t=setup();t.c.Player.inv=Array.from({length:28},()=>({id:'bread',qty:1}));t.c.Player.inv[27]=null;
   const before=t.c.Player.inv;assert.strictEqual(t.recover(),false);assert.strictEqual(t.c.Player.inv,before);
   assert(t.messages[0].includes('need 3 free inventory slots; you have 1. Free 2 more slots'));assert.strictEqual(t.saves(),0);
 });
