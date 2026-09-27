@@ -95,7 +95,7 @@ Confirm that no shortcut bypassed the behavior under test: PASS
 | 12 | click the cavern exit ladder; click a teller booth | surfaces in the Combat Hall tower; bank opens, step → relight_lastlight | 11b_surface.png, 12_open_bank.png | ${r.checks[13] && r.checks[13].ok ? 'PASS' : 'FAIL'} |
 | 13 | door, two ladders, lever | beacon lit, curriculum complete, passage writ | 15_relight_lastlight.png | ${r.checks[16] && r.checks[16].ok ? 'PASS' : 'FAIL'} |
 | + | kitchen chain; quest board | bake_bread and learn_quests recorded | 13_bake_bread.png, 14_learn_quests.png | ${r.checks[14] && r.checks[14].ok && r.checks[15] && r.checks[15].ok ? 'PASS' : 'FAIL'} |
-| + | click the skiff | sails to Veyhollow with the departure pack | 17_mainland.png | ${r.checks[18] && r.checks[18].ok ? 'PASS' : 'FAIL'} |
+| + | click the skiff | sails to Hearthmere with the departure pack | 17_mainland.png | ${r.checks[18] && r.checks[18].ok ? 'PASS' : 'FAIL'} |
 
 ### Invalid-action expectations
 

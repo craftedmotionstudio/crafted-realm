@@ -21,7 +21,7 @@ before the content grows, is also the cheaper order: every system written after 
 ## Map vision (owner, 2026-09-26)
 
 First lock in Tutor's Holm (fun end to end), then build the heartland like the 2004 one but our own: a spawn town with
-a castle (our Lumbridge: Veyhollow Commons + Wardenholm Keep); south a swamp with a small town; east a desert town (our
+a castle (our Lumbridge: Hearthmere + Hearthmere Castle); south a swamp with a small town; east a desert town (our
 Al Kharid); west a village (our Draynor); north a big walled city (our Varrock); and the Wilderness for PvP (ours: the
 Scarlands beyond the Ditch, with a frontier bank). Big castles where needed, big towns with varied, unique building
 shapes, story flow between regions, every OSRS building type and its function present in our own version (organised
@@ -82,13 +82,13 @@ Our Three.js client and a mobile client speak JSON over WebSocket to our server.
       extra boost; a Blender mug/flask model and icon, a way to make or buy it, server + client rules.
 - [x] **W1 Combat core + server skeleton** (branch world-server-2026-09-25 087623f: 78 tests, 2-client PvP over ws, 50 bots 6.7 ms avg tick): `shared/combat` with 2004 formulas (0..max damage, ranged and magic
       strength handled separately, attack delay ticks, hit delays, retaliation, 8-tick single-combat lock),
-      `shared/pvp` (Wilderness level, combat-level range, skull 2000 ticks, items kept on death 3/0 +1 Protect
-      Item, logout lock, teleport block above level 20, single/multi), weighted drop tables. `server/` tick loop,
+      `shared/pvp` (Wilderness level, combat-level range, skull 2000 ticks, items kept on death 3/0 +1 Keepsake
+      Ward, logout lock, teleport block above level 20, single/multi), weighted drop tables. `server/` tick loop,
       entities, pathfinder, combat, PvP, death/respawn, saves, ws protocol, bot clients. Tests for every rule.
       The combat numbers lock is re-baselined once, deliberately, for the 0..max change.
 - [ ] **W2 Online alpha**: two browsers log in, see each other in a Blender-built Scarlands pocket past the Ditch
       (Wilderness 1-10), walk, chat overhead, fight melee/ranged/magic under 2004 PvP rules, eat, pray, die, drop
-      loot, respawn in Commons. Protection prayers and food delays are part of "perfect".
+      loot, respawn in Hearthmere. Protection prayers and food delays are part of "perfect".
 - [ ] **W3 Mainland proving slice** (GUIDING_LIGHT): Hollow Well Square + four Commons buildings, one
       Emberwood/Stonereach road, the Ditch, the Scarlands pocket; all Blender-made; bank, shops, monsters with
       weighted drops, respawns, aggression; server-owned.
@@ -114,7 +114,7 @@ Our Three.js client and a mobile client speak JSON over WebSocket to our server.
 
 - Holm v2 land (2026-09-26, from docs/rebuild/WORLD_LAYOUT_GUIDE.md): departure haven moves to Beacon Cove below
   Lastlight (timber stair; old haven site becomes a farm); route tightened (cave passage climbs out in the keep, legs
-  6-39 tiles, ~250 tiles total); mainland gets a Frontier Post bank booth 24 tiles before the Ditch.
+  6-39 tiles, ~250 tiles total); mainland gets a Brinkhold bank booth 24 tiles before the Ditch.
 
 ## Open decisions for the owner (defaults in use until answered)
 

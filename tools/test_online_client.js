@@ -46,7 +46,7 @@ const MAP = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'server', 'dat
       assert.strictEqual(m.wildernessLevel(x, z), PVP.wildernessLevel(x, z, MAP.areas.wilderness), 'wl ' + x + ',' + z);
       assert.strictEqual(m.isMulti(x, z), PVP.isMulti(x, z, MAP.areas.multi), 'multi ' + x + ',' + z);
     }
-    assert.strictEqual(m.areaName(32, 10), 'Veyhollow Commons');
+    assert.strictEqual(m.areaName(32, 10), 'Hearthmere');
     assert.strictEqual(m.wildernessLevel(32, 48), 1);
     assert.strictEqual(m.wildernessLevel(32, 127), 10);
   });

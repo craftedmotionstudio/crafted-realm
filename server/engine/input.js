@@ -196,7 +196,7 @@ const HANDLERS = {
     const kit = alpha && alpha.kits && typeof m.name === 'string' && Object.prototype.hasOwnProperty.call(alpha.kits, m.name) ? alpha.kits[m.name] : null;
     if (!kit || !canAct(p)) return false;
     const chest = alpha.chest, reach = alpha.reach || 2;
-    if (p.wildLevel() > 0 || (chest && Math.max(Math.abs(p.x - chest.x), Math.abs(p.z - chest.z)) > reach)) { p.message('You need to stand at the supply chest in the Commons.'); return; }
+    if (p.wildLevel() > 0 || (chest && Math.max(Math.abs(p.x - chest.x), Math.abs(p.z - chest.z)) > reach)) { p.message('You need to stand at the supply chest in Hearthmere.'); return; }
     if (!PVP.canLogout(p.preventLogoutUntil, w.tick)) { p.message('You cannot rummage in the chest while you are fighting.'); return; }
     if (w.tick - p.lastKitTick < (alpha.cooldown || 5)) return;
     p.lastKitTick = w.tick;

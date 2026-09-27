@@ -22,7 +22,7 @@ css.textContent = `
 /* ================= 2. OSRS numeral + label polish (safe, global) =========
    No sizes change — only family + shadow — so layout is untouched. A crisp
    1px hard-black drop shadow over a bold condensed system stack reads as the
-   old bitmap RuneScape numerals without loading any external font. */
+   old bitmap numerals of 2004 without loading any external font. */
 :root{
   --osrs-num:'Trebuchet MS','Tahoma','Verdana',sans-serif;
 }

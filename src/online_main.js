@@ -243,7 +243,7 @@ var OnlineMain=(function(){
    UI.chat('North of the Ditch lie the Scarlands: anyone may attack you there. The supply chest by the campfire has fighting kits.','plain');
    UI.chat('Press Enter to talk. Your words appear over your head for everyone nearby.','sys');
   }
-  var mm=OW.model(),wl=mm.wildernessLevel(w.x,w.z);UI.zone(wl>0?'The Scarlands · Level '+wl:(mm.areaName(w.x,w.z)||'The Commons'));
+  var mm=OW.model(),wl=mm.wildernessLevel(w.x,w.z);UI.zone(wl>0?'The Scarlands · Level '+wl:(mm.areaName(w.x,w.z)||'Hearthmere'));
  }
  net.on('tick',onTick);
  net.on('dropped',function(){OnlineUI.connection('Connection lost. Please wait - attempting to reestablish.')});

@@ -53,9 +53,9 @@ function drawWorldMap(){
   const label=(x,z,t)=>{ const p=mx(x,z);
     ctx.fillStyle='#1a1208'; ctx.fillText(t,p.x+1,p.y+1);
     ctx.fillStyle='#ffe9b0'; ctx.fillText(t,p.x,p.y); };
-  label(0,-22,'Veyhollow');
+  label(0,-22,'Hearthmere');
   for(const k in ZONES){ const zn=ZONES[k];
-    if(zn.name && k!=='town') label(zn.pos[0], zn.pos[1]-3, zn.name); }
+    if(zn.name && k!=='town' && k!=='commons') label(zn.pos[0], zn.pos[1]-3, zn.name); }   // the commons zone IS Hearthmere, labelled above
   // you are here: a white arrow that knows your facing
   const pp=mx(player.position.x, player.position.z);
   const fa=player.rotation.y;

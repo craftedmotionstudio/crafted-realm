@@ -28,7 +28,7 @@ var PvpHud=(function(){
   el.style.display=st.wl>0||st.skull>0?'flex':'none';
   var lv=document.getElementById('pvp-level');if(lv)lv.textContent='Level: '+st.wl;
   tip(document.getElementById('pvp-plaque'),st.wl?'Scarlands level '+st.wl+': you can fight adventurers within '+st.wl+' combat level'+(st.wl>1?'s':'')+' of you.'+(st.wl>20?'\nNo ordinary teleport works here.':''):'');
-  var sk=document.getElementById('pvp-skull');if(sk){sk.style.display=st.skull>0?'block':'none';tip(sk,'Skulled: '+Math.ceil(st.skull*0.6/60)+' min left. If you fall you keep nothing (Protect Item saves one thing).')}
+  var sk=document.getElementById('pvp-skull');if(sk){sk.style.display=st.skull>0?'block':'none';tip(sk,'Skulled: '+Math.ceil(st.skull*0.6/60)+' min left. If you fall you keep nothing (Keepsake Ward saves one thing).')}
   var mu=document.getElementById('pvp-multi');if(mu){mu.style.display=st.multi?'block':'none';tip(mu,'Multi-combat: several adventurers can attack you at once.')}
   if(typeof player!=='undefined'&&player)overheadSkull(player,st.skull>0);
  }

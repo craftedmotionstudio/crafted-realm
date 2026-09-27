@@ -32,7 +32,7 @@
     scene.add(manor);
 
     if(typeof UI!=='undefined' && UI.chat)
-      UI.chat('[MAP] The keep road grows: a clock-tower tavern at the fork, a stone manor on the Wardenholm approach.','sys');
+      UI.chat('[MAP] The keep road grows: a clock-tower tavern at the fork, a stone manor on the castle approach.','sys');
     return true;
   }
   const iv=setInterval(()=>{ try{ if(build()) clearInterval(iv); }

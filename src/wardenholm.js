@@ -381,7 +381,7 @@
     if(origTalk){
       talkTo=function(id, name, face){
         if(id==='osric'){
-          UI.dialogue(name,'Welcome to Wardenholm, traveller. One bridge in, one bridge out — the Guild likes it that way. The Proving Ring takes challengers, and the well is sweet.',
+          UI.dialogue(name,'Welcome to Hearthmere Castle, traveller. One bridge in, one bridge out — the Guild likes it that way. The Proving Ring takes challengers, and the well is sweet.',
             [{label:'What is this place?', fn:()=>UI.dialogue(name,'Seat of the Wardens’ Guild. Walls to hold the line, a ring to sharpen it, and things below best left chained.',[{label:'Farewell.'}],face)},
              {label:'Farewell.'}], face); return;
         }
@@ -694,8 +694,8 @@
       spawnN('cn_guard', C.x-WH+2.6, gateLo-1.2); spawnN('cn_guard', C.x-WH+2.6, gateHi+1.2);
     })();
 
-    if(typeof Deeds!=='undefined') Deeds.addLog('Wardenholm Keep stands — the Guild has its castle.');
-    UI.chat('[MAP] Wardenholm Keep rises east of the Commons — cross the bridge, climb the walls, and mind what’s chained below.','sys');
+    if(typeof Deeds!=='undefined') Deeds.addLog('Hearthmere Castle stands — the Guild has its castle.');
+    UI.chat('[MAP] Hearthmere Castle rises east of the town — cross the bridge, climb the walls, and mind what’s chained below.','sys');
     built=true;
     return true;
   }

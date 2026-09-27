@@ -553,7 +553,7 @@ function finishPlayerDeath(w, p) {
   p.appearanceVersion++;
   p.out.invDirty = true; p.out.equipDirty = true; p.out.selfDirty = true; p.out.settingsDirty = true;
   p.invalidate();
-  p.message('You wake in the Commons.', 'combat');
+  p.message('You wake in Hearthmere.', 'combat');
   // W2: tell the client what was kept, so the respawn screen can explain it
   const keptNames = kept.kept.map((k) => (items[k.id] ? items[k.id].name : k.id) + (k.qty > 1 ? ' x' + k.qty : ''));
   p.message(keptNames.length ? 'You kept: ' + keptNames.join(', ') + '.' : 'You kept nothing.', 'combat');

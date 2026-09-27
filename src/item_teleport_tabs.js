@@ -15,8 +15,8 @@
   const DEST = 'commons';   // the mainland home — same zone the tutorial finish sends you to
 
   /* stackable, cheap consumable — modelled on the rune/coins schema in ITEMS */
-  const DEF = {name:'Veyhollow teleport', stack:true, value:5,
-    examine:'A rune-etched clay tablet. Crush it to fold the world back to Veyhollow.'};
+  const DEF = {name:'Hearthmere teleport', stack:true, value:5,
+    examine:'A rune-etched clay tablet. Crush it to fold the world back to Hearthmere.'};
   // Save restoration may run before the delayed interaction hook. Item data
   // must already exist when the first inventory is drawn.
   if(typeof ITEMS!=='undefined'&&!ITEMS[ID]) ITEMS[ID]=DEF;

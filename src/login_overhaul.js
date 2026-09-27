@@ -98,8 +98,8 @@
       if(!SaveGame.load()){ if($('login-note')) $('login-note').textContent='That save could not be restored. Your data has not been erased.'; return; }
       if($('play-welcome')) $('play-welcome').textContent='Welcome back, '+(CharCfg.name||'adventurer');
       const holm=onHolm(data);
-      if($('play-sub')) $('play-sub').textContent='Your progress has been restored and '+(holm?'Tutor\'s Holm':'Veyhollow')+' is ready.';
-      setPlayLabel(holm?'RETURN TO TUTOR\'S HOLM':'ENTER VEYHOLLOW');
+      if($('play-sub')) $('play-sub').textContent='Your progress has been restored and '+(holm?'Tutor\'s Holm':'Hearthmere')+' is ready.';
+      setPlayLabel(holm?'RETURN TO TUTOR\'S HOLM':'ENTER HEARTHMERE');
       updateProfileSummary(data); setStage('login-play','play-btn');
     };
     if($('btn-begin')) $('btn-begin').onclick=()=>{

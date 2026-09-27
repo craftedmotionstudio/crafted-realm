@@ -61,7 +61,7 @@ var HollowSquareInteractions = (()=>{
   }
 
   function runExamine(services){
-    say(services, 'Clear springwater gathers beneath old Veyhollow stone.');
+    say(services, 'Clear springwater gathers beneath old Hearthmere stone.');
   }
 
   function runDrink(services, drinkState){

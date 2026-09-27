@@ -2,25 +2,26 @@
 /* ---------- the Prayer book ----------
    Names, order and pictures for the interface. The RULES (level, group, percent, the 2004 drain effect) live in
    shared/combat.js PRAYERS and are applied by the combat engine (src/combat_engine.js); req/drain/boost here mirror
-   them for display only. Protect Item (2004, level 25) keeps one more item on death. */
+   them for display only. Display names follow docs/rebuild/NAMING_BIBLE.md (ids stay). protect_item (Keepsake Ward; 2004 Protect Item, level 25)
+   keeps one more item on death. */
 const PRAYERS = {
-  thick_skin:    {name:'Thick Skin',           req:1,  icon:'\u{1F6E1}',  drain:3,  group:'def', boost:{def:1.05}},
-  burst_str:     {name:'Burst of Strength',    req:4,  icon:'\u{1F4AA}',  drain:3,  group:'str', boost:{str:1.05}},
-  clarity:       {name:'Clarity of Thought',   req:7,  icon:'\u{1F3AF}',  drain:3,  group:'att', boost:{att:1.05}},
-  sharp_eye:     {name:'Sharp Eye',            req:8,  icon:'\u{1F3F9}',  drain:3,  group:'rng', boost:{rng:1.05}},
-  mystic_will:   {name:'Mystic Will',          req:9,  icon:'\u{1F52E}',  drain:3,  group:'mag', boost:{mag:1.05}},
-  rock_skin:     {name:'Rock Skin',            req:10, icon:'\u{1FAA8}',  drain:6,  group:'def', boost:{def:1.10}},
-  superhuman:    {name:'Superhuman Strength',  req:13, icon:'\u26A1',     drain:6,  group:'str', boost:{str:1.10}},
-  reflexes:      {name:'Improved Reflexes',    req:16, icon:'\u{1F441}',  drain:6,  group:'att', boost:{att:1.10}},
-  protect_item:  {name:'Protect Item',         req:25, icon:'\u{1F512}',  drain:2,  group:null},
-  hawk_eye:      {name:'Hawk Eye',             req:26, icon:'\u{1F985}',  drain:6,  group:'rng', boost:{rng:1.10}},
-  mystic_lore:   {name:'Mystic Lore',          req:27, icon:'\u2728',     drain:6,  group:'mag', boost:{mag:1.10}},
-  steel_skin:    {name:'Steel Skin',           req:28, icon:'\u{1F9F1}',  drain:12, group:'def', boost:{def:1.15}},
-  ultimate_str:  {name:'Ultimate Strength',    req:31, icon:'\u{1F4A5}',  drain:12, group:'str', boost:{str:1.15}},
-  incredible_ref:{name:'Incredible Reflexes',  req:34, icon:'\u{1F3AF}',  drain:12, group:'att', boost:{att:1.15}},
-  protect_magic: {name:'Protect from Magic',   req:37, icon:'\u{1F535}',  drain:12, group:'overhead', protect:'magic',  over:0x3a6ab0},
-  protect_range: {name:'Protect from Missiles',req:40, icon:'\u{1F7E2}',  drain:12, group:'overhead', protect:'ranged', over:0x4a9a3a},
-  protect_melee: {name:'Protect from Melee',   req:43, icon:'\u{1F534}',  drain:12, group:'overhead', protect:'melee',  over:0xb03a3a},
+  thick_skin:    {name:'Oak Hide',             req:1,  icon:'\u{1F6E1}',  drain:3,  group:'def', boost:{def:1.05}},
+  burst_str:     {name:'Boar\'s Heart',        req:4,  icon:'\u{1F4AA}',  drain:3,  group:'str', boost:{str:1.05}},
+  clarity:       {name:'Steady Hand',          req:7,  icon:'\u{1F3AF}',  drain:3,  group:'att', boost:{att:1.05}},
+  sharp_eye:     {name:'Kestrel\'s Sight',     req:8,  icon:'\u{1F3F9}',  drain:3,  group:'rng', boost:{rng:1.05}},
+  mystic_will:   {name:'Candle Will',          req:9,  icon:'\u{1F52E}',  drain:3,  group:'mag', boost:{mag:1.05}},
+  rock_skin:     {name:'Stone Hide',           req:10, icon:'\u{1FAA8}',  drain:6,  group:'def', boost:{def:1.10}},
+  superhuman:    {name:'Bear\'s Heart',        req:13, icon:'\u26A1',     drain:6,  group:'str', boost:{str:1.10}},
+  reflexes:      {name:'Sure Hand',            req:16, icon:'\u{1F441}',  drain:6,  group:'att', boost:{att:1.10}},
+  protect_item:  {name:'Keepsake Ward',        req:25, icon:'\u{1F512}',  drain:2,  group:null},
+  hawk_eye:      {name:'Falcon\'s Sight',      req:26, icon:'\u{1F985}',  drain:6,  group:'rng', boost:{rng:1.10}},
+  mystic_lore:   {name:'Lantern Lore',         req:27, icon:'\u2728',     drain:6,  group:'mag', boost:{mag:1.10}},
+  steel_skin:    {name:'Iron Hide',            req:28, icon:'\u{1F9F1}',  drain:12, group:'def', boost:{def:1.15}},
+  ultimate_str:  {name:'Lion\'s Heart',        req:31, icon:'\u{1F4A5}',  drain:12, group:'str', boost:{str:1.15}},
+  incredible_ref:{name:'True Hand',            req:34, icon:'\u{1F3AF}',  drain:12, group:'att', boost:{att:1.15}},
+  protect_magic: {name:'Ward against Spells',  req:37, icon:'\u{1F535}',  drain:12, group:'overhead', protect:'magic',  over:0x3a6ab0},
+  protect_range: {name:'Ward against Arrows',  req:40, icon:'\u{1F7E2}',  drain:12, group:'overhead', protect:'ranged', over:0x4a9a3a},
+  protect_melee: {name:'Ward against Blades',  req:43, icon:'\u{1F534}',  drain:12, group:'overhead', protect:'melee',  over:0xb03a3a},
 };
 
 /* ---------- Smithing, Fletching, Thieving — the 2006 trades, our way ---------- */
@@ -578,18 +579,18 @@ function updateProjectiles(dt){ /* the combat engine schedules every hit; nothin
    damage of that one swing. Keyed by weapon MODEL so a whole class shares a signature spec
    — our own designs (2004 had none; shared/combat.js applySpecial applies them on the server too). */
 const SPECIALS = {
-  sword:     {name:'Lunge',        cost:25, acc:1.30, dmg:1.15, msg:'You lunge with deadly precision!'},
-  sabre:     {name:'Riposte',      cost:25, acc:1.25, dmg:1.20, msg:'You turn the blade and cut back hard!'},
-  longsword: {name:'Long Reach',   cost:35, acc:1.20, dmg:1.25, msg:'You drive the long blade through their guard!'},
-  greatsword:{name:'Sweeping Arc', cost:60, acc:1.10, dmg:1.50, msg:'You heave the greatsword round in a sweeping arc!'},
-  axe:       {name:'Cleave',       cost:50, acc:1.05, dmg:1.45, msg:'You cleave with brutal force!'},
-  battleaxe: {name:'Rampage',      cost:60, acc:1.00, dmg:1.55, msg:'You wade in with a roaring swing!'},
-  pick:      {name:'Skull Crack',  cost:50, acc:1.10, dmg:1.35, msg:'You drive the pick home!'},
-  mace:      {name:'Bell Ringer',  cost:30, acc:1.25, dmg:1.25, msg:'You ring their helm like a bell!'},
-  warhammer: {name:'Stonebreaker', cost:50, acc:1.15, dmg:1.40, msg:'Your hammer comes down like falling stone!'},
-  bow:       {name:'Rapid Volley', cost:50, acc:1.20, dmg:1.30, msg:'You loose a rapid volley!'},
-  longbow:   {name:'Hawk Shot',    cost:55, acc:1.35, dmg:1.25, msg:'You draw long and loose a hawk shot!'},
-  staff:     {name:'Power Surge',  cost:55, acc:1.15, dmg:1.40, msg:'Your staff surges with raw power!'},
+  sword:     {name:'Lunge',          cost:25, acc:1.30, dmg:1.15, msg:'You lunge with deadly precision!'},
+  sabre:     {name:'Riposte',        cost:25, acc:1.25, dmg:1.20, msg:'You turn the blade and cut back hard!'},
+  longsword: {name:'Long Reach',     cost:35, acc:1.20, dmg:1.25, msg:'You drive the long blade through their guard!'},
+  greatsword:{name:'Sweeping Arc',   cost:60, acc:1.10, dmg:1.50, msg:'You heave the greatsword round in a sweeping arc!'},
+  axe:       {name:'Cleave',         cost:50, acc:1.05, dmg:1.45, msg:'You cleave with brutal force!'},
+  battleaxe: {name:'Roaring Swing',  cost:60, acc:1.00, dmg:1.55, msg:'You wade in with a roaring swing!'},
+  pick:      {name:'Skull Crack',    cost:50, acc:1.10, dmg:1.35, msg:'You drive the pick home!'},
+  mace:      {name:'Bell Ringer',    cost:30, acc:1.25, dmg:1.25, msg:'You ring their helm like a bell!'},
+  warhammer: {name:'Stonebreaker',   cost:50, acc:1.15, dmg:1.40, msg:'Your hammer comes down like falling stone!'},
+  bow:       {name:'Rapid Volley',   cost:50, acc:1.20, dmg:1.30, msg:'You loose a rapid volley!'},
+  longbow:   {name:'Hawk Shot',      cost:55, acc:1.35, dmg:1.25, msg:'You draw long and loose a hawk shot!'},
+  staff:     {name:'Power Surge',    cost:55, acc:1.15, dmg:1.40, msg:'Your staff surges with raw power!'},
 };
 /* boss combat scripts: a lightweight per-NPC hook (set NPC_TYPES[x].script) run each frame while
    the boss lives, giving phases/specials/heals beyond the generic AI. Our own designs. */
@@ -876,7 +877,7 @@ function playerDeath(){
     Player.inv=new Array(28).fill(null); for(const k in Player.equip) Player.equip[k]=null;
     r.kept.forEach(k=>Player.addItem(k.id,k.qty));
     dropped.forEach(([id,qty],i)=>makeDrop(id, qty, here.x+((i%4)-1.5)*0.4, here.z+(Math.floor(i/4)-1)*0.4));
-    UI.chat(`You keep ${r.kept.length?r.kept.map(k=>ITEMS[k.id].name).join(', '):'nothing'}${protect?' (Protect Item kept one more)':''}.`+
+    UI.chat(`You keep ${r.kept.length?r.kept.map(k=>ITEMS[k.id].name).join(', '):'nothing'}${protect?' (Keepsake Ward kept one more)':''}.`+
       (dropped.length?' Everything else lies where you fell. Hurry back for it!':''),'combat');
     refreshPlayerGear(); UI.refreshInv(); UI.refreshEquip();
   } else if(!Tutorial.complete) UI.chat('On Tutor\'s Holm nothing is lost when you fall.','combat');
@@ -893,7 +894,7 @@ function playerDeath(){
   const p = Tutorial.complete ? ZONES.commons.pos : ZONES.holm.pos;
   // WEST of the plaza fountain — never inside its basin (user, 2026-07-03)
   player.position.set(p[0]-8, gy(p[0]-8,p[1]), p[1]);
-  UI.chat('You wake in Veyhollow square.','plain');
+  UI.chat('You wake in Hearthmere Square.','plain');
   refreshPlayerGear();      // death drops gear — the avatar must stop showing it (GLB regions reset too)
   UI.refreshHud();
 }

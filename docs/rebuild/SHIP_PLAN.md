@@ -45,7 +45,7 @@ survive chat history and prevent scope drift.
   admin console, Build Mode, UI tabs, overlays, and the current minimap.
 - A substantial library of final and experimental art, item icons, modelled props, characters,
   and Studio reference builders.
-- Canonical macro map and a coherent fiction foundation: Tutor's Holm, Veyhollow, Hollow Well,
+- Canonical macro map and a coherent fiction foundation: Tutor's Holm, Hearthmere, Hollow Well,
   the Ditch, Scarlands, Scarring, factions, and Undercrag.
 
 ### Not yet a finished game
@@ -99,7 +99,7 @@ survive chat history and prevent scope drift.
   the largest bosses through their own choices.
 - **Death:** ordinary-region death is forgiving and recoverable. Scarlands entry clearly communicates
   higher item risk. Future online PvP should use familiar unskulled/skulled protected-item rules and a
-  Protect Item modifier, but multiplayer item loss cannot ship before the authoritative online phase.
+  Keepsake Ward modifier, but multiplayer item loss cannot ship before the authoritative online phase.
 - **Scarring Surges:** milestone-gated, clearly telegraphed, and knowingly started by the player after
   preparation. They never resolve while the player is offline and never erase a vacationing player's
   permanent ownership or accumulated progress.
@@ -107,7 +107,7 @@ survive chat history and prevent scope drift.
   arcs can be completed in flexible order; a mysterious shard may exist as an optional quest item, not
   the character's identity, destiny, or a required path through the world.
 - **Endgame:** completing an arc creates a durable victory without ending the sandbox. The launch
-  capstone can permanently secure Veyhollow from involuntary Surges; optional controlled Surges, deeper
+  capstone can permanently secure Hearthmere from involuntary Surges; optional controlled Surges, deeper
   Scarlands expeditions, bossing, skill mastery, wealth, rare equipment, collections, minigames, and
   homestead advancement continue afterward in an OSRS-like long tail.
 
@@ -330,7 +330,7 @@ Exit gate:
 - Two independently authored assets in each active family reproduce the same scale, palette, detail,
   animation, and performance standard; no asset is promoted on an isolated close-up alone.
 
-### Phase 3 — The proving slice: First Bell at Veyhollow
+### Phase 3 — The proving slice: First Bell at Hearthmere
 
 **Goal:** build one connected, polished 45–75 minute experience before expanding the map.
 
@@ -396,7 +396,7 @@ Exit gate:
 
 Recommended order:
 
-1. Tutor's Holm and Veyhollow Commons.
+1. Tutor's Holm and Hearthmere.
 2. Emberwood/Stonereach production and homestead road.
 3. Mirrorpond/Gloomfen food, mystery, and midgame boss road.
 4. Scarlands breach, escalating danger, Surges, and launch endgame.
@@ -467,7 +467,7 @@ Work:
 - Exchange escrow/order book, cancellation, fees, price history, item limits, and anti-manipulation
   monitoring.
 - Ground-item ownership and death transactions enforced server-side.
-- Scarlands combat ranges, skulls, keep-item rules, Protect Item, single/multi zones, logout rules,
+- Scarlands combat ranges, skulls, keep-item rules, Keepsake Ward, single/multi zones, logout rules,
   anti-luring affordances, and clear warnings.
 - No player-wealth staking in the Oathring; its rewards are system-issued and non-tradeable.
 - Economy test world with planned wipes before durable launch wealth is promised.
@@ -666,11 +666,11 @@ Purchasable Crowns and free/member economy separation remain intentionally unres
 | Player identity | Locked | Arrive with almost nothing; self-directed pursuit of strength, bosses, wealth, and best gear | Avoid chosen-one framing; status is earned through action. |
 | Death and Scarlands risk | Direction locked | Forgiving ordinary death; clearly warned higher Scarlands stakes; OSRS-like protected items for future PvP | Exact counts, reclaim timing, and PvE rules still need prototyping; online loss must be server-authoritative. |
 | Scarring Surge trigger | Locked | Prepared, milestone-gated, and knowingly player-started | No offline resolution or permanent offline destruction. |
-| Scarring Surge completion | Locked | Eventually secure Veyhollow so normal Surges can no longer break in | Preserve optional controlled challenge Surges and deeper Scarlands threats after the durable story victory. |
+| Scarring Surge completion | Locked | Eventually secure Hearthmere so normal Surges can no longer break in | Preserve optional controlled challenge Surges and deeper Scarlands threats after the durable story victory. |
 | Story structure | Locked | Open-ended world with no mandatory main path; the mysterious shard is at most an optional quest item | Regional/faction arcs invite rather than compel; progression cannot depend on one narrative railroad. |
 | Housing/construction | Locked for Browser 1.0 | One fixed purchasable homestead with crafted modular components and defenses | Build only after the proving slice; no unrestricted world voxels or offline estate deletion. |
 | Unrestricted building vs civic sockets | Direction locked | Authored civic sockets in settlements; modular construction only inside a fixed homestead envelope | Protects authored world composition while supporting player expression. |
-| Browser 1.0 regions | Locked | Tutor's Holm/Veyhollow; Emberwood/Stonereach; Mirrorpond/Gloomfen; Scarlands | Four complementary roads from safe civic life through production and mystery to dangerous endgame. |
+| Browser 1.0 regions | Locked | Tutor's Holm/Hearthmere; Emberwood/Stonereach; Mirrorpond/Gloomfen; Scarlands | Four complementary roads from safe civic life through production and mystery to dangerous endgame. |
 | Essential launch skills | Locked | Mining, Smithing, Woodcutting, Fishing, Cooking, Crafting/Construction, and Combat | Other skills may exist, but these receive the deepest interconnected launch content first. |
 | Authored launch content | Direction locked | Approximately 10–20 hours; ~10 substantial quests, 3 major bosses, smaller encounters, and 2 minigames as planning targets | Counts can change when playtests show a better quality/retention balance. |
 | Endgame shape | Locked | OSRS-like long tail after completable regional arcs | Skill mastery, best gear, rare drops, wealth, bossing, collections, minigames, homestead advancement, and voluntary challenges remain. |

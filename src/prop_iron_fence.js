@@ -201,7 +201,7 @@
       });
     }
     if(typeof UI!=='undefined' && UI.chat)
-      UI.chat('[PROP] A black wrought-iron fence rings the Bank of Veyhollow — an ornate gate on the plaza side.','sys');
+      UI.chat('[PROP] A black wrought-iron fence rings the Bank of Hearthmere — an ornate gate on the plaza side.','sys');
     return true;
   }
 

@@ -48,7 +48,7 @@ var HolmIslandGuide=(function(){
    case 'melee_trial':return Player.equip&&Player.equip.weapon==='bronze_dagger'?{obj:grubkin('keep-court'),label:'Attack a grubkin'}:{pack:'bronze_dagger',label:'Wield the dagger'};
    case 'ranged_trial':return Player.equip&&Player.equip.weapon==='worn_bow'?{obj:grubkin('keep-court'),label:'Shoot a grubkin'}:{pack:'worn_bow',label:'Wield the shortbow'};
    case 'open_bank':return {obj:service('Use bank counter','counter'),label:'Open the bank'};
-   case 'magic_trial':return Player.spell==='wind_strike'?{obj:grubkin('mage-yard'),label:'Cast at a grubkin'}:{tab:'spells',label:'Choose Wind Strike'};
+   case 'magic_trial':return Player.spell==='wind_strike'?{obj:grubkin('mage-yard'),label:'Cast at a grubkin'}:{tab:'spells',label:'Choose Gale Dart'};
    case 'relight_lastlight':{
     // the storm door, then the ladder on whichever floor the player is on, then the lever
     var y=player.position.y,base=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('lastlight','door'),rel=base?y-base.y:0;

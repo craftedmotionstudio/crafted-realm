@@ -69,7 +69,7 @@ var HolmQuestLodge=(function(){
   function studyChart(){
     if(!onHolm()) return;
     UI.dialogue('Chart of the four roads',
-      'Red wax: Veyhollow Commons, safe civic life beyond the ferry. Brass: Emberwood and Stonereach, the production road of timber and ore. Brass again: Mirrorpond and Gloomfen, mystery and marsh. Iron: the Scarlands, where the Ditch ends and the danger begins. Four roads from one square, walked in any order.',
+      'Red wax: Hearthmere, safe civic life beyond the ferry. Brass: Emberwood and Stonereach, the production road of timber and ore. Brass again: Mirrorpond and Gloomfen, mystery and marsh. Iron: the Scarlands, where the Ditch ends and the danger begins. Four roads from one square, walked in any order.',
       [{label:'Four roads, no rails.'}],'🗺');
   }
   function readLedger(){

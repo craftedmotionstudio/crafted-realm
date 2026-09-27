@@ -31,7 +31,7 @@
     }
     if(typeof makeCrateCluster==='function') makeCrateCluster(M.x+3.4, M.z-2.6);
     if(typeof makeSignpost==='function') makeSignpost(M.x+0.5, M.z-17.5, [
-      {text:'Olun’s Mill', ang:1.55}, {text:'Gloomfen', ang:-2.6}, {text:'Veyhollow', ang:-0.4}]);
+      {text:'Olun’s Mill', ang:1.55}, {text:'Gloomfen', ang:-2.6}, {text:'Hearthmere', ang:-0.4}]);
     // the miller's post (documented, NOT live — user decision 2026-07-03: no repopulation
     // yet; the closed worldNpcSpawns gate suppresses this until the green light)
     if(typeof spawnFriendly==='function'){

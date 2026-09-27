@@ -98,3 +98,19 @@ ordinary words players expect. Skill names stay generic (Attack, Mining, Cooking
 One renaming pass after the combat, online and menu branches merge (they touch the same data and dialogue): display
 names, dialogue, quest text, docs, map labels, teleports and the login badge; ids unchanged; a test that fails if any
 RuneScape name from this bible reappears in player-facing text.
+
+## Added by the naming pass (2026-09-27)
+Names the pass had to invent or settle, each with its reason (`docs/rebuild/NAMING_PASS_2026-09-27.md` has the full
+before/after list).
+
+| Name | Replaces | Why |
+|---|---|---|
+| **Roaring Swing** (battleaxe special attack) | Rampage | "Rampage" is RuneScape's own dragon battleaxe special; the new name is the swing its chat line already describes ("You wade in with a roaring swing!") |
+| **Map of the Hearthlands** (world map title) | Map of Veyhollow | The map is of the valley, and the valley is now the Hearthlands |
+| **Hearthmere Square** (respawn message, the old editor's square) | Veyhollow square | The bible's own rule: "Hearthmere Square where it means the square" |
+| **Hearthmere Bank**, **the Bank of Hearthmere**, **Hearthmere Ferry Landing**, **Hearthmere Teleport** (spell and tablet) | the Veyhollow forms | They follow the town |
+| **Spark rune** (singular) | Spark runes | Every rune reads singular like the 2004 book ("Gale rune"), so the one rune that was already ours matches |
+
+The guard `tools/test_naming_bible.js` fails when any RuneScape name from this bible, or from its extra list (2004
+places, gods, quests, NPC titles, metals, monsters, prayers, spells and the brand), reappears in player-facing text,
+and when an id this pass kept (`air_rune`, `wind_strike`, `protect_item`, `giant_mole`, `commons`...) goes missing.

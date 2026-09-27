@@ -455,8 +455,8 @@ function ditchWarning(opts){
 }
 function keptOnDeathNote(){
   const k=keptOnDeathPreview();
-  return (typeof Tutorial!=='undefined'&&!Tutorial.complete)?'On Tutor\'s Holm nothing is lost when you fall. On the mainland you keep your three most valuable items (four with Protect Item); a stack counts as one.':
-    'If you fall you keep your '+(k.protect?'four':'three')+' most valuable items'+(k.protect?' (Protect Item)':'')+'; a stack counts as one. Everything else is left where you fell. A skull means you keep nothing.';
+  return (typeof Tutorial!=='undefined'&&!Tutorial.complete)?'On Tutor\'s Holm nothing is lost when you fall. On the mainland you keep your three most valuable items (four with Keepsake Ward); a stack counts as one.':
+    'If you fall you keep your '+(k.protect?'four':'three')+' most valuable items'+(k.protect?' (Keepsake Ward)':'')+'; a stack counts as one. Everything else is left where you fell. A skull means you keep nothing.';
 }
 UI.refreshCombat = function(){
   const host=document.getElementById('combat-styles'); if(!host) return;
@@ -507,7 +507,7 @@ const Admin = {
   tp(z){
     if(typeof CRWorldMode!=='undefined'&&!CRWorldMode.legacy&&typeof WorldTravel!=='undefined'){
       if(z==='commons'&&WorldV2.get('veyhollow-commons-v2'))
-        return WorldTravel.go('veyhollow-commons-v2','hollow_well_square',{loadingLabel:'Crossing to Veyhollow…',zoneLabel:ZONES.commons.name});
+        return WorldTravel.go('veyhollow-commons-v2','hollow_well_square',{loadingLabel:'Crossing to Hearthmere…',zoneLabel:ZONES.commons.name});
       if(z==='holm'&&WorldV2.get('tutors-holm-v2'))
         return WorldTravel.go('tutors-holm-v2','holm_arrival',{loadingLabel:'Returning to Tutor\'s Holm…',zoneLabel:ZONES.holm.name});
     }
@@ -1201,7 +1201,7 @@ const Tutorial = {
     UI.chat('You have completed the tutorial! Welcome to the mainland.','xp');
     Admin.tp('commons');
     UI.dialogue('Guide Bram',
-      'The oars are yours no longer, friend — Veyhollow lies before you. Seek Warden Maela by the bank; she always has work for a new face.',
+      'The oars are yours no longer, friend — Hearthmere lies before you. Seek Warden Maela by the bank; she always has work for a new face.',
       [{label:'Thank you, Bram.'}], '🧓');
   },
   skip(){
@@ -1225,7 +1225,7 @@ function talkTo(id, name, face){
     return;
   }
   if(id==='whitbanker'){
-    UI.dialogue(name,'Whitmoor Bank, the safest vault on the moor. Same ledger as Veyhollow, of course.',
+    UI.dialogue(name,'Whitmoor Bank, the safest vault on the moor. Same ledger as Hearthmere, of course.',
       [{label:'Open my vault.', fn:()=>UI.openBank()},{label:'Farewell.', fn:null}],face);
     return;
   }
@@ -1308,7 +1308,7 @@ function talkTo(id, name, face){
   if(id==='arcanist'){
     const sa=Quest.state('seers_ashes');
     if(!sa && Quest.canStart('seers_ashes')){
-      UI.dialogue(name,'Pell\'s humming stones... I scried the Seers\' Ring last night, and the resonance runs SOUTH — to the Scarlands. I need a proper rite to trace it: two fire runes and two earth runes. My own stock, if your pockets are shy; the Spire does not do favours for free.',
+      UI.dialogue(name,'Pell\'s humming stones... I scried the Seers\' Ring last night, and the resonance runs SOUTH — to the Scarlands. I need a proper rite to trace it: two ember runes and two stone runes. My own stock, if your pockets are shy; the Spire does not do favours for free.',
         [{label:'I\'ll gather the runes. (Start: The Seer\'s Ashes)', fn:()=>Quest.start('seers_ashes')},
          {label:'Show me your wares.', fn:()=>UI.openShop('arcanist')},
          {label:'Farewell.', fn:null}],face);
@@ -1319,7 +1319,7 @@ function talkTo(id, name, face){
         UI.dialogue(name,'Fire and earth — the Scarring\'s own signature. There... the rite is cast, and this ash-catcher is warded. Carry it south into the Scarlands; it will drink whatever the dead ground exhales.',
           [{label:'(Hand over the runes)', fn:()=>Quest.takeBring('seers_ashes')}],face);
       } else {
-        UI.dialogue(name,'Two fire runes, two earth runes. I sell both, if you\'ve the coin.',
+        UI.dialogue(name,'Two ember runes, two stone runes. I sell both, if you\'ve the coin.',
           [{label:'Show me your wares.', fn:()=>UI.openShop('arcanist')},
            {label:'Farewell.', fn:null}],face);
       }
@@ -1397,7 +1397,7 @@ function talkTo(id, name, face){
   }
   if(id==='bram'){
     if(Tutorial.complete){
-      UI.dialogue(name,'Veyhollow treating you well? The mainland holds far more than this little holm ever did.',null,face);
+      UI.dialogue(name,'Hearthmere treating you well? The mainland holds far more than this little holm ever did.',null,face);
     } else if(Tutorial.step===0){
       UI.dialogue(name,'Ah, you\'re awake! Washed up in the night, you did. This is Tutor\'s Holm — before I row you to the mainland, let me show you how to survive out there. Take this kit: a bronze hatchet, a small net, and a bronze sword. Wield the hatchet from your pack, then chop one of those trees.',
         [{label:'(Take the hatchet, net and sword)', fn:()=>{
@@ -1409,7 +1409,7 @@ function talkTo(id, name, face){
     } else if(Tutorial.step<6){
       UI.dialogue(name,`Keep at it! ${Tutorial.steps[Tutorial.step].text}`,null,face);
     } else {
-      UI.dialogue(name,'You\'ve the makings of an adventurer. Hop in the boat — Veyhollow awaits!',
+      UI.dialogue(name,'You\'ve the makings of an adventurer. Hop in the boat — Hearthmere awaits!',
         [{label:'(Sail to the mainland)', fn:()=>Tutorial.notify('talk','bram_done')}],face);
     }
     return;
@@ -1435,7 +1435,7 @@ function talkTo(id, name, face){
       UI.dialogue(name, 'By the old oaks — you actually did it. Wear this sigil; the Wardens\' Guild is yours.',
         [{label:'(Take the sigil)', fn:()=>Quest.complete('wardens_trial')}],face);
     } else {
-      UI.dialogue(name, 'Veyhollow sleeps easier with you about, Warden.',null,face);
+      UI.dialogue(name, 'Hearthmere sleeps easier with you about, Warden.',null,face);
     }
     return;
   }
@@ -1458,7 +1458,7 @@ function talkTo(id, name, face){
     return;
   }
   if(id==='banker'){
-    UI.dialogue(name, 'Welcome to the Bank of Veyhollow. Your vault is safe with us.',
+    UI.dialogue(name, 'Welcome to the Bank of Hearthmere. Your vault is safe with us.',
       [{label:'Open my vault.', fn:()=>UI.openBank()},
        {label:'Just passing through.'}],face);
     return;
@@ -1775,7 +1775,7 @@ function populateMainland(){
   makeSignpost(2.5,-11.5, [
     {text:'Whitmoor Hold', ang:-1.2}, {text:'The Spire', ang:2.2}, {text:'Emberwood', ang:0.9}]);
   makeSignpost(-12,-13, [
-    {text:'Olun\u2019s Mill', ang:1.3}, {text:'Gloomfen', ang:2.4}, {text:'Veyhollow', ang:-0.6}]);
+    {text:'Olun\u2019s Mill', ang:1.3}, {text:'Gloomfen', ang:2.4}, {text:'Hearthmere', ang:-0.6}]);
   // Olun's mill becomes a true windmill, wheat rows fenced beside it
   makeWindmill(-44.5,-34);
   makeFence(-49,-29, -49,-24); makeFence(-49,-24, -43,-24); makeFence(-43,-29, -43,-24);
@@ -1840,7 +1840,7 @@ function populateMainland(){
   makeGroundPatch(-163,-99, 5.4, 0xc8c2b6);             // Whitmoor's white plaza
   makeGroundPatch(-163,-105, 3.4, 0xc8c2b6);
   makeSignpost(-108,-76, [
-    {text:'Whitmoor Hold', ang:-2.2}, {text:'Veyhollow', ang:1.0}]);
+    {text:'Whitmoor Hold', ang:-2.2}, {text:'Hearthmere', ang:1.0}]);
   makeButterflies();
   dressWorld();   // the instanced ground cover goes down last, around everything
 
@@ -2094,7 +2094,7 @@ function populateScarlands(){
   /* The Scarlands live NORTH past the Wilderness Ditch (bible map). The main gate
    * causeway crosses at x=6; deeper north = deadlier (scarThreat). */
   makeSignpost(6, DITCH.z+6, [
-    {text:'The Scarlands — DANGER', ang:Math.PI}, {text:'Veyhollow', ang:0}]);
+    {text:'The Scarlands — DANGER', ang:Math.PI}, {text:'Hearthmere', ang:0}]);
   makeTorch(3, DITCH.z+4.5); makeTorch(9, DITCH.z+4.5);       // lit south approach
   makeTorch(3, DITCH.z-4.5); makeTorch(9, DITCH.z-4.5);       // and the far, wilder side
   // burned wastes: dead trees, ash piles, slag cliffs — thicker the deeper in

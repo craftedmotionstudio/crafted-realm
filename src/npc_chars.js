@@ -11,7 +11,7 @@
 
 const CHAR_NPC_TYPES = {
   cn_guard:     {glbChar:'v07', name:'Town Guard',      level:12, hp:26, att:12, str:10, def:12, aBonus:6,  sBonus:5,  dBonus:8,  speedTicks:5, respawn:35, color:0x8a8f96,
-                 examine:'Whitmoor steel on Veyhollow wages.', drops:[{id:'bones',q:1,p:1},{id:'coins',q:[4,22],p:0.8}]},
+                 examine:'Whitmoor steel on Hearthmere wages.', drops:[{id:'bones',q:1,p:1},{id:'coins',q:[4,22],p:0.8}]},
   cn_soldier:   {glbChar:'v18', name:'Hold Soldier',    level:15, hp:30, att:15, str:13, def:14, aBonus:8,  sBonus:6,  dBonus:9,  speedTicks:5, respawn:35, color:0x7a7f88,
                  examine:'Drills even in his sleep.', drops:[{id:'bones',q:1,p:1},{id:'coins',q:[6,28],p:0.8}]},
   cn_mage:      {glbChar:'v03', name:'Hollow Mage',     level:11, hp:22, att:11, str:9,  def:9,  aBonus:5,  sBonus:4,  dBonus:5,  speedTicks:5, respawn:35, color:0x6a6f9a, ranged:true,

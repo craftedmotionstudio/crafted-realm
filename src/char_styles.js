@@ -129,7 +129,7 @@ const CharPreview = {
     m.position.set(x, gy_, z);
     m.rotation.y=Math.atan2(cam.x-x, cam.z-z)+Math.PI;
     grp.add(m); scene.add(grp); this.active=true; this.char=m;
-    if(typeof UI!=='undefined'&&UI.chat) UI.chat('[STYLE] Refined OSRS character preview (sculpted face). Shift+V to close.','sys');
+    if(typeof UI!=='undefined'&&UI.chat) UI.chat('[STYLE] Refined character preview (sculpted face). Shift+V to close.','sys');
   },
   hide(){ if(this.group&&this.group.parent) this.group.parent.remove(this.group); this.group=null; this.active=false; },
 };

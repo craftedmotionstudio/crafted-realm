@@ -55,7 +55,7 @@ test('two clients fight to the death in the Wilderness; loot, respawn, and a thi
     const dead = (b) => b.messages.includes('Oh dear, you are dead!');
     await alice.until(() => dead(alice) || dead(bob), 40000, 'someone dies');
     const [winner, loser] = dead(bob) ? [alice, bob] : [bob, alice];
-    await loser.until((b) => b.messages.includes('You wake in the Commons.'), 5000, 'loser respawns');
+    await loser.until((b) => b.messages.includes('You wake in Hearthmere.'), 5000, 'loser respawns');
     await loser.until((b) => Math.abs(b.me.x - 32) <= 2 && Math.abs(b.me.z - 10) <= 2 && b.me.hp[0] === b.me.hp[1], 5000, 'loser in commons at full health');
     assert.equal(loser.me.wl, 0);
     await winner.until((b) => b.messages.includes(`You have defeated ${loser.name}.`), 5000, 'kill message');

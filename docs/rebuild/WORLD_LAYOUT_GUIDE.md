@@ -750,7 +750,7 @@ and farm have animals and machinery only. Gates stay 2004-style (`island-gates.j
 2. **Beacon Cove** (recommended; owner decision).
    - Move the departure haven to the north-coast saddle between the crag and the crown, at (104, 16), reusing the
      haven model.
-   - The ferry the beacon calls then arrives right below it, facing the mainland (Veyhollow lies to the Holm's NW in
+   - The ferry the beacon calls then arrives right below it, facing the mainland (Hearthmere lies to the Holm's NW in
      `STORY_BIBLE.md`).
    - The descent is the **Beacon Stair**: a Blender timber-and-stone stair structure with its own measured stances
      (like the keep and Lastlight ladders), from a landing at (111, 22, h 13) down to the cove.
@@ -793,7 +793,7 @@ belongs.
       Scarlands pocket z 124..187 (L1..L8), ridge h 7-8, basin h 3
    ==== THE DITCH z 122-123 (cut 2.2) ==== plank x-16 ==== causeway x+16 ====
       warning band z 116-119
-      Frontier Post (0,98): watch hut, rules board, bank booth (safe), h 4.5
+      Brinkhold (0,98): watch hut, rules board, bank booth (safe), h 4.5
       North Road, 3 wide dirt
       Watch Pass (0,62) h 6.0
  logging camp (-70,20)      Woodline trees       Stonereach Quarry (74,20) floor 6.5, faces 4
@@ -806,7 +806,7 @@ belongs.
                        S
 ```
 
-### 4.1 Veyhollow Commons (the starter town)
+### 4.1 Hearthmere (the starter town)
 
 - **Size and shape.**
   - Envelope 56×52 (x −28..28, z −22..30): a Lumbridge-sized village (49×68).
@@ -874,7 +874,7 @@ belongs.
 | Watch Pass (0, 62) | 62 | 37 s | 19 s | — |
 | Logging camp (−70, 20): clearing 12×10, woodcutter's hut 6×6, log piles, sawpit | 75 | 45 s | 23 s | — |
 | **Stonereach Quarry mouth** (74, 20) | 78 | 47 s | 23 s | Varrock ore 45, Lumbridge 114 |
-| **Frontier Post** (0, 98) | 98 | 59 s | 29 s | — |
+| **Brinkhold** (0, 98) | 98 | 59 s | 29 s | — |
 | **The Ditch** (z 122) | 122 | 73 s | 37 s | Varrock → wild 92, Barbarian Village 100 |
 | Scarlands ruins (L4–5, z ~155) | 155 | 93 s | 47 s | — |
 
@@ -897,7 +897,7 @@ belongs.
 - **Watch Pass.** The road climbs out of the hollow from the north gate (3.5) to the Watch Pass (0, 62) at **6.0**
   (grade 0.07), then falls gently to 4.5 at the Frontier. Features at about 20-tile intervals: milestone, wayside
   shrine, lone oak, ruined wall.
-- **Frontier Post (0, 98), 24 tiles before the Ditch: the Edgeville analogue.**
+- **Brinkhold (0, 98), 24 tiles before the Ditch: the Edgeville analogue.**
   - A walled yard 20×16 with a watch hut, a lamp and a guard.
   - A **rules board** (PvP rules must be understandable before crossing: `SHIP_PLAN.md`, `WORLD_GOAL`).
   - A **bank booth** in a safe zone (no player combat, `GOAL.md`). It is the one addition this guide asks for
@@ -926,7 +926,7 @@ belongs.
   buildings: only ruins, camps and an arch. Burnt trees get sparser deeper in.
 - **Monsters.** About 2 hostile spawns per 1,000 tiles (the W2 pocket has 11 in 5,120 tiles; 2004 L1–8 had about
   1.7).
-- **Re-mapping the W2 pocket.** In the W2 pocket JSON, the southern 44 rows labelled "Veyhollow Commons" become the
+- **Re-mapping the W2 pocket.** In the W2 pocket JSON, the southern 44 rows labelled "Hearthmere" become the
   **Frontier approach**. Its ~24-tile run-up to the Ditch already matches Edgeville's 26. W3 then joins the Frontier
   to the real Commons by the 98-tile North Road.
 
