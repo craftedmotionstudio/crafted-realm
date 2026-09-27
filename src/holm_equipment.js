@@ -1,6 +1,8 @@
-/* ================= HOLM EQUIPMENT V2 =================
- * Every wieldable / wearable item as a Blender model (tools/blender/build_holm_equipment_v2.py ->
- * .studio-workspaces/holm-equipment-v2/candidates/equipment.glb; one template per kind named eq_<kind>, body B variants
+/* ================= HOLM EQUIPMENT V3 =================
+ * Every wieldable / wearable item as a Blender model (tools/blender/build_holm_equipment_v3.py ->
+ * .studio-workspaces/holm-equipment-v3/candidates/equipment.glb; v3: kit morphs Hair_Over / Hair_Cape gather long hair
+ * over armour and capes, the plateskirt replaces the legs, the riot shield carries an arm cuff + brace (child 'brace',
+ * left out of drops); one template per kind named eq_<kind>, body B variants
  * eq_<kind>_B with extras.body 'B').
  * Loads the GLB once and hands out tier-recoloured clones. Fails soft: until the GLB is loaded (or for an unknown
  * kind) every call returns null so callers keep their code-built primitive. The wiring lives in REPORT.md next to the GLB.
@@ -233,7 +235,7 @@ var HolmEquipment=(function(){
  }
  function kinds(){var o={};Object.keys(st.templates).forEach(function(k){o[kindOf(k)]=1});return Object.keys(o)}
  function status(){return {ready:st.ready,loading:st.loading,failed:st.failed,kinds:kinds(),
-  bodyB:Object.keys(st.templates).filter(function(k){return /\|B$/.test(k)}).map(kindOf),installed:st.installed,version:2}}
+  bodyB:Object.keys(st.templates).filter(function(k){return /\|B$/.test(k)}).map(kindOf),installed:st.installed,version:3}}
  return {load:load,onReady:onReady,mesh:mesh,itemMesh:itemMesh,groundMesh:groundMesh,forItem:forItem,fit:fit,install:install,
   status:status,kinds:kinds,hiddenSlots:hiddenSlots,kitMorphs:kitMorphs,kitBody:kitBody};
 })();
