@@ -46,6 +46,13 @@ async function toBeach(p){const r=await p.evaluate(()=>HolmFishing.fireRing());r
 async function toFire(p){const f=await p.evaluate(()=>{const o=scene.getObjectByName('island-campfire');return o?[o.position.x,o.position.z]:null});if(!f)return toBeach(p);
  for(const [dx,dz] of [[1,0],[-1,0],[0,-1],[0,1]]){await L.walkPoint(p,f[0]+dx,f[1]+dz,[]);const q=await pos(p);if(Math.hypot(q[0]-f[0],q[2]-f[1])>.9)return}}
 const spot=p=>p.evaluate(()=>{const s=HolmFishing.nearestSpot(player.position.x,player.position.z);return s?s.name:null});
+// still down in the ore workings (the guide arrow points at the drift ladder): climb it into the Warden's Keep hall
+async function upDrift(p){for(let k=0;k<3&&await p.evaluate(()=>player.position.y<-20);k++){await walkTo(p,'cavern','exit',false,[]);await clickService(p,'Climb-up drift ladder','exit');await waitFor(p,()=>player.position.y>0,null,60000)}}
+// net a fish like a player: when the spot moves on ("The fish have moved on.") or the net comes up empty for a while,
+// click the nearest live ripple again
+async function netFish(p){for(let k=0;k<6&&!await p.evaluate(()=>Player.count('raw_perch')>0);k++){
+  // a ripple takes a plain click while a net is in the pack (the menu's "Net"), or the net's "Use" on it
+  await clickNamed(p,await spot(p));await waitFor(p,()=>Player.count('raw_perch')>0,null,45000)}}
 // ---- the lessons, in the curriculum's order ----
 const DO={
  async study_route(p){await clickKind(p,'arrival_door',['arrivalDoor','arrival']);await waitFor(p,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.doors&&r.doors.arrival},null,40000);
@@ -58,9 +65,9 @@ const DO={
   await talk(p,'wenna');for(const t of ['oak-1','oak-2','oak-3']){if(await p.evaluate(()=>Player.count('logs')>0))break;const c=await clickNamed(p,'island-lesson-survival-'+t);if(!c.error)await waitFor(p,()=>Player.count('logs')>0,null,90000)}},
  // v2 land (2026-09-27): the fire goes on the Fire Beach down in Minnow Hollow, the fish come from the live ripples on the pond
  async light_fire(p){await toBeach(p);await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)},
- async catch_fish(p){await clickInventory(p,'fishing_net');await clickNamed(p,await spot(p));await waitFor(p,()=>Player.count('raw_perch')>0,null,150000)},
+ async catch_fish(p){await netFish(p)},
  async cook_fish(p){for(let k=0;k<8&&await lesson(p)==='cook_fish';k++){
-   if(!await p.evaluate(()=>Player.count('raw_perch')>0)){await clickInventory(p,'fishing_net');await clickNamed(p,await spot(p));await waitFor(p,()=>Player.count('raw_perch')>0,null,150000)}
+   if(!await p.evaluate(()=>Player.count('raw_perch')>0))await netFish(p);
    await toFire(p);
    if(!await p.evaluate(()=>!!scene.getObjectByName('island-campfire'))){for(const t of ['oak-2','oak-3','oak-1']){if(await p.evaluate(()=>Player.count('logs')>0))break;await clickNamed(p,'island-lesson-survival-'+t);await waitFor(p,()=>Player.count('logs')>0,null,90000)}
     await toBeach(p);await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
@@ -76,8 +83,9 @@ const DO={
  async smelt_bronze(p){await clickNamed(p,'island-lesson-furnace');await clickButtonText(p,'#dialogue-modal button','Smelt a Bronze bar.');await waitFor(p,()=>Player.count('bronze_bar')>0,null,30000)},
  async forge_dagger(p){await clickNamed(p,'island-lesson-anvil');await clickButtonText(p,'#smith-grid-overlay div[title]','Bronze dagger');await waitFor(p,()=>Player.count('bronze_dagger')>0,null,30000);
   // v2 land: out by the east drift, its ladder coming up through the trapdoor in the Warden's Keep hall
-  await clickService(p,'Climb-up drift ladder','exit');await waitFor(p,()=>player.position.y>0,null,90000)},
- async melee_trial(p){await walkTo(p,'keep','court',true,[]);await talk(p,'corrick');await wield(p,'bronze_dagger');await fight(p,'keep-court','melee_trial')},
+  // the ladder is roped off until the dagger lesson is credited: wait for the game to move on first, as a player reads the chat
+  await waitLesson(p,'forge_dagger',30000);await upDrift(p)},
+ async melee_trial(p){await upDrift(p);await walkTo(p,'keep','court',true,[]);await talk(p,'corrick');await wield(p,'bronze_dagger');await fight(p,'keep-court','melee_trial')},
  async ranged_trial(p){await waitFor(p,()=>Player.count('worn_bow')>0||Player.equip.weapon==='worn_bow',null,15000);await wield(p,'worn_bow');await fight(p,'keep-court','ranged_trial')},
  async open_bank(p){await walkTo(p,'bank','entrance',true,[]);await talk(p,'maud');await clickService(p,'Use bank counter','counter');await waitLesson(p,'open_bank',60000);await p.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}})},
  async magic_trial(p){await walkTo(p,'mage','entrance',true,[]);await talk(p,'ilse');await waitFor(p,()=>Player.count('air_rune')>0,null,15000);await closeDialogue(p);await spellbook(p,'wind_strike');

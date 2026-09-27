@@ -88,7 +88,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 30,
+        "deckSamples": 29,
         "deckY": 2.3
       }
     },
@@ -114,8 +114,8 @@
       "label": "the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)",
       "ok": true,
       "detail": {
-        "samples": 366,
-        "diagonal": 29
+        "samples": 356,
+        "diagonal": 26
       }
     },
     {
@@ -270,7 +270,7 @@
           11,
           45.5
         ],
-        "diagonal": 46
+        "diagonal": 49
       }
     },
     {
@@ -301,7 +301,7 @@
           13.75,
           56.5
         ],
-        "diagonal": 9
+        "diagonal": 10
       }
     },
     {
@@ -316,7 +316,7 @@
           -0.05,
           -0.5
         ],
-        "diagonal": 10
+        "diagonal": 13
       }
     },
     {
@@ -331,7 +331,7 @@
           9.15,
           29.5
         ],
-        "diagonal": 63,
+        "diagonal": 59,
         "shaftTiles": 1
       }
     },
@@ -456,7 +456,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 1,
+        "cookTries": 2,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -477,7 +477,7 @@
         "fire": true,
         "stepWest": true,
         "fish": true,
-        "cookTries": 1,
+        "cookTries": 2,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -503,9 +503,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 10,
+        "arrowsUsed": 20,
         "magic": true,
-        "runesUsed": 6
+        "runesUsed": 12
       }
     },
     {
@@ -513,14 +513,14 @@
       "ok": true,
       "detail": {
         "before": [
-          110.5,
-          7.52,
-          64.5
+          105.5,
+          7.602,
+          55.5
         ],
         "after": [
-          110.5,
-          7.52,
-          64.5
+          105.5,
+          7.602,
+          55.5
         ]
       }
     },
@@ -532,5 +532,5 @@
       }
     }
   ],
-  "seconds": 1041
+  "seconds": 1239
 }

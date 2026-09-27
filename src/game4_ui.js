@@ -590,14 +590,20 @@ function pickAll(e, firstOnly){
   // island service hit boxes are invisible stand-ins for small stations; when the ray passes through one and then
   // meets a real, visible station just behind it (the flour bin's box used to swallow the bucket rack, owner
   // play-test 2026-09-25), the real station is what the player pointed at. Floors behind a box keep the box.
-  let proxyHit=null, top=null;
+  let proxyHit=null, top=null, floorFallback=null;
   const list=[];
   for(const h of hits){
     if((typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())||(typeof HolmV3Preview!=='undefined'&&HolmV3Preview.active())){
       let visible=true;for(let parent=h.object;parent;parent=parent.parent)if(!parent.visible){visible=false;break}
       if(!visible)continue;
+      // a building part cut away above the player (the island cutaway clips its shell by material) is not there to click
+      if([].concat(h.object.material).some(m=>m&&m.clippingPlanes&&m.clippingPlanes.some(pl=>pl.distanceToPoint(h.point)<0)))continue;
     }
     let o=h.object;
+    // Tutor's Holm (v2 land, 2026-09-27): the nearest upward face of a Blender building's floor, deck or stair (islandFloor)
+    // is kept as a fallback: a click that meets nothing else (the ore workings have no island terrain underneath for the
+    // ray to fall through to) walks there; everywhere else the ray still passes floors to the station or ground behind
+    if(!floorFallback&&o.userData&&o.userData.islandFloor&&h.face&&h.face.normal.clone().transformDirection(o.matrixWorld).y>.5)floorFallback={obj:o,point:h.point};
     while(o && !o.userData.kind && !isGroundName(o.name)) o=o.parent;
     if(o && (o.userData.kind || isGroundName(o.name))){
       const objectPlane=o.userData&&o.userData.plane;
@@ -619,6 +625,7 @@ function pickAll(e, firstOnly){
     }
   }
   if(!top&&proxyHit) top={obj:proxyHit.obj, point:proxyHit.point};
+  if(!top&&floorFallback) top=floorFallback;
   return {top, list};
 }
 function pick(e){ return pickAll(e, true).top; }   // the first entity only (stops at it, as pick always did)
@@ -635,7 +642,7 @@ function hoverPrimaryLabel(hit,hasWalkGround){
     try{ const p=Interact.entriesFor(hit,null).filter(function(en){return en.primary;}); if(p.length) return p[0].html; }catch(e){}
   }
   if(u.label)return u.label;
-  return isGroundName(hit.obj.name)?'Walk here':null;
+  return (isGroundName(hit.obj.name)||u.islandFloor)?'Walk here':null;
 }
 // An inspect-only model can hide a wall or exterior ground tile behind it from
 // the camera. Walking to that background pick makes a harmless scenery click
@@ -669,7 +676,7 @@ canvasEl.addEventListener('mousemove', e=>{
     else UI.action(null);
     canvasEl.style.cursor = (top && top.band==='entity') ? 'pointer' : 'crosshair';
     if(inspectGround)showHoverTile(inspectGround);
-    else if(hit && hit.obj && isGroundName(hit.obj.name) && hit.point) showHoverTile(hit.point);
+    else if(hit && hit.obj && (isGroundName(hit.obj.name)||hit.obj.userData.islandFloor) && hit.point) showHoverTile(hit.point);
     else hideHoverTile();
   }
 });

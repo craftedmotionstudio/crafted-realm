@@ -62,6 +62,11 @@ var HolmIslandExtras=(function(){
   lodge:{roof:/^Lodge_(Roof|Chimney)/,upper:/^Lodge_Upper(?!.*Stair)/,clip:/^Lodge_(GroundShell|UpperShell|Glazing)/,lift:.5}};
  // M4.4 buildings follow the brief's naming contract: <Prefix>_Roof / _Upper / _Shell / _UpperShell / _Glazing
  ['Survival','Quarry','Bank','Mage','Haven','Lastlight','Cavern','Mill'].forEach(function(p){CUTAWAY[p.toLowerCase()]={roof:new RegExp('^'+p+'_Roof'),upper:new RegExp('^'+p+'_Upper'),clip:new RegExp('^'+p+'_(Shell|UpperShell|Glazing)'),lift:.5}});
+ // v2 land phase 6: the ore workings' east drift is a 2-wide propped corridor under the rock cap: inside the cavern its
+ // timber sets and lagging are clipped too, a little higher (the walls stand 1.2 over the floor), so the drift reads from
+ // the game camera as the cave does
+ CUTAWAY.cavern={roof:/^Cavern_Roof/,upper:/^Cavern_Upper/,clip:/^Cavern_(Shell|UpperShell|Glazing|Timber)/,lift:1.2};
+ function partName(n,root){for(var q=n;q&&q!==root;q=q.parent)if(/^(Keep|Kitchen|Lodge|Survival|Quarry|Bank|Mage|Haven|Lastlight|Cavern|Mill)_/.test(q.name))return q.name;return ''}
  function need(ok,msg){if(!ok)throw Error('[HolmIslandExtras] '+msg)}
  function HolmV2LandUrl(p){return typeof HolmV2Land!=='undefined'?HolmV2Land.url(p):(typeof HolmIsland!=='undefined'?HolmIsland.asset('/'+p):'/'+p)}
  // the old-school look's textured candidates (trees, prop pack, bridges, buildings), when served
@@ -116,7 +121,9 @@ var HolmIslandExtras=(function(){
  async function load(o){
   var T=o.THREE,scene=o.scene,W=o.WORLD,sample=o.sample,data=o.data,roots=[],mixers=[],grounds=[];CELLS=typeof HolmInstancedCells!=='undefined';
   function prepare(root){root.traverse(function(n){if(!n.isMesh)return;n.castShadow=true;n.receiveShadow=true;linearMaps(T,n);
-   n.userData.islandGround=true;W.grounds.push(n);W.clickables.push(n);grounds.push(n)})}
+   n.userData.islandGround=true;W.grounds.push(n);W.clickables.push(n);grounds.push(n);
+   // floors, decks, treads and landings take a click as a walk order (game4_ui pick: upward faces only)
+   var pn=partName(n,root);if(/Floor|Deck|Tread|Landing|Stair|Step|Boards|Flags|Pier|Walk|Plank/i.test(pn||n.name)&&!/Roof|Shell|Wall/i.test(pn||n.name))n.userData.islandFloor=true})}
   function place(root,x,y,z,yaw){var g=new T.Group();g.position.set(x,y,z);g.rotation.y=yaw||0;g.add(root);scene.add(g);roots.push(g);prepare(root);return g}
   // ---- buildings, each bound to the graph measured from its exact bytes ----
   var models={},services=[],clipPlane=new T.Plane(new T.Vector3(0,-1,0),0);
@@ -137,6 +144,11 @@ var HolmIslandExtras=(function(){
      if(/DoorOpenClose$/.test(c.name)){a.setLoop(T.LoopOnce,1);a.clampWhenFinished=true;a.play();a.time=c.duration;a.paused=true}
      else if(!/^Door/.test(c.name))a.play()});mx.update(0);mixers.push(mx)}
    gltf.scene.parent.updateMatrixWorld(true);   // placed group first, so service boxes are in world space
+   // the cutaway clips a building's shell parts by material: a material the shell shares with parts that stay whole (the
+   // cave's rock with its rubble, a textured wall with a trim) would be clipped or not by whichever part came last, so the
+   // shell parts get their own copies (v2 land phase 6: the cavern's rock cap stayed drawn over the east drift)
+   if(CUTAWAY[b.id]){var own=new Map();gltf.scene.traverse(function(n){if(!n.isMesh||!CUTAWAY[b.id].clip.test(partName(n,gltf.scene)))return;
+    var cp=function(m){if(!m)return m;if(!own.has(m))own.set(m,m.clone());return own.get(m)};n.material=Array.isArray(n.material)?n.material.map(cp):cp(n.material)})}
    (SERVICES[b.id]||[]).forEach(function(s){
     var local=s.node||(b.graph.targets.filter(function(t){return t.id===s.target})[0]||{}).nodeId;need(local,b.id+' service '+s.label+' has no stance');
     var info={building:b.id,target:s.target,node:'b:'+b.id+':'+local,call:s.call,label:s.label,option:s.option,name:s.name,examine:s.examine,say:s.say},box=new T.Box3();   // option/name/examine: its old-school menu row (osrs_menu_world.js)
@@ -203,7 +215,7 @@ var HolmIslandExtras=(function(){
    cutFor=inside;if(!inside||!CUTAWAY[inside])return;
    var r=CUTAWAY[inside],M=models[inside],localY=pose.y-M.placement.y;clipPlane.constant=pose.y+r.lift;
    if(typeof renderer!=='undefined'&&renderer)renderer.localClippingEnabled=true;
-   M.scene.traverse(function(n){if(!n.isMesh)return;var name='';for(var q=n;q&&q!==M.scene;q=q.parent)if(/^(Keep|Kitchen|Lodge|Survival|Quarry|Bank|Mage|Haven|Lastlight|Cavern|Mill)_/.test(q.name)){name=q.name;break}
+   M.scene.traverse(function(n){if(!n.isMesh)return;var name=partName(n,M.scene);
     n.visible=!r.roof.test(name);
     if(r.upper.test(name)){if(!n.geometry.boundingBox)n.geometry.computeBoundingBox();n.visible=n.geometry.boundingBox.min.y<=localY+.45}
     [].concat(n.material).forEach(function(mm){if(mm)mm.clippingPlanes=r.clip.test(name)?[clipPlane]:[]})});

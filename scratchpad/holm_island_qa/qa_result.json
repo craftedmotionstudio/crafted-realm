@@ -7,32 +7,34 @@
       "detail": {
         "provider": "tutors-holm-arrival-qa",
         "stats": {
-          "nodes": 10901,
-          "edges": 18981,
+          "nodes": 10462,
+          "edges": 27641,
           "owners": {
-            "land": 7862,
-            "b:keep": 901,
-            "b:bakehouse": 259,
-            "b:lodge": 387,
-            "b:survival": 251,
-            "b:quarry": 110,
-            "b:bank": 194,
-            "b:mage": 298,
-            "b:haven": 159,
-            "b:lastlight": 223,
-            "b:cavern": 85,
+            "land": 7518,
+            "b:keep": 812,
+            "b:bakehouse": 207,
+            "b:lodge": 360,
+            "b:survival": 235,
+            "b:quarry": 98,
+            "b:bank": 169,
+            "b:mage": 288,
+            "b:haven": 92,
+            "b:lastlight": 200,
+            "b:cavern": 146,
+            "b:mill": 119,
+            "b:stair": 46,
             "b:guide-cellar": 9,
             "arrival": 163
           }
         },
-        "roots": 320
+        "roots": 485
       }
     },
     {
       "label": "every clickable on the island is an authored Blender model (no code-built stand-ins, no old-island leftovers)",
       "ok": true,
       "detail": {
-        "clickables": 1065,
+        "clickables": 1328,
         "leftovers": [],
         "leftoverCount": 0,
         "visiblePrimitives": []
@@ -86,8 +88,8 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 14,
-        "deckY": 3
+        "deckSamples": 29,
+        "deckY": 2.3
       }
     },
     {
@@ -97,23 +99,23 @@
         "reached": {
           "id": "b:bakehouse:1:1:0",
           "x": 45.5,
-          "y": 4,
+          "y": 5.33,
           "z": 68.5,
           "surface": "b:bakehouse:0:StagedTerrain"
         },
         "at": [
           45.5,
-          4,
+          5.33,
           68.5
         ]
       }
     },
     {
-      "label": "every step on the way is cardinal",
+      "label": "the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)",
       "ok": true,
       "detail": {
-        "samples": 392,
-        "diagonal": 0
+        "samples": 356,
+        "diagonal": 26
       }
     },
     {
@@ -143,6 +145,7 @@
           "talked": true,
           "pages": [
             "Mind the flour. I am Cook Hettie, and this is my bakehouse.",
+            "The flour comes from Creakwheel Mill, just across the creek. You can watch the wheel turn from my garden, if you have a minute to sit.",
             "My kitchen, my rules. Today you are baking a loaf of bread.",
             "Take two empty buckets from the rack by the door.",
             "Fill one with flour at the pantry and the other with water at the butt.",
@@ -167,7 +170,7 @@
           "roof": false,
           "pose": [
             42.5,
-            4.070001,
+            5.4000010000000005,
             68.5
           ]
         }
@@ -216,13 +219,13 @@
         "reached": {
           "id": "b:lodge:0:2:0",
           "x": 35.5,
-          "y": 5,
+          "y": 6.380000000000001,
           "z": 53.5,
           "surface": "b:lodge:0:IslandTerrain"
         },
         "at": [
           35.5,
-          5,
+          6.38,
           53.5
         ]
       }
@@ -258,16 +261,16 @@
         "reached": {
           "id": "b:keep:1:10:0",
           "x": 88.5,
-          "y": 8,
+          "y": 11,
           "z": 45.5,
           "surface": "b:keep:0:StagedTerrain"
         },
         "at": [
           88.5,
-          8,
+          11,
           45.5
         ],
-        "diagonal": 0
+        "diagonal": 49
       }
     },
     {
@@ -279,10 +282,10 @@
         "click": "ok",
         "at": [
           86.5,
-          6.3,
+          7.3,
           56.5
         ],
-        "diagonal": 0,
+        "diagonal": 4,
         "bankOpen": true
       }
     },
@@ -295,25 +298,25 @@
         "click": "ok",
         "at": [
           117.5,
-          12.15,
+          13.75,
           56.5
         ],
-        "diagonal": 0
+        "diagonal": 10
       }
     },
     {
-      "label": "Departure Haven: walks the pier down to the ferry on the landing stage",
+      "label": "Departure haven at Lanternfoot Cove (v2 land): down the Keeper stair and the pier north to the ferry on the landing stage",
       "ok": true,
       "detail": {
         "ok": true,
         "walk": "ok",
         "click": "ok",
         "at": [
-          138.5,
-          0.95,
-          103.5
+          101.5,
+          -0.05,
+          -0.5
         ],
-        "diagonal": 0
+        "diagonal": 13
       }
     },
     {
@@ -325,26 +328,23 @@
         "click": "ok",
         "at": [
           35.5,
-          7.15,
+          9.15,
           29.5
         ],
-        "diagonal": 0,
+        "diagonal": 59,
         "shaftTiles": 1
       }
     },
     {
-      "label": "Survival camp: down the bank stair to the fishing stage",
+      "label": "Minnow Hollow: down the Hollow Path from the camp and out onto the jetty",
       "ok": true,
       "detail": {
-        "ok": true,
         "walk": "ok",
-        "click": "ok",
         "at": [
-          43.5,
-          2,
-          90.5
-        ],
-        "diagonal": 0
+          29.5,
+          1.3,
+          95.5
+        ]
       }
     },
     {
@@ -352,53 +352,53 @@
       "ok": true,
       "detail": {
         "walk": "ok",
-        "y0": 14.049,
+        "y0": 17.369,
         "steps": [
           [
             "stores",
             "ok",
             117.5,
-            14.3,
+            17.8,
             28.5
           ],
           [
             "ladder1-foot",
             "ok",
             122.5,
-            17.3,
+            20.8,
             23.5
           ],
           [
             "ladder2-foot",
             "ok",
             123.5,
-            20.3,
+            23.8,
             24.5
           ],
           [
             "ladder3-foot",
             "ok",
             120.5,
-            23.3,
+            26.8,
             27.5
           ],
           [
             "lever",
             "ok",
             124.5,
-            23.3,
+            26.8,
             24.5
           ]
         ],
         "top": [
           124.5,
-          23.3,
+          26.8,
           24.5
         ],
         "lever": {
           "id": "b:lastlight:3:-2:0",
           "x": 124.5,
-          "y": 23.3,
+          "y": 26.8,
           "z": 24.5,
           "surface": "b:lastlight:0:Lastlight_UpperFloorGalleryTiles"
         }
@@ -423,33 +423,33 @@
             "ladder3-top",
             "ok",
             121.5,
-            20.3,
+            23.8,
             26.5
           ],
           [
             "ladder2-top",
             "ok",
             123.5,
-            17.3,
+            20.8,
             24.5
           ],
           [
             "ladder1-top",
             "ok",
             122.5,
-            14.3,
+            17.8,
             23.5
           ]
         ],
         "back": [
           122.5,
-          14.3,
+          17.8,
           23.5
         ]
       }
     },
     {
-      "label": "M5.1 survival lessons on the island: chop, light a fire (step west on the graph), net a perch, cook it",
+      "label": "M5.1 survival lessons on the v2 land: chop on the hollow rim, light a fire on the Fire Beach (step aside on the graph), net a perch at a live ripple, cook it",
       "ok": true,
       "detail": {
         "chop": true,
@@ -503,9 +503,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 7,
+        "arrowsUsed": 20,
         "magic": true,
-        "runesUsed": 5
+        "runesUsed": 12
       }
     },
     {
@@ -513,14 +513,14 @@
       "ok": true,
       "detail": {
         "before": [
-          103.5,
-          6.253,
-          54.5
+          105.5,
+          7.602,
+          55.5
         ],
         "after": [
-          103.5,
-          6.253,
-          54.5
+          105.5,
+          7.602,
+          55.5
         ]
       }
     },
@@ -532,5 +532,5 @@
       }
     }
   ],
-  "seconds": 882
+  "seconds": 1239
 }
