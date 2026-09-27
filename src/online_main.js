@@ -63,6 +63,7 @@ var OnlineMain=(function(){
   OnlineFX.frame(dt);
   OW.tick(dt);
   if(typeof HolmIslandPlayer!=='undefined')HolmIslandPlayer.update();
+  if(typeof player!=='undefined'&&player)OnlineActors.keepHelm(player,Player.equip);   // after the local rig's animation step too
   if(Player.caffeinated>0)Player.caffeinated=Math.max(0,Player.caffeinated-dt);   // the server says when it starts and ends; the chip counts between
   if(typeof Controls!=='undefined'&&Controls.update)Controls.update(dt);
   if(typeof CharCreator!=='undefined'&&CharCreator.active)CharCreator.tick(dt);

@@ -256,8 +256,20 @@ var OnlineActors=(function(){
   var cur=obj.rotation.y,d=((target-cur+Math.PI)%(Math.PI*2)+Math.PI*2)%(Math.PI*2)-Math.PI;
   obj.rotation.y=cur+d*Math.min(1,dt*14);
  }
+ /** a full helm collapses the head bone (fx_humanoid refreshGLBGear) and the Blender helm is fitted against that
+  *  collapse (HolmEquipment 'bind', compensateBoneScale); the kit v3.1 clips carry a Head.scale track that puts the bone
+  *  back to 1 every frame, which blew the helm up fifty times. Hold the collapse after each animation step. */
+ function keepHelm(root,eq){
+  var ud=root&&root.userData;if(!ud||ud._headScale0===undefined||!ud.rigInner)return;
+  var h=eq&&eq.head,full=!!(h&&typeof ITEMS!=='undefined'&&ITEMS[h]&&ITEMS[h].model==='helm');if(!full)return;
+  var hb=ud._onlHeadBone;if(hb===undefined){hb=null;ud.rigInner.traverse(function(o){if(!hb&&(o.isBone||o.type==='Bone')&&o.name.indexOf('Head')>=0)hb=o});ud._onlHeadBone=hb}
+  if(hb&&Math.abs(hb.scale.x-0.02)>1e-4)hb.scale.setScalar(0.02);
+ }
  function kitAnim(root,ent,dt,isMe){
   var gm=root.userData.gmix;if(!gm)return;
+  try{kitAnimStep(root,ent,dt,isMe,gm)}finally{keepHelm(root,isMe?Player.equip:ent.eq)}
+ }
+ function kitAnimStep(root,ent,dt,isMe,gm){
   if(ent.dead){gm.mixer.update(dt);return}
   var sp=ent.mover.speed/4.2;
   if(typeof playerGLBAnim==='function'){
@@ -328,5 +340,5 @@ var OnlineActors=(function(){
   addNpc:addNpc,removeNpc:removeNpc,updateNpc:updateNpc,addObj:addObj,removeObj:removeObj,applyMove:applyMove,
   frame:frame,entByRef:entByRef,entObj:entObj,playClip:playClip,stopDeathClip:stopDeathClip,npcDeath:npcDeath,setOverheads:setOverheads,say:say,
   dress:dress,clearAll:clearAll,snapshot:snapshot,combatColour:combatColour,kitBuffer:kitBuffer,setTickMs:function(ms){st.tickMs=ms||600},
-  players:function(){return st.players},npcs:function(){return st.npcs},objs:function(){return st.objs}};
+  players:function(){return st.players},npcs:function(){return st.npcs},objs:function(){return st.objs},keepHelm:keepHelm};
 })();
