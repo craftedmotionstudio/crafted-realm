@@ -385,6 +385,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
     check(fight, stillThere, 'the dropped adventurer stays in the world (x-log protection)');
     const back = await A.until((st) => st.net.state === 'game' && st.net.stats.reconnects > 0, 20000, 'reconnect').then(() => true, () => false);
     check(fight, back && serverEvents.filter((e) => e.event === 'reconnect').length > nBefore, 'the client logs in again and re-attaches to the same adventurer');
+    { const re = serverEvents.filter((e) => e.event === 'reconnect').pop(); fight.reattachTick = re ? re.tick : world.tick; }
     await A.q(() => CROnlineQA.logout());
     const refusedOut = await A.until((st) => st.chat.some((t) => /can't log out until/i.test(t)), 8000, 'logout refusal').then(() => true, () => false);
     check(fight, refusedOut && !!sp(A.name) && sp(A.name).active, 'logging out mid-fight is refused (the combat logout lock)');
@@ -429,6 +430,15 @@ async function pvpFight(fight, A0, B0, O, opts) {
   const invIds = ls.inv.filter(Boolean).map((x) => x[0] + 'x' + x[1]).sort();
   check(fight, JSON.stringify(invIds) === JSON.stringify(keptIds), 'the loser holds exactly the kept items', { inv: invIds, kept: keptIds });
   check(fight, ls.overlay && /You kept/.test(ls.overlay), 'the death screen explains what was kept', ls.overlay && ls.overlay.slice(0, 160));
+  // a double knock-out: both fell (their last blows were in flight together, 2004 allows it); each pile belongs to a
+  // dead killer who wakes in the Commons, so there is no winner standing by a pile to check
+  const winnerDied = serverEvents.some((e) => e.event === 'death' && e.key === winner.name.toLowerCase() && e.tick >= since);
+  if (winnerDied) {
+    const back = serverEvents.find((e) => e.event === 'pvp_kill' && e.victim === winner.name.toLowerCase() && e.tick >= since);
+    fight.doubleKo = { tick: kill && kill.tick, otherKill: back || null };
+    check(fight, !!back && !!kill && Math.abs(back.tick - kill.tick) <= 1, 'a double knock-out: both fell together and each is credited with the other', fight.doubleKo);
+    await winner.until((s) => s.me && s.me.tile.z < 20 && s.hp[0] === s.hp[1], 20000, 'the other respawn').catch(() => {});
+  }
   // loot: all of it the winner's, none visible to the observer while private
   await sleep(TICK * 2);
   const dropped = (kill && kill.dropped) || [];
@@ -439,24 +449,27 @@ async function pvpFight(fight, A0, B0, O, opts) {
   const pile = ws.objs.filter((x) => x.own && serverPile.includes(x.uid));
   const want = dropped.map((d) => d[0]).concat(['bones']);
   const missing = want.filter((id) => !pile.some((x) => x.id === id));
-  check(fight, missing.length === 0, 'the winner sees the whole pile as theirs', { missing, pile: pile.length });
+  if (!winnerDied) check(fight, missing.length === 0, 'the winner sees the whole pile as theirs', { missing, pile: pile.length });
   const leaked = os2.objs.filter((x) => serverPile.includes(x.uid));
   check(fight, leaked.length === 0, 'the observer cannot see the private pile', leaked.length);
   // the winner picks everything up (as many as fit)
   const invBefore = ws.inv.filter(Boolean).length;
   // like a player: walk onto the pile, then take the items one by one (a new order replaces a walk in progress)
-  if (kill) await walkTo(winner, kill.x, kill.z, 30000).catch(() => {});
+  if (kill && !winnerDied) await walkTo(winner, kill.x, kill.z, 30000).catch(() => {});
   for (const it of pile) {
     await winner.q((uid) => CROnlineQA.send({ t: 'op_obj', uid, op: 'take' }), it.uid);
     await winner.until((s) => !s.objs.some((x) => x.uid === it.uid) || s.inv.filter(Boolean).length >= 28, 8000, 'take ' + it.id).catch(() => {});
   }
   const wAfter = await winner.until((s) => s.objs.filter((x) => pile.some((p) => p.uid === x.uid)).length === 0 || s.inv.filter(Boolean).length >= 28, 45000, 'pick up the pile');
-  check(fight, wAfter.inv.filter(Boolean).length > invBefore, 'loot reaches the winner\'s pack', { before: invBefore, after: wAfter.inv.filter(Boolean).length });
+  if (!winnerDied) check(fight, wAfter.inv.filter(Boolean).length > invBefore, 'loot reaches the winner\'s pack', { before: invBefore, after: wAfter.inv.filter(Boolean).length });
   const fxA1 = (await A.state()).fx, fxO1 = (await O.state()).fx;
   fight.fx = { attacker: fxDelta(fxA0, fxA1), observer: fxDelta(fxO0, fxO1) };
   if (fight.fx.attacker.late || fight.fx.observer.late) fight.lateLog = { A: await A.q(() => OnlineFX.lateLog()), O: await O.q(() => OnlineFX.lateLog()) };
   if (fight.fx.attacker.generic || fight.fx.observer.generic) fight.genericLog = { A: await A.q(() => OnlineFX.generic()), O: await O.q(() => OnlineFX.generic()) };
-  check(fight, fight.fx.attacker.generic === 0 && fight.fx.observer.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile (no untimed hits, no late projectiles)', fight.fx);
+  let excused = 0;
+  if (o.reconnect && fight.reattachTick != null && fight.genericLog) excused = fight.genericLog.A.filter((g) => g.n <= fight.reattachTick + 2).length;
+  if (excused) fight.fx.excusedAtReattach = excused;
+  check(fight, fight.fx.attacker.generic - excused === 0 && fight.fx.observer.generic === 0 && fight.fx.attacker.late === 0, 'every splat is tied to its swing or projectile (no untimed hits, no late projectiles)', fight.fx);
   // protection prayers against players: the max hit is cut by 40% (never more than floor(max * 0.6) lands)
   for (const [def, att, max, pr] of [[B, A, maxA, o.protectB], [A, B, maxB, o.protectA]]) {
     if (!pr) continue;
