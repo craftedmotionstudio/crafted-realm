@@ -230,26 +230,39 @@ async function settle(page){await L.settle(page,30000)}
     ok(same(texts(m),['Climb-down Trapdoor','Walk here','Examine Trapdoor','Cancel']),'cellar hatch: Climb-down / Walk here / Examine / Cancel',texts(m)||xy);
     await shotMenu(page,'10_cellar_hatch');await escape(page);
 
-    /* ---- the survival camp: an oak, the fishing spot (and the net in use) ---- */
+    /* ---- the survival camp: an oak; Minnow Hollow: a live fishing spot (and the net in use) ---- */
     xy=await spot(page,'island-lesson-survival-oak-1');m=Array.isArray(xy)?await rightClick(page,xy):null;
     ok(same(texts(m),['Chop down Oak','Walk here','Examine Oak','Cancel']),'oak: Chop down / Walk here / Examine / Cancel',texts(m));
     await shotMenu(page,'11_oak');await escape(page);
-    xy=await spot(page,'island-lesson-survival-perch');m=Array.isArray(xy)?await rightClick(page,xy):null;
-    ok(same(texts(m),['Net Fishing spot','Walk here','Examine Fishing spot','Cancel']),'fishing spot: Net / Walk here / Examine / Cancel',texts(m));
+    // v2 land: fishing is taught at Minnow Hollow (the old camp's perch spot is gone); its ripples move every 60-100
+    // ticks, so take a live one with 40 ticks (24 s) or more left: it stays put while its pixel is found and both menus
+    // are read (the move itself, "The fish have moved on.", is proven by tools/qa_holm_hollow.js)
+    const ripple=await page.evaluate(async()=>{const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+      for(let i=0;i<150;i++){const s=HolmFishing.spots().filter(s=>s.state==='on'&&s.timer>=40).sort((a,b)=>b.timer-a.timer)[0];if(s)return 'island-hollow-spot-'+s.i;await sleep(500)}return null});
+    xy=ripple?await spot(page,ripple):{error:'no live ripple'};m=Array.isArray(xy)?await rightClick(page,xy):null;
+    ok(same(texts(m),['Net Fishing spot','Walk here','Examine Fishing spot','Cancel']),'fishing spot: Net / Walk here / Examine / Cancel',texts(m)||{ripple,xy});
     await shotMenu(page,'12_fishing_spot');await escape(page);
     sxy=await packSlot(page,'fishing_net');await page.mouse.click(sxy[0],sxy[1]);await sleep(300);
-    m=await rightClick(page,xy);ok(same(texts(m),['Use Small net -> Fishing spot','Walk here','Cancel']),'net in use: Use Small net -> Fishing spot / Walk here / Cancel',texts(m));
+    m=Array.isArray(xy)?await rightClick(page,xy):null;ok(same(texts(m),['Use Small net -> Fishing spot','Walk here','Cancel']),'net in use: Use Small net -> Fishing spot / Walk here / Cancel',texts(m));
     await shotMenu(page,'13_use_net_fishing_spot');await escape(page);await escape(page);
     ok(await page.evaluate(()=>!OsrsMenu.using()),'Escape (menu closed) puts the net away');
 
     /* ---- a practice grubkin in the keep court ---- */
+    // like a player, walk to the court first: the combat approach searches 6,000 tiles, and on the v2 land the court is
+    // too far from the Guide House for one search (the order is dropped with "I can't reach that!", 2004-style)
+    // (the camera comes back to the adventurer first: the menu checks above left it framed on the fishing spot)
+    await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());
+    const toCourt=await L.walkTo(page,'keep','court',true,[]);
     // (QA only: the grubkin idles in place while its pixel is found and clicked, so a wander step cannot move it off the cursor)
     const grub=await page.evaluate(()=>{const n=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen==='keep-court');if(n){n.penStatic=true;n.wDir=null}return n?n.mesh.name:null});
     xy=grub?await spot(page,grub):null;m=Array.isArray(xy)?await rightClick(page,xy):null;
     ok(same(texts(m),['Attack Practice grubkin (level-1)','Walk here','Examine Practice grubkin (level-1)','Cancel']),'grubkin: Attack (level-1) / Walk here / Examine / Cancel',texts(m));
     ok(colourOf(m,'Attack Practice grubkin (level-1)','(level-1)')==='rgb(192, 255, 0)'&&colourOf(m,'Attack Practice grubkin (level-1)','Practice grubkin')===YELLOW,'(level-1) coloured green-yellow against combat 3, the name yellow',m&&m.rows[0]);
     await shotMenu(page,'14_grubkin');await escape(page);
-    xy=await spot(page,grub);lc=await leftClick(page,xy);ok(lc.ran&&lc.want==='Attack Practice grubkin (level-1)'&&await page.evaluate(()=>!!Player.target&&Player.target.islandPen==='keep-court'),'left click attacks it (the existing target path)',lc);
+    // the order must hold past the next ticks too (a foe out of the approach search drops it with "I can't reach that!")
+    xy=await spot(page,grub);lc=await leftClick(page,xy);const tgt0=await page.evaluate(()=>!!Player.target&&Player.target.islandPen==='keep-court');await sleep(1300);
+    const tgt1=await page.evaluate(()=>!!Player.target&&Player.target.islandPen==='keep-court');
+    ok(lc.ran&&lc.want==='Attack Practice grubkin (level-1)'&&tgt0&&tgt1,'left click attacks it (the existing target path)',{lc,target:[tgt0,tgt1],walk:toCourt.error||'ok',chat:await lastChat(page,2)});
     await page.evaluate(()=>{Player.target=null;Player.action=null});
 
     /* ---- touch: a long press opens the same menu ---- */
