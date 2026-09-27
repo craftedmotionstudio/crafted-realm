@@ -24,8 +24,8 @@
  * QA: HolmEquipment.status(). */
 var HolmEquipment=(function(){
  'use strict';
- var PATH='/.studio-workspaces/holm-equipment-v2/candidates/equipment.glb';
- var URL=(typeof HolmIsland!=='undefined'&&HolmIsland.asset?HolmIsland.asset(PATH):PATH)+'?v=2';
+ var PATH='/.studio-workspaces/holm-equipment-v3/candidates/equipment.glb';
+ var URL=(typeof HolmIsland!=='undefined'&&HolmIsland.asset?HolmIsland.asset(PATH):PATH)+'?v=3';
  var METAL_DEFAULT=0xb87a3a,KIT_HIPS_Y=0.95,BALD=2;
  var MODEL_KIND={sword:'sword',longsword:'longsword',sabre:'sabre',greatsword:'greatsword',mace:'mace',warhammer:'warhammer',
   battleaxe:'battleaxe',axe:'hatchet',pick:'pickaxe',bow:'shortbow',longbow:'longbow',staff:'staff',shield:'round_shield',

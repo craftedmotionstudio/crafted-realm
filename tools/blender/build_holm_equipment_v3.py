@@ -564,13 +564,13 @@ def sq_brace(m, X):
     a = Vector((0, 0, 1)) - d * d.z
     a = a.normalized() if a.length > 1e-6 else Vector((0, 1, 0))
     b = d.cross(a).normalized()
-    for off in (-.035, .035):          # a two-band leather cuff round the forearm (clear of the sleeve on every build)
-        c = arm + d * off
-        loop = [c + (a * math.cos(tau * i / 8) + b * math.sin(tau * i / 8)) * .072 for i in range(8)]
-        m.ptube(loop, .011, 4, LK, closed=True)
-    # the brace: from the cuff to the shield's back, two leather-wrapped bars riveted to the back plate
     to_shield = Vector((1, 0, 0)) - d * d.x
     to_shield = to_shield.normalized()
+    for off in (-.035, .035):          # a two-band leather cuff round the forearm, a little to the shield side
+        c = arm + d * off + to_shield * .010
+        loop = [c + (a * math.cos(tau * i / 8) + b * math.sin(tau * i / 8)) * .062 for i in range(8)]
+        m.ptube(loop, .010, 4, LK, closed=True)
+    # the brace: from the cuff to the shield's back, two leather-wrapped bars riveted to the back plate
     for off in (-.035, .035):
         c = arm + d * off + to_shield * .072
         y, z = max(-.20, min(.20, c.y)), max(-.36, min(.24, c.z))
@@ -980,7 +980,8 @@ def sk_boots(mb, bt, over=None):
         ws = [fw] * len(sl) + [lambda q, fw=fw, lw=lw: KB.wnorm(KB.wmix(fw(q), lw(q), .5))] + [lw] * (len(shaft) - 1)
         mb.loft(rings, LE, ws, cap0=True, cap1=False, matfn=lambda i, k: LK if i == 0 else LE)
         # folded cuff round the shaft top
-        cuff = KB.shin_rings(bt, sx, [(1.66, .044), (1.64, .054), (1.53, .054), (1.55, .044)])
+        # (v3: the cuff's top turns in and closes round the leg -- no view down into the shaft)
+        cuff = KB.shin_rings(bt, sx, [(1.66, .044), (1.64, .054), (1.53, .054), (1.55, .044), (1.555, .013)])
         mb.loft(cuff, LK, lw, cap0=False, cap1=False, smooth=False)
         # ankle strap with a brass buckle on the outside
         st = KB.shin_rings(bt, sx, [(1.92, .044), (1.88, .044)])
@@ -1114,7 +1115,7 @@ def sk_amulet(mb, bt, over=None):
     mb.loft([KB.xring(c + Vector((0, .002, .034)), (0, 0, 1), .006, .006, .006, 4), KB.xring(top, (0, 0, 1), .006, .006, .006, 4)], BR,
             KB.SPINE_W((0, 0, zc)))
 
-CAPE_ROWS = [(1.472, 36, .006), (1.40, 37, .004), (1.30, 38, .004), (1.10, 42, .010), (.97, 44, .024), (.82, 47, .040), (.53, 50, .058)]
+CAPE_ROWS = [(1.472, 34, .006), (1.40, 35, .004), (1.30, 36, .004), (1.10, 41, .010), (.97, 44, .024), (.82, 47, .040), (.53, 50, .058)]
 FOOT_C = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.010, 0.0, .010)]   # (between the shoulder blades, clear of the arms)
 def sk_cape(mb, bt, over=None):
     cols = 11
@@ -1126,7 +1127,8 @@ def sk_cape(mb, bt, over=None):
             phi = math.pi + math.radians(span) * u
             fold = (.008 if c % 2 else -.003) * KB.ss(1.30, 1.0, z)
             if z >= 1.10:
-                base = KB.body_point(bt, phi, z, clear_off(bt, over, phi, z, FOOT_C) + .012 + st)
+                lift = (.022 if over == 'platebody' else .012 if over else 0.0) * u * u * KB.ss(1.05, 1.25, z)   # (over the pauldrons)
+                base = KB.body_point(bt, phi, z, clear_off(bt, over, phi, z, FOOT_C) + .012 + st + lift)
                 inner_p = push_clear(bt, over, base - Vector((0, .010, 0)), out_dir(bt, phi, z, .5 * KB.ss(1.40, 1.47, z)),
                                      .005 + .010 * KB.ss(1.42, 1.47, z))   # (the shoulders draw back in the idle)
                 base = inner_p + Vector((0, .010, 0))
@@ -1181,7 +1183,8 @@ SKINNED = [   # kind, builder, slot, hides (kit slots it replaces), morphs beyon
 SUIT_FN = {k: f for k, f, *_ in SKINNED}
 HIDES = {'fullhelm': ['Hair'], 'medhelm': ['Hair'], 'hat': ['Hair']}
 # kit morphs an item switches on while worn (kit v3.1e): hair and beards lie OVER body armour and capes
-KIT_MORPHS = {k: ['Hair_Over', 'Jaw_Over'] for k in ('platebody', 'chainbody', 'leather_body', 'cape')}   # rigid helms that replace the hair (the kit shows its bald head)
+KIT_MORPHS = {k: ['Hair_Over', 'Jaw_Over'] for k in ('platebody', 'chainbody', 'leather_body')}
+KIT_MORPHS['cape'] = ['Hair_Over', 'Hair_Cape', 'Jaw_Over']   # rigid helms that replace the hair (the kit shows its bald head)
 
 # kind: (builder, slot, frame, equipSpec, grip glTF, axis glTF, roll glTF, legacy quat xyzw, description)
 Q_ID, Q_FLIPX = [0, 0, 0, 1], [1, 0, 0, 0]
@@ -1376,8 +1379,7 @@ for kind, fn, slot, hides, extra, desc in SKINNED:
         ob['eq_kind'] = kind; ob['slot'] = slot; ob['frame'] = 'skin'; ob['body'] = bt; ob['hides'] = list(hides); ob['morphs'] = list(keys)
         if KIT_MORPHS.get(kind):
             ob['kit_morphs'] = KIT_MORPHS[kind]
-        if kind == 'cape':
-            ob['kit_morphs_with'] = {'body': ['Hair_Cape']}
+        # (a cape always switches Hair_Cape on too: long hair falls over it)
         BUILT.append(dict(kind=kind, key=kind if bt == 'A' else kind + '_B', root=ob, obs=[(ob, None)], slot=slot, frame='skin',
                           spec=None, grip=None, axis=None, roll=None, legacy=None, desc=desc, body=bt, hides=list(hides), morphs=list(keys)))
         print(TAG, nm, len(base), 'verts', 'morphs', MORPH_REPORT[nm])

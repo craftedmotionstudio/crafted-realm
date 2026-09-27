@@ -3825,7 +3825,8 @@ def keep_clearance(bt, base, var, kind):
 ARMOUR_CLEAR = {'Hair': .040, 'Jaw': .048}   # hair over plate; a beard over the gorget
 HAIR_GATHER = .45          # v3.1f: a hanging lock at angle th from the front swings to pi - (pi - th) * HAIR_GATHER (behind)
 HAIR_NARROW = .72          # ... and the gathered fall is this much narrower (between the shoulder blades)
-CAPE_EXTRA = .036          # Hair_Cape: further back over a cape that lies over body armour
+CAPE_EXTRA = .036          # Hair_Cape: further back over a cape
+ARMOUR_MIN = .058          # under body armour / a cape the gathered hair keeps at least this much from the body
 def gathered_hair(p, f):
     """v3.1f: a hair point below the head swung round behind the neck (f = 0 unchanged .. 1 fully gathered)"""
     dx, dy = p.x, p.y - HEAD_YC
@@ -3852,7 +3853,10 @@ def armour_clearance(bt, ob, base, slot, cape=False):
                 q = gathered_hair(q, f)
             c0, rdir = _clearance(bt, q, TORSO, PELVIS)
             if c0 < .10:   # (a long beard's tip swings in to the chest when the head nods: more room further down)
-                q = q + rdir * (ARMOUR_CLEAR[slot] + (.035 * ss(1.50, 1.43, p.z) if slot == 'Jaw' else 0.0)) * f
+                push = ARMOUR_CLEAR[slot] + (.035 * ss(1.50, 1.43, p.z) if slot == 'Jaw' else 0.0)
+                if slot == 'Hair':
+                    push = max(push, ARMOUR_MIN - c0)          # (gathering can bring a lock in close to the neck)
+                q = q + rdir * push * f
             for sx in (-1, 1):   # the deltoid caps (pauldrons sit there)
                 dc, dr = DELTOID[bt]
                 cb = Vector((sx * dc[0], dc[1], dc[2]))
