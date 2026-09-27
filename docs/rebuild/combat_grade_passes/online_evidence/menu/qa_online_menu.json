@@ -1,5 +1,5 @@
 {
- "at": "2026-09-26T17:49:32.060Z",
+ "at": "2026-09-27T03:47:31.886Z",
  "results": [
   {
    "ok": true,
@@ -77,13 +77,11 @@
    "detail": {
     "rows": [
      "Take Bones",
-     "Take Crowns (7)",
      "Walk here",
      "Examine Bones",
-     "Examine Crowns",
      "Cancel"
     ],
-    "onTile": 2
+    "onTile": 1
    }
   },
   {
