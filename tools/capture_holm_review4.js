@@ -44,6 +44,15 @@ const VIEWS={
   await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500);
   rec.fire={stood:p0.map(v=>+v.toFixed(1)),fire:await page.evaluate(()=>{const f=scene.getObjectByName('island-campfire');return f?[+f.position.x.toFixed(1),+f.position.z.toFixed(1)]:null}),chat:await chat()};
   await page.evaluate(()=>{camCtl.yaw=0.6;camCtl.pitch=1.0;camCtl.dist=10});return snap(page,'2_fire_where_you_stand')},
+ // 4 by real input: from inside the Guide House click the hatch (walk there, climb down), stand on the flagstones, then
+ // the ladder back up; the adventurer's feet must be on the cellar floor (owner: "only my head floating through the floor")
+ async cellarflow(page,rec){
+  rec.in=await stand(page,66,100,'^ground$',[0.3,1.1,10]);await sleep(800);
+  const c=await L.clickNamed(page,'CellarHatch');rec.click=c;
+  rec.down=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&/guide-cellar/.test(r.surface)},null,40000);await sleep(1500);
+  rec.feet=await page.evaluate(()=>{const f=scene.getObjectByName('CellarFloor'),b=new THREE.Box3().setFromObject(f),p=player.position;return {y:+p.y.toFixed(3),floorTop:+b.max.y.toFixed(3),onFloor:Math.abs(p.y-b.max.y)<.08&&p.x>b.min.x&&p.x<b.max.x&&p.z>b.min.z&&p.z<b.max.z,info:HolmGuideCellar.info()}});
+  await page.evaluate(()=>{camCtl.yaw=0.5;camCtl.pitch=1.0;camCtl.dist=8});const f=await snap(page,'4_cellar_real');
+  const u=await L.clickNamed(page,'CellarLadder');rec.upClick=u;rec.up=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.surface==='ground'},null,40000);return f},
  // 9: the run orb on a new adventurer
  async run(page,rec){rec.runOn=await page.evaluate(()=>Player.runOn);rec.at=await stand(page,63,112,'exterior|land',[0.6,1.1,14]);return snap(page,'9_run_orb')},
  // 8: the statue and the tree beside it, seen at the spawn
@@ -85,5 +94,5 @@ const VIEWS={
     await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,120000);await sleep(2500);
     for(const n of names){const rec={};try{rec.file=await VIEWS[n](page,rec)}catch(e){rec.error=String(e).slice(0,200)}await clear(page);out.views[n]=rec;console.log(n+' '+JSON.stringify(rec))}
   }catch(e){out.error=String(e).slice(0,300);console.log('driver error '+out.error)}
-  finally{fs.writeFileSync(path.join(OUT,TAG+'_capture.json'),JSON.stringify(out,null,2));console.log('[REVIEW4_CAPTURE] page errors '+errors.length);await browser.close()}
+  finally{const jf=path.join(OUT,TAG+'_capture.json');try{const old=JSON.parse(fs.readFileSync(jf,'utf8'));out.views=Object.assign(old.views||{},out.views)}catch(e){}fs.writeFileSync(jf,JSON.stringify(out,null,2));console.log('[REVIEW4_CAPTURE] page errors '+errors.length);await browser.close()}
 })();

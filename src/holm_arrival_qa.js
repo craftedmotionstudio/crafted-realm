@@ -36,7 +36,7 @@ var HolmArrivalQA=(function(){
    islandData=await HolmIslandExtras.loadData();
    var bw=b.world,scenic=loaded.documents.envelopes.blockers.filter(function(q){return q.surface==='exterior'&&/^Blender declared/.test(q.source||'')}).map(function(q){return {id:q.id,x0:q.x0+bw.x,x1:q.x1+bw.x,z0:q.z0+bw.z,z1:q.z1+bw.z}});
    var gateData=typeof HolmIslandGates!=='undefined'?await HolmIslandGates.loadData():{gates:[]};
-   nav=HolmIslandNav.create({gates:gateData.gates,terrain:loaded.documents.terrain,arrival:nav,buildings:islandData.buildings.concat(typeof HolmGuideCellar!=='undefined'?[HolmGuideCellar.building()]:[]),blockers:scenic.concat(islandData.blockers),bridges:islandData.bridges,
+   nav=HolmIslandNav.create({gates:gateData.gates,terrain:loaded.documents.terrain,arrival:nav,buildings:islandData.buildings.concat(typeof HolmGuideCellar!=='undefined'?[HolmGuideCellar.building(loaded)]:[]),blockers:scenic.concat(islandData.blockers),bridges:islandData.bridges,
     arrivalFootprints:[{x0:bw.x-b.width/2,x1:bw.x+b.width/2,z0:bw.z-b.depth/2,z1:bw.z+b.depth/2}]});graphs={};
   }
   provider=WorldV2.register({contractVersion:1,id:ID,label:island?(typeof HolmIsland!=='undefined'&&HolmIsland.production()?'Tutor’s Holm':'Tutor\u2019s Holm \u00b7 island draft'):'Tutor’s Holm · arrival draft',worldRevision:pack.provider.worldRevision,
