@@ -1,0 +1,10 @@
+{
+ "note": "Holm v2 land phase 3: Creakwheel Mill textured old-school by material name (fieldstone, plaster, oak frame, planks, thatch)",
+ "source": ".studio-workspaces/holm-mill-v1/candidates/mill.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-mill-v1/candidates/mill.glb",
+ "outBlend": ".studio-workspaces/holm-mill-os-v1/candidates/mill.blend",
+ "outGlb": ".studio-workspaces/holm-mill-os-v1/candidates/mill.glb",
+ "report": ".studio-workspaces/holm-mill-os-v1/candidates/textures.report.json",
+ "rules": [["(?i)mill fieldstone|quoin", "stone_course", 1.2], ["(?i)mill floor flag", "path", 1.2], ["(?i)millstone", "rock", 0.8], ["(?i)foam|leat water|weir falling|window recess|lantern", null, 0], ["(?i)shutter", "planks", 0.8]]
+}

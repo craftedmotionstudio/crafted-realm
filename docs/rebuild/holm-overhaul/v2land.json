@@ -11,9 +11,9 @@
    },
    "nodes": 263,
    "modelSha256": "741f374e4a702da697e0c6dfeb22403fe72ea483fe246406685d98dc2785a95c",
-   "terrainSha256": "013414051150917b784562dab2c2db82642f453a4a273b58700c82fa32dcd804",
+   "terrainSha256": "e4e98402b823fa7dc425247636b74b01b4c4c58931a17ee26242577182ba7be0",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-26T17:43:36.512Z"
+   "measuredAt": "2026-09-27T03:43:28.663Z"
   },
   "quarry": {
    "graph": "holm-quarry-v2land-navigation-v1",
@@ -25,9 +25,9 @@
    },
    "nodes": 110,
    "modelSha256": "e823e6884368bdc5fffe13571c45a47b85b719844873f141ea1c045fec52a194",
-   "terrainSha256": "013414051150917b784562dab2c2db82642f453a4a273b58700c82fa32dcd804",
+   "terrainSha256": "e4e98402b823fa7dc425247636b74b01b4c4c58931a17ee26242577182ba7be0",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-26T17:43:45.265Z"
+   "measuredAt": "2026-09-27T03:43:37.110Z"
   },
   "bank": {
    "graph": "holm-bank-v2land-navigation-v1",
@@ -39,9 +39,9 @@
    },
    "nodes": 186,
    "modelSha256": "a1cce16a4aa05b9f9614ab9e88042871fd55de2a65274d2b9b31e953f9e557c2",
-   "terrainSha256": "013414051150917b784562dab2c2db82642f453a4a273b58700c82fa32dcd804",
+   "terrainSha256": "e4e98402b823fa7dc425247636b74b01b4c4c58931a17ee26242577182ba7be0",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-26T17:43:55.804Z"
+   "measuredAt": "2026-09-27T03:43:41.688Z"
   },
   "mage": {
    "graph": "holm-mage-v2land-navigation-v1",
@@ -53,9 +53,9 @@
    },
    "nodes": 311,
    "modelSha256": "d964b4724e6369058940f870d43a3f9e5cc14f0f5956798e9d38b79c52b82a1f",
-   "terrainSha256": "013414051150917b784562dab2c2db82642f453a4a273b58700c82fa32dcd804",
+   "terrainSha256": "e4e98402b823fa7dc425247636b74b01b4c4c58931a17ee26242577182ba7be0",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-26T17:44:08.650Z"
+   "measuredAt": "2026-09-27T03:43:46.872Z"
   },
   "lastlight": {
    "graph": "holm-lastlight-v2land-navigation-v1",
@@ -67,9 +67,9 @@
    },
    "nodes": 213,
    "modelSha256": "9d58b22e41f1e461ad96a0130e35cc985d5f419afcb5d49879f6848fe8323b25",
-   "terrainSha256": "013414051150917b784562dab2c2db82642f453a4a273b58700c82fa32dcd804",
+   "terrainSha256": "e4e98402b823fa7dc425247636b74b01b4c4c58931a17ee26242577182ba7be0",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-26T17:44:16.369Z"
+   "measuredAt": "2026-09-27T03:43:51.657Z"
   },
   "haven": {
    "graph": "holm-haven-v2land-navigation-v1",
@@ -81,9 +81,9 @@
    },
    "nodes": 167,
    "modelSha256": "07ebd086db449549a5f7adb6e4d3945626b2127d65a50a55e02105580faa0d91",
-   "terrainSha256": "013414051150917b784562dab2c2db82642f453a4a273b58700c82fa32dcd804",
+   "terrainSha256": "e4e98402b823fa7dc425247636b74b01b4c4c58931a17ee26242577182ba7be0",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-26T17:44:20.781Z"
+   "measuredAt": "2026-09-27T03:43:55.837Z"
   },
   "keep": {
    "graph": "holm-keep-v2land-navigation-v1",
@@ -95,9 +95,9 @@
    },
    "nodes": 868,
    "modelSha256": "b8065dc02c2d28bff0f8d8f7e02db648ac1c8462099ec8b74f57c1c7f1da726e",
-   "terrainSha256": "013414051150917b784562dab2c2db82642f453a4a273b58700c82fa32dcd804",
+   "terrainSha256": "e4e98402b823fa7dc425247636b74b01b4c4c58931a17ee26242577182ba7be0",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-26T17:44:38.011Z"
+   "measuredAt": "2026-09-27T03:44:03.537Z"
   },
   "bakehouse": {
    "graph": "holm-kitchen-v2land-navigation-v1",
@@ -107,11 +107,11 @@
     "y": 5.4,
     "z": 67
    },
-   "nodes": 253,
+   "nodes": 265,
    "modelSha256": "ea05c5afd23f5d3bc050d55315026f492ca953a719f56df2ff3a68e53e489f84",
-   "terrainSha256": "013414051150917b784562dab2c2db82642f453a4a273b58700c82fa32dcd804",
+   "terrainSha256": "e4e98402b823fa7dc425247636b74b01b4c4c58931a17ee26242577182ba7be0",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-26T17:44:50.395Z"
+   "measuredAt": "2026-09-27T03:44:08.004Z"
   },
   "lodge": {
    "graph": "holm-quest-lodge-v2land-navigation-v1",
@@ -123,9 +123,9 @@
    },
    "nodes": 480,
    "modelSha256": "6618934d1ee39fd283ed8c9bf8d93a8f71519bc49ccc71233abd8cc5feed3263",
-   "terrainSha256": "013414051150917b784562dab2c2db82642f453a4a273b58700c82fa32dcd804",
+   "terrainSha256": "e4e98402b823fa7dc425247636b74b01b4c4c58931a17ee26242577182ba7be0",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-26T17:45:05.801Z",
+   "measuredAt": "2026-09-27T03:44:14.472Z",
    "extraPlacement": ".studio-workspaces/holm-quest-placement-v2land-v1/candidates/placement.json"
   },
   "cavern": {
@@ -139,6 +139,20 @@
    "nodes": 89,
    "modelSha256": "68c5e1b346ed63e162bafac2c5d3e16184060a601c0b531dc3eacead5b97f64c",
    "note": "off-island (y -30); no terrain: unchanged"
+  },
+  "mill": {
+   "graph": "holm-mill-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-mill-os-v1/candidates/mill.glb",
+   "placement": {
+    "x": 65,
+    "y": 3.2,
+    "z": 64
+   },
+   "nodes": 146,
+   "modelSha256": "d2b6ae6b389ca9442f5eaf51c6937833e32901c7f501702ed80dff3aa69eacdb",
+   "terrainSha256": "e4e98402b823fa7dc425247636b74b01b4c4c58931a17ee26242577182ba7be0",
+   "unreachableTargets": [],
+   "measuredAt": "2026-09-27T03:49:49.978Z"
   }
  },
  "habitat": ".studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json",

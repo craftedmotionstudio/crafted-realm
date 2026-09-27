@@ -50,6 +50,10 @@ def course_wall(axis, fixed, a0, a1, y0, y1, out, holes=()):
             a += rng.uniform(.45, .85)
             if a < a1 - .2: stones.append(a)
         stones.append(a1)
+        # a row crossing an opening breaks at its jambs, so no stone juts into a door or window
+        for h in holes:
+            if y < h[3] and yh > h[2]: stones += [h[0], h[1]]
+        stones = sorted(set(round(v, 4) for v in stones))
         for p, q in zip(stones, stones[1:]):
             mid = (p + q) / 2; vm = (y + yh) / 2
             if any(h[0] < mid < h[1] and h[2] < vm < h[3] for h in holes): continue
@@ -90,7 +94,7 @@ for (a0, a1, b0, b1), axis, fixed, out in ((WIN_N, 'x', Z0, -1), (WIN_S, 'x', Z1
 # the door leaf, standing open inside against the wall
 F.box(DOOR[1] + .05, DOOR[1] + .12, 0, 2.15, Z0 + T, Z0 + T + .95, SHUTTER)
 # lantern bracket by the door
-F.beam((DOOR[1] + .4, 2.0, Z0 - .02), (DOOR[1] + .4, 2.0, Z0 - .35), .05, .05, IRON); F.lathe(DOOR[1] + .4, Z0 - .35, 1.7, [(.07, 0), (.08, .22), (.04, .3)], 6, LAMP, top=True)
+F.beam((DOOR[1] + .4, 2.45, Z0 - .02), (DOOR[1] + .4, 2.45, Z0 - .3), .05, .05, IRON); F.lathe(DOOR[1] + .4, Z0 - .3, 2.1, [(.07, 0), (.08, .22), (.04, .3)], 6, LAMP, top=True)
 F.build(root, vcol=False)
 
 # ---------------------------------------------------------------- floors (walkable supports) and the threshold
@@ -104,7 +108,7 @@ while x < X1 - T - .01:
 FL.box(DOOR[0], DOOR[1], 0, .05, Z0 - .45, Z0 + T, QUOIN, skip='b')   # threshold slab
 FL.box(-3.0, 4.0, -.35, .0, Z0 - 1.0, Z0 + .05, FLAG)   # the flagged apron outside the north door (to the weir walk landing)
 FL.build(root, vcol=False)
-A = Acc('Mill_FloorBase'); A.box(X0 + T, X1 - T, -.6, -.01, Z0 + T, Z1 - T, STONE[1], skip='t'); A.build(root, vcol=False)
+A = Acc('Mill_FloorBase'); A.box(X0 + T, X1 - T, -.6, .012, Z0 + T, Z1 - T, STONE[1]); A.build(root, vcol=False)   # its top (over the terrain, under the flags) reads as floor between flags
 
 # ---------------------------------------------------------------- interior furnishings (obstacles)
 FU = Acc('Mill_FurnishingStones')
@@ -164,13 +168,12 @@ cx = (rx0 + rx1) / 2; hipN = rz0 + (rx1 - rx0) / 2 * .95; hipS = rz1 - 1.2   # f
 def quad(a, b, c, d, m): R.poly([a, b, c, d], [(0, 1, 2, 3)], m)
 def trig(a, b, c, m): R.poly([a, b, c], [(0, 1, 2)], m)
 ra, rb = (cx, ridge_y, hipN), (cx, ridge_y, hipS)
-quad((rx0, ey, rz1), (rx0, ey, rz0), ra, rb, THATCH[0])            # west slope
-quad((rx1, ey, rz0), (rx1, ey, rz1), rb, ra, THATCH[1])            # east slope
-trig((rx0, ey, rz0), (rx1, ey, rz0), ra, THATCH[0])                # north hip
-gy = ey + 1.4; gz = rz1 - .35                                      # south half-hip: a little gable, then a hip above it
+gy = ey + 1.4; gz = rz1 - .35                                      # south: a steep lower hip, a shallower upper hip (two pitches)
 hx0, hx1 = cx - (rx1 - rx0) / 2 * (1 - 1.4 / 2.3), cx + (rx1 - rx0) / 2 * (1 - 1.4 / 2.3)
+R.poly([(rx0, ey, rz1), (rx0, ey, rz0), ra, rb, (hx0, gy, gz)], [(0, 1, 2, 3, 4)], THATCH[0])   # west slope
+R.poly([(rx1, ey, rz0), (rx1, ey, rz1), (hx1, gy, gz), rb, ra], [(0, 1, 2, 3, 4)], THATCH[1])   # east slope
+trig((rx0, ey, rz0), (rx1, ey, rz0), ra, THATCH[0])                # north hip
 quad((rx1, ey, rz1), (rx0, ey, rz1), (hx0, gy, gz), (hx1, gy, gz), THATCH[1]); trig((hx1, gy, gz), (hx0, gy, gz), rb, THATCH[0])
-R.poly([(hx0, gy - .02, gz), (hx1, gy - .02, gz), (cx, gy - .02, gz + .02)], [(0, 1, 2), (0, 2, 1)], PLASTER)
 # thatch thickness at the eaves and a ridge roll
 for (a, b) in (((rx0, rz0), (rx0, rz1)), ((rx1, rz0), (rx1, rz1)), ((rx0, rz0), (rx1, rz0)), ((rx0, rz1), (rx1, rz1))):
     R.beam((a[0], ey - .08, a[1]), (b[0], ey - .08, b[1]), .3, .16, THATCH[1])
@@ -239,7 +242,10 @@ LE.build(root, vcol=False)
 WE = Acc('Mill_Weir'); cz = W(0, 0, 59.95)[2]; wx0, wx1 = W(58.2, 0, 0)[0], W(61.9, 0, 0)[0]; top = W(0, 3.08, 0)[1]
 WE.box(wx0, wx1, -2.4, top, cz - .22, cz + .18, STONE[0]); WE.box(wx0, wx1, top, top + .06, cz - .24, cz + .2, QUOIN)
 bot = W(0, 2.07, 0)[1]; fz = W(0, 0, 60.95)[2]
-WE.poly([(wx0 + .2, top + .02, cz + .18), (wx1 - .2, top + .02, cz + .18), (wx1 - .2, bot, fz), (wx0 + .2, bot, fz)], [(0, 1, 2, 3)], FOAM)
+WFALL = M('Weir falling water', '#a9c3d2')   # the falling sheet: pale water, the foam bits ride on it
+for k in range(5):   # the sheet in five strips with small gaps: water pouring over the sill, not a slab
+    xa = wx0 + .25 + k * (wx1 - wx0 - .5) / 5; xb = xa + (wx1 - wx0 - .5) / 5 - .05
+    WE.poly([(xa, top + .02, cz + .18), (xb, top + .02, cz + .18), (xb, bot, fz), (xa, bot, fz)], [(0, 1, 2, 3)], WFALL)
 WE.build(root, vcol=False)
 foam = bpy.data.objects.new('Mill_Foam', None); bpy.context.collection.objects.link(foam); foam.parent = root
 FO = Acc('Mill_FoamBits')
@@ -265,8 +271,8 @@ SP.build(splash, vcol=False)
 for k, sc in enumerate((1.0, 1.35, 1.0)):
     splash.scale = (sc, sc, sc * (1.2 if k == 1 else 1)); splash.keyframe_insert('scale', frame=1 + k * fps * .4)
 sa = splash.animation_data.action; sa.name = 'SplashPulse'
-# the plank walkway on the weir crest (its walking deck is island data: a bridge at y 3.5 over tiles x 58-61 on row z 59)
-WK = Acc('Mill_WeirWalk'); wy = W(0, 3.5, 0)[1]; wz0, wz1 = W(0, 0, 59.12)[2], W(0, 0, 59.88)[2]; ax0, ax1 = W(57.6, 0, 0)[0], W(62.3, 0, 0)[0]
+# the plank walkway on the weir crest (its walking deck is island data: island-decks.json, y 3.35 over tiles x 58-62 on row z 59)
+WK = Acc('Mill_WeirWalk'); wy = W(0, 3.35, 0)[1]; wz0, wz1 = W(0, 0, 59.12)[2], W(0, 0, 59.88)[2]; ax0, ax1 = W(57.6, 0, 0)[0], W(62.95, 0, 0)[0]
 x = ax0
 while x < ax1 - .05:
     x2 = min(ax1, x + rng.uniform(.18, .22)); WK.box(x + .01, x2 - .01, wy - .06, wy, wz0, wz1, PLANK, skip='b'); x = x2
@@ -281,7 +287,7 @@ EX = Acc('Mill_Dressing')
 EX.lathe(1.0, Z1 + .35, 0, [(.0, 0), (.0, 0)], 3, MILLSTONE, top=False)
 ms = [(math.cos(2 * math.pi * i / 12) * .75, .78 + math.sin(2 * math.pi * i / 12) * .75) for i in range(12)]
 EX.poly([(1.0 + p[0], p[1], Z1 + .25) for p in ms] + [(1.0 + p[0], p[1], Z1 + .5) for p in ms], [tuple(range(12)), tuple(range(23, 11, -1))] + [(i, (i + 1) % 12, 12 + (i + 1) % 12, 12 + i) for i in range(12)], MILLSTONE)
-for i, (sx, sz) in enumerate(((DOOR[1] + .7, Z0 - .45), (DOOR[1] + 1.2, Z0 - .5))): sack(EX, sx, sz, 0, .5, .72, SACK, SACK_T, rot=i)
+for i, (sx, sz) in enumerate(((3.3, Z0 - .42), (3.75, Z0 - .5))): sack(EX, sx, sz, 0, .5, .72, SACK, SACK_T, rot=i)   # by the east corner, clear of the door path
 EX.build(root, vcol=False)
 bpy.context.scene.frame_set(1)
 man = P.export('mill.glb', animations=True)

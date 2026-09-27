@@ -41,8 +41,9 @@ bridges.forEach(b=>{if(b.clearance<.3)throw Error(b.label+' deck clears the wate
 // 3c habitat: the Sept 13 placements that now stand in water or on a cliff face are left out (Phase 5 re-plants the island)
 const habSrc=read('.studio-workspaces/holm-habitat-v4/working/vegetation.json'),W=terrain.width,S=W+1;
 const rise=(x,z)=>{const tx=Math.floor(x),tz=Math.floor(z),h=terrain.heights,c=[h[tz*S+tx],h[tz*S+tx+1],h[(tz+1)*S+tx],h[(tz+1)*S+tx+1]];return Math.max(...c)-Math.min(...c)};
+const onPad=(x,z)=>design.pads.some(p=>Math.abs(x-p.x)<=p.w/2+.8&&Math.abs(z-p.z)<=p.d/2+.8);   // new terraces (mill, garden, fire beach, cove, farm) are cleared
 const dropped=[];const keep=habSrc.placements.filter(p=>{const tx=Math.floor(p.x),tz=Math.floor(p.z),k=terrain.water[tz*W+tx];
- const bad=k!==0||Nav.creekBank(terrain,tx,tz)||rise(p.x,p.z)>1.25;if(bad)dropped.push(p.id);return !bad});
+ const bad=k!==0||Nav.creekBank(terrain,tx,tz)||rise(p.x,p.z)>1.25||onPad(p.x,p.z);if(bad)dropped.push(p.id);return !bad});
 write('.studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json',Object.assign({},habSrc,{note:'Holm v2 land (2026-09-26): holm-habitat-v4 without the '+dropped.length+' plants that now stand in the pond, the creek or on a cliff face',placements:keep,v2land:{from:'holm-habitat-v4',dropped}}));
 reg.habitat='.studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json';write(DATA+'v2land.json',reg);
 console.log('[V2LAND DATA] gates',gates.gates.map(g=>g.id+' y '+g.y).join(', '),'| bridges',bridges.map(b=>b.id+' deck '+b.deckY+' clear '+b.clearance).join(', '),'| habitat kept',keep.length,'dropped',dropped.length);

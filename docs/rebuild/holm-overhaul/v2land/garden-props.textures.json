@@ -1,0 +1,10 @@
+{
+ "note": "Holm v2 land phase 3: Hettie's Garden pack textured old-school by material name (stone, planks, oak; leaves and flowers keep flat close shades)",
+ "source": ".studio-workspaces/holm-garden-props-v1/candidates/props.blend",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-garden-props-v1/candidates/props.glb",
+ "outBlend": ".studio-workspaces/holm-garden-props-os-v1/candidates/props.blend",
+ "outGlb": ".studio-workspaces/holm-garden-props-os-v1/candidates/props.glb",
+ "report": ".studio-workspaces/holm-garden-props-os-v1/candidates/textures.report.json",
+ "rules": [["(?i)garden fieldstone", "stone_course", 0.9], ["(?i)coping", "rock", 0.9], ["(?i)skep straw", "thatch", 0.5], ["(?i)tub staves", "planks", 0.6], ["(?i)leaves|ivy|rose|flower|bee|wren|soil|jug|cup|lantern", null, 0]]
+}

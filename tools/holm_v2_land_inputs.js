@@ -15,7 +15,8 @@ const REG='docs/rebuild/holm-overhaul/v2land.json';
 // id -> old-school graph workspace (the design proxy's source) and the plan place its habitat clearing uses
 const BUILDINGS={keep:['holm-keep-oldschool-navigation-v1',null],bakehouse:['holm-kitchen-oldschool-navigation-v1',null],lodge:['holm-quest-lodge-oldschool-navigation-v1',null],
  survival:['holm-survival-oldschool-navigation-v1','survival'],quarry:['holm-quarry-oldschool-navigation-v1','mine'],bank:['holm-bank-oldschool-navigation-v1','bank'],
- mage:['holm-mage-oldschool-navigation-v1','mage'],haven:['holm-haven-oldschool-navigation-v1','ferry'],lastlight:['holm-lastlight-oldschool-navigation-v1','lastlight'],cavern:['holm-cavern-oldschool-navigation-v1',null]};
+ mage:['holm-mage-oldschool-navigation-v1','mage'],haven:['holm-haven-oldschool-navigation-v1','ferry'],lastlight:['holm-lastlight-oldschool-navigation-v1','lastlight'],cavern:['holm-cavern-oldschool-navigation-v1',null],
+ mill:[null,null]};   // new on the v2 land: measured only (no Sept 13 proxy)
 const SEAT_ID={bakehouse:'bakehouse',lodge:'lodge'};
 function registry(){return exists(REG)?read(REG):{buildings:{}}}
 // design-loop proxy: floors lifted by the seat's rise; terrain-lane stances re-sampled from the v2 land outside the seat
@@ -43,11 +44,11 @@ function load(opts){
  const reg=registry(),buildings=[],status={};
  Object.keys(BUILDINGS).forEach(id=>{const r=reg.buildings[id];
   if(r&&r.graph&&exists('.studio-workspaces/'+r.graph+'/candidates/navigation.json')){buildings.push({id,graph:read('.studio-workspaces/'+r.graph+'/candidates/navigation.json')});status[id]='measured'}
-  else if(opts.proxy!==false){buildings.push({id,graph:proxy(id,terrain,seats)});status[id]='proxy'}});
+  else if(opts.proxy!==false&&BUILDINGS[id][0]){buildings.push({id,graph:proxy(id,terrain,seats)});status[id]='proxy'}});
  const plan=read('docs/rebuild/holm-overhaul/plan.json'),built=new Set();
  buildings.forEach(B=>{const pl=BUILDINGS[B.id][1]&&plan.places.find(q=>q.id===BUILDINGS[B.id][1]);const g=B.graph,o=g.placement||g.origin;
   if(pl)for(let z=Math.floor(pl.z-pl.d/2)-1;z<=Math.ceil(pl.z+pl.d/2)+1;z++)for(let x=Math.floor(pl.x-pl.w/2)-1;x<=Math.ceil(pl.x+pl.w/2)+1;x++)built.add(x+','+z);
-  if(pl)g.nodes.forEach(n=>{if(!/Terrain$/.test(n.surface))built.add(Math.floor(n.x+o.x)+','+Math.floor(n.z+o.z))})});
+  g.nodes.forEach(n=>{if(!/Terrain$/.test(n.surface))built.add(Math.floor(n.x+o.x)+','+Math.floor(n.z+o.z))})});   // every building's floors (the mill has no plan place)
  const habitatPath=reg.habitat||'.studio-workspaces/holm-habitat-v4/working/vegetation.json',hab=read(habitatPath);
  const veg=hab.placements.filter(p=>!built.has(Math.floor(p.x)+','+Math.floor(p.z)));
  veg.forEach(p=>{const r=hab.blockers[p.asset];if(r)blockers.push({id:'habitat:'+p.id,mode:'overlap',x0:p.x-r*p.scale,x1:p.x+r*p.scale,z0:p.z-r*p.scale,z1:p.z+r*p.scale})});
@@ -62,6 +63,10 @@ const decks=[];
  if(fishing){(fishing.set||[]).forEach((p,i)=>{if(!p.block)return;const hx=p.block[0],hz=p.block[1],c=Math.abs(Math.cos(p.yaw||0)),sn=Math.abs(Math.sin(p.yaw||0)),ex=hx*c+hz*sn,ez=hx*sn+hz*c;
    blockers.push({id:'hollow:'+p.prop+':'+i,mode:'overlap',x0:p.x-ex,x1:p.x+ex,z0:p.z-ez,z1:p.z+ez})});
   const j=fishing.jetty;decks.push({id:j.id,label:j.label,orientation:'EW',tiles:j.tiles,deckY:j.deckY})}
+ if(exists('docs/rebuild/holm-overhaul/island-decks.json'))read('docs/rebuild/holm-overhaul/island-decks.json').decks.forEach(d=>decks.push(d));
+ // the island prop sets' footprints (src/holm_island_props.js blockersFrom, the same pure rule)
+ if(exists('docs/rebuild/holm-overhaul/island-props.json')){const Props=require('../src/holm_island_props.js'),pd=read('docs/rebuild/holm-overhaul/island-props.json'),mans={};
+  Object.keys(pd.packs).forEach(k=>{const m=pd.packs[k].replace(/[^/]+\.glb$/,'manifest.json');if(exists(m))mans[k]=read(m)});Props.blockersFrom(pd,mans).forEach(b=>blockers.push(b))}
  return {terrain,design,seats,layout,arrival,dock,scenery,blockers,buildings,bridges,decks,navBridges:bridges.concat(decks),plan,lessons:L,status,fishing,
   ladders:read('docs/rebuild/holm-overhaul/island-ladders.json').ladders,
   arrivalFootprints:[{x0:w.x-b.width/2,x1:w.x+b.width/2,z0:w.z-b.depth/2,z1:w.z+b.depth/2}]};

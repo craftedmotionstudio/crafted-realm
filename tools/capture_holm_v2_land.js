@@ -30,7 +30,11 @@ const VIEWS=[
  {name:'v15_beacon_cove',x:106,z:19,yaw:3.3,pitch:.85,dist:30},
  {name:'v16_farm',x:112,z:97,yaw:.6,pitch:1.0,dist:28},
  {name:'v17_island_west',x:40,z:70,yaw:.9,pitch:.7,dist:60},
- {name:'v18_island_east',x:100,z:55,yaw:.4,pitch:.7,dist:60}];
+ {name:'v18_island_east',x:100,z:55,yaw:.4,pitch:.7,dist:60},
+ // phase views (no Sept 13 counterpart): the Creakwheel Mill and its wheel, Hettie's Garden looking at the wheel
+ {name:'v19_mill_wheel',x:61.5,z:62.5,yaw:-1.2,pitch:.75,dist:16},
+ {name:'v20_garden_to_wheel',x:55,z:61.5,yaw:-1.9,pitch:.8,dist:16},
+ {name:'v21_mill_weir_walk',x:61,z:60,yaw:.5,pitch:.9,dist:18}];
 const only=process.env.V2_ONLY?process.env.V2_ONLY.split(','):null;
 (async()=>{
  const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',

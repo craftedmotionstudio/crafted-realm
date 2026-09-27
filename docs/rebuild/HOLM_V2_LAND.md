@@ -65,3 +65,52 @@ mill weir (3.1 -> 2.0 at 59-58, 60-62).
 Known look items for later phases: the crown switchback reads as a boxy cut (rails + rock dressing in phases 4-5); the
 seat edges show small rock-grey banks on the arrival lawn; cliffs are ground-texture rock, Blender rock faces come with
 the clutter/density pass.
+
+## Merges from the live branch
+
+- 2026-09-26: live head 00ffa9e (8-direction movement with Holm nav diagonals, 28-slot pack, LocalCombat, the old-school
+  right-click menu, online alpha, kit v3.1, equipment v2) and 97424a1 merged into this branch. Conflicts: Wenna keeps her
+  Minnow Hollow spot (with the live branch's examine line), the survival services keep the menu rows minus the removed
+  creek stage, the arrival provider keeps both sides (fishing dispose, QA route-to-point, the live navGraph export).
+- The route audit now runs on the composed graph WITH the 2004 diagonals (the live composer rule: a diagonal only where
+  all four straight links exist on one storey and none climbs more than a third of a step): every station stays
+  reachable; the 18-lesson route shortens from 873 to 733 walked tiles (440 s).
+- The composer's measured-terrain-lane rule (a building's terrain lane obeys the land's 0.9 step) and the live diagonal
+  rule compose without change.
+
+## Phase 2: Minnow Hollow, fishing that is fun (the 2004 way)
+
+| Piece | Files |
+|---|---|
+| Pond set, pond life, fx pieces (Blender) | `tools/blender/build_holm_hollow_props_v1.py` -> `holm-hollow-props-v1`, textured `holm-hollow-props-os-v1`: 3-tile jetty, log steps, lily pads (+ flower), stepping stones, beached rowboat, drying rack, bucket, creel, net crate, Fire Beach ring, duck, frog on its pad, dragonfly, perch and reedpike, fish shadow, splash ring, droplet, bubbles (2,528 tris) |
+| Catches (Blender items + icons) | `tools/blender/build_holm_fishing_items_v1.py` -> `holm-fishing-items-v1`; icons `assets/icons/items/{raw,cooked,burnt}_reedpike, soggy_boot, pond_weed, sealed_bottle, tarnished_ring.png`; items in `src/game1_data.js` (our own names and examine text; the bottle carries a short Lastlight note); ground models in `src/holm_items_v1.js`; the reedpike cooks on fire and range (`src/game5_main.js`) |
+| Fishing rules + scene | `src/holm_fishing.js` (new): 3 ripples among 7 shore candidates (`docs/rebuild/holm-overhaul/island-fishing.json`); a move every 60-100 ticks telegraphed by bubbles and a 2-tick fade, "The fish have moved on." to whoever nets a moving spot; a roll every 5 ticks, each with a cast, a net splash ring + droplets and a plish; a catch lifts a flapping fish for a second with a flop, a chat line and the XP drop; the 2004 catch curve (48/256 at level 1); the first catch lands on roll 2 (the lesson cannot fail); after the lesson: perch 85%, reedpike 12% from Fishing 5, junk 3%, the sealed bottle 1/150 once per account, a tarnished ring 1/400; 1 miss in 60 a big fish leaps and soaks you; fish shadows under the ripples, a leap every 15-25 s, two ducks paddling, dragonflies, a frog that plops off its pad within 2 tiles, reeds and lily pads, an ambient loop fading over 4 tiles as you climb out. Moving-spot rules after the 2004 fishing scripts (MIT logic, studied read-only in 2004scape; our own numbers and code). |
+| Game hooks | `src/game5_main.js` gather branch hands a Minnow Hollow spot's rolls to `HolmFishing.gatherTick`; `src/game4_ui.js`: a ripple takes a plain click when a net is in the pack (the menu's "Net") |
+| Lessons | teaching oaks on the hollow rim (`island-lessons.json`); Fire Beach shingle pad (terrain v2 pad material); `light_fire` / `cook_fish` at the Fire Beach, `catch_fish` at the live ripple (the guide arrow follows the nearest live spot); Wenna at the head of the Hollow Path (a `world` stance); her lines, the banner and the hint lines rewritten (`holm_island_tutors.js`, `holm_island_talk.js`, `holm_island_guide.js`, `holm_island_curriculum.js`) |
+| Nav | the hollow jetty is a deck (1.3); the set's solid pieces block where they stand; every candidate has a dry stance beside it |
+
+Proof: `node tools/test_holm_fishing.js` 5/5 (the curve, the guaranteed first catch, the catch table over 300,000 seeded
+rolls, the once-per-account bottle, spot timers and free candidates, items + icons). `test_holm_world_fixes` check 4 is
+rewritten for the pond (every candidate on pond water under the pond sheet, a dry stance in reach, >= 2 apart, the jetty
+clears the pond). Real input, `node tools/qa_holm_hollow.js`: 12/13 on the first full run (talk-first refusal, Wenna,
+chop on the rim, the walk down the Hollow Path, a fire on the beach, a perch on roll 2, cooking with a burn retry, the
+ledger, a varied session, frog/ducks/leaps, 0 page errors); the one miss was the check itself asserting all three spots
+idle while another spot was naturally mid-move, rewritten to track the moved spot. Captures in
+`scratchpad/holm_v2_land/qa_hollow/`.
+
+## Phase 3: Creakwheel Mill, its wheel and weir, Hettie's Garden
+
+| Piece | Files |
+|---|---|
+| The mill (Blender) | `tools/blender/build_holm_mill_v1.py` -> `holm-mill-v1`, textured `holm-mill-os-v1` (11,405 tris): 7x8 tiles, fieldstone ground floor with quoins and the wheel-pit wall down to the tailrace, a jettied timber-framed upper floor (west over the pit, north over the door), a thatched roof with a full hip north and a two-pitch hip south, a lucam with its sack hoist, shutters, a lantern by the door; inside: the tun with the runner stone, hopper and meal box, a grain bin, flour sacks, a sack barrow; outside: a spare millstone, sacks |
+| Wheel, leat, weir, walk | a breastshot wheel 2.6 across, 0.8 wide, 8 spokes a side, 12 paddles, turning at 6 rpm (clip `WheelTurn`, 10 s a turn); a timber leat on trestles with a sluice gate from the head pool; the stone weir sill with the falling sheet (`FoamFlow`) and a splash where the paddles meet the tailrace (`SplashPulse`); the plank weir walk on the crest (`island-decks.json`: deck 3.35 over x 58-62 on row 59) |
+| Terrain | the creek re-routed past the mill (weir crest 3.1 -> tailrace 2.05 at z 59.8-60.9), the mill pad 3.2; the creek valley now shapes the land BEFORE the hand-made terraces, so a terrace or seat by the creek stands as authored |
+| Graph | `holm-mill-v2land-navigation-v1` (general extractor on the textured GLB, `buildings/mill-v2land.nav.json`): door, millstones, grain bin and the window over the pit, all reachable; the mill joins the island through its apron and the weir walk |
+| Runtime | `src/holm_island_extras.js` (the mill building, its cutaway, two services that speak for themselves: no miller, one tutor per area), `src/holm_mill.js` (water rush, paddle slaps and the wheel's creak within 8 tiles), `src/holm_island_props.js` (new: data-driven Blender prop sets, instanced when repeated, examinable when they carry examine text) |
+| Hettie's Garden (Blender) | `tools/blender/build_holm_garden_props_v1.py` -> `holm-garden-props-v1`, textured `holm-garden-props-os-v1` (3,316 tris): parapet runs and piers with ivy, a wicket gate, raised herb beds, a vine-and-rose arbour over a bench facing the wheel, a table with a jug and two cups, flower tubs, a bee skep, a bird table with two wrens, a lantern post, climbing roses; placed on the 5.4 terrace off the bakehouse's north-east corner (`island-props.json`), 3.4 above the tailrace, about 7 tiles from the wheel |
+| Dialogue | Hettie: the flour comes from Creakwheel Mill across the creek; you can watch the wheel from her garden |
+
+Proof: the route audit (`scratchpad/holm_v2_land/route_audit.json`) reaches Hettie's Garden, the millstones and the weir
+walk on foot, and every lesson station still. Sheets: `scratchpad/holm_v2_land/sheets/phase2_3_01..02.jpg` (before/after
+at the game camera) and `phase3_new_places.jpg` (the mill, the garden, the weir walk and the three Blender packs).
+Known: the bakehouse has no side door onto the garden (its model is unchanged); the garden is entered by its wicket gate.

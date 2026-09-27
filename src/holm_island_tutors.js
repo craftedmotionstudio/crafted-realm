@@ -26,7 +26,7 @@ var HolmIslandTutors=(function(){
  var HELLO={
   bram:['Welcome to Tutor\'s Holm, friend. I am Guide Bram. Every adventurer starts here, and I start every adventurer.'],
   wenna:['Hello there. I am Wenna, and down there is Minnow Hollow.','Out here you learn to look after yourself: wood, fire, fish and a hot supper, all within a stone\'s throw of the pond.'],
-  hettie:['Mind the flour. I am Cook Hettie, and this is my bakehouse.','My kitchen, my rules. Today you are baking a loaf of bread.'],
+  hettie:['Mind the flour. I am Cook Hettie, and this is my bakehouse.','The flour comes from Creakwheel Mill, just across the creek. You can watch the wheel turn from my garden, if you have a minute to sit.','My kitchen, my rules. Today you are baking a loaf of bread.'],
   ansel:['Ah, a new face. I am Loremaster Ansel. This lodge keeps the record of every task the Holm has to offer.','Quests are the stories of this land: folk with troubles, and rewards for those who help them.'],
   durgin:['Mind your head down here. I am Foreman Durgin, and these are the Holm\'s ore workings.','Every blade on this island starts as rock in this cavern. Today you will make one yourself.'],
   corrick:['Stand straight. I am Warden Corrick, and this keep is where the Holm learns to fight.'],

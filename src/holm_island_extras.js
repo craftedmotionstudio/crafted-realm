@@ -13,13 +13,14 @@ var HolmIslandExtras=(function(){
   {id:'lodge',graph:WS+'holm-quest-terrain-navigation-v4/candidates/navigation.json',model:WS+'holm-quest-lodge-v6/candidates/lodge.glb',
    extra:{url:WS+'holm-quest-foundation-v1/candidates/foundation.glb',placement:WS+'holm-quest-placement-v1/candidates/placement.json'}}]
   // M4.4: new Blender buildings, graphs measured by tools/blender/extract_holm_building_navigation.py
-  .concat([['survival','Survival_','survival',3],['quarry','Quarry_','mine',3],['bank','Bank_','bank',3],['mage','Mage_','mage',3],['haven','Haven_','ferry',3],['lastlight','Lastlight_','lastlight',3],['cavern','Cavern_',null]].map(function(r){
+  .concat([['survival','Survival_','survival',3],['quarry','Quarry_','mine',3],['bank','Bank_','bank',3],['mage','Mage_','mage',3],['haven','Haven_','ferry',3],['lastlight','Lastlight_','lastlight',3],['cavern','Cavern_',null],['mill','Mill_',null]].map(function(r){
    return {id:r[0],prefix:r[1],plan:r[2],graph:WS+'holm-'+r[0]+'-navigation-v'+(r[3]||1)+'/candidates/navigation.json',model:WS+'holm-'+r[0]+'-v'+(r[3]||1)+'/candidates/'+r[0]+'.glb'}}));
  var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v4/working/vegetation.json',PROPS=WS+'holm-props-v1/candidates/props.glb';
  // M4.5 habitat v2: the tree family's own files, everything else (shrubs, rocks, flowers, logs, signposts) from the prop pack
  var TREE_FAMILY={oak:1,birch:1,'coastal-pine':1,'meadow-tuft':1,'creek-reeds':1};
  var LADDERS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-ladders.json'):'/docs/rebuild/holm-overhaul/island-ladders.json'),BRIDGES=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-bridges.json'):'/docs/rebuild/holm-overhaul/island-bridges.json'),BRIDGE_MODELS=WS+'holm-island-bridges-v2/candidates/';
  var TRUNK={oak:.45,birch:.3,'coastal-pine':.35};
+ var DECKS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-decks.json'):'/docs/rebuild/holm-overhaul/island-decks.json');
  // M4.2: authored service meshes -> measured stance (graph node) -> the existing lesson handler. The bakehouse
  // stations come from holm-kitchen-services-v1 (measured on this exact graph); the lodge from its graph targets.
  var SERVICES={
@@ -45,6 +46,9 @@ var HolmIslandExtras=(function(){
   {prefix:'Lastlight_ServiceLadder2Up_',target:'ladder2-foot',climb:'ladder2',end:'foot',label:'Climb-up ladder',option:'Climb-up',name:'Ladder',examine:'A steep ladder inside the tower.'},{prefix:'Lastlight_ServiceLadder2Down_',target:'ladder2-top',climb:'ladder2',end:'top',label:'Climb-down ladder',option:'Climb-down',name:'Ladder',examine:'A steep ladder inside the tower.'},
   {prefix:'Lastlight_ServiceLadder3Up_',target:'ladder3-foot',climb:'ladder3',end:'foot',label:'Climb-up ladder',option:'Climb-up',name:'Ladder',examine:'A steep ladder inside the tower.'},{prefix:'Lastlight_ServiceLadder3Down_',target:'ladder3-top',climb:'ladder3',end:'top',label:'Climb-down ladder',option:'Climb-down',name:'Ladder',examine:'A steep ladder inside the tower.'},
   {prefix:'Lastlight_ServiceLever_',target:'lever',label:'Pull beacon lever',call:['HolmIslandLessons','pullLever'],option:'Pull',name:'Beacon lever',examine:'A heavy bronze lever that works the lamp.'},{prefix:'Lastlight_ServiceBeacon_',target:'beacon',label:'Beacon lamp',option:'Inspect',name:'Beacon lamp',examine:'The great lamp of Lastlight.'}]};
+ // v2 land phase 3: Creakwheel Mill (no miller: one tutor per area; the stones and the store speak for themselves)
+ SERVICES.mill=[{prefix:'Mill_FurnishingStones',target:'stones',label:'Inspect millstones',option:'Inspect',name:'Millstones',examine:'The runner stone turns on the bed stone, driven by the wheel outside.',say:'The runner stone grinds round with a low rumble. Flour sifts into the meal box. This is where the bakehouse flour comes from.'},
+  {prefix:'Mill_FurnishingStore',target:'store',label:'Search grain bin',option:'Search',name:'Grain bin',examine:'Barley and wheat waiting for the stones.',say:'The bin is full of grain. Sacks of fresh flour wait by the wall, stamped for the bakehouse.'}];
  // Roof cutaways, as each building's Sept 13 walking study proved them: roof hidden, upper parts above the
  // player's floor hidden, shell walls clipped just above the player while inside.
  var CUTAWAY={
@@ -52,7 +56,7 @@ var HolmIslandExtras=(function(){
   bakehouse:{roof:/^Kitchen_(Roof|Chimney)_/,upper:/^Kitchen_Upper/,clip:/^Kitchen_(Shell|UpperShell|GroundFront|Glazing)_/,lift:.5},
   lodge:{roof:/^Lodge_(Roof|Chimney)/,upper:/^Lodge_Upper(?!.*Stair)/,clip:/^Lodge_(GroundShell|UpperShell|Glazing)/,lift:.5}};
  // M4.4 buildings follow the brief's naming contract: <Prefix>_Roof / _Upper / _Shell / _UpperShell / _Glazing
- ['Survival','Quarry','Bank','Mage','Haven','Lastlight','Cavern'].forEach(function(p){CUTAWAY[p.toLowerCase()]={roof:new RegExp('^'+p+'_Roof'),upper:new RegExp('^'+p+'_Upper'),clip:new RegExp('^'+p+'_(Shell|UpperShell|Glazing)'),lift:.5}});
+ ['Survival','Quarry','Bank','Mage','Haven','Lastlight','Cavern','Mill'].forEach(function(p){CUTAWAY[p.toLowerCase()]={roof:new RegExp('^'+p+'_Roof'),upper:new RegExp('^'+p+'_Upper'),clip:new RegExp('^'+p+'_(Shell|UpperShell|Glazing)'),lift:.5}});
  function need(ok,msg){if(!ok)throw Error('[HolmIslandExtras] '+msg)}
  // the old-school look's textured candidates (trees, prop pack, bridges, buildings), when served
  function lookUrl(u){return typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.url(u):u}
@@ -85,7 +89,7 @@ var HolmIslandExtras=(function(){
   buildings.forEach(function(b){
    var pl=b.source.plan&&plan.places.filter(function(q){return q.id===b.source.plan})[0];
    if(pl)for(var z=Math.floor(pl.z-pl.d/2)-1;z<=Math.ceil(pl.z+pl.d/2)+1;z++)for(var x=Math.floor(pl.x-pl.w/2)-1;x<=Math.ceil(pl.x+pl.w/2)+1;x++)built[x+','+z]=true;
-   if(b.source.plan)b.graph.nodes.forEach(function(n){if(!/Terrain$/.test(n.surface))built[Math.floor(n.x+b.placement.x)+','+Math.floor(n.z+b.placement.z)]=true});
+   b.graph.nodes.forEach(function(n){if(!/Terrain$/.test(n.surface))built[Math.floor(n.x+b.placement.x)+','+Math.floor(n.z+b.placement.z)]=true});
   });
   var hab=await json(reg&&reg.habitat?HolmV2Land.url(reg.habitat):HABITAT),radius=hab.blockers||TRUNK;
   var veg=hab.placements.filter(function(p){return !built[Math.floor(p.x)+','+Math.floor(p.z)]}),blockers=[];
@@ -94,6 +98,9 @@ var HolmIslandExtras=(function(){
   if(typeof HolmIslandLessons!=='undefined')blockers=blockers.concat(await HolmIslandLessons.blockers());
   // v2 land phase 2: the Minnow Hollow set blocks where it stands and its jetty is a deck over the pond
   var brs=(await json(BRIDGES)).bridges;if(typeof HolmFishing!=='undefined'){var fd=await HolmFishing.loadData();blockers=blockers.concat(fd.blockers);brs=brs.concat([fd.jetty])}
+  // v2 land: walking decks that are not creek crossings (the Creakwheel weir walk), and the island prop sets' footprints
+  try{brs=brs.concat((await json(DECKS)).decks)}catch(e){console.warn('[HolmIslandExtras] decks',e&&e.message)}
+  if(typeof HolmIslandProps!=='undefined')try{blockers=blockers.concat((await HolmIslandProps.loadData()).blockers)}catch(e){console.error('[HolmIslandExtras] props',e)}
   return {buildings:buildings,habitat:veg,blockers:blockers,bridges:brs,ladders:(await json(LADDERS)).ladders,bridgeModels:reg&&reg.bridgeModels?HolmV2Land.url(reg.bridgeModels)+'/':null};
  }
  async function load(o){
@@ -116,7 +123,7 @@ var HolmIslandExtras=(function(){
    gltf.scene.parent.updateMatrixWorld(true);   // placed group first, so service boxes are in world space
    (SERVICES[b.id]||[]).forEach(function(s){
     var local=s.node||(b.graph.targets.filter(function(t){return t.id===s.target})[0]||{}).nodeId;need(local,b.id+' service '+s.label+' has no stance');
-    var info={building:b.id,target:s.target,node:'b:'+b.id+':'+local,call:s.call,label:s.label,option:s.option,name:s.name,examine:s.examine},box=new T.Box3();   // option/name/examine: its old-school menu row (osrs_menu_world.js)
+    var info={building:b.id,target:s.target,node:'b:'+b.id+':'+local,call:s.call,label:s.label,option:s.option,name:s.name,examine:s.examine,say:s.say},box=new T.Box3();   // option/name/examine: its old-school menu row (osrs_menu_world.js)
     // ladders: walk to this end's stance, then stand on the other end (measured climbs in the building graph)
     // ladders between buildings (quarry shaft <-> cavern): stand on the other end's measured target
     if(s.ladder){var L=(data.ladders||[]).filter(function(q){return q.id===s.ladder})[0];need(L,b.id+' ladder '+s.ladder+' is not listed');
@@ -177,7 +184,7 @@ var HolmIslandExtras=(function(){
    cutFor=inside;if(!inside||!CUTAWAY[inside])return;
    var r=CUTAWAY[inside],M=models[inside],localY=pose.y-M.placement.y;clipPlane.constant=pose.y+r.lift;
    if(typeof renderer!=='undefined'&&renderer)renderer.localClippingEnabled=true;
-   M.scene.traverse(function(n){if(!n.isMesh)return;var name='';for(var q=n;q&&q!==M.scene;q=q.parent)if(/^(Keep|Kitchen|Lodge|Survival|Quarry|Bank|Mage|Haven|Lastlight|Cavern)_/.test(q.name)){name=q.name;break}
+   M.scene.traverse(function(n){if(!n.isMesh)return;var name='';for(var q=n;q&&q!==M.scene;q=q.parent)if(/^(Keep|Kitchen|Lodge|Survival|Quarry|Bank|Mage|Haven|Lastlight|Cavern|Mill)_/.test(q.name)){name=q.name;break}
     n.visible=!r.roof.test(name);
     if(r.upper.test(name)){if(!n.geometry.boundingBox)n.geometry.computeBoundingBox();n.visible=n.geometry.boundingBox.min.y<=localY+.45}
     [].concat(n.material).forEach(function(mm){if(mm)mm.clippingPlanes=r.clip.test(name)?[clipPlane]:[]})});

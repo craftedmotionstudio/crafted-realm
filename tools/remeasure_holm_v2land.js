@@ -19,7 +19,9 @@ const MODELS={survival:'.studio-workspaces/holm-survival-v2land-v1/candidates/su
  bank:'.studio-workspaces/holm-bank-oldschool-v1/candidates/bank.glb',mage:'.studio-workspaces/holm-mage-oldschool-v1/candidates/mage.glb',
  lastlight:'.studio-workspaces/holm-lastlight-oldschool-v1/candidates/lastlight.glb',haven:'.studio-workspaces/holm-haven-oldschool-v1/candidates/haven.glb',
  keep:'.studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb',bakehouse:'.studio-workspaces/holm-kitchen-oldschool-v1/candidates/kitchen-character.glb',
- lodge:'.studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/lodge.glb'};
+ lodge:'.studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/lodge.glb',
+ // new on the v2 land (phase 3): Creakwheel Mill, built for the new terrain, measured from its own v2land spec
+ mill:'.studio-workspaces/holm-mill-os-v1/candidates/mill.glb'};
 const GRAPH={keep:'holm-keep-v2land-navigation-v1',bakehouse:'holm-kitchen-v2land-navigation-v1',lodge:'holm-quest-lodge-v2land-navigation-v1'};
 const graphWs=id=>GRAPH[id]||'holm-'+id+'-v2land-navigation-v1';
 const OLD={keep:[8.025,'-8.025'],bakehouse:[4.07,'-4.07'],lodge:[5.02,'-5.02']};
@@ -39,6 +41,7 @@ function relockArgs(id){
 // seat (the survival camp's trail end) is requested at the v2 ground there, since the lane itself moved
 const Terrain=require('../src/holm_overhaul_terrain.js');
 function generalSpec(id){
+ if(!fs.existsSync(abs('docs/rebuild/holm-overhaul/buildings/'+id+'-oldschool.nav.json')))return read('docs/rebuild/holm-overhaul/buildings/'+id+'-v2land.nav.json');   // a building new on the v2 land
  const s=read('docs/rebuild/holm-overhaul/buildings/'+id+'-oldschool.nav.json'),q=seats.find(x=>x.id===id),T=read(TERRAIN);
  s.note='Holm v2 land (2026-09-26): re-measured on the terrain v2 bundle at the seat height ('+(q.dy>=0?'+':'')+q.dy+' over Sept 13)';
  s.placement={x:s.placement.x,y:q.y,z:s.placement.z};s.terrain=TERRAIN;s.model=MODELS[id];s.out='.studio-workspaces/'+graphWs(id)+'/candidates';

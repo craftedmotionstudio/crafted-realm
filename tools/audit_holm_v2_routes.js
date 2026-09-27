@@ -60,6 +60,9 @@ console.log('  building targets unreachable:',miss.length?miss.join(', '):'none'
 // every Minnow Hollow fishing candidate has a reachable stance beside its ripple (0.5-1.7 tiles, as HolmArrivalQA.beside)
 const fishMiss=I.fishing.candidates.filter(c=>{const n=beside(c.water[0]+.5,c.water[1]+.5,I.fishing.pond.level);return !n||!(n.id in R)}).map(c=>c.id);
 console.log('  fishing candidates without a reachable stance:',fishMiss.length?fishMiss.join(', '):'none');if(fishMiss.length)fail++;
+// the v2 land's new places are reachable on foot: Hettie's Garden, the Creakwheel Mill (by the weir walk and by land)
+const feats=[["Hettie's Garden (by the arbour)",()=>nearNode(53.0,61.2,5.4,n=>n.owner==='land')],['Creakwheel Mill (millstones)',()=>g.byId[tgt('mill','stones')]],['Creakwheel weir walk (deck)',()=>g.byId['deck:60,59']]];
+for(const [name,f] of feats){const n=f();const ok=!!n&&(n.id in R);console.log('  '+name+': '+(ok?'reachable':'UNREACHABLE'));if(!ok)fail++}
 const st=nav.stats({arrival:true,garden:true});console.log('  graph',JSON.stringify(st));
 const out=process.argv.indexOf('--json');if(out>0)fs.writeFileSync(process.argv[out+1],JSON.stringify({rows,total,unreachableTargets:miss,status:I.status,stats:st},null,1));
 if(fail)process.exit(1);

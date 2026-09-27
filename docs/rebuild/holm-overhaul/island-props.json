@@ -1,0 +1,191 @@
+{
+ "schema": "holm-island-props-v1",
+ "status": "Holm v2 land (2026-09-26): Blender prop sets placed on the island (src/holm_island_props.js). Hettie's Garden (phase 3); the island clutter, fences, farm and cove dressing join in phases 4-5.",
+ "packs": {
+  "garden": ".studio-workspaces/holm-garden-props-os-v1/candidates/props.glb"
+ },
+ "sets": [
+  {
+   "id": "hetties-garden",
+   "name": "Hettie's Garden",
+   "note": "the terrace on the bakehouse NE corner (pad 5.4) looking east-north-east across the creek to the Creakwheel wheel, 3.4 above the tailrace",
+   "placements": [
+    {
+     "pack": "garden",
+     "prop": "parapet-post",
+     "x": 55.2,
+     "z": 58.45,
+     "yaw": 0
+    },
+    {
+     "pack": "garden",
+     "prop": "parapet-run",
+     "x": 55.2,
+     "z": 59.55,
+     "yaw": 1.5707963267948966
+    },
+    {
+     "pack": "garden",
+     "prop": "parapet-run",
+     "x": 55.2,
+     "z": 61.55,
+     "yaw": 1.5707963267948966
+    },
+    {
+     "pack": "garden",
+     "prop": "parapet-post",
+     "x": 55.2,
+     "z": 62.65,
+     "yaw": 0
+    },
+    {
+     "pack": "garden",
+     "prop": "parapet-run",
+     "x": 55.2,
+     "z": 63.55,
+     "yaw": 1.5707963267948966,
+     "scale": 0.55
+    },
+    {
+     "pack": "garden",
+     "prop": "parapet-post",
+     "x": 55.2,
+     "z": 64.2,
+     "yaw": 0
+    },
+    {
+     "pack": "garden",
+     "prop": "parapet-post",
+     "x": 51.6,
+     "z": 58.45,
+     "yaw": 0
+    },
+    {
+     "pack": "garden",
+     "prop": "garden-gate",
+     "x": 52.3,
+     "z": 58.45,
+     "yaw": 0,
+     "name": "Garden gate",
+     "examine": "A little wicket gate. Hettie leaves it open for the bees."
+    },
+    {
+     "pack": "garden",
+     "prop": "parapet-post",
+     "x": 53.3,
+     "z": 58.45,
+     "yaw": 0
+    },
+    {
+     "pack": "garden",
+     "prop": "parapet-run",
+     "x": 54.25,
+     "z": 58.45,
+     "yaw": 0,
+     "scale": 0.45
+    },
+    {
+     "pack": "garden",
+     "prop": "herb-bed",
+     "x": 51.7,
+     "z": 60.1,
+     "yaw": 0,
+     "name": "Herb bed",
+     "examine": "Thyme, sage and chives in neat rows. Hettie counts every sprig."
+    },
+    {
+     "pack": "garden",
+     "prop": "herb-bed",
+     "x": 51.7,
+     "z": 62.2,
+     "yaw": 0
+    },
+    {
+     "pack": "garden",
+     "prop": "arbour-bench",
+     "x": 54.3,
+     "z": 61.2,
+     "yaw": -1.5707963267948966,
+     "name": "Arbour bench",
+     "examine": "Roses over the arbour and a seat facing the mill wheel. The best view on the Holm, says Hettie."
+    },
+    {
+     "pack": "garden",
+     "prop": "garden-table",
+     "x": 53,
+     "z": 59.6,
+     "yaw": 0.3,
+     "name": "Garden table",
+     "examine": "A jug of cider and two cups, left out for whoever sits a while."
+    },
+    {
+     "pack": "garden",
+     "prop": "flower-tub",
+     "x": 50.8,
+     "z": 58.9,
+     "yaw": 0
+    },
+    {
+     "pack": "garden",
+     "prop": "flower-tub",
+     "x": 54.5,
+     "z": 59.05,
+     "yaw": 0
+    },
+    {
+     "pack": "garden",
+     "prop": "flower-tub",
+     "x": 54.5,
+     "z": 63.3,
+     "yaw": 1.2
+    },
+    {
+     "pack": "garden",
+     "prop": "flower-tub",
+     "x": 52.9,
+     "z": 63.4,
+     "yaw": 2.1
+    },
+    {
+     "pack": "garden",
+     "prop": "bee-skep",
+     "x": 50.9,
+     "z": 63.5,
+     "yaw": 0.4,
+     "name": "Bee skep",
+     "examine": "A straw skep humming with bees. The honey goes in Hettie's buns."
+    },
+    {
+     "pack": "garden",
+     "prop": "bird-table",
+     "x": 52.7,
+     "z": 61.2,
+     "yaw": 0.2,
+     "name": "Bird table",
+     "examine": "Two wrens squabble over the crumbs."
+    },
+    {
+     "pack": "garden",
+     "prop": "lantern-post",
+     "x": 54.6,
+     "z": 62.2,
+     "yaw": 0.4
+    },
+    {
+     "pack": "garden",
+     "prop": "rose-bush",
+     "x": 50.5,
+     "z": 60.2,
+     "yaw": 0.5
+    },
+    {
+     "pack": "garden",
+     "prop": "rose-bush",
+     "x": 50.5,
+     "z": 61.2,
+     "yaw": 2.4
+    }
+   ]
+  }
+ ]
+}

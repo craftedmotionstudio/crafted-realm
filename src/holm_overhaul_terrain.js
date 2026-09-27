@@ -130,6 +130,13 @@ var HolmOverhaulTerrain=(function(){
     (s.basins||[]).forEach(function(b){var r=ellipse(b,x,z),w=smooth((1-r)/b.edge);h-=b.depth*w;still=Math.max(still,smooth((1.25-r)/.5));if(b.pond!==undefined&&r<1)pond=b.pond;});
     h+=swell(s,x,z)*(1-still);
     h*=smooth(coast/beach);
+    // the creek valley is part of the land: it keeps both banks above the water line (never a perched channel);
+    // terraces, seats and graded paths built by hand come after it and stand as authored
+    var cv=s.creek,vh=creekAt(cv,x,z),vi=cv.halfWidth+cv.bankWidth;
+    if(cv.valley&&vh.distance<cv.valley.radius){
+      var v=cv.valley,target=vh.waterY+v.above+v.rise*Math.max(0,vh.distance-vi),w=1-smooth((vh.distance-vi)/(v.radius-vi));
+      if(target>h)h+=(target-h)*w;
+    }
     (s.pads||[]).forEach(function(p){
       var d=Math.hypot(Math.max(0,Math.abs(x-p.x)-p.w/2),Math.max(0,Math.abs(z-p.z)-p.d/2));
       h+=(p.height-h)*(1-smooth(d/p.blend));
@@ -145,11 +152,6 @@ var HolmOverhaulTerrain=(function(){
       h+=(hit.waterY-h)*(1-smooth((hit.distance-g.halfWidth)/g.blend));
     });
     var c=s.creek,hit=creekAt(c,x,z),inner=c.halfWidth+c.bankWidth,material=coast<beach?0:1;
-    if(c.valley&&hit.distance<c.valley.radius){
-      // the valley keeps both banks above the water line (never a perched channel)
-      var v=c.valley,target=hit.waterY+v.above+v.rise*Math.max(0,hit.distance-inner),w=1-smooth((hit.distance-inner)/(v.radius-inner));
-      if(target>h)h+=(target-h)*w;
-    }
     if(hit.distance<inner){
       var bed=hit.waterY-c.depth,lip=hit.waterY+.3,t=(hit.distance-c.halfWidth)/c.bankWidth;
       if(t<=0)h=bed;

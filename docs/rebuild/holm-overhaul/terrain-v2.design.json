@@ -31,7 +31,7 @@
  "pads": [
   { "id": "landing", "x": 61, "z": 118, "w": 10, "d": 7, "height": 1.0, "blend": 4 },
   { "id": "fire-beach", "x": 32.5, "z": 101, "w": 6, "d": 2.5, "height": 1.55, "blend": 1.2, "material": 0 },
-  { "id": "garden-terrace", "x": 51.5, "z": 61.5, "w": 6, "d": 5, "height": 5.4, "blend": 1.5 },
+  { "id": "garden-terrace", "x": 52.9, "z": 61.3, "w": 5.8, "d": 6.4, "height": 5.4, "blend": 1.2, "material": 1 },
   { "id": "mill", "x": 65.5, "z": 63.5, "w": 7, "d": 9, "height": 3.2, "blend": 2 },
   { "id": "beacon-cove", "x": 104, "z": 16, "w": 9, "d": 5, "height": 1.0, "blend": 3 },
   { "id": "holm-farm", "x": 110, "z": 95, "w": 12, "d": 9, "height": 2.4, "blend": 3 }
