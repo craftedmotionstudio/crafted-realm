@@ -684,12 +684,18 @@ LEG_R = {bt: _with_knee(rows) for bt, rows in LEG_R.items()}
 # the difference becomes the Build_Stout / Build_Slim morph of every part (clothes follow the body by construction).
 BUILD = {'name': 'average', 'skirt': 1.0, 'arm_out': None, 'leg_in': None, 'deltoid': 1.0, 'tables': None}
 
+ARM_IN = {}   # v4 profiles: per body type, the arm mesh sits this far inside its bones from the elbow down (m)
+
+def arm_in_vec(bt, sx):
+    return Vector((-sx * ARM_IN.get(bt, 0.0), 0, 0))
+
 def hand_shift(bt, sx, ax):
     """lateral offset of the whole hand under a build (it follows the wrist of the shifted forearm)"""
+    base = arm_in_vec(bt, sx)
     if not BUILD['arm_out']:
-        return Vector()
+        return base
     lat = Vector((sx, 0, 0)) - ax * (ax.x * sx)
-    return lat.normalized() * BUILD['arm_out'](bt, WRIST_U)
+    return base + lat.normalized() * BUILD['arm_out'](bt, WRIST_U)
 _BASE_TABLES = None
 
 def _build_tables(kind):
@@ -771,7 +777,7 @@ U_CAP = .65
 def arm_path(bt, sx):
     sd = 'Left' if sx > 0 else 'Right'
     x, y, z = ARM_TOP[bt]
-    return Path([(sx * x, y, z), BHEAD[B(sd + 'ForeArm')], BHEAD[B(sd + 'Hand')]])
+    return Path([(sx * x, y, z), BHEAD[B(sd + 'ForeArm')] + arm_in_vec(bt, sx), BHEAD[B(sd + 'Hand')] + arm_in_vec(bt, sx)])
 
 def leg_path(bt, sx):
     sd = 'Left' if sx > 0 else 'Right'
