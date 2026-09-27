@@ -489,7 +489,7 @@
   #build-stamp.min{font-size:0;padding:5px 6px;}
   #build-stamp.min:before{content:'\25CF';font-size:11px;}  /* collapsed: a single dot */
 </style>
-<link rel="stylesheet" href="assets/ui/login_overhaul.css?v=19">
+<link rel="stylesheet" href="assets/ui/login_overhaul.css?v=21">
 </head>
 <body>
 <canvas id="game-canvas"></canvas>
@@ -550,9 +550,7 @@
       <h3>Who are you?</h3>
       <label class="login-field-label" for="char-name">Adventurer name</label>
       <input id="char-name" maxlength="14" placeholder="Name your adventurer" value="Adventurer" autocomplete="off" spellcheck="false">
-      <fieldset class="login-choice-set"><legend>Tunic colour</legend><div class="swatches" id="sw-shirt"></div></fieldset>
-      <fieldset class="login-choice-set"><legend>Skin tone</legend><div class="swatches" id="sw-skin"></div></fieldset>
-      <p class="login-hint">You can refine your appearance after arriving on the Holm.</p>
+      <p class="login-hint">You will choose how you look when you wash ashore on the Holm.</p>
       <button class="lg-btn lg-btn-primary" id="btn-begin" type="button">Begin your journey</button>
       <button class="login-back" id="btn-create-back" type="button">← Back</button>
     </section>
@@ -1053,18 +1051,18 @@
 <script src="src/holm_arrival_trail.js?v=2wf"></script>
 <script src="src/holm_arrival_water.js?v=hdeca526f"></script>
 <script src="src/holm_arrival_porch_target.js?v=1"></script>
-<script src="src/holm_v2_land.js?v=h15257f91"></script><script src="src/holm_island_paths_data.js?v=hfcbfbdc7"></script><script src="src/holm_island_nav.js?v=hfc1a6a45"></script><script src="src/holm_island_lessons.js?v=8s58os1"></script><script src="src/holm_fishing.js?v=hc03f7dbf"></script><script src="src/holm_instanced_cells.js?v=hfba1ea67"></script><script src="src/holm_island_props.js?v=h7019d720"></script><script src="src/holm_mill.js?v=he37fbe70"></script><script src="src/holm_island_gates.js?v=3os2"></script><script src="src/holm_island_trials.js?v=3cfx1cb2"></script><script src="src/holm_proving_ground.js?v=hf9432b55"></script><script src="src/holm_island_tutors.js?v=h9e46f12c"></script><script src="src/holm_island_talk.js?v=h68340add"></script><script src="src/holm_kit.js?v=1k8k9m_eq3"></script><script src="src/holm_island_player.js?v=5k8k9m_cfx1c31em1eq3"></script><script src="src/holm_island_fx.js?v=3m"></script><script src="src/holm_island_guide.js?v=h09f2babc"></script><script src="src/holm_kit_creator.js?v=2k8k9m"></script><script src="src/holm_island_extras.js?v=h85a46e85"></script><script src="src/holm_guide_cellar.js?v=2"></script><script src="src/holm_arrival_qa.js?v=h77aef1b2"></script>
+<script src="src/holm_v2_land.js?v=h15257f91"></script><script src="src/holm_island_paths_data.js?v=hfcbfbdc7"></script><script src="src/holm_island_nav.js?v=hfc1a6a45"></script><script src="src/holm_island_lessons.js?v=8s58os1"></script><script src="src/holm_fishing.js?v=hc03f7dbf"></script><script src="src/holm_instanced_cells.js?v=hfba1ea67"></script><script src="src/holm_island_props.js?v=h7019d720"></script><script src="src/holm_mill.js?v=he37fbe70"></script><script src="src/holm_island_gates.js?v=3os2"></script><script src="src/holm_island_trials.js?v=3cfx1cb2"></script><script src="src/holm_proving_ground.js?v=hf9432b55"></script><script src="src/holm_island_tutors.js?v=h9e46f12c"></script><script src="src/holm_island_talk.js?v=h68340add"></script><script src="src/holm_kit.js?v=1k8k9m_eq3"></script><script src="src/holm_island_player.js?v=5k8k9m_cfx1c31em1eq3"></script><script src="src/holm_island_fx.js?v=3m"></script><script src="src/holm_island_guide.js?v=h09f2babc"></script><script src="src/holm_kit_creator.js?v=2k8k9mi42"></script><script src="src/holm_island_extras.js?v=h85a46e85"></script><script src="src/holm_guide_cellar.js?v=2"></script><script src="src/holm_arrival_qa.js?v=h77aef1b2"></script>
 <script src="src/holm_v3_terrain.js?v=2"></script>
 <script src="src/holm_v3_render.js?v=8"></script>
 <script src="src/holm_tile_house.js?v=8"></script>
 <script src="src/holm_tile_furniture.js?v=2"></script>
 <script src="src/holm_v3_scenery.js?v=11"></script>
 <script src="src/holm_v3_preview.js?v=6"></script>
-<script src="src/frame_stage_metrics.js?v=1"></script><script>CROnline.writeScripts()</script><script src="src/game5_main.js?v=h4ea18ae0"></script>
+<script src="src/frame_stage_metrics.js?v=1"></script><script>CROnline.writeScripts()</script><script src="src/game5_main.js?v=h4ea18ae0i42"></script>
 <script src="src/classic_pixels.js?v=2"></script>
 <script src="src/perf_probe.js?v=1"></script>
 <script src="src/tut_firemaking.js?v=1"></script>
-<script src="src/ui_osrs_kit.js?v=12om1b_9cb2_11d"></script><!-- LAST: the one OSRS interface kit (assets/ui/osrs_kit.css) -->
+<script src="src/ui_osrs_kit.js?v=14om1b_9cb2_11de"></script><!-- LAST: the one OSRS interface kit (assets/ui/osrs_kit.css) -->
 <script>
   /* sync the settings volume sliders to saved values on load */
   window.addEventListener('load', function(){ try{

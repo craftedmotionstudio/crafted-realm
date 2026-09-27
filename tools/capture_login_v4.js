@@ -40,7 +40,21 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
   await stage('login-confirm-new','05_confirm');
   await page.evaluate(()=>LoginOverhaul.setStage('login-choose'));await sleep(300);
   for(const [w,h,n] of [[1280,720,'08_1280x720'],[1920,1080,'08b_1920x1080'],[760,820,'09_760x820'],[390,844,'10_390x844']]){await page.setViewport({width:w,height:h});await sleep(1200);await shot(n)}
-  const report={label:LABEL,welcomeShownMs:shown,loginAssetBytes:bytes,assets,errors};
+  // the real new-adventurer path: name -> Begin -> the island -> the creator -> Confirm -> the washed-ashore note
+  await page.setViewport({width:1538,height:900});await sleep(800);
+  const flow={};
+  try{
+    await page.evaluate(()=>{document.getElementById('btn-new').click()});await sleep(600);
+    await page.evaluate(()=>{const n=document.getElementById('char-name');n.value='Wren';document.getElementById('btn-begin').click()});
+    await page.waitForFunction(()=>{const k=document.getElementById('kit-creator');return k&&k.style.display==='block'},{timeout:120000});
+    await sleep(2500);await shot('12_creator');flow.creator=true;
+    await page.evaluate(()=>{const b=document.querySelector('#kit-creator .kc-confirm');b&&b.click()});await sleep(900);
+    flow.note=await page.evaluate(()=>{const n=document.getElementById('holm-intro-note');return !!(n&&n.getBoundingClientRect().width)});
+    await shot('13_intro_note');const nr=await rectOf('#holm-intro-note',12);if(nr)await shot('13_intro_note_crop',nr);
+    await page.keyboard.press('Enter');await sleep(400);
+    flow.noteClosedByEnter=await page.evaluate(()=>!document.getElementById('holm-intro-note'));
+  }catch(e){flow.error=String(e).slice(0,200)}
+  const report={label:LABEL,welcomeShownMs:shown,loginAssetBytes:bytes,assets,flow,errors};
   fs.writeFileSync(path.join(OUT,'report.json'),JSON.stringify(report,null,1));console.log(JSON.stringify(report));
   await browser.close();
 })().catch(e=>{console.error('DRIVER ERROR',e);process.exit(1)});

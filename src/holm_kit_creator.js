@@ -55,7 +55,23 @@ var HolmKitCreator=(function(){
   refresh();return true}
  function close(save){if(!st.active)return;st.active=false;stage(false);if(typeof CharCreator!=='undefined')CharCreator.active=false;if(st.panel)st.panel.style.display='none';document.body.classList.remove('kit-creator-open');
   if(typeof CharCfg!=='undefined')CharCfg._new=false;if(save)try{SaveGame.save(true)}catch(e){}
-  if(typeof UI!=='undefined')UI.chat('Your new look is saved. You can change it any time with the appearance button (Shift+C).','plain')}
+  if(typeof UI!=='undefined')UI.chat('Your new look is saved. You can change it any time with the appearance button (Shift+C).','plain');
+  if(typeof CharCfg!=='undefined'&&CharCfg._intro){CharCfg._intro=false;setTimeout(introNote,250)}}
+ // a new adventurer's first moment on the Holm (owner 2026-09-27: "a short message explaining why this character is here"):
+ // an old-school note over the chat area, in our own words; Click here to continue, the X, Escape, Enter or Space close it
+ var INTRO=['You wake on the wet shingle of Tutor’s Holm, the tide still tugging at your boots.',
+  'The storm that wrecked your ship has blown itself out, and you are alive.',
+  'Guide Bram keeps the Guide House just up the path. He has set many a castaway on their feet: go and speak to him.'];
+ function introNote(){if(document.getElementById('holm-intro-note'))return;
+  var box=el('div');box.id='holm-intro-note';box.className='modal steel';box.setAttribute('role','dialog');box.setAttribute('aria-labelledby','holm-intro-title');
+  box.innerHTML='<span class="close-x" aria-label="Close">x</span><h3 id="holm-intro-title">Washed ashore</h3>'+
+   INTRO.map(function(l){return '<p>'+l+'</p>'}).join('')+'<button type="button" class="intro-continue opt">Click here to continue</button>';
+  var done=function(){if(!box.isConnected)return;box.remove();document.removeEventListener('keydown',key,true);click()};
+  var key=function(e){if(!box.isConnected)return;if(e.key==='Enter'||e.key===' '||e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();done()}};
+  box.querySelector('.close-x').onclick=done;box.querySelector('.intro-continue').onclick=done;
+  box.addEventListener('pointerdown',function(e){e.stopPropagation()});
+  document.addEventListener('keydown',key,true);document.body.appendChild(box);box.style.display='block';
+  if(typeof UI!=='undefined')UI.chat(INTRO[0]+' '+INTRO[2],'plain')}
  // the classic creator had its own screen: only the character and the lights on a dark backdrop, the world hidden
  var BACKDROP=0x2a241c;
  function stage(on){if(typeof scene==='undefined'||!scene)return;
@@ -77,6 +93,6 @@ var HolmKitCreator=(function(){
   if(typeof CharStyler!=='undefined')CharStyler.toggle=function(){if(st.active)close(true);else CharCreator.open()};
   var t0=CharCreator.tick;CharCreator.tick=function(dt){if(st.active)return tick(dt);return t0&&t0.call(CharCreator,dt)};
  }
- return {open:open,close:close,tick:tick,active:function(){return st.active}};
+ return {open:open,close:close,tick:tick,active:function(){return st.active},introNote:introNote};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmKitCreator;

@@ -3,8 +3,8 @@
  *   - a dim stone hall seen through a great archway: square pillars, coursed brick, a misty vaulted corridor (hall_dim.png,
  *     768 x 432, shown about 2x) with a second render lit by the fires (hall_lit.png) flickering over it (ui_osrs_kit.js)
  *   - two iron braziers on twisted stands at the edges, each with an 8-frame fire sprite sheet (CSS steps animation)
- *   - the title (v4.1): CRAFTED REALM cut into one long dressed-stone lintel with chipped arrises and an incised border; on
- *     its keystone a plain helm with a smith's hammer and a sword crossed behind it (logo.png, shown 2x)
+ *   - the title (v4.1/4.2): CRAFTED REALM cut into one long dressed-stone lintel with chipped arrises and an incised border;
+ *     on its keystone a plain helm set in front of a crossed war hammer and sword (logo.png, shown 2x)
  *   - a carved-slate panel with a raised bevelled rim and stone buttons (9-slices), yellow / white lettering in our
  *     bitmap font "Realm Small"
  * No gradients, glows or rounded CSS corners on the chrome (the vignette is scene lighting). Every id and stage class used by
@@ -30,8 +30,9 @@
 /* v4.1: the braziers stay inside the window (the fire is centred on the bowl, so it never spills off-screen) */
 .login-brazier-left{left:max(8px,calc(50% - 760px));} .login-brazier-right{right:max(8px,calc(50% - 760px));}
 .login-brazier .lb-stand{position:absolute;left:0;bottom:0;width:240px;height:336px;image-rendering:pixelated;}
-.login-brazier .lb-fire{position:absolute;left:0;bottom:312px;width:240px;height:336px;image-rendering:pixelated;
-  background:url("../icons/ui/v3/login/flame_sheet.png?v=3") 0 0/1920px 336px no-repeat;}   /* frames stepped by ui_osrs_kit.js */
+/* v4.2: the fire sits IN the bowl: its frame's foot is 36 px (2x) below the stand's top and it is drawn over the rim */
+.login-brazier .lb-fire{position:absolute;z-index:1;left:0;bottom:300px;width:240px;height:336px;image-rendering:pixelated;
+  background:url("../icons/ui/v3/login/flame_sheet.png?v=4") 0 0/1920px 336px no-repeat;}   /* frames stepped by ui_osrs_kit.js */
 .login-brazier-right .lb-fire{transform:scaleX(-1);}
 @media (max-height:860px){.login-brazier{--lb-scale:.8}}
 @media (max-height:700px){.login-brazier{--lb-scale:.64}}
@@ -41,7 +42,7 @@
 .login-crest{display:none;}
 #welcome-logo{position:static!important;display:block;margin:0 auto!important;transform:none!important;width:100%;height:auto;aspect-ratio:8/3;
   font-size:0!important;line-height:0!important;color:transparent!important;-webkit-text-fill-color:transparent!important;-webkit-text-stroke:0!important;
-  background:url("../icons/ui/v3/login/logo.png?v=5") center/contain no-repeat!important;image-rendering:pixelated;filter:none!important;text-shadow:none!important;}
+  background:url("../icons/ui/v3/login/logo.png?v=7") center/contain no-repeat!important;image-rendering:pixelated;filter:none!important;text-shadow:none!important;}
 #welcome-logo::after{display:none!important;}
 .login-subtitle{display:none;}
 
