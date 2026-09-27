@@ -36,23 +36,38 @@ SHELF_C = {   # the stylised midpoint: a gentler shelf
           (1.478, .066, .058, .060), (1.486, .061, .058, .060)],
 }
 
+# ---- heads (every option): the 2004 head is an egg -- widest at the temples, narrowing to a domed, slightly pointed crown
+# and to a small pointed chin; tiny ears; the face is a thin dark eye slit (with a small drop at its outer end), no brows,
+# at most a faint mouth line.  (z, rx, rf, rb, jaw) in head space, final values (v3.1f widened these by 1.02 at load)
+HEAD_EGG = {
+    'A': [(1.548, .036, .044, .036, 0.0), (1.566, .056, .062, .048, .15), (1.588, .068, .074, .058, .11), (1.628, .079, .084, .080, .05),
+          (1.665, .085, .088, .092, 0.0), (1.720, .086, .086, .098, 0.0), (1.770, .080, .078, .094, 0.0), (1.800, .068, .062, .080, 0.0),
+          (1.818, .047, .040, .056, 0.0), (1.824, .020, .016, .022, 0.0)],
+}
+HEAD_EGG['B'] = [(1.554, .032, .040, .032, 0.0), (1.572, .052, .060, .044, .17), (1.592, .064, .072, .054, .12),
+                 (1.630, .076, .084, .078, .05)] + HEAD_EGG['A'][4:]
+
 PROFILES = {
     'v4a': dict(label='Option A -- closest 2004: level shoulders, small head on a visible neck, flat faceted shading, stepped motion',
                 shelf=SHELF, arm_lift={'A': .030, 'B': .026}, arm_out={'A': .008, 'B': .006},
-                head_s=.96, head_dz=.004, neck_k=.92, sharp=12.0,
-                face=dict(eye=(.0275, 1.690, .022, .016, .022, .017), brow=(.029, 1.712, 0.0), brow_size=((.034, .010), (.030, .007)),
-                          mouth=(1.612, 1.614, .030, .022, .006)),
+                head_s=.96, head_dz=.004, neck_k=1.10, sharp=12.0,
+                head=HEAD_EGG, head_p=2.3,
+                face=dict(eye=(.0275, 1.690, .026, .0055, .024, .0050), eye_tick=(.010, -.004, .006, .0045), brow=None,
+                          mouth=(1.612, 1.614, .030, .022, 0.0), ear=(.70, .004)),
                 step={'walk': (3, 'CONSTANT'), 'run': (2, 'CONSTANT'), 'idle': (20, 'CONSTANT')}),
     'v4b': dict(label='Option B -- the v4a body with softer shading, held poses joined by straight lines',
                 shelf=SHELF, arm_lift={'A': .030, 'B': .026}, arm_out={'A': .008, 'B': .006},
-                head_s=.96, head_dz=.004, neck_k=.92, sharp=36.0,
-                face=dict(eye=(.0275, 1.690, .022, .016, .022, .017), brow=(.029, 1.712, 0.0), brow_size=((.034, .010), (.030, .007)),
-                          mouth=(1.612, 1.614, .030, .022, .006)),
+                head_s=.96, head_dz=.004, neck_k=1.10, sharp=36.0,
+                head=HEAD_EGG, head_p=2.3,
+                face=dict(eye=(.0275, 1.690, .026, .0060, .024, .0055), eye_tick=(.010, -.004, .006, .0045), brow=None,
+                          mouth=(1.612, 1.614, .022, .018, .0035), ear=(.70, .004)),
                 step={'walk': (3, 'LINEAR'), 'run': (2, 'LINEAR'), 'idle': (15, 'LINEAR')}),
     'v4c': dict(label='Option C -- stylised midpoint: a touch larger head, gentler shoulder shelf, soft shading, fewer-key smooth motion',
                 shelf=SHELF_C, arm_lift={'A': .020, 'B': .018}, arm_out={'A': .004, 'B': .004},
-                head_s=1.02, head_dz=-.006, neck_k=.95, sharp=40.0,
-                face=dict(eye=(.027, 1.689, .020, .015, .021, .016), brow=(.028, 1.709, 0.0)),
+                head_s=1.02, head_dz=-.006, neck_k=1.05, sharp=40.0,
+                head=HEAD_EGG, head_p=2.5,
+                face=dict(eye=(.027, 1.689, .022, .009, .021, .009), brow=(.028, 1.707, 0.0), brow_size=((.028, .005), (.024, .004)),
+                          mouth=(1.612, 1.614, .024, .018, .004), ear=(.80, .007)),
                 step={'walk': (3, 'BEZIER'), 'run': (2, 'BEZIER')}),
 }
 
@@ -105,6 +120,10 @@ def apply(K, name):
         K.ARMHOLE[bt]['zc'] += lift
         (dx, dy, dz), dr = K.DELTOID[bt]
         K.DELTOID[bt] = ((dx + out, dy, dz + lift), dr)
+    if 'head' in P:
+        for bt in ('A', 'B'):
+            K.HEAD_T[bt][:] = P['head'][bt]
+        K.HEAD_P = P['head_p']
     K.HEAD_S = P['head_s']
     K.HEAD_DZ = P['head_dz']
     K.NECK_K = P['neck_k']

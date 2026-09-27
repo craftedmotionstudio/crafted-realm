@@ -1081,20 +1081,27 @@ def build_head(mb, bt, nose=1.0, old=False):
     T = HEAD_T[bt]
     mb.loft([head_row_pts(r, nose) for r in T], 'C_SKIN', H, smooth=True)
     exx, ey, ewA, ehA, ewB, ehB = FACE.get('eye', (.0265, 1.687, .019, .0145, .020, .016))
-    bxx, by, bdz = FACE.get('brow', (.028, 1.706, 0.0))
+    brow = FACE.get('brow', (.028, 1.706, 0.0))
     for sx in (-1, 1):   # v2.3: 2004-style small dark rectangles set closer, under a clear brow line
         ex = exx * sx
         mb.box((ex, face_y(ex, ey, T, nose) - .0008, ey), (ewB if fem else ewA, .006, ehB if fem else ehA), 'A_EYES', H)
-        bw, bh = (.027, .0055) if fem else ((.032, .009) if old else (.030, .008))
-        if 'brow_size' in FACE:
-            bw, bh = FACE['brow_size'][1 if fem else 0]
-        mb.box((bxx * sx, face_y(bxx * sx, by, T, nose) - .0022, by), (bw, .007, bh), 'C_HAIR', H,
-               rot=Matrix.Rotation(math.radians(bdz * -sx), 3, 'Y'))   # v2.6: level brows = neutral, calm expression
+        if 'eye_tick' in FACE:   # v4: the 2004 eye -- a thin dark slit with a small drop at its outer end
+            tdx, tdz, tw, th_ = FACE['eye_tick']
+            tx = sx * (exx + tdx)
+            mb.box((tx, face_y(tx, ey + tdz, T, nose) - .0008, ey + tdz), (tw, .006, th_), 'A_EYES', H)
+        if brow is not None:
+            bxx, by, bdz = brow
+            bw, bh = (.027, .0055) if fem else ((.032, .009) if old else (.030, .008))
+            if 'brow_size' in FACE:
+                bw, bh = FACE['brow_size'][1 if fem else 0]
+            mb.box((bxx * sx, face_y(bxx * sx, by, T, nose) - .0022, by), (bw, .007, bh), 'C_HAIR', H,
+                   rot=Matrix.Rotation(math.radians(bdz * -sx), 3, 'Y'))   # v2.6: level brows = neutral, calm expression
         ez = 1.668
         rx = lerp_table(T, ez)[0]
+        ek, eo = FACE.get('ear', (1.0, .011))   # v4: smaller ears set closer to the head
         c0 = Vector((sx * (rx - .010), .004, ez))
-        c1 = Vector((sx * (rx + .011), .010, ez + .002))
-        mb.loft([xring(c0, (sx, 0, 0), .024, .020, .022, 4, (0, 0, 1)), xring(c1, (sx, 0, 0), .019, .015, .016, 4, (0, 0, 1))],   # v2.7b: simple ear block
+        c1 = Vector((sx * (rx + eo), .010, ez + .002))
+        mb.loft([xring(c0, (sx, 0, 0), .024 * ek, .020 * ek, .022 * ek, 4, (0, 0, 1)), xring(c1, (sx, 0, 0), .019 * ek, .015 * ek, .016 * ek, 4, (0, 0, 1))],   # v2.7b: simple ear block
                 'C_SKIN', H, smooth=True)
     mzA, mzB, mwA, mwB, mh = FACE.get('mouth', (1.611, 1.613, .034, .026, .0065))
     mz = mzB if fem else mzA
