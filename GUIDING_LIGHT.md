@@ -144,7 +144,7 @@ letter, not a clone. Warm, low-poly, flat-shaded 2007 charm. (Full vision: `GOAL
   bundle republish). Report `docs/rebuild/TUTORS_HOLM_FULL_ROUTE_QA_2026-09-09.md`. Remaining goal item: closeout.
 - **MAGE TOWER v1 LIVE / FUNCTIONAL GRAYBOX (2026-09-09):** the eighth and last Holm building: a two-storey ashlar
   tower under a pyramid spire with a timber scriptorium wing. The rune table counts the player's air and mind runes,
-  explains Wind Strike and opens the 🪄 tab; lectern and register teach NPC-free; the magic trial keeps its
+  explains Gale Dart and opens the 🪄 tab; lectern and register teach NPC-free; the magic trial keeps its
   `casting_socket`. The upper storey lives in the roof group so the cutaway exposes the ground floor. All gates green
   (smoke 104/104, 60 FPS, zero errors; tower QA 14/14). **Every reservation pad on Tutor's Holm is now a building.**
   Next: the full-route real-pointer regression, then closeout. Proof `docs/rebuild/MAGE_TOWER_V1_2026-09-09.md`.
@@ -237,7 +237,7 @@ letter, not a clone. Warm, low-poly, flat-shaded 2007 charm. (Full vision: `GOAL
   Mine Gatehouse/Training Cavern, Warden's Ridge banking, and Lastlight. Bread-making, quest orientation,
   extended melee/ranged practice, and magic practice are optional; their buildings enrich the island without
   blocking departure. Relighting Lastlight is now the live final capstone and unlocks the chunk-owned boat.
-  Boarding activates a separate bounded Veyhollow Commons provider and saves the provider transition. The
+  Boarding activates a separate bounded Hearthmere provider and saves the provider transition. The
   mainland footprint is an arrival shell, not authorization to build Hollow Well Square before the Guide Hall
   proves the complete building/room/door/service Studio round-trip.
 - **PHASE 2 GUIDE HALL v6 LIVE / FUNCTIONAL GRAYBOX (reclassified 2026-07-14):** v3/v4/v5 remain rejected evidence: they
@@ -380,7 +380,7 @@ letter, not a clone. Warm, low-poly, flat-shaded 2007 charm. (Full vision: `GOAL
   gathering and production to settlement defense without turning the game into Minecraft. Surges are
   milestone-gated, telegraphed, and knowingly player-started after preparation; they never resolve
   offline or permanently erase an absent player's property/progress. A launch capstone can permanently
-  secure Veyhollow from involuntary Surges while voluntary challenge Surges/deeper threats remain.
+  secure Hearthmere from involuntary Surges while voluntary challenge Surges/deeper threats remain.
 - **OPEN-WORLD STORY LAW:** no mandatory main quest owns the player's journey and the player is not a
   chosen one. Regional/faction arcs can be pursued in flexible order. A mysterious shard may be an
   optional quest item only; never make it the character's identity or a required campaign rail.

@@ -15,10 +15,10 @@
 
 ## 1. The Realm — premise
 
-**Crafted Realm** is a medieval fantasy world. The known, civilised heart of it is the
-valley of **Veyhollow** — a frontier hollow ringed by wilder lands: an autumn forest to the
+**Crafted Realm** is a medieval fantasy world. The known, civilised heart of it is
+**the Hearthlands** — a frontier hollow ringed by wilder lands: an autumn forest to the
 west, a drowned fen to the south-west, quarried crags and shifting dunes to the east, calm
-lakes to the south — and, to the **north beyond the Wilderness Ditch**, the burned
+lakes to the south — and, to the **north beyond the Ditch**, the burned
 **Wilderness** (the Scarlands), flanked by a snow keep (Whitmoor Hold, NW) and a frost coast
 (Brynholt, NE), and rising to the lightless **Undercrag** at its deep-north edge.
 Civilisation here is young and thin; most of the map is contested by monsters, raiders, and
@@ -33,9 +33,9 @@ older, hungrier things.
 
 The player washes ashore on **Tutor's Holm**, a small instructional island off the coast,
 with no memory and no name. **Guide Bram** sets them on their feet, then sends them by
-rowboat to the mainland at Veyhollow Commons. From there the world opens up.
+rowboat to the mainland at Hearthmere. From there the world opens up.
 
-**The long arc (↻ ITERATE):** Veyhollow sits on the rim of an old catastrophe — *the
+**The long arc (↻ ITERATE):** Hearthmere sits on the rim of an old catastrophe — *the
 Scarring* — that burned the northern reaches and woke things under the crag. The Wardens'
 Guild holds the line; the Spire studies why it happened; the Dawn prays it won't repeat.
 The player's journey climbs from clearing grubs out of a field to standing against
@@ -60,7 +60,7 @@ ladder for months/years of content.
 ## 3. The world map — regions & ecosystems
 
 Twelve legacy zones already exist (`ZONES` in `game1_data.js`). They are a reusable idea inventory, not a
-Browser 1.0 obligation. The locked launch roads are Tutor's Holm/Veyhollow, Emberwood/Stonereach,
+Browser 1.0 obligation. The locked launch roads are Tutor's Holm/Hearthmere, Emberwood/Stonereach,
 Mirrorpond/Gloomfen, and the Scarlands. They apply the OSRS ecosystem-diversity lesson:
 **each region = a distinct biome, a distinct skill
 focus, a distinct threat band, connected by roads** (the OSRS "every direction feels
@@ -68,7 +68,7 @@ different" principle).
 
 | Region | Biome | Skill focus | Threat | Anchor content |
 |---|---|---|---|---|
-| **Veyhollow Commons** | Green valley hub | All (banks, shops, tutor) | Safe | Town square, bank, smithy, pub |
+| **Hearthmere** | Green valley hub | All (banks, shops, tutor) | Safe | Town square, bank, smithy, pub |
 | **Emberwood** | Warm autumn forest | Woodcutting / Firemaking | Low | Olun the Miller, emberwood logs |
 | **Stonereach Quarry** | Rocky crag | Mining / Smithing | Low | Stonereach Smithy, Ferra |
 | **Mirrorpond** | Calm lake | Fishing / Cooking | Low | Mirrorperch fishing |
@@ -76,7 +76,7 @@ different" principle).
 | **Brynholt** | Cold northern coast | Fletching / Ranged | Mid | Bryn raiders, bowyer |
 | **The Ashar Dunes** | Desert | Thieving / exploration | Mid | Duneclaws |
 | **Whitmoor Hold** | Snowy highland keep | Combat (knightly) | Mid-high | Hold Knights |
-| **The Scarlands** (the Wilderness) | Burned wasteland, **NORTH past the Wilderness Ditch** (deeper = deadlier) | High-risk combat, opt-in PvP | Scales w/ depth | Ash stalkers, rare drops, the Ditch gate |
+| **The Scarlands** (the Wilderness) | Burned wasteland, **NORTH past the Ditch** (deeper = deadlier) | High-risk combat, opt-in PvP | Scales w/ depth | Ash stalkers, rare drops, the Ditch gate |
 | **The Proving Grounds** | Arena (south, by Mirrorpond) | PvP/duel sandbox | Opt-in | Pit duelist |
 | **The Undercrag** | Lightless undercity at the wild's deep-north edge | Endgame combat | Highest | **Korthul** (lvl 58 boss) |
 | **Tutor's Holm** | Tutorial island | Onboarding | Safe | Guide Bram |
@@ -86,16 +86,16 @@ OSRS-style; matches `Maps/Crafted Realms Map.png`):**
 
 | Compass | Biome band | Zones (built ✅ / planned ⏳) |
 |---|---|---|
-| Centre (safe core, below the Ditch) | Temperate heartland (the "Lumbridge belt") | ✅ Veyhollow Commons, ✅ Wardenholm Keep |
+| Centre (safe core, below the Ditch) | Temperate heartland (the "Lumbridge belt") | ✅ Hearthmere, ✅ Hearthmere Castle |
 | **North — beyond the WILDERNESS DITCH** | **THE BIG WILDERNESS** — burned wasteland + frontier | ✅ **The Scarlands** (centre; threat scales with depth, opt-in PvP), ✅ **Whitmoor Hold** (NW snow keep), ✅ **Brynholt** (NE frost coast, raiders/bowyers) — ⏳ **extend the Scarlands northward 2-3× as the true deep-wild**: deeper = deadlier, rare resources |
-| Deep north / endgame | Volcanic underworld at the wild's far edge | ✅ **The Undercrag** (Korthul) · ⏳ surface volcano/tropic isle (post-V1, reached by boat from Saltreach) |
+| Deep north / endgame | Volcanic underworld at the wild's far edge | ✅ **The Undercrag** (Korthul) · ⏳ surface volcano/tropic isle (post-V1, reached by boat from Gullhaven) |
 | West | Autumn forest | ✅ Emberwood (amber canopies) |
 | South-west | Drowned dark fen (our Morytania) | ✅ Gloomfen |
-| East | Rocky crag → desert → far coast | ✅ Stonereach Quarry, ✅ Ashar Dunes · ⏳ **Saltreach Port** (SE harbour town — ships, charters, smuggler flavor; our Port Sarim) |
+| East | Rocky crag → desert → far coast | ✅ Stonereach Quarry, ✅ Ashar Dunes · ⏳ **Gullhaven** (SE harbour town — ships, charters, smuggler flavor; our Port Sarim) |
 | South | Lakes & arena | ✅ Mirrorpond (fishing), ✅ The Proving Grounds |
 | South-east (offshore) | Tutorial isle | ✅ Tutor's Holm (rowboat to the mainland) |
 
-**The Wilderness Ditch (OSRS-style gate, built into the game):** a single east–west trench
+**The Ditch (our Wilderness ditch, built into the game):** a single east–west trench
 runs the full width of the map, separating the safe south from the northern Wilderness.
 Crossing it northward is an explicit, deliberate act (a jump-across with a warning) — north
 of it, threat climbs with depth and PvP is opt-in. It is a hard fiction-and-mechanics gate,
@@ -111,9 +111,9 @@ starter town.
 **Map design principles (for the future "better-than-OSRS" map — Phase: Chunk World):**
 - **Square chunks**, hand-authored, 8×8 tiles each (per `ROADMAP.md`). Visible tile grid.
 - **Biome transitions are gradual** (forest→fen→scar), not hard seams.
-- **Roads radiate from Veyhollow** (the `PATHS` array already paints these) — every road
+- **Roads radiate from Hearthmere** (the `PATHS` array already paints these) — every road
   leads somewhere with a reason to go.
-- **The Wilderness Ditch** is the one hard east–west gate between the safe south and the
+- **The Ditch** is the one hard east–west gate between the safe south and the
   northern Wilderness — crossing north is opt-in danger/PvP (see §3).
 - **Reward gradient = distance + threat.** Best stuff is far, dangerous, and gated —
   and *most* of all, north across the Ditch.
@@ -137,7 +137,7 @@ top. Current ladder in `TIERS` (`game1_data.js`):
 | 2 | **Iron** | 5 | 2.0× | Familiar early metal |
 | 3 | **Steel** | 10 | 3.2× | Familiar mid metal |
 | 4 | **Aurel** ✦ | 20 | 5.0× | *Custom* — golden alloy |
-| 5 | **Veyrite** ✦ | 30 | 7.5× | *Custom* — teal crystal-metal of Veyhollow |
+| 5 | **Veyrite** ✦ | 30 | 7.5× | *Custom* — teal crystal-metal of the Hearthlands |
 
 **Proposed extension to ~8 tiers (↻ ITERATE — fills the late/endgame, keeps boss sets off-ladder):**
 
@@ -149,7 +149,7 @@ top. Current ladder in `TIERS` (`game1_data.js`):
 | 3 | Steel | 10 | Smith | — |
 | 3.5 | **Whitsteel** ✦ | 15 | Whitmoor Hold (faction) | Knightly white steel |
 | 4 | Aurel ✦ | 20 | Smith (rare ore) | Golden |
-| 5 | Veyrite ✦ | 30 | Veyhollow crystal ore | Teal, signature endgame metal |
+| 5 | Veyrite ✦ | 30 | Hearthlands crystal ore | Teal, signature endgame metal |
 | 6 | **Undercrag** ✦ | 40 | **Korthul drops only** | Black volcanic, boss-gated prestige |
 
 **Off-ladder prestige sets (the "Barrows/Bandos" equivalent — best stats, hardest to get):**
@@ -182,13 +182,13 @@ fight without following a prescribed story order. A mysterious shard may appear 
 quest item, but is not the player's identity or destiny.
 
 1. **Onboarding** (Tutor's Holm) — Guide Bram teaches movement, combat, skills.
-2. **Veyhollow arc** — *Grub Trouble* → *The Thirsty Smith* → *Splinters & Sparks* (learn
+2. **Hearthmere arc** — *Grub Trouble* → *The Thirsty Smith* → *Splinters & Sparks* (learn
    the three gathering skills + the town).
 3. **Wardens arc** — *The Wardens' Trial* (kill the Fenlord) → guild rank → bounty board.
 4. **The Spire arc (↻)** — investigate why the Scarring happened; offers a magic road without
    making the whole spellbook depend on one story rail.
 5. **The Undercrag arc (↻)** — descend, face Korthul, earn the boss-tier set.
-6. **Surge capstone (↻)** — permanently secure Veyhollow from involuntary breaches. Afterward,
+6. **Surge capstone (↻)** — permanently secure Hearthmere from involuntary breaches. Afterward,
    controlled challenge Surges and deeper Scarlands threats remain available by choice.
 7. **Continuing world (↻)** — bosses, skills, wealth, rare equipment, collections, minigames,
    homestead improvement, and new self-contained arcs continue without a final game-over state.

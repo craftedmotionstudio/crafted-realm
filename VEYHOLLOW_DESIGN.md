@@ -1,5 +1,9 @@
 # Veyhollow — Starter-Town Design Brief (our Lumbridge, but better)
 
+> **Names (2026-09-27, docs/rebuild/NAMING_BIBLE.md):** Veyhollow is now **Hearthmere** (its valley: **the
+> Hearthlands**) and Wardenholm Keep is **Hearthmere Castle**. This brief keeps its file name and its historical
+> wording; player-facing text and new work use the bible names. Internal ids (`veyhollow-commons-v2`, `commons`) stay.
+
 > **Purpose:** the design spec a "perfect map designer" follows to author Veyhollow chunk by
 > chunk. Grounded in what's already in the game (`game1_data.js` zones/shops/NPCs/quests,
 > `game2_world.js` buildings, `STORY_BIBLE.md`) so every chunk is buildable, not abstract.
