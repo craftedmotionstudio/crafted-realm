@@ -108,7 +108,7 @@ async function capOurs(browser){
       const inf=await O.info(page);const L4=O.LENS2004;
       await O.hud(page,false);await O.setCam(page,{vfov:L4.vfov,elevDeg:26,dist:inf.height*2.6,lift:inf.height/2,yaw:inf.rotY+Math.PI/2});
       await O.startSampler(page,{crop:{size:[600,720],below:110}});await C.sleep(2600);
-      const l=await O.stopSampler(page);await O.setCam(page,null);await O.hud(page,true);saveSamples(dir,name,l,{clip:st.clip,lesson:st.lesson});C.log('[ours] anim',st.clip,l.length,'frames')}
+      const l=await O.stopSampler(page);await O.setCam(page,null);await O.hud(page,true);const dur=await page.evaluate(k=>{try{return player.userData.gmix.clips[k].getClip().duration}catch(e){return null}},st.clip);saveSamples(dir,name,l,{clip:st.clip,lesson:st.lesson,dur});C.log('[ours] anim',st.clip,l.length,'frames')}
     if(st.target&&/trial/.test(st.lesson||'')){const k=(seen['fight_'+st.lesson]||0);if(k<10){seen['fight_'+st.lesson]=k+1;await shot('combat_'+st.lesson+'_'+k)}}
   }catch(e){}finally{busy=false}}})();
   const STOP_AFTER='open_bank';

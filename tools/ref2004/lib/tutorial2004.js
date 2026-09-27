@@ -56,7 +56,12 @@ async function talk(S,npc,opts){
     if(W(S).dialog.isOpen)return readDialog(S,opts);
     const r=await S.bot.talkTo(npc);
     if(r.success)return readDialog(S,opts);
-    say('talkTo',String(npc&&npc.name||npc),'attempt',k+1,'failed:',r.message||r.reason);await C.sleep(1500+k*1000);
+    say('talkTo',String(npc&&npc.name||npc),'attempt',k+1,'failed:',r.message||r.reason);
+    // the SDK's own path check can refuse an NPC that stands right next to us: click it directly, like a player
+    const n=typeof npc==='object'&&npc.index!=null?npc:S.sdk.findNearbyNpc(npc);
+    if(n){const op=(n.optionsWithIndex||[]).find(o=>/talk/i.test(o.text));await S.sdk.sendInteractNpc(n.index,op?op.opIndex:1);
+      for(let t=0;t<12&&!W(S).dialog.isOpen;t++)await S.sdk.waitForTicks(1);if(W(S).dialog.isOpen)return readDialog(S,opts)}
+    await C.sleep(1500+k*1000);
   }
   return 0;
 }
@@ -74,7 +79,9 @@ async function leaveGuideHouse(S){
 // ---- following the tutorial
 async function hintNpc(ctx){const h=await hint(ctx.page);if(h.type!==1)return null;return ctx.S.sdk.getNearbyNpcs().find(n=>n.index===h.npc)||null}
 async function hintLoc(ctx){const h=await hint(ctx.page);if(h.type!==2)return null;
-  const locs=await ctx.S.sdk.scanNearbyLocs(30);return locs.find(l=>l.x===h.x&&l.z===h.z)||{x:h.x,z:h.z,name:null}}
+  const locs=await ctx.S.sdk.scanNearbyLocs(30);
+  // exact tile first; a big loc (furnace, range, gate) has its origin on another of its tiles
+  return locs.find(l=>l.x===h.x&&l.z===h.z)||locs.filter(l=>Math.max(Math.abs(l.x-h.x),Math.abs(l.z-h.z))<=1&&l.optionsWithIndex&&l.optionsWithIndex.length).sort((a,b)=>a.distance-b.distance)[0]||{x:h.x,z:h.z,name:null}}
 async function useHintLoc(ctx,option){
   const l=await hintLoc(ctx);if(!l)return false;
   if(!l.name){say('hint tile',l.x,l.z,'has no loc in view - walking there');await ctx.S.bot.walkTo(l.x,l.z,1);return true}
@@ -104,6 +111,18 @@ async function fish(c){for(let k=0;k<6;k++){if(inv(c.S,/raw shrimp/i))return tru
     say('fish attempt',k+1,':',r.message||r.reason);const s=c.S.sdk.findNearbyNpc(/Fishing spot/i);
     if(s)await c.S.sdk.sendWalk(s.x+(k%2?1:-1),s.z+(k%3?1:-1),false);await C.sleep(5000)}
   return false}
+// open the nearest gate with a plain click on it (the tutorial pens let you through that way) and step through
+async function throughGate(c,dx){const g=(await c.S.sdk.scanNearbyLocs(8)).filter(l=>/gate/i.test(l.name)).sort((a,b)=>a.distance-b.distance)[0];if(!g)return false;
+  await c.S.sdk.sendInteractLoc(g.x,g.z,g.id,1);await C.sleep(2500);const p=W(c.S).player;await c.S.sdk.sendWalk(p.worldX+dx,p.worldZ,false);await C.sleep(2000);return true}
+// click an NPC on the canvas like a player (the bot client's own routing check refuses targets across a fence)
+async function clickNpc(c,n){const xy=await c.page.evaluate(i=>{const g=window.gameClient,m=g.npc&&g.npc[i];if(!m)return null;g.getOverlayPos(m.x,m.z,(m.height/2)|0);return g.projectX>-1?[g.projectX+4,g.projectY+4]:null},n.index);
+  if(!xy)return false;await c.page.mouse.move(xy[0],xy[1]);await C.sleep(120);await c.page.mouse.down();await C.sleep(60);await c.page.mouse.up();await c.page.mouse.move(795,555);return true}
+// attack a giant rat: the SDK first; from outside the pen (melee) go through the gate; across the fence (ranged) click it
+async function attackRat(c,ranged){const r=await c.S.bot.attack(/giant rat/i);if(r.success)return true;say('attack:',r.message||r.reason);
+  if(!ranged)await throughGate(c,-2);
+  const rats=c.S.sdk.getNearbyNpcs().filter(n=>/giant rat/i.test(n.name)&&!n.inCombat).sort((a,b)=>a.distance-b.distance);if(!rats.length)return false;
+  const n=rats[0],op=(n.optionsWithIndex||[]).find(o=>/attack/i.test(o.text));
+  const q=await c.S.sdk.sendInteractNpc(n.index,op?op.opIndex:2);if(!q.success)await clickNpc(c,n);return true}
 // skill / item steps, by tutorial step (the talk and door steps are done by following the hint arrow)
 const SKILL={
   30:c=>c.moment('woodcutting',async()=>{const r=await c.S.bot.chopTree();if(!r.success)say('chop:',r.message||r.reason);await waitItem(c.S,/logs/i,20000)}),
@@ -120,15 +139,39 @@ const SKILL={
   // controls tab: Run (the step's own text does not change when the tab is opened, so do it from 190 as well)
   190:async c=>{await c.S.sdk.sendSetTab(12);await c.S.sdk.waitForTicks(1);await c.S.sdk.sendClickComponent(153);await c.S.sdk.waitForTicks(3);if(await varp(c.page)===190)return false},
   195:async c=>{await c.S.sdk.sendSetTab(12);await c.S.sdk.sendClickComponent(153);await c.S.sdk.waitForTicks(3)},
-  320:c=>c.moment('smelting',async()=>{const r=await c.S.bot.useItemOnLoc(/tin ore|copper ore/i,/furnace/i);if(!r.success)say('smelt:',r.message||r.reason);await waitItem(c.S,/bronze bar/i,15000)}),
-  340:async c=>{if(!inv(c.S,/hammer/i)||!inv(c.S,/bronze bar/i))return false;return c.moment('smithing',async()=>{const r=await c.S.bot.smithAtAnvil('dagger');if(!r.success)say('smith:',r.message||r.reason);await C.sleep(1500)})},
+  // smelt at the furnace the arrow points at (the mine has a second, ordinary furnace that makes a bar without
+  // counting for the lesson); fetch fresh ore first if a bar was already made at the wrong one
+  320:async c=>{
+    if(!inv(c.S,/tin ore/i)||!inv(c.S,/copper ore/i)){const locs=await c.S.sdk.scanNearbyLocs(20);
+      for(const re of [/tin ore/i,/copper ore/i]){if(inv(c.S,re))continue;const l=locs.filter(x=>re.test(x.name)).sort((a,b)=>a.distance-b.distance)[0];if(!l)continue;
+        await c.S.bot.interactLoc(l,/mine/i);for(let i=0;i<40&&!inv(c.S,re);i++){await dismiss(c.S);await C.sleep(500)}}}
+    const f=await hintLoc(c);const target=f&&f.name?f:/furnace/i;
+    return c.moment('smelting',async()=>{const r=await c.S.bot.useItemOnLoc(/tin ore|copper ore/i,target);
+      if(!r.success){say('smelt:',r.message||r.reason);const o=inv(c.S,/tin ore|copper ore/i);    // like a player: use the ore on it and let the client walk there
+        if(o&&f&&f.name)await c.S.sdk.sendUseItemOnLoc(o.slot,f.x,f.z,f.id)}
+      await waitVarpChange(c,320,15000)})},
+  // smith at the anvil the arrow points at (the mine has ordinary anvils too)
+  340:async c=>{if(!inv(c.S,/hammer/i)||!inv(c.S,/bronze bar/i))return false;
+    return c.moment('smithing',async()=>{const a=await hintLoc(c);const bar=inv(c.S,/bronze bar/i);
+      if(!a||!a.name){const r=await c.S.bot.smithAtAnvil('dagger');if(!r.success)say('smith:',r.message||r.reason);return}
+      await c.S.sdk.sendUseItemOnLoc(bar.slot,a.x,a.z,a.id);
+      for(let t=0;t<25&&!(W(c.S).interface&&W(c.S).interface.isOpen);t++)await c.S.sdk.waitForTicks(1);
+      const comp=(c.S.bot.constructor.SMITHING_COMPONENTS||{}).dagger;
+      if(comp)await c.S.sdk.sendClickComponentWithOption(comp.component,1,comp.slot);else say('smith: no dagger component');
+      await waitVarpChange(c,340,10000)})},
   380:async c=>{if(!inv(c.S,/dagger/i))return false;await c.S.bot.equipItem(/dagger/i);await C.sleep(1200);await c.moment('equipment_tab')},
   400:async c=>{if(!inv(c.S,/sword/i)&&!inv(c.S,/shield/i))return false;if(inv(c.S,/sword/i))await c.S.bot.equipItem(/sword/i);if(inv(c.S,/shield/i))await c.S.bot.equipItem(/shield/i);await C.sleep(1200)},
-  430:c=>c.moment('combat',async()=>{const r=await c.S.bot.attack(/giant rat/i);if(!r.success)say('attack:',r.message||r.reason);await waitVarpChange(c,430,40000)}),
-  440:c=>c.moment('combat',async()=>{await c.S.bot.attack(/giant rat/i);await waitVarpChange(c,440,40000)}),
+  420:async c=>{await c.moment('combat_tab');await throughGate(c,-2)},
+  430:c=>c.moment('combat',async()=>{await attackRat(c);await waitVarpChange(c,430,40000)}),
+  440:c=>c.moment('combat',async()=>{await attackRat(c);await waitVarpChange(c,440,40000)}),
+  450:async c=>{const n=c.S.sdk.findNearbyNpc(/Combat Instructor/i);const r=n?await c.S.bot.talkTo(n):{success:false};if(r.success)return readDialog(c.S);await throughGate(c,2);await talkHint(c,/Combat Instructor/i)},
+  // ranged over the fence: click the rat the arrow points at (the SDK routes to it and refuses), again every few
+  // seconds until the kill is credited
   460:async c=>{if(inv(c.S,/shortbow/i))await c.S.bot.equipItem(/shortbow/i);if(inv(c.S,/arrow/i))await c.S.bot.equipItem(/arrow/i);await C.sleep(800);
     if(!c.S.sdk.findEquipmentItem(/shortbow/i))return false;
-    return c.moment('ranged',async()=>{await c.S.bot.attack(/giant rat/i);await waitVarpChange(c,460,40000)})},
+    return c.moment('ranged',async()=>{for(let k=0;k<20;k++){const h=await hint(c.page);
+      const n=c.S.sdk.getNearbyNpcs().find(x=>h.type===1&&x.index===h.npc)||c.S.sdk.getNearbyNpcs().filter(x=>/giant rat/i.test(x.name)).sort((a,b)=>a.distance-b.distance)[0];
+      if(n)await clickNpc(c,n);if(await waitVarpChange(c,460,4500))return}})},
   500:c=>c.moment('bank',async()=>{const r=await c.S.bot.openBank();if(!r.success)say('bank:',r.message||r.reason);await C.sleep(2000)}),
 };
 const LOC_OPTION={270:/prospect/i,290:/^mine$/i};

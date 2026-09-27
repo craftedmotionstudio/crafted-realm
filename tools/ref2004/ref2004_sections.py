@@ -58,11 +58,21 @@ def anim_strip(folder, game, n=8):
                 cyc = list(range(a, b))
             else:
                 cyc = idx
+                # a one-shot action (kneel, cook): how long the animation stays on
+                info['active_s'] = round((S[idx[-1]]['t'] - S[idx[0]]['t']) / 1000, 3)
+                info['frames'] = int(max(S[k]['paf'] for k in idx) + 1)
             info['anim'] = seq
         else:
             cyc = list(range(len(S)))
     else:
+        # ours: one cycle of the clip (its authored length, recorded by the capture or the table below)
+        clip = d.get('clip') or os.path.basename(folder)[5:]
+        dur = d.get('dur') or OURS_CLIP_S.get(clip)
         cyc = list(range(len(S)))
+        if dur:
+            t0 = S[0]['t']
+            cyc = [k for k in cyc if S[k]['t'] - t0 <= dur * 1000] or cyc
+            info['cycle_s'] = dur
     if not cyc:
         return None, info
     t0, t1 = S[cyc[0]]['t'], S[cyc[-1]]['t']
@@ -73,6 +83,22 @@ def anim_strip(folder, game, n=8):
         im = scale_to_h(im, 280, game == '2004')
         tiles.append(label(im, '%.0f ms' % (S[k]['t'] - t0), 14))
     return row(tiles), info
+
+
+# our clip lengths (s) as authored in the player GLB (read from the live game 2026-09-27; the capture now records them)
+OURS_CLIP_S = {'chop': 1.0, 'net': 1.6, 'mine': 1.0, 'cook': 1.333, 'smelt': 1.2, 'smith': 1.0, 'firemake': 1.0,
+               'attack_stab': 0.6, 'attack_slash': 0.6, 'bow': 1.2, 'climb': 1.0}
+
+def mid_action_full(folder):
+    """A full frame from the middle of the action (the player's own animation running), e.g. a hit splat mid-fight."""
+    try:
+        S = json.load(open(os.path.join(folder, 'samples.json')))['samples']
+    except Exception:
+        return None
+    act = [r for r in S if r.get('fullFile') and r.get('pa', -1) != -1]
+    if not act:
+        act = [r for r in S if r.get('fullFile')]
+    return os.path.join(folder, act[len(act) // 2]['fullFile']) if act else None
 
 
 MOMENTS = [
@@ -88,8 +114,9 @@ MOMENTS = [
     ('quest_guide_building', ['quest_dialogue.png', 'quest_building.png'], ['dialogue_ansel.png', 'quest_building.png'], None, None),
     ('mine', ['mine.png', 'mining_dialogue.png'], ['dialogue_durgin.png', 'mine.png'], 'mining', ['mine', 'pick']),
     ('smelting_smithing', [], [], 'smelting', ['smelt', 'smith', 'hammer', 'anvil']),
-    ('combat', ['combat_area.png', 'combat_dialogue.png'], ['dialogue_corrick.png', 'combat_melee_trial_3.png', 'combat_melee_trial_0.png'], 'combat', ['attack', 'slash', 'stab', 'punch', 'strike']),
-    ('combat_hit', [], ['combat_melee_trial_4.png', 'combat_melee_trial_2.png'], 'combat', None),
+    ('combat_instructor', ['combat_area.png', 'combat_dialogue.png'], ['dialogue_corrick.png'], None, None),
+    ('combat_melee', [], ['combat_melee_trial_4.png', 'combat_melee_trial_2.png', 'combat_melee_trial_0.png'], 'combat_open', ['attack', 'slash', 'stab', 'punch', 'strike']),
+    ('combat_ranged', [], ['combat_ranged_trial_4.png', 'combat_ranged_trial_2.png', 'combat_ranged_trial_0.png'], 'ranged', ['bow']),
     ('bank', ['bank.png'], ['bank.png'], 'bank', None),
 ]
 
@@ -103,7 +130,7 @@ def tutorial():
         # an animated moment: take a mid-action full frame from the sampler for the still
         f4 = os.path.join(d4, a4) if a4 else None
         if f4 and not a and os.path.isdir(f4):
-            a = first(f4 + '.png', os.path.join(f4, 'full_0010.png'), os.path.join(f4, 'full_00*.png'), os.path.join(f4, 'full_*.png'))
+            a = first(f4 + '.png') or mid_action_full(f4) or first(os.path.join(f4, 'full_*.png'))
         fo = None
         if ao:
             for p in oursdirs:
@@ -117,11 +144,12 @@ def tutorial():
         if f4 and os.path.isdir(f4):
             s, info = anim_strip(f4, '2004')
             if s is not None:
-                parts.append(label(s, '2004 action frames' + (' - cycle %.2fs, %d frames' % (info['cycle_s'], info['frames']) if info.get('cycle_s') else ''), 18))
+                parts.append(label(s, '2004 action frames' + (' - cycle %.2fs, %d frames' % (info['cycle_s'], info['frames']) if info.get('cycle_s') else (' - on for %.2fs, %d frames' % (info['active_s'], info['frames']) if info.get('active_s') else '')), 18))
         if fo:
             s, _ = anim_strip(fo, 'ours')
             if s is not None:
-                parts.append(label(s, 'ours action frames (%s)' % os.path.basename(fo)[5:], 18))
+                _, io = anim_strip(fo, 'ours')
+                parts.append(label(s, 'ours action frames (%s)%s' % (os.path.basename(fo)[5:], ' - clip %.2fs' % io['cycle_s'] if io and io.get('cycle_s') else ''), 18))
                 s.save(os.path.join(outours('tutorial'), 'ours_%s_frames.png' % name))
         if b:
             load(b).save(os.path.join(outours('tutorial'), 'ours_%s.png' % name))

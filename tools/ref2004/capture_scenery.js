@@ -7,7 +7,7 @@
  * Frames: C:\Users\iQwaZ\ref2004_captures\scenery\{2004,ours}\ ; then python tools/ref2004/analyze.py scenery */
 'use strict';
 process.env.TELEMETRY='false';
-const path=require('path');
+const path=require('path'),fs=require('fs');
 const C=require('./lib/common');
 const arg=(k,d)=>{const i=process.argv.indexOf('--'+k);return i>0?process.argv[i+1]:d};
 const SIDE=arg('side','both');
@@ -34,6 +34,22 @@ async function cap2004(browser){
     await page.evaluate(()=>{window.gameClient.orbitCameraPitch=256});await C.sleep(1500);await R.grab(page,path.join(dir,name+'_p256_y1536.png'));
     log.push({name,tile:T.tile(S)});
   }
+  // a fight in the open (hit splats, health bars, combat animations) with a weak monster near the last spot
+  try{
+    const foe=S.sdk.getNearbyNpcs().filter(n=>/^(goblin|chicken|rat|cow)$/i.test(n.name)&&!n.inCombat).sort((a,b)=>a.distance-b.distance)[0];
+    if(foe){C.log('[2004] fight',foe.name,'at',foe.x,foe.z);
+      await R.setCam(page,{orbitPitch:128});await page.evaluate(()=>{window.gameClient.__cam=null});
+      const sd=path.join(C.CAP,'tutorial','2004');fs.mkdirSync(sd,{recursive:true});
+      await R.startSampler(page,{crop:{size:[200,240],below:30},fullEvery:4});
+      const r=await S.bot.attack(foe);if(!r.success)C.log('[2004] attack',r.message||r.reason);
+      for(let i=0;i<60;i++){await C.sleep(500);const n=S.sdk.getNearbyNpcs().find(x=>x.index===foe.index);if(!n||n.hp===0)break}
+      await C.sleep(1500);const l=await R.stopSampler(page);
+      fs.mkdirSync(path.join(sd,'combat_open'),{recursive:true});const meta=[];
+      l.forEach((r,i)=>{if(r.png){C.dataUrlToFile(r.png,path.join(sd,'combat_open',String(i).padStart(4,'0')+'.png'));r.file=String(i).padStart(4,'0')+'.png'}
+        if(r.full){C.dataUrlToFile(r.full,path.join(sd,'combat_open','full_'+String(i).padStart(4,'0')+'.png'));r.fullFile='full_'+String(i).padStart(4,'0')+'.png'}delete r.png;delete r.full;meta.push(r)});
+      C.writeJSON(path.join(sd,'combat_open','samples.json'),{samples:meta,foe:foe.name});log.push({fight:foe.name,frames:l.length});
+    }
+  }catch(e){C.log('[2004] fight error',String(e).slice(0,160))}
   C.writeJSON(path.join(dir,'log.json'),{log,at:new Date().toISOString()});
   await S.sdk.disconnect().catch(()=>{});await page.close();
 }
@@ -49,8 +65,10 @@ async function capOurs(browser){
   // fishing ripples, the fire ring); the first spot whose 2004-lens views see the adventurer from >= 2 yaws wins
   const named=await page.evaluate(()=>{const out={};const add=(k,re)=>{const l=[];scene.traverse(m=>{if(l.length<4&&m.name&&re.test(m.name)){const b=new THREE.Box3().setFromObject(m).getCenter(new THREE.Vector3());l.push([b.x,b.z])}});out[k]=l};
     add('field',/^island-lesson-survival-oak/);add('water',/fishing|ripple|pond/i);add('town',/^island-building-(bakehouse|lodge|bank|mill)$/);return out});
-  const kinds={town:[[39.5,59.5],[86.5,63.5],[47.5,71.5]],field:[[33.5,78.5]],water:[[61.5,114.5]]};
-  for(const k in named)for(const [x,z] of named[k])for(const [dx,dz] of [[4,0],[0,4],[-4,0],[0,-4]])kinds[k].push([Math.floor(x+dx)+.5,Math.floor(z+dz)+.5]);
+  const kinds={town:[[39.5,59.5],[86.5,63.5],[47.5,71.5]],field:[],water:[[61.5,114.5]]};
+  // a field means trees around the adventurer: the spots beside the lesson oaks come first
+  for(const k in named)for(const [x,z] of named[k])for(const [dx,dz] of [[3,0],[0,3],[-3,0],[0,-3]])kinds[k][k==='field'?'push':'push']([Math.floor(x+dx)+.5,Math.floor(z+dz)+.5]);
+  kinds.field.push([33.5,78.5]);
   const YAW8=[0,256,512,768,1024,1280,1536,1792];
   const lens=y=>({vfov:L4.vfov,elevDeg:22.5,dist:L4.boomTiles(128),lift:L4.lookLift,yaw:Math.PI-y*Math.PI/1024});
   for(const kind of ['town','field','water']){
