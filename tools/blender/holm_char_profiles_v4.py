@@ -30,10 +30,10 @@ SHELF = {   # (z, rx, rf, rb) -- the torso from the upper chest to the collar
           (1.470, .086, .066, .068), (1.480, .064, .058, .060), (1.486, .060, .058, .060)],
 }
 SHELF_SQ = {   # the 2004 "coat-hanger" line: a flat top from the collar almost to the arm, then a crisp corner into the sleeve
-    'A': [(1.380, .197, .126, .117), (1.420, .201, .118, .112), (1.452, .200, .108, .104), (1.472, .190, .094, .092),
-          (1.486, .160, .080, .080), (1.494, .110, .068, .070), (1.500, .072, .062, .064)],
-    'B': [(1.385, .162, .110, .106), (1.418, .164, .102, .099), (1.446, .162, .092, .090), (1.464, .152, .080, .080),
-          (1.478, .124, .069, .070), (1.486, .084, .060, .062), (1.492, .062, .058, .060)],
+    'A': [(1.380, .190, .126, .117), (1.420, .193, .118, .112), (1.452, .192, .108, .104), (1.472, .184, .094, .092),
+          (1.486, .156, .080, .080), (1.494, .108, .068, .070), (1.500, .072, .062, .064)],
+    'B': [(1.385, .156, .110, .106), (1.418, .162, .102, .099), (1.446, .164, .092, .090), (1.464, .160, .080, .080),
+          (1.478, .142, .069, .070), (1.486, .100, .060, .062), (1.492, .062, .058, .060)],
 }
 SHELF_C = {   # the stylised midpoint: a gentler shelf
     'A': [(1.380, .197, .126, .117), (1.425, .194, .110, .106), (1.455, .172, .092, .091), (1.475, .124, .076, .076),
@@ -54,19 +54,55 @@ HEAD_EGG['B'] = [(1.554, .032, .040, .032, 0.0), (1.572, .052, .060, .044, .17),
                  (1.630, .076, .084, .078, .05)] + HEAD_EGG['A'][4:]
 
 # the 2004 idle (measured on the reference front views): legs nearly parallel and close under narrow hips
-STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 1.5), 'RightUpLeg': (-5.5, 1, -1.5)}
+STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 3.0), 'RightUpLeg': (-5.5, 1, -3.0), 'Neck': (-6, 0, 0), 'Head': (22, 0, 0)}   # head bowed a little
+# the old client's ready pose: the left foot a little forward, the right back, toes turned out
+IDLE_FEET_2004 = {'Left': (.125, .17), 'Right': (-.125, -.03), 'drop': .02, 'toe': 8.0}   # the right foot forward
 
 # the 2004 man's V: broad square shoulders over a narrow waist at the belt and slim hips (body A, z < 1.38; final values)
 V_TORSO_A = [(0.940, .138, .1232, .1210, .026), (1.000, .136, .1210, .1166, .022), (1.080, .152, .1276, .1166, .018),
              (1.160, .166, .1386, .1188, .014), (1.240, .174, .1452, .1232, .010), (1.315, .182, .1408, .1232, .008)]
 V_PELVIS_A = [(0.790, .110, .0691, .0734, .030), (0.850, .168, .1037, .1123, .028), (0.930, .160, .1145, .1231, .026),
               (0.985, .142, .1166, .1188, .024), (1.012, .137, .1166, .1145, .022)]
+# 2004 legs are long: the crotch sits just under the hip joints (0.48 H) -- a short rise under the belt
+V_PELVIS_A_LONG = [(0.868, .100, .0691, .0734, .030), (0.900, .160, .1037, .1123, .028), (0.945, .158, .1145, .1231, .026),
+                   (0.985, .142, .1166, .1188, .024), (1.012, .137, .1166, .1145, .022)]
 
-def _v_body(K, thigh_k=.85, hip_x=.092):
+def _arms(K, elbow_up, wrist_up):
+    """2004 arms are shorter (fists at the crotch, 0.50 H): the elbow and wrist joints move up (the skeleton changes;
+    every clip / grip is computed from the bones, the grip point follows the hand)"""
+    from mathutils import Vector
+    for i, (n, par, h, t, r) in enumerate(K.BONES):
+        short = n.split(':')[1]
+        for sd in ('Left', 'Right'):
+            if short == sd + 'Arm':
+                t = (t[0], t[1], t[2] + elbow_up)
+            elif short == sd + 'ForeArm':
+                h = (h[0], h[1], h[2] + elbow_up); t = (t[0], t[1], t[2] + wrist_up)
+            elif short == sd + 'Hand':
+                h = (h[0], h[1], h[2] + wrist_up); t = (t[0], t[1], t[2] + wrist_up)
+        K.BONES[i] = (n, par, h, t, r)
+    K.BHEAD.update({b[0]: Vector(b[2]) for b in K.BONES})
+    K.BTAIL.update({b[0]: Vector(b[3]) for b in K.BONES})
+    for sd in ('Left', 'Right'):
+        K.GRIP_REST[sd] = K.GRIP_REST[sd] + Vector((0, 0, wrist_up))
+    K._STANCE_LOCAL.clear()
+
+# the 2004 woman: very slim -- a narrow waist (the bare midriff), slim hips and thighs, under puffed shoulders
+V_TORSO_B = [(0.940, .140, .1166, .1232, .026), (1.000, .125, .1078, .1100, .022), (1.060, .112, .1056, .1034, .018),
+             (1.140, .120, .1144, .1056, .014), (1.215, .136, .1452, .1078, .010), (1.270, .142, .1474, .1100, .008),
+             (1.330, .150, .1232, .1100, .008)]
+V_PELVIS_B = [(0.800, .110, .0691, .0756, .030), (0.850, .166, .1058, .1188, .028), (0.930, .168, .1145, .1318, .026),
+              (0.985, .150, .1080, .1166, .024), (1.012, .136, .1058, .1091, .022)]
+
+def _v_body(K, thigh_k=.80, hip_x=.100, long_legs=True, thigh_k_b=.84, hip_x_b=.090):
     K.TORSO['A'][:] = V_TORSO_A + [r for r in K.TORSO['A'] if r[0] >= 1.38 - 1e-6]
-    K.PELVIS['A'][:] = V_PELVIS_A
-    K.LEG_R['A'][:] = [(u, rs * (thigh_k + (1 - thigh_k) * K.ss(.8, 1.2, u)), rf, rb) for u, rs, rf, rb in K.LEG_R['A']]
+    K.PELVIS['A'][:] = V_PELVIS_A_LONG if long_legs else V_PELVIS_A
+    K.TORSO['B'][:] = V_TORSO_B + [r for r in K.TORSO['B'] if r[0] >= 1.38 - 1e-6]
+    K.PELVIS['B'][:] = V_PELVIS_B
+    for bt, tk in (('A', thigh_k), ('B', thigh_k_b)):
+        K.LEG_R[bt][:] = [(u, rs * (tk + (1 - tk) * K.ss(.8, 1.2, u)), rf, rb) for u, rs, rf, rb in K.LEG_R[bt]]
     K.HIP_X['A'] = hip_x
+    K.HIP_X['B'] = hip_x_b
 
 # the 2004 cycle (measured on the reference strips: walk 8 poses x 120 ms, stride 0.97 H; run 8 poses x 85 ms, 0.68 s,
 # stride 1.59 H at 2.33 H/s). Our run speed (4.2 m/s = 2.31 H/s) matches, so the run keeps the 2004 cycle; our walk is
@@ -79,15 +115,15 @@ TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
 PROFILES = {
     'v4a': dict(label='Option A -- closest 2004: level shoulders, small head on a visible neck, flat faceted shading, stepped motion',
-                shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .040}, arm_out={'A': .016, 'B': .008},
-                head_s=1.08, head_wx=1.07, head_hz=1.00, head_dz=0.0, neck_k=1.10, sharp=12.0, stance=STANCE_2004, v_body={},
+                shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .074}, arm_out={'A': .000, 'B': .012},
+                head_s=.98, head_s_bt={'B': .93}, head_wx=1.07, head_hz=1.00, head_dz=-.016, neck_k={'A': 1.10, 'B': .82}, sharp=12.0, stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, arms=(.05, .095), hand_k={'A': .86, 'B': .78},
                 head=HEAD_EGG, head_p=2.3,
                 face=dict(eye=(.0275, 1.690, .026, .0055, .024, .0050), eye_tick=(.010, -.004, .006, .0045), brow=None,
                           mouth=(1.612, 1.614, .030, .022, 0.0), ear=(.70, .004)),
                 step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')}, gait=GAIT_2004),
     'v4b': dict(label='Option B -- the v4a body with softer shading, held poses joined by straight lines',
-                shelf=SHELF_SQ, arm_lift={'A': .046, 'B': .040}, arm_out={'A': .010, 'B': .008},
-                head_s=1.08, head_wx=1.07, head_hz=1.00, head_dz=0.0, neck_k=1.10, sharp=36.0, stance=STANCE_2004, v_body={},
+                shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .074}, arm_out={'A': .000, 'B': .012},
+                head_s=.98, head_s_bt={'B': .93}, head_wx=1.07, head_hz=1.00, head_dz=-.016, neck_k={'A': 1.10, 'B': .82}, sharp=36.0, stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, arms=(.05, .095), hand_k={'A': .86, 'B': .78},
                 head=HEAD_EGG, head_p=2.3,
                 face=dict(eye=(.0275, 1.690, .026, .0060, .024, .0055), eye_tick=(.010, -.004, .006, .0045), brow=None,
                           mouth=(1.612, 1.614, .022, .018, .0035), ear=(.70, .004)),
@@ -144,6 +180,10 @@ def apply(K, name):
     _feet(K)
     if 'v_body' in P:
         _v_body(K, **P['v_body'])
+    if 'arms' in P:
+        _arms(K, *P['arms'])
+    if 'hand_k' in P:
+        K.HAND_K.update(P['hand_k'])
     for bt in ('A', 'B'):
         _torso_top(K, bt, P['shelf'][bt])
         lift, out = P['arm_lift'][bt], P['arm_out'][bt]
@@ -157,6 +197,7 @@ def apply(K, name):
             K.HEAD_T[bt][:] = P['head'][bt]
         K.HEAD_P = P['head_p']
     K.HEAD_S = P['head_s']
+    K.HEAD_S_BT.clear(); K.HEAD_S_BT.update(P.get('head_s_bt', {}))
     K.HEAD_WX = P.get('head_wx', K.HEAD_WX)
     K.HEAD_HZ = P.get('head_hz', K.HEAD_HZ)
     K.HEAD_DZ = P['head_dz']
@@ -165,6 +206,8 @@ def apply(K, name):
     K.FACE.clear(); K.FACE.update(P['face'])
     K.STEP_CLIPS.clear(); K.STEP_CLIPS.update(P.get('step', {}))
     K.GAIT.clear(); K.GAIT.update(P.get('gait', {}))
+    if 'idle_feet' in P:
+        K.IDLE_FEET = P['idle_feet']
     if 'stance' in P:        # idle stance: legs / spine / shoulders (Euler, over the rest skeleton)
         K.STANCE.update(P['stance'])
     if 'arm_aim' in P:       # idle arm hang (absolute directions, left side; mirrored for the right)

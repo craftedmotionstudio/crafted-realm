@@ -27,7 +27,7 @@ except Exception:   # pragma: no cover
     ndimage = None
 
 
-def load_mask(path, crop=None, bg=None, thr=30.0, plate=None, plate_thr=24):
+def load_mask(path, crop=None, bg=None, thr=30.0, plate=None, plate_thr=24, open_iter=1):
     im = Image.open(path)
     if crop:
         im = im.crop(crop)
@@ -54,7 +54,8 @@ def load_mask(path, crop=None, bg=None, thr=30.0, plate=None, plate_thr=24):
         d = np.min([np.linalg.norm(a - c, axis=2) for c in cols], axis=0)
         m = d > thr
     if ndimage is not None:
-        m = ndimage.binary_opening(m, iterations=1)
+        if open_iter:
+            m = ndimage.binary_opening(m, iterations=open_iter)
         lab, n = ndimage.label(m)
         if n > 1:
             sizes = ndimage.sum(m, lab, range(1, n + 1))

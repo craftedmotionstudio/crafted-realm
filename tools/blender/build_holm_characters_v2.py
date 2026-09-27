@@ -1107,7 +1107,7 @@ def build_head(mb, bt, nose=1.0, old=False):
     mz = mzB if fem else mzA
     if mh > 0:
         mb.box((0, face_y(0, mz, T, nose) - .0010, mz), (mwB if fem else mwA, .006, mh), 'A_EYES', H)
-    nk = NECK_K
+    nk = NECK_K.get(bt, 1.0) if isinstance(NECK_K, dict) else NECK_K
     mb.loft([xring((0, .002, 1.40), (0, -.08, 1), nk * .060 / HEAD_WX, nk * .054, nk * .049, 6), xring((0, .000, 1.52), (0, -.02, 1), nk * .056 / HEAD_WX, nk * .050, nk * .051, 6),   # v2.8: back of the neck stays inside the collar
              xring((0, .010, 1.625), (0, .10, 1), .048 / HEAD_WX, .040, .050, 6)],   # v2.7: neck rises into the skull base (no step from the side)
             'C_SKIN', NECK_W, smooth=True)
@@ -1238,11 +1238,13 @@ def hair_spikes(mb, bt, count=14, seed=7, ln=(.05, .085), lean=(-.2, 1.0)):
 
 def head_to_world(v):
     d = Vector(v) - HEAD_PIVOT
-    return HEAD_PIVOT + Vector((d.x * HEAD_S * HEAD_WX, d.y * HEAD_S * HEAD_WY, d.z * HEAD_S * HEAD_HZ)) + Vector((0, 0, HEAD_DZ))
+    hs = head_s()
+    return HEAD_PIVOT + Vector((d.x * hs * HEAD_WX, d.y * hs * HEAD_WY, d.z * hs * HEAD_HZ)) + Vector((0, 0, HEAD_DZ))
 
 def world_to_head(w):
     d = Vector(w) - Vector((0, 0, HEAD_DZ)) - HEAD_PIVOT
-    return HEAD_PIVOT + Vector((d.x / (HEAD_S * HEAD_WX), d.y / (HEAD_S * HEAD_WY), d.z / (HEAD_S * HEAD_HZ)))
+    hs = head_s()
+    return HEAD_PIVOT + Vector((d.x / (hs * HEAD_WX), d.y / (hs * HEAD_WY), d.z / (hs * HEAD_HZ)))
 
 def clear_of_body(bt, p_head, margin=.022):
     """push a head-space hair point out of the (world-space) neck, upper torso and shoulder masses"""
@@ -2683,6 +2685,8 @@ def build_part(bt, slot, idx, mats, arm, coll=None):
     return build_mb(bt, slot, idx).to_object(part_name(bt, slot, idx), mats, arm, coll=coll)
 
 def build_mb(bt, slot, idx):
+    global HEAD_BT
+    HEAD_BT = bt
     key = KIT[bt][slot][idx - 1][0]
     mb = MB()
     if slot == 'Hair':
@@ -2694,9 +2698,16 @@ def build_mb(bt, slot, idx):
         head_xform(mb)
     return mb
 
+HEAD_S_BT = {}    # v4 profiles: per body type head scale (x HEAD_S)
+HEAD_BT = None    # the body type being built (set by build_mb / build_tutor)
+
+def head_s():
+    return HEAD_S * HEAD_S_BT.get(HEAD_BT, 1.0)
+
 def head_xform(mb):
+    hs = head_s()
     for v in mb.bm.verts:
-        d = (v.co - HEAD_PIVOT) * HEAD_S
+        d = (v.co - HEAD_PIVOT) * hs
         v.co = HEAD_PIVOT + Vector((d.x * HEAD_WX, d.y * HEAD_WY, d.z * HEAD_HZ)) + Vector((0, 0, HEAD_DZ))
 
 # ==========================================================================================
@@ -2880,6 +2891,8 @@ def clip_defs():
                        LeftForeArm=(-2.5, 0, 0), RightForeArm=(-2.5, 0, 0), loc=(0, 0, .004)))),   # v3.0: deltas over the stance
         (60, upright(P())),
     ], True)
+    if IDLE_FEET:   # v4: the old client's ready stance -- one foot a little forward, the other back
+        C['idle'] = (C['idle'][0], [(f, idle_feet(p_)) for f, p_ in C['idle'][1]], True)
     wc = P(LeftUpLeg=(-26, 0, 0), LeftLeg=(6, 0, 0), LeftFoot=(-10, 0, 0), RightUpLeg=(20, 0, 0), RightLeg=(20, 0, 0),
            RightFoot=(12, 0, 0), LeftArm=(20, 18, 0), RightArm=(-24, -18, 0), LeftForeArm=(-10, 0, 0), RightForeArm=(-28, 0, 0),
            Hips=(0, 0, -5), Spine=(3, 0, 0), Spine1=(0, 0, 8), loc=(0, 0, -.022))
@@ -3349,6 +3362,21 @@ def leg_ik(pose, side, ankle, pitch=0.0):
     pose[side + 'Foot'] = ('aim', tuple(Rf @ FOOT_REST))
     pose[side + 'ToeBase'] = ('aim', tuple((Rf if pitch > 0 else Matrix.Identity(3)) @ TOE_REST))
     return over
+
+IDLE_FEET = None   # v4 profiles: {'Left': (x, y), 'Right': (x, y), 'drop': m, 'toe': deg} ground points of the idle feet
+
+def idle_feet(pose):
+    pose = dict(pose)
+    l = pose.get('loc', (0, 0, 0))
+    pose['loc'] = (l[0], l[1], l[2] - IDLE_FEET.get('drop', 0.0))
+    for side in ('Left', 'Right'):
+        x, y = IDLE_FEET[side]
+        leg_ik(pose, side, foot_ankle((x, y, 0), 0), 0)
+        toe = IDLE_FEET.get('toe', 0.0) * (1 if side == 'Left' else -1)
+        Rz = Matrix.Rotation(math.radians(toe), 3, 'Z')
+        pose[side + 'Foot'] = ('aim', tuple(Rz @ FOOT_REST))
+        pose[side + 'ToeBase'] = ('aim', tuple(Rz @ TOE_REST))
+    return pose
 
 def foot_ankle(g, pitch):
     """ankle position for a foot whose ground anchor is g (the point under the ankle), rolled about the heel (toe-up)
@@ -4735,8 +4763,10 @@ def tutor_props(tid, arm, bm, coll):
     return out
 
 def build_tutor(tid, kit_objs, kit_mats):
+    global HEAD_BT
     t = TUTORS[tid]
     bt = t['bt']
+    HEAD_BT = bt
     arm = build_armature()
     arm.name = arm.data.name = 'Armature_' + tid.capitalize()
     coll = bpy.data.collections.new('Tutor_' + tid)

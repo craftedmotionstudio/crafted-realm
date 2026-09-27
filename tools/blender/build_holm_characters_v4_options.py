@@ -146,6 +146,15 @@ def main():
         p = K.shoot(os.path.join(CELLS, '%s_%s_classic_game.png' % (PROF, bt)), (330, 500), GV, GC, 2.0, ground=True, persp=GP)
         row.append(K.cell(p, 'classic, game camera', bg=K.BG_GAME))
         res['renders']['classic_%s_game' % bt] = p
+        # the old client's close camera (pitch 22.5 deg, 2.23 body heights away, 53 deg horizontal field of view, aimed at
+        # half height) at 0 / 45 / 90 ... deg around the figure, for the matched-angle comparison sheets
+        Hh = res['body'][bt]['height_m']
+        for rel in (0, 256, 512, 768, 1024, 1280, 1536, 1792):
+            a_ = math.radians(rel * 360.0 / 2048)
+            vd = (-math.sin(a_) * math.cos(math.radians(22.5)), -math.cos(a_) * math.cos(math.radians(22.5)), math.sin(math.radians(22.5)))
+            p = K.shoot(os.path.join(CELLS, '%s_%s_classic_rel%d.png' % (PROF, bt, rel)), (512, 334), vd, (0, 0, .497 * Hh), 2.0,
+                        persp=(2.228 * Hh, 36.0))
+            res['renders']['classic_%s_rel%d' % (bt, rel)] = p
         cells['classic_' + bt] = row
     # ---- face close-ups (default outfit)
     for bt in ('A', 'B'):
