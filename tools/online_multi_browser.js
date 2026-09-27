@@ -290,6 +290,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
   check(fight, menu && /^Attack .+ \(level-\d+\)$/.test(menu[0]), 'attack option first in the menu with the level', menu);
   // 2004 skull rule: no skull for attacking someone who attacked you (or whom you attacked) recently
   const pa0 = sp(A.name), pb0 = sp(B.name);
+  const defenderSkulled0 = pb0.isSkulled();   // a skull the defender already carries (from an earlier fight) stays
   const expectSkull = PVP.deservesSkull({ id: pa0.key, predators: pa0.predators }, { id: pb0.key, preys: pb0.preys }) || pa0.isSkulled();
   const since = world.tick, sinceMs = Date.now();
   const fxA0 = (await A.state()).fx, fxO0 = (await O.state()).fx;
@@ -309,7 +310,7 @@ async function pvpFight(fight, A0, B0, O, opts) {
   const so = await O.until((s) => { const a = s.players.find((p) => p.pid === aPid); return a && (expectSkull ? a.sk === 1 : sp(B.name).lastCombatPvp >= since); }, 20000, 'the skull of the attacker').catch(() => O.lastState);
   const seenA = so.players.find((p) => p.pid === aPid), seenB = so.players.find((p) => p.pid === bPid);
   check(fight, seenA && seenB, 'the observer sees both fighters', { seenA: !!seenA, seenB: !!seenB });
-  check(fight, seenA && (seenA.sk || 0) === (expectSkull ? 1 : 0) && seenB && !seenB.sk, expectSkull ? 'the attacker is skulled, the defender (retaliating) is not' : 'no skull for striking back at a recent attacker (2004 rule); the defender unskulled', { a: seenA && seenA.sk, b: seenB && seenB.sk, expectSkull });
+  check(fight, seenA && (seenA.sk || 0) === (expectSkull ? 1 : 0) && seenB && (seenB.sk || 0) === (defenderSkulled0 ? 1 : 0), expectSkull ? 'the attacker is skulled, the defender (retaliating) is not' : 'no skull for striking back at a recent attacker (2004 rule); the defender unskulled', { a: seenA && seenA.sk, b: seenB && seenB.sk, expectSkull });
   const aSelf = await A.state();
   check(fight, (aSelf.ui.skull > 0) === expectSkull, 'the attacker sees their own skull state', aSelf.ui.skull);
   // readability at the desktop size and on a phone-sized window, mid-fight (criterion 12)
