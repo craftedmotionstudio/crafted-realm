@@ -411,3 +411,65 @@ with its protection prayer twice).
 | 19 | Balance | 0.5 | the kits on the combat agent's tested level-40 ladder: favoured pairings 63-68%, mirrors 50-54% (sim), live winners by the triangle; per-level tables in `combat_agent.md` pass 4 |
 
 **Pass 6 total: 9.75 / 10** (12 at 0.25 for the helm). Owned: 6.25 / 6.5 = 9.6 / 10.
+
+---
+
+## Pass 7 (2026-09-27, the final W2b run)
+
+Run: `online_evidence/pass7/` (`--set all`: the core 20 and the bestiary 12, 5678 ticks, three pages; strips of every
+style in PvP and PvM and of the archer, the mage and the wyrmling; desktop and phone screens). **32 of 32 passed**,
+no page errors. Gates on the same tree: 83/83 `tools/test_*.js`, `npm run test:server` 98/98, the headless smoke
+PASS (visible and hidden boot), `tools/qa_online_menu.js` 14/14.
+
+Measured:
+
+- **Accuracy:** 1247 rolls, 563.6 hits expected, 566 observed: z = 0.14 (pass 5: -0.49 over 1974; pass 6: -0.21).
+- **Damage 0..max:** chi-square 4.2 / 19.4 / 19.3 / 14.9 on 5 / 8 / 9 / 12 degrees of freedom (max 5, 8, 9, 12). Two
+  tables sit at p = 0.013 and 0.023, the excess in different places each run (pass 6: zeros; pass 7: eights); the same
+  roll sequence on the server's RNG (an accuracy roll, the damage roll on a hit, other draws between) is uniform over
+  120,000 draws per seed (chi-square 4.2 / 6.4 / 16.5 on 8), so this is sampling, not a bias.
+- **Attack speed:** undercrag sabre 4 ticks (463/483), duskwood shortbow on rapid 3 (237/258), storm staff 5 (151/171),
+  monsters 4 (73/73) and 5 (131/131), the wyrmling's breath 5 (35/35); the rest are the bite's +3.
+- **Projectile hit delays:** 467 of 467 on the predicted tick (one arrow's target was already dead).
+- **Every splat tied:** 1759 splats over three pages: 711 on a projectile, 529 on a same-tick swing, 518 on a next-tick
+  swing, 0 late; the one untimed was the reconnected page's blow swung while it was offline.
+- **Movement:** backlog at most 5 steps, 3 catch-ups in 5678 ticks; every page on the server's tiles after every fight.
+- **Kept on death = the preview** in all 10 deaths (0 skulled, 3, 4 with Keepsake Ward); protection caps held (the
+  biggest protected hit 4-7 against caps of 4-7); a double knock-out (ranged against magic) handled.
+- **Switching:** style 0.29-0.57 ticks, prayer 0.92-0.99, a bite 0.81-1.11.
+- **Specials:** sword (25%), bow (50%), staff (55%) from the orb in PvP, each seen as a special swing or cast.
+- **Duels:** 39-180 s (median 66 s); the favoured style won where the triangle says, the underdog with its protection
+  prayer twice.
+- **The bestiary:** rats came four at a time for one fighter; the ash raider shot from 4 tiles, the ember mage cast from
+  3-4; the wyrmling breathed every third attack (15 of 45, 8 of 26, 12 of 36); drops: an aurel sword and 495 coins from
+  the wyrmling, a leather body from an archer; every drop appeared 5.1-7.5 s after the kill (the death clip, then the sink).
+
+| # | Criterion | Score | Evidence |
+|---|---|---|---|
+| 1 | Accuracy | 0.5 | z = 0.14 / -0.21 / -0.49 live; exhaustive server roll tests |
+| 2 | Max hit, 0..max | 0.5 | live tables within sampling (see above); 120k-draw simulation of the same sequence uniform; protection caps held |
+| 3 | Attack speeds | 0.5 | every weapon of the ladder and every monster on its clock, rapid -1, the bite's +3, the breath |
+| 4 | Hit delays, splat on arrival | 0.5 | 467/467 delays; 0 late |
+| 5 | Retaliation, single-way | 0.5 | every defender; the third adventurer refused; the rat pack one at a time |
+| 6 | Eating | 0.5 | next tick, +3 on the attack clock; coffee is the eat intent (`me.caf`) |
+| 7 | Prayers | 0.5 | monsters fully blocked (spells splash, arrows and bites 0), players capped at 60%, Keepsake Ward +1 |
+| 8 | PvP rules | 0.5 | Scarlands level (PvpHud plaque), level range in the menu, skull by the predator rule (a skull carried from an earlier fight kept), kept 0/3/4 = preview, private pile, logout lock, double knock-out |
+| 9 | PvM rules | 0.5 | 22 PvM fights: every style against every monster kind, XP per style, private drops after the sink |
+| 10 | Animations, impact frame | 0.5 | 529 same-tick + 518 next-tick swings on their impact frames; bestiary impact / release frames; special swings |
+| 11 | Projectiles, misses | 0.5 | 711 projectile splats, 0 late; splashes; the orange ember bolt and breath |
+| 12 | Readability | 0.5 | desktop and phone screens with the undercrag duellists (the full-helm fix), PvpHud, splats, bars, skull |
+| 13 | Death reads | 0.5 | monsters' death clips and sinks, then the drop; the own death screen names the killer and what was kept |
+| 14 | Controls | 0.5 | the old-school menu online (left click = the top row; 14/14 real clicks), reach per style, switches next tick |
+| 15 | 8-direction, no rubber band | 0.5 | backlog at most 5 steps, 3 catch-ups in 5678 ticks, every page on the server's tiles |
+| 16 | Weapon variety, specials | 0.5 | every family's special fires on the server (12/12); sword, bow and staff specials seen online |
+| 17 | Monster variety | 0.5 | melee, ranged, magic, an aggressive pack, a 2x2 brute with a telegraphed breath; drops worth fighting for |
+| 18 | PvP tension | 0.5 | duels 39-180 s; the Ditch warning with the items kept, the skull minutes, food and prayer decided fights |
+| 19 | Balance | 0.5 | kits on the combat agent's tested level-40 ladder: favoured pairings 63-68%, mirrors 50-54%, live winners by the triangle |
+| 20 | Online robustness | 0.5 | 32 fights with three browsers: 0 desyncs, 0 double or lost hits, 0 lost loot, reconnect keeps the lock |
+
+**Pass 7 total: 10 / 10.** Owned criteria: 6.5 / 6.5 = **10 / 10**.
+
+Open items (not scored against this branch): the per-level tier tables stay the combat agent's
+(`tools/combat_triangle_sim.js`); the wyrmling sits at the test map's deepest level (10) though its band is 14-20; the
+full-helm head-scale bug very likely shows offline too (the fix belongs in the kit clips or the fitter); the kit art
+(Scarlands kit v2) is not switched on in the online test map yet (`server/README.md` has the steps).
