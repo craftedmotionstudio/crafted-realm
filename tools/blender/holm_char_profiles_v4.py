@@ -114,9 +114,12 @@ def _v_body(K, thigh_k=.80, hip_x=.100, long_legs=True, thigh_k_b=.84, hip_x_b=.
 # the 2004 cycle (measured on the reference strips: walk 8 poses x 120 ms, stride 0.97 H; run 8 poses x 85 ms, 0.68 s,
 # stride 1.59 H at 2.33 H/s). Our run speed (4.2 m/s = 2.31 H/s) matches, so the run keeps the 2004 cycle; our walk is
 # faster than 2004's (1.32 vs 1.01 H/s), so the walk keeps the 2004 STRIDE (23 frames = 0.77 s -> 1.01 H).
-GAIT_2004 = {'walk': {'frames': 23, 'bob': .026, 'p_on': 2, 'p_off': -8, 'arm_swing': 27, 'plant_k': .65},
-             'run': {'frames': 21, 'duty': .30, 'bob': .035, 'bob_phase': .40, 'drop': .04, 'kick': .22, 'lift': .16, 'arm_swing': 70, 'fore': 62, 'plant_k': .95}}
-GAIT_C = {'walk': {'frames': 21}, 'run': {'frames': 19}}
+# the reference strips also lean forward: ~5 deg in the walk, ~14 deg in the run (hips -> head)
+GAIT_2004 = {'walk': {'frames': 22, 'bob': .022, 'p_on': 2, 'p_off': -8, 'arm_swing': 33, 'plant_k': .65, 'lean_cap': (5.0, False)},
+             'run': {'frames': 21, 'duty': .30, 'bob': .035, 'bob_phase': .40, 'drop': .04, 'kick': .24, 'lift': .16, 'arm_swing': 80, 'fore': 62,
+                     'plant_k': .95, 'lean_cap': (12.0, False)}}
+GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, False)),
+          'run': dict(GAIT_2004['run'], frames=20, lean_cap=(8.0, False))}
 
 TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
