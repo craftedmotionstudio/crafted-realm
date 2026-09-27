@@ -27,11 +27,17 @@ except Exception:   # pragma: no cover
     ndimage = None
 
 
-def load_mask(path, crop=None, bg=None, thr=30.0):
+def load_mask(path, crop=None, bg=None, thr=30.0, plate=None, plate_thr=24):
     im = Image.open(path)
     if crop:
         im = im.crop(crop)
-    if im.mode == 'RGBA' and np.asarray(im)[..., 3].min() < 250:
+    if plate:   # a plate = the same frame without the character: the mask is the difference
+        pl = Image.open(plate)
+        if crop:
+            pl = pl.crop(crop)
+        d = np.abs(np.asarray(im.convert('RGB')).astype(int) - np.asarray(pl.convert('RGB')).astype(int)).sum(2)
+        m = d > plate_thr
+    elif im.mode == 'RGBA' and np.asarray(im)[..., 3].min() < 250:
         m = np.asarray(im)[..., 3] > 40
     else:
         a = np.asarray(im.convert('RGB')).astype(float)
@@ -139,18 +145,33 @@ def sil_metrics(m, view='front'):
     return out
 
 
-# criterion -> [(metric, tolerance)]: a difference of `tolerance` scores 0, no difference scores 10
+# criterion -> [(metric, tolerance)]: a difference of `tolerance` beyond the measuring noise scores 0, none scores 10.
+# Tolerances are "clearly a different figure" (e.g. a head 20% taller, a shoulder line 15 deg steeper); the noise is what
+# the reference's pixel size allows (1.5 px of its height for the ratios, 4 deg for slopes), so a match within the
+# reference's own resolution scores 10.
 CRITERIA = {
     'head/body ratio': [('head_ratio', .030), ('head_w', .030)],
-    'shoulder line': [('shoulder_deg', 14.0), ('shoulder_w', .06)],
+    'shoulder line': [('shoulder_deg', 15.0), ('shoulder_w', .06)],
     'neck': [('neck_len', .030), ('neck_w', .025)],
     'arm hang': [('hand_h', .08), ('arm_spread', .25)],
     'legs/feet': [('crotch_h', .06), ('foot_len', .05)],
+    'walk': [('walk_cycle_rel', .45), ('walk_stride_H', .30), ('walk_bob_H', .015), ('walk_arm_swing_deg', 25.0)],
+    'run': [('run_cycle_rel', .45), ('run_stride_H', .40), ('run_bob_H', .020), ('run_arm_swing_deg', 30.0)],
 }
+NOISE_DEG = 4.0
+
+
+def _noise(k, ref):
+    if k.endswith('_deg'):
+        return NOISE_DEG
+    if k.endswith('_rel'):
+        return .05
+    hp = ref.get('H_px') or 0
+    return 1.5 / hp if hp else 0.0
 
 
 def score(ours, ref, rubric=None):
-    """per-criterion scores 0..10 + total; rubric = {criterion: score} for the eye-judged ones (face, shading, walk, run)"""
+    """per-criterion scores 0..10 + total; rubric = {criterion: score} for the eye-judged ones (face, shading, ...)"""
     res = {}
     for crit, items in CRITERIA.items():
         vals = []
@@ -158,7 +179,8 @@ def score(ours, ref, rubric=None):
             a, b = ours.get(k), ref.get(k)
             if a is None or b is None:
                 continue
-            vals.append((k, a, b, 10 * max(0.0, 1 - abs(a - b) / tol)))
+            d = max(0.0, abs(a - b) - _noise(k, ref))
+            vals.append((k, a, b, 10 * max(0.0, 1 - d / tol)))
         if vals:
             res[crit] = {'score': round(sum(v[3] for v in vals) / len(vals), 2),
                          'detail': {k: {'ours': round(a, 4), 'ref': round(b, 4), 'score': round(s, 2)} for k, a, b, s in vals}}
@@ -175,7 +197,8 @@ def main(argv):
         path = argv[1]
         crop = tuple(int(v) for v in argv[argv.index('--crop') + 1].split(',')) if '--crop' in argv else None
         view = argv[argv.index('--view') + 1] if '--view' in argv else 'front'
-        m = load_mask(path, crop)
+        plate = argv[argv.index('--plate') + 1] if '--plate' in argv else None
+        m = load_mask(path, crop, plate=plate)
         if '--mask' in argv:
             Image.fromarray((m * 255).astype(np.uint8)).save(argv[argv.index('--mask') + 1])
         print(json.dumps(sil_metrics(m, view), indent=1))
