@@ -30,10 +30,10 @@ SHELF = {   # (z, rx, rf, rb) -- the torso from the upper chest to the collar
           (1.470, .086, .066, .068), (1.480, .064, .058, .060), (1.486, .060, .058, .060)],
 }
 SHELF_SQ = {   # the 2004 "coat-hanger" line: a flat top from the collar almost to the arm, then a crisp corner into the sleeve
-    'A': [(1.380, .197, .126, .117), (1.420, .201, .118, .112), (1.452, .200, .108, .104), (1.472, .188, .094, .092),
-          (1.484, .144, .078, .078), (1.492, .088, .066, .068), (1.498, .070, .062, .064)],
-    'B': [(1.385, .162, .110, .106), (1.418, .164, .102, .099), (1.446, .162, .092, .090), (1.464, .150, .080, .080),
-          (1.476, .110, .068, .069), (1.484, .070, .059, .061), (1.490, .061, .058, .060)],
+    'A': [(1.380, .197, .126, .117), (1.420, .201, .118, .112), (1.452, .200, .108, .104), (1.472, .190, .094, .092),
+          (1.486, .160, .080, .080), (1.494, .110, .068, .070), (1.500, .072, .062, .064)],
+    'B': [(1.385, .162, .110, .106), (1.418, .164, .102, .099), (1.446, .162, .092, .090), (1.464, .152, .080, .080),
+          (1.478, .124, .069, .070), (1.486, .084, .060, .062), (1.492, .062, .058, .060)],
 }
 SHELF_C = {   # the stylised midpoint: a gentler shelf
     'A': [(1.380, .197, .126, .117), (1.425, .194, .110, .106), (1.455, .172, .092, .091), (1.475, .124, .076, .076),
@@ -53,19 +53,34 @@ HEAD_EGG = {
 HEAD_EGG['B'] = [(1.554, .032, .040, .032, 0.0), (1.572, .052, .060, .044, .17), (1.592, .064, .072, .054, .12),
                  (1.630, .076, .084, .078, .05)] + HEAD_EGG['A'][4:]
 
+# the 2004 idle (measured on the reference front views): legs nearly parallel and close under narrow hips
+STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 1.5), 'RightUpLeg': (-5.5, 1, -1.5)}
+
+# the 2004 man's V: broad square shoulders over a narrow waist at the belt and slim hips (body A, z < 1.38; final values)
+V_TORSO_A = [(0.940, .138, .1232, .1210, .026), (1.000, .136, .1210, .1166, .022), (1.080, .152, .1276, .1166, .018),
+             (1.160, .166, .1386, .1188, .014), (1.240, .174, .1452, .1232, .010), (1.315, .182, .1408, .1232, .008)]
+V_PELVIS_A = [(0.790, .110, .0691, .0734, .030), (0.850, .168, .1037, .1123, .028), (0.930, .160, .1145, .1231, .026),
+              (0.985, .142, .1166, .1188, .024), (1.012, .137, .1166, .1145, .022)]
+
+def _v_body(K, thigh_k=.85, hip_x=.092):
+    K.TORSO['A'][:] = V_TORSO_A + [r for r in K.TORSO['A'] if r[0] >= 1.38 - 1e-6]
+    K.PELVIS['A'][:] = V_PELVIS_A
+    K.LEG_R['A'][:] = [(u, rs * (thigh_k + (1 - thigh_k) * K.ss(.8, 1.2, u)), rf, rb) for u, rs, rf, rb in K.LEG_R['A']]
+    K.HIP_X['A'] = hip_x
+
 TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
 PROFILES = {
     'v4a': dict(label='Option A -- closest 2004: level shoulders, small head on a visible neck, flat faceted shading, stepped motion',
-                shelf=SHELF_SQ, arm_lift={'A': .046, 'B': .040}, arm_out={'A': .010, 'B': .008},
-                head_s=.96, head_dz=.004, neck_k=1.10, sharp=12.0,
+                shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .040}, arm_out={'A': .016, 'B': .008},
+                head_s=1.08, head_wx=1.07, head_hz=1.00, head_dz=0.0, neck_k=1.10, sharp=12.0, stance=STANCE_2004, v_body={},
                 head=HEAD_EGG, head_p=2.3,
                 face=dict(eye=(.0275, 1.690, .026, .0055, .024, .0050), eye_tick=(.010, -.004, .006, .0045), brow=None,
                           mouth=(1.612, 1.614, .030, .022, 0.0), ear=(.70, .004)),
                 step={'walk': (3, 'CONSTANT'), 'run': (2, 'CONSTANT'), 'idle': (20, 'CONSTANT')}),
     'v4b': dict(label='Option B -- the v4a body with softer shading, held poses joined by straight lines',
-                shelf=SHELF, arm_lift={'A': .030, 'B': .026}, arm_out={'A': .008, 'B': .006},
-                head_s=.96, head_dz=.004, neck_k=1.10, sharp=36.0,
+                shelf=SHELF_SQ, arm_lift={'A': .046, 'B': .040}, arm_out={'A': .010, 'B': .008},
+                head_s=1.08, head_wx=1.07, head_hz=1.00, head_dz=0.0, neck_k=1.10, sharp=36.0, stance=STANCE_2004, v_body={},
                 head=HEAD_EGG, head_p=2.3,
                 face=dict(eye=(.0275, 1.690, .026, .0060, .024, .0055), eye_tick=(.010, -.004, .006, .0045), brow=None,
                           mouth=(1.612, 1.614, .022, .018, .0035), ear=(.70, .004)),
@@ -120,6 +135,8 @@ def apply(K, name):
         return
     P = PROFILES[name]
     _feet(K)
+    if 'v_body' in P:
+        _v_body(K, **P['v_body'])
     for bt in ('A', 'B'):
         _torso_top(K, bt, P['shelf'][bt])
         lift, out = P['arm_lift'][bt], P['arm_out'][bt]
@@ -133,11 +150,20 @@ def apply(K, name):
             K.HEAD_T[bt][:] = P['head'][bt]
         K.HEAD_P = P['head_p']
     K.HEAD_S = P['head_s']
+    K.HEAD_WX = P.get('head_wx', K.HEAD_WX)
+    K.HEAD_HZ = P.get('head_hz', K.HEAD_HZ)
     K.HEAD_DZ = P['head_dz']
     K.NECK_K = P['neck_k']
     K.SHARP_DEG = P['sharp']
     K.FACE.clear(); K.FACE.update(P['face'])
     K.STEP_CLIPS.clear(); K.STEP_CLIPS.update(P.get('step', {}))
     K.GAIT.clear(); K.GAIT.update(P.get('gait', {}))
+    if 'stance' in P:        # idle stance: legs / spine / shoulders (Euler, over the rest skeleton)
+        K.STANCE.update(P['stance'])
+    if 'arm_aim' in P:       # idle arm hang (absolute directions, left side; mirrored for the right)
+        for k, v in P['arm_aim'].items():
+            K.STANCE_ARM_AIM[k] = v
+            K.STANCE_ARM_AIM[k.replace('Left', 'Right')] = (-v[0], v[1], v[2])
+        K._STANCE_LOCAL.clear()
     for tid, parts in P.get('tutor_parts', TUTOR_PARTS).items():   # Hettie: no rouge (owner: "her face isn't quite 2004")
         K.TUTORS[tid]['parts'].update(parts)
