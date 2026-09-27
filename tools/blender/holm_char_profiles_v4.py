@@ -47,6 +47,8 @@ HEAD_EGG = {
 HEAD_EGG['B'] = [(1.554, .032, .040, .032, 0.0), (1.572, .052, .060, .044, .17), (1.592, .064, .072, .054, .12),
                  (1.630, .076, .084, .078, .05)] + HEAD_EGG['A'][4:]
 
+TUTOR_PARTS = {'hettie': {'Makeup': 1}}
+
 PROFILES = {
     'v4a': dict(label='Option A -- closest 2004: level shoulders, small head on a visible neck, flat faceted shading, stepped motion',
                 shelf=SHELF, arm_lift={'A': .030, 'B': .026}, arm_out={'A': .008, 'B': .006},
@@ -131,3 +133,5 @@ def apply(K, name):
     K.FACE.clear(); K.FACE.update(P['face'])
     K.STEP_CLIPS.clear(); K.STEP_CLIPS.update(P.get('step', {}))
     K.GAIT.clear(); K.GAIT.update(P.get('gait', {}))
+    for tid, parts in P.get('tutor_parts', TUTOR_PARTS).items():   # Hettie: no rouge (owner: "her face isn't quite 2004")
+        K.TUTORS[tid]['parts'].update(parts)
