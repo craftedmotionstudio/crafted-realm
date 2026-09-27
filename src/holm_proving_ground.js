@@ -11,7 +11,10 @@
  * bow / cast / attack / block / death clips and the Blender equipment set for the held bow and staff) for the two
  * humanoids, the grubkin (assets/models/holm_grubkin_v1.glb) for the pack and, scaled up and darkened, the broodmother.
  * Sites are chosen on the composed island graph: the nearest open meadow beyond the keep court (no water, no
- * buildings, every tile linked to its neighbours), so nothing crowds the tutorial's pens. */
+ * buildings, every tile linked to its neighbours), so nothing crowds the tutorial's pens. The roomiest meadow wins: an
+ * 11x11 patch where the land has one, else 9x9, else 7x7, with the foes' layout scaled to fit (the v2 land's meadows
+ * carry tree clumps and worn paths, and no 11x11 patch is left near the keep), and it must be reachable on foot from
+ * the keep court. */
 var HolmProvingGround=(function(){
  'use strict';
  var npcs=[],sites=null,welcomed=false;
@@ -64,17 +67,24 @@ var HolmProvingGround=(function(){
  }
  /* ---- where: the nearest open meadow beyond the keep, on the composed island graph ---- */
  function open(g,n,r){for(var dz=-r;dz<=r;dz++)for(var dx=-r;dx<=r;dx++){var rows=g.byTile[(n.tx+dx)+','+(n.tz+dz)];if(!rows||!rows.some(function(m){return m.owner==='land'&&Math.abs(m.y-n.y)<1.2&&(g.links[m.id]||[]).length>=6}))return false}return true}
+ // the foes' layout on a full-size meadow (radius 5, an 11x11 patch): the humanoids and the broodmother share the
+ // meadow; the pack keeps to its far side, out of its hunt range. A smaller meadow takes it scaled to its radius.
+ var LAYOUT=[['pg_poacher',-3,-3],['pg_warlock',3,-3],['pg_broodmother',0,2],['pg_wild_grubkin',-4,5],['pg_wild_grubkin',-2,5],['pg_wild_grubkin',-3,4]];
+ function layout(r){return LAYOUT.map(function(s){return [s[0],Math.round(s[1]*r/5),Math.round(s[2]*r/5)]})}
+ // every node reachable on foot from a start node (the composed graph's links)
+ function reachable(g,id){var seen={},q=[id];seen[id]=true;for(var h=0;h<q.length;h++){var ls=g.links[q[h]]||[];for(var k=0;k<ls.length;k++)if(!seen[ls[k]]){seen[ls[k]]=true;q.push(ls[k])}}return seen}
  function findSites(api){
   var g=api.navGraph&&api.navGraph();if(!g)return null;
   var gate=api.qaStance('keep','gate')||api.qaStance('keep','court'),court=api.qaStance('keep','court');if(!gate)return null;
   var cand=g.nodes.filter(function(n){if(n.owner!=='land')return false;var d=Math.max(Math.abs(n.tx-Math.floor(gate.x)),Math.abs(n.tz-Math.floor(gate.z)));
    var dc=court?Math.max(Math.abs(n.tx-Math.floor(court.x)),Math.abs(n.tz-Math.floor(court.z))):99;return d>=8&&d<=36&&dc>=12});
   cand.sort(function(a,b){return Math.hypot(a.x-gate.x,a.z-gate.z)-Math.hypot(b.x-gate.x,b.z-gate.z)});
-  var centre=null;for(var i=0;i<cand.length;i++){if(open(g,cand[i],5)){centre=cand[i];break}}
+  var from=court||gate,foot=from.id&&g.byId&&g.byId[from.id]?reachable(g,from.id):null;
+  var centre=null,radius=0;
+  for(var r=5;r>=3&&!centre;r--)for(var i=0;i<cand.length;i++){if((!foot||foot[cand[i].id])&&open(g,cand[i],r)){centre=cand[i];radius=r;break}}
   if(!centre)return null;
   var at=function(dx,dz){var rows=g.byTile[(centre.tx+dx)+','+(centre.tz+dz)]||[];return rows.filter(function(m){return m.owner==='land'})[0]||null};
-  // the humanoids and the broodmother share the meadow; the pack keeps to its far side, out of its hunt range
-  return {centre:centre,spots:[['pg_poacher',at(-3,-3)],['pg_warlock',at(3,-3)],['pg_broodmother',at(0,2)],['pg_wild_grubkin',at(-4,5)],['pg_wild_grubkin',at(-2,5)],['pg_wild_grubkin',at(-3,4)]].filter(function(s){return !!s[1]})};
+  return {centre:centre,radius:radius,spots:layout(radius).map(function(s){return [s[0],at(s[1],s[2])]}).filter(function(s){return !!s[1]})};
  }
  function load(api){
   if(!register()||typeof spawnNpc!=='function')return {npcs:0};
@@ -83,12 +93,13 @@ var HolmProvingGround=(function(){
    npc.home.set(n0.x,n0.y,n0.z);npc.mesh.position.set(n0.x,n0.y,n0.z);npc.wanderR=s[0]==='pg_wild_grubkin'?2:1;npc.leash=npc.t.maxRange;
    if(npc.t.tint&&npc.mesh){var tint=new THREE.Color(npc.t.tint),seen={};var fix=function(){npc.mesh.traverse(function(o){if(o.isMesh)[].concat(o.material).forEach(function(q){if(q&&q.color&&!seen[q.uuid]){seen[q.uuid]=1;q.color.lerp(tint,.45)}})})};setTimeout(fix,2500);setTimeout(fix,6000)}
    npc.provingGround=true;npc.mesh.name='proving-ground-'+s[0]+'-'+i;npcs.push(npc)});
-  return {npcs:npcs.length,centre:{x:sites.centre.x,z:sites.centre.z}};
+  return {npcs:npcs.length,centre:{x:sites.centre.x,z:sites.centre.z},radius:sites.radius};
  }
  /** per frame: the welcome line the first time the adventurer walks onto the meadow */
  function update(){if(welcomed||!sites||typeof player==='undefined'||!player)return;var c=sites.centre;
   if(Math.hypot(player.position.x-c.x,player.position.z-c.z)<9){welcomed=true;if(typeof UI!=='undefined')UI.chat('The Proving Ground. Wild grubkins here attack on sight; the poacher, the warlock and the broodmother answer only a challenge.','plain')}}
  function dispose(){npcs.forEach(function(n){[WORLD.npcs,WORLD.clickables].forEach(function(a){var i=a.indexOf(a===WORLD.npcs?n:n.mesh);if(i>=0)a.splice(i,1)});if(n.mesh&&n.mesh.parent)n.mesh.parent.remove(n.mesh)});npcs=[]}
- return {load:load,dispose:dispose,update:update,kitModel:kitModel,npcs:function(){return npcs.slice()},sites:function(){return sites},TYPES:TYPES};
+ return {load:load,dispose:dispose,update:update,kitModel:kitModel,npcs:function(){return npcs.slice()},sites:function(){return sites},TYPES:TYPES,
+  findSites:findSites,layout:layout};   // pure site search (tools/test_holm_proving_ground.js)
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmProvingGround;

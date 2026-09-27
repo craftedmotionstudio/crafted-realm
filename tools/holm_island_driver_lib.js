@@ -59,7 +59,7 @@ async function walkTo(page,building,target,stopOutside,trace){
     // the last few tiles at a doorway can hide behind the building from the driver's camera; a service click finishes the walk
     if(!clicked&&route.length<=4){reached=route[route.length-1];break}
     if(!clicked){if(process.env.ISLAND_QA_DEBUG)console.log('    walkTo stuck: next '+JSON.stringify(route.slice(1,10).map(n=>[n.x,n.y,n.z,n.surface])));return {error:'no clickable tile ahead',at:await pos(page)};}
-    await settle(page,30000);trace.push(...await page.evaluate(()=>window.__qaTrace.splice(0)));
+    await settle(page,30000);trace.push(...await page.evaluate(()=>(window.__qaTrace||[]).splice(0)));
   }
   return {reached,at:await pos(page)};
 }

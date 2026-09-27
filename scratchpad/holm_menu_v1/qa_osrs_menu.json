@@ -1,5 +1,5 @@
 {
- "at": "2026-09-26T17:06:09.384Z",
+ "at": "2026-09-27T13:11:07.709Z",
  "pass": 64,
  "fail": 0,
  "results": [
@@ -24,13 +24,13 @@
    "d": {
     "rect": {
      "x": 707,
-     "y": 387,
+     "y": 393,
      "w": 125,
      "h": 73
     },
     "xy": [
      769,
-     387
+     393
     ]
    }
   },
@@ -85,7 +85,7 @@
    "m": "a click outside only closes the box (no walk, no row)",
    "d": {
     "before": {
-     "last": 1790442293794,
+     "last": 1790514525104,
      "pos": [
       61.5,
       1,
@@ -93,7 +93,7 @@
      ]
     },
     "after": {
-     "last": 1790442293794,
+     "last": 1790514525104,
      "pos": [
       61.5,
       1,
@@ -113,7 +113,7 @@
      "option": "Read-plaque",
      "target": "Statue",
      "via": "left",
-     "at": 1790442297857
+     "at": 1790514529151
     },
     "ran": true
    }
@@ -182,7 +182,7 @@
      "option": "Take",
      "target": "Bones",
      "via": "left",
-     "at": 1790442305961
+     "at": 1790514536744
     },
     "ran": true
    }
@@ -217,7 +217,7 @@
      "option": "Open",
      "target": "Door",
      "via": "left",
-     "at": 1790442309441
+     "at": 1790514540155
     },
     "ran": true
    }
@@ -261,7 +261,7 @@
      "option": "Study",
      "target": "Relief chart",
      "via": "left",
-     "at": 1790442319576
+     "at": 1790514549539
     },
     "ran": true
    }
@@ -315,7 +315,7 @@
      "option": "Study",
      "target": "Relief chart",
      "via": "left",
-     "at": 1790442330007
+     "at": 1790514559788
     },
     "ran": true
    }
@@ -633,15 +633,26 @@
    "ok": true,
    "m": "left click attacks it (the existing target path)",
    "d": {
-    "want": "Attack Practice grubkin (level-1)",
-    "last": {
-     "text": "Attack Practice grubkin (level-1)",
-     "option": "Attack",
-     "target": "Practice grubkin",
-     "via": "left",
-     "at": 1790442366660
+    "lc": {
+     "want": "Attack Practice grubkin (level-1)",
+     "last": {
+      "text": "Attack Practice grubkin (level-1)",
+      "option": "Attack",
+      "target": "Practice grubkin",
+      "via": "left",
+      "at": 1790514663571
+     },
+     "ran": true
     },
-    "ran": true
+    "target": [
+     true,
+     true
+    ],
+    "walk": "ok",
+    "chat": [
+     "The Proving Ground. Wild grubkins here attack on sight; the poacher, the warlock and the broodmother answer only a challenge.",
+     "You are already under attack!"
+    ]
    }
   },
   {
@@ -656,7 +667,7 @@
    "name": "01_statue",
    "rect": [
     707,
-    387,
+    393,
     125,
     73
    ]
@@ -664,7 +675,7 @@
   {
    "name": "02_ground_stack",
    "rect": [
-    722,
+    718,
     566,
     102,
     99
@@ -701,7 +712,7 @@
    "name": "06_provision_rack",
    "rect": [
     684,
-    492,
+    542,
     171,
     73
    ]
@@ -710,7 +721,7 @@
    "name": "07_pack_hatchet",
    "rect": [
     1309,
-    583,
+    575,
     151,
     86
    ]
@@ -755,7 +766,7 @@
    "name": "18_shop_stock",
    "rect": [
     552,
-    296,
+    273,
     151,
     99
    ]
@@ -782,7 +793,7 @@
    "name": "11_oak",
    "rect": [
     722,
-    284,
+    285,
     95,
     73
    ]
@@ -791,7 +802,7 @@
    "name": "12_fishing_spot",
    "rect": [
     704,
-    471,
+    493,
     131,
     73
    ]
@@ -800,7 +811,7 @@
    "name": "13_use_net_fishing_spot",
    "rect": [
     681,
-    471,
+    493,
     177,
     60
    ]
