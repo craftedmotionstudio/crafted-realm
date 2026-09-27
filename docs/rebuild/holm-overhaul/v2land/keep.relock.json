@@ -20,6 +20,10 @@
   [
    "'placement':{'x':87,'y':8.025,'z':35}",
    "'placement':{'x':87,'y':11,'z':35}"
+  ],
+  [
+   "('east-lookout','East turret lookout',10.5,6.7,-5.5)]",
+   "('east-lookout','East turret lookout',10.5,6.7,-5.5),('undercroft','Undercroft trapdoor',-8.5,0,.5)]"
   ]
  ]
 }

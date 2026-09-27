@@ -97,6 +97,12 @@ var HolmOverhaulTerrain=(function(){
         if(i){var a=g.points[i-1],dx=p[0]-a[0],dz=p[1]-a[1],len=Math.abs(dx)+Math.abs(dz);if(!len||(dx&&dz)||Math.abs(p[2]-a[2])/len>.4+1e-9)fail('grade must be cardinal and at most .4 slope');}
       });
     });
+    // cuts: a structure's bed (the Keeper's Stair): the land may only come down to the path's level, never up
+    list('cuts',16).forEach(function(g){
+      if(!object(g)||!range(g.halfWidth,.3,8)||!range(g.blend,.1,8)||!Array.isArray(g.points)||g.points.length<2)fail('invalid cut');
+      g.points.forEach(function(p){if(!Array.isArray(p)||p.length!==3||!range(p[0],0,144)||!range(p[1],0,128)||!range(p[2],-2,64))fail('invalid cut point');});
+      id(g.id);
+    });
     var c=s.creek;
     if(!object(c)||!Array.isArray(c.points)||c.points.length<2||c.points.length>1024||
       !range(c.halfWidth,.1,16)||!range(c.bankWidth,.1,32)||!range(c.depth,.01,16))fail('invalid creek');
@@ -150,6 +156,10 @@ var HolmOverhaulTerrain=(function(){
     (s.grades||[]).forEach(function(g){
       var hit=creekAt({points:g.points},x,z);
       h+=(hit.waterY-h)*(1-smooth((hit.distance-g.halfWidth)/g.blend));
+    });
+    (s.cuts||[]).forEach(function(g){
+      var hit=creekAt({points:g.points},x,z),t=smooth((hit.distance-g.halfWidth)/g.blend),floor=hit.waterY+(h-hit.waterY)*t;
+      if(floor<h)h=floor;
     });
     var c=s.creek,hit=creekAt(c,x,z),inner=c.halfWidth+c.bankWidth,material=coast<beach?0:1;
     if(hit.distance<inner){

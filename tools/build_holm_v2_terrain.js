@@ -41,7 +41,7 @@ const seats=design.seats.map(seatOf);
 const source={schema:T.SOURCE_V2,version:2,width:144,depth:128,spacing:1,coast:v1src.coast,base:design.base,shore:design.shore,swell:design.swell,rock:design.rock,
  plateaus:design.plateaus,dimples:design.dimples,basins:design.basins,pads:design.pads,
  grades:[{id:'landing-to-guide',halfWidth:design.approach.clearWidth/2,blend:2.5,points:design.approach.waypoints.map(([x,y,z])=>[x,z,y])}].concat(design.grades),
- creek:design.creek,seats:seats.map(({oldY,...q})=>q)};
+ cuts:design.cuts||[],creek:design.creek,seats:seats.map(({oldY,...q})=>q)};
 const bundle=T.compile(source);
 const text={src:JSON.stringify(source,null,1)+'\n',bundle:JSON.stringify(bundle)+'\n'};
 const outs=[path.join(root,OUTWS,'candidates'),path.join(root,OUTWS,'working/assets/world/authoring')];
