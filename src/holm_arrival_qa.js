@@ -20,8 +20,12 @@ var HolmArrivalQA=(function(){
   if((!production&&!QAProfile.isolated)||CRWorldMode.legacy)throw Error('Arrival QA requires a local isolated qaProfile and the v2 game');
   // old-school look (2026-09-25): the textured Guide House ships in its own arrival package export (same graph)
   // Holm v2 land (2026-09-26): the island's terrain lives in the v2-land arrival package (HolmV2Land), in both looks
-  var osPkg=island&&typeof HolmV2Land!=='undefined'?HolmV2Land.arrival():typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.arrivalPackage():null;
-  loaded=null;if(osPkg)try{loaded=await HolmArrivalExportLoader.load({baseUrl:osPkg.baseUrl,exportId:osPkg.exportId})}catch(e){console.warn('[HolmArrivalQA] old-school arrival package unavailable; the previous package is kept',e&&e.message)}
+  // (the v2 land's package is retried and never replaced by the pre-v2 one: its terrain would not fit the v2 buildings,
+  // props and pond; HolmV2Land.loadArrival throws after its retries, and the boot shows "could not finish loading")
+  loaded=null;
+  if(island&&typeof HolmV2Land!=='undefined')loaded=await HolmV2Land.loadArrival(HolmArrivalExportLoader,{warn:function(n,e){console.warn('[HolmArrivalQA] v2-land arrival package read failed (try '+n+'), retrying',e&&e.message)}});
+  else{var osPkg=typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.arrivalPackage():null;
+   if(osPkg)try{loaded=await HolmArrivalExportLoader.load({baseUrl:osPkg.baseUrl,exportId:osPkg.exportId})}catch(e){console.warn('[HolmArrivalQA] old-school arrival package unavailable; the previous package is kept',e&&e.message)}}
   if(!loaded)loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v9/exports/',exportId:EXPORT});
   if(typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){HolmOverhaulGround.setTerrain(loaded.documents.terrain);await HolmOldschoolLook.preload(THREE)}
   nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
