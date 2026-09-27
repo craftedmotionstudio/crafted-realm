@@ -39,7 +39,9 @@
     battleaxe: {axis:[0,1,0],  roll:[0,0,1],  neutral:[0,0.67,0.74],  rollAim:[1,0,0],  grip:[0,-0.14,0], palmAlong:0.085},  // owner r6: ~48deg from vertical (+17deg over r5)
     /* set 2 — authored head/blade +Y, spec-driven (no bbox guessing); one-hand
      * crush weapons rest at attention like blades; 2h same but heavier */
-    mace:      {axis:[0,1,0],  roll:[1,0,0],  neutral:[0,0.42,0.91],  rollAim:[1,0,0],  grip:[0,0,0],     palmAlong:0.085},
+    /* holm equipment v3: the mace rides a little flatter (forward, 12 deg up instead of 25): in the v3.1 run the pumping
+     * forearm brought its head against the side of the head (fit check: run frames 0 / 12) */
+    mace:      {axis:[0,1,0],  roll:[1,0,0],  neutral:[0,0.2,0.98],  rollAim:[1,0,0],  grip:[0,0,0],     palmAlong:0.085},
     // owner r7: block rotated 90deg about the haft — long axis into the lean plane
     warhammer: {axis:[0,1,0],  roll:[1,0,0],  neutral:[0,0.42,0.91],  rollAim:[0,0,1],  grip:[0,0,0],     palmAlong:0.085},
     // owner r8: shoulder carry with the ARM POSED FORWARD (playerGLBAnim adds +0.55

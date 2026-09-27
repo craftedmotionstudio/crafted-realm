@@ -1,6 +1,8 @@
-/* ================= HOLM EQUIPMENT V2 =================
- * Every wieldable / wearable item as a Blender model (tools/blender/build_holm_equipment_v2.py ->
- * .studio-workspaces/holm-equipment-v2/candidates/equipment.glb; one template per kind named eq_<kind>, body B variants
+/* ================= HOLM EQUIPMENT V3 =================
+ * Every wieldable / wearable item as a Blender model (tools/blender/build_holm_equipment_v3.py ->
+ * .studio-workspaces/holm-equipment-v3/candidates/equipment.glb; v3: kit morphs Hair_Over / Hair_Cape gather long hair
+ * over armour and capes, the plateskirt replaces the legs, the riot shield carries an arm cuff + brace (child 'brace',
+ * left out of drops); one template per kind named eq_<kind>, body B variants
  * eq_<kind>_B with extras.body 'B').
  * Loads the GLB once and hands out tier-recoloured clones. Fails soft: until the GLB is loaded (or for an unknown
  * kind) every call returns null so callers keep their code-built primitive. The wiring lives in REPORT.md next to the GLB.
@@ -24,8 +26,8 @@
  * QA: HolmEquipment.status(). */
 var HolmEquipment=(function(){
  'use strict';
- var PATH='/.studio-workspaces/holm-equipment-v2/candidates/equipment.glb';
- var URL=(typeof HolmIsland!=='undefined'&&HolmIsland.asset?HolmIsland.asset(PATH):PATH)+'?v=2';
+ var PATH='/.studio-workspaces/holm-equipment-v3/candidates/equipment.glb';
+ var URL=(typeof HolmIsland!=='undefined'&&HolmIsland.asset?HolmIsland.asset(PATH):PATH)+'?v=3';
  var METAL_DEFAULT=0xb87a3a,KIT_HIPS_Y=0.95,BALD=2;
  var MODEL_KIND={sword:'sword',longsword:'longsword',sabre:'sabre',greatsword:'greatsword',mace:'mace',warhammer:'warhammer',
   battleaxe:'battleaxe',axe:'hatchet',pick:'pickaxe',bow:'shortbow',longbow:'longbow',staff:'staff',shield:'round_shield',
@@ -128,6 +130,8 @@ var HolmEquipment=(function(){
  function groundMesh(id){
   var r=forItem(id);if(!r)return null;var m=mesh(r.kind,r.metal,r.opts);if(!m)return null;
   if(m.userData.frame==='grip')m.quaternion.copy(quat(m.userData.lay));
+  var carry=[];m.traverse(function(o){if(o.userData&&o.userData.bone==='brace')carry.push(o)});   // a carry brace is not part of the drop
+  carry.forEach(function(o){if(o.parent)o.parent.remove(o)});
   var g=new THREE.Group();g.add(m);g.updateMatrixWorld(true);
   var b=new THREE.Box3().setFromObject(m),c=b.getCenter(new THREE.Vector3());
   m.position.set(-c.x,-b.min.y,-c.z);g.userData.holmEquipment=r.kind;return g;
@@ -199,13 +203,18 @@ var HolmEquipment=(function(){
   var hides=[].concat(g.userData.hides||[]);
   g.name='holmEq_'+kind;g.userData.holmEquipment=kind;g.userData.holmHides=hides;
   g.userData.holmKitMorphs=[].concat(g.userData.kit_morphs||[]);   // e.g. Hair_Over / Jaw_Over: hair and beards lie over it
+  g.userData.holmKitMorphsWith=g.userData.kit_morphs_with||null;     // e.g. a cape over body armour: {body:['Hair_Cape']}
+  g.userData.holmSlot=g.userData.slot||null;
   g.position.set(0,0,0);g.quaternion.identity();g.scale.set(1,1,1);
   rig.add(g);applyHides(rig,body,hides);applyKitMorphs(rig);
   return {kind:kind,body:body,parts:[g],hides:hides,remove:function(){if(g.parent)g.parent.remove(g)}};
  }
  /* kit morphs switched on by worn items ({Hair_Over:1,...}); HolmKit.apply calls this every look refresh */
- var KIT_ITEM_MORPHS=['Hair_Over','Jaw_Over'];
- function kitMorphs(rig){var m={};if(!rig)return m;rig.traverse(function(o){var a=o.userData&&o.userData.holmKitMorphs;if(a&&a.length)a.forEach(function(k){m[k]=1})});return m}
+ var KIT_ITEM_MORPHS=['Hair_Over','Jaw_Over','Hair_Cape'];
+ function kitMorphs(rig){var m={},slots={},withs=[];if(!rig)return m;
+  rig.traverse(function(o){var u=o.userData;if(!u)return;var a=u.holmKitMorphs;if(a&&a.length)a.forEach(function(k){m[k]=1});
+   if(u.holmSlot)slots[u.holmSlot]=1;if(u.holmKitMorphsWith)withs.push(u.holmKitMorphsWith)});
+  withs.forEach(function(w){for(var sl in w)if(slots[sl])[].concat(w[sl]).forEach(function(k){m[k]=1})});return m}
  function applyKitMorphs(rig){var m=kitMorphs(rig);
   rig.traverse(function(o){var d=o.morphTargetDictionary;if(!d||!o.morphTargetInfluences||!(KIT_RE.test(o.name||'')||(o.parent&&KIT_RE.test(o.parent.name||''))))return;
    KIT_ITEM_MORPHS.forEach(function(k){if(d[k]!==undefined)o.morphTargetInfluences[d[k]]=m[k]?1:0})})}
@@ -226,7 +235,7 @@ var HolmEquipment=(function(){
  }
  function kinds(){var o={};Object.keys(st.templates).forEach(function(k){o[kindOf(k)]=1});return Object.keys(o)}
  function status(){return {ready:st.ready,loading:st.loading,failed:st.failed,kinds:kinds(),
-  bodyB:Object.keys(st.templates).filter(function(k){return /\|B$/.test(k)}).map(kindOf),installed:st.installed,version:2}}
+  bodyB:Object.keys(st.templates).filter(function(k){return /\|B$/.test(k)}).map(kindOf),installed:st.installed,version:3}}
  return {load:load,onReady:onReady,mesh:mesh,itemMesh:itemMesh,groundMesh:groundMesh,forItem:forItem,fit:fit,install:install,
   status:status,kinds:kinds,hiddenSlots:hiddenSlots,kitMorphs:kitMorphs,kitBody:kitBody};
 })();

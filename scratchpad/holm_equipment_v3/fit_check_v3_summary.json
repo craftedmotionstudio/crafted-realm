@@ -1,0 +1,440 @@
+{
+ "summary": {
+  "worn_failing": {
+   "fullhelm": 0,
+   "medhelm": 0,
+   "hat": 0,
+   "amulet": 4,
+   "cape": 124,
+   "platebody": 150,
+   "chainbody": 0,
+   "leather_body": 0,
+   "platelegs": 0,
+   "plateskirt": 0,
+   "chaps": 0,
+   "gloves": 14,
+   "boots": 6
+  },
+  "held_failing": {
+   "dagger": 0,
+   "sword": 0,
+   "longsword": 0,
+   "sabre": 0,
+   "greatsword": 0,
+   "mace": 0,
+   "warhammer": 0,
+   "battleaxe": 9,
+   "hatchet": 0,
+   "pickaxe": 0,
+   "shortbow": 6,
+   "longbow": 12,
+   "staff": 0,
+   "round_shield": 9,
+   "sqshield": 9,
+   "kiteshield": 11
+  },
+  "held_failing_idle_walk_run": {
+   "dagger": 0,
+   "sword": 0,
+   "longsword": 0,
+   "sabre": 0,
+   "greatsword": 0,
+   "mace": 0,
+   "warhammer": 0,
+   "battleaxe": 0,
+   "hatchet": 0,
+   "pickaxe": 0,
+   "shortbow": 0,
+   "longbow": 0,
+   "staff": 0,
+   "round_shield": 0,
+   "sqshield": 0,
+   "kiteshield": 0
+  }
+ },
+ "worn": {
+  "fullhelm": {
+   "all": [
+    0,
+    171
+   ],
+   "idle_walk": [
+    0,
+    54
+   ],
+   "run": [
+    0,
+    36
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    81
+   ],
+   "causes": {}
+  },
+  "medhelm": {
+   "all": [
+    0,
+    171
+   ],
+   "idle_walk": [
+    0,
+    54
+   ],
+   "run": [
+    0,
+    36
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    81
+   ],
+   "causes": {}
+  },
+  "hat": {
+   "all": [
+    0,
+    171
+   ],
+   "idle_walk": [
+    0,
+    54
+   ],
+   "run": [
+    0,
+    36
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    81
+   ],
+   "causes": {}
+  },
+  "amulet": {
+   "all": [
+    4,
+    2964
+   ],
+   "idle_walk": [
+    0,
+    936
+   ],
+   "run": [
+    0,
+    624
+   ],
+   "attacks_block_bow_cast": [
+    4,
+    1404
+   ],
+   "causes": {
+    "into B_Hair_01 bow": 2,
+    "into A_Torso_06 attack_stab": 1,
+    "into A_Torso_06 cast": 1
+   }
+  },
+  "cape": {
+   "all": [
+    124,
+    4332
+   ],
+   "idle_walk": [
+    0,
+    1368
+   ],
+   "run": [
+    66,
+    912
+   ],
+   "attacks_block_bow_cast": [
+    58,
+    2052
+   ],
+   "causes": {
+    "into eq_platebody run": 66,
+    "hair/beard bow": 28,
+    "hair/beard attack_slash": 17,
+    "hair/beard attack_crush": 13,
+    "into B_Hair_01 attack_crush": 10
+   }
+  },
+  "platebody": {
+   "all": [
+    150,
+    1254
+   ],
+   "idle_walk": [
+    0,
+    396
+   ],
+   "run": [
+    30,
+    264
+   ],
+   "attacks_block_bow_cast": [
+    120,
+    594
+   ],
+   "causes": {
+    "gap Arms block": 34,
+    "gap Arms cast": 30,
+    "gap Arms run": 30,
+    "hair/beard bow": 20,
+    "gap Torso attack_crush": 20
+   }
+  },
+  "chainbody": {
+   "all": [
+    0,
+    1254
+   ],
+   "idle_walk": [
+    0,
+    396
+   ],
+   "run": [
+    0,
+    264
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    594
+   ],
+   "causes": {}
+  },
+  "leather_body": {
+   "all": [
+    0,
+    1254
+   ],
+   "idle_walk": [
+    0,
+    396
+   ],
+   "run": [
+    0,
+    264
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    594
+   ],
+   "causes": {}
+  },
+  "platelegs": {
+   "all": [
+    0,
+    114
+   ],
+   "idle_walk": [
+    0,
+    36
+   ],
+   "run": [
+    0,
+    24
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    54
+   ],
+   "causes": {}
+  },
+  "plateskirt": {
+   "all": [
+    0,
+    855
+   ],
+   "idle_walk": [
+    0,
+    270
+   ],
+   "run": [
+    0,
+    180
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    405
+   ],
+   "causes": {}
+  },
+  "chaps": {
+   "all": [
+    0,
+    114
+   ],
+   "idle_walk": [
+    0,
+    36
+   ],
+   "run": [
+    0,
+    24
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    54
+   ],
+   "causes": {}
+  },
+  "gloves": {
+   "all": [
+    14,
+    741
+   ],
+   "idle_walk": [
+    0,
+    234
+   ],
+   "run": [
+    0,
+    156
+   ],
+   "attacks_block_bow_cast": [
+    14,
+    351
+   ],
+   "causes": {
+    "gap Arms bow": 14
+   }
+  },
+  "boots": {
+   "all": [
+    6,
+    2565
+   ],
+   "idle_walk": [
+    0,
+    810
+   ],
+   "run": [
+    6,
+    540
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    1215
+   ],
+   "causes": {
+    "gap Legs run": 6
+   }
+  }
+ },
+ "held": {
+  "dagger": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0,
+   "by_clip": {}
+  },
+  "sword": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0,
+   "by_clip": {}
+  },
+  "longsword": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0,
+   "by_clip": {}
+  },
+  "sabre": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0,
+   "by_clip": {}
+  },
+  "greatsword": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0,
+   "by_clip": {}
+  },
+  "mace": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0,
+   "by_clip": {}
+  },
+  "warhammer": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0,
+   "by_clip": {}
+  },
+  "battleaxe": {
+   "failing": 9,
+   "tests": 96,
+   "idle_walk_run": 0,
+   "by_clip": {
+    "attack_stab": 6,
+    "attack_crush": 3
+   }
+  },
+  "hatchet": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0,
+   "by_clip": {}
+  },
+  "pickaxe": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0,
+   "by_clip": {}
+  },
+  "shortbow": {
+   "failing": 6,
+   "tests": 78,
+   "idle_walk_run": 0,
+   "by_clip": {
+    "bow": 6
+   }
+  },
+  "longbow": {
+   "failing": 12,
+   "tests": 78,
+   "idle_walk_run": 0,
+   "by_clip": {
+    "bow": 12
+   }
+  },
+  "staff": {
+   "failing": 0,
+   "tests": 72,
+   "idle_walk_run": 0,
+   "by_clip": {}
+  },
+  "round_shield": {
+   "failing": 9,
+   "tests": 102,
+   "idle_walk_run": 0,
+   "by_clip": {
+    "block": 6,
+    "attack_crush": 3
+   }
+  },
+  "sqshield": {
+   "failing": 9,
+   "tests": 102,
+   "idle_walk_run": 0,
+   "by_clip": {
+    "attack_crush": 6,
+    "block": 3
+   }
+  },
+  "kiteshield": {
+   "failing": 11,
+   "tests": 102,
+   "idle_walk_run": 0,
+   "by_clip": {
+    "block": 6,
+    "attack_slash": 1,
+    "attack_stab": 1,
+    "attack_crush": 3
+   }
+  }
+ }
+}

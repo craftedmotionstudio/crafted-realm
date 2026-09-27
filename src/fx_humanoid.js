@@ -435,8 +435,11 @@ function refreshGLBGear(){
         // strap point: 55% down the forearm (elbow -> wrist), pushed out from the arm so the back clears the sleeve
         const hand=_glbBone(rig,'LeftHand');
         const pE=a.bone.getWorldPosition(new THREE.Vector3()), pW=hand?hand.getWorldPosition(new THREE.Vector3()):pE.clone();
-        const pt=pE.clone().lerp(pW,0.55).add(inChar(LEFT).multiplyScalar((sdef && sdef.model==='sqshield') ? 0.1 : 0.065));
-        if(sdef && sdef.model==='sqshield') pt.y-=0.05;                     // riot shield rides a touch lower
+        // holm equipment v3 (kit v3.1: the arm hangs at the side): the riot shield rides 24 cm out on its arm cuff + brace
+        // and 3 cm up, clear of the hip, thigh and chest in the idle / walk / run (build_holm_equipment_v3.py SQ_CARRY)
+        const sq=sdef && sdef.model==='sqshield';
+        const pt=pE.clone().lerp(pW,0.55).add(inChar(LEFT).multiplyScalar(sq ? 0.24 : 0.065));
+        if(sq) pt.y+=0.03;
         a.m.position.copy(a.bone.worldToLocal(pt));
       } else a.m.position.set(0.12, (sdef && sdef.model==='sqshield') ? -0.05 : 0.03, 0.04);  // off the torso; riot shield rides a touch lower
     }

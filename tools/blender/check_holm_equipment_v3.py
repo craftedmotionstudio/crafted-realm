@@ -14,7 +14,7 @@ Checks (numbers per kind / body / build / frame; worst cases listed):
   exposed  -- kit surface that must be under the equipment (the hidden slots it replaces, and the visible layers inside
               its span) whose outward ray does not hit the equipment: a gap / hole or a part poking through;
   sunk     -- held weapon / shield / amulet / cape vertices inside the kit body by more than 5 mm.
-Usage: blender -b --python tools/blender/check_holm_equipment_v2.py -- [--equip GLB] [--out DIR] [--label v2] [--no-render] [--quick]
+Usage: blender -b --python tools/blender/check_holm_equipment_v3.py -- [--equip GLB] [--kit GLB] [--out DIR] [--label v3] [--frames c:f,..] [--only k,..] [--from JSON] [--no-render] [--quick]
 Reads the kit (assets/models/holm_kit_v2.glb) and the equipment GLB; writes JSON + PNG sheets to --out only.
 """
 import bpy, sys, os, json, math, re, time
@@ -26,9 +26,9 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(k, d):
     return ARGS[ARGS.index(k) + 1] if k in ARGS else d
-EQUIP = arg('--equip', os.path.join(ROOT, '.studio-workspaces', 'holm-equipment-v2', 'candidates', 'equipment.glb'))
-OUT = arg('--out', os.path.join(ROOT, 'scratchpad', 'holm_equipment_v2'))
-TAG = arg('--label', 'v2')
+EQUIP = arg('--equip', os.path.join(ROOT, '.studio-workspaces', 'holm-equipment-v3', 'candidates', 'equipment.glb'))
+OUT = arg('--out', os.path.join(ROOT, 'scratchpad', 'holm_equipment_v3'))
+TAG = arg('--label', 'v3')
 DO_RENDER = '--no-render' not in ARGS
 QUICK = '--quick' in ARGS
 ONLY = set(arg('--only', '').split(',')) - {''}
@@ -65,7 +65,8 @@ for o in [o for o in bpy.data.objects if o not in before]:
         else:
             parts = [(c, c.get('bone')) for c in o.children_recursive if c.type == 'MESH']
         EQ[(kind, body)] = {'root': o, 'parts': parts, 'frame': o.get('frame'), 'slot': o.get('slot'),
-                            'hides': list(o.get('hides', [])), 'kit_morphs': list(o.get('kit_morphs', [])), 'grip': list(o.get('grip', [0, 0, 0])) if o.get('grip') is not None else None}
+                            'hides': list(o.get('hides', [])), 'kit_morphs': list(o.get('kit_morphs', [])),
+                            'kit_morphs_with': (o.get('kit_morphs_with').to_dict() if o.get('kit_morphs_with') is not None else {}), 'grip': list(o.get('grip', [0, 0, 0])) if o.get('grip') is not None else None}
 for e in EQ.values():
     for c, _ in e['parts']:
         c['rest'] = [list(r) for r in c.matrix_world]
@@ -154,10 +155,14 @@ class Look:
         return [KITM[kit_name(s.bt, sl, s.parts[sl])] for sl in h if sl in s.parts and sl != 'Hair' and kit_name(s.bt, sl, s.parts[sl]) in KITM]
     def morphs(s):
         d = dict(BUILDS[s.build])
+        slots = {s.eq(k)['slot'] for k in s.worn if s.eq(k)}
         for k in s.worn:           # kit morphs a worn item switches on (Hair_Over / Jaw_Over: hair and beards over it)
             e = s.eq(k)
             if e:
                 d.update({m: 1.0 for m in e.get('kit_morphs', [])})
+                for sl, ms in e.get('kit_morphs_with', {}).items():   # (a cape over body armour: Hair_Cape)
+                    if sl in slots:
+                        d.update({m: 1.0 for m in ms})
         if s.feet == 'small': d['Feet_Small'] = 1.0
         if s.feet == 'large': d['Feet_Large'] = 1.0
         return d
@@ -260,7 +265,7 @@ def solve_shield(kind):
     Lm = basis(nl, ul)
     R = W @ Lm.inverted()
     pE = bone_world('LeftForeArm').translation; pW = bone_world('LeftHand').translation
-    SQ = [float(x) for x in arg('--sq', '.1,0,.05').split(',')]      # riot shield strap: out, forward, drop (fx_humanoid)
+    SQ = [float(x) for x in arg('--sq', '.24,0,-.03').split(',')]      # riot shield strap: out, forward, drop (fx_humanoid)
     pt = pE.lerp(pW, .55) + Vector((1, 0, 0)) * (SQ[0] if sq else .065)
     if sq:
         pt += Vector((0, -SQ[1], -SQ[2]))
@@ -372,7 +377,7 @@ SPANS = {
     'leather_body': {'Torso': lambda bt, p: .97 < p.z < 1.46, 'Arms': lambda bt, p: u_arm(bt, 1 if p.x > 0 else -1, p) < 1.86,
                      'Legs': lambda bt, p: p.z > .96},
     'platelegs':   {'Legs': lambda bt, p: .14 < p.z < 1.0},
-    'plateskirt':  {'Legs': lambda bt, p: .50 < p.z < .99},
+    'plateskirt':  {'Legs': lambda bt, p: .14 < p.z < .99},
     'chaps':       {'Legs': lambda bt, p: .14 < p.z < 1.0},
     'gloves':      {'Hands': lambda bt, p: True, 'Arms': lambda bt, p: u_arm(bt, 1 if p.x > 0 else -1, p) > 1.93},
     'boots':       {'Feet': lambda bt, p: p.z < .26, 'Legs': lambda bt, p: p.z < .24 and leg_dist(bt, p) < .030},

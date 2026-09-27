@@ -1,5 +1,9 @@
 """build_holm_characters_v2.py -- Crafted Realms MODULAR IDENTITY KIT v2 (2004-style) + Guide Bram from the kit.
 
+v3.1f (holm equipment v3, tag v31f): under body armour and capes long hair is GATHERED behind the shoulders (Hair_Over:
+the hanging locks swing round behind the neck and fall down the back, clear of the armour; Hair_Cape: a little further
+back, over a cape worn over body armour). Nothing else changes.
+
 v3.1e (holm equipment v2, tag v31e): v3.1 + the Hair_Over / Jaw_Over morph on every hair / beard part -- hair and
 beards lie over body armour and capes (armour_clearance); nothing else changes.
 
@@ -48,7 +52,7 @@ Bram GLB: idle talk walk wave (holding his staff).
 Run:  "C:\\Program Files\\Blender Foundation\\Blender 4.5\\blender.exe" -b --python tools/blender/build_holm_characters_v2.py -- [--no-render] [--quick]
 Outputs (candidates only, never the live assets): .studio-workspaces/holm-characters-<tag>/candidates/{kit.glb,
   bram.glb, palettes.json, characters.blend, manifest.json, REPORT.md}, scratchpad/holm_characters_<tag>/*.png
-  (default tag v31e; the reviewed sets v2 / v27 / v28 / v29 / v30 / v31 are refused)
+  (default tag v31f; the reviewed sets v2 / v27 / v28 / v29 / v30 / v31 / v31e are refused)
 """
 import bpy, bmesh, math, json, os, sys, struct, subprocess, shutil, random
 from mathutils import Vector, Matrix, Quaternion, Euler
@@ -57,9 +61,9 @@ from mathutils.bvhtree import BVHTree
 REPO = r"C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude"
 REF_GLB = os.path.join(REPO, "assets", "models", "player.glb")
 _ARGV = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
-TAG = _ARGV[_ARGV.index("--tag") + 1] if "--tag" in _ARGV else "v31e"   # output set: .studio-workspaces/holm-characters-<tag>/
+TAG = _ARGV[_ARGV.index("--tag") + 1] if "--tag" in _ARGV else "v31f"   # output set: .studio-workspaces/holm-characters-<tag>/
 CAND = os.path.join(REPO, ".studio-workspaces", "holm-characters-%s" % TAG, "candidates")
-assert TAG not in ("v2", "v27", "v28", "v29", "v30", "v31"), "refusing to overwrite a reviewed kit set (holm-characters-%s)" % TAG
+assert TAG not in ("v2", "v27", "v28", "v29", "v30", "v31", "v31e"), "refusing to overwrite a reviewed kit set (holm-characters-%s)" % TAG
 OUT_KIT = os.path.join(CAND, "kit.glb")
 OUT_PAL = os.path.join(CAND, "palettes.json")
 OUT_BRAM = os.path.join(CAND, "bram.glb")
@@ -76,7 +80,7 @@ FPS = 30
 ARGS = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 DO_RENDER = "--no-render" not in ARGS
 QUICK = "--quick" in ARGS
-VL = {'v29': 'v2.9', 'v30': 'v3.0', 'v31': 'v3.1', 'v31e': 'v3.1e'}.get(TAG, TAG)   # label on the review sheets
+VL = {'v29': 'v2.9', 'v30': 'v3.0', 'v31': 'v3.1', 'v31e': 'v3.1e', 'v31f': 'v3.1f'}.get(TAG, TAG)   # label on the review sheets
 
 # ------------------------------------------------------------------------------------------
 # Skeleton: verbatim (head, tail, roll) from assets/models/player.glb (same table as v1).
@@ -2954,7 +2958,8 @@ def clip_defs():
            LeftUpLeg=(-65, 0, 0), LeftLeg=(85, 0, 0), LeftFoot=(-20, 0, 0), RightUpLeg=(-8, 0, 0), RightLeg=(12, 0, 0),
            Spine=(6, 0, 0), Head=(-14, 0, 0))
     C['climb'] = (30, cycle(30, [(0, cl)]), True)
-    blk = PP(crouch(-10, 18), LeftArm=A(.40, -.8, -.1), LeftForeArm=A(-.40, -.55, .72), RightArm=A(-.3, -.5, -.8),
+    # v3.1f: the guard arm stays out in front (a strapped shield covered the face and passed through the chest / neck)
+    blk = PP(crouch(-10, 18), LeftArm=A(.55, -.80, -.14), LeftForeArm=A(-.06, -.78, .62), RightArm=A(-.3, -.5, -.8),
              RightForeArm=A(.1, -1, .15), Spine=(6, 0, 0), Spine1=(0, 0, -6))
     C['block'] = (12, [(0, P()), (4, blk), (8, blk), (12, P())], False)
     C['hit'] = (12, [
@@ -3818,21 +3823,41 @@ def keep_clearance(bt, base, var, kind):
 # hair / beard vertex that hangs by the torso out from it (and from the deltoid caps) by up to ARMOUR_CLEAR, fading out
 # above the neck; the head, face and neck skin never move. The runtime turns it on while a platebody, chainbody, leather
 # body or cape is worn (holm_equipment extras.kit_morphs).
-ARMOUR_CLEAR = {'Hair': .040, 'Jaw': .048}   # hair over plate + a cape; a beard over the gorget
-def armour_clearance(bt, ob, base, slot):
+ARMOUR_CLEAR = {'Hair': .040, 'Jaw': .048}   # hair over plate; a beard over the gorget
+HAIR_GATHER = .45          # v3.1f: a hanging lock at angle th from the front swings to pi - (pi - th) * HAIR_GATHER (behind)
+HAIR_NARROW = .72          # ... and the gathered fall is this much narrower (between the shoulder blades)
+CAPE_EXTRA = .036          # Hair_Cape: further back over a cape
+ARMOUR_MIN = .058          # under body armour / a cape the gathered hair keeps at least this much from the body
+def gathered_hair(p, f):
+    """v3.1f: a hair point below the head swung round behind the neck (f = 0 unchanged .. 1 fully gathered)"""
+    dx, dy = p.x, p.y - HEAD_YC
+    r = math.hypot(dx, dy)
+    if r < 1e-6 or f <= 0:
+        return p.copy()
+    th = math.atan2(dx, -dy)                       # 0 = front, +-pi = back
+    tg = math.copysign(math.pi - (math.pi - abs(th)) * HAIR_GATHER, th)
+    t = th + (tg - th) * f
+    x = r * math.sin(t) * (1 - (1 - HAIR_NARROW) * f)
+    return Vector((x, HEAD_YC - r * math.cos(t), p.z))
+
+def armour_clearance(bt, ob, base, slot, cape=False):
+    """Hair_Over / Jaw_Over (and with cape=True the Hair_Cape delta): hair and beards over body armour and capes"""
     hair_mat = [i for i, m in enumerate(ob.data.materials) if m and m.name.split('.')[0] == 'C_HAIR']
     hv = set(v for pl in ob.data.polygons if pl.material_index in hair_mat for v in pl.vertices)
-    z0, z1 = (1.60, 1.52) if slot == 'Hair' else (1.575, 1.50)
+    z0, z1 = (1.62, 1.54) if slot == 'Hair' else (1.575, 1.50)
     out = []
     for i, p in enumerate(base):
         q = p.copy()
         if i in hv and p.z < z0:
             f = ss(z0, z1, p.z)
-            c0, rdir = _clearance(bt, p, TORSO, PELVIS)
+            if slot == 'Hair':
+                q = gathered_hair(q, f)
+            c0, rdir = _clearance(bt, q, TORSO, PELVIS)
             if c0 < .10:   # (a long beard's tip swings in to the chest when the head nods: more room further down)
-                q = q + rdir * (ARMOUR_CLEAR[slot] + (.035 * ss(1.50, 1.43, p.z) if slot == 'Jaw' else 0.0)) * f
-            if slot == 'Hair' and abs(p.x) > .10 and 1.40 < p.z < 1.54:   # hair lying on the shoulder tops rises over plate
-                q = q + Vector((math.copysign(.45, p.x), 0, .89)) * .030 * f * ss(.10, .14, abs(p.x))
+                push = ARMOUR_CLEAR[slot] + (.052 * ss(1.50, 1.43, p.z) if slot == 'Jaw' else 0.0)
+                if slot == 'Hair':
+                    push = max(push, ARMOUR_MIN - c0)          # (gathering can bring a lock in close to the neck)
+                q = q + rdir * push * f
             for sx in (-1, 1):   # the deltoid caps (pauldrons sit there)
                 dc, dr = DELTOID[bt]
                 cb = Vector((sx * dc[0], dc[1], dc[2]))
@@ -3840,8 +3865,15 @@ def armour_clearance(bt, ob, base, slot):
                 dmin = .090 if slot == 'Hair' else .070    # (over the pauldrons)
                 if 1.18 < p.z < 1.52 and d0 < dmin:
                     q = cb + (q - cb).normalized() * ((q - cb).length + (dmin - d0) * f)
+            if cape and q.y > body_r(bt, min(max(q.z, .96), 1.515))[3]:   # behind the body: over the cape
+                q = q + Vector((0, CAPE_EXTRA * f * ss(1.56, 1.48, p.z), 0))
         out.append(q)
     return out
+
+def cape_delta(bt, ob, base, over):
+    """Hair_Cape as its own delta on top of Hair_Over (the runtime switches both on: base + dOver + dCape)"""
+    both = armour_clearance(bt, ob, base, 'Hair', cape=True)
+    return [b + (c - o) for b, c, o in zip(base, both, over)]
 
 MORPHS_ALL = ['Build_Stout', 'Build_Slim']
 MORPHS_FEET = ['Feet_Large', 'Feet_Small']
@@ -3855,6 +3887,8 @@ def add_morphs(ob, bt, slot, idx):
     keys = {'Build_Stout': part_coords(bt, slot, idx, 'stout'), 'Build_Slim': part_coords(bt, slot, idx, 'slim')}
     if slot in ('Hair', 'Jaw'):
         keys[slot + '_Over'] = armour_clearance(bt, ob, base, slot)
+        if slot == 'Hair':
+            keys['Hair_Cape'] = cape_delta(bt, ob, base, keys['Hair_Over'])
     if slot == 'Feet':
         keys['Feet_Large'] = part_coords(bt, slot, idx, feet=FOOT_K_LARGE)
         keys['Feet_Small'] = part_coords(bt, slot, idx, feet=FOOT_K_SMALL)
