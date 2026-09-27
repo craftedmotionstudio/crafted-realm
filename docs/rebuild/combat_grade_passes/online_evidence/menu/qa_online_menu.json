@@ -1,5 +1,5 @@
 {
- "at": "2026-09-27T03:47:31.886Z",
+ "at": "2026-09-27T05:24:23.805Z",
  "results": [
   {
    "ok": true,
@@ -77,11 +77,13 @@
    "detail": {
     "rows": [
      "Take Bones",
+     "Take Crowns (16)",
      "Walk here",
      "Examine Bones",
+     "Examine Crowns",
      "Cancel"
     ],
-    "onTile": 1
+    "onTile": 2
    }
   },
   {
@@ -106,8 +108,8 @@
    "ok": true,
    "label": "worn equipment: Remove on top",
    "detail": [
-    "Remove Steel med helm",
-    "Examine Steel med helm",
+    "Remove Undercrag helm",
+    "Examine Undercrag helm",
     "Cancel"
    ]
   },
@@ -116,7 +118,7 @@
    "label": "Remove sends the unequip intent: the server moves it back to the pack",
    "detail": {
     "slot": "head",
-    "item": "steel_medhelm"
+    "item": "undercrag_helm"
    }
   },
   {
