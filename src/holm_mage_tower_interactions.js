@@ -23,12 +23,12 @@ var HolmMageTower=(function(){
     if(!onHolm()) return;
     var air=count('air_rune'),mind=count('mind_rune');
     UI.dialogue('The rune table',
-      'Two runes lie sorted on the velvet: pale air runes and blue mind runes. Wind Strike burns one of each; the spell will not cast without both in your pack. '+
-      (air&&mind?'You carry '+air+' air and '+mind+' mind: enough to try it.':'You carry '+air+' air and '+mind+' mind runes. The practice target will wait until the wardens allow it.')+
+      'Two runes lie sorted on the velvet: pale gale runes and blue wit runes. Gale Dart burns one of each; the spell will not cast without both in your pack. '+
+      (air&&mind?'You carry '+air+' air and '+mind+' mind: enough to try it.':'You carry '+air+' air and '+mind+' wit runes. The practice target will wait until the wardens allow it.')+
       ' Choose the spell on the 🪄 spellbook tab and click a target. Current lesson: '+objective(),
       [{label:'Show me the spellbook.',fn:function(){ openSpellsTab(); }},{label:'I will study later.'}],'🪄');
     openSpellsTab();
-    UI.chat('[MAGE TOWER] Wind Strike burns one air rune and one mind rune per cast. Pick it on the 🪄 tab, then click a target.','sys');
+    UI.chat('[MAGE TOWER] Gale Dart burns one gale rune and one wit rune per cast. Pick it on the 🪄 tab, then click a target.','sys');
   }
   function studyLectern(){
     if(!onHolm()) return;

@@ -993,7 +993,7 @@ function showEnterBuffer(){
     ov.innerHTML='<div style="font-size:30px;letter-spacing:1px;text-shadow:1px 1px 0 #000;margin-bottom:16px">Crafted Realm</div>'+
       '<div style="width:220px;height:9px;background:#120e0a;border:1px solid #4a3b28;border-radius:6px;overflow:hidden">'+
       '<div id="enter-buffer-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#6b8f3f,#9fc45a);transition:width 2.2s linear"></div></div>'+
-      '<div style="margin-top:12px;font-size:12px;color:#a99a80;font-family:Verdana,sans-serif">Stepping into Veyhollow…</div>';
+      '<div style="margin-top:12px;font-size:12px;color:#a99a80;font-family:Verdana,sans-serif">Stepping into Hearthmere…</div>';
     document.body.appendChild(ov);
   }
   ov.style.display='flex'; ov.style.opacity='1';

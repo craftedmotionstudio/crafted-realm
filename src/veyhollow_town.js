@@ -149,8 +149,8 @@
     // a fenced cottage garden (Town_Square.jpg's fenced plots) — rail fence, tilled bed, flowers
     if(typeof makeGardenPlot==='function') makeGardenPlot(18, -3, 3.0);
     if(typeof makeSignpost==='function'){
-      makeSignpost(4,-27.5, [{text:'The Scarlands', ang:Math.PI}, {text:'Veyhollow', ang:0}]);
-      makeSignpost(27.5,6, [{text:'Wardenholm Keep', ang:0.1}, {text:'Veyhollow', ang:2.8}]);
+      makeSignpost(4,-27.5, [{text:'The Scarlands', ang:Math.PI}, {text:'Hearthmere', ang:0}]);
+      makeSignpost(27.5,6, [{text:'Hearthmere Castle', ang:0.1}, {text:'Hearthmere', ang:2.8}]);
     }
     /* ---- THE PLANNED REPOPULATION (documented, NOT live) ----
      * User decision 2026-07-03: the world stays depopulated for now. These placements
@@ -173,7 +173,7 @@
         spawnNpc('monk', -9, -21);                                                   // the chapel's brother
       } finally { /* force channel intentionally NOT used — see note above */ }
     }
-    if(typeof UI!=='undefined' && UI.chat) UI.chat('[MAP] Veyhollow Commons stands walled — the map\'s ring, gates on every road. The folk come later.','sys');
+    if(typeof UI!=='undefined' && UI.chat) UI.chat('[MAP] Hearthmere stands walled — the map\'s ring, gates on every road. The folk come later.','sys');
     return true;
   }
   const iv=setInterval(()=>{ try{ if(build()) clearInterval(iv); }

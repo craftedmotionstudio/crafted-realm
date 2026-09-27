@@ -37,7 +37,7 @@ var HolmIslandCurriculum=(function(){
   melee_trial:['Wield your dagger and defeat a practice foe in the Warden\'s Keep yard.','Melee trial'],
   ranged_trial:['Take up the shortbow and arrows and defeat a practice foe from range.','Ranged trial'],
   open_bank:['Open your account at the counter in the Holm Bank.','Open the bank'],
-  magic_trial:['At the Mage Tower, cast Wind Strike at a practice foe.','Magic trial'],
+  magic_trial:['At the Mage Tower, cast Gale Dart at a practice foe.','Magic trial'],
   relight_lastlight:['Climb Lastlight and pull the beacon lever to call the ferry.','Relight Lastlight']};
  function steps(){
   var byId={};(HolmTutorialFlow.lessons||[]).forEach(function(l){byId[l.id]=l});
@@ -95,7 +95,7 @@ var HolmIslandCurriculum=(function(){
   if(!on)return false;if(!Tutorial.complete){UI.chat('Tobin shakes his head. No sailing until Lastlight is lit.','plain');return false}
   var d=HolmTutorialFlow.departure;if(typeof Tutorial.grantDeparturePack!=='function'||!Tutorial.grantDeparturePack())return false;
   try{var el=document.getElementById('objective');if(el)el.style.display='none';if(typeof GuideArrow!=='undefined'){GuideArrow.keepAfterComplete=false;GuideArrow.setTarget(null)}}catch(e){}
-  var go=function(){WorldTravel.go(d.destinationProvider,d.destinationLandmark,{loadingLabel:'Sailing for Veyhollow…',zoneLabel:'Veyhollow Commons',arrivalMessage:'The skiff noses into Veyhollow. Hollow Well Square lies just ahead.'})};
+  var go=function(){WorldTravel.go(d.destinationProvider,d.destinationLandmark,{loadingLabel:'Sailing for Hearthmere…',zoneLabel:'Hearthmere',arrivalMessage:'The skiff noses into Hearthmere. Hollow Well Square lies just ahead.'})};
   UI.chat('Tobin pushes off from the pier.','plain');if(typeof HolmIslandFx!=='undefined')HolmIslandFx.sail(go);else go();return true}
  install();installFinish();
  return {board:board,qaGrant:qaGrant,qaSetLedger:qaSetLedger,active:function(){return on},install:install,bind:bind,restore:restore,steps:function(){return Tutorial.steps}};

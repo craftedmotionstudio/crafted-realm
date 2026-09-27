@@ -10,7 +10,7 @@
 
   var rect={x0:-48,z0:-48,w:96,h:96,cx:0,cz:0};
   var landmarks={
-    veyhollow_ferry_arrival:{id:'veyhollow_ferry_arrival',label:'Veyhollow Ferry Landing',x:0,z:18,kind:'safe-spawn'},
+    veyhollow_ferry_arrival:{id:'veyhollow_ferry_arrival',label:'Hearthmere Ferry Landing',x:0,z:18,kind:'safe-spawn'},
     hollow_well_square:{id:'hollow_well_square',label:'Hollow Well Square',x:0,z:0,kind:'landmark'}
   };
   var chunks=[];
@@ -26,7 +26,7 @@
 
   var provider=WorldV2.register({
     contractVersion:WorldV2.CONTRACT_VERSION,
-    id:'veyhollow-commons-v2',label:'Veyhollow Commons',worldRevision:1,
+    id:'veyhollow-commons-v2',label:'Hearthmere',worldRevision:1,
     initialRect:rect,residentRadius:3,renderStrategy:'chunk-native-terrain',
     defaultLandmark:'veyhollow_ferry_arrival',landmarks:landmarks,
     mapMetadata:{revision:1,regionId:'veyhollow_commons',orientation:'north-is-negative-z',
@@ -44,7 +44,7 @@
         var spawn=p.getSpawnLandmark(p.defaultLandmark);
         p.updateResidency(spawn.x,spawn.z,true);
       },
-      populate:function(){ console.info('[MAINLAND_V2] Veyhollow arrival residency ready'); },
+      populate:function(){ console.info('[MAINLAND_V2] Hearthmere arrival residency ready'); },
       chartCollision:function(p){ if(typeof CollisionGrid!=='undefined') CollisionGrid.rebakeResident(p); },
       loadChunk:function(chunk,p){
         var render=(typeof WorldV2Terrain!=='undefined')?WorldV2Terrain.loadChunk(chunk,p):{id:chunk.id,dataOnly:true};

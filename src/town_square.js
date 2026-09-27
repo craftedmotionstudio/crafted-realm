@@ -107,7 +107,7 @@
     const base=gy(x,z)||0;
     const g=new THREE.Group(); g.position.set(x,base,z);
     g.userData={kind:'hollowWell', name:'Hollow Well', label:'Drink-from <b>Hollow Well</b>',
-      landmarkId:'well.landmark', examine:'Clear springwater gathers beneath old Veyhollow stone.'};
+      landmarkId:'well.landmark', examine:'Clear springwater gathers beneath old Hearthmere stone.'};
     WORLD.clickables.push(g);
     WORLD.landmarks=WORLD.landmarks||{};
     WORLD.landmarks.hollowWell=g;

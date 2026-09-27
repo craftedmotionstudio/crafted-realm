@@ -290,7 +290,7 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      ok('M5.1 survival lessons on the v2 land: chop on the hollow rim, light a fire on the Fire Beach (step aside on the graph), net a perch at a live ripple, cook it',L.chop===true&&L.fire===true&&L.stepWest&&L.fish===true&&L.cook===true&&L.cookNote.length>0,L);
      ok('M5.1 cavern lessons: shaft ladder down (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up',L.descend===true&&L.copper===true&&L.tin===true&&L.smelt===true&&L.smith===true&&L.up===true,L);}
     // M5.3 combat trials on practice grubkins (Blender-rigged), by real clicks: dagger in the keep court, shortbow from
-    // range, Wind Strike by the mage tower; each kill credits its style through the game's npcKilled hook
+    // range, Gale Dart by the mage tower; each kill credits its style through the game's npcKilled hook
     {const T={};const note=e=>page.evaluate(e=>window.__notes.includes(e),e);
      T.spawned=await page.evaluate(()=>HolmIslandTrials.npcs().map(n=>n.islandPen));
      // the grubkin already fighting you first (2004 single combat), else the nearest
@@ -307,12 +307,12 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      await shot(page,'09_melee_trial');
      await clickInventory(page,'worn_bow');c=await attack('keep-court');T.ranged=c.error||await waitFor(page,()=>window.__notes.includes('killStyle/ranged'),null,90000);
      T.arrowsUsed=30-await page.evaluate(()=>Player.count('arrows'));
-     // Escape (used to close dialogues) also cancels autocast: close first, then choose Wind Strike, then click
-     await closeDialogue(page);await walkTo(page,'mage','yard',true,[]);// 2004 (live rule): without a staff each Wind Strike is one cast - choose the spell, click the grubkin, repeat
+     // Escape (used to close dialogues) also cancels autocast: close first, then choose Gale Dart, then click
+     await closeDialogue(page);await walkTo(page,'mage','yard',true,[]);// 2004 (live rule): without a staff each Gale Dart is one cast - choose the spell, click the grubkin, repeat
      for(let k=0;k<40&&!await page.evaluate(()=>window.__notes.includes('killStyle/magic'));k++){await page.evaluate(()=>{if(Player.spell!=='wind_strike')Player.selectSpell('wind_strike')});c=await attack('mage-yard',{keepDialogs:true});await waitFor(page,()=>!Player.target||window.__notes.includes('killStyle/magic'),null,9000)}
      T.magic=await waitFor(page,()=>window.__notes.includes('killStyle/magic'),null,20000);
      T.runesUsed=15-await page.evaluate(()=>Player.count('air_rune'));await page.evaluate(()=>{try{if(Player.spell==='wind_strike')Player.selectSpell('wind_strike')}catch(e){}});await shot(page,'10_magic_trial');
-     ok('M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Wind Strike kills credit their styles',
+     ok('M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Gale Dart kills credit their styles',
       T.spawned.filter(p=>p==='keep-court').length>=2&&T.spawned.includes('mage-yard')&&T.melee===true&&T.ranged===true&&T.magic===true&&T.arrowsUsed>0&&T.runesUsed>0,T);}
     // 4. reload restores the spot on the island graph
     await page.evaluate(()=>SaveGame.save());const before=await pos(page);

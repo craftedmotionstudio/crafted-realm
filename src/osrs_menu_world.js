@@ -171,7 +171,7 @@ var OsrsMenuWorld=(function(){
   if(u.rtype==='fish')return {name:sl.name||'Fishing spot',type:'object',examine:'Small fish dart beneath the ripples.'};
   return {name:sl.name||'Resource',type:'object',examine:null};
  }
- var LEGACY_EXAMINE={altar:'Candles gutter over old stone. The Dawn listens.',door:'Stout emberwood on iron hinges.',well:'Veyhollow’s sweetest water, the wanderers swear.',
+ var LEGACY_EXAMINE={altar:'Candles gutter over old stone. The Dawn listens.',door:'Stout emberwood on iron hinges.',well:'Hearthmere’s sweetest water, the wanderers swear.',
   furnace:'Hot enough to make ore confess.',anvil:'Scarred by ten thousand honest blows.',stall:'The keeper seems distracted...',cave:'Cold air rises from the dark.',
   bank:'The realm’s bankers keep your valuables safe.',signpost:'A weathered signpost.',climb:'A sturdy ladder.',lighthouseDoor:'A weathered oak door set into the tower.',
   lever:'A heavy bronze lever controls the Lastlight lens.',trapdoor:'A sealed hatch descends beneath the lighthouse.'};

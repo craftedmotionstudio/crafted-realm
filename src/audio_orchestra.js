@@ -27,7 +27,7 @@
     // Recipe A — warm town waltz (A minor, Aeolian w/ Dorian/major colour), 100 BPM 3/4
     // 16-bar form (A section + B section) so it journeys further before repeating.
     veyhollow_town: {
-      name:'Veyhollow', bpm:100, beatsPerBar:3, pedal:['A2'],
+      name:'Hearthmere', bpm:100, beatsPerBar:3, pedal:['A2'],
       chords:[ ['A3','C4','E4'],['G3','B3','D4'],['C4','E4','G4'],['G3','B3','D4'],
                ['A3','C4','E4'],['F3','A3','C4'],['D4','F4','A4'],['E3','G#3','B3'],
                ['C4','E4','G4'],['G3','B3','D4'],['A3','C4','E4'],['E3','G3','B3'],

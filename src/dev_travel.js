@@ -34,10 +34,10 @@ var TestTravel=(function(){
     {id:'holm_workyard_cellar_picture',label:'Workyard basement — Moonward Watch picture',group:'Basements',provider:'tutors-holm-v2',landmark:'holm_arrival',x:326.22,z:302.55,plane:-1,zone:'Workyard Basement',requires:'holm_cellar'},
     {id:'holm_workyard_cellar_quiet',label:'Workyard basement — quiet corner',group:'Basements',provider:'tutors-holm-v2',landmark:'holm_arrival',x:333.35,z:300.58,plane:-1,zone:'Workyard Basement',requires:'holm_cellar'},
     {id:'holm_departure',label:'Departure dock',group:"Tutor's Holm",provider:'tutors-holm-v2',landmark:'holm_departure',x:206.5,z:151.5,plane:0,zone:"Tutor's Holm"},
-    {id:'veyhollow_ferry',label:'Veyhollow — ferry landing',group:'Veyhollow',provider:'veyhollow-commons-v2',landmark:'veyhollow_ferry_arrival',x:0,z:18,plane:0,zone:'Veyhollow Commons'},
-    {id:'hollow_well_square',label:'Hollow Well Square',group:'Veyhollow',provider:'veyhollow-commons-v2',landmark:'hollow_well_square',x:0,z:0,plane:0,zone:'Hollow Well Square'},
-    {id:'legacy_wardenholm',label:'Wardenholm Keep courtyard (legacy world)',group:'Legacy reference',x:77,z:0,plane:0,zone:'Wardenholm Keep',legacyOnly:true},
-    {id:'legacy_wardenholm_undercroft',label:'Wardenholm undercroft (legacy world)',group:'Legacy reference',x:330,z:330,plane:-1,zone:'Wardenholm Undercroft',legacyOnly:true}
+    {id:'veyhollow_ferry',label:'Hearthmere — ferry landing',group:'Hearthmere',provider:'veyhollow-commons-v2',landmark:'veyhollow_ferry_arrival',x:0,z:18,plane:0,zone:'Hearthmere'},
+    {id:'hollow_well_square',label:'Hollow Well Square',group:'Hearthmere',provider:'veyhollow-commons-v2',landmark:'hollow_well_square',x:0,z:0,plane:0,zone:'Hollow Well Square'},
+    {id:'legacy_wardenholm',label:'Hearthmere Castle courtyard (legacy world)',group:'Legacy reference',x:77,z:0,plane:0,zone:'Hearthmere Castle',legacyOnly:true},
+    {id:'legacy_wardenholm_undercroft',label:'Hearthmere Castle undercroft (legacy world)',group:'Legacy reference',x:330,z:330,plane:-1,zone:'Hearthmere Castle Undercroft',legacyOnly:true}
   ];
 
   function localOnly(){return location.hostname==='127.0.0.1'||location.hostname==='localhost'||location.hostname==='::1';}
@@ -183,7 +183,7 @@ var TestTravel=(function(){
       '<span class="close-x" aria-label="Close">✕</span><h3>Test Travel</h3><small>Local testing only · exact coordinates</small>'+
       '<div id="test-travel-current"></div><div id="test-travel-bookmarks"></div>'+
       '<div class="test-travel-group">Manual coordinates</div><div class="test-travel-manual">'+
-      '<select id="test-travel-provider"><option value="tutors-holm-v2">Tutor\'s Holm</option><option value="veyhollow-commons-v2">Veyhollow</option></select>'+
+      '<select id="test-travel-provider"><option value="tutors-holm-v2">Tutor\'s Holm</option><option value="veyhollow-commons-v2">Hearthmere</option></select>'+
       '<input id="test-travel-x" type="number" step="0.01" placeholder="X"><input id="test-travel-z" type="number" step="0.01" placeholder="Z">'+
       '<input id="test-travel-plane" type="number" step="1" value="0" title="0 surface, -1 basement, 1 upper floor"><button id="test-travel-go">Go</button></div>'+
       '<div class="test-travel-save"><input id="test-travel-name" placeholder="Bookmark name"><button id="test-travel-save">Save current</button></div>';

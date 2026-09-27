@@ -69,7 +69,7 @@
         WORLD.colliders.push({type:'circle', x:BB.x+6.5, z:BB.z-6.5, r:0.7, plane:-1}); }
 
       if(typeof UI!=='undefined' && UI.chat)
-        UI.chat('[MAP] The Bank of Veyhollow opens its vault — a trapdoor by the west door leads down.','sys');
+        UI.chat('[MAP] The Bank of Hearthmere opens its vault — a trapdoor by the west door leads down.','sys');
       done=true; clearInterval(iv);
       console.log('[bank_basement] vault wired at ('+BB.x+','+BB.z+'), trapdoor at ('+TD.x+','+TD.z+')');
     }catch(e){ console.error('[bank_basement]', e); clearInterval(iv); }

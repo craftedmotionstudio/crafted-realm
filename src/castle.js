@@ -354,7 +354,7 @@
       try{ spawnNpc('monk', KC.x+1.5, KC.z+3.0); }catch(_e){}
     }
 
-    if(typeof UI!=='undefined' && UI.chat) UI.chat('[WORLD] Veyhollow Keep rises to the north.','sys');
+    if(typeof UI!=='undefined' && UI.chat) UI.chat('[WORLD] The old keep rises to the north.','sys');
   }
 
   window.buildVeyhollowKeep = buildVeyhollowKeep;

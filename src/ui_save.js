@@ -193,7 +193,7 @@ const SaveGame = {
       refreshPlayerGear();
       UI.refreshInv(); UI.refreshSkills(); UI.refreshQuests(); UI.refreshEquip(); UI.refreshHud();
       // name the place the adventurer is actually standing (Holm providers are tutors-holm-*)
-      const where=/^tutors-holm/.test(this.lastLoad.provider)?'Tutor\'s Holm':'Veyhollow';
+      const where=/^tutors-holm/.test(this.lastLoad.provider)?'Tutor\'s Holm':'Hearthmere';
       UI.chat('Welcome back to '+where+'. Your progress has been restored.','sys');
       if(relocated){
         const provider=this.provider(),safe=provider&&provider.getSpawnLandmark(provider.defaultLandmark);

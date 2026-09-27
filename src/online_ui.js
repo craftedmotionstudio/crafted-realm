@@ -52,7 +52,7 @@ var OnlineUI=(function(){
    '<label class="login-field-label" for="online-user">Username</label><input id="online-user" class="online-field" maxlength="12" autocomplete="username" spellcheck="false" value="'+esc(saved)+'">'+
    '<label class="login-field-label" for="online-pass">Password</label><input id="online-pass" class="online-field" type="password" maxlength="64" autocomplete="current-password">'+
    '<button class="lg-btn lg-btn-primary" id="online-login" type="button"><strong>Log in</strong><small>An existing adventurer</small></button>'+
-   '<button class="lg-btn" id="online-register" type="button"><strong>Create account</strong><small>New adventurers start in the Commons</small></button>'+
+   '<button class="lg-btn" id="online-register" type="button"><strong>Create account</strong><small>New adventurers start in Hearthmere</small></button>'+
    '<p id="online-status" class="login-note"></p>'+
    '<p class="login-hint">PvP beyond the Ditch. Anyone may attack you there.</p>';
   box.appendChild(sec);
@@ -197,7 +197,7 @@ var OnlineUI=(function(){
   if(typeof PvpHud!=='undefined'&&PvpHud.ditchWarning){PvpHud.ditchWarning({onCross:function(){click();st.ditchOk=true;go()},onStay:function(){click()}});return}
   var o=overlay('<h4>Warning!</h4><p>Past the Ditch lie the <b>Scarlands</b>. There, other adventurers can attack you, and the deeper you go the wider the range of fighters who can.</p>'+
    '<p>If you die there you keep only your three most valuable items (none if you are skulled). The rest is left for your killer.</p>'+
-   '<label><input type="checkbox" id="onl-ditch-remember"> Do not warn me again this session</label><div class="row"><button id="onl-ditch-go">Enter the Scarlands</button><button id="onl-ditch-stay">Stay in the Commons</button></div>');
+   '<label><input type="checkbox" id="onl-ditch-remember"> Do not warn me again this session</label><div class="row"><button id="onl-ditch-go">Enter the Scarlands</button><button id="onl-ditch-stay">Stay in Hearthmere</button></div>');
   o.querySelector('#onl-ditch-go').onclick=function(){click();st.ditchOk=true;closeOverlay();go()};
   o.querySelector('#onl-ditch-stay').onclick=function(){click();closeOverlay()};
  }
@@ -226,7 +226,7 @@ var OnlineUI=(function(){
   var o=overlay('<h4>Oh dear, you are dead!</h4>'+(d.by?'<p>You were defeated by <b>'+esc(d.by)+'</b>.</p>':'')+
    '<p>'+(d.kept&&d.kept.length?'You kept:':'You kept nothing.')+'</p>'+(kept?'<div class="kept">'+kept+'</div>':'')+
    (d.lost?'<p>'+d.lost+' item'+(d.lost>1?'s were':' was')+' left where you fell'+(d.by?', for your killer.':'.')+'</p>':'')+
-   '<p>You wake in the Commons. The supply chest by the campfire has fresh kits.</p><div class="row"><button id="onl-death-ok">Continue</button></div>');
+   '<p>You wake in Hearthmere. The supply chest by the campfire has fresh kits.</p><div class="row"><button id="onl-death-ok">Continue</button></div>');
   o.querySelector('#onl-death-ok').onclick=function(){click();closeOverlay()};
   st.deathShown=true;
  }

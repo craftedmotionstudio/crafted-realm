@@ -174,7 +174,7 @@
     bankRug(9.7, -12.5, Math.PI/2, 1.4, 2.0);
 
     if(typeof UI!=='undefined' && UI.chat)
-      UI.chat('[BANK] The Bank of Veyhollow is furnished — teller counter, ledgers, vault chests, deposit boxes.','sys');
+      UI.chat('[BANK] The Bank of Hearthmere is furnished — teller counter, ledgers, vault chests, deposit boxes.','sys');
     if(skipped.length) console.warn('[prop_bank_interior] skipped (would clip):', skipped);
   }
 

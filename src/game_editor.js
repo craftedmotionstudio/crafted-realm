@@ -110,7 +110,7 @@
       makeTexHouse(cx+5.5,cz+4.5,{w:4.6,d:4.4,stories:2,rot:-0.22,label:'Enter <b>Cottage</b>'});
     }
     barrel(cx-2.4,cz+2.4); crate(cx-3.0,cz+2.4);                    // dressing
-    if(typeof UI!=='undefined') UI.chat('[BUILD] Authored the Veyhollow Square at '+cx+','+cz+'.','sys');
+    if(typeof UI!=='undefined') UI.chat('[BUILD] Authored the Hearthmere Square at '+cx+','+cz+'.','sys');
   }
   window.buildVeyhollowSquare = buildVeyhollowSquare;
 

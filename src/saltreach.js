@@ -62,8 +62,8 @@
     if(typeof makeCrateCluster==='function'){ makeCrateCluster(S.x-2, S.z+2.5); makeCrateCluster(S.x+3, S.z+3); }
     if(typeof makeTorch==='function'){ makeTorch(S.x-12, S.z+1); makeTorch(S.x+12, S.z+1); }
     makeSignpost(S.x-14, S.z-4, [
-      {text:'Saltreach Port', ang:0.1}, {text:'The Ashar Dunes', ang:2.9}]);
-    if(typeof UI!=='undefined' && UI.chat) UI.chat('[MAP] Saltreach Port opens on the eastern sea — piers, salt-bleached timber, and room for ships.','sys');
+      {text:'Gullhaven', ang:0.1}, {text:'The Ashar Dunes', ang:2.9}]);
+    if(typeof UI!=='undefined' && UI.chat) UI.chat('[MAP] Gullhaven opens on the eastern sea — piers, salt-bleached timber, and room for ships.','sys');
     return true;
   }
   const iv=setInterval(()=>{ try{ if(build()) clearInterval(iv); }

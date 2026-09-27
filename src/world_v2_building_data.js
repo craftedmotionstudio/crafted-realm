@@ -406,7 +406,7 @@ var WorldV2BuildingData=(function(){
         interaction:{id:'quest_board',label:'Study <b>Quest board</b>',examine:'Eight pinned notices under a lantern: rumours, requests, and one red seal nobody has claimed.'}},
       {id:'region_map',partId:'region_map',kind:'holm_region_map',role:'secondary',
         position:[-4,-2.4],interactionTile:[-2.4,-2.4],
-        interaction:{id:'region_map',label:'Study <b>Region chart</b>',examine:'Four regions pinned in wax and brass: the Commons, Emberwood, Mirrorpond, and the Scarlands.'}}
+        interaction:{id:'region_map',label:'Study <b>Region chart</b>',examine:'Four regions pinned in wax and brass: Hearthmere, Emberwood, Mirrorpond, and the Scarlands.'}}
     ],
     clues:[
       {id:'story_ledger',partId:'story_ledger',kind:'holm_story_ledger',
@@ -791,7 +791,7 @@ var WorldV2BuildingData=(function(){
     services:[
       {id:'rune_table',partId:'rune_table',kind:'holm_rune_table',role:'primary',
         position:[-2,-2.35],interactionTile:[-1.5,-1.5],
-        interaction:{id:'rune_table',label:'Study <b>Rune table</b>',examine:'Air and mind runes sorted on velvet beside a glowing orb and an open primer.'}},
+        interaction:{id:'rune_table',label:'Study <b>Rune table</b>',examine:'Gale and wit runes sorted on velvet beside a glowing orb and an open primer.'}},
       {id:'spell_lectern',partId:'spell_lectern',kind:'holm_spell_lectern',role:'secondary',
         position:[4.35,0.5],interactionTile:[3.5,0.5],
         interaction:{id:'spell_lectern',label:'Study <b>Spell lectern</b>',examine:'A primer open at the first page of the spellbook.'}}

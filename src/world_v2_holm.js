@@ -133,7 +133,7 @@
     {id:'holm_departure_boat.board',objectId:'holm_departure_boat',kind:'holm_departure',
       label:'Boat',examine:'A salt-stained ferry skiff. Its brass lesson-lock opens only for trained adventurers.'},
     {id:'holm_bank_chest.use',objectId:'holm_bank_chest',kind:'bank',
-      label:'Use <b>Bank chest</b>',examine:'A secure chest linked to Veyhollow Bank.'}
+      label:'Use <b>Bank chest</b>',examine:'A secure chest linked to Hearthmere Bank.'}
   ]);
   var chunkById={};
   for(var ci=0;ci<chunks.length;ci++) chunkById[chunks[ci].id]=chunks[ci];

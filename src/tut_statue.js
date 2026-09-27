@@ -109,7 +109,7 @@
         g.font='bold 33px Georgia, serif'; g.fillText('IN MEMORIAM',128,42);
         g.font='15px Georgia, serif';
         g.fillText('THE FALLEN KNIGHTS',128,72);
-        g.fillText('OF VEYHOLLOW',128,93);
+        g.fillText('OF HEARTHMERE',128,93);
         g.strokeStyle='rgba(205,196,176,0.30)'; g.lineWidth=1;      // faint lit lip = engrave depth
         g.strokeRect(8,8,240,112);
         const t=new THREE.CanvasTexture(cv); t.magFilter=THREE.NearestFilter; t.minFilter=THREE.LinearFilter;

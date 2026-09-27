@@ -24,8 +24,8 @@ var HolmDeparture=(function(){
       try{ var el=document.getElementById('objective'); if(el) el.style.display='none';
         if(typeof GuideArrow!=='undefined'){ GuideArrow.keepAfterComplete=false; GuideArrow.setTarget(null); } }catch(e){}
       WorldTravel.go(d.destinationProvider,d.destinationLandmark,{
-        loadingLabel:'Sailing for Veyhollow…',zoneLabel:'Veyhollow Commons',
-        arrivalMessage:'The skiff noses into Veyhollow. Hollow Well Square lies just ahead.'
+        loadingLabel:'Sailing for Hearthmere…',zoneLabel:'Hearthmere',
+        arrivalMessage:'The skiff noses into Hearthmere. Hollow Well Square lies just ahead.'
       });
     };
     if(typeof Sched!=='undefined') Sched.walkThen(walk,1.35,cross,'strong'); else cross();

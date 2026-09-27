@@ -32,7 +32,7 @@ async function talk(page,id){
 async function wield(page,id){if(await page.evaluate(id=>Player.equip.weapon===id,id))return true;return clickInventory(page,id)}
 async function spellbook(page,spell){   // open the Spellbook tab and click the spell's button, like a player
   await page.evaluate(()=>{const t=Array.from(document.querySelectorAll('.tab-btn[data-tab="spells"]')).find(b=>b.getBoundingClientRect().width>0);if(t)t.click()});await sleep(600);
-  const ok=await page.evaluate(spell=>{const b=Array.from(document.querySelectorAll('#spell-grid button')).find(b=>/Wind Strike/i.test(b.textContent));if(!b)return false;const r=b.getBoundingClientRect();return r.width>0?[r.x+r.width/2,r.y+r.height/2]:false},spell);
+  const ok=await page.evaluate(spell=>{const b=Array.from(document.querySelectorAll('#spell-grid button')).find(b=>/Gale Dart/i.test(b.textContent));if(!b)return false;const r=b.getBoundingClientRect();return r.width>0?[r.x+r.width/2,r.y+r.height/2]:false},spell);
   if(ok){await page.mouse.click(ok[0],ok[1]);await sleep(400)}
   await page.evaluate(()=>{const t=document.querySelector('.tab-btn[data-tab="inv"]');if(t)t.click()});
   return page.evaluate(()=>Player.spell==='wind_strike');
@@ -91,7 +91,7 @@ const DO={
  async ranged_trial(p){await waitFor(p,()=>Player.count('worn_bow')>0||Player.equip.weapon==='worn_bow',null,15000);await wield(p,'worn_bow');await fight(p,'keep-court','ranged_trial')},
  async open_bank(p){await walkTo(p,'bank','entrance',true,[]);await talk(p,'maud');await clickService(p,'Use bank counter','counter');await waitLesson(p,'open_bank',60000);await p.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}})},
  async magic_trial(p){await walkTo(p,'mage','entrance',true,[]);await talk(p,'ilse');await waitFor(p,()=>Player.count('air_rune')>0,null,15000);await closeDialogue(p);await spellbook(p,'wind_strike');
-  // 2004: without a staff each Wind Strike is one cast (choose the spell, then the grubkin), so a player repeats it
+  // 2004: without a staff each Gale Dart is one cast (choose the spell, then the grubkin), so a player repeats it
   for(let k=0;k<40&&await lesson(p)==='magic_trial';k++){if(!await p.evaluate(()=>Player.spell==='wind_strike'))await spellbook(p,'wind_strike');
    await attack(p,'mage-yard',{keepDialogs:true});await waitFor(p,()=>!Player.target,null,9000)}},
  async relight_lastlight(p){await walkTo(p,'lastlight','door',true,[]);await talk(p,'aldous');

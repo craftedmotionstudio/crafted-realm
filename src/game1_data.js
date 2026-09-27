@@ -135,9 +135,9 @@ const ITEMS = {
   arrows:       {name:'Arrows', stack:true, value:2},
 
   /* magic: staves cast without selecting runes; runes still consumed */
-  spark_rune:        {name:'Spark runes', stack:true, value:4},
-  air_rune:   {name:'Air runes',   stack:true, value:4},
-  body_rune:  {name:'Body runes',  stack:true, value:3},
+  spark_rune:        {name:'Spark rune', stack:true, value:4},
+  air_rune:   {name:'Gale rune',   stack:true, value:4},
+  body_rune:  {name:'Flesh rune',  stack:true, value:3},
   big_bones:  {name:'Big bones',   stack:false, value:9, bury:true, big:true},
   crag_maul:  {name:'Crag maul', stack:false, value:2400, equip:'weapon', style:'melee', speedTicks:6,
                aBonus:30, sBonus:44, aStab:0, aSlash:0, aCrush:30, weight:9, model:'sword', tier:'crag', reqSkill:'Attack', reqLvl:30,
@@ -145,12 +145,12 @@ const ITEMS = {
   monk_robe_top:    {name:'Monk robe top',    stack:false, value:26, equip:'body', dBonus:2, prayB:6, model:'robe', tier:'monk', reqSkill:'Prayer', reqLvl:1},
   monk_robe_bottom: {name:'Monk robe bottom', stack:false, value:20, equip:'legs', dBonus:1, prayB:5, model:'robe', tier:'monk', reqSkill:'Prayer', reqLvl:1},
   holy_symbol:      {name:'Holy symbol',      stack:false, value:60, equip:'amulet', prayB:8, model:'amulet', tier:'holy', reqSkill:'Prayer', reqLvl:1},
-  water_rune: {name:'Water runes', stack:true, value:4},
-  earth_rune: {name:'Earth runes', stack:true, value:4},
-  fire_rune:  {name:'Fire runes',  stack:true, value:4},
-  mind_rune:  {name:'Mind runes',  stack:true, value:3},
-  chaos_rune: {name:'Chaos runes', stack:true, value:25},
-  nature_rune:{name:'Nature runes',stack:true, value:40},
+  water_rune: {name:'Tide rune', stack:true, value:4},
+  earth_rune: {name:'Stone rune', stack:true, value:4},
+  fire_rune:  {name:'Ember rune',  stack:true, value:4},
+  mind_rune:  {name:'Wit rune',  stack:true, value:3},
+  chaos_rune: {name:'Wild rune', stack:true, value:25},
+  nature_rune:{name:'Verdant rune',stack:true, value:40},
   wizard_hat: {name:'Wizard hat',  stack:false, value:30, equip:'head', dBonus:1, magB:2, dStab:0, dSlash:0, dCrush:0, dRanged:0, dMagic:2, model:'hat', tier:'wizard', reqSkill:'Magic', reqLvl:1},
   apprentice_staff:  {name:'Apprentice staff', stack:false, value:35,  equip:'weapon', style:'magic', speedTicks:5, aBonus:6,  sBonus:2, model:'staff', reqSkill:'Magic', reqLvl:1},
   ember_staff:       {name:'Ember staff',      stack:false, value:180, equip:'weapon', style:'magic', speedTicks:5, aBonus:10, sBonus:4, provides:'fire_rune', model:'staff', reqSkill:'Magic', reqLvl:10},   // pass 4: +10 (was 13), under the storm staff's +12
@@ -378,7 +378,7 @@ const NPC_TYPES = {
     drops:[{id:'bones',q:1,p:1},{id:'coins',q:[2,7],p:0.6},{id:'bread',q:1,p:0.25},
            {id:'monk_robe_top',q:1,p:0.05},{id:'monk_robe_bottom',q:1,p:0.05},{id:'holy_symbol',q:1,p:0.02}]},
   wanderer: {name:'Wanderer', level:2, hp:7, att:1, str:1, def:1, aBonus:0, sBonus:0, dBonus:0, dStab:0, dSlash:0, dCrush:0,
-    speedTicks:4, color:0x7a6a52, size:1.0, aggro:false, respawn:25, examine:"One of Veyhollow's idle hands.",
+    speedTicks:4, color:0x7a6a52, size:1.0, aggro:false, respawn:25, examine:"One of Hearthmere's idle hands.",
     humanoid:true,
     drops:[{id:'bones',q:1,p:1},{id:'coins',q:[1,4],p:0.85},{id:'bread',q:1,p:0.1}]},
   grubkin:  {name:'Grubkin', level:2, examine:"A wriggling pest of the commons.",  hp:7,  att:1,  str:1,  def:1,  aBonus:0,  sBonus:0,  dBonus:0, dStab:1, dSlash:0, dCrush:1,  speedTicks:4, color:0x6a8f3c, size:0.8, aggro:false, respawn:12, body:'crawler',
@@ -400,7 +400,7 @@ const NPC_TYPES = {
              drops:[ {id:'big_bones',q:1,p:1}, {id:'coins',q:[500,1200],p:1}, {id:'veyrite_sword',q:1,p:0.08},
                      {id:'veyrite_sabre',q:1,p:0.05}, {id:'aurel_platebody',q:1,p:0.12}, {id:'gale_longbow',q:1,p:0.05},
                      {id:'nature_rune',q:[6,16],p:0.7}, {id:'fire_rune',q:[10,30],p:0.8}, {id:'fen_charm',q:1,p:0.3} ]},
-  giant_mole:{name:'Giant Mole', level:46,
+  giant_mole:{name:'The Great Delver', level:46,
              examine:"It undermines the whole kingdom, one burrow at a time.",
              hp:110, att:38, str:40, def:35, aBonus:18, sBonus:22, dBonus:24, dStab:22, dSlash:12, dCrush:26,
              speedTicks:5, color:0x5a4234, size:2.4, aggro:false, respawn:60, atype:'crush',
@@ -526,9 +526,9 @@ const SHOP_STOCK = [
 const QUESTS = {
   undercroft_oath: {
     name:'Oath of the Undercroft', giver:'Old Halbrec', qp:2, difficulty:'Intermediate',
-    desc:'A forgotten warden waits below Wardenholm Keep, bound to an oath older than its walls — and to the thing chained beside him.',
+    desc:'A forgotten warden waits below Hearthmere Castle, bound to an oath older than its walls — and to the thing chained beside him.',
     stages:[
-      {text:'Find Old Halbrec in the undercroft beneath Wardenholm Keep (down the kitchen trapdoor).', npc:'halbrec', at:[62,-6]},
+      {text:'Find Old Halbrec in the undercroft beneath Hearthmere Castle (down the kitchen trapdoor).', npc:'halbrec', at:[62,-6]},
       {text:'Slay the Oathbreaker chained in the keep\'s dungeon.', type:'kill', target:'oathbreaker', count:1, at:[62,-6]},
       {text:'Return to Old Halbrec with word of the deed.', type:'talk', npc:'halbrec'},
       {text:'Carry Halbrec\'s blessing to Lady Maren, at the top of the keep\'s tower.', type:'talk', npc:'maren'},
@@ -539,7 +539,7 @@ const QUESTS = {
     name:'Grub Trouble', giver:'Warden Maela', qp:1, difficulty:'Novice',
     desc:'Grubkins gnaw at the commons fences and frighten the hens. Warden Maela wants their numbers thinned.',
     stages:[
-      {text:'Speak to Warden Maela by the Veyhollow bank.', npc:'maela'},
+      {text:'Speak to Warden Maela by the Hearthmere bank.', npc:'maela'},
       {text:'Slay 3 grubkins in the commons (%n/3). Their mounds rise north-east of town.', type:'kill', target:'grubkin', count:3, at:[24,33]},
       {text:'Return to Warden Maela.', type:'talk', npc:'maela'},
     ],
@@ -569,7 +569,7 @@ const QUESTS = {
     requires:{quests:['grub_trouble']},
     stages:[
       {text:'Ask Warden Maela about the Wardens\' Guild (requires Grub Trouble).', npc:'maela'},
-      {text:'Slay the Fenlord in Gloomfen, south-west of Veyhollow.', type:'kill', target:'fenlord', count:1, zone:'gloomfen'},
+      {text:'Slay the Fenlord in Gloomfen, south-west of Hearthmere.', type:'kill', target:'fenlord', count:1, zone:'gloomfen'},
       {text:'Return to Warden Maela for your sigil.', type:'talk', npc:'maela'},
     ],
     reward:{xp:{Attack:600, Defence:600}, items:[{id:'guild_sigil',q:1},{id:'coins',q:300}]},
@@ -591,7 +591,7 @@ const QUESTS = {
     desc:'Old Pell swears the standing stones west of town have begun to hum — the same hum his grandmother heard before the Scarring.',
     requires:{quests:['grub_trouble']},   // the seers (lvl 9) eat unproven adventurers — earn your sword arm first
     stages:[
-      {text:'Speak to Old Pell in Veyhollow Commons.', npc:'greeter'},
+      {text:'Speak to Old Pell in Hearthmere.', npc:'greeter'},
       {text:'Silence 2 moss seers at the Seers\' Ring west of town and take their resonant moss (%n/2).', type:'kill', target:'moss_seer', count:2, at:[-30,44]},
       {text:'Bring word of the humming stones back to Old Pell.', type:'talk', npc:'greeter'},
     ],
@@ -602,9 +602,9 @@ const QUESTS = {
     desc:'The Spire must know why the Seers\' Ring hums. Sage Imbrel needs runes for a scrying rite — and ash from the Scarlands, where the hum is loudest.',
     requires:{quests:['whispers_moss']},
     stages:[
-      {text:'Speak to Sage Imbrel at Glimmerveil Arcana in Veyhollow.', npc:'arcanist'},
-      {text:'Bring Sage Imbrel 2 fire runes and 2 earth runes for the scrying rite.', type:'bring', npc:'arcanist', items:[{id:'fire_rune',q:2},{id:'earth_rune',q:2}]},
-      {text:'Carry the warded ash-catcher north, past the Wilderness Ditch, into the Scarlands.', type:'goto', zone:'scarlands'},
+      {text:'Speak to Sage Imbrel at Glimmerveil Arcana in Hearthmere.', npc:'arcanist'},
+      {text:'Bring Sage Imbrel 2 ember runes and 2 stone runes for the scrying rite.', type:'bring', npc:'arcanist', items:[{id:'fire_rune',q:2},{id:'earth_rune',q:2}]},
+      {text:'Carry the warded ash-catcher north, past the Ditch, into the Scarlands.', type:'goto', zone:'scarlands'},
       {text:'Slay 2 ash stalkers and gather their still-burning ash (%n/2).', type:'kill', target:'ash_stalker', count:2, zone:'scarlands'},
       {text:'Return the ashes to Sage Imbrel.', type:'talk', npc:'arcanist'},
     ],
@@ -640,8 +640,8 @@ const QUESTS = {
 /* Zone anchors follow the bible map (Maps/Crafted Realms Map.png) via the baked world
  * grid (src/worldgrid.js): commons = world (0,0), map north = -z. Re-anchored 2026-07-03. */
 const ZONES = {
-  commons:  {name:'Veyhollow Commons', pos:[0,0],    fog:0xb8c8cc},
-  wardenholm:{name:'Wardenholm Keep',  pos:[77,0],   fog:0xb2bcc4},
+  commons:  {name:'Hearthmere', pos:[0,0],    fog:0xb8c8cc},
+  wardenholm:{name:'Hearthmere Castle',  pos:[77,0],   fog:0xb2bcc4},
   emberwood:{name:'Emberwood',         pos:[-144,-30], fog:0xaabfa0},
   quarry:   {name:'Stonereach Quarry', pos:[120,-14], fog:0xbcb6a8},
   pond:     {name:'Mirrorpond',        pos:[-4,88],   fog:0xaac4cc},
@@ -651,7 +651,7 @@ const ZONES = {
   scarlands:{name:'The Scarlands',     pos:[20,-100], fog:0x8e7c70},
   arena:    {name:'The Proving Grounds', pos:[84,79], fog:0xc8b896},
   holm:     {name:"Tutor's Holm",      pos:[158,141], fog:0xb8c8cc},
-  saltreach:{name:'Saltreach Port',    pos:[232,48],  fog:0xb6c2c0},
+  saltreach:{name:'Gullhaven',    pos:[232,48],  fog:0xb6c2c0},
   whitmoor: {name:'Whitmoor Hold',     pos:[-163,-105], fog:0xd8dce2},
   undercrag:{name:'The Undercrag',     pos:[-330,-260], fog:0x16141c},
 };

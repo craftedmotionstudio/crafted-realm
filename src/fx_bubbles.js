@@ -65,6 +65,6 @@ const VillageChatter = {
 };
 if(typeof Overlays!=='undefined'){
   Overlays.register({ id:'village-chatter', name:'Village chatter',
-    desc:'Nearby townsfolk occasionally speak overhead, OSRS-style.', defaultOn:true,
+    desc:'Nearby townsfolk occasionally speak overhead, old-school style.', defaultOn:true,
     start:()=>VillageChatter.start(), stop:()=>VillageChatter.stop() });
 } else VillageChatter.start();
