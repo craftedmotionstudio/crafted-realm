@@ -56,10 +56,47 @@ PROFILES = {
                 step={'walk': (3, 'BEZIER'), 'run': (2, 'BEZIER')}),
 }
 
+# ---- feet (every option; owner: "the ankles/shins must blend into the feet better, especially sandals"): the upper foot
+# slices turn INTO the lower-leg ring at the ankle (FOOT_BLEND), the heel sits under the back of the leg, the toe box and
+# instep taper (no vertical box walls), collars / boot shafts hug the leg, and trousers end just above the foot so the hem
+# hangs over the shoe instead of cutting through it.  slices: (z, y_front, y_back, half_width_outer, half_width_inner)
+FOOT_SL_V4 = [(0.000, -.128, .160, .048, .044), (0.013, -.138, .168, .054, .050), (0.034, -.134, .171, .057, .053),
+              (0.056, -.100, .171, .058, .054), (0.080, -.040, .170, .060, .057), (0.102, .010, .168, .061, .059),
+              (0.122, .040, .167, .062, .060)]
+BARE_SL_V4 = [(0.000, -.126, .158, .044, .040), (0.013, -.134, .164, .050, .045), (0.030, -.126, .167, .050, .046),
+              (0.050, -.080, .168, .048, .046), (0.072, -.024, .167, .049, .047), (0.094, .018, .166, .052, .050),
+              (0.114, .040, .165, .055, .054)]
+ANKLE_R = {'A': .055, 'B': .047}      # lower-leg radius at the ankle (v3.1f: A .0515, B .0426 -- a thin stick)
+
+def _feet(K):
+    K.FOOT_SL[:] = FOOT_SL_V4
+    K.BARE_SL[:] = BARE_SL_V4
+    K.FOOT_BLEND = (.045, .001)
+    for bt, k in (('A', .92), ('B', .82)):
+        K.FOOT_K[bt] = k
+        K.FOOT_K_LARGE[bt] = round(k * 1.12, 3)
+        K.FOOT_K_SMALL[bt] = round(k * .91, 3)
+    for bt in ('A', 'B'):   # the shin runs STRAIGHT from the calf (u 1.5) to a slightly thicker ankle (u 1.95): exactly
+        # the 6-sided skin / trouser tube between those rings, so snug boots and collars built on the table clear it
+        r15 = K.lerp_table(K.LEG_R[bt], 1.5)
+        a = ANKLE_R[bt]
+        ank = (a, a, a + .004)
+        rows = [r for r in K.LEG_R[bt] if r[0] < 1.5] + [(1.5,) + tuple(r15)]
+        for u in (1.72, 1.95, 2.0):
+            t = min(1.0, (u - 1.5) / .45)
+            rows.append((u,) + tuple(x + (y - x) * t for x, y in zip(r15, ank)))
+        K.LEG_R[bt][:] = rows
+    # boots hug the shin (a snug leather shaft, no step round a bare leg) and sit INSIDE trousers like shoes do; the
+    # 6-sided trouser tube runs straight and a touch looser below the calf (its flats clear the 10-sided shoe / boot)
+    K.BOOT_SHAFT = [(1.97, .005), (1.90, .005), (1.80, .005), (1.72, .005), (1.69, .006)]
+    K.SHOE_COLLAR = [(1.955, .004), (1.925, .005)]
+    K.TROUSERS = [(u, .010) for u in K.U_LEG[:-1]] + [(1.60, .014), (1.66, .016), (1.80, .016), (1.90, .016), (1.955, .016), (1.985, .016)]
+
 def apply(K, name):
     if not name:
         return
     P = PROFILES[name]
+    _feet(K)
     for bt in ('A', 'B'):
         _torso_top(K, bt, P['shelf'][bt])
         lift, out = P['arm_lift'][bt], P['arm_out'][bt]

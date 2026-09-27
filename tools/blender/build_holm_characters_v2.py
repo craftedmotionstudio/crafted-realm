@@ -2474,6 +2474,7 @@ BARE_SL = [(0.000, -.132, .146, .046, .042),
            (0.112, .044, .154, .053, .052)]   # bare foot: narrows to the bare ankle
 FOOT_N = 10
 FOOT_P = 2.35
+FOOT_BLEND = None   # v4 profiles: (z_start, ring_off) -- slices above z_start blend into the lower-leg ring at the ankle
 
 def foot_slice(bt, sx, z, yf, yb, wo, wi, grow=0.0, wk=1.0, hk=1.0, n=FOOT_N):
     """one rounded horizontal outline; vertex angle a from the front (-y) toward +x, phase pi/n (blunt toe face, no point)"""
@@ -2520,8 +2521,12 @@ def foot_loft(mb, bt, sx, mat, shin_spec, grow=0.0, wk=1.0, hk=1.0, z_bottom=Non
     """sole -> shin in one loft (horizontal slices, then rings round the shin); flat sole face (a rim: hard edge)"""
     sl = slices or FOOT_SL
     rings = []
+    ank = shin_rings(bt, sx, [(2.0, grow + FOOT_BLEND[1])])[0] if FOOT_BLEND else None
     for z, yf, yb, wo, wi in sl:
         r = foot_slice(bt, sx, z, yf, yb, wo, wi, grow, wk, hk)
+        if ank is not None:   # v4: the upper slices become the ankle ring itself (shin -> ankle -> foot in one surface)
+            t = ss(FOOT_BLEND[0], sl[-1][0], z)
+            r = [(x + (q[0] - x) * t, y + (q[1] - y) * t, z_) for (x, y, z_), q in zip(r, ank)]
         if z_bottom is not None:
             r = [(x, y, z_ + z_bottom) for x, y, z_ in r]
         rings.append(r)
@@ -2536,9 +2541,17 @@ def sandal_straps(mb, bt, sx, rings, ys, z0, mat='A_BELT', width=.016, off=.0045
     """straps over the bare foot: a band round the foot outline at each y (sole -> over the top -> sole)"""
     for y0 in ys:
         loops = []
+        both = None
+        if FOOT_BLEND:   # v4: use only the slices both edges of the strap cross (a steep instep crosses them unevenly)
+            def crosses(r, yy):
+                return sum(1 for j in range(len(r)) if (r[j][1] - yy) * (r[(j + 1) % len(r)][1] - yy) <= 0
+                           and abs(r[(j + 1) % len(r)][1] - r[j][1]) > 1e-9) >= 2
+            both = [i for i, r in enumerate(rings[:len(FOOT_SL)]) if crosses(r, y0 - width / 2) and crosses(r, y0 + width / 2)]
         for yy in (y0 - width / 2, y0 + width / 2):
             side_pts = {1: [], -1: []}
-            for r in rings[:len(FOOT_SL)]:
+            for ri, r in enumerate(rings[:len(FOOT_SL)]):
+                if both is not None and ri not in both:
+                    continue
                 z = r[0][2]
                 n = len(r)
                 cands = []
@@ -2560,6 +2573,10 @@ def sandal_straps(mb, bt, sx, rings, ys, z0, mat='A_BELT', width=.016, off=.0045
                 if (a.y - yy) * (b.y - yy) <= 0 and abs(b.y - a.y) > 1e-9:
                     top = a.lerp(b, (yy - a.y) / (b.y - a.y))
                     top.x = cx
+            if both is not None and top is None:   # v4: over the top of the highest crossed slice
+                hi = rings[both[-1]] if both else None
+                if hi:
+                    top = Vector((cx, yy, max(q[2] for q in hi) + .004))
             path = side_pts[-1] + ([top] if top is not None else []) + list(reversed(side_pts[1]))
             loops.append([tuple(p + Vector((math.copysign(off, p.x - cx) * min(1.0, abs(p.x - cx) / .02), 0, off if p.z > z0 + .03 else 0))) for p in path])
         if len(loops) == 2 and len(loops[0]) == len(loops[1]):
