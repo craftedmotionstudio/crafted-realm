@@ -35,8 +35,9 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
     await page.evaluate(()=>{HolmIslandCurriculum.qaGrant(HolmCurriculumProgress.lessonIds);HolmIslandCurriculum.qaSetLedger(HolmCurriculumProgress.lessonIds.slice(0,-1));HolmIslandTalk.adopt()});
     // the in-page recorder: every presentation event with the engine clock, and the FX log
     await page.evaluate(()=>{
-      window.__ev=[];CombatHooks.on(e=>{const o=e.obj||e.att||e.src;window.__ev.push({k:e.k,tick:LocalCombat.clock(),t:+(CombatFX.now()).toFixed(4),who:o===player?'player':(o&&o.name)||'',dst:e.dst===player?'player':(e.dst&&e.dst.name)||'',
-        type:e.type,dmg:e.dmg,kind:e.kind,ticks:e.ticks,dist:e.dist,impactAt:e.impactAt,arriveAt:e.arriveAt,splash:e.splash});
+      window.__ev=[];{const ch=UI.chat;UI.chat=function(t){try{if(/^You wake/.test(String(t)))window.__ev.push({k:'chat',text:String(t),tick:LocalCombat.clock(),wall:Math.round(performance.now())})}catch(e){}return ch.apply(this,arguments)}}CombatHooks.on(e=>{const o=e.obj||e.att||e.src;window.__ev.push({k:e.k,tick:LocalCombat.clock(),t:+(CombatFX.now()).toFixed(4),who:o===player?'player':(o&&o.name)||'',dst:e.dst===player?'player':(e.dst&&e.dst.name)||'',
+        type:e.type,dmg:e.dmg,kind:e.kind,ticks:e.ticks,dist:e.dist,impactAt:e.impactAt,arriveAt:e.arriveAt,splash:e.splash,
+        text:e.k==='msg'?e.text:undefined,pdead:e.k==='msg'?!!Player.dead:undefined,wall:e.k==='msg'?Math.round(performance.now()):undefined});
         // the broodmother test: a player who sees the ring steps out of reach at once (the reflex the telegraph asks for)
         if(e.k==='telegraph'&&window.__dodge){const pt=TileNav.playerNode();for(const [dx,dz] of window.__dodge){const m=TileNav.nodeAt(pt.tx+dx,pt.tz+dz,pt.y);if(m&&TileNav.bfs(pt,q=>q.tx===m.tx&&q.tz===m.tz,{max:200})){LocalCombat.clearInteraction();TileNav.walkPlayerTo(m);window.__dodged=[m.tx,m.tz];break}}}});
       // measured foes stand still (their wandering would move them between the click and the blow)
@@ -161,21 +162,33 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
     /* ---------------- a kill: the fall, the sink, then the drop ---------------- */
     {const wn=await page.evaluate(()=>{const x=HolmProvingGround.npcs().find(n=>n.typeId==='pg_wild_grubkin'&&!n.dead&&!n.lcDying);return x?x.mesh.name:null}),w=wn?{name:wn}:null;   // a live one (the pack test may have felled some)
      if(w){await reset();await wield('bronze_sword',1);await standNear(w.name,1);await sleep(600);
-      const d0=await page.evaluate(()=>WORLD.drops.length);await page.evaluate(n=>{const x=WORLD.npcs.find(q=>q.mesh.name===n);x.hp=1},w.name);await clickNamed(page,w.name);
+      // the kill's drops are told apart by identity, not by their index in WORLD.drops: an older pile (the arrows under
+      // the practice grubkin, 120 s after its last arrow) can age out while the body sinks and shift every index down
+      const d0=await page.evaluate(()=>{window.__drops0=new Set(WORLD.drops);return WORLD.drops.length});await page.evaluate(n=>{const x=WORLD.npcs.find(q=>q.mesh.name===n);x.hp=1},w.name);await clickNamed(page,w.name);
       let dead=false;for(let i=0;i<30&&!dead;i++){await sleep(300);dead=await page.evaluate(n=>WORLD.npcs.find(q=>q.mesh.name===n).dead,w.name)}
       await sleep(250);await shot(page,'kill_fall');
-      let vis=null;const t0=Date.now();for(let i=0;i<60&&!vis;i++){await sleep(150);vis=await page.evaluate(d0=>WORLD.drops.slice(d0).some(m=>m.visible),d0)}
-      const dbg=await page.evaluate((n,d0)=>{const x=WORLD.npcs.find(q=>q.mesh.name===n);return {dying:x.dying,dead:x.dead,death:!!x.mesh.userData.death,drops:WORLD.drops.slice(d0).map(m=>[m.userData.id,m.visible,!!m.userData._cfxHide])}},w.name,d0);
+      let vis=null;const t0=Date.now();for(let i=0;i<60&&!vis;i++){await sleep(150);vis=await page.evaluate(()=>WORLD.drops.some(m=>!window.__drops0.has(m)&&m.visible))}
+      const dbg=await page.evaluate((n,d0)=>{const x=WORLD.npcs.find(q=>q.mesh.name===n);const now=new Set(WORLD.drops);
+        return {dying:x.dying,dead:x.dead,death:!!x.mesh.userData.death,before:d0,after:WORLD.drops.length,agedOut:[...window.__drops0].filter(m=>!now.has(m)).map(m=>m.userData.id),
+         drops:WORLD.drops.filter(m=>!window.__drops0.has(m)).map(m=>[m.userData.id,m.visible,!!m.userData._cfxHide])}},w.name,d0);
       await shot(page,'kill_loot');
-      rule('a kill: the body falls and sinks, then its drop appears (bones at least)',dead&&vis,{dead,dropShownAfterMs:Date.now()-t0,dbg:vis?undefined:dbg});}}
+      rule('a kill: the body falls and sinks, then its drop appears (bones at least)',dead&&vis,{dead,dropShownAfterMs:Date.now()-t0,agedOut:dbg.agedOut,dbg:vis?undefined:dbg});}}
     /* ---------------- the adventurer's death ---------------- */
+    // (an unarmoured Defence 1 adventurer on 1 hitpoint: at Defence 30 the broodmother lands a damaging blow on barely a
+    // quarter of its swings, so the old 18 s wait missed the death about one run in twenty; the death itself is what is
+    // checked here, and the adventurer's levels come back after it)
     {const b=PG.find(n=>n.type==='pg_broodmother');if(b){await reset();await wield('bronze_sword',0);await standNear(b.name,1);await sleep(600);
-      await page.evaluate(()=>{Player.hp=1});await clickNamed(page,b.name);let died=null;
-      for(let i=0;i<60&&!died;i++){await sleep(300);died=await page.evaluate(()=>Player.dead?LocalCombat.clock():null)}
+      await page.evaluate(()=>{window.__lv({Attack:30,Strength:30,Defence:1,Hitpoints:40,Ranged:30,Magic:30,Prayer:45});Player.hp=1});await clickNamed(page,b.name);let died=null;
+      // the death is read from the engine's own "Oh dear, you are dead!" (recorded as it is said, with Player.dead at that
+      // instant), not by polling Player.dead: a slow frame (up to five ticks caught up at once) can start and finish the
+      // four dead ticks between two polls. Polling stays as a second witness.
+      const deathEv=()=>page.evaluate(()=>{const e=window.__ev.find(x=>x.k==='msg'&&x.text==='Oh dear, you are dead!');return e?{tick:e.tick,dead:e.pdead,wall:e.wall}:null});
+      let polled=null;for(let i=0;i<100&&!died;i++){await sleep(300);polled=polled||await page.evaluate(()=>Player.dead?LocalCombat.clock():null);const d=await deathEv();died=d&&d.dead?d.tick:null}
       await sleep(400);await shot(page,'player_death');
       let back=false;for(let i=0;i<40&&!back;i++){await sleep(300);back=await page.evaluate(()=>!Player.dead&&Player.hp===Player.maxHp)}
       await sleep(600);const msgs=await page.evaluate(()=>[...document.querySelectorAll('#chatbox div')].slice(-12).map(d=>d.textContent));const pd=await page.evaluate(()=>({dead:!!Player.dead,hp:Player.hp,max:Player.maxHp}));
-      rule('the adventurer\'s death: "Oh dear, you are dead!", respawn at full health with what was kept explained',!!died&&back&&msgs.some(m=>/Oh dear/.test(m))&&msgs.some(m=>/nothing is lost|You keep/.test(m)),{died,back,msgs:msgs.slice(-5),pd});}}
+      rule('the adventurer\'s death: "Oh dear, you are dead!", respawn at full health with what was kept explained',!!died&&back&&msgs.some(m=>/Oh dear/.test(m))&&msgs.some(m=>/nothing is lost|You keep/.test(m)),{died,polled,back,msgs:msgs.slice(-5),pd,wake:await page.evaluate(()=>{const d=window.__ev.find(x=>x.k==='msg'&&x.text==='Oh dear, you are dead!'),w=window.__ev.find(x=>x.k==='chat'&&/^You wake/.test(x.text||''));return d&&w?{ticks:w.tick-d.tick,ms:w.wall-d.wall}:null})});
+      await page.evaluate(()=>window.__lv({Attack:30,Strength:30,Defence:30,Hitpoints:40,Ranged:30,Magic:30,Prayer:45}));}}
     /* ---------------- 8-direction approach ---------------- */
     {await reset();await wield('bronze_sword',0);const s=await standNear(G,5);
      await page.evaluate(()=>{window.__trail=[];window.__tr=setInterval(()=>{const p=TileNav.playerNode();if(p)window.__trail.push([p.tx,p.tz])},100)});
