@@ -37,7 +37,9 @@ async function spellbook(page,spell){   // open the Spellbook tab and click the 
   await page.evaluate(()=>{const t=document.querySelector('.tab-btn[data-tab="inv"]');if(t)t.click()});
   return page.evaluate(()=>Player.spell==='wind_strike');
 }
-async function attack(page,pen,opts){for(let i=0;i<4;i++){const n=await page.evaluate(pen=>{const x=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen===pen);return x?x.mesh.name:null},pen);if(!n){await sleep(2000);continue}
+async function attack(page,pen,opts){for(let i=0;i<4;i++){// the grubkin already fighting you first (2004 single combat: "You are already under attack!" for any other), else the nearest
+  const n=await page.evaluate(pen=>{const l=HolmIslandTrials.npcs().filter(n=>!n.dead&&n.islandPen===pen);if(!l.length)return null;const d=n=>Math.hypot(n.mesh.position.x-player.position.x,n.mesh.position.z-player.position.z);
+   const mine=l.find(n=>n===Player.aggressiveNpc);return (mine||l.sort((a,b)=>d(a)-d(b))[0]).mesh.name},pen);if(!n){await sleep(2000);continue}
   const c=await clickNamed(page,n,opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c;await closeDialogue(page)}return {error:'no target'}}
 // a player who sees no progress clicks the foe again: up to four attack cycles, each waiting 40 s for the credit
 async function fight(page,pen,id,opts){for(let k=0;k<4;k++){await attack(page,pen,opts);if(await waitLesson(page,id,40000))return true}return false}
@@ -109,7 +111,7 @@ async function playOnce(browser,n){
   const t0=Date.now(),per={},profile='playthrough-'+n+'-'+Date.now().toString(36);let status='incomplete',note='';TALKS=[];
   try{
     await page.goto(BASE0+(process.env.HOLM_MODE==='draft'?'/?holmIsland=1&qaProfile=':'/?qaProfile=')+profile,{waitUntil:'load',timeout:120000});await enter(page);
-    await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
+    await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,180000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
     const hint0=await page.evaluate(()=>document.getElementById('obj-text').textContent);
     for(let guard=0;guard<30;guard++){
       const id=await lesson(page);if(id==='complete'){status='complete';break}
@@ -120,12 +122,14 @@ async function playOnce(browser,n){
        note=note||('stuck at '+id+' '+JSON.stringify(cs));await shot(page,'run'+n+'_stuck_'+id);break}
       if(id==='cook_fish'||id==='forge_dagger'||id==='open_bank'){   // save + reload mid-run: progress must come back exactly
         const before=await page.evaluate(()=>({step:Tutorial.step,ledger:(Tutorial.completedLessonIds||[]).length,talked:(Tutorial.talkedTutors||[]).slice().sort().join()}));await page.evaluate(()=>SaveGame.save(true));
-        await page.reload({waitUntil:'load'});await enter(page);await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,60000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
+        await page.reload({waitUntil:'load'});await enter(page);await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,180000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
         const after=await page.evaluate(()=>({step:Tutorial.step,ledger:(Tutorial.completedLessonIds||[]).length,talked:(Tutorial.talkedTutors||[]).slice().sort().join()}));
         if(after.step!==before.step||after.ledger!==before.ledger||after.talked!==before.talked){status='save-mismatch';note='after '+id+' '+JSON.stringify({before,after});break}}
     }
     if(status==='complete'){   // departure: board the ferry at the haven (Tobin first)
-      await walkTo(page,'haven','shore',true,[]);await talk(page,'tobin');const b=await clickService(page,'Ferry','boat');
+      // v2 land: down the Keeper's Stair to Lanternfoot Cove, Tobin first, then out along the pier to the skiff ("Board her
+      // at the end of the pier")
+      await walkTo(page,'haven','shore',true,[]);await talk(page,'tobin');await closeDialogue(page);await walkTo(page,'haven','boat',false,[]);const b=await clickService(page,'Ferry','boat');
       const sailed=await waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,60000);
       if(!sailed){status='departure-failed';note='ferry did not sail ('+(b.error||'clicked')+')'}
       await shot(page,'run'+n+'_end');

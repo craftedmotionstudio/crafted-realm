@@ -172,3 +172,57 @@ Proof:
   `phase5_details.jpg` (the farm, the carriage, the cove, a meadow's decor, the bank court, the clutter lineup).
 - Known: 28 authored or kit wishes found no valid ground near their spot (listed in `dressing_report.json`; mostly a bench
   or lamp where a path, stance or slope sits); the generator skips them rather than block a route.
+
+## Phase 6: proof
+
+| Proof | Result |
+|---|---|
+| Unit tests (`for t in tools/test_*.js`) | all pass |
+| Smoke (`node tools/run_smoke_headless.js`) | PASS, visible and hidden boot (boot 1.9 s / 3.4 s, 108/108 structural, 111 draw calls, 0 console errors) |
+| Island QA (`node tools/qa_holm_island.js`) | **PASS 32/32** (draft mode, real pointer input): the 18-lesson curriculum, shut doors and talk-first refusals, the timber bridge deck, the bread lesson, every Blender building visited on foot, the haven at Lanternfoot Cove down the Keeper's Stair and the pier, the Quarry Gate shaft, Minnow Hollow's jetty, Lastlight's three ladders and the lever, the survival lessons in the hollow, the cavern lessons, the combat trials, reload, 0 page errors (`scratchpad/holm_v2_land/qa_island_result.json`, screenshots `scratchpad/holm_island_qa/`) |
+| Route QA (`node tools/qa_holm_route_v2.js`) | **10/10**: the drift ladder refuses before the dagger, the guide arrow, out through the trapdoor, back down, the hall to the court, Lastlight -> stair head -> mid landing -> foot -> haven on foot, Tobin, boarding, 0 page errors |
+| Minnow Hollow QA (`node tools/qa_holm_hollow.js`) | **13/13** (talk-first, chop on the rim, the Hollow Path, fire on the beach, the first catch on roll 2, cooking, a moving spot telegraphed and "The fish have moved on.", varied catches, pond life, 0 page errors) |
+| Playthroughs (`node tools/qa_holm_island_playthrough.js 3`, production mode on the published island) | **3/3 complete runs with zero errors** (11.0-13.4 min each): all 18 lessons in order with no granted progress, all ten tutors met talk-first, the east drift walked by floor clicks and climbed, save/reload exact after cook_fish, forge_dagger and open_bank, Tobin at the cove, the skiff boarded at the end of the pier and sailed (`scratchpad/holm_island_playthrough/runs.jsonl`). Earlier attempts in this session stopped on driver bugs, fixed above, and one cold first load (the initial wait is now 180 s); those records were not kept |
+| Draw calls | game-camera views 255-630 (phase 5) |
+
+Fixes found by the proof runs:
+- **The east drift was unplayable**: the cavern's rock cap covered the new drift and stayed drawn - the island cutaway set its
+  clip planes on materials the shell shared with parts that stay whole (the cave rock with its rubble), so whichever part
+  came last decided. Shell parts now get their own material copies at load (`src/holm_island_extras.js`); the cavern also
+  clips its timber sets and lagging (lift 1.2).
+- **Building floors with no terrain beneath could not be clicked to walk**: `pick()` only accepts objects with a kind or
+  the terrain, so a click inside the ore workings did nothing (the old cave was small enough to cross by its stations).
+  `src/game4_ui.js` `pickAll` now keeps the nearest upward floor face of a Blender building as a fallback when the ray meets
+  nothing else, and skips building parts the cutaway has clipped away. Everywhere else rays still pass floors to the
+  station or ground behind them (the first try, taking floors first, made upper floors swallow station clicks: reverted).
+- The island QA driver predates 8-direction movement and the v2 land: its "every step cardinal" checks, the haven site, the
+  creek fishing stage and the one-cast Wind Strike were brought up to date; it now cooks from beside the fire (a fire does
+  not block its tile, and from on top of it a click hits the ground) and walks to the keep court before the trials (the
+  combat approach searches 6,000 tiles: from the quarry the court is too far for one search).
+- The playthrough driver climbs out by the drift ladder after the dagger lesson is credited (the ladder is roped off
+  until then) and re-nets when the fish move on.
+
+Published: `node tools/publish_holm_island.js apply` now collects every folder the v2-land registry, the prop sets and the
+fishing data name (216 files, 67 MB; `assets/holm_island/`), so production mode (`holmIslandLive`) loads the same bytes the
+draft does.
+
+Sheet: `scratchpad/holm_v2_land/sheets/phase6_proof.jpg` (the drift after the cutaway fix, the trapdoor, the ferry, a finished
+playthrough).
+
+## For the owner
+
+- The departure haven stands at **Lanternfoot Cove** below Lastlight, its pier running north; the landing stage and the
+  skiff lie half a tile past the island map's north edge (the sea surface covers it; no seabed is drawn there).
+- The old haven site is **Haycombe Farm**; its yard gate is gone (Tobin refuses to sail until Lastlight burns).
+- New lines name **Hearthmere**; the ferry's travel labels (loading "Sailing for Veyhollow...", arrival text) are the
+  mainland's and still say Veyhollow - left for the mainland naming pass.
+- The bakehouse has no side door onto Hettie's Garden (entered by its wicket gate).
+- `?oldschool=0` loads the v2-land registry too (the textured models).
+- The combat approach searches 6,000 tiles: from the quarry the keep court is too far to attack in one click (walk nearer,
+  as in 2004).
+- Trees are drawn instanced now; their per-tree breeze became a canopy vertex sway.
+- The island's rock material shows as grey squares on some steep seat edges (e.g. the Guide House knoll, since phase 1);
+  a smoothing rule can soften them if wanted.
+- `lodge:north-lane` (a Sept 13 measured target) is still unreachable, as before this work.
+- `src/game4_ui.js` changed (picks skip cut-away parts; a click that meets nothing else walks to a Blender floor): the
+  live branch has the same gap inside the ore workings and on any floor with no terrain beneath.

@@ -293,7 +293,8 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     // range, Wind Strike by the mage tower; each kill credits its style through the game's npcKilled hook
     {const T={};const note=e=>page.evaluate(e=>window.__notes.includes(e),e);
      T.spawned=await page.evaluate(()=>HolmIslandTrials.npcs().map(n=>n.islandPen));
-     const live=pen=>page.evaluate(pen=>{const n=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen===pen);return n?n.mesh.name:null},pen);
+     // the grubkin already fighting you first (2004 single combat), else the nearest
+     const live=pen=>page.evaluate(pen=>{const l=HolmIslandTrials.npcs().filter(n=>!n.dead&&n.islandPen===pen);if(!l.length)return null;const d=n=>Math.hypot(n.mesh.position.x-player.position.x,n.mesh.position.z-player.position.z);return (l.find(n=>n===Player.aggressiveNpc)||l.sort((a,b)=>d(a)-d(b))[0]).mesh.name},pen);
      // a grubkin can shuffle between aiming and clicking; like a player, click again until it is the target
      // the island walks the player across the court before the swing, which can take well over 6 s (harness flake,
      // 2026-09-25): allow 25 s per click and up to six clicks, like the playthrough driver's patient fight()

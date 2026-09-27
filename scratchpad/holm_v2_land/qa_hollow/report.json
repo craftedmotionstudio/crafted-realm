@@ -1,6 +1,6 @@
 {
- "profile": "hollow-muipg0n3",
- "pass": 12,
+ "profile": "hollow-mujn5sak",
+ "pass": 13,
  "total": 13,
  "results": [
   {
@@ -10,38 +10,38 @@
     "spots": [
      {
       "i": 0,
-      "candidate": "north-bank",
+      "candidate": "east-shallows",
       "state": "on",
-      "x": 27.5,
-      "z": 93.5,
-      "timer": 74
+      "x": 31.5,
+      "z": 96.5,
+      "timer": 93
      },
      {
       "i": 1,
+      "candidate": "south-bank",
+      "state": "on",
+      "x": 25.5,
+      "z": 98.5,
+      "timer": 58
+     },
+     {
+      "i": 2,
       "candidate": "beach-edge",
       "state": "on",
       "x": 30.5,
       "z": 99.5,
-      "timer": 72
-     },
-     {
-      "i": 2,
-      "candidate": "west-rim",
-      "state": "on",
-      "x": 22.5,
-      "z": 96.5,
-      "timer": 78
+      "timer": 62
      }
     ],
     "fauna": {
      "frog": "sit",
      "ducks": [
       [
-       29.94,
-       96.75
+       29.95,
+       96.74
       ],
       [
-       27.56,
+       27.53,
        97.7
       ]
      ],
@@ -96,7 +96,7 @@
    "info": {
     "p0": [
      33.5,
-     1.689,
+     1.55,
      101.5
     ],
     "beachAt": [
@@ -127,11 +127,11 @@
    "info": {
     "spot": "island-hollow-spot-0",
     "st1": {
-     "casts": 2,
-     "rolls": 1,
-     "splashes": 4,
+     "casts": 3,
+     "rolls": 2,
+     "splashes": 5,
      "leaps": 3,
-     "moves": 3,
+     "moves": 4,
      "movedOn": 0,
      "plops": 0,
      "soaks": 0,
@@ -140,18 +140,18 @@
      },
      "lastCatch": {
       "item": "raw_perch",
-      "roll": 1,
-      "guaranteed": false
+      "roll": 2,
+      "guaranteed": true
      }
     },
-    "seconds": 6.79
+    "seconds": 10.429
    }
   },
   {
    "name": "cook_fish: cooked on the beach fire (cook/cooked_perch credited), burns retried",
    "pass": true,
    "info": {
-    "tries": 1
+    "tries": 5
    }
   },
   {
@@ -167,55 +167,46 @@
    ]
   },
   {
-   "name": "a spot telegraphs its move (bubbles, fade) and the player netting it is told \"The fish have moved on.\" and stops",
-   "pass": false,
+   "name": "a spot telegraphs its move (bubbles, fade) and the player netting it is told \"The fish have moved on.\" and stops; it reappears on another candidate",
+   "pass": true,
    "info": {
-    "spotsAfter": [
-     {
-      "i": 0,
-      "candidate": "west-rim",
-      "state": "on",
-      "x": 22.5,
-      "z": 96.5,
-      "timer": 64
-     },
-     {
-      "i": 1,
-      "candidate": "north-reeds",
-      "state": "on",
-      "x": 24.5,
-      "z": 93.5,
-      "timer": 5
-     },
-     {
-      "i": 2,
-      "candidate": "north-bank",
-      "state": "fading",
-      "x": 27.5,
-      "z": 93.5,
-      "timer": 0
-     }
-    ]
+    "was": {
+     "i": 2,
+     "candidate": "south-bank",
+     "state": "on",
+     "x": 25.5,
+     "z": 98.5,
+     "timer": 37
+    },
+    "now": {
+     "i": 2,
+     "candidate": "north-bank",
+     "state": "on",
+     "x": 27.5,
+     "z": 93.5,
+     "timer": 90
+    }
    }
   },
   {
    "name": "fishing after the lesson: several rolls, catches recorded (varied table: perch, reedpike from Fishing 5, junk, rares)",
    "pass": true,
    "info": {
-    "casts": 25,
-    "rolls": 21,
-    "splashes": 32,
-    "leaps": 8,
-    "moves": 9,
-    "movedOn": 2,
-    "plops": 0,
-    "soaks": 0,
+    "casts": 45,
+    "rolls": 35,
+    "splashes": 76,
+    "leaps": 30,
+    "moves": 35,
+    "movedOn": 6,
+    "plops": 1,
+    "soaks": 1,
     "catches": {
-     "raw_perch": 6
+     "raw_perch": 6,
+     "tarnished_ring": 2
     },
     "lastCatch": {
      "item": "raw_perch",
-     "roll": 12,
+     "roll": 3,
      "guaranteed": false
     }
    }
@@ -228,31 +219,32 @@
      "frog": "gone",
      "ducks": [
       [
-       26.51,
-       94.41
+       25.23,
+       94.59
       ],
       [
-       25.14,
-       96.82
+       27.78,
+       95.1
       ]
      ],
      "flies": 2
     },
     "st3": {
-     "casts": 25,
-     "rolls": 21,
-     "splashes": 35,
-     "leaps": 9,
-     "moves": 9,
-     "movedOn": 2,
-     "plops": 1,
-     "soaks": 0,
+     "casts": 46,
+     "rolls": 36,
+     "splashes": 78,
+     "leaps": 30,
+     "moves": 36,
+     "movedOn": 6,
+     "plops": 2,
+     "soaks": 1,
      "catches": {
-      "raw_perch": 6
+      "raw_perch": 6,
+      "tarnished_ring": 2
      },
      "lastCatch": {
       "item": "raw_perch",
-      "roll": 12,
+      "roll": 3,
       "guaranteed": false
      }
     }
