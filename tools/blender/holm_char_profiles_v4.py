@@ -68,6 +68,13 @@ def _v_body(K, thigh_k=.85, hip_x=.092):
     K.LEG_R['A'][:] = [(u, rs * (thigh_k + (1 - thigh_k) * K.ss(.8, 1.2, u)), rf, rb) for u, rs, rf, rb in K.LEG_R['A']]
     K.HIP_X['A'] = hip_x
 
+# the 2004 cycle (measured on the reference strips: walk 8 poses x 120 ms, stride 0.97 H; run 8 poses x 85 ms, 0.68 s,
+# stride 1.59 H at 2.33 H/s). Our run speed (4.2 m/s = 2.31 H/s) matches, so the run keeps the 2004 cycle; our walk is
+# faster than 2004's (1.32 vs 1.01 H/s), so the walk keeps the 2004 STRIDE (23 frames = 0.77 s -> 1.01 H).
+GAIT_2004 = {'walk': {'frames': 23, 'bob': .026, 'p_on': 2, 'p_off': -8, 'arm_swing': 27, 'plant_k': .65},
+             'run': {'frames': 21, 'duty': .30, 'bob': .035, 'bob_phase': .40, 'drop': .04, 'kick': .22, 'lift': .16, 'arm_swing': 70, 'fore': 62, 'plant_k': .95}}
+GAIT_C = {'walk': {'frames': 21}, 'run': {'frames': 19}}
+
 TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
 PROFILES = {
@@ -77,21 +84,21 @@ PROFILES = {
                 head=HEAD_EGG, head_p=2.3,
                 face=dict(eye=(.0275, 1.690, .026, .0055, .024, .0050), eye_tick=(.010, -.004, .006, .0045), brow=None,
                           mouth=(1.612, 1.614, .030, .022, 0.0), ear=(.70, .004)),
-                step={'walk': (3, 'CONSTANT'), 'run': (2, 'CONSTANT'), 'idle': (20, 'CONSTANT')}),
+                step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')}, gait=GAIT_2004),
     'v4b': dict(label='Option B -- the v4a body with softer shading, held poses joined by straight lines',
                 shelf=SHELF_SQ, arm_lift={'A': .046, 'B': .040}, arm_out={'A': .010, 'B': .008},
                 head_s=1.08, head_wx=1.07, head_hz=1.00, head_dz=0.0, neck_k=1.10, sharp=36.0, stance=STANCE_2004, v_body={},
                 head=HEAD_EGG, head_p=2.3,
                 face=dict(eye=(.0275, 1.690, .026, .0060, .024, .0055), eye_tick=(.010, -.004, .006, .0045), brow=None,
                           mouth=(1.612, 1.614, .022, .018, .0035), ear=(.70, .004)),
-                step={'walk': (3, 'LINEAR'), 'run': (2, 'LINEAR'), 'idle': (15, 'LINEAR')}),
+                step={'walk': (-8, 'LINEAR'), 'run': (-8, 'LINEAR'), 'idle': (12, 'LINEAR')}, gait=GAIT_2004),
     'v4c': dict(label='Option C -- stylised midpoint: a touch larger head, gentler shoulder shelf, soft shading, fewer-key smooth motion',
                 shelf=SHELF_C, arm_lift={'A': .020, 'B': .018}, arm_out={'A': .004, 'B': .004},
                 head_s=1.02, head_dz=-.006, neck_k=1.05, sharp=40.0,
                 head=HEAD_EGG, head_p=2.5,
                 face=dict(eye=(.027, 1.689, .022, .009, .021, .009), brow=(.028, 1.707, 0.0), brow_size=((.028, .005), (.024, .004)),
                           mouth=(1.612, 1.614, .024, .018, .004), ear=(.80, .007)),
-                step={'walk': (3, 'BEZIER'), 'run': (2, 'BEZIER')}),
+                step={'walk': (-8, 'BEZIER'), 'run': (-8, 'BEZIER')}, gait=GAIT_C),
 }
 
 # ---- feet (every option; owner: "the ankles/shins must blend into the feet better, especially sandals"): the upper foot

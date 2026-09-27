@@ -145,6 +145,28 @@ def sil_metrics(m, view='front'):
     return out
 
 
+def gait_sil(masks, ground=None):
+    """side-view gait numbers from one cycle of silhouettes (camera pitched like the game): bob = variation of the
+    apparent height, feet spread = extent of the lowest 12% of the figure, hand band = extent of the 40-52% band (the arms'
+    swing in front of / behind the body); all / the median apparent height"""
+    rows = []
+    for m in masks:
+        ys, xs = np.nonzero(m)
+        if not len(ys):
+            continue
+        top, bot = ys.min(), ys.max()
+        hh = bot - top + 1
+        low = np.nonzero(m[bot - int(.12 * hh):bot + 1].any(0))[0]
+        mid = np.nonzero(m[top + int(.40 * hh):top + int(.52 * hh)].any(0))[0]
+        g = ground if ground is not None else bot
+        rows.append((g - top, hh, low.max() - low.min() + 1, mid.max() - mid.min() + 1))
+    hh = float(np.median([r[1] for r in rows]))
+    ht = [r[0] for r in rows]
+    return dict(bob_H=float((max(ht) - min(ht)) / hh), max_feet_spread_H=float(max(r[2] for r in rows) / hh),
+                min_feet_spread_H=float(min(r[2] for r in rows) / hh), max_hand_band_H=float(max(r[3] for r in rows) / hh),
+                min_hand_band_H=float(min(r[3] for r in rows) / hh), apparent_h_px=hh, samples=len(rows))
+
+
 # criterion -> [(metric, tolerance)]: a difference of `tolerance` beyond the measuring noise scores 0, none scores 10.
 # Tolerances are "clearly a different figure" (e.g. a head 20% taller, a shoulder line 15 deg steeper); the noise is what
 # the reference's pixel size allows (1.5 px of its height for the ratios, 4 deg for slopes), so a match within the
@@ -155,8 +177,10 @@ CRITERIA = {
     'neck': [('neck_len', .030), ('neck_w', .025)],
     'arm hang': [('hand_h', .08), ('arm_spread', .25)],
     'legs/feet': [('crotch_h', .06), ('foot_len', .05)],
-    'walk': [('walk_cycle_rel', .45), ('walk_stride_H', .30), ('walk_bob_H', .015), ('walk_arm_swing_deg', 25.0)],
-    'run': [('run_cycle_rel', .45), ('run_stride_H', .40), ('run_bob_H', .020), ('run_arm_swing_deg', 30.0)],
+    'walk': [('walk_stride_H', .30), ('walk_poses', 6.0), ('walk_bob_H', .025), ('walk_max_feet_spread_H', .20),
+             ('walk_max_hand_band_H', .15), ('walk_min_hand_band_H', .10)],
+    'run': [('run_cycle_rel', .45), ('run_stride_H', .40), ('run_poses', 6.0), ('run_bob_H', .03), ('run_max_feet_spread_H', .25),
+            ('run_max_hand_band_H', .15), ('run_min_hand_band_H', .10)],
 }
 NOISE_DEG = 4.0
 
@@ -166,6 +190,11 @@ def _noise(k, ref):
         return NOISE_DEG
     if k.endswith('_rel'):
         return .05
+    if k.endswith('_poses'):
+        return 0.0
+    if k.startswith(('walk_', 'run_')) and k.endswith('_H'):
+        hp = ref.get(k.split('_')[0] + '_apparent_h_px') or 0
+        return 1.5 / hp if hp else 0.0
     hp = ref.get('H_px') or 0
     return 1.5 / hp if hp else 0.0
 

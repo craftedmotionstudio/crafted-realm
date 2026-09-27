@@ -3289,7 +3289,11 @@ STEP_CLIPS = {}   # v4 profiles: old-client stepping {clip: (hold_frames, interp
 def stepped(frames, keys, hold):
     """old-client look: keep every `hold`-th pose (plus the last) and hold it until one frame before the next"""
     ks = sorted(keys, key=lambda k: k[0])
-    pick = [k for k in ks if k[0] % hold == 0]
+    if hold < 0:   # v4: -N = N poses spread evenly over the cycle (holds of 2 / 3 frames, like the old client's frame delays)
+        want = set(round(i * frames / -hold) for i in range(-hold))
+        pick = [k for k in ks if k[0] in want]
+    else:
+        pick = [k for k in ks if k[0] % hold == 0]
     if pick[-1][0] != ks[-1][0]:
         pick.append(ks[-1])
     out = []
@@ -3547,14 +3551,16 @@ def v27_clips():
               arm_swing=20, fore=0, lean=0, twist=2.5, foot_x=.13, bob_phase=0.0, osrs=(10.0, 0.0), fore_swing=10, lean_cap=(0.0, False))
     wk.update(GAIT.get('walk', {}))
     wf, wd = wk.pop('frames'), wk.pop('duty')
-    C['walk'] = (wf, best_gait('walk', wf, GAME_WALK_SPEED, wd, **wk), True)
+    wpk = wk.pop('plant_k', 1.0)   # v4: < 1 = the old client's shorter leg swing (the feet slide a little, as in 2004)
+    C['walk'] = (wf, best_gait('walk', wf, GAME_WALK_SPEED * wpk, wd, **wk), True)
     # RUN: longer step, slight forward lean, arms bent ~90 deg pumping, moderate foot lift, brief flight
     rk = dict(frames=16, duty=.38, lift=.12, drop=.070, bob=.020, front=.20, p_on=8, p_off=-34,
               arm_swing=34, fore=88, lean=3, twist=7, foot_x=.13, kick=.09, bob_phase=.19, head_counter=1.0,
               fore_swing=6, hips_pitch=1, lean_cap=(2.0, True))   # v3.1: upright run, never more than 2 deg of lean
     rk.update(GAIT.get('run', {}))
     rf_, rd = rk.pop('frames'), rk.pop('duty')
-    C['run'] = (rf_, best_gait('run', rf_, GAME_RUN_SPEED, rd, **rk), True)
+    rpk = rk.pop('plant_k', 1.0)
+    C['run'] = (rf_, best_gait('run', rf_, GAME_RUN_SPEED * rpk, rd, **rk), True)
     stance = dict(LeftUpLeg=(-12, 0, 0), LeftLeg=(8, 0, 0), LeftFoot=(4, 0, 0), RightUpLeg=(7, 0, 0), RightLeg=(4, 0, 0), RightFoot=(-11, 0, 0))
     guard = dict(LeftArm=A(.40, -.42, -.81), LeftForeArm=A(.10, -.86, -.50))
     # CHOP: over the right shoulder -> down and forward to waist height (tree contact) -> small follow-through -> recover

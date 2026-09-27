@@ -172,6 +172,12 @@ def main():
                 p = K.shoot(os.path.join(CELLS, '%s_%s_%s_%02d.png' % (PROF, bt, cn, k)), (170, 300), (-1, 0, 0), (0, 0, .95), 2.1)
                 row.append(K.cell(p, 'f%d' % f, bg=K.BG_REF))
             cells['%s_%s' % (cn, bt)] = row
+            # every frame from the side at the game camera's 22.5 deg pitch (the 2004 strips' view) for the gait numbers
+            gs = []
+            for f in range(frames):
+                sc.frame_set(f)
+                gs.append(K.shoot(os.path.join(CELLS, 'gs_%s_%s_%s_%02d.png' % (PROF, bt, cn, f)), (160, 200), (-1, 0, .4142), (0, 0, .92), 2.3))
+            res['renders']['gaitsil_%s_%s' % (bt, cn)] = gs
             if not QUICK:
                 gif = []
                 for f in range(frames):
