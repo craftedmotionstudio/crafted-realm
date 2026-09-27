@@ -1038,6 +1038,7 @@ document.getElementById('play-btn').onclick = ()=>{
   // a NEW adventurer designs their look right here on the Holm (or keeps the default)
   // (decided when the timer fires, so a scripted entry can still opt out right after clicking Begin)
   if(CharCfg._new) setTimeout(()=>{ if(!CharCfg._new) return; CharCfg._new=false;
+    CharCfg._intro=true;   // the creator's Confirm then shows the washed-ashore note (holm_kit_creator.js)
     if(typeof CharCreator!=='undefined') CharCreator.open(); }, 500);
 };
 boot();

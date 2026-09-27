@@ -598,3 +598,14 @@ html.osrs-kit #quest-list b{text-shadow:1px 1px 0 #000;font-weight:bold;}
 html.osrs-kit #quest-list .kit-inline{vertical-align:-2px;margin:0 3px 0 0;}
 html.osrs-kit .xp-drop{font:bold 12px var(--k-font)!important;color:#fff;text-shadow:1px 1px 0 #000!important;}
 html.osrs-kit .xp-drop img{image-rendering:pixelated;}
+
+/* the washed-ashore note a new adventurer reads after the character creator (holm_kit_creator.js): parchment over the chat
+   area like the dialogue box, a maroon heading, black lines and a blue "Click here to continue" */
+#holm-intro-note.modal{position:fixed;left:6px;bottom:6px;top:auto;transform:none;width:520px;max-width:calc(100vw - 12px);min-height:190px;z-index:37;
+  box-sizing:border-box;padding:10px 18px 10px;border:0;border-radius:0;text-align:center;background:var(--tex-parch,#d8ccb4);color:#000;
+  box-shadow:0 0 0 1px var(--k-ink),inset 0 0 0 1px var(--k-ink),0 0 0 4px #4b4336,0 0 0 5px var(--k-ink),inset 1px 1px 0 1px #a8946c;will-change:transform;}
+#holm-intro-note h3{margin:2px 0 8px;color:#800000;font:bold 12px var(--k-font);text-shadow:none;}
+#holm-intro-note p{margin:0 0 5px;color:#000;font:12px/16px var(--k-font);text-shadow:none;}
+#holm-intro-note .intro-continue{display:block;margin:8px auto 0;padding:2px 8px;border:0;background:none;box-shadow:none;cursor:pointer;color:#0000ff;font:12px var(--k-font);}
+#holm-intro-note .intro-continue:hover{color:#fff;text-shadow:1px 1px 0 #000;}
+@media (max-width:880px){#holm-intro-note.modal{left:50%;bottom:12px;transform:translateX(-50%);width:min(520px,calc(100vw - 16px));}}

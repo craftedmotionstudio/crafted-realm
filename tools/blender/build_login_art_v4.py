@@ -32,7 +32,7 @@ PAL = {
     'n_pillar': (.55, .58, .57), 'n_pillar_dk': (.42, .45, .44), 'n_arch': (.53, .56, .55), 'vault': (.40, .41, .40), 'groove': (.22, .22, .22),
     'e_mist': (.80, .86, .80), 'iron': (.34, .34, .36), 'iron_dk': (.18, .18, .19), 'steel': (.62, .64, .67),
     'e_fire_dk': (.84, .26, .04), 'e_fire': (1.0, .58, .10), 'e_fire_core': (1.0, .90, .46), 'e_ember': (1.0, .62, .18), 'coal': (.14, .10, .08),
-    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.38, .39, .40), 'helm': (.80, .82, .85), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
+    'n_slab': (.72, .72, .70), 'ink': (.10, .09, .09), 'n_lintel': (.66, .66, .64), 'cut': (.30, .30, .31), 'n_key': (.38, .39, .40), 'key': (.37, .38, .40), 'key_dk': (.28, .29, .31), 'helm_dk': (.52, .54, .58), 'band': (.26, .26, .28), 'helm': (.80, .82, .85), 'chip': (.56, .56, .54), 'wood': (.50, .32, .16), 'wood_dk': (.30, .19, .09), 'e_lamp': (1.0, .84, .38), 'brass': (.80, .60, .26),
     'n_rim': (.50, .51, .55), 'v_marble': (.44, .45, .50), 'rim_groove': (.16, .16, .18),
     'btn_face': (.30, .30, .33), 'btn_face_hi': (.40, .40, .44), 'btn_face_red': (.42, .15, .10), 'btn_face_red_hi': (.52, .20, .13), 'btn_face_off': (.22, .22, .23),
     'btn_rim': (.56, .56, .60), 'btn_rim_red': (.62, .40, .34), 'btn_rim_off': (.40, .40, .42),
@@ -299,8 +299,11 @@ def flame_frame(m, f, nf=8):
             pts = []; rr = []
             for j in range(7):
                 u = j / 6; sway = .11 * math.sin(TAU * (t + ph + u * .6)) * u
-                pts.append((x0 * (1 - u * .55) * (1 if layer == 0 else .8) + sway, dy, 2.02 + u * hh)); rr.append(max(.008, w * ks * (1 - u) ** .7 * (1.25 if layer == 0 else 1.15)))
+                pts.append((x0 * (1 - u * .55) * (1 if layer == 0 else .8) + sway, dy, 1.97 + u * hh)); rr.append(max(.008, w * ks * (1 - u) ** .7 * (1.25 if layer == 0 else 1.15)))
             m.ptube(pts, rr, 7, col, up=(0, 1, 0), flat=.35, cap0=col, cap1=col)   # flattened in depth, full width
+    # the ember bed: a low glowing mound across the bowl mouth, in front of the rim, that the tongues rise out of
+    for col, rx, rz, dy in (('e_fire_dk', .62, .09, .02), ('e_fire', .5, .07, -.04), ('e_fire_core', .34, .05, -.1)):
+        m.hull(ell((0, dy, 2.0), (rx, .06, rz), 16, 4), col)
     for k in range(3):                     # sparks rising straight up the middle
         u = (t + k / 3) % 1; x = .22 * math.sin(TAU * (k * .37 + u * .5)); m.box((x, -.15, 2.3 + u * 1.9), (.025, .02, .025), 'e_fire_core')
 def render_brazier():
@@ -351,12 +354,18 @@ def slab_letter(ch, c, scale, tilt, seed):
     slab.location = c; slab.rotation_euler = (0, math.radians(tilt), math.radians(rng.uniform(-6, 6)))
     return slab
 def emblem_hammer(c, s=1.0, rot=(0, -28, -18)):
-    m = M()
-    m.cyl((0, 0, -.62), (0, 0, .4), .06, 'wood', n=6, caps='wood_dk')
-    m.box((0, 0, -.55), (.075, .075, .12), 'wood_dk')
-    m.hull(cbox((0, 0, .5), (.34, .14, .14), .04), lambda n, cc: 'helm' if n.z > .5 else 'steel')
-    m.hull(cbox((.36, 0, .5), (.05, .16, .16), .02), 'helm')
-    m.hull([Vector((-.34, y, .5 + z)) for y in (-.12, .12) for z in (-.12, .12)] + [Vector((-.56, 0, .5))], 'steel')
+    """a war hammer: a long ash haft with a leather grip and iron bands, a heavy square-faced head and a curved back spike,
+    a short top spike (our own design)"""
+    m = M(); L = 2.1
+    m.cyl((0, 0, 0), (0, 0, L - .15), .055, 'wood', n=8, caps='wood_dk')
+    m.cyl((0, 0, .02), (0, 0, .42), .07, 'wood_dk', n=8)                      # grip wrap
+    for z in (.46, 1.2): m.cyl((0, 0, z), (0, 0, z + .06), .072, 'band', n=8)    # iron bands
+    m.sph((0, 0, -.02), .085, 'band', 8, 4)                                    # butt cap
+    hz = L - .02
+    m.hull(cbox((.14, 0, hz), (.25, .2, .22), .035), lambda n, cc: 'helm' if n.z > .5 else ('helm_dk' if n.x < .5 else 'steel'))   # the square head
+    m.hull(cbox((.42, 0, hz), (.045, .22, .24), .015), 'helm')                 # the flat striking face
+    m.hull([Vector((-.08, y, hz + z)) for y in (-.12, .12) for z in (-.13, .13)] + [Vector((-.4, 0, hz - .02)), Vector((-.6, 0, hz - .2))], 'helm_dk')   # the back spike, curving down
+    m.hull([Vector((x, y, hz + .2)) for x in (.04, .26) for y in (-.08, .08)] + [Vector((.15, 0, hz + .42))], 'helm_dk')   # top spike
     ob = to_object(m, 'hammer'); ob.location = c; ob.scale = (s, s, s); ob.rotation_euler = tuple(math.radians(v) for v in rot); return ob
 def emblem_sword(c, s=1.0, rot=(0, 0, 0)):
     """a plain arming sword: diamond-section blade, a straight crossguard, a leather grip and a round pommel"""
@@ -368,17 +377,18 @@ def emblem_sword(c, s=1.0, rot=(0, 0, 0)):
     m.sph((0, 0, .05), .07, 'iron', 8, 4)
     ob = to_object(m, 'sword'); ob.location = c; ob.scale = (s, s, s); ob.rotation_euler = tuple(math.radians(v) for v in rot); return ob
 def emblem_helm(c, s=1.0):
-    """a plain round-topped helm with a nasal bar, cheek plates and a riveted brow band (our own design)"""
+    """a plain round-topped helm with a nasal bar, cheek plates and a riveted brow band (our own design); smooth enough
+    that its shading falls into a few clean bands at pixel size"""
     m = M()
-    m.hull(ell((0, 0, .1), (.42, .4, .5), 14, 7, floor=.1), lambda n, cc: 'helm' if n.z > .2 else 'steel')
-    m.lathe([(.43, .02), (.44, .12), (.43, .22)], 16, 'iron')
-    for a in [math.pi * (1.2 + .15 * k) for k in range(5)]:
-        m.sph((math.cos(a) * .44, math.sin(a) * .44, .12), .03, 'steel', 5, 3)
-    m.hull(cbox((0, -.43, -.12), (.055, .04, .26), .02), 'iron')
-    for sx in (-1, 1):
-        m.hull([Vector((sx * x, y, z)) for x in (.18, .4) for y in (-.36, -.22) for z in (-.02, .1)] + [Vector((sx * .3, -.28, -.46)), Vector((sx * .38, -.2, -.44))], 'n_rim')
-        m.box((sx * .2, -.39, .0), (.12, .02, .03), 'ink')
-    m.hull(cbox((0, 0, .62), (.05, .3, .05), .02), 'iron')
+    m.hull(ell((0, 0, .1), (.44, .42, .52), 20, 10, floor=.1), lambda n, cc: 'helm' if n.z > .35 else ('steel' if n.x < .3 else 'helm_dk'))
+    m.lathe([(.45, .0), (.46, .1), (.45, .2)], 20, 'band')
+    for a in [math.pi * (1.25 + .125 * k) for k in range(5)]:
+        m.sph((math.cos(a) * .46, math.sin(a) * .46, .1), .032, 'helm', 5, 3)
+    m.hull(cbox((0, -.44, -.14), (.06, .045, .28), .02), 'band')              # nasal
+    for sx in (-1, 1):                                                         # cheek plates
+        m.hull([Vector((sx * x, y, z)) for x in (.2, .42) for y in (-.37, -.2) for z in (-.02, .08)] + [Vector((sx * .32, -.29, -.5)), Vector((sx * .4, -.2, -.48))], 'steel')
+        m.box((sx * .21, -.41, .0), (.13, .02, .035), 'ink')                   # eye slit
+    m.hull(cbox((0, .0, .64), (.055, .32, .05), .02), 'band')                 # crest ridge
     ob = to_object(m, 'helm'); ob.location = c; ob.scale = (s, s, s); return ob
 def carve(target, cutters, mat_name='cut', tolerant=True):
     """boolean-subtract each cutter mesh from target in turn (EXACT solver); the cut faces take mat_name.
@@ -462,22 +472,23 @@ def keystone(c, W0=1.0, W1=1.35, Hk=1.25, D=.72, ch=.07):
             for sy in (-1, 1):
                 X, Y, Z = x + sx * hw, y + sy * D / 2, z + sz * Hk / 2
                 pts += [Vector((X - sx * ch, Y, Z)), Vector((X, Y - sy * ch, Z)), Vector((X, Y, Z - sz * ch))]
-    m.hull(pts, 'n_key')
+    m.hull(pts, lambda n, cc: 'key' if n.y < -.5 or n.z > .5 else 'key_dk')   # flat faces: clean pixels
     return to_object(m, 'keystone')
 def render_logo():
     H = 1.34; obs = [lintel(H=H)]
     Hk = 1.5; kz = H / 2 + Hk / 2 - .16               # the keystone stands on the lintel's centre, its foot let into the top
     obs.append(keystone((0, -.02, kz), W0=1.25, W1=1.65, Hk=Hk, D=.8))
-    c = Vector((0, 0, kz + .2))                       # the crossing point, behind the helm
-    a = math.radians(42); ss = 1.38
-    d = Vector((math.sin(a), 0, math.cos(a)))        # sword: pommel lower-left, point upper-right
-    obs.append(emblem_sword(tuple(c - d * .95 * ss + Vector((0, -.55, 0))), ss, rot=(0, 42, 0)))
-    d2 = Vector((-math.sin(a), 0, math.cos(a)))      # hammer: haft lower-right, head upper-left
-    obs.append(emblem_hammer(tuple(c + d2 * .07 + Vector((0, -.62, 0))), 1.45, rot=(0, -42, 0)))
-    obs.append(emblem_helm((0, -1.02, kz + .1), 1.12))
-    ortho_render('logo', obs, 1600, 600, el=9, yaw=0, key_e=1.0, amb=.32, shadows=False)
+    # the crossed war hammer and sword stand well BEHIND the helm (depth -.5 / -.55 against the helm's -1.4) and reach past
+    # it on every side, so the helm clearly sits over the crossing
+    cz = kz + .12; a = math.radians(40)
+    d = Vector((math.sin(a), 0, math.cos(a))); ss = 1.3        # sword: pommel lower-left, point upper-right
+    obs.append(emblem_sword(tuple(Vector((0, -.55, cz)) - d * 1.0 * ss), ss, rot=(0, 40, 0)))
+    d2 = Vector((-math.sin(a), 0, math.cos(a))); hs = 1.02     # war hammer: butt lower-right, head upper-left
+    obs.append(emblem_hammer(tuple(Vector((0, -.5, cz)) - d2 * 1.08 * hs), hs, rot=(0, -40, 0)))
+    obs.append(emblem_helm((0, -1.4, kz + .08), 1.0))
+    ortho_render('logo', obs, 1600, 600, el=9, yaw=0, key_e=1.0, amb=.34, shadows=False)
     for o in obs: bpy.data.objects.remove(o, do_unlink=True)
-    MANIFEST.append({'name': 'logo', 'raw': 'logo.png', 'kind': 'sprite', 'out': {'w': 400, 'h': 150}, 'file': 'login/logo.png', 'colors': 30})
+    MANIFEST.append({'name': 'logo', 'raw': 'logo.png', 'kind': 'sprite', 'out': {'w': 400, 'h': 150}, 'file': 'login/logo.png', 'colors': 26})
 
 # ================================================================== 4. the carved-slate panel and stone buttons (9-slices)
 def rounded_path(W, H, r, seg=6):
