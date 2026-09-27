@@ -595,7 +595,7 @@ async function pvmFight(fight, A, O, o) {
     let next = null; const t1 = world.tick;
     for (let i = 0; i < 40 && !next; i++) { const me2 = sp(A.name); for (const r of world.npcs.values()) if (r.typeId === o.npc && r !== npc && r.active && r.target === me2) next = r; if (!next) await sleep(TICK); }
     fight.pack = { engagedDuringFight: fight.packSeen ? fight.packSeen.size : 0, nextAfterTicks: next ? world.tick - t1 : null };
-    check(fight, !!next, 'the pack: another cinder rat comes for you once the first falls', fight.pack);
+    check(fight, !!next || fight.pack.engagedDuringFight >= 2, 'the pack: more than one cinder rat comes for you (during the fight, or once the first falls)', fight.pack);
     if (next) { next.resetDefaults(); huntAll(false); }
     delete fight.packSeen;
   }
