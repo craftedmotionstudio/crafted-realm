@@ -96,7 +96,9 @@ const LEGS=[   // [from, to, primary]
 const paths=new Map(),routes=[];
 const markable=(x,z)=>!wet(x,z)&&!Nav.creekBank(T,x,z)&&nodesAt(x,z).length>0&&nodesAt(x,z).every(open);
 const mark=(x,z,w)=>{if(!markable(x,z))return;const k=key(x,z);if((paths.get(k)||0)<w)paths.set(k,w)};
-LEGS.forEach(([a,b,primary])=>{const r=route(a,b);routes.push({from:a,to:b,primary:!!primary,tiles:r.length});
+// (a function, so section 7 can lay the island's final paths again with the Guide House back path redrawn)
+function buildPaths(legs){paths.clear();routes.length=0;
+legs.forEach(([a,b,primary])=>{const r=route(a,b);routes.push({from:a,to:b,primary:!!primary,tiles:r.length});
  r.forEach(n=>{if(n.surface==='deck')return;mark(n.tx,n.tz,1);
   const N4=[[1,0],[-1,0],[0,1],[0,-1]],N8=[[1,1],[1,-1],[-1,1],[-1,-1],[2,0],[-2,0],[0,2],[0,-2]];
   if(primary){N4.forEach(([dx,dz])=>mark(n.tx+dx,n.tz+dz,1));N8.forEach(([dx,dz])=>mark(n.tx+dx,n.tz+dz,.5))}
@@ -105,7 +107,8 @@ LEGS.forEach(([a,b,primary])=>{const r=route(a,b);routes.push({from:a,to:b,prima
 Object.keys(OLD).forEach(k=>{const [x,z]=k.split(',').map(Number);if(x>=55&&x<=72&&z>=100&&OLD[k]===1)paths.set(k,1)});
 // no untinted dry tile may split a worn path (a green tile showing on the brown: tools/test_holm_world_fixes.js 5b)
 for(let pass=0;pass<4;pass++){let fixed=0;for(let z=1;z<D-1;z++)for(let x=1;x<W-1;x++){const k=key(x,z);if(paths.has(k)||T.water[z*W+x]||Nav.creekBank(T,x,z))continue;
- const w=(a,b)=>paths.get(key(a,b))===1;if((w(x-1,z)&&w(x+1,z))||(w(x,z-1)&&w(x,z+1))){paths.set(k,1);fixed++}}if(!fixed)break}
+ const w=(a,b)=>paths.get(key(a,b))===1;if((w(x-1,z)&&w(x+1,z))||(w(x,z-1)&&w(x,z+1))){paths.set(k,1);fixed++}}if(!fixed)break}}
+buildPaths(LEGS);
 const isPath=(x,z)=>paths.has(key(x,z)),worn=(x,z)=>paths.get(key(x,z))===1;
 const nearWorn=(x,z,r)=>{for(let dz=-r;dz<=r;dz++)for(let dx=-r;dx<=r;dx++)if(worn(x+dx,z+dz))return true;return false};
 
@@ -237,6 +240,12 @@ for(let tries=0;tries<6000&&added<TARGET;tries++){
   tiles.forEach(([a,b])=>used.add(key(a,b)));hab({id:'dress-tree-'+HAB.length,asset:sp,x:+px.toFixed(3),z:+pz.toFixed(3),scale:s,yaw:+(rand()*6.283).toFixed(3),source:'v2land-dressing',zone:'clump-'+clumps});got++;added++}
  if(got){centres.push([cx,cz]);clumps++}}
 
+// owner review 4 (2026-09-27): "the statue is colliding with one of the tree branches when we first spawn". An oak's crown
+// spreads about three tiles from its trunk, so no dressing tree stands that close to an arrival landmark (the Lantern Keeper
+// statue). Filtered after the clumps are grown, so the random draws, and every other tree and prop, are unchanged.
+{const land=read('docs/rebuild/holm-overhaul/arrival-landscape.json').placements.filter(p=>p.asset==='statue'),CLEAR=3.2,drop=[];
+ for(let i=HAB.length-1;i>=0;i--){const p=HAB[i];if(TREES.has(p.asset)&&land.some(q=>Math.hypot(p.x-q.x,p.z-q.z)<CLEAR)){drop.push(p.id);HAB.splice(i,1)}}
+ report.statueClear={radius:CLEAR,dropped:drop};}
 // ---------- 5. signposts at the new junctions ----------
 const SIGNS=[{near:[37.5,89.5],arms:[['Minnow Hollow',[33.5,99]],['Survival camp',[30,84]],['Guide House',[64,93]]]},
  {near:[48.5,69.5],arms:[['Creakwheel Mill',[64.5,59.5]],['Bakehouse',[44.5,68.5]],['Guide House',[64,92]]]},
@@ -259,6 +268,26 @@ for(let z=0;z<D;z++)for(let x=0;x<W;x++){if(wet(x,z))continue;dry++;
   verge?pickW([['grass-clump',.6],['daisies',.25],['pebbles',.15]]):pickW([['grass-clump',.5],['daisies',.22],['thistle',.1],['bracken',.08],['pebbles',.1]]);
  put(DECOR,{pack:'clutter',prop,x:+(x+.2+rand()*.6).toFixed(2),z:+(z+.2+rand()*.6).toFixed(2),yaw:+(rand()*6.283).toFixed(2),scale:+(.8+rand()*.45).toFixed(2),noBlock:true});decor++}
 
+// ---------- 7. the Guide House back path (owner review 4, 2026-09-27: "the path out back seems a little random") ----------
+// Bram sends a new adventurer out of the back door and west to Wenna. The two legs from the door were routed separately along
+// the old desire lines: north, a wide knot where they parted, then west. Now one path leaves the door for a fork a few steps
+// out (a signpost: Survival camp / Holm Bank / Guide House), runs straight west-north-west to the timber bridge and on to
+// the camp, and the bank leg branches at the fork. Laid after everything else is placed, so the random draws and every other
+// path, tree and prop are unchanged; dressing trees, clutter and decor that now stand on the new path are taken off it.
+{const DOOR=[64.5,92.5],FORK=[62.5,90.5],BRIDGE=[50.5,87.5],was=new Map(paths);
+ const LEGS2=LEGS.filter(l=>!(l[0][0]===DOOR[0]&&l[0][1]===DOOR[1])).concat([[DOOR,FORK,1],[FORK,BRIDGE,1],[BRIDGE,ST('survival','trail'),1],[FORK,[78.5,79],1]]);
+ buildPaths(LEGS2);
+ const NEW=[...paths.entries()].filter(([k,v])=>v===1&&was.get(k)!==1).map(([k])=>k.split(',').map(Number)),near=(x,z,r)=>NEW.some(([a,b])=>Math.abs(a-x)<=r&&Math.abs(b-z)<=r);
+ const off=[];for(let i=HAB.length-1;i>=0;i--){const p=HAB[i];if(TREES.has(p.asset)&&near(Math.floor(p.x),Math.floor(p.z),1)){off.push(p.id);HAB.splice(i,1)}}
+ Object.keys(sets).forEach(id=>{sets[id]=sets[id].filter(p=>{const b=p.noBlock?null:blockOf(p.pack,p.prop),t=b?footprint(p.x,p.z,b,p.yaw):[[Math.floor(p.x),Math.floor(p.z)]];
+  const hit=t.some(([x,z])=>worn(x,z)&&was.get(key(x,z))!==1);if(hit)off.push(id+':'+p.prop+'@'+p.x+','+p.z);return !hit})});
+ const base=habSrc.placements.filter(p=>!/^dress-/.test(p.id)&&TREES.has(p.asset)&&worn(Math.floor(p.x),Math.floor(p.z))&&was.get(key(Math.floor(p.x),Math.floor(p.z)))!==1).map(p=>p.id);
+ // the fork's signpost, beside the path
+ let sign=null;for(let d=1;d<=3&&!sign;d++)for(let dz=-d;dz<=d&&!sign;dz++)for(let dx=-d;dx<=d&&!sign;dx++){const x=Math.floor(FORK[0])+dx,z=Math.floor(FORK[1])+dz;
+  if(!openTile(x,z)||prot.has(key(x,z))||used.has(key(x,z))||isPath(x,z)||!nearWorn(x,z,1))continue;if(!tryBlock([[x,z]]))continue;used.add(key(x,z));
+  sign=hab({id:'dress-signpost-back',asset:'signpost',x:x+.5,z:z+.5,scale:1,yaw:0,source:'v2land-dressing',zone:'sign',arms:[['Survival camp',[40.5,87.5]],['Holm Bank',[78.5,79]],['Guide House',DOOR]].map(([label,to])=>({label,yaw:+Math.atan2(-(to[1]-z-.5),to[0]-x-.5).toFixed(4)}))})}
+ report.backPath={legs:4,newWornTiles:NEW.length,takenOff:off,baseTreesOnPath:base,signpost:sign&&[sign.x,sign.z]};}
+
 // ---------- write ----------
 const pd=read('docs/rebuild/holm-overhaul/island-props.json');
 pd.packs=Object.assign({},pd.packs,{clutter:packs.clutter,route:packs.route});
@@ -267,6 +296,10 @@ pd.status='Holm v2 land (2026-09-26): Blender prop sets placed on the island (sr
 write('docs/rebuild/holm-overhaul/island-props.json',pd);
 const hov=read('docs/rebuild/holm-overhaul/v2land/habitat.v2land.json');hov.add=HAB;hov.note=hov.note.replace(/ Phase 5:.*$/,'')+' Phase 5: tree clumps and junction signposts added by tools/stage_holm_v2land_dressing.js (ids dress-*).';
 write('docs/rebuild/holm-overhaul/v2land/habitat.v2land.json',hov);
+// the island's working habitat carries the dressing adds as tools/rebuild_holm_v2land.js step 3c applies them: refresh them
+// here too, so a dressing run alone leaves the island consistent (the plants that were not dressing adds are untouched)
+{const vf='.studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json',veg=read(vf),kept=veg.placements.filter(p=>!/^dress-/.test(p.id));
+ veg.placements=kept.concat(hov.add.filter(p=>!kept.some(q=>q.id===p.id)));write(vf,veg);}
 const tiles=[...paths.entries()].sort((a,b)=>a[0]<b[0]?-1:1);
 fs.writeFileSync(path.join(ROOT,'src/holm_island_paths_data.js'),'/* Generated by tools/stage_holm_v2land_dressing.js (Holm v2 land, phase 5, 2026-09-26): worn path tiles on the island, "x,z" ->\n'+
  ' * weight (1 worn, .5 soft verge). Primary legs 3 tiles wide, secondary 1; routed on the v2 land\'s walk graph along the old desire\n * lines; the arrival trail\'s tiles (dock -> Guide House porch, and the tiles wholly under the trail mesh) kept. HolmOverhaulGround\n * tints them to dirt when ?holmIsland=1. Do not edit by hand. */\n'+
