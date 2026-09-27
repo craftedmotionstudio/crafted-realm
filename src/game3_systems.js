@@ -91,7 +91,7 @@ const Player = {
     this.addItem('coins',5);
   },
   lvl(s){ return levelFromXp(this.xp[s]); },
-  energy:100, runOn:true, _regenT:0,
+  energy:100, runOn:false, _regenT:0,   // 2004: a new adventurer walks; the run orb turns running on (owner review 2026-09-27). Saves keep their own setting.
   prayerPts:1, activePrayers:new Set(),
   spell:null, alchMode:null, teleCd:0, stunT:0, caffeinated:0,
   hasSpace(){ return this.inv.some(s=>!s); },
