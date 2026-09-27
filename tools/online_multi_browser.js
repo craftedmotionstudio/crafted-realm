@@ -651,24 +651,27 @@ function measure() {
     if (l[i].expect === l[i - 1].expect && g <= 12) (gaps[k] = gaps[k] || []).push(g); } }
   out.attackSpeed = Object.keys(gaps).map((k) => { const l = gaps[k], hist = {}; l.forEach((g) => { hist[g] = (hist[g] || 0) + 1; });
     const mode = +Object.keys(hist).sort((a, b) => hist[b] - hist[a])[0]; const [weapon, name, expect] = k.split(':'); return { weapon, name, expect: +expect, mode, samples: l.length, hist }; });
-  // 4) projectile hit delays: the first hit on the target after the announcement lands when the client expects it
-  let ok = 0, bad = [];
-  const claimed = new Set();
-  for (const fx of serverFx) {
-    if (fx.splash) continue;
-    const to = fx.to[0] + fx.to[1], from = fx.from[0] + fx.from[1];
-    // this projectile's hit: the one on its target at the tick the rule predicts, else the next unclaimed one (a 3-tick
-    // shortbow's new arrow leaves on the tick the previous one lands, so the first later hit is not always its own)
+  // 4) projectile hit delays: every projectile's hit lands on the tick the client's rule predicts. Two passes, so one
+  // projectile without a hit (its target died first) cannot take the next arrow's: first every projectile claims the hit
+  // on its target at the predicted tick; then a projectile left over looks for an unclaimed hit within 3 ticks of it (a
+  // real timing error); none at all = no hit to judge (the target was dead, or the fight moved on)
+  let ok = 0, bad = [], nBad = 0, noHit = 0;
+  const claimed = new Set(), left = [];
+  const plan = serverFx.filter((fx) => !fx.splash).map((fx) => {
     const att = fx.from[0] === 'n' ? { kind: 'npc' } : { kind: 'player', pid: fx.from[1] }, tgt = fx.to[0] === 'n' ? { kind: 'npc' } : { kind: 'player', pid: fx.to[1] };
-    const want = OnlineTiming.landingOffset(att, tgt, fx.d);
-    let h = serverHits.find((x) => x.to === to && x.tick === fx.tick + want && !claimed.has(x));
-    if (!h) h = serverHits.find((x) => x.to === to && x.tick > fx.tick && !claimed.has(x));
-    if (!h) continue;
-    claimed.add(h);
-    const got = h.tick - fx.tick;
-    if (want === got) ok++; else if (bad.length < 20) bad.push({ from, to, d: fx.d, want, got });
+    return { fx, to: fx.to[0] + fx.to[1], from: fx.from[0] + fx.from[1], want: OnlineTiming.landingOffset(att, tgt, fx.d) };
+  });
+  for (const p of plan) {
+    const h = serverHits.find((x) => x.to === p.to && x.tick === p.fx.tick + p.want && !claimed.has(x));
+    if (h) { claimed.add(h); ok++; } else left.push(p);
   }
-  out.projectileTiming = { matched: ok, mismatched: bad.length, examples: bad };
+  for (const p of left) {
+    const h = serverHits.find((x) => x.to === p.to && !claimed.has(x) && x.tick > p.fx.tick && Math.abs(x.tick - (p.fx.tick + p.want)) <= 3);
+    if (!h) { noHit++; continue; }
+    claimed.add(h); nBad++;
+    if (bad.length < 20) bad.push({ from: p.from, to: p.to, d: p.fx.d, want: p.want, got: h.tick - p.fx.tick, tick: p.fx.tick, k: p.fx.k });
+  }
+  out.projectileTiming = { matched: ok, mismatched: nBad, noHit, examples: bad };
   return out;
 }
 
