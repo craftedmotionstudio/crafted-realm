@@ -1,0 +1,594 @@
+{
+ "tick": 600,
+ "started": "2026-09-27T06:42:24.856Z",
+ "fights": [
+  {
+   "name": "pvp-ranged-swapped",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Ashbg0k (level-51)",
+      "Walk here",
+      "Follow Ashbg0k (level-51)",
+      "Trade with Ashbg0k (level-51)",
+      "Report Ashbg0k",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 1,
+      "b": 0,
+      "expectSkull": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 2000
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "magic",
+      "samples": 136,
+      "adjacentShare": 0,
+      "atRangeShare": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 196,
+      "killer": "ashbg0k",
+      "victim": "brynbg0k",
+      "x": 57,
+      "z": 66,
+      "dropped": [
+       [
+        "arrows",
+        275
+       ],
+       [
+        "ash_bow",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "trav_cape_green",
+        1
+       ],
+       [
+        "fenhide_body",
+        1
+       ],
+       [
+        "fenhide_chaps",
+        1
+       ],
+       [
+        "fenhide_vambraces",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 34,
+      "z": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "duskwood_bowx1"
+      ],
+      "promised": [
+       "duskwood_bowx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "duskwood_bowx1"
+      ],
+      "kept": [
+       "duskwood_bowx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ashbg0k.You kept:8 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 3,
+      "after": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 38,
+       "splats": 38,
+       "projectiles": 39,
+       "matchedProjectile": 38,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 38,
+       "splats": 38,
+       "projectiles": 39,
+       "matchedProjectile": 38,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynbg0k match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 13,
+      "opponent": 13,
+      "observer": 13,
+      "self": 13
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashbg0k match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 25,
+      "opponent": 25,
+      "observer": 25,
+      "self": 25
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reach": {
+    "attackerKit": "magic",
+    "samples": 136,
+    "adjacentShare": 0,
+    "atRangeShare": 1
+   },
+   "winner": "Ashbg0k",
+   "loser": "Brynbg0k",
+   "ticks": 91,
+   "seconds": 53.5,
+   "fx": {
+    "attacker": {
+     "hits": 38,
+     "splats": 38,
+     "projectiles": 39,
+     "matchedProjectile": 38,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 38,
+     "splats": 38,
+     "projectiles": 39,
+     "matchedProjectile": 38,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-reconnect",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Brynbg0k (level-51)",
+      "Walk here",
+      "Follow Brynbg0k (level-51)",
+      "Trade with Brynbg0k (level-51)",
+      "Report Brynbg0k",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the dropped adventurer stays in the world (x-log protection)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the client logs in again and re-attaches to the same adventurer",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "logging out mid-fight is refused (the combat logout lock)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "melee",
+      "samples": 223,
+      "adjacentShare": 1,
+      "atRangeShare": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 424,
+      "killer": "ashbg0k",
+      "victim": "brynbg0k",
+      "x": 61,
+      "z": 66,
+      "dropped": [
+       [
+        "arrows",
+        259
+       ],
+       [
+        "ash_bow",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "trav_cape_green",
+        1
+       ],
+       [
+        "fenhide_vambraces",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 32,
+      "z": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "duskwood_bowx1",
+       "fenhide_bodyx1",
+       "fenhide_chapsx1"
+      ],
+      "promised": [
+       "duskwood_bowx1",
+       "fenhide_bodyx1",
+       "fenhide_chapsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "duskwood_bowx1",
+       "fenhide_bodyx1",
+       "fenhide_chapsx1"
+      ],
+      "kept": [
+       "duskwood_bowx1",
+       "fenhide_bodyx1",
+       "fenhide_chapsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ashbg0k.You kept:6 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 7
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 2,
+      "after": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 72,
+       "splats": 72,
+       "projectiles": 40,
+       "matchedProjectile": 40,
+       "matchedSwing": 32,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 73,
+       "splats": 73,
+       "projectiles": 41,
+       "matchedProjectile": 41,
+       "matchedSwing": 32,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ashbg0k match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 41,
+      "opponent": 41,
+      "observer": 41,
+      "self": 40
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Brynbg0k match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 32,
+      "opponent": 32,
+      "observer": 32,
+      "self": 32
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reattachTick": 287,
+   "reach": {
+    "attackerKit": "melee",
+    "samples": 223,
+    "adjacentShare": 1,
+    "atRangeShare": 0
+   },
+   "winner": "Ashbg0k",
+   "loser": "Brynbg0k",
+   "ticks": 143,
+   "seconds": 82.1,
+   "fx": {
+    "attacker": {
+     "hits": 72,
+     "splats": 72,
+     "projectiles": 40,
+     "matchedProjectile": 40,
+     "matchedSwing": 32,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 73,
+     "splats": 73,
+     "projectiles": 41,
+     "matchedProjectile": 41,
+     "matchedSwing": 32,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  }
+ ],
+ "failures": [],
+ "pageErrors": {
+  "A": [],
+  "B": [],
+  "O": []
+ },
+ "measured": {
+  "accuracy": {
+   "rolls": 112,
+   "expectedHits": 57.4,
+   "observedHits": 56,
+   "z": -0.27
+  },
+  "damage": [],
+  "attackSpeed": [
+   {
+    "weapon": "duskwood_bow",
+    "name": "attack",
+    "expect": 3,
+    "mode": 3,
+    "samples": 64,
+    "hist": {
+     "3": 58,
+     "6": 4,
+     "9": 2
+    }
+   },
+   {
+    "weapon": "storm_staff",
+    "name": "cast",
+    "expect": 5,
+    "mode": 5,
+    "samples": 13,
+    "hist": {
+     "5": 11,
+     "11": 2
+    }
+   },
+   {
+    "weapon": "undercrag_sabre",
+    "name": "attack",
+    "expect": 4,
+    "mode": 4,
+    "samples": 31,
+    "hist": {
+     "4": 27,
+     "7": 4
+    }
+   }
+  ],
+  "projectileTiming": {
+   "matched": 79,
+   "mismatched": 0,
+   "noHit": 0,
+   "examples": []
+  }
+ },
+ "movement": {
+  "Ashbg0k": {
+   "maxBacklog": 1,
+   "catchUps": 0,
+   "teleports": 0,
+   "ticksSeen": 421,
+   "tickGaps": 2,
+   "maxGapMs": 1159,
+   "reconnects": 1
+  },
+  "Brynbg0k": {
+   "maxBacklog": 5,
+   "catchUps": 4,
+   "teleports": 3,
+   "ticksSeen": 421,
+   "tickGaps": 1,
+   "maxGapMs": 1174,
+   "reconnects": 0
+  },
+  "Oakbg0k": {
+   "maxBacklog": 3,
+   "catchUps": 0,
+   "teleports": 1,
+   "ticksSeen": 415,
+   "tickGaps": 1,
+   "maxGapMs": 1176,
+   "reconnects": 0
+  }
+ },
+ "finished": "2026-09-27T06:46:48.002Z",
+ "pass": true
+}

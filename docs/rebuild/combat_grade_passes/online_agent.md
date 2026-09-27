@@ -373,3 +373,40 @@ pack. The wyrmling fights ran 4-5 minutes with the fighter topped up server side
   (`online_evidence/balance_w2b.txt`): melee beats ranged 67%, ranged beats magic 68%, magic beats melee 63%, mirrors
   50-54%; duels 46-134 s median without prayers, 85-286 s with. Before: magic 79% against both.
 - The driver's protection and pack checks (above).
+
+---
+
+## Pass 6 (2026-09-27, the retuned kits)
+
+Run: `online_evidence/pass6/` (`--set all`, 32 scenarios, 5820 ticks) and `online_evidence/pass6b/` (the two duels
+re-run with the fixed checks, with the fixed projectile-timing measure: 79 of 79 projectile hits on the predicted tick).
+Pass 6: 30/32; both failures were the driver's, and one real bug showed in the screens:
+
+- **A double knock-out** (ranged against magic: both fell on the same tick, their last blows in flight together, which
+  2004 allows): the driver looked for the winner's pile while the "winner" was waking in the Commons. Now checked as a
+  double knock-out (each credited with the other).
+- **The reconnect**: one splat on the re-attached page came from a blow swung while it was offline (it never saw that
+  swing): excused at the re-attach tick only. In the re-run the defender also kept a skull from the previous duel, which
+  the check did not allow for: fixed.
+- **The projectile-timing measure** paired a 3-tick shortbow's arrow with the previous arrow's hit (the new arrow
+  leaves on the tick the old one lands) and one arrow without a hit (its target already dead) cascaded into 20
+  "mismatches": now two passes (exact tick first).
+- **Bug (fixed): a full helm fifty times too large.** `online_evidence/pass6/screen_pvp_1538x900.jpg` shows two
+  adventurers in undercrag helms as a purple wall: the game collapses the head bone under a full helm and fits the
+  Blender helm against that collapse, but the kit v3.1 clips carry a `Head.scale` track that puts the bone back to 1
+  every frame. The online client now holds the collapse after each animation step (`OnlineActors.keepHelm`). The
+  offline game runs the same code on the same clips, so it very likely shows the same thing (for the equipment / kit
+  agents: drop the Head scale track from the kit clips at load, or stop collapsing the bone).
+
+Measured (pass 6): accuracy z = -0.21 over 1283 rolls; undercrag sabre 4 ticks (482/507), duskwood shortbow on rapid 3
+(256/271), storm staff 5 (158/176), monsters 4 and 5, the breath 5 (32/32); 1816 splats over three pages, 0 late, the
+one untimed at the re-attach; movement backlog at most 6 steps. Duels with the level-40 ladder: 45-242 s (median 64 s),
+each style winning where the triangle says (magic over melee, ranged over magic, melee over ranged; the underdog won
+with its protection prayer twice).
+
+| # | Criterion | Score | Notes |
+|---|---|---|---|
+| 1-18, 20 | as pass 5 | 0.5 each | re-measured above |
+| 19 | Balance | 0.5 | the kits on the combat agent's tested level-40 ladder: favoured pairings 63-68%, mirrors 50-54% (sim), live winners by the triangle; per-level tables in `combat_agent.md` pass 4 |
+
+**Pass 6 total: 10 / 10** on the criteria, pending a clean full run with the helm fix (pass 7). Owned: 6.5 / 6.5.
