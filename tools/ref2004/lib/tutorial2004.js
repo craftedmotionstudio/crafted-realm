@@ -108,7 +108,9 @@ const SKILL={
   150:async c=>{if(inv(c.S,/bread dough/i))return c.moment('baking',async()=>{const r=await c.S.bot.useItemOnLoc(/bread dough/i,/range/i);if(!r.success)say('bake:',r.message||r.reason);await waitItem(c.S,/^bread$/i,15000)});
     if(inv(c.S,/bucket of water/i)&&inv(c.S,/pot of flour/i)){await useOnItem(c.S,/bucket of water/i,/pot of flour/i);await waitItem(c.S,/bread dough/i,8000);return}
     return false},
-  195:async c=>{await c.S.sdk.sendClickComponent(153);await c.S.sdk.waitForTicks(2)},          // controls tab: Run
+  // controls tab: Run (the step's own text does not change when the tab is opened, so do it from 190 as well)
+  190:async c=>{const h=await hint(c.page);if(h.type)return false;await c.S.sdk.sendSetTab(12);await c.S.sdk.waitForTicks(1);await c.S.sdk.sendClickComponent(153);await c.S.sdk.waitForTicks(3)},
+  195:async c=>{await c.S.sdk.sendSetTab(12);await c.S.sdk.sendClickComponent(153);await c.S.sdk.waitForTicks(3)},
   320:c=>c.moment('smelting',async()=>{const r=await c.S.bot.useItemOnLoc(/tin ore|copper ore/i,/furnace/i);if(!r.success)say('smelt:',r.message||r.reason);await waitItem(c.S,/bronze bar/i,15000)}),
   340:async c=>{if(!inv(c.S,/hammer/i)||!inv(c.S,/bronze bar/i))return false;return c.moment('smithing',async()=>{const r=await c.S.bot.smithAtAnvil('dagger');if(!r.success)say('smith:',r.message||r.reason);await C.sleep(1500)})},
   380:async c=>{if(!inv(c.S,/dagger/i))return false;await c.S.bot.equipItem(/dagger/i);await C.sleep(1200);await c.moment('equipment_tab')},

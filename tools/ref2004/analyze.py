@@ -195,7 +195,11 @@ def gait(game, folder, meta_extra=None):
     i0, i1 = moving[0], moving[-1]
     dist = math.dist(pos[i0 - 1][1], pos[i1][1])
     dt = (pos[i1][0] - pos[i0 - 1][0]) / 1000.0
-    res['speed_tiles_per_s'] = round(dist / dt, 3) if dt > 0 else None
+    res['speed_tiles_per_s_whole_leg'] = round(dist / dt, 3) if dt > 0 else None
+    # steady pace: the middle 60% of the moving frames (no start-up / stop)
+    a_, b_ = moving[len(moving) // 5], moving[len(moving) * 4 // 5]
+    dd, tt = math.dist(pos[a_][1], pos[b_][1]), (pos[b_][0] - pos[a_][0]) / 1000.0
+    res['speed_tiles_per_s'] = round(dd / tt, 3) if tt > 0 else res['speed_tiles_per_s_whole_leg']
     # cycle: 2004 from the walk/run sequence frame counter, ours from the clip clock
     seq = None
     cyc = []
@@ -221,6 +225,8 @@ def gait(game, folder, meta_extra=None):
         if res.get('speed_tiles_per_s'):
             res['stride_tiles_per_step'] = round(res['speed_tiles_per_s'] * res['cycle_s'] / 2, 3)
             res['tiles_per_cycle'] = round(res['speed_tiles_per_s'] * res['cycle_s'], 3)
+            if meta_extra and meta_extra.get('height_tiles'):
+                res['stride_in_body_heights'] = round(res['stride_tiles_per_step'] / meta_extra['height_tiles'], 3)
         a, b = cyc[len(cyc) // 2]
         cyc_frames = list(range(a, b))
     else:
@@ -410,7 +416,7 @@ def characters():
                     if not os.path.isdir(folder):
                         continue
                     if cam == 'side':
-                        res, frames, cyc = gait(game, folder)
+                        res, frames, cyc = gait(game, folder, {'height_tiles': M[game]['height_tiles']})
                         M[game]['gait'][mode] = res
                     else:
                         res, frames, cyc = gait_game(game, folder)

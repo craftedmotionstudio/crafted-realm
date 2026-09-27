@@ -26,12 +26,15 @@ function saveSamples(dir,name,list,extra){
 async function cap2004(browser){
   const R=require('./lib/ref2004_client'),T=require('./lib/tutorial2004');
   const dir=C.out2004('tutorial','2004'),log=[];
-  const user='crt'+Date.now().toString(36).slice(-7),pass='pw'+Math.random().toString(36).slice(2,10);
+  // --resume: log the last tutorial account back in and carry on from where it stopped (local test account)
+  const acct=path.join(C.CAP,'logs','tut_account.json'),resume=process.argv.includes('--resume')&&fs.existsSync(acct);
+  const {user,pass}=resume?JSON.parse(fs.readFileSync(acct,'utf8')):{user:'crt'+Date.now().toString(36).slice(-7),pass:'pw'+Math.random().toString(36).slice(2,10)};
+  if(!resume)fs.writeFileSync(acct,JSON.stringify({user,pass}));
   const page=await R.open(browser,user,pass);const away=()=>page.mouse.move(795,555);await away();
-  await R.click(page,R.DESIGN_BTN.accept);await away();await C.sleep(1500);
+  if(!resume){await R.click(page,R.DESIGN_BTN.accept);await away()}await C.sleep(1500);
   const S=await R.sdk(user,pass);
   await R.setCam(page,{orbitPitch:128});await page.evaluate(()=>{window.gameClient.__cam=null});
-  const seen={};
+  const seen={};for(const f of fs.readdirSync(dir))seen[f.replace(/(_\d+)?(\.png)?$/,'')]=1;
   // face the camera from the player toward a world tile (2004 yaw: 0 looks north, camera behind the player)
   const face=async(tx,tz)=>{const i=await R.info(page);const dx=tx-i.tileX,dz=tz-i.tileZ;if(!dx&&!dz)return;
     const yaw=Math.round(Math.atan2(-dx,dz)*1024/Math.PI)&2047;await page.evaluate(y=>{window.gameClient.orbitCameraYaw=y;window.gameClient.orbitCameraPitch=128},yaw);await C.sleep(1100)};
@@ -49,7 +52,7 @@ async function cap2004(browser){
       try{await fn()}finally{const l=await R.stopSampler(page);saveSamples(dir,name+(k>1?'_'+k:''),l,{moment:name,varp:await T.varp(page)});
         log.push({name,k,frames:l.length});C.log('[2004] anim',name,l.length,'frames')}},
     pageHook:(name)=>async(d,n)=>{if(n===0&&!seen[name]){seen[name]=1;await away();await C.sleep(700);await R.grab(page,path.join(dir,name+'.png'));log.push({name,dialog:d.text&&d.text.slice(0,0)})}}};
-  await ctx.moment('arrival');
+  if(!resume)await ctx.moment('arrival');
   const v=await T.play(ctx,UNTIL);
   C.log('[2004] tutorial reached varp',v);
   // UI: side tabs (every tab the tutorial has opened by now), a right-click menu on an NPC, the controls tab (run)
