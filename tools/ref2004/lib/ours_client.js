@@ -55,7 +55,7 @@ async function playerPixels(page){
         let n=0;for(let i=0;i<a.length;i+=4)if(Math.abs(a[i]-b[i])+Math.abs(a[i+1]-b[i+1])+Math.abs(a[i+2]-b[i+2])>24)n++;res(n)}}}))}
 async function info(page){return page.evaluate(()=>{const bb=new THREE.Box3().setFromObject(player),g=player.userData.gmix||{};
   const pr=v=>{const p=v.clone().project(camera),r=renderer.domElement.getBoundingClientRect();return p.z<1?[+((p.x+1)/2*r.width+r.left).toFixed(1),+((1-p.y)/2*r.height+r.top).toFixed(1)]:null};
-  const P=player.position;return {pos:[P.x,P.y,P.z],rotY:player.rotation.y,height:+(bb.max.y-bb.min.y).toFixed(3),bb:[bb.min.toArray(),bb.max.toArray()],
+  const P=player.position,fw=new THREE.Vector3(0,0,1).applyQuaternion(player.quaternion);return {pos:[P.x,P.y,P.z],rotY:Math.atan2(fw.x,fw.z),eulerY:player.rotation.y,height:+(bb.max.y-bb.min.y).toFixed(3),bb:[bb.min.toArray(),bb.max.toArray()],
     feet:pr(P.clone()),head:pr(new THREE.Vector3(P.x,bb.max.y,P.z)),cam:{yaw:camCtl.yaw,pitch:camCtl.pitch,dist:camCtl.dist,fov:camera.fov,pos:camera.position.toArray()},
     run:!!(typeof Player!=='undefined'&&Player.runOn),speed:typeof Player!=='undefined'&&Player.moveSpeed?Player.moveSpeed():null,
     clips:{walk:g.walk?{t:g.walk.time,w:g.walk.weight,dur:g.walk.getClip().duration,ts:g.walk.timeScale}:null,run:g.run?{t:g.run.time,w:g.run.weight,dur:g.run.getClip().duration,ts:g.run.timeScale}:null,idle:g.idle?{dur:g.idle.getClip().duration}:null},

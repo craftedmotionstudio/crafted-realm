@@ -144,7 +144,7 @@ async function capOurs(browser,g){
   meta.designer={rect:kcRect,views:{}};
   const baseYaw=await page.evaluate(()=>camCtl.yaw);
   for(const [deg,n] of [[0,'front'],[45,'yaw+45'],[-45,'yaw-45'],[90,'side'],[180,'back'],[22.5,'yaw+22'],[-22.5,'yaw-22']]){
-    await page.evaluate(a=>{player.rotation.y=camCtl.yaw+a},deg*Math.PI/180);await O.waitFrames(page,4);
+    await page.evaluate(a=>{player.rotation.set(0,camCtl.yaw+a,0)},deg*Math.PI/180);await O.waitFrames(page,4);
     if(n==='front')await O.grab(page,path.join(dir,'designer_full.png'));
     if(kcRect)await page.screenshot({path:path.join(dir,'designer_'+n+'.png'),clip:{x:kcRect[0],y:kcRect[1],width:kcRect[2],height:kcRect[3]}});
     meta.designer.views[n]=deg;

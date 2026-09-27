@@ -81,6 +81,12 @@ def silhouette(frame, plate, center=None, thr=8, open_iter=0):
             if best is None or dd < best:
                 best, k = dd, i
     m = raw & (lab == k)
+    # drop speckle (grass / leaf flicker that the dilation glued on): keep parts at least 3% of the biggest
+    l2, n2 = ndimage.label(m)
+    if n2 > 1:
+        sz = ndimage.sum(m, l2, range(1, n2 + 1))
+        keep = [i + 1 for i in range(n2) if sz[i] >= 0.03 * sz.max()]
+        m = np.isin(l2, keep)
     m = ndimage.binary_closing(m, iterations=1)
     m = ndimage.binary_fill_holes(m)
     return m if m.any() else None
@@ -109,16 +115,6 @@ def body_metrics(mask, view):
     s0, s1 = neck, min(len(span), neck + int(0.16 * H))
     out['shoulder_span_over_H'] = round(span[s0:s1].max() / H, 3)
     if view == 'front':
-        # crotch: scanning up from the feet, the first row where the legs merge into one run
-        crotch = None
-        for i in range(len(span) - int(0.06 * H), int(0.35 * H), -1):
-            r = runs(mask[top + i, left:right + 1])
-            big = [q for q in r if q[1] - q[0] >= 2]
-            if len(big) <= 1 and i < len(span) - int(0.1 * H):
-                crotch = i
-                break
-        out['crotch_from_top_over_H'] = round(crotch / H, 3) if crotch else None
-        out['leg_over_H'] = round((H - crotch) / H, 3) if crotch else None
         # hands: the lowest row with three or more separate runs (arm | body | arm), above the knees
         hand = None
         for i in range(int(0.75 * H), int(0.3 * H), -1):
@@ -127,6 +123,17 @@ def body_metrics(mask, view):
                 hand = i
                 break
         out['hand_low_over_H'] = round(hand / H, 3) if hand else None
+        # crotch: below the hands, the first row where the silhouette splits into two legs and stays split
+        crotch = None
+        start = max(int(0.4 * H), (hand or 0) + 2)
+        two = lambda i: len([q for q in runs(mask[top + i, left:right + 1]) if q[1] - q[0] >= 2]) >= 2
+        for i in range(start, int(0.92 * H)):
+            k = max(2, int(0.03 * H))
+            if all(two(j) for j in range(i, min(i + k, H))):
+                crotch = i
+                break
+        out['crotch_from_top_over_H'] = round(crotch / H, 3) if crotch else None
+        out['leg_over_H'] = round((H - crotch) / H, 3) if crotch else None
         foot = mask[bot - max(1, int(0.05 * H)):bot + 1, :]
         fx = np.nonzero(foot.any(axis=0))[0]
         out['stance_width_over_H'] = round((fx.max() - fx.min() + 1) / H, 3)
