@@ -1078,6 +1078,7 @@ def face_y(x, z, table, nose=1.0):
             return ring_y(table[i]) * (1 - t) + ring_y(table[i + 1]) * t
     return ring_y(table[-1])
 
+GOATEE = {}   # v4 profiles: overrides of the goatee's beard_wrap parameters (the 2004 goatee is broad: mouth to under the chin)
 FACE = {}   # v4 profiles: eye / brow / mouth overrides {'eye': (x, z, wA, hA, wB, hB), 'brow': (x, z, dz), 'mouth': (zA, zB, wA, wB, h)}
 
 def build_head(mb, bt, nose=1.0, old=False):
@@ -1620,7 +1621,8 @@ def jaw_style(mb, bt, key):
         jaw_shell(mb, bt, -38, 38, lambda th: 1.556 + .01 * (deg(th) / 38) ** 2, lambda th: 1.590,
                   lambda th, t: -.003, cols=3, rows=1, mat='C_SKIN', off_in=-.010)   # v2.6: kept inside the face (no visible line)
     elif key == 'goatee':
-        beard_wrap(mb, bt, 1.515, .014, th_max=40, cols=7, rows=3, top_front=1.600, top_side=1.604, side_bot=1.578, narrow=.35)
+        gk = dict(dict(tip_z=1.515, thick=.014, th_max=40, cols=7, rows=3, top_front=1.600, top_side=1.604, side_bot=1.578, narrow=.35), **GOATEE)
+        beard_wrap(mb, bt, gk.pop('tip_z'), gk.pop('thick'), **gk)
         moustache(mb, bt)
     elif key == 'long':            # long taper
         beard_wrap(mb, bt, 1.430, .020, rows=5, jag=.016, narrow=.42)

@@ -30,8 +30,8 @@ SHELF = {   # (z, rx, rf, rb) -- the torso from the upper chest to the collar
           (1.470, .086, .066, .068), (1.480, .064, .058, .060), (1.486, .060, .058, .060)],
 }
 SHELF_SQ = {   # the 2004 "coat-hanger" line: a flat top from the collar almost to the arm, then a crisp corner into the sleeve
-    'A': [(1.380, .186, .126, .117), (1.420, .188, .118, .112), (1.452, .188, .108, .104), (1.472, .182, .094, .092),
-          (1.486, .158, .080, .080), (1.494, .110, .068, .070), (1.500, .072, .062, .064)],
+    'A': [(1.380, .182, .126, .117), (1.420, .183, .118, .112), (1.452, .183, .108, .104), (1.472, .178, .094, .092),
+          (1.486, .156, .080, .080), (1.494, .110, .068, .070), (1.500, .072, .062, .064)],
     'B': [(1.385, .156, .110, .106), (1.418, .162, .102, .099), (1.446, .164, .092, .090), (1.464, .160, .080, .080),
           (1.478, .142, .069, .070), (1.486, .100, .060, .062), (1.492, .062, .058, .060)],
 }
@@ -54,7 +54,7 @@ HEAD_EGG['B'] = [(1.554, .032, .040, .032, 0.0), (1.572, .052, .060, .044, .17),
                  (1.630, .076, .084, .078, .05)] + HEAD_EGG['A'][4:]
 
 # the 2004 idle (measured on the reference front views): legs nearly parallel and close under narrow hips
-STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 3.0), 'RightUpLeg': (-5.5, 1, -3.0), 'Neck': (-4, 0, 0), 'Head': (26, 0, 0)}   # head bowed a little
+STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 3.0), 'RightUpLeg': (-5.5, 1, -3.0), 'Neck': (-5, 0, 0), 'Head': (17, 0, 0)}   # head bowed a touch
 # the old client's ready pose: the left foot a little forward, the right back, toes turned out
 IDLE_FEET_2004 = {'Left': (.125, .17), 'Right': (-.125, -.03), 'drop': .02, 'toe': 8.0}   # the right foot forward
 
@@ -94,19 +94,19 @@ V_TORSO_B = [(0.940, .146, .1166, .1232, .026), (1.000, .125, .1078, .1100, .022
 V_PELVIS_B = [(0.800, .112, .0691, .0756, .030), (0.850, .176, .1058, .1188, .028), (0.930, .178, .1145, .1318, .026),
               (0.985, .154, .1080, .1166, .024), (1.012, .138, .1058, .1091, .022)]
 
-def _mix_rows(old, new, t):
-    """blend two same-length row tables (every column, z included) -- t = 1: new"""
-    return [tuple(a + (b - a) * t for a, b in zip(ro, rn)) for ro, rn in zip(old, new)]
+def _mix_rows(old, new, t, keep_z=False):
+    """blend two same-length row tables (every column; keep_z: the new heights, only the radii blended) -- t = 1: new"""
+    return [((rn[0],) if keep_z else (ro[0] + (rn[0] - ro[0]) * t,)) + tuple(a + (b - a) * t for a, b in zip(ro[1:], rn[1:]))
+            for ro, rn in zip(old, new)]
 
 def _v_body(K, thigh_k=.80, hip_x=.100, long_legs=True, thigh_k_b=.84, hip_x_b=.090, mix=1.0):
     lowA = [r for r in K.TORSO['A'] if r[0] < 1.38 - 1e-6]
     lowB = [r for r in K.TORSO['B'] if r[0] < 1.38 - 1e-6]
     K.TORSO['A'][:] = _mix_rows(lowA, V_TORSO_A, mix) + [r for r in K.TORSO['A'] if r[0] >= 1.38 - 1e-6]
-    K.PELVIS['A'][:] = _mix_rows(K.PELVIS['A'], V_PELVIS_A_LONG if long_legs else V_PELVIS_A, mix)
+    K.PELVIS['A'][:] = _mix_rows(K.PELVIS['A'], V_PELVIS_A_LONG if long_legs else V_PELVIS_A, mix, keep_z=True)   # the long inseam always
     K.TORSO['B'][:] = _mix_rows(lowB[:len(V_TORSO_B)], V_TORSO_B, mix) + [r for r in K.TORSO['B'] if r[0] >= 1.38 - 1e-6]
-    K.PELVIS['B'][:] = _mix_rows(K.PELVIS['B'], V_PELVIS_B, mix)
-    for bt, tk in (('A', thigh_k), ('B', thigh_k_b)):
-        tk = 1 + (tk - 1) * mix
+    K.PELVIS['B'][:] = _mix_rows(K.PELVIS['B'], V_PELVIS_B, mix, keep_z=True)
+    for bt, tk in (('A', thigh_k), ('B', thigh_k_b)):   # the slim thighs always (they open the gap under the crotch)
         K.LEG_R[bt][:] = [(u, rs * (tk + (1 - tk) * K.ss(.8, 1.2, u)), rf, rb) for u, rs, rf, rb in K.LEG_R[bt]]
     K.HIP_X['A'] = K.HIP_X['A'] + (hip_x - K.HIP_X['A']) * mix
     K.HIP_X['B'] = K.HIP_X['B'] + (hip_x_b - K.HIP_X['B']) * mix
@@ -123,30 +123,33 @@ GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, 
 
 TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
+# the 2004 goatee is broad: from the mouth corners down over the chin
+GOATEE_2004 = dict(tip_z=1.500, thick=.016, th_max=62, top_front=1.604, top_side=1.610, side_bot=1.572, narrow=.55)
 # the shared 2004 body (measured against the reference man and woman: designer front + the old client's close camera)
-BODY_2004 = dict(shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .074}, arm_out={'A': -.010, 'B': .004},
+BODY_2004 = dict(shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .074}, arm_out={'A': -.022, 'B': .004},
                  head_s=.94, head_s_bt={'B': .95}, head_wx=1.07, head_wy=.94, head_hz=1.00, head_dz=-.020, neck_k={'A': 1.10, 'B': .82},
                  stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, deltoid_k=.85, arm_aim={'LeftArm': (.46, -.07, -.88), 'LeftForeArm': (.10, -.36, -.93), 'LeftHand': (.08, -.40, -.91)}, arms=(.05, .095), hand_k={'A': .86, 'B': .98}, arm_in={'B': .028},
-                 head=HEAD_EGG, head_p=2.3, gait=GAIT_2004)
-FACE_2004 = dict(eye=(.0275, 1.690, .026, .0055, .024, .0050), eye_tick=(.010, -.004, .006, .0045), brow=None,
+                 head=HEAD_EGG, head_p=2.3, gait=GAIT_2004, goatee=GOATEE_2004)
+# eyes: dark slits that still read at the game camera (the reference's are ~2 px at 240 px tall); the goatee is broad
+FACE_2004 = dict(eye=(.029, 1.690, .032, .0125, .030, .0115), eye_tick=(.012, -.007, .008, .006), brow=None,
                  mouth=(1.612, 1.614, .030, .022, 0.0), ear=(.70, .004))
 
 PROFILES = {
-    # A: as close to the old client as we can build it -- its proportions, its smooth (Gouraud-style) low-poly shading
-    # (creases stay crisp, curved parts smooth), its motion: 8 held poses per walk / run cycle, no in-betweens
-    'v4a': dict(BODY_2004, label='Option A -- closest 2004: 2004 proportions, low-poly smooth shading, old-client stepped motion (8 held poses)',
-                sharp=65.0, face=FACE_2004,
+    # A: as close to the old client as we can build it -- its proportions, its low-poly shading (big flat panels on the
+    # clothes and the face planes, smooth only across gentle curves), its motion: 8 held poses per cycle, no in-betweens
+    'v4a': dict(BODY_2004, label='Option A -- closest 2004: 2004 proportions, low-poly panel shading, old-client stepped motion (8 held poses, no in-betweens)',
+                sharp=36.0, face=FACE_2004,
                 step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')}),
-    # B: the same figure made softer: every surface smooth, the 8 poses joined by straight in-betweens (no snapping), a
-    # faint mouth line
-    'v4b': dict(BODY_2004, label='Option B -- the A figure, softer: fully smooth shading, in-betweened motion (8 poses joined by lines)',
-                sharp=89.0, face=dict(FACE_2004, eye=(.0275, 1.690, .026, .0060, .024, .0055), mouth=(1.612, 1.614, .022, .018, .0035)),
+    # B: the same figure made softer: smooth (Gouraud-like) shading over the limbs and head, the 8 poses joined by
+    # straight in-betweens (no snapping), a faint mouth line
+    'v4b': dict(BODY_2004, label='Option B -- the A figure, softer: smooth shading, in-betweened motion (the 8 poses joined by straight lines)',
+                sharp=65.0, face=dict(FACE_2004, mouth=(1.612, 1.614, .022, .018, .0035)),
                 step={'walk': (-8, 'LINEAR'), 'run': (-8, 'LINEAR'), 'idle': (12, 'LINEAR')}),
     # C: a stylised midpoint -- the 2004 build a little softened (a touch larger head, milder V, arms a bit longer), flat
     # faceted low-poly shading, smooth eased motion, small brows
     'v4c': dict(BODY_2004, label='Option C -- stylised midpoint: 2004 build softened (larger head, milder V), flat faceted shading, smooth eased motion',
                 head_s=1.05, head_s_bt={'B': .94}, head_dz=-.010, v_body={'mix': .6}, arms=(.03, .06),
-                sharp=12.0, face=dict(FACE_2004, eye=(.027, 1.689, .024, .008, .022, .0075), brow=(.028, 1.707, 0.0),
+                sharp=12.0, face=dict(FACE_2004, eye=(.027, 1.689, .026, .009, .024, .0085), brow=(.028, 1.707, 0.0),
                                       brow_size=((.028, .005), (.024, .004)), mouth=(1.612, 1.614, .024, .018, .004), ear=(.80, .006)),
                 step={'walk': (-8, 'BEZIER'), 'run': (-8, 'BEZIER'), 'idle': (12, 'BEZIER')}, gait=GAIT_C),
 }
@@ -222,6 +225,7 @@ def apply(K, name):
     K.NECK_K = P['neck_k']
     K.SHARP_DEG = P['sharp']
     K.FACE.clear(); K.FACE.update(P['face'])
+    K.GOATEE.clear(); K.GOATEE.update(P.get('goatee', {}))
     K.STEP_CLIPS.clear(); K.STEP_CLIPS.update(P.get('step', {}))
     K.GAIT.clear(); K.GAIT.update(P.get('gait', {}))
     if 'idle_feet' in P:
