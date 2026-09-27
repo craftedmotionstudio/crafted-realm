@@ -1,0 +1,1343 @@
+{
+ "schema": 1,
+ "pack": "HOLM_CLUTTER_PROPS_V2",
+ "status": "candidate",
+ "axes": "glTF Y-up, 1 unit = tile, origin at the resting base centre",
+ "file": "props.glb",
+ "blend": "props.blend",
+ "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+ "assets": [
+  {
+   "name": "barrel",
+   "root": "barrel",
+   "triangles": 86,
+   "materials": [
+    "Barrel lid boards",
+    "Barrel staves",
+    "Iron band"
+   ],
+   "bounds": {
+    "min": [
+     -0.2797,
+     0,
+     -0.2797
+    ],
+    "max": [
+     0.2797,
+     0.75,
+     0.2797
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.3,
+    0.3
+   ]
+  },
+  {
+   "name": "barrel-apples",
+   "root": "barrel-apples",
+   "triangles": 176,
+   "materials": [
+    "Apples green",
+    "Apples red",
+    "Barrel lid boards",
+    "Barrel staves",
+    "Iron band"
+   ],
+   "bounds": {
+    "min": [
+     -0.2794,
+     0,
+     -0.3013
+    ],
+    "max": [
+     0.2898,
+     0.77,
+     0.2794
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.3,
+    0.3
+   ]
+  },
+  {
+   "name": "crate",
+   "root": "crate",
+   "triangles": 132,
+   "materials": [
+    "Crate batten oak",
+    "Crate boards",
+    "Crate boards dark",
+    "Crate boards light"
+   ],
+   "bounds": {
+    "min": [
+     -0.3,
+     0,
+     -0.3
+    ],
+    "max": [
+     0.3,
+     0.562,
+     0.3
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.35,
+    0.35
+   ]
+  },
+  {
+   "name": "crate-stack",
+   "root": "crate-stack",
+   "triangles": 396,
+   "materials": [
+    "Crate batten oak",
+    "Crate boards",
+    "Crate boards dark",
+    "Crate boards light"
+   ],
+   "bounds": {
+    "min": [
+     -0.62,
+     0,
+     -0.3
+    ],
+    "max": [
+     0.56,
+     1.062,
+     0.3
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.55,
+    0.4
+   ]
+  },
+  {
+   "name": "sack",
+   "root": "sack",
+   "triangles": 75,
+   "materials": [
+    "Sack twine",
+    "Sackcloth"
+   ],
+   "bounds": {
+    "min": [
+     -0.2307,
+     0,
+     -0.2274
+    ],
+    "max": [
+     0.2128,
+     0.62,
+     0.2224
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.22,
+    0.22
+   ]
+  },
+  {
+   "name": "sack-pile",
+   "root": "sack-pile",
+   "triangles": 300,
+   "materials": [
+    "Sack twine",
+    "Sackcloth",
+    "Sackcloth dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.4531,
+     0,
+     -0.2524
+    ],
+    "max": [
+     0.432,
+     0.92,
+     0.3574
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.5,
+    0.35
+   ]
+  },
+  {
+   "name": "hay-bale",
+   "root": "hay-bale",
+   "triangles": 108,
+   "materials": [
+    "Hay",
+    "Hay shade",
+    "Sack twine"
+   ],
+   "bounds": {
+    "min": [
+     -0.44,
+     0,
+     -0.265
+    ],
+    "max": [
+     0.42,
+     0.45,
+     0.265
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.45,
+    0.3
+   ]
+  },
+  {
+   "name": "handcart",
+   "root": "handcart",
+   "triangles": 747,
+   "materials": [
+    "Crate batten oak",
+    "Crate boards",
+    "Crate boards dark",
+    "Crate boards light",
+    "Iron fittings",
+    "Oak frame",
+    "Sack twine",
+    "Sackcloth",
+    "Weathered oak planks",
+    "Weathered oak planks dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.59,
+     -0.0003,
+     -0.53
+    ],
+    "max": [
+     1.0066,
+     0.93,
+     0.53
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.75,
+    0.45
+   ]
+  },
+  {
+   "name": "wheelbarrow",
+   "root": "wheelbarrow",
+   "triangles": 308,
+   "materials": [
+    "Iron fittings",
+    "Oak frame",
+    "Tilled soil",
+    "Weathered oak planks",
+    "Weathered oak planks dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.7566,
+     -0.0323,
+     -0.3
+    ],
+    "max": [
+     0.6523,
+     0.56,
+     0.3
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.55,
+    0.3
+   ]
+  },
+  {
+   "name": "woodpile",
+   "root": "woodpile",
+   "triangles": 504,
+   "materials": [
+    "Crate boards light",
+    "Oak frame",
+    "Oak frame dark",
+    "Stall shingle"
+   ],
+   "bounds": {
+    "min": [
+     -0.95,
+     0,
+     -0.5
+    ],
+    "max": [
+     0.95,
+     1.2,
+     0.5
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.85,
+    0.35
+   ]
+  },
+  {
+   "name": "chopping-block",
+   "root": "chopping-block",
+   "triangles": 126,
+   "materials": [
+    "Crate boards light",
+    "Iron fittings",
+    "Oak frame",
+    "Oak frame dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.4611,
+     0,
+     -0.4692
+    ],
+    "max": [
+     0.721,
+     0.7919,
+     0.6112
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.25,
+    0.25
+   ]
+  },
+  {
+   "name": "water-trough",
+   "root": "water-trough",
+   "triangles": 96,
+   "materials": [
+    "Oak frame dark",
+    "Trough water",
+    "Weathered oak planks",
+    "Weathered oak planks dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.62,
+     0,
+     -0.27
+    ],
+    "max": [
+     0.62,
+     0.5,
+     0.27
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.65,
+    0.28
+   ]
+  },
+  {
+   "name": "bench",
+   "root": "bench",
+   "triangles": 36,
+   "materials": [
+    "Oak frame dark",
+    "Weathered oak planks"
+   ],
+   "bounds": {
+    "min": [
+     -0.6,
+     0,
+     -0.17
+    ],
+    "max": [
+     0.6,
+     0.48,
+     0.17
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.55,
+    0.2
+   ]
+  },
+  {
+   "name": "well",
+   "root": "well",
+   "triangles": 235,
+   "materials": [
+    "Barrel staves",
+    "Field stone",
+    "Field stone dark",
+    "Field stone light",
+    "Hemp rope",
+    "Iron fittings",
+    "Oak frame",
+    "Oak frame dark",
+    "Stall shingle",
+    "Trough water"
+   ],
+   "bounds": {
+    "min": [
+     -0.8,
+     0,
+     -0.75
+    ],
+    "max": [
+     0.8,
+     2.02,
+     0.75
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.75,
+    0.75
+   ],
+   "examine": "A deep well. The water down there is cold and clear.",
+   "label": "Well"
+  },
+  {
+   "name": "washing-line",
+   "root": "washing-line",
+   "triangles": 160,
+   "materials": [
+    "Hemp rope",
+    "Linen clothes",
+    "Linen clothes blue",
+    "Linen clothes russet",
+    "Oak frame"
+   ],
+   "bounds": {
+    "min": [
+     -1.6,
+     0,
+     -0.05
+    ],
+    "max": [
+     1.6,
+     1.75,
+     0.05
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": null
+  },
+  {
+   "name": "lamp-post",
+   "root": "lamp-post",
+   "triangles": 76,
+   "materials": [
+    "Field stone dark",
+    "Iron fittings",
+    "Lamp glass",
+    "Oak frame dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.14,
+     0,
+     -0.1212
+    ],
+    "max": [
+     0.44,
+     2.2,
+     0.1212
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.12,
+    0.12
+   ]
+  },
+  {
+   "name": "milestone",
+   "root": "milestone",
+   "triangles": 14,
+   "materials": [
+    "Field stone light"
+   ],
+   "bounds": {
+    "min": [
+     -0.14,
+     0,
+     -0.1
+    ],
+    "max": [
+     0.14,
+     0.62,
+     0.1
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.15,
+    0.15
+   ]
+  },
+  {
+   "name": "cart-wheel",
+   "root": "cart-wheel",
+   "triangles": 212,
+   "materials": [
+    "Iron fittings",
+    "Oak frame"
+   ],
+   "bounds": {
+    "min": [
+     -0.4285,
+     0,
+     -0.4058
+    ],
+    "max": [
+     0.4285,
+     0.1499,
+     0.418
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.2,
+    0.2
+   ]
+  },
+  {
+   "name": "cart-wheel-lean",
+   "root": "cart-wheel-lean",
+   "triangles": 248,
+   "materials": [
+    "Iron fittings",
+    "Oak frame",
+    "Oak frame dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.4333,
+     0,
+     -0.4427
+    ],
+    "max": [
+     0.4333,
+     0.9,
+     0.1278
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.2,
+    0.2
+   ]
+  },
+  {
+   "name": "tools-lean",
+   "root": "tools-lean",
+   "triangles": 72,
+   "materials": [
+    "Iron fittings",
+    "Oak frame"
+   ],
+   "bounds": {
+    "min": [
+     -0.4,
+     -0.0025,
+     -0.0711
+    ],
+    "max": [
+     0.2212,
+     1.5024,
+     0.2
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": null
+  },
+  {
+   "name": "market-stall",
+   "root": "market-stall",
+   "triangles": 509,
+   "materials": [
+    "Apples red",
+    "Barrel lid boards",
+    "Barrel staves",
+    "Cabbage leaves",
+    "Cabbage leaves pale",
+    "Coach paint red trim",
+    "Crate batten oak",
+    "Crate boards",
+    "Crate boards dark",
+    "Crate boards light",
+    "Iron band",
+    "Linen clothes",
+    "Oak frame",
+    "Sack twine",
+    "Sackcloth",
+    "Weathered oak planks",
+    "Weathered oak planks dark"
+   ],
+   "bounds": {
+    "min": [
+     -1.05,
+     0,
+     -0.7
+    ],
+    "max": [
+     1.05,
+     2.15,
+     0.6
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    1,
+    0.55
+   ]
+  },
+  {
+   "name": "broken-carriage",
+   "root": "broken-carriage",
+   "triangles": 1058,
+   "materials": [
+    "Coach brass fittings",
+    "Coach paint green",
+    "Coach paint red trim",
+    "Coach roof",
+    "Iron fittings",
+    "Linen clothes",
+    "Linen clothes blue",
+    "Linen clothes russet",
+    "Oak frame",
+    "Oak frame dark",
+    "Trunk leather",
+    "Weathered oak planks dark"
+   ],
+   "bounds": {
+    "min": [
+     -1.7,
+     -0.0338,
+     -0.69
+    ],
+    "max": [
+     1.829,
+     1.395,
+     1.429
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    1.35,
+    0.8
+   ],
+   "examine": "Somebody's journey ended early.",
+   "label": "Broken carriage"
+  },
+  {
+   "name": "fence-run",
+   "root": "fence-run",
+   "triangles": 36,
+   "materials": [
+    "Oak frame",
+    "Oak frame dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.56,
+     0,
+     -0.06
+    ],
+    "max": [
+     0.501,
+     1,
+     0.06
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.5,
+    0.08
+   ]
+  },
+  {
+   "name": "fence-post",
+   "root": "fence-post",
+   "triangles": 12,
+   "materials": [
+    "Oak frame"
+   ],
+   "bounds": {
+    "min": [
+     -0.06,
+     0,
+     -0.06
+    ],
+    "max": [
+     0.06,
+     1.05,
+     0.06
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.1,
+    0.1
+   ]
+  },
+  {
+   "name": "fence-gate",
+   "root": "fence-gate",
+   "triangles": 96,
+   "materials": [
+    "Oak frame",
+    "Oak frame dark",
+    "Weathered oak planks",
+    "Weathered oak planks dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.56,
+     0,
+     -0.9227
+    ],
+    "max": [
+     0.56,
+     1.15,
+     0.06
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": null
+  },
+  {
+   "name": "barn",
+   "root": "barn",
+   "triangles": 300,
+   "materials": [
+    "Barn thatch",
+    "Hay",
+    "Hay shade",
+    "Oak frame dark",
+    "Tilled soil",
+    "Weathered oak planks",
+    "Weathered oak planks dark"
+   ],
+   "bounds": {
+    "min": [
+     -2.25,
+     0,
+     -1.8
+    ],
+    "max": [
+     2.25,
+     3.25,
+     1.8
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    2.05,
+    1.55
+   ],
+   "examine": "A timber barn. It smells of hay and warm animals.",
+   "label": "Barn"
+  },
+  {
+   "name": "haystack",
+   "root": "haystack",
+   "triangles": 107,
+   "materials": [
+    "Hay",
+    "Hay shade",
+    "Oak frame dark"
+   ],
+   "bounds": {
+    "min": [
+     -1.1859,
+     0,
+     -1.0118
+    ],
+    "max": [
+     1.1942,
+     2.4,
+     1.2499
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.85,
+    0.85
+   ]
+  },
+  {
+   "name": "scarecrow",
+   "root": "scarecrow",
+   "triangles": 140,
+   "materials": [
+    "Linen clothes blue",
+    "Linen clothes russet",
+    "Oak frame",
+    "Sackcloth",
+    "Scarecrow straw"
+   ],
+   "bounds": {
+    "min": [
+     -0.66,
+     0,
+     -0.3
+    ],
+    "max": [
+     0.66,
+     1.88,
+     0.3
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.12,
+    0.12
+   ]
+  },
+  {
+   "name": "cabbage-row",
+   "root": "cabbage-row",
+   "triangles": 216,
+   "materials": [
+    "Cabbage leaves",
+    "Cabbage leaves pale",
+    "Tilled soil"
+   ],
+   "bounds": {
+    "min": [
+     -1,
+     0,
+     -0.28
+    ],
+    "max": [
+     1,
+     0.31,
+     0.28
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": null
+  },
+  {
+   "name": "sheep",
+   "root": "sheep",
+   "triangles": 124,
+   "materials": [
+    "Sheep face",
+    "Sheep wool"
+   ],
+   "bounds": {
+    "min": [
+     -0.42,
+     0,
+     -0.27
+    ],
+    "max": [
+     0.5712,
+     0.77,
+     0.27
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "animal",
+   "block": null,
+   "examine": "A Holm sheep. It regards you with total indifference.",
+   "label": "Sheep"
+  },
+  {
+   "name": "cow",
+   "root": "cow",
+   "triangles": 132,
+   "materials": [
+    "Cow hide",
+    "Cow hide white",
+    "Horn"
+   ],
+   "bounds": {
+    "min": [
+     -0.7345,
+     0,
+     -0.285
+    ],
+    "max": [
+     0.9,
+     1.1163,
+     0.285
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "animal",
+   "block": null,
+   "examine": "A brown and white cow, chewing thoughtfully.",
+   "label": "Cow"
+  },
+  {
+   "name": "chicken",
+   "root": "chicken",
+   "triangles": 84,
+   "materials": [
+    "Hen beak",
+    "Hen comb",
+    "Hen feathers"
+   ],
+   "bounds": {
+    "min": [
+     -0.22,
+     0,
+     -0.075
+    ],
+    "max": [
+     0.24,
+     0.39,
+     0.075
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "animal",
+   "block": null,
+   "examine": "A hen, pecking at nothing in particular.",
+   "label": "Chicken"
+  },
+  {
+   "name": "feed-trough",
+   "root": "feed-trough",
+   "triangles": 72,
+   "materials": [
+    "Hay",
+    "Oak frame dark",
+    "Weathered oak planks",
+    "Weathered oak planks dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.55,
+     0,
+     -0.2
+    ],
+    "max": [
+     0.55,
+     0.3,
+     0.2
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.55,
+    0.2
+   ]
+  },
+  {
+   "name": "lobster-pot",
+   "root": "lobster-pot",
+   "triangles": 75,
+   "materials": [
+    "Hemp rope",
+    "Lobster pot withies",
+    "Oak frame dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.2343,
+     0,
+     -0.2535
+    ],
+    "max": [
+     0.26,
+     0.42,
+     0.2535
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.26,
+    0.26
+   ]
+  },
+  {
+   "name": "lobster-pot-stack",
+   "root": "lobster-pot-stack",
+   "triangles": 225,
+   "materials": [
+    "Hemp rope",
+    "Lobster pot withies",
+    "Oak frame dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.4743,
+     0,
+     -0.2599
+    ],
+    "max": [
+     0.4997,
+     0.82,
+     0.3061
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.45,
+    0.3
+   ]
+  },
+  {
+   "name": "net-rack",
+   "root": "net-rack",
+   "triangles": 116,
+   "materials": [
+    "Fishing net twine",
+    "Net floats",
+    "Oak frame",
+    "Oak frame dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.95,
+     0,
+     -0.05
+    ],
+    "max": [
+     0.95,
+     1.6,
+     0.1
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.95,
+    0.12
+   ]
+  },
+  {
+   "name": "rowboat-upturned",
+   "root": "rowboat-upturned",
+   "triangles": 66,
+   "materials": [
+    "Oak frame",
+    "Oak frame dark",
+    "Weathered oak planks",
+    "Weathered oak planks dark"
+   ],
+   "bounds": {
+    "min": [
+     -1.2,
+     0,
+     -0.5
+    ],
+    "max": [
+     1.25,
+     0.405,
+     0.5
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    1.15,
+    0.5
+   ]
+  },
+  {
+   "name": "anchor",
+   "root": "anchor",
+   "triangles": 64,
+   "materials": [
+    "Iron fittings"
+   ],
+   "bounds": {
+    "min": [
+     -0.45,
+     0.0159,
+     -0.08
+    ],
+    "max": [
+     0.45,
+     1.1683,
+     0.2215
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.2,
+    0.2
+   ]
+  },
+  {
+   "name": "rope-coil",
+   "root": "rope-coil",
+   "triangles": 172,
+   "materials": [
+    "Hemp rope"
+   ],
+   "bounds": {
+    "min": [
+     -0.26,
+     -0.005,
+     -0.2473
+    ],
+    "max": [
+     0.5585,
+     0.18,
+     0.2473
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": null
+  },
+  {
+   "name": "fish-crates",
+   "root": "fish-crates",
+   "triangles": 324,
+   "materials": [
+    "Crate batten oak",
+    "Crate boards",
+    "Crate boards dark",
+    "Crate boards light",
+    "Fish silver"
+   ],
+   "bounds": {
+    "min": [
+     -0.55,
+     0,
+     -0.28
+    ],
+    "max": [
+     0.55,
+     0.43,
+     0.28
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "clutter",
+   "block": [
+    0.55,
+    0.3
+   ]
+  },
+  {
+   "name": "grass-clump",
+   "root": "grass-clump",
+   "triangles": 28,
+   "materials": [
+    "Grass blades",
+    "Grass blades dark",
+    "Grass blades light"
+   ],
+   "bounds": {
+    "min": [
+     -0.1531,
+     0,
+     -0.0599
+    ],
+    "max": [
+     0.0626,
+     0.3102,
+     0.1156
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "decor",
+   "block": null
+  },
+  {
+   "name": "daisies",
+   "root": "daisies",
+   "triangles": 110,
+   "materials": [
+    "Daisy eye",
+    "Daisy petals",
+    "Grass blades"
+   ],
+   "bounds": {
+    "min": [
+     -0.2195,
+     0,
+     -0.1143
+    ],
+    "max": [
+     0.2047,
+     0.13,
+     0.1586
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "decor",
+   "block": null
+  },
+  {
+   "name": "pebbles",
+   "root": "pebbles",
+   "triangles": 50,
+   "materials": [
+    "Pebble dark",
+    "Pebble grey",
+    "Pebble light"
+   ],
+   "bounds": {
+    "min": [
+     -0.2227,
+     -0.02,
+     -0.1817
+    ],
+    "max": [
+     0.0856,
+     0.05,
+     0.2792
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "decor",
+   "block": null
+  },
+  {
+   "name": "mushrooms",
+   "root": "mushrooms",
+   "triangles": 84,
+   "materials": [
+    "Mushroom cap",
+    "Mushroom stalk"
+   ],
+   "bounds": {
+    "min": [
+     -0.1555,
+     0,
+     -0.0972
+    ],
+    "max": [
+     0.0971,
+     0.1401,
+     0.1175
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "decor",
+   "block": null
+  },
+  {
+   "name": "fern",
+   "root": "fern",
+   "triangles": 24,
+   "materials": [
+    "Fern fronds",
+    "Fern fronds dark"
+   ],
+   "bounds": {
+    "min": [
+     -0.3449,
+     0.02,
+     -0.3583
+    ],
+    "max": [
+     0.3406,
+     0.22,
+     0.3429
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "decor",
+   "block": null
+  },
+  {
+   "name": "thistle",
+   "root": "thistle",
+   "triangles": 84,
+   "materials": [
+    "Thistle flower",
+    "Thistle leaves"
+   ],
+   "bounds": {
+    "min": [
+     -0.0811,
+     0,
+     -0.1982
+    ],
+    "max": [
+     0.2181,
+     0.5497,
+     0.1678
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "decor",
+   "block": null
+  },
+  {
+   "name": "bracken",
+   "root": "bracken",
+   "triangles": 20,
+   "materials": [
+    "Bracken fronds",
+    "Bracken fronds green"
+   ],
+   "bounds": {
+    "min": [
+     -0.4204,
+     0,
+     -0.2459
+    ],
+    "max": [
+     0.5152,
+     0.4358,
+     0.2761
+    ]
+   },
+   "sha256": "576cd3b0c6b1cdf698f0d60fcfbc5aaa854230fc5071f9dc0b5ab3487f1a307e",
+   "kind": "decor",
+   "block": null
+  }
+ ],
+ "totals": {
+  "triangles": 8435,
+  "assets": 47,
+  "materials": 67,
+  "budgetTriangles": 26000
+ }
+}

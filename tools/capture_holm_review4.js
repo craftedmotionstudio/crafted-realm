@@ -67,6 +67,10 @@ const VIEWS={
   const shoot=async tag=>{for(const [id,x,z,yaw] of G){await look(page,x,z,[yaw,0.7,7]);rec[tag+'_'+id]=await page.evaluate(id=>{const o=scene.getObjectByName('island-gate-'+id);return {open:HolmIslandGates.isOpen(id),propLeaf:!!o&&o.visible!==false}},id);await snap(page,'5_door_'+id+'_'+tag)}};
   rec.at=await stand(page,40,60,'land',[0,1,10]);await shoot('shut');
   await page.evaluate(()=>HolmIslandCurriculum.qaGrant(HolmCurriculumProgress.lessonIds.slice(0,-1)));await sleep(4000);await shoot('open');return true},
+ // 8 (owner follow-up: "a lot of the wagon wheels that are on the ground are standing vertically upright"): every loose
+ // spare wheel the island dressing places, framed one by one at the game camera
+ async wheels(page,rec){const list=await page.evaluate(()=>{const d=HolmIslandProps.data(),out=[];d.sets.forEach(s=>s.placements.forEach(p=>{if(/^cart-wheel/.test(p.prop))out.push({set:s.id,prop:p.prop,x:p.x,z:p.z,yaw:p.yaw||0})}));return out});
+  rec.wheels=list;for(let i=0;i<list.length;i++){const w=list[i];await look(page,w.x,w.z,[w.yaw+0.7,0.85,5.5]);w.file=await snap(page,'8_wheel_'+i+'_'+w.set.replace('dress-','')+'_'+w.prop)}return list.length},
  // 9: the run orb on a new adventurer
  async run(page,rec){rec.runOn=await page.evaluate(()=>Player.runOn);rec.at=await stand(page,63,112,'exterior|land',[0.6,1.1,14]);return snap(page,'9_run_orb')},
  // 8: the statue and the tree beside it, seen at the spawn

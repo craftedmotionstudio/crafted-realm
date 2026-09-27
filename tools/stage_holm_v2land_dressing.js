@@ -110,8 +110,9 @@ const isPath=(x,z)=>paths.has(key(x,z)),worn=(x,z)=>paths.get(key(x,z))===1;
 const nearWorn=(x,z,r)=>{for(let dz=-r;dz<=r;dz++)for(let dx=-r;dx<=r;dx++)if(worn(x+dx,z+dz))return true;return false};
 
 // ---------- placement helpers ----------
-const packs={clutter:'.studio-workspaces/holm-clutter-props-os-v1/candidates/props.glb',route:'.studio-workspaces/holm-route-props-os-v2/candidates/props.glb'};
-const man={clutter:read('.studio-workspaces/holm-clutter-props-os-v1/candidates/manifest.json'),route:read('.studio-workspaces/holm-route-props-v2/candidates/manifest.json')};
+// owner review 4 (2026-09-27): clutter pack v2 (a loose spare wheel lies flat; a yard wheel leans on its own stake)
+const packs={clutter:'.studio-workspaces/holm-clutter-props-os-v2/candidates/props.glb',route:'.studio-workspaces/holm-route-props-os-v2/candidates/props.glb'};
+const man={clutter:read('.studio-workspaces/holm-clutter-props-os-v2/candidates/manifest.json'),route:read('.studio-workspaces/holm-route-props-v2/candidates/manifest.json')};
 const blockOf=(pack,prop)=>{const a=man[pack].assets.find(q=>q.name===prop);if(!a)throw Error('no '+prop+' in '+pack);return a.block||null};
 const used=new Set();   // tiles taken by a placed blocking piece
 const sets={};const put=(set,p)=>{(sets[set]=sets[set]||[]).push(p);return p};
@@ -174,14 +175,18 @@ want(FARM,'clutter','fence-gate',112.5,96.5,0,0);for(let z=97;z<=99;z++)want(FAR
  for(let t=0;t<4000&&n<14;t++){const x=Math.floor(rand()*W),z=Math.floor(rand()*D);if(!openTile(x,z)||worn(x,z)||!nearWorn(x,z,1)||prot.has(key(x,z))||used.has(key(x,z))||nearBuildingW(x,z,4)||spots.some(q=>Math.hypot(q[0]-x,q[1]-z)<11))continue;
   const kit=KIND[n%KIND.length];let ok=0;kit.forEach((prop,i)=>{if(place(WAY,'clutter',prop,x+.5+i,z+.5,rand()*6.28))ok++});if(ok){spots.push([x,z]);n++}}}
 // ---------- 3. yard kits: hugging each building's walls ----------
+// (owner review 4: "a lot of the wagon wheels that are on the ground are standing vertically upright". A spare wheel is
+// never set on its edge by itself: set against a wall it is 'cart-wheel-lean', propped on its stake; anywhere else, the
+// wayside and the clusters, 'cart-wheel' lies flat in the grass. Only the handcart's, the wheelbarrow's and the mill's
+// wheels stand, on their axles. Same footprints as before, so every placement and route check is unchanged.)
 const KITS={survival:['woodpile','chopping-block','barrel','crate','sack-pile','tools-lean','hay-bale','barrel','crate','fish-crates','wheelbarrow'],
  bakehouse:['sack-pile','barrel-apples','crate-stack','water-trough','handcart','sack','barrel','bench','crate','sack','barrel','woodpile','crate'],
- lodge:['bench','barrel','crate','cart-wheel','sack','barrel','crate-stack'],
- quarry:['crate-stack','handcart','wheelbarrow','barrel','sack','tools-lean','crate','cart-wheel','crate','barrel','woodpile','sack-pile'],
- keep:['hay-bale','hay-bale','hay-bale','water-trough','barrel','barrel','crate-stack','cart-wheel','bench','woodpile','crate','crate','handcart'],
+ lodge:['bench','barrel','crate','cart-wheel-lean','sack','barrel','crate-stack'],
+ quarry:['crate-stack','handcart','wheelbarrow','barrel','sack','tools-lean','crate','cart-wheel-lean','crate','barrel','woodpile','sack-pile'],
+ keep:['hay-bale','hay-bale','hay-bale','water-trough','barrel','barrel','crate-stack','cart-wheel-lean','bench','woodpile','crate','crate','handcart'],
  bank:['market-stall','market-stall','barrel','crate','sack-pile','barrel-apples','bench','crate-stack','barrel','sack'],
  mage:['crate','barrel','bench','crate-stack','crate','barrel'],
- mill:['sack-pile','sack-pile','sack','sack','sack','handcart','barrel','crate','wheelbarrow','cart-wheel','crate-stack'],
+ mill:['sack-pile','sack-pile','sack','sack','sack','handcart','barrel','crate','wheelbarrow','cart-wheel-lean','crate-stack'],
  lastlight:['crate','barrel','crate-stack','rope-coil','barrel','crate'],
  haven:['lobster-pot','lobster-pot-stack','fish-crates','barrel','crate','rope-coil','anchor']};
 const YARD='dress-yards';
@@ -198,9 +203,15 @@ Object.keys(KITS).forEach(bid=>{
   for(const c of C){if(placed.some(p=>Math.hypot(p.x-c.x-.5,p.z-c.z-.5)<1.7))continue;
    // long axis along the wall; the prop's front (+z local) faces away from it
    const along=c.wall[0]!==0?Math.PI/2:0,face=c.wall[0]!==0?(c.wall[0]>0?Math.PI/2:-Math.PI/2):(c.wall[1]>0?0:Math.PI);
-   const yaw=['bench','market-stall','water-trough','woodpile','handcart','crate-stack','sack-pile','hay-bale'].includes(prop)?face:along+rand()*.3-.15;
-   const off=['woodpile','bench','market-stall','cart-wheel','tools-lean'].includes(prop)?.12:0;
-   const p=place(YARD,'clutter',prop,c.x+.5+c.wall[0]*off,c.z+.5+c.wall[1]*off,yaw);if(p){p.yard=bid;placed.push({x:p.x,z:p.z});return}}
+   // a propped wheel faces away from the wall, leaning back onto its stake against it (one rand() drawn, as before, so the
+   // rest of the dressing is unchanged)
+   const yaw=['bench','market-stall','water-trough','woodpile','handcart','crate-stack','sack-pile','hay-bale'].includes(prop)?face:prop==='cart-wheel-lean'?(rand(),face):along+rand()*.3-.15;
+   const off=['woodpile','bench','market-stall','cart-wheel','cart-wheel-lean','tools-lean'].includes(prop)?.12:0;
+   // a propped wheel needs the building's wall behind it (the wall tile, or the one past it, holds the building's floor); on
+   // a bank or a slope of the patch it lies flat instead
+   const floorAt=(x,z)=>(g.byTile[key(x,z)]||[]).some(n=>!open(n)&&n.owner==='b:'+bid),wx=c.x-c.wall[0],wz=c.z-c.wall[1];
+   const name=prop==='cart-wheel-lean'&&!(floorAt(wx,wz)||floorAt(wx-c.wall[0],wz-c.wall[1]))?'cart-wheel':prop;
+   const p=place(YARD,'clutter',name,c.x+.5+c.wall[0]*off,c.z+.5+c.wall[1]*off,yaw);if(p){p.yard=bid;placed.push({x:p.x,z:p.z});return}}
   report.missed.push('yard:'+bid+':'+prop)})});
 
 // ---------- 4. trees in clumps ----------

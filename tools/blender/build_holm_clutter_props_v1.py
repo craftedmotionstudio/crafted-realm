@@ -15,13 +15,20 @@ Roots (origin at the resting base centre, long axis x, 1 unit = 1 tile):
  decor     grass-clump, daisies, pebbles, mushrooms, fern, thistle, bracken  (instanced by the thousand: no block)
 Run: "Blender 4.5/blender.exe" -b --python tools/blender/build_holm_clutter_props_v1.py
 Out: .studio-workspaces/holm-clutter-props-v1/candidates/{props.glb,props.blend,manifest.json},
-     proof scratchpad/holm_v2_land/props/clutter_lineup.png"""
+     proof scratchpad/holm_v2_land/props/clutter_lineup.png
+v2 (HOLM_CLUTTER_VERSION=2, owner review 4, 2026-09-27: "a lot of the wagon wheels that are on the ground are standing
+vertically upright"): v1 exactly, except that a loose spare wheel lies flat on its side in the grass (cart-wheel: it rests
+on its hub and one side of its rim, tipped 5 degrees), and a new cart-wheel-lean stands at 20 degrees against a stout
+stake driven into the ground behind it, a chock under its front rim (a yard wheel propped against its support). Wheels on
+the handcart, the wheelbarrow and the broken carriage are unchanged. Out: .studio-workspaces/holm-clutter-props-v2/."""
+import os
+VERSION = int(os.environ.get('HOLM_CLUTTER_VERSION', '1'))
 import bpy, sys, math, random
 from pathlib import Path
 HERE = Path(__file__).resolve().parent; sys.path.insert(0, str(HERE)); ROOT = HERE.parents[1]
 from holm_interior_kit import Acc, M, barrel, cask, crate, sack, log
 from holm_v2_pack import Pack
-P = Pack('HOLM_CLUTTER_PROPS_V1', ROOT / '.studio-workspaces/holm-clutter-props-v1/candidates', budget_tris=26000)
+P = Pack('HOLM_CLUTTER_PROPS_V%d' % VERSION, ROOT / ('.studio-workspaces/holm-clutter-props-v%d/candidates' % VERSION), budget_tris=26000)
 rng = random.Random(20260926)
 # ---- materials (named for the texture pass: planks / beam / rock / thatch; the rest stay flat close shades)
 PLANK = M('Weathered oak planks', '#86653f'); PLANK_D = M('Weathered oak planks dark', '#6d5132'); OAK = M('Oak frame', '#6a4a2e'); OAK_D = M('Oak frame dark', '#553b25')
@@ -162,7 +169,24 @@ r, A = root('milestone', [.15, .15])
 A.poly([(-.14, 0, -.1), (.14, 0, -.1), (.14, 0, .1), (-.14, 0, .1), (-.12, .5, -.08), (.12, .5, -.08), (.12, .5, .08), (-.12, .5, .08), (0, .62, -.08), (0, .62, .08)],
        [(0, 1, 5, 4), (1, 2, 6, 5), (2, 3, 7, 6), (3, 0, 4, 7), (4, 5, 8), (7, 9, 6), (4, 8, 9, 7), (5, 6, 9, 8)], STONE[2])
 A.build(r, vcol=False)
-r, A = root('cart-wheel', [.2, .2]); wheel(A, (0, .42, .08), .4, 'z', OAK, IRON, n=10, spokes=6); A.build(r, vcol=False)   # leaning against a wall (placed with a wall behind)
+def turn_x(A, first, ang, pivot):
+    """rotate the vertices added since index first about the plan x axis through pivot (y, z); + tips +z up"""
+    py, pz = pivot; c, s = math.cos(ang), math.sin(ang)
+    A.v[first:] = [(x, py + (y - py) * c + (z - pz) * s, pz - (y - py) * s + (z - pz) * c) for x, y, z in A.v[first:]]
+if VERSION < 2:
+    r, A = root('cart-wheel', [.2, .2]); wheel(A, (0, .42, .08), .4, 'z', OAK, IRON, n=10, spokes=6); A.build(r, vcol=False)   # leaning against a wall (placed with a wall behind)
+else:
+    # v2: a spare wheel lying flat on its side: horizontal, the hub's lower boss on the grass, tipped 5 degrees so the
+    # near side of the rim rests on the ground as well (same footprint key as v1, so the dressing keeps every placement)
+    r, A = root('cart-wheel', [.2, .2]); wheel(A, (0, .07, 0), .4, 'y', OAK, IRON, n=10, spokes=6)
+    turn_x(A, 0, -math.radians(5), (0.0, 0.0)); lo = min(v[1] for v in A.v); A.v = [(x, y - lo, z) for x, y, z in A.v]; A.build(r, vcol=False)
+    # v2: a wheel propped at 20 degrees against a stake driven in behind it (-z, toward the wall it is set against), a
+    # chock under its front rim: supported, never standing on its own
+    r, A = root('cart-wheel-lean', [.2, .2]); wheel(A, (0, .42, 0), .4, 'z', OAK, IRON, n=10, spokes=6)
+    turn_x(A, 0, math.radians(20), (0.0, .02)); lo = min(v[1] for v in A.v); A.v = [(x, y - lo, z) for x, y, z in A.v]
+    top_z = min(v[2] for v in A.v); A.box(-.05, .05, 0, .88, top_z - .11, top_z - .01, OAK_D); A.box(-.07, .07, .86, .9, top_z - .13, top_z + .01, OAK_D)
+    front = max(v[2] for v in A.v if v[1] < .08); A.box(-.12, .12, 0, .07, front - .02, front + .1, OAK)
+    A.build(r, vcol=False)
 r, A = root('tools-lean', None)
 A.beam((-.2, 0, .15), (-.25, 1.5, -.05), .035, .035, OAK); A.box(-.4, -.1, 0, .04, .1, .2, IRON)   # rake
 A.beam((.15, 0, .15), (.2, 1.45, -.05), .035, .035, OAK)
@@ -347,4 +371,4 @@ for i in range(5):
 A.build(r, vcol=False)
 
 man = P.export('props.glb')
-P.proof(ROOT / 'scratchpad/holm_v2_land/props/clutter_lineup.png', per_row=9, spacing=.7)
+P.proof(ROOT / ('scratchpad/holm_v2_land/props/clutter_lineup.png' if VERSION < 2 else 'scratchpad/holm_review4/clutter_v2_lineup.png'), per_row=9, spacing=.7)

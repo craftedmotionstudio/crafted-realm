@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:8109/?qaProfile=review4-before-mukeqzgz",
+  "base": "http://127.0.0.1:8109/?qaProfile=review4-before-mukfd261",
   "tag": "before",
   "views": {
     "flow": {
@@ -470,6 +470,51 @@
         "propLeaf": true
       },
       "file": true
+    },
+    "wheels": {
+      "wheels": [
+        {
+          "set": "dress-wayside",
+          "prop": "cart-wheel",
+          "x": 38.5,
+          "z": 39.5,
+          "yaw": 0.4,
+          "file": "before_8_wheel_0_wayside_cart-wheel.jpg"
+        },
+        {
+          "set": "dress-wayside",
+          "prop": "cart-wheel",
+          "x": 124.5,
+          "z": 83.5,
+          "yaw": 6.1521,
+          "file": "before_8_wheel_1_wayside_cart-wheel.jpg"
+        },
+        {
+          "set": "dress-yards",
+          "prop": "cart-wheel",
+          "x": 35.62,
+          "z": 59.5,
+          "yaw": 1.4277,
+          "file": "before_8_wheel_2_yards_cart-wheel.jpg"
+        },
+        {
+          "set": "dress-yards",
+          "prop": "cart-wheel",
+          "x": 40.38,
+          "z": 39.5,
+          "yaw": 1.6469,
+          "file": "before_8_wheel_3_yards_cart-wheel.jpg"
+        },
+        {
+          "set": "dress-yards",
+          "prop": "cart-wheel",
+          "x": 84.62,
+          "z": 38.5,
+          "yaw": 1.7054,
+          "file": "before_8_wheel_4_yards_cart-wheel.jpg"
+        }
+      ],
+      "file": 5
     }
   },
   "errors": []
