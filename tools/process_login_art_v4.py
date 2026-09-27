@@ -54,10 +54,13 @@ def outline(img, inner=False, shadow=True):
     if shadow:
         body = m | ring; sh = shift(body, 1, 1) & ~body; img[sh] = [0, 0, 0, .43]
     return img
-def finish_rgba(a, colors, k=1.08):
+def finish_rgba(a, colors, k=1.08, keep_bright=False):
     mask = a[..., 3] >= .5; rgb = punch(a[..., :3], k); u8 = to_u8(rgb)
     if mask.any():
-        pal = palette_of([u8[mask]], colors); q = apply_pal(u8, pal); u8 = np.where(mask[..., None], q, 0)
+        pal = palette_of([u8[mask]], colors); q = apply_pal(u8, pal)
+        if keep_bright:   # small hot highlights (a glint) keep their own colour instead of merging into the nearest grey
+            hot = mask & (u8.min(-1) >= 235); q = np.where(hot[..., None], np.array([250, 250, 244], np.uint8), q)
+        u8 = np.where(mask[..., None], q, 0)
     out = np.zeros(a.shape); out[..., :3] = u8 / 255; out[..., 3] = mask; return out
 def save(img, rel):
     p = OUT / rel; p.parent.mkdir(parents=True, exist_ok=True); Image.fromarray(to_u8(img), 'RGBA').save(p, optimize=True); return p
@@ -78,7 +81,7 @@ for e in man:
         s = min(iw / a.shape[1], ih / a.shape[0]); sw, sh = max(1, round(a.shape[1] * s)), max(1, round(a.shape[0] * s))
         small = box(a, sw, sh); canvas = np.zeros((H, W, 4)); ox, oy = 1 + (iw - sw) // 2, 1 + (ih - sh) // 2
         canvas[oy:oy + sh, ox:ox + sw] = small
-        written.append(save(outline(finish_rgba(canvas, e.get('colors', 24))), e['file']))
+        written.append(save(outline(finish_rgba(canvas, e.get('colors', 24), keep_bright=e.get('keep_bright', False))), e['file']))
     elif k == 'fixed':
         img = finish_rgba(box(load(RAW / e['raw']), o['w'], o['h']), e.get('colors', 20))
         written.append(save(outline(img, inner=False, shadow=False) if e.get('outline') else img, e['file']))
