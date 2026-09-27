@@ -16,7 +16,7 @@ const REG='docs/rebuild/holm-overhaul/v2land.json';
 const BUILDINGS={keep:['holm-keep-oldschool-navigation-v1',null],bakehouse:['holm-kitchen-oldschool-navigation-v1',null],lodge:['holm-quest-lodge-oldschool-navigation-v1',null],
  survival:['holm-survival-oldschool-navigation-v1','survival'],quarry:['holm-quarry-oldschool-navigation-v1','mine'],bank:['holm-bank-oldschool-navigation-v1','bank'],
  mage:['holm-mage-oldschool-navigation-v1','mage'],haven:['holm-haven-oldschool-navigation-v1','ferry'],lastlight:['holm-lastlight-oldschool-navigation-v1','lastlight'],cavern:['holm-cavern-oldschool-navigation-v1',null],
- mill:[null,null]};   // new on the v2 land: measured only (no Sept 13 proxy)
+ mill:[null,null],stair:[null,null]};   // new on the v2 land: measured only (no Sept 13 proxy)
 const SEAT_ID={bakehouse:'bakehouse',lodge:'lodge'};
 function registry(){return exists(REG)?read(REG):{buildings:{}}}
 // design-loop proxy: floors lifted by the seat's rise; terrain-lane stances re-sampled from the v2 land outside the seat
@@ -67,8 +67,12 @@ const decks=[];
  // the island prop sets' footprints (src/holm_island_props.js blockersFrom, the same pure rule)
  if(exists('docs/rebuild/holm-overhaul/island-props.json')){const Props=require('../src/holm_island_props.js'),pd=read('docs/rebuild/holm-overhaul/island-props.json'),mans={};
   Object.keys(pd.packs).forEach(k=>{const m=pd.packs[k].replace(/[^/]+\.glb$/,'manifest.json');if(exists(m))mans[k]=read(m)});Props.blockersFrom(pd,mans).forEach(b=>blockers.push(b))}
+ // ladder hatches placed on the island (the keep's undercroft trapdoor): the same rule as HolmIslandExtras.hatchBlockers
+ const ladders=read('docs/rebuild/holm-overhaul/island-ladders.json').ladders;
+ ladders.filter(l=>l.hatch).forEach(l=>{const h=l.hatch,c=Math.abs(Math.cos(h.yaw||0)),sn=Math.abs(Math.sin(h.yaw||0)),ex=h.block[0]*c+h.block[1]*sn,ez=h.block[0]*sn+h.block[1]*c;
+  blockers.push({id:'hatch:'+l.id,mode:'overlap',x0:h.x-ex,x1:h.x+ex,z0:h.z-ez,z1:h.z+ez})});
  return {terrain,design,seats,layout,arrival,dock,scenery,blockers,buildings,bridges,decks,navBridges:bridges.concat(decks),plan,lessons:L,status,fishing,
-  ladders:read('docs/rebuild/holm-overhaul/island-ladders.json').ladders,
+  ladders,
   arrivalFootprints:[{x0:w.x-b.width/2,x1:w.x+b.width/2,z0:w.z-b.depth/2,z1:w.z+b.depth/2}]};
 }
 module.exports={load,BUILDINGS,TERRAIN,REG};

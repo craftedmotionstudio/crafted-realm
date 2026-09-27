@@ -1,0 +1,51 @@
+{
+ "tag": "p4_after",
+ "url": "http://127.0.0.1:8105/?holmIsland=1&qaProfile=v2land-p4_after-mujbq6nw",
+ "views": [
+  {
+   "view": "v10_keep_crag",
+   "calls": 540,
+   "triangles": 203230
+  },
+  {
+   "view": "v14_crown_climb",
+   "calls": 555,
+   "triangles": 201191
+  },
+  {
+   "view": "v15_beacon_cove",
+   "calls": 405,
+   "triangles": 148161
+  },
+  {
+   "view": "v16_farm",
+   "calls": 369,
+   "triangles": 145188
+  },
+  {
+   "view": "v18_island_east",
+   "calls": 925,
+   "triangles": 313079
+  },
+  {
+   "view": "v22_keepers_stair",
+   "calls": 374,
+   "triangles": 142777
+  },
+  {
+   "view": "v23_cove_pier",
+   "calls": 416,
+   "triangles": 151805
+  }
+ ],
+ "pageErrors": [
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+  "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+ ],
+ "missing": [
+  "/BUILD_INFO.json?_=1790483639538",
+  "/favicon.ico",
+  "/favicon.ico"
+ ]
+}

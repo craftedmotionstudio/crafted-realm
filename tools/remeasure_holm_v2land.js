@@ -17,7 +17,7 @@ const seats=read('.studio-workspaces/holm-overhaul-terrain-v2/seats.json'),seatY
 // id -> [model the island loads, graph workspace]
 const MODELS={survival:'.studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb',quarry:'.studio-workspaces/holm-quarry-oldschool-v1/candidates/quarry.glb',
  bank:'.studio-workspaces/holm-bank-oldschool-v1/candidates/bank.glb',mage:'.studio-workspaces/holm-mage-oldschool-v1/candidates/mage.glb',
- lastlight:'.studio-workspaces/holm-lastlight-oldschool-v1/candidates/lastlight.glb',haven:'.studio-workspaces/holm-haven-v2land-os-v1/candidates/haven.glb',   // phase 4: at Lanternfoot Cove
+ lastlight:'.studio-workspaces/holm-lastlight-oldschool-v1/candidates/lastlight.glb',haven:'.studio-workspaces/holm-haven-v2land-os-v2/candidates/haven.glb',   // phase 4: at Lanternfoot Cove
 
  keep:'.studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb',bakehouse:'.studio-workspaces/holm-kitchen-oldschool-v1/candidates/kitchen-character.glb',
  lodge:'.studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/lodge.glb',
@@ -26,7 +26,7 @@ const MODELS={survival:'.studio-workspaces/holm-survival-v2land-v1/candidates/su
  // phase 4: the cavern gains its east drift and the exit ladder into the keep (offshore, no terrain)
  cavern:'.studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.glb',
  // phase 4: the Keeper's Stair from Lastlight's crown down to Lanternfoot Cove
- stair:'.studio-workspaces/holm-keepers-stair-os-v1/candidates/stair.glb'};
+ stair:'.studio-workspaces/holm-keepers-stair-os-v2/candidates/stair.glb'};
 const GRAPH={stair:'holm-keepers-stair-v2land-navigation-v1',keep:'holm-keep-v2land-navigation-v1',bakehouse:'holm-kitchen-v2land-navigation-v1',lodge:'holm-quest-lodge-v2land-navigation-v1'};
 const graphWs=id=>GRAPH[id]||'holm-'+id+'-v2land-navigation-v1';
 const OLD={keep:[8.025,'-8.025'],bakehouse:[4.07,'-4.07'],lodge:[5.02,'-5.02']};

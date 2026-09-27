@@ -34,7 +34,10 @@ const VIEWS=[
  // phase views (no Sept 13 counterpart): the Creakwheel Mill and its wheel, Hettie's Garden looking at the wheel
  {name:'v19_mill_wheel',x:61.5,z:62.5,yaw:-1.2,pitch:.75,dist:16},
  {name:'v20_garden_to_wheel',x:55,z:61.5,yaw:-1.9,pitch:.8,dist:16},
- {name:'v21_mill_weir_walk',x:61,z:60,yaw:.5,pitch:.9,dist:18}];
+ {name:'v21_mill_weir_walk',x:61,z:60,yaw:.5,pitch:.9,dist:18},
+ // phase 4: the Keeper's Stair down the crown cliff and the haven's pier at Lanternfoot Cove
+ {name:'v22_keepers_stair',x:108.5,z:18,yaw:3.6,pitch:.8,dist:24},
+ {name:'v23_cove_pier',x:100.5,z:9,yaw:4.2,pitch:.9,dist:26}];
 const only=process.env.V2_ONLY?process.env.V2_ONLY.split(','):null;
 (async()=>{
  const browser=await puppeteer.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:'new',

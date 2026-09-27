@@ -1,6 +1,6 @@
 {
  "schema": "holm-island-gates-v1",
- "status": "M5.2b progress gates (2004 Tutorial Island style): doorway tiles stay shut in the island graph until the lesson named in requires is complete; station gates refuse with a chat line until then. Holm v2 land (2026-09-26): each leaf height rises with its building seat (tools/rebuild_holm_v2land.js).",
+ "status": "M5.2b progress gates (2004 Tutorial Island style): doorway tiles stay shut in the island graph until the lesson named in requires is complete; station gates refuse with a chat line until then. Holm v2 land (2026-09-26): each leaf height rises with its building seat (tools/rebuild_holm_v2land.js). Holm v2 land gate changes on top of the v1 snapshot (tools/rebuild_holm_v2land.js applies them after lifting the leaves). Phase 4 (2026-09-26): the haven moved to Lanternfoot Cove below Lastlight, so its yard gate on the old south-east site is gone (Ferryman Tobin refuses to sail until Lastlight burns: HolmIslandCurriculum.board); the ore workings' east drift ladder and the keep's undercroft trapdoor stay shut until the bronze dagger is made.",
  "gates": [
   {
    "id": "bakehouse-door",
@@ -81,39 +81,6 @@
    "requires": "magic_trial",
    "message": "The keeper has bolted the storm door. Finish your magic lesson first.",
    "y": 17.8
-  },
-  {
-   "id": "haven-gate",
-   "building": "haven",
-   "tiles": [
-    [
-     121,
-     101
-    ],
-    [
-     121,
-     102
-    ],
-    [
-     121,
-     103
-    ],
-    [
-     121,
-     104
-    ]
-   ],
-   "leaf": "yard-gate",
-   "posts": true,
-   "edge": {
-    "axis": "x",
-    "at": 121,
-    "from": 101,
-    "to": 105
-   },
-   "requires": "relight_lastlight",
-   "message": "The ferryman will not sail until Lastlight is burning.",
-   "y": 2.15
   }
  ],
  "services": [
@@ -128,6 +95,18 @@
    "target": "runes",
    "requires": "open_bank",
    "message": "The rune table is locked. Open your bank account first."
+  },
+  {
+   "building": "cavern",
+   "target": "exit",
+   "requires": "forge_dagger",
+   "message": "The drift ladder is roped off. Foreman Durgin wants to see a bronze dagger first."
+  },
+  {
+   "building": "keep",
+   "target": "undercroft",
+   "requires": "forge_dagger",
+   "message": "The trapdoor is bolted from below."
   }
  ]
 }

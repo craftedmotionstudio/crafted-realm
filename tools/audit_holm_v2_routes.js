@@ -40,13 +40,13 @@ const stations=[
  ['magic_trial (mage yard)',()=>g.byId[tgt('mage','yard')]||g.byId[tgt('mage','runes')]],
  ['relight_lastlight (lever)',()=>g.byId[tgt('lastlight','lever')]],
  ['departure (skiff)',()=>g.byId[tgt('haven','boat')]]];
-let cur=spawn.id,total=0,fail=0;const rows=[];
+let cur=spawn.id,total=0,fail=0;const rows=[],legPath={};
 console.log('== HOLM v2 ROUTE on the composed island graph ('+g.nodes.length+' nodes; buildings: '+Object.entries(I.status).map(([k,v])=>k+'='+v).join(' ')+')');
 for(const [name,f] of stations){const n=f();
  if(!n){console.log('  MISSING station',name);fail++;continue}
  const p=pathTo(bfs(cur),n.id);
  if(!p){console.log('  UNREACHABLE',name,'from',cur,'->',n.id);fail++;rows.push({name,reachable:false});continue}
- let walked=0,steep=0,up=0,down=0;
+ legPath[name]=p;let walked=0,steep=0,up=0,down=0;
  for(let i=1;i<p.length;i++){const a=g.byId[p[i-1]],b=g.byId[p[i]];if((jump[a.id]||[]).includes(b.id))continue;walked++;const dy=b.y-a.y;steep=Math.max(steep,Math.abs(dy));if(dy>0)up+=dy;else down-=dy}
  const a=g.byId[cur];total+=walked;
  rows.push({name,reachable:true,walked,seconds:+(walked*.6).toFixed(1),from:+a.y.toFixed(2),to:+n.y.toFixed(2),rise:+up.toFixed(1),fall:+down.toFixed(1),steepestLink:+steep.toFixed(3)});
@@ -63,6 +63,13 @@ console.log('  fishing candidates without a reachable stance:',fishMiss.length?f
 // the v2 land's new places are reachable on foot: Hettie's Garden, the Creakwheel Mill (by the weir walk and by land)
 const feats=[["Hettie's Garden (by the arbour)",()=>nearNode(53.0,61.2,5.4,n=>n.owner==='land')],['Creakwheel Mill (millstones)',()=>g.byId[tgt('mill','stones')]],['Creakwheel weir walk (deck)',()=>g.byId['deck:60,59']]];
 for(const [name,f] of feats){const n=f();const ok=!!n&&(n.id in R);console.log('  '+name+': '+(ok?'reachable':'UNREACHABLE'));if(!ok)fail++}
+// phase 4 route: out of the ore workings by the east drift and up through the keep's trapdoor; from Lastlight down the
+// Keeper's Stair to the skiff at Lanternfoot Cove (the shortest walk takes them, not a detour)
+const legUses=(leg,pred)=>{const q=legPath[leg];return !!q&&q.some(pred)};
+const routeChecks=[['anvil -> keep court climbs the drift ladder into the keep',()=>{const q=legPath['melee/ranged trial (keep court)'],a=tgt('cavern','exit'),b=tgt('keep','undercroft');return !!q&&q.some((id,i)=>i>0&&((q[i-1]===a&&id===b)||(q[i-1]===b&&id===a)))}],
+ ["Lastlight -> skiff walks down the Keeper's Stair",()=>legUses('departure (skiff)',id=>id.indexOf('b:stair:')===0)],
+ ['the skiff is at Lanternfoot Cove',()=>{const n=g.byId[tgt('haven','boat')];return !!n&&n.x>95&&n.x<110&&n.z<16}]];
+for(const [name,f] of routeChecks){const ok=f();console.log('  '+name+': '+(ok?'yes':'NO'));if(!ok)fail++}
 const st=nav.stats({arrival:true,garden:true});console.log('  graph',JSON.stringify(st));
 const out=process.argv.indexOf('--json');if(out>0)fs.writeFileSync(process.argv[out+1],JSON.stringify({rows,total,unreachableTargets:miss,status:I.status,stats:st},null,1));
 if(fail)process.exit(1);

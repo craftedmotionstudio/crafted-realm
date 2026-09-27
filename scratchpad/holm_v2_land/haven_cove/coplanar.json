@@ -1,17 +1,17 @@
 {
  "profile": "m44",
- "source": ".studio-workspaces\\holm-haven-v2land-int-v1\\candidates\\haven.blend",
+ "source": ".studio-workspaces\\holm-haven-v2land-int-v2\\candidates\\haven.blend",
  "views": [
   "outside"
  ],
  "passes": [
   {
    "pass": 0,
-   "fights": 186,
+   "fights": 178,
    "byKind": {
-    "same-facing": 186
+    "same-facing": 178
    },
-   "area": 8.9017,
+   "area": 8.4441,
    "topPairs": [
     [
      [
@@ -57,13 +57,6 @@
     ],
     [
      [
-      "Haven_Props",
-      "Haven_Props"
-     ],
-     8
-    ],
-    [
-     [
       "Haven_FurnishingDressing",
       "Haven_FurnishingDressing"
      ],
@@ -96,9 +89,16 @@
       "Haven_ShellWest"
      ],
      3
+    ],
+    [
+     [
+      "Haven_FloorShelter",
+      "Haven_ShellEast"
+     ],
+     2
     ]
    ],
-   "moved": 158,
+   "moved": 150,
    "skipped": 28
   },
   {
@@ -553,26 +553,6 @@
    ]
   ],
   [
-   "Haven_Props",
-   93,
-   "same-facing",
-   [
-    2.4,
-    -1.54,
-    0.73
-   ]
-  ],
-  [
-   "Haven_Props",
-   99,
-   "same-facing",
-   [
-    2.4,
-    -0.86,
-    0.73
-   ]
-  ],
-  [
    "Haven_PierRail",
    27,
    "same-facing",
@@ -853,26 +833,6 @@
    ]
   ],
   [
-   "Haven_Props",
-   123,
-   "same-facing",
-   [
-    2.55,
-    -0.59,
-    0.62
-   ]
-  ],
-  [
-   "Haven_Props",
-   129,
-   "same-facing",
-   [
-    2.55,
-    -0.01,
-    0.62
-   ]
-  ],
-  [
    "Haven_PierRail",
    85,
    "same-facing",
@@ -1080,46 +1040,6 @@
     -2.05,
     -0.35,
     0.08
-   ]
-  ],
-  [
-   "Haven_Props",
-   153,
-   "same-facing",
-   [
-    2.45,
-    -1.24,
-    1.32
-   ]
-  ],
-  [
-   "Haven_Props",
-   159,
-   "same-facing",
-   [
-    2.45,
-    -0.76,
-    1.32
-   ]
-  ],
-  [
-   "Haven_Props",
-   183,
-   "same-facing",
-   [
-    2.3,
-    2.98,
-    -0.23
-   ]
-  ],
-  [
-   "Haven_Props",
-   189,
-   "same-facing",
-   [
-    2.3,
-    3.62,
-    -0.23
    ]
   ],
   [

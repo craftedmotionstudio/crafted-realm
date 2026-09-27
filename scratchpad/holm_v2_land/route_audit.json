@@ -146,13 +146,13 @@
   {
    "name": "melee/ranged trial (keep court)",
    "reachable": true,
-   "walked": 142,
-   "seconds": 85.2,
+   "walked": 35,
+   "seconds": 21,
    "from": -30,
    "to": 10.97,
-   "rise": 15.4,
-   "fall": 13.6,
-   "steepestLink": 0.893
+   "rise": 0,
+   "fall": 0,
+   "steepestLink": 0.025
   },
   {
    "name": "open_bank (counter)",
@@ -190,16 +190,16 @@
   {
    "name": "departure (skiff)",
    "reachable": true,
-   "walked": 129,
-   "seconds": 77.4,
+   "walked": 69,
+   "seconds": 41.4,
    "from": 26.8,
-   "to": 0.95,
-   "rise": 3.4,
-   "fall": 20.3,
-   "steepestLink": 0.838
+   "to": -0.05,
+   "rise": 0.9,
+   "fall": 18.8,
+   "steepestLink": 1.15
   }
  ],
- "total": 733,
+ "total": 566,
  "unreachableTargets": [
   "lodge:north-lane"
  ],
@@ -214,24 +214,26 @@
   "haven": "measured",
   "lastlight": "measured",
   "cavern": "measured",
-  "mill": "measured"
+  "mill": "measured",
+  "stair": "measured"
  },
  "stats": {
-  "nodes": 10877,
-  "edges": 30395,
+  "nodes": 10938,
+  "edges": 30780,
   "owners": {
-   "land": 7815,
-   "b:keep": 860,
+   "land": 7842,
+   "b:keep": 845,
    "b:bakehouse": 235,
    "b:lodge": 376,
    "b:survival": 249,
    "b:quarry": 108,
    "b:bank": 182,
    "b:mage": 298,
-   "b:haven": 163,
+   "b:haven": 99,
    "b:lastlight": 208,
-   "b:cavern": 85,
+   "b:cavern": 146,
    "b:mill": 129,
+   "b:stair": 52,
    "arrival": 169
   }
  }

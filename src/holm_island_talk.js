@@ -27,7 +27,7 @@ var HolmIslandTalk=(function(){
   maud:'Talk to Teller Maud in the Holm Bank.',
   ilse:'Talk to Magister Ilse at the Mage Tower.',
   aldous:'Talk to Keeper Aldous inside Lastlight.',
-  tobin:'Lastlight is lit. Talk to Ferryman Tobin at the Departure Haven.'};
+  tobin:'Lastlight is lit. Talk to Ferryman Tobin at Lanternfoot Cove, down the Keeper\'s Stair.'};
  var BOARD='Lastlight is lit. Board Ferryman Tobin\'s skiff at the end of the pier.';
  function cast(){return typeof HolmIslandTutors!=='undefined'?HolmIslandTutors.cast():[]}
  function byId(id){return cast().filter(function(c){return c.id===id})[0]||null}

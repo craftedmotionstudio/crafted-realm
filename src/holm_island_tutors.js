@@ -33,7 +33,7 @@ var HolmIslandTutors=(function(){
   maud:['Welcome to the Holm Bank. I am Teller Maud.','Anything you leave with us is kept safe, and the same account opens at every bank on the mainland.'],
   ilse:['Welcome, seeker. I am Magister Ilse, and this tower is mine.','Magic runs on runes, and every spell you cast uses some up. Mind yours.'],
   aldous:['You found your way to Lastlight. I am Keeper Aldous. I have kept this light longer than I care to say.','The beacon has gone dark, and Tobin will not sail until it burns again.'],
-  tobin:['So the light is burning again. I am Ferryman Tobin.']};
+  tobin:['So the light is burning again. I am Ferryman Tobin.','I tie up here in the cove because the beacon shines straight down on this water. No better mark to steer by.']};
  function has(id){try{return Player.count(id)>0}catch(e){return false}}
  function lit(){try{return !!scene.getObjectByName('island-campfire')}catch(e){return false}}
  var TEACH={
@@ -59,12 +59,12 @@ var HolmIslandTutors=(function(){
   mine_copper:function(){return ['Mining is simple enough. With a pickaxe in your pack, click a rock and you will mine it.','Copper shows orange in the rock, on the north face. Mine one copper ore.']},
   mine_tin:function(){return ['Now tin. It is the pale grey vein on the east wall. Mine one tin ore.','Copper and tin together make bronze.']},
   smelt_bronze:function(){return ['Copper and tin make bronze. Click the furnace in the smelting nook and choose a bronze bar.']},
-  forge_dagger:function(){return ['Take your bar and hammer to the anvil. Click it and choose the bronze dagger.','Then climb back up the ladder. Warden Corrick at the keep will want to see what you have made.']},
+  forge_dagger:function(){return ['Take your bar and hammer to the anvil. Click it and choose the bronze dagger.','Then follow the drift east, under the creek. The ladder at its end comes up through a trapdoor in the Warden\'s Keep, and Warden Corrick will want to see what you have made.']},
   melee_trial:function(){return ['Wield that bronze dagger: click it in your pack and it goes in your hand.','The grubkins in the court are tame; they snap, but only for show.','Click one to attack it, and stay on it until it drops.']},
   ranged_trial:function(){return ['Good. Now the shortbow. Click it in your pack to wield it; your arrows go with it.','Click a grubkin to shoot it. Keep your distance and keep shooting until it drops.']},
   open_bank:function(){return ['Click my counter to open your account and see what is inside.','Anything you store here is safe. When you are done, the Mage Tower is next.']},
   magic_trial:function(){return ['Air and mind runes make Wind Strike, and you have both in your pack.','Open your spellbook and click Wind Strike to choose it.','Then click one of the grubkins in the yard. Each click casts once: choose Wind Strike again for the next. A spell can splash, just like a sword can miss.','With a staff in your hand, a chosen spell keeps casting on its own.']},
-  relight_lastlight:function(){return ['Climb the three ladders to the lantern deck and pull the beacon lever.','Once the light is burning, go down to the haven. Tobin will row you across.']}};
+  relight_lastlight:function(){return ['Climb the three ladders to the lantern deck and pull the beacon lever.','Once the light is burning, take the Keeper\'s Stair down the cliff to Lanternfoot Cove. Tobin keeps his skiff at the pier there.']}};
  var st={npcs:[],api:null,mixers:[],talking:null,waved:{}};
  function nextOf(){return typeof Tutorial!=='undefined'&&!Tutorial.complete&&Tutorial.steps[Tutorial.step]?Tutorial.steps[Tutorial.step].id:null}
  function ownerOf(id){return CAST.filter(function(c){return c.lessons.indexOf(id)>=0})[0]}
@@ -73,7 +73,7 @@ var HolmIslandTutors=(function(){
  function turn(c){if(typeof Tutorial==='undefined')return false;if(Tutorial.complete)return c.id==='tobin';var cur=nextOf();return !!cur&&c.lessons.indexOf(cur)>=0}
  function pages(c){
   var cur=nextOf(),hello=spoken(c.id)?[]:(HELLO[c.id]||[]);
-  if(typeof Tutorial!=='undefined'&&Tutorial.complete)return c.id==='tobin'?hello.concat(['Lastlight is burning, so the skiff is ready whenever you are.','Board her at the end of the pier and I will row you across to the mainland.']):['You have finished your lessons. Tobin\'s skiff waits at the Departure Haven.'];
+  if(typeof Tutorial!=='undefined'&&Tutorial.complete)return c.id==='tobin'?hello.concat(['Lastlight is burning, so the skiff is ready whenever you are.','Board her at the end of the pier and I will row you across to Hearthmere.']):['You have finished your lessons. Tobin\'s skiff waits at Lanternfoot Cove, down the Keeper\'s Stair below Lastlight.'];
   if(cur&&c.lessons.indexOf(cur)>=0){var t=TEACH[cur];return hello.concat(t?t():['Go on then.'])}
   var o=cur&&ownerOf(cur);
   var done=c.lessons.length&&c.lessons.every(function(id){return Array.isArray(Tutorial.completedLessonIds)&&Tutorial.completedLessonIds.indexOf(id)>=0});

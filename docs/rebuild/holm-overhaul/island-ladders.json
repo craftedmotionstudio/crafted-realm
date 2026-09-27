@@ -1,7 +1,46 @@
 {
  "schema": "holm-island-ladders-v1",
- "status": "M5.1 cross-building ladders (2004-style instant storey change between separate areas)",
+ "status": "M5.1 cross-building ladders (2004-style instant storey change between separate areas). Holm v2 land (2026-09-26): the ore workings' east drift climbs out through a trapdoor in the Warden's Keep hall (hatch: a Blender route prop placed and blocked by src/holm_island_extras.js)",
  "ladders": [
-  {"id": "quarry-shaft", "a": ["quarry", "shaft"], "b": ["cavern", "ladder"], "downFrom": "a", "notifyDown": ["descend", "cave"]}
+  {
+   "id": "quarry-shaft",
+   "a": [
+    "quarry",
+    "shaft"
+   ],
+   "b": [
+    "cavern",
+    "ladder"
+   ],
+   "downFrom": "a",
+   "notifyDown": [
+    "descend",
+    "cave"
+   ]
+  },
+  {
+   "id": "keep-undercroft",
+   "a": [
+    "keep",
+    "undercroft"
+   ],
+   "b": [
+    "cavern",
+    "exit"
+   ],
+   "downFrom": "a",
+   "hatch": {
+    "end": "a",
+    "pack": ".studio-workspaces/holm-route-props-os-v2/candidates/props.glb",
+    "prop": "trapdoor-open",
+    "x": 77.5,
+    "z": 35.5,
+    "yaw": 0,
+    "block": [
+     0.45,
+     0.45
+    ]
+   }
+  }
  ]
 }

@@ -13,7 +13,7 @@ var HolmIslandExtras=(function(){
   {id:'lodge',graph:WS+'holm-quest-terrain-navigation-v4/candidates/navigation.json',model:WS+'holm-quest-lodge-v6/candidates/lodge.glb',
    extra:{url:WS+'holm-quest-foundation-v1/candidates/foundation.glb',placement:WS+'holm-quest-placement-v1/candidates/placement.json'}}]
   // M4.4: new Blender buildings, graphs measured by tools/blender/extract_holm_building_navigation.py
-  .concat([['survival','Survival_','survival',3],['quarry','Quarry_','mine',3],['bank','Bank_','bank',3],['mage','Mage_','mage',3],['haven','Haven_','ferry',3],['lastlight','Lastlight_','lastlight',3],['cavern','Cavern_',null],['mill','Mill_',null]].map(function(r){
+  .concat([['survival','Survival_','survival',3],['quarry','Quarry_','mine',3],['bank','Bank_','bank',3],['mage','Mage_','mage',3],['haven','Haven_','ferry',3],['lastlight','Lastlight_','lastlight',3],['cavern','Cavern_',null],['mill','Mill_',null],['stair','Stair_',null]].map(function(r){
    return {id:r[0],prefix:r[1],plan:r[2],graph:WS+'holm-'+r[0]+'-navigation-v'+(r[3]||1)+'/candidates/navigation.json',model:WS+'holm-'+r[0]+'-v'+(r[3]||1)+'/candidates/'+r[0]+'.glb'}}));
  var TREES=WS+'holm-tree-family-v3/candidates/',HABITAT=WS+'holm-habitat-v4/working/vegetation.json',PROPS=WS+'holm-props-v1/candidates/props.glb';
  // M4.5 habitat v2: the tree family's own files, everything else (shrubs, rocks, flowers, logs, signposts) from the prop pack
@@ -39,7 +39,11 @@ var HolmIslandExtras=(function(){
   survival:[{prefix:'Survival_ServiceTools_',target:'tools',label:'Tool rack',option:'Search',name:'Tool rack',examine:'Spare tools for the camp.'},{prefix:'Survival_ServiceFirePit_',target:'fire',label:'Fire ring',option:'Search',name:'Fire ring',examine:'A ring of blackened stones.'},{prefix:'Survival_ServiceLogPile_',target:'logs',label:'Log pile',option:'Search',name:'Log pile',examine:'Split logs, stacked to dry.'}],   // v2 land: the creek fishing stage is gone; fishing is taught at the Minnow Hollow pond (HolmFishing)
   quarry:[{prefix:'Quarry_ServiceShaft_',target:'shaft',label:'Climb-down shaft ladder',ladder:'quarry-shaft',option:'Climb-down',name:'Shaft ladder',examine:'A long ladder down into the ore workings.'},{prefix:'Quarry_ServiceWinch_',target:'winch',label:'Winch',option:'Inspect',name:'Winch',examine:'It hauls ore buckets up from the cavern.'},{prefix:'Quarry_ServiceBench_',target:'bench',label:'Repair bench',option:'Inspect',name:'Repair bench',examine:'Pick heads and hammer handles waiting to be mended.'}],
   mage:[{prefix:'Mage_ServiceRuneTable_',target:'runes',label:'Rune table',option:'Study',name:'Rune table',examine:'Runes laid out in rows, air to chaos.'},{prefix:'Mage_ServiceLectern_',target:'lectern',label:'Lectern',option:'Study',name:'Lectern',examine:'A heavy book of spells lies open.'},{prefix:'Mage_ServiceTelescope_',target:'observatory',label:'Telescope',option:'Look-through',name:'Telescope',examine:'A brass telescope pointed at the sky.'}],
-  cavern:[{prefix:'Cavern_ServiceLadderUp_',target:'ladder',label:'Climb-up ladder',ladder:'quarry-shaft',option:'Climb-up',name:'Ladder',examine:'The shaft ladder back up to the Quarry Gate.'}],
+  cavern:[{prefix:'Cavern_ServiceLadderUp_',target:'ladder',label:'Climb-up ladder',ladder:'quarry-shaft',option:'Climb-up',name:'Ladder',examine:'The shaft ladder back up to the Quarry Gate.'},
+   // v2 land phase 4: the east drift's ladder comes up through a trapdoor in the Warden's Keep hall (island-ladders.json)
+   {prefix:'Cavern_ServiceLadderExit_',target:'exit',label:'Climb-up drift ladder',ladder:'keep-undercroft',option:'Climb-up',name:'Ladder',examine:'A ladder up a timber-lined shaft. Somewhere above, a hearth is burning.'}],
+  // the keep end of that ladder: no mesh of the keep's own, the hatch is a route prop the island places (hatch: ladder id)
+  keep:[{hatch:'keep-undercroft',target:'undercroft',label:'Climb-down trapdoor',ladder:'keep-undercroft',option:'Climb-down',name:'Trapdoor',examine:'An open trapdoor in the hall floor. A ladder drops into the ore workings.'}],
  haven:[{prefix:'Haven_ServiceBoat_',target:'boat',label:'Ferry',call:['HolmIslandCurriculum','board'],option:'Board',name:'Ferry',examine:'Ferryman Tobin\'s skiff, tarred and sound.'},{prefix:'Haven_ServiceNotice_',target:'notice',label:'Departure notice',option:'Read',name:'Departure notice',examine:'Sailings to the mainland, once Lastlight burns.'}],
  lastlight:[{prefix:'Lastlight_ServiceStores_',target:'stores',label:'Repair stores',option:'Search',name:'Repair stores',examine:'Oil, wicks and spare glass for the lamp.'},
   {prefix:'Lastlight_ServiceLadder1Up_',target:'ladder1-foot',climb:'ladder1',end:'foot',label:'Climb-up ladder',option:'Climb-up',name:'Ladder',examine:'A steep ladder inside the tower.'},{prefix:'Lastlight_ServiceLadder1Down_',target:'ladder1-top',climb:'ladder1',end:'top',label:'Climb-down ladder',option:'Climb-down',name:'Ladder',examine:'A steep ladder inside the tower.'},
@@ -58,6 +62,7 @@ var HolmIslandExtras=(function(){
  // M4.4 buildings follow the brief's naming contract: <Prefix>_Roof / _Upper / _Shell / _UpperShell / _Glazing
  ['Survival','Quarry','Bank','Mage','Haven','Lastlight','Cavern','Mill'].forEach(function(p){CUTAWAY[p.toLowerCase()]={roof:new RegExp('^'+p+'_Roof'),upper:new RegExp('^'+p+'_Upper'),clip:new RegExp('^'+p+'_(Shell|UpperShell|Glazing)'),lift:.5}});
  function need(ok,msg){if(!ok)throw Error('[HolmIslandExtras] '+msg)}
+ function HolmV2LandUrl(p){return typeof HolmV2Land!=='undefined'?HolmV2Land.url(p):(typeof HolmIsland!=='undefined'?HolmIsland.asset('/'+p):'/'+p)}
  // the old-school look's textured candidates (trees, prop pack, bridges, buildings), when served
  function lookUrl(u){return typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.url(u):u}
  async function bytes(url){var r=await fetch(url,{cache:'no-store'});need(r.ok,'missing '+url);return r.arrayBuffer()}
@@ -69,6 +74,9 @@ var HolmIslandExtras=(function(){
  function linearMaps(T,n){(Array.isArray(n.material)?n.material:[n.material]).forEach(function(m){if(!m)return;if(m.map&&T.LinearEncoding!==undefined){m.map.encoding=T.LinearEncoding;m.needsUpdate=true}
   // old-school look: kit textures crisp up close, mip-mapped far away
   if(m.map&&typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){m.map.magFilter=T.NearestFilter;m.map.minFilter=T.LinearMipmapLinearFilter}if('roughness' in m){m.roughness=1;m.metalness=0;m.needsUpdate=true}})}
+ // a ladder hatch placed on the island (the keep's undercroft trapdoor): its footprint blocks the tile it stands on
+ function hatchBlockers(ladders){return (ladders||[]).filter(function(l){return l.hatch}).map(function(l){var h=l.hatch,c=Math.abs(Math.cos(h.yaw||0)),sn=Math.abs(Math.sin(h.yaw||0)),ex=h.block[0]*c+h.block[1]*sn,ez=h.block[0]*sn+h.block[1]*c;
+  return {id:'hatch:'+l.id,mode:'overlap',x0:h.x-ex,x1:h.x+ex,z0:h.z-ez,z1:h.z+ez}})}
  async function loadData(){
   var buildings=[],reg=null;
   // Holm v2 land (2026-09-26): every building's model and the graph re-measured on the v2 land at its seat (HolmV2Land registry)
@@ -97,11 +105,12 @@ var HolmIslandExtras=(function(){
   // M5.1 lesson trees and ore rocks block like habitat trees
   if(typeof HolmIslandLessons!=='undefined')blockers=blockers.concat(await HolmIslandLessons.blockers());
   // v2 land phase 2: the Minnow Hollow set blocks where it stands and its jetty is a deck over the pond
+  var ladders=(await json(LADDERS)).ladders;blockers=blockers.concat(hatchBlockers(ladders));
   var brs=(await json(BRIDGES)).bridges;if(typeof HolmFishing!=='undefined'){var fd=await HolmFishing.loadData();blockers=blockers.concat(fd.blockers);brs=brs.concat([fd.jetty])}
   // v2 land: walking decks that are not creek crossings (the Creakwheel weir walk), and the island prop sets' footprints
   try{brs=brs.concat((await json(DECKS)).decks)}catch(e){console.warn('[HolmIslandExtras] decks',e&&e.message)}
   if(typeof HolmIslandProps!=='undefined')try{blockers=blockers.concat((await HolmIslandProps.loadData()).blockers)}catch(e){console.error('[HolmIslandExtras] props',e)}
-  return {buildings:buildings,habitat:veg,blockers:blockers,bridges:brs,ladders:(await json(LADDERS)).ladders,bridgeModels:reg&&reg.bridgeModels?HolmV2Land.url(reg.bridgeModels)+'/':null};
+  return {buildings:buildings,habitat:veg,blockers:blockers,bridges:brs,ladders:ladders,bridgeModels:reg&&reg.bridgeModels?HolmV2Land.url(reg.bridgeModels)+'/':null};
  }
  async function load(o){
   var T=o.THREE,scene=o.scene,W=o.WORLD,sample=o.sample,data=o.data,roots=[],mixers=[],grounds=[];
@@ -112,6 +121,12 @@ var HolmIslandExtras=(function(){
   var models={},services=[],clipPlane=new T.Plane(new T.Vector3(0,-1,0),0);
   var proxyMat=new T.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false});
   function nameOf(o,prefix){for(var q=o;q;q=q.parent)if(q.name&&q.name.indexOf(prefix)===0)return q.name;return ''}
+  // ladder hatches (route prop pack): placed on the floor of the building end's measured stance
+  var hatches={},hatchPacks={};
+  for(var hl=0;hl<(data.ladders||[]).length;hl++){var L0=data.ladders[hl],h=L0.hatch;if(!h)continue;var end=L0[h.end||'a'],hb=data.buildings.filter(function(x){return x.id===end[0]})[0];if(!hb)continue;
+   var ht=hb.graph.targets.filter(function(t){return t.id===end[1]})[0],hn=ht&&hb.graph.nodes.filter(function(n){return n.id===ht.nodeId})[0];need(hn,'ladder '+L0.id+' hatch has no stance');
+   var hp=hatchPacks[h.pack]||(hatchPacks[h.pack]=await parse(T,await bytes(lookUrl(HolmV2LandUrl(h.pack))))),tpl=hp.scene.getObjectByName(h.prop);need(tpl,'route props have no '+h.prop);
+   var hr=tpl.clone(true);hr.position.set(0,0,0);hr.rotation.set(0,0,0);hatches[L0.id]=place(hr,h.x,hn.y+hb.placement.y,h.z,h.yaw||0);hatches[L0.id].name='island-hatch-'+L0.id}
   for(var i=0;i<data.buildings.length;i++){var b=data.buildings[i],src=b.source,buf=await bytes(src.model),p=b.placement;
    need(await sha(buf)===b.graph.modelSha256,b.id+' model bytes differ from the model its navigation graph was measured on');
    var gltf=await parse(T,buf);place(gltf.scene,p.x,p.y,p.z,0).name='island-building-'+b.id;if(src.look&&typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.prepareModel(T,gltf.scene);models[b.id]={scene:gltf.scene,placement:p};
@@ -130,7 +145,7 @@ var HolmIslandExtras=(function(){
      var here=L.a[0]===b.id?'a':'b',other=L[here==='a'?'b':'a'],ob=data.buildings.filter(function(x){return x.id===other[0]})[0],ot=ob&&ob.graph.targets.filter(function(t){return t.id===other[1]})[0];
      need(ot&&ot.nodeId,'ladder '+s.ladder+' has no far end');info.climb='b:'+other[0]+':'+ot.nodeId;if(L.downFrom===here&&L.notifyDown)info.notify=L.notifyDown}
     if(s.climb){var cl=(b.graph.climbs||[]).filter(function(c){return c.id===s.climb})[0],to=cl&&cl[s.end==='top'?'footId':'topId'];need(to,b.id+' ladder '+s.climb+' is not measured');info.climb='b:'+b.id+':'+to}
-    gltf.scene.traverse(function(n){if(!n.isMesh||!nameOf(n,s.prefix))return;
+    (s.hatch?need(hatches[s.hatch],'ladder '+s.hatch+' has no hatch')||hatches[s.hatch]:gltf.scene).traverse(function(n){if(!n.isMesh||!(s.hatch||nameOf(n,s.prefix)))return;
      n.userData.kind='island_service';n.userData.label=s.label;n.userData.islandService=info;services.push(n);box.expandByObject(n)});
     need(!box.isEmpty(),b.id+' service '+s.label+' has no authored mesh');
     // small or tucked-away stations (the proving bowl behind the worktable) get an invisible hit box, as ladders do.

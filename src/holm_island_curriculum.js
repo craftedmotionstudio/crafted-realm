@@ -33,7 +33,7 @@ var HolmIslandCurriculum=(function(){
   mine_copper:['Mine a copper rock with your pickaxe.','Mine copper'],
   mine_tin:['Now mine a tin rock.','Mine tin'],
   smelt_bronze:['Smelt your copper and tin into a bronze bar at the furnace.','Use the furnace'],
-  forge_dagger:['Hammer the bar into a bronze dagger at the anvil, then climb back up the ladder.','Use the anvil'],
+  forge_dagger:['Hammer the bar into a bronze dagger at the anvil, then take the east drift up into the keep.','Use the anvil'],
   melee_trial:['Wield your dagger and defeat a practice foe in the Warden\'s Keep yard.','Melee trial'],
   ranged_trial:['Take up the shortbow and arrows and defeat a practice foe from range.','Ranged trial'],
   open_bank:['Open your account at the counter in the Holm Bank.','Open the bank'],
@@ -82,14 +82,14 @@ var HolmIslandCurriculum=(function(){
  function qaSetLedger(ids){if(!on||!(typeof QAProfile!=='undefined'&&QAProfile.isolated))return false;var p=HolmCurriculumProgress.normalize({curriculumVersion:6,completedLessonIds:ids});
   Tutorial.completedLessonIds=p.completedLessonIds.slice();Tutorial.complete=!!p.complete;Tutorial.step=p.step;adoptTalks();try{Tutorial.banner()}catch(e){}return true}
  function adoptTalks(){try{if(typeof HolmIslandTalk!=='undefined')HolmIslandTalk.adopt()}catch(e){}}
- // graduation on the island: the last lesson opens the pier gate; Ferryman Tobin's skiff takes the adventurer to the
+ // graduation on the island (v2 land: the haven stands at Lanternfoot Cove below Lastlight, with no gate): Ferryman Tobin's skiff takes the adventurer to the
  // mainland with the departure pack (the live rules: HolmTutorialFlow.departure + Tutorial.grantDeparturePack)
  function installFinish(){if(!on||!Tutorial.finish||Tutorial._islandFinish)return;Tutorial._islandFinish=true;
   Tutorial.finish=function(){this.complete=true;this.step=this.steps.length;
-   try{var el=document.getElementById('objective'),txt=document.getElementById('obj-text');if(el&&txt){el.style.display='block';txt.textContent=(typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.objective())||'Lastlight is lit. Board Ferryman Tobin\'s skiff at the Departure Haven.'}
+   try{var el=document.getElementById('objective'),txt=document.getElementById('obj-text');if(el&&txt){el.style.display='block';txt.textContent=(typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.objective())||'Lastlight is lit. Board Ferryman Tobin\'s skiff at Lanternfoot Cove.'}
     var h=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('haven','boat');if(h&&typeof GuideArrow!=='undefined'){GuideArrow.keepAfterComplete=true;GuideArrow.setTarget({x:h.x,z:h.z},'Board the skiff')}}catch(e){}
-   UI.chat('You have completed every lesson on Tutor\'s Holm. The pier gate at the Departure Haven is open.','xp');
-   UI.dialogue('Keeper Aldous','That light will carry to the mainland. Go down to the haven; Tobin will row you across.',[{label:'Thank you.'}],'img:assets/icons/tutors/aldous.png?v=31');
+   UI.chat('You have completed every lesson on Tutor\'s Holm. Ferryman Tobin is waiting at Lanternfoot Cove.','xp');
+   UI.dialogue('Keeper Aldous','That light will carry all the way to Hearthmere. Take the Keeper\'s Stair down to the cove; Tobin will row you across.',[{label:'Thank you.'}],'img:assets/icons/tutors/aldous.png?v=31');
    try{if(typeof SaveGame!=='undefined')SaveGame.save(true)}catch(e){}return true}}
  function board(){
   if(!on)return false;if(!Tutorial.complete){UI.chat('Tobin shakes his head. No sailing until Lastlight is lit.','plain');return false}

@@ -13,7 +13,7 @@
   "waterLocalY": -1.12,
   "deckY": 0.15,
   "landingY": -1.05,
-  "triangles": 19538,
+  "triangles": 18754,
   "materials": 20,
   "materialNames": [
     "Aged oak",
@@ -62,7 +62,7 @@
     "Haven_StairFlight"
   ],
   "gltfMaterials": 20,
-  "gltfPrimitives": 88,
+  "gltfPrimitives": 84,
   "animations": [
     "HavenBoatIdleBob"
   ],
@@ -82,5 +82,5 @@
     "Haven_DeckPier(x>=9)": true,
     "landing": true
   },
-  "sha256": "aa00616d39a0380aedceee752e924d1651d595e03e82250a43c9395a839b3b7f"
+  "sha256": "baed88a620d17d0242afeff80e4dbded1a88410062704017de44abe3c1fb85f5"
 }

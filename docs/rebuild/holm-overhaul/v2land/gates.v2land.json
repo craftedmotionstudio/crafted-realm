@@ -1,0 +1,20 @@
+{
+ "note": "Holm v2 land gate changes on top of the v1 snapshot (tools/rebuild_holm_v2land.js applies them after lifting the leaves). Phase 4 (2026-09-26): the haven moved to Lanternfoot Cove below Lastlight, so its yard gate on the old south-east site is gone (Ferryman Tobin refuses to sail until Lastlight burns: HolmIslandCurriculum.board); the ore workings' east drift ladder and the keep's undercroft trapdoor stay shut until the bronze dagger is made.",
+ "dropGates": [
+  "haven-gate"
+ ],
+ "services": [
+  {
+   "building": "cavern",
+   "target": "exit",
+   "requires": "forge_dagger",
+   "message": "The drift ladder is roped off. Foreman Durgin wants to see a bronze dagger first."
+  },
+  {
+   "building": "keep",
+   "target": "undercroft",
+   "requires": "forge_dagger",
+   "message": "The trapdoor is bolted from below."
+  }
+ ]
+}

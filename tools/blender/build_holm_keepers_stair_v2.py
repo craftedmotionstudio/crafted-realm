@@ -1,22 +1,24 @@
-"""The Keeper's Stair v1 (Tutor's Holm v2 land, phase 4, 2026-09-26), prefix Stair_: the timber-and-stone stair from
+"""The Keeper's Stair v2 (Tutor's Holm v2 land, phase 4, 2026-09-26), prefix Stair_: the timber-and-stone stair from
 Lastlight's crown down to Lanternfoot Cove, the departure pier below (docs/rebuild/WORLD_LAYOUT_GUIDE.md §3.7: the
 capstone's big drop, replacing the 77-tile walk to the old south-east haven). Original design, 2004 old-school manner.
   - a flagged stone head landing at the top of the crown path (world 110-111.6, 21-22.3, y 13.0);
   - flight 1: oak treads (0.2 rise, 0.2 going) north down the cliff cleft (x 110-111) to a mid landing at y 7.0;
-  - flight 2: west along the cove's back (z 14-15) down to the shingle at y 1.0;
+  - flight 2: west along the cove's back (z 14-15), 26 treads (0.23 rise, 0.2 going: the walk's per-step and
+    footprint limits are 0.24 and 0.72) down to the shingle at y 1.0 at x 104.8 (v2: v1 ran on to x 104, so its last tile was a tread 0.6 over the shingle and the walk could not step off;
+    now the foot tile x 104-105 is shingle and the last tread lies flush on it);
   - carried on oak posts with stone footings (post lengths from the v2 terrain under each post), stringers both sides,
     a handrail on every open side, a lantern post at the mid landing and a rope on the seaward rail.
 Walkable parts carry Tread/Landing in their names (the general extractor's supports); the terrain v2 'cuts' lower the
 land under the flights so no tread is ever buried. Local space: origin = world (107, 0, 18); local y = world y.
-Run: "Blender 4.5/blender.exe" -b --python tools/blender/build_holm_keepers_stair_v1.py"""
+Run: "Blender 4.5/blender.exe" -b --python tools/blender/build_holm_keepers_stair_v2.py"""
 import bpy, sys, math, json, random
 from pathlib import Path
 from mathutils import Vector
 HERE = Path(__file__).resolve().parent; sys.path.insert(0, str(HERE)); ROOT = HERE.parents[1]
 from holm_interior_kit import Acc, M
 from holm_v2_pack import Pack, srgb_to_lin
-OUT = ROOT / '.studio-workspaces/holm-keepers-stair-v1/candidates'
-P = Pack('HOLM_KEEPERS_STAIR_V1', OUT, budget_tris=9000)
+OUT = ROOT / '.studio-workspaces/holm-keepers-stair-v2/candidates'
+P = Pack('HOLM_KEEPERS_STAIR_V2', OUT, budget_tris=9000)
 TER = json.loads((ROOT / '.studio-workspaces/holm-overhaul-terrain-v2/working/assets/world/authoring/holm-overhaul.terrain.bundle.json').read_text())
 TW, TS = TER['width'], TER['width'] + 1
 def ground(x, z):
@@ -51,10 +53,10 @@ for k in range(N1):
 # ---- mid landing: x 110.0-111.0, z 14.0-15.0 at 7.0 (planked)
 for k in range(5): LM.box(L(110.0, 0, 0)[0], L(111.0, 0, 0)[0], 6.92, 7.0, L(0, 0, 14.0 + .2 * k + .01)[2], L(0, 0, 14.2 + .2 * k - .01)[2], TREAD)
 LM.box(L(110.0, 0, 0)[0], L(111.0, 0, 0)[0], 6.78, 6.92, L(0, 0, 14.0)[2], L(0, 0, 15.0)[2], OAKP)
-# ---- flight 2: west, z 14.0-15.0, x 110.0 -> 104.0, 7.0 -> 1.0 (30 treads)
-N2 = 30
+# ---- flight 2: west, z 14.0-15.0, x 110.0 -> 104.8, 7.0 -> 1.02 (26 treads of 0.23)
+N2 = 26
 for k in range(N2):
-    x1 = 110.0 - .2 * k; x0 = x1 - .2; y = 7.0 - .2 * (k + 1)
+    x1 = 110.0 - .2 * k; x0 = x1 - .2; y = 7.0 - .23 * (k + 1)
     TR.box(L(x0, 0, 0)[0], L(x1 + .02, 0, 0)[0], y - .06, y, L(0, 0, 14.02)[2], L(0, 0, 14.98)[2], TREAD)
 # ---- stringers along both sides of each flight (the pitch), posts every ~1.5 tiles with footings, rails on open sides
 def stringer(a, b):
@@ -64,9 +66,9 @@ for sx in (110.0, 111.0):
     for k in range(5):
         z = 20.4 - 1.25 * k; y = 13.0 - (21.0 - z) - .12; post(sx, z, y)
 for sz in (14.0, 15.0):
-    stringer((110.0, 6.9, sz), (104.0, .9, sz))
+    stringer((110.0, 6.9, sz), (104.8, .92, sz))
     for k in range(5):
-        x = 109.4 - 1.25 * k; y = 7.0 - (110.0 - x) - .12; post(x, sz, y)
+        x = 109.4 - 1.1 * k; y = 7.0 - 1.15 * (110.0 - x) - .12; post(x, sz, y)
 for cx, cz in ((110.0, 14.0), (111.0, 14.0), (111.0, 15.0)): post(cx, cz, 6.78)
 def rail_run(a, b, n):
     (ax, ay, az), (bx, by, bz) = a, b
@@ -77,14 +79,14 @@ def rail_run(a, b, n):
     RA.beam(L(ax, ay + .5, az), L(bx, by + .5, bz), .05, .05, RAIL)
 rail_run((110.0, 12.8, 20.9), (110.0, 7.0, 15.05), 5)          # flight 1, west (cliff) side
 rail_run((111.0, 7.0, 15.0), (111.0, 7.0, 14.0), 1)            # mid landing, east side
-rail_run((110.95, 7.0, 13.98), (104.1, 1.1, 13.98), 6)         # flight 2, seaward side
+rail_run((110.95, 7.0, 13.98), (104.9, 1.1, 13.98), 5)         # flight 2, seaward side
 rail_run((110.0, 12.8, 21.0), (111.6, 12.8, 21.0), 1) if False else None
 # ---- dressing: a lantern post at the mid landing, a rope looped along the seaward rail, a way-marker at the head
 DR.box(L(110.9, 0, 0)[0], L(111.0, 0, 0)[0], 7.0, 9.1, L(0, 0, 14.05)[2], L(0, 0, 14.15)[2], OAKP)
 DR.beam(L(110.95, 9.05, 14.1), L(110.6, 9.05, 14.1), .05, .05, OAKP); DR.lathe(L(110.6, 0, 0)[0], L(0, 0, 14.1)[2], 8.6, [(.07, 0), (.08, .22), (.04, .3)], 6, LAMP, top=True)
 for k in range(12):
     t0, t1 = k / 12, (k + 1) / 12
-    ax, ay = 110.9 - 6.8 * t0, 7.0 - 5.9 * t0 + .8; bx, by = 110.9 - 6.8 * t1, 7.0 - 5.9 * t1 + .8
+    ax, ay = 110.9 - 6.0 * t0, 7.0 - 5.9 * t0 + .8; bx, by = 110.9 - 6.0 * t1, 7.0 - 5.9 * t1 + .8
     DR.beam(L(ax, ay - .12 * math.sin(math.pi * ((k % 2) + .5)), 13.94), L(bx, by, 13.94), .03, .03, ROPE)
 DR.box(L(111.7, 0, 0)[0], L(111.9, 0, 0)[0], 13.0, 14.3, L(0, 0, 22.0)[2], L(0, 0, 22.2)[2], STONE[0]); DR.box(L(111.65, 0, 0)[0], L(112.3, 0, 0)[0], 13.95, 14.15, L(0, 0, 22.05)[2], L(0, 0, 22.15)[2], RAIL)
 for part in (TR, LH, LM, PO, ST, RA, FO, DR): part.build(root, vcol=False)

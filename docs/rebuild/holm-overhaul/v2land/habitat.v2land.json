@@ -1,0 +1,8 @@
+{
+ "note": "Holm v2 land habitat changes on top of holm-habitat-v4 (tools/rebuild_holm_v2land.js). Phase 4: the south-east signpost's haven arm now reads Haycombe Farm (the haven moved to Lanternfoot Cove below Lastlight).",
+ "armLabels": {
+  "signpost-1": {
+   "Departure Haven": "Haycombe Farm"
+  }
+ }
+}

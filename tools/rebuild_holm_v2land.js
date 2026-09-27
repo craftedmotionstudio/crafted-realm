@@ -30,6 +30,9 @@ const dyOf=id=>{const q=seats.find(s=>s.id===(id==='bakehouse'?'bakehouse':id));
 const gates=read(SNAP+'island-gates.json');
 gates.status=gates.status+' Holm v2 land (2026-09-26): each leaf height rises with its building seat (tools/rebuild_holm_v2land.js).';
 gates.gates.forEach(g=>{g.y=+(g.y+dyOf(g.building)).toFixed(3)});
+// v2 land changes on the snapshot (phase 4: the haven gate goes with the old haven; the drift ladder and the keep trapdoor wait for the dagger)
+const gov=read(DATA+'v2land/gates.v2land.json');gates.gates=gates.gates.filter(g=>!gov.dropGates.includes(g.id));
+gov.services.forEach(v=>{gates.services=gates.services.filter(q=>!(q.building===v.building&&q.target===v.target));gates.services.push(v)});gates.status+=' '+gov.note;
 write(DATA+'island-gates.json',gates);
 // 3b bridges: the design's decks, measured on the v2 land (deck tiles, landings, bed, water under the deck, clearance)
 const bridges=design.bridges.map(b=>{const r=Nav.bridgeFrom(terrain,b),wet=r.tiles.filter(t=>T.waterHeight(terrain,t[0]+.5,t[1]+.5)!==null);
@@ -44,6 +47,8 @@ const rise=(x,z)=>{const tx=Math.floor(x),tz=Math.floor(z),h=terrain.heights,c=[
 const onPad=(x,z)=>design.pads.some(p=>Math.abs(x-p.x)<=p.w/2+.8&&Math.abs(z-p.z)<=p.d/2+.8);   // new terraces (mill, garden, fire beach, cove, farm) are cleared
 const dropped=[];const keep=habSrc.placements.filter(p=>{const tx=Math.floor(p.x),tz=Math.floor(p.z),k=terrain.water[tz*W+tx];
  const bad=k!==0||Nav.creekBank(terrain,tx,tz)||rise(p.x,p.z)>1.25||onPad(p.x,p.z);if(bad)dropped.push(p.id);return !bad});
+// v2 land relabels (phase 4: the old haven signpost arm points at Haycombe Farm)
+const hov=read(DATA+'v2land/habitat.v2land.json');keep.forEach(p=>{const m=hov.armLabels[p.id];if(m&&p.arms)p.arms=p.arms.map(a=>m[a.label]?Object.assign({},a,{label:m[a.label]}):a)});
 write('.studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json',Object.assign({},habSrc,{note:'Holm v2 land (2026-09-26): holm-habitat-v4 without the '+dropped.length+' plants that now stand in the pond, the creek or on a cliff face',placements:keep,v2land:{from:'holm-habitat-v4',dropped}}));
 reg.habitat='.studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json';write(DATA+'v2land.json',reg);
 console.log('[V2LAND DATA] gates',gates.gates.map(g=>g.id+' y '+g.y).join(', '),'| bridges',bridges.map(b=>b.id+' deck '+b.deckY+' clear '+b.clearance).join(', '),'| habitat kept',keep.length,'dropped',dropped.length);

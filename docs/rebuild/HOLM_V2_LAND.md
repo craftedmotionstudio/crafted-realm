@@ -114,3 +114,35 @@ Proof: the route audit (`scratchpad/holm_v2_land/route_audit.json`) reaches Hett
 walk on foot, and every lesson station still. Sheets: `scratchpad/holm_v2_land/sheets/phase2_3_01..02.jpg` (before/after
 at the game camera) and `phase3_new_places.jpg` (the mill, the garden, the weir walk and the three Blender packs).
 Known: the bakehouse has no side door onto the garden (its model is unchanged); the garden is entered by its wicket gate.
+
+## Phase 4: the route - down the shaft, up into the keep; from Lastlight down to the skiff
+
+The owner's plan (WORLD_LAYOUT_GUIDE §3.7, WORLD_GOAL W0b): "down here, up over there" underground, and the capstone's big
+drop from the beacon straight down to the boat. The walk from Lastlight to the skiff falls from 114 tiles (round the
+crown and across the south-east) to 69 tiles, all of it the Keeper's Stair and the cove.
+
+| Piece | Files |
+|---|---|
+| East drift (Blender) | `tools/blender/build_holm_cavern_v2land.py` (the v1 cavern recipe with swaps, never edited) -> `holm-cavern-v2land-v1`, textured `holm-cavern-v2land-os-v1`: a 2-wide propped drift runs 16 tiles east from the smelting nook to an exit chamber (crates, a barrel, rope, a pick, torches), where `Cavern_ServiceLadderExit_` climbs a timber-lined shaft. Graph `holm-cavern-v2land-navigation-v1` (150 nodes, target `exit`) |
+| Keep trapdoor | the keep re-measured with an `undercroft` stance in the hall (`v2land/keep.relock.json`); the hatch is a route prop (`tools/blender/build_holm_route_props_v2.py` -> `holm-route-props-v2`, textured `-os-v2`: an oak frame, the leaf thrown back on iron straps, the ladder rails in the shaft; plus a cove bell for phase 5) placed by `src/holm_island_extras.js` from `island-ladders.json` (`keep-undercroft`: `hatch` block), blocking its tile in the walk graph (runtime and `tools/holm_v2_land_inputs.js` alike) |
+| Ladder + gates | `island-ladders.json` `keep-undercroft` (keep `undercroft` <-> cavern `exit`, 2004 instant storey change); services `Climb-up drift ladder` (cavern) and `Climb-down trapdoor` (keep, a service on a placed prop: `hatch`); both shut until `forge_dagger` ("The drift ladder is roped off. Foreman Durgin wants to see a bronze dagger first." / "The trapdoor is bolted from below."), kept in `v2land/gates.v2land.json` so the rebuild re-applies them |
+| Keeper's Stair (Blender) | `tools/blender/build_holm_keepers_stair_v2.py` -> `holm-keepers-stair-v2`, textured `-os-v2` (2,292 tris): a flagged head landing on the crown path (y 13), flight 1 north down the cliff cleft (30 oak treads, 0.2 rise), a planked mid landing with a lantern post (y 7), flight 2 west along the back of the cove (26 treads of 0.23: the walk's per-step limit is 0.24 and the footprint limit 0.72), posts on stone footings sized from the terrain, stringers, rails, a rope on the seaward rail, a way-marker at the head. Graph `holm-keepers-stair-v2land-navigation-v1` (targets head, mid, foot). v1 ran flight 2 on to x 104, leaving its last tile a tread 0.6 over the shingle, so the walk could not step off; v2 lands flush on the shingle |
+| Terrain | `src/holm_overhaul_terrain.js` `cuts` (lower-only path beds): the two flights' beds are carved into the cliff so no tread is buried; the Lanternfoot Cove pad (shingle, y 1.0); the old haven seat is dropped |
+| Haven at Lanternfoot Cove (Blender) | `tools/blender/build_holm_haven_cove_v2land.py`: the v1 haven recipe with swaps (placement (101, 1.0, 14), v2 terrain, the whole haven turned 90 degrees so the pier runs north toward the mainland, every terrain sample turned with it) -> interior pass (`run_holm_m44_interior_on.py`) -> coplanar fix (`fix_holm_coplanar.py` m44) -> old-school textures: `holm-haven-v2land-v2 / -int-v2 / -fix-v2 / -os-v2`. v2 leaves out v1's cargo on the south apron, which would stand at the foot of the stair once turned (phase 5 places the cove's cargo as props). Graph `holm-haven-v2land-navigation-v1` (the shore stance is 2 tiles in: the cove is 3 deep under the cliff) |
+| Haycombe Farm | the old haven site is a farm pad (y 2.4, habitat cleared); the south-east signpost's haven arm now reads Haycombe Farm (`v2land/habitat.v2land.json`); the farm is dressed in phase 5; the old haven's yard gate is gone (`haven-gate` dropped; Tobin himself refuses to sail until Lastlight burns) |
+| Words | Durgin: follow the drift east, under the creek; the ladder comes up through a trapdoor in the Warden's Keep. Aldous: take the Keeper's Stair down to Lanternfoot Cove. Tobin (new lines): he ties up in the cove because the beacon shines straight down on that water; he rows you across to Hearthmere. The graduation line, the objective banner and the talk-first banner name Lanternfoot Cove; the guide arrow, down in the workings after the dagger, points at the drift ladder (`holm_island_guide.js`). The ferry's travel labels (Veyhollow) are the mainland's and are left for the naming pass there. |
+| Rebuild | `tools/rebuild_holm_v2land.js` now re-applies the v2-land gate and signpost changes on top of the v1 snapshot; everything re-measured on the final terrain (12 buildings, every target reachable) |
+
+Proof:
+- Route audit (`node tools/audit_holm_v2_routes.js`, composed graph with the 2004 diagonals): all 18 stations reachable;
+  the whole route 566 tiles (340 s at 0.6 s a tile; phase 3: 733); anvil -> keep court climbs the drift ladder
+  (35 tiles instead of back up the shaft and across); Lastlight -> skiff walks the Keeper's Stair (69 tiles); the skiff
+  is at Lanternfoot Cove; the lodge's north lane is still the one unreachable target (pre-existing).
+- Real input, `node tools/qa_holm_route_v2.js` (new): 10/10 - the pieces load and join; the drift ladder refuses
+  before the dagger; after it the guide arrow points at the drift ladder; the ladder comes up in the keep hall beside
+  the trapdoor; the trapdoor goes back down; the hall walks out to the court; Lastlight's door -> stair head -> mid
+  landing -> foot -> haven on foot by real clicks; Tobin speaks of Hearthmere; boarding sails; 0 page errors.
+  Captures `scratchpad/holm_v2_land/qa_route/`.
+- All unit tests pass (`for t in tools/test_*.js`).
+- Sheets: `scratchpad/holm_v2_land/sheets/phase4_01..02.jpg` (before/after at the game camera: keep crag, crown climb,
+  the cove, the farm site, the east) and `phase4_route.jpg` (the drift, the trapdoor, the stair, the cove, Tobin).

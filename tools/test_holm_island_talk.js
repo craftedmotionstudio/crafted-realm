@@ -119,7 +119,7 @@ check('the bank, the tower and Lastlight each wait for their tutor; Lastlight\'s
 });
 check('graduation: Ferryman Tobin is the last tutor; the skiff waits for him, then the banner says board',()=>{
  assert.strictEqual(G.pending().id,'tobin');assert.strictEqual(G.refusal(CLICK.ferry),'You should speak to Ferryman Tobin first.');
- T.banner();assert.strictEqual(W.els.objective.style.display,'block');assert.strictEqual(W.els['obj-text'].textContent,'Lastlight is lit. Talk to Ferryman Tobin at the Departure Haven.');
+ T.banner();assert.strictEqual(W.els.objective.style.display,'block');assert.strictEqual(W.els['obj-text'].textContent,'Lastlight is lit. Talk to Ferryman Tobin at Lanternfoot Cove, down the Keeper\'s Stair.');
  assert(/Ferryman Tobin/.test(Tu.lines('tobin')[0])&&/pier/.test(Tu.lines('tobin').join(' ')));
  G.markTalked('tobin');assert.strictEqual(G.refusal(CLICK.ferry),null);assert(/Board Ferryman Tobin/.test(W.els['obj-text'].textContent));
  T.departurePackClaimed=true;assert.strictEqual(G.pending(),null);T.banner();assert.strictEqual(W.els.objective.style.display,'none','after the crossing the line goes');
