@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:8109/?qaProfile=review4-before-mukfd261",
+  "base": "http://127.0.0.1:8109/?qaProfile=review4-before-mukh2qgh",
   "tag": "before",
   "views": {
     "flow": {
@@ -515,6 +515,24 @@
         }
       ],
       "file": 5
+    },
+    "lodgeentry": {
+      "stance": {
+        "id": "b:lodge:0:1:0",
+        "x": 35.5,
+        "y": 6.400002000000001,
+        "z": 52.5,
+        "surface": "b:lodge:0:Lodge_GroundFloor_Boards"
+      },
+      "at": {
+        "id": "b:lodge:0:1:0",
+        "x": 35.5,
+        "y": 6.400002000000001,
+        "z": 52.5,
+        "surface": "b:lodge:0:Lodge_GroundFloor_Boards"
+      },
+      "route": 10,
+      "file": "before_6_lodge_entry_board.jpg"
     }
   },
   "errors": []

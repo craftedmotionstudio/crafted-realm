@@ -114,19 +114,20 @@
    "measuredAt": "2026-09-27T04:25:04.961Z"
   },
   "lodge": {
-   "graph": "holm-quest-lodge-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/lodge.glb",
+   "graph": "holm-quest-lodge-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-quest-lodge-review4-v1/candidates/lodge.glb",
    "placement": {
     "x": 35,
     "y": 6.4,
     "z": 51
    },
-   "nodes": 480,
-   "modelSha256": "6618934d1ee39fd283ed8c9bf8d93a8f71519bc49ccc71233abd8cc5feed3263",
+   "nodes": 478,
+   "modelSha256": "513b674270ff4b92f3d4e0c524b839bf9a714844e351cc7b5ec0e0f3c767202a",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:25:19.441Z",
-   "extraPlacement": ".studio-workspaces/holm-quest-placement-v2land-v1/candidates/placement.json"
+   "measuredAt": "2026-09-27T23:50:12.895Z",
+   "extraPlacement": ".studio-workspaces/holm-quest-placement-v2land-v1/candidates/placement.json",
+   "review4": "owner review 4 (2026-09-27): the quest board by the north wall facing the door; the region chart, leaded panes (tools/blender/build_holm_quest_lodge_review4.py, docs/rebuild/holm-overhaul/review4/lodge.relock.json)"
   },
   "cavern": {
    "graph": "holm-cavern-v2land-navigation-v1",

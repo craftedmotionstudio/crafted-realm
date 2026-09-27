@@ -79,3 +79,46 @@ def window(B, name, axis, plane, a, b, v0, v1, mullion=None, **kw):
         return light(B, name, axis, plane, a, b, v0, v1, **kw)
     m = (a + b) / 2
     return light(B, name, axis, plane, a, m - mullion, v0, v1, **kw) + light(B, name, axis, plane, m + mullion, b, v0, v1, **kw)
+
+
+def lead_faces(obj, name, dw=.2, dh=.28, off=.004):
+    """Lay lead cames (an edge came and a diamond lattice, both faces) over every four-sided pane of an existing glazing
+    mesh, as a new mesh object `name` beside it (same parent and transform). Works in the mesh's own coordinates."""
+    import bmesh
+    from mathutils import Vector
+    lead = materials()[1]
+    V = []; F = []
+    me = obj.data
+    def strip(o, uvec, vvec, n, a, b, wid):
+        du, dv = b[0] - a[0], b[1] - a[1]; L = (du * du + dv * dv) ** .5
+        if L < .03: return
+        nu, nv = -dv / L * wid / 2, du / L * wid / 2
+        for side in (-1, 1):
+            q = [(a[0] + nu, a[1] + nv), (b[0] + nu, b[1] + nv), (b[0] - nu, b[1] - nv), (a[0] - nu, a[1] - nv)]
+            k = len(V)
+            for u, v in q: V.append(o + uvec * u + vvec * v + n * (side * off))
+            F.append((k, k + 1, k + 2, k + 3) if side > 0 else (k + 3, k + 2, k + 1, k))
+    for p in me.polygons:
+        if len(p.vertices) != 4: continue
+        P = [me.vertices[i].co.copy() for i in p.vertices]
+        n = p.normal.copy()
+        up = Vector((0, 0, 1))   # Blender up
+        vvec = (up - n * up.dot(n))
+        if vvec.length < 1e-4: continue   # a horizontal pane: skip
+        vvec.normalize(); uvec = vvec.cross(n).normalized()
+        o = P[0]; us = [(q - o).dot(uvec) for q in P]; vs = [(q - o).dot(vvec) for q in P]
+        u0, u1, v0, v1 = min(us), max(us), min(vs), max(vs)
+        if u1 - u0 < .08 or v1 - v0 < .08: continue
+        for a, b in (((u0, v0), (u1, v0)), ((u1, v0), (u1, v1)), ((u1, v1), (u0, v1)), ((u0, v1), (u0, v0))):
+            strip(o, uvec, vvec, n, a, b, .03)
+        w, h = u1 - u0, v1 - v0; nn = int(w / dw + h / dh) + 3
+        for sgn in (1, -1):
+            d = (sgn * dw, dh)
+            for k in range(-nn, nn + 1):
+                seg = _clip((u0 + dw / 2 + k * dw, v0), d, u0, u1, v0, v1)
+                if seg: strip(o, uvec, vvec, n, seg[0], seg[1], .014)
+    if not F: return None
+    data = bpy.data.meshes.new(name); data.from_pydata([tuple(v) for v in V], [], F); data.update()
+    ob = bpy.data.objects.new(name, data); bpy.context.collection.objects.link(ob)
+    ob.parent = obj.parent; ob.matrix_world = obj.matrix_world.copy(); data.materials.append(lead)
+    return ob

@@ -94,6 +94,10 @@ const VIEWS={
  async guidewin(page,rec){rec.at=await stand(page,63,110,'exterior|land',[Math.PI*.9,0.55,9]);await look(page,66,104.6,[Math.PI*.95,0.5,7]);return snap(page,'7_guide_windows_out')},
  // 5 + 6: the Quest Lodge: entrance doors, inside (upper storey, the board)
  async lodgedoor(page,rec){const s=await page.evaluate(()=>HolmArrivalQA.qaStance('lodge','entrance'));rec.stance=s;if(!s)return null;rec.at=await stand(page,s.x,s.z,'.',[0,1.0,10],s.y);return snap(page,'5_lodge_entrance')},
+ // 6: walking in at the Quest Lodge door, the quest board straight ahead across the room (lodge door open: bread baked)
+ async lodgeentry(page,rec){await page.evaluate(()=>HolmIslandCurriculum.qaGrant(['study_route','equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish','bake_bread']));await sleep(2500);
+  const s=await page.evaluate(()=>HolmArrivalQA.qaStance('lodge','entrance'));rec.stance=s;if(!s)return null;rec.at=await stand(page,s.x,s.z,'^b:lodge:',[0,0.95,10],s.y);
+  rec.route=await page.evaluate(()=>{const r=HolmArrivalQA.qaRoute('lodge','board');return r?r.length-1:null});return snap(page,'6_lodge_entry_board')},
  async lodgein(page,rec){const s=await page.evaluate(()=>HolmArrivalQA.qaStance('lodge','map'));rec.stance=s;if(!s)return null;rec.at=await stand(page,s.x,s.z,'^b:lodge:',[0.5,1.0,11],s.y);return snap(page,'5_lodge_inside')},
  async lodgein2(page,rec){const s=await page.evaluate(()=>HolmArrivalQA.qaStance('lodge','map'));if(!s)return null;rec.at=await stand(page,s.x,s.z,'^b:lodge:',[Math.PI*.8,1.0,11],s.y);return snap(page,'5_lodge_inside_b')},
  async lodgeboard(page,rec){const s=await page.evaluate(()=>HolmArrivalQA.qaStance('lodge','board'));rec.stance=s;if(!s)return null;rec.at=await stand(page,s.x,s.z,'^b:lodge:',[Math.PI,1.05,11],s.y);

@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:8109/?qaProfile=review4-after-mukgrili",
+  "base": "http://127.0.0.1:8109/?holmIsland=1&qaProfile=review4-after-mukh2dh3",
   "tag": "after",
   "views": {
     "realflow": {
@@ -397,18 +397,18 @@
     },
     "lodgeboard": {
       "stance": {
-        "id": "b:lodge:-4:2:1",
-        "x": 31.5,
-        "y": 6.4,
-        "z": 53.5,
-        "surface": "b:lodge:1:Lodge_GroundFloor_Boards"
+        "id": "b:lodge:-1:-3:0",
+        "x": 34.5,
+        "y": 6.4000010000000005,
+        "z": 48.5,
+        "surface": "b:lodge:0:Lodge_GroundFloor_Boards"
       },
       "at": {
-        "id": "b:lodge:-4:2:1",
-        "x": 31.5,
-        "y": 6.4,
-        "z": 53.5,
-        "surface": "b:lodge:1:Lodge_GroundFloor_Boards"
+        "id": "b:lodge:-1:-3:0",
+        "x": 34.5,
+        "y": 6.4000010000000005,
+        "z": 48.5,
+        "surface": "b:lodge:0:Lodge_GroundFloor_Boards"
       },
       "route": null,
       "file": "after_6_lodge_board.jpg"
@@ -528,6 +528,24 @@
         "surface": "land"
       },
       "file": "after_7_guide_windows_out.jpg"
+    },
+    "lodgeentry": {
+      "stance": {
+        "id": "b:lodge:0:1:0",
+        "x": 35.5,
+        "y": 6.400002000000001,
+        "z": 52.5,
+        "surface": "b:lodge:0:Lodge_GroundFloor_Boards"
+      },
+      "at": {
+        "id": "b:lodge:0:1:0",
+        "x": 35.5,
+        "y": 6.400002000000001,
+        "z": 52.5,
+        "surface": "b:lodge:0:Lodge_GroundFloor_Boards"
+      },
+      "route": 4,
+      "file": "after_6_lodge_entry_board.jpg"
     }
   },
   "errors": []
