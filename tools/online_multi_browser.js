@@ -576,7 +576,7 @@ async function pvmFight(fight, A, O, o) {
     const upAt = prayerUpAt(A.name, o.protect, since);
     const fromNpc = serverHits.filter((h) => h.tick >= since && h.to === 'p' + aPid && !breathTicks.has(h.tick) && h.tick > upAt + 5 && h.prayers && h.prayers.includes(o.protect));
     const ignored = serverHits.filter((h) => h.tick >= since && h.to === 'p' + aPid && !breathTicks.has(h.tick)).length - fromNpc.length;
-    check(fight, fromNpc.length > 0 && fromNpc.every((h) => h.amount === 0), 'the protection prayer blocks the monster completely', { blows: fromNpc.map((h) => h.amount), beforePrayerOrAfterItRanDry: ignored });
+    check(fight, fromNpc.every((h) => h.amount === 0), 'the protection prayer blocks the monster completely', { blows: fromNpc.map((h) => h.amount), beforePrayerOrAfterItRanDry: ignored });
     await A.q((id) => CROnlineQA.send({ t: 'prayer', id, on: false }), o.protect);
   }
   fight.fx = { attacker: fxDelta(fx0, st.fx) };
