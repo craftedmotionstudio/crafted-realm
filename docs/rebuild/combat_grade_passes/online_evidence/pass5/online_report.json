@@ -1,0 +1,6460 @@
+{
+ "tick": 600,
+ "started": "2026-09-27T03:47:40.660Z",
+ "fights": [
+  {
+   "name": "pvp-melee",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Bryn2qbq (level-51)",
+      "Walk here",
+      "Follow Bryn2qbq (level-51)",
+      "Trade with Bryn2qbq (level-51)",
+      "Report Bryn2qbq",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker is skulled, the defender (retaliating) is not",
+     "detail": {
+      "a": 1,
+      "b": 0,
+      "expectSkull": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 2000
+    },
+    {
+     "ok": true,
+     "label": "a third adventurer is refused (single-way combat)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "melee",
+      "samples": 248,
+      "adjacentShare": 1,
+      "atRangeShare": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 262,
+      "killer": "bryn2qbq",
+      "victim": "ash2qbq",
+      "x": 60,
+      "z": 66,
+      "dropped": [
+       [
+        "steel_sword",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "steel_longsword",
+        1
+       ],
+       [
+        "iron_platebody",
+        1
+       ],
+       [
+        "steel_sqshield",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 32,
+      "z": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [],
+      "promised": []
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [],
+      "kept": []
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Bryn2qbq.You kept nothing.11 items were left where you fell, for your killer.You wake in the Commons. The supply ches"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 12
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 5,
+      "after": 16
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 60,
+       "splats": 60,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 29,
+       "matchedNext": 31,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 60,
+       "splats": 60,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 29,
+       "matchedNext": 31,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Ash2qbq's hits on Bryn2qbq at 4 (max 7)",
+     "detail": {
+      "biggest": 4,
+      "cap": 4
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 31,
+      "opponent": 31,
+      "observer": 31,
+      "self": 31
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 29,
+      "opponent": 29,
+      "observer": 29,
+      "self": 29
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reach": {
+    "attackerKit": "melee",
+    "samples": 248,
+    "adjacentShare": 1,
+    "atRangeShare": 0
+   },
+   "winner": "Bryn2qbq",
+   "loser": "Ash2qbq",
+   "ticks": 163,
+   "seconds": 89.1,
+   "fx": {
+    "attacker": {
+     "hits": 60,
+     "splats": 60,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 29,
+     "matchedNext": 31,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 60,
+     "splats": 60,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 29,
+     "matchedNext": 31,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass5/strip_pvp_melee.jpg"
+  },
+  {
+   "name": "pvp-ranged",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Bryn2qbq (level-51)",
+      "Walk here",
+      "Follow Bryn2qbq (level-51)",
+      "Trade with Bryn2qbq (level-51)",
+      "Report Bryn2qbq",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "ranged",
+      "samples": 647,
+      "adjacentShare": 0,
+      "atRangeShare": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 716,
+      "killer": "bryn2qbq",
+      "victim": "ash2qbq",
+      "x": 57,
+      "z": 66,
+      "dropped": [
+       [
+        "arrows",
+        231
+       ],
+       [
+        "ash_bow",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_green",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 31,
+      "z": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "promised": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "kept": [
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Bryn2qbq.You kept:8 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 3,
+      "after": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 137,
+       "splats": 137,
+       "projectiles": 137,
+       "matchedProjectile": 137,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 137,
+       "splats": 137,
+       "projectiles": 137,
+       "matchedProjectile": 137,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Ash2qbq's hits on Bryn2qbq at 4 (max 7)",
+     "detail": {
+      "biggest": 4,
+      "cap": 4
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 68,
+      "opponent": 68,
+      "observer": 68,
+      "self": 68
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 69,
+      "opponent": 69,
+      "observer": 69,
+      "self": 69
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reach": {
+    "attackerKit": "ranged",
+    "samples": 647,
+    "adjacentShare": 0,
+    "atRangeShare": 1
+   },
+   "winner": "Bryn2qbq",
+   "loser": "Ash2qbq",
+   "ticks": 363,
+   "seconds": 216.8,
+   "fx": {
+    "attacker": {
+     "hits": 137,
+     "splats": 137,
+     "projectiles": 137,
+     "matchedProjectile": 137,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 137,
+     "splats": 137,
+     "projectiles": 137,
+     "matchedProjectile": 137,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass5/strip_pvp_ranged.jpg"
+  },
+  {
+   "name": "pvp-magic",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Bryn2qbq (level-51)",
+      "Walk here",
+      "Follow Bryn2qbq (level-51)",
+      "Trade with Bryn2qbq (level-51)",
+      "Report Bryn2qbq",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "style, prayer and food switches answer on the next tick",
+     "detail": {
+      "style": 164,
+      "prayer": 738,
+      "eat": 512
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "magic",
+      "samples": 362,
+      "adjacentShare": 0,
+      "atRangeShare": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 1012,
+      "killer": "bryn2qbq",
+      "victim": "ash2qbq",
+      "x": 57,
+      "z": 66,
+      "dropped": [
+       [
+        "water_rune",
+        322
+       ],
+       [
+        "chaos_rune",
+        161
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_blue",
+        1
+       ],
+       [
+        "amulet_of_warding",
+        1
+       ],
+       [
+        "cloth_robe_skirt",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 31,
+      "z": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ],
+      "promised": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ],
+      "kept": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Bryn2qbq.You kept:9 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 3,
+      "after": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 33,
+       "splats": 33,
+       "projectiles": 77,
+       "matchedProjectile": 33,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 33,
+       "splats": 33,
+       "projectiles": 77,
+       "matchedProjectile": 33,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Ash2qbq's hits on Bryn2qbq at 6 (max 10)",
+     "detail": {
+      "biggest": 6,
+      "cap": 6
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 16,
+      "opponent": 16,
+      "observer": 16,
+      "self": 16
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 17,
+      "opponent": 17,
+      "observer": 17,
+      "self": 17
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "responsiveness": {
+    "ms": {
+     "style": 164,
+     "prayer": 738,
+     "eat": 512
+    },
+    "ticks": {
+     "style": 0.27,
+     "prayer": 1.23,
+     "eat": 0.85
+    }
+   },
+   "reach": {
+    "attackerKit": "magic",
+    "samples": 362,
+    "adjacentShare": 0,
+    "atRangeShare": 1
+   },
+   "winner": "Bryn2qbq",
+   "loser": "Ash2qbq",
+   "ticks": 210,
+   "seconds": 122.7,
+   "fx": {
+    "attacker": {
+     "hits": 33,
+     "splats": 33,
+     "projectiles": 77,
+     "matchedProjectile": 33,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 33,
+     "splats": 33,
+     "projectiles": 77,
+     "matchedProjectile": 33,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass5/strip_pvp_magic.jpg"
+  },
+  {
+   "name": "pvm-melee-gnarlgob",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the gnarlgob dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       373458,
+       374338
+      ],
+      [
+       "Defence",
+       372741,
+       372741
+      ],
+      [
+       "Hitpoints",
+       374133,
+       374423
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 5,
+      "npcShown": 5,
+      "meServer": 8,
+      "meShown": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 14,
+       "splats": 14,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 8,
+       "matchedNext": 6,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 39,
+       "id": "bones",
+       "q": 1,
+       "x": 31,
+       "z": 49,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 14.7,
+   "ticks": 24,
+   "lootShownAfterMs": 3458,
+   "fx": {
+    "attacker": {
+     "hits": 14,
+     "splats": 14,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 8,
+     "matchedNext": 6,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 6,
+    "byName": {
+     "attack": 6
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones"
+   ],
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass5/strip_pvm_melee.jpg"
+  },
+  {
+   "name": "pvm-ranged-mosswolf",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the mosswolf dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Ranged",
+       374844,
+       375684
+      ],
+      [
+       "Hitpoints",
+       374423,
+       374699
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 6,
+      "npcShown": 6,
+      "meServer": 7,
+      "meShown": 7
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 14,
+       "splats": 14,
+       "projectiles": 8,
+       "matchedProjectile": 7,
+       "matchedSwing": 7,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 42,
+       "id": "bones",
+       "q": 1,
+       "x": 16,
+       "z": 64,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 41,
+       "id": "arrows",
+       "q": 2,
+       "x": 16,
+       "z": 64,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 17.8,
+   "ticks": 29,
+   "lootShownAfterMs": 3178,
+   "fx": {
+    "attacker": {
+     "hits": 14,
+     "splats": 14,
+     "projectiles": 8,
+     "matchedProjectile": 7,
+     "matchedSwing": 7,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 5,
+    "byName": {
+     "attack": 5
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones",
+    "arrows x2"
+   ],
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass5/strip_pvm_ranged.jpg"
+  },
+  {
+   "name": "pvm-magic-skeleton",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the skeleton dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Magic",
+       379330,
+       381415
+      ],
+      [
+       "Hitpoints",
+       374765,
+       375161
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 7,
+      "npcShown": 7,
+      "meServer": 9,
+      "meShown": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 16,
+       "splats": 16,
+       "projectiles": 9,
+       "matchedProjectile": 7,
+       "matchedSwing": 9,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 43,
+       "id": "bones",
+       "q": 1,
+       "x": 43,
+       "z": 87,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 44,
+       "id": "coins",
+       "q": 30,
+       "x": 43,
+       "z": 87,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 27.1,
+   "ticks": 45,
+   "lootShownAfterMs": 3445,
+   "fx": {
+    "attacker": {
+     "hits": 16,
+     "splats": 16,
+     "projectiles": 9,
+     "matchedProjectile": 7,
+     "matchedSwing": 9,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 10,
+    "byName": {
+     "attack": 10
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones",
+    "coins x30"
+   ],
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass5/strip_pvm_magic.jpg"
+  },
+  {
+   "name": "pvm-melee-moss_seer",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the moss_seer dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       374338,
+       374898
+      ],
+      [
+       "Defence",
+       372741,
+       372741
+      ],
+      [
+       "Hitpoints",
+       375161,
+       375346
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 4,
+      "npcShown": 4,
+      "meServer": 0,
+      "meShown": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [],
+      "beforePrayerOrAfterItRanDry": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 4,
+       "splats": 4,
+       "projectiles": 4,
+       "matchedProjectile": 0,
+       "matchedSwing": 0,
+       "matchedNext": 4,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 45,
+       "id": "bones",
+       "q": 1,
+       "x": 8,
+       "z": 55,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 46,
+       "id": "coins",
+       "q": 23,
+       "x": 8,
+       "z": 55,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 47,
+       "id": "mind_rune",
+       "q": 4,
+       "x": 8,
+       "z": 55,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 11.9,
+   "ticks": 20,
+   "lootShownAfterMs": 3445,
+   "fx": {
+    "attacker": {
+     "hits": 4,
+     "splats": 4,
+     "projectiles": 4,
+     "matchedProjectile": 0,
+     "matchedSwing": 0,
+     "matchedNext": 4,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 4,
+    "byName": {
+     "attack": 4
+    },
+    "dists": [
+     2,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones",
+    "coins x23",
+    "mind_rune x4"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-ranged-skeleton",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the skeleton dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Ranged",
+       375884,
+       377084
+      ],
+      [
+       "Hitpoints",
+       375346,
+       375742
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 15,
+      "npcShown": 15,
+      "meServer": 18,
+      "meShown": 18
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "beforePrayerOrAfterItRanDry": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 33,
+       "splats": 33,
+       "projectiles": 15,
+       "matchedProjectile": 15,
+       "matchedSwing": 18,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 48,
+       "id": "arrows",
+       "q": 11,
+       "x": 43,
+       "z": 87,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 49,
+       "id": "bones",
+       "q": 1,
+       "x": 43,
+       "z": 87,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 50,
+       "id": "mind_rune",
+       "q": 4,
+       "x": 43,
+       "z": 87,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 44.7,
+   "ticks": 74,
+   "lootShownAfterMs": 3718,
+   "fx": {
+    "attacker": {
+     "hits": 33,
+     "splats": 33,
+     "projectiles": 15,
+     "matchedProjectile": 15,
+     "matchedSwing": 18,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 18,
+    "byName": {
+     "attack": 18
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "arrows x11",
+    "bones",
+    "mind_rune x4"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-magic-gnarlgob",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the gnarlgob dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Magic",
+       381415,
+       382110
+      ],
+      [
+       "Hitpoints",
+       375742,
+       375874
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 3,
+      "npcShown": 3,
+      "meServer": 1,
+      "meShown": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 4,
+       "splats": 4,
+       "projectiles": 3,
+       "matchedProjectile": 3,
+       "matchedSwing": 1,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 51,
+       "id": "bones",
+       "q": 1,
+       "x": 34,
+       "z": 50,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 8.7,
+   "ticks": 14,
+   "lootShownAfterMs": 3726,
+   "fx": {
+    "attacker": {
+     "hits": 4,
+     "splats": 4,
+     "projectiles": 3,
+     "matchedProjectile": 3,
+     "matchedSwing": 1,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 2,
+    "byName": {
+     "attack": 2
+    },
+    "dists": [
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-melee-bryn_raider",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the bryn_raider dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       374898,
+       376418
+      ],
+      [
+       "Defence",
+       372741,
+       372741
+      ],
+      [
+       "Hitpoints",
+       375874,
+       376374
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 12,
+      "npcShown": 12,
+      "meServer": 14,
+      "meShown": 14
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "beforePrayerOrAfterItRanDry": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 26,
+       "splats": 26,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 14,
+       "matchedNext": 12,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 52,
+       "id": "bones",
+       "q": 1,
+       "x": 42,
+       "z": 101,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 53,
+       "id": "coins",
+       "q": 71,
+       "x": 42,
+       "z": 101,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 35.8,
+   "ticks": 59,
+   "lootShownAfterMs": 3446,
+   "fx": {
+    "attacker": {
+     "hits": 26,
+     "splats": 26,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 14,
+     "matchedNext": 12,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 14,
+    "byName": {
+     "attack": 14
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones",
+    "coins x71"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-ranged-moss_seer",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the moss_seer dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Ranged",
+       377084,
+       377604
+      ],
+      [
+       "Hitpoints",
+       376374,
+       376544
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 4,
+      "npcShown": 4,
+      "meServer": 1,
+      "meShown": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 5,
+       "splats": 5,
+       "projectiles": 7,
+       "matchedProjectile": 5,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 55,
+       "id": "arrows",
+       "q": 3,
+       "x": 7,
+       "z": 56,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 56,
+       "id": "bones",
+       "q": 1,
+       "x": 7,
+       "z": 56,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 57,
+       "id": "coins",
+       "q": 13,
+       "x": 7,
+       "z": 56,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 58,
+       "id": "mind_rune",
+       "q": 4,
+       "x": 7,
+       "z": 56,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 12.6,
+   "ticks": 21,
+   "lootShownAfterMs": 3178,
+   "fx": {
+    "attacker": {
+     "hits": 5,
+     "splats": 5,
+     "projectiles": 7,
+     "matchedProjectile": 5,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 3,
+    "byName": {
+     "attack": 3
+    },
+    "dists": [
+     5,
+     5,
+     5
+    ]
+   },
+   "drop": [
+    "arrows x3",
+    "bones",
+    "coins x13",
+    "mind_rune x4"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-magic-cinder_shade",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the cinder_shade dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Magic",
+       382110,
+       386835
+      ],
+      [
+       "Hitpoints",
+       376544,
+       377375
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 15,
+      "npcShown": 15,
+      "meServer": 25,
+      "meShown": 25
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "beforePrayerOrAfterItRanDry": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 40,
+       "splats": 40,
+       "projectiles": 21,
+       "matchedProjectile": 15,
+       "matchedSwing": 25,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 59,
+       "id": "big_bones",
+       "q": 1,
+       "x": 23,
+       "z": 111,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 60,
+       "id": "ashes",
+       "q": 1,
+       "x": 23,
+       "z": 111,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 62.8,
+   "ticks": 104,
+   "lootShownAfterMs": 3453,
+   "fx": {
+    "attacker": {
+     "hits": 40,
+     "splats": 40,
+     "projectiles": 21,
+     "matchedProjectile": 15,
+     "matchedSwing": 25,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 25,
+    "byName": {
+     "attack": 25
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "big_bones",
+    "ashes"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvp-melee-vs-magic",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Bryn2qbq (level-51)",
+      "Walk here",
+      "Follow Bryn2qbq (level-51)",
+      "Trade with Bryn2qbq (level-51)",
+      "Report Bryn2qbq",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "melee",
+      "samples": 201,
+      "adjacentShare": 1,
+      "atRangeShare": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 2346,
+      "killer": "bryn2qbq",
+      "victim": "ash2qbq",
+      "x": 60,
+      "z": 66,
+      "dropped": [
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 32,
+      "z": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1",
+       "steel_swordx1"
+      ],
+      "promised": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1",
+       "steel_swordx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1",
+       "steel_swordx1"
+      ],
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1",
+       "steel_swordx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Bryn2qbq.You kept:7 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 7,
+      "after": 14
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 33,
+       "splats": 33,
+       "projectiles": 23,
+       "matchedProjectile": 12,
+       "matchedSwing": 21,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 33,
+       "splats": 33,
+       "projectiles": 23,
+       "matchedProjectile": 12,
+       "matchedSwing": 21,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Ash2qbq's hits on Bryn2qbq at 4 (max 7)",
+     "detail": {
+      "biggest": 3,
+      "cap": 4
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 12,
+      "opponent": 12,
+      "observer": 12,
+      "self": 12
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 21,
+      "opponent": 21,
+      "observer": 21,
+      "self": 21
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reach": {
+    "attackerKit": "melee",
+    "samples": 201,
+    "adjacentShare": 1,
+    "atRangeShare": 0
+   },
+   "winner": "Bryn2qbq",
+   "loser": "Ash2qbq",
+   "ticks": 123,
+   "seconds": 72.4,
+   "fx": {
+    "attacker": {
+     "hits": 33,
+     "splats": 33,
+     "projectiles": 23,
+     "matchedProjectile": 12,
+     "matchedSwing": 21,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 33,
+     "splats": 33,
+     "projectiles": 23,
+     "matchedProjectile": 12,
+     "matchedSwing": 21,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-ranged-vs-melee",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Bryn2qbq (level-51)",
+      "Walk here",
+      "Follow Bryn2qbq (level-51)",
+      "Trade with Bryn2qbq (level-51)",
+      "Report Bryn2qbq",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the special attack fires from the orb after a weapon switch (energy spent, special swing seen)",
+     "detail": {
+      "switched": true,
+      "energyBefore": 100,
+      "energyAfter": 50,
+      "specSwings": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 2755,
+      "killer": "ash2qbq",
+      "victim": "bryn2qbq",
+      "x": 58,
+      "z": 66,
+      "dropped": [
+       [
+        "steel_sword",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 32,
+      "z": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "promised": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ash2qbq.You kept:8 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 3,
+      "after": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 123,
+       "splats": 123,
+       "projectiles": 62,
+       "matchedProjectile": 62,
+       "matchedSwing": 0,
+       "matchedNext": 61,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 123,
+       "splats": 123,
+       "projectiles": 62,
+       "matchedProjectile": 62,
+       "matchedSwing": 0,
+       "matchedNext": 61,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Bryn2qbq's hits on Ash2qbq at 4 (max 7)",
+     "detail": {
+      "biggest": 4,
+      "cap": 4
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 61,
+      "opponent": 61,
+      "observer": 61,
+      "self": 61
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 62,
+      "opponent": 62,
+      "observer": 62,
+      "self": 62
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "specFamily": "ash_bow",
+   "reach": {
+    "attackerKit": "ranged",
+    "samples": 569,
+    "adjacentShare": 1,
+    "atRangeShare": 0
+   },
+   "winner": "Ash2qbq",
+   "loser": "Bryn2qbq",
+   "ticks": 325,
+   "seconds": 191,
+   "fx": {
+    "attacker": {
+     "hits": 123,
+     "splats": 123,
+     "projectiles": 62,
+     "matchedProjectile": 62,
+     "matchedSwing": 0,
+     "matchedNext": 61,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 123,
+     "splats": 123,
+     "projectiles": 62,
+     "matchedProjectile": 62,
+     "matchedSwing": 0,
+     "matchedNext": 61,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-magic-vs-ranged",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Bryn2qbq (level-51)",
+      "Walk here",
+      "Follow Bryn2qbq (level-51)",
+      "Trade with Bryn2qbq (level-51)",
+      "Report Bryn2qbq",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "magic",
+      "samples": 378,
+      "adjacentShare": 0,
+      "atRangeShare": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 3061,
+      "killer": "bryn2qbq",
+      "victim": "ash2qbq",
+      "x": 57,
+      "z": 66,
+      "dropped": [
+       [
+        "water_rune",
+        318
+       ],
+       [
+        "chaos_rune",
+        159
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_blue",
+        1
+       ],
+       [
+        "amulet_of_warding",
+        1
+       ],
+       [
+        "cloth_robe_skirt",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 34,
+      "z": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ],
+      "promised": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ],
+      "kept": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Bryn2qbq.You kept:9 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 3,
+      "after": 12
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 52,
+       "splats": 52,
+       "projectiles": 81,
+       "matchedProjectile": 52,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 52,
+       "splats": 52,
+       "projectiles": 81,
+       "matchedProjectile": 52,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 40,
+      "opponent": 40,
+      "observer": 40,
+      "self": 40
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 12,
+      "opponent": 12,
+      "observer": 12,
+      "self": 12
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reach": {
+    "attackerKit": "magic",
+    "samples": 378,
+    "adjacentShare": 0,
+    "atRangeShare": 1
+   },
+   "winner": "Bryn2qbq",
+   "loser": "Ash2qbq",
+   "ticks": 221,
+   "seconds": 131.4,
+   "fx": {
+    "attacker": {
+     "hits": 52,
+     "splats": 52,
+     "projectiles": 81,
+     "matchedProjectile": 52,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 52,
+     "splats": 52,
+     "projectiles": 81,
+     "matchedProjectile": 52,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-melee-swapped",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Ash2qbq (level-51)",
+      "Walk here",
+      "Follow Ash2qbq (level-51)",
+      "Trade with Ash2qbq (level-51)",
+      "Report Ash2qbq",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "style, prayer and food switches answer on the next tick",
+     "detail": {
+      "style": 349,
+      "prayer": 580,
+      "eat": 702
+     }
+    },
+    {
+     "ok": true,
+     "label": "the special attack fires from the orb after a weapon switch (energy spent, special swing seen)",
+     "detail": {
+      "switched": true,
+      "energyBefore": 100,
+      "energyAfter": 75,
+      "specSwings": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "melee",
+      "samples": 224,
+      "adjacentShare": 1,
+      "atRangeShare": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 3290,
+      "killer": "ash2qbq",
+      "victim": "bryn2qbq",
+      "x": 60,
+      "z": 66,
+      "dropped": [
+       [
+        "steel_sword",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 30,
+      "z": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "promised": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ash2qbq.You kept:8 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 3,
+      "after": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 52,
+       "splats": 52,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 26,
+       "matchedNext": 26,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 52,
+       "splats": 52,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 26,
+       "matchedNext": 26,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 26,
+      "opponent": 26,
+      "observer": 26,
+      "self": 26
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 26,
+      "opponent": 26,
+      "observer": 26,
+      "self": 26
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "responsiveness": {
+    "ms": {
+     "style": 349,
+     "prayer": 580,
+     "eat": 702
+    },
+    "ticks": {
+     "style": 0.58,
+     "prayer": 0.97,
+     "eat": 1.17
+    }
+   },
+   "specFamily": "steel_sword",
+   "reach": {
+    "attackerKit": "melee",
+    "samples": 224,
+    "adjacentShare": 1,
+    "atRangeShare": 0
+   },
+   "winner": "Ash2qbq",
+   "loser": "Bryn2qbq",
+   "ticks": 144,
+   "seconds": 80.2,
+   "fx": {
+    "attacker": {
+     "hits": 52,
+     "splats": 52,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 26,
+     "matchedNext": 26,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 52,
+     "splats": 52,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 26,
+     "matchedNext": 26,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-ranged-swapped",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Ash2qbq (level-51)",
+      "Walk here",
+      "Follow Ash2qbq (level-51)",
+      "Trade with Ash2qbq (level-51)",
+      "Report Ash2qbq",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "magic",
+      "samples": 386,
+      "adjacentShare": 0,
+      "atRangeShare": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 3598,
+      "killer": "ash2qbq",
+      "victim": "bryn2qbq",
+      "x": 57,
+      "z": 66,
+      "dropped": [
+       [
+        "arrows",
+        259
+       ],
+       [
+        "ash_bow",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_green",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 34,
+      "z": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "amulet_of_precisionx1",
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "promised": [
+       "amulet_of_precisionx1",
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "amulet_of_precisionx1",
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ],
+      "kept": [
+       "amulet_of_precisionx1",
+       "gale_longbowx1",
+       "steel_platebodyx1",
+       "steel_platelegsx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Ash2qbq.You kept:7 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the c"
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 4,
+      "after": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 58,
+       "splats": 58,
+       "projectiles": 82,
+       "matchedProjectile": 58,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 58,
+       "splats": 58,
+       "projectiles": 82,
+       "matchedProjectile": 58,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 17,
+      "opponent": 17,
+      "observer": 17,
+      "self": 17
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 41,
+      "opponent": 41,
+      "observer": 41,
+      "self": 41
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reach": {
+    "attackerKit": "magic",
+    "samples": 386,
+    "adjacentShare": 0,
+    "atRangeShare": 1
+   },
+   "winner": "Ash2qbq",
+   "loser": "Bryn2qbq",
+   "ticks": 223,
+   "seconds": 132.7,
+   "fx": {
+    "attacker": {
+     "hits": 58,
+     "splats": 58,
+     "projectiles": 82,
+     "matchedProjectile": 58,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 58,
+     "splats": 58,
+     "projectiles": 82,
+     "matchedProjectile": 58,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-reconnect",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Bryn2qbq (level-51)",
+      "Walk here",
+      "Follow Bryn2qbq (level-51)",
+      "Trade with Bryn2qbq (level-51)",
+      "Report Bryn2qbq",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the dropped adventurer stays in the world (x-log protection)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the client logs in again and re-attaches to the same adventurer",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "logging out mid-fight is refused (the combat logout lock)",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "the attacker fights from the right reach (melee adjacent, ranged and magic from range)",
+     "detail": {
+      "attackerKit": "melee",
+      "samples": 456,
+      "adjacentShare": 1,
+      "atRangeShare": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 3947,
+      "killer": "bryn2qbq",
+      "victim": "ash2qbq",
+      "x": 60,
+      "z": 66,
+      "dropped": [
+       [
+        "steel_sword",
+        1
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_red",
+        1
+       ],
+       [
+        "amulet_of_precision",
+        1
+       ],
+       [
+        "leather_chaps",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 33,
+      "z": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "promised": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ],
+      "kept": [
+       "iron_platebodyx1",
+       "steel_longswordx1",
+       "steel_sqshieldx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Bryn2qbq.You kept:8 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 3,
+      "after": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 98,
+       "splats": 98,
+       "projectiles": 48,
+       "matchedProjectile": 48,
+       "matchedSwing": 50,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 99,
+       "splats": 99,
+       "projectiles": 49,
+       "matchedProjectile": 49,
+       "matchedSwing": 50,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 49,
+      "opponent": 49,
+      "observer": 49,
+      "self": 48
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 50,
+      "opponent": 50,
+      "observer": 50,
+      "self": 50
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "reach": {
+    "attackerKit": "melee",
+    "samples": 456,
+    "adjacentShare": 1,
+    "atRangeShare": 0
+   },
+   "winner": "Bryn2qbq",
+   "loser": "Ash2qbq",
+   "ticks": 266,
+   "seconds": 155.6,
+   "fx": {
+    "attacker": {
+     "hits": 98,
+     "splats": 98,
+     "projectiles": 48,
+     "matchedProjectile": 48,
+     "matchedSwing": 50,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 99,
+     "splats": 99,
+     "projectiles": 49,
+     "matchedProjectile": 49,
+     "matchedSwing": 50,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvp-magic-vs-melee",
+   "checks": [
+    {
+     "ok": true,
+     "label": "attack option first in the menu with the level",
+     "detail": [
+      "Attack Bryn2qbq (level-51)",
+      "Walk here",
+      "Follow Bryn2qbq (level-51)",
+      "Trade with Bryn2qbq (level-51)",
+      "Report Bryn2qbq",
+      "Cancel"
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the observer sees both fighters",
+     "detail": {
+      "seenA": true,
+      "seenB": true
+     }
+    },
+    {
+     "ok": true,
+     "label": "no skull for striking back at a recent attacker (2004 rule); the defender unskulled",
+     "detail": {
+      "a": 0,
+      "b": 0,
+      "expectSkull": false
+     }
+    },
+    {
+     "ok": true,
+     "label": "the attacker sees their own skull state",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "the special attack fires from the orb after a weapon switch (energy spent, special swing seen)",
+     "detail": {
+      "switched": true,
+      "energyBefore": 100,
+      "energyAfter": 45,
+      "specSwings": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "the server credits the kill to the winner",
+     "detail": {
+      "event": "pvp_kill",
+      "tick": 4288,
+      "killer": "bryn2qbq",
+      "victim": "ash2qbq",
+      "x": 57,
+      "z": 66,
+      "dropped": [
+       [
+        "water_rune",
+        304
+       ],
+       [
+        "chaos_rune",
+        152
+       ],
+       [
+        "coins",
+        100
+       ],
+       [
+        "steel_medhelm",
+        1
+       ],
+       [
+        "trav_cape_blue",
+        1
+       ],
+       [
+        "amulet_of_warding",
+        1
+       ],
+       [
+        "cloth_robe_skirt",
+        1
+       ],
+       [
+        "leather_gloves",
+        1
+       ],
+       [
+        "leather_boots",
+        1
+       ]
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "respawned at the Commons respawn",
+     "detail": {
+      "x": 34,
+      "z": 9
+     }
+    },
+    {
+     "ok": true,
+     "label": "kept items equal the client preview",
+     "detail": {
+      "kept": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ],
+      "promised": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the loser holds exactly the kept items",
+     "detail": {
+      "inv": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ],
+      "kept": [
+       "glimmer_robe_topx1",
+       "steel_sqshieldx1",
+       "storm_staffx1"
+      ]
+     }
+    },
+    {
+     "ok": true,
+     "label": "the death screen explains what was kept",
+     "detail": "Oh dear, you are dead!You were defeated by Bryn2qbq.You kept:9 items were left where you fell, for your killer.You wake in the Commons. The supply chest by the "
+    },
+    {
+     "ok": true,
+     "label": "the winner sees the whole pile as theirs",
+     "detail": {
+      "missing": [],
+      "pile": 10
+     }
+    },
+    {
+     "ok": true,
+     "label": "the observer cannot see the private pile",
+     "detail": 0
+    },
+    {
+     "ok": true,
+     "label": "loot reaches the winner's pack",
+     "detail": {
+      "before": 3,
+      "after": 12
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile (no untimed hits, no late projectiles)",
+     "detail": {
+      "attacker": {
+       "hits": 66,
+       "splats": 66,
+       "projectiles": 48,
+       "matchedProjectile": 18,
+       "matchedSwing": 0,
+       "matchedNext": 48,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      },
+      "observer": {
+       "hits": 66,
+       "splats": 66,
+       "projectiles": 48,
+       "matchedProjectile": 18,
+       "matchedSwing": 0,
+       "matchedNext": 48,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "protection caps Ash2qbq's hits on Bryn2qbq at 6 (max 10)",
+     "detail": {
+      "biggest": 6,
+      "cap": 6
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Ash2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 48,
+      "opponent": 48,
+      "observer": 48,
+      "self": 48
+     }
+    },
+    {
+     "ok": true,
+     "label": "splats on Bryn2qbq match the server hits (no double or lost hits)",
+     "detail": {
+      "server": 18,
+      "opponent": 18,
+      "observer": 18,
+      "self": 18
+     }
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "leftClickAttack": true,
+   "specFamily": "storm_staff",
+   "reach": {
+    "attackerKit": "magic",
+    "samples": 442,
+    "adjacentShare": 1,
+    "atRangeShare": 0
+   },
+   "winner": "Bryn2qbq",
+   "loser": "Ash2qbq",
+   "ticks": 256,
+   "seconds": 150.4,
+   "fx": {
+    "attacker": {
+     "hits": 66,
+     "splats": 66,
+     "projectiles": 48,
+     "matchedProjectile": 18,
+     "matchedSwing": 0,
+     "matchedNext": 48,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    },
+    "observer": {
+     "hits": 66,
+     "splats": 66,
+     "projectiles": 48,
+     "matchedProjectile": 18,
+     "matchedSwing": 0,
+     "matchedNext": 48,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "strip": null
+  },
+  {
+   "name": "pvm-melee-hex_adept",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the hex_adept dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       381962,
+       383682
+      ],
+      [
+       "Defence",
+       372741,
+       372741
+      ],
+      [
+       "Hitpoints",
+       382623,
+       383189
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 18,
+      "npcShown": 18,
+      "meServer": 0,
+      "meShown": 0
+     }
+    },
+    {
+     "ok": false,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [],
+      "beforePrayerOrAfterItRanDry": 0
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 18,
+       "splats": 18,
+       "projectiles": 18,
+       "matchedProjectile": 0,
+       "matchedSwing": 0,
+       "matchedNext": 18,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 138,
+       "id": "bones",
+       "q": 1,
+       "x": 29,
+       "z": 105,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 139,
+       "id": "coins",
+       "q": 92,
+       "x": 29,
+       "z": 105,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 140,
+       "id": "air_rune",
+       "q": 8,
+       "x": 29,
+       "z": 105,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 141,
+       "id": "glimmer_hat",
+       "q": 1,
+       "x": 29,
+       "z": 105,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 53.7,
+   "ticks": 89,
+   "lootShownAfterMs": 3733,
+   "fx": {
+    "attacker": {
+     "hits": 18,
+     "splats": 18,
+     "projectiles": 18,
+     "matchedProjectile": 0,
+     "matchedSwing": 0,
+     "matchedNext": 18,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 18,
+    "byName": {
+     "attack": 18
+    },
+    "dists": [
+     3,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones",
+    "coins x92",
+    "air_rune x8",
+    "glimmer_hat"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-melee-cinder_rat",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the cinder_rat dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       383682,
+       384162
+      ],
+      [
+       "Defence",
+       372741,
+       372741
+      ],
+      [
+       "Hitpoints",
+       383189,
+       383347
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 9,
+      "npcShown": 9,
+      "meServer": 10,
+      "meShown": 10
+     }
+    },
+    {
+     "ok": false,
+     "label": "the pack: another cinder rat comes for you once the first falls",
+     "detail": {
+      "engagedDuringFight": 2,
+      "nextAfterTicks": null
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 19,
+       "splats": 19,
+       "projectiles": 0,
+       "matchedProjectile": 0,
+       "matchedSwing": 10,
+       "matchedNext": 9,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 142,
+       "id": "bones",
+       "q": 1,
+       "x": 34,
+       "z": 54,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 143,
+       "id": "fire_rune",
+       "q": 2,
+       "x": 34,
+       "z": 54,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 26,
+   "ticks": 43,
+   "lootShownAfterMs": 4773,
+   "fx": {
+    "attacker": {
+     "hits": 19,
+     "splats": 19,
+     "projectiles": 0,
+     "matchedProjectile": 0,
+     "matchedSwing": 10,
+     "matchedNext": 9,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 10,
+    "byName": {
+     "attack": 10
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "pack": {
+    "engagedDuringFight": 2,
+    "nextAfterTicks": null
+   },
+   "drop": [
+    "bones",
+    "fire_rune x2"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-ranged-scar_raider_archer",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the scar_raider_archer dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Ranged",
+       380586,
+       382026
+      ],
+      [
+       "Hitpoints",
+       383504,
+       383979
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 11,
+      "npcShown": 11,
+      "meServer": 11,
+      "meShown": 11
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "beforePrayerOrAfterItRanDry": 2
+     }
+    },
+    {
+     "ok": true,
+     "label": "the scar_raider_archer strikes from range (2+ tiles)",
+     "detail": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+     ]
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 22,
+       "splats": 22,
+       "projectiles": 21,
+       "matchedProjectile": 22,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 146,
+       "id": "arrows",
+       "q": 28,
+       "x": 19,
+       "z": 85,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 147,
+       "id": "bones",
+       "q": 1,
+       "x": 19,
+       "z": 85,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 33.5,
+   "ticks": 55,
+   "lootShownAfterMs": 6210,
+   "fx": {
+    "attacker": {
+     "hits": 22,
+     "splats": 22,
+     "projectiles": 21,
+     "matchedProjectile": 22,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 10,
+    "byName": {
+     "attack": 10
+    },
+    "dists": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ]
+   },
+   "drop": [
+    "arrows x28",
+    "bones"
+   ],
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass5/strip_pvm_bestiary_archer.jpg"
+  },
+  {
+   "name": "pvm-melee-cinder_wyrmling",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the cinder_wyrmling dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       384642,
+       389642
+      ],
+      [
+       "Defence",
+       372741,
+       372741
+      ],
+      [
+       "Hitpoints",
+       383979,
+       385625
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 92,
+      "npcShown": 92,
+      "meServer": 81,
+      "meShown": 81
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "beforePrayerOrAfterItRanDry": 34
+     }
+    },
+    {
+     "ok": true,
+     "label": "the wyrmling breathes every third attack (a magic projectile, timed like any other)",
+     "detail": {
+      "sequence": "attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack",
+      "breaths": 31,
+      "breathHitsOnMe": 31
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 173,
+       "splats": 173,
+       "projectiles": 31,
+       "matchedProjectile": 19,
+       "matchedSwing": 62,
+       "matchedNext": 92,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 148,
+       "id": "big_bones",
+       "q": 1,
+       "x": 32,
+       "z": 122,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 149,
+       "id": "ashes",
+       "q": 1,
+       "x": 32,
+       "z": 122,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 150,
+       "id": "aurel_platelegs",
+       "q": 1,
+       "x": 32,
+       "z": 122,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "sustained": 8,
+   "seconds": 283.2,
+   "ticks": 472,
+   "lootShownAfterMs": 7370,
+   "fx": {
+    "attacker": {
+     "hits": 173,
+     "splats": 173,
+     "projectiles": 31,
+     "matchedProjectile": 19,
+     "matchedSwing": 62,
+     "matchedNext": 92,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 94,
+    "byName": {
+     "attack": 63,
+     "breath": 31
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "breath": {
+    "sequence": "attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack",
+    "breaths": 31,
+    "breathHitsOnMe": 31
+   },
+   "drop": [
+    "big_bones",
+    "ashes",
+    "aurel_platelegs"
+   ],
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass5/strip_pvm_bestiary_wyrmling.jpg"
+  },
+  {
+   "name": "pvm-melee-ember_mage",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the ember_mage dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       389642,
+       391282
+      ],
+      [
+       "Defence",
+       372741,
+       372741
+      ],
+      [
+       "Hitpoints",
+       385625,
+       386164
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 22,
+      "npcShown": 22,
+      "meServer": 1,
+      "meShown": 1
+     }
+    },
+    {
+     "ok": false,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [],
+      "beforePrayerOrAfterItRanDry": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 23,
+       "splats": 23,
+       "projectiles": 21,
+       "matchedProjectile": 1,
+       "matchedSwing": 0,
+       "matchedNext": 22,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 151,
+       "id": "bones",
+       "q": 1,
+       "x": 34,
+       "z": 108,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 152,
+       "id": "coins",
+       "q": 94,
+       "x": 34,
+       "z": 108,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 65.8,
+   "ticks": 109,
+   "lootShownAfterMs": 6220,
+   "fx": {
+    "attacker": {
+     "hits": 23,
+     "splats": 23,
+     "projectiles": 21,
+     "matchedProjectile": 1,
+     "matchedSwing": 0,
+     "matchedNext": 22,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 21,
+    "byName": {
+     "attack": 21
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones",
+    "coins x94"
+   ],
+   "strip": "../../../AppData/Local/Temp/claude/C--Users-iQwaZ-OneDrive-Desktop-batchgen-claude-export/36f099b6-b6bb-46eb-84d8-b59bf9a27839/scratchpad/ev_pass5/strip_pvm_bestiary_mage.jpg"
+  },
+  {
+   "name": "pvm-magic-scar_raider_archer",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the scar_raider_archer dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Magic",
+       412086,
+       415136
+      ],
+      [
+       "Hitpoints",
+       386164,
+       386651
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 10,
+      "npcShown": 10,
+      "meServer": 15,
+      "meShown": 15
+     }
+    },
+    {
+     "ok": true,
+     "label": "the scar_raider_archer strikes from range (2+ tiles)",
+     "detail": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+     ]
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 25,
+       "splats": 25,
+       "projectiles": 28,
+       "matchedProjectile": 25,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 153,
+       "id": "bones",
+       "q": 1,
+       "x": 18,
+       "z": 84,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 42,
+   "ticks": 70,
+   "lootShownAfterMs": 6993,
+   "fx": {
+    "attacker": {
+     "hits": 25,
+     "splats": 25,
+     "projectiles": 28,
+     "matchedProjectile": 25,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 14,
+    "byName": {
+     "attack": 14
+    },
+    "dists": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ]
+   },
+   "drop": [
+    "bones"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-ranged-cinder_wyrmling",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the cinder_wyrmling dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Ranged",
+       382026,
+       387026
+      ],
+      [
+       "Hitpoints",
+       386651,
+       388296
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 86,
+      "npcShown": 86,
+      "meServer": 74,
+      "meShown": 74
+     }
+    },
+    {
+     "ok": true,
+     "label": "the wyrmling breathes every third attack (a magic projectile, timed like any other)",
+     "detail": {
+      "sequence": "attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack",
+      "breaths": 29,
+      "breathHitsOnMe": 29
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 160,
+       "splats": 160,
+       "projectiles": 115,
+       "matchedProjectile": 101,
+       "matchedSwing": 59,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 159,
+       "id": "arrows",
+       "q": 5,
+       "x": 34,
+       "z": 120,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 160,
+       "id": "big_bones",
+       "q": 1,
+       "x": 34,
+       "z": 120,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 161,
+       "id": "ashes",
+       "q": 1,
+       "x": 34,
+       "z": 120,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 162,
+       "id": "coins",
+       "q": 511,
+       "x": 34,
+       "z": 120,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "sustained": 6,
+   "seconds": 266.9,
+   "ticks": 444,
+   "lootShownAfterMs": 6893,
+   "fx": {
+    "attacker": {
+     "hits": 160,
+     "splats": 160,
+     "projectiles": 115,
+     "matchedProjectile": 101,
+     "matchedSwing": 59,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 88,
+    "byName": {
+     "attack": 59,
+     "breath": 29
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "breath": {
+    "sequence": "attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack",
+    "breaths": 29,
+    "breathHitsOnMe": 29
+   },
+   "drop": [
+    "arrows x5",
+    "big_bones",
+    "ashes",
+    "coins x511"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-ranged-ember_mage",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the ember_mage dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Ranged",
+       387026,
+       388626
+      ],
+      [
+       "Hitpoints",
+       388296,
+       388823
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 17,
+      "npcShown": 17,
+      "meServer": 8,
+      "meShown": 8
+     }
+    },
+    {
+     "ok": true,
+     "label": "the ember_mage strikes from range (2+ tiles)",
+     "detail": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+     ]
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 25,
+       "splats": 25,
+       "projectiles": 34,
+       "matchedProjectile": 25,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 163,
+       "id": "arrows",
+       "q": 12,
+       "x": 33,
+       "z": 108,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 164,
+       "id": "bones",
+       "q": 1,
+       "x": 33,
+       "z": 108,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 165,
+       "id": "coins",
+       "q": 86,
+       "x": 33,
+       "z": 108,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 51.6,
+   "ticks": 86,
+   "lootShownAfterMs": 5591,
+   "fx": {
+    "attacker": {
+     "hits": 25,
+     "splats": 25,
+     "projectiles": 34,
+     "matchedProjectile": 25,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 17,
+    "byName": {
+     "attack": 17
+    },
+    "dists": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3
+    ]
+   },
+   "drop": [
+    "arrows x12",
+    "bones",
+    "coins x86"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-ranged-scar_skeleton",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the scar_skeleton dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Ranged",
+       388626,
+       390106
+      ],
+      [
+       "Hitpoints",
+       388823,
+       389311
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 19,
+      "npcShown": 19,
+      "meServer": 26,
+      "meShown": 26
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 47,
+       "splats": 47,
+       "projectiles": 21,
+       "matchedProjectile": 21,
+       "matchedSwing": 26,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 167,
+       "id": "arrows",
+       "q": 16,
+       "x": 32,
+       "z": 84,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 168,
+       "id": "bones",
+       "q": 1,
+       "x": 32,
+       "z": 84,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 57.1,
+   "ticks": 95,
+   "lootShownAfterMs": 6063,
+   "fx": {
+    "attacker": {
+     "hits": 47,
+     "splats": 47,
+     "projectiles": 21,
+     "matchedProjectile": 21,
+     "matchedSwing": 26,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 23,
+    "byName": {
+     "attack": 23
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "arrows x16",
+    "bones"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-melee-scar_raider_archer",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the scar_raider_archer dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Attack",
+       372240,
+       372240
+      ],
+      [
+       "Strength",
+       391282,
+       392722
+      ],
+      [
+       "Defence",
+       372741,
+       372741
+      ],
+      [
+       "Hitpoints",
+       389311,
+       389784
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 16,
+      "npcShown": 16,
+      "meServer": 16,
+      "meShown": 16
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 32,
+       "splats": 32,
+       "projectiles": 15,
+       "matchedProjectile": 16,
+       "matchedSwing": 0,
+       "matchedNext": 16,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 171,
+       "id": "bones",
+       "q": 1,
+       "x": 19,
+       "z": 84,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 172,
+       "id": "coins",
+       "q": 76,
+       "x": 19,
+       "z": 84,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 47.9,
+   "ticks": 80,
+   "lootShownAfterMs": 5903,
+   "fx": {
+    "attacker": {
+     "hits": 32,
+     "splats": 32,
+     "projectiles": 15,
+     "matchedProjectile": 16,
+     "matchedSwing": 0,
+     "matchedNext": 16,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 15,
+    "byName": {
+     "attack": 15
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones",
+    "coins x76"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-magic-cinder_wyrmling",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the cinder_wyrmling dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Magic",
+       415136,
+       431311
+      ],
+      [
+       "Hitpoints",
+       389784,
+       391418
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 32,
+      "npcShown": 32,
+      "meServer": 72,
+      "meShown": 72
+     }
+    },
+    {
+     "ok": true,
+     "label": "the wyrmling breathes every third attack (a magic projectile, timed like any other)",
+     "detail": {
+      "sequence": "attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath",
+      "breaths": 28,
+      "breathHitsOnMe": 28
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 104,
+       "splats": 104,
+       "projectiles": 111,
+       "matchedProjectile": 48,
+       "matchedSwing": 56,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 173,
+       "id": "big_bones",
+       "q": 1,
+       "x": 34,
+       "z": 120,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 174,
+       "id": "ashes",
+       "q": 1,
+       "x": 34,
+       "z": 120,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 175,
+       "id": "fire_rune",
+       "q": 50,
+       "x": 34,
+       "z": 120,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "sustained": 9,
+   "seconds": 255.8,
+   "ticks": 426,
+   "lootShownAfterMs": 7482,
+   "fx": {
+    "attacker": {
+     "hits": 104,
+     "splats": 104,
+     "projectiles": 111,
+     "matchedProjectile": 48,
+     "matchedSwing": 56,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 84,
+    "byName": {
+     "attack": 56,
+     "breath": 28
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "breath": {
+    "sequence": "attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath attack attack breath",
+    "breaths": 28,
+    "breathHitsOnMe": 28
+   },
+   "drop": [
+    "big_bones",
+    "ashes",
+    "fire_rune x50"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-magic-ember_mage",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the ember_mage dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Magic",
+       431311,
+       435596
+      ],
+      [
+       "Hitpoints",
+       391418,
+       391960
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 10,
+      "npcShown": 10,
+      "meServer": 12,
+      "meShown": 12
+     }
+    },
+    {
+     "ok": true,
+     "label": "the ember_mage strikes from range (2+ tiles)",
+     "detail": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+     ]
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 22,
+       "splats": 22,
+       "projectiles": 42,
+       "matchedProjectile": 22,
+       "matchedSwing": 0,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 176,
+       "id": "bones",
+       "q": 1,
+       "x": 33,
+       "z": 108,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 63.4,
+   "ticks": 105,
+   "lootShownAfterMs": 6383,
+   "fx": {
+    "attacker": {
+     "hits": 22,
+     "splats": 22,
+     "projectiles": 42,
+     "matchedProjectile": 22,
+     "matchedSwing": 0,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 21,
+    "byName": {
+     "attack": 21
+    },
+    "dists": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3,
+     3
+    ]
+   },
+   "drop": [
+    "bones"
+   ],
+   "strip": null
+  },
+  {
+   "name": "pvm-magic-ash_stalker",
+   "checks": [
+    {
+     "ok": true,
+     "label": "the ash_stalker dies",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "experience for the style and Hitpoints arrives",
+     "detail": [
+      [
+       "Magic",
+       435596,
+       442296
+      ],
+      [
+       "Hitpoints",
+       391960,
+       392897
+      ]
+     ]
+    },
+    {
+     "ok": true,
+     "label": "splats match the server hits (monster and adventurer)",
+     "detail": {
+      "npcServer": 17,
+      "npcShown": 17,
+      "meServer": 39,
+      "meShown": 39
+     }
+    },
+    {
+     "ok": true,
+     "label": "the protection prayer blocks the monster completely",
+     "detail": {
+      "blows": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "beforePrayerOrAfterItRanDry": 1
+     }
+    },
+    {
+     "ok": true,
+     "label": "every splat is tied to its swing or projectile",
+     "detail": {
+      "attacker": {
+       "hits": 56,
+       "splats": 56,
+       "projectiles": 32,
+       "matchedProjectile": 17,
+       "matchedSwing": 39,
+       "matchedNext": 0,
+       "generic": 0,
+       "late": 0,
+       "deaths": 1
+      }
+     }
+    },
+    {
+     "ok": true,
+     "label": "the drop shows as ours once the body has sunk",
+     "detail": [
+      {
+       "uid": 177,
+       "id": "bones",
+       "q": 1,
+       "x": 45,
+       "z": 111,
+       "own": true,
+       "hidden": false
+      },
+      {
+       "uid": 178,
+       "id": "beast_hide",
+       "q": 1,
+       "x": 45,
+       "z": 111,
+       "own": true,
+       "hidden": false
+      }
+     ]
+    },
+    {
+     "ok": true,
+     "label": "the bones reach the pack",
+     "detail": null
+    },
+    {
+     "ok": true,
+     "label": "every page agrees with the server (tiles, hitpoints)",
+     "detail": []
+    }
+   ],
+   "seconds": 95.6,
+   "ticks": 159,
+   "lootShownAfterMs": 6136,
+   "fx": {
+    "attacker": {
+     "hits": 56,
+     "splats": 56,
+     "projectiles": 32,
+     "matchedProjectile": 17,
+     "matchedSwing": 39,
+     "matchedNext": 0,
+     "generic": 0,
+     "late": 0,
+     "deaths": 1
+    }
+   },
+   "monsterAttacks": {
+    "total": 39,
+    "byName": {
+     "attack": 39
+    },
+    "dists": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "drop": [
+    "bones",
+    "beast_hide"
+   ],
+   "strip": null
+  }
+ ],
+ "failures": [
+  "pvm-melee-moss_seer: the protection prayer blocks the monster completely {\"blows\":[],\"beforePrayerOrAfterItRanDry\":0}",
+  "pvm-melee-hex_adept: the protection prayer blocks the monster completely {\"blows\":[],\"beforePrayerOrAfterItRanDry\":0}",
+  "pvm-melee-cinder_rat: the pack: another cinder rat comes for you once the first falls {\"engagedDuringFight\":2,\"nextAfterTicks\":null}",
+  "pvm-melee-ember_mage: the protection prayer blocks the monster completely {\"blows\":[],\"beforePrayerOrAfterItRanDry\":1}"
+ ],
+ "pageErrors": {
+  "A": [],
+  "B": [],
+  "O": []
+ },
+ "measured": {
+  "accuracy": {
+   "rolls": 1974,
+   "expectedHits": 823.8,
+   "observedHits": 813,
+   "z": -0.49
+  },
+  "damage": [
+   {
+    "max": 4,
+    "draws": 56,
+    "counts": [
+     11,
+     10,
+     12,
+     12,
+     11
+    ],
+    "chi2": 0.25,
+    "dof": 4
+   },
+   {
+    "max": 6,
+    "draws": 56,
+    "counts": [
+     10,
+     9,
+     13,
+     6,
+     5,
+     6,
+     7
+    ],
+    "chi2": 6,
+    "dof": 6
+   },
+   {
+    "max": 7,
+    "draws": 401,
+    "counts": [
+     58,
+     50,
+     62,
+     41,
+     39,
+     57,
+     45,
+     49
+    ],
+    "chi2": 9.67,
+    "dof": 7
+   },
+   {
+    "max": 8,
+    "draws": 76,
+    "counts": [
+     7,
+     11,
+     9,
+     11,
+     8,
+     5,
+     11,
+     7,
+     7
+    ],
+    "chi2": 4.53,
+    "dof": 8
+   },
+   {
+    "max": 10,
+    "draws": 151,
+    "counts": [
+     15,
+     20,
+     16,
+     13,
+     15,
+     11,
+     18,
+     9,
+     13,
+     8,
+     13
+    ],
+    "chi2": 9.48,
+    "dof": 10
+   },
+   {
+    "max": 14,
+    "draws": 50,
+    "counts": [
+     7,
+     5,
+     4,
+     0,
+     4,
+     4,
+     6,
+     1,
+     0,
+     3,
+     4,
+     1,
+     2,
+     3,
+     6
+    ],
+    "chi2": 20.2,
+    "dof": 14
+   }
+  ],
+  "attackSpeed": [
+   {
+    "weapon": "steel_longsword",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 457,
+    "hist": {
+     "5": 432,
+     "8": 24,
+     "11": 1
+    }
+   },
+   {
+    "weapon": "gale_longbow",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 478,
+    "hist": {
+     "5": 444,
+     "8": 32,
+     "11": 2
+    }
+   },
+   {
+    "weapon": "storm_staff",
+    "name": "cast",
+    "expect": 5,
+    "mode": 5,
+    "samples": 400,
+    "hist": {
+     "5": 377,
+     "8": 23
+    }
+   },
+   {
+    "weapon": "monster",
+    "name": "attack",
+    "expect": 4,
+    "mode": 4,
+    "samples": 159,
+    "hist": {
+     "4": 159
+    }
+   },
+   {
+    "weapon": "monster",
+    "name": "attack",
+    "expect": 5,
+    "mode": 5,
+    "samples": 302,
+    "hist": {
+     "5": 302
+    }
+   },
+   {
+    "weapon": "monster",
+    "name": "breath",
+    "expect": 5,
+    "mode": 5,
+    "samples": 88,
+    "hist": {
+     "5": 88
+    }
+   }
+  ],
+  "projectileTiming": {
+   "matched": 798,
+   "mismatched": 0,
+   "examples": []
+  }
+ },
+ "movement": {
+  "Ash2qbq": {
+   "maxBacklog": 3,
+   "catchUps": 0,
+   "teleports": 2,
+   "ticksSeen": 7951,
+   "tickGaps": 2,
+   "maxGapMs": 899,
+   "reconnects": 1
+  },
+  "Bryn2qbq": {
+   "maxBacklog": 5,
+   "catchUps": 2,
+   "teleports": 4,
+   "ticksSeen": 7952,
+   "tickGaps": 1,
+   "maxGapMs": 891,
+   "reconnects": 0
+  },
+  "Oak2qbq": {
+   "maxBacklog": 4,
+   "catchUps": 0,
+   "teleports": 1,
+   "ticksSeen": 7941,
+   "tickGaps": 1,
+   "maxGapMs": 1216,
+   "reconnects": 0
+  }
+ },
+ "finished": "2026-09-27T05:07:21.091Z",
+ "pass": false
+}
