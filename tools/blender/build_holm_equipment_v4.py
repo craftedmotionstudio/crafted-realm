@@ -1012,14 +1012,14 @@ def sk_gloves(mb, bt, over=None):
             rings.append(KB.xring(c, ax, th * k + g, wd * k + g, wd * k + g, 6, phase=math.pi / 6)); ws.append(wts); mats.append(LE)
         mb.loft(rings, LE, ws, cap0=False, cap1=True, matfn=lambda i, kk: mats[i] if i < 3 else LE)
 
-BOOT_TOP_GROW = .012   # v4: kit v4 trousers end at the top of the instep (FOOT_BLEND feet): the boot's instep clears their hem
+BOOT_TOP_GROW = .024   # v4: kit v4 trousers end at the top of the instep (FOOT_BLEND feet): the boot's instep clears their hem
 def sk_boots(mb, bt, over=None):
     for sx in (-1, 1):
         sl = [(z, yf - .004, yb + .004, wo, wi) for z, yf, yb, wo, wi in KB.FOOT_SL]
         rings = []
         for z, yf, yb, wo, wi in sl:   # v4: the upper slices stand a little further off (the v4 trouser hem ends at the instep top)
             rings.append(KB.foot_slice(bt, sx, z, yf, yb, wo, wi, grow=.013 + BOOT_TOP_GROW * KB.ss(.06, .122, z), hk=1.05))
-        shaft = [(1.97, .040), (1.88, .044), (1.76, .038), (1.64, .032), (1.58, .030)]   # (room over turn-ups in the run;
+        shaft = [(1.97, .045), (1.88, .050), (1.76, .045), (1.64, .034), (1.58, .030)]   # (room over turn-ups in the run;
         # v4: and over the kit foot's collar as the 2004 walk rolls the ankle through 58 deg)
         rings += KB.shin_rings(bt, sx, shaft)
         fw, lw = KB.foot_w(sx), KB.leg_w(sx)

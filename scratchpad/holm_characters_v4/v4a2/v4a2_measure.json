@@ -237,17 +237,17 @@
  },
  "body": {
   "A": {
-   "height_m": 1.803,
+   "height_m": 1.801,
    "chin_m": 1.548,
    "collar_m": 1.5,
-   "head_h_m": 0.255,
+   "head_h_m": 0.253,
    "neck_front_m": 0.048
   },
   "B": {
-   "height_m": 1.805,
+   "height_m": 1.803,
    "chin_m": 1.553,
    "collar_m": 1.492,
-   "head_h_m": 0.252,
+   "head_h_m": 0.25,
    "neck_front_m": 0.061
   }
  },
@@ -258,14 +258,14 @@
    "steps_per_min": 128.6,
    "speed_mps": 2.014,
    "stride_m": 1.88,
-   "stride_H": 1.043,
-   "step_H": 0.521,
+   "stride_H": 1.044,
+   "step_H": 0.522,
    "bob_m": 0.09,
-   "bob_H": 0.0499,
-   "arm_swing_deg": 84.1,
-   "thigh_swing_deg": 59.9,
-   "hand_travel_H": 0.287,
-   "max_feet_apart_H": 0.443,
+   "bob_H": 0.05,
+   "arm_swing_deg": 84.0,
+   "thigh_swing_deg": 63.7,
+   "hand_travel_H": 0.288,
+   "max_feet_apart_H": 0.444,
    "elbow_deg": [
     26.9,
     33.0
@@ -280,19 +280,19 @@
    "steps_per_min": 180.0,
    "speed_mps": 4.029,
    "stride_m": 2.686,
-   "stride_H": 1.49,
-   "step_H": 0.745,
+   "stride_H": 1.491,
+   "step_H": 0.746,
    "bob_m": 0.08,
    "bob_H": 0.0444,
    "arm_swing_deg": 107.7,
-   "thigh_swing_deg": 56.1,
-   "hand_travel_H": 0.273,
-   "max_feet_apart_H": 0.386,
+   "thigh_swing_deg": 82.6,
+   "hand_travel_H": 0.27,
+   "max_feet_apart_H": 0.497,
    "elbow_deg": [
     71.6,
     79.7
    ],
-   "foot_lift_H": 0.084,
+   "foot_lift_H": 0.119,
    "poses_per_cycle": 9,
    "interpolation": "CONSTANT"
   }
@@ -303,18 +303,18 @@
    "clip_seconds": 0.933,
    "ground_speed_clip_mps": 2.014,
    "spine_chain_forward_tilt_deg": [
-    10.0,
-    10.0
+    13.12,
+    13.12
    ],
-   "knee_flex_at_contact_deg": 17.7,
-   "knee_flex_mid_stance_deg": 10.2,
+   "knee_flex_at_contact_deg": 24.5,
+   "knee_flex_mid_stance_deg": 8.6,
    "measured_planted_foot_speed_mps": 2.014,
-   "max_planted_speed_error_mps": 0.0,
+   "max_planted_speed_error_mps": 0.0009,
    "stride_m": 1.88,
    "step_m": 0.94,
    "duty": 0.52,
-   "max_stance_reach_error_m": 0.0,
-   "front_m": 0.44,
+   "max_stance_reach_error_m": 0.0002,
+   "front_m": 0.42,
    "pelvis_drop_m": 0.045
   },
   "run": {
@@ -322,8 +322,8 @@
    "clip_seconds": 0.667,
    "ground_speed_clip_mps": 4.029,
    "spine_chain_forward_tilt_deg": [
-    21.39,
-    21.39
+    27.28,
+    27.28
    ],
    "knee_flex_at_contact_deg": 16.2,
    "knee_flex_mid_stance_deg": 5.7,
