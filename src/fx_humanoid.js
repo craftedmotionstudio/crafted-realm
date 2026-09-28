@@ -135,11 +135,13 @@ function playerGLBAnim(root, dt, moving, speed){
   const busy = (g.attack && g.attack.isRunning()) || (g.block && g.block.isRunning());
   if(g.idle) g.idle.weight = busy ? 0 : (1 - g.w);
   if(g.kit && g.run){
-    // island kit (v2.8): walk authored slide-free at 2.4 m/s, run at 4.2 m/s; speed arrives as moveSpeed/4.2
-    const ms=speed*4.2, running=ms>3.3;
+    // island kit v4: walk / run authored slide-free at HOLM_KIT_MPS (kit metres) -- in the world that is x the rig's scale
+    // (1.67 / 3.33 tiles/s at 1.5 tiles tall); speed arrives as moveSpeed/4.2. Running = above the walk / run midpoint.
+    const K=(typeof HOLM_KIT_MPS!=='undefined')?HOLM_KIT_MPS:{walk:2.4,run:4.2}, sc=g.rigScale||1;
+    const wW=K.walk*sc, wR=K.run*sc, ms=speed*4.2, running=ms>(wW+wR)/2;
     if(!g.run._on){ g.run.play(); g.run.weight=0; g.run._on=true; }
-    g.run.weight = busy ? 0 : (running ? g.w : 0); g.run.timeScale = ms/4.2;
-    if(g.walk){ g.walk.weight = busy ? 0 : (running ? 0 : g.w); g.walk.timeScale = Math.max(0.3, ms/2.4); }
+    g.run.weight = busy ? 0 : (running ? g.w : 0); g.run.timeScale = ms/wR;
+    if(g.walk){ g.walk.weight = busy ? 0 : (running ? 0 : g.w); g.walk.timeScale = Math.max(0.3, ms/wW); }
   } else if(g.walk){ g.walk.weight = busy ? 0 : g.w; g.walk.timeScale = Math.max(0.5, speed); }
   g.mixer.update(dt);
   // a full helm collapses the Head bone (refreshGLBGear) and the helm is sized against that collapse; the kit v3.1
@@ -335,11 +337,13 @@ function refreshGLBGear(){
   };
   const bbox=m=>{ m.updateMatrixWorld(true); const b=new THREE.Box3().setFromObject(m);
     return b.getSize(new THREE.Vector3()); };
+  // kit v4: gear is sized in kit metres x the rig's scale (1.5-tile people carry proportionally smaller weapons)
+  const gk=(player.userData && player.userData.gmix && player.userData.gmix.rigScale)||1;
   const attach=(slot, boneName, m)=>{
     if(!m) return null;
     const bone=_glbBone(rig, boneName); if(!bone) return null;
     const ws=new THREE.Vector3(); bone.getWorldScale(ws);
-    m.scale.multiplyScalar(1/(ws.x||1));
+    m.scale.multiplyScalar(gk/(ws.x||1));
     m.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
     bone.add(m); gear[slot]=m;
     return {m, bone};
@@ -406,7 +410,7 @@ function refreshGLBGear(){
       } else {
         a.m.quaternion.copy(qBone.invert().multiply(new THREE.Quaternion().setFromUnitVectors(bladeLocal, dW)));
       }
-      a.m.position.set(0, 0.04, 0.05);
+      a.m.position.set(0, 0.04, 0.05);   // bone-local units (the bone's own frame scales with the rig)
     }
   }
   if(e.shield){
@@ -447,10 +451,10 @@ function refreshGLBGear(){
         // holm equipment v3 (kit v3.1: the arm hangs at the side): the riot shield rides 24 cm out on its arm cuff + brace
         // and 3 cm up, clear of the hip, thigh and chest in the idle / walk / run (build_holm_equipment_v3.py SQ_CARRY)
         const sq=sdef && sdef.model==='sqshield';
-        const pt=pE.clone().lerp(pW,0.55).add(inChar(LEFT).multiplyScalar(sq ? 0.24 : 0.065));
-        if(sq) pt.y+=0.03;
+        const pt=pE.clone().lerp(pW,0.55).add(inChar(LEFT).multiplyScalar((sq ? 0.24 : 0.065)*gk));
+        if(sq) pt.y+=0.03*gk;
         a.m.position.copy(a.bone.worldToLocal(pt));
-      } else a.m.position.set(0.12, (sdef && sdef.model==='sqshield') ? -0.05 : 0.03, 0.04);  // off the torso; riot shield rides a touch lower
+      } else a.m.position.set(0.12, (sdef && sdef.model==='sqshield') ? -0.05 : 0.03, 0.04);  // off the torso; riot shield rides a touch lower (bone-local)
     }
   }
   /* OSRS-style HEAD REPLACEMENT (owner 2026-07-17): a full helm doesn't sit on

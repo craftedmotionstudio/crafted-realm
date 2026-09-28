@@ -26,6 +26,7 @@ var HolmSkillTools=(function(){
   net:     {clips:['net'],ref:20,tool:'net',   axis:[0,-0.55,0.84],  rollAim:[0,1,0]},     // handle down into the water, hoop scooping flat
   firemake:{clips:['firemake','cook'],ref:4,tool:'tinderbox',axis:[1,0,0],rollAim:[0,1,0]}, // box across the fist, lid up
   cook:    {clips:['cook'],ref:16,tool:'food',  axis:[0,-0.3,0.95],   rollAim:[0,1,0]},     // held by the tail over the fire
+  cook_range:{clips:['cook_range','cook'],ref:22,tool:'food',axis:[0,-0.25,0.97],rollAim:[0,1,0]},  // slid forward into the oven (kit v4)
   smith:   {clips:['smith'],ref:7,tool:'hammer',axis:[0,-0.1,1],    rollAim:[0,-1,0]},    // head forward, face down on the anvil
   smelt:   {clips:['smelt'],ref:14,tool:'ore', axis:[1,0,0],         rollAim:[0,1,0]}      // a lump of ore in the fist
  };
@@ -39,7 +40,7 @@ var HolmSkillTools=(function(){
   hammer:   {from:'item',ids:['hammer'],     gripU:0.16,axis:[1,0,0],roll:[0,0,1]},          // handle -> head +X, striking face +Z
   ore:      {from:'item',ids:['copper_ore','tin_ore'],gripU:0.5,axis:[1,0,0],roll:[0,1,0]}
  };
- var CLIP_SKILL={chop:'chop',mine:'mine',net:'net',firemake:'firemake',cook:'cook',smith:'smith',smelt:'smelt'};
+ var CLIP_SKILL={chop:'chop',mine:'mine',net:'net',firemake:'firemake',cook:'cook',cook_range:'cook_range',smith:'smith',smelt:'smelt'};
  var PALM=0.085;
  var st={cur:null,hidden:[],cache:{},tick:0};
 
@@ -48,6 +49,7 @@ var HolmSkillTools=(function(){
   if(!a)return null;
   if(a.type==='gather'){var r=a.obj&&a.obj.userData&&a.obj.userData.rtype;return r==='tree'?'chop':r==='rock'?'mine':r==='fish'?'net':null}
   if(a.type==='lightfire')return 'firemake';
+  if(a.type==='cook'&&a.obj&&a.obj.userData&&a.obj.userData.range)return 'cook_range';   // the oven reach-in (kit v4)
   if(a.type==='cook'||a.type==='smith'||a.type==='smelt')return a.type;
   return null;
  }
@@ -127,7 +129,8 @@ var HolmSkillTools=(function(){
   var rig=player.userData.rigInner;if(!rig)return false;
   var hand=bone(rig,'RightHand');if(!hand)return false;
   var mesh=toolMesh(SKILLS[w.skill].tool,w.id);if(!mesh)return false;
-  var ws=new THREE.Vector3();hand.getWorldScale(ws);mesh.scale.setScalar(1/(ws.x||1));
+  var gk=(window.EquipBuilder&&EquipBuilder.gearScale)?EquipBuilder.gearScale(hand).k:1;   // kit v4: tools at the character's scale
+  var ws=new THREE.Vector3();hand.getWorldScale(ws);mesh.scale.setScalar(gk/(ws.x||1));
   var q=gripQuat(rig,hand,w.skill,w.clip);mesh.quaternion.copy(q);
   var palm=(window.EquipBuilder&&EquipBuilder.palmLocal)?EquipBuilder.palmLocal(hand,PALM):new THREE.Vector3(0,PALM/(ws.x||1),0);
   mesh.position.copy(palm).sub(mesh.userData.gripLocal.clone().applyQuaternion(q).multiply(mesh.scale));

@@ -65,7 +65,18 @@
   /* palm point in HAND-BONE LOCAL space: average the immediate finger children
    * (their .position is already bone-local), walk palmAlong metres that way.
    * Falls back to a mixamo-typical guess when a rig has no finger bones. */
+  /* kit v4: the character's scale (the kit rig is normalised to 1.5 tiles) and body type, found from any bone of it */
+  function gearScale(obj){
+    var o = obj, k = 1, body = 'A';
+    while(o){ var g = o.userData && o.userData.gmix; if(g){ k = g.rigScale || 1;
+        var rig = o.userData.rigInner; if(rig && typeof HolmEquipment!=='undefined' && HolmEquipment.kitBody) body = HolmEquipment.kitBody(rig) || 'A';
+        break; }
+      o = o.parent; }
+    return {k: k, body: body, ext: (typeof HOLM_GRIP_EXT!=='undefined' && HOLM_GRIP_EXT[body]) || 0};
+  }
   function palmLocal(bone, palmAlong){
+    var gs = gearScale(bone);
+    palmAlong = (palmAlong + gs.ext) * gs.k;
     var dir = new THREE.Vector3();
     var n = 0;
     for(var i=0;i<bone.children.length;i++){
@@ -142,5 +153,5 @@
   function handFor(model){ var s = EQUIP_SPECS[model]; return (s && s.hand) || 'RightHand'; }
 
   window.EquipBuilder = {specs: EQUIP_SPECS, solveHeld: solveHeld, audit: audit, handFor: handFor,
-    solveQuaternion: solveQuaternion, palmLocal: palmLocal};
+    solveQuaternion: solveQuaternion, palmLocal: palmLocal, gearScale: gearScale};
 })();

@@ -7,7 +7,7 @@
  * after a ladder, death. Island draft only (?holmIsland=1): the live game keeps its player until the cutover (M7). */
 var HolmIslandPlayer=(function(){
  'use strict';
- var URL='assets/models/holm_kit_v2.glb?v=11',st={root:null,clips:{},busy:null};
+ var URL='assets/models/holm_kit_v2.glb?v=14',st={root:null,clips:{},busy:null};
  var HAIR={short:'Hair_Short',long:'Hair_Long',ponytail:'Hair_Ponytail',bun:'Hair_Bun',mohawk:'Hair_Mohawk'};
  function hex(n){return '#'+('000000'+(Number(n)>>>0).toString(16)).slice(-6)}
  function look(){var c=typeof CharCfg!=='undefined'?CharCfg:{};return {female:c.gender==='f',hair:HAIR[c.hairStyle]||(c.hairStyle==='bald'?null:'Hair_Short'),beard:!!c.beard&&c.gender!=='f',
@@ -24,8 +24,11 @@ var HolmIslandPlayer=(function(){
   if(a&&a.type==='gather'&&u){if(u.rtype==='tree')return 'chop';if(u.rtype==='fish')return 'net';if(u.rtype==='rock')return 'mine'}
   // firemaking plays the kit's own 'firemake' clip once it ships, the cook (tend the fire) clip until then
   if(a&&a.type==='lightfire'){var gc=player&&player.userData&&player.userData.gmix&&player.userData.gmix.clips;return gc&&gc.firemake?'firemake':'cook'}
-  if(a&&a.type==='cook')return 'cook';
+  // v4: at a range (the bakehouse oven) the player reaches into the oven -- the kit's cook_range clip
+  if(a&&a.type==='cook')return cookClip(a);
   return MAP[type||'slash']||'attack_slash'}
+ function cookClip(a){var u=a&&a.obj&&a.obj.userData,gc=player&&player.userData&&player.userData.gmix&&player.userData.gmix.clips;
+  return u&&u.range&&gc&&gc.cook_range?'cook_range':'cook'}
  function play(name){var gm=player&&player.userData&&player.userData.gmix,act=gm&&gm.clips&&gm.clips[name];if(!act)return false;
   // any other one-shot (a combat swing, a skilling stroke, a hit, a climb) ends a running emote at once
   if(gm.emote&&gm.emote!==act)gm.emote.stop();gm.emote=null;
@@ -76,13 +79,14 @@ var HolmIslandPlayer=(function(){
      if(q.name){var k=q.name.replace(/^R_/i,'').replace(/[._]\d+$/,'').toLowerCase();(regionMats[k]=regionMats[k]||[]).push(q)}})}});
     // measure the visible character only (hidden variants would shrink it)
     var box=new THREE.Box3();rig.updateMatrixWorld(true);rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});
-    rig.scale.setScalar(1.85/((box.max.y-box.min.y)||1));box=new THREE.Box3();rig.updateMatrixWorld(true);rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});rig.position.y=-box.min.y;
+    rig.scale.setScalar(typeof holmKitScale==='function'?holmKitScale():1.85/((box.max.y-box.min.y)||1));box=new THREE.Box3();rig.updateMatrixWorld(true);rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});rig.position.y=-box.min.y;
     var c=new THREE.Group();c.userData.regionMats=regionMats;c.userData.rigInner=rig;c.add(rig);c.position.copy(player.position);c.rotation.y=player.rotation.y;
     var mixer=new THREE.AnimationMixer(rig),clips={};gltf.animations.forEach(function(cl){clips[cl.name]=mixer.clipAction(cl)});
     if(clips.idle){clips.idle.play();clips.idle.weight=1}if(clips.walk){clips.walk.play();clips.walk.weight=0}
-    c.userData.gmix={mixer:mixer,idle:clips.idle,walk:clips.walk,attack:clips.attack,block:clips.block,w:0,clips:clips,kit:true,run:clips.run||null};
+    var rigScale=rig.scale.x;
+    c.userData.gmix={mixer:mixer,idle:clips.idle,walk:clips.walk,attack:clips.attack,block:clips.block,w:0,clips:clips,kit:true,run:clips.run||null,rigScale:rigScale};
     c.userData.isPlayerGLB=true;c.userData.holmPlayer=true;
-    if(typeof makeNameTag==='function'){var tag=makeNameTag((typeof CharCfg!=='undefined'&&CharCfg.name)||'Adventurer');tag.position.y=2.1;c.add(tag)}
+    if(typeof makeNameTag==='function'){var tag=makeNameTag((typeof CharCfg!=='undefined'&&CharCfg.name)||'Adventurer');tag.position.y=(typeof HOLM_CHAR_H!=='undefined'?HOLM_CHAR_H+.25:2.1);c.add(tag)}
     // carry over what the old body had (its worn gear is re-fitted below)
     scene.remove(player);player=c;scene.add(player);
     if(!(typeof HolmKit!=='undefined'&&HolmKit.ready())&&typeof recolorPlayer==='function')recolorPlayer(look().colors);
@@ -97,7 +101,7 @@ var HolmIslandPlayer=(function(){
   var a=typeof Player!=='undefined'&&Player.action,gm=st.root&&player===st.root&&player.userData.gmix;if(!gm)return;
   // gear refits can re-show meshes: keep exactly the chosen body, hair and beard (cheap, about twenty meshes)
   var now=Date.now();if(!st.lastLook||now-st.lastLook>1000){st.lastLook=now;applyLook(st.rig)}
-  if(a&&a.type==='cook'&&!(gm.attack&&gm.attack.isRunning()))play('cook');
+  if(a&&a.type==='cook'&&!(gm.attack&&gm.attack.isRunning()))play(cookClip(a));
   // an emote clicked during a combat swing (or on the move) starts as soon as the body is free, or is dropped after 1.5 s
   if(st.pending){if(Date.now()>st.pending.until)st.pending=null;else if(!bodyBusy(gm)&&!gm.moving)startEmote(gm,st.pending.name)}
   // OSRS: the weapon and shield go away and the skill's tool is in the hand while the action runs

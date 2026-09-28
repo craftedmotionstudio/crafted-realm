@@ -48,6 +48,7 @@ var OnlineBestiary=(function(){
   var ud=g.userData;ud.bestiary={c:c,mixer:null,clips:{},one:null,oneName:null,w:0,death:null};
   gltfOf(c).then(function(buf){return new Promise(function(res,rej){new THREE.GLTFLoader().parse(buf.slice(0),st.dir,res,rej)})}).then(function(gltf){
    var rig=gltf.scene;prepare(rig);g.add(rig);ud.rigInner=rig;
+   if(c.model&&c.model.world_scale)rig.scale.setScalar(c.model.world_scale);   // kit v4 humanoids: 1.5-tile people
    var back=fitBack(c);if(back>0){rig.position.z-=back;st.fits[c.id]=+back.toFixed(2)}
    var b=ud.bestiary,mixer=new THREE.AnimationMixer(rig);b.mixer=mixer;
    gltf.animations.forEach(function(cl){b.clips[cl.name]=mixer.clipAction(cl)});

@@ -2,7 +2,7 @@
  "schema": "crafted-realm-scarlands-bestiary-v1",
  "version": 1,
  "name": "The Scarlands bestiary v1",
- "about": "Six Scarlands foes: our own low-poly Blender designs, rigged and animated for three.js r128 (one GLB each). Humanoids share the character kit v3.0 rig and clips; beasts have their own rigs.",
+ "about": "Six Scarlands foes: our own low-poly Blender designs, rigged and animated for three.js r128 (one GLB each). Humanoids share the character kit v4 rig and clips (shown at world_scale: 1.5-tile people); beasts have their own rigs.",
  "conventions": {
   "axes": "glTF +Y up, +Z forward (the character kit convention), 1 unit = 1 m = 1 tile, feet on y = 0, model origin = the centre of its tile footprint",
   "clips": "glTF animations named idle, walk, attack, hit, death (+ block / shoot / cast / breath); frames at 30 fps; loop flags as listed. Play non-looping clips with LoopOnce + clampWhenFinished; death holds its last frame",
@@ -168,14 +168,15 @@
    "pack": null,
    "model": {
     "file": "scar_skeleton.glb",
-    "sha256": "9e83cb978a2e2a94e85e02275acd33741844d5202691704db5850486bfba6c0d",
-    "bytes": 476008,
+    "sha256": "54dc1994e0162b12b81a785c1214cefdf23be4b770297a7edf45fbf8659bee6d",
+    "bytes": 475672,
     "triangles": 2362,
     "height_m": 1.925,
     "length_m": null,
-    "rig": "kit v3.0 (23 mixamorig bones, glTF +Z forward)",
+    "rig": "kit v4 (23 mixamorig bones, glTF +Z forward)",
     "walk_speed_mps": 1.67,
-    "anchors": null
+    "anchors": null,
+    "world_scale": 0.8274
    },
    "clips": {
     "idle": {
@@ -185,7 +186,7 @@
      "from": "idle"
     },
     "walk": {
-     "frames": 15,
+     "frames": 28,
      "fps": 30,
      "loop": true,
      "from": "walk"
@@ -331,14 +332,15 @@
    "pack": null,
    "model": {
     "file": "scar_raider_archer.glb",
-    "sha256": "f82c17fe8c0e6cff98e3e75f6f6e270e578587bdb28b56e972d65621a1f2d42c",
-    "bytes": 513328,
-    "triangles": 3564,
-    "height_m": 1.876,
+    "sha256": "6098b284aa41a7239de0907cf2eb16352fe7a81aeae9cd99a39b5b903b12fb48",
+    "bytes": 495236,
+    "triangles": 3588,
+    "height_m": 1.86,
     "length_m": null,
-    "rig": "kit v3.0 (23 mixamorig bones, glTF +Z forward)",
+    "rig": "kit v4 (23 mixamorig bones, glTF +Z forward)",
     "walk_speed_mps": 1.67,
-    "anchors": null
+    "anchors": null,
+    "world_scale": 0.8274
    },
    "clips": {
     "idle": {
@@ -348,7 +350,7 @@
      "from": "idle"
     },
     "walk": {
-     "frames": 15,
+     "frames": 28,
      "fps": 30,
      "loop": true,
      "from": "walk"
@@ -499,14 +501,15 @@
    "pack": null,
    "model": {
     "file": "ember_mage.glb",
-    "sha256": "1765bcb80bf13ba271fb2bea9f47321f09829b217399f64d3cc1664bce39a157",
-    "bytes": 453608,
-    "triangles": 3181,
-    "height_m": 2.074,
+    "sha256": "6d9cf58dffd23e9b772a1bd58e48facca747d54597ab8ff1f6e74225be87f880",
+    "bytes": 434644,
+    "triangles": 3213,
+    "height_m": 2.032,
     "length_m": null,
-    "rig": "kit v3.0 (23 mixamorig bones, glTF +Z forward)",
+    "rig": "kit v4 (23 mixamorig bones, glTF +Z forward)",
     "walk_speed_mps": 1.67,
-    "anchors": null
+    "anchors": null,
+    "world_scale": 0.8274
    },
    "clips": {
     "idle": {
@@ -516,7 +519,7 @@
      "from": "idle"
     },
     "walk": {
-     "frames": 15,
+     "frames": 28,
      "fps": 30,
      "loop": true,
      "from": "walk"

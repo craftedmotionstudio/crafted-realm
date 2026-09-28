@@ -1,0 +1,380 @@
+{
+ "option": "v4a",
+ "label": "Option A -- closest 2004: 2004 proportions, low-poly panel shading, old-client stepped motion (8 held poses, no in-betweens)",
+ "total": 8.0,
+ "criteria": {
+  "head/body ratio": 9.26,
+  "shoulder line": 9.41,
+  "neck": 9.43,
+  "arm hang": 9.15,
+  "legs/feet": 0.99,
+  "face": 9.0,
+  "shading": 9.0,
+  "walk": 7.47,
+  "run": 8.31
+ },
+ "silhouette_views": [
+  {
+   "view": "man designer front (level camera; median of 1 reference passes)",
+   "scores": {
+    "head/body ratio": 9.05,
+    "shoulder line": 10.0,
+    "neck": 9.82,
+    "arm hang": 9.44,
+    "legs/feet": 0.0
+   },
+   "detail": {
+    "head/body ratio": {
+     "head_ratio": {
+      "ours": 0.1276,
+      "ref": 0.1412,
+      "score": 8.4
+     },
+     "head_w": {
+      "ours": 0.102,
+      "ref": 0.1118,
+      "score": 9.7
+     }
+    },
+    "shoulder line": {
+     "shoulder_deg": {
+      "ours": 17.303,
+      "ref": 13.8486,
+      "score": 10.0
+     },
+     "shoulder_w": {
+      "ours": 0.3163,
+      "ref": 0.3235,
+      "score": 10.0
+     }
+    },
+    "neck": {
+     "neck_len": {
+      "ours": 0.0332,
+      "ref": 0.0235,
+      "score": 9.73
+     },
+     "neck_w": {
+      "ours": 0.0561,
+      "ref": 0.0471,
+      "score": 9.9
+     }
+    },
+    "arm hang": {
+     "hand_h": {
+      "ours": 0.5077,
+      "ref": 0.4941,
+      "score": 9.41
+     },
+     "arm_spread": {
+      "ours": 0.9677,
+      "ref": 0.9455,
+      "score": 9.46
+     }
+    },
+    "legs/feet": {
+     "crotch_h": {
+      "ours": 0.1199,
+      "ref": 0.4706,
+      "score": 0.0
+     }
+    }
+   }
+  },
+  {
+   "view": "man in-game close camera, front",
+   "scores": {
+    "head/body ratio": 9.67,
+    "shoulder line": 10.0,
+    "neck": 8.81,
+    "arm hang": 8.71,
+    "legs/feet": 0.0
+   },
+   "detail": {
+    "head/body ratio": {
+     "head_ratio": {
+      "ours": 0.1416,
+      "ref": 0.1333,
+      "score": 9.33
+     },
+     "head_w": {
+      "ours": 0.115,
+      "ref": 0.1167,
+      "score": 10.0
+     }
+    },
+    "shoulder line": {
+     "shoulder_deg": {
+      "ours": 18.3563,
+      "ref": 18.9327,
+      "score": 10.0
+     },
+     "shoulder_w": {
+      "ours": 0.3274,
+      "ref": 0.3333,
+      "score": 10.0
+     }
+    },
+    "neck": {
+     "neck_len": {
+      "ours": 0.0265,
+      "ref": 0.0375,
+      "score": 8.43
+     },
+     "neck_w": {
+      "ours": 0.0708,
+      "ref": 0.0625,
+      "score": 9.18
+     }
+    },
+    "arm hang": {
+     "hand_h": {
+      "ours": 0.4823,
+      "ref": 0.4958,
+      "score": 9.09
+     },
+     "arm_spread": {
+      "ours": 0.973,
+      "ref": 0.925,
+      "score": 8.33
+     }
+    },
+    "legs/feet": {
+     "crotch_h": {
+      "ours": 0.115,
+      "ref": 0.4708,
+      "score": 0.0
+     }
+    }
+   }
+  },
+  {
+   "view": "man in-game close camera, back",
+   "scores": {
+    "head/body ratio": 8.4,
+    "shoulder line": 8.11,
+    "neck": 9.09,
+    "arm hang": 9.86,
+    "legs/feet": 0.0
+   },
+   "detail": {
+    "head/body ratio": {
+     "head_ratio": {
+      "ours": 0.1378,
+      "ref": 0.1218,
+      "score": 6.79
+     },
+     "head_w": {
+      "ours": 0.1156,
+      "ref": 0.1176,
+      "score": 10.0
+     }
+    },
+    "shoulder line": {
+     "shoulder_deg": {
+      "ours": 17.1086,
+      "ref": 10.4757,
+      "score": 8.24
+     },
+     "shoulder_w": {
+      "ours": 0.3378,
+      "ref": 0.3193,
+      "score": 7.98
+     }
+    },
+    "neck": {
+     "neck_len": {
+      "ours": 0.0444,
+      "ref": 0.0546,
+      "score": 8.71
+     },
+     "neck_w": {
+      "ours": 0.0622,
+      "ref": 0.0546,
+      "score": 9.48
+     }
+    },
+    "arm hang": {
+     "hand_h": {
+      "ours": 0.5067,
+      "ref": 0.5126,
+      "score": 10.0
+     },
+     "arm_spread": {
+      "ours": 0.9737,
+      "ref": 0.9868,
+      "score": 9.73
+     }
+    },
+    "legs/feet": {
+     "crotch_h": {
+      "ours": 0.0756,
+      "ref": 0.4538,
+      "score": 0.0
+     }
+    }
+   }
+  },
+  {
+   "view": "woman designer front (level camera; median of 1 reference passes)",
+   "scores": {
+    "head/body ratio": 9.94,
+    "shoulder line": 9.55,
+    "neck": 10.0,
+    "arm hang": 8.61,
+    "legs/feet": 3.97
+   },
+   "detail": {
+    "head/body ratio": {
+     "head_ratio": {
+      "ours": 0.1247,
+      "ref": 0.1235,
+      "score": 10.0
+     },
+     "head_w": {
+      "ours": 0.0967,
+      "ref": 0.1059,
+      "score": 9.88
+     }
+    },
+    "shoulder line": {
+     "shoulder_deg": {
+      "ours": 17.2755,
+      "ref": 19.5975,
+      "score": 10.0
+     },
+     "shoulder_w": {
+      "ours": 0.2799,
+      "ref": 0.2941,
+      "score": 9.1
+     }
+    },
+    "neck": {
+     "neck_len": {
+      "ours": 0.0433,
+      "ref": 0.0471,
+      "score": 10.0
+     },
+     "neck_w": {
+      "ours": 0.0407,
+      "ref": 0.0353,
+      "score": 10.0
+     }
+    },
+    "arm hang": {
+     "hand_h": {
+      "ours": 0.4733,
+      "ref": 0.4765,
+      "score": 10.0
+     },
+     "arm_spread": {
+      "ours": 1.0182,
+      "ref": 0.94,
+      "score": 7.23
+     }
+    },
+    "legs/feet": {
+     "crotch_h": {
+      "ours": 0.402,
+      "ref": 0.4471,
+      "score": 3.97
+     }
+    }
+   }
+  }
+ ],
+ "gait": {
+  "walk": {
+   "score": 7.47,
+   "detail": {
+    "walk_stride_H": {
+     "ours": 1.043,
+     "ref": 0.9736,
+     "score": 8.28
+    },
+    "walk_poses": {
+     "ours": 8.0,
+     "ref": 8.0,
+     "score": 10.0
+    },
+    "walk_bob_H": {
+     "ours": 0.0476,
+     "ref": 0.0178,
+     "score": 5.15
+    },
+    "walk_max_feet_spread_H": {
+     "ours": 0.7075,
+     "ref": 0.5176,
+     "score": 1.4
+    },
+    "walk_max_hand_band_H": {
+     "ours": 0.3265,
+     "ref": 0.3216,
+     "score": 10.0
+    },
+    "walk_min_hand_band_H": {
+     "ours": 0.1633,
+     "ref": 0.1647,
+     "score": 10.0
+    }
+   }
+  },
+  "run": {
+   "score": 8.31,
+   "detail": {
+    "run_cycle_rel": {
+     "ours": 0.9809,
+     "ref": 1.0,
+     "score": 10.0
+    },
+    "run_stride_H": {
+     "ours": 1.491,
+     "ref": 1.588,
+     "score": 8.04
+    },
+    "run_poses": {
+     "ours": 8.0,
+     "ref": 8.0,
+     "score": 10.0
+    },
+    "run_bob_H": {
+     "ours": 0.0426,
+     "ref": 0.0375,
+     "score": 10.0
+    },
+    "run_max_feet_spread_H": {
+     "ours": 0.6738,
+     "ref": 0.7215,
+     "score": 8.84
+    },
+    "run_max_hand_band_H": {
+     "ours": 0.2979,
+     "ref": 0.4474,
+     "score": 1.28
+    },
+    "run_min_hand_band_H": {
+     "ours": 0.1773,
+     "ref": 0.174,
+     "score": 10.0
+    }
+   }
+  }
+ },
+ "rubric": {
+  "face": {
+   "score": 9.0,
+   "note": "all the 2004 features (bold slits + drop, no brows / mouth, egg head, small ears, broad goatee, faceted face planes); ours reads a touch softer and less contrasty than the reference face at the game camera"
+  },
+  "shading": {
+   "score": 9.0,
+   "note": "panel shading (smooth under 36 deg) = the reference's flat clothing panels and face planes; our 6-sided limbs facet a little harder than the reference's trouser gradients"
+  }
+ },
+ "notes": [
+  "scores: 10 * max(0, 1 - (|ours - 2004| - measuring noise) / tolerance), averaged per criterion",
+  "tolerances = \"clearly a different figure\" (tools/holm_char_metrics_v4.py CRITERIA)",
+  "silhouette criteria: man + woman, designer (level) view + the old client close camera where the reference mask is clean",
+  "walk / run: the man's side strips (2004 plays the same sequences 819 / 824 for both genders)",
+  "face / shading: eye-judged rubric (see rubric notes)"
+ ]
+}

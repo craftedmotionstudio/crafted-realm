@@ -63,7 +63,9 @@ for (const d of DATA.creatures) {
   if (!drops[d.id].tertiary.length) delete drops[d.id].tertiary;
   creatures.push({ id: d.id, name: d.name, examine: d.examine, role: d.role, wildernessLevels: d.wildernessLevels, pack: d.pack || null,
     model: { file: path.basename(m.glb), sha256: m.sha256, bytes: m.bytes, triangles: m.triangles, height_m: m.height_m, length_m: m.length_m || null,
-      rig: m.rig || 'own rig (' + (m.bones || []).length + ' bones, Root at the ground)', walk_speed_mps: m.walk_speed_mps || 1.67, anchors: m.anchors || null },
+      rig: m.rig || 'own rig (' + (m.bones || []).length + ' bones, Root at the ground)', walk_speed_mps: m.walk_speed_mps || 1.67, anchors: m.anchors || null,
+      // kit v4: the humanoid foes are the kit's size (1.8 m kit metres) and the game shows every kit character 1.5 tiles tall
+      world_scale: m.world_scale || 1 },
     clips: m.clips, stats, npcType: d.existing ? { existing: true, changes: d.npcTypeChanges } : d.npcType,
     attacks: d.attacks || [{ clip: 'attack', type, range: stats.attackRange }], projectile: d.projectile || null,
     drops: dt, dropMainWeight: used + ' / ' + (dt.rolls || 128) });
@@ -72,7 +74,7 @@ for (const d of DATA.creatures) {
 }
 const manifest = {
   schema: 'crafted-realm-scarlands-bestiary-v1', version: 1, name: 'The Scarlands bestiary v1',
-  about: 'Six Scarlands foes: our own low-poly Blender designs, rigged and animated for three.js r128 (one GLB each). Humanoids share the character kit v3.0 rig and clips; beasts have their own rigs.',
+  about: 'Six Scarlands foes: our own low-poly Blender designs, rigged and animated for three.js r128 (one GLB each). Humanoids share the character kit v4 rig and clips (shown at world_scale: 1.5-tile people); beasts have their own rigs.',
   conventions: {
     axes: 'glTF +Y up, +Z forward (the character kit convention), 1 unit = 1 m = 1 tile, feet on y = 0, model origin = the centre of its tile footprint',
     clips: 'glTF animations named idle, walk, attack, hit, death (+ block / shoot / cast / breath); frames at 30 fps; loop flags as listed. Play non-looping clips with LoopOnce + clampWhenFinished; death holds its last frame',

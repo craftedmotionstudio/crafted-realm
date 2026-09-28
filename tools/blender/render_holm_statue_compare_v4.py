@@ -11,6 +11,8 @@ ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 LIVE = r"C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude"
 GLB = {'v3': os.path.join(LIVE, '.studio-workspaces', 'holm-arrival-statue-v3', 'candidates', 'lantern_keeper_statue_v3.glb'),
        'v4': os.path.join(LIVE, '.studio-workspaces', 'holm-arrival-statue-v4', 'candidates', 'lantern_keeper_statue_v4.glb')}
+if '--pair' in ARGS:   # v5 review: --pair <label>=<glb> <label>=<glb> (two candidate GLBs, e.g. v4 vs v5)
+    i = ARGS.index('--pair'); GLB = dict(a.split('=', 1) for a in ARGS[i + 1:i + 3]); ARGS = ARGS[:i] + ARGS[i + 3:]
 OUT = ARGS[0] if ARGS else os.path.join(LIVE, 'scratchpad', 'holm_characters_v30', 'statue')
 SHEET = ARGS[1] if len(ARGS) > 1 else os.path.join(os.path.dirname(OUT), 'statue_v3_vs_v4.png')
 os.makedirs(OUT, exist_ok=True)
@@ -102,17 +104,18 @@ def compose(shots):
     import build_holm_characters_v2 as K
     K.RENDER_DIR = OUT
     c = lambda t, n, lab: K.cell(shots[t][n], lab, bg=[180, 200, 220])
-    rows = [{'title': 'Game camera (pitch 0.70 rad, 12 m): front / side / back -- v3 (left of each pair) vs v4', 'height': 300,
-             'cells': sum(([c('v3', 'game_' + n, 'v3 ' + n), c('v4', 'game_' + n, 'v4 ' + n)] for n in ('east', 'south', 'west')), [])},
+    rows = [{'title': 'Game camera (pitch 0.70 rad, 12 m): front / side / back -- ' + LA + ' (left of each pair) vs ' + LB + '', 'height': 300,
+             'cells': sum(([c(LA, 'game_' + n, LA + ' ' + n), c(LB, 'game_' + n, LB + ' ' + n)] for n in ('east', 'south', 'west')), [])},
             {'title': 'Close 3/4 and back', 'height': 420,
-             'cells': [c('v3', 'close', 'v3 close 3/4'), c('v4', 'close', 'v4 close 3/4'), c('v3', 'back', 'v3 back'), c('v4', 'back', 'v4 back')]},
-            {'title': 'The lantern hand from three angles (front / 3/4 / side) and the fist on the bail: v3 (first) vs v4', 'height': 420,
-             'cells': [c('v3', 'hand_front', 'v3 lantern arm (front)'), c('v3', 'fist', 'v3 hand')] +
-                      [c('v4', n, 'v4 ' + n.replace('_', ' ')) for n in ('hand_front', 'hand_34', 'hand_side', 'fist')]}]
-    K.compose(SHEET, rows, 'Lantern Keeper statue: v3 (lantern stood on a straight arm) vs v4 (fist holds the bail, lantern hangs below it)')
+             'cells': [c(LA, 'close', LA + ' close 3/4'), c(LB, 'close', LB + ' close 3/4'), c(LA, 'back', LA + ' back'), c(LB, 'back', LB + ' back')]},
+            {'title': 'The lantern hand from three angles (front / 3/4 / side) and the fist on the bail: ' + LA + ' (first) vs ' + LB + '', 'height': 420,
+             'cells': [c(LA, 'hand_front', LA + ' lantern arm (front)'), c(LA, 'fist', LA + ' hand')] +
+                      [c(LB, n, LB + ' ' + n.replace('_', ' ')) for n in ('hand_front', 'hand_34', 'hand_side', 'fist')]}]
+    K.compose(SHEET, rows, 'Lantern Keeper statue: %s vs %s' % (LA, LB))
     print('[STATUE SHEET]', SHEET)
 
 
-shots = {t: render(t) for t in ('v3', 'v4')}
+LA, LB = list(GLB)[:2]
+shots = {t: render(t) for t in (LA, LB)}
 json.dump(shots, open(os.path.join(OUT, 'shots.json'), 'w'))
 compose(shots)

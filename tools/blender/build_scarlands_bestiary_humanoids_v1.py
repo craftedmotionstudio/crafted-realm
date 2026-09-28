@@ -1,4 +1,4 @@
-"""The Scarlands bestiary v1, humanoid foes (W2/W3, 2026-09-26): built from the character kit v3.0 and the equipment
+"""The Scarlands bestiary v1, humanoid foes (W2/W3, 2026-09-26; kit v4 rebuild 2026-09-27): built from the character kit (v4: option A) and the equipment
 kit v1 so they share the player's rig, proportions, shading and item models.
 
   scar_skeleton       a fire-blackened skeleton: our own bone mesh (skull, ribcage, knobbed limb bones) skinned to the
@@ -29,8 +29,10 @@ WS = ROOT / '.studio-workspaces/scarlands-bestiary-v1'
 (WS / 'working').mkdir(parents=True, exist_ok=True); (WS / 'candidates').mkdir(parents=True, exist_ok=True)
 spec = importlib.util.spec_from_file_location('ck', str(ROOT / 'tools/blender/build_holm_characters_v2.py'))
 ck = importlib.util.module_from_spec(spec)
+sys.modules['ck'] = ck   # the kit's apply_profile patches its own module by name
 sys.argv = [sys.argv[0]]
 spec.loader.exec_module(ck)
+ck.apply_profile(ck.DEFAULT_PROFILE)   # kit v4 (2026-09-27): the humanoid foes share the shipped option A body, clips and heads
 B = ck.B
 ck.reset_scene()
 kit_arm, kit_mats, kit_objs, kit_clips, kit_defs = ck.build_kit()
@@ -68,13 +70,13 @@ def eq_polys(kind):
             out.append(([M @ me.vertices[i].co for i in p.vertices], me.materials[p.material_index].name if me.materials else 'M_METAL', ch.get('bone')))
     return out
 
-def held_prop(arm, pose, kind, mb_mats, tint, name, coll):
+def held_prop(arm, pose, kind, mb_mats, tint, name, coll, bt='A'):
     """EquipBuilder solve at `pose`, then map into the hand bone's rest frame, weighted 100% to that bone"""
     S = SPECS[kind]
     ck.set_pose(arm, pose)
     pb = arm.pose.bones[B(S['hand'])]
     M = pb.matrix @ pb.bone.matrix_local.inverted()
-    palm = pb.matrix @ Vector((0, S['palmAlong'], 0))
+    palm = pb.matrix @ Vector((0, S['palmAlong'] + ck.ARM_EXT.get(bt, 0.0), 0))   # kit v4: body B's hand hangs lower
     R = basis(gl(S['neutral']), gl(S['rollAim'])) @ basis(gl(S['axis']), gl(S['roll'])).inverted()
     grip = gl(S['grip'])
     Mi = M.inverted()
@@ -271,6 +273,7 @@ def build_foe(fid):
             ob.modifiers['Armature'].object = arm
             ob.hide_set(False); ob.hide_render = False
             objs[nm] = ob
+        ck.HEAD_BT = bt   # kit v4: head extras follow this body type's head (B: smaller, higher)
         for ex in t['extras']:
             fn, head_space = ck.EXTRA_FN[ex]
             mb = ck.MB()
@@ -282,7 +285,7 @@ def build_foe(fid):
         for kind, tint in t.get('worn', {}).items():
             objs[kind] = worn(arm, kind, bm, tint, fid + '_' + kind, coll, grow=0.004)
         kind, tint = t['held']
-        objs[kind] = held_prop(arm, idle_pose, kind, bm, tint, fid + '_' + kind.capitalize(), coll)
+        objs[kind] = held_prop(arm, idle_pose, kind, bm, tint, fid + '_' + kind.capitalize(), coll, bt)
         attack, alias = t['attack'], t['alias']
         extra_clips = {}
     # clips: kit keyframes on this rig, one NLA track each
@@ -318,7 +321,8 @@ for fid in ('scar_skeleton', 'scar_raider_archer', 'ember_mage'):
         c.update(EVENTS.get(src_name, {}))
         clips[name] = c
     report['foes'][fid] = {'glb': str(out.relative_to(ROOT)).replace('\\', '/'), 'sha256': hashlib.sha256(out.read_bytes()).hexdigest(), 'bytes': out.stat().st_size,
-                          'triangles': tris, 'height_m': round(max(zs), 3), 'meshes': sorted(o.name for o in objs.values()), 'clips': clips, 'rig': 'kit v3.0 (23 mixamorig bones, glTF +Z forward)'}
+                          'triangles': tris, 'height_m': round(max(zs), 3), 'meshes': sorted(o.name for o in objs.values()), 'clips': clips, 'rig': 'kit v4 (23 mixamorig bones, glTF +Z forward)',
+                          'world_scale': round(1.5 / 1.813, 4)}
     for o in objs.values():
         o.hide_set(True); o.hide_render = True
     arm.hide_set(True)

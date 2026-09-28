@@ -60,7 +60,7 @@ var HolmOldschoolLook=(function(){
  // the textured Blender candidates this look switches to (each with its own navigation graph / package export)
  var ASSETS={
   // tools/stage_holm_arrival_package_oldschool.js: v9 with every arrival model textured (graphs identical to v9)
-  arrival:{baseUrl:'/.studio-workspaces/holm-arrival-package-oldschool-v3/exports/',exportId:'9348a2aba6c3f2c8'}};
+  arrival:{baseUrl:'/.studio-workspaces/holm-arrival-package-oldschool-v4/exports/',exportId:'8a0fb1fc00426d86'}};
  // Folder swaps (paths after '.studio-workspaces/'): [previous, textured] pairs switched together, probe = files that
  // must be served first. Buildings pair the model folder with its re-measured graph folder (graphs node-identical).
  function building(prev,prevNav,id,file){return {id:id,map:[[prev,'holm-'+id+'-oldschool-v1/candidates/'],[prevNav,'holm-'+id+'-oldschool-navigation-v1/candidates/']],
