@@ -215,7 +215,10 @@ def remove(*names):
     for n in names:
         o = obj(n)
         REPORT['removed'].append(n)
+        me = o.data if o.type == 'MESH' else None
         bpy.data.objects.remove(o, do_unlink=True)
+        if me is not None and me.users == 0:
+            bpy.data.meshes.remove(me)             # free the name, so a part rebuilt under it keeps it exactly
 
 
 def _islands(o):
