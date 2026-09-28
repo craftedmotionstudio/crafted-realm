@@ -65,8 +65,10 @@ const RS_TITLES = ['Newbie Melody', 'Harmony', 'Harmony 2', 'Autumn Voyage', 'Ad
   'Village', 'Warrior', 'Waterlogged', 'Wildwood', 'Witching', 'Wonder', 'Work Work Work', 'Zogre Dance'];
 const lc = s => s.toLowerCase();
 const songs = G.list();
-check('the set has a title theme and at least 8 Tutor\'s Holm pieces', songs.includes('hm_title') || songs.length >= 1,
-  songs.join(', '));
+const holm = songs.filter(id => /^holm_/.test(id)), main = songs.filter(id => /^hm_/.test(id) && id !== 'hm_title');
+check('the set has the title theme, at least 8 Tutor\'s Holm pieces and 4 mainland pieces (' + holm.length + ' + ' + main.length + ')',
+  songs.includes('hm_title') && holm.length >= 8 && main.length >= 4, songs.join(', '));
+const PERC = ['kit', 'taiko_drum', 'timpani', 'woodblock'];   // drums hold pedals; the harmony lint skips them
 const names = {};
 songs.forEach(id => {
   let s = null, err = null;
@@ -101,7 +103,7 @@ songs.forEach(id => {
     });
     let last = null; spans.forEach(sn => { if (sn.sym === '%' || sn.sym === '-') sn.sym = last; else last = sn.sym; });
     Object.keys(sp.voices).forEach(vn => {
-      const src = part[vn]; if (!src || /^\s*[@=]/.test(src) || sp.voices[vn].i === 'kit') return;
+      const src = part[vn]; if (!src || /^\s*[@=]/.test(src) || PERC.includes(sp.voices[vn].i)) return;
       s.events.filter(e => e.vo === vn && e.t / spb >= t0 - 1e-6 && e.t / spb < t0 + bars * bpb - 1e-6).forEach(e => {
         const beat = e.t / spb - t0, inBar = beat % bpb;
         const mid = (sp.time === '6/8') ? 1.5 : (bpb % 2 === 0 ? bpb / 2 : -1);   // 4/4: beats 1+3; 6/8: both dotted beats; 3/4: beat 1

@@ -6,6 +6,7 @@
  *   node tools/music_render.js --legacy veyhollow_town,keep_quiet --seconds 90 --out <dir>
  *   node tools/music_render.js --songs all --out <dir>          (the 2004 MIDI set, one full loop each)
  *   node tools/music_render.js --songs hm_title --loops 2       (two passes: hear the loop seam)
+ *   node tools/music_render.js --songs holm_mill --solo ob      (balance checks: --solo a,b or --mute a,b)
  *
  * Needs a static server on the repo: python tools/serve_static.py <port> .  and MUSIC_BASE=http://127.0.0.1:<port>
  * (default 8777). NODE_PATH must reach puppeteer-core.
@@ -61,9 +62,10 @@ async function pull(page, file){
       await page.goto(BASE + '/tools/music_render.html' + (legacy ? '?legacy=1' : ''), { waitUntil: 'load' });
       const t0 = Date.now();
       if (legacy) await page.evaluate((i, s, r) => window.renderLegacy(i, s, r), id, SECONDS || 90, SR);
-      else await page.evaluate(async (i, s, l, t, r) => { await window.gmReady; return window.renderSong(i, { seconds: s, loops: l, tail: t, sr: r }); }, id, SECONDS, LOOPS, TAIL, SR);
+      else await page.evaluate(async (i, s, l, t, r, so, mu) => { await window.gmReady; return window.renderSong(i, { seconds: s, loops: l, tail: t, sr: r, solo: so, mute: mu }); }, id, SECONDS, LOOPS, TAIL, SR, arg('solo', null), arg('mute', null));
       const info = await page.evaluate(() => window.RENDER.info);
-      const wav = path.join(OUT, (legacy ? 'legacy_' : '') + id + (LOOPS > 1 ? '_x' + LOOPS : '') + '.wav');
+      const tag = (arg('solo', null) ? '_solo-' + arg('solo') : '') + (arg('mute', null) ? '_mute-' + arg('mute') : '');
+      const wav = path.join(OUT, (legacy ? 'legacy_' : '') + id + (LOOPS > 1 ? '_x' + LOOPS : '') + tag.replace(/,/g, '+') + '.wav');
       await pull(page, wav);
       let mp3 = null;
       if (ff){

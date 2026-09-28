@@ -42,7 +42,13 @@ if(!/legacy=1/.test(location.search)){
 }
 window.listSongs = function(){ return GM2004.list(); };
 window.renderSong = async function(id, o){
-  o=o||{}; var sr=o.sr||44100, s=GM2004.compile(id, GM2004.songs[id]), loops=o.loops||1;
+  o=o||{}; var sr=o.sr||44100, loops=o.loops||1;
+  if(o.solo||o.mute){   // balance checks: render a copy of the song with some voices silenced
+    var sp=JSON.parse(JSON.stringify(GM2004.songs[id])), keep=o.solo? String(o.solo).split(',') : null, drop=o.mute? String(o.mute).split(',') : [];
+    Object.keys(sp.voices).forEach(function(vn){ if((keep && keep.indexOf(vn)<0) || drop.indexOf(vn)>=0) sp.voices[vn].v=0; });
+    GM2004.song(id+'__mix', sp); id=id+'__mix';
+  }
+  var s=GM2004.compile(id, GM2004.songs[id]);
   var secs=o.seconds||(s.seconds*loops+(o.tail!=null&&o.tail>0?o.tail:3));
   var ctx=new OfflineAudioContext(2, Math.ceil(sr*secs), sr);
   var master=ctx.createGain(); master.gain.value=(o.vol!=null?o.vol:0.5); master.connect(ctx.destination);   // the game's default music volume

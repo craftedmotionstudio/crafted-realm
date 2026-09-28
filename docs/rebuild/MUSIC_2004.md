@@ -141,3 +141,77 @@ The first render ("Morning on the Holm") against the old Hearthmere town tune:
 |---|---|---|---|---|---|
 | old `veyhollow_town` | -50.7 dBFS | 591 Hz | 0.01 % | 0.04 | 0.63 (reverb wash) |
 | new `holm_morning` | -25.5 dBFS | 654 Hz | 0.41 % | 2.6 | 0.16 (dry, panned voices) |
+
+## 3. The set: 17 original pieces (step 3)
+
+Every piece is original. The progressions are ordinary diatonic and modal functional harmony, not borrowed signatures.
+Titles are checked against a list of old-game music titles and the naming bible. The table is regenerated from the
+song data.
+
+| id | name | plays at | mood | metre, tempo | instruments | loop |
+|---|---|---|---|---|---|---|
+| hm_title | **Hearth and Horizon** | Login and title screen | Warm and a little grand: a horn tune by the brazier, harp and strings behind, the road ahead. | 4/4, 84 bpm | horn, flute, oboe, harp, strings, cello, timpani, glockenspiel | 1:49 |
+| holm_morning | **Morning on the Holm** | Guide House and the arrival green | Gentle, sunlit welcome: a clarinet tune over rippling harp; the flute takes the middle. | 4/4, 100 bpm | clarinet, flute, harp, pizzicato, strings, glockenspiel | 1:22 |
+| holm_camp | **Woodsmoke and Flint** | The survival camp and Survival Wood | Crackling campfire jig: a recorder tune, a fiddle answer, guitar and a woodblock tick. | 6/8, 108 bpm | recorder, fiddle, nylon guitar, cello, light percussion | 1:10 |
+| holm_hollow | **Reeds and Ripples** | Minnow Hollow, the fishing pond | Lazy and dappled: marimba ripples, a floating flute, an oboe drifting through the middle. | 3/4, 88 bpm | flute, oboe, marimba, upright bass, strings | 1:10 |
+| holm_mill | **The Millrace Turns** | Creakwheel Mill | Bouncy and busy: the wheel ticks in the woodblock, the bassoon plods, the oboe whistles at work. | 4/4, 118 bpm | oboe, clarinet, bassoon, pizzicato, woodblock, glockenspiel | 1:09 |
+| holm_bakehouse | **Warm Loaves** | The bakehouse and teaching kitchen | Floury and cosy: an accordion waltz with little musette turns; the clarinet hums the middle. | 3/4, 144 bpm | accordion, clarinet, nylon guitar, upright bass, glockenspiel | 1:05 |
+| holm_lodge | **Maps by Candlelight** | The Quest Lodge | Curious and inviting: harpsichord and oboe over a walking bass; the flute sets out in the middle. | 4/4, 92 bpm | oboe, flute, harpsichord, upright bass, strings | 1:29 |
+| holm_mine | **Pick and Lantern** | Quarry Gate, the mine and the Training Cavern | Earthy and steady: pickaxe ticks, a marimba ostinato, a low clarinet work tune, a bell at each shift. | 4/4, 92 bpm | clarinet, horn, marimba, bassoon, woodblock, tubular bell, strings | 1:29 |
+| holm_keep | **The Warden's Watch** | Warden's Keep and the Combat Hall | Proud and steady: a horn march with snare and timpani; the oboe sings the serious middle. | 4/4, 104 bpm | horn, oboe, strings, pizzicato, timpani, light percussion, glockenspiel | 1:18 |
+| holm_bank | **Counting-House Minuet** | The Holm Bank | Prim and tidy: a harpsichord minuet with a flute on top and a tinkle of coins. | 3/4, 112 bpm | flute, harpsichord, pizzicato, glockenspiel | 1:20 |
+| holm_mage | **The Scriptorium Hums** | The Mage Tower | Hushed and wondering: harp and glockenspiel sparkle, a choir breathes, the flute floats a strange bright turn. | 4/4, 76 bpm | flute, clarinet, harp, choir, cello, glockenspiel | 1:47 |
+| holm_lastlight | **The Lamp Keeper's Vigil** | Lastlight and the Keeper's Stair | Lonely and steadfast: a fiddle on the cliff, a tolling bell, the choir as sea wind; the flute lights the lamp. | 3/4, 72 bpm | fiddle, flute, harp, choir, cello, tubular bell | 1:25 |
+| holm_cove | **Fair Winds, Old Friend** | Lanternfoot Cove and Departure Haven | Hopeful farewell: a fiddle lilt with accordion and tambourine, a recorder waving from the pier. | 6/8, 120 bpm | fiddle, recorder, accordion, nylon guitar, upright bass, light percussion | 1:15 |
+| hm_hearthmere | **Hearthmere Market Day** | Hearthmere (the town, its square and market) | Cheerful bustle: a clarinet tune, an oboe that chats back, walking bass, guitar and tambourine. | 4/4, 108 bpm | clarinet, oboe, nylon guitar, upright bass, strings, light percussion, glockenspiel | 1:16 |
+| hm_road | **Hedgerows and Milestones** | The Hearthlands roads, fields and farmland | Open and unhurried: an oboe walking tune over harp, a horn for the long straight, a flute overhead. | 6/8, 96 bpm | oboe, horn, flute, harp, pizzicato, strings | 1:19 |
+| hm_scarlands | **Ash on the Wind** | The Scarlands, north of the Ditch | Tense and wary: taiko and timpani, driving low strings, a grim horn; the oboe keens like wind over ash. | 4/4, 100 bpm | horn, oboe, strings, choir, taiko, timpani | 1:22 |
+| hm_cave | **Where the Lamps Gutter** | Caves, dungeons and deep places | Dark and dripping: a low bassoon, marimba drops, a far bell and a choir breathing in the stone. | 4/4, 66 bpm | bassoon, clarinet, marimba, harp, choir, timpani, tubular bell | 2:04 |
+
+Review surfaces:
+- `tools/music_box.html`: every track plays live through the engine, with crossfade, Loop and volume.
+- `tools/music_render.js --songs all`: offline WAV/MP3 renders.
+
+### Wiring plan (step 6, waiting for the owner's pick)
+- **Director bridge.** A new `src/audio_gm2004_director.js` makes the existing Music Director play GM2004 songs.
+  Priority stays manual > building > ambient > zone. Crossfades use the engine's own 1.6 s load-then-fade. Old
+  orchestra ids are kept as fallbacks until the owner retires them.
+- **Where the player is.**
+  - Tutor's Holm is always zone `holm`, so a finer area comes from the live island's nav surface
+    (`HolmArrivalQA.saveRecord().surface`, `b:<building>:…`). There is also a small table of named rects around
+    the pads (Guide House 66,99; Minnow Hollow pond 27,96; mill 65,64; and so on).
+  - Inside a building, that building's piece plays. Outside, the nearest named area's piece plays.
+  - The cavern surface `b:cavern:` gets the mine piece.
+  - On the mainland, `zoneAt()` gives `commons` = Hearthmere, the roads, `scarlands`, and underground `Player.plane<0`
+    = the cave piece.
+  - This step also fixes the Holm boot bug (`curZone` starting at `'holm'` never fired `onZone`).
+- **Music tab, as in 2004.**
+  - The tab lists the set by our names: green when unlocked, red when not yet heard.
+  - A track unlocks on first visit to its area, with the chat line "You have unlocked a new music track: …".
+  - Click a green track to play it.
+  - **Auto** follows the area, **Manual** keeps your pick, and **Loop** repeats the current track. With Loop off,
+    Auto picks the area's track again after a short breath, and Manual stops.
+  - Unlocks and mode save with the adventurer.
+  - The legacy sine-era rows and the index.html placeholders leave the tab.
+
+### Mix balance (measured, since I can't listen)
+`tools/music_render.js --solo <voice>` and `--mute <voice>` render one voice alone or everything but it. The first
+pass showed every lead **3-10 dB under** its accompaniment; Warm Loaves' accordion was buried under guitar and bass.
+In 2004 MIDI the tune sits on top, so every song was rebalanced: melodic voices went up and accompaniment down. A
+re-measure puts the lead at about +1 dB over the rest of the band. Measured against pure accompaniment, the melody
+now sits +4 to +6 dB on top. Two more fixes came out of the numbers:
+- "Ash on the Wind" had 14.6 % of its energy below 45 Hz. It came from the GM taiko pitched down to D2; moving it
+  up an octave brought that to 0.2 %.
+- "The Warden's Watch" rested every voice on its last beat, which left a near-silent quarter before the loop point.
+  A snare roll now leads back into the downbeat.
+
+## 4. Gates run on this branch
+- `node tools/test_music_2004.js`: 17 songs, every check green.
+- `node tools/test_naming_bible.js`: clean. Song names are string literals in `src/`, so the guard scans them.
+- All `tools/test_*.js`: 91/91 green, once the gitignored `.studio-workspaces` the island tests read were copied in
+  from the main checkout. Without them, three island tests fail on missing data. That failure is environmental;
+  this branch changes no game data.
+- The live player in `tools/music_box.html` (browser pane):
+  - play, then crossfade Morning → Ash on the Wind → Warm Loaves, then stop;
+  - no console errors;
+  - decoded samples stay capped at the current and previous song (41 → 69 → 55 buffers).

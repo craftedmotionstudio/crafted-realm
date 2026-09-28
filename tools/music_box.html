@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="../">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music Box</title>
+<!-- The 2004 MIDI set, played live through the real engine (src/audio_gm2004.js): pick a track to crossfade to it,
+     toggle Loop, set the volume. A review surface like the Studio: no game boot, seconds to hear a change.
+     Serve the repo (python tools/serve_static.py <port> .) and open /tools/music_box.html. -->
+<style>
+  :root{ --bg:#1d1812; --panel:#2b2319; --edge:#5a4a33; --ink:#e9dcc0; --dim:#a8987a; --gold:#ffcf4a; --green:#7ddc6f; --red:#e06a5a; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font:14px/1.45 Georgia, 'Times New Roman', serif; }
+  main{ max-width:880px; margin:0 auto; padding:18px 16px 40px; }
+  h1{ margin:0 0 2px; font-size:24px; color:var(--gold); letter-spacing:.5px; }
+  .sub{ color:var(--dim); margin:0 0 14px; }
+  .bar{ position:sticky; top:0; z-index:2; display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:10px 12px;
+        background:var(--panel); border:1px solid var(--edge); border-radius:6px; margin-bottom:14px; }
+  .now{ flex:1 1 260px; min-width:0; }
+  .now b{ color:var(--green); }
+  .now .t{ color:var(--dim); font-size:12px; }
+  button{ font:inherit; color:var(--ink); background:#3a2f21; border:1px solid var(--edge); border-radius:4px; padding:6px 12px; cursor:pointer; }
+  button:hover{ border-color:var(--gold); }
+  button.on{ color:var(--gold); border-color:var(--gold); }
+  label{ color:var(--dim); font-size:12px; display:flex; align-items:center; gap:6px; }
+  h2{ font-size:15px; color:var(--gold); margin:18px 0 6px; border-bottom:1px solid var(--edge); padding-bottom:3px; }
+  .track{ display:grid; grid-template-columns:1fr auto; gap:2px 12px; padding:8px 10px; border:1px solid transparent; border-radius:5px; cursor:pointer; }
+  .track:hover{ border-color:var(--edge); background:#261f16; }
+  .track.cur{ border-color:var(--gold); background:#2f2617; }
+  .track .n{ color:var(--green); font-weight:bold; }
+  .track.cur .n{ color:var(--gold); }
+  .track .w{ color:var(--ink); font-size:12px; }
+  .track .m{ grid-column:1 / -1; color:var(--dim); font-size:12px; }
+  .track .len{ color:var(--dim); font-size:12px; text-align:right; }
+  .err{ color:var(--red); }
+  @media (max-width:520px){ .track{ grid-template-columns:1fr; } .track .len{ text-align:left; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Music Box</h1>
+  <p class="sub">The 2004-style MIDI set for Crafted Realm. Every piece is an original composition, played live through the game's engine.</p>
+  <div class="bar">
+    <div class="now">Playing: <b id="now">nothing</b><div class="t" id="pos">click a track</div></div>
+    <button id="loop" class="on" title="Loop the current track">Loop</button>
+    <button id="stop">Stop</button>
+    <label>Volume <input id="vol" type="range" min="0" max="1" step="0.05" value="0.5"></label>
+  </div>
+  <div id="list"></div>
+  <p class="sub" id="status"></p>
+</main>
+<script src="src/audio_gm2004.js"></script>
+<script src="src/audio_songs_holm.js"></script>
+<script src="src/audio_songs_mainland.js"></script>
+<script>
+(function(){
+  'use strict';
+  var ctx=null, master=null, started=0, startedId=null;
+  var GROUPS=[ ['Title', function(id){ return id==='hm_title'; }],
+               ["Tutor's Holm", function(id){ return /^holm_/.test(id); }],
+               ['Mainland', function(id){ return /^hm_/.test(id) && id!=='hm_title'; }] ];
+  var list=document.getElementById('list'), rows={}, lens={};
+  function fmt(s){ s=Math.max(0,Math.floor(s)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+  GROUPS.forEach(function(g){
+    var ids=GM2004.list().filter(g[1]); if(!ids.length) return;
+    var h=document.createElement('h2'); h.textContent=g[0]; list.appendChild(h);
+    ids.forEach(function(id){
+      var sp=GM2004.songs[id], c=GM2004.compile(id, sp), d=document.createElement('div'); lens[id]=c.seconds;
+      d.className='track'; d.dataset.id=id;
+      d.innerHTML='<div><span class="n"></span> <span class="w"></span></div><div class="len"></div><div class="m"></div>';
+      d.querySelector('.n').textContent=sp.name; d.querySelector('.w').textContent='· '+sp.where;
+      d.querySelector('.m').textContent=sp.mood; d.querySelector('.len').textContent=fmt(c.seconds)+' loop · '+sp.time+' · '+sp.bpm+' bpm';
+      d.addEventListener('click', function(){ play(id); });
+      list.appendChild(d); rows[id]=d;
+    });
+  });
+  function ensure(){
+    if(ctx) return ctx;
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    master=ctx.createGain(); master.gain.value=+document.getElementById('vol').value; master.connect(ctx.destination);
+    GM2004.attach(ctx, master);
+    GM2004.onEnded=function(id){ status('"'+GM2004.songs[id].name+'" finished (Loop is off).'); };
+    return ctx;
+  }
+  function status(t){ document.getElementById('status').textContent=t||''; }
+  function play(id){
+    ensure(); if(ctx.state==='suspended') ctx.resume();
+    status('Loading '+GM2004.songs[id].name+'…');
+    GM2004.play(id, {restart:true}).then(function(ok){
+      if(!ok) return; started=ctx.currentTime; startedId=id; status('');
+      Object.keys(rows).forEach(function(k){ rows[k].classList.toggle('cur', k===id); });
+      document.getElementById('now').textContent=GM2004.songs[id].name;
+    }).catch(function(e){ status('Could not play: '+e.message); document.getElementById('status').className='sub err'; });
+  }
+  document.getElementById('stop').addEventListener('click', function(){ GM2004.stop(); startedId=null; document.getElementById('now').textContent='nothing';
+    Object.keys(rows).forEach(function(k){ rows[k].classList.remove('cur'); }); });
+  var loopBtn=document.getElementById('loop');
+  loopBtn.addEventListener('click', function(){ GM2004.loop=!GM2004.loop; loopBtn.classList.toggle('on', GM2004.loop); });
+  document.getElementById('vol').addEventListener('input', function(e){ if(master) master.gain.value=+e.target.value; });
+  setInterval(function(){
+    if(!ctx || !startedId || GM2004.current!==startedId) return;
+    var len=lens[startedId], t=ctx.currentTime-started;
+    document.getElementById('pos').textContent=fmt(t%len)+' / '+fmt(len)+(t>=len? ' · pass '+(Math.floor(t/len)+1) : '');
+  }, 250);
+  window.MusicBox={ play:play };
+})();
+</script>
+</body>
+</html>
