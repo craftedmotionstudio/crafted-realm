@@ -89,7 +89,7 @@ var HolmIslandCurriculum=(function(){
    try{var el=document.getElementById('objective'),txt=document.getElementById('obj-text');if(el&&txt){el.style.display='block';txt.textContent=(typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.objective())||'Lastlight is lit. Board Ferryman Tobin\'s skiff at Lanternfoot Cove.'}
     var h=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('haven','boat');if(h&&typeof GuideArrow!=='undefined'){GuideArrow.keepAfterComplete=true;GuideArrow.setTarget({x:h.x,z:h.z},'Board the skiff')}}catch(e){}
    UI.chat('You have completed every lesson on Tutor\'s Holm. Ferryman Tobin is waiting at Lanternfoot Cove.','xp');
-   UI.dialogue('Keeper Aldous','That light will carry all the way to Hearthmere. Take the Keeper\'s Stair down to the cove; Tobin will row you across.',[{label:'Thank you.'}],'img:assets/icons/tutors/aldous.png?v=40');
+   UI.dialogue('Keeper Aldous','That light will carry all the way to Hearthmere. Take the Keeper\'s Stair down to the cove; Tobin will row you across.',[{label:'Thank you.'}],'img:assets/icons/tutors/aldous.png?v=41');
    try{if(typeof SaveGame!=='undefined')SaveGame.save(true)}catch(e){}return true}}
  function board(){
   if(!on)return false;if(!Tutorial.complete){UI.chat('Tobin shakes his head. No sailing until Lastlight is lit.','plain');return false}
