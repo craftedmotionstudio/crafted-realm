@@ -1,0 +1,35 @@
+{
+ "ok": true,
+ "reference": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.glb",
+ "candidate": ".studio-workspaces/holm-haven-props-v1/candidates/haven.glb",
+ "referenceNodes": 27,
+ "kept": 22,
+ "changed": {
+  "Haven_Furnishing": [
+   204,
+   null
+  ],
+  "Haven_FurnishingDressing": [
+   70,
+   null
+  ],
+  "Haven_Mooring": [
+   1084,
+   null
+  ],
+  "Haven_Props": [
+   216,
+   null
+  ],
+  "Haven_ServiceNotice_Board": [
+   316,
+   588
+  ]
+ },
+ "added": {
+  "Haven_FurnishingPropsCargo": 1548,
+  "Haven_FurnishingPropsMooring": 3175,
+  "Haven_FurnishingPropsShelter": 2123
+ },
+ "issues": []
+}

@@ -77,19 +77,20 @@
    "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/lastlight.json); graph identical to holm-lastlight-v2land-navigation-v1 apart from the model hash"
   },
   "haven": {
-   "graph": "holm-haven-review4-navigation-v1",
-   "model": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.glb",
+   "graph": "holm-haven-props-navigation-v1",
+   "model": ".studio-workspaces/holm-haven-props-v1/candidates/haven.glb",
    "placement": {
     "x": 101,
     "y": 1,
     "z": 14
    },
    "nodes": 99,
-   "modelSha256": "a0215137eeeb4a3028035b72ac3502f1cc544e6f3bf69fba984a0f23cd0240e3",
+   "modelSha256": "a8cd36efe7e093cf9bb0fc7bb0b53944062b46c0178ccd4e2e24254741fd254e",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:36:04.914Z",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/haven.json); graph identical to holm-haven-v2land-navigation-v1 apart from the model hash"
+   "measuredAt": "2026-09-28T09:01:28.356Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/haven.json); graph identical to holm-haven-v2land-navigation-v1 apart from the model hash",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_haven_props_pass.py, docs/rebuild/holm-overhaul/props-pass/haven.json); graph identical to holm-haven-review4-navigation-v1 apart from the model hash"
   },
   "keep": {
    "graph": "holm-keep-props-navigation-v1",

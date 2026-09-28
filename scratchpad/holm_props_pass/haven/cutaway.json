@@ -1,0 +1,13 @@
+{
+ "model": ".studio-workspaces/holm-haven-props-v1/candidates/haven.glb",
+ "building": "haven",
+ "lift": 0.5,
+ "levels": [
+  -1.05,
+  0.15
+ ],
+ "pieces": 89,
+ "keep": 87,
+ "cut": 2,
+ "clipped": []
+}

@@ -1,0 +1,23 @@
+{
+ "removed": [
+  "Haven_Furnishing",
+  "Haven_FurnishingDressing",
+  "Haven_Mooring",
+  "Haven_Props",
+  "Haven_ServiceNotice_Board"
+ ],
+ "islandsRemoved": {},
+ "facesRemoved": {},
+ "built": {
+  "Haven_FurnishingPropsShelter": 1988,
+  "Haven_FurnishingPropsMooring": 3050,
+  "Haven_FurnishingPropsCargo": 1462,
+  "Haven_ServiceNotice_Board": 588
+ },
+ "notes": [],
+ "welds": {
+  "Haven_FurnishingPropsShelter": 135,
+  "Haven_FurnishingPropsMooring": 125,
+  "Haven_FurnishingPropsCargo": 86
+ }
+}

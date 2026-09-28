@@ -1,0 +1,64 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-haven-props-v1/working/haven-flat.blend",
+ "materials": {
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  },
+  "Holm props colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Haven_FurnishingPropsCargo": {
+   "beam": 556
+  },
+  "Haven_FurnishingPropsMooring": {
+   "beam": 406
+  },
+  "Haven_FurnishingPropsShelter": {
+   "rock": 58,
+   "beam": 176
+  },
+  "Haven_ServiceNotice_Board": {
+   "rock": 18,
+   "beam": 74
+  }
+ },
+ "keptImages": [
+  "Aged oak",
+  "Aged oak (not clipped)",
+  "Dark frame oak",
+  "Dark frame oak (not clipped)",
+  "Dressed sandstone",
+  "Dressed sandstone (not clipped)",
+  "Honey oak strakes",
+  "Limewash plaster",
+  "Ochre thatch",
+  "Ochre thatch sunlit",
+  "Ochre thatch weathered",
+  "Pale plank edges",
+  "Sea green strake",
+  "Stone lit faces",
+  "Stone lit faces (not clipped)",
+  "Stone shaded faces",
+  "Stone shaded faces (not clipped)",
+  "Sun-worn deck oak",
+  "Warm fieldstone",
+  "Warm fieldstone (not clipped)"
+ ],
+ "meshes": 24,
+ "glb": {
+  "path": ".studio-workspaces/holm-haven-props-v1/candidates/haven.glb",
+  "bytes": 1916108,
+  "sha256": "a8cd36efe7e093cf9bb0fc7bb0b53944062b46c0178ccd4e2e24254741fd254e"
+ },
+ "images": [
+  "beam",
+  "rock"
+ ]
+}
