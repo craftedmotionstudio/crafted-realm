@@ -91,18 +91,19 @@
    "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/haven.json); graph identical to holm-haven-v2land-navigation-v1 apart from the model hash"
   },
   "keep": {
-   "graph": "holm-keep-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+   "graph": "holm-keep-props-navigation-v1",
+   "model": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
    "placement": {
     "x": 87,
     "y": 11,
     "z": 35
    },
    "nodes": 868,
-   "modelSha256": "b8065dc02c2d28bff0f8d8f7e02db648ac1c8462099ec8b74f57c1c7f1da726e",
+   "modelSha256": "059a7662d92036bf6ed768e51530832971783f2ac318d0903e057486918aa7da",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:24:54.272Z"
+   "measuredAt": "2026-09-28T05:58:32.005Z",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_keep_props_pass.py, docs/rebuild/holm-overhaul/props-pass/keep.json); graph identical to holm-keep-v2land-navigation-v1 apart from the model hash"
   },
   "bakehouse": {
    "graph": "holm-kitchen-review4-navigation-v2",

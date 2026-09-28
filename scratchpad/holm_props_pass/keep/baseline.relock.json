@@ -1,0 +1,33 @@
+{
+ "script": "tools/blender/extract_holm_keep_navigation_v6.py",
+ "replace": [
+  [
+   "holm-overhaul-terrain-v1/working",
+   "holm-overhaul-terrain-v2/working"
+  ],
+  [
+   "holm-keep-navigation-v7/candidates",
+   "holm-keep-props-baseline-navigation-v1/candidates"
+  ],
+  [
+   "terrain['heights'][z*stride+x]-8.025",
+   "terrain['heights'][z*stride+x]-11"
+  ],
+  [
+   "'placement':{'x':87,'y':8.025,'z':35}",
+   "'placement':{'x':87,'y':11,'z':35}"
+  ],
+  [
+   "('east-lookout','East turret lookout',10.5,6.7,-5.5)]",
+   "('east-lookout','East turret lookout',10.5,6.7,-5.5),('undercroft','Undercroft trapdoor',-8.5,0,.5)]"
+  ],
+  [
+   "BASE=ROOT/'.studio-workspaces/holm-warden-keep-v8/candidates'",
+   "BASE=ROOT/'.studio-workspaces/holm-keep-oldschool-v1/candidates'"
+  ],
+  [
+   "assert (BASE/'keep.contract.json').exists() and (BASE/'keep.blend').exists()",
+   "assert (BASE/'keep.blend').exists()"
+  ]
+ ]
+}

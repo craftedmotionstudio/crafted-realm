@@ -269,6 +269,11 @@ def basis(n):
 
 MAXV = int(VC.get('maxVariants', 2))
 MINSHARE = float(VC.get('minShare', 0.15))
+# props pass (2026-09-28), opt-in: "faceAttribute" names an INT face attribute whose value indexes "faceClasses"
+# (e.g. ["", "beam", "rock"]): each face's texture as its author declared it, instead of a class guessed from its colour
+# (brass, bread and rope fall in the wood colour band); declared classes are all kept (no variant cap)
+FACE_ATTR = VC.get('faceAttribute')
+FACE_CLASSES = VC.get('faceClasses') or []
 for ob in bpy.data.objects:
     if ob.type != 'MESH':
         continue
@@ -282,11 +287,21 @@ for ob in bpy.data.objects:
     # vertex-colour faces: classify, then keep at most MAXV classes per mesh (a class needs MINSHARE of the area);
     # the rest join the mesh's dominant class so the mesh never splits into more than MAXV draw calls
     cls = {}
+    fattr = me.attributes.get(FACE_ATTR) if FACE_ATTR else None
+    if fattr is not None and fattr.domain != 'FACE':
+        fattr = None
     if vc_name and ca is not None:
         area = {}
         for p in me.polygons:
             mat = me.materials[p.material_index] if p.material_index < len(me.materials) else None
             if not (mat and mat.name == vc_name):
+                continue
+            if fattr is not None:
+                k = fattr.data[p.index].value
+                c = (FACE_CLASSES[k] or None) if 0 <= k < len(FACE_CLASSES) else None
+                if VC.get('skip') and re.search(VC['skip'], ob.name):
+                    c = None
+                cls[p.index] = c
                 continue
             cols = [ca.data[li].color for li in p.loop_indices] if ca.domain == 'CORNER' else [ca.data[vi].color for vi in p.vertices]
             rgb = tuple(sum(c[i] for c in cols) / len(cols) for i in range(3))

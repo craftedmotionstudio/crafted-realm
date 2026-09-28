@@ -1,0 +1,787 @@
+{
+ "Mage_Furnishing": [
+  {
+   "x": [
+    -5.845,
+    -5.425
+   ],
+   "y": [
+    0.0,
+    2.13
+   ],
+   "z": [
+    -1.78,
+    -0.735
+   ],
+   "islands": 17,
+   "tris": 287,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage book leather",
+    "Mage dark frame oak (not clipped)",
+    "Mage parchment",
+    "Mage rune slate",
+    "Mage star chart"
+   ]
+  },
+  {
+   "x": [
+    -5.5,
+    -4.4
+   ],
+   "y": [
+    0.0,
+    0.8
+   ],
+   "z": [
+    2.4,
+    3.4
+   ],
+   "islands": 6,
+   "tris": 72,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage parchment"
+   ]
+  },
+  {
+   "x": [
+    -5.4,
+    -4.5
+   ],
+   "y": [
+    0.0,
+    0.47
+   ],
+   "z": [
+    3.5,
+    3.78
+   ],
+   "islands": 3,
+   "tris": 36,
+   "mats": [
+    "Mage aged oak (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -5.3,
+    -3.7
+   ],
+   "y": [
+    0.0,
+    1.42
+   ],
+   "z": [
+    -1.825,
+    -1.25
+   ],
+   "islands": 5,
+   "tris": 60,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage dressed sandstone (not clipped)",
+    "Mage fieldstone (not clipped)",
+    "Mage wrought iron"
+   ]
+  },
+  {
+   "x": [
+    -4.72,
+    -4.28
+   ],
+   "y": [
+    0.3,
+    0.55
+   ],
+   "z": [
+    -1.741,
+    -1.359
+   ],
+   "islands": 1,
+   "tris": 20,
+   "mats": [
+    "Mage clay warm"
+   ]
+  },
+  {
+   "x": [
+    -3.0,
+    -2.2
+   ],
+   "y": [
+    0.0,
+    0.95
+   ],
+   "z": [
+    -1.8,
+    -1.1
+   ],
+   "islands": 7,
+   "tris": 92,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage brass",
+    "Mage parchment"
+   ]
+  },
+  {
+   "x": [
+    -1.515,
+    -1.17
+   ],
+   "y": [
+    0.0,
+    1.63
+   ],
+   "z": [
+    1.47,
+    2.6
+   ],
+   "islands": 16,
+   "tris": 288,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage book leather",
+    "Mage dark frame oak (not clipped)",
+    "Mage parchment",
+    "Mage rune slate",
+    "Mage star chart"
+   ]
+  },
+  {
+   "x": [
+    0.38,
+    0.82
+   ],
+   "y": [
+    0.0,
+    1.52
+   ],
+   "z": [
+    1.759,
+    2.141
+   ],
+   "islands": 3,
+   "tris": 60,
+   "mats": [
+    "Mage parchment",
+    "Mage wrought iron"
+   ]
+  },
+  {
+   "x": [
+    4.377,
+    5.624
+   ],
+   "y": [
+    0.0,
+    0.52
+   ],
+   "z": [
+    -0.806,
+    1.279
+   ],
+   "islands": 2,
+   "tris": 24,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage dark frame oak (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    4.384,
+    5.691
+   ],
+   "y": [
+    0.0,
+    1.93
+   ],
+   "z": [
+    -3.442,
+    -1.083
+   ],
+   "islands": 20,
+   "tris": 304,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage book leather",
+    "Mage dark frame oak (not clipped)",
+    "Mage parchment",
+    "Mage star chart"
+   ]
+  }
+ ],
+ "Mage_FurnishingDressing": [
+  {
+   "x": [
+    -5.75,
+    -5.59
+   ],
+   "y": [
+    1.12,
+    1.17
+   ],
+   "z": [
+    -1.288,
+    -1.128
+   ],
+   "islands": 2,
+   "tris": 38,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    -5.746,
+    -5.599
+   ],
+   "y": [
+    1.62,
+    1.792
+   ],
+   "z": [
+    -1.132,
+    -1.014
+   ],
+   "islands": 2,
+   "tris": 16,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    -5.639,
+    -5.516
+   ],
+   "y": [
+    2.1,
+    2.251
+   ],
+   "z": [
+    -1.537,
+    -1.422
+   ],
+   "islands": 2,
+   "tris": 16,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    -5.621,
+    -5.539
+   ],
+   "y": [
+    0.62,
+    0.78
+   ],
+   "z": [
+    -1.385,
+    -1.299
+   ],
+   "islands": 1,
+   "tris": 15,
+   "mats": [
+    "Rune crystal (glow)"
+   ]
+  },
+  {
+   "x": [
+    -5.478,
+    -5.228
+   ],
+   "y": [
+    0.78,
+    0.83
+   ],
+   "z": [
+    2.618,
+    2.973
+   ],
+   "islands": 5,
+   "tris": 76,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    -4.856,
+    -4.736
+   ],
+   "y": [
+    0.78,
+    0.96
+   ],
+   "z": [
+    2.679,
+    2.783
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    -4.421,
+    -4.323
+   ],
+   "y": [
+    1.42,
+    1.533
+   ],
+   "z": [
+    -1.748,
+    -1.663
+   ],
+   "islands": 2,
+   "tris": 40,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    -4.058,
+    -3.943
+   ],
+   "y": [
+    1.42,
+    1.536
+   ],
+   "z": [
+    -1.736,
+    -1.636
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    -2.803,
+    -2.683
+   ],
+   "y": [
+    0.82,
+    1.0
+   ],
+   "z": [
+    -1.493,
+    -1.389
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    -2.524,
+    -2.364
+   ],
+   "y": [
+    0.8,
+    0.85
+   ],
+   "z": [
+    -1.465,
+    -1.305
+   ],
+   "islands": 2,
+   "tris": 38,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  }
+ ],
+ "Mage_ServiceLectern_Library": [
+  {
+   "x": [
+    1.92,
+    2.58
+   ],
+   "y": [
+    3.0,
+    4.27
+   ],
+   "z": [
+    2.08,
+    2.52
+   ],
+   "islands": 5,
+   "tris": 60,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage book leather",
+    "Mage parchment"
+   ]
+  },
+  {
+   "x": [
+    2.62,
+    2.68
+   ],
+   "y": [
+    3.0,
+    4.15
+   ],
+   "z": [
+    2.274,
+    2.326
+   ],
+   "islands": 1,
+   "tris": 20,
+   "mats": [
+    "Mage wrought iron"
+   ]
+  }
+ ],
+ "Mage_ServiceRuneTable_Workroom": [
+  {
+   "x": [
+    1.7,
+    3.3
+   ],
+   "y": [
+    0.0,
+    1.0
+   ],
+   "z": [
+    1.05,
+    1.8
+   ],
+   "islands": 23,
+   "tris": 332,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage book leather",
+    "Mage brass",
+    "Mage parchment",
+    "Mage rune slate"
+   ]
+  },
+  {
+   "x": [
+    1.8,
+    3.2
+   ],
+   "y": [
+    0.2,
+    0.26
+   ],
+   "z": [
+    1.4,
+    1.46
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Mage dark frame oak (not clipped)"
+   ]
+  }
+ ],
+ "Mage_ServiceTelescope_Observatory": [
+  {
+   "x": [
+    3.732,
+    5.063
+   ],
+   "y": [
+    5.991,
+    8.165
+   ],
+   "z": [
+    -3.163,
+    -1.832
+   ],
+   "islands": 9,
+   "tris": 180,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage brass",
+    "Mage wrought iron"
+   ]
+  }
+ ],
+ "Mage_UpperFurnishing": [
+  {
+   "x": [
+    -1.676,
+    -0.472
+   ],
+   "y": [
+    3.0,
+    5.23
+   ],
+   "z": [
+    -3.386,
+    -1.145
+   ],
+   "islands": 27,
+   "tris": 404,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage book leather",
+    "Mage dark frame oak (not clipped)",
+    "Mage parchment",
+    "Mage rune slate",
+    "Mage star chart"
+   ]
+  },
+  {
+   "x": [
+    -1.672,
+    -0.468
+   ],
+   "y": [
+    3.0,
+    5.23
+   ],
+   "z": [
+    -0.844,
+    1.396
+   ],
+   "islands": 22,
+   "tris": 344,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage book leather",
+    "Mage dark frame oak (not clipped)",
+    "Mage parchment",
+    "Mage rune slate",
+    "Mage star chart"
+   ]
+  },
+  {
+   "x": [
+    0.7,
+    1.7
+   ],
+   "y": [
+    6.0,
+    6.955
+   ],
+   "z": [
+    -3.1,
+    -2.4
+   ],
+   "islands": 29,
+   "tris": 432,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage brass",
+    "Mage parchment",
+    "Mage star chart"
+   ]
+  },
+  {
+   "x": [
+    0.849,
+    1.551
+   ],
+   "y": [
+    6.0,
+    7.7
+   ],
+   "z": [
+    1.24,
+    1.96
+   ],
+   "islands": 7,
+   "tris": 408,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage brass",
+    "Mage rune slate",
+    "Mage wrought iron"
+   ]
+  },
+  {
+   "x": [
+    2.77,
+    4.442
+   ],
+   "y": [
+    3.0,
+    5.23
+   ],
+   "z": [
+    1.448,
+    2.423
+   ],
+   "islands": 22,
+   "tris": 425,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage book leather",
+    "Mage dark frame oak (not clipped)",
+    "Mage parchment",
+    "Mage star chart"
+   ]
+  },
+  {
+   "x": [
+    2.9,
+    3.3
+   ],
+   "y": [
+    6.0,
+    6.5
+   ],
+   "z": [
+    -3.073,
+    -2.727
+   ],
+   "islands": 1,
+   "tris": 20,
+   "mats": [
+    "Mage aged oak (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    4.472,
+    5.676
+   ],
+   "y": [
+    3.0,
+    5.23
+   ],
+   "z": [
+    -0.855,
+    1.386
+   ],
+   "islands": 27,
+   "tris": 404,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage book leather",
+    "Mage dark frame oak (not clipped)",
+    "Mage parchment",
+    "Mage rune slate",
+    "Mage star chart"
+   ]
+  }
+ ],
+ "Mage_UpperFurnishingDressing": [
+  {
+   "x": [
+    0.993,
+    1.113
+   ],
+   "y": [
+    6.9,
+    7.08
+   ],
+   "z": [
+    -2.813,
+    -2.709
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    1.23,
+    1.311
+   ],
+   "y": [
+    6.915,
+    7.075
+   ],
+   "z": [
+    -2.98,
+    -2.894
+   ],
+   "islands": 1,
+   "tris": 15,
+   "mats": [
+    "Rune crystal (glow)"
+   ]
+  }
+ ],
+ "Mage_Yard": [
+  {
+   "x": [
+    -7.07,
+    -0.86
+   ],
+   "y": [
+    -0.366,
+    1.703
+   ],
+   "z": [
+    3.93,
+    8.07
+   ],
+   "islands": 66,
+   "tris": 864,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage dark frame oak (not clipped)",
+    "Mage ochre thatch",
+    "Mage parchment",
+    "Mage rune slate",
+    "Mage thatch sunlit"
+   ]
+  },
+  {
+   "x": [
+    -6.05,
+    -5.15
+   ],
+   "y": [
+    -0.35,
+    1.6
+   ],
+   "z": [
+    4.915,
+    5.285
+   ],
+   "islands": 4,
+   "tris": 80,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage ochre thatch",
+    "Mage parchment"
+   ]
+  },
+  {
+   "x": [
+    -1.14,
+    -0.86
+   ],
+   "y": [
+    -0.4,
+    1.33
+   ],
+   "z": [
+    4.43,
+    5.14
+   ],
+   "islands": 6,
+   "tris": 72,
+   "mats": [
+    "Mage aged oak (not clipped)",
+    "Mage dark frame oak (not clipped)"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,55 @@
+== Cavern_Furnishing 20 clusters
+  x -7.96.. -7.34 y 0.00.. 1.15 z -0.96.. -0.34   344 tris 20 isl  Cavern crate wood, Cavern dark timber, Cavern hemp rope
+  x -7.83.. -7.27 y 0.00.. 0.93 z  1.32..  1.88   140 tris  5 isl  Cavern crate wood, Cavern iron
+  x -7.20.. -6.80 y 0.00.. 0.35 z  1.57..  1.95    48 tris  2 isl  Cavern hemp rope
+  x -1.96.. -1.39 y 0.00.. 0.60 z  1.09..  2.00   216 tris 14 isl  Cavern coal, Cavern crate wood, Cavern dark timber, Cavern hemp rope
+  x -0.96.. -0.34 y 0.00.. 0.60 z -5.96.. -5.39   120 tris 10 isl  Cavern copper ore, Cavern crate wood, Cavern dark timber
+  x -0.96.. -0.39 y 0.00.. 0.55 z -5.31.. -4.79   120 tris 10 isl  Cavern crate wood, Cavern dark timber, Cavern tin ore
+  x  1.15..  2.85 y 0.00.. 2.00 z -5.98.. -5.80   144 tris 12 isl  Cavern crate wood, Cavern dark timber, Cavern iron
+  x  2.02..  2.27 y 1.00.. 2.10 z  3.20..  4.50   108 tris  9 isl  Cavern dark timber, Cavern iron
+  x  2.14..  2.81 y 0.00.. 1.00 z  5.14..  5.81   240 tris 20 isl  Cavern copper ore, Cavern crate wood, Cavern dark timber, Cavern tin ore
+  x  4.01..  4.46 y 0.00.. 0.25 z -2.63.. -2.11    16 tris  1 isl  Cavern copper ore, Cavern rock, Cavern rock shadow
+  x  4.15..  4.55 y 0.00.. 0.63 z  5.35..  5.75   140 tris  5 isl  Cavern crate wood, Cavern iron, Cavern quench water
+  x  5.66..  6.14 y 0.00.. 0.70 z -5.94.. -5.46   112 tris  4 isl  Cavern crate wood, Cavern iron
+  x  6.10..  6.83 y-0.01.. 1.01 z -5.88.. -5.22   164 tris  7 isl  Cavern crate wood, Cavern iron
+  x  6.18..  7.37 y 0.00.. 1.27 z  5.18..  5.92    84 tris  7 isl  Cavern crate wood, Cavern hemp rope, Cavern iron
+  x  7.09..  7.81 y 0.00.. 0.70 z  5.09..  5.81   120 tris 10 isl  Cavern coal, Cavern crate wood, Cavern dark timber
+  x  7.27..  7.93 y 0.00.. 0.55 z  2.25..  3.75    48 tris  4 isl  Cavern crate wood, Cavern iron, Cavern quench water
+  x 24.19.. 25.01 y 0.00.. 1.25 z  2.69..  3.51   216 tris 18 isl  Cavern crate wood, Cavern dark timber
+  x 24.29.. 25.03 y 1.27.. 1.32 z  2.93..  3.45    24 tris  2 isl  Cavern crate wood, Cavern iron
+  x 25.72.. 26.28 y 0.00.. 0.85 z  3.07..  3.63   112 tris  4 isl  Cavern crate wood, Cavern iron
+  x 26.89.. 27.52 y 0.06.. 0.24 z -1.72.. -1.08   192 tris  3 isl  Cavern hemp rope
+== Cavern_FurnishingCart 1 clusters
+  x -3.63.. -2.10 y 0.12.. 1.06 z  2.44..  3.56   220 tris 12 isl  Cavern copper ore, Cavern crate wood, Cavern iron, Cavern rock shadow, Cavern tin ore
+== Cavern_Torch 15 clusters
+  x -8.47.. -7.96 y 1.70.. 2.22 z  1.76..  2.06   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x -6.78.. -6.60 y 1.70.. 2.22 z -1.62.. -1.09   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x -4.43.. -3.93 y 1.70.. 2.22 z  3.76..  4.07   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x -3.78.. -3.60 y 1.70.. 2.22 z  1.04..  1.56   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x -2.62.. -2.09 y 1.70.. 2.22 z -2.59.. -2.41   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x -1.66.. -1.13 y 1.70.. 2.22 z -4.40.. -4.22   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x  3.97..  4.15 y 1.70.. 2.22 z  6.01..  6.54   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x  5.64..  5.82 y 1.70.. 2.22 z -6.54.. -6.02   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x  8.11..  8.64 y 1.70.. 2.22 z -0.63.. -0.45   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x  8.20..  8.73 y 1.70.. 2.22 z  4.41..  4.59   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x 11.30.. 11.48 y 1.70.. 2.22 z -0.62.. -0.10   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x 17.37.. 17.55 y 1.70.. 2.22 z  2.05..  2.57   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x 20.23.. 20.41 y 1.70.. 2.22 z -0.48..  0.04   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x 24.97.. 25.15 y 1.70.. 2.22 z -2.48.. -1.96   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+  x 27.60.. 27.78 y 1.70.. 2.22 z  3.90..  4.42   140 tris  6 isl  Cavern dark timber, Cavern hemp rope, Cavern iron
+== Cavern_TorchFlame 15 clusters
+  x -8.09.. -7.96 y 2.20.. 2.47 z  1.75..  1.90    20 tris  1 isl  Cavern torch flame
+  x -6.75.. -6.62 y 2.20.. 2.47 z -1.22.. -1.07    20 tris  1 isl  Cavern torch flame
+  x -4.06.. -3.92 y 2.20.. 2.47 z  3.75..  3.90    20 tris  1 isl  Cavern torch flame
+  x -3.75.. -3.62 y 2.20.. 2.47 z  1.01..  1.16    20 tris  1 isl  Cavern torch flame
+  x -2.22.. -2.08 y 2.20.. 2.47 z -2.56.. -2.44    20 tris  1 isl  Cavern torch flame
+  x -1.27.. -1.12 y 2.20.. 2.47 z -4.38.. -4.25    20 tris  1 isl  Cavern torch flame
+  x  4.00..  4.13 y 2.20.. 2.47 z  5.99..  6.14    20 tris  1 isl  Cavern torch flame
+  x  5.66..  5.79 y 2.20.. 2.47 z -6.14.. -6.00    20 tris  1 isl  Cavern torch flame
+  x  8.09..  8.24 y 2.20.. 2.47 z -0.60.. -0.47    20 tris  1 isl  Cavern torch flame
+  x  8.19..  8.33 y 2.20.. 2.47 z  4.43..  4.57    20 tris  1 isl  Cavern torch flame
+  x 11.33.. 11.46 y 2.20.. 2.47 z -0.22.. -0.07    20 tris  1 isl  Cavern torch flame
+  x 17.40.. 17.53 y 2.20.. 2.47 z  2.03..  2.18    20 tris  1 isl  Cavern torch flame
+  x 20.26.. 20.39 y 2.20.. 2.47 z -0.08..  0.07    20 tris  1 isl  Cavern torch flame
+  x 25.00.. 25.13 y 2.20.. 2.47 z -2.08.. -1.94    20 tris  1 isl  Cavern torch flame
+  x 27.62.. 27.75 y 2.20.. 2.47 z  3.88..  4.03    20 tris  1 isl  Cavern torch flame

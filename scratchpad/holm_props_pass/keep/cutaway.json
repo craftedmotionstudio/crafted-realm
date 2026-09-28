@@ -1,0 +1,20 @@
+{
+ "model": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
+ "building": "keep",
+ "lift": 1.25,
+ "levels": [
+  0,
+  1.7,
+  3.2,
+  3.35,
+  3.4,
+  5.05,
+  6.7,
+  6.8,
+  10.2
+ ],
+ "pieces": 70,
+ "keep": 70,
+ "cut": 0,
+ "clipped": []
+}

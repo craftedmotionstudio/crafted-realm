@@ -1,0 +1,61 @@
+== Kitchen_Court_Dressing 3 clusters
+  x  1.19..  1.90 y 2.25.. 2.77 z  0.62..  0.68    46 tris  7 isl  Holm flat colour - beam, Holm flat colour - rock
+  x  4.16..  7.19 y 0.00.. 0.94 z  0.11..  3.24   121 tris  4 isl  Holm flat colour - rock
+  x  4.85..  6.55 y 0.00.. 0.69 z  0.15..  0.81   348 tris 43 isl  Holm flat colour - beam
+== Kitchen_Furnishings_Hall 17 clusters
+  x -4.75.. -4.31 y 0.00.. 0.62 z  0.13..  0.58    75 tris  3 isl  Holm flat colour, Holm flat colour - beam
+  x -4.71.. -4.19 y 0.00.. 0.70 z -1.76.. -1.24    86 tris  4 isl  Holm flat colour, Holm flat colour - beam
+  x -4.71.. -4.27 y 0.00.. 0.62 z -0.93.. -0.47    75 tris  3 isl  Holm flat colour, Holm flat colour - beam
+  x -4.67.. -4.22 y 0.00.. 0.62 z -0.41..  0.03    75 tris  3 isl  Holm flat colour - beam
+  x -3.05.. -2.30 y 0.00.. 0.77 z  2.45..  2.82   156 tris  6 isl  Holm flat colour - beam
+  x -3.00.. -0.80 y 2.05.. 2.52 z -0.62.. -0.48   132 tris 12 isl  Holm flat colour, Holm flat colour - beam
+  x -2.89.. -2.47 y 0.00.. 0.24 z  2.42..  2.84    38 tris  2 isl  Holm flat colour - beam
+  x -2.64.. -2.50 y 2.00.. 2.36 z -0.62.. -0.48    44 tris  3 isl  Holm flat colour
+  x -2.37.. -2.23 y 2.03.. 2.39 z -0.62.. -0.48    44 tris  3 isl  Holm flat colour
+  x -2.17.. -2.06 y 1.33.. 1.61 z -4.15.. -4.05    70 tris  6 isl  Bakehouse candle flame (glow), Holm flat colour, Holm flat colour - beam
+  x -2.10.. -1.96 y 2.02.. 2.38 z -0.62.. -0.48    44 tris  3 isl  Holm flat colour
+  x -1.84.. -1.69 y 2.02.. 2.38 z -0.62.. -0.48    44 tris  3 isl  Holm flat colour
+  x -1.81.. -1.69 y 1.33.. 1.49 z -4.15.. -4.05    52 tris  2 isl  Holm flat colour - beam
+  x -1.31.. -1.16 y 2.03.. 2.39 z -0.62.. -0.48    44 tris  3 isl  Holm flat colour
+  x -0.94.. -0.82 y 1.33.. 1.61 z -4.15.. -4.05    70 tris  6 isl  Bakehouse candle flame (glow), Holm flat colour, Holm flat colour - beam
+  x -0.38.. -0.23 y 2.20.. 2.90 z -2.97.. -2.83   150 tris 15 isl  Bakehouse lantern glow (glow), Holm flat colour
+  x  0.47..  0.83 y 0.00.. 0.47 z -0.72..  0.12    36 tris  3 isl  Holm flat colour - beam
+== Kitchen_Pantry_FlourBin 1 clusters
+  x  3.93..  5.07 y 0.00.. 1.58 z -4.89.. -4.13   202 tris 13 isl  Holm flat colour - beam, Holm flat colour - plaster
+== Kitchen_RecipeBoard_Board 1 clusters
+  x  0.79..  0.85 y 1.30.. 2.00 z -1.62.. -1.00   236 tris  8 isl  Holm flat colour - beam, Holm flat colour - plaster
+== Kitchen_Store_Shelves 11 clusters
+  x  1.30..  2.60 y 2.19.. 2.21 z -4.71.. -4.68    12 tris  3 isl  Holm flat colour - beam
+  x  1.32..  2.70 y 0.00.. 1.15 z -4.80.. -3.25   450 tris 18 isl  Holm flat colour - beam
+  x  1.46..  1.61 y 1.73.. 2.09 z -4.69.. -4.55    44 tris  3 isl  Holm flat colour - beam
+  x  1.53..  1.55 y 2.13.. 2.20 z -4.63.. -4.61    12 tris  1 isl  Holm flat colour - beam
+  x  1.74..  1.88 y 1.76.. 2.20 z -4.69.. -4.55    56 tris  4 isl  Holm flat colour - beam
+  x  2.01..  2.16 y 1.75.. 2.20 z -4.69.. -4.55    56 tris  4 isl  Holm flat colour - beam
+  x  2.29..  2.43 y 1.77.. 2.20 z -4.69.. -4.55    56 tris  4 isl  Holm flat colour - beam
+  x  3.90..  4.73 y 0.00.. 0.80 z -0.80.. -0.25   275 tris 15 isl  Holm flat colour - beam
+  x  3.92..  4.08 y 2.00.. 2.65 z -2.57.. -2.43   150 tris 15 isl  Bakehouse lantern glow (glow), Holm flat colour - beam
+  x  5.45..  6.58 y 0.00.. 0.82 z -1.28.. -0.45   172 tris  8 isl  Holm flat colour - beam
+  x  6.43..  6.83 y 0.00.. 2.00 z -4.65.. -2.39  1320 tris 31 isl  Holm flat colour - beam
+== Kitchen_SupplyBuckets_Rack 3 clusters
+  x -2.25.. -1.25 y 0.00.. 1.22 z  2.42..  2.84   258 tris 22 isl  Holm flat colour - beam
+  x -2.08.. -1.82 y 0.80.. 1.07 z  2.55..  2.81    38 tris  2 isl  Holm flat colour - beam
+  x -1.68.. -1.42 y 0.80.. 1.07 z  2.55..  2.81    38 tris  2 isl  Holm flat colour - beam
+== Kitchen_SupplyDoughBowl_Trough 1 clusters
+  x -1.64.. -1.00 y 0.82.. 1.03 z -0.82.. -0.28   134 tris  6 isl  Holm flat colour - beam
+== Kitchen_SupplyWaterButt 1 clusters
+  x  0.08..  0.82 y 0.00.. 0.87 z  2.07..  2.71   204 tris 11 isl  Holm flat colour - beam
+== Kitchen_SupplyWaterSurface 1 clusters
+  x  0.18..  0.66 y 0.74.. 0.74 z  2.19..  2.65    28 tris  2 isl  Holm flat colour
+== Kitchen_Tools_Oven 2 clusters
+  x -2.53.. -2.25 y 0.00.. 1.90 z -2.92.. -2.60    28 tris  4 isl  Holm flat colour - beam
+  x -2.25.. -2.05 y 0.02.. 1.74 z -2.98.. -2.79    28 tris  4 isl  Holm flat colour - beam
+== Kitchen_UpperFurnishing_Loft 4 clusters
+  x -4.67.. -3.77 y 3.30.. 3.90 z -4.68.. -3.74   225 tris  9 isl  Holm flat colour, Holm flat colour - beam
+  x -1.16.. -0.84 y 3.30.. 4.03 z -2.64.. -2.36    98 tris  8 isl  Bakehouse candle flame (glow), Holm flat colour, Holm flat colour - beam
+  x -0.45..  0.80 y 3.30.. 4.20 z -4.80.. -3.80    60 tris  5 isl  Holm flat colour, Holm flat colour - beam
+  x -0.40..  0.25 y 3.30.. 3.77 z -3.40.. -2.95   206 tris 11 isl  Holm flat colour - beam
+== Kitchen_UpperFurnishing_Rail 1 clusters
+  x -3.90..  0.85 y 3.30.. 4.27 z -1.20.. -1.10   184 tris 10 isl  Holm flat colour - beam
+== Kitchen_Worktable_Kneading 2 clusters
+  x -2.90.. -0.90 y 0.00.. 0.93 z -0.95.. -0.15   315 tris 16 isl  Holm flat colour - beam
+  x -2.80.. -1.00 y 0.15.. 0.22 z -0.59.. -0.51    12 tris  1 isl  Holm flat colour - beam

@@ -1,0 +1,25 @@
+{
+ "note": "Props pass (2026-09-28): the new props textured old-school; only faces of the props material, each with the kit texture its author declared",
+ "source": ".studio-workspaces/holm-keep-props-v1/working/keep-flat.blend",
+ "outBlend": ".studio-workspaces/holm-keep-props-v1/candidates/keep.blend",
+ "outGlb": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
+ "report": ".studio-workspaces/holm-keep-props-v1/candidates/textures.report.json",
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+ "vertexColour": {
+  "material": "Holm props colour",
+  "faceAttribute": "holm_tex",
+  "faceClasses": [
+   "",
+   "beam",
+   "planks",
+   "rock",
+   "plaster",
+   "stone_course",
+   "thatch"
+  ],
+  "woodOnly": ".",
+  "maxVariants": 3,
+  "minShare": 0
+ }
+}

@@ -1,0 +1,53 @@
+{
+ "ok": true,
+ "reference": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+ "candidate": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
+ "referenceNodes": 34,
+ "kept": 25,
+ "changed": {
+  "Keep_Upper_Furnishing_4_13": [
+   156,
+   null
+  ],
+  "Keep_Furnishing_3_21": [
+   252,
+   null
+  ],
+  "Keep_Furnishing_3_1": [
+   12,
+   null
+  ],
+  "Keep_Furnishing_3_9": [
+   84,
+   null
+  ],
+  "Keep_Upper_Furnishing_4_1": [
+   12,
+   null
+  ],
+  "Keep_Upper_Furnishing_4_2": [
+   24,
+   null
+  ],
+  "Keep_Upper_Furnishing_4_2.001": [
+   24,
+   null
+  ],
+  "Keep_Furnishing_Dressing": [
+   1615,
+   null
+  ],
+  "Keep_Upper_Furnishing_Dressing": [
+   170,
+   null
+  ]
+ },
+ "added": {
+  "Keep_Furnishing_PropsArms": 2117,
+  "Keep_Furnishing_PropsHallTable": 1911,
+  "Keep_Furnishing_PropsStores": 2154,
+  "Keep_Furnishing_PropsBarracks": 3609,
+  "Keep_Upper_Furnishing_PropsQuarters": 3057
+ },
+ "issues": []
+}

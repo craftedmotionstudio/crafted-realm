@@ -1,0 +1,30 @@
+{
+ "removed": [
+  "Keep_Furnishing_3_1",
+  "Keep_Furnishing_3_21",
+  "Keep_Furnishing_3_9",
+  "Keep_Furnishing_Dressing",
+  "Keep_Upper_Furnishing_4_1",
+  "Keep_Upper_Furnishing_4_13",
+  "Keep_Upper_Furnishing_4_2",
+  "Keep_Upper_Furnishing_4_2.001",
+  "Keep_Upper_Furnishing_Dressing"
+ ],
+ "islandsRemoved": {},
+ "facesRemoved": {},
+ "built": {
+  "Keep_Furnishing_PropsArms": 2020,
+  "Keep_Furnishing_PropsHallTable": 1839,
+  "Keep_Furnishing_PropsStores": 2074,
+  "Keep_Furnishing_PropsBarracks": 3428,
+  "Keep_Upper_Furnishing_PropsQuarters": 2924
+ },
+ "notes": [],
+ "welds": {
+  "Keep_Furnishing_PropsArms": 97,
+  "Keep_Furnishing_PropsHallTable": 72,
+  "Keep_Furnishing_PropsStores": 80,
+  "Keep_Furnishing_PropsBarracks": 181,
+  "Keep_Upper_Furnishing_PropsQuarters": 133
+ }
+}

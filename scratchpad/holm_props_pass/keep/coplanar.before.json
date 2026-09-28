@@ -1,0 +1,17 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-keep-oldschool-v1\\candidates\\keep.glb",
+ "views": [
+  "outside",
+  "inside:0.0",
+  "inside:3.2",
+  "inside:6.7",
+  "inside:10.2"
+ ],
+ "summary": {
+  "fights": 0,
+  "byKind": {},
+  "area": 0,
+  "topPairs": []
+ },
+ "fights": []
+}
