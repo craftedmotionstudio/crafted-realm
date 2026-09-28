@@ -3505,12 +3505,13 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
         if arms and osrs:      # arms swing at the sides in a plane parallel to the body's midline (never across the body)
             # v3.0: the bent stance arm pivots at the shoulder (Euler deltas over the stance): swing forward / back, a little
             # more elbow bend on the forward swing, and a touch of abduction on the back swing so the hand clears the hip
-            abd, flex = osrs
+            abd, flex = osrs[:2]
+            abd0 = osrs[2] if len(osrs) > 2 else 0.0   # v4a.2: a constant few degrees out (held tools clear the passing knee)
             for side in swing_sides:
                 sx = 1 if side == 'Left' else -1
                 sw = -arm_swing * c * sx                      # + = forward; the left arm is back when the left foot lands
                 back = max(0.0, -sw) / max(1e-6, arm_swing)
-                kw[side + 'Arm'] = (-sw, -sx * abd * back, 0)
+                kw[side + 'Arm'] = (-sw, -sx * (abd * back + abd0), 0)
                 kw[side + 'ForeArm'] = (-(flex + fore_swing * max(0.0, sw) / max(1e-6, arm_swing)), 0, 0)
         pose = P(**kw)
         for side, off in (('Left', 0.0), ('Right', .5)):

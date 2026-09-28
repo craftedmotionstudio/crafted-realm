@@ -1018,7 +1018,8 @@ def sk_boots(mb, bt, over=None):
         rings = []
         for z, yf, yb, wo, wi in sl:   # v4: the upper slices stand a little further off (the v4 trouser hem ends at the instep top)
             rings.append(KB.foot_slice(bt, sx, z, yf, yb, wo, wi, grow=.013 + BOOT_TOP_GROW * KB.ss(.06, .122, z), hk=1.05))
-        shaft = [(1.97, .042), (1.88, .046), (1.76, .046), (1.64, .044), (1.58, .044)]   # (room over turn-ups in the run)
+        shaft = [(1.97, .044), (1.88, .054), (1.76, .052), (1.64, .046), (1.58, .044)]   # (room over turn-ups in the run;
+        # v4: and over the kit foot's collar as the 2004 walk rolls the ankle through 58 deg)
         rings += KB.shin_rings(bt, sx, shaft)
         fw, lw = KB.foot_w(sx), KB.leg_w(sx)
         # v3: the ankle ring blends; the shaft above rides the shin like a trouser leg (walk / run no longer open a gap)
@@ -1122,6 +1123,7 @@ NECK_X = {'A': .094, 'B': .084}       # half width of the necklace at the base o
 # v4: the kit v4 collar sits higher (the square shoulder shelf rises to the neck): the necklace rests where the shelf meets
 # the neck -- the height at which the v4 torso is as wide as the v3.1 torso was at 1.464 (A 1.490, B 1.484)
 NECK_Z = {'A': 1.490, 'B': 1.484}
+NECK_BACK_DROP = {'A': 0.0, 'B': .014}   # B: the back of the chain sits a little lower, under the collar line and the hair
 FOOT_A = [(dp, dz) for dp in (-.20, -.10, 0.0, .10, .20) for dz in (-.010, 0.0, .010)]
 def x_to_phi(bt, x, z, off):
     """the body_point angle (front half) whose point has this x"""
@@ -1142,7 +1144,7 @@ def sk_amulet(mb, bt, over=None):
             ps = x_to_phi(bt, X, ZB, .02)
             a = (u - math.pi / 2) / math.pi         # 0 .. 1 from the left side round the back to the right side
             phi = ps + (2 * math.pi - 2 * ps) * a
-            z = ZB
+            z = ZB - NECK_BACK_DROP[bt] * math.sin(math.pi * a) ** .6
         back = math.cos(u) < -1e-9
         o = clear_off(bt, over, phi, z, FOOT_A) + R + (.002 if back else .008 + .012 * KB.ss(1.40 + dz, 1.46 + dz, z))
         p = KB.body_point(bt, phi, z, o)

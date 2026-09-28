@@ -144,7 +144,7 @@ GAIT_2004 = {'walk': {'frames': 28, 'duty': .52, 'bob': .045, 'p_on': 12, 'p_off
 #  run  -- "a very aggressive run": calmer -- the arms swing +-52 deg (was +-96) with the elbows held near 90, a lower foot
 #          lift and heel kick, a little less twist; same 0.667 s cycle and 0.75 H step; the lean authored 16.5 so the
 #          harness's silhouette measure reads ~14 (it read 9.9 for 14 authored: the kicked-up rear leg pulls the bottom back)
-GAIT_2004_2 = {'walk': dict(GAIT_2004['walk'], p_on=24, p_off=-34, lift=.062, swing_pitch=(.10, .62), lean_cap=(6.5, False)),
+GAIT_2004_2 = {'walk': dict(GAIT_2004['walk'], p_on=24, p_off=-34, lift=.062, osrs=(10.0, 0.0, 3.0), swing_pitch=(.10, .62), lean_cap=(6.5, False)),
                'run': dict(GAIT_2004['run'], kick=.14, lift=.10, arm_swing=52, fore=86, fore_swing=10, twist=5, p_on=14, p_off=-40,
                            swing_y=(.12, .88), lean=13, lean_cap=(16.5, False))}   # (lean 13: the head counters it -- eyes ahead, not down)
 GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, False)),
@@ -183,7 +183,8 @@ PROFILES = {
     # the torso and arms), form-fitting trousers, a fuller rounder skull, a walk with a real ankle roll and a calmer run
     'v4a2': dict(BODY_2004, label='Option A.2 -- closest 2004, smooth panels, form-fitting trousers, rounder skull, ankle-roll walk, calm run',
                  sharp=80.0, face=FACE_2004, head=HEAD_ROUND, head_p=2.55, head_wy=1.04, head_back_k=HEAD_BACK_K,
-                 trousers='fitted', gait=GAIT_2004_2, jaw_clear=(.064, .064),   # (beards over armour clear the head-forward idle)
+                 trousers='fitted', gait=GAIT_2004_2, jaw_clear=(.064, .064), hair_clear=.050,
+                 v_body=dict(thigh_k=.72, thigh_k_b=.78),   # (slimmer thighs: the 2004 gap from the crotch down; cloth follows)   # (beards over armour clear the head-forward idle)
                  step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')},
                  step_all=(3, 'CONSTANT'), lean=LEAN_2004_2, tutor_gait=TUTOR_GAIT_2004),
     # B: the same figure made softer: smooth (Gouraud-like) shading over the limbs and head, the 8 poses joined by
@@ -290,6 +291,8 @@ def apply(K, name):
         K.REACH_ASSIST = True
     if 'arm_aim' in P:   # the 2004 ready pose: fists at the front-side of the thighs (reference: ~7 cm ahead of the hip line)
         K.IDLE_HAND_Y = (-.09, .03)
+    if 'hair_clear' in P:   # hair over armour / capes / amulets stands this far off the torso
+        K.ARMOUR_CLEAR['Hair'] = P['hair_clear']
     if 'jaw_clear' in P:
         K.ARMOUR_CLEAR['Jaw'], K.JAW_LOW_EXTRA = P['jaw_clear']
     if P.get('trousers') == 'fitted':
