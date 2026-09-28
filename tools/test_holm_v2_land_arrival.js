@@ -30,7 +30,7 @@ const PKG={documents:{terrain:{id:'v2'}}},drop=()=>new TypeError('Failed to fetc
   const l=loader([drop(),drop(),new Error('[HolmArrivalExportLoader] fetch failed manifest.json')]);let err=null;
   try{await V2.loadArrival(l,{wait:async()=>{}})}catch(e){err=e}
   assert(err&&/could not be read after 3 tries/.test(err.message)&&/fetch failed manifest\.json/.test(err.message)&&/pre-v2 package does not fit/.test(err.message),err&&err.message);
-  assert.strictEqual(l.calls.length,3);assert(l.calls.every(c=>/holm-arrival-package-v2land-v1/.test(c.baseUrl)&&!/package-v9/.test(c.baseUrl)));
+  assert.strictEqual(l.calls.length,3);assert(l.calls.every(c=>/holm-arrival-package-v2land-v2/.test(c.baseUrl)&&!/package-v9/.test(c.baseUrl)));
  });
  await check('4 an abort is not retried',async()=>{
   const a=new Error('Arrival export load aborted');a.name='AbortError';const l=loader([a,PKG]);let err=null;
