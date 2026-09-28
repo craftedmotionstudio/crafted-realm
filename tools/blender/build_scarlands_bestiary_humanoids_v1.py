@@ -32,7 +32,7 @@ ck = importlib.util.module_from_spec(spec)
 sys.modules['ck'] = ck   # the kit's apply_profile patches its own module by name
 sys.argv = [sys.argv[0]]
 spec.loader.exec_module(ck)
-ck.apply_profile('v4a')   # kit v4 (2026-09-27): the humanoid foes share the shipped option A body, clips and heads
+ck.apply_profile(ck.DEFAULT_PROFILE)   # kit v4 (2026-09-27): the humanoid foes share the shipped option A body, clips and heads
 B = ck.B
 ck.reset_scene()
 kit_arm, kit_mats, kit_objs, kit_clips, kit_defs = ck.build_kit()

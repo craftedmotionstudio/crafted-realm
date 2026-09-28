@@ -36,7 +36,7 @@ KIT = arg('--kit', os.path.join(ROOT, 'assets', 'models', 'holm_kit_v2.glb'))
 os.makedirs(os.path.join(OUT, 'cells'), exist_ok=True)
 import build_holm_characters_v2 as K
 if '--profile' not in ARGS or ARGS[ARGS.index('--profile') + 1] != 'none':
-    K.apply_profile(ARGS[ARGS.index('--profile') + 1] if '--profile' in ARGS else 'v4a')   # v4: the shipped kit tables
+    K.apply_profile(ARGS[ARGS.index('--profile') + 1] if '--profile' in ARGS else K.DEFAULT_PROFILE)   # v4: the shipped kit tables
 K.RENDER_DIR = OUT
 t0 = time.time()
 
@@ -636,7 +636,7 @@ if DO_RENDER:
                 rows.append({'title': 'Body %s, %s%s' % (bt, build, (' (over a platebody)' if with_ else '')), 'height': 250, 'cells': cells})
         wr = RESULTS['worn'].get(kind, {})
         K.compose(os.path.join(OUT, 'worn_%s.png' % kind), rows,
-                  '%s %s on the v3.1 kit -- both bodies, slim / average / stout, idle + extreme frames  (fit check: %s of %s tests failing)' %
+                  '%s %s on the kit (v4) -- both bodies, slim / average / stout, idle + extreme frames  (fit check: %s of %s tests failing)' %
                   (TAG, kind, wr.get('failing', '?'), wr.get('tests', '?')))
     # held weapons + shields: one row per item, body A and B average, idle / walk / run / attack
     rows = []
@@ -655,5 +655,5 @@ if DO_RENDER:
         hr = RESULTS['held'].get(kind, {})
         rows.append({'title': '%s  (fit check: %s of %s tests with the item inside the body)' % (kind, hr.get('failing', '?'), hr.get('tests', '?')),
                      'height': 250, 'cells': cells})
-    K.compose(os.path.join(OUT, 'held_weapons_shields.png'), rows, '%s held weapons + shields on the v3.1 kit (EquipBuilder hold solved at idle f0)' % TAG)
+    K.compose(os.path.join(OUT, 'held_weapons_shields.png'), rows, '%s held weapons + shields on the kit (v4) (EquipBuilder hold solved at idle f0)' % TAG)
 print('[EQCHECK] DONE %.0fs' % (time.time() - t0))

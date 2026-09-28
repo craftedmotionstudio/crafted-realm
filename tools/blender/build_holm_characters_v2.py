@@ -2440,6 +2440,7 @@ def skirt(mb, bt, zs, hem_rad, off=.012, mat='C_LEGS', n=10, pleats=0.0, matfn=N
     mb.thick_loft(outer, inner, mat, skirt_w, matfn=matfn, rim_mat=rim_mat)
 
 TROUSERS = [(u, .010) for u in U_LEG[:-1]] + [(1.90, .011), (1.96, .012), (2.03, .010)]   # hem runs into the shoe / boot
+HEAD_BACK_K = 1.0   # v4a.2 profiles: the back of the skull's extra fullness (the equipment refit maps the helms onto it)
 
 def leg_style(mb, bt, key):
     """v2.2 option names follow the 2004 creator's categories (our own meshes)."""
@@ -3470,7 +3471,8 @@ def foot_ankle(g, pitch):
 
 def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, arm_swing, fore, lean, twist, foot_x=.14,
               kick=0.0, base=None, bob_phase=0.0, head_counter=.6, fore_swing=8.0, hips_pitch=0.0, arms=True,
-              sway=0.0, roll=0.0, sh_twist=None, head_stab=0.0, osrs=None, swing_sides=('Left', 'Right'), lean_cap=None):
+              sway=0.0, roll=0.0, sh_twist=None, head_stab=0.0, osrs=None, swing_sides=('Left', 'Right'), lean_cap=None,
+              swing_pitch=None, swing_y=None):
     """grounded in-place cycle: the stance foot's ground pivot moves back at exactly `speed` (clip time) while the
     pelvis bobs; the swing foot arcs forward; arms swing opposite the legs; spine counter-twists."""
     T = frames / FPS
@@ -3527,9 +3529,12 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
                 a0 = foot_ankle((sx * foot_x, yF + speed * Ts, 0), p_off)
                 a1 = foot_ankle((sx * foot_x, yF, 0), p_on)
                 e = sw * sw * (3 - 2 * sw)
-                ank = Vector((sx * foot_x, a0.y + (a1.y - a0.y) * e + kick * math.sin(math.pi * sw) * (1 - sw),
+                ey = ss(swing_y[0], swing_y[1], sw) if swing_y else e   # v4a.2: the trailing leg stays back, then swings through
+                ank = Vector((sx * foot_x, a0.y + (a1.y - a0.y) * ey + kick * math.sin(math.pi * sw) * (1 - sw),
                               a0.z + (a1.z - a0.z) * sw + lift * math.sin(math.pi * sw) ** .9))
-                pitch = p_off + (p_on - p_off) * e
+                # v4a.2 (owner 2026-09-27: "feet always parallel with the ground"): swing_pitch=(a, b) keeps the toes
+                # pointing down after the push-off and turns them up well before the heel strike (a clear ankle roll)
+                pitch = p_off + (p_on - p_off) * (ss(swing_pitch[0], swing_pitch[1], sw) if swing_pitch else e)
             worst = max(worst, leg_ik(pose, side, ank, pitch) if ph < duty else 0.0)
             if ph >= duty:
                 leg_ik(pose, side, ank, pitch)
@@ -4047,6 +4052,7 @@ def keep_clearance(bt, base, var, kind):
 # above the neck; the head, face and neck skin never move. The runtime turns it on while a platebody, chainbody, leather
 # body or cape is worn (holm_equipment extras.kit_morphs).
 ARMOUR_CLEAR = {'Hair': .040, 'Jaw': .048}   # hair over plate; a beard over the gorget
+JAW_LOW_EXTRA = .052   # a long beard's tip: this much more room below the collar (v4a.2: the 2004 head-forward idle needs more)
 HAIR_GATHER = .45          # v3.1f: a hanging lock at angle th from the front swings to pi - (pi - th) * HAIR_GATHER (behind)
 HAIR_NARROW = .72          # ... and the gathered fall is this much narrower (between the shoulder blades)
 CAPE_EXTRA = .036          # Hair_Cape: further back over a cape
@@ -4077,7 +4083,7 @@ def armour_clearance(bt, ob, base, slot, cape=False):
                 q = gathered_hair(q, f)
             c0, rdir = _clearance(bt, q, TORSO, PELVIS)
             if c0 < .10:   # (a long beard's tip swings in to the chest when the head nods: more room further down)
-                push = ARMOUR_CLEAR[slot] + (.052 * ss(1.50, 1.43, p.z) if slot == 'Jaw' else 0.0)
+                push = ARMOUR_CLEAR[slot] + (JAW_LOW_EXTRA * ss(1.50, 1.43, p.z) if slot == 'Jaw' else 0.0)
                 if slot == 'Hair':
                     push = max(push, ARMOUR_MIN - c0)          # (gathering can bring a lock in close to the neck)
                 q = q + rdir * push * f
@@ -5043,7 +5049,7 @@ def validate(out_glb, want_meshes, want_clips, exact_clips=False):
     arms = [o for o in bpy.data.objects if o.type == 'ARMATURE']
     bl_new = sorted(b.name for b in arms[0].data.bones) if arms else []
     imported_meshes = sorted(o.name for o in bpy.data.objects if o.type == 'MESH')
-    nsm, ntot, no_hard = 0, 0, []
+    nsm, ntot, no_hard, one_region = 0, 0, [], []
     for o in bpy.data.objects:
         if o.type != 'MESH':
             continue
@@ -5059,9 +5065,14 @@ def validate(out_glb, want_meshes, want_clips, exact_clips=False):
                 key = tuple(round(c, 4) for c in me.vertices[me.loops[li].vertex_index].co)
                 groups.setdefault(key, set()).add(tuple(round(c, 2) for c in nv))
         if not any(len(g) > 1 for g in groups.values()):
+            # v4a.2 (owner: smooth inside every colour region): a one-colour part (e.g. bare arms) may be smooth all over
+            if SHARP_DEG >= 75 and len({poly.material_index for poly in me.polygons}) <= 1:
+                one_region.append(o.name)
+                continue
             no_hard.append(o.name)
     res['smoothed_corner_fraction'] = round(nsm / max(1, ntot), 4)
     res['meshes_without_hard_edges'] = no_hard
+    res['one_colour_parts_smooth_all_over'] = one_region
     res['glb_vertex_to_triangle_ratio'] = round(sum(j['accessors'][pr['attributes']['POSITION']]['count'] for m in j['meshes'] for pr in m['primitives'])
                                               / max(1, sum(j['accessors'][pr['indices']]['count'] / 3 for m in j['meshes'] for pr in m['primitives'])), 3)
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -6463,7 +6474,7 @@ def apply_profile(name):
     HP.apply(sys.modules[__name__], name)
     PROFILE = name
 
-DEFAULT_PROFILE = 'v4a'   # the owner's pick (2026-09-27): option A, closest 2004
+DEFAULT_PROFILE = 'v4a2'  # the owner's pick (2026-09-27): option A, closest 2004 -- as revised by his review of the rollout (A.2)
 
 def main():
     prof = ARGS[ARGS.index('--profile') + 1] if '--profile' in ARGS else DEFAULT_PROFILE

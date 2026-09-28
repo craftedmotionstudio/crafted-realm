@@ -709,7 +709,7 @@ def b_hat():
 # boots) plus Over_<body armour> on the amulet and the cape (they sit over whatever body armour is worn).
 # `hides`: the kit slots the item replaces (OSRS: a platebody replaces the torso and arms models).
 import build_holm_characters_v2 as KB
-KB.apply_profile('v4a')   # v4: the kit's shipped option A tables (body, arms, head, feet)
+KB.apply_profile(KB.DEFAULT_PROFILE)   # v4: the kit's shipped option A tables (body, arms, head, feet; A.2 since the owner's rollout review)
 KB.set_build('average')
 
 # ---- v4 helm refit: the helms were authored around the v3.x head (scale 1.13 x (1.065, 1.04, .91), lifted -.030); map
@@ -718,12 +718,24 @@ HEAD_V3 = dict(s=1.13, wx=1.065, wy=1.04, hz=.91, dz=-.030)
 def head_v4(bt):
     return dict(s=KB.HEAD_S * KB.HEAD_S_BT.get(bt, 1.0), wx=KB.HEAD_WX, wy=KB.HEAD_WY, hz=KB.HEAD_HZ,
                 dz=KB.HEAD_DZ + KB.HEAD_DZ_BT.get(bt, 0.0))
-def remap_head(m, bt):
+# v4 fit check: the v4 head sits higher on a visible neck, so a FULL helm (which in 2004 comes down to the shoulders) keeps
+# its lower rim at the collar: below the jaw line (v3 z 1.60) its rings are stretched down to this height per body type
+FULLHELM_RIM = {'A': 1.494, 'B': 1.478}
+HELM_P_GROW = 1.02    # v4a.2: the fuller (squarer) skull section -- a touch more room at the back-side diagonals
+def remap_head(m, bt, neck=False):
     a, b, P = HEAD_V3, head_v4(bt), KB.HEAD_PIVOT
     kx, ky, kz = (b['s'] * b['wx']) / (a['s'] * a['wx']), (b['s'] * b['wy']) / (a['s'] * a['wy']), (b['s'] * b['hz']) / (a['s'] * a['hz'])
+    g = HELM_P_GROW if KB.HEAD_BACK_K > 1.0 else 1.0
+    zj = P.z + (1.60 - P.z - a['dz']) * kz + b['dz']              # where the v3 jaw line lands
     for v in m.v:
+        z3 = v.z
         d = v - P - Vector((0, 0, a['dz']))
-        v.x, v.y, v.z = P.x + d.x * kx, P.y + d.y * ky, P.z + d.z * kz + b['dz']
+        back = KB.HEAD_BACK_K if d.y > 0 else 1.0                  # (+y = the back of the head)
+        back = 1.0 + (back - 1.0) * max(0.0, min(1.0, (z3 - 1.57) / .05))
+        v.x, v.y, v.z = P.x + d.x * kx * g, P.y + d.y * ky * g * back, P.z + d.z * kz + b['dz']
+        if neck and z3 < 1.60:                                     # the rim of a full helm stays down on the collar
+            t = (1.60 - z3) / (1.60 - 1.49)
+            v.z = zj - (zj - FULLHELM_RIM[bt]) * t
     return m
 from contextlib import contextmanager
 
@@ -809,13 +821,18 @@ def buckle(mb, bt, z, off, mat=BR, w=None, size=(.034, .008, .030)):
     mb.box((0, y - size[1] / 2 + .002, z), size, mat, w or KB.SPINE_W((0, 0, z)))
 
 # ---------------------------------------------------------------- body armour
+def SEAT(k, n, z):
+    """v4: room over the seat -- the 2004 walk's long trailing step lifts the buttock into the back of the hem"""
+    return .014 * max(0.0, -math.cos(2 * math.pi * k / n)) ** 1.5 * KB.ss(1.04, .95, z)
+
 def sk_platebody(mb, bt, over=None):
     n = 12
     OFF, BACK = .026, -.010
     def bump(z):
         ridge = .012 if 1.10 < z < 1.44 else 0.0
         return lambda k: ((ridge if k == 0 else 0.0) + (BACK * KB.ss(1.16, 1.30, z) if k in (5, 6, 7) else 0.0)
-                          + .014 * math.sin(2 * math.pi * k / n) ** 2 * KB.ss(1.02, .95, z))     # (v3: the hips in the walk)
+                          + .014 * math.sin(2 * math.pi * k / n) ** 2 * KB.ss(1.02, .95, z)      # (v3: the hips in the walk)
+                          + SEAT(k, n, z))
     rows = [(.895, .052), (.925, .050), (.965, .046), (.965, .032), (1.025, .038), (1.025, .028), (1.085, .032), (1.085, .026),
             (1.16, OFF), (1.26, OFF), (1.34, OFF), (1.428, .020), (1.466, .016), (1.488, .018), (1.505, .020)]
     def mat_row(i):
@@ -853,7 +870,7 @@ def sk_chainbody(mb, bt, over=None):
             return LK                      # leather hem and collar trim
         return MM if (i + k) % 2 else MT   # staggered mail rows
     with seam_at(bt, OFF):
-        hip = lambda z: (lambda k: .020 * math.sin(2 * math.pi * k / n) ** 2 * KB.ss(1.03, .95, z))
+        hip = lambda z: (lambda k: .028 * math.sin(2 * math.pi * k / n) ** 2 * KB.ss(1.03, .95, z) + SEAT(k, n, z))   # (v4: the V hips)
         suit_torso(mb, bt, rows, n, mat_face=mat_face, mat_row=lambda i: MT, bump=hip)
         fold(mb, bt, 1.503, .018, .006, n, LK, dz=.004)
         fold(mb, bt, .83, .050, .036, n, LK, dz=.012, bump=hip(.83))
@@ -882,7 +899,7 @@ def sk_leather_body(mb, bt, over=None):
             return LK
         return None
     with seam_at(bt, OFF):
-        hip = lambda z: (lambda k: .014 * math.sin(2 * math.pi * k / n) ** 2 * KB.ss(1.03, .95, z))
+        hip = lambda z: (lambda k: .020 * math.sin(2 * math.pi * k / n) ** 2 * KB.ss(1.03, .95, z) + SEAT(k, n, z))   # (v4: the V hips)
         suit_torso(mb, bt, rows, n, mat_face=mat_face, mat_row=lambda i: LE, bump=hip)
         fold(mb, bt, 1.502, .015, .004, n, LK, dz=.004)
         fold(mb, bt, .90, .034, .020, n, LK, dz=.010)
@@ -994,12 +1011,13 @@ def sk_gloves(mb, bt, over=None):
             rings.append(KB.xring(c, ax, th * k + g, wd * k + g, wd * k + g, 6, phase=math.pi / 6)); ws.append(wts); mats.append(LE)
         mb.loft(rings, LE, ws, cap0=False, cap1=True, matfn=lambda i, kk: mats[i] if i < 3 else LE)
 
+BOOT_TOP_GROW = .012   # v4: kit v4 trousers end at the top of the instep (FOOT_BLEND feet): the boot's instep clears their hem
 def sk_boots(mb, bt, over=None):
     for sx in (-1, 1):
         sl = [(z, yf - .004, yb + .004, wo, wi) for z, yf, yb, wo, wi in KB.FOOT_SL]
         rings = []
-        for z, yf, yb, wo, wi in sl:
-            rings.append(KB.foot_slice(bt, sx, z, yf, yb, wo, wi, grow=.013, hk=1.05))
+        for z, yf, yb, wo, wi in sl:   # v4: the upper slices stand a little further off (the v4 trouser hem ends at the instep top)
+            rings.append(KB.foot_slice(bt, sx, z, yf, yb, wo, wi, grow=.013 + BOOT_TOP_GROW * KB.ss(.06, .122, z), hk=1.05))
         shaft = [(1.97, .042), (1.88, .046), (1.76, .046), (1.64, .044), (1.58, .044)]   # (room over turn-ups in the run)
         rings += KB.shin_rings(bt, sx, shaft)
         fw, lw = KB.foot_w(sx), KB.leg_w(sx)
@@ -1101,6 +1119,9 @@ def clear_off(bt, over, phi, z, spread=((0.0, 0.0),), legs=False):
 FOOT = [(dp, dz) for dp in (-.10, 0.0, .10) for dz in (-.010, 0.0, .010)]
 
 NECK_X = {'A': .094, 'B': .084}       # half width of the necklace at the base of the neck
+# v4: the kit v4 collar sits higher (the square shoulder shelf rises to the neck): the necklace rests where the shelf meets
+# the neck -- the height at which the v4 torso is as wide as the v3.1 torso was at 1.464 (A 1.490, B 1.484)
+NECK_Z = {'A': 1.490, 'B': 1.484}
 FOOT_A = [(dp, dz) for dp in (-.20, -.10, 0.0, .10, .20) for dz in (-.010, 0.0, .010)]
 def x_to_phi(bt, x, z, off):
     """the body_point angle (front half) whose point has this x"""
@@ -1109,7 +1130,8 @@ def x_to_phi(bt, x, z, off):
     return math.copysign(math.asin(min(1.0, q ** (1 / e))), x)
 def sk_amulet(mb, bt, over=None):
     N, R = 16, .0055
-    X, ZB = NECK_X[bt], 1.464
+    X, ZB = NECK_X[bt], NECK_Z[bt]
+    dz = ZB - 1.464                                  # (every v3 height of the chain moves with the neck base)
     pts = []
     for j in range(N):
         u = 2 * math.pi * j / N
@@ -1122,16 +1144,16 @@ def sk_amulet(mb, bt, over=None):
             phi = ps + (2 * math.pi - 2 * ps) * a
             z = ZB
         back = math.cos(u) < -1e-9
-        o = clear_off(bt, over, phi, z, FOOT_A) + R + (.002 if back else .008 + .012 * KB.ss(1.40, 1.46, z))
+        o = clear_off(bt, over, phi, z, FOOT_A) + R + (.002 if back else .008 + .012 * KB.ss(1.40 + dz, 1.46 + dz, z))
         p = KB.body_point(bt, phi, z, o)
-        pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42, 1.47, z)), R + .008))
+        pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42 + dz, 1.47 + dz, z)), R + .008))
     rings = []
     for j, p in enumerate(pts):
         t = (pts[(j + 1) % N] - pts[j - 1])
         rings.append(KB.xring(p, t, R, R, R, 3, front=(0, 0, 1)))
     rings.append(rings[0])
     mb.loft(rings, BR, lambda q: KB.torso_w(Vector((q.x, q.y, q.z - .012))), cap0=False, cap1=False)
-    zc = 1.338                                    # the pendant rests on whatever is under it (its back face 2 mm off it)
+    zc = 1.338 + dz                               # the pendant rests on whatever is under it (its back face 2 mm off it)
     o = clear_off(bt, over, 0.0, zc, [(dp, dz) for dp in (-.26, -.13, 0.0, .13, .26) for dz in (-.04, -.02, 0.0, .02, .04)]) + .032
     y = KB.front_y(bt, 0, zc, o) - .004
     c = Vector((0, y, zc))
@@ -1145,6 +1167,8 @@ def sk_amulet(mb, bt, over=None):
 
 CAPE_ROWS = [(1.472, 34, .008), (1.40, 35, .014), (1.30, 36, .022), (1.10, 41, .022), (.97, 44, .026), (.82, 47, .040), (.53, 50, .058)]
 FOOT_C = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.010, 0.0, .010)]   # (between the shoulder blades, clear of the arms)
+CAPE_PLATE_SPAN = .74   # v4: over a platebody the cape is narrower at the back (the square 2004 shoulders swing the couters back past it)
+CAPE_FLARE_BACK = .11   # v4: the 2004 walk's half-body-height steps swing the trailing leg far back -- the hem hangs this much further back
 def sk_cape(mb, bt, over=None):
     cols = 11
     outer, inner = [], []
@@ -1152,7 +1176,7 @@ def sk_cape(mb, bt, over=None):
         ro, ri = [], []
         for c in range(cols):
             u = -1 + 2 * c / (cols - 1)
-            phi = math.pi + math.radians(span) * u
+            phi = math.pi + math.radians(span * (CAPE_PLATE_SPAN if over == 'platebody' and z < 1.36 else 1.0)) * u
             fold = (.008 if c % 2 else -.003) * KB.ss(1.30, 1.0, z)
             if z >= 1.10:
                 lift = (.040 if over == 'platebody' else .016 if over else 0.0) * u * u * KB.ss(1.00, 1.20, z)   # (plate sides swing with the arms)
@@ -1162,7 +1186,7 @@ def sk_cape(mb, bt, over=None):
                 base = inner_p + Vector((0, .010, 0))
             else:                                   # below the shoulder blades it hangs straight, flaring a little
                 sw = KB.body_point(bt, phi, 1.10, clear_off(bt, over, phi, 1.10, FOOT_C) + .012 + .030)
-                base = Vector((sw.x * (1 + (1.10 - z) * .25), sw.y + (1.10 - z) * .06, z))
+                base = Vector((sw.x * (1 + (1.10 - z) * .25), sw.y + (1.10 - z) * .06 + CAPE_FLARE_BACK * KB.ss(1.04, .55, z), z))
                 p0 = KB.body_point(bt, phi, z, 0.0)
                 n = KB.body_point(bt, phi, z, .01) - p0
                 n.normalize()
@@ -1212,6 +1236,7 @@ SUIT_FN = {k: f for k, f, *_ in SKINNED}
 HIDES = {'fullhelm': ['Hair'], 'medhelm': ['Hair'], 'hat': ['Hair']}
 # kit morphs an item switches on while worn (kit v3.1e): hair and beards lie OVER body armour and capes
 KIT_MORPHS = {k: ['Hair_Over', 'Jaw_Over'] for k in ('platebody', 'chainbody', 'leather_body')}
+KIT_MORPHS['amulet'] = ['Hair_Over']   # v4: the chain sits at the higher v4 neck base, where long hair falls -- hair lies over it
 KIT_MORPHS['cape'] = ['Hair_Over', 'Hair_Cape', 'Jaw_Over']   # rigid helms that replace the hair (the kit shows its bald head)
 
 # kind: (builder, slot, frame, equipSpec, grip glTF, axis glTF, roll glTF, legacy quat xyzw, description)
@@ -1347,7 +1372,7 @@ def make_mesh(name, m):
 BUILT = []
 HELMS = ('fullhelm', 'medhelm', 'hat')
 def helm_parts(fn, bt):
-    return [(bone, remap_head(m, bt)) for bone, m in fn()]
+    return [(bone, remap_head(m, bt, neck=(fn is b_fullhelm))) for bone, m in fn()]
 for kind, fn, slot, frame, spec, grip, axis, roll, legacy, desc in MODELS:
     res = helm_parts(fn, 'A') if kind in HELMS else fn()
     parts = res if isinstance(res, list) else [(None, res)]

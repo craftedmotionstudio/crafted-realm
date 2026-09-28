@@ -52,6 +52,18 @@ HEAD_EGG = {   # the back of the skull stops above the jaw line: from behind the
 }
 HEAD_EGG['B'] = [(1.554, .032, .040, .026, 0.0), (1.572, .052, .060, .032, .17), (1.592, .064, .072, .042, .12),
                  (1.630, .076, .084, .070, .05)] + HEAD_EGG['A'][4:]
+# v4a.2 (owner: the skull is "not very three-dimensional ... kind of narrow"): a thicker, deeper, rounder cranium -- the back
+# of the skull 7 % fuller from the temples up, the crown rounded off (no point), a squarer superellipse (fuller at the
+# back-side diagonals) and the whole head 10 % deeper (head_wy); the height (0.16 H) is unchanged
+HEAD_BACK_K = 1.07
+def _rounder(rows):
+    out = []
+    for z, rx, rf, rb, jw in rows:
+        k = HEAD_BACK_K if z >= 1.62 else 1.0 + (HEAD_BACK_K - 1.0) * max(0.0, (z - 1.57) / .05)
+        crown = 1.0 + .10 * max(0.0, (z - 1.77) / .05)          # (1.80 / 1.818 rings: a round dome, not a point)
+        out.append((z, rx * (1.02 if k > 1.0 else 1.0) * crown, rf * min(crown, 1.05), rb * k * crown, jw))
+    return out
+HEAD_ROUND = {bt: _rounder(rows) for bt, rows in HEAD_EGG.items()}
 
 # the 2004 idle (measured on the reference front views): legs nearly parallel and close under narrow hips
 STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 3.0), 'RightUpLeg': (-5.5, 1, -3.0), 'Neck': (10, 0, 0), 'Head': (6, 0, 0)}   # head carried forward, face level
@@ -125,6 +137,16 @@ WALK_TPS, RUN_TPS = 1.0 / .6, 2.0 / .6          # tiles per second (1 / 2 tiles 
 GAIT_2004 = {'walk': {'frames': 28, 'duty': .52, 'bob': .045, 'p_on': 12, 'p_off': -24, 'arm_swing': 38, 'plant_k': 1.0, 'lean_cap': (5.0, False)},
              'run': {'frames': 20, 'duty': .30, 'bob': .040, 'bob_phase': .40, 'drop': .04, 'kick': .34, 'lift': .19, 'arm_swing': 96, 'fore': 70,
                      'plant_k': 1.0, 'lean_cap': (14.0, False)}}
+# v4a.2 (owner review 2026-09-27 of the rollout vs the 2004 man; numbers + judgement only):
+#  walk -- "the feet always look parallel with the ground": a real heel strike (toes up 24 deg on the leading foot), a real
+#          push-off (the trailing heel up 34 deg, its knee bending), the swing foot lifted clear with the toes down after the
+#          push-off and up before the strike (swing_pitch); the lean a touch more (the harness measured 4.0 for 5 authored)
+#  run  -- "a very aggressive run": calmer -- the arms swing +-52 deg (was +-96) with the elbows held near 90, a lower foot
+#          lift and heel kick, a little less twist; same 0.667 s cycle and 0.75 H step; the lean authored 16.5 so the
+#          harness's silhouette measure reads ~14 (it read 9.9 for 14 authored: the kicked-up rear leg pulls the bottom back)
+GAIT_2004_2 = {'walk': dict(GAIT_2004['walk'], p_on=24, p_off=-34, lift=.062, swing_pitch=(.10, .62), lean_cap=(6.5, False)),
+               'run': dict(GAIT_2004['run'], kick=.14, lift=.10, arm_swing=52, fore=86, fore_swing=10, twist=5, p_on=14, p_off=-40,
+                           swing_y=(.12, .88), lean=13, lean_cap=(16.5, False))}   # (lean 13: the head counters it -- eyes ahead, not down)
 GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, False)),
           'run': dict(GAIT_2004['run'], frames=20, lean_cap=(8.0, False))}
 
@@ -133,6 +155,7 @@ TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 # the kit's spine-lean gates, widened on purpose for the 2004 look (build_holm_characters_v2.LEAN_LIMITS): the reference
 # strips lean ~5 deg forward in the walk and ~14 deg in the run (we author 5 / 12); the ready pose carries the head forward
 LEAN_2004 = {'still': .5, 'walk': 5.6, 'run': 14.6, 'head_idle': 9.0, 'tutor_walk': 5.6}
+LEAN_2004_2 = dict(LEAN_2004, walk=7.1, run=17.1)   # v4a.2: the authored leans that measure 5 / 14 on the harness strips
 # the tutors' stroll: the same 2004 lean and a touch of the old client's short leg swing
 TUTOR_GAIT_2004 = {'lean_cap': (5.0, False), 'plant_k': .85, 'arm_swing': 20}
 
@@ -155,6 +178,14 @@ PROFILES = {
                 step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')},
                 step_all=(3, 'CONSTANT'),        # every other clip: a pose every 100 ms (plus its authored keys), held
                 lean=LEAN_2004, tutor_gait=TUTOR_GAIT_2004),
+    # A.2 (the shipped option, owner review 2026-09-27 of the rollout): option A with smooth shading inside every colour
+    # region (hard breaks only at material edges, piece rims and true creases > 80 deg -- the v2.3 lesson: fewer facets on
+    # the torso and arms), form-fitting trousers, a fuller rounder skull, a walk with a real ankle roll and a calmer run
+    'v4a2': dict(BODY_2004, label='Option A.2 -- closest 2004, smooth panels, form-fitting trousers, rounder skull, ankle-roll walk, calm run',
+                 sharp=80.0, face=FACE_2004, head=HEAD_ROUND, head_p=2.55, head_wy=1.04, head_back_k=HEAD_BACK_K,
+                 trousers='fitted', gait=GAIT_2004_2, jaw_clear=(.064, .064),   # (beards over armour clear the head-forward idle)
+                 step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')},
+                 step_all=(3, 'CONSTANT'), lean=LEAN_2004_2, tutor_gait=TUTOR_GAIT_2004),
     # B: the same figure made softer: smooth (Gouraud-like) shading over the limbs and head, the 8 poses joined by
     # straight in-betweens (no snapping), a faint mouth line
     'v4b': dict(BODY_2004, label='Option B -- the A figure, softer: smooth shading, in-betweened motion (the 8 poses joined by straight lines)',
@@ -207,6 +238,11 @@ def _feet(K):
     K.TROUSERS = [(0.0, .010), (.4, .014), (.84, .016), (1.0, .014), (1.14, .017), (1.5, .013), (1.60, .015), (1.66, .016),
                   (1.80, .016), (1.90, .016), (1.955, .016), (1.985, .016)]
 
+# v4a.2 (owner: "not form-fitting ... ours read baggy or boxy"): the cloth follows the leg -- 7-8 mm over the thigh, knee and
+# calf, easing out only over the last hand-width to the shoe so the hem still hangs over it
+TROUSERS_FITTED = [(0.0, .008), (.4, .008), (.84, .007), (1.0, .006), (1.14, .007), (1.5, .008), (1.60, .011), (1.66, .015),
+                   (1.80, .016), (1.90, .016), (1.955, .016), (1.985, .016)]   # (from mid-shin the 6-sided tube's flats clear boot shafts)
+
 def apply(K, name):
     if not name:
         return
@@ -254,8 +290,13 @@ def apply(K, name):
         K.REACH_ASSIST = True
     if 'arm_aim' in P:   # the 2004 ready pose: fists at the front-side of the thighs (reference: ~7 cm ahead of the hip line)
         K.IDLE_HAND_Y = (-.09, .03)
+    if 'jaw_clear' in P:
+        K.ARMOUR_CLEAR['Jaw'], K.JAW_LOW_EXTRA = P['jaw_clear']
+    if P.get('trousers') == 'fitted':
+        K.TROUSERS = list(TROUSERS_FITTED)
+    K.HEAD_BACK_K = P.get('head_back_k', 1.0)   # (the equipment refit maps the helms onto the fuller back of the skull)
     K.GAIT.clear(); K.GAIT.update(P.get('gait', {}))
-    if P.get('gait') is GAIT_2004:   # the kit-metre ground speeds of the 2004 world pace (see WORLD_SCALE)
+    if P.get('gait') in (GAIT_2004, GAIT_2004_2):   # the kit-metre ground speeds of the 2004 world pace (see WORLD_SCALE)
         K.GAME_WALK_SPEED, K.GAME_RUN_SPEED = round(WALK_TPS / WORLD_SCALE, 3), round(RUN_TPS / WORLD_SCALE, 3)
         K.WORLD_SCALE = WORLD_SCALE
         K.GAIT_DROP_STEPS = 32

@@ -166,6 +166,14 @@ def main():
             p = K.shoot(os.path.join(CELLS, '%s_%s_face_%s.png' % (PROF, bt, vn)), (260, 300), vd, (0, 0, chin + .07), .46)
             row.append(K.cell(p, '%s face %s' % ('man' if bt == 'A' else 'woman', vn), bg=K.BG_REF))
         cells['face_' + bt] = row
+    # ---- the bald skull (classic outfit) from the front / side / back / 3-4 back, close (owner review: skull volume)
+    for bt in ('A', 'B'):
+        K.apply_outfit_colors(mats, colors_for(bt, CLASSIC_COLORS))
+        K.show_only(outfit(bt, CLASSIC[bt]))
+        pose_idle()
+        chin = K.head_to_world(Vector((0, 0, 1.62))).z
+        for vn, vd in (('front', (0, -1, .15)), ('side', (-1, 0, .15)), ('back', (0, 1, .15)), ('34back', (-.6, .75, .3))):
+            K.shoot(os.path.join(CELLS, '%s_%s_skull_%s.png' % (PROF, bt, vn)), (260, 300), vd, (0, 0, chin + .06), .50)
     # ---- walk / run strips (side view + game camera) and GIF loops
     for bt in ('A', 'B'):
         K.apply_outfit_colors(mats, colors_for(bt))
