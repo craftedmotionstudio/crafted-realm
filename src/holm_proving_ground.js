@@ -41,7 +41,7 @@ var HolmProvingGround=(function(){
  };
  function register(){if(typeof NPC_TYPES==='undefined')return false;for(var k in TYPES)if(!NPC_TYPES[k]){var t=Object.assign({},TYPES[k]);NPC_TYPES[k]=t}return true}
  /* ---- the kit humanoids: a fresh kit rig per foe, a look, the held weapon solved by the equipment builder ---- */
- var KIT_URL='assets/models/holm_kit_v2.glb?v=14';
+ var KIT_URL='assets/models/holm_kit_v2.glb?v=15';
  function kitModel(t){
   var g=new THREE.Group(),k=t.kitFoe||{};
   new THREE.GLTFLoader().load(KIT_URL,function(gltf){try{

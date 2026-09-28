@@ -2981,8 +2981,8 @@ def clip_defs():
         (0, ready2),
         # v4a.2b: the upper arms raised in a narrow V (not straight up beside the ears): the square 2004 shoulder caps no
         # longer squeeze into the neck (and through a necklace / gorget); the forearms bring the hands together overhead
-        (8, P(RightArm=A(-.58, .15, 1), RightForeArm=A(.56, .55, .8), LeftArm=A(.60, .15, 1), LeftForeArm=A(-.56, .55, .8),
-              Spine1=(-10, 0, 0), Spine2=(-5, 0, 0), Head=(-4, 0, 0), loc=(0, 0, .01))),
+        (8, P(RightArm=A(-.58, .02, 1), RightForeArm=A(.56, .55, .8), LeftArm=A(.60, .02, 1), LeftForeArm=A(-.56, .55, .8),
+              Spine1=(-7, 0, 0), Spine2=(-2, 0, 0), Head=(-4, 0, 0), loc=(0, 0, .01))),
         (12, smash),
         (16, smash),
         (21, ready2),

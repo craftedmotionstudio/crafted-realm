@@ -3,7 +3,7 @@
  "status": "runtime (src/holm_equipment.js loads it from assets/holm_island/ws/holm-equipment-v3/candidates/)",
  "file": "equipment.glb",
  "blend": "equipment.blend",
- "sha256": "5065b6fb97a53c878d29ff9c74a682c9be659b6d5a453309a7abbcf78a6098a9",
+ "sha256": "8b10be67b128bcfb09745efe1ab616dade91e7818a2fbea02ffcb313a436e2f3",
  "axes": "glTF Y-up, 1 unit = 1 tile (= 1 m, player 1.85 tall)",
  "colour": "authored sRGB used as-is, roughness 1, metallic 0, no textures",
  "recolour": {
@@ -1843,12 +1843,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2345,
-     0.0987,
+     -0.2221,
+     0.0995,
      -0.1935
     ],
     "max": [
-     0.2345,
+     0.2221,
      1.039,
      0.1355
     ]
@@ -1897,12 +1897,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2273,
-     0.0995,
+     -0.2185,
+     0.1001,
      -0.2004
     ],
     "max": [
-     0.2273,
+     0.2185,
      1.039,
      0.1325
     ]
@@ -1937,7 +1937,7 @@
    ],
    "morph_max_displacement_m": {
     "Build_Stout": 0.0311,
-    "Build_Slim": 0.019
+    "Build_Slim": 0.0186
    }
   },
   {
@@ -1952,7 +1952,7 @@
    "bounds": {
     "min": [
      -0.3755,
-     0.1014,
+     0.1022,
      -0.3422
     ],
     "max": [
@@ -2009,7 +2009,7 @@
    "bounds": {
     "min": [
      -0.3755,
-     0.1022,
+     0.1028,
      -0.3422
     ],
     "max": [
@@ -2051,7 +2051,7 @@
    ],
    "morph_max_displacement_m": {
     "Build_Stout": 0.0312,
-    "Build_Slim": 0.0189
+    "Build_Slim": 0.0185
    }
   },
   {
@@ -2065,12 +2065,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.226,
-     0.0989,
-     -0.1892
+     -0.2155,
+     0.0997,
+     -0.1816
     ],
     "max": [
-     0.226,
+     0.2155,
      1.035,
      0.1296
     ]
@@ -2114,12 +2114,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2127,
-     0.0997,
-     -0.1816
+     -0.2075,
+     0.1003,
+     -0.176
     ],
     "max": [
-     0.2127,
+     0.2075,
      1.035,
      0.1129
     ]
@@ -2149,7 +2149,7 @@
    ],
    "morph_max_displacement_m": {
     "Build_Stout": 0.031,
-    "Build_Slim": 0.019
+    "Build_Slim": 0.0186
    }
   },
   {
@@ -2257,13 +2257,13 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2471,
+     -0.2285,
      0.0,
-     -0.2045
+     -0.1982
     ],
     "max": [
-     0.2471,
-     0.321,
+     0.2285,
+     0.3195,
      0.1291
     ]
    },
@@ -2291,10 +2291,10 @@
     "Feet_Large"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0078,
-    "Build_Slim": 0.0068,
+    "Build_Stout": 0.0071,
+    "Build_Slim": 0.0062,
     "Feet_Small": 0.0198,
-    "Feet_Large": 0.0263
+    "Feet_Large": 0.0262
    }
   },
   {
@@ -2308,13 +2308,13 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2348,
+     -0.2219,
      0.0,
-     -0.1962
+     -0.1914
     ],
     "max": [
-     0.2348,
-     0.3198,
+     0.2219,
+     0.3183,
      0.1055
     ]
    },
@@ -2342,8 +2342,8 @@
     "Feet_Large"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0064,
-    "Build_Slim": 0.0056,
+    "Build_Stout": 0.0061,
+    "Build_Slim": 0.0053,
     "Feet_Small": 0.0177,
     "Feet_Large": 0.0234
    }
@@ -2359,14 +2359,14 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.1514,
-     1.33,
-     -0.0989
+     -0.0688,
+     1.337,
+     -0.0718
     ],
     "max": [
-     0.1514,
-     1.5053,
-     0.1636
+     0.0688,
+     1.5295,
+     0.1624
     ]
    },
    "materials": [
@@ -2393,22 +2393,18 @@
     "Over_chainbody",
     "Over_leather_body",
     "Over_Torso_02",
-    "Over_Torso_03",
-    "Over_Torso_04",
     "Over_Torso_05",
     "Over_Torso_06"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0168,
-    "Build_Slim": 0.0113,
-    "Over_platebody": 0.1597,
-    "Over_chainbody": 0.0235,
-    "Over_leather_body": 0.0193,
-    "Over_Torso_02": 0.0304,
-    "Over_Torso_03": 0.0138,
-    "Over_Torso_04": 0.0187,
-    "Over_Torso_05": 0.0063,
-    "Over_Torso_06": 0.0304
+    "Build_Stout": 0.0161,
+    "Build_Slim": 0.011,
+    "Over_platebody": 0.0468,
+    "Over_chainbody": 0.022,
+    "Over_leather_body": 0.018,
+    "Over_Torso_02": 0.0215,
+    "Over_Torso_05": 0.0093,
+    "Over_Torso_06": 0.0213
    }
   },
   {
@@ -2422,14 +2418,14 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.1082,
-     1.329,
-     -0.0847
+     -0.0616,
+     1.331,
+     -0.0628
     ],
     "max": [
-     0.1087,
-     1.5043,
-     0.1584
+     0.0617,
+     1.5235,
+     0.158
     ]
    },
    "materials": [
@@ -2455,17 +2451,15 @@
     "Over_platebody",
     "Over_chainbody",
     "Over_leather_body",
-    "Over_Torso_02",
     "Over_Torso_04"
    ],
    "morph_max_displacement_m": {
     "Build_Stout": 0.0187,
-    "Build_Slim": 0.0122,
-    "Over_platebody": 0.1313,
-    "Over_chainbody": 0.0219,
-    "Over_leather_body": 0.0197,
-    "Over_Torso_02": 0.0069,
-    "Over_Torso_04": 0.0094
+    "Build_Slim": 0.0121,
+    "Over_platebody": 0.0399,
+    "Over_chainbody": 0.0217,
+    "Over_leather_body": 0.0177,
+    "Over_Torso_04": 0.0056
    }
   },
   {
@@ -2479,12 +2473,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2492,
+     -0.2355,
      0.53,
      -0.3762
     ],
     "max": [
-     0.2419,
+     0.2355,
      1.4878,
      -0.0831
     ]
@@ -2522,14 +2516,14 @@
     "Over_Torso_08"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0587,
-    "Build_Slim": 0.0374,
-    "Over_platebody": 0.0684,
-    "Over_chainbody": 0.0363,
-    "Over_leather_body": 0.0329,
+    "Build_Stout": 0.0441,
+    "Build_Slim": 0.0913,
+    "Over_platebody": 0.0816,
+    "Over_chainbody": 0.0433,
+    "Over_leather_body": 0.0434,
     "Over_Torso_02": 0.024,
     "Over_Torso_03": 0.0385,
-    "Over_Torso_04": 0.0387,
+    "Over_Torso_04": 0.0408,
     "Over_Torso_05": 0.0167,
     "Over_Torso_06": 0.0305,
     "Over_Torso_07": 0.0167,
@@ -2547,12 +2541,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.1793,
+     -0.189,
      0.53,
      -0.3861
     ],
     "max": [
-     0.1742,
+     0.1891,
      1.4879,
      -0.0723
     ]
@@ -2587,11 +2581,11 @@
     "Over_Torso_05"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.1528,
+    "Build_Stout": 0.1489,
     "Build_Slim": 0.1059,
     "Over_platebody": 0.1005,
-    "Over_chainbody": 0.0337,
-    "Over_leather_body": 0.0301,
+    "Over_chainbody": 0.1064,
+    "Over_leather_body": 0.1065,
     "Over_Torso_02": 0.0183,
     "Over_Torso_03": 0.0193,
     "Over_Torso_04": 0.0167,

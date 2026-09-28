@@ -1145,12 +1145,12 @@ def x_to_phi(bt, x, z, off):
 # the pauldrons. Now it circles the NECK just above the collar / gorget (Neck-weighted, like the skin under it) and dips in
 # front to the pendant over the chest, measured with the narrow footprint.
 NECK_RING_Z = {'A': 1.524, 'B': 1.518}
-NECK_RING_X = {'A': .058, 'B': .052}   # half width of the ring where it leaves the neck for the chest
-NECK_SKIN = {'A': (.059, 0.0), 'B': (.053, 0.0)}   # behind: the ring lies ON the neck skin (radius, centre y; ~5 cm round)
+NECK_RING_X = {'A': .064, 'B': .056}   # half width of the ring where it leaves the neck for the chest
+NECK_SKIN = {'A': (.067, 0.0), 'B': (.058, 0.0)}   # behind: the ring lies ON the neck skin (radius, centre y; ~5 cm round)
 def sk_amulet(mb, bt, over=None):
     N, R = 16, .0055
     X, ZB = NECK_RING_X[bt], NECK_Z[bt] + (NECK_OVER_PLATE[bt] if over == 'platebody' else 0.0)
-    ZN = NECK_RING_Z[bt] + (.004 if over == 'platebody' else 0.0)   # (over the gorget's rolled top edge)
+    ZN = NECK_RING_Z[bt] + (.010 if over == 'platebody' else 0.0)   # (over the gorget's rolled top edge)
     RN, YC = NECK_SKIN[bt]
     dz = ZB - 1.464                                  # (every v3 height of the pendant moves with the neck base)
     pts = []
@@ -1264,7 +1264,8 @@ SUIT_FN = {k: f for k, f, *_ in SKINNED}
 HIDES = {'fullhelm': ['Hair'], 'medhelm': ['Hair'], 'hat': ['Hair']}
 # kit morphs an item switches on while worn (kit v3.1e): hair and beards lie OVER body armour and capes
 KIT_MORPHS = {k: ['Hair_Over', 'Jaw_Over'] for k in ('platebody', 'chainbody', 'leather_body')}
-KIT_MORPHS['amulet'] = ['Hair_Over']   # v4: the chain sits at the higher v4 neck base, where long hair falls -- hair lies over it
+# (v4a.2b: no Hair_Over under an amulet any more -- the chain now circles the neck itself, above the collar, and the
+# gathering pulled the short cuts' nape into it)
 KIT_MORPHS['cape'] = ['Hair_Over', 'Hair_Cape', 'Jaw_Over']   # rigid helms that replace the hair (the kit shows its bald head)
 
 # kind: (builder, slot, frame, equipSpec, grip glTF, axis glTF, roll glTF, legacy quat xyzw, description)
