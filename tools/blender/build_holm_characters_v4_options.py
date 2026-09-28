@@ -88,14 +88,10 @@ def main():
     clips = {}
     for name in ('idle', 'walk', 'run'):
         frames, keys, loop = defs[name]
-        interp = None
-        if name in K.STEP_CLIPS:
-            hold, interp = K.STEP_CLIPS[name]
-            if hold:
-                keys = K.stepped(frames, keys, hold)
+        spec = K.step_spec(name)
+        keys = K.step_keys(frames, keys, spec)
         clips[name] = K.make_clip(arm, name, frames, keys)
-        if interp:
-            K.set_interp(clips[name], interp)
+        K.step_action(clips[name], frames, keys, spec)
     K.setup_render()
     K.set_render_colors(True)
     sc = bpy.context.scene
@@ -249,7 +245,7 @@ def main():
                                hand_travel_H=round(rng('hand_y') / H, 3), max_feet_apart_H=round(max(r['feet_dy'] for r in rows) / H, 3),
                                elbow_deg=[round(min(r['elbow_deg'] for r in rows), 1), round(max(r['elbow_deg'] for r in rows), 1)],
                                foot_lift_H=round(rng('foot_z') / H, 3),
-                               poses_per_cycle=(len(K.stepped(frames, defs[cn][1], K.STEP_CLIPS[cn][0])) // 2 + 1) if cn in K.STEP_CLIPS else frames,
+                               poses_per_cycle=(len(K.step_keys(frames, defs[cn][1], K.STEP_CLIPS[cn])) // 2 + 1) if cn in K.STEP_CLIPS else frames,
                                interpolation=K.STEP_CLIPS.get(cn, (None, 'BEZIER'))[1])
     res['gait_report'] = {k: K.GAIT_REPORT.get(k) for k in ('walk', 'run')}
     # ---- the option sheet (our renders only)

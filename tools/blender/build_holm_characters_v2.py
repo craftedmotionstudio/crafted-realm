@@ -58,12 +58,13 @@ import bpy, bmesh, math, json, os, sys, struct, subprocess, shutil, random
 from mathutils import Vector, Matrix, Quaternion, Euler
 from mathutils.bvhtree import BVHTree
 
-REPO = r"C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Claude"
+# v4: the checkout this script lives in (a worktree builds into its own .studio-workspaces); HOLM_REPO overrides
+REPO = os.environ.get("HOLM_REPO") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 REF_GLB = os.path.join(REPO, "assets", "models", "player.glb")
 _ARGV = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
-TAG = _ARGV[_ARGV.index("--tag") + 1] if "--tag" in _ARGV else "v31f"   # output set: .studio-workspaces/holm-characters-<tag>/
+TAG = _ARGV[_ARGV.index("--tag") + 1] if "--tag" in _ARGV else "v4"   # output set: .studio-workspaces/holm-characters-<tag>/
 CAND = os.path.join(REPO, ".studio-workspaces", "holm-characters-%s" % TAG, "candidates")
-assert TAG not in ("v2", "v27", "v28", "v29", "v30", "v31", "v31e"), "refusing to overwrite a reviewed kit set (holm-characters-%s)" % TAG
+assert TAG not in ("v2", "v27", "v28", "v29", "v30", "v31", "v31e", "v31f"), "refusing to overwrite a reviewed kit set (holm-characters-%s)" % TAG
 OUT_KIT = os.path.join(CAND, "kit.glb")
 OUT_PAL = os.path.join(CAND, "palettes.json")
 OUT_BRAM = os.path.join(CAND, "bram.glb")
@@ -71,6 +72,8 @@ V1_PLAYER = os.path.join(REPO, "assets", "models", "holm_player_v1_default.glb")
 V1_BRAM = os.path.join(REPO, "assets", "models", "holm_tutor_bram.glb")
 WS = CAND
 RENDER_DIR = os.path.join(REPO, "scratchpad", "holm_characters_%s" % TAG)
+if TAG == "v4":   # the v4 option review lives in scratchpad/holm_characters_v4/<option>; the rollout sheets beside it
+    RENDER_DIR = os.path.join(REPO, "scratchpad", "holm_characters_v4", "rollout", "kit")
 PREV_DIR = os.path.join(REPO, "scratchpad", "holm_characters_v28") if TAG == "v29" else "<none>"   # v2.8 sheets (v2.9 before/after only; v3.0 compares in render_holm_kit_compare_v30.py)
 BIBLE = os.path.join(REPO, "Bible_References")
 REF_TURN = os.path.join(BIBLE, "Character", "male_concepts", "male_b_turnaround.png")
@@ -80,7 +83,7 @@ FPS = 30
 ARGS = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 DO_RENDER = "--no-render" not in ARGS
 QUICK = "--quick" in ARGS
-VL = {'v29': 'v2.9', 'v30': 'v3.0', 'v31': 'v3.1', 'v31e': 'v3.1e', 'v31f': 'v3.1f'}.get(TAG, TAG)   # label on the review sheets
+VL = {'v29': 'v2.9', 'v30': 'v3.0', 'v31': 'v3.1', 'v31e': 'v3.1e', 'v31f': 'v3.1f', 'v4': 'v4'}.get(TAG, TAG)   # label on the review sheets
 
 # ------------------------------------------------------------------------------------------
 # Skeleton: verbatim (head, tail, roll) from assets/models/player.glb (same table as v1).
@@ -3308,6 +3311,48 @@ def bram_clip_defs():
 GAME_RUN_SPEED, GAME_WALK_SPEED = 4.2, 2.4
 GAIT = {}         # v4 profiles: best_gait overrides per clip {'walk': {...}, 'run': {...}}
 STEP_CLIPS = {}   # v4 profiles: old-client stepping {clip: (hold_frames, interpolation)} -- poses held, then a snap / a line
+STEP_ALL = None   # v4 profiles: (hold_frames, interpolation) for every clip not in STEP_CLIPS (kit, Bram, tutors)
+
+def step_spec(name):
+    return STEP_CLIPS.get(name, STEP_ALL)
+
+def step_keys(frames, keys, spec):
+    """before make_clip: a negative hold = N poses of a dense cycle"""
+    if spec and spec[0] and spec[0] < 0:
+        return stepped(frames, keys, spec[0])
+    return keys
+
+def step_action(act, frames, keys, spec):
+    """after make_clip: a positive hold resamples the clip on a grid of `hold` frames (plus every authored key of a sparse
+    clip, so impact / release moments stay exact) and holds each pose -- the 2004 client plays its frames without tweening"""
+    if not spec:
+        return act
+    hold, interp = spec
+    if hold and hold > 0:
+        sparse = len(keys) <= frames // 2
+        S = sorted(set(list(range(0, frames + 1, hold)) + ([int(k[0]) for k in keys if 0 <= k[0] <= frames] if sparse else []) + [frames]))
+        for fc in _all_fcurves(act):
+            vals = [(f, fc.evaluate(f)) for f in S]
+            fc.keyframe_points.clear()
+            fc.keyframe_points.add(len(vals))
+            for kp, (f, v) in zip(fc.keyframe_points, vals):
+                kp.co = (f, v)
+                kp.handle_left = (f, v)
+                kp.handle_right = (f, v)
+            fc.update()
+    if interp:
+        set_interp(act, interp)
+    return act
+
+def _all_fcurves(act):
+    fcs = list(getattr(act, 'fcurves', []) or [])
+    if not fcs:
+        for layer in getattr(act, 'layers', []):
+            for strip in layer.strips:
+                for cb in strip.channelbags:
+                    fcs += list(cb.fcurves)
+    return fcs
+
 def stepped(frames, keys, hold):
     """old-client look: keep every `hold`-th pose (plus the last) and hold it until one frame before the next"""
     ks = sorted(keys, key=lambda k: k[0])
@@ -4238,14 +4283,10 @@ def build_kit():
     defs.update(v27_clips())   # v2.7: grounded walk / run + re-authored chop, mine, net, cook
     defs.update(emote_clips())  # v3.1: the classic emote set (emote_<key>)
     for name, (frames, keys, loop) in defs.items():
-        interp = None
-        if name in STEP_CLIPS:
-            hold, interp = STEP_CLIPS[name]
-            if hold:
-                keys = stepped(frames, keys, hold)
+        spec = step_spec(name)
+        keys = step_keys(frames, keys, spec)
         clips[name] = make_clip(arm, name, frames, keys)
-        if interp:
-            set_interp(clips[name], interp)
+        step_action(clips[name], frames, keys, spec)
     al = clips['attack_slash'].copy()
     al.name = 'attack'
     al.use_fake_user = True
@@ -4309,7 +4350,10 @@ def build_bram(kit_objs, kit_mats):
     ad = arm.animation_data_create()
     acts = {}
     for name, (frames, keys, loop) in defs.items():
+        spec = step_spec(name)
+        keys = step_keys(frames, keys, spec)
         act = make_clip(arm, 'bram_' + name, frames, keys)
+        step_action(act, frames, keys, spec)
         ad.action = None
         tr = ad.nla_tracks.new()
         tr.name = name
@@ -4362,6 +4406,7 @@ TUTORS = {
                   mats={'A_ROPE': '#b8a07a'}, extras=['striped_shirt', 'rolled_trousers', 'rope_coil'], hold=None, free=('Left', 'Right'), gesture='Right'),
 }
 TUTOR_WALK_SPEED = 1.30   # m/s, like Guide Bram (NPC stroll)
+TUTOR_GAIT = {}   # v4 profiles: best_gait overrides for the tutors' stroll
 
 def tut_hold_pose(tid):
     """the held arm's base pose (the props are authored in this pose)"""
@@ -4404,9 +4449,11 @@ def tutor_clip_defs(tid):
     C['talk'] = (48, [(f, upright(PT(tid, mir(GEST_L[i % 4])))) for i, f in enumerate((0, 12, 24, 36))] + [(48, upright(PT(tid, mir(GEST_L[0]))))], True)
     C['wave'] = (40, [(0, upright(PT(tid)))] + [(8 + 6 * i, upright(PT(tid, mir(dict(WAVE_UP, LeftForeArm=fa))))) for i, fa in enumerate(WAVE_FA)]
                  + [(40, upright(PT(tid)))], False)
-    C['walk'] = (28, best_gait('walk_' + tid, 28, TUTOR_WALK_SPEED, .60, lift=.045, drop=.005, bob=.010, front=.20, p_on=10, p_off=-20,
-                               arm_swing=14, fore=0, lean=0, twist=2, foot_x=.13, base=PT(tid), osrs=(6.0, 0.0), fore_swing=8,
-                               swing_sides=t['free'], lean_cap=(0.0, False)), True)
+    tw = dict(lift=.045, drop=.005, bob=.010, front=.20, p_on=10, p_off=-20, arm_swing=14, fore=0, lean=0, twist=2, foot_x=.13,
+              osrs=(6.0, 0.0), fore_swing=8, lean_cap=(0.0, False))
+    tw.update(TUTOR_GAIT)
+    tf, tpk = tw.pop('frames', 28), tw.pop('plant_k', 1.0)
+    C['walk'] = (tf, best_gait('walk_' + tid, tf, TUTOR_WALK_SPEED * tpk, .60, base=PT(tid), swing_sides=t['free'], **tw), True)
     return C
 
 # ---- tutor extras (all built with the kit's body surface rules) ----------------------------
@@ -4830,7 +4877,10 @@ def build_tutor(tid, kit_objs, kit_mats):
     ad = arm.animation_data_create()
     acts = {}
     for name, (frames, keys, loop) in defs.items():
+        spec = step_spec(name)
+        keys = step_keys(frames, keys, spec)
         act = make_clip(arm, '%s_%s' % (tid, name), frames, keys)
+        step_action(act, frames, keys, spec)
         ad.action = None
         tr = ad.nla_tracks.new()
         tr.name = name
@@ -5248,7 +5298,14 @@ def measure_outlines(items):
         print('[measure] failed', r.stderr[-600:])
         return {}
 
+NO_REF_PANELS = False   # v4: drop Bible_References panels from every sheet
+
 def compose(out, rows, title=''):
+    if NO_REF_PANELS:
+        bib = os.path.normcase(os.path.abspath(BIBLE))
+        rows = [dict(r, cells=[c for c in r.get('cells', []) if not os.path.normcase(os.path.abspath(str(c.get('path', '')))).startswith(bib)])
+                for r in rows]
+        rows = [r for r in rows if r.get('cells')]
     spec_path = os.path.join(RENDER_DIR, '_spec.json')
     with open(spec_path, 'w', encoding='utf-8') as fh:
         json.dump({'out': out, 'rows': rows, 'title': title}, fh)
@@ -6256,6 +6313,11 @@ REVIEW = [   # v3.1 (2026-09-26) + v3.0 (2026-09-25) owner reviews, each point c
     'with idle / talk / wave / walk; Bram rebuilt on the v2.9 kit (thinner face, smaller feet, upright).',
 ]
 
+# spine-lean gates (deg, hips joint -> neck base; head_idle: -> head joint). v3.x: upright everywhere, run <= 2 deg.
+# v4 (owner review 2026-09-27, option A "closest 2004"): measured on the 2004 strips the walk leans ~5 deg and the run ~14 deg
+# forward, and the ready pose carries the head forward -- the profile widens these gates deliberately (see holm_char_profiles_v4)
+LEAN_LIMITS = {'still': .5, 'walk': .5, 'run': 2.1, 'head_idle': 2.5, 'tutor_walk': .5}
+
 def measure_lean(arm, acts, to='Neck'):
     """forward tilt (deg) of the posed hips-joint -> neck-base line (v3.0: the spine chain; to='Head' includes the neck,
     which carries the head a touch forward in the OSRS stance) on EVERY frame of each clip (the evaluated armature,
@@ -6296,7 +6358,8 @@ def rebuild_tutors(ids):
         th = hand_clearance(tarm, tacts)
         assert_hands(th, tid)
         tl = measure_lean(tarm, tacts)
-        assert max(abs(v) for n in ('idle', 'walk') for v in tl[n]) < .5, 'tutor %s leans: %s' % (tid, tl)
+        assert max(abs(v) for v in tl['idle']) < LEAN_LIMITS['still'] and max(abs(v) for v in tl['walk']) < LEAN_LIMITS['tutor_walk'], \
+            'tutor %s leans: %s' % (tid, tl)
         export_glb(os.path.join(CAND, 'holm_tutor_%s_v2.glb' % tid), tarm, list(tobjs.values()), 'NLA_TRACKS')
         names[tid] = list(tobjs.keys())
         meta[tid] = {'hands': th, 'lean_deg': tl, 'tris': {n: tri_count(o) for n, o in tobjs.items()}, 'defs': tdefs}
@@ -6318,13 +6381,19 @@ def apply_profile(name):
     """v4 character options (owner review 2026-09-27): patch the shared body / head / face / gait tables before any part
     is built (tools/blender/holm_char_profiles_v4.py)"""
     global PROFILE
+    if PROFILE is not None:
+        assert PROFILE == name, 'profile %s already applied (asked for %s)' % (PROFILE, name)
+        return
     import holm_char_profiles_v4 as HP
     HP.apply(sys.modules[__name__], name)
     PROFILE = name
 
+DEFAULT_PROFILE = 'v4a'   # the owner's pick (2026-09-27): option A, closest 2004
+
 def main():
-    if '--profile' in ARGS:
-        apply_profile(ARGS[ARGS.index('--profile') + 1])
+    prof = ARGS[ARGS.index('--profile') + 1] if '--profile' in ARGS else DEFAULT_PROFILE
+    if prof != 'none':
+        apply_profile(prof)
     if '--tutors' in ARGS:
         return rebuild_tutors(ARGS[ARGS.index('--tutors') + 1].split(','))
     os.makedirs(WS, exist_ok=True)
@@ -6341,10 +6410,12 @@ def main():
     lean = measure_lean(arm, {n: clips[n] for n in ('idle', 'walk', 'talk', 'wave', 'run')})
     lean_head = measure_lean(arm, {n: clips[n] for n in ('idle', 'walk', 'talk', 'wave', 'run')}, to='Head')
     print('[LEAN]', json.dumps(lean), '[HEAD]', json.dumps(lean_head))
-    assert max(abs(v) for v in lean_head['idle']) < 2.5, 'head too far forward in the idle: %s' % lean_head['idle']
-    for n in ('idle', 'walk', 'talk', 'wave'):
-        assert max(abs(v) for v in lean[n]) < .5, 'spine leans in %s: %s' % (n, lean[n])
-    assert lean['run'][1] < 2.1, 'run leans more than 2 deg: %s' % lean['run']
+    # v4: the limits are the profile's (the 2004 walk / run lean forward on purpose -- LEAN_LIMITS documents them)
+    assert max(abs(v) for v in lean_head['idle']) < LEAN_LIMITS['head_idle'], 'head too far forward in the idle: %s' % lean_head['idle']
+    for n in ('idle', 'talk', 'wave'):
+        assert max(abs(v) for v in lean[n]) < LEAN_LIMITS['still'], 'spine leans in %s: %s' % (n, lean[n])
+    assert max(abs(v) for v in lean['walk']) < LEAN_LIMITS['walk'], 'walk leans more than %s deg: %s' % (LEAN_LIMITS['walk'], lean['walk'])
+    assert lean['run'][1] < LEAN_LIMITS['run'], 'run leans more than %s deg: %s' % (LEAN_LIMITS['run'], lean['run'])
     build_check = verify_builds(objs, arm, clips)
     hands_mesh = mesh_hand_clearance(arm, objs, clips)
     assert hands_mesh['PASS'], 'hands sink into the legs / torso: %s' % json.dumps(hands_mesh['failures'])
@@ -6392,7 +6463,8 @@ def main():
         th = hand_clearance(tarm, tacts)
         assert_hands(th, tid)
         tl = measure_lean(tarm, tacts)
-        assert max(abs(v) for n in ('idle', 'walk') for v in tl[n]) < .5, 'tutor %s leans: %s' % (tid, tl)
+        assert max(abs(v) for v in tl['idle']) < LEAN_LIMITS['still'] and max(abs(v) for v in tl['walk']) < LEAN_LIMITS['tutor_walk'], \
+            'tutor %s leans: %s' % (tid, tl)
         tutors[tid] = (tarm, tobjs, tacts)
         tutor_names[tid] = (tarm.name, list(tobjs.keys()), list(tacts.keys()))
         tutor_meta[tid] = {'hands': th, 'lean_deg': tl, 'tris': {n: tri_count(o) for n, o in tobjs.items()}, 'defs': tdefs}

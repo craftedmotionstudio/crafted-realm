@@ -123,6 +123,12 @@ GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, 
 
 TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
+# the kit's spine-lean gates, widened on purpose for the 2004 look (build_holm_characters_v2.LEAN_LIMITS): the reference
+# strips lean ~5 deg forward in the walk and ~14 deg in the run (we author 5 / 12); the ready pose carries the head forward
+LEAN_2004 = {'still': .5, 'walk': 5.6, 'run': 12.6, 'head_idle': 9.0, 'tutor_walk': 5.6}
+# the tutors' stroll: the same 2004 lean and a touch of the old client's short leg swing
+TUTOR_GAIT_2004 = {'lean_cap': (5.0, False), 'plant_k': .85, 'arm_swing': 20}
+
 # the 2004 goatee is broad: from the mouth corners down over the chin
 GOATEE_2004 = dict(tip_z=1.500, thick=.016, th_max=62, top_front=1.604, top_side=1.610, side_bot=1.572, narrow=.55)
 # the shared 2004 body (measured against the reference man and woman: designer front + the old client's close camera)
@@ -139,7 +145,9 @@ PROFILES = {
     # clothes and the face planes, smooth only across gentle curves), its motion: 8 held poses per cycle, no in-betweens
     'v4a': dict(BODY_2004, label='Option A -- closest 2004: 2004 proportions, low-poly panel shading, old-client stepped motion (8 held poses, no in-betweens)',
                 sharp=36.0, face=FACE_2004,
-                step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')}),
+                step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')},
+                step_all=(3, 'CONSTANT'),        # every other clip: a pose every 100 ms (plus its authored keys), held
+                lean=LEAN_2004, tutor_gait=TUTOR_GAIT_2004),
     # B: the same figure made softer: smooth (Gouraud-like) shading over the limbs and head, the 8 poses joined by
     # straight in-betweens (no snapping), a faint mouth line
     'v4b': dict(BODY_2004, label='Option B -- the A figure, softer: smooth shading, in-betweened motion (the 8 poses joined by straight lines)',
@@ -227,6 +235,10 @@ def apply(K, name):
     K.FACE.clear(); K.FACE.update(P['face'])
     K.GOATEE.clear(); K.GOATEE.update(P.get('goatee', {}))
     K.STEP_CLIPS.clear(); K.STEP_CLIPS.update(P.get('step', {}))
+    K.STEP_ALL = P.get('step_all')
+    K.LEAN_LIMITS.update(P.get('lean', {}))
+    K.TUTOR_GAIT.clear(); K.TUTOR_GAIT.update(P.get('tutor_gait', {}))
+    K.NO_REF_PANELS = True
     K.GAIT.clear(); K.GAIT.update(P.get('gait', {}))
     if 'idle_feet' in P:
         K.IDLE_FEET = P['idle_feet']
