@@ -1,0 +1,19 @@
+{
+ "id": "quarry",
+ "note": "Props pass (2026-09-28): the quarry props designed again (tools/blender/build_holm_quarry_props_pass.py)",
+ "blender": "5.1",
+ "source": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.blend",
+ "reference": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb",
+ "referenceGraph": "holm-quarry-review4-navigation-v1",
+ "script": "tools/blender/build_holm_quarry_props_pass.py",
+ "flat": ".studio-workspaces/holm-quarry-props-v1/working/quarry-flat.blend",
+ "buildReport": "scratchpad/holm_props_pass/quarry/build.report.json",
+ "outBlend": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.blend",
+ "outGlb": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb",
+ "texReport": ".studio-workspaces/holm-quarry-props-v1/candidates/textures.report.json",
+ "changed": "^$",
+ "added": "^Quarry_(Upper)?Furnishing[A-Za-z]*Props[A-Za-z]+$",
+ "graph": "holm-quarry-props-navigation-v1",
+ "coplanar": "m44",
+ "navSpec": "docs/rebuild/holm-overhaul/review4/glazing/quarry.nav.json"
+}

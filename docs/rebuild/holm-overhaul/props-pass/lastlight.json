@@ -1,0 +1,19 @@
+{
+ "id": "lastlight",
+ "note": "Props pass (2026-09-28): the lastlight props designed again (tools/blender/build_holm_lastlight_props_pass.py)",
+ "blender": "5.1",
+ "source": ".studio-workspaces/holm-lastlight-glazed-review4-v1/candidates/lastlight.blend",
+ "reference": ".studio-workspaces/holm-lastlight-glazed-review4-v1/candidates/lastlight.glb",
+ "referenceGraph": "holm-lastlight-review4-navigation-v1",
+ "script": "tools/blender/build_holm_lastlight_props_pass.py",
+ "flat": ".studio-workspaces/holm-lastlight-props-v1/working/lastlight-flat.blend",
+ "buildReport": "scratchpad/holm_props_pass/lastlight/build.report.json",
+ "outBlend": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.blend",
+ "outGlb": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.glb",
+ "texReport": ".studio-workspaces/holm-lastlight-props-v1/candidates/textures.report.json",
+ "changed": "^$",
+ "added": "^Lastlight_(Upper)?Furnishing[A-Za-z]*Props[A-Za-z]+$",
+ "graph": "holm-lastlight-props-navigation-v1",
+ "coplanar": "m44",
+ "navSpec": "docs/rebuild/holm-overhaul/review4/glazing/lastlight.nav.json"
+}

@@ -87,7 +87,7 @@ if(on('graph')){const before=read('.studio-workspaces/'+refGraph+'/candidates/na
  console.log('[PROPS_PASS] '+id+' graph identical ('+after.nodes.length+' nodes) -> '+spec.graph)}
 // 5. the game's cutaway keeps every new object whole
 if(on('cutaway')){const f='scratchpad/holm_props_pass/'+id+'/cutaway.json';
- const r=cp.spawnSync(process.execPath,['tools/check_holm_cutaway_props.js',spec.outGlb,graphDir+'/navigation.json',id,'('+spec.changed+')|('+spec.added+')','--json',f],{cwd:ROOT,encoding:'utf8',maxBuffer:64*1024*1024});
+ const r=cp.spawnSync(process.execPath,['tools/check_holm_cutaway_props.js',spec.outGlb,graphDir+'/navigation.json',id,spec.cutawayParts||('('+spec.changed+')|('+spec.added+')'),'--json',f],{cwd:ROOT,encoding:'utf8',maxBuffer:64*1024*1024});
  const c=JSON.parse(fs.readFileSync(abs(f),'utf8'));result.cutaway={pieces:c.pieces,keep:c.keep,cut:c.cut,clipped:c.clipped.length};save();
  if(c.clipped.length)throw Error(id+': '+c.clipped.length+' new pieces clipped by the cutaway '+JSON.stringify(c.clipped.slice(0,6)));
  console.log('[PROPS_PASS] '+id+' cutaway ok: '+c.pieces+' pieces of the new parts, none clipped ('+c.cut+' cut below the cut height)')}
