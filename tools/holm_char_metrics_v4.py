@@ -221,6 +221,8 @@ NOISE_DEG = 4.0
 
 
 def _noise(k, ref):
+    if k.endswith('_lean_deg'):   # the harness's median over a cycle: ~1.5 deg between repeat captures
+        return 1.5
     if k.endswith('_deg'):
         return NOISE_DEG
     if k.endswith('_rel'):
