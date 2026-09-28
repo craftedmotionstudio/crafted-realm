@@ -98,8 +98,10 @@ function installTip(){if(tip)return;tip=el('div','',"");tip.id='hud-tip';doc.bod
  doc.addEventListener('mouseover',function(ev){var t=ev.target&&ev.target.closest?ev.target.closest('[data-tip]'):null;if(t===cur)return;cur=t;
   if(!t){tip.style.display='none';return}
   tip.textContent=t.getAttribute('data-tip');tip.style.display='block';
-  var r=t.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight,x=r.left+r.width/2-w/2,y=r.bottom+6;
-  if(y+h>innerHeight-4)y=r.top-h-6;x=Math.max(4,Math.min(innerWidth-w-4,x));tip.style.left=x+'px';tip.style.top=y+'px'},true);
+  // the tip is drawn at the UI scale (src/ui_scale.js): size in viewport px, left/top in its own px
+  var k=typeof UIScale!=='undefined'?UIScale.zoomOf(tip):1;
+  var r=t.getBoundingClientRect(),w=tip.offsetWidth*k,h=tip.offsetHeight*k,x=r.left+r.width/2-w/2,y=r.bottom+6;
+  if(y+h>innerHeight-4)y=r.top-h-6;x=Math.max(4,Math.min(innerWidth-w-4,x));tip.style.left=(x/k)+'px';tip.style.top=(y/k)+'px'},true);
  doc.addEventListener('mousedown',function(){tip.style.display='none';cur=null},true)}
 
 /* ---------------------------------------------------------- 4. HUD layout */

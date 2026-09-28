@@ -173,10 +173,12 @@ var OsrsMenu=(function(){
    rows.appendChild(r);
   });
   m.style.display='block';m.style.left='0px';m.style.top='0px';
-  var w=m.offsetWidth,h=m.offsetHeight,W=typeof innerWidth!=='undefined'?innerWidth:1024,H=typeof innerHeight!=='undefined'?innerHeight:768;
+  // the box is drawn at the UI scale (src/ui_scale.js): its size and place in viewport px
+  var k=typeof UIScale!=='undefined'?UIScale.zoomOf(m):1;
+  var w=m.offsetWidth*k,h=m.offsetHeight*k,W=typeof innerWidth!=='undefined'?innerWidth:1024,H=typeof innerHeight!=='undefined'?innerHeight:768;
   var left=Math.round(x-w/2),top=Math.round(y);
   left=Math.max(0,Math.min(left,W-w));top=Math.max(0,Math.min(top,H-h));
-  m.style.left=left+'px';m.style.top=top+'px';
+  m.style.left=(left/k)+'px';m.style.top=(top/k)+'px';
   view.open=true;view.entries=entries;view.rect={x:left,y:top,w:w,h:h};view.at={x:x,y:y};view.opened=Date.now();view.source=opts.source||'world';
   return true;
  }

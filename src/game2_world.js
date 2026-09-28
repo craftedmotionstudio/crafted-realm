@@ -39,13 +39,12 @@ function camSetPitch(p){
 // zoom input (wheel, pinch): multiplicative, so each notch feels the same close in and far out
 function camZoomBy(f){ if(Number.isFinite(f)&&f>0) camCtl.dist=Math.min(CAM_DIST_MAX, Math.max(CAM_DIST_MIN, camCtl.dist*f)); }
 function camResetView(){ camCtl.yaw=CAM_DEFAULT.yaw; camCtl.pitch=CAM_DEFAULT.pitch; camCtl.dist=CAM_DEFAULT.dist; }
-// the vertical FOV for a window shape: 2004's 36.1 deg on any window at least as wide as its 512 x 334 view; a narrower one
-// (a phone held upright) opens the vertical FOV toward 2004's 53 deg horizontal view, up to 55 deg, so it still sees the
-// tiles beside the adventurer (pinch zoom goes further)
+// the vertical FOV for a window shape: 2004's 36.1 deg on every landscape window; a window taller than wide (a phone held
+// upright) keeps 36.1 deg across instead, so it still sees the tiles beside the adventurer (up to 55 deg vertical;
+// pinch zoom goes further)
 function camFovFor(aspect){
-  const h04=2*Math.atan(Math.tan(CAM2004.vfov*Math.PI/360)*512/334);
-  if(!(aspect>0) || aspect>=512/334) return CAM2004.vfov;
-  return Math.min(55, Math.max(CAM2004.vfov, 2*Math.atan(Math.tan(h04/2)/aspect)*180/Math.PI));
+  if(!(aspect>0) || aspect>=1) return CAM2004.vfov;
+  return Math.min(55, 2*Math.atan(Math.tan(CAM2004.vfov*Math.PI/360)/aspect)*180/Math.PI);
 }
 
 function initEngine(){
