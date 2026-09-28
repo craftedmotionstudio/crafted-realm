@@ -1,0 +1,13 @@
+{
+ "model": ".studio-workspaces/holm-bank-props-v1/candidates/bank.glb",
+ "building": "bank",
+ "lift": 0.5,
+ "levels": [
+  0,
+  3
+ ],
+ "pieces": 640,
+ "keep": 640,
+ "cut": 0,
+ "clipped": []
+}

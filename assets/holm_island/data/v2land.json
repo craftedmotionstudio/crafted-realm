@@ -31,19 +31,20 @@
    "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/quarry.json); graph identical to holm-quarry-v2land-navigation-v1 apart from the model hash"
   },
   "bank": {
-   "graph": "holm-bank-review4-navigation-v1",
-   "model": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb",
+   "graph": "holm-bank-props-navigation-v1",
+   "model": ".studio-workspaces/holm-bank-props-v1/candidates/bank.glb",
    "placement": {
     "x": 86,
     "y": 7.3,
     "z": 57
    },
    "nodes": 186,
-   "modelSha256": "e3d9c5755a5dc8d8d3deee4e4bf70b09f4066e140dd691e822e0874c98eb6388",
+   "modelSha256": "33a0a934b733235894d49c2bff4f6cebf1ea3a1c1171ceb8a449694be5c63c75",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:35:54.811Z",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bank.json); graph identical to holm-bank-v2land-navigation-v1 apart from the model hash"
+   "measuredAt": "2026-09-28T09:01:28.147Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bank.json); graph identical to holm-bank-v2land-navigation-v1 apart from the model hash",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_bank_props_pass.py, docs/rebuild/holm-overhaul/props-pass/bank.json); graph identical to holm-bank-review4-navigation-v1 apart from the model hash"
   },
   "mage": {
    "graph": "holm-mage-review4-navigation-v1",

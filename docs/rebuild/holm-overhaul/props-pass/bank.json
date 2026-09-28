@@ -1,6 +1,6 @@
 {
  "id": "bank",
- "note": "Props pass (2026-09-28): the bank props designed again (tools/blender/build_holm_bank_props_pass.py)",
+ "note": "Props pass (2026-09-28): the bank props designed again (tools/blender/build_holm_bank_props_pass.py): the counter and booths, the vault gate and chests, the goods shelves (services rebuilt under their names), the hall, tellers, vault rack, wing, strongroom and the clerk's room",
  "blender": "5.1",
  "source": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.blend",
  "reference": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb",
@@ -11,8 +11,8 @@
  "outBlend": ".studio-workspaces/holm-bank-props-v1/candidates/bank.blend",
  "outGlb": ".studio-workspaces/holm-bank-props-v1/candidates/bank.glb",
  "texReport": ".studio-workspaces/holm-bank-props-v1/candidates/textures.report.json",
- "changed": "^$",
- "added": "^Bank_(Upper)?Furnishing[A-Za-z]*Props[A-Za-z]+$",
+ "changed": "^Bank_(Furnishing|FurnishingStrongroom|UpperFurnishing|UpperFurnishingStrongbox|ServiceCounter_Booths|ServiceVault_Chests|ServiceVault_Gate|ServiceShelves_Goods)$",
+ "added": "^Bank_(Upper)?FurnishingProps[A-Za-z]+$",
  "graph": "holm-bank-props-navigation-v1",
  "coplanar": "m44",
  "navSpec": "docs/rebuild/holm-overhaul/review4/glazing/bank.nav.json"

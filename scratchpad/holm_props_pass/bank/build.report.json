@@ -1,0 +1,39 @@
+{
+ "removed": [
+  "Bank_Furnishing",
+  "Bank_FurnishingStrongroom",
+  "Bank_UpperFurnishing",
+  "Bank_UpperFurnishingStrongbox",
+  "Bank_ServiceCounter_Booths",
+  "Bank_ServiceVault_Gate",
+  "Bank_ServiceVault_Chests",
+  "Bank_ServiceShelves_Goods"
+ ],
+ "islandsRemoved": {},
+ "facesRemoved": {},
+ "built": {
+  "Bank_ServiceCounter_Booths": 2714,
+  "Bank_ServiceVault_Gate": 410,
+  "Bank_ServiceVault_Chests": 1750,
+  "Bank_ServiceShelves_Goods": 6415,
+  "Bank_FurnishingPropsHall": 2364,
+  "Bank_FurnishingPropsTellers": 1964,
+  "Bank_FurnishingPropsVault": 1677,
+  "Bank_FurnishingPropsWing": 1056,
+  "Bank_FurnishingPropsStrongroom": 1568,
+  "Bank_UpperFurnishingPropsClerk": 2700,
+  "Bank_UpperFurnishingPropsHearth": 1031,
+  "Bank_UpperFurnishingPropsStore": 1298
+ },
+ "notes": [],
+ "welds": {
+  "Bank_FurnishingPropsHall": 53,
+  "Bank_FurnishingPropsTellers": 67,
+  "Bank_FurnishingPropsVault": 106,
+  "Bank_FurnishingPropsWing": 74,
+  "Bank_FurnishingPropsStrongroom": 68,
+  "Bank_UpperFurnishingPropsClerk": 155,
+  "Bank_UpperFurnishingPropsHearth": 43,
+  "Bank_UpperFurnishingPropsStore": 63
+ }
+}

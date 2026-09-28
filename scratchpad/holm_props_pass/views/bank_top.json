@@ -1,0 +1,9 @@
+{
+ "glb": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb",
+ "out": "scratchpad/holm_props_pass/bank/top_before",
+ "size": [1300, 1000],
+ "views": [
+  {"name": "ground", "target": [0, 0, -0.5], "yaw": 0, "pitch": 89.9, "dist": 30, "ortho": 13, "hide": "Bank_(Roof|Upper|Chimney|Glazing|ShellFrieze|ShellExterior|ShellJetty)"},
+  {"name": "upper", "target": [-3.5, 3, 0.3], "yaw": 0, "pitch": 89.9, "dist": 30, "ortho": 6.5, "hide": "Bank_(Roof|Chimney|UpperGlazing|UpperShell|UpperChimney)"}
+ ]
+}

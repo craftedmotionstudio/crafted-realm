@@ -1,0 +1,57 @@
+{
+ "glb": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb",
+ "out": "scratchpad/holm_props_pass/overview/bank",
+ "size": [
+  1100,
+  760
+ ],
+ "hide": "Bank_(Roof|Upper|Chimney)|Bank_Glazing",
+ "views": [
+  {
+   "name": "ground_ne",
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 15
+  },
+  {
+   "name": "ground_sw",
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 15
+  },
+  {
+   "name": "upper_ne",
+   "target": [
+    0,
+    3,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 15,
+   "hide": "Bank_(Roof|Chimney)|Bank_Glazing|Bank_UpperShell|Bank_(Shell|GroundFront)"
+  },
+  {
+   "name": "upper_sw",
+   "target": [
+    0,
+    3,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 15,
+   "hide": "Bank_(Roof|Chimney)|Bank_Glazing|Bank_UpperShell|Bank_(Shell|GroundFront)"
+  }
+ ]
+}
