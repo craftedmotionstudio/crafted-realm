@@ -12438,24 +12438,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "fern",
-     "x": 61.76,
-     "z": 90.73,
-     "yaw": 1.64,
-     "scale": 1.23,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "mushrooms",
-     "x": 62.46,
-     "z": 90.41,
-     "yaw": 4.45,
-     "scale": 1.01,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "bracken",
      "x": 68.62,
      "z": 90.21,
@@ -14814,7 +14796,7 @@
     },
     {
      "pack": "clutter",
-     "prop": "fern",
+     "prop": "grass-clump",
      "x": 61.65,
      "z": 106.68,
      "yaw": 5.73,
@@ -15354,11 +15336,11 @@
     },
     {
      "pack": "clutter",
-     "prop": "fern",
-     "x": 61.23,
-     "z": 109.36,
-     "yaw": 4.92,
-     "scale": 0.9,
+     "prop": "grass-clump",
+     "x": 63.67,
+     "z": 109.34,
+     "yaw": 4.73,
+     "scale": 0.96,
      "noBlock": true
     },
     {
@@ -15588,7 +15570,7 @@
     },
     {
      "pack": "clutter",
-     "prop": "bracken",
+     "prop": "grass-clump",
      "x": 59.48,
      "z": 110.23,
      "yaw": 5.41,

@@ -4222,26 +4222,6 @@
    "zone": "clump-4"
   },
   {
-   "id": "dress-tree-25",
-   "asset": "oak",
-   "x": 60.516,
-   "z": 107.466,
-   "scale": 0.95,
-   "yaw": 4.627,
-   "source": "v2land-dressing",
-   "zone": "clump-4"
-  },
-  {
-   "id": "dress-tree-26",
-   "asset": "oak",
-   "x": 59.487,
-   "z": 108.515,
-   "scale": 0.94,
-   "yaw": 3.349,
-   "source": "v2land-dressing",
-   "zone": "clump-4"
-  },
-  {
    "id": "dress-tree-27",
    "asset": "coastal-pine",
    "x": 128.499,
@@ -6030,6 +6010,30 @@
     {
      "label": "Mage Tower",
      "yaw": 1.9513
+    }
+   ]
+  },
+  {
+   "id": "dress-signpost-back",
+   "asset": "signpost",
+   "x": 60.5,
+   "z": 91.5,
+   "scale": 1,
+   "yaw": 0,
+   "source": "v2land-dressing",
+   "zone": "sign",
+   "arms": [
+    {
+     "label": "Survival camp",
+     "yaw": 2.9442
+    },
+    {
+     "label": "Holm Bank",
+     "yaw": 0.607
+    },
+    {
+     "label": "Guide House",
+     "yaw": -0.245
     }
    ]
   }
