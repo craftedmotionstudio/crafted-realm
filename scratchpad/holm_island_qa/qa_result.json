@@ -88,7 +88,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 30,
+        "deckSamples": 31,
         "deckY": 2.3
       }
     },
@@ -114,8 +114,8 @@
       "label": "the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)",
       "ok": true,
       "detail": {
-        "samples": 359,
-        "diagonal": 24
+        "samples": 364,
+        "diagonal": 23
       }
     },
     {
@@ -270,7 +270,7 @@
           11,
           45.5
         ],
-        "diagonal": 50
+        "diagonal": 53
       }
     },
     {
@@ -316,7 +316,7 @@
           -0.05,
           -0.5
         ],
-        "diagonal": 14
+        "diagonal": 12
       }
     },
     {
@@ -457,35 +457,54 @@
         "stepWest": true,
         "nets": [
           {
-            "spot": "east-shallows",
-            "ticksLeft": 45,
+            "spot": "beach-edge",
+            "ticksLeft": 71,
             "result": "caught",
-            "seconds": 10,
+            "seconds": 6,
             "chat": [
               "You catch a mirrorperch."
             ]
           },
           {
-            "spot": "east-shallows",
-            "ticksLeft": 10,
+            "spot": "beach-edge",
+            "ticksLeft": 45,
+            "result": "caught",
+            "seconds": 16,
+            "chat": [
+              "You catch a mirrorperch."
+            ]
+          },
+          {
+            "spot": "beach-edge",
+            "ticksLeft": 4,
             "result": "moved on",
-            "seconds": 6,
+            "seconds": 4,
             "chat": [
               "The fish have moved on."
             ]
           },
           {
-            "spot": "beach-edge",
-            "ticksLeft": 59,
-            "result": "caught",
-            "seconds": 22,
+            "spot": "north-bank",
+            "ticksLeft": 7,
+            "result": "moved on",
+            "seconds": 6,
             "chat": [
-              "You catch a mirrorperch."
+              "There is nothing left to gather here."
+            ]
+          },
+          {
+            "spot": "north-reeds",
+            "ticksLeft": 72,
+            "result": "caught",
+            "seconds": 18,
+            "chat": [
+              "You catch a mirrorperch.",
+              "Congratulations, you just advanced a Fishing level. You are now level 2."
             ]
           }
         ],
         "fish": true,
-        "cookTries": 2,
+        "cookTries": 3,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -507,35 +526,54 @@
         "stepWest": true,
         "nets": [
           {
-            "spot": "east-shallows",
-            "ticksLeft": 45,
+            "spot": "beach-edge",
+            "ticksLeft": 71,
             "result": "caught",
-            "seconds": 10,
+            "seconds": 6,
             "chat": [
               "You catch a mirrorperch."
             ]
           },
           {
-            "spot": "east-shallows",
-            "ticksLeft": 10,
+            "spot": "beach-edge",
+            "ticksLeft": 45,
+            "result": "caught",
+            "seconds": 16,
+            "chat": [
+              "You catch a mirrorperch."
+            ]
+          },
+          {
+            "spot": "beach-edge",
+            "ticksLeft": 4,
             "result": "moved on",
-            "seconds": 6,
+            "seconds": 4,
             "chat": [
               "The fish have moved on."
             ]
           },
           {
-            "spot": "beach-edge",
-            "ticksLeft": 59,
-            "result": "caught",
-            "seconds": 22,
+            "spot": "north-bank",
+            "ticksLeft": 7,
+            "result": "moved on",
+            "seconds": 6,
             "chat": [
-              "You catch a mirrorperch."
+              "There is nothing left to gather here."
+            ]
+          },
+          {
+            "spot": "north-reeds",
+            "ticksLeft": 72,
+            "result": "caught",
+            "seconds": 18,
+            "chat": [
+              "You catch a mirrorperch.",
+              "Congratulations, you just advanced a Fishing level. You are now level 2."
             ]
           }
         ],
         "fish": true,
-        "cookTries": 2,
+        "cookTries": 3,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -561,9 +599,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 6,
+        "arrowsUsed": 15,
         "magic": true,
-        "runesUsed": 2
+        "runesUsed": 8
       }
     },
     {
@@ -590,5 +628,5 @@
       }
     }
   ],
-  "seconds": 1176
+  "seconds": 1287
 }
