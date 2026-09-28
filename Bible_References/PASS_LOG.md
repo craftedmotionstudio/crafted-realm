@@ -3987,3 +3987,16 @@ length (slight medium-length read in 3/4).
   PvM approach waits for reach up to 12 s; book tips wait for the tip.
 - Gates per merge all green (units 90/90, server 98/98, smoke, combat numbers, route, hollow, menu 65/65, PvM 40/40,
   guides 367/367, icons 19/19, island QA 33/33, playthroughs). Final 10-run proof on 752ad2d running.
+
+## 2026-09-28 — FINAL-BUILD PROOF (752ad2d + 454ec88): ready for the owner's final read
+- 10/10 complete playthroughs on 752ad2d, 18/18 lessons, 10/10 tutors met first, 0 page errors (10.8-14.3 min).
+- QA on the proof build: combat numbers PASS, route v2 10/10, menu 65/65, PvM 40/40, item icons 19/19, island QA 33/33;
+  hollow and skill guides flaked there and were traced to real causes, fixed in 454ec88:
+  - the prayer book / spellbook overflowed the 2004-height panel (players had to scroll; the scroll hid the tips): prayers
+    5 across, spells 6 across, no scrolling at 1356x773 / 1538x900 / 1920x1080;
+  - drivers: below-ground targets framed at their own height (cellar cabbage behind the chat box), moved ripples
+    re-clicked as a player would.
+- Gates on 454ec88: units 90/90, smoke PASS fg+hidden, hollow 14/14 x3, skill guides 367/367, menu 65/65, island QA
+  33/33, playthrough 2/2 (18/18, 10/10, 0 errors). Online world restarted on 8201 with the current server.
+- Disk ran full during the proof commit (C: 0 GB): stale headless-Chrome test profiles (70) and a failed git repack
+  removed -> 6.2 GB free; merged agent worktrees (~50 GB of workspace copies) await the owner's OK to remove.
