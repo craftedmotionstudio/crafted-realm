@@ -626,7 +626,7 @@ def closed_book(A, x, z, y, w, d, t, cover, page, rot=0.0, standing=False):
     A.rbox(x, z, w, d, y, y + .006, rot, cover)
     A.rbox(x + .004 * math.cos(rot), z - .004 * math.sin(rot), w - .015, d - .012, y + .006, y + t - .006, rot, page)
     A.rbox(x, z, w, d, y + t - .006, y + t, rot, cover)
-    sx, sz = _rot(-w / 2 + .004, 0, rot, x, z)
+    sx, sz = _rot(-w / 2 + .004, 0, -rot, x, z)          # Acc.rbox turns the other way from _rot
     A.rbox(sx, sz, .012, d, y + .006, y + t - .006, rot, cover)
 
 
@@ -639,7 +639,7 @@ def scroll(A, a, b, r, paper, rod=None, ribbon=None):
         A.tube(tuple(a - d * .025), tuple(a), r * .45, 6, rod); A.tube(tuple(b), tuple(b + d * .025), r * .45, 6, rod)
     if ribbon is not None:
         m = (a + b) / 2
-        A.tube(tuple(m - d * .012), tuple(m + d * .012), r + .004, 8, ribbon, caps=False)
+        A.tube(tuple(m - d * .012), tuple(m + d * .012), r + .008, 8, ribbon, caps=False)
 
 
 def quill(A, x, z, y, rot, feather, shaft):
@@ -687,14 +687,14 @@ def counting_cloth(A, x0, x1, z0, z1, y, cloth, line, counters, rng, rows=4, col
     A.box(x0, x1, y, y + .004, z0, z1, cloth, skip='b')
     for i in range(1, cols):
         xx = x0 + (x1 - x0) * i / cols
-        A.box(xx - .004, xx + .004, y + .004, y + .006, z0 + .02, z1 - .02, line, skip='b')
+        A.poly([(xx - .004, y + .009, z0 + .02), (xx - .004, y + .009, z1 - .02), (xx + .004, y + .009, z1 - .02), (xx + .004, y + .009, z0 + .02)], [(0, 1, 2, 3)], line)
     for j in range(1, rows):
         zz = z0 + (z1 - z0) * j / rows
-        A.box(x0 + .02, x1 - .02, y + .004, y + .006, zz - .003, zz + .003, line, skip='b')
+        A.poly([(x0 + .02, y + .009, zz - .003), (x0 + .02, y + .009, zz + .003), (x1 - .02, y + .009, zz + .003), (x1 - .02, y + .009, zz - .003)], [(0, 1, 2, 3)], line)
     for k in range(9):
         cx = x0 + (x1 - x0) * (rng.randrange(cols) + .5) / cols + rng.uniform(-.02, .02)
         cz = z0 + (z1 - z0) * (rng.randrange(rows) + .5) / rows + rng.uniform(-.02, .02)
-        A.lathe(cx, cz, y + .006, [(.018, 0), (.018, .008)], 6, counters[k % len(counters)], top=True)
+        A.lathe(cx, cz, y + .01, [(.018, 0), (.018, .008)], 6, counters[k % len(counters)], top=True)
 
 
 def strongbox(A, x0, x1, z0, z1, h, iron, iron_d, brass, front='s'):
