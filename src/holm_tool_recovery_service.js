@@ -16,7 +16,10 @@ var HolmToolRecoveryService=(function(){
     if(typeof HolmIslandTalk==='undefined'||!HolmIslandTalk.active()||typeof HolmTutorialFlow==='undefined') return null;
     var ids=HolmTutorialFlow.runtimeSteps().map(function(r){return r.id;}),done=Array.isArray(Tutorial.completedLessonIds)?Tutorial.completedLessonIds:[];
     var at=ids.findIndex(function(id){return done.indexOf(id)<0;});if(at<0) return {lessonId:ids[ids.length-1],heldBy:null,complete:true};
-    var cur=Tutorial.steps&&Tutorial.steps[Tutorial.step],t=cur&&cur.id===ids[at]&&HolmIslandTalk.pending();
+    // the lesson in hand counts too: a step's banner (and its tool grant) runs as the step starts, before the lesson just
+    // finished reaches the ledger (the hammer at forge_dagger was lost to that lag and never offered again)
+    var cur=Tutorial.steps&&Tutorial.steps[Tutorial.step],ci=cur?ids.indexOf(cur.id):-1;if(ci>at) at=ci;
+    var t=cur&&cur.id===ids[at]&&HolmIslandTalk.pending();
     if(t) return {lessonId:ids[Math.max(0,at-1)],heldBy:t};
     return {lessonId:ids[at],heldBy:null};
   }

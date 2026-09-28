@@ -79,4 +79,8 @@ check('island: the rack works during the island-only lessons (bread) and holds t
   t=island(L.concat(['bake_bread','learn_quests','descend_cavern']),'mine_copper','durgin');assert(t.recover());assert(!t.c.Player.inv.some(s=>s&&s.id==='pickaxe'),'held by Durgin');
   t=island(L.concat(['bake_bread','learn_quests','descend_cavern']),'mine_copper',null);assert(t.recover({from:'Foreman Durgin'}));assert(t.c.Player.inv.some(s=>s&&s.id==='pickaxe'));
 });
+check('island: the hammer comes at forge_dagger even while the ledger is a lesson behind the step (the banner runs as the step starts; playthroughs stuck without it)',()=>{
+  const L=['study_route','equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish','bake_bread','learn_quests','descend_cavern','mine_copper','mine_tin'];   // smelt_bronze not in the ledger yet
+  const t=island(L,'forge_dagger',null);assert(t.recover({from:'Foreman Durgin'}));assert(t.c.Player.inv.some(s=>s&&s.id==='hammer'),t.messages);
+});
 console.log('[HOLM_TOOL_RECOVERY_SERVICE] '+passed+'/'+passed+' checks passed');
