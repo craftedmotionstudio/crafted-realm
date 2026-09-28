@@ -68,9 +68,15 @@ check('4 switch: config on by default, ?oldschool=0 turns it off (no textured as
 // ---- look v2 (look pass 2, 2026-09-26) ----
 const lookFile=path.join(root,'src/holm_oldschool_look.js');
 function loadLook(search,cfg){delete require.cache[require.resolve(lookFile)];global.location={search:search};global.GameConfig=cfg;const m=require(lookFile);delete global.location;delete global.GameConfig;return m}
-check('5 look versions: v2 by default, ?lookv=1 / holmLookVersion 1 give the first look exactly (ground table, detail, void)',()=>{
- const v2=loadLook('',{holmOldschoolLook:true}),v1=loadLook('?lookv=1',{holmOldschoolLook:true}),c1=loadLook('',{holmOldschoolLook:true,holmLookVersion:1});
- assert.strictEqual(v2.version(),2);assert.strictEqual(v1.version(),1);assert.strictEqual(c1.version(),1);assert.strictEqual(loadLook('?oldschool=0',{}).version(),0);
+check('5 look versions: v3 by default, ?lookv=2 gives look v2 and ?lookv=1 / holmLookVersion 1 the first look exactly (ground table, detail, void)',()=>{
+ const v3=loadLook('',{holmOldschoolLook:true}),v2=loadLook('?lookv=2',{holmOldschoolLook:true}),c2=loadLook('',{holmOldschoolLook:true,holmLookVersion:2}),v1=loadLook('?lookv=1',{holmOldschoolLook:true}),c1=loadLook('',{holmOldschoolLook:true,holmLookVersion:1});
+ assert.strictEqual(v3.version(),3);assert.strictEqual(v2.version(),2);assert.strictEqual(c2.version(),2);assert.strictEqual(v1.version(),1);assert.strictEqual(c1.version(),1);assert.strictEqual(loadLook('?oldschool=0',{}).version(),0);
+ // v3, the 2004 light (REF2004 feel report item 8): dimmer sky fill and sun, a dark fade into the void, textured paths and water
+ assert(v3.SCENE.hemi<v2.SCENE.hemi&&v3.SCENE.sun<v2.SCENE.sun,'v3 dimmer light');assert(v3.SCENE.fogFar-v3.SCENE.fogNear>=10&&v3.SCENE.background===0,'v3 dark distance fade to black');
+ assert(v3.TUNE.path.k>=v2.TUNE.path.k&&v3.waterLook().contrast>1,'v3 textured paths and water');assert.deepStrictEqual(v2.waterLook(),{contrast:1,gain:1,mix:.4,sat:1},'v2 water as before');
+ assert.deepStrictEqual(v2.TUNE,{grassA:{k:0,s:1.6},grassB:{k:.15,s:3.3},sand:{k:.85,s:2},rock:{k:.9,s:2},earth:{k:.9,s:1.6},path:{k:.95,s:1.5}},'v2 ground detail as before');
+ assert(v2.SCENE.hemi===.82&&v2.SCENE.sun===1&&v2.SCENE.fogNear===27&&v2.SCENE.fogFar===30,'v2 light and void as before');
+ const g3=JSON.parse(JSON.stringify(Ground.setLookVersion(3)));assert(g3.scale<.76,'v3 ground darker');Ground.setLookVersion(1);
  assert.deepStrictEqual(v1.TUNE.grassA,{k:1,s:1.6});assert.deepStrictEqual(v1.TUNE.grassB,{k:.7,s:3.3});assert(v2.TUNE.grassA.k===0&&v2.TUNE.grassB.k<.2,'v2 grass nearly smooth');
  assert(v1.SCENE.fogNear===24&&v1.SCENE.fogFar===32&&v1.SCENE.sunColor===0xfff0d8,'first look void and sun');assert(v2.SCENE.fogFar-v2.SCENE.fogNear<=4,'v2 short void fade');
  // the ground table: v2 changes only the listed keys and setLookVersion(1) restores the first table byte for byte

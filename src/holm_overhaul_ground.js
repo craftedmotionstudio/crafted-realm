@@ -62,7 +62,11 @@ var HolmOverhaulGround=(function(){
  // shades that still read as squares); everything else as the first look.
  // setLookVersion(1) restores the first look's table exactly.
  var LOOK_V1=JSON.stringify(LOOK),LOOK_V2={palette:[[197,179,123],[119,139,45],[134,126,104],[122,108,76],[128,138,112]],jitter:.09};
+ // look v3 (the 2004 light, REF2004_FEEL_REPORT.md item 8): the whole ground ~22% darker and the grass a deeper,
+ // more saturated green (2004's field: luminance ~.19, saturation .73); v2's other keys stay
+ var LOOK_V3={palette:[[184,164,108],[84,128,20],[124,116,94],[110,96,66],[118,128,100]],scale:.52,warm:.08};
  function setLookVersion(v){var src=JSON.parse(LOOK_V1);if(v>1)Object.keys(LOOK_V2).forEach(function(k){src[k]=JSON.parse(JSON.stringify(LOOK_V2[k]))});
+  if(v>2)Object.keys(LOOK_V3).forEach(function(k){src[k]=JSON.parse(JSON.stringify(LOOK_V3[k]))});
   Object.keys(src).forEach(function(k){LOOK[k]=src[k]});return LOOK}
  var lattice=null;
  // the whole island's height/material lattice, so edge vertices get their true slope and blend across chunk seams
@@ -130,6 +134,6 @@ var HolmOverhaulGround=(function(){
   var ix=Math.floor(x),iz=Math.floor(z),fx=x-ix,fz=z-iz;
   return (V(ix,iz)*(1-fx)+V(ix+1,iz)*fx)*(1-fz)+(V(ix,iz+1)*(1-fx)+V(ix+1,iz+1)*fx)*fz;
  }
- return {chunk:chunk,chunkOldschool:chunkOldschool,setTerrain:setTerrain,setLookVersion:setLookVersion,LOOK_V2:LOOK_V2,lightAt:lightAt,LOOK:LOOK,tileColour:tileColour,patch:patch,PALETTE:PALETTE,DIRT:DIRT,setPaths:setPaths};
+ return {chunk:chunk,chunkOldschool:chunkOldschool,setTerrain:setTerrain,setLookVersion:setLookVersion,LOOK_V2:LOOK_V2,LOOK_V3:LOOK_V3,lightAt:lightAt,LOOK:LOOK,tileColour:tileColour,patch:patch,PALETTE:PALETTE,DIRT:DIRT,setPaths:setPaths};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmOverhaulGround;

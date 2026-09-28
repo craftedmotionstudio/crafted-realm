@@ -98,6 +98,7 @@ var HolmArrivalWater=(function(){
   // drifting slowly against each other (the old client's scrolling water), unlit and near-opaque.
   var osWater=typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()&&HolmOldschoolLook.waterTexture();
   if(osWater){
+   var wl=HolmOldschoolLook.waterLook?HolmOldschoolLook.waterLook():{contrast:1,gain:1,mix:.4,sat:1},f3=function(n){return (+n).toFixed(3)};
    material.color.setHex(0xffffff);material.opacity=.98;
    material.onBeforeCompile=function(shader){
     shader.uniforms.holmWaterTime=time;shader.uniforms.holmWaterMap={value:osWater};
@@ -106,9 +107,12 @@ var HolmArrivalWater=(function(){
      'vec2 hwP = holmWaterPosition.xz;\n'+
      'vec3 hwA = texture2D(holmWaterMap, hwP / 3.0 + vec2(holmWaterTime * 0.020, holmWaterTime * 0.008)).rgb;\n'+
      'vec3 hwB = texture2D(holmWaterMap, hwP.yx / 4.7 + vec2(0.31 - holmWaterTime * 0.011, 0.57 + holmWaterTime * 0.014)).rgb;\n'+
-     'diffuseColor.rgb = mix(hwA, hwB, 0.4);');
+     'vec3 hwC = mix(hwA, hwB, '+f3(wl.mix)+');\n'+
+     // look v3: the ripple pattern pushed out from its mean (0.54) so the water reads textured like the 2004 river
+     'hwC = (vec3(0.54) + (hwC - vec3(0.54)) * '+f3(wl.contrast)+') * '+f3(wl.gain)+';\n'+
+     'diffuseColor.rgb = clamp(mix(vec3(dot(hwC, vec3(0.299, 0.587, 0.114))), hwC, '+f3(wl.sat)+'), 0.0, 1.0);');
    };
-   material.customProgramCacheKey=function(){return 'holm-arrival-water-oldschool-v1'};
+   material.customProgramCacheKey=function(){return 'holm-arrival-water-oldschool-v1-'+f3(wl.mix)+'-'+f3(wl.contrast)+'-'+f3(wl.gain)+'-'+f3(wl.sat)};
   }
   var group=new T.Group();group.name='ArrivalWater';
   // Horizontal positions in both meshes let one world-scale pattern cross the mouth.
