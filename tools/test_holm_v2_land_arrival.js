@@ -6,7 +6,8 @@
  *  2 a dropped read is retried (two failures, then the package), with a warning per failed try and growing waits;
  *  3 a package that cannot be read throws after three tries, naming the cause, and never asks for the pre-v2 package;
  *  4 an abort (the page leaving) is not retried;
- *  5 the island provider no longer has a silent fallback on the v2 land (its only v9 read is for the non-island draft).
+ *  5 the island provider no longer has a silent fallback on the v2 land (its only v9 read is for the non-island draft);
+ *  6 the pinned export is on disk (force-added) and carries both 2026-09-27 changes: the Guide House v6 and the statue v5.
  * Run: node tools/test_holm_v2_land_arrival.js */
 'use strict';
 const assert=require('assert'),fs=require('fs'),path=require('path');
@@ -18,7 +19,7 @@ const PKG={documents:{terrain:{id:'v2'}}},drop=()=>new TypeError('Failed to fetc
  await check('1 a good read returns the pinned v2-land export',async()=>{
   const l=loader([PKG]),got=await V2.loadArrival(l,{wait:async()=>{}});
   assert.strictEqual(got,PKG);assert.strictEqual(l.calls.length,1);
-  assert.deepStrictEqual(l.calls[0],{baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v2/exports/',exportId:V2.ARRIVAL.exportId});
+  assert.deepStrictEqual(l.calls[0],{baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v3/exports/',exportId:V2.ARRIVAL.exportId});
  });
  await check('2 a dropped read is retried, with a warning per failed try and growing waits',async()=>{
   const waits=[],warns=[],l=loader([drop(),drop(),PKG]);
@@ -30,7 +31,7 @@ const PKG={documents:{terrain:{id:'v2'}}},drop=()=>new TypeError('Failed to fetc
   const l=loader([drop(),drop(),new Error('[HolmArrivalExportLoader] fetch failed manifest.json')]);let err=null;
   try{await V2.loadArrival(l,{wait:async()=>{}})}catch(e){err=e}
   assert(err&&/could not be read after 3 tries/.test(err.message)&&/fetch failed manifest\.json/.test(err.message)&&/pre-v2 package does not fit/.test(err.message),err&&err.message);
-  assert.strictEqual(l.calls.length,3);assert(l.calls.every(c=>/holm-arrival-package-v2land-v2/.test(c.baseUrl)&&!/package-v9/.test(c.baseUrl)));
+  assert.strictEqual(l.calls.length,3);assert(l.calls.every(c=>/holm-arrival-package-v2land-v3/.test(c.baseUrl)&&!/package-v9/.test(c.baseUrl)));
  });
  await check('4 an abort is not retried',async()=>{
   const a=new Error('Arrival export load aborted');a.name='AbortError';const l=loader([a,PKG]);let err=null;
@@ -45,5 +46,14 @@ const PKG={documents:{terrain:{id:'v2'}}},drop=()=>new TypeError('Failed to fetc
   const elseAt=prep.indexOf('else{var osPkg'),keep=prep.indexOf('the previous package is kept');
   assert(elseAt>0&&keep>elseAt,'the fallback is confined to the non-island draft');
  });
- console.log('[V2 LAND ARRIVAL] '+passed+'/5 PASS');
+ await check('6 the pinned export (force-added to git) carries the Guide House v6 and the Lantern Keeper statue v5',async()=>{
+  const dir=path.join(__dirname,'..',V2.ARRIVAL.baseUrl,V2.ARRIVAL.exportId),m=JSON.parse(fs.readFileSync(path.join(dir,'manifest.json'),'utf8'));
+  assert.strictEqual(m.exportId,V2.ARRIVAL.exportId);assert.strictEqual('/.studio-workspaces/'+m.workspaceId+'/exports/',V2.ARRIVAL.baseUrl);
+  const f=p=>m.files.find(r=>r.path===p);
+  // the Guide House v6 model (src/holm_guide_cellar.js MODEL_SPEC: holm_guide_house_oldschool_v2.glb -> the v6 corner cellar)
+  assert(f('assets/models/holm_guide_house_oldschool_v2.glb')&&!f('assets/models/holm_guide_house_oldschool_v1.glb'),'Guide House v6');
+  // the textured statue v5 (docs/rebuild/holm-overhaul/oldschool/statue.textures.json outGlb, kit v4 Bram)
+  assert.strictEqual(f('assets/models/holm_arrival_statue_oldschool_v1.glb').hash,'efc826ed067938d2ba877f320ee7352689030ec6e7391b4eeeaa6c67886cc93e','statue v5');
+ });
+ console.log('[V2 LAND ARRIVAL] '+passed+'/6 PASS');
 })().catch(e=>{console.error(e);process.exit(1)});

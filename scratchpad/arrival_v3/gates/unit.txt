@@ -1,0 +1,90 @@
+PASS test_bread_recipe.js (0.1s) [BREAD_RECIPE_TEST] 31/31 acceptance tests passed
+PASS test_bread_recipe_wrappers.js (0.2s) [BREAD_WRAPPER_TEST] 18/18 acceptance tests passed
+PASS test_cavern_crafting_lesson.js (0.1s) CAVERN CRAFTING CONTRACT PASS
+PASS test_coffee.js (0.2s) [COFFEE] 5/5 PASS
+PASS test_combat.js (0.3s) PASS — combat core locked (2004 rules, shared/combat.js).
+PASS test_combat_engine.js (0.7s) COMBAT ENGINE: PASS
+PASS test_combat_fx_static.js (0.1s) PASS - presentation cannot move a combat number; the engine rolls only through shared/combat.js.
+PASS test_fishing_edge_u5_contract.js (0.1s) [U5 CONTRACT] PASS 25/25
+PASS test_frame_stage_metrics.js (0.1s) [FrameStageMetrics tests] 9/9 acceptance ok
+PASS test_gear_models.js (0.1s) ALL PASS — 34 passed
+PASS test_holm_arrival_approach.js (0.3s) [HOLM_ARRIVAL_APPROACH] 145 nodes; deterministic immutable landing/chart/study/return; cardinal, closed-door, footprint-water, seam and slope rejection passed. 
+PASS test_holm_arrival_checkpoint.js (0.1s) [HOLM_ARRIVAL_CHECKPOINT] 110 stance roundtrips; overlapping floors, tampering, revision, invalid/missing nodes, immutability and classic export passed. Storage
+PASS test_holm_arrival_dock.js (0.2s) [HOLM_ARRIVAL_DOCK] 171 nodes; shore/chart/study return routes, wet terrain isolation, railing footprint, diagonal and bad seam rejection passed. Preview only.
+PASS test_holm_arrival_door_motion.js (0.1s) [HolmArrivalDoorMotion] 5/5 acceptance ok
+PASS test_holm_arrival_door_queue.js (0.1s) [ARRIVAL_DOOR_QUEUE] far click walks to the near-side stance and opens once on arrival; near click toggles; unreachable refuses
+PASS test_holm_arrival_export_loader.js (3.7s) [HolmArrivalExportLoader] 26/26 acceptance ok
+PASS test_holm_arrival_follower.js (0.2s) [HOLM_ARRIVAL_FOLLOWER] Actual fixture: dock/chart/upstairs return, supported motion, mid-edge repath/stop, atomic door refusal, prefix stop, bounded stall time
+PASS test_holm_arrival_grade.js (0.2s) [HOLM_ARRIVAL_GRADE] dry route, exact grade, porch footprint seam and invalid diagonal checks passed; max step 0.2142857142857144
+PASS test_holm_arrival_landscape_contract.js (0.1s) [HOLM_LANDSCAPE_CONTRACT] 4/4 acceptance ok
+PASS test_holm_arrival_layout.js (0.1s) [HOLM_ARRIVAL_LAYOUT] numeric layout + determinism + 6 negative fixtures passed; live accessibility unverified
+PASS test_holm_arrival_model_owner.js (0.2s) [HolmArrivalDoorMotion] 5/5 acceptance ok
+PASS test_holm_arrival_navigation.js (0.2s) [HOLM_ARRIVAL_NAVIGATION] 110 stance nodes; cardinal porch/chart/study/return, explicit storeys, tread edges, closed-door and blocked-landing rejection passed. 
+PASS test_holm_arrival_package.js (6.1s) [HOLM_ARRIVAL_PACKAGE] immutable deterministic compile, 4 door states, 6 reversible routes, source-derived placements, browser parity; 24 invalid inputs rejecte
+PASS test_holm_arrival_player.js (0.2s) [HOLM_ARRIVAL_PLAYER] real actor-vector movement, floor rejection, cardinal keyboard, stun/cancel, attach guard and actual orderWalk dispatch passed; no provide
+PASS test_holm_arrival_porch_dispatch.js (0.1s) [ARRIVAL_PORCH_DISPATCH] actual QA handler preserves exact orders, uses bounded fallback only on failure, retains follower rejection, and stays inactive for ord
+PASS test_holm_arrival_porch_target.js (1.1s) [HOLM_ARRIVAL_SCENERY] 2/2 acceptance ok
+PASS test_holm_arrival_provision_export.js (1.5s) [ARRIVAL_PROVISION_EXPORT] actual fourteen-file loader and byte gate pass; augmented runtime docs agree with service stance; hash-consistent altered geometry re
+PASS test_holm_arrival_provisions.js (1.2s) [HOLM_ARRIVAL_PROVISIONS] acceptance ok: 4 door graphs, 16 reversible route legs, measured bound blockers, immutable deterministic classic/CommonJS parity; 27 i
+PASS test_holm_arrival_scenery.js (0.7s) [HOLM_ARRIVAL_SCENERY] 2/2 acceptance ok
+PASS test_holm_arrival_scenery_export.js (1.4s) [HOLM_ARRIVAL_SCENERY] 2/2 acceptance ok
+PASS test_holm_arrival_trail.js (0.1s) [HolmArrivalTrail] actual authored route 3528 vertices / 1276 triangles; contour, terrain diagonal, translation, deterministic immutable geometry and invalid in
+PASS test_holm_arrival_water.js (0.1s) [HolmArrivalWater] deterministic continuous ribbon, coordinate parity, immutability and four invalid-input cases pass
+PASS test_holm_combat_credit.js (0.3s) [HOLM_COMBAT_CREDIT] 17/17 PASS
+PASS test_holm_combat_fx.js (0.1s) [HOLM_COMBAT_FX] 25/25 PASS
+PASS test_holm_combat_kits.js (0.1s) [HOLM_COMBAT_KITS] 18/18 PASS
+PASS test_holm_curriculum_progress.js (0.1s) [HOLM_CURRICULUM_PROGRESS] 13/13 tests passed
+PASS test_holm_cutaway_parts.js (0.1s) [HOLM_CUTAWAY_PARTS] 5/5 checks passed
+PASS test_holm_departure_rewards.js (0.1s) [HOLM_DEPARTURE_REWARDS] 8/8 passed
+PASS test_holm_equipment_v4.js (0.1s) 242 passed, 0 failed
+PASS test_holm_fishing.js (0.2s) [HOLM_FISHING] 5/5 checks passed
+PASS test_holm_initial_tools.js (0.1s) [HOLM_INITIAL_TOOLS] 6/6 passed
+PASS test_holm_island_curriculum.js (0.1s) [HOLM_ISLAND_CURRICULUM] 6/6 checks passed
+PASS test_holm_island_nav.js (1.4s) [HOLM_ARRIVAL_SCENERY] 2/2 acceptance ok
+PASS test_holm_island_talk.js (0.2s) [HOLM_ISLAND_TALK] 15/15 checks passed
+PASS test_holm_keep_navigation.js (0.4s) [{"id":"gate","reachable":true},{"id":"court","reachable":true},{"id":"hall","reachable":true},{"id":"upper","reachable":true},{"id":"wallwalk","reachable":true
+PASS test_holm_kitchen_navigation.js (0.2s) [{"id":"entrance","reachable":true},{"id":"oven","reachable":true},{"id":"prep","reachable":true},{"id":"pantry","reachable":true},{"id":"loft","reachable":true
+PASS test_holm_kitchen_save_order.js (0.1s) [KITCHEN_SAVE_ORDER] PASS: post-advance snapshot, repeat inventory/XP save, provider isolation, unrelated events, visible save failure, idempotent wrapper
+PASS test_holm_lodge_hearth.js (0.1s) [LODGE_HEARTH_CONTRACT] 12/12 checks pass: matched data accepted; drift and malformed transforms/animation rejected
+PASS test_holm_lodge_service_bindings.js (0.2s) [LODGE_SERVICE_BINDINGS] actual GLB identities, measured stances, missing/changed asset refusal and immutable data pass
+PASS test_holm_oldschool_look.js (0.7s) [HOLM_ARRIVAL_SCENERY] 2/2 acceptance ok
+PASS test_holm_overhaul_chunks.js (0.2s) [HOLM_OVERHAUL_CHUNKS] 288 contract-valid chunks, exact shared seams/samples, water coverage, immutable deterministic output and malformed inputs verified; no p
+PASS test_holm_overhaul_terrain.js (0.2s) [HOLM_OVERHAUL_TERRAIN] 9/9 checks passed
+PASS test_holm_proving_ground.js (0.3s) [PROVING GROUND] 4/4 PASS
+PASS test_holm_quest_door_state.js (0.1s) [QUEST_DOOR_STATE] 10/10 acceptance ok
+PASS test_holm_quest_lodge_success.js (0.1s) [QUEST_LODGE_SUCCESS] 13/13 PASS (controlled VM; no real browser interaction claimed)
+PASS test_holm_quest_navigation.js (0.2s) [{"id":"entrance","reachable":true},{"id":"board","reachable":true},{"id":"map","reachable":true},{"id":"bay","reachable":true},{"id":"guest","reachable":true}]
+PASS test_holm_quest_terrain_navigation.js (0.2s) [QUEST_TERRAIN_UI_ROUTE] actual shared router bypasses lodge interior
+PASS test_holm_reward_plan.js (0.1s) [HOLM_REWARD_PLAN] 11/11 checks passed
+PASS test_holm_skill_tools.js (0.1s) 96 passed, 0 failed
+PASS test_holm_station_reach.js (0.1s) [HOLM_STATION_REACH] 50/50 contract checks passed (headless; not live navigation acceptance)
+PASS test_holm_tile_house.js (0.1s) [HOLM_TILE_HOUSE] 8/8 checks passed
+PASS test_holm_tool_recovery.js (0.1s) [HOLM_TOOL_RECOVERY] 10/10 checks passed
+PASS test_holm_tool_recovery_service.js (0.2s) [HOLM_TOOL_RECOVERY_SERVICE] 12/12 checks passed
+PASS test_holm_v2_land_arrival.js (0.2s) [V2 LAND ARRIVAL] 6/6 PASS
+PASS test_holm_v3_terrain.js (0.8s) [HOLM_V3_TERRAIN] 10/10 checks passed
+PASS test_holm_world_fixes.js (1.9s) [HOLM_ARRIVAL_SCENERY] 2/2 acceptance ok
+PASS test_landscape_model.js (0.2s) [landscape model] 42/42 acceptance checks passed; no visual/runtime acceptance claim.
+PASS test_naming_bible.js (1.4s) NAMING BIBLE GUARD: clean
+PASS test_new_adventurer_reset.js (0.1s) [NEW_ADVENTURER_RESET] 7/7 checks passed
+PASS test_online_client.js (0.6s) 13 passed, 0 failed
+PASS test_osrs_menu.js (0.1s) 174 passed, 0 failed
+PASS test_pack28_migration.js (0.1s) [PACK28] 6/6 checks passed: 24-slot saves keep every item in its slot and gain four empty slots
+PASS test_provision_model.js (0.2s) [provision model] 26/26 acceptance checks passed; no visual/runtime acceptance claim.
+PASS test_qa_profile.js (0.1s) [QA PROFILE] PASS
+PASS test_roof_transitions.js (0.1s) roof transitions: all locks pass
+PASS test_scarlands_bestiary.js (0.1s) [SCARLANDS BESTIARY] 4/4 checks passed (cinder_rat L7, scar_skeleton L22, scar_raider_archer L26, ember_mage L30, ash_stalker L38, cinder_wyrmling L56)
+PASS test_scarlands_kit.js (0.3s) [SCARLANDS KIT] 5/5 checks passed
+PASS test_skill_guides.js (0.2s) [SKILL GUIDES] 177 passed, 0 failed
+PASS test_studio_arrival_validation.js (4.3s) [STUDIO_ARRIVAL_VALIDATION] actual candidates verified; deterministic/nonmutating; 22 invalid byte/data/registration/semantic cases rejected. No visual, collisi
+PASS test_studio_arrival_workspace.js (2.0s) [HOLM_ARRIVAL_TRANSACTION] actual staged source bytes accepted; hash-consistent altered route rejected by plan and apply; no live writes.
+PASS test_studio_overhaul_terrain.js (2.3s) [HOLM_TERRAIN_PUBLISH] pair, lattice, source drift, staged mismatch and old-export plan/apply refusal passed; live fixture unchanged.
+PASS test_studio_terrain_workspace.js (5.4s) [studio-terrain-workspace] 9/9 locks passed
+PASS test_studio_workspace.js (0.6s) Studio workspace gate PASS
+PASS test_teleport_boot.js (0.1s) [TELEPORT_BOOT] 1/1 passed
+PASS test_terrain_district.js (0.7s) [terrain-district] 12/12 locks passed; 20 chunks
+PASS test_waterworks_u4_contract.js (0.1s) PASS 21/21 -> C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Pkg3\scratchpad\workyard_waterworks_u4_v1\contract_test_result.json
+PASS test_world_boot_save.js (0.1s) [WORLD_BOOT_SAVE] 7/7 passed
+PASS test_world_v2.js (0.4s) world-v2 contract: all locks pass
+PASS test_world_v2_warmup_lifecycle.js (0.1s) PASS hidden-owner compile failure restores original visibility
+[UNIT] 89/89 files pass

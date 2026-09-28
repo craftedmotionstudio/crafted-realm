@@ -128,7 +128,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 40,
+        "deckSamples": 43,
         "deckY": 2.3
       }
     },
@@ -154,8 +154,8 @@
       "label": "the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)",
       "ok": true,
       "detail": {
-        "samples": 590,
-        "diagonal": 53
+        "samples": 596,
+        "diagonal": 54
       }
     },
     {
@@ -360,7 +360,7 @@
           -0.05,
           -0.5
         ],
-        "diagonal": 21
+        "diagonal": 22
       }
     },
     {
@@ -375,7 +375,7 @@
           9.15,
           29.5
         ],
-        "diagonal": 101,
+        "diagonal": 107,
         "shaftTiles": 1
       }
     },
@@ -506,10 +506,10 @@
         "fireWhereStood": true,
         "nets": [
           {
-            "spot": "jetty-end",
-            "ticksLeft": 36,
+            "spot": "south-bank",
+            "ticksLeft": 54,
             "result": "caught",
-            "seconds": 14,
+            "seconds": 16,
             "chat": [
               "You catch a mirrorperch."
             ]
@@ -543,10 +543,10 @@
         "fireWhereStood": true,
         "nets": [
           {
-            "spot": "jetty-end",
-            "ticksLeft": 36,
+            "spot": "south-bank",
+            "ticksLeft": 54,
             "result": "caught",
-            "seconds": 14,
+            "seconds": 16,
             "chat": [
               "You catch a mirrorperch."
             ]
@@ -579,9 +579,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 7,
+        "arrowsUsed": 5,
         "magic": true,
-        "runesUsed": 10
+        "runesUsed": 12
       }
     },
     {
@@ -608,5 +608,5 @@
       }
     }
   ],
-  "seconds": 1443
+  "seconds": 1479
 }

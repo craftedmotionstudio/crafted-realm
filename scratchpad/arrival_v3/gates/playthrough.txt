@@ -1,0 +1,22 @@
+  run 1 lesson study_route | Talk to Guide Bram in the Guide House.
+  run 1 lesson equip_hatchet | Guide Bram has shown you the island. Next, Wenna at the survival camp, west of the Guide H
+  run 1 lesson chop_logs | Chop down one of the oaks on the rim of Minnow Hollow, just below Wenna.
+  run 1 lesson light_fire | Light a fire where you stand: use your tinderbox on the logs. Any clear ground will do.
+  run 1 lesson catch_fish | Net a fish at the ripples on the pond. The fish move about: follow the ripples.
+  run 1 lesson cook_fish | Cook the fish on your fire. Burnt out? Light another anywhere. Burnt the fish? Net another
+  run 1 lesson bake_bread | Talk to Cook Hettie in the bakehouse.
+  run 1 lesson learn_quests | You have finished Cook Hettie's lessons. Next, Loremaster Ansel in the Quest Lodge. Follow
+  run 1 lesson descend_cavern | You have finished Loremaster Ansel's lessons. Next, the Quarry Gate: climb down the shaft 
+  run 1 lesson mine_copper | Mine a copper rock with your pickaxe.
+  run 1 lesson mine_tin | Now mine a tin rock.
+  run 1 lesson smelt_bronze | Smelt your copper and tin into a bronze bar at the furnace.
+  run 1 lesson forge_dagger | Hammer the bar into a bronze dagger at the anvil, then take the east drift up into the kee
+  run 1 lesson melee_trial | Talk to Warden Corrick in the Warden's Keep court.
+  run 1 lesson ranged_trial | Take up the shortbow and arrows and defeat a practice foe from range.
+  run 1 lesson open_bank | You have finished Warden Corrick's lessons. Next, Teller Maud in the Holm Bank. Follow the
+  run 1 lesson magic_trial | Talk to Magister Ilse at the Mage Tower.
+    clickNamed diag {"name":"island-trial-mage-yard-1","pt":[105.5,8.01,58.5],"screen":[769,510],"rect":[1538,900],"cover":"game-canvas","pick":"ground-chunk-13,7","player":[106.5,7.65,58.5],"cam":[97,19.2,58.5]}
+  run 1 lesson relight_lastlight | Talk to Keeper Aldous inside Lastlight.
+  run 1 skill tools {"chop":{"samples":29,"tool":29,"weaponShown":0,"restored":0,"notRestored":0,"tools":{"hatchet":1}},"firemake":{"samples":19,"tool":19,"weaponShown":0,"restored":1,"notRestored":0,"tools":{"tinderbox":1}},"net":{"samples":70,"tool":69,"weaponShown":0,"restored":1,"notRestored":0,"tools":{"fishing_net":1}},"cook":{"samples":16,"tool":16,"weaponShown":0,"restored":0,"notRestored":0,"tools":{"raw_perch":1}},"mine":{"samples":39,"tool":38,"weaponShown":0,"restored":2,"notRestored":0,"tools":{"pickaxe":1}},"smelt":{"samples":24,"tool":24,"weaponShown":0,"restored":1,"notRestored":0,"tools":{"copper_ore":1}},"smith":{"samples":23,"tool":22,"weaponShown":0,"restored":1,"notRestored":0,"tools":{"hammer":1}}}
+[PLAYTHROUGH] run 1 complete in 11.5 min, lessons 18/18, tutors met 10/10, page errors 0 | first hint: Talk to Guide Bram in the Guide House.
+[PLAYTHROUGH] 1/1 complete runs with zero errors
