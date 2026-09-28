@@ -53,9 +53,15 @@ async function walkGround(page,x,z){const w=await D.walkPoint(page,x,z,[]);const
   // fish the nearest live ripple; the first catch lands on the second roll (~6 s after the cast)
   const spot=await page.evaluate(()=>{const s=HolmFishing.nearestSpot(player.position.x,player.position.z);return s?s.name:null});
   const before=await page.evaluate(()=>HolmFishing.stats());const tClick=Date.now();
-  c=await clickNamed(page,spot);const caught=!c.error&&await waitFor(page,()=>Player.count('raw_perch')>0,null,90000);const tCatch=Date.now();
+  // (a ripple can move on before the adventurer reaches it -- likelier at the 2004 walk pace; a player then clicks the
+  // nearest ripple again: re-click while no cast has started, same 90 s budget, same first-catch rule)
+  let caught=false,clicks=[];for(let k=0;k<4&&!caught&&Date.now()-tClick<90000;k++){const sp=k?await page.evaluate(()=>{const s=HolmFishing.nearestSpot(player.position.x,player.position.z);return s?s.name:null}):spot;
+   c=await clickNamed(page,sp);clicks.push({sp,err:c.error||null});if(c.error)continue;
+   caught=await waitFor(page,()=>Player.count('raw_perch')>0,null,Math.max(5000,Math.min(30000,90000-(Date.now()-tClick))));
+   if(!caught&&await page.evaluate(b=>HolmFishing.stats().casts>b,before.casts))caught=await waitFor(page,()=>Player.count('raw_perch')>0,null,Math.max(5000,90000-(Date.now()-tClick)))}
+  const tCatch=Date.now();
   const st1=await page.evaluate(()=>HolmFishing.stats());await shot(page,'03_catch');
-  ok('catch_fish: the net at a ripple lands a mirrorperch; every roll visible (cast + splash), the first catch guaranteed on roll 2',caught&&st1.lastCatch&&st1.lastCatch.item==='raw_perch'&&st1.lastCatch.roll<=2&&st1.casts>before.casts&&st1.splashes>before.splashes&&await page.evaluate(()=>window.__notes.includes('gather/raw_perch')),{spot,st1,seconds:(tCatch-tClick)/1000});
+  ok('catch_fish: the net at a ripple lands a mirrorperch; every roll visible (cast + splash), the first catch guaranteed on roll 2',caught&&st1.lastCatch&&st1.lastCatch.item==='raw_perch'&&st1.lastCatch.roll<=2&&st1.casts>before.casts&&st1.splashes>before.splashes&&await page.evaluate(()=>window.__notes.includes('gather/raw_perch')),{spot,clicks,st1,seconds:(tCatch-tClick)/1000});
   // cook on the adventurer's own fire up on the rim (any fire cooks; burns are taught: net another and retry); if it burnt
   // out while fishing, a new one is lit wherever the adventurer stands
   const nearFire=async()=>{const f=await page.evaluate(()=>{const o=scene.getObjectByName('island-campfire');return o?[o.position.x,o.position.z]:null});if(!f)return;for(const [dx,dz] of [[1,0],[-1,0],[0,-1],[0,1]]){await walkGround(page,f[0]+dx,f[1]+dz);const q=await pos(page);if(Math.hypot(q[0]-f[0],q[2]-f[1])>.9)return}};
