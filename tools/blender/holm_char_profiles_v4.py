@@ -144,9 +144,12 @@ GAIT_2004 = {'walk': {'frames': 28, 'duty': .52, 'bob': .045, 'p_on': 12, 'p_off
 #  run  -- "a very aggressive run": calmer -- the arms swing +-52 deg (was +-96) with the elbows held near 90, a lower foot
 #          lift and heel kick, a little less twist; same 0.667 s cycle and 0.75 H step; the lean authored 16.5 so the
 #          harness's silhouette measure reads ~14 (it read 9.9 for 14 authored: the kicked-up rear leg pulls the bottom back)
-GAIT_2004_2 = {'walk': dict(GAIT_2004['walk'], p_on=24, p_off=-34, lift=.062, osrs=(10.0, 0.0, 3.0), swing_pitch=(.10, .62), lean_cap=(6.5, False)),
+GAIT_2004_2 = {'walk': dict(GAIT_2004['walk'], p_on=24, p_off=-34, lift=.062, osrs=(10.0, 0.0, 3.0), swing_pitch=(.10, .62), front_q=.35, head_pitch=-5.0, lean_cap=(8.0, False)),
                'run': dict(GAIT_2004['run'], kick=.14, lift=.10, arm_swing=52, fore=86, fore_swing=10, twist=5, p_on=14, p_off=-40,
-                           swing_y=(.12, .88), lean=13, lean_cap=(16.5, False))}   # (lean 13: the head counters it -- eyes ahead, not down)
+                           swing_y=(.12, .88), front_q=.2, lean=7, lean_cap=(19.0, False))}   # (lean 7: the head counters 7 deg -- eyes ahead)
+# (REF2004 re-capture of v4a.2 with lean caps 6.5 / 16.5 and the run's head countering 13 deg: the harness measured 3.4 / 8.3
+# -- its lean is the silhouette's top-quarter vs bottom-quarter centroid, so a head held back reads as less lean. The head
+# now goes with the body as in the reference run, and the caps are 8 / 19 so the silhouettes measure ~5 / ~14)
 GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, False)),
           'run': dict(GAIT_2004['run'], frames=20, lean_cap=(8.0, False))}
 
@@ -155,7 +158,7 @@ TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 # the kit's spine-lean gates, widened on purpose for the 2004 look (build_holm_characters_v2.LEAN_LIMITS): the reference
 # strips lean ~5 deg forward in the walk and ~14 deg in the run (we author 5 / 12); the ready pose carries the head forward
 LEAN_2004 = {'still': .5, 'walk': 5.6, 'run': 14.6, 'head_idle': 9.0, 'tutor_walk': 5.6}
-LEAN_2004_2 = dict(LEAN_2004, walk=7.1, run=17.1)   # v4a.2: the authored leans that measure 5 / 14 on the harness strips
+LEAN_2004_2 = dict(LEAN_2004, walk=8.6, run=19.6)   # v4a.2: the authored leans that measure ~5 / ~14 on the harness strips
 # the tutors' stroll: the same 2004 lean and a touch of the old client's short leg swing
 TUTOR_GAIT_2004 = {'lean_cap': (5.0, False), 'plant_k': .85, 'arm_swing': 20}
 

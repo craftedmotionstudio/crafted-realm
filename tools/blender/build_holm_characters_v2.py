@@ -3472,7 +3472,7 @@ def foot_ankle(g, pitch):
 def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, arm_swing, fore, lean, twist, foot_x=.14,
               kick=0.0, base=None, bob_phase=0.0, head_counter=.6, fore_swing=8.0, hips_pitch=0.0, arms=True,
               sway=0.0, roll=0.0, sh_twist=None, head_stab=0.0, osrs=None, swing_sides=('Left', 'Right'), lean_cap=None,
-              swing_pitch=None, swing_y=None):
+              swing_pitch=None, swing_y=None, head_pitch=0.0):
     """grounded in-place cycle: the stance foot's ground pivot moves back at exactly `speed` (clip time) while the
     pelvis bobs; the swing foot arcs forward; arms swing opposite the legs; spine counter-twists."""
     T = frames / FPS
@@ -3485,7 +3485,7 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
         c = math.cos(2 * math.pi * t)
         kw = dict(base or {})
         if osrs:               # v2.9 walk: the simple readable 2004 cycle -- no sway / roll, upright, head steady
-            kw.update(Hips=(0, 0, -twist * c), Spine=(0, 0, twist * 1.6 * c), Head=(0, 0, -twist * .6 * c),
+            kw.update(Hips=(0, 0, -twist * c), Spine=(0, 0, twist * 1.6 * c), Head=(head_pitch, 0, -twist * .6 * c),   # (v4a.2: eyes ahead over the lean)
                       loc=(0, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
         elif sh_twist is None:   # v2.7 model (run, Bram)
             kw.update(Spine=(lean, 0, twist * .8 * c), Spine1=(0, 0, twist * .6 * c), Head=(-lean * head_counter, 0, -twist * .5 * c),
@@ -3661,6 +3661,8 @@ def best_gait(name, frames, speed, duty, **kw):
     """pick the landing offset (front) and pelvis drop that keep the stance foot exactly on the ground (smallest reach
     error, then the highest pelvis = straightest legs)"""
     best = None
+    front_q = kw.pop('front_q', .5)   # v4a.2: where in the feasible landing range the step sits (.5 = centred under the hips;
+    # lower = the feet land closer and push off further behind -- the 2004 run's trailing legs)
     for drop in [kw['drop'] + .005 * k for k in range(0, GAIT_DROP_STEPS)]:   # v2.8: finer search (straightest feasible legs)
         feasible = []
         for fi in range(8, 50, 2):
@@ -3672,7 +3674,7 @@ def best_gait(name, frames, speed, duty, **kw):
             if best is None or wv < best[0] - 1e-4:
                 best = (wv, k2)
         if feasible:   # centre the step under the hips: middle of the feasible landing range
-            best = (0.0, feasible[len(feasible) // 2])
+            best = (0.0, feasible[min(len(feasible) - 1, int(len(feasible) * front_q))])
             break
     keys = gait_clip(name, frames, speed, duty, **best[1])
     GAIT_REPORT[name].update(front_m=best[1]['front'], pelvis_drop_m=round(best[1]['drop'], 3))

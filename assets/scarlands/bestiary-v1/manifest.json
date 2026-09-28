@@ -168,7 +168,7 @@
    "pack": null,
    "model": {
     "file": "scar_skeleton.glb",
-    "sha256": "6dda09555b06f3f81e5bcbd9926f65c923ceced91065785be7322340f6898375",
+    "sha256": "54dc1994e0162b12b81a785c1214cefdf23be4b770297a7edf45fbf8659bee6d",
     "bytes": 475672,
     "triangles": 2362,
     "height_m": 1.925,
@@ -332,7 +332,7 @@
    "pack": null,
    "model": {
     "file": "scar_raider_archer.glb",
-    "sha256": "813a533c6612ca1d3100343022330a47c53327cd877296e0c866377e27dd5329",
+    "sha256": "6098b284aa41a7239de0907cf2eb16352fe7a81aeae9cd99a39b5b903b12fb48",
     "bytes": 495236,
     "triangles": 3588,
     "height_m": 1.86,
@@ -501,7 +501,7 @@
    "pack": null,
    "model": {
     "file": "ember_mage.glb",
-    "sha256": "8ec4ad38a9ca5fcd3bfaa4a4719008b57dd8dc4e61cf3257198ed7dcde969b22",
+    "sha256": "6d9cf58dffd23e9b772a1bd58e48facca747d54597ab8ff1f6e74225be87f880",
     "bytes": 434644,
     "triangles": 3213,
     "height_m": 2.032,

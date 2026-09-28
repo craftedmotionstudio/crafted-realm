@@ -41,7 +41,7 @@
 var OnlineActors=(function(){
  'use strict';
  if(typeof window==='undefined')return null;
- var KIT_URL='assets/models/holm_kit_v2.glb?v=13';
+ var KIT_URL='assets/models/holm_kit_v2.glb?v=14';
  var EQUIP_SLOTS=['head','cape','amulet','weapon','body','shield','legs','hands','feet'];
  var st={players:new Map(),npcs:new Map(),objs:new Map(),corpses:[],kitBuf:null,kitLoading:null,tickMs:600,me:null,
   stats:{playersBuilt:0,npcsBuilt:0,objsBuilt:0,rigFailures:0}};
