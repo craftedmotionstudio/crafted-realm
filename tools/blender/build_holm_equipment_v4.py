@@ -1508,6 +1508,41 @@ kw = dict(filepath=str(glb), export_format='GLB', use_selection=True, export_ani
           export_def_bones=False, export_texcoords=False)
 props = bpy.ops.export_scene.gltf.get_rna_type().properties.keys()
 bpy.ops.export_scene.gltf(**{k: v for k, v in kw.items() if k in props or k == 'filepath'})
+
+def fill_empty_accessors(path):
+    """v4a.2: an all-zero morph delta (smooth shading leaves some NORMAL deltas exactly zero) is exported as an accessor with
+    no bufferView -- legal glTF, but three.js r128's GLTFLoader returns null for it and Mesh.updateMorphTargets throws.
+    Give every such accessor explicit zero bytes."""
+    raw = path.read_bytes()
+    jl = struct.unpack_from('<I', raw, 12)[0]
+    d = json.loads(raw[20:20 + jl])
+    bin_off = 20 + jl
+    bl = struct.unpack_from('<I', raw, bin_off)[0]
+    bin_ = bytearray(raw[bin_off + 8: bin_off + 8 + bl])
+    comp = {'SCALAR': 1, 'VEC2': 2, 'VEC3': 3, 'VEC4': 4, 'MAT4': 16}
+    size = {5120: 1, 5121: 1, 5122: 2, 5123: 2, 5125: 4, 5126: 4}
+    n = 0
+    for a in d.get('accessors', []):
+        if 'bufferView' in a or 'sparse' in a:
+            continue
+        while len(bin_) % 4:
+            bin_.append(0)
+        ln = a['count'] * comp[a['type']] * size[a['componentType']]
+        d['bufferViews'].append({'buffer': 0, 'byteOffset': len(bin_), 'byteLength': ln})
+        a['bufferView'] = len(d['bufferViews']) - 1
+        bin_ += bytes(ln)
+        n += 1
+    if not n:
+        return 0
+    while len(bin_) % 4:
+        bin_.append(0)
+    d['buffers'][0]['byteLength'] = len(bin_)
+    js = json.dumps(d, separators=(',', ':')).encode('utf8')
+    js += b' ' * ((4 - len(js) % 4) % 4)
+    out = struct.pack('<III', 0x46546C67, 2, 12 + 8 + len(js) + 8 + len(bin_)) + struct.pack('<II', len(js), 0x4E4F534A) + js +         struct.pack('<II', len(bin_), 0x004E4942) + bytes(bin_)
+    path.write_bytes(out)
+    return n
+print(TAG, 'empty morph accessors given zero data:', fill_empty_accessors(glb))
 raw = glb.read_bytes(); jslen = struct.unpack_from('<I', raw, 12)[0]; doc = json.loads(raw[20:20 + jslen])
 sha = hashlib.sha256(raw).hexdigest()
 nodes = doc['nodes']; top_nodes = set(doc['scenes'][0]['nodes'])

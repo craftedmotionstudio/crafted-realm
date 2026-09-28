@@ -3,7 +3,7 @@
  "status": "runtime (src/holm_equipment.js loads it from assets/holm_island/ws/holm-equipment-v3/candidates/)",
  "file": "equipment.glb",
  "blend": "equipment.blend",
- "sha256": "21732be6f17c5346ab01d93df0787c60886cae2bac6c56b0c94f64063c409b0c",
+ "sha256": "5065b6fb97a53c878d29ff9c74a682c9be659b6d5a453309a7abbcf78a6098a9",
  "axes": "glTF Y-up, 1 unit = 1 tile (= 1 m, player 1.85 tall)",
  "colour": "authored sRGB used as-is, roughness 1, metallic 0, no textures",
  "recolour": {
