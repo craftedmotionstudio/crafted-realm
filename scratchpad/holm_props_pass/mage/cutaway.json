@@ -1,0 +1,14 @@
+{
+ "model": ".studio-workspaces/holm-mage-props-v1/candidates/mage.glb",
+ "building": "mage",
+ "lift": 0.5,
+ "levels": [
+  0,
+  3,
+  6
+ ],
+ "pieces": 112,
+ "keep": 111,
+ "cut": 1,
+ "clipped": []
+}

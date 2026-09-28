@@ -1,0 +1,123 @@
+{
+ "baseline": {
+  "identical": true,
+  "differs": [],
+  "refGraph": "holm-mage-review4-navigation-v1"
+ },
+ "build": {
+  "flat": ".studio-workspaces/holm-mage-props-v1/working/mage-flat.blend",
+  "built": {
+   "Mage_FurnishingPropsStudy": 5012,
+   "Mage_FurnishingPropsWorkroom": 2198,
+   "Mage_ServiceRuneTable_Workroom": 1323,
+   "Mage_UpperFurnishingPropsLibrary": 3902,
+   "Mage_ServiceLectern_Library": 458,
+   "Mage_UpperFurnishingPropsObservatory": 2178,
+   "Mage_ServiceTelescope_Observatory": 538,
+   "Mage_Yard": 1856
+  },
+  "removed": [
+   "Mage_Furnishing",
+   "Mage_FurnishingDressing",
+   "Mage_UpperFurnishing",
+   "Mage_UpperFurnishingDressing",
+   "Mage_Yard",
+   "Mage_ServiceRuneTable_Workroom",
+   "Mage_ServiceLectern_Library",
+   "Mage_ServiceTelescope_Observatory"
+  ],
+  "islandsRemoved": {}
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-mage-props-v1/candidates/mage.glb",
+   "bytes": 3703472,
+   "sha256": "c36c70908d6ba1f6d6e33915cd638293d27f401d468f33d4fe2ad034f6e06cc2"
+  },
+  "materials": 3,
+  "images": [
+   "beam",
+   "rock",
+   "thatch"
+  ]
+ },
+ "proof": {
+  "ok": true,
+  "reference": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.glb",
+  "candidate": ".studio-workspaces/holm-mage-props-v1/candidates/mage.glb",
+  "referenceNodes": 29,
+  "kept": 21,
+  "changed": {
+   "Mage_Furnishing": [
+    1243,
+    null
+   ],
+   "Mage_FurnishingDressing": [
+    395,
+    null
+   ],
+   "Mage_ServiceLectern_Library": [
+    80,
+    487
+   ],
+   "Mage_ServiceRuneTable_Workroom": [
+    344,
+    1407
+   ],
+   "Mage_ServiceTelescope_Observatory": [
+    180,
+    563
+   ],
+   "Mage_UpperFurnishing": [
+    2437,
+    null
+   ],
+   "Mage_UpperFurnishingDressing": [
+    67,
+    null
+   ],
+   "Mage_Yard": [
+    1016,
+    1957
+   ]
+  },
+  "added": {
+   "Mage_FurnishingPropsStudy": 5220,
+   "Mage_FurnishingPropsWorkroom": 2340,
+   "Mage_UpperFurnishingPropsLibrary": 4162,
+   "Mage_UpperFurnishingPropsObservatory": 2275
+  },
+  "issues": []
+ },
+ "graph": {
+  "ws": "holm-mage-props-navigation-v1",
+  "nodes": 311,
+  "identical": true,
+  "differs": [],
+  "modelSha256": "c36c70908d6ba1f6d6e33915cd638293d27f401d468f33d4fe2ad034f6e06cc2"
+ },
+ "cutaway": {
+  "pieces": 112,
+  "keep": 111,
+  "cut": 1,
+  "clipped": 0
+ },
+ "coplanar": {
+  "before": 1,
+  "after": 1,
+  "areaBefore": 0.0019,
+  "areaAfter": 0.0019,
+  "worse": [],
+  "exposedUntouched": []
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-mage-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.glb"
+  },
+  "now": {
+   "graph": "holm-mage-props-navigation-v1",
+   "model": ".studio-workspaces/holm-mage-props-v1/candidates/mage.glb"
+  }
+ }
+}
