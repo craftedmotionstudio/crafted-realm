@@ -1,0 +1,493 @@
+{
+ "kit": "assets/models/holm_kit_v2.glb (v4a.2)",
+ "equipment": ".studio-workspaces/holm-equipment-v4/candidates/equipment.glb",
+ "frames": [
+  [
+   "idle",
+   0
+  ],
+  [
+   "idle",
+   30
+  ],
+  [
+   "walk",
+   0
+  ],
+  [
+   "walk",
+   4
+  ],
+  [
+   "walk",
+   7
+  ],
+  [
+   "walk",
+   11
+  ],
+  [
+   "run",
+   0
+  ],
+  [
+   "run",
+   4
+  ],
+  [
+   "run",
+   8
+  ],
+  [
+   "run",
+   12
+  ],
+  [
+   "attack_slash",
+   5
+  ],
+  [
+   "attack_slash",
+   9
+  ],
+  [
+   "attack_stab",
+   5
+  ],
+  [
+   "attack_stab",
+   9
+  ],
+  [
+   "attack_crush",
+   8
+  ],
+  [
+   "attack_crush",
+   12
+  ],
+  [
+   "block",
+   4
+  ],
+  [
+   "bow",
+   18
+  ],
+  [
+   "cast",
+   14
+  ]
+ ],
+ "summary": {
+  "worn_failing": {
+   "fullhelm": 0,
+   "medhelm": 0,
+   "hat": 0,
+   "amulet": 676,
+   "cape": 376,
+   "platebody": 146,
+   "chainbody": 68,
+   "leather_body": 66,
+   "platelegs": 0,
+   "plateskirt": 0,
+   "chaps": 0,
+   "gloves": 8,
+   "boots": 0
+  },
+  "held_failing": {
+   "dagger": 0,
+   "sword": 0,
+   "longsword": 0,
+   "sabre": 0,
+   "greatsword": 6,
+   "mace": 0,
+   "warhammer": 0,
+   "battleaxe": 12,
+   "hatchet": 0,
+   "pickaxe": 0,
+   "shortbow": 12,
+   "longbow": 18,
+   "staff": 0,
+   "round_shield": 15,
+   "sqshield": 12,
+   "kiteshield": 18
+  },
+  "held_failing_idle_walk_run": {
+   "dagger": 0,
+   "sword": 0,
+   "longsword": 0,
+   "sabre": 0,
+   "greatsword": 0,
+   "mace": 0,
+   "warhammer": 0,
+   "battleaxe": 0,
+   "hatchet": 0,
+   "pickaxe": 0,
+   "shortbow": 0,
+   "longbow": 0,
+   "staff": 0,
+   "round_shield": 0,
+   "sqshield": 0,
+   "kiteshield": 0
+  }
+ },
+ "worn": {
+  "fullhelm": {
+   "all": [
+    0,
+    171
+   ],
+   "idle_walk": [
+    0,
+    54
+   ],
+   "run": [
+    0,
+    36
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    81
+   ],
+   "causes": {}
+  },
+  "medhelm": {
+   "all": [
+    0,
+    171
+   ],
+   "idle_walk": [
+    0,
+    54
+   ],
+   "run": [
+    0,
+    36
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    81
+   ],
+   "causes": {}
+  },
+  "hat": {
+   "all": [
+    0,
+    171
+   ],
+   "idle_walk": [
+    0,
+    54
+   ],
+   "run": [
+    0,
+    36
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    81
+   ],
+   "causes": {}
+  },
+  "amulet": {
+   "all": [
+    676,
+    2964
+   ],
+   "idle_walk": [
+    0,
+    936
+   ],
+   "run": [
+    0,
+    624
+   ],
+   "attacks_block_bow_cast": [
+    676,
+    1404
+   ],
+   "causes": {
+    "into eq_platebody attack_slash": 48,
+    "into eq_platebody attack_crush": 48,
+    "into eq_platebody_B attack_slash": 30,
+    "into eq_platebody_B attack_stab": 30,
+    "into Kit_A_Arms_01 attack_crush": 24
+   }
+  },
+  "cape": {
+   "all": [
+    376,
+    4332
+   ],
+   "idle_walk": [
+    0,
+    1368
+   ],
+   "run": [
+    169,
+    912
+   ],
+   "attacks_block_bow_cast": [
+    207,
+    2052
+   ],
+   "causes": {
+    "hair/beard attack_crush": 150,
+    "hair/beard attack_slash": 49,
+    "into eq_platebody run": 44,
+    "into eq_chainbody run": 44,
+    "into eq_leather_body run": 44
+   }
+  },
+  "platebody": {
+   "all": [
+    146,
+    1254
+   ],
+   "idle_walk": [
+    0,
+    396
+   ],
+   "run": [
+    1,
+    264
+   ],
+   "attacks_block_bow_cast": [
+    145,
+    594
+   ],
+   "causes": {
+    "hair/beard attack_crush": 66,
+    "hair/beard attack_slash": 56,
+    "exposed block": 22,
+    "hair/beard attack_stab": 1,
+    "exposed run": 1
+   }
+  },
+  "chainbody": {
+   "all": [
+    68,
+    1254
+   ],
+   "idle_walk": [
+    0,
+    396
+   ],
+   "run": [
+    0,
+    264
+   ],
+   "attacks_block_bow_cast": [
+    68,
+    594
+   ],
+   "causes": {
+    "hair/beard attack_crush": 57,
+    "hair/beard attack_slash": 11
+   }
+  },
+  "leather_body": {
+   "all": [
+    66,
+    1254
+   ],
+   "idle_walk": [
+    0,
+    396
+   ],
+   "run": [
+    0,
+    264
+   ],
+   "attacks_block_bow_cast": [
+    66,
+    594
+   ],
+   "causes": {
+    "hair/beard attack_crush": 56,
+    "hair/beard attack_slash": 10
+   }
+  },
+  "platelegs": {
+   "all": [
+    0,
+    114
+   ],
+   "idle_walk": [
+    0,
+    36
+   ],
+   "run": [
+    0,
+    24
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    54
+   ],
+   "causes": {}
+  },
+  "plateskirt": {
+   "all": [
+    0,
+    855
+   ],
+   "idle_walk": [
+    0,
+    270
+   ],
+   "run": [
+    0,
+    180
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    405
+   ],
+   "causes": {}
+  },
+  "chaps": {
+   "all": [
+    0,
+    114
+   ],
+   "idle_walk": [
+    0,
+    36
+   ],
+   "run": [
+    0,
+    24
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    54
+   ],
+   "causes": {}
+  },
+  "gloves": {
+   "all": [
+    8,
+    741
+   ],
+   "idle_walk": [
+    0,
+    234
+   ],
+   "run": [
+    0,
+    156
+   ],
+   "attacks_block_bow_cast": [
+    8,
+    351
+   ],
+   "causes": {
+    "exposed bow": 4,
+    "exposed cast": 4
+   }
+  },
+  "boots": {
+   "all": [
+    0,
+    2565
+   ],
+   "idle_walk": [
+    0,
+    810
+   ],
+   "run": [
+    0,
+    540
+   ],
+   "attacks_block_bow_cast": [
+    0,
+    1215
+   ],
+   "causes": {}
+  }
+ },
+ "held": {
+  "dagger": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0
+  },
+  "sword": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0
+  },
+  "longsword": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0
+  },
+  "sabre": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0
+  },
+  "greatsword": {
+   "failing": 6,
+   "tests": 96,
+   "idle_walk_run": 0
+  },
+  "mace": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0
+  },
+  "warhammer": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0
+  },
+  "battleaxe": {
+   "failing": 12,
+   "tests": 96,
+   "idle_walk_run": 0
+  },
+  "hatchet": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0
+  },
+  "pickaxe": {
+   "failing": 0,
+   "tests": 96,
+   "idle_walk_run": 0
+  },
+  "shortbow": {
+   "failing": 12,
+   "tests": 78,
+   "idle_walk_run": 0
+  },
+  "longbow": {
+   "failing": 18,
+   "tests": 78,
+   "idle_walk_run": 0
+  },
+  "staff": {
+   "failing": 0,
+   "tests": 72,
+   "idle_walk_run": 0
+  },
+  "round_shield": {
+   "failing": 15,
+   "tests": 102,
+   "idle_walk_run": 0
+  },
+  "sqshield": {
+   "failing": 12,
+   "tests": 102,
+   "idle_walk_run": 0
+  },
+  "kiteshield": {
+   "failing": 18,
+   "tests": 102,
+   "idle_walk_run": 0
+  }
+ }
+}
