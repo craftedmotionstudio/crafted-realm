@@ -1,8 +1,9 @@
 """Build the 2004-style General MIDI bank (assets/audio/gm/) from FluidR3_GM MIDI.js soundfonts.
 
 Source: FluidR3_GM (Frank Wen) as pre-rendered by gleitz/midi-js-soundfonts, CC BY 3.0
-(https://gleitz.github.io/midi-js-soundfonts/FluidR3_GM/<instrument>-mp3.js). Five of them are already in the repo
-(assets/audio/sf/, byte-identical to FluidR3 apart from line endings); the rest are fetched once into a scratch dir.
+(https://gleitz.github.io/midi-js-soundfonts/FluidR3_GM/<instrument>-mp3.js), fetched once into a scratch dir (about
+2-3 MB per instrument; only the adapted bank is committed). The 2026-09-28 build took five instruments from the old
+assets/audio/sf/ copies, byte-identical to these FluidR3 files apart from line endings; that folder is now retired.
 
 What the build does per instrument (an adaptation, which CC BY 3.0 allows with attribution; see THIRD_PARTY_ASSETS.md):
   - keeps only the instrument's playable range, and only one sample every three semitones (C, Eb, Gb, A). The
@@ -15,7 +16,7 @@ What the build does per instrument (an adaptation, which CC BY 3.0 allows with a
   - re-encodes to MP3 (LAME VBR) and writes MIDI.js format, so soundfont-player can still read the files
   - writes assets/audio/gm/BANK.json: range, sample grid, kind (sustain|decay), a loudness-matching gain, bytes
 
-Run:  python tools/build_gm_bank.py <dir with fetched FluidR3 *-mp3.js>
+Run:  python tools/build_gm_bank.py <dir with fetched FluidR3 *-mp3.js> [instrument,instrument]
 Needs ffmpeg with libmp3lame on PATH.
 """
 import base64
@@ -29,35 +30,34 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'assets', 'audio', 'gm')
-LOCAL = os.path.join(ROOT, 'assets', 'audio', 'sf')
 SR = 22050
 GRID = (0, 3, 6, 9)            # C, Eb, Gb, A
 NAMES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
 
-# name: (lo, hi, kind, source) -- MIDI numbers, C4 = 60. source 'local' = assets/audio/sf, else the fetched dir.
+# name: (lo, hi, kind) -- MIDI numbers, C4 = 60; every source file comes from the fetched dir
 INSTRUMENTS = {
-    'flute':                 (60, 96, 'sustain', 'local'),
-    'recorder':              (60, 96, 'sustain', 'fetch'),
-    'oboe':                  (58, 91, 'sustain', 'fetch'),
-    'clarinet':              (50, 91, 'sustain', 'fetch'),
-    'bassoon':               (34, 75, 'sustain', 'fetch'),
-    'french_horn':           (41, 79, 'sustain', 'fetch'),
-    'fiddle':                (55, 96, 'sustain', 'fetch'),
-    'accordion':             (48, 84, 'sustain', 'fetch'),
-    'choir_aahs':            (48, 81, 'sustain', 'fetch'),
-    'string_ensemble_1':     (36, 84, 'sustain', 'local'),
-    'cello':                 (36, 72, 'sustain', 'local'),
-    'timpani':               (36, 60, 'decay',   'fetch'),
-    'glockenspiel':          (72, 108, 'decay',  'fetch'),
-    'marimba':               (45, 96, 'decay',   'fetch'),
-    'acoustic_bass':         (28, 62, 'decay',   'fetch'),
-    'tubular_bells':         (57, 80, 'decay',   'fetch'),
-    'harpsichord':           (41, 89, 'decay',   'fetch'),
-    'taiko_drum':            (36, 60, 'decay',   'fetch'),
-    'woodblock':             (60, 84, 'decay',   'fetch'),
-    'orchestral_harp':       (36, 96, 'decay',   'local'),
-    'acoustic_guitar_nylon': (40, 84, 'decay',   'local'),
-    'pizzicato_strings':     (36, 84, 'decay',   'fetch'),
+    'flute':                 (60, 96, 'sustain'),
+    'recorder':              (60, 96, 'sustain'),
+    'oboe':                  (58, 91, 'sustain'),
+    'clarinet':              (50, 91, 'sustain'),
+    'bassoon':               (34, 75, 'sustain'),
+    'french_horn':           (41, 79, 'sustain'),
+    'fiddle':                (55, 96, 'sustain'),
+    'accordion':             (48, 84, 'sustain'),
+    'choir_aahs':            (48, 81, 'sustain'),
+    'string_ensemble_1':     (36, 84, 'sustain'),
+    'cello':                 (36, 72, 'sustain'),
+    'timpani':               (36, 60, 'decay'),
+    'glockenspiel':          (72, 108, 'decay'),
+    'marimba':               (45, 96, 'decay'),
+    'acoustic_bass':         (28, 62, 'decay'),
+    'tubular_bells':         (57, 80, 'decay'),
+    'harpsichord':           (41, 89, 'decay'),
+    'taiko_drum':            (36, 60, 'decay'),
+    'woodblock':             (60, 84, 'decay'),
+    'orchestral_harp':       (36, 96, 'decay'),
+    'acoustic_guitar_nylon': (40, 84, 'decay'),
+    'pizzicato_strings':     (36, 84, 'decay'),
 }
 
 
@@ -121,10 +121,10 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     manifest_path = os.path.join(OUT, 'BANK.json')
     bank = json.load(open(manifest_path)) if os.path.exists(manifest_path) else {}
-    for name, (lo, hi, kind, src) in INSTRUMENTS.items():
+    for name, (lo, hi, kind) in INSTRUMENTS.items():
         if only and name not in only:
             continue
-        path = os.path.join(LOCAL if src == 'local' else fetched, name + '-mp3.js')
+        path = os.path.join(fetched, name + '-mp3.js')
         font = read_font(path)
         lines, mids, levels, total = [], [], [], 0.0
         for m in grid_notes(lo, hi):

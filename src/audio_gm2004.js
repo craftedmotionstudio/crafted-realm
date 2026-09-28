@@ -359,7 +359,7 @@
       if(to>c.pos){ scheduleRange(P.ctx, c.song, c.voices, c.start, c.pos, to); c.pos=to; }
       if(horizon>=songEnd){
         if(P.loop){ c.start=songEnd; c.pos=0; c.loops++; continue; }
-        if(!c.endFired && now>=songEnd){ c.endFired=true; if(P.onEnded) try{ P.onEnded(c.id); }catch(e){} }
+        if(!c.endFired && now>=songEnd+0.3){ c.endFired=true; if(P.onEnded) try{ P.onEnded(c.id); }catch(e){} return; }   // Loop off: done, stop ticking
       }
       break;
     }
@@ -376,6 +376,7 @@
     compile:compile, parseChord:parseChord, noteToMidi:noteToMidi, midiName:midiName, voiceChord:voice,
     list:function(){ return Object.keys(this.songs); },
     get current(){ return P.cur? P.cur.id : null; },
+    get ended(){ return !!(P.cur && P.cur.endFired); },   // Loop was off and the current song has played through
     get loop(){ return P.loop; }, set loop(v){ P.loop=!!v; },
     set onEnded(fn){ P.onEnded=fn; },
     attach:function(ctx, dest){ if(P.ctx===ctx) return; P.ctx=ctx; P.chain=makeChain(ctx, dest||ctx.destination); },

@@ -220,12 +220,68 @@ now sits +4 to +6 dB on top. Two more fixes came out of the numbers:
     calls, 0 console errors.
   - Expected, because `index.html` is untouched: nothing new loads in the game until the owner picks.
 
-## 5. Owner review (step 5): pending
-Listening samples went to the owner:
-- one full loop per piece;
-- a 24 s loop-seam clip per piece;
-- a 5:40 quick reel of all 17;
-- before/after copies of three old tracks;
-- plus `tools/music_box.html` for live listening.
+## 5. Owner review (step 5)
+The owner listened to the samples and decided (2026-09-28): **keep all 17, retire the old tracks, wire them in.**
 
-For each piece the owner decides **keep / rework / drop**. Only the kept pieces get wired (§3 wiring plan).
+## 6. Wired in (step 6)
+- **Loading.** `index.html` loads the pieces after `game3_systems.js`:
+  - `src/audio_gm2004.js` (engine);
+  - `src/audio_songs_holm.js` and `src/audio_songs_mainland.js` (the pieces);
+  - `src/audio_music_areas.js` (where each plays).
+
+  `src/audio_music2004.js`, the Music Director, loads right after `game4_ui.js`.
+- **The Music Director** keeps the game's `Music` API and rebuilds `TRACKS` as the seventeen pieces, in play order.
+  It samples where the player is twice a second.
+  - The login screen plays **Hearth and Horizon**. A player who had music on hears it from their first click.
+  - **Tutor's Holm.** Inside a building (the live island's nav surface `b:<building>:…`, via
+    `HolmArrivalQA.saveRecord()`), that building's piece plays. Outdoors, the nearest area anchor within its radius
+    wins, with 20 % hysteresis at borders.
+  - Between areas **the last piece keeps playing**. The music changes on reaching a new area, not on leaving one.
+    This came from the first real walk, which dropped back to the island piece on every meadow and restarted it.
+    The island's welcome plays at the Guide House and landing, and before any area is reached.
+  - The cavern (`b:cavern:`) plays the mine piece.
+  - **Mainland.** `zoneAt()` gives `commons`/`wardenholm` = Hearthmere and `scarlands` = the Scarlands. Anything
+    underground, and the Undercrag, plays the cave piece. Every other zone plays the road.
+  - This also fixes the Holm boot bug: area music no longer depends on `onZone` firing, so Hearthmere's tune no
+    longer plays on the island.
+- **Unlocks.** A piece unlocks the first time its area is visited, with music on or off: "Music unlocked: <name>."
+  Picking a piece you haven't heard is refused with a hint.
+- **Modes, 2004 style.**
+  - **Auto** follows the area. **Manual** keeps the player's pick. **Loop** repeats the piece.
+  - With Loop off, Auto takes a 3 s breath and plays the area's piece again, and Manual stops at the end.
+  - The music tab (`ui_osrs_kit.js`) has the three buttons, "Playing: <name>", green/red rows and "Turn music
+    on/off".
+  - The rail ♪ menu (`MusicMenu`, re-rendered by the Director) lists the modes and the unlocked pieces. Its height is
+    capped to the screen under the UI zoom, so the list scrolls instead of climbing off the top.
+- **Saves.** `ui_save.js` saves through `Music.saveState()` / `Music.restoreState()`: unlocks, mode, loop and the
+  manual pick. Ids from before the 2004 set carry over to the nearest new piece (e.g. `tutors_tide` → Morning on the
+  Holm, `hollow_square` → Hearthmere Market Day).
+- **Retired.** Deleted:
+  - `src/audio_orchestra.js`, `audio_tracks2.js`, `audio_title_full.js`, `audio_hearthside.js`, `audio_minstrel.js`;
+  - `assets/audio/soundfont-player.min.js`;
+  - `assets/audio/sf/`, including the 5 fonts of unknown provenance, so that licence question is closed.
+
+  `tools/build_gm_bank.py` now fetches all 22 instruments from FluidR3 directly. The old tracks' review renders are
+  kept as the numbers in §1 (legacy mode at commit fb55b11e).
+
+### Gates on the wired build
+- `node tools/test_music_2004.js`: all green. On top of the song checks, it now covers:
+  - the area map: every piece placed, every v2land building mapped, every `ZONES` id resolved;
+  - no flip-flop at borders and stickiness between areas;
+  - the load order and the retirement;
+  - the Director's rules headlessly against the real song data: unlock once, a locked pick refused, Manual/Auto,
+    Loop off/on, old-save carry-over, save round-trip, the title on the first login click.
+- `node tools/test_naming_bible.js`: clean.
+- All `tools/test_*.js`: 91/91.
+- **`node tools/qa_music_2004.js`: 20/20, real mouse input on the live island:**
+  - the login click starts the title;
+  - entering the Holm plays and unlocks Morning on the Holm;
+  - walks to Minnow Hollow and the survival camp;
+  - a graduate save → reload → Continue brings the unlocks back;
+  - walks to the bakehouse, into the Quest Lodge, to Creakwheel Mill and Warden's Keep;
+  - in the tab: Manual pick, a red row refused, Auto back, Loop off and on;
+  - the rail menu; music off;
+  - 0 page errors.
+  - The track log after the reload reads title, camp, bakehouse, lodge, mill, bank, keep, then the tab's picks.
+- Smoke: **PASS** foreground and hidden-tab boot. Structural 108/108, 60 FPS (worst frame 18 ms), 108 draw calls, 0
+  console errors.

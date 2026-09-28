@@ -3,7 +3,6 @@
  * Drives tools/music_render.html in headless Chrome (puppeteer-core). Rendering uses an OfflineAudioContext, so
  * it runs faster than real time and the result is exactly what the engine schedules.
  *
- *   node tools/music_render.js --legacy veyhollow_town,keep_quiet --seconds 90 --out <dir>
  *   node tools/music_render.js --songs all --out <dir>          (the 2004 MIDI set, one full loop each)
  *   node tools/music_render.js --songs hm_title --loops 2       (two passes: hear the loop seam)
  *   node tools/music_render.js --songs holm_mill --solo ob      (balance checks: --solo a,b or --mute a,b)
@@ -37,9 +36,8 @@ async function pull(page, file){
 
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
-  const legacy = arg('legacy', null);
   const songs = arg('songs', null);
-  if (!legacy && !songs){ console.log('usage: --legacy id,id | --songs all|id,id'); process.exit(2); }
+  if (!songs){ console.log('usage: --songs all|id,id [--loops n] [--seconds s] [--solo v | --mute v]'); process.exit(2); }
   const browser = await puppeteer.launch({
     executablePath: process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe',
     headless: 'new', args: ['--mute-audio', '--no-first-run'],
@@ -47,7 +45,7 @@ async function pull(page, file){
   const ff = MP3 && hasFfmpeg();
   const results = [];
   try {
-    let ids = legacy ? legacy.split(',') : songs.split(',');
+    let ids = songs.split(',');
     if (songs === 'all'){
       const p = await browser.newPage();
       await p.goto(BASE + '/tools/music_render.html?list=1', { waitUntil: 'load' });
@@ -59,13 +57,12 @@ async function pull(page, file){
       const errs = [];
       page.on('pageerror', e => errs.push(String(e)));
       page.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
-      await page.goto(BASE + '/tools/music_render.html' + (legacy ? '?legacy=1' : ''), { waitUntil: 'load' });
+      await page.goto(BASE + '/tools/music_render.html', { waitUntil: 'load' });
       const t0 = Date.now();
-      if (legacy) await page.evaluate((i, s, r) => window.renderLegacy(i, s, r), id, SECONDS || 90, SR);
-      else await page.evaluate(async (i, s, l, t, r, so, mu) => { await window.gmReady; return window.renderSong(i, { seconds: s, loops: l, tail: t, sr: r, solo: so, mute: mu }); }, id, SECONDS, LOOPS, TAIL, SR, arg('solo', null), arg('mute', null));
+      await page.evaluate(async (i, s, l, t, r, so, mu) => { await window.gmReady; return window.renderSong(i, { seconds: s, loops: l, tail: t, sr: r, solo: so, mute: mu }); }, id, SECONDS, LOOPS, TAIL, SR, arg('solo', null), arg('mute', null));
       const info = await page.evaluate(() => window.RENDER.info);
       const tag = (arg('solo', null) ? '_solo-' + arg('solo') : '') + (arg('mute', null) ? '_mute-' + arg('mute') : '');
-      const wav = path.join(OUT, (legacy ? 'legacy_' : '') + id + (LOOPS > 1 ? '_x' + LOOPS : '') + tag.replace(/,/g, '+') + '.wav');
+      const wav = path.join(OUT, id + (LOOPS > 1 ? '_x' + LOOPS : '') + tag.replace(/,/g, '+') + '.wav');
       await pull(page, wav);
       let mp3 = null;
       if (ff){
@@ -79,6 +76,6 @@ async function pull(page, file){
       await page.close();
     }
   } finally { await browser.close(); }
-  fs.writeFileSync(path.join(OUT, (legacy ? 'legacy_' : '') + 'render_log.json'), JSON.stringify(results, null, 1));
+  fs.writeFileSync(path.join(OUT, 'render_log.json'), JSON.stringify(results, null, 1));
   process.exit(results.some(r => r.errors.length) ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(1); });

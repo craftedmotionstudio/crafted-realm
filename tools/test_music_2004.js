@@ -133,5 +133,103 @@ check('bank files hold every sample the manifest lists (' + Object.keys(BANK).le
 const bytes = Object.values(BANK).reduce((a, b) => a + b.bytes, 0);
 check('the bank stays small (' + (bytes / 1048576).toFixed(1) + ' MB <= 6 MB)', bytes <= 6 * 1048576);
 
+// ---- 8. where each piece plays (src/audio_music_areas.js)
+const A = require(path.join(ROOT, 'src/audio_music_areas.js'));
+const mapped = new Set([A.TITLE, A.ROAD, A.CAVE, A.HOLM_DEFAULT, 'holm_mine'].concat(Object.values(A.HOLM_BUILDINGS),
+  A.HOLM_AREAS.map(a => a[4]), Object.values(A.ZONE_TRACKS)));
+check('every area names a real piece', [...mapped].every(id => G.songs[id]), [...mapped].filter(id => !G.songs[id]));
+check('every piece of the set plays somewhere', songs.every(id => mapped.has(id)), songs.filter(id => !mapped.has(id)));
+const V2 = JSON.parse(fs.readFileSync(path.join(ROOT, 'docs/rebuild/holm-overhaul/v2land.json'), 'utf8'));
+const bIds = Object.keys(V2.buildings);
+check('every Tutor\'s Holm building has its piece (' + bIds.length + ' in v2land.json)', bIds.every(b => A.HOLM_BUILDINGS[b]), bIds.filter(b => !A.HOLM_BUILDINGS[b]));
+check('inside a building its piece plays; its own terrain does not count as inside',
+  A.trackFor({ holm: true, surface: 'b:bakehouse:0:Kitchen_Floor', x: 0, z: 0 }).track === 'holm_bakehouse' &&
+  A.trackFor({ holm: true, surface: 'b:keep:0:KeepTerrain', x: 66, z: 99 }).track === 'holm_morning' &&
+  A.trackFor({ holm: true, surface: 'b:cavern:0:CavernTerrain', x: 200, z: 60 }).track === 'holm_mine');
+const offAnchor = bIds.filter(b => { const p = V2.buildings[b].placement; if (!p || p.x > 150) return false;
+  return A.trackFor({ holm: true, surface: 'land', x: p.x, z: p.z }).track !== A.HOLM_BUILDINGS[b]; });
+check('standing at each building on the island plays that building\'s piece', !offAnchor.length, offAnchor);
+check('the login screen plays the title piece; the Guide House the island\'s welcome',
+  A.trackFor({ welcome: true }).track === 'hm_title' && A.trackFor({ holm: true, surface: 'ground', x: 66, z: 99 }).track === 'holm_morning');
+// no flip-flop: walk the keep -> bank line and back along a border wobble; each crossing switches once
+{ let prev = null, seq = [];
+  for (let t = 0; t <= 1.0001; t += 0.02){ const x = 87 + (86 - 87) * t, z = 35 + (57 - 35) * t + (Math.round(t * 50) % 2 ? 0.8 : -0.8);
+    const r = A.trackFor({ holm: true, surface: 'land', x, z, prev }); prev = r.key; if (seq[seq.length - 1] !== r.track) seq.push(r.track); }
+  check('area borders do not flip-flop (keep -> bank walk with a sideways wobble)', seq.length <= 3, seq); }
+{ const camp = A.trackFor({ holm: true, surface: 'land', x: 31, z: 84 });
+  const away = A.trackFor({ holm: true, surface: 'land', x: 125, z: 101, prev: camp.key });
+  const lodgeOut = A.trackFor({ holm: true, surface: 'land', x: 125, z: 101, prev: 'in:lodge' });
+  check('between areas the last piece keeps playing; with none yet, the island\'s welcome',
+    away.track === 'holm_camp' && lodgeOut.track === 'holm_lodge' && A.trackFor({ holm: true, surface: 'land', x: 125, z: 101 }).track === 'holm_morning', { away, lodgeOut }); }
+const zoneSrc = fs.readFileSync(path.join(ROOT, 'src/game1_data.js'), 'utf8');
+const zb = zoneSrc.slice(zoneSrc.indexOf('const ZONES = {'), zoneSrc.indexOf('};', zoneSrc.indexOf('const ZONES = {')));
+const zones = [...zb.matchAll(/^\s+([a-z_]+)\s*:\s*\{name:/gm)].map(m => m[1]);
+check('every zone of game1_data.js resolves to a piece (' + zones.length + ' zones)', zones.length >= 10 &&
+  zones.every(z => G.songs[A.trackFor({ zone: z, x: 0, z: 0 }).track]), zones);
+check('the mainland: Hearthmere, the Scarlands, underground = the cave piece, open country = the road',
+  A.trackFor({ zone: 'commons' }).track === 'hm_hearthmere' && A.trackFor({ zone: 'scarlands' }).track === 'hm_scarlands' &&
+  A.trackFor({ zone: 'emberwood', plane: -1 }).track === 'hm_cave' && A.trackFor({ zone: 'gloomfen' }).track === 'hm_road');
+
+// ---- 9. the game loads the set, in order, and nothing retired
+const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const at = f => html.indexOf('src="src/' + f);
+check('index.html loads the engine, the songs, the areas, then the Director after game4_ui.js',
+  at('audio_gm2004.js') > 0 && at('audio_gm2004.js') < at('audio_songs_holm.js') && at('audio_songs_holm.js') < at('audio_songs_mainland.js') &&
+  at('audio_songs_mainland.js') < at('audio_music_areas.js') && at('game4_ui.js') < at('audio_music2004.js') && at('game3_systems.js') < at('audio_gm2004.js'));
+const retired = ['audio_orchestra.js', 'audio_tracks2.js', 'audio_title_full.js', 'audio_hearthside.js', 'audio_minstrel.js', 'soundfont-player'];
+check('the retired orchestra is gone (no script tag, no file)', retired.every(f => html.indexOf(f) < 0) &&
+  retired.slice(0, 5).every(f => !fs.existsSync(path.join(ROOT, 'src', f))) && !fs.existsSync(path.join(ROOT, 'assets/audio/sf')));
+
+// ---- 10. the Director's rules, headless (src/audio_music2004.js against a stub page + the real song data)
+{
+  const vm = require('vm');
+  const chats = [], plays = [];
+  const fakeGM = { songs: G.songs, loop: true, _cur: null, _ended: false, onEnded: null,
+    get current(){ return this._cur; }, get ended(){ return this._ended; },
+    attach(){}, stop(){ this._cur = null; }, play(id, o){ plays.push([id, !!(o && o.restart)]); this._cur = id; this._ended = false; return Promise.resolve(true); } };
+  const store = {}, listeners = {};
+  const welcome = { style: { display: 'none' } };
+  const sb = { console, Math, JSON, Promise, setTimeout: () => 0, clearTimeout(){}, setInterval: () => 0, Event: function(t){ this.type = t; },
+    getComputedStyle: e => ({ display: e.style.display }), localStorage: { getItem: k => store[k] ?? null, setItem: (k, v) => { store[k] = String(v); } },
+    document: { getElementById: id => id === 'welcome-screen' ? welcome : null, addEventListener: (t, f) => { listeners[t] = f; } },
+    TRACKS: { hollow_square: { name: 'old' } }, GM2004: fakeGM, MusicAreas: A, UI: { chat: (m, c) => chats.push([m, c]) }, Sfx: { ensure(){} },
+    Music: { on: false, unlocked: ['hollow_square'], mode: 'auto', _master: { gain: { value: 0, cancelScheduledValues(){}, setValueAtTime(){}, linearRampToValueAtTime(){} } },
+      ensure(){ return { currentTime: 0, state: 'running' }; } },
+    running: true, player: { position: { x: 44, z: 67 } }, Player: { plane: 0 },
+    HolmArrivalQA: { active: () => true, saveRecord: () => ({ surface: 'land' }) }, zoneAt: () => 'commons' };
+  sb.window = sb; sb.window.dispatchEvent = () => {};
+  vm.createContext(sb);
+  vm.runInContext(fs.readFileSync(path.join(ROOT, 'src/audio_music2004.js'), 'utf8'), sb);
+  const M = sb.Music, D = M.Director;
+  check('the registry lists the seventeen pieces in play order (retired rows gone)',
+    Object.keys(sb.TRACKS).length === 17 && Object.keys(sb.TRACKS)[0] === 'hm_title' && !sb.TRACKS.hollow_square, Object.keys(sb.TRACKS));
+  sb.Music2004.poll();
+  check('visiting an area unlocks its piece once, with a chat line, even with music off',
+    M.unlocked.includes('holm_bakehouse') && chats.length === 1 && /Warm Loaves/.test(chats[0][0]) && plays.length === 0, { unlocked: M.unlocked, chats });
+  sb.Music2004.poll();
+  check('staying put does not unlock or play again', chats.length === 1 && plays.length === 0);
+  M.start();
+  check('turning music on plays the area\'s piece', fakeGM.current === 'holm_bakehouse' && store.cr_music_on === '1', plays);
+  check('a locked piece cannot be picked', M.play('hm_cave') === false && fakeGM.current === 'holm_bakehouse');
+  M.play('hm_title');
+  check('picking an unlocked piece switches to Manual and plays it', M.mode === 'manual' && fakeGM.current === 'hm_title');
+  sb.player.position.x = 27; sb.player.position.z = 96; sb.Music2004.poll();
+  check('Manual keeps the pick while the player walks into another area (which still unlocks)', fakeGM.current === 'hm_title' && M.unlocked.includes('holm_hollow'));
+  M.setMode('auto');
+  check('Auto returns to the area\'s piece', fakeGM.current === 'holm_hollow' && D.manual === null);
+  M.setLoop(false); fakeGM._ended = true; const n0 = plays.length; fakeGM.onEnded('holm_hollow');
+  check('Loop off: the engine stops looping; Auto schedules the area\'s piece again after a breath', fakeGM.loop === false && plays.length === n0);
+  M.setLoop(true);
+  check('Loop back on after the end restarts the piece', plays[plays.length - 1][0] === 'holm_hollow' && plays[plays.length - 1][1] === true);
+  const saved = JSON.parse(JSON.stringify(M.saveState()));
+  M.restoreState({ unlocked: ['tutors_tide', 'hollow_square', 'scar_dirge', 'bogus'], mode: 'manual', current: 'hollow_square', loop: false });
+  check('old saves carry their retired ids over to the new pieces',
+    M.unlocked.join() === 'hm_title,holm_morning,hm_hearthmere,hm_scarlands' && M.mode === 'manual' && D.manual === 'hm_hearthmere' && M.loop === false, M.unlocked);
+  M.restoreState(saved);
+  check('save -> restore round-trips unlocks, mode and loop', M.unlocked.join() === saved.unlocked.join() && M.mode === saved.mode && M.loop === saved.loop);
+  welcome.style.display = 'flex'; M.stop(); store.cr_music_on = '1'; listeners.pointerdown();
+  check('on the login screen a player who had music on hears the title piece from the first click', M.on && fakeGM.current === 'hm_title');
+}
+
 console.log(failures ? '\n' + failures + ' FAILED' : '\nall music checks pass (' + songs.length + ' songs)');
 process.exit(failures ? 1 : 0);

@@ -664,7 +664,7 @@
   <div class="tab-pane social-pane" id="pane-friends"><h3>Friends List</h3><div class="kit-count"><span>Friends</span><span>0 / 200</span></div><div class="kit-list"><span class="muted">Your road is quiet, for now.</span></div><div class="kit-row-btns"><button class="set-btn" disabled>Add Friend</button><button class="set-btn" disabled>Del Friend</button></div></div>
   <div class="tab-pane social-pane" id="pane-ignore"><h3>Ignore List</h3><div class="kit-count"><span>Ignored</span><span>0 / 100</span></div><div class="kit-list"><span class="muted">No adventurers ignored.</span></div><div class="kit-row-btns"><button class="set-btn" disabled>Add Name</button><button class="set-btn" disabled>Del Name</button></div></div>
   <div class="tab-pane social-pane" id="pane-emotes"><h3>Emotes</h3><div class="emote-grid"><button title="Yes">&#10003;<small>Yes</small></button><button title="No">&#215;<small>No</small></button><button title="Bow">&#8964;<small>Bow</small></button><button title="Angry">!<small>Angry</small></button><button title="Think">?<small>Think</small></button><button title="Wave">~<small>Wave</small></button><button title="Cheer">&#8593;<small>Cheer</small></button><button title="Laugh">&#9786;<small>Laugh</small></button><button title="Dance">&#9835;<small>Dance</small></button><button title="Sit">&#8913;<small>Sit</small></button><button title="Shrug">&#8961;<small>Shrug</small></button><button title="Clap">&#10070;<small>Clap</small></button></div></div>
-  <div class="tab-pane social-pane" id="pane-music"><h3>Music Player</h3><div class="music-now">Playing: <b>Tutor's Holm</b></div><div class="kit-list"><div class="music-track active">Tutor's Holm</div><div class="music-track unlocked">Under the Hearth</div><div class="music-track locked">???</div></div><button class="set-btn wide" onclick="UI.toggleMusic()">Toggle music</button></div>
+  <div class="tab-pane social-pane" id="pane-music"><h3>Music Player</h3><div class="music-now">Playing: <b>(music off)</b></div><div class="kit-list"></div><button class="set-btn wide" onclick="Music.toggle()">Turn music on</button></div>
   <div class="tab-pane social-pane" id="pane-logout"><div class="kit-logout"><p class="ui-copy">When you have finished playing Crafted Realm, always use the button below to log out safely.</p><button class="set-btn wide logout" onclick="UI.logout()">Click here to log out</button><button class="set-btn" onclick="UI.manualSave()">Save now</button></div></div>
   <div id="tab-bar-bottom-legacy" hidden>
     <div class="tab-btn" data-tab="prayers" title="Prayer book">🙏</div>
@@ -786,7 +786,6 @@
 <script src="src/smoke.js?v=33"></script><!-- FIRST: error recorder always; full gate via ?smoke=1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-<script src="assets/audio/soundfont-player.min.js"></script>
 <script src="src/events.js?v=1"></script>
 <script src="src/persist.js?v=1"></script>
 <script src="src/qa_profile.js?v=3"></script>
@@ -932,13 +931,13 @@
 <script src="src/fx_dragon.js?v=3d"></script>
 <script src="src/fx_mole.js?v=1"></script>
 <script src="src/fx_wolf.js?v=2"></script>
-<script src="src/audio_orchestra.js?v=hcec413c1"></script>
-<script src="src/audio_tracks2.js?v=1"></script>
-<script src="src/audio_title_full.js?v=1"></script>
-<script src="src/audio_hearthside.js?v=1"></script>
-<script src="src/audio_minstrel.js?v=1"></script>
+<script src="src/audio_gm2004.js?v=m1"></script><!-- the 2004 MIDI set: engine, the seventeen pieces, where each plays (docs/rebuild/MUSIC_2004.md) -->
+<script src="src/audio_songs_holm.js?v=m1"></script>
+<script src="src/audio_songs_mainland.js?v=m1"></script>
+<script src="src/audio_music_areas.js?v=m1"></script>
 <script src="src/osrs_menu.js?v=hdb930901"></script><!-- the one old-school menu model (right click, hover text, use-mode) -->
 <script src="src/game4_ui.js?v=h3380fe18"></script>
+<script src="src/audio_music2004.js?v=m1"></script><!-- the Music Director for the 2004 set (after game4_ui: re-renders its music menu) -->
 <script src="src/osrs_menu_world.js?v=h41f9044e"></script>
 <script src="src/ui_osrs.js?v=1"></script>
 <script src="src/ui_prayer_magic.js?v=h12848caa"></script>
@@ -948,7 +947,7 @@
 <script src="src/ui_minimap.js?v=1"></script>
 <script src="src/ui_map.js?v=h602d60e1"></script>
 <script src="src/ui_shop.js?v=2om1"></script>
-  <script src="src/ui_save.js?v=h30c4856b"></script>
+  <script src="src/ui_save.js?v=h30c4856b_m1"></script>
   <script src="src/new_adventurer_reset.js?v=1"></script>
   <script src="src/login_overhaul.js?v=h459002d3"></script>
 <script src="src/overlays.js?v=2"></script>
@@ -1065,7 +1064,7 @@
 <script src="src/classic_pixels.js?v=2"></script>
 <script src="src/perf_probe.js?v=1"></script>
 <script src="src/tut_firemaking.js?v=1"></script>
-<script src="src/ui_osrs_kit.js?v=h4e802d87_ha441e468"></script><!-- LAST: the one OSRS interface kit (assets/ui/osrs_kit.css) -->
+<script src="src/ui_osrs_kit.js?v=h4e802d87_ha441e468_m1"></script><!-- LAST: the one OSRS interface kit (assets/ui/osrs_kit.css) -->
 <script>
   /* sync the settings volume sliders to saved values on load */
   window.addEventListener('load', function(){ try{

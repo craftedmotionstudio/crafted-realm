@@ -48,7 +48,7 @@ const SaveGame = {
       look:{kit:CharCfg.kit||undefined, name:CharCfg.name, gender:CharCfg.gender, shirt:CharCfg.shirt, skin:CharCfg.skin,
             hair:CharCfg.hair, hairStyle:CharCfg.hairStyle, beard:CharCfg.beard, legs:CharCfg.legs},
       styleIndex:Player.styleIndex|0, autocast:Player.autocast||null, autoRetaliate:Player.autoRetaliate,
-      music:{unlocked:Music.unlocked, mode:Music.mode, current:Music.current},
+      music:Music.saveState? Music.saveState() : {unlocked:Music.unlocked, mode:Music.mode, current:Music.current},
       energy:Player.energy, runOn:Player.runOn, spec:Player.spec, caf:Player.caffeinated||0,
       prayerPts:Player.prayerPts,
       spell:Player.autocast||null,
@@ -98,8 +98,8 @@ const SaveGame = {
       // old spark runes fuse into mind runes
       Player.inv.forEach(s=>{ if(s && s.id==='spark_rune') s.id='mind_rune'; });
       (Player.bank||[]).forEach(s=>{ if(s && s.id==='spark_rune') s.id='mind_rune'; });
-      if(d.music){ Music.unlocked=d.music.unlocked||Music.unlocked;
-        Music.mode=d.music.mode||'auto'; Music.current=d.music.current||'hollow_square'; }
+      if(d.music){ if(Music.restoreState) Music.restoreState(d.music);   // src/audio_music2004.js: sanitises retired ids
+        else { Music.unlocked=d.music.unlocked||Music.unlocked; Music.mode=d.music.mode||'auto'; Music.current=d.music.current||null; } }
       if(d.look){ CharCfg.name=d.look.name||'Adventurer';
         CharCfg.shirt=d.look.shirt||0x3a6ea5; CharCfg.skin=d.look.skin||0xd8a878;
         if(d.look.gender) CharCfg.gender=d.look.gender;

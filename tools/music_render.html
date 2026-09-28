@@ -3,11 +3,9 @@
 <base href="../">
 <link rel="icon" href="data:,">
 <title>Music render harness</title>
-<!-- Offline render harness for tools/music_render.js (headless Chrome, OfflineAudioContext).
-     ?legacy=1 : renders the OLD sampled-orchestra tracks (src/audio_orchestra.js + album files) exactly
-                 as the game schedules them, bar by bar, through their real lofi chain.
-     default   : renders the 2004 MIDI-style set through src/audio_gm2004.js (added in the next step). -->
-<script src="assets/audio/soundfont-player.min.js"></script>
+<!-- Offline render harness for tools/music_render.js (headless Chrome, OfflineAudioContext): renders the 2004 MIDI set
+     through src/audio_gm2004.js. (The retired orchestra's review renders were made with this page's legacy mode at
+     commit fb55b11e; see docs/rebuild/MUSIC_2004.md §1.) -->
 <script>
 'use strict';
 window.RENDER = { log: [] };
@@ -35,7 +33,7 @@ function loadScript(src){ return new Promise(function(ok,bad){ var s=document.cr
 
 // ---------------------------------------------------------------- the 2004 MIDI set (src/audio_gm2004.js)
 var SONG_FILES = ['src/audio_gm2004.js', 'src/audio_songs_holm.js', 'src/audio_songs_mainland.js'];
-if(!/legacy=1/.test(location.search)){
+{
   window.gmReady = (async function(){
     for (const f of SONG_FILES) await loadScript(f+'?r='+Date.now()).catch(function(e){ rlog('missing '+f); });
   })();
@@ -58,31 +56,4 @@ window.renderSong = async function(id, o){
   finish(await ctx.startRendering());
 };
 
-// ---------------------------------------------------------------- legacy (the old orchestra)
-window.renderLegacy = async function(id, seconds, sr){
-  sr = sr||44100;
-  var ctx = new OfflineAudioContext(2, Math.ceil(sr*seconds), sr);
-  // minimal stand-ins for the game globals the orchestra touches (game3_systems.js Music / TRACKS)
-  window.TRACKS = {};
-  window.Music = { on:false, unlocked:[], mode:'auto', current:null,
-    ensure:function(){ if(!this._master){ this._master=ctx.createGain(); this._master.gain.value=0.5; this._master.connect(ctx.destination); } return ctx; },
-    unlock:function(){ return false; } };
-  // expose the orchestra's private scheduler without changing the shipped file
-  var src = await (await fetch('src/audio_orchestra.js?r='+Date.now())).text();
-  src = src.replace('var Director = {', 'Music.__int={scheduleBar:scheduleBar,S:S,loadInstruments:loadInstruments,ENV:ENV}; var Director = {');
-  (0,eval)(src);
-  var wait = function(pred,ms){ return new Promise(function(ok,bad){ var t0=Date.now(); (function p(){ if(pred()) return ok(); if(Date.now()-t0>ms) return bad(new Error('timeout')); setTimeout(p,50); })(); }); };
-  await wait(function(){ return Music.__int; }, 5000);
-  for (const f of ['audio_tracks2.js','audio_title_full.js','audio_hearthside.js','audio_minstrel.js']) await loadScript('src/'+f+'?r='+Date.now());
-  await wait(function(){ return Music.tracks && Music.tracks.hearthside && Music.tracks.minstrels_rest && Music.tracks.title_theme && Music.tracks.title_theme.dyn!==undefined || (Music.tracks && Music.tracks.title_theme && Music.tracks.title_theme.chords.length>16); }, 8000).catch(function(){});
-  var tr = Music.tracks[id]; if(!tr) throw new Error('no legacy track '+id);
-  Music.__int.loadInstruments();
-  await wait(function(){ return Music._ready; }, 60000);
-  Music._fade.gain.value = 1;
-  var n=tr.chords.length, barLen=(60/tr.bpm)*tr.beatsPerBar, clock=0.15, bar=0;
-  while(clock < seconds){ Music.__int.scheduleBar(id, bar, clock); clock+=barLen; bar++; }
-  window.RENDER.info = { id:id, name:tr.name, bpm:tr.bpm, beatsPerBar:tr.beatsPerBar, bars:bar, cycleBars:n,
-    cycleSec:n*barLen, sub:tr.sub||1, stacc:!!tr.stacc, voices:tr.voices||null };
-  finish(await ctx.startRendering());
-};
 </script>

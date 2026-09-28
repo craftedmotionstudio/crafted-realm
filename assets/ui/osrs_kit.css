@@ -147,6 +147,9 @@ html.osrs-kit .music-now b{color:var(--k-green);}
 html.osrs-kit .music-track{padding:1px 4px;margin:0;border:0;background:none;color:#ff3030;cursor:pointer;font:12px var(--k-font);text-shadow:var(--k-shadow);}
 html.osrs-kit .music-track.active{color:var(--k-green);border:0;}
 html.osrs-kit .music-track.unlocked{color:var(--k-green);}
+html.osrs-kit .music-modes{margin:0 0 5px;}
+html.osrs-kit .music-modes .set-btn{padding:3px 0;}
+html.osrs-kit .music-modes .set-btn.on{color:var(--k-green);box-shadow:var(--k-sunk),0 0 0 1px var(--k-ink);}
 html.osrs-kit .kit-logout{margin:auto 0;text-align:center;}
 html.osrs-kit .kit-logout .kit-spr{margin:0 auto 6px;}
 html.osrs-kit .kit-logout .set-btn.logout{display:block;margin:12px auto 8px;width:auto;padding:8px 16px;font:bold 12px var(--k-font);}
@@ -255,6 +258,7 @@ html.osrs-kit #music-menu *{font-family:var(--k-font)!important;}
 html.osrs-kit #music-menu h4{color:var(--k-orange);font:bold 12px var(--k-title);text-align:center;}
 html.osrs-kit #music-menu .mtrack{border-radius:0;background:transparent;box-shadow:none;}
 html.osrs-kit #music-menu .mtrack:hover{border-color:transparent;background:rgba(255,236,160,.1);}
+html.osrs-kit #music-menu{overflow-y:auto;}   /* anchored from the bottom: src/audio_music2004.js caps its height to the screen, the list scrolls */
 
 /* ================================= chat box ================================= */
 @media (min-width:881px){
