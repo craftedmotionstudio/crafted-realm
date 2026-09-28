@@ -48,7 +48,10 @@ const HOLM_ITEM_ICONS = new Set(['tinderbox','hammer','bucket','bucket_water','b
   'cabbage','cheese','cooked_meat','hollow_ale','raw_trout','trout',
   'oak_logs','willow_logs','clay','iron_ore','coal','gold_ore','iron_bar','steel_bar','gold_bar',
   'bronze_tips','iron_tips','arrow_shafts','bow_string','silver_trinket','fishing_rod','fly_fishing_rod','ball_of_wool','pot','bowl',
-  'water_rune','earth_rune','fire_rune','body_rune','chaos_rune','nature_rune','spark_rune']);
+  'water_rune','earth_rune','fire_rune','body_rune','chaos_rune','nature_rune','spark_rune',
+  // ...and the last 21 items that were still drawn on a canvas (shops, drops, the pack; same script)
+  'beast_hide','feathers','knife','ashes','chisel','rope','shears','spade','jug','jug_water','soft_clay','leather','wool','flax',
+  'grain','potato','onion','egg','raw_beef','big_bones','fen_charm']);
 function iconFor(id){
   if(ICONS[id]) return ICONS[id];
   if(HOLM_ITEM_ICONS.has(id)) return (ICONS[id]='assets/icons/items/'+id+'.png');

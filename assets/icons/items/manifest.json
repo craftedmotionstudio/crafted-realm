@@ -816,6 +816,153 @@
       "source": "tools/blender/build_world_item_icons_v1.py",
       "model": "prop",
       "description": "crag maul: a craggy rock head lashed to a dark haft, ember fissures"
+    },
+    {
+      "id": "beast_hide",
+      "file": "beast_hide.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a stretched beast hide, fur up, a turned corner"
+    },
+    {
+      "id": "knife",
+      "file": "knife.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a small knife: steel blade, iron bolster, riveted wooden handle"
+    },
+    {
+      "id": "chisel",
+      "file": "chisel.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a chisel: wooden handle, iron ferrule, steel blade"
+    },
+    {
+      "id": "rope",
+      "file": "rope.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a coil of hemp rope with a loose end"
+    },
+    {
+      "id": "shears",
+      "file": "shears.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "sheep shears: two blades on a sprung steel bow"
+    },
+    {
+      "id": "spade",
+      "file": "spade.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a spade: D-grip, oak haft, iron blade"
+    },
+    {
+      "id": "jug",
+      "file": "jug.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "an empty glazed jug"
+    },
+    {
+      "id": "jug_water",
+      "file": "jug_water.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a glazed jug of water"
+    },
+    {
+      "id": "soft_clay",
+      "file": "soft_clay.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a smooth ball of worked clay with a thumb groove"
+    },
+    {
+      "id": "wool",
+      "file": "wool.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a tuft of fleece"
+    },
+    {
+      "id": "flax",
+      "file": "flax.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a tied bundle of flax with blue flowers"
+    },
+    {
+      "id": "grain",
+      "file": "grain.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a tied sheaf of wheat ears"
+    },
+    {
+      "id": "potato",
+      "file": "potato.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a potato with eyes"
+    },
+    {
+      "id": "onion",
+      "file": "onion.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "an onion: striped skin, sprout, roots"
+    },
+    {
+      "id": "egg",
+      "file": "egg.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "an egg"
+    },
+    {
+      "id": "fen_charm",
+      "file": "fen_charm.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "the Fenlord's charm: a violet crystal bound in brass on a cord"
+    },
+    {
+      "id": "feathers",
+      "file": "feathers.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "three white feathers, grey quill ends"
+    },
+    {
+      "id": "ashes",
+      "file": "ashes.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a grey heap of ashes with char and a last ember"
+    },
+    {
+      "id": "leather",
+      "file": "leather.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a tanned leather sheet, rolled ends"
+    },
+    {
+      "id": "raw_beef",
+      "file": "raw_beef.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a raw beef cut: fat edge, marbling, a round of bone"
+    },
+    {
+      "id": "big_bones",
+      "file": "big_bones.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "a big chunky bone"
     }
   ]
 }

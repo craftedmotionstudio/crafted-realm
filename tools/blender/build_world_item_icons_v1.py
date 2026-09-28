@@ -120,6 +120,14 @@ for tier in ('cloth', 'glimmer', 'starweave', 'monk'):
     PAL['robe-' + tier] = c
     PAL['robe-' + tier + '-dk'] = c_dark(c)
 PAL['rope'] = (.86, .78, .58)
+PAL.update({'hide': (.58, .44, .30), 'hide-dk': (.40, .29, .18), 'hide-lt': (.70, .57, .42), 'feather-dk': (.62, .62, .64),
+            'ash': (.55, .54, .52), 'ash-lt': (.70, .69, .66), 'rope-dk': (.62, .52, .33), 'jug': (.90, .86, .76),
+            'sclay': (.55, .47, .41), 'sclay-lt': (.66, .58, .51), 'sclay-dk': (.42, .35, .30), 'leather-lt': (.72, .48, .26),
+            'stalk': (.40, .58, .26), 'flax-blue': (.42, .60, .90), 'straw': (.82, .70, .40), 'wheat': (.92, .78, .42),
+            'potato': (.72, .56, .34), 'potato-lt': (.82, .67, .44), 'potato-eye': (.45, .33, .20), 'onion': (.82, .62, .34),
+            'onion-lt': (.90, .74, .46), 'onion-dk': (.55, .38, .20), 'egg': (.92, .86, .74), 'egg-lt': (.97, .94, .86),
+            'beef': (.72, .18, .16), 'beef-dk': (.52, .12, .10), 'fat': (.94, .88, .78), 'fat-lt': (.92, .72, .66),
+            'charm': (.46, .22, .66), 'charm-lt': (.70, .48, .90), 'bone-old': (.93, .88, .72)})
 PMAT = {}
 def pmat(name):
     if name in PMAT: return PMAT[name]
@@ -711,6 +719,202 @@ def b_vambraces():
             m.hull(cbox((bx, y - .014, .05 + r * .9), (.015, .013, .006), .003), 'brass')
     return m
 
+# -- the last canvas-drawn items (not in any guide row, but in shops, drops and the pack)
+def b_hide():
+    """a stretched beast hide: an irregular pelt with four leg lobes, fur side up, a turned-back corner"""
+    m = M(); rng = random.Random(90)
+    out = [(-.2, .02), (-.23, .1), (-.16, .1), (-.1, .13), (-.02, .14), (.08, .12), (.14, .15), (.2, .1), (.17, .03), (.22, -.04),
+           (.18, -.1), (.1, -.08), (.0, -.12), (-.08, -.1), (-.15, -.14), (-.21, -.08)]
+    out = [(x * (1 + rng.uniform(-.05, .05)), y * (1 + rng.uniform(-.05, .05))) for x, y in out]
+    m.slab(out, 0, .016, 'hide', 'hide-dk', bottom='leather')
+    m.poly([(x * .72 + .01, y * .7, .0175) for x, y in out], 'hide-lt')                                   # the paler back
+    m.hull([Vector(p) for p in [(.17, -.1, .016), (.22, -.04, .016), (.12, -.04, .05), (.15, -.09, .04)]], 'leather')   # turned corner
+    return m
+def b_feathers():
+    """three white feathers fanned apart: slim curved vanes, grey down at the quill"""
+    m = M()
+    for k, (y, rot, L) in enumerate(((-.09, .5, .3), (0, 0, .33), (.09, -.5, .29))):
+        d = Vector((math.cos(rot), math.sin(rot), 0)); s_ = Vector((-d.y, d.x, 0)); b = Vector((-.12, y * .3, .012 + .006 * k))
+        m.ptube([b - d * .03, b + d * L], [.005, .002], 4, 'string', cap0='string')                      # quill
+        for sg in (1, -1):
+            w = .022 if sg > 0 else .017
+            vane = [b + d * .04, b + d * .09 + s_ * sg * w, b + d * .2 + s_ * sg * w * 1.05, b + d * .27 + s_ * sg * w * .6, b + d * L]
+            m.poly([p + Vector((0, 0, .002)) for p in vane], 'flour', both=True)
+        for sg in (1, -1):
+            m.poly([b + d * .0 + Vector((0, 0, .003)), b + d * .05 + s_ * sg * .02 + Vector((0, 0, .003)), b + d * .05 + Vector((0, 0, .003))],
+                   'feather-dk', both=True)
+    return m
+
+def b_knife():
+    m = M()
+    m.hull([Vector(p) for p in [(.0, -.028, .012), (.0, .026, .012), (.0, .026, .02), (.0, -.028, .02), (.22, .01, .014), (.2, -.02, .012),
+                                (.2, -.02, .018), (.24, .004, .014)]], lambda n, c: 'tin' if n.z > .5 else 'iron')              # blade
+    m.hull(cbox((-.01, 0, .016), (.012, .032, .014), .004), 'iron')                                    # bolster
+    m.ptube([(-.02, 0, .018), (-.16, 0, .018)], [.022, .024], 7, 'wood', cap1='wood-dark')             # handle
+    for x in (-.06, -.12): m.hull(ell((x, 0, .04), (.006, .006, .004), nu=5, nv=3), 'brass')          # rivets
+    return m
+def b_ashes():
+    """a low, soft heap of pale ash with char specks and a last ember"""
+    m = M(); rng = random.Random(91)
+    m.hull(ell((0, 0, 0), (.14, .11, .05), nu=12, nv=6, floor=0), lambda n, c: 'ash-lt' if n.z > .55 else 'ash')
+    m.hull(ell((.05, .03, 0), (.07, .06, .06), nu=9, nv=5, floor=0), lambda n, c: 'ash-lt' if n.z > .55 else 'ash')
+    for k in range(6):
+        a = rng.uniform(0, tau); r = rng.uniform(.02, .08); x, y = r * math.cos(a), r * math.sin(a) * .8
+        z = .05 * math.sqrt(max(0.0, 1 - (x / .14) ** 2 - (y / .11) ** 2)) + .004
+        m.hull(blob((x, y, z), (.012, .01, .005), 92 + k, n=7, cuts=1), 'char')
+    m.hull(blob((.045, .03, .062), (.012, .01, .006), 99, n=7, cuts=1), 'crag-vein')                    # a last ember
+    return m
+
+def b_chisel():
+    m = M()
+    m.ptube([(-.2, 0, .024), (-.04, 0, .024)], [.022, .026], 7, 'wood', cap0='wood-dark', cap1='wood')
+    m.ptube([(-.045, 0, .024), (-.02, 0, .024)], .028, 7, 'iron', cap0='iron', cap1='iron')           # ferrule
+    m.hull([Vector(p) for p in [(-.02, -.012, .014), (-.02, .012, .014), (-.02, -.012, .034), (-.02, .012, .034),
+                                (.17, -.026, .018), (.17, .026, .018), (.2, -.026, .022), (.2, .026, .022), (.17, -.026, .026), (.17, .026, .026)]],
+           lambda n, c: 'tin' if n.z > .5 else 'iron')
+    return m
+def b_rope():
+    m = M(); pts = []
+    for k in range(64):
+        t = k / 63; a = t * tau * 3.1; r = .1 - .024 * t
+        pts.append((r * math.cos(a), r * math.sin(a), .022 + .02 * t))
+    m.ptube(pts, .02, 6, lambda j, i: 'rope' if (j + i) % 3 else 'rope-dk', up=(0, 0, 1))
+    end = pts[-1]
+    m.ptube([end, (.02, .0, .05), (.1, -.02, .03), (.17, -.05, .02)], .02, 6, lambda j, i: 'rope' if (j + i) % 3 else 'rope-dk', cap1='rope-dk')
+    return m
+def b_shears():
+    """sheep shears: two broad blades joined by a sprung steel bow"""
+    m = M()
+    for sg in (1, -1):
+        m.hull([Vector(p) for p in [(.02, sg * .004, .012), (.02, sg * .034, .012), (.02, sg * .034, .02), (.02, sg * .004, .02),
+                                    (.24, sg * .008, .012), (.24, sg * .008, .018), (.26, sg * .0, .014)]], lambda n, c: 'tin' if n.z > .5 else 'iron')
+        m.ptube([(.02, sg * .02, .016), (-.12, sg * .036, .016)], .015, 6, 'iron')                    # the grips
+        m.ptube([(-.06, sg * .03, .016), (-.12, sg * .036, .016)], .02, 6, 'leather', cap0='leather', cap1='leather')
+    m.ptube(arc(-.12, 0, .016, .05, .036, math.pi / 2, math.pi * 1.5, 8), .012, 5, 'iron', up=(0, 0, 1))   # the bow spring
+    return m
+def b_spade():
+    m = M()
+    m.ptube([(-.36, 0, .03), (.12, 0, .03)], .02, 7, 'wood', cap0='wood-dark')
+    m.ptube(arc(-.38, 0, .03, .045, .05, math.pi * .5, math.pi * 1.5, 8), .014, 5, 'wood', up=(0, 0, 1))  # D-grip
+    m.ptube([(-.38, .05, .03), (-.38, -.05, .03)], .016, 6, 'wood')
+    blade = [(.1, -.07), (.28, -.075), (.32, -.05), (.33, 0), (.32, .05), (.28, .075), (.1, .07)]
+    m.slab(blade, .012, .022, 'iron', 'iron')
+    m.hull(cbox((.105, 0, .03), (.03, .03, .014), .004), 'iron')                                       # the socket
+    return m
+def b_jug(water=False):
+    m = M(); n = 14
+    prof = [(.05, 0), (.075, .02), (.088, .07), (.08, .12), (.052, .16), (.048, .18), (.056, .2), (.05, .205)]
+    m.lathe(prof, n, lambda j, i: 'glaze' if j == 2 else 'jug', cap0='terracotta-dk')
+    m.lathe([(.05, .205), (.042, .19), (.04, .1), (.0, .02)], n, 'terracotta-dk')
+    k0 = len(m.v)
+    m.pyramid([(.046 + .02 * math.cos(tau * i / 6), .02 * math.sin(tau * i / 6), .2) for i in range(6)], (.075, 0, .212), 'jug')  # spout lip
+    pts = [(-.05 - .045 * math.sin(math.pi * t / 6), 0, .06 + .12 * t / 6) for t in range(7)]
+    m.ptube(pts, .012, 5, 'jug', up=(0, 1, 0), cap0='jug', cap1='jug')                                   # handle
+    if water: m.poly([(.041 * math.cos(tau * i / n), .041 * math.sin(tau * i / n), .185) for i in range(n)], 'water')
+    return m
+def b_soft_clay():
+    m = M()
+    m.hull(ell((0, 0, .05), (.1, .09, .052), nu=14, nv=7, floor=0), lambda n, c: 'sclay-lt' if n.z > .6 else 'sclay')
+    m.ptube(arc(0, 0, .098, .045, .04, .3, 2.6, 7), .008, 4, 'sclay-dk', up=(0, 0, 1))                 # a thumb groove
+    return m
+def b_leather():
+    """a tanned leather piece: an irregular sheet, one corner folded back over"""
+    m = M(); rng = random.Random(93)
+    out = [(-.18, -.09), (-.06, -.12), (.08, -.11), (.18, -.08), (.2, .02), (.16, .1), (.04, .12), (-.1, .11), (-.2, .06), (-.21, -.02)]
+    out = [(x * (1 + rng.uniform(-.04, .04)), y * (1 + rng.uniform(-.04, .04))) for x, y in out]
+    m.slab(out, 0, .014, 'leather-lt', 'leather', bottom='leather')
+    m.hull([Vector(p) for p in [(.2, .02, .014), (.16, .1, .014), (.1, .04, .03), (.13, .02, .034), (.17, .06, .03)]], 'leather')   # folded corner
+    for k in range(9):                                                                                     # a stitched edge
+        t = k / 8; x = -.17 + .33 * t; m.hull(ell((x, -.1 + .02 * math.sin(t * 3), .016), (.008, .004, .003), nu=5, nv=3), 'leather')
+    return m
+
+def b_wool_tuft():
+    m = M(); rng = random.Random(95)
+    for k in range(9):
+        a = tau * k / 9 + rng.uniform(-.3, .3); r = rng.uniform(.02, .07)
+        m.hull(ell((r * math.cos(a), r * math.sin(a) * .8, .035 + rng.uniform(0, .02)), (.045, .04, .035), nu=7, nv=4, floor=0),
+               lambda n, c: 'wool' if n.z > -.2 else 'wool-dk')
+    return m
+def b_flax():
+    m = M(); rng = random.Random(96)
+    for k in range(6):
+        y0 = -.03 + .012 * k; x1 = .12 + rng.uniform(-.02, .03); y1 = y0 * 2.2 + rng.uniform(-.02, .02)
+        m.ptube([(-.2, y0 * .4, .012), (.0, y0, .014), (x1, y1, .016)], .007, 4, 'stalk', up=(0, 0, 1))
+        m.hull(ell((x1 + .012, y1, .02), (.018, .018, .012), nu=6, nv=3), 'flax-blue')
+        m.hull(ell((x1 + .012, y1, .03), (.007, .007, .005), nu=5, nv=3), 'flour')
+    m.ptube(arc(-.1, 0, .014, .012, .03, math.pi * .5, math.pi * 1.5, 6), .01, 4, 'string', up=(1, 0, 0))   # tie
+    return m
+def b_grain():
+    m = M(); rng = random.Random(97)
+    for k in range(5):
+        y0 = -.028 + .014 * k; x1 = .1 + rng.uniform(-.01, .02); y1 = y0 * 2 + rng.uniform(-.01, .01)
+        m.ptube([(-.22, y0 * .4, .012), (x1, y1, .014)], .006, 4, 'straw', up=(0, 0, 1))
+        d = Vector((1, (y1 - y0 * .4) / (x1 + .22), 0)).normalized()
+        for j in range(5):                                                                                # the ear: paired kernels
+            c = Vector((x1, y1, .018)) + d * (.015 + .02 * j)
+            for sg in (1, -1): m.hull(ell(tuple(c + Vector((-d.y, d.x, 0)) * sg * .009), (.012, .007, .007), nu=5, nv=3), 'wheat')
+        m.hull(ell(tuple(Vector((x1, y1, .018)) + d * .12), (.01, .006, .006), nu=5, nv=3), 'wheat')
+    m.ptube(arc(-.08, 0, .014, .012, .032, math.pi * .5, math.pi * 1.5, 6), .01, 4, 'string', up=(1, 0, 0))
+    return m
+def b_potato():
+    m = M(); ore = M()
+    m.hull(blob((0, 0, .05), (.1, .07, .05), 98, n=22, cuts=1, floor=0., jit=(.92, 1.05)), lambda n, c: 'potato-lt' if n.z > .6 else 'potato')
+    bvh = BVHTree.FromPolygons([tuple(v) for v in m.v], m.f)
+    for k, (az, el) in enumerate(((.5, .9), (2.4, 1.0), (4.0, .8), (5.4, 1.2))):
+        d = Vector((math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)))
+        loc, nrm, _, _ = bvh.ray_cast(Vector((0, 0, .05)) + d * 2, -d)
+        if loc: ore.hull(ell(tuple(loc), (.008, .008, .005), nu=5, nv=3), 'potato-eye')
+    m.add(ore.v, [tuple(f) for f in ore.f], ore.mi)
+    return m
+def b_onion():
+    m = M(); n = 12
+    m.lathe([(.02, 0), (.06, .02), (.075, .055), (.065, .09), (.03, .12), (.012, .14)], n, lambda j, i: 'onion' if i % 3 else 'onion-lt',
+            cap0='onion-dk', cap1='onion-dk')
+    m.ptube([(0, 0, .14), (.01, .0, .19), (.03, .0, .22)], [.01, .007, .003], 5, 'stalk')              # sprout
+    for a in (0, 2.1, 4.2): m.ptube([(0, 0, .004), (.03 * math.cos(a), .03 * math.sin(a), .0)], .004, 3, 'onion-dk')   # roots
+    return m
+def b_egg():
+    m = M()
+    m.hull([Vector((p.x * (1.12 if p.x > 0 else 1.0), p.y, p.z)) for p in ell((0, 0, .045), (.065, .045, .045), nu=12, nv=7, floor=0)],
+           lambda n, c: 'egg-lt' if n.z > .5 else 'egg')
+    return m
+def b_raw_beef():
+    """a raw beef joint: red meat, pale fat seams, the bone end (the raw twin of the cooked meat)"""
+    m = M(); fat = M()
+    pts = blob((-.03, 0, .06), (.13, .09, .062), 31, n=22, cuts=2, floor=0., jit=(.9, 1.05))
+    m.hull(pts, lambda n, c: 'beef' if n.z > .35 else 'beef-dk')
+    bvh = BVHTree.FromPolygons([tuple(v) for v in m.v], m.f); rng = random.Random(34)
+    for k, (az, el) in enumerate([(.6, 1.2), (2.6, 1.0), (4.0, 1.25), (5.3, .9)]):
+        d = Vector((math.cos(el) * math.cos(az), math.cos(el) * math.sin(az), math.sin(el)))
+        loc, nrm, _, _ = bvh.ray_cast(Vector((-.03, 0, .06)) + d * 2, -d)
+        if loc is None: continue
+        if nrm.dot(d) < 0: nrm = -nrm
+        chip(fat, loc, nrm, rng.uniform(.028, .036), 50 + k, 'fat', flat=.25, n=7)
+    m.add(fat.v, [tuple(f) for f in fat.f], fat.mi)
+    m.ptube([(.07, .004, .058), (.21, .012, .05)], [.02, .017], 6, 'flour', cap1='flour')
+    m.hull(ell((.228, .03, .05), (.026, .024, .024), nu=7, nv=3) + ell((.224, -.008, .048), (.024, .022, .022), nu=7, nv=3), 'flour')
+    return m
+
+def b_big_bones():
+    """a big bone: a thick shaft and heavy double knuckles, older and yellower than the plain bones"""
+    m = M(); z = .066
+    m.ptube([(-.19, 0, z), (0, .008, z - .004), (.19, 0, z)], [.05, .04, .05], 8, 'bone-old')
+    for sx in (-1, 1):
+        m.hull(ell((sx * .225, .05, z), (.07, .066, .066), nu=8, nv=4) + ell((sx * .215, -.05, z), (.066, .062, .062), nu=8, nv=4), 'bone-old')
+    return m
+
+def b_fen_charm():
+    """the Fenlord's charm: a violet bog-crystal bound in brass wire, on a knotted cord"""
+    m = M()
+    m.ptube(arc(0, .05, .01, .075, .07, -1.1, math.pi + 1.1, 12), .006, 4, 'cord', up=(0, 0, 1), cap0='cord', cap1='cord')
+    c = Vector((0, -.06, .032))
+    tip = [c + Vector((0, .06, 0)), c + Vector((0, -.07, 0))]
+    ring = [c + Vector((.034 * math.cos(tau * i / 6), .01 * math.sin(tau * i / 6), .02 + .01 * math.sin(tau * i / 6))) for i in range(6)]
+    m.hull(tip + ring + [c + Vector((0, 0, .045))], lambda n, cc: 'charm-lt' if n.z > .5 else 'charm')
+    for yy in (-.035, .0, .03): m.ptube([(x, c.y + yy, .02 + .018 * (1 - (x / .04) ** 2)) for x in (-.04, -.02, 0, .02, .04)], .004, 4, 'brass', up=(0, 1, 0))
+    m.hull(ell((0, .005, .02), (.012, .012, .01), nu=6, nv=3), 'brass')                                 # the bail
+    return m
+
 # ================================================================ the equipment scene (read-only)
 EQ = {}
 def load_equipment():
@@ -956,6 +1160,29 @@ for iid, tier, fn in (('cloth_robe_top', 'cloth', b_robe_top), ('glimmer_robe_to
                       ('monk_robe_bottom', 'monk', b_robe_skirt)):
     PJ(iid, (lambda f=fn, t=tier: f(t)), '%s robe %s, standing like the worn armour icons' % (tier, 'top' if 'top' in iid else 'bottom'), yaw=12, tilt=-40)
 
+# the last 21 canvas-drawn items (not in a guide row, but sold in shops, dropped, carried): the same prop style
+for iid, fn, desc, yaw in (('beast_hide', b_hide, 'a stretched beast hide, fur up, a turned corner', 20),
+                           ('feathers', b_feathers, 'three white feathers, grey quill ends', 30),
+                           ('knife', b_knife, 'a small knife: steel blade, iron bolster, riveted wooden handle', 35),
+                           ('ashes', b_ashes, 'a grey heap of ashes with char and a last ember', 20),
+                           ('chisel', b_chisel, 'a chisel: wooden handle, iron ferrule, steel blade', 35),
+                           ('rope', b_rope, 'a coil of hemp rope with a loose end', 20),
+                           ('shears', b_shears, 'sheep shears: two blades on a sprung steel bow', 35),
+                           ('spade', b_spade, 'a spade: D-grip, oak haft, iron blade', 35),
+                           ('jug', lambda: b_jug(False), 'an empty glazed jug', 25),
+                           ('jug_water', lambda: b_jug(True), 'a glazed jug of water', 25),
+                           ('soft_clay', b_soft_clay, 'a smooth ball of worked clay with a thumb groove', 20),
+                           ('leather', b_leather, 'a tanned leather sheet, rolled ends', 20),
+                           ('wool', b_wool_tuft, 'a tuft of fleece', 20),
+                           ('flax', b_flax, 'a tied bundle of flax with blue flowers', 30),
+                           ('grain', b_grain, 'a tied sheaf of wheat ears', 30),
+                           ('potato', b_potato, 'a potato with eyes', 20),
+                           ('onion', b_onion, 'an onion: striped skin, sprout, roots', 20),
+                           ('egg', b_egg, 'an egg', 25),
+                           ('raw_beef', b_raw_beef, 'a raw beef cut: fat edge, marbling, a round of bone', 20),
+                           ('big_bones', b_big_bones, 'a big chunky bone', 35),
+                           ('fen_charm', b_fen_charm, "the Fenlord's charm: a violet crystal bound in brass on a cord", 10)):
+    PJ(iid, fn, desc, yaw=yaw)
 
 # ================================================================ run
 unknown = [j['id'] for j in JOBS if j.get('out') is None and j['id'] not in GAME]
