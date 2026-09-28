@@ -3,7 +3,7 @@
  "status": "runtime (src/holm_equipment.js loads it from assets/holm_island/ws/holm-equipment-v3/candidates/)",
  "file": "equipment.glb",
  "blend": "equipment.blend",
- "sha256": "9fc559bfbfecf3158b9676e4a0e675aebe55e2fa770062e33ab3e2633882d7e5",
+ "sha256": "21732be6f17c5346ab01d93df0787c60886cae2bac6c56b0c94f64063c409b0c",
  "axes": "glTF Y-up, 1 unit = 1 tile (= 1 m, player 1.85 tall)",
  "colour": "authored sRGB used as-is, roughness 1, metallic 0, no textures",
  "recolour": {
@@ -1213,14 +1213,14 @@
    "budget": 820,
    "bounds": {
     "min": [
-     -0.1198,
-     1.5069,
-     -0.0903
+     -0.1222,
+     1.494,
+     -0.1115
     ],
     "max": [
-     0.1198,
+     0.1222,
      1.9091,
-     0.1451
+     0.1622
     ]
    },
    "materials": [
@@ -1266,14 +1266,14 @@
    "budget": 820,
    "bounds": {
     "min": [
-     -0.112,
+     -0.1142,
      1.5544,
-     -0.0888
+     -0.1022
     ],
     "max": [
-     0.112,
+     0.1142,
      1.9045,
-     0.1398
+     0.1562
     ]
    },
    "materials": [
@@ -1319,14 +1319,14 @@
    "budget": 820,
    "bounds": {
     "min": [
-     -0.1797,
+     -0.1833,
      1.7135,
-     -0.1512
+     -0.185
     ],
     "max": [
-     0.1797,
+     0.1833,
      2.0645,
-     0.1872
+     0.2097
     ]
    },
    "materials": [
@@ -1367,14 +1367,14 @@
    "budget": 820,
    "bounds": {
     "min": [
-     -0.1139,
-     1.5245,
-     -0.0851
+     -0.1161,
+     1.478,
+     -0.1053
     ],
     "max": [
-     0.1139,
+     0.1161,
      1.9066,
-     0.1384
+     0.1547
     ]
    },
    "materials": [
@@ -1420,14 +1420,14 @@
    "budget": 820,
    "bounds": {
     "min": [
-     -0.1064,
+     -0.1085,
      1.5697,
-     -0.0837
+     -0.0965
     ],
     "max": [
-     0.1064,
+     0.1085,
      1.9023,
-     0.1334
+     0.149
     ]
    },
    "materials": [
@@ -1473,14 +1473,14 @@
    "budget": 820,
    "bounds": {
     "min": [
-     -0.1707,
+     -0.1741,
      1.7208,
-     -0.143
+     -0.1752
     ],
     "max": [
-     0.1707,
+     0.1741,
      2.0543,
-     0.1784
+     0.1998
     ]
    },
    "materials": [
@@ -1523,7 +1523,7 @@
     "min": [
      -0.3318,
      0.895,
-     -0.1952
+     -0.2092
     ],
     "max": [
      0.3318,
@@ -1580,7 +1580,7 @@
     "min": [
      -0.323,
      0.895,
-     -0.2071
+     -0.2211
     ],
     "max": [
      0.323,
@@ -1637,7 +1637,7 @@
     "min": [
      -0.3156,
      0.83,
-     -0.1823
+     -0.1963
     ],
     "max": [
      0.3156,
@@ -1692,7 +1692,7 @@
     "min": [
      -0.3099,
      0.83,
-     -0.1957
+     -0.2097
     ],
     "max": [
      0.3099,
@@ -1747,7 +1747,7 @@
     "min": [
      -0.3114,
      0.9,
-     -0.1801
+     -0.1922
     ],
     "max": [
      0.3114,
@@ -1796,7 +1796,7 @@
     "min": [
      -0.3063,
      0.9,
-     -0.1898
+     -0.2038
     ],
     "max": [
      0.3063,
@@ -1843,12 +1843,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2351,
+     -0.2345,
      0.0987,
      -0.1935
     ],
     "max": [
-     0.2351,
+     0.2345,
      1.039,
      0.1355
     ]
@@ -1897,12 +1897,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2293,
+     -0.2273,
      0.0995,
      -0.2004
     ],
     "max": [
-     0.2293,
+     0.2273,
      1.039,
      0.1325
     ]
@@ -1937,7 +1937,7 @@
    ],
    "morph_max_displacement_m": {
     "Build_Stout": 0.0311,
-    "Build_Slim": 0.0202
+    "Build_Slim": 0.019
    }
   },
   {
@@ -2051,7 +2051,7 @@
    ],
    "morph_max_displacement_m": {
     "Build_Stout": 0.0312,
-    "Build_Slim": 0.0202
+    "Build_Slim": 0.0189
    }
   },
   {
@@ -2149,7 +2149,7 @@
    ],
    "morph_max_displacement_m": {
     "Build_Stout": 0.031,
-    "Build_Slim": 0.0202
+    "Build_Slim": 0.019
    }
   },
   {
@@ -2259,7 +2259,7 @@
     "min": [
      -0.2471,
      0.0,
-     -0.203
+     -0.2045
     ],
     "max": [
      0.2471,
@@ -2310,7 +2310,7 @@
     "min": [
      -0.2348,
      0.0,
-     -0.1931
+     -0.1962
     ],
     "max": [
      0.2348,
@@ -2359,14 +2359,14 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.1867,
-     1.304,
-     -0.1177
+     -0.1514,
+     1.33,
+     -0.0989
     ],
     "max": [
-     0.1867,
-     1.4736,
-     0.168
+     0.1514,
+     1.5053,
+     0.1636
     ]
    },
    "materials": [
@@ -2396,21 +2396,19 @@
     "Over_Torso_03",
     "Over_Torso_04",
     "Over_Torso_05",
-    "Over_Torso_06",
-    "Over_Torso_08"
+    "Over_Torso_06"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0188,
-    "Build_Slim": 0.0124,
-    "Over_platebody": 0.1091,
-    "Over_chainbody": 0.0579,
-    "Over_leather_body": 0.0539,
-    "Over_Torso_02": 0.0114,
-    "Over_Torso_03": 0.0252,
-    "Over_Torso_04": 0.028,
-    "Over_Torso_05": 0.0035,
-    "Over_Torso_06": 0.0153,
-    "Over_Torso_08": 0.0114
+    "Build_Stout": 0.0168,
+    "Build_Slim": 0.0113,
+    "Over_platebody": 0.1597,
+    "Over_chainbody": 0.0235,
+    "Over_leather_body": 0.0193,
+    "Over_Torso_02": 0.0304,
+    "Over_Torso_03": 0.0138,
+    "Over_Torso_04": 0.0187,
+    "Over_Torso_05": 0.0063,
+    "Over_Torso_06": 0.0304
    }
   },
   {
@@ -2424,14 +2422,14 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.1782,
-     1.304,
-     -0.1018
+     -0.1082,
+     1.329,
+     -0.0847
     ],
     "max": [
-     0.1782,
-     1.4741,
-     0.166
+     0.1087,
+     1.5043,
+     0.1584
     ]
    },
    "materials": [
@@ -2461,13 +2459,13 @@
     "Over_Torso_04"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0208,
-    "Build_Slim": 0.0138,
-    "Over_platebody": 0.095,
-    "Over_chainbody": 0.0411,
-    "Over_leather_body": 0.037,
-    "Over_Torso_02": 0.0079,
-    "Over_Torso_04": 0.0086
+    "Build_Stout": 0.0187,
+    "Build_Slim": 0.0122,
+    "Over_platebody": 0.1313,
+    "Over_chainbody": 0.0219,
+    "Over_leather_body": 0.0197,
+    "Over_Torso_02": 0.0069,
+    "Over_Torso_04": 0.0094
    }
   },
   {
@@ -2481,12 +2479,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2958,
+     -0.2492,
      0.53,
-     -0.3752
+     -0.3762
     ],
     "max": [
-     0.2907,
+     0.2419,
      1.4878,
      -0.0831
     ]
@@ -2524,14 +2522,14 @@
     "Over_Torso_08"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0492,
-    "Build_Slim": 0.034,
-    "Over_platebody": 0.063,
+    "Build_Stout": 0.0587,
+    "Build_Slim": 0.0374,
+    "Over_platebody": 0.0684,
     "Over_chainbody": 0.0363,
     "Over_leather_body": 0.0329,
     "Over_Torso_02": 0.024,
     "Over_Torso_03": 0.0385,
-    "Over_Torso_04": 0.0408,
+    "Over_Torso_04": 0.0387,
     "Over_Torso_05": 0.0167,
     "Over_Torso_06": 0.0305,
     "Over_Torso_07": 0.0167,
@@ -2549,12 +2547,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2146,
+     -0.1793,
      0.53,
-     -0.3825
+     -0.3861
     ],
     "max": [
-     0.2807,
+     0.1742,
      1.4879,
      -0.0723
     ]
@@ -2589,9 +2587,9 @@
     "Over_Torso_05"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.1552,
-    "Build_Slim": 0.1148,
-    "Over_platebody": 0.0601,
+    "Build_Stout": 0.1528,
+    "Build_Slim": 0.1059,
+    "Over_platebody": 0.1005,
     "Over_chainbody": 0.0337,
     "Over_leather_body": 0.0301,
     "Over_Torso_02": 0.0183,

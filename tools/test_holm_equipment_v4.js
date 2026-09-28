@@ -46,7 +46,8 @@ SUITS.forEach(k => ['', '_B'].forEach(sfx => {
   const hides = { platebody: ['Torso', 'Arms'], chainbody: ['Torso', 'Arms'], leather_body: ['Torso', 'Arms'], platelegs: ['Legs'], chaps: ['Legs'],
     gloves: ['Hands'], boots: ['Feet'], plateskirt: ['Legs'] }[k] || [];
   ok(JSON.stringify(ex.hides || []) === JSON.stringify(hides), k + sfx + ' hides ' + JSON.stringify(hides));
-  const km = k === 'cape' ? ['Hair_Over', 'Hair_Cape', 'Jaw_Over'] : ['platebody', 'chainbody', 'leather_body'].includes(k) ? ['Hair_Over', 'Jaw_Over'] : [];
+  // (v4a.2: the amulet sits at the v4 neck base, where long hair falls -- the hair lies over it: Hair_Over)
+  const km = k === 'cape' ? ['Hair_Over', 'Hair_Cape', 'Jaw_Over'] : ['platebody', 'chainbody', 'leather_body'].includes(k) ? ['Hair_Over', 'Jaw_Over'] : k === 'amulet' ? ['Hair_Over'] : [];
   ok(JSON.stringify(ex.kit_morphs || []) === JSON.stringify(km), k + sfx + ' kit_morphs ' + JSON.stringify(km));
 }));
 ['fullhelm', 'medhelm', 'hat'].forEach(k => ['', '_B'].forEach(sfx => { const i = byName['eq_' + k + sfx]; ok(i !== undefined, 'helm template eq_' + k + sfx); if (i === undefined) return;

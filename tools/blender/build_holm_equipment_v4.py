@@ -1027,7 +1027,7 @@ def sk_boots(mb, bt, over=None):
         mb.loft(rings, LE, ws, cap0=True, cap1=False, matfn=lambda i, k: LK if i == 0 else LE)
         # folded cuff round the shaft top
         # (v3: the cuff's top turns in and closes round the leg -- no view down into the shaft)
-        cuff = KB.shin_rings(bt, sx, [(1.66, .044), (1.64, .054), (1.53, .054), (1.55, .044), (1.555, .009)])
+        cuff = KB.shin_rings(bt, sx, [(1.66, .044), (1.64, .054), (1.53, .054), (1.55, .044), (1.555, .001)])   # (v4: closes onto the shin)
         mb.loft(cuff, LK, lw, cap0=False, cap1=False, smooth=False)
         # ankle strap with a brass buckle on the outside
         st = KB.shin_rings(bt, sx, [(1.92, .050), (1.88, .050)])
@@ -1122,8 +1122,10 @@ FOOT = [(dp, dz) for dp in (-.10, 0.0, .10) for dz in (-.010, 0.0, .010)]
 NECK_X = {'A': .094, 'B': .084}       # half width of the necklace at the base of the neck
 # v4: the kit v4 collar sits higher (the square shoulder shelf rises to the neck): the necklace rests where the shelf meets
 # the neck -- the height at which the v4 torso is as wide as the v3.1 torso was at 1.464 (A 1.490, B 1.484)
-NECK_Z = {'A': 1.490, 'B': 1.484}
-NECK_BACK_DROP = {'A': 0.0, 'B': .014}   # B: the back of the chain sits a little lower, under the collar line and the hair
+NECK_Z = {'A': 1.490, 'B': 1.489}
+NECK_OVER_PLATE = {'A': 0.0, 'B': .012}   # v4: over her platebody the chain rides up on the gorget, above the pauldrons' inner edge
+NECK_X['B'] = .072    # v4: her chain rounds the slimmer v4 neck base (wider, over a platebody it rode up onto the pauldrons)
+NECK_BACK_OFF = {'A': .002, 'B': .004}   # B: the back of the chain stands a little further off (her collar line and hair)
 FOOT_A = [(dp, dz) for dp in (-.20, -.10, 0.0, .10, .20) for dz in (-.010, 0.0, .010)]
 def x_to_phi(bt, x, z, off):
     """the body_point angle (front half) whose point has this x"""
@@ -1132,7 +1134,7 @@ def x_to_phi(bt, x, z, off):
     return math.copysign(math.asin(min(1.0, q ** (1 / e))), x)
 def sk_amulet(mb, bt, over=None):
     N, R = 16, .0055
-    X, ZB = NECK_X[bt], NECK_Z[bt]
+    X, ZB = NECK_X[bt], NECK_Z[bt] + (NECK_OVER_PLATE[bt] if over == 'platebody' else 0.0)
     dz = ZB - 1.464                                  # (every v3 height of the chain moves with the neck base)
     pts = []
     for j in range(N):
@@ -1144,9 +1146,9 @@ def sk_amulet(mb, bt, over=None):
             ps = x_to_phi(bt, X, ZB, .02)
             a = (u - math.pi / 2) / math.pi         # 0 .. 1 from the left side round the back to the right side
             phi = ps + (2 * math.pi - 2 * ps) * a
-            z = ZB - NECK_BACK_DROP[bt] * math.sin(math.pi * a) ** .6
+            z = ZB
         back = math.cos(u) < -1e-9
-        o = clear_off(bt, over, phi, z, FOOT_A) + R + (.002 if back else .008 + .012 * KB.ss(1.40 + dz, 1.46 + dz, z))
+        o = clear_off(bt, over, phi, z, FOOT_A) + R + (NECK_BACK_OFF[bt] if back else .008 + .012 * KB.ss(1.40 + dz, 1.46 + dz, z))
         p = KB.body_point(bt, phi, z, o)
         pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42 + dz, 1.47 + dz, z)), R + .008))
     rings = []
