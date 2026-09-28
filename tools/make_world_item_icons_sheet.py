@@ -36,6 +36,7 @@ ROWS = [
     ('Was canvas-drawn', ['bones', 'bread_dough'], ['beast_hide', 'feathers', 'knife', 'ashes', 'chisel', 'rope', 'shears', 'spade', 'jug',
                                                    'jug_water', 'soft_clay', 'leather', 'wool', 'flax', 'grain', 'potato', 'onion', 'egg',
                                                    'raw_beef', 'big_bones', 'fen_charm']),
+    ('Added at load', [], ['home_tab', 'cipher_scroll', 'wayfarer_casket']),
     ('Runes', ['air_rune', 'mind_rune'], ['water_rune', 'earth_rune', 'fire_rune', 'body_rune', 'chaos_rune', 'nature_rune', 'spark_rune',
                                          'future:writ', 'future:grave', 'future:star', 'future:vein', 'future:spirit']),
 ]

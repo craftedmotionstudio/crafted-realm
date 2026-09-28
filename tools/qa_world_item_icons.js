@@ -1,4 +1,6 @@
 /* qa_world_item_icons.js -- the world item icons (tools/blender/build_world_item_icons_v1.py) in the running game.
+ * First, every item the running game knows (the load-time ones too: the teleport tablet, the clue items) resolves to a
+ * picture file through iconFor, never a canvas drawing.
  * A fresh adventurer on the island is handed a pack of the new items; then, with real clicks:
  *   - the inventory shows every one as its Blender render (assets/icons/items/<id>.png, loaded, no canvas data-URL);
  *   - a few are worn and the equipment tab shows them the same way;
@@ -16,8 +18,8 @@ let pass=0,fail=0;
 function ok(c,m,d){if(c){pass++;console.log('  ok  '+m)}else{fail++;console.log('  FAIL '+m+(d!==undefined?' '+JSON.stringify(d).slice(0,400):''))}}
 const PACK=['steel_sword','whitsteel_platebody','aurel_pickaxe','veyrite_hatchet','undercrag_platelegs','copper_sword','crag_maul',
   'duskwood_bow','riveted_body','fenhide_vambraces','ember_staff','wizard_hat','starweave_robe_top','monk_robe_top','holy_symbol',
-  'amulet_of_warding','cabbage','cheese','cooked_meat','hollow_ale','trout','oak_logs','iron_ore','coal','gold_bar',
-  'water_rune','fire_rune','nature_rune'];
+  'amulet_of_warding','cabbage','cheese','cooked_meat','hollow_ale','trout','oak_logs','iron_ore','home_tab','cipher_scroll',
+  'wayfarer_casket','fire_rune','nature_rune'];
 const WEAR={weapon:'storm_staff',head:'starweave_hat',body:'glimmer_robe_top',legs:'starweave_robe_skirt',cape:'guild_sigil',amulet:'amulet_of_might',hands:'fenhide_vambraces'};
 async function clickXY(page,xy){if(!xy)return;await page.mouse.move(xy[0],xy[1]);await sleep(60);await page.mouse.down();await page.mouse.up();await sleep(300)}
 const centre=(page,sel,i)=>page.evaluate((sel,i)=>{const e=document.querySelectorAll(sel)[i||0];if(!e)return null;const r=e.getBoundingClientRect();return r.width?[r.x+r.width/2,r.y+r.height/2]:null},sel,i||0);
@@ -38,6 +40,12 @@ const isItemPng=(s,id)=>s==='assets/icons/items/'+id+'.png';
     page.on('pageerror',e=>errors.push(String(e).slice(0,300)));
     await page.goto(BASE+'/',{waitUntil:'domcontentloaded',timeout:90000});
     await enter(page);
+    // every item the running game knows (its load-time modules have booted by now: the teleport tablet, the bread chain,
+    // the clue items...) resolves to a picture file, never a canvas drawing
+    await page.waitForFunction(()=>typeof ITEMS!=='undefined'&&!!ITEMS.home_tab&&!!ITEMS.dough&&!!ITEMS.cipher_scroll,{timeout:15000}).catch(()=>{});
+    const drawn=await page.evaluate(()=>Object.keys(ITEMS).filter(id=>!/^assets\/icons\/(items|gear)\//.test(String(iconFor(id)))));
+    const n=await page.evaluate(()=>Object.keys(ITEMS).length);
+    ok(!drawn.length,'all '+n+' items the running game knows (load-time items included) show a picture file, none drawn',drawn);
     // the pack: clear it, then hand over the new items (and wear a set)
     await page.evaluate((pack,wear)=>{Player.inv.fill(null);pack.forEach(id=>Player.addItem(id,1));
       Object.keys(wear).forEach(s=>{Player.equip[s]=wear[s]});try{refreshPlayerGear()}catch(e){}UI.refreshInv();UI.refreshEquip()},PACK,WEAR);
