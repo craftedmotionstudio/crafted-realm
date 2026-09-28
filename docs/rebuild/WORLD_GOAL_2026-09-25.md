@@ -116,6 +116,13 @@ Our Three.js client and a mobile client speak JSON over WebSocket to our server.
   Lastlight (timber stair; old haven site becomes a farm); route tightened (cave passage climbs out in the keep, legs
   6-39 tiles, ~250 tiles total); mainland gets a Brinkhold bank booth 24 tiles before the Ditch.
 
+- Magic below level 20 (2026-09-28): keep it the strongest style there, as the 2004 starter-spell numbers make it.
+- Owner review 5 (2026-09-28): walk/run/idle must match old-school movement as closely as possible (walk: shoulders
+  steady, arms swing, legs do not reach far in front but trail behind; run: natural, like running through woods, likely
+  less forward lean; idle: the old-school neutral stance) -- options to be shown side by side; paths purposeful and
+  defined like old-school grey paths (not soft shaded bands), laid only where adventurers walk between buildings; the
+  mine shaft is entered with a rope picked up nearby and tied to the shaft.
+
 ## Open decisions for the owner (defaults in use until answered)
 
 1. Hosting for the game server and database (default: build and test locally; the existing VPS is a candidate).
