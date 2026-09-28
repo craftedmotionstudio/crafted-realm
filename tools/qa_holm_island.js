@@ -104,22 +104,22 @@ async function clickService(page,label,which){
 // M5.1: click a named world object (lesson tree, fishing spot, ore rock, furnace, anvil, campfire) where the game's pick() hits it
 async function clickNamed(page,name,opts){
   if(!(opts&&opts.keepDialogs))await closeDialogue(page);   // a level-up dialogue covers the canvas like it would for a player
-  const xy=await page.evaluate(async name=>{const sleep=ms=>new Promise(r=>setTimeout(r,ms));const o=scene.getObjectByName(name);if(!o)return null;
+  const xy=await page.evaluate(async (name,ownFirst)=>{const sleep=ms=>new Promise(r=>setTimeout(r,ms));const o=scene.getObjectByName(name);if(!o)return null;
     const pt=new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3()).toArray();const dx=0,dz=0,d=0;
     const owns=h=>{for(let q=h&&h.obj;q;q=q.parent)if(q===o)return true;return false};
     // frame the camera on the target (a player turns the view toward what they want to click); cleared after the click
     // (surface targets only: qaView takes its height from the island terrain, and the cavern lies offshore below it)
-    if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaView)HolmArrivalQA.qaView(pt[0],pt[2],pt[1]>-5?undefined:new THREE.Box3().setFromObject(o).min.y);
-    // the player's own view first, then fixed framings, then the eight compass yaws (2004 camera, 2004-sized chrome)
+    if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaView)HolmArrivalQA.qaView(pt[0],pt[2],(pt[1]>-5&&!(()=>{try{const r=HolmArrivalQA.saveRecord();return !!(r&&/cellar/.test(r.surface))}catch(e){return false}})())?undefined:new THREE.Box3().setFromObject(o).min.y);   // below ground (the cavern, a cellar): frame at the object's own height, not the terrain above it
+    // fixed framings first (as before), then the player's own view, then the eight compass yaws (2004 camera, 2004-sized chrome)
     const own=[camCtl.yaw,camCtl.pitch,camCtl.dist],yaws=[0,1,2,3,4,5,6,7].map(k=>k*Math.PI/4);
-    for(const [yaw,pitch,dist] of [own,[d>.5?Math.atan2(dx,dz):0,1.1,Math.max(10,d*1.5)],[0,1.3,12],[Math.PI/2,1.3,12],[Math.PI,1.3,12],[-Math.PI/2,1.3,12]].concat(yaws.map(y=>[y,0.9,9]),yaws.map(y=>[y,1.17,13]))){
+    for(const [yaw,pitch,dist] of [[d>.5?Math.atan2(dx,dz):0,1.1,Math.max(10,d*1.5)],[0,1.3,12],[Math.PI/2,1.3,12],[Math.PI,1.3,12],[-Math.PI/2,1.3,12]].reduce((l,x)=>(l.push(x),l),ownFirst?[own]:[]).concat(ownFirst?[]:[own],yaws.map(y=>[y,0.9,9]),yaws.map(y=>[y,1.17,13]))){
       camCtl.yaw=yaw;camCtl.pitch=pitch;camCtl.dist=dist;await sleep(1300);
       const rect=renderer.domElement.getBoundingClientRect(),pr=new THREE.Vector3(pt[0],pt[1],pt[2]).project(camera),cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top;
       for(let r=0;r<=120;r+=4)for(let a=0;a<360;a+=(r?15:360)){const x=Math.round(cx+Math.cos(a*Math.PI/180)*r),y=Math.round(cy+Math.sin(a*Math.PI/180)*r);
         if(x<0||y<0||x>=rect.width||y>=rect.height||document.elementFromPoint(x,y)!==renderer.domElement)continue;if(owns(pick({clientX:x,clientY:y})))return [x,y]}}
     const rect=renderer.domElement.getBoundingClientRect(),pr=new THREE.Vector3(pt[0],pt[1],pt[2]).project(camera),cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top,top=document.elementFromPoint(Math.round(cx),Math.round(cy)),h=pick({clientX:cx,clientY:cy});
     window.__clickDiag={name,pt:pt.map(v=>+v.toFixed(2)),screen:[Math.round(cx),Math.round(cy)],rect:[rect.width,rect.height],cover:top&&(top.id||top.className||top.tagName),pick:h&&h.obj.name,player:[player.position.x,player.position.y,player.position.z].map(v=>+v.toFixed(2)),cam:camera.position.toArray().map(v=>+v.toFixed(1))};
-    return null},name);
+    return null},name,!!(opts&&opts.ownFirst));
   if(!xy){console.log('    clickNamed diag '+JSON.stringify(await page.evaluate(()=>window.__clickDiag)));await shot(page,'zz_click_'+name);await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {error:'not clickable '+name}}
   await press(page,xy);await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {ok:true};
 }
@@ -182,9 +182,9 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
       const hatch=await clickNamed(page,'CellarHatch');
       const down=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&/guide-cellar/.test(r.surface)},null,40000);await sleep(1500);
       const feet=await page.evaluate(()=>{const f=scene.getObjectByName('CellarFloor');if(!f)return null;const b=new THREE.Box3().setFromObject(f),p=player.position;return {y:+p.y.toFixed(3),floorTop:+b.max.y.toFixed(3),onFloor:Math.abs(p.y-b.max.y)<.08&&p.x>b.min.x&&p.x<b.max.x&&p.z>b.min.z&&p.z<b.max.z}});
-      await shot(page,'02_guide_cellar');const c0=await count(page,'cabbage');const pick=await clickNamed(page,'CellarCabbage');
+      await shot(page,'02_guide_cellar');const c0=await count(page,'cabbage');const pick=await clickNamed(page,'CellarCabbage',{ownFirst:true});
       const picked=await waitFor(page,n=>Player.count('cabbage')>n,c0,30000);
-      const upc=await clickNamed(page,'CellarLadder');const up=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.surface==='ground'},null,40000);
+      const upc=await clickNamed(page,'CellarLadder',{ownFirst:true});const up=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.surface==='ground'},null,40000);
       ok('Guide House cellar (owner review 4): a click on the corner trapdoor climbs down onto the flagstones (feet on the floor, not through it), the cabbage is picked into the pack, the ladder climbs back up',
        !hatch.error&&down&&feet&&feet.onFloor&&!pick.error&&picked&&!upc.error&&up,{inH,hatch,down,feet,pick,picked,cabbage:await count(page,'cabbage'),ladder:upc,up});
       if(home)await page.evaluate(id=>HolmArrivalQA.qaPlace(id),home);await sleep(1500);}

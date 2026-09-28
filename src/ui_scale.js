@@ -39,6 +39,10 @@ var UIScale=(function(){
   'html.ui-scaled #hud-rail{left:6px;right:auto;bottom:var(--ui-rail-bottom,200px);}',
   // the zoomed minimap cluster's box (and its tall orbs holder) reaches over the side panel's top tab row: only the
   // minimap, the orbs and the run orb take clicks, the empty box between them passes them on (Combat/Skills/Quests tabs)
+  // the prayer book (17) and the spellbook (21 + headings) fit the 2004-height panel without scrolling, as 2004's did:
+  // prayers 5 across (were 4: one row past the panel), spells 6 across (were 5: 15 px past it)
+  'html.ui-scaled.osrs-kit #prayer-grid{grid-template-columns:repeat(5,1fr);}',
+  'html.ui-scaled.osrs-kit #spell-grid{grid-template-columns:repeat(6,1fr);}',
   'html.ui-scaled #mm-cluster,html.ui-scaled #orbs{pointer-events:none;}',
   'html.ui-scaled #minimap-frame,html.ui-scaled #run-orb,html.ui-scaled #orbs>*{pointer-events:auto;}',
   'html.ui-scaled #test-travel-toggle{left:6px;bottom:calc(var(--ui-rail-bottom,200px) + 40px);}',

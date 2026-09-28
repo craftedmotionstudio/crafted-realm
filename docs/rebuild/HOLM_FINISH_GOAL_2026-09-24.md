@@ -416,6 +416,10 @@ Cutover plan (2026-09-25, from the provider/save audit; reversible behind one sw
       owner (chars-v4-options), and a 2004 reference harness (tools/ref2004, merged 4ddcf24) whose measured feel report
       (docs/rebuild/REF2004_FEEL_REPORT.md) drives a feel pass (holm-feel-2004: camera, pace, UI scale, scenery, skill
       timings). Final proof re-runs after those three merge.
+      2026-09-28 FINAL-BUILD PROOF 752ad2d (+ fixes 454ec88): review 4 fixes, characters v4a.2b (option A), 2004 feel pass,
+      all building props, skill guides, item icons, arrival v2land-v3: 10/10 playthroughs complete, 18/18 lessons, 10/10
+      tutors, 0 page errors; island QA 33/33, route 10/10, hollow 14/14, menu 65/65, PvM 40/40, guides 367/367, icons 19/19,
+      units 90/90, server 98/98, smoke. Presented for the owner's final read.
 - [ ] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
       Verify fresh characters, returning Holm saves, graduated saves, full inventory and interruptions.
 - [ ] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload
