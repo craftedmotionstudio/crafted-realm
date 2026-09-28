@@ -1,17 +1,17 @@
 {
  "option": "v4a",
  "label": "Option A -- closest 2004: 2004 proportions, low-poly panel shading, old-client stepped motion (8 held poses, no in-betweens)",
- "total": 9.34,
+ "total": 9.42,
  "criteria": {
-  "head/body ratio": 9.43,
-  "shoulder line": 9.23,
-  "neck": 9.18,
-  "arm hang": 9.36,
+  "head/body ratio": 9.39,
+  "shoulder line": 9.41,
+  "neck": 9.39,
+  "arm hang": 9.19,
   "legs/feet": 9.59,
   "face": 9.0,
   "shading": 9.0,
   "walk": 10.0,
-  "run": 9.24
+  "run": 9.77
  },
  "silhouette_views": [
   {
@@ -20,7 +20,7 @@
     "head/body ratio": 9.75,
     "shoulder line": 10.0,
     "neck": 9.72,
-    "arm hang": 9.72,
+    "arm hang": 9.73,
     "legs/feet": 10.0
    },
    "detail": {
@@ -38,12 +38,12 @@
     },
     "shoulder line": {
      "shoulder_deg": {
-      "ours": 17.7135,
+      "ours": 17.7107,
       "ref": 13.8486,
       "score": 10.0
      },
      "shoulder_w": {
-      "ours": 0.3214,
+      "ours": 0.3163,
       "ref": 0.3216,
       "score": 10.0
      }
@@ -67,9 +67,9 @@
       "score": 10.0
      },
      "arm_spread": {
-      "ours": 0.9683,
+      "ours": 0.9677,
       "ref": 0.9455,
-      "score": 9.44
+      "score": 9.46
      }
     },
     "legs/feet": {
@@ -87,7 +87,7 @@
     "head/body ratio": 9.56,
     "shoulder line": 10.0,
     "neck": 8.76,
-    "arm hang": 8.55,
+    "arm hang": 8.57,
     "legs/feet": 9.61
    },
    "detail": {
@@ -105,12 +105,12 @@
     },
     "shoulder line": {
      "shoulder_deg": {
-      "ours": 19.0924,
+      "ours": 18.3899,
       "ref": 18.9327,
       "score": 10.0
      },
      "shoulder_w": {
-      "ours": 0.3378,
+      "ours": 0.3289,
       "ref": 0.3333,
       "score": 10.0
      }
@@ -134,9 +134,9 @@
       "score": 8.8
      },
      "arm_spread": {
-      "ours": 0.9737,
+      "ours": 0.973,
       "ref": 0.925,
-      "score": 8.3
+      "score": 8.33
      }
     },
     "legs/feet": {
@@ -152,9 +152,9 @@
    "view": "man in-game close camera, back",
    "scores": {
     "head/body ratio": 8.4,
-    "shoulder line": 7.29,
+    "shoulder line": 8.25,
     "neck": 9.09,
-    "arm hang": 9.88,
+    "arm hang": 9.86,
     "legs/feet": 8.75
    },
    "detail": {
@@ -172,14 +172,14 @@
     },
     "shoulder line": {
      "shoulder_deg": {
-      "ours": 17.3596,
+      "ours": 16.694,
       "ref": 10.4757,
-      "score": 8.08
+      "score": 8.52
      },
      "shoulder_w": {
-      "ours": 0.3467,
+      "ours": 0.3378,
       "ref": 0.3193,
-      "score": 6.49
+      "score": 7.98
      }
     },
     "neck": {
@@ -201,9 +201,9 @@
       "score": 10.0
      },
      "arm_spread": {
-      "ours": 0.9744,
+      "ours": 0.9737,
       "ref": 0.9868,
-      "score": 9.75
+      "score": 9.73
      }
     },
     "legs/feet": {
@@ -218,23 +218,23 @@
   {
    "view": "woman designer front (level camera; median of 2 reference passes)",
    "scores": {
-    "head/body ratio": 10.0,
-    "shoulder line": 9.65,
-    "neck": 9.16,
-    "arm hang": 9.29,
+    "head/body ratio": 9.84,
+    "shoulder line": 9.41,
+    "neck": 10.0,
+    "arm hang": 8.61,
     "legs/feet": 10.0
    },
    "detail": {
     "head/body ratio": {
      "head_ratio": {
-      "ours": 0.126,
+      "ours": 0.1272,
       "ref": 0.1243,
       "score": 10.0
      },
      "head_w": {
-      "ours": 0.0977,
+      "ours": 0.0967,
       "ref": 0.1065,
-      "score": 10.0
+      "score": 9.69
      }
     },
     "shoulder line": {
@@ -244,38 +244,38 @@
       "score": 10.0
      },
      "shoulder_w": {
-      "ours": 0.2828,
+      "ours": 0.2799,
       "ref": 0.2959,
-      "score": 9.3
+      "score": 8.82
      }
     },
     "neck": {
      "neck_len": {
-      "ours": 0.0334,
+      "ours": 0.0407,
       "ref": 0.0473,
-      "score": 8.32
+      "score": 10.0
      },
      "neck_w": {
-      "ours": 0.0411,
+      "ours": 0.0407,
       "ref": 0.0385,
       "score": 10.0
      }
     },
     "arm hang": {
      "hand_h": {
-      "ours": 0.4936,
+      "ours": 0.4707,
       "ref": 0.4734,
-      "score": 8.58
+      "score": 10.0
      },
      "arm_spread": {
-      "ours": 0.9455,
+      "ours": 1.0182,
       "ref": 0.94,
-      "score": 10.0
+      "score": 7.23
      }
     },
     "legs/feet": {
      "crotch_h": {
-      "ours": 0.4396,
+      "ours": 0.4351,
       "ref": 0.4438,
       "score": 10.0
      }
@@ -320,7 +320,7 @@
    }
   },
   "run": {
-   "score": 9.24,
+   "score": 9.77,
    "detail": {
     "run_cycle_rel": {
      "ours": 1.0294,
@@ -338,24 +338,24 @@
      "score": 10.0
     },
     "run_bob_H": {
-     "ours": 0.0423,
+     "ours": 0.0357,
      "ref": 0.0375,
      "score": 10.0
     },
     "run_max_feet_spread_H": {
-     "ours": 0.6549,
+     "ours": 0.7143,
      "ref": 0.7215,
-     "score": 8.09
+     "score": 10.0
     },
     "run_max_hand_band_H": {
-     "ours": 0.3944,
+     "ours": 0.4143,
      "ref": 0.4474,
-     "score": 7.72
+     "score": 9.04
     },
     "run_min_hand_band_H": {
-     "ours": 0.1972,
+     "ours": 0.1786,
      "ref": 0.174,
-     "score": 9.55
+     "score": 10.0
     }
    }
   }

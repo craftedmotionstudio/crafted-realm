@@ -45,13 +45,13 @@ SHELF_C = {   # the stylised midpoint: a gentler shelf
 # ---- heads (every option): the 2004 head is an egg -- widest at the temples, narrowing to a domed, slightly pointed crown
 # and to a small pointed chin; tiny ears; the face is a thin dark eye slit (with a small drop at its outer end), no brows,
 # at most a faint mouth line.  (z, rx, rf, rb, jaw) in head space, final values (v3.1f widened these by 1.02 at load)
-HEAD_EGG = {
-    'A': [(1.548, .036, .044, .036, 0.0), (1.566, .056, .062, .048, .15), (1.588, .068, .074, .058, .11), (1.628, .079, .084, .080, .05),
+HEAD_EGG = {   # the back of the skull stops above the jaw line: from behind the nape shows below it (the 2004 back view)
+    'A': [(1.548, .036, .044, .028, 0.0), (1.566, .056, .062, .034, .15), (1.588, .068, .074, .044, .11), (1.628, .079, .084, .072, .05),
           (1.665, .085, .088, .092, 0.0), (1.720, .086, .086, .098, 0.0), (1.770, .080, .078, .094, 0.0), (1.800, .068, .062, .080, 0.0),
           (1.818, .047, .040, .056, 0.0), (1.824, .020, .016, .022, 0.0)],
 }
-HEAD_EGG['B'] = [(1.554, .032, .040, .032, 0.0), (1.572, .052, .060, .044, .17), (1.592, .064, .072, .054, .12),
-                 (1.630, .076, .084, .078, .05)] + HEAD_EGG['A'][4:]
+HEAD_EGG['B'] = [(1.554, .032, .040, .026, 0.0), (1.572, .052, .060, .032, .17), (1.592, .064, .072, .042, .12),
+                 (1.630, .076, .084, .070, .05)] + HEAD_EGG['A'][4:]
 
 # the 2004 idle (measured on the reference front views): legs nearly parallel and close under narrow hips
 STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 3.0), 'RightUpLeg': (-5.5, 1, -3.0), 'Neck': (10, 0, 0), 'Head': (6, 0, 0)}   # head carried forward, face level
@@ -116,8 +116,8 @@ def _v_body(K, thigh_k=.80, hip_x=.100, long_legs=True, thigh_k_b=.84, hip_x_b=.
 # faster than 2004's (1.32 vs 1.01 H/s), so the walk keeps the 2004 STRIDE (23 frames = 0.77 s -> 1.01 H).
 # the reference strips also lean forward: ~5 deg in the walk, ~14 deg in the run (hips -> head)
 GAIT_2004 = {'walk': {'frames': 22, 'bob': .022, 'p_on': 2, 'p_off': -8, 'arm_swing': 33, 'plant_k': .65, 'lean_cap': (5.0, False)},
-             'run': {'frames': 21, 'duty': .30, 'bob': .035, 'bob_phase': .40, 'drop': .04, 'kick': .26, 'lift': .17, 'arm_swing': 86, 'fore': 40,
-                     'plant_k': .95, 'lean_cap': (12.0, False)}}
+             'run': {'frames': 21, 'duty': .30, 'bob': .035, 'bob_phase': .40, 'drop': .04, 'kick': .34, 'lift': .19, 'arm_swing': 96, 'fore': 32,
+                     'plant_k': 1.0, 'lean_cap': (12.0, False)}}
 GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, False)),
           'run': dict(GAIT_2004['run'], frames=20, lean_cap=(8.0, False))}
 
@@ -133,8 +133,8 @@ TUTOR_GAIT_2004 = {'lean_cap': (5.0, False), 'plant_k': .85, 'arm_swing': 20}
 GOATEE_2004 = dict(tip_z=1.500, thick=.016, th_max=62, top_front=1.604, top_side=1.610, side_bot=1.572, narrow=.55)
 # the shared 2004 body (measured against the reference man and woman: designer front + the old client's close camera)
 BODY_2004 = dict(shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .074}, arm_out={'A': -.034, 'B': .004},
-                 head_s=.94, head_s_bt={'B': .95}, head_wx=1.07, head_wy=.94, head_hz=1.00, head_dz=-.020, neck_k={'A': 1.10, 'B': .82},
-                 stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, deltoid_k=.85, arm_aim={'LeftArm': (.46, -.07, -.88), 'LeftForeArm': (.10, -.36, -.93), 'LeftHand': (.08, -.40, -.91)}, arms=(.05, .095), hand_k={'A': .86, 'B': 1.04}, arm_in={'B': .006}, peplum_off=.002,
+                 head_s=.94, head_s_bt={'B': .95}, head_dz_bt={'B': .014}, head_wx=1.07, head_wy=.94, head_hz=1.00, head_dz=-.020, neck_k={'A': 1.10, 'B': .82},
+                 stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, deltoid_k=.85, arm_aim={'LeftArm': (.46, -.07, -.88), 'LeftForeArm': (.10, -.36, -.93), 'LeftHand': (.08, -.40, -.91)}, arms=(.05, .095), hand_k={'A': .86, 'B': 1.04}, arm_in={'A': (.012, .004), 'B': (.026, .006)}, arm_ext={'B': .045}, peplum_off=.002,
                  head=HEAD_EGG, head_p=2.3, gait=GAIT_2004, goatee=GOATEE_2004)
 # eyes: dark slits that still read at the game camera (the reference's are ~2 px at 240 px tall); the goatee is broad
 FACE_2004 = dict(eye=(.029, 1.690, .032, .0125, .030, .0115), eye_tick=(.012, -.007, .008, .006), brow=None,
@@ -210,6 +210,7 @@ def apply(K, name):
     if 'arms' in P:
         _arms(K, *P['arms'])
     K.ARM_IN.clear(); K.ARM_IN.update(P.get('arm_in', {}))
+    K.ARM_EXT.clear(); K.ARM_EXT.update(P.get('arm_ext', {}))
     if 'hand_k' in P:
         K.HAND_K.update(P['hand_k'])
     for bt in ('A', 'B'):
@@ -226,6 +227,7 @@ def apply(K, name):
         K.HEAD_P = P['head_p']
     K.HEAD_S = P['head_s']
     K.HEAD_S_BT.clear(); K.HEAD_S_BT.update(P.get('head_s_bt', {}))
+    K.HEAD_DZ_BT.clear(); K.HEAD_DZ_BT.update(P.get('head_dz_bt', {}))
     K.HEAD_WX = P.get('head_wx', K.HEAD_WX)
     K.HEAD_HZ = P.get('head_hz', K.HEAD_HZ)
     K.HEAD_WY = P.get('head_wy', K.HEAD_WY)

@@ -689,13 +689,24 @@ LEG_R = {bt: _with_knee(rows) for bt, rows in LEG_R.items()}
 BUILD = {'name': 'average', 'skirt': 1.0, 'arm_out': None, 'leg_in': None, 'deltoid': 1.0, 'tables': None}
 
 ARM_IN = {}   # v4 profiles: per body type, the arm mesh sits this far inside its bones from the elbow down (m)
+ARM_EXT = {}  # v4 profiles: per body type, the forearm runs this much past the wrist joint (the hand hangs lower, m)
 
-def arm_in_vec(bt, sx):
-    return Vector((-sx * ARM_IN.get(bt, 0.0), 0, 0))
+def arm_in_vec(bt, sx, at='wrist'):
+    v = ARM_IN.get(bt, 0.0)
+    if isinstance(v, (tuple, list)):   # (at the elbow, at the wrist)
+        v = v[0] if at == 'elbow' else v[1]
+    return Vector((-sx * v, 0, 0))
+
+def arm_ext_vec(bt, sx):
+    e = ARM_EXT.get(bt, 0.0)
+    if not e:
+        return Vector()
+    sd = 'Left' if sx > 0 else 'Right'
+    return (BHEAD[B(sd + 'Hand')] - BHEAD[B(sd + 'ForeArm')]).normalized() * e
 
 def hand_shift(bt, sx, ax):
     """lateral offset of the whole hand under a build (it follows the wrist of the shifted forearm)"""
-    base = arm_in_vec(bt, sx)
+    base = arm_in_vec(bt, sx) + arm_ext_vec(bt, sx)
     if not BUILD['arm_out']:
         return base
     lat = Vector((sx, 0, 0)) - ax * (ax.x * sx)
@@ -781,7 +792,8 @@ U_CAP = .65
 def arm_path(bt, sx):
     sd = 'Left' if sx > 0 else 'Right'
     x, y, z = ARM_TOP[bt]
-    return Path([(sx * x, y, z), BHEAD[B(sd + 'ForeArm')] + arm_in_vec(bt, sx), BHEAD[B(sd + 'Hand')] + arm_in_vec(bt, sx)])
+    return Path([(sx * x, y, z), BHEAD[B(sd + 'ForeArm')] + arm_in_vec(bt, sx, 'elbow'),
+                 BHEAD[B(sd + 'Hand')] + arm_in_vec(bt, sx) + arm_ext_vec(bt, sx)])
 
 def leg_path(bt, sx):
     sd = 'Left' if sx > 0 else 'Right'
@@ -1250,10 +1262,10 @@ def hair_spikes(mb, bt, count=14, seed=7, ln=(.05, .085), lean=(-.2, 1.0)):
 def head_to_world(v):
     d = Vector(v) - HEAD_PIVOT
     hs = head_s()
-    return HEAD_PIVOT + Vector((d.x * hs * HEAD_WX, d.y * hs * HEAD_WY, d.z * hs * HEAD_HZ)) + Vector((0, 0, HEAD_DZ))
+    return HEAD_PIVOT + Vector((d.x * hs * HEAD_WX, d.y * hs * HEAD_WY, d.z * hs * HEAD_HZ)) + Vector((0, 0, head_dz()))
 
 def world_to_head(w):
-    d = Vector(w) - Vector((0, 0, HEAD_DZ)) - HEAD_PIVOT
+    d = Vector(w) - Vector((0, 0, head_dz())) - HEAD_PIVOT
     hs = head_s()
     return HEAD_PIVOT + Vector((d.x / (hs * HEAD_WX), d.y / (hs * HEAD_WY), d.z / (hs * HEAD_HZ)))
 
@@ -2713,14 +2725,19 @@ def build_mb(bt, slot, idx):
 HEAD_S_BT = {}    # v4 profiles: per body type head scale (x HEAD_S)
 HEAD_BT = None    # the body type being built (set by build_mb / build_tutor)
 
+HEAD_DZ_BT = {}   # v4 profiles: per body type extra head lift (m; the woman's longer neck)
+
 def head_s():
     return HEAD_S * HEAD_S_BT.get(HEAD_BT, 1.0)
+
+def head_dz():
+    return HEAD_DZ + HEAD_DZ_BT.get(HEAD_BT, 0.0)
 
 def head_xform(mb):
     hs = head_s()
     for v in mb.bm.verts:
         d = (v.co - HEAD_PIVOT) * hs
-        v.co = HEAD_PIVOT + Vector((d.x * HEAD_WX, d.y * HEAD_WY, d.z * HEAD_HZ)) + Vector((0, 0, HEAD_DZ))
+        v.co = HEAD_PIVOT + Vector((d.x * HEAD_WX, d.y * HEAD_WY, d.z * HEAD_HZ)) + Vector((0, 0, head_dz()))
 
 # ==========================================================================================
 # ARMATURE + PLAYER CLIPS -- retargeted verbatim from build_holm_player_v1.py (same 23 bones)
