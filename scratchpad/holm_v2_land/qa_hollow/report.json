@@ -1,5 +1,5 @@
 {
- "profile": "hollow-mukdnxd1",
+ "profile": "hollow-muknr54m",
  "pass": 14,
  "total": 14,
  "results": [
@@ -10,11 +10,11 @@
     "spots": [
      {
       "i": 0,
-      "candidate": "north-reeds",
+      "candidate": "east-shallows",
       "state": "on",
-      "x": 24.5,
-      "z": 93.5,
-      "timer": 59
+      "x": 31.5,
+      "z": 96.5,
+      "timer": 75
      },
      {
       "i": 1,
@@ -22,15 +22,15 @@
       "state": "on",
       "x": 30.5,
       "z": 99.5,
-      "timer": 75
+      "timer": 84
      },
      {
       "i": 2,
-      "candidate": "south-bank",
+      "candidate": "west-rim",
       "state": "on",
-      "x": 25.5,
-      "z": 98.5,
-      "timer": 77
+      "x": 22.5,
+      "z": 96.5,
+      "timer": 85
      }
     ],
     "fauna": {
@@ -154,8 +154,8 @@
      "casts": 3,
      "rolls": 2,
      "splashes": 6,
-     "leaps": 5,
-     "moves": 4,
+     "leaps": 4,
+     "moves": 3,
      "movedOn": 0,
      "plops": 0,
      "soaks": 0,
@@ -168,7 +168,7 @@
       "guaranteed": true
      }
     },
-    "seconds": 10.572
+    "seconds": 8.589
    }
   },
   {
@@ -203,20 +203,20 @@
    "pass": true,
    "info": {
     "was": {
-     "i": 0,
+     "i": 1,
+     "candidate": "beach-edge",
+     "state": "on",
+     "x": 30.5,
+     "z": 99.5,
+     "timer": 73
+    },
+    "now": {
+     "i": 1,
      "candidate": "south-bank",
      "state": "on",
      "x": 25.5,
      "z": 98.5,
-     "timer": 72
-    },
-    "now": {
-     "i": 0,
-     "candidate": "jetty-end",
-     "state": "on",
-     "x": 27.5,
-     "z": 95.5,
-     "timer": 76
+     "timer": 77
     }
    }
   },
@@ -224,16 +224,19 @@
    "name": "fishing after the lesson: several rolls, catches recorded (varied table: perch, reedpike from Fishing 5, junk, rares)",
    "pass": true,
    "info": {
-    "casts": 39,
-    "rolls": 34,
+    "casts": 38,
+    "rolls": 32,
     "splashes": 51,
-    "leaps": 12,
-    "moves": 16,
+    "leaps": 13,
+    "moves": 13,
     "movedOn": 2,
     "plops": 0,
-    "soaks": 0,
+    "soaks": 1,
     "catches": {
-     "raw_perch": 9
+     "raw_perch": 7,
+     "pond_weed": 1,
+     "raw_reedpike": 1,
+     "sealed_bottle": 1
     },
     "lastCatch": {
      "item": "raw_perch",
@@ -250,31 +253,34 @@
      "frog": "gone",
      "ducks": [
       [
-       23.41,
-       96.23
+       23.4,
+       96.05
       ],
       [
-       29.02,
-       97.49
+       29.31,
+       97.38
       ]
      ],
      "flies": 2
     },
     "st3": {
-     "casts": 40,
-     "rolls": 35,
-     "splashes": 54,
-     "leaps": 13,
-     "moves": 17,
+     "casts": 38,
+     "rolls": 32,
+     "splashes": 53,
+     "leaps": 14,
+     "moves": 16,
      "movedOn": 2,
      "plops": 1,
-     "soaks": 0,
+     "soaks": 1,
      "catches": {
-      "raw_perch": 10
+      "raw_perch": 7,
+      "pond_weed": 1,
+      "raw_reedpike": 1,
+      "sealed_bottle": 1
      },
      "lastCatch": {
       "item": "raw_perch",
-      "roll": 9,
+      "roll": 5,
       "guaranteed": false
      }
     }

@@ -1,0 +1,5 @@
+hollow exit=0
+island exit=0
+menu exit=0
+route exit=0
+smoke exit=0

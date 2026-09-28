@@ -1,6 +1,6 @@
 {
- "at": "2026-09-27T13:11:07.709Z",
- "pass": 64,
+ "at": "2026-09-28T03:30:31.821Z",
+ "pass": 65,
  "fail": 0,
  "results": [
   {
@@ -85,7 +85,7 @@
    "m": "a click outside only closes the box (no walk, no row)",
    "d": {
     "before": {
-     "last": 1790514525104,
+     "last": 1790566053224,
      "pos": [
       61.5,
       1,
@@ -93,7 +93,7 @@
      ]
     },
     "after": {
-     "last": 1790514525104,
+     "last": 1790566053224,
      "pos": [
       61.5,
       1,
@@ -113,7 +113,7 @@
      "option": "Read-plaque",
      "target": "Statue",
      "via": "left",
-     "at": 1790514529151
+     "at": 1790566057528
     },
     "ran": true
    }
@@ -182,7 +182,7 @@
      "option": "Take",
      "target": "Bones",
      "via": "left",
-     "at": 1790514536744
+     "at": 1790566066899
     },
     "ran": true
    }
@@ -217,7 +217,7 @@
      "option": "Open",
      "target": "Door",
      "via": "left",
-     "at": 1790514540155
+     "at": 1790566070764
     },
     "ran": true
    }
@@ -261,7 +261,7 @@
      "option": "Study",
      "target": "Relief chart",
      "via": "left",
-     "at": 1790514549539
+     "at": 1790566083938
     },
     "ran": true
    }
@@ -315,7 +315,7 @@
      "option": "Study",
      "target": "Relief chart",
      "via": "left",
-     "at": 1790514559788
+     "at": 1790566095944
     },
     "ran": true
    }
@@ -337,7 +337,15 @@
   },
   {
    "ok": true,
-   "m": "the Collect-tools row hands out the tools",
+   "m": "the Collect-tools row keeps the survival tools for Wenna (no hatchet from Bram's rack)",
+   "d": [
+    "Guide Bram has shown you the island. Next, Wenna at the survival camp, west of the Guide House. Out the back door and along the path. Follow the arrow.",
+    "The tools for your next lesson come from Wenna. Speak to Wenna first; this rack only keeps spares."
+   ]
+  },
+  {
+   "ok": true,
+   "m": "once Wenna has given the tools (and they are lost) the Collect-tools row hands out spares",
    "d": null
   },
   {
@@ -640,7 +648,7 @@
       "option": "Attack",
       "target": "Practice grubkin",
       "via": "left",
-      "at": 1790514663571
+      "at": 1790566226865
      },
      "ran": true
     },
@@ -650,8 +658,8 @@
     ],
     "walk": "ok",
     "chat": [
-     "The Proving Ground. Wild grubkins here attack on sight; the poacher, the warlock and the broodmother answer only a challenge.",
-     "You are already under attack!"
+     "You sell the bronze hatchet for 8 crowns.",
+     "The Proving Ground. Wild grubkins here attack on sight; the poacher, the warlock and the broodmother answer only a challenge."
     ]
    }
   },
@@ -784,7 +792,7 @@
    "name": "10_cellar_hatch",
    "rect": [
     703,
-    617,
+    618,
     132,
     73
    ]
@@ -793,7 +801,7 @@
    "name": "11_oak",
    "rect": [
     722,
-    285,
+    287,
     95,
     73
    ]
@@ -802,7 +810,7 @@
    "name": "12_fishing_spot",
    "rect": [
     704,
-    493,
+    545,
     131,
     73
    ]
@@ -811,7 +819,7 @@
    "name": "13_use_net_fishing_spot",
    "rect": [
     681,
-    493,
+    545,
     177,
     60
    ]
@@ -820,7 +828,7 @@
    "name": "14_grubkin",
    "rect": [
     666,
-    535,
+    533,
     207,
     73
    ]
