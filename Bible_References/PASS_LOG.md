@@ -3944,3 +3944,18 @@ length (slight medium-length read in 3/4).
   (desktop + 390x844 touch), menu QA 64/64; checked in the in-app browser (Attack guide).
 - Follow-ups: 94 items + 4 stat sprites lack a Blender icon (render pass queued); plan-vs-live level collisions
   (teleports, stalls, anvil item levels) to reconcile in WORLD_CONTENT_PLAN when W4 builds them (live data wins).
+
+## 2026-09-28 — Owner review 4 fixes + characters option A merged (2eefddf, 34f5a4c)
+- Review 4 (holm-review4-fixes): Wenna hands out the survival tools (chart/Bram overview only); fire anywhere, any fire
+  cooks; MOVING ON notices; cellar hatch in the SE corner (head-through-floor fixed) with a regrowing cabbage; cutaway
+  parts clip with walls; Lodge one oak door, upper storey hides, board 4 steps from the door; bakehouse solid wall
+  sections + grainless masonry; leaded glazing on every building; Guide House + Lodge props redesigned in Blender; mill
+  z-fighting 43 m2 -> 0.02 m2; statue clear of trees; signposted back path; loose wagon wheels flat; run off at start.
+- Characters kit v4a.2 (owner picked option A; follow-up: fitted trousers, smooth colour regions, rounder skull,
+  ankle-roll walk, calmer run): 1.5-tile people, 2004 cadence at the tick pace; Bram, 9 tutors, portraits, equipment v4
+  (0 clipping idle/walk), Scarlands humanoids. Rubric 8.38 (tool disagrees with REF2004 on walk bob); misses: run a
+  little crouched, idle stance wide, lean under 2004, arms cross the amulet in swings.
+- Gates on 34f5a4c: units 89/89, server 98/98, smoke PASS fg+hidden, combat numbers PASS, PvM 40/40, island QA 33/33,
+  skill guides 345/345, menu 65/65, playthrough 1/1 (18/18 lessons, 10/10 tutors, 0 errors).
+- Next: combined arrival package v2land-v3 (Guide House v6 + statue v5), remaining buildings props pass, item icon
+  renders, feel pass merge, then the 10-playthrough proof and the owner read.
