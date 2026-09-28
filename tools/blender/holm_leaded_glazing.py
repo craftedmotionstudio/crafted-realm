@@ -26,6 +26,11 @@ def materials():
     lead = bpy.data.materials.get('Window lead iron')
     if lead is None:
         lead = bpy.data.materials.new('Window lead iron'); lead.diffuse_color = (.16, .17, .17, 1); lead.roughness = 1.0; lead.metallic = 0.0
+        # Blender 5 gives every new material a node tree, and the glTF exporter reads the node, not diffuse_color (the
+        # Quest Lodge's cames first went out 0.8 grey): set the colour on the shader too
+        lead.use_nodes = True
+        sh = next(n for n in lead.node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
+        sh.inputs['Base Color'].default_value = (.16, .17, .17, 1); sh.inputs['Roughness'].default_value = 1.0; sh.inputs['Metallic'].default_value = 0.0
     return g, lead
 
 
@@ -121,4 +126,35 @@ def lead_faces(obj, name, dw=.2, dh=.28, off=.004):
     data = bpy.data.meshes.new(name); data.from_pydata([tuple(v) for v in V], [], F); data.update()
     ob = bpy.data.objects.new(name, data); bpy.context.collection.objects.link(ob)
     ob.parent = obj.parent; ob.matrix_world = obj.matrix_world.copy(); data.materials.append(lead)
+    return ob
+
+
+def lattice(V, F, o, uvec, vvec, n, u0, u1, v0, v1, sides=(1, -1), off=.004, dw=.2, dh=.28):
+    """Append one light's cames (edge came + diamond lattice) to V/F: the rectangle u0..u1 x v0..v1 on the plane through o
+    spanned by uvec (along) and vvec (up), laid `off` proud on each listed side of its normal n (world or mesh space)."""
+    def strip(a, b, wid):
+        du, dv = b[0] - a[0], b[1] - a[1]; L = (du * du + dv * dv) ** .5
+        if L < .03: return
+        nu, nv = -dv / L * wid / 2, du / L * wid / 2
+        for side in sides:
+            q = [(a[0] + nu, a[1] + nv), (b[0] + nu, b[1] + nv), (b[0] - nu, b[1] - nv), (a[0] - nu, a[1] - nv)]
+            k = len(V)
+            for u, v in q: V.append(o + uvec * u + vvec * v + n * (side * off))
+            F.append((k, k + 1, k + 2, k + 3) if side > 0 else (k + 3, k + 2, k + 1, k))
+    for a, b in (((u0, v0), (u1, v0)), ((u1, v0), (u1, v1)), ((u1, v1), (u0, v1)), ((u0, v1), (u0, v0))):
+        strip(a, b, .03)
+    w, h = u1 - u0, v1 - v0; nn = int(w / dw + h / dh) + 3
+    for sgn in (1, -1):
+        d = (sgn * dw, dh)
+        for k in range(-nn, nn + 1):
+            seg = _clip((u0 + dw / 2 + k * dw, v0), d, u0, u1, v0, v1)
+            if seg: strip(seg[0], seg[1], .014)
+
+
+def world_object(name, V, F, material, parent):
+    """A mesh object from world-space vertices, parented to `parent` without moving (the building's root)."""
+    data = bpy.data.meshes.new(name); data.from_pydata([tuple(v) for v in V], [], F); data.update(); data.materials.append(material)
+    ob = bpy.data.objects.new(name, data); bpy.context.collection.objects.link(ob)
+    if parent is not None:
+        ob.parent = parent; ob.matrix_parent_inverse = parent.matrix_world.inverted()
     return ob

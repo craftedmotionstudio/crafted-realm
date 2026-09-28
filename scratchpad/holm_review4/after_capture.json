@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:8109/?holmIsland=1&qaProfile=review4-after-muki2rzw",
+  "base": "http://127.0.0.1:8109/?holmIsland=1&qaProfile=review4-after-mukithxd",
   "tag": "after",
   "views": {
     "realflow": {
@@ -603,6 +603,59 @@
         "surface": "b:bakehouse:0:StagedTerrain"
       },
       "file": "after_5_bakehouse_round_0.jpg,after_5_bakehouse_round_1.jpg,after_5_bakehouse_round_2.jpg,after_5_bakehouse_round_3.jpg,after_5_bakehouse_round_4.jpg,after_5_bakehouse_round_5.jpg,after_5_bakehouse_base.jpg,after_5_bakehouse_base_south.jpg"
+    },
+    "glazing": {
+      "list": [
+        {
+          "id": "bakehouse",
+          "x": 41,
+          "y": 6.958,
+          "z": 70.078
+        },
+        {
+          "id": "bank",
+          "x": 80.52,
+          "y": 8.834999999999999,
+          "z": 54.5
+        },
+        {
+          "id": "quarry",
+          "x": 37.518,
+          "y": 10.9,
+          "z": 35.494
+        },
+        {
+          "id": "mage",
+          "x": 111.025,
+          "y": 9.475,
+          "z": 56
+        },
+        {
+          "id": "lastlight",
+          "x": 117.507,
+          "y": 19.35,
+          "z": 30.012
+        },
+        {
+          "id": "haven",
+          "x": 95.714,
+          "y": 3.051,
+          "z": 11.225
+        },
+        {
+          "id": "mill",
+          "x": 61.34,
+          "y": 6.970000000000001,
+          "z": 62.8
+        },
+        {
+          "id": "lodge",
+          "x": 40.9,
+          "y": 8,
+          "z": 49.8
+        }
+      ],
+      "file": "after_7_glazing_bakehouse.jpg,after_7_glazing_bank.jpg,after_7_glazing_quarry.jpg,after_7_glazing_mage.jpg,after_7_glazing_lastlight.jpg,after_7_glazing_haven.jpg,after_7_glazing_mill.jpg,after_7_glazing_lodge.jpg"
     }
   },
   "errors": []

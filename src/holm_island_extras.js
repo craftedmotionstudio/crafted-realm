@@ -172,7 +172,7 @@ var HolmIslandExtras=(function(){
    // facing block's cut edges as a row of lines. A building with a cap colour gets a solid top at the cut: while inside,
    // its shell draws front faces only and a flat back-face twin (seen only through the cut) fills the wall's section. The wall is built in layers that meet face to face (lining, core, facing), so inside the cut a layer's face lies exactly on the next one's back: the twin is drawn a hair nearer (a constant depth offset, never the slope) and wins those ties.
    if(CUTAWAY[b.id]&&CUTAWAY[b.id].cap!==undefined){var capMat=new T.MeshBasicMaterial({color:CUTAWAY[b.id].cap,side:T.BackSide,clippingPlanes:[clipPlane],polygonOffset:true,polygonOffsetFactor:0,polygonOffsetUnits:-12}),capped=[];
-    gltf.scene.traverse(function(n){if(n.isMesh&&CUTAWAY[b.id].clip.test(partName(n,gltf.scene)))capped.push(n)});
+    gltf.scene.traverse(function(n){var pn=partName(n,gltf.scene);if(n.isMesh&&CUTAWAY[b.id].clip.test(pn)&&!/Glazing/.test(pn))capped.push(n)});   // walls only: panes and their cames keep both faces
     capped.forEach(function(n){var c=new T.Mesh(n.geometry,capMat);c.name='';c.userData.cutCap=true;c.visible=false;c.castShadow=c.receiveShadow=false;c.raycast=function(){};n.add(c)});
     models[b.id].capped=capped}
    (SERVICES[b.id]||[]).forEach(function(s){

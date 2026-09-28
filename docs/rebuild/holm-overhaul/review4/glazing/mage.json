@@ -1,0 +1,15 @@
+{
+ "id": "mage",
+ "source": ".studio-workspaces/holm-mage-oldschool-v1/candidates/mage.blend",
+ "blender": "5.1",
+ "reference": ".studio-workspaces/holm-mage-oldschool-v1/candidates/mage.glb",
+ "root": "Mage_Root",
+ "outBlend": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.blend",
+ "outGlb": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.glb",
+ "report": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/glazing.report.json",
+ "openings": {
+  "shell": "^Mage_(Shell|UpperShell)$",
+  "name": "Mage_GlazingLeaded"
+ },
+ "added": "^Mage_GlazingLeaded(Leads)?$"
+}

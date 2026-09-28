@@ -1,0 +1,4 @@
+{"id":"mill","source":".studio-workspaces/holm-mill-os-v1/candidates/mill.blend","blender":"4.5","reference":".studio-workspaces/holm-mill-os-v1/candidates/mill.glb","root":"mill",
+ "outBlend":".studio-workspaces/holm-mill-glazed-review4-v1/candidates/mill.blend","outGlb":".studio-workspaces/holm-mill-glazed-review4-v1/candidates/mill.glb","report":".studio-workspaces/holm-mill-glazed-review4-v1/candidates/glazing.report.json",
+ "recess":{"objects":"^Mill_(Shell|UpperShell)$","materials":"Window recess shadow","name":"Mill_GlazingRecess"},
+ "openings":{"shell":"^Mill_(Shell|UpperShell)$","name":"Mill_GlazingLeaded"},"added":"^Mill_Glazing(Recess|Leaded)(Leads)?$"}

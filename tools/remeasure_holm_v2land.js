@@ -6,7 +6,11 @@
  *     terrain folder, output folder, model hash source and foundation height swapped (docs/rebuild/holm-overhaul/v2land/*.relock.json).
  * Each graph lands in a NEW workspace .studio-workspaces/holm-<id>-v2land-navigation-v1 and is hash-bound to the exact GLB the
  * island loads. Writes the registry docs/rebuild/holm-overhaul/v2land.json read by the runtime pins and tools/holm_v2_land_inputs.js.
- * One Blender process at a time. Run: node tools/remeasure_holm_v2land.js [ids...]   (default: all) */
+ * One Blender process at a time. Run: node tools/remeasure_holm_v2land.js [ids...]   (default: all)
+ * Owner review 4 (2026-09-27): the lodge (tools/blender/build_holm_quest_lodge_review4.py + review4/lodge.relock.json), the bakehouse
+ * (oldschool/bakehouse-review4.textures.json) and the glazed bank, quarry, mage, lastlight, haven, mill and bakehouse
+ * (tools/glaze_holm_buildings_review4.js) moved to review-4 models; MODELS below still names the pre-review-4 models, so re-measuring
+ * those ids with this tool would put the old models back: use the review-4 tools, which prove each graph identical. */
 'use strict';
 const fs=require('fs'),path=require('path'),cp=require('child_process'),crypto=require('crypto');
 const root=path.resolve(__dirname,'..'),abs=p=>path.join(root,p),read=p=>JSON.parse(fs.readFileSync(abs(p),'utf8'));

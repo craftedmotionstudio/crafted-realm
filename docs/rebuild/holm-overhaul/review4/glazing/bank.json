@@ -1,0 +1,3 @@
+{"id":"bank","source":".studio-workspaces/holm-bank-oldschool-v1/candidates/bank.blend","blender":"5.1","reference":".studio-workspaces/holm-bank-oldschool-v1/candidates/bank.glb",
+ "outBlend":".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.blend","outGlb":".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb","report":".studio-workspaces/holm-bank-glazed-review4-v1/candidates/glazing.report.json",
+ "panes":[{"objects":"^Bank_(Upper)?Glazing$","materials":"Leaded glass","glass":true}],"added":"^Bank_(Upper)?GlazingLeads$"}

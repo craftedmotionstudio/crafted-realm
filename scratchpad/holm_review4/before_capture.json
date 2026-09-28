@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:8109/?qaProfile=review4-before-muki1dkk",
+  "base": "http://127.0.0.1:8109/?qaProfile=review4-before-mukis2aw",
   "tag": "before",
   "views": {
     "flow": {
@@ -570,6 +570,59 @@
     },
     "havencave": {
       "file": "before_5_in_haven_shelter.jpg,before_5_in_haven_notice.jpg,before_5_in_cavern_furnace.jpg,before_5_in_cavern_anvil.jpg"
+    },
+    "glazing": {
+      "list": [
+        {
+          "id": "bakehouse",
+          "x": 41,
+          "y": 6.958,
+          "z": 70.078
+        },
+        {
+          "id": "bank",
+          "x": 80.52,
+          "y": 8.834999999999999,
+          "z": 54.5
+        },
+        {
+          "id": "quarry",
+          "x": 37.518,
+          "y": 10.9,
+          "z": 35.494
+        },
+        {
+          "id": "mage",
+          "x": 111.025,
+          "y": 9.475,
+          "z": 56
+        },
+        {
+          "id": "lastlight",
+          "x": 117.507,
+          "y": 19.35,
+          "z": 30.012
+        },
+        {
+          "id": "haven",
+          "x": 95.714,
+          "y": 3.051,
+          "z": 11.225
+        },
+        {
+          "id": "mill",
+          "x": 61.34,
+          "y": 6.970000000000001,
+          "z": 62.8
+        },
+        {
+          "id": "lodge",
+          "x": 40.9,
+          "y": 8,
+          "z": 49.8
+        }
+      ],
+      "file": "before_7_glazing_bakehouse.jpg,before_7_glazing_bank.jpg,before_7_glazing_quarry.jpg,before_7_glazing_mage.jpg,before_7_glazing_lastlight.jpg,before_7_glazing_haven.jpg,before_7_glazing_mill.jpg,before_7_glazing_lodge.jpg"
     }
   },
   "errors": []

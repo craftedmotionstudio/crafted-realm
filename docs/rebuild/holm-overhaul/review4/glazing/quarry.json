@@ -1,0 +1,3 @@
+{"id":"quarry","source":".studio-workspaces/holm-quarry-oldschool-v1/candidates/quarry.blend","blender":"5.1","reference":".studio-workspaces/holm-quarry-oldschool-v1/candidates/quarry.glb",
+ "outBlend":".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.blend","outGlb":".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb","report":".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/glazing.report.json",
+ "panes":[{"objects":"^Quarry_GlazingMain$","materials":"iron","glass":true}],"added":"^Quarry_GlazingMainLeads$"}
