@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:8109/?holmIsland=1&qaProfile=review4-after-mukh2dh3",
+  "base": "http://127.0.0.1:8109/?holmIsland=1&qaProfile=review4-after-muki2rzw",
   "tag": "after",
   "views": {
     "realflow": {
@@ -546,6 +546,63 @@
       },
       "route": 4,
       "file": "after_6_lodge_entry_board.jpg"
+    },
+    "bakeinround": {
+      "stance": {
+        "id": "b:bakehouse:-3:0:0",
+        "x": 41.5,
+        "y": 5.400002000000001,
+        "z": 67.5,
+        "surface": "b:bakehouse:0:Kitchen_Floor_Flags"
+      },
+      "at": {
+        "id": "b:bakehouse:-3:0:0",
+        "x": 41.5,
+        "y": 5.400002000000001,
+        "z": 67.5,
+        "surface": "b:bakehouse:0:Kitchen_Floor_Flags"
+      },
+      "file": "after_5_bakehouse_inround_0.jpg,after_5_bakehouse_inround_1.jpg,after_5_bakehouse_inround_2.jpg,after_5_bakehouse_inround_3.jpg,after_5_bakehouse_inround_4.jpg,after_5_bakehouse_inround_5.jpg"
+    },
+    "bakein": {
+      "stance": {
+        "id": "b:bakehouse:-3:0:0",
+        "x": 41.5,
+        "y": 5.400002000000001,
+        "z": 67.5,
+        "surface": "b:bakehouse:0:Kitchen_Floor_Flags"
+      },
+      "at": {
+        "id": "b:bakehouse:-3:0:0",
+        "x": 41.5,
+        "y": 5.400002000000001,
+        "z": 67.5,
+        "surface": "b:bakehouse:0:Kitchen_Floor_Flags"
+      },
+      "file": "after_5_bakehouse_inside.jpg"
+    },
+    "bakein2": {
+      "at": {
+        "id": "b:bakehouse:-3:0:0",
+        "x": 41.5,
+        "y": 5.400002000000001,
+        "z": 67.5,
+        "surface": "b:bakehouse:0:Kitchen_Floor_Flags"
+      },
+      "file": "after_5_bakehouse_inside_b.jpg"
+    },
+    "havencave": {
+      "file": "after_5_in_haven_shelter.jpg,after_5_in_haven_notice.jpg,after_5_in_cavern_furnace.jpg,after_5_in_cavern_anvil.jpg"
+    },
+    "bakeout": {
+      "at": {
+        "id": "b:bakehouse:8:2:0",
+        "x": 52.5,
+        "y": 5.251742,
+        "z": 69.5,
+        "surface": "b:bakehouse:0:StagedTerrain"
+      },
+      "file": "after_5_bakehouse_round_0.jpg,after_5_bakehouse_round_1.jpg,after_5_bakehouse_round_2.jpg,after_5_bakehouse_round_3.jpg,after_5_bakehouse_round_4.jpg,after_5_bakehouse_round_5.jpg,after_5_bakehouse_base.jpg,after_5_bakehouse_base_south.jpg"
     }
   },
   "errors": []

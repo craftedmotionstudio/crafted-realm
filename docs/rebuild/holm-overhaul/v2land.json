@@ -100,18 +100,19 @@
    "measuredAt": "2026-09-27T04:24:54.272Z"
   },
   "bakehouse": {
-   "graph": "holm-kitchen-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-kitchen-oldschool-v1/candidates/kitchen-character.glb",
+   "graph": "holm-kitchen-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-kitchen-oldschool-v2/candidates/kitchen-character.glb",
    "placement": {
     "x": 44,
     "y": 5.4,
     "z": 67
    },
    "nodes": 265,
-   "modelSha256": "ea05c5afd23f5d3bc050d55315026f492ca953a719f56df2ff3a68e53e489f84",
+   "modelSha256": "14c4a87afacf4499aa17a2aaad920fce4348d90391c851e5194384d389dc7838",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:25:04.961Z"
+   "measuredAt": "2026-09-28T00:09:40.146Z",
+   "review4": "owner review 4 (2026-09-27): the oven, hearth breast and chimney in grainless masonry instead of wood grain (docs/rebuild/holm-overhaul/oldschool/bakehouse-review4.textures.json); graph re-extracted, identical apart from the model hash"
   },
   "lodge": {
    "graph": "holm-quest-lodge-review4-navigation-v1",

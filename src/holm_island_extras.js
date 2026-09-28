@@ -58,7 +58,7 @@ var HolmIslandExtras=(function(){
  // player's floor hidden, shell walls clipped just above the player while inside.
  var CUTAWAY={
   keep:{roof:/^Keep_Roof_/,upper:/^Keep_(Upper|Tower)_/,clip:/^Keep_(Shell|Upper_Shell|GroundFront)_/,lift:1.25},
-  bakehouse:{roof:/^Kitchen_(Roof|Chimney)_/,upper:/^Kitchen_Upper/,clip:/^Kitchen_(Shell|UpperShell|GroundFront|Glazing)_/,lift:.5},
+  bakehouse:{roof:/^Kitchen_(Roof|Chimney)_/,upper:/^Kitchen_Upper/,clip:/^Kitchen_(Shell|UpperShell|GroundFront|Glazing)_/,lift:.5,cap:0x6e6a63},   // cap: the cut walls' solid section (owner review 4)
   lodge:{roof:/^Lodge_(Roof|Chimney)/,upper:/^Lodge_Upper(?!.*Stair)/,clip:/^Lodge_(GroundShell|UpperShell|Glazing)/,lift:.5}};
  // M4.4 buildings follow the brief's naming contract: <Prefix>_Roof / _Upper / _Shell / _UpperShell / _Glazing
  ['Survival','Quarry','Bank','Mage','Haven','Lastlight','Cavern','Mill'].forEach(function(p){CUTAWAY[p.toLowerCase()]={roof:new RegExp('^'+p+'_Roof'),upper:new RegExp('^'+p+'_Upper'),clip:new RegExp('^'+p+'_(Shell|UpperShell|Glazing)'),lift:.5}});
@@ -159,7 +159,7 @@ var HolmIslandExtras=(function(){
     b.graph.nodes.forEach(function(n){if(!/Terrain$/.test(n.surface)){var k=Math.round(n.y*20)/20;lv[k]=(lv[k]||0)+1}});
     var animOf=function(n){for(var q=n;q&&q!==gltf.scene;q=q.parent)if(q.name&&anim.has(q.name))return q.name;return null};
     models[b.id].cut=HolmCutawayParts.prepare(T,gltf.scene,{name:function(n){return partName(n,gltf.scene)},levels:Object.keys(lv).filter(function(k){return lv[k]>=3}).map(Number),
-     ground:function(x,z){return sample(x,z)},
+     ground:function(x,z){try{return sample(x,z)}catch(e){return NaN}},   // the cove haven and the offshore cavern stand past the terrain grid: no ground there
      role:function(n,name){var an=animOf(n);if(an&&!/Door/i.test(an))return 'skip';if(!name)return 'skip';
       if(rr.roof.test(name)||rr.clip.test(name))return 'cut';if(/Door/i.test(name)){n.userData.cutClip=true;n.material=Array.isArray(n.material)?n.material.map(function(m){return m&&m.clone()}):n.material&&n.material.clone();return 'cut'}
       if(n.userData.islandFloor||/Stair|Step|Tread|Ladder|Deck|Pier|Walk/i.test(name))return 'keep';
@@ -167,6 +167,14 @@ var HolmIslandExtras=(function(){
    }catch(err){console.error('[HolmIslandExtras] cutaway parts '+b.id,err)}   // (door leaves stand in the wall: cut with it, kept whole and clickable, with their own material copies)
    // model-space bottom of every part, for the upper-storey test (a part's geometry box ignores its node transform)
    gltf.scene.traverse(function(n){if(n.isMesh)n.userData.cutMinY=new T.Box3().setFromObject(n).min.y-p.y});
+   // owner review 4 (2026-09-27), bakehouse: 'thin layer walls visible when I rotate the camera, a lot of lines in the
+   // brick base'. A clipped wall is hollow: its stone facing, core and plaster lining showed as separate sheets and every
+   // facing block's cut edges as a row of lines. A building with a cap colour gets a solid top at the cut: while inside,
+   // its shell draws front faces only and a flat back-face twin (seen only through the cut) fills the wall's section. The wall is built in layers that meet face to face (lining, core, facing), so inside the cut a layer's face lies exactly on the next one's back: the twin is drawn a hair nearer (a constant depth offset, never the slope) and wins those ties.
+   if(CUTAWAY[b.id]&&CUTAWAY[b.id].cap!==undefined){var capMat=new T.MeshBasicMaterial({color:CUTAWAY[b.id].cap,side:T.BackSide,clippingPlanes:[clipPlane],polygonOffset:true,polygonOffsetFactor:0,polygonOffsetUnits:-12}),capped=[];
+    gltf.scene.traverse(function(n){if(n.isMesh&&CUTAWAY[b.id].clip.test(partName(n,gltf.scene)))capped.push(n)});
+    capped.forEach(function(n){var c=new T.Mesh(n.geometry,capMat);c.name='';c.userData.cutCap=true;c.visible=false;c.castShadow=c.receiveShadow=false;c.raycast=function(){};n.add(c)});
+    models[b.id].capped=capped}
    (SERVICES[b.id]||[]).forEach(function(s){
     var local=s.node||(b.graph.targets.filter(function(t){return t.id===s.target})[0]||{}).nodeId;need(local,b.id+' service '+s.label+' has no stance');
     var info={building:b.id,target:s.target,node:'b:'+b.id+':'+local,call:s.call,label:s.label,option:s.option,name:s.name,examine:s.examine,say:s.say},box=new T.Box3();   // option/name/examine: its old-school menu row (osrs_menu_world.js)
@@ -225,15 +233,20 @@ var HolmIslandExtras=(function(){
   var BM=data.bridgeModels||lookUrl(BRIDGE_MODELS),bridgeModels=(await json(BM+'manifest.json')).bridges;   // v2 land: rebuilt on the new decks
   for(var q=0;q<bridgeModels.length;q++){var m=bridgeModels[q],gb=await parse(T,await bytes(BM+m.file));place(gb.scene,m.centre[0],0,m.centre[2],0).name='island-bridge-'+m.id}
   var cutFor=null;
+  // a capped shell draws its front faces only while the cut shows (its flat back-face twin draws the section), both again outside
+  function capSides(M,on){if(!M||!M.capped)return;M.capped.forEach(function(n){[].concat(n.material).forEach(function(mm){if(!mm)return;
+    if(on){if(mm.userData.side0===undefined)mm.userData.side0=mm.side;mm.side=T.FrontSide}else if(mm.userData.side0!==undefined)mm.side=mm.userData.side0;mm.needsUpdate=true});
+   n.children.forEach(function(c){if(c.userData.cutCap)c.visible=on})})}
   // pose.surface 'b:<building>:<layer>:<mesh>' away from the building's terrain = inside that building
   function cutaway(pose){
    var m=pose&&/^b:([^:]+):\d+:(.*)$/.exec(pose.surface||''),inside=m&&!/Terrain$/.test(m[2])&&models[m[1]]?m[1]:null;   // only this module's buildings (not the Guide House cellar storey)
    if(inside===null&&cutFor===null)return;
-   if(inside!==cutFor&&cutFor!==null){models[cutFor].scene.traverse(function(n){if(n.isMesh){n.visible=true;[].concat(n.material).forEach(function(mm){if(mm)mm.clippingPlanes=[]})}})}
-   cutFor=inside;if(!inside||!CUTAWAY[inside])return;
+   if(inside!==cutFor&&cutFor!==null){models[cutFor].scene.traverse(function(n){if(n.isMesh){n.visible=!n.userData.cutCap;if(!n.userData.cutCap)[].concat(n.material).forEach(function(mm){if(mm)mm.clippingPlanes=[]})}});capSides(models[cutFor],false)}
+   var entering=inside!==cutFor;cutFor=inside;if(!inside||!CUTAWAY[inside])return;
    var r=CUTAWAY[inside],M=models[inside],localY=pose.y-M.placement.y;clipPlane.constant=pose.y+r.lift;
    if(typeof renderer!=='undefined'&&renderer)renderer.localClippingEnabled=true;
-   M.scene.traverse(function(n){if(!n.isMesh)return;var name=partName(n,M.scene);
+   if(entering)capSides(M,true);
+   M.scene.traverse(function(n){if(!n.isMesh||n.userData.cutCap)return;var name=partName(n,M.scene);
     n.visible=!r.roof.test(name);
     // an upper-storey part shows only from its own floor up (owner review 4: the Quest Lodge's second storey hid the board)
     if(r.upper.test(name)){var my=n.userData.cutMinY;if(my===undefined){if(!n.geometry.boundingBox)n.geometry.computeBoundingBox();my=n.geometry.boundingBox.min.y}n.visible=my<=localY+.45}
