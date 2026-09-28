@@ -1,0 +1,116 @@
+{
+ "baseline": {
+  "identical": true,
+  "differs": [],
+  "refGraph": "holm-survival-v2land-navigation-v1"
+ },
+ "build": {
+  "flat": ".studio-workspaces/holm-survival-props-v1/working/survival-flat.blend",
+  "built": {
+   "Survival_FurnishingPropsCanopy": 866,
+   "Survival_FurnishingPropsHung": 389,
+   "Survival_FurnishingPropsStore": 776,
+   "Survival_FurnishingPropsYard": 80,
+   "Survival_ServiceFirePit_Ring": 756,
+   "Survival_ServiceLogPile_Stack": 870,
+   "Survival_ServiceTools_Rack": 796
+  },
+  "removed": [
+   "Survival_FurnishingCanopy",
+   "Survival_FurnishingDressing",
+   "Survival_FurnishingStore",
+   "Survival_FurnishingYard",
+   "Survival_ServiceTools_Rack",
+   "Survival_ServiceFirePit_Ring",
+   "Survival_ServiceLogPile_Stack"
+  ],
+  "islandsRemoved": {}
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-survival-props-v1/candidates/survival.glb",
+   "bytes": 1765776,
+   "sha256": "dbe4e18f99cb056da042f699df327ee89d975896a4acbc941a2cad198e050c1f"
+  },
+  "materials": 2,
+  "images": [
+   "beam",
+   "rock"
+  ]
+ },
+ "proof": {
+  "ok": true,
+  "reference": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb",
+  "candidate": ".studio-workspaces/holm-survival-props-v1/candidates/survival.glb",
+  "referenceNodes": 26,
+  "kept": 19,
+  "changed": {
+   "Survival_FurnishingCanopy": [
+    332,
+    null
+   ],
+   "Survival_FurnishingDressing": [
+    38,
+    null
+   ],
+   "Survival_FurnishingStore": [
+    132,
+    null
+   ],
+   "Survival_FurnishingYard": [
+    48,
+    null
+   ],
+   "Survival_ServiceFirePit_Ring": [
+    772,
+    801
+   ],
+   "Survival_ServiceLogPile_Stack": [
+    716,
+    999
+   ],
+   "Survival_ServiceTools_Rack": [
+    561,
+    830
+   ]
+  },
+  "added": {
+   "Survival_FurnishingPropsCanopy": 923,
+   "Survival_FurnishingPropsHung": 414,
+   "Survival_FurnishingPropsStore": 799,
+   "Survival_FurnishingPropsYard": 86
+  },
+  "issues": []
+ },
+ "graph": {
+  "ws": "holm-survival-props-navigation-v1",
+  "nodes": 263,
+  "identical": true,
+  "differs": [],
+  "modelSha256": "dbe4e18f99cb056da042f699df327ee89d975896a4acbc941a2cad198e050c1f"
+ },
+ "cutaway": {
+  "pieces": 31,
+  "keep": 31,
+  "cut": 0,
+  "clipped": 0
+ },
+ "coplanar": {
+  "before": 0,
+  "after": 0,
+  "areaBefore": 0,
+  "areaAfter": 0,
+  "worse": [],
+  "exposedUntouched": []
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-survival-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb"
+  },
+  "now": {
+   "graph": "holm-survival-props-navigation-v1",
+   "model": ".studio-workspaces/holm-survival-props-v1/candidates/survival.glb"
+  }
+ }
+}

@@ -2,18 +2,19 @@
  "schema": "holm-v2-land-registry-v1",
  "buildings": {
   "survival": {
-   "graph": "holm-survival-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb",
+   "graph": "holm-survival-props-navigation-v1",
+   "model": ".studio-workspaces/holm-survival-props-v1/candidates/survival.glb",
    "placement": {
     "x": 31,
     "y": 4,
     "z": 84
    },
    "nodes": 263,
-   "modelSha256": "741f374e4a702da697e0c6dfeb22403fe72ea483fe246406685d98dc2785a95c",
+   "modelSha256": "dbe4e18f99cb056da042f699df327ee89d975896a4acbc941a2cad198e050c1f",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:23:42.253Z"
+   "measuredAt": "2026-09-28T09:17:14.222Z",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_survival_props_pass.py, docs/rebuild/holm-overhaul/props-pass/survival.json); graph identical to holm-survival-v2land-navigation-v1 apart from the model hash"
   },
   "quarry": {
    "graph": "holm-quarry-props-navigation-v1",

@@ -1,0 +1,57 @@
+{
+ "glb": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb",
+ "out": "scratchpad/holm_props_pass/overview/survival",
+ "size": [
+  1100,
+  760
+ ],
+ "hide": "Survival_(Roof|Upper|Chimney)|Survival_Glazing",
+ "views": [
+  {
+   "name": "ground_ne",
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 18
+  },
+  {
+   "name": "ground_sw",
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 18
+  },
+  {
+   "name": "upper_ne",
+   "target": [
+    0,
+    3,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 18,
+   "hide": "Survival_(Roof|Chimney)|Survival_Glazing|Survival_UpperShell|Survival_(Shell|GroundFront)"
+  },
+  {
+   "name": "upper_sw",
+   "target": [
+    0,
+    3,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 18,
+   "hide": "Survival_(Roof|Chimney)|Survival_Glazing|Survival_UpperShell|Survival_(Shell|GroundFront)"
+  }
+ ]
+}

@@ -11,8 +11,9 @@
  "outBlend": ".studio-workspaces/holm-survival-props-v1/candidates/survival.blend",
  "outGlb": ".studio-workspaces/holm-survival-props-v1/candidates/survival.glb",
  "texReport": ".studio-workspaces/holm-survival-props-v1/candidates/textures.report.json",
- "changed": "^$",
+ "changed": "^Survival_(FurnishingCanopy|FurnishingDressing|FurnishingStore|FurnishingYard|ServiceTools_Rack|ServiceFirePit_Ring|ServiceLogPile_Stack)$",
  "added": "^Survival_(Upper)?Furnishing[A-Za-z]*Props[A-Za-z]+$",
+ "cutawayParts": "^Survival_(FurnishingProps(?!Hung)[A-Za-z]+|Service(Tools_Rack|FirePit_Ring|LogPile_Stack))$",
  "graph": "holm-survival-props-navigation-v1",
  "coplanar": "m44",
  "navSpec": "docs/rebuild/holm-overhaul/buildings/survival-v2land.nav.json"

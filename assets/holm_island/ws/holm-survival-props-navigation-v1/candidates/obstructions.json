@@ -1,0 +1,642 @@
+{
+ "nodes": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -3.5,
+   "y": -0.8420999646186829,
+   "object": "Survival_PlinthCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -2.5,
+   "y": -0.8463000059127808,
+   "object": "Survival_PlinthCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -1.5,
+   "y": -3.814697265625e-06,
+   "object": "Survival_FurnishingPropsCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -1.5,
+   "y": -0.8511499762535095,
+   "object": "Survival_PlinthCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -0.5,
+   "y": 0.0,
+   "object": "Survival_FurnishingPropsCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -0.5,
+   "y": -0.8565500378608704,
+   "object": "Survival_PlinthCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 0.5,
+   "y": -0.8622499704360962,
+   "object": "Survival_PlinthCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -3.5,
+   "y": 0.0,
+   "object": "Survival_FurnishingPropsCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -3.5,
+   "y": -0.7870500087738037,
+   "object": "Survival_PlinthCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -2.5,
+   "y": -0.793150007724762,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -1.5,
+   "y": 3.814697265625e-06,
+   "object": "Survival_FurnishingPropsCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -1.5,
+   "y": -0.8003000020980835,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -0.5,
+   "y": 0.0,
+   "object": "Survival_FurnishingPropsCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -0.5,
+   "y": -0.8082999587059021,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 0.5,
+   "y": -0.8169999718666077,
+   "object": "Survival_PlinthCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -3.5,
+   "y": 0.0,
+   "object": "Survival_FurnishingPropsCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -3.5,
+   "y": -0.7150500416755676,
+   "object": "Survival_PlinthCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -2.5,
+   "y": -0.7231000065803528,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -1.5,
+   "y": -0.7325000166893005,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -0.5,
+   "y": -0.743149995803833,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": 0.5,
+   "y": -0.7548500299453735,
+   "object": "Survival_PlinthCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -3.5,
+   "y": 3.814697265625e-06,
+   "object": "Survival_FurnishingPropsCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -3.5,
+   "y": -0.6276000142097473,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -2.5,
+   "y": -0.6375499963760376,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -1.5,
+   "y": -0.6492000222206116,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -0.5,
+   "y": -0.6624999642372131,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 0.5,
+   "y": -0.6772000193595886,
+   "object": "Survival_PlinthCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 3.5,
+   "y": -0.40000152587890625,
+   "object": "Survival_ServiceFirePit_Ring"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 4.5,
+   "y": -0.40000152587890625,
+   "object": "Survival_FurnishingPropsYard"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -3.5,
+   "y": 3.814697265625e-06,
+   "object": "Survival_FurnishingPropsCanopy"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.2782689121972912,
+   "z": -3.4081559762323783,
+   "y": -0.5260000228881836
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.26,
+   "z": -2.5,
+   "y": -0.5378000140190125
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -1.5,
+   "y": -0.551800012588501,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -0.5,
+   "y": -0.5676999688148499,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 0.5,
+   "y": -0.585349977016449,
+   "object": "Survival_FloorCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -3.5,
+   "y": -0.029998779296875,
+   "object": "Survival_FrameCanopy"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -3.5,
+   "y": -0.15074920654296875,
+   "object": "Survival_ShellStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -2.5,
+   "y": -0.16829997301101685,
+   "object": "Survival_StepLink"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -1.5,
+   "y": -0.18900001049041748,
+   "object": "Survival_StepLink"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -3.5,
+   "y": -0.006850004196166992,
+   "object": "Survival_FloorStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -2.5,
+   "y": -0.026300013065338135,
+   "object": "Survival_FloorStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -1.5,
+   "y": -0.04924994707107544,
+   "object": "Survival_FloorStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -0.5,
+   "y": 0.5999984741210938,
+   "object": "Survival_FurnishingPropsStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -0.5,
+   "y": -0.07565003633499146,
+   "object": "Survival_FloorStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -3.5,
+   "y": 0.5999984741210938,
+   "object": "Survival_ServiceTools_Rack"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 3.74,
+   "z": -1.5,
+   "y": 0.09754997491836548
+  },
+  {
+   "reason": "footprint-support",
+   "x": 3.5918440237676217,
+   "z": -0.7217310878027088,
+   "y": 0.0685499906539917
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 0.5,
+   "y": 0.03604888916015625,
+   "object": "Survival_ServiceLogPile_Stack"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 1.5,
+   "y": 0.00025177001953125,
+   "object": "Survival_FramePentice"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -3.5,
+   "y": 0.6000022888183594,
+   "object": "Survival_ServiceTools_Rack"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 0.5,
+   "y": 0.1829986572265625,
+   "object": "Survival_ServiceLogPile_Stack"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -3.5,
+   "y": 0.6000022888183594,
+   "object": "Survival_ServiceTools_Rack"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -0.5,
+   "y": 0.6000022888183594,
+   "object": "Survival_FurnishingPropsStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": 0.5,
+   "y": 0.3341522216796875,
+   "object": "Survival_ServiceLogPile_Stack"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": 1.5,
+   "y": 0.2918510437011719,
+   "object": "Survival_ServiceLogPile_Stack"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 6.5,
+   "z": 1.5,
+   "y": 0.4426994323730469,
+   "object": "Survival_FramePentice"
+  }
+ ],
+ "edges": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.35,
+   "z": -3.5,
+   "y": -0.8748931884765625,
+   "object": "Survival_PlinthCanopy",
+   "from": "-7:-4:0",
+   "to": "-6:-4:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.35,
+   "z": -2.5,
+   "y": -0.87750244140625,
+   "object": "Survival_PlinthCanopy",
+   "from": "-7:-3:0",
+   "to": "-6:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.35,
+   "z": 0.5,
+   "y": -0.88677978515625,
+   "object": "Survival_PlinthCanopy",
+   "from": "-7:0:0",
+   "to": "-6:0:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -4.35,
+   "y": -0.8391876220703125,
+   "object": "Survival_PlinthCanopy",
+   "from": "-6:-5:0",
+   "to": "-6:-4:0"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.408155976232378,
+   "z": 1.0217310878027088,
+   "y": -0.029998779296875,
+   "from": "-6:0:0",
+   "to": "-6:1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.85,
+   "z": 1.5,
+   "y": -0.8446235656738281,
+   "object": "Survival_PlinthYard",
+   "from": "-6:1:0",
+   "to": "-5:1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.85,
+   "z": 2.5,
+   "y": -0.8529624938964844,
+   "object": "Survival_PlinthYard",
+   "from": "-6:2:0",
+   "to": "-5:2:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.85,
+   "z": 3.5,
+   "y": -0.861297607421875,
+   "object": "Survival_PlinthYard",
+   "from": "-6:3:0",
+   "to": "-5:3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.85,
+   "z": 4.5,
+   "y": -0.8694267272949219,
+   "object": "Survival_PlinthYard",
+   "from": "-6:4:0",
+   "to": "-5:4:0"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -4.669705627484771,
+   "z": 1.0197056274847713,
+   "y": 0.0,
+   "from": "-5:0:0",
+   "to": "-5:1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.35,
+   "z": 3.5,
+   "y": -0.40000152587890625,
+   "object": "Survival_FurnishingPropsYard",
+   "from": "-5:3:0",
+   "to": "-4:3:0"
+  },
+  {
+   "reason": "missing-step-support",
+   "from": "-5:4:0",
+   "to": "-5:5:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": 0.6,
+   "y": 0.0,
+   "object": "Survival_FrameCanopy",
+   "from": "-4:0:0",
+   "to": "-4:1:0"
+  },
+  {
+   "reason": "missing-step-support",
+   "from": "-4:4:0",
+   "to": "-4:5:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 1.25,
+   "y": -0.20000076293945312,
+   "object": "Survival_PlinthCanopy",
+   "from": "-3:0:0",
+   "to": "-3:1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 0.6,
+   "y": -3.814697265625e-06,
+   "object": "Survival_FrameCanopy",
+   "from": "-2:0:0",
+   "to": "-2:1:0"
+  },
+  {
+   "reason": "missing-step-support",
+   "from": "-2:4:0",
+   "to": "-2:5:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -4.35,
+   "y": -0.4021759033203125,
+   "object": "Survival_PlinthCanopy",
+   "from": "-1:-5:0",
+   "to": "-1:-4:0"
+  },
+  {
+   "reason": "missing-step-support",
+   "from": "-1:0:0",
+   "to": "-1:1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -1.35,
+   "y": 0.0,
+   "object": "Survival_FrameCanopy",
+   "from": "0:-2:0",
+   "to": "0:-1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 0.65,
+   "y": -3.814697265625e-06,
+   "object": "Survival_FrameCanopy",
+   "from": "0:0:0",
+   "to": "0:1:0"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.5918440237676215,
+   "z": -0.9782689121972912,
+   "y": 0.5999984741210938,
+   "from": "1:-2:0",
+   "to": "1:-1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -4.45,
+   "y": 0.008075714111328125,
+   "object": "Survival_ShellStoreBase",
+   "from": "2:-5:0",
+   "to": "2:-4:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -3.1,
+   "y": 0.5999984741210938,
+   "object": "Survival_ShellStore",
+   "from": "2:-4:0",
+   "to": "2:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.8,
+   "z": 2.5,
+   "y": 0.1436614990234375,
+   "object": "Survival_ServiceLogPile_Stack",
+   "from": "4:2:0",
+   "to": "5:2:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.65,
+   "z": -2.5,
+   "y": 0.6000022888183594,
+   "object": "Survival_ShellStoreBase",
+   "from": "5:-3:0",
+   "to": "6:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.65,
+   "z": -1.5,
+   "y": 0.6000022888183594,
+   "object": "Survival_ShellStoreBase",
+   "from": "5:-2:0",
+   "to": "6:-2:0"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": 8.1,
+   "z": 6.5,
+   "y": -1.040069580078125,
+   "from": "7:6:0",
+   "to": "8:6:0"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": 8.7,
+   "z": 5.5,
+   "y": -1.1481170654296875,
+   "from": "8:5:0",
+   "to": "9:5:0"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": 8.5,
+   "z": 5.7,
+   "y": -0.9976119995117188,
+   "from": "8:5:0",
+   "to": "8:6:0"
+  }
+ ]
+}
