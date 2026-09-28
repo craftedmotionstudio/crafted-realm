@@ -1,0 +1,63 @@
+<!doctype html>
+<meta charset="utf-8">
+<base href="../">
+<link rel="icon" href="data:,">
+<title>Music render harness</title>
+<!-- Offline render harness for tools/music_render.js (headless Chrome, OfflineAudioContext).
+     ?legacy=1 : renders the OLD sampled-orchestra tracks (src/audio_orchestra.js + album files) exactly
+                 as the game schedules them, bar by bar, through their real lofi chain.
+     default   : renders the 2004 MIDI-style set through src/audio_gm2004.js (added in the next step). -->
+<script src="assets/audio/soundfont-player.min.js"></script>
+<script>
+'use strict';
+window.RENDER = { log: [] };
+function rlog(m){ window.RENDER.log.push(String(m)); }
+
+// ---- WAV encoding (16-bit PCM, interleaved) -> base64 chunks for the node driver
+function toWav(buf){
+  var ch=buf.numberOfChannels, len=buf.length, sr=buf.sampleRate;
+  var out=new DataView(new ArrayBuffer(44+len*ch*2));
+  function str(o,s){ for(var i=0;i<s.length;i++) out.setUint8(o+i,s.charCodeAt(i)); }
+  str(0,'RIFF'); out.setUint32(4,36+len*ch*2,true); str(8,'WAVE'); str(12,'fmt ');
+  out.setUint32(16,16,true); out.setUint16(20,1,true); out.setUint16(22,ch,true);
+  out.setUint32(24,sr,true); out.setUint32(28,sr*ch*2,true); out.setUint16(32,ch*2,true); out.setUint16(34,16,true);
+  str(36,'data'); out.setUint32(40,len*ch*2,true);
+  var data=[]; for(var c=0;c<ch;c++) data.push(buf.getChannelData(c));
+  var o=44; for(var i=0;i<len;i++) for(var c2=0;c2<ch;c2++){
+    var s=Math.max(-1,Math.min(1,data[c2][i])); out.setInt16(o, s<0?s*0x8000:s*0x7fff, true); o+=2; }
+  return new Uint8Array(out.buffer);
+}
+function b64(u8){ var s='', CH=0x8000; for(var i=0;i<u8.length;i+=CH) s+=String.fromCharCode.apply(null,u8.subarray(i,i+CH)); return btoa(s); }
+window.RENDER.take = function(start,len){ return window.RENDER.b64.slice(start,start+len); };
+function finish(buf){ var w=toWav(buf); window.RENDER.b64=b64(w); window.RENDER.bytes=w.length; window.RENDER.done=true; }
+
+function loadScript(src){ return new Promise(function(ok,bad){ var s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=function(){ bad(new Error('load '+src)); }; document.head.appendChild(s); }); }
+
+// ---------------------------------------------------------------- legacy (the old orchestra)
+window.renderLegacy = async function(id, seconds, sr){
+  sr = sr||44100;
+  var ctx = new OfflineAudioContext(2, Math.ceil(sr*seconds), sr);
+  // minimal stand-ins for the game globals the orchestra touches (game3_systems.js Music / TRACKS)
+  window.TRACKS = {};
+  window.Music = { on:false, unlocked:[], mode:'auto', current:null,
+    ensure:function(){ if(!this._master){ this._master=ctx.createGain(); this._master.gain.value=0.5; this._master.connect(ctx.destination); } return ctx; },
+    unlock:function(){ return false; } };
+  // expose the orchestra's private scheduler without changing the shipped file
+  var src = await (await fetch('src/audio_orchestra.js?r='+Date.now())).text();
+  src = src.replace('var Director = {', 'Music.__int={scheduleBar:scheduleBar,S:S,loadInstruments:loadInstruments,ENV:ENV}; var Director = {');
+  (0,eval)(src);
+  var wait = function(pred,ms){ return new Promise(function(ok,bad){ var t0=Date.now(); (function p(){ if(pred()) return ok(); if(Date.now()-t0>ms) return bad(new Error('timeout')); setTimeout(p,50); })(); }); };
+  await wait(function(){ return Music.__int; }, 5000);
+  for (const f of ['audio_tracks2.js','audio_title_full.js','audio_hearthside.js','audio_minstrel.js']) await loadScript('src/'+f+'?r='+Date.now());
+  await wait(function(){ return Music.tracks && Music.tracks.hearthside && Music.tracks.minstrels_rest && Music.tracks.title_theme && Music.tracks.title_theme.dyn!==undefined || (Music.tracks && Music.tracks.title_theme && Music.tracks.title_theme.chords.length>16); }, 8000).catch(function(){});
+  var tr = Music.tracks[id]; if(!tr) throw new Error('no legacy track '+id);
+  Music.__int.loadInstruments();
+  await wait(function(){ return Music._ready; }, 60000);
+  Music._fade.gain.value = 1;
+  var n=tr.chords.length, barLen=(60/tr.bpm)*tr.beatsPerBar, clock=0.15, bar=0;
+  while(clock < seconds){ Music.__int.scheduleBar(id, bar, clock); clock+=barLen; bar++; }
+  window.RENDER.info = { id:id, name:tr.name, bpm:tr.bpm, beatsPerBar:tr.beatsPerBar, bars:bar, cycleBars:n,
+    cycleSec:n*barLen, sub:tr.sub||1, stacc:!!tr.stacc, voices:tr.voices||null };
+  finish(await ctx.startRendering());
+};
+</script>
