@@ -163,6 +163,21 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
        return {banner:document.getElementById('obj-text').textContent,due:HolmIslandTalk.pending()&&HolmIslandTalk.pending().id,tools:['hatchet','tinderbox','fishing_net'].map(i=>Player.count(i)),rack:out,lesson:Tutorial.steps[Tutorial.step].id}});
       ok('2004 rule: a new adventurer is told to talk to Guide Bram first, and the relief chart refuses until then; after the chart no tools come from Bram or the rack, Wenna is next',b0.banner==='Talk to Guide Bram in the Guide House.'&&b0.due==='bram'&&b0.chat.includes('You should speak to Guide Bram first.')&&b0.lesson==='study_route'
        &&w0.due==='wenna'&&w0.lesson==='equip_hatchet'&&/Wenna/.test(w0.banner)&&w0.tools.every(n=>n===0)&&w0.rack.some(t=>/come from Wenna/.test(t)),{b0,w0});}
+     // owner review 4 (2026-09-27), the Guide House cellar ('only my head floating through the floor'): stood on the Guide
+     // House floor, a real click on the corner trapdoor climbs down with the adventurer's feet on the cellar flagstones, the
+     // cabbage is picked into the pack (a 2004 ground spawn), and a click on the ladder climbs back up to the ground floor;
+     // then back to the dock for the walks below
+     {const home=await page.evaluate(()=>{let best=null,d=1e9;HolmArrivalQA.graphNodes().forEach(n=>{const k=Math.hypot(n.x-player.position.x,n.z-player.position.z)+Math.abs(n.y-player.position.y);if(k<d){d=k;best=n}});return best&&best.id});
+      const inH=await page.evaluate(()=>{let best=null,d=1e9;HolmArrivalQA.graphNodes().forEach(n=>{if(n.surface!=='ground')return;const k=Math.hypot(n.x-66,n.z-100);if(k<d){d=k;best=n}});HolmArrivalQA.qaPlace(best.id);return best.id});await sleep(1500);
+      const hatch=await clickNamed(page,'CellarHatch');
+      const down=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&/guide-cellar/.test(r.surface)},null,40000);await sleep(1500);
+      const feet=await page.evaluate(()=>{const f=scene.getObjectByName('CellarFloor');if(!f)return null;const b=new THREE.Box3().setFromObject(f),p=player.position;return {y:+p.y.toFixed(3),floorTop:+b.max.y.toFixed(3),onFloor:Math.abs(p.y-b.max.y)<.08&&p.x>b.min.x&&p.x<b.max.x&&p.z>b.min.z&&p.z<b.max.z}});
+      await shot(page,'02_guide_cellar');const c0=await count(page,'cabbage');const pick=await clickNamed(page,'CellarCabbage');
+      const picked=await waitFor(page,n=>Player.count('cabbage')>n,c0,30000);
+      const upc=await clickNamed(page,'CellarLadder');const up=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.surface==='ground'},null,40000);
+      ok('Guide House cellar (owner review 4): a click on the corner trapdoor climbs down onto the flagstones (feet on the floor, not through it), the cabbage is picked into the pack, the ladder climbs back up',
+       !hatch.error&&down&&feet&&feet.onFloor&&!pick.error&&picked&&!upc.error&&up,{inH,hatch,down,feet,pick,picked,cabbage:await count(page,'cabbage'),ladder:upc,up});
+      if(home)await page.evaluate(id=>HolmArrivalQA.qaPlace(id),home);await sleep(1500);}
      await page.evaluate(ids=>HolmIslandCurriculum.qaGrant(ids),['study_route','equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish']);await sleep(2500);
      const g1=await page.evaluate(()=>({route:!!HolmArrivalQA.qaRoute('bakehouse','oven'),open:HolmIslandGates.isOpen('bakehouse-door'),lodge:HolmIslandGates.isOpen('lodge-door'),lesson:Tutorial.steps[Tutorial.step].id}));
      ok('M5.2b: with the survival lessons done the bakehouse door opens (the Quest Lodge stays shut)',g1.route&&g1.open&&!g1.lodge&&g1.lesson==='bake_bread',g1);}
@@ -209,8 +224,9 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     // M4.2 quest board inside the Blender Quest Lodge (2004 rule: Loremaster Ansel is spoken to first, by a real click)
     const ansel=await L.talkTo(page,'ansel');
     step=await clickService(page,'Study quest board');
-    const lodge=await page.evaluate(()=>({dialogue:!!document.querySelector('#dialogue:not([style*="display: none"]),.dialogue-box:not([style*="display: none"])'),status:HolmQuestLodge.status(),pose:[player.position.x,player.position.z]}));
-    ok('talks to Loremaster Ansel, then walks into the Quest Lodge and studies the quest board',!!ansel.talked&&!step.error&&Math.hypot(lodge.pose[0]-31.5,lodge.pose[1]-53.5)<1.2,{ansel:ansel.error||{talked:ansel.talked,pages:(ansel.pages||[]).length},step,lodge});
+    const lodge=await page.evaluate(()=>({dialogue:!!document.querySelector('#dialogue:not([style*="display: none"]),.dialogue-box:not([style*="display: none"])'),status:HolmQuestLodge.status(),pose:[player.position.x,player.position.z],board:(s=>s&&[s.x,s.z])(HolmArrivalQA.qaStance('lodge','board'))}));
+    // owner review 4: the board stands by the north wall facing the door; the stance is the lodge graph's measured board target
+    ok('talks to Loremaster Ansel, then walks into the Quest Lodge and studies the quest board (review 4: by the north wall, facing the door)',!!ansel.talked&&!step.error&&!!lodge.board&&Math.hypot(lodge.pose[0]-lodge.board[0],lodge.pose[1]-lodge.board[1])<1.2&&lodge.board[1]<50,{ansel:ansel.error||{talked:ansel.talked,pages:(ansel.pages||[]).length},step,lodge});
     await closeDialogue(page);await shot(page,'03b_board');
     // 3. across the island to the Warden's Keep gate
     tr=[];r=await walkTo(page,'keep','gate',true,tr);

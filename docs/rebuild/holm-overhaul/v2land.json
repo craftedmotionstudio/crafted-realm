@@ -121,20 +121,20 @@
    "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bakehouse.json); graph identical to holm-kitchen-review4-navigation-v1 apart from the model hash"
   },
   "lodge": {
-   "graph": "holm-quest-lodge-review4-navigation-v1",
-   "model": ".studio-workspaces/holm-quest-lodge-review4-v1/candidates/lodge.glb",
+   "graph": "holm-quest-lodge-review4-navigation-v2",
+   "model": ".studio-workspaces/holm-quest-lodge-review4-v2/candidates/lodge.glb",
    "placement": {
     "x": 35,
     "y": 6.4,
     "z": 51
    },
    "nodes": 478,
-   "modelSha256": "87c7c4bb9fa0af8a9940a660d0ab788c4dbae4402ddc618e99c6570616b18cc2",
+   "modelSha256": "561323a2b394ee78cc46faeba6f4cbfe2da1177e9fbae23baebbe92b4ca240bc",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:31:12.821Z",
+   "measuredAt": "2026-09-28T01:16:48.216Z",
    "extraPlacement": ".studio-workspaces/holm-quest-placement-v2land-v1/candidates/placement.json",
-   "review4": "owner review 4 (2026-09-27): the quest board by the north wall facing the door; the region chart, leaded panes (tools/blender/build_holm_quest_lodge_review4.py, docs/rebuild/holm-overhaul/review4/lodge.relock.json)"
+   "review4": "owner review 4 (2026-09-27): the quest board by the north wall facing the door; the region chart, leaded panes (tools/blender/build_holm_quest_lodge_review4.py, review4/lodge.relock.json); props pass: map table, hearth, bookcase, bay desk, guest bed, desk and stool designed again (tools/blender/build_holm_quest_lodge_review4_props.py, review4/lodge-props.relock.json; graph identical to review4-navigation-v1)"
   },
   "cavern": {
    "graph": "holm-cavern-v2land-navigation-v1",
@@ -151,19 +151,19 @@
    "measuredAt": "2026-09-27T04:25:39.109Z"
   },
   "mill": {
-   "graph": "holm-mill-review4-navigation-v1",
-   "model": ".studio-workspaces/holm-mill-glazed-review4-v1/candidates/mill.glb",
+   "graph": "holm-mill-review4-navigation-v2",
+   "model": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.glb",
    "placement": {
     "x": 65,
     "y": 3.2,
     "z": 64
    },
    "nodes": 146,
-   "modelSha256": "0b9e4f5a4246d26665a43da894ed6ec51d035f15c2181971263f33f29f1d6ef5",
+   "modelSha256": "95f6862a963feb786c44b56ffea53e9a072f8fb473182fe7893625e7b223eef9",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:36:36.818Z",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/mill.json); graph identical to holm-mill-v2land-navigation-v1 apart from the model hash"
+   "measuredAt": "2026-09-28T01:13:14.471Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/mill.json); graph identical to holm-mill-v2land-navigation-v1 apart from the model hash; z-fighting fixed after glazing (tools/blender/fix_holm_coplanar.py, m44 profile: 392 visible coplanar fights, 43 m2, down to 1 of 0.02 m2; graph holm-mill-review4-navigation-v2 identical to -v1)"
   },
   "stair": {
    "graph": "holm-keepers-stair-v2land-navigation-v1",
