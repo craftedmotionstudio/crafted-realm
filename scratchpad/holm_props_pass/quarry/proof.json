@@ -1,0 +1,36 @@
+{
+ "ok": true,
+ "reference": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb",
+ "candidate": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb",
+ "referenceNodes": 26,
+ "kept": 21,
+ "changed": {
+  "Quarry_FurnishingDressing": [
+   518,
+   null
+  ],
+  "Quarry_FurnishingMain": [
+   1222,
+   408
+  ],
+  "Quarry_ServiceBench_Repair": [
+   231,
+   987
+  ],
+  "Quarry_ServiceWinch_Windlass": [
+   660,
+   1380
+  ],
+  "Quarry_UpperFurnishingMain": [
+   96,
+   null
+  ]
+ },
+ "added": {
+  "Quarry_FurnishingPropsHall": 2496,
+  "Quarry_FurnishingPropsHung": 737,
+  "Quarry_FurnishingPropsSmithy": 1987,
+  "Quarry_UpperFurnishingPropsLoft": 801
+ },
+ "issues": []
+}

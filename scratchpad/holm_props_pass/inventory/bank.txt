@@ -1,0 +1,45 @@
+== Bank_Furnishing 16 clusters
+  x -3.30.. -2.20 y 0.00.. 0.62 z -3.82.. -3.35    24 tris  2 isl  Bank Aged oak, Bank Dark frame oak
+  x -2.15.. -1.72 y 0.00.. 0.48 z  1.95..  3.55    36 tris  3 isl  Bank Aged oak
+  x -1.76.. -1.68 y 1.20.. 2.10 z -2.60.. -1.40    60 tris  5 isl  Bank Aged oak, Bank Limewash plaster, Bank Sackcloth
+  x -1.20.. -0.10 y 0.00.. 0.92 z -3.80.. -3.20    84 tris  7 isl  Bank Aged oak, Bank Banker green baize, Bank Limewash plaster
+  x -0.82.. -0.45 y-0.00.. 0.62 z -2.03.. -1.67    56 tris  4 isl  Bank Aged oak
+  x -0.13..  0.03 y 0.00.. 1.02 z -0.77..  0.17   144 tris  8 isl  Bank Banker green baize, Bank Worn brass
+  x  0.35..  0.65 y 2.05.. 3.60 z  1.35..  1.65    48 tris  4 isl  Bank Black iron, Bank Leaded glass, Bank Worn brass
+  x  0.40..  1.20 y 0.00.. 0.60 z -3.80.. -3.30    24 tris  2 isl  Bank Black iron, Bank Worn brass
+  x  0.45..  0.82 y-0.00.. 0.62 z -2.03.. -1.67    56 tris  4 isl  Bank Aged oak
+  x  0.97..  1.13 y 0.00.. 1.02 z -0.77..  0.17   144 tris  8 isl  Bank Banker green baize, Bank Worn brass
+  x  1.68..  2.05 y-0.00.. 0.62 z -2.03.. -1.67    56 tris  4 isl  Bank Aged oak
+  x  1.76..  2.20 y 0.00.. 1.95 z -4.75.. -2.39   393 tris 32 isl  Bank Aged oak, Bank Sackcloth, Bank Worn brass
+  x  2.10..  3.30 y 0.00.. 0.48 z  3.40..  3.78    36 tris  3 isl  Bank Aged oak
+  x  2.42..  2.61 y 0.00.. 1.04 z -1.83.. -0.82    24 tris  2 isl  Bank Aged oak
+  x  2.85..  3.15 y 2.05.. 3.60 z -0.35.. -0.05    48 tris  4 isl  Bank Black iron, Bank Leaded glass, Bank Worn brass
+  x  3.83..  4.46 y 0.00.. 0.80 z  2.63..  3.27    84 tris  3 isl  Bank Aged oak, Bank Black iron
+== Bank_FurnishingStrongroom 6 clusters
+  x -5.21.. -4.54 y 0.00.. 0.90 z -1.22.. -0.67   160 tris 12 isl  Holm flat colour, Holm flat colour - beam
+  x -5.13.. -4.86 y 0.00.. 0.34 z -0.44.. -0.16    75 tris  3 isl  Holm flat colour, Holm flat colour - beam
+  x -5.04.. -4.76 y 0.00.. 0.34 z -0.09..  0.18    75 tris  3 isl  Holm flat colour, Holm flat colour - beam
+  x -4.80.. -4.30 y 0.00.. 0.99 z  0.20..  0.70   224 tris 16 isl  Holm flat colour, Holm flat colour - beam, Lantern glow (glow)
+  x -4.79.. -4.31 y 0.00.. 0.34 z -0.39.. -0.07   150 tris  6 isl  Holm flat colour - beam
+  x -4.45.. -3.98 y 0.00.. 0.80 z -1.20.. -0.70   242 tris 14 isl  Holm flat colour, Holm flat colour - beam
+== Bank_ServiceCounter_Booths 1 clusters
+  x -1.36..  2.48 y 0.00.. 2.52 z -2.00.. -0.80   647 tris 49 isl  Bank Aged oak, Bank Banker green baize, Bank Dark frame oak, Bank Worn brass
+== Bank_ServiceShelves_Goods 1 clusters
+  x  4.82..  5.34 y 0.00.. 2.62 z -1.78..  1.78  1186 tris 79 isl  Bank Aged oak, Bank Banker green baize, Bank Dark frame oak, Bank Limewash plaster shade, Bank Muted clay, Ban
+== Bank_ServiceVault_Chests 4 clusters
+  x  1.95..  2.85 y-0.01.. 0.64 z -4.64.. -4.04    72 tris  6 isl  Bank Aged oak, Bank Black iron, Bank Worn brass
+  x  3.10..  4.00 y-0.01.. 0.64 z -4.64.. -4.04    72 tris  6 isl  Bank Aged oak, Bank Black iron, Bank Worn brass
+  x  4.25..  5.15 y-0.01.. 0.64 z -4.64.. -4.04    72 tris  6 isl  Bank Aged oak, Bank Black iron, Bank Worn brass
+  x  4.49..  5.09 y-0.01.. 0.64 z -3.45.. -2.55    72 tris  6 isl  Bank Aged oak, Bank Black iron, Bank Worn brass
+== Bank_ServiceVault_Gate 1 clusters
+  x  2.68..  4.32 y 0.00.. 2.21 z -2.10.. -1.90   348 tris 18 isl  Bank Black iron, Bank Worn brass
+== Bank_UpperFurnishing 7 clusters
+  x -4.95.. -4.05 y 3.00.. 3.45 z -3.80.. -3.30    12 tris  1 isl  Bank Aged oak
+  x -3.62.. -3.38 y 4.85.. 5.85 z -3.12.. -2.88    24 tris  2 isl  Bank Black iron, Bank Leaded glass
+  x -3.10.. -1.90 y 3.00.. 4.40 z -3.85.. -3.30    48 tris  4 isl  Bank Black iron, Bank Dressed sandstone, Bank Warm fieldstone
+  x -2.90.. -2.10 y 3.00.. 3.95 z -0.00..  1.00   104 tris  8 isl  Bank Aged oak, Bank Banker green baize, Bank Black iron, Bank Limewash plaster
+  x -2.40.. -1.80 y 3.00.. 3.56 z  3.85..  4.35    24 tris  2 isl  Bank Aged oak, Bank Black iron
+  x -2.00.. -1.68 y 3.00.. 5.00 z -1.45.. -0.18   426 tris 31 isl  Bank Aged oak, Bank Banker green baize, Bank Muted clay, Bank Sackcloth
+  x -2.00.. -1.72 y 3.00.. 4.10 z  0.30..  0.70    48 tris  4 isl  Bank Aged oak
+== Bank_UpperFurnishingStrongbox 1 clusters
+  x -5.43.. -4.83 y 3.00.. 3.59 z -3.94.. -3.37   118 tris 12 isl  Holm flat colour, Holm flat colour - beam

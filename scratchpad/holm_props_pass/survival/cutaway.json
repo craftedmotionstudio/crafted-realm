@@ -1,0 +1,15 @@
+{
+ "model": ".studio-workspaces/holm-survival-props-v1/candidates/survival.glb",
+ "building": "survival",
+ "lift": 0.5,
+ "levels": [
+  -0.4,
+  -0.05,
+  0,
+  0.6
+ ],
+ "pieces": 31,
+ "keep": 31,
+ "cut": 0,
+ "clipped": []
+}

@@ -1,0 +1,19 @@
+{
+ "id": "mill",
+ "note": "Props pass (2026-09-28): the Creakwheel Mill props designed again (tools/blender/build_holm_mill_props_pass.py): the millstones set, the grain ark, sacks and sack truck, the spare stone",
+ "blender": "4.5",
+ "source": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.blend",
+ "reference": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.glb",
+ "referenceGraph": "holm-mill-review4-navigation-v2",
+ "script": "tools/blender/build_holm_mill_props_pass.py",
+ "flat": ".studio-workspaces/holm-mill-props-v1/working/mill-flat.blend",
+ "buildReport": "scratchpad/holm_props_pass/mill/build.report.json",
+ "outBlend": ".studio-workspaces/holm-mill-props-v1/candidates/mill.blend",
+ "outGlb": ".studio-workspaces/holm-mill-props-v1/candidates/mill.glb",
+ "texReport": ".studio-workspaces/holm-mill-props-v1/candidates/textures.report.json",
+ "changed": "^Mill_(FurnishingStones|FurnishingStore|Dressing)$",
+ "added": "^$",
+ "graph": "holm-mill-props-navigation-v1",
+ "coplanar": "m44",
+ "navSpec": "docs/rebuild/holm-overhaul/review4/glazing/mill-zfix.nav.json"
+}

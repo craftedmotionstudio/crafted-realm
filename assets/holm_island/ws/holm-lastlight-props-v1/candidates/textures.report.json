@@ -1,0 +1,69 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-lastlight-props-v1/working/lastlight-flat.blend",
+ "materials": {
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  },
+  "Holm props colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Lastlight_FurnishingPropsStore": {
+   "beam": 735
+  },
+  "Lastlight_FurnishingPropsWing": {
+   "rock": 30,
+   "beam": 106
+  },
+  "Lastlight_ServiceStores_Workbench": {
+   "beam": 450
+  },
+  "Lastlight_UpperFurnishingPropsKeeper": {
+   "beam": 462
+  },
+  "Lastlight_UpperFurnishingPropsWatch": {
+   "beam": 183
+  },
+  "Lastlight_Yard": {
+   "beam": 568
+  }
+ },
+ "keptImages": [
+  "Holm flat colour - planks",
+  "Holm flat colour - plaster",
+  "Holm flat colour - rock",
+  "Lastlight aged oak",
+  "Lastlight aged oak (not clipped)",
+  "Lastlight clay cool",
+  "Lastlight clay tile",
+  "Lastlight clay warm",
+  "Lastlight dark frame oak",
+  "Lastlight dark frame oak (not clipped)",
+  "Lastlight dressed sandstone",
+  "Lastlight dressed sandstone (not clipped)",
+  "Lastlight fieldstone",
+  "Lastlight fieldstone (not clipped)",
+  "Lastlight floorboards",
+  "Lastlight limewash",
+  "Lastlight stone lit",
+  "Lastlight stone lit (not clipped)",
+  "Lastlight stone shade",
+  "Lastlight stone shade (not clipped)"
+ ],
+ "meshes": 49,
+ "glb": {
+  "path": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.glb",
+  "bytes": 3129856,
+  "sha256": "1d90b7c5b97bceb4b71000f5d89bd109aef7895f1532eba8b89c8841d920c993"
+ },
+ "images": [
+  "beam",
+  "rock"
+ ]
+}

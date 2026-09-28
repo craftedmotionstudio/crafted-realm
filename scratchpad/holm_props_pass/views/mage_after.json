@@ -1,0 +1,362 @@
+{
+ "glb": ".studio-workspaces/holm-mage-props-v1/candidates/mage.glb",
+ "out": "scratchpad/holm_props_pass/mage/blender_after",
+ "size": [
+  900,
+  640
+ ],
+ "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+ "views": [
+  {
+   "name": "wing_hearth",
+   "target": [
+    -4.5,
+    0.7,
+    -1.5
+   ],
+   "yaw": 0,
+   "pitch": 28,
+   "dist": 3.6,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "wing_bookcase",
+   "target": [
+    -5.6,
+    1.0,
+    -1.25
+   ],
+   "yaw": 90,
+   "pitch": 18,
+   "dist": 3.2,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "wing_desk",
+   "target": [
+    -2.6,
+    0.8,
+    -1.45
+   ],
+   "yaw": 15,
+   "pitch": 42,
+   "dist": 2.4,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "wing_table",
+   "target": [
+    -4.95,
+    0.6,
+    3.05
+   ],
+   "yaw": 160,
+   "pitch": 38,
+   "dist": 3.0,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "wing_shelf",
+   "target": [
+    -1.35,
+    0.85,
+    2.05
+   ],
+   "yaw": 270,
+   "pitch": 18,
+   "dist": 2.8,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "tower_runes",
+   "target": [
+    2.5,
+    0.85,
+    1.4
+   ],
+   "yaw": 180,
+   "pitch": 40,
+   "dist": 2.9,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "tower_cabinet",
+   "target": [
+    5.0,
+    1.0,
+    -2.25
+   ],
+   "yaw": 292.5,
+   "pitch": 18,
+   "dist": 3.2,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "tower_bench",
+   "target": [
+    5.0,
+    0.35,
+    0.24
+   ],
+   "yaw": 247.5,
+   "pitch": 25,
+   "dist": 2.8,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "tower_candle",
+   "target": [
+    0.6,
+    0.8,
+    1.95
+   ],
+   "yaw": 330,
+   "pitch": 22,
+   "dist": 2.4,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "library_west",
+   "target": [
+    -0.9,
+    4.1,
+    -1.0
+   ],
+   "yaw": 90,
+   "pitch": 12,
+   "dist": 4.6,
+   "hide": "Mage_(Roof|Chimney|Glazing|Shell|UpperShell|UpperFloorObservatory|UpperGallery)",
+   "lens": 35
+  },
+  {
+   "name": "library_east",
+   "target": [
+    4.3,
+    4.1,
+    0.9
+   ],
+   "yaw": 292.5,
+   "pitch": 12,
+   "dist": 4.6,
+   "hide": "Mage_(Roof|Chimney|Glazing|Shell|UpperShell|UpperFloorObservatory|UpperGallery)",
+   "lens": 35
+  },
+  {
+   "name": "lectern",
+   "target": [
+    2.25,
+    4.0,
+    2.3
+   ],
+   "yaw": 200,
+   "pitch": 25,
+   "dist": 2.6,
+   "hide": "Mage_(Roof|Chimney|Glazing|Shell|UpperShell|UpperFloorObservatory|UpperGallery)",
+   "lens": 35
+  },
+  {
+   "name": "chart_table",
+   "target": [
+    1.2,
+    6.8,
+    -2.75
+   ],
+   "yaw": 160,
+   "pitch": 45,
+   "dist": 2.6,
+   "hide": "Mage_(Roof|Chimney|Glazing|UpperShell)",
+   "lens": 35
+  },
+  {
+   "name": "armillary",
+   "target": [
+    1.2,
+    7.0,
+    1.6
+   ],
+   "yaw": 340,
+   "pitch": 18,
+   "dist": 3.0,
+   "hide": "Mage_(Roof|Chimney|Glazing|UpperShell)",
+   "lens": 35
+  },
+  {
+   "name": "telescope",
+   "target": [
+    4.3,
+    7.1,
+    -2.4
+   ],
+   "yaw": 240,
+   "pitch": 20,
+   "dist": 3.6,
+   "hide": "Mage_(Roof|Chimney|Glazing|UpperShell)",
+   "lens": 35
+  },
+  {
+   "name": "stool",
+   "target": [
+    3.1,
+    6.3,
+    -2.9
+   ],
+   "yaw": 200,
+   "pitch": 30,
+   "dist": 2.0,
+   "hide": "Mage_(Roof|Chimney|Glazing|UpperShell)",
+   "lens": 35
+  },
+  {
+   "name": "yard_west",
+   "target": [
+    -5.5,
+    0.5,
+    6.3
+   ],
+   "yaw": 60,
+   "pitch": 30,
+   "dist": 5.0,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "yard_east",
+   "target": [
+    -2.5,
+    0.5,
+    6.5
+   ],
+   "yaw": 250,
+   "pitch": 30,
+   "dist": 5.0,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "yard_top",
+   "target": [
+    -4.0,
+    0.0,
+    6.0
+   ],
+   "yaw": 0,
+   "pitch": 70,
+   "dist": 8.5,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "library_case_ese",
+   "target": [
+    5.0,
+    4.05,
+    0.3
+   ],
+   "yaw": 246.6,
+   "pitch": 14,
+   "dist": 3.0,
+   "hide": "Mage_(Roof|Chimney|Glazing|Shell|UpperShell|UpperFloorObservatory|UpperGallery|Stair|UpperRail|RailStair|UpperJoist|UpperFurnishingPropsObservatory|ServiceTelescope)",
+   "lens": 30
+  },
+  {
+   "name": "library_case_sse",
+   "target": [
+    3.6,
+    4.05,
+    1.95
+   ],
+   "yaw": 208.5,
+   "pitch": 14,
+   "dist": 3.0,
+   "hide": "Mage_(Roof|Chimney|Glazing|Shell|UpperShell|UpperFloorObservatory|UpperGallery|Stair|UpperRail|RailStair|UpperJoist|UpperFurnishingPropsObservatory|ServiceTelescope)",
+   "lens": 30
+  },
+  {
+   "name": "library_case_wsw",
+   "target": [
+    -1.05,
+    4.05,
+    0.27
+   ],
+   "yaw": 112.6,
+   "pitch": 14,
+   "dist": 3.0,
+   "hide": "Mage_(Roof|Chimney|Glazing|Shell|UpperShell|UpperFloorObservatory|UpperGallery|Stair|UpperRail|RailStair|UpperJoist|UpperFurnishingPropsObservatory|ServiceTelescope)",
+   "lens": 30
+  },
+  {
+   "name": "library_case_wnw",
+   "target": [
+    -1.05,
+    4.05,
+    -2.27
+   ],
+   "yaw": 67.4,
+   "pitch": 14,
+   "dist": 3.0,
+   "hide": "Mage_(Roof|Chimney|Glazing|Shell|UpperShell|UpperFloorObservatory|UpperGallery|Stair|UpperRail|RailStair|UpperJoist|UpperFurnishingPropsObservatory|ServiceTelescope)",
+   "lens": 30
+  },
+  {
+   "name": "wing_bookcase_front",
+   "target": [
+    -5.6,
+    1.0,
+    -1.15
+   ],
+   "yaw": 65,
+   "pitch": 22,
+   "dist": 2.7,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "wing_table_bench",
+   "target": [
+    -4.95,
+    0.5,
+    3.2
+   ],
+   "yaw": 330,
+   "pitch": 35,
+   "dist": 2.8,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "yard_target_face",
+   "target": [
+    -2.0,
+    0.4,
+    7.4
+   ],
+   "yaw": 180,
+   "pitch": 12,
+   "dist": 3.0,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  },
+  {
+   "name": "yard_hutch_front",
+   "target": [
+    -6.2,
+    0.5,
+    7.2
+   ],
+   "yaw": 205,
+   "pitch": 30,
+   "dist": 2.8,
+   "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing|Mage_Shell",
+   "lens": 35
+  }
+ ]
+}

@@ -2,123 +2,131 @@
  "schema": "holm-v2-land-registry-v1",
  "buildings": {
   "survival": {
-   "graph": "holm-survival-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb",
+   "graph": "holm-survival-props-navigation-v1",
+   "model": ".studio-workspaces/holm-survival-props-v1/candidates/survival.glb",
    "placement": {
     "x": 31,
     "y": 4,
     "z": 84
    },
    "nodes": 263,
-   "modelSha256": "741f374e4a702da697e0c6dfeb22403fe72ea483fe246406685d98dc2785a95c",
+   "modelSha256": "dbe4e18f99cb056da042f699df327ee89d975896a4acbc941a2cad198e050c1f",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:23:42.253Z"
+   "measuredAt": "2026-09-28T09:17:14.222Z",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_survival_props_pass.py, docs/rebuild/holm-overhaul/props-pass/survival.json); graph identical to holm-survival-v2land-navigation-v1 apart from the model hash"
   },
   "quarry": {
-   "graph": "holm-quarry-review4-navigation-v1",
-   "model": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb",
+   "graph": "holm-quarry-props-navigation-v1",
+   "model": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb",
    "placement": {
     "x": 36,
     "y": 9.15,
     "z": 33
    },
    "nodes": 110,
-   "modelSha256": "f48836dd7ae828a9a586ba4b52fadb4eb8ff87d0ee7c99645265d40aed940d85",
+   "modelSha256": "9fc93b98937d5a6d01e07b51d9cabe0e22b516469599d373d452b2df5fbf4c93",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:36:47.621Z",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/quarry.json); graph identical to holm-quarry-v2land-navigation-v1 apart from the model hash"
+   "measuredAt": "2026-09-28T09:17:13.843Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/quarry.json); graph identical to holm-quarry-v2land-navigation-v1 apart from the model hash",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_quarry_props_pass.py, docs/rebuild/holm-overhaul/props-pass/quarry.json); graph identical to holm-quarry-review4-navigation-v1 apart from the model hash"
   },
   "bank": {
-   "graph": "holm-bank-review4-navigation-v1",
-   "model": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb",
+   "graph": "holm-bank-props-navigation-v1",
+   "model": ".studio-workspaces/holm-bank-props-v1/candidates/bank.glb",
    "placement": {
     "x": 86,
     "y": 7.3,
     "z": 57
    },
    "nodes": 186,
-   "modelSha256": "e3d9c5755a5dc8d8d3deee4e4bf70b09f4066e140dd691e822e0874c98eb6388",
+   "modelSha256": "a14fbb0ac80ad91d2ab0ca4d05bbff86692fd7cebd1809a2ce3c762bd7d0ca44",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:35:54.811Z",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bank.json); graph identical to holm-bank-v2land-navigation-v1 apart from the model hash"
+   "measuredAt": "2026-09-28T09:36:15.209Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bank.json); graph identical to holm-bank-v2land-navigation-v1 apart from the model hash",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_bank_props_pass.py, docs/rebuild/holm-overhaul/props-pass/bank.json); graph identical to holm-bank-review4-navigation-v1 apart from the model hash"
   },
   "mage": {
-   "graph": "holm-mage-review4-navigation-v1",
-   "model": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.glb",
+   "graph": "holm-mage-props-navigation-v1",
+   "model": ".studio-workspaces/holm-mage-props-v1/candidates/mage.glb",
    "placement": {
     "x": 114,
     "y": 7.75,
     "z": 58
    },
    "nodes": 311,
-   "modelSha256": "85b69a2d9abdc81683e36284e59ff3bc641596a9327fa49ccd6ff423e95c206a",
+   "modelSha256": "c36c70908d6ba1f6d6e33915cd638293d27f401d468f33d4fe2ad034f6e06cc2",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:36:29.010Z",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/mage.json); graph identical to holm-mage-v2land-navigation-v1 apart from the model hash"
+   "measuredAt": "2026-09-28T09:17:14.408Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/mage.json); graph identical to holm-mage-v2land-navigation-v1 apart from the model hash",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_mage_props_pass.py, docs/rebuild/holm-overhaul/props-pass/mage.json); graph identical to holm-mage-review4-navigation-v1 apart from the model hash"
   },
   "lastlight": {
-   "graph": "holm-lastlight-review4-navigation-v1",
-   "model": ".studio-workspaces/holm-lastlight-glazed-review4-v1/candidates/lastlight.glb",
+   "graph": "holm-lastlight-props-navigation-v1",
+   "model": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.glb",
    "placement": {
     "x": 121,
     "y": 17.8,
     "z": 26
    },
    "nodes": 213,
-   "modelSha256": "c9f851ce2694fd9fb4a0d0d693d976316c6d04b7fe254a5506fb83f3c91b2ea5",
+   "modelSha256": "1d90b7c5b97bceb4b71000f5d89bd109aef7895f1532eba8b89c8841d920c993",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:36:14.945Z",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/lastlight.json); graph identical to holm-lastlight-v2land-navigation-v1 apart from the model hash"
+   "measuredAt": "2026-09-28T09:17:14.592Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/lastlight.json); graph identical to holm-lastlight-v2land-navigation-v1 apart from the model hash",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_lastlight_props_pass.py, docs/rebuild/holm-overhaul/props-pass/lastlight.json); graph identical to holm-lastlight-review4-navigation-v1 apart from the model hash"
   },
   "haven": {
-   "graph": "holm-haven-review4-navigation-v1",
-   "model": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.glb",
+   "graph": "holm-haven-props-navigation-v1",
+   "model": ".studio-workspaces/holm-haven-props-v1/candidates/haven.glb",
    "placement": {
     "x": 101,
     "y": 1,
     "z": 14
    },
    "nodes": 99,
-   "modelSha256": "a0215137eeeb4a3028035b72ac3502f1cc544e6f3bf69fba984a0f23cd0240e3",
+   "modelSha256": "a8cd36efe7e093cf9bb0fc7bb0b53944062b46c0178ccd4e2e24254741fd254e",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:36:04.914Z",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/haven.json); graph identical to holm-haven-v2land-navigation-v1 apart from the model hash"
+   "measuredAt": "2026-09-28T09:01:28.356Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/haven.json); graph identical to holm-haven-v2land-navigation-v1 apart from the model hash",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_haven_props_pass.py, docs/rebuild/holm-overhaul/props-pass/haven.json); graph identical to holm-haven-review4-navigation-v1 apart from the model hash"
   },
   "keep": {
-   "graph": "holm-keep-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+   "graph": "holm-keep-props-navigation-v1",
+   "model": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
    "placement": {
     "x": 87,
     "y": 11,
     "z": 35
    },
    "nodes": 868,
-   "modelSha256": "b8065dc02c2d28bff0f8d8f7e02db648ac1c8462099ec8b74f57c1c7f1da726e",
+   "modelSha256": "e2b9073c7840b7c87eb308c5829fc53ed82723fe375af6dda547d4660fbd9b19",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:24:54.272Z"
+   "measuredAt": "2026-09-28T09:36:15.026Z",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_keep_props_pass.py, docs/rebuild/holm-overhaul/props-pass/keep.json); graph identical to holm-keep-v2land-navigation-v1 apart from the model hash"
   },
   "bakehouse": {
-   "graph": "holm-kitchen-review4-navigation-v2",
-   "model": ".studio-workspaces/holm-kitchen-glazed-review4-v1/candidates/kitchen-character.glb",
+   "graph": "holm-kitchen-props-navigation-v1",
+   "model": ".studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb",
    "placement": {
     "x": 44,
     "y": 5.4,
     "z": 67
    },
    "nodes": 265,
-   "modelSha256": "0c75acc33e18ab30f8b168c53b2e9e2d28c82d37de9294ebb62382db120724de",
+   "modelSha256": "8ba91c017545c7a02b0d5ee30f2e5ed8f5daca455626507bc2f1e56c5cb33b18",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:35:43.833Z",
+   "measuredAt": "2026-09-28T09:36:15.719Z",
    "review4": "owner review 4 (2026-09-27): the oven, hearth breast and chimney in grainless masonry instead of wood grain (docs/rebuild/holm-overhaul/oldschool/bakehouse-review4.textures.json); graph re-extracted, identical apart from the model hash",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bakehouse.json); graph identical to holm-kitchen-review4-navigation-v1 apart from the model hash"
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bakehouse.json); graph identical to holm-kitchen-review4-navigation-v1 apart from the model hash",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_bakehouse_props_pass.py, docs/rebuild/holm-overhaul/props-pass/bakehouse.json); graph identical to holm-kitchen-review4-navigation-v2 apart from the model hash"
   },
   "lodge": {
    "graph": "holm-quest-lodge-review4-navigation-v2",
@@ -137,33 +145,35 @@
    "review4": "owner review 4 (2026-09-27): the quest board by the north wall facing the door; the region chart, leaded panes (tools/blender/build_holm_quest_lodge_review4.py, review4/lodge.relock.json); props pass: map table, hearth, bookcase, bay desk, guest bed, desk and stool designed again (tools/blender/build_holm_quest_lodge_review4_props.py, review4/lodge-props.relock.json; graph identical to review4-navigation-v1)"
   },
   "cavern": {
-   "graph": "holm-cavern-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.glb",
+   "graph": "holm-cavern-props-navigation-v1",
+   "model": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb",
    "placement": {
     "x": 200,
     "y": -30,
     "z": 60
    },
    "nodes": 150,
-   "modelSha256": "b1c17908ccbacfe0651f1f8fa9a6811f19ad8e9ce097fd0171b052e82a5659f7",
+   "modelSha256": "e6be87eb952e344dc03875ee58b25747f28d070b18bdbbda488f87e7edd31458",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:25:39.109Z"
+   "measuredAt": "2026-09-28T09:17:14.036Z",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_cavern_props_pass.py, docs/rebuild/holm-overhaul/props-pass/cavern.json); graph identical to holm-cavern-v2land-navigation-v1 apart from the model hash"
   },
   "mill": {
-   "graph": "holm-mill-review4-navigation-v2",
-   "model": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.glb",
+   "graph": "holm-mill-props-navigation-v1",
+   "model": ".studio-workspaces/holm-mill-props-v1/candidates/mill.glb",
    "placement": {
     "x": 65,
     "y": 3.2,
     "z": 64
    },
    "nodes": 146,
-   "modelSha256": "95f6862a963feb786c44b56ffea53e9a072f8fb473182fe7893625e7b223eef9",
+   "modelSha256": "73f6e2533c379c155317e8c6bc1f46b86b54e268b13c500d1c25a429ae5428f3",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T01:13:14.471Z",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/mill.json); graph identical to holm-mill-v2land-navigation-v1 apart from the model hash; z-fighting fixed after glazing (tools/blender/fix_holm_coplanar.py, m44 profile: 392 visible coplanar fights, 43 m2, down to 1 of 0.02 m2; graph holm-mill-review4-navigation-v2 identical to -v1)"
+   "measuredAt": "2026-09-28T09:36:15.427Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/mill.json); graph identical to holm-mill-v2land-navigation-v1 apart from the model hash; z-fighting fixed after glazing (tools/blender/fix_holm_coplanar.py, m44 profile: 392 visible coplanar fights, 43 m2, down to 1 of 0.02 m2; graph holm-mill-review4-navigation-v2 identical to -v1)",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_mill_props_pass.py, docs/rebuild/holm-overhaul/props-pass/mill.json); graph identical to holm-mill-review4-navigation-v2 apart from the model hash"
   },
   "stair": {
    "graph": "holm-keepers-stair-v2land-navigation-v1",

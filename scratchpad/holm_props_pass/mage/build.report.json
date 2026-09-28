@@ -1,0 +1,35 @@
+{
+ "removed": [
+  "Mage_Furnishing",
+  "Mage_FurnishingDressing",
+  "Mage_UpperFurnishing",
+  "Mage_UpperFurnishingDressing",
+  "Mage_Yard",
+  "Mage_ServiceRuneTable_Workroom",
+  "Mage_ServiceLectern_Library",
+  "Mage_ServiceTelescope_Observatory"
+ ],
+ "islandsRemoved": {},
+ "facesRemoved": {},
+ "built": {
+  "Mage_FurnishingPropsStudy": 5012,
+  "Mage_FurnishingPropsWorkroom": 2198,
+  "Mage_ServiceRuneTable_Workroom": 1323,
+  "Mage_UpperFurnishingPropsLibrary": 3902,
+  "Mage_ServiceLectern_Library": 458,
+  "Mage_UpperFurnishingPropsObservatory": 2178,
+  "Mage_ServiceTelescope_Observatory": 538,
+  "Mage_Yard": 1856
+ },
+ "notes": [],
+ "welds": {
+  "Mage_FurnishingPropsStudy": 208,
+  "Mage_FurnishingPropsWorkroom": 142,
+  "Mage_ServiceRuneTable_Workroom": 84,
+  "Mage_UpperFurnishingPropsLibrary": 260,
+  "Mage_ServiceLectern_Library": 29,
+  "Mage_UpperFurnishingPropsObservatory": 97,
+  "Mage_ServiceTelescope_Observatory": 25,
+  "Mage_Yard": 101
+ }
+}

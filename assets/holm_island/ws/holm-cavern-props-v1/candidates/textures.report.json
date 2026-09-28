@@ -1,0 +1,64 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-cavern-props-v1/working/cavern-flat.blend",
+ "materials": {
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  },
+  "Holm props colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Cavern_FurnishingCart": {
+   "beam": 51,
+   "rock": 234
+  },
+  "Cavern_FurnishingPropsBellows": {
+   "beam": 99
+  },
+  "Cavern_FurnishingPropsStores": {
+   "beam": 2130,
+   "rock": 697
+  },
+  "Cavern_FurnishingPropsToolRack": {
+   "beam": 183
+  },
+  "Cavern_ServiceAnvil_Anvil": {
+   "beam": 34
+  },
+  "Cavern_ServiceFurnace_Furnace": {
+   "rock": 158,
+   "beam": 9
+  },
+  "Cavern_Torch": {
+   "beam": 120
+  }
+ },
+ "keptImages": [
+  "Cavern copper ore",
+  "Cavern crate wood",
+  "Cavern dark timber",
+  "Cavern floor gravel",
+  "Cavern pit prop",
+  "Cavern rock",
+  "Cavern rock shadow",
+  "Cavern rock strata",
+  "Cavern tin ore",
+  "Cavern trodden floor"
+ ],
+ "meshes": 22,
+ "glb": {
+  "path": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb",
+  "bytes": 2706904,
+  "sha256": "e6be87eb952e344dc03875ee58b25747f28d070b18bdbbda488f87e7edd31458"
+ },
+ "images": [
+  "beam",
+  "rock"
+ ]
+}

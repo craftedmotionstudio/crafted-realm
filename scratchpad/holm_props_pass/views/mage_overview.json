@@ -1,0 +1,57 @@
+{
+ "glb": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.glb",
+ "out": "scratchpad/holm_props_pass/overview/mage",
+ "size": [
+  1100,
+  760
+ ],
+ "hide": "Mage_(Roof|Upper|Chimney)|Mage_Glazing",
+ "views": [
+  {
+   "name": "ground_ne",
+   "target": [
+    0,
+    0,
+    1
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 16
+  },
+  {
+   "name": "ground_sw",
+   "target": [
+    0,
+    0,
+    1
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 16
+  },
+  {
+   "name": "upper_ne",
+   "target": [
+    0,
+    3,
+    1
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 16,
+   "hide": "Mage_(Roof|Chimney)|Mage_Glazing|Mage_UpperShell|Mage_(Shell|GroundFront)"
+  },
+  {
+   "name": "upper_sw",
+   "target": [
+    0,
+    3,
+    1
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 16,
+   "hide": "Mage_(Roof|Chimney)|Mage_Glazing|Mage_UpperShell|Mage_(Shell|GroundFront)"
+  }
+ ]
+}

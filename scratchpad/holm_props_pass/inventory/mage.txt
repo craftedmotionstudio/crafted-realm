@@ -1,0 +1,45 @@
+== Mage_Furnishing 10 clusters
+  x -5.84.. -5.42 y 0.00.. 2.13 z -1.78.. -0.73   287 tris 17 isl  Mage aged oak (not clipped), Mage book leather, Mage dark frame oak (not clipped), Mage parchment, Mage rune s
+  x -5.50.. -4.40 y 0.00.. 0.80 z  2.40..  3.40    72 tris  6 isl  Mage aged oak (not clipped), Mage parchment
+  x -5.40.. -4.50 y 0.00.. 0.47 z  3.50..  3.78    36 tris  3 isl  Mage aged oak (not clipped)
+  x -5.30.. -3.70 y 0.00.. 1.42 z -1.82.. -1.25    60 tris  5 isl  Mage aged oak (not clipped), Mage dressed sandstone (not clipped), Mage fieldstone (not clipped), Mage wrought
+  x -4.72.. -4.28 y 0.30.. 0.55 z -1.74.. -1.36    20 tris  1 isl  Mage clay warm
+  x -3.00.. -2.20 y 0.00.. 0.95 z -1.80.. -1.10    92 tris  7 isl  Mage aged oak (not clipped), Mage brass, Mage parchment
+  x -1.51.. -1.17 y 0.00.. 1.63 z  1.47..  2.60   288 tris 16 isl  Mage aged oak (not clipped), Mage book leather, Mage dark frame oak (not clipped), Mage parchment, Mage rune s
+  x  0.38..  0.82 y 0.00.. 1.52 z  1.76..  2.14    60 tris  3 isl  Mage parchment, Mage wrought iron
+  x  4.38..  5.62 y 0.00.. 0.52 z -0.81..  1.28    24 tris  2 isl  Mage aged oak (not clipped), Mage dark frame oak (not clipped)
+  x  4.38..  5.69 y 0.00.. 1.93 z -3.44.. -1.08   304 tris 20 isl  Mage aged oak (not clipped), Mage book leather, Mage dark frame oak (not clipped), Mage parchment, Mage star c
+== Mage_FurnishingDressing 10 clusters
+  x -5.75.. -5.59 y 1.12.. 1.17 z -1.29.. -1.13    38 tris  2 isl  Holm flat colour, Holm flat colour - beam
+  x -5.75.. -5.60 y 1.62.. 1.79 z -1.13.. -1.01    16 tris  2 isl  Holm flat colour
+  x -5.64.. -5.52 y 2.10.. 2.25 z -1.54.. -1.42    16 tris  2 isl  Holm flat colour
+  x -5.62.. -5.54 y 0.62.. 0.78 z -1.39.. -1.30    15 tris  1 isl  Rune crystal (glow)
+  x -5.48.. -5.23 y 0.78.. 0.83 z  2.62..  2.97    76 tris  5 isl  Holm flat colour, Holm flat colour - beam
+  x -4.86.. -4.74 y 0.78.. 0.96 z  2.68..  2.78    52 tris  2 isl  Holm flat colour
+  x -4.42.. -4.32 y 1.42.. 1.53 z -1.75.. -1.66    40 tris  2 isl  Holm flat colour
+  x -4.06.. -3.94 y 1.42.. 1.54 z -1.74.. -1.64    52 tris  2 isl  Holm flat colour
+  x -2.80.. -2.68 y 0.82.. 1.00 z -1.49.. -1.39    52 tris  2 isl  Holm flat colour - beam
+  x -2.52.. -2.36 y 0.80.. 0.85 z -1.47.. -1.30    38 tris  2 isl  Holm flat colour, Holm flat colour - beam
+== Mage_ServiceLectern_Library 2 clusters
+  x  1.92..  2.58 y 3.00.. 4.27 z  2.08..  2.52    60 tris  5 isl  Mage aged oak (not clipped), Mage book leather, Mage parchment
+  x  2.62..  2.68 y 3.00.. 4.15 z  2.27..  2.33    20 tris  1 isl  Mage wrought iron
+== Mage_ServiceRuneTable_Workroom 2 clusters
+  x  1.70..  3.30 y 0.00.. 1.00 z  1.05..  1.80   332 tris 23 isl  Mage aged oak (not clipped), Mage book leather, Mage brass, Mage parchment, Mage rune slate
+  x  1.80..  3.20 y 0.20.. 0.26 z  1.40..  1.46    12 tris  1 isl  Mage dark frame oak (not clipped)
+== Mage_ServiceTelescope_Observatory 1 clusters
+  x  3.73..  5.06 y 5.99.. 8.16 z -3.16.. -1.83   180 tris  9 isl  Mage aged oak (not clipped), Mage brass, Mage wrought iron
+== Mage_UpperFurnishing 7 clusters
+  x -1.68.. -0.47 y 3.00.. 5.23 z -3.39.. -1.15   404 tris 27 isl  Mage aged oak (not clipped), Mage book leather, Mage dark frame oak (not clipped), Mage parchment, Mage rune s
+  x -1.67.. -0.47 y 3.00.. 5.23 z -0.84..  1.40   344 tris 22 isl  Mage aged oak (not clipped), Mage book leather, Mage dark frame oak (not clipped), Mage parchment, Mage rune s
+  x  0.70..  1.70 y 6.00.. 6.96 z -3.10.. -2.40   432 tris 29 isl  Mage aged oak (not clipped), Mage brass, Mage parchment, Mage star chart
+  x  0.85..  1.55 y 6.00.. 7.70 z  1.24..  1.96   408 tris  7 isl  Mage aged oak (not clipped), Mage brass, Mage rune slate, Mage wrought iron
+  x  2.77..  4.44 y 3.00.. 5.23 z  1.45..  2.42   425 tris 22 isl  Mage aged oak (not clipped), Mage book leather, Mage dark frame oak (not clipped), Mage parchment, Mage star c
+  x  2.90..  3.30 y 6.00.. 6.50 z -3.07.. -2.73    20 tris  1 isl  Mage aged oak (not clipped)
+  x  4.47..  5.68 y 3.00.. 5.23 z -0.85..  1.39   404 tris 27 isl  Mage aged oak (not clipped), Mage book leather, Mage dark frame oak (not clipped), Mage parchment, Mage rune s
+== Mage_UpperFurnishingDressing 2 clusters
+  x  0.99..  1.11 y 6.90.. 7.08 z -2.81.. -2.71    52 tris  2 isl  Holm flat colour
+  x  1.23..  1.31 y 6.92.. 7.08 z -2.98.. -2.89    15 tris  1 isl  Rune crystal (glow)
+== Mage_Yard 3 clusters
+  x -7.07.. -0.86 y-0.37.. 1.70 z  3.93..  8.07   864 tris 66 isl  Mage aged oak (not clipped), Mage dark frame oak (not clipped), Mage ochre thatch, Mage parchment, Mage rune s
+  x -6.05.. -5.15 y-0.35.. 1.60 z  4.92..  5.29    80 tris  4 isl  Mage aged oak (not clipped), Mage ochre thatch, Mage parchment
+  x -1.14.. -0.86 y-0.40.. 1.33 z  4.43..  5.14    72 tris  6 isl  Mage aged oak (not clipped), Mage dark frame oak (not clipped)

@@ -1,0 +1,65 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-kitchen-props-v1/working/kitchen-character-flat.blend",
+ "materials": {
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Kitchen_Court_DressingPropsWoodpile": {
+   "beam": 79
+  },
+  "Kitchen_Furnishings_Hall": {
+   "beam": 247
+  },
+  "Kitchen_Pantry_FlourBin": {
+   "beam": 147
+  },
+  "Kitchen_RecipeBoard_Board": {
+   "beam": 6
+  },
+  "Kitchen_Store_Shelves": {
+   "beam": 476
+  },
+  "Kitchen_SupplyBuckets_Rack": {
+   "beam": 145
+  },
+  "Kitchen_SupplyDoughBowl_Trough": {
+   "beam": 33
+  },
+  "Kitchen_SupplyWaterButt": {
+   "beam": 115
+  },
+  "Kitchen_Tools_Oven": {
+   "beam": 95
+  },
+  "Kitchen_UpperFurnishing_Loft": {
+   "beam": 180
+  },
+  "Kitchen_UpperFurnishing_Rail": {
+   "beam": 307
+  },
+  "Kitchen_Worktable_Kneading": {
+   "beam": 135
+  }
+ },
+ "keptImages": [
+  "Holm flat colour - beam",
+  "Holm flat colour - planks",
+  "Holm flat colour - plaster",
+  "Holm flat colour - rock"
+ ],
+ "meshes": 64,
+ "glb": {
+  "path": ".studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb",
+  "bytes": 4512948,
+  "sha256": "8ba91c017545c7a02b0d5ee30f2e5ed8f5daca455626507bc2f1e56c5cb33b18"
+ },
+ "images": [
+  "beam"
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "removed": [
+  "Survival_FurnishingCanopy",
+  "Survival_FurnishingDressing",
+  "Survival_FurnishingStore",
+  "Survival_FurnishingYard",
+  "Survival_ServiceTools_Rack",
+  "Survival_ServiceFirePit_Ring",
+  "Survival_ServiceLogPile_Stack"
+ ],
+ "islandsRemoved": {},
+ "facesRemoved": {},
+ "built": {
+  "Survival_FurnishingPropsCanopy": 866,
+  "Survival_FurnishingPropsHung": 389,
+  "Survival_FurnishingPropsStore": 776,
+  "Survival_FurnishingPropsYard": 80,
+  "Survival_ServiceFirePit_Ring": 756,
+  "Survival_ServiceLogPile_Stack": 870,
+  "Survival_ServiceTools_Rack": 796
+ },
+ "notes": [
+  {
+   "clearance": []
+  }
+ ],
+ "welds": {
+  "Survival_FurnishingPropsCanopy": 57,
+  "Survival_FurnishingPropsHung": 25,
+  "Survival_FurnishingPropsStore": 23,
+  "Survival_FurnishingPropsYard": 6,
+  "Survival_ServiceFirePit_Ring": 45,
+  "Survival_ServiceLogPile_Stack": 129,
+  "Survival_ServiceTools_Rack": 34
+ }
+}

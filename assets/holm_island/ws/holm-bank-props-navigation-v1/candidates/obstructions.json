@@ -1,0 +1,845 @@
+{
+ "nodes": [
+  {
+   "reason": "footprint-rise",
+   "x": -7.5,
+   "z": -5.5,
+   "y": -2.6144256591796875
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -7.5,
+   "z": -4.5,
+   "y": -1.9936294555664062
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -7.5,
+   "z": -3.5,
+   "y": -1.8682174682617188
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -7.5,
+   "z": 4.5,
+   "y": -1.9755020141601562
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -7.5,
+   "z": 5.5,
+   "y": -2.4882965087890625
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -7.5,
+   "z": 6.5,
+   "y": -3.0834693908691406
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -6.5,
+   "z": -6.5,
+   "y": -2.461353302001953
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -6.5,
+   "z": 6.5,
+   "y": -1.8885498046875
+  },
+  {
+   "reason": "footprint-support",
+   "x": -6.5,
+   "z": 7.74,
+   "y": -3.34783935546875
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -4.5,
+   "y": -0.2999992370605469,
+   "object": "Bank_ShellQuoins"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.591844023767622,
+   "z": -3.278268912197291,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -3.5,
+   "y": 0.0,
+   "object": "Bank_ShellQuoins"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.591844023767622,
+   "z": -2.278268912197291,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.591844023767622,
+   "z": -1.2782689121972912,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -1.5,
+   "y": -2.384185791015625e-07,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.26,
+   "z": -0.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": -0.5,
+   "y": 0.0,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.26,
+   "z": 0.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 0.5,
+   "y": 0.0,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.26,
+   "z": 1.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 1.5,
+   "y": 2.384185791015625e-07,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.26,
+   "z": 2.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 2.5,
+   "y": 2.384185791015625e-07,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.591844023767622,
+   "z": 3.721731087802709,
+   "y": 3.0000038146972656
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 3.5,
+   "y": -2.384185791015625e-07,
+   "object": "Bank_ShellQuoins"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.330294372515229,
+   "z": 4.669705627484771,
+   "y": 3.0000038146972656
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -5.5,
+   "z": 4.5,
+   "y": -0.2999999523162842,
+   "object": "Bank_ShellQuoins"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.5,
+   "z": 7.74,
+   "y": -3.0010643005371094
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -4.5,
+   "y": -0.2999992370605469,
+   "object": "Bank_ShellWindows"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -3.5,
+   "y": 3.0,
+   "object": "Bank_UpperFurnishingPropsStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -0.5,
+   "y": 2.384185791015625e-07,
+   "object": "Bank_FurnishingPropsStrongroom"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 0.5,
+   "y": 1.1920928955078125e-07,
+   "object": "Bank_FurnishingPropsStrongroom"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 1.5,
+   "y": 1.1920928955078125e-07,
+   "object": "Bank_StairTreads"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 2.5,
+   "y": -0.030000001192092896,
+   "object": "Bank_StairTreads"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -4.330294372515229,
+   "z": 4.669705627484771,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": 4.5,
+   "y": -0.2999999523162842,
+   "object": "Bank_ShellWindows"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -4.5,
+   "z": 7.26,
+   "y": -2.6256942749023438
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -3.5,
+   "y": 0.0,
+   "object": "Bank_FurnishingPropsWing"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.3302943725152288,
+   "z": 4.669705627484771,
+   "y": 3.0000038146972656
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": 4.5,
+   "y": -0.2999999523162842,
+   "object": "Bank_ShellWindows"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -3.5,
+   "z": 7.5,
+   "y": -2.215862274169922
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -3.5,
+   "y": 3.0,
+   "object": "Bank_UpperFurnishingPropsHearth"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -3.5,
+   "y": 2.384185791015625e-07,
+   "object": "Bank_FurnishingPropsWing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 0.5,
+   "y": 3.0,
+   "object": "Bank_UpperFurnishingPropsClerk"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.3302943725152288,
+   "z": 4.669705627484771,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 4.5,
+   "y": -0.2999999523162842,
+   "object": "Bank_ShellWindows"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.26,
+   "z": -3.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -3.5,
+   "y": 0.0,
+   "object": "Bank_ShellPartition"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.26,
+   "z": -2.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Bank_ShellPartition"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.26,
+   "z": -1.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -1.5,
+   "y": 2.384185791015625e-07,
+   "object": "Bank_ShellPartition"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.26,
+   "z": -0.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -0.5,
+   "y": 0.0,
+   "object": "Bank_ShellDoor"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.26,
+   "z": 0.5,
+   "y": 3.0
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.26,
+   "z": 1.5,
+   "y": 3.0000038146972656
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Bank_ShellDoor"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.26,
+   "z": 2.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Bank_ShellPartition"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.26,
+   "z": 3.5,
+   "y": 2.9999961853027344
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Bank_ShellPartition"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.26,
+   "z": 4.5,
+   "y": 3.0
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -4.5,
+   "y": -0.18639373779296875,
+   "object": "Bank_ShellWindows"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -3.5,
+   "y": 0.0,
+   "object": "Bank_FurnishingPropsTellers"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -1.5,
+   "y": 0.0,
+   "object": "Bank_ServiceCounter_Booths"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Bank_ShellDoor"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": 0.5,
+   "z": -5.5,
+   "y": 1.2741889953613281
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -4.5,
+   "y": 0.4701080322265625,
+   "object": "Bank_ShellWindows"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -3.5,
+   "y": 0.0,
+   "object": "Bank_FurnishingPropsTellers"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -1.5,
+   "y": 0.0,
+   "object": "Bank_ServiceCounter_Booths"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": 1.5,
+   "z": -4.5,
+   "y": 1.1582794189453125
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -4.5,
+   "y": 0.0,
+   "object": "Bank_ShellQuoins"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -1.5,
+   "y": 0.0,
+   "object": "Bank_ServiceCounter_Booths"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Bank_ShellDoor"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 4.5,
+   "y": -0.15000152587890625,
+   "object": "Bank_ShellWindows"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": 2.5,
+   "z": -4.5,
+   "y": 1.6679229736328125
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -4.5,
+   "y": 0.0,
+   "object": "Bank_ServiceVault_Chests"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -3.5,
+   "y": 0.29840087890625,
+   "object": "Bank_RoofVaultCeiling"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -1.5,
+   "y": 0.0,
+   "object": "Bank_FurnishingPropsHall"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Bank_FurnishingPropsHall"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 4.5,
+   "y": -0.2999992370605469,
+   "object": "Bank_ShellWindows"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": 3.5,
+   "z": -4.5,
+   "y": 1.7320022583007812
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -4.5,
+   "y": 0.0,
+   "object": "Bank_ServiceVault_Chests"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -3.5,
+   "y": 0.2631988525390625,
+   "object": "Bank_RoofVaultCeiling"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 4.5,
+   "y": -0.2999992370605469,
+   "object": "Bank_ShellWindows"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": 4.5,
+   "z": -4.5,
+   "y": 1.6072006225585938
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -4.5,
+   "y": 0.0,
+   "object": "Bank_ServiceVault_Chests"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -3.5,
+   "y": 0.22800064086914062,
+   "object": "Bank_ServiceVault_Chests"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Bank_ServiceVault_Chests"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 3.5,
+   "y": -0.2999992370605469,
+   "object": "Bank_ShellFacing"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 5.591844023767622,
+   "z": -4.278268912197291,
+   "y": 1.4823989868164062
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -4.5,
+   "y": -0.029999971389770508,
+   "object": "Bank_ShellQuoins"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -3.5,
+   "y": -0.030002593994140625,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -2.5,
+   "y": -0.030002593994140625,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -1.5,
+   "y": -0.030002593994140625,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -0.5,
+   "y": -0.030002593994140625,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": 0.5,
+   "y": -0.030002593994140625,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": 1.5,
+   "y": -0.030002593994140625,
+   "object": "Bank_ShellStone"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": 2.5,
+   "y": -0.35231781005859375,
+   "object": "Bank_ShellFacing"
+  },
+  {
+   "reason": "footprint-support",
+   "x": 6.330294372515229,
+   "z": -4.669705627484771,
+   "y": 0.6585540771484375
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 6.5,
+   "z": -3.5,
+   "y": 0.40557861328125,
+   "object": "Bank_ShellStone"
+  }
+ ],
+ "edges": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.1,
+   "z": -1.5,
+   "y": 2.7692298889160156,
+   "object": "Bank_Balustrade",
+   "from": "-5:-2:0",
+   "to": "-4:-2:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.1,
+   "z": -0.5,
+   "y": 2.3076934814453125,
+   "object": "Bank_Stringers",
+   "from": "-5:-1:0",
+   "to": "-4:-1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.1,
+   "z": 1.5,
+   "y": 1.1538429260253906,
+   "object": "Bank_Stringers",
+   "from": "-5:1:0",
+   "to": "-4:1:1"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.1,
+   "z": 2.5,
+   "y": 0.46154022216796875,
+   "object": "Bank_Balustrade",
+   "from": "-5:2:0",
+   "to": "-4:2:1"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.95,
+   "z": 3.5,
+   "y": 3.0,
+   "object": "Bank_UpperBalustrade",
+   "from": "-5:3:0",
+   "to": "-4:3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.35,
+   "z": -4.5,
+   "y": -0.3000030517578125,
+   "object": "Bank_ShellChimneyBase",
+   "from": "-4:-5:0",
+   "to": "-3:-5:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -3.3,
+   "y": 2.9999961853027344,
+   "object": "Bank_UpperFurnishingPropsHearth",
+   "from": "-4:-4:0",
+   "to": "-4:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -5.2,
+   "y": -0.30194854736328125,
+   "object": "Bank_ShellChimneyBase",
+   "from": "-3:-6:0",
+   "to": "-3:-5:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.05,
+   "z": -4.5,
+   "y": -0.2999992370605469,
+   "object": "Bank_ShellChimneyBase",
+   "from": "-3:-5:0",
+   "to": "-2:-5:0"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -1.4,
+   "z": -6.5,
+   "y": 0.769744873046875,
+   "from": "-2:-7:0",
+   "to": "-1:-7:0"
+  },
+  {
+   "reason": "footprint-rise",
+   "x": -1.5,
+   "z": -6.4,
+   "y": 0.5668830871582031,
+   "from": "-2:-7:0",
+   "to": "-2:-6:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.0,
+   "z": 4.5,
+   "y": -0.2999992370605469,
+   "object": "Bank_ShellExterior",
+   "from": "-2:4:0",
+   "to": "-1:4:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.3,
+   "z": -0.5,
+   "y": 0.0,
+   "object": "Bank_FurnishingPropsHall",
+   "from": "-1:-1:0",
+   "to": "0:-1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.05,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Bank_ShellStone",
+   "from": "0:-3:0",
+   "to": "1:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.8,
+   "z": -0.5,
+   "y": 0.0,
+   "object": "Bank_FurnishingPropsHall",
+   "from": "0:-1:0",
+   "to": "1:-1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.55,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Bank_ShellStone",
+   "from": "1:-3:0",
+   "to": "2:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -2.25,
+   "y": 0.0,
+   "object": "Bank_ServiceVault_Gate",
+   "from": "3:-3:0",
+   "to": "3:-2:0"
+  }
+ ]
+}

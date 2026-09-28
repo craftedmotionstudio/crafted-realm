@@ -1,0 +1,119 @@
+{
+ "build": {
+  "flat": ".studio-workspaces/holm-keep-props-v1/working/keep-flat.blend",
+  "built": {
+   "Keep_Furnishing_PropsArms": 2020,
+   "Keep_Furnishing_PropsHallTable": 1839,
+   "Keep_Furnishing_PropsStores": 2074,
+   "Keep_Furnishing_PropsBarracks": 3428,
+   "Keep_Upper_Furnishing_PropsQuarters": 2924
+  },
+  "removed": [
+   "Keep_Furnishing_3_1",
+   "Keep_Furnishing_3_21",
+   "Keep_Furnishing_3_9",
+   "Keep_Furnishing_Dressing",
+   "Keep_Upper_Furnishing_4_1",
+   "Keep_Upper_Furnishing_4_13",
+   "Keep_Upper_Furnishing_4_2",
+   "Keep_Upper_Furnishing_4_2.001",
+   "Keep_Upper_Furnishing_Dressing"
+  ],
+  "islandsRemoved": {}
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
+   "bytes": 2168712,
+   "sha256": "e2b9073c7840b7c87eb308c5829fc53ed82723fe375af6dda547d4660fbd9b19"
+  },
+  "materials": 1,
+  "images": [
+   "beam"
+  ]
+ },
+ "proof": {
+  "ok": true,
+  "reference": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+  "candidate": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
+  "referenceNodes": 34,
+  "kept": 25,
+  "changed": {
+   "Keep_Upper_Furnishing_4_13": [
+    156,
+    null
+   ],
+   "Keep_Furnishing_3_21": [
+    252,
+    null
+   ],
+   "Keep_Furnishing_3_1": [
+    12,
+    null
+   ],
+   "Keep_Furnishing_3_9": [
+    84,
+    null
+   ],
+   "Keep_Upper_Furnishing_4_1": [
+    12,
+    null
+   ],
+   "Keep_Upper_Furnishing_4_2": [
+    24,
+    null
+   ],
+   "Keep_Upper_Furnishing_4_2.001": [
+    24,
+    null
+   ],
+   "Keep_Furnishing_Dressing": [
+    1615,
+    null
+   ],
+   "Keep_Upper_Furnishing_Dressing": [
+    170,
+    null
+   ]
+  },
+  "added": {
+   "Keep_Furnishing_PropsArms": 2117,
+   "Keep_Furnishing_PropsHallTable": 1911,
+   "Keep_Furnishing_PropsStores": 2154,
+   "Keep_Furnishing_PropsBarracks": 3609,
+   "Keep_Upper_Furnishing_PropsQuarters": 3057
+  },
+  "issues": []
+ },
+ "graph": {
+  "ws": "holm-keep-props-navigation-v1",
+  "nodes": 868,
+  "identical": true,
+  "differs": [],
+  "modelSha256": "e2b9073c7840b7c87eb308c5829fc53ed82723fe375af6dda547d4660fbd9b19"
+ },
+ "coplanar": {
+  "before": 0,
+  "after": 0,
+  "areaBefore": 0,
+  "areaAfter": 0,
+  "worse": [],
+  "exposedUntouched": []
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-keep-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb"
+  },
+  "now": {
+   "graph": "holm-keep-props-navigation-v1",
+   "model": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb"
+  }
+ },
+ "cutaway": {
+  "pieces": 70,
+  "keep": 70,
+  "cut": 0,
+  "clipped": 0
+ }
+}

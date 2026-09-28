@@ -1,0 +1,8305 @@
+{
+ "survival": {
+  "file": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb",
+  "parts": [
+   {
+    "name": "Survival_Coppice",
+    "tris": 1232,
+    "prims": 3,
+    "mats": [
+     "Aged oak (not clipped)",
+     "Dressed sandstone (not clipped)",
+     "Coppice leaf"
+    ],
+    "x": [
+     -9.53,
+     -6.77
+    ],
+    "y": [
+     -1.1,
+     2.52
+    ],
+    "z": [
+     -3.94,
+     4.39
+    ]
+   },
+   {
+    "name": "Survival_FloorCanopy",
+    "tris": 532,
+    "prims": 2,
+    "mats": [
+     "Warm floorboards",
+     "Weathered plank (not clipped)"
+    ],
+    "x": [
+     -6,
+     0.8
+    ],
+    "y": [
+     -0.26,
+     0
+    ],
+    "z": [
+     -4,
+     1
+    ]
+   },
+   {
+    "name": "Survival_FloorPorch",
+    "tris": 104,
+    "prims": 2,
+    "mats": [
+     "Warm fieldstone (not clipped)",
+     "Warm floorboards"
+    ],
+    "x": [
+     0.8,
+     3
+    ],
+    "y": [
+     -0.44,
+     0
+    ],
+    "z": [
+     -1,
+     1
+    ]
+   },
+   {
+    "name": "Survival_FloorStore",
+    "tris": 464,
+    "prims": 3,
+    "mats": [
+     "Warm floorboards",
+     "Weathered plank (not clipped)",
+     "Dressed sandstone (not clipped)"
+    ],
+    "x": [
+     1.8,
+     5.8
+    ],
+    "y": [
+     0.44,
+     0.6
+    ],
+    "z": [
+     -3.8,
+     -0.2
+    ]
+   },
+   {
+    "name": "Survival_FloorYard",
+    "tris": 504,
+    "prims": 4,
+    "mats": [
+     "Stone shaded faces (not clipped)",
+     "Dressed sandstone (not clipped)",
+     "Stone lit faces (not clipped)",
+     "Hard-standing flag"
+    ],
+    "x": [
+     -4.6,
+     0.6
+    ],
+    "y": [
+     -0.98,
+     -0.4
+    ],
+    "z": [
+     1,
+     5
+    ]
+   },
+   {
+    "name": "Survival_FrameCanopy",
+    "tris": 984,
+    "prims": 3,
+    "mats": [
+     "Dressed sandstone (not clipped)",
+     "Dark frame oak (not clipped)",
+     "Aged oak (not clipped)"
+    ],
+    "x": [
+     -6.2,
+     1
+    ],
+    "y": [
+     -0.02,
+     3.03
+    ],
+    "z": [
+     -4.2,
+     1.2
+    ]
+   },
+   {
+    "name": "Survival_FrameLink",
+    "tris": 84,
+    "prims": 2,
+    "mats": [
+     "Dark frame oak (not clipped)",
+     "Aged oak (not clipped)"
+    ],
+    "x": [
+     0.76,
+     1.92
+    ],
+    "y": [
+     2.83,
+     3.35
+    ],
+    "z": [
+     -3.45,
+     -0.62
+    ]
+   },
+   {
+    "name": "Survival_FramePentice",
+    "tris": 214,
+    "prims": 3,
+    "mats": [
+     "Dark frame oak (not clipped)",
+     "Dressed sandstone (not clipped)",
+     "Aged oak (not clipped)"
+    ],
+    "x": [
+     1.7,
+     6.45
+    ],
+    "y": [
+     -0.29,
+     3.06
+    ],
+    "z": [
+     0.09,
+     1.81
+    ]
+   },
+   {
+    "name": "Survival_FurnishingCanopy",
+    "tris": 332,
+    "prims": 7,
+    "mats": [
+     "Weathered plank (not clipped)",
+     "Aged oak (not clipped)",
+     "Twine and bulrush (not clipped)",
+     "Dressed sandstone (not clipped)",
+     "Dark frame oak (not clipped)",
+     "Ember and fish scale",
+     "Reed green"
+    ],
+    "x": [
+     -5.65,
+     -0.95
+    ],
+    "y": [
+     -0.01,
+     2.65
+    ],
+    "z": [
+     -3.45,
+     -0.65
+    ]
+   },
+   {
+    "name": "Survival_FurnishingDressing",
+    "tris": 38,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     5.05,
+     5.21
+    ],
+    "y": [
+     1.3,
+     1.35
+    ],
+    "z": [
+     -0.59,
+     -0.43
+    ]
+   },
+   {
+    "name": "Survival_FurnishingStore",
+    "tris": 132,
+    "prims": 4,
+    "mats": [
+     "Weathered plank (not clipped)",
+     "Dark frame oak (not clipped)",
+     "Aged oak (not clipped)",
+     "Blackened iron (not clipped)"
+    ],
+    "x": [
+     2.35,
+     5.69
+    ],
+    "y": [
+     0.6,
+     1.45
+    ],
+    "z": [
+     -1.16,
+     -0.26
+    ]
+   },
+   {
+    "name": "Survival_FurnishingYard",
+    "tris": 48,
+    "prims": 2,
+    "mats": [
+     "Aged oak (not clipped)",
+     "Dressed sandstone (not clipped)"
+    ],
+    "x": [
+     -4.14,
+     -1.75
+    ],
+    "y": [
+     -0.39,
+     0
+    ],
+    "z": [
+     2.85,
+     4.94
+    ]
+   },
+   {
+    "name": "Survival_PlinthCanopy",
+    "tris": 1639,
+    "prims": 4,
+    "mats": [
+     "Warm fieldstone (not clipped)",
+     "Stone lit faces (not clipped)",
+     "Stone shaded faces (not clipped)",
+     "Dressed sandstone (not clipped)"
+    ],
+    "x": [
+     -6.11,
+     0.9
+    ],
+    "y": [
+     -1,
+     0
+    ],
+    "z": [
+     -4.11,
+     1.11
+    ]
+   },
+   {
+    "name": "Survival_PlinthYard",
+    "tris": 528,
+    "prims": 3,
+    "mats": [
+     "Warm fieldstone (not clipped)",
+     "Stone lit faces (not clipped)",
+     "Stone shaded faces (not clipped)"
+    ],
+    "x": [
+     -4.62,
+     0.59
+    ],
+    "y": [
+     -0.97,
+     -0.41
+    ],
+    "z": [
+     1.01,
+     5.02
+    ]
+   },
+   {
+    "name": "Survival_RoofLink",
+    "tris": 408,
+    "prims": 3,
+    "mats": [
+     "Oak shingle weathered",
+     "Oak shingle",
+     "Aged oak (not clipped)"
+    ],
+    "x": [
+     0.94,
+     1.95
+    ],
+    "y": [
+     3.07,
+     3.5
+    ],
+    "z": [
+     -3.45,
+     -0.62
+    ]
+   },
+   {
+    "name": "Survival_RoofStore",
+    "tris": 2948,
+    "prims": 4,
+    "mats": [
+     "Oak shingle weathered",
+     "Oak shingle",
+     "Aged oak (not clipped)",
+     "Dark frame oak (not clipped)"
+    ],
+    "x": [
+     1.57,
+     6.55
+    ],
+    "y": [
+     2.43,
+     4.75
+    ],
+    "z": [
+     -4.53,
+     1.88
+    ]
+   },
+   {
+    "name": "Survival_RoofThatch",
+    "tris": 5348,
+    "prims": 6,
+    "mats": [
+     "Ochre thatch shade",
+     "Ochre thatch",
+     "Ochre thatch sunlit",
+     "Aged oak (not clipped)",
+     "Weathered plank (not clipped)",
+     "Dark frame oak (not clipped)"
+    ],
+    "x": [
+     -6.92,
+     1.36
+    ],
+    "y": [
+     2.09,
+     6.43
+    ],
+    "z": [
+     -4.92,
+     1.91
+    ]
+   },
+   {
+    "name": "Survival_RoofTruss",
+    "tris": 252,
+    "prims": 2,
+    "mats": [
+     "Aged oak (not clipped)",
+     "Dark frame oak (not clipped)"
+    ],
+    "x": [
+     -6,
+     0.8
+    ],
+    "y": [
+     2.74,
+     5.58
+    ],
+    "z": [
+     -4.07,
+     1.07
+    ]
+   },
+   {
+    "name": "Survival_ServiceFirePit_Ring",
+    "tris": 772,
+    "prims": 7,
+    "mats": [
+     "Warm fieldstone (not clipped)",
+     "Stone lit faces (not clipped)",
+     "Stone shaded faces (not clipped)",
+     "Aged oak (not clipped)",
+     "Dressed sandstone (not clipped)",
+     "Ember and fish scale",
+     "Blackened iron (not clipped)"
+    ],
+    "x": [
+     -3.04,
+     -1.94
+    ],
+    "y": [
+     -0.42,
+     1.04
+    ],
+    "z": [
+     2.95,
+     4.04
+    ]
+   },
+   {
+    "name": "Survival_ServiceLogPile_Stack",
+    "tris": 716,
+    "prims": 4,
+    "mats": [
+     "Dark frame oak (not clipped)",
+     "Aged oak (not clipped)",
+     "Dressed sandstone (not clipped)",
+     "Blackened iron (not clipped)"
+    ],
+    "x": [
+     2.96,
+     6.24
+    ],
+    "y": [
+     -0.14,
+     1.5
+    ],
+    "z": [
+     0.24,
+     2.35
+    ]
+   },
+   {
+    "name": "Survival_ServiceTools_Rack",
+    "tris": 561,
+    "prims": 6,
+    "mats": [
+     "Aged oak (not clipped)",
+     "Dark frame oak (not clipped)",
+     "Weathered plank (not clipped)",
+     "Blackened iron (not clipped)",
+     "Stone shaded faces (not clipped)",
+     "Twine and bulrush (not clipped)"
+    ],
+    "x": [
+     3.25,
+     5.75
+    ],
+    "y": [
+     0.6,
+     2.8
+    ],
+    "z": [
+     -3.9,
+     -3.5
+    ]
+   },
+   {
+    "name": "Survival_ShellStore",
+    "tris": 1650,
+    "prims": 6,
+    "mats": [
+     "Weathered plank",
+     "Aged oak",
+     "Dark frame oak",
+     "Blackened iron",
+     "Dressed sandstone",
+     "Twine and bulrush"
+    ],
+    "x": [
+     1.74,
+     6.25
+    ],
+    "y": [
+     0.6,
+     4.42
+    ],
+    "z": [
+     -4.24,
+     0.23
+    ]
+   },
+   {
+    "name": "Survival_ShellStoreBase",
+    "tris": 1015,
+    "prims": 4,
+    "mats": [
+     "Warm fieldstone",
+     "Stone lit faces",
+     "Stone shaded faces",
+     "Dressed sandstone"
+    ],
+    "x": [
+     1.77,
+     6.25
+    ],
+    "y": [
+     -0.31,
+     0.68
+    ],
+    "z": [
+     -4.25,
+     0.25
+    ]
+   },
+   {
+    "name": "Survival_StepLink",
+    "tris": 36,
+    "prims": 2,
+    "mats": [
+     "Warm fieldstone (not clipped)",
+     "Dressed sandstone (not clipped)"
+    ],
+    "x": [
+     0.75,
+     1.8
+    ],
+    "y": [
+     -0.25,
+     0.6
+    ],
+    "z": [
+     -3,
+     -1
+    ]
+   },
+   {
+    "name": "Survival_StepYard",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Dressed sandstone (not clipped)"
+    ],
+    "x": [
+     -3.25,
+     -1.9
+    ],
+    "y": [
+     -0.4,
+     -0.2
+    ],
+    "z": [
+     1,
+     1.36
+    ]
+   }
+  ],
+  "tris": 20553
+ },
+ "quarry": {
+  "file": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb",
+  "parts": [
+   {
+    "name": "Quarry_CaveMain",
+    "tris": 472,
+    "prims": 5,
+    "mats": [
+     "Quarry rock shadow",
+     "Quarry dark frame oak (not clipped)",
+     "Quarry iron (not clipped)",
+     "Quarry aged oak (not clipped)",
+     "Quarry copper ore"
+    ],
+    "x": [
+     -2.08,
+     1.08
+    ],
+    "y": [
+     -0.3,
+     4.3
+    ],
+    "z": [
+     -6.75,
+     -3.43
+    ]
+   },
+   {
+    "name": "Quarry_FloorApproachMain",
+    "tris": 216,
+    "prims": 2,
+    "mats": [
+     "Quarry worn flagstone",
+     "Quarry stone lit faces (not clipped)"
+    ],
+    "x": [
+     -2.98,
+     0.09
+    ],
+    "y": [
+     -0.2,
+     -0.1
+    ],
+    "z": [
+     3.46,
+     6.38
+    ]
+   },
+   {
+    "name": "Quarry_FloorLeanToMain",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Quarry worn flagstone"
+    ],
+    "x": [
+     3,
+     5.35
+    ],
+    "y": [
+     -0.3,
+     -0.01
+    ],
+    "z": [
+     -0.83,
+     3.25
+    ]
+   },
+   {
+    "name": "Quarry_FloorLeanToMainTiles",
+    "tris": 192,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     3,
+     5.35
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -0.83,
+     3.25
+    ]
+   },
+   {
+    "name": "Quarry_FloorMain",
+    "tris": 20,
+    "prims": 1,
+    "mats": [
+     "Quarry worn flagstone"
+    ],
+    "x": [
+     -5,
+     3
+    ],
+    "y": [
+     -0.35,
+     -0.01
+    ],
+    "z": [
+     -4,
+     3
+    ]
+   },
+   {
+    "name": "Quarry_FloorMainTiles",
+    "tris": 915,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     -5,
+     3
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -4,
+     3
+    ]
+   },
+   {
+    "name": "Quarry_FloorTunnelMain",
+    "tris": 35,
+    "prims": 2,
+    "mats": [
+     "Quarry rock shadow",
+     "Quarry cave dark"
+    ],
+    "x": [
+     -1.7,
+     0.7
+    ],
+    "y": [
+     -0.3,
+     0
+    ],
+    "z": [
+     -6.75,
+     -3.5
+    ]
+   },
+   {
+    "name": "Quarry_FurnishingDressing",
+    "tris": 518,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     1.02,
+     5.07
+    ],
+    "y": [
+     0.55,
+     2.35
+    ],
+    "z": [
+     -0.85,
+     2.17
+    ]
+   },
+   {
+    "name": "Quarry_FurnishingMain",
+    "tris": 1222,
+    "prims": 9,
+    "mats": [
+     "Quarry stone shaded faces (not clipped)",
+     "Quarry hemp rope",
+     "Quarry aged oak (not clipped)",
+     "Quarry iron (not clipped)",
+     "Quarry copper ore",
+     "Quarry dark frame oak (not clipped)",
+     "Quarry fieldstone (not clipped)",
+     "Quarry dressed sandstone (not clipped)",
+     "Quarry forge ember"
+    ],
+    "x": [
+     -4.8,
+     5.12
+    ],
+    "y": [
+     -0.2,
+     6.07
+    ],
+    "z": [
+     -2.99,
+     6.87
+    ]
+   },
+   {
+    "name": "Quarry_GlazingMain",
+    "tris": 32,
+    "prims": 2,
+    "mats": [
+     "Quarry iron",
+     "Leaded glass pane"
+    ],
+    "x": [
+     -5,
+     2.09
+    ],
+    "y": [
+     1.2,
+     3.4
+    ],
+    "z": [
+     0.8,
+     3
+    ]
+   },
+   {
+    "name": "Quarry_GlazingMainLeads",
+    "tris": 240,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -5,
+     2.1
+    ],
+    "y": [
+     1.19,
+     3.41
+    ],
+    "z": [
+     0.79,
+     3
+    ]
+   },
+   {
+    "name": "Quarry_OreRockMain",
+    "tris": 172,
+    "prims": 4,
+    "mats": [
+     "Quarry rock face",
+     "Quarry rock lit top",
+     "Quarry rock shadow",
+     "Quarry copper ore"
+    ],
+    "x": [
+     -7.3,
+     7.27
+    ],
+    "y": [
+     -0.6,
+     1.09
+    ],
+    "z": [
+     1.4,
+     6.05
+    ]
+   },
+   {
+    "name": "Quarry_RockMain",
+    "tris": 512,
+    "prims": 3,
+    "mats": [
+     "Quarry rock face",
+     "Quarry rock lit top",
+     "Quarry rock shadow"
+    ],
+    "x": [
+     -9.6,
+     8.4
+    ],
+    "y": [
+     -0.6,
+     7.43
+    ],
+    "z": [
+     -11.6,
+     -1.2
+    ]
+   },
+   {
+    "name": "Quarry_RoofMain",
+    "tris": 3448,
+    "prims": 12,
+    "mats": [
+     "Quarry stone lit faces (not clipped)",
+     "Quarry fieldstone (not clipped)",
+     "Quarry dressed sandstone (not clipped)",
+     "Quarry stone shaded faces (not clipped)",
+     "Quarry aged oak (not clipped)",
+     "Quarry dark frame oak (not clipped)",
+     "Quarry iron (not clipped)",
+     "Quarry hemp rope",
+     "Quarry clay",
+     "Quarry limewash plaster (not clipped)",
+     "Quarry clay tile cool",
+     "Quarry clay tile warm"
+    ],
+    "x": [
+     -5.94,
+     5.55
+    ],
+    "y": [
+     2.33,
+     8.77
+    ],
+    "z": [
+     -4.7,
+     3.9
+    ]
+   },
+   {
+    "name": "Quarry_ServiceBench_Repair",
+    "tris": 231,
+    "prims": 4,
+    "mats": [
+     "Quarry aged oak (not clipped)",
+     "Quarry dark frame oak (not clipped)",
+     "Quarry iron (not clipped)",
+     "Quarry copper ore"
+    ],
+    "x": [
+     3.25,
+     4.22
+    ],
+    "y": [
+     0,
+     1.98
+    ],
+    "z": [
+     -0.9,
+     -0.34
+    ]
+   },
+   {
+    "name": "Quarry_ServiceShaft_Mouth",
+    "tris": 204,
+    "prims": 5,
+    "mats": [
+     "Quarry cave dark",
+     "Quarry aged oak (not clipped)",
+     "Quarry dark frame oak (not clipped)",
+     "Quarry iron (not clipped)",
+     "Quarry forge ember"
+    ],
+    "x": [
+     -2.07,
+     1.06
+    ],
+    "y": [
+     -0.3,
+     4.1
+    ],
+    "z": [
+     -6.9,
+     -3.25
+    ]
+   },
+   {
+    "name": "Quarry_ServiceWinch_Windlass",
+    "tris": 660,
+    "prims": 4,
+    "mats": [
+     "Quarry aged oak (not clipped)",
+     "Quarry iron (not clipped)",
+     "Quarry hemp rope",
+     "Quarry dark frame oak (not clipped)"
+    ],
+    "x": [
+     -4.88,
+     -2.38
+    ],
+    "y": [
+     2.79,
+     5.61
+    ],
+    "z": [
+     -3.88,
+     -2.52
+    ]
+   },
+   {
+    "name": "Quarry_ShellMain",
+    "tris": 9668,
+    "prims": 7,
+    "mats": [
+     "Quarry fieldstone",
+     "Quarry stone lit faces",
+     "Quarry stone shaded faces",
+     "Quarry dressed sandstone",
+     "Quarry aged oak",
+     "Quarry dark frame oak",
+     "Quarry iron"
+    ],
+    "x": [
+     -5.3,
+     5.47
+    ],
+    "y": [
+     -0.5,
+     4.66
+    ],
+    "z": [
+     -4.35,
+     3.95
+    ]
+   },
+   {
+    "name": "Quarry_StairTreads",
+    "tris": 144,
+    "prims": 1,
+    "mats": [
+     "Quarry aged oak (not clipped)"
+    ],
+    "x": [
+     -4.82,
+     -3.6
+    ],
+    "y": [
+     0.07,
+     2.8
+    ],
+    "z": [
+     -2.2,
+     2
+    ]
+   },
+   {
+    "name": "Quarry_StepMain",
+    "tris": 99,
+    "prims": 1,
+    "mats": [
+     "Quarry dressed sandstone (not clipped)"
+    ],
+    "x": [
+     -2.75,
+     -0.25
+    ],
+    "y": [
+     -0.12,
+     0
+    ],
+    "z": [
+     2.82,
+     3.42
+    ]
+   },
+   {
+    "name": "Quarry_UpperFloorMain",
+    "tris": 27,
+    "prims": 1,
+    "mats": [
+     "Quarry floorboards"
+    ],
+    "x": [
+     -4.82,
+     -2.17
+    ],
+    "y": [
+     2.62,
+     2.79
+    ],
+    "z": [
+     -3.83,
+     -1.4
+    ]
+   },
+   {
+    "name": "Quarry_UpperFloorMainTiles",
+    "tris": 113,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -4.82,
+     -2.17
+    ],
+    "y": [
+     2.8,
+     2.8
+    ],
+    "z": [
+     -3.83,
+     -1.4
+    ]
+   },
+   {
+    "name": "Quarry_UpperFurnishingMain",
+    "tris": 96,
+    "prims": 1,
+    "mats": [
+     "Quarry aged oak (not clipped)"
+    ],
+    "x": [
+     -3.52,
+     -2.2
+    ],
+    "y": [
+     2.8,
+     3.84
+    ],
+    "z": [
+     -3.8,
+     -1.37
+    ]
+   },
+   {
+    "name": "Quarry_UpperShellMain",
+    "tris": 1104,
+    "prims": 5,
+    "mats": [
+     "Quarry limewash plaster",
+     "Quarry dark frame oak",
+     "Quarry aged oak",
+     "Quarry dressed sandstone",
+     "Quarry iron"
+    ],
+    "x": [
+     -5.58,
+     -1.68
+    ],
+    "y": [
+     3.56,
+     6.5
+    ],
+    "z": [
+     -4.26,
+     0.28
+    ]
+   },
+   {
+    "name": "Quarry_UpperStructureMain",
+    "tris": 106,
+    "prims": 1,
+    "mats": [
+     "Quarry dark frame oak (not clipped)"
+    ],
+    "x": [
+     -4.84,
+     -2.17
+    ],
+    "y": [
+     2.44,
+     2.78
+    ],
+    "z": [
+     -3.83,
+     -1.37
+    ]
+   }
+  ],
+  "tris": 20458
+ },
+ "bank": {
+  "file": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb",
+  "parts": [
+   {
+    "name": "Bank_Balustrade",
+    "tris": 72,
+    "prims": 1,
+    "mats": [
+     "Bank Aged oak"
+    ],
+    "x": [
+     -3.88,
+     -3.8
+    ],
+    "y": [
+     0.3,
+     3.95
+    ],
+    "z": [
+     -1.63,
+     3.11
+    ]
+   },
+   {
+    "name": "Bank_FloorHall",
+    "tris": 694,
+    "prims": 2,
+    "mats": [
+     "Bank Flagstone pale",
+     "Bank Flagstone dark"
+    ],
+    "x": [
+     -1.5,
+     5.5
+    ],
+    "y": [
+     -0.03,
+     0
+    ],
+    "z": [
+     -4,
+     4
+    ]
+   },
+   {
+    "name": "Bank_FloorPlinth",
+    "tris": 24,
+    "prims": 1,
+    "mats": [
+     "Bank Stone shaded faces"
+    ],
+    "x": [
+     -5.75,
+     5.75
+    ],
+    "y": [
+     -0.6,
+     -0.03
+    ],
+    "z": [
+     -5.25,
+     4.25
+    ]
+   },
+   {
+    "name": "Bank_FloorRug",
+    "tris": 60,
+    "prims": 2,
+    "mats": [
+     "Bank Banker green baize",
+     "Bank Worn brass"
+    ],
+    "x": [
+     -0.35,
+     1.35
+    ],
+    "y": [
+     0,
+     0.01
+    ],
+    "z": [
+     0.75,
+     3.45
+    ]
+   },
+   {
+    "name": "Bank_FloorThreshold",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Bank Dressed sandstone"
+    ],
+    "x": [
+     -0.6,
+     1.6
+    ],
+    "y": [
+     -0.03,
+     0
+    ],
+    "z": [
+     3.8,
+     4.25
+    ]
+   },
+   {
+    "name": "Bank_FloorVault",
+    "tris": 180,
+    "prims": 2,
+    "mats": [
+     "Bank Flagstone dark",
+     "Bank Vault slab gray"
+    ],
+    "x": [
+     1.5,
+     5.5
+    ],
+    "y": [
+     -0.03,
+     0
+    ],
+    "z": [
+     -5,
+     -2
+    ]
+   },
+   {
+    "name": "Bank_FloorWing",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Bank Warm floorboards"
+    ],
+    "x": [
+     -5.5,
+     -1.5
+    ],
+    "y": [
+     -0.03,
+     -0.01
+    ],
+    "z": [
+     -4,
+     4
+    ]
+   },
+   {
+    "name": "Bank_FloorWingBoards",
+    "tris": 390,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -5.5,
+     -1.5
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -4,
+     4
+    ]
+   },
+   {
+    "name": "Bank_Furnishing",
+    "tris": 1317,
+    "prims": 8,
+    "mats": [
+     "Bank Aged oak",
+     "Bank Worn brass",
+     "Bank Banker green baize",
+     "Bank Limewash plaster",
+     "Bank Black iron",
+     "Bank Sackcloth",
+     "Bank Leaded glass",
+     "Bank Dark frame oak"
+    ],
+    "x": [
+     -3.3,
+     4.47
+    ],
+    "y": [
+     0,
+     3.6
+    ],
+    "z": [
+     -4.75,
+     3.78
+    ]
+   },
+   {
+    "name": "Bank_FurnishingStrongroom",
+    "tris": 926,
+    "prims": 3,
+    "mats": [
+     "Holm flat colour",
+     "Lantern glow (glow)",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -5.21,
+     -3.98
+    ],
+    "y": [
+     0,
+     0.99
+    ],
+    "z": [
+     -1.22,
+     0.7
+    ]
+   },
+   {
+    "name": "Bank_Glazing",
+    "tris": 132,
+    "prims": 3,
+    "mats": [
+     "Bank Leaded glass",
+     "Bank Black iron",
+     "Leaded glass pane"
+    ],
+    "x": [
+     -5.52,
+     5.52
+    ],
+    "y": [
+     1.06,
+     3.01
+    ],
+    "z": [
+     -4.9,
+     4.02
+    ]
+   },
+   {
+    "name": "Bank_GlazingLeads",
+    "tris": 560,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -5.52,
+     5.52
+    ],
+    "y": [
+     1.04,
+     3.03
+    ],
+    "z": [
+     -4.02,
+     4.02
+    ]
+   },
+   {
+    "name": "Bank_RoofHood",
+    "tris": 72,
+    "prims": 3,
+    "mats": [
+     "Bank Muted clay",
+     "Bank Clay tile warm face",
+     "Bank Aged oak"
+    ],
+    "x": [
+     -1,
+     2
+    ],
+    "y": [
+     2.59,
+     3.26
+    ],
+    "z": [
+     4.2,
+     5.13
+    ]
+   },
+   {
+    "name": "Bank_RoofSlab",
+    "tris": 109,
+    "prims": 2,
+    "mats": [
+     "Bank Vault slab gray",
+     "Bank Muted clay"
+    ],
+    "x": [
+     -5.9,
+     5.9
+    ],
+    "y": [
+     2.01,
+     7.85
+    ],
+    "z": [
+     -5.35,
+     4.95
+    ]
+   },
+   {
+    "name": "Bank_RoofSlabStones",
+    "tris": 168,
+    "prims": 3,
+    "mats": [
+     "Bank Vault slab gray",
+     "Bank Stone shaded faces",
+     "Bank Stone lit faces"
+    ],
+    "x": [
+     1.51,
+     5.79
+    ],
+    "y": [
+     2.19,
+     2.96
+    ],
+    "z": [
+     -5.38,
+     -2.9
+    ]
+   },
+   {
+    "name": "Bank_RoofTiles",
+    "tris": 4534,
+    "prims": 3,
+    "mats": [
+     "Bank Muted clay",
+     "Bank Clay tile cool face",
+     "Bank Clay tile warm face"
+    ],
+    "x": [
+     -5.95,
+     5.93
+    ],
+    "y": [
+     3.17,
+     7.92
+    ],
+    "z": [
+     -4.43,
+     4.94
+    ]
+   },
+   {
+    "name": "Bank_RoofTrim",
+    "tris": 642,
+    "prims": 3,
+    "mats": [
+     "Bank Aged oak",
+     "Bank Muted clay",
+     "Bank Clay tile cool face"
+    ],
+    "x": [
+     -5.98,
+     5.98
+    ],
+    "y": [
+     1.99,
+     8.7
+    ],
+    "z": [
+     -5.43,
+     5.08
+    ]
+   },
+   {
+    "name": "Bank_RoofVaultCeiling",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Bank Vault slab gray"
+    ],
+    "x": [
+     1.75,
+     5.25
+    ],
+    "y": [
+     2,
+     2.1
+    ],
+    "z": [
+     -4.75,
+     -2.2
+    ]
+   },
+   {
+    "name": "Bank_ServiceCounter_Booths",
+    "tris": 647,
+    "prims": 4,
+    "mats": [
+     "Bank Dark frame oak",
+     "Bank Aged oak",
+     "Bank Worn brass",
+     "Bank Banker green baize"
+    ],
+    "x": [
+     -1.37,
+     2.48
+    ],
+    "y": [
+     0,
+     2.52
+    ],
+    "z": [
+     -2,
+     -0.8
+    ]
+   },
+   {
+    "name": "Bank_ServiceShelves_Goods",
+    "tris": 1186,
+    "prims": 7,
+    "mats": [
+     "Bank Aged oak",
+     "Bank Dark frame oak",
+     "Bank Muted clay",
+     "Bank Sackcloth",
+     "Bank Banker green baize",
+     "Bank Limewash plaster shade",
+     "Bank Worn brass"
+    ],
+    "x": [
+     4.82,
+     5.34
+    ],
+    "y": [
+     0,
+     2.62
+    ],
+    "z": [
+     -1.78,
+     1.78
+    ]
+   },
+   {
+    "name": "Bank_ServiceVault_Chests",
+    "tris": 288,
+    "prims": 3,
+    "mats": [
+     "Bank Aged oak",
+     "Bank Black iron",
+     "Bank Worn brass"
+    ],
+    "x": [
+     1.95,
+     5.15
+    ],
+    "y": [
+     0,
+     0.64
+    ],
+    "z": [
+     -4.64,
+     -2.55
+    ]
+   },
+   {
+    "name": "Bank_ServiceVault_Gate",
+    "tris": 348,
+    "prims": 2,
+    "mats": [
+     "Bank Black iron",
+     "Bank Worn brass"
+    ],
+    "x": [
+     2.68,
+     4.32
+    ],
+    "y": [
+     0,
+     2.22
+    ],
+    "z": [
+     -2.1,
+     -1.9
+    ]
+   },
+   {
+    "name": "Bank_ShellChimneyBase",
+    "tris": 274,
+    "prims": 4,
+    "mats": [
+     "Bank Warm fieldstone",
+     "Bank Stone shaded faces",
+     "Bank Stone lit faces",
+     "Bank Dressed sandstone"
+    ],
+    "x": [
+     -3.17,
+     -1.84
+    ],
+    "y": [
+     -0.3,
+     3
+    ],
+    "z": [
+     -5.01,
+     -4.18
+    ]
+   },
+   {
+    "name": "Bank_ShellDoor",
+    "tris": 228,
+    "prims": 3,
+    "mats": [
+     "Bank Aged oak",
+     "Bank Black iron",
+     "Bank Worn brass"
+    ],
+    "x": [
+     -1.7,
+     1.6
+    ],
+    "y": [
+     0,
+     2.58
+    ],
+    "z": [
+     -0.7,
+     4.2
+    ]
+   },
+   {
+    "name": "Bank_ShellExterior",
+    "tris": 208,
+    "prims": 4,
+    "mats": [
+     "Bank Aged oak",
+     "Bank Black iron",
+     "Bank Leaded glass",
+     "Bank Worn brass"
+    ],
+    "x": [
+     -1.17,
+     5.35
+    ],
+    "y": [
+     1.68,
+     3.07
+    ],
+    "z": [
+     3.1,
+     4.99
+    ]
+   },
+   {
+    "name": "Bank_ShellFacing",
+    "tris": 5880,
+    "prims": 3,
+    "mats": [
+     "Bank Warm fieldstone",
+     "Bank Stone shaded faces",
+     "Bank Stone lit faces"
+    ],
+    "x": [
+     -5.89,
+     5.81
+    ],
+    "y": [
+     -0.02,
+     2.99
+    ],
+    "z": [
+     -5.31,
+     4.39
+    ]
+   },
+   {
+    "name": "Bank_ShellFrieze",
+    "tris": 156,
+    "prims": 1,
+    "mats": [
+     "Bank Limewash plaster"
+    ],
+    "x": [
+     -1.6,
+     5.69
+    ],
+    "y": [
+     2.1,
+     3.38
+    ],
+    "z": [
+     -4.18,
+     4.18
+    ]
+   },
+   {
+    "name": "Bank_ShellFriezeTimber",
+    "tris": 624,
+    "prims": 1,
+    "mats": [
+     "Bank Dark frame oak"
+    ],
+    "x": [
+     -1.6,
+     5.74
+    ],
+    "y": [
+     2.1,
+     3.38
+    ],
+    "z": [
+     -4.29,
+     4.28
+    ]
+   },
+   {
+    "name": "Bank_ShellJetty",
+    "tris": 180,
+    "prims": 2,
+    "mats": [
+     "Bank Dark frame oak",
+     "Bank Dressed sandstone"
+    ],
+    "x": [
+     -5.7,
+     -1.3
+    ],
+    "y": [
+     1.85,
+     2.98
+    ],
+    "z": [
+     4.1,
+     4.82
+    ]
+   },
+   {
+    "name": "Bank_ShellPartition",
+    "tris": 60,
+    "prims": 1,
+    "mats": [
+     "Bank Limewash plaster shade"
+    ],
+    "x": [
+     -1.67,
+     -1.33
+    ],
+    "y": [
+     -0.03,
+     2.98
+    ],
+    "z": [
+     -3.83,
+     3.83
+    ]
+   },
+   {
+    "name": "Bank_ShellQuoins",
+    "tris": 360,
+    "prims": 1,
+    "mats": [
+     "Bank Dressed sandstone"
+    ],
+    "x": [
+     -5.93,
+     6.45
+    ],
+    "y": [
+     -0.01,
+     2.98
+    ],
+    "z": [
+     -6,
+     4.43
+    ]
+   },
+   {
+    "name": "Bank_ShellStone",
+    "tris": 1098,
+    "prims": 2,
+    "mats": [
+     "Bank Warm fieldstone",
+     "Bank Stone shaded faces"
+    ],
+    "x": [
+     -5.69,
+     6.4
+    ],
+    "y": [
+     -0.03,
+     3.38
+    ],
+    "z": [
+     -5.95,
+     4.18
+    ]
+   },
+   {
+    "name": "Bank_ShellWindows",
+    "tris": 1715,
+    "prims": 4,
+    "mats": [
+     "Bank Aged oak",
+     "Bank Dressed sandstone",
+     "Bank Dark frame oak",
+     "Bank Black iron"
+    ],
+    "x": [
+     -5.82,
+     5.87
+    ],
+    "y": [
+     0.88,
+     3.12
+    ],
+    "z": [
+     -5.37,
+     4.32
+    ]
+   },
+   {
+    "name": "Bank_StairTreads",
+    "tris": 513,
+    "prims": 1,
+    "mats": [
+     "Bank Aged oak"
+    ],
+    "x": [
+     -5.3,
+     -3.8
+    ],
+    "y": [
+     0,
+     2.77
+    ],
+    "z": [
+     -1.62,
+     3.2
+    ]
+   },
+   {
+    "name": "Bank_Step",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Bank Dressed sandstone"
+    ],
+    "x": [
+     -0.8,
+     1.8
+    ],
+    "y": [
+     -0.5,
+     -0.15
+    ],
+    "z": [
+     4.25,
+     4.8
+    ]
+   },
+   {
+    "name": "Bank_Stringers",
+    "tris": 278,
+    "prims": 1,
+    "mats": [
+     "Bank Dark frame oak"
+    ],
+    "x": [
+     -3.9,
+     -3.8
+    ],
+    "y": [
+     -0.03,
+     3.06
+    ],
+    "z": [
+     -1.6,
+     3.18
+    ]
+   },
+   {
+    "name": "Bank_UpperBalustrade",
+    "tris": 171,
+    "prims": 1,
+    "mats": [
+     "Bank Aged oak"
+    ],
+    "x": [
+     -5.32,
+     -3.79
+    ],
+    "y": [
+     3,
+     3.99
+    ],
+    "z": [
+     -1.6,
+     3.28
+    ]
+   },
+   {
+    "name": "Bank_UpperChimney",
+    "tris": 556,
+    "prims": 5,
+    "mats": [
+     "Bank Warm fieldstone",
+     "Bank Stone shaded faces",
+     "Bank Stone lit faces",
+     "Bank Dressed sandstone",
+     "Bank Muted clay"
+    ],
+    "x": [
+     -3.08,
+     -1.92
+    ],
+    "y": [
+     3,
+     8.98
+    ],
+    "z": [
+     -4.88,
+     -4.05
+    ]
+   },
+   {
+    "name": "Bank_UpperFloor",
+    "tris": 48,
+    "prims": 1,
+    "mats": [
+     "Bank Warm floorboards"
+    ],
+    "x": [
+     -5.5,
+     -1.5
+    ],
+    "y": [
+     2.8,
+     2.99
+    ],
+    "z": [
+     -4,
+     4.6
+    ]
+   },
+   {
+    "name": "Bank_UpperFloorBoards",
+    "tris": 426,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -5.5,
+     -1.5
+    ],
+    "y": [
+     3,
+     3
+    ],
+    "z": [
+     -4,
+     4.6
+    ]
+   },
+   {
+    "name": "Bank_UpperFloorRug",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Bank Banker green baize"
+    ],
+    "x": [
+     -3.9,
+     -2.9
+    ],
+    "y": [
+     3,
+     3.01
+    ],
+    "z": [
+     -0.6,
+     2.6
+    ]
+   },
+   {
+    "name": "Bank_UpperFurnishing",
+    "tris": 686,
+    "prims": 9,
+    "mats": [
+     "Bank Aged oak",
+     "Bank Banker green baize",
+     "Bank Limewash plaster",
+     "Bank Black iron",
+     "Bank Muted clay",
+     "Bank Sackcloth",
+     "Bank Warm fieldstone",
+     "Bank Dressed sandstone",
+     "Bank Leaded glass"
+    ],
+    "x": [
+     -4.95,
+     -1.67
+    ],
+    "y": [
+     3,
+     5.85
+    ],
+    "z": [
+     -3.85,
+     4.35
+    ]
+   },
+   {
+    "name": "Bank_UpperFurnishingStrongbox",
+    "tris": 118,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -5.43,
+     -4.83
+    ],
+    "y": [
+     3,
+     3.59
+    ],
+    "z": [
+     -3.94,
+     -3.37
+    ]
+   },
+   {
+    "name": "Bank_UpperGlazing",
+    "tris": 108,
+    "prims": 2,
+    "mats": [
+     "Bank Leaded glass",
+     "Leaded glass pane"
+    ],
+    "x": [
+     -5.52,
+     -1.48
+    ],
+    "y": [
+     3.96,
+     6.53
+    ],
+    "z": [
+     -4.02,
+     4.81
+    ]
+   },
+   {
+    "name": "Bank_UpperGlazingLeads",
+    "tris": 636,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -5.52,
+     -1.48
+    ],
+    "y": [
+     3.94,
+     6.55
+    ],
+    "z": [
+     -4.02,
+     4.82
+    ]
+   },
+   {
+    "name": "Bank_UpperJoists",
+    "tris": 60,
+    "prims": 1,
+    "mats": [
+     "Bank Dark frame oak"
+    ],
+    "x": [
+     -5.3,
+     -1.7
+    ],
+    "y": [
+     2.62,
+     2.8
+    ],
+    "z": [
+     -3.77,
+     4.37
+    ]
+   },
+   {
+    "name": "Bank_UpperShell",
+    "tris": 645,
+    "prims": 1,
+    "mats": [
+     "Bank Limewash plaster"
+    ],
+    "x": [
+     -5.69,
+     -1.31
+    ],
+    "y": [
+     3,
+     7.83
+    ],
+    "z": [
+     -4.19,
+     4.78
+    ]
+   },
+   {
+    "name": "Bank_UpperShellTimber",
+    "tris": 748,
+    "prims": 1,
+    "mats": [
+     "Bank Dark frame oak"
+    ],
+    "x": [
+     -5.78,
+     -1.25
+    ],
+    "y": [
+     3,
+     7.53
+    ],
+    "z": [
+     -4.25,
+     4.85
+    ]
+   },
+   {
+    "name": "Bank_UpperShellWindows",
+    "tris": 994,
+    "prims": 2,
+    "mats": [
+     "Bank Aged oak",
+     "Bank Dark frame oak"
+    ],
+    "x": [
+     -5.84,
+     -1.16
+    ],
+    "y": [
+     3.8,
+     6.6
+    ],
+    "z": [
+     -4.34,
+     4.93
+    ]
+   }
+  ],
+  "tris": 29179
+ },
+ "mage": {
+  "file": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.glb",
+  "parts": [
+   {
+    "name": "Mage_Door",
+    "tris": 132,
+    "prims": 3,
+    "mats": [
+     "Mage aged oak (not clipped)",
+     "Mage dark frame oak (not clipped)",
+     "Mage wrought iron"
+    ],
+    "x": [
+     -5.82,
+     -2.62
+    ],
+    "y": [
+     0.02,
+     2.26
+    ],
+    "z": [
+     -0.54,
+     3.83
+    ]
+   },
+   {
+    "name": "Mage_FloorGround",
+    "tris": 444,
+    "prims": 5,
+    "mats": [
+     "Mage dressed sandstone (not clipped)",
+     "Mage floorboards",
+     "Mage rune slate",
+     "Mage book leather",
+     "Mage clay cool"
+    ],
+    "x": [
+     -6.6,
+     6.24
+    ],
+    "y": [
+     -0.25,
+     0.01
+    ],
+    "z": [
+     -5.24,
+     4.55
+    ]
+   },
+   {
+    "name": "Mage_FloorGroundTilesBoards",
+    "tris": 752,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -6.18,
+     -0.82
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -2.17,
+     4.18
+    ]
+   },
+   {
+    "name": "Mage_FloorGroundTilesFlags",
+    "tris": 1206,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour",
+     "Holm flat colour - plaster"
+    ],
+    "x": [
+     -6.6,
+     6.24
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -5.24,
+     4.55
+    ]
+   },
+   {
+    "name": "Mage_Furnishing",
+    "tris": 1243,
+    "prims": 11,
+    "mats": [
+     "Mage aged oak (not clipped)",
+     "Mage dark frame oak (not clipped)",
+     "Mage parchment",
+     "Mage star chart",
+     "Mage book leather",
+     "Mage wrought iron",
+     "Mage dressed sandstone (not clipped)",
+     "Mage fieldstone (not clipped)",
+     "Mage clay warm",
+     "Mage brass",
+     "Mage rune slate"
+    ],
+    "x": [
+     -5.84,
+     5.69
+    ],
+    "y": [
+     0,
+     2.13
+    ],
+    "z": [
+     -3.44,
+     3.78
+    ]
+   },
+   {
+    "name": "Mage_FurnishingDressing",
+    "tris": 395,
+    "prims": 3,
+    "mats": [
+     "Holm flat colour",
+     "Rune crystal (glow)",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -5.75,
+     -2.36
+    ],
+    "y": [
+     0.62,
+     2.25
+    ],
+    "z": [
+     -1.75,
+     2.97
+    ]
+   },
+   {
+    "name": "Mage_GlazingLeaded",
+    "tris": 516,
+    "prims": 1,
+    "mats": [
+     "Leaded glass pane"
+    ],
+    "x": [
+     -6.01,
+     5.6
+    ],
+    "y": [
+     0.99,
+     5.03
+    ],
+    "z": [
+     -4.6,
+     4.01
+    ]
+   },
+   {
+    "name": "Mage_GlazingLeadedLeads",
+    "tris": 2204,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -6.01,
+     5.61
+    ],
+    "y": [
+     0.98,
+     5.05
+    ],
+    "z": [
+     -4.61,
+     4.01
+    ]
+   },
+   {
+    "name": "Mage_RailStairLibrary",
+    "tris": 490,
+    "prims": 2,
+    "mats": [
+     "Mage dark frame oak (not clipped)",
+     "Mage aged oak (not clipped)"
+    ],
+    "x": [
+     -0.22,
+     4.63
+    ],
+    "y": [
+     -0.02,
+     3.75
+    ],
+    "z": [
+     -3.17,
+     -1.83
+    ]
+   },
+   {
+    "name": "Mage_Roof",
+    "tris": 4679,
+    "prims": 12,
+    "mats": [
+     "Mage thatch shade",
+     "Mage dark frame oak (not clipped)",
+     "Mage aged oak (not clipped)",
+     "Mage brass",
+     "Mage fieldstone (not clipped)",
+     "Mage dressed sandstone (not clipped)",
+     "Mage stone lit (not clipped)",
+     "Mage stone shade (not clipped)",
+     "Mage clay tile",
+     "Mage clay cool",
+     "Mage limewash (not clipped)",
+     "Mage clay warm"
+    ],
+    "x": [
+     -6.8,
+     7.46
+    ],
+    "y": [
+     -0.35,
+     14.03
+    ],
+    "z": [
+     -6.41,
+     4.73
+    ]
+   },
+   {
+    "name": "Mage_RoofThatch",
+    "tris": 1644,
+    "prims": 3,
+    "mats": [
+     "Mage ochre thatch",
+     "Mage thatch sunlit",
+     "Mage thatch shade"
+    ],
+    "x": [
+     -3.64,
+     7.58
+    ],
+    "y": [
+     2.79,
+     12.74
+    ],
+    "z": [
+     -6.55,
+     4.67
+    ]
+   },
+   {
+    "name": "Mage_ServiceLectern_Library",
+    "tris": 80,
+    "prims": 4,
+    "mats": [
+     "Mage aged oak (not clipped)",
+     "Mage parchment",
+     "Mage book leather",
+     "Mage wrought iron"
+    ],
+    "x": [
+     1.92,
+     2.68
+    ],
+    "y": [
+     3,
+     4.27
+    ],
+    "z": [
+     2.08,
+     2.52
+    ]
+   },
+   {
+    "name": "Mage_ServiceRuneTable_Workroom",
+    "tris": 344,
+    "prims": 6,
+    "mats": [
+     "Mage aged oak (not clipped)",
+     "Mage dark frame oak (not clipped)",
+     "Mage rune slate",
+     "Mage parchment",
+     "Mage book leather",
+     "Mage brass"
+    ],
+    "x": [
+     1.7,
+     3.3
+    ],
+    "y": [
+     0,
+     1
+    ],
+    "z": [
+     1.05,
+     1.8
+    ]
+   },
+   {
+    "name": "Mage_ServiceTelescope_Observatory",
+    "tris": 180,
+    "prims": 3,
+    "mats": [
+     "Mage aged oak (not clipped)",
+     "Mage wrought iron",
+     "Mage brass"
+    ],
+    "x": [
+     3.73,
+     5.06
+    ],
+    "y": [
+     5.99,
+     8.16
+    ],
+    "z": [
+     -3.16,
+     -1.83
+    ]
+   },
+   {
+    "name": "Mage_Shell",
+    "tris": 7033,
+    "prims": 7,
+    "mats": [
+     "Mage fieldstone",
+     "Mage stone lit",
+     "Mage stone shade",
+     "Mage dressed sandstone",
+     "Mage aged oak",
+     "Mage dark frame oak",
+     "Mage limewash"
+    ],
+    "x": [
+     -6.32,
+     6.37
+    ],
+    "y": [
+     -0.35,
+     3.05
+    ],
+    "z": [
+     -5.37,
+     4.39
+    ]
+   },
+   {
+    "name": "Mage_StairLibrary",
+    "tris": 258,
+    "prims": 2,
+    "mats": [
+     "Mage aged oak (not clipped)",
+     "Mage dark frame oak (not clipped)"
+    ],
+    "x": [
+     -0.17,
+     4.63
+    ],
+    "y": [
+     -0.05,
+     2.77
+    ],
+    "z": [
+     -3.1,
+     -1.9
+    ]
+   },
+   {
+    "name": "Mage_StairObservatory",
+    "tris": 210,
+    "prims": 2,
+    "mats": [
+     "Mage aged oak (not clipped)",
+     "Mage dark frame oak (not clipped)"
+    ],
+    "x": [
+     -0.63,
+     4.18
+    ],
+    "y": [
+     2.95,
+     5.77
+    ],
+    "z": [
+     -1.1,
+     0.1
+    ]
+   },
+   {
+    "name": "Mage_UpperFloorLibrary",
+    "tris": 80,
+    "prims": 1,
+    "mats": [
+     "Mage floorboards"
+    ],
+    "x": [
+     -1.9,
+     5.9
+    ],
+    "y": [
+     2.8,
+     2.99
+    ],
+    "z": [
+     -4.9,
+     2.9
+    ]
+   },
+   {
+    "name": "Mage_UpperFloorLibraryTiles",
+    "tris": 610,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -1.9,
+     5.9
+    ],
+    "y": [
+     3,
+     3
+    ],
+    "z": [
+     -4.9,
+     2.9
+    ]
+   },
+   {
+    "name": "Mage_UpperFloorObservatory",
+    "tris": 80,
+    "prims": 1,
+    "mats": [
+     "Mage floorboards"
+    ],
+    "x": [
+     -2.28,
+     6.28
+    ],
+    "y": [
+     5.8,
+     5.99
+    ],
+    "z": [
+     -5.28,
+     3.28
+    ]
+   },
+   {
+    "name": "Mage_UpperFloorObservatoryTiles",
+    "tris": 804,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -2.28,
+     6.28
+    ],
+    "y": [
+     6,
+     6
+    ],
+    "z": [
+     -5.28,
+     3.28
+    ]
+   },
+   {
+    "name": "Mage_UpperFurnishing",
+    "tris": 2437,
+    "prims": 8,
+    "mats": [
+     "Mage aged oak (not clipped)",
+     "Mage dark frame oak (not clipped)",
+     "Mage book leather",
+     "Mage parchment",
+     "Mage rune slate",
+     "Mage star chart",
+     "Mage brass",
+     "Mage wrought iron"
+    ],
+    "x": [
+     -1.68,
+     5.68
+    ],
+    "y": [
+     3,
+     7.7
+    ],
+    "z": [
+     -3.39,
+     2.42
+    ]
+   },
+   {
+    "name": "Mage_UpperFurnishingDressing",
+    "tris": 67,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour",
+     "Rune crystal (glow)"
+    ],
+    "x": [
+     0.99,
+     1.31
+    ],
+    "y": [
+     6.9,
+     7.08
+    ],
+    "z": [
+     -2.98,
+     -2.71
+    ]
+   },
+   {
+    "name": "Mage_UpperGallery",
+    "tris": 1310,
+    "prims": 2,
+    "mats": [
+     "Mage dark frame oak (not clipped)",
+     "Mage aged oak (not clipped)"
+    ],
+    "x": [
+     -1.84,
+     5.84
+    ],
+    "y": [
+     6,
+     8.89
+    ],
+    "z": [
+     -4.84,
+     2.84
+    ]
+   },
+   {
+    "name": "Mage_UpperJoist",
+    "tris": 84,
+    "prims": 1,
+    "mats": [
+     "Mage dark frame oak (not clipped)"
+    ],
+    "x": [
+     -1.68,
+     5.68
+    ],
+    "y": [
+     2.6,
+     5.8
+    ],
+    "z": [
+     -2.4,
+     2.4
+    ]
+   },
+   {
+    "name": "Mage_UpperRail",
+    "tris": 1365,
+    "prims": 2,
+    "mats": [
+     "Mage dark frame oak (not clipped)",
+     "Mage aged oak (not clipped)"
+    ],
+    "x": [
+     -0.94,
+     4.35
+    ],
+    "y": [
+     2.98,
+     7.05
+    ],
+    "z": [
+     -3.18,
+     0.17
+    ]
+   },
+   {
+    "name": "Mage_UpperShell",
+    "tris": 3540,
+    "prims": 5,
+    "mats": [
+     "Mage fieldstone",
+     "Mage stone lit",
+     "Mage stone shade",
+     "Mage dressed sandstone",
+     "Mage aged oak"
+    ],
+    "x": [
+     -2.37,
+     6.37
+    ],
+    "y": [
+     2.8,
+     5.81
+    ],
+    "z": [
+     -5.37,
+     3.37
+    ]
+   },
+   {
+    "name": "Mage_Yard",
+    "tris": 1016,
+    "prims": 6,
+    "mats": [
+     "Mage aged oak (not clipped)",
+     "Mage dark frame oak (not clipped)",
+     "Mage ochre thatch",
+     "Mage thatch sunlit",
+     "Mage rune slate",
+     "Mage parchment"
+    ],
+    "x": [
+     -7.07,
+     -0.86
+    ],
+    "y": [
+     -0.4,
+     1.7
+    ],
+    "z": [
+     3.93,
+     8.07
+    ]
+   }
+  ],
+  "tris": 33203
+ },
+ "lastlight": {
+  "file": ".studio-workspaces/holm-lastlight-glazed-review4-v1/candidates/lastlight.glb",
+  "parts": [
+   {
+    "name": "Lastlight_FloorPorch",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Lastlight dressed sandstone (not clipped)"
+    ],
+    "x": [
+     -6.45,
+     -4.78
+    ],
+    "y": [
+     -0.3,
+     -0.01
+    ],
+    "z": [
+     -0.6,
+     1.6
+    ]
+   },
+   {
+    "name": "Lastlight_FloorPorchTiles",
+    "tris": 88,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour",
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -6.45,
+     -4.78
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -0.6,
+     1.6
+    ]
+   },
+   {
+    "name": "Lastlight_FloorTower",
+    "tris": 28,
+    "prims": 1,
+    "mats": [
+     "Lastlight dressed sandstone (not clipped)"
+    ],
+    "x": [
+     -2.3,
+     4.3
+    ],
+    "y": [
+     -0.3,
+     -0.01
+    ],
+    "z": [
+     -4.3,
+     2.3
+    ]
+   },
+   {
+    "name": "Lastlight_FloorTowerTiles",
+    "tris": 774,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     -2.3,
+     4.3
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -4.3,
+     2.3
+    ]
+   },
+   {
+    "name": "Lastlight_FloorWing",
+    "tris": 52,
+    "prims": 1,
+    "mats": [
+     "Lastlight dressed sandstone (not clipped)"
+    ],
+    "x": [
+     -4.8,
+     -1.2
+    ],
+    "y": [
+     -0.3,
+     -0.01
+    ],
+    "z": [
+     -1.8,
+     3.8
+    ]
+   },
+   {
+    "name": "Lastlight_FloorWingTiles",
+    "tris": 592,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour",
+     "Holm flat colour - plaster"
+    ],
+    "x": [
+     -4.8,
+     -1.2
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -1.8,
+     3.8
+    ]
+   },
+   {
+    "name": "Lastlight_Furnishing",
+    "tris": 1656,
+    "prims": 10,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight brass",
+     "Lastlight dark frame oak (not clipped)",
+     "Lastlight hemp rope",
+     "Lastlight lantern glass (not clipped)",
+     "Lastlight beacon flame (not clipped)",
+     "Lastlight fieldstone (not clipped)",
+     "Lastlight dressed sandstone (not clipped)",
+     "Lastlight stone shade (not clipped)"
+    ],
+    "x": [
+     -4.71,
+     3.85
+    ],
+    "y": [
+     0,
+     2.6
+    ],
+    "z": [
+     -3.06,
+     2.56
+    ]
+   },
+   {
+    "name": "Lastlight_FurnishingDressing",
+    "tris": 428,
+    "prims": 3,
+    "mats": [
+     "Holm flat colour",
+     "Candle flame (glow)",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.4,
+     3
+    ],
+    "y": [
+     0.6,
+     1.76
+    ],
+    "z": [
+     -2.91,
+     1.77
+    ]
+   },
+   {
+    "name": "Lastlight_GlazingKeeper",
+    "tris": 36,
+    "prims": 1,
+    "mats": [
+     "Lastlight lantern glass"
+    ],
+    "x": [
+     -1.52,
+     3.52
+    ],
+    "y": [
+     3.95,
+     5.11
+    ],
+    "z": [
+     -3.52,
+     2.14
+    ]
+   },
+   {
+    "name": "Lastlight_GlazingKeeperLeads",
+    "tris": 240,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -1.53,
+     3.53
+    ],
+    "y": [
+     3.93,
+     5.13
+    ],
+    "z": [
+     -3.53,
+     2.14
+    ]
+   },
+   {
+    "name": "Lastlight_GlazingLantern",
+    "tris": 96,
+    "prims": 1,
+    "mats": [
+     "Lastlight lantern glass"
+    ],
+    "x": [
+     -0.63,
+     2.63
+    ],
+    "y": [
+     9.84,
+     11.3
+    ],
+    "z": [
+     -2.63,
+     0.63
+    ]
+   },
+   {
+    "name": "Lastlight_GlazingWatch",
+    "tris": 84,
+    "prims": 1,
+    "mats": [
+     "Lastlight lantern glass"
+    ],
+    "x": [
+     -1.97,
+     3.37
+    ],
+    "y": [
+     6.85,
+     7.98
+    ],
+    "z": [
+     -3.97,
+     1.97
+    ]
+   },
+   {
+    "name": "Lastlight_GlazingWatchLeads",
+    "tris": 552,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -1.98,
+     3.38
+    ],
+    "y": [
+     6.83,
+     8
+    ],
+    "z": [
+     -3.98,
+     1.98
+    ]
+   },
+   {
+    "name": "Lastlight_GlazingWing",
+    "tris": 36,
+    "prims": 1,
+    "mats": [
+     "Lastlight lantern glass"
+    ],
+    "x": [
+     -5.01,
+     -0.99
+    ],
+    "y": [
+     1.1,
+     2
+    ],
+    "z": [
+     2.38,
+     4.01
+    ]
+   },
+   {
+    "name": "Lastlight_GlazingWingLeads",
+    "tris": 216,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -5.02,
+     -0.98
+    ],
+    "y": [
+     1.09,
+     2.01
+    ],
+    "z": [
+     2.37,
+     4.02
+    ]
+   },
+   {
+    "name": "Lastlight_Roof",
+    "tris": 3889,
+    "prims": 12,
+    "mats": [
+     "Lastlight clay cool",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight brass",
+     "Lastlight clay tile",
+     "Lastlight clay warm",
+     "Lastlight aged oak (not clipped)",
+     "Lastlight limewash",
+     "Lastlight dark frame oak (not clipped)",
+     "Lastlight fieldstone (not clipped)",
+     "Lastlight dressed sandstone (not clipped)",
+     "Lastlight stone lit (not clipped)",
+     "Lastlight stone shade (not clipped)"
+    ],
+    "x": [
+     -6.81,
+     3.18
+    ],
+    "y": [
+     -0.45,
+     14.7
+    ],
+    "z": [
+     -3.18,
+     4.55
+    ]
+   },
+   {
+    "name": "Lastlight_ServiceBeacon_Lamp",
+    "tris": 552,
+    "prims": 4,
+    "mats": [
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight brass",
+     "Lastlight lantern glass (not clipped)",
+     "Lastlight beacon flame (not clipped)"
+    ],
+    "x": [
+     0.48,
+     1.52
+    ],
+    "y": [
+     9,
+     11.15
+    ],
+    "z": [
+     -1.52,
+     -0.48
+    ]
+   },
+   {
+    "name": "Lastlight_ServiceDoor_Storm",
+    "tris": 235,
+    "prims": 3,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight dark frame oak (not clipped)"
+    ],
+    "x": [
+     -6.2,
+     -5.18
+    ],
+    "y": [
+     0.02,
+     2.26
+    ],
+    "z": [
+     -0.62,
+     1.61
+    ]
+   },
+   {
+    "name": "Lastlight_ServiceLadder1Down_Hatch",
+    "tris": 212,
+    "prims": 3,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight dark frame oak (not clipped)",
+     "Lastlight wrought iron (not clipped)"
+    ],
+    "x": [
+     1,
+     1.96
+    ],
+    "y": [
+     2.8,
+     4.01
+    ],
+    "z": [
+     -4.06,
+     -3.04
+    ]
+   },
+   {
+    "name": "Lastlight_ServiceLadder1Up_Ladder",
+    "tris": 228,
+    "prims": 3,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight dark frame oak (not clipped)"
+    ],
+    "x": [
+     1.17,
+     1.83
+    ],
+    "y": [
+     -0.01,
+     3.01
+    ],
+    "z": [
+     -3.67,
+     -3.24
+    ]
+   },
+   {
+    "name": "Lastlight_ServiceLadder2Down_Hatch",
+    "tris": 200,
+    "prims": 3,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight dark frame oak (not clipped)",
+     "Lastlight wrought iron (not clipped)"
+    ],
+    "x": [
+     3.04,
+     4.06
+    ],
+    "y": [
+     5.8,
+     7.01
+    ],
+    "z": [
+     -2,
+     -1.04
+    ]
+   },
+   {
+    "name": "Lastlight_ServiceLadder2Up_Ladder",
+    "tris": 228,
+    "prims": 3,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight dark frame oak (not clipped)"
+    ],
+    "x": [
+     3.25,
+     3.54
+    ],
+    "y": [
+     3,
+     6
+    ],
+    "z": [
+     -1.84,
+     -1.16
+    ]
+   },
+   {
+    "name": "Lastlight_ServiceLadder3Down_Hatch",
+    "tris": 217,
+    "prims": 3,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight dark frame oak (not clipped)",
+     "Lastlight wrought iron (not clipped)"
+    ],
+    "x": [
+     0,
+     0.96
+    ],
+    "y": [
+     8.8,
+     10.01
+    ],
+    "z": [
+     0.99,
+     1.68
+    ]
+   },
+   {
+    "name": "Lastlight_ServiceLadder3Up_Ladder",
+    "tris": 228,
+    "prims": 3,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight dark frame oak (not clipped)"
+    ],
+    "x": [
+     0.17,
+     0.83
+    ],
+    "y": [
+     6,
+     9
+    ],
+    "z": [
+     1.19,
+     1.49
+    ]
+   },
+   {
+    "name": "Lastlight_ServiceLever_Deck",
+    "tris": 128,
+    "prims": 4,
+    "mats": [
+     "Lastlight dressed sandstone (not clipped)",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight brass",
+     "Lastlight aged oak (not clipped)"
+    ],
+    "x": [
+     2.7,
+     3.18
+    ],
+    "y": [
+     9,
+     10.67
+    ],
+    "z": [
+     -1.84,
+     -1.16
+    ]
+   },
+   {
+    "name": "Lastlight_ServiceStores_Workbench",
+    "tris": 464,
+    "prims": 5,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight dark frame oak (not clipped)",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight lantern glass (not clipped)",
+     "Lastlight brass"
+    ],
+    "x": [
+     -4.6,
+     -1.11
+    ],
+    "y": [
+     0,
+     2.2
+    ],
+    "z": [
+     2.18,
+     3.82
+    ]
+   },
+   {
+    "name": "Lastlight_ShellPlinth",
+    "tris": 96,
+    "prims": 1,
+    "mats": [
+     "Lastlight stone shade"
+    ],
+    "x": [
+     -2.81,
+     4.81
+    ],
+    "y": [
+     -0.7,
+     0.31
+    ],
+    "z": [
+     -4.81,
+     2.81
+    ]
+   },
+   {
+    "name": "Lastlight_ShellPorch",
+    "tris": 368,
+    "prims": 5,
+    "mats": [
+     "Lastlight fieldstone",
+     "Lastlight dressed sandstone",
+     "Lastlight stone lit",
+     "Lastlight stone shade",
+     "Lastlight dark frame oak"
+    ],
+    "x": [
+     -6.6,
+     -5.1
+    ],
+    "y": [
+     -0.35,
+     2.44
+    ],
+    "z": [
+     -1,
+     2
+    ]
+   },
+   {
+    "name": "Lastlight_ShellTower",
+    "tris": 3050,
+    "prims": 4,
+    "mats": [
+     "Lastlight fieldstone",
+     "Lastlight stone lit",
+     "Lastlight stone shade",
+     "Lastlight dressed sandstone"
+    ],
+    "x": [
+     -2.53,
+     4.56
+    ],
+    "y": [
+     -0.3,
+     3.03
+    ],
+    "z": [
+     -4.54,
+     2.56
+    ]
+   },
+   {
+    "name": "Lastlight_ShellTowerDoorway",
+    "tris": 108,
+    "prims": 1,
+    "mats": [
+     "Lastlight dressed sandstone"
+    ],
+    "x": [
+     -2.59,
+     -2.34
+    ],
+    "y": [
+     0.01,
+     2.62
+    ],
+    "z": [
+     -1.7,
+     0.7
+    ]
+   },
+   {
+    "name": "Lastlight_ShellWing",
+    "tris": 2854,
+    "prims": 8,
+    "mats": [
+     "Lastlight fieldstone",
+     "Lastlight stone lit",
+     "Lastlight stone shade",
+     "Lastlight dressed sandstone",
+     "Lastlight aged oak",
+     "Lastlight dark frame oak",
+     "Lastlight wrought iron",
+     "Lastlight beacon flame"
+    ],
+    "x": [
+     -5.68,
+     -0.53
+    ],
+    "y": [
+     -0.45,
+     2.91
+    ],
+    "z": [
+     -2.34,
+     4.47
+    ]
+   },
+   {
+    "name": "Lastlight_StepPorch",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Lastlight dressed sandstone (not clipped)"
+    ],
+    "x": [
+     -6.95,
+     -6.45
+    ],
+    "y": [
+     -0.45,
+     -0.15
+    ],
+    "z": [
+     -0.5,
+     1.5
+    ]
+   },
+   {
+    "name": "Lastlight_UpperFloorGallery",
+    "tris": 80,
+    "prims": 1,
+    "mats": [
+     "Lastlight stone lit (not clipped)"
+    ],
+    "x": [
+     -3,
+     5
+    ],
+    "y": [
+     8.75,
+     8.99
+    ],
+    "z": [
+     -5,
+     3
+    ]
+   },
+   {
+    "name": "Lastlight_UpperFloorGalleryTiles",
+    "tris": 1138,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     -3,
+     5
+    ],
+    "y": [
+     9,
+     9
+    ],
+    "z": [
+     -5,
+     3
+    ]
+   },
+   {
+    "name": "Lastlight_UpperFloorKeeper",
+    "tris": 60,
+    "prims": 1,
+    "mats": [
+     "Lastlight floorboards"
+    ],
+    "x": [
+     -1.95,
+     3.95
+    ],
+    "y": [
+     2.8,
+     2.99
+    ],
+    "z": [
+     -3.95,
+     1.95
+    ]
+   },
+   {
+    "name": "Lastlight_UpperFloorKeeperTiles",
+    "tris": 462,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -1.95,
+     3.95
+    ],
+    "y": [
+     3,
+     3
+    ],
+    "z": [
+     -3.95,
+     1.95
+    ]
+   },
+   {
+    "name": "Lastlight_UpperFloorWatch",
+    "tris": 60,
+    "prims": 1,
+    "mats": [
+     "Lastlight floorboards"
+    ],
+    "x": [
+     -1.8,
+     3.8
+    ],
+    "y": [
+     5.8,
+     5.99
+    ],
+    "z": [
+     -3.8,
+     1.8
+    ]
+   },
+   {
+    "name": "Lastlight_UpperFloorWatchTiles",
+    "tris": 384,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -1.8,
+     3.8
+    ],
+    "y": [
+     6,
+     6
+    ],
+    "z": [
+     -3.8,
+     1.8
+    ]
+   },
+   {
+    "name": "Lastlight_UpperFurnishingDressing",
+    "tris": 358,
+    "prims": 3,
+    "mats": [
+     "Holm flat colour",
+     "Candle flame (glow)",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -1.56,
+     3.52
+    ],
+    "y": [
+     3.56,
+     7.51
+    ],
+    "z": [
+     -3.47,
+     0.08
+    ]
+   },
+   {
+    "name": "Lastlight_UpperFurnishingKeeper",
+    "tris": 537,
+    "prims": 8,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight red wool",
+     "Lastlight limewash",
+     "Lastlight brass",
+     "Lastlight clay tile",
+     "Lastlight beacon flame (not clipped)",
+     "Lastlight dark frame oak (not clipped)",
+     "Lastlight wrought iron (not clipped)"
+    ],
+    "x": [
+     -1.62,
+     3.78
+    ],
+    "y": [
+     3,
+     5.16
+    ],
+    "z": [
+     -3.8,
+     1.74
+    ]
+   },
+   {
+    "name": "Lastlight_UpperFurnishingWatch",
+    "tris": 284,
+    "prims": 7,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight limewash",
+     "Lastlight red wool",
+     "Lastlight brass",
+     "Lastlight dark frame oak (not clipped)",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight clay tile"
+    ],
+    "x": [
+     -1.56,
+     2.85
+    ],
+    "y": [
+     6,
+     7.4
+    ],
+    "z": [
+     -3.57,
+     0.8
+    ]
+   },
+   {
+    "name": "Lastlight_UpperGallery",
+    "tris": 1536,
+    "prims": 4,
+    "mats": [
+     "Lastlight dressed sandstone (not clipped)",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight brass",
+     "Lastlight hemp rope"
+    ],
+    "x": [
+     -3.68,
+     5.03
+    ],
+    "y": [
+     8.05,
+     10.16
+    ],
+    "z": [
+     -5.03,
+     3.03
+    ]
+   },
+   {
+    "name": "Lastlight_UpperJoistDeck",
+    "tris": 48,
+    "prims": 1,
+    "mats": [
+     "Lastlight dark frame oak (not clipped)"
+    ],
+    "x": [
+     -1.6,
+     3.6
+    ],
+    "y": [
+     8.55,
+     8.75
+    ],
+    "z": [
+     -2.9,
+     0.9
+    ]
+   },
+   {
+    "name": "Lastlight_UpperJoistKeeper",
+    "tris": 48,
+    "prims": 1,
+    "mats": [
+     "Lastlight dark frame oak (not clipped)"
+    ],
+    "x": [
+     -1.89,
+     3.89
+    ],
+    "y": [
+     2.6,
+     2.8
+    ],
+    "z": [
+     -2.8,
+     1.4
+    ]
+   },
+   {
+    "name": "Lastlight_UpperJoistWatch",
+    "tris": 48,
+    "prims": 1,
+    "mats": [
+     "Lastlight dark frame oak (not clipped)"
+    ],
+    "x": [
+     -1,
+     3
+    ],
+    "y": [
+     5.6,
+     5.8
+    ],
+    "z": [
+     -3.74,
+     1.74
+    ]
+   },
+   {
+    "name": "Lastlight_UpperLantern",
+    "tris": 588,
+    "prims": 3,
+    "mats": [
+     "Lastlight fieldstone (not clipped)",
+     "Lastlight dressed sandstone (not clipped)",
+     "Lastlight wrought iron (not clipped)"
+    ],
+    "x": [
+     -0.84,
+     2.84
+    ],
+    "y": [
+     9,
+     11.42
+    ],
+    "z": [
+     -2.84,
+     0.84
+    ]
+   },
+   {
+    "name": "Lastlight_UpperShellKeeper",
+    "tris": 3118,
+    "prims": 6,
+    "mats": [
+     "Lastlight fieldstone",
+     "Lastlight stone lit",
+     "Lastlight stone shade",
+     "Lastlight dressed sandstone",
+     "Lastlight aged oak",
+     "Lastlight dark frame oak"
+    ],
+    "x": [
+     -2.38,
+     4.39
+    ],
+    "y": [
+     3,
+     6
+    ],
+    "z": [
+     -4.39,
+     2.41
+    ]
+   },
+   {
+    "name": "Lastlight_UpperShellString",
+    "tris": 192,
+    "prims": 1,
+    "mats": [
+     "Lastlight dressed sandstone"
+    ],
+    "x": [
+     -2.44,
+     4.44
+    ],
+    "y": [
+     2.9,
+     6.1
+    ],
+    "z": [
+     -4.44,
+     2.44
+    ]
+   },
+   {
+    "name": "Lastlight_UpperShellWatch",
+    "tris": 2712,
+    "prims": 5,
+    "mats": [
+     "Lastlight fieldstone",
+     "Lastlight stone lit",
+     "Lastlight stone shade",
+     "Lastlight dressed sandstone",
+     "Lastlight aged oak"
+    ],
+    "x": [
+     -2.23,
+     4.2
+    ],
+    "y": [
+     6,
+     8.75
+    ],
+    "z": [
+     -4.23,
+     2.23
+    ]
+   },
+   {
+    "name": "Lastlight_Yard",
+    "tris": 668,
+    "prims": 4,
+    "mats": [
+     "Lastlight aged oak (not clipped)",
+     "Lastlight wrought iron (not clipped)",
+     "Lastlight dark frame oak (not clipped)",
+     "Lastlight hemp rope"
+    ],
+    "x": [
+     -6.65,
+     -0.15
+    ],
+    "y": [
+     -0.3,
+     2.62
+    ],
+    "z": [
+     -2.57,
+     5.01
+    ]
+   }
+  ],
+  "tris": 30280
+ },
+ "haven": {
+  "file": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.glb",
+  "parts": [
+   {
+    "name": "Haven_DeckLanding",
+    "tris": 442,
+    "prims": 3,
+    "mats": [
+     "Sun-worn deck oak",
+     "Pale plank edges",
+     "Aged oak (not clipped)"
+    ],
+    "x": [
+     -3.6,
+     1.57
+    ],
+    "y": [
+     -1.13,
+     -1.05
+    ],
+    "z": [
+     -17.56,
+     -10.25
+    ]
+   },
+   {
+    "name": "Haven_DeckPier",
+    "tris": 478,
+    "prims": 3,
+    "mats": [
+     "Pale plank edges",
+     "Aged oak (not clipped)",
+     "Sun-worn deck oak"
+    ],
+    "x": [
+     -1.57,
+     1.57
+    ],
+    "y": [
+     0.07,
+     0.15
+    ],
+    "z": [
+     -8,
+     2.5
+    ]
+   },
+   {
+    "name": "Haven_FloorShelter",
+    "tris": 576,
+    "prims": 3,
+    "mats": [
+     "Dressed sandstone (not clipped)",
+     "Warm fieldstone (not clipped)",
+     "Stone lit faces (not clipped)"
+    ],
+    "x": [
+     -5.5,
+     -1.5
+    ],
+    "y": [
+     -0.15,
+     0.15
+    ],
+    "z": [
+     -5.5,
+     -0.5
+    ]
+   },
+   {
+    "name": "Haven_Furnishing",
+    "tris": 204,
+    "prims": 6,
+    "mats": [
+     "Pale plank edges",
+     "Stone lit faces (not clipped)",
+     "Aged oak (not clipped)",
+     "Dark frame oak (not clipped)",
+     "Tarred iron (not clipped)",
+     "Hemp rope"
+    ],
+    "x": [
+     -5.22,
+     -2
+    ],
+    "y": [
+     0.15,
+     2.06
+    ],
+    "z": [
+     -5.02,
+     -0.85
+    ]
+   },
+   {
+    "name": "Haven_FurnishingDressing",
+    "tris": 70,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.63,
+     -4.44
+    ],
+    "y": [
+     0.72,
+     0.75
+    ],
+    "z": [
+     4.79,
+     4.99
+    ]
+   },
+   {
+    "name": "Haven_GlazingLeaded",
+    "tris": 48,
+    "prims": 1,
+    "mats": [
+     "Leaded glass pane"
+    ],
+    "x": [
+     -5.3,
+     -3.1
+    ],
+    "y": [
+     1.28,
+     2.45
+    ],
+    "z": [
+     -3.42,
+     -0.53
+    ]
+   },
+   {
+    "name": "Haven_GlazingLeadedLeads",
+    "tris": 224,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -5.3,
+     -3.09
+    ],
+    "y": [
+     1.27,
+     2.46
+    ],
+    "z": [
+     -3.44,
+     -0.53
+    ]
+   },
+   {
+    "name": "Haven_Mooring",
+    "tris": 1084,
+    "prims": 5,
+    "mats": [
+     "Aged oak (not clipped)",
+     "Tarred iron (not clipped)",
+     "Hemp rope",
+     "Dark frame oak (not clipped)",
+     "Notice parchment"
+    ],
+    "x": [
+     -5.34,
+     2.99
+    ],
+    "y": [
+     -2,
+     2.45
+    ],
+    "z": [
+     -17.9,
+     -7.8
+    ]
+   },
+   {
+    "name": "Haven_PierFrame",
+    "tris": 1920,
+    "prims": 4,
+    "mats": [
+     "Aged oak (not clipped)",
+     "Dark frame oak (not clipped)",
+     "Dark tar seams",
+     "Tarred iron (not clipped)"
+    ],
+    "x": [
+     -3.75,
+     1.82
+    ],
+    "y": [
+     -3.45,
+     0.07
+    ],
+    "z": [
+     -17.52,
+     2.5
+    ]
+   },
+   {
+    "name": "Haven_PierRail",
+    "tris": 1392,
+    "prims": 5,
+    "mats": [
+     "Aged oak (not clipped)",
+     "Tarred iron (not clipped)",
+     "Pale plank edges",
+     "Dark frame oak (not clipped)",
+     "Dressed sandstone (not clipped)"
+    ],
+    "x": [
+     -3.8,
+     1.78
+    ],
+    "y": [
+     -1.4,
+     1.45
+    ],
+    "z": [
+     -17.7,
+     -4.84
+    ]
+   },
+   {
+    "name": "Haven_PierStone",
+    "tris": 2458,
+    "prims": 4,
+    "mats": [
+     "Warm fieldstone (not clipped)",
+     "Stone shaded faces (not clipped)",
+     "Stone lit faces (not clipped)",
+     "Dressed sandstone (not clipped)"
+    ],
+    "x": [
+     -1.97,
+     1.97
+    ],
+    "y": [
+     -3.35,
+     0.08
+    ],
+    "z": [
+     -7.72,
+     2.48
+    ]
+   },
+   {
+    "name": "Haven_Props",
+    "tris": 216,
+    "prims": 2,
+    "mats": [
+     "Aged oak (not clipped)",
+     "Tarred iron (not clipped)"
+    ],
+    "x": [
+     -3.51,
+     -2.19
+    ],
+    "y": [
+     -1.05,
+     -0.25
+    ],
+    "z": [
+     -15.89,
+     -15.26
+    ]
+   },
+   {
+    "name": "Haven_RoofDeck",
+    "tris": 40,
+    "prims": 1,
+    "mats": [
+     "Dark frame oak (not clipped)"
+    ],
+    "x": [
+     -6,
+     -1.1
+    ],
+    "y": [
+     2.31,
+     5.49
+    ],
+    "z": [
+     -6,
+     0
+    ]
+   },
+   {
+    "name": "Haven_RoofRidge",
+    "tris": 276,
+    "prims": 3,
+    "mats": [
+     "Ochre thatch weathered",
+     "Ochre thatch sunlit",
+     "Aged oak (not clipped)"
+    ],
+    "x": [
+     -6.22,
+     -0.88
+    ],
+    "y": [
+     2.43,
+     6.24
+    ],
+    "z": [
+     -6.22,
+     0.22
+    ]
+   },
+   {
+    "name": "Haven_RoofThatch",
+    "tris": 2532,
+    "prims": 3,
+    "mats": [
+     "Ochre thatch",
+     "Ochre thatch weathered",
+     "Ochre thatch sunlit"
+    ],
+    "x": [
+     -6.23,
+     -0.87
+    ],
+    "y": [
+     2.23,
+     5.55
+    ],
+    "z": [
+     -6.22,
+     0.23
+    ]
+   },
+   {
+    "name": "Haven_ServiceBoat_Fittings",
+    "tris": 452,
+    "prims": 5,
+    "mats": [
+     "Pale plank edges",
+     "Sun-worn deck oak",
+     "Aged oak (not clipped)",
+     "Dark frame oak (not clipped)",
+     "Tarred iron (not clipped)"
+    ],
+    "x": [
+     1.86,
+     4.08
+    ],
+    "y": [
+     -1.57,
+     -0.24
+    ],
+    "z": [
+     -17.21,
+     -10.88
+    ]
+   },
+   {
+    "name": "Haven_ServiceBoat_Gangplank",
+    "tris": 36,
+    "prims": 2,
+    "mats": [
+     "Pale plank edges",
+     "Aged oak (not clipped)"
+    ],
+    "x": [
+     1.55,
+     2.03
+    ],
+    "y": [
+     -1.11,
+     -0.41
+    ],
+    "z": [
+     -14.95,
+     -14.05
+    ]
+   },
+   {
+    "name": "Haven_ServiceBoat_Hull",
+    "tris": 1056,
+    "prims": 5,
+    "mats": [
+     "Sea green strake",
+     "Honey oak strakes",
+     "Dark tar seams",
+     "Pale plank edges",
+     "Aged oak (not clipped)"
+    ],
+    "x": [
+     1.8,
+     4.14
+    ],
+    "y": [
+     -1.66,
+     -0.01
+    ],
+    "z": [
+     -17.85,
+     -11.27
+    ]
+   },
+   {
+    "name": "Haven_ServiceBoat_Rig",
+    "tris": 648,
+    "prims": 4,
+    "mats": [
+     "Aged oak (not clipped)",
+     "Dark frame oak (not clipped)",
+     "Furled canvas",
+     "Hemp rope"
+    ],
+    "x": [
+     1.91,
+     4.03
+    ],
+    "y": [
+     -1.42,
+     3.55
+    ],
+    "z": [
+     -17.79,
+     -11.89
+    ]
+   },
+   {
+    "name": "Haven_ServiceNotice_Board",
+    "tris": 316,
+    "prims": 7,
+    "mats": [
+     "Dark frame oak (not clipped)",
+     "Dressed sandstone (not clipped)",
+     "Aged oak (not clipped)",
+     "Notice parchment",
+     "Tarred iron (not clipped)",
+     "Bell bronze",
+     "Hemp rope"
+    ],
+    "x": [
+     -2.43,
+     -1.67
+    ],
+    "y": [
+     -0.25,
+     2.41
+    ],
+    "z": [
+     -0.34,
+     1.97
+    ]
+   },
+   {
+    "name": "Haven_ShellEast",
+    "tris": 794,
+    "prims": 4,
+    "mats": [
+     "Warm fieldstone",
+     "Stone shaded faces",
+     "Stone lit faces",
+     "Dressed sandstone"
+    ],
+    "x": [
+     -5.2,
+     -1.55
+    ],
+    "y": [
+     -0.3,
+     1.1
+    ],
+    "z": [
+     -5.55,
+     -5.1
+    ]
+   },
+   {
+    "name": "Haven_ShellNorth",
+    "tris": 1076,
+    "prims": 4,
+    "mats": [
+     "Warm fieldstone",
+     "Stone shaded faces",
+     "Stone lit faces",
+     "Limewash plaster"
+    ],
+    "x": [
+     -5.55,
+     -5.1
+    ],
+    "y": [
+     -0.3,
+     2.97
+    ],
+    "z": [
+     -5.5,
+     -0.5
+    ]
+   },
+   {
+    "name": "Haven_ShellTimber",
+    "tris": 588,
+    "prims": 3,
+    "mats": [
+     "Dark frame oak",
+     "Dressed sandstone",
+     "Aged oak"
+    ],
+    "x": [
+     -5.63,
+     -1.5
+    ],
+    "y": [
+     -0.2,
+     2.97
+    ],
+    "z": [
+     -5.55,
+     -0.49
+    ]
+   },
+   {
+    "name": "Haven_ShellWest",
+    "tris": 2226,
+    "prims": 6,
+    "mats": [
+     "Warm fieldstone",
+     "Stone lit faces",
+     "Stone shaded faces",
+     "Dressed sandstone",
+     "Aged oak",
+     "Tarred iron"
+    ],
+    "x": [
+     -5.52,
+     -1.59
+    ],
+    "y": [
+     -0.3,
+     2.97
+    ],
+    "z": [
+     -0.98,
+     -0.36
+    ]
+   },
+   {
+    "name": "Haven_StairFlight",
+    "tris": 60,
+    "prims": 2,
+    "mats": [
+     "Sun-worn deck oak",
+     "Pale plank edges"
+    ],
+    "x": [
+     -1.5,
+     1.5
+    ],
+    "y": [
+     -0.93,
+     -0.05
+    ],
+    "z": [
+     -10.25,
+     -8
+    ]
+   }
+  ],
+  "tris": 19212
+ },
+ "keep": {
+  "file": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+  "parts": [
+   {
+    "name": "Keep_Floor_1_5",
+    "tris": 48,
+    "prims": 1,
+    "mats": [
+     "Keep floor flags"
+    ],
+    "x": [
+     -10,
+     13
+    ],
+    "y": [
+     -0.18,
+     -0.01
+    ],
+    "z": [
+     -15,
+     10
+    ]
+   },
+   {
+    "name": "Keep_Shell_2_111",
+    "tris": 1457,
+    "prims": 1,
+    "mats": [
+     "Keep gray fieldstone"
+    ],
+    "x": [
+     -10.5,
+     13.15
+    ],
+    "y": [
+     0,
+     10.22
+    ],
+    "z": [
+     -15.15,
+     10
+    ]
+   },
+   {
+    "name": "Keep_GroundFront_2_36",
+    "tris": 436,
+    "prims": 1,
+    "mats": [
+     "Keep gray fieldstone"
+    ],
+    "x": [
+     -10,
+     7
+    ],
+    "y": [
+     0,
+     6.26
+    ],
+    "z": [
+     -9,
+     10.19
+    ]
+   },
+   {
+    "name": "Keep_Upper_Shell_1_17",
+    "tris": 209,
+    "prims": 1,
+    "mats": [
+     "Keep gray fieldstone"
+    ],
+    "x": [
+     -3.21,
+     -2.79
+    ],
+    "y": [
+     3.2,
+     6.26
+    ],
+    "z": [
+     -9,
+     6.01
+    ]
+   },
+   {
+    "name": "Keep_Upper_Floor_2_4",
+    "tris": 48,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     -9.81,
+     -2.99
+    ],
+    "y": [
+     3.02,
+     3.19
+    ],
+    "z": [
+     -8.81,
+     5.81
+    ]
+   },
+   {
+    "name": "Keep_Stair_1_30",
+    "tris": 360,
+    "prims": 1,
+    "mats": [
+     "Keep stair oak"
+    ],
+    "x": [
+     -9.56,
+     -7.64
+    ],
+    "y": [
+     0,
+     4.11
+    ],
+    "z": [
+     -1.03,
+     3.83
+    ]
+   },
+   {
+    "name": "Keep_Upper_Furnishing_4_13",
+    "tris": 156,
+    "prims": 1,
+    "mats": [
+     "Keep furniture oak"
+    ],
+    "x": [
+     -7.74,
+     -3.65
+    ],
+    "y": [
+     3.2,
+     4.14
+    ],
+    "z": [
+     -7.35,
+     3.99
+    ]
+   },
+   {
+    "name": "Keep_Roof_3_2",
+    "tris": 10,
+    "prims": 1,
+    "mats": [
+     "Keep warm shingles"
+    ],
+    "x": [
+     -10.45,
+     7
+    ],
+    "y": [
+     3.15,
+     8.8
+    ],
+    "z": [
+     -9.35,
+     6.45
+    ]
+   },
+   {
+    "name": "Keep_Roof_3_6",
+    "tris": 72,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     -10.5,
+     7
+    ],
+    "y": [
+     4.59,
+     8.96
+    ],
+    "z": [
+     -9.46,
+     6.56
+    ]
+   },
+   {
+    "name": "Keep_GroundFront_2_6",
+    "tris": 72,
+    "prims": 1,
+    "mats": [
+     "Keep pale dressed stone"
+    ],
+    "x": [
+     0.13,
+     3.87
+    ],
+    "y": [
+     0,
+     3.16
+    ],
+    "z": [
+     3.74,
+     10.27
+    ]
+   },
+   {
+    "name": "Keep_Upper_Floor_2_4.001",
+    "tris": 77,
+    "prims": 1,
+    "mats": [
+     "Keep floor flags"
+    ],
+    "x": [
+     -3,
+     9
+    ],
+    "y": [
+     3.02,
+     3.2
+    ],
+    "z": [
+     -4.7,
+     10
+    ]
+   },
+   {
+    "name": "Keep_Upper_Wallwalk_1_35",
+    "tris": 420,
+    "prims": 1,
+    "mats": [
+     "Keep gray fieldstone (not clipped)"
+    ],
+    "x": [
+     -3,
+     9.21
+    ],
+    "y": [
+     3.2,
+     4.48
+    ],
+    "z": [
+     -4.91,
+     10.21
+    ]
+   },
+   {
+    "name": "Keep_Roof_3_48",
+    "tris": 688,
+    "prims": 1,
+    "mats": [
+     "Keep gray fieldstone (not clipped)"
+    ],
+    "x": [
+     -10.21,
+     13.21
+    ],
+    "y": [
+     6.7,
+     10.9
+    ],
+    "z": [
+     -15.21,
+     -3.79
+    ]
+   },
+   {
+    "name": "Keep_Shell_2_6",
+    "tris": 72,
+    "prims": 1,
+    "mats": [
+     "Keep pale dressed stone"
+    ],
+    "x": [
+     -10.43,
+     9.33
+    ],
+    "y": [
+     2.32,
+     2.48
+    ],
+    "z": [
+     -8.82,
+     6.13
+    ]
+   },
+   {
+    "name": "Keep_Furnishing_3_21",
+    "tris": 252,
+    "prims": 1,
+    "mats": [
+     "Keep furniture oak"
+    ],
+    "x": [
+     -9.5,
+     6.1
+    ],
+    "y": [
+     0,
+     2.1
+    ],
+    "z": [
+     -8.68,
+     -2.55
+    ]
+   },
+   {
+    "name": "Keep_Furnishing_3_1",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Keep parchment"
+    ],
+    "x": [
+     -6,
+     -4.6
+    ],
+    "y": [
+     0.92,
+     0.95
+    ],
+    "z": [
+     -3.83,
+     -2.98
+    ]
+   },
+   {
+    "name": "Keep_Furnishing_3_9",
+    "tris": 84,
+    "prims": 1,
+    "mats": [
+     "Keep dark iron"
+    ],
+    "x": [
+     -9.13,
+     5.95
+    ],
+    "y": [
+     1,
+     2.4
+    ],
+    "z": [
+     -8.69,
+     -5.3
+    ]
+   },
+   {
+    "name": "Keep_Upper_Furnishing_4_1",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Keep parchment"
+    ],
+    "x": [
+     -6.1,
+     -4.5
+    ],
+    "y": [
+     4.12,
+     4.15
+    ],
+    "z": [
+     -7.23,
+     -6.38
+    ]
+   },
+   {
+    "name": "Keep_Upper_Furnishing_4_2",
+    "tris": 24,
+    "prims": 1,
+    "mats": [
+     "Keep oat linen"
+    ],
+    "x": [
+     -6.3,
+     -3.7
+    ],
+    "y": [
+     3.69,
+     3.91
+    ],
+    "z": [
+     -5.1,
+     -2.1
+    ]
+   },
+   {
+    "name": "Keep_Upper_Furnishing_4_2.001",
+    "tris": 24,
+    "prims": 1,
+    "mats": [
+     "Keep muted oxblood"
+    ],
+    "x": [
+     -5.6,
+     -4
+    ],
+    "y": [
+     3.91,
+     3.95
+    ],
+    "z": [
+     -5.11,
+     -2.09
+    ]
+   },
+   {
+    "name": "Keep_Upper_Tower_Highwatch_Level1_Floor_1_13",
+    "tris": 218,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     -9.82,
+     -4.18
+    ],
+    "y": [
+     3.24,
+     4.34
+    ],
+    "z": [
+     -14.82,
+     -9.18
+    ]
+   },
+   {
+    "name": "Keep_Upper_Tower_Highwatch_Level2_Floor_1_13",
+    "tris": 218,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     -9.82,
+     -4.18
+    ],
+    "y": [
+     6.64,
+     7.74
+    ],
+    "z": [
+     -14.82,
+     -9.18
+    ]
+   },
+   {
+    "name": "Keep_Upper_Tower_Highwatch_Level3_Floor_1_16",
+    "tris": 306,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     -9.82,
+     -4.18
+    ],
+    "y": [
+     10.04,
+     11.14
+    ],
+    "z": [
+     -14.82,
+     -9.18
+    ]
+   },
+   {
+    "name": "Keep_Tower_Highwatch_Level1_Stair_1_34",
+    "tris": 429,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     -8.41,
+     -5.59
+    ],
+    "y": [
+     0.09,
+     4.3
+    ],
+    "z": [
+     -14.17,
+     -11.08
+    ]
+   },
+   {
+    "name": "Keep_Tower_Highwatch_Level2_Stair_1_34",
+    "tris": 450,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     -8.41,
+     -5.59
+    ],
+    "y": [
+     3.49,
+     7.7
+    ],
+    "z": [
+     -14.17,
+     -11.08
+    ]
+   },
+   {
+    "name": "Keep_Tower_Highwatch_Level3_Stair_1_34",
+    "tris": 450,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     -8.41,
+     -5.59
+    ],
+    "y": [
+     6.89,
+     11.1
+    ],
+    "z": [
+     -14.17,
+     -11.08
+    ]
+   },
+   {
+    "name": "Keep_Upper_Tower_Eastturret_Level1_Floor_1_13",
+    "tris": 214,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     7.18,
+     12.82
+    ],
+    "y": [
+     3.19,
+     4.29
+    ],
+    "z": [
+     -9.82,
+     -4.18
+    ]
+   },
+   {
+    "name": "Keep_Upper_Tower_Eastturret_Level2_Floor_1_16",
+    "tris": 289,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     7.18,
+     12.82
+    ],
+    "y": [
+     6.54,
+     7.64
+    ],
+    "z": [
+     -9.82,
+     -4.18
+    ]
+   },
+   {
+    "name": "Keep_Tower_Eastturret_Level1_Stair_1_34",
+    "tris": 429,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     9.09,
+     11.91
+    ],
+    "y": [
+     0.09,
+     4.25
+    ],
+    "z": [
+     -9.17,
+     -6.08
+    ]
+   },
+   {
+    "name": "Keep_Tower_Eastturret_Level2_Stair_1_34",
+    "tris": 450,
+    "prims": 1,
+    "mats": [
+     "Keep aged oak"
+    ],
+    "x": [
+     9.09,
+     11.91
+    ],
+    "y": [
+     3.44,
+     7.6
+    ],
+    "z": [
+     -9.17,
+     -6.08
+    ]
+   },
+   {
+    "name": "Keep_Floor_Flags",
+    "tris": 3066,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour"
+    ],
+    "x": [
+     -10,
+     7
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -9,
+     10
+    ]
+   },
+   {
+    "name": "Keep_Upper_Floor_Boards",
+    "tris": 985,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour"
+    ],
+    "x": [
+     -9.81,
+     -2.99
+    ],
+    "y": [
+     3.2,
+     3.2
+    ],
+    "z": [
+     -8.81,
+     5.81
+    ]
+   },
+   {
+    "name": "Keep_Furnishing_Dressing",
+    "tris": 1615,
+    "prims": 3,
+    "mats": [
+     "Holm flat colour",
+     "Candle flame (glow)",
+     "Lantern glow (glow)"
+    ],
+    "x": [
+     -9.87,
+     6.05
+    ],
+    "y": [
+     0,
+     1.2
+    ],
+    "z": [
+     -8.62,
+     5.97
+    ]
+   },
+   {
+    "name": "Keep_Upper_Furnishing_Dressing",
+    "tris": 170,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour",
+     "Candle flame (glow)"
+    ],
+    "x": [
+     -6.3,
+     -4.45
+    ],
+    "y": [
+     3.95,
+     4.4
+    ],
+    "z": [
+     -7.3,
+     -4.65
+    ]
+   }
+  ],
+  "tris": 13822
+ },
+ "bakehouse": {
+  "file": ".studio-workspaces/holm-kitchen-glazed-review4-v1/candidates/kitchen-character.glb",
+  "parts": [
+   {
+    "name": "Kitchen_Chimney_Stack",
+    "tris": 3030,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     -3.2,
+     -1.1
+    ],
+    "y": [
+     5.7,
+     10.8
+    ],
+    "z": [
+     -5.3,
+     -4
+    ]
+   },
+   {
+    "name": "Kitchen_Court_Dressing",
+    "tris": 515,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour - rock",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     1.19,
+     7.19
+    ],
+    "y": [
+     0,
+     2.77
+    ],
+    "z": [
+     0.11,
+     3.24
+    ]
+   },
+   {
+    "name": "Kitchen_Floor_Base",
+    "tris": 24,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour - beam",
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -5,
+     7
+    ],
+    "y": [
+     -0.3,
+     -0.02
+    ],
+    "z": [
+     -5,
+     3
+    ]
+   },
+   {
+    "name": "Kitchen_Floor_Flags",
+    "tris": 2100,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -4.84,
+     6.84
+    ],
+    "y": [
+     -0.02,
+     0
+    ],
+    "z": [
+     -4.84,
+     2.84
+    ]
+   },
+   {
+    "name": "Kitchen_Floor_Threshold",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     0.86,
+     1.23
+    ],
+    "y": [
+     0,
+     0.06
+    ],
+    "z": [
+     0.88,
+     2.12
+    ]
+   },
+   {
+    "name": "Kitchen_Furnishings_Hall",
+    "tris": 1235,
+    "prims": 4,
+    "mats": [
+     "Holm flat colour",
+     "Bakehouse lantern glow (glow)",
+     "Bakehouse candle flame (glow)",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.75,
+     0.83
+    ],
+    "y": [
+     0,
+     2.9
+    ],
+    "z": [
+     -4.15,
+     2.84
+    ]
+   },
+   {
+    "name": "Kitchen_Glazing_Windows",
+    "tris": 1104,
+    "prims": 3,
+    "mats": [
+     "Holm flat colour",
+     "Bakehouse lit window (glow)",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -5.24,
+     7.24
+    ],
+    "y": [
+     0.91,
+     2.9
+    ],
+    "z": [
+     -5.24,
+     3.24
+    ]
+   },
+   {
+    "name": "Kitchen_Glazing_WindowsLeads",
+    "tris": 176,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -3.62,
+     1.09
+    ],
+    "y": [
+     0.99,
+     2.13
+    ],
+    "z": [
+     -0.81,
+     3.09
+    ]
+   },
+   {
+    "name": "Kitchen_Hearth_Breast",
+    "tris": 3100,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     -3.9,
+     -0.5
+    ],
+    "y": [
+     0,
+     3.1
+    ],
+    "z": [
+     -4.85,
+     -4.18
+    ]
+   },
+   {
+    "name": "Kitchen_Hearth_Firebox",
+    "tris": 745,
+    "prims": 7,
+    "mats": [
+     "Fire glow pool hot (glow)",
+     "Fire glow pool (glow)",
+     "Fire glow pool dim (glow)",
+     "Fire ember (glow)",
+     "Fire ember deep (glow)",
+     "Fire ember hot (glow)",
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     -2.24,
+     -0.76
+    ],
+    "y": [
+     0,
+     1.33
+    ],
+    "z": [
+     -4.8,
+     -3.95
+    ]
+   },
+   {
+    "name": "Kitchen_HearthFlame0",
+    "tris": 266,
+    "prims": 2,
+    "mats": [
+     "Fire orange (glow)",
+     "Fire red (glow)"
+    ],
+    "x": [
+     -1.66,
+     -1.33
+    ],
+    "y": [
+     0.15,
+     0.4
+    ],
+    "z": [
+     -4.62,
+     -4.38
+    ]
+   },
+   {
+    "name": "Kitchen_HearthFlame1",
+    "tris": 190,
+    "prims": 2,
+    "mats": [
+     "Fire yellow (glow)",
+     "Fire orange (glow)"
+    ],
+    "x": [
+     -1.59,
+     -1.4
+    ],
+    "y": [
+     0.15,
+     0.41
+    ],
+    "z": [
+     -4.6,
+     -4.42
+    ]
+   },
+   {
+    "name": "Kitchen_HearthFlame2",
+    "tris": 152,
+    "prims": 2,
+    "mats": [
+     "Fire white heart (glow)",
+     "Fire yellow (glow)"
+    ],
+    "x": [
+     -1.56,
+     -1.45
+    ],
+    "y": [
+     0.16,
+     0.51
+    ],
+    "z": [
+     -4.55,
+     -4.46
+    ]
+   },
+   {
+    "name": "Kitchen_Oven_Body",
+    "tris": 880,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour - rock",
+     "Holm flat colour - plaster"
+    ],
+    "x": [
+     -4.85,
+     -2.51
+    ],
+    "y": [
+     0,
+     1.81
+    ],
+    "z": [
+     -4.85,
+     -2.5
+    ]
+   },
+   {
+    "name": "Kitchen_OvenFire",
+    "tris": 327,
+    "prims": 8,
+    "mats": [
+     "Fire glow pool hot (glow)",
+     "Fire glow pool (glow)",
+     "Fire glow pool dim (glow)",
+     "Fire ember (glow)",
+     "Fire ember deep (glow)",
+     "Fire ember hot (glow)",
+     "Holm flat colour - rock",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -3.89,
+     -3.37
+    ],
+    "y": [
+     0.62,
+     0.7
+    ],
+    "z": [
+     -4.01,
+     -3.76
+    ]
+   },
+   {
+    "name": "Kitchen_OvenFlame0",
+    "tris": 228,
+    "prims": 2,
+    "mats": [
+     "Fire orange (glow)",
+     "Fire red (glow)"
+    ],
+    "x": [
+     -3.86,
+     -3.42
+    ],
+    "y": [
+     0.63,
+     0.8
+    ],
+    "z": [
+     -4.01,
+     -3.68
+    ]
+   },
+   {
+    "name": "Kitchen_OvenFlame1",
+    "tris": 190,
+    "prims": 2,
+    "mats": [
+     "Fire yellow (glow)",
+     "Fire orange (glow)"
+    ],
+    "x": [
+     -3.79,
+     -3.45
+    ],
+    "y": [
+     0.63,
+     0.81
+    ],
+    "z": [
+     -3.99,
+     -3.75
+    ]
+   },
+   {
+    "name": "Kitchen_OvenFlame2",
+    "tris": 152,
+    "prims": 2,
+    "mats": [
+     "Fire white heart (glow)",
+     "Fire yellow (glow)"
+    ],
+    "x": [
+     -3.72,
+     -3.59
+    ],
+    "y": [
+     0.64,
+     0.9
+    ],
+    "z": [
+     -3.92,
+     -3.81
+    ]
+   },
+   {
+    "name": "Kitchen_Pantry_FlourBin",
+    "tris": 202,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour - beam",
+     "Holm flat colour - plaster"
+    ],
+    "x": [
+     3.93,
+     5.07
+    ],
+    "y": [
+     0,
+     1.58
+    ],
+    "z": [
+     -4.89,
+     -4.13
+    ]
+   },
+   {
+    "name": "Kitchen_RecipeBoard_Board",
+    "tris": 236,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour - beam",
+     "Holm flat colour - plaster"
+    ],
+    "x": [
+     0.79,
+     0.85
+    ],
+    "y": [
+     1.3,
+     2
+    ],
+    "z": [
+     -1.62,
+     -1
+    ]
+   },
+   {
+    "name": "Kitchen_Roof_Gables",
+    "tris": 146,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour - plaster",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -5.13,
+     1.13
+    ],
+    "y": [
+     5.28,
+     8.77
+    ],
+    "z": [
+     -5.24,
+     3.52
+    ]
+   },
+   {
+    "name": "Kitchen_Roof_StoreGable",
+    "tris": 61,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     7.14,
+     7.19
+    ],
+    "y": [
+     2.7,
+     4.2
+    ],
+    "z": [
+     -5.15,
+     0.15
+    ]
+   },
+   {
+    "name": "Kitchen_Roof_Thatch",
+    "tris": 4368,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -5.45,
+     7.43
+    ],
+    "y": [
+     2.43,
+     9.21
+    ],
+    "z": [
+     -5.54,
+     3.81
+    ]
+   },
+   {
+    "name": "Kitchen_Shell_DoorFrame",
+    "tris": 95,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     0.95,
+     1.27
+    ],
+    "y": [
+     0,
+     2.58
+    ],
+    "z": [
+     0.7,
+     2.3
+    ]
+   },
+   {
+    "name": "Kitchen_Shell_Facing",
+    "tris": 6210,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     -5.2,
+     7.2
+    ],
+    "y": [
+     -0.24,
+     3.09
+    ],
+    "z": [
+     -5.2,
+     3.2
+    ]
+   },
+   {
+    "name": "Kitchen_Shell_Lining",
+    "tris": 1127,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - plaster"
+    ],
+    "x": [
+     -4.86,
+     6.86
+    ],
+    "y": [
+     0,
+     3.15
+    ],
+    "z": [
+     -4.88,
+     2.88
+    ]
+   },
+   {
+    "name": "Kitchen_Shell_Quoins",
+    "tris": 1344,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour - plaster",
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     -5.21,
+     7.21
+    ],
+    "y": [
+     -0.24,
+     3.09
+    ],
+    "z": [
+     -5.21,
+     3.21
+    ]
+   },
+   {
+    "name": "Kitchen_Shell_Reveals",
+    "tris": 24,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - plaster"
+    ],
+    "x": [
+     0.85,
+     1
+    ],
+    "y": [
+     0,
+     2.6
+    ],
+    "z": [
+     0.84,
+     2.16
+    ]
+   },
+   {
+    "name": "Kitchen_Shell_StoreDoor",
+    "tris": 96,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     0.8,
+     0.86
+    ],
+    "y": [
+     0,
+     2.36
+    ],
+    "z": [
+     -3.09,
+     -1.91
+    ]
+   },
+   {
+    "name": "Kitchen_Shell_Walls",
+    "tris": 1270,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     -5.16,
+     7.15
+    ],
+    "y": [
+     -0.3,
+     3.12
+    ],
+    "z": [
+     -5.16,
+     3.17
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Stringers",
+    "tris": 96,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.87,
+     -3.88
+    ],
+    "y": [
+     -0.04,
+     4.27
+    ],
+    "z": [
+     -1.12,
+     2.48
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread00",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     0.15,
+     0.21
+    ],
+    "z": [
+     2.12,
+     2.35
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread01",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     0.35,
+     0.41
+    ],
+    "z": [
+     1.9,
+     2.13
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread02",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     0.56,
+     0.62
+    ],
+    "z": [
+     1.68,
+     1.92
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread03",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     0.76,
+     0.82
+    ],
+    "z": [
+     1.47,
+     1.71
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread04",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     0.97,
+     1.03
+    ],
+    "z": [
+     1.25,
+     1.49
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread05",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     1.18,
+     1.24
+    ],
+    "z": [
+     1.04,
+     1.27
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread06",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     1.38,
+     1.44
+    ],
+    "z": [
+     0.82,
+     1.06
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread07",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     1.59,
+     1.65
+    ],
+    "z": [
+     0.61,
+     0.85
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread08",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     1.8,
+     1.86
+    ],
+    "z": [
+     0.4,
+     0.63
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread09",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     2,
+     2.06
+    ],
+    "z": [
+     0.18,
+     0.41
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread10",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     2.21,
+     2.27
+    ],
+    "z": [
+     -0.04,
+     0.2
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread11",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     2.41,
+     2.47
+    ],
+    "z": [
+     -0.25,
+     -0.01
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread12",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     2.62,
+     2.68
+    ],
+    "z": [
+     -0.47,
+     -0.23
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread13",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     2.83,
+     2.89
+    ],
+    "z": [
+     -0.68,
+     -0.44
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread14",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     3.03,
+     3.09
+    ],
+    "z": [
+     -0.89,
+     -0.66
+    ]
+   },
+   {
+    "name": "Kitchen_Stair_Tread15",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.83,
+     -3.95
+    ],
+    "y": [
+     3.24,
+     3.3
+    ],
+    "z": [
+     -1.09,
+     -0.88
+    ]
+   },
+   {
+    "name": "Kitchen_Store_Beams",
+    "tris": 36,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     2.42,
+     5.58
+    ],
+    "y": [
+     2.5,
+     2.72
+    ],
+    "z": [
+     -5,
+     0
+    ]
+   },
+   {
+    "name": "Kitchen_Store_Shelves",
+    "tris": 2603,
+    "prims": 2,
+    "mats": [
+     "Bakehouse lantern glow (glow)",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     1.3,
+     6.83
+    ],
+    "y": [
+     0,
+     2.65
+    ],
+    "z": [
+     -4.8,
+     -0.25
+    ]
+   },
+   {
+    "name": "Kitchen_SupplyBuckets_Rack",
+    "tris": 334,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -2.25,
+     -1.25
+    ],
+    "y": [
+     0,
+     1.22
+    ],
+    "z": [
+     2.42,
+     2.84
+    ]
+   },
+   {
+    "name": "Kitchen_SupplyDoughBowl_Trough",
+    "tris": 134,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -1.63,
+     -1
+    ],
+    "y": [
+     0.82,
+     1.03
+    ],
+    "z": [
+     -0.82,
+     -0.28
+    ]
+   },
+   {
+    "name": "Kitchen_SupplyWaterButt",
+    "tris": 204,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     0.08,
+     0.82
+    ],
+    "y": [
+     0,
+     0.87
+    ],
+    "z": [
+     2.07,
+     2.71
+    ]
+   },
+   {
+    "name": "Kitchen_SupplyWaterSurface",
+    "tris": 28,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour"
+    ],
+    "x": [
+     0.18,
+     0.66
+    ],
+    "y": [
+     0.74,
+     0.74
+    ],
+    "z": [
+     2.19,
+     2.65
+    ]
+   },
+   {
+    "name": "Kitchen_Tools_Oven",
+    "tris": 56,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -2.53,
+     -2.05
+    ],
+    "y": [
+     0,
+     1.9
+    ],
+    "z": [
+     -2.98,
+     -2.6
+    ]
+   },
+   {
+    "name": "Kitchen_UpperFloor_Boards",
+    "tris": 110,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour - beam",
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -4.85,
+     0.85
+    ],
+    "y": [
+     3.1,
+     3.3
+    ],
+    "z": [
+     -4.85,
+     -1.09
+    ]
+   },
+   {
+    "name": "Kitchen_UpperFloor_Joists",
+    "tris": 126,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.85,
+     0.91
+    ],
+    "y": [
+     2.84,
+     3.1
+    ],
+    "z": [
+     -4.85,
+     -1.09
+    ]
+   },
+   {
+    "name": "Kitchen_UpperFurnishing_Loft",
+    "tris": 589,
+    "prims": 3,
+    "mats": [
+     "Holm flat colour",
+     "Bakehouse candle flame (glow)",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.67,
+     0.8
+    ],
+    "y": [
+     3.3,
+     4.2
+    ],
+    "z": [
+     -4.8,
+     -2.36
+    ]
+   },
+   {
+    "name": "Kitchen_UpperFurnishing_Rail",
+    "tris": 184,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -3.9,
+     0.85
+    ],
+    "y": [
+     3.3,
+     4.27
+    ],
+    "z": [
+     -1.2,
+     -1.1
+    ]
+   },
+   {
+    "name": "Kitchen_UpperHearth_Breast",
+    "tris": 1990,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - rock"
+    ],
+    "x": [
+     -3.3,
+     -1
+    ],
+    "y": [
+     3.1,
+     5.71
+    ],
+    "z": [
+     -4.85,
+     -4.08
+    ]
+   },
+   {
+    "name": "Kitchen_UpperShell_Frame",
+    "tris": 1588,
+    "prims": 2,
+    "mats": [
+     "Holm flat colour - plaster",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -5.18,
+     1.18
+    ],
+    "y": [
+     2.84,
+     5.3
+    ],
+    "z": [
+     -5.18,
+     3.46
+    ]
+   },
+   {
+    "name": "Kitchen_UpperShell_Glazing",
+    "tris": 428,
+    "prims": 3,
+    "mats": [
+     "Bakehouse lit window (glow)",
+     "Holm flat colour - beam",
+     "Holm flat colour - plaster"
+    ],
+    "x": [
+     -5.2,
+     1.2
+    ],
+    "y": [
+     3.56,
+     4.68
+    ],
+    "z": [
+     -3.28,
+     3.48
+    ]
+   },
+   {
+    "name": "Kitchen_UpperShell_GlazingLeads",
+    "tris": 252,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -5.05,
+     1.05
+    ],
+    "y": [
+     3.63,
+     4.68
+    ],
+    "z": [
+     -3.22,
+     3.33
+    ]
+   },
+   {
+    "name": "Kitchen_Worktable_Kneading",
+    "tris": 327,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -2.9,
+     -0.9
+    ],
+    "y": [
+     0,
+     0.93
+    ],
+    "z": [
+     -0.95,
+     -0.15
+    ]
+   }
+  ],
+  "tris": 38882
+ },
+ "lodge": {
+  "file": ".studio-workspaces/holm-quest-lodge-review4-v2/candidates/lodge.glb",
+  "parts": [
+   {
+    "name": "Lodge_GroundFloor_Warm_oak",
+    "tris": 27,
+    "prims": 1,
+    "mats": [
+     "Warm oak"
+    ],
+    "x": [
+     -5,
+     6.35
+    ],
+    "y": [
+     -0.18,
+     -0.01
+    ],
+    "z": [
+     -4,
+     4
+    ]
+   },
+   {
+    "name": "Lodge_GroundShell_Light_gray_limestone",
+    "tris": 921,
+    "prims": 1,
+    "mats": [
+     "Light gray limestone"
+    ],
+    "x": [
+     -5.13,
+     6.79
+    ],
+    "y": [
+     0,
+     3.34
+    ],
+    "z": [
+     -4.13,
+     4.12
+    ]
+   },
+   {
+    "name": "Lodge_Glazing_Muted_old_glass",
+    "tris": 140,
+    "prims": 1,
+    "mats": [
+     "Muted old glass"
+    ],
+    "x": [
+     -5.26,
+     6.35
+    ],
+    "y": [
+     1,
+     5.8
+    ],
+    "z": [
+     -4.21,
+     4.21
+    ]
+   },
+   {
+    "name": "Lodge_GroundShell_Warm_oak",
+    "tris": 3064,
+    "prims": 1,
+    "mats": [
+     "Warm oak"
+    ],
+    "x": [
+     -5.3,
+     6.41
+    ],
+    "y": [
+     0,
+     3.37
+    ],
+    "z": [
+     -4.25,
+     4.26
+    ]
+   },
+   {
+    "name": "Lodge_Roof_Muted_wheat_thatch",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Muted wheat thatch"
+    ],
+    "x": [
+     -0.25,
+     6.55
+    ],
+    "y": [
+     3.3,
+     5.12
+    ],
+    "z": [
+     -4.35,
+     2.35
+    ]
+   },
+   {
+    "name": "Lodge_Roof_Warm_oak",
+    "tris": 180,
+    "prims": 1,
+    "mats": [
+     "Warm oak"
+    ],
+    "x": [
+     -5.68,
+     6.63
+    ],
+    "y": [
+     3.22,
+     8.43
+    ],
+    "z": [
+     -4.63,
+     4.63
+    ]
+   },
+   {
+    "name": "Lodge_UpperFloor_Warm_oak",
+    "tris": 48,
+    "prims": 1,
+    "mats": [
+     "Warm oak"
+    ],
+    "x": [
+     -5.25,
+     -0.5
+    ],
+    "y": [
+     3.12,
+     3.29
+    ],
+    "z": [
+     -4.2,
+     4.2
+    ]
+   },
+   {
+    "name": "Lodge_UpperShell_Oat_plaster",
+    "tris": 228,
+    "prims": 1,
+    "mats": [
+     "Oat plaster"
+    ],
+    "x": [
+     -5.37,
+     -0.38
+    ],
+    "y": [
+     3.3,
+     6.53
+    ],
+    "z": [
+     -4.32,
+     4.32
+    ]
+   },
+   {
+    "name": "Lodge_UpperShell_Warm_oak",
+    "tris": 1309,
+    "prims": 1,
+    "mats": [
+     "Warm oak"
+    ],
+    "x": [
+     -5.52,
+     -0.25
+    ],
+    "y": [
+     3.3,
+     6.59
+    ],
+    "z": [
+     -4.47,
+     4.46
+    ]
+   },
+   {
+    "name": "Lodge_Stair_Warm_oak",
+    "tris": 375,
+    "prims": 1,
+    "mats": [
+     "Lodge stair oak"
+    ],
+    "x": [
+     -2.56,
+     -0.74
+    ],
+    "y": [
+     0.01,
+     4.34
+    ],
+    "z": [
+     -2.81,
+     1.73
+    ]
+   },
+   {
+    "name": "Lodge_UpperFurnishing_Warm_oak",
+    "tris": 24,
+    "prims": 1,
+    "mats": [
+     "Lodge furniture oak"
+    ],
+    "x": [
+     -2.75,
+     -0.55
+    ],
+    "y": [
+     4.2,
+     4.3
+    ],
+    "z": [
+     -2.78,
+     1.9
+    ]
+   },
+   {
+    "name": "Lodge_Roof_Blue_gray_slate",
+    "tris": 6,
+    "prims": 1,
+    "mats": [
+     "Blue gray slate"
+    ],
+    "x": [
+     -5.6,
+     -0.2
+    ],
+    "y": [
+     6.58,
+     8.35
+    ],
+    "z": [
+     -4.55,
+     4.55
+    ]
+   },
+   {
+    "name": "Lodge_Chimney_Light_gray_limestone",
+    "tris": 24,
+    "prims": 1,
+    "mats": [
+     "Light gray limestone"
+    ],
+    "x": [
+     4.23,
+     5.08
+    ],
+    "y": [
+     1.84,
+     6.02
+    ],
+    "z": [
+     0.44,
+     1.46
+    ]
+   },
+   {
+    "name": "Lodge_Door_Dark_iron",
+    "tris": 36,
+    "prims": 1,
+    "mats": [
+     "Dark iron"
+    ],
+    "x": [
+     -0.2,
+     1.2
+    ],
+    "y": [
+     0.02,
+     2.52
+    ],
+    "z": [
+     2.05,
+     2.1
+    ]
+   },
+   {
+    "name": "Lodge_Door_Warm_oak",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Warm oak"
+    ],
+    "x": [
+     -0.35,
+     1.35
+    ],
+    "y": [
+     0,
+     2.54
+    ],
+    "z": [
+     1.95,
+     2.05
+    ]
+   },
+   {
+    "name": "Lodge_GroundFloor_Boards",
+    "tris": 817,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -5,
+     6.35
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -4,
+     4
+    ]
+   },
+   {
+    "name": "Lodge_UpperFloor_Boards",
+    "tris": 415,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour - planks"
+    ],
+    "x": [
+     -5.25,
+     -0.5
+    ],
+    "y": [
+     3.3,
+     3.3
+    ],
+    "z": [
+     -4.2,
+     4.2
+    ]
+   },
+   {
+    "name": "Lodge_FurnishingDressing",
+    "tris": 1326,
+    "prims": 4,
+    "mats": [
+     "Holm flat colour",
+     "Candle flame (glow)",
+     "Lantern glow (glow)",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -4.1,
+     5.76
+    ],
+    "y": [
+     0,
+     1.61
+    ],
+    "z": [
+     -2.94,
+     3.66
+    ]
+   },
+   {
+    "name": "Lodge_UpperFurnishingDressing",
+    "tris": 184,
+    "prims": 3,
+    "mats": [
+     "Holm flat colour",
+     "Candle flame (glow)",
+     "Holm flat colour - beam"
+    ],
+    "x": [
+     -5.14,
+     -4.39
+    ],
+    "y": [
+     3.3,
+     4.55
+    ],
+    "z": [
+     -4.04,
+     -1.93
+    ]
+   },
+   {
+    "name": "Lodge_FurnishingHearthFire",
+    "tris": 513,
+    "prims": 7,
+    "mats": [
+     "Holm flat colour.001",
+     "Fire glow pool hot (glow)",
+     "Fire glow pool (glow)",
+     "Fire glow pool dim (glow)",
+     "Fire ember (glow).001",
+     "Fire ember deep (glow)",
+     "Fire ember hot (glow)"
+    ],
+    "x": [
+     4.31,
+     4.57
+    ],
+    "y": [
+     0.19,
+     0.38
+    ],
+    "z": [
+     0.63,
+     1.27
+    ]
+   },
+   {
+    "name": "Lodge_HearthFlame0",
+    "tris": 266,
+    "prims": 2,
+    "mats": [
+     "Fire orange (glow)",
+     "Fire red (glow)"
+    ],
+    "x": [
+     4.28,
+     4.63
+    ],
+    "y": [
+     0.21,
+     0.62
+    ],
+    "z": [
+     0.67,
+     1.23
+    ]
+   },
+   {
+    "name": "Lodge_HearthFlame1",
+    "tris": 190,
+    "prims": 2,
+    "mats": [
+     "Fire yellow (glow)",
+     "Fire orange (glow)"
+    ],
+    "x": [
+     4.32,
+     4.57
+    ],
+    "y": [
+     0.22,
+     0.61
+    ],
+    "z": [
+     0.8,
+     1.14
+    ]
+   },
+   {
+    "name": "Lodge_HearthFlame2",
+    "tris": 152,
+    "prims": 2,
+    "mats": [
+     "Fire white heart (glow)",
+     "Fire yellow (glow)"
+    ],
+    "x": [
+     4.36,
+     4.54
+    ],
+    "y": [
+     0.23,
+     0.68
+    ],
+    "z": [
+     0.86,
+     1.04
+    ]
+   },
+   {
+    "name": "Lodge_FurnishingBoard_Stand",
+    "tris": 334,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.002"
+    ],
+    "x": [
+     -1.31,
+     0.41
+    ],
+    "y": [
+     0,
+     2.19
+    ],
+    "z": [
+     -3.96,
+     -3.38
+    ]
+   },
+   {
+    "name": "Lodge_FurnishingBoard_Notices",
+    "tris": 282,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.002"
+    ],
+    "x": [
+     -1.03,
+     0.09
+    ],
+    "y": [
+     0.87,
+     1.69
+    ],
+    "z": [
+     -3.7,
+     -3.68
+    ]
+   },
+   {
+    "name": "Lodge_FurnishingBoard_Quill",
+    "tris": 4,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.002"
+    ],
+    "x": [
+     -1.05,
+     -0.97
+    ],
+    "y": [
+     1.06,
+     1.36
+    ],
+    "z": [
+     -3.65,
+     -3.62
+    ]
+   },
+   {
+    "name": "Lodge_FurnishingMap_Chart",
+    "tris": 799,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.002"
+    ],
+    "x": [
+     0.81,
+     3.24
+    ],
+    "y": [
+     1.01,
+     1.36
+    ],
+    "z": [
+     -1.02,
+     0.02
+    ]
+   },
+   {
+    "name": "Lodge_Glazing_Leads",
+    "tris": 2816,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -5.27,
+     6.36
+    ],
+    "y": [
+     0.99,
+     5.81
+    ],
+    "z": [
+     -4.22,
+     4.22
+    ]
+   },
+   {
+    "name": "Lodge_FurnishingMap_Table",
+    "tris": 728,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.003"
+    ],
+    "x": [
+     0.7,
+     3.3
+    ],
+    "y": [
+     0,
+     1.01
+    ],
+    "z": [
+     -1.2,
+     0.2
+    ]
+   },
+   {
+    "name": "Lodge_FurnishingHearth_Stone",
+    "tris": 892,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.003"
+    ],
+    "x": [
+     3.95,
+     5.03
+    ],
+    "y": [
+     0,
+     1.99
+    ],
+    "z": [
+     0.16,
+     1.74
+    ]
+   },
+   {
+    "name": "Lodge_FurnishingShelf_Case",
+    "tris": 1016,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.003"
+    ],
+    "x": [
+     1.3,
+     3.7
+    ],
+    "y": [
+     0,
+     2.78
+    ],
+    "z": [
+     -3.93,
+     -3.34
+    ]
+   },
+   {
+    "name": "Lodge_FurnishingBay_Desk",
+    "tris": 656,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.003"
+    ],
+    "x": [
+     5.09,
+     5.81
+    ],
+    "y": [
+     0,
+     1.13
+    ],
+    "z": [
+     -2.08,
+     -0.93
+    ]
+   },
+   {
+    "name": "Lodge_UpperFurnishing_Bed",
+    "tris": 796,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.003"
+    ],
+    "x": [
+     -5.05,
+     -4.15
+    ],
+    "y": [
+     3.3,
+     4.44
+    ],
+    "z": [
+     0.95,
+     3.25
+    ]
+   },
+   {
+    "name": "Lodge_UpperFurnishing_Desk",
+    "tris": 580,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.003"
+    ],
+    "x": [
+     -5.03,
+     -4.27
+    ],
+    "y": [
+     3.3,
+     4.34
+    ],
+    "z": [
+     -3.45,
+     -1.85
+    ]
+   },
+   {
+    "name": "Lodge_UpperFurnishing_Stool",
+    "tris": 96,
+    "prims": 1,
+    "mats": [
+     "Holm flat colour.003"
+    ],
+    "x": [
+     -4.86,
+     -4.44
+    ],
+    "y": [
+     3.3,
+     3.79
+    ],
+    "z": [
+     -1.41,
+     -0.99
+    ]
+   }
+  ],
+  "tris": 19268
+ },
+ "cavern": {
+  "file": ".studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.glb",
+  "parts": [
+   {
+    "name": "Cavern_Floor",
+    "tris": 1086,
+    "prims": 3,
+    "mats": [
+     "Cavern trodden floor",
+     "Cavern floor gravel",
+     "Cavern rock shadow"
+    ],
+    "x": [
+     -8.41,
+     29.47
+    ],
+    "y": [
+     0,
+     0
+    ],
+    "z": [
+     -6.44,
+     6.45
+    ]
+   },
+   {
+    "name": "Cavern_Furnishing",
+    "tris": 2708,
+    "prims": 10,
+    "mats": [
+     "Cavern crate wood",
+     "Cavern dark timber",
+     "Cavern hemp rope",
+     "Cavern iron",
+     "Cavern coal",
+     "Cavern copper ore",
+     "Cavern tin ore",
+     "Cavern rock",
+     "Cavern rock shadow",
+     "Cavern quench water"
+    ],
+    "x": [
+     -7.96,
+     27.52
+    ],
+    "y": [
+     -0.01,
+     2.1
+    ],
+    "z": [
+     -5.98,
+     5.92
+    ]
+   },
+   {
+    "name": "Cavern_FurnishingCart",
+    "tris": 220,
+    "prims": 5,
+    "mats": [
+     "Cavern crate wood",
+     "Cavern iron",
+     "Cavern copper ore",
+     "Cavern rock shadow",
+     "Cavern tin ore"
+    ],
+    "x": [
+     -3.63,
+     -2.1
+    ],
+    "y": [
+     0.12,
+     1.07
+    ],
+    "z": [
+     2.44,
+     3.56
+    ]
+   },
+   {
+    "name": "Cavern_Rail",
+    "tris": 132,
+    "prims": 3,
+    "mats": [
+     "Cavern dark timber",
+     "Cavern iron",
+     "Cavern pit prop"
+    ],
+    "x": [
+     -4.08,
+     -2.08
+    ],
+    "y": [
+     -0.02,
+     0.62
+    ],
+    "z": [
+     2.4,
+     3.6
+    ]
+   },
+   {
+    "name": "Cavern_RoofBoulders",
+    "tris": 236,
+    "prims": 3,
+    "mats": [
+     "Cavern rock",
+     "Cavern rock shadow",
+     "Cavern rock strata"
+    ],
+    "x": [
+     -6.58,
+     7.73
+    ],
+    "y": [
+     3.99,
+     5.55
+    ],
+    "z": [
+     -5.46,
+     5.54
+    ]
+   },
+   {
+    "name": "Cavern_RoofCeiling",
+    "tris": 646,
+    "prims": 3,
+    "mats": [
+     "Cavern rock shadow",
+     "Cavern rock",
+     "Cavern rock strata"
+    ],
+    "x": [
+     -8.29,
+     29.33
+    ],
+    "y": [
+     3.34,
+     5.09
+    ],
+    "z": [
+     -6.32,
+     6.22
+    ]
+   },
+   {
+    "name": "Cavern_RoofShaftHead",
+    "tris": 124,
+    "prims": 3,
+    "mats": [
+     "Cavern pit prop",
+     "Cavern dark timber",
+     "Cavern crate wood"
+    ],
+    "x": [
+     -8.25,
+     -6.9
+    ],
+    "y": [
+     4.4,
+     6.33
+    ],
+    "z": [
+     -0.31,
+     1.31
+    ]
+   },
+   {
+    "name": "Cavern_Rubble",
+    "tris": 278,
+    "prims": 3,
+    "mats": [
+     "Cavern rock",
+     "Cavern rock shadow",
+     "Cavern rock strata"
+    ],
+    "x": [
+     -8.48,
+     8.12
+    ],
+    "y": [
+     0,
+     0.43
+    ],
+    "z": [
+     -6.07,
+     6.06
+    ]
+   },
+   {
+    "name": "Cavern_ServiceAnvil_Anvil",
+    "tris": 182,
+    "prims": 3,
+    "mats": [
+     "Cavern pit prop",
+     "Cavern iron",
+     "Cavern crate wood"
+    ],
+    "x": [
+     3.15,
+     4
+    ],
+    "y": [
+     -0.01,
+     0.93
+    ],
+    "z": [
+     4.26,
+     4.94
+    ]
+   },
+   {
+    "name": "Cavern_ServiceFurnace_Furnace",
+    "tris": 442,
+    "prims": 5,
+    "mats": [
+     "Cavern dressed stone",
+     "Cavern furnace stone",
+     "Cavern furnace glow",
+     "Cavern coal",
+     "Cavern iron"
+    ],
+    "x": [
+     4.6,
+     6.47
+    ],
+    "y": [
+     0,
+     4.53
+    ],
+    "z": [
+     4.75,
+     6.55
+    ]
+   },
+   {
+    "name": "Cavern_ServiceLadderExit_Ladder",
+    "tris": 440,
+    "prims": 5,
+    "mats": [
+     "Cavern crate wood",
+     "Cavern iron",
+     "Cavern dark timber",
+     "Cavern shaft dark",
+     "Cavern hemp rope"
+    ],
+    "x": [
+     28.15,
+     29.1
+    ],
+    "y": [
+     0,
+     4.95
+    ],
+    "z": [
+     -0.05,
+     1.05
+    ]
+   },
+   {
+    "name": "Cavern_ServiceLadderUp_Ladder",
+    "tris": 512,
+    "prims": 6,
+    "mats": [
+     "Cavern crate wood",
+     "Cavern iron",
+     "Cavern dark timber",
+     "Cavern pit prop",
+     "Cavern shaft dark",
+     "Cavern hemp rope"
+    ],
+    "x": [
+     -8.27,
+     -6.88
+    ],
+    "y": [
+     0,
+     4.95
+    ],
+    "z": [
+     -0.17,
+     1.17
+    ]
+   },
+   {
+    "name": "Cavern_ShellPillar",
+    "tris": 76,
+    "prims": 3,
+    "mats": [
+     "Cavern rock",
+     "Cavern rock shadow",
+     "Cavern rock strata"
+    ],
+    "x": [
+     2.71,
+     4.22
+    ],
+    "y": [
+     -0.1,
+     4.81
+    ],
+    "z": [
+     -3.17,
+     -1.79
+    ]
+   },
+   {
+    "name": "Cavern_ShellRock",
+    "tris": 4224,
+    "prims": 5,
+    "mats": [
+     "Cavern rock",
+     "Cavern rock shadow",
+     "Cavern rock strata",
+     "Cavern copper ore",
+     "Cavern tin ore"
+    ],
+    "x": [
+     -8.69,
+     29.56
+    ],
+    "y": [
+     -0.35,
+     4.65
+    ],
+    "z": [
+     -6.76,
+     6.73
+    ]
+   },
+   {
+    "name": "Cavern_ShellRockTop",
+    "tris": 3146,
+    "prims": 3,
+    "mats": [
+     "Cavern rock",
+     "Cavern rock strata",
+     "Cavern rock shadow"
+    ],
+    "x": [
+     -9.28,
+     31.31
+    ],
+    "y": [
+     3.34,
+     4.9
+    ],
+    "z": [
+     -7.36,
+     7.38
+    ]
+   },
+   {
+    "name": "Cavern_ShellSkin",
+    "tris": 2208,
+    "prims": 3,
+    "mats": [
+     "Cavern rock",
+     "Cavern rock shadow",
+     "Cavern rock strata"
+    ],
+    "x": [
+     -10.01,
+     32
+    ],
+    "y": [
+     -0.8,
+     4.9
+    ],
+    "z": [
+     -8.02,
+     8.04
+    ]
+   },
+   {
+    "name": "Cavern_ShellVein",
+    "tris": 144,
+    "prims": 4,
+    "mats": [
+     "Cavern rock shadow",
+     "Cavern copper ore",
+     "Cavern rock",
+     "Cavern tin ore"
+    ],
+    "x": [
+     0.33,
+     8.69
+    ],
+    "y": [
+     0.56,
+     1.99
+    ],
+    "z": [
+     -6.64,
+     -2.31
+    ]
+   },
+   {
+    "name": "Cavern_Timber",
+    "tris": 1692,
+    "prims": 2,
+    "mats": [
+     "Cavern pit prop",
+     "Cavern dark timber"
+    ],
+    "x": [
+     -6.11,
+     23.26
+    ],
+    "y": [
+     -0.05,
+     3.49
+    ],
+    "z": [
+     -6.06,
+     6
+    ]
+   },
+   {
+    "name": "Cavern_Torch",
+    "tris": 2100,
+    "prims": 3,
+    "mats": [
+     "Cavern iron",
+     "Cavern dark timber",
+     "Cavern hemp rope"
+    ],
+    "x": [
+     -8.47,
+     27.78
+    ],
+    "y": [
+     1.7,
+     2.22
+    ],
+    "z": [
+     -6.54,
+     6.54
+    ]
+   },
+   {
+    "name": "Cavern_TorchFlame",
+    "tris": 300,
+    "prims": 1,
+    "mats": [
+     "Cavern torch flame"
+    ],
+    "x": [
+     -8.09,
+     27.75
+    ],
+    "y": [
+     2.2,
+     2.47
+    ],
+    "z": [
+     -6.14,
+     6.14
+    ]
+   }
+  ],
+  "tris": 20896
+ },
+ "mill": {
+  "file": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.glb",
+  "parts": [
+   {
+    "name": "Mill_Dressing",
+    "tris": 194,
+    "prims": 3,
+    "mats": [
+     "Millstone grit stone",
+     "Flour sackcloth",
+     "Sack twine"
+    ],
+    "x": [
+     0.25,
+     4.02
+    ],
+    "y": [
+     0,
+     1.53
+    ],
+    "z": [
+     -4.77,
+     4.5
+    ]
+   },
+   {
+    "name": "Mill_FloorBase",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Mill fieldstone dark"
+    ],
+    "x": [
+     -2.6,
+     3.6
+    ],
+    "y": [
+     -0.6,
+     0.01
+    ],
+    "z": [
+     -3.6,
+     3.6
+    ]
+   },
+   {
+    "name": "Mill_FloorFlags",
+    "tris": 1082,
+    "prims": 3,
+    "mats": [
+     "Mill floor flag",
+     "Mill fieldstone light",
+     "Dressed sandstone quoin"
+    ],
+    "x": [
+     -3,
+     4
+    ],
+    "y": [
+     -0.35,
+     0.05
+    ],
+    "z": [
+     -5,
+     3.59
+    ]
+   },
+   {
+    "name": "Mill_FoamBits",
+    "tris": 28,
+    "prims": 1,
+    "mats": [
+     "Weir foam"
+    ],
+    "x": [
+     -6.54,
+     -3.36
+    ],
+    "y": [
+     -0.61,
+     -0.07
+    ],
+    "z": [
+     -3.87,
+     -3.3
+    ]
+   },
+   {
+    "name": "Mill_FrameGround",
+    "tris": 225,
+    "prims": 7,
+    "mats": [
+     "Aged oak",
+     "Mill frame oak",
+     "Window recess shadow",
+     "Dressed sandstone quoin",
+     "Shutter oak planks",
+     "Wheel iron strap",
+     "Lantern glass"
+    ],
+    "x": [
+     -1.2,
+     4.09
+    ],
+    "y": [
+     0,
+     2.48
+    ],
+    "z": [
+     -4.37,
+     4.1
+    ]
+   },
+   {
+    "name": "Mill_FurnishingStones",
+    "tris": 224,
+    "prims": 6,
+    "mats": [
+     "Aged oak",
+     "Millstone grit stone",
+     "Wheel iron strap",
+     "Mill frame oak",
+     "Mill floorboard planks",
+     "Grain"
+    ],
+    "x": [
+     -0.81,
+     1.21
+    ],
+    "y": [
+     0,
+     2.05
+    ],
+    "z": [
+     -0.6,
+     1.4
+    ]
+   },
+   {
+    "name": "Mill_FurnishingStore",
+    "tris": 425,
+    "prims": 6,
+    "mats": [
+     "Mill floorboard planks",
+     "Shutter oak planks",
+     "Grain",
+     "Flour sackcloth",
+     "Sack twine",
+     "Aged oak"
+    ],
+    "x": [
+     -2.5,
+     3.6
+    ],
+    "y": [
+     0,
+     1.18
+    ],
+    "z": [
+     -3.55,
+     3.26
+    ]
+   },
+   {
+    "name": "Mill_GlazingRecess",
+    "tris": 96,
+    "prims": 1,
+    "mats": [
+     "Leaded glass pane"
+    ],
+    "x": [
+     -3.69,
+     1.9
+    ],
+    "y": [
+     3.37,
+     4.17
+    ],
+    "z": [
+     -4.59,
+     4.19
+    ]
+   },
+   {
+    "name": "Mill_GlazingRecessLeads",
+    "tris": 272,
+    "prims": 1,
+    "mats": [
+     "Window lead iron"
+    ],
+    "x": [
+     -3.7,
+     1.91
+    ],
+    "y": [
+     3.35,
+     4.18
+    ],
+    "z": [
+     -4.6,
+     4.2
+    ]
+   },
+   {
+    "name": "Mill_Leat",
+    "tris": 176,
+    "prims": 6,
+    "mats": [
+     "Mill floorboard planks",
+     "Leat water",
+     "Aged oak",
+     "Mill frame oak",
+     "Shutter oak planks",
+     "Wheel iron strap"
+    ],
+    "x": [
+     -5.2,
+     -3.83
+    ],
+    "y": [
+     -2,
+     0.8
+    ],
+    "z": [
+     -4.95,
+     -2.2
+    ]
+   },
+   {
+    "name": "Mill_Roof",
+    "tris": 78,
+    "prims": 2,
+    "mats": [
+     "Mill thatch",
+     "Mill thatch dark"
+    ],
+    "x": [
+     -4.2,
+     4.7
+    ],
+    "y": [
+     4.86,
+     7.49
+    ],
+    "z": [
+     -5.1,
+     4.7
+    ]
+   },
+   {
+    "name": "Mill_RoofLucam",
+    "tris": 200,
+    "prims": 8,
+    "mats": [
+     "Limewash plaster",
+     "Mill frame oak",
+     "Window recess shadow",
+     "Mill thatch",
+     "Mill thatch dark",
+     "Hemp rope",
+     "Flour sackcloth",
+     "Sack twine"
+    ],
+    "x": [
+     3.8,
+     6.02
+    ],
+    "y": [
+     2.02,
+     6.32
+    ],
+    "z": [
+     -1,
+     1
+    ]
+   },
+   {
+    "name": "Mill_Shell",
+    "tris": 6922,
+    "prims": 4,
+    "mats": [
+     "Mill fieldstone dark",
+     "Mill fieldstone",
+     "Mill fieldstone light",
+     "Dressed sandstone quoin"
+    ],
+    "x": [
+     -3.24,
+     4.24
+    ],
+    "y": [
+     -1.99,
+     2.84
+    ],
+    "z": [
+     -4.25,
+     4.24
+    ]
+   },
+   {
+    "name": "Mill_SplashFoam",
+    "tris": 28,
+    "prims": 1,
+    "mats": [
+     "Weir foam"
+    ],
+    "x": [
+     -5.13,
+     -4.27
+    ],
+    "y": [
+     -1.15,
+     -1.03
+    ],
+    "z": [
+     -2.45,
+     -1.75
+    ]
+   },
+   {
+    "name": "Mill_UpperFloorBoards",
+    "tris": 12,
+    "prims": 1,
+    "mats": [
+     "Mill floorboard planks"
+    ],
+    "x": [
+     -3.5,
+     4
+    ],
+    "y": [
+     2.7,
+     2.82
+    ],
+    "z": [
+     -4.4,
+     4
+    ]
+   },
+   {
+    "name": "Mill_UpperJoists",
+    "tris": 348,
+    "prims": 1,
+    "mats": [
+     "Mill frame oak"
+    ],
+    "x": [
+     -3.56,
+     4.07
+    ],
+    "y": [
+     1.48,
+     2.7
+    ],
+    "z": [
+     -4.46,
+     3.77
+    ]
+   },
+   {
+    "name": "Mill_UpperShell",
+    "tris": 1415,
+    "prims": 3,
+    "mats": [
+     "Limewash plaster",
+     "Mill frame oak",
+     "Window recess shadow"
+    ],
+    "x": [
+     -3.69,
+     4.19
+    ],
+    "y": [
+     2.82,
+     5.05
+    ],
+    "z": [
+     -4.6,
+     4.2
+    ]
+   },
+   {
+    "name": "Mill_Weir",
+    "tris": 34,
+    "prims": 3,
+    "mats": [
+     "Mill fieldstone",
+     "Dressed sandstone quoin",
+     "Weir falling water"
+    ],
+    "x": [
+     -6.8,
+     -3.1
+    ],
+    "y": [
+     -2.4,
+     -0.06
+    ],
+    "z": [
+     -4.29,
+     -3.05
+    ]
+   },
+   {
+    "name": "Mill_WeirWalk",
+    "tris": 442,
+    "prims": 3,
+    "mats": [
+     "Mill floorboard planks",
+     "Aged oak",
+     "Hemp rope"
+    ],
+    "x": [
+     -7.4,
+     -2.05
+    ],
+    "y": [
+     -2,
+     1
+    ],
+    "z": [
+     -4.88,
+     -4.12
+    ]
+   },
+   {
+    "name": "Mill_WheelParts",
+    "tris": 500,
+    "prims": 3,
+    "mats": [
+     "Aged oak",
+     "Mill frame oak",
+     "Mill floorboard planks"
+    ],
+    "x": [
+     -5.25,
+     -2.8
+    ],
+    "y": [
+     -1.62,
+     1.22
+    ],
+    "z": [
+     -2.62,
+     0.22
+    ]
+   },
+   {
+    "name": "Mill_WheelBearing",
+    "tris": 24,
+    "prims": 2,
+    "mats": [
+     "Aged oak",
+     "Mill fieldstone dark"
+    ],
+    "x": [
+     -5.56,
+     -5.24
+    ],
+    "y": [
+     -2,
+     -0.05
+    ],
+    "z": [
+     -1.4,
+     -1
+    ]
+   }
+  ],
+  "tris": 12737
+ },
+ "stair": {
+  "file": ".studio-workspaces/holm-keepers-stair-os-v2/candidates/stair.glb",
+  "parts": [
+   {
+    "name": "Stair_Dressing",
+    "tris": 220,
+    "prims": 5,
+    "mats": [
+     "Stair oak posts",
+     "Lantern glass",
+     "Hemp rope",
+     "Stair footing stone",
+     "Stair oak rail"
+    ],
+    "x": [
+     -2.11,
+     5.3
+    ],
+    "y": [
+     1.89,
+     14.3
+    ],
+    "z": [
+     -4.07,
+     4.2
+    ]
+   },
+   {
+    "name": "Stair_Footing",
+    "tris": 644,
+    "prims": 2,
+    "mats": [
+     "Stair footing stone",
+     "Stair footing stone dark"
+    ],
+    "x": [
+     -2.22,
+     4.22
+    ],
+    "y": [
+     0.75,
+     12.2
+    ],
+    "z": [
+     -4.19,
+     2.59
+    ]
+   },
+   {
+    "name": "Stair_FramePosts",
+    "tris": 264,
+    "prims": 1,
+    "mats": [
+     "Stair oak posts"
+    ],
+    "x": [
+     -2.07,
+     4.07
+    ],
+    "y": [
+     1.05,
+     12.28
+    ],
+    "z": [
+     -4.07,
+     2.47
+    ]
+   },
+   {
+    "name": "Stair_FrameRail",
+    "tris": 240,
+    "prims": 1,
+    "mats": [
+     "Stair oak rail"
+    ],
+    "x": [
+     -2.14,
+     4.04
+    ],
+    "y": [
+     1.1,
+     13.77
+    ],
+    "z": [
+     -4.06,
+     2.94
+    ]
+   },
+   {
+    "name": "Stair_FrameStringers",
+    "tris": 48,
+    "prims": 1,
+    "mats": [
+     "Stair oak posts"
+    ],
+    "x": [
+     -2.27,
+     4.04
+    ],
+    "y": [
+     0.86,
+     12.96
+    ],
+    "z": [
+     -4.04,
+     3.06
+    ]
+   },
+   {
+    "name": "Stair_LandingHead",
+    "tris": 132,
+    "prims": 3,
+    "mats": [
+     "Stair footing stone",
+     "Stair landing flags",
+     "Stair footing stone dark"
+    ],
+    "x": [
+     2.9,
+     4.6
+    ],
+    "y": [
+     12.2,
+     13
+    ],
+    "z": [
+     3,
+     4.3
+    ]
+   },
+   {
+    "name": "Stair_LandingMid",
+    "tris": 72,
+    "prims": 2,
+    "mats": [
+     "Stair oak treads",
+     "Stair oak posts"
+    ],
+    "x": [
+     3,
+     4
+    ],
+    "y": [
+     6.78,
+     7
+    ],
+    "z": [
+     -4,
+     -3
+    ]
+   },
+   {
+    "name": "Stair_Tread",
+    "tris": 672,
+    "prims": 1,
+    "mats": [
+     "Stair oak treads"
+    ],
+    "x": [
+     -2.2,
+     3.98
+    ],
+    "y": [
+     0.96,
+     12.8
+    ],
+    "z": [
+     -3.98,
+     3.02
+    ]
+   }
+  ],
+  "tris": 2292
+ }
+}

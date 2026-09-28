@@ -1,0 +1,129 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-haven-glazed-review4-v1\\candidates\\haven.glb",
+ "views": [
+  "outside",
+  "inside:-1.1",
+  "inside:0.1"
+ ],
+ "summary": {
+  "fights": 3,
+  "byKind": {
+   "same-facing": 3
+  },
+  "area": 0.002,
+  "topPairs": [
+   [
+    [
+     "Haven_ServiceNotice_Board",
+     "Haven_ServiceNotice_Board"
+    ],
+    2
+   ],
+   [
+    [
+     "Haven_DeckPier",
+     "Haven_FloorShelter"
+    ],
+    1
+   ]
+  ]
+ },
+ "fights": [
+  {
+   "da": 0.15000000596046448,
+   "db": 0.15000000596046448,
+   "extA": 3.06,
+   "extB": 6.41,
+   "thickA": 0.08,
+   "thickB": 0.3,
+   "visible": true,
+   "a": "Haven_DeckPier",
+   "pa": 81,
+   "b": "Haven_FloorShelter",
+   "pb": 282,
+   "kind": "same-facing",
+   "area": 0.0017,
+   "at": [
+    -0.491,
+    3.1,
+    0.15
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 6,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    -0.0,
+    1.0
+   ],
+   "view": "inside:-1.1"
+  },
+  {
+   "da": -0.15000003728681577,
+   "db": -0.15000004791897936,
+   "extA": 1.818,
+   "extB": 1.971,
+   "thickA": 1.815,
+   "thickB": 1.8,
+   "visible": true,
+   "a": "Haven_ServiceNotice_Board",
+   "pa": 53,
+   "b": "Haven_ServiceNotice_Board",
+   "pb": 150,
+   "kind": "same-facing",
+   "area": 0.00012,
+   "at": [
+    -2.063,
+    -0.15,
+    2.357
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 4,
+   "islandB": 10,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -3.72529399328414e-07,
+    1.0,
+    -2.150796660771448e-07
+   ],
+   "view": "inside:-1.1"
+  },
+  {
+   "da": -0.15000003728681577,
+   "db": -0.14999996753124378,
+   "extA": 1.818,
+   "extB": 1.971,
+   "thickA": 1.815,
+   "thickB": 1.8,
+   "visible": true,
+   "a": "Haven_ServiceNotice_Board",
+   "pa": 53,
+   "b": "Haven_ServiceNotice_Board",
+   "pb": 139,
+   "kind": "same-facing",
+   "area": 0.00019,
+   "at": [
+    -2.063,
+    -0.15,
+    2.357
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 4,
+   "islandB": 10,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -3.72529399328414e-07,
+    1.0,
+    -2.150796660771448e-07
+   ],
+   "view": "inside:-1.1"
+  }
+ ]
+}

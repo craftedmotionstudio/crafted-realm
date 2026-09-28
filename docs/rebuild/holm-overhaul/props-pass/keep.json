@@ -1,0 +1,53 @@
+{
+ "id": "keep",
+ "note": "Props pass (2026-09-28): the Warden's Keep furnishings designed again (tools/blender/build_holm_keep_props_pass.py). Reconciled from the model that ships: built on holm-keep-oldschool-v1/keep.blend, proved to re-export the shipped keep.glb node for node; the graph is measured on the new workspace's own keep.blend + keep.glb pair (the keep extractor v6 through relock_with_swapped_paths.py, BASE swapped from the v8 .blend, whose preview ground the model never had); the same swap on the shipped keep reproduces holm-keep-v2land-navigation-v1 exactly (scratchpad/holm_props_pass/keep/baseline.relock.json).",
+ "blender": "4.5",
+ "source": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.blend",
+ "reference": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+ "script": "tools/blender/build_holm_keep_props_pass.py",
+ "flat": ".studio-workspaces/holm-keep-props-v1/working/keep-flat.blend",
+ "buildReport": "scratchpad/holm_props_pass/keep/build.report.json",
+ "outBlend": ".studio-workspaces/holm-keep-props-v1/candidates/keep.blend",
+ "outGlb": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
+ "texReport": ".studio-workspaces/holm-keep-props-v1/candidates/textures.report.json",
+ "changed": "^Keep_(Furnishing_(3_1|3_21|3_9|Dressing)|Upper_Furnishing_(4_1|4_13|4_2|4_2.001|Dressing))$",
+ "added": "^Keep_(Furnishing|Upper_Furnishing)_Props[A-Za-z]+$",
+ "copy": [
+  [
+   ".studio-workspaces/holm-warden-keep-v8/candidates/keep.contract.json",
+   ".studio-workspaces/holm-keep-props-v1/candidates/keep.contract.json"
+  ]
+ ],
+ "graph": "holm-keep-props-navigation-v1",
+ "relock": {
+  "script": "tools/blender/extract_holm_keep_navigation_v6.py",
+  "replace": [
+   [
+    "holm-overhaul-terrain-v1/working",
+    "holm-overhaul-terrain-v2/working"
+   ],
+   [
+    "holm-keep-navigation-v7/candidates",
+    "holm-keep-props-navigation-v1/candidates"
+   ],
+   [
+    "terrain['heights'][z*stride+x]-8.025",
+    "terrain['heights'][z*stride+x]-11"
+   ],
+   [
+    "'placement':{'x':87,'y':8.025,'z':35}",
+    "'placement':{'x':87,'y':11,'z':35}"
+   ],
+   [
+    "('east-lookout','East turret lookout',10.5,6.7,-5.5)]",
+    "('east-lookout','East turret lookout',10.5,6.7,-5.5),('undercroft','Undercroft trapdoor',-8.5,0,.5)]"
+   ],
+   [
+    "BASE=ROOT/'.studio-workspaces/holm-warden-keep-v8/candidates'",
+    "BASE=ROOT/'.studio-workspaces/holm-keep-props-v1/candidates'"
+   ]
+  ]
+ },
+ "coplanar": "keep",
+ "referenceGraph": "holm-keep-v2land-navigation-v1"
+}

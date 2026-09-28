@@ -1,0 +1,59 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-mage-glazed-review4-v1\\candidates\\mage.glb",
+ "views": [
+  "outside",
+  "inside:-0.0",
+  "inside:3.0",
+  "inside:6.0"
+ ],
+ "summary": {
+  "fights": 1,
+  "byKind": {
+   "same-facing": 1
+  },
+  "area": 0.0019,
+  "topPairs": [
+   [
+    [
+     "Mage_FloorGroundTilesBoards",
+     "Mage_FloorGroundTilesFlags"
+    ],
+    1
+   ]
+  ]
+ },
+ "fights": [
+  {
+   "da": 0.0,
+   "db": 0.0,
+   "extA": 4.921,
+   "extB": 0.855,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Mage_FloorGroundTilesBoards",
+   "pa": 539,
+   "b": "Mage_FloorGroundTilesFlags",
+   "pb": 334,
+   "kind": "same-facing",
+   "area": 0.00195,
+   "at": [
+    -1.95,
+    1.661,
+    0.0
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 11,
+   "islandB": 120,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    0.0,
+    1.0
+   ],
+   "view": "inside:-0.0"
+  }
+ ]
+}

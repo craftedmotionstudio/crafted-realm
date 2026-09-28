@@ -1,0 +1,80 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-bank-props-v1/working/bank-flat.blend",
+ "materials": {
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  },
+  "Holm props colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Bank_FurnishingPropsHall": {
+   "beam": 193
+  },
+  "Bank_FurnishingPropsStrongroom": {
+   "beam": 233
+  },
+  "Bank_FurnishingPropsTellers": {
+   "beam": 436
+  },
+  "Bank_FurnishingPropsVault": {
+   "beam": 143
+  },
+  "Bank_FurnishingPropsWing": {
+   "beam": 151
+  },
+  "Bank_ServiceCounter_Booths": {
+   "beam": 366
+  },
+  "Bank_ServiceShelves_Goods": {
+   "beam": 560
+  },
+  "Bank_ServiceVault_Chests": {
+   "beam": 151
+  },
+  "Bank_UpperFurnishingPropsClerk": {
+   "beam": 500
+  },
+  "Bank_UpperFurnishingPropsHearth": {
+   "rock": 51,
+   "beam": 36
+  },
+  "Bank_UpperFurnishingPropsStore": {
+   "beam": 223
+  }
+ },
+ "keptImages": [
+  "Bank Aged oak",
+  "Bank Clay tile cool face",
+  "Bank Clay tile warm face",
+  "Bank Dark frame oak",
+  "Bank Dressed sandstone",
+  "Bank Flagstone dark",
+  "Bank Flagstone pale",
+  "Bank Limewash plaster",
+  "Bank Limewash plaster shade",
+  "Bank Muted clay",
+  "Bank Stone lit faces",
+  "Bank Stone shaded faces",
+  "Bank Vault slab gray",
+  "Bank Warm fieldstone",
+  "Bank Warm floorboards",
+  "Holm flat colour - planks"
+ ],
+ "meshes": 53,
+ "glb": {
+  "path": ".studio-workspaces/holm-bank-props-v1/candidates/bank.glb",
+  "bytes": 4062976,
+  "sha256": "a14fbb0ac80ad91d2ab0ca4d05bbff86692fd7cebd1809a2ce3c762bd7d0ca44"
+ },
+ "images": [
+  "beam",
+  "rock"
+ ]
+}

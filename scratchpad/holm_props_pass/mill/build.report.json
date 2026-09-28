@@ -1,0 +1,20 @@
+{
+ "removed": [
+  "Mill_FurnishingStones",
+  "Mill_FurnishingStore",
+  "Mill_Dressing"
+ ],
+ "islandsRemoved": {},
+ "facesRemoved": {},
+ "built": {
+  "Mill_FurnishingStones": 798,
+  "Mill_FurnishingStore": 1370,
+  "Mill_Dressing": 446
+ },
+ "notes": [],
+ "welds": {
+  "Mill_FurnishingStones": 37,
+  "Mill_FurnishingStore": 67,
+  "Mill_Dressing": 25
+ }
+}

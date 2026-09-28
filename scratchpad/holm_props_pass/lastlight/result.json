@@ -1,0 +1,115 @@
+{
+ "baseline": {
+  "identical": true,
+  "differs": [],
+  "refGraph": "holm-lastlight-review4-navigation-v1"
+ },
+ "build": {
+  "flat": ".studio-workspaces/holm-lastlight-props-v1/working/lastlight-flat.blend",
+  "built": {
+   "Lastlight_FurnishingPropsStore": 3088,
+   "Lastlight_FurnishingPropsWing": 734,
+   "Lastlight_ServiceStores_Workbench": 2494,
+   "Lastlight_UpperFurnishingPropsKeeper": 2922,
+   "Lastlight_UpperFurnishingPropsWatch": 1966,
+   "Lastlight_Yard": 1328
+  },
+  "removed": [
+   "Lastlight_Furnishing",
+   "Lastlight_FurnishingDressing",
+   "Lastlight_UpperFurnishingKeeper",
+   "Lastlight_UpperFurnishingWatch",
+   "Lastlight_UpperFurnishingDressing",
+   "Lastlight_Yard",
+   "Lastlight_ServiceStores_Workbench"
+  ],
+  "islandsRemoved": {}
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.glb",
+   "bytes": 3129856,
+   "sha256": "1d90b7c5b97bceb4b71000f5d89bd109aef7895f1532eba8b89c8841d920c993"
+  },
+  "materials": 2,
+  "images": [
+   "beam",
+   "rock"
+  ]
+ },
+ "proof": {
+  "ok": true,
+  "reference": ".studio-workspaces/holm-lastlight-glazed-review4-v1/candidates/lastlight.glb",
+  "candidate": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.glb",
+  "referenceNodes": 51,
+  "kept": 44,
+  "changed": {
+   "Lastlight_Furnishing": [
+    1656,
+    null
+   ],
+   "Lastlight_FurnishingDressing": [
+    428,
+    null
+   ],
+   "Lastlight_ServiceStores_Workbench": [
+    464,
+    2644
+   ],
+   "Lastlight_UpperFurnishingDressing": [
+    358,
+    null
+   ],
+   "Lastlight_UpperFurnishingKeeper": [
+    537,
+    null
+   ],
+   "Lastlight_UpperFurnishingWatch": [
+    284,
+    null
+   ],
+   "Lastlight_Yard": [
+    668,
+    1439
+   ]
+  },
+  "added": {
+   "Lastlight_FurnishingPropsStore": 3259,
+   "Lastlight_FurnishingPropsWing": 764,
+   "Lastlight_UpperFurnishingPropsKeeper": 3052,
+   "Lastlight_UpperFurnishingPropsWatch": 2083
+  },
+  "issues": []
+ },
+ "graph": {
+  "ws": "holm-lastlight-props-navigation-v1",
+  "nodes": 213,
+  "identical": true,
+  "differs": [],
+  "modelSha256": "1d90b7c5b97bceb4b71000f5d89bd109aef7895f1532eba8b89c8841d920c993"
+ },
+ "cutaway": {
+  "pieces": 64,
+  "keep": 64,
+  "cut": 0,
+  "clipped": 0
+ },
+ "coplanar": {
+  "before": 9,
+  "after": 9,
+  "areaBefore": 0.0149,
+  "areaAfter": 0.0149,
+  "worse": [],
+  "exposedUntouched": []
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-lastlight-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-lastlight-glazed-review4-v1/candidates/lastlight.glb"
+  },
+  "now": {
+   "graph": "holm-lastlight-props-navigation-v1",
+   "model": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.glb"
+  }
+ }
+}

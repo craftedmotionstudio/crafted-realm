@@ -1,0 +1,14 @@
+{
+ "model": ".studio-workspaces/holm-mill-props-v1/candidates/mill.glb",
+ "building": "mill",
+ "lift": 0.5,
+ "levels": [
+  0,
+  0.05,
+  2.8
+ ],
+ "pieces": 23,
+ "keep": 23,
+ "cut": 0,
+ "clipped": []
+}

@@ -1,0 +1,57 @@
+{
+ "glb": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.glb",
+ "out": "scratchpad/holm_props_pass/overview/haven",
+ "size": [
+  1100,
+  760
+ ],
+ "hide": "Haven_(Roof|Upper|Chimney)|Haven_Glazing",
+ "views": [
+  {
+   "name": "ground_ne",
+   "target": [
+    -2,
+    0,
+    -6
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 24
+  },
+  {
+   "name": "ground_sw",
+   "target": [
+    -2,
+    0,
+    -6
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 24
+  },
+  {
+   "name": "upper_ne",
+   "target": [
+    -2,
+    3,
+    -6
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 24,
+   "hide": "Haven_(Roof|Chimney)|Haven_Glazing|Haven_UpperShell|Haven_(Shell|GroundFront)"
+  },
+  {
+   "name": "upper_sw",
+   "target": [
+    -2,
+    3,
+    -6
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 24,
+   "hide": "Haven_(Roof|Chimney)|Haven_Glazing|Haven_UpperShell|Haven_(Shell|GroundFront)"
+  }
+ ]
+}

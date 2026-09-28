@@ -1,0 +1,16 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-survival-v2land-v1\\candidates\\survival.glb",
+ "views": [
+  "outside",
+  "inside:-0.4",
+  "inside:0.0",
+  "inside:0.6"
+ ],
+ "summary": {
+  "fights": 0,
+  "byKind": {},
+  "area": 0,
+  "topPairs": []
+ },
+ "fights": []
+}

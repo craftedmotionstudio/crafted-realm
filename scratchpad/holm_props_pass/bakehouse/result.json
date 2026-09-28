@@ -1,0 +1,170 @@
+{
+ "baseline": {
+  "identical": true,
+  "differs": [],
+  "refGraph": "holm-kitchen-review4-navigation-v2"
+ },
+ "build": {
+  "flat": ".studio-workspaces/holm-kitchen-props-v1/working/kitchen-character-flat.blend",
+  "built": {
+   "Kitchen_Worktable_Kneading": 1086,
+   "Kitchen_SupplyDoughBowl_Trough": 142,
+   "Kitchen_SupplyBuckets_Rack": 876,
+   "Kitchen_SupplyWaterButt": 274,
+   "Kitchen_SupplyWaterSurface": 34,
+   "Kitchen_RecipeBoard_Board": 98,
+   "Kitchen_Tools_Oven": 238,
+   "Kitchen_Furnishings_Hall": 2207,
+   "Kitchen_Pantry_FlourBin": 360,
+   "Kitchen_Store_Shelves": 6892,
+   "Kitchen_UpperFurnishing_Loft": 1219,
+   "Kitchen_UpperFurnishing_Rail": 528,
+   "Kitchen_Court_DressingPropsWoodpile": 506
+  },
+  "removed": [
+   "Kitchen_Furnishings_Hall",
+   "Kitchen_Worktable_Kneading",
+   "Kitchen_SupplyDoughBowl_Trough",
+   "Kitchen_SupplyBuckets_Rack",
+   "Kitchen_SupplyWaterButt",
+   "Kitchen_SupplyWaterSurface",
+   "Kitchen_RecipeBoard_Board",
+   "Kitchen_Tools_Oven",
+   "Kitchen_Pantry_FlourBin",
+   "Kitchen_Store_Shelves",
+   "Kitchen_UpperFurnishing_Loft",
+   "Kitchen_UpperFurnishing_Rail"
+  ],
+  "islandsRemoved": {
+   "Kitchen_Court_Dressing": 348
+  }
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb",
+   "bytes": 4512948,
+   "sha256": "8ba91c017545c7a02b0d5ee30f2e5ed8f5daca455626507bc2f1e56c5cb33b18"
+  },
+  "materials": 1,
+  "images": [
+   "beam"
+  ]
+ },
+ "proof": {
+  "ok": true,
+  "reference": ".studio-workspaces/holm-kitchen-glazed-review4-v1/candidates/kitchen-character.glb",
+  "candidate": ".studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb",
+  "referenceNodes": 64,
+  "kept": 51,
+  "changed": {
+   "Kitchen_Court_Dressing": [
+    515,
+    167
+   ],
+   "Kitchen_Furnishings_Hall": [
+    1235,
+    2262
+   ],
+   "Kitchen_Pantry_FlourBin": [
+    202,
+    380
+   ],
+   "Kitchen_RecipeBoard_Board": [
+    236,
+    110
+   ],
+   "Kitchen_Store_Shelves": [
+    2603,
+    7110
+   ],
+   "Kitchen_SupplyBuckets_Rack": [
+    334,
+    934
+   ],
+   "Kitchen_SupplyDoughBowl_Trough": [
+    134,
+    149
+   ],
+   "Kitchen_SupplyWaterButt": [
+    204,
+    283
+   ],
+   "Kitchen_SupplyWaterSurface": [
+    28,
+    34
+   ],
+   "Kitchen_Tools_Oven": [
+    56,
+    254
+   ],
+   "Kitchen_UpperFurnishing_Loft": [
+    589,
+    1276
+   ],
+   "Kitchen_UpperFurnishing_Rail": [
+    184,
+    571
+   ],
+   "Kitchen_Worktable_Kneading": [
+    327,
+    1174
+   ]
+  },
+  "added": {
+   "Kitchen_Court_DressingPropsWoodpile": 548
+  },
+  "issues": []
+ },
+ "graph": {
+  "ws": "holm-kitchen-props-navigation-v1",
+  "nodes": 265,
+  "identical": true,
+  "differs": [],
+  "modelSha256": "8ba91c017545c7a02b0d5ee30f2e5ed8f5daca455626507bc2f1e56c5cb33b18"
+ },
+ "cutaway": {
+  "pieces": 62,
+  "keep": 62,
+  "cut": 0,
+  "clipped": 0
+ },
+ "coplanar": {
+  "before": 30,
+  "after": 42,
+  "areaBefore": 0.0062,
+  "areaAfter": 0.547,
+  "worse": [],
+  "exposedUntouched": [
+   [
+    "Kitchen_Shell_Lining | Kitchen_Shell_Walls",
+    0,
+    4
+   ],
+   [
+    "Kitchen_Shell_Lining | Kitchen_Shell_Lining",
+    0,
+    3
+   ],
+   [
+    "Kitchen_Hearth_Breast | Kitchen_Shell_Lining",
+    0,
+    3
+   ],
+   [
+    "Kitchen_Oven_Body | Kitchen_Shell_Lining",
+    0,
+    2
+   ]
+  ]
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-kitchen-review4-navigation-v2",
+   "model": ".studio-workspaces/holm-kitchen-glazed-review4-v1/candidates/kitchen-character.glb"
+  },
+  "now": {
+   "graph": "holm-kitchen-props-navigation-v1",
+   "model": ".studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb"
+  }
+ }
+}

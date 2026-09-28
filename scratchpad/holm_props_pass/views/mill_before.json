@@ -1,0 +1,100 @@
+{
+ "size": [
+  900,
+  640
+ ],
+ "hide": "Mill_(Roof|Upper|Glazing)|Mill_UpperShell",
+ "views": [
+  {
+   "name": "stones",
+   "target": [
+    0.2,
+    1,
+    0.4
+   ],
+   "yaw": 210,
+   "pitch": 30,
+   "dist": 4.6,
+   "lens": 35,
+   "hide": "Mill_(Roof|Upper|Glazing|Shell)"
+  },
+  {
+   "name": "stones_top",
+   "target": [
+    0.2,
+    1.2,
+    0.4
+   ],
+   "yaw": 160,
+   "pitch": 55,
+   "dist": 3.6,
+   "lens": 35,
+   "hide": "Mill_(Roof|Upper|Glazing|Shell)"
+  },
+  {
+   "name": "ark",
+   "target": [
+    3,
+    0.8,
+    -2.5
+   ],
+   "yaw": 250,
+   "pitch": 35,
+   "dist": 3.8,
+   "lens": 35,
+   "hide": "Mill_(Roof|Upper|Glazing|Shell)"
+  },
+  {
+   "name": "sacks",
+   "target": [
+    3,
+    0.5,
+    2.1
+   ],
+   "yaw": 270,
+   "pitch": 35,
+   "dist": 4.2,
+   "lens": 35,
+   "hide": "Mill_(Roof|Upper|Glazing|Shell)"
+  },
+  {
+   "name": "sack_truck",
+   "target": [
+    -2.2,
+    0.6,
+    2.3
+   ],
+   "yaw": 80,
+   "pitch": 30,
+   "dist": 3.4,
+   "lens": 35,
+   "hide": "Mill_(Roof|Upper|Glazing|Shell)"
+  },
+  {
+   "name": "spare_stone",
+   "target": [
+    1,
+    0.8,
+    4.4
+   ],
+   "yaw": 10,
+   "pitch": 20,
+   "dist": 3.6,
+   "lens": 35
+  },
+  {
+   "name": "door_sacks",
+   "target": [
+    3.5,
+    0.4,
+    -4.5
+   ],
+   "yaw": 170,
+   "pitch": 30,
+   "dist": 3.2,
+   "lens": 35
+  }
+ ],
+ "glb": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.glb",
+ "out": "scratchpad/holm_props_pass/mill/blender_before"
+}

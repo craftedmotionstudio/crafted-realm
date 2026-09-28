@@ -1,0 +1,57 @@
+{
+ "glb": ".studio-workspaces/holm-keep-oldschool-v1/candidates/keep.glb",
+ "out": "scratchpad/holm_props_pass/overview/keep",
+ "size": [
+  1100,
+  760
+ ],
+ "hide": "Keep_(Roof|Upper|Tower)|Keep_Shell|Keep_GroundFront",
+ "views": [
+  {
+   "name": "ground_ne",
+   "target": [
+    -2,
+    0,
+    -2
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 30
+  },
+  {
+   "name": "ground_sw",
+   "target": [
+    -2,
+    0,
+    -2
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 30
+  },
+  {
+   "name": "upper_ne",
+   "target": [
+    -2,
+    3,
+    -2
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 30,
+   "hide": "Keep_(Roof|Chimney)|Keep_Glazing|Keep_UpperShell|Keep_(Shell|GroundFront)"
+  },
+  {
+   "name": "upper_sw",
+   "target": [
+    -2,
+    3,
+    -2
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 30,
+   "hide": "Keep_(Roof|Chimney)|Keep_Glazing|Keep_UpperShell|Keep_(Shell|GroundFront)"
+  }
+ ]
+}

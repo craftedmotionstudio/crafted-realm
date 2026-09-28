@@ -1,0 +1,58 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-haven-props-v1\\candidates\\haven.glb",
+ "views": [
+  "outside",
+  "inside:-1.1",
+  "inside:0.1"
+ ],
+ "summary": {
+  "fights": 1,
+  "byKind": {
+   "same-facing": 1
+  },
+  "area": 0.0017,
+  "topPairs": [
+   [
+    [
+     "Haven_DeckPier",
+     "Haven_FloorShelter"
+    ],
+    1
+   ]
+  ]
+ },
+ "fights": [
+  {
+   "da": 0.15000000596046448,
+   "db": 0.15000000596046448,
+   "extA": 3.06,
+   "extB": 6.41,
+   "thickA": 0.08,
+   "thickB": 0.3,
+   "visible": true,
+   "a": "Haven_DeckPier",
+   "pa": 81,
+   "b": "Haven_FloorShelter",
+   "pb": 282,
+   "kind": "same-facing",
+   "area": 0.0017,
+   "at": [
+    -0.491,
+    3.1,
+    0.15
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 6,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    -0.0,
+    1.0
+   ],
+   "view": "inside:-1.1"
+  }
+ ]
+}

@@ -1,0 +1,71 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-survival-props-v1/working/survival-flat.blend",
+ "materials": {
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  },
+  "Holm props colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Survival_FurnishingPropsCanopy": {
+   "beam": 229
+  },
+  "Survival_FurnishingPropsStore": {
+   "beam": 260
+  },
+  "Survival_FurnishingPropsYard": {
+   "beam": 16
+  },
+  "Survival_ServiceFirePit_Ring": {
+   "rock": 175,
+   "beam": 24
+  },
+  "Survival_ServiceLogPile_Stack": {
+   "beam": 227
+  },
+  "Survival_ServiceTools_Rack": {
+   "beam": 184
+  }
+ },
+ "keptImages": [
+  "Aged oak",
+  "Aged oak (not clipped)",
+  "Coppice leaf",
+  "Dark frame oak",
+  "Dark frame oak (not clipped)",
+  "Dressed sandstone",
+  "Dressed sandstone (not clipped)",
+  "Hard-standing flag",
+  "Oak shingle",
+  "Oak shingle weathered",
+  "Ochre thatch",
+  "Ochre thatch shade",
+  "Ochre thatch sunlit",
+  "Stone lit faces",
+  "Stone lit faces (not clipped)",
+  "Stone shaded faces",
+  "Stone shaded faces (not clipped)",
+  "Warm fieldstone",
+  "Warm fieldstone (not clipped)",
+  "Warm floorboards",
+  "Weathered plank",
+  "Weathered plank (not clipped)"
+ ],
+ "meshes": 25,
+ "glb": {
+  "path": ".studio-workspaces/holm-survival-props-v1/candidates/survival.glb",
+  "bytes": 1765776,
+  "sha256": "dbe4e18f99cb056da042f699df327ee89d975896a4acbc941a2cad198e050c1f"
+ },
+ "images": [
+  "beam",
+  "rock"
+ ]
+}

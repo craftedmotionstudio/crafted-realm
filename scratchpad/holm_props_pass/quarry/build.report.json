@@ -1,0 +1,33 @@
+{
+ "removed": [
+  "Quarry_FurnishingDressing",
+  "Quarry_UpperFurnishingMain",
+  "Quarry_ServiceBench_Repair",
+  "Quarry_ServiceWinch_Windlass"
+ ],
+ "islandsRemoved": {
+  "Quarry_FurnishingMain": 814
+ },
+ "facesRemoved": {},
+ "built": {
+  "Quarry_FurnishingPropsHall": 2378,
+  "Quarry_FurnishingPropsHung": 696,
+  "Quarry_FurnishingPropsSmithy": 1896,
+  "Quarry_ServiceBench_Repair": 924,
+  "Quarry_ServiceWinch_Windlass": 1320,
+  "Quarry_UpperFurnishingPropsLoft": 778
+ },
+ "notes": [
+  {
+   "clearance": []
+  }
+ ],
+ "welds": {
+  "Quarry_FurnishingPropsHall": 118,
+  "Quarry_FurnishingPropsHung": 41,
+  "Quarry_FurnishingPropsSmithy": 91,
+  "Quarry_ServiceBench_Repair": 63,
+  "Quarry_ServiceWinch_Windlass": 60,
+  "Quarry_UpperFurnishingPropsLoft": 23
+ }
+}

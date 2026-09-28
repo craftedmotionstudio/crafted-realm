@@ -1,0 +1,130 @@
+{
+ "baseline": {
+  "identical": true,
+  "differs": [],
+  "refGraph": "holm-bank-review4-navigation-v1"
+ },
+ "build": {
+  "flat": ".studio-workspaces/holm-bank-props-v1/working/bank-flat.blend",
+  "built": {
+   "Bank_ServiceCounter_Booths": 2714,
+   "Bank_ServiceVault_Gate": 410,
+   "Bank_ServiceVault_Chests": 1750,
+   "Bank_ServiceShelves_Goods": 6415,
+   "Bank_FurnishingPropsHall": 2364,
+   "Bank_FurnishingPropsTellers": 1964,
+   "Bank_FurnishingPropsVault": 1677,
+   "Bank_FurnishingPropsWing": 1056,
+   "Bank_FurnishingPropsStrongroom": 1568,
+   "Bank_UpperFurnishingPropsClerk": 2700,
+   "Bank_UpperFurnishingPropsHearth": 1031,
+   "Bank_UpperFurnishingPropsStore": 1298
+  },
+  "removed": [
+   "Bank_Furnishing",
+   "Bank_FurnishingStrongroom",
+   "Bank_UpperFurnishing",
+   "Bank_UpperFurnishingStrongbox",
+   "Bank_ServiceCounter_Booths",
+   "Bank_ServiceVault_Gate",
+   "Bank_ServiceVault_Chests",
+   "Bank_ServiceShelves_Goods"
+  ],
+  "islandsRemoved": {}
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-bank-props-v1/candidates/bank.glb",
+   "bytes": 4062976,
+   "sha256": "a14fbb0ac80ad91d2ab0ca4d05bbff86692fd7cebd1809a2ce3c762bd7d0ca44"
+  },
+  "materials": 2,
+  "images": [
+   "beam",
+   "rock"
+  ]
+ },
+ "proof": {
+  "ok": true,
+  "reference": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb",
+  "candidate": ".studio-workspaces/holm-bank-props-v1/candidates/bank.glb",
+  "referenceNodes": 50,
+  "kept": 42,
+  "changed": {
+   "Bank_Furnishing": [
+    1317,
+    null
+   ],
+   "Bank_FurnishingStrongroom": [
+    926,
+    null
+   ],
+   "Bank_ServiceCounter_Booths": [
+    647,
+    2714
+   ],
+   "Bank_ServiceShelves_Goods": [
+    1186,
+    6415
+   ],
+   "Bank_ServiceVault_Chests": [
+    288,
+    1750
+   ],
+   "Bank_ServiceVault_Gate": [
+    348,
+    410
+   ],
+   "Bank_UpperFurnishing": [
+    686,
+    null
+   ],
+   "Bank_UpperFurnishingStrongbox": [
+    118,
+    null
+   ]
+  },
+  "added": {
+   "Bank_FurnishingPropsHall": 2417,
+   "Bank_FurnishingPropsStrongroom": 1636,
+   "Bank_FurnishingPropsTellers": 2031,
+   "Bank_FurnishingPropsVault": 1783,
+   "Bank_FurnishingPropsWing": 1130,
+   "Bank_UpperFurnishingPropsClerk": 2855,
+   "Bank_UpperFurnishingPropsHearth": 1074,
+   "Bank_UpperFurnishingPropsStore": 1361
+  },
+  "issues": []
+ },
+ "graph": {
+  "ws": "holm-bank-props-navigation-v1",
+  "nodes": 186,
+  "identical": true,
+  "differs": [],
+  "modelSha256": "a14fbb0ac80ad91d2ab0ca4d05bbff86692fd7cebd1809a2ce3c762bd7d0ca44"
+ },
+ "cutaway": {
+  "pieces": 640,
+  "keep": 640,
+  "cut": 0,
+  "clipped": 0
+ },
+ "coplanar": {
+  "before": 19,
+  "after": 19,
+  "areaBefore": 0.0094,
+  "areaAfter": 0.0094,
+  "worse": [],
+  "exposedUntouched": []
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-bank-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb"
+  },
+  "now": {
+   "graph": "holm-bank-props-navigation-v1",
+   "model": ".studio-workspaces/holm-bank-props-v1/candidates/bank.glb"
+  }
+ }
+}

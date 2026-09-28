@@ -1,0 +1,84 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-mage-props-v1/working/mage-flat.blend",
+ "materials": {
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  },
+  "Holm props colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  },
+  "Holm props colour - thatch": {
+   "texture": "thatch",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Mage_FurnishingPropsStudy": {
+   "beam": 558,
+   "rock": 88
+  },
+  "Mage_FurnishingPropsWorkroom": {
+   "beam": 136
+  },
+  "Mage_ServiceLectern_Library": {
+   "beam": 164
+  },
+  "Mage_ServiceRuneTable_Workroom": {
+   "beam": 224
+  },
+  "Mage_ServiceTelescope_Observatory": {
+   "beam": 20
+  },
+  "Mage_UpperFurnishingPropsLibrary": {
+   "beam": 166
+  },
+  "Mage_UpperFurnishingPropsObservatory": {
+   "beam": 441
+  },
+  "Mage_Yard": {
+   "beam": 712,
+   "thatch": 79
+  }
+ },
+ "keptImages": [
+  "Holm flat colour - planks",
+  "Holm flat colour - plaster",
+  "Mage aged oak",
+  "Mage aged oak (not clipped)",
+  "Mage clay cool",
+  "Mage clay tile",
+  "Mage clay warm",
+  "Mage dark frame oak",
+  "Mage dark frame oak (not clipped)",
+  "Mage dressed sandstone",
+  "Mage dressed sandstone (not clipped)",
+  "Mage fieldstone",
+  "Mage fieldstone (not clipped)",
+  "Mage floorboards",
+  "Mage limewash",
+  "Mage limewash (not clipped)",
+  "Mage ochre thatch",
+  "Mage stone lit",
+  "Mage stone lit (not clipped)",
+  "Mage stone shade",
+  "Mage stone shade (not clipped)",
+  "Mage thatch shade",
+  "Mage thatch sunlit"
+ ],
+ "meshes": 28,
+ "glb": {
+  "path": ".studio-workspaces/holm-mage-props-v1/candidates/mage.glb",
+  "bytes": 3703472,
+  "sha256": "c36c70908d6ba1f6d6e33915cd638293d27f401d468f33d4fe2ad034f6e06cc2"
+ },
+ "images": [
+  "beam",
+  "rock",
+  "thatch"
+ ]
+}

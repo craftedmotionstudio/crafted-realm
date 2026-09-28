@@ -1,0 +1,141 @@
+{
+ "size": [
+  900,
+  640
+ ],
+ "hide": "Survival_(Roof|Coppice)",
+ "views": [
+  {
+   "name": "canopy_bench",
+   "target": [
+    -3,
+    0.5,
+    -3.2
+   ],
+   "yaw": 10,
+   "pitch": 30,
+   "dist": 3.8,
+   "lens": 35,
+   "hide": "Survival_(Roof|Coppice)"
+  },
+  {
+   "name": "bench_top",
+   "target": [
+    -3.0,
+    0.5,
+    -3.24
+   ],
+   "yaw": 15,
+   "pitch": 38,
+   "dist": 1.9,
+   "lens": 35,
+   "hide": "Survival_(Roof|Coppice)"
+  },
+  {
+   "name": "gutting_table",
+   "target": [
+    -5.05,
+    0.8,
+    -1.3
+   ],
+   "yaw": 60,
+   "pitch": 35,
+   "dist": 2.6,
+   "lens": 35,
+   "hide": "Survival_(Roof|Coppice)"
+  },
+  {
+   "name": "drying_pole",
+   "target": [
+    -2.6,
+    2.35,
+    -2.1
+   ],
+   "yaw": 190,
+   "pitch": 5,
+   "dist": 2.8,
+   "lens": 35,
+   "hide": "Survival_(Roof|Coppice)"
+  },
+  {
+   "name": "fire_pit",
+   "target": [
+    -2.5,
+    0,
+    3.5
+   ],
+   "yaw": 30,
+   "pitch": 30,
+   "dist": 3,
+   "lens": 35,
+   "hide": "Survival_(Roof|Coppice)"
+  },
+  {
+   "name": "yard_seats",
+   "target": [
+    -3,
+    -0.2,
+    3.8
+   ],
+   "yaw": 120,
+   "pitch": 40,
+   "dist": 4.2,
+   "lens": 35,
+   "hide": "Survival_(Roof|Coppice)"
+  },
+  {
+   "name": "log_pile",
+   "target": [
+    4.5,
+    0.7,
+    1.1
+   ],
+   "yaw": 5,
+   "pitch": 25,
+   "dist": 4.4,
+   "lens": 35,
+   "hide": "Survival_(Roof|Coppice)|Survival_FramePentice"
+  },
+  {
+   "name": "chopping_block",
+   "target": [
+    5.5,
+    0.6,
+    1.6
+   ],
+   "yaw": 30,
+   "pitch": 35,
+   "dist": 2.2,
+   "lens": 35,
+   "hide": "Survival_(Roof|Coppice)|Survival_FramePentice"
+  },
+  {
+   "name": "tool_rack",
+   "target": [
+    4.5,
+    1.7,
+    -3.7
+   ],
+   "yaw": 0,
+   "pitch": 12,
+   "dist": 3.4,
+   "lens": 35,
+   "hide": "Survival_(Roof|Shell|Coppice)"
+  },
+  {
+   "name": "store",
+   "target": [
+    3.9,
+    1,
+    -0.7
+   ],
+   "yaw": 180,
+   "pitch": 35,
+   "dist": 3.4,
+   "lens": 35,
+   "hide": "Survival_(Roof|Shell|Coppice)"
+  }
+ ],
+ "glb": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb",
+ "out": "scratchpad/holm_props_pass/survival/blender_before"
+}

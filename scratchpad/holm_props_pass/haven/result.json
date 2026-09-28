@@ -1,0 +1,102 @@
+{
+ "baseline": {
+  "identical": true,
+  "differs": [],
+  "refGraph": "holm-haven-review4-navigation-v1"
+ },
+ "build": {
+  "flat": ".studio-workspaces/holm-haven-props-v1/working/haven-flat.blend",
+  "built": {
+   "Haven_FurnishingPropsShelter": 1988,
+   "Haven_FurnishingPropsMooring": 3050,
+   "Haven_FurnishingPropsCargo": 1462,
+   "Haven_ServiceNotice_Board": 588
+  },
+  "removed": [
+   "Haven_Furnishing",
+   "Haven_FurnishingDressing",
+   "Haven_Mooring",
+   "Haven_Props",
+   "Haven_ServiceNotice_Board"
+  ],
+  "islandsRemoved": {}
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-haven-props-v1/candidates/haven.glb",
+   "bytes": 1916108,
+   "sha256": "a8cd36efe7e093cf9bb0fc7bb0b53944062b46c0178ccd4e2e24254741fd254e"
+  },
+  "materials": 2,
+  "images": [
+   "beam",
+   "rock"
+  ]
+ },
+ "proof": {
+  "ok": true,
+  "reference": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.glb",
+  "candidate": ".studio-workspaces/holm-haven-props-v1/candidates/haven.glb",
+  "referenceNodes": 27,
+  "kept": 22,
+  "changed": {
+   "Haven_Furnishing": [
+    204,
+    null
+   ],
+   "Haven_FurnishingDressing": [
+    70,
+    null
+   ],
+   "Haven_Mooring": [
+    1084,
+    null
+   ],
+   "Haven_Props": [
+    216,
+    null
+   ],
+   "Haven_ServiceNotice_Board": [
+    316,
+    588
+   ]
+  },
+  "added": {
+   "Haven_FurnishingPropsCargo": 1548,
+   "Haven_FurnishingPropsMooring": 3175,
+   "Haven_FurnishingPropsShelter": 2123
+  },
+  "issues": []
+ },
+ "graph": {
+  "ws": "holm-haven-props-navigation-v1",
+  "nodes": 99,
+  "identical": true,
+  "differs": [],
+  "modelSha256": "a8cd36efe7e093cf9bb0fc7bb0b53944062b46c0178ccd4e2e24254741fd254e"
+ },
+ "cutaway": {
+  "pieces": 89,
+  "keep": 87,
+  "cut": 2,
+  "clipped": 0
+ },
+ "coplanar": {
+  "before": 3,
+  "after": 1,
+  "areaBefore": 0.002,
+  "areaAfter": 0.0017,
+  "worse": [],
+  "exposedUntouched": []
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-haven-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.glb"
+  },
+  "now": {
+   "graph": "holm-haven-props-navigation-v1",
+   "model": ".studio-workspaces/holm-haven-props-v1/candidates/haven.glb"
+  }
+ }
+}

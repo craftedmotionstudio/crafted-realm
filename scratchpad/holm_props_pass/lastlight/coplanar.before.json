@@ -1,0 +1,323 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-lastlight-glazed-review4-v1\\candidates\\lastlight.glb",
+ "views": [
+  "outside",
+  "inside:0.0",
+  "inside:3.0",
+  "inside:6.0",
+  "inside:9.0"
+ ],
+ "summary": {
+  "fights": 9,
+  "byKind": {
+   "same-facing": 9
+  },
+  "area": 0.0149,
+  "topPairs": [
+   [
+    [
+     "Lastlight_FloorWingTiles",
+     "Lastlight_ShellTower"
+    ],
+    7
+   ],
+   [
+    [
+     "Lastlight_FloorTowerTiles",
+     "Lastlight_ShellTower"
+    ],
+    2
+   ]
+  ]
+ },
+ "fights": [
+  {
+   "da": 0.0,
+   "db": 0.0,
+   "extA": 0.794,
+   "extB": 10.512,
+   "thickA": 0.0,
+   "thickB": 3.315,
+   "visible": true,
+   "a": "Lastlight_FloorTowerTiles",
+   "pa": 721,
+   "b": "Lastlight_ShellTower",
+   "pb": 447,
+   "kind": "same-facing",
+   "area": 0.00043,
+   "at": [
+    -1.995,
+    -0.366,
+    0.0
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 112,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 0.0,
+   "db": 0.0,
+   "extA": 0.881,
+   "extB": 10.512,
+   "thickA": 0.0,
+   "thickB": 3.315,
+   "visible": true,
+   "a": "Lastlight_FloorWingTiles",
+   "pa": 128,
+   "b": "Lastlight_ShellTower",
+   "pb": 447,
+   "kind": "same-facing",
+   "area": 0.00222,
+   "at": [
+    -2.132,
+    -0.371,
+    0.0
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 29,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    0.9999999403953552
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 0.0,
+   "db": 0.0,
+   "extA": 0.881,
+   "extB": 10.512,
+   "thickA": 0.0,
+   "thickB": 3.315,
+   "visible": true,
+   "a": "Lastlight_FloorWingTiles",
+   "pa": 129,
+   "b": "Lastlight_ShellTower",
+   "pb": 447,
+   "kind": "same-facing",
+   "area": 0.01053,
+   "at": [
+    -2.471,
+    -0.232,
+    0.0
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 29,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 0.0,
+   "db": 0.0,
+   "extA": 0.881,
+   "extB": 10.512,
+   "thickA": 0.0,
+   "thickB": 3.315,
+   "visible": true,
+   "a": "Lastlight_FloorWingTiles",
+   "pa": 130,
+   "b": "Lastlight_ShellTower",
+   "pb": 447,
+   "kind": "same-facing",
+   "area": 0.00085,
+   "at": [
+    -2.271,
+    -0.16,
+    0.0
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 29,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    -0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 0.0,
+   "db": 0.0,
+   "extA": 0.228,
+   "extB": 10.512,
+   "thickA": 0.0,
+   "thickB": 3.315,
+   "visible": true,
+   "a": "Lastlight_FloorWingTiles",
+   "pa": 131,
+   "b": "Lastlight_ShellTower",
+   "pb": 447,
+   "kind": "same-facing",
+   "area": 0.00011,
+   "at": [
+    -2.078,
+    -0.383,
+    0.0
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 30,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 0.0,
+   "db": 0.0,
+   "extA": 0.794,
+   "extB": 10.512,
+   "thickA": 0.0,
+   "thickB": 3.315,
+   "visible": true,
+   "a": "Lastlight_FloorTowerTiles",
+   "pa": 718,
+   "b": "Lastlight_ShellTower",
+   "pb": 447,
+   "kind": "same-facing",
+   "area": 0.00018,
+   "at": [
+    -2.066,
+    -0.416,
+    0.0
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 112,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 0.0,
+   "db": 0.0,
+   "extA": 0.881,
+   "extB": 10.512,
+   "thickA": 0.0,
+   "thickB": 3.315,
+   "visible": true,
+   "a": "Lastlight_FloorWingTiles",
+   "pa": 133,
+   "b": "Lastlight_ShellTower",
+   "pb": 447,
+   "kind": "same-facing",
+   "area": 0.00011,
+   "at": [
+    -2.377,
+    -0.444,
+    0.0
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 29,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    0.9999999403953552
+   ],
+   "view": "inside:0.0"
+  },
+  {
+   "da": 0.0,
+   "db": 0.0,
+   "extA": 0.881,
+   "extB": 10.512,
+   "thickA": 0.0,
+   "thickB": 3.315,
+   "visible": true,
+   "a": "Lastlight_FloorWingTiles",
+   "pa": 134,
+   "b": "Lastlight_ShellTower",
+   "pb": 447,
+   "kind": "same-facing",
+   "area": 0.0001,
+   "at": [
+    -2.53,
+    -0.445,
+    0.0
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 29,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "inside:0.0"
+  },
+  {
+   "da": 0.0,
+   "db": 0.0,
+   "extA": 0.881,
+   "extB": 10.512,
+   "thickA": 0.0,
+   "thickB": 3.315,
+   "visible": true,
+   "a": "Lastlight_FloorWingTiles",
+   "pa": 416,
+   "b": "Lastlight_ShellTower",
+   "pb": 447,
+   "kind": "same-facing",
+   "area": 0.00035,
+   "at": [
+    -2.53,
+    -0.449,
+    0.0
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 29,
+   "islandB": 0,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    0.9999999403953552
+   ],
+   "view": "inside:0.0"
+  }
+ ]
+}

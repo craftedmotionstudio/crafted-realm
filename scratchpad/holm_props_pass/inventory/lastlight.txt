@@ -1,0 +1,60 @@
+== Lastlight_Furnishing 14 clusters
+  x -4.71.. -4.19 y 0.00.. 0.90 z  2.04..  2.56   112 tris  4 isl  Lastlight aged oak (not clipped), Lastlight wrought iron (not clipped)
+  x -4.68.. -3.30 y 0.00.. 0.92 z -1.82.. -0.61   240 tris  7 isl  Lastlight beacon flame (not clipped), Lastlight dressed sandstone (not clipped), Lastlight fieldstone (not cli
+  x -4.45.. -3.35 y 1.30.. 2.30 z -1.81.. -1.35    12 tris  1 isl  Lastlight stone shade (not clipped)
+  x -3.20.. -2.75 y 0.00.. 0.84 z -1.71.. -1.39    44 tris  3 isl  Lastlight aged oak (not clipped), Lastlight wrought iron (not clipped)
+  x -1.29.. -0.52 y 0.00.. 0.80 z  0.06..  1.08   224 tris  8 isl  Lastlight aged oak (not clipped), Lastlight wrought iron (not clipped)
+  x -1.00.. -0.40 y 0.00.. 0.76 z -3.01.. -2.39    84 tris  7 isl  Lastlight aged oak (not clipped), Lastlight brass, Lastlight dark frame oak (not clipped), Lastlight lantern g
+  x  0.00..  2.00 y 0.00.. 1.62 z  1.25..  1.86   164 tris 11 isl  Lastlight aged oak (not clipped), Lastlight hemp rope
+  x  0.86..  1.14 y 1.75.. 2.60 z -1.12.. -0.88    52 tris  3 isl  Lastlight beacon flame (not clipped), Lastlight wrought iron (not clipped)
+  x  2.38..  3.12 y 0.01.. 0.25 z  0.38..  1.12   256 tris  4 isl  Lastlight hemp rope
+  x  2.45..  3.05 y 0.00.. 1.02 z -3.06.. -2.44   120 tris 10 isl  Lastlight aged oak (not clipped), Lastlight dark frame oak (not clipped)
+  x  3.03..  3.10 y 0.57.. 0.67 z -1.79.. -1.71    20 tris  1 isl  Lastlight brass
+  x  3.03..  3.10 y 0.57.. 0.67 z -1.04.. -0.96    20 tris  1 isl  Lastlight brass
+  x  3.03..  3.10 y 0.57.. 0.67 z -0.29.. -0.21    20 tris  1 isl  Lastlight brass
+  x  3.15..  3.85 y 0.00.. 0.91 z -2.12..  0.12   288 tris 12 isl  Lastlight aged oak (not clipped), Lastlight dark frame oak (not clipped), Lastlight wrought iron (not clipped)
+== Lastlight_FurnishingDressing 8 clusters
+  x -4.41.. -4.29 y 0.70.. 0.94 z -1.71.. -1.61    70 tris  6 isl  Candle flame (glow), Holm flat colour, Holm flat colour - beam
+  x -4.09.. -3.93 y 0.82.. 1.00 z -1.60.. -1.39    90 tris  4 isl  Holm flat colour, Holm flat colour - beam
+  x -0.79.. -0.68 y 0.72.. 0.96 z -2.76.. -2.67    70 tris  6 isl  Candle flame (glow), Holm flat colour, Holm flat colour - beam
+  x  0.41..  0.50 y 1.61.. 1.72 z  1.65..  1.72    40 tris  2 isl  Holm flat colour - beam
+  x  1.76..  1.86 y 1.61.. 1.76 z  1.69..  1.77    52 tris  2 isl  Holm flat colour
+  x  1.76..  1.91 y 1.61.. 1.76 z  1.41..  1.52    16 tris  2 isl  Holm flat colour
+  x  2.56..  2.72 y 1.02.. 1.07 z -2.91.. -2.75    38 tris  2 isl  Holm flat colour, Holm flat colour - beam
+  x  2.88..  3.00 y 0.60.. 0.78 z -2.66.. -2.56    52 tris  2 isl  Holm flat colour
+== Lastlight_ServiceStores_Workbench 6 clusters
+  x -4.60.. -2.40 y 0.00.. 1.20 z  3.20..  3.78   160 tris 12 isl  Lastlight aged oak (not clipped), Lastlight brass, Lastlight lantern glass (not clipped), Lastlight wrought ir
+  x -4.55.. -2.45 y 1.25.. 2.20 z  3.70..  3.81   132 tris 11 isl  Lastlight aged oak (not clipped), Lastlight dark frame oak (not clipped), Lastlight wrought iron (not clipped)
+  x -2.22.. -1.78 y 0.00.. 0.68 z  2.75..  3.15    52 tris  3 isl  Lastlight aged oak (not clipped), Lastlight wrought iron (not clipped)
+  x -2.22.. -1.78 y 0.00.. 0.45 z  3.30..  3.70    12 tris  1 isl  Lastlight aged oak (not clipped)
+  x -1.72.. -1.28 y 0.00.. 0.90 z  3.30..  3.70    72 tris  6 isl  Lastlight aged oak (not clipped), Lastlight lantern glass (not clipped)
+  x -1.45.. -1.10 y 1.20.. 2.02 z  2.19..  3.71    36 tris  3 isl  Lastlight aged oak (not clipped), Lastlight dark frame oak (not clipped)
+== Lastlight_UpperFurnishingDressing 7 clusters
+  x -1.56.. -1.40 y 3.80.. 3.85 z -1.24.. -1.07    38 tris  2 isl  Holm flat colour, Holm flat colour - beam
+  x -1.49.. -1.38 y 3.80.. 4.04 z -0.71.. -0.62    70 tris  6 isl  Candle flame (glow), Holm flat colour, Holm flat colour - beam
+  x  0.58..  0.69 y 6.82.. 7.06 z -3.47.. -3.38    70 tris  6 isl  Candle flame (glow), Holm flat colour, Holm flat colour - beam
+  x  1.21..  1.33 y 6.82.. 7.00 z -3.40.. -3.30    52 tris  2 isl  Holm flat colour
+  x  2.42..  2.52 y 7.40.. 7.51 z -2.62.. -2.54    52 tris  2 isl  Holm flat colour - beam
+  x  2.56..  2.72 y 6.73.. 6.78 z -2.72.. -2.56    38 tris  2 isl  Holm flat colour, Holm flat colour - beam
+  x  3.27..  3.52 y 3.56.. 3.61 z -0.10..  0.08    38 tris  3 isl  Holm flat colour
+== Lastlight_UpperFurnishingKeeper 7 clusters
+  x -1.62.. -0.13 y 4.30.. 4.81 z -3.62.. -2.13    96 tris  8 isl  Lastlight aged oak (not clipped), Lastlight clay tile, Lastlight dark frame oak (not clipped)
+  x -1.58.. -0.92 y 3.00.. 4.02 z -1.60.. -0.40   132 tris  9 isl  Lastlight aged oak (not clipped), Lastlight beacon flame (not clipped), Lastlight brass, Lastlight clay tile, 
+  x -1.31.. -0.35 y 3.00.. 5.16 z  0.35..  1.31   108 tris  5 isl  Lastlight brass, Lastlight wrought iron (not clipped)
+  x -0.01..  2.00 y 3.00.. 4.00 z  0.95..  1.74   117 tris  8 isl  Lastlight aged oak (not clipped), Lastlight brass, Lastlight limewash, Lastlight red wool
+  x  0.00..  0.65 y 4.30.. 4.90 z -3.80.. -3.77    12 tris  1 isl  Lastlight limewash
+  x  2.80..  3.12 y 4.20.. 4.75 z  0.80..  1.12    24 tris  2 isl  Lastlight aged oak (not clipped), Lastlight limewash
+  x  3.26..  3.78 y 3.00.. 3.57 z -0.71..  0.13    48 tris  4 isl  Lastlight aged oak (not clipped), Lastlight dark frame oak (not clipped), Lastlight wrought iron (not clipped)
+== Lastlight_UpperFurnishingWatch 5 clusters
+  x -1.56.. -0.84 y 6.00.. 7.28 z -1.85.. -0.15    80 tris  4 isl  Lastlight brass, Lastlight dark frame oak (not clipped), Lastlight wrought iron (not clipped)
+  x -0.92.. -0.73 y 6.28.. 6.52 z -0.13.. -0.07    20 tris  1 isl  Lastlight wrought iron (not clipped)
+  x -0.81.. -0.37 y 6.00.. 6.34 z  0.39..  0.80    60 tris  3 isl  Lastlight clay tile, Lastlight wrought iron (not clipped)
+  x  0.20..  1.80 y 6.00.. 6.95 z -3.57.. -2.95   100 tris  7 isl  Lastlight aged oak (not clipped), Lastlight brass, Lastlight limewash, Lastlight red wool
+  x  2.35..  2.85 y 6.00.. 7.40 z -2.81.. -2.39    24 tris  2 isl  Lastlight aged oak (not clipped), Lastlight dark frame oak (not clipped)
+== Lastlight_Yard 6 clusters
+  x -6.65.. -5.60 y-0.30.. 0.39 z -2.01.. -1.19   312 tris 13 isl  Lastlight aged oak (not clipped), Lastlight dark frame oak (not clipped), Lastlight hemp rope
+  x -6.45.. -5.75 y-0.29.. 0.25 z -2.57.. -2.03   112 tris  4 isl  Lastlight aged oak (not clipped), Lastlight hemp rope
+  x -5.98.. -5.42 y-0.30.. 0.15 z  4.34..  4.86    60 tris  5 isl  Lastlight aged oak (not clipped), Lastlight dark frame oak (not clipped)
+  x -5.18.. -4.62 y-0.30.. 0.15 z  4.49..  5.01    60 tris  5 isl  Lastlight aged oak (not clipped), Lastlight dark frame oak (not clipped)
+  x -0.84.. -0.46 y 2.18.. 2.62 z  4.21..  4.49    12 tris  1 isl  Lastlight wrought iron (not clipped)
+  x -0.76.. -0.14 y-0.30.. 0.65 z  4.25..  4.86   112 tris  4 isl  Lastlight aged oak (not clipped), Lastlight wrought iron (not clipped)

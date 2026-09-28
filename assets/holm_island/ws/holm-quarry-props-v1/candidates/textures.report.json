@@ -1,0 +1,77 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "5.1.2",
+ "source": ".studio-workspaces/holm-quarry-props-v1/working/quarry-flat.blend",
+ "materials": {
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  },
+  "Holm props colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Quarry_FurnishingPropsHall": {
+   "beam": 623,
+   "rock": 63
+  },
+  "Quarry_FurnishingPropsHung": {
+   "beam": 72,
+   "rock": 86
+  },
+  "Quarry_FurnishingPropsSmithy": {
+   "rock": 468,
+   "beam": 353
+  },
+  "Quarry_ServiceBench_Repair": {
+   "beam": 259
+  },
+  "Quarry_ServiceWinch_Windlass": {
+   "beam": 314
+  },
+  "Quarry_UpperFurnishingPropsLoft": {
+   "beam": 305
+  }
+ },
+ "keptImages": [
+  "Holm flat colour - planks",
+  "Holm flat colour - rock",
+  "Quarry aged oak",
+  "Quarry aged oak (not clipped)",
+  "Quarry cave dark",
+  "Quarry clay",
+  "Quarry clay tile cool",
+  "Quarry clay tile warm",
+  "Quarry copper ore",
+  "Quarry dark frame oak",
+  "Quarry dark frame oak (not clipped)",
+  "Quarry dressed sandstone",
+  "Quarry dressed sandstone (not clipped)",
+  "Quarry fieldstone",
+  "Quarry fieldstone (not clipped)",
+  "Quarry floorboards",
+  "Quarry limewash plaster",
+  "Quarry limewash plaster (not clipped)",
+  "Quarry rock face",
+  "Quarry rock lit top",
+  "Quarry rock shadow",
+  "Quarry stone lit faces",
+  "Quarry stone lit faces (not clipped)",
+  "Quarry stone shaded faces",
+  "Quarry stone shaded faces (not clipped)",
+  "Quarry worn flagstone"
+ ],
+ "meshes": 27,
+ "glb": {
+  "path": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb",
+  "bytes": 2108236,
+  "sha256": "9fc93b98937d5a6d01e07b51d9cabe0e22b516469599d373d452b2df5fbf4c93"
+ },
+ "images": [
+  "beam",
+  "rock"
+ ]
+}

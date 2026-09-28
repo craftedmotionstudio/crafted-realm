@@ -1,0 +1,89 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-quarry-glazed-review4-v1\\candidates\\quarry.glb",
+ "views": [
+  "outside",
+  "inside:0.0"
+ ],
+ "summary": {
+  "fights": 2,
+  "byKind": {
+   "same-facing": 2
+  },
+  "area": 0.0046,
+  "topPairs": [
+   [
+    [
+     "Quarry_ShellMain",
+     "Quarry_ShellMain"
+    ],
+    2
+   ]
+  ]
+ },
+ "fights": [
+  {
+   "da": -1.399999976158142,
+   "db": -1.399999976158142,
+   "extA": 8.629,
+   "extB": 8.629,
+   "thickA": 7.395,
+   "thickB": 7.395,
+   "visible": true,
+   "a": "Quarry_ShellMain",
+   "pa": 1788,
+   "b": "Quarry_ShellMain",
+   "pb": 9204,
+   "kind": "same-facing",
+   "area": 0.00233,
+   "at": [
+    -4.928,
+    -1.4,
+    2.52
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 0,
+   "islandB": 0,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -1.399999976158142,
+   "db": -1.399999976158142,
+   "extA": 8.629,
+   "extB": 8.629,
+   "thickA": 7.395,
+   "thickB": 7.395,
+   "visible": true,
+   "a": "Quarry_ShellMain",
+   "pa": 1789,
+   "b": "Quarry_ShellMain",
+   "pb": 9204,
+   "kind": "same-facing",
+   "area": 0.00226,
+   "at": [
+    -4.878,
+    -1.4,
+    2.51
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 0,
+   "islandB": 0,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  }
+ ]
+}

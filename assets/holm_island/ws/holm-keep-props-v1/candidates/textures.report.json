@@ -1,0 +1,47 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-keep-props-v1/working/keep-flat.blend",
+ "materials": {
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Keep_Furnishing_PropsArms": {
+   "beam": 470
+  },
+  "Keep_Furnishing_PropsBarracks": {
+   "beam": 347
+  },
+  "Keep_Furnishing_PropsHallTable": {
+   "beam": 186
+  },
+  "Keep_Furnishing_PropsStores": {
+   "beam": 637
+  },
+  "Keep_Upper_Furnishing_PropsQuarters": {
+   "beam": 1007
+  }
+ },
+ "keptImages": [
+  "Keep aged oak",
+  "Keep floor flags",
+  "Keep gray fieldstone",
+  "Keep gray fieldstone (not clipped)",
+  "Keep pale dressed stone",
+  "Keep stair oak",
+  "Keep warm shingles"
+ ],
+ "meshes": 30,
+ "glb": {
+  "path": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
+  "bytes": 2168712,
+  "sha256": "e2b9073c7840b7c87eb308c5829fc53ed82723fe375af6dda547d4660fbd9b19"
+ },
+ "images": [
+  "beam"
+ ]
+}

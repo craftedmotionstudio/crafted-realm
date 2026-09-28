@@ -1,0 +1,111 @@
+{
+ "baseline": {
+  "identical": true,
+  "differs": [],
+  "refGraph": "holm-cavern-v2land-navigation-v1"
+ },
+ "build": {
+  "flat": ".studio-workspaces/holm-cavern-props-v1/working/cavern-flat.blend",
+  "built": {
+   "Cavern_FurnishingPropsStores": 7495,
+   "Cavern_FurnishingPropsBellows": 304,
+   "Cavern_FurnishingPropsToolRack": 492,
+   "Cavern_FurnishingCart": 932,
+   "Cavern_Torch": 2580,
+   "Cavern_TorchFlame": 180,
+   "Cavern_ServiceFurnace_Furnace": 726,
+   "Cavern_ServiceAnvil_Anvil": 268
+  },
+  "removed": [
+   "Cavern_Furnishing",
+   "Cavern_FurnishingCart",
+   "Cavern_Torch",
+   "Cavern_TorchFlame",
+   "Cavern_ServiceFurnace_Furnace",
+   "Cavern_ServiceAnvil_Anvil"
+  ],
+  "islandsRemoved": {}
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb",
+   "bytes": 2706904,
+   "sha256": "e6be87eb952e344dc03875ee58b25747f28d070b18bdbbda488f87e7edd31458"
+  },
+  "materials": 2,
+  "images": [
+   "beam",
+   "rock"
+  ]
+ },
+ "proof": {
+  "ok": true,
+  "reference": ".studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.glb",
+  "candidate": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb",
+  "referenceNodes": 25,
+  "kept": 19,
+  "changed": {
+   "Cavern_Furnishing": [
+    2708,
+    null
+   ],
+   "Cavern_FurnishingCart": [
+    220,
+    974
+   ],
+   "Cavern_ServiceAnvil_Anvil": [
+    182,
+    284
+   ],
+   "Cavern_ServiceFurnace_Furnace": [
+    442,
+    766
+   ],
+   "Cavern_Torch": [
+    2100,
+    2715
+   ],
+   "Cavern_TorchFlame": [
+    300,
+    180
+   ]
+  },
+  "added": {
+   "Cavern_FurnishingPropsBellows": 315,
+   "Cavern_FurnishingPropsStores": 7754,
+   "Cavern_FurnishingPropsToolRack": 522
+  },
+  "issues": []
+ },
+ "graph": {
+  "ws": "holm-cavern-props-navigation-v1",
+  "nodes": 150,
+  "identical": true,
+  "differs": [],
+  "modelSha256": "e6be87eb952e344dc03875ee58b25747f28d070b18bdbbda488f87e7edd31458"
+ },
+ "cutaway": {
+  "pieces": 50,
+  "keep": 50,
+  "cut": 0,
+  "clipped": 0
+ },
+ "coplanar": {
+  "before": 47,
+  "after": 11,
+  "areaBefore": 0.296,
+  "areaAfter": 0.0748,
+  "worse": [],
+  "exposedUntouched": []
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-cavern-v2land-navigation-v1",
+   "model": ".studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.glb"
+  },
+  "now": {
+   "graph": "holm-cavern-props-navigation-v1",
+   "model": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb"
+  }
+ }
+}

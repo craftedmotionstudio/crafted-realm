@@ -1,0 +1,143 @@
+{
+ "glb": ".studio-workspaces/holm-haven-props-v1/candidates/haven.glb",
+ "out": "scratchpad/holm_props_pass/haven/blender_after",
+ "size": [
+  900,
+  640
+ ],
+ "hide": "Haven_Roof",
+ "views": [
+  {
+   "name": "shelter",
+   "target": [
+    -3.8,
+    0.5,
+    -3
+   ],
+   "yaw": 90,
+   "pitch": 35,
+   "dist": 4.6,
+   "lens": 35
+  },
+  {
+   "name": "sea_chest",
+   "target": [
+    -4.8,
+    0.45,
+    -4.6
+   ],
+   "yaw": 60,
+   "pitch": 30,
+   "dist": 2.6,
+   "lens": 35
+  },
+  {
+   "name": "west_bench",
+   "target": [
+    -3.3,
+    0.5,
+    -1.1
+   ],
+   "yaw": 150,
+   "pitch": 30,
+   "dist": 3.2,
+   "lens": 35
+  },
+  {
+   "name": "notice",
+   "target": [
+    -2.05,
+    1.2,
+    0.8
+   ],
+   "yaw": 90,
+   "pitch": 10,
+   "dist": 4.5,
+   "lens": 35
+  },
+  {
+   "name": "stairhead_lantern",
+   "target": [
+    -2,
+    1.1,
+    -7.9
+   ],
+   "yaw": 60,
+   "pitch": 15,
+   "dist": 4,
+   "lens": 35
+  },
+  {
+   "name": "landing",
+   "target": [
+    -1,
+    -0.6,
+    -14
+   ],
+   "yaw": 60,
+   "pitch": 45,
+   "dist": 8,
+   "lens": 35
+  },
+  {
+   "name": "davit",
+   "target": [
+    -3.8,
+    0.2,
+    -16.9
+   ],
+   "yaw": 110,
+   "pitch": 18,
+   "dist": 5,
+   "lens": 35
+  },
+  {
+   "name": "thead_barrels",
+   "target": [
+    -2.85,
+    -0.65,
+    -15.55
+   ],
+   "yaw": 60,
+   "pitch": 30,
+   "dist": 3,
+   "lens": 35
+  },
+  {
+   "name": "west_bollards",
+   "target": [
+    -2.6,
+    -0.8,
+    -12
+   ],
+   "yaw": 70,
+   "pitch": 35,
+   "dist": 4,
+   "lens": 35
+  },
+  {
+   "name": "boat_side",
+   "target": [
+    1.67,
+    -0.9,
+    -14.5
+   ],
+   "yaw": 285,
+   "pitch": 30,
+   "dist": 5.5,
+   "lens": 35
+  },
+  {
+   "name": "landing_lantern",
+   "target": [
+    2,
+    0,
+    -17.8
+   ],
+   "yaw": 250,
+   "pitch": 15,
+   "dist": 3.5,
+   "lens": 35
+  }
+ ]
+}

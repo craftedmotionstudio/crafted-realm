@@ -1,0 +1,25 @@
+== Haven_Furnishing 6 clusters
+  x -5.22.. -4.78 y 1.50.. 1.95 z -2.06.. -1.64    36 tris  1 isl  Hemp rope
+  x -5.15.. -4.70 y 0.15.. 0.62 z -4.00.. -1.35    48 tris  4 isl  Pale plank edges, Stone lit faces (not clipped)
+  x -5.15.. -4.95 y 2.00.. 2.06 z -2.13.. -2.07    12 tris  1 isl  Aged oak (not clipped)
+  x -5.15.. -4.95 y 2.00.. 2.06 z -1.63.. -1.57    12 tris  1 isl  Aged oak (not clipped)
+  x -5.13.. -4.52 y 0.15.. 0.73 z -5.02.. -4.23    48 tris  4 isl  Aged oak (not clipped), Dark frame oak (not clipped), Tarred iron (not clipped)
+  x -4.70.. -2.00 y 0.15.. 0.62 z -1.30.. -0.85    48 tris  4 isl  Pale plank edges, Stone lit faces (not clipped)
+== Haven_FurnishingDressing 1 clusters
+  x -4.63.. -4.44 y 0.72.. 0.75 z  4.79..  4.99    70 tris  3 isl  Holm flat colour - beam
+== Haven_Mooring 10 clusters
+  x -5.34.. -2.79 y-1.15.. 2.27 z-17.24..-16.56   204 tris 11 isl  Aged oak (not clipped), Dark frame oak (not clipped), Hemp rope, Tarred iron (not clipped)
+  x -3.85.. -3.55 y-1.15..-0.55 z-13.46..-12.94    76 tris  3 isl  Aged oak (not clipped), Tarred iron (not clipped)
+  x -2.39.. -1.74 y-0.25.. 2.45 z -8.00.. -7.80    76 tris  5 isl  Dark frame oak (not clipped), Notice parchment, Tarred iron (not clipped)
+  x -1.82.. -1.52 y-1.15..-0.55 z-11.16..-10.64    76 tris  3 isl  Aged oak (not clipped), Tarred iron (not clipped)
+  x  1.52..  2.99 y-1.15..-0.25 z-17.46..-16.94   216 tris 10 isl  Aged oak (not clipped), Hemp rope, Tarred iron (not clipped)
+  x  1.52..  2.99 y-1.15..-0.25 z-12.16..-11.64   216 tris 10 isl  Aged oak (not clipped), Hemp rope, Tarred iron (not clipped)
+  x  1.63..  1.85 y-2.00..-1.17 z-16.01..-15.79    48 tris  2 isl  Hemp rope
+  x  1.63..  1.85 y-2.00..-1.17 z-14.61..-14.39    48 tris  2 isl  Hemp rope
+  x  1.63..  1.85 y-2.00..-1.17 z-13.21..-12.99    48 tris  2 isl  Hemp rope
+  x  1.72..  2.37 y-1.45.. 1.25 z-17.90..-17.70    76 tris  5 isl  Dark frame oak (not clipped), Notice parchment, Tarred iron (not clipped)
+== Haven_Props 2 clusters
+  x -3.51.. -2.89 y-1.05..-0.25 z-15.85..-15.26   108 tris  3 isl  Aged oak (not clipped), Tarred iron (not clipped)
+  x -2.81.. -2.19 y-1.05..-0.25 z-15.89..-15.30   108 tris  3 isl  Aged oak (not clipped), Tarred iron (not clipped)
+== Haven_ServiceNotice_Board 1 clusters
+  x -2.43.. -1.67 y-0.25.. 2.42 z -0.34..  1.97   316 tris 21 isl  Aged oak (not clipped), Bell bronze, Dark frame oak (not clipped), Dressed sandstone (not clipped), Hemp rope,

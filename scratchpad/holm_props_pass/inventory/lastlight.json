@@ -1,0 +1,1084 @@
+{
+ "Lastlight_Furnishing": [
+  {
+   "x": [
+    -4.709,
+    -4.191
+   ],
+   "y": [
+    0.0,
+    0.9
+   ],
+   "z": [
+    2.041,
+    2.559
+   ],
+   "islands": 4,
+   "tris": 112,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -4.685,
+    -3.3
+   ],
+   "y": [
+    0.0,
+    0.92
+   ],
+   "z": [
+    -1.82,
+    -0.615
+   ],
+   "islands": 7,
+   "tris": 240,
+   "mats": [
+    "Lastlight beacon flame (not clipped)",
+    "Lastlight dressed sandstone (not clipped)",
+    "Lastlight fieldstone (not clipped)",
+    "Lastlight hemp rope",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -4.45,
+    -3.35
+   ],
+   "y": [
+    1.3,
+    2.3
+   ],
+   "z": [
+    -1.815,
+    -1.35
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Lastlight stone shade (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -3.2,
+    -2.747
+   ],
+   "y": [
+    0.0,
+    0.84
+   ],
+   "z": [
+    -1.706,
+    -1.394
+   ],
+   "islands": 3,
+   "tris": 44,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -1.29,
+    -0.523
+   ],
+   "y": [
+    0.0,
+    0.8
+   ],
+   "z": [
+    0.06,
+    1.077
+   ],
+   "islands": 8,
+   "tris": 224,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -1.0,
+    -0.4
+   ],
+   "y": [
+    0.0,
+    0.76
+   ],
+   "z": [
+    -3.012,
+    -2.388
+   ],
+   "islands": 7,
+   "tris": 84,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight brass",
+    "Lastlight dark frame oak (not clipped)",
+    "Lastlight lantern glass (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.0,
+    2.0
+   ],
+   "y": [
+    0.0,
+    1.625
+   ],
+   "z": [
+    1.25,
+    1.865
+   ],
+   "islands": 11,
+   "tris": 164,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight hemp rope"
+   ]
+  },
+  {
+   "x": [
+    0.86,
+    1.14
+   ],
+   "y": [
+    1.75,
+    2.6
+   ],
+   "z": [
+    -1.121,
+    -0.879
+   ],
+   "islands": 3,
+   "tris": 52,
+   "mats": [
+    "Lastlight beacon flame (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    2.375,
+    3.125
+   ],
+   "y": [
+    0.01,
+    0.25
+   ],
+   "z": [
+    0.375,
+    1.125
+   ],
+   "islands": 4,
+   "tris": 256,
+   "mats": [
+    "Lastlight hemp rope"
+   ]
+  },
+  {
+   "x": [
+    2.45,
+    3.05
+   ],
+   "y": [
+    0.0,
+    1.02
+   ],
+   "z": [
+    -3.062,
+    -2.438
+   ],
+   "islands": 10,
+   "tris": 120,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight dark frame oak (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    3.03,
+    3.1
+   ],
+   "y": [
+    0.57,
+    0.67
+   ],
+   "z": [
+    -1.793,
+    -1.707
+   ],
+   "islands": 1,
+   "tris": 20,
+   "mats": [
+    "Lastlight brass"
+   ]
+  },
+  {
+   "x": [
+    3.03,
+    3.1
+   ],
+   "y": [
+    0.57,
+    0.67
+   ],
+   "z": [
+    -1.043,
+    -0.957
+   ],
+   "islands": 1,
+   "tris": 20,
+   "mats": [
+    "Lastlight brass"
+   ]
+  },
+  {
+   "x": [
+    3.03,
+    3.1
+   ],
+   "y": [
+    0.57,
+    0.67
+   ],
+   "z": [
+    -0.293,
+    -0.207
+   ],
+   "islands": 1,
+   "tris": 20,
+   "mats": [
+    "Lastlight brass"
+   ]
+  },
+  {
+   "x": [
+    3.15,
+    3.85
+   ],
+   "y": [
+    0.0,
+    0.911
+   ],
+   "z": [
+    -2.115,
+    0.115
+   ],
+   "islands": 12,
+   "tris": 288,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight dark frame oak (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  }
+ ],
+ "Lastlight_FurnishingDressing": [
+  {
+   "x": [
+    -4.405,
+    -4.295
+   ],
+   "y": [
+    0.7,
+    0.94
+   ],
+   "z": [
+    -1.71,
+    -1.615
+   ],
+   "islands": 6,
+   "tris": 70,
+   "mats": [
+    "Candle flame (glow)",
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    -4.088,
+    -3.928
+   ],
+   "y": [
+    0.82,
+    1.0
+   ],
+   "z": [
+    -1.596,
+    -1.39
+   ],
+   "islands": 4,
+   "tris": 90,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    -0.794,
+    -0.684
+   ],
+   "y": [
+    0.72,
+    0.96
+   ],
+   "z": [
+    -2.764,
+    -2.669
+   ],
+   "islands": 6,
+   "tris": 70,
+   "mats": [
+    "Candle flame (glow)",
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    0.412,
+    0.496
+   ],
+   "y": [
+    1.61,
+    1.724
+   ],
+   "z": [
+    1.648,
+    1.72
+   ],
+   "islands": 2,
+   "tris": 40,
+   "mats": [
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    1.761,
+    1.858
+   ],
+   "y": [
+    1.61,
+    1.763
+   ],
+   "z": [
+    1.685,
+    1.768
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    1.764,
+    1.913
+   ],
+   "y": [
+    1.61,
+    1.765
+   ],
+   "z": [
+    1.405,
+    1.521
+   ],
+   "islands": 2,
+   "tris": 16,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    2.556,
+    2.716
+   ],
+   "y": [
+    1.02,
+    1.07
+   ],
+   "z": [
+    -2.912,
+    -2.752
+   ],
+   "islands": 2,
+   "tris": 38,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    2.885,
+    3.005
+   ],
+   "y": [
+    0.6,
+    0.78
+   ],
+   "z": [
+    -2.66,
+    -2.557
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour"
+   ]
+  }
+ ],
+ "Lastlight_ServiceStores_Workbench": [
+  {
+   "x": [
+    -4.6,
+    -2.4
+   ],
+   "y": [
+    0.0,
+    1.2
+   ],
+   "z": [
+    3.2,
+    3.78
+   ],
+   "islands": 12,
+   "tris": 160,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight brass",
+    "Lastlight lantern glass (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -4.55,
+    -2.45
+   ],
+   "y": [
+    1.25,
+    2.2
+   ],
+   "z": [
+    3.7,
+    3.815
+   ],
+   "islands": 11,
+   "tris": 132,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight dark frame oak (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -2.22,
+    -1.78
+   ],
+   "y": [
+    0.0,
+    0.68
+   ],
+   "z": [
+    2.75,
+    3.15
+   ],
+   "islands": 3,
+   "tris": 52,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -2.22,
+    -1.78
+   ],
+   "y": [
+    0.0,
+    0.45
+   ],
+   "z": [
+    3.3,
+    3.7
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Lastlight aged oak (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -1.72,
+    -1.28
+   ],
+   "y": [
+    0.0,
+    0.9
+   ],
+   "z": [
+    3.3,
+    3.7
+   ],
+   "islands": 6,
+   "tris": 72,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight lantern glass (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -1.45,
+    -1.105
+   ],
+   "y": [
+    1.2,
+    2.015
+   ],
+   "z": [
+    2.185,
+    3.715
+   ],
+   "islands": 3,
+   "tris": 36,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight dark frame oak (not clipped)"
+   ]
+  }
+ ],
+ "Lastlight_UpperFurnishingDressing": [
+  {
+   "x": [
+    -1.557,
+    -1.397
+   ],
+   "y": [
+    3.8,
+    3.85
+   ],
+   "z": [
+    -1.235,
+    -1.075
+   ],
+   "islands": 2,
+   "tris": 38,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    -1.491,
+    -1.381
+   ],
+   "y": [
+    3.8,
+    4.04
+   ],
+   "z": [
+    -0.713,
+    -0.618
+   ],
+   "islands": 6,
+   "tris": 70,
+   "mats": [
+    "Candle flame (glow)",
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    0.579,
+    0.689
+   ],
+   "y": [
+    6.82,
+    7.06
+   ],
+   "z": [
+    -3.472,
+    -3.377
+   ],
+   "islands": 6,
+   "tris": 70,
+   "mats": [
+    "Candle flame (glow)",
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    1.212,
+    1.332
+   ],
+   "y": [
+    6.82,
+    7.0
+   ],
+   "z": [
+    -3.405,
+    -3.301
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    2.425,
+    2.517
+   ],
+   "y": [
+    7.4,
+    7.509
+   ],
+   "z": [
+    -2.62,
+    -2.54
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    2.557,
+    2.717
+   ],
+   "y": [
+    6.73,
+    6.78
+   ],
+   "z": [
+    -2.718,
+    -2.558
+   ],
+   "islands": 2,
+   "tris": 38,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    3.267,
+    3.517
+   ],
+   "y": [
+    3.56,
+    3.61
+   ],
+   "z": [
+    -0.098,
+    0.082
+   ],
+   "islands": 3,
+   "tris": 38,
+   "mats": [
+    "Holm flat colour"
+   ]
+  }
+ ],
+ "Lastlight_UpperFurnishingKeeper": [
+  {
+   "x": [
+    -1.616,
+    -0.131
+   ],
+   "y": [
+    4.3,
+    4.806
+   ],
+   "z": [
+    -3.616,
+    -2.131
+   ],
+   "islands": 8,
+   "tris": 96,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight clay tile",
+    "Lastlight dark frame oak (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -1.58,
+    -0.92
+   ],
+   "y": [
+    3.0,
+    4.02
+   ],
+   "z": [
+    -1.6,
+    -0.4
+   ],
+   "islands": 9,
+   "tris": 132,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight beacon flame (not clipped)",
+    "Lastlight brass",
+    "Lastlight clay tile",
+    "Lastlight limewash"
+   ]
+  },
+  {
+   "x": [
+    -1.307,
+    -0.354
+   ],
+   "y": [
+    3.0,
+    5.157
+   ],
+   "z": [
+    0.354,
+    1.307
+   ],
+   "islands": 5,
+   "tris": 108,
+   "mats": [
+    "Lastlight brass",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -0.015,
+    2.0
+   ],
+   "y": [
+    3.0,
+    4.0
+   ],
+   "z": [
+    0.95,
+    1.735
+   ],
+   "islands": 8,
+   "tris": 117,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight brass",
+    "Lastlight limewash",
+    "Lastlight red wool"
+   ]
+  },
+  {
+   "x": [
+    0.0,
+    0.65
+   ],
+   "y": [
+    4.3,
+    4.9
+   ],
+   "z": [
+    -3.8,
+    -3.77
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Lastlight limewash"
+   ]
+  },
+  {
+   "x": [
+    2.803,
+    3.121
+   ],
+   "y": [
+    4.2,
+    4.75
+   ],
+   "z": [
+    0.803,
+    1.121
+   ],
+   "islands": 2,
+   "tris": 24,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight limewash"
+   ]
+  },
+  {
+   "x": [
+    3.26,
+    3.78
+   ],
+   "y": [
+    3.0,
+    3.57
+   ],
+   "z": [
+    -0.71,
+    0.13
+   ],
+   "islands": 4,
+   "tris": 48,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight dark frame oak (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  }
+ ],
+ "Lastlight_UpperFurnishingWatch": [
+  {
+   "x": [
+    -1.561,
+    -0.839
+   ],
+   "y": [
+    6.0,
+    7.28
+   ],
+   "z": [
+    -1.85,
+    -0.15
+   ],
+   "islands": 4,
+   "tris": 80,
+   "mats": [
+    "Lastlight brass",
+    "Lastlight dark frame oak (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -0.924,
+    -0.726
+   ],
+   "y": [
+    6.282,
+    6.518
+   ],
+   "z": [
+    -0.126,
+    -0.074
+   ],
+   "islands": 1,
+   "tris": 20,
+   "mats": [
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -0.81,
+    -0.37
+   ],
+   "y": [
+    6.0,
+    6.34
+   ],
+   "z": [
+    0.385,
+    0.795
+   ],
+   "islands": 3,
+   "tris": 60,
+   "mats": [
+    "Lastlight clay tile",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.2,
+    1.8
+   ],
+   "y": [
+    6.0,
+    6.95
+   ],
+   "z": [
+    -3.57,
+    -2.95
+   ],
+   "islands": 7,
+   "tris": 100,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight brass",
+    "Lastlight limewash",
+    "Lastlight red wool"
+   ]
+  },
+  {
+   "x": [
+    2.35,
+    2.85
+   ],
+   "y": [
+    6.0,
+    7.4
+   ],
+   "z": [
+    -2.81,
+    -2.39
+   ],
+   "islands": 2,
+   "tris": 24,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight dark frame oak (not clipped)"
+   ]
+  }
+ ],
+ "Lastlight_Yard": [
+  {
+   "x": [
+    -6.65,
+    -5.6
+   ],
+   "y": [
+    -0.3,
+    0.393
+   ],
+   "z": [
+    -2.012,
+    -1.188
+   ],
+   "islands": 13,
+   "tris": 312,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight dark frame oak (not clipped)",
+    "Lastlight hemp rope"
+   ]
+  },
+  {
+   "x": [
+    -6.45,
+    -5.75
+   ],
+   "y": [
+    -0.288,
+    0.248
+   ],
+   "z": [
+    -2.568,
+    -2.032
+   ],
+   "islands": 4,
+   "tris": 112,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight hemp rope"
+   ]
+  },
+  {
+   "x": [
+    -5.98,
+    -5.42
+   ],
+   "y": [
+    -0.3,
+    0.15
+   ],
+   "z": [
+    4.338,
+    4.862
+   ],
+   "islands": 5,
+   "tris": 60,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight dark frame oak (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -5.18,
+    -4.62
+   ],
+   "y": [
+    -0.3,
+    0.15
+   ],
+   "z": [
+    4.488,
+    5.012
+   ],
+   "islands": 5,
+   "tris": 60,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight dark frame oak (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -0.841,
+    -0.459
+   ],
+   "y": [
+    2.177,
+    2.623
+   ],
+   "z": [
+    4.206,
+    4.494
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Lastlight wrought iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -0.755,
+    -0.145
+   ],
+   "y": [
+    -0.3,
+    0.65
+   ],
+   "z": [
+    4.245,
+    4.855
+   ],
+   "islands": 4,
+   "tris": 112,
+   "mats": [
+    "Lastlight aged oak (not clipped)",
+    "Lastlight wrought iron (not clipped)"
+   ]
+  }
+ ]
+}

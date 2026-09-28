@@ -1,0 +1,20 @@
+{
+ "id": "cavern",
+ "note": "Props pass (2026-09-28): the cavern props designed again (tools/blender/build_holm_cavern_props_pass.py)",
+ "blender": "5.1",
+ "source": ".studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.blend",
+ "reference": ".studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.glb",
+ "referenceGraph": "holm-cavern-v2land-navigation-v1",
+ "script": "tools/blender/build_holm_cavern_props_pass.py",
+ "flat": ".studio-workspaces/holm-cavern-props-v1/working/cavern-flat.blend",
+ "buildReport": "scratchpad/holm_props_pass/cavern/build.report.json",
+ "outBlend": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.blend",
+ "outGlb": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb",
+ "texReport": ".studio-workspaces/holm-cavern-props-v1/candidates/textures.report.json",
+ "changed": "^Cavern_(Furnishing|FurnishingCart|Torch|TorchFlame|ServiceFurnace_Furnace|ServiceAnvil_Anvil)$",
+ "added": "^Cavern_(Upper)?Furnishing[A-Za-z]*Props[A-Za-z]+$",
+ "cutawayParts": "^Cavern_(FurnishingProps[A-Za-z]+|FurnishingCart|ServiceFurnace_Furnace|ServiceAnvil_Anvil)$",
+ "graph": "holm-cavern-props-navigation-v1",
+ "coplanar": "m44",
+ "navSpec": "docs/rebuild/holm-overhaul/buildings/cavern-v2land.nav.json"
+}

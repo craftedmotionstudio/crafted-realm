@@ -1,0 +1,19 @@
+{
+ "id": "haven",
+ "note": "Props pass (2026-09-28): the haven props designed again (tools/blender/build_holm_haven_props_pass.py): the shelter benches, sea chest and oars, the bitts, pile, fenders, lamp posts and davit, the T-head cargo, the departure notice board and bell (service rebuilt under its name)",
+ "blender": "5.1",
+ "source": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.blend",
+ "reference": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.glb",
+ "referenceGraph": "holm-haven-review4-navigation-v1",
+ "script": "tools/blender/build_holm_haven_props_pass.py",
+ "flat": ".studio-workspaces/holm-haven-props-v1/working/haven-flat.blend",
+ "buildReport": "scratchpad/holm_props_pass/haven/build.report.json",
+ "outBlend": ".studio-workspaces/holm-haven-props-v1/candidates/haven.blend",
+ "outGlb": ".studio-workspaces/holm-haven-props-v1/candidates/haven.glb",
+ "texReport": ".studio-workspaces/holm-haven-props-v1/candidates/textures.report.json",
+ "changed": "^Haven_(Furnishing|FurnishingDressing|Mooring|Props|ServiceNotice_Board)$",
+ "added": "^Haven_FurnishingProps[A-Za-z]+$",
+ "graph": "holm-haven-props-navigation-v1",
+ "coplanar": "m44",
+ "navSpec": "docs/rebuild/holm-overhaul/review4/glazing/haven.nav.json"
+}

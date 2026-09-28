@@ -1,0 +1,12 @@
+{
+ "model": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb",
+ "building": "cavern",
+ "lift": 1.2,
+ "levels": [
+  0
+ ],
+ "pieces": 50,
+ "keep": 50,
+ "cut": 0,
+ "clipped": []
+}

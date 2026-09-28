@@ -1,0 +1,106 @@
+{
+ "baseline": {
+  "identical": true,
+  "differs": [],
+  "refGraph": "holm-quarry-review4-navigation-v1"
+ },
+ "build": {
+  "flat": ".studio-workspaces/holm-quarry-props-v1/working/quarry-flat.blend",
+  "built": {
+   "Quarry_FurnishingPropsHall": 2378,
+   "Quarry_FurnishingPropsHung": 696,
+   "Quarry_FurnishingPropsSmithy": 1896,
+   "Quarry_ServiceBench_Repair": 924,
+   "Quarry_ServiceWinch_Windlass": 1320,
+   "Quarry_UpperFurnishingPropsLoft": 778
+  },
+  "removed": [
+   "Quarry_FurnishingDressing",
+   "Quarry_UpperFurnishingMain",
+   "Quarry_ServiceBench_Repair",
+   "Quarry_ServiceWinch_Windlass"
+  ],
+  "islandsRemoved": {
+   "Quarry_FurnishingMain": 814
+  }
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb",
+   "bytes": 2108236,
+   "sha256": "9fc93b98937d5a6d01e07b51d9cabe0e22b516469599d373d452b2df5fbf4c93"
+  },
+  "materials": 2,
+  "images": [
+   "beam",
+   "rock"
+  ]
+ },
+ "proof": {
+  "ok": true,
+  "reference": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb",
+  "candidate": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb",
+  "referenceNodes": 26,
+  "kept": 21,
+  "changed": {
+   "Quarry_FurnishingDressing": [
+    518,
+    null
+   ],
+   "Quarry_FurnishingMain": [
+    1222,
+    408
+   ],
+   "Quarry_ServiceBench_Repair": [
+    231,
+    987
+   ],
+   "Quarry_ServiceWinch_Windlass": [
+    660,
+    1380
+   ],
+   "Quarry_UpperFurnishingMain": [
+    96,
+    null
+   ]
+  },
+  "added": {
+   "Quarry_FurnishingPropsHall": 2496,
+   "Quarry_FurnishingPropsHung": 737,
+   "Quarry_FurnishingPropsSmithy": 1987,
+   "Quarry_UpperFurnishingPropsLoft": 801
+  },
+  "issues": []
+ },
+ "graph": {
+  "ws": "holm-quarry-props-navigation-v1",
+  "nodes": 110,
+  "identical": true,
+  "differs": [],
+  "modelSha256": "9fc93b98937d5a6d01e07b51d9cabe0e22b516469599d373d452b2df5fbf4c93"
+ },
+ "cutaway": {
+  "pieces": 40,
+  "keep": 40,
+  "cut": 0,
+  "clipped": 0
+ },
+ "coplanar": {
+  "before": 2,
+  "after": 2,
+  "areaBefore": 0.0046,
+  "areaAfter": 0.0046,
+  "worse": [],
+  "exposedUntouched": []
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-quarry-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb"
+  },
+  "now": {
+   "graph": "holm-quarry-props-navigation-v1",
+   "model": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb"
+  }
+ }
+}

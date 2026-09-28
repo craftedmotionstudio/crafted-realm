@@ -1,0 +1,48 @@
+{
+ "ok": true,
+ "reference": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.glb",
+ "candidate": ".studio-workspaces/holm-mage-props-v1/candidates/mage.glb",
+ "referenceNodes": 29,
+ "kept": 21,
+ "changed": {
+  "Mage_Furnishing": [
+   1243,
+   null
+  ],
+  "Mage_FurnishingDressing": [
+   395,
+   null
+  ],
+  "Mage_ServiceLectern_Library": [
+   80,
+   487
+  ],
+  "Mage_ServiceRuneTable_Workroom": [
+   344,
+   1407
+  ],
+  "Mage_ServiceTelescope_Observatory": [
+   180,
+   563
+  ],
+  "Mage_UpperFurnishing": [
+   2437,
+   null
+  ],
+  "Mage_UpperFurnishingDressing": [
+   67,
+   null
+  ],
+  "Mage_Yard": [
+   1016,
+   1957
+  ]
+ },
+ "added": {
+  "Mage_FurnishingPropsStudy": 5220,
+  "Mage_FurnishingPropsWorkroom": 2340,
+  "Mage_UpperFurnishingPropsLibrary": 4162,
+  "Mage_UpperFurnishingPropsObservatory": 2275
+ },
+ "issues": []
+}

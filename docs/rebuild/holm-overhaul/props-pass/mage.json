@@ -1,0 +1,19 @@
+{
+ "id": "mage",
+ "note": "Props pass (2026-09-28): the mage props designed again (tools/blender/build_holm_mage_props_pass.py)",
+ "blender": "5.1",
+ "source": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.blend",
+ "reference": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.glb",
+ "referenceGraph": "holm-mage-review4-navigation-v1",
+ "script": "tools/blender/build_holm_mage_props_pass.py",
+ "flat": ".studio-workspaces/holm-mage-props-v1/working/mage-flat.blend",
+ "buildReport": "scratchpad/holm_props_pass/mage/build.report.json",
+ "outBlend": ".studio-workspaces/holm-mage-props-v1/candidates/mage.blend",
+ "outGlb": ".studio-workspaces/holm-mage-props-v1/candidates/mage.glb",
+ "texReport": ".studio-workspaces/holm-mage-props-v1/candidates/textures.report.json",
+ "changed": "^Mage_(Furnishing|FurnishingDressing|UpperFurnishing|UpperFurnishingDressing|Yard|ServiceRuneTable_Workroom|ServiceLectern_Library|ServiceTelescope_Observatory)$",
+ "added": "^Mage_(Upper)?Furnishing[A-Za-z]*Props[A-Za-z]+$",
+ "graph": "holm-mage-props-navigation-v1",
+ "coplanar": "m44",
+ "navSpec": "docs/rebuild/holm-overhaul/review4/glazing/mage.nav.json"
+}

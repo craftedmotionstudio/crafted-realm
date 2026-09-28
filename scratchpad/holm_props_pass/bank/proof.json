@@ -1,0 +1,52 @@
+{
+ "ok": true,
+ "reference": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb",
+ "candidate": ".studio-workspaces/holm-bank-props-v1/candidates/bank.glb",
+ "referenceNodes": 50,
+ "kept": 42,
+ "changed": {
+  "Bank_Furnishing": [
+   1317,
+   null
+  ],
+  "Bank_FurnishingStrongroom": [
+   926,
+   null
+  ],
+  "Bank_ServiceCounter_Booths": [
+   647,
+   2714
+  ],
+  "Bank_ServiceShelves_Goods": [
+   1186,
+   6415
+  ],
+  "Bank_ServiceVault_Chests": [
+   288,
+   1750
+  ],
+  "Bank_ServiceVault_Gate": [
+   348,
+   410
+  ],
+  "Bank_UpperFurnishing": [
+   686,
+   null
+  ],
+  "Bank_UpperFurnishingStrongbox": [
+   118,
+   null
+  ]
+ },
+ "added": {
+  "Bank_FurnishingPropsHall": 2417,
+  "Bank_FurnishingPropsStrongroom": 1636,
+  "Bank_FurnishingPropsTellers": 2031,
+  "Bank_FurnishingPropsVault": 1783,
+  "Bank_FurnishingPropsWing": 1130,
+  "Bank_UpperFurnishingPropsClerk": 2855,
+  "Bank_UpperFurnishingPropsHearth": 1074,
+  "Bank_UpperFurnishingPropsStore": 1361
+ },
+ "issues": []
+}

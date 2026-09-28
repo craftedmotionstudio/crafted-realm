@@ -1,0 +1,882 @@
+{
+ "Quarry_FurnishingDressing": [
+  {
+   "x": [
+    1.023,
+    1.183
+   ],
+   "y": [
+    0.86,
+    0.91
+   ],
+   "z": [
+    1.815,
+    1.975
+   ],
+   "islands": 2,
+   "tris": 38,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    1.072,
+    1.192
+   ],
+   "y": [
+    0.86,
+    1.04
+   ],
+   "z": [
+    1.649,
+    1.753
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    4.372,
+    4.492
+   ],
+   "y": [
+    0.82,
+    1.0
+   ],
+   "z": [
+    -0.437,
+    -0.333
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    4.382,
+    4.561
+   ],
+   "y": [
+    0.55,
+    0.62
+   ],
+   "z": [
+    1.492,
+    1.604
+   ],
+   "islands": 3,
+   "tris": 45,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    4.469,
+    4.719
+   ],
+   "y": [
+    0.66,
+    0.71
+   ],
+   "z": [
+    1.672,
+    1.852
+   ],
+   "islands": 3,
+   "tris": 38,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    4.495,
+    4.615
+   ],
+   "y": [
+    0.84,
+    1.02
+   ],
+   "z": [
+    2.07,
+    2.174
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    4.508,
+    4.625
+   ],
+   "y": [
+    0.92,
+    0.99
+   ],
+   "z": [
+    -0.204,
+    -0.08
+   ],
+   "islands": 3,
+   "tris": 45,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    4.546,
+    4.666
+   ],
+   "y": [
+    0.98,
+    1.16
+   ],
+   "z": [
+    -0.413,
+    -0.309
+   ],
+   "islands": 2,
+   "tris": 52,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    4.549,
+    4.721
+   ],
+   "y": [
+    0.55,
+    0.62
+   ],
+   "z": [
+    0.967,
+    1.131
+   ],
+   "islands": 3,
+   "tris": 45,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    4.556,
+    4.668
+   ],
+   "y": [
+    0.66,
+    0.73
+   ],
+   "z": [
+    0.808,
+    1.012
+   ],
+   "islands": 3,
+   "tris": 45,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  },
+  {
+   "x": [
+    4.616,
+    4.744
+   ],
+   "y": [
+    2.15,
+    2.346
+   ],
+   "z": [
+    -0.679,
+    -0.564
+   ],
+   "islands": 2,
+   "tris": 16,
+   "mats": [
+    "Holm flat colour"
+   ]
+  },
+  {
+   "x": [
+    4.909,
+    5.069
+   ],
+   "y": [
+    0.92,
+    0.97
+   ],
+   "z": [
+    -0.855,
+    -0.695
+   ],
+   "islands": 2,
+   "tris": 38,
+   "mats": [
+    "Holm flat colour",
+    "Holm flat colour - beam"
+   ]
+  }
+ ],
+ "Quarry_FurnishingMain": [
+  {
+   "x": [
+    -4.805,
+    -3.48
+   ],
+   "y": [
+    0.0,
+    3.613
+   ],
+   "z": [
+    -2.2,
+    2.0
+   ],
+   "islands": 19,
+   "tris": 228,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry dark frame oak (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -3.781,
+    -3.477
+   ],
+   "y": [
+    -0.2,
+    -0.033
+   ],
+   "z": [
+    6.319,
+    6.867
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -3.683,
+    -3.38
+   ],
+   "y": [
+    -0.2,
+    -0.04
+   ],
+   "z": [
+    5.758,
+    6.298
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -3.586,
+    -3.296
+   ],
+   "y": [
+    -0.2,
+    -0.033
+   ],
+   "z": [
+    5.272,
+    5.736
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -3.503,
+    -3.213
+   ],
+   "y": [
+    -0.2,
+    -0.046
+   ],
+   "z": [
+    4.793,
+    5.25
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -3.42,
+    -3.139
+   ],
+   "y": [
+    -0.2,
+    -0.034
+   ],
+   "z": [
+    4.359,
+    4.771
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -3.345,
+    -3.057
+   ],
+   "y": [
+    -0.2,
+    -0.05
+   ],
+   "z": [
+    3.887,
+    4.337
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -3.34,
+    -3.205
+   ],
+   "y": [
+    2.1,
+    2.66
+   ],
+   "z": [
+    3.35,
+    3.9
+   ],
+   "islands": 3,
+   "tris": 36,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -3.264,
+    -2.975
+   ],
+   "y": [
+    -0.2,
+    -0.044
+   ],
+   "z": [
+    3.409,
+    3.865
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    -0.025,
+    0.272
+   ],
+   "y": [
+    -0.2,
+    -0.028
+   ],
+   "z": [
+    3.409,
+    3.913
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.065,
+    0.344
+   ],
+   "y": [
+    -0.2,
+    -0.028
+   ],
+   "z": [
+    3.935,
+    4.333
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.138,
+    0.418
+   ],
+   "y": [
+    -0.2,
+    -0.034
+   ],
+   "z": [
+    4.354,
+    4.759
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.211,
+    0.515
+   ],
+   "y": [
+    -0.2,
+    -0.03
+   ],
+   "z": [
+    4.781,
+    5.324
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.27,
+    0.81
+   ],
+   "y": [
+    2.45,
+    6.07
+   ],
+   "z": [
+    -2.99,
+    -2.45
+   ],
+   "islands": 7,
+   "tris": 132,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry copper ore",
+    "Quarry hemp rope",
+    "Quarry iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.309,
+    0.594
+   ],
+   "y": [
+    -0.2,
+    -0.041
+   ],
+   "z": [
+    5.346,
+    5.782
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.388,
+    0.666
+   ],
+   "y": [
+    -0.2,
+    -0.042
+   ],
+   "z": [
+    5.804,
+    6.2
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.4,
+    1.6
+   ],
+   "y": [
+    0.0,
+    1.08
+   ],
+   "z": [
+    1.55,
+    2.2
+   ],
+   "islands": 9,
+   "tris": 108,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry dark frame oak (not clipped)",
+    "Quarry forge ember",
+    "Quarry iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.46,
+    0.763
+   ],
+   "y": [
+    -0.2,
+    -0.037
+   ],
+   "z": [
+    6.222,
+    6.757
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    0.556,
+    0.781
+   ],
+   "y": [
+    -0.2,
+    -0.034
+   ],
+   "z": [
+    6.779,
+    6.867
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    1.635,
+    2.265
+   ],
+   "y": [
+    0.0,
+    0.9
+   ],
+   "z": [
+    -2.565,
+    -1.935
+   ],
+   "islands": 3,
+   "tris": 84,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    2.035,
+    2.665
+   ],
+   "y": [
+    0.0,
+    0.9
+   ],
+   "z": [
+    -1.765,
+    -1.135
+   ],
+   "islands": 3,
+   "tris": 84,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    2.55,
+    2.82
+   ],
+   "y": [
+    0.9,
+    2.1
+   ],
+   "z": [
+    -2.02,
+    -0.48
+   ],
+   "islands": 13,
+   "tris": 156,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry dark frame oak (not clipped)",
+    "Quarry iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    4.25,
+    5.12
+   ],
+   "y": [
+    0.0,
+    0.98
+   ],
+   "z": [
+    -0.9,
+    0.02
+   ],
+   "islands": 3,
+   "tris": 36,
+   "mats": [
+    "Quarry dressed sandstone (not clipped)",
+    "Quarry fieldstone (not clipped)",
+    "Quarry forge ember"
+   ]
+  },
+  {
+   "x": [
+    4.25,
+    4.99
+   ],
+   "y": [
+    0.0,
+    0.84
+   ],
+   "z": [
+    1.35,
+    2.55
+   ],
+   "islands": 9,
+   "tris": 118,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry copper ore",
+    "Quarry dark frame oak (not clipped)",
+    "Quarry iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    4.28,
+    4.94
+   ],
+   "y": [
+    0.0,
+    0.66
+   ],
+   "z": [
+    0.6,
+    1.2
+   ],
+   "islands": 4,
+   "tris": 48,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry copper ore",
+    "Quarry dark frame oak (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    4.3,
+    5.1
+   ],
+   "y": [
+    1.55,
+    2.15
+   ],
+   "z": [
+    -0.9,
+    0.05
+   ],
+   "islands": 1,
+   "tris": 12,
+   "mats": [
+    "Quarry stone shaded faces (not clipped)"
+   ]
+  }
+ ],
+ "Quarry_ServiceBench_Repair": [
+  {
+   "x": [
+    3.25,
+    4.22
+   ],
+   "y": [
+    0.0,
+    1.05
+   ],
+   "z": [
+    -0.9,
+    -0.338
+   ],
+   "islands": 13,
+   "tris": 156,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry copper ore",
+    "Quarry dark frame oak (not clipped)",
+    "Quarry iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    3.25,
+    3.465
+   ],
+   "y": [
+    1.35,
+    1.98
+   ],
+   "z": [
+    -0.875,
+    -0.8
+   ],
+   "islands": 2,
+   "tris": 24,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    3.55,
+    3.75
+   ],
+   "y": [
+    1.35,
+    1.98
+   ],
+   "z": [
+    -0.875,
+    -0.8
+   ],
+   "islands": 2,
+   "tris": 24,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry iron (not clipped)"
+   ]
+  },
+  {
+   "x": [
+    3.85,
+    4.05
+   ],
+   "y": [
+    1.35,
+    1.98
+   ],
+   "z": [
+    -0.86,
+    -0.8
+   ],
+   "islands": 2,
+   "tris": 27,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry iron (not clipped)"
+   ]
+  }
+ ],
+ "Quarry_ServiceWinch_Windlass": [
+  {
+   "x": [
+    -4.88,
+    -2.38
+   ],
+   "y": [
+    2.792,
+    5.61
+   ],
+   "z": [
+    -3.877,
+    -2.523
+   ],
+   "islands": 45,
+   "tris": 660,
+   "mats": [
+    "Quarry aged oak (not clipped)",
+    "Quarry dark frame oak (not clipped)",
+    "Quarry hemp rope",
+    "Quarry iron (not clipped)"
+   ]
+  }
+ ],
+ "Quarry_UpperFurnishingMain": [
+  {
+   "x": [
+    -3.515,
+    -2.2
+   ],
+   "y": [
+    2.8,
+    3.835
+   ],
+   "z": [
+    -3.8,
+    -1.37
+   ],
+   "islands": 8,
+   "tris": 96,
+   "mats": [
+    "Quarry aged oak (not clipped)"
+   ]
+  }
+ ]
+}

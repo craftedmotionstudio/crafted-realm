@@ -1,0 +1,656 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-bank-glazed-review4-v1\\candidates\\bank.glb",
+ "views": [
+  "outside",
+  "inside:0.0",
+  "inside:3.0"
+ ],
+ "summary": {
+  "fights": 19,
+  "byKind": {
+   "same-facing": 11,
+   "open-shell": 8
+  },
+  "area": 0.0094,
+  "topPairs": [
+   [
+    [
+     "Bank_ShellFacing",
+     "Bank_ShellFacing"
+    ],
+    9
+   ],
+   [
+    [
+     "Bank_UpperGlazingLeads",
+     "Bank_UpperGlazingLeads"
+    ],
+    6
+   ],
+   [
+    [
+     "Bank_ShellChimneyBase",
+     "Bank_ShellChimneyBase"
+    ],
+    3
+   ],
+   [
+    [
+     "Bank_RoofTiles",
+     "Bank_RoofTiles"
+    ],
+    1
+   ]
+  ]
+ },
+ "fights": [
+  {
+   "da": -4.208590507507324,
+   "db": -4.208590507507324,
+   "extA": 0.34,
+   "extB": 0.34,
+   "thickA": 0.0306,
+   "thickB": 0.0306,
+   "visible": true,
+   "a": "Bank_ShellFacing",
+   "pa": 85,
+   "b": "Bank_ShellFacing",
+   "pb": 86,
+   "kind": "same-facing",
+   "area": 0.00054,
+   "at": [
+    -1.53,
+    -4.209,
+    1.998
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 21,
+   "islandB": 21,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -4.208590507507324,
+   "db": -4.208590507507324,
+   "extA": 0.34,
+   "extB": 0.34,
+   "thickA": 0.0306,
+   "thickB": 0.0306,
+   "visible": true,
+   "a": "Bank_ShellFacing",
+   "pa": 85,
+   "b": "Bank_ShellFacing",
+   "pb": 87,
+   "kind": "open-shell",
+   "area": 0.00054,
+   "at": [
+    -1.53,
+    -4.209,
+    1.998
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 21,
+   "islandB": 21,
+   "sa": -1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -4.208590507507324,
+   "db": -4.208590507507324,
+   "extA": 0.34,
+   "extB": 0.34,
+   "thickA": 0.0306,
+   "thickB": 0.0306,
+   "visible": true,
+   "a": "Bank_ShellFacing",
+   "pa": 86,
+   "b": "Bank_ShellFacing",
+   "pb": 87,
+   "kind": "open-shell",
+   "area": 0.00054,
+   "at": [
+    -1.533,
+    -4.209,
+    1.998
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 21,
+   "islandB": 21,
+   "sa": -1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -1.5379999876022339,
+   "db": -1.5379999876022339,
+   "extA": 0.862,
+   "extB": 0.784,
+   "thickA": 0.5612,
+   "thickB": 0.4323,
+   "visible": true,
+   "a": "Bank_RoofTiles",
+   "pa": 2538,
+   "b": "Bank_RoofTiles",
+   "pb": 3704,
+   "kind": "same-facing",
+   "area": 0.00016,
+   "at": [
+    -1.538,
+    -1.32,
+    4.818
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 211,
+   "islandB": 296,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    1.0,
+    -0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 4.991879940032959,
+   "db": 4.991879940032959,
+   "extA": 0.282,
+   "extB": 0.282,
+   "thickA": 0.0389,
+   "thickB": 0.0389,
+   "visible": true,
+   "a": "Bank_ShellChimneyBase",
+   "pa": 33,
+   "b": "Bank_ShellChimneyBase",
+   "pb": 34,
+   "kind": "same-facing",
+   "area": 0.00062,
+   "at": [
+    -1.882,
+    4.992,
+    2.288
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 6,
+   "islandB": 6,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 4.991879940032959,
+   "db": 4.991879940032959,
+   "extA": 0.282,
+   "extB": 0.282,
+   "thickA": 0.0389,
+   "thickB": 0.0389,
+   "visible": true,
+   "a": "Bank_ShellChimneyBase",
+   "pa": 33,
+   "b": "Bank_ShellChimneyBase",
+   "pb": 35,
+   "kind": "open-shell",
+   "area": 0.00063,
+   "at": [
+    -1.882,
+    4.992,
+    2.288
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 6,
+   "islandB": 6,
+   "sa": 1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 4.991879940032959,
+   "db": 4.991879940032959,
+   "extA": 0.282,
+   "extB": 0.282,
+   "thickA": 0.0389,
+   "thickB": 0.0389,
+   "visible": true,
+   "a": "Bank_ShellChimneyBase",
+   "pa": 34,
+   "b": "Bank_ShellChimneyBase",
+   "pb": 35,
+   "kind": "open-shell",
+   "area": 0.00063,
+   "at": [
+    -1.88,
+    4.992,
+    2.288
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 6,
+   "islandB": 6,
+   "sa": 1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 4.213933944702148,
+   "db": 4.213933944702148,
+   "extA": 0.341,
+   "extB": 0.341,
+   "thickA": 0.0359,
+   "thickB": 0.0359,
+   "visible": true,
+   "a": "Bank_ShellFacing",
+   "pa": 465,
+   "b": "Bank_ShellFacing",
+   "pb": 466,
+   "kind": "same-facing",
+   "area": 0.00067,
+   "at": [
+    -4.066,
+    4.214,
+    1.638
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 116,
+   "islandB": 116,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 4.213933944702148,
+   "db": 4.213933944702148,
+   "extA": 0.341,
+   "extB": 0.341,
+   "thickA": 0.0359,
+   "thickB": 0.0359,
+   "visible": true,
+   "a": "Bank_ShellFacing",
+   "pa": 465,
+   "b": "Bank_ShellFacing",
+   "pb": 467,
+   "kind": "open-shell",
+   "area": 0.00068,
+   "at": [
+    -4.066,
+    4.214,
+    1.638
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 116,
+   "islandB": 116,
+   "sa": 1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 4.213933944702148,
+   "db": 4.213933944702148,
+   "extA": 0.341,
+   "extB": 0.341,
+   "thickA": 0.0359,
+   "thickB": 0.0359,
+   "visible": true,
+   "a": "Bank_ShellFacing",
+   "pa": 466,
+   "b": "Bank_ShellFacing",
+   "pb": 467,
+   "kind": "open-shell",
+   "area": 0.00068,
+   "at": [
+    -4.063,
+    4.214,
+    1.638
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 116,
+   "islandB": 116,
+   "sa": 1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 5.722597122192383,
+   "db": 5.722597122192383,
+   "extA": 0.341,
+   "extB": 0.341,
+   "thickA": 0.0446,
+   "thickB": 0.0446,
+   "visible": true,
+   "a": "Bank_ShellFacing",
+   "pa": 789,
+   "b": "Bank_ShellFacing",
+   "pb": 790,
+   "kind": "same-facing",
+   "area": 0.00082,
+   "at": [
+    5.723,
+    1.97,
+    1.998
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 197,
+   "islandB": 197,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 5.722597122192383,
+   "db": 5.722597122192383,
+   "extA": 0.341,
+   "extB": 0.341,
+   "thickA": 0.0446,
+   "thickB": 0.0446,
+   "visible": true,
+   "a": "Bank_ShellFacing",
+   "pa": 789,
+   "b": "Bank_ShellFacing",
+   "pb": 791,
+   "kind": "open-shell",
+   "area": 0.00083,
+   "at": [
+    5.723,
+    1.97,
+    1.998
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 197,
+   "islandB": 197,
+   "sa": 1,
+   "sb": -1,
+   "n": [
+    1.0,
+    0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 5.722597122192383,
+   "db": 5.722597122192383,
+   "extA": 0.341,
+   "extB": 0.341,
+   "thickA": 0.0446,
+   "thickB": 0.0446,
+   "visible": true,
+   "a": "Bank_ShellFacing",
+   "pa": 790,
+   "b": "Bank_ShellFacing",
+   "pb": 791,
+   "kind": "open-shell",
+   "area": 0.00083,
+   "at": [
+    5.723,
+    1.969,
+    1.998
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 197,
+   "islandB": 197,
+   "sa": 1,
+   "sb": -1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.565999746322632,
+   "db": -3.565999984741211,
+   "extA": 0.421,
+   "extB": 0.185,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Bank_UpperGlazingLeads",
+   "pa": 524,
+   "b": "Bank_UpperGlazingLeads",
+   "pb": 541,
+   "kind": "same-facing",
+   "area": 0.0001,
+   "at": [
+    -3.566,
+    -4.53,
+    6.075
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 262,
+   "islandB": 270,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.9999999403953552,
+    -0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.565999746322632,
+   "db": -3.565999984741211,
+   "extA": 0.421,
+   "extB": 0.22,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Bank_UpperGlazingLeads",
+   "pa": 524,
+   "b": "Bank_UpperGlazingLeads",
+   "pb": 539,
+   "kind": "same-facing",
+   "area": 0.00025,
+   "at": [
+    -3.566,
+    -4.53,
+    6.075
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 262,
+   "islandB": 269,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.9999999403953552,
+    -0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.565999746322632,
+   "db": -3.565999984741211,
+   "extA": 0.421,
+   "extB": 0.529,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Bank_UpperGlazingLeads",
+   "pa": 524,
+   "b": "Bank_UpperGlazingLeads",
+   "pb": 543,
+   "kind": "same-facing",
+   "area": 0.00025,
+   "at": [
+    -3.566,
+    -4.53,
+    6.075
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 262,
+   "islandB": 271,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.9999999403953552,
+    -0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.19599986076355,
+   "db": -3.196000099182129,
+   "extA": 0.421,
+   "extB": 0.22,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Bank_UpperGlazingLeads",
+   "pa": 612,
+   "b": "Bank_UpperGlazingLeads",
+   "pb": 627,
+   "kind": "same-facing",
+   "area": 0.00025,
+   "at": [
+    -3.196,
+    -4.53,
+    6.075
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 306,
+   "islandB": 313,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.9999999403953552,
+    -0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.19599986076355,
+   "db": -3.196000099182129,
+   "extA": 0.421,
+   "extB": 0.529,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Bank_UpperGlazingLeads",
+   "pa": 612,
+   "b": "Bank_UpperGlazingLeads",
+   "pb": 631,
+   "kind": "same-facing",
+   "area": 0.00025,
+   "at": [
+    -3.196,
+    -4.53,
+    6.075
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 306,
+   "islandB": 315,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.9999999403953552,
+    -0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.19599986076355,
+   "db": -3.196000099182129,
+   "extA": 0.421,
+   "extB": 0.185,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Bank_UpperGlazingLeads",
+   "pa": 612,
+   "b": "Bank_UpperGlazingLeads",
+   "pb": 629,
+   "kind": "same-facing",
+   "area": 0.0001,
+   "at": [
+    -3.196,
+    -4.53,
+    6.075
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 306,
+   "islandB": 314,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.9999999403953552,
+    -0.0,
+    -0.0
+   ],
+   "view": "outside"
+  }
+ ]
+}

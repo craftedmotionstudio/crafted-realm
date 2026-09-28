@@ -1,0 +1,20 @@
+{
+ "id": "survival",
+ "note": "Props pass (2026-09-28): the survival props designed again (tools/blender/build_holm_survival_props_pass.py)",
+ "blender": "5.1",
+ "source": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.blend",
+ "reference": ".studio-workspaces/holm-survival-v2land-v1/candidates/survival.glb",
+ "referenceGraph": "holm-survival-v2land-navigation-v1",
+ "script": "tools/blender/build_holm_survival_props_pass.py",
+ "flat": ".studio-workspaces/holm-survival-props-v1/working/survival-flat.blend",
+ "buildReport": "scratchpad/holm_props_pass/survival/build.report.json",
+ "outBlend": ".studio-workspaces/holm-survival-props-v1/candidates/survival.blend",
+ "outGlb": ".studio-workspaces/holm-survival-props-v1/candidates/survival.glb",
+ "texReport": ".studio-workspaces/holm-survival-props-v1/candidates/textures.report.json",
+ "changed": "^Survival_(FurnishingCanopy|FurnishingDressing|FurnishingStore|FurnishingYard|ServiceTools_Rack|ServiceFirePit_Ring|ServiceLogPile_Stack)$",
+ "added": "^Survival_(Upper)?Furnishing[A-Za-z]*Props[A-Za-z]+$",
+ "cutawayParts": "^Survival_(FurnishingProps(?!Hung)[A-Za-z]+|Service(Tools_Rack|FirePit_Ring|LogPile_Stack))$",
+ "graph": "holm-survival-props-navigation-v1",
+ "coplanar": "m44",
+ "navSpec": "docs/rebuild/holm-overhaul/buildings/survival-v2land.nav.json"
+}

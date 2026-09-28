@@ -1,0 +1,22 @@
+Props pass final gates, branch holm-building-props at 6b21ac08, served by python tools/serve_static.py 8112 (NODE_PATH = live node_modules), 2026-09-28
+
+unit PASS 89 FAIL 0 FAILED:
+
+smoke:
+"verdict":"PASS"
+
+island QA:
+[ISLAND QA] PASS 33/33 in 1479s
+
+route:
+[QA ROUTE V2] 10/10 -> C:\Users\iQwaZ\On
+
+playthrough (second attempt):
+[PLAYTHROUGH] run 1 complete in 11.4 min, lessons 18/18, tutors met 10/10, page errors 0 | first hint: Talk to Guide Bram in the Guide House.
+[PLAYTHROUGH] run 2 complete in 12.3 min, lessons 18/18, tutors met 10/10, page errors 0 | first hint: Talk to Guide Bram in the Guide House.
+[PLAYTHROUGH] 2/2 complete runs with zero errors
+
+playthrough (first attempt, run 1 ran out of air runes at the magic trial after a long fishing lesson):
+[PLAYTHROUGH] run 1 stuck in 15 min, lessons 17/18, tutors met 8/10, page errors 0 | stuck at magic_trial {"target":false,"spell":null,"weapon":"worn_bow","air":0,"arrows":7,"hp":10,"dist":null}
+[PLAYTHROUGH] run 2 complete in 11.6 min, lessons 18/18, tutors met 10/10, page errors 0 | first hint: Talk to Guide Bram in the Guide House.
+[PLAYTHROUGH] 1/2 complete runs with zero errors

@@ -1,0 +1,57 @@
+{
+ "glb": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb",
+ "out": "scratchpad/holm_props_pass/overview/quarry",
+ "size": [
+  1100,
+  760
+ ],
+ "hide": "Quarry_(Roof|Upper|Chimney)|Quarry_Glazing",
+ "views": [
+  {
+   "name": "ground_ne",
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 16
+  },
+  {
+   "name": "ground_sw",
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 16
+  },
+  {
+   "name": "upper_ne",
+   "target": [
+    0,
+    3,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 16,
+   "hide": "Quarry_(Roof|Chimney)|Quarry_Glazing|Quarry_UpperShell|Quarry_(Shell|GroundFront)"
+  },
+  {
+   "name": "upper_sw",
+   "target": [
+    0,
+    3,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 16,
+   "hide": "Quarry_(Roof|Chimney)|Quarry_Glazing|Quarry_UpperShell|Quarry_(Shell|GroundFront)"
+  }
+ ]
+}

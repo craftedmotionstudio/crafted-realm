@@ -1,0 +1,184 @@
+{
+ "size": [
+  900,
+  640
+ ],
+ "hide": "Quarry_(Roof|Upper|Chimney)|Quarry_Glazing|Quarry_Shell|Quarry_Rock",
+ "views": [
+  {
+   "name": "hall_table",
+   "target": [
+    1,
+    0.7,
+    1.85
+   ],
+   "yaw": 195,
+   "pitch": 38,
+   "dist": 3,
+   "lens": 35
+  },
+  {
+   "name": "table_top",
+   "target": [
+    1,
+    0.9,
+    1.88
+   ],
+   "yaw": 185,
+   "pitch": 62,
+   "dist": 1.9,
+   "lens": 35
+  },
+  {
+   "name": "barrels_rack",
+   "target": [
+    2.3,
+    0.75,
+    -1.3
+   ],
+   "yaw": 255,
+   "pitch": 24,
+   "dist": 3.6,
+   "lens": 35
+  },
+  {
+   "name": "rack",
+   "target": [
+    2.6,
+    0.75,
+    -1.25
+   ],
+   "yaw": 285,
+   "pitch": 12,
+   "dist": 2.6,
+   "lens": 35
+  },
+  {
+   "name": "kibble",
+   "target": [
+    0.54,
+    2.8,
+    -2.72
+   ],
+   "yaw": 25,
+   "pitch": 12,
+   "dist": 3.2,
+   "lens": 35,
+   "hide": "Quarry_(Roof_never|Upper|Chimney)|Quarry_Glazing|Quarry_Shell|Quarry_Rock"
+  },
+  {
+   "name": "sign",
+   "target": [
+    -3.3,
+    2.35,
+    3.62
+   ],
+   "yaw": 80,
+   "pitch": 8,
+   "dist": 2.4,
+   "lens": 35,
+   "hide": "Quarry_Rock"
+  },
+  {
+   "name": "bench",
+   "target": [
+    3.75,
+    1.05,
+    -0.6
+   ],
+   "yaw": 5,
+   "pitch": 22,
+   "dist": 2.7,
+   "lens": 35
+  },
+  {
+   "name": "bench_top",
+   "target": [
+    3.75,
+    0.95,
+    -0.6
+   ],
+   "yaw": 15,
+   "pitch": 55,
+   "dist": 1.7,
+   "lens": 35
+  },
+  {
+   "name": "forge",
+   "target": [
+    4.68,
+    1.15,
+    -0.4
+   ],
+   "yaw": 335,
+   "pitch": 16,
+   "dist": 3.1,
+   "lens": 35
+  },
+  {
+   "name": "crates",
+   "target": [
+    4.62,
+    0.5,
+    1.3
+   ],
+   "yaw": 270,
+   "pitch": 35,
+   "dist": 2.5,
+   "lens": 35
+  },
+  {
+   "name": "anvil",
+   "target": [
+    4.55,
+    0.7,
+    2.2
+   ],
+   "yaw": 245,
+   "pitch": 32,
+   "dist": 2.1,
+   "lens": 35
+  },
+  {
+   "name": "winch",
+   "target": [
+    -3.6,
+    4.4,
+    -3.1
+   ],
+   "yaw": 20,
+   "pitch": 22,
+   "dist": 4.2,
+   "lens": 35,
+   "hide": "Quarry_(Roof|UpperShell)|Quarry_Glazing|Quarry_Shell|Quarry_Rock"
+  },
+  {
+   "name": "winch_east",
+   "target": [
+    -2.8,
+    4.5,
+    -3.1
+   ],
+   "yaw": 110,
+   "pitch": 18,
+   "dist": 3.4,
+   "lens": 35,
+   "hide": "Quarry_(Roof|UpperShell)|Quarry_Glazing|Quarry_Shell|Quarry_Rock"
+  },
+  {
+   "name": "loft_rail",
+   "target": [
+    -2.9,
+    3.3,
+    -1.8
+   ],
+   "yaw": 330,
+   "pitch": 30,
+   "dist": 3.6,
+   "lens": 35,
+   "hide": "Quarry_(Roof|UpperShell)|Quarry_Glazing|Quarry_Shell|Quarry_Rock"
+  }
+ ],
+ "glb": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb",
+ "out": "scratchpad/holm_props_pass/quarry/blender_after"
+}
