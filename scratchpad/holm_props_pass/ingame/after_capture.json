@@ -1,0 +1,362 @@
+{
+  "base": "http://127.0.0.1:8112/?qaProfile=props-after-mul20a2c",
+  "tag": "after",
+  "views": {
+    "keep_hall_table": {
+      "node": "b:keep:-6:0:1",
+      "off": 0,
+      "file": "after_keep_hall_table.jpg"
+    },
+    "keep_hall_stair_store": {
+      "node": "b:keep:-7:1:1",
+      "off": 0,
+      "file": "after_keep_hall_stair_store.jpg"
+    },
+    "keep_hall_corners": {
+      "node": "b:keep:-7:3:1",
+      "off": 0,
+      "file": "after_keep_hall_corners.jpg"
+    },
+    "keep_weapons": {
+      "node": "b:keep:-8:-7:1",
+      "off": 0,
+      "file": "after_keep_weapons.jpg"
+    },
+    "keep_barracks_bunks": {
+      "node": "b:keep:4:-7:0",
+      "off": 0.5,
+      "file": "after_keep_barracks_bunks.jpg"
+    },
+    "keep_barracks_table": {
+      "node": "b:keep:4:-7:0",
+      "off": 0.5,
+      "file": "after_keep_barracks_table.jpg"
+    },
+    "keep_upper_quarters": {
+      "node": "b:keep:-6:-4:0",
+      "off": 1,
+      "file": "after_keep_upper_quarters.jpg"
+    },
+    "keep_corner_sw": {
+      "node": "b:keep:-8:4:1",
+      "off": 0,
+      "file": "after_keep_corner_sw.jpg"
+    },
+    "keep_corner_se": {
+      "node": "b:keep:-5:4:1",
+      "off": 0,
+      "file": "after_keep_corner_se.jpg"
+    },
+    "mill_stones": {
+      "node": "b:mill:0:-2:1",
+      "off": 0,
+      "file": "after_mill_stones.jpg"
+    },
+    "mill_ark": {
+      "node": "b:mill:1:-3:1",
+      "off": 0,
+      "file": "after_mill_ark.jpg"
+    },
+    "mill_sacks": {
+      "node": "b:mill:1:1:1",
+      "off": 0,
+      "file": "after_mill_sacks.jpg"
+    },
+    "mill_sack_truck": {
+      "node": "b:mill:-2:1:1",
+      "off": 0,
+      "file": "after_mill_sack_truck.jpg"
+    },
+    "mill_spare_stone": {
+      "node": "b:mill:-1:5:0",
+      "off": 1,
+      "file": "after_mill_spare_stone.jpg"
+    },
+    "mill_door_sacks": {
+      "node": "b:mill:2:-5:0",
+      "off": 0,
+      "file": "after_mill_door_sacks.jpg"
+    },
+    "bakehouse_worktable": {
+      "node": "b:bakehouse:-3:0:0",
+      "off": 0,
+      "file": "after_bakehouse_worktable.jpg"
+    },
+    "bakehouse_buckets_water": {
+      "node": "b:bakehouse:-2:1:0",
+      "off": 0,
+      "file": "after_bakehouse_buckets_water.jpg"
+    },
+    "bakehouse_oven_tools": {
+      "node": "b:bakehouse:-2:-3:1",
+      "off": 0,
+      "file": "after_bakehouse_oven_tools.jpg"
+    },
+    "bakehouse_flour_hutch": {
+      "node": "b:bakehouse:4:-4:0",
+      "off": 0,
+      "file": "after_bakehouse_flour_hutch.jpg"
+    },
+    "bakehouse_bread_rack": {
+      "node": "b:bakehouse:5:-4:0",
+      "off": 0,
+      "file": "after_bakehouse_bread_rack.jpg"
+    },
+    "bakehouse_store_sacks": {
+      "node": "b:bakehouse:2:-4:0",
+      "off": 0,
+      "file": "after_bakehouse_store_sacks.jpg"
+    },
+    "bakehouse_meal_chest": {
+      "node": "b:bakehouse:3:-2:0",
+      "off": 0,
+      "file": "after_bakehouse_meal_chest.jpg"
+    },
+    "bakehouse_under_stair": {
+      "node": "b:bakehouse:-4:-1:0",
+      "off": 0,
+      "file": "after_bakehouse_under_stair.jpg"
+    },
+    "bakehouse_cooling_bench": {
+      "node": "b:bakehouse:-3:1:0",
+      "off": 0,
+      "file": "after_bakehouse_cooling_bench.jpg"
+    },
+    "bakehouse_recipe_settle": {
+      "node": "b:bakehouse:-1:-2:1",
+      "off": 0,
+      "file": "after_bakehouse_recipe_settle.jpg"
+    },
+    "bakehouse_loft": {
+      "node": "b:bakehouse:-3:-3:0",
+      "off": 0,
+      "file": "after_bakehouse_loft.jpg"
+    },
+    "bakehouse_court_woodpile": {
+      "node": "b:bakehouse:3:1:0",
+      "off": 1,
+      "file": "after_bakehouse_court_woodpile.jpg"
+    },
+    "bank_counter": {
+      "node": "b:bank:0:-1:0",
+      "off": 0,
+      "file": "after_bank_counter.jpg"
+    },
+    "bank_vault": {
+      "node": "b:bank:3:-2:0",
+      "off": 0,
+      "file": "after_bank_vault.jpg"
+    },
+    "bank_shelves": {
+      "node": "b:bank:4:0:0",
+      "off": 0,
+      "file": "after_bank_shelves.jpg"
+    },
+    "bank_strongroom": {
+      "node": "b:bank:-4:-1:1",
+      "off": 0.5,
+      "file": "after_bank_strongroom.jpg"
+    },
+    "bank_clerk_back": {
+      "node": "b:bank:0:-1:0",
+      "off": 0,
+      "file": "after_bank_clerk_back.jpg"
+    },
+    "bank_hall": {
+      "node": "b:bank:0:1:0",
+      "off": 0,
+      "file": "after_bank_hall.jpg"
+    },
+    "bank_upper_clerk": {
+      "node": "b:bank:-4:0:0",
+      "off": 0,
+      "file": "after_bank_upper_clerk.jpg"
+    },
+    "bank_upper_store": {
+      "node": "b:bank:-4:0:0",
+      "off": 0,
+      "file": "after_bank_upper_store.jpg"
+    },
+    "haven_shelter": {
+      "node": "b:haven:-4:-3:0",
+      "off": 0,
+      "file": "after_haven_shelter.jpg"
+    },
+    "haven_notice": {
+      "node": "b:haven:-1:0:0",
+      "off": 0,
+      "file": "after_haven_notice.jpg"
+    },
+    "haven_pier_props": {
+      "node": "b:haven:0:-15:0",
+      "off": 0,
+      "file": "after_haven_pier_props.jpg"
+    },
+    "haven_mooring": {
+      "node": "b:haven:0:-15:0",
+      "off": 0,
+      "file": "after_haven_mooring.jpg"
+    },
+    "quarry_bench": {
+      "node": "b:quarry:3:0:0",
+      "off": 0,
+      "file": "after_quarry_bench.jpg"
+    },
+    "quarry_anvil_crates": {
+      "node": "b:quarry:3:0:0",
+      "off": 0,
+      "file": "after_quarry_anvil_crates.jpg"
+    },
+    "quarry_hall_racks": {
+      "node": "b:quarry:0:0:0",
+      "off": 0,
+      "file": "after_quarry_hall_racks.jpg"
+    },
+    "quarry_table": {
+      "node": "b:quarry:0:0:0",
+      "off": 0,
+      "file": "after_quarry_table.jpg"
+    },
+    "quarry_winch_loft": {
+      "node": "b:quarry:-4:-3:0",
+      "off": 0,
+      "file": "after_quarry_winch_loft.jpg"
+    },
+    "quarry_sign": {
+      "node": "b:quarry:-2:5:0",
+      "off": 0,
+      "file": "after_quarry_sign.jpg"
+    },
+    "quarry_kibble": {
+      "node": "b:quarry:-1:-2:0",
+      "off": 0,
+      "file": "after_quarry_kibble.jpg"
+    },
+    "cavern_ladder": {
+      "node": "b:cavern:-7:0:0",
+      "off": 0,
+      "file": "after_cavern_ladder.jpg"
+    },
+    "cavern_cart": {
+      "node": "b:cavern:-7:0:0",
+      "off": 0,
+      "file": "after_cavern_cart.jpg"
+    },
+    "cavern_forge": {
+      "node": "b:cavern:3:3:0",
+      "off": 0,
+      "file": "after_cavern_forge.jpg"
+    },
+    "cavern_ore_crates": {
+      "node": "b:cavern:0:-5:0",
+      "off": 0,
+      "file": "after_cavern_ore_crates.jpg"
+    },
+    "cavern_exit_end": {
+      "node": "b:cavern:27:0:0",
+      "off": 0,
+      "file": "after_cavern_exit_end.jpg"
+    },
+    "survival_canopy": {
+      "node": "b:survival:-3:-3:0",
+      "off": 0,
+      "file": "after_survival_canopy.jpg"
+    },
+    "survival_store_tools": {
+      "node": "b:survival:4:-3:0",
+      "off": 0,
+      "file": "after_survival_store_tools.jpg"
+    },
+    "survival_logs": {
+      "node": "b:survival:4:1:0",
+      "off": 0,
+      "file": "after_survival_logs.jpg"
+    },
+    "survival_fire": {
+      "node": "b:survival:-2:3:0",
+      "off": 0,
+      "file": "after_survival_fire.jpg"
+    },
+    "survival_yard": {
+      "node": "b:survival:-2:3:0",
+      "off": 0,
+      "file": "after_survival_yard.jpg"
+    },
+    "mage_runes": {
+      "node": "b:mage:2:0:2",
+      "off": 0,
+      "file": "after_mage_runes.jpg"
+    },
+    "mage_wing_hearth": {
+      "node": "b:mage:-4:0:0",
+      "off": 0,
+      "file": "after_mage_wing_hearth.jpg"
+    },
+    "mage_wing_bed": {
+      "node": "b:mage:-4:0:0",
+      "off": 0,
+      "file": "after_mage_wing_bed.jpg"
+    },
+    "mage_wing_desk": {
+      "node": "b:mage:-4:0:0",
+      "off": 0,
+      "file": "after_mage_wing_desk.jpg"
+    },
+    "mage_tower_shelf": {
+      "node": "b:mage:0:1:2",
+      "off": 0,
+      "file": "after_mage_tower_shelf.jpg"
+    },
+    "mage_library_lectern": {
+      "node": "b:mage:2:1:1",
+      "off": 0,
+      "file": "after_mage_library_lectern.jpg"
+    },
+    "mage_library_shelves": {
+      "node": "b:mage:2:0:1",
+      "off": 0,
+      "file": "after_mage_library_shelves.jpg"
+    },
+    "mage_observatory": {
+      "node": "b:mage:3:-2:0",
+      "off": 0,
+      "file": "after_mage_observatory.jpg"
+    },
+    "mage_yard": {
+      "node": "b:mage:-4:6:0",
+      "off": 0,
+      "file": "after_mage_yard.jpg"
+    },
+    "lastlight_stores": {
+      "node": "b:lastlight:-4:2:0",
+      "off": 0,
+      "file": "after_lastlight_stores.jpg"
+    },
+    "lastlight_ground_room": {
+      "node": "b:lastlight:-4:0:0",
+      "off": 0,
+      "file": "after_lastlight_ground_room.jpg"
+    },
+    "lastlight_tower_base": {
+      "node": "b:lastlight:1:-3:2",
+      "off": 0,
+      "file": "after_lastlight_tower_base.jpg"
+    },
+    "lastlight_keeper_room": {
+      "node": "b:lastlight:1:-3:1",
+      "off": 0,
+      "file": "after_lastlight_keeper_room.jpg"
+    },
+    "lastlight_watch_room": {
+      "node": "b:lastlight:2:-2:0",
+      "off": 0,
+      "file": "after_lastlight_watch_room.jpg"
+    },
+    "lastlight_yard": {
+      "node": "b:lastlight:-6:0:0",
+      "off": 0,
+      "file": "after_lastlight_yard.jpg"
+    }
+  },
+  "errors": []
+}

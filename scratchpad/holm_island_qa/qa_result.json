@@ -34,7 +34,7 @@
       "label": "every clickable on the island is an authored Blender model (no code-built stand-ins, no old-island leftovers)",
       "ok": true,
       "detail": {
-        "clickables": 1355,
+        "clickables": 1287,
         "leftovers": [],
         "leftoverCount": 0,
         "visiblePrimitives": []
@@ -128,7 +128,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 40,
+        "deckSamples": 41,
         "deckY": 2.3
       }
     },
@@ -154,8 +154,8 @@
       "label": "the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)",
       "ok": true,
       "detail": {
-        "samples": 590,
-        "diagonal": 53
+        "samples": 591,
+        "diagonal": 54
       }
     },
     {
@@ -314,7 +314,7 @@
           11,
           45.5
         ],
-        "diagonal": 82
+        "diagonal": 83
       }
     },
     {
@@ -329,7 +329,7 @@
           7.3,
           56.5
         ],
-        "diagonal": 7,
+        "diagonal": 6,
         "bankOpen": true
       }
     },
@@ -345,7 +345,7 @@
           13.75,
           56.5
         ],
-        "diagonal": 16
+        "diagonal": 17
       }
     },
     {
@@ -360,7 +360,7 @@
           -0.05,
           -0.5
         ],
-        "diagonal": 21
+        "diagonal": 23
       }
     },
     {
@@ -375,7 +375,7 @@
           9.15,
           29.5
         ],
-        "diagonal": 101,
+        "diagonal": 106,
         "shaftTiles": 1
       }
     },
@@ -506,10 +506,10 @@
         "fireWhereStood": true,
         "nets": [
           {
-            "spot": "jetty-end",
-            "ticksLeft": 36,
+            "spot": "east-shallows",
+            "ticksLeft": 23,
             "result": "caught",
-            "seconds": 14,
+            "seconds": 12,
             "chat": [
               "You catch a mirrorperch."
             ]
@@ -543,10 +543,10 @@
         "fireWhereStood": true,
         "nets": [
           {
-            "spot": "jetty-end",
-            "ticksLeft": 36,
+            "spot": "east-shallows",
+            "ticksLeft": 23,
             "result": "caught",
-            "seconds": 14,
+            "seconds": 12,
             "chat": [
               "You catch a mirrorperch."
             ]
@@ -579,9 +579,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 7,
+        "arrowsUsed": 23,
         "magic": true,
-        "runesUsed": 10
+        "runesUsed": 2
       }
     },
     {
@@ -589,14 +589,14 @@
       "ok": true,
       "detail": {
         "before": [
-          110.5,
-          7.52,
-          64.5
+          103.5,
+          7.282,
+          58.5
         ],
         "after": [
-          110.5,
-          7.52,
-          64.5
+          103.5,
+          7.282,
+          58.5
         ]
       }
     },
@@ -608,5 +608,5 @@
       }
     }
   ],
-  "seconds": 1443
+  "seconds": 1479
 }
