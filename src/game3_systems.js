@@ -211,7 +211,9 @@ const Player = {
     if(this.specT>=3){ this.specT-=3; if(this.spec<100){ this.spec=Math.min(100,(this.spec||0)+1); if(UI.refreshSpec) UI.refreshSpec(); } }
     // (hitpoint regen lives in Player.regen — already 1 hp/min, OSRS-correct)
   },
-  moveSpeed(){ return (this.runOn && this.energy>0) ? 4.2 : 2.4; },
+  // 2004 pace (REF2004_FEEL_REPORT.md item 2): one tile per 600 ms tick walking, two running (1.67 / 3.33 tiles/s),
+  // the online server's rule too (server/engine/PathingEntity.js processMovement). Diagonal steps take a tick as well.
+  moveSpeed(){ return ((this.runOn && this.energy>0) ? 2 : 1)/TICK; },
   combatLevel(){
     if(typeof CRShared!=='undefined' && CRShared.combat)   // the 2004 integer form (shared/combat.js)
       return CRShared.combat.combatLevel({attack:this.lvl('Attack'),strength:this.lvl('Strength'),defence:this.lvl('Defence'),

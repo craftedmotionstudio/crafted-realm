@@ -150,7 +150,7 @@ async function capOurs(browser,g){
     meta.designer.views[n]=deg;
   }
   await page.evaluate(()=>{try{HolmKitCreator.close(true)}catch(e){}});await C.sleep(1500);
-  let inf=await O.info(page);meta.height=inf.height;meta.defaultCam=inf.cam;meta.runDefault=inf.run;meta.speeds={walk:2.4,run:4.2,note:'Player.moveSpeed(): tiles/s'};
+  let inf=await O.info(page);meta.height=inf.height;meta.defaultCam=inf.cam;meta.runDefault=inf.run;meta.speeds=await page.evaluate(()=>{const r=Player.runOn,e=Player.energy;Player.energy=100;Player.runOn=false;const walk=Player.moveSpeed();Player.runOn=true;const run=Player.moveSpeed();Player.runOn=r;Player.energy=e;return {walk,run,note:'Player.moveSpeed(): tiles/s'}});
   meta.clips=inf.clips;
   C.log('[ours]',g,'in world at',inf.pos.map(v=>v.toFixed(1)).join(','),'height',inf.height);
   const rot=inf.rotY;
@@ -215,7 +215,7 @@ async function capOurs(browser,g){
     await O.hud(page,false);await O.setCam(page,cam);await O.hidePlayer(page,true);await O.grab(page,path.join(dir,mode+'_side_plate.png'));await O.hidePlayer(page,false);
     await O.startSampler(page,{crop:{size:[450,540],below:72}});
     await walkTo(lane.b,mode==='run');await C.sleep(900);
-    await saveSamples(dir,mode+'_side',await O.stopSampler(page),{cam,lane,mode,plate:mode+'_side_plate.png',speed:mode==='run'?4.2:2.4});
+    await saveSamples(dir,mode+'_side',await O.stopSampler(page),{cam,lane,mode,plate:mode+'_side_plate.png',speed:mode==='run'?meta.speeds.run:meta.speeds.walk});
     await O.setCam(page,null);await O.hud(page,true);
   }
   // our game camera (default pitch / distance), behind-left 3/4 like the 2004 game-camera strips
@@ -225,7 +225,7 @@ async function capOurs(browser,g){
     await page.evaluate(y=>{camCtl.yaw=y},along-Math.PI/4);await C.sleep(1500);
     await O.startSampler(page,{crop:{size:[450,540],below:72}});
     await walkTo(lane.b,mode==='run');await C.sleep(900);
-    await saveSamples(dir,mode+'_game',await O.stopSampler(page),{mode,camYaw:along-Math.PI/4,speed:mode==='run'?4.2:2.4});
+    await saveSamples(dir,mode+'_game',await O.stopSampler(page),{mode,camYaw:along-Math.PI/4,speed:mode==='run'?meta.speeds.run:meta.speeds.walk});
   }
   C.writeJSON(path.join(dir,'meta.json'),meta);await page.close();
   C.log('[ours]',g,'done');return meta;
