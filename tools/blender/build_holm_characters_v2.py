@@ -45,7 +45,7 @@ chain and blended across each joint with smoothstep zones. Colours are stored as
 (three r128, no colour management); proof renders convert them to linear.
 
 Clips (kit GLB): idle walk run attack_slash attack(alias) attack_stab attack_crush bow cast chop mine net cook
-smith smelt climb block hit death talk wave firemake + 22 emote_<key> clips (v3.1)
+cook_range (v4: reach into the oven) smith smelt climb block hit death talk wave firemake + 22 emote_<key> clips (v3.1)
 (player keyframe logic retargeted from build_holm_player_v1.py).
 Bram GLB: idle talk walk wave (holding his staff).
 
@@ -2768,9 +2768,15 @@ def build_armature():
 # ------------------------------------------------------------------------------------------
 REST = {}   # v3.0: the arms' idle stance lives in stance_local(); Euler arm specs are deltas over it
 
+ASSIST = [0.0]   # v4: extra spine pitch (deg) while reach_assist() searches for a pose the shorter arms can reach
+
 def P(**kw):
     d = dict(REST)
     d.update(kw)
+    if ASSIST[0]:
+        sp = d.get('Spine', (0, 0, 0))
+        if sp and isinstance(sp[0], (int, float)):
+            d['Spine'] = (sp[0] + ASSIST[0], sp[1], sp[2])
     return d
 
 def mirror_pose(p):
@@ -3327,6 +3333,8 @@ def bram_clip_defs():
 #   run  clip authored natively for 4.2 m/s at timeScale 1.0  -> play with timeScale = moveSpeed / 4.2 while running
 GAME_RUN_SPEED, GAME_WALK_SPEED = 4.2, 2.4
 GAIT = {}         # v4 profiles: best_gait overrides per clip {'walk': {...}, 'run': {...}}
+GAIT_DROP_STEPS = 12   # pelvis-drop search (5 mm steps); v4: the 2004 half-body-height steps need a deeper pelvis dip
+WORLD_SCALE = 1.0  # v4 profiles: the runtime shows kit characters at this scale (1.5-tile people); clip speeds are kit metres
 STEP_CLIPS = {}   # v4 profiles: old-client stepping {clip: (hold_frames, interpolation)} -- poses held, then a snap / a line
 STEP_ALL = None   # v4 profiles: (hold_frames, interpolation) for every clip not in STEP_CLIPS (kit, Bram, tutors)
 
@@ -3588,6 +3596,29 @@ def upright(pose, target=0.0, cap=False, to=None):
     return pose
 
 REACH_ERR = [0.0]
+REACH_LOCAL = [0.0]
+REACH_ASSIST = False   # v4 profiles: the 2004 arms are shorter -- skill poses lean in until their targets are in reach
+
+def reach_assist(build, tol=.008, steps=10, step=3.0):
+    """build() makes a pose with arm_reach targets; lean the spine 0, 3, 6 ... deg further until every target is reached
+    (or keep the closest). Off unless REACH_ASSIST (the v3.x poses are unchanged)."""
+    if not REACH_ASSIST:
+        return build()
+    best = None
+    err0 = REACH_ERR[0]
+    try:
+        for k in range(steps):
+            ASSIST[0] = k * step
+            REACH_LOCAL[0] = 0.0
+            p_ = build()
+            if best is None or REACH_LOCAL[0] < best[0] - 1e-4:
+                best = (REACH_LOCAL[0], p_)
+            if REACH_LOCAL[0] < tol:
+                break
+    finally:
+        ASSIST[0] = 0.0
+    REACH_ERR[0] = max(err0, best[0])   # report the chosen pose's error, not the search's
+    return best[1]
 GRIP_REST = {'Right': Vector((-.264, .037, .896)), 'Left': Vector((.264, .037, .896))}   # hand bone local (0, .03, .04): where the runtime attaches a held tool
 HAND_REST_DIR = {sd: (BTAIL[B(sd + 'Hand')] - BHEAD[B(sd + 'Hand')]).normalized() for sd in ('Left', 'Right')}
 
@@ -3610,6 +3641,7 @@ def arm_reach(pose, side, grip, direction, twist=0.0, pole=None):
     L2 = (W - BHEAD[B(side + 'ForeArm')]).length
     elbow, wr, over = two_bone(S, L1, L2, wrist, Vector(pole) if pole else Vector((sx * .75, .35, -.55)))
     REACH_ERR[0] = max(REACH_ERR[0], over)
+    REACH_LOCAL[0] = max(REACH_LOCAL[0], over)
     pose[side + 'Arm'] = ('aim', tuple(elbow - S))
     pose[side + 'ForeArm'] = ('aim', tuple(wr - elbow))
     pose[side + 'Hand'] = ('mat', Rh)
@@ -3623,7 +3655,7 @@ def best_gait(name, frames, speed, duty, **kw):
     """pick the landing offset (front) and pelvis drop that keep the stance foot exactly on the ground (smallest reach
     error, then the highest pelvis = straightest legs)"""
     best = None
-    for drop in [kw['drop'] + .005 * k for k in range(0, 12)]:   # v2.8: finer search (straightest feasible legs)
+    for drop in [kw['drop'] + .005 * k for k in range(0, GAIT_DROP_STEPS)]:   # v2.8: finer search (straightest feasible legs)
         feasible = []
         for fi in range(8, 50, 2):
             k2 = dict(kw, drop=drop, front=fi / 100.0)
@@ -3713,27 +3745,45 @@ def v29_skill_clips():
         arm_reach(p_, 'Left', Vector((.16, -.40, .56)), (0, -.55, -.83), pole=(.8, .3, -.5))
         return p_
     strike = []
-    for g, d, tw in (((-.12, -.38, .47), (0, -.35, -.94), 0), ((-.085, -.415, .335), (0, -.55, -.83), 10), ((-.09, -.42, .36), (0, -.50, -.86), 6),
-                     ((-.13, -.36, .52), (0, -.30, -.95), -4)):
+    def _strike(g, d, tw):
         p_ = kneel()
         arm_reach(p_, 'Right', Vector(g), d, tw, pole=(-.85, .25, -.45))
-        strike.append(p_)
+        return p_
+    for g, d, tw in (((-.12, -.38, .47), (0, -.35, -.94), 0), ((-.085, -.415, .335), (0, -.55, -.83), 10), ((-.09, -.42, .36), (0, -.50, -.86), 6),
+                     ((-.13, -.36, .52), (0, -.30, -.95), -4)):
+        strike.append(reach_assist(lambda g=g, d=d, tw=tw: _strike(g, d, tw)))
     up, hit, bounce, high = strike
     C['firemake'] = (30, [(0, up), (5, hit), (7, bounce), (13, high), (19, hit), (21, bounce), (30, up)], True)
     # ---- COOK: stand close, fish held out over the fire / range, turned over and back
-    def cook(tw, g):
+    def _cook(tw, g):
         p_ = P(**dict(crouch(-6, 11), Spine=(22, 0, 0), Head=(-4, 0, 0)))
         arm_reach(p_, 'Right', Vector(g), (0, -.92, -.40), tw, pole=(-.8, .4, -.45))
         arm_reach(p_, 'Left', Vector((.21, -.20, .92)), (.1, -.5, -.86), pole=(.8, .4, -.4))
         return p_
+    def cook(tw, g):
+        return reach_assist(lambda: _cook(tw, g))
     C['cook'] = (40, [(0, cook(0, (-.10, -.42, .94))), (10, cook(70, (-.09, -.43, .95))), (20, cook(140, (-.10, -.42, .94))),
                       (30, cook(70, (-.11, -.41, .95))), (40, cook(0, (-.10, -.42, .94)))], True)
+    # ---- COOK AT THE RANGE (v4, owner 2026-09-27: "for baking I should be reaching into the big oven"): stand at the oven
+    # mouth, lean in, both hands slide the food deep into the oven, hold it there, draw back. The right hand's GRIP (the
+    # runtime's held-food point) leads; the left hand steadies beside it
+    def oven(k, lean, gy, gz, **kw):
+        return reach_assist(lambda: _oven(k, lean, gy, gz))
+    def _oven(k, lean, gy, gz):
+        p_ = P(**dict(crouch(-5 - 9 * k, 9 + 16 * k), Spine=(lean, 0, 0), Spine1=(5 * k, 0, 0), Head=(-5 - 8 * k, 0, 0)))
+        arm_reach(p_, 'Right', Vector((-.11, gy, gz)), (0, -.97, -.24), 0, pole=(-.8, .3, -.5))
+        arm_reach(p_, 'Left', Vector((.11, gy + .02, gz + .01)), (0, -.97, -.24), 0, pole=(.8, .3, -.5))
+        return p_
+    o_ready, o_half, o_in = oven(0, 8, -.36, 1.02), oven(.5, 18, -.48, 1.04), oven(1, 28, -.58, 1.04)
+    C['cook_range'] = (60, [(0, o_ready), (12, o_half), (20, o_in), (38, o_in), (48, o_half), (60, o_ready)], True)
     # ---- NET: both hands on the net -- raise it overhead, cast it forward and down with both arms, let it soak, draw it in
-    def net(gr, gl, dr, dl, **kw):
+    def _net(gr, gl, dr, dl, **kw):
         p_ = P(**kw)
         arm_reach(p_, 'Right', Vector(gr), dr, pole=(-.8, .3, -.5))
         arm_reach(p_, 'Left', Vector(gl), dl, pole=(.8, .3, -.5))
         return p_
+    def net(gr, gl, dr, dl, **kw):
+        return reach_assist(lambda: _net(gr, gl, dr, dl, **kw))
     hold = net((-.10, -.29, .96), (.10, -.29, .98), (.15, -.7, -.7), (-.15, -.7, -.7), Spine=(4, 0, 0))
     wind = net((-.11, -.16, 1.60), (.11, -.16, 1.62), (.1, -.2, .97), (-.1, -.2, .97), Spine=(-7, 0, 0), Head=(-6, 0, 0))
     cast = net((-.10, -.56, 1.00), (.10, -.56, 1.02), (.1, -.97, -.2), (-.1, -.97, -.2), **dict(crouch(-14, 24), Spine=(24, 0, 0), Head=(4, 0, 0)))
@@ -6554,9 +6604,12 @@ def main():
                  'tris': bram_tris, 'tris_total': sum(bram_tris.values()), 'materials': res_bram['materials'],
                  'clips': {n: {'duration_s': res_bram['clips'].get(n), 'frames': bdefs[n][0], 'loop': bdefs[n][2]} for n in bdefs}},
         'validation': {'kit': res_kit['PASS'], 'bram': res_bram['PASS']},
-        'gait': dict(GAIT_REPORT, runtime_note='walk is authored natively for 2.4 m/s at timeScale 1.0 (play walk with timeScale = moveSpeed/2.4); '
-                     'run is authored for 4.2 m/s at timeScale 1.0 (play run while running with timeScale = moveSpeed/4.2). Both are slide-free at those '
-                     'rates: the planted foot ground speed is measured back through FK (see measured_planted_foot_speed_mps).'),
+        'gait': dict(GAIT_REPORT, world_scale=WORLD_SCALE, walk_mps_kit=GAME_WALK_SPEED, run_mps_kit=GAME_RUN_SPEED,
+                     walk_mps_world=round(GAME_WALK_SPEED * WORLD_SCALE, 3), run_mps_world=round(GAME_RUN_SPEED * WORLD_SCALE, 3),
+                     runtime_note='the clips are authored in kit metres: walk slide-free at %.3f m/s, run at %.3f m/s (timeScale 1). The runtime shows the '
+                     'kit at world_scale, so in the world walk is slide-free at walk_mps_world and run at run_mps_world: play walk with timeScale = '
+                     'worldSpeed / (walk_mps_kit * rigScale) and run likewise. The planted foot ground speed is measured back through FK '
+                     '(measured_planted_foot_speed_mps).' % (GAME_WALK_SPEED, GAME_RUN_SPEED)),
         'hand_clearance': {'kit': hands_kit, 'bram': hands_bram, 'rule': 'hand centre >= %.2f m from the crotch point, never across the centreline, never between the legs; idle hands >= .045 m outside the thigh line' % HAND_MIN_CROTCH},
         'shading': {'rule': 'panel shading: smooth across each broad panel; hard edges at material boundaries, piece rims and wherever the form turns > %d deg' % SHARP_DEG,
                     'max_inner_sharp_edge_fraction': max(p['inner_sharp_edge_fraction'] for p in parts)},

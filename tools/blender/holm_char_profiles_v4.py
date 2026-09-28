@@ -56,7 +56,7 @@ HEAD_EGG['B'] = [(1.554, .032, .040, .026, 0.0), (1.572, .052, .060, .032, .17),
 # the 2004 idle (measured on the reference front views): legs nearly parallel and close under narrow hips
 STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 3.0), 'RightUpLeg': (-5.5, 1, -3.0), 'Neck': (10, 0, 0), 'Head': (6, 0, 0)}   # head carried forward, face level
 # the old client's ready pose: the left foot a little forward, the right back, toes turned out
-IDLE_FEET_2004 = {'Left': (.125, .13), 'Right': (-.125, .01), 'drop': .012, 'toe': 8.0}   # the right foot forward
+IDLE_FEET_2004 = {'Left': (.075, .12), 'Right': (-.075, .00), 'drop': .010, 'toe': 8.0}   # heels close (0.09 H), the right foot forward
 
 # the 2004 man's V: broad square shoulders over a narrow waist at the belt and slim hips (body A, z < 1.38; final values)
 V_TORSO_A = [(0.940, .138, .1232, .1210, .026), (1.000, .136, .1210, .1166, .022), (1.080, .152, .1276, .1166, .018),
@@ -115,9 +115,16 @@ def _v_body(K, thigh_k=.80, hip_x=.100, long_legs=True, thigh_k_b=.84, hip_x_b=.
 # stride 1.59 H at 2.33 H/s). Our run speed (4.2 m/s = 2.31 H/s) matches, so the run keeps the 2004 cycle; our walk is
 # faster than 2004's (1.32 vs 1.01 H/s), so the walk keeps the 2004 STRIDE (23 frames = 0.77 s -> 1.01 H).
 # the reference strips also lean forward: ~5 deg in the walk, ~14 deg in the run (hips -> head)
-GAIT_2004 = {'walk': {'frames': 22, 'bob': .022, 'p_on': 2, 'p_off': -8, 'arm_swing': 33, 'plant_k': .65, 'lean_cap': (5.0, False)},
-             'run': {'frames': 21, 'duty': .30, 'bob': .035, 'bob_phase': .40, 'drop': .04, 'kick': .34, 'lift': .19, 'arm_swing': 96, 'fore': 32,
-                     'plant_k': 1.0, 'lean_cap': (12.0, False)}}
+# REF2004_FEEL_REPORT (2026-09-27, sections 3-6 / A): the world walks 1 tile per 600 ms tick (1.67 tiles/s) and runs 2
+# (3.33 tiles/s); a character stands 1.5 tiles tall (ours 1.85 -> the runtime shows the kit at WORLD_H / KIT_H). The clips are
+# authored in the kit's own metres, so their ground speeds are the world speeds / that scale -- slide-free at timeScale 1:
+# walk 0.94 s cycle, 0.5 H per step, lean +5, bob 3-5 % H; run 0.66 s cycle, 0.74 H per step, lean +14, elbows ~90 deg.
+WORLD_H, KIT_H = 1.5, 1.813                     # tiles; the default man's height in the kit (manifest height_m_rest_default_outfit)
+WORLD_SCALE = WORLD_H / KIT_H                   # the runtime scale of every kit-built character (player, actors, NPCs)
+WALK_TPS, RUN_TPS = 1.0 / .6, 2.0 / .6          # tiles per second (1 / 2 tiles per 600 ms tick)
+GAIT_2004 = {'walk': {'frames': 28, 'duty': .52, 'bob': .045, 'p_on': 12, 'p_off': -24, 'arm_swing': 38, 'plant_k': 1.0, 'lean_cap': (5.0, False)},
+             'run': {'frames': 20, 'duty': .30, 'bob': .040, 'bob_phase': .40, 'drop': .04, 'kick': .34, 'lift': .19, 'arm_swing': 96, 'fore': 70,
+                     'plant_k': 1.0, 'lean_cap': (14.0, False)}}
 GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, False)),
           'run': dict(GAIT_2004['run'], frames=20, lean_cap=(8.0, False))}
 
@@ -125,7 +132,7 @@ TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
 # the kit's spine-lean gates, widened on purpose for the 2004 look (build_holm_characters_v2.LEAN_LIMITS): the reference
 # strips lean ~5 deg forward in the walk and ~14 deg in the run (we author 5 / 12); the ready pose carries the head forward
-LEAN_2004 = {'still': .5, 'walk': 5.6, 'run': 12.6, 'head_idle': 9.0, 'tutor_walk': 5.6}
+LEAN_2004 = {'still': .5, 'walk': 5.6, 'run': 14.6, 'head_idle': 9.0, 'tutor_walk': 5.6}
 # the tutors' stroll: the same 2004 lean and a touch of the old client's short leg swing
 TUTOR_GAIT_2004 = {'lean_cap': (5.0, False), 'plant_k': .85, 'arm_swing': 20}
 
@@ -242,11 +249,16 @@ def apply(K, name):
     K.TUTOR_GAIT.clear(); K.TUTOR_GAIT.update(P.get('tutor_gait', {}))
     K.NO_REF_PANELS = True
     K.PEPLUM_OFF = P.get('peplum_off', K.PEPLUM_OFF)
-    if 'arms' in P:   # the shorter 2004 arms: Bram plants his staff 4 cm closer (keeps the planted tip exact)
-        K.BRAM_STAFF['ahead'] = .26
+    if 'arms' in P:   # the shorter 2004 arms: Bram plants his staff 4 cm closer (keeps the planted tip exact); the
+        K.BRAM_STAFF['ahead'] = .26   # skill poses lean in until their tool targets are in reach
+        K.REACH_ASSIST = True
     if 'arm_aim' in P:   # the 2004 ready pose: fists at the front-side of the thighs (reference: ~7 cm ahead of the hip line)
         K.IDLE_HAND_Y = (-.09, .03)
     K.GAIT.clear(); K.GAIT.update(P.get('gait', {}))
+    if P.get('gait') is GAIT_2004:   # the kit-metre ground speeds of the 2004 world pace (see WORLD_SCALE)
+        K.GAME_WALK_SPEED, K.GAME_RUN_SPEED = round(WALK_TPS / WORLD_SCALE, 3), round(RUN_TPS / WORLD_SCALE, 3)
+        K.WORLD_SCALE = WORLD_SCALE
+        K.GAIT_DROP_STEPS = 32
     if 'idle_feet' in P:
         K.IDLE_FEET = P['idle_feet']
         K.SKIRT_KW = .16
