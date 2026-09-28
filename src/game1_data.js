@@ -9,6 +9,9 @@ const TICK = 0.6;
 // manifest gait section): slide-free at HOLM_KIT_MPS.walk / .run times the rig's scale, i.e. 1.67 / 3.33 tiles/s at 1.5 tiles.
 var HOLM_CHAR_H = 1.5;
 var HOLM_KIT_MPS = {walk: 2.015, run: 4.03};
+// held gear rides the kit hand: sized and placed in kit metres x the rig's scale; the woman's hand hangs 4.5 cm further
+// down her forearm than the shared skeleton's wrist (kit ARM_EXT), so her palm is that much further along the hand bone
+var HOLM_GRIP_EXT = {B: 0.045};
 
 const ITEMS = {
   coins:        {name:'Crowns', stack:true, value:1},

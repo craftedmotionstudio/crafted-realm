@@ -337,11 +337,13 @@ function refreshGLBGear(){
   };
   const bbox=m=>{ m.updateMatrixWorld(true); const b=new THREE.Box3().setFromObject(m);
     return b.getSize(new THREE.Vector3()); };
+  // kit v4: gear is sized in kit metres x the rig's scale (1.5-tile people carry proportionally smaller weapons)
+  const gk=(player.userData && player.userData.gmix && player.userData.gmix.rigScale)||1;
   const attach=(slot, boneName, m)=>{
     if(!m) return null;
     const bone=_glbBone(rig, boneName); if(!bone) return null;
     const ws=new THREE.Vector3(); bone.getWorldScale(ws);
-    m.scale.multiplyScalar(1/(ws.x||1));
+    m.scale.multiplyScalar(gk/(ws.x||1));
     m.traverse(o=>{ if(o.isMesh) o.castShadow=true; });
     bone.add(m); gear[slot]=m;
     return {m, bone};
@@ -408,7 +410,7 @@ function refreshGLBGear(){
       } else {
         a.m.quaternion.copy(qBone.invert().multiply(new THREE.Quaternion().setFromUnitVectors(bladeLocal, dW)));
       }
-      a.m.position.set(0, 0.04, 0.05);
+      a.m.position.set(0, 0.04, 0.05);   // bone-local units (the bone's own frame scales with the rig)
     }
   }
   if(e.shield){
@@ -449,10 +451,10 @@ function refreshGLBGear(){
         // holm equipment v3 (kit v3.1: the arm hangs at the side): the riot shield rides 24 cm out on its arm cuff + brace
         // and 3 cm up, clear of the hip, thigh and chest in the idle / walk / run (build_holm_equipment_v3.py SQ_CARRY)
         const sq=sdef && sdef.model==='sqshield';
-        const pt=pE.clone().lerp(pW,0.55).add(inChar(LEFT).multiplyScalar(sq ? 0.24 : 0.065));
-        if(sq) pt.y+=0.03;
+        const pt=pE.clone().lerp(pW,0.55).add(inChar(LEFT).multiplyScalar((sq ? 0.24 : 0.065)*gk));
+        if(sq) pt.y+=0.03*gk;
         a.m.position.copy(a.bone.worldToLocal(pt));
-      } else a.m.position.set(0.12, (sdef && sdef.model==='sqshield') ? -0.05 : 0.03, 0.04);  // off the torso; riot shield rides a touch lower
+      } else a.m.position.set(0.12, (sdef && sdef.model==='sqshield') ? -0.05 : 0.03, 0.04);  // off the torso; riot shield rides a touch lower (bone-local)
     }
   }
   /* OSRS-style HEAD REPLACEMENT (owner 2026-07-17): a full helm doesn't sit on

@@ -59,7 +59,7 @@ var HolmProvingGround=(function(){
    if(clips.idle){clips.idle.time=0;mixer.update(0)}g.updateMatrixWorld(true);
    var def=k.weapon&&ITEMS[k.weapon],wm=def&&typeof gearMesh==='function'?gearMesh(k.weapon):null;
    if(wm&&typeof _glbBone==='function'){var hand=(window.EquipBuilder&&EquipBuilder.handFor)?EquipBuilder.handFor(def.model):'RightHand',bone=_glbBone(rig,hand);
-    if(bone){var ws=new THREE.Vector3();bone.getWorldScale(ws);wm.scale.multiplyScalar(1/(ws.x||1));wm.traverse(function(o){if(o.isMesh)o.castShadow=true});bone.add(wm);
+    if(bone){var ws=new THREE.Vector3();bone.getWorldScale(ws);wm.scale.multiplyScalar(rig.scale.x/(ws.x||1));wm.traverse(function(o){if(o.isMesh)o.castShadow=true});bone.add(wm);
      var q=new THREE.Quaternion();g.getWorldQuaternion(q);if(window.EquipBuilder&&EquipBuilder.specs[def.model])EquipBuilder.solveHeld(bone,wm,def.model,function(v){return v.clone().applyQuaternion(q).normalize()})}}
    if(k.hat&&typeof HolmEquipment!=='undefined'){try{HolmEquipment.fit(rig,'hat',0x3a2a5a,{cloth:0x3a2a5a})}catch(e){}}
   }catch(e){console.warn('[HolmProvingGround] kit foe',e)}},undefined,function(e){console.warn('[HolmProvingGround] kit model failed',e)});

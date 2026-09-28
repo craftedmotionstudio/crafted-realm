@@ -129,7 +129,8 @@ var HolmSkillTools=(function(){
   var rig=player.userData.rigInner;if(!rig)return false;
   var hand=bone(rig,'RightHand');if(!hand)return false;
   var mesh=toolMesh(SKILLS[w.skill].tool,w.id);if(!mesh)return false;
-  var ws=new THREE.Vector3();hand.getWorldScale(ws);mesh.scale.setScalar(1/(ws.x||1));
+  var gk=(window.EquipBuilder&&EquipBuilder.gearScale)?EquipBuilder.gearScale(hand).k:1;   // kit v4: tools at the character's scale
+  var ws=new THREE.Vector3();hand.getWorldScale(ws);mesh.scale.setScalar(gk/(ws.x||1));
   var q=gripQuat(rig,hand,w.skill,w.clip);mesh.quaternion.copy(q);
   var palm=(window.EquipBuilder&&EquipBuilder.palmLocal)?EquipBuilder.palmLocal(hand,PALM):new THREE.Vector3(0,PALM/(ws.x||1),0);
   mesh.position.copy(palm).sub(mesh.userData.gripLocal.clone().applyQuaternion(q).multiply(mesh.scale));
