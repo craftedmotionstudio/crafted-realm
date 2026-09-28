@@ -4,6 +4,8 @@ let _runUiT=0;
 /* fixed 600ms world-tick accumulator. The player's combat / skilling / vitals run inside this
    tick (deterministic, OSRS-style); movement, NPCs, FX, animation and camera stay per-frame. */
 let worldTickAcc=0, worldTickCount=0;
+// seconds a one-shot skilling action takes (src/skill_timing.js: whole ticks nearest the 2004 animation), or the old value
+function skillSeconds(kind,fallback){ return typeof SkillTiming!=='undefined'&&SkillTiming.seconds(kind)>0 ? SkillTiming.seconds(kind) : fallback; }
 
 /* ---------- pathfinding: TRUE tile BFS, 2004-style ----------
    One world unit = one tile. Movement is 8-directional like 2004 (owner decision 2026-09-25): a diagonal step is
@@ -311,8 +313,12 @@ function update(dt){
       else {
         Player.moveTo=null; Player.path=[];
         player.lookAt(a.obj.position.x,player.position.y,a.obj.position.z);
-        a.t+=dt;
-        if(a.t>=1.8){
+        // 2004 (src/skill_timing.js): the smelting stroke starts on the first tick at the furnace and the bar comes out
+        // 4 ticks later (2.4 s, the 2.42 s stroke); the next stroke starts with it
+        if(!a.started){ a.started=true; a.t=0;
+          if(Object.keys(SMELTS[a.bar].needs).every(n=>Player.count(n)>=SMELTS[a.bar].needs[n])) swing(player,'smelt'); }
+        else a.t+=dt;
+        if(a.t>=skillSeconds('smelt',1.8)-1e-6){
           a.t=0;
           const s=SMELTS[a.bar];
           const have=Object.keys(s.needs).every(n=>Player.count(n)>=s.needs[n]);
@@ -322,11 +328,11 @@ function update(dt){
             Player.addItem(a.bar,1);
             Player.addXp('Smithing', s.xp);
             UI.chat('You smelt a '+s.name.toLowerCase()+'.','xp');
-            Sfx.smelt(); swing(player,'smelt');
+            Sfx.smelt();
             if(typeof CraftingActionVisuals!=='undefined')CraftingActionVisuals.pulse('smelt',a.obj);
             UI.refreshInv();
             const again=Object.keys(s.needs).every(n=>Player.count(n)>=s.needs[n]);
-            if(!again) Player.action=null;
+            if(!again) Player.action=null; else swing(player,'smelt');
           }
         }
       }
@@ -337,8 +343,10 @@ function update(dt){
       else {
         Player.moveTo=null; Player.path=[];
         player.lookAt(a.obj.position.x,player.position.y,a.obj.position.z);
-        a.t+=dt;
-        if(a.t>=1.8){
+        // 2004: the hammering starts on the first tick at the anvil and the item comes 4 ticks later (the 2.28 s stroke)
+        if(!a.started){ a.started=true; a.t=0; if(Player.count('hammer')>=1 && Player.count(a.bar)>=a.make.bars) swing(player,'smith'); }
+        else a.t+=dt;
+        if(a.t>=skillSeconds('smith',1.8)-1e-6){
           a.t=0;
           const it=a.make;
           if(Player.count('hammer')<1 || Player.count(a.bar)<it.bars){ Player.action=null; }
@@ -347,18 +355,19 @@ function update(dt){
             Player.addItem(it.id, it.qty||1);
             Player.addXp('Smithing', SMITH_XP[a.bar]*it.bars);
             UI.chat('You hammer out '+(it.qty?'a set of ':'a ')+it.name.toLowerCase().replace(/ \(x\d+\)/,'')+'.','xp');
-            Sfx.smith(); swing(player,'smith');
+            Sfx.smith();
             if(typeof CraftingActionVisuals!=='undefined')CraftingActionVisuals.pulse('smith',a.obj);
             UI.refreshInv();
-            if(Player.count(a.bar)<it.bars) Player.action=null;
+            if(Player.count(a.bar)<it.bars) Player.action=null; else swing(player,'smith');
           }
         }
       }
     }
     else if(a.type==='lightfire'){
-      a.t+=dt;
-      swing(player);
-      if(a.t>=1.5){
+      a.t+=dt; a.ticks=(a.ticks||0)+1;
+      swing(player);   // the kneel with the tinderbox, held (looped) until the fire catches
+      // 2004: the kneel is held 7 ticks (4.2 s; the reference held it 4.15 s) before the fire catches (src/skill_timing.js)
+      if(a.ticks>(typeof SkillTiming!=='undefined'?SkillTiming.ticks('lightfire'):2)){
         const s=Player.inv[a.slot];
         if(s && s.id==='logs'){
           Player.inv[a.slot]=null;
@@ -532,8 +541,10 @@ function update(dt){
         const fish=[{raw:'raw_perch',done:'cooked_perch',burnt:'burnt_perch',xp:32,name:'a mirrorperch',hard:0},
                     {raw:'raw_reedpike',done:'cooked_reedpike',burnt:'burnt_reedpike',xp:45,name:'a reedpike',hard:.08}].find(f=>Player.count(f.raw)>0);
         if(!fish){ UI.chat('You have nothing raw to cook.','plain'); Player.action=null; return; }
+        // 2004 (src/skill_timing.js): a fish is done 3 ticks at the fire (the 1.77 s cook stroke), 4 at a range (its 2.43 s
+        // reach into the oven); the island adventurer's clip repeats at that length meanwhile. Burn odds and XP unchanged.
         a.t+=dt;
-        if(a.t>=2){
+        if(a.t>=skillSeconds(a.obj.userData&&a.obj.userData.range?'cook_range':'cook',2)-1e-6){
           a.t=0;
           // never destroy a fish the pack can't hold — check space before the raw leaves the slot
           if(!Player.hasSpace || Player.hasSpace()){

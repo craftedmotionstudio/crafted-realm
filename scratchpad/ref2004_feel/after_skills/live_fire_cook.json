@@ -1,0 +1,65 @@
+{
+ "fire": {
+  "litAfterSec": 5.01,
+  "kneelFirstSec": 0.12,
+  "kneelLastSec": 4.21,
+  "samples": 41,
+  "kneel": [
+   [
+    0,
+    null
+   ],
+   [
+    0.54,
+    "firemake"
+   ],
+   [
+    1.08,
+    "firemake"
+   ],
+   [
+    1.63,
+    "firemake"
+   ],
+   [
+    2.17,
+    "firemake"
+   ],
+   [
+    2.71,
+    "firemake"
+   ],
+   [
+    3.23,
+    "firemake"
+   ],
+   [
+    3.79,
+    "firemake"
+   ],
+   [
+    5.01,
+    null
+   ]
+  ]
+ },
+ "cook": {
+  "productsAtSec": [
+   1.45
+  ],
+  "clips": [
+   "cook@0.753"
+  ],
+  "action": null,
+  "raw": 0,
+  "cooked": 2,
+  "burnt": 0,
+  "chat": [
+   "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+   "Press ` (backquote) at any time for the Administrator Console.",
+   "The fire catches and the logs begin to burn.",
+   "You roast a mirrorperch.",
+   "You roast a mirrorperch."
+  ]
+ }
+}
