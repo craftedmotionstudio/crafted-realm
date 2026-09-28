@@ -1,0 +1,57 @@
+{
+ "glb": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.glb",
+ "out": "scratchpad/holm_props_pass/overview/mill",
+ "size": [
+  1100,
+  760
+ ],
+ "hide": "Mill_(Roof|Upper|Chimney)|Mill_Glazing",
+ "views": [
+  {
+   "name": "ground_ne",
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 14
+  },
+  {
+   "name": "ground_sw",
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 14
+  },
+  {
+   "name": "upper_ne",
+   "target": [
+    0,
+    3,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 14,
+   "hide": "Mill_(Roof|Chimney)|Mill_Glazing|Mill_UpperShell|Mill_(Shell|GroundFront)"
+  },
+  {
+   "name": "upper_sw",
+   "target": [
+    0,
+    3,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 14,
+   "hide": "Mill_(Roof|Chimney)|Mill_Glazing|Mill_UpperShell|Mill_(Shell|GroundFront)"
+  }
+ ]
+}

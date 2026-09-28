@@ -1,0 +1,90 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-mill-props-v1\\candidates\\mill.glb",
+ "views": [
+  "outside",
+  "inside:0.0",
+  "inside:2.8"
+ ],
+ "summary": {
+  "fights": 2,
+  "byKind": {
+   "open-shell": 2
+  },
+  "area": 0.0224,
+  "topPairs": [
+   [
+    [
+     "Mill_FloorFlags",
+     "Mill_FloorFlags"
+    ],
+    2
+   ]
+  ]
+ },
+ "fights": [
+  {
+   "da": -3.5899999141693115,
+   "db": -3.5915420055389404,
+   "extA": 0.562,
+   "extB": 0.562,
+   "thickA": 0.0015,
+   "thickB": 0.0015,
+   "visible": true,
+   "a": "Mill_FloorFlags",
+   "pa": 995,
+   "b": "Mill_FloorFlags",
+   "pb": 996,
+   "kind": "open-shell",
+   "area": 0.01121,
+   "at": [
+    1.845,
+    -3.59,
+    0.013
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 99,
+   "islandB": 99,
+   "sa": 1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.5899999141693115,
+   "db": -3.5915420055389404,
+   "extA": 0.562,
+   "extB": 0.562,
+   "thickA": 0.0015,
+   "thickB": 0.0015,
+   "visible": true,
+   "a": "Mill_FloorFlags",
+   "pa": 994,
+   "b": "Mill_FloorFlags",
+   "pb": 997,
+   "kind": "open-shell",
+   "area": 0.01121,
+   "at": [
+    1.658,
+    -3.59,
+    0.027
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 99,
+   "islandB": 99,
+   "sa": 1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  }
+ ]
+}

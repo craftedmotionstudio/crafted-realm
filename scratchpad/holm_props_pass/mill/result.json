@@ -1,0 +1,86 @@
+{
+ "baseline": {
+  "identical": true,
+  "differs": [],
+  "refGraph": "holm-mill-review4-navigation-v2"
+ },
+ "build": {
+  "flat": ".studio-workspaces/holm-mill-props-v1/working/mill-flat.blend",
+  "built": {
+   "Mill_FurnishingStones": 798,
+   "Mill_FurnishingStore": 1370,
+   "Mill_Dressing": 446
+  },
+  "removed": [
+   "Mill_FurnishingStones",
+   "Mill_FurnishingStore",
+   "Mill_Dressing"
+  ],
+  "islandsRemoved": {}
+ },
+ "texture": {
+  "glb": {
+   "path": ".studio-workspaces/holm-mill-props-v1/candidates/mill.glb",
+   "bytes": 1133952,
+   "sha256": "940be29a8a2c294fc1493ead94340f11755b22a022e9aa2116c89f448097d80b"
+  },
+  "materials": 2,
+  "images": [
+   "beam",
+   "rock"
+  ]
+ },
+ "proof": {
+  "ok": true,
+  "reference": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.glb",
+  "candidate": ".studio-workspaces/holm-mill-props-v1/candidates/mill.glb",
+  "referenceNodes": 25,
+  "kept": 22,
+  "changed": {
+   "Mill_Dressing": [
+    194,
+    471
+   ],
+   "Mill_FurnishingStones": [
+    224,
+    835
+   ],
+   "Mill_FurnishingStore": [
+    425,
+    1437
+   ]
+  },
+  "added": {},
+  "issues": []
+ },
+ "graph": {
+  "ws": "holm-mill-props-navigation-v1",
+  "nodes": 146,
+  "identical": true,
+  "differs": [],
+  "modelSha256": "940be29a8a2c294fc1493ead94340f11755b22a022e9aa2116c89f448097d80b"
+ },
+ "cutaway": {
+  "pieces": 23,
+  "keep": 23,
+  "cut": 0,
+  "clipped": 0
+ },
+ "coplanar": {
+  "before": 2,
+  "after": 2,
+  "areaBefore": 0.0224,
+  "areaAfter": 0.0224,
+  "worse": []
+ },
+ "registry": {
+  "was": {
+   "graph": "holm-mill-review4-navigation-v2",
+   "model": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.glb"
+  },
+  "now": {
+   "graph": "holm-mill-props-navigation-v1",
+   "model": ".studio-workspaces/holm-mill-props-v1/candidates/mill.glb"
+  }
+ }
+}

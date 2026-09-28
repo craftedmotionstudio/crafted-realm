@@ -1,0 +1,54 @@
+{
+ "schema": "crafted-realm-oldschool-textured-candidate-v2",
+ "recipe": "tools/blender/apply_oldschool_textures.py",
+ "blender": "4.5.10 LTS",
+ "source": ".studio-workspaces/holm-mill-props-v1/working/mill-flat.blend",
+ "materials": {
+  "Holm props colour - rock": {
+   "texture": "rock",
+   "vertexColour": true
+  },
+  "Holm props colour - beam": {
+   "texture": "beam",
+   "vertexColour": true
+  }
+ },
+ "vertexColourFaces": {
+  "Mill_Dressing": {
+   "rock": 65,
+   "beam": 6
+  },
+  "Mill_FurnishingStones": {
+   "beam": 249,
+   "rock": 34
+  },
+  "Mill_FurnishingStore": {
+   "beam": 243
+  }
+ },
+ "keptImages": [
+  "Aged oak",
+  "Dressed sandstone quoin",
+  "Limewash plaster",
+  "Mill fieldstone",
+  "Mill fieldstone dark",
+  "Mill fieldstone light",
+  "Mill floor flag",
+  "Mill floorboard planks",
+  "Mill frame oak",
+  "Mill thatch",
+  "Mill thatch dark",
+  "Millstone grit stone",
+  "Shutter oak planks"
+ ],
+ "meshes": 21,
+ "glb": {
+  "path": ".studio-workspaces/holm-mill-props-v1/candidates/mill.glb",
+  "bytes": 1133952,
+  "sha256": "940be29a8a2c294fc1493ead94340f11755b22a022e9aa2116c89f448097d80b"
+ },
+ "images": [
+  "beam",
+  "rock"
+ ]
+}

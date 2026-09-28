@@ -1,0 +1,23 @@
+{
+ "ok": true,
+ "reference": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.glb",
+ "candidate": ".studio-workspaces/holm-mill-props-v1/candidates/mill.glb",
+ "referenceNodes": 25,
+ "kept": 22,
+ "changed": {
+  "Mill_Dressing": [
+   194,
+   471
+  ],
+  "Mill_FurnishingStones": [
+   224,
+   835
+  ],
+  "Mill_FurnishingStore": [
+   425,
+   1437
+  ]
+ },
+ "added": {},
+ "issues": []
+}
