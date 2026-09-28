@@ -2114,7 +2114,7 @@ def torso_style(mb, bt, key):
         torso_loft(mb, bt, [.968, 1.00, 1.06, 1.125], 0.0, 'C_SKIN')
         torso_loft(mb, bt, [1.105, 1.14, 1.215, 1.27, 1.385, 1.43, 1.464, 1.492], lambda z: .006 if z > 1.11 else .010, 'C_TORSO')
     elif key == 'pleated':                         # B: pleated peplum top
-        shirt2(mb, bt, hem=.90, hem_off=.012, pleat_below=1.10)   # v3.0: a narrower peplum (the idle hands sit just outside it)
+        shirt2(mb, bt, hem=.90, hem_off=PEPLUM_OFF, pleat_below=1.10)   # v3.0: a narrower peplum (the idle hands sit just outside it)
     elif key == 'coat':                            # Guide Bram's long open coat (tutor extra built with kit rules)
         shirt2(mb, bt, mat='A_SHIRT', ah='hole')
         open_shell(mb, bt, [.56, .70, .84, .95, 1.08, 1.24, 1.35, 1.42, 1.475],
@@ -3725,6 +3725,8 @@ def v29_skill_clips():
     C['net'] = (48, [(0, hold), (10, wind), (17, cast), (22, low), (36, low), (44, draw), (48, hold)], True)
     return C
 
+BRAM_STAFF = {'plant': .5, 'ahead': .30}   # the staff is planted for this share of the cycle, this far ahead of the idle grip
+
 def bram_walk_clip(frames=28, speed=1.30):
     """Guide Bram's walk: the same grounded gait (slower, shorter step) with the staff used as a walking stick -- planted on
     alternate steps (while planted its tip stays fixed on the ground), then lifted and swung forward. The staff is rigid in
@@ -3741,8 +3743,8 @@ def bram_walk_clip(frames=28, speed=1.30):
     L1 = (BHEAD[B('RightForeArm')] - BHEAD[B('RightArm')]).length
     L2 = (BHEAD[RH] - BHEAD[B('RightForeArm')]).length
     T = frames / FPS
-    plant = .5
-    yT0 = G0.y - .30
+    plant = BRAM_STAFF['plant']
+    yT0 = G0.y - BRAM_STAFF['ahead']
     out, tip_err = [], 0.0
     for f, pose in keys:
         t = (f % frames) / frames
@@ -3793,6 +3795,7 @@ def clear_pose(arm):
 # ------------------------------------------------------------------------------------------
 CROTCH = Vector((0, .03, .86))
 HAND_MIN_CROTCH = .12     # hand centre to crotch point (~.08 from the hand surface)
+IDLE_HAND_Y = (-.05, .03)   # idle fist y range (m, - = forward); v4 profiles: the 2004 ready pose holds the fists a little forward
 HAND_HALF = .032          # v3.0: hand half-thickness (centre -> surface) for the thigh surface gap
 
 def hand_clearance(arm, acts):
@@ -3841,7 +3844,8 @@ def assert_hands(report, label):
     if idle:   # v3.1 OSRS idle: hands at the SIDES of the thighs, just off them, not splayed out, not held forward
         assert idle['min_hand_thigh_gap'] >= .004, 'idle hands touch the thighs: %s' % idle
         assert idle['idle_hand_x_max'] <= .30, 'idle arms splayed out like an A-pose: %s' % idle
-        assert -.05 <= idle['idle_hand_y_max'] <= .03, 'idle hands are not at the sides of the thighs: %s' % idle
+        lo, hi = IDLE_HAND_Y
+        assert lo <= idle['idle_hand_y_max'] <= hi, 'idle hands are not at the sides of the thighs: %s' % idle
     for n in ('walk', 'run', 'talk', 'wave'):
         if n in report:
             assert report[n]['min_hand_thigh_gap'] >= -.01, 'hands pass through the thighs in %s: %s' % (n, report[n])
@@ -5299,6 +5303,7 @@ def measure_outlines(items):
         return {}
 
 NO_REF_PANELS = False   # v4: drop Bible_References panels from every sheet
+PEPLUM_OFF = .012       # the pleated top's flare at its hem (v4 profiles: slimmer, the 2004 woman's arms hang close)
 
 def compose(out, rows, title=''):
     if NO_REF_PANELS:
@@ -6384,6 +6389,9 @@ def apply_profile(name):
     if PROFILE is not None:
         assert PROFILE == name, 'profile %s already applied (asked for %s)' % (PROFILE, name)
         return
+    here = os.path.dirname(os.path.abspath(__file__))
+    if here not in sys.path:
+        sys.path.insert(0, here)
     import holm_char_profiles_v4 as HP
     HP.apply(sys.modules[__name__], name)
     PROFILE = name

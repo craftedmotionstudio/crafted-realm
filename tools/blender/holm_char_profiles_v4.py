@@ -134,7 +134,7 @@ GOATEE_2004 = dict(tip_z=1.500, thick=.016, th_max=62, top_front=1.604, top_side
 # the shared 2004 body (measured against the reference man and woman: designer front + the old client's close camera)
 BODY_2004 = dict(shelf=SHELF_SQ, arm_lift={'A': .066, 'B': .074}, arm_out={'A': -.034, 'B': .004},
                  head_s=.94, head_s_bt={'B': .95}, head_wx=1.07, head_wy=.94, head_hz=1.00, head_dz=-.020, neck_k={'A': 1.10, 'B': .82},
-                 stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, deltoid_k=.85, arm_aim={'LeftArm': (.46, -.07, -.88), 'LeftForeArm': (.10, -.36, -.93), 'LeftHand': (.08, -.40, -.91)}, arms=(.05, .095), hand_k={'A': .86, 'B': 1.12}, arm_in={'B': .028},
+                 stance=STANCE_2004, idle_feet=IDLE_FEET_2004, v_body={}, deltoid_k=.85, arm_aim={'LeftArm': (.46, -.07, -.88), 'LeftForeArm': (.10, -.36, -.93), 'LeftHand': (.08, -.40, -.91)}, arms=(.05, .095), hand_k={'A': .86, 'B': 1.04}, arm_in={'B': .006}, peplum_off=.002,
                  head=HEAD_EGG, head_p=2.3, gait=GAIT_2004, goatee=GOATEE_2004)
 # eyes: dark slits that still read at the game camera (the reference's are ~2 px at 240 px tall); the goatee is broad
 FACE_2004 = dict(eye=(.029, 1.690, .032, .0125, .030, .0115), eye_tick=(.012, -.007, .008, .006), brow=None,
@@ -239,6 +239,11 @@ def apply(K, name):
     K.LEAN_LIMITS.update(P.get('lean', {}))
     K.TUTOR_GAIT.clear(); K.TUTOR_GAIT.update(P.get('tutor_gait', {}))
     K.NO_REF_PANELS = True
+    K.PEPLUM_OFF = P.get('peplum_off', K.PEPLUM_OFF)
+    if 'arms' in P:   # the shorter 2004 arms: Bram plants his staff 4 cm closer (keeps the planted tip exact)
+        K.BRAM_STAFF['ahead'] = .26
+    if 'arm_aim' in P:   # the 2004 ready pose: fists at the front-side of the thighs (reference: ~7 cm ahead of the hip line)
+        K.IDLE_HAND_Y = (-.09, .03)
     K.GAIT.clear(); K.GAIT.update(P.get('gait', {}))
     if 'idle_feet' in P:
         K.IDLE_FEET = P['idle_feet']
