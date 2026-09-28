@@ -19,7 +19,7 @@
 if(window.BookTips)return;
 var doc=document,tip=null,cur=null,last={x:-1,y:-1},lp={timer:0,btn:null,x:0,y:0,shown:false,until:0,hide:0};
 var SEL='#prayer-grid .prayer-btn, #spell-grid .prayer-btn';
-function css(){if(window.CRGuideCss)window.CRGuideCss();else if(!doc.getElementById('cr-guide-css')){var l=doc.createElement('link');l.id='cr-guide-css';l.rel='stylesheet';l.href='assets/ui/skill_guide.css?v=h31f67d7d';doc.head.appendChild(l)}}
+function css(){if(window.CRGuideCss)window.CRGuideCss();else if(!doc.getElementById('cr-guide-css')){var l=doc.createElement('link');l.id='cr-guide-css';l.rel='stylesheet';l.href='assets/ui/skill_guide.css?v=h0f36d7c2';doc.head.appendChild(l)}}
 function box(){if(!tip){css();tip=doc.createElement('div');tip.id='book-tip';tip.setAttribute('role','tooltip');doc.body.appendChild(tip)}return tip}
 
 /* which prayer or spell a button is: data-book (ui_prayer_magic.js), else its place in the grid */

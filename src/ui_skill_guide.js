@@ -20,7 +20,7 @@
 (function(){
 'use strict';
 if(window.SkillGuide)return;
-var doc=document,CSS_HREF='assets/ui/skill_guide.css?v=h31f67d7d';
+var doc=document,CSS_HREF='assets/ui/skill_guide.css?v=h0f36d7c2';
 var SPR_BASE='assets/icons/ui/v3/';
 function sprV(){return (window.CRSprite&&window.CRSprite.v)||'?v=6'}
 function $(id){return doc.getElementById(id)}
@@ -110,8 +110,8 @@ function render(){
   var g=guideFor(st.skill);if(!g)return;
   var title=st.win.querySelector('.sg-title'),hi=st.win.querySelector('.sg-hico');
   title.textContent=st.skill+' guide';
-  // a W4 skill has no stat sprite yet (a reported gap): no request, no picture, never a stand-in glyph
-  if(g.planned){hi.removeAttribute('src');hi.style.visibility='hidden'}else{hi.style.visibility='';hi.src=skillIcon(st.skill)}
+  // every skill has its stat sprite, the four W4 skills too (Blender props, 2026-09-28); a missing file hides the slot, never a glyph
+  hi.style.visibility='';hi.src=skillIcon(st.skill);
   var tabs=st.win.querySelector('.sg-tabs'),list=st.win.querySelector('.sg-list'),foot=st.win.querySelector('.sg-foot');
   if(!g.tabs.some(function(t){return t.id===st.tab}))st.tab=g.tabs.length?g.tabs[0].id:null;
   tabs.innerHTML='';
@@ -197,7 +197,9 @@ function decorate(){
   if(!soon.length){if(line)line.remove();return}
   if(!line||line.parentNode!==list){if(line)line.remove();line=el('div');line.id='osk-soon';list.appendChild(line)}
   line.innerHTML='';line.appendChild(el('span','osk-soon-head','Coming later: '));
-  soon.forEach(function(s,i){var b=el('button','osk-soon-skill',s);b.type='button';b.dataset.skill=s;b.setAttribute('aria-label',s+' guide (coming later)');
+  soon.forEach(function(s,i){var b=el('button','osk-soon-skill');b.type='button';b.dataset.skill=s;b.setAttribute('aria-label',s+' guide (coming later)');
+    var im=el('img','osk-soon-ico');im.alt='';im.draggable=false;im.src=SPR_BASE+'skills18/'+s.toLowerCase()+'.png'+sprV();
+    im.onerror=function(){this.remove()};b.appendChild(im);b.appendChild(doc.createTextNode(s));
     line.appendChild(b);if(i<soon.length-1)line.appendChild(doc.createTextNode(', '))});
   markCells();
 }

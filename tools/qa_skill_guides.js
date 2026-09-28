@@ -4,7 +4,8 @@
  *   - clicks every one of the 15 stat cells: the guide opens titled "<Skill> guide", shows the data's tabs, and each tab
  *     (clicked) shows exactly the data's rows in the data's order, with every reached row in full colour, every row above
  *     the adventurer's level dimmed and every planned row dimmed and marked "Coming later"; every picture loads;
- *   - the four W4 skills open from the "Coming later" line under the total, all rows planned;
+ *   - the four W4 skills open from the "Coming later" line under the total (each with its stat sprite), all rows planned;
+ *   - every guide's title shows the skill's stat sprite (the W4 four too);
  *   - closing: the X, Escape, a second click on the same skill, a conversation, and a click in the world (which still walks);
  *   - the game keeps running under an open guide (frames and ticks advance);
  *   - hovers all 17 prayers and all 21 spells: the old-school tip shows name, level, drain or runes and the line of what
@@ -51,6 +52,10 @@ async function waitImgs(page){await page.evaluate(()=>Promise.all(Array.from(doc
 async function checkGuide(page,skill,tag,how){
   const want=await expectGuide(page,skill);let g=await readGuide(page);
   ok(g&&g.title===skill+' guide',tag+skill+': the guide opens, titled "'+skill+' guide"',g&&g.title);if(!g)return;
+  const hico=await page.evaluate(()=>{const i=document.querySelector('#skill-guide-layer .sg-hico');if(!i)return 'none';
+    return (i.complete?Promise.resolve():new Promise(r=>{i.addEventListener('load',r,{once:true});i.addEventListener('error',r,{once:true});setTimeout(r,3000)}))
+      .then(()=>i.style.visibility!=='hidden'&&i.naturalWidth>0?true:i.getAttribute('src'))});
+  ok(hico===true,tag+skill+': the title shows the skill\'s stat sprite',hico);
   ok(same(g.tabs,want.tabs),tag+skill+': tabs '+want.tabs.join(' / '),g.tabs);
   ok(g.tabsShown===(want.tabs.length>1),tag+skill+': the category column shows only when there is more than one');
   for(let i=0;i<want.tabs.length;i++){
@@ -92,6 +97,9 @@ async function frames(page,ms){return page.evaluate(ms=>new Promise(res=>{let n=
     ok(same(cells,await page.evaluate(()=>SKILLS.slice())),'every stat cell knows its skill',cells);
     const soon=await page.evaluate(()=>Array.from(document.querySelectorAll('#osk-soon .osk-soon-skill')).map(b=>b.textContent));
     ok(same(soon,['Crafting','Herblore','Agility','Runecrafting']),'the "Coming later" line lists the four W4 skills',soon);
+    const soonIco=await page.evaluate(()=>{const ims=Array.from(document.querySelectorAll('#osk-soon .osk-soon-ico'));
+      return Promise.all(ims.map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r;setTimeout(r,3000)}))).then(()=>ims.map(i=>i.naturalWidth))});
+    ok(soonIco.length===4&&soonIco.every(w=>w>0),'the "Coming later" line shows each W4 skill\'s stat sprite',soonIco);
     await page.screenshot({path:path.join(OUT,'desktop_00_stats_tab.png'),clip:{x:1260,y:480,width:278,height:420}});
     for(let i=0;i<cells.length;i++){
       const skill=cells[i];await click(page,await centre(page,'#osk-grid .osk-cell',i));

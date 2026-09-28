@@ -1,6 +1,6 @@
 {
- "at": "2026-09-28T02:12:49.711Z",
- "pass": 345,
+ "at": "2026-09-28T05:37:36.568Z",
+ "pass": 367,
  "fail": 0,
  "results": [
   {
@@ -36,8 +36,23 @@
   },
   {
    "ok": true,
+   "m": "the \"Coming later\" line shows each W4 skill's stat sprite",
+   "d": [
+    18,
+    18,
+    18,
+    18
+   ]
+  },
+  {
+   "ok": true,
    "m": "desktop Attack: the guide opens, titled \"Attack guide\"",
    "d": "Attack guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -153,6 +168,11 @@
   },
   {
    "ok": true,
+   "m": "desktop Strength: the title shows the skill's stat sprite",
+   "d": true
+  },
+  {
+   "ok": true,
    "m": "desktop Strength: tabs Places",
    "d": [
     "Places"
@@ -194,6 +214,11 @@
    "ok": true,
    "m": "desktop Defence: the guide opens, titled \"Defence guide\"",
    "d": "Defence guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -281,6 +306,11 @@
   },
   {
    "ok": true,
+   "m": "desktop Hitpoints: the title shows the skill's stat sprite",
+   "d": true
+  },
+  {
+   "ok": true,
    "m": "desktop Hitpoints: tabs Food",
    "d": [
     "Food"
@@ -328,6 +358,11 @@
    "ok": true,
    "m": "desktop Ranged: the guide opens, titled \"Ranged guide\"",
    "d": "Ranged guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -440,6 +475,11 @@
    "ok": true,
    "m": "desktop Magic: the guide opens, titled \"Magic guide\"",
    "d": "Magic guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -593,6 +633,11 @@
   },
   {
    "ok": true,
+   "m": "desktop Prayer: the title shows the skill's stat sprite",
+   "d": true
+  },
+  {
+   "ok": true,
    "m": "desktop Prayer: tabs Prayers / Equipment / Places",
    "d": [
     "Prayers",
@@ -701,6 +746,11 @@
   },
   {
    "ok": true,
+   "m": "desktop Woodcutting: the title shows the skill's stat sprite",
+   "d": true
+  },
+  {
+   "ok": true,
    "m": "desktop Woodcutting: tabs Trees / Hatchets",
    "d": [
     "Trees",
@@ -782,6 +832,11 @@
    "ok": true,
    "m": "desktop Mining: the guide opens, titled \"Mining guide\"",
    "d": "Mining guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -894,6 +949,11 @@
    "ok": true,
    "m": "desktop Fishing: the guide opens, titled \"Fishing guide\"",
    "d": "Fishing guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -1041,6 +1101,11 @@
   },
   {
    "ok": true,
+   "m": "desktop Cooking: the title shows the skill's stat sprite",
+   "d": true
+  },
+  {
+   "ok": true,
    "m": "desktop Cooking: tabs Food / Places",
    "d": [
     "Food",
@@ -1116,6 +1181,11 @@
    "ok": true,
    "m": "desktop Firemaking: the guide opens, titled \"Firemaking guide\"",
    "d": "Firemaking guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -1196,6 +1266,11 @@
    "ok": true,
    "m": "desktop Smithing: the guide opens, titled \"Smithing guide\"",
    "d": "Smithing guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -1487,6 +1562,11 @@
   },
   {
    "ok": true,
+   "m": "desktop Fletching: the title shows the skill's stat sprite",
+   "d": true
+  },
+  {
+   "ok": true,
    "m": "desktop Fletching: tabs Bows / Arrows",
    "d": [
     "Bows",
@@ -1564,6 +1644,11 @@
    "ok": true,
    "m": "desktop Thieving: the guide opens, titled \"Thieving guide\"",
    "d": "Thieving guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -1685,6 +1770,11 @@
   },
   {
    "ok": true,
+   "m": "desktop Crafting: the title shows the skill's stat sprite",
+   "d": true
+  },
+  {
+   "ok": true,
    "m": "desktop Crafting: tabs Leather / Other / Places",
    "d": [
     "Leather",
@@ -1802,6 +1892,11 @@
   },
   {
    "ok": true,
+   "m": "desktop Herblore: the title shows the skill's stat sprite",
+   "d": true
+  },
+  {
+   "ok": true,
    "m": "desktop Herblore: tabs Potions / Herbs",
    "d": [
     "Potions",
@@ -1888,6 +1983,11 @@
    "ok": true,
    "m": "desktop Agility: the guide opens, titled \"Agility guide\"",
    "d": "Agility guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -1980,6 +2080,11 @@
   },
   {
    "ok": true,
+   "m": "desktop Runecrafting: the title shows the skill's stat sprite",
+   "d": true
+  },
+  {
+   "ok": true,
    "m": "desktop Runecrafting: tabs Runes",
    "d": [
     "Runes"
@@ -2045,9 +2150,9 @@
   },
   {
    "ok": true,
-   "m": "the game keeps running under an open guide (74 frames in 1.2 s)",
+   "m": "the game keeps running under an open guide (86 frames in 1.2 s)",
    "d": {
-    "frames": 74,
+    "frames": 86,
     "running": true
    }
   },
@@ -2103,8 +2208,8 @@
      118.5
     ],
     "p1": [
-     58.5,
-     113.5
+     61.2052,
+     114.5
     ]
    }
   },
@@ -2175,6 +2280,11 @@
    "ok": true,
    "m": "phone Smithing: the guide opens, titled \"Smithing guide\"",
    "d": "Smithing guide"
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
@@ -2473,6 +2583,11 @@
    "ok": true,
    "m": "phone Attack: the guide opens, titled \"Attack guide\"",
    "d": "Attack guide"
+  },
+  {
+   "ok": true,
+   "m": "phone Attack: the title shows the skill's stat sprite",
+   "d": true
   },
   {
    "ok": true,
