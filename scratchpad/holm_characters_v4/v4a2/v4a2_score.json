@@ -1,7 +1,7 @@
 {
  "option": "v4a2",
  "label": "Option A.2 -- closest 2004, smooth panels, form-fitting trousers, rounder skull, ankle-roll walk, calm run",
- "total": 8.33,
+ "total": 8.38,
  "criteria": {
   "head/body ratio": 9.37,
   "shoulder line": 9.4,
@@ -11,7 +11,7 @@
   "face": 8.7,
   "shading": 8.8,
   "walk": 7.63,
-  "run": 8.08
+  "run": 8.5
  },
  "silhouette_views": [
   {
@@ -320,7 +320,7 @@
    }
   },
   "run": {
-   "score": 8.08,
+   "score": 8.5,
    "detail": {
     "run_cycle_rel": {
      "ours": 0.9809,
@@ -338,22 +338,22 @@
      "score": 10.0
     },
     "run_bob_H": {
-     "ours": 0.0426,
+     "ours": 0.0429,
      "ref": 0.0375,
      "score": 10.0
     },
     "run_max_feet_spread_H": {
-     "ours": 0.6454,
+     "ours": 0.6571,
      "ref": 0.7215,
-     "score": 7.7
+     "score": 8.17
     },
     "run_max_hand_band_H": {
-     "ours": 0.2908,
+     "ours": 0.3286,
      "ref": 0.4474,
-     "score": 0.81
+     "score": 3.33
     },
     "run_min_hand_band_H": {
-     "ours": 0.1844,
+     "ours": 0.1786,
      "ref": 0.174,
      "score": 10.0
     }
