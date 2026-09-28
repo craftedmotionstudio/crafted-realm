@@ -1,0 +1,15 @@
+{
+ "model": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.glb",
+ "building": "lastlight",
+ "lift": 0.5,
+ "levels": [
+  0,
+  3,
+  6,
+  9
+ ],
+ "pieces": 64,
+ "keep": 64,
+ "cut": 0,
+ "clipped": []
+}

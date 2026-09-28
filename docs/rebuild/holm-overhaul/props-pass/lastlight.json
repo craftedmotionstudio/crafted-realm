@@ -11,7 +11,7 @@
  "outBlend": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.blend",
  "outGlb": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.glb",
  "texReport": ".studio-workspaces/holm-lastlight-props-v1/candidates/textures.report.json",
- "changed": "^$",
+ "changed": "^Lastlight_(Furnishing|FurnishingDressing|UpperFurnishingKeeper|UpperFurnishingWatch|UpperFurnishingDressing|Yard|ServiceStores_Workbench)$",
  "added": "^Lastlight_(Upper)?Furnishing[A-Za-z]*Props[A-Za-z]+$",
  "graph": "holm-lastlight-props-navigation-v1",
  "coplanar": "m44",

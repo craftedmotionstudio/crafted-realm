@@ -1,0 +1,30 @@
+{
+ "removed": [
+  "Lastlight_Furnishing",
+  "Lastlight_FurnishingDressing",
+  "Lastlight_UpperFurnishingKeeper",
+  "Lastlight_UpperFurnishingWatch",
+  "Lastlight_UpperFurnishingDressing",
+  "Lastlight_Yard",
+  "Lastlight_ServiceStores_Workbench"
+ ],
+ "islandsRemoved": {},
+ "facesRemoved": {},
+ "built": {
+  "Lastlight_FurnishingPropsStore": 3088,
+  "Lastlight_FurnishingPropsWing": 734,
+  "Lastlight_ServiceStores_Workbench": 2494,
+  "Lastlight_UpperFurnishingPropsKeeper": 2922,
+  "Lastlight_UpperFurnishingPropsWatch": 1966,
+  "Lastlight_Yard": 1328
+ },
+ "notes": [],
+ "welds": {
+  "Lastlight_FurnishingPropsStore": 171,
+  "Lastlight_FurnishingPropsWing": 30,
+  "Lastlight_ServiceStores_Workbench": 150,
+  "Lastlight_UpperFurnishingPropsKeeper": 130,
+  "Lastlight_UpperFurnishingPropsWatch": 117,
+  "Lastlight_Yard": 111
+ }
+}

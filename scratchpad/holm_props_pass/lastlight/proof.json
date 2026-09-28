@@ -1,0 +1,44 @@
+{
+ "ok": true,
+ "reference": ".studio-workspaces/holm-lastlight-glazed-review4-v1/candidates/lastlight.glb",
+ "candidate": ".studio-workspaces/holm-lastlight-props-v1/candidates/lastlight.glb",
+ "referenceNodes": 51,
+ "kept": 44,
+ "changed": {
+  "Lastlight_Furnishing": [
+   1656,
+   null
+  ],
+  "Lastlight_FurnishingDressing": [
+   428,
+   null
+  ],
+  "Lastlight_ServiceStores_Workbench": [
+   464,
+   2644
+  ],
+  "Lastlight_UpperFurnishingDressing": [
+   358,
+   null
+  ],
+  "Lastlight_UpperFurnishingKeeper": [
+   537,
+   null
+  ],
+  "Lastlight_UpperFurnishingWatch": [
+   284,
+   null
+  ],
+  "Lastlight_Yard": [
+   668,
+   1439
+  ]
+ },
+ "added": {
+  "Lastlight_FurnishingPropsStore": 3259,
+  "Lastlight_FurnishingPropsWing": 764,
+  "Lastlight_UpperFurnishingPropsKeeper": 3052,
+  "Lastlight_UpperFurnishingPropsWatch": 2083
+ },
+ "issues": []
+}

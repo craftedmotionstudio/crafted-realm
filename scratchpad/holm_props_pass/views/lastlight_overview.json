@@ -1,0 +1,57 @@
+{
+ "glb": ".studio-workspaces/holm-lastlight-glazed-review4-v1/candidates/lastlight.glb",
+ "out": "scratchpad/holm_props_pass/overview/lastlight",
+ "size": [
+  1100,
+  760
+ ],
+ "hide": "Lastlight_(Roof|Upper|Chimney)|Lastlight_Glazing",
+ "views": [
+  {
+   "name": "ground_ne",
+   "target": [
+    -1,
+    0,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 15
+  },
+  {
+   "name": "ground_sw",
+   "target": [
+    -1,
+    0,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 15
+  },
+  {
+   "name": "upper_ne",
+   "target": [
+    -1,
+    3,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 15,
+   "hide": "Lastlight_(Roof|Chimney)|Lastlight_Glazing|Lastlight_UpperShell|Lastlight_(Shell|GroundFront)"
+  },
+  {
+   "name": "upper_sw",
+   "target": [
+    -1,
+    3,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 15,
+   "hide": "Lastlight_(Roof|Chimney)|Lastlight_Glazing|Lastlight_UpperShell|Lastlight_(Shell|GroundFront)"
+  }
+ ]
+}
