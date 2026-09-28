@@ -38,14 +38,13 @@
   "Mill frame oak",
   "Mill thatch",
   "Mill thatch dark",
-  "Millstone grit stone",
   "Shutter oak planks"
  ],
  "meshes": 21,
  "glb": {
   "path": ".studio-workspaces/holm-mill-props-v1/candidates/mill.glb",
-  "bytes": 1133952,
-  "sha256": "940be29a8a2c294fc1493ead94340f11755b22a022e9aa2116c89f448097d80b"
+  "bytes": 1133940,
+  "sha256": "73f6e2533c379c155317e8c6bc1f46b86b54e268b13c500d1c25a429ae5428f3"
  },
  "images": [
   "beam",

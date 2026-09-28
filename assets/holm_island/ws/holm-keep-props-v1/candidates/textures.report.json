@@ -29,7 +29,6 @@
  "keptImages": [
   "Keep aged oak",
   "Keep floor flags",
-  "Keep furniture oak",
   "Keep gray fieldstone",
   "Keep gray fieldstone (not clipped)",
   "Keep pale dressed stone",
@@ -39,8 +38,8 @@
  "meshes": 30,
  "glb": {
   "path": ".studio-workspaces/holm-keep-props-v1/candidates/keep.glb",
-  "bytes": 2168668,
-  "sha256": "059a7662d92036bf6ed768e51530832971783f2ac318d0903e057486918aa7da"
+  "bytes": 2168712,
+  "sha256": "e2b9073c7840b7c87eb308c5829fc53ed82723fe375af6dda547d4660fbd9b19"
  },
  "images": [
   "beam"

@@ -831,9 +831,10 @@ def tongs(A, x, z, y, rot, iron):
     """Smith's tongs lying open: two long reins crossing at the rivet, short jaws."""
     d = V(math.cos(rot), 0, math.sin(rot)); side = V(-d.z, 0, d.x)
     c = V(x, y + .012, z)
-    for s in (1, -1):
-        A.beam(tuple(c - d * .3 + side * s * .04), tuple(c), .014, .01, iron)
-        A.beam(tuple(c), tuple(c + d * .1 - side * s * .015), .016, .012, iron)
+    for s in (1, -1):                                                      # the two reins cross 8 mm apart in height
+        up = V(0, .004 * s, 0)
+        A.beam(tuple(c - d * .3 + side * s * .04 + up), tuple(c + up), .014, .01, iron)
+        A.beam(tuple(c + up), tuple(c + d * .1 - side * s * .015 + up), .016, .012, iron)
     A.tube(tuple(c - V(0, .01, 0)), tuple(c + V(0, .01, 0)), .012, 6, iron)
 
 
@@ -860,7 +861,7 @@ def anvil(A, x, z, y, rot, iron, iron_l=None, scale=1.0):
     A.poly(V_, [(0, 1, 4), (1, 2, 4), (2, 3, 4), (3, 0, 4)], iron)
     # heel with a hardy hole
     blk(-.24 * s, -.16 * s, .24 * s, .3 * s, -.05 * s, .05 * s, iron)
-    blk(-.21 * s, -.19 * s, .3 * s, .302 * s, -.015 * s, .015 * s, iron_l or iron)
+    A.poly([P(-.21 * s, .3 * s + .004, -.015 * s), P(-.21 * s, .3 * s + .004, .015 * s), P(-.19 * s, .3 * s + .004, .015 * s), P(-.19 * s, .3 * s + .004, -.015 * s)], [(0, 1, 2, 3)], iron_l or iron)   # the hardy hole, a sheet 4 mm over the face
 
 
 def stump(A, x, z, y0, y1, r, bark, end, n=8, rng=None):

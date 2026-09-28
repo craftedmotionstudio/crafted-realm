@@ -42,8 +42,8 @@
  "texture": {
   "glb": {
    "path": ".studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb",
-   "bytes": 4512996,
-   "sha256": "3be074305de57d805ef432529edfc9ae6f566314e1f8e806552432e66b1a81c4"
+   "bytes": 4512948,
+   "sha256": "8ba91c017545c7a02b0d5ee30f2e5ed8f5daca455626507bc2f1e56c5cb33b18"
   },
   "materials": 1,
   "images": [
@@ -120,7 +120,7 @@
   "nodes": 265,
   "identical": true,
   "differs": [],
-  "modelSha256": "3be074305de57d805ef432529edfc9ae6f566314e1f8e806552432e66b1a81c4"
+  "modelSha256": "8ba91c017545c7a02b0d5ee30f2e5ed8f5daca455626507bc2f1e56c5cb33b18"
  },
  "cutaway": {
   "pieces": 62,

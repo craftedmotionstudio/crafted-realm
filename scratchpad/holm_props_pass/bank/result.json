@@ -35,8 +35,8 @@
  "texture": {
   "glb": {
    "path": ".studio-workspaces/holm-bank-props-v1/candidates/bank.glb",
-   "bytes": 4062932,
-   "sha256": "33a0a934b733235894d49c2bff4f6cebf1ea3a1c1171ceb8a449694be5c63c75"
+   "bytes": 4062976,
+   "sha256": "a14fbb0ac80ad91d2ab0ca4d05bbff86692fd7cebd1809a2ce3c762bd7d0ca44"
   },
   "materials": 2,
   "images": [
@@ -101,7 +101,7 @@
   "nodes": 186,
   "identical": true,
   "differs": [],
-  "modelSha256": "33a0a934b733235894d49c2bff4f6cebf1ea3a1c1171ceb8a449694be5c63c75"
+  "modelSha256": "a14fbb0ac80ad91d2ab0ca4d05bbff86692fd7cebd1809a2ce3c762bd7d0ca44"
  },
  "cutaway": {
   "pieces": 640,
