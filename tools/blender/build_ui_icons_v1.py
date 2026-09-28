@@ -900,6 +900,41 @@ I('s_smithing', 'skills', p_anvil, [O('skills/smithing.png', 24), O('skills18/sm
 I('s_fletching', 'skills', p_arrow_feather, [O('skills/fletching.png', 24), O('skills18/fletching.png', 18)], el=6)
 I('s_thieving', 'skills', p_mask, [O('skills/thieving.png', 24), O('skills18/thieving.png', 18)], el=8, yaw=-10)
 
+# -- the four W4 skills (2026-09-28; their guides show "Coming later"): our own props, the same finish as the fifteen
+def crafting(m):
+    """a stretched, tanned hide pierced by a big sewing needle trailing red thread"""
+    hide = [(-.2, .44), (-.08, .36), (.08, .36), (.2, .44), (.3, .34), (.26, .2), (.36, .02), (.3, -.2), (.34, -.36), (.2, -.44),
+            (.08, -.34), (-.08, -.34), (-.2, -.44), (-.34, -.36), (-.3, -.2), (-.36, .02), (-.26, .2), (-.3, .34)]
+    m.ext(hide, .06, 'leather_lt', 'leather_dk', bev=.03)
+    a, b = Vector((-.46, -.1, -.46)), Vector((.4, -.1, .4)); d = (b - a).normalized()
+    m.ptube([a, b], [.034, .058], 6, 'steel', cap0='steel', cap1='steel')                         # the needle (eye end at b)
+    m.hull(ell(tuple(a - d * .03), (.02, .02, .02), 5, 3), 'steel')
+    m.ring2((b.x - .05, -.14, b.z - .05), (.07, .05), (.035, .02), .03, 'steel_dk', n=10)          # its eye
+    m.ptube([(b.x - .05, -.16, b.z - .05), (.3, -.2, .12), (.12, -.22, .02), (.02, -.2, .18), (-.12, -.2, .3)], .042, 5, 'red', cap1='red')
+def p_leaf(m, a, L=.36, w=.1, col='green', y=-.05, c=(0, 0)):
+    k = m.mark(); m.ext([(0, 0), (w, L * .35), (w * .7, L * .75), (0, L), (-w * .7, L * .75), (-w, L * .35)], .03, col, 'green_dk', y=y)
+    m.ext(rrect(-.012, .02, .012, L * .85, .006, 1), .02, 'green_dk', y=y - .025)
+    m.tf(k, T(c[0], 0, c[1]) @ rotY(a))
+def herblore(m):
+    m.lathe([(.0, -.46), (.28, -.46), (.4, -.34), (.46, -.12), (.48, .04), (.44, .08)], 14, 'stone_lt', cap0='stone_dk')   # mortar
+    m.lathe([(.44, .08), (.38, .04), (.32, -.12), (.0, -.2)], 14, 'stone_dk')
+    for a, L, x in ((-30, .44, -.1), (5, .5, 0.0), (38, .4, .1)): p_leaf(m, a, L, .11, 'green', y=.05, c=(x, -.02))
+    m.ptube([(-.02, .04, -.12), (.22, -.02, .3), (.3, -.04, .44)], [.07, .062, .085], 8, 'stone', cap0='stone', cap1='stone_lt')   # pestle
+def agility(m):
+    k = m.mark(); p_boot(m); m.tf(k, T(.12, 0, -.05) @ rotY(-22) @ T(0, 0, -.38) @ S(1.05))
+    p_speed(m, -.62, -.12, (.22, .06, -.1), w=.05, y=.2)
+    k = m.mark(); p_swoosh(m, (.02, -.2), .5, math.radians(200), math.radians(290), .1, y=.25); m.tf(k, T(0, 0, 0))
+def runecrafting(m):
+    m.ext(rrect(-.44, -.36, .44, .36, .18, 4), .16, 'stone_lt', 'stone_dk', bev=.05)          # the rune stone, face on
+    for i in range(8):                                                                          # glowing sigil: eight rays about a ring
+        a = TAU * i / 8; r0, r1 = .12, (.3 if i % 2 == 0 else .22)
+        k = m.mark(); m.ext(rrect(-.026, r0, .026, r1, .02, 1), .03, 'e_purple', y=-.12); m.tf(k, rotY(math.degrees(a)))
+    m.ring2((0, -.12, 0), .1, .055, .03, 'e_white', n=14)
+I('s_crafting', 'skills', crafting, [O('skills/crafting.png', 24), O('skills18/crafting.png', 18)], el=8, yaw=-10)
+I('s_herblore', 'skills', herblore, [O('skills/herblore.png', 24), O('skills18/herblore.png', 18)], el=18, yaw=-10)
+I('s_agility', 'skills', agility, [O('skills/agility.png', 24), O('skills18/agility.png', 18)], el=6, yaw=-8)
+I('s_runecrafting', 'skills', runecrafting, [O('skills/runecrafting.png', 24), O('skills18/runecrafting.png', 18)], el=8, yaw=-14)
+
 # -- prayers (32 px)
 def fist_plus(extra):
     def f(m):

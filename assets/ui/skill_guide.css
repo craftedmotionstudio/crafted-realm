@@ -93,6 +93,7 @@ html.osrs-kit #skill-guide-layer .sg-x{top:2px!important;right:2px!important;wid
 #osk-soon .osk-soon-skill{display:inline;margin:0;padding:0;border:0;background:none;box-shadow:none;cursor:pointer;
   color:#ff981f;font:inherit;text-shadow:inherit;}
 #osk-soon .osk-soon-skill:hover,#osk-soon .osk-soon-skill:focus-visible{color:#ffff00;text-decoration:underline;outline:0;}
+#osk-soon .osk-soon-ico{display:inline-block;width:18px;height:18px;margin:0 2px 0 0;vertical-align:-4px;image-rendering:pixelated;pointer-events:none;}
 
 /* ------------------------------------------------------------------ prayer and spell tips (ui_book_tips.js) */
 /* the old-school menu's box: dark stone, a thin stone border, square corners; the name in yellow on a black strip,
