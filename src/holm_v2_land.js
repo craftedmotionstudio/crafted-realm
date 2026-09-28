@@ -7,7 +7,7 @@
  * loader below only runs when the island calls it). */
 var HolmV2Land=(function(){
  'use strict';
- var ARRIVAL={baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v1/exports/',exportId:'109582366ee39263'};
+ var ARRIVAL={baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v2/exports/',exportId:'50c49dbf500f9fc8'};   // v2: the Lantern Keeper statue v5 (kit v4)
  var REGISTRY='/docs/rebuild/holm-overhaul/v2land.json';
  function asset(u){return typeof HolmIsland!=='undefined'?HolmIsland.asset(u):u}
  // registry path ('.studio-workspaces/...') -> the URL the island loads (published copy in production)

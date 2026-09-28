@@ -7,7 +7,12 @@
 // Build candidates, then stage only through the existing Safe Publish CLI; never applies.
 const fs=require('fs'),path=require('path'),crypto=require('crypto'),cp=require('child_process');
 const Package=require('../src/holm_arrival_package');
-const root=path.resolve(__dirname,'..'),id='holm-arrival-package-v2land-v1';
+const root=path.resolve(__dirname,'..');
+// kit v4 rollout (2026-09-27): v2 of this package carries the Lantern Keeper statue v5 (kit v4); the measured landscape
+// folder and the textured statue come from the old-school recipe files (docs/rebuild/holm-overhaul/oldschool/)
+const ARR=JSON.parse(fs.readFileSync(path.join(root,'docs/rebuild/holm-overhaul/oldschool/arrival.json'),'utf8'));
+const STATUE=JSON.parse(fs.readFileSync(path.join(root,'docs/rebuild/holm-overhaul/oldschool/statue.textures.json'),'utf8'));
+const id='holm-arrival-package-v2land-v2';
 const workspace=path.join(root,'.studio-workspaces',id),candidates=path.join(workspace,'candidates');
 const rows=[],bytesByTarget=new Map();
 function digest(bytes){return crypto.createHash('sha256').update(bytes).digest('hex')}
@@ -42,13 +47,13 @@ const provisionModel='assets/models/holm_provisions_oldschool_v1.glb',provisionS
 sources.provisionsPlacement=add(authoring+'holm-arrival.provisions.json','docs/rebuild/holm-overhaul/arrival-provisions.json',p=>({...p,model:provisionModel,source:provisionSource}));
 sources.provisionsManifest=add(authoring+'holm-arrival.provisions.manifest.json',provisionBase+'manifest.json');
 assets.push({id:'provisions',ownerId:'holm_provisions',model:add(provisionModel,provisionBase+'provisions.glb'),authoring:add(provisionSource,provisionBase+'provisions.blend'),parts:['ProvisionsRack','ProvisionHatchet','ProvisionNet','ProvisionTinderbox']});
-const landscapeBase='.studio-workspaces/holm-arrival-landscape-measure-oldschool-v2/candidates/';
+const landscapeBase=path.dirname(ARR.measure.out).replace(/\\/g,'/')+'/';
 const measured=JSON.parse(fs.readFileSync(path.join(root,landscapeBase+'measured.json'),'utf8'));
 const roots={oak:'ArrivalOak',hazel:'ArrivalHazel',fieldstones:'ArrivalFieldstones',wall:'LandingGardenWall',bench:'LandingOakBench',waypost:'LandingWaypost',cargo:'LandingCargoCrate',statue:'LanternKeeperStatue'};
 const modelName={oak:'holm_arrival_oak_oldschool_v1.glb',statue:'holm_arrival_statue_oldschool_v1.glb',hazel:'holm_arrival_hazel_oldschool_v1.glb',fieldstones:'holm_arrival_fieldstones_oldschool_v1.glb',
  wall:'holm_arrival_wall_oldschool_v1.glb',bench:'holm_arrival_bench_oldschool_v1.glb',waypost:'holm_arrival_waypost_oldschool_v1.glb',cargo:'holm_arrival_cargo_oldschool_v1.glb'};
 const oakSource=add('assets/blender/holm_arrival_oak_oldschool_v1.blend','.studio-workspaces/holm-tree-family-oldschool-v1/candidates/arrival_oak_v3.blend');
-const statueSource=add('assets/blender/holm_arrival_statue_oldschool_v1.blend','.studio-workspaces/holm-arrival-statue-oldschool-v1/candidates/lantern_keeper_statue_v4.blend');
+const statueSource=add('assets/blender/holm_arrival_statue_oldschool_v1.blend',STATUE.outBlend);
 // one textured .blend per landscape asset (the recipe imported each GLB of the shared garden / landing-props .blend)
 const perAssetSource={hazel:['holm-arrival-garden-oldschool-v1','arrival_hazel_v1'],fieldstones:['holm-arrival-garden-oldschool-v1','arrival_fieldstones_v1'],
  wall:['holm-landing-props-oldschool-v1','wall'],bench:['holm-landing-props-oldschool-v1','bench'],waypost:['holm-landing-props-oldschool-v1','waypost'],cargo:['holm-landing-props-oldschool-v1','cargo']};

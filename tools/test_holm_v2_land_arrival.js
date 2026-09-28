@@ -18,7 +18,7 @@ const PKG={documents:{terrain:{id:'v2'}}},drop=()=>new TypeError('Failed to fetc
  await check('1 a good read returns the pinned v2-land export',async()=>{
   const l=loader([PKG]),got=await V2.loadArrival(l,{wait:async()=>{}});
   assert.strictEqual(got,PKG);assert.strictEqual(l.calls.length,1);
-  assert.deepStrictEqual(l.calls[0],{baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v1/exports/',exportId:V2.ARRIVAL.exportId});
+  assert.deepStrictEqual(l.calls[0],{baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v2/exports/',exportId:V2.ARRIVAL.exportId});
  });
  await check('2 a dropped read is retried, with a warning per failed try and growing waits',async()=>{
   const waits=[],warns=[],l=loader([drop(),drop(),PKG]);

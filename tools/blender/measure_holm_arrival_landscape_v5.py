@@ -21,7 +21,8 @@ FILES = {
     # (posed on the v3.0 kit, the fist grips the lantern's bail and the lantern hangs below it; same footprint). Otherwise v4:
     # v4 (2026-09-25 play-test): the Lantern Keeper monument v3, a stone statue (same footprint). v3: the monument v2. v2 (owner review 6, 2026-09-24): branching v3 oak; statue added
     'oak': ROOT / '.studio-workspaces/holm-tree-family-v3/candidates/arrival_oak_v3.glb',
-    'statue': ROOT / '.studio-workspaces/holm-arrival-statue-v4/candidates/lantern_keeper_statue_v4.glb',
+    # kit v4 rollout (2026-09-27): the Lantern Keeper v5 (v4's pose on the kit v4 Guide Bram, 1.2x the 1.5-tile people)
+    'statue': ROOT / '.studio-workspaces/holm-arrival-statue-v5/candidates/lantern_keeper_statue_v5.glb',
     'hazel': GARDEN / 'arrival_hazel_v1.glb',
     'fieldstones': GARDEN / 'arrival_fieldstones_v1.glb',
     **{name: PROPS / (name + '.glb') for name in ('wall', 'bench', 'waypost', 'cargo')},
