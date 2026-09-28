@@ -44,6 +44,17 @@ const save=()=>fs.writeFileSync(path.join(LOG,'result.json'),JSON.stringify(resu
 const refGraph=spec.referenceGraph||entry0.graph,loads=entry0.model.replace(/^\//,'');
 if(on('build')&&loads!==spec.reference&&loads!==spec.outGlb)throw Error(id+': the island loads '+entry0.model+', not the spec reference '+spec.reference);
 const graphDir='.studio-workspaces/'+spec.graph+'/candidates';
+// 0. --baseline (run once per building, before designing): the same measuring setup on the model the island loads now
+// must reproduce the graph it uses (nodes, links, profiles, targets, climbs, start); proves the setup, not the props.
+// A relock spec names its baseline swaps in relock.baselineReplace.
+if(args.includes('--baseline')){const bdir='.studio-workspaces/'+spec.graph+'-baseline/candidates',before=read('.studio-workspaces/'+refGraph+'/candidates/navigation.json');
+ if(spec.relock){const f='scratchpad/holm_props_pass/'+id+'/baseline.relock.json';fs.writeFileSync(abs(f),JSON.stringify({script:spec.relock.script,replace:spec.relock.baselineReplace},null,1)+'\n');
+  run(BLENDER('5.1'),['-b','--python-exit-code','1','--python','tools/blender/relock_with_swapped_paths.py','--',f],path.join(LOG,'baseline.log'))}
+ else{const s=read(spec.navSpec||'docs/rebuild/holm-overhaul/buildings/'+id+'-v2land.nav.json');s.model=spec.reference;s.out=bdir;const f='scratchpad/holm_props_pass/'+id+'/baseline.nav.json';fs.writeFileSync(abs(f),JSON.stringify(s)+'\n');
+  run(BLENDER('5.1'),['-b','--python-exit-code','1','--python','tools/blender/extract_holm_building_navigation.py','--',f],path.join(LOG,'baseline.log'))}
+ const b=read(bdir+'/navigation.json');result.baseline={identical:same(before,b),differs:diff(before,b),refGraph};save();
+ console.log('[PROPS_PASS] '+id+' baseline: the measuring setup on '+spec.reference+(result.baseline.identical?' reproduces ':' DOES NOT reproduce ')+refGraph+(result.baseline.identical?'':' ('+result.baseline.differs.join(',')+')'));
+ if(!result.baseline.identical)process.exit(1);if(args.includes('--only-baseline'))process.exit(0)}
 // 1. build
 if(on('build')){const out=run(BLENDER(spec.blender),['-b',spec.source,'--python-exit-code','1','--python',spec.script,'--',SPEC],path.join(LOG,'build.log'));
  const line=out.split(/\r?\n/).find(l=>l.startsWith('[PROPS_PASS_BUILD] {'));if(!line)throw Error(id+': no build result');result.build=JSON.parse(line.slice(19));save();console.log('[PROPS_PASS] '+id+' built '+JSON.stringify(result.build.built))}
