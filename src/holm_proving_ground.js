@@ -41,7 +41,7 @@ var HolmProvingGround=(function(){
  };
  function register(){if(typeof NPC_TYPES==='undefined')return false;for(var k in TYPES)if(!NPC_TYPES[k]){var t=Object.assign({},TYPES[k]);NPC_TYPES[k]=t}return true}
  /* ---- the kit humanoids: a fresh kit rig per foe, a look, the held weapon solved by the equipment builder ---- */
- var KIT_URL='assets/models/holm_kit_v2.glb?v=8';
+ var KIT_URL='assets/models/holm_kit_v2.glb?v=12';
  function kitModel(t){
   var g=new THREE.Group(),k=t.kitFoe||{};
   new THREE.GLTFLoader().load(KIT_URL,function(gltf){try{
@@ -49,11 +49,11 @@ var HolmProvingGround=(function(){
    if(typeof HolmKit!=='undefined'&&HolmKit.ready()){var look=HolmKit.defaults('A');if(k.torso!=null)look.colors.torso=k.torso;if(k.legs!=null)look.colors.legs=k.legs;if(k.hair!=null)look.colors.hair=k.hair;HolmKit.apply(rig,look)}
    rig.traverse(function(o){if(o.isMesh||o.isSkinnedMesh){o.castShadow=true;o.frustumCulled=false;[].concat(o.material).forEach(function(q){if(q&&'metalness' in q){q.metalness=0;q.roughness=1}})}});
    var box=new THREE.Box3();rig.updateMatrixWorld(true);rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});
-   rig.scale.setScalar(1.85/((box.max.y-box.min.y)||1));box=new THREE.Box3();rig.updateMatrixWorld(true);rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});rig.position.y=-box.min.y;
+   rig.scale.setScalar((typeof HOLM_CHAR_H!=='undefined'?HOLM_CHAR_H:1.85)/((box.max.y-box.min.y)||1));box=new THREE.Box3();rig.updateMatrixWorld(true);rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});rig.position.y=-box.min.y;
    g.add(rig);
    var mixer=new THREE.AnimationMixer(rig),clips={};gltf.animations.forEach(function(cl){clips[cl.name]=mixer.clipAction(cl)});
    if(clips.idle){clips.idle.play();clips.idle.weight=1}if(clips.walk){clips.walk.play();clips.walk.weight=0}
-   g.userData.gmix={mixer:mixer,idle:clips.idle,walk:clips.walk,attack:clips.attack,block:clips.block,w:0,clips:clips,kitNpc:true};
+   g.userData.gmix={mixer:mixer,idle:clips.idle,walk:clips.walk,attack:clips.attack,block:clips.block,w:0,clips:clips,kitNpc:true,rigScale:rig.scale.x};
    g.userData.rigInner=rig;
    // the held weapon, solved at idle frame 0 in the palm (EquipBuilder, the same solver as the adventurer's)
    if(clips.idle){clips.idle.time=0;mixer.update(0)}g.updateMatrixWorld(true);

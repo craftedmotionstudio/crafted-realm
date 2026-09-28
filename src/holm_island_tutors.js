@@ -93,8 +93,9 @@ var HolmIslandTutors=(function(){
  async function load(o){
   var T=o.THREE,api=o.api;st.api=api;
   for(var i=0;i<CAST.length;i++){var c=CAST[i],p=spot(api,c);if(!p)continue;
-   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+'_v2.glb?v=31',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
+   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+'_v2.glb?v=40',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
    var root=gltf.scene,g=new T.Group();root.traverse(function(m){if(m.isMesh||m.isSkinnedMesh){m.castShadow=true;m.frustumCulled=false;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});
+   if(typeof HOLM_CHAR_H!=='undefined')root.scale.setScalar(HOLM_CHAR_H/1.813);   // kit v4: 1.5-tile people (kit default man 1.813 m)
    g.add(root);g.position.set(p.x,p.y,p.z);g.lookAt(p.faceX,p.y,p.faceZ);g.name='island-tutor-'+c.id;
    var mixer=new T.AnimationMixer(root),actions={};gltf.animations.forEach(function(cl){actions[cl.name]=mixer.clipAction(cl)});
    ['wave'].forEach(function(k){if(actions[k]){actions[k].setLoop(T.LoopOnce,1);actions[k].clampWhenFinished=true}});

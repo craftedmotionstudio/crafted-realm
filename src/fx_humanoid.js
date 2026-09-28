@@ -135,11 +135,13 @@ function playerGLBAnim(root, dt, moving, speed){
   const busy = (g.attack && g.attack.isRunning()) || (g.block && g.block.isRunning());
   if(g.idle) g.idle.weight = busy ? 0 : (1 - g.w);
   if(g.kit && g.run){
-    // island kit (v2.8): walk authored slide-free at 2.4 m/s, run at 4.2 m/s; speed arrives as moveSpeed/4.2
-    const ms=speed*4.2, running=ms>3.3;
+    // island kit v4: walk / run authored slide-free at HOLM_KIT_MPS (kit metres) -- in the world that is x the rig's scale
+    // (1.67 / 3.33 tiles/s at 1.5 tiles tall); speed arrives as moveSpeed/4.2. Running = above the walk / run midpoint.
+    const K=(typeof HOLM_KIT_MPS!=='undefined')?HOLM_KIT_MPS:{walk:2.4,run:4.2}, sc=g.rigScale||1;
+    const wW=K.walk*sc, wR=K.run*sc, ms=speed*4.2, running=ms>(wW+wR)/2;
     if(!g.run._on){ g.run.play(); g.run.weight=0; g.run._on=true; }
-    g.run.weight = busy ? 0 : (running ? g.w : 0); g.run.timeScale = ms/4.2;
-    if(g.walk){ g.walk.weight = busy ? 0 : (running ? 0 : g.w); g.walk.timeScale = Math.max(0.3, ms/2.4); }
+    g.run.weight = busy ? 0 : (running ? g.w : 0); g.run.timeScale = ms/wR;
+    if(g.walk){ g.walk.weight = busy ? 0 : (running ? 0 : g.w); g.walk.timeScale = Math.max(0.3, ms/wW); }
   } else if(g.walk){ g.walk.weight = busy ? 0 : g.w; g.walk.timeScale = Math.max(0.5, speed); }
   g.mixer.update(dt);
   // a full helm collapses the Head bone (refreshGLBGear) and the helm is sized against that collapse; the kit v3.1

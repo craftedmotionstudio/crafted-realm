@@ -41,7 +41,7 @@
 var OnlineActors=(function(){
  'use strict';
  if(typeof window==='undefined')return null;
- var KIT_URL='assets/models/holm_kit_v2.glb?v=8';
+ var KIT_URL='assets/models/holm_kit_v2.glb?v=12';
  var EQUIP_SLOTS=['head','cape','amulet','weapon','body','shield','legs','hands','feet'];
  var st={players:new Map(),npcs:new Map(),objs:new Map(),corpses:[],kitBuf:null,kitLoading:null,tickMs:600,me:null,
   stats:{playersBuilt:0,npcsBuilt:0,objsBuilt:0,rigFailures:0}};
@@ -67,11 +67,11 @@ var OnlineActors=(function(){
      var rig=gltf.scene;if(typeof HolmKit!=='undefined'&&HolmKit.ready())HolmKit.apply(rig,look||null);
      rig.traverse(function(m){if(m.isMesh||m.isSkinnedMesh){m.castShadow=true;m.frustumCulled=false;[].concat(m.material).forEach(function(q){if(q&&'metalness' in q){q.metalness=0;q.roughness=1}})}});
      var box=new THREE.Box3();rig.updateMatrixWorld(true);rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});
-     rig.scale.setScalar(1.85/((box.max.y-box.min.y)||1));box=new THREE.Box3();rig.updateMatrixWorld(true);
+     rig.scale.setScalar((typeof HOLM_CHAR_H!=='undefined'?HOLM_CHAR_H:1.85)/((box.max.y-box.min.y)||1));box=new THREE.Box3();rig.updateMatrixWorld(true);
      rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});rig.position.y=-box.min.y;
      var mixer=new THREE.AnimationMixer(rig),clips={};gltf.animations.forEach(function(cl){clips[cl.name]=mixer.clipAction(cl)});
      if(clips.idle){clips.idle.play();clips.idle.weight=1}if(clips.walk){clips.walk.play();clips.walk.weight=0}
-     res({rig:rig,gmix:{mixer:mixer,idle:clips.idle,walk:clips.walk,attack:null,block:clips.block,w:0,clips:clips,kit:true,run:clips.run||null}});
+     res({rig:rig,gmix:{mixer:mixer,idle:clips.idle,walk:clips.walk,attack:null,block:clips.block,w:0,clips:clips,kit:true,run:clips.run||null,rigScale:rig.scale.x}});
     }catch(e){rej(e)}
    },rej)})});
  }

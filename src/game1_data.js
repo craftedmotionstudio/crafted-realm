@@ -4,6 +4,11 @@
    attack/strength bonuses; armour carries defence bonuses; tools
    carry a skill + power tier. All names/art are MotionScape originals. */
 const TICK = 0.6;
+// Character kit v4 (option A, REF2004 feel report 2026-09-27): people stand 1.5 tiles tall (2004: 1.51); kit rigs are
+// normalised to HOLM_CHAR_H. The kit's walk / run clips are authored in kit metres (tools/blender/build_holm_characters_v2.py
+// manifest gait section): slide-free at HOLM_KIT_MPS.walk / .run times the rig's scale, i.e. 1.67 / 3.33 tiles/s at 1.5 tiles.
+var HOLM_CHAR_H = 1.5;
+var HOLM_KIT_MPS = {walk: 2.015, run: 4.03};
 
 const ITEMS = {
   coins:        {name:'Crowns', stack:true, value:1},

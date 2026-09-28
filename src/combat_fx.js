@@ -47,7 +47,7 @@ var CombatFX=(function(){
   var n=o.userData&&o.userData.npc;if(n&&n.t&&n.t.hp>0)return Math.max(0,Math.min(1,n.hp/n.t.hp));return -1}
  function maxHpOf(o){if(isPlayer(o))return Player.maxHp||10;var n=o.userData&&o.userData.npc;return n&&n.t?n.t.hp:10}
  // visible height of a body, measured once it has geometry (GLB bodies stream in after spawn) and re-measured rarely
- function heightOf(o){if(isPlayer(o))return 1.85;var s=st(o);if(s.h>0&&(T-s.hAt<30||(o.userData&&o.userData.death)))return s.h;
+ function heightOf(o){if(isPlayer(o))return typeof HOLM_CHAR_H!=='undefined'?HOLM_CHAR_H:1.85;var s=st(o);if(s.h>0&&(T-s.hAt<30||(o.userData&&o.userData.death)))return s.h;
   var n=o.userData&&o.userData.npc,t=n&&n.t,guess=t?(t.glbHeight||((t.humanoid||t.model==='goblin')?1.8*(t.size||1):0.9*(t.size||1)+0.4)):1.6;
   if(!(o.userData&&o.userData.death)&&o.children.length){try{o.updateMatrixWorld(true);BOX.setFromObject(o);var h=BOX.max.y-BOX.min.y;
    if(isFinite(h)&&h>0.2&&h<12){s.h=h;s.hAt=T;return h}}catch(e){}}
