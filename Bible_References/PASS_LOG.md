@@ -3934,3 +3934,13 @@ length (slight medium-length read in 3/4).
   brighter, less saturated grass), skilling timings. Rubric mostly 1-3 of 5.
 - Follow-up: feel pass (holm-feel-2004) on camera, pace, UI, scenery, skill timings; the character numbers go to the
   kit v4 option-A rollout. Gates on merge: all unit tests pass.
+
+## 2026-09-27 — Skill guides + prayer/spell tips merged (ee76ab0)
+- Owner ask: click a skill for an old-school guide of what each level unlocks; hover a prayer for what it does.
+- All 19 skills: data-driven guide window (src/skill_guide_data.js + ui_skill_guide.js) built from ITEMS/TIERS, SPELLS,
+  PRAYERS, SMELTS/SMITHABLES, FLETCHABLES, thieving, rocks, the Minnow Hollow fishing rules; planned rows from
+  WORLD_CONTENT_PLAN always dimmed "Coming later". Prayer and spell tips on hover / long-press (ui_book_tips.js).
+- Gates: units 88/88 (new test_skill_guides 177 checks incl. drift self-test), smoke PASS, guides QA 345/345
+  (desktop + 390x844 touch), menu QA 64/64; checked in the in-app browser (Attack guide).
+- Follow-ups: 94 items + 4 stat sprites lack a Blender icon (render pass queued); plan-vs-live level collisions
+  (teleports, stalls, anvil item levels) to reconcile in WORLD_CONTENT_PLAN when W4 builds them (live data wins).
