@@ -1,0 +1,50 @@
+{
+ "removed": [
+  "Kitchen_Furnishings_Hall",
+  "Kitchen_Worktable_Kneading",
+  "Kitchen_SupplyDoughBowl_Trough",
+  "Kitchen_SupplyBuckets_Rack",
+  "Kitchen_SupplyWaterButt",
+  "Kitchen_SupplyWaterSurface",
+  "Kitchen_RecipeBoard_Board",
+  "Kitchen_Tools_Oven",
+  "Kitchen_Pantry_FlourBin",
+  "Kitchen_Store_Shelves",
+  "Kitchen_UpperFurnishing_Loft",
+  "Kitchen_UpperFurnishing_Rail"
+ ],
+ "islandsRemoved": {
+  "Kitchen_Court_Dressing": 348
+ },
+ "facesRemoved": {},
+ "built": {
+  "Kitchen_Worktable_Kneading": 1086,
+  "Kitchen_SupplyDoughBowl_Trough": 142,
+  "Kitchen_SupplyBuckets_Rack": 876,
+  "Kitchen_SupplyWaterButt": 274,
+  "Kitchen_SupplyWaterSurface": 34,
+  "Kitchen_RecipeBoard_Board": 98,
+  "Kitchen_Tools_Oven": 238,
+  "Kitchen_Furnishings_Hall": 2207,
+  "Kitchen_Pantry_FlourBin": 360,
+  "Kitchen_Store_Shelves": 6892,
+  "Kitchen_UpperFurnishing_Loft": 1219,
+  "Kitchen_UpperFurnishing_Rail": 528,
+  "Kitchen_Court_DressingPropsWoodpile": 506
+ },
+ "notes": [],
+ "welds": {
+  "Kitchen_Worktable_Kneading": 88,
+  "Kitchen_SupplyDoughBowl_Trough": 7,
+  "Kitchen_SupplyBuckets_Rack": 58,
+  "Kitchen_SupplyWaterButt": 9,
+  "Kitchen_RecipeBoard_Board": 12,
+  "Kitchen_Tools_Oven": 16,
+  "Kitchen_Furnishings_Hall": 55,
+  "Kitchen_Pantry_FlourBin": 20,
+  "Kitchen_Store_Shelves": 218,
+  "Kitchen_UpperFurnishing_Loft": 57,
+  "Kitchen_UpperFurnishing_Rail": 43,
+  "Kitchen_Court_DressingPropsWoodpile": 42
+ }
+}

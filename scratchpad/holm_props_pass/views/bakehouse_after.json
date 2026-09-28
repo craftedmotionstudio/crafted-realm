@@ -1,0 +1,155 @@
+{
+ "size": [
+  900,
+  640
+ ],
+ "hide": "Kitchen_(Roof|Chimney|Upper|Glazing|Shell|GroundFront)",
+ "views": [
+  {
+   "name": "hall_west",
+   "target": [
+    -3.8,
+    0.6,
+    -0.5
+   ],
+   "yaw": 80,
+   "pitch": 35,
+   "dist": 4.5
+  },
+  {
+   "name": "worktable",
+   "target": [
+    -1.9,
+    0.9,
+    -0.55
+   ],
+   "yaw": 10,
+   "pitch": 40,
+   "dist": 3.5
+  },
+  {
+   "name": "pot_rail",
+   "target": [
+    -1.9,
+    2.2,
+    -0.55
+   ],
+   "yaw": 170,
+   "pitch": 15,
+   "dist": 3.5
+  },
+  {
+   "name": "buckets_water",
+   "target": [
+    -0.7,
+    0.6,
+    2.5
+   ],
+   "yaw": 200,
+   "pitch": 30,
+   "dist": 4
+  },
+  {
+   "name": "oven_tools",
+   "target": [
+    -2.3,
+    0.9,
+    -2.8
+   ],
+   "yaw": 60,
+   "pitch": 25,
+   "dist": 3
+  },
+  {
+   "name": "mantel",
+   "target": [
+    -1.5,
+    1.4,
+    -4.1
+   ],
+   "yaw": 10,
+   "pitch": 15,
+   "dist": 3
+  },
+  {
+   "name": "store_west",
+   "target": [
+    2,
+    1,
+    -4
+   ],
+   "yaw": 30,
+   "pitch": 30,
+   "dist": 3.6
+  },
+  {
+   "name": "store_east",
+   "target": [
+    6,
+    1,
+    -3
+   ],
+   "yaw": 250,
+   "pitch": 30,
+   "dist": 4
+  },
+  {
+   "name": "store_mid",
+   "target": [
+    5,
+    0.5,
+    -0.8
+   ],
+   "yaw": 200,
+   "pitch": 40,
+   "dist": 4
+  },
+  {
+   "name": "flour_bin",
+   "target": [
+    4.5,
+    0.8,
+    -4.5
+   ],
+   "yaw": 10,
+   "pitch": 25,
+   "dist": 3.2
+  },
+  {
+   "name": "recipe_board",
+   "target": [
+    0.8,
+    1.6,
+    -1.3
+   ],
+   "yaw": 270,
+   "pitch": 10,
+   "dist": 2.5
+  },
+  {
+   "name": "loft",
+   "target": [
+    -2,
+    3.7,
+    -3.8
+   ],
+   "yaw": 20,
+   "pitch": 40,
+   "dist": 5.5,
+   "hide": "Kitchen_(Roof|Chimney|Glazing|UpperShell|Shell|GroundFront)"
+  },
+  {
+   "name": "court",
+   "target": [
+    5.5,
+    0.5,
+    1.5
+   ],
+   "yaw": 180,
+   "pitch": 40,
+   "dist": 5.5
+  }
+ ],
+ "glb": ".studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb",
+ "out": "scratchpad/holm_props_pass/bakehouse/blender_after"
+}

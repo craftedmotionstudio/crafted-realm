@@ -1,0 +1,65 @@
+{
+ "ok": true,
+ "reference": ".studio-workspaces/holm-kitchen-glazed-review4-v1/candidates/kitchen-character.glb",
+ "candidate": ".studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb",
+ "referenceNodes": 64,
+ "kept": 51,
+ "changed": {
+  "Kitchen_Court_Dressing": [
+   515,
+   167
+  ],
+  "Kitchen_Furnishings_Hall": [
+   1235,
+   2262
+  ],
+  "Kitchen_Pantry_FlourBin": [
+   202,
+   380
+  ],
+  "Kitchen_RecipeBoard_Board": [
+   236,
+   110
+  ],
+  "Kitchen_Store_Shelves": [
+   2603,
+   7110
+  ],
+  "Kitchen_SupplyBuckets_Rack": [
+   334,
+   934
+  ],
+  "Kitchen_SupplyDoughBowl_Trough": [
+   134,
+   149
+  ],
+  "Kitchen_SupplyWaterButt": [
+   204,
+   283
+  ],
+  "Kitchen_SupplyWaterSurface": [
+   28,
+   34
+  ],
+  "Kitchen_Tools_Oven": [
+   56,
+   254
+  ],
+  "Kitchen_UpperFurnishing_Loft": [
+   589,
+   1276
+  ],
+  "Kitchen_UpperFurnishing_Rail": [
+   184,
+   571
+  ],
+  "Kitchen_Worktable_Kneading": [
+   327,
+   1174
+  ]
+ },
+ "added": {
+  "Kitchen_Court_DressingPropsWoodpile": 548
+ },
+ "issues": []
+}

@@ -1,0 +1,26 @@
+{
+ "script": "tools/blender/extract_holm_kitchen_navigation_v6.py",
+ "replace": [
+  [
+   "holm-overhaul-terrain-v1/working",
+   "holm-overhaul-terrain-v2/working"
+  ],
+  [
+   "holm-kitchen-wings-v8/candidates",
+   "holm-kitchen-props-v1/candidates"
+  ],
+  [
+   "terrain['heights'][z*stride+x]-4.07",
+   "terrain['heights'][z*stride+x]-5.4"
+  ],
+  [
+   "'placement':{'x':44,'y':4.07,'z':67}",
+   "'placement':{'x':44,'y':5.4,'z':67}"
+  ],
+  [
+   "holm-kitchen-navigation-v6/candidates",
+   "holm-kitchen-props-navigation-v1/candidates"
+  ]
+ ],
+ "note": "props pass (2026-09-28): measured on .studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb"
+}

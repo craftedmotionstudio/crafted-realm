@@ -1,0 +1,13 @@
+{
+ "model": ".studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb",
+ "building": "bakehouse",
+ "lift": 0.5,
+ "levels": [
+  0,
+  3.3
+ ],
+ "pieces": 62,
+ "keep": 62,
+ "cut": 0,
+ "clipped": []
+}

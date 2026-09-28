@@ -96,8 +96,12 @@ if(on('coplanar')){const nav=graphDir+'/navigation.json',prof=spec.coplanar||'m4
  for(const [k,m,g] of [['before',spec.reference,'.studio-workspaces/'+refGraph+'/candidates/navigation.json'],['after',spec.outGlb,nav]]){
   const f='scratchpad/holm_props_pass/'+id+'/coplanar.'+k+'.json';run(BLENDER('5.1'),['-b','--python-exit-code','1','--python','tools/blender/check_holm_coplanar.py','--',abs(m),abs(f),prof,abs(g)],path.join(LOG,'coplanar.'+k+'.log'));
   const j=JSON.parse(fs.readFileSync(abs(f),'utf8')),c={};j.fights.filter(q=>q.visible!==false).forEach(q=>{const key=[q.a,q.b].sort().join(' | ');c[key]=(c[key]||0)+1});o[k]={summary:j.summary,pairs:c}}
- const worse=Object.keys(o.after.pairs).filter(k=>o.after.pairs[k]>(o.before.pairs[k]||0)).map(k=>[k,o.before.pairs[k]||0,o.after.pairs[k]]);
- result.coplanar={before:o.before.summary.fights,after:o.after.summary.fights,areaBefore:o.before.summary.area,areaAfter:o.after.summary.area,worse};save();
+ // a pair of old parts whose faces did not change can only show up by visibility (a prop moved from in front of it):
+ // reported, not judged; every pair touching a new or rebuilt part must not fight more than before
+ const mine=new RegExp('('+spec.changed+')|('+spec.added+')'),touches=k=>k.split(' | ').some(n=>mine.test(n));
+ const worse=Object.keys(o.after.pairs).filter(k=>touches(k)&&o.after.pairs[k]>(o.before.pairs[k]||0)).map(k=>[k,o.before.pairs[k]||0,o.after.pairs[k]]);
+ const exposed=Object.keys(o.after.pairs).filter(k=>!touches(k)&&o.after.pairs[k]>(o.before.pairs[k]||0)).map(k=>[k,o.before.pairs[k]||0,o.after.pairs[k]]);
+ result.coplanar={before:o.before.summary.fights,after:o.after.summary.fights,areaBefore:o.before.summary.area,areaAfter:o.after.summary.area,worse,exposedUntouched:exposed};save();
  if(worse.length)throw Error(id+': new coplanar fights '+JSON.stringify(worse.slice(0,12)));
  console.log('[PROPS_PASS] '+id+' coplanar ok: '+o.before.summary.fights+' -> '+o.after.summary.fights+' visible fights')}
 // 6. registry

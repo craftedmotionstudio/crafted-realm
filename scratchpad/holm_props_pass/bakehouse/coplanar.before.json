@@ -1,0 +1,986 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-kitchen-glazed-review4-v1\\candidates\\kitchen-character.glb",
+ "views": [
+  "outside",
+  "inside:0.0",
+  "inside:3.3"
+ ],
+ "summary": {
+  "fights": 30,
+  "byKind": {
+   "same-facing": 30
+  },
+  "area": 0.0062,
+  "topPairs": [
+   [
+    [
+     "Kitchen_UpperShell_GlazingLeads",
+     "Kitchen_UpperShell_GlazingLeads"
+    ],
+    30
+   ]
+  ]
+ },
+ "fights": [
+  {
+   "da": -3.3279995918273926,
+   "db": -3.3279998302459717,
+   "extA": 1.16,
+   "extB": 1.015,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 207,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 212,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    -2.193,
+    -3.328,
+    3.645
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 103,
+   "islandB": 106,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.9999999403953552,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.3279998302459717,
+   "db": -3.3279998302459717,
+   "extA": 1.015,
+   "extB": 0.185,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 212,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 234,
+   "kind": "same-facing",
+   "area": 0.00035,
+   "at": [
+    -2.575,
+    -3.328,
+    3.988
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 106,
+   "islandB": 117,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.3279998302459717,
+   "db": -3.3279998302459717,
+   "extA": 1.261,
+   "extB": 0.529,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 223,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 237,
+   "kind": "same-facing",
+   "area": 0.00012,
+   "at": [
+    -2.236,
+    -3.328,
+    3.987
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 111,
+   "islandB": 118,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    1.0,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.3279998302459717,
+   "db": -3.3279998302459717,
+   "extA": 1.261,
+   "extB": 0.873,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 225,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 239,
+   "kind": "same-facing",
+   "area": 0.00014,
+   "at": [
+    -2.036,
+    -3.328,
+    3.987
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 112,
+   "islandB": 119,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    1.0,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.3279998302459717,
+   "db": -3.3279998302459717,
+   "extA": 1.149,
+   "extB": 1.218,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 227,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 241,
+   "kind": "same-facing",
+   "area": 0.00015,
+   "at": [
+    -1.858,
+    -3.328,
+    3.957
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 113,
+   "islandB": 120,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    1.0,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.3279998302459717,
+   "db": -3.3279998302459717,
+   "extA": 0.805,
+   "extB": 1.261,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 229,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 243,
+   "kind": "same-facing",
+   "area": 0.00014,
+   "at": [
+    -1.725,
+    -3.328,
+    3.863
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 114,
+   "islandB": 121,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    1.0,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.3279995918273926,
+   "db": -3.3279995918273926,
+   "extA": 1.16,
+   "extB": 1.015,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 206,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 209,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    -1.807,
+    -3.328,
+    3.655
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 103,
+   "islandB": 104,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.3279995918273926,
+   "db": -3.3279998302459717,
+   "extA": 1.16,
+   "extB": 1.261,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 206,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 245,
+   "kind": "same-facing",
+   "area": 0.00026,
+   "at": [
+    -1.807,
+    -3.328,
+    3.655
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 103,
+   "islandB": 122,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.3279998302459717,
+   "db": -3.3279998302459717,
+   "extA": 0.461,
+   "extB": 1.261,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 231,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 245,
+   "kind": "same-facing",
+   "area": 0.00011,
+   "at": [
+    -1.591,
+    -3.328,
+    3.77
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 115,
+   "islandB": 122,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    1.0,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.3279995918273926,
+   "db": -3.3279998302459717,
+   "extA": 1.16,
+   "extB": 0.117,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 206,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 233,
+   "kind": "same-facing",
+   "area": 0.00024,
+   "at": [
+    -1.807,
+    -3.328,
+    3.655
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 103,
+   "islandB": 116,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.3279995918273926,
+   "db": -3.3279998302459717,
+   "extA": 1.015,
+   "extB": 0.117,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 209,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 232,
+   "kind": "same-facing",
+   "area": 0.00025,
+   "at": [
+    -1.415,
+    -3.328,
+    3.988
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 104,
+   "islandB": 116,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.9999999403953552,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.313999891281128,
+   "db": -3.314000129699707,
+   "extA": 1.16,
+   "extB": 1.015,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 160,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 163,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    -2.193,
+    -3.314,
+    3.655
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 80,
+   "islandB": 81,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.0,
+    0.9999999403953552,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.313999891281128,
+   "db": -3.314000129699707,
+   "extA": 1.16,
+   "extB": 0.117,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 160,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 187,
+   "kind": "same-facing",
+   "area": 0.00024,
+   "at": [
+    -2.193,
+    -3.314,
+    3.655
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 80,
+   "islandB": 93,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.0,
+    0.9999999403953552,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.313999891281128,
+   "db": -3.314000129699707,
+   "extA": 1.16,
+   "extB": 1.261,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 160,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 199,
+   "kind": "same-facing",
+   "area": 0.00026,
+   "at": [
+    -2.193,
+    -3.314,
+    3.655
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 80,
+   "islandB": 99,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.0,
+    0.9999999403953552,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.314000129699707,
+   "db": -3.314000129699707,
+   "extA": 1.015,
+   "extB": 0.117,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 163,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 186,
+   "kind": "same-facing",
+   "area": 0.00025,
+   "at": [
+    -2.585,
+    -3.314,
+    3.988
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 81,
+   "islandB": 93,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.314000129699707,
+   "db": -3.314000129699707,
+   "extA": 0.461,
+   "extB": 1.261,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 185,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 199,
+   "kind": "same-facing",
+   "area": 0.00011,
+   "at": [
+    -2.409,
+    -3.314,
+    3.77
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 92,
+   "islandB": 99,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.314000129699707,
+   "db": -3.314000129699707,
+   "extA": 1.149,
+   "extB": 1.218,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 181,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 195,
+   "kind": "same-facing",
+   "area": 0.00015,
+   "at": [
+    -2.142,
+    -3.314,
+    3.957
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 90,
+   "islandB": 97,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.314000129699707,
+   "db": -3.314000129699707,
+   "extA": 0.805,
+   "extB": 1.261,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 183,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 197,
+   "kind": "same-facing",
+   "area": 0.00014,
+   "at": [
+    -2.275,
+    -3.314,
+    3.863
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 91,
+   "islandB": 98,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.314000129699707,
+   "db": -3.314000129699707,
+   "extA": 1.261,
+   "extB": 0.873,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 179,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 193,
+   "kind": "same-facing",
+   "area": 0.00014,
+   "at": [
+    -1.964,
+    -3.314,
+    3.987
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 89,
+   "islandB": 96,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.314000129699707,
+   "db": -3.314000129699707,
+   "extA": 1.261,
+   "extB": 0.529,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 177,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 191,
+   "kind": "same-facing",
+   "area": 0.00012,
+   "at": [
+    -1.764,
+    -3.314,
+    3.987
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 88,
+   "islandB": 95,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.313999891281128,
+   "db": -3.313999891281128,
+   "extA": 1.16,
+   "extB": 1.015,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 161,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 166,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    -1.807,
+    -3.314,
+    3.645
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 80,
+   "islandB": 83,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -3.313999891281128,
+   "db": -3.313999891281128,
+   "extA": 1.015,
+   "extB": 0.185,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 166,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 188,
+   "kind": "same-facing",
+   "area": 0.00035,
+   "at": [
+    -1.425,
+    -3.314,
+    3.988
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 83,
+   "islandB": 94,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": 1.034000039100647,
+   "db": 1.034000039100647,
+   "extA": 1.0,
+   "extB": 0.915,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 81,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 86,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    1.034,
+    2.867,
+    3.695
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 40,
+   "islandB": 43,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": 1.034000039100647,
+   "db": 1.034000039100647,
+   "extA": 1.0,
+   "extB": 0.915,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 80,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 83,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    1.034,
+    2.533,
+    3.705
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 40,
+   "islandB": 41,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -5.047999858856201,
+   "db": -5.048000335693359,
+   "extA": 1.0,
+   "extB": 0.915,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 0,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 3,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    -5.048,
+    1.933,
+    3.705
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 0,
+   "islandB": 1,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.9999999403953552,
+    0.0,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -5.047999858856201,
+   "db": -5.048000335693359,
+   "extA": 1.0,
+   "extB": 0.915,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 1,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 6,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    -5.048,
+    2.267,
+    3.695
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 0,
+   "islandB": 3,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.9999999403953552,
+    0.0,
+    0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -5.033999443054199,
+   "db": -5.033999919891357,
+   "extA": 1.0,
+   "extB": 0.915,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 41,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 46,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    -5.034,
+    1.933,
+    3.695
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 20,
+   "islandB": 23,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.9999999403953552,
+    -0.0,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": -5.033999443054199,
+   "db": -5.033999919891357,
+   "extA": 1.0,
+   "extB": 0.915,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 40,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 43,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    -5.034,
+    2.267,
+    3.705
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 20,
+   "islandB": 21,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    0.9999999403953552,
+    -0.0,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": 1.0479999780654907,
+   "db": 1.0479999780654907,
+   "extA": 1.0,
+   "extB": 0.915,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 121,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 126,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    1.048,
+    2.533,
+    3.695
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 60,
+   "islandB": 63,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    1.0,
+    -0.0,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  },
+  {
+   "da": 1.0479999780654907,
+   "db": 1.0479999780654907,
+   "extA": 1.0,
+   "extB": 0.915,
+   "thickA": 0.0,
+   "thickB": 0.0,
+   "visible": true,
+   "a": "Kitchen_UpperShell_GlazingLeads",
+   "pa": 120,
+   "b": "Kitchen_UpperShell_GlazingLeads",
+   "pb": 123,
+   "kind": "same-facing",
+   "area": 0.00022,
+   "at": [
+    1.048,
+    2.867,
+    3.705
+   ],
+   "closedA": false,
+   "closedB": false,
+   "islandA": 60,
+   "islandB": 61,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    1.0,
+    -0.0,
+    -0.0
+   ],
+   "view": "inside:3.3"
+  }
+ ]
+}

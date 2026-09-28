@@ -106,20 +106,21 @@
    "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_keep_props_pass.py, docs/rebuild/holm-overhaul/props-pass/keep.json); graph identical to holm-keep-v2land-navigation-v1 apart from the model hash"
   },
   "bakehouse": {
-   "graph": "holm-kitchen-review4-navigation-v2",
-   "model": ".studio-workspaces/holm-kitchen-glazed-review4-v1/candidates/kitchen-character.glb",
+   "graph": "holm-kitchen-props-navigation-v1",
+   "model": ".studio-workspaces/holm-kitchen-props-v1/candidates/kitchen-character.glb",
    "placement": {
     "x": 44,
     "y": 5.4,
     "z": 67
    },
    "nodes": 265,
-   "modelSha256": "0c75acc33e18ab30f8b168c53b2e9e2d28c82d37de9294ebb62382db120724de",
+   "modelSha256": "3be074305de57d805ef432529edfc9ae6f566314e1f8e806552432e66b1a81c4",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:35:43.833Z",
+   "measuredAt": "2026-09-28T08:02:09.697Z",
    "review4": "owner review 4 (2026-09-27): the oven, hearth breast and chimney in grainless masonry instead of wood grain (docs/rebuild/holm-overhaul/oldschool/bakehouse-review4.textures.json); graph re-extracted, identical apart from the model hash",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bakehouse.json); graph identical to holm-kitchen-review4-navigation-v1 apart from the model hash"
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bakehouse.json); graph identical to holm-kitchen-review4-navigation-v1 apart from the model hash",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_bakehouse_props_pass.py, docs/rebuild/holm-overhaul/props-pass/bakehouse.json); graph identical to holm-kitchen-review4-navigation-v2 apart from the model hash"
   },
   "lodge": {
    "graph": "holm-quest-lodge-review4-navigation-v2",
