@@ -215,3 +215,17 @@ now sits +4 to +6 dB on top. Two more fixes came out of the numbers:
   - play, then crossfade Morning → Ash on the Wind → Warm Loaves, then stop;
   - no console errors;
   - decoded samples stay capped at the current and previous song (41 → 69 → 55 buffers).
+- Smoke: `SMOKE_BASE=http://127.0.0.1:8793 node tools/run_smoke_headless.js`
+  - **PASS** in the foreground and in the hidden-tab boot: structural 108/108, 60 FPS (worst frame 18 ms), 110 draw
+    calls, 0 console errors.
+  - Expected, because `index.html` is untouched: nothing new loads in the game until the owner picks.
+
+## 5. Owner review (step 5): pending
+Listening samples went to the owner:
+- one full loop per piece;
+- a 24 s loop-seam clip per piece;
+- a 5:40 quick reel of all 17;
+- before/after copies of three old tracks;
+- plus `tools/music_box.html` for live listening.
+
+For each piece the owner decides **keep / rework / drop**. Only the kept pieces get wired (§3 wiring plan).
