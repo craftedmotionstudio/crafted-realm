@@ -1,0 +1,109 @@
+/* ============================================================================
+   Crafted Realm -- the skill guide window and the prayer / spell tips (src/ui_skill_guide.js, src/ui_book_tips.js).
+   Its own file on purpose: the UI-scale work (branch holm-feel-2004) edits osrs_kit.css, this file never does.
+   The look is the kit's: hand-painted stone and parchment tiles (--tex-* from ui_osrs_kit.js), hard 1 px bevels,
+   square corners, "Realm Small" at 12 px, orange / yellow / white lettering with a 1 px black shadow on stone, black
+   and brown ink on parchment. The window scales in whole quarter steps with the viewport (--sg-z, set by the script),
+   so the pixel font stays readable from a phone to a 2560 px screen.
+   ============================================================================ */
+
+/* ------------------------------------------------------------------ the layer over the game view
+   (z 90: above the phone side panel 65, the HUD toggles 72, the guide arrow 75 and the build stamp 80) */
+#skill-guide-layer{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;
+  padding:8px;box-sizing:border-box;pointer-events:none;}
+#skill-guide-layer[hidden]{display:none!important;}
+#skill-guide-layer.sg-wide{padding-right:262px;}   /* centre over the world, clear of the side panel */
+
+/* ------------------------------------------------------------------ the window: stone frame */
+#skill-guide-layer .sg-win{--sg-z:1;zoom:var(--sg-z);pointer-events:auto;position:relative;box-sizing:border-box;
+  width:484px;height:344px;display:flex;flex-direction:column;gap:4px;padding:5px 8px 6px;
+  background:var(--tex-stone-dark,#3a342b);border:0;border-radius:0;color:#ff981f;
+  font:12px/15px var(--k-font,'Realm Small',Verdana,sans-serif);text-shadow:1px 1px 0 #000;
+  box-shadow:0 0 0 1px #0d0b08,inset 0 0 0 1px #0d0b08,0 0 0 5px #4b4336,0 0 0 6px #0d0b08,inset 1px 1px 0 1px #6d6250;}
+#skill-guide-layer .sg-win::after{content:"";position:absolute;inset:-5px;pointer-events:none;border:4px solid transparent;
+  border-image:var(--tex-frame-thin) 4 repeat;image-rendering:pixelated;}
+#skill-guide-layer .sg-win *{font-family:var(--k-font,'Realm Small',Verdana,sans-serif);font-size:12px;box-sizing:border-box;}
+
+/* title strip */
+#skill-guide-layer .sg-head{position:relative;flex:0 0 28px;display:flex;align-items:center;justify-content:center;gap:6px;padding:0 30px;
+  background:var(--tex-slate-dark,#221d15);box-shadow:inset 0 0 0 1px #0d0b08,inset 1px 1px 0 1px #3d352a;}
+#skill-guide-layer .sg-hico{width:24px;height:24px;flex:0 0 24px;image-rendering:pixelated;}
+#skill-guide-layer .sg-title{margin:0;padding:0;font-weight:bold;color:#ff981f;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+html.osrs-kit #skill-guide-layer .sg-x{top:2px!important;right:2px!important;width:24px!important;height:24px!important;}
+#skill-guide-layer .sg-x:not(.kit-x){position:absolute;top:2px;right:2px;}
+
+/* body: the categories down the side, the rows on parchment */
+#skill-guide-layer .sg-body{flex:1 1 auto;min-height:0;display:flex;gap:6px;}
+#skill-guide-layer .sg-tabs{position:relative;flex:0 0 104px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;overflow-x:hidden;padding:1px;}
+#skill-guide-layer.sg-onetab .sg-tabs,#skill-guide-layer .sg-win.sg-onetab .sg-tabs{display:none;}
+#skill-guide-layer .sg-tab{flex:0 0 auto;min-height:26px;padding:3px 6px;margin:0;border:0;border-radius:0;cursor:pointer;text-align:left;
+  color:#ff981f;font-weight:bold;text-shadow:1px 1px 0 #000;background:var(--tex-stone,#5a5245);
+  box-shadow:inset 1px 1px 0 #a39680,inset -1px -1px 0 #1d1912,0 0 0 1px #0d0b08;transition:none;}
+#skill-guide-layer .sg-tab:nth-child(2n){background-position:-23px -17px;}
+#skill-guide-layer .sg-tab:hover{background-image:var(--tex-stone-lit,none);color:#ffff00;}
+#skill-guide-layer .sg-tab.on{color:#fff;background:var(--tex-stone-red,#6a2014);box-shadow:inset 1px 1px 0 #c0604a,inset -1px -1px 0 #2a0a05,0 0 0 1px #0d0b08;}
+#skill-guide-layer .sg-tab.soon:not(.on){color:#c8b890;}
+#skill-guide-layer .sg-tab:focus-visible,#skill-guide-layer .sg-list:focus-visible{outline:2px solid #ffd24a;outline-offset:1px;}
+
+#skill-guide-layer .sg-list{flex:1 1 auto;min-width:0;overflow-y:auto;overflow-x:hidden;padding:2px 0;
+  background:var(--tex-parch,#d8ccb4);color:#000;text-shadow:none;
+  box-shadow:inset 0 0 0 1px #0d0b08,inset 0 0 0 2px #8a7248,inset 1px 1px 0 2px #a8946c;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+#skill-guide-layer .sg-row{display:grid;grid-template-columns:30px 38px minmax(0,1fr) auto;align-items:center;column-gap:4px;
+  min-height:38px;padding:1px 8px 1px 4px;border-bottom:1px solid rgba(90,60,20,.28);}
+#skill-guide-layer .sg-row:last-child{border-bottom:0;}
+#skill-guide-layer .sg-row:hover{background:rgba(255,255,255,.2);}
+#skill-guide-layer .sg-lv{text-align:right;font-weight:bold;color:#000;}
+#skill-guide-layer .sg-ico{width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
+#skill-guide-layer .sg-ico img{max-width:34px;max-height:34px;width:34px;height:34px;object-fit:contain;image-rendering:pixelated;}
+#skill-guide-layer .sg-ico img.kit-spr{width:auto;height:auto;}
+#skill-guide-layer .sg-ico img.kit-spr.x2{width:36px;height:36px;}
+#skill-guide-layer .sg-txt{display:flex;flex-direction:column;min-width:0;}
+#skill-guide-layer .sg-name{color:#000;overflow:hidden;text-overflow:ellipsis;}
+#skill-guide-layer .sg-sub{color:#5a3c14;overflow:hidden;text-overflow:ellipsis;}
+#skill-guide-layer .sg-soon{color:#800000;font-weight:bold;white-space:nowrap;}
+/* not reached yet: the old client greyed these out */
+#skill-guide-layer .sg-row.locked .sg-lv,#skill-guide-layer .sg-row.locked .sg-txt,
+#skill-guide-layer .sg-row.planned .sg-lv,#skill-guide-layer .sg-row.planned .sg-txt{opacity:.5;}
+#skill-guide-layer .sg-row.locked .sg-ico img,#skill-guide-layer .sg-row.planned .sg-ico img{filter:grayscale(.7) brightness(.8);opacity:.6;}
+#skill-guide-layer .sg-row.planned .sg-soon{opacity:.9;}
+
+/* footer: your level and the next unlock */
+#skill-guide-layer .sg-foot{flex:0 0 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 4px;
+  color:#ff981f;white-space:nowrap;overflow:hidden;}
+#skill-guide-layer .sg-foot b{color:#ffff00;}
+#skill-guide-layer .sg-next{color:#c8b890;overflow:hidden;text-overflow:ellipsis;}
+
+/* phones: the window fills the screen, the categories become one row of stone tabs along the top */
+#skill-guide-layer.sg-narrow{padding:6px;}
+#skill-guide-layer.sg-narrow .sg-win{width:100%;height:min(100%,600px);}
+#skill-guide-layer.sg-narrow .sg-body{flex-direction:column;}
+#skill-guide-layer.sg-narrow .sg-tabs{flex:0 0 auto;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:1px 1px 3px;}
+#skill-guide-layer.sg-narrow .sg-tab{min-height:32px;white-space:nowrap;text-align:center;}
+#skill-guide-layer.sg-narrow .sg-foot{flex-basis:auto;white-space:normal;flex-direction:column;align-items:flex-start;gap:0;}
+@media (pointer:coarse){
+  #skill-guide-layer .sg-tab{min-height:32px;}
+  #skill-guide-layer .sg-row{min-height:42px;}
+}
+
+/* ------------------------------------------------------------------ the stats tab: cells open their guide */
+#skill-list .osk-cell{cursor:pointer;}
+#skill-list .osk-cell:focus-visible{outline:2px solid #ffd24a;outline-offset:-2px;}
+#skill-list .osk-cell.sg-open{box-shadow:inset 1px 1px 0 #a39680,inset -1px -1px 0 #1d1912,inset 0 0 0 2px #ffd24a;}
+#osk-soon{margin:5px 2px 0;text-align:center;color:#c8b890;font:12px/15px var(--k-font,'Realm Small',Verdana,sans-serif);text-shadow:1px 1px 0 #000;}
+#osk-soon .osk-soon-skill{display:inline;margin:0;padding:0;border:0;background:none;box-shadow:none;cursor:pointer;
+  color:#ff981f;font:inherit;text-shadow:inherit;}
+#osk-soon .osk-soon-skill:hover,#osk-soon .osk-soon-skill:focus-visible{color:#ffff00;text-decoration:underline;outline:0;}
+
+/* ------------------------------------------------------------------ prayer and spell tips (ui_book_tips.js) */
+/* the old-school menu's box: dark stone, a thin stone border, square corners; the name in yellow on a black strip,
+   the level / drain / runes in orange, what it does in white */
+#book-tip{position:fixed;z-index:10001;display:none;pointer-events:none;box-sizing:border-box;min-width:150px;max-width:260px;
+  padding:0 0 3px;border:1px solid #5d5447;border-radius:0;background:rgba(40,36,27,.96);box-shadow:0 0 0 1px #0d0b08;
+  font:12px/15px var(--k-font,'Realm Small',Verdana,sans-serif);color:#ff981f;text-shadow:1px 1px 0 #000;}
+#book-tip.on{display:block;}
+#book-tip .bt-head{margin:0 0 2px;padding:1px 6px 2px;background:#000;border-bottom:1px solid #5d5447;color:#ffff00;font-weight:bold;}
+#book-tip .bt-line{padding:0 6px;}
+#book-tip .bt-eff{color:#fff;}
+#book-tip .bt-need{color:#ff3a2a;}
+#book-tip .bt-on{color:#00ff00;}
+#prayer-grid .prayer-btn,#spell-grid .prayer-btn{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;}

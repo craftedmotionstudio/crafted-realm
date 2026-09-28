@@ -11,7 +11,8 @@
 
    COSMETIC ONLY: game4_ui.js still builds each .prayer-btn with its own onclick (toggle / cast); this file
    wraps UI.refreshPrayers / UI.refreshSpells and, after each render, swaps the leading emoji text node of
-   every button for the sprite and moves the name + level into a tooltip. Styling: assets/ui/osrs_kit.css.
+   every button for the sprite and marks it data-book="prayers:<id>" / "spells:<id>" for the old-school hover tip
+   (src/ui_book_tips.js: name, level, drain or runes, what it does). Styling: assets/ui/osrs_kit.css.
    ============================================================================ */
 (function(){
 'use strict';
@@ -30,9 +31,11 @@ function dress(box, table, dir){
     img.src = BASE + dir + '/' + id + '.png' + V;
     img.onerror = function(){ this.style.visibility = 'hidden'; };
     b.insertBefore(img, b.firstChild);
-    var nm = b.querySelector('b'), lv = b.querySelector('.lv');
-    var tip = (nm ? nm.textContent : table[id].name) + (lv ? '\n' + lv.textContent.replace(/^lvl /, 'Level ') : '');
-    b.setAttribute('data-tip', tip); b.setAttribute('aria-label', nm ? nm.textContent : id); b.removeAttribute('title');
+    var nm = b.querySelector('b');
+    // the old-school tip (name, level, drain or runes, what it does) is src/ui_book_tips.js, keyed by data-book;
+    // no data-tip here, so the kit's plain yellow HUD tip does not show on top of it
+    b.setAttribute('data-book', dir + ':' + id); b.removeAttribute('data-tip');
+    b.setAttribute('aria-label', (nm ? nm.textContent : table[id].name) + ', level ' + table[id].req); b.removeAttribute('title');
   });
 }
 function wrap(){

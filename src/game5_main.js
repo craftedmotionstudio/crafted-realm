@@ -528,9 +528,8 @@ function update(dt){
     else if(a.type==='cook'){
       if(player.position.distanceTo(a.obj.position)>2.4){ orderWalk(a.obj.position); }
       else {
-        // the raw fish in the pack, perch first (Minnow Hollow adds the reedpike, a touch harder to cook)
-        const fish=[{raw:'raw_perch',done:'cooked_perch',burnt:'burnt_perch',xp:32,name:'a mirrorperch',hard:0},
-                    {raw:'raw_reedpike',done:'cooked_reedpike',burnt:'burnt_reedpike',xp:45,name:'a reedpike',hard:.08}].find(f=>Player.count(f.raw)>0);
+        // the raw fish in the pack, perch first (COOK_FISH, game3_systems.js)
+        const fish=COOK_FISH.find(f=>Player.count(f.raw)>0);
         if(!fish){ UI.chat('You have nothing raw to cook.','plain'); Player.action=null; return; }
         a.t+=dt;
         if(a.t>=2){

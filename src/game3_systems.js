@@ -61,6 +61,12 @@ const FLETCHABLES = [
   {id:'worn_bow',     name:'Worn shortbow',      req:5,  xp:10, qty:1},
   {id:'ash_bow',      name:'Ash shortbow',       req:20, xp:25, qty:1},
 ];
+/* fish on a fire or a range, perch first (Minnow Hollow adds the reedpike, a touch harder to cook); no Cooking level
+   gates them, the level only lowers the burn chance (game5_main.js 'cook'). Read by the skill guide too. */
+const COOK_FISH = [
+  {raw:'raw_perch',    done:'cooked_perch',    burnt:'burnt_perch',    xp:32, name:'a mirrorperch', hard:0},
+  {raw:'raw_reedpike', done:'cooked_reedpike', burnt:'burnt_reedpike', xp:45, name:'a reedpike',    hard:.08},
+];
 const PICKPOCKETS = {
   wanderer: {req:1,  xp:8,  coins:[1,5],   fail:0.25, stun:3, name:'townsfolk'},
   monk:     {req:8,  xp:15, coins:[4,9],   fail:0.3,  stun:3, name:'monk'},
