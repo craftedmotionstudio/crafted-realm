@@ -3971,3 +3971,19 @@ length (slight medium-length read in 3/4).
 - Gates: units 90/90, smoke PASS fg+hidden, skill guides 367/367, item icons 19/19, island QA 33/33 (rerun after a
   puppeteer detach flake), playthrough 1/1 (18/18, 10/10, 0 errors).
 - Agents paused by an API usage limit and resumed: feel pass, character follow-ups, building props pass.
+
+## 2026-09-28 — 2004 feel pass, building props, characters v4a.2b merged (660fe17, 6fd8db3, 752ad2d)
+- Feel pass (REF2004 report items 1, 2, 7, 8, 9): 2004 camera by default (22.5 deg, 7.7-tile boom, 36 deg FOV, player
+  ~30% of the view; zoom 5-70 tiles kept), walk 1 / run 2 tiles per 600 ms tick, 2004 skilling strokes (chop 0.78 s,
+  net 1.80, cook 1.77, bake/smelt 2.43, smith 2.29, fire kneel ~4.2 s; odds and XP unchanged), look v3 (luminance in
+  the 2004 band, darker greens, textured paths and water, dark distance fade), chrome zoomed to the 2004 proportion
+  (type ~2.4% of the height) and a 2004-sized creator with the +-45 deg sway. Integration fix: the zoomed minimap
+  cluster had covered the Combat / Skills / Quests tabs (click-through now).
+- Props pass: all ten remaining buildings re-designed in Blender (keep, quarry, mage tower, haven, survival camp, mill,
+  bank, Lastlight, bakehouse, cavern; 38.7k -> 122.7k prop triangles), graphs identical, republished.
+- Characters v4a.2b: straighter run, feet together at idle, 2004 lean (walk 5.7 / run 14.5 deg), amulet clear of the
+  swings (676 -> 16 hits, platebody crush only), capes clear hair; rubric 8.45 (legs/feet 4.97 drags: longer feet).
+- QA driver fixes for the 2004 camera/chrome/pace (no rule weakened): clickNamed tries the player view + 8 yaws; the
+  PvM approach waits for reach up to 12 s; book tips wait for the tip.
+- Gates per merge all green (units 90/90, server 98/98, smoke, combat numbers, route, hollow, menu 65/65, PvM 40/40,
+  guides 367/367, icons 19/19, island QA 33/33, playthroughs). Final 10-run proof on 752ad2d running.
