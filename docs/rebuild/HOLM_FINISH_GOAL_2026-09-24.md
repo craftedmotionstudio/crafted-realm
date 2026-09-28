@@ -412,6 +412,10 @@ Cutover plan (2026-09-25, from the provider/save audit; reversible behind one sw
       2026-09-27 11:48 FINAL-BUILD PROOF 61dcef7 (v2 land, kit v3.1f, equipment v3, 2004 combat, OSRS menu, naming):
       10/10 playthroughs complete, 18/18 lessons, 10/10 tutors, 0 page errors; island QA 32/32, route v2 10/10, hollow
       13/13, PvM 40/40, numbers lock PASS, menu 64/64 on rerun. Awaiting owner approval.
+      2026-09-27 owner review 4 opened: island fixes list (holm-review4-fixes), characters kit v4 option A picked by the
+      owner (chars-v4-options), and a 2004 reference harness (tools/ref2004, merged 4ddcf24) whose measured feel report
+      (docs/rebuild/REF2004_FEEL_REPORT.md) drives a feel pass (holm-feel-2004: camera, pace, UI scale, scenery, skill
+      timings). Final proof re-runs after those three merge.
 - [ ] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
       Verify fresh characters, returning Holm saves, graduated saves, full inventory and interruptions.
 - [ ] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload
@@ -425,7 +429,7 @@ Cutover plan (2026-09-25, from the provider/save audit; reversible behind one sw
 - Work one bounded bundle per tick and never leave half-wired runtime in the tree.
 - Production boot stays on the old island until M7. All new-island work runs behind the preview provider.
 - Verify in the in-app browser. Headless data alone never proves a step.
-- Keep combat math, the XP curve, four-direction tile movement and player saves intact (CLAUDE.md).
+- Keep combat math, the XP curve, 8-direction tile movement (owner 2026-09-25) and player saves intact (CLAUDE.md).
 - Read `GUIDING_LIGHT.md` at the start of every session. Author assets in Blender + the Studio, not the game.
 - Record each tick in the root `PASS_LOG.md` (the project log) with a proof link, and tick the item here.
 - Stop and write it under Blockers when a tick cannot make progress. Do not keep retrying the same failure.

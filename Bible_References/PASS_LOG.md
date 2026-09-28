@@ -3922,3 +3922,15 @@ length (slight medium-length read in 3/4).
   after the island/PvM drivers; the proof script now prints failing checks by name). Unit tests 87/87, server 98/98,
   smoke fg 1.6 s + hidden 1.9 s.
 - Combat grade: offline 9.25, online 10/10 (owner bar 9.5 met). Ready for the owner's island review.
+
+## 2026-09-27 — 2004 reference harness merged (4ddcf24)
+- Owner idea: run 2004 locally, bot-play it and ours, compare, correct. tools/ref2004: local-only stack control
+  (rs-sdk untouched), an SDK bot that plays the 2004 tutorial from the designer to the bank, our playthrough driver
+  reused, side-by-side capture of characters / tutorial / UI / scenery, analysis. IP guard: 2004 imagery only in
+  C:UsersiQwaZef2004_captures (never in the repo); numbers only are used as targets.
+- Feel report (docs/rebuild/REF2004_FEEL_REPORT.md), biggest gaps: camera (2004 22.5 deg / 7.7 tiles / player 31% of
+  view vs ours ~47 deg / ~38 tiles / 6%), pace (1 and 2 tiles per tick vs 2.40 / 4.25 tiles/s), walk/run cadence and
+  lean, character scale (1.51 vs 1.85 tiles), proportions, UI scale (type half the relative size), scenery (1.7x
+  brighter, less saturated grass), skilling timings. Rubric mostly 1-3 of 5.
+- Follow-up: feel pass (holm-feel-2004) on camera, pace, UI, scenery, skill timings; the character numbers go to the
+  kit v4 option-A rollout. Gates on merge: all unit tests pass.
