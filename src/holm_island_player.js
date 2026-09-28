@@ -79,7 +79,7 @@ var HolmIslandPlayer=(function(){
      if(q.name){var k=q.name.replace(/^R_/i,'').replace(/[._]\d+$/,'').toLowerCase();(regionMats[k]=regionMats[k]||[]).push(q)}})}});
     // measure the visible character only (hidden variants would shrink it)
     var box=new THREE.Box3();rig.updateMatrixWorld(true);rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});
-    rig.scale.setScalar((typeof HOLM_CHAR_H!=='undefined'?HOLM_CHAR_H:1.85)/((box.max.y-box.min.y)||1));box=new THREE.Box3();rig.updateMatrixWorld(true);rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});rig.position.y=-box.min.y;
+    rig.scale.setScalar(typeof holmKitScale==='function'?holmKitScale():1.85/((box.max.y-box.min.y)||1));box=new THREE.Box3();rig.updateMatrixWorld(true);rig.traverse(function(m){if((m.isMesh||m.isSkinnedMesh)&&m.visible)box.expandByObject(m)});rig.position.y=-box.min.y;
     var c=new THREE.Group();c.userData.regionMats=regionMats;c.userData.rigInner=rig;c.add(rig);c.position.copy(player.position);c.rotation.y=player.rotation.y;
     var mixer=new THREE.AnimationMixer(rig),clips={};gltf.animations.forEach(function(cl){clips[cl.name]=mixer.clipAction(cl)});
     if(clips.idle){clips.idle.play();clips.idle.weight=1}if(clips.walk){clips.walk.play();clips.walk.weight=0}

@@ -9,6 +9,10 @@ const TICK = 0.6;
 // manifest gait section): slide-free at HOLM_KIT_MPS.walk / .run times the rig's scale, i.e. 1.67 / 3.33 tiles/s at 1.5 tiles.
 var HOLM_CHAR_H = 1.5;
 var HOLM_KIT_MPS = {walk: 2.015, run: 4.03};
+// the kit's default man stands 1.813 kit metres in the idle; every kit rig is shown at HOLM_CHAR_H / HOLM_KIT_H (a bind-pose
+// bounding box is taller than the idle stance, so the scale is fixed rather than measured)
+var HOLM_KIT_H = 1.813;
+function holmKitScale(){ return HOLM_CHAR_H / HOLM_KIT_H; }
 // held gear rides the kit hand: sized and placed in kit metres x the rig's scale; the woman's hand hangs 4.5 cm further
 // down her forearm than the shared skeleton's wrist (kit ARM_EXT), so her palm is that much further along the hand bone
 var HOLM_GRIP_EXT = {B: 0.045};
