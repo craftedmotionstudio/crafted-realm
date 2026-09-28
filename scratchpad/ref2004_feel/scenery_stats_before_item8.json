@@ -1,0 +1,136 @@
+{
+ "town": [
+  {
+   "2004": {
+    "mean_sat": 0.4,
+    "lum_mean": 0.255,
+    "lum_std": 0.115,
+    "edge_density": 3.92,
+    "palette_4bit": 249
+   },
+   "ours": {
+    "mean_sat": 0.329,
+    "lum_mean": 0.386,
+    "lum_std": 0.117,
+    "edge_density": 1.01,
+    "palette_4bit": 168
+   }
+  },
+  {
+   "2004": {
+    "mean_sat": 0.419,
+    "lum_mean": 0.234,
+    "lum_std": 0.115,
+    "edge_density": 3.54,
+    "palette_4bit": 187
+   },
+   "ours": {
+    "mean_sat": 0.447,
+    "lum_mean": 0.356,
+    "lum_std": 0.126,
+    "edge_density": 1.43,
+    "palette_4bit": 217
+   }
+  },
+  {
+   "2004": {
+    "mean_sat": 0.171,
+    "lum_mean": 0.264,
+    "lum_std": 0.078,
+    "edge_density": 0.8,
+    "palette_4bit": 183
+   },
+   "ours": {
+    "mean_sat": 0.329,
+    "lum_mean": 0.386,
+    "lum_std": 0.117,
+    "edge_density": 1.01,
+    "palette_4bit": 168
+   }
+  },
+  {
+   "2004": {
+    "mean_sat": 0.216,
+    "lum_mean": 0.23,
+    "lum_std": 0.087,
+    "edge_density": 1.16,
+    "palette_4bit": 206
+   },
+   "ours": {
+    "mean_sat": 0.447,
+    "lum_mean": 0.356,
+    "lum_std": 0.126,
+    "edge_density": 1.43,
+    "palette_4bit": 217
+   }
+  }
+ ],
+ "field": [
+  {
+   "2004": {
+    "mean_sat": 0.765,
+    "lum_mean": 0.215,
+    "lum_std": 0.078,
+    "edge_density": 1.11,
+    "palette_4bit": 115
+   },
+   "ours": {
+    "mean_sat": 0.493,
+    "lum_mean": 0.336,
+    "lum_std": 0.14,
+    "edge_density": 1.1,
+    "palette_4bit": 236
+   }
+  },
+  {
+   "2004": {
+    "mean_sat": 0.692,
+    "lum_mean": 0.163,
+    "lum_std": 0.09,
+    "edge_density": 1.2,
+    "palette_4bit": 124
+   },
+   "ours": {
+    "mean_sat": 0.519,
+    "lum_mean": 0.381,
+    "lum_std": 0.12,
+    "edge_density": 1.09,
+    "palette_4bit": 252
+   }
+  }
+ ],
+ "water": [
+  {
+   "2004": {
+    "mean_sat": 0.457,
+    "lum_mean": 0.249,
+    "lum_std": 0.155,
+    "edge_density": 2.04,
+    "palette_4bit": 263
+   },
+   "ours": {
+    "mean_sat": 0.443,
+    "lum_mean": 0.385,
+    "lum_std": 0.126,
+    "edge_density": 0.57,
+    "palette_4bit": 159
+   }
+  },
+  {
+   "2004": {
+    "mean_sat": 0.447,
+    "lum_mean": 0.17,
+    "lum_std": 0.101,
+    "edge_density": 1.56,
+    "palette_4bit": 256
+   },
+   "ours": {
+    "mean_sat": 0.452,
+    "lum_mean": 0.39,
+    "lum_std": 0.128,
+    "edge_density": 0.99,
+    "palette_4bit": 254
+   }
+  }
+ ]
+}

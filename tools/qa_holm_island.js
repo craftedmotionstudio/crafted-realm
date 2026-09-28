@@ -33,17 +33,25 @@ async function aim(page,pt,tile){
   return page.evaluate(async(pt,tile)=>{
     const sleep=ms=>new Promise(r=>setTimeout(r,ms));
     const dx=player.position.x-pt[0],dz=player.position.z-pt[2],d=Math.hypot(dx,dz);
-    camCtl.yaw=d>.5?Math.atan2(dx,dz):0;camCtl.pitch=d>6?1.3:1.1;camCtl.dist=Math.max(16,d*1.7);
-    await sleep(1400);
-    const rect=renderer.domElement.getBoundingClientRect(),pr=new THREE.Vector3(pt[0],pt[1],pt[2]).project(camera);
-    const cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top;
     const test=h=>{if(!h)return false;const u=h.obj.userData||{};
       return (isGroundName(h.obj.name)||u.arrivalSurface||u.islandGround)&&Math.floor(h.point.x)===tile[0]&&Math.floor(h.point.z)===tile[1];};
-    for(let r=0;r<=160;r+=5)for(let a=0;a<360;a+=(r?20:360)){
-      const x=Math.round(cx+Math.cos(a*Math.PI/180)*r),y=Math.round(cy+Math.sin(a*Math.PI/180)*r);
-      if(x<0||y<0||x>=rect.width||y>=rect.height)continue;
-      if(document.elementFromPoint(x,y)!==renderer.domElement)continue;
-      if(test(pick({clientX:x,clientY:y})))return [x,y];
+    // and, like a player reading the top-left action line, only where the left click walks (a ladder or door further down
+    // the same ray would otherwise take the click: the old-school menu puts entities above Walk here)
+    const walks=(x,y)=>{if(typeof OsrsMenuWorld==='undefined')return true;const t=OsrsMenuWorld.menuFor({clientX:x,clientY:y},{shift:false}).entries[0];return !t||t.option==='Walk here'};
+    // like a player whose tile sits behind the chat box or the side panel (the 2004-size chrome, src/ui_scale.js): turn the
+    // camera a little either way, then look from higher up, and look again (same as holm_island_driver_lib aim)
+    const yaw0=d>.5?Math.atan2(dx,dz):0,p0=d>6?1.3:1.1;
+    for(const [turn,pitch] of [[0,p0],[.7,p0],[-.7,p0],[0,1.9],[.7,1.9],[-.7,1.9]]){
+      camCtl.yaw=yaw0+turn;camCtl.pitch=pitch;camCtl.dist=Math.max(16,d*1.7);
+      await sleep(1400);
+      const rect=renderer.domElement.getBoundingClientRect(),pr=new THREE.Vector3(pt[0],pt[1],pt[2]).project(camera);
+      const cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top;
+      for(let r=0;r<=160;r+=5)for(let a=0;a<360;a+=(r?20:360)){
+        const x=Math.round(cx+Math.cos(a*Math.PI/180)*r),y=Math.round(cy+Math.sin(a*Math.PI/180)*r);
+        if(x<0||y<0||x>=rect.width||y>=rect.height)continue;
+        if(document.elementFromPoint(x,y)!==renderer.domElement)continue;
+        if(test(pick({clientX:x,clientY:y}))&&walks(x,y))return [x,y];
+      }
     }
     return null;
   },pt,tile);
@@ -102,7 +110,9 @@ async function clickNamed(page,name,opts){
     // frame the camera on the target (a player turns the view toward what they want to click); cleared after the click
     // (surface targets only: qaView takes its height from the island terrain, and the cavern lies offshore below it)
     if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaView)HolmArrivalQA.qaView(pt[0],pt[2],pt[1]>-5?undefined:new THREE.Box3().setFromObject(o).min.y);
-    for(const [yaw,pitch,dist] of [[d>.5?Math.atan2(dx,dz):0,1.1,Math.max(10,d*1.5)],[0,1.3,12],[Math.PI/2,1.3,12],[Math.PI,1.3,12],[-Math.PI/2,1.3,12]]){
+    // the player's own view first, then fixed framings, then the eight compass yaws (2004 camera, 2004-sized chrome)
+    const own=[camCtl.yaw,camCtl.pitch,camCtl.dist],yaws=[0,1,2,3,4,5,6,7].map(k=>k*Math.PI/4);
+    for(const [yaw,pitch,dist] of [own,[d>.5?Math.atan2(dx,dz):0,1.1,Math.max(10,d*1.5)],[0,1.3,12],[Math.PI/2,1.3,12],[Math.PI,1.3,12],[-Math.PI/2,1.3,12]].concat(yaws.map(y=>[y,0.9,9]),yaws.map(y=>[y,1.17,13]))){
       camCtl.yaw=yaw;camCtl.pitch=pitch;camCtl.dist=dist;await sleep(1300);
       const rect=renderer.domElement.getBoundingClientRect(),pr=new THREE.Vector3(pt[0],pt[1],pt[2]).project(camera),cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top;
       for(let r=0;r<=120;r+=4)for(let a=0;a<360;a+=(r?15:360)){const x=Math.round(cx+Math.cos(a*Math.PI/180)*r),y=Math.round(cy+Math.sin(a*Math.PI/180)*r);

@@ -36,24 +36,31 @@ var HolmKitCreator=(function(){
   var w=el('div');w.className='kc-window';p.appendChild(w);
   var t=el('div',null,'Character Creator');t.className='kc-title';w.appendChild(t);
   var dc=el('div',null,'<h4>Design</h4>'),view=el('div'),cc=el('div',null,'<h4>Colour</h4>');dc.className='kc-col kc-design';view.className='kc-view';cc.className='kc-col kc-colour';
-  DESIGN.forEach(function(d){arrowRow(dc,d[1],function(){cyclePart(d[0],-1)},function(){cyclePart(d[0],1)});var r=dc.lastChild;
-   var lbl=el('div');lbl.className='kc-sub';dc.appendChild(lbl);st.els[d[0]]={row:r,lbl:lbl}});
+  // the choice's name sits under the slot name, between the arrows (one row per slot, as the 2004 creator packs them)
+  DESIGN.forEach(function(d){var r=arrowRow(dc,d[1],function(){cyclePart(d[0],-1)},function(){cyclePart(d[0],1)});
+   var lbl=el('div');lbl.className='kc-sub';r.mid.appendChild(lbl);st.els[d[0]]={row:r.row,lbl:lbl}});
   COLOUR.forEach(function(c){var sw=el('div');sw.className='kc-swatch';var r=arrowRow(cc,c[1],function(){cycleColour(c[0],-1)},function(){cycleColour(c[0],1)},sw);st.els['c_'+c[0]]={row:r.row,sw:sw}});
   var bt=el('div',null,'<h4>Body type</h4>');bt.style.marginTop='12px';var bb=el('div');bb.className='kc-body';
   ['A','B'].forEach(function(b){var x=el('button',null,b);x.type='button';x.className='kit-btn';x.title='Body type '+b;x.onclick=function(){click();setBody(b)};bb.appendChild(x);st.els['body_'+b]=x});bt.appendChild(bb);cc.appendChild(bt);
   // body build and feet size (morph targets on every part)
-  [['build','Build',HolmKit.BUILDS],['feet','Feet size',HolmKit.FEET]].forEach(function(s){arrowRow(cc,s[1],function(){cycleShape(s[0],s[2],-1)},function(){cycleShape(s[0],s[2],1)});var lbl=el('div');lbl.className='kc-sub';cc.appendChild(lbl);st.els['shape_'+s[0]]=lbl});
+  [['build','Build',HolmKit.BUILDS],['feet','Feet size',HolmKit.FEET]].forEach(function(s){var r=arrowRow(cc,s[1],function(){cycleShape(s[0],s[2],-1)},function(){cycleShape(s[0],s[2],1)});var lbl=el('div');lbl.className='kc-sub';r.mid.appendChild(lbl);st.els['shape_'+s[0]]=lbl});
   w.appendChild(dc);w.appendChild(view);w.appendChild(cc);
   var acts=el('div');acts.className='kc-actions';
   var rnd=el('button',null,'Randomise');rnd.type='button';rnd.className='kit-btn';rnd.title='Roll a random look';rnd.onclick=function(){click();randomise()};
   var ok=el('button',null,'Confirm');ok.type='button';ok.className='kit-btn kc-confirm';ok.title='Keep this look';ok.onclick=function(){click();close(true)};
-  acts.appendChild(el('div'));acts.appendChild(rnd);acts.appendChild(ok);w.appendChild(el('div'));w.appendChild(acts);
+  // the preview sways +-45 deg around the front like the 2004 creator; this turns it all the way round instead (and back)
+  var spin=el('button',null,'Turn');spin.type='button';spin.className='kit-btn kc-spin';spin.title='Turn the model all the way round';
+  spin.onclick=function(){click();st.mode=st.mode==='turn'?'sway':'turn';st.t=0;spin.textContent=st.mode==='turn'?'Sway':'Turn';spin.title=st.mode==='turn'?'Sway the model around the front':'Turn the model all the way round'};st.els.spin=spin;
+  acts.appendChild(el('div'));acts.appendChild(rnd);acts.appendChild(spin);acts.appendChild(ok);w.appendChild(el('div'));w.appendChild(acts);
   [dc,cc,acts,t].forEach(function(x){x.addEventListener('pointerdown',function(e){e.stopPropagation()})});document.body.appendChild(p);st.panel=p}
  function open(){if(st.active)return true;if(!HolmKit.ready()){HolmKit.load().then(open);return true}
-  st.active=true;st.look=HolmKit.normalize(typeof CharCfg!=='undefined'&&CharCfg.kit);if(!st.panel)build();st.panel.style.display='block';document.body.classList.add('kit-creator-open');
+  st.active=true;st.mode='sway';st.t=0;st.look=HolmKit.normalize(typeof CharCfg!=='undefined'&&CharCfg.kit);if(!st.panel)build();st.panel.style.display='block';document.body.classList.add('kit-creator-open');
+  if(st.els.spin){st.els.spin.textContent='Turn';st.els.spin.title='Turn the model all the way round'}
   stage(true);
   refresh();return true}
  function close(save){if(!st.active)return;st.active=false;stage(false);if(typeof CharCreator!=='undefined')CharCreator.active=false;if(st.panel)st.panel.style.display='none';document.body.classList.remove('kit-creator-open');
+  // back in the world at the low 2004 camera: turn it off a signpost or wall that hides the adventurer (game5_main.js)
+  try{if(typeof clearFollowYaw==='function')clearFollowYaw()}catch(e){}
   if(typeof CharCfg!=='undefined')CharCfg._new=false;if(save)try{SaveGame.save(true)}catch(e){}
   if(typeof UI!=='undefined')UI.chat('Your new look is saved. You can change it any time with the appearance button (Shift+C).','plain');
   if(typeof CharCfg!=='undefined'&&CharCfg._intro){CharCfg._intro=false;setTimeout(introNote,250)}}
@@ -84,8 +91,13 @@ var HolmKitCreator=(function(){
     cam.position.set(p.x+7.8*Math.sin(y),p.y+1.75,p.z+7.8*Math.cos(y));cam.lookAt(p.x,p.y+1.0,p.z);cam.updateMatrixWorld()}}}
   else if(st.hidden){st.hidden.forEach(function(c){c.visible=true});st.hidden=null;if(st.cam){scene.onBeforeRender=st.prevBR||function(){};st.cam=false}
    if(st.bg&&scene.background&&scene.background.copy)scene.background.copy(st.bg);if(st.fogC&&scene.fog)scene.fog.color.copy(st.fogC)}}
- // turn the model slowly while the creator is open (like the classic spinning preview)
- function tick(dt){if(!st.active||typeof player==='undefined'||!player)return;stage(true);player.rotation.y+=dt*.6}
+ // the preview: by default it sways +-45 deg around the front on a 4 s swing (the 2004 creator never shows the side or
+ // back; REF2004_FEEL_REPORT.md item 7); the Turn button spins it all the way round (the earlier turntable)
+ var SWAY={deg:45,period:4};
+ function tick(dt){if(!st.active||typeof player==='undefined'||!player)return;stage(true);
+  if(st.mode==='turn'){player.rotation.y+=dt*.6;return}
+  st.t=(st.t||0)+(dt||0);var front=typeof camCtl!=='undefined'?camCtl.yaw:0;player.rotation.y=front+SWAY.deg*Math.PI/180*Math.sin(st.t*2*Math.PI/SWAY.period)}
+ function previewMode(){return st.mode==='turn'?'turntable':'sway'}
  // takes over the classic creator on the Blender island
  if(typeof CharCreator!=='undefined'&&typeof HolmIsland!=='undefined'&&HolmIsland.live()){
   CharCreator.open=function(){CharCreator.active=true;HolmKitCreator.open()};
@@ -93,6 +105,6 @@ var HolmKitCreator=(function(){
   if(typeof CharStyler!=='undefined')CharStyler.toggle=function(){if(st.active)close(true);else CharCreator.open()};
   var t0=CharCreator.tick;CharCreator.tick=function(dt){if(st.active)return tick(dt);return t0&&t0.call(CharCreator,dt)};
  }
- return {open:open,close:close,tick:tick,active:function(){return st.active},introNote:introNote};
+ return {open:open,close:close,tick:tick,active:function(){return st.active},introNote:introNote,previewMode:previewMode,SWAY:SWAY};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmKitCreator;

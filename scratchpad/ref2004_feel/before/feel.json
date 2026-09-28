@@ -1,0 +1,519 @@
+{
+ "tag": "before",
+ "base": "http://127.0.0.1:8096",
+ "at": "2026-09-28T00:36:59.186Z",
+ "target": {
+  "camera": {
+   "elevDeg": 22.5,
+   "boomTiles": 7.69,
+   "vfov": 36.13,
+   "lookLift": 0.39,
+   "playerShare": 0.31
+  },
+  "pace": {
+   "walk": 1.6666666666666667,
+   "run": 3.3333333333333335
+  },
+  "ui": {
+   "typeShare": 0.024
+  },
+  "skills": {
+   "chop": 0.78,
+   "net": 1.8,
+   "cook": 1.77,
+   "bake": 2.43,
+   "smelt": 2.42,
+   "firemakeKneel": 4
+  }
+ },
+ "runDefault": true,
+ "camera": {
+  "elevDeg": 46.68,
+  "boomTiles": 38.35,
+  "vfov": 30,
+  "lookLift": 1.2,
+  "playerHeightTiles": 1.85,
+  "playerPx": 61.5,
+  "viewPx": 1006,
+  "playerShare": 0.061,
+  "camCtl": {
+   "yaw": 2.3562,
+   "pitch": 1.08,
+   "dist": 33
+  }
+ },
+ "skills": {
+  "clips": {
+   "chop": {
+    "authored": 1,
+    "rate": 1,
+    "seconds": 1
+   },
+   "net": {
+    "authored": 1.6,
+    "rate": 1,
+    "seconds": 1.6
+   },
+   "cook": {
+    "authored": 1.333,
+    "rate": 1,
+    "seconds": 1.333
+   },
+   "smelt": {
+    "authored": 1.2,
+    "rate": 1,
+    "seconds": 1.2
+   },
+   "smith": {
+    "authored": 1,
+    "rate": 1,
+    "seconds": 1
+   },
+   "mine": {
+    "authored": 1,
+    "rate": 1,
+    "seconds": 1
+   },
+   "firemake": {
+    "authored": 1,
+    "rate": 1,
+    "seconds": 1
+   }
+  },
+  "liveChopSeconds": 1.01,
+  "timing": {
+   "note": "before: fixed in game5_main.js",
+   "gatherRollSec": 0.6,
+   "smeltSec": 1.8,
+   "smithSec": 1.8,
+   "lightfireSec": 1.8,
+   "cookClip": "authored pace"
+  }
+ },
+ "pace": {
+  "lane": {
+   "a": [
+    61.5,
+    118.5
+   ],
+   "b": [
+    69.5,
+    118.5
+   ],
+   "axis": "x",
+   "n": 8
+  },
+  "walk": {
+   "tilesPerSec": 2.399,
+   "moveSpeed": 2.4,
+   "clip": {
+    "dur": 0.5,
+    "timeScale": 1
+   }
+  },
+  "run": {
+   "error": "did not move"
+  }
+ },
+ "ui": {
+  "1530x1006": {
+   "rects": {
+    "chatbox-frame": {
+     "x": 6,
+     "y": 810,
+     "w": 520,
+     "h": 190
+    },
+    "side-panel": {
+     "x": 1282,
+     "y": 614,
+     "w": 242,
+     "h": 386
+    },
+    "mm-cluster": {
+     "x": 1274,
+     "y": 0,
+     "w": 256,
+     "h": 200
+    },
+    "minimap-frame": {
+     "x": 1368,
+     "y": 10,
+     "w": 152,
+     "h": 152
+    },
+    "hud-rail": {
+     "x": 1282,
+     "y": 577,
+     "w": 242,
+     "h": 34
+    },
+    "objective": {
+     "x": 656,
+     "y": 10,
+     "w": 219,
+     "h": 60
+    },
+    "zone-box": {
+     "x": 8,
+     "y": 8,
+     "w": 97,
+     "h": 20
+    }
+   },
+   "dialogue": {
+    "x": 6,
+    "y": 810,
+    "w": 520,
+    "h": 190,
+    "textPx": 12
+   },
+   "chatTypePx": 12,
+   "typeShare": 0.0119,
+   "chromeShare": 0.163,
+   "uiScale": 1,
+   "viewport": [
+    1530,
+    1006
+   ]
+  },
+  "1920x960": {
+   "rects": {
+    "chatbox-frame": {
+     "x": 6,
+     "y": 764,
+     "w": 520,
+     "h": 190
+    },
+    "side-panel": {
+     "x": 1672,
+     "y": 568,
+     "w": 242,
+     "h": 386
+    },
+    "mm-cluster": {
+     "x": 1664,
+     "y": 0,
+     "w": 256,
+     "h": 200
+    },
+    "minimap-frame": {
+     "x": 1758,
+     "y": 10,
+     "w": 152,
+     "h": 152
+    },
+    "hud-rail": {
+     "x": 1672,
+     "y": 531,
+     "w": 242,
+     "h": 34
+    },
+    "objective": {
+     "x": 851,
+     "y": 10,
+     "w": 219,
+     "h": 60
+    },
+    "zone-box": {
+     "x": 8,
+     "y": 8,
+     "w": 97,
+     "h": 20
+    }
+   },
+   "dialogue": {
+    "x": 6,
+    "y": 764,
+    "w": 520,
+    "h": 190,
+    "textPx": 12
+   },
+   "chatTypePx": 12,
+   "typeShare": 0.0125,
+   "chromeShare": 0.137,
+   "uiScale": 1,
+   "viewport": [
+    1920,
+    960
+   ]
+  },
+  "1366x657": {
+   "rects": {
+    "chatbox-frame": {
+     "x": 6,
+     "y": 461,
+     "w": 520,
+     "h": 190
+    },
+    "side-panel": {
+     "x": 1118,
+     "y": 325,
+     "w": 242,
+     "h": 326
+    },
+    "mm-cluster": {
+     "x": 1110,
+     "y": 0,
+     "w": 256,
+     "h": 200
+    },
+    "minimap-frame": {
+     "x": 1204,
+     "y": 10,
+     "w": 152,
+     "h": 152
+    },
+    "hud-rail": {
+     "x": 1118,
+     "y": 288,
+     "w": 242,
+     "h": 34
+    },
+    "objective": {
+     "x": 574,
+     "y": 10,
+     "w": 219,
+     "h": 60
+    },
+    "zone-box": {
+     "x": 8,
+     "y": 8,
+     "w": 97,
+     "h": 20
+    }
+   },
+   "dialogue": {
+    "x": 6,
+    "y": 461,
+    "w": 520,
+    "h": 190,
+    "textPx": 12
+   },
+   "chatTypePx": 12,
+   "typeShare": 0.0183,
+   "chromeShare": 0.264,
+   "uiScale": 1,
+   "viewport": [
+    1366,
+    657
+   ]
+  },
+  "2560x1300": {
+   "rects": {
+    "chatbox-frame": {
+     "x": 6,
+     "y": 1104,
+     "w": 520,
+     "h": 190
+    },
+    "side-panel": {
+     "x": 2312,
+     "y": 908,
+     "w": 242,
+     "h": 386
+    },
+    "mm-cluster": {
+     "x": 2304,
+     "y": 0,
+     "w": 256,
+     "h": 200
+    },
+    "minimap-frame": {
+     "x": 2398,
+     "y": 10,
+     "w": 152,
+     "h": 152
+    },
+    "hud-rail": {
+     "x": 2312,
+     "y": 871,
+     "w": 242,
+     "h": 34
+    },
+    "objective": {
+     "x": 1171,
+     "y": 10,
+     "w": 219,
+     "h": 60
+    },
+    "zone-box": {
+     "x": 8,
+     "y": 8,
+     "w": 97,
+     "h": 20
+    }
+   },
+   "dialogue": {
+    "x": 6,
+    "y": 1104,
+    "w": 520,
+    "h": 190,
+    "textPx": 12
+   },
+   "chatTypePx": 12,
+   "typeShare": 0.0092,
+   "chromeShare": 0.076,
+   "uiScale": 1,
+   "viewport": [
+    2560,
+    1300
+   ]
+  },
+  "812x375": {
+   "rects": {
+    "chatbox-frame": {
+     "x": 64,
+     "y": 411,
+     "w": 486,
+     "h": 136
+    },
+    "side-panel": {
+     "x": 834,
+     "y": 0,
+     "w": 272,
+     "h": 375
+    },
+    "mm-cluster": null,
+    "minimap-frame": {
+     "x": 700,
+     "y": 8,
+     "w": 104,
+     "h": 104
+    },
+    "hud-rail": {
+     "x": 563,
+     "y": 8,
+     "w": 129,
+     "h": 30
+    },
+    "objective": {
+     "x": 8,
+     "y": 40,
+     "w": 219,
+     "h": 60
+    },
+    "zone-box": {
+     "x": 8,
+     "y": 8,
+     "w": 97,
+     "h": 20
+    }
+   },
+   "dialogue": {
+    "x": 226,
+    "y": 132,
+    "w": 360,
+    "h": 112,
+    "textPx": 12
+   },
+   "chatTypePx": 12,
+   "typeShare": 0.032,
+   "chromeShare": 0.565,
+   "uiScale": 1,
+   "viewport": [
+    812,
+    375
+   ]
+  },
+  "375x812": {
+   "rects": {
+    "chatbox-frame": {
+     "x": 64,
+     "y": 848,
+     "w": 235,
+     "h": 136
+    },
+    "side-panel": {
+     "x": 397,
+     "y": 0,
+     "w": 272,
+     "h": 812
+    },
+    "mm-cluster": null,
+    "minimap-frame": {
+     "x": 263,
+     "y": 8,
+     "w": 104,
+     "h": 104
+    },
+    "hud-rail": {
+     "x": 126,
+     "y": 8,
+     "w": 129,
+     "h": 30
+    },
+    "objective": {
+     "x": 8,
+     "y": 40,
+     "w": 195,
+     "h": 75
+    },
+    "zone-box": {
+     "x": 8,
+     "y": 8,
+     "w": 97,
+     "h": 20
+    }
+   },
+   "dialogue": {
+    "x": 8,
+    "y": 350,
+    "w": 360,
+    "h": 112,
+    "textPx": 12
+   },
+   "chatTypePx": 12,
+   "typeShare": 0.0148,
+   "chromeShare": 0.843,
+   "uiScale": 1,
+   "viewport": [
+    375,
+    812
+   ]
+  }
+ },
+ "designer": {
+  "window": {
+   "x": 385,
+   "y": 203,
+   "w": 760,
+   "h": 600
+  },
+  "arrow": {
+   "x": 400,
+   "y": 283,
+   "w": 38,
+   "h": 26
+  },
+  "labelPx": 12,
+  "share": {
+   "w": 0.497,
+   "h": 0.596
+  },
+  "arrowShareW": 0.025,
+  "labelShareH": 0.0119,
+  "mode": "turntable",
+  "previewYawDeg": [
+   58.7,
+   66.2,
+   73,
+   80.5,
+   87.9,
+   95.4,
+   102.8,
+   110.3,
+   117.7,
+   124.6,
+   132,
+   138.9,
+   145.8,
+   153.2,
+   160.1
+  ],
+  "previewYawRange": [
+   58.7,
+   160.1
+  ]
+ }
+}

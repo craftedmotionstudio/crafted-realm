@@ -1,0 +1,128 @@
+{
+ "tag": "after_skills",
+ "base": "http://127.0.0.1:8096",
+ "at": "2026-09-28T04:35:29.134Z",
+ "target": {
+  "camera": {
+   "elevDeg": 22.5,
+   "boomTiles": 7.69,
+   "vfov": 36.13,
+   "lookLift": 0.39,
+   "playerShare": 0.31
+  },
+  "pace": {
+   "walk": 1.6666666666666667,
+   "run": 3.3333333333333335
+  },
+  "ui": {
+   "typeShare": 0.024
+  },
+  "skills": {
+   "chop": 0.78,
+   "net": 1.8,
+   "cook": 1.77,
+   "bake": 2.43,
+   "smelt": 2.42,
+   "firemakeKneel": 4
+  }
+ },
+ "runDefault": true,
+ "skills": {
+  "clips": {
+   "chop": {
+    "authored": 1,
+    "rate": 1.282,
+    "seconds": 0.78,
+    "loopsWhileActing": true
+   },
+   "net": {
+    "authored": 1.6,
+    "rate": 0.889,
+    "seconds": 1.8,
+    "loopsWhileActing": true
+   },
+   "cook": {
+    "authored": 1.333,
+    "rate": 0.753,
+    "seconds": 1.77,
+    "loopsWhileActing": false
+   },
+   "bake": {
+    "authored": 1.333,
+    "rate": 0.549,
+    "seconds": 2.43,
+    "loopsWhileActing": false
+   },
+   "cook_range": null,
+   "smelt": {
+    "authored": 1.2,
+    "rate": 0.496,
+    "seconds": 2.42,
+    "loopsWhileActing": false
+   },
+   "smith": {
+    "authored": 1,
+    "rate": 0.439,
+    "seconds": 2.28,
+    "loopsWhileActing": false
+   },
+   "mine": {
+    "authored": 1,
+    "rate": 1,
+    "seconds": 1,
+    "loopsWhileActing": false
+   },
+   "firemake": {
+    "authored": 1,
+    "rate": 1,
+    "seconds": 1,
+    "loopsWhileActing": true
+   }
+  },
+  "live": {
+   "chop": 0.78,
+   "net": 1.8,
+   "cook": 1.77,
+   "bake": 2.43,
+   "smelt": 2.43,
+   "smith": 2.29
+  },
+  "timing": {
+   "tickSeconds": 0.6,
+   "strokeSeconds": {
+    "chop": 0.78,
+    "net": 1.8,
+    "cook": 1.77,
+    "bake": 2.43,
+    "cook_range": 2.43,
+    "smelt": 2.42,
+    "smith": 2.28
+   },
+   "loops": [
+    "chop",
+    "net",
+    "firemake"
+   ],
+   "actionTicks": {
+    "cook": 3,
+    "bake": 4,
+    "cook_range": 4,
+    "smelt": 4,
+    "smith": 4,
+    "lightfire": 7
+   },
+   "actionSeconds": {
+    "cook": 1.8,
+    "bake": 2.4,
+    "cook_range": 2.4,
+    "smelt": 2.4,
+    "smith": 2.4,
+    "lightfire": 4.2
+   },
+   "rolls": {
+    "woodcutting": "every tick",
+    "fishing": "every 5 ticks (Minnow Hollow)"
+   }
+  }
+ }
+}

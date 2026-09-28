@@ -32,12 +32,15 @@ var HolmOldschoolLook=(function(){
  var qs=typeof location!=='undefined'?new URLSearchParams(location.search):new URLSearchParams('');
  var cfg=typeof GameConfig!=='undefined'?GameConfig:{};
  var on=qs.has('oldschool')?qs.get('oldschool')!=='0':cfg.holmOldschoolLook!==false;
- var ver=qs.has('lookv')?(qs.get('lookv')==='1'?1:2):(cfg.holmLookVersion===1?1:2);
+ var lv=function(v){v=String(v);return v==='1'?1:v==='2'?2:3};
+ var ver=qs.has('lookv')?lv(qs.get('lookv')):lv(cfg.holmLookVersion===undefined?3:cfg.holmLookVersion);
  var KIT='assets/textures/oldschool/';
  // kit means (assets/textures/oldschool/kit.json): the ground divides each detail texture by its mean, so the
  // textures add pattern without moving the tile colour
  var GROUND=ver>1?{grassA:'grass_a',grassB:'grass_b',sand:'sand_soft',rock:'rock',earth:'mud',path:'dirt_soft'}:
   {grassA:'grass_a',grassB:'grass_b',sand:'sand',rock:'rock',earth:'mud',path:'dirt'};
+ // v3 (the 2004 light): worn paths get the pebbled earth back (2004 carries its detail in ground textures)
+ if(ver>2)GROUND.path='dirt';
  var MEAN={grass_a:[.8211,.8479,.7621],grass_b:[.8424,.8424,.7588],sand:[.9027,.881,.8353],rock:[.8011,.8011,.7685],dirt:[.8423,.8091,.7599],mud:[.8137,.7912,.7348],
   dirt_soft:[.865,.8352,.7789],sand_soft:[.8909,.8737,.8276],leaves:[.5478,.6553,.3955],leaves_soft:[.6063,.724,.3808],needles:[.451,.5658,.4736],needles_soft:[.6035,.82,.6639],
   bark:[.8054,.6408,.4615],bark_soft:[.82,.6518,.4826],roof_tiles:[.7562,.4201,.3106],roof_tiles_soft:[.82,.4973,.3642],thatch:[.6866,.5819,.3587],thatch_soft:[.82,.6989,.4228],
@@ -46,9 +49,13 @@ var HolmOldschoolLook=(function(){
  // of the broad grass texture (close views measured smoother than the refs with none)
  var TUNE=ver>1?{grassA:{k:0,s:1.6},grassB:{k:.15,s:3.3},sand:{k:.85,s:2},rock:{k:.9,s:2},earth:{k:.9,s:1.6},path:{k:.95,s:1.5}}:
   {grassA:{k:1,s:1.6},grassB:{k:.7,s:3.3},sand:{k:.85,s:2},rock:{k:.9,s:2},earth:{k:.9,s:1.6},path:{k:.95,s:1.5}};
+ if(ver>2){TUNE.path={k:1.25,s:1.5};TUNE.grassA={k:.2,s:1.6};TUNE.grassB={k:.45,s:3.3}}
  // look v2 model textures: first-kit texture (the image name inside a textured candidate) -> its soft variant
  var SOFT_REPEAT={leaves_soft:2};   // finer leaves: the refs' crowns show small leaves up close, soft from afar (mips)
  var SOFT={leaves:'leaves_soft',needles:'needles_soft',bark:'bark_soft',beam:'beam_soft',planks:'planks_soft',roof_tiles:'roof_tiles_soft',thatch:'thatch_soft',stone_course:'stone_course_soft',plaster:'plaster_soft'};
+ // v3: leaf canopies and coursed stone keep the first kit's textures (2004's canopies and walls read by their texture;
+ // the darker grade below keeps them from the bright camouflage look v2 moved away from)
+ if(ver>2){delete SOFT.leaves;delete SOFT.needles;delete SOFT.stone_course;delete SOFT.planks;delete SOFT.beam;delete SOFT.roof_tiles;delete SOFT.thatch;delete SOFT.bark}
  // look v2 colour grade per surface family (by kit texture): gain, saturation (1 = unchanged), hue shift in degrees
  var GRADE={leaves:{gain:.74,sat:.82,hue:-5},needles:{gain:.78,sat:.8,hue:0},bark:{gain:.9,sat:.85,hue:0},roof_tiles:{gain:.95,sat:.7,hue:24},
   thatch:{gain:.95,sat:.85,hue:0},plaster:{gain:.93,sat:.4,hue:0},stone_course:{gain:.95,sat:.7,hue:0},rock:{gain:1,sat:.55,hue:0},
@@ -93,6 +100,16 @@ var HolmOldschoolLook=(function(){
  // a less amber sun and ground bounce, so plaster and stone read grey like the refs (the warm light alone added ~.08 S)
  var SCENE_V2={fogNear:27,fogFar:30,sunColor:0xfff6ea,hemiGround:0x6c6a60};
  if(ver>1)Object.keys(SCENE_V2).forEach(function(k){SCENE[k]=SCENE_V2[k]});
+ /* v3, the 2004 light (REF2004_FEEL_REPORT.md item 8, measured at the 2004 default camera: mean luminance 0.19-0.25,
+  * field grass saturation 0.73, black past ~25 tiles; ours 0.33-0.41, 0.49). A dimmer sky fill and sun (models), a
+  * darker and greener ground underlay (holm_overhaul_ground.js LOOK_V3), foliage kept deep and saturated, and the void
+  * as a dark fade from ~14 tiles past the camera's look point to black at ~30 (the old client's hard edge would cut
+  * the Holm's sea views off). ?lookv=2 shows look v2 for A/B. */
+ var LOOK3={scene:{hemi:.56,sun:.74,sunColor:0xffefd8,fogNear:14,fogFar:30},water:{contrast:2.4,gain:.82,mix:.25,sat:.75},
+  grade:{leaves:{gain:.6,sat:1,hue:-8},needles:{gain:.66,sat:.95,hue:0},bark:{gain:.82,sat:.9,hue:0},roof_tiles:{gain:.9,sat:.8,hue:22},
+   thatch:{gain:.88,sat:.9,hue:0},plaster:{gain:.88,sat:.45,hue:0},stone_course:{gain:.88,sat:.7,hue:0},rock:{gain:.9,sat:.6,hue:0},
+   shingle:{gain:.84,sat:.85,hue:0},slate:{gain:.88,sat:.8,hue:0},roofwood:{gain:.64,sat:.62,hue:0}}};
+ if(ver>2){Object.keys(LOOK3.scene).forEach(function(k){SCENE[k]=LOOK3.scene[k]});Object.keys(LOOK3.grade).forEach(function(k){GRADE[k]=LOOK3.grade[k]})}
  var tex={},modelTex={},loading=null,groundMat=null,active=false,saved=null,stats={groundMaterials:0,textures:0,models:0,maps:0,regraded:0,swapped:0,vertexColoured:0,roofWood:0,kept:{}};
  function enabled(){return on}
  function version(){return on?ver:0}
@@ -195,7 +212,7 @@ var HolmOldschoolLook=(function(){
     '  + '+d('earth')+' * vGroundMix.z + '+d('path')+' * vGroundMix.w;\n'+
     'diffuseColor.rgb *= osGround;');
   };
-  m.customProgramCacheKey=function(){return 'holm-oldschool-ground-v1'+(ver>1?'-lookv2':'')};
+  m.customProgramCacheKey=function(){return 'holm-oldschool-ground-v1'+(ver>1?'-lookv'+ver:'')};
   var dispose=m.dispose.bind(m);m.dispose=function(){m.__disposed=true;dispose()};
   return m;
  }
@@ -209,6 +226,8 @@ var HolmOldschoolLook=(function(){
   var old=mesh.material;mesh.material=makeGround(THREE);if(old&&old.dispose)old.dispose();return true;
  }
  function waterTexture(){return on?tex.water||null:null}
+ // the island water's shading: layer mix, contrast around the texture mean and a gain (v3 the 2004 textured river; else v2)
+ function waterLook(){return ver>2?LOOK3.water:{contrast:1,gain:1,mix:.4,sat:1}}
  // Island scene: black void past the draw distance, a lower side sun and a dimmer sky fill (restored on leave).
  function lights(sc){var h=null,s=null;sc.children.forEach(function(o){if(o.isHemisphereLight&&!h)h=o;if(o.isDirectionalLight&&!s)s=o});return {h:h,s:s}}
  function activate(sc){
@@ -241,8 +260,8 @@ var HolmOldschoolLook=(function(){
  function url(u){if(!on||typeof u!=='string')return u;verified.forEach(function(s){s.map.forEach(function(m){if(u.indexOf(m[0])>=0)u=u.split(m[0]).join(m[1])})});return u}
  function swapped(id){return verified.some(function(s){return s.id===id})}
  function snapshot(){return {look:on?'oldschool':'previous',version:version(),active:active,textures:Object.keys(tex),stats:stats,arrival:arrivalPackage(),swaps:verified.map(function(s){return s.id})}}
- return {enabled:enabled,version:version,grade:grade,regrade:regrade,preload:preload,groundMaterial:groundMaterial,restyleTrail:restyleTrail,waterTexture:waterTexture,activate:activate,deactivate:deactivate,
+ return {enabled:enabled,version:version,grade:grade,regrade:regrade,preload:preload,groundMaterial:groundMaterial,restyleTrail:restyleTrail,waterTexture:waterTexture,waterLook:waterLook,activate:activate,deactivate:deactivate,
   voidActive:voidActive,fogRange:fogRange,prepareModel:prepareModel,arrivalPackage:arrivalPackage,url:url,swapped:swapped,snapshot:snapshot,
-  TUNE:TUNE,SCENE:SCENE,ASSETS:ASSETS,SWAPS:SWAPS,SOFT:SOFT,GRADE:GRADE,FAMILY:FAMILY,MEAN:MEAN};
+  TUNE:TUNE,SCENE:SCENE,LOOK3:LOOK3,ASSETS:ASSETS,SWAPS:SWAPS,SOFT:SOFT,GRADE:GRADE,FAMILY:FAMILY,MEAN:MEAN};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmOldschoolLook;

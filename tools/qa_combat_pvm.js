@@ -193,7 +193,10 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
     {await reset();await wield('bronze_sword',0);const s=await standNear(G,5);
      await page.evaluate(()=>{window.__trail=[];window.__tr=setInterval(()=>{const p=TileNav.playerNode();if(p)window.__trail.push([p.tx,p.tz])},100)});
      await page.evaluate(g=>{const n=WORLD.npcs.find(x=>x.mesh.name===g);const nt=n.node;const m=TileNav.nodeAt(nt.tx+4,nt.tz+3,nt.y)||TileNav.nodeAt(nt.tx-4,nt.tz-3,nt.y);if(m)HolmArrivalQA.qaPlace(m.id)},G);await sleep(600);
-     await clickNamed(page,G);await sleep(5000);
+     await clickNamed(page,G);
+     // (the 2004 pace walks 1 tile per 600 ms tick, ~30% slower than the old 2.4 tiles/s, and the grubkin wanders: wait for
+     // melee reach up to 12 s instead of a fixed 5 s; the rule itself -- diagonal steps and a side tile in reach -- is unchanged)
+     for(let i=0;i<40;i++){await sleep(300);if(i>=16&&await page.evaluate(g=>LocalCombat.qa.inReach(WORLD.npcs.find(x=>x.mesh.name===g)),G))break}
      const trail=await page.evaluate(()=>{clearInterval(window.__tr);const t=window.__trail;const out=[t[0]];t.forEach(p=>{const l=out[out.length-1];if(p[0]!==l[0]||p[1]!==l[1])out.push(p)});return out});
      const diag=trail.slice(1).filter((p,i)=>p[0]!==trail[i][0]&&p[1]!==trail[i][1]).length;
      const inReach=await page.evaluate(g=>LocalCombat.qa.inReach(WORLD.npcs.find(x=>x.mesh.name===g)),G);

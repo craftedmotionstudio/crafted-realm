@@ -1,0 +1,6 @@
+  stance {"id":"b:keep:1:1:0","tx":88,"tz":36}
+  ok  player attacks: 360 seeded attacks (4 melee, 3 ranged, 2 magic styles) in the live game = the headless 2004 engine (damage, attack gaps, XP)
+  ok  monster blows: 120 seeded melee, magic and ranged blows on the adventurer match
+  summary live     {"swings":360,"npcHits":120,"playerDamage":464,"npcDamage":93,"zeros":115,"splashes":14,"xp":{"Attack":204,"Hitpoints":604.1,"Strength":424,"Defence":338,"Ranged":660,"Magic":547.4}}
+  summary headless {"swings":360,"npcHits":120,"playerDamage":464,"npcDamage":93,"zeros":115,"splashes":14,"xp":{"Attack":204,"Hitpoints":604.1,"Strength":424,"Defence":338,"Ranged":660,"Magic":547.4}}
+[COMBAT NUMBERS] PASS

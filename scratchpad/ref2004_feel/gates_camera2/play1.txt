@@ -1,0 +1,24 @@
+  run 1 lesson study_route | Talk to Guide Bram in the Guide House.
+  run 1 lesson equip_hatchet | Take your tools from the provision rack, then click the bronze hatchet in your pack to wie
+  run 1 lesson chop_logs | Talk to Wenna at the head of the Minnow Hollow path, south of the survival camp.
+  run 1 lesson light_fire | Go down the path into Minnow Hollow and light a fire on the Fire Beach: use your tinderbox
+  run 1 lesson catch_fish | Net a fish at the ripples on the pond. The fish move about: follow the ripples.
+  run 1 lesson cook_fish | Cook the fish on your fire on the beach. Burnt it? Net another and try again.
+  run 1 lesson bake_bread | Talk to Cook Hettie in the bakehouse.
+  run 1 lesson learn_quests | Talk to Loremaster Ansel in the Quest Lodge.
+  run 1 lesson descend_cavern | At the Quarry Gate, climb down the shaft ladder to the ore workings.
+  run 1 lesson mine_copper | Mine a copper rock with your pickaxe.
+  run 1 lesson mine_tin | Now mine a tin rock.
+  run 1 lesson smelt_bronze | Smelt your copper and tin into a bronze bar at the furnace.
+  run 1 lesson forge_dagger | Hammer the bar into a bronze dagger at the anvil, then take the east drift up into the kee
+  run 1 lesson melee_trial | Talk to Warden Corrick in the Warden's Keep court.
+  run 1 lesson ranged_trial | Take up the shortbow and arrows and defeat a practice foe from range.
+    clickNamed diag {"name":"island-trial-keep-court-2","pt":[87.21,11.35,33.5],"screen":[769,451],"rect":[1538,900],"cover":"game-canvas","pick":"ground-chunk-10,4","player":[86.5,10.97,33.5],"cam":[78.7,22.9,33.5]}
+  run 1 lesson open_bank | Talk to Teller Maud in the Holm Bank.
+  run 1 lesson magic_trial | Talk to Magister Ilse at the Mage Tower.
+    clickNamed diag {"name":"island-trial-mage-yard-0","pt":[103.42,7.34,54.42],"screen":[769,453],"rect":[1538,900],"cover":"game-canvas","pick":"ground-chunk-12,6","player":[106.5,7.65,58.5],"cam":[94.9,19,54.4]}
+    clickNamed diag {"name":"island-trial-mage-yard-0","pt":[106.5,8.02,57.5],"screen":[769,450],"rect":[1538,900],"cover":"game-canvas","pick":"ground-chunk-13,7","player":[106.5,7.65,58.5],"cam":[98,19.6,57.5]}
+  run 1 lesson relight_lastlight | Talk to Keeper Aldous inside Lastlight.
+  run 1 skill tools {"chop":{"samples":34,"tool":33,"weaponShown":0,"restored":2,"notRestored":0,"tools":{"hatchet":1}},"firemake":{"samples":32,"tool":32,"weaponShown":0,"restored":2,"notRestored":0,"tools":{"tinderbox":1}},"net":{"samples":727,"tool":721,"weaponShown":0,"restored":7,"notRestored":0,"tools":{"fishing_net":1}},"cook":{"samples":85,"tool":85,"weaponShown":0,"restored":4,"notRestored":0,"tools":{"raw_perch":1}},"mine":{"samples":118,"tool":116,"weaponShown":0,"restored":2,"notRestored":0,"tools":{"pickaxe":1}},"smelt":{"samples":26,"tool":25,"weaponShown":0,"restored":1,"notRestored":0,"tools":{"copper_ore":1}},"smith":{"samples":23,"tool":23,"weaponShown":0,"restored":1,"notRestored":0,"tools":{"hammer":1}}}
+[PLAYTHROUGH] run 1 complete in 17 min, lessons 18/18, tutors met 10/10, page errors 0 | first hint: Talk to Guide Bram in the Guide House.
+[PLAYTHROUGH] 1/1 complete runs with zero errors

@@ -46,6 +46,7 @@
     const target=obj.position.clone?obj.position.clone():Object.assign({},obj.position);
     const plane=Player.plane||0,provider=typeof CRWorldMode==='undefined'?null:CRWorldMode.providerId;
     const deadline=Date.now()+30000;
+    let bakeStart=null,bakeT0=0;
     orderWalk(target);
     function stop(message){clearInterval(iv);if(pendingBake===iv)pendingBake=null;if(message)UI.chat(message,'plain');}
     const iv=setInterval(()=>{
@@ -58,7 +59,18 @@
         if(Date.now()>=deadline){stop('The bake was cancelled because the oven was not reached in time.');return;}
         const distance=player.position.distanceTo(target);
         if(!Number.isFinite(distance)){stop();return;}
-        if(distance>2.4){if(!Player.moveTo)stop('You cannot reach that oven from here.');return;}
+        if(distance>2.4){if(!Player.moveTo)stop('You cannot reach that oven from here.');bakeStart=null;return;}
+        // 2004 baking (src/skill_timing.js): the baking stroke (2.43 s) plays at the oven and the loaf comes out 4 game
+        // ticks later; walking off (or taking another action) before then keeps the dough
+        if(bakeStart===null){
+          bakeStart=typeof worldTickCount!=='undefined'?worldTickCount:0;bakeT0=Date.now();
+          if(typeof player!=='undefined'&&player&&player.lookAt)player.lookAt(target.x,player.position.y,target.z);
+          if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active()){const gc=player.userData&&player.userData.gmix&&player.userData.gmix.clips;
+            if(HolmIslandPlayer.playAs)HolmIslandPlayer.playAs(gc&&gc.cook_range?'cook_range':'cook','bake');else HolmIslandPlayer.play('cook');}
+        }
+        const need=typeof SkillTiming!=='undefined'?SkillTiming.ticks('bake'):0;
+        const done=typeof worldTickCount!=='undefined'?worldTickCount-bakeStart>=need:Date.now()-bakeT0>=need*600;
+        if(!done)return;
         stop();
         const conversion=BreadRecipe.plan(Player.inv,ITEMS,'bake');
         if(!conversion.ok){UI.chat('You could not bake that loaf. Your ingredients are unchanged.','plain');return;}

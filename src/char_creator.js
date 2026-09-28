@@ -32,11 +32,11 @@ const CharCreator = {
   _clearYaw(yaw, dist){
     if(typeof player==='undefined' || typeof scene==='undefined' || typeof THREE==='undefined') return yaw;
     const pitch=0.74, reach=dist*Math.cos(pitch*0.6);
-    const target=new THREE.Vector3(player.position.x, player.position.y+1.2, player.position.z);
+    const target=new THREE.Vector3(player.position.x, player.position.y+CAM2004.look, player.position.z);
     const ownedByPlayer=o=>{ for(;o;o=o.parent) if(o===player) return true; return false; };
     for(let i=0;i<8;i++){
       const y=yaw+(i%2?1:-1)*Math.ceil(i/2)*Math.PI/4;
-      const cam=new THREE.Vector3(player.position.x+reach*Math.sin(y), player.position.y+dist*Math.sin(pitch),
+      const cam=new THREE.Vector3(player.position.x+reach*Math.sin(y), target.y+dist*Math.sin(pitch),
         player.position.z+reach*Math.cos(y));
       const dir=cam.sub(target), len=dir.length();
       const ray=new THREE.Raycaster(target, dir.normalize(), 0.3, len+0.5);

@@ -274,7 +274,9 @@ function installChatResize(){
   let drag=null;
   title.addEventListener('mousedown', e=>{ drag={y:e.clientY, h:frame.offsetHeight}; e.preventDefault(); });
   window.addEventListener('mousemove', e=>{ if(!drag) return;
-    const nh=Math.max(70, Math.min(window.innerHeight*0.6, drag.h + (drag.y - e.clientY)));
+    // the frame is drawn at the UI scale (src/ui_scale.js): the drag and the 60% cap in its own px
+    const k=(typeof UIScale!=='undefined')?UIScale.zoomOf(frame):1;
+    const nh=Math.max(70, Math.min(window.innerHeight*0.6/k, drag.h + (drag.y - e.clientY)/k));
     frame.style.height=nh+'px';
   });
   window.addEventListener('mouseup', ()=>{ if(drag){ try{ localStorage.setItem('cr_chat_h', frame.offsetHeight); }catch(e){} drag=null; } });

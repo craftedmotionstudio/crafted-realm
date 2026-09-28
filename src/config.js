@@ -26,7 +26,8 @@ const GameConfig = {
   holmOldschoolLook: true,
   // look pass 2 (2026-09-26): 2 = soft textures, smooth grass, muted foliage/roofs/walls (src/holm_oldschool_look.js);
   // 1 = the first old-school look. ?lookv=1 / ?lookv=2 for one session
-  holmLookVersion: 2,
+  // 3 (REF2004 feel pass 2026-09-27) = the 2004 light: darker, deeper greens, a dark fade into the void
+  holmLookVersion: 3,
   // classic pixels (look pass 2): the 3D view drawn at a 2004-size internal resolution and scaled up with hard pixels
   // (src/classic_pixels.js). Off by default; Settings -> "Classic pixels", ?classic=1 / ?classic=0 for one session
   classicPixels: false,

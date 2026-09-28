@@ -661,7 +661,7 @@ canvasEl.addEventListener('mousemove', e=>{
   if(camCtl.down && (Math.abs(e.clientX-camCtl.lx)>3 || Math.abs(e.clientY-camCtl.ly)>3)){
     camCtl.dragging=true;
     camCtl.yaw  -= (e.clientX-camCtl.lx)*0.008;
-    camCtl.pitch = Math.min(1.45, Math.max(0.55, camCtl.pitch+(e.clientY-camCtl.ly)*0.005));
+    camSetPitch(camCtl.pitch+(e.clientY-camCtl.ly)*0.005);
     camCtl.lx=e.clientX; camCtl.ly=e.clientY;
   } else if(window.Build && Build.active){
     UI.action(null); hideHoverTile(); _hoverNpc=null;
@@ -711,7 +711,7 @@ canvasEl.addEventListener('mouseup', e=>{
   OsrsMenuWorld.leftClick(e);
 });
 canvasEl.addEventListener('wheel', e=>{
-  camCtl.dist = Math.min(70, Math.max(12, camCtl.dist + e.deltaY*0.02));
+  camZoomBy(Math.exp(e.deltaY*0.0012));   // ~12% a wheel notch
 });
 // The one menu box (src/osrs_menu.js). Ctx.show(e, [{html, fn}]) keeps working for older callers and QA tools.
 const Ctx = {
@@ -775,9 +775,9 @@ canvasEl.addEventListener('touchmove', e=>{
     const [a,b]=e.touches;
     const d=Math.hypot(a.clientX-b.clientX, a.clientY-b.clientY);
     const cx=(a.clientX+b.clientX)/2, cy=(a.clientY+b.clientY)/2;
-    camCtl.dist = Math.min(70, Math.max(12, camCtl.dist + (_twoT.d-d)*0.045));
+    camZoomBy(Math.exp((_twoT.d-d)*0.006));
     camCtl.yaw  -= (cx-_twoT.x)*0.008;
-    camCtl.pitch = Math.min(1.45, Math.max(0.55, camCtl.pitch+(cy-_twoT.y)*0.005));
+    camSetPitch(camCtl.pitch+(cy-_twoT.y)*0.005);
     _twoT={d, x:cx, y:cy};
     return;
   }
@@ -786,7 +786,7 @@ canvasEl.addEventListener('touchmove', e=>{
   if(_touchCam){
     // one finger sweeps the camera around, like dragging with the mouse
     camCtl.yaw  -= (t.clientX-_touchCam.x)*0.009;
-    camCtl.pitch = Math.min(1.45, Math.max(0.55, camCtl.pitch+(t.clientY-_touchCam.y)*0.006));
+    camSetPitch(camCtl.pitch+(t.clientY-_touchCam.y)*0.006);
     _touchCam={x:t.clientX, y:t.clientY};
     return;
   }
@@ -1607,7 +1607,7 @@ function wireLogin(){
     }
   };
   if($('compass-btn')) $('compass-btn').onclick=()=>{ Sfx.click();
-    camCtl.yaw=Math.PI*0.75; camCtl.pitch=1.08; camCtl.dist=33;
+    camResetView();   // the 2004 login framing (src/game2_world.js CAM_DEFAULT)
   };
   if($('run-orb')) $('run-orb').onclick=()=>{
     if(Player.energy<=0 && !Player.runOn){ UI.chat('You are too exhausted to run.','plain'); return; }

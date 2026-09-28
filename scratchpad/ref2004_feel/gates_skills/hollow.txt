@@ -1,0 +1,14 @@
+PASS Minnow Hollow loads: 3 moving spots, the jetty, the Fire Beach ring, the pond sheet, ducks, frog, dragonflies
+PASS talk-first: the oak refuses until Wenna has spoken
+PASS Wenna stands at the head of the Hollow Path and teaches the hollow
+PASS chop_logs: a teaching oak on the Minnow Hollow rim gives logs (gather/logs credited)
+PASS the Hollow Path leads down to the Fire Beach (real ground clicks)
+PASS light_fire: the fire burns on the Fire Beach (firemake credited)
+PASS catch_fish: the net at a ripple lands a mirrorperch; every roll visible (cast + splash), the first catch guaranteed on roll 2
+PASS cook_fish: cooked on the beach fire (cook/cooked_perch credited), burns retried
+PASS the four survival lessons are credited in the ledger
+PASS a spot telegraphs its move (bubbles, fade) and the player netting it is told "The fish have moved on." and stops; it reappears on another candidate
+PASS fishing after the lesson: several rolls, catches recorded (varied table: perch, reedpike from Fishing 5, junk, rares)
+PASS the frog plops off its pad as the player comes near; the ducks paddle; a fish has leapt
+PASS no page errors
+[HOLM HOLLOW QA] 13/13 PASS

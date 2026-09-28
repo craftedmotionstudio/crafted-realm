@@ -1,0 +1,64 @@
+{
+ "tag": "after_pace",
+ "base": "http://127.0.0.1:8096",
+ "at": "2026-09-28T02:57:06.670Z",
+ "target": {
+  "camera": {
+   "elevDeg": 22.5,
+   "boomTiles": 7.69,
+   "vfov": 36.13,
+   "lookLift": 0.39,
+   "playerShare": 0.31
+  },
+  "pace": {
+   "walk": 1.6666666666666667,
+   "run": 3.3333333333333335
+  },
+  "ui": {
+   "typeShare": 0.024
+  },
+  "skills": {
+   "chop": 0.78,
+   "net": 1.8,
+   "cook": 1.77,
+   "bake": 2.43,
+   "smelt": 2.42,
+   "firemakeKneel": 4
+  }
+ },
+ "runDefault": true,
+ "pace": {
+  "lane": {
+   "a": [
+    61.5,
+    118.5
+   ],
+   "m": [
+    53.5,
+    118.5
+   ],
+   "b": [
+    45.5,
+    118.5
+   ],
+   "axis": "x",
+   "n": 16
+  },
+  "walk": {
+   "tilesPerSec": 1.661,
+   "moveSpeed": 1.6666666666666667,
+   "clip": {
+    "dur": 0.5,
+    "timeScale": 0.694
+   }
+  },
+  "run": {
+   "tilesPerSec": 3.338,
+   "moveSpeed": 3.3333333333333335,
+   "clip": {
+    "dur": 0.533,
+    "timeScale": 0.794
+   }
+  }
+ }
+}

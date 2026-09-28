@@ -67,6 +67,9 @@ async function fight2004(R,S,page,log){
 async function capOurs(browser){
   const O=require('./lib/ours_client');
   const dir=C.out2004('scenery','ours'),log=[];
+  // start clean: each run picks its own yaws, and the analysis globs the folder, so frames left from an earlier run
+  // (other yaws) would be measured with this run's
+  for(const f of fs.readdirSync(dir))if(/\.png$/.test(f))fs.unlinkSync(path.join(dir,f));
   const page=await O.open(browser,{profile:'ref2004-scn-'+Date.now().toString(36)});
   await page.mouse.move(1525,1000);
   const DEF=await page.evaluate(()=>({yaw:camCtl.yaw,pitch:camCtl.pitch,dist:camCtl.dist}));

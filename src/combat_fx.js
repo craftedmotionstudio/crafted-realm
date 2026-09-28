@@ -408,7 +408,8 @@ var CombatFX=(function(){
   var mf=document.getElementById('minimap-frame'),ob=document.getElementById('orbs'),rc=mf&&mf.getBoundingClientRect?mf.getBoundingClientRect():null,ro=ob&&ob.getBoundingClientRect?ob.getBoundingClientRect():null;
   if(rc&&rc.width>0){var left=rc.left;if(ro&&ro.width>0&&ro.left<left&&ro.top<rc.bottom)left=ro.left;
    r.x=Math.round(innerWidth-left+12);r.y0=rc.top+rc.height*0.84;r.y1=rc.top+2}else{r.x=Math.round(innerWidth*0.5);r.y0=150;r.y1=70}
-  r.y0+=row*20;r.y1+=row*20;r.on=true;r.t0=T;r.el.style.right=r.x+'px';r.el.style.display='block';placeXp(r,0);
+  var rz=typeof UIScale!=='undefined'?UIScale.value():1;   // rows keep their gap at the UI scale (src/ui_scale.js)
+  r.y0+=row*20*rz;r.y1+=row*20*rz;r.on=true;r.t0=T;r.el.style.right=r.x+'px';r.el.style.display='block';placeXp(r,0);
  }
  function placeXp(r,k){r.el.style.transform='translate3d(0,'+Math.round(r.y0+(r.y1-r.y0)*k)+'px,0)';r.el.style.opacity=k<0.72?'1':String(Math.max(0,(1-k)/0.28))}
  function tickXp(){for(var i=0;i<xpRows.length;i++){var r=xpRows[i];if(!r.on)continue;var k=(T-r.t0)/XP_LIFE;if(k>=1){r.on=false;r.el.style.display='none';continue}placeXp(r,k)}}

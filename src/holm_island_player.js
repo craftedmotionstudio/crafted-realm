@@ -32,9 +32,20 @@ var HolmIslandPlayer=(function(){
  function play(name){var gm=player&&player.userData&&player.userData.gmix,act=gm&&gm.clips&&gm.clips[name];if(!act)return false;
   // any other one-shot (a combat swing, a skilling stroke, a hit, a climb) ends a running emote at once
   if(gm.emote&&gm.emote!==act)gm.emote.stop();gm.emote=null;
+  // ...and a held skilling loop (below) gives way to any other clip
+  if(st.loop&&st.loop.act!==act){st.loop.act.stop();if(gm.attack===st.loop.act)gm.attack=null;st.loop=null}
+  // 2004 skilling (src/skill_timing.js): every stroke at its 2004 length (rate = authored / 2004 seconds; playAs() names
+  // the kind, e.g. the cook clip baking at an oven). A chop, a net cast and the fire-lighting kneel repeat for as long as
+  // their action lasts (update() ends them), so the per-tick roll that calls in here never cuts a stroke short.
+  var kind=st.kind||name,skill=typeof SkillTiming!=='undefined'&&SkillTiming.isSkillClip(kind);
+  if(skill&&SkillTiming.loops(name)){
+   st.loop={act:act,action:typeof Player!=='undefined'?Player.action:null};
+   if(gm.attack===act&&act.isRunning())return true;
+   act.timeScale=SkillTiming.rateFor(name,act.getClip().duration,kind);
+   act.reset();act.setLoop(THREE.LoopRepeat,Infinity);act.clampWhenFinished=false;act.weight=1;act.play();gm.attack=act;return true}
   // combat feel: the bow draw and the cast run a touch faster so the arrow / spell leaves on a snappy release frame
   // (CombatFX.impactTime reads the same speeds); every other clip plays at its authored pace
-  act.timeScale=typeof CombatFX!=='undefined'&&CombatFX.speedFor?CombatFX.speedFor(name):1;
+  act.timeScale=skill?SkillTiming.rateFor(name,act.getClip().duration,kind):typeof CombatFX!=='undefined'&&CombatFX.speedFor?CombatFX.speedFor(name):1;
   act.reset();act.setLoop(THREE.LoopOnce,1);act.clampWhenFinished=name==='death';act.weight=1;act.play();gm.attack=act;return true}   // playerGLBAnim treats gm.attack as the body-owning one-shot
  /* Emotes (the Emotes tab): emote(key) plays the kit clip 'emote_<key>' once as the body-owning one-shot (never clamped: the body
   * returns to idle when it ends). Before the kit carries the emote set, 'wave' falls back to the kit's own wave clip and every other
@@ -99,6 +110,9 @@ var HolmIslandPlayer=(function(){
  function update(){
   if(st.gltf&&typeof player!=='undefined'&&player&&player.position&&typeof scene!=='undefined'){install();return}
   var a=typeof Player!=='undefined'&&Player.action,gm=st.root&&player===st.root&&player.userData.gmix;if(!gm)return;
+  // a held skilling loop (a chop, a net cast, the fire-lighting kneel) ends with its action, or when the player moves off
+  if(st.loop){var L=st.loop;if(gm.attack!==L.act||!L.act.isRunning())st.loop=null;
+   else if(!a||a!==L.action||gm.moving){L.act.stop();gm.attack=null;st.loop=null}}
   // gear refits can re-show meshes: keep exactly the chosen body, hair and beard (cheap, about twenty meshes)
   var now=Date.now();if(!st.lastLook||now-st.lastLook>1000){st.lastLook=now;applyLook(st.rig)}
   if(a&&a.type==='cook'&&!(gm.attack&&gm.attack.isRunning()))play(cookClip(a));
@@ -106,6 +120,8 @@ var HolmIslandPlayer=(function(){
   if(st.pending){if(Date.now()>st.pending.until)st.pending=null;else if(!bodyBusy(gm)&&!gm.moving)startEmote(gm,st.pending.name)}
   // OSRS: the weapon and shield go away and the skill's tool is in the hand while the action runs
   if(typeof HolmSkillTools!=='undefined')HolmSkillTools.update()}
- return {load:load,update:update,play:play,emote:emote,emoteStatus:emoteStatus,refreshLook:refreshLook,active:function(){return !!st.root&&typeof player!=='undefined'&&player===st.root},look:look};
+ // play a clip as a named 2004 skilling kind (src/skill_timing.js), e.g. playAs('cook','bake') at an oven
+ function playAs(name,kind){st.kind=kind||null;try{return play(name)}finally{st.kind=null}}
+ return {load:load,update:update,play:play,playAs:playAs,emote:emote,emoteStatus:emoteStatus,refreshLook:refreshLook,active:function(){return !!st.root&&typeof player!=='undefined'&&player===st.root},look:look};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandPlayer;

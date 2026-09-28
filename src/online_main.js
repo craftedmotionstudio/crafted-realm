@@ -75,7 +75,7 @@ var OnlineMain=(function(){
   if(scene.fog){var near=camCtl.dist+24,far=camCtl.dist+32;scene.fog.near+=(near-scene.fog.near)*Math.min(1,dt*2.4);scene.fog.far+=(far-scene.fog.far)*Math.min(1,dt*2.4);
    scene.fog.color.lerp(BLACK,Math.min(1,dt*3));}
   if(scene.background&&scene.background.lerp)scene.background.lerp(BLACK,Math.min(1,dt*3));
-  var goal=followCameraGoal(),cf=camFocus();camera.position.lerp(goal,0.15);camera.lookAt(cf.x,cf.y+1.2,cf.z);
+  var goal=followCameraGoal(),cf=camFocus();camera.position.lerp(goal,0.15);camera.lookAt(cf.x,cf.y+CAM2004.look,cf.z);
  }
  var BLACK=null;
  function installUpdate(){
@@ -292,7 +292,7 @@ var OnlineMain=(function(){
   /** frame a capture: the camera looks at the middle of these entities (review captures only) */
   focus:function(refs,dist){var pts=[];(refs||[]).forEach(function(r){var e=r[0]==='me'?OnlineActors.me():r[0]==='npc'?OnlineActors.npcs().get(r[1]):OnlineActors.players().get(r[1]);var o=e&&OnlineActors.entObj(e);if(o)pts.push(o.position)});
    if(!pts.length){window.__qaCameraFocus=null;return false}var f={x:0,y:0,z:0};pts.forEach(function(p){f.x+=p.x/pts.length;f.y+=p.y/pts.length;f.z+=p.z/pts.length});window.__qaCameraFocus=f;if(dist)camCtl.dist=dist;return true},
-  unfocus:function(){window.__qaCameraFocus=null;camCtl.dist=33},
+  unfocus:function(){window.__qaCameraFocus=null;camCtl.dist=CAM_DEFAULT.dist},
   npcTargeting:function(){var me=OnlineActors.me(),out=[];OnlineActors.npcs().forEach(function(e){if(e.face&&e.face[0]==='p'&&me&&e.face[1]===me.id&&!e.rec.dead)out.push(e.id)});return out},
   logout:function(){return net.send({t:'logout'})},
   drop:function(){return net.simulateDrop()}

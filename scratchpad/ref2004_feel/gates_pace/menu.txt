@@ -1,0 +1,65 @@
+  ok  statue: Read-plaque / Walk here / Examine / Cancel
+  ok  the box is titled "Choose Option"
+  ok  the box opens with its top edge at the cursor, centred on it
+  ok  top-left line: "Read-plaque Statue / 2 more options"
+  ok  verb white, object name cyan
+  ok  Examine Statue prints our own line
+  ok  a move 6 px below the box keeps it open
+  ok  a move 16 px outside the box closes it
+  ok  Escape closes it
+  ok  a click outside only closes the box (no walk, no row)
+  ok  left click runs the top row (Read-plaque Statue)
+  ok  ...which walks to the plinth and reads the plaque
+  ok  pack: Use / Drop / Examine / Cancel for crowns
+  ok  both items lie on the ground
+  ok  ground stack: one Take per item, Walk here, one Examine per item, Cancel
+  ok  item names orange
+  ok  left click takes the top item
+  ok  ...and it is picked up (one item left on the tile)
+  ok  door: Open / Walk here / Examine / Cancel
+  ok  Examine Door
+  ok  left click runs Open Door
+  ok  ...and the door opens
+  ok  into the Guide House
+  ok  relief chart: Study / Walk here / Examine / Cancel
+  ok  the Study row keeps the tutor-first refusal
+  ok  so does the left click (the same top row)
+  ok  Guide Bram: Talk-to first, Walk here, Examine, Cancel last
+  ok  NPC name yellow
+  ok  the Talk-to row walks to Bram and opens his chat
+  ok  Bram counts as spoken to
+  ok  now the chart's left click studies it
+  ok  ...and the study_route lesson completes
+  ok  provision rack: Collect-tools / Walk here / Examine / Cancel
+  ok  the Collect-tools row hands out the tools
+  ok  pack hatchet: Wield / Use / Drop / Examine / Cancel
+  ok  pack hover line: "Wield Bronze hatchet / 3 more options"
+  ok  item name orange in the pack menu
+  ok  left click on the hatchet runs Wield (the top row)
+  ok  left click on the tinderbox picks it up (Use)
+  ok  use-mode top-left line: "Use Tinderbox -> Relief chart / 1 more option"
+  ok  use-mode menu: Use Tinderbox -> Relief chart / Walk here / Cancel
+  ok  tinderbox on the chart: "Nothing interesting happens." and the tinderbox is put away
+  ok  worn hatchet: Remove / Examine / Cancel
+  ok  bank, pack side: Deposit-1/5/10/All/X, Examine, Cancel
+  ok  Deposit-10 moves ten crowns
+  ok  left click deposits one (Deposit-1 is the top row)
+  ok  bank, vault side: Withdraw-1/5/10/All/X, Examine, Cancel
+  ok  Withdraw-X asks "Enter amount:"
+  ok  ...and withdraws the amount typed
+  ok  shop stock: Value, Buy-1/5/10, Examine, Cancel
+  ok  left click on stock tells its Value (no purchase)
+  ok  Buy-1 buys one
+  ok  shop, pack side: Value, Sell-1/5/10, Examine, Cancel
+  ok  Sell-1 sells it back
+  ok  stairs: Climb-up / Walk here / Examine / Cancel
+  ok  cellar hatch: Climb-down / Walk here / Examine / Cancel
+  ok  oak: Chop down / Walk here / Examine / Cancel
+  ok  fishing spot: Net / Walk here / Examine / Cancel
+  ok  net in use: Use Small net -> Fishing spot / Walk here / Cancel
+  ok  Escape (menu closed) puts the net away
+  FAIL grubkin: Attack (level-1) / Walk here / Examine / Cancel ["Walk here","Cancel"]
+  FAIL (level-1) coloured green-yellow against combat 3, the name yellow {"text":"Walk here","parts":[{"t":"Walk here","c":"rgb(255, 255, 255)","cls":"om-v"}]}
+  ok  left click attacks it (the existing target path)
+  ok  no page errors
+[OSRS MENU QA] 62 passed, 2 failed

@@ -4,6 +4,8 @@ let _runUiT=0;
 /* fixed 600ms world-tick accumulator. The player's combat / skilling / vitals run inside this
    tick (deterministic, OSRS-style); movement, NPCs, FX, animation and camera stay per-frame. */
 let worldTickAcc=0, worldTickCount=0;
+// seconds a one-shot skilling action takes (src/skill_timing.js: whole ticks nearest the 2004 animation), or the old value
+function skillSeconds(kind,fallback){ return typeof SkillTiming!=='undefined'&&SkillTiming.seconds(kind)>0 ? SkillTiming.seconds(kind) : fallback; }
 
 /* ---------- pathfinding: TRUE tile BFS, 2004-style ----------
    One world unit = one tile. Movement is 8-directional like 2004 (owner decision 2026-09-25): a diagonal step is
@@ -311,8 +313,12 @@ function update(dt){
       else {
         Player.moveTo=null; Player.path=[];
         player.lookAt(a.obj.position.x,player.position.y,a.obj.position.z);
-        a.t+=dt;
-        if(a.t>=1.8){
+        // 2004 (src/skill_timing.js): the smelting stroke starts on the first tick at the furnace and the bar comes out
+        // 4 ticks later (2.4 s, the 2.42 s stroke); the next stroke starts with it
+        if(!a.started){ a.started=true; a.t=0;
+          if(Object.keys(SMELTS[a.bar].needs).every(n=>Player.count(n)>=SMELTS[a.bar].needs[n])) swing(player,'smelt'); }
+        else a.t+=dt;
+        if(a.t>=skillSeconds('smelt',1.8)-1e-6){
           a.t=0;
           const s=SMELTS[a.bar];
           const have=Object.keys(s.needs).every(n=>Player.count(n)>=s.needs[n]);
@@ -322,11 +328,11 @@ function update(dt){
             Player.addItem(a.bar,1);
             Player.addXp('Smithing', s.xp);
             UI.chat('You smelt a '+s.name.toLowerCase()+'.','xp');
-            Sfx.smelt(); swing(player,'smelt');
+            Sfx.smelt();
             if(typeof CraftingActionVisuals!=='undefined')CraftingActionVisuals.pulse('smelt',a.obj);
             UI.refreshInv();
             const again=Object.keys(s.needs).every(n=>Player.count(n)>=s.needs[n]);
-            if(!again) Player.action=null;
+            if(!again) Player.action=null; else swing(player,'smelt');
           }
         }
       }
@@ -337,8 +343,10 @@ function update(dt){
       else {
         Player.moveTo=null; Player.path=[];
         player.lookAt(a.obj.position.x,player.position.y,a.obj.position.z);
-        a.t+=dt;
-        if(a.t>=1.8){
+        // 2004: the hammering starts on the first tick at the anvil and the item comes 4 ticks later (the 2.28 s stroke)
+        if(!a.started){ a.started=true; a.t=0; if(Player.count('hammer')>=1 && Player.count(a.bar)>=a.make.bars) swing(player,'smith'); }
+        else a.t+=dt;
+        if(a.t>=skillSeconds('smith',1.8)-1e-6){
           a.t=0;
           const it=a.make;
           if(Player.count('hammer')<1 || Player.count(a.bar)<it.bars){ Player.action=null; }
@@ -347,18 +355,19 @@ function update(dt){
             Player.addItem(it.id, it.qty||1);
             Player.addXp('Smithing', SMITH_XP[a.bar]*it.bars);
             UI.chat('You hammer out '+(it.qty?'a set of ':'a ')+it.name.toLowerCase().replace(/ \(x\d+\)/,'')+'.','xp');
-            Sfx.smith(); swing(player,'smith');
+            Sfx.smith();
             if(typeof CraftingActionVisuals!=='undefined')CraftingActionVisuals.pulse('smith',a.obj);
             UI.refreshInv();
-            if(Player.count(a.bar)<it.bars) Player.action=null;
+            if(Player.count(a.bar)<it.bars) Player.action=null; else swing(player,'smith');
           }
         }
       }
     }
     else if(a.type==='lightfire'){
-      a.t+=dt;
-      swing(player);
-      if(a.t>=1.5){
+      a.t+=dt; a.ticks=(a.ticks||0)+1;
+      swing(player);   // the kneel with the tinderbox, held (looped) until the fire catches
+      // 2004: the kneel is held 7 ticks (4.2 s; the reference held it 4.15 s) before the fire catches (src/skill_timing.js)
+      if(a.ticks>(typeof SkillTiming!=='undefined'?SkillTiming.ticks('lightfire'):2)){
         const s=Player.inv[a.slot];
         if(s && s.id==='logs'){
           Player.inv[a.slot]=null;
@@ -531,8 +540,10 @@ function update(dt){
         // the raw fish in the pack, perch first (COOK_FISH, game3_systems.js)
         const fish=COOK_FISH.find(f=>Player.count(f.raw)>0);
         if(!fish){ UI.chat('You have nothing raw to cook.','plain'); Player.action=null; return; }
+        // 2004 (src/skill_timing.js): a fish is done 3 ticks at the fire (the 1.77 s cook stroke), 4 at a range (its 2.43 s
+        // reach into the oven); the island adventurer's clip repeats at that length meanwhile. Burn odds and XP unchanged.
         a.t+=dt;
-        if(a.t>=2){
+        if(a.t>=skillSeconds(a.obj.userData&&a.obj.userData.range?'cook_range':'cook',2)-1e-6){
           a.t=0;
           // never destroy a fish the pack can't hold — check space before the raw leaves the slot
           if(!Player.hasSpace || Player.hasSpace()){
@@ -736,23 +747,90 @@ function update(dt){
 
   const camGoal = followCameraGoal(), cf = camFocus();
   camera.position.lerp(camGoal, 0.15);
-  camera.lookAt(cf.x, cf.y+1.2, cf.z);
+  camera.lookAt(cf.x, cf.y+CAM2004.look, cf.z);
 }
 // Review captures only: window.__qaCameraFocus={x,y,z} frames a place without moving the adventurer.
 function camFocus(){ const f=typeof window!=='undefined'&&window.__qaCameraFocus; return f&&Number.isFinite(f.x)&&Number.isFinite(f.y)&&Number.isFinite(f.z)?f:player.position; }
-function followCameraGoal(){
-  const f=camFocus();
-  const cx = f.x + camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
-  const cz = f.z + camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
-  const cy = f.y + camCtl.dist*Math.sin(camCtl.pitch);
-  return cameraTerrainClamp(f.x, f.y+1.2, f.z, cx, cy, cz);
+// the follow camera's place for a look target at (x,y,z) (feet level): the orbit offset from the look point
+// (camOrbitOffset, src/game2_world.js), kept out of the ground
+function followCameraAt(x,y,z,pitch){
+  const p=pitch===undefined?indoorViewPitch(x,y,z):pitch;
+  const o=p===camCtl.pitch?camOrbitOffset():camOrbitOffset(p,camDistAtPitch(p)), ty=y+CAM2004.look;
+  return cameraTerrainClamp(x, ty, z, x+o.x, ty+o.y, z+o.z);
 }
+/* Indoors at the low 2004 camera a whole wall (or a tree past the doorway) can stand between the camera and the
+ * adventurer: the Guide House keeps its walls, the island's other buildings clip theirs just above the floor. While the
+ * adventurer is inside a building, the follow camera pitches up just enough for its boom to clear what stands in the way
+ * (the 2004 boom law, never below the player's own pitch) and settles back when the view is clear or the adventurer
+ * steps out. The player's own camera settings are never changed. Checked a few times a second against the opaque meshes
+ * near the adventurer (the list is rebuilt when they move a few tiles). */
+const _indoor={key:'',at:0,pitch:null,ray:null,near:null,nearAt:null,nearT:0};
+function indoorNow(){
+  if(typeof HolmArrivalQA==='undefined'||!HolmArrivalQA.active||!HolmArrivalQA.active()) return false;
+  let s=null; try{ const r=HolmArrivalQA.saveRecord(); s=r&&r.surface; }catch(e){ return false; }
+  if(s==='ground'||s==='upper'||s==='stair') return true;   // the Guide House's storeys
+  const m=/^b:([^:]+):\d+:(.*)$/.exec(s||''); return !!(m&&!/Terrain$/.test(m[2]));   // an island building's own floors
+}
+function indoorOccluders(x,z){
+  const now=performance.now(), at=_indoor.nearAt;
+  if(_indoor.near && at && Math.hypot(x-at.x,z-at.z)<3 && now-_indoor.nearT<4000) return _indoor.near;
+  const grounds=new Set((typeof WORLD!=='undefined'&&WORLD.grounds)||[]), list=[], s=new THREE.Sphere();
+  scene.traverseVisible(o=>{
+    if(!o.isMesh||o.isSprite||grounds.has(o)||!o.geometry) return;
+    for(let q=o;q;q=q.parent) if(q===player) return;
+    const mm=[].concat(o.material)[0]; if(mm&&mm.transparent&&mm.opacity<0.6) return;
+    if(!o.geometry.boundingSphere) o.geometry.computeBoundingSphere();
+    if(o.isInstancedMesh){ list.push(o); return; }   // instanced trees and props: their own per-instance test
+    s.copy(o.geometry.boundingSphere).applyMatrix4(o.matrixWorld);
+    if(s.radius<30 && Math.hypot(s.center.x-x,s.center.z-z)<s.radius+16) list.push(o);
+  });
+  _indoor.near=list; _indoor.nearAt={x,z}; _indoor.nearT=now; return list;
+}
+function indoorViewPitch(x,y,z){
+  if(!indoorNow() || (Player.plane||0)<0 || typeof THREE==='undefined'){ _indoor.pitch=null; _indoor.near=null; return camCtl.pitch; }
+  const now=performance.now(), key=[Math.round(x*4),Math.round(y*4),Math.round(z*4),camCtl.yaw.toFixed(2),camCtl.pitch.toFixed(3),camCtl.dist.toFixed(2)].join(',');
+  if(key===_indoor.key || now-_indoor.at<200) return _indoor.pitch===null?camCtl.pitch:Math.max(camCtl.pitch,_indoor.pitch);
+  _indoor.key=key; _indoor.at=now;
+  const ray=_indoor.ray||(_indoor.ray=new THREE.Raycaster()), chest=new THREE.Vector3(x,y+1.0,z), out=new THREE.Vector3(), list=indoorOccluders(x,z);
+  const shown=o=>{ for(let q=o;q;q=q.parent) if(q.visible===false) return false; return true; };
+  const blocks=h=>{ const o=h.object; if(!shown(o)) return false;
+    return ![].concat(o.material).some(mm=>mm&&((mm.transparent&&mm.opacity<0.6)||(mm.clippingPlanes&&mm.clippingPlanes.some(pl=>pl.distanceToPoint(h.point)<0)))); };
+  const steps=[camCtl.pitch]; for(const deg of [30,37.5,45,52.5,60,CAM2004.elevMax]){ const p=camPitchForElevation(deg); if(p>camCtl.pitch+1e-3) steps.push(p); }
+  _indoor.pitch=null;
+  for(const p of steps){
+    const o=camOrbitOffset(p,camDistAtPitch(p)); out.set(x+o.x,y+CAM2004.look+o.y,z+o.z);
+    const dir=out.clone().sub(chest), len=dir.length(); ray.set(chest,dir.normalize()); ray.near=0.3; ray.far=len;
+    if(!ray.intersectObjects(list,false).some(blocks)){ _indoor.pitch=p>camCtl.pitch?p:null; break; }
+    _indoor.pitch=p;   // nothing clear: the highest tried
+  }
+  return _indoor.pitch===null?camCtl.pitch:Math.max(camCtl.pitch,_indoor.pitch);
+}
+function followCameraGoal(){ const f=camFocus(); return followCameraAt(f.x, f.y, f.z); }
 /* Jump the follow camera to its goal instead of easing in. The camera is created at the world
  * origin, so the first frames after entering used to show the island from sea level far away. */
 function snapFollowCamera(){
   if(!player || !camera) return;
   camera.position.copy(followCameraGoal());
-  camera.lookAt(player.position.x, player.position.y+1.2, player.position.z);
+  camera.lookAt(player.position.x, player.position.y+CAM2004.look, player.position.z);
+}
+/* Entering the world: the low 2004 camera can start with a signpost, a tree or a wall between it and the adventurer
+ * (the Holm dock's signpost did at the default yaw). Keep the yaw when the boom sees the adventurer's chest, else take
+ * the nearest of the eight compass yaws that does (the first found clear wins; none clear keeps the default). */
+function clearFollowYaw(){
+  if(!player || !camera || !scene || typeof THREE==='undefined') return false;
+  const own=o=>{ for(;o;o=o.parent) if(o===player) return true; return false; };
+  const solid=h=>{ const o=h.object, m=o.material; if(!o.visible || o.isSprite || own(o)) return false;
+    for(let q=o;q;q=q.parent) if(q.visible===false) return false;
+    const mm=Array.isArray(m)?m[0]:m; return !(mm && (mm.visible===false || (mm.transparent && mm.opacity<0.1))); };
+  const P=player.position, chest=new THREE.Vector3(P.x, P.y+1.0, P.z), y0=camCtl.yaw, ray=new THREE.Raycaster();
+  ray.camera=camera;
+  for(let i=0;i<8;i++){
+    camCtl.yaw=y0+(i%2?1:-1)*Math.ceil(i/2)*Math.PI/4;
+    const cam=followCameraGoal(), dir=cam.clone().sub(chest), len=dir.length();
+    ray.set(chest, dir.normalize()); ray.near=0.35; ray.far=len;
+    if(!ray.intersectObjects(scene.children, true).some(solid)){ snapFollowCamera(); return camCtl.yaw; }
+  }
+  camCtl.yaw=y0; snapFollowCamera(); return false;
 }
 /* Keep the follow camera out of the ground. On the surface plane the boom from the look target to the
  * desired camera position is sampled against the terrain; if any sample dips under the ground plus a
@@ -771,7 +849,9 @@ function cameraTerrainClamp(tx,ty,tz, cx,cy,cz){
     const t=i/N, x=tx+(cx-tx)*t, y=ty+(cy-ty)*t, z=tz+(cz-tz)*t;
     let blocked=false;
     const h=groundY(x,z);
-    if(h!==null && Number.isFinite(h) && y < h+CAM_GROUND_CLEARANCE) blocked=true;
+    // the clearance grows along the boom: the low 2004 camera starts only 0.4 tile above the feet, so a fixed
+    // clearance would trip on flat ground right beside the player; the camera end keeps the full clearance
+    if(h!==null && Number.isFinite(h) && y < h+CAM_GROUND_CLEARANCE*t) blocked=true;
     for(let b=0;b<blockers.length && !blocked;b++){
       const bl=blockers[b];
       if(y < bl.top && Math.hypot(x-bl.x,z-bl.z) < bl.r) blocked=true;
@@ -1026,6 +1106,9 @@ document.getElementById('play-btn').onclick = ()=>{
   _playClickedAt=performance.now();
   running=true;
   snapFollowCamera();
+  try{ clearFollowYaw(); }catch(e){ console.warn('[camera] clear yaw',e); }
+  // once more after the arrival models have streamed in, unless the player has turned the camera meanwhile
+  { const y1=camCtl.yaw; setTimeout(()=>{ try{ if(camCtl.yaw===y1 && !(typeof CharCreator!=='undefined'&&CharCreator.active)) clearFollowYaw(); }catch(e){} }, 1800); }
   if(!_liteBoot) showEnterBuffer();
   UI.zone(_worldProvider?_worldProvider.label:ZONES.holm.name);
   Tutorial.banner();

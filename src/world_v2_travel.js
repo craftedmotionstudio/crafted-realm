@@ -26,10 +26,7 @@ var WorldTravel=(function(){
     Player.plane=0; player.position.set(target.x,y,target.z);
     if(typeof Planes!=='undefined'&&Planes.refreshVisibility) Planes.refreshVisibility();
     if(typeof camera!=='undefined'&&typeof camCtl!=='undefined'){
-      var cx=target.x+camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
-      var cz=target.z+camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
-      var cy=y+camCtl.dist*Math.sin(camCtl.pitch);
-      camera.position.set(cx,cy,cz); camera.lookAt(target.x,y+1.2,target.z);
+      camera.position.copy(followCameraAt(target.x,y,target.z)); camera.lookAt(target.x,y+CAM2004.look,target.z);
     }
   }
   function build(provider){
