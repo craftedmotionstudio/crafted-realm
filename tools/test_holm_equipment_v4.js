@@ -1,11 +1,12 @@
-/* Holm equipment v3 contract (tools/blender/build_holm_equipment_v3.py -> the published equipment.glb):
+/* Holm equipment v4 contract (tools/blender/build_holm_equipment_v4.py -> the published equipment.glb; v4 = v3 refitted to kit v4):
  *  - every worn suit is a 'skin' template per body type (eq_<kind>, eq_<kind>_B) skinned to the 23-joint kit skeleton,
  *    with the kit's own inverse bind matrices (the runtime rebinds it to the player's bones with the kit's matrices);
  *  - morph targets: Build_Stout / Build_Slim on every suit, Feet_* on boots, Over_<body armour> + Over_Torso_* on the
  *    amulet and cape; extras.hides / extras.kit_morphs as the runtime expects;
  *  - the character kit carries Hair_Over / Jaw_Over on every hair / beard part (kit v3.1e);
- *  - src/holm_equipment.js loads the v3 GLB (published path) and HolmKit honours hides + kit morphs.
- * Run: node tools/test_holm_equipment_v2.js */
+ *  - src/holm_equipment.js loads the v4 GLB (published path) and HolmKit honours hides + kit morphs;
+ *  - v4: every helm has a body-B template (eq_<helm>_B: the woman's head is smaller and higher).
+ * Run: node tools/test_holm_equipment_v4.js */
 'use strict';
 const fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '..');
@@ -18,7 +19,7 @@ function glb(p) {
     const n = a.count * 16; const out = new Float32Array(n); for (let k = 0; k < n; k++) out[k] = b.readFloatLE(off + k * 4); return out; };
   return { json, acc };
 }
-const EQ = path.join(ROOT, 'assets/holm_island/ws/holm-equipment-v3/candidates/equipment.glb');
+const EQ = path.join(ROOT, 'assets/holm_island/ws/holm-equipment-v4/candidates/equipment.glb');
 const KIT = path.join(ROOT, 'assets/models/holm_kit_v2.glb');
 ok(fs.existsSync(EQ), 'published equipment.glb exists');
 const E = glb(EQ), K = glb(KIT);
@@ -48,7 +49,8 @@ SUITS.forEach(k => ['', '_B'].forEach(sfx => {
   const km = k === 'cape' ? ['Hair_Over', 'Hair_Cape', 'Jaw_Over'] : ['platebody', 'chainbody', 'leather_body'].includes(k) ? ['Hair_Over', 'Jaw_Over'] : [];
   ok(JSON.stringify(ex.kit_morphs || []) === JSON.stringify(km), k + sfx + ' kit_morphs ' + JSON.stringify(km));
 }));
-['fullhelm', 'medhelm', 'hat'].forEach(k => ok(JSON.stringify((nodes[byName['eq_' + k]].extras || {}).hides) === '["Hair"]', k + ' shows the bald head'));
+['fullhelm', 'medhelm', 'hat'].forEach(k => ['', '_B'].forEach(sfx => { const i = byName['eq_' + k + sfx]; ok(i !== undefined, 'helm template eq_' + k + sfx); if (i === undefined) return;
+  const ex = nodes[i].extras || {}; ok(JSON.stringify(ex.hides) === '["Hair"]', k + sfx + ' shows the bald head'); ok(ex.body === (sfx ? 'B' : 'A'), k + sfx + ' body ' + (sfx ? 'B' : 'A')); }));
 // the kit: every hair / beard part carries Hair_Over / Jaw_Over
 const kitMeshes = K.json.nodes.filter(n => /^Kit_[AB]_(Hair|Jaw)_\d+$/.test(n.name || '') && n.mesh !== undefined);
 ok(kitMeshes.length >= 25, 'kit hair / beard parts found (' + kitMeshes.length + ')');
@@ -56,13 +58,13 @@ kitMeshes.forEach(n => { const tn = (K.json.meshes[n.mesh].extras || {}).targetN
   ok(want.every(w => tn.includes(w)), n.name + ' carries ' + want.join(' + ')); });
 // the riot shield rides out on its arm cuff + brace (a separate child, left out of drops); the runtime carries it 24 cm out
 const sq = nodes[byName['eq_sqshield']]; ok((sq.children || []).some(c => (nodes[c].extras || {}).bone === 'brace'), 'riot shield brace child');
-ok(/sq \? 0\.24 : 0\.065/.test(fs.readFileSync(path.join(ROOT, 'src/fx_humanoid.js'), 'utf8')), 'riot shield carried 24 cm out (fx_humanoid)');
+ok(/sq \? 0\.24 : 0\.065\)\*gk/.test(fs.readFileSync(path.join(ROOT, 'src/fx_humanoid.js'), 'utf8')), 'riot shield carried 24 kit-cm out (fx_humanoid, x the rig scale)');
 // runtime wiring
 const he = fs.readFileSync(path.join(ROOT, 'src/holm_equipment.js'), 'utf8'), hk = fs.readFileSync(path.join(ROOT, 'src/holm_kit.js'), 'utf8');
-ok(/holm-equipment-v3\/candidates\/equipment\.glb/.test(he), 'holm_equipment.js loads the v3 GLB');
+ok(/holm-equipment-v4\/candidates\/equipment\.glb/.test(he), 'holm_equipment.js loads the v4 GLB');
 ok(/function fitSkin/.test(he) && /\.bind\(new THREE\.Skeleton/.test(he), 'skin templates are rebound to the rig skeleton');
 ok(/hiddenSlots/.test(hk) && /Hair_Over/.test(hk), 'HolmKit.apply honours hides and the kit morphs');
 ok(/bone==='brace'/.test(he), 'drops leave the brace out');
-ok(/holm-equipment-v3\/candidates/.test(fs.readFileSync(path.join(ROOT, 'tools/publish_holm_island.js'), 'utf8')), 'publish list carries holm-equipment-v3');
+ok(/holm-equipment-v4\/candidates/.test(fs.readFileSync(path.join(ROOT, 'tools/publish_holm_island.js'), 'utf8')), 'publish list carries holm-equipment-v4');
 console.log(pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);

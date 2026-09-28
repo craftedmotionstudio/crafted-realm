@@ -1,6 +1,6 @@
 /* ================= HOLM EQUIPMENT V3 =================
  * Every wieldable / wearable item as a Blender model (tools/blender/build_holm_equipment_v3.py ->
- * .studio-workspaces/holm-equipment-v3/candidates/equipment.glb; v3: kit morphs Hair_Over / Hair_Cape gather long hair
+ * .studio-workspaces/holm-equipment-v4/candidates/equipment.glb; v4: refitted to kit v4, helms per body type; v3: kit morphs Hair_Over / Hair_Cape gather long hair
  * over armour and capes, the plateskirt replaces the legs, the riot shield carries an arm cuff + brace (child 'brace',
  * left out of drops); one template per kind named eq_<kind>, body B variants
  * eq_<kind>_B with extras.body 'B').
@@ -26,7 +26,7 @@
  * QA: HolmEquipment.status(). */
 var HolmEquipment=(function(){
  'use strict';
- var PATH='/.studio-workspaces/holm-equipment-v3/candidates/equipment.glb';
+ var PATH='/.studio-workspaces/holm-equipment-v4/candidates/equipment.glb';   // v4: refitted to kit v4 (option A)
  var URL=(typeof HolmIsland!=='undefined'&&HolmIsland.asset?HolmIsland.asset(PATH):PATH)+'?v=3';
  var METAL_DEFAULT=0xb87a3a,KIT_HIPS_Y=0.95,BALD=2;
  var MODEL_KIND={sword:'sword',longsword:'longsword',sabre:'sabre',greatsword:'greatsword',mace:'mace',warhammer:'warhammer',
