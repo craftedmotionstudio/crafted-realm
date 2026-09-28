@@ -172,7 +172,18 @@ const SKILL={
     return c.moment('ranged',async()=>{for(let k=0;k<20;k++){const h=await hint(c.page);
       const n=c.S.sdk.getNearbyNpcs().find(x=>h.type===1&&x.index===h.npc)||c.S.sdk.getNearbyNpcs().filter(x=>/giant rat/i.test(x.name)).sort((a,b)=>a.distance-b.distance)[0];
       if(n)await clickNpc(c,n);if(await waitVarpChange(c,460,4500))return}})},
-  500:c=>c.moment('bank',async()=>{const r=await c.S.bot.openBank();if(!r.success)say('bank:',r.message||r.reason);await C.sleep(2000)}),
+  // out of the pen area and up the ladder (the SDK's route through the pen gate fails: open it by hand first)
+  470:async c=>{if(await useHintLoc(c,/climb-up/i)){await C.sleep(2500);return}await dismiss(c.S);await throughGate(c,2);
+    const l=(await c.S.sdk.scanNearbyLocs(12)).find(x=>/ladder/i.test(x.name));if(l){const op=(l.optionsWithIndex||[]).find(o=>/climb-up/i.test(o.text));await c.S.sdk.sendInteractLoc(l.x,l.z,l.id,op?op.opIndex:1)}await C.sleep(4000)},
+  // the bank: the SDK's helper first; else click the booth the arrow points at (or the nearest), opening a door on the way
+  500:c=>c.moment('bank',async()=>{const r=await c.S.bot.openBank(15000);if(r.success){await C.sleep(2000);return}say('bank:',r.message||r.reason);
+    for(let k=0;k<4&&!W(c.S).bank.isOpen;k++){const locs=await c.S.sdk.scanNearbyLocs(15);const h=await hint(c.page);
+      const booth=(h.type===2&&locs.find(l=>Math.max(Math.abs(l.x-h.x),Math.abs(l.z-h.z))<=1&&/booth/i.test(l.name)))||locs.filter(l=>/bank booth/i.test(l.name)).sort((a,b)=>a.distance-b.distance)[0];
+      if(!booth){say('bank: no booth');break}const op=(booth.optionsWithIndex||[]).find(o=>/use/i.test(o.text));
+      await c.S.sdk.sendInteractLoc(booth.x,booth.z,booth.id,op?op.opIndex:1);for(let t=0;t<15&&!W(c.S).bank.isOpen;t++)await c.S.sdk.waitForTicks(1);
+      if(W(c.S).bank.isOpen)break;const d=locs.filter(l=>/door/i.test(l.name)&&(l.optionsWithIndex||[]).some(o=>/open/i.test(o.text))).sort((a,b)=>a.distance-b.distance)[0];
+      if(d){const o=d.optionsWithIndex.find(o=>/open/i.test(o.text));await c.S.sdk.sendInteractLoc(d.x,d.z,d.id,o.opIndex);await C.sleep(2500)}}
+    await C.sleep(2000)}),
 };
 const LOC_OPTION={270:/prospect/i,290:/^mine$/i};
 // places worth a still, keyed by the instructor the arrow points at (captured once, before the first talk)

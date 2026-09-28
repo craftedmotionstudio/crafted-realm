@@ -89,6 +89,22 @@ def anim_strip(folder, game, n=8):
 OURS_CLIP_S = {'chop': 1.0, 'net': 1.6, 'mine': 1.0, 'cook': 1.333, 'smelt': 1.2, 'smith': 1.0, 'firemake': 1.0,
                'attack_stab': 0.6, 'attack_slash': 0.6, 'bow': 1.2, 'climb': 1.0}
 
+def best_variant(d, name):
+    """name, name_2, ... (a moment captured again after a retry): the one where the player's action ran longest."""
+    best, score = None, -1
+    for f in [os.path.join(d, name)] + sorted(glob.glob(os.path.join(d, name + '_[0-9]'))):
+        try:
+            S = json.load(open(os.path.join(f, 'samples.json')))['samples']
+        except Exception:
+            continue
+        s = sum(1 for r in S if r.get('pa', -1) != -1)
+        if s > score:
+            best, score = f, s
+    if best is None and name == 'combat_open':
+        return best_variant(d, 'combat')
+    return best or os.path.join(d, name)
+
+
 def mid_action_full(folder):
     """A full frame from the middle of the action (the player's own animation running), e.g. a hit splat mid-fight."""
     try:
@@ -128,7 +144,7 @@ def tutorial():
         a = first(*[os.path.join(d4, x) for x in s4]) if s4 else None
         b = first(*[os.path.join(do, x) for x in so]) if so else None
         # an animated moment: take a mid-action full frame from the sampler for the still
-        f4 = os.path.join(d4, a4) if a4 else None
+        f4 = best_variant(d4, a4) if a4 else None
         if f4 and not a and os.path.isdir(f4):
             a = first(f4 + '.png') or mid_action_full(f4) or first(os.path.join(f4, 'full_*.png'))
         fo = None
@@ -151,8 +167,6 @@ def tutorial():
                 _, io = anim_strip(fo, 'ours')
                 parts.append(label(s, 'ours action frames (%s)%s' % (os.path.basename(fo)[5:], ' - clip %.2fs' % io['cycle_s'] if io and io.get('cycle_s') else ''), 18))
                 s.save(os.path.join(outours('tutorial'), 'ours_%s_frames.png' % name))
-        if b:
-            load(b).save(os.path.join(outours('tutorial'), 'ours_%s.png' % name))
         save_pair_sheet('tutorial_%s.png' % name, titled(col(parts), 'Tutorial island: %s' % name.replace('_', ' '), 'left 2004 (x2), right ours; default cameras'), 'tutorial')
         print('tutorial', name, 'ok' if (a and b) else 'partial', json.dumps(info))
 

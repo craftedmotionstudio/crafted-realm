@@ -13,7 +13,7 @@ const arg=(k,d)=>{const i=process.argv.indexOf('--'+k);return i>0?process.argv[i
 const SIDE=arg('side','both');
 const YAWS=[0,512,1024,1536];
 // world tiles on the local 2004 map (bot navigation targets only)
-const SPOTS_2004=[['town_lumbridge',3222,3219],['field_trees',3190,3236],['water_river',3239,3227],['town_varrock_square',3212,3428]];
+const SPOTS_2004=[['town_courtyard',3222,3219],['field_trees',3190,3236],['water_river',3239,3227],['town_square',3212,3428]];
 // our equivalents on Tutor's Holm (island coordinates, tiles)
 
 async function cap2004(browser){
@@ -26,6 +26,8 @@ async function cap2004(browser){
   // the guide's skip offer (only offered on a non-live local world) takes a new player to the mainland
   await T.talk(S,/RuneScape Guide/i,{prefer:[/^yes/i]});await C.sleep(4000);
   C.log('[2004] after skip at',JSON.stringify(T.tile(S)));
+  try{await fight2004(R,S,page,log)}catch(e){C.log('[2004] fight error',String(e).slice(0,160))}
+  if(process.argv.includes('--fight-only')){C.writeJSON(path.join(dir,'log_fight.json'),{log});await S.sdk.disconnect().catch(()=>{});await page.close();return}
   for(const [name,x,z] of SPOTS_2004){
     const r=await S.bot.walkTo(x,z,2);C.log('[2004] spot',name,r.success?'reached':'walk: '+(r.message||''),JSON.stringify(T.tile(S)));
     await S.bot.waitForIdle(20000).catch(()=>{});await C.sleep(1500);await away();
@@ -34,24 +36,32 @@ async function cap2004(browser){
     await page.evaluate(()=>{window.gameClient.orbitCameraPitch=256});await C.sleep(1500);await R.grab(page,path.join(dir,name+'_p256_y1536.png'));
     log.push({name,tile:T.tile(S)});
   }
-  // a fight in the open (hit splats, health bars, combat animations) with a weak monster near the last spot
-  try{
-    const foe=S.sdk.getNearbyNpcs().filter(n=>/^(goblin|chicken|rat|cow)$/i.test(n.name)&&!n.inCombat).sort((a,b)=>a.distance-b.distance)[0];
-    if(foe){C.log('[2004] fight',foe.name,'at',foe.x,foe.z);
-      await R.setCam(page,{orbitPitch:128});await page.evaluate(()=>{window.gameClient.__cam=null});
-      const sd=path.join(C.CAP,'tutorial','2004');fs.mkdirSync(sd,{recursive:true});
-      await R.startSampler(page,{crop:{size:[200,240],below:30},fullEvery:4});
-      const r=await S.bot.attack(foe);if(!r.success)C.log('[2004] attack',r.message||r.reason);
-      for(let i=0;i<60;i++){await C.sleep(500);const n=S.sdk.getNearbyNpcs().find(x=>x.index===foe.index);if(!n||n.hp===0)break}
-      await C.sleep(1500);const l=await R.stopSampler(page);
-      fs.mkdirSync(path.join(sd,'combat_open'),{recursive:true});const meta=[];
-      l.forEach((r,i)=>{if(r.png){C.dataUrlToFile(r.png,path.join(sd,'combat_open',String(i).padStart(4,'0')+'.png'));r.file=String(i).padStart(4,'0')+'.png'}
-        if(r.full){C.dataUrlToFile(r.full,path.join(sd,'combat_open','full_'+String(i).padStart(4,'0')+'.png'));r.fullFile='full_'+String(i).padStart(4,'0')+'.png'}delete r.png;delete r.full;meta.push(r)});
-      C.writeJSON(path.join(sd,'combat_open','samples.json'),{samples:meta,foe:foe.name});log.push({fight:foe.name,frames:l.length});
-    }
-  }catch(e){C.log('[2004] fight error',String(e).slice(0,160))}
   C.writeJSON(path.join(dir,'log.json'),{log,at:new Date().toISOString()});
   await S.sdk.disconnect().catch(()=>{});await page.close();
+}
+
+// a fight in the open (hit splats, health bars, combat animations): the first weak monster found around a few
+// mainland waypoints (chickens by the farm, goblins over the river, cows in the field)
+async function fight2004(R,S,page,log){
+  const FOES=/^(chicken|goblin|cow|rat|giant rat)$/i;
+  for(const [x,z] of [[3235,3295],[3252,3236],[3257,3268],[3223,3218]]){
+    let foe=S.sdk.getNearbyNpcs().filter(n=>FOES.test(n.name)&&!n.inCombat).sort((a,b)=>a.distance-b.distance)[0];
+    if(!foe){await S.bot.walkTo(x,z,3);await S.bot.waitForIdle(20000).catch(()=>{});
+      foe=S.sdk.getNearbyNpcs().filter(n=>FOES.test(n.name)&&!n.inCombat).sort((a,b)=>a.distance-b.distance)[0]}
+    if(!foe)continue;
+    C.log('[2004] fight',foe.name,'at',foe.x,foe.z);
+    await R.setCam(page,{orbitPitch:128});await page.evaluate(()=>{window.gameClient.__cam=null});
+    const sd=path.join(C.CAP,'tutorial','2004','combat_open');fs.mkdirSync(sd,{recursive:true});
+    await R.startSampler(page,{crop:{size:[200,240],below:30},fullEvery:12});
+    const r=await Promise.race([S.bot.attack(foe),C.sleep(15000).then(()=>({success:false,message:'attack call timed out'}))]);
+    C.log('[2004] attack',r.success?'started':(r.message||r.reason));
+    for(let i=0;i<36;i++){await C.sleep(500);const n=S.sdk.getNearbyNpcs().find(q=>q.index===foe.index);if(!n||n.hp===0)break}
+    await C.sleep(1500);const l=await R.stopSampler(page);C.log('[2004] fight frames',l.length);const meta=[];
+    l.forEach((r,i)=>{if(r.png){C.dataUrlToFile(r.png,path.join(sd,String(i).padStart(4,'0')+'.png'));r.file=String(i).padStart(4,'0')+'.png'}
+      if(r.full){C.dataUrlToFile(r.full,path.join(sd,'full_'+String(i).padStart(4,'0')+'.png'));r.fullFile='full_'+String(i).padStart(4,'0')+'.png'}delete r.png;delete r.full;meta.push(r)});
+    C.writeJSON(path.join(sd,'samples.json'),{samples:meta,foe:foe.name});log.push({fight:foe.name,frames:l.length});return true;
+  }
+  C.log('[2004] no weak monster found for the fight');return false;
 }
 
 async function capOurs(browser){

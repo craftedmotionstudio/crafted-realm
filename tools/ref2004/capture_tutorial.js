@@ -61,7 +61,9 @@ async function cap2004(browser){
   C.log('[2004] tutorial reached varp',v);
   // UI: side tabs (every tab the tutorial has opened by now), a right-click menu on an NPC, the controls tab (run)
   if(v>=UNTIL-10){
-    await page.evaluate(()=>{try{window.gameClient.mainModalId!==-1&&0}catch(e){}});
+    // the bank interface itself (if the run reached the bank step in an earlier, interrupted session)
+    if(!fs.existsSync(path.join(dir,'bank.png'))){try{await T.STEP[500](ctx)}catch(e){}
+      if(T.W(S).bank.isOpen){await away();await C.sleep(800);await R.grab(page,path.join(dir,'bank.png'));C.log('[2004] still bank')}}
     await S.sdk.sendCloseModal().catch(()=>{});await C.sleep(800);
     for(const t of [0,1,2,3,4,5,6,11,12,13]){await S.sdk.sendSetTab(t);await C.sleep(500);await R.grab(page,path.join(dir,'tab_'+t+'.png'))}
     await S.sdk.sendSetTab(3);

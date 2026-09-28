@@ -137,8 +137,20 @@ unit. Pitch 128 = 22.5 deg above the horizon (the lowest 2004 camera and its def
   hint arrow (talk to the NPC it points at, or use the door / gate / ladder / rock it points at) and does each skill step
   with the SDK's high-level actions (chop, burn, net, cook, mix, bake, prospect, mine, smelt, smith, equip, attack,
   bank). Stops at the bank by default (`--until`).
+  Things the bot had to learn from the reference (all in `lib/tutorial2004.js`): a level-up message opens a dialog
+  that stops the action, so waits click through it; lit fires block tiles the SDK's static path finder does not
+  know, so fishing is retried from another tile; the mine has an ordinary furnace and anvils next to the lesson ones,
+  so smelting / smithing use the loc the arrow points at; the SDK's own route check refuses NPCs across a fence or a
+  closed pen gate, so the bot opens the gate with a plain click and attacks across the fence by clicking the rat on
+  the canvas like a player.
+- `--resume` (tutorial): logs the last tutorial account (`logs/tut_account.json`, a local test account) back in and
+  carries on from its current step; stills already on disk are kept.
 - Ours: `tools/qa_holm_island_playthrough.js` lesson steps (`DO`) are reused; a watcher beside it captures the first
-  dialogue with each tutor, each skill animation, the fights and the bank.
+  page of each tutor's dialogue (a wrapper around the driver's `talkTo`), each skill animation (a still at our default
+  camera, then 2.6 s of frames from a close side-on camera), the fights and the bank.
+- Scenery (2004): a fresh account takes the guide's skip offer on the local world, first fights the nearest weak
+  monster in the open (hit splats, health bars, melee animation) -> `tutorial/2004/combat_open/`, then runs to each
+  spot. `bun tools/ref2004/capture_scenery.js --side 2004 --fight-only` re-captures just the fight.
 
 ## Files
 
