@@ -1,0 +1,57 @@
+{
+ "glb": ".studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.glb",
+ "out": "scratchpad/holm_props_pass/overview/cavern",
+ "size": [
+  1100,
+  760
+ ],
+ "hide": "Cavern_(Roof|Upper|Chimney)|Cavern_Glazing",
+ "views": [
+  {
+   "name": "ground_ne",
+   "target": [
+    10,
+    0,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 40
+  },
+  {
+   "name": "ground_sw",
+   "target": [
+    10,
+    0,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 40
+  },
+  {
+   "name": "upper_ne",
+   "target": [
+    10,
+    3,
+    0
+   ],
+   "yaw": 30,
+   "pitch": 60,
+   "dist": 40,
+   "hide": "Cavern_(Roof|Chimney)|Cavern_Glazing|Cavern_UpperShell|Cavern_(Shell|GroundFront)"
+  },
+  {
+   "name": "upper_sw",
+   "target": [
+    10,
+    3,
+    0
+   ],
+   "yaw": 210,
+   "pitch": 60,
+   "dist": 40,
+   "hide": "Cavern_(Roof|Chimney)|Cavern_Glazing|Cavern_UpperShell|Cavern_(Shell|GroundFront)"
+  }
+ ]
+}

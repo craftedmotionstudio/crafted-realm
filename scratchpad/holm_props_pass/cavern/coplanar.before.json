@@ -1,0 +1,1550 @@
+{
+ "model": "C:\\Users\\iQwaZ\\OneDrive\\Desktop\\CraftedRealms-Props\\.studio-workspaces\\holm-cavern-v2land-os-v1\\candidates\\cavern.glb",
+ "views": [
+  "outside",
+  "inside:0.0"
+ ],
+ "summary": {
+  "fights": 47,
+  "byKind": {
+   "same-facing": 47
+  },
+  "area": 0.296,
+  "topPairs": [
+   [
+    [
+     "Cavern_Furnishing",
+     "Cavern_Furnishing"
+    ],
+    26
+   ],
+   [
+    [
+     "Cavern_ServiceFurnace_Furnace",
+     "Cavern_ServiceFurnace_Furnace"
+    ],
+    10
+   ],
+   [
+    [
+     "Cavern_Rail",
+     "Cavern_Rail"
+    ],
+    7
+   ],
+   [
+    [
+     "Cavern_RoofShaftHead",
+     "Cavern_RoofShaftHead"
+    ],
+    4
+   ]
+  ]
+ },
+ "fights": [
+  {
+   "da": -5.1999993324279785,
+   "db": -5.199999809265137,
+   "extA": 0.875,
+   "extB": 0.783,
+   "thickA": 0.55,
+   "thickB": 0.55,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 368,
+   "b": "Cavern_Furnishing",
+   "pb": 2627,
+   "kind": "same-facing",
+   "area": 0.00172,
+   "at": [
+    2.383,
+    -5.2,
+    0.817
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 17,
+   "islandB": 154,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.9999999403953552,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -5.1999993324279785,
+   "db": -5.199999809265137,
+   "extA": 0.875,
+   "extB": 0.783,
+   "thickA": 0.55,
+   "thickB": 0.55,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 369,
+   "b": "Cavern_Furnishing",
+   "pb": 2628,
+   "kind": "same-facing",
+   "area": 0.00764,
+   "at": [
+    2.567,
+    -5.2,
+    0.683
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 17,
+   "islandB": 154,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.9999999403953552,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -5.749999523162842,
+   "db": -5.75,
+   "extA": 0.875,
+   "extB": 0.783,
+   "thickA": 0.55,
+   "thickB": 0.55,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 370,
+   "b": "Cavern_Furnishing",
+   "pb": 2629,
+   "kind": "same-facing",
+   "area": 0.00764,
+   "at": [
+    2.567,
+    -5.75,
+    0.683
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 17,
+   "islandB": 154,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -5.749999523162842,
+   "db": -5.75,
+   "extA": 0.875,
+   "extB": 0.783,
+   "thickA": 0.55,
+   "thickB": 0.55,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 371,
+   "b": "Cavern_Furnishing",
+   "pb": 2630,
+   "kind": "same-facing",
+   "area": 0.00172,
+   "at": [
+    2.383,
+    -5.75,
+    0.817
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 17,
+   "islandB": 154,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 2.200000047683716,
+   "db": 2.200000047683716,
+   "extA": 0.875,
+   "extB": 0.783,
+   "thickA": 0.55,
+   "thickB": 0.55,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 376,
+   "b": "Cavern_Furnishing",
+   "pb": 2635,
+   "kind": "same-facing",
+   "area": 0.00764,
+   "at": [
+    2.2,
+    -5.567,
+    0.683
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 17,
+   "islandB": 154,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    1.0,
+    -0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 2.200000047683716,
+   "db": 2.200000047683716,
+   "extA": 0.875,
+   "extB": 0.783,
+   "thickA": 0.55,
+   "thickB": 0.55,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 376,
+   "b": "Cavern_Furnishing",
+   "pb": 2636,
+   "kind": "same-facing",
+   "area": 0.01814,
+   "at": [
+    2.2,
+    -5.567,
+    0.683
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 17,
+   "islandB": 154,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    1.0,
+    -0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 2.200000047683716,
+   "db": 2.200000047683716,
+   "extA": 0.875,
+   "extB": 0.783,
+   "thickA": 0.55,
+   "thickB": 0.55,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 377,
+   "b": "Cavern_Furnishing",
+   "pb": 2636,
+   "kind": "same-facing",
+   "area": 0.00172,
+   "at": [
+    2.2,
+    -5.383,
+    0.817
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 17,
+   "islandB": 154,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    1.0,
+    -0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 2.75,
+   "db": 2.75,
+   "extA": 0.875,
+   "extB": 0.783,
+   "thickA": 0.55,
+   "thickB": 0.55,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 378,
+   "b": "Cavern_Furnishing",
+   "pb": 2637,
+   "kind": "same-facing",
+   "area": 0.00172,
+   "at": [
+    2.75,
+    -5.383,
+    0.817
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 17,
+   "islandB": 154,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 2.75,
+   "db": 2.75,
+   "extA": 0.875,
+   "extB": 0.783,
+   "thickA": 0.55,
+   "thickB": 0.55,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 379,
+   "b": "Cavern_Furnishing",
+   "pb": 2637,
+   "kind": "same-facing",
+   "area": 0.01814,
+   "at": [
+    2.75,
+    -5.567,
+    0.683
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 17,
+   "islandB": 154,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 2.75,
+   "db": 2.75,
+   "extA": 0.875,
+   "extB": 0.783,
+   "thickA": 0.55,
+   "thickB": 0.55,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 379,
+   "b": "Cavern_Furnishing",
+   "pb": 2638,
+   "kind": "same-facing",
+   "area": 0.00764,
+   "at": [
+    2.75,
+    -5.567,
+    0.683
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 17,
+   "islandB": 154,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 24.787653267383575,
+   "db": 24.787769079208374,
+   "extA": 0.711,
+   "extB": 0.558,
+   "thickA": 0.6801,
+   "thickB": 0.06,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 590,
+   "b": "Cavern_Furnishing",
+   "pb": 2578,
+   "kind": "same-facing",
+   "area": 0.00091,
+   "at": [
+    24.948,
+    -3.208,
+    1.308
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 28,
+   "islandB": 149,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.9557715654373169,
+    -0.294109970331192,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 24.787653267383575,
+   "db": 24.787769079208374,
+   "extA": 0.711,
+   "extB": 0.558,
+   "thickA": 0.6801,
+   "thickB": 0.06,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 590,
+   "b": "Cavern_Furnishing",
+   "pb": 2579,
+   "kind": "same-facing",
+   "area": 0.00034,
+   "at": [
+    24.948,
+    -3.208,
+    1.308
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 28,
+   "islandB": 149,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.9557715654373169,
+    -0.294109970331192,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 24.787653267383575,
+   "db": 24.787769079208374,
+   "extA": 0.711,
+   "extB": 0.558,
+   "thickA": 0.6801,
+   "thickB": 0.06,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 591,
+   "b": "Cavern_Furnishing",
+   "pb": 2578,
+   "kind": "same-facing",
+   "area": 0.00034,
+   "at": [
+    24.952,
+    -3.192,
+    1.292
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 28,
+   "islandB": 149,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.9557715654373169,
+    -0.294109970331192,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 24.787653267383575,
+   "db": 24.787769079208374,
+   "extA": 0.711,
+   "extB": 0.558,
+   "thickA": 0.6801,
+   "thickB": 0.06,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 591,
+   "b": "Cavern_Furnishing",
+   "pb": 2579,
+   "kind": "same-facing",
+   "area": 0.00091,
+   "at": [
+    24.952,
+    -3.192,
+    1.292
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 28,
+   "islandB": 149,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.9557715654373169,
+    -0.294109970331192,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 1.3249999284744263,
+   "db": 1.3249999284744263,
+   "extA": 0.711,
+   "extB": 0.558,
+   "thickA": 0.05,
+   "thickB": 0.05,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 593,
+   "b": "Cavern_Furnishing",
+   "pb": 2572,
+   "kind": "same-facing",
+   "area": 0.00141,
+   "at": [
+    24.736,
+    -3.125,
+    1.325
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 28,
+   "islandB": 149,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 1.3249999284744263,
+   "db": 1.3249999284744263,
+   "extA": 0.711,
+   "extB": 0.558,
+   "thickA": 0.05,
+   "thickB": 0.05,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 593,
+   "b": "Cavern_Furnishing",
+   "pb": 2573,
+   "kind": "same-facing",
+   "area": 0.00146,
+   "at": [
+    24.736,
+    -3.125,
+    1.325
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 28,
+   "islandB": 149,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 1.9700000286102295,
+   "db": 1.9700000286102295,
+   "extA": 1.712,
+   "extB": 0.418,
+   "thickA": 0.12,
+   "thickB": 0.32,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 1110,
+   "b": "Cavern_Furnishing",
+   "pb": 2170,
+   "kind": "same-facing",
+   "area": 0.0091,
+   "at": [
+    1.717,
+    5.873,
+    1.97
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 71,
+   "islandB": 126,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 1.9700000286102295,
+   "db": 1.9700000286102295,
+   "extA": 1.712,
+   "extB": 0.418,
+   "thickA": 0.12,
+   "thickB": 0.32,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 1110,
+   "b": "Cavern_Furnishing",
+   "pb": 2171,
+   "kind": "same-facing",
+   "area": 0.0091,
+   "at": [
+    1.717,
+    5.873,
+    1.97
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 71,
+   "islandB": 126,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 1.9700000286102295,
+   "db": 1.9700000286102295,
+   "extA": 1.712,
+   "extB": 0.418,
+   "thickA": 0.12,
+   "thickB": 0.32,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 1110,
+   "b": "Cavern_Furnishing",
+   "pb": 2194,
+   "kind": "same-facing",
+   "area": 0.00564,
+   "at": [
+    1.717,
+    5.873,
+    1.97
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 71,
+   "islandB": 128,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 1.9700000286102295,
+   "db": 1.9700000286102295,
+   "extA": 1.712,
+   "extB": 0.418,
+   "thickA": 0.12,
+   "thickB": 0.32,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 1110,
+   "b": "Cavern_Furnishing",
+   "pb": 2195,
+   "kind": "same-facing",
+   "area": 0.00033,
+   "at": [
+    1.717,
+    5.873,
+    1.97
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 71,
+   "islandB": 128,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 1.9700000286102295,
+   "db": 1.9700000286102295,
+   "extA": 1.712,
+   "extB": 0.418,
+   "thickA": 0.12,
+   "thickB": 0.32,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 1111,
+   "b": "Cavern_Furnishing",
+   "pb": 2194,
+   "kind": "same-facing",
+   "area": 0.00346,
+   "at": [
+    2.283,
+    5.927,
+    1.97
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 71,
+   "islandB": 128,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 1.9700000286102295,
+   "db": 1.9700000286102295,
+   "extA": 1.712,
+   "extB": 0.418,
+   "thickA": 0.12,
+   "thickB": 0.32,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 1111,
+   "b": "Cavern_Furnishing",
+   "pb": 2195,
+   "kind": "same-facing",
+   "area": 0.00877,
+   "at": [
+    2.283,
+    5.927,
+    1.97
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 71,
+   "islandB": 128,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    -0.0,
+    0.0,
+    1.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 5.829624652862549,
+   "db": 5.829999923706055,
+   "extA": 0.526,
+   "extB": 0.418,
+   "thickA": 0.06,
+   "thickB": 0.07,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 2158,
+   "b": "Cavern_Furnishing",
+   "pb": 2167,
+   "kind": "same-facing",
+   "area": 0.00038,
+   "at": [
+    1.412,
+    5.83,
+    1.762
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 125,
+   "islandB": 126,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 5.829624652862549,
+   "db": 5.829999923706055,
+   "extA": 0.526,
+   "extB": 0.418,
+   "thickA": 0.06,
+   "thickB": 0.07,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 2159,
+   "b": "Cavern_Furnishing",
+   "pb": 2167,
+   "kind": "same-facing",
+   "area": 0.00399,
+   "at": [
+    1.586,
+    5.83,
+    1.778
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 125,
+   "islandB": 126,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 5.829624652862549,
+   "db": 5.829999923706055,
+   "extA": 0.526,
+   "extB": 0.418,
+   "thickA": 0.06,
+   "thickB": 0.07,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 2182,
+   "b": "Cavern_Furnishing",
+   "pb": 2191,
+   "kind": "same-facing",
+   "area": 0.00038,
+   "at": [
+    2.112,
+    5.83,
+    1.762
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 127,
+   "islandB": 128,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 5.829624652862549,
+   "db": 5.829999923706055,
+   "extA": 0.526,
+   "extB": 0.418,
+   "thickA": 0.06,
+   "thickB": 0.07,
+   "visible": true,
+   "a": "Cavern_Furnishing",
+   "pa": 2183,
+   "b": "Cavern_Furnishing",
+   "pb": 2191,
+   "kind": "same-facing",
+   "area": 0.00399,
+   "at": [
+    2.286,
+    5.83,
+    1.778
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 127,
+   "islandB": 128,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    0.9999999403953552,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.9000000953674316,
+   "db": -3.9000000953674316,
+   "extA": 0.679,
+   "extB": 1.233,
+   "thickA": 0.16,
+   "thickB": 0.18,
+   "visible": true,
+   "a": "Cavern_Rail",
+   "pa": 100,
+   "b": "Cavern_Rail",
+   "pb": 130,
+   "kind": "same-facing",
+   "area": 0.00663,
+   "at": [
+    -3.9,
+    -2.473,
+    0.193
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 8,
+   "islandB": 10,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.9000000953674316,
+   "db": -3.9000000953674316,
+   "extA": 0.679,
+   "extB": 1.233,
+   "thickA": 0.16,
+   "thickB": 0.18,
+   "visible": true,
+   "a": "Cavern_Rail",
+   "pa": 100,
+   "b": "Cavern_Rail",
+   "pb": 131,
+   "kind": "same-facing",
+   "area": 0.00052,
+   "at": [
+    -3.9,
+    -2.473,
+    0.193
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 8,
+   "islandB": 10,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.9000000953674316,
+   "db": -3.9000000953674316,
+   "extA": 0.679,
+   "extB": 1.233,
+   "thickA": 0.16,
+   "thickB": 0.18,
+   "visible": true,
+   "a": "Cavern_Rail",
+   "pa": 101,
+   "b": "Cavern_Rail",
+   "pb": 130,
+   "kind": "same-facing",
+   "area": 0.02564,
+   "at": [
+    -3.9,
+    -2.527,
+    0.407
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 8,
+   "islandB": 10,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.9000000953674316,
+   "db": -3.9000000953674316,
+   "extA": 0.679,
+   "extB": 1.233,
+   "thickA": 0.16,
+   "thickB": 0.18,
+   "visible": true,
+   "a": "Cavern_Rail",
+   "pa": 101,
+   "b": "Cavern_Rail",
+   "pb": 131,
+   "kind": "same-facing",
+   "area": 0.00241,
+   "at": [
+    -3.9,
+    -2.527,
+    0.407
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 8,
+   "islandB": 10,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.9000000953674316,
+   "db": -3.9000000953674316,
+   "extA": 0.679,
+   "extB": 1.233,
+   "thickA": 0.16,
+   "thickB": 0.18,
+   "visible": true,
+   "a": "Cavern_Rail",
+   "pa": 112,
+   "b": "Cavern_Rail",
+   "pb": 130,
+   "kind": "same-facing",
+   "area": 0.00029,
+   "at": [
+    -3.9,
+    -3.473,
+    0.193
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 9,
+   "islandB": 10,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.9000000953674316,
+   "db": -3.9000000953674316,
+   "extA": 0.679,
+   "extB": 1.233,
+   "thickA": 0.16,
+   "thickB": 0.18,
+   "visible": true,
+   "a": "Cavern_Rail",
+   "pa": 113,
+   "b": "Cavern_Rail",
+   "pb": 131,
+   "kind": "same-facing",
+   "area": 0.0254,
+   "at": [
+    -3.9,
+    -3.527,
+    0.407
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 9,
+   "islandB": 10,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -3.9000000953674316,
+   "db": -3.9000000953674316,
+   "extA": 0.679,
+   "extB": 1.233,
+   "thickA": 0.16,
+   "thickB": 0.18,
+   "visible": true,
+   "a": "Cavern_Rail",
+   "pa": 113,
+   "b": "Cavern_Rail",
+   "pb": 130,
+   "kind": "same-facing",
+   "area": 0.00265,
+   "at": [
+    -3.9,
+    -3.527,
+    0.407
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 9,
+   "islandB": 10,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 0.3100000023841858,
+   "db": 0.3100000023841858,
+   "extA": 1.184,
+   "extB": 1.184,
+   "thickA": 0.12,
+   "thickB": 0.12,
+   "visible": true,
+   "a": "Cavern_RoofShaftHead",
+   "pa": 59,
+   "b": "Cavern_RoofShaftHead",
+   "pb": 66,
+   "kind": "same-facing",
+   "area": 0.00047,
+   "at": [
+    -7.75,
+    0.31,
+    5.989
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 1,
+   "islandB": 2,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": 0.3100000023841858,
+   "db": 0.3100000023841858,
+   "extA": 1.184,
+   "extB": 1.184,
+   "thickA": 0.12,
+   "thickB": 0.12,
+   "visible": true,
+   "a": "Cavern_RoofShaftHead",
+   "pa": 59,
+   "b": "Cavern_RoofShaftHead",
+   "pb": 67,
+   "kind": "same-facing",
+   "area": 0.00516,
+   "at": [
+    -7.75,
+    0.31,
+    5.989
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 1,
+   "islandB": 2,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -1.309999942779541,
+   "db": -1.309999942779541,
+   "extA": 1.184,
+   "extB": 1.184,
+   "thickA": 0.12,
+   "thickB": 0.12,
+   "visible": true,
+   "a": "Cavern_RoofShaftHead",
+   "pa": 78,
+   "b": "Cavern_RoofShaftHead",
+   "pb": 95,
+   "kind": "same-facing",
+   "area": 0.00047,
+   "at": [
+    -7.941,
+    -1.31,
+    5.689
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 3,
+   "islandB": 4,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -1.309999942779541,
+   "db": -1.309999942779541,
+   "extA": 1.184,
+   "extB": 1.184,
+   "thickA": 0.12,
+   "thickB": 0.12,
+   "visible": true,
+   "a": "Cavern_RoofShaftHead",
+   "pa": 79,
+   "b": "Cavern_RoofShaftHead",
+   "pb": 95,
+   "kind": "same-facing",
+   "area": 0.00516,
+   "at": [
+    -7.784,
+    -1.31,
+    6.011
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 3,
+   "islandB": 4,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -6.550000190734863,
+   "db": -6.550000190734863,
+   "extA": 3.073,
+   "extB": 2.196,
+   "thickA": 1.35,
+   "thickB": 1.3952,
+   "visible": true,
+   "a": "Cavern_ServiceFurnace_Furnace",
+   "pa": 130,
+   "b": "Cavern_ServiceFurnace_Furnace",
+   "pb": 396,
+   "kind": "same-facing",
+   "area": 0.00064,
+   "at": [
+    5.033,
+    -6.55,
+    0.667
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 14,
+   "islandB": 32,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -6.550000190734863,
+   "db": -6.550000190734863,
+   "extA": 3.073,
+   "extB": 2.196,
+   "thickA": 1.35,
+   "thickB": 1.3952,
+   "visible": true,
+   "a": "Cavern_ServiceFurnace_Furnace",
+   "pa": 130,
+   "b": "Cavern_ServiceFurnace_Furnace",
+   "pb": 397,
+   "kind": "same-facing",
+   "area": 0.00018,
+   "at": [
+    5.033,
+    -6.55,
+    0.667
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 14,
+   "islandB": 32,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -6.550000190734863,
+   "db": -6.550000190734863,
+   "extA": 3.073,
+   "extB": 2.196,
+   "thickA": 1.35,
+   "thickB": 1.3952,
+   "visible": true,
+   "a": "Cavern_ServiceFurnace_Furnace",
+   "pa": 142,
+   "b": "Cavern_ServiceFurnace_Furnace",
+   "pb": 396,
+   "kind": "same-facing",
+   "area": 0.00082,
+   "at": [
+    6.133,
+    -6.55,
+    0.667
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 14,
+   "islandB": 32,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -6.550000190734863,
+   "db": -6.550000190734863,
+   "extA": 3.073,
+   "extB": 2.196,
+   "thickA": 1.35,
+   "thickB": 1.3952,
+   "visible": true,
+   "a": "Cavern_ServiceFurnace_Furnace",
+   "pa": 143,
+   "b": "Cavern_ServiceFurnace_Furnace",
+   "pb": 396,
+   "kind": "same-facing",
+   "area": 0.02918,
+   "at": [
+    5.967,
+    -6.55,
+    1.033
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 14,
+   "islandB": 32,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -6.550000190734863,
+   "db": -6.550000190734863,
+   "extA": 3.073,
+   "extB": 2.196,
+   "thickA": 1.35,
+   "thickB": 1.3952,
+   "visible": true,
+   "a": "Cavern_ServiceFurnace_Furnace",
+   "pa": 154,
+   "b": "Cavern_ServiceFurnace_Furnace",
+   "pb": 396,
+   "kind": "same-facing",
+   "area": 0.00284,
+   "at": [
+    5.6,
+    -6.55,
+    1.147
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 14,
+   "islandB": 32,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -6.550000190734863,
+   "db": -6.550000190734863,
+   "extA": 3.073,
+   "extB": 2.196,
+   "thickA": 1.35,
+   "thickB": 1.3952,
+   "visible": true,
+   "a": "Cavern_ServiceFurnace_Furnace",
+   "pa": 131,
+   "b": "Cavern_ServiceFurnace_Furnace",
+   "pb": 396,
+   "kind": "same-facing",
+   "area": 0.00812,
+   "at": [
+    4.867,
+    -6.55,
+    1.033
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 14,
+   "islandB": 32,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -6.550000190734863,
+   "db": -6.550000190734863,
+   "extA": 3.073,
+   "extB": 2.196,
+   "thickA": 1.35,
+   "thickB": 1.3952,
+   "visible": true,
+   "a": "Cavern_ServiceFurnace_Furnace",
+   "pa": 131,
+   "b": "Cavern_ServiceFurnace_Furnace",
+   "pb": 397,
+   "kind": "same-facing",
+   "area": 0.02106,
+   "at": [
+    4.867,
+    -6.55,
+    1.033
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 14,
+   "islandB": 32,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -6.550000190734863,
+   "db": -6.550000190734863,
+   "extA": 3.073,
+   "extB": 2.196,
+   "thickA": 1.35,
+   "thickB": 1.3952,
+   "visible": true,
+   "a": "Cavern_ServiceFurnace_Furnace",
+   "pa": 155,
+   "b": "Cavern_ServiceFurnace_Furnace",
+   "pb": 396,
+   "kind": "same-facing",
+   "area": 0.02665,
+   "at": [
+    5.4,
+    -6.55,
+    1.273
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 14,
+   "islandB": 32,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -6.550000190734863,
+   "db": -6.550000190734863,
+   "extA": 3.073,
+   "extB": 2.196,
+   "thickA": 1.35,
+   "thickB": 1.3952,
+   "visible": true,
+   "a": "Cavern_ServiceFurnace_Furnace",
+   "pa": 155,
+   "b": "Cavern_ServiceFurnace_Furnace",
+   "pb": 397,
+   "kind": "same-facing",
+   "area": 0.0065,
+   "at": [
+    5.4,
+    -6.55,
+    1.273
+   ],
+   "closedA": true,
+   "closedB": true,
+   "islandA": 14,
+   "islandB": 32,
+   "sa": -1,
+   "sb": -1,
+   "n": [
+    -0.0,
+    1.0,
+    -0.0
+   ],
+   "view": "outside"
+  },
+  {
+   "da": -5.155770301818848,
+   "db": -5.154782772064209,
+   "extA": 0.327,
+   "extB": 2.196,
+   "thickA": 0.0412,
+   "thickB": 1.3952,
+   "visible": true,
+   "a": "Cavern_ServiceFurnace_Furnace",
+   "pa": 88,
+   "b": "Cavern_ServiceFurnace_Furnace",
+   "pb": 395,
+   "kind": "same-facing",
+   "area": 0.00098,
+   "at": [
+    5.064,
+    -5.156,
+    1.291
+   ],
+   "closedA": false,
+   "closedB": true,
+   "islandA": 9,
+   "islandB": 32,
+   "sa": 1,
+   "sb": 1,
+   "n": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "view": "outside"
+  }
+ ]
+}

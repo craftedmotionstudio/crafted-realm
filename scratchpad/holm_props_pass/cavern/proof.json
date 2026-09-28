@@ -1,0 +1,39 @@
+{
+ "ok": true,
+ "reference": ".studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.glb",
+ "candidate": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb",
+ "referenceNodes": 25,
+ "kept": 19,
+ "changed": {
+  "Cavern_Furnishing": [
+   2708,
+   null
+  ],
+  "Cavern_FurnishingCart": [
+   220,
+   974
+  ],
+  "Cavern_ServiceAnvil_Anvil": [
+   182,
+   284
+  ],
+  "Cavern_ServiceFurnace_Furnace": [
+   442,
+   766
+  ],
+  "Cavern_Torch": [
+   2100,
+   2715
+  ],
+  "Cavern_TorchFlame": [
+   300,
+   180
+  ]
+ },
+ "added": {
+  "Cavern_FurnishingPropsBellows": 315,
+  "Cavern_FurnishingPropsStores": 7754,
+  "Cavern_FurnishingPropsToolRack": 522
+ },
+ "issues": []
+}

@@ -1,0 +1,219 @@
+{
+ "size": [
+  900,
+  640
+ ],
+ "hide": "Cavern_(Roof|ShellRockTop|ShellSkin)",
+ "views": [
+  {
+   "name": "alcove_ladder",
+   "target": [
+    -7.4,
+    0.6,
+    0.5
+   ],
+   "yaw": 70,
+   "pitch": 30,
+   "dist": 3.4,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "hub_coal",
+   "target": [
+    -1.7,
+    0.4,
+    1.55
+   ],
+   "yaw": 110,
+   "pitch": 35,
+   "dist": 2.6,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "ore_crates",
+   "target": [
+    -0.65,
+    0.4,
+    -5.35
+   ],
+   "yaw": 25,
+   "pitch": 35,
+   "dist": 2.6,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "tool_rack",
+   "target": [
+    2,
+    0.9,
+    -5.85
+   ],
+   "yaw": 28,
+   "pitch": 20,
+   "dist": 3.2,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "ore_heap",
+   "target": [
+    4.25,
+    0.3,
+    -2.35
+   ],
+   "yaw": 125,
+   "pitch": 48,
+   "dist": 2.3,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "barrels_ne",
+   "target": [
+    6.2,
+    0.5,
+    -5.55
+   ],
+   "yaw": 345,
+   "pitch": 25,
+   "dist": 2.8,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "nook_west",
+   "target": [
+    2.3,
+    0.8,
+    4.4
+   ],
+   "yaw": 80,
+   "pitch": 22,
+   "dist": 3.2,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "furnace",
+   "target": [
+    5.5,
+    1.6,
+    5.4
+   ],
+   "yaw": 185,
+   "pitch": 18,
+   "dist": 5.2,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "anvil",
+   "target": [
+    3.6,
+    0.6,
+    4.6
+   ],
+   "yaw": 150,
+   "pitch": 32,
+   "dist": 2.4,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "bellows_coal",
+   "target": [
+    7,
+    0.6,
+    5.5
+   ],
+   "yaw": 200,
+   "pitch": 30,
+   "dist": 2.8,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "trough",
+   "target": [
+    7.6,
+    0.4,
+    3
+   ],
+   "yaw": 270,
+   "pitch": 30,
+   "dist": 2.6,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "cart",
+   "target": [
+    -3,
+    0.6,
+    3
+   ],
+   "yaw": 60,
+   "pitch": 30,
+   "dist": 2.8,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "exit_dressing",
+   "target": [
+    25,
+    0.7,
+    3
+   ],
+   "yaw": 330,
+   "pitch": 28,
+   "dist": 3.2,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "exit_coil",
+   "target": [
+    27.2,
+    0.2,
+    -1.4
+   ],
+   "yaw": 20,
+   "pitch": 45,
+   "dist": 2.2,
+   "lens": 35,
+   "hide": "Cavern_(Roof|Shell)"
+  },
+  {
+   "name": "torch_ore",
+   "target": [
+    5.73,
+    2.05,
+    -6.2
+   ],
+   "yaw": 0,
+   "pitch": 12,
+   "dist": 1.8,
+   "lens": 35,
+   "hide": "Cavern_(Roof|ShellRockTop|ShellSkin)"
+  },
+  {
+   "name": "torch_east",
+   "target": [
+    8.25,
+    2.05,
+    -0.54
+   ],
+   "yaw": 285,
+   "pitch": 18,
+   "dist": 1.8,
+   "lens": 35,
+   "hide": "Cavern_(Roof|ShellRockTop|ShellSkin)"
+  }
+ ],
+ "glb": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb",
+ "out": "scratchpad/holm_props_pass/cavern/blender_after"
+}

@@ -1,0 +1,236 @@
+{
+ "nodes": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -7.5,
+   "z": -0.5,
+   "y": 3.814697265625e-06,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -7.5,
+   "z": 0.5,
+   "y": 0.0,
+   "object": "Cavern_ServiceLadderUp_Ladder"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -7.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": 2.5,
+   "y": -3.814697265625e-06,
+   "object": "Cavern_FurnishingCart"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Cavern_Rubble"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Cavern_Rail"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Cavern_Rail"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 1.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -5.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -2.5,
+   "y": 0.0,
+   "object": "Cavern_Timber"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 4.5,
+   "y": -3.814697265625e-06,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 5.5,
+   "y": 0.0,
+   "object": "Cavern_Rubble"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 4.5,
+   "y": -3.814697265625e-06,
+   "object": "Cavern_ServiceAnvil_Anvil"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": -2.5,
+   "y": -3.814697265625e-06,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 4.5,
+   "z": 5.5,
+   "y": -3.814697265625e-06,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -5.5,
+   "y": -3.814697265625e-06,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": 5.5,
+   "y": -3.814697265625e-06,
+   "object": "Cavern_ServiceFurnace_Furnace"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 6.5,
+   "z": -5.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 6.5,
+   "z": 5.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsBellows"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 7.5,
+   "z": -0.5,
+   "y": 0.0,
+   "object": "Cavern_Rubble"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 7.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 7.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 7.5,
+   "z": 5.5,
+   "y": 0.0,
+   "object": "Cavern_Rubble"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 24.5,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 24.5,
+   "z": 3.5,
+   "y": 3.814697265625e-06,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 25.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 26.5,
+   "z": 3.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 27.5,
+   "z": -1.5,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 28.5,
+   "z": 0.5,
+   "y": 0.0,
+   "object": "Cavern_ServiceLadderExit_Ladder"
+  }
+ ],
+ "edges": [
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 3.2,
+   "y": 0.0,
+   "object": "Cavern_FurnishingPropsStores",
+   "from": "2:2:0",
+   "to": "2:3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -3.25,
+   "y": 0.0,
+   "object": "Cavern_ShellPillar",
+   "from": "3:-4:0",
+   "to": "3:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -2.45,
+   "y": 3.814697265625e-06,
+   "object": "Cavern_ShellPillar",
+   "from": "3:-3:0",
+   "to": "3:-2:0"
+  }
+ ]
+}

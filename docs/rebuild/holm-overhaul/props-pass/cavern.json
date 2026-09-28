@@ -11,8 +11,9 @@
  "outBlend": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.blend",
  "outGlb": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb",
  "texReport": ".studio-workspaces/holm-cavern-props-v1/candidates/textures.report.json",
- "changed": "^$",
+ "changed": "^Cavern_(Furnishing|FurnishingCart|Torch|TorchFlame|ServiceFurnace_Furnace|ServiceAnvil_Anvil)$",
  "added": "^Cavern_(Upper)?Furnishing[A-Za-z]*Props[A-Za-z]+$",
+ "cutawayParts": "^Cavern_(FurnishingProps[A-Za-z]+|FurnishingCart|ServiceFurnace_Furnace|ServiceAnvil_Anvil)$",
  "graph": "holm-cavern-props-navigation-v1",
  "coplanar": "m44",
  "navSpec": "docs/rebuild/holm-overhaul/buildings/cavern-v2land.nav.json"

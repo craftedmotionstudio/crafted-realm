@@ -1,0 +1,100 @@
+{
+ "removed": [
+  "Cavern_Furnishing",
+  "Cavern_FurnishingCart",
+  "Cavern_Torch",
+  "Cavern_TorchFlame",
+  "Cavern_ServiceFurnace_Furnace",
+  "Cavern_ServiceAnvil_Anvil"
+ ],
+ "islandsRemoved": {},
+ "facesRemoved": {},
+ "built": {
+  "Cavern_FurnishingPropsStores": 7495,
+  "Cavern_FurnishingPropsBellows": 304,
+  "Cavern_FurnishingPropsToolRack": 492,
+  "Cavern_FurnishingCart": 932,
+  "Cavern_Torch": 2580,
+  "Cavern_TorchFlame": 180,
+  "Cavern_ServiceFurnace_Furnace": 726,
+  "Cavern_ServiceAnvil_Anvil": 268
+ },
+ "notes": [
+  {
+   "torchSites": [
+    [
+     -8.376,
+     1.968
+    ],
+    [
+     -6.688,
+     -1.526
+    ],
+    [
+     -4.342,
+     3.975
+    ],
+    [
+     -3.688,
+     1.47
+    ],
+    [
+     -2.53,
+     -2.5
+    ],
+    [
+     -1.572,
+     -4.312
+    ],
+    [
+     4.062,
+     6.446
+    ],
+    [
+     5.727,
+     -6.45
+    ],
+    [
+     8.546,
+     -0.536
+    ],
+    [
+     8.64,
+     4.5
+    ],
+    [
+     11.393,
+     -0.528
+    ],
+    [
+     17.464,
+     2.483
+    ],
+    [
+     20.321,
+     -0.39
+    ],
+    [
+     25.062,
+     -2.39
+    ],
+    [
+     27.688,
+     4.333
+    ]
+   ]
+  },
+  {
+   "clearance": []
+  }
+ ],
+ "welds": {
+  "Cavern_FurnishingPropsStores": 259,
+  "Cavern_FurnishingPropsBellows": 11,
+  "Cavern_FurnishingPropsToolRack": 30,
+  "Cavern_FurnishingCart": 42,
+  "Cavern_Torch": 135,
+  "Cavern_ServiceFurnace_Furnace": 40,
+  "Cavern_ServiceAnvil_Anvil": 16
+ }
+}

@@ -142,18 +142,19 @@
    "review4": "owner review 4 (2026-09-27): the quest board by the north wall facing the door; the region chart, leaded panes (tools/blender/build_holm_quest_lodge_review4.py, review4/lodge.relock.json); props pass: map table, hearth, bookcase, bay desk, guest bed, desk and stool designed again (tools/blender/build_holm_quest_lodge_review4_props.py, review4/lodge-props.relock.json; graph identical to review4-navigation-v1)"
   },
   "cavern": {
-   "graph": "holm-cavern-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-cavern-v2land-os-v1/candidates/cavern.glb",
+   "graph": "holm-cavern-props-navigation-v1",
+   "model": ".studio-workspaces/holm-cavern-props-v1/candidates/cavern.glb",
    "placement": {
     "x": 200,
     "y": -30,
     "z": 60
    },
    "nodes": 150,
-   "modelSha256": "b1c17908ccbacfe0651f1f8fa9a6811f19ad8e9ce097fd0171b052e82a5659f7",
+   "modelSha256": "e6be87eb952e344dc03875ee58b25747f28d070b18bdbbda488f87e7edd31458",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:25:39.109Z"
+   "measuredAt": "2026-09-28T09:17:14.036Z",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_cavern_props_pass.py, docs/rebuild/holm-overhaul/props-pass/cavern.json); graph identical to holm-cavern-v2land-navigation-v1 apart from the model hash"
   },
   "mill": {
    "graph": "holm-mill-props-navigation-v1",
