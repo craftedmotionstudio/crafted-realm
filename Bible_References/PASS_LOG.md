@@ -3959,3 +3959,15 @@ length (slight medium-length read in 3/4).
   skill guides 345/345, menu 65/65, playthrough 1/1 (18/18 lessons, 10/10 tutors, 0 errors).
 - Next: combined arrival package v2land-v3 (Guide House v6 + statue v5), remaining buildings props pass, item icon
   renders, feel pass merge, then the 10-playthrough proof and the owner read.
+
+## 2026-09-28 — Item icons + arrival package v3 merged (a4c5ded, d28300b, 159509a)
+- Every item (266, incl. load-time items) has a Blender-rendered icon in the item-icon style: tier gear from the
+  equipment v4 models, bows, leathers, staves, robes, capes, food, resources, runes with our own sigils, the Hearthmere
+  tablet, cipher scroll, wayfarer casket; stat sprites for Crafting, Herblore, Agility, Runecrafting. test_item_icons
+  fails on any drawn/missing icon.
+- Arrival package v2land-v3 (export 2ce81ad875df9448, force-added): Guide House v6 + Lantern Keeper statue v5 in one
+  package; proven identical to both v2 exports apart from the combined parts; navigation identical. Fixes a fresh-clone
+  gap (the v2 pin was not tracked).
+- Gates: units 90/90, smoke PASS fg+hidden, skill guides 367/367, item icons 19/19, island QA 33/33 (rerun after a
+  puppeteer detach flake), playthrough 1/1 (18/18, 10/10, 0 errors).
+- Agents paused by an API usage limit and resumed: feel pass, character follow-ups, building props pass.

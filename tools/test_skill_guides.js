@@ -15,7 +15,9 @@
      6. the checker itself works: a copy of the data with one level moved, or one new anvil item, is caught;
      7. the prayer and spell lines come from the rules (Oak Hide: 5% Defence, 12 s a point at no bonus, the drain
         formula matches the 2004 drain timer run tick by tick) and every prayer and spell has one;
-     8. every picture a row uses exists on disk; items with no picture yet are LISTED (the icon gap report), never faked;
+     8. every picture a row uses exists on disk; every item a row names has a real picture (a Blender render or a painted
+        sprite: the icon gap report must stay empty, a gap is never faked with a drawn glyph); all 19 skills have their
+        stat sprite;
      9. no RuneScape rune or metal name reaches the rendered text.
    Run: node tools/test_skill_guides.js      Exit code 0 = pass, 1 = a failure (each printed).
    ========================================================================== */
@@ -239,7 +241,8 @@ console.log('8. pictures');
     if(r.icon.item){const p=G.iconPath(r.icon.item);if(p){if(!fs.existsSync(path.join(ROOT,p)))missing.push(p)}else gaps.add(r.icon.item)}
     if(r.icon.sprite){const p='assets/icons/ui/v3/'+r.icon.sprite+'.png';sprites.add(p);if(!fs.existsSync(path.join(ROOT,p)))missing.push(p)}});
   ok(!missing.length,'every picture a row uses exists on disk ('+sprites.size+' sprites)',missing);
-  G.SKILLS.forEach(s=>ok(fs.existsSync(path.join(ROOT,'assets/icons/ui/v3/skills/'+s.toLowerCase()+'.png')),s+' has its stat sprite for the title'));
+  // all 19 skills, the four W4 skills too (their guides and the "Coming later" line show it), at 24 and 18 px
+  SGD.ALL_SKILLS.forEach(s=>ok(['skills','skills18'].every(d=>fs.existsSync(path.join(ROOT,'assets/icons/ui/v3/'+d+'/'+s.toLowerCase()+'.png'))),s+' has its stat sprite (24 and 18 px)'));
   // rows whose item has no picture yet, and rows with nothing to show (name-only planned rows)
   const noIcon=rows.filter(r=>!r.icon).map(r=>r.skill+'/'+r.name);
   const live=[...gaps].filter(id=>liveRows.some(r=>r.icon&&r.icon.item===id));
@@ -247,7 +250,13 @@ console.log('8. pictures');
   const plan=[...gaps].filter(id=>live.indexOf(id)<0);
   console.log('     icon gaps (planned rows naming an existing item without a picture): '+plan.length+'\n       '+plan.join(', '));
   console.log('     planned rows with no picture (the thing does not exist yet): '+noIcon.length);
-  console.log('     stat sprites missing for the W4 skills: '+SGD.PLANNED_SKILLS.filter(s=>!fs.existsSync(path.join(ROOT,'assets/icons/ui/v3/skills/'+s.toLowerCase()+'.png'))).join(', '));
+  console.log('     stat sprites missing for the W4 skills: '+(SGD.PLANNED_SKILLS.filter(s=>!fs.existsSync(path.join(ROOT,'assets/icons/ui/v3/skills/'+s.toLowerCase()+'.png'))).join(', ')||'none'));
+  // owner rule: every icon is an image or a Blender render. Every item a row names has one (world item icons v1,
+  // tools/blender/build_world_item_icons_v1.py closed the last 94); a new item needs its picture before it joins a guide.
+  ok(!gaps.size,'every item a guide row names has a picture (Blender render or painted sprite)',[...gaps]);
+  // every item a row lists (not only the one its picture shows: a tier row's sword, platebody, platelegs...) has one too
+  const unpictured=[...new Set([].concat.apply([],rows.map(r=>r.items)))].filter(id=>!G.iconPath(id));
+  ok(!unpictured.length,'every item any row lists has a picture (the inventory, bank and shops show them all)',unpictured);
   ok(typeof SGD.imagePath==='function'&&SGD.imagePath('bronze_sword')===null,'outside the browser the resolver finds no picture tables (it never draws one)');
   ok(!/toDataURL|getContext\(/.test(read('src/skill_guide_data.js')+read('src/ui_skill_guide.js')+read('src/ui_book_tips.js')),'the guide and the tips never draw an icon');
 }

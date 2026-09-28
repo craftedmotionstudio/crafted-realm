@@ -32,7 +32,28 @@ const HOLM_ITEM_ICONS = new Set(['tinderbox','hammer','bucket','bucket_water','b
   // holm_equipment_v1 renders (Blender)
   'bronze_dagger','bronze_sword','iron_sword','iron_hatchet','pickaxe','iron_pickaxe','hatchet','worn_bow','apprentice_staff','bronze_plate','bronze_legs',
   // coffee (build_holm_items_v1.py, 2026-09-26)
-  'coffee_4','coffee_3','coffee_2','coffee_1','roasted_beans']);
+  'coffee_4','coffee_3','coffee_2','coffee_1','roasted_beans',
+  /* world item icons v1 (tools/blender/build_world_item_icons_v1.py, 2026-09-28): every item the skill guides named with
+     no picture. Tiered gear is the equipment v4 model in its tier colour (these ids win over the gear-sprite template
+     rule below); the rest are Blender props in the item-pack style. */
+  'copper_sword','steel_sword','whitsteel_sword','aurel_sword','veyrite_sword','undercrag_sword','crag_maul',
+  'copper_hatchet','steel_hatchet','whitsteel_hatchet','aurel_hatchet','veyrite_hatchet','undercrag_hatchet',
+  'copper_pickaxe','steel_pickaxe','whitsteel_pickaxe','aurel_pickaxe','veyrite_pickaxe','undercrag_pickaxe',
+  'copper_platebody','iron_platebody','steel_platebody','whitsteel_platebody','aurel_platebody','veyrite_platebody','undercrag_platebody',
+  'copper_platelegs','iron_platelegs','steel_platelegs','whitsteel_platelegs','aurel_platelegs','veyrite_platelegs','undercrag_platelegs',
+  'ash_bow','blackthorn_bow','duskwood_bow','riveted_body','riveted_chaps','fenhide_body','fenhide_chaps','fenhide_vambraces',
+  'ember_staff','storm_staff','wizard_hat','apprentice_hat','glimmer_hat','starweave_hat',
+  'cloth_robe_top','cloth_robe_skirt','glimmer_robe_top','starweave_robe_top','starweave_robe_skirt','monk_robe_top','monk_robe_bottom',
+  'holy_symbol','amulet_of_might','amulet_of_precision','amulet_of_warding','trav_cape_red','trav_cape_blue','trav_cape_green','guild_sigil',
+  'cabbage','cheese','cooked_meat','hollow_ale','raw_trout','trout',
+  'oak_logs','willow_logs','clay','iron_ore','coal','gold_ore','iron_bar','steel_bar','gold_bar',
+  'bronze_tips','iron_tips','arrow_shafts','bow_string','silver_trinket','fishing_rod','fly_fishing_rod','ball_of_wool','pot','bowl',
+  'water_rune','earth_rune','fire_rune','body_rune','chaos_rune','nature_rune','spark_rune',
+  // ...and the last 21 items that were still drawn on a canvas (shops, drops, the pack; same script)
+  'beast_hide','feathers','knife','ashes','chisel','rope','shears','spade','jug','jug_water','soft_clay','leather','wool','flax',
+  'grain','potato','onion','egg','raw_beef','big_bones','fen_charm',
+  // items other modules register at load: the teleport tablet (item_teleport_tabs.js), the clue items (clues.js)
+  'home_tab','cipher_scroll','wayfarer_casket']);
 function iconFor(id){
   if(ICONS[id]) return ICONS[id];
   if(HOLM_ITEM_ICONS.has(id)) return (ICONS[id]='assets/icons/items/'+id+'.png');

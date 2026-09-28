@@ -3,7 +3,7 @@
  *  2. measure   tools/remeasure_holm_v2land.js (every Blender building graph on the v2 land, registry)
  *  3. data      island-gates.json (door leaves follow their building's rise), island-bridges.json (decks from the design,
  *               measured against the v2 land), the habitat without plants now standing in water
- *  4. arrival   tools/stage_holm_arrival_package_v2land.js (Safe Publish export) and its id pinned in src/holm_v2_land.js
+ *  4. arrival   tools/stage_holm_arrival_package_v2land_v3.js (Safe Publish export) and its id pinned in src/holm_v2_land.js
  *  5. bridges   (--bridges) the bridge GLBs rebuilt in Blender on the new decks and textured old-school
  *  6. audit     tools/audit_holm_v2_routes.js
  * v1 inputs come from docs/rebuild/holm-overhaul/v2land/v1-snapshot/ (the Sept 13 island data at 5435f46).
@@ -55,7 +55,8 @@ write('.studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json',Object
 reg.habitat='.studio-workspaces/holm-habitat-v2land-v1/working/vegetation.json';write(DATA+'v2land.json',reg);
 console.log('[V2LAND DATA] gates',gates.gates.map(g=>g.id+' y '+g.y).join(', '),'| bridges',bridges.map(b=>b.id+' deck '+b.deckY+' clear '+b.clearance).join(', '),'| habitat kept',keep.length,'(dressing adds',added.length+') dropped',dropped.length);
 // 4 arrival package + pin
-const out=node('tools/stage_holm_arrival_package_v2land.js'),m=/"exportId":\s*"([0-9a-f]{16})"/.exec(out);if(!m)throw Error('no export id');
+// v2land-v3 (2026-09-28): the pinned package's own stage script (Guide House v6 + statue v5); the older scripts write v2land-v2
+const out=node('tools/stage_holm_arrival_package_v2land_v3.js'),m=/"exportId":\s*"([0-9a-f]{16})"/.exec(out);if(!m)throw Error('no export id');
 const pin='src/holm_v2_land.js',src=fs.readFileSync(abs(pin),'utf8').replace(/exportId:'[0-9a-f]{16}'/,"exportId:'"+m[1]+"'");fs.writeFileSync(abs(pin),src);
 console.log('[V2LAND ARRIVAL] export',m[1],'pinned in',pin);
 // 5 bridges

@@ -1,0 +1,21 @@
+== pkgdiff (scratchpad/holm_interiors_v1/tools/pkgdiff.js) A=533ef7f966cc42a2 (review-4 v2land-v2, live pin) vs C=2ce81ad875df9448 (v2land-v3)
+closed-closed nodes 163 163 IDENTICAL
+closed-open nodes 166 166 IDENTICAL
+open-closed nodes 166 166 IDENTICAL
+open-open nodes 169 169 IDENTICAL
+interactions identical
+spawn identical
+requiredRoutes identical
+top-level keys boundary,lessonBindings,navigation,objects,provider,schema,sources,spawn,terrain,version
+assets 
+
+== pkgdiff B=50c49dbf500f9fc8 (characters v2land-v2) vs C=2ce81ad875df9448 (v2land-v3)
+closed-closed nodes 163 163 IDENTICAL
+closed-open nodes 166 166 IDENTICAL
+open-closed nodes 166 166 IDENTICAL
+open-open nodes 169 169 IDENTICAL
+interactions identical
+spawn identical
+requiredRoutes identical
+top-level keys boundary,lessonBindings,navigation,objects,provider,schema,sources,spawn,terrain,version
+assets 

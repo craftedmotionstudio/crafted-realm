@@ -1,0 +1,93 @@
+[HOLM_LANDSCAPE_CONTRACT] 4/4 acceptance ok
+[HOLM_ARRIVAL_SCENERY] 2/2 acceptance ok
+{
+ "exports": {
+  "A": "533ef7f966cc42a2",
+  "B": "50c49dbf500f9fc8",
+  "C": "2ce81ad875df9448"
+ },
+ "v3VsA": {
+  "files": 32,
+  "same": 28,
+  "differ": [
+   "assets/blender/holm_arrival_statue_oldschool_v1.blend",
+   "assets/models/holm_arrival_statue_oldschool_v1.glb",
+   "assets/world/authoring/holm-arrival.landscape-measure.json",
+   "assets/world/authoring/holm-arrival.package.json"
+  ],
+  "onlyV3": [],
+  "onlyA": []
+ },
+ "v3VsB": {
+  "files": 32,
+  "same": 28,
+  "differ": [
+   "assets/world/authoring/holm-arrival.envelopes.json",
+   "assets/world/authoring/holm-arrival.package.json"
+  ],
+  "onlyV3": [
+   "assets/blender/holm_guide_house_oldschool_v2.blend",
+   "assets/models/holm_guide_house_oldschool_v2.glb"
+  ],
+  "onlyB": [
+   "assets/blender/holm_guide_house_oldschool_v1.blend",
+   "assets/models/holm_guide_house_oldschool_v1.glb"
+  ],
+  "statueFilesIdentical": true
+ },
+ "measureV3VsA": [
+  "measure.assets.statue.sha256",
+  "measure.assets.statue.triangles",
+  "measure.assets.statue.vertices",
+  "measure.assets.statue.restBounds.max[1]",
+  "measure.assets.statue.animatedSampledUnion.max[1]"
+ ],
+ "packageV3VsA": {
+  "differingPaths": [
+   "pkg.navigation.graphRevision",
+   "pkg.objects[20].asset.authoring.sha256",
+   "pkg.objects[20].asset.model.sha256",
+   "pkg.sources[6].sha256",
+   "pkg.sources[17].sha256",
+   "pkg.sources[24].sha256"
+  ],
+  "unexplained": [],
+  "statueObjectIndex": [
+   20,
+   20
+  ]
+ },
+ "packageStatueObjectEqualsB": true,
+ "packageGuideObjectEqualsA": true,
+ "guideModel": "assets/models/holm_guide_house_oldschool_v2.glb",
+ "navigationV3VsA": "identical apart from graphRevision/compatibleGraphRevisions",
+ "navigationV3VsB": "identical apart from revision strings",
+ "nonObjectSectionsV3VsA": {
+  "terrain": "identical",
+  "spawn": "identical",
+  "lessonBindings": "identical",
+  "boundary": "identical",
+  "provider": "identical",
+  "schema": "identical",
+  "version": "identical"
+ },
+ "loader": {
+  "ok": true,
+  "objects": 21,
+  "files": 32,
+  "roles": [
+   "dock",
+   "envelopes",
+   "landscapeMeasurement",
+   "landscapePlacement",
+   "layout",
+   "provisionsManifest",
+   "provisionsPlacement",
+   "terrain",
+   "terrainSource"
+  ]
+ },
+ "ok": true,
+ "failures": []
+}
+[ARRIVAL V3 PROOF] PASS

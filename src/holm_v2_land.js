@@ -1,5 +1,5 @@
 /* Tutor's Holm v2 land (W0b, 2026-09-26, docs/rebuild/HOLM_V2_LAND.md): the pins the island loads on the new land.
- *  - ARRIVAL: the arrival package export on the terrain v2 bundle (tools/stage_holm_arrival_package_v2land.js), for both
+ *  - ARRIVAL: the arrival package export on the terrain v2 bundle (tools/stage_holm_arrival_package_v2land_v3.js), for both
  *    looks (it carries the old-school arrival models; the terrain lives in this package);
  *  - REGISTRY: docs/rebuild/holm-overhaul/v2land.json (tools/remeasure_holm_v2land.js): each Blender building's model and the
  *    navigation graph re-measured on the v2 land at its seat height, hash-bound to that model.
@@ -9,7 +9,9 @@ var HolmV2Land=(function(){
  'use strict';
  // owner review 4 (2026-09-27): v2land-v2 carries the Guide House v6 (corner trapdoor and cellar, redesigned ware, leaded glazing;
  // tools/stage_holm_arrival_package_v2land_v2.js); v2land-v1 (tools/stage_holm_arrival_package_v2land.js) is kept as it was
- var ARRIVAL={baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v2/exports/',exportId:'533ef7f966cc42a2'};
+ // v2land-v3 (2026-09-28, tools/stage_holm_arrival_package_v2land_v3.js): the Guide House v6 of v2land-v2 export 533ef7f966cc42a2
+ // and the Lantern Keeper statue v5 (kit v4) of v2land-v2 export 50c49dbf500f9fc8 in one package; everything else is 533ef7f's
+ var ARRIVAL={baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v3/exports/',exportId:'2ce81ad875df9448'};
  var REGISTRY='/docs/rebuild/holm-overhaul/v2land.json';
  function asset(u){return typeof HolmIsland!=='undefined'?HolmIsland.asset(u):u}
  // registry path ('.studio-workspaces/...') -> the URL the island loads (published copy in production)
