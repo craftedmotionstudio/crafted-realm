@@ -14,14 +14,17 @@ def arg(k, d=None):
     return ARGS[ARGS.index(k) + 1] if k in ARGS else d
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BEFORE, AFTER = arg('--before', 'v4a'), arg('--after', 'v4a2')
-OUT = os.path.join(ROOT, arg('--out', 'scratchpad/holm_characters_v4/rollout/owner_review_%s.png' % AFTER))
+# v4a.2b: --before-dir / --after-dir name the render folders when both sides are the same profile (cells keep its prefix)
+BDIR, ADIR = arg('--before-dir', BEFORE), arg('--after-dir', AFTER)
+ROWSET = arg('--rows', 'a2')
+OUT = os.path.join(ROOT, arg('--out', 'scratchpad/holm_characters_v4/rollout/owner_review_%s.png' % ADIR))
 def cell_dir(opt):
     for d in (os.path.join(ROOT, 'scratchpad', 'holm_characters_v4', 'rollout', opt, 'cells'),
               os.path.join(ROOT, 'scratchpad', 'holm_characters_v4', opt, 'cells')):
         if os.path.isdir(d):
             return d
     raise SystemExit('no cells for ' + opt)
-DB, DA = cell_dir(BEFORE), cell_dir(AFTER)
+DB, DA = cell_dir(BDIR), cell_dir(ADIR)
 BG = (24, 22, 20)
 def font(sz):
     for f in ('C:/Windows/Fonts/segoeui.ttf', 'C:/Windows/Fonts/arial.ttf'):
@@ -47,8 +50,8 @@ def strip(ims, label, gap=4):
     return out
 
 def pair(names, h, title):
-    b = strip([load(DB, BEFORE, n, h) for n in names], 'before (%s)' % BEFORE)
-    a = strip([load(DA, AFTER, n, h) for n in names], 'after (%s)' % AFTER)
+    b = strip([load(DB, BEFORE, n, h) for n in names], 'before (%s)' % BDIR)
+    a = strip([load(DA, AFTER, n, h) for n in names], 'after (%s)' % ADIR)
     w = b.width + a.width + 24
     out = Image.new('RGB', (w, max(b.height, a.height) + 30), BG)
     ImageDraw.Draw(out).text((4, 2), title, fill=(255, 255, 255), font=FT)
@@ -58,16 +61,23 @@ def pair(names, h, title):
 def seq(opt, d, base, h, label):
     return strip([load(d, opt, '%s_%02d' % (base, k), h) for k in range(8)], label)
 
-rows = [
+rows = [] if ROWSET == 'a2b' else [
     pair(['A_front', 'A_34', 'A_side', 'A_back'], 300, '1+2  Man: form-fitting trousers; smooth inside each colour region (hard breaks at material edges / silhouette)'),
     pair(['B_front', 'B_34', 'B_side', 'B_back'], 300, '1+2  Woman: the same shading rule'),
     pair(['A_skull_front', 'A_skull_side', 'A_skull_back', 'A_skull_34back', 'A_face_34'], 220,
          '3  Skull (man): fuller, deeper, rounder cranium (head height 0.16 H unchanged) -- bald, front / side / back / 3-4 back'),
     pair(['B_skull_front', 'B_skull_side', 'B_skull_back', 'B_skull_34back', 'B_face_34'], 220, '3  Skull (woman)'),
 ]
-for cn, n in (('walk', '4  Walk (man, side, the 8 held poses): heel strike toes-up, trailing heel lift + knee bend, swing-foot lift'),
-              ('run', '5  Run (man, side, the 8 held poses): calmer -- arms +-52 deg with the elbows near 90, lower kick, same cycle / step / lean')):
-    b, a = seq(BEFORE, DB, 'A_' + cn, 200, 'before (%s)' % BEFORE), seq(AFTER, DA, 'A_' + cn, 200, 'after (%s)' % AFTER)
+SEQS = (('walk', '4  Walk (man, side, the 8 held poses): heel strike toes-up, trailing heel lift + knee bend, swing-foot lift'),
+        ('run', '5  Run (man, side, the 8 held poses): calmer -- arms +-52 deg with the elbows near 90, lower kick, same cycle / step / lean'))
+if ROWSET == 'a2b':
+    rows = [pair(['A_front', 'A_34', 'A_side', 'B_front', 'B_34', 'B_side'], 300,
+                 'Idle stance: the feet drawn in under the body, the left one back, toes nearly straight, knees soft (2004 stance 0.088 / 0.075 H)'),
+            pair(['A_classic_front', 'B_classic_front'], 300, 'Idle stance, classic outfit (the silhouette the rubric measures)')]
+    SEQS = (('run', 'Run (man, side, 8 held poses): straight trailing leg in flight, lean from the hips with the chest open (calm arms kept)'),
+            ('walk', 'Walk (man, side, 8 held poses): +5.7 deg harness lean (was 3.5), feet landing a little further back'))
+for cn, n in SEQS:
+    b, a = seq(BEFORE, DB, 'A_' + cn, 200, 'before (%s)' % BDIR), seq(AFTER, DA, 'A_' + cn, 200, 'after (%s)' % ADIR)
     out = Image.new('RGB', (max(b.width, a.width), b.height + a.height + 34), BG)
     ImageDraw.Draw(out).text((4, 2), n, fill=(255, 255, 255), font=FT)
     out.paste(b, (0, 30)); out.paste(a, (0, 30 + b.height + 4))
@@ -75,7 +85,7 @@ for cn, n in (('walk', '4  Walk (man, side, the 8 held poses): heel strike toes-
 W = max(r.width for r in rows) + 20
 H = sum(r.height for r in rows) + 16 * len(rows) + 50
 sheet = Image.new('RGB', (W, H), BG)
-ImageDraw.Draw(sheet).text((10, 10), 'Owner review 2026-09-27 -- kit %s -> %s (our Blender renders only)' % (BEFORE, AFTER), fill=(255, 210, 90), font=FT)
+ImageDraw.Draw(sheet).text((10, 10), 'Owner review -- kit %s -> %s (our Blender renders only)' % (BDIR, ADIR), fill=(255, 210, 90), font=FT)
 y = 50
 for r in rows:
     sheet.paste(r, (10, y)); y += r.height + 16

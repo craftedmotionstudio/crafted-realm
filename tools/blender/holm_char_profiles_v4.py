@@ -69,6 +69,12 @@ HEAD_ROUND = {bt: _rounder(rows) for bt, rows in HEAD_EGG.items()}
 STANCE_2004 = {'LeftUpLeg': (-5.5, -1, 3.0), 'RightUpLeg': (-5.5, 1, -3.0), 'Neck': (10, 0, 0), 'Head': (6, 0, 0)}   # head carried forward, face level
 # the old client's ready pose: the left foot a little forward, the right back, toes turned out
 IDLE_FEET_2004 = {'Left': (.075, .12), 'Right': (-.075, .00), 'drop': .010, 'toe': 8.0}   # heels close (0.09 H), the right foot forward
+# v4a.2b (REF2004 stance 0.088 H man / 0.075 H woman; ours measured 0.161 / 0.177): the feet drawn in under the body
+# (x +-6.5 cm), the left one 20 cm back, toes nearly straight, knees soft; the sole a touch narrower than the instep, and
+# slimmer shins / knees / hems so the legs still stand apart down to the ground (the 2004 gap line). Closer still and the
+# knees / hems close the gap (the silhouette's legs merge) -- see the report.
+IDLE_FEET_2004_2 = {'Left': (.065, .20), 'Right': (-.065, .00), 'drop': .012, 'toe': 3.0}
+SOLE_2004 = {'A': .90, 'B': .90}
 
 # the 2004 man's V: broad square shoulders over a narrow waist at the belt and slim hips (body A, z < 1.38; final values)
 V_TORSO_A = [(0.940, .138, .1232, .1210, .026), (1.000, .136, .1210, .1166, .022), (1.080, .152, .1276, .1166, .018),
@@ -144,9 +150,10 @@ GAIT_2004 = {'walk': {'frames': 28, 'duty': .52, 'bob': .045, 'p_on': 12, 'p_off
 #  run  -- "a very aggressive run": calmer -- the arms swing +-52 deg (was +-96) with the elbows held near 90, a lower foot
 #          lift and heel kick, a little less twist; same 0.667 s cycle and 0.75 H step; the lean authored 16.5 so the
 #          harness's silhouette measure reads ~14 (it read 9.9 for 14 authored: the kicked-up rear leg pulls the bottom back)
-GAIT_2004_2 = {'walk': dict(GAIT_2004['walk'], p_on=24, p_off=-34, lift=.062, osrs=(10.0, 0.0, 3.0), swing_pitch=(.10, .62), front_q=.35, head_pitch=-5.0, lean_cap=(8.0, False)),
+GAIT_2004_2 = {'walk': dict(GAIT_2004['walk'], p_on=24, p_off=-34, lift=.062, osrs=(10.0, 0.0, 3.0), swing_pitch=(.10, .62), front_q=.2, head_pitch=-5.0, lean_cap=(11.0, False)),
                'run': dict(GAIT_2004['run'], kick=.14, lift=.10, arm_swing=52, fore=86, fore_swing=10, twist=5, p_on=14, p_off=-40,
-                           swing_y=(.12, .88), front_q=.2, lean=7, lean_cap=(19.0, False))}   # (lean 7: the head counters 7 deg -- eyes ahead)
+                           swing_y=(.12, .88), front_q=.35, lean=5, lean_cap=(26.0, False),
+                           trail=(.45, 30.0), hips_pitch=14.0, chest=8.0, duty=.30)}   # (lean 7: the head counters 7 deg -- eyes ahead)
 # (REF2004 re-capture of v4a.2 with lean caps 6.5 / 16.5 and the run's head countering 13 deg: the harness measured 3.4 / 8.3
 # -- its lean is the silhouette's top-quarter vs bottom-quarter centroid, so a head held back reads as less lean. The head
 # now goes with the body as in the reference run, and the caps are 8 / 19 so the silhouettes measure ~5 / ~14)
@@ -158,7 +165,7 @@ TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 # the kit's spine-lean gates, widened on purpose for the 2004 look (build_holm_characters_v2.LEAN_LIMITS): the reference
 # strips lean ~5 deg forward in the walk and ~14 deg in the run (we author 5 / 12); the ready pose carries the head forward
 LEAN_2004 = {'still': .5, 'walk': 5.6, 'run': 14.6, 'head_idle': 9.0, 'tutor_walk': 5.6}
-LEAN_2004_2 = dict(LEAN_2004, walk=8.6, run=19.6)   # v4a.2: the authored leans that measure ~5 / ~14 on the harness strips
+LEAN_2004_2 = dict(LEAN_2004, walk=11.6, run=26.6)   # v4a.2: the authored leans that measure ~5 / ~14 on the harness strips
 # the tutors' stroll: the same 2004 lean and a touch of the old client's short leg swing
 TUTOR_GAIT_2004 = {'lean_cap': (5.0, False), 'plant_k': .85, 'arm_swing': 20}
 
@@ -186,8 +193,8 @@ PROFILES = {
     # the torso and arms), form-fitting trousers, a fuller rounder skull, a walk with a real ankle roll and a calmer run
     'v4a2': dict(BODY_2004, label='Option A.2 -- closest 2004, smooth panels, form-fitting trousers, rounder skull, ankle-roll walk, calm run',
                  sharp=80.0, face=FACE_2004, head=HEAD_ROUND, head_p=2.55, head_wy=1.04, head_back_k=HEAD_BACK_K,
-                 trousers='fitted', gait=GAIT_2004_2, jaw_clear=(.064, .064), hair_clear=.050,
-                 v_body=dict(thigh_k=.72, thigh_k_b=.78),   # (slimmer thighs: the 2004 gap from the crotch down; cloth follows)   # (beards over armour clear the head-forward idle)
+                 trousers='fitted', gait=GAIT_2004_2, jaw_clear=(.064, .064), hair_clear=.050, idle_feet=IDLE_FEET_2004_2, sole_k=SOLE_2004, hem_max=.044, ankle_r={'A': .047, 'B': .041}, knee_k={'A': .84, 'B': .92},
+                 v_body=dict(thigh_k=.70, thigh_k_b=.76),   # (slimmer thighs: the 2004 gap from the crotch down; cloth follows)
                  step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')},
                  step_all=(3, 'CONSTANT'), lean=LEAN_2004_2, tutor_gait=TUTOR_GAIT_2004),
     # B: the same figure made softer: smooth (Gouraud-like) shading over the limbs and head, the 8 poses joined by
@@ -244,8 +251,8 @@ def _feet(K):
 
 # v4a.2 (owner: "not form-fitting ... ours read baggy or boxy"): the cloth follows the leg -- 7-8 mm over the thigh, knee and
 # calf, easing out only over the last hand-width to the shoe so the hem still hangs over it
-TROUSERS_FITTED = [(0.0, .008), (.4, .008), (.84, .007), (1.0, .006), (1.14, .007), (1.5, .008), (1.60, .011), (1.66, .015),
-                   (1.80, .016), (1.90, .016), (1.955, .016), (1.985, .016)]   # (from mid-shin the 6-sided tube's flats clear boot shafts)
+TROUSERS_FITTED = [(0.0, .008), (.4, .008), (.84, .007), (1.0, .006), (1.14, .007), (1.5, .008), (1.60, .010), (1.66, .012),
+                   (1.80, .013), (1.90, .013), (1.955, .013), (1.985, .013)]   # (from mid-shin the 6-sided tube's flats clear boot shafts)
 
 def apply(K, name):
     if not name:
@@ -294,10 +301,24 @@ def apply(K, name):
         K.REACH_ASSIST = True
     if 'arm_aim' in P:   # the 2004 ready pose: fists at the front-side of the thighs (reference: ~7 cm ahead of the hip line)
         K.IDLE_HAND_Y = (-.09, .03)
+    K.SOLE_K.clear(); K.SOLE_K.update(P.get('sole_k', {}))
+    K.HEM_MAX = P.get('hem_max')
     if 'hair_clear' in P:   # hair over armour / capes / amulets stands this far off the torso
         K.ARMOUR_CLEAR['Hair'] = P['hair_clear']
     if 'jaw_clear' in P:
         K.ARMOUR_CLEAR['Jaw'], K.JAW_LOW_EXTRA = P['jaw_clear']
+    if P.get('ankle_r'):   # v4a.2b: slimmer 2004 shins (the feet drawn in keep a gap between the legs to the ground)
+        for bt, a_ in P['ankle_r'].items():
+            r15 = K.lerp_table(K.LEG_R[bt], 1.5)
+            ank = (a_, a_, a_ + .004)
+            rows = [r for r in K.LEG_R[bt] if r[0] <= 1.5]
+            for u in (1.72, 1.95, 2.0):
+                t = min(1.0, (u - 1.5) / .45)
+                rows.append((u,) + tuple(x + (y - x) * t for x, y in zip(r15, ank)))
+            K.LEG_R[bt][:] = rows
+    for bt, kk in P.get('knee_k', {}).items():   # v4a.2b: a narrower knee side to side (the legs stay apart to the ground)
+        K.LEG_R[bt][:] = [(u, rs * (1 - (1 - kk) * max(0.0, 1 - abs(u - 1.25) / .60)), rf, rb) + tuple(r_[4:])
+                          for r_ in K.LEG_R[bt] for u, rs, rf, rb in [r_[:4]]]
     if P.get('trousers') == 'fitted':
         K.TROUSERS = list(TROUSERS_FITTED)
     K.HEAD_BACK_K = P.get('head_back_k', 1.0)   # (the equipment refit maps the helms onto the fuller back of the skull)

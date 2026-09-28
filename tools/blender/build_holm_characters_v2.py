@@ -2414,7 +2414,10 @@ def hand_style(mb, bt, key):
 def pelvis(mb, bt, mat='C_LEGS', off=0.0):
     mb.loft([body_ring(bt, z, off) for z in [r[0] for r in PELVIS[bt]]], mat, torso_w)
 
+HEM_MAX = None   # v4a.2b profiles: the widest a trouser leg may stand off the shin below the knee (flares / bootcut / culottes)
 def legs_both(mb, bt, spec, mat='C_LEGS', n=6, cap0=True, cap1=True):
+    if HEM_MAX is not None:   # (the 2004 idle draws the feet in: wide hems would pass through each other)
+        spec = [(r[0], min(r[1], HEM_MAX * ss(.95, 1.30, r[0]) + r[1] * (1 - ss(.95, 1.30, r[0])))) + tuple(r[2:]) for r in spec]
     if spec[0][0] <= 0.0 and len(spec[0]) < 3:   # rounded hip dome tucked inside the pelvis
         spec = [(spec[0][0] - .07, spec[0][1], .50)] + list(spec)
     for sx in (-1, 1):
@@ -2508,6 +2511,7 @@ BARE_SL = [(0.000, -.132, .146, .046, .042),
            (0.112, .044, .154, .053, .052)]   # bare foot: narrows to the bare ankle
 FOOT_N = 10
 FOOT_P = 2.35
+SOLE_K = {}   # v4a.2b profiles: the sole narrower than the instep (per body type), easing back to 1.0 by the ankle
 FOOT_BLEND = None   # v4 profiles: (z_start, ring_off) -- slices above z_start blend into the lower-leg ring at the ankle
 
 def foot_slice(bt, sx, z, yf, yb, wo, wi, grow=0.0, wk=1.0, hk=1.0, n=FOOT_N):
@@ -2522,7 +2526,9 @@ def foot_slice(bt, sx, z, yf, yb, wo, wi, grow=0.0, wk=1.0, hk=1.0, n=FOOT_N):
     for j in range(n):
         a = 2 * math.pi * j / n + math.pi / n
         sa, ca = math.sin(a), math.cos(a)
-        w = ((wo if sa * sx > 0 else wi) * k ** .8 * wk + grow)
+        sole = SOLE_K.get(bt, 1.0)
+        sole = sole + (1.0 - sole) * ss(.03, .10, z)
+        w = ((wo if sa * sx > 0 else wi) * k ** .8 * wk * sole + grow)
         x = w * math.copysign(abs(sa) ** e, sa)
         y = yc - (lf if ca >= 0 else lb) * math.copysign(abs(ca) ** e, ca)
         x += sx * .13 + sx * max(0.0, .02 - y) * .10   # toes turn out a little
@@ -2968,12 +2974,15 @@ def clip_defs():
         (18, ready),
     ], False)
     ready2 = P(RightArm=(-14, -2, 0), LeftArm=(-14, 2, 0), RightForeArm=(-18, 0, 0), LeftForeArm=(-18, 0, 0))
-    smash = PP(crouch(-22, 38), RightArm=A(-.05, -.75, -.65), RightForeArm=A(.10, -.8, -.6), LeftArm=A(.10, -.75, -.65),
+    # v4a.2b: the smash's upper arms a touch further forward and out -- the elbows pass beside a pendant, not through it
+    smash = PP(crouch(-22, 38), RightArm=A(-.17, -.82, -.54), RightForeArm=A(.10, -.8, -.6), LeftArm=A(.20, -.82, -.54),
                LeftForeArm=A(-.10, -.8, -.6), Spine=(12, 0, 0), Spine1=(18, 0, 0), Head=(-12, 0, 0))
     C['attack_crush'] = (21, [
         (0, ready2),
-        (8, P(RightArm=A(-.10, .15, 1), RightForeArm=A(.15, .55, .8), LeftArm=A(.12, .15, 1), LeftForeArm=A(-.15, .55, .8),
-              Spine1=(-10, 0, 0), Spine2=(-5, 0, 0), Head=(-4, 0, 0), loc=(0, 0, .01))),
+        # v4a.2b: the upper arms raised in a narrow V (not straight up beside the ears): the square 2004 shoulder caps no
+        # longer squeeze into the neck (and through a necklace / gorget); the forearms bring the hands together overhead
+        (8, P(RightArm=A(-.58, .02, 1), RightForeArm=A(.56, .55, .8), LeftArm=A(.60, .02, 1), LeftForeArm=A(-.56, .55, .8),
+              Spine1=(-7, 0, 0), Spine2=(-2, 0, 0), Head=(-4, 0, 0), loc=(0, 0, .01))),
         (12, smash),
         (16, smash),
         (21, ready2),
@@ -3472,7 +3481,7 @@ def foot_ankle(g, pitch):
 def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, arm_swing, fore, lean, twist, foot_x=.14,
               kick=0.0, base=None, bob_phase=0.0, head_counter=.6, fore_swing=8.0, hips_pitch=0.0, arms=True,
               sway=0.0, roll=0.0, sh_twist=None, head_stab=0.0, osrs=None, swing_sides=('Left', 'Right'), lean_cap=None,
-              swing_pitch=None, swing_y=None, head_pitch=0.0):
+              swing_pitch=None, swing_y=None, head_pitch=0.0, trail=None, chest=0.0):
     """grounded in-place cycle: the stance foot's ground pivot moves back at exactly `speed` (clip time) while the
     pelvis bobs; the swing foot arcs forward; arms swing opposite the legs; spine counter-twists."""
     T = frames / FPS
@@ -3488,7 +3497,9 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
             kw.update(Hips=(0, 0, -twist * c), Spine=(0, 0, twist * 1.6 * c), Head=(head_pitch, 0, -twist * .6 * c),   # (v4a.2: eyes ahead over the lean)
                       loc=(0, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
         elif sh_twist is None:   # v2.7 model (run, Bram)
-            kw.update(Spine=(lean, 0, twist * .8 * c), Spine1=(0, 0, twist * .6 * c), Head=(-lean * head_counter, 0, -twist * .5 * c),
+            # v4a.2b: chest=deg opens the upper back (Spine1 / Spine2 extend) so a hips-led lean reads straight, not hunched
+            kw.update(Spine=(lean, 0, twist * .8 * c), Spine1=(-chest * .5, 0, twist * .6 * c), Spine2=(-chest, 0, 0),
+                      Head=(-lean * head_counter, 0, -twist * .5 * c),
                       Hips=(hips_pitch, 0, -twist * c),
                       loc=(0, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
         else:                  # v2.8 walk: hip sway + roll, shoulders counter-rotating, head held steady, upright
@@ -3536,6 +3547,19 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
                 # v4a.2 (owner 2026-09-27: "feet always parallel with the ground"): swing_pitch=(a, b) keeps the toes
                 # pointing down after the push-off and turns them up well before the heel strike (a clear ankle roll)
                 pitch = p_off + (p_on - p_off) * (ss(swing_pitch[0], swing_pitch[1], sw) if swing_pitch else e)
+                if trail and sw < trail[0]:
+                    # v4a.2b (the 2004 run's flight): after the push-off the trailing leg stays STRAIGHT and swings up behind
+                    # (about the hip) before the knee folds and the thigh drives through -- no bent-kneed crouch in the air
+                    hd_, _ = fk(pose)
+                    Hj = hd_[B(side + 'UpLeg')]
+                    Lleg = ((BHEAD[B(side + 'Leg')] - BHEAD[B(side + 'UpLeg')]).length +
+                            (BHEAD[B(side + 'Foot')] - BHEAD[B(side + 'Leg')]).length) * .985
+                    d0 = a0 - Hj
+                    l0 = d0.length
+                    Lt = l0 + (max(l0, Lleg) - l0) * ss(0.0, trail[0] * .5, sw)
+                    st_ = Hj + (Matrix.Rotation(math.radians(trail[1]) * ss(0.0, trail[0], sw), 3, 'X') @ d0.normalized()) * Lt
+                    wt = 1.0 - ss(trail[0] * .55, trail[0], sw)
+                    ank = ank.lerp(st_, wt)
             worst = max(worst, leg_ik(pose, side, ank, pitch) if ph < duty else 0.0)
             if ph >= duty:
                 leg_ik(pose, side, ank, pitch)

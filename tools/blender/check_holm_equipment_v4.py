@@ -424,6 +424,40 @@ def exposure(L, kind, placed_ev, span_parts, occl_ev=()):
                 if len(res['where']) < 6:
                     res['where'].append([slot] + [round(c, 3) for c in rc[i]])
     return res
+LR_ZMAX = .62        # v4a.2b: below the crotch every leg / foot / boot triangle belongs to one side (rest x)
+LR_KINDS = ('boots', 'platelegs', 'chaps', 'plateskirt')
+def lr_cross(items):
+    """v4a.2b (the 2004 idle draws the feet in under the body): triangle pairs where the LEFT leg's surfaces (kit legs /
+    feet + leg armour / boots, rest x > 0) pass through the RIGHT leg's. items: [(evaluated (o, co, no, tris), rest coords)]"""
+    side = {1: ([], []), -1: ([], [])}
+    for (o, co, no, tris), rc in items:
+        for f in tris:
+            if max(rc[i].z for i in f) > LR_ZMAX:
+                continue
+            xs = [rc[i].x for i in f]
+            sx = 1 if min(xs) > .004 else -1 if max(xs) < -.004 else 0
+            if not sx:
+                continue
+            vs, fs = side[sx]
+            k = len(vs)
+            vs.extend(co[i] for i in f)
+            fs.append(tuple(range(k, k + len(f))))
+    if not side[1][1] or not side[-1][1]:
+        return 0, []
+    a, b = BVHTree.FromPolygons(*side[1]), BVHTree.FromPolygons(*side[-1])
+    pairs = a.overlap(b)
+    where = []
+    for i, _ in pairs[:3]:
+        f = side[1][1][i]
+        c = sum((side[1][0][j] for j in f), Vector()) / len(f)
+        where.append([round(v, 3) for v in c])
+    return len(pairs), where
+def kit_leg_items(L):
+    vis = [o for o in L.kit_visible() if '_Legs_' in o.name or '_Feet_' in o.name]
+    return list(zip(evaluated(vis), [rest_co(o, L) for o in vis]))
+def eq_rest(objs):
+    return [[v.co.copy() for v in o.data.vertices] for o in objs]
+
 def overlaps(obj_ev, body_ev):
     """triangle pairs where the item passes through the given kit / equipment surfaces (BVH overlap), and where"""
     a, b = union_bvh(obj_ev), union_bvh(body_ev)
@@ -516,7 +550,14 @@ def run_worn():
                                 if kind in ('platebody', 'chainbody', 'leather_body', 'cape'):
                                     hair = [KITM[kit_name(bt, 'Hair', L.parts['Hair'])]] +                                            ([KITM[kit_name(bt, 'Jaw', L.parts['Jaw'])]] if 'Jaw' in L.parts else [])
                                     # only the hair's outside counts: armour inside the hair shell is covered by it (hair over the armour)
-                                    r['hair_through'], r['hair_at'] = overlaps(evaluated(hair, only_outer=True), pev)
+                                    # v4a.2b: a cape test counts only the hair against the cape (hair vs the body armour is
+                                    # that armour's own test -- it was double-counted here)
+                                    cape_ev = [x for x in pev if x[0] in [c for c, _ in L.eq('cape')['parts']]] if kind == 'cape' else pev
+                                    r['hair_through'], r['hair_at'] = overlaps(evaluated(hair, only_outer=True), cape_ev)
+                                if kind in LR_KINDS and clip == 'idle':   # v4a.2b: the feet drawn in -- the legs never cross
+                                    parts = [c for c, _ in L.eq(kind)['parts']]
+                                    mine = [x for x in pev if x[0] in parts]
+                                    r['lr_cross'], r['lr_at'] = lr_cross(list(zip(mine, eq_rest([x[0] for x in mine]))) + kit_leg_items(L))
                                 if kind in ('amulet', 'cape'):
                                     mine = [x for x in pev if x[0] in [c for c, _ in L.eq(kind)['parts']]]
                                     others = [x for x in pev if x not in mine]
@@ -526,7 +567,7 @@ def run_worn():
                                     if r['through']:
                                         r['through_parts'] = {b_[0].name: [o_[0], o_[1][:2]] for b_ in body for o_ in [overlaps(mine, [b_])] if o_[0]}
                                 rows.append(r)
-        bad = [r for r in rows if r.get('exposed', 0) > EXPOSED_TOL or r.get('through') or r.get('hair_through')]
+        bad = [r for r in rows if r.get('exposed', 0) > EXPOSED_TOL or r.get('through') or r.get('hair_through') or r.get('lr_cross')]
         RESULTS['rows'][kind] = rows
         RESULTS['worn'][kind] = {'tests': len(rows), 'failing': len(bad), 'max_exposed': max((r.get('exposed', 0) for r in rows), default=0),
                                  'worst': sorted(bad, key=lambda r: -(r.get('exposed', 0) + r.get('through', 0)))[:12]}
@@ -591,11 +632,33 @@ if FROM:      # sheets only, from an earlier run's results (the tests take an ho
     RESULTS.update(json.load(open(FROM)))
     WORN_T, HELD_T = WORN, HELD
     WORN, HELD = [], []
+def run_kit_legs():
+    """v4a.2b: the bare kit at the idle -- every legs option x every feet option (+ the feet morphs), both bodies, three
+    builds: the left leg / foot never passes through the right one"""
+    rows = []
+    for bt in ('A', 'B'):
+        for build in ('slim', 'average', 'stout'):
+            for li in range(1, len(K.KIT[bt]['Legs']) + 1):
+                for fi in range(1, len(K.KIT[bt]['Feet']) + 1):
+                    for feet in (None, 'small', 'large'):
+                        L = Look(bt, build, {'Legs': li, 'Feet': fi}, [], feet=feet)
+                        for fr in (0, 30):
+                            apply_look(L, 'idle', fr)
+                            n, at = lr_cross(kit_leg_items(L))
+                            rows.append({'bt': bt, 'build': build, 'kit': {'Legs': li, 'Feet': fi}, 'feet': feet, 'clip': 'idle', 'frame': fr,
+                                         'lr_cross': n, 'lr_at': at})
+    bad = [r for r in rows if r['lr_cross']]
+    RESULTS['kit_legs'] = {'tests': len(rows), 'failing': len(bad), 'worst': sorted(bad, key=lambda r: -r['lr_cross'])[:12]}
+    RESULTS['rows']['kit_legs'] = rows
+    print('[EQCHECK] kit legs (idle, left vs right) tests %d failing %d' % (len(rows), len(bad)))
+if not ONLY or 'kit_legs' in ONLY:
+    run_kit_legs()
 run_worn()
 run_held()
 if FROM:
     WORN, HELD = WORN_T, HELD_T
-summary = RESULTS['summary'] if FROM else {'worn_failing': {k: v['failing'] for k, v in RESULTS['worn'].items()},
+summary = RESULTS['summary'] if FROM else {'kit_legs_failing': RESULTS.get('kit_legs', {}).get('failing'),
+           'worn_failing': {k: v['failing'] for k, v in RESULTS['worn'].items()},
            'held_failing': {k: v['failing'] for k, v in RESULTS['held'].items()},
            'held_failing_idle_walk_run': {k: v['failing_idle_walk_run'] for k, v in RESULTS['held'].items()}}
 RESULTS['summary'] = summary

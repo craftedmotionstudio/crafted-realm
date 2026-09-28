@@ -154,7 +154,9 @@ async function frames(page,ms){return page.evaluate(ms=>new Promise(res=>{let n=
     const prayers=await page.evaluate(()=>Object.keys(PRAYERS));
     let tipOk=0,hudShown=0;const tipBad=[];
     for(let i=0;i<prayers.length;i++){
-      const id=prayers[i];const xy=await centre(page,'#prayer-grid .prayer-btn[data-book="prayers:'+id+'"]');await page.mouse.move(xy[0],xy[1]);await sleep(160);
+      const id=prayers[i];const xy=await centre(page,'#prayer-grid .prayer-btn[data-book="prayers:'+id+'"]');await page.mouse.move(xy[0],xy[1]);
+      // (the tip shows on hover; under a loaded machine 160 ms was sometimes too soon -- wait for it up to 1.5 s)
+      for(let w=0;w<10;w++){await sleep(150);if(await page.evaluate(n=>{const t=document.getElementById('book-tip');return !!t&&t.classList.contains('on')&&!!t.firstChild&&t.firstChild.textContent===n},await page.evaluate(id=>PRAYERS[id].name,id)))break}
       const t=await page.evaluate(id=>{const t=document.getElementById('book-tip'),h=document.getElementById('hud-tip');const G=SkillGuideData.fromGlobals(),p=PRAYERS[id];
         return {on:!!t&&t.classList.contains('on'),lines:t?Array.from(t.children).map(c=>c.textContent):[],hud:!!h&&getComputedStyle(h).display!=='none',
           want:[p.name,'Level '+p.req+(Player.lvl('Prayer')<p.req?' (you have '+Player.lvl('Prayer')+')':''),SkillGuideData.prayerLine(G,id)]}},id);
@@ -174,7 +176,7 @@ async function frames(page,ms){return page.evaluate(ms=>new Promise(res=>{let n=
     await openTab(page,'spells');await sleep(300);
     const spells=await page.evaluate(()=>Object.keys(SPELLS));const spBad=[];let spOk=0;
     for(let i=0;i<spells.length;i++){
-      const id=spells[i];const xy=await centre(page,'#spell-grid .prayer-btn[data-book="spells:'+id+'"]');await page.mouse.move(xy[0],xy[1]);await sleep(140);
+      const id=spells[i];const xy=await centre(page,'#spell-grid .prayer-btn[data-book="spells:'+id+'"]');await page.mouse.move(xy[0],xy[1]);for(let w=0;w<10;w++){await sleep(140);if(await page.evaluate(n=>{const t=document.getElementById('book-tip');return !!t&&t.classList.contains('on')&&!!t.firstChild&&t.firstChild.textContent===n},await page.evaluate(id=>SPELLS[id].name,id)))break}
       const t=await page.evaluate(id=>{const t=document.getElementById('book-tip');const G=SkillGuideData.fromGlobals(),sp=SPELLS[id];
         return {on:!!t&&t.classList.contains('on'),lines:t?Array.from(t.children).map(c=>c.textContent):[],want:[sp.name,SkillGuideData.spellRunes(G,id),SkillGuideData.spellLine(G,id)]}},id);
       if(t.on&&t.lines[0]===t.want[0]&&/^Level \d+/.test(t.lines[1])&&t.lines.indexOf(t.want[1])>=0&&t.lines.indexOf(t.want[2])>=0)spOk++;else spBad.push({id,lines:t.lines,want:t.want});

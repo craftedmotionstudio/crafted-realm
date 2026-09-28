@@ -924,7 +924,8 @@ def sk_platelegs(mb, bt, over=None):
     rows = [(.79, .030), (.85, .034), (.905, .040), (.905, .046), (.955, .040), (.955, .046), (1.00, .036), (1.035, .030)]
     pelvis_rows(mb, bt, rows, n, lambda i: ME if i in (2, 4, 6) else (MD if i in (3, 5) else MT))
     fold(mb, bt, 1.035, .030, .012, n, MD, dz=.004)
-    spec = [(-.02, .026), (.2, .030), (.5, .030), (.80, .030), (.92, .040), (1.0, .050), (1.10, .042), (1.18, .034), (1.5, .034),
+    # (v4a.2b: the knee cops 4 mm flatter -- the 2004 idle brings the knees within a hand of each other)
+    spec = [(-.02, .026), (.2, .028), (.5, .028), (.80, .029), (.92, .035), (1.0, .042), (1.10, .037), (1.18, .033), (1.5, .034),
             (1.75, .036), (1.90, .038), (1.97, .040), (2.03, .036)]
     legs = [(u, o) for u, o in spec]
     def lm(i, k):
@@ -1011,14 +1012,14 @@ def sk_gloves(mb, bt, over=None):
             rings.append(KB.xring(c, ax, th * k + g, wd * k + g, wd * k + g, 6, phase=math.pi / 6)); ws.append(wts); mats.append(LE)
         mb.loft(rings, LE, ws, cap0=False, cap1=True, matfn=lambda i, kk: mats[i] if i < 3 else LE)
 
-BOOT_TOP_GROW = .012   # v4: kit v4 trousers end at the top of the instep (FOOT_BLEND feet): the boot's instep clears their hem
+BOOT_TOP_GROW = .024   # v4: kit v4 trousers end at the top of the instep (FOOT_BLEND feet): the boot's instep clears their hem
 def sk_boots(mb, bt, over=None):
     for sx in (-1, 1):
         sl = [(z, yf - .004, yb + .004, wo, wi) for z, yf, yb, wo, wi in KB.FOOT_SL]
         rings = []
         for z, yf, yb, wo, wi in sl:   # v4: the upper slices stand a little further off (the v4 trouser hem ends at the instep top)
             rings.append(KB.foot_slice(bt, sx, z, yf, yb, wo, wi, grow=.013 + BOOT_TOP_GROW * KB.ss(.06, .122, z), hk=1.05))
-        shaft = [(1.97, .044), (1.88, .054), (1.76, .052), (1.64, .046), (1.58, .044)]   # (room over turn-ups in the run;
+        shaft = [(1.97, .045), (1.88, .050), (1.76, .045), (1.64, .034), (1.58, .030)]   # (room over turn-ups in the run;
         # v4: and over the kit foot's collar as the 2004 walk rolls the ankle through 58 deg)
         rings += KB.shin_rings(bt, sx, shaft)
         fw, lw = KB.foot_w(sx), KB.leg_w(sx)
@@ -1027,13 +1028,14 @@ def sk_boots(mb, bt, over=None):
         mb.loft(rings, LE, ws, cap0=True, cap1=False, matfn=lambda i, k: LK if i == 0 else LE)
         # folded cuff round the shaft top
         # (v3: the cuff's top turns in and closes round the leg -- no view down into the shaft)
-        cuff = KB.shin_rings(bt, sx, [(1.66, .044), (1.64, .054), (1.53, .054), (1.55, .044), (1.555, .001)])   # (v4: closes onto the shin)
+        cuff = KB.shin_rings(bt, sx, [(1.66, .032), (1.64, .040), (1.53, .040), (1.55, .032), (1.555, .001)])   # (v4: closes onto the shin)
+        # (v4a.2b: shaft / cuff slimmer -- the 2004 idle draws the feet in and the boots must pass each other)
         mb.loft(cuff, LK, lw, cap0=False, cap1=False, smooth=False)
         # ankle strap with a brass buckle on the outside
-        st = KB.shin_rings(bt, sx, [(1.92, .050), (1.88, .050)])
+        st = KB.shin_rings(bt, sx, [(1.92, .044), (1.88, .044)])
         mb.loft(st, LK, lw, cap0=False, cap1=False, smooth=False)
         c = sum((Vector(p) for p in st[0]), Vector()) / len(st[0])
-        mb.box((c.x + sx * .068, c.y, c.z - .01), (.008, .022, .018), BR, lw)
+        mb.box((c.x + sx * .062, c.y, c.z - .01), (.008, .022, .018), BR, lw)
 
 # ---------------------------------------------------------------- amulet / cape: clearance over what is worn under them
 # The amulet and the cape are shaped over the layer under them, measured from the real meshes (rest pose, current build):
@@ -1125,32 +1127,50 @@ NECK_X = {'A': .094, 'B': .084}       # half width of the necklace at the base o
 NECK_Z = {'A': 1.490, 'B': 1.489}
 NECK_OVER_PLATE = {'A': 0.0, 'B': .012}   # v4: over her platebody the chain rides up on the gorget, above the pauldrons' inner edge
 NECK_X['B'] = .072    # v4: her chain rounds the slimmer v4 neck base (wider, over a platebody it rode up onto the pauldrons)
-NECK_BACK_OFF = {'A': .002, 'B': .004}   # B: the back of the chain stands a little further off (her collar line and hair)
+NECK_BACK_OFF = {'A': .014, 'B': .014}   # v4a.2b: the back / sides of the chain stand 1.4 cm off the collar (was .002 / .004):
+# the swings lift the gorget / shoulder surfaces round the neck base into a chain lying on them (hidden by hair or unnoticed)
+# v4a.2b: the swings and the cast lift the deltoid caps / pauldrons into a chain lying out on the square shoulder shelf: the
+# chain now hugs the neck itself, a little higher and narrower (the arms' caps never reach in that far)
+# v4a.2b: at z 1.490 the square shoulder shelf is still 13 cm out to the side, so the chain's sides lay on the shelf where
+# the deltoid caps / pauldrons rise in the swings and the cast; a few millimetres higher the collar has closed to the neck
+NECK_Z.update({'A': 1.497, 'B': 1.491})
 FOOT_A = [(dp, dz) for dp in (-.20, -.10, 0.0, .10, .20) for dz in (-.010, 0.0, .010)]
 def x_to_phi(bt, x, z, off):
     """the body_point angle (front half) whose point has this x"""
     e = 2.0 / KB.TORSO_P
     q = min(.999, abs(x) / (KB.body_r(bt, z)[0] + off))
     return math.copysign(math.asin(min(1.0, q ** (1 / e))), x)
+# v4a.2b (the swings, the cast, the bow): the chain went round the neck base ON the square shoulder shelf, where the deltoid
+# caps / pauldrons rise when the arm does -- and over a platebody the wide spread of the clearance search pushed it out over
+# the pauldrons. Now it circles the NECK just above the collar / gorget (Neck-weighted, like the skin under it) and dips in
+# front to the pendant over the chest, measured with the narrow footprint.
+NECK_RING_Z = {'A': 1.524, 'B': 1.518}
+NECK_RING_X = {'A': .064, 'B': .056}   # half width of the ring where it leaves the neck for the chest
+NECK_SKIN = {'A': (.067, 0.0), 'B': (.058, 0.0)}   # behind: the ring lies ON the neck skin (radius, centre y; ~5 cm round)
 def sk_amulet(mb, bt, over=None):
     N, R = 16, .0055
-    X, ZB = NECK_X[bt], NECK_Z[bt] + (NECK_OVER_PLATE[bt] if over == 'platebody' else 0.0)
-    dz = ZB - 1.464                                  # (every v3 height of the chain moves with the neck base)
+    X, ZB = NECK_RING_X[bt], NECK_Z[bt] + (NECK_OVER_PLATE[bt] if over == 'platebody' else 0.0)
+    ZN = NECK_RING_Z[bt] + (.010 if over == 'platebody' else 0.0)   # (over the gorget's rolled top edge)
+    RN, YC = NECK_SKIN[bt]
+    dz = ZB - 1.464                                  # (every v3 height of the pendant moves with the neck base)
     pts = []
     for j in range(N):
         u = 2 * math.pi * j / N
-        if math.cos(u) >= -1e-9:                     # front half: a U from the neck base down to the chest
-            x, z = X * math.sin(u), ZB - .104 * max(0.0, math.cos(u)) ** 1.6
-            phi = x_to_phi(bt, x, z, .02)
-        else:                                       # back half: round the back of the neck
-            ps = x_to_phi(bt, X, ZB, .02)
-            a = (u - math.pi / 2) / math.pi         # 0 .. 1 from the left side round the back to the right side
-            phi = ps + (2 * math.pi - 2 * ps) * a
-            z = ZB
+        if math.cos(u) < -.2:                        # behind the neck: on the skin (the armour collars rise round it)
+            pts.append(Vector((RN * math.sin(u), YC - RN * math.cos(u), ZN)))
+            continue
         back = math.cos(u) < -1e-9
-        o = clear_off(bt, over, phi, z, FOOT_A) + R + (NECK_BACK_OFF[bt] if back else .008 + .012 * KB.ss(1.40 + dz, 1.46 + dz, z))
+        if not back:                                 # front half: a U from the neck ring down to the chest
+            x, z = X * math.sin(u), ZN - (ZN - (ZB - .104)) * max(0.0, math.cos(u)) ** 1.6
+            phi = x_to_phi(bt, x, z, .02)
+        else:                                       # the sides, just behind the neck's widest point
+            ps = x_to_phi(bt, X, ZN, .0)
+            a = (u - math.pi / 2) / math.pi
+            phi = ps + (2 * math.pi - 2 * ps) * a
+            z = ZN
+        o = clear_off(bt, over, phi, z, FOOT) + R + (.002 if back or z > ZN - .02 else .008 + .012 * KB.ss(1.40 + dz, 1.46 + dz, z))
         p = KB.body_point(bt, phi, z, o)
-        pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42 + dz, 1.47 + dz, z)), R + .008))
+        pts.append(push_clear(bt, over, p, out_dir(bt, phi, z, .8 * KB.ss(1.42 + dz, 1.47 + dz, z)), R + .004))
     rings = []
     for j, p in enumerate(pts):
         t = (pts[(j + 1) % N] - pts[j - 1])
@@ -1158,7 +1178,7 @@ def sk_amulet(mb, bt, over=None):
     rings.append(rings[0])
     mb.loft(rings, BR, lambda q: KB.torso_w(Vector((q.x, q.y, q.z - .012))), cap0=False, cap1=False)
     zc = 1.338 + dz                               # the pendant rests on whatever is under it (its back face 2 mm off it)
-    o = clear_off(bt, over, 0.0, zc, [(dp, dz) for dp in (-.26, -.13, 0.0, .13, .26) for dz in (-.04, -.02, 0.0, .02, .04)]) + .032
+    o = clear_off(bt, over, 0.0, zc, [(dp, dz) for dp in (-.26, -.13, 0.0, .13, .26) for dz in (-.04, -.02, 0.0, .02, .04)]) + .032 +         (.012 if over == 'platebody' else 0.0)   # (v4a.2b: the crush's bent spine folds the breastplate ridge forward)
     y = KB.front_y(bt, 0, zc, o) - .004
     c = Vector((0, y, zc))
     disc = [KB.xring(c + Vector((0, dy, 0)), (0, -1, 0), r, r, r, 10, front=(0, 0, 1)) for dy, r in ((.006, .026), (.001, .034), (-.006, .030))]
@@ -1171,8 +1191,10 @@ def sk_amulet(mb, bt, over=None):
 
 CAPE_ROWS = [(1.472, 34, .008), (1.40, 35, .014), (1.30, 36, .022), (1.10, 41, .022), (.97, 44, .026), (.82, 47, .040), (.53, 50, .058)]
 FOOT_C = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.010, 0.0, .010)]   # (between the shoulder blades, clear of the arms)
-CAPE_PLATE_SPAN = .74   # v4: over a platebody the cape is narrower at the back (the square 2004 shoulders swing the couters back past it)
-CAPE_FLARE_BACK = .11   # v4: the 2004 walk's half-body-height steps swing the trailing leg far back -- the hem hangs this much further back
+CAPE_PLATE_SPAN = .52   # v4: over a platebody the cape is narrower at the back (the square 2004 shoulders swing the couters back past it)
+CAPE_PLATE_SPAN_TOP = .80   # v4a.2b: ... and hangs from the gorget between the shoulder blades, clear of the pauldrons (the crush)
+CAPE_BODY_SPAN = .80   # v4a.2b: over a chainbody / leather body a little narrower too (the run's elbows swing back past its edges)
+CAPE_FLARE_BACK = .17   # v4: the 2004 walk's half-body-height steps swing the trailing leg far back -- the hem hangs this much further back
 def sk_cape(mb, bt, over=None):
     cols = 11
     outer, inner = [], []
@@ -1180,7 +1202,9 @@ def sk_cape(mb, bt, over=None):
         ro, ri = [], []
         for c in range(cols):
             u = -1 + 2 * c / (cols - 1)
-            phi = math.pi + math.radians(span * (CAPE_PLATE_SPAN if over == 'platebody' and z < 1.36 else 1.0)) * u
+            k_ = ((CAPE_PLATE_SPAN if z < 1.36 else CAPE_PLATE_SPAN_TOP) if over == 'platebody' else
+                  CAPE_BODY_SPAN if z < 1.36 else 1.0)   # (v4a.2b: every cape a little narrower below the shoulder blades)
+            phi = math.pi + math.radians(span * k_) * u
             fold = (.008 if c % 2 else -.003) * KB.ss(1.30, 1.0, z)
             if z >= 1.10:
                 lift = (.040 if over == 'platebody' else .016 if over else 0.0) * u * u * KB.ss(1.00, 1.20, z)   # (plate sides swing with the arms)
@@ -1205,7 +1229,7 @@ def sk_cape(mb, bt, over=None):
     mb.shell(outer, inner, lambda i, j, s: CL if s == 'o' else CK, KB.SPINE_W, edge_mat=CK)
     col = []   # a slim rolled top edge along the cape's top (hair falls over it), brass clasps at its two ends
     for j in range(11):
-        phi = math.pi + math.radians(CAPE_ROWS[0][1]) * (-1 + 2 * j / 10)
+        phi = math.pi + math.radians(CAPE_ROWS[0][1] * (CAPE_PLATE_SPAN_TOP if over == 'platebody' else 1.0)) * (-1 + 2 * j / 10)
         q = KB.body_point(bt, phi, 1.474, clear_off(bt, over, phi, 1.474, FOOT_C) + .012 + CAPE_ROWS[0][2] - .005)
         col.append(push_clear(bt, over, q, out_dir(bt, phi, 1.474, .6), .020))
     rings = [KB.xring(p, (col[min(j + 1, 10)] - col[max(j - 1, 0)]), .009, .009, .009, 5, front=(0, 0, 1)) for j, p in enumerate(col)]
@@ -1240,7 +1264,8 @@ SUIT_FN = {k: f for k, f, *_ in SKINNED}
 HIDES = {'fullhelm': ['Hair'], 'medhelm': ['Hair'], 'hat': ['Hair']}
 # kit morphs an item switches on while worn (kit v3.1e): hair and beards lie OVER body armour and capes
 KIT_MORPHS = {k: ['Hair_Over', 'Jaw_Over'] for k in ('platebody', 'chainbody', 'leather_body')}
-KIT_MORPHS['amulet'] = ['Hair_Over']   # v4: the chain sits at the higher v4 neck base, where long hair falls -- hair lies over it
+# (v4a.2b: no Hair_Over under an amulet any more -- the chain now circles the neck itself, above the collar, and the
+# gathering pulled the short cuts' nape into it)
 KIT_MORPHS['cape'] = ['Hair_Over', 'Hair_Cape', 'Jaw_Over']   # rigid helms that replace the hair (the kit shows its bald head)
 
 # kind: (builder, slot, frame, equipSpec, grip glTF, axis glTF, roll glTF, legacy quat xyzw, description)

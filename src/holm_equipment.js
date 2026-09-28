@@ -27,7 +27,7 @@
 var HolmEquipment=(function(){
  'use strict';
  var PATH='/.studio-workspaces/holm-equipment-v4/candidates/equipment.glb';   // v4: refitted to kit v4 (option A)
- var URL=(typeof HolmIsland!=='undefined'&&HolmIsland.asset?HolmIsland.asset(PATH):PATH)+'?v=5';
+ var URL=(typeof HolmIsland!=='undefined'&&HolmIsland.asset?HolmIsland.asset(PATH):PATH)+'?v=7';
  var METAL_DEFAULT=0xb87a3a,KIT_HIPS_Y=0.95,BALD=2;
  var MODEL_KIND={sword:'sword',longsword:'longsword',sabre:'sabre',greatsword:'greatsword',mace:'mace',warhammer:'warhammer',
   battleaxe:'battleaxe',axe:'hatchet',pick:'pickaxe',bow:'shortbow',longbow:'longbow',staff:'staff',shield:'round_shield',
