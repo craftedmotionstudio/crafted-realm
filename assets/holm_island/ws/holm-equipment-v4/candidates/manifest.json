@@ -3,7 +3,7 @@
  "status": "runtime (src/holm_equipment.js loads it from assets/holm_island/ws/holm-equipment-v3/candidates/)",
  "file": "equipment.glb",
  "blend": "equipment.blend",
- "sha256": "8b10be67b128bcfb09745efe1ab616dade91e7818a2fbea02ffcb313a436e2f3",
+ "sha256": "1a6f84d2bcdb057f494c37e10280203da3fef901cbdaac382995a97d58eb05b4",
  "axes": "glTF Y-up, 1 unit = 1 tile (= 1 m, player 1.85 tall)",
  "colour": "authored sRGB used as-is, roughness 1, metallic 0, no textures",
  "recolour": {
@@ -2473,12 +2473,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.2355,
+     -0.1641,
      0.53,
-     -0.3762
+     -0.3897
     ],
     "max": [
-     0.2355,
+     0.1767,
      1.4878,
      -0.0831
     ]
@@ -2516,18 +2516,18 @@
     "Over_Torso_08"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.0441,
-    "Build_Slim": 0.0913,
-    "Over_platebody": 0.0816,
-    "Over_chainbody": 0.0433,
-    "Over_leather_body": 0.0434,
+    "Build_Stout": 0.0281,
+    "Build_Slim": 0.0153,
+    "Over_platebody": 0.063,
+    "Over_chainbody": 0.0357,
+    "Over_leather_body": 0.0319,
     "Over_Torso_02": 0.024,
-    "Over_Torso_03": 0.0385,
-    "Over_Torso_04": 0.0408,
+    "Over_Torso_03": 0.0359,
+    "Over_Torso_04": 0.0387,
     "Over_Torso_05": 0.0167,
-    "Over_Torso_06": 0.0305,
+    "Over_Torso_06": 0.0258,
     "Over_Torso_07": 0.0167,
-    "Over_Torso_08": 0.0327
+    "Over_Torso_08": 0.0291
    }
   },
   {
@@ -2541,12 +2541,12 @@
    "budget": 3200,
    "bounds": {
     "min": [
-     -0.189,
+     -0.1449,
      0.53,
-     -0.3861
+     -0.4004
     ],
     "max": [
-     0.1891,
+     0.1453,
      1.4879,
      -0.0723
     ]
@@ -2581,13 +2581,13 @@
     "Over_Torso_05"
    ],
    "morph_max_displacement_m": {
-    "Build_Stout": 0.1489,
-    "Build_Slim": 0.1059,
-    "Over_platebody": 0.1005,
-    "Over_chainbody": 0.1064,
-    "Over_leather_body": 0.1065,
-    "Over_Torso_02": 0.0183,
-    "Over_Torso_03": 0.0193,
+    "Build_Stout": 0.1034,
+    "Build_Slim": 0.0603,
+    "Over_platebody": 0.0599,
+    "Over_chainbody": 0.0332,
+    "Over_leather_body": 0.0291,
+    "Over_Torso_02": 0.0185,
+    "Over_Torso_03": 0.0215,
     "Over_Torso_04": 0.0167,
     "Over_Torso_05": 0.0167
    }

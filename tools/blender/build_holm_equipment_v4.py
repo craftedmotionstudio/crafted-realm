@@ -1191,10 +1191,10 @@ def sk_amulet(mb, bt, over=None):
 
 CAPE_ROWS = [(1.472, 34, .008), (1.40, 35, .014), (1.30, 36, .022), (1.10, 41, .022), (.97, 44, .026), (.82, 47, .040), (.53, 50, .058)]
 FOOT_C = [(dp, dz) for dp in (-.06, 0.0, .06) for dz in (-.010, 0.0, .010)]   # (between the shoulder blades, clear of the arms)
-CAPE_PLATE_SPAN = .62   # v4: over a platebody the cape is narrower at the back (the square 2004 shoulders swing the couters back past it)
+CAPE_PLATE_SPAN = .52   # v4: over a platebody the cape is narrower at the back (the square 2004 shoulders swing the couters back past it)
 CAPE_PLATE_SPAN_TOP = .80   # v4a.2b: ... and hangs from the gorget between the shoulder blades, clear of the pauldrons (the crush)
 CAPE_BODY_SPAN = .80   # v4a.2b: over a chainbody / leather body a little narrower too (the run's elbows swing back past its edges)
-CAPE_FLARE_BACK = .11   # v4: the 2004 walk's half-body-height steps swing the trailing leg far back -- the hem hangs this much further back
+CAPE_FLARE_BACK = .17   # v4: the 2004 walk's half-body-height steps swing the trailing leg far back -- the hem hangs this much further back
 def sk_cape(mb, bt, over=None):
     cols = 11
     outer, inner = [], []
@@ -1203,7 +1203,7 @@ def sk_cape(mb, bt, over=None):
         for c in range(cols):
             u = -1 + 2 * c / (cols - 1)
             k_ = ((CAPE_PLATE_SPAN if z < 1.36 else CAPE_PLATE_SPAN_TOP) if over == 'platebody' else
-                  CAPE_BODY_SPAN if over in ('chainbody', 'leather_body') and z < 1.36 else 1.0)
+                  CAPE_BODY_SPAN if z < 1.36 else 1.0)   # (v4a.2b: every cape a little narrower below the shoulder blades)
             phi = math.pi + math.radians(span * k_) * u
             fold = (.008 if c % 2 else -.003) * KB.ss(1.30, 1.0, z)
             if z >= 1.10:
