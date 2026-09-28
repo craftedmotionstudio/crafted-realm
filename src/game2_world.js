@@ -2,7 +2,51 @@
 let scene, camera, renderer, clock;
 const WORLD = {size:320, clickables:[], npcs:[], drops:[], resources:[], grounds:[], fires:[], interiors:[], roofs:[], roofsOff:false};
 let player;
-const camCtl = {yaw: Math.PI*0.75, pitch: 1.08, dist: 33, dragging:false, lx:0, ly:0};  // dist scaled for 30° FOV (near-ortho)
+/* ---------- the follow camera: the 2004 framing by default (REF2004_FEEL_REPORT.md item 1) ----------
+ * Measured from the 2004 client: vertical FOV 36.1 deg; the login camera 22.5 deg above the horizon with a boom of
+ * 7.7 tiles to a look point 0.4 tile above the feet; the arrow keys pitch it up to 67.3 deg while the boom grows to
+ * 13.7 tiles ((pitch2048*3+600)/128 tiles). The player then stands ~31% of the view tall.
+ * camCtl keeps its long-standing orbit parameters (callers across the game and the QA drivers set them directly): the
+ * camera sits dist*sin(pitch) above the look point and dist*cos(0.6*pitch) behind it. The helpers below express the
+ * 2004 numbers in those parameters. Scroll zoom scales the boom (from a little closer than 2004 out past the old
+ * default); pitching keeps the zoom and follows the 2004 boom law, so at the default zoom the arrow keys frame exactly
+ * as 2004 did. No camera preference is saved: every session starts at the 2004 framing, as the old client did. */
+const CAM2004 = {vfov:36.13, elevMin:22.5, elevMax:67.3, look:0.4};
+function camElevationDeg(pitch){ return Math.atan2(Math.sin(pitch), Math.cos(0.6*pitch))*180/Math.PI; }
+function camBoomPerDist(pitch){ return Math.hypot(Math.sin(pitch), Math.cos(0.6*pitch)); }
+function camPitchForElevation(deg){   // camElevationDeg is monotonic on [0, 2.6]: bisect
+  let lo=0, hi=2.6; for(let i=0;i<48;i++){ const m=(lo+hi)/2; if(camElevationDeg(m)<deg) lo=m; else hi=m; } return (lo+hi)/2;
+}
+function cam2004Boom(deg){ return (deg*2048/360*3+600)/128; }   // tiles
+const CAM_PITCH_MIN = camPitchForElevation(CAM2004.elevMin), CAM_PITCH_MAX = camPitchForElevation(CAM2004.elevMax);
+const CAM_DIST_MIN = 5, CAM_DIST_MAX = 70;   // 70 = the previous furthest zoom; the previous default boom was ~38 tiles
+const CAM_DEFAULT = {yaw:Math.PI*0.75, pitch:CAM_PITCH_MIN, dist:cam2004Boom(CAM2004.elevMin)/camBoomPerDist(CAM_PITCH_MIN)};
+const camCtl = {yaw: CAM_DEFAULT.yaw, pitch: CAM_DEFAULT.pitch, dist: CAM_DEFAULT.dist, dragging:false, lx:0, ly:0};
+// the follow camera's offset from its look point, in world units (pitch / dist override camCtl's for a what-if)
+function camOrbitOffset(pitch, dist){ const p=pitch===undefined?camCtl.pitch:pitch, d=dist===undefined?camCtl.dist:dist, h=d*Math.cos(p*0.6);
+  return {x:h*Math.sin(camCtl.yaw), y:d*Math.sin(p), z:h*Math.cos(camCtl.yaw)}; }
+// the boom that keeps the current zoom at another pitch (the 2004 law, as camSetPitch applies it)
+function camDistAtPitch(p){ const boom=pp=>cam2004Boom(camElevationDeg(pp))/camBoomPerDist(pp);
+  return Math.min(CAM_DIST_MAX, Math.max(CAM_DIST_MIN, camCtl.dist*boom(p)/boom(camCtl.pitch))); }
+// pitch input (arrow keys, drag, touch): clamped to the 2004 range, the boom following the 2004 law at the same zoom
+function camSetPitch(p){
+  const next=Math.min(CAM_PITCH_MAX, Math.max(CAM_PITCH_MIN, p));
+  const boom=pp=>cam2004Boom(camElevationDeg(pp))/camBoomPerDist(pp);
+  if(next!==camCtl.pitch && Number.isFinite(camCtl.pitch))
+    camCtl.dist=Math.min(CAM_DIST_MAX, Math.max(CAM_DIST_MIN, camCtl.dist*boom(next)/boom(camCtl.pitch)));
+  camCtl.pitch=next;
+}
+// zoom input (wheel, pinch): multiplicative, so each notch feels the same close in and far out
+function camZoomBy(f){ if(Number.isFinite(f)&&f>0) camCtl.dist=Math.min(CAM_DIST_MAX, Math.max(CAM_DIST_MIN, camCtl.dist*f)); }
+function camResetView(){ camCtl.yaw=CAM_DEFAULT.yaw; camCtl.pitch=CAM_DEFAULT.pitch; camCtl.dist=CAM_DEFAULT.dist; }
+// the vertical FOV for a window shape: 2004's 36.1 deg on any window at least as wide as its 512 x 334 view; a narrower one
+// (a phone held upright) opens the vertical FOV toward 2004's 53 deg horizontal view, up to 55 deg, so it still sees the
+// tiles beside the adventurer (pinch zoom goes further)
+function camFovFor(aspect){
+  const h04=2*Math.atan(Math.tan(CAM2004.vfov*Math.PI/360)*512/334);
+  if(!(aspect>0) || aspect>=512/334) return CAM2004.vfov;
+  return Math.min(55, Math.max(CAM2004.vfov, 2*Math.atan(Math.tan(h04/2)/aspect)*180/Math.PI));
+}
 
 function initEngine(){
   const canvas = document.getElementById('game-canvas');
@@ -23,9 +67,8 @@ function initEngine(){
   // subtle horizon haze, not a near fog). (game5's zone system lerps fog COLOR live.)
   scene.fog = new THREE.Fog(0xb4c6cc, 65, 205);
 
-  // OSRS look-pass R3: OSRS is near-ORTHOGRAPHIC (long lens). Drop FOV 50->30 so parallel lines
-  // stay parallel and distant objects barely shrink; camCtl.dist is scaled up to match framing.
-  camera = new THREE.PerspectiveCamera(30, innerWidth/innerHeight, 0.1, 600);
+  // The 2004 lens: 36.1 deg vertical FOV (focal 512 px over the 334 px view), close to the player (see CAM2004).
+  camera = new THREE.PerspectiveCamera(camFovFor(innerWidth/innerHeight), innerWidth/innerHeight, 0.1, 600);
 
   // OSRS look-pass R3 (two independent reviews agreed): OSRS surfaces DO show a clear light->dark
   // gradient across facets (baked directional diffuse), so keep a MODERATE sun — but OSRS has NO
@@ -42,7 +85,7 @@ function initEngine(){
   scene.add(sun);
 
   clock = new THREE.Clock();
-  addEventListener('resize', ()=>{ camera.aspect=innerWidth/innerHeight;
+  addEventListener('resize', ()=>{ camera.aspect=innerWidth/innerHeight; camera.fov=camFovFor(camera.aspect);
     camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
 }
 

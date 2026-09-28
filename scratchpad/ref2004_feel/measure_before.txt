@@ -1,0 +1,11 @@
+[00:37:10] camera {"elevDeg":46.68,"boomTiles":38.35,"vfov":30,"lookLift":1.2,"playerHeightTiles":1.85,"playerPx":61.5,"viewPx":1006,"playerShare":0.061,"camCtl":{"yaw":2.3562,"pitch":1.08,"dist":33}}
+[00:37:11] skills {"clips":{"chop":{"authored":1,"rate":1,"seconds":1},"net":{"authored":1.6,"rate":1,"seconds":1.6},"cook":{"authored":1.333,"rate":1,"seconds":1.333},"smelt":{"authored":1.2,"rate":1,"seconds":1.2},"smith":{"authored":1,"rate":1,"seconds":1},"mine":{"authored":1,"rate":1,"seconds":1},"firemake":{"authored":1,"rate":1,"seconds":1}},"liveChopSeconds":1.01,"timing":{"note":"before: fixed in game5_main.js","gatherRollSec":0.6,"smeltSec":1.8,"smithSec":1.8,"lightfireSec":1.8,"cookClip":"authored pace"}}
+[00:37:46] pace {"lane":{"a":[61.5,118.5],"b":[69.5,118.5],"axis":"x","n":8},"walk":{"tilesPerSec":2.399,"moveSpeed":2.4,"clip":{"dur":0.5,"timeScale":1}},"run":{"error":"did not move"}}
+[00:37:48] ui 1530x1006 0.0119 0.163
+[00:37:50] ui 1920x960 0.0125 0.137
+[00:37:52] ui 1366x657 0.0183 0.264
+[00:37:54] ui 2560x1300 0.0092 0.076
+[00:37:56] ui 812x375 0.032 0.565
+[00:37:58] ui 375x812 0.0148 0.843
+[00:38:06] designer {"window":{"x":385,"y":203,"w":760,"h":600},"arrow":{"x":400,"y":283,"w":38,"h":26},"labelPx":12,"share":{"w":0.497,"h":0.596},"arrowShareW":0.025,"labelShareH":0.0119,"mode":"turntable","previewYawDeg":[58.7,66.2,73,80.5,87.9,95.4,102.8,110.3,117.7,124.6,132,138.9,145.8,153.2,160.1],"previewYawRange":[58.7,160.1]}
+[00:38:06] wrote C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Feel\scratchpad\ref2004_feel\before\feel.json

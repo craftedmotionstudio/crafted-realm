@@ -72,10 +72,7 @@ var TestTravel=(function(){
   }
   function snapCamera(x,y,z){
     if(typeof camera==='undefined'||typeof camCtl==='undefined') return;
-    var cx=x+camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*.6);
-    var cz=z+camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*.6);
-    var cy=y+camCtl.dist*Math.sin(camCtl.pitch);
-    camera.position.set(cx,cy,cz);camera.lookAt(x,y+1.2,z);
+    camera.position.copy(followCameraAt(x,y,z));camera.lookAt(x,y+CAM2004.look,z);
   }
   function prepareLandmarkCamera(entry){
     if(!entry||entry.id.indexOf('holm_lastlight_')!==0||typeof camCtl==='undefined'||typeof HolmLastlightData==='undefined')return;

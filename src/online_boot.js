@@ -19,7 +19,7 @@ var CROnline=(function(){
   return 'ws://'+host+':'+(qs.get('port')||'8200');
  }
  var SCRIPTS=['src/net_client.js?v=w2g','src/online_kit.js?v=w2g','src/online_bestiary.js?v=w2g','src/online_world.js?v=w2g','src/online_actors.js?v=w2g',
-  'src/online_fx.js?v=w2g','src/online_ui.js?v=h3e015c3a','src/online_menu.js?v=w2g','src/online_main.js?v=h270b21f9'];
+  'src/online_fx.js?v=w2g','src/online_ui.js?v=h3e015c3a','src/online_menu.js?v=w2g','src/online_main.js?v=h94952e9c'];
  var api={enabled:enabled,server:qs.get('server')||defaultServer(),params:qs,
   writeScripts:function(){
    if(!enabled)return;

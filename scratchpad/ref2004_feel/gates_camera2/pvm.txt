@@ -1,0 +1,46 @@
+melee
+  ok  melee dagger Stab: a swing every 4 ticks (click ok)  {"ticks":[13,17,21,25,29],"stand":{"at":[85,34],"foe":[84,34]}}
+  ok  melee dagger Stab: the splat lands on the impact frame (swing 4-tick weapon)  {"splatMinusImpact":[0.002,0,0,0,-0.004]}
+  ok  retaliation: the grubkin answers 1 + floor(6/2) = 4 ticks after the first swing  {"player":13,"grubkin":17}
+  ok  melee dagger Lunge: a swing every 4 ticks (click ok)  {"ticks":[38,42,46,50,54],"stand":{"at":[85,34],"foe":[84,34]}}
+  ok  melee dagger Lunge: the splat lands on the impact frame (swing 4-tick weapon)  {"splatMinusImpact":[0.001,0,0.001,-0.002,0]}
+  ok  melee sword Slash: a swing every 4 ticks (click ok)  {"ticks":[63,67,71,75,79],"stand":{"at":[85,34],"foe":[84,34]}}
+  ok  melee sword Slash: the splat lands on the impact frame (swing 4-tick weapon)  {"splatMinusImpact":[0,0.001,0,0.001]}
+  ok  melee two-handed Chop: a swing every 7 ticks (click ok)  {"ticks":[88,95,102,109,116],"stand":{"at":[85,34],"foe":[84,34]}}
+  ok  melee two-handed Chop: the splat lands on the impact frame (swing 7-tick weapon)  {"splatMinusImpact":[0.001,0,-0.001,0]}
+  ok  melee warhammer Pound: a swing every 6 ticks (click ok)  {"ticks":[125,131,137,143,149],"stand":{"at":[85,34],"foe":[84,34]}}
+  ok  melee warhammer Pound: the splat lands on the impact frame (swing 6-tick weapon)  {"splatMinusImpact":[0,0.001,0,0]}
+ranged
+  ok  ranged Accurate: a shot every 4 ticks  [157,161,165,169]
+  ok  ranged Accurate: each hit lands floor((46+5d+30)/30) ticks after its shot (d = tiles at the shot)  [[3,3,4],[2,2,2],[2,2,1],[2,2,1]]
+  ok  ranged Accurate: the splat shows when the arrow lands  [0,0,0,0]
+  ok  ranged Rapid: a shot every 3 ticks  [184,187,190,193]
+  ok  ranged Rapid: each hit lands floor((46+5d+30)/30) ticks after its shot (d = tiles at the shot)  [[3,3,4],[3,3,3],[2,2,1],[2,2,1]]
+  ok  ranged Rapid: the splat shows when the arrow lands  [0,0,0,0]
+  ok  ranged Longrange: a shot every 4 ticks  [208,212,216,220]
+  ok  ranged Longrange: each hit lands floor((46+5d+30)/30) ticks after its shot (d = tiles at the shot)  [[3,3,4],[2,2,2],[2,2,2],[2,2,2]]
+  ok  ranged Longrange: the splat shows when the arrow lands  [0,0,0,0]
+magic
+  ok  magic autocast (staff): a cast every 5 ticks  [234,239,244,249]
+  ok  magic: every cast flies floor((46+10d)/30)+1 ticks  [[3,4],[3,4],[3,4],[3,4]]
+  ok  magic: a landed spell shows its splat on arrival; a splash shows none  {"sp":[0,0.017,0,0],"casts":4,"splashes":0,"splats":4}
+  ok  single cast without a staff: the chosen spell casts once, then the adventurer stands  {"armed":"wind_strike","casts":1}
+eat / pray
+  ok  eating mid-fight drops the attack order and adds 3 ticks to the attack timer  {"before":281,"after":284,"clock":280,"target":false,"hp":35}
+  ok  after a bite the adventurer does not swing again until clicked (2004)
+  ok  right-click reads "Attack Grubkin broodmother (level-18)"  ["Attack Grubkin broodmother (level-18)","Walk here","Examine Grubkin broodmother (level-18)"]
+  ok  Protect from Melee: the broodmother's blows all miss while it is on  {"hits":[[295,0],[300,0],[305,0]],"hp0":99}
+  ok  the broodmother slam is telegraphed (message + ground ring) and stepping away dodges it  {"away":[93,77],"msgs":["The Proving Ground. Wild grubkins here attack on sight; the poacher, the warlock and the broodmother answer only a challenge.","The broodmother rears up, ready to slam the ground!","The broodmother slams the empty ground."]}
+foes
+  ok  pg_poacher: fires arrows at the adventurer, each landing on its hit tick  {"shots":[[326,1,1,0],[331,1,1,0]],"lands":2,"splats":2}
+  ok  pg_warlock: fires spells at the adventurer, each landing on its hit tick  {"shots":[[345,1,1,1],[350,1,1,1]],"lands":2,"splats":0}
+  ok  the wild pack hunts a low-level adventurer within four tiles (their meadow ignores friendly mode: they attack on sight)  {"attacks":2}
+  ok  the pack ignores an adventurer above twice its level (2004)  {"attacks":0,"cb":42}
+  ok  a kill: the body falls and sinks, then its drop appears (bones at least)  {"dead":true,"dropShownAfterMs":1276,"agedOut":["arrows"]}
+  ok  the adventurer's death: "Oh dear, you are dead!", respawn at full health with what was kept explained  {"died":400,"polled":400,"back":true,"msgs":["Your hitpoints are running low!","Oh dear, you are dead!","Your hitpoints are running low!","On Tutor's Holm nothing is lost when you fall.","You wake on the Guide House porch. Guide Bram shakes his head kindly."],"pd":{"dead":false,"hp":40,"max":40},"wa
+  ok  approach: the adventurer walks diagonal steps to a foe and ends in melee reach (side tile)  {"trail":[[96,37],[97,37],[97,38],[97,39],[97,40],[97,41],[97,42],[96,42],[95,42],[95,41],[95,40],[94,39],[94,38],[93,37],[92,36],[92,35]],"diag":3}
+  ok  PvP HUD: "Level: 7" plaque, skull (HUD and over the head), multi sign, and the Ditch warning with the kept items  {"hud":"flex","level":"Level: 7","skull":"none","multi":"block","over":false,"lines":["Beyond the Ditch lie the Scarlands. Other adventurers can attack you there, and you them.","At Scarlands level 1 you can fight adventurers within 1 combat level of you (41 to 43); every 8 steps north widens the ra
+  ok  PvP HUD skulled: the HUD skull and the skull over the head show, the plaque reads the new level  {"skull":"block","over":true,"level":"Level: 9"}
+  ok  phone (430x860): a live splat on screen at 51 px with its health bar (readable, not crowding the view)  {"sp":[{"dmg":0,"kind":"miss","slot":0,"age":0.117,"player":false,"name":"proving-ground-pg_wild_grubkin-3"}],"k":{"h":860,"w":430,"splatPx":51,"hud":"block"}}
+  ok  no page errors  []
+[COMBAT PVM] 40/40 PASS

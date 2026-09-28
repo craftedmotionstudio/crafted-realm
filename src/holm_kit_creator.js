@@ -54,6 +54,8 @@ var HolmKitCreator=(function(){
   stage(true);
   refresh();return true}
  function close(save){if(!st.active)return;st.active=false;stage(false);if(typeof CharCreator!=='undefined')CharCreator.active=false;if(st.panel)st.panel.style.display='none';document.body.classList.remove('kit-creator-open');
+  // back in the world at the low 2004 camera: turn it off a signpost or wall that hides the adventurer (game5_main.js)
+  try{if(typeof clearFollowYaw==='function')clearFollowYaw()}catch(e){}
   if(typeof CharCfg!=='undefined')CharCfg._new=false;if(save)try{SaveGame.save(true)}catch(e){}
   if(typeof UI!=='undefined')UI.chat('Your new look is saved. You can change it any time with the appearance button (Shift+C).','plain');
   if(typeof CharCfg!=='undefined'&&CharCfg._intro){CharCfg._intro=false;setTimeout(introNote,250)}}

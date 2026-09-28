@@ -39,8 +39,9 @@ const Controls = {
     const k = this.keys, ys = 2.2*dt, ps = 1.3*dt;
     if(k['arrowleft'])  camCtl.yaw   -= ys;
     if(k['arrowright']) camCtl.yaw   += ys;
-    if(k['arrowup'])    camCtl.pitch = Math.min(1.45, camCtl.pitch + ps);
-    if(k['arrowdown'])  camCtl.pitch = Math.max(0.55, camCtl.pitch - ps);
+    // 2004: up / down pitch between 22.5 and 67.3 deg, the boom following the pitch (camSetPitch, src/game2_world.js)
+    if(k['arrowup'])    camSetPitch(camCtl.pitch + ps);
+    if(k['arrowdown'])  camSetPitch(camCtl.pitch - ps);
   },
 
   /* ---- WASD movement, camera-relative. Returns true if it moved the player this frame. ---- */

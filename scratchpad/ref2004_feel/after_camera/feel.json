@@ -1,0 +1,45 @@
+{
+ "tag": "after_camera",
+ "base": "http://127.0.0.1:8096",
+ "at": "2026-09-28T01:39:40.062Z",
+ "target": {
+  "camera": {
+   "elevDeg": 22.5,
+   "boomTiles": 7.69,
+   "vfov": 36.13,
+   "lookLift": 0.39,
+   "playerShare": 0.31
+  },
+  "pace": {
+   "walk": 1.6666666666666667,
+   "run": 3.3333333333333335
+  },
+  "ui": {
+   "typeShare": 0.024
+  },
+  "skills": {
+   "chop": 0.78,
+   "net": 1.8,
+   "cook": 1.77,
+   "bake": 2.43,
+   "smelt": 2.42,
+   "firemakeKneel": 4
+  }
+ },
+ "runDefault": true,
+ "camera": {
+  "elevDeg": 22.5,
+  "boomTiles": 7.69,
+  "vfov": 36.13,
+  "lookLift": 0.4,
+  "playerHeightTiles": 1.85,
+  "playerPx": 362.3,
+  "viewPx": 1006,
+  "playerShare": 0.36,
+  "camCtl": {
+   "yaw": 3.1416,
+   "pitch": 0.4132,
+   "dist": 7.326
+  }
+ }
+}

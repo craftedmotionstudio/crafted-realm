@@ -1,0 +1,11 @@
+PASS route pieces load: the keep trapdoor (route prop), the drift ladder and trapdoor services joined, the Keeper's Stair, the haven at Lanternfoot Cove
+PASS before the dagger the drift ladder refuses (roped off) and the adventurer stays below
+PASS with the dagger made, down in the workings the guide arrow points at the drift ladder
+PASS the drift ladder climbs out through the trapdoor into the Warden's Keep hall
+PASS the trapdoor climbs back down to the exit chamber
+PASS from the hall the adventurer walks out to the keep court (Warden Corrick's trials)
+PASS Lastlight -> Keeper's Stair head -> mid landing -> foot on the shingle -> the haven, all on foot by real clicks
+PASS Ferryman Tobin at the cove speaks of Hearthmere and the beacon over the water
+PASS boarding the skiff at the end of the pier sails for the mainland
+PASS no page errors
+[QA ROUTE V2] 10/10 -> C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Feel\scratchpad\holm_v2_land\qa_route

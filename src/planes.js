@@ -115,11 +115,8 @@ const Planes = {
     // Plane changes are far-map teleports. Recenter in the same frame instead
     // of letting the camera lerp through several frames of empty darkness.
     if(typeof camera!=='undefined' && typeof camCtl!=='undefined'){
-      const cx=dest.x+camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
-      const cz=dest.z+camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*0.6);
-      const cy=y+camCtl.dist*Math.sin(camCtl.pitch);
-      camera.position.set(cx,cy,cz);
-      camera.lookAt(dest.x,y+1.2,dest.z);
+      camera.position.copy(followCameraAt(dest.x,y,dest.z));
+      camera.lookAt(dest.x,y+CAM2004.look,dest.z);
     }
     UI.chat(dest.message||(dest.plane>fromPlane ? 'You climb up.' : dest.plane<0 ? 'You climb down into the dark…' : 'You climb down.'), 'plain');
     if(typeof Sfx!=='undefined' && Sfx.click) Sfx.click();

@@ -153,10 +153,7 @@ const SaveGame = {
           const planeProvider=this.provider();if(planeProvider)planeProvider.updateResidency(px,pz,true);
           Planes.refreshVisibility();if(d.zoneLabel&&typeof UI!=='undefined'&&UI.zone)UI.zone(d.zoneLabel);
           if(typeof camera!=='undefined'&&typeof camCtl!=='undefined'){
-            const cx=px+camCtl.dist*Math.sin(camCtl.yaw)*Math.cos(camCtl.pitch*.6);
-            const cz=pz+camCtl.dist*Math.cos(camCtl.yaw)*Math.cos(camCtl.pitch*.6);
-            const cy=py+camCtl.dist*Math.sin(camCtl.pitch);
-            camera.position.set(cx,cy,cz);camera.lookAt(px,py+1.2,pz);
+            camera.position.copy(followCameraAt(px,py,pz));camera.lookAt(px,py+CAM2004.look,pz);
           }
         }
       }

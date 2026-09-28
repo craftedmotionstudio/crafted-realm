@@ -37,7 +37,8 @@ async function install(page){
   });
 }
 const waitFrames=(page,n)=>page.evaluate(n=>new Promise(r=>{const s=window.__frameNo;const t=setInterval(()=>{if(window.__frameNo>=s+n){clearInterval(t);r()}},5)}),n||3);
-async function setCam(page,o){await page.evaluate(o=>{window.__refCam=o;if(!o){camera.fov=30;camera.updateProjectionMatrix()}},o||null);await waitFrames(page,4)}
+// null puts the game's own lens back (its default FOV: the 2004 36.1 deg since the camera pass, 30 before it)
+async function setCam(page,o){await page.evaluate(o=>{window.__refCam=o;if(!o){camera.fov=typeof camFovFor==='function'?camFovFor(camera.aspect):typeof CAM2004!=='undefined'?CAM2004.vfov:30;camera.updateProjectionMatrix()}},o||null);await waitFrames(page,4)}
 async function hidePlayer(page,hide){await page.evaluate(h=>{player.visible=!h},!!hide);await waitFrames(page,3)}
 // hide every HUD element (the 3D canvas stays) - for the 3D-view pairs
 async function hud(page,show){await page.evaluate(show=>{const cv=document.getElementById('game-canvas');let keep=new Set();for(let n=cv;n;n=n.parentElement)keep.add(n);
