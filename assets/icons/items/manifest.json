@@ -963,6 +963,27 @@
       "source": "tools/blender/build_world_item_icons_v1.py",
       "model": "prop",
       "description": "a big chunky bone"
+    },
+    {
+      "id": "cipher_scroll",
+      "file": "cipher_scroll.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "cipher scroll: parchment roll, red ribbon and wax seal, rows of cipher on the unrolled end"
+    },
+    {
+      "id": "wayfarer_casket",
+      "file": "wayfarer_casket.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "Wayfarer's casket: small oak chest, iron bands, brass lock plate"
+    },
+    {
+      "id": "home_tab",
+      "file": "home_tab.png",
+      "source": "tools/blender/build_world_item_icons_v1.py",
+      "model": "prop",
+      "description": "Hearthmere teleport: a clay tablet, glowing rune notches, a cottage with a fire in its door"
     }
   ]
 }

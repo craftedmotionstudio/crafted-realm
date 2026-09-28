@@ -23,6 +23,7 @@ our own design (docs/rebuild/NAMING_BIBLE.md names), none copies any game's rune
 Usage: "C:\\Program Files\\Blender Foundation\\Blender 4.5\\blender.exe" -b --python tools/blender/build_world_item_icons_v1.py
        [-- --only id1,id2]
 Outputs: assets/icons/items/<id>.png (96x96 RGBA) + their entries in assets/icons/items/manifest.json;
+         (items other modules register at load are covered too: home_tab, cipher_scroll, wayfarer_casket);
          scratchpad/item_icons/future_runes/<rune>.png: the five planned runes (Writ, Grave, Star, Vein, Spirit) have no
          item yet, their sigils are rendered as proof only (register them when the items exist).
 Deterministic: every random draw comes from a seeded random.Random. All geometry authored here or read from our own
@@ -81,6 +82,11 @@ def game_items():
             if iid not in aliases and iid not in items: items[iid] = dict(name='%s %s' % (tl, nm), capeColor=None)
     return items
 GAME = game_items()
+# items a module registers at load (not in ITEMS' literal): id -> the module; the module must name the id
+LOAD_ITEMS = {'home_tab': 'src/item_teleport_tabs.js', 'cipher_scroll': 'src/clues.js', 'wayfarer_casket': 'src/clues.js'}
+for _iid, _f in LOAD_ITEMS.items():
+    assert _iid in read(_f), (_iid, _f)
+    GAME.setdefault(_iid, dict(name=_iid, capeColor=None))
 
 # ================================================================ PROP materials (authored sRGB, drawn as-is)
 PAL = {
@@ -127,7 +133,11 @@ PAL.update({'hide': (.58, .44, .30), 'hide-dk': (.40, .29, .18), 'hide-lt': (.70
             'potato': (.72, .56, .34), 'potato-lt': (.82, .67, .44), 'potato-eye': (.45, .33, .20), 'onion': (.82, .62, .34),
             'onion-lt': (.90, .74, .46), 'onion-dk': (.55, .38, .20), 'egg': (.92, .86, .74), 'egg-lt': (.97, .94, .86),
             'beef': (.72, .18, .16), 'beef-dk': (.52, .12, .10), 'fat': (.94, .88, .78), 'fat-lt': (.92, .72, .66),
-            'charm': (.46, .22, .66), 'charm-lt': (.70, .48, .90), 'bone-old': (.93, .88, .72)})
+            'charm': (.46, .22, .66), 'charm-lt': (.70, .48, .90), 'bone-old': (.93, .88, .72),
+            'tablet': (.78, .62, .45), 'tablet-dk': (.56, .42, .29), 'tablet-field': (.70, .54, .38), 'rune-glow': (.26, .80, .72),
+            'hearth-wall': (.95, .89, .74), 'hearth-wall-dk': (.66, .58, .46), 'roof-red': (.70, .24, .14), 'roof-red-dk': (.46, .15, .09),
+            'parch': (.93, .86, .66), 'parch-dk': (.76, .65, .44), 'ink': (.24, .17, .10), 'ribbon': (.66, .12, .10),
+            'wax': (.70, .10, .08), 'wax-lt': (.86, .24, .18), 'oak-plank': (.55, .36, .19)})
 PMAT = {}
 def pmat(name):
     if name in PMAT: return PMAT[name]
@@ -915,6 +925,79 @@ def b_fen_charm():
     m.hull(ell((0, .005, .02), (.012, .012, .01), nu=6, nv=3), 'brass')                                 # the bail
     return m
 
+# -- items registered at load by their own modules (src/item_teleport_tabs.js, src/clues.js)
+def rrect_ring(w, d, z, r, seg=3):
+    """a rounded rectangle ring (x half-width w, y half-depth d), counter-clockwise from above"""
+    pts = []
+    for cx, cy, a0 in ((w - r, d - r, 0.0), (-w + r, d - r, math.pi / 2), (-w + r, -d + r, math.pi), (w - r, -d + r, 1.5 * math.pi)):
+        for k in range(seg + 1):
+            a = a0 + math.pi / 2 * k / seg; pts.append((cx + r * math.cos(a), cy + r * math.sin(a), z))
+    return pts
+TAB_W, TAB_D, TAB_H = .15, .115, .032
+def tablet_slab(m, clay='tablet', rim_dk='tablet-dk', field='tablet-field'):
+    """a teleport tablet: a thick fired-clay slab, bevelled, a raised rim around a sunken field (the field is at TAB_H - .008)"""
+    W, D, H = TAB_W, TAB_D, TAB_H
+    rings = [rrect_ring(W - .006, D - .006, 0, .03), rrect_ring(W, D, .008, .034), rrect_ring(W, D, H - .007, .034),
+             rrect_ring(W - .007, D - .007, H, .028), rrect_ring(W - .024, D - .024, H, .016), rrect_ring(W - .027, D - .027, H - .008, .014)]
+    m.loft(rings, lambda j, i: clay if j in (1, 3) else rim_dk, cap0=rim_dk, cap1=field)
+def tablet_runes(m, mat='rune-glow'):
+    """rune notches cut into the rim: short glowing ticks, three a long side, two a short side"""
+    W, D, H = TAB_W, TAB_D, TAB_H; y_rim, x_rim = D - .0155, W - .0155
+    for x in (-.075, 0.0, .075):
+        for sy in (-1, 1): m.slab([(x - .012, sy * y_rim - .0035), (x + .012, sy * y_rim - .0035), (x + .012, sy * y_rim + .0035), (x - .012, sy * y_rim + .0035)], H, H + .003, mat, mat)
+    for y in (-.035, .035):
+        for sx in (-1, 1): m.slab([(sx * x_rim - .0035, y - .012), (sx * x_rim + .0035, y - .012), (sx * x_rim + .0035, y + .012), (sx * x_rim - .0035, y + .012)], H, H + .003, mat, mat)
+def emblem_hearth(m, z):
+    """Hearthmere: a gabled cottage with a fire glowing in its open door and smoke-less chimney"""
+    m.slab([(-.05, -.052), (.05, -.052), (.05, .006), (0, .05), (-.05, .006)], z, z + .01, 'hearth-wall', 'hearth-wall-dk')      # the cottage
+    m.slab([(-.062, .0), (0, .062), (.062, .0), (.05, -.006), (0, .046), (-.05, -.006)], z + .01, z + .016, 'roof-red', 'roof-red-dk')  # roof eaves
+    m.slab([(.024, .03), (.04, .03), (.04, .058), (.024, .058)], z, z + .016, 'hearth-wall-dk', 'hearth-wall-dk')             # chimney
+    door = [(-.02, -.052), (.02, -.052), (.02, -.014)] + [(.02 * math.cos(math.pi * k / 6), -.014 + .02 * math.sin(math.pi * k / 6)) for k in range(1, 6)] + [(-.02, -.014)]
+    m.slab(door, z + .01, z + .012, 'char', 'char')                                                                         # the open door
+    m.slab([(-.013, -.05), (.013, -.05), (.01, -.03), (0, -.004), (-.01, -.03)], z + .012, z + .015, 'crag-vein', 'crag-vein')  # the fire
+    m.slab([(-.006, -.048), (.006, -.048), (.004, -.034), (0, -.02), (-.004, -.034)], z + .015, z + .017, 'gold', 'gold')
+TAB_EMBLEM = {'home_tab': emblem_hearth}   # one design per destination: a new tablet adds its emblem here
+def b_tablet(iid):
+    m = M(); tablet_slab(m); tablet_runes(m); k = len(m.v); TAB_EMBLEM[iid](m, TAB_H - .008)
+    for i in range(k, len(m.v)): m.v[i] = Vector((m.v[i].x * 1.3, m.v[i].y * 1.3 - .006, m.v[i].z))   # the emblem fills the field
+    return m
+def b_cipher_scroll():
+    """a cipher scroll: a parchment roll bound with a red ribbon and a wax seal, its end unrolled to show rows of cipher"""
+    m = M(); R = .034; y0 = .045
+    m.ptube([(-.17, y0, R), (.17, y0, R)], R, 10, 'parch', cap0='parch-dk', inset0=('parch', .55, -.004), cap1='parch-dk', inset1=('parch', .55, -.004))
+    sheet_ = [(-.155, y0 - R * .6, .006), (.155, y0 - R * .6, .006), (.15, -.11, .003), (-.15, -.11, .003)]
+    m.poly(sheet_, 'parch')                                                                                     # the unrolled tongue
+    m.ptube([(-.15, -.112, .012), (.15, -.112, .012)], .012, 6, 'parch-dk', cap0='parch-dk', cap1='parch-dk')   # its curled edge
+    rng = random.Random(77)
+    for row in range(4):                                                                                        # rows of cipher marks
+        y = -.005 - row * .024; x = -.12
+        while x < .11:
+            w = rng.uniform(.008, .022)
+            m.poly([(x, y - .004, .0065), (x + w, y - .004, .0065), (x + w, y + .004, .0065), (x, y + .004, .0065)], 'ink'); x += w + rng.uniform(.006, .014)
+    for bx in (-.07, .07):                                                                                      # the ribbon
+        m.ptube([(bx, y0 + (R + .003) * math.cos(tau * i / 12), R + (R + .003) * math.sin(tau * i / 12)) for i in range(12)], .007, 4, 'ribbon', closed=True)
+    m.hull(ell((.0, y0 - R * .75, R * 1.55), (.024, .02, .012), nu=8, nv=3), 'wax')                            # the seal
+    m.hull(ell((.0, y0 - R * .78, R * 1.55 + .01), (.012, .01, .005), nu=6, nv=3), 'wax-lt')
+    return m
+def b_casket():
+    """the Wayfarer's casket: a small oak chest, barrel lid, iron bands and corner studs, a brass lock plate"""
+    m = M(); W, D, H = .14, .09, .09
+    m.hull(cbox((0, 0, H / 2), (W, D, H / 2), .006), lambda n, c: 'oak-plank' if n.z < .9 else 'wood-dark')
+    lid = []
+    for k in range(7):
+        a = math.pi * k / 6
+        for sx in (-1, 1): lid.append(Vector((sx * W * 1.01, -D * 1.01 * math.cos(a), H + D * .75 * math.sin(a))))
+    m.hull(lid, 'oak-plank')
+    for bx in (-.085, .085):                                                                                    # iron bands over body and lid
+        m.hull([Vector((bx + dx, y, z)) for dx in (-.012, .012) for y in (-D - .006, D + .006) for z in (-.001, H)], 'iron')
+        m.ptube([(bx, -(D + .006) * math.cos(math.pi * k / 8), H + (D * .75 + .006) * math.sin(math.pi * k / 8)) for k in range(9)],
+                .012, 4, 'iron', up=(1, 0, 0), phase=math.pi / 4)
+    m.hull(cbox((0, -D - .006, H - .012), (.024, .006, .028), .004), 'brass')                                   # lock plate
+    m.hull(ell((0, -D - .013, H - .016), (.006, .004, .009), nu=5, nv=3), 'char')                              # keyhole
+    for sx in (-1, 1):
+        for z in (.012, H - .01): m.hull(ell((sx * (W - .012), -D - .004, z), (.008, .005, .008), nu=5, nv=3), 'brass')
+    return m
+
 # ================================================================ the equipment scene (read-only)
 EQ = {}
 def load_equipment():
@@ -1183,6 +1266,10 @@ for iid, fn, desc, yaw in (('beast_hide', b_hide, 'a stretched beast hide, fur u
                            ('big_bones', b_big_bones, 'a big chunky bone', 35),
                            ('fen_charm', b_fen_charm, "the Fenlord's charm: a violet crystal bound in brass on a cord", 10)):
     PJ(iid, fn, desc, yaw=yaw)
+# items registered at load: the Hearthmere teleport tablet, the cipher scroll and the Wayfarer's casket
+PJ('home_tab', lambda: b_tablet('home_tab'), 'Hearthmere teleport: a clay tablet, glowing rune notches, a cottage with a fire in its door', yaw=18)
+PJ('cipher_scroll', b_cipher_scroll, 'cipher scroll: parchment roll, red ribbon and wax seal, rows of cipher on the unrolled end', yaw=20)
+PJ('wayfarer_casket', b_casket, "Wayfarer's casket: small oak chest, iron bands, brass lock plate", yaw=25)
 
 # ================================================================ run
 unknown = [j['id'] for j in JOBS if j.get('out') is None and j['id'] not in GAME]

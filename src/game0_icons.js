@@ -51,7 +51,9 @@ const HOLM_ITEM_ICONS = new Set(['tinderbox','hammer','bucket','bucket_water','b
   'water_rune','earth_rune','fire_rune','body_rune','chaos_rune','nature_rune','spark_rune',
   // ...and the last 21 items that were still drawn on a canvas (shops, drops, the pack; same script)
   'beast_hide','feathers','knife','ashes','chisel','rope','shears','spade','jug','jug_water','soft_clay','leather','wool','flax',
-  'grain','potato','onion','egg','raw_beef','big_bones','fen_charm']);
+  'grain','potato','onion','egg','raw_beef','big_bones','fen_charm',
+  // items other modules register at load: the teleport tablet (item_teleport_tabs.js), the clue items (clues.js)
+  'home_tab','cipher_scroll','wayfarer_casket']);
 function iconFor(id){
   if(ICONS[id]) return ICONS[id];
   if(HOLM_ITEM_ICONS.has(id)) return (ICONS[id]='assets/icons/items/'+id+'.png');
