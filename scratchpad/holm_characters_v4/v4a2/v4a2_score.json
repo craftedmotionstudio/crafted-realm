@@ -1,7 +1,7 @@
 {
  "option": "v4a2",
  "label": "Option A.2 -- closest 2004, smooth panels, form-fitting trousers, rounder skull, ankle-roll walk, calm run",
- "total": 8.38,
+ "total": 8.39,
  "criteria": {
   "head/body ratio": 9.37,
   "shoulder line": 9.4,
@@ -10,8 +10,8 @@
   "legs/feet": 4.97,
   "face": 8.7,
   "shading": 8.8,
-  "walk": 7.63,
-  "run": 8.5
+  "walk": 8.62,
+  "run": 7.6
  },
  "silhouette_views": [
   {
@@ -284,6 +284,111 @@
   }
  ],
  "gait": {
+  "walk": {
+   "score": 8.62,
+   "detail": {
+    "walk_cycle_rel": {
+     "ours": 0.9957,
+     "ref": 1.0,
+     "score": 10.0
+    },
+    "walk_step_H": {
+     "ours": 0.521,
+     "ref": 0.495,
+     "score": 9.46
+    },
+    "walk_poses": {
+     "ours": 8.0,
+     "ref": 8.0,
+     "score": 10.0
+    },
+    "walk_bob_H": {
+     "ours": 0.0483,
+     "ref": 0.06,
+     "score": 10.0
+    },
+    "walk_leg_spread_H": {
+     "ours": 0.6897,
+     "ref": 0.512,
+     "score": 2.01
+    },
+    "walk_arm_band_max_H": {
+     "ours": 0.4069,
+     "ref": 0.415,
+     "score": 10.0
+    },
+    "walk_arm_band_min_H": {
+     "ours": 0.1862,
+     "ref": 0.143,
+     "score": 7.47
+    },
+    "walk_lean_deg": {
+     "ours": 3.3153,
+     "ref": 5.7,
+     "score": 10.0
+    }
+   }
+  },
+  "run": {
+   "score": 7.6,
+   "detail": {
+    "run_cycle_rel": {
+     "ours": 1.0183,
+     "ref": 1.0,
+     "score": 10.0
+    },
+    "run_step_H": {
+     "ours": 0.745,
+     "ref": 0.729,
+     "score": 10.0
+    },
+    "run_poses": {
+     "ours": 8.0,
+     "ref": 8.0,
+     "score": 10.0
+    },
+    "run_bob_H": {
+     "ours": 0.0429,
+     "ref": 0.05,
+     "score": 10.0
+    },
+    "run_leg_spread_H": {
+     "ours": 0.6571,
+     "ref": 0.775,
+     "score": 6.04
+    },
+    "run_arm_band_max_H": {
+     "ours": 0.4,
+     "ref": 0.588,
+     "score": 0.0
+    },
+    "run_arm_band_min_H": {
+     "ours": 0.2714,
+     "ref": 0.2,
+     "score": 4.73
+    },
+    "run_lean_deg": {
+     "ours": 10.1533,
+     "ref": 14.0,
+     "score": 10.0
+    }
+   }
+  }
+ },
+ "gait_references": "REF2004 harness metrics.json (2004) + its formulas on our renders",
+ "total_with_own_gait_refs": 8.38,
+ "criteria_with_own_gait_refs": {
+  "head/body ratio": 9.37,
+  "shoulder line": 9.4,
+  "neck": 9.05,
+  "arm hang": 8.98,
+  "legs/feet": 4.97,
+  "face": 8.7,
+  "shading": 8.8,
+  "walk": 7.63,
+  "run": 8.5
+ },
+ "gait_own_refs": {
   "walk": {
    "score": 7.63,
    "detail": {

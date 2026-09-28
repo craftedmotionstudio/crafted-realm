@@ -165,6 +165,27 @@ for cn in ('walk', 'run'):
     ref_g[cn + '_apparent_h_px'] = r['apparent_h_px']
 gs = M.score(ours_g, ref_g)
 
+# v4a.2b: the same gait graded against the REF2004 harness (docs/rebuild/REF2004_FEEL_REPORT.md): its 2004 numbers from
+# C:/Users/iQwaZ/ref2004_captures/characters/metrics.json (numbers only), ours from our side renders with its formulas.
+# The rubric's own 2004 references above (bob from the per-frame apparent height, the 12 % feet band, the 40-52 % hand band)
+# disagree with the harness (walk bob 1.8 % vs 6 %), so the harness grade is the headline total; the old one is kept.
+HARN_PATH = arg('--harness', 'C:/Users/iQwaZ/ref2004_captures/characters/metrics.json')
+HARN = json.load(open(HARN_PATH))['man']['2004']['gait']
+ours_h, ref_h = {}, {}
+for cn in ('walk', 'run'):
+    g = M.harness_gait([M.load_mask(f) for f in MEAS['renders']['gaitsil_A_%s' % cn]], ground=ground)
+    r = HARN[cn]
+    ours_h[cn + '_cycle_rel'] = MEAS['gait'][cn]['cycle_s'] / r['cycle_s']; ref_h[cn + '_cycle_rel'] = 1.0
+    ours_h[cn + '_step_H'] = MEAS['gait'][cn]['step_H']; ref_h[cn + '_step_H'] = r['stride_in_body_heights']
+    ours_h[cn + '_poses'] = ours_g[cn + '_poses']; ref_h[cn + '_poses'] = float(r.get('anim_frames_per_cycle', 8))
+    ours_h[cn + '_bob_H'] = g['bob_H']; ref_h[cn + '_bob_H'] = r['bob_pct_of_H'] / 100.0
+    ours_h[cn + '_leg_spread_H'] = g['leg_spread_H']; ref_h[cn + '_leg_spread_H'] = r['leg_spread_max_over_H']
+    ours_h[cn + '_arm_band_max_H'] = g['arm_band_max_H']; ref_h[cn + '_arm_band_max_H'] = r['arm_band_width_max_over_H']
+    ours_h[cn + '_arm_band_min_H'] = g['arm_band_min_H']; ref_h[cn + '_arm_band_min_H'] = r['arm_band_width_min_over_H']
+    ours_h[cn + '_lean_deg'] = g['lean_deg']; ref_h[cn + '_lean_deg'] = r['lean_deg_forward']
+    ref_h[cn + '_apparent_h_px'] = r['H_px_median']
+gh = M.score(ours_h, ref_h, criteria=M.CRITERIA_HARNESS)
+
 # ---------------------------------------------------------------------------------------------- totals
 crit = {}
 for c in SIL:
@@ -172,11 +193,14 @@ for c in SIL:
     crit[c] = round(float(np.mean(vals)), 2)
 crit['face'] = RUBRIC['face']['score']
 crit['shading'] = RUBRIC['shading']['score']
-crit['walk'] = gs['walk']['score']
-crit['run'] = gs['run']['score']
+crit_own = dict(crit, walk=gs['walk']['score'], run=gs['run']['score'])
+total_own = round(float(np.mean(list(crit_own.values()))), 2)
+crit['walk'] = gh['walk']['score']
+crit['run'] = gh['run']['score']
 total = round(float(np.mean(list(crit.values()))), 2)
 res = {'option': OPT, 'label': MEAS['label'], 'total': total, 'criteria': crit, 'silhouette_views': per_view,
-       'gait': {c: gs[c] for c in ('walk', 'run')},
+       'gait': {c: gh[c] for c in ('walk', 'run')}, 'gait_references': 'REF2004 harness metrics.json (2004) + its formulas on our renders',
+       'total_with_own_gait_refs': total_own, 'criteria_with_own_gait_refs': crit_own, 'gait_own_refs': {c: gs[c] for c in ('walk', 'run')},
        'rubric': RUBRIC, 'notes': ['scores: 10 * max(0, 1 - (|ours - 2004| - measuring noise) / tolerance), averaged per criterion',
                                    'tolerances = "clearly a different figure" (tools/holm_char_metrics_v4.py CRITERIA)',
                                    'silhouette criteria: man + woman, designer (level) view + the old client close camera where the reference mask is clean',
@@ -184,6 +208,7 @@ res = {'option': OPT, 'label': MEAS['label'], 'total': total, 'criteria': crit, 
                                    'face / shading: eye-judged rubric (see rubric notes)']}
 json.dump(res, open(os.path.join(OURS, '%s_score.json' % OPT), 'w'), indent=1)
 print(OPT, 'TOTAL', total, crit)
+print(OPT, 'TOTAL with the rubric own 2004 gait references (as before)', total_own, {c: crit_own[c] for c in ('walk', 'run')})
 
 # ---------------------------------------------------------------------------------------------- sheets
 BG = (26, 26, 30)
@@ -222,7 +247,8 @@ def row_img(title, cells, h):
     return out
 
 def table_img(with_ref_numbers=True):
-    lines = [('%s  --  %s' % (OPT, MEAS['label']), (240, 230, 180), 18), ('TOTAL similarity to 2004: %.2f / 10' % total, (255, 255, 255), 22), ('', None, 8)]
+    lines = [('%s  --  %s' % (OPT, MEAS['label']), (240, 230, 180), 18), ('TOTAL similarity to 2004: %.2f / 10  (gait vs the REF2004 harness)' % total, (255, 255, 255), 22),
+             ('with the rubric own 2004 gait references (before v4a.2b): %.2f' % total_own, (200, 200, 205), 15), ('', None, 8)]
     for c in ['head/body ratio', 'shoulder line', 'neck', 'arm hang', 'legs/feet', 'face', 'shading', 'walk', 'run']:
         lines.append(('%-16s %5.2f' % (c, crit[c]), (220, 220, 225), 16))
     lines.append(('', None, 8))
@@ -232,8 +258,8 @@ def table_img(with_ref_numbers=True):
             txt = '   %-16s %4.1f   ' % (c, v['scores'][c]) + '  '.join('%s %.3f vs %.3f' % (k, q['ours'], q['ref']) for k, q in dd.items())
             lines.append((txt, (190, 190, 195), 13))
     for cn in ('walk', 'run'):
-        lines.append(('%s  %.2f' % (cn, gs[cn]['score']), (170, 200, 230), 14))
-        lines.append(('   ' + '  '.join('%s %.3f vs %.3f' % (k.replace(cn + '_', ''), q['ours'], q['ref']) for k, q in gs[cn]['detail'].items()), (190, 190, 195), 13))
+        lines.append(('%s  %.2f  (harness)   own refs %.2f' % (cn, gh[cn]['score'], gs[cn]['score']), (170, 200, 230), 14))
+        lines.append(('   ' + '  '.join('%s %.3f vs %.3f' % (k.replace(cn + '_', ''), q['ours'], q['ref']) for k, q in gh[cn]['detail'].items()), (190, 190, 195), 13))
     for c in ('face', 'shading'):
         lines.append(('%s (rubric) %.1f: %s' % (c, RUBRIC[c]['score'], RUBRIC[c]['note']), (190, 190, 195), 13))
     lines.append(('numbers: ours vs 2004 (ratios of standing height H; degrees)', (150, 150, 155), 12))

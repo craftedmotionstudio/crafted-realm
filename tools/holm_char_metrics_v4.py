@@ -168,6 +168,33 @@ def gait_sil(masks, ground=None):
                 min_hand_band_H=float(min(r[3] for r in rows) / hh), apparent_h_px=hh, samples=len(rows))
 
 
+def harness_gait(masks, ground=None):
+    """the REF2004 harness's gait numbers (tools/ref2004/analyze.py gait()) from one cycle of side silhouettes: bob = p95 - p5
+    of the top above the ground, leg spread = p95 of the bottom 28 %'s extent, arm band = p95 / p5 of rows 28-55 %'s
+    extent, lean = median atan2(top-quarter centroid - bottom-quarter centroid, 0.75 H), + = top ahead (to screen right);
+    all / the median height. v4a.2b: the rubric grades the gait against the harness's 2004 numbers with these formulas."""
+    tops, spreads, arms, leans, hs = [], [], [], [], []
+    for m in masks:
+        ys, xs = np.nonzero(m)
+        if len(ys) < 30:
+            continue
+        top, bot = ys.min(), ys.max()
+        H = bot - top + 1
+        hs.append(H)
+        tops.append((ground if ground is not None else bot) - top)
+        lx = np.nonzero(m[bot - int(.28 * H):bot + 1].any(axis=0))[0]
+        spreads.append(lx.max() - lx.min() + 1)
+        bx = np.nonzero(m[top + int(.28 * H):top + int(.55 * H)].any(axis=0))[0]
+        arms.append(bx.max() - bx.min() + 1)
+        ct = np.nonzero(m[top:top + int(.25 * H)])[1].mean()
+        cb = np.nonzero(m[bot - int(.25 * H):bot + 1])[1].mean()
+        leans.append(math.degrees(math.atan2(ct - cb, .75 * H)))
+    hm = float(np.median(hs))
+    return dict(bob_H=float((np.percentile(tops, 95) - np.percentile(tops, 5)) / hm), leg_spread_H=float(np.percentile(spreads, 95) / hm),
+                arm_band_max_H=float(np.percentile(arms, 95) / hm), arm_band_min_H=float(np.percentile(arms, 5) / hm),
+                lean_deg=float(np.median(leans)), apparent_h_px=hm, samples=len(hs))
+
+
 # criterion -> [(metric, tolerance)]: a difference of `tolerance` beyond the measuring noise scores 0, none scores 10.
 # Tolerances are "clearly a different figure" (e.g. a head 20% taller, a shoulder line 15 deg steeper); the noise is what
 # the reference's pixel size allows (1.5 px of its height for the ratios, 4 deg for slopes), so a match within the
@@ -183,6 +210,13 @@ CRITERIA = {
     'run': [('run_cycle_rel', .45), ('run_stride_H', .40), ('run_poses', 6.0), ('run_bob_H', .03), ('run_max_feet_spread_H', .25),
             ('run_max_hand_band_H', .15), ('run_min_hand_band_H', .10)],
 }
+# v4a.2b: the gait criteria against the REF2004 harness numbers (same formulas both sides; the same tolerances as the old
+# criteria, the stride per step instead of per cycle, plus the walk cycle and the forward lean)
+CRITERIA_HARNESS = dict(CRITERIA,
+    walk=[('walk_cycle_rel', .45), ('walk_step_H', .15), ('walk_poses', 6.0), ('walk_bob_H', .025), ('walk_leg_spread_H', .20),
+          ('walk_arm_band_max_H', .15), ('walk_arm_band_min_H', .10), ('walk_lean_deg', 10.0)],
+    run=[('run_cycle_rel', .45), ('run_step_H', .20), ('run_poses', 6.0), ('run_bob_H', .03), ('run_leg_spread_H', .25),
+         ('run_arm_band_max_H', .15), ('run_arm_band_min_H', .10), ('run_lean_deg', 10.0)])
 NOISE_DEG = 4.0
 
 
@@ -200,10 +234,10 @@ def _noise(k, ref):
     return 1.5 / hp if hp else 0.0
 
 
-def score(ours, ref, rubric=None):
+def score(ours, ref, rubric=None, criteria=None):
     """per-criterion scores 0..10 + total; rubric = {criterion: score} for the eye-judged ones (face, shading, ...)"""
     res = {}
-    for crit, items in CRITERIA.items():
+    for crit, items in (criteria or CRITERIA).items():
         vals = []
         for k, tol in items:
             a, b = ours.get(k), ref.get(k)
