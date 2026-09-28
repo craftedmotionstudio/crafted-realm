@@ -1,0 +1,2630 @@
+{
+ "at": "2026-09-28T02:12:49.711Z",
+ "pass": 345,
+ "fail": 0,
+ "results": [
+  {
+   "ok": true,
+   "m": "every stat cell knows its skill",
+   "d": [
+    "Attack",
+    "Strength",
+    "Defence",
+    "Hitpoints",
+    "Ranged",
+    "Magic",
+    "Prayer",
+    "Woodcutting",
+    "Mining",
+    "Fishing",
+    "Cooking",
+    "Firemaking",
+    "Smithing",
+    "Fletching",
+    "Thieving"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "the \"Coming later\" line lists the four W4 skills",
+   "d": [
+    "Crafting",
+    "Herblore",
+    "Agility",
+    "Runecrafting"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack: the guide opens, titled \"Attack guide\"",
+   "d": "Attack guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack: tabs Weapons / Tools / Places",
+   "d": [
+    "Weapons",
+    "Tools",
+    "Places"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Weapons: the tab opens on a click",
+   "d": "Weapons"
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Weapons: 9 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Copper weapons",
+     "1 Bronze weapons",
+     "5 Iron weapons",
+     "10 Steel weapons"
+    ],
+    "want": [
+     "1 Copper weapons",
+     "1 Bronze weapons",
+     "5 Iron weapons",
+     "10 Steel weapons"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Weapons: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Weapons: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Tools: the tab opens on a click",
+   "d": "Tools"
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Tools: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Copper tools",
+     "1 Bronze tools",
+     "1 Iron tools",
+     "10 Steel tools"
+    ],
+    "want": [
+     "1 Copper tools",
+     "1 Bronze tools",
+     "1 Iron tools",
+     "10 Steel tools"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Tools: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Tools: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Places: the tab opens on a click",
+   "d": "Places"
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Places: 1 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "130 Hall of the Hold"
+    ],
+    "want": [
+     "130 Hall of the Hold"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Places: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Attack/Places: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Strength: the guide opens, titled \"Strength guide\"",
+   "d": "Strength guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Strength: tabs Places",
+   "d": [
+    "Places"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Strength: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Strength/Places: the tab opens on a click",
+   "d": "Places"
+  },
+  {
+   "ok": true,
+   "m": "desktop Strength/Places: 1 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "130 Hall of the Hold"
+    ],
+    "want": [
+     "130 Hall of the Hold"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Strength/Places: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Strength/Places: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence: the guide opens, titled \"Defence guide\"",
+   "d": "Defence guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence: tabs Armour / Other",
+   "d": [
+    "Armour",
+    "Other"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence/Armour: the tab opens on a click",
+   "d": "Armour"
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence/Armour: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Copper armour",
+     "1 Bronze armour",
+     "5 Iron armour",
+     "10 Steel armour"
+    ],
+    "want": [
+     "1 Copper armour",
+     "1 Bronze armour",
+     "5 Iron armour",
+     "10 Steel armour"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence/Armour: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence/Armour: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence/Other: the tab opens on a click",
+   "d": "Other"
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence/Other: 9 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Wooden shield",
+     "1 Leather armour",
+     "1 Amulet of Might",
+     "1 Amulet of Precision"
+    ],
+    "want": [
+     "1 Wooden shield",
+     "1 Leather armour",
+     "1 Amulet of Might",
+     "1 Amulet of Precision"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence/Other: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Defence/Other: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Hitpoints: the guide opens, titled \"Hitpoints guide\"",
+   "d": "Hitpoints guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Hitpoints: tabs Food",
+   "d": [
+    "Food"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Hitpoints: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Hitpoints/Food: the tab opens on a click",
+   "d": "Food"
+  },
+  {
+   "ok": true,
+   "m": "desktop Hitpoints/Food: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     " Cabbage",
+     " Cheese",
+     " Cooked meat",
+     " Bread"
+    ],
+    "want": [
+     " Cabbage",
+     " Cheese",
+     " Cooked meat",
+     " Bread"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Hitpoints/Food: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Hitpoints/Food: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged: the guide opens, titled \"Ranged guide\"",
+   "d": "Ranged guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged: tabs Bows / Armour / Places",
+   "d": [
+    "Bows",
+    "Armour",
+    "Places"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Bows: the tab opens on a click",
+   "d": "Bows"
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Bows: 7 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Worn shortbow",
+     "10 Ash shortbow",
+     "25 Gale longbow",
+     "30 Blackthorn shortbow"
+    ],
+    "want": [
+     "1 Worn shortbow",
+     "10 Ash shortbow",
+     "25 Gale longbow",
+     "30 Blackthorn shortbow"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Bows: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Bows: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Armour: the tab opens on a click",
+   "d": "Armour"
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Armour: 4 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "20 Riveted armour",
+     "40 Fenhide armour",
+     "50 Matriarch hide armour",
+     "60 Ash wyrm hide armour"
+    ],
+    "want": [
+     "20 Riveted armour",
+     "40 Fenhide armour",
+     "50 Matriarch hide armour",
+     "60 Ash wyrm hide armour"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Armour: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Armour: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Places: the tab opens on a click",
+   "d": "Places"
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Places: 1 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "40 Longbow Lodge"
+    ],
+    "want": [
+     "40 Longbow Lodge"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Places: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Ranged/Places: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic: the guide opens, titled \"Magic guide\"",
+   "d": "Magic guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic: tabs Combat / Utility / Equipment / Places",
+   "d": [
+    "Combat",
+    "Utility",
+    "Equipment",
+    "Places"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Combat: the tab opens on a click",
+   "d": "Combat"
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Combat: 14 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Gale Dart",
+     "3 Befuddle",
+     "5 Tide Dart",
+     "9 Stone Dart"
+    ],
+    "want": [
+     "1 Gale Dart",
+     "3 Befuddle",
+     "5 Tide Dart",
+     "9 Stone Dart"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Combat: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Combat: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Utility: the tab opens on a click",
+   "d": "Utility"
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Utility: 10 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Hearthmere Teleport",
+     "14 Stonereach Teleport",
+     "21 Lesser Transmute",
+     "25 Gloomfen Teleport"
+    ],
+    "want": [
+     "1 Hearthmere Teleport",
+     "14 Stonereach Teleport",
+     "21 Lesser Transmute",
+     "25 Gloomfen Teleport"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Utility: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Utility: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Equipment: the tab opens on a click",
+   "d": "Equipment"
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Equipment: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Wizard hat",
+     "1 Apprentice staff",
+     "1 Cloth robes",
+     "10 Ember staff"
+    ],
+    "want": [
+     "1 Wizard hat",
+     "1 Apprentice staff",
+     "1 Cloth robes",
+     "10 Ember staff"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Equipment: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Equipment: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Places: the tab opens on a click",
+   "d": "Places"
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Places: 3 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "50 Spire Trials",
+     "60 The Warded Circle",
+     "66 The Upper Study"
+    ],
+    "want": [
+     "50 Spire Trials",
+     "60 The Warded Circle",
+     "66 The Upper Study"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Places: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Magic/Places: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer: the guide opens, titled \"Prayer guide\"",
+   "d": "Prayer guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer: tabs Prayers / Equipment / Places",
+   "d": [
+    "Prayers",
+    "Equipment",
+    "Places"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Prayers: the tab opens on a click",
+   "d": "Prayers"
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Prayers: 17 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Oak Hide",
+     "4 Boar's Heart",
+     "7 Steady Hand",
+     "8 Kestrel's Sight"
+    ],
+    "want": [
+     "1 Oak Hide",
+     "4 Boar's Heart",
+     "7 Steady Hand",
+     "8 Kestrel's Sight"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Prayers: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Prayers: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Equipment: the tab opens on a click",
+   "d": "Equipment"
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Equipment: 2 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Monk robes",
+     "1 Holy symbol"
+    ],
+    "want": [
+     "1 Monk robes",
+     "1 Holy symbol"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Equipment: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Equipment: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Places: the tab opens on a click",
+   "d": "Places"
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Places: 1 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "31 Monastery upper altar"
+    ],
+    "want": [
+     "31 Monastery upper altar"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Places: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Prayer/Places: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting: the guide opens, titled \"Woodcutting guide\"",
+   "d": "Woodcutting guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting: tabs Trees / Hatchets",
+   "d": [
+    "Trees",
+    "Hatchets"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting/Trees: the tab opens on a click",
+   "d": "Trees"
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting/Trees: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Emberwood logs",
+     "15 Oak logs",
+     "30 Willow logs",
+     "45 Maple logs"
+    ],
+    "want": [
+     "1 Emberwood logs",
+     "15 Oak logs",
+     "30 Willow logs",
+     "45 Maple logs"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting/Trees: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting/Trees: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting/Hatchets: the tab opens on a click",
+   "d": "Hatchets"
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting/Hatchets: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Copper hatchet",
+     "1 Bronze hatchet",
+     "1 Iron hatchet",
+     "1 Steel hatchet"
+    ],
+    "want": [
+     "1 Copper hatchet",
+     "1 Bronze hatchet",
+     "1 Iron hatchet",
+     "1 Steel hatchet"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting/Hatchets: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Woodcutting/Hatchets: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining: the guide opens, titled \"Mining guide\"",
+   "d": "Mining guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining: tabs Ores / Pickaxes / Places",
+   "d": [
+    "Ores",
+    "Pickaxes",
+    "Places"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Ores: the tab opens on a click",
+   "d": "Ores"
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Ores: 10 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Copper ore",
+     "1 Tin ore",
+     "1 Clay",
+     "15 Iron ore"
+    ],
+    "want": [
+     "1 Copper ore",
+     "1 Tin ore",
+     "1 Clay",
+     "15 Iron ore"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Ores: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Ores: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Pickaxes: the tab opens on a click",
+   "d": "Pickaxes"
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Pickaxes: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Copper pickaxe",
+     "1 Bronze pickaxe",
+     "1 Iron pickaxe",
+     "1 Steel pickaxe"
+    ],
+    "want": [
+     "1 Copper pickaxe",
+     "1 Bronze pickaxe",
+     "1 Iron pickaxe",
+     "1 Steel pickaxe"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Pickaxes: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Pickaxes: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Places: the tab opens on a click",
+   "d": "Places"
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Places: 1 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "60 Deepdelvers' Lodge"
+    ],
+    "want": [
+     "60 Deepdelvers' Lodge"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Places: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Mining/Places: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing: the guide opens, titled \"Fishing guide\"",
+   "d": "Fishing guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing: tabs Catches / Finds / Tools / Places",
+   "d": [
+    "Catches",
+    "Finds",
+    "Tools",
+    "Places"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Catches: the tab opens on a click",
+   "d": "Catches"
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Catches: 17 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Mirrorperch",
+     "5 Reedpike",
+     "5 Fen sprat",
+     "10 Silverfin"
+    ],
+    "want": [
+     "1 Mirrorperch",
+     "5 Reedpike",
+     "5 Fen sprat",
+     "10 Silverfin"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Catches: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Catches: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Finds: the tab opens on a click",
+   "d": "Finds"
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Finds: 4 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Sealed bottle",
+     "1 Tarnished ring",
+     "1 Soggy boot",
+     "1 Clump of pondweed"
+    ],
+    "want": [
+     "1 Sealed bottle",
+     "1 Tarnished ring",
+     "1 Soggy boot",
+     "1 Clump of pondweed"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Finds: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Finds: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Tools: the tab opens on a click",
+   "d": "Tools"
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Tools: 3 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Small net",
+     "1 Fishing rod",
+     "1 Fly fishing rod"
+    ],
+    "want": [
+     "1 Small net",
+     "1 Fishing rod",
+     "1 Fly fishing rod"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Tools: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Tools: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Places: the tab opens on a click",
+   "d": "Places"
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Places: 1 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "68 Anglers' Pier"
+    ],
+    "want": [
+     "68 Anglers' Pier"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Places: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fishing/Places: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking: the guide opens, titled \"Cooking guide\"",
+   "d": "Cooking guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking: tabs Food / Places",
+   "d": [
+    "Food",
+    "Places"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking/Food: the tab opens on a click",
+   "d": "Food"
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking/Food: 21 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Mirrorperch",
+     "1 Reedpike",
+     "1 Bread",
+     "1 Coffee"
+    ],
+    "want": [
+     "1 Mirrorperch",
+     "1 Reedpike",
+     "1 Bread",
+     "1 Coffee"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking/Food: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking/Food: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking/Places: the tab opens on a click",
+   "d": "Places"
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking/Places: 1 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "32 Cooks' Hall"
+    ],
+    "want": [
+     "32 Cooks' Hall"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking/Places: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Cooking/Places: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking: the guide opens, titled \"Firemaking guide\"",
+   "d": "Firemaking guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking: tabs Logs / Other",
+   "d": [
+    "Logs",
+    "Other"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking/Logs: the tab opens on a click",
+   "d": "Logs"
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking/Logs: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Emberwood logs",
+     "15 Oak logs",
+     "30 Willow logs",
+     "45 Maple logs"
+    ],
+    "want": [
+     "1 Emberwood logs",
+     "15 Oak logs",
+     "30 Willow logs",
+     "45 Maple logs"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking/Logs: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking/Logs: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking/Other: the tab opens on a click",
+   "d": "Other"
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking/Other: 2 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "30 Censers",
+     "43 Ditch Beacons"
+    ],
+    "want": [
+     "30 Censers",
+     "43 Ditch Beacons"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking/Other: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Firemaking/Other: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing: the guide opens, titled \"Smithing guide\"",
+   "d": "Smithing guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing: tabs Smelting / Bronze / Iron / Steel / Whitsteel / Aurel / Veyrite / Undercrag",
+   "d": [
+    "Smelting",
+    "Bronze",
+    "Iron",
+    "Steel",
+    "Whitsteel",
+    "Aurel",
+    "Veyrite",
+    "Undercrag"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Smelting: the tab opens on a click",
+   "d": "Smelting"
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Smelting: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Bronze bar",
+     "15 Iron bar",
+     "30 Steel bar",
+     "40 Gold bar"
+    ],
+    "want": [
+     "1 Bronze bar",
+     "15 Iron bar",
+     "30 Steel bar",
+     "40 Gold bar"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Smelting: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Smelting: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Bronze: the tab opens on a click",
+   "d": "Bronze"
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Bronze: 7 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Bronze dagger",
+     "1 Bronze sword",
+     "3 Bronze helm",
+     "5 Bronze arrowtips (x12)"
+    ],
+    "want": [
+     "1 Bronze dagger",
+     "1 Bronze sword",
+     "3 Bronze helm",
+     "5 Bronze arrowtips (x12)"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Bronze: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Bronze: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Iron: the tab opens on a click",
+   "d": "Iron"
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Iron: 6 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "15 Iron sword",
+     "17 Iron helm",
+     "20 Iron arrowtips (x12)",
+     "22 Iron platelegs"
+    ],
+    "want": [
+     "15 Iron sword",
+     "17 Iron helm",
+     "20 Iron arrowtips (x12)",
+     "22 Iron platelegs"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Iron: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Iron: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Steel: the tab opens on a click",
+   "d": "Steel"
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Steel: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "30 Steel sword",
+     "32 Steel helm",
+     "37 Steel platelegs",
+     "40 Steel kiteshield"
+    ],
+    "want": [
+     "30 Steel sword",
+     "32 Steel helm",
+     "37 Steel platelegs",
+     "40 Steel kiteshield"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Steel: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Steel: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Whitsteel: the tab opens on a click",
+   "d": "Whitsteel"
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Whitsteel: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "40 Whitsteel sword",
+     "42 Whitsteel helm",
+     "47 Whitsteel platelegs",
+     "50 Whitsteel kiteshield"
+    ],
+    "want": [
+     "40 Whitsteel sword",
+     "42 Whitsteel helm",
+     "47 Whitsteel platelegs",
+     "50 Whitsteel kiteshield"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Whitsteel: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Whitsteel: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Aurel: the tab opens on a click",
+   "d": "Aurel"
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Aurel: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "50 Aurel sword",
+     "52 Aurel helm",
+     "57 Aurel platelegs",
+     "60 Aurel kiteshield"
+    ],
+    "want": [
+     "50 Aurel sword",
+     "52 Aurel helm",
+     "57 Aurel platelegs",
+     "60 Aurel kiteshield"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Aurel: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Aurel: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Veyrite: the tab opens on a click",
+   "d": "Veyrite"
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Veyrite: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "70 Veyrite sword",
+     "72 Veyrite helm",
+     "77 Veyrite platelegs",
+     "80 Veyrite kiteshield"
+    ],
+    "want": [
+     "70 Veyrite sword",
+     "72 Veyrite helm",
+     "77 Veyrite platelegs",
+     "80 Veyrite kiteshield"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Veyrite: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Veyrite: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Undercrag: the tab opens on a click",
+   "d": "Undercrag"
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Undercrag: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "85 Undercrag sword",
+     "87 Undercrag helm",
+     "92 Undercrag platelegs",
+     "95 Undercrag kiteshield"
+    ],
+    "want": [
+     "85 Undercrag sword",
+     "87 Undercrag helm",
+     "92 Undercrag platelegs",
+     "95 Undercrag kiteshield"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Undercrag: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Smithing/Undercrag: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching: the guide opens, titled \"Fletching guide\"",
+   "d": "Fletching guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching: tabs Bows / Arrows",
+   "d": [
+    "Bows",
+    "Arrows"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching/Bows: the tab opens on a click",
+   "d": "Bows"
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching/Bows: 6 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "5 Worn shortbow",
+     "20 Ash shortbow",
+     "50 Blackthorn shortbow",
+     "65 Duskwood shortbow"
+    ],
+    "want": [
+     "5 Worn shortbow",
+     "20 Ash shortbow",
+     "50 Blackthorn shortbow",
+     "65 Duskwood shortbow"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching/Bows: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching/Bows: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching/Arrows: the tab opens on a click",
+   "d": "Arrows"
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching/Arrows: 2 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Arrow shafts (x15)",
+     "1 Arrows (x12)"
+    ],
+    "want": [
+     "1 Arrow shafts (x15)",
+     "1 Arrows (x12)"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching/Arrows: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Fletching/Arrows: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving: the guide opens, titled \"Thieving guide\"",
+   "d": "Thieving guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving: tabs Pickpocketing / Stalls / Other",
+   "d": [
+    "Pickpocketing",
+    "Stalls",
+    "Other"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Pickpocketing: the tab opens on a click",
+   "d": "Pickpocketing"
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Pickpocketing: 11 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Wanderer",
+     "8 Monk",
+     "10 Farmhand",
+     "20 Wizard"
+    ],
+    "want": [
+     "1 Wanderer",
+     "8 Monk",
+     "10 Farmhand",
+     "20 Wizard"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Pickpocketing: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Pickpocketing: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Stalls: the tab opens on a click",
+   "d": "Stalls"
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Stalls: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "5 Baker’s stall",
+     "5 Tea cart",
+     "20 Silversmith’s stall",
+     "20 Cloth stall"
+    ],
+    "want": [
+     "5 Baker’s stall",
+     "5 Tea cart",
+     "20 Silversmith’s stall",
+     "20 Cloth stall"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Stalls: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Stalls: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Other: the tab opens on a click",
+   "d": "Other"
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Other: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "28 Blackbriar strongroom chest",
+     "43 Scarlands raider chests",
+     "50 The Night Ledger",
+     "72 The Marcher's strongroom"
+    ],
+    "want": [
+     "28 Blackbriar strongroom chest",
+     "43 Scarlands raider chests",
+     "50 The Night Ledger",
+     "72 The Marcher's strongroom"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Other: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Thieving/Other: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting: the guide opens, titled \"Crafting guide\"",
+   "d": "Crafting guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting: tabs Leather / Other / Places",
+   "d": [
+    "Leather",
+    "Other",
+    "Places"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Leather: the tab opens on a click",
+   "d": "Leather"
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Leather: 9 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Leather gloves",
+     "7 Leather boots",
+     "14 Leather body",
+     "18 Leather chaps"
+    ],
+    "want": [
+     "1 Leather gloves",
+     "7 Leather boots",
+     "14 Leather body",
+     "18 Leather chaps"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Leather: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Leather: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Other: the tab opens on a click",
+   "d": "Other"
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Other: 10 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Ball of wool",
+     "1 Pot",
+     "5 Gold ring",
+     "6 Gold necklace"
+    ],
+    "want": [
+     "1 Ball of wool",
+     "1 Pot",
+     "5 Gold ring",
+     "6 Gold necklace"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Other: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Other: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Places: the tab opens on a click",
+   "d": "Places"
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Places: 1 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "40 Crafters' Hall"
+    ],
+    "want": [
+     "40 Crafters' Hall"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Places: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting/Places: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Crafting: the footer says the skill arrives later",
+   "d": "This skill arrives in a later update; everything here is planned."
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore: the guide opens, titled \"Herblore guide\"",
+   "d": "Herblore guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore: tabs Potions / Herbs",
+   "d": [
+    "Potions",
+    "Herbs"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore/Potions: the tab opens on a click",
+   "d": "Potions"
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore/Potions: 17 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 The Hedge Rite",
+     "3 Attack potion",
+     "5 Antipoison",
+     "12 Strength potion"
+    ],
+    "want": [
+     "1 The Hedge Rite",
+     "3 Attack potion",
+     "5 Antipoison",
+     "12 Strength potion"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore/Potions: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore/Potions: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore/Herbs: the tab opens on a click",
+   "d": "Herbs"
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore/Herbs: 12 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "3 Fenmint",
+     "5 Bogthyme",
+     "11 Sallowleaf",
+     "20 Hollowroot"
+    ],
+    "want": [
+     "3 Fenmint",
+     "5 Bogthyme",
+     "11 Sallowleaf",
+     "20 Hollowroot"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore/Herbs: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore/Herbs: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Herblore: the footer says the skill arrives later",
+   "d": "This skill arrives in a later update; everything here is planned."
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility: the guide opens, titled \"Agility guide\"",
+   "d": "Agility guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility: tabs Courses / Shortcuts",
+   "d": [
+    "Courses",
+    "Shortcuts"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility/Courses: the tab opens on a click",
+   "d": "Courses"
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility/Courses: 7 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 The Rampart Run",
+     "10 Canopy Course",
+     "35 Longship Course",
+     "40 The Sunpit"
+    ],
+    "want": [
+     "1 The Rampart Run",
+     "10 Canopy Course",
+     "35 Longship Course",
+     "40 The Sunpit"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility/Courses: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility/Courses: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility/Shortcuts: the tab opens on a click",
+   "d": "Shortcuts"
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility/Shortcuts: 7 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "5 Ford stepping stones",
+     "15 Fen log bridges",
+     "30 Wall breach",
+     "38 Stonereach cliff steps"
+    ],
+    "want": [
+     "5 Ford stepping stones",
+     "15 Fen log bridges",
+     "30 Wall breach",
+     "38 Stonereach cliff steps"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility/Shortcuts: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility/Shortcuts: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Agility: the footer says the skill arrives later",
+   "d": "This skill arrives in a later update; everything here is planned."
+  },
+  {
+   "ok": true,
+   "m": "desktop Runecrafting: the guide opens, titled \"Runecrafting guide\"",
+   "d": "Runecrafting guide"
+  },
+  {
+   "ok": true,
+   "m": "desktop Runecrafting: tabs Runes",
+   "d": [
+    "Runes"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "desktop Runecrafting: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "desktop Runecrafting/Runes: the tab opens on a click",
+   "d": "Runes"
+  },
+  {
+   "ok": true,
+   "m": "desktop Runecrafting/Runes: 12 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 The Blank Stone",
+     "1 Gale rune",
+     "2 Wit rune",
+     "5 Tide rune"
+    ],
+    "want": [
+     "1 The Blank Stone",
+     "1 Gale rune",
+     "2 Wit rune",
+     "5 Tide rune"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "desktop Runecrafting/Runes: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Runecrafting/Runes: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "desktop Runecrafting: the footer says the skill arrives later",
+   "d": "This skill arrives in a later update; everything here is planned."
+  },
+  {
+   "ok": true,
+   "m": "desktop: the window scales with the viewport (1.5 at 1538 x 900)",
+   "d": "1.5"
+  },
+  {
+   "ok": true,
+   "m": "desktop: the window stays clear of the side panel",
+   "d": [
+    279,
+    192,
+    726,
+    516
+   ]
+  },
+  {
+   "ok": true,
+   "m": "the game keeps running under an open guide (74 frames in 1.2 s)",
+   "d": {
+    "frames": 74,
+    "running": true
+   }
+  },
+  {
+   "ok": true,
+   "m": "the X closes the guide",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "Escape closes the guide",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "Escape leaves the skills tab open",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "a second click on the same skill closes it",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "a click on another skill switches the guide",
+   "d": "Strength guide"
+  },
+  {
+   "ok": true,
+   "m": "a conversation takes the screen: the guide steps aside",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "found a ground tile outside the window to click",
+   "d": [
+    1023,
+    496
+   ]
+  },
+  {
+   "ok": true,
+   "m": "a click in the world closes the guide",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "...and that click still walks, as in the old client",
+   "d": {
+    "p0": [
+     61.5,
+     118.5
+    ],
+    "p1": [
+     58.5,
+     113.5
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "all 17 prayers show the old-school tip: name, level, drain, what it does",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "the kit's plain yellow tip never shows over a prayer",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "Oak Hide reads \"Raises your Defence by 5%.\" and drains a point every 12 s",
+   "d": {
+    "title": "Oak Hide",
+    "lines": [
+     {
+      "text": "Level 1",
+      "cls": ""
+     },
+     {
+      "text": "Drain: 1 point every 12 s"
+     },
+     {
+      "text": "Raises your Defence by 5%.",
+      "cls": "bt-eff"
+     }
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "the tip is the old-school box: square corners, the pixel font, the name in yellow",
+   "d": {
+    "radius": "0px",
+    "font": "\"Realm Small\", Verdana, Tahoma, sans-serif",
+    "name": "rgb(255, 255, 0)",
+    "bg": "rgba(40, 36, 27, 0.96)"
+   }
+  },
+  {
+   "ok": true,
+   "m": "the tip goes when the pointer leaves",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "all 21 spells show the tip: name, level, runes, what it does",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone: a tap opens the guide across the screen",
+   "d": {
+    "rect": [
+     6,
+     122,
+     378,
+     600
+    ],
+    "narrow": true
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing: the guide opens, titled \"Smithing guide\"",
+   "d": "Smithing guide"
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing: tabs Smelting / Bronze / Iron / Steel / Whitsteel / Aurel / Veyrite / Undercrag",
+   "d": [
+    "Smelting",
+    "Bronze",
+    "Iron",
+    "Steel",
+    "Whitsteel",
+    "Aurel",
+    "Veyrite",
+    "Undercrag"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Smelting: the tab opens on a tap",
+   "d": "Smelting"
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Smelting: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Bronze bar",
+     "15 Iron bar",
+     "30 Steel bar",
+     "40 Gold bar"
+    ],
+    "want": [
+     "1 Bronze bar",
+     "15 Iron bar",
+     "30 Steel bar",
+     "40 Gold bar"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Smelting: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Smelting: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Bronze: the tab opens on a tap",
+   "d": "Bronze"
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Bronze: 7 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Bronze dagger",
+     "1 Bronze sword",
+     "3 Bronze helm",
+     "5 Bronze arrowtips (x12)"
+    ],
+    "want": [
+     "1 Bronze dagger",
+     "1 Bronze sword",
+     "3 Bronze helm",
+     "5 Bronze arrowtips (x12)"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Bronze: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Bronze: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Iron: the tab opens on a tap",
+   "d": "Iron"
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Iron: 6 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "15 Iron sword",
+     "17 Iron helm",
+     "20 Iron arrowtips (x12)",
+     "22 Iron platelegs"
+    ],
+    "want": [
+     "15 Iron sword",
+     "17 Iron helm",
+     "20 Iron arrowtips (x12)",
+     "22 Iron platelegs"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Iron: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Iron: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Steel: the tab opens on a tap",
+   "d": "Steel"
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Steel: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "30 Steel sword",
+     "32 Steel helm",
+     "37 Steel platelegs",
+     "40 Steel kiteshield"
+    ],
+    "want": [
+     "30 Steel sword",
+     "32 Steel helm",
+     "37 Steel platelegs",
+     "40 Steel kiteshield"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Steel: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Steel: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Whitsteel: the tab opens on a tap",
+   "d": "Whitsteel"
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Whitsteel: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "40 Whitsteel sword",
+     "42 Whitsteel helm",
+     "47 Whitsteel platelegs",
+     "50 Whitsteel kiteshield"
+    ],
+    "want": [
+     "40 Whitsteel sword",
+     "42 Whitsteel helm",
+     "47 Whitsteel platelegs",
+     "50 Whitsteel kiteshield"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Whitsteel: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Whitsteel: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Aurel: the tab opens on a tap",
+   "d": "Aurel"
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Aurel: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "50 Aurel sword",
+     "52 Aurel helm",
+     "57 Aurel platelegs",
+     "60 Aurel kiteshield"
+    ],
+    "want": [
+     "50 Aurel sword",
+     "52 Aurel helm",
+     "57 Aurel platelegs",
+     "60 Aurel kiteshield"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Aurel: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Aurel: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Veyrite: the tab opens on a tap",
+   "d": "Veyrite"
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Veyrite: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "70 Veyrite sword",
+     "72 Veyrite helm",
+     "77 Veyrite platelegs",
+     "80 Veyrite kiteshield"
+    ],
+    "want": [
+     "70 Veyrite sword",
+     "72 Veyrite helm",
+     "77 Veyrite platelegs",
+     "80 Veyrite kiteshield"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Veyrite: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Veyrite: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Undercrag: the tab opens on a tap",
+   "d": "Undercrag"
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Undercrag: 5 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "85 Undercrag sword",
+     "87 Undercrag helm",
+     "92 Undercrag platelegs",
+     "95 Undercrag kiteshield"
+    ],
+    "want": [
+     "85 Undercrag sword",
+     "87 Undercrag helm",
+     "92 Undercrag platelegs",
+     "95 Undercrag kiteshield"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Undercrag: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Smithing/Undercrag: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone: the X closes the guide",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "phone: a coming-later skill opens with a tap",
+   "d": "Crafting guide"
+  },
+  {
+   "ok": true,
+   "m": "phone Attack: the guide opens, titled \"Attack guide\"",
+   "d": "Attack guide"
+  },
+  {
+   "ok": true,
+   "m": "phone Attack: tabs Weapons / Tools / Places",
+   "d": [
+    "Weapons",
+    "Tools",
+    "Places"
+   ]
+  },
+  {
+   "ok": true,
+   "m": "phone Attack: the category column shows only when there is more than one",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Weapons: the tab opens on a tap",
+   "d": "Weapons"
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Weapons: 9 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Copper weapons",
+     "1 Bronze weapons",
+     "5 Iron weapons",
+     "10 Steel weapons"
+    ],
+    "want": [
+     "1 Copper weapons",
+     "1 Bronze weapons",
+     "5 Iron weapons",
+     "10 Steel weapons"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Weapons: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Weapons: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Tools: the tab opens on a tap",
+   "d": "Tools"
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Tools: 8 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "1 Copper tools",
+     "1 Bronze tools",
+     "1 Iron tools",
+     "10 Steel tools"
+    ],
+    "want": [
+     "1 Copper tools",
+     "1 Bronze tools",
+     "1 Iron tools",
+     "10 Steel tools"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Tools: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Tools: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Places: the tab opens on a tap",
+   "d": "Places"
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Places: 1 rows, the data's rows in its order",
+   "d": {
+    "got": [
+     "130 Hall of the Hold"
+    ],
+    "want": [
+     "130 Hall of the Hold"
+    ]
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Places: reached rows in full colour, higher rows dimmed, planned rows dimmed and marked \"Coming later\"",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone Attack/Places: every picture loads",
+   "d": []
+  },
+  {
+   "ok": true,
+   "m": "phone: a long press on Oak Hide shows its tip",
+   "d": {
+    "on": true,
+    "text": "Oak Hide\nLevel 1\nDrain: 1 point every 12 s\nRaises your Defence by 5%."
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone: the long press does not switch the prayer on",
+   "d": {
+    "active": false,
+    "tip": true
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone: the tip stays up after the finger lifts",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "phone: a plain tap still switches the prayer on",
+   "d": {
+    "active": true,
+    "tip": false
+   }
+  },
+  {
+   "ok": true,
+   "m": "phone: the next tap clears the tip",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "phone: and a second tap switches it off",
+   "d": null
+  },
+  {
+   "ok": true,
+   "m": "no page errors",
+   "d": []
+  }
+ ],
+ "errors": []
+}

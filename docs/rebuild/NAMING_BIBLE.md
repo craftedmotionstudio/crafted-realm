@@ -114,3 +114,14 @@ before/after list).
 The guard `tools/test_naming_bible.js` fails when any RuneScape name from this bible, or from its extra list (2004
 places, gods, quests, NPC titles, metals, monsters, prayers, spells and the brand), reappears in player-facing text,
 and when an id this pass kept (`air_rune`, `wind_strike`, `protect_item`, `giant_mole`, `commons`...) goes missing.
+
+## Added by the skill guides (2026-09-27)
+The skill guides (`src/skill_guide_data.js`) show the planned content of `docs/rebuild/WORLD_CONTENT_PLAN.md` as "Coming
+later" rows. Where the plan still used a retired root or a name this bible had already settled another way, the guides use:
+
+| Name | Replaces | Why |
+|---|---|---|
+| **Salmon** (Fishing 30, Cooking 25) | the plan's "Vey salmon" | "Vey" is the root of the retired Veyhollow; a plain fish word reads like 2004's |
+| **Ford stepping stones** (Agility 5) | the plan's "Vey ford stones" | The same retired root; it is simply the ford by Hearthmere |
+| **Writ rune** (Runecrafting 54) | the plan's "Way" rune | This bible already names `law_rune` the Writ rune |
+| **Whitsteel, Aurel, Veyrite, Undercrag** (the metal tiers after steel, `TIERS` in `game1_data.js`) | the roles of 2004's four top metals | Already live; recorded so the anvil and the guides' tiers are on the list. Whitsteel is Whitmoor's pale knightly steel, aurel a gold-bright alloy, undercrag the ore of the Undercrag. Veyrite also carries the retired "Vey" root: renaming it is an owner call (ids stay) |
