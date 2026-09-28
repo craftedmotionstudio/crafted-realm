@@ -1,0 +1,133 @@
+{
+ "bakehouse": {
+  "panes": {
+   "Kitchen_Glazing_Windows": 4,
+   "Kitchen_UpperShell_Glazing": 6
+  },
+  "recess": 0,
+  "openings": 0,
+  "added": [
+   "Kitchen_Glazing_WindowsLeads",
+   "Kitchen_UpperShell_GlazingLeads"
+  ],
+  "glb": {
+   "path": ".studio-workspaces/holm-kitchen-glazed-review4-v1/candidates/kitchen-character.glb",
+   "bytes": 3669908,
+   "sha256": "0c75acc33e18ab30f8b168c53b2e9e2d28c82d37de9294ebb62382db120724de"
+  },
+  "graph": "holm-kitchen-review4-navigation-v2",
+  "nodes": 265,
+  "identicalGraph": true
+ },
+ "bank": {
+  "panes": {
+   "Bank_Glazing": 16,
+   "Bank_UpperGlazing": 22
+  },
+  "recess": 0,
+  "openings": 0,
+  "added": [
+   "Bank_GlazingLeads",
+   "Bank_UpperGlazingLeads"
+  ],
+  "glb": {
+   "path": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb",
+   "bytes": 2079456,
+   "sha256": "e3d9c5755a5dc8d8d3deee4e4bf70b09f4066e140dd691e822e0874c98eb6388"
+  },
+  "graph": "holm-bank-review4-navigation-v1",
+  "nodes": 186,
+  "identicalGraph": true
+ },
+ "haven": {
+  "panes": {},
+  "recess": 0,
+  "openings": 4,
+  "added": [
+   "Haven_GlazingLeaded",
+   "Haven_GlazingLeadedLeads"
+  ],
+  "glb": {
+   "path": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.glb",
+   "bytes": 1345704,
+   "sha256": "a0215137eeeb4a3028035b72ac3502f1cc544e6f3bf69fba984a0f23cd0240e3"
+  },
+  "graph": "holm-haven-review4-navigation-v1",
+  "nodes": 99,
+  "identicalGraph": true
+ },
+ "lastlight": {
+  "panes": {
+   "Lastlight_GlazingKeeper": 6,
+   "Lastlight_GlazingWatch": 14,
+   "Lastlight_GlazingWing": 6
+  },
+  "recess": 0,
+  "openings": 0,
+  "added": [
+   "Lastlight_GlazingKeeperLeads",
+   "Lastlight_GlazingWatchLeads",
+   "Lastlight_GlazingWingLeads"
+  ],
+  "glb": {
+   "path": ".studio-workspaces/holm-lastlight-glazed-review4-v1/candidates/lastlight.glb",
+   "bytes": 2188624,
+   "sha256": "c9f851ce2694fd9fb4a0d0d693d976316c6d04b7fe254a5506fb83f3c91b2ea5"
+  },
+  "graph": "holm-lastlight-review4-navigation-v1",
+  "nodes": 213,
+  "identicalGraph": true
+ },
+ "mage": {
+  "panes": {},
+  "recess": 0,
+  "openings": 43,
+  "added": [
+   "Mage_GlazingLeaded",
+   "Mage_GlazingLeadedLeads"
+  ],
+  "glb": {
+   "path": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.glb",
+   "bytes": 2316104,
+   "sha256": "85b69a2d9abdc81683e36284e59ff3bc641596a9327fa49ccd6ff423e95c206a"
+  },
+  "graph": "holm-mage-review4-navigation-v1",
+  "nodes": 311,
+  "identicalGraph": true
+ },
+ "mill": {
+  "panes": {},
+  "recess": 8,
+  "openings": 0,
+  "added": [
+   "Mill_GlazingRecess",
+   "Mill_GlazingRecessLeads"
+  ],
+  "glb": {
+   "path": ".studio-workspaces/holm-mill-glazed-review4-v1/candidates/mill.glb",
+   "bytes": 888728,
+   "sha256": "0b9e4f5a4246d26665a43da894ed6ec51d035f15c2181971263f33f29f1d6ef5"
+  },
+  "graph": "holm-mill-review4-navigation-v1",
+  "nodes": 146,
+  "identicalGraph": true
+ },
+ "quarry": {
+  "panes": {
+   "Quarry_GlazingMain": 6
+  },
+  "recess": 0,
+  "openings": 0,
+  "added": [
+   "Quarry_GlazingMainLeads"
+  ],
+  "glb": {
+   "path": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb",
+   "bytes": 1483216,
+   "sha256": "f48836dd7ae828a9a586ba4b52fadb4eb8ff87d0ee7c99645265d40aed940d85"
+  },
+  "graph": "holm-quarry-review4-navigation-v1",
+  "nodes": 110,
+  "identicalGraph": true
+ }
+}

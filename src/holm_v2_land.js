@@ -7,7 +7,9 @@
  * loader below only runs when the island calls it). */
 var HolmV2Land=(function(){
  'use strict';
- var ARRIVAL={baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v1/exports/',exportId:'109582366ee39263'};
+ // owner review 4 (2026-09-27): v2land-v2 carries the Guide House v6 (corner trapdoor and cellar, redesigned ware, leaded glazing;
+ // tools/stage_holm_arrival_package_v2land_v2.js); v2land-v1 (tools/stage_holm_arrival_package_v2land.js) is kept as it was
+ var ARRIVAL={baseUrl:'/.studio-workspaces/holm-arrival-package-v2land-v2/exports/',exportId:'533ef7f966cc42a2'};
  var REGISTRY='/docs/rebuild/holm-overhaul/v2land.json';
  function asset(u){return typeof HolmIsland!=='undefined'?HolmIsland.asset(u):u}
  // registry path ('.studio-workspaces/...') -> the URL the island loads (published copy in production)

@@ -1,7 +1,7 @@
 {
- "profile": "hollow-mujtq1wx",
- "pass": 13,
- "total": 13,
+ "profile": "hollow-muknr54m",
+ "pass": 14,
+ "total": 14,
  "results": [
   {
    "name": "Minnow Hollow loads: 3 moving spots, the jetty, the Fire Beach ring, the pond sheet, ducks, frog, dragonflies",
@@ -10,19 +10,19 @@
     "spots": [
      {
       "i": 0,
-      "candidate": "north-bank",
+      "candidate": "east-shallows",
       "state": "on",
-      "x": 27.5,
-      "z": 93.5,
-      "timer": 57
+      "x": 31.5,
+      "z": 96.5,
+      "timer": 75
      },
      {
       "i": 1,
-      "candidate": "north-reeds",
+      "candidate": "beach-edge",
       "state": "on",
-      "x": 24.5,
-      "z": 93.5,
-      "timer": 94
+      "x": 30.5,
+      "z": 99.5,
+      "timer": 84
      },
      {
       "i": 2,
@@ -30,18 +30,18 @@
       "state": "on",
       "x": 22.5,
       "z": 96.5,
-      "timer": 96
+      "timer": 85
      }
     ],
     "fauna": {
      "frog": "sit",
      "ducks": [
       [
-       29.96,
+       29.95,
        96.73
       ],
       [
-       27.51,
+       27.52,
        97.7
       ]
      ],
@@ -57,7 +57,6 @@
    "pass": true,
    "info": {
     "said": [
-     "You wield the Bronze hatchet.",
      "You should speak to Wenna first."
     ],
     "refused": {
@@ -74,11 +73,26 @@
     "pages": [
      "Hello there. I am Wenna, and down there is Minnow Hollow.",
      "Out here you learn to look after yourself: wood, fire, fish and a hot supper, all within a stone's throw of the pond.",
-     "First, wood. The oaks on the rim of the hollow, just below us, are yours to cut. Click one and your hatchet will do the rest.",
-     "Keep at it until the logs come away. Some swings miss; that is woodcutting.",
-     "Logs in hand, you will want a fire. Ask me again if you forget how."
+     "Before anything else, you need tools. Here: a bronze hatchet, a tinderbox and a small net.",
+     "Open your pack and click the hatchet to wield it. Then I will show you what it is for."
     ],
     "talked": true
+   }
+  },
+  {
+   "name": "owner review 4: Wenna hands over the hatchet, tinderbox and net when her chat ends (the pack was empty; she says so by name)",
+   "pass": true,
+   "info": {
+    "handed": true,
+    "hc": [
+     "Wenna hands you a Bronze hatchet, a Tinderbox and a Small net."
+    ],
+    "pages": [
+     "Hello there. I am Wenna, and down there is Minnow Hollow.",
+     "Out here you learn to look after yourself: wood, fire, fish and a hot supper, all within a stone's throw of the pond.",
+     "Before anything else, you need tools. Here: a bronze hatchet, a tinderbox and a small net.",
+     "Open your pack and click the hatchet to wield it. Then I will show you what it is for."
+    ]
    }
   },
   {
@@ -88,6 +102,32 @@
     "c": {
      "ok": true
     }
+   }
+  },
+  {
+   "name": "light_fire where you stand: the fire burns on the adventurer's own tile up on the rim, away from the Fire Beach, and they step aside (firemake credited)",
+   "pass": true,
+   "info": {
+    "fireAt": [
+     38.5,
+     92.5
+    ],
+    "pf": [
+     38.5,
+     2.267,
+     92.5
+    ],
+    "pa": [
+     37.5,
+     2.306,
+     92.5
+    ],
+    "area": [
+     29.5,
+     99.8,
+     35.5,
+     102.2
+    ]
    }
   },
   {
@@ -102,22 +142,6 @@
     "beachAt": [
      34,
      101.5
-    ]
-   }
-  },
-  {
-   "name": "light_fire: the fire burns on the Fire Beach (firemake credited)",
-   "pass": true,
-   "info": {
-    "fireAt": [
-     33.5,
-     101.5
-    ],
-    "area": [
-     29.5,
-     99.8,
-     35.5,
-     102.2
     ]
    }
   },
@@ -144,18 +168,26 @@
       "guaranteed": true
      }
     },
-    "seconds": 11.071
+    "seconds": 8.589
    }
   },
   {
-   "name": "cook_fish: cooked on the beach fire (cook/cooked_perch credited), burns retried",
+   "name": "cook_fish: cooked on the adventurer's own fire, lit where they stood (cook/cooked_perch credited), burns retried",
    "pass": true,
    "info": {
-    "tries": 6
+    "tries": 3,
+    "cookedOn": [
+     38.5,
+     92.5
+    ],
+    "firstFire": [
+     38.5,
+     92.5
+    ]
    }
   },
   {
-   "name": "the four survival lessons are credited in the ledger",
+   "name": "Wenna's five survival lessons are credited in the ledger (wield the hatchet, chop, fire, fish, cook)",
    "pass": true,
    "info": [
     "study_route",
@@ -171,20 +203,20 @@
    "pass": true,
    "info": {
     "was": {
-     "i": 0,
-     "candidate": "east-shallows",
+     "i": 1,
+     "candidate": "beach-edge",
      "state": "on",
-     "x": 31.5,
-     "z": 96.5,
-     "timer": 67
+     "x": 30.5,
+     "z": 99.5,
+     "timer": 73
     },
     "now": {
-     "i": 0,
-     "candidate": "north-bank",
+     "i": 1,
+     "candidate": "south-bank",
      "state": "on",
-     "x": 27.5,
-     "z": 93.5,
-     "timer": 78
+     "x": 25.5,
+     "z": 98.5,
+     "timer": 77
     }
    }
   },
@@ -192,22 +224,23 @@
    "name": "fishing after the lesson: several rolls, catches recorded (varied table: perch, reedpike from Fishing 5, junk, rares)",
    "pass": true,
    "info": {
-    "casts": 39,
-    "rolls": 31,
-    "splashes": 69,
-    "leaps": 30,
-    "moves": 36,
-    "movedOn": 3,
+    "casts": 38,
+    "rolls": 32,
+    "splashes": 51,
+    "leaps": 13,
+    "moves": 13,
+    "movedOn": 2,
     "plops": 0,
-    "soaks": 0,
+    "soaks": 1,
     "catches": {
-     "raw_perch": 9,
-     "tarnished_ring": 2,
-     "raw_reedpike": 1
+     "raw_perch": 7,
+     "pond_weed": 1,
+     "raw_reedpike": 1,
+     "sealed_bottle": 1
     },
     "lastCatch": {
-     "item": "tarnished_ring",
-     "roll": 7,
+     "item": "raw_perch",
+     "roll": 5,
      "guaranteed": false
     }
    }
@@ -220,33 +253,34 @@
      "frog": "gone",
      "ducks": [
       [
-       29.85,
-       95.35
+       23.4,
+       96.05
       ],
       [
-       25.26,
-       96.96
+       29.31,
+       97.38
       ]
      ],
      "flies": 2
     },
     "st3": {
-     "casts": 39,
-     "rolls": 31,
-     "splashes": 70,
-     "leaps": 30,
-     "moves": 36,
-     "movedOn": 3,
+     "casts": 38,
+     "rolls": 32,
+     "splashes": 53,
+     "leaps": 14,
+     "moves": 16,
+     "movedOn": 2,
      "plops": 1,
-     "soaks": 0,
+     "soaks": 1,
      "catches": {
-      "raw_perch": 9,
-      "tarnished_ring": 2,
-      "raw_reedpike": 1
+      "raw_perch": 7,
+      "pond_weed": 1,
+      "raw_reedpike": 1,
+      "sealed_bottle": 1
      },
      "lastCatch": {
-      "item": "tarnished_ring",
-      "roll": 7,
+      "item": "raw_perch",
+      "roll": 5,
       "guaranteed": false
      }
     }

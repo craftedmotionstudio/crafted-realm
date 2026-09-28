@@ -1,0 +1,17 @@
+{
+ "source": ".studio-workspaces/holm-guide-house-overhaul-v6/candidates/holm_guide_house_overhaul_v6.blend",
+ "outBlend": ".studio-workspaces/holm-guide-house-oldschool-v2/candidates/holm_guide_house_oldschool_v2.blend",
+ "outGlb": ".studio-workspaces/holm-guide-house-oldschool-v2/candidates/holm_guide_house_oldschool_v2.glb",
+ "report": ".studio-workspaces/holm-guide-house-oldschool-v2/candidates/textures.report.json",
+ "vertexColour": {
+  "material": "Holm flat colour",
+  "skip": "^(Chart|HearthFlame|CellarCabbage)",
+  "woodOnly": "(Furnishing(?!Walls)|Ladder|Hatch)",
+  "floors": "Floor$",
+  "maxVariants": 2,
+  "minShare": 0.15
+ },
+ "blender": "4.5",
+ "reference": ".studio-workspaces/holm-guide-house-overhaul-v6/candidates/holm_guide_house_overhaul_v6.glb",
+ "note": "Owner review 4 (2026-09-27): Guide House v6 (corner trapdoor, small cellar with a cabbage, redesigned ground-floor ware, leaded glazing) textured old-school with the v1 recipe"
+}

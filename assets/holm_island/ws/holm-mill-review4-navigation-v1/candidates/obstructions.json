@@ -1,0 +1,409 @@
+{
+ "nodes": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": -4.5,
+   "y": -0.64068603515625,
+   "object": "Mill_Weir"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -6.5,
+   "z": -3.5,
+   "y": -1.1826553344726562,
+   "object": "Mill_Weir"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -4.5,
+   "y": -0.8252029418945312,
+   "object": "Mill_Weir"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.5918440237676217,
+   "z": -3.278268912197291,
+   "y": 2.819995880126953
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -3.5,
+   "y": -1.1011946201324463,
+   "object": "Mill_Weir"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.5918440237676217,
+   "z": -2.278268912197291,
+   "y": 2.819995880126953
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.5918440237676217,
+   "z": -1.2782689121972912,
+   "y": 2.819995880126953
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -1.5,
+   "y": -1.5662062168121338,
+   "object": "Mill_WheelParts"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.5918440237676217,
+   "z": -0.2782689121972912,
+   "y": 2.8199996948242188
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.5918440237676217,
+   "z": 0.7217310878027088,
+   "y": 2.819995880126953
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.5918440237676217,
+   "z": 1.7217310878027088,
+   "y": 2.8199996948242188
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.5918440237676217,
+   "z": 2.721731087802709,
+   "y": 2.819995880126953
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.5918440237676217,
+   "z": 3.721731087802709,
+   "y": 2.819995880126953
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -4.5,
+   "y": 0.01601409912109375,
+   "object": "Mill_WeirWalk"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.6697056274847712,
+   "z": -3.3302943725152288,
+   "y": 0.040000200271606445
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.26,
+   "z": -3.5,
+   "y": -0.4660220146179199
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.6697056274847712,
+   "z": -2.3302943725152288,
+   "y": 0.039999961853027344
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -2.5,
+   "y": -0.7808972597122192,
+   "object": "Mill_FloorBase"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.6697056274847712,
+   "z": -1.3302943725152285,
+   "y": 0.03999972343444824
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -1.5,
+   "y": -0.8082230687141418,
+   "object": "Mill_FloorBase"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.6697056274847712,
+   "z": -0.3302943725152286,
+   "y": 0.039999961853027344
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -0.5,
+   "y": -0.7894473671913147,
+   "object": "Mill_FloorBase"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.6697056274847712,
+   "z": 0.6697056274847715,
+   "y": 0.040000200271606445
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 0.5,
+   "y": -0.7544097304344177,
+   "object": "Mill_FloorBase"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.6697056274847712,
+   "z": 1.6697056274847715,
+   "y": 0.039999961853027344
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 1.5,
+   "y": -0.6482832431793213,
+   "object": "Mill_FloorBase"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.6697056274847712,
+   "z": 2.6697056274847712,
+   "y": 0.039999961853027344
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": 3.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -3.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": 3.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": -0.5,
+   "y": 0.040000200271606445,
+   "object": "Mill_FurnishingStones"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 0.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_FurnishingStones"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.5,
+   "z": 3.5,
+   "y": 0.040000200271606445,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -3.5,
+   "y": 0.03999972343444824,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": -0.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_FurnishingStones"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 0.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_FurnishingStones"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 1.5,
+   "y": 0.03999972343444824,
+   "object": "Mill_FurnishingStones"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 3.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 0.5,
+   "z": 4.5,
+   "y": 0.00679779052734375,
+   "object": "Mill_Dressing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": -3.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 3.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.5,
+   "z": 4.5,
+   "y": 0.0662078857421875,
+   "object": "Mill_Dressing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -3.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_FurnishingStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -2.5,
+   "y": 0.040000200271606445,
+   "object": "Mill_FurnishingStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": -1.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_FurnishingStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 2.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_FurnishingStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 3.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -4.5,
+   "y": 0.0,
+   "object": "Mill_Dressing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -3.5,
+   "y": 0.03999972343444824,
+   "object": "Mill_FurnishingStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -2.5,
+   "y": 0.03999972343444824,
+   "object": "Mill_FurnishingStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -1.5,
+   "y": 0.040000200271606445,
+   "object": "Mill_FurnishingStore"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": -0.5,
+   "y": 0.040000200271606445,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 0.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 1.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 2.5,
+   "y": 0.040000200271606445,
+   "object": "Mill_Shell"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 3.5,
+   "z": 3.5,
+   "y": 0.03999972343444824,
+   "object": "Mill_Shell"
+  }
+ ],
+ "edges": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -0.09999999999999998,
+   "z": -2.5,
+   "y": 0.039999961853027344,
+   "object": "Mill_FrameGround",
+   "from": "-1:-3:1",
+   "to": "0:-3:1"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 2.5,
+   "z": 0.95,
+   "y": 0.03999972343444824,
+   "object": "Mill_FurnishingStore",
+   "from": "2:0:1",
+   "to": "2:1:1"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 5.5,
+   "z": -0.35,
+   "y": 0.429046630859375,
+   "object": "Mill_RoofLucam",
+   "from": "5:-1:0",
+   "to": "5:0:0"
+  }
+ ]
+}

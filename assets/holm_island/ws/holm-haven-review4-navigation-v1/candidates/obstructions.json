@@ -1,0 +1,536 @@
+{
+ "nodes": [
+  {
+   "reason": "footprint-support",
+   "x": -6.330294372515229,
+   "z": 3.6697056274847712,
+   "y": 2.1207618713378906
+  },
+  {
+   "reason": "footprint-support",
+   "x": -6.5,
+   "z": 4.74,
+   "y": 5.039741516113281
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.591844023767622,
+   "z": -4.278268912197291,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.591844023767622,
+   "z": -3.278268912197291,
+   "y": 0.15000534057617188
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.591844023767622,
+   "z": -2.278268912197291,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.591844023767622,
+   "z": -1.2782689121972912,
+   "y": 0.15000534057617188
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.278268912197291,
+   "z": -0.4081559762323784,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.330294372515229,
+   "z": 3.6697056274847712,
+   "y": 1.9750289916992188
+  },
+  {
+   "reason": "footprint-support",
+   "x": -5.408155976232378,
+   "z": 4.721731087802709,
+   "y": 4.8141021728515625
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -4.5,
+   "y": 0.14999771118164062,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -3.5,
+   "y": 0.14999771118164062,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -2.5,
+   "y": 0.14999771118164062,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -4.5,
+   "z": -1.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -4.278268912197291,
+   "z": -0.4081559762323784,
+   "y": 0.15000534057617188
+  },
+  {
+   "reason": "footprint-support",
+   "x": -4.408155976232378,
+   "z": 3.721731087802709,
+   "y": 1.673980712890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": -4.408155976232378,
+   "z": 4.721731087802709,
+   "y": 4.504787445068359
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.6697056274847712,
+   "z": -17.33029437251523,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.6697056274847712,
+   "z": -16.33029437251523,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.6697056274847712,
+   "z": -15.330294372515228,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -3.5,
+   "z": -1.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.278268912197291,
+   "z": -0.4081559762323784,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.4081559762323783,
+   "z": 3.721731087802709,
+   "y": 1.5121231079101562
+  },
+  {
+   "reason": "footprint-support",
+   "x": -3.4081559762323783,
+   "z": 4.721731087802709,
+   "y": 4.259040832519531
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.721731087802709,
+   "z": -17.59184402376762,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -15.5,
+   "y": -1.0499992370605469,
+   "object": "Haven_Props"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -1.5,
+   "y": 0.15000534057617188,
+   "object": "Haven_Furnishing"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.278268912197291,
+   "z": -0.4081559762323784,
+   "y": 0.15000534057617188
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.5,
+   "z": -0.5,
+   "y": -0.6801785230636597,
+   "object": "Haven_ShellWest"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.4081559762323783,
+   "z": 3.721731087802709,
+   "y": 1.3934402465820312
+  },
+  {
+   "reason": "footprint-support",
+   "x": -2.4081559762323783,
+   "z": 4.721731087802709,
+   "y": 4.112823486328125
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.7217310878027088,
+   "z": -17.59184402376762,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5918440237676215,
+   "z": -14.27826891219729,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5918440237676215,
+   "z": -13.27826891219729,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5918440237676215,
+   "z": -12.27826891219729,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5918440237676215,
+   "z": -11.27826891219729,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5918440237676215,
+   "z": -10.27826891219729,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5918440237676215,
+   "z": -9.27826891219729,
+   "y": -0.6499977111816406
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5918440237676215,
+   "z": -8.27826891219729,
+   "y": -0.25
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5918440237676215,
+   "z": -7.278268912197291,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.5918440237676215,
+   "z": -6.278268912197291,
+   "y": 0.14999771118164062
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.7217310878027088,
+   "z": -5.591844023767622,
+   "y": 0.14999771118164062
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -0.5,
+   "y": 0.15000152587890625,
+   "object": "Haven_ShellWest"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.4081559762323785,
+   "z": 3.721731087802709,
+   "y": 1.3467254638671875
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.4081559762323785,
+   "z": 4.721731087802709,
+   "y": 4.0426025390625
+  },
+  {
+   "reason": "footprint-support",
+   "x": -0.7217310878027088,
+   "z": -17.59184402376762,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": -0.4081559762323784,
+   "z": 3.721731087802709,
+   "y": 1.349151611328125
+  },
+  {
+   "reason": "footprint-support",
+   "x": -0.3302943725152286,
+   "z": 4.669705627484771,
+   "y": 4.085624694824219
+  },
+  {
+   "reason": "footprint-support",
+   "x": 0.27826891219729116,
+   "z": -17.59184402376762,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": 0.4081559762323783,
+   "z": 3.278268912197291,
+   "y": 1.3873252868652344
+  },
+  {
+   "reason": "footprint-support",
+   "x": 0.74,
+   "z": 4.5,
+   "y": 3.3493003845214844
+  },
+  {
+   "reason": "footprint-support",
+   "x": 0.74,
+   "z": 5.5,
+   "y": 4.316825866699219
+  },
+  {
+   "reason": "footprint-support",
+   "x": 0.74,
+   "z": 6.5,
+   "y": 4.563819885253906
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -17.5,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -16.5,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -15.5,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -14.5,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -13.5,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -12.5,
+   "y": -1.0499992370605469
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -11.5,
+   "y": -1.0499954223632812
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -10.5,
+   "y": -1.0500030517578125
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -7.5,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -6.5,
+   "y": 0.14999771118164062
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -5.5,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -4.5,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -3.5,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": -2.5,
+   "y": 0.15000152587890625
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": 4.5,
+   "y": 1.3873252868652344
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": 5.5,
+   "y": 1.4802703857421875
+  },
+  {
+   "reason": "footprint-support",
+   "x": 1.74,
+   "z": 6.5,
+   "y": 1.630218505859375
+  }
+ ],
+ "edges": [
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.65,
+   "z": -16.5,
+   "y": -1.0499992370605469,
+   "object": "Haven_PierFrame",
+   "from": "-3:-17:0",
+   "to": "-2:-17:0"
+  },
+  {
+   "reason": "footprint-support",
+   "x": -1.6081559762323783,
+   "z": -4.721731087802709,
+   "y": 0.15000152587890625,
+   "from": "-3:-5:0",
+   "to": "-2:-5:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.4,
+   "z": 0.5,
+   "y": -0.09878158569335938,
+   "object": "Haven_ServiceNotice_Board",
+   "from": "-3:0:0",
+   "to": "-2:0:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.35,
+   "z": 1.5,
+   "y": -0.03997802734375,
+   "object": "Haven_ServiceNotice_Board",
+   "from": "-3:1:0",
+   "to": "-2:1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -2.1,
+   "z": 2.5,
+   "y": -0.005641937255859375,
+   "object": "Haven_PierStone",
+   "from": "-3:2:0",
+   "to": "-2:2:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -16.45,
+   "y": -1.0500030517578125,
+   "object": "Haven_PierFrame",
+   "from": "-2:-17:0",
+   "to": "-2:-16:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": -1.5,
+   "z": -3.4,
+   "y": 0.15000152587890625,
+   "object": "Haven_ShellTimber",
+   "from": "-2:-4:0",
+   "to": "-2:-3:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.8,
+   "z": -1.5,
+   "y": 0.0,
+   "object": "Haven_PierStone",
+   "from": "1:-2:0",
+   "to": "2:-2:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.75,
+   "z": -0.5,
+   "y": -0.016201019287109375,
+   "object": "Haven_PierStone",
+   "from": "1:-1:0",
+   "to": "2:-1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.8,
+   "z": 0.5,
+   "y": -0.05184173583984375,
+   "object": "Haven_PierStone",
+   "from": "1:0:0",
+   "to": "2:0:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.8,
+   "z": 1.5,
+   "y": -0.03240203857421875,
+   "object": "Haven_PierStone",
+   "from": "1:1:0",
+   "to": "2:1:0"
+  },
+  {
+   "reason": "capsule-obstruction",
+   "x": 1.8,
+   "z": 2.5,
+   "y": 0.0,
+   "object": "Haven_PierStone",
+   "from": "1:2:0",
+   "to": "2:2:0"
+  }
+ ]
+}

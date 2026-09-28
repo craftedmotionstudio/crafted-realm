@@ -1,0 +1,28 @@
+{
+ "removed": [
+  "Lodge_FurnishingMap_Warm_oak",
+  "Lodge_FurnishingHearth_Light_gray_limestone",
+  "Lodge_FurnishingShelf_Warm_oak",
+  "Lodge_FurnishingShelf_Burgundy_wax",
+  "Lodge_FurnishingShelf_Original_parchment",
+  "Lodge_FurnishingShelf_Sage_guest_blanket",
+  "Lodge_FurnishingBay_Warm_oak",
+  "Lodge_FurnishingBay_Original_parchment",
+  "Lodge_UpperFurnishing_Original_parchment",
+  "Lodge_UpperFurnishing_Sage_guest_blanket"
+ ],
+ "islandsRemoved": {
+  "Lodge_UpperFurnishing_Warm_oak": 54,
+  "Lodge_UpperFurnishingDressing": 75,
+  "Lodge_FurnishingDressing": 19
+ },
+ "built": {
+  "Lodge_FurnishingMap_Table": 352,
+  "Lodge_FurnishingHearth_Stone": 446,
+  "Lodge_FurnishingShelf_Case": 466,
+  "Lodge_FurnishingBay_Desk": 327,
+  "Lodge_UpperFurnishing_Bed": 404,
+  "Lodge_UpperFurnishing_Desk": 287,
+  "Lodge_UpperFurnishing_Stool": 54
+ }
+}

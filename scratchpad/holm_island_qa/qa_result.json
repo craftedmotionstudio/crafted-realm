@@ -7,13 +7,13 @@
       "detail": {
         "provider": "tutors-holm-arrival-qa",
         "stats": {
-          "nodes": 10462,
-          "edges": 27641,
+          "nodes": 10459,
+          "edges": 27639,
           "owners": {
-            "land": 7518,
+            "land": 7519,
             "b:keep": 812,
             "b:bakehouse": 207,
-            "b:lodge": 360,
+            "b:lodge": 358,
             "b:survival": 235,
             "b:quarry": 98,
             "b:bank": 169,
@@ -23,18 +23,18 @@
             "b:cavern": 146,
             "b:mill": 119,
             "b:stair": 46,
-            "b:guide-cellar": 9,
+            "b:guide-cellar": 7,
             "arrival": 163
           }
         },
-        "roots": 485
+        "roots": 482
       }
     },
     {
       "label": "every clickable on the island is an authored Blender model (no code-built stand-ins, no old-island leftovers)",
       "ok": true,
       "detail": {
-        "clickables": 1334,
+        "clickables": 1355,
         "leftovers": [],
         "leftoverCount": 0,
         "visiblePrimitives": []
@@ -62,16 +62,56 @@
       }
     },
     {
-      "label": "2004 rule: a new adventurer is told to talk to Guide Bram first, and the relief chart refuses until then",
+      "label": "2004 rule: a new adventurer is told to talk to Guide Bram first, and the relief chart refuses until then; after the chart no tools come from Bram or the rack, Wenna is next",
       "ok": true,
       "detail": {
-        "banner": "Talk to Guide Bram in the Guide House.",
-        "due": "bram",
-        "chat": [
-          "You should speak to Guide Bram first."
-        ],
-        "moved": 0,
-        "lesson": "study_route"
+        "b0": {
+          "banner": "Talk to Guide Bram in the Guide House.",
+          "due": "bram",
+          "chat": [
+            "You should speak to Guide Bram first."
+          ],
+          "moved": 0,
+          "lesson": "study_route"
+        },
+        "w0": {
+          "banner": "Talk to Wenna at the head of the Minnow Hollow path, south of the survival camp.",
+          "due": "wenna",
+          "tools": [
+            0,
+            0,
+            0
+          ],
+          "rack": [
+            "The tools for your next lesson come from Wenna. Speak to Wenna first; this rack only keeps spares."
+          ],
+          "lesson": "equip_hatchet"
+        }
+      }
+    },
+    {
+      "label": "Guide House cellar (owner review 4): a click on the corner trapdoor climbs down onto the flagstones (feet on the floor, not through it), the cabbage is picked into the pack, the ladder climbs back up",
+      "ok": true,
+      "detail": {
+        "inH": "ground:65,99",
+        "hatch": {
+          "ok": true
+        },
+        "down": true,
+        "feet": {
+          "y": 1.65,
+          "floorTop": 1.656,
+          "onFloor": true
+        },
+        "pick": {
+          "ok": true
+        },
+        "picked": true,
+        "cabbage": 1,
+        "ladder": {
+          "ok": true
+        },
+        "up": true
       }
     },
     {
@@ -88,7 +128,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 30,
+        "deckSamples": 40,
         "deckY": 2.3
       }
     },
@@ -114,8 +154,8 @@
       "label": "the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)",
       "ok": true,
       "detail": {
-        "samples": 359,
-        "diagonal": 24
+        "samples": 590,
+        "diagonal": 53
       }
     },
     {
@@ -129,9 +169,9 @@
         },
         "click": "ok",
         "chat": [
-          "Press ` (backquote) at any time for the Administrator Console.",
-          "The bakehouse door is barred. Finish your lessons at the survival camp first.",
-          "You should speak to Guide Bram first.",
+          "The tools for your next lesson come from Wenna. Speak to Wenna first; this rack only keeps spares.",
+          "You pick a cabbage.",
+          "Now entering: Tutor's Holm.",
           "You should speak to Cook Hettie first."
         ],
         "buckets": 0
@@ -231,7 +271,7 @@
       }
     },
     {
-      "label": "talks to Loremaster Ansel, then walks into the Quest Lodge and studies the quest board",
+      "label": "talks to Loremaster Ansel, then walks into the Quest Lodge and studies the quest board (review 4: by the north wall, facing the door)",
       "ok": true,
       "detail": {
         "ansel": {
@@ -248,8 +288,12 @@
             "quests": 10
           },
           "pose": [
-            31.5,
-            53.5
+            34.5,
+            48.5
+          ],
+          "board": [
+            34.5,
+            48.5
           ]
         }
       }
@@ -270,7 +314,7 @@
           11,
           45.5
         ],
-        "diagonal": 50
+        "diagonal": 82
       }
     },
     {
@@ -285,7 +329,7 @@
           7.3,
           56.5
         ],
-        "diagonal": 4,
+        "diagonal": 7,
         "bankOpen": true
       }
     },
@@ -301,7 +345,7 @@
           13.75,
           56.5
         ],
-        "diagonal": 10
+        "diagonal": 16
       }
     },
     {
@@ -316,7 +360,7 @@
           -0.05,
           -0.5
         ],
-        "diagonal": 14
+        "diagonal": 21
       }
     },
     {
@@ -331,7 +375,7 @@
           9.15,
           29.5
         ],
-        "diagonal": 62,
+        "diagonal": 101,
         "shaftTiles": 1
       }
     },
@@ -449,43 +493,30 @@
       }
     },
     {
-      "label": "M5.1 survival lessons on the v2 land: chop on the hollow rim, light a fire on the Fire Beach (step aside on the graph), net a perch at a live ripple, cook it",
+      "label": "M5.1 survival lessons on the v2 land: chop on the hollow rim, light a fire where you stand there (owner review 4; step aside on the graph), net a perch at a live ripple, cook it on that fire",
       "ok": true,
       "detail": {
         "chop": true,
         "fire": true,
         "stepWest": true,
+        "fireAt": [
+          39.5,
+          93.5
+        ],
+        "fireWhereStood": true,
         "nets": [
           {
-            "spot": "east-shallows",
-            "ticksLeft": 45,
+            "spot": "jetty-end",
+            "ticksLeft": 36,
             "result": "caught",
-            "seconds": 10,
-            "chat": [
-              "You catch a mirrorperch."
-            ]
-          },
-          {
-            "spot": "east-shallows",
-            "ticksLeft": 10,
-            "result": "moved on",
-            "seconds": 6,
-            "chat": [
-              "The fish have moved on."
-            ]
-          },
-          {
-            "spot": "beach-edge",
-            "ticksLeft": 59,
-            "result": "caught",
-            "seconds": 22,
+            "seconds": 14,
             "chat": [
               "You catch a mirrorperch."
             ]
           }
         ],
         "fish": true,
-        "cookTries": 2,
+        "cookTries": 1,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -505,37 +536,24 @@
         "chop": true,
         "fire": true,
         "stepWest": true,
+        "fireAt": [
+          39.5,
+          93.5
+        ],
+        "fireWhereStood": true,
         "nets": [
           {
-            "spot": "east-shallows",
-            "ticksLeft": 45,
+            "spot": "jetty-end",
+            "ticksLeft": 36,
             "result": "caught",
-            "seconds": 10,
-            "chat": [
-              "You catch a mirrorperch."
-            ]
-          },
-          {
-            "spot": "east-shallows",
-            "ticksLeft": 10,
-            "result": "moved on",
-            "seconds": 6,
-            "chat": [
-              "The fish have moved on."
-            ]
-          },
-          {
-            "spot": "beach-edge",
-            "ticksLeft": 59,
-            "result": "caught",
-            "seconds": 22,
+            "seconds": 14,
             "chat": [
               "You catch a mirrorperch."
             ]
           }
         ],
         "fish": true,
-        "cookTries": 2,
+        "cookTries": 1,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -561,9 +579,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 6,
+        "arrowsUsed": 7,
         "magic": true,
-        "runesUsed": 2
+        "runesUsed": 10
       }
     },
     {
@@ -590,5 +608,5 @@
       }
     }
   ],
-  "seconds": 1176
+  "seconds": 1443
 }

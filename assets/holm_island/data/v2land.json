@@ -16,74 +16,79 @@
    "measuredAt": "2026-09-27T04:23:42.253Z"
   },
   "quarry": {
-   "graph": "holm-quarry-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-quarry-oldschool-v1/candidates/quarry.glb",
+   "graph": "holm-quarry-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb",
    "placement": {
     "x": 36,
     "y": 9.15,
     "z": 33
    },
    "nodes": 110,
-   "modelSha256": "e823e6884368bdc5fffe13571c45a47b85b719844873f141ea1c045fec52a194",
+   "modelSha256": "f48836dd7ae828a9a586ba4b52fadb4eb8ff87d0ee7c99645265d40aed940d85",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:23:51.085Z"
+   "measuredAt": "2026-09-28T00:36:47.621Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/quarry.json); graph identical to holm-quarry-v2land-navigation-v1 apart from the model hash"
   },
   "bank": {
-   "graph": "holm-bank-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-bank-oldschool-v1/candidates/bank.glb",
+   "graph": "holm-bank-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-bank-glazed-review4-v1/candidates/bank.glb",
    "placement": {
     "x": 86,
     "y": 7.3,
     "z": 57
    },
    "nodes": 186,
-   "modelSha256": "a1cce16a4aa05b9f9614ab9e88042871fd55de2a65274d2b9b31e953f9e557c2",
+   "modelSha256": "e3d9c5755a5dc8d8d3deee4e4bf70b09f4066e140dd691e822e0874c98eb6388",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:24:01.629Z"
+   "measuredAt": "2026-09-28T00:35:54.811Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bank.json); graph identical to holm-bank-v2land-navigation-v1 apart from the model hash"
   },
   "mage": {
-   "graph": "holm-mage-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-mage-oldschool-v1/candidates/mage.glb",
+   "graph": "holm-mage-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-mage-glazed-review4-v1/candidates/mage.glb",
    "placement": {
     "x": 114,
     "y": 7.75,
     "z": 58
    },
    "nodes": 311,
-   "modelSha256": "d964b4724e6369058940f870d43a3f9e5cc14f0f5956798e9d38b79c52b82a1f",
+   "modelSha256": "85b69a2d9abdc81683e36284e59ff3bc641596a9327fa49ccd6ff423e95c206a",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:24:14.605Z"
+   "measuredAt": "2026-09-28T00:36:29.010Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/mage.json); graph identical to holm-mage-v2land-navigation-v1 apart from the model hash"
   },
   "lastlight": {
-   "graph": "holm-lastlight-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-lastlight-oldschool-v1/candidates/lastlight.glb",
+   "graph": "holm-lastlight-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-lastlight-glazed-review4-v1/candidates/lastlight.glb",
    "placement": {
     "x": 121,
     "y": 17.8,
     "z": 26
    },
    "nodes": 213,
-   "modelSha256": "9d58b22e41f1e461ad96a0130e35cc985d5f419afcb5d49879f6848fe8323b25",
+   "modelSha256": "c9f851ce2694fd9fb4a0d0d693d976316c6d04b7fe254a5506fb83f3c91b2ea5",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:24:25.497Z"
+   "measuredAt": "2026-09-28T00:36:14.945Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/lastlight.json); graph identical to holm-lastlight-v2land-navigation-v1 apart from the model hash"
   },
   "haven": {
-   "graph": "holm-haven-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-haven-v2land-os-v2/candidates/haven.glb",
+   "graph": "holm-haven-review4-navigation-v1",
+   "model": ".studio-workspaces/holm-haven-glazed-review4-v1/candidates/haven.glb",
    "placement": {
     "x": 101,
     "y": 1,
     "z": 14
    },
    "nodes": 99,
-   "modelSha256": "c627a97f5696ea5d3f4d1747325e4bc0e2944ecf03e83c92a4b9ad57094b208d",
+   "modelSha256": "a0215137eeeb4a3028035b72ac3502f1cc544e6f3bf69fba984a0f23cd0240e3",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:24:34.680Z"
+   "measuredAt": "2026-09-28T00:36:04.914Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/haven.json); graph identical to holm-haven-v2land-navigation-v1 apart from the model hash"
   },
   "keep": {
    "graph": "holm-keep-v2land-navigation-v1",
@@ -100,33 +105,36 @@
    "measuredAt": "2026-09-27T04:24:54.272Z"
   },
   "bakehouse": {
-   "graph": "holm-kitchen-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-kitchen-oldschool-v1/candidates/kitchen-character.glb",
+   "graph": "holm-kitchen-review4-navigation-v2",
+   "model": ".studio-workspaces/holm-kitchen-glazed-review4-v1/candidates/kitchen-character.glb",
    "placement": {
     "x": 44,
     "y": 5.4,
     "z": 67
    },
    "nodes": 265,
-   "modelSha256": "ea05c5afd23f5d3bc050d55315026f492ca953a719f56df2ff3a68e53e489f84",
+   "modelSha256": "0c75acc33e18ab30f8b168c53b2e9e2d28c82d37de9294ebb62382db120724de",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:25:04.961Z"
+   "measuredAt": "2026-09-28T00:35:43.833Z",
+   "review4": "owner review 4 (2026-09-27): the oven, hearth breast and chimney in grainless masonry instead of wood grain (docs/rebuild/holm-overhaul/oldschool/bakehouse-review4.textures.json); graph re-extracted, identical apart from the model hash",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/bakehouse.json); graph identical to holm-kitchen-review4-navigation-v1 apart from the model hash"
   },
   "lodge": {
-   "graph": "holm-quest-lodge-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-quest-lodge-oldschool-v1/candidates/lodge.glb",
+   "graph": "holm-quest-lodge-review4-navigation-v2",
+   "model": ".studio-workspaces/holm-quest-lodge-review4-v2/candidates/lodge.glb",
    "placement": {
     "x": 35,
     "y": 6.4,
     "z": 51
    },
-   "nodes": 480,
-   "modelSha256": "6618934d1ee39fd283ed8c9bf8d93a8f71519bc49ccc71233abd8cc5feed3263",
+   "nodes": 478,
+   "modelSha256": "561323a2b394ee78cc46faeba6f4cbfe2da1177e9fbae23baebbe92b4ca240bc",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:25:19.441Z",
-   "extraPlacement": ".studio-workspaces/holm-quest-placement-v2land-v1/candidates/placement.json"
+   "measuredAt": "2026-09-28T01:16:48.216Z",
+   "extraPlacement": ".studio-workspaces/holm-quest-placement-v2land-v1/candidates/placement.json",
+   "review4": "owner review 4 (2026-09-27): the quest board by the north wall facing the door; the region chart, leaded panes (tools/blender/build_holm_quest_lodge_review4.py, review4/lodge.relock.json); props pass: map table, hearth, bookcase, bay desk, guest bed, desk and stool designed again (tools/blender/build_holm_quest_lodge_review4_props.py, review4/lodge-props.relock.json; graph identical to review4-navigation-v1)"
   },
   "cavern": {
    "graph": "holm-cavern-v2land-navigation-v1",
@@ -143,18 +151,19 @@
    "measuredAt": "2026-09-27T04:25:39.109Z"
   },
   "mill": {
-   "graph": "holm-mill-v2land-navigation-v1",
-   "model": ".studio-workspaces/holm-mill-os-v1/candidates/mill.glb",
+   "graph": "holm-mill-review4-navigation-v2",
+   "model": ".studio-workspaces/holm-mill-glazed-review4-v2/candidates/mill.glb",
    "placement": {
     "x": 65,
     "y": 3.2,
     "z": 64
    },
    "nodes": 146,
-   "modelSha256": "d2b6ae6b389ca9442f5eaf51c6937833e32901c7f501702ed80dff3aa69eacdb",
+   "modelSha256": "95f6862a963feb786c44b56ffea53e9a072f8fb473182fe7893625e7b223eef9",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-27T04:25:28.742Z"
+   "measuredAt": "2026-09-28T01:13:14.471Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/mill.json); graph identical to holm-mill-v2land-navigation-v1 apart from the model hash; z-fighting fixed after glazing (tools/blender/fix_holm_coplanar.py, m44 profile: 392 visible coplanar fights, 43 m2, down to 1 of 0.02 m2; graph holm-mill-review4-navigation-v2 identical to -v1)"
   },
   "stair": {
    "graph": "holm-keepers-stair-v2land-navigation-v1",

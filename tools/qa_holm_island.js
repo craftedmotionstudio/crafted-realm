@@ -156,7 +156,28 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      {const b0=await page.evaluate(()=>{const out=[];const ch=UI.chat;UI.chat=function(t){out.push(t);return ch.apply(this,arguments)};let m=null;scene.traverse(o=>{if(!m&&o.userData&&o.userData.kind==='arrival_chart')m=o});
        const p0=[player.position.x,player.position.z];handleClick(m,m.getWorldPosition(new THREE.Vector3()));UI.chat=ch;
        return {banner:document.getElementById('obj-text').textContent,due:HolmIslandTalk.pending()&&HolmIslandTalk.pending().id,chat:out,moved:+Math.hypot(player.position.x-p0[0],player.position.z-p0[1]).toFixed(2),lesson:Tutorial.steps[Tutorial.step].id}});
-      ok('2004 rule: a new adventurer is told to talk to Guide Bram first, and the relief chart refuses until then',b0.banner==='Talk to Guide Bram in the Guide House.'&&b0.due==='bram'&&b0.chat.includes('You should speak to Guide Bram first.')&&b0.lesson==='study_route',b0);}
+      // owner review 4 (2026-09-27): with the chart studied Bram's part is done; the objective box moves on to Wenna, the pack
+      // holds no hatchet (the tools are hers to give) and the Guide House rack says so rather than handing them out
+      await page.evaluate(()=>HolmIslandCurriculum.qaSetLedger(['study_route']));await sleep(1200);
+      const w0=await page.evaluate(()=>{const out=[];const ch=UI.chat;UI.chat=function(t){out.push(t);return ch.apply(this,arguments)};HolmGuideHall.collectTools();UI.chat=ch;
+       return {banner:document.getElementById('obj-text').textContent,due:HolmIslandTalk.pending()&&HolmIslandTalk.pending().id,tools:['hatchet','tinderbox','fishing_net'].map(i=>Player.count(i)),rack:out,lesson:Tutorial.steps[Tutorial.step].id}});
+      ok('2004 rule: a new adventurer is told to talk to Guide Bram first, and the relief chart refuses until then; after the chart no tools come from Bram or the rack, Wenna is next',b0.banner==='Talk to Guide Bram in the Guide House.'&&b0.due==='bram'&&b0.chat.includes('You should speak to Guide Bram first.')&&b0.lesson==='study_route'
+       &&w0.due==='wenna'&&w0.lesson==='equip_hatchet'&&/Wenna/.test(w0.banner)&&w0.tools.every(n=>n===0)&&w0.rack.some(t=>/come from Wenna/.test(t)),{b0,w0});}
+     // owner review 4 (2026-09-27), the Guide House cellar ('only my head floating through the floor'): stood on the Guide
+     // House floor, a real click on the corner trapdoor climbs down with the adventurer's feet on the cellar flagstones, the
+     // cabbage is picked into the pack (a 2004 ground spawn), and a click on the ladder climbs back up to the ground floor;
+     // then back to the dock for the walks below
+     {const home=await page.evaluate(()=>{let best=null,d=1e9;HolmArrivalQA.graphNodes().forEach(n=>{const k=Math.hypot(n.x-player.position.x,n.z-player.position.z)+Math.abs(n.y-player.position.y);if(k<d){d=k;best=n}});return best&&best.id});
+      const inH=await page.evaluate(()=>{let best=null,d=1e9;HolmArrivalQA.graphNodes().forEach(n=>{if(n.surface!=='ground')return;const k=Math.hypot(n.x-66,n.z-100);if(k<d){d=k;best=n}});HolmArrivalQA.qaPlace(best.id);return best.id});await sleep(1500);
+      const hatch=await clickNamed(page,'CellarHatch');
+      const down=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&/guide-cellar/.test(r.surface)},null,40000);await sleep(1500);
+      const feet=await page.evaluate(()=>{const f=scene.getObjectByName('CellarFloor');if(!f)return null;const b=new THREE.Box3().setFromObject(f),p=player.position;return {y:+p.y.toFixed(3),floorTop:+b.max.y.toFixed(3),onFloor:Math.abs(p.y-b.max.y)<.08&&p.x>b.min.x&&p.x<b.max.x&&p.z>b.min.z&&p.z<b.max.z}});
+      await shot(page,'02_guide_cellar');const c0=await count(page,'cabbage');const pick=await clickNamed(page,'CellarCabbage');
+      const picked=await waitFor(page,n=>Player.count('cabbage')>n,c0,30000);
+      const upc=await clickNamed(page,'CellarLadder');const up=await waitFor(page,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.surface==='ground'},null,40000);
+      ok('Guide House cellar (owner review 4): a click on the corner trapdoor climbs down onto the flagstones (feet on the floor, not through it), the cabbage is picked into the pack, the ladder climbs back up',
+       !hatch.error&&down&&feet&&feet.onFloor&&!pick.error&&picked&&!upc.error&&up,{inH,hatch,down,feet,pick,picked,cabbage:await count(page,'cabbage'),ladder:upc,up});
+      if(home)await page.evaluate(id=>HolmArrivalQA.qaPlace(id),home);await sleep(1500);}
      await page.evaluate(ids=>HolmIslandCurriculum.qaGrant(ids),['study_route','equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish']);await sleep(2500);
      const g1=await page.evaluate(()=>({route:!!HolmArrivalQA.qaRoute('bakehouse','oven'),open:HolmIslandGates.isOpen('bakehouse-door'),lodge:HolmIslandGates.isOpen('lodge-door'),lesson:Tutorial.steps[Tutorial.step].id}));
      ok('M5.2b: with the survival lessons done the bakehouse door opens (the Quest Lodge stays shut)',g1.route&&g1.open&&!g1.lodge&&g1.lesson==='bake_bread',g1);}
@@ -203,8 +224,9 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     // M4.2 quest board inside the Blender Quest Lodge (2004 rule: Loremaster Ansel is spoken to first, by a real click)
     const ansel=await L.talkTo(page,'ansel');
     step=await clickService(page,'Study quest board');
-    const lodge=await page.evaluate(()=>({dialogue:!!document.querySelector('#dialogue:not([style*="display: none"]),.dialogue-box:not([style*="display: none"])'),status:HolmQuestLodge.status(),pose:[player.position.x,player.position.z]}));
-    ok('talks to Loremaster Ansel, then walks into the Quest Lodge and studies the quest board',!!ansel.talked&&!step.error&&Math.hypot(lodge.pose[0]-31.5,lodge.pose[1]-53.5)<1.2,{ansel:ansel.error||{talked:ansel.talked,pages:(ansel.pages||[]).length},step,lodge});
+    const lodge=await page.evaluate(()=>({dialogue:!!document.querySelector('#dialogue:not([style*="display: none"]),.dialogue-box:not([style*="display: none"])'),status:HolmQuestLodge.status(),pose:[player.position.x,player.position.z],board:(s=>s&&[s.x,s.z])(HolmArrivalQA.qaStance('lodge','board'))}));
+    // owner review 4: the board stands by the north wall facing the door; the stance is the lodge graph's measured board target
+    ok('talks to Loremaster Ansel, then walks into the Quest Lodge and studies the quest board (review 4: by the north wall, facing the door)',!!ansel.talked&&!step.error&&!!lodge.board&&Math.hypot(lodge.pose[0]-lodge.board[0],lodge.pose[1]-lodge.board[1])<1.2&&lodge.board[1]<50,{ansel:ansel.error||{talked:ansel.talked,pages:(ansel.pages||[]).length},step,lodge});
     await closeDialogue(page);await shot(page,'03b_board');
     // 3. across the island to the Warden's Keep gate
     tr=[];r=await walkTo(page,'keep','gate',true,tr);
@@ -250,16 +272,20 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     {await page.evaluate(()=>{Player.inv=Player.inv.map(()=>null);['hatchet','tinderbox','fishing_net','pickaxe','hammer'].forEach(i=>Player.addItem(i,1));UI.refreshInv()});
      await clickInventory(page,'hatchet');const L={};const note=e=>page.evaluate(e=>window.__notes.includes(e),e);
      let c=await clickNamed(page,'island-lesson-survival-oak-1');L.chop=c.error||(await waitFor(page,()=>Player.count('logs')>0,null,120000))&&await note('gather/logs');
-     // v2 land: the fire is lit on the Fire Beach in Minnow Hollow, the fish netted at a live ripple on the pond
-     const ring=await page.evaluate(()=>HolmFishing.fireRing()),beach=[ring.ring[0]+.5,ring.ring[1]+.6];await DL.walkPoint(page,beach[0],beach[1],[]);
+     // owner review 4 (2026-09-27): the fire is lit where the adventurer stands (here on the hollow rim by the oak, 2004), the
+     // fish netted at a live ripple on the pond below and cooked on that same fire
+     const ring=await page.evaluate(()=>HolmFishing.fireRing()),beach=[ring.ring[0]+.5,ring.ring[1]+.6];
      // back to cook: stand on a tile beside the fire, never on it (the fire does not block its tile, and from on top of it
      // the click lands on the ground)
-     const toFire=async()=>{const f=await page.evaluate(()=>{const o=scene.getObjectByName('island-campfire');return o?[o.position.x,o.position.z]:null});if(!f)return DL.walkPoint(page,beach[0],beach[1],[]);
+     const toFire=async()=>{const f=await page.evaluate(()=>{const o=scene.getObjectByName('island-campfire');return o?[o.position.x,o.position.z]:null});if(!f)return;
       for(const [dx,dz] of [[1,0],[-1,0],[0,-1],[0,1]]){await DL.walkPoint(page,f[0]+dx,f[1]+dz,[]);const q=await pos(page);if(Math.hypot(q[0]-f[0],q[2]-f[1])>.9)return}};
      const p0=await pos(page);await clickInventory(page,'tinderbox');await clickInventory(page,'logs');
      L.fire=(await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000))&&await note('firemake/fire');await sleep(1500);const p1=await pos(page);
      // off the fire tile by exactly one cardinal step (west unless blocked, as in the live game)
      L.stepWest=Math.abs(Math.abs(p1[0]-p0[0])+Math.abs(p1[2]-p0[2])-1)<.05;
+     L.fireAt=await page.evaluate(()=>{const f=scene.getObjectByName('island-campfire');return f?[+f.position.x.toFixed(2),+f.position.z.toFixed(2)]:null});
+     L.fireWhereStood=!!L.fireAt&&Math.hypot(L.fireAt[0]-p0[0],L.fireAt[1]-p0[2])<.2&&!(L.fireAt[0]>=ring.area[0]-1&&L.fireAt[0]<=ring.area[2]+1&&L.fireAt[1]>=ring.area[1]-1.2&&L.fireAt[1]<=ring.area[3]+1);
+     await DL.walkPoint(page,beach[0],beach[1],[]);   // down the Hollow Path to the ripples
      // net a perch at a live ripple like a player: Minnow Hollow's ripples move every 60-100 ticks, so the one clicked can
      // move on between the click and the catch (the player is told "The fish have moved on." and stops, 2004; about one
      // net in four from the Fire Beach): then the nearest live ripple is netted again, up to four nets. Every net is
@@ -276,15 +302,15 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      L.fish=(await netPerch(150000))&&await note('gather/raw_perch');
      // a teaching fire lasts 150 s; if it burnt out during the fishing trip, chop another oak and light a new one (lesson text says so)
      await toFire();
-     if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){L.relit=true;await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);await DL.walkPoint(page,beach[0],beach[1],[]);
+     if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){L.relit=true;await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);
       await clickInventory(page,'tinderbox');await clickInventory(page,'logs');await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
      L.cookTries=0;
      for(let k=0;k<6&&!(await note('cook/cooked_perch'));k++){L.cookTries++;
       if(!await page.evaluate(()=>Player.count('raw_perch')>0)){await netPerch(150000);await toFire()}
-      if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);await DL.walkPoint(page,beach[0],beach[1],[]);
+      if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);
        await clickInventory(page,'tinderbox');await clickInventory(page,'logs');await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
       const before=await page.evaluate(()=>Player.count('cooked_perch')+Player.count('burnt_perch'));
-      c=await clickNamed(page,'island-campfire');await waitFor(page,b=>Player.count('cooked_perch')+Player.count('burnt_perch')>b,before,120000)}
+      await toFire();c=await clickNamed(page,'island-campfire');await waitFor(page,b=>Player.count('cooked_perch')+Player.count('burnt_perch')>b,before,120000)}
      L.cook=await note('cook/cooked_perch');
      L.cookNote=await page.evaluate(()=>window.__notes.filter(n=>n.indexOf('cook/')===0));
      await shot(page,'06_survival_lessons');
@@ -298,7 +324,7 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      L.smith=c.error||(await waitFor(page,()=>Player.count('bronze_dagger')>0,null,30000))&&await note('smith/forged');
      await shot(page,'08_forge');
      c=await clickService(page,'Climb-up ladder','ladder');L.up=c.error||(await waitFor(page,()=>player.position.y>0,null,60000));
-     ok('M5.1 survival lessons on the v2 land: chop on the hollow rim, light a fire on the Fire Beach (step aside on the graph), net a perch at a live ripple, cook it',L.chop===true&&L.fire===true&&L.stepWest&&L.fish===true&&L.cook===true&&L.cookNote.length>0,L);
+     ok('M5.1 survival lessons on the v2 land: chop on the hollow rim, light a fire where you stand there (owner review 4; step aside on the graph), net a perch at a live ripple, cook it on that fire',L.chop===true&&L.fire===true&&L.fireWhereStood&&L.stepWest&&L.fish===true&&L.cook===true&&L.cookNote.length>0,L);
      ok('M5.1 cavern lessons: shaft ladder down (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up',L.descend===true&&L.copper===true&&L.tin===true&&L.smelt===true&&L.smith===true&&L.up===true,L);}
     // M5.3 combat trials on practice grubkins (Blender-rigged), by real clicks: dagger in the keep court, shortbow from
     // range, Gale Dart by the mage tower; each kill credits its style through the game's npcKilled hook

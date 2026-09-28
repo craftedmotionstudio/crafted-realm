@@ -161,7 +161,13 @@ async function settle(page){await L.settle(page,30000)}
     const rack=await nameKind(page,'arrival_provisions');xy=await spot(page,rack,{inside:true});m=Array.isArray(xy)?await rightClick(page,xy):null;
     ok(same(texts(m),['Collect-tools Provision rack','Walk here','Examine Provision rack','Cancel']),'provision rack: Collect-tools / Walk here / Examine / Cancel',texts(m));
     await shotMenu(page,'06_provision_rack');await clickRow(page,'Collect-tools Provision rack');
-    ok(await waitFor(page,()=>Player.count('hatchet')>0,null,40000),'the Collect-tools row hands out the tools');
+    // owner review 4 (2026-09-27): the survival tools come from Wenna at the camp (2004); the rack only keeps spares
+    ok(await waitFor(page,()=>Array.from(document.querySelectorAll('#chatbox > div')).slice(-4).some(d=>/come from Wenna/.test(d.textContent)),null,40000)&&await page.evaluate(()=>Player.count('hatchet')===0),'the Collect-tools row keeps the survival tools for Wenna (no hatchet from Bram\'s rack)',await lastChat(page,2));
+    // Wenna's hand-over itself is driven by qa_holm_hollow and the playthrough; here the ledger records it and the tools are
+    // lost, so the rack's own job is tested: it hands out spares
+    await page.evaluate(()=>HolmIslandCurriculum.qaGrant(['equip_hatchet']));await sleep(500);
+    xy=await spot(page,rack,{inside:true});m=Array.isArray(xy)?await rightClick(page,xy):null;await clickRow(page,'Collect-tools Provision rack');
+    ok(await waitFor(page,()=>Player.count('hatchet')>0,null,40000),'once Wenna has given the tools (and they are lost) the Collect-tools row hands out spares');
     await closeDialogue(page);
 
     /* ---- pack: Wield, Use-mode ---- */

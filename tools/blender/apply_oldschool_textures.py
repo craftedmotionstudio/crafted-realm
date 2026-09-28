@@ -29,7 +29,8 @@ Spec (JSON, paths relative to the repo root):
    "replaceExisting": false, "factorToSrgb": false (true when the runtime converts flat colours linear->sRGB),
    "exportAnimationMode": optional glTF exporter animation mode (NLA_TRACKS for imported multi-object clips),
    "vertexColour": {"material": "Holm flat colour", "skip": regex, "woodOnly": regex, "floors": regex,
-                    "maxVariants": 2, "minShare": 0.15, "texture": optional kit texture for every face}}
+                    "maxVariants": 2, "minShare": 0.15, "texture": optional kit texture for every face,
+                    "masonry": optional object regex whose wood-band faces take "masonryTexture" (default rock)}}
 """
 import bpy, json, sys, re, math, colorsys, hashlib
 from pathlib import Path
@@ -244,6 +245,10 @@ def classify(rgb, obj_name, up):
     plaster = v >= 0.68 and 0.08 <= s <= 0.36 and 0.06 <= h <= 0.17
     wood = 0.03 <= h <= 0.13 and s >= 0.28 and v <= 0.82 and not plaster
     stone = s < 0.22 and 0.18 <= v <= 0.72
+    # "masonry": objects built of brick and mortar (an oven, a chimney breast) whose reds and mortar browns fall in the
+    # wood band; they take a grainless texture instead of the wood grain (owner review 4: 'a lot of lines in the brick')
+    if wood and VC.get('masonry') and re.search(VC['masonry'], obj_name):
+        return VC.get('masonryTexture', 'rock')
     if wood:
         return 'planks' if up and VC.get('floors') and re.search(VC['floors'], obj_name) else 'beam'
     if VC.get('woodOnly') and re.search(VC['woodOnly'], obj_name):

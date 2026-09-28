@@ -10,8 +10,10 @@ var HolmIslandTutors=(function(){
  // id, name, where they stand (a building's measured target or an arrival service), the lessons they teach, a face, and
  // the Examine line of their old-school menu (osrs_menu_world.js)
  var CAST=[
-  {id:'bram',name:'Guide Bram',at:{arrival:'holm_orientation'},lessons:['study_route','equip_hatchet'],face:'🧓',examine:'The Holm\'s guide. He has welcomed more new arrivals than he can count.'},
-  {id:'wenna',name:'Wenna',at:{world:[34.5,89.5]},lessons:['chop_logs','light_fire','catch_fish','cook_fish'],face:'🧝',examine:'A hardy woman who lives off the land around Minnow Hollow.'},
+  // owner review 4 (2026-09-27): Bram gives the overview only (2004: the first tutor just shows you round); the hatchet,
+  // tinderbox and net come from Wenna when you speak to her, and wielding the hatchet is her first lesson
+  {id:'bram',name:'Guide Bram',at:{arrival:'holm_orientation'},lessons:['study_route'],face:'🧓',examine:'The Holm\'s guide. He has welcomed more new arrivals than he can count.'},
+  {id:'wenna',name:'Wenna',at:{world:[34.5,89.5]},lessons:['equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish'],face:'🧝',examine:'A hardy woman who lives off the land around Minnow Hollow.'},
   {id:'hettie',name:'Cook Hettie',at:{building:['bakehouse','prep']},lessons:['bake_bread'],face:'👩‍🍳',examine:'The bakehouse cook. There is flour on her apron and steel in her eye.'},
   {id:'ansel',name:'Loremaster Ansel',at:{building:['lodge','map']},lessons:['learn_quests'],face:'🧑‍🏫',examine:'Keeper of the Quest Lodge records, and of a great many stories.'},
   {id:'durgin',name:'Foreman Durgin',at:{building:['cavern','ladder']},lessons:['descend_cavern','mine_copper','mine_tin','smelt_bronze','forge_dagger'],face:'🧔',examine:'Foreman of the ore workings. There is quarry dust in every wrinkle.'},
@@ -37,18 +39,21 @@ var HolmIslandTutors=(function(){
  function has(id){try{return Player.count(id)>0}catch(e){return false}}
  function lit(){try{return !!scene.getObjectByName('island-campfire')}catch(e){return false}}
  var TEACH={
-  study_route:function(){return ['See the relief chart on the table? Click it and study the island before you set off.','It shows every place you will learn something: the camp, the bakehouse, the lodge, the quarry, the keep, the bank, the tower, and Lastlight out on the point.','After that, your tools. They hang on the provision rack by the wall: a hatchet, a tinderbox, a net and the rest. Click the rack to take them.']},
-  equip_hatchet:function(){return has('hatchet')
-   ?['You have your tools. Open your pack and click the bronze hatchet to wield it.','Then follow the path west to the survival camp. Wenna will show you what a hatchet is for.']
-   :['Your tools are on the provision rack by the wall. Click the rack to take them.','Then open your pack and click the bronze hatchet to wield it.']},
+  study_route:function(){return ['See the relief chart on the table? Click it and have a look at the island before you set off.','It shows every place you will learn something: the camp, the bakehouse, the lodge, the quarry, the keep, the bank, the tower, and Lastlight out on the point.','Then out the back door and along the path west to the survival camp. Wenna will start you off with your first tools.']},
+  // Wenna hands over the survival tools when this chat ends (tutorial_holm.js grantForStep, once she has been spoken to)
+  equip_hatchet:function(){
+   if(has('hatchet'))return ['You have your tools. Open your pack and click the bronze hatchet to wield it.','Then I will show you what it is for.'];
+   if(spoken('wenna')&&typeof Player!=='undefined'&&Player.inv&&Player.inv.filter(function(s){return !s}).length<3)return ['Your pack is too full to take your tools. Make room for three things and ask me again.'];
+   return ['Before anything else, you need tools. Here: a bronze hatchet, a tinderbox and a small net.','Open your pack and click the hatchet to wield it. Then I will show you what it is for.']},
   chop_logs:function(){return ['First, wood. The oaks on the rim of the hollow, just below us, are yours to cut. Click one and your hatchet will do the rest.','Keep at it until the logs come away. Some swings miss; that is woodcutting.','Logs in hand, you will want a fire. Ask me again if you forget how.']},
+  // owner review 4: a fire is lit where you stand (2004), not at one set spot; any fire cooks
   light_fire:function(){return has('logs')
-   ?['Good, you have logs. Take the path down into the hollow, to the Fire Beach by the water.','There, click the tinderbox in your pack, then click the logs.','Stand clear once it catches. You will step aside on your own.']
-   :['A fire needs logs. Chop one of the oaks on the rim of the hollow first.','Then go down to the Fire Beach, click your tinderbox, then the logs.']},
+   ?['Good, you have logs. Now a fire: click the tinderbox in your pack, then click the logs.','You light it right where you stand. Any clear patch of ground will do, out here or down on the beach.','Stand clear once it catches. You will step aside on your own.']
+   :['A fire needs logs. Chop one of the oaks on the rim of the hollow first.','Then click your tinderbox, then the logs, wherever you are standing.']},
   catch_fish:function(){return ['A fire wants something to cook, and the pond is full of perch.','Click the ripples on the water and you will cast your net. Some casts come up empty; keep at it.','Watch the pond. The fish move about, and when they do, the ripples go with them.']},
   cook_fish:function(){
-   if(!has('raw_perch'))return ['You need a raw perch first. Net one from the ripples on the pond.','Then click your fire on the beach to cook it.'];
-   if(!lit())return ['Your fire has burnt out. Chop more logs and light another with your tinderbox.','Then click the fire to cook your perch.'];
+   if(!has('raw_perch'))return ['You need a raw perch first. Net one from the ripples on the pond.','Then click your fire to cook it.'];
+   if(!lit())return ['Your fire has burnt out. Chop more logs and light another with your tinderbox, wherever you like.','Then click the fire to cook your perch.'];
    return ['Now cook that perch. Click your fire and you will cook it.','If it burns, do not fret. Net another and try again. Everyone burns their first few.']},
   bake_bread:function(){
    if(has('bread_dough'))return ['That dough looks ready. Click the bread dough in your pack, then click the oven, to bake it.'];
@@ -115,7 +120,10 @@ var HolmIslandTutors=(function(){
   return true;
  }
  // the chat is over (last page, or the box was closed): back to idle, and the tutor counts as spoken to
- function ended(n){if(st.talking===n)st.talking=null;play(n,'idle');if(n.opens){n.opens=false;if(typeof HolmIslandTalk!=='undefined')HolmIslandTalk.markTalked(n.cast.id)}}
+ // (owner review 4) the tutor then hands over their lesson's tools: markTalked refreshes the banner, which grants them
+ // (tutorial_holm.js); asked again on their turn (a full pack the first time), the banner is refreshed to try again
+ function ended(n){if(st.talking===n)st.talking=null;play(n,'idle');if(n.opens){n.opens=false;var first=typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.markTalked(n.cast.id);
+  if(!first&&turn(n.cast))try{Tutorial.banner()}catch(e){}}}
  // v2 land phase 5 (draw calls): a tutor off screen is not drawn (the rigs keep frustumCulled off, as skinned bounds
  // shift while animating, so each tutor is culled here by a standing-height sphere instead; it still animates)
  var cull={f:null,m:null,s:null};

@@ -442,5 +442,25 @@
    8,
    8
   ]
+ },
+ "bakehouse-review4.textures.json": {
+  "glb": {
+   "path": ".studio-workspaces/holm-kitchen-oldschool-v2/candidates/kitchen-character.glb",
+   "bytes": 3645200,
+   "sha256": "14c4a87afacf4499aa17a2aaad920fce4348d90391c851e5194384d389dc7838"
+  },
+  "textured": 4,
+  "primitives": [
+   85,
+   99
+  ],
+  "navigation": {
+   "out": ".studio-workspaces/holm-kitchen-review4-navigation-v1/candidates",
+   "nodes": 265,
+   "modelSha256": "14c4a87afacf4499aa17a2aaad920fce4348d90391c851e5194384d389dc7838",
+   "identicalApartFrom": [
+    "modelSha256"
+   ]
+  }
  }
 }

@@ -36,7 +36,7 @@ var HolmArrivalQA=(function(){
    islandData=await HolmIslandExtras.loadData();
    var bw=b.world,scenic=loaded.documents.envelopes.blockers.filter(function(q){return q.surface==='exterior'&&/^Blender declared/.test(q.source||'')}).map(function(q){return {id:q.id,x0:q.x0+bw.x,x1:q.x1+bw.x,z0:q.z0+bw.z,z1:q.z1+bw.z}});
    var gateData=typeof HolmIslandGates!=='undefined'?await HolmIslandGates.loadData():{gates:[]};
-   nav=HolmIslandNav.create({gates:gateData.gates,terrain:loaded.documents.terrain,arrival:nav,buildings:islandData.buildings.concat(typeof HolmGuideCellar!=='undefined'?[HolmGuideCellar.building()]:[]),blockers:scenic.concat(islandData.blockers),bridges:islandData.bridges,
+   nav=HolmIslandNav.create({gates:gateData.gates,terrain:loaded.documents.terrain,arrival:nav,buildings:islandData.buildings.concat(typeof HolmGuideCellar!=='undefined'?[HolmGuideCellar.building(loaded)]:[]),blockers:scenic.concat(islandData.blockers),bridges:islandData.bridges,
     arrivalFootprints:[{x0:bw.x-b.width/2,x1:bw.x+b.width/2,z0:bw.z-b.depth/2,z1:bw.z+b.depth/2}]});graphs={};
   }
   provider=WorldV2.register({contractVersion:1,id:ID,label:island?(typeof HolmIsland!=='undefined'&&HolmIsland.production()?'Tutor’s Holm':'Tutor\u2019s Holm \u00b7 island draft'):'Tutor’s Holm · arrival draft',worldRevision:pack.provider.worldRevision,
@@ -68,7 +68,7 @@ var HolmArrivalQA=(function(){
       // the Proving Ground past the keep: a poacher, a warlock, a wild pack and the broodmother (combat agent)
       if(typeof HolmProvingGround!=='undefined')try{HolmProvingGround.load(HolmArrivalQA)}catch(err){console.error('[HolmArrivalQA] proving ground',err)}
       // M5.2b: progress gates (doors that open as lessons are done)
-      if(typeof HolmIslandGates!=='undefined')try{await HolmIslandGates.load({THREE:THREE,scene:scene,WORLD:WORLD,nav:nav})}catch(err){console.error('[HolmArrivalQA] gates',err)}
+      if(typeof HolmIslandGates!=='undefined')try{await HolmIslandGates.load({THREE:THREE,scene:scene,WORLD:WORLD,nav:nav,models:extras&&extras.models})}catch(err){console.error('[HolmArrivalQA] gates',err)}
       // M5.2a: the island curriculum's arrows point at the stations that now exist
       if(typeof HolmIslandCurriculum!=='undefined')try{HolmIslandCurriculum.bind(HolmArrivalQA)}catch(err){console.error('[HolmArrivalQA] curriculum targets',err)}
      }
@@ -275,6 +275,13 @@ var HolmArrivalQA=(function(){
   var nb=(g.links[cur.id]||[]).map(function(id){return g.byId[id]});
   for(var d of [[-1,0],[1,0],[0,1],[0,-1]]){var n=nb.filter(function(m){return Math.round(m.x-cur.x)===d[0]&&Math.round(m.z-cur.z)===d[1]})[0];if(n&&bridge.order(n))return true}
   return true}
+ // owner review 4 (2026-09-27): a fire is lit where the adventurer stands, as in 2004, on open ground only: never indoors,
+ // on a floor, deck, jetty, stair or dock, and never on a tile that already has a fire. Returns the refusal line or null.
+ function fireBlocked(){if(!island||!active()||!bridge)return null;var s=String(bridge.snapshot().surface||'');
+  var open=s==='land'||s==='exterior'||/:(IslandTerrain|StagedTerrain)$/.test(s);if(!open)return 'You cannot light a fire here.';
+  var tx=Math.floor(player.position.x),tz=Math.floor(player.position.z),taken=false;
+  if(typeof scene!=='undefined')scene.children.forEach(function(o){if(!taken&&o.userData&&o.userData.kind==='fire'&&Math.floor(o.position.x)===tx&&Math.floor(o.position.z)===tz)taken=true});
+  return taken?'You cannot light a fire here.':null}
  // where an arrival-package service is taught (the relief chart, the provision rack): its first stance node
  function arrivalStance(kind){if(!active()||!loaded)return null;var s=loaded.package.navigation.interactions.filter(function(i){return i.kind===kind})[0];
   var n=s&&graphForDoors(doors).nodes.filter(function(m){return m.id===s.stanceNodeIds[0]})[0];return n?{id:n.id,x:n.x,y:n.y,z:n.z}:null}
@@ -315,7 +322,7 @@ var HolmArrivalQA=(function(){
   var g=graphForDoors(doors),from=bridge.snapshot().nodeId,r=from&&nav.route(g,from,'b:'+buildingId+':'+t.nodeId);
   return r?r.map(function(id){var n=g.byId[id];return {id:id,x:n.x,y:n.y,z:n.z,surface:n.surface}}):null;
  }
- return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaRouteTo:qaRouteTo,qaStance:qaStance,stepAside:stepAside,arrivalStance:arrivalStance,approach:approach,graphNodes:graphNodes,navGraph:navGraph,respawnIsland:respawnIsland,
+ return {requested:requested,prepare:prepare,active:active,height:height,bindPlayer:bindPlayer,restore:restore,saveRecord:saveRecord,handleClick:handleClick,update:update,qaRoute:qaRoute,qaRouteTo:qaRouteTo,qaStance:qaStance,stepAside:stepAside,fireBlocked:fireBlocked,arrivalStance:arrivalStance,approach:approach,graphNodes:graphNodes,navGraph:navGraph,respawnIsland:respawnIsland,
   islandActive:function(){return active()&&island},
   doorOpen:function(id){return !!doors[id]},   // the Guide House doors, for the menu's Open / Close row
   // review captures only: stream and frame a place without moving the adventurer

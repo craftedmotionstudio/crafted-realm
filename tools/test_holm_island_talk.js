@@ -56,8 +56,8 @@ check('a new adventurer starts with "Talk to Guide Bram"; the chart and the rack
  assert.strictEqual(G.refusal(CLICK.chart),'You should speak to Guide Bram first.');assert.strictEqual(G.refusal(CLICK.rack),'You should speak to Guide Bram first.');
  assert.strictEqual(G.refusal(CLICK.door),null);assert.strictEqual(G.refusal(CLICK.ground),null);
 });
-check('Guide Bram\'s first chat welcomes the adventurer and explains the chart and the provision rack',()=>{
- const p=Tu.lines('bram');assert(/I am Guide Bram/.test(p[0]),p[0]);assert(p.some(l=>/relief chart/.test(l)));assert(p.some(l=>/provision rack/.test(l)));
+check('Guide Bram\'s first chat welcomes the adventurer, explains the chart and sends them to Wenna for their tools (owner review 4: no rack, no hatchet from Bram)',()=>{
+ const p=Tu.lines('bram');assert(/I am Guide Bram/.test(p[0]),p[0]);assert(p.some(l=>/relief chart/.test(l)));assert(p.some(l=>/Wenna/.test(l)&&/tools/.test(l)));assert(!p.some(l=>/provision rack|hatchet/.test(l)),'the overview only');
  assert(p.length>=3&&p.every(l=>l.length<=200),'several short pages');
 });
 check('speaking to Bram opens his lessons, the banner moves on to the chart, and the talk is saved at once',()=>{
@@ -66,21 +66,27 @@ check('speaking to Bram opens his lessons, the banner moves on to the chart, and
  assert(/relief chart/.test(W.els['obj-text'].textContent),W.els['obj-text'].textContent);assert(W.saves>saves,'saved');
  assert(!/I am Guide Bram/.test(Tu.lines('bram')[0]),'no second welcome when asked again');
 });
-check('Bram asked again during equip_hatchet explains the rack, then wielding the hatchet',()=>{
- doLesson('study_route');assert(/provision rack/.test(Tu.lines('bram').join(' ')));
- W.inv.hatchet=1;assert(/wield/.test(Tu.lines('bram').join(' '))&&/Wenna/.test(Tu.lines('bram').join(' ')));
+check('after the chart Bram\'s lessons are done: the objective box says MOVING ON to Wenna, the chat names her, and Bram sends you on',()=>{
+ const n=W.chats.length;doLesson('study_route');assert(W.chats.slice(n).some(t=>/^Guide Bram has shown you the island\. Next, Wenna at the survival camp/.test(t)&&/Follow the arrow/.test(t)),W.chats.slice(n));
+ assert(/Next, Wenna/.test(W.els['obj-text'].textContent),W.els['obj-text'].textContent);
+ assert(/all I can teach here/.test(Tu.lines('bram').join(' '))&&/Wenna/.test(Tu.lines('bram').join(' ')));
+ assert.strictEqual(W.HolmIslandCurriculum.movingOn('chop_logs'),null,'no notice inside an area');
 });
-check('only the current lesson\'s tutor gates: at chop_logs the camp refuses until Wenna, other areas and walk-only spots do not',()=>{
- doLesson('equip_hatchet');assert.strictEqual(G.pending().id,'wenna');
- assert.strictEqual(W.els['obj-text'].textContent,'Talk to Wenna at the head of the Minnow Hollow path, south of the survival camp.');
+check('only the current lesson\'s tutor gates: at equip_hatchet (Wenna\'s first lesson) the camp refuses until Wenna, other areas and walk-only spots do not',()=>{
+ assert.strictEqual(T.steps[T.step].id,'equip_hatchet');assert.strictEqual(G.pending().id,'wenna');assert.strictEqual(G.tutorOf('equip_hatchet').id,'wenna');
+ T.banner();assert.strictEqual(W.els['obj-text'].textContent,'Talk to Wenna at the head of the Minnow Hollow path, south of the survival camp.');
  ['oak','perch','fire'].forEach(k=>assert.strictEqual(G.refusal(CLICK[k]),'You should speak to Wenna first.',k));
- ['fishingStage','bucket','court','yard','shaft','chart'].forEach(k=>assert.strictEqual(G.refusal(CLICK[k]),null,k));
+ ['fishingStage','bucket','court','yard','shaft','chart','rack'].forEach(k=>assert.strictEqual(G.refusal(CLICK[k]),null,k));
 });
-check('Wenna\'s chat follows the step: welcome and oaks first, the tinderbox during light_fire, the net, then the fire',()=>{
- let p=Tu.lines('wenna');assert(/I am Wenna/.test(p[0])&&/oaks/.test(p.join(' ')));
+check('Wenna\'s chat follows the step: welcome and the tools she hands over, wielding, the oaks, a fire where you stand, the net, then the fire',()=>{
+ let p=Tu.lines('wenna');assert(/I am Wenna/.test(p[0])&&/hatchet, a tinderbox and a small net/.test(p.join(' ')),p);
  G.markTalked('wenna');assert.strictEqual(G.refusal(CLICK.oak),null);assert(!/I am Wenna/.test(Tu.lines('wenna')[0]));
- assert(/Follow the path west/.test(W.els['obj-text'].textContent),'banner back on the lesson');
- doLesson('chop_logs');W.inv.logs=1;p=Tu.lines('wenna').join(' ');assert(/tinderbox/.test(p)&&/logs/.test(p),p);
+ assert(/Wenna has given you your tools/.test(W.els['obj-text'].textContent),'banner back on the lesson');
+ W.Player.inv=[null];assert(/too full/.test(Tu.lines('wenna').join(' ')),'a full pack is told to make room');W.Player.inv=[];
+ W.inv.hatchet=1;assert(/wield/.test(Tu.lines('wenna').join(' ')));doLesson('equip_hatchet');
+ assert(/oaks/.test(Tu.lines('wenna').join(' ')));assert(/oaks on the rim/.test(W.els['obj-text'].textContent));
+ doLesson('chop_logs');W.inv.logs=1;p=Tu.lines('wenna').join(' ');assert(/tinderbox/.test(p)&&/logs/.test(p)&&/where you stand/.test(p),p);assert(!/Fire Beach/.test(p),'any clear ground, not one spot');
+ assert(/Light a fire where you stand/.test(W.els['obj-text'].textContent));
  W.inv.logs=0;assert(/Chop one of the oaks/.test(Tu.lines('wenna').join(' ')));
  doLesson('light_fire');assert(/net/.test(Tu.lines('wenna').join(' ')));
  doLesson('catch_fish');W.inv.raw_perch=1;W.fire=true;assert(/Click your fire/.test(Tu.lines('wenna').join(' ')));
@@ -89,7 +95,7 @@ check('Wenna\'s chat follows the step: welcome and oaks first, the tinderbox dur
  assert.strictEqual(G.pending(),null,'Wenna already spoken to');
 });
 check('Cook Hettie gates the bakehouse and her chat walks through the buckets, kneading and the oven',()=>{
- doLesson('cook_fish');assert.strictEqual(G.pending().id,'hettie');assert.strictEqual(G.refusal(CLICK.bucket),'You should speak to Cook Hettie first.');
+ const n0=W.chats.length;doLesson('cook_fish');assert(W.chats.slice(n0).some(t=>/^You have finished Wenna's lessons\. Next, Cook Hettie in the bakehouse/.test(t)),'moving on from the camp');assert.strictEqual(G.pending().id,'hettie');assert.strictEqual(G.refusal(CLICK.bucket),'You should speak to Cook Hettie first.');
  assert.strictEqual(G.refusal(CLICK.oak),null,'the camp is free again');
  let p=Tu.lines('hettie');assert(/Cook Hettie/.test(p[0])&&/buckets/.test(p.join(' '))&&/oven/.test(p.join(' ')));
  G.markTalked('hettie');W.inv.bucket_flour=W.inv.bucket_water=W.inv.dough=1;assert(/knead/.test(Tu.lines('hettie').join(' ')));
@@ -150,4 +156,4 @@ check('without the island the rule is inert',()=>{
  const L=world('?qaProfile=x');assert.strictEqual(L.HolmIslandTalk.active(),false);assert.strictEqual(L.HolmIslandTalk.pending(),null);
  assert.strictEqual(L.HolmIslandTalk.refusal(CLICK.oak),null);assert.strictEqual(L.HolmIslandTalk.restore({talkedTutors:['wenna']}),false);assert.strictEqual(L.HolmIslandTalk.markTalked('wenna'),false);
 });
-console.log('[HOLM_ISLAND_TALK] '+passed+'/15 checks passed');
+console.log('[HOLM_ISLAND_TALK] '+passed+'/15 checks passed');if(passed!==15)process.exit(1);

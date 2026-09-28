@@ -11,22 +11,25 @@ var HolmIslandGuide=(function(){
  var st={last:'',t:0,pack:null};
  function world(o){if(!o)return null;var v=new THREE.Vector3(),b=new THREE.Box3().setFromObject(o);if(b.isEmpty())o.getWorldPosition(v);else{b.getCenter(v);v.y=b.max.y}return {x:v.x,y:v.y,z:v.z}}
  function named(n){return typeof scene!=='undefined'?scene.getObjectByName(n):null}
+ // a gated doorway's leaf: the prop leaf, or the building's own door that the gate drives (owner review 4)
+ function gateLeaf(id){return named('island-gate-'+id)||(typeof HolmIslandGates!=='undefined'&&HolmIslandGates.leafObject?HolmIslandGates.leafObject(id):null)}
  function byKind(kind,extra){var hit=null;scene.traverse(function(m){if(!hit&&m.isMesh&&m.userData&&m.userData.kind===kind&&(!extra||m.userData[extra[0]]===extra[1]))hit=m});return hit}
  function service(label,target){var hit=null;scene.traverse(function(m){var s=m.userData&&m.userData.islandService;if(!hit&&m.isMesh&&s&&s.label===label&&(!target||s.target===target))hit=m});return hit}
  function nearest(list){var best=null,d=Infinity;list.forEach(function(o){if(!o)return;var p=o.getWorldPosition(new THREE.Vector3()),h=Math.hypot(p.x-player.position.x,p.z-player.position.z);if(h<d){d=h;best=o}});return best}
  function alive(prefix){var out=[];scene.traverse(function(o){if(o.name&&o.name.indexOf(prefix)===0&&o.userData&&o.userData.alive!==false&&o.visible!==false)out.push(o)});return out}
  function grubkin(pen){var n=typeof HolmIslandTrials!=='undefined'?HolmIslandTrials.npcs().filter(function(x){return !x.dead&&x.islandPen===pen}).map(function(x){return x.mesh}):[];return nearest(n)}
  function has(id){return typeof Player!=='undefined'&&Player.count(id)>0}
- // Minnow Hollow (v2 land): the live ripple nearest the player (spots move), and whether the player stands on the Fire Beach
+ // Minnow Hollow (v2 land): the live ripple nearest the player (spots move)
  function pondSpot(){return typeof HolmFishing!=='undefined'&&typeof player!=='undefined'?HolmFishing.nearestSpot(player.position.x,player.position.z):null}
- function onBeach(){var b=typeof HolmFishing!=='undefined'&&HolmFishing.fireRing();if(!b||typeof player==='undefined')return true;var a=b.area,p=player.position;return p.x>=a[0]-.5&&p.x<=a[2]+.5&&p.z>=a[1]-.5&&p.z<=a[3]+.5}
  // what to point at for the current step: {obj,label} in the world, or {pack,label} for a step done in the pack
  function aim(id){
   switch(id){
    case 'study_route':return {obj:byKind('arrival_chart'),label:'Study the chart'};
-   case 'equip_hatchet':return has('hatchet')?{pack:'hatchet',label:'Wield the hatchet'}:{obj:byKind('arrival_provisions'),label:'Take your tools'};
+   // owner review 4: Wenna hands over the tools (asked again when a full pack refused them)
+   case 'equip_hatchet':return has('hatchet')?{pack:'hatchet',label:'Wield the hatchet'}:{obj:named('island-tutor-wenna'),label:'Talk to Wenna'};
    case 'chop_logs':return {obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
-   case 'light_fire':return has('logs')?(onBeach()?{pack:'tinderbox',label:'Use the tinderbox on the logs'}:{obj:named('island-hollow-fire-ring'),label:'Go down to the Fire Beach'}):{obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
+   // owner review 4: the fire is lit where the adventurer stands (2004), so with logs in the pack the pack is the target
+   case 'light_fire':return has('logs')?{pack:'tinderbox',label:'Use the tinderbox on the logs'}:{obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
    case 'catch_fish':return {obj:pondSpot(),label:'Net a fish'};
    case 'cook_fish':
     if(!has('raw_perch'))return {obj:pondSpot(),label:'Net a fish'};
@@ -52,7 +55,7 @@ var HolmIslandGuide=(function(){
    case 'relight_lastlight':{
     // the storm door, then the ladder on whichever floor the player is on, then the lever
     var y=player.position.y,base=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('lastlight','door'),rel=base?y-base.y:0;
-    if(!base||Math.hypot(player.position.x-base.x,player.position.z-base.z)>9)return {obj:named('island-gate-lastlight-door')||service('Climb-up ladder','ladder1-foot'),label:'Enter Lastlight'};
+    if(!base||Math.hypot(player.position.x-base.x,player.position.z-base.z)>9)return {obj:gateLeaf('lastlight-door')||service('Climb-up ladder','ladder1-foot'),label:'Enter Lastlight'};
     if(rel<1.5)return {obj:service('Climb-up ladder','ladder1-foot'),label:'Climb the ladder'};
     if(rel<4.5)return {obj:service('Climb-up ladder','ladder2-foot'),label:'Climb the ladder'};
     if(rel<7.5)return {obj:service('Climb-up ladder','ladder3-foot'),label:'Climb the ladder'};
@@ -68,7 +71,7 @@ var HolmIslandGuide=(function(){
   var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord(),surf=rec&&rec.surface||'';if(surf.indexOf('b:'+b+':')===0&&!/Terrain$/.test(surf))return a;   // already inside
   // standing at the doorway already: the marker goes on the thing itself (a tutor just inside, the station)
   var d=HolmArrivalQA.qaStance(b,DOOR[b]);if(d&&Math.hypot(player.position.x-d.x,player.position.z-d.z)<1.6&&Math.abs(player.position.y-d.y)<1)return a;
-  var gate=named('island-gate-'+b+'-door');if(gate)return {obj:gate,door:true,label:'Enter the '+NAMES[b]};
+  var gate=gateLeaf(b+'-door');if(gate)return {obj:gate,door:true,label:'Enter the '+NAMES[b]};
   return d?{point:d,label:'Enter the '+NAMES[b]}:a}
  // the Guide House (the arrival package, first lessons): the chart and the tools are inside, so from outside the
  // marker goes on its south door, "Open the door" while it is shut, as the first thing a new adventurer does

@@ -1,7 +1,9 @@
 /* Minnow Hollow gate (Holm v2 land, phase 2, 2026-09-26): real pointer input on ?holmIsland=1, fresh isolated profile.
- * A new adventurer with the Guide House lessons done: speaks to Wenna at the head of the Hollow Path (talk-first), chops a
- * teaching oak on the rim, walks the path down to the Fire Beach, lights a fire there, nets a fish at a moving ripple (the
- * lesson's first catch lands on the second roll), cooks it on the beach (retrying a burn), then after the lesson: a spot
+ * A new adventurer with the Guide House chart studied and an empty pack: speaks to Wenna at the head of the Hollow Path
+ * (talk-first), who hands over the hatchet, tinderbox and net (owner review 4, 2026-09-27: the tools come from her, not
+ * from Bram's rack), wields the hatchet, chops a teaching oak on the rim, lights a fire right there where they stand (2004;
+ * not only on the Fire Beach), walks the path down to the Fire Beach, nets a fish at a moving ripple (the lesson's first
+ * catch lands on the second roll), cooks it on that same fire (retrying a burn), then after the lesson: a spot
  * that moves while being netted says "The fish have moved on." and stops the player, the frog plops off its pad when the
  * player comes near, ducks paddle, a fish leaps, and more rolls land varied catches. Every step by a real click on a
  * pixel whose game pick() hits the target (tools/holm_island_driver_lib.js); qaGrant/qaMove only set up the state.
@@ -23,40 +25,48 @@ async function walkGround(page,x,z){const w=await D.walkPoint(page,x,z,[]);const
   await page.evaluate(()=>{window.__qaTrace=[];setInterval(()=>window.__qaTrace.push([player.position.x,player.position.y,player.position.z]),120);window.__notes=[];const n=Tutorial.notify.bind(Tutorial);Tutorial.notify=function(ev,m){window.__notes.push(ev+'/'+m);return n(ev,m)};window.__chat=[];const c=UI.chat.bind(UI);UI.chat=function(t,k){window.__chat.push(String(t));return c(t,k)}});
   const boot=await page.evaluate(()=>({spots:HolmFishing.spots(),fauna:HolmFishing.fauna(),ring:!!scene.getObjectByName('island-hollow-fire-ring'),jetty:!!scene.getObjectByName('island-hollow-jetty'),pond:!!scene.getObjectByName('ArrivalPond')}));
   ok('Minnow Hollow loads: 3 moving spots, the jetty, the Fire Beach ring, the pond sheet, ducks, frog, dragonflies',boot.spots.length===3&&boot.ring&&boot.jetty&&boot.pond&&boot.fauna&&boot.fauna.ducks.length===2&&boot.fauna.flies===2,boot);
-  // the Guide House lessons done (the driver starts at the camp); tools in the pack as the rack gives them
-  await page.evaluate(()=>{HolmIslandCurriculum.qaGrant(['study_route','equip_hatchet']);Player.inv=Player.inv.map(()=>null);['tinderbox','fishing_net','hatchet'].forEach(i=>Player.addItem(i,1));UI.refreshInv()});
-  await clickInventory(page,'hatchet');
+  // the Guide House chart studied (the driver starts at the camp) and an empty pack: the tools are Wenna's to give
+  await page.evaluate(()=>{HolmIslandCurriculum.qaGrant(['study_route']);Player.inv=Player.inv.map(()=>null);UI.refreshInv()});
   // walk to the camp like a player (the graph route toward the camp's bench), then talk to Wenna first (2004 rule)
   await D.walkTo(page,'survival','bench',true,[]);
   const refused=await clickNamed(page,'island-lesson-survival-oak-1');await sleep(1500);
   const said=await page.evaluate(()=>window.__chat.slice(-3));ok('talk-first: the oak refuses until Wenna has spoken',said.some(t=>/speak to Wenna/.test(t)),{said,refused});
   const t=await talkTo(page,'wenna');ok('Wenna stands at the head of the Hollow Path and teaches the hollow',t.ok&&t.talked&&t.pages.some(p=>/Minnow Hollow|hollow/.test(p)),t);
+  const handed=await waitFor(page,()=>['hatchet','tinderbox','fishing_net'].every(i=>Player.count(i)===1),null,20000);const hc=await page.evaluate(()=>window.__chat.filter(t=>/^Wenna hands you /.test(t)));
+  ok('owner review 4: Wenna hands over the hatchet, tinderbox and net when her chat ends (the pack was empty; she says so by name)',handed&&hc.length===1&&t.pages.some(p=>/hatchet, a tinderbox and a small net/.test(p)),{handed,hc,pages:t.pages});
   await shot(page,'01_wenna');
+  await clickInventory(page,'hatchet');await waitFor(page,()=>Player.equip.weapon==='hatchet',null,8000);
   // chop a teaching oak on the rim
   let c=await clickNamed(page,'island-lesson-survival-oak-1');const chopped=!c.error&&await waitFor(page,()=>Player.count('logs')>0,null,120000);
   ok('chop_logs: a teaching oak on the Minnow Hollow rim gives logs (gather/logs credited)',chopped&&await page.evaluate(()=>window.__notes.includes('gather/logs')),{c});
-  // down the Hollow Path to the Fire Beach and light the fire there
+  // owner review 4: light the fire right where the adventurer stands, up on the rim beside the oak (not the Fire Beach)
   const ring=await page.evaluate(()=>HolmFishing.fireRing());const beachAt=[ring.ring[0]+.5,ring.ring[1]+.6];
-  const walked=await walkGround(page,beachAt[0],beachAt[1]);const p0=await pos(page);await shot(page,'02_fire_beach');
-  ok('the Hollow Path leads down to the Fire Beach (real ground clicks)',walked&&p0[1]<2.2,{p0,beachAt});
-  await clickInventory(page,'tinderbox');await clickInventory(page,'logs');
+  const pf=await pos(page);await clickInventory(page,'tinderbox');await clickInventory(page,'logs');
   const lit=await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,30000);await sleep(1500);
-  const fireAt=await page.evaluate(()=>{const f=scene.getObjectByName('island-campfire');return f?[f.position.x,f.position.z]:null});
-  ok('light_fire: the fire burns on the Fire Beach (firemake credited)',lit&&await page.evaluate(()=>window.__notes.includes('firemake/fire'))&&fireAt&&fireAt[0]>=ring.area[0]-1&&fireAt[0]<=ring.area[2]+1&&fireAt[1]>=ring.area[1]-1.2&&fireAt[1]<=ring.area[3]+1,{fireAt,area:ring.area});
+  const fireAt=await page.evaluate(()=>{const f=scene.getObjectByName('island-campfire');return f?[f.position.x,f.position.z]:null}),pa=await pos(page);
+  const offBeach=fireAt&&!(fireAt[0]>=ring.area[0]-1&&fireAt[0]<=ring.area[2]+1&&fireAt[1]>=ring.area[1]-1.2&&fireAt[1]<=ring.area[3]+1);
+  ok('light_fire where you stand: the fire burns on the adventurer\'s own tile up on the rim, away from the Fire Beach, and they step aside (firemake credited)',lit&&offBeach&&Math.hypot(fireAt[0]-pf[0],fireAt[1]-pf[2])<.2&&Math.hypot(pa[0]-fireAt[0],pa[2]-fireAt[1])>.9&&await page.evaluate(()=>window.__notes.includes('firemake/fire')),{fireAt,pf,pa,area:ring.area});
+  await shot(page,'02_fire_where_you_stand');
+  // down the Hollow Path to the Fire Beach, where the ripples are
+  const walked=await walkGround(page,beachAt[0],beachAt[1]);const p0=await pos(page);
+  ok('the Hollow Path leads down to the Fire Beach (real ground clicks)',walked&&p0[1]<2.2,{p0,beachAt});
   // fish the nearest live ripple; the first catch lands on the second roll (~6 s after the cast)
   const spot=await page.evaluate(()=>{const s=HolmFishing.nearestSpot(player.position.x,player.position.z);return s?s.name:null});
   const before=await page.evaluate(()=>HolmFishing.stats());const tClick=Date.now();
   c=await clickNamed(page,spot);const caught=!c.error&&await waitFor(page,()=>Player.count('raw_perch')>0,null,90000);const tCatch=Date.now();
   const st1=await page.evaluate(()=>HolmFishing.stats());await shot(page,'03_catch');
   ok('catch_fish: the net at a ripple lands a mirrorperch; every roll visible (cast + splash), the first catch guaranteed on roll 2',caught&&st1.lastCatch&&st1.lastCatch.item==='raw_perch'&&st1.lastCatch.roll<=2&&st1.casts>before.casts&&st1.splashes>before.splashes&&await page.evaluate(()=>window.__notes.includes('gather/raw_perch')),{spot,st1,seconds:(tCatch-tClick)/1000});
-  // cook on the beach fire (burns are taught: net another and retry)
-  let tries=0;for(;tries<6&&!(await page.evaluate(()=>window.__notes.includes('cook/cooked_perch')));tries++){
+  // cook on the adventurer's own fire up on the rim (any fire cooks; burns are taught: net another and retry); if it burnt
+  // out while fishing, a new one is lit wherever the adventurer stands
+  const nearFire=async()=>{const f=await page.evaluate(()=>{const o=scene.getObjectByName('island-campfire');return o?[o.position.x,o.position.z]:null});if(!f)return;for(const [dx,dz] of [[1,0],[-1,0],[0,-1],[0,1]]){await walkGround(page,f[0]+dx,f[1]+dz);const q=await pos(page);if(Math.hypot(q[0]-f[0],q[2]-f[1])>.9)return}};
+  let tries=0,cookedOn=null;for(;tries<6&&!(await page.evaluate(()=>window.__notes.includes('cook/cooked_perch')));tries++){await nearFire();
    if(!await page.evaluate(()=>Player.count('raw_perch')>0)){const s2=await page.evaluate(()=>{const s=HolmFishing.nearestSpot(player.position.x,player.position.z);return s?s.name:null});await clickNamed(page,s2);await waitFor(page,()=>Player.count('raw_perch')>0,null,120000)}
-   if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);await walkGround(page,beachAt[0],beachAt[1]);await clickInventory(page,'tinderbox');await clickInventory(page,'logs');await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,30000);await sleep(1500)}
+   if(!await page.evaluate(()=>!!scene.getObjectByName('island-campfire'))){await clickNamed(page,'island-lesson-survival-oak-2');await waitFor(page,()=>Player.count('logs')>0,null,120000);await clickInventory(page,'tinderbox');await clickInventory(page,'logs');await waitFor(page,()=>!!scene.getObjectByName('island-campfire'),null,30000);await sleep(1500);await nearFire()}
+   cookedOn=await page.evaluate(()=>{const o=scene.getObjectByName('island-campfire');return o?[+o.position.x.toFixed(1),+o.position.z.toFixed(1)]:null});
    const b=await page.evaluate(()=>Player.count('cooked_perch')+Player.count('burnt_perch'));c=await clickNamed(page,'island-campfire');await waitFor(page,b=>Player.count('cooked_perch')+Player.count('burnt_perch')>b,b,60000)}
-  ok('cook_fish: cooked on the beach fire (cook/cooked_perch credited), burns retried',await page.evaluate(()=>window.__notes.includes('cook/cooked_perch')),{tries});
+  ok('cook_fish: cooked on the adventurer\'s own fire, lit where they stood (cook/cooked_perch credited), burns retried',await page.evaluate(()=>window.__notes.includes('cook/cooked_perch')),{tries,cookedOn,firstFire:fireAt});
   const ledger=await page.evaluate(()=>Tutorial.completedLessonIds.slice());
-  ok('the four survival lessons are credited in the ledger',['chop_logs','light_fire','catch_fish','cook_fish'].every(id=>ledger.includes(id)),ledger);
+  ok('Wenna\'s five survival lessons are credited in the ledger (wield the hatchet, chop, fire, fish, cook)',['equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish'].every(id=>ledger.includes(id)),ledger);
   // after the lesson: a spot moving while it is netted
   await page.evaluate(()=>{Player.xp['Fishing']=Math.max(Player.xp['Fishing']||0,1200);UI.refreshHud&&UI.refreshHud()});   // Fishing 10: the reedpike can bite
   const s3=await page.evaluate(()=>{const s=HolmFishing.nearestSpot(player.position.x,player.position.z);return s?s.name:null});

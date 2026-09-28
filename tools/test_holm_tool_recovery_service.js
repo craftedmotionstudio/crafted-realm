@@ -10,7 +10,7 @@ function setup(){
   ['hatchet','tinderbox','fishing_net','pickaxe','hammer','bread'].forEach(id=>{c.ITEMS[id]={stack:false,name:id};});
   vm.createContext(c);files.forEach(file=>vm.runInContext(fs.readFileSync(path.join(__dirname,'../src',file),'utf8'),c));
   c.Tutorial={steps:c.HolmTutorialFlow.runtimeSteps(),step:1,complete:false};
-  return {c,messages,recover:()=>c.HolmToolRecoveryService.recover(),saves:()=>saves,refreshes:()=>refreshes,snapshot:()=>snapshot};
+  return {c,messages,recover:o=>c.HolmToolRecoveryService.recover(o),saves:()=>saves,refreshes:()=>refreshes,snapshot:()=>snapshot};
 }
 let passed=0;function check(name,fn){fn();passed++;console.log('PASS '+name);}
 check('arrival provider uses the same atomic grant and inactive drafts cannot grant',()=>{
@@ -58,5 +58,29 @@ check('mainland and malformed inventory cannot receive replacements',()=>{
   const t=setup();t.c.CRWorldMode.providerId='veyhollow-commons-v2';assert.strictEqual(t.recover(),false);
   t.c.CRWorldMode.providerId='tutors-holm-v2';t.c.Player.inv[0]={id:'missing',qty:1};
   assert.strictEqual(t.recover(),false);assert.strictEqual(t.saves(),0);
+});
+// owner review 4 (2026-09-27): on the Tutor's Holm island the tools come from the tutor (2004), the rack keeps spares
+function island(ledger,stepId,pending){const t=setup(),ids=['study_route','equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish','bake_bread','learn_quests','descend_cavern','mine_copper','mine_tin','smelt_bronze','forge_dagger'];
+  t.c.Tutorial={steps:ids.map(id=>({id})),step:ids.indexOf(stepId),complete:false,completedLessonIds:ledger};
+  t.c.HolmIslandTalk={active:()=>true,pending:()=>pending?{id:pending,name:pending==='wenna'?'Wenna':'Foreman Durgin'}:null};return t}
+check('island: the survival tools stay with Wenna until she is spoken to (the rack says so and grants nothing)',()=>{
+  const t=island(['study_route'],'equip_hatchet','wenna');assert(t.recover());assert.strictEqual(t.saves(),0);assert.strictEqual(t.c.Player.inv.filter(Boolean).length,0);
+  assert(/come from Wenna/.test(t.messages.at(-1)),t.messages);
+});
+check('island: Wenna hands them over by name once spoken to; afterwards the rack only replaces lost ones',()=>{
+  const t=island(['study_route'],'equip_hatchet',null);assert(t.recover({from:'Wenna'}));
+  assert.deepStrictEqual(Array.from(t.c.Player.inv.filter(Boolean),s=>s.id),['hatchet','tinderbox','fishing_net']);
+  assert.strictEqual(t.messages.at(-1),'Wenna hands you a hatchet, a tinderbox and a fishing_net.');
+  t.c.Player.inv=t.c.Player.inv.map(s=>s&&s.id==='tinderbox'?null:s);assert(t.recover());assert(/Replacement tools placed in your pack: tinderbox/.test(t.messages.at(-1)));
+});
+check('island: the rack works during the island-only lessons (bread) and holds the pickaxe for Durgin',()=>{
+  const L=['study_route','equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish'];
+  let t=island(L,'bake_bread',null);assert(t.recover());assert.strictEqual(t.c.Player.inv.filter(Boolean).length,3,'the survival set, not "could not prepare"');
+  t=island(L.concat(['bake_bread','learn_quests','descend_cavern']),'mine_copper','durgin');assert(t.recover());assert(!t.c.Player.inv.some(s=>s&&s.id==='pickaxe'),'held by Durgin');
+  t=island(L.concat(['bake_bread','learn_quests','descend_cavern']),'mine_copper',null);assert(t.recover({from:'Foreman Durgin'}));assert(t.c.Player.inv.some(s=>s&&s.id==='pickaxe'));
+});
+check('island: the hammer comes at forge_dagger even while the ledger is a lesson behind the step (the banner runs as the step starts; playthroughs stuck without it)',()=>{
+  const L=['study_route','equip_hatchet','chop_logs','light_fire','catch_fish','cook_fish','bake_bread','learn_quests','descend_cavern','mine_copper','mine_tin'];   // smelt_bronze not in the ledger yet
+  const t=island(L,'forge_dagger',null);assert(t.recover({from:'Foreman Durgin'}));assert(t.c.Player.inv.some(s=>s&&s.id==='hammer'),t.messages);
 });
 console.log('[HOLM_TOOL_RECOVERY_SERVICE] '+passed+'/'+passed+' checks passed');

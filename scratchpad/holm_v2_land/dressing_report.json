@@ -25,25 +25,33 @@
   "yard:mill:barrel",
   "yard:mill:crate",
   "yard:mill:wheelbarrow",
-  "yard:mill:cart-wheel",
+  "yard:mill:cart-wheel-lean",
   "yard:mill:crate-stack",
   "yard:haven:fish-crates"
  ],
- "pathTiles": 1675,
- "worn": 1078,
+ "statueClear": {
+  "radius": 3.2,
+  "dropped": [
+   "dress-tree-26",
+   "dress-tree-25"
+  ]
+ },
+ "backPath": {
+  "legs": 4,
+  "newWornTiles": 3,
+  "takenOff": [
+   "dress-decor:fern@61.76,90.73",
+   "dress-decor:mushrooms@62.46,90.41"
+  ],
+  "baseTreesOnPath": [],
+  "signpost": [
+   60.5,
+   91.5
+  ]
+ },
+ "pathTiles": 1671,
+ "worn": 1074,
  "routes": [
-  {
-   "from": [
-    64.5,
-    92.5
-   ],
-   "to": [
-    40.5,
-    87.5
-   ],
-   "primary": true,
-   "tiles": 31
-  },
   {
    "from": [
     40.5,
@@ -166,18 +174,6 @@
   },
   {
    "from": [
-    64.5,
-    92.5
-   ],
-   "to": [
-    78.5,
-    79
-   ],
-   "primary": true,
-   "tiles": 20
-  },
-  {
-   "from": [
     78.5,
     79
    ],
@@ -283,6 +279,54 @@
    ],
    "primary": false,
    "tiles": 5
+  },
+  {
+   "from": [
+    64.5,
+    92.5
+   ],
+   "to": [
+    62.5,
+    90.5
+   ],
+   "primary": true,
+   "tiles": 3
+  },
+  {
+   "from": [
+    62.5,
+    90.5
+   ],
+   "to": [
+    50.5,
+    87.5
+   ],
+   "primary": true,
+   "tiles": 20
+  },
+  {
+   "from": [
+    50.5,
+    87.5
+   ],
+   "to": [
+    40.5,
+    87.5
+   ],
+   "primary": true,
+   "tiles": 12
+  },
+  {
+   "from": [
+    62.5,
+    90.5
+   ],
+   "to": [
+    78.5,
+    79
+   ],
+   "primary": true,
+   "tiles": 20
   }
  ],
  "trees": {
@@ -291,7 +335,7 @@
   "total": 267,
   "clumps": 39
  },
- "signposts": 4,
+ "signposts": 5,
  "clutter": 167,
  "inYards": 146,
  "yardShare": 0.87,
@@ -326,21 +370,22 @@
   "crate": 15,
   "milestone": 6,
   "lamp-post": 5,
-  "cart-wheel": 5,
+  "cart-wheel": 4,
   "woodpile": 3,
   "chopping-block": 1,
   "barrel-apples": 2,
   "crate-stack": 6,
   "handcart": 4,
   "bench": 3,
+  "cart-wheel-lean": 1,
   "market-stall": 1,
-  "grass-clump": 622,
+  "grass-clump": 625,
   "pebbles": 282,
-  "mushrooms": 117,
-  "bracken": 177,
+  "mushrooms": 116,
+  "bracken": 176,
   "daisies": 139,
   "thistle": 169,
-  "fern": 179
+  "fern": 176
  },
- "reachableNodes": 9691
+ "reachableNodes": 9690
 }

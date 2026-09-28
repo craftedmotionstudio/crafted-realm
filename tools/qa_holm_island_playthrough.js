@@ -23,7 +23,7 @@ async function clickKind(page,kind,extra){   // click an object by its userData.
   return name?clickNamed(page,name):{error:'no '+kind};
 }
 // the run's record of every tutor met: did the banner say "Talk to <tutor>" first, how many pages, did it register
-let TALKS=[];
+let TALKS=[],FIRE=[];
 async function talk(page,id){
   const banner=await objective(page),r=await L.talkTo(page,id);
   TALKS.push({id,banner:!!r.name&&banner.indexOf('Talk to '+r.name)>=0,pages:r.pages?r.pages.length:0,talked:!!r.talked,error:r.error||null});
@@ -59,20 +59,26 @@ async function netFish(p){for(let k=0;k<6&&!await p.evaluate(()=>Player.count('r
 const DO={
  async study_route(p){await clickKind(p,'arrival_door',['arrivalDoor','arrival']);await waitFor(p,()=>{const r=HolmArrivalQA.saveRecord();return r&&r.doors&&r.doors.arrival},null,40000);
   await L.enterGuideHouse(p);await talk(p,'bram');return clickKind(p,'arrival_chart')},
- async equip_hatchet(p){if(!await p.evaluate(()=>Player.count('hatchet')>0))await clickKind(p,'arrival_provisions');await waitFor(p,()=>Player.count('hatchet')>0,null,30000);return clickInventory(p,'hatchet')},
- async chop_logs(p){await walkTo(p,'survival','trail',true,[]);
+ // owner review 4 (2026-09-27): Bram and his chart give the overview only; the hatchet, tinderbox and net come from Wenna
+ // at the camp when she is spoken to (2004), so the driver arrives with an empty pack and wields what she hands over
+ async equip_hatchet(p){const empty=await p.evaluate(()=>['hatchet','tinderbox','fishing_net'].every(i=>Player.count(i)===0));await walkTo(p,'survival','trail',true,[]);
   // the owner's play-test: a player who goes straight for a tree is sent to Wenna first
   {const c=await clickNamed(p,'island-lesson-survival-oak-1');await sleep(1200);const chat=await lastChat(p,4);
    TALKS.push({id:'wenna-refusal',refused:!c.error&&chat.some(t=>/speak to Wenna first/.test(t))&&await count(p,'logs')===0})}
-  await talk(p,'wenna');for(const t of ['oak-1','oak-2','oak-3']){if(await p.evaluate(()=>Player.count('logs')>0))break;const c=await clickNamed(p,'island-lesson-survival-'+t);if(!c.error)await waitFor(p,()=>Player.count('logs')>0,null,90000)}},
- // v2 land (2026-09-27): the fire goes on the Fire Beach down in Minnow Hollow, the fish come from the live ripples on the pond
- async light_fire(p){await toBeach(p);await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)},
+  await talk(p,'wenna');const got=await waitFor(p,()=>['hatchet','tinderbox','fishing_net'].every(i=>Player.count(i)>0),null,30000);
+  TALKS.push({id:'wenna-tools',handed:empty&&got&&(await lastChat(p,6)).some(t=>/^Wenna hands you /.test(t))});return clickInventory(p,'hatchet')},
+ async chop_logs(p){for(const t of ['oak-1','oak-2','oak-3']){if(await p.evaluate(()=>Player.count('logs')>0))break;const c=await clickNamed(p,'island-lesson-survival-'+t);if(!c.error)await waitFor(p,()=>Player.count('logs')>0,null,90000)}},
+ // owner review 4: the fire is lit right where the adventurer stands after chopping (2004), not at one set spot; the fish
+ // come from the live ripples on the pond and cook on that same fire (or a new one wherever the player is, if it burnt out)
+ async light_fire(p){await clickInventory(p,'tinderbox');await clickInventory(p,'logs');
+  if(!await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,12000)){await toBeach(p);await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000)}
+  FIRE.push(await p.evaluate(()=>{const f=scene.getObjectByName('island-campfire'),r=HolmFishing.fireRing();if(!f)return null;const a=r.area,x=f.position.x,z=f.position.z;return {x:+x.toFixed(1),z:+z.toFixed(1),onBeach:x>=a[0]-1&&x<=a[2]+1&&z>=a[1]-1&&z<=a[3]+1}}));await sleep(1500)},
  async catch_fish(p){await netFish(p)},
  async cook_fish(p){for(let k=0;k<8&&await lesson(p)==='cook_fish';k++){
    if(!await p.evaluate(()=>Player.count('raw_perch')>0))await netFish(p);
    await toFire(p);
    if(!await p.evaluate(()=>!!scene.getObjectByName('island-campfire'))){for(const t of ['oak-2','oak-3','oak-1']){if(await p.evaluate(()=>Player.count('logs')>0))break;await clickNamed(p,'island-lesson-survival-'+t);await waitFor(p,()=>Player.count('logs')>0,null,90000)}
-    await toBeach(p);await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000);await sleep(1500)}
+    await clickInventory(p,'tinderbox');await clickInventory(p,'logs');if(!await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,12000)){await toBeach(p);await clickInventory(p,'tinderbox');await clickInventory(p,'logs');await waitFor(p,()=>!!scene.getObjectByName('island-campfire'),null,20000)}await sleep(1500)}
    const b=await p.evaluate(()=>Player.count('cooked_perch')+Player.count('burnt_perch'));await clickNamed(p,'island-campfire');await waitFor(p,b=>Player.count('cooked_perch')+Player.count('burnt_perch')>b,b,120000)}},
  async bake_bread(p){await walkTo(p,'bakehouse','entrance',true,[]);await talk(p,'hettie');
   for(const l of ['Take bucket','Take bucket','Fill bucket with flour','Fill bucket with water','Take dough'])await clickService(p,l);
@@ -108,11 +114,14 @@ async function playOnce(browser,n){
     if(k)bump(k,e=>{e.samples++;if(s.active){e.tool++;e.tools[s.tool]=1;if(g.weapon&&g.weapon.visible&&g.weapon.parent)e.weaponShown++}});
     if(last&&!s.active&&!sk)bump(last,e=>{if(!Player.equip.weapon||(g.weapon&&g.weapon.visible))e.restored++;else e.notRestored++});
     last=s.active?s.skill:(sk?last:null);sessionStorage.setItem('__skillTools',JSON.stringify(r))}catch(e){}},150)});
-  const t0=Date.now(),per={},profile='playthrough-'+n+'-'+Date.now().toString(36);let status='incomplete',note='';TALKS=[];
+  const t0=Date.now(),per={},profile='playthrough-'+n+'-'+Date.now().toString(36);let status='incomplete',note='',run=null;TALKS=[];FIRE=[];
+  // owner review 4: the objective box's MOVING ON notices, kept across the mid-run reloads
+  await page.evaluateOnNewDocument(()=>{setInterval(()=>{try{if(typeof UI==='undefined'||UI.__moveLog)return;UI.__moveLog=1;const c=UI.chat;UI.chat=function(t){try{if(/Follow the arrow\.$/.test(String(t))){const l=JSON.parse(sessionStorage.getItem('__movingOn')||'[]');l.push(String(t).slice(0,90));sessionStorage.setItem('__movingOn',JSON.stringify(l))}}catch(e){}return c.apply(this,arguments)}}catch(e){}},100)});
   try{
     await page.goto(BASE0+(process.env.HOLM_MODE==='draft'?'/?holmIsland=1&qaProfile=':'/?qaProfile=')+profile,{waitUntil:'load',timeout:120000});await enter(page);
     await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,180000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
     const hint0=await page.evaluate(()=>document.getElementById('obj-text').textContent);
+    run=await L.runOrb(page);   // a new adventurer walks; the player clicks the run orb, as in 2004
     for(let guard=0;guard<30;guard++){
       const id=await lesson(page);if(id==='complete'){status='complete';break}
       const s=Date.now();console.log('  run '+n+' lesson '+id+' | '+(await page.evaluate(()=>document.getElementById('obj-text').textContent)).slice(0,90));
@@ -137,6 +146,13 @@ async function playOnce(browser,n){
     // 2004 rule: all ten tutors met in order, each announced on the banner first and registered by the game
     const met=TALKS.filter(t=>t.id.indexOf('-')<0),bad=met.filter(t=>!t.banner||!t.talked||t.error),refusal=TALKS.find(t=>t.id==='wenna-refusal');
     if(status==='complete'&&(met.length<10||bad.length||!(refusal&&refusal.refused))){status='talk-flow';note='talks '+JSON.stringify(TALKS).slice(0,400)}
+    // owner review 4: Wenna hands over the tools (nothing from Bram or his chart), a MOVING ON notice at each of the eight
+    // area changes, the fire lit where the player stood, run off for a new adventurer
+    const tools=TALKS.find(t=>t.id==='wenna-tools'),moves=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('__movingOn')||'[]')).catch(()=>[]);
+    if(status==='complete'&&!(tools&&tools.handed)){status='tools-flow';note='wenna tools '+JSON.stringify(tools)}
+    if(status==='complete'&&moves.length<8){status='moving-on';note='moving-on notices '+moves.length+' '+JSON.stringify(moves).slice(0,300)}
+    if(status==='complete'&&!(run&&run.startedOff&&run.on)){status='run-default';note='run '+JSON.stringify(run)}
+    TALKS.push({id:'moving-on',count:moves.length,lines:moves},{id:'fire-spots',fires:FIRE},{id:'run-orb',run});
     note=note||('first hint: '+hint0.slice(0,60));
   }catch(e){status='driver-error';note=String(e).slice(0,300);await shot(page,'run'+n+'_error')}
   const skillTools=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('__skillTools')||'{}')).catch(()=>null);

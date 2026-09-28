@@ -10,7 +10,7 @@ var HolmIslandCurriculum=(function(){
  var on=typeof HolmIsland!=='undefined'?HolmIsland.live():(typeof location!=='undefined'&&new URLSearchParams(location.search).get('holmIsland')==='1');
  // where each lesson is taught on the new island: a building's measured target, a lesson object, or an arrival service
  var WHERE={
-  study_route:{arrival:'holm_orientation'},equip_hatchet:{arrival:'holm_provisions'},
+  study_route:{arrival:'holm_orientation'},equip_hatchet:{world:[34.5,89.5]},   // owner review 4: the tools come from Wenna
   chop_logs:{object:'island-lesson-survival-oak-1'},light_fire:{object:'island-hollow-fire-ring'},
   catch_fish:{object:'island-hollow-spot-0'},cook_fish:{object:'island-hollow-fire-ring'},
   bake_bread:{building:['bakehouse','oven']},learn_quests:{building:['lodge','board']},
@@ -22,11 +22,11 @@ var HolmIslandCurriculum=(function(){
  // hint lines in our own words, one objective at a time
  var TEXT={
   study_route:['Enter the Guide House and study the relief chart of Tutor\'s Holm.','Study the chart'],
-  equip_hatchet:['Take your tools from the provision rack, then click the bronze hatchet in your pack to wield it.','Wield the hatchet'],
-  chop_logs:['Follow the path west to the survival camp, then chop down one of the oaks on the rim of Minnow Hollow.','Chop an oak'],
-  light_fire:['Go down the path into Minnow Hollow and light a fire on the Fire Beach: use your tinderbox on the logs.','Light a fire'],
+  equip_hatchet:['Wenna has given you your tools. Open your pack and click the bronze hatchet to wield it.','Wield the hatchet'],
+  chop_logs:['Chop down one of the oaks on the rim of Minnow Hollow, just below Wenna.','Chop an oak'],
+  light_fire:['Light a fire where you stand: use your tinderbox on the logs. Any clear ground will do.','Light a fire'],
   catch_fish:['Net a fish at the ripples on the pond. The fish move about: follow the ripples.','Net a fish'],
-  cook_fish:['Cook the fish on your fire on the beach. Burnt it? Net another and try again.','Cook the fish'],
+  cook_fish:['Cook the fish on your fire. Burnt out? Light another anywhere. Burnt the fish? Net another and try again.','Cook the fish'],
   bake_bread:['In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.','Bake bread'],
   learn_quests:['Visit the Quest Lodge and study the quest board.','Study the quest board'],
   descend_cavern:['At the Quarry Gate, climb down the shaft ladder to the ore workings.','Climb down the shaft'],
@@ -52,8 +52,29 @@ var HolmIslandCurriculum=(function(){
   Tutorial.notify=function(ev,match){
    var before=this.step,cur=this.steps[before];var r=notify.apply(this,arguments);
    if(cur&&this.step>before&&this.completedLessonIds.indexOf(cur.id)<0)this.completedLessonIds.push(cur.id);
+   if(cur&&this.step>before)try{movingOn(cur.id)}catch(e){}
    return r};
   return true;
+ }
+ // owner review 4 (2026-09-27): "some sort of notification to move on to the next spot". When the last lesson of a
+ // tutor's area is done, the objective box turns to MOVING ON for a few seconds and the chat says whose lessons are done
+ // and where to go next (the arrow is already on the next tutor), the way the 2004 island moved you along.
+ var NEXT={wenna:'Next, Wenna at the survival camp, west of the Guide House. Out the back door and along the path.',
+  hettie:'Next, Cook Hettie in the bakehouse, across the creek.',ansel:'Next, Loremaster Ansel in the Quest Lodge.',
+  durgin:'Next, the Quarry Gate: climb down the shaft ladder to Foreman Durgin.',corrick:'Next, Warden Corrick in the Warden\'s Keep court.',
+  maud:'Next, Teller Maud in the Holm Bank.',ilse:'Next, Magister Ilse at the Mage Tower.',aldous:'Next, Keeper Aldous at Lastlight, out on the point.'};
+ var moveT=null;
+ function ownerOf(id){if(typeof HolmIslandTutors==='undefined')return null;return HolmIslandTutors.cast().filter(function(c){return c.lessons.indexOf(id)>=0})[0]||null}
+ function movingOn(doneId){
+  if(Tutorial.complete)return null;var nx=Tutorial.steps[Tutorial.step],a=ownerOf(doneId),b=nx&&ownerOf(nx.id);if(!a||!b||a.id===b.id)return null;
+  var line=(a.id==='bram'?'Guide Bram has shown you the island.':'You have finished '+a.name+'\'s lessons.')+' '+(NEXT[b.id]||('Next, '+b.name+'.'))+' Follow the arrow.';
+  if(typeof UI!=='undefined')UI.chat(line,'sys');
+  if(typeof document!=='undefined'){var el=document.getElementById('objective'),txt=document.getElementById('obj-text'),lab=el&&el.querySelector?el.querySelector('.obj-label'):null;
+   if(el&&txt){if(document.createElement&&document.head&&!document.getElementById('holm-moving-on-style')){var s=document.createElement('style');s.id='holm-moving-on-style';
+     s.textContent='@keyframes holmMoveOn{0%,100%{box-shadow:0 0 0 0 rgba(255,215,64,0)}50%{box-shadow:0 0 0 3px rgba(255,215,64,.95)}}#objective.holm-moving-on{animation:holmMoveOn 1.1s ease-in-out 4}#objective.holm-moving-on .obj-label{color:#ffd740}';document.head.appendChild(s)}
+    el.style.display='block';if(el.classList)el.classList.add('holm-moving-on');if(lab){if(!lab.dataset.base)lab.dataset.base=lab.textContent;lab.textContent='— MOVING ON —'}txt.textContent=line;
+    if(typeof setTimeout==='function'){if(moveT)clearTimeout(moveT);moveT=setTimeout(function(){if(el.classList)el.classList.remove('holm-moving-on');if(lab&&lab.dataset.base)lab.textContent=lab.dataset.base;try{Tutorial.banner()}catch(e){}},9000)}}}
+  return {from:a.id,to:b.id,line:line};
  }
  // arrow targets once the island's buildings and lesson objects exist (called by HolmArrivalQA after they load)
  function bind(api){
@@ -62,6 +83,7 @@ var HolmIslandCurriculum=(function(){
    if(w.object){var o=typeof scene!=='undefined'&&scene.getObjectByName(w.object);if(o){var v=new THREE.Vector3();o.getWorldPosition(v);p={x:v.x,z:v.z}}}
    else if(w.building){var st=api.qaStance(w.building[0],w.building[1]);if(st)p={x:st.x,z:st.z}}
    else if(w.arrival){var a=api.arrivalStance&&api.arrivalStance(w.arrival);if(a)p={x:a.x,z:a.z}}
+   else if(w.world)p={x:w.world[0],z:w.world[1]};
    if(p){s.target=p;n++}});
   try{if(typeof GuideArrow!=='undefined'&&Tutorial.banner)Tutorial.banner()}catch(e){}
   return n;
@@ -98,6 +120,6 @@ var HolmIslandCurriculum=(function(){
   var go=function(){WorldTravel.go(d.destinationProvider,d.destinationLandmark,{loadingLabel:'Sailing for Hearthmere…',zoneLabel:'Hearthmere',arrivalMessage:'The skiff noses into Hearthmere. Hollow Well Square lies just ahead.'})};
   UI.chat('Tobin pushes off from the pier.','plain');if(typeof HolmIslandFx!=='undefined')HolmIslandFx.sail(go);else go();return true}
  install();installFinish();
- return {board:board,qaGrant:qaGrant,qaSetLedger:qaSetLedger,active:function(){return on},install:install,bind:bind,restore:restore,steps:function(){return Tutorial.steps}};
+ return {movingOn:movingOn,board:board,qaGrant:qaGrant,qaSetLedger:qaSetLedger,active:function(){return on},install:install,bind:bind,restore:restore,steps:function(){return Tutorial.steps}};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandCurriculum;
