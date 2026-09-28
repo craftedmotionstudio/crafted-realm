@@ -11,8 +11,9 @@
  "outBlend": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.blend",
  "outGlb": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb",
  "texReport": ".studio-workspaces/holm-quarry-props-v1/candidates/textures.report.json",
- "changed": "^$",
+ "changed": "^Quarry_(FurnishingMain|FurnishingDressing|UpperFurnishingMain|ServiceBench_Repair|ServiceWinch_Windlass)$",
  "added": "^Quarry_(Upper)?Furnishing[A-Za-z]*Props[A-Za-z]+$",
+ "cutawayParts": "^Quarry_((Upper)?FurnishingProps(?!Hung)[A-Za-z]+|Service(Bench_Repair|Winch_Windlass))$",
  "graph": "holm-quarry-props-navigation-v1",
  "coplanar": "m44",
  "navSpec": "docs/rebuild/holm-overhaul/review4/glazing/quarry.nav.json"

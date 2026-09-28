@@ -1,0 +1,13 @@
+{
+ "model": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb",
+ "building": "quarry",
+ "lift": 0.5,
+ "levels": [
+  -0.1,
+  0
+ ],
+ "pieces": 40,
+ "keep": 40,
+ "cut": 0,
+ "clipped": []
+}

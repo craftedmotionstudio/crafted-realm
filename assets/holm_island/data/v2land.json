@@ -16,19 +16,20 @@
    "measuredAt": "2026-09-27T04:23:42.253Z"
   },
   "quarry": {
-   "graph": "holm-quarry-review4-navigation-v1",
-   "model": ".studio-workspaces/holm-quarry-glazed-review4-v1/candidates/quarry.glb",
+   "graph": "holm-quarry-props-navigation-v1",
+   "model": ".studio-workspaces/holm-quarry-props-v1/candidates/quarry.glb",
    "placement": {
     "x": 36,
     "y": 9.15,
     "z": 33
    },
    "nodes": 110,
-   "modelSha256": "f48836dd7ae828a9a586ba4b52fadb4eb8ff87d0ee7c99645265d40aed940d85",
+   "modelSha256": "9fc93b98937d5a6d01e07b51d9cabe0e22b516469599d373d452b2df5fbf4c93",
    "terrainSha256": "77f59041575ef0e04c813fe46833adb57a947f3b45804cff4120a18263901d3e",
    "unreachableTargets": [],
-   "measuredAt": "2026-09-28T00:36:47.621Z",
-   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/quarry.json); graph identical to holm-quarry-v2land-navigation-v1 apart from the model hash"
+   "measuredAt": "2026-09-28T09:17:13.843Z",
+   "glazing": "owner review 4 (2026-09-27): leaded, tinted glazing (docs/rebuild/holm-overhaul/review4/glazing/quarry.json); graph identical to holm-quarry-v2land-navigation-v1 apart from the model hash",
+   "props": "props pass (2026-09-28): every prop designed again in Blender (tools/blender/build_holm_quarry_props_pass.py, docs/rebuild/holm-overhaul/props-pass/quarry.json); graph identical to holm-quarry-review4-navigation-v1 apart from the model hash"
   },
   "bank": {
    "graph": "holm-bank-props-navigation-v1",
