@@ -14,6 +14,16 @@ models. (See the session discussion on licensing.)
 
 ## Credits (voluntary for CC0, good manners)
 - Character art: **Quaternius** (https://quaternius.com) — free CC0 game assets.
+- Music instrument samples: **FluidR3_GM SoundFont** by Frank Wen, rendered by Benjamin Gleitzman (midi-js-soundfonts), CC BY 3.0, adapted. The compositions are our own.
+
+## Music and sound (recorded 2026-09-28, music-2004-midi)
+
+| Asset / Pack | Files | Source | License | Attribution required? | Notes |
+|---|---|---|---|---|---|
+| FluidR3_GM SoundFont (Frank Wen), pre-rendered to MIDI.js by Benjamin Gleitzman | `assets/audio/gm/*-mp3.js` + `assets/audio/gm/BANK.json` (22 General MIDI instruments) | https://github.com/gleitz/midi-js-soundfonts (`FluidR3_GM/<instrument>-mp3.js`) | **CC BY 3.0** (https://creativecommons.org/licenses/by/3.0/us/) | **Yes**: "FluidR3_GM SoundFont by Frank Wen, rendered by Benjamin Gleitzman (midi-js-soundfonts), CC BY 3.0. Adapted: trimmed, resampled, re-encoded." | **Adapted** by `tools/build_gm_bank.py`: one sample every 3 semitones within each instrument's range, mono, 22,050 Hz, tails trimmed, LAME VBR re-encode. 17 instruments fetched 2026-09-28 (about 2-3 MB each, scratch only). The other 5 came from the repo copies below. The music is our own; only the instrument samples are third-party. |
+| FluidR3_GM (same source, verbatim) | `assets/audio/sf/{flute,cello,orchestral_harp,acoustic_guitar_nylon,string_ensemble_1}-mp3.js` | same as above | **CC BY 3.0** | Yes (same credit line) | Verified 2026-09-28: byte-identical to the FluidR3_GM files once CRLF is normalised. Used by the legacy orchestra (`src/audio_orchestra.js`). |
+| Unknown-provenance 61-note fonts | `assets/audio/sf/{dulcimer,electric_piano_1,pizzicato_strings,recorder,vibraphone}-mp3.js` | not recorded (mono 48 kHz, C2-C7; they match none of FluidR3, MusyngKite or FatBoy) | **Unknown** | ? | **Flag:** used only by legacy tracks (Hearthside, Minstrel's Rest). The 2004 set does not use them. Replace them or trace their source before any distribution. |
+| soundfont-player (danigb) | `assets/audio/soundfont-player.min.js` | https://github.com/danigb/soundfont-player | **MIT** | Yes (keep notice) | Loader used by the legacy orchestra. The 2004 engine (`src/audio_gm2004.js`) has its own sampler. |
 
 ## Code, libraries and ported rules (game server, W1 2026-09-25)
 

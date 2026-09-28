@@ -96,13 +96,21 @@ function analyze(file, opts){
     let t = 0; for (let k = i + f150; k <= i + f400; k++) t += energy[k];
     t /= (f400 - f150 + 1); if (energy[i] > 0){ tr += t / energy[i]; tn++; }
   }
+  // sub-bass share (< 45 Hz) from long FFT windows: rumble no instrument should make
+  let sub = 0, all = 0; const NL = 16384;
+  for (let s = 0; s + NL < w.n; s += Math.max(NL, Math.floor((w.n - NL) / 24))){
+    const re = new Float64Array(NL), im = new Float64Array(NL);
+    for (let i = 0; i < NL; i++) re[i] = ((w.L[s + i] + w.R[s + i]) / 2) * (0.5 - 0.5 * Math.cos(2 * Math.PI * i / (NL - 1)));
+    fft(re, im);
+    for (let k = 1; k < NL / 2; k++){ const p = re[k] * re[k] + im[k] * im[k]; all += p; if (k * w.sr / NL < 45) sub += p; }
+  }
   const out = {
     file: path.basename(file), seconds: +(w.n / w.sr).toFixed(1),
     rmsDb: +(20 * Math.log10(rms + 1e-12)).toFixed(1), peakDb: +(20 * Math.log10(peak + 1e-12)).toFixed(1),
     crestDb: +(20 * Math.log10((peak + 1e-12) / (rms + 1e-12))).toFixed(1),
     centroidHz: Math.round(cenSum / (cenW || 1)), above4k: +(100 * hi4 / (tot || 1)).toFixed(2), above8k: +(100 * hi8 / (tot || 1)).toFixed(3),
     onsetsPerSec: +(onsets.length / (w.n / w.sr)).toFixed(2), attack: +(peakFlux / (meanFlux || 1)).toFixed(2),
-    tail: +(tn ? tr / tn : 0).toFixed(2), width: +(Math.sqrt(side2 / (mid2 || 1))).toFixed(3),
+    tail: +(tn ? tr / tn : 0).toFixed(2), sub45: +(100 * sub / (all || 1)).toFixed(3), width: +(Math.sqrt(side2 / (mid2 || 1))).toFixed(3),
   };
   if (opts && opts.seam){
     const i = Math.round(opts.seam * w.sr), a = Math.round(0.25 * w.sr);
@@ -122,7 +130,7 @@ if (require.main === module){
     else files.push(a);
   }
   const rows = files.map(f => analyze(f, { seam }));
-  const cols = ['file', 'seconds', 'rmsDb', 'crestDb', 'centroidHz', 'above4k', 'above8k', 'onsetsPerSec', 'attack', 'tail', 'width'].concat(seam ? ['seamJump', 'seamStepDb'] : []);
+  const cols = ['file', 'seconds', 'rmsDb', 'crestDb', 'centroidHz', 'above4k', 'above8k', 'onsetsPerSec', 'attack', 'tail', 'sub45', 'width'].concat(seam ? ['seamJump', 'seamStepDb'] : []);
   console.log(cols.join('\t'));
   rows.forEach(r => console.log(cols.map(c => r[c]).join('\t')));
   if (args.length === 1 && fs.statSync(args[0]).isDirectory()) fs.writeFileSync(path.join(args[0], 'analysis.json'), JSON.stringify(rows, null, 1));
