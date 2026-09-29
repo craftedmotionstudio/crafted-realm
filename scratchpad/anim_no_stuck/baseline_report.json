@@ -1,0 +1,1282 @@
+{
+ "at": "2026-09-29T16:25:50.575Z",
+ "base": "http://127.0.0.1:8211",
+ "only": [],
+ "minutes": 12,
+ "limitMs": 1250,
+ "pass": 53,
+ "fail": 15,
+ "results": [
+  {
+   "name": "chop/walk: click a tile mid-chop",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 45,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "walk": "ok"
+   }
+  },
+  {
+   "name": "chop/tutor: click Wenna mid-chop (walk, chat box opens)",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 52,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "chop/tutor: close the chat box",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 53,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "dialogueWasOpen": true
+   }
+  },
+  {
+   "name": "chop/other-tree: click another oak (walk, chop again)",
+   "ok": true,
+   "detail": {
+    "allow": [
+     "chop"
+    ],
+    "since": 50,
+    "saw": [
+     "chop"
+    ],
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "chop:1:loop"
+    ],
+    "action": "gather",
+    "other": "island-lesson-survival-oak-2"
+   }
+  },
+  {
+   "name": "chop/other-tree: then walk off",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 63,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "chop/hit: a 0 splat mid-chop (the guard goes up once, the chop goes on)",
+   "ok": true,
+   "detail": {
+    "allow": [
+     "chop",
+     "block"
+    ],
+    "since": 68,
+    "saw": [
+     "chop",
+     "block"
+    ],
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "chop:1:loop",
+     "block:1:loop"
+    ],
+    "action": "gather"
+   }
+  },
+  {
+   "name": "chop/hit: a 1 splat mid-chop (the flinch, then the chop again)",
+   "ok": false,
+   "detail": {
+    "allow": [
+     "chop",
+     "hit"
+    ],
+    "since": null,
+    "saw": [
+     "chop"
+    ],
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "block:1:loop",
+     "hit:0"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "block:1:loop",
+     "hit:0"
+    ],
+    "log": [
+     [
+      70,
+      "block+chop|0|gather"
+     ],
+     [
+      1337,
+      "block|0|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "chop/hit: then walk off",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "block:1:loop",
+     "hit:0"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "block:1:loop",
+     "hit:0"
+    ],
+    "log": [
+     [
+      72,
+      "block|0|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "chop/die: the death pose owns the body (no chop)",
+   "ok": false,
+   "detail": {
+    "allow": [
+     "death"
+    ],
+    "since": null,
+    "saw": [
+     "death"
+    ],
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "block:1:loop",
+     "hit:0",
+     "death:1"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "block:1:loop",
+     "hit:0",
+     "death:1"
+    ],
+    "log": [
+     [
+      54,
+      "block+death+chop|0|gather"
+     ],
+     [
+      1197,
+      "block+death|0|null"
+     ]
+    ],
+    "dead": true
+   }
+  },
+  {
+   "name": "chop/die: after the respawn",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 50,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "chop/full: a full pack ends the chop",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 51,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "seen": [
+     "chop"
+    ]
+   }
+  },
+  {
+   "name": "chop/felled: the oak falls",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 50,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "felled": true
+   }
+  },
+  {
+   "name": "chop/tab-hidden: back to the tab (the oak fell meanwhile)",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 57,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "hidden": true
+   }
+  },
+  {
+   "name": "chop/tab-hidden: then walk off",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 57,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "chop/run: toggle run mid-chop (the chop goes on)",
+   "ok": true,
+   "detail": {
+    "allow": [
+     "chop"
+    ],
+    "since": 1221,
+    "saw": [
+     "chop"
+    ],
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "chop/run: walk off, toggle run on the way",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 58,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "chop/levelup: a level-up mid-chop (fireworks, the chop goes on)",
+   "ok": true,
+   "detail": {
+    "allow": [
+     "chop"
+    ],
+    "since": 70,
+    "saw": [
+     "chop"
+    ],
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "levelled": true
+   }
+  },
+  {
+   "name": "chop/levelup: then walk off",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 53,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "net/walk: click a tile mid-cast",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 61,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "net/tree: click an oak mid-cast (no net left)",
+   "ok": true,
+   "detail": {
+    "since": 59,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "log": [
+     [
+      59,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "net/tree: then walk off",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 57,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "net/full: the pack fills mid-cast",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 69,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "ended": true
+   }
+  },
+  {
+   "name": "net/moves: the fish move on",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 48,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "ended": true,
+    "chat": [
+     "You catch a mirrorperch.",
+     "The fish have moved on."
+    ]
+   }
+  },
+  {
+   "name": "fire/walk: click a tile mid-kneel",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 53,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "fire/catches: the last log catches (the step aside)",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 47,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "lit": true
+   }
+  },
+  {
+   "name": "cook/walk start",
+   "ok": false,
+   "detail": {
+    "error": "firemake never played",
+    "snap": {
+     "action": null,
+     "target": false,
+     "dead": false,
+     "moving": false,
+     "stray": [],
+     "loopers": [],
+     "locoW": 1,
+     "kinds": {
+      "idle": 1,
+      "walk": 1,
+      "run": 1
+     },
+     "clean": true,
+     "acts": [
+      "idle*:1:loop",
+      "walk*:0:loop",
+      "run*:0:loop"
+     ]
+    }
+   }
+  },
+  {
+   "name": "cook/out start",
+   "ok": false,
+   "detail": {
+    "error": "firemake never played",
+    "snap": {
+     "action": null,
+     "target": false,
+     "dead": false,
+     "moving": false,
+     "stray": [],
+     "loopers": [],
+     "locoW": 1,
+     "kinds": {
+      "idle": 1,
+      "walk": 1,
+      "run": 1
+     },
+     "clean": true,
+     "acts": [
+      "idle*:1:loop",
+      "walk*:0:loop",
+      "run*:0:loop"
+     ]
+    }
+   }
+  },
+  {
+   "name": "cook/full start",
+   "ok": false,
+   "detail": {
+    "error": "firemake never played",
+    "snap": {
+     "action": null,
+     "target": false,
+     "dead": false,
+     "moving": false,
+     "stray": [],
+     "loopers": [],
+     "locoW": 1,
+     "kinds": {
+      "idle": 1,
+      "walk": 1,
+      "run": 1
+     },
+     "clean": true,
+     "acts": [
+      "idle*:1:loop",
+      "walk*:0:loop",
+      "run*:0:loop"
+     ]
+    }
+   }
+  },
+  {
+   "name": "range/walk: click a tile mid-cook at the range",
+   "ok": false,
+   "detail": {
+    "backAfterMs": 1973,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop",
+     "cook_range:0"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:1"
+    ],
+    "log": [
+     [
+      48,
+      "cook_range|0|null"
+     ],
+     [
+      1973,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "range/out: the last fish comes out",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 414,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0"
+    ],
+    "action": null,
+    "done": true
+   }
+  },
+  {
+   "name": "bake/walk: click a tile mid-bake",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 48,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop",
+     "cook_range:0"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "bake/done: the loaf comes out",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 47,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0"
+    ],
+    "action": null,
+    "done": true
+   }
+  },
+  {
+   "name": "mine/walk: click a tile mid-swing",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:1"
+    ],
+    "action": "gather",
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:1"
+    ],
+    "log": [
+     [
+      44,
+      "mine|0|gather"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "mine/empty: the rock is mined out",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 1043,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0"
+    ],
+    "action": null,
+    "gone": true
+   }
+  },
+  {
+   "name": "smelt/walk: click a tile mid-smelt",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:1"
+    ],
+    "action": "smelt",
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:1"
+    ],
+    "log": [
+     [
+      44,
+      "smelt|0|smelt"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "smelt/out: the last ore is smelted",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 50,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0"
+    ],
+    "action": null,
+    "done": true
+   }
+  },
+  {
+   "name": "smith/walk: click a tile mid-hammer",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:1"
+    ],
+    "action": "smith",
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:1"
+    ],
+    "log": [
+     [
+      49,
+      "smith|0|smith"
+     ],
+     [
+      2212,
+      "|0|smith"
+     ],
+     [
+      2247,
+      "|1|smith"
+     ],
+     [
+      2365,
+      "smith|0|smith"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "smith/out: the last bar is used",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 52,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null,
+    "done": true
+   }
+  },
+  {
+   "name": "pickup: walk off mid-way to the item",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 48,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "pickup: the item is taken",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 50,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": "pickup",
+    "got": false,
+    "at": [
+     44.5,
+     98.5
+    ]
+   }
+  },
+  {
+   "name": "bank: the bank opens",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 47,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null,
+    "open": true
+   }
+  },
+  {
+   "name": "bank: closed",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 49,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "bank: then walk off",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 46,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "ladder: after the climb clip",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 49,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0",
+     "climb:0"
+    ],
+    "action": null,
+    "up": true,
+    "seen": [
+     "climb"
+    ]
+   }
+  },
+  {
+   "name": "ladder: climb down, walk off at once",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 71,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0",
+     "climb:0"
+    ],
+    "action": null,
+    "walk": "ok"
+   }
+  },
+  {
+   "name": "shaft: climb down the rope, walk off at once",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 46,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0",
+     "climb:0"
+    ],
+    "action": null,
+    "down": true,
+    "walk": "no open tile to walk to"
+   }
+  },
+  {
+   "name": "melee-slash: walk off mid-fight (after the guard went up)",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "attack_slash:0",
+     "block:1:loop"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "attack_slash:0",
+     "block:1:loop"
+    ],
+    "log": [
+     [
+      50,
+      "attack_slash+block|0|null"
+     ],
+     [
+      248,
+      "block|0|null"
+     ]
+    ],
+    "seen": [
+     "attack_slash",
+     "block"
+    ]
+   }
+  },
+  {
+   "name": "melee-stab: walk off mid-fight (after the guard went up)",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "block:1:loop",
+     "attack_stab:0",
+     "hit:0"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "block:1:loop",
+     "attack_stab:0",
+     "hit:0"
+    ],
+    "log": [
+     [
+      47,
+      "block|0|null"
+     ],
+     [
+      2450,
+      "block+hit|0|null"
+     ],
+     [
+      2846,
+      "block|0|null"
+     ]
+    ],
+    "seen": [
+     "block"
+    ]
+   }
+  },
+  {
+   "name": "melee-crush: walk off mid-fight (after the guard went up)",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "block:1:loop",
+     "attack_crush:0"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "block:1:loop",
+     "attack_crush:0"
+    ],
+    "log": [
+     [
+      46,
+      "block|0|null"
+     ]
+    ],
+    "seen": [
+     "block"
+    ]
+   }
+  },
+  {
+   "name": "melee-kill: the foe dies",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 49,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "attack_slash:0"
+    ],
+    "action": null,
+    "dead": true
+   }
+  },
+  {
+   "name": "melee-eat: eat mid-fight, then walk off",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "attack_slash:0",
+     "block:1:loop"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "attack_slash:0",
+     "block:1:loop"
+    ],
+    "log": [
+     [
+      44,
+      "block|0|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "bow: walk off mid-fight",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 47,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop",
+     "bow:0"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "cast: a single Gale Dart",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 889,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cast:0"
+    ],
+    "action": null,
+    "spell": true,
+    "cast": true
+   }
+  },
+  {
+   "name": "cast: walk off mid-cast",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 45,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop",
+     "cast:0"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "melee-die: after dying mid-fight and the respawn",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 49,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "emote/done: Dance plays out",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 51,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "clicked": false,
+    "played": false
+   }
+  },
+  {
+   "name": "emote/walk: walk mid-emote",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 45,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "emote/chop: Wave mid-chop (one of them, never both stuck)",
+   "ok": true,
+   "detail": {
+    "allow": [
+     "chop",
+     "emote_wave"
+    ],
+    "since": 50,
+    "saw": [
+     "chop"
+    ],
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "chop:1:loop"
+    ],
+    "action": "gather"
+   }
+  },
+  {
+   "name": "emote/chop: then walk off",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 43,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "emote/tab-hidden: the emote ended while the tab was hidden",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 49,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null,
+    "hidden": true
+   }
+  },
+  {
+   "name": "page errors (default)",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "name": "gait/chop: switch walk / run / idle presets mid-chop (no orphaned gait action)",
+   "ok": true,
+   "detail": {
+    "allow": [
+     "chop"
+    ],
+    "since": 50,
+    "saw": [
+     "chop"
+    ],
+    "final": [
+     "idle_B*:0:loop",
+     "walk_G*:0:loop",
+     "run_H*:0:loop",
+     "chop:1:loop"
+    ],
+    "action": "gather",
+    "playing": {
+     "walk": "walk_G",
+     "run": "run_H",
+     "idle": "idle_B"
+    }
+   }
+  },
+  {
+   "name": "gait/walk: switch presets mid-walk",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 49,
+    "final": [
+     "idle_B*:0:loop",
+     "walk_H*:1:loop",
+     "run_G*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "gait/shipped: back to the shipped clips",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 42,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "gait/shipped: then walk off",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 46,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop"
+    ],
+    "action": null
+   }
+  },
+  {
+   "name": "page errors (&gait=panel)",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "name": "mainland/chop: a tree",
+   "ok": false
+  },
+  {
+   "name": "page errors (default)",
+   "ok": true,
+   "detail": []
+  }
+ ]
+}

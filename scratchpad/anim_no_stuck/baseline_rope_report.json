@@ -1,0 +1,64 @@
+{
+ "at": "2026-09-29T17:36:11.266Z",
+ "base": "http://127.0.0.1:8211",
+ "only": [
+  "rope/after"
+ ],
+ "minutes": 1,
+ "limitMs": 1250,
+ "pass": 4,
+ "fail": 1,
+ "results": [
+  {
+   "name": "rope/after-fish-cook: a fish netted",
+   "ok": true
+  },
+  {
+   "name": "rope/after-fish-cook: a fish cooked (one raw fish left in the pack)",
+   "ok": true,
+   "detail": {
+    "lit": true,
+    "cooked": true
+   }
+  },
+  {
+   "name": "rope/after-fish-cook: the knot plays with nothing in the hand (no raw fish)",
+   "ok": false,
+   "detail": {
+    "tied": true,
+    "click": "ok",
+    "held": [
+     "raw_perch"
+    ],
+    "knotMs": 1750
+   }
+  },
+  {
+   "name": "rope/after-fish-cook: after the knot",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 62,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0"
+    ],
+    "action": null,
+    "held": null,
+    "weaponShown": null,
+    "log": [
+     [
+      62,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "page errors (default)",
+   "ok": true,
+   "detail": []
+  }
+ ]
+}

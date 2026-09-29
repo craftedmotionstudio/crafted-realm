@@ -1,0 +1,746 @@
+{
+ "at": "2026-09-29T16:32:46.895Z",
+ "base": "http://127.0.0.1:8211",
+ "only": [
+  "cook",
+  "range",
+  "mine",
+  "smelt",
+  "smith",
+  "shaft",
+  "pickup",
+  "emote",
+  "mainland"
+ ],
+ "minutes": 4.9,
+ "limitMs": 1250,
+ "pass": 24,
+ "fail": 8,
+ "results": [
+  {
+   "name": "cook/walk: click a tile mid-cook",
+   "ok": false,
+   "detail": {
+    "backAfterMs": 1652,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop",
+     "cook:0"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0"
+    ],
+    "log": [
+     [
+      41,
+      "cook|0|null"
+     ],
+     [
+      1614,
+      "|0|null"
+     ],
+     [
+      1652,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "cook/out: the last fish is cooked",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 49,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      49,
+      "|1|null"
+     ]
+    ],
+    "done": true
+   }
+  },
+  {
+   "name": "cook/full: no room for the cooked fish",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 369,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      51,
+      "cook|0|null"
+     ],
+     [
+      369,
+      "|1|null"
+     ]
+    ],
+    "done": true,
+    "chat": [
+     "Your pack is too full to cook anything."
+    ]
+   }
+  },
+  {
+   "name": "range/walk: click a tile mid-cook at the range",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 897,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      54,
+      "cook_range|0|null"
+     ],
+     [
+      844,
+      "|0|null"
+     ],
+     [
+      897,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "range/out: the last fish comes out",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 327,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      68,
+      "cook_range|0|null"
+     ],
+     [
+      327,
+      "|1|null"
+     ]
+    ],
+    "done": true
+   }
+  },
+  {
+   "name": "mine/walk: click a tile mid-swing",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 696,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      54,
+      "mine|0|null"
+     ],
+     [
+      648,
+      "|0|null"
+     ],
+     [
+      696,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "mine/empty: the rock is mined out",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 1014,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      46,
+      "mine|0|null"
+     ],
+     [
+      1014,
+      "|1|null"
+     ]
+    ],
+    "gone": true
+   }
+  },
+  {
+   "name": "smelt/walk: click a tile mid-smelt",
+   "ok": false,
+   "detail": {
+    "backAfterMs": 2056,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0"
+    ],
+    "log": [
+     [
+      41,
+      "smelt|0|null"
+     ],
+     [
+      2006,
+      "|0|null"
+     ],
+     [
+      2056,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "smelt/out: the last ore is smelted",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 68,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      68,
+      "|1|null"
+     ]
+    ],
+    "done": true
+   }
+  },
+  {
+   "name": "smelt/dialog: click the furnace mid-smelt (its chat box opens)",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 683,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      50,
+      "smelt|0|null"
+     ],
+     [
+      683,
+      "|1|null"
+     ]
+    ],
+    "open": true
+   }
+  },
+  {
+   "name": "smelt/dialog: close the chat box",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 50,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      50,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "smith/walk: click a tile mid-hammer",
+   "ok": false,
+   "detail": {
+    "backAfterMs": 1934,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:1"
+    ],
+    "log": [
+     [
+      48,
+      "smith|0|null"
+     ],
+     [
+      1934,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "smith/out: the last bar is used",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 55,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      55,
+      "|1|null"
+     ]
+    ],
+    "done": true
+   }
+  },
+  {
+   "name": "pickup: walk off mid-way to the item",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 52,
+    "final": [
+     "idle*:0.665:loop",
+     "walk*:0.335:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      52,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "pickup: the item is taken",
+   "ok": true,
+   "detail": {
+    "at": [
+     40.5,
+     94.5
+    ]
+   }
+  },
+  {
+   "name": "pickup: after taking it",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 44,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      44,
+      "|1|null"
+     ]
+    ],
+    "got": true
+   }
+  },
+  {
+   "name": "shaft: climb down the rope, walk off at once",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 48,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      48,
+      "|1|null"
+     ]
+    ],
+    "down": false,
+    "seen": [],
+    "walk": "at once"
+   }
+  },
+  {
+   "name": "emote/done: the Dance button plays emote_dance",
+   "ok": true,
+   "detail": {
+    "clicked": true
+   }
+  },
+  {
+   "name": "emote/done: Dance plays out",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 51,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0",
+     "emote_dance:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      51,
+      "|1|null"
+     ]
+    ],
+    "clicked": true,
+    "played": true
+   }
+  },
+  {
+   "name": "emote/walk: Cheer plays",
+   "ok": true
+  },
+  {
+   "name": "emote/walk: walk mid-emote",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 48,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop",
+     "cook:0",
+     "cook_range:0",
+     "mine:0",
+     "smelt:0",
+     "smith:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      48,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "emote/chop: the Wave button was clicked",
+   "ok": true
+  },
+  {
+   "name": "emote/chop: Wave mid-chop (one of them, never both stuck)",
+   "ok": false,
+   "detail": {
+    "allow": [
+     "chop",
+     "emote_wave"
+    ],
+    "since": 1325,
+    "saw": [
+     "emote_wave"
+    ],
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "emote_wave:0"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "emote_wave:0"
+    ],
+    "log": [
+     [
+      49,
+      "emote_wave|0|null"
+     ],
+     [
+      1291,
+      "|0|null"
+     ],
+     [
+      1325,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "emote/chop: then walk off",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 49,
+    "final": [
+     "idle*:0:loop",
+     "walk*:1:loop",
+     "run*:0:loop",
+     "emote_wave:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      49,
+      "|1|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "emote/tab-hidden: Think plays",
+   "ok": true
+  },
+  {
+   "name": "emote/tab-hidden: the emote ended while the tab was hidden",
+   "ok": true,
+   "detail": {
+    "backAfterMs": 50,
+    "final": [
+     "idle*:1:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "emote_think:0"
+    ],
+    "action": null,
+    "log": [
+     [
+      50,
+      "|1|null"
+     ]
+    ],
+    "hidden": true
+   }
+  },
+  {
+   "name": "page errors (default)",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "name": "mainland/chop: walk off mid-chop after the ferry",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "chop:1:loop"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "chop:1:loop"
+    ],
+    "log": [
+     [
+      43,
+      "chop|0|null"
+     ]
+    ],
+    "tree": {
+     "name": "qa-anim-tree",
+     "at": [
+      3.5,
+      18.5
+     ],
+     "holm": true
+    },
+    "walked": true,
+    "provider": "veyhollow-commons-v2"
+   }
+  },
+  {
+   "name": "mainland/guard: a 0 splat, the guard comes down",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "chop:1:loop",
+     "block:1:loop"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "chop:1:loop",
+     "block:1:loop"
+    ],
+    "log": [
+     [
+      49,
+      "chop+block|0|null"
+     ]
+    ],
+    "seen": [
+     "chop",
+     "block"
+    ]
+   }
+  },
+  {
+   "name": "mainland/emote: Cheer clicked on the move plays once stopped",
+   "ok": false,
+   "detail": {
+    "clicked": true,
+    "played": false
+   }
+  },
+  {
+   "name": "mainland/emote: then back to idle",
+   "ok": false,
+   "detail": {
+    "backAfterMs": null,
+    "final": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "chop:1:loop",
+     "block:1:loop"
+    ],
+    "action": null,
+    "lastBad": [
+     "idle*:0:loop",
+     "walk*:0:loop",
+     "run*:0:loop",
+     "chop:1:loop",
+     "block:1:loop"
+    ],
+    "log": [
+     [
+      48,
+      "chop+block|0|null"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "page errors (default)",
+   "ok": true,
+   "detail": []
+  }
+ ]
+}

@@ -183,8 +183,11 @@ async function startRangeFish(page,fish){await pack(page,[['raw_perch',fish||3]]
 async function startBake(page){await pack(page,[['bread_dough',1]],true);await toBakehouse(page);await clickInventory(page,'bread_dough');const c=await clickService(page,'Cook');if(c.error)return c;
   return await waitClip(page,'cook_range',20000)?{ok:true}:{error:'bake never played',snap:await snap(page)}}
 async function liveRock(page){return page.evaluate(()=>['island-lesson-cavern-copper-1','island-lesson-cavern-copper-2','island-lesson-cavern-tin-1','island-lesson-cavern-tin-2'].find(n=>{const o=scene.getObjectByName(n);return o&&o.userData.alive!==false}))}
-async function startMine(page){await pack(page,[['pickaxe',1]],true);const r=await liveRock(page);if(!r)return {error:'no rock'};await placeByObj(page,r,3);const c=await clickNamed(page,r);if(c.error)return c;
-  return await waitClip(page,'mine',30000)?{ok:true,rock:r}:{error:'mine never played',snap:await snap(page)}}
+// a rock just mined out comes back after its respawn: a player who sees no swing clicks another rock
+async function startMine(page){await pack(page,[['pickaxe',1]],true);let last=null;
+  for(let k=0;k<3;k++){const r=await liveRock(page);if(!r){await sleep(3000);continue}await placeByObj(page,r,3);const c=await clickNamed(page,r);if(c.error){last=c;continue}
+    if(await waitClip(page,'mine',15000))return {ok:true,rock:r};last={error:'mine never played',rock:r,chat:await L.lastChat(page,3),snap:await snap(page)}}
+  return last||{error:'no rock'}}
 async function startSmelt(page,n){await pack(page,[['copper_ore',n||3],['tin_ore',n||3]],true);await placeByObj(page,'island-lesson-furnace',3);const c=await clickNamed(page,'island-lesson-furnace');if(c.error)return c;
   await clickButtonText(page,'#dialogue-modal button','Smelt a Bronze bar.');
   return await waitClip(page,'smelt',20000)?{ok:true}:{error:'smelt never played',snap:await snap(page)}}
@@ -298,9 +301,11 @@ C('mine/walk',async p=>{await levels(p,{Mining:40});const s=await startMine(p);i
 C('mine/empty',async p=>{await levels(p,{Mining:60});const s=await startMine(p);if(s.error)return record('mine/empty start',false,s);
   const gone=await waitFor(p,r=>scene.getObjectByName(r).userData.alive===false||!Player.action,s.rock,90000);expectClean('mine/empty: the rock is mined out',await watch(p),{gone})});
 // a sword in hand while mining: the pick takes the hand for the swings, the sword comes back after (HolmSkillTools)
-C('mine/sword-back',async p=>{await levels(p,{Mining:40,Attack:5});await pack(p,[['bronze_sword',1]]);await clickInventory(p,'bronze_sword');
-  const s=await startMine(p);if(s.error)return record('mine/sword-back start',false,s);await sleep(700);const mid=await snap(p);
-  record('mine/sword-back: mid-swing the pick is in the hand and the sword put away',mid.held==='pickaxe'&&mid.weaponShown===false,{held:mid.held,weaponShown:mid.weaponShown});
+C('mine/sword-back',async p=>{await levels(p,{Mining:1,Attack:5});await pack(p,[['bronze_sword',1]]);await clickInventory(p,'bronze_sword');
+  // while the swings go on (a rock can be mined out on any ore: then the player clicks a rock again)
+  let s=null,mid=null;for(let k=0;k<3&&!(mid&&mid.held==='pickaxe');k++){s=await startMine(p);if(s.error)return record('mine/sword-back start',false,s);
+  mid=await p.evaluate(async()=>{let seen=null;for(let i=0;i<60&&!seen;i++){const x=__A.snap();if(x.action==='gather'&&x.held==='pickaxe'&&x.weaponShown===false)seen=x;else await new Promise(r=>setTimeout(r,50))}return seen||__A.snap()})}
+  record('mine/sword-back: mid-swing the pick is in the hand and the sword put away',mid.held==='pickaxe'&&mid.weaponShown===false,{held:mid.held,weaponShown:mid.weaponShown,action:mid.action,rock:s.rock,chat:await L.lastChat(p,3)});
   await walkAway(p);expectClean('mine/sword-back: walk off, the sword is back in the hand',await watch(p))});
 C('smelt/walk',async p=>{const s=await startSmelt(p,3);if(s.error)return record('smelt/walk start',false,s);
   await walkAway(p);expectClean('smelt/walk: click a tile mid-smelt',await watch(p))});
