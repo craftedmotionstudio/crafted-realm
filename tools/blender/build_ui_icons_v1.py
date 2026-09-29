@@ -1181,6 +1181,77 @@ I('pvp_skull', 'pvp', pk_skull, [O('misc/pk_skull.png', 22), O('misc/pk_skull_32
 I('pvp_scarlands', 'pvp', scar_skull, [O('misc/scarlands.png', 28)], el=10)
 I('pvp_multi', 'pvp', crossed_swords, [O('misc/multi_combat.png', 26)], el=8)
 
+# -- minimap (holm-minimap-2004, owner 2026-09-29: "look more like old school RuneScape"): the map function icons, each one
+#    bold prop over a round coloured badge with a thin iron rim, so it reads on any ground at 17 px (bank, furnace, anvil,
+#    range, fishing, quest, mining, woodcutting, combat, magic, ferry, beacon), and the map scenery the terrain wears (a leafy
+#    tree, a pine, a rock). Our own props and badges: the function of 2004's map icons, none of its sprites.
+def p_badge(m, face, rim='iron_dk', r=.5):
+    m.ext(circ(24, r), .08, face, rim, bev=.04, y=.16)
+    m.ring2((0, .1, 0), r + .03, r - .03, .06, rim, n=24)
+def p_furnace(m):
+    m.box((0, 0, -.12), (.44, .3, .36), 'stone', .04)
+    m.box((.2, 0, .34), (.13, .13, .16), 'stone_dk', .02)
+    m.ext([(-.24, -.46), (.24, -.46), (.24, -.12), (.15, .0), (0, .05), (-.15, .0), (-.24, -.12)], .04, 'black', y=-.31)
+    p_flame(m, .42, (0, -.44), y=-.34)
+def p_range_pot(m):
+    k = m.mark(); p_pot(m); m.tf(k, T(0, 0, .2) @ S(.8))
+    p_flame(m, .46, (-.18, -.6), y=-.3); p_flame(m, .4, (.18, -.56), y=-.32)
+def p_pick_big(m):
+    m.cyl((0, 0, -.62), (0, 0, .5), .08, 'wood_dk', n=6, caps='wood_dk')
+    pts = [(-.6, 0, .26), (-.34, 0, .48), (0, 0, .58), (.34, 0, .48), (.6, 0, .26)]
+    m.ptube(pts, [.02, .09, .12, .09, .02], 6, 'iron', flat=.8, cap0='iron', cap1='iron')
+    m.box((0, 0, .54), (.1, .1, .1), 'iron_dk')
+def p_axe_big(m):
+    m.cyl((0, 0, -.62), (0, 0, .56), .07, 'wood', n=6, caps='wood_dk')
+    m.ext([(.02, .56), (.02, .12), (.26, .04), (.46, .14), (.52, .36), (.46, .6), (.26, .68)], .1, 'steel', 'steel_dk', bev=.03)
+def p_swords_bold(m):
+    for a in (-45, 45):
+        k = m.mark(); p_sword(m, L=1.1, w=.12, gw=.3); m.tf(k, T(0, .05 if a > 0 else 0, 0) @ rotY(a) @ T(0, 0, -.55))
+def p_sparkle(m):
+    m.ext(star2(4, .62, .15), .06, 'e_white', 'steel', y=-.05)
+    m.ext(star2(4, .34, .09, a0=math.pi / 4 + math.pi / 2), .05, 'e_blue', y=-.1)
+    for (x, z, s) in ((.4, .42, .13), (-.44, -.38, .1)): m.ext(star2(4, s, s * .3, (x, z)), .04, 'e_yellow', y=-.12)
+def p_anvil_plain(m):
+    prof = [(-.62, .3), (-.3, .2), (-.3, .36), (.44, .36), (.44, .16), (.2, .1), (.16, -.12), (.32, -.22), (.36, -.34), (-.3, -.34), (-.26, -.22), (-.1, -.12), (-.14, .1), (-.3, .14)]
+    m.ext(prof, .34, 'steel', 'iron', bev=.035)
+    m.ext(rrect(-.28, .3, .4, .36, .01, 1), .02, 'white', y=-.19)
+def p_boat(m):
+    m.ext([(-.62, -.1), (.62, -.1), (.44, -.38), (-.38, -.38), (-.54, -.22)], .3, 'wood', 'wood_dk', bev=.03)
+    m.ext(rrect(-.64, -.14, .64, -.08, .02, 1), .32, 'wood_dk', y=-.02)
+    m.cyl((0, 0, -.1), (0, 0, .64), .045, 'wood_dk', n=5)
+    m.ext([(.07, .0), (.07, .6), (.5, .04)], .03, 'cream', 'parch_dk', y=-.05)
+    m.ext([(-.05, .06), (-.05, .48), (-.38, .08)], .03, 'cream', 'parch_dk', y=-.05)
+def p_lighthouse(m):
+    for k, (z0, z1, r0, r1) in enumerate(((-.62, -.34, .3, .27), (-.34, -.06, .27, .24), (-.06, .22, .24, .21))):
+        m.lathe([(r0, z0), (r1, z1)], 10, 'white' if k % 2 == 0 else 'cloth_red', cap0='stone_dk')
+    m.lathe([(.28, .22), (.28, .27), (.18, .27)], 10, 'iron_dk', cap1='iron_dk')
+    m.cyl((0, 0, .27), (0, 0, .47), .16, 'e_yellow', n=8)
+    m.lathe([(.22, .47), (.0, .66)], 10, 'iron_dk', cap0='iron_dk')
+    for a in (0, 180): k = m.mark(); m.ext([(.12, -.04), (.52, -.13), (.52, .13), (.12, .04)], .02, 'e_fire_core', y=-.1); m.tf(k, T(0, 0, .37) @ rotY(a))
+def ms_tree(m):
+    m.cyl((0, 0, -.55), (0, 0, -.1), .08, 'wood_dk', n=6)
+    m.hull(blob((0, 0, .1), (.46, .46, .38), 11, n=18), 'green_dk')
+    m.hull(blob((-.1, -.14, .24), (.3, .28, .24), 12, n=12), 'green')
+def ms_pine(m):
+    m.cyl((0, 0, -.58), (0, 0, -.36), .07, 'wood_dk', n=6)
+    m.lathe([(.4, -.38), (.0, .1)], 9, 'green_dk', cap0='green_dk')
+    m.lathe([(.32, -.08), (.0, .38)], 9, 'green_dk', cap0='green_dk', phase=.3)
+    m.lathe([(.22, .18), (.0, .6)], 9, 'green', cap0='green', phase=.6)
+def map_icon(sym, face, s=.8, dy=0.0):
+    def f(m):
+        p_badge(m, face); k = m.mark(); sym(m); m.tf(k, T(0, -.2, dy) @ S(s))
+    return f
+MAP_ICONS = (('bank', lambda m: p_coins(m, 4, 'gold'), 'slate', .86, .04), ('furnace', p_furnace, 'red_dk', .9, 0),
+             ('anvil', p_anvil_plain, 'wood', .86, .06), ('range', p_range_pot, 'leather_dk', .82, .04), ('fishing', p_fish, 'blue_dk', .8, 0),
+             ('quest', p_scroll, 'wood_dk', .8, .02), ('mining', lambda m: place(m, p_pick_big, rotY(-35)), 'sand', .6, -.02), ('woodcut', lambda m: place(m, p_axe_big, rotY(-30)), 'green_dk', .76, 0),
+             ('combat', p_swords_bold, 'orb_red', .66, 0), ('magic', p_sparkle, 'purple', .8, 0),
+             ('ferry', p_boat, 'teal', .8, .04), ('beacon', p_lighthouse, 'black', .82, 0))
+for nm, sym, face, s, dy in MAP_ICONS:
+    I('map_' + nm, 'map', map_icon(sym, face, s, dy), [O('map/%s.png' % nm, 17)], el=4, colors=16, span=1.1)
+I('map_tree', 'map', ms_tree, [O('map/tree.png', 9)], el=40, style='mapscene', colors=6)
+I('map_pine', 'map', ms_pine, [O('map/pine.png', 9)], el=30, style='mapscene', colors=6)
+I('map_rock', 'map', lambda m: p_rocks(m, 1.0, 'stone', 5), [O('map/rock.png', 8)], el=40, style='mapscene', colors=5)
+
 # ------------------------------------------------------------------ scene + render
 scene = bpy.context.scene
 for eng in ('BLENDER_EEVEE_NEXT', 'BLENDER_EEVEE'):

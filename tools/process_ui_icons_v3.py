@@ -7,7 +7,7 @@ output of every icon:
   3. a limited palette per icon (median-cut, no dithering) so the shading bands like hand-placed pixels
   4. a 1 px warm-black outline around the silhouette and a 1 px hard drop shadow down-right
 Finishes: 'sprite' (outline + shadow), 'flat' (hard alpha only: orb fills), 'ghost' (dark translucent silhouette for empty
-equipment slots). Output: assets/icons/ui/v3/<file> + assets/icons/ui/v3/manifest.json, and a contact sheet
+equipment slots), 'mapscene' (outline, no shadow: minimap trees and rocks, which turn with the map). Output: assets/icons/ui/v3/<file> + assets/icons/ui/v3/manifest.json, and a contact sheet
 scratchpad/holm_ui_v3/icons_sheet.png (every icon at 1x and 3x on the panel colours) for review.
 Run: python tools/process_ui_icons_v3.py [--only name1,name2]
 """
@@ -59,7 +59,7 @@ def shift(m, dy, dx):
     o[max(dy, 0):h + min(dy, 0), max(dx, 0):w + min(dx, 0)] = m[max(-dy, 0):h + min(-dy, 0), max(-dx, 0):w + min(-dx, 0)]
     return o
 def finish(a, w, h, style, colors):
-    pad = {'sprite': (1, 1, 2, 2), 'flat': (0, 0, 0, 0), 'ghost': (1, 1, 1, 1)}[style]   # left, top, right, bottom
+    pad = {'sprite': (1, 1, 2, 2), 'flat': (0, 0, 0, 0), 'ghost': (1, 1, 1, 1), 'mapscene': (1, 1, 1, 1)}[style]   # left, top, right, bottom
     iw, ih = w - pad[0] - pad[2], h - pad[1] - pad[3]
     a = trim(a); small = fit_box(a, iw, ih)
     sh, sw = small.shape[:2]
@@ -82,13 +82,14 @@ def finish(a, w, h, style, colors):
     rgb = np.clip(g + (rgb - g) * 1.12, 0, 1)
     rgb = quantize(rgb, mask, colors)
     out = np.zeros((h, w, 4)); out[..., :3] = rgb; out[..., 3] = mask.astype(float)
-    if style == 'sprite':
+    if style in ('sprite', 'mapscene'):   # mapscene: the minimap's scenery (trees, rocks) turns with the map, so it gets no drop shadow
         m = mask
         ring = (shift(m, 1, 0) | shift(m, -1, 0) | shift(m, 0, 1) | shift(m, 0, -1)) & ~m
         out[ring, :3] = INK / 255.0; out[ring, 3] = 1
         body = m | ring
-        sh = shift(body, 1, 1) & ~body
-        out[sh] = np.array(SHADOW) / 255.0
+        if style == 'sprite':
+            sh = shift(body, 1, 1) & ~body
+            out[sh] = np.array(SHADOW) / 255.0
     return (out * 255).round().astype(np.uint8)
 
 man = json.loads((RAW / 'manifest.json').read_text())

@@ -893,9 +893,10 @@ function animate(){
   if(typeof HolmProvingGround!=='undefined') HolmProvingGround.update();
   if(typeof LevelUpFX!=='undefined') LevelUpFX.update(dt);   // level-up fireworks round the adventurer (src/fx_levelup.js)
   if(typeof LeafFall!=='undefined') LeafFall.update(dt);     // the odd oak leaf drifting down (src/fx_leaves.js)
-  // Dynamic map paint is bounded; terrain and resource layers cache independently.
+  // Dynamic map paint is bounded; terrain and resource layers cache independently. 30 a second (was 12.5), so the dots
+  // glide with the actors and the map turns smoothly with the camera (holm-minimap-2004); a paint costs well under 1 ms.
   const now=performance.now();
-  if(now-_minimapPaintAt>=80){ _minimapPaintAt=now; drawMinimap(); }
+  if(now-_minimapPaintAt>=33){ _minimapPaintAt=now; drawMinimap(); }
   const mapEnd=performance.now();
   // classic pixels (look pass 2): the world at 2004 size, scaled up with hard pixels, when the option is on
   if(!(typeof ClassicPixels!=='undefined'&&ClassicPixels.render(renderer,scene,camera))) renderer.render(scene, camera);
