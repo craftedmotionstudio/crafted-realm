@@ -102,17 +102,19 @@ var HolmArrivalWater=(function(){
    material.color.setHex(0xffffff);material.opacity=.98;
    material.onBeforeCompile=function(shader){
     shader.uniforms.holmWaterTime=time;shader.uniforms.holmWaterMap={value:osWater};
+    // look v4 "bolder textures" (src/holm_look_v4.js): a live multiplier on the ripple contrast (1 = as tuned)
+    shader.uniforms.holmWaterBoost=HolmOldschoolLook.boostUniform?HolmOldschoolLook.boostUniform('water'):{value:1};
     shader.vertexShader='varying vec3 holmWaterPosition;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nholmWaterPosition = position;');
-    shader.fragmentShader='uniform float holmWaterTime;\nuniform sampler2D holmWaterMap;\nvarying vec3 holmWaterPosition;\n'+shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\n'+
+    shader.fragmentShader='uniform float holmWaterTime;\nuniform sampler2D holmWaterMap;\nuniform float holmWaterBoost;\nvarying vec3 holmWaterPosition;\n'+shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\n'+
      'vec2 hwP = holmWaterPosition.xz;\n'+
      'vec3 hwA = texture2D(holmWaterMap, hwP / 3.0 + vec2(holmWaterTime * 0.020, holmWaterTime * 0.008)).rgb;\n'+
      'vec3 hwB = texture2D(holmWaterMap, hwP.yx / 4.7 + vec2(0.31 - holmWaterTime * 0.011, 0.57 + holmWaterTime * 0.014)).rgb;\n'+
      'vec3 hwC = mix(hwA, hwB, '+f3(wl.mix)+');\n'+
      // look v3: the ripple pattern pushed out from its mean (0.54) so the water reads textured like the 2004 river
-     'hwC = (vec3(0.54) + (hwC - vec3(0.54)) * '+f3(wl.contrast)+') * '+f3(wl.gain)+';\n'+
+     'hwC = (vec3(0.54) + (hwC - vec3(0.54)) * ('+f3(wl.contrast)+' * holmWaterBoost)) * '+f3(wl.gain)+';\n'+
      'diffuseColor.rgb = clamp(mix(vec3(dot(hwC, vec3(0.299, 0.587, 0.114))), hwC, '+f3(wl.sat)+'), 0.0, 1.0);');
    };
-   material.customProgramCacheKey=function(){return 'holm-arrival-water-oldschool-v1-'+f3(wl.mix)+'-'+f3(wl.contrast)+'-'+f3(wl.gain)+'-'+f3(wl.sat)};
+   material.customProgramCacheKey=function(){return 'holm-arrival-water-oldschool-v1b-'+f3(wl.mix)+'-'+f3(wl.contrast)+'-'+f3(wl.gain)+'-'+f3(wl.sat)};
   }
   var group=new T.Group();group.name='ArrivalWater';
   // Horizontal positions in both meshes let one world-scale pattern cross the mouth.

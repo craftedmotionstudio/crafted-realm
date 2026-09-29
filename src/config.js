@@ -31,6 +31,9 @@ const GameConfig = {
   // look v4 options (owner review 5b, 2026-09-28; src/holm_look_v4.js): '3' = the current look (v3); '4a' slight pixels,
   // '4b' 2004 pixels and colours, '4c' planey and plain. The owner picks; ?look=4a|4b|4c|3 for the tab's session
   holmLookOption: '3',
+  // the Look panel's values as the shipped default (its 'Copy settings' JSON, e.g. {pixelLines:334,colourDepth:1,...});
+  // null = the preset above. A browser's own saved panel values (localStorage) still win for that browser
+  holmLook: null,
   // classic pixels (look pass 2): the 3D view drawn at a 2004-size internal resolution and scaled up with hard pixels
   // (src/classic_pixels.js). Off by default; Settings -> "Classic pixels", ?classic=1 / ?classic=0 for one session
   classicPixels: false,

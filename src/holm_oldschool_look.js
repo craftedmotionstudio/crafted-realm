@@ -138,8 +138,6 @@ var HolmOldschoolLook=(function(){
     .then(function(ok){if(ok.every(Boolean))verified.push(s);else console.warn('[HolmOldschoolLook] '+s.id+' textured candidate not served; previous model kept')})}));
   if(typeof HolmOverhaulGround!=='undefined'&&HolmOverhaulGround.setLookVersion)HolmOverhaulGround.setLookVersion(ver);
   if(greyPaths()&&!loading){GROUND.path=GREY_PATHS.texture;TUNE.path=GREY_PATHS.tune}
-  // look v4 options 4b / 4c (src/holm_look_v4.js): the ground's detail strength and the water's ripple contrast at the 2004 measure
-  if(!loading&&typeof HolmLookV4!=='undefined'&&HolmLookV4.tuneGround)HolmLookV4.tuneGround(TUNE,LOOK3);
   var soft=ver>1?Object.keys(SOFT).map(function(n){return loadOne(THREE,SOFT[n]).then(function(t){var m=modelTex[SOFT[n]]=modelTexture(THREE,t),r=SOFT_REPEAT[SOFT[n]];if(r)m.repeat.set(r,r)})}):[];
   if(!loading)loading=Promise.all(Object.keys(GROUND).map(function(k){return loadOne(THREE,GROUND[k])}).concat([loadOne(THREE,'water'),kit,probes],soft)).then(function(){if(ver>1)hookLoader(THREE);return true});
   return loading;
@@ -207,11 +205,14 @@ var HolmOldschoolLook=(function(){
   var uniforms={};Object.keys(GROUND).forEach(function(k){uniforms['os_'+k]={value:tex[GROUND[k]]||null}});
   m.onBeforeCompile=function(shader){
    Object.keys(uniforms).forEach(function(k){if(!uniforms[k].value)uniforms[k].value=tex[GROUND[k.slice(3)]]||null;shader.uniforms[k]=uniforms[k]});
+   shader.uniforms.os_boost=boostUniform('ground');
    shader.vertexShader='attribute vec4 groundMix;\nvarying vec4 vGroundMix;\nvarying vec2 vGroundXZ;\n'+shader.vertexShader.replace('#include <begin_vertex>',
     '#include <begin_vertex>\nvGroundMix = groundMix;\nvGroundXZ = position.xz;');
-   var decl='varying vec4 vGroundMix;\nvarying vec2 vGroundXZ;\n'+Object.keys(GROUND).map(function(k){return 'uniform sampler2D os_'+k+';'}).join('\n')+'\n'+
+   var decl='varying vec4 vGroundMix;\nvarying vec2 vGroundXZ;\nuniform vec4 os_boost;\n'+Object.keys(GROUND).map(function(k){return 'uniform sampler2D os_'+k+';'}).join('\n')+'\n'+
     'vec3 osDetail(sampler2D t, vec2 uv, vec3 mean, float k){ return mix(vec3(1.0), texture2D(t, uv).rgb / mean, k); }\n';
-   function d(k,off){var q=TUNE[k];if(!(q.k>0))return 'vec3(1.0)';return 'osDetail(os_'+k+', vGroundXZ / '+q.s.toFixed(3)+(off?' + '+off:'')+', '+v3(MEAN[GROUND[k]])+', '+q.k.toFixed(3)+')'}
+   // look v4 (src/holm_look_v4.js, "bolder textures"): sand / rock / earth / path detail strength x os_boost (1 = as tuned)
+   var BK={sand:'os_boost.x',rock:'os_boost.y',earth:'os_boost.z',path:'os_boost.w'};
+   function d(k,off){var q=TUNE[k];if(!(q.k>0))return 'vec3(1.0)';return 'osDetail(os_'+k+', vGroundXZ / '+q.s.toFixed(3)+(off?' + '+off:'')+', '+v3(MEAN[GROUND[k]])+', '+q.k.toFixed(3)+(BK[k]?' * '+BK[k]:'')+')'}
    shader.fragmentShader=decl+shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\n'+
     'float osGrass = clamp(1.0 - dot(vGroundMix, vec4(1.0)), 0.0, 1.0);\n'+
     'vec3 osGround = '+d('grassA')+' * '+d('grassB','vec2(0.37, 0.11)')+' * osGrass\n'+
@@ -219,7 +220,7 @@ var HolmOldschoolLook=(function(){
     '  + '+d('earth')+' * vGroundMix.z + '+d('path')+' * vGroundMix.w;\n'+
     'diffuseColor.rgb *= osGround;');
   };
-  m.customProgramCacheKey=function(){return 'holm-oldschool-ground-v1'+(ver>1?'-lookv'+ver:'')+(GROUND.path===GREY_PATHS.texture?'-greypaths':'')+(typeof HolmLookV4!=='undefined'&&HolmLookV4.option()!=='3'?'-look'+HolmLookV4.option():'')};
+  m.customProgramCacheKey=function(){return 'holm-oldschool-ground-v1'+(ver>1?'-lookv'+ver:'')+(GROUND.path===GREY_PATHS.texture?'-greypaths':'')+'-boost'};
   var dispose=m.dispose.bind(m);m.dispose=function(){m.__disposed=true;dispose()};
   return m;
  }
@@ -267,11 +268,23 @@ var HolmOldschoolLook=(function(){
  // a model or data URL as the island loaders build it -> the textured candidate's URL when that swap is verified
  function url(u){if(!on||typeof u!=='string')return u;verified.forEach(function(s){s.map.forEach(function(m){if(u.indexOf(m[0])>=0)u=u.split(m[0]).join(m[1])})});return u}
  function swapped(id){return verified.some(function(s){return s.id===id})}
+ // look v4 "bolder textures" (src/holm_look_v4.js): live multipliers on the ground's detail strength and the water's ripple
+ // contrast, as shader uniforms shared by every ground / water material (1 = look v3 exactly)
+ var BOOST={sand:1,rock:1,earth:1,path:1,water:1},BOOSTU={};
+ function boostUniform(k){
+  if(!BOOSTU[k])BOOSTU[k]={value:k==='water'?BOOST.water:(typeof THREE!=='undefined'&&THREE.Vector4?new THREE.Vector4(BOOST.sand,BOOST.rock,BOOST.earth,BOOST.path):null)};
+  return BOOSTU[k];
+ }
+ function setBoost(o){
+  Object.keys(o||{}).forEach(function(k){if(BOOST.hasOwnProperty(k)&&isFinite(+o[k]))BOOST[k]=Math.max(0,+o[k])});
+  if(BOOSTU.ground&&BOOSTU.ground.value)BOOSTU.ground.value.set(BOOST.sand,BOOST.rock,BOOST.earth,BOOST.path);if(BOOSTU.water)BOOSTU.water.value=BOOST.water;
+  return Object.assign({},BOOST);
+ }
  // every kit texture loaded so far (ground, water, soft model maps): look v4 options set their sampling (src/holm_look_v4.js)
  function eachTexture(fn){Object.keys(tex).forEach(function(k){fn(tex[k])});Object.keys(modelTex).forEach(function(k){fn(modelTex[k])})}
  function snapshot(){return {look:on?'oldschool':'previous',version:version(),active:active,textures:Object.keys(tex),stats:stats,arrival:arrivalPackage(),swaps:verified.map(function(s){return s.id})}}
  return {greyPaths:greyPaths,GREY_PATHS:GREY_PATHS,enabled:enabled,version:version,grade:grade,regrade:regrade,preload:preload,groundMaterial:groundMaterial,restyleTrail:restyleTrail,waterTexture:waterTexture,waterLook:waterLook,activate:activate,deactivate:deactivate,
-  voidActive:voidActive,fogRange:fogRange,eachTexture:eachTexture,prepareModel:prepareModel,arrivalPackage:arrivalPackage,url:url,swapped:swapped,snapshot:snapshot,
+  voidActive:voidActive,fogRange:fogRange,eachTexture:eachTexture,setBoost:setBoost,boostUniform:boostUniform,prepareModel:prepareModel,arrivalPackage:arrivalPackage,url:url,swapped:swapped,snapshot:snapshot,
   TUNE:TUNE,SCENE:SCENE,LOOK3:LOOK3,ASSETS:ASSETS,SWAPS:SWAPS,SOFT:SOFT,GRADE:GRADE,FAMILY:FAMILY,MEAN:MEAN};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmOldschoolLook;

@@ -11,10 +11,11 @@
  * pure black kept for the void); ?classicPalette=0 turns the palette step off, ?classicPalette=<n> keeps its first n.
  * Off by default. Settings -> "Classic pixels" (remembered in localStorage), ?classic=1 / ?classic=0 for one session,
  * GameConfig.classicPixels the default. Draw calls stay honest: renderer.info counts the world pass plus the one blit.
- * Look v4 options (2026-09-28, src/holm_look_v4.js) configure it for their session through configure(): the rendered
- * lines follow the 2004 pixel density per degree of the camera's vertical view (2004: 334 lines over 36.13 deg = 9.24 per
- * degree), with a floor of whole lines on small windows, and the blit can map colours into the 2004 client's 16-bit
- * colour space (64 hues x 8 saturations x 128 lightnesses, no dither) instead of the fixed palette. */
+ * Look v4 (2026-09-28/29, src/holm_look_v4.js and its in-game Look panel) drives it through configure({lines, colourDepth}):
+ * the 3D view is drawn with `lines` lines over a 36.13 deg view (2004: 334; a wider view keeps the density), any size
+ * (blocks snap to whole pixels when within a tenth of one), and the blit maps colours into an HSL colour space whose step
+ * counts follow colourDepth: 0 = full colour, 1 = the 2004 client's (64 hues x 8 saturations x 128 lightnesses, no dither),
+ * 2 = fewer (12 x 3 x 12). */
 var ClassicPixels=(function(){
  'use strict';
  var KEY='cr_classic_pixels',TARGET_H=503;
@@ -27,8 +28,14 @@ var ClassicPixels=(function(){
  var rt=null,blit=null,size={w:0,h:0,f:0},frames=0,buf=null,palette=null,palLoading=false,suspended=false;
  // a look option's settings for this session (configure()); null = the Settings option as before
  var look=null;
- var MODE={fixed:0,hsl2004:1,none:2};
- function mode(){return look?MODE[look.palette]!==undefined?MODE[look.palette]:MODE.none:MODE.fixed}
+ var MODE={fixed:0,hsl:1,none:2};
+ function mode(){return look?(look.colourDepth>0?MODE.hsl:MODE.none):MODE.fixed}
+ // HSL step counts for a colour depth (0 = none: full colour; 1 = the 2004 client's 64 / 8 / 128; 2 = 12 / 3 / 12), blended
+ // geometrically in between so the slider feels even
+ function levels(c){
+  if(!(c>0))return null;var a,b,t;if(c<=1){t=c;a=[256,256,256];b=[64,8,128]}else{t=Math.min(1,c-1);a=[64,8,128];b=[12,3,12]}
+  return a.map(function(x,i){return Math.max(2,Math.round(Math.exp(Math.log(x)*(1-t)+Math.log(b[i])*t)))});
+ }
  // the palette (fetched once, the first time the option draws)
  function loadPalette(){
   if(palLoading||palette||!palWanted||typeof fetch!=='function')return;palLoading=true;
@@ -39,6 +46,7 @@ var ClassicPixels=(function(){
   if(!blit)return;var u=blit.quad.material.uniforms;
   if(palette)for(var i=0;i<MAXP;i++){var c=palette[i]||[0,0,0];u.pal.value[i].set(c[0]/255,c[1]/255,c[2]/255)}
   u.palN.value=suspended||!palette?0:palette.length;u.mode.value=suspended?MODE.none:mode();
+  var L=look&&levels(look.colourDepth);if(L)u.hsl.value.set(L[0],L[1]-1,L[2]-1);
  }
  // review captures (tools/capture_holm_look.js class masks) read exact colours: the palette step pauses meanwhile
  function suspendPalette(v){suspended=!!v;applyPalette()}
@@ -48,8 +56,10 @@ var ClassicPixels=(function(){
  // up to 55 deg and keeps the same density), never fewer than the floor (a small window keeps its detail readable)
  function factorFor(h,vfov){
   if(!look)return Math.max(2,Math.round(h/TARGET_H));
-  var lines=look.linesPerDeg*(vfov>0?vfov:36.13),f=Math.max(1,Math.round(h/lines));
-  while(f>1&&h/f<look.minLines)f--;
+  if(!(look.lines>0))return 1;
+  var f=h/(look.lines*(vfov>0?vfov:36.13)/36.13);
+  if(f<1.08)return 1;
+  if(Math.abs(f-Math.round(f))<0.1)return Math.round(f);   // whole-pixel blocks when that close (the presets land exactly)
   return f;
  }
  function ensure(renderer,camera){
@@ -61,11 +71,12 @@ var ClassicPixels=(function(){
    rt=new THREE.WebGLRenderTarget(w,h,{minFilter:THREE.NearestFilter,magFilter:THREE.NearestFilter,format:THREE.RGBAFormat,depthBuffer:true,stencilBuffer:true});
    rt.texture.generateMipmaps=false;rt.texture.name='classic-pixels';
    var pal=[];for(var i=0;i<MAXP;i++)pal.push(new THREE.Vector3());
-   var mat=new THREE.ShaderMaterial({uniforms:{tDiffuse:{value:rt.texture},pal:{value:pal},palN:{value:0},mode:{value:mode()}},depthTest:false,depthWrite:false,
+   var mat=new THREE.ShaderMaterial({uniforms:{tDiffuse:{value:rt.texture},pal:{value:pal},palN:{value:0},mode:{value:mode()},hsl:{value:new THREE.Vector3(64,7,127)}},depthTest:false,depthWrite:false,
     vertexShader:['varying vec2 vUv;','void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }'].join('\n'),
     // mode 0: nearest palette colour (weighted RGB), no dither: flat bands like a 64-colour sprite;
-    // mode 1: the 2004 client's colour space: hue to 64 steps, saturation to 8, lightness to 128 (bands in every gradient)
-    fragmentShader:['#define MAXP '+MAXP,'uniform sampler2D tDiffuse;','uniform vec3 pal[MAXP];','uniform int palN;','uniform int mode;','varying vec2 vUv;',
+    // mode 1: an HSL colour space of hsl.x hues, hsl.y + 1 saturations, hsl.z + 1 lightnesses (2004: 64 / 8 / 128): bands in
+    // every gradient
+    fragmentShader:['#define MAXP '+MAXP,'uniform sampler2D tDiffuse;','uniform vec3 pal[MAXP];','uniform int palN;','uniform int mode;','uniform vec3 hsl;','varying vec2 vUv;',
      'vec3 rgb2hsl(vec3 c){ float mx = max(max(c.r, c.g), c.b), mn = min(min(c.r, c.g), c.b), l = (mx + mn) * 0.5, d = mx - mn, h = 0.0, s = 0.0;',
      ' if (d > 1e-5) { s = l > 0.5 ? d / (2.0 - mx - mn) : d / (mx + mn);',
      '  if (mx == c.r) h = (c.g - c.b) / d + (c.g < c.b ? 6.0 : 0.0); else if (mx == c.g) h = (c.b - c.r) / d + 2.0; else h = (c.r - c.g) / d + 4.0; h /= 6.0; }',
@@ -74,7 +85,7 @@ var ClassicPixels=(function(){
      'vec3 hsl2rgb(vec3 c){ if (c.y <= 0.0) return vec3(c.z); float q = c.z < 0.5 ? c.z * (1.0 + c.y) : c.z + c.y - c.z * c.y, p = 2.0 * c.z - q;',
      ' return vec3(hue2rgb(p, q, c.x + 1.0 / 3.0), hue2rgb(p, q, c.x), hue2rgb(p, q, c.x - 1.0 / 3.0)); }',
      'void main(){ vec3 c = texture2D(tDiffuse, vUv).rgb;',
-     ' if (mode == 1) { vec3 q = rgb2hsl(c); q.x = floor(q.x * 64.0 + 0.5) / 64.0; q.y = floor(q.y * 7.0 + 0.5) / 7.0; q.z = floor(q.z * 127.0 + 0.5) / 127.0; c = hsl2rgb(q); }',
+     ' if (mode == 1) { vec3 q = rgb2hsl(c); q.x = floor(q.x * hsl.x + 0.5) / hsl.x; q.y = floor(q.y * hsl.y + 0.5) / hsl.y; q.z = floor(q.z * hsl.z + 0.5) / hsl.z; c = hsl2rgb(q); }',
      ' else if (mode == 0 && palN > 0) { float best = 1e9; vec3 pick = c;',
      '  for (int i = 0; i < MAXP; i++) { if (i >= palN) break; vec3 d = pal[i] - c; float e = dot(d * d, vec3(2.0, 4.0, 3.0)); if (e < best) { best = e; pick = pal[i]; } }',
      '  c = pick; }',' gl_FragColor = vec4(c, 1.0); }'].join('\n')});
@@ -102,17 +113,20 @@ var ClassicPixels=(function(){
   if(typeof UI!=='undefined'&&UI.chat)try{UI.chat('Classic pixels '+(on?'on: the world is drawn at 2004 size with hard pixel edges.':'off.'),'sys')}catch(e){}
   return on}
  function toggle(){return set(!on)}
- /* look v4 (src/holm_look_v4.js): this session draws the world at a pixel density and colour mode of the option's own,
-  * without touching the remembered Settings choice. o = {linesPerDeg, minLines, palette: 'hsl2004' | 'fixed' | 'none'};
-  * null = back to the Settings option. */
+ /* look v4 (src/holm_look_v4.js): the world drawn at the look's own pixel size and colour depth, without touching the
+  * remembered Settings choice. o = {lines: 0 (native) | lines over a 36.13 deg view, colourDepth: 0..2}; the first options'
+  * form {linesPerDeg, palette:'hsl2004'} is read too. null = back to the Settings option. */
  function configure(o){
-  look=o?{linesPerDeg:+o.linesPerDeg||TARGET_H/36.13,minLines:+o.minLines||300,palette:o.palette||'none'}:null;
-  if(look){on=true;if(look.palette==='fixed')loadPalette()}else on=forced!==null?forced:stored()!==null?stored():(typeof GameConfig!=='undefined'&&GameConfig.classicPixels===true);
+  if(o){var lines=o.lines!==undefined?+o.lines:(+o.linesPerDeg||0)*36.13,cd=o.colourDepth!==undefined?+o.colourDepth:(o.palette==='hsl2004'?1:0);
+   look={lines:isFinite(lines)&&lines>0?lines:0,colourDepth:isFinite(cd)?Math.max(0,Math.min(2,cd)):0}}
+  else look=null;
+  if(look)on=true;else on=forced!==null?forced:stored()!==null?stored():(typeof GameConfig!=='undefined'&&GameConfig.classicPixels===true);
+  if(!on)dispose();
   if(rt)size={w:-1,h:-1,f:0};applyPalette();refreshButton();return on;
  }
- function snapshot(){return {enabled:on,forced:forced,internal:[size.w,size.h],factor:size.f,target:look?Math.round(look.linesPerDeg*36.13):TARGET_H,frames:frames,
-  palette:look?look.palette:palette?palette.length:0,look:look?{linesPerDeg:look.linesPerDeg,minLines:look.minLines,palette:look.palette}:null}}
+ function snapshot(){return {enabled:on,forced:forced,internal:[size.w,size.h],factor:size.f,target:look?Math.round(look.lines):TARGET_H,frames:frames,
+  palette:look?(look.colourDepth>0?'hsl':'none'):palette?palette.length:0,hsl:look?levels(look.colourDepth):null,look:look?{lines:look.lines,colourDepth:look.colourDepth}:null}}
  if(typeof window!=='undefined'&&window.addEventListener)window.addEventListener('load',refreshButton);
- return {enabled:enabled,render:render,set:set,toggle:toggle,configure:configure,suspendPalette:suspendPalette,snapshot:snapshot,factorFor:factorFor,dispose:dispose,TARGET_H:TARGET_H};
+ return {enabled:enabled,render:render,set:set,toggle:toggle,configure:configure,suspendPalette:suspendPalette,snapshot:snapshot,factorFor:factorFor,levels:levels,dispose:dispose,TARGET_H:TARGET_H};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=ClassicPixels;

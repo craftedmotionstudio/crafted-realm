@@ -16,8 +16,46 @@ them is the default**: the owner picks.
 | `?look=4c` | **Planey and plain**: 4b's pixels and colours, flat per-face shading on every scenery model and character, wood / plaster / roofs / bark / hay / cloth in their texture's average colour, and the textures it keeps (stone, cobbles, rock, leaves, water) bolder |
 
 The choice is remembered for the tab's session (sessionStorage), so reloads keep it. UI chrome stays crisp (the world is
-drawn into an off-screen target by `ClassicPixels`); picking, the camera and clicks are unchanged. The Settings
-"Classic pixels" toggle keeps working as before when no option is chosen.
+drawn into an off-screen target by `ClassicPixels`); picking, the camera and clicks are unchanged.
+
+## The Look panel (owner, 2026-09-29)
+
+Owner: "I don't think I'm getting the pixelization correction that we made ... if we could have like a slider to increase
+pixelation and decrease pixelation, that would be really good to have. And once we have that, I should be able to tell
+you what the default should be." The options were opt-in links, so the plain review link showed look v3.
+
+**Opening it**: Settings tab (the wrench) -> **Look** -> Open (the row replaces "Classic pixels"; the old toggle stays
+reachable with `?classic=1`). Or open the game with `?look=panel` (it opens once the world shows).
+
+| Control | What it does | Value (Copy settings key) |
+|---|---|---|
+| Presets v3 / 4a / 4b / 4c | set every control below at once; then fine-tune | - |
+| Pixel size | Off (native, smooth) through 4a (2 px blocks at a 1006 px tall window, 503 lines) and **2004** (3 px, 334 lines: marked on the slider) up to 5 px blocks (201 lines). Continuous: any size, snapping to 4a / 2004 and to whole-pixel blocks when that close. The line count is per 36.1 deg of view, so the pixel density is the same on any window (a phone held upright sees more degrees and keeps it) | `pixelLines` (0 = off) |
+| Colour depth | Full colour -> **2004** (the 2004 client's 64 hues x 8 saturations x 128 lightnesses: banded gradients) -> fewer (12 x 3 x 12) | `colourDepth` 0..2 |
+| Character facets | Round (as modelled) -> Flat (one tone per face); 4b = 70%. Material shading only: the character kit's meshes, clips and colours are untouched | `characterFacets` 0..1 |
+| Plain textures | wood, plaster, roofs, bark, hay, cloth in their texture's average colour (4c) | `plainTextures` |
+| Chunky texels | textures sampled texel by texel, no smoothing (4b / 4c) | `chunkyTexels` |
+| Flat scenery | flat faces on buildings and props (4c; the ground stays gouraud) | `flatScenery` |
+| Bolder textures | stone, cobbles, rock, leaves, water and the grey paths with stronger pattern (4c) | `bolderTextures` |
+| Copy settings | copies the JSON (and shows it) to make a default: paste it into `GameConfig.holmLook` in `src/config.js` | - |
+| Reset to default | forgets this browser's values: back to the shipped default | - |
+
+Everything applies live and is reversible (maps, colours and filters restored from what each material was when first
+seen; facets are a shader uniform, the ground / water boosts too). The values are saved in that browser (localStorage
+`cr_look_v4`), so the owner's choice survives a reload; nobody else's view changes. **The shipped default stays look v3**
+(`holmLookOption: '3'`, `holmLook: null`). Which values a page uses: `?look=3|4a|4b|4c` for that tab (not saved) > the
+browser's saved panel values > an earlier `?look=` in the tab > `GameConfig.holmLook` > `holmLookOption`. For tests and
+review links (tab only): `?lookLines=201|max`, `?lookColours=0..2`, `?lookFacets=0..1` on top of the above.
+
+Styling: the stone kit (square corners, 1 px bevels, Realm Small lettering), scaled with the chrome's 2004 proportion on
+desktop (capped to fit and to keep the view free), full width with touch-sized sliders (28 px thumbs) on a phone. Nothing
+clicked, dragged or typed in the panel reaches the game (no walking or camera turns).
+
+Gates (panel pass): `tools/test_*.js` 95/95 (`test_holm_look_v4.js` 5/5: values and precedence, pixels and colour steps,
+the live / reversible material pass, uniforms, the panel); smoke PASS at the default and at `&look=4c&lookLines=max&lookColours=2`
+(every control at its heaviest: 60 fps, 108/108); menu QA 65/65 at that setting (clicks land); playthrough 1/1; in-app
+browser: panel opened from the Settings tab, every slider and toggle moved, presets, Copy settings (clipboard + text),
+reload keeps the values, Reset, phone layout (375 x 812).
 
 ## How it was measured (tools/ref2004/look_metrics.py)
 
@@ -132,9 +170,10 @@ bound, not fill bound). Smoke (60 Hz cap) passes with the default look and each 
 
 | File | Job |
 |---|---|
-| `src/holm_look_v4.js` | the options, `?look=` switch, the material pass (texels, part-flat / flat characters, flat scenery, plain families, bolder textures), ground / water tune hook |
-| `src/classic_pixels.js` | `configure()`: lines per degree of the camera's view with a floor (300 lines; 4a 360), and the 2004 colour-space blit (`hsl2004`); the Settings option unchanged |
-| `src/holm_oldschool_look.js` | `eachTexture()`; calls `HolmLookV4.tuneGround()` before the ground compiles; the ground's program key carries the option |
+| `src/holm_look_v4.js` | the look as values (presets v3 / 4a / 4b / 4c), which values a page uses (link > saved > tab > config), the live and reversible material pass (texels, facet uniforms, plain families, bolder copies), ground / water boosts, Copy settings JSON |
+| `src/holm_look_panel.js` | the in-game Look panel (Settings tab -> Look, or `?look=panel`): sliders, toggles, presets, Copy settings, Reset; stone-kit styling, phone layout |
+| `src/classic_pixels.js` | `configure({lines, colourDepth})`: any line count per 36.1 deg of view (whole-pixel snap), HSL step counts in the blit as a uniform; the Settings classic option (`?classic=1`) unchanged |
+| `src/holm_oldschool_look.js`, `src/holm_arrival_water.js` | `eachTexture()`, `setBoost()` / `boostUniform()`: the ground's detail strength and the water's ripple contrast as live uniforms (1 = look v3 exactly) |
 | `src/config.js`, `index.html` | `holmLookOption: '3'`; the script tag (cache-busted) |
 | `tools/test_holm_look_v4.js` | locks: default is 3, the switch, pixel sizes and floors, the material pass, the colour step |
 | `tools/ref2004/look_metrics.py` | the numbers above (`python tools/ref2004/look_metrics.py options`) |

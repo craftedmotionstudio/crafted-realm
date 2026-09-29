@@ -648,7 +648,7 @@
     <div class="set-row"><span>Music volume</span><input id="vol-music" type="range" min="0" max="100" value="50" class="set-slider" oninput="Music.setVolume(this.value/100)"></div>
     <div class="set-row"><span>Sound effects</span><input id="vol-sfx" type="range" min="0" max="100" value="100" class="set-slider" oninput="Sfx.setVolume(this.value/100)"></div>
     <div class="set-row"><span>Roofs</span><button class="set-btn" id="roofs-btn" onclick="UI.toggleRoofs()">Toggle</button></div>
-    <div class="set-row" title="Draw the world at 2004 size with hard pixel edges"><span>Classic pixels</span><button class="set-btn" id="classic-btn" onclick="ClassicPixels.toggle()">Off</button></div>
+    <div class="set-row" title="Pixel size, colour depth and shading of the world (the Look panel)"><span>Look</span><button class="set-btn" id="look-btn" onclick="HolmLookPanel.toggle()">Open</button></div>
     <div class="set-row"><span>World map</span><button class="set-btn" onclick="UI.openWorldMap()">Open</button></div>
     <button class="set-btn wide" onclick="UI.manualSave()">Save now</button>
     <button class="set-btn wide logout" onclick="UI.logout()">Logout</button>
@@ -789,7 +789,7 @@
 <script src="src/events.js?v=1"></script>
 <script src="src/persist.js?v=1"></script>
 <script src="src/qa_profile.js?v=3"></script>
-<script src="src/config.js?v=hfaa6c707"></script>
+<script src="src/config.js?v=h24d997c3"></script>
 <script src="src/online_boot.js?v=h3fa3b772"></script><!-- ?online=1 only: server login + the Scarlands test world (W2); a no-op otherwise -->
 
 <script src="src/holm_island_live.js?v=3"></script>
@@ -824,7 +824,7 @@
   <script src="src/world_v2_buildings.js?v=46"></script>
   <script src="src/holm_overhaul_chunks.js?v=hdb11a1ba"></script>
   <script src="src/holm_overhaul_ground.js?v=hbb4b6349"></script>
-  <script src="src/holm_oldschool_look.js?v=h8b121568"></script>
+  <script src="src/holm_oldschool_look.js?v=hdf293f89"></script>
   <script src="src/world_v2_sampled_terrain.js?v=3os1"></script>
   <script src="src/world_v2_terrain.js?v=4os1"></script>
   <script src="src/world_v2_objects.js?v=21"></script>
@@ -1046,7 +1046,7 @@
 <script src="src/holm_arrival_door_motion.js?v=1"></script>
 <script src="src/holm_arrival_model_owner.js?v=6s5"></script>
 <script src="src/holm_arrival_trail.js?v=2wf"></script>
-<script src="src/holm_arrival_water.js?v=h37fd2c5d"></script>
+<script src="src/holm_arrival_water.js?v=h508bf715"></script>
 <script src="src/holm_arrival_porch_target.js?v=1"></script>
 <script src="src/holm_v2_land.js?v=h9f10db16"></script><script src="src/holm_island_paths_data.js?v=hfc9211f1"></script><script src="src/holm_island_grey_paths_data.js?v=hddc0e40f"></script><script src="src/holm_island_nav.js?v=hfc1a6a45"></script><script src="src/holm_island_lessons.js?v=8s58os1"></script><script src="src/holm_fishing.js?v=hc03f7dbf"></script><script src="src/holm_instanced_cells.js?v=hfba1ea67"></script><script src="src/holm_island_props.js?v=h7019d720"></script><script src="src/holm_mill.js?v=he37fbe70"></script><script src="src/holm_island_gates.js?v=h3e31d520"></script><script src="src/holm_island_trials.js?v=3cfx1cb2"></script><script src="src/holm_proving_ground.js?v=h8a8ffb39"></script><script src="src/holm_island_tutors.js?v=hc853eb50"></script><script src="src/holm_island_talk.js?v=h4184df35"></script><script src="src/holm_kit.js?v=1k8k9m_eq3"></script><script src="src/holm_island_player.js?v=h21170427"></script><script src="src/holm_gait_options.js?v=h2f5373cd"></script><script src="src/holm_island_fx.js?v=3m"></script><script src="src/holm_island_guide.js?v=hb65adaee"></script><script src="src/holm_kit_creator.js?v=h733a31dd"></script><script src="src/holm_cutaway_parts.js?v=hd6ff58d0"></script><script src="src/holm_island_extras.js?v=hb42fe93b"></script><script src="src/holm_guide_cellar.js?v=hd4831ee8"></script><script src="src/holm_shaft_rope.js?v=h26bc9127"></script><script src="src/holm_arrival_qa.js?v=h26ce08cf"></script>
 <script src="src/holm_v3_terrain.js?v=2"></script>
@@ -1056,8 +1056,9 @@
 <script src="src/holm_v3_scenery.js?v=11"></script>
 <script src="src/holm_v3_preview.js?v=6"></script>
 <script src="src/frame_stage_metrics.js?v=1"></script><script>CROnline.writeScripts()</script><script src="src/game5_main.js?v=hfce3e8cf"></script>
-<script src="src/classic_pixels.js?v=h261eae9f"></script>
-<script src="src/holm_look_v4.js?v=haa0a4349"></script>
+<script src="src/classic_pixels.js?v=h49aa13e1"></script>
+<script src="src/holm_look_v4.js?v=h4699aaf7"></script>
+<script src="src/holm_look_panel.js?v=h97511f49"></script>
 <script src="src/perf_probe.js?v=1"></script>
 <script src="src/tut_firemaking.js?v=1"></script>
 <script src="src/ui_osrs_kit.js?v=h8832c8af"></script><!-- LAST: the one OSRS interface kit (assets/ui/osrs_kit.css) -->
