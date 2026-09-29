@@ -75,6 +75,14 @@ const CLIPS={idle:true,walk:true,attack:false,hit:false,block:false,death:false}
     async function look(where,name,yaw,pitch,dist){await page.evaluate((w,y,p,d)=>{const nodes=HolmArrivalQA.graphNodes();let best=null,bd=1e9;nodes.forEach(n=>{const k=Math.hypot(n.x-w[0],n.z-w[1]);if(k>=2.5&&k<=4.5&&Math.abs(k-3.2)<bd&&/land|Terrain/.test(n.surface||'')){bd=Math.abs(k-3.2);best=n}});
       if(best)HolmArrivalQA.qaPlace(best.id);HolmArrivalQA.qaView(w[0],w[1]);camCtl.yaw=y;camCtl.pitch=p;camCtl.dist=d},where,yaw,pitch,dist);await sleep(2600);await L.shot(page,name);await page.evaluate(()=>HolmArrivalQA.qaViewClear())}
     const cen=a=>[a.reduce((s,n)=>s+n.x,0)/a.length,a.reduce((s,n)=>s+n.z,0)/a.length];
+    // 2004 wandering (owner 2026-09-29): short walks between idle pauses, each within its range of its spawn tile
+    {const w=await page.evaluate(async()=>{const sleep=ms=>new Promise(r=>setTimeout(r,ms));const L=HolmIslandTrials.npcs().concat(HolmFarmAnimals.npcs());
+       L.forEach(n=>LocalCombat.register(n));const rec=L.map(n=>({name:n.mesh.name,r:Math.round(n.wanderR!=null?n.wanderR:(n.t.wander!=null?n.t.wander:5)),sp:n.spawnNode,max:0,moves:0,last:n.node}));
+       const t0=performance.now();while(performance.now()-t0<24000){await sleep(300);L.forEach((n,i)=>{const q=rec[i];if(!n.node||!q.sp)return;if(n.node!==q.last){q.moves++;q.last=n.node}q.max=Math.max(q.max,TileNav.cheb(n.node,q.sp))})}
+       return rec.map(q=>({name:q.name,r:q.r,max:q.max,moves:q.moves}))});
+     data.wander=w;const rats=w.filter(q=>/island-trial/.test(q.name)),farm=w.filter(q=>/haycombe/.test(q.name));
+     rule('the trial rats wander (short walks, idle pauses) and stay within their pen (2 tiles of their spawn)',rats.some(q=>q.moves>0)&&rats.every(q=>q.max<=q.r&&q.r===2),rats);
+     rule('the farm hens and cows wander within their ranges (hens 2 tiles, cows 1 in the paddock)',farm.some(q=>q.moves>0)&&farm.every(q=>q.max<=q.r),farm);}
     await page.evaluate(()=>WORLD.npcs.forEach(n=>{n.wanderR=0}));
     await look(cen(census.trials.filter(n=>n.pen==='keep-court')),'keep_court_rats',.6,.95,7);
     await look(cen(census.farm.filter(n=>n.name==='Chicken')),'farm_hens',.3,.8,6);

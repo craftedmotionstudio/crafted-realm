@@ -331,7 +331,7 @@ function gatherChance(rtype, lvl, power){
 /* NPCs: OSRS-style stat blocks (att/str/def levels + bonuses, speed in ticks) */
 const NPC_TYPES = {
   pasturehen:{name:'Chicken', level:1, examine:"The yard's finest egg engine.", hp:3, att:1, str:1, def:1, aBonus:0, sBonus:0, dBonus:0, dStab:0, dSlash:0, dCrush:0, speedTicks:4, color:0xeae4d8, size:0.5, aggro:false, respawn:10, model:'chicken',
-             glbChar:'holm_chicken_v1', glbHeight:0.5, barH:0.9, bite:true, deathClip:true, keepOrigin:true,   // Blender, tools/blender/build_holm_creatures_v1.py
+             glbChar:'holm_chicken_v1', glbHeight:0.5, barH:0.9, bite:true, deathClip:true, keepOrigin:true, wander:3,   // Blender, tools/blender/build_holm_creatures_v1.py
              drops:[ {id:'bones',q:1,p:1}, {id:'feathers',q:[3,8],p:1}, {id:'egg',q:1,p:0.3} ]},
   oathbreaker:{name:'The Oathbreaker', level:32, examine:'A fallen warden, chained a century and hating every link of it.',
              hp:88, att:28, str:30, def:22, aBonus:14, sBonus:18, dBonus:12, dStab:13, dSlash:14, dCrush:9, speedTicks:5, color:0x5a4a5e, size:1.45,
@@ -343,15 +343,15 @@ const NPC_TYPES = {
   skeleton: {name:'Skeleton', level:15, examine:"It rattles with old menace. Bare bone shrugs off a thrust but splinters under a heavy blow.", hp:29, att:14, str:13, def:12, aBonus:8, sBonus:9, dBonus:7, dStab:11, dSlash:8, dCrush:3, speedTicks:4, color:0xe8e2d0, size:1.0, aggro:true, respawn:20, model:'skeleton',
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[8,40],p:0.9}, {id:'iron_sword',q:1,p:0.05}, {id:'bronze_helm',q:1,p:0.05}, {id:'mind_rune',q:[1,4],p:0.2} ]},
   gnarlgob: {name:'Goblin', level:5, examine:"Small, green and furious about it.", hp:13, att:5, str:4, def:3, aBonus:2, sBonus:2, dBonus:1, dStab:2, dSlash:1, dCrush:0, speedTicks:4, color:0x6a8a3a, size:0.78, aggro:true, respawn:14, model:'goblin',
-             glbChar:'holm_goblin_v1', glbHeight:1.3, barH:1.75, deathClip:true, keepOrigin:true,
+             glbChar:'holm_goblin_v1', glbHeight:1.3, barH:1.75, deathClip:true, keepOrigin:true, wander:5,
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[3,18],p:0.9}, {id:'bronze_sword',q:1,p:0.06}, {id:'bronze_helm',q:1,p:0.05}, {id:'mind_rune',q:[1,4],p:0.2} ]},
   moss_seer:{name:'Moss seer', level:5, examine:"It hums with damp magic.", hp:13, att:5, str:4, def:4, aBonus:3, sBonus:2, dBonus:2, dStab:2, dSlash:1, dCrush:3, speedTicks:5, color:0x3a6a4a, size:1, aggro:true, respawn:22, humanoid:true, robe:0x3a6a4a, hat:'wizard', ranged:true,
              drops:[ {id:'bones',q:1,p:1}, {id:'coins',q:[8,30],p:1}, {id:'air_rune',q:[2,6],p:0.6}, {id:'mind_rune',q:[2,6],p:0.6}, {id:'apprentice_staff',q:1,p:0.06}, {id:'cloth_robe_top',q:1,p:0.06} ]},
   burrowrat:{name:'Rat', level:1, examine:"Overgrown and underfed.", hp:4, att:1, str:1, def:1, aBonus:0, sBonus:0, dBonus:0, dStab:0, dSlash:0, dCrush:0, speedTicks:4, color:0x6b5440, size:0.85, aggro:false, respawn:8, model:'rat',
-             glbChar:'holm_rat_v1', glbHeight:0.3, barH:0.75, bite:true, deathClip:true, keepOrigin:true,
+             glbChar:'holm_rat_v1', glbHeight:0.3, barH:0.75, bite:true, deathClip:true, keepOrigin:true, wander:4,
              drops:[ {id:'bones',q:1,p:1} ]},
   moorcalf: {name:'Cow', level:2, examine:"Converts grass into hide and hoof.", hp:8, att:1, str:2, def:2, aBonus:0, sBonus:0, dBonus:0, dStab:1, dSlash:0, dCrush:1, speedTicks:5, color:0x9a8468, size:1.25, aggro:false, respawn:15, model:'cow',
-             glbChar:'holm_cow_v1', glbHeight:1.25, barH:1.75, deathClip:true, keepOrigin:true, atype:'crush',
+             glbChar:'holm_cow_v1', glbHeight:1.25, barH:1.75, deathClip:true, keepOrigin:true, wander:4, atype:'crush',
              drops:[ {id:'bones',q:1,p:1}, {id:'beast_hide',q:1,p:1}, {id:'raw_beef',q:1,p:1} ]},   // 2004: hide, beef and bones
   duneclaw: {name:'Duneclaw', level:12, examine:"All shell and spite. A blade glances off; a mace caves it in.", hp:24, att:11, str:10, def:9, aBonus:6, sBonus:6, dBonus:6, dStab:7, dSlash:10, dCrush:2, speedTicks:4, color:0xc4a04a, size:0.9, aggro:true, respawn:20, body:'crab',
              drops:[ {id:'coins',q:[15,55],p:1}, {id:'steel_sword',q:1,p:0.05}, {id:'amulet_of_precision',q:1,p:0.02} ]},
@@ -399,7 +399,7 @@ const NPC_TYPES = {
     drops:[{id:'bones',q:1,p:1},{id:'coins',q:[1,4],p:0.85},{id:'bread',q:1,p:0.1}]},
   // the large rat (owner 2026-09-29: it replaces the grubkin everywhere): a 2004-style low-level vermin, level 3, bites for 0-1
   large_rat:{name:'Large rat', level:3, examine:"A rat grown fat on spilt grain, and bold with it.", hp:5, att:2, str:3, def:2, aBonus:0, sBonus:0, dBonus:0, dStab:0, dSlash:0, dCrush:0, dRanged:0, dMagic:0, atype:'stab', speedTicks:4, color:0x74604f, size:0.9, aggro:false, respawn:15, model:'rat',
-             glbChar:'holm_large_rat_v1', glbHeight:0.55, barH:1.0, bite:true, deathClip:true, keepOrigin:true,
+             glbChar:'holm_large_rat_v1', glbHeight:0.55, barH:1.0, bite:true, deathClip:true, keepOrigin:true, wander:4,   // wander: tiles from its spawn it roams (2004 random walk, src/combat_engine.js)
              drops:[ {id:'bones',q:1,p:1} ]},
   mosswolf: {name:'Mosswolf', level:8, examine:"A lean marsh-hunter. Its hide parts cleanly to a slashing edge.", hp:18, att:7,  str:7,  def:6,  aBonus:4,  sBonus:4,  dBonus:4, dStab:4, dSlash:1, dCrush:7,  speedTicks:4, color:0x4f6b4a, size:1.0, aggro:true, respawn:18, body:'wolf',
              glb:'assets/models/mosswolf.glb', glbHeight:0.95, barH:1.35, skinnedRig:true, animDriver:'wolf',

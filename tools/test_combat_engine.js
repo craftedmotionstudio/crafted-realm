@@ -140,6 +140,14 @@ for(const [kind,t,fn] of [['ranged',{ranged:'arrow',attackRange:7},d=>Math.floor
  const nt=n.node;check('a monster chases diagonally and strikes from a side tile',Math.abs(nt.tx-10)+Math.abs(nt.tz-10)===1&&h.log.swings.some(s=>s.att===n.mesh),{nt});}
 {const h=fresh();h.P.autoRetaliate=false;h.place(30,30);const n=h.spawn('gnarlgob',31,30,{t:{aggro:true,alwaysAggro:true,hp:500,maxRange:3}});h.tick(3);h.ctx.orderWalk({x:45.5,z:30.5});h.tick(25);
  check('the leash: a monster gives up past its range from spawn',n.mode==='wander',{mode:n.mode,nt:n.node});}
+// wandering (2004 Npc.wanderMode, the same rule as the server; the Holm creatures pass 2026-09-29): its own range from the
+// data (NPC_TYPES.large_rat.wander 4), back inside it at once when left outside, and never popped home while it moves
+{const h=fresh();h.place(5,5);const n=h.spawn('large_rat',30,30,{wanderR:null,t:{hp:500}});const TN=h.ctx.TileNav;h.tick(1);
+ const far=TN.nodeAt(38,30,n.node.y);n.node=far;n.mesh.position.set(far.x,far.y,far.z);n._walk=null;n.wanderCounter=0;
+ let t=0;while(t<40&&TN.cheb(n.node,n.spawnNode)>4){h.tick(1);t++}
+ check('wander: left 8 tiles out, a large rat (range 4) walks back inside its range at once',TN.cheb(n.node,n.spawnNode)<=4&&t<=6,{t,at:[n.node.tx,n.node.tz]});
+ let pops=0,moves=0,far2=0,last=n.node;for(let i=0;i<1200;i++){h.tick(1);if(n.node!==last){moves++;if(TN.cheb(n.node,last)>1)pops++}far2=Math.max(far2,TN.cheb(n.node,n.spawnNode));last=n.node}
+ check('wander: short walks with idle pauses (about 1 in 8 ticks), within its range, never popped home while it keeps moving',pops===0&&far2<=4&&moves>60&&moves<600,{pops,moves,far2});}
 
 /* 11b. a telegraphed special: the wind-up is announced, stepping away dodges it, standing in reach takes it */
 {const sp={every:2,windup:2,maxHit:20,msg:'It rears up!',missMsg:'You step clear.'};
