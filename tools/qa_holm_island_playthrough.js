@@ -131,7 +131,7 @@ async function playOnce(browser,n){
   // owner review 4: the objective box's MOVING ON notices, kept across the mid-run reloads
   await page.evaluateOnNewDocument(()=>{setInterval(()=>{try{if(typeof UI==='undefined'||UI.__moveLog)return;UI.__moveLog=1;const c=UI.chat;UI.chat=function(t){try{if(/Follow the arrow\.$/.test(String(t))){const l=JSON.parse(sessionStorage.getItem('__movingOn')||'[]');l.push(String(t).slice(0,90));sessionStorage.setItem('__movingOn',JSON.stringify(l))}}catch(e){}return c.apply(this,arguments)}}catch(e){}},100)});
   try{
-    await page.goto(BASE0+(process.env.HOLM_MODE==='draft'?'/?holmIsland=1&qaProfile=':'/?qaProfile=')+profile,{waitUntil:'load',timeout:120000});await enter(page);
+    await page.goto(BASE0+(process.env.HOLM_MODE==='draft'?'/?holmIsland=1&qaProfile=':'/?qaProfile=')+profile+(process.env.SMOKE_QUERY||''),{waitUntil:'load',timeout:120000});await enter(page);   // SMOKE_QUERY: e.g. &look=4b
     await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,180000);await page.evaluate(()=>{if(!window.__qaTrace){window.__qaTrace=[];setInterval(()=>{window.__qaTrace.push([player.position.x,player.position.y,player.position.z]);if(window.__qaTrace.length>4000)window.__qaTrace.splice(0,2000)},120)}});
     const hint0=await page.evaluate(()=>document.getElementById('obj-text').textContent);
     run=await L.runOrb(page);   // a new adventurer walks; the player clicks the run orb, as in 2004

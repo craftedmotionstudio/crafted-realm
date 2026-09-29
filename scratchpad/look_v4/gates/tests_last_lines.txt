@@ -1,0 +1,93 @@
+[BREAD_RECIPE_TEST] 31/31 acceptance tests passed
+[BREAD_WRAPPER_TEST] 18/18 acceptance tests passed
+CAVERN CRAFTING CONTRACT PASS
+[COFFEE] 5/5 PASS
+PASS — combat core locked (2004 rules, shared/combat.js).
+COMBAT ENGINE: PASS
+PASS - presentation cannot move a combat number; the engine rolls only through shared/combat.js.
+[U5 CONTRACT] PASS 25/25
+[FrameStageMetrics tests] 9/9 acceptance ok
+ALL PASS — 34 passed
+[HOLM_ARRIVAL_APPROACH] 145 nodes; deterministic immutable landing/chart/study/return; cardinal, closed-door, footprint-water, seam and slope rejection passed. Source envelopes only; no live acceptance.
+[HOLM_ARRIVAL_CHECKPOINT] 110 stance roundtrips; overlapping floors, tampering, revision, invalid/missing nodes, immutability and classic export passed. Storage, mid-edge policy and live save integration remain deferred.
+[HOLM_ARRIVAL_DOCK] 171 nodes; shore/chart/study return routes, wet terrain isolation, railing footprint, diagonal and bad seam rejection passed. Preview only.
+[test_holm_arrival_door_motion] PASS independent doors, reversal, repeated target, endpoints, dt cap, restore, isolation, atomic rejection and classic/CommonJS parity
+[ARRIVAL_DOOR_QUEUE] far click walks to the near-side stance and opens once on arrival; near click toggles; unreachable refuses
+[HolmArrivalExportLoader] 26/26 acceptance ok
+[HOLM_ARRIVAL_FOLLOWER] Actual fixture: dock/chart/upstairs return, supported motion, mid-edge repath/stop, atomic door refusal, prefix stop, bounded stall time, invalid input and immutable sources passed. Pure adapter only.
+[HOLM_ARRIVAL_GRADE] dry route, exact grade, porch footprint seam and invalid diagonal checks passed; max step 0.2142857142857144
+[HOLM_LANDSCAPE_CONTRACT_TEST] 35/35 passed
+[HOLM_ARRIVAL_LAYOUT] numeric layout + determinism + 6 negative fixtures passed; live accessibility unverified
+[HolmArrivalModelOwner] exported semantics, door endpoint contract, cutaway, registration and exact-once disposal PASS; rendering remains browser QA
+[HOLM_ARRIVAL_NAVIGATION] 110 stance nodes; cardinal porch/chart/study/return, explicit storeys, tread edges, closed-door and blocked-landing rejection passed. Source envelopes only; no live acceptance.
+[HOLM_ARRIVAL_PACKAGE] immutable deterministic compile, 4 door states, 6 reversible routes, source-derived placements, browser parity; 24 invalid inputs rejected. Draft only; bytes and runtime acceptance remain unverified.
+[HOLM_ARRIVAL_PLAYER] real actor-vector movement, floor rejection, cardinal keyboard, stun/cancel, attach guard and actual orderWalk dispatch passed; no provider activation.
+[ARRIVAL_PORCH_DISPATCH] actual QA handler preserves exact orders, uses bounded fallback only on failure, retains follower rejection, and stays inactive for ordinary providers
+[ARRIVAL_PORCH_TARGET] 88 four-door-state cases plus deterministic ties, detached outputs, malformed inputs, distance limit and classic-global parity pass against actual 25-file draft. Numeric apron x64.18..67.82/z104.175..106.4/y3 +/- .15; no visual geometry acceptance claimed.
+[ARRIVAL_PROVISION_EXPORT] actual fourteen-file loader and byte gate pass; augmented runtime docs agree with service stance; hash-consistent altered geometry rejected.
+[HOLM_ARRIVAL_PROVISIONS] acceptance ok: 4 door graphs, 16 reversible route legs, measured bound blockers, immutable deterministic classic/CommonJS parity; 27 invalid inputs rejected. Numerical fixture only; no runtime or visual acceptance.
+[HOLM_ARRIVAL_SCENERY_TEST] 18 authored placements (incl. Lantern Keeper statue), 36 translated blockers (trees by trunk footprint), 8 actual semantic roots, 4 door graphs, 16 preserved route legs, immutable classic/CommonJS parity; 26 invalid inputs rejected. No visual or continuous animation acceptance.
+[ARRIVAL_SCENERY_EXPORT] actual 25-file byte validation/loader,20 instances/10 asset families,34 runtime blockers, exact previous graph migration with stance-drift rejection pass
+[HolmArrivalTrail] actual authored route 3528 vertices / 1276 triangles; contour, terrain diagonal, translation, deterministic immutable geometry and invalid input gates pass
+[HolmArrivalWater] deterministic continuous ribbon, coordinate parity, immutability and four invalid-input cases pass
+[HOLM_COMBAT_CREDIT] 17/17 PASS
+[HOLM_COMBAT_FX] 25/25 PASS
+[HOLM_COMBAT_KITS] 18/18 PASS
+[HOLM_CURRICULUM_PROGRESS] 13/13 tests passed
+[HOLM_CUTAWAY_PARTS] 5/5 checks passed
+[HOLM_DEPARTURE_REWARDS] 8/8 passed
+242 passed, 0 failed
+[HOLM_FISHING] 5/5 checks passed
+[HOLM GREY PATHS] 6/6 checks passed
+[HOLM_INITIAL_TOOLS] 6/6 passed
+[HOLM_ISLAND_CURRICULUM] 6/6 checks passed
+[HOLM_ISLAND_NAV] 10/10 checks passed; {"nodes":10465,"edges":27684,"owners":{"land":7525,"b:keep":812,"b:bakehouse":208,"b:lodge":359,"b:survival":235,"b:quarry":98,"b:bank":170,"b:mage":288,"b:haven":92,"b:lastlight":201,"b:cavern":146,"b:mill":119,"b:stair":46,"arrival":166}}
+[HOLM_ISLAND_TALK] 15/15 checks passed
+[{"id":"gate","reachable":true},{"id":"court","reachable":true},{"id":"hall","reachable":true},{"id":"upper","reachable":true},{"id":"wallwalk","reachable":true},{"id":"watch-lookout","reachable":true},{"id":"east-lookout","reachable":true}]
+[{"id":"entrance","reachable":true},{"id":"oven","reachable":true},{"id":"prep","reachable":true},{"id":"pantry","reachable":true},{"id":"loft","reachable":true}]
+[KITCHEN_SAVE_ORDER] PASS: post-advance snapshot, repeat inventory/XP save, provider isolation, unrelated events, visible save failure, idempotent wrapper
+[LODGE_HEARTH_CONTRACT] 12/12 checks pass: matched data accepted; drift and malformed transforms/animation rejected
+[LODGE_SERVICE_BINDINGS] actual GLB identities, measured stances, missing/changed asset refusal and immutable data pass
+[HOLM LOOK V4] 4/4 checks passed
+[HOLM OLDSCHOOL LOOK] 8/8 checks passed
+[HOLM_OVERHAUL_CHUNKS] 288 contract-valid chunks, exact shared seams/samples, water coverage, immutable deterministic output and malformed inputs verified; no provider activated
+[HOLM_OVERHAUL_TERRAIN] 9/9 checks passed
+[PROVING GROUND] 4/4 PASS
+[QUEST_DOOR_STATE] 10/10 acceptance ok
+[QUEST_LODGE_SUCCESS] 13/13 PASS (controlled VM; no real browser interaction claimed)
+[{"id":"entrance","reachable":true},{"id":"board","reachable":true},{"id":"map","reachable":true},{"id":"bay","reachable":true},{"id":"guest","reachable":true}]
+[QUEST_TERRAIN_UI_ROUTE] actual shared router bypasses lodge interior
+[HOLM_REWARD_PLAN] 11/11 checks passed
+[HOLM_SHAFT_ROPE] 10/10 checks passed
+96 passed, 0 failed
+[HOLM_STATION_REACH] 50/50 contract checks passed (headless; not live navigation acceptance)
+[HOLM_TILE_HOUSE] 8/8 checks passed
+[HOLM_TOOL_RECOVERY] 10/10 checks passed
+[HOLM_TOOL_RECOVERY_SERVICE] 12/12 checks passed
+[V2 LAND ARRIVAL] 6/6 PASS
+[HOLM_V3_TERRAIN] 10/10 checks passed
+[HOLM_WORLD_FIXES] 11/11 checks passed
+[ITEM ICONS] 8 passed, 0 failed
+[landscape model] 42/42 acceptance checks passed; no visual/runtime acceptance claim.
+NAMING BIBLE GUARD: clean
+[NEW_ADVENTURER_RESET] 7/7 checks passed
+13 passed, 0 failed
+174 passed, 0 failed
+[PACK28] 6/6 checks passed: 24-slot saves keep every item in its slot and gain four empty slots
+[provision model] 26/26 acceptance checks passed; no visual/runtime acceptance claim.
+[QA PROFILE] PASS
+roof transitions: all locks pass
+[SCARLANDS BESTIARY] 4/4 checks passed (cinder_rat L7, scar_skeleton L22, scar_raider_archer L26, ember_mage L30, ash_stalker L38, cinder_wyrmling L56)
+[SCARLANDS KIT] 5/5 checks passed
+[SKILL GUIDES] 183 passed, 0 failed
+[STUDIO_ARRIVAL_VALIDATION] actual candidates verified; deterministic/nonmutating; 22 invalid byte/data/registration/semantic cases rejected. No visual, collision or Blender-export correspondence acceptance.
+[HOLM_ARRIVAL_TRANSACTION] actual staged source bytes accepted; hash-consistent altered route rejected by plan and apply; no live writes.
+[HOLM_TERRAIN_PUBLISH] pair, lattice, source drift, staged mismatch and old-export plan/apply refusal passed; live fixture unchanged.
+[studio-terrain-workspace] 9/9 locks passed
+Studio workspace gate PASS
+[TELEPORT_BOOT] 1/1 passed
+[terrain-district] 12/12 locks passed; 20 chunks
+PASS 21/21 -> C:\Users\iQwaZ\OneDrive\Desktop\CraftedRealms-Look4\scratchpad\workyard_waterworks_u4_v1\contract_test_result.json
+[WORLD_BOOT_SAVE] 7/7 passed
+world-v2 contract: all locks pass
+PASS hidden-owner compile failure restores original visibility

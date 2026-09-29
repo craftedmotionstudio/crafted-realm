@@ -1,0 +1,8 @@
+[SMOKE look=3] PASS fps 100 worstFrameMs 13 drawCalls 111 triangles 41360 structural 108 / 108
+[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=1786 pageErrors=0
+[SMOKE look=4a] PASS fps 100 worstFrameMs 12 drawCalls 109 triangles 41356 structural 108 / 108
+[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=1872 pageErrors=0
+[SMOKE look=4b] PASS fps 100 worstFrameMs 11 drawCalls 109 triangles 41356 structural 108 / 108
+[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=1873 pageErrors=0
+[SMOKE look=4c] PASS fps 100 worstFrameMs 12 drawCalls 109 triangles 41356 structural 108 / 108
+[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=1776 pageErrors=0
