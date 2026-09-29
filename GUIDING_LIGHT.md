@@ -63,6 +63,15 @@ letter, not a clone. Warm, low-poly, flat-shaded 2007 charm. (Full vision: `GOAL
    structured findings and score, and fix material defects before acceptance.
 
 ## Current focus (update as it moves)
+- **TUTOR'S HOLM FINISH GOAL (owner, 2026-09-24; audited 2026-09-29):** `docs/rebuild/HOLM_FINISH_GOAL_2026-09-24.md`
+  is the working checklist and ends only on the owner's acceptance. The live game runs the Sept 13 Blender island
+  (`GameConfig.holmIslandLive`, provider `tutors-holm-v3`, 18 lessons, ten talk-first tutors, kit v4a.2b characters).
+  The owner is choosing the look and gait defaults (Settings > Look, `tools/gait_lab.html`); nothing that depends on
+  those picks is ticked. Standing proof for any change to the island: `tools/qa_holm_full_route.js` (all 18 lessons,
+  bank, recovery, negatives, the guide-arrow audit), `tools/qa_holm_save_migration.js`, `tools/qa_holm_island.js`,
+  `tools/qa_holm_island_playthrough.js` (add `--human` for a timed human-pace run), `tools/qa_holm_perf_views.js`,
+  smoke (also `SMOKE_ISLAND=1`), and every `tools/test_*.js`. The audit table at the end of the goal file lists what
+  is proven, partly done, missing, or awaiting the owner.
 - **GRAY MASONRY + HABITAT VARIETY (owner, 2026-09-13):** substantial gray brick/stone walls are desired, not merely base trim. Preserve original old-school low-poly character. Landscape needs varied tree styles and sparse, irregular vegetation appropriate to each environment, closely guided by Bible images. See plan.json vegetationDirection; modeled families and actual placement review are required.
 - **BUILDING CHARACTER + REFERENCE TEXTURES (owner, 2026-09-13):** the square footprints in the overhaul plan are rejected. Build distinct connected wings, projecting upper rooms, varied roofs, and an asymmetric inhabited castle. Landscape/material appearance must match the Bible references through original authored textures. Earlier chats repeat these requests; see `docs/rebuild/HOLM_OWNER_HISTORY_REVIEW_2026-09-13.md`. Concept02 updates all11 place silhouettes; physical replacement, interior/nav/animation integration and visual acceptance remain required. A new L-shaped bakehouse candidate is in production. Do not return to endless trim passes on the rejected box composition.
 - **OWNER REQUIRES A FULL VISUAL/WORLD OVERHAUL (2026-09-12, latest):** the current island is rejected as
