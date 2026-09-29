@@ -1,0 +1,121 @@
+{
+ "anim": "chimney_smoke",
+ "note": "smoke over the bakehouse chimney (Blender-rendered puffs)",
+ "hud": "hidden for the frames",
+ "frames": [
+  {
+   "frame": 0,
+   "ms": 113373,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 184,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 1,
+   "ms": 114261,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 188,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 2,
+   "ms": 115143,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 190,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 3,
+   "ms": 116039,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 193,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 4,
+   "ms": 116856,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 197,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 5,
+   "ms": 117648,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 201,
+    "flarings": 1
+   }
+  }
+ ]
+}

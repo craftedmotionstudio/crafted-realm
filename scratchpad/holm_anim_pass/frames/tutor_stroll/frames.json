@@ -1,0 +1,235 @@
+{
+ "anim": "tutor_stroll",
+ "note": "Wenna strolls a tile off her spot on her walk clip while nobody is near, and back",
+ "hud": "hidden for the frames",
+ "frames": [
+  {
+   "frame": 0,
+   "ms": 98546,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 1,
+   "ms": 99270,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 2,
+   "ms": 99941,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 3,
+   "ms": 100581,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 4,
+   "ms": 101258,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 5,
+   "ms": 101890,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 6,
+   "ms": 102535,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 7,
+   "ms": 103201,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 8,
+   "ms": 103821,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 9,
+   "ms": 104573,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 10,
+   "ms": 105268,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 11,
+   "ms": 105968,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 170,
+    "flarings": 1
+   }
+  }
+ ]
+}

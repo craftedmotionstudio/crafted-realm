@@ -1,0 +1,197 @@
+{
+ "anim": "store_door",
+ "note": "walk from the kitchen into the store room: the store door swings open; real time",
+ "hud": "hidden for the frames",
+ "frames": [
+  {
+   "frame": 0,
+   "ms": 57827,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 105,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 1,
+   "ms": 58237,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 109,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 2,
+   "ms": 58644,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 109,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 3,
+   "ms": 59087,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 113,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 4,
+   "ms": 59510,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 113,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 5,
+   "ms": 59920,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 116,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 6,
+   "ms": 60403,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 117,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 7,
+   "ms": 60843,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 118,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 8,
+   "ms": 61300,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 121,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 9,
+   "ms": 61742,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 122,
+    "flarings": 1
+   }
+  }
+ ]
+}

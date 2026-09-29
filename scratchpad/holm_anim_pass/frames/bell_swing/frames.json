@@ -1,0 +1,235 @@
+{
+ "anim": "bell_swing",
+ "note": "the cove bell as the skiff is readied (sail with no crossing; the cove is put back after); slowed x0.5",
+ "hud": "hidden for the frames",
+ "frames": [
+  {
+   "frame": 0,
+   "ms": 130555,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 1,
+   "ms": 130985,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 2,
+   "ms": 131389,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 3,
+   "ms": 131839,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 4,
+   "ms": 132261,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 5,
+   "ms": 132767,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 6,
+   "ms": 133163,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 7,
+   "ms": 133775,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 8,
+   "ms": 135087,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 9,
+   "ms": 135590,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 10,
+   "ms": 136282,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  },
+  {
+   "frame": 11,
+   "ms": 137035,
+   "slow": 0.5,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 1,
+    "bells": 1,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 2
+   }
+  }
+ ]
+}

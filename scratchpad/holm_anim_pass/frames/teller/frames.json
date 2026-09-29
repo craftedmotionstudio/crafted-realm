@@ -1,0 +1,121 @@
+{
+ "anim": "teller",
+ "note": "UI.openBank() at the counter: Teller Maud turns and talks while the bank is open",
+ "hud": "hidden for the frames",
+ "frames": [
+  {
+   "frame": 0,
+   "ms": 80849,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 143,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 1,
+   "ms": 81580,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 146,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 2,
+   "ms": 82230,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 147,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 3,
+   "ms": 82914,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 149,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 4,
+   "ms": 83570,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 152,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 5,
+   "ms": 84292,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 154,
+    "flarings": 1
+   }
+  }
+ ]
+}

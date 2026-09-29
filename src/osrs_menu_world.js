@@ -122,7 +122,7 @@ var OsrsMenuWorld=(function(){
  function tutorOf(id){try{return HolmIslandTutors.cast().filter(function(c){return c.id===id})[0]||null}catch(e){return null}}
  function stairDown(o){for(var q=o;q;q=q.parent)if(q.userData&&q.userData.label)return /Climb-down/.test(q.userData.label);return false}
  function doorOpen(id){try{return !!(HolmArrivalQA.doorOpen&&HolmArrivalQA.doorOpen(id))}catch(e){return false}}
- function gateOpen(id){try{return !!HolmIslandGates.isOpen(id)}catch(e){return false}}
+ function gateOpen(id){try{return !!(HolmIslandGates.looksOpen?HolmIslandGates.looksOpen(id):HolmIslandGates.isOpen(id))}catch(e){return false}}   // as the player sees it (an earned door stands shut until they come to it)
  var HOLM_EXAMINE={
   arrival_chart:'A painted relief of the whole Holm, with every lesson marked on it.',
   arrival_provisions:'Spare teaching tools, for anyone who has lost theirs.',

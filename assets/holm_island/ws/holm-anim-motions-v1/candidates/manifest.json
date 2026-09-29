@@ -1,0 +1,94 @@
+{
+ "schema": 1,
+ "pack": "HOLM_ANIM_MOTIONS_V1",
+ "status": "candidate",
+ "axes": "glTF Y-up, 1 unit = tile",
+ "kind": "motion curves: animated empties only (no meshes, no materials); the runtime applies each child empty's local transform to a real part (src/holm_island_anim.js)",
+ "file": "motions.glb",
+ "blend": "motions.blend",
+ "sha256": "92e8a3264d78a070c21efcec7fb4f5fecdda71507dd07e6c9781e19a56a161db",
+ "fps": 30,
+ "clips": [
+  {
+   "name": "Fall",
+   "root": "tree-fall",
+   "seconds": 2.2,
+   "loop": false,
+   "desc": "felled oak: creak, topple toward +Z (gravity), bounce, lie, sink; stepped 15/s",
+   "drives": [
+    "tree-fall_Pivot"
+   ]
+  },
+  {
+   "name": "CastOff",
+   "root": "ferry-castoff",
+   "seconds": 5.0,
+   "loop": false,
+   "desc": "the skiff pushes off east, then pulls out north to the open sea; plank slides aboard first",
+   "drives": [
+    "ferry-castoff_Boat",
+    "ferry-castoff_Plank"
+   ]
+  },
+  {
+   "name": "Swing",
+   "root": "bell-swing",
+   "seconds": 2.4,
+   "loop": false,
+   "desc": "the ferry bell rung three times and dying away; about glTF X from its hanging point; stepped 15/s",
+   "drives": [
+    "bell-swing_Bell"
+   ]
+  },
+  {
+   "name": "Drop",
+   "root": "rope-drop",
+   "seconds": 0.8,
+   "loop": false,
+   "desc": "the tied rope pays out down the shaft: scale glTF Y from the knot 0.04 -> 1.06 -> 1; stepped 15/s",
+   "drives": [
+    "rope-drop_Rope"
+   ]
+  },
+  {
+   "name": "Open",
+   "root": "door-swing",
+   "seconds": 0.6,
+   "loop": false,
+   "desc": "a door swings open: 0 -> 94 -> 90 deg about glTF Y; stepped 15/s",
+   "drives": [
+    "door-swing_Leaf"
+   ]
+  },
+  {
+   "name": "Close",
+   "root": "door-swing",
+   "seconds": 0.6,
+   "loop": false,
+   "desc": "a door swings shut: 90 -> 0 deg, a knock on the latch (4 deg rebound); stepped 15/s",
+   "drives": [
+    "door-swing_Leaf"
+   ]
+  },
+  {
+   "name": "Pump",
+   "root": "bellows-pump",
+   "seconds": 0.8,
+   "loop": true,
+   "desc": "the bellows squash (0.7) and fill again, scale glTF Y from the base; loops; stepped 15/s",
+   "drives": [
+    "bellows-pump_Board"
+   ]
+  },
+  {
+   "name": "Flicker",
+   "root": "flame-flicker",
+   "seconds": 1.2,
+   "loop": true,
+   "desc": "a torch flame: height 0.82-1.16, width 0.9-1.08, a small lean; loops; stepped 15/s",
+   "drives": [
+    "flame-flicker_Flame"
+   ]
+  }
+ ]
+}

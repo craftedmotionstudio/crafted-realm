@@ -1,0 +1,235 @@
+{
+ "anim": "skiff_departure",
+ "note": "HolmIslandCurriculum.board() at the departure stance: bell, cast-off, the adventurer and Tobin aboard; real time",
+ "hud": "hidden for the frames",
+ "frames": [
+  {
+   "frame": 0,
+   "ms": 150804,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 1,
+   "ms": 151476,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 2,
+   "ms": 152151,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 3,
+   "ms": 153246,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 4,
+   "ms": 154144,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 5,
+   "ms": 155319,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 6,
+   "ms": 155982,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 7,
+   "ms": 156876,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 8,
+   "ms": 157364,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 9,
+   "ms": 157855,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 10,
+   "ms": 158340,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  },
+  {
+   "frame": 11,
+   "ms": 158824,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 2,
+    "bells": 2,
+    "ropeDrops": 1,
+    "doorOpens": 2,
+    "doorCloses": 2,
+    "bankVault": 1,
+    "bankCounter": 1,
+    "puffs": 217,
+    "flarings": 3
+   }
+  }
+ ]
+}

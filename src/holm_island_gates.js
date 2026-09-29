@@ -3,11 +3,13 @@
  * doorway's tiles are left out of the island graph (HolmIslandNav gates), so nobody walks through it; clicking the
  * Blender door leaf says why it is shut. Station gates (the quarry shaft ladder, the mage's rune table) refuse the
  * same way until their turn. Progress comes from the curriculum's lesson ledger (HolmIslandCurriculum), so a
- * reloaded save opens exactly the gates it has earned. Island draft only (?holmIsland=1). */
+ * reloaded save opens exactly the gates it has earned. Island draft only (?holmIsland=1).
+ * Animation pass (2026-09-29): an earned door's LEAF may be handed to a driver (HolmIslandAnim) that swings it open as the
+ * adventurer comes to it and shut behind them; the doorway's walk-graph state (open for good once earned) is unchanged. */
 var HolmIslandGates=(function(){
  'use strict';
  var DATA=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/docs/rebuild/holm-overhaul/island-gates.json'):'/docs/rebuild/holm-overhaul/island-gates.json'),PROPS=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/holm-props-v3/candidates/props.glb'):'/.studio-workspaces/holm-props-v3/candidates/props.glb');
- var st={data:null,nav:null,leaves:{},open:{},seen:-1,anim:[]};
+ var st={data:null,nav:null,leaves:{},open:{},seen:-1,anim:[],driver:null,doors:null};
  // owner review 4 (2026-09-27): "two doors on top of each other" at the Quest Lodge "and the door doesn't open". A doorway
  // whose building has a door leaf of its own is gated by that leaf and the prop leaf is not placed: the lodge's oak door
  // plays its authored swing (its clip runs shut -> open -> shut, so open is the widest pose). A static leaf of one piece
@@ -63,7 +65,16 @@ var HolmIslandGates=(function(){
   if(changed&&!instant&&typeof UI!=='undefined'&&st.ready)fresh.forEach(function(id){var g=st.data.gates.filter(function(q){return q.id===id})[0];if(g)UI.chat(g.id==='haven-gate'?'The pier gate swings open.':'You hear a bolt draw back somewhere on the Holm.','plain')});
   return changed;
  }
- function update(dt){Object.keys(st.leaves).forEach(function(id){var L=st.leaves[id];if(L.t===undefined||L.t>=1)return;L.t=Math.min(1,L.t+dt*1.4);var k=L.t*L.t*(3-2*L.t);
+ // the leaves for a visual driver: earned (open in the graph) or not, the doorway's centre, and a pose setter (0 shut, 1 open)
+ function doorList(){if(st.doors)return st.doors;if(!st.data)return [];
+  st.doors=st.data.gates.map(function(g){var L=st.leaves[g.id];if(!L)return null;var e=g.edge,m=(e.from+e.to)/2;
+   var d={id:g.id,open:false,center:{x:e.axis==='z'?m:e.at,y:g.y,z:e.axis==='z'?e.at:m},
+    set:L.own?function(k){L.set(k);L.t=1;L.shown=k}:function(k){L.root.rotation.y=L.poses.closed+(L.poses.open-L.poses.closed)*k;L.t=1;L.shown=k}};return d}).filter(Boolean);return st.doors}
+ // what the player sees: with a driver an earned door may stand shut until they come to it (the menu then offers Open)
+ function looksOpen(id){var L=st.leaves[id];if(st.driver&&L&&L.shown!==undefined)return L.shown>.5;return !!st.open[id]}
+ function setDriver(fn){st.driver=typeof fn==='function'?fn:null}
+ function update(dt){if(st.driver){var list=doorList();list.forEach(function(d){d.open=!!st.open[d.id]});try{st.driver(dt,list);return}catch(e){console.error('[HolmIslandGates] door driver',e);st.driver=null}}
+  Object.keys(st.leaves).forEach(function(id){var L=st.leaves[id];if(L.t===undefined||L.t>=1)return;L.t=Math.min(1,L.t+dt*1.4);var k=L.t*L.t*(3-2*L.t);
   if(L.own){if(st.open[id])L.set(k);return}L.root.rotation.y=L.from+(L.poses.open-L.from)*k})}
  // bind to the composed graph and place the leaves; gates earned by a restored save open at once, without the swing
  async function load(o){
@@ -81,6 +92,6 @@ var HolmIslandGates=(function(){
  // station gate: a message while the station is not yet due, else null
  function serviceBlocked(building,target){var s=st.data&&st.data.services.filter(function(q){return q.building===building&&q.target===target})[0];return s&&!done(s.requires)?s.message:null}
  function isOpen(id){return !!st.open[id]}
- return {loadData:loadData,load:load,refresh:refresh,update:update,message:message,serviceBlocked:serviceBlocked,isOpen:isOpen,ownLeaf:function(id){var L=st.leaves[id];return !!(L&&L.own)},leafObject:function(id){var L=st.leaves[id];return L?(L.own?L.node:L.root):null},gateKey:function(){return st.nav&&st.nav.gateKey?st.nav.gateKey():''}};
+ return {loadData:loadData,load:load,refresh:refresh,update:update,message:message,serviceBlocked:serviceBlocked,isOpen:isOpen,ownLeaf:function(id){var L=st.leaves[id];return !!(L&&L.own)},setDriver:setDriver,doors:doorList,looksOpen:looksOpen,leafObject:function(id){var L=st.leaves[id];return L?(L.own?L.node:L.root):null},gateKey:function(){return st.nav&&st.nav.gateKey?st.nav.gateKey():''}};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandGates;
