@@ -85,7 +85,20 @@ const DO={
   await clickInventory(p,'dough');if(await count(p,'bread_dough')<1){await clickInventory(p,'bucket_flour');await clickInventory(p,'dough')}
   await clickInventory(p,'bread_dough');await clickService(p,'Cook');await waitFor(p,()=>Player.count('bread')>0,null,30000);await closeDialogue(p)},
  async learn_quests(p){await walkTo(p,'lodge','board',true,[]);await talk(p,'ansel');await clickService(p,'Study quest board');await sleep(1500);await closeDialogue(p)},
- async descend_cavern(p){await walkTo(p,'quarry','approach',true,[]);await clickService(p,'Climb-down shaft ladder','shaft');await waitFor(p,()=>player.position.y<-20,null,120000);await talk(p,'durgin')},
+ // owner review 5 (2026-09-28): the shaft is climbed on a rope, as the objective line says step by step: take the coil lying
+ // beside the shaft (the old-school menu's Take), use it on the shaft to tie it to the frame, then climb down. The tie is saved
+ // at once: the driver saves, reloads and checks the rope still hangs there before it climbs (the ledger has no descent yet)
+ async descend_cavern(p){await walkTo(p,'quarry','approach',true,[]);const rec={id:'shaft-rope',objective:[await objective(p)]};
+  if(!await p.evaluate(()=>HolmShaftRope.tied())){
+   if(await count(p,'rope')<1){await waitFor(p,()=>!!scene.getObjectByName('island-rope-coil'),null,30000);const t=await L.rightClickRow(p,'island-rope-coil','Take Rope');rec.take=t.error||'ok';rec.takeRows=t.rows;
+    rec.took=await waitFor(p,()=>Player.count('rope')>0,null,40000)}
+   rec.objective.push(await objective(p));await clickInventory(p,'rope');const c=await clickService(p,'Climb-down mine shaft','shaft');rec.tie=c.error||'ok';
+   rec.tied=await waitFor(p,()=>HolmShaftRope.tied()&&Tutorial.shaftRopeTied===true&&Player.count('rope')===0,null,40000);rec.objective.push(await objective(p));
+   await p.evaluate(()=>SaveGame.save(true));await p.reload({waitUntil:'load'});await enter(p);await waitFor(p,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10,null,180000);
+   rec.afterReload=await p.evaluate(()=>({tied:HolmShaftRope.tied(),saved:Tutorial.shaftRopeTied===true,lesson:Tutorial.steps[Tutorial.step].id,prop:HolmShaftRope.snapshot().propVisible}))}
+  else rec.alreadyTied=true;
+  await walkTo(p,'quarry','approach',true,[]);await clickService(p,'Climb-down mine shaft','shaft');rec.down=await waitFor(p,()=>player.position.y<-20,null,120000);
+  rec.ok=!!(rec.alreadyTied||(rec.took!==false&&rec.tied&&rec.afterReload&&rec.afterReload.tied&&rec.afterReload.saved&&rec.afterReload.prop))&&rec.down;TALKS.push(rec);await talk(p,'durgin')},
  async mine_copper(p){await clickNamed(p,'island-lesson-cavern-copper-1');await waitFor(p,()=>Player.count('copper_ore')>0,null,90000)},
  async mine_tin(p){await clickNamed(p,'island-lesson-cavern-tin-1');await waitFor(p,()=>Player.count('tin_ore')>0,null,90000)},
  async smelt_bronze(p){await clickNamed(p,'island-lesson-furnace');await clickButtonText(p,'#dialogue-modal button','Smelt a Bronze bar.');await waitFor(p,()=>Player.count('bronze_bar')>0,null,30000)},
@@ -152,6 +165,7 @@ async function playOnce(browser,n){
     if(status==='complete'&&!(tools&&tools.handed)){status='tools-flow';note='wenna tools '+JSON.stringify(tools)}
     if(status==='complete'&&moves.length<8){status='moving-on';note='moving-on notices '+moves.length+' '+JSON.stringify(moves).slice(0,300)}
     if(status==='complete'&&!(run&&run.startedOff&&run.on)){status='run-default';note='run '+JSON.stringify(run)}
+    {const rope=TALKS.find(t=>t.id==='shaft-rope');if(status==='complete'&&!(rope&&rope.ok)){status='rope-flow';note='shaft rope '+JSON.stringify(rope).slice(0,400)}}
     TALKS.push({id:'moving-on',count:moves.length,lines:moves},{id:'fire-spots',fires:FIRE},{id:'run-orb',run});
     note=note||('first hint: '+hint0.slice(0,60));
   }catch(e){status='driver-error';note=String(e).slice(0,300);await shot(page,'run'+n+'_error')}

@@ -38,9 +38,9 @@ var HolmIslandExtras=(function(){
   // M4.4 stations; lesson handlers are rebound to them in M5 (a click without a call walks there and says so)
   bank:[{prefix:'Bank_ServiceCounter_',target:'counter',label:'Use bank counter',call:['UI','openBank'],option:'Bank',name:'Bank counter',examine:'The teller keeps her ledgers here.'},{prefix:'Bank_ServiceVault_',target:'vault',label:'Open vault',call:['UI','openBank'],option:'Bank',name:'Vault',examine:'Iron-banded, and very heavy.'},{prefix:'Bank_ServiceShelves_',target:'shop',label:'Browse goods',option:'Browse',name:'Goods shelves',examine:'Odds and ends, not yet for sale.'}],
   survival:[{prefix:'Survival_ServiceTools_',target:'tools',label:'Tool rack',option:'Search',name:'Tool rack',examine:'Spare tools for the camp.'},{prefix:'Survival_ServiceFirePit_',target:'fire',label:'Fire ring',option:'Search',name:'Fire ring',examine:'A ring of blackened stones.'},{prefix:'Survival_ServiceLogPile_',target:'logs',label:'Log pile',option:'Search',name:'Log pile',examine:'Split logs, stacked to dry.'}],   // v2 land: the creek fishing stage is gone; fishing is taught at the Minnow Hollow pond (HolmFishing)
-  quarry:[{prefix:'Quarry_ServiceShaft_',target:'shaft',label:'Climb-down shaft ladder',ladder:'quarry-shaft',option:'Climb-down',name:'Shaft ladder',examine:'A long ladder down into the ore workings.'},{prefix:'Quarry_ServiceWinch_',target:'winch',label:'Winch',option:'Inspect',name:'Winch',examine:'It hauls ore buckets up from the cavern.'},{prefix:'Quarry_ServiceBench_',target:'bench',label:'Repair bench',option:'Inspect',name:'Repair bench',examine:'Pick heads and hammer handles waiting to be mended.'}],
+  quarry:[{prefix:'Quarry_ServiceShaft_',target:'shaft',label:'Climb-down mine shaft',ladder:'quarry-shaft',rope:'quarry-shaft',option:'Climb-down',name:'Mine shaft',examine:'A deep shaft down to the ore workings. The old ladder is gone; a rope tied to the frame would take you down.'},{prefix:'Quarry_ServiceWinch_',target:'winch',label:'Winch',option:'Inspect',name:'Winch',examine:'It hauls ore buckets up from the cavern.'},{prefix:'Quarry_ServiceBench_',target:'bench',label:'Repair bench',option:'Inspect',name:'Repair bench',examine:'Pick heads and hammer handles waiting to be mended.'}],
   mage:[{prefix:'Mage_ServiceRuneTable_',target:'runes',label:'Rune table',option:'Study',name:'Rune table',examine:'Runes laid out in rows, air to chaos.'},{prefix:'Mage_ServiceLectern_',target:'lectern',label:'Lectern',option:'Study',name:'Lectern',examine:'A heavy book of spells lies open.'},{prefix:'Mage_ServiceTelescope_',target:'observatory',label:'Telescope',option:'Look-through',name:'Telescope',examine:'A brass telescope pointed at the sky.'}],
-  cavern:[{prefix:'Cavern_ServiceLadderUp_',target:'ladder',label:'Climb-up ladder',ladder:'quarry-shaft',option:'Climb-up',name:'Ladder',examine:'The shaft ladder back up to the Quarry Gate.'},
+  cavern:[{prefix:'Cavern_ServiceLadderUp_',target:'ladder',label:'Climb-up ladder',ladder:'quarry-shaft',option:'Climb-up',name:'Ladder',examine:'A short ladder up to where the rope hangs down the shaft from the Quarry Gate.'},
    // v2 land phase 4: the east drift's ladder comes up through a trapdoor in the Warden's Keep hall (island-ladders.json)
    {prefix:'Cavern_ServiceLadderExit_',target:'exit',label:'Climb-up drift ladder',ladder:'keep-undercroft',option:'Climb-up',name:'Ladder',examine:'A ladder up a timber-lined shaft. Somewhere above, a hearth is burning.'}],
   // the keep end of that ladder: no mesh of the keep's own, the hatch is a route prop the island places (hatch: ladder id)
@@ -135,6 +135,16 @@ var HolmIslandExtras=(function(){
    var ht=hb.graph.targets.filter(function(t){return t.id===end[1]})[0],hn=ht&&hb.graph.nodes.filter(function(n){return n.id===ht.nodeId})[0];need(hn,'ladder '+L0.id+' hatch has no stance');
    var hp=hatchPacks[h.pack]||(hatchPacks[h.pack]=await parse(T,await bytes(lookUrl(HolmV2LandUrl(h.pack))))),tpl=hp.scene.getObjectByName(h.prop);need(tpl,'route props have no '+h.prop);
    var hr=tpl.clone(true);hr.position.set(0,0,0);hr.rotation.set(0,0,0);hatches[L0.id]=place(hr,h.x,hn.y+hb.placement.y,h.z,h.yaw||0);hatches[L0.id].name='island-hatch-'+L0.id}
+  // owner review 5 (2026-09-28): the rope into the mine shaft (HolmShaftRope). The tied rope is authored in the building's own
+  // model space (knotted round the shaft frame), so it stands at the building's placement, hidden until tied; the coil of
+  // rope lies on the floor beside the shaft at the height of the nearest measured stance. Neither blocks a tile.
+  var ropes={};
+  for(var rl=0;rl<(data.ladders||[]).length;rl++){var L1=data.ladders[rl],rp=L1.rope;if(!rp)continue;var rend=L1[rp.end||'a'],rb=data.buildings.filter(function(x){return x.id===rend[0]})[0];if(!rb)continue;try{
+   var rpk=hatchPacks[rp.pack]||(hatchPacks[rp.pack]=await parse(T,await bytes(lookUrl(HolmV2LandUrl(rp.pack))))),rtpl=rpk.scene.getObjectByName(rp.prop);need(rtpl,'rope props have no '+rp.prop);
+   var rr=rtpl.clone(true);rr.position.set(0,0,0);rr.rotation.set(0,0,0);var rg=place(rr,rb.placement.x,rb.placement.y,rb.placement.z,0);rg.name='island-shaft-rope-'+L1.id;rg.visible=false;
+   var cn=null,cd=Infinity;rb.graph.nodes.forEach(function(n){var dd=Math.hypot(n.x+rb.placement.x-rp.coil.x,n.z+rb.placement.z-rp.coil.z);if(dd<cd){cd=dd;cn=n}});need(cn,'ladder '+L1.id+' rope coil has no floor');
+   ropes[L1.id]={id:L1.id,prop:rg,coil:{x:rp.coil.x,y:cn.y+rb.placement.y,z:rp.coil.z,yaw:rp.coil.yaw||0}}}
+   catch(e){console.warn('[HolmIslandExtras] ladder '+L1.id+' rope not placed; the shaft climbs as before',e&&e.message)}}
   for(var i=0;i<data.buildings.length;i++){var b=data.buildings[i],src=b.source,buf=await bytes(src.model),p=b.placement;
    need(await sha(buf)===b.graph.modelSha256,b.id+' model bytes differ from the model its navigation graph was measured on');
    var gltf=await parse(T,buf);place(gltf.scene,p.x,p.y,p.z,0).name='island-building-'+b.id;if(src.look&&typeof HolmOldschoolLook!=='undefined')HolmOldschoolLook.prepareModel(T,gltf.scene);models[b.id]={scene:gltf.scene,placement:p,actions:{}};
@@ -177,7 +187,8 @@ var HolmIslandExtras=(function(){
     models[b.id].capped=capped}
    (SERVICES[b.id]||[]).forEach(function(s){
     var local=s.node||(b.graph.targets.filter(function(t){return t.id===s.target})[0]||{}).nodeId;need(local,b.id+' service '+s.label+' has no stance');
-    var info={building:b.id,target:s.target,node:'b:'+b.id+':'+local,call:s.call,label:s.label,option:s.option,name:s.name,examine:s.examine,say:s.say},box=new T.Box3();   // option/name/examine: its old-school menu row (osrs_menu_world.js)
+    var info={building:b.id,target:s.target,node:'b:'+b.id+':'+local,call:s.call,label:s.label,option:s.option,name:s.name,examine:s.examine,say:s.say},box=new T.Box3();
+    if(s.rope&&ropes[s.rope]){info.rope=s.rope;ropes[s.rope].service=info;if(typeof HolmShaftRope!=='undefined')HolmShaftRope.bind(ropes[s.rope])}   // option/name/examine: its old-school menu row (osrs_menu_world.js)
     // ladders: walk to this end's stance, then stand on the other end (measured climbs in the building graph)
     // ladders between buildings (quarry shaft <-> cavern): stand on the other end's measured target
     if(s.ladder){var L=(data.ladders||[]).filter(function(q){return q.id===s.ladder})[0];need(L,b.id+' ladder '+s.ladder+' is not listed');

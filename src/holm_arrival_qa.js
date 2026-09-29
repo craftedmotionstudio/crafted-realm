@@ -196,8 +196,10 @@ var HolmArrivalQA=(function(){
   }
   if(u.kind==='island_service'&&u.islandService&&island){   // M4.2: walk to the measured stance, then serve
    var sv=u.islandService,blockedMsg=typeof HolmIslandGates!=='undefined'&&HolmIslandGates.serviceBlocked(sv.building,sv.target);if(blockedMsg){UI.chat(blockedMsg,'plain');return true}
+   // owner review 5 (2026-09-28): the mine shaft wants a rope tied to its frame before it can be climbed (HolmShaftRope)
+   var rope=sv.rope&&typeof HolmShaftRope!=='undefined'?HolmShaftRope.click(sv):null;if(rope&&rope.refuse){UI.chat(rope.refuse,'plain');return true}
    var sg=graphForDoors(doors),stance=sg.byId&&sg.byId[sv.node];
-   if(stance&&bridge.order({x:stance.x,y:stance.y,z:stance.z,surface:stance.surface}))pending={id:sv.node,kind:'island_service',service:sv};
+   if(stance&&bridge.order({x:stance.x,y:stance.y,z:stance.z,surface:stance.surface}))pending={id:sv.node,kind:'island_service',service:sv,tie:!!(rope&&rope.tie)};
    else UI.chat('There is no open route to the '+sv.label.toLowerCase()+'.','plain');
    return true;
   }
@@ -251,9 +253,12 @@ var HolmArrivalQA=(function(){
    // an opened gate changes the composed graph: the follower holds its graph, so re-seat it on the current one
    var gk=nav.gateKey?nav.gateKey():'';if(gk!==lastGateKey){if(bridge.setDoors({arrival:doors.arrival,garden:doors.garden}))lastGateKey=gk}}owner.update(dt,pose.surface);
   if(island&&typeof HolmGuideCellar!=='undefined')HolmGuideCellar.update(dt,pose.surface);
+  if(island&&typeof HolmShaftRope!=='undefined')HolmShaftRope.update(dt);
   if(island){if(stairMesh===undefined)stairMesh=scene.getObjectByName('StairFlight')||null;if(stairMesh)stairMesh.userData.label=pose.surface==='upper'?'Climb-down Staircase':'Climb-up Staircase'}
   if(pending&&pose.nodeId===pending.id&&!pose.moving){var p0=pending,kind=pending.kind,door=pending.door;pending=null;
    if(kind==='island_service'){var call=p0.service.call;
+    if(p0.tie){HolmShaftRope.tie();return}
+    if(p0.service.rope&&typeof HolmShaftRope!=='undefined'&&!HolmShaftRope.tied()){UI.chat(HolmShaftRope.LINES.refuse,'plain');return}
     if(p0.service.climb){var up=graphForDoors(doors).byId[p0.service.climb];if(up){placeAt(up);if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active())HolmIslandPlayer.play('climb');if(p0.service.notify)try{Tutorial.notify(p0.service.notify[0],p0.service.notify[1])}catch(e){}}else UI.chat('The ladder leads nowhere yet.','plain');if(!call)return}
     if(!call){UI.chat(p0.service.say||(p0.service.label+'. (Its lesson comes with the full tutorial.)'),'plain');return}
     // module globals may be lexical (const UI), so resolve by name rather than only on window

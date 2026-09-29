@@ -263,7 +263,7 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
     // like a player: walk in through the west door first (roofs cut away once inside), then the telescope is in sight
     v=await visit('mage','entrance','Telescope','observatory',null,async()=>{const t2=[];await walkTo(page,'mage','runes',false,t2)});ok('Mage tower: climbs both stairs to the telescope in the observatory',v.ok&&v.at[1]>11.5,v);
     v=await visit('haven','shore','Ferry','boat');ok('Departure haven at Lanternfoot Cove (v2 land): down the Keeper stair and the pier north to the ferry on the landing stage',v.ok&&v.at[2]<2&&v.at[0]>95&&v.at[0]<108,v);
-    v=await visit('quarry','approach','Climb-down shaft ladder','shaft',null,null,true);v.shaftTiles=await(async()=>{const s=await stanceOf('quarry','shaft');return s?+Math.hypot(v.at[0]-s.x,v.at[2]-s.z).toFixed(2):null})();
+    v=await visit('quarry','approach','Climb-down mine shaft','shaft',null,null,true);v.shaftTiles=await(async()=>{const s=await stanceOf('quarry','shaft');return s?+Math.hypot(v.at[0]-s.x,v.at[2]-s.z).toFixed(2):null})();
     ok('Quarry Gate: walks through the portal to the shaft mouth',v.walk==='ok'&&v.click==='ok'&&v.shaftTiles!==null&&v.shaftTiles<=1.05,v);
     // v2 land: the creek fishing stage is gone; fishing is at Minnow Hollow, down the Hollow Path onto its jetty
     {const w=await DL.walkPoint(page,29.5,95.5,[]);const at=await pos(page);await shot(page,'05_minnow_hollow');ok('Minnow Hollow: down the Hollow Path from the camp and out onto the jetty',!w.error&&Math.hypot(at[0]-29.5,at[2]-95.5)<1.1&&Math.abs(at[1]-1.3)<.3,{walk:w.error||'ok',at})}
@@ -324,7 +324,34 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      L.cook=await note('cook/cooked_perch');
      L.cookNote=await page.evaluate(()=>window.__notes.filter(n=>n.indexOf('cook/')===0));
      await shot(page,'06_survival_lessons');
-     await walkTo(page,'quarry','approach',true,[]);c=await clickService(page,'Climb-down shaft ladder','shaft');L.descend=c.error||(await waitFor(page,()=>player.position.y<-20,null,150000))&&await note('descend/cave');
+     // owner review 5 (2026-09-28): the rope into the mine shaft, by real input. The ledger goes back to the lesson before the
+     // descent and the shaft is untied (QA only), as a new adventurer finds it. Then, like a player: the shaft refuses to be
+     // climbed with a chat-box line; right-click the coil of rope, Take; the shaft's own menu offers Tie-rope; Use the rope
+     // on the shaft (it walks there and ties it: the rope leaves the pack and hangs from the frame); the objective line follows
+     // take -> tie -> climb; the tie is in the saved bytes; the rope takes the adventurer down to the ore workings (descend/cave)
+     // and the ladder brings them back up. The ledger is restored afterwards.
+     {const R={};const at=await page.evaluate(()=>HolmCurriculumProgress.lessonIds.indexOf('descend_cavern'));
+      await page.evaluate(n=>{HolmIslandCurriculum.qaSetLedger(HolmCurriculumProgress.lessonIds.slice(0,n));HolmShaftRope.qaUntie()},at);
+      await walkTo(page,'quarry','approach',true,[]);R.coil=await waitFor(page,()=>!!scene.getObjectByName('island-rope-coil'),null,30000);
+      R.start=await page.evaluate(()=>HolmShaftRope.snapshot());R.objective=[await DL.objective(page)];
+      c=await clickService(page,'Climb-down mine shaft','shaft');await sleep(1200);R.refuseChat=(await DL.lastChat(page,4)).filter(t=>/rope/.test(t));
+      R.refused=!c.error&&(await pos(page))[1]>0&&R.refuseChat.some(t=>/need a rope tied to the frame/.test(t));
+      const t=await DL.rightClickRow(page,'island-rope-coil','Take Rope');R.takeRows=t.rows;R.take=t.error||'ok';
+      R.took=await waitFor(page,()=>Player.count('rope')>0,null,40000);R.coilGone=await page.evaluate(()=>!scene.getObjectByName('island-rope-coil'));R.objective.push(await DL.objective(page));
+      {const xy=await DL.menuSpot(page,'Quarry_ServiceShaft_Mouth','Climb-down mine shaft');if(Array.isArray(xy)){await page.mouse.click(xy[0],xy[1],{button:'right'});await sleep(450);R.shaftRows=await DL.readMenuRows(page);await page.keyboard.press('Escape');await sleep(300)}
+       await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear())}
+      await clickInventory(page,'rope');R.using=await page.evaluate(()=>Player.usingItem);c=await clickService(page,'Climb-down mine shaft','shaft');R.tie=c.error||'ok';
+      R.tied=await waitFor(page,()=>HolmShaftRope.tied()&&Tutorial.shaftRopeTied===true&&Player.count('rope')===0,null,40000);
+      R.after=await page.evaluate(()=>HolmShaftRope.snapshot());R.objective.push(await DL.objective(page));R.tieChat=(await DL.lastChat(page,4)).filter(t=>/rope/.test(t));await shot(page,'06b_shaft_rope_tied');
+      R.saved=await page.evaluate(()=>{SaveGame.save(true);try{return JSON.parse(Persist.store.get(SaveGame.KEY)).tut.shaftRopeTied===true}catch(e){return String(e)}});
+      c=await clickService(page,'Climb-down mine shaft','shaft');R.down=c.error||(await waitFor(page,()=>player.position.y<-20,null,150000))&&await note('descend/cave');
+      R.inCavern=await page.evaluate(()=>{const r=HolmArrivalQA.saveRecord();return r?r.surface:null});await shot(page,'06c_shaft_rope_cavern');
+      c=await clickService(page,'Climb-up ladder','ladder');R.up=c.error||(await waitFor(page,()=>player.position.y>0,null,60000));R.top=await pos(page);
+      await keepRunning();
+      ok('owner review 5: the rope into the mine shaft by real input: the shaft refuses untied, Take the coil (menu), Tie-rope offered, Use rope on the shaft ties it (saved), the objective follows, down on the rope to the ore workings and back up the ladder',
+       R.coil&&R.start.stage==='take'&&!R.start.propVisible&&R.refused&&R.take==='ok'&&R.took&&R.coilGone&&Array.isArray(R.shaftRows)&&R.shaftRows.includes('Tie-rope Mine shaft')&&R.using==='rope'&&R.tied&&R.after.propVisible&&R.saved===true&&
+       /take the coil of rope/.test(R.objective[0])&&/tie it to the frame/.test(R.objective[1])&&/Climb down/.test(R.objective[2])&&R.down===true&&/^b:cavern:/.test(R.inCavern||'')&&R.up===true,R);}
+     await walkTo(page,'quarry','approach',true,[]);c=await clickService(page,'Climb-down mine shaft','shaft');L.descend=c.error||(await waitFor(page,()=>player.position.y<-20,null,150000))&&await note('descend/cave');
      c=await clickNamed(page,'island-lesson-cavern-copper-1');L.copper=c.error||(await waitFor(page,()=>Player.count('copper_ore')>0,null,90000))&&await note('gather/copper_ore');
      c=await clickNamed(page,'island-lesson-cavern-tin-1');L.tin=c.error||(await waitFor(page,()=>Player.count('tin_ore')>0,null,90000))&&await note('gather/tin_ore');
      await shot(page,'07_cavern');
@@ -335,7 +362,7 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      await shot(page,'08_forge');
      c=await clickService(page,'Climb-up ladder','ladder');L.up=c.error||(await waitFor(page,()=>player.position.y>0,null,60000));
      ok('M5.1 survival lessons on the v2 land: chop on the hollow rim, light a fire where you stand there (owner review 4; step aside on the graph), net a perch at a live ripple, cook it on that fire',L.chop===true&&L.fire===true&&L.fireWhereStood&&L.stepWest&&L.fish===true&&L.cook===true&&L.cookNote.length>0,L);
-     ok('M5.1 cavern lessons: shaft ladder down (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up',L.descend===true&&L.copper===true&&L.tin===true&&L.smelt===true&&L.smith===true&&L.up===true,L);}
+     ok('M5.1 cavern lessons: down the shaft on the tied rope (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up',L.descend===true&&L.copper===true&&L.tin===true&&L.smelt===true&&L.smith===true&&L.up===true,L);}
     // M5.3 combat trials on practice grubkins (Blender-rigged), by real clicks: dagger in the keep court, shortbow from
     // range, Gale Dart by the mage tower; each kill credits its style through the game's npcKilled hook
     {const T={};const note=e=>page.evaluate(e=>window.__notes.includes(e),e);

@@ -1,5 +1,5 @@
 {
- "note": "Holm v2 land gate changes on top of the v1 snapshot (tools/rebuild_holm_v2land.js applies them after lifting the leaves). Phase 4 (2026-09-26): the haven moved to Lanternfoot Cove below Lastlight, so its yard gate on the old south-east site is gone (Ferryman Tobin refuses to sail until Lastlight burns: HolmIslandCurriculum.board); the ore workings' east drift ladder and the keep's undercroft trapdoor stay shut until the bronze dagger is made.",
+ "note": "Holm v2 land gate changes on top of the v1 snapshot (tools/rebuild_holm_v2land.js applies them after lifting the leaves). Phase 4 (2026-09-26): the haven moved to Lanternfoot Cove below Lastlight, so its yard gate on the old south-east site is gone (Ferryman Tobin refuses to sail until Lastlight burns: HolmIslandCurriculum.board); the ore workings' east drift ladder and the keep's undercroft trapdoor stay shut until the bronze dagger is made. Owner review 5 (2026-09-28): the shaft has no ladder at its head any more (a rope is tied to its frame, HolmShaftRope), so its Quest Lodge gate names the mine shaft.",
  "dropGates": [
   "haven-gate"
  ],
@@ -15,6 +15,12 @@
    "target": "undercroft",
    "requires": "forge_dagger",
    "message": "The trapdoor is bolted from below."
+  },
+  {
+   "building": "quarry",
+   "target": "shaft",
+   "requires": "learn_quests",
+   "message": "The mine shaft is closed off for now. Visit the Quest Lodge first."
   }
  ]
 }

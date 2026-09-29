@@ -40,7 +40,7 @@ const CLICK={
  oak:{kind:'resource',islandLesson:'survival-oak-1'},perch:{kind:'resource',islandLesson:'survival-perch'},fire:{kind:'fire'},
  fishingStage:{kind:'island_service',islandService:{building:'survival',target:'fishing',label:'Fishing spot'}},
  bucket:{kind:'island_service',islandService:{building:'bakehouse',target:'buckets',label:'Take bucket',call:['HolmTeachingKitchen','takeBucket']}},
- shaft:{kind:'island_service',islandService:{building:'quarry',target:'shaft',label:'Climb-down shaft ladder',climb:'b:cavern:x'}},
+ shaft:{kind:'island_service',islandService:{building:'quarry',target:'shaft',label:'Climb-down mine shaft',climb:'b:cavern:x',rope:'quarry-shaft'}},
  ladderUp:{kind:'island_service',islandService:{building:'cavern',target:'ladder',label:'Climb-up ladder',climb:'b:quarry:x'}},
  copper:{kind:'resource',islandLesson:'cavern-copper-1'},furnace:{kind:'furnace',islandLesson:'furnace'},anvil:{kind:'anvil',islandLesson:'anvil'},
  court:{kind:'npc',npc:{islandPen:'keep-court'}},yard:{kind:'npc',npc:{islandPen:'mage-yard'}},

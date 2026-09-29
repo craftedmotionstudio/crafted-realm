@@ -1,0 +1,91 @@
+{
+ "schema": 1,
+ "pack": "HOLM_ROPE_PROPS_V1",
+ "status": "candidate",
+ "axes": "glTF Y-up, 1 unit = tile, origin at the resting base centre",
+ "file": "props.glb",
+ "blend": "props.blend",
+ "sha256": "d8aed82bbc8498aae83cb567c902d170746542a83046a8e7c4c575196053f7e9",
+ "assets": [
+  {
+   "name": "rope",
+   "root": "rope",
+   "triangles": 800,
+   "materials": [
+    "Hemp rope",
+    "Hemp rope shade"
+   ],
+   "bounds": {
+    "min": [
+     -0.2498,
+     0.0,
+     -0.1972
+    ],
+    "max": [
+     0.2498,
+     0.1093,
+     0.1972
+    ]
+   },
+   "sha256": "d8aed82bbc8498aae83cb567c902d170746542a83046a8e7c4c575196053f7e9",
+   "kind": "item",
+   "item": "rope",
+   "icon": "assets/icons/items/rope.png",
+   "design": "build_world_item_icons_v1.py b_rope() x1.7: 3.1-turn flat spiral + loose end, 6-sided tube, (j+i)%3 twist bands"
+  },
+  {
+   "name": "rope-tied",
+   "root": "rope-tied",
+   "triangles": 1504,
+   "materials": [
+    "Hemp rope",
+    "Hemp rope shade"
+   ],
+   "bounds": {
+    "min": [
+     0.0233,
+     -2.6,
+     -5.3027
+    ],
+    "max": [
+     0.668,
+     1.4312,
+     -3.4264
+    ]
+   },
+   "sha256": "d8aed82bbc8498aae83cb567c902d170746542a83046a8e7c4c575196053f7e9",
+   "kind": "prop",
+   "item": "rope",
+   "frame": "Quarry Gate model-local plan coordinates: place at the quarry model origin (world 36, 9.15, 33), yaw 0",
+   "attach": "right mouth post (x .45, z -3.72) of Quarry_ServiceShaft_MouthSet",
+   "checks": {
+    "intersections": 0,
+    "deepFloorEntry": 16,
+    "turns": 3.33,
+    "turnGapToPost": [
+     0.012,
+     0.015
+    ],
+    "floorRest": [
+     0.005,
+     0.005
+    ],
+    "lowestBeforeDeepEdge": 0.005,
+    "nearest": {
+     "Quarry_CaveMain": 0.0335,
+     "Quarry_FloorTunnelMain": 0.0034,
+     "Quarry_ServiceShaft_Mouth": 0.0065,
+     "Quarry_ShellMain": 0.003
+    },
+    "stanceClear": true,
+    "dropBottomY": -2.6
+   }
+  }
+ ],
+ "totals": {
+  "triangles": 2304,
+  "assets": 2,
+  "materials": 2,
+  "budgetTriangles": 2400
+ }
+}

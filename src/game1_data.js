@@ -67,7 +67,7 @@ const ITEMS = {
      pass so they never ship with placeholder meshes. ===== */
   ashes:       {name:'Ashes', stack:false, value:1, examine:'All that burning leaves behind.'},
   chisel:      {name:'Chisel', stack:false, value:2, tool:true},
-  rope:        {name:'Rope', stack:false, value:18},
+  rope:        {name:'Rope', stack:false, value:18, examine:'A coil of stout hemp rope. Handy for getting down things.'},
   shears:      {name:'Shears', stack:false, value:2, tool:true},
   spade:       {name:'Spade', stack:false, value:5, tool:true},
   jug:         {name:'Jug', stack:false, value:1},
