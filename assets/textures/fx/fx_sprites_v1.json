@@ -1,0 +1,19 @@
+{
+ "source": "tools/blender/build_fx_sprites_v1.py",
+ "blender": "4.5.10 LTS",
+ "cell": 128,
+ "layout": "2x2, row-major from the top-left cell",
+ "uv": "three.js flipY: cell i -> u0 = (i % 2) * .5, v0 = .5 - floor(i / 2) * .5, size .5",
+ "levelup_sparks_v1.png": [
+  "twinkle",
+  "burst",
+  "ember",
+  "flare"
+ ],
+ "oak_leaves_v1.png": [
+  "autumn_green",
+  "olive_gold",
+  "amber",
+  "russet"
+ ]
+}

@@ -221,9 +221,10 @@ const Notifier = {
     this._lastInput=performance.now();
     this._onInput=()=>{ this._lastInput=performance.now(); this._idleWarned=false; };
     addEventListener('mousedown', this._onInput); addEventListener('keydown', this._onInput);
+    // a level-up: the small banner only (owner 2026-09-29: no screen flash, no emoji). The celebration is the firework
+    // burst around the adventurer (src/fx_levelup.js) and its sound; the chat box keeps the level line.
     this._offs.push(Events.on('levelUp', ({skill, level})=>{
-      this._flash('radial-gradient(circle, rgba(255,210,74,.25), rgba(255,210,74,.5))');
-      this._banner(`✨ Level ${level} ${skill}! ✨`);
+      this._banner(`${skill} level ${level}`);
     }));
     this._iv=setInterval(()=>{
       if(typeof Player==='undefined') return;
@@ -251,7 +252,7 @@ const Notifier = {
   }
 };
 Overlays.register({ id:'notifications', name:'Notifications',
-  desc:'Level-up banner + flash, low-HP warning vignette, idle alert.', defaultOn:true,
+  desc:'Level-up banner, low-HP warning vignette, idle alert.', defaultOn:true,
   start:()=>Notifier.start(), stop:()=>Notifier.stop() });
 
 /* ============ 7. Tile markers (persisted, right-click "Mark tile") ============ */

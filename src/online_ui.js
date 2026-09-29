@@ -18,6 +18,9 @@ var OnlineUI=(function(){
  function esc(s){var d=document.createElement('div');d.textContent=String(s);return d.innerHTML}
  function click(){try{if(typeof Sfx!=='undefined'&&Sfx.click)Sfx.click()}catch(e){}}
  function chat(text,cls){if(typeof UI!=='undefined')UI.chat(text,cls||'plain')}
+ // our own level-up (the server's 'level' message): the firework burst round our adventurer and its sound
+ // (src/fx_levelup.js). Other players' level-ups are not in the protocol (the server tells only the one who levelled).
+ function levelUpShow(){try{if(typeof LevelUpFX!=='undefined'&&typeof player!=='undefined'&&player)LevelUpFX.burst(player);if(typeof Sfx!=='undefined'&&Sfx.level)Sfx.level()}catch(e){}}
  function net(){return st.net}
  function send(m){return st.net&&st.net.send(m)}
  function css(){
@@ -164,7 +167,8 @@ var OnlineUI=(function(){
   if(gear){try{UI.refreshEquip();if(typeof refreshPlayerGear==='function')refreshPlayerGear();if(UI.refreshCombat)UI.refreshCombat()}catch(e){}}
   if(hud){try{UI.refreshHud()}catch(e){}}
   if(inv||gear||m.pr||(me&&me.skull!=null))keptPreview();
-  if(m.msg)m.msg.forEach(function(x){if(x[0]==='combat'&&typeof CombatHooks!=='undefined'&&CombatHooks.message)CombatHooks.message(x[1],'combat');else chat(x[1],x[0]==='combat'?'combat':x[0]==='level'?'xp':'plain')});
+  if(m.msg)m.msg.forEach(function(x){if(x[0]==='combat'&&typeof CombatHooks!=='undefined'&&CombatHooks.message)CombatHooks.message(x[1],'combat');else chat(x[1],x[0]==='combat'?'combat':x[0]==='level'?'xp':'plain');
+   if(x[0]==='level')levelUpShow()});
   if(m.death)showDeath(m.death);
  }
  function prayerOverhead(list){var P=C()&&C().PRAYERS;for(var i=0;i<(list||[]).length;i++){var d=P&&P[list[i]];if(d&&d.protect)return d.protect}return null}
