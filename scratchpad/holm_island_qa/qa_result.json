@@ -128,7 +128,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 65,
+        "deckSamples": 63,
         "deckY": 2.3
       }
     },
@@ -154,8 +154,8 @@
       "label": "the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)",
       "ok": true,
       "detail": {
-        "samples": 733,
-        "diagonal": 74
+        "samples": 726,
+        "diagonal": 77
       }
     },
     {
@@ -169,9 +169,9 @@
         },
         "click": "ok",
         "chat": [
-          "The tools for your next lesson come from Wenna. Speak to Wenna first; this rack only keeps spares.",
-          "You pick a cabbage.",
           "Now entering: Tutor's Holm.",
+          "Music unlocked: Woodsmoke and Flint.",
+          "Music unlocked: Warm Loaves.",
           "You should speak to Cook Hettie first."
         ],
         "buckets": 0
@@ -314,7 +314,7 @@
           11,
           45.5
         ],
-        "diagonal": 121
+        "diagonal": 122
       }
     },
     {
@@ -360,7 +360,7 @@
           -0.05,
           -0.5
         ],
-        "diagonal": 33
+        "diagonal": 35
       }
     },
     {
@@ -375,7 +375,7 @@
           9.15,
           29.5
         ],
-        "diagonal": 149,
+        "diagonal": 151,
         "shaftTiles": 1
       }
     },
@@ -577,10 +577,10 @@
         "fireWhereStood": true,
         "nets": [
           {
-            "spot": "beach-edge",
-            "ticksLeft": 64,
+            "spot": "east-shallows",
+            "ticksLeft": 45,
             "result": "caught",
-            "seconds": 10,
+            "seconds": 13,
             "chat": [
               "You catch a mirrorperch."
             ]
@@ -614,10 +614,10 @@
         "fireWhereStood": true,
         "nets": [
           {
-            "spot": "beach-edge",
-            "ticksLeft": 64,
+            "spot": "east-shallows",
+            "ticksLeft": 45,
             "result": "caught",
-            "seconds": 10,
+            "seconds": 13,
             "chat": [
               "You catch a mirrorperch."
             ]
@@ -650,9 +650,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 19,
+        "arrowsUsed": 7,
         "magic": true,
-        "runesUsed": 8
+        "runesUsed": 7
       }
     },
     {

@@ -1,0 +1,72 @@
+{
+  "base": "http://127.0.0.1:8231/?holmIsland=1&qaProfile=pathtiles-after-mun4tk8k",
+  "tag": "after",
+  "views": {
+    "v01_guide_house_front": {
+      "at": true,
+      "file": "v01_guide_house_front.jpg"
+    },
+    "v02_guide_house_back": {
+      "at": true,
+      "file": "v02_guide_house_back.jpg"
+    },
+    "v03_knoll_to_bridge": {
+      "at": true,
+      "file": "v03_knoll_to_bridge.jpg"
+    },
+    "v04_survival_hollow": {
+      "at": true,
+      "file": "v04_survival_hollow.jpg"
+    },
+    "v05_bakehouse_lane": {
+      "at": true,
+      "file": "v05_bakehouse_lane.jpg"
+    },
+    "v06_lodge_village_lane": {
+      "at": true,
+      "file": "v06_lodge_village_lane.jpg"
+    },
+    "v07_quarry_climb": {
+      "at": true,
+      "file": "v07_quarry_climb.jpg"
+    },
+    "v07b_quarry_gate": {
+      "at": true,
+      "file": "v07b_quarry_gate.jpg"
+    },
+    "v08_keep_ledge": {
+      "at": true,
+      "file": "v08_keep_ledge.jpg"
+    },
+    "v09_bank_court": {
+      "at": true,
+      "file": "v09_bank_court.jpg"
+    },
+    "v10_gully_to_mage": {
+      "at": true,
+      "file": "v10_gully_to_mage.jpg"
+    },
+    "v11_crown_climb": {
+      "at": true,
+      "file": "v11_crown_climb.jpg"
+    },
+    "v12_village_road": {
+      "at": true,
+      "file": "v12_village_road.jpg"
+    },
+    "v13_overview_west": {
+      "at": true,
+      "file": "v13_overview_west.jpg"
+    },
+    "v14_overview_east": {
+      "at": true,
+      "file": "v14_overview_east.jpg"
+    }
+  },
+  "errors": [],
+  "paths": {
+    "style": "grey",
+    "tiles": 657,
+    "layout": "holm-path-tiles-authored-v1"
+  }
+}

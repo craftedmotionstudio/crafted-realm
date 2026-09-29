@@ -26,7 +26,8 @@ ROWS = [
     ('v04_survival_hollow', 'Survival camp: the Hollow Path straight down past Wenna to Fire Beach'),
     ('v05_bakehouse_lane', 'the Bakehouse lane, the door and the lane north to the Quest Lodge'),
     ('v06_lodge_village_lane', 'the village lane past Hettie\'s Garden gate to the stone village bridge'),
-    ('v07_quarry_climb', 'Quest Lodge up the mesa ramp to the Quarry Gate'),
+    ('v07_quarry_climb', 'Quest Lodge up the mesa ramp (one tile wide) to the Quarry Gate'),
+    ('v07b_quarry_gate', 'the Quarry Gate: the ramp lane arrives at the gate'),
     ('v08_keep_ledge', 'Warden\'s Keep gate court and the ledge down to the bank'),
     ('v09_bank_court', 'Holm Bank court and the lane east to the Mage tower'),
     ('v10_gully_to_mage', 'across the gully to the Mage tower door; the crown climb leaves north'),
@@ -86,6 +87,6 @@ def maps_sheet(out):
 if __name__ == '__main__':
     if (D / 'audit_before.json').exists() and (D / 'audit_after.json').exists():
         maps_sheet(D / 'maps_before_after_zoomed.jpg')
-    halves = [ROWS[:5], ROWS[5:10], ROWS[10:]]
+    halves = [ROWS[:5], ROWS[5:10], ROWS[10:]]   # 15 rows, 5 a sheet
     for n, rows in enumerate(halves, 1):
         pair_sheet(rows, D / f'sheet_{n}_{A}_vs_{B}.jpg', f'Tutor\'s Holm grey paths, {A} (review-5 lanes) vs {B} (authored tile layout) - sheet {n}/3')
