@@ -129,7 +129,7 @@ class Player extends PathingEntity {
     if (after !== before) this.cbCache = null;
     if (after > before) {
       this.levels[skill] += after - before;
-      this.message(`Congratulations, your ${skill} level is now ${after}.`, 'level');
+      this.message(`Well done! Your ${skill} has grown to level ${after}.`, 'level');   // our own wording (the client shows the fireworks)
       this.appearanceVersion++; this.infoChanged = true;
     }
     this.out.stats.add(skill);

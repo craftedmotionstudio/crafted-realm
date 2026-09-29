@@ -113,20 +113,9 @@ const Atmosphere = {
     }
     this._shimmers=G.children.filter(c=>c.userData&&c.userData._scroll);
 
-    // ---- Emberwood autumn: amber leaves drifting down among the western trees ----
-    this.leaves=[];
-    const emberTrees=this.trees.filter(tr=>{
-      try{ return typeof zoneAt==='function' && zoneAt(tr.g.position.x, tr.g.position.z)==='emberwood'; }
-      catch(e){ return false; }
-    });
-    const leafHosts=(emberTrees.length?emberTrees:this.trees.slice(0,10));
-    const leafMat=new THREE.MeshBasicMaterial({color:0xd8883a, side:THREE.DoubleSide, transparent:true, opacity:0.92});
-    for(let i=0;i<36 && leafHosts.length;i++){
-      const host=leafHosts[i%leafHosts.length].g;
-      const lf=new THREE.Mesh(new THREE.PlaneGeometry(0.22,0.22), leafMat);
-      lf.userData={hx:host.position.x, hz:host.position.z, t:Math.abs(Math.sin(i*3.3)), seed:i};
-      G.add(lf); this.leaves.push(lf);
-    }
+    // ---- falling leaves: the odd Blender oak leaf from the oaks (and the Emberwood's autumn trees), src/fx_leaves.js.
+    // (owner 2026-09-29: the 36 flat orange squares that cycled down here, all the time, are gone) ----
+    if(typeof LeafFall!=='undefined') LeafFall.start();
 
     scene.add(G);
     this._iv=setInterval(()=>this.tick(0.12), 120);
@@ -185,15 +174,7 @@ const Atmosphere = {
       g2.position.x=w.x+Math.sin(a)*w.r*0.7*Math.sin(u.seed*2.1);
       g2.position.z=w.z+Math.cos(a*0.8)*w.r*0.7*Math.cos(u.seed*1.3);
     }
-    // autumn leaves spiral down and recycle
-    for(const lf of (this.leaves||[])){
-      const u=lf.userData; u.t+=dt*0.16;
-      if(u.t>1) u.t-=1;
-      const sway=Math.sin(u.t*9+u.seed)*0.7;
-      lf.position.set(u.hx+Math.sin(u.seed*3)*1.6+sway, 3.4-u.t*3.1, u.hz+Math.cos(u.seed*5)*1.6+Math.cos(u.t*7+u.seed)*0.4);
-      lf.rotation.set(u.t*7, u.seed, u.t*5);
-      lf.material.opacity=u.t>0.85?(1-u.t)*6.1:0.92;
-    }
+    // (falling leaves: LeafFall animates every frame from animate(), src/fx_leaves.js)
     // butterflies flutter on loopy tracks
     for(const b of (this.flies||[])){
       const u=b.userData; u.t+=dt*0.5;
@@ -209,6 +190,7 @@ const Atmosphere = {
   stop(){
     clearInterval(this._iv); this._iv=null;
     if(this._group){ scene.remove(this._group); this._group=null; }
+    if(typeof LeafFall!=='undefined') LeafFall.stop();
     // trees keep their groups (we only nudged rotation) — settle them back
     for(const tr of (this.trees||[])){ if(tr.g.parent) tr.g.rotation.z=tr.base; }
     this.clouds=[]; this.birds=[]; this.motes=null; this.smoke=[]; this.trees=[]; this.flies=[];

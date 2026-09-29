@@ -891,6 +891,8 @@ function animate(){
   if(typeof CombatFX!=='undefined') CombatFX.update(dt);   // combat feel: splat timing, projectiles, particles, XP drops, shake
   if(typeof CombatHooks!=='undefined') CombatHooks.update();   // attack animations timed so their impact meets the hit tick
   if(typeof HolmProvingGround!=='undefined') HolmProvingGround.update();
+  if(typeof LevelUpFX!=='undefined') LevelUpFX.update(dt);   // level-up fireworks round the adventurer (src/fx_levelup.js)
+  if(typeof LeafFall!=='undefined') LeafFall.update(dt);     // the odd oak leaf drifting down (src/fx_leaves.js)
   // Dynamic map paint is bounded; terrain and resource layers cache independently.
   const now=performance.now();
   if(now-_minimapPaintAt>=80){ _minimapPaintAt=now; drawMinimap(); }

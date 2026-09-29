@@ -1,0 +1,239 @@
+{
+ "tag": "after",
+ "look": "3",
+ "base": "http://127.0.0.1:8161",
+ "at": "2026-09-29T14:08:11.049Z",
+ "errors": [],
+ "frames": [
+  {
+   "file": "after_levelup_f00.jpg",
+   "ms": 0
+  },
+  {
+   "file": "after_levelup_f01.jpg",
+   "ms": 202
+  },
+  {
+   "file": "after_levelup_f02.jpg",
+   "ms": 448
+  },
+  {
+   "file": "after_levelup_f03.jpg",
+   "ms": 572
+  },
+  {
+   "file": "after_levelup_f04.jpg",
+   "ms": 772
+  },
+  {
+   "file": "after_levelup_f05.jpg",
+   "ms": 957
+  },
+  {
+   "file": "after_levelup_f06.jpg",
+   "ms": 1141
+  },
+  {
+   "file": "after_levelup_f07.jpg",
+   "ms": 1342
+  },
+  {
+   "file": "after_levelup_f08.jpg",
+   "ms": 1527
+  },
+  {
+   "file": "after_levelup_f09.jpg",
+   "ms": 1724
+  },
+  {
+   "file": "after_levelup_f10.jpg",
+   "ms": 1907
+  },
+  {
+   "file": "after_levelup_f11.jpg",
+   "ms": 2092
+  },
+  {
+   "file": "after_levelup_f12.jpg",
+   "ms": 2291
+  },
+  {
+   "file": "after_levelup_f13.jpg",
+   "ms": 2478
+  },
+  {
+   "file": "after_levelup_f14.jpg",
+   "ms": 2662
+  },
+  {
+   "file": "after_levelup_f15.jpg",
+   "ms": 2862
+  }
+ ],
+ "missing": [
+  "/BUILD_INFO.json?_=1790690898538",
+  "/favicon.ico",
+  "/favicon.ico"
+ ],
+ "leaves": {
+  "atmosphereLeafMeshes": 0,
+  "leafFall": {
+   "on": true,
+   "hosts": 3,
+   "hostLabels": [
+    "Chop down Oak",
+    "Chop down Oak",
+    "Chop down Oak"
+   ],
+   "max": 8,
+   "falling": 0,
+   "resting": 0,
+   "fading": 0,
+   "spawned": 0,
+   "landed": 0,
+   "faded": 0,
+   "skippedFull": 0,
+   "meshVisible": false,
+   "inScene": true,
+   "texture": "assets/textures/fx/oak_leaves_v1.png",
+   "textureLoaded": true,
+   "map": true
+  }
+ },
+ "levelUp": {
+  "flashMaxOpacity": 0,
+  "flashLayer": false,
+  "banner": "Woodcutting level 2",
+  "chat": [
+   "Well done! Your Woodcutting has grown to level 2."
+  ],
+  "fireworks": {
+   "bursts": 0,
+   "particles": 0,
+   "shown": 0,
+   "pool": 79,
+   "spawned": 121,
+   "finished": 1,
+   "t": 3.67,
+   "hasObject": true,
+   "inScene": true,
+   "visible": false,
+   "texture": "assets/textures/fx/levelup_sparks_v1.png",
+   "textureLoaded": true,
+   "lastSound": {
+    "at": 16.34,
+    "nodes": 55,
+    "duration": 1.9
+   }
+  },
+  "woodcutting": 2
+ },
+ "walk": {
+  "reached": {
+   "id": "land:41,99",
+   "x": 41.5,
+   "y": 1.1561312,
+   "z": 99.5,
+   "surface": "land"
+  },
+  "at": [
+   41.5,
+   1.156,
+   99.5
+  ]
+ },
+ "camp": {
+  "seconds": 30,
+  "leavesOutMax": 3,
+  "leavesOutAvg": 2.17,
+  "stats": {
+   "on": true,
+   "hosts": 3,
+   "hostLabels": [
+    "Chop down Oak",
+    "Chop down Oak",
+    "Chop down Oak"
+   ],
+   "max": 8,
+   "falling": 0,
+   "resting": 1,
+   "fading": 1,
+   "spawned": 20,
+   "landed": 20,
+   "faded": 18,
+   "skippedFull": 0,
+   "meshVisible": true,
+   "inScene": true,
+   "texture": "assets/textures/fx/oak_leaves_v1.png",
+   "textureLoaded": true,
+   "map": true
+  },
+  "player": [
+   41.5,
+   1.156,
+   99.5
+  ]
+ },
+ "close": [
+  {
+   "file": "after_leaf_close_00.jpg",
+   "ms": 311,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after_leaf_close_01.jpg",
+   "ms": 1190,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after_leaf_close_02.jpg",
+   "ms": 2059,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after_leaf_close_03.jpg",
+   "ms": 2913,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after_leaf_close_04.jpg",
+   "ms": 3762,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after_leaf_close_05.jpg",
+   "ms": 4589,
+   "phase": "rest",
+   "frame": 0
+  },
+  {
+   "file": "after_leaf_close_06.jpg",
+   "ms": 5534,
+   "phase": "rest",
+   "frame": 0
+  },
+  {
+   "file": "after_leaf_close_07.jpg",
+   "ms": 6361,
+   "phase": "rest",
+   "frame": 0
+  },
+  {
+   "file": "after_leaf_close_08.jpg",
+   "ms": 7337,
+   "phase": "fade",
+   "frame": 0
+  },
+  {
+   "file": "after_leaf_close_09.jpg",
+   "ms": 8189,
+   "phase": "fade",
+   "frame": 0
+  }
+ ]
+}

@@ -762,8 +762,11 @@ check('provider disposal releases every object instance',objectLife.created===ob
     /id:'bake_bread'[^\n]*target:\{x:154,z:137\}/.test(fs.readFileSync(path.join(ROOT,'src','holm_tutorial_flow_data.js'),'utf8')));
   check('P-21: the zone label is re-evaluated after any plane change back to the surface',
     /if\(activePlane!==_zonePlane\)\{ _zonePlane=activePlane; if\(activePlane===0\) curZone=null; \}/.test(mainSource));
-  check('P-15/P-16: menu rows prefer the authored label over the object kind and articles follow the vowel rule',
-    /bold \? bold\[1\] : \(u\.label \?/.test(dispatchSource)&&/\/\^\[aeiou\]\/i\.test\(s\)\?'an':'a'/.test(systemsSource));
+  // P-16 (the level-up line's "an Mining"): the line was reworded in our own words with no article at all (owner
+  // 2026-09-29: "Well done! Your <Skill> has grown to level <n>."), so no article can go wrong
+  check('P-15/P-16: menu rows prefer the authored label over the object kind and the level-up line has no article to get wrong',
+    /bold \? bold\[1\] : \(u\.label \?/.test(dispatchSource)&&/UI\.chat\(`Well done! Your \$\{s\} has grown to level \$\{after\}\.`,'xp'\)/.test(systemsSource)&&
+    !/advanced (a|an) \$\{s\}/.test(systemsSource));
 })();
 
 if(failures){ console.error('\nworld-v2 contract: '+failures+' failure(s)'); process.exit(1); }

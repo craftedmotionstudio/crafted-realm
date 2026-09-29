@@ -245,7 +245,7 @@ const Player = {
     UI.xpDrop(s, amt);
     const after = this.lvl(s);
     if(after>before){
-      UI.chat(`Congratulations, you just advanced ${/^[aeiou]/i.test(s)?'an':'a'} ${s} level. You are now level ${after}.`,'xp');
+      UI.chat(`Well done! Your ${s} has grown to level ${after}.`,'xp');
       if(s==='Hitpoints'){ this.maxHp=after; this.hp=Math.min(this.hp+1,this.maxHp); }
       Sfx.level();
       if(typeof Events!=='undefined') Events.emit('levelUp', {skill:s, level:after});
@@ -1026,7 +1026,7 @@ const Quest = {
     if(this.tracked===id){ this.tracked=null; this.updateMarker(); }
     if(typeof UI.questComplete==='function') UI.questComplete(id);
     else UI.chat(`Congratulations! Quest complete: ${q.name}.`,'xp');
-    UI.refreshQuests(); Sfx.level();
+    UI.refreshQuests(); Sfx.questDone();
   },
   done(id){ const s=Player.quests[id]; return s && s.stage===99; },
   onKill(typeId){
@@ -1109,6 +1109,10 @@ const Sfx = {
   kill(){ this.tone(150,0.35,'sawtooth',0.06,55); },
   death(){ this.tone(300,0.5,'sawtooth',0.08,60); },
   quest(){ this.tone(392,0.14,'square',0.05); setTimeout(()=>this.tone(523,0.2,'square',0.05),140); },
-  level(){ this.tone(440,0.12,'square',0.05); setTimeout(()=>this.tone(554,0.12,'square',0.05),120);
+  // level-up (owner 2026-09-29): a soft, cozy firework (whoosh up, two soft pops and a crackle, a small warm chime),
+  // synthesized in src/fx_levelup.js on the audio clock under the SFX volume; the old square-wave triad was retired
+  level(){ try{ if(typeof LevelUpFX!=='undefined' && LevelUpFX.sound){ const ctx=this.ensure(); LevelUpFX.sound(ctx, this._master||ctx.destination); } }catch(e){} },
+  // quest complete keeps its own three-note cue (it used to share level()'s; split so only the level-up changed)
+  questDone(){ this.tone(440,0.12,'square',0.05); setTimeout(()=>this.tone(554,0.12,'square',0.05),120);
            setTimeout(()=>this.tone(659,0.22,'square',0.05),240); },
 };

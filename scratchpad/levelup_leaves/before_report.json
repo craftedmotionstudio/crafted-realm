@@ -1,0 +1,87 @@
+{
+ "tag": "before",
+ "look": "3",
+ "base": "http://127.0.0.1:8161",
+ "at": "2026-09-29T13:19:27.323Z",
+ "errors": [],
+ "frames": [
+  {
+   "file": "before_levelup_f00.jpg",
+   "ms": 0
+  },
+  {
+   "file": "before_levelup_f01.jpg",
+   "ms": 201
+  },
+  {
+   "file": "before_levelup_f02.jpg",
+   "ms": 402
+  },
+  {
+   "file": "before_levelup_f03.jpg",
+   "ms": 574
+  },
+  {
+   "file": "before_levelup_f04.jpg",
+   "ms": 760
+  },
+  {
+   "file": "before_levelup_f05.jpg",
+   "ms": 960
+  },
+  {
+   "file": "before_levelup_f06.jpg",
+   "ms": 1145
+  },
+  {
+   "file": "before_levelup_f07.jpg",
+   "ms": 1345
+  },
+  {
+   "file": "before_levelup_f08.jpg",
+   "ms": 1531
+  },
+  {
+   "file": "before_levelup_f09.jpg",
+   "ms": 1720
+  },
+  {
+   "file": "before_levelup_f10.jpg",
+   "ms": 1907
+  },
+  {
+   "file": "before_levelup_f11.jpg",
+   "ms": 2096
+  },
+  {
+   "file": "before_levelup_f12.jpg",
+   "ms": 2282
+  },
+  {
+   "file": "before_levelup_f13.jpg",
+   "ms": 2481
+  },
+  {
+   "file": "before_levelup_f14.jpg",
+   "ms": 2668
+  },
+  {
+   "file": "before_levelup_f15.jpg",
+   "ms": 2856
+  }
+ ],
+ "leaves": {
+  "atmosphereLeafMeshes": 36,
+  "leafFall": null
+ },
+ "levelUp": {
+  "flashMaxOpacity": 0.38,
+  "flashLayer": true,
+  "banner": "✨ Level 2 Woodcutting! ✨",
+  "chat": [
+   "Congratulations, you just advanced a Woodcutting level. You are now level 2."
+  ],
+  "fireworks": null,
+  "woodcutting": 2
+ }
+}
