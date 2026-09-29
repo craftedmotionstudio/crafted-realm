@@ -97,7 +97,7 @@ check('walls: shells are walls; doors, glazing, roofs, upper storeys and cave ro
   'GroundFurnishingWalls_1','LandingGardenWall_Landing_fieldstone_0','fence-rail_Section','island-props-fence-run-fence-run_Part_1@'].forEach(n=>assert(C.isWallMesh(n),n));
  ['Bank_ShellDoor','Kitchen_Shell_DoorFrame','Kitchen_Shell_StoreDoor','Lastlight_ShellTowerDoorway','Keep_Upper_Shell_1','Kitchen_UpperShell_Glazing','Keep_Roof_1','Bank_ShellJetty','Bank_ShellFrieze',
   'Bank_ShellWindows','island-service-hit-Climb-down trapdoor','ground-chunk-7,14','Kitchen_Floor_Flags','Cavern_ShellRock',''].forEach(n=>assert(!C.isWallMesh(n),n));
- assert.deepStrictEqual(C.sliceHeights('Kitchen_Shell_Walls'),[.7]);assert.deepStrictEqual(C.sliceHeights('fence-rail_Section'),[.3,.55]);
+ assert.deepStrictEqual(C.sliceHeights('Kitchen_Shell_Walls'),[.7]);assert.deepStrictEqual(C.sliceHeights('fence-rail_Section'),[.2,.35,.5,.65,.8]);
 });
 
 /* ----------------------------------------------------------------- 4 floors */

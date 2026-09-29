@@ -129,10 +129,11 @@ var CRMinimap=(function(){
   var filled=0,bare=new Uint8Array(Wd*Dd);for(var bi=0;bi<Wd*Dd;bi++)bare[bi]=!grid[bi]&&!open[bi]?1:0;   // no walk node at all (before furniture)
   if(walls.done&&walls.grid&&Wd){   // furniture: blocked tiles closed in by floor and walls
    var add=[],floorAt=function(a,b2){return a>=0&&b2>=0&&a<Wd&&b2<Dd&&lvl[b2*Wd+a]===1?grid[b2*Wd+a]:0},openAt=function(a,b2){return a<0||b2<0||a>=Wd||b2>=Dd||!!(open[b2*Wd+a]&1)};
+   for(var pass=0;pass<3;pass++){add.length=0;   // a few passes: a big table's middle fills once its edge has
    for(var z2=0;z2<Dd;z2++)for(var x2=0;x2<Wd;x2++){var ii=z2*Wd+x2;if(grid[ii]||open[ii])continue;
     var near=(x2>0&&lvl[ii-1]===1)||(x2<Wd-1&&lvl[ii+1]===1)||(z2>0&&lvl[ii-Wd]===1)||(z2<Dd-1&&lvl[ii+Wd]===1);if(!near)continue;
     var fc=C.fillFurniture(x2,z2,floorAt,openAt,walls.grid,'s',6);if(fc)add.push(ii,fc)}
-   for(var q=0;q<add.length;q+=2){grid[add[q]]=add[q+1];lvl[add[q]]=1;filled++}
+   for(var q=0;q<add.length;q+=2){grid[add[q]]=add[q+1];lvl[add[q]]=1;filled++}if(!add.length)break}
   }
   // a wall a whole tile thick draws as one line, on the floor's side (MinimapCore.thinDoubleWalls)
   if(walls.plans&&Wd){var inG=function(a,b2){return a>=0&&b2>=0&&a<Wd&&b2<Dd};

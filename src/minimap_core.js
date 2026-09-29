@@ -62,7 +62,8 @@ var MinimapCore=(function(){
  var WALL_SKIP=/Upper|Glazing|Door|Roof|Jetty|Frieze|String|Window|Proxy|Collider|Hit|^Cavern_/i;
  var LOW_RX=/fence|GardenWall|Landscape_wall/i;   // low walls and fences are cut lower as well (their rails sit under knee height)
  function isWallMesh(name){name=String(name||'');return WALL_RX.test(name)&&!WALL_SKIP.test(name)}
- function sliceHeights(name){return LOW_RX.test(String(name||''))?[.3,.55]:[.7]}
+ // (a fence's rails are thin and sit at any height under the waist: it is cut every .15 so each rail is met)
+ function sliceHeights(name){return LOW_RX.test(String(name||''))?[.2,.35,.5,.65,.8]:[.7]}
  // The wall plan on the tile grid, as 2004 keeps it: a wall runs along a tile edge (or, for a wall built down the middle of
  // a tile, along its centre line). Every axis-aligned cut marks the sixteenths of the tile edges it covers (a wall built of
  // many short logs or stones adds up); an edge is a wall when at least half of it is covered, so the two faces of a thick wall make ONE line, the short cuts across a wall's end
@@ -172,7 +173,7 @@ var MinimapCore=(function(){
  // A service is matched by 'building:target:label' (HolmIslandExtras' islandService), a world object by userData.kind, a
  // gathering spot by its resource type. One icon per kind within CLUSTER tiles.
  var ICONS=['bank','furnace','anvil','range','fishing','quest','mining','woodcut','combat','magic','ferry','beacon'];
- var ICON_SIZE=17,CLUSTER=7;
+ var ICON_SIZE=17,CLUSTER=10;   // a pond's wandering fishing spots stay one icon
  var SERVICE_ICONS=[[/^bank:(counter|vault):/,'bank'],[/^bakehouse:[^:]*:Cook$/,'range'],[/^lodge:board:/,'quest'],[/^quarry:shaft:/,'mining'],
   [/^mage:(runes|lectern):/,'magic'],[/^haven:boat:/,'ferry'],[/^lastlight:(lever|beacon):/,'beacon']];
  var KIND_ICONS={bank:'bank',furnace:'furnace',anvil:'anvil',range:'range',cooking_range:'range'};
