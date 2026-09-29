@@ -1,0 +1,4 @@
+[SMOKE default] PASS fps 60 worstFrameMs 19 drawCalls 108 structural 108 / 108
+[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=2147 pageErrors=0
+[SMOKE max] PASS fps 60 worstFrameMs 21 drawCalls 110 structural 108 / 108
+[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=2239 pageErrors=0
