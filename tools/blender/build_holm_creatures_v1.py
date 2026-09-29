@@ -512,7 +512,7 @@ def rat(fid, P):
 
 RATS = {
     'holm_large_rat_v1': dict(girth=1.0, hump=.05, leg=1.0, tail=1.0, ears=1.0,
-                              col={'fur': '#86705e', 'belly': '#b09a86', 'skin': '#cf9d90', 'ear': '#977d6c', 'nose': '#8e5a52'}),
+                              col={'fur': '#74604f', 'belly': '#a08a76', 'skin': '#c99488', 'ear': '#86705f', 'nose': '#8e5a52'}),
     'holm_rat_v1': dict(girth=.86, hump=.0, leg=1.05, tail=1.08, ears=1.15,
                         col={'fur': '#78726c', 'belly': '#a8a198', 'skin': '#cca49a', 'ear': '#8a827c', 'nose': '#7e5a56'}),
 }

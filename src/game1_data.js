@@ -398,7 +398,7 @@ const NPC_TYPES = {
     humanoid:true,
     drops:[{id:'bones',q:1,p:1},{id:'coins',q:[1,4],p:0.85},{id:'bread',q:1,p:0.1}]},
   // the large rat (owner 2026-09-29: it replaces the grubkin everywhere): a 2004-style low-level vermin, level 3, bites for 0-1
-  large_rat:{name:'Large rat', level:3, examine:"A rat grown fat on spilt grain, and bold with it.", hp:5, att:2, str:3, def:2, aBonus:0, sBonus:0, dBonus:0, dStab:0, dSlash:0, dCrush:0, dRanged:0, dMagic:0, atype:'stab', speedTicks:4, color:0x86705e, size:0.9, aggro:false, respawn:15, model:'rat',
+  large_rat:{name:'Large rat', level:3, examine:"A rat grown fat on spilt grain, and bold with it.", hp:5, att:2, str:3, def:2, aBonus:0, sBonus:0, dBonus:0, dStab:0, dSlash:0, dCrush:0, dRanged:0, dMagic:0, atype:'stab', speedTicks:4, color:0x74604f, size:0.9, aggro:false, respawn:15, model:'rat',
              glbChar:'holm_large_rat_v1', glbHeight:0.55, barH:1.0, bite:true, deathClip:true, keepOrigin:true,
              drops:[ {id:'bones',q:1,p:1} ]},
   mosswolf: {name:'Mosswolf', level:8, examine:"A lean marsh-hunter. Its hide parts cleanly to a slashing edge.", hp:18, att:7,  str:7,  def:6,  aBonus:4,  sBonus:4,  dBonus:4, dStab:4, dSlash:1, dCrush:7,  speedTicks:4, color:0x4f6b4a, size:1.0, aggro:true, respawn:18, body:'wolf',

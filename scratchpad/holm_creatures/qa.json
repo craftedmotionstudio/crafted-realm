@@ -218,7 +218,7 @@
    ]
   },
   {
-   "name": "Proving Ground: three large rats and the rat matriarch (the grubkins are gone)",
+   "name": "Proving Ground: three large rats, the rat matriarch and two goblins (the grubkins are gone)",
    "ok": true,
    "detail": [
     [
@@ -244,6 +244,14 @@
     [
      "pg_large_rat",
      "Large rat"
+    ],
+    [
+     "pg_goblin",
+     "Goblin"
+    ],
+    [
+     "pg_goblin",
+     "Goblin"
     ]
    ]
   },
@@ -273,7 +281,7 @@
     ],
     [
      "Chicken",
-     107.5,
+     106.5,
      95.5
     ],
     [
@@ -283,7 +291,7 @@
     ],
     [
      "Cow",
-     108.5,
+     109.5,
      98.5
     ]
    ]
@@ -356,17 +364,19 @@
     "sunk": true,
     "drops": [
      "bones",
-     "feathers"
+     "feathers",
+     "egg"
     ],
     "respawn": 10
    }
   },
   {
-   "name": "Chicken: drops its 2004 loot (bones, feathers)",
+   "name": "Chicken: drops its loot (bones, feathers)",
    "ok": true,
    "detail": [
     "bones",
-    "feathers"
+    "feathers",
+    "egg"
    ]
   },
   {
@@ -390,12 +400,39 @@
    }
   },
   {
-   "name": "Cow: drops its 2004 loot (bones, beast_hide, raw_beef)",
+   "name": "Cow: drops its loot (bones, beast_hide, raw_beef)",
    "ok": true,
    "detail": [
     "bones",
     "beast_hide",
     "raw_beef"
+   ]
+  },
+  {
+   "name": "Goblin: killed, it falls with its own death clip, then sinks away",
+   "ok": true,
+   "detail": {
+    "placed": true,
+    "dead": true,
+    "fall": {
+     "style": "clip",
+     "dur": 1.2,
+     "clip": true
+    },
+    "sunk": true,
+    "drops": [
+     "bones",
+     "bread"
+    ],
+    "respawn": 25
+   }
+  },
+  {
+   "name": "Goblin: drops its loot (bones)",
+   "ok": true,
+   "detail": [
+    "bones",
+    "bread"
    ]
   },
   {
@@ -539,11 +576,11 @@
      ],
      "pen": "keep-court",
      "node": {
-      "tx": 85,
-      "tz": 35
+      "tx": 84,
+      "tz": 34
      },
-     "x": 85.5,
-     "z": 35.5
+     "x": 84.5,
+     "z": 34.5
     },
     {
      "type": "holm_practice_rat",
@@ -603,10 +640,10 @@
      "pen": "mage-yard",
      "node": {
       "tx": 104,
-      "tz": 53
+      "tz": 55
      },
-     "x": 104.52,
-     "z": 53.5
+     "x": 104.5,
+     "z": 55.5
     },
     {
      "type": "holm_practice_rat",
@@ -682,11 +719,11 @@
      ],
      "pen": null,
      "node": {
-      "tx": 93,
-      "tz": 74
+      "tx": 92,
+      "tz": 75
      },
-     "x": 93.48,
-     "z": 74.52
+     "x": 92.5,
+     "z": 75.5
     },
     {
      "type": "pg_large_rat",
@@ -704,10 +741,10 @@
      "pen": null,
      "node": {
       "tx": 89,
-      "tz": 76
+      "tz": 77
      },
      "x": 89.5,
-     "z": 76.52
+     "z": 77.5
     },
     {
      "type": "pg_large_rat",
@@ -725,10 +762,10 @@
      "pen": null,
      "node": {
       "tx": 90,
-      "tz": 78
+      "tz": 77
      },
      "x": 90.5,
-     "z": 78.48
+     "z": 77.5
     },
     {
      "type": "pg_large_rat",
@@ -745,11 +782,53 @@
      ],
      "pen": null,
      "node": {
-      "tx": 90,
-      "tz": 76
+      "tx": 91,
+      "tz": 75
      },
-     "x": 90.5,
-     "z": 76.5
+     "x": 91.46,
+     "z": 75.54
+    },
+    {
+     "type": "pg_goblin",
+     "name": "Goblin",
+     "level": 5,
+     "glb": "holm_goblin_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 94,
+      "tz": 75
+     },
+     "x": 94.5,
+     "z": 75.54
+    },
+    {
+     "type": "pg_goblin",
+     "name": "Goblin",
+     "level": 5,
+     "glb": "holm_goblin_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 95,
+      "tz": 77
+     },
+     "x": 95.5,
+     "z": 77.5
     }
    ],
    "farm": [
@@ -852,10 +931,10 @@
      ],
      "pen": null,
      "node": {
-      "tx": 107,
+      "tx": 106,
       "tz": 95
      },
-     "x": 107.5,
+     "x": 106.5,
      "z": 95.5
     },
     {
@@ -894,10 +973,10 @@
      ],
      "pen": null,
      "node": {
-      "tx": 108,
+      "tx": 109,
       "tz": 98
      },
-     "x": 108.5,
+     "x": 109.5,
      "z": 98.5
     }
    ],

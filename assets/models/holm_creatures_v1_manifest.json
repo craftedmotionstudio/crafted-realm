@@ -12,7 +12,7 @@
    "label": "the large rat (replaces the grubkin)",
    "glb": ".studio-workspaces/holm-creatures-v1/candidates/holm_large_rat_v1.glb",
    "runtime": "assets/models/holm_large_rat_v1.glb",
-   "sha256": "373a21df6b306f352e39397846298efb5381c7788696abc8b7c1690d8731b292",
+   "sha256": "ba52a0d19b681a4f0fc24c635bbc86b090d9b90f97e7e7b81b947b3a9a5fcd55",
    "bytes": 191020,
    "triangles": 1050,
    "bones": 23,
@@ -42,13 +42,13 @@
     "FootR"
    ],
    "materials": {
-    "holm_large_rat_v1 belly": "#b09a86",
-    "holm_large_rat_v1 ear": "#977d6c",
+    "holm_large_rat_v1 belly": "#a08a76",
+    "holm_large_rat_v1 ear": "#86705f",
     "holm_large_rat_v1 eye": "#14100e",
-    "holm_large_rat_v1 fur": "#86705e",
+    "holm_large_rat_v1 fur": "#74604f",
     "holm_large_rat_v1 incisor": "#e2cf7a",
     "holm_large_rat_v1 nose": "#8e5a52",
-    "holm_large_rat_v1 pink skin": "#cf9d90"
+    "holm_large_rat_v1 pink skin": "#c99488"
    },
    "bounds_m": {
     "height": 0.499,

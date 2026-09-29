@@ -11,7 +11,7 @@ var HolmIslandTrials=(function(){
  var TYPE='holm_practice_rat',npcs=[];
  // our own entry, derived like the base data (npcMaxHit)
  var DEF={glbChar:'holm_large_rat_v1',glbHeight:.55,barH:1,name:'Large rat',level:3,examine:'A tame large rat the wardens keep for sparring. It bites, but only for show.',
-  hp:5,att:1,str:1,def:1,aBonus:0,sBonus:0,dBonus:0,dStab:0,dSlash:0,dCrush:0,speedTicks:6,color:0x86705e,size:.9,aggro:false,respawn:6,drops:[],harmless:true,
+  hp:5,att:1,str:1,def:1,aBonus:0,sBonus:0,dBonus:0,dStab:0,dSlash:0,dCrush:0,speedTicks:6,color:0x74604f,size:.9,aggro:false,respawn:6,drops:[],harmless:true,
   atype:'stab',bite:true,deathClip:true,keepOrigin:true};   // presentation: a bite (the snap sound), its own death clip (falls on its side, then sinks)
  // pens: near a building's measured target, on graph nodes 2-3 tiles from the stance, spread apart
  var PENS=[{id:'keep-court',building:'keep',target:'court',count:3,hp:4},{id:'mage-yard',building:'mage',target:'entrance',count:2,hp:3}];

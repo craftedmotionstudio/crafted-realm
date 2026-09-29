@@ -6,6 +6,8 @@
  *     twice their level, the 2004 rule; the meadow's welcome line warns that they attack on sight),
  *   - the rat matriarch (the tougher, boss-like foe: a telegraphed ground slam every fourth attack, announced,
  *     ringed on the ground, dodged by stepping out of reach or blocked by Protect from Melee).
+ *   - two goblins (owner 2026-09-29: "maybe some goblins would be good"; the mainland's level-5 goblin, club in hand,
+ *     here as an optional extra foe that, like the humanoids, answers only a challenge).
  * (Owner 2026-09-29: the grubkins became large rats; the pack and the matriarch keep the meadow's stats and loot.)
  * Every foe is an ordinary NPC on the combat engine (src/combat_engine.js: 2004 rules, tile steps, weighted drops from
  * shared/drops.js). Models are existing Blender GLBs: the character kit (assets/models/holm_kit_v2.glb, with its
@@ -34,6 +36,10 @@ var HolmProvingGround=(function(){
    hp:7,att:5,str:4,def:3,aBonus:2,sBonus:2,dBonus:2,dStab:3,dSlash:2,dCrush:0,speedTicks:4,atype:'slash',
    glbChar:'holm_large_rat_v1',glbHeight:.6,barH:1.05,color:0x6a5a2a,size:.9,aggro:true,ignoreFriendly:true,huntRange:4,maxRange:6,respawn:20,bite:true,deathClip:true,keepOrigin:true,
    dropTable:Object.assign({},L,{main:[{w:40,item:'coins',qty:[2,10]},{w:12,item:'bread',qty:1},{w:12,item:'cabbage',qty:1},{w:4,item:'bronze_dagger',qty:1},{w:3,item:'bronze_helm',qty:1}]}),drops:[{id:'bones',q:1,p:1}]},
+  pg_goblin:{name:'Goblin',level:5,examine:'Small, green and furious about it. This one wandered over from the mainland camps.',
+   hp:13,att:5,str:4,def:3,aBonus:2,sBonus:2,dBonus:1,dStab:2,dSlash:1,dCrush:0,speedTicks:4,atype:'crush',
+   glbChar:'holm_goblin_v1',glbHeight:1.3,barH:1.75,color:0x6a8a3a,size:.78,aggro:false,maxRange:6,respawn:25,deathClip:true,keepOrigin:true,
+   dropTable:Object.assign({},L,{main:[{w:40,item:'coins',qty:[3,18]},{w:12,item:'mind_rune',qty:[1,4]},{w:8,item:'bronze_sword',qty:1},{w:6,item:'bronze_helm',qty:1},{w:6,item:'bread',qty:1}]}),drops:[{id:'bones',q:1,p:1}]},
   pg_rat_matriarch:{name:'Rat matriarch',level:18,examine:'Every large rat on the Holm came from somewhere. This is where.',
    hp:48,att:16,str:16,def:14,aBonus:8,sBonus:10,dBonus:8,dStab:12,dSlash:10,dCrush:4,dRanged:6,dMagic:4,speedTicks:5,atype:'crush',
    glbChar:'holm_large_rat_v1',glbHeight:1.05,barH:1.8,color:0x4a3a1a,size:1.6,aggro:false,maxRange:8,respawn:60,bite:true,deathClip:true,keepOrigin:true,tint:0x5a4630,
@@ -69,9 +75,9 @@ var HolmProvingGround=(function(){
  }
  /* ---- where: the nearest open meadow beyond the keep, on the composed island graph ---- */
  function open(g,n,r){for(var dz=-r;dz<=r;dz++)for(var dx=-r;dx<=r;dx++){var rows=g.byTile[(n.tx+dx)+','+(n.tz+dz)];if(!rows||!rows.some(function(m){return m.owner==='land'&&Math.abs(m.y-n.y)<1.2&&(g.links[m.id]||[]).length>=6}))return false}return true}
- // the foes' layout on a full-size meadow (radius 5, an 11x11 patch): the humanoids and the matriarch share the
+ // the foes' layout on a full-size meadow (radius 5, an 11x11 patch): the humanoids, the goblins and the matriarch share the
  // meadow; the pack keeps to its far side, out of its hunt range. A smaller meadow takes it scaled to its radius.
- var LAYOUT=[['pg_poacher',-3,-3],['pg_warlock',3,-3],['pg_rat_matriarch',0,2],['pg_large_rat',-4,5],['pg_large_rat',-2,5],['pg_large_rat',-3,4]];
+ var LAYOUT=[['pg_poacher',-3,-3],['pg_warlock',3,-3],['pg_rat_matriarch',0,2],['pg_large_rat',-4,5],['pg_large_rat',-2,5],['pg_large_rat',-3,4],['pg_goblin',3,4],['pg_goblin',4,5]];
  function layout(r){return LAYOUT.map(function(s){return [s[0],Math.round(s[1]*r/5),Math.round(s[2]*r/5)]})}
  // every node reachable on foot from a start node (the composed graph's links)
  function reachable(g,id){var seen={},q=[id];seen[id]=true;for(var h=0;h<q.length;h++){var ls=g.links[q[h]]||[];for(var k=0;k<ls.length;k++)if(!seen[ls[k]]){seen[ls[k]]=true;q.push(ls[k])}}return seen}
@@ -93,13 +99,14 @@ var HolmProvingGround=(function(){
   sites=findSites(api);if(!sites)return {npcs:0,reason:'no meadow'};
   sites.spots.forEach(function(s,i){var n0=s[1];spawnNpc.force=true;var npc;try{npc=spawnNpc(s[0],n0.x,n0.z)}finally{spawnNpc.force=false}if(!npc)return;
    npc.home.set(n0.x,n0.y,n0.z);npc.mesh.position.set(n0.x,n0.y,n0.z);npc.wanderR=s[0]==='pg_large_rat'?2:1;npc.leash=npc.t.maxRange;
-   if(npc.t.tint&&npc.mesh){var tint=new THREE.Color(npc.t.tint),seen={};var fix=function(){npc.mesh.traverse(function(o){if(o.isMesh)[].concat(o.material).forEach(function(q){if(q&&q.color&&!seen[q.uuid]){seen[q.uuid]=1;q.color.lerp(tint,.45)}})})};setTimeout(fix,2500);setTimeout(fix,6000)}
+   if(npc.t.tint&&npc.mesh){var tint=new THREE.Color(npc.t.tint),seen={},tries=0;   // darken once the model has streamed in (a busy island load can take a while)
+    var fix=function(){var n=0;npc.mesh.traverse(function(o){if(o.isMesh)[].concat(o.material).forEach(function(q){if(q&&q.color){n++;if(!seen[q.uuid]){seen[q.uuid]=1;q.color.lerp(tint,.45)}}})});if(!n&&tries++<60)setTimeout(fix,1000)};setTimeout(fix,1000)}
    npc.provingGround=true;npc.mesh.name='proving-ground-'+s[0]+'-'+i;npcs.push(npc)});
   return {npcs:npcs.length,centre:{x:sites.centre.x,z:sites.centre.z},radius:sites.radius};
  }
  /** per frame: the welcome line the first time the adventurer walks onto the meadow */
  function update(){if(welcomed||!sites||typeof player==='undefined'||!player)return;var c=sites.centre;
-  if(Math.hypot(player.position.x-c.x,player.position.z-c.z)<9){welcomed=true;if(typeof UI!=='undefined')UI.chat('The Proving Ground. The large rats here attack on sight; the poacher, the warlock and the rat matriarch answer only a challenge.','plain')}}
+  if(Math.hypot(player.position.x-c.x,player.position.z-c.z)<9){welcomed=true;if(typeof UI!=='undefined')UI.chat('The Proving Ground. The large rats here attack on sight; the poacher, the warlock, the goblins and the rat matriarch answer only a challenge.','plain')}}
  function dispose(){npcs.forEach(function(n){[WORLD.npcs,WORLD.clickables].forEach(function(a){var i=a.indexOf(a===WORLD.npcs?n:n.mesh);if(i>=0)a.splice(i,1)});if(n.mesh&&n.mesh.parent)n.mesh.parent.remove(n.mesh)});npcs=[]}
  return {load:load,dispose:dispose,update:update,kitModel:kitModel,npcs:function(){return npcs.slice()},sites:function(){return sites},TYPES:TYPES,
   findSites:findSites,layout:layout};   // pure site search (tools/test_holm_proving_ground.js)

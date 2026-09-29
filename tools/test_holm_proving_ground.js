@@ -1,9 +1,10 @@
 /* Headless locks for the Proving Ground's site search (src/holm_proving_ground.js findSites), on synthetic island graphs:
- *  1 an open land (no trees): the full 11x11 meadow (radius 5) and the original layout, six foes on six tiles;
+ *  1 an open land (no trees): the full 11x11 meadow (radius 5) and the original layout, eight foes on eight tiles
+ *    (the poacher, the warlock, the rat matriarch, three large rats and two goblins, 2026-09-29);
  *  2 a land whose meadows carry tree clumps every 10 tiles (no 11x11 patch anywhere, as on the Holm v2 land): the
  *    roomiest patch left (9x9, radius 4) is chosen and the layout is scaled into it, every foe on an open tile inside it;
  *  3 a perfect 11x11 meadow that cannot be walked to from the keep court (a moat of rock) is passed over;
- *  4 the scaled layouts keep six distinct tiles and the pack on the far side from the humanoids at every radius.
+ *  4 the scaled layouts keep eight distinct tiles and the pack on the far side from the humanoids at every radius.
  * Run: node tools/test_holm_proving_ground.js */
 'use strict';
 const assert=require('assert');
@@ -22,12 +23,12 @@ const api=g=>({navGraph:()=>g,qaStance:(b,t)=>b==='keep'?(t==='gate'?{id:'land:4
 const openAt=(g,x,z)=>{const n=g.byTile[x+','+z];return !!n&&g.links[n[0].id].length>=6};
 check('1 open land: the full 11x11 meadow and the original layout',()=>{
  const g=graph(80,80,()=>false),s=PG.findSites(api(g));assert(s,'no site');assert.strictEqual(s.radius,5);
- assert.deepStrictEqual(PG.layout(5).map(q=>q.slice(1)),[[-3,-3],[3,-3],[0,2],[-4,5],[-2,5],[-3,4]]);
- assert.strictEqual(s.spots.length,6);assert.strictEqual(new Set(s.spots.map(q=>q[1].id)).size,6);
+ assert.deepStrictEqual(PG.layout(5).map(q=>q.slice(1)),[[-3,-3],[3,-3],[0,2],[-4,5],[-2,5],[-3,4],[3,4],[4,5]]);
+ assert.strictEqual(s.spots.length,8);assert.strictEqual(new Set(s.spots.map(q=>q[1].id)).size,8);
 });
 check('2 tree clumps every 10 tiles (no 11x11 patch): the 9x9 patch, the layout scaled into it',()=>{
  const g=graph(80,80,(x,z)=>x%10===0&&z%10===0),s=PG.findSites(api(g));assert(s,'no site');assert.strictEqual(s.radius,4);
- assert.strictEqual(s.spots.length,6);assert.strictEqual(new Set(s.spots.map(q=>q[1].id)).size,6);
+ assert.strictEqual(s.spots.length,8);assert.strictEqual(new Set(s.spots.map(q=>q[1].id)).size,8);
  const c=s.centre;s.spots.forEach(([type,n])=>{assert(Math.abs(n.tx-c.tx)<=4&&Math.abs(n.tz-c.tz)<=4,type+' outside the patch');assert(openAt(g,n.tx,n.tz),type+' not open')});
  const d=Math.max(Math.abs(c.tx-40),Math.abs(c.tz-10));assert(d>=8&&d<=36,'beyond the keep: '+d);
 });
@@ -41,8 +42,8 @@ check('3 a perfect meadow behind a moat (not reachable from the court) is passed
  const g2=graph(80,80,(x,z)=>(moat(x,z)&&!(x===33&&z===19))||(!inside(x,z)&&x%10===0&&z%10===0)),s2=PG.findSites(api(g2));
  assert.strictEqual(s2.radius,5);assert(inside(s2.centre.tx,s2.centre.tz));
 });
-check('4 scaled layouts: six distinct tiles, the pack on the far side, at radius 5, 4 and 3',()=>{
- for(const r of [5,4,3]){const L=PG.layout(r);assert.strictEqual(new Set(L.map(q=>q[1]+','+q[2])).size,6,'radius '+r);
+check('4 scaled layouts: eight distinct tiles, the pack on the far side, at radius 5, 4 and 3',()=>{
+ for(const r of [5,4,3]){const L=PG.layout(r);assert.strictEqual(new Set(L.map(q=>q[1]+','+q[2])).size,8,'radius '+r);
   L.forEach(q=>assert(Math.abs(q[1])<=r&&Math.abs(q[2])<=r,'radius '+r+' '+q));
   const pack=L.filter(q=>q[0]==='pg_large_rat'),men=L.filter(q=>q[0]==='pg_poacher'||q[0]==='pg_warlock');
   assert(pack.every(p=>men.every(m=>p[2]>m[2])),'radius '+r+': the pack is not on the far side')}

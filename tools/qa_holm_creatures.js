@@ -4,9 +4,9 @@
  *     block, death) at their authored lengths, the attack's impact at half its clip, feet on the ground, sized by its
  *     glbHeight; evidence: a contact sheet of the models from six angles, a frame strip of every clip, a lineup still;
  *  B. the island draft (?holmIsland=1): the combat trials' practice large rats (keep court 3, mage yard 2, names, levels,
- *     their clips loaded), the Proving Ground's large rats and rat matriarch, Haycombe Farm's live hens and cows (on walk
- *     graph nodes; the still prop hen and cow hidden); a rat flinches with its hit clip; a chicken and a cow killed by the
- *     adventurer fall with their death clips, lie, sink, and drop their 2004 loot (bones + feathers; bones + hide + beef);
+ *     their clips loaded), the Proving Ground's large rats, rat matriarch and goblins, Haycombe Farm's live hens and cows (on walk
+ *     graph nodes; the still prop hen and cow hidden); a rat flinches with its hit clip; a chicken, a cow and a goblin killed
+ *     by the adventurer fall with their death clips, lie, sink, and drop their loot (bones + feathers; bones + hide + beef; bones);
  *     stills of the keep court, the farm and the Proving Ground.
  * Writes scratchpad/holm_creatures/{browser/*.png, island/*.png, qa.json}; prints PASS/FAIL per rule.
  * Run: SMOKE_BASE=http://127.0.0.1:8191 node tools/qa_holm_creatures.js */
@@ -66,7 +66,7 @@ const CLIPS={idle:true,walk:true,attack:false,hit:false,block:false,death:false}
     const six=a=>a.every(n=>n.clips.length===6);
     rule('combat trials: 3 practice large rats in the keep court and 2 in the mage yard (the trial counts kept)',census.trials.filter(n=>n.pen==='keep-court').length===3&&census.trials.filter(n=>n.pen==='mage-yard').length===2,census.trials.map(n=>n.pen));
     rule('the trial rats are "Large rat (level-3)", the Blender large rat with all six clips',census.trials.every(n=>n.name==='Large rat'&&n.level===3&&n.glb==='holm_large_rat_v1')&&six(census.trials),census.trials.map(n=>[n.name,n.level,n.clips.length]));
-    rule('Proving Ground: three large rats and the rat matriarch (the grubkins are gone)',census.pg.filter(n=>n.type==='pg_large_rat').length===3&&census.pg.filter(n=>n.type==='pg_rat_matriarch').length===1&&six(census.pg.filter(n=>n.glb)),census.pg.map(n=>[n.type,n.name]));
+    rule('Proving Ground: three large rats, the rat matriarch and two goblins (the grubkins are gone)',census.pg.filter(n=>n.type==='pg_large_rat').length===3&&census.pg.filter(n=>n.type==='pg_rat_matriarch').length===1&&census.pg.filter(n=>n.type==='pg_goblin'&&n.name==='Goblin'&&n.level===5).length===2&&six(census.pg.filter(n=>n.glb)),census.pg.map(n=>[n.type,n.name]));
     rule('Haycombe Farm: five chickens (level-1) and two cows (level-2), live, with their six clips',census.farm.filter(n=>n.name==='Chicken'&&n.level===1).length===5&&census.farm.filter(n=>n.name==='Cow'&&n.level===2).length===2&&six(census.farm),census.farm.map(n=>[n.name,n.x,n.z]));
     rule('the farm animals stand on walk-graph nodes',census.nodes.length===7&&census.nodes.every(Boolean),census.nodes);
     rule('the still prop hen and cow they replace are hidden (the data and the walk graph untouched)',census.hidden.length===6&&census.hidden.every(h=>!h[1]),census.hidden);
@@ -80,6 +80,7 @@ const CLIPS={idle:true,walk:true,attack:false,hit:false,block:false,death:false}
     await look(cen(census.farm.filter(n=>n.name==='Chicken')),'farm_hens',.3,.8,6);
     await look(cen(census.farm.filter(n=>n.name==='Cow')),'farm_cows',.2,.85,7);
     await look(cen(census.pg),'proving_ground',.4,.9,12);
+    await look(cen(census.pg.filter(n=>n.type==='pg_goblin')),'proving_ground_goblins',.5,.75,6);
     // a flinch: the practice rat's hit clip plays when a blow lands (dmg > 0)
     {const r=census.trials.find(n=>n.pen==='keep-court');const name=await page.evaluate(x=>{const n=HolmIslandTrials.npcs().find(q=>q.islandPen==='keep-court'&&!q.dead);n.t=Object.assign({},n.t,{hp:5000,def:1,dBonus:-60});n.hp=5000;return n.mesh.name},r);
      const hit=await page.evaluate(async nm=>{const n=WORLD.npcs.find(q=>q.mesh.name===nm),sleep=ms=>new Promise(r=>setTimeout(r,ms));const nt=n.node||TileNav.nodeNear(n.mesh.position.x,n.mesh.position.y,n.mesh.position.z,3);
@@ -89,18 +90,21 @@ const CLIPS={idle:true,walk:true,attack:false,hit:false,block:false,death:false}
        LocalCombat.clearInteraction();return {seen}},name);
      rule('a blow that lands plays the large rat\'s own hit clip (CombatFX.react)',hit.seen,hit);await page.evaluate(()=>LocalCombat.clearInteraction());}
     // kills: a chicken and a cow fall with their death clips, lie, sink, and leave their drops
-    for(const [label,want] of [['Chicken',['bones','feathers']],['Cow',['bones','beast_hide','raw_beef']]]){
-      const r=await page.evaluate(async (label)=>{const sleep=ms=>new Promise(r=>setTimeout(r,ms));const n=HolmFarmAnimals.npcs().find(q=>q.t.name===label&&!q.dead);if(!n)return {error:'none'};
+    for(const [label,want] of [['Chicken',['bones','feathers']],['Cow',['bones','beast_hide','raw_beef']],['Goblin',['bones']]]){
+      const r=await page.evaluate(async (label)=>{const sleep=ms=>new Promise(r=>setTimeout(r,ms));const n=HolmFarmAnimals.npcs().concat(HolmProvingGround.npcs()).find(q=>q.t.name===label&&!q.dead);if(!n)return {error:'none'};
         const nt=n.node||TileNav.nodeNear(n.mesh.position.x,n.mesh.position.y,n.mesh.position.z,3);let placed=false;
         for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]]){const m=TileNav.nodeAt(nt.tx+dx,nt.tz+dz,nt.y);if(m&&m.id&&TileNav.bfs(TileNav.nodeNear(m.x,m.y,m.z,1),q=>q.tx===nt.tx&&q.tz===nt.tz,{max:20})){HolmArrivalQA.qaPlace(m.id);placed=true;break}}
-        const before=new Set(WORLD.drops);n.hp=1;LocalCombat.orderAttack(n);let fall=null;const t0=performance.now();
-        while(performance.now()-t0<15000&&!n.dead)await sleep(50);
+        // a clean slate (the flinch test's rat may still hold the adventurer in single combat), then attack until it falls
+        LocalCombat.clearInteraction();WORLD.npcs.forEach(q=>{if(q.queue)q.queue.clear();if(q.mode==='attack'){q.mode='wander';q.target=null}});Player.lastCombat=-1000;Player.aggressiveNpc=null;await sleep(1300);
+        const before=new Set(WORLD.drops);n.hp=1;n.wanderR=0;LocalCombat.orderAttack(n);let fall=null;const t0=performance.now();
+        while(performance.now()-t0<20000&&!n.dead){await sleep(50);if(!Player.target&&!n.dead&&(performance.now()-t0)%3000<60)LocalCombat.orderAttack(n)}
+        const chat=n.dead?undefined:[...document.querySelectorAll('#chatbox div')].slice(-4).map(d=>d.textContent);
         const d=n.mesh.userData.death,g=n.mesh.userData.gmix;fall={style:d&&d.style,dur:d&&+(d.dur||0).toFixed(2),clip:!!(g&&g.deathOn)};
         let holding=null;while(performance.now()-t0<20000&&n.dying){await sleep(60);const dd=n.mesh.userData.death;if(dd&&!dd.wait&&dd.t>dd.dur&&holding===null)holding=+n.mesh.position.y.toFixed(3)}
         const drops=WORLD.drops.filter(m=>!before.has(m)).map(m=>m.userData.id);
-        return {placed,dead:n.dead,fall,sunk:!n.dying&&!n.mesh.visible,drops,respawn:n.t.respawn}},label);
+        return {placed,dead:n.dead,fall,sunk:!n.dying&&!n.mesh.visible,drops,respawn:n.t.respawn,chat}},label);
       rule(label+': killed, it falls with its own death clip, then sinks away',r.dead&&r.fall&&r.fall.style==='clip'&&r.fall.clip&&r.sunk,r);
-      rule(label+': drops its 2004 loot ('+want.join(', ')+')',want.every(w=>r.drops&&r.drops.includes(w)),r.drops);
+      rule(label+': drops its loot ('+want.join(', ')+')',want.every(w=>r.drops&&r.drops.includes(w)),r.drops);
       await L.shot(page,'kill_'+label.toLowerCase()+'_loot');await page.evaluate(()=>LocalCombat.clearInteraction());
     }
     rule('no page errors',errs.length===0,errs.slice(0,4));
