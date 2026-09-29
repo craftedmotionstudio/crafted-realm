@@ -76,7 +76,9 @@ var HolmIslandPlayer=(function(){
   st.swapActor=o&&o.swapActor;
   var kit=typeof HolmKit!=='undefined'?HolmKit.load().catch(function(e){console.error('[HolmIslandPlayer] kit catalog',e)}):Promise.resolve();
   return kit.then(function(){return new Promise(function(ok){
-   new THREE.GLTFLoader().load(URL,function(gltf){try{st.gltf=gltf;ok({loaded:true})}catch(e){ok({failed:true})}},undefined,function(e){console.error('[HolmIslandPlayer] player model failed; the code-built adventurer stays',e);ok({clips:0,failed:true})});
+   // review 5 round 2: ?kitmesh=b / c loads a mesh option's kit instead (src/holm_gait_options.js)
+   var url=typeof HolmGaitOptions!=='undefined'&&HolmGaitOptions.kitUrl?HolmGaitOptions.kitUrl(URL):URL;
+   new THREE.GLTFLoader().load(url,function(gltf){try{st.gltf=gltf;ok({loaded:true})}catch(e){ok({failed:true})}},undefined,function(e){console.error('[HolmIslandPlayer] player model failed; the code-built adventurer stays',e);ok({clips:0,failed:true})});
   })});
  }
  // the 2004-style kit: exactly one part per slot and the five colour channels, from the character's saved look
@@ -109,6 +111,8 @@ var HolmIslandPlayer=(function(){
  // per frame: tending a fire or the range plays the cook clip between the game's own action ticks
  function update(){
   if(st.gltf&&typeof player!=='undefined'&&player&&player.position&&typeof scene!=='undefined'){install();return}
+  // review 5: ?gait=walkA,runB,idleC plays the walk / run / idle options (src/holm_gait_options.js; off without ?gait)
+  if(typeof HolmGaitOptions!=='undefined'&&HolmGaitOptions.active())HolmGaitOptions.update();
   var a=typeof Player!=='undefined'&&Player.action,gm=st.root&&player===st.root&&player.userData.gmix;if(!gm)return;
   // a held skilling loop (a chop, a net cast, the fire-lighting kneel) ends with its action, or when the player moves off
   if(st.loop){var L=st.loop;if(gm.attack!==L.act||!L.act.isRunning())st.loop=null;

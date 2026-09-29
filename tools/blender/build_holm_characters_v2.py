@@ -3352,7 +3352,9 @@ def step_spec(name):
     return STEP_CLIPS.get(name, STEP_ALL)
 
 def step_keys(frames, keys, spec):
-    """before make_clip: a negative hold = N poses of a dense cycle"""
+    """before make_clip: a negative hold = N poses of a dense cycle; a list = the frames of the held poses (review 5)"""
+    if spec and isinstance(spec[0], (list, tuple)):
+        return stepped(frames, keys, list(spec[0]))
     if spec and spec[0] and spec[0] < 0:
         return stepped(frames, keys, spec[0])
     return keys
@@ -3363,7 +3365,7 @@ def step_action(act, frames, keys, spec):
     if not spec:
         return act
     hold, interp = spec
-    if hold and hold > 0:
+    if hold and not isinstance(hold, (list, tuple)) and hold > 0:
         sparse = len(keys) <= frames // 2
         S = sorted(set(list(range(0, frames + 1, hold)) + ([int(k[0]) for k in keys if 0 <= k[0] <= frames] if sparse else []) + [frames]))
         for fc in _all_fcurves(act):
@@ -3391,7 +3393,9 @@ def _all_fcurves(act):
 def stepped(frames, keys, hold):
     """old-client look: keep every `hold`-th pose (plus the last) and hold it until one frame before the next"""
     ks = sorted(keys, key=lambda k: k[0])
-    if hold < 0:   # v4: -N = N poses spread evenly over the cycle (holds of 2 / 3 frames, like the old client's frame delays)
+    if isinstance(hold, list):   # review 5: the poses at these frames (uneven holds, e.g. the 2004 run's longer stride poses)
+        pick = [k for k in ks if k[0] in set(hold)]
+    elif hold < 0:   # v4: -N = N poses spread evenly over the cycle (holds of 2 / 3 frames, like the old client's frame delays)
         want = set(round(i * frames / -hold) for i in range(-hold))
         pick = [k for k in ks if k[0] in want]
     else:
@@ -3478,12 +3482,35 @@ def foot_ankle(g, pitch):
         return g + Vector((0, .05, 0)) + R @ Vector((0, -.05, .12))
     return g + Vector((0, -.18, 0)) + R @ Vector((0, .18, .12))
 
+def swing_curve(sw, a0, a1, path, hip_y, x):
+    """review 5 round 2: the swinging ankle on a Catmull-Rom curve through a0 (push-off), the hip-relative path points
+    (sw, dy behind the hips, z) and a1 (landing)"""
+    knots = [(0.0, Vector((x, a0.y, a0.z)))] + [(k, Vector((x, hip_y + dy, z))) for k, dy, z in path] + [(1.0, Vector((x, a1.y, a1.z)))]
+    i = max(0, min(len(knots) - 2, max(j for j in range(len(knots) - 1) if knots[j][0] <= sw)))
+    (k1, p1), (k2, p2) = knots[i], knots[i + 1]
+    p0 = knots[i - 1][1] if i > 0 else p1 + (p1 - p2)
+    p3 = knots[i + 2][1] if i + 2 < len(knots) else p2 + (p2 - p1)
+    u = 0.0 if k2 <= k1 else min(1.0, max(0.0, (sw - k1) / (k2 - k1)))
+    u2, u3 = u * u, u * u * u
+    return .5 * ((2 * p1) + (-p0 + p2) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u2 + (-p0 + 3 * p1 - 3 * p2 + p3) * u3)
+
 def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, arm_swing, fore, lean, twist, foot_x=.14,
               kick=0.0, base=None, bob_phase=0.0, head_counter=.6, fore_swing=8.0, hips_pitch=0.0, arms=True,
               sway=0.0, roll=0.0, sh_twist=None, head_stab=0.0, osrs=None, swing_sides=('Left', 'Right'), lean_cap=None,
-              swing_pitch=None, swing_y=None, head_pitch=0.0, trail=None, chest=0.0):
+              swing_pitch=None, swing_y=None, head_pitch=0.0, trail=None, chest=0.0, face=None, arm_bias=0.0, lift_skew=None,
+              neck=None, lean_osc=0.0, arm_out=0.0, foot_roll=None, swing_path=None):
     """grounded in-place cycle: the stance foot's ground pivot moves back at exactly `speed` (clip time) while the
-    pelvis bobs; the swing foot arcs forward; arms swing opposite the legs; spine counter-twists."""
+    pelvis bobs; the swing foot arcs forward; arms swing opposite the legs; spine counter-twists.
+    Review 5 (2026-09-28) options, all off by default: face = the face's pitch (deg, + = down) solved on the Head after the
+    lean (a level head on a leaning body); arm_bias = both arms carried this many deg further forward; lift_skew < 1 =
+    the swing foot rises early (a heel kick up behind) instead of mid-swing; neck = the Neck pitch (deg) instead of the
+    stance's; lean_osc = the lean swings this many deg either side of lean_cap, most forward on the stride poses; arm_out =
+    the arms carried this many deg further out from the sides (a shield on the forearm clears the driving knee).
+    Review 5 round 2: foot_roll=(a, b) = a gradual heel-to-toe roll -- the toe-up heel strike eases flat over the first a of the
+    stance, the heel lifts from b of the stance and the foot pushes off the toe (smoothstep, not linear);
+    swing_path=[(sw, dy, z), ...] = where the swinging ankle passes, relative to the hips (dy + = behind, z = height above
+    the ground), between the push-off and the landing (a Catmull-Rom curve) -- e.g. the run's heel kick-back, knee drive
+    and the leg reaching out before it lands."""
     T = frames / FPS
     Ts = duty * T
     keys = []
@@ -3510,8 +3537,10 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
                       Neck=(0, 0, -sy * .5 * head_stab), Head=(-lean * head_counter, 0, -sy * .5 * head_stab),
                       loc=(sway * cs, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
         sf = stance_flex_deg()
+        if neck is not None:
+            kw['Neck'] = (neck - STANCE.get('Neck', (0, 0, 0))[0], 0, 0)   # (pose_rotations adds the stance back)
         if arms and not osrs:   # v3.0: Euler arm specs are deltas over the stance (whose elbow is already bent ~sf deg)
-            kw.update(LeftArm=(arm_swing * c, -3, 0), RightArm=(-arm_swing * c, 3, 0),
+            kw.update(LeftArm=(arm_swing * c - arm_bias, -3 - arm_out, 0), RightArm=(-arm_swing * c - arm_bias, 3 + arm_out, 0),
                       LeftForeArm=(-(fore - sf + fore_swing * max(0.0, -c)), 0, 0), RightForeArm=(-(fore - sf + fore_swing * max(0.0, c)), 0, 0))
         if arms and osrs:      # arms swing at the sides in a plane parallel to the body's midline (never across the body)
             # v3.0: the bent stance arm pivots at the shoulder (Euler deltas over the stance): swing forward / back, a little
@@ -3520,7 +3549,7 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
             abd0 = osrs[2] if len(osrs) > 2 else 0.0   # v4a.2: a constant few degrees out (held tools clear the passing knee)
             for side in swing_sides:
                 sx = 1 if side == 'Left' else -1
-                sw = -arm_swing * c * sx                      # + = forward; the left arm is back when the left foot lands
+                sw = -arm_swing * c * sx + arm_bias           # + = forward; the left arm is back when the left foot lands
                 back = max(0.0, -sw) / max(1e-6, arm_swing)
                 kw[side + 'Arm'] = (-sw, -sx * (abd * back + abd0), 0)
                 kw[side + 'ForeArm'] = (-(flex + fore_swing * max(0.0, sw) / max(1e-6, arm_swing)), 0, 0)
@@ -3529,12 +3558,16 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
             sx = 1 if side == 'Left' else -1
             ph = (t + off) % 1.0
             yF = .02 - front
+            r_in, r_out = foot_roll if foot_roll else (.12, .55)
             if ph < duty:
                 sp = ph / duty
                 gy = yF + speed * Ts * sp
-                pitch = p_on * (1 - sp / .12) if sp < .12 else (p_off * (sp - .55) / .45 if sp > .55 else 0.0)
+                if foot_roll:   # round 2: the gradual heel-to-toe roll
+                    pitch = p_on * (1 - ss(0.0, r_in, sp)) if sp < r_in else (p_off * ss(r_out, 1.0, sp) if sp > r_out else 0.0)
+                else:
+                    pitch = p_on * (1 - sp / .12) if sp < .12 else (p_off * (sp - .55) / .45 if sp > .55 else 0.0)
                 ank = foot_ankle((sx * foot_x, gy, 0), pitch)
-                if .12 <= sp <= .55:
+                if r_in <= sp <= r_out:
                     flat_samples.setdefault(side, []).append((f, sp))
             else:
                 sw = (ph - duty) / (1 - duty)
@@ -3543,10 +3576,13 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
                 e = sw * sw * (3 - 2 * sw)
                 ey = ss(swing_y[0], swing_y[1], sw) if swing_y else e   # v4a.2: the trailing leg stays back, then swings through
                 ank = Vector((sx * foot_x, a0.y + (a1.y - a0.y) * ey + kick * math.sin(math.pi * sw) * (1 - sw),
-                              a0.z + (a1.z - a0.z) * sw + lift * math.sin(math.pi * sw) ** .9))
+                              a0.z + (a1.z - a0.z) * sw + lift * math.sin(math.pi * (sw ** lift_skew if lift_skew else sw)) ** .9))
                 # v4a.2 (owner 2026-09-27: "feet always parallel with the ground"): swing_pitch=(a, b) keeps the toes
                 # pointing down after the push-off and turns them up well before the heel strike (a clear ankle roll)
                 pitch = p_off + (p_on - p_off) * (ss(swing_pitch[0], swing_pitch[1], sw) if swing_pitch else e)
+                if swing_path:   # round 2: the ankle follows the authored path (hip-relative) from the push-off to the landing
+                    hy_ = .02 + pose.get('loc', (0, 0, 0))[1]
+                    ank = swing_curve(sw, a0, a1, swing_path, hy_, sx * foot_x)
                 if trail and sw < trail[0]:
                     # v4a.2b (the 2004 run's flight): after the push-off the trailing leg stays STRAIGHT and swings up behind
                     # (about the hip) before the knee folds and the thigh drives through -- no bent-kneed crouch in the air
@@ -3564,7 +3600,9 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
             if ph >= duty:
                 leg_ik(pose, side, ank, pitch)
         if lean_cap is not None:   # v2.9: measured on the posed chain (hips -> head)
-            upright(pose, lean_cap[0], cap=lean_cap[1])
+            upright(pose, lean_cap[0] + lean_osc * math.cos(4 * math.pi * t), cap=lean_cap[1])
+        if face is not None:
+            level_head(pose, face)
         keys.append((f, pose))
     # independent slide check: the achieved (FK) ankle of the flat stance foot must move back at exactly `speed`
     speeds = []
@@ -3587,8 +3625,36 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
                 kc.append(knee_flex(pose_, side))
             if abs(ph - duty * .5) < .5 / frames + 1e-9:
                 km.append(knee_flex(pose_, side))
+    # round 2: the knee at toe-off (last stance frame), the swing leg's straightest knee over the last fifth of the swing
+    # (the leg reaching out before it lands), the stance knee's deepest bend, the thigh's highest drive forward, the
+    # heel kick (the ankle's highest point while it is behind the hips) and the share of the cycle with both feet in the air
+    kto, kre, kst, thd, kick_h, flight = [], [], [], [], [], 0
+    for f_, pose_ in keys[:frames]:
+        hd_, _ = fk(pose_)
+        air = 0
+        for side, off in (('Left', 0.0), ('Right', .5)):
+            ph = ((f_ % frames) / frames + off) % 1.0
+            kf = knee_flex(pose_, side)
+            if ph < duty:
+                kst.append(kf)
+                if ph + 1.0 / frames >= duty - 1e-9:
+                    kto.append(kf)
+            else:
+                air += 1
+                sw_ = (ph - duty) / (1 - duty)
+                if sw_ >= .8:
+                    kre.append(kf)
+                a_, h_ = hd_[B(side + 'Foot')], hd_[B(side + 'UpLeg')]
+                if a_.y > h_.y:
+                    kick_h.append(a_.z)
+            k_, h_ = hd_[B(side + 'Leg')], hd_[B(side + 'UpLeg')]
+            thd.append(math.degrees(math.atan2(-(k_.y - h_.y), -(k_.z - h_.z))))
+        flight += air == 2
     tilts = [chain_tilt(p_) for _, p_ in keys[:frames]]
-    GAIT_REPORT[name] = {'frames': frames, 'clip_seconds': round(T, 3), 'ground_speed_clip_mps': speed,
+    GAIT_REPORT[name] = {'knee_flex_at_toe_off_deg': round(sum(kto) / max(1, len(kto)), 1), 'knee_flex_swing_end_min_deg': round(min(kre) if kre else 0.0, 1),
+                         'knee_flex_stance_max_deg': round(max(kst) if kst else 0.0, 1), 'thigh_drive_max_deg': round(max(thd), 1),
+                         'heel_kick_max_ankle_z_m': round(max(kick_h) if kick_h else 0.0, 3), 'flight_share': round(flight / frames, 3),
+                         'frames': frames, 'clip_seconds': round(T, 3), 'ground_speed_clip_mps': speed,
                          'spine_chain_forward_tilt_deg': [round(min(tilts), 2), round(max(tilts), 2)],
                          'knee_flex_at_contact_deg': round(sum(kc) / max(1, len(kc)), 1), 'knee_flex_mid_stance_deg': round(sum(km) / max(1, len(km)), 1),
                          'measured_planted_foot_speed_mps': round(sum(speeds) / max(1, len(speeds)), 3),
@@ -3623,6 +3689,40 @@ def upright(pose, target=0.0, cap=False, to=None):
         sp = (sp[0] - (t - target) / (g if abs(g) > 1e-4 else 1.0), sp[1], sp[2])
         pose['Spine'] = sp
         t = chain_tilt(pose, to)
+    return pose
+
+def face_pitch(pose):
+    """the face's pitch (deg, + = looking down) of a pose: the head's forward axis after every parent rotation (0 = as modelled)"""
+    _, acc = fk(pose)
+    fw = acc[B('Head')] @ Vector((0, -1, 0))
+    return math.degrees(math.atan2(-fw.z, -fw.y))
+
+def head_rel(pose):
+    """the head's pitch relative to the chest (Spine2), deg (+ = the head tipped further forward than the chest)"""
+    _, acc = fk(pose)
+    fh, fc = acc[B('Head')] @ Vector((0, -1, 0)), acc[B('Spine2')] @ Vector((0, -1, 0))
+    return math.degrees(math.atan2(-fh.z, -fh.y)) - math.degrees(math.atan2(-fc.z, -fc.y))
+
+HEAD_REL_MIN = [None]   # review 5: the least head-to-chest pitch a levelled face may reach (set by the gait options build)
+
+def level_head(pose, down=0.0):
+    """review 5: turn the Head bone (pitch only) so the face looks `down` degrees below its modelled line -- the old client's
+    head stays up (eyes ahead) when the body leans or the neck carries it forward. HEAD_REL_MIN caps how far the head may tip
+    back against the chest: further and the nape of the neck presses through an amulet chain and the back hair through a
+    cape collar (the equipment fit check), so on a leaning body the face then keeps a little of the lean"""
+    hd = pose.get('Head', (0, 0, 0))
+    hd = tuple(hd) if hd and isinstance(hd[0], (int, float)) else (0, 0, 0)
+    for _ in range(4):
+        e = face_pitch(pose) - down
+        if abs(e) < .05:
+            break
+        hd = (hd[0] - e, hd[1], hd[2])
+        pose['Head'] = hd
+    if HEAD_REL_MIN[0] is not None:
+        r = head_rel(pose)
+        if r < HEAD_REL_MIN[0]:
+            hd = (hd[0] + (HEAD_REL_MIN[0] - r), hd[1], hd[2])
+            pose['Head'] = hd
     return pose
 
 REACH_ERR = [0.0]
@@ -3687,9 +3787,10 @@ def best_gait(name, frames, speed, duty, **kw):
     best = None
     front_q = kw.pop('front_q', .5)   # v4a.2: where in the feasible landing range the step sits (.5 = centred under the hips;
     # lower = the feet land closer and push off further behind -- the 2004 run's trailing legs)
+    front_fix = kw.pop('front_fix', None)   # review 5: land exactly this far ahead (m); only the pelvis drop is searched
     for drop in [kw['drop'] + .005 * k for k in range(0, GAIT_DROP_STEPS)]:   # v2.8: finer search (straightest feasible legs)
         feasible = []
-        for fi in range(8, 50, 2):
+        for fi in ([int(round(front_fix * 100))] if front_fix is not None else range(8, 50, 2)):
             k2 = dict(kw, drop=drop, front=fi / 100.0)
             gait_clip(name, frames, speed, duty, **k2)
             wv = GAIT_REPORT[name]['max_stance_reach_error_m']
@@ -3704,26 +3805,37 @@ def best_gait(name, frames, speed, duty, **kw):
     GAIT_REPORT[name].update(front_m=best[1]['front'], pelvis_drop_m=round(best[1]['drop'], 3))
     return keys
 
+# WALK: modest step (~.70 m), fairly straight legs, flat-ish feet with heel-strike / toe-off roll, upright, small bob
+# v2.9 WALK (OSRS-like): compact 0.64 m step, straight-ish legs, arms swinging at the sides, no sway / roll, minimal bob,
+# head steady, vertical spine. Slide-free at 2.4 m/s at timeScale 1 (15 frames = 0.5 s, 1.20 m stride, 0.60 m step).
+WALK_BASE = dict(frames=15, duty=.58, lift=.045, drop=.005, bob=.012, front=.24, p_on=10, p_off=-22,
+                 arm_swing=20, fore=0, lean=0, twist=2.5, foot_x=.13, bob_phase=0.0, osrs=(10.0, 0.0), fore_swing=10, lean_cap=(0.0, False))
+# RUN: longer step, slight forward lean, arms bent ~90 deg pumping, moderate foot lift, brief flight
+RUN_BASE = dict(frames=16, duty=.38, lift=.12, drop=.070, bob=.020, front=.20, p_on=8, p_off=-34,
+                arm_swing=34, fore=88, lean=3, twist=7, foot_x=.13, kick=.09, bob_phase=.19, head_counter=1.0,
+                fore_swing=6, hips_pitch=1, lean_cap=(2.0, True))   # v3.1: upright run, never more than 2 deg of lean
+
+def gait_params(kind, extra=None):
+    """the walk / run parameter set: the base, the profile's GAIT overrides, then `extra` (a review-5 gait option)"""
+    k = dict(WALK_BASE if kind == 'walk' else RUN_BASE)
+    k.update(GAIT.get(kind, {}))
+    k.update(extra or {})
+    return k
+
+def gait_keys(name, kind, k):
+    """-> (frames, keys) of a grounded walk / run cycle from a gait_params() set"""
+    k = dict(k)
+    fr, du = k.pop('frames'), k.pop('duty')
+    pk = k.pop('plant_k', 1.0)   # v4: < 1 = the old client's shorter leg swing (the feet slide a little, as in 2004)
+    return fr, best_gait(name, fr, (GAME_WALK_SPEED if kind == 'walk' else GAME_RUN_SPEED) * pk, du, **k)
+
 def v27_clips():
     """re-authored clips (walk, run, chop, mine, net, cook); the rest of clip_defs() is kept"""
     C = {}
-    # WALK: modest step (~.70 m), fairly straight legs, flat-ish feet with heel-strike / toe-off roll, upright, small bob
-    # v2.9 WALK (OSRS-like): compact 0.64 m step, straight-ish legs, arms swinging at the sides, no sway / roll, minimal bob,
-    # head steady, vertical spine. Slide-free at 2.4 m/s at timeScale 1 (15 frames = 0.5 s, 1.20 m stride, 0.60 m step).
-    wk = dict(frames=15, duty=.58, lift=.045, drop=.005, bob=.012, front=.24, p_on=10, p_off=-22,
-              arm_swing=20, fore=0, lean=0, twist=2.5, foot_x=.13, bob_phase=0.0, osrs=(10.0, 0.0), fore_swing=10, lean_cap=(0.0, False))
-    wk.update(GAIT.get('walk', {}))
-    wf, wd = wk.pop('frames'), wk.pop('duty')
-    wpk = wk.pop('plant_k', 1.0)   # v4: < 1 = the old client's shorter leg swing (the feet slide a little, as in 2004)
-    C['walk'] = (wf, best_gait('walk', wf, GAME_WALK_SPEED * wpk, wd, **wk), True)
-    # RUN: longer step, slight forward lean, arms bent ~90 deg pumping, moderate foot lift, brief flight
-    rk = dict(frames=16, duty=.38, lift=.12, drop=.070, bob=.020, front=.20, p_on=8, p_off=-34,
-              arm_swing=34, fore=88, lean=3, twist=7, foot_x=.13, kick=.09, bob_phase=.19, head_counter=1.0,
-              fore_swing=6, hips_pitch=1, lean_cap=(2.0, True))   # v3.1: upright run, never more than 2 deg of lean
-    rk.update(GAIT.get('run', {}))
-    rf_, rd = rk.pop('frames'), rk.pop('duty')
-    rpk = rk.pop('plant_k', 1.0)
-    C['run'] = (rf_, best_gait('run', rf_, GAME_RUN_SPEED * rpk, rd, **rk), True)
+    wf, wkeys = gait_keys('walk', 'walk', gait_params('walk'))
+    C['walk'] = (wf, wkeys, True)
+    rf_, rkeys = gait_keys('run', 'run', gait_params('run'))
+    C['run'] = (rf_, rkeys, True)
     stance = dict(LeftUpLeg=(-12, 0, 0), LeftLeg=(8, 0, 0), LeftFoot=(4, 0, 0), RightUpLeg=(7, 0, 0), RightLeg=(4, 0, 0), RightFoot=(-11, 0, 0))
     guard = dict(LeftArm=A(.40, -.42, -.81), LeftForeArm=A(.10, -.86, -.50))
     # CHOP: over the right shoulder -> down and forward to waist height (tree contact) -> small follow-through -> recover
@@ -3927,7 +4039,7 @@ def hand_clearance(arm, acts):
                     w['min_hand_thigh_gap'] = min(w.get('min_hand_thigh_gap', 9.0), (c - (a + ab * t)).length - r_th - HAND_HALF)
                 if .60 < c.z < 1.0 and abs(c.y - .03) < .16:   # beside the thigh: horizontal gap to the thigh's outer line
                     w['min_outside_thigh'] = min(w['min_outside_thigh'], c.x * sx - (HIP_X['A'] + .105))
-                if name == 'idle':
+                if name == 'idle' or name.startswith('idle_'):   # (review 5: the idle options idle_A ...)
                     w['idle_hand_x_max'] = max(w.get('idle_hand_x_max', 0.0), c.x * sx)
                     w['idle_hand_y_max'] = max(w.get('idle_hand_y_max', -9.0), c.y)
         res[name] = {k: (round(v, 4) if isinstance(v, float) else v) for k, v in w.items()}
@@ -6486,6 +6598,239 @@ def rebuild_tutors(ids):
         json.dump(m, fh, indent=2)
     print('TUTORS REBUILT', json.dumps({tid: (res[tid]['PASS'], sum(meta[tid]['tris'].values())) for tid in ids}))
 
+# ==========================================================================================
+# Review 5 (owner 2026-09-28): walk / run / idle OPTIONS -> a companion GLB of named clip variants (walk_A, run_B, idle_C..)
+#   blender -b --python tools/blender/build_holm_characters_v2.py -- --gait-options [--gtag holm-gait-options-v1]
+# Writes .studio-workspaces/<gtag>/candidates/{gaits.glb, manifest.json, REPORT.md}. The kit's own idle / walk / run are not
+# touched (the shipped default until the owner picks); the runtime swaps a variant in with ?gait=walkA,runB,idleC
+# (src/holm_gait_options.js). The GLB carries the kit rig (23 bones, no meshes) and only the variant clips.
+# ==========================================================================================
+GAIT_OPTIONS = {}   # holm_char_profiles_v4.GAIT_OPTIONS for v4a2: {'walk'|'run': {key: {label, note, gait, step?}}, 'idle': {key: {label, note, idle}}}
+
+def idle_option_keys(spec):
+    """the idle clip of an idle option (called with the option's stance swapped in and IDLE_FEET set): the shipped breath,
+    the option's spine-chain lean, feet (IK) and face pitch (the head carried by the stance's Neck)"""
+    lean, face = spec.get('lean', 0.0), spec.get('face')
+    def pose(p_, nod=0.0):
+        p_ = upright(p_, lean)
+        if IDLE_FEET:
+            p_ = idle_feet(p_)
+        if face is not None:
+            level_head(p_, face + nod)
+        return p_
+    breath = P(Spine1=(-1.5, 0, 0), Spine2=(-1, 0, 0), Head=(2.5, 0, 0), LeftArm=(1.5, -1, 0), RightArm=(1.5, 1, 0),
+               LeftForeArm=(-2.5, 0, 0), RightForeArm=(-2.5, 0, 0), loc=(0, 0, .004))
+    return [(0, pose(P())), (30, pose(breath, 1.5)), (60, pose(P()))]
+
+class _IdleStance:
+    """with-block: the idle option's stance (Neck carry, arm hang) and feet in place of the profile's while its clip is posed"""
+    def __init__(self, spec):
+        self.spec = spec or {}
+    def __enter__(self):
+        global IDLE_FEET
+        sp = self.spec
+        st = dict(STANCE)
+        if sp.get('neck') is not None:
+            st['Neck'] = (sp['neck'], 0, 0)
+        aims = dict(STANCE_ARM_AIM)
+        for k_, v in (sp.get('arms') or {}).items():
+            aims[k_] = v
+            aims[k_.replace('Left', 'Right')] = (-v[0], v[1], v[2])
+        self.old = swap_stance(st, aims)
+        self.old_feet = IDLE_FEET
+        if sp.get('feet'):
+            IDLE_FEET = sp['feet']
+        return self
+    def __exit__(self, *a):
+        global IDLE_FEET
+        swap_stance(*self.old)
+        IDLE_FEET = self.old_feet
+
+def clip_skeleton_metrics(arm, act, H):
+    """exact numbers on the posed kit skeleton, every frame of one cycle (fractions of the standing height H; degrees):
+    shoulder / head / pelvis bob, how far the ankles and toes get ahead of / behind the hips, the knee lift, how high the
+    foot kicks up behind, the wrists ahead of / behind the shoulders and their height, the elbow bend, the spine-chain
+    lean and the face pitch"""
+    sc = bpy.context.scene
+    arm.animation_data.action = act
+    f0, f1 = int(act.frame_range[0]), int(act.frame_range[1])
+    pb = arm.pose.bones
+    R = {k: [] for k in ('sh', 'top', 'pel', 'ank_f', 'ank_b', 'toe_f', 'thigh_f', 'kick', 'wr_f', 'wr_b', 'wr_z', 'elbow', 'lean', 'face', 'head_f')}
+    for f in range(f0, f1):
+        sc.frame_set(f)
+        hip = (pb[B('LeftUpLeg')].head + pb[B('RightUpLeg')].head) / 2
+        sh = (pb[B('LeftArm')].head + pb[B('RightArm')].head) / 2
+        R['sh'].append(sh.z)
+        R['top'].append(pb[B('HeadTop_End')].head.z)
+        R['pel'].append(pb[B('Hips')].head.z)
+        R['head_f'].append(hip.y - pb[B('Head')].head.y)
+        for sd in ('Left', 'Right'):
+            a = pb[B(sd + 'Foot')].head
+            R['ank_f'].append(hip.y - a.y)
+            R['ank_b'].append(a.y - hip.y)
+            R['toe_f'].append(hip.y - pb[B(sd + 'ToeBase')].tail.y)
+            if a.y > hip.y:
+                R['kick'].append(a.z)
+            k = pb[B(sd + 'Leg')].head
+            hj = pb[B(sd + 'UpLeg')].head
+            R['thigh_f'].append(math.degrees(math.atan2(-(k.y - hj.y), -(k.z - hj.z))))
+            s_, e, w = pb[B(sd + 'Arm')].head, pb[B(sd + 'ForeArm')].head, pb[B(sd + 'Hand')].head
+            R['wr_f'].append(s_.y - w.y)
+            R['wr_b'].append(w.y - s_.y)
+            R['wr_z'].append(w.z)
+            R['elbow'].append(math.degrees((e - s_).angle(w - e, 0.0)))
+        n = pb[B('Neck')].head
+        hh = pb[B('Hips')].head
+        d = n - hh
+        R['lean'].append(math.degrees(math.atan2(-d.y, d.z)))
+        hb = pb[B('Head')]
+        fw = (hb.matrix.to_3x3() @ hb.bone.matrix_local.to_3x3().inverted()) @ Vector((0, -1, 0))
+        R['face'].append(math.degrees(math.atan2(-fw.z, -fw.y)))
+    arm.animation_data.action = None
+    rng = lambda v: (max(v) - min(v)) / H if v else 0.0
+    mean = lambda v: sum(v) / len(v) if v else 0.0
+    r3 = lambda x: round(x, 3)
+    return {'shoulder_bob_pct': round(100 * rng(R['sh']), 2), 'head_bob_pct': round(100 * rng(R['top']), 2), 'pelvis_bob_pct': round(100 * rng(R['pel']), 2),
+            'ankle_ahead_max': r3(max(R['ank_f']) / H), 'ankle_behind_max': r3(max(R['ank_b']) / H),
+            'ankle_ahead_mean': r3(mean([max(0.0, v) for v in R['ank_f']]) / H), 'ankle_behind_mean': r3(mean([max(0.0, v) for v in R['ank_b']]) / H),
+            'toe_ahead_max': r3(max(R['toe_f']) / H), 'thigh_forward_max_deg': round(max(R['thigh_f']), 1), 'thigh_back_max_deg': round(-min(R['thigh_f']), 1),
+            'foot_kick_behind_max': r3(max(R['kick'] or [0.0]) / H - .12 / H),
+            'wrist_ahead_max': r3(max(R['wr_f']) / H), 'wrist_behind_max': r3(max(R['wr_b']) / H),
+            'wrist_height': [r3(min(R['wr_z']) / H), r3(max(R['wr_z']) / H)], 'elbow_bend_deg': [round(min(R['elbow']), 1), round(max(R['elbow']), 1)],
+            'spine_lean_deg': round(mean(R['lean']), 1), 'face_down_deg': round(mean(R['face']), 1), 'head_ahead_of_hips': r3(mean(R['head_f']) / H)}
+
+def build_gait_options():
+    """review 5: the gait options as named clip variants on the kit rig -> the companion GLB + manifest + report"""
+    gtag = ARGS[ARGS.index('--gtag') + 1] if '--gtag' in ARGS else 'holm-gait-options-v1'
+    out_dir = os.path.join(REPO, '.studio-workspaces', gtag, 'candidates')
+    os.makedirs(out_dir, exist_ok=True)
+    assert GAIT_OPTIONS, 'the profile has no gait options (profile %s)' % PROFILE
+    reset_scene()
+    mats = make_kit_materials('A')
+    arm = build_armature()
+    coll = bpy.data.collections.new('Kit')
+    bpy.context.scene.collection.children.link(coll)
+    objs = {}
+    for lab, (bt, over) in HAND_OUTFITS.items():   # the parts the mesh hand-clearance check poses
+        sel = dict(DEFAULT_OUTFIT[bt]); sel.update(over)
+        for slot in ('Hands', 'Legs', 'Torso'):
+            nm = part_name(bt, slot, sel[slot])
+            if nm not in objs:
+                objs[nm] = build_part(bt, slot, sel[slot], mats, arm, coll)
+    H = KIT_HEIGHT_A
+    acts, meta = {}, {}
+    # the head-to-chest floor: the shipped stance (neck carry) with the face levelled on an upright body -- the idle pose the
+    # equipment fit check passes with amulets and capes; no option tips the head further back against the chest than this
+    ref = upright(P(), 0.0)
+    level_head(ref, 0.0)
+    HEAD_REL_MIN[0] = round(head_rel(ref), 2)
+    print('[GAITS] head-to-chest floor %.2f deg' % HEAD_REL_MIN[0])
+    # the shipped clips, rebuilt here only to be measured the same way (not exported)
+    cur = {}
+    for kind in ('walk', 'run'):
+        fr, keys = gait_keys('_cur_' + kind, kind, gait_params(kind))
+        spec = step_spec(kind); ks = step_keys(fr, keys, spec)
+        cur[kind] = make_clip(arm, '_cur_' + kind, fr, ks); step_action(cur[kind], fr, ks, spec)
+    idef = clip_defs()['idle']
+    spec = step_spec('idle'); ks = step_keys(idef[0], idef[1], spec)
+    cur['idle'] = make_clip(arm, '_cur_idle', idef[0], ks); step_action(cur['idle'], idef[0], ks, spec)
+    for kind in ('walk', 'run'):
+        for key, opt in sorted(GAIT_OPTIONS.get(kind, {}).items()):
+            name = '%s_%s' % (kind, key)
+            prm = gait_params(kind, opt.get('gait'))
+            fr, keys = gait_keys(name, kind, prm)
+            spec = opt.get('step') or step_spec(kind)
+            ks = step_keys(fr, keys, spec)
+            acts[name] = make_clip(arm, name, fr, ks)
+            step_action(acts[name], fr, ks, spec)
+            meta[name] = {'kind': kind, 'key': key, 'label': opt['label'], 'note': opt['note'], 'frames': fr, 'seconds': round(fr / FPS, 3),
+                          'step': [list(spec[0]) if isinstance(spec[0], (list, tuple)) else spec[0], spec[1]] if spec else None,
+                          'option': {k: (list(v) if isinstance(v, tuple) else v) for k, v in (opt.get('gait') or {}).items()},
+                          'gait': dict(GAIT_REPORT[name])}
+    for key, opt in sorted(GAIT_OPTIONS.get('idle', {}).items()):
+        name = 'idle_' + key
+        with _IdleStance(opt['idle']):
+            keys = idle_option_keys(opt['idle'])
+            spec = step_spec('idle')
+            ks = step_keys(60, keys, spec)
+            acts[name] = make_clip(arm, name, 60, ks)
+            step_action(acts[name], 60, ks, spec)
+            stm = stance_metrics(keys[0][1])
+        meta[name] = {'kind': 'idle', 'key': key, 'label': opt['label'], 'note': opt['note'], 'frames': 60, 'seconds': 2.0,
+                      'option': json.loads(json.dumps(opt['idle'])), 'stance': stm}
+    # ---- checks (the same gates as the shipped clips)
+    for name, m in meta.items():
+        if m['kind'] in ('walk', 'run'):
+            g = m['gait']
+            assert g['max_planted_speed_error_mps'] < .05, 'planted foot slides in %s: %s' % (name, g)
+            assert g['max_stance_reach_error_m'] < .006, 'stance foot cannot reach the ground in %s: %s' % (name, g)
+    hands = hand_clearance(arm, acts)
+    for name, rep in hands.items():
+        kind = meta[name]['kind']
+        assert_hands({kind: rep}, name)
+    allc = dict(acts); allc.update({'_cur_' + k: v for k, v in cur.items()})
+    hm = mesh_hand_clearance(arm, objs, allc)
+    bad = {lab: {n: r for n, r in res.items() if n in acts and r['hand_verts_inside']} for lab, res in hm['result'].items()}
+    bad = {k: v for k, v in bad.items() if v}
+    assert not bad, 'hands sink into the legs / torso: %s' % json.dumps(bad)
+    lean = measure_lean(arm, allc)
+    for name, m in meta.items():
+        lim = LEAN_LIMITS['still'] + abs(GAIT_OPTIONS['idle'][m['key']]['idle'].get('lean', 0.0)) if m['kind'] == 'idle' else LEAN_LIMITS[m['kind']]
+        assert max(abs(v) for v in lean[name]) < lim, '%s leans %s (limit %s)' % (name, lean[name], lim)
+    skel = {n: clip_skeleton_metrics(arm, a, H) for n, a in allc.items()}
+    for n in meta:
+        meta[n].update(hands=hands[n], lean_deg=lean[n], skeleton=skel[n],
+                       hands_mesh={lab: res[n] for lab, res in hm['result'].items()})
+    current = {k: {'skeleton': skel['_cur_' + k], 'lean_deg': lean['_cur_' + k]} for k in cur}
+    # ---- export: the rig and the variant clips only (the measuring copies of the shipped clips and the meshes stay out)
+    for a in list(cur.values()):
+        bpy.data.actions.remove(a)
+    for o in list(objs.values()):
+        bpy.data.objects.remove(o, do_unlink=True)
+    out_glb = os.path.join(out_dir, 'gaits.glb')
+    export_glb(out_glb, arm, [], 'ACTIONS')
+    j = read_glb(out_glb)
+    names = [n.get('name') for n in j['nodes']]
+    clips = glb_clips(j)
+    missing_bones = [b for b in BONE_NAMES if b not in names]
+    assert not missing_bones, 'bones missing from the gaits GLB: %s' % missing_bones
+    assert sorted(clips) == sorted(acts), 'gaits GLB clips %s != %s' % (sorted(clips), sorted(acts))
+    assert not j.get('meshes'), 'the gaits GLB must carry no meshes'
+    targets = {j['nodes'][ch['target']['node']]['name'] for a in j['animations'] for ch in a['channels']}
+    assert targets <= set(BONE_NAMES), 'channels target non-bone nodes: %s' % (targets - set(BONE_NAMES))
+    rel = lambda p: os.path.relpath(p, REPO).replace('\\', '/')
+    manifest = {'asset': 'holm_kit_v2_gaits', 'builder': 'tools/blender/build_holm_characters_v2.py --gait-options', 'profile': PROFILE,
+                'glb': rel(out_glb), 'bytes': os.path.getsize(out_glb), 'clips': clips, 'bones': len(BONE_NAMES),
+                'kit_height_m': H, 'fps': FPS,
+                'runtime': 'companion to assets/models/holm_kit_v2.glb: same 23 bones; src/holm_gait_options.js plays walk_<K> / run_<K> / '
+                           'idle_<K> in place of the kit\'s walk / run / idle (?gait=walkA,runB,idleC). Walk / run are slide-free at the kit '
+                           'speeds x plant_k at timeScale 1, like the shipped clips (HOLM_KIT_MPS).',
+                'options': meta, 'current': current, 'hand_clearance_mesh_PASS': True,
+                'validation': {'bones_present': True, 'clips_exact': True, 'no_meshes': True}}
+    with open(os.path.join(out_dir, 'manifest.json'), 'w', encoding='utf-8') as fh:
+        json.dump(manifest, fh, indent=1)
+    L = ['# Gait options (review 5, 2026-09-28) -- %s\n' % gtag,
+         'Built by `blender -b --python tools/blender/build_holm_characters_v2.py -- --gait-options` (profile %s). `gaits.glb`: the kit '
+         'rig + %d variant clips, no meshes (%d bytes).\n' % (PROFILE, len(clips), os.path.getsize(out_glb)),
+         '| clip | seconds | what it changes |', '|---|---|---|']
+    for n in sorted(meta):
+        L.append('| %s | %s | %s |' % (n, meta[n]['seconds'], meta[n]['note']))
+    L.append('\n## Skeleton numbers (fractions of the standing height %.3f m; degrees)\n' % H)
+    keys_ = ['head_bob_pct', 'shoulder_bob_pct', 'ankle_ahead_max', 'ankle_behind_max', 'ankle_ahead_mean', 'ankle_behind_mean',
+             'thigh_forward_max_deg', 'foot_kick_behind_max', 'wrist_ahead_max', 'wrist_behind_max', 'spine_lean_deg', 'face_down_deg', 'head_ahead_of_hips']
+    L.append('| clip | ' + ' | '.join(keys_) + ' |')
+    L.append('|---|' + '---|' * len(keys_))
+    for n in ['_cur_walk', '_cur_run', '_cur_idle'] + sorted(meta):
+        L.append('| %s | ' % n.replace('_cur_', 'current ') + ' | '.join(str(skel[n][k]) for k in keys_) + ' |')
+    with open(os.path.join(out_dir, 'REPORT.md'), 'w', encoding='utf-8') as fh:
+        fh.write('\n'.join(L) + '\n')
+    print('[GAITS]', json.dumps({'glb': rel(out_glb), 'bytes': os.path.getsize(out_glb), 'clips': clips}))
+    print('[GAITS-SKEL]', json.dumps({n: skel[n] for n in sorted(skel)}))
+    print('[GAITS-GAIT]', json.dumps({n: meta[n].get('gait') for n in sorted(meta) if meta[n].get('gait')}))
+    print('[GAITS-STANCE]', json.dumps({n: meta[n].get('stance') for n in sorted(meta) if meta[n].get('stance')}))
+
+KIT_HEIGHT_A = 1.813   # the default man's rest height (manifest height_m_rest_default_outfit A)
+
 PROFILE = None
 def apply_profile(name):
     """v4 character options (owner review 2026-09-27): patch the shared body / head / face / gait tables before any part
@@ -6507,6 +6852,8 @@ def main():
     prof = ARGS[ARGS.index('--profile') + 1] if '--profile' in ARGS else DEFAULT_PROFILE
     if prof != 'none':
         apply_profile(prof)
+    if '--gait-options' in ARGS:   # review 5: the walk / run / idle options only (companion GLB)
+        return build_gait_options()
     if '--tutors' in ARGS:
         return rebuild_tutors(ARGS[ARGS.index('--tutors') + 1].split(','))
     os.makedirs(WS, exist_ok=True)
@@ -6551,6 +6898,17 @@ def main():
         worst[bt] = sum(max(tri_count(objs[part_name(bt, s, i)]) for i in range(1, len(KIT[bt][s]) + 1)) for s in SLOTS if s in KIT[bt])
     export_glb(OUT_KIT, arm, list(objs.values()), 'ACTIONS', morph=True)
     kit_clip_names = list(clips.keys())
+    if '--kit-only' in ARGS:   # review 5 round 2 (mesh options): the kit GLB alone -- no Bram, tutors, renders
+        res_kit = validate(OUT_KIT, [p['name'] for p in parts], kit_clip_names, exact_clips=True)
+        man = {'asset': 'holm_kit_v2 mesh option', 'profile': PROFILE, 'glb': os.path.relpath(OUT_KIT, REPO).replace(os.sep, '/'),
+               'bytes': os.path.getsize(OUT_KIT), 'sharp_deg': SHARP_DEG, 'torso_p': TORSO_P, 'tris_default_outfit': default_tris,
+               'height_m_rest_default_outfit': heights, 'max_inner_sharp_edge_fraction': max(p['inner_sharp_edge_fraction'] for p in parts),
+               'mean_inner_sharp_edge_fraction': round(sum(p['inner_sharp_edge_fraction'] for p in parts) / len(parts), 4),
+               'validation': {k: v for k, v in res_kit.items() if k not in ('clips', 'morph_targets')}}
+        with open(os.path.join(WS, 'manifest.json'), 'w', encoding='utf-8') as fh:
+            json.dump(man, fh, indent=1)
+        print('[KIT-ONLY]', json.dumps({k: man[k] for k in ('glb', 'bytes', 'sharp_deg', 'torso_p', 'tris_default_outfit', 'mean_inner_sharp_edge_fraction')}))
+        return
     # Bram (built after the kit export so his actions are not swept into the kit GLB)
     barm, bmats, bobjs, bacts, bdefs = build_bram(objs, mats)
     hands_bram = hand_clearance(barm, bacts)

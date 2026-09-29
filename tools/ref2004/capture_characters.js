@@ -3,6 +3,8 @@
  * silhouette can be measured), and walk / run frame strips from the side (locked camera, plate-subtracted) and at the
  * game camera (following, 3/4 from behind).
  *   bun tools/ref2004/capture_characters.js [--side 2004|ours|both] [--gender m|f|both]
+ *     ours only: [--tag T] (-> characters/ours_T/<g>, e.g. one set per gait option) [--query '&gait=walkA,runB']
+ *                [--skip designer,world,matched] (leave out views the gait comparison does not need)
  * 2004 frames:  C:\Users\iQwaZ\ref2004_captures\characters\2004\<g>\   (never in the repo)
  * ours frames:  C:\Users\iQwaZ\ref2004_captures\characters\ours\<g>\   (+ ours-only sheets in scratchpad/ref2004)
  * Then: python tools/ref2004/analyze.py characters   (sheets + metrics.json) */
@@ -12,6 +14,7 @@ const fs=require('fs'),path=require('path');
 const C=require('./lib/common');
 const arg=(k,d)=>{const i=process.argv.indexOf('--'+k);return i>0?process.argv[i+1]:d};
 const SIDE=arg('side','both'),GENDERS=arg('gender','both')==='both'?['m','f']:[arg('gender','m')];
+const TAG=arg('tag',''),QUERY=arg('query',''),SKIP=new Set(arg('skip','').split(',').filter(Boolean));   // ours-only options
 const ROOT=C.out2004('characters');
 const REL=[0,256,512,768,1024,1280,1536,1792];            // camera angle around the character, 2048ths (0 = front)
 const WORLD_REL=[0,256,512,1024];
@@ -128,13 +131,15 @@ async function findLane2004(S,n){
 // ------------------------------------------------------------------------------------------------ ours
 async function capOurs(browser,g){
   const O=require('./lib/ours_client');
-  const dir=C.out2004('characters','ours',g),meta={game:'ours',gender:g,base:C.OURS,at:new Date().toISOString(),notes:[]};
+  const dir=C.out2004('characters',TAG?'ours_'+TAG:'ours',g),meta={game:'ours',gender:g,base:C.OURS,query:QUERY,tag:TAG,at:new Date().toISOString(),notes:[]};
   const m2004=readMeta2004(g);
   const H04=(m2004&&m2004.height||193)/128,D04=CLOSE_2004.dist/128;
   C.log('[ours]',g,'boot',C.OURS);
-  const page=await O.open(browser,{});
+  const page=await O.open(browser,{query:QUERY});
   await page.mouse.move(1525,1000);
   // designer (the Blender-kit creator on the island; body A = man, B = woman)
+  const baseYaw=await page.evaluate(()=>camCtl.yaw);
+  {   // (--skip designer: the body type is still chosen in the creator, only its screenshots are left out)
   const opened=await page.evaluate(g=>{try{if(typeof CharCreator==='undefined')return 'no CharCreator';CharCreator.open();
     CharCreator.tick=function(){if(typeof HolmKitCreator!=='undefined'&&HolmKitCreator.active())HolmKitCreator.tick(0)};   // hold the turntable still
     if(g==='f'){const b=document.querySelector('#kit-creator .kc-body button[title="Body type B"]');if(b)b.click();else return 'no body B button'}
@@ -142,26 +147,27 @@ async function capOurs(browser,g){
   meta.designerOpen=opened;await C.sleep(3500);
   const kcRect=await page.evaluate(()=>{const v=document.querySelector('#kit-creator .kc-view');if(!v)return null;const r=v.getBoundingClientRect();return [r.x,r.y,r.width,r.height].map(Math.round)});
   meta.designer={rect:kcRect,views:{}};
-  const baseYaw=await page.evaluate(()=>camCtl.yaw);
-  for(const [deg,n] of [[0,'front'],[45,'yaw+45'],[-45,'yaw-45'],[90,'side'],[180,'back'],[22.5,'yaw+22'],[-22.5,'yaw-22']]){
+  if(!SKIP.has('designer'))for(const [deg,n] of [[0,'front'],[45,'yaw+45'],[-45,'yaw-45'],[90,'side'],[180,'back'],[22.5,'yaw+22'],[-22.5,'yaw-22']]){
     await page.evaluate(a=>{player.rotation.set(0,camCtl.yaw+a,0)},deg*Math.PI/180);await O.waitFrames(page,4);
     if(n==='front')await O.grab(page,path.join(dir,'designer_full.png'));
     if(kcRect)await page.screenshot({path:path.join(dir,'designer_'+n+'.png'),clip:{x:kcRect[0],y:kcRect[1],width:kcRect[2],height:kcRect[3]}});
     meta.designer.views[n]=deg;
   }
   await page.evaluate(()=>{try{HolmKitCreator.close(true)}catch(e){}});await C.sleep(1500);
+  }
   let inf=await O.info(page);meta.height=inf.height;meta.defaultCam=inf.cam;meta.runDefault=inf.run;meta.speeds=await page.evaluate(()=>{const r=Player.runOn,e=Player.energy;Player.energy=100;Player.runOn=false;const walk=Player.moveSpeed();Player.runOn=true;const run=Player.moveSpeed();Player.runOn=r;Player.energy=e;return {walk,run,note:'Player.moveSpeed(): tiles/s'}});
   meta.clips=inf.clips;
+  meta.gait=await page.evaluate(()=>typeof HolmGaitOptions!=='undefined'?HolmGaitOptions.status():null);   // review 5: which walk / run / idle clips play
   C.log('[ours]',g,'in world at',inf.pos.map(v=>v.toFixed(1)).join(','),'height',inf.height);
   const rot=inf.rotY;
   // our own default camera, same relative angles
-  for(const rel of WORLD_REL){await page.evaluate(y=>{camCtl.yaw=y},rot+rel*Math.PI/1024);await C.sleep(1600);
+  if(!SKIP.has('world'))for(const rel of WORLD_REL){await page.evaluate(y=>{camCtl.yaw=y},rot+rel*Math.PI/1024);await C.sleep(1600);
     await O.grab(page,path.join(dir,'world_rel'+rel+'.png'));await O.hidePlayer(page,true);await O.grab(page,path.join(dir,'world_rel'+rel+'_plate.png'));await O.hidePlayer(page,false)}
   await page.evaluate(y=>{camCtl.yaw=y},baseYaw);
   // the 2004 lens, tile-matched (same boom in tiles as the 2004 default pitch 128), HUD hidden
   await O.hud(page,false);
   const L4=O.LENS2004;
-  for(const rel of WORLD_REL){await O.setCam(page,{vfov:L4.vfov,elevDeg:22.5,dist:L4.boomTiles(128),lift:L4.lookLift,yaw:rot+rel*Math.PI/1024});
+  if(!SKIP.has('matched'))for(const rel of WORLD_REL){await O.setCam(page,{vfov:L4.vfov,elevDeg:22.5,dist:L4.boomTiles(128),lift:L4.lookLift,yaw:rot+rel*Math.PI/1024});
     await O.grab(page,path.join(dir,'matched_rel'+rel+'.png'));await O.hidePlayer(page,true);await O.grab(page,path.join(dir,'matched_rel'+rel+'_plate.png'));await O.hidePlayer(page,false)}
   await O.setCam(page,null);await O.hud(page,true);
   // a straight lane of open ground near the spawn, proven by walking it both ways (every observed point on the row)

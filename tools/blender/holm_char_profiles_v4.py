@@ -160,6 +160,137 @@ GAIT_2004_2 = {'walk': dict(GAIT_2004['walk'], p_on=24, p_off=-34, lift=.062, os
 GAIT_C = {'walk': dict(GAIT_2004['walk'], frames=21, plant_k=.8, lean_cap=(3.0, False)),
           'run': dict(GAIT_2004['run'], frames=20, lean_cap=(8.0, False))}
 
+# ---- review 5 (owner 2026-09-28) -- walk / run / idle OPTIONS, each a named clip variant (walk_A, run_B, idle_C ...) in a
+# companion GLB (build_holm_characters_v2.py --gait-options; the kit's own idle / walk / run stay the shipped default until the
+# owner picks). The owner: "the running ... leaning a little too far forward"; walking "the shoulders stay in the same place,
+# the arms move back and forth, the legs don't reach too far in front ... but they trail behind"; running "a pretty realistic
+# run ... somebody running through the woods"; "even the standing position ... we want ours to be very similar".
+# The 2004 numbers these aim at (tools/ref2004/gait_metrics.py on the man's side strips, one median per held pose; fractions
+# of the standing height H): WALK head bob 2.3 % (ours v4a.2b 5.3), legs ahead of the hips 0.22 H at the contact pose / 0.14 H
+# averaged over the 8 poses (ours 0.33 / 0.21), behind 0.26 / 0.20 (ours 0.31 / 0.21), silhouette lean 5.6 deg (6.4), head
+# 0.06 H ahead of the hips (0.10), face level (ours looks ~17 deg down). RUN bob 3.4 %, legs ahead 0.35 / 0.21, behind 0.32 /
+# 0.25, hands 0.40 H ahead (ours 0.35), lean 14.5 (14.6) -- but the 2004 runner is airborne between steps (the back leg
+# swings up straight behind, the shin lifts level behind the stance leg) with the head up, while ours keeps both feet low in a
+# crouch with the chest and head pitched down (spine chain 26 deg + head). IDLE the 2004 legs stand apart (a 0.075 H gap
+# between the shins; ours 0.01), the arms hang off the body (0.05 H gap at the wrist; ours 0.02), the feet staggered heel to
+# toe 0.29 H (ours 0.26), the face level (ours looks down).
+# Every option is our own motion, authored with the kit's gait machinery; only those numbers are targets.
+_WALK_LEVEL = dict(bob=.020, face=0.0, twist=1.0)   # steady shoulders: head bob ~2 % H, no twist, the face level (eyes ahead, not down)
+_ARMS_OUT = {'LeftArm': (.50, -.04, -.87), 'LeftForeArm': (.23, -.26, -.94), 'LeftHand': (.19, -.32, -.93)}   # the 2004 hang: off the body
+# (every option keeps the stance's neck carry: carrying the head further forward put the neck through amulets and the hair
+# through capes in the equipment fit check; the arms swing 6 deg clear of the hips so a kiteshield or a held tool passes the
+# thigh; the run's arms stay near the shipped carry so armour sleeves keep covering the elbows)
+GAIT_OPTIONS = {
+    'walk': {
+        'A': dict(label='Walk A -- steady shoulders', gait=dict(_WALK_LEVEL, lean_cap=(11.0, False), bob=.028, front_q=.2, osrs=(10.0, 0.0, 8.0)),
+                  note='The shipped walk with the upper body calmed: the head bob down from 5 to 3 % of height, no shoulder twist, '
+                       'the face lifted (14 deg down, was 19), the arms a touch clear of the hips. The legs and the lean are the '
+                       'shipped ones.'),
+        'B': dict(label='Walk B -- shorter reach', gait=dict(_WALK_LEVEL, lean_cap=(8.0, False), plant_k=.62, duty=.50, front_q=0.0,
+                                                            swing_y=(.30, .92), lift=.07, lift_skew=.50, kick=.10, p_on=16, p_off=-36,
+                                                            osrs=(8.0, 8.0, 6.0), arm_swing=32),
+                  note='Steady shoulders (head bob 2.2 % of height, was 5), the back a little straighter (8 deg, was 11) and the '
+                       'face lifted (10 deg down, was 19); the legs re-timed toward 2004: the front foot lands close under the body '
+                       'and nearly flat, the planted foot sweeps back about 60 % of the ground covered (2004 feet slide the same '
+                       'way), the back leg trails with the heel up and the toe low, then swings through late. Arms +-32 deg, elbows '
+                       'a little bent.'),
+        'C': dict(label='Walk C -- 2004 trailing legs', gait=dict(_WALK_LEVEL, lean_cap=(8.0, False), plant_k=.55, duty=.48, front_q=0.0,
+                                                                 swing_y=(.40, .95), lift=.08, lift_skew=.50, kick=.18, p_on=16, p_off=-42,
+                                                                 osrs=(8.0, 10.0, 6.0), arm_swing=36),
+                  note='B pushed further, the closest to the 2004 numbers: the front foot lands right under the hips and the back '
+                       'leg stays behind longest, toe near the ground and heel up, before it swings through; a slightly bigger arm '
+                       'swing.'),
+    },
+    'run': {
+        'A': dict(label='Run A -- upright natural run', gait=dict(lean_cap=(12.0, False), lean_osc=4.0, hips_pitch=4.0, chest=4.0, face=4.0,
+                                                                  lift=.34, lift_skew=.6, kick=.20, trail=(.45, 24.0), swing_y=(.24, .86),
+                                                                  arm_swing=40, fore=84, arm_bias=8.0, arm_out=12.0, fore_swing=10, bob=.030, front_fix=.36),
+                  note='A realistic run with about half the lean (spine 12 deg on average, was 26), the face lifted (11 deg down, '
+                       'was 28), the arms pumping at the sides with the elbows near a right angle, and real flight: the back leg '
+                       'lifts clear behind and the heel comes up under the hips before the knee drives through.'),
+        'B': dict(label='Run B -- 2004 lean, straight back', gait=dict(lean_cap=(20.0, False), lean_osc=5.0, hips_pitch=8.0, chest=8.0, face=6.0,
+                                                                       lift=.30, lift_skew=.6, kick=.22, trail=(.45, 26.0), swing_y=(.26, .86),
+                                                                       arm_swing=42, fore=84, arm_bias=6.0, arm_out=10.0, fore_swing=10, bob=.026, front_fix=.42),
+                  step=([0, 3, 5, 8, 10, 13, 15, 18], 'CONSTANT'),
+                  note='Close to the 2004 amount of lean (spine 20 deg, dipping to 25 on each long stride and easing to 15 between, '
+                       'as 2004 does) but from a straight back with the face lifted (17 deg down, was 28) -- not hunched -- the '
+                       'fists carried a little forward, a long reach to the front foot, the back leg straight out behind on the '
+                       'stride pose and the shin level behind the stance leg a beat later; the two stride poses are held a frame '
+                       'longer, as 2004 holds them.'),
+        'C': dict(label='Run C -- light jog', gait=dict(lean_cap=(6.0, False), hips_pitch=2.0, chest=2.0, face=2.0,
+                                                        lift=.26, lift_skew=.7, kick=.18, trail=(.40, 18.0), swing_y=(.16, .86),
+                                                        arm_swing=38, fore=84, arm_bias=0.0, arm_out=10.0, bob=.035, front_fix=.32),
+                  note='The most upright: spine 6 deg, face 5 deg down, a lighter jog with a smaller back kick.'),
+    },
+    'idle': {
+        'A': dict(label='Idle A -- 2004 stand', idle=dict(feet={'Left': (.125, .22), 'Right': (-.125, -.06), 'drop': .016, 'toe': 8.0},
+                                                          neck=None, face=0.0, lean=5.0, arms=_ARMS_OUT),
+                  note='Legs apart at hip width with a clear gap between them, the left foot a step back and the toes turned out, '
+                       'the arms hanging off the body with the fists at the front of the thighs, the body tipped 5 deg forward with '
+                       'the face lifted (6 deg down, was 11).'),
+        'B': dict(label='Idle B -- square stand', idle=dict(feet={'Left': (.125, .03), 'Right': (-.125, .01), 'drop': .004, 'toe': 8.0},
+                                                            neck=None, face=0.0, lean=5.0, arms=_ARMS_OUT),
+                  note='As A but the feet side by side (no step back) -- to see whether the staggered feet matter.'),
+        'C': dict(label='Idle C -- shipped feet, head up, arms out', idle=dict(feet=None, neck=None, face=0.0, lean=0.0, arms=_ARMS_OUT),
+                  note='The smallest change: the shipped stance and feet, only the face lifted level and the arms hung off the body.'),
+    },
+}
+
+# ---- review 5, ROUND 2 (owner, after the round-1 page): WALK "the arms are swinging too much ... too forced"; "head movement
+# looks OK"; "tilted forward a little bit" -> upright; "knees bent the entire time ... not straightening out his leg when he
+# extends it forward" -> the leading leg straight at and just before the heel strike, the stance leg straight under the body at
+# mid-stance; "rolling his feet just a little bit, very gradually" -> a gradual heel-to-toe roll; "a little bit of forward and
+# back shoulder movement when the arms are moving, very gentle" -> a gentle shoulder counter-rotation. RUN "doesn't ever fully
+# extend his legs" -> full extension behind at toe-off and the leading leg reaching out straight before it lands; "basically the
+# same animation as the walking" -> a real run: both feet off the ground, a high knee drive, the heel kicking back after the
+# toe-off, arms bent ~90 deg pumping from the shoulder, a modest lean from the ankles (hips and back in one line), not stooped.
+# New letters D / E / F (round 1's A / B / C stay in the GLB for reference). swing_path = the swinging ankle's route relative to
+# the hips (sw, metres behind, height); foot_roll = (toe-up heel strike eased flat by, heel lifts from) as stance fractions.
+_W2 = dict(lean_cap=(1.5, False), face=0.0, bob=.014, duty=.56, foot_roll=(.25, .5), swing_pitch=(.10, .62), front_q=0.0)
+_R2 = dict(trail=None, chest=0.0, lean=0.0, lean_osc=0.0, bob_phase=.16, swing_pitch=(.10, .90), p_on=8, arm_out=10.0)
+GAIT_OPTIONS_R2 = {
+    'walk': {
+        'D': dict(label='Walk D -- relaxed', gait=dict(_W2, twist=3.0, plant_k=.62, front_fix=.28, p_on=18, p_off=-30,
+                                                       swing_path=[(.25, .20, .24), (.50, 0.0, .20), (.78, -.24, .16), (.92, -.29, .145)],
+                                                       osrs=(6.0, 2.0, 6.0), arm_swing=14, fore_swing=6, arm_bias=-4.0),
+                  note='Upright, the arms hanging loose (elbows barely bent) with a small relaxed swing (+-14 deg), the shoulders turning gently against '
+                       'the hips (about 2 deg), the head as in round 1. The leading leg straightens before the heel lands (knee '
+                       '7 deg), the foot rolls slowly heel to toe, and the stance leg is straight under the body (4 deg).'),
+        'E': dict(label='Walk E -- natural', gait=dict(_W2, twist=4.0, bob=.018, plant_k=.62, front_fix=.30, p_on=20, p_off=-34,
+                                                       swing_path=[(.25, .20, .24), (.50, 0.0, .20), (.78, -.26, .155), (.92, -.31, .14)],
+                                                       osrs=(6.0, 4.0, 6.0), arm_swing=20, fore_swing=10, arm_bias=-4.0),
+                  note='A little more of everything than D: arms +-20 deg, the forward hand bending a touch at the elbow, a '
+                       'slightly longer step with a fuller heel-to-toe roll, the shoulders turning about 3 deg. Legs straight at the '
+                       'heel strike and under the body.'),
+        'F': dict(label='Walk F -- 2004 step', gait=dict(_W2, twist=3.0, bob=.014, plant_k=.62, front_fix=.27, p_on=14, p_off=-34,
+                                                         swing_path=[(.28, .25, .22), (.52, .02, .19), (.80, -.23, .15), (.92, -.28, .142)],
+                                                         osrs=(6.0, 3.0, 6.0), arm_swing=17, fore_swing=6, arm_bias=-4.0),
+                  note='The 2004 foot timing: the back foot stays behind longer after it leaves the ground (the trailing leg), then '
+                       'swings through on the same straight-legged step; a gentler toe-up at the heel strike; arms +-17 deg.'),
+    },
+    'run': {
+        'D': dict(label='Run D -- easy run', gait=dict(_R2, lean_cap=(7.0, False), hips_pitch=3.0, face=7.0, bob=.018, duty=.34, plant_k=.9,
+                                                       p_off=-36, front_fix=.24, swing_path=[(.28, .22, .46), (.58, -.08, .42), (.84, -.40, .21)],
+                                                       arm_swing=40, fore=100, fore_swing=6, arm_bias=6.0),
+                  note='A light run: both feet leave the ground, the back leg pushes off fully straight, the heel kicks up behind, the '
+                       'knee comes through to about 60 deg and the leg reaches out straight before it lands; arms bent near 90 deg, '
+                       'pumping +-40 deg from the shoulder; a modest 7 deg lean with the back straight (was a 26 deg stoop).'),
+        'E': dict(label='Run E -- woods run', gait=dict(_R2, lean_cap=(9.0, False), hips_pitch=4.0, face=9.0, bob=.02, duty=.34, plant_k=.9,
+                                                        p_off=-36, front_fix=.24, swing_path=[(.28, .24, .52), (.58, -.10, .46), (.84, -.40, .22)],
+                                                        arm_swing=48, fore=100, fore_swing=8, arm_bias=6.0, arm_out=13.0),
+                  note='The owner\'s "somebody running through the woods": a stronger version of D -- higher heel kick, the knee '
+                       'driving to about 70 deg, a longer reach before landing, arms pumping +-48 deg; lean 9 deg, the back straight.'),
+        'F': dict(label='Run F -- 2004 run', gait=dict(_R2, lean_cap=(12.0, False), hips_pitch=5.0, face=12.0, bob=.022, duty=.34, plant_k=.92,
+                                                       p_off=-36, front_fix=.24, swing_path=[(.28, .25, .50), (.58, -.12, .46), (.85, -.45, .20)],
+                                                       arm_swing=50, fore=100, fore_swing=8, arm_bias=10.0, arm_out=13.0),
+                  step=([0, 3, 5, 8, 10, 13, 15, 18], 'CONSTANT'),
+                  note='E with more of the 2004 lean (12 deg, the back straight) and the fists carried a little further '
+                       'forward; the two long stride poses are held a frame longer, as 2004 holds them.'),
+    },
+}
+for _k in ('walk', 'run'):
+    GAIT_OPTIONS[_k].update(GAIT_OPTIONS_R2[_k])
+
 TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
 # the kit's spine-lean gates, widened on purpose for the 2004 look (build_holm_characters_v2.LEAN_LIMITS): the reference
@@ -197,6 +328,9 @@ PROFILES = {
                  v_body=dict(thigh_k=.70, thigh_k_b=.76),   # (slimmer thighs: the 2004 gap from the crotch down; cloth follows)
                  step={'walk': (-8, 'CONSTANT'), 'run': (-8, 'CONSTANT'), 'idle': (12, 'CONSTANT')},
                  step_all=(3, 'CONSTANT'), lean=LEAN_2004_2, tutor_gait=TUTOR_GAIT_2004),
+    # review 5 round 2 MESH options on A.2 (the owner, side by side with 2004: "looks too polished and round"):
+    # mc = the shipped mesh with creases every 36 deg (the flat panels of option A, as 2004's facets); mb = squarer torso
+    # (superellipse 2.3 -> 3.0, corners kept), fuller thigh caps, plain trousers tucked into one-piece boots, creases at 30 deg
     # B: the same figure made softer: smooth (Gouraud-like) shading over the limbs and head, the 8 poses joined by
     # straight in-betweens (no snapping), a faint mouth line
     'v4b': dict(BODY_2004, label='Option B -- the A figure, softer: smooth shading, in-betweened motion (the 8 poses joined by straight lines)',
@@ -210,6 +344,11 @@ PROFILES = {
                                       brow_size=((.028, .005), (.024, .004)), mouth=(1.612, 1.614, .024, .018, .004), ear=(.80, .006)),
                 step={'walk': (-8, 'BEZIER'), 'run': (-8, 'BEZIER'), 'idle': (12, 'BEZIER')}, gait=GAIT_C),
 }
+
+PROFILES['v4a2_mc'] = dict(PROFILES['v4a2'], label='A.2 mesh C -- the shipped mesh with a crease wherever the surface turns more than 36 deg', sharp=36.0)
+PROFILES['v4a2_mb'] = dict(PROFILES['v4a2'], label='A.2 mesh B -- squarer torso, fuller thigh caps, trousers tucked into one-piece boots, creases at 30 deg',
+                           sharp=30.0, torso_p=3.0, thigh_cap=.07, trouser_tuck=1.70,
+                           boot_shaft=[(1.97, .012), (1.90, .013), (1.80, .016), (1.72, .020), (1.64, .021), (1.62, .022)])
 
 # ---- feet (every option; owner: "the ankles/shins must blend into the feet better, especially sandals"): the upper foot
 # slices turn INTO the lower-leg ring at the ankle (FOOT_BLEND), the heel sits under the back of the leg, the toe box and
@@ -253,6 +392,34 @@ def _feet(K):
 # calf, easing out only over the last hand-width to the shoe so the hem still hangs over it
 TROUSERS_FITTED = [(0.0, .008), (.4, .008), (.84, .007), (1.0, .006), (1.14, .007), (1.5, .008), (1.60, .010), (1.66, .012),
                    (1.80, .013), (1.90, .013), (1.955, .013), (1.985, .013)]   # (from mid-shin the 6-sided tube's flats clear boot shafts)
+
+def _mesh_option(K, P):
+    """review 5 round 2 (owner: 2004 shows more flat planes, an almost rectangular torso, good-size thigh caps blending into
+    the waist, boots and ankle one solid piece): torso_p = the torso's superellipse exponent (squarer cross-section) with
+    the radii scaled so the 45-degree corners stay where they were (armour built on the shipped body still covers it);
+    thigh_cap = the top of the thighs and the bottom of the pelvis this much fuller; trouser_tuck = the plain trousers end
+    here (leg u) and the boots rise over them as one solid shaft (boot_shaft)"""
+    if P.get('torso_p'):
+        p0, p1 = K.TORSO_P, P['torso_p']
+        diag = lambda p_: (2 * math.cos(math.pi / 4) ** p_) ** (-1.0 / p_)
+        k = diag(p0) / diag(p1)
+        for bt in ('A', 'B'):
+            K.TORSO[bt][:] = [(r[0], r[1] * k, r[2] * k, r[3] * k) + tuple(r[4:]) for r in K.TORSO[bt]]
+        K.TORSO_P = p1
+        for fn in (K.body_ring, K.body_point):   # (their p defaults were bound when the module loaded)
+            fn.__defaults__ = tuple(p1 if (isinstance(d, float) and abs(d - p0) < 1e-9) else d for d in fn.__defaults__)
+    if P.get('thigh_cap'):
+        tk = P['thigh_cap']
+        for bt in ('A', 'B'):
+            K.LEG_R[bt][:] = [(u, rs * (1 + tk * max(0.0, 1 - u / .45)), rf * (1 + tk * max(0.0, 1 - u / .45)), rb * (1 + tk * max(0.0, 1 - u / .45))) + tuple(r_[4:])
+                              for r_ in K.LEG_R[bt] for u, rs, rf, rb in [r_[:4]]]
+            K.PELVIS[bt][:] = [(z, rx * (1 + tk * .6 * max(0.0, 1 - (z - .86) / .12)), rf, rb) + tuple(r_[4:])
+                               for r_ in K.PELVIS[bt] for z, rx, rf, rb in [r_[:4]]]
+    if P.get('trouser_tuck'):
+        u_end = P['trouser_tuck']
+        K.TROUSERS = [r for r in K.TROUSERS if r[0] <= u_end]
+    if P.get('boot_shaft'):
+        K.BOOT_SHAFT = list(P['boot_shaft'])
 
 def apply(K, name):
     if not name:
@@ -337,5 +504,7 @@ def apply(K, name):
             K.STANCE_ARM_AIM[k] = v
             K.STANCE_ARM_AIM[k.replace('Left', 'Right')] = (-v[0], v[1], v[2])
         K._STANCE_LOCAL.clear()
+    K.GAIT_OPTIONS.clear(); K.GAIT_OPTIONS.update(GAIT_OPTIONS if name == 'v4a2' else {})   # review 5: the walk / run / idle options
+    _mesh_option(K, P)   # review 5 round 2: the mesh options (squarer torso, thigh caps, tucked trousers + one-piece boots)
     for tid, parts in P.get('tutor_parts', TUTOR_PARTS).items():   # Hettie: no rouge (owner: "her face isn't quite 2004")
         K.TUTORS[tid]['parts'].update(parts)
