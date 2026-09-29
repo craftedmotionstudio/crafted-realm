@@ -131,19 +131,32 @@ function playerGLBAnim(root, dt, moving, speed){
   g.moving = !!moving;
   // an emote (HolmIslandPlayer.emote, also a gm.attack one-shot) stops the moment the player walks / runs or raises the guard
   if(g.emote && g.emote.isRunning() && (moving || (g.block && g.block.isRunning()))){ g.emote.stop(); g.emote = null; }
-  // a one-shot attack/block owns the whole body while it runs
-  const busy = (g.attack && g.attack.isRunning()) || (g.block && g.block.isRunning());
-  if(g.idle) g.idle.weight = busy ? 0 : (1 - g.w);
-  if(g.kit && g.run){
-    // island kit v4: walk / run authored slide-free at HOLM_KIT_MPS (kit metres) -- in the world that is x the rig's scale
-    // (1.67 / 3.33 tiles/s at 1.5 tiles tall); speed arrives as moveSpeed/4.2. Running = above the walk / run midpoint.
-    const K=(typeof HOLM_KIT_MPS!=='undefined')?HOLM_KIT_MPS:{walk:2.4,run:4.2}, sc=g.rigScale||1;
-    const wW=K.walk*sc, wR=K.run*sc, ms=speed*4.2, running=ms>(wW+wR)/2;
-    if(!g.run._on){ g.run.play(); g.run.weight=0; g.run._on=true; }
-    g.run.weight = busy ? 0 : (running ? g.w : 0); g.run.timeScale = ms/wR;
-    if(g.walk){ g.walk.weight = busy ? 0 : (running ? 0 : g.w); g.walk.timeScale = Math.max(0.3, ms/wW); }
-  } else if(g.walk){ g.walk.weight = busy ? 0 : g.w; g.walk.timeScale = Math.max(0.5, speed); }
+  // the island kit player: what the adventurer is doing decides which clip may still own the body (a held skilling loop or
+  // a stroke ends with its action or on a walk; HolmIslandPlayer.supervise). Run here, in the animation step itself, so it
+  // holds wherever the kit player is animated: the island, the mainland after the ferry, online.
+  if(root===player && typeof HolmIslandPlayer!=='undefined' && HolmIslandPlayer.supervise) HolmIslandPlayer.supervise(g);
+  // a one-shot attack/block owns the whole body while it runs; a clamped pose (the death fall) holds it until it is stopped
+  // (the respawn), rather than being blended half-and-half with idle
+  const owned = ()=>!!((g.attack && g.attack.isRunning()) || (g.attack && g.attack.paused && g.attack.clampWhenFinished && g.attack.enabled && g.attack.isScheduled()) ||
+    (g.block && g.block.isRunning()));
+  const locomotion = (busy)=>{
+    if(g.idle) g.idle.weight = busy ? 0 : (1 - g.w);
+    if(g.kit && g.run){
+      // island kit v4: walk / run authored slide-free at HOLM_KIT_MPS (kit metres) -- in the world that is x the rig's scale
+      // (1.67 / 3.33 tiles/s at 1.5 tiles tall); speed arrives as moveSpeed/4.2. Running = above the walk / run midpoint.
+      const K=(typeof HOLM_KIT_MPS!=='undefined')?HOLM_KIT_MPS:{walk:2.4,run:4.2}, sc=g.rigScale||1;
+      const wW=K.walk*sc, wR=K.run*sc, ms=speed*4.2, running=ms>(wW+wR)/2;
+      if(!g.run._on){ g.run.play(); g.run.weight=0; g.run._on=true; }
+      g.run.weight = busy ? 0 : (running ? g.w : 0); g.run.timeScale = ms/wR;
+      if(g.walk){ g.walk.weight = busy ? 0 : (running ? 0 : g.w); g.walk.timeScale = Math.max(0.3, ms/wW); }
+    } else if(g.walk){ g.walk.weight = busy ? 0 : g.w; g.walk.timeScale = Math.max(0.5, speed); }
+  };
+  let busy = owned();
+  locomotion(busy);
   g.mixer.update(dt);
+  // a one-shot that ended inside this step left every weight at 0 for the frame (the rig flashed its bind pose): hand the
+  // body straight back to idle / walk / run and pose it again without advancing time
+  if(busy && !owned()){ busy = false; locomotion(false); g.mixer.update(0); }
   // a full helm collapses the Head bone (refreshGLBGear) and the helm is sized against that collapse; the kit v3.1
   // clips carry a Head.scale track that puts the bone back to 1 every frame (the helm then drew ~50x too large).
   // Hold the collapse after each mixer step (same fix as OnlineActors.keepHelm).

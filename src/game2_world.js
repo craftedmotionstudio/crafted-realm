@@ -2418,7 +2418,9 @@ function blockReact(g){
   if(!g||!g.userData) return;
   const ud=g.userData;
   if(ud.death) return;                       // a corpse doesn't parry
-  if(ud.gmix && ud.gmix.block){ ud.gmix.block.reset(); ud.gmix.block.play(); return; }   // GLB char: baked clip
+  // GLB char: the baked clip, played ONCE. A kit GLB's clips come out of the loader as LoopRepeat, and set to nothing else the
+  // guard never came down after a 0 splat (the adventurer, kit foes and other online adventurers stood blocking for good)
+  if(ud.gmix && ud.gmix.block){ const b=ud.gmix.block; b.setLoop(THREE.LoopOnce,1); b.clampWhenFinished=false; b.reset(); b.play(); return; }
   ud.block = {t:0, dur:0.34};
 }
 function tickBlock(g, dt){
