@@ -4026,3 +4026,14 @@ length (slight medium-length read in 3/4).
   walk / run A-F switched from the picker while walking / running, idle A-C at rest, mesh a / b / c loaded from the picker
   (the b / c kit GLBs requested, a flat-shaded), 0 page errors.
 - Private page (never committed): C:\Users\iQwaZ\ref2004_captures\review\gait_options.html (round 2 on top, round 1 below).
+
+## 2026-09-29 — Owner review 5: paths + rope merged; movement, build and look OPTIONS merged (f9313bd, aeacde3, e2129c7)
+- Decided: magic stays the strongest style below level 20 (owner).
+- Paths / rocks / rope (merged, live): grey stone lanes 2 tiles wide along the lesson route and building lanes only
+  (875 tiles vs 1,671 of soft band); building-pad rock rings drawn as grassy earth banks; rope coil beside the mine
+  shaft -> take, tie, climb down. Island QA 34/34, playthroughs 2/2. A/B: ?greypaths=0, ?rockbanks=0.
+- Options for the owner to pick (opt-in, defaults unchanged): walk/run/idle round 2 D-F + mesh a/b/c
+  (?gait=walkD,runE,idleA,panel &kitmesh=b), look 4a/4b/4c measured against the 2004 captures (?look=4b; 4b closest,
+  1.07 vs 1.87 today). Private comparison pages in C:UsersiQwaZef2004_captureseview (never committed).
+- Gates on e2129c7: units 94/94, smoke PASS default + look 4b, menu 65/65, combat numbers PASS; branches: PvM 40/40,
+  island QA 34/34, playthroughs complete.
