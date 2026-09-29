@@ -4074,3 +4074,10 @@ length (slight medium-length read in 3/4).
   127.0.0.1:8150, side + game views, man + woman, every walk and run preset plays its clip, sliders move the character live,
   picks save and load, mesh a / b / c load.
 - Known: the woman's side-view 2004 walk frames 0-2 and 7 still show a passer-by beside her (the man's are clean).
+
+## 2026-09-29 — Owner review 6: look panel, Gait Lab, level-up fireworks + oak leaves merged (e1ddfef, 049281a, 40a3cc0)
+- Look panel (Settings > Look): live pixel size / colour depth / facets / texture toggles; the owner sets the default.
+- Gait Lab (tools/gait_lab.html): 2004 loop beside ours, 19 sliders, Best / Not right picks, bake step; new presets
+  Walk G strut, Walk H stroll, Run G light jog, Run H easy jog. 2004 frames load only from outside the repo.
+- Level-up: small firework burst + soft sound, no screen flash, old beeps gone; oaks drop occasional leaves.
+- Gates per merge green (units 96/96, server 98/98, smoke, playthroughs). Merged work folders removed (84 GB free).
