@@ -1,0 +1,8 @@
+Holm creatures branch gates (final code, f20f4041 + the island QA retry fix)
+unit tools/test_*.js: 96/96 pass
+npm run test:server: ℹ pass 99/99
+smoke: "verdict":"PASS"
+qa_combat_pvm: [COMBAT PVM] 41/41 PASS
+qa_holm_island: [ISLAND QA] PASS 34/34 in 2008s
+qa_holm_island_playthrough 2: [PLAYTHROUGH] 2/2 complete runs with zero errors
+qa_holm_creatures: [HOLM CREATURES] 24/24 PASS

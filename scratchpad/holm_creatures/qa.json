@@ -344,6 +344,90 @@
    "ok": true
   },
   {
+   "name": "the trial rats wander (short walks, idle pauses) and stay within their pen (2 tiles of their spawn)",
+   "ok": true,
+   "detail": [
+    {
+     "name": "island-trial-keep-court-0",
+     "r": 2,
+     "max": 2,
+     "moves": 8
+    },
+    {
+     "name": "island-trial-keep-court-1",
+     "r": 2,
+     "max": 2,
+     "moves": 5
+    },
+    {
+     "name": "island-trial-keep-court-2",
+     "r": 2,
+     "max": 2,
+     "moves": 4
+    },
+    {
+     "name": "island-trial-mage-yard-0",
+     "r": 2,
+     "max": 2,
+     "moves": 19
+    },
+    {
+     "name": "island-trial-mage-yard-1",
+     "r": 2,
+     "max": 2,
+     "moves": 7
+    }
+   ]
+  },
+  {
+   "name": "the farm hens and cows wander within their ranges (hens 2 tiles, cows 1 in the paddock)",
+   "ok": true,
+   "detail": [
+    {
+     "name": "haycombe-chicken-0",
+     "r": 2,
+     "max": 1,
+     "moves": 3
+    },
+    {
+     "name": "haycombe-chicken-1",
+     "r": 2,
+     "max": 1,
+     "moves": 3
+    },
+    {
+     "name": "haycombe-chicken-2",
+     "r": 2,
+     "max": 1,
+     "moves": 1
+    },
+    {
+     "name": "haycombe-chicken-3",
+     "r": 2,
+     "max": 0,
+     "moves": 0
+    },
+    {
+     "name": "haycombe-chicken-4",
+     "r": 2,
+     "max": 2,
+     "moves": 8
+    },
+    {
+     "name": "haycombe-cow-5",
+     "r": 1,
+     "max": 1,
+     "moves": 5
+    },
+    {
+     "name": "haycombe-cow-6",
+     "r": 1,
+     "max": 0,
+     "moves": 0
+    }
+   ]
+  },
+  {
    "name": "a blow that lands plays the large rat's own hit clip (CombatFX.react)",
    "ok": true,
    "detail": {
@@ -364,8 +448,7 @@
     "sunk": true,
     "drops": [
      "bones",
-     "feathers",
-     "egg"
+     "feathers"
     ],
     "respawn": 10
    }
@@ -375,8 +458,7 @@
    "ok": true,
    "detail": [
     "bones",
-    "feathers",
-    "egg"
+    "feathers"
    ]
   },
   {
@@ -422,7 +504,7 @@
     "sunk": true,
     "drops": [
      "bones",
-     "bread"
+     "coins"
     ],
     "respawn": 25
    }
@@ -432,7 +514,7 @@
    "ok": true,
    "detail": [
     "bones",
-    "bread"
+    "coins"
    ]
   },
   {
@@ -597,11 +679,11 @@
      ],
      "pen": "keep-court",
      "node": {
-      "tx": 86,
-      "tz": 36
+      "tx": 87,
+      "tz": 37
      },
-     "x": 86.5,
-     "z": 36.5
+     "x": 87.5,
+     "z": 37.47
     },
     {
      "type": "holm_practice_rat",
@@ -640,10 +722,10 @@
      "pen": "mage-yard",
      "node": {
       "tx": 104,
-      "tz": 55
+      "tz": 54
      },
      "x": 104.5,
-     "z": 55.5
+     "z": 54.5
     },
     {
      "type": "holm_practice_rat",
@@ -740,11 +822,11 @@
      ],
      "pen": null,
      "node": {
-      "tx": 89,
-      "tz": 77
+      "tx": 87,
+      "tz": 76
      },
-     "x": 89.5,
-     "z": 77.5
+     "x": 87.53,
+     "z": 76.5
     },
     {
      "type": "pg_large_rat",
@@ -782,11 +864,11 @@
      ],
      "pen": null,
      "node": {
-      "tx": 91,
-      "tz": 75
+      "tx": 90,
+      "tz": 76
      },
-     "x": 91.46,
-     "z": 75.54
+     "x": 90.5,
+     "z": 76.5
     },
     {
      "type": "pg_goblin",
@@ -804,10 +886,10 @@
      "pen": null,
      "node": {
       "tx": 94,
-      "tz": 75
+      "tz": 76
      },
      "x": 94.5,
-     "z": 75.54
+     "z": 76.5
     },
     {
      "type": "pg_goblin",
@@ -1015,7 +1097,81 @@
     true,
     true
    ]
-  }
+  },
+  "wander": [
+   {
+    "name": "island-trial-keep-court-0",
+    "r": 2,
+    "max": 2,
+    "moves": 8
+   },
+   {
+    "name": "island-trial-keep-court-1",
+    "r": 2,
+    "max": 2,
+    "moves": 5
+   },
+   {
+    "name": "island-trial-keep-court-2",
+    "r": 2,
+    "max": 2,
+    "moves": 4
+   },
+   {
+    "name": "island-trial-mage-yard-0",
+    "r": 2,
+    "max": 2,
+    "moves": 19
+   },
+   {
+    "name": "island-trial-mage-yard-1",
+    "r": 2,
+    "max": 2,
+    "moves": 7
+   },
+   {
+    "name": "haycombe-chicken-0",
+    "r": 2,
+    "max": 1,
+    "moves": 3
+   },
+   {
+    "name": "haycombe-chicken-1",
+    "r": 2,
+    "max": 1,
+    "moves": 3
+   },
+   {
+    "name": "haycombe-chicken-2",
+    "r": 2,
+    "max": 1,
+    "moves": 1
+   },
+   {
+    "name": "haycombe-chicken-3",
+    "r": 2,
+    "max": 0,
+    "moves": 0
+   },
+   {
+    "name": "haycombe-chicken-4",
+    "r": 2,
+    "max": 2,
+    "moves": 8
+   },
+   {
+    "name": "haycombe-cow-5",
+    "r": 1,
+    "max": 1,
+    "moves": 5
+   },
+   {
+    "name": "haycombe-cow-6",
+    "r": 1,
+    "max": 0,
+    "moves": 0
+   }
+  ]
  },
  "errors": []
 }
