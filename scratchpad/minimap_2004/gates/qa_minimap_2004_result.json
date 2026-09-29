@@ -1,0 +1,404 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "label": "a new browser starts at 4 px a tile (2004: ~36 tiles across)",
+      "ok": true,
+      "detail": {
+        "ppt": 4,
+        "tilesAcross": 36,
+        "steps": [
+          2,
+          2.5,
+          3,
+          3.5,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "index": 4,
+        "pixel": 2,
+        "backing": 255
+      }
+    },
+    {
+      "label": "dots: every dot drawn reads back to its actor's own tile (at the bank facing north, at the Guide House turned), in its colour",
+      "ok": true,
+      "detail": {
+        "n": 5,
+        "bad": [],
+        "sample": [
+          {
+            "kind": "npc",
+            "name": "Practice grubkin",
+            "actor": [
+              102.5,
+              57.5
+            ],
+            "back": [
+              102.5,
+              57.5
+            ],
+            "err": 0.0005,
+            "sameTile": true,
+            "onCentre": true,
+            "colourOk": true,
+            "pixel": [
+              242,
+              238,
+              0
+            ]
+          },
+          {
+            "kind": "npc",
+            "name": "Holm poacher",
+            "actor": [
+              90.5,
+              71.5
+            ],
+            "back": [
+              90.5,
+              71.5
+            ],
+            "err": 0.0007,
+            "sameTile": true,
+            "onCentre": true,
+            "colourOk": true,
+            "pixel": [
+              242,
+              238,
+              0
+            ]
+          },
+          {
+            "kind": "npc",
+            "name": "Hedge warlock",
+            "actor": [
+              94.499,
+              71.362
+            ],
+            "back": [
+              94.499,
+              71.362
+            ],
+            "err": 0.0001,
+            "sameTile": true,
+            "onCentre": false,
+            "colourOk": true,
+            "pixel": [
+              242,
+              238,
+              0
+            ]
+          },
+          {
+            "kind": "npc",
+            "name": "maud",
+            "actor": [
+              87.5,
+              57.5
+            ],
+            "back": [
+              87.5,
+              57.5
+            ],
+            "err": 0.0005,
+            "sameTile": true,
+            "onCentre": true,
+            "colourOk": true,
+            "pixel": [
+              242,
+              238,
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "dots: standing folk sit on their tile centres (Maud the teller, Guide Bram)",
+      "ok": true,
+      "detail": {
+        "standing": [
+          "Practice grubkin",
+          "Holm poacher",
+          "maud",
+          "bram"
+        ]
+      }
+    },
+    {
+      "label": "the island map: tile colours, walls cut from the buildings, floors, map icons and scenery",
+      "ok": true,
+      "detail": {
+        "walls": {
+          "meshes": 134,
+          "cuts": 7692,
+          "edges": 507,
+          "slanted": 162,
+          "done": true,
+          "maxMeshMs": 3.7,
+          "drawn": 493
+        },
+        "ground": {
+          "chunks": 288,
+          "total": 288
+        },
+        "icons": 14,
+        "floorFill": 213
+      }
+    },
+    {
+      "label": "map icons: bank, range, quest, mining, magic, ferry, beacon, furnace, anvil, woodcutting, fishing and combat are placed",
+      "ok": true,
+      "detail": [
+        "range",
+        "quest",
+        "mining",
+        "bank",
+        "magic",
+        "ferry",
+        "beacon",
+        "anvil",
+        "furnace",
+        "woodcut",
+        "mining",
+        "fishing",
+        "combat",
+        "combat"
+      ]
+    },
+    {
+      "label": "wheel over the minimap: one notch in steps the minimap zoom, two out step it back past; the camera does not move and the page does not scroll",
+      "ok": true,
+      "detail": {
+        "before": {
+          "dist": 7.326334736575782,
+          "ppt": 4,
+          "scroll": [
+            0,
+            0
+          ]
+        },
+        "inOne": {
+          "dist": 7.326334736575782,
+          "ppt": 5,
+          "scroll": [
+            0,
+            0
+          ]
+        },
+        "outTwo": {
+          "dist": 7.326334736575782,
+          "ppt": 3.5
+        }
+      }
+    },
+    {
+      "label": "wheel over the 3D view still moves the camera and leaves the minimap zoom alone",
+      "ok": true,
+      "detail": {
+        "v0": {
+          "dist": 7.326334736575782,
+          "ppt": 3.5
+        },
+        "v1": {
+          "dist": 8.26041934910581,
+          "ppt": 3.5
+        }
+      }
+    },
+    {
+      "label": "the wheel stops at the limits (8 px a tile in, 2 out)",
+      "ok": true,
+      "detail": [
+        8,
+        2
+      ]
+    },
+    {
+      "label": "a real minimap click walks to the tile under the cursor at 2, 4 and 8 px a tile",
+      "ok": true,
+      "detail": [
+        {
+          "ppt": 2,
+          "target": [
+            45.5,
+            107.5
+          ],
+          "clicked": {
+            "x": 45.328,
+            "z": 107.398
+          },
+          "at": [
+            45.5,
+            107.5
+          ],
+          "tile": true
+        },
+        {
+          "ppt": 4,
+          "target": [
+            52.5,
+            109.5
+          ],
+          "clicked": {
+            "x": 52.389,
+            "z": 109.544
+          },
+          "at": [
+            52.5,
+            109.5
+          ],
+          "tile": true
+        },
+        {
+          "ppt": 8,
+          "target": [
+            56.5,
+            112.5
+          ],
+          "clicked": {
+            "x": 56.461,
+            "z": 112.492
+          },
+          "at": [
+            56.5,
+            112.5
+          ],
+          "tile": true
+        }
+      ]
+    },
+    {
+      "label": "crisp: the canvas is drawn at its displayed size in device pixels (UI zoom x pixel ratio)",
+      "ok": true,
+      "detail": {
+        "underCluster": 8,
+        "backing": 255,
+        "shown": 255.11,
+        "zoom": 1.7716535433070866,
+        "tabs": 8,
+        "tabHits": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "minimap": true,
+        "run": true,
+        "hp": true,
+        "compass": true,
+        "tip": "Click the map to walk there. Scroll to zoom (36 tiles across)."
+      }
+    },
+    {
+      "label": "the cluster box passes clicks to the side-panel tabs beneath it; the minimap, orbs, run orb and compass take their own",
+      "ok": true,
+      "detail": {
+        "underCluster": 8,
+        "backing": 255,
+        "shown": 255.11,
+        "zoom": 1.7716535433070866,
+        "tabs": 8,
+        "tabHits": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "minimap": true,
+        "run": true,
+        "hp": true,
+        "compass": true,
+        "tip": "Click the map to walk there. Scroll to zoom (36 tiles across)."
+      }
+    },
+    {
+      "label": "the minimap tip names the wheel and the distance",
+      "ok": true,
+      "detail": "Click the map to walk there. Scroll to zoom (36 tiles across)."
+    },
+    {
+      "label": "the compass turns with the camera",
+      "ok": true,
+      "detail": "rotate(68.8deg)"
+    },
+    {
+      "label": "the chosen zoom (6 px a tile) survives a reload",
+      "ok": true,
+      "detail": {
+        "ppt": 6,
+        "look": {
+          "pixelLines": 201,
+          "colourDepth": 1,
+          "characterFacets": 1,
+          "plainTextures": true,
+          "chunkyTexels": true,
+          "flatScenery": true,
+          "bolderTextures": true
+        },
+        "painted": true,
+        "static": 2,
+        "backing": 255,
+        "shown": 255.11
+      }
+    },
+    {
+      "label": "under look 4c at the pixel slider's end the minimap still paints at its own crisp size",
+      "ok": true,
+      "detail": {
+        "ppt": 6,
+        "look": {
+          "pixelLines": 201,
+          "colourDepth": 1,
+          "characterFacets": 1,
+          "plainTextures": true,
+          "chunkyTexels": true,
+          "flatScenery": true,
+          "bolderTextures": true
+        },
+        "painted": true,
+        "static": 2,
+        "backing": 255,
+        "shown": 255.11
+      }
+    },
+    {
+      "label": "a pinch on the phone's minimap zooms it in (the camera stays put); the phone minimap is drawn at its own size",
+      "ok": true,
+      "detail": {
+        "c": {
+          "x": 330,
+          "y": 60,
+          "w": 96,
+          "backing": 192
+        },
+        "dist0": 7.326334736575782,
+        "after": {
+          "ppt": 8,
+          "dist": 7.326334736575782
+        }
+      }
+    },
+    {
+      "label": "zero page errors, no minimap errors in the console",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "mmErrors": []
+      }
+    }
+  ],
+  "seconds": 75
+}

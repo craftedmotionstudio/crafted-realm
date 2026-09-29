@@ -45,8 +45,9 @@ var CRMinimap=(function(){
  function underground(){return typeof player!=='undefined'&&player&&player.position.y<-5}
 
  /* ------------------------------------------------------------- images */
- var IMG={};
- C.ICONS.concat(['tree','pine','rock']).forEach(function(id){var im=new Image();im.decoding='async';im.src=ICON_BASE+id+'.png'+ICON_V;IMG[id]=im});
+ // fetched at the first paint (after Play), so the boot's welcome screen never waits on them
+ var IMG={},imagesAsked=false;
+ function askImages(){if(imagesAsked)return;imagesAsked=true;C.ICONS.concat(['tree','pine','rock']).forEach(function(id){var im=new Image();im.decoding='async';im.src=ICON_BASE+id+'.png'+ICON_V;IMG[id]=im})}
  function ready(id){var im=IMG[id];return !!(im&&im.complete&&im.naturalWidth)}
  function imagesReady(){var n=0;for(var k in IMG)if(ready(k))n++;return n}
 
@@ -379,7 +380,7 @@ var CRMinimap=(function(){
  function draw(){
   if(typeof player==='undefined'||!player)return;
   var c=document.getElementById('minimap');if(!c)return;
-  var t=performance.now();measure(c);if(!st.size)measure(c,true);if(!st.size)return;
+  var t=performance.now();askImages();measure(c);if(!st.size)measure(c,true);if(!st.size)return;
   if(island()){wallsIdle(3);groundIdle(1.5)}
   var changed=updateCacheKey();
   if(changed||telemetry.staticBuilds===0)buildStatic();

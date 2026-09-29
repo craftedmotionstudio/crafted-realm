@@ -1,0 +1,2842 @@
+[
+ {
+  "file": "1356x773_dock_n",
+  "size": "1356x773",
+  "spot": "dock",
+  "placed": true,
+  "rect": {
+   "x": 966.453125,
+   "y": 0,
+   "w": 389.546875,
+   "h": 304.328125,
+   "frame": [
+    1109.484375,
+    15.203125,
+    231.296875,
+    231.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 2,
+    "markerBuilds": 2,
+    "dynamicFrames": 189,
+    "staticCacheHits": 187,
+    "markerCacheHits": 187,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:7,14:z4:b219:g1:f2:w1",
+    "lastStaticMs": 1.2,
+    "maxStaticMs": 14,
+    "lastMarkerMs": 0.6,
+    "maxMarkerMs": 1.2,
+    "lastPaintMs": 0.4,
+    "maxPaintMs": 29.1,
+    "dynamicMarkers": 0,
+    "maxDynamicMarkers": 0,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 219,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.4,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 0,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 8.8
+   },
+   "p": [
+    61.5,
+    118.5
+   ],
+   "yaw": 0,
+   "z": 1.5216535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1356x773_dock_turn",
+  "size": "1356x773",
+  "spot": "dock",
+  "placed": true,
+  "rect": {
+   "x": 966.453125,
+   "y": 0,
+   "w": 389.546875,
+   "h": 304.328125,
+   "frame": [
+    1109.484375,
+    15.203125,
+    231.296875,
+    231.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 2,
+    "markerBuilds": 2,
+    "dynamicFrames": 237,
+    "staticCacheHits": 235,
+    "markerCacheHits": 235,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:7,14:z4:b219:g1:f2:w1",
+    "lastStaticMs": 1.2,
+    "maxStaticMs": 14,
+    "lastMarkerMs": 0.6,
+    "maxMarkerMs": 1.2,
+    "lastPaintMs": 0.4,
+    "maxPaintMs": 29.1,
+    "dynamicMarkers": 0,
+    "maxDynamicMarkers": 0,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 219,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.4,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 0,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 8.8
+   },
+   "p": [
+    61.5,
+    118.5
+   ],
+   "yaw": 0.7,
+   "z": 1.5216535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1356x773_guide_n",
+  "size": "1356x773",
+  "spot": "guide",
+  "placed": true,
+  "rect": {
+   "x": 966.453125,
+   "y": 0,
+   "w": 389.546875,
+   "h": 304.328125,
+   "frame": [
+    1109.484375,
+    15.203125,
+    231.296875,
+    231.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 3,
+    "markerBuilds": 3,
+    "dynamicFrames": 285,
+    "staticCacheHits": 282,
+    "markerCacheHits": 282,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:8,13:z4:b219:g1:f2:w1",
+    "lastStaticMs": 2,
+    "maxStaticMs": 14,
+    "lastMarkerMs": 0.7,
+    "maxMarkerMs": 1.2,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 29.1,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 1,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 219,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.4,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 8.8
+   },
+   "p": [
+    66.5,
+    110.5
+   ],
+   "yaw": 0,
+   "z": 1.5216535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1356x773_guide_turn",
+  "size": "1356x773",
+  "spot": "guide",
+  "placed": true,
+  "rect": {
+   "x": 966.453125,
+   "y": 0,
+   "w": 389.546875,
+   "h": 304.328125,
+   "frame": [
+    1109.484375,
+    15.203125,
+    231.296875,
+    231.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 3,
+    "markerBuilds": 3,
+    "dynamicFrames": 333,
+    "staticCacheHits": 330,
+    "markerCacheHits": 330,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:8,13:z4:b219:g1:f2:w1",
+    "lastStaticMs": 2,
+    "maxStaticMs": 14,
+    "lastMarkerMs": 0.7,
+    "maxMarkerMs": 1.2,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 29.1,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 1,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 219,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.4,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 8.8
+   },
+   "p": [
+    66.5,
+    110.5
+   ],
+   "yaw": 0.7,
+   "z": 1.5216535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1356x773_bank_n",
+  "size": "1356x773",
+  "spot": "bank",
+  "placed": true,
+  "rect": {
+   "x": 966.453125,
+   "y": 0,
+   "w": 389.546875,
+   "h": 304.328125,
+   "frame": [
+    1109.484375,
+    15.203125,
+    231.296875,
+    231.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 4,
+    "markerBuilds": 4,
+    "dynamicFrames": 384,
+    "staticCacheHits": 380,
+    "markerCacheHits": 380,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:10,7:z4:b219:g1:f2:w1",
+    "lastStaticMs": 0.4,
+    "maxStaticMs": 14,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 1.2,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 29.1,
+    "dynamicMarkers": 5,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 219,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.4,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 5,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 8.8
+   },
+   "p": [
+    86.5,
+    57.5
+   ],
+   "yaw": 0,
+   "z": 1.5216535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1356x773_bank_turn",
+  "size": "1356x773",
+  "spot": "bank",
+  "placed": true,
+  "rect": {
+   "x": 966.453125,
+   "y": 0,
+   "w": 389.546875,
+   "h": 304.328125,
+   "frame": [
+    1109.484375,
+    15.203125,
+    231.296875,
+    231.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 4,
+    "markerBuilds": 4,
+    "dynamicFrames": 431,
+    "staticCacheHits": 427,
+    "markerCacheHits": 427,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:10,7:z4:b219:g1:f2:w1",
+    "lastStaticMs": 0.4,
+    "maxStaticMs": 14,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 1.2,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 29.1,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 219,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.4,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 8.8
+   },
+   "p": [
+    86.5,
+    57.5
+   ],
+   "yaw": 0.7,
+   "z": 1.5216535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1356x773_bakehouse_n",
+  "size": "1356x773",
+  "spot": "bakehouse",
+  "placed": true,
+  "rect": {
+   "x": 966.453125,
+   "y": 0,
+   "w": 389.546875,
+   "h": 304.328125,
+   "frame": [
+    1109.484375,
+    15.203125,
+    231.296875,
+    231.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 5,
+    "markerBuilds": 5,
+    "dynamicFrames": 477,
+    "staticCacheHits": 472,
+    "markerCacheHits": 472,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:5,8:z4:b219:g1:f2:w1",
+    "lastStaticMs": 1,
+    "maxStaticMs": 14,
+    "lastMarkerMs": 0.5,
+    "maxMarkerMs": 1.2,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 29.1,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 219,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.4,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 8.8
+   },
+   "p": [
+    46.5,
+    68.5
+   ],
+   "yaw": 0,
+   "z": 1.5216535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1356x773_bakehouse_turn",
+  "size": "1356x773",
+  "spot": "bakehouse",
+  "placed": true,
+  "rect": {
+   "x": 966.453125,
+   "y": 0,
+   "w": 389.546875,
+   "h": 304.328125,
+   "frame": [
+    1109.484375,
+    15.203125,
+    231.296875,
+    231.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 5,
+    "markerBuilds": 5,
+    "dynamicFrames": 525,
+    "staticCacheHits": 520,
+    "markerCacheHits": 520,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:5,8:z4:b219:g1:f2:w1",
+    "lastStaticMs": 1,
+    "maxStaticMs": 14,
+    "lastMarkerMs": 0.5,
+    "maxMarkerMs": 1.2,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 29.1,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 219,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.4,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 8.8
+   },
+   "p": [
+    46.5,
+    68.5
+   ],
+   "yaw": 0.7,
+   "z": 1.5216535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1356x773_keep_n",
+  "size": "1356x773",
+  "spot": "keep",
+  "placed": true,
+  "rect": {
+   "x": 966.453125,
+   "y": 0,
+   "w": 389.546875,
+   "h": 304.328125,
+   "frame": [
+    1109.484375,
+    15.203125,
+    231.296875,
+    231.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 6,
+    "markerBuilds": 6,
+    "dynamicFrames": 575,
+    "staticCacheHits": 569,
+    "markerCacheHits": 569,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:11,4:z4:b219:g1:f2:w1",
+    "lastStaticMs": 0.7,
+    "maxStaticMs": 14,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 1.2,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 29.1,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 219,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.4,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 8.8
+   },
+   "p": [
+    88.5,
+    36.5
+   ],
+   "yaw": 0,
+   "z": 1.5216535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1356x773_keep_turn",
+  "size": "1356x773",
+  "spot": "keep",
+  "placed": true,
+  "rect": {
+   "x": 966.453125,
+   "y": 0,
+   "w": 389.546875,
+   "h": 304.328125,
+   "frame": [
+    1109.484375,
+    15.203125,
+    231.296875,
+    231.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 6,
+    "markerBuilds": 6,
+    "dynamicFrames": 622,
+    "staticCacheHits": 616,
+    "markerCacheHits": 616,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:11,4:z4:b219:g1:f2:w1",
+    "lastStaticMs": 0.7,
+    "maxStaticMs": 14,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 1.2,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 29.1,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 219,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.4,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 8.8
+   },
+   "p": [
+    88.5,
+    36.5
+   ],
+   "yaw": 0.7,
+   "z": 1.5216535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1538x900_dock_n",
+  "size": "1538x900",
+  "spot": "dock",
+  "placed": true,
+  "rect": {
+   "x": 1084.453125,
+   "y": 0,
+   "w": 453.546875,
+   "h": 354.328125,
+   "frame": [
+    1250.984375,
+    17.703125,
+    269.296875,
+    269.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 3,
+    "markerBuilds": 3,
+    "dynamicFrames": 191,
+    "staticCacheHits": 188,
+    "markerCacheHits": 188,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:7,14:z4:b255:g1:f2:w1",
+    "lastStaticMs": 0.8,
+    "maxStaticMs": 18,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 0.9,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 30.7,
+    "dynamicMarkers": 0,
+    "maxDynamicMarkers": 1,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 255,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.8,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 0,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    61.5,
+    118.5
+   ],
+   "yaw": 0,
+   "z": 1.7716535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1538x900_dock_turn",
+  "size": "1538x900",
+  "spot": "dock",
+  "placed": true,
+  "rect": {
+   "x": 1084.453125,
+   "y": 0,
+   "w": 453.546875,
+   "h": 354.328125,
+   "frame": [
+    1250.984375,
+    17.703125,
+    269.296875,
+    269.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 3,
+    "markerBuilds": 3,
+    "dynamicFrames": 241,
+    "staticCacheHits": 238,
+    "markerCacheHits": 238,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:7,14:z4:b255:g1:f2:w1",
+    "lastStaticMs": 0.8,
+    "maxStaticMs": 18,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 0.9,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 30.7,
+    "dynamicMarkers": 0,
+    "maxDynamicMarkers": 1,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 255,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.8,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 0,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    61.5,
+    118.5
+   ],
+   "yaw": 0.7,
+   "z": 1.7716535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1538x900_guide_n",
+  "size": "1538x900",
+  "spot": "guide",
+  "placed": true,
+  "rect": {
+   "x": 1084.453125,
+   "y": 0,
+   "w": 453.546875,
+   "h": 354.328125,
+   "frame": [
+    1250.984375,
+    17.703125,
+    269.296875,
+    269.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 4,
+    "markerBuilds": 4,
+    "dynamicFrames": 289,
+    "staticCacheHits": 285,
+    "markerCacheHits": 285,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:8,13:z4:b255:g1:f2:w1",
+    "lastStaticMs": 2,
+    "maxStaticMs": 18,
+    "lastMarkerMs": 0.6,
+    "maxMarkerMs": 0.9,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 30.7,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 1,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 255,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.8,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    66.5,
+    110.5
+   ],
+   "yaw": 0,
+   "z": 1.7716535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1538x900_guide_turn",
+  "size": "1538x900",
+  "spot": "guide",
+  "placed": true,
+  "rect": {
+   "x": 1084.453125,
+   "y": 0,
+   "w": 453.546875,
+   "h": 354.328125,
+   "frame": [
+    1250.984375,
+    17.703125,
+    269.296875,
+    269.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 4,
+    "markerBuilds": 4,
+    "dynamicFrames": 339,
+    "staticCacheHits": 335,
+    "markerCacheHits": 335,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:8,13:z4:b255:g1:f2:w1",
+    "lastStaticMs": 2,
+    "maxStaticMs": 18,
+    "lastMarkerMs": 0.6,
+    "maxMarkerMs": 0.9,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 30.7,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 1,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 255,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.8,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    66.5,
+    110.5
+   ],
+   "yaw": 0.7,
+   "z": 1.7716535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1538x900_bank_n",
+  "size": "1538x900",
+  "spot": "bank",
+  "placed": true,
+  "rect": {
+   "x": 1084.453125,
+   "y": 0,
+   "w": 453.546875,
+   "h": 354.328125,
+   "frame": [
+    1250.984375,
+    17.703125,
+    269.296875,
+    269.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 8,
+    "markerBuilds": 8,
+    "dynamicFrames": 475,
+    "staticCacheHits": 467,
+    "markerCacheHits": 467,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:10,7:z4:b255:g1:f2:w1",
+    "lastStaticMs": 0.9,
+    "maxStaticMs": 18,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 0.9,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 30.7,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 255,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.8,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 3,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    86.5,
+    57.5
+   ],
+   "yaw": 0,
+   "z": 1.7716535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1538x900_bank_turn",
+  "size": "1538x900",
+  "spot": "bank",
+  "placed": true,
+  "rect": {
+   "x": 1084.453125,
+   "y": 0,
+   "w": 453.546875,
+   "h": 354.328125,
+   "frame": [
+    1250.984375,
+    17.703125,
+    269.296875,
+    269.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 8,
+    "markerBuilds": 8,
+    "dynamicFrames": 526,
+    "staticCacheHits": 518,
+    "markerCacheHits": 518,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:10,7:z4:b255:g1:f2:w1",
+    "lastStaticMs": 0.9,
+    "maxStaticMs": 18,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 0.9,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 30.7,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 255,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.8,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 3,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    86.5,
+    57.5
+   ],
+   "yaw": 0.7,
+   "z": 1.7716535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1538x900_bakehouse_n",
+  "size": "1538x900",
+  "spot": "bakehouse",
+  "placed": true,
+  "rect": {
+   "x": 1084.453125,
+   "y": 0,
+   "w": 453.546875,
+   "h": 354.328125,
+   "frame": [
+    1250.984375,
+    17.703125,
+    269.296875,
+    269.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 9,
+    "markerBuilds": 9,
+    "dynamicFrames": 575,
+    "staticCacheHits": 566,
+    "markerCacheHits": 566,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:5,8:z4:b255:g1:f2:w1",
+    "lastStaticMs": 0.8,
+    "maxStaticMs": 18,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 0.9,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 30.7,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 255,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.8,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 3,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    46.5,
+    68.5
+   ],
+   "yaw": 0,
+   "z": 1.7716535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1538x900_bakehouse_turn",
+  "size": "1538x900",
+  "spot": "bakehouse",
+  "placed": true,
+  "rect": {
+   "x": 1084.453125,
+   "y": 0,
+   "w": 453.546875,
+   "h": 354.328125,
+   "frame": [
+    1250.984375,
+    17.703125,
+    269.296875,
+    269.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 9,
+    "markerBuilds": 9,
+    "dynamicFrames": 624,
+    "staticCacheHits": 615,
+    "markerCacheHits": 615,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:5,8:z4:b255:g1:f2:w1",
+    "lastStaticMs": 0.8,
+    "maxStaticMs": 18,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 0.9,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 30.7,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 255,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.8,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 3,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    46.5,
+    68.5
+   ],
+   "yaw": 0.7,
+   "z": 1.7716535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1538x900_keep_n",
+  "size": "1538x900",
+  "spot": "keep",
+  "placed": true,
+  "rect": {
+   "x": 1084.453125,
+   "y": 0,
+   "w": 453.546875,
+   "h": 354.328125,
+   "frame": [
+    1250.984375,
+    17.703125,
+    269.296875,
+    269.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 10,
+    "markerBuilds": 10,
+    "dynamicFrames": 673,
+    "staticCacheHits": 663,
+    "markerCacheHits": 663,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:11,4:z4:b255:g1:f2:w1",
+    "lastStaticMs": 1.1,
+    "maxStaticMs": 18,
+    "lastMarkerMs": 0.2,
+    "maxMarkerMs": 0.9,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 30.7,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 255,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.8,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 3,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    88.5,
+    36.5
+   ],
+   "yaw": 0,
+   "z": 1.7716535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1538x900_keep_turn",
+  "size": "1538x900",
+  "spot": "keep",
+  "placed": true,
+  "rect": {
+   "x": 1084.453125,
+   "y": 0,
+   "w": 453.546875,
+   "h": 354.328125,
+   "frame": [
+    1250.984375,
+    17.703125,
+    269.296875,
+    269.296875
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 10,
+    "markerBuilds": 10,
+    "dynamicFrames": 721,
+    "staticCacheHits": 711,
+    "markerCacheHits": 711,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:11,4:z4:b255:g1:f2:w1",
+    "lastStaticMs": 1.1,
+    "maxStaticMs": 18,
+    "lastMarkerMs": 0.2,
+    "maxMarkerMs": 0.9,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 30.7,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 255,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 3.8,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 3,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    88.5,
+    36.5
+   ],
+   "yaw": 0.7,
+   "z": 1.7716535433070866,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1920x1080_dock_n",
+  "size": "1920x1080",
+  "spot": "dock",
+  "placed": true,
+  "rect": {
+   "x": 1375.75,
+   "y": 0,
+   "w": 544.25,
+   "h": 425.1875,
+   "frame": [
+    1575.59375,
+    21.25,
+    323.140625,
+    323.140625
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 3,
+    "markerBuilds": 4,
+    "dynamicFrames": 189,
+    "staticCacheHits": 186,
+    "markerCacheHits": 185,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:7,14:z4:b306:g1:f2:w1",
+    "lastStaticMs": 3.2,
+    "maxStaticMs": 17.5,
+    "lastMarkerMs": 0.5,
+    "maxMarkerMs": 0.8,
+    "lastPaintMs": 0.4,
+    "maxPaintMs": 30.4,
+    "dynamicMarkers": 0,
+    "maxDynamicMarkers": 4,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 306,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.1,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 0,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 7.7
+   },
+   "p": [
+    61.5,
+    118.5
+   ],
+   "yaw": 0,
+   "z": 2.125984251968504,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1920x1080_dock_turn",
+  "size": "1920x1080",
+  "spot": "dock",
+  "placed": true,
+  "rect": {
+   "x": 1375.75,
+   "y": 0,
+   "w": 544.25,
+   "h": 425.1875,
+   "frame": [
+    1575.59375,
+    21.25,
+    323.140625,
+    323.140625
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 3,
+    "markerBuilds": 4,
+    "dynamicFrames": 238,
+    "staticCacheHits": 235,
+    "markerCacheHits": 234,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:7,14:z4:b306:g1:f2:w1",
+    "lastStaticMs": 3.2,
+    "maxStaticMs": 17.5,
+    "lastMarkerMs": 0.5,
+    "maxMarkerMs": 0.8,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 30.4,
+    "dynamicMarkers": 0,
+    "maxDynamicMarkers": 4,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 306,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.1,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 0,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 7.7
+   },
+   "p": [
+    61.5,
+    118.5
+   ],
+   "yaw": 0.7,
+   "z": 2.125984251968504,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1920x1080_guide_n",
+  "size": "1920x1080",
+  "spot": "guide",
+  "placed": true,
+  "rect": {
+   "x": 1375.75,
+   "y": 0,
+   "w": 544.25,
+   "h": 425.1875,
+   "frame": [
+    1575.59375,
+    21.25,
+    323.140625,
+    323.140625
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 4,
+    "markerBuilds": 5,
+    "dynamicFrames": 286,
+    "staticCacheHits": 282,
+    "markerCacheHits": 281,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:8,13:z4:b306:g1:f2:w1",
+    "lastStaticMs": 2.5,
+    "maxStaticMs": 17.5,
+    "lastMarkerMs": 0.5,
+    "maxMarkerMs": 0.8,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 30.4,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 4,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 306,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.1,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 7.7
+   },
+   "p": [
+    66.5,
+    110.5
+   ],
+   "yaw": 0,
+   "z": 2.125984251968504,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1920x1080_guide_turn",
+  "size": "1920x1080",
+  "spot": "guide",
+  "placed": true,
+  "rect": {
+   "x": 1375.75,
+   "y": 0,
+   "w": 544.25,
+   "h": 425.1875,
+   "frame": [
+    1575.59375,
+    21.25,
+    323.140625,
+    323.140625
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 4,
+    "markerBuilds": 5,
+    "dynamicFrames": 336,
+    "staticCacheHits": 332,
+    "markerCacheHits": 331,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:8,13:z4:b306:g1:f2:w1",
+    "lastStaticMs": 2.5,
+    "maxStaticMs": 17.5,
+    "lastMarkerMs": 0.5,
+    "maxMarkerMs": 0.8,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 30.4,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 4,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 306,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.1,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 7.7
+   },
+   "p": [
+    66.5,
+    110.5
+   ],
+   "yaw": 0.7,
+   "z": 2.125984251968504,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1920x1080_bank_n",
+  "size": "1920x1080",
+  "spot": "bank",
+  "placed": true,
+  "rect": {
+   "x": 1375.75,
+   "y": 0,
+   "w": 544.25,
+   "h": 425.1875,
+   "frame": [
+    1575.59375,
+    21.25,
+    323.140625,
+    323.140625
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 5,
+    "markerBuilds": 6,
+    "dynamicFrames": 387,
+    "staticCacheHits": 382,
+    "markerCacheHits": 381,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:10,7:z4:b306:g1:f2:w1",
+    "lastStaticMs": 0.7,
+    "maxStaticMs": 17.5,
+    "lastMarkerMs": 0.5,
+    "maxMarkerMs": 0.8,
+    "lastPaintMs": 0.4,
+    "maxPaintMs": 30.4,
+    "dynamicMarkers": 3,
+    "maxDynamicMarkers": 4,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 306,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.1,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 3,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 7.7
+   },
+   "p": [
+    86.5,
+    57.5
+   ],
+   "yaw": 0,
+   "z": 2.125984251968504,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1920x1080_bank_turn",
+  "size": "1920x1080",
+  "spot": "bank",
+  "placed": true,
+  "rect": {
+   "x": 1375.75,
+   "y": 0,
+   "w": 544.25,
+   "h": 425.1875,
+   "frame": [
+    1575.59375,
+    21.25,
+    323.140625,
+    323.140625
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 5,
+    "markerBuilds": 6,
+    "dynamicFrames": 435,
+    "staticCacheHits": 430,
+    "markerCacheHits": 429,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:10,7:z4:b306:g1:f2:w1",
+    "lastStaticMs": 0.7,
+    "maxStaticMs": 17.5,
+    "lastMarkerMs": 0.5,
+    "maxMarkerMs": 0.8,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 30.4,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 4,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 306,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.1,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 7.7
+   },
+   "p": [
+    86.5,
+    57.5
+   ],
+   "yaw": 0.7,
+   "z": 2.125984251968504,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1920x1080_bakehouse_n",
+  "size": "1920x1080",
+  "spot": "bakehouse",
+  "placed": true,
+  "rect": {
+   "x": 1375.75,
+   "y": 0,
+   "w": 544.25,
+   "h": 425.1875,
+   "frame": [
+    1575.59375,
+    21.25,
+    323.140625,
+    323.140625
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 8,
+    "markerBuilds": 9,
+    "dynamicFrames": 484,
+    "staticCacheHits": 476,
+    "markerCacheHits": 475,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:5,8:z4:b306:g1:f2:w1",
+    "lastStaticMs": 1.5,
+    "maxStaticMs": 17.5,
+    "lastMarkerMs": 0.4,
+    "maxMarkerMs": 0.8,
+    "lastPaintMs": 0.4,
+    "maxPaintMs": 30.4,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 4,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 306,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.1,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 7.7
+   },
+   "p": [
+    46.5,
+    68.5
+   ],
+   "yaw": 0,
+   "z": 2.125984251968504,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1920x1080_bakehouse_turn",
+  "size": "1920x1080",
+  "spot": "bakehouse",
+  "placed": true,
+  "rect": {
+   "x": 1375.75,
+   "y": 0,
+   "w": 544.25,
+   "h": 425.1875,
+   "frame": [
+    1575.59375,
+    21.25,
+    323.140625,
+    323.140625
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 8,
+    "markerBuilds": 9,
+    "dynamicFrames": 533,
+    "staticCacheHits": 525,
+    "markerCacheHits": 524,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:5,8:z4:b306:g1:f2:w1",
+    "lastStaticMs": 1.5,
+    "maxStaticMs": 17.5,
+    "lastMarkerMs": 0.4,
+    "maxMarkerMs": 0.8,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 30.4,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 4,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 306,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.1,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 7.7
+   },
+   "p": [
+    46.5,
+    68.5
+   ],
+   "yaw": 0.7,
+   "z": 2.125984251968504,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1920x1080_keep_n",
+  "size": "1920x1080",
+  "spot": "keep",
+  "placed": true,
+  "rect": {
+   "x": 1375.75,
+   "y": 0,
+   "w": 544.25,
+   "h": 425.1875,
+   "frame": [
+    1575.59375,
+    21.25,
+    323.140625,
+    323.140625
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 9,
+    "markerBuilds": 10,
+    "dynamicFrames": 583,
+    "staticCacheHits": 574,
+    "markerCacheHits": 573,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:11,4:z4:b306:g1:f2:w1",
+    "lastStaticMs": 0.7,
+    "maxStaticMs": 17.5,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 0.8,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 30.4,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 4,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 306,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.1,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 7.7
+   },
+   "p": [
+    88.5,
+    36.5
+   ],
+   "yaw": 0,
+   "z": 2.125984251968504,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "1920x1080_keep_turn",
+  "size": "1920x1080",
+  "spot": "keep",
+  "placed": true,
+  "rect": {
+   "x": 1375.75,
+   "y": 0,
+   "w": 544.25,
+   "h": 425.1875,
+   "frame": [
+    1575.59375,
+    21.25,
+    323.140625,
+    323.140625
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 9,
+    "markerBuilds": 10,
+    "dynamicFrames": 634,
+    "staticCacheHits": 625,
+    "markerCacheHits": 624,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:11,4:z4:b306:g1:f2:w1",
+    "lastStaticMs": 0.7,
+    "maxStaticMs": 17.5,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 0.8,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 30.4,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 4,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 306,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.1,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 7.7
+   },
+   "p": [
+    88.5,
+    36.5
+   ],
+   "yaw": 0.7,
+   "z": 2.125984251968504,
+   "dpr": 1
+  }
+ },
+ {
+  "file": "phone_dock_n",
+  "size": "phone",
+  "spot": "dock",
+  "placed": true,
+  "rect": {
+   "x": 238,
+   "y": 0,
+   "w": 164,
+   "h": 164,
+   "frame": [
+    278,
+    8,
+    104,
+    104
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 3,
+    "markerBuilds": 3,
+    "dynamicFrames": 199,
+    "staticCacheHits": 196,
+    "markerCacheHits": 196,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:7,14:z4:b192:g1:f2:w1",
+    "lastStaticMs": 1,
+    "maxStaticMs": 19.2,
+    "lastMarkerMs": 0.5,
+    "maxMarkerMs": 1,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 35.6,
+    "dynamicMarkers": 0,
+    "maxDynamicMarkers": 1,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 192,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.7,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 0,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    61.5,
+    118.5
+   ],
+   "yaw": 0,
+   "z": 1,
+   "dpr": 2
+  }
+ },
+ {
+  "file": "phone_dock_turn",
+  "size": "phone",
+  "spot": "dock",
+  "placed": true,
+  "rect": {
+   "x": 238,
+   "y": 0,
+   "w": 164,
+   "h": 164,
+   "frame": [
+    278,
+    8,
+    104,
+    104
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 3,
+    "markerBuilds": 3,
+    "dynamicFrames": 245,
+    "staticCacheHits": 242,
+    "markerCacheHits": 242,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:7,14:z4:b192:g1:f2:w1",
+    "lastStaticMs": 1,
+    "maxStaticMs": 19.2,
+    "lastMarkerMs": 0.5,
+    "maxMarkerMs": 1,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 35.6,
+    "dynamicMarkers": 0,
+    "maxDynamicMarkers": 1,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 192,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.7,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 0,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    61.5,
+    118.5
+   ],
+   "yaw": 0.7,
+   "z": 1,
+   "dpr": 2
+  }
+ },
+ {
+  "file": "phone_guide_n",
+  "size": "phone",
+  "spot": "guide",
+  "placed": true,
+  "rect": {
+   "x": 238,
+   "y": 0,
+   "w": 164,
+   "h": 164,
+   "frame": [
+    278,
+    8,
+    104,
+    104
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 4,
+    "markerBuilds": 4,
+    "dynamicFrames": 294,
+    "staticCacheHits": 290,
+    "markerCacheHits": 290,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:8,13:z4:b192:g1:f2:w1",
+    "lastStaticMs": 1.4,
+    "maxStaticMs": 19.2,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 1,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 35.6,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 1,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 192,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.7,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    66.5,
+    110.5
+   ],
+   "yaw": 0,
+   "z": 1,
+   "dpr": 2
+  }
+ },
+ {
+  "file": "phone_guide_turn",
+  "size": "phone",
+  "spot": "guide",
+  "placed": true,
+  "rect": {
+   "x": 238,
+   "y": 0,
+   "w": 164,
+   "h": 164,
+   "frame": [
+    278,
+    8,
+    104,
+    104
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 4,
+    "markerBuilds": 4,
+    "dynamicFrames": 343,
+    "staticCacheHits": 339,
+    "markerCacheHits": 339,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:8,13:z4:b192:g1:f2:w1",
+    "lastStaticMs": 1.4,
+    "maxStaticMs": 19.2,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 1,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 35.6,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 1,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 192,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.7,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    66.5,
+    110.5
+   ],
+   "yaw": 0.7,
+   "z": 1,
+   "dpr": 2
+  }
+ },
+ {
+  "file": "phone_bank_n",
+  "size": "phone",
+  "spot": "bank",
+  "placed": true,
+  "rect": {
+   "x": 238,
+   "y": 0,
+   "w": 164,
+   "h": 164,
+   "frame": [
+    278,
+    8,
+    104,
+    104
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 5,
+    "markerBuilds": 5,
+    "dynamicFrames": 392,
+    "staticCacheHits": 387,
+    "markerCacheHits": 387,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:10,7:z4:b192:g1:f2:w1",
+    "lastStaticMs": 0.7,
+    "maxStaticMs": 19.2,
+    "lastMarkerMs": 0.4,
+    "maxMarkerMs": 1,
+    "lastPaintMs": 0.3,
+    "maxPaintMs": 35.6,
+    "dynamicMarkers": 5,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 192,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.7,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 5,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    86.5,
+    57.5
+   ],
+   "yaw": 0,
+   "z": 1,
+   "dpr": 2
+  }
+ },
+ {
+  "file": "phone_bank_turn",
+  "size": "phone",
+  "spot": "bank",
+  "placed": true,
+  "rect": {
+   "x": 238,
+   "y": 0,
+   "w": 164,
+   "h": 164,
+   "frame": [
+    278,
+    8,
+    104,
+    104
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 5,
+    "markerBuilds": 5,
+    "dynamicFrames": 441,
+    "staticCacheHits": 436,
+    "markerCacheHits": 436,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:10,7:z4:b192:g1:f2:w1",
+    "lastStaticMs": 0.7,
+    "maxStaticMs": 19.2,
+    "lastMarkerMs": 0.4,
+    "maxMarkerMs": 1,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 35.6,
+    "dynamicMarkers": 5,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 192,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.7,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 5,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    86.5,
+    57.5
+   ],
+   "yaw": 0.7,
+   "z": 1,
+   "dpr": 2
+  }
+ },
+ {
+  "file": "phone_bakehouse_n",
+  "size": "phone",
+  "spot": "bakehouse",
+  "placed": true,
+  "rect": {
+   "x": 238,
+   "y": 0,
+   "w": 164,
+   "h": 164,
+   "frame": [
+    278,
+    8,
+    104,
+    104
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 6,
+    "markerBuilds": 6,
+    "dynamicFrames": 491,
+    "staticCacheHits": 485,
+    "markerCacheHits": 485,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:5,8:z4:b192:g1:f2:w1",
+    "lastStaticMs": 0.4,
+    "maxStaticMs": 19.2,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 1,
+    "lastPaintMs": 0.2,
+    "maxPaintMs": 35.6,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 192,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.7,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    46.5,
+    68.5
+   ],
+   "yaw": 0,
+   "z": 1,
+   "dpr": 2
+  }
+ },
+ {
+  "file": "phone_bakehouse_turn",
+  "size": "phone",
+  "spot": "bakehouse",
+  "placed": true,
+  "rect": {
+   "x": 238,
+   "y": 0,
+   "w": 164,
+   "h": 164,
+   "frame": [
+    278,
+    8,
+    104,
+    104
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 6,
+    "markerBuilds": 6,
+    "dynamicFrames": 540,
+    "staticCacheHits": 534,
+    "markerCacheHits": 534,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:5,8:z4:b192:g1:f2:w1",
+    "lastStaticMs": 0.4,
+    "maxStaticMs": 19.2,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 1,
+    "lastPaintMs": 0.4,
+    "maxPaintMs": 35.6,
+    "dynamicMarkers": 1,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 192,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.7,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 1,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    46.5,
+    68.5
+   ],
+   "yaw": 0.7,
+   "z": 1,
+   "dpr": 2
+  }
+ },
+ {
+  "file": "phone_keep_n",
+  "size": "phone",
+  "spot": "keep",
+  "placed": true,
+  "rect": {
+   "x": 238,
+   "y": 0,
+   "w": 164,
+   "h": 164,
+   "frame": [
+    278,
+    8,
+    104,
+    104
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 7,
+    "markerBuilds": 7,
+    "dynamicFrames": 589,
+    "staticCacheHits": 582,
+    "markerCacheHits": 582,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:11,4:z4:b192:g1:f2:w1",
+    "lastStaticMs": 0.8,
+    "maxStaticMs": 19.2,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 1,
+    "lastPaintMs": 0.4,
+    "maxPaintMs": 35.6,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 192,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.7,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    88.5,
+    36.5
+   ],
+   "yaw": 0,
+   "z": 1,
+   "dpr": 2
+  }
+ },
+ {
+  "file": "phone_keep_turn",
+  "size": "phone",
+  "spot": "keep",
+  "placed": true,
+  "rect": {
+   "x": 238,
+   "y": 0,
+   "w": 164,
+   "h": 164,
+   "frame": [
+    278,
+    8,
+    104,
+    104
+   ]
+  },
+  "snap": {
+   "mm": {
+    "layerVersion": 2,
+    "staticBuilds": 7,
+    "markerBuilds": 7,
+    "dynamicFrames": 636,
+    "staticCacheHits": 629,
+    "markerCacheHits": 629,
+    "cacheKey": "tutors-holm-arrival-qa:20260926:p0:s:11,4:z4:b192:g1:f2:w1",
+    "lastStaticMs": 0.8,
+    "maxStaticMs": 19.2,
+    "lastMarkerMs": 0.3,
+    "maxMarkerMs": 1,
+    "lastPaintMs": 0.4,
+    "maxPaintMs": 35.6,
+    "dynamicMarkers": 4,
+    "maxDynamicMarkers": 5,
+    "dynamicLimit": 128,
+    "clicks": 0,
+    "lastClickWorld": null,
+    "routeTiles": 0,
+    "compassYaw": 0.7,
+    "ppt": 4,
+    "tilesAcross": 36,
+    "backing": 192,
+    "pixel": 2,
+    "walls": {
+     "meshes": 134,
+     "cuts": 7692,
+     "edges": 507,
+     "slanted": 162,
+     "done": true,
+     "maxMeshMs": 4.7,
+     "drawn": 493
+    },
+    "ground": {
+     "chunks": 288,
+     "total": 288
+    },
+    "icons": 14,
+    "dots": 4,
+    "zoomChanges": 0,
+    "floorFill": 213,
+    "floorMs": 9.1
+   },
+   "p": [
+    88.5,
+    36.5
+   ],
+   "yaw": 0.7,
+   "z": 1,
+   "dpr": 2
+  }
+ }
+]
