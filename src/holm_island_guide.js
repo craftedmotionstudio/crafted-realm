@@ -168,6 +168,12 @@ function viaGuideDoor(a){if(!a||!a.obj||typeof HolmArrivalQA==='undefined')retur
   var a;
   // the skiff: the service the click boards (goal audit 2026-09-29: the boat model's whole group put the arrow a tile off
   // and above the mast, off the top of the screen at the pier's end), else the model
+  // the welcome pack did not fit at the pier (HolmDepartureRewards): until there is room, the objective line says how
+  // many slots are still wanted and the pack tab pulses (drop something, or bank it); then back to the skiff
+  var room=Tutorial.complete&&!Tutorial.departurePackClaimed&&Tutorial.departureRoom;
+  if(room){var left=room.freeAt+room.need-(Player.inv||[]).filter(function(q){return !q}).length,ot=document.getElementById('obj-text'),ob=document.getElementById('objective');
+   if(left>0){packPulse(true,null,null);GuideArrow.setTarget(null);if(ot){ob.style.display='block';ot.textContent='Free '+left+' more pack slot'+(left===1?'':'s')+' for Tobin\'s welcome pack: drop something, or bank it at the Holm Bank. Then board the skiff.'}return}
+   Tutorial.departureRoom=null;try{Tutorial.banner()}catch(e){}}
   if(Tutorial.complete){var boat=service('Ferry','boat');if(!boat)scene.traverse(function(n){if(!boat&&/^Haven_ServiceBoat_/.test(n.name||''))boat=n});a=talkAim()||(boat?{obj:boat,label:'Board the skiff'}:null)}
   else{var s=Tutorial.steps[Tutorial.step];a=s?(talkAim()||recovery(s.id)||aim(s.id)):null}
   if(a&&a.say){if(st.said!==a.say){st.said=a.say;if(typeof UI!=='undefined'&&UI.chat)UI.chat(a.say,'plain')}}else st.said=null;

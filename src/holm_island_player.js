@@ -94,7 +94,7 @@ var HolmIslandPlayer=(function(){
   var want=OLD_HAIR[String(c.hairStyle||'').toLowerCase()]||[],hair=HolmKit.options(body,'Hair');
   for(var i=0;i<want.length;i++){var o=hair.filter(function(x){return String(x.label).toLowerCase()===want[i]})[0];if(o){l.parts.Hair=o.index;break}}
   if(HolmKit.hasSlot(body,'Jaw')){var lab=c.beard?'short':'clean-shaven',j=HolmKit.options(body,'Jaw').filter(function(x){return String(x.label).toLowerCase()===lab})[0];if(j)l.parts.Jaw=j.index}
-  c._legacyLook=false;return l}
+  delete c._legacyLook;return l}
  function applyLook(rig){if(typeof HolmKit!=='undefined'&&HolmKit.ready()){var l=HolmKit.apply(rig,typeof CharCfg!=='undefined'?(CharCfg.kit||legacyKit()):null);if(l&&typeof CharCfg!=='undefined')CharCfg.kit=l;return true}applyVariants(rig);return false}
  function refreshLook(){if(st.rig)applyLook(st.rig)}
  function install(){

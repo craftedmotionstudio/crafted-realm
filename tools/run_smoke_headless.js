@@ -5,7 +5,6 @@
  * profile and is not involved. Exit 0 on PASS, 1 on FAIL/timeout.
  * Note: if perf numbers fail here but structural/console pass, check GPU —
  * headless may software-render; judge perf only in a real foreground run.
- * SMOKE_ISLAND=1 runs the same gate on the live Blender island (tutors-holm-v3) instead of the old island (?holmLegacy=1).
  * Run: node tools/run_smoke_headless.js   (SMOKE_QUERY="&look=4b" appends to the page URL: a look v4 option)
  */
 'use strict';
@@ -31,7 +30,7 @@ const puppeteer = require('puppeteer-core');
     page.on('pageerror', e => { pageErrors.push(String(e).slice(0, 300)); console.log('PAGEERROR', String(e).slice(0, 300)); });
     // SMOKE_BASE overrides the dev server origin (the in-app preview may serve on another port)
     const base = process.env.SMOKE_BASE || 'http://127.0.0.1:8777';
-    await page.goto(base + '/?smoke=1' + (process.env.SMOKE_ISLAND === '1' ? '' : '&holmLegacy=1') + '&headless=' + Date.now() + (extraQuery || '') + (process.env.SMOKE_QUERY || ''),   // SMOKE_QUERY: e.g. &look=4b (look v4 options)   // engine smoke on the old island (the new island has its own gates: qa_holm_island, playthroughs)
+    await page.goto(base + '/?smoke=1&holmLegacy=1&headless=' + Date.now() + (extraQuery || '') + (process.env.SMOKE_QUERY || ''),   // SMOKE_QUERY: e.g. &look=4b (look v4 options)   // engine smoke on the old island (the new island has its own gates: qa_holm_island, playthroughs)
                     {waitUntil: 'domcontentloaded', timeout: 60000});
     const t0 = Date.now();
     while (!verdict && Date.now() - t0 < timeoutMs) await new Promise(r => setTimeout(r, 1000));

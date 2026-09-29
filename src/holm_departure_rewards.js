@@ -14,11 +14,18 @@ var HolmDepartureRewards=(function(){
     if(!Tutorial.complete)return false;
     var result=HolmRewardPlan.plan(Player.inv,Player.equip,ITEMS,rows(),Player.inv.length);
     if(!result.ok){
-      UI.chat(result.code==='insufficient-space'
-        ?'Your welcome pack is still aboard. Free '+result.missingSlots+' inventory slot'+(result.missingSlots===1?'':'s')+' at Holm Bank, then board again.'
-        :'Your welcome pack could not be prepared. It remains aboard; please try again.','sys');
+      // goal audit 2026-09-29 (human-pace playthrough): a full pack at the pier is not a dead end. Say that dropping works as
+      // well as the bank (the Holm Bank is a long walk back up the Keeper's Stair), and remember how much room is wanted:
+      // the island guide keeps the objective line and the pack tab on it until there is room (HolmIslandGuide)
+      if(result.code==='insufficient-space'){
+        var free=Player.inv.filter(function(s){return !s;}).length;
+        Tutorial.departureRoom={need:result.missingSlots,freeAt:free};
+        UI.chat('Your welcome pack is still aboard. Free '+result.missingSlots+' inventory slot'+(result.missingSlots===1?'':'s')+
+          ' (drop something, or bank it at the Holm Bank), then board again.','sys');
+      }else UI.chat('Your welcome pack could not be prepared. It remains aboard; please try again.','sys');
       return false;
     }
+    Tutorial.departureRoom=null;
     var previous=Player.inv;
     Player.inv=result.inventory;
     Tutorial.departurePackClaimed=true;

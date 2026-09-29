@@ -121,7 +121,7 @@ add('fresh',async(page,id)=>{
 add('legacy-july',async(page,id)=>{
   const f=FIXTURES[id](),p=PROFILE(id);await seed(page,p,f);await boot(page,p);const s=await state(page);
   ok(id,'a July 2026 save with no world meta boots on the island (tutors-holm-v3); the unknown curriculum grants nothing (study_route)',s.provider==='tutors-holm-v3'&&s.lesson==='study_route'&&s.ledger.length===0&&s.lastLoad&&s.lastLoad.ok,s);
-  ok(id,'its 24-slot pack becomes 28 slots with every item kept in its slot; spark runes become wit (mind) runes; the bank is kept',s.invLen===28&&s.inv[0]==='hatchetx1'&&s.inv[1]==='tinderboxx1'&&s.inv[2]==='logsx1'&&s.inv[3]==='mind_runex5'&&s.inv[4]==='coinsx25'&&s.inv.slice(5).every(x=>!x)&&same(s.bank,['breadx2']),{inv:s.inv,bank:s.bank});
+  ok(id,'its 24-slot pack becomes 28 slots with every item kept in its slot; spark runes become wit (mind) runes; the bank is kept (the crowns may carry the 50 of the Apprentice deed on entry)',s.invLen===28&&s.inv[0]==='hatchetx1'&&s.inv[1]==='tinderboxx1'&&s.inv[2]==='logsx1'&&s.inv[3]==='mind_runex5'&&/^coinsx(25|75)$/.test(s.inv[4])&&s.inv.slice(5).every(x=>!x)&&same(s.bank,['breadx2']),{inv:s.inv,bank:s.bank});
   ok(id,'the pre-kit look loads (name kept), the old music ids are sanitised, and the adventurer stands on a safe graph stance',s.look&&s.look.name==='Oldtimer'&&await onGraph(page),{look:s.look,surface:s.surface,pos:s.pos});
   // the old look carried onto the kit (holm_island_player legacyKit): male -> body A, short hair, a beard, the blue shirt
   await waitFor(page,()=>!!(CharCfg.kit&&CharCfg.kit.body),null,15000);await sleep(1500);
@@ -192,6 +192,17 @@ add('tutor-model-fails',async(page,id)=>{
   ok(id,'with Cook Hettie missing the bread lesson is not held on her: the objective is the bread line, not "Talk to Cook Hettie"',s.lesson==='bake_bread'&&!s.due&&!/Cook Hettie/.test(s.objective)&&/bakehouse/i.test(s.objective),{objective:s.objective,due:s.due});
   await L.walkTo(page,'bakehouse','entrance',true,[]);await clickService(page,'Take bucket');await sleep(800);const b=await state(page);
   ok(id,'and the bakehouse bucket rack works by a real click (a bucket in the pack, no "speak to" refusal)',b.inv.some(x=>/^bucketx/.test(x||''))&&!b.chat.some(t=>/speak to Cook Hettie first/.test(t)),{inv:b.inv.filter(Boolean),chat:b.chat});
+});
+// full inventory at the pier (found by the human-pace playthrough 2026-09-29): the welcome pack is refused with the number
+// of slots to free, the objective line counts them down while the pack tab pulses, and after the leftovers are dropped
+// from the pack menu the skiff sails with the whole welcome pack
+add('full-pack-departure',async(page,id)=>{
+  const f=FIXTURES['graduated-on-island']();f.inv=Array.from({length:28},(_,i)=>i===0?slot('coins',30):slot(i%2?'logs':'bread'));
+  const p=PROFILE(id);await seed(page,p,f);await boot(page,p);
+  await L.walkTo(page,'haven','shore',true,[]);const tb=await talkTo(page,'tobin');await closeDialogue(page);await L.walkTo(page,'haven','boat',false,[]);
+  const dep=await L.boardSkiff(page);const a=await state(page);
+  ok(id,'a full pack at the pier: the welcome pack is refused with a count of slots to free (drop or bank), the objective counts them down with the pack tab pulsing, and once leftovers are dropped the skiff sails and the welcome pack is claimed',
+   tb.talked&&!!dep.room&&/drop something/.test(dep.room.chat.join(' '))&&/Free \d+ more pack slot/.test(dep.room.objective)&&dep.room.drops.length>=dep.room.need&&dep.sailed&&a.provider==='veyhollow-commons-v2'&&await page.evaluate(()=>Tutorial.departurePackClaimed===true),{room:dep.room,sailed:dep.sailed,provider:a.provider});
 });
 add('graduated-legacy',async(page,id)=>{
   const f=FIXTURES[id](),p=PROFILE(id);await seed(page,p,f);await boot(page,p);const s=await state(page);

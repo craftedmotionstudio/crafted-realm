@@ -193,9 +193,10 @@ async function playOnce(browser,n){
     if(status==='complete'){   // departure: board the ferry at the haven (Tobin first)
       // v2 land: down the Keeper's Stair to Lanternfoot Cove, Tobin first, then out along the pier to the skiff ("Board her
       // at the end of the pier")
-      await walkTo(page,'haven','shore',true,[]);await talk(page,'tobin');await closeDialogue(page);await walkTo(page,'haven','boat',false,[]);const b=await clickService(page,'Ferry','boat');
-      const sailed=await waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,60000);
-      if(!sailed){status='departure-failed';note='ferry did not sail ('+(b.error||'clicked')+')'}
+      await walkTo(page,'haven','shore',true,[]);await talk(page,'tobin');await closeDialogue(page);await walkTo(page,'haven','boat',false,[]);
+      // a pack too full for the welcome pack is refused at the pier: the driver drops leftovers and boards again (boardSkiff)
+      const dep=await L.boardSkiff(page);if(dep.room)TALKS.push({id:'departure-room',room:dep.room});
+      if(!dep.sailed){status='departure-failed';note='ferry did not sail ('+dep.click+')'+(dep.room?' after freeing room '+JSON.stringify(dep.room).slice(0,200):'')}
       await shot(page,'run'+n+'_end');
     }
     // 2004 rule: all ten tutors met in order, each announced on the banner first and registered by the game

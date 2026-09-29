@@ -238,8 +238,10 @@ async function death(page){
   ok('the rope: taken from beside the shaft, tied (saved across a reload), climbed down',!!(rope&&rope.ok),rope);
   ok('every tutor was announced on the objective line first and spoken to (9 before departure, each chat registered)',met.length>=9&&met.every(t=>t.banner&&t.talked&&!t.error),met.map(t=>[t.id,t.banner,t.talked,t.pages]));
   // departure
-  G.cur='complete';G.on=true;await L.walkTo(page,'haven','shore',true,[]);const tb=await P.talk(page,'tobin');await closeDialogue(page);await L.walkTo(page,'haven','boat',false,[]);await clickService(page,'Ferry','boat');G.on=false;
-  const sailed=await waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,90000);await sleep(3000);
+  G.cur='complete';G.on=true;await L.walkTo(page,'haven','shore',true,[]);const tb=await P.talk(page,'tobin');await closeDialogue(page);await L.walkTo(page,'haven','boat',false,[]);const dep=await L.boardSkiff(page,L.clickService);G.on=false;
+  if(dep.room)ok('departure with a full pack: refused with a count of slots to free (drop or bank), the objective line counts them down, and after dropping leftovers the skiff sails',
+   dep.sailed&&/drop something/.test(dep.room.chat.join(' '))&&/Free \d+ more pack slot/.test(dep.room.objective),dep.room);
+  const sailed=dep.sailed;await sleep(3000);
   const end=await page.evaluate(()=>({provider:CRWorldMode.providerId,complete:!!Tutorial.complete,pack:!!Tutorial.departurePackClaimed,coins:Player.count('coins'),bread:Player.count('bread')}));
   ok('departure: Ferryman Tobin spoken to, the skiff boarded, Hearthmere reached with the departure pack',tb.talked&&sailed&&end.provider==='veyhollow-commons-v2'&&end.complete&&end.pack&&end.coins>0,{tobin:tb.talked,sailed,end});
   await page.evaluate(()=>SaveGame.save(true));await page.reload({waitUntil:'load'});await enter(page);await sleep(4000);

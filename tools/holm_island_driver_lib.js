@@ -252,4 +252,29 @@ async function rightClickRow(page,name,rowText,serviceLabel){
   await page.mouse.move(at[0],at[1]);await sleep(150);await paceWait('react');await page.mouse.click(at[0],at[1]);await sleep(300);
   await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());await settle(page,30000);await sleep(600);return {ok:true,rows};
 }
-module.exports={humanPace,setPace,pace:()=>PACE,menuSpot,readMenuRows,rightClickRow,sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,walkPoint,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse,runOrb};
+// The pack's own menu by real input: right-click the item's slot, then click the row that starts with the option ("Drop").
+async function packMenu(page,itemId,option){
+  await page.evaluate(()=>{const t=document.querySelector('.tab-btn[data-tab="inv"]');if(t)t.click()});await sleep(300);
+  const i=await page.evaluate(id=>Player.inv.findIndex(s=>s&&s.id===id),itemId);if(i<0)return {error:'no '+itemId};
+  const b=await page.$eval('#inv-grid .inv-slot:nth-child('+(i+1)+')',e=>{const r=e.getBoundingClientRect();return [r.x+r.width/2,r.y+r.height/2]});
+  await page.mouse.move(b[0],b[1]);await sleep(200);await paceWait('react');await page.mouse.click(b[0],b[1],{button:'right'});await sleep(400);const rows=await readMenuRows(page);
+  const at=await page.evaluate(o=>{const r=Array.from(document.querySelectorAll('#ctx-rows .ctx-row')).find(r=>r.textContent.trim().indexOf(o)===0);if(!r)return null;const q=r.getBoundingClientRect();return [q.x+q.width/2,q.y+q.height/2]},option);
+  if(!at){await page.keyboard.press('Escape');return {error:'no row '+option,rows}}
+  await page.mouse.move(at[0],at[1]);await sleep(150);await page.mouse.click(at[0],at[1]);await sleep(600);return {ok:true,rows};
+}
+// Board Tobin's skiff at the end of the pier. A pack too full for the welcome pack is refused ("Free N inventory slots ...
+// then board again"; the objective line counts the slots still wanted): drop the island's leftovers from the pack menu, as a
+// player would, until there is room, then board again. Returns {sailed,room} (room: what the refusal asked for and dropped).
+async function boardSkiff(page,click){click=click||clickService;   // click: the service clicker (a driver may pass its wrapped one)
+  const away=()=>waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,20000);
+  let b=await click(page,'Ferry','boat'),sailed=await away(),room=null;
+  if(!sailed&&await page.evaluate(()=>!!Tutorial.departureRoom)){
+    room={need:await page.evaluate(()=>Tutorial.departureRoom.need),objective:await objective(page),chat:(await lastChat(page,3)).filter(t=>/welcome pack/.test(t)),drops:[]};
+    for(let k=0;k<28&&await page.evaluate(()=>{const r=Tutorial.departureRoom;return !!r&&r.freeAt+r.need-Player.inv.filter(s=>!s).length>0});k++){
+      const id=await page.evaluate(()=>['logs','burnt_perch','ashes','copper_ore','tin_ore','raw_perch','cooked_perch','bronze_bar','bread'].find(c=>Player.count(c)>0)||null);if(!id)break;
+      const d=await packMenu(page,id,'Drop');room.drops.push(id+(d.error?' ('+d.error+')':''))}
+    room.after=await objective(page);b=await click(page,'Ferry','boat');sailed=await waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,60000)}
+  else if(!sailed)sailed=await waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,40000);
+  return {sailed,room,click:b&&b.error||'ok'};
+}
+module.exports={packMenu,boardSkiff,humanPace,setPace,pace:()=>PACE,menuSpot,readMenuRows,rightClickRow,sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,walkPoint,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse,runOrb};
