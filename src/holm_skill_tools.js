@@ -40,7 +40,9 @@ var HolmSkillTools=(function(){
   hammer:   {from:'item',ids:['hammer'],     gripU:0.16,axis:[1,0,0],roll:[0,0,1]},          // handle -> head +X, striking face +Z
   ore:      {from:'item',ids:['copper_ore','tin_ore'],gripU:0.5,axis:[1,0,0],roll:[0,1,0]}
  };
- var CLIP_SKILL={chop:'chop',mine:'mine',net:'net',firemake:'firemake',cook:'cook',cook_range:'cook_range',smith:'smith',smelt:'smelt'};
+ // the skilling kind a running clip is played for (HolmIslandPlayer tags each clip it plays: _holmKind) -> the skill whose tool it holds;
+ // 'bake' = the oven reach with the dough (no Player.action: cooking_bread.js)
+ var CLIP_SKILL={chop:'chop',mine:'mine',net:'net',firemake:'firemake',cook:'cook',cook_range:'cook_range',smith:'smith',smelt:'smelt',bake:'cook_range'};
  var PALM=0.085;
  var st={cur:null,hidden:[],cache:{},tick:0};
 
@@ -109,7 +111,9 @@ var HolmSkillTools=(function(){
   var moving=gm&&gm.w>0.35;
   if(skill&&moving)skill=null;                              // walking to the tree: the weapon stays out
   if(!skill&&gm&&gm.attack){var at=gm.attack;               // a skilling clip still owning the body (between ticks)
-   if(at.enabled&&at.weight>0&&(at.isRunning()||at.paused))skill=CLIP_SKILL[at.getClip().name]||null}
+   // by what the clip is played for, not its name: a clip only borrowed (the cook reach that knots the shaft rope) holds no tool
+   var kind=at._holmKind!==undefined?at._holmKind:at.getClip().name;
+   if(kind&&at.enabled&&at.weight>0&&(at.isRunning()||at.paused))skill=CLIP_SKILL[kind]||null}
   if(!skill)return null;
   var clip=clipFor(gm,skill);if(!clip)return null;
   var T=TOOLS[SKILLS[skill].tool],id=null;
@@ -164,7 +168,7 @@ var HolmSkillTools=(function(){
   var pW=st.cur.hand.localToWorld(palm.clone()),gW=m.localToWorld(m.userData.gripLocal.clone());
   return {ok:true,skill:st.cur.skill,tool:st.cur.id,ref:S.ref,axisDeg:deg(ax,wa),rollDeg:deg(rl,wr),gripToPalm:+pW.distanceTo(gW).toFixed(3)};
  }
- return {update:update,clear:clear,handles:handles,status:status,audit:audit,SKILLS:SKILLS,TOOLS:TOOLS,
+ return {update:update,clear:clear,handles:handles,status:status,audit:audit,SKILLS:SKILLS,TOOLS:TOOLS,wanted:wanted,
   skillOfAction:skillOfAction,bestToolId:bestToolId,itemToolId:itemToolId};
 })();
 if(typeof window!=='undefined')window.HolmSkillTools=HolmSkillTools;

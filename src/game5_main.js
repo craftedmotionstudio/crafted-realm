@@ -205,6 +205,9 @@ function update(dt){
   }
   if(typeof CraftingActionVisuals!=='undefined') CraftingActionVisuals.update(player,Player.action,dt);
   if(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.active())HolmArrivalQA.update(dt);
+  // the kit adventurer off the island (the mainland after the ferry): the island provider no longer steps it, so the skill's
+  // tool in the hand (put away again after each action), the look and the gait options are kept here
+  if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active()&&!(typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.islandActive&&HolmArrivalQA.islandActive()))HolmIslandPlayer.update();
   // ── fixed-tick player sim: combat/skilling/vitals advance in 600ms steps (wall-clock unchanged) ──
   // World-v2 residency follows tile-chunk boundaries. Terrain geometry and the
   // matching collision cells are loaded/unloaded together by the provider.

@@ -305,6 +305,7 @@ var LocalCombat=(function(){
   schedule(delayTicks,function(){if(typeof addGroundStack==='function')addGroundStack(id,1,nd.x,nd.z)})}
  function startPlayerDeath(){
   if(Player.dead)return;Player.dead=true;Player.deathAt=clock+4;clearInteraction();TileNav.stopPlayer();
+  Player.action=null;   // 2004: dying stops whatever you were doing (no gather roll through the death ticks)
   Player.cbQueue.clear(COMBAT_QUEUES);
   try{if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active())HolmIslandPlayer.play('death')}catch(e){}
   say('Oh dear, you are dead!','combat');
