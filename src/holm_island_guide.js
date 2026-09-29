@@ -129,11 +129,17 @@ var HolmIslandGuide=(function(){
   return d?{point:d,label:'Enter the '+NAMES[b]}:a}
  // the Guide House (the arrival package, first lessons): the chart and the tools are inside, so from outside the
  // marker goes on its south door, "Open the door" while it is shut, as the first thing a new adventurer does
- function viaGuideDoor(a){if(!a||!a.obj||typeof HolmArrivalQA==='undefined')return a;var house=named('GuideHouse'),door=named('DoorSouthLeaf');if(!house||!door)return a;
-  var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord();if(!rec||rec.surface!=='exterior')return a;
+ // goal audit 2026-09-29: the porches are 'ground' walk surface too, outside their doors: standing on the front porch with
+// the door shut, the arrow sat on Guide Bram (or the rack) inside, whom a click could not reach. The room is the span
+// between the south (front) and north (garden) door leaves; from anywhere else the arrow goes on the nearer door.
+function viaGuideDoor(a){if(!a||!a.obj||typeof HolmArrivalQA==='undefined')return a;var house=named('GuideHouse'),door=named('DoorSouthLeaf'),back=named('DoorNorthLeaf');if(!house||!door)return a;
+  var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord();if(!rec)return a;
+  var zc=function(o){var b=new THREE.Box3().setFromObject(o);return (b.min.z+b.max.z)/2},sz=zc(door),nz=back?zc(back):null,pz=player.position.z;
+  var inRoom=rec.surface!=='exterior'&&pz<sz-.2&&(nz===null||pz>nz+.2);if(inRoom)return a;
   var box=new THREE.Box3().setFromObject(house),t=a.obj.getWorldPosition(new THREE.Vector3());
   if(t.x<box.min.x||t.x>box.max.x||t.z<box.min.z||t.z>box.max.z)return a;
-  return {obj:door,door:true,label:(rec.doors&&rec.doors.arrival?'Enter the Guide House':'Open the door')+(a.why?' ('+a.why+')':'')}}
+  var useBack=nz!==null&&Math.abs(pz-nz)<Math.abs(pz-sz),open=rec.doors&&(useBack?rec.doors.garden:rec.doors.arrival);
+  return {obj:useBack?back:door,door:true,label:(open?'Enter the Guide House':'Open the door')+(a.why?' ('+a.why+')':'')}}
  // a door's arrow floats in front of the leaf at head height, not on its top edge: under a porch roof the top edge put
  // the arrow and its tag off the top of the screen once the adventurer walked up to it
  function doorPoint(o){var b=new THREE.Box3().setFromObject(o);if(b.isEmpty())return world(o);var c=b.getCenter(new THREE.Vector3()),dx=player.position.x-c.x,dz=player.position.z-c.z,d=Math.hypot(dx,dz)||1,k=Math.min(.7,d*.5);
