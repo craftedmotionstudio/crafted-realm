@@ -5,7 +5,7 @@
  * bank modal, the rope tie, a real smith / smelt action, a walk order through a doorway), and screenshots a burst.
  * Clips driven by the pass itself may be slowed for the camera (SLOW, recorded in each frame's JSON); the adventurer's
  * own clips always run at their real pace.
- * Writes scratchpad/holm_anim_pass/frames/<anim>/fNN.png, frames.json (time, pass stats) and sheet.png (python + PIL).
+ * Writes scratchpad/holm_anim_pass/frames/<anim>/fNN.jpg, frames.json (time, pass stats) and sheet.jpg (python + PIL).
  * Run: SMOKE_BASE=http://127.0.0.1:8181 node tools/capture_holm_anim_pass.js [anim ...] */
 'use strict';
 const fs=require('fs'),path=require('path'),cp=require('child_process'),puppeteer=require('puppeteer-core');
@@ -24,12 +24,13 @@ async function burst(page,name,n,gapMs,note){const dir=path.join(OUT,name);fs.mk
   await page.screenshot({path:path.join(dir,'f'+String(i).padStart(2,'0')+'.png')});rows.push({frame:i,ms:Math.round(t.t),slow:t.slow,stats:t.st});if(gapMs)await sleep(gapMs)}
  await hud(page,true);fs.writeFileSync(path.join(dir,'frames.json'),JSON.stringify({anim:name,note:note||'',hud:'hidden for the frames',frames:rows},null,1));
  try{cp.execFileSync('python',['-c',`
-import glob,sys
+import glob,os,sys
 from PIL import Image
 fs=sorted(glob.glob(sys.argv[1]+'/f*.png'));ims=[Image.open(f).convert('RGB') for f in fs];w,h=ims[0].size;s=.5;tw,th=int(w*s),int(h*s);cols=4;rows=(len(ims)+cols-1)//cols
 S=Image.new('RGB',(tw*cols,th*rows),(20,20,20))
 for i,im in enumerate(ims):S.paste(im.resize((tw,th)),((i%cols)*tw,(i//cols)*th))
-S.save(sys.argv[1]+'/sheet.png')`,dir])}catch(e){console.log('  (no sheet: '+e.message.split('\n')[0]+')')}
+S.save(sys.argv[1]+'/sheet.jpg',quality=85)
+for f,im in zip(fs,ims):im.save(f[:-4]+'.jpg',quality=85);os.remove(f)   # frames kept as JPEG (the PNG bursts run to ~90 MB)`,dir])}catch(e){console.log('  (no sheet: '+e.message.split('\n')[0]+')')}
  console.log('  '+name+': '+n+' frames');return rows}
 const SCENES={
  // a felled teaching oak falls away from the woodcutter (the game's own depletion: alive=false, everything but the stump hidden)

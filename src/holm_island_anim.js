@@ -179,7 +179,8 @@ var HolmIslandAnim=(function(){
   var off=C.boatP(t),q=C.boatQ(t);V.fromArray(off).applyQuaternion(s.pqi);Q.fromArray(q).premultiply(s.pqi).multiply(s.pq);
   var r=about(s.rest,s.pivot,Q.toArray());put(s.boat,r);s.boat.position.add(V);s.boat.updateMatrixWorld(true);
   if(s.plank&&C.plankP){var po=C.plankP(t);s.plank.position.fromArray(s.plankRest.p);s.plank.position.x+=po[0];s.plank.position.y+=po[1];s.plank.position.z+=po[2]}
-  var p=playerPos();if(p&&!s.done){V2.copy(s.deck);s.boat.localToWorld(V2);p.copy(V2);if(typeof player!=='undefined')player.lookAt(V2.x,V2.y,V2.z-1)}
+  var p=playerPos();if(p){   // aboard until the crossing takes over (the travel cover fades in after the clip ends)
+  V2.copy(s.deck);s.boat.localToWorld(V2);p.copy(V2);if(typeof player!=='undefined')player.lookAt(V2.x,V2.y,V2.z-1)}
   if(s.tobin){V2.copy(s.stern);s.boat.localToWorld(V2);s.tobin.position.copy(V2);s.tobin.lookAt(V2.x,V2.y,V2.z-1)}
   if(s.bell&&C.bellQ){var bq=C.bellQ(Math.min(s.t,C.bellQ.duration));s.bell.parts.forEach(function(b){put(b.m,dictAbout(b.rest,b.pivot,bq))});
    var dings=[.18,.54,.9];while(s.rung<dings.length&&s.t>=dings[s.rung]){var v=[.05,.035,.022][s.rung];s.rung++;sfx(function(S){S.tone(988,1.1,'sine',v);S.tone(1976,.5,'sine',v*.35);S.tone(1318,.8,'triangle',v*.25)})}}

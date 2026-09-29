@@ -225,9 +225,10 @@ function tick(W,sec,dt,each){dt=dt||1/60;for(let t=0;t<sec-1e-9;t+=dt){if(each)e
  ok('sail: aboard, the "Board the skiff" arrow is cleared and not kept for the mainland',W.sb.GuideArrow.target===null&&W.sb.GuideArrow.keepAfterComplete===false);
  tick(W,1.0);ok('sail: the ferry bell swings',Math.abs(W.bell.getObjectByName('cove-bell_Bell_2').quaternion.x)>1e-3||W.H.status().stats.bells===1);
  const onDeck=Math.abs(W.player.position.x-hc0.x)<1.2;ok('sail: the adventurer stands on the deck (stepped aboard)',onDeck,W.player.position);
- tick(W,4.1);const hc1=new Box3().setFromObject(hull).getCenter(new V3());
+ tick(W,4.1,1/60,()=>W.player.position.set(101.5,-.05,-.5));   // the walk bridge puts the adventurer back on the pier stance every frame
+ const hc1=new Box3().setFromObject(hull).getCenter(new V3());
  ok('sail: the skiff pulls out north about six tiles',hc0.z-hc1.z>5.5,{from:hc0,to:hc1});
- ok('sail: the adventurer and Tobin ride along',W.player.position.z<hc0.z-5&&W.tobin.position.z<hc0.z-3,{p:W.player.position,t:W.tobin.position});
+ ok('sail: the adventurer and Tobin ride along, still aboard after the clip ends (until the crossing takes over)',W.player.position.z<hc0.z-5&&W.tobin.position.z<hc0.z-3,{p:W.player.position,t:W.tobin.position});
  ok('sail: the crossing starts once, when the clip ends',crossed===1);
  ok('sail: the boat turns about its own middle (no swing about the haven origin)',Math.abs(hc1.x-hc0.x)<1.5,{hc0,hc1});
  tick(W,6.5);ok('sail: if the crossing never happens the cove is put back',!W.H.status().sailing&&Math.hypot(W.bob.position.x-b0.x,W.bob.position.z-b0.z)<1e-6);
