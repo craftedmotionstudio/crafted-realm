@@ -201,4 +201,37 @@ async function runOrb(page){const off=await page.evaluate(()=>Player.runOn===fal
 function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.filter(q=>off(q[0])&&off(q[2])).length;}
 
 
-module.exports={sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,walkPoint,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse,runOrb};
+// The old-school right-click menu by real input (owner review 5, 2026-09-28: "Take" the coil of rope, "Tie-rope" on the mine
+// shaft). menuSpot frames the camera on a named object and finds a pixel whose menu scan lists that object (or the island
+// service with the given label: its invisible hit box counts), the first entity if it can; rightClickRow right-clicks there
+// and clicks the menu row with that exact text, like a player. Returns {ok,rows} or {error,rows}.
+async function menuSpot(page,name,serviceLabel){
+  return page.evaluate(async(name,label)=>{
+    const sleep=ms=>new Promise(r=>setTimeout(r,ms));const o=scene.getObjectByName(name);if(!o)return {error:'no '+name};
+    const box=new THREE.Box3().setFromObject(o),pt=box.getCenter(new THREE.Vector3()).toArray();
+    const mine=ent=>{if(!ent)return false;for(let q=ent.obj;q;q=q.parent)if(q===o)return true;const s=ent.obj&&ent.obj.userData&&ent.obj.userData.islandService;return !!(label&&s&&s.label===label)};
+    if(HolmArrivalQA.qaView)HolmArrivalQA.qaView(pt[0],pt[2],pt[1]>-5?undefined:box.min.y);
+    let second=null;
+    for(const [yaw,pitch,dist] of [[0,1.1,10],[0,1.3,12],[Math.PI/2,1.3,12],[Math.PI,1.3,12],[-Math.PI/2,1.3,12],[.6,.95,9],[-.6,.95,9]]){
+      camCtl.yaw=yaw;camCtl.pitch=pitch;camCtl.dist=dist;await sleep(1300);
+      const rect=renderer.domElement.getBoundingClientRect(),pr=new THREE.Vector3(pt[0],pt[1],pt[2]).project(camera),cx=(pr.x+1)/2*rect.width+rect.left,cy=(1-pr.y)/2*rect.height+rect.top;
+      for(let r=0;r<=140;r+=4)for(let a=0;a<360;a+=(r?15:360)){const x=Math.round(cx+Math.cos(a*Math.PI/180)*r),y=Math.round(cy+Math.sin(a*Math.PI/180)*r);
+        if(x<0||y<0||x>=rect.width||y>=rect.height||document.elementFromPoint(x,y)!==renderer.domElement)continue;
+        const sc=OsrsMenuWorld.scan({clientX:x,clientY:y});if(mine(sc.entities[0]))return [x,y];if(!second&&sc.entities.some(mine))second=[x,y]}
+      if(second)return second}
+    return {error:'not in view '+name};
+  },name,serviceLabel||null);
+}
+const readMenuRows=page=>page.evaluate(()=>{const m=document.getElementById('ctx-menu');if(!m||m.style.display==='none')return null;
+  return Array.from(document.querySelectorAll('#ctx-rows .ctx-row')).map(r=>r.textContent.replace(/\s+/g,' ').trim())});
+async function rightClickRow(page,name,rowText,serviceLabel){
+  await closeDialogue(page);const xy=await menuSpot(page,name,serviceLabel);
+  if(!Array.isArray(xy)){await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {error:(xy&&xy.error)||'no spot',rows:null}}
+  await page.mouse.move(xy[0],xy[1]);await sleep(250);await page.mouse.click(xy[0],xy[1],{button:'right'});await sleep(450);
+  const rows=await readMenuRows(page);
+  const at=await page.evaluate(text=>{const r=Array.from(document.querySelectorAll('#ctx-rows .ctx-row')).find(r=>r.textContent.replace(/\s+/g,' ').trim()===text);if(!r)return null;const b=r.getBoundingClientRect();return [b.x+b.width/2,b.y+b.height/2]},rowText);
+  if(!at){await page.keyboard.press('Escape').catch(()=>{});await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {error:'no row '+rowText,rows}}
+  await page.mouse.move(at[0],at[1]);await sleep(150);await page.mouse.click(at[0],at[1]);await sleep(300);
+  await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());await settle(page,30000);await sleep(600);return {ok:true,rows};
+}
+module.exports={menuSpot,readMenuRows,rightClickRow,sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,walkPoint,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse,runOrb};

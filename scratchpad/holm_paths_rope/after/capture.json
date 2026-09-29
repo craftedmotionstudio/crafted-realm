@@ -1,0 +1,164 @@
+{
+  "base": "http://127.0.0.1:8122/?qaProfile=pathsrope-after-mulwrifv",
+  "tag": "after",
+  "views": {
+    "p01_landing_to_guide_house": {
+      "at": true,
+      "file": "p01_landing_to_guide_house.jpg"
+    },
+    "p02_guide_house_yard": {
+      "at": true,
+      "file": "p02_guide_house_yard.jpg"
+    },
+    "p03_guide_house_back_fork": {
+      "at": true,
+      "file": "p03_guide_house_back_fork.jpg"
+    },
+    "p04_guide_knoll_wide": {
+      "at": true,
+      "file": "p04_guide_knoll_wide.jpg"
+    },
+    "p05_survival_camp_path": {
+      "at": true,
+      "file": "p05_survival_camp_path.jpg"
+    },
+    "p06_timber_bridge": {
+      "at": true,
+      "file": "p06_timber_bridge.jpg"
+    },
+    "p07_bakehouse_lodge_lane": {
+      "at": true,
+      "file": "p07_bakehouse_lodge_lane.jpg"
+    },
+    "p08_mill_crossing": {
+      "at": true,
+      "file": "p08_mill_crossing.jpg"
+    },
+    "p09_quarry_approach": {
+      "at": true,
+      "file": "p09_quarry_approach.jpg"
+    },
+    "p10_keep_court": {
+      "at": true,
+      "file": "p10_keep_court.jpg"
+    },
+    "p11_bank_court": {
+      "at": true,
+      "file": "p11_bank_court.jpg"
+    },
+    "p12_mage_yard": {
+      "at": true,
+      "file": "p12_mage_yard.jpg"
+    },
+    "p13_crown_climb": {
+      "at": true,
+      "file": "p13_crown_climb.jpg"
+    },
+    "p14_route_overview_west": {
+      "at": true,
+      "file": "p14_route_overview_west.jpg"
+    },
+    "p15_route_overview_east": {
+      "at": true,
+      "file": "p15_route_overview_east.jpg"
+    },
+    "r01_knoll_south_edge": {
+      "at": true,
+      "file": "r01_knoll_south_edge.jpg"
+    },
+    "r02_knoll_west_edge": {
+      "at": true,
+      "file": "r02_knoll_west_edge.jpg"
+    },
+    "r03_knoll_north_edge": {
+      "at": true,
+      "file": "r03_knoll_north_edge.jpg"
+    },
+    "r04_knoll_east_edge": {
+      "at": true,
+      "file": "r04_knoll_east_edge.jpg"
+    },
+    "r05_seat_edge_bakehouse": {
+      "at": true,
+      "file": "r05_seat_edge_bakehouse.jpg"
+    },
+    "r06_ravine_cliff": {
+      "at": true,
+      "file": "r06_ravine_cliff.jpg"
+    },
+    "r07_keep_crag_cliff": {
+      "at": true,
+      "file": "r07_keep_crag_cliff.jpg"
+    },
+    "q10_rope_coil": {
+      "at": {
+        "id": "b:quarry:-1:-5:0",
+        "x": 35.5,
+        "y": 9.145998,
+        "z": 28.5,
+        "surface": "b:quarry:0:Quarry_FloorTunnelMain"
+      },
+      "file": "q10_rope_coil.jpg"
+    },
+    "q11_rope_coil_close": {
+      "at": {
+        "id": "b:quarry:-2:5:0",
+        "x": 34.5,
+        "y": 9.136031000000001,
+        "z": 38.5,
+        "surface": "b:quarry:0:StagedTerrain"
+      },
+      "file": "q11_rope_coil_close.jpg"
+    },
+    "q12_rope_tied": {
+      "at": {
+        "id": "b:quarry:-1:-5:0",
+        "x": 35.5,
+        "y": 9.145998,
+        "z": 28.5,
+        "surface": "b:quarry:0:Quarry_FloorTunnelMain"
+      },
+      "file": "q12_rope_tied.jpg"
+    },
+    "q13_rope_tied_close": {
+      "at": {
+        "id": "b:quarry:-1:-5:0",
+        "x": 35.5,
+        "y": 9.145998,
+        "z": 28.5,
+        "surface": "b:quarry:0:Quarry_FloorTunnelMain"
+      },
+      "file": "q13_rope_tied_close.jpg"
+    },
+    "q14_rope_tied_inside": {
+      "at": {
+        "id": "b:quarry:-1:-5:0",
+        "x": 35.5,
+        "y": 9.145998,
+        "z": 28.5,
+        "surface": "b:quarry:0:Quarry_FloorTunnelMain"
+      },
+      "file": "q14_rope_tied_inside.jpg"
+    },
+    "q15_rope_cavern_foot": {
+      "at": {
+        "id": "b:cavern:-7:0:0",
+        "x": 193.5,
+        "y": -29.999992,
+        "z": 60.5,
+        "surface": "b:cavern:0:Cavern_Floor"
+      },
+      "file": "q15_rope_cavern_foot.jpg"
+    }
+  },
+  "errors": [
+    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+    "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "missing": [
+    "/BUILD_INFO.json?_=1790639903372",
+    "/favicon.ico",
+    "/favicon.ico"
+  ]
+}

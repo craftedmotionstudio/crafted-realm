@@ -1,8 +1,8 @@
 /* Tutor's Holm island guidance (owner play-test 2026-09-25: "a lot of the arrows ... aren't pointing in the exact spot").
  * Every half second the objective marker/arrow is re-aimed at the exact thing the player must use NOW — not the
  * lesson's stance tile: the chart, the rack, the nearest standing teaching oak, the ripples, the player's own fire,
- * each bakehouse station in turn (bucket rack -> pantry -> water butt -> dough bowl -> oven), the quest board, the shaft
- * ladder, the right ore rock, the furnace, the anvil, a live practice grubkin, the bank counter, the storm door and
+ * each bakehouse station in turn (bucket rack -> pantry -> water butt -> dough bowl -> oven), the quest board, the rope by
+ * the mine shaft then the shaft, the right ore rock, the furnace, the anvil, a live practice grubkin, the bank counter, the storm door and
  * each Lastlight ladder in turn, the lever, and at the end the skiff. Steps done in the pack (wield, light, knead) point
  * at the pack instead: the inventory tab pulses and the world marker hides. The target carries its real height, so the
  * marker sits over interiors, upper floors and the cavern. Island only (HolmIsland.live()). */
@@ -43,7 +43,10 @@ var HolmIslandGuide=(function(){
     if(!has('bucket_water'))return has('bucket')?{obj:service('Fill bucket with water'),label:'Fill it with water'}:{obj:service('Take bucket'),label:'Take another bucket'};
     return {obj:service('Take dough'),label:'Take dough'};
    case 'learn_quests':return {obj:service('Study quest board'),label:'Study the quest board'};
-   case 'descend_cavern':return {obj:service('Climb-down shaft ladder','shaft'),label:'Climb down the shaft'};
+   // owner review 5 (2026-09-28): the coil of rope, then the shaft to tie it to, then the rope down (HolmShaftRope)
+   case 'descend_cavern':{var rs=typeof HolmShaftRope!=='undefined'&&HolmShaftRope.active()?HolmShaftRope.stage():'climb',shaft=service('Climb-down mine shaft','shaft');
+    if(rs==='take'){var coil=named(HolmShaftRope.COIL_NAME);return coil?{obj:coil,label:'Take the rope'}:{obj:shaft,label:'Take the rope'}}
+    return {obj:shaft,label:rs==='tie'?'Use the rope on the shaft':'Climb down the rope'}}
    case 'mine_copper':return {obj:nearest(alive('island-lesson-cavern-copper-')),label:'Mine copper'};
    case 'mine_tin':return {obj:nearest(alive('island-lesson-cavern-tin-')),label:'Mine tin'};
    case 'smelt_bronze':return {obj:named('island-lesson-furnace'),label:'Use the furnace'};

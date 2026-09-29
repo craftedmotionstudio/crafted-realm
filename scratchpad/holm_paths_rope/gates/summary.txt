@@ -1,0 +1,27 @@
+Owner review 5 (2026-09-28): purposeful grey paths, rock banks, the rope into the mine shaft
+Gates on branch holm-paths-rope (commits 03cfe79b + 17884044), QA server python tools/serve_static.py 8122 <worktree>, run one at a time.
+
+units (every tools/test_*.js)            92/92 pass (new: test_holm_grey_paths 6/6, test_holm_shaft_rope 10/10)
+content (tools/validate_content.js)      PASS; naming bible guard clean; item icons 8/8
+smoke (tools/run_smoke_headless.js)      PASS foreground + hidden boot, structural 108/108, 0 console errors
+qa_holm_route_v2.js                      10/10
+qa_holm_hollow.js                        14/14
+qa_holm_island.js                        34/34 (qa_island_full.txt), incl. the new real-input rope check:
+                                         untied shaft refuses in the chat box -> right-click "Take Rope" on the coil ->
+                                         the shaft's menu offers "Tie-rope Mine shaft" -> "Use Rope -> Mine shaft" ties it
+                                         (rope leaves the pack, the tied rope shows, shaftRopeTied in the saved bytes) ->
+                                         objective take -> tie -> climb -> down on the rope into the ore workings ->
+                                         back up the ladder.
+                                         First full run 33/34 (qa_island_full_run1_ranged_flake.txt): the ranged trial
+                                         spent all 30 arrows without a kill (combat odds; the combat code is untouched;
+                                         the lesson-block run needed 7 arrows); the rope check passed there too. Rerun 34/34.
+qa_holm_island_playthrough.js 2          2/2 complete (17.0 / 13.7 min), 18/18 lessons, 10/10 tutors, 0 page errors;
+                                         both runs: Take Rope from the menu, rope used on the shaft, save + reload with the
+                                         rope still tied (shaftRopeTied true, lesson still descend_cavern, rope shown), down.
+navigation                               composed island graph identical to bc65fe4b: 10468 nodes / 27691 links /
+                                         hash d41278dc47dbc168 (../nav_proof.json); runtime graph at the island QA boot
+                                         identical (10459 / 27639, same owners as scratchpad/arrival_v3/gates/qa_holm_island.txt)
+in-app browser (Claude Browser pane)     before (?greypaths=0&rockbanks=0) and after: Guide House front, bank court, knoll
+                                         west edge; after: the back fork, the Bakehouse -> Quest Lodge lane; the rope by real clicks: shaft refuses, right-click Take Rope, hover
+                                         "Use Rope -> Mine shaft", tie, right-click "Climb-down Mine shaft", in the cavern
+                                         facing Foreman Durgin; console errors: only 404s for BUILD_INFO.json / favicon.

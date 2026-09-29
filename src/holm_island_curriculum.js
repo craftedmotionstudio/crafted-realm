@@ -29,7 +29,7 @@ var HolmIslandCurriculum=(function(){
   cook_fish:['Cook the fish on your fire. Burnt out? Light another anywhere. Burnt the fish? Net another and try again.','Cook the fish'],
   bake_bread:['In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.','Bake bread'],
   learn_quests:['Visit the Quest Lodge and study the quest board.','Study the quest board'],
-  descend_cavern:['At the Quarry Gate, climb down the shaft ladder to the ore workings.','Climb down the shaft'],
+  descend_cavern:['At the Quarry Gate, take the coil of rope lying beside the mine shaft.','Take the rope'],   // owner review 5: take -> tie -> climb (HolmShaftRope keeps this line in step)
   mine_copper:['Mine a copper rock with your pickaxe.','Mine copper'],
   mine_tin:['Now mine a tin rock.','Mine tin'],
   smelt_bronze:['Smelt your copper and tin into a bronze bar at the furnace.','Use the furnace'],
@@ -61,7 +61,7 @@ var HolmIslandCurriculum=(function(){
  // and where to go next (the arrow is already on the next tutor), the way the 2004 island moved you along.
  var NEXT={wenna:'Next, Wenna at the survival camp, west of the Guide House. Out the back door and along the path.',
   hettie:'Next, Cook Hettie in the bakehouse, across the creek.',ansel:'Next, Loremaster Ansel in the Quest Lodge.',
-  durgin:'Next, the Quarry Gate: climb down the shaft ladder to Foreman Durgin.',corrick:'Next, Warden Corrick in the Warden\'s Keep court.',
+  durgin:'Next, the Quarry Gate: take the rope by the mine shaft, tie it to the frame and climb down to Foreman Durgin.',corrick:'Next, Warden Corrick in the Warden\'s Keep court.',
   maud:'Next, Teller Maud in the Holm Bank.',ilse:'Next, Magister Ilse at the Mage Tower.',aldous:'Next, Keeper Aldous at Lastlight, out on the point.'};
  var moveT=null;
  function ownerOf(id){if(typeof HolmIslandTutors==='undefined')return null;return HolmIslandTutors.cast().filter(function(c){return c.lessons.indexOf(id)>=0})[0]||null}

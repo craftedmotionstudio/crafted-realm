@@ -1,6 +1,6 @@
 {
  "schema": "holm-island-ladders-v1",
- "status": "M5.1 cross-building ladders (2004-style instant storey change between separate areas). Holm v2 land (2026-09-26): the ore workings' east drift climbs out through a trapdoor in the Warden's Keep hall (hatch: a Blender route prop placed and blocked by src/holm_island_extras.js)",
+ "status": "M5.1 cross-building ladders (2004-style instant storey change between separate areas). Holm v2 land (2026-09-26): the ore workings' east drift climbs out through a trapdoor in the Warden's Keep hall (hatch: a Blender route prop placed and blocked by src/holm_island_extras.js) Owner review 5 (2026-09-28): the quarry shaft is climbed on a rope the adventurer takes from beside it and ties to the frame (rope: the Blender coil and tied rope of holm-rope-props-v1, placed by src/holm_island_extras.js, run by src/holm_shaft_rope.js; neither blocks a tile).",
  "ladders": [
   {
    "id": "quarry-shaft",
@@ -16,7 +16,17 @@
    "notifyDown": [
     "descend",
     "cave"
-   ]
+   ],
+   "rope": {
+    "end": "a",
+    "pack": ".studio-workspaces/holm-rope-props-v1/candidates/props.glb",
+    "prop": "rope-tied",
+    "coil": {
+     "x": 36.55,
+     "z": 30.45,
+     "yaw": 0.6
+    }
+   }
   },
   {
    "id": "keep-undercroft",

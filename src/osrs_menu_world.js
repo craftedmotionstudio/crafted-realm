@@ -95,6 +95,8 @@ var OsrsMenuWorld=(function(){
   if(u.kind==='anvil')return /_bar$/.test(id)||id==='hammer';
   if(u.kind==='altar')return !!d.bury;
   if(u.kind==='island_service'&&u.islandService){var call=u.islandService.call;
+   // owner review 5 (2026-09-28): a rope on the mine shaft ties it to the frame (HolmShaftRope)
+   if(u.islandService.rope)return id==='rope';
    if(!call)return false;
    if(call[1]==='cookAtRange')return cookable(id);
    return /^(bucket|bucket_flour|bucket_water|dough)$/.test(id)&&call[0]==='HolmTeachingKitchen'}
@@ -149,7 +151,10 @@ var OsrsMenuWorld=(function(){
   entries:function(ent,ctx,desc){
    var u=ent.u,k=u.kind,P=100;
    if(k==='island_tutor')return [{option:'Talk-to',priority:P,fn:click(ent)}];
-   if(k==='island_service'){var s=u.islandService||{};return [{option:s.option||splitLabel(s.label||u.label).option||'Use',priority:P,fn:click(ent)}]}
+   if(k==='island_service'){var s=u.islandService||{},rows=[{option:s.option||splitLabel(s.label||u.label).option||'Use',priority:P,fn:click(ent)}];
+    // the mine shaft, untied: a second row ties the rope from the pack to its frame (HolmShaftRope)
+    if(s.rope&&typeof HolmShaftRope!=='undefined'&&!HolmShaftRope.tied()){var go=click(ent);rows.push({option:'Tie-rope',priority:P-1,fn:function(){HolmShaftRope.requestTie();go()}})}
+    return rows}
    if(k==='island_sign')return [{option:'Read',priority:P,fn:click(ent)}];
    if(k==='island_gate')return gateOpen(u.islandGate)?[]:[{option:'Open',priority:P,fn:click(ent)}];
    if(k==='arrival_door')return [{option:doorOpen(u.arrivalDoor)?'Close':'Open',priority:P,fn:click(ent)}];

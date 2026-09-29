@@ -3,8 +3,11 @@
 var HolmArrivalQA=(function(){
  'use strict';
  var qs=new URLSearchParams(location.search),island=typeof HolmIsland!=='undefined'?HolmIsland.live():qs.get('holmIsland')==='1',requested=qs.get('arrivalQA')==='1'||island,loaded=null,provider=null,owner=null,bridge=null,pending=null;
- // M4.5: worn paths tint the island ground before any chunk renders (island draft only)
- if(island&&typeof HolmIslandPaths!=='undefined'&&typeof HolmOverhaulGround!=='undefined')HolmOverhaulGround.setPaths(HolmIslandPaths.tiles);
+ // M4.5: worn paths tint the island ground before any chunk renders (island draft only). Owner review 5 (2026-09-28): the
+ // purposeful grey paths (src/holm_island_grey_paths_data.js, tools/stage_holm_grey_paths.js) replace the phase-5 worn dirt
+ // ?greypaths=0 shows the phase-5 worn dirt for one session and ?rockbanks=0 the rock squares (A/B for the owner, pixels only)
+ var islandPaths=typeof HolmIslandGreyPaths!=='undefined'&&qs.get('greypaths')!=='0'?HolmIslandGreyPaths:typeof HolmIslandPaths!=='undefined'?HolmIslandPaths:null;
+ if(island&&islandPaths&&typeof HolmOverhaulGround!=='undefined')HolmOverhaulGround.setPaths(islandPaths.tiles,{style:islandPaths.style});
  var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null,heldRecord=null,lessons=null,passThrough=false,lastGateKey='';
  // ?holmIsland=1 (M4.1): the same provider over the whole Sept 13 island: the arrival graph composed with the
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
@@ -27,7 +30,7 @@ var HolmArrivalQA=(function(){
   else{var osPkg=typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.arrivalPackage():null;
    if(osPkg)try{loaded=await HolmArrivalExportLoader.load({baseUrl:osPkg.baseUrl,exportId:osPkg.exportId})}catch(e){console.warn('[HolmArrivalQA] old-school arrival package unavailable; the previous package is kept',e&&e.message)}}
   if(!loaded)loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v9/exports/',exportId:EXPORT});
-  if(typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){HolmOverhaulGround.setTerrain(loaded.documents.terrain);await HolmOldschoolLook.preload(THREE)}
+  if(typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){if(island&&HolmOverhaulGround.setRockBanks)HolmOverhaulGround.setRockBanks(qs.get('rockbanks')!=='0');HolmOverhaulGround.setTerrain(loaded.documents.terrain);await HolmOldschoolLook.preload(THREE)}
   nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
   var pack=loaded.package,chunks=JSON.parse(JSON.stringify(pack.terrain.chunks)),b=loaded.documents.layout.building,s=spawn();
   chunks.forEach(function(c){c.layers.terrain.exclusions=[{x:b.world.x-b.width/2,z:b.world.z-b.depth/2,w:b.width,d:b.depth}]});
@@ -193,8 +196,10 @@ var HolmArrivalQA=(function(){
   }
   if(u.kind==='island_service'&&u.islandService&&island){   // M4.2: walk to the measured stance, then serve
    var sv=u.islandService,blockedMsg=typeof HolmIslandGates!=='undefined'&&HolmIslandGates.serviceBlocked(sv.building,sv.target);if(blockedMsg){UI.chat(blockedMsg,'plain');return true}
+   // owner review 5 (2026-09-28): the mine shaft wants a rope tied to its frame before it can be climbed (HolmShaftRope)
+   var rope=sv.rope&&typeof HolmShaftRope!=='undefined'?HolmShaftRope.click(sv):null;if(rope&&rope.refuse){UI.chat(rope.refuse,'plain');return true}
    var sg=graphForDoors(doors),stance=sg.byId&&sg.byId[sv.node];
-   if(stance&&bridge.order({x:stance.x,y:stance.y,z:stance.z,surface:stance.surface}))pending={id:sv.node,kind:'island_service',service:sv};
+   if(stance&&bridge.order({x:stance.x,y:stance.y,z:stance.z,surface:stance.surface}))pending={id:sv.node,kind:'island_service',service:sv,tie:!!(rope&&rope.tie)};
    else UI.chat('There is no open route to the '+sv.label.toLowerCase()+'.','plain');
    return true;
   }
@@ -248,9 +253,12 @@ var HolmArrivalQA=(function(){
    // an opened gate changes the composed graph: the follower holds its graph, so re-seat it on the current one
    var gk=nav.gateKey?nav.gateKey():'';if(gk!==lastGateKey){if(bridge.setDoors({arrival:doors.arrival,garden:doors.garden}))lastGateKey=gk}}owner.update(dt,pose.surface);
   if(island&&typeof HolmGuideCellar!=='undefined')HolmGuideCellar.update(dt,pose.surface);
+  if(island&&typeof HolmShaftRope!=='undefined')HolmShaftRope.update(dt);
   if(island){if(stairMesh===undefined)stairMesh=scene.getObjectByName('StairFlight')||null;if(stairMesh)stairMesh.userData.label=pose.surface==='upper'?'Climb-down Staircase':'Climb-up Staircase'}
   if(pending&&pose.nodeId===pending.id&&!pose.moving){var p0=pending,kind=pending.kind,door=pending.door;pending=null;
    if(kind==='island_service'){var call=p0.service.call;
+    if(p0.tie){HolmShaftRope.tie();return}
+    if(p0.service.rope&&typeof HolmShaftRope!=='undefined'&&!HolmShaftRope.tied()){UI.chat(HolmShaftRope.LINES.refuse,'plain');return}
     if(p0.service.climb){var up=graphForDoors(doors).byId[p0.service.climb];if(up){placeAt(up);if(typeof HolmIslandPlayer!=='undefined'&&HolmIslandPlayer.active())HolmIslandPlayer.play('climb');if(p0.service.notify)try{Tutorial.notify(p0.service.notify[0],p0.service.notify[1])}catch(e){}}else UI.chat('The ladder leads nowhere yet.','plain');if(!call)return}
     if(!call){UI.chat(p0.service.say||(p0.service.label+'. (Its lesson comes with the full tutorial.)'),'plain');return}
     // module globals may be lexical (const UI), so resolve by name rather than only on window

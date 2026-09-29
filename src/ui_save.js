@@ -34,6 +34,8 @@ const SaveGame = {
         lessonId:(!Tutorial.complete&&Tutorial.steps&&Tutorial.steps[Tutorial.step])?Tutorial.steps[Tutorial.step].id:null,
         departurePackClaimed:!!Tutorial.departurePackClaimed,
         cellarRationClaimed:!!Tutorial.cellarRationClaimed,
+        // owner review 5 (2026-09-28): the rope tied to the Quarry Gate's mine shaft (HolmShaftRope; older saves derive it from the ledger)
+        shaftRopeTied:!!Tutorial.shaftRopeTied,
         optional:Tutorial.optional||{},combatKitClaims:Tutorial.combatKitClaims||{},
         completedLessonIds:Array.isArray(Tutorial.completedLessonIds)?Tutorial.completedLessonIds.slice():undefined,
         // island tutors already spoken to (HolmIslandTalk: an area's lessons wait for its tutor)
@@ -112,6 +114,7 @@ const SaveGame = {
       if(d.tut){
         Tutorial.departurePackClaimed=!!d.tut.departurePackClaimed;
         Tutorial.cellarRationClaimed=!!d.tut.cellarRationClaimed;
+        Tutorial.shaftRopeTied=!!d.tut.shaftRopeTied;
         Tutorial.optional=Object.assign({},d.tut.optional||{});
         Tutorial.combatKitClaims={ranged:!!(d.tut.combatKitClaims&&d.tut.combatKitClaims.ranged===true),
           magic:!!(d.tut.combatKitClaims&&d.tut.combatKitClaims.magic===true)};

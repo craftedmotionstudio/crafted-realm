@@ -1,0 +1,20 @@
+{
+ "claim": "Owner review 5 (grey paths, rock banks, the shaft rope) is visual and gameplay only: the island's walk graph is unchanged.",
+ "composedGraph": {
+  "rule": "sha256 over the sorted node lines id:x:y:z:surface (4 dp) and the sorted link lists of the composed island graph (tools/holm_v2_land_inputs.js + src/holm_island_nav.js, arrival and garden doors open), first 16 hex; same rule as tools/stage_holm_grey_paths.js graphHash",
+  "base_bc65fe4b_all_changes_stashed": {"nodes": 10468, "edges": 27691, "hash": "d41278dc47dbc168"},
+  "after_this_branch": {"nodes": 10468, "edges": 27691, "hash": "d41278dc47dbc168"},
+  "lockedBy": "tools/test_holm_grey_paths.js check 5 (recomposes the graph and compares with the data's recorded graph and with bc65fe4b)"
+ },
+ "runtimeGraph": {
+  "source": "HolmArrivalQA.islandStats() at the island QA boot (the graph the game walks on, with the Guide House cellar overlay)",
+  "base_bc65fe4b": "scratchpad/arrival_v3/gates/qa_holm_island.txt: nodes 10459, edges 27639, owners land 7519 / keep 812 / bakehouse 207 / lodge 358 / survival 235 / quarry 98 / bank 169 / mage 288 / haven 92 / lastlight 200 / cavern 146 / mill 119 / stair 46 / guide-cellar 7 / arrival 163",
+  "after": "scratchpad/holm_paths_rope/gates/qa_island_*.log: identical (nodes 10459, edges 27639, same owners)"
+ },
+ "why": [
+  "the grey paths are a ground colour/texture (src/holm_island_grey_paths_data.js -> HolmOverhaulGround.setPaths); no walk-graph input reads them",
+  "the rock banks recolour rock vertices only (HolmOverhaulGround.setRockBanks); navigation never reads terrain materials",
+  "17 ground-decor pieces (no-block grass clumps, pebbles, bracken, mushrooms) taken up from lanes in island-props.json: decor never blocks (holm_island_props.js blockersFrom skips noBlock)",
+  "the rope coil is a ground item and the tied rope a visual prop placed from island-ladders.json 'rope': neither is a blocker; the ladder's hatch rule is untouched"
+ ]
+}

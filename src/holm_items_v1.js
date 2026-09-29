@@ -33,5 +33,15 @@
       n.traverse(function(m){if(m.isMesh){m.castShadow=true;m.receiveShadow=true;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});
       var t=n.clone(true);t.position.set(0,0,0);t.rotation.set(0,0,0);templates[id]=t});
   },undefined,function(e){console.warn('[HolmItems] fishing items.glb failed; code-built drops stay',e)});
-  window.HolmItems={status:function(){return {ready:ready,failed:failed,models:Object.keys(templates).length}},ids:IDS.concat(FISH_IDS)};
+  // owner review 5 (2026-09-28): the coil of rope that lies by the Quarry Gate's mine shaft (build_holm_rope_props_v1.py; the same
+  // coil as its inventory icon), a third Blender pack with the same contract
+  var ROPE_URL=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/holm-rope-props-v1/candidates/props.glb'):'/.studio-workspaces/holm-rope-props-v1/candidates/props.glb')+'?v=1';
+  var ROPE_IDS=['rope'];
+  new THREE.GLTFLoader().load(ROPE_URL,function(gltf){
+    ROPE_IDS.forEach(function(id){var n=gltf.scene.getObjectByName(id);if(!n)return;
+      n.traverse(function(m){if(m.isMesh){m.castShadow=true;m.receiveShadow=true;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});
+      var t=n.clone(true);t.position.set(0,0,0);t.rotation.set(0,0,0);templates[id]=t});
+  },undefined,function(e){console.warn('[HolmItems] rope props.glb failed; code-built drops stay',e)});
+  window.HolmItems={status:function(){return {ready:ready,failed:failed,models:Object.keys(templates).length}},ids:IDS.concat(FISH_IDS,ROPE_IDS),
+    has:function(id){return ready&&!!templates[id]}};   // itemGroundMesh() hands out the Blender model once this is true
 })();

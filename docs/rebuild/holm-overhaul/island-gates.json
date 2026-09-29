@@ -88,7 +88,7 @@
    "building": "quarry",
    "target": "shaft",
    "requires": "learn_quests",
-   "message": "The shaft ladder is roped off. Visit the Quest Lodge first."
+   "message": "The mine shaft is closed off for now. Visit the Quest Lodge first."
   },
   {
    "building": "mage",

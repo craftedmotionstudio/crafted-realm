@@ -32,7 +32,9 @@ const DIRS=[ // workspace folders the island loads (candidates/, working/ or exp
 {const rd=f=>JSON.parse(fs.readFileSync(path.join(ROOT,DATA,f),'utf8')),strip=p=>String(p).replace(/^\/?\.studio-workspaces\//,''),dirOf=p=>strip(p).replace(/\/[^/]+$/,''),reg=rd('v2land.json'),add=d=>{if(!DIRS.includes(d))DIRS.push(d)};
  Object.values(reg.buildings).forEach(b=>{add(b.graph+'/candidates');add(dirOf(b.model));if(b.extraPlacement)add(dirOf(b.extraPlacement))});
  if(reg.bridgeModels)add(strip(reg.bridgeModels).replace(/\/$/,''));if(reg.habitat)add(dirOf(reg.habitat));
- Object.values(rd('island-props.json').packs).forEach(p=>add(dirOf(p)));add(dirOf(rd('island-fishing.json').props));add('holm-fishing-items-v1/candidates');}
+ Object.values(rd('island-props.json').packs).forEach(p=>add(dirOf(p)));add(dirOf(rd('island-fishing.json').props));add('holm-fishing-items-v1/candidates');
+ // the ladders' route pieces (the keep's trapdoor; owner review 5: the rope into the mine shaft, whose pack also holds the coil item)
+ rd('island-ladders.json').ladders.forEach(l=>{if(l.hatch)add(dirOf(l.hatch.pack));if(l.rope)add(dirOf(l.rope.pack))});}
 const DATA_FILES=['plan.json','island-bridges.json','island-gates.json','island-ladders.json','island-lessons.json','island-props.json','island-decks.json','island-fishing.json','v2land.json'];
 const KEEP=/\.(glb|json|png|bin)$/i;
 // the arrival package export is a sealed bundle (its manifest names its .blend sources): published whole

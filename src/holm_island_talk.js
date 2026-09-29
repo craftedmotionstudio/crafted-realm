@@ -4,7 +4,7 @@
  *  - While the current lesson's tutor has not been spoken to, the objective banner says "Talk to <tutor>" and the guide
  *    arrow points at them (HolmIslandGuide), and that area's stations and lesson objects refuse with a chat line.
  *    Only the current lesson's tutor gates: walking, doors, ladders and every other area stay free.
- *  - The shaft ladder (descend_cavern) is how you reach Foreman Durgin, so it never waits for him.
+ *  - The mine shaft (descend_cavern: take the rope, tie it, climb down) is how you reach Foreman Durgin, so it never waits for him.
  *  - Once every lesson is done, Ferryman Tobin is the last tutor: speak to him, then board the skiff.
  * Spoken-to tutors live on Tutorial.talkedTutors and are saved with the character (ui_save tut.talkedTutors). A save
  * from before this rule counts every tutor with a completed lesson as spoken to. Island only (HolmIsland.live()). */
@@ -22,7 +22,7 @@ var HolmIslandTalk=(function(){
   wenna:'Talk to Wenna at the head of the Minnow Hollow path, south of the survival camp.',
   hettie:'Talk to Cook Hettie in the bakehouse.',
   ansel:'Talk to Loremaster Ansel in the Quest Lodge.',
-  durgin:'Talk to Foreman Durgin at the foot of the shaft ladder.',
+  durgin:'Talk to Foreman Durgin at the foot of the mine shaft.',
   corrick:'Talk to Warden Corrick in the Warden\'s Keep court.',
   maud:'Talk to Teller Maud in the Holm Bank.',
   ilse:'Talk to Magister Ilse at the Mage Tower.',

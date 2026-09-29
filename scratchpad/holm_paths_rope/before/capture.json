@@ -1,0 +1,131 @@
+{
+  "base": "http://127.0.0.1:8122/?qaProfile=pathsrope-before-muluuw8k",
+  "tag": "before",
+  "views": {
+    "p01_landing_to_guide_house": {
+      "file": "p01_landing_to_guide_house.jpg"
+    },
+    "p02_guide_house_yard": {
+      "file": "p02_guide_house_yard.jpg"
+    },
+    "p03_guide_house_back_fork": {
+      "at": true,
+      "file": "p03_guide_house_back_fork.jpg"
+    },
+    "p04_guide_knoll_wide": {
+      "file": "p04_guide_knoll_wide.jpg"
+    },
+    "p05_survival_camp_path": {
+      "file": "p05_survival_camp_path.jpg"
+    },
+    "p06_timber_bridge": {
+      "file": "p06_timber_bridge.jpg"
+    },
+    "p07_bakehouse_lodge_lane": {
+      "file": "p07_bakehouse_lodge_lane.jpg"
+    },
+    "p08_mill_crossing": {
+      "file": "p08_mill_crossing.jpg"
+    },
+    "p09_quarry_approach": {
+      "file": "p09_quarry_approach.jpg"
+    },
+    "p10_keep_court": {
+      "file": "p10_keep_court.jpg"
+    },
+    "p11_bank_court": {
+      "file": "p11_bank_court.jpg"
+    },
+    "p12_mage_yard": {
+      "file": "p12_mage_yard.jpg"
+    },
+    "p13_crown_climb": {
+      "file": "p13_crown_climb.jpg"
+    },
+    "p14_route_overview_west": {
+      "file": "p14_route_overview_west.jpg"
+    },
+    "p15_route_overview_east": {
+      "file": "p15_route_overview_east.jpg"
+    },
+    "r01_knoll_south_edge": {
+      "file": "r01_knoll_south_edge.jpg"
+    },
+    "r02_knoll_west_edge": {
+      "at": true,
+      "file": "r02_knoll_west_edge.jpg"
+    },
+    "r03_knoll_north_edge": {
+      "at": true,
+      "file": "r03_knoll_north_edge.jpg"
+    },
+    "r04_knoll_east_edge": {
+      "at": true,
+      "file": "r04_knoll_east_edge.jpg"
+    },
+    "r05_seat_edge_bakehouse": {
+      "file": "r05_seat_edge_bakehouse.jpg"
+    },
+    "r06_ravine_cliff": {
+      "file": "r06_ravine_cliff.jpg"
+    },
+    "r07_keep_crag_cliff": {
+      "file": "r07_keep_crag_cliff.jpg"
+    },
+    "q01_shaft_stance": {
+      "at": {
+        "id": "b:quarry:-1:-5:0",
+        "x": 35.5,
+        "y": 9.145998,
+        "z": 28.5,
+        "surface": "b:quarry:0:Quarry_FloorTunnelMain"
+      },
+      "file": "q01_shaft_stance.jpg"
+    },
+    "q02_shaft_stance_back": {
+      "at": {
+        "id": "b:quarry:-1:-5:0",
+        "x": 35.5,
+        "y": 9.145998,
+        "z": 28.5,
+        "surface": "b:quarry:0:Quarry_FloorTunnelMain"
+      },
+      "file": "q02_shaft_stance_back.jpg"
+    },
+    "q03_quarry_outside": {
+      "at": {
+        "id": "b:quarry:-2:5:0",
+        "x": 34.5,
+        "y": 9.136031000000001,
+        "z": 38.5,
+        "surface": "b:quarry:0:StagedTerrain"
+      },
+      "file": "q03_quarry_outside.jpg"
+    },
+    "q04_shaft_top": {
+      "at": {
+        "id": "b:quarry:-1:-5:0",
+        "x": 35.5,
+        "y": 9.145998,
+        "z": 28.5,
+        "surface": "b:quarry:0:Quarry_FloorTunnelMain"
+      },
+      "file": "q04_shaft_top.jpg"
+    },
+    "q05_shaft_side": {
+      "at": {
+        "id": "b:quarry:-1:-5:0",
+        "x": 35.5,
+        "y": 9.145998,
+        "z": 28.5,
+        "surface": "b:quarry:0:Quarry_FloorTunnelMain"
+      },
+      "file": "q05_shaft_side.jpg"
+    }
+  },
+  "errors": [
+    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+    "console: Failed to load resource: the server responded with a status of 404 (File not found)",
+    "console: Failed to load resource: the server responded with a status of 404 (File not found)"
+  ]
+}

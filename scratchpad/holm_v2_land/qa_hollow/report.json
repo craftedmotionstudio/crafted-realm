@@ -1,5 +1,5 @@
 {
- "profile": "hollow-muknr54m",
+ "profile": "hollow-mulwzawo",
  "pass": 14,
  "total": 14,
  "results": [
@@ -10,38 +10,38 @@
     "spots": [
      {
       "i": 0,
-      "candidate": "east-shallows",
+      "candidate": "north-reeds",
       "state": "on",
-      "x": 31.5,
-      "z": 96.5,
-      "timer": 75
+      "x": 24.5,
+      "z": 93.5,
+      "timer": 83
      },
      {
       "i": 1,
+      "candidate": "jetty-end",
+      "state": "on",
+      "x": 27.5,
+      "z": 95.5,
+      "timer": 79
+     },
+     {
+      "i": 2,
       "candidate": "beach-edge",
       "state": "on",
       "x": 30.5,
       "z": 99.5,
-      "timer": 84
-     },
-     {
-      "i": 2,
-      "candidate": "west-rim",
-      "state": "on",
-      "x": 22.5,
-      "z": 96.5,
-      "timer": 85
+      "timer": 59
      }
     ],
     "fauna": {
      "frog": "sit",
      "ducks": [
       [
-       29.95,
+       29.96,
        96.73
       ],
       [
-       27.52,
+       27.51,
        97.7
       ]
      ],
@@ -149,13 +149,19 @@
    "name": "catch_fish: the net at a ripple lands a mirrorperch; every roll visible (cast + splash), the first catch guaranteed on roll 2",
    "pass": true,
    "info": {
-    "spot": "island-hollow-spot-2",
+    "spot": "island-hollow-spot-0",
+    "clicks": [
+     {
+      "sp": "island-hollow-spot-0",
+      "err": null
+     }
+    ],
     "st1": {
      "casts": 3,
      "rolls": 2,
      "splashes": 6,
      "leaps": 4,
-     "moves": 3,
+     "moves": 4,
      "movedOn": 0,
      "plops": 0,
      "soaks": 0,
@@ -168,14 +174,14 @@
       "guaranteed": true
      }
     },
-    "seconds": 8.589
+    "seconds": 11.82
    }
   },
   {
    "name": "cook_fish: cooked on the adventurer's own fire, lit where they stood (cook/cooked_perch credited), burns retried",
    "pass": true,
    "info": {
-    "tries": 3,
+    "tries": 1,
     "cookedOn": [
      38.5,
      92.5
@@ -203,20 +209,20 @@
    "pass": true,
    "info": {
     "was": {
-     "i": 1,
+     "i": 2,
      "candidate": "beach-edge",
      "state": "on",
      "x": 30.5,
      "z": 99.5,
-     "timer": 73
+     "timer": 19
     },
     "now": {
-     "i": 1,
-     "candidate": "south-bank",
+     "i": 2,
+     "candidate": "north-reeds",
      "state": "on",
-     "x": 25.5,
-     "z": 98.5,
-     "timer": 77
+     "x": 24.5,
+     "z": 93.5,
+     "timer": 84
     }
    }
   },
@@ -224,23 +230,20 @@
    "name": "fishing after the lesson: several rolls, catches recorded (varied table: perch, reedpike from Fishing 5, junk, rares)",
    "pass": true,
    "info": {
-    "casts": 38,
-    "rolls": 32,
-    "splashes": 51,
-    "leaps": 13,
-    "moves": 13,
-    "movedOn": 2,
+    "casts": 22,
+    "rolls": 17,
+    "splashes": 32,
+    "leaps": 10,
+    "moves": 11,
+    "movedOn": 3,
     "plops": 0,
-    "soaks": 1,
+    "soaks": 0,
     "catches": {
-     "raw_perch": 7,
-     "pond_weed": 1,
-     "raw_reedpike": 1,
-     "sealed_bottle": 1
+     "raw_perch": 8
     },
     "lastCatch": {
      "item": "raw_perch",
-     "roll": 5,
+     "roll": 1,
      "guaranteed": false
     }
    }
@@ -253,34 +256,31 @@
      "frog": "gone",
      "ducks": [
       [
-       23.4,
-       96.05
+       24.78,
+       97.47
       ],
       [
-       29.31,
-       97.38
+       25.99,
+       95.38
       ]
      ],
      "flies": 2
     },
     "st3": {
-     "casts": 38,
-     "rolls": 32,
-     "splashes": 53,
-     "leaps": 14,
-     "moves": 16,
-     "movedOn": 2,
+     "casts": 23,
+     "rolls": 18,
+     "splashes": 34,
+     "leaps": 10,
+     "moves": 11,
+     "movedOn": 3,
      "plops": 1,
-     "soaks": 1,
+     "soaks": 0,
      "catches": {
-      "raw_perch": 7,
-      "pond_weed": 1,
-      "raw_reedpike": 1,
-      "sealed_bottle": 1
+      "raw_perch": 9
      },
      "lastCatch": {
       "item": "raw_perch",
-      "roll": 5,
+      "roll": 2,
       "guaranteed": false
      }
     }
