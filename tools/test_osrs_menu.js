@@ -80,9 +80,9 @@ const text=(M,rows)=>rows.map(r=>M.rowText(r));
  const w=world(),M=w.OsrsMenu;
  const table=[[3,3,'#ffff00'],[3,2,'#c0ff00'],[3,0,'#c0ff00'],[10,6,'#80ff00'],[10,3,'#40ff00'],[20,1,'#00ff00'],[3,4,'#ffb000'],[3,8,'#ff7000'],[3,11,'#ff3000'],[3,20,'#ff0000']];
  table.forEach(([me,them,c])=>ok(M.levelColour(me,them)===c,'level colour me '+me+' vs '+them+' -> '+c+' (got '+M.levelColour(me,them)+')'));
- const h=M.rowHtml({option:'Attack',target:'Practice grubkin',targetType:'npc',level:1});
+ const h=M.rowHtml({option:'Attack',target:'Rat',targetType:'npc',level:1});
  ok(/class="om-v" style="color:#ffffff">Attack/.test(h),'verb white');
- ok(/om-npc" style="color:#ffff00">Practice grubkin/.test(h),'NPC name yellow');
+ ok(/om-npc" style="color:#ffff00">Rat/.test(h),'NPC name yellow');
  ok(/style="color:#c0ff00">\(level-1\)/.test(h),'(level-1) green-yellow for a lower level (player 3)');
  ok(/om-object" style="color:#00ffff">Door/.test(M.rowHtml({option:'Open',target:'Door',targetType:'object'})),'object name cyan');
  ok(/om-item" style="color:#ff9040">Bones/.test(M.rowHtml({option:'Take',target:'Bones',targetType:'item'})),'item name orange');
@@ -122,13 +122,13 @@ const text=(M,rows)=>rows.map(r=>M.rowText(r));
   [obj('island-lesson-furnace',{kind:'furnace',label:'Use Furnace'}),['Smelt Furnace','Walk here','Examine Furnace','Cancel']],
   [obj('island-lesson-anvil',{kind:'anvil',label:'Use Anvil'}),['Smith Anvil','Walk here','Examine Anvil','Cancel']],
   [obj('drop',{kind:'drop',id:'bones',qty:1,label:'Take <b>Bones</b>'}),['Take Bones','Walk here','Examine Bones','Cancel']],
-  [obj('grub',{kind:'npc',npc:{t:{name:'Practice grubkin',level:1,examine:'A tame grubkin.'},typeId:'holm_practice_grubkin'}}),['Attack Practice grubkin (level-1)','Walk here','Examine Practice grubkin (level-1)','Cancel']],
+  [obj('rat',{kind:'npc',npc:{t:{name:'Large rat',level:3,examine:'A tame large rat the wardens keep for sparring.'},typeId:'holm_practice_rat'}}),['Attack Large rat (level-3)','Walk here','Examine Large rat (level-3)','Cancel']],
   [obj('olun',{kind:'friendly',name:'Olun'}),['Talk-to Olun','Walk here','Examine Olun','Cancel']]];
  cases.forEach(([o,want])=>eq(menu(o),want,'menu for '+o.userData.kind+' '+(o.userData.label||o.userData.islandGate||o.userData.arrivalDoor||'')));
  // every Holm entity's Examine is our own line, never the generic fallback
  cases.slice(0,15).forEach(([o])=>{const e=M.build([ent(o)],{walk(){}}).find(r=>r.option==='Examine');w.chats.length=0;e.fn();ok(w.chats.length===1&&!/^It's an? /.test(w.chats[0]),'own examine text for '+o.userData.kind+': '+w.chats[0])});
  // the NPC's level colour on the menu row
- const grub=M.build([ent(cases[23][0])],{walk(){}})[0];ok(/style="color:#c0ff00">\(level-1\)/.test(M.rowHtml(grub)),'grubkin (level-1) against combat 3 is green-yellow');
+ const rat=M.build([ent(cases[23][0])],{walk(){}})[0];ok(/style="color:#ffff00">\(level-3\)/.test(M.rowHtml(rat)),'the large rat (level-3) against combat 3 is yellow (an even match)');
  // a tutor in front of a door: both, tutor first; Walk here after both; Examines in the same order
  eq(text(M,M.build([ent(cases[0][0]),ent(cases[2][0])],{walk(){}})),['Talk-to Guide Bram','Open Door','Walk here','Examine Guide Bram','Examine Door','Cancel'],'a tutor in front of a door gives both');
  // left click = top row: Holm rows run the game's own click on that object

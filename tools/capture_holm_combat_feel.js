@@ -1,7 +1,7 @@
 /* Combat feel captures (2026-09-25): drives real fights on the island draft (?holmIsland=1) in headless Chrome and
  * records them, for the owner's review sheets in scratchpad/holm_combat_v1/.
  * The adventurer walks to the Warden's Keep court like the QA harness (clicked hops), then fights the practice
- * grubkins with a bronze dagger (stab, pound, slash), the worn shortbow and Wind Strike. Attacking = setting
+ * large rats with a bronze dagger (stab, pound, slash), the worn shortbow and Wind Strike. Attacking = setting
  * Player.target, exactly what clicking "Attack" does. Only for the capture, each target's own hp is raised (instance
  * state, never the shared NPC type) so one fight shows several splats, then lowered for the kill.
  * Output: <style>_NNN.jpg screencast frames (+ frames.json with game-time stamps and live splat read-outs), stills.
@@ -42,9 +42,9 @@ const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmIsland=1&qaP
       opts=opts||{};
       const info=await page.evaluate((setup,opts)=>{
         const pool=HolmIslandTrials.npcs().filter(n=>!n.dead&&n.islandPen==='keep-court').sort((a,b)=>a.mesh.position.distanceTo(player.position)-b.mesh.position.distanceTo(player.position));
-        // ranged and magic shoot across the court: the farthest grubkin still in reach; melee takes the nearest
+        // ranged and magic shoot across the court: the farthest rat still in reach; melee takes the nearest
         const npc=opts.far?(pool.filter(n=>n.mesh.position.distanceTo(player.position)<8.5).pop()||pool[0]):pool[0];
-        if(!npc)return {error:'no grubkin'};
+        if(!npc)return {error:'no rat'};
         npc.hp=opts.hp||24;Player.hp=Player.maxHp;
         if(setup==='melee'){Player.spell=null;Player.castMode=false;Player.equip.weapon='bronze_dagger';Player.attackStyles.melee=opts.styleIdx||0}
         if(setup==='ranged'){Player.spell=null;Player.castMode=false;Player.equip.weapon='worn_bow';Player.attackStyles.ranged=0}

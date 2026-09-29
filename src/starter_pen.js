@@ -21,7 +21,7 @@
 
   // ordered weakest -> strongest, grouped by row so the rows read as a difficulty ramp
   const ROSTER = [
-    'pasturehen','burrowrat','moorcalf','bogling','grubkin','gnarlgob',
+    'pasturehen','burrowrat','moorcalf','bogling','large_rat','gnarlgob',
     'mosswolf','duneclaw','moss_seer','wanderer','monk','wizard',
     'skeleton','duelist','hold_knight','bryn_raider','gravewight','hex_adept',
     'deep_crawler','ash_stalker','fenwretch','fenlord','korthul','ash_wyrm',

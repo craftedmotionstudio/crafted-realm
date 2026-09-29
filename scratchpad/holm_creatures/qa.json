@@ -1,0 +1,942 @@
+{
+ "results": [
+  {
+   "name": "five creatures load through charNpcModel (large rat, rat, goblin, chicken, cow)",
+   "ok": true,
+   "detail": [
+    [
+     "large_rat",
+     true
+    ],
+    [
+     "burrowrat",
+     true
+    ],
+    [
+     "gnarlgob",
+     true
+    ],
+    [
+     "pasturehen",
+     true
+    ],
+    [
+     "moorcalf",
+     true
+    ]
+   ]
+  },
+  {
+   "name": "every creature carries the six clips: idle, walk, attack, hit, block, death",
+   "ok": true,
+   "detail": [
+    [
+     "large_rat",
+     {
+      "idle": 2,
+      "walk": 0.5,
+      "attack": 0.6,
+      "hit": 0.4,
+      "block": 0.4,
+      "death": 1
+     }
+    ],
+    [
+     "burrowrat",
+     {
+      "idle": 2,
+      "walk": 0.5,
+      "attack": 0.6,
+      "hit": 0.4,
+      "block": 0.4,
+      "death": 1
+     }
+    ],
+    [
+     "gnarlgob",
+     {
+      "idle": 2,
+      "walk": 0.6,
+      "attack": 0.6,
+      "hit": 0.4,
+      "block": 0.4,
+      "death": 1.2
+     }
+    ],
+    [
+     "pasturehen",
+     {
+      "idle": 2.4,
+      "walk": 0.6,
+      "attack": 0.6,
+      "hit": 0.4,
+      "block": 0.4,
+      "death": 1
+     }
+    ],
+    [
+     "moorcalf",
+     {
+      "idle": 3,
+      "walk": 0.8,
+      "attack": 0.6,
+      "hit": 0.4,
+      "block": 0.4,
+      "death": 1.2
+     }
+    ]
+   ]
+  },
+  {
+   "name": "the attack clips are 0.6 s (the impact frame 9 of 18 is half the clip, CombatFX.impactTime)",
+   "ok": true,
+   "detail": [
+    0.6,
+    0.6,
+    0.6,
+    0.6,
+    0.6
+   ]
+  },
+  {
+   "name": "each stands on the ground at its data height (glbHeight)",
+   "ok": true,
+   "detail": [
+    [
+     "large_rat",
+     0,
+     0.55,
+     0.55
+    ],
+    [
+     "burrowrat",
+     0,
+     0.3,
+     0.3
+    ],
+    [
+     "gnarlgob",
+     0,
+     1.3,
+     1.3
+    ],
+    [
+     "pasturehen",
+     0,
+     0.5,
+     0.5
+    ],
+    [
+     "moorcalf",
+     0,
+     1.25,
+     1.25
+    ]
+   ]
+  },
+  {
+   "name": "names per the naming bible: Large rat, Rat, Goblin, Chicken, Cow",
+   "ok": true,
+   "detail": [
+    "Large rat",
+    "Rat",
+    "Goblin",
+    "Chicken",
+    "Cow"
+   ]
+  },
+  {
+   "name": "low-poly budgets (<= 3000 triangles each)",
+   "ok": true,
+   "detail": [
+    [
+     "large_rat",
+     1050
+    ],
+    [
+     "burrowrat",
+     1050
+    ],
+    [
+     "gnarlgob",
+     2156
+    ],
+    [
+     "pasturehen",
+     734
+    ],
+    [
+     "moorcalf",
+     1462
+    ]
+   ]
+  },
+  {
+   "name": "evidence: the contact sheet and 30 clip frame strips written",
+   "ok": true
+  },
+  {
+   "name": "combat trials: 3 practice large rats in the keep court and 2 in the mage yard (the trial counts kept)",
+   "ok": true,
+   "detail": [
+    "keep-court",
+    "keep-court",
+    "keep-court",
+    "mage-yard",
+    "mage-yard"
+   ]
+  },
+  {
+   "name": "the trial rats are \"Large rat (level-3)\", the Blender large rat with all six clips",
+   "ok": true,
+   "detail": [
+    [
+     "Large rat",
+     3,
+     6
+    ],
+    [
+     "Large rat",
+     3,
+     6
+    ],
+    [
+     "Large rat",
+     3,
+     6
+    ],
+    [
+     "Large rat",
+     3,
+     6
+    ],
+    [
+     "Large rat",
+     3,
+     6
+    ]
+   ]
+  },
+  {
+   "name": "Proving Ground: three large rats and the rat matriarch (the grubkins are gone)",
+   "ok": true,
+   "detail": [
+    [
+     "pg_poacher",
+     "Holm poacher"
+    ],
+    [
+     "pg_warlock",
+     "Hedge warlock"
+    ],
+    [
+     "pg_rat_matriarch",
+     "Rat matriarch"
+    ],
+    [
+     "pg_large_rat",
+     "Large rat"
+    ],
+    [
+     "pg_large_rat",
+     "Large rat"
+    ],
+    [
+     "pg_large_rat",
+     "Large rat"
+    ]
+   ]
+  },
+  {
+   "name": "Haycombe Farm: five chickens (level-1) and two cows (level-2), live, with their six clips",
+   "ok": true,
+   "detail": [
+    [
+     "Chicken",
+     108.5,
+     95.5
+    ],
+    [
+     "Chicken",
+     109.5,
+     95.5
+    ],
+    [
+     "Chicken",
+     110.5,
+     95.5
+    ],
+    [
+     "Chicken",
+     111.5,
+     94.5
+    ],
+    [
+     "Chicken",
+     107.5,
+     95.5
+    ],
+    [
+     "Cow",
+     105.5,
+     97.5
+    ],
+    [
+     "Cow",
+     108.5,
+     98.5
+    ]
+   ]
+  },
+  {
+   "name": "the farm animals stand on walk-graph nodes",
+   "ok": true,
+   "detail": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  {
+   "name": "the still prop hen and cow they replace are hidden (the data and the walk graph untouched)",
+   "ok": true,
+   "detail": [
+    [
+     "island-prop-dress-haycombe-farm-cow-32",
+     false
+    ],
+    [
+     "island-prop-dress-haycombe-farm-chicken-39",
+     false
+    ],
+    [
+     "island-prop-dress-haycombe-farm-chicken-40",
+     false
+    ],
+    [
+     "island-prop-dress-haycombe-farm-chicken-41",
+     false
+    ],
+    [
+     "island-prop-dress-haycombe-farm-chicken-42",
+     false
+    ],
+    [
+     "island-prop-dress-haycombe-farm-chicken-43",
+     false
+    ]
+   ]
+  },
+  {
+   "name": "no grubkin anywhere in the world",
+   "ok": true
+  },
+  {
+   "name": "a blow that lands plays the large rat's own hit clip (CombatFX.react)",
+   "ok": true,
+   "detail": {
+    "seen": true
+   }
+  },
+  {
+   "name": "Chicken: killed, it falls with its own death clip, then sinks away",
+   "ok": true,
+   "detail": {
+    "placed": true,
+    "dead": true,
+    "fall": {
+     "style": "clip",
+     "dur": 1,
+     "clip": true
+    },
+    "sunk": true,
+    "drops": [
+     "bones",
+     "feathers"
+    ],
+    "respawn": 10
+   }
+  },
+  {
+   "name": "Chicken: drops its 2004 loot (bones, feathers)",
+   "ok": true,
+   "detail": [
+    "bones",
+    "feathers"
+   ]
+  },
+  {
+   "name": "Cow: killed, it falls with its own death clip, then sinks away",
+   "ok": true,
+   "detail": {
+    "placed": true,
+    "dead": true,
+    "fall": {
+     "style": "clip",
+     "dur": 1.2,
+     "clip": true
+    },
+    "sunk": true,
+    "drops": [
+     "bones",
+     "beast_hide",
+     "raw_beef"
+    ],
+    "respawn": 15
+   }
+  },
+  {
+   "name": "Cow: drops its 2004 loot (bones, beast_hide, raw_beef)",
+   "ok": true,
+   "detail": [
+    "bones",
+    "beast_hide",
+    "raw_beef"
+   ]
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "detail": []
+  }
+ ],
+ "data": {
+  "viewer": [
+   {
+    "id": "large_rat",
+    "name": "Large rat",
+    "level": 3,
+    "glb": "holm_large_rat_v1",
+    "glbHeight": 0.55,
+    "loaded": true,
+    "clips": {
+     "idle": 2,
+     "walk": 0.5,
+     "attack": 0.6,
+     "hit": 0.4,
+     "block": 0.4,
+     "death": 1
+    },
+    "size": [
+     0.51,
+     0.55,
+     1.83
+    ],
+    "minY": 0,
+    "tris": 1050
+   },
+   {
+    "id": "burrowrat",
+    "name": "Rat",
+    "level": 1,
+    "glb": "holm_rat_v1",
+    "glbHeight": 0.3,
+    "loaded": true,
+    "clips": {
+     "idle": 2,
+     "walk": 0.5,
+     "attack": 0.6,
+     "hit": 0.4,
+     "block": 0.4,
+     "death": 1
+    },
+    "size": [
+     0.26,
+     0.3,
+     1.15
+    ],
+    "minY": 0,
+    "tris": 1050
+   },
+   {
+    "id": "gnarlgob",
+    "name": "Goblin",
+    "level": 5,
+    "glb": "holm_goblin_v1",
+    "glbHeight": 1.3,
+    "loaded": true,
+    "clips": {
+     "idle": 2,
+     "walk": 0.6,
+     "attack": 0.6,
+     "hit": 0.4,
+     "block": 0.4,
+     "death": 1.2
+    },
+    "size": [
+     0.66,
+     1.3,
+     0.78
+    ],
+    "minY": 0,
+    "tris": 2156
+   },
+   {
+    "id": "pasturehen",
+    "name": "Chicken",
+    "level": 1,
+    "glb": "holm_chicken_v1",
+    "glbHeight": 0.5,
+    "loaded": true,
+    "clips": {
+     "idle": 2.4,
+     "walk": 0.6,
+     "attack": 0.6,
+     "hit": 0.4,
+     "block": 0.4,
+     "death": 1
+    },
+    "size": [
+     0.31,
+     0.5,
+     0.46
+    ],
+    "minY": 0,
+    "tris": 734
+   },
+   {
+    "id": "moorcalf",
+    "name": "Cow",
+    "level": 2,
+    "glb": "holm_cow_v1",
+    "glbHeight": 1.25,
+    "loaded": true,
+    "clips": {
+     "idle": 3,
+     "walk": 0.8,
+     "attack": 0.6,
+     "hit": 0.4,
+     "block": 0.4,
+     "death": 1.2
+    },
+    "size": [
+     0.67,
+     1.25,
+     2.23
+    ],
+    "minY": 0,
+    "tris": 1462
+   }
+  ],
+  "census": {
+   "trials": [
+    {
+     "type": "holm_practice_rat",
+     "name": "Large rat",
+     "level": 3,
+     "glb": "holm_large_rat_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": "keep-court",
+     "node": {
+      "tx": 85,
+      "tz": 35
+     },
+     "x": 85.5,
+     "z": 35.5
+    },
+    {
+     "type": "holm_practice_rat",
+     "name": "Large rat",
+     "level": 3,
+     "glb": "holm_large_rat_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": "keep-court",
+     "node": {
+      "tx": 86,
+      "tz": 36
+     },
+     "x": 86.5,
+     "z": 36.5
+    },
+    {
+     "type": "holm_practice_rat",
+     "name": "Large rat",
+     "level": 3,
+     "glb": "holm_large_rat_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": "keep-court",
+     "node": {
+      "tx": 87,
+      "tz": 32
+     },
+     "x": 87.5,
+     "z": 32.5
+    },
+    {
+     "type": "holm_practice_rat",
+     "name": "Large rat",
+     "level": 3,
+     "glb": "holm_large_rat_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": "mage-yard",
+     "node": {
+      "tx": 104,
+      "tz": 53
+     },
+     "x": 104.52,
+     "z": 53.5
+    },
+    {
+     "type": "holm_practice_rat",
+     "name": "Large rat",
+     "level": 3,
+     "glb": "holm_large_rat_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": "mage-yard",
+     "node": {
+      "tx": 103,
+      "tz": 58
+     },
+     "x": 103.5,
+     "z": 58.5
+    }
+   ],
+   "pg": [
+    {
+     "type": "pg_poacher",
+     "name": "Holm poacher",
+     "level": 9,
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "block"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 90,
+      "tz": 71
+     },
+     "x": 90.5,
+     "z": 71.5
+    },
+    {
+     "type": "pg_warlock",
+     "name": "Hedge warlock",
+     "level": 10,
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "block"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 94,
+      "tz": 71
+     },
+     "x": 94.5,
+     "z": 71.5
+    },
+    {
+     "type": "pg_rat_matriarch",
+     "name": "Rat matriarch",
+     "level": 18,
+     "glb": "holm_large_rat_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 93,
+      "tz": 74
+     },
+     "x": 93.48,
+     "z": 74.52
+    },
+    {
+     "type": "pg_large_rat",
+     "name": "Large rat",
+     "level": 5,
+     "glb": "holm_large_rat_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 89,
+      "tz": 76
+     },
+     "x": 89.5,
+     "z": 76.52
+    },
+    {
+     "type": "pg_large_rat",
+     "name": "Large rat",
+     "level": 5,
+     "glb": "holm_large_rat_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 90,
+      "tz": 78
+     },
+     "x": 90.5,
+     "z": 78.48
+    },
+    {
+     "type": "pg_large_rat",
+     "name": "Large rat",
+     "level": 5,
+     "glb": "holm_large_rat_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 90,
+      "tz": 76
+     },
+     "x": 90.5,
+     "z": 76.5
+    }
+   ],
+   "farm": [
+    {
+     "type": "pasturehen",
+     "name": "Chicken",
+     "level": 1,
+     "glb": "holm_chicken_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 108,
+      "tz": 95
+     },
+     "x": 108.5,
+     "z": 95.5
+    },
+    {
+     "type": "pasturehen",
+     "name": "Chicken",
+     "level": 1,
+     "glb": "holm_chicken_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 109,
+      "tz": 95
+     },
+     "x": 109.5,
+     "z": 95.5
+    },
+    {
+     "type": "pasturehen",
+     "name": "Chicken",
+     "level": 1,
+     "glb": "holm_chicken_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 110,
+      "tz": 95
+     },
+     "x": 110.5,
+     "z": 95.5
+    },
+    {
+     "type": "pasturehen",
+     "name": "Chicken",
+     "level": 1,
+     "glb": "holm_chicken_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 111,
+      "tz": 94
+     },
+     "x": 111.5,
+     "z": 94.5
+    },
+    {
+     "type": "pasturehen",
+     "name": "Chicken",
+     "level": 1,
+     "glb": "holm_chicken_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 107,
+      "tz": 95
+     },
+     "x": 107.5,
+     "z": 95.5
+    },
+    {
+     "type": "moorcalf",
+     "name": "Cow",
+     "level": 2,
+     "glb": "holm_cow_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 105,
+      "tz": 97
+     },
+     "x": 105.5,
+     "z": 97.5
+    },
+    {
+     "type": "moorcalf",
+     "name": "Cow",
+     "level": 2,
+     "glb": "holm_cow_v1",
+     "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hit",
+      "block",
+      "death"
+     ],
+     "pen": null,
+     "node": {
+      "tx": 108,
+      "tz": 98
+     },
+     "x": 108.5,
+     "z": 98.5
+    }
+   ],
+   "hidden": [
+    [
+     "island-prop-dress-haycombe-farm-cow-32",
+     false
+    ],
+    [
+     "island-prop-dress-haycombe-farm-chicken-39",
+     false
+    ],
+    [
+     "island-prop-dress-haycombe-farm-chicken-40",
+     false
+    ],
+    [
+     "island-prop-dress-haycombe-farm-chicken-41",
+     false
+    ],
+    [
+     "island-prop-dress-haycombe-farm-chicken-42",
+     false
+    ],
+    [
+     "island-prop-dress-haycombe-farm-chicken-43",
+     false
+    ]
+   ],
+   "nodes": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  }
+ },
+ "errors": []
+}

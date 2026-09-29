@@ -2,11 +2,11 @@
  * click functionality doesn't really work like OSRS"). A fresh adventurer on the live island; every action is a real
  * mouse event (page.mouse / page.touchscreen) on a pixel whose menu scan puts the intended object first:
  *  - right-clicks the statue, a door, a ground stack (two items on one tile), Guide Bram, the relief chart, the provision
- *    rack, the stairs, the cellar hatch, a pack item, a teaching oak, the fishing spot and a practice grubkin, and asserts
+ *    rack, the stairs, the cellar hatch, a pack item, a teaching oak, the fishing spot and a practice large rat, and asserts
  *    the rows (2004 order, our own names) and their colours (verb white, NPC yellow, object cyan, item orange, level);
  *  - left-clicks and asserts the TOP row ran (OsrsMenu.last) and did its job: the door opens, the chart refuses until
  *    Bram is spoken to (the tutor-first rule on both clicks), Bram's chat opens from his menu row, the rack hands out the
- *    tools, the hatchet is wielded, a ground item is taken, the grubkin is attacked;
+ *    tools, the hatchet is wielded, a ground item is taken, the large rat is attacked;
  *  - use-mode: the tinderbox picked up with Use shows "Use Tinderbox -> <target>" and on the chart "Nothing interesting
  *    happens."; the net offers "Use Small net -> Fishing spot"; Escape puts it away;
  *  - the box: top edge at the cursor and centred on it, closes on a 10 px stray, on Escape and on a click outside (that
@@ -254,22 +254,22 @@ async function settle(page){await L.settle(page,30000)}
     await shotMenu(page,'13_use_net_fishing_spot');await escape(page);await escape(page);
     ok(await page.evaluate(()=>!OsrsMenu.using()),'Escape (menu closed) puts the net away');
 
-    /* ---- a practice grubkin in the keep court ---- */
+    /* ---- a practice large rat in the keep court ---- */
     // like a player, walk to the court first: the combat approach searches 6,000 tiles, and on the v2 land the court is
     // too far from the Guide House for one search (the order is dropped with "I can't reach that!", 2004-style)
     // (the camera comes back to the adventurer first: the menu checks above left it framed on the fishing spot)
     await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());
     const toCourt=await L.walkTo(page,'keep','court',true,[]);
-    // (QA only: the grubkin idles in place while its pixel is found and clicked, so a wander step cannot move it off the cursor)
-    const grub=await page.evaluate(()=>{const n=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen==='keep-court');if(n){n.penStatic=true;n.wDir=null}return n?n.mesh.name:null});
-    xy=grub?await spot(page,grub):null;m=Array.isArray(xy)?await rightClick(page,xy):null;
-    ok(same(texts(m),['Attack Practice grubkin (level-1)','Walk here','Examine Practice grubkin (level-1)','Cancel']),'grubkin: Attack (level-1) / Walk here / Examine / Cancel',texts(m));
-    ok(colourOf(m,'Attack Practice grubkin (level-1)','(level-1)')==='rgb(192, 255, 0)'&&colourOf(m,'Attack Practice grubkin (level-1)','Practice grubkin')===YELLOW,'(level-1) coloured green-yellow against combat 3, the name yellow',m&&m.rows[0]);
-    await shotMenu(page,'14_grubkin');await escape(page);
+    // (QA only: the rat idles in place while its pixel is found and clicked, so a wander step cannot move it off the cursor)
+    const rat=await page.evaluate(()=>{const n=HolmIslandTrials.npcs().find(n=>!n.dead&&n.islandPen==='keep-court');if(n){n.penStatic=true;n.wDir=null}return n?n.mesh.name:null});
+    xy=rat?await spot(page,rat):null;m=Array.isArray(xy)?await rightClick(page,xy):null;
+    ok(same(texts(m),['Attack Large rat (level-3)','Walk here','Examine Large rat (level-3)','Cancel']),'large rat: Attack (level-3) / Walk here / Examine / Cancel',texts(m));
+    ok(colourOf(m,'Attack Large rat (level-3)','(level-3)')==='rgb(255, 255, 0)'&&colourOf(m,'Attack Large rat (level-3)','Large rat')===YELLOW,'(level-3) coloured by the level difference against combat 3 (an even match: yellow), the name yellow',m&&m.rows[0]);
+    await shotMenu(page,'14_large_rat');await escape(page);
     // the order must hold past the next ticks too (a foe out of the approach search drops it with "I can't reach that!")
-    xy=await spot(page,grub);lc=await leftClick(page,xy);const tgt0=await page.evaluate(()=>!!Player.target&&Player.target.islandPen==='keep-court');await sleep(1300);
+    xy=await spot(page,rat);lc=await leftClick(page,xy);const tgt0=await page.evaluate(()=>!!Player.target&&Player.target.islandPen==='keep-court');await sleep(1300);
     const tgt1=await page.evaluate(()=>!!Player.target&&Player.target.islandPen==='keep-court');
-    ok(lc.ran&&lc.want==='Attack Practice grubkin (level-1)'&&tgt0&&tgt1,'left click attacks it (the existing target path)',{lc,target:[tgt0,tgt1],walk:toCourt.error||'ok',chat:await lastChat(page,2)});
+    ok(lc.ran&&lc.want==='Attack Large rat (level-3)'&&tgt0&&tgt1,'left click attacks it (the existing target path)',{lc,target:[tgt0,tgt1],walk:toCourt.error||'ok',chat:await lastChat(page,2)});
     await page.evaluate(()=>{Player.target=null;Player.action=null});
 
     /* ---- touch: a long press opens the same menu ---- */

@@ -1170,7 +1170,7 @@ const Tutorial = {
     {text:'Click your Small net in your pack, then click a fishing spot in the pond.', ev:'gather', match:'raw_perch'},
     {text:'Cook your fish on the campfire. Click the fire.',                 ev:'cook',   match:'cooked_perch'},
     {text:'Now wield the Bronze sword from your pack.',                      ev:'equip',  match:'bronze_sword'},
-    {text:'Slay the practice grubkin near the camp.',                        ev:'kill',   match:'grubkin'},
+    {text:'Slay the large rat near the camp.',                               ev:'kill',   match:'large_rat'},
     {text:'Return to Guide Bram. He will row you to the mainland.',          ev:'talk',   match:'bram_done'},
   ],
   notify(ev, match){
@@ -1417,11 +1417,11 @@ function talkTo(id, name, face){
   if(id==='maela'){
     const gt=Quest.state('grub_trouble'), wt=Quest.state('wardens_trial');
     if(!gt){
-      UI.dialogue(name, 'Adventurer! Grubkins gnaw at our fences and frighten the hens. Would you thin their numbers? Three should do it.',
-        [{label:'I\'ll handle the grubkins. (Start quest)', fn:()=>Quest.start('grub_trouble')},
+      UI.dialogue(name, 'Adventurer! Large rats gnaw at our fences and frighten the hens. Would you thin their numbers? Three should do it.',
+        [{label:'I\'ll handle the rats. (Start quest)', fn:()=>Quest.start('grub_trouble')},
          {label:'Perhaps later.'}],face);
     } else if(gt.stage===1){
-      UI.dialogue(name, `Still ${3-gt.counter} grubkin${3-gt.counter>1?'s':''} squealing out there. They wander the commons grass.`,null,face);
+      UI.dialogue(name, `Still ${3-gt.counter} large rat${3-gt.counter>1?'s':''} squealing out there. They wander the commons grass.`,null,face);
     } else if(gt.stage===2){
       UI.dialogue(name, 'The fences are quiet at last. Take these crowns and this shield — the Wardens thank you.',
         [{label:'Glad to help.', fn:()=>Quest.complete('grub_trouble')}],face);
@@ -1961,9 +1961,9 @@ function populateMainland(){
   spawnFriendly('arcanist','Sage Imbrel', -8.5,14.2, 0x4a3a7a,'🧙',{robe:0x4a3a7a, hat:'wizard'});
   spawnFriendly('ferra','Ferra the Smith', 9,13.4, 0x5a4a3e,'👩‍🏭',{hairLong:true});
   if(LEGACY_VILLAGE){
-    // the grubkin nest: mounds in the meadow northeast, well off the chapel road
+    // the large rats' nest: mounds in the meadow northeast, well off the chapel road
     makeMound(24,33,0.9); makeMound(26.5,31.5,0.7); makeMound(25,35,0.8);
-    for(let i=0;i<6;i++) spawnNpc('grubkin', 22+Math.random()*6, 30+Math.random()*7);
+    for(let i=0;i<6;i++) spawnNpc('large_rat', 22+Math.random()*6, 30+Math.random()*7);
     // the burrowrat warren: holes dug behind the eastern cottages, raiding the larders
     makeMound(25,-20,0.6); makeMound(26.6,-21.2,0.55); makeMound(24.2,-22,0.5);
     for(let i=0;i<4;i++) spawnNpc('burrowrat', 23.5+Math.random()*4, -22.5+Math.random()*4);
@@ -2169,8 +2169,8 @@ function populateHolm(){
     makeReed(HOLM_POND.x+Math.cos(a)*(HOLM_POND.r+0.9), HOLM_POND.z+Math.sin(a)*(HOLM_POND.r+0.9)); }
   for(let i=0;i<3;i++) makeStick(h[0]+2+Math.random()*10, h[1]-4+Math.random()*8);
   makeCampfire(h[0], h[1]+2);
-  spawnNpc('grubkin', h[0]+8, h[1]+8);
-  spawnNpc('grubkin', h[0]+11, h[1]+5);
+  spawnNpc('large_rat', h[0]+8, h[1]+8);
+  spawnNpc('large_rat', h[0]+11, h[1]+5);
   spawnNpc('bogling', h[0]+5, h[1]+4);          // pipeline-authored demo creature
   spawnNpc('bogling', h[0]+7, h[1]+1);
   // TEMP (dev): the Ash Wyrm boss (Pixal3D model) parked on Holm as a passive showpiece while we

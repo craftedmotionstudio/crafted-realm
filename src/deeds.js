@@ -10,7 +10,8 @@
 const Deeds = {
   DEFS: [
     {id:'first_blood',  name:'First Blood',      desc:'Defeat your first monster.',            title:null,              crowns:25,  test:s=>s.kills>=1},
-    {id:'grubslayer',   name:'Grubslayer',        desc:'Defeat 25 grubkins.',                   title:'the Grubslayer',  crowns:100, test:s=>(s.killsByType.gnarlgob||0)+(s.killsByType.grubkin||0)>=25},
+    // id kept (earned deeds are saved by id); the grubkins became large rats (owner 2026-09-29), old grubkin kills still count
+    {id:'grubslayer',   name:'Vermin Bane',       desc:'Defeat 25 large rats or goblins.',      title:'the Vermin Bane', crowns:100, test:s=>(s.killsByType.gnarlgob||0)+(s.killsByType.large_rat||0)+(s.killsByType.grubkin||0)>=25},
     {id:'centurion',    name:'Centurion',         desc:'Defeat 100 monsters.',                  title:'the Centurion',   crowns:250, test:s=>s.kills>=100},
     {id:'apprentice',   name:'Apprentice',        desc:'Reach level 10 in any skill.',          title:null,              crowns:50,  test:()=>SKILLS.some(k=>Player.lvl(k)>=10)},
     {id:'journeyman',   name:'Journeyman',        desc:'Reach level 30 in any skill.',          title:'the Journeyman',  crowns:150, test:()=>SKILLS.some(k=>Player.lvl(k)>=30)},

@@ -44,7 +44,7 @@ check('3 a perfect meadow behind a moat (not reachable from the court) is passed
 check('4 scaled layouts: six distinct tiles, the pack on the far side, at radius 5, 4 and 3',()=>{
  for(const r of [5,4,3]){const L=PG.layout(r);assert.strictEqual(new Set(L.map(q=>q[1]+','+q[2])).size,6,'radius '+r);
   L.forEach(q=>assert(Math.abs(q[1])<=r&&Math.abs(q[2])<=r,'radius '+r+' '+q));
-  const pack=L.filter(q=>q[0]==='pg_wild_grubkin'),men=L.filter(q=>q[0]==='pg_poacher'||q[0]==='pg_warlock');
+  const pack=L.filter(q=>q[0]==='pg_large_rat'),men=L.filter(q=>q[0]==='pg_poacher'||q[0]==='pg_warlock');
   assert(pack.every(p=>men.every(m=>p[2]>m[2])),'radius '+r+': the pack is not on the far side')}
 });
 console.log('[PROVING GROUND] '+passed+'/4 PASS');

@@ -133,7 +133,7 @@ var OsrsMenu=(function(){
  /* ---------------- text ---------------- */
  function span(text,colour,cls){return '<span class="'+cls+'" style="color:'+colour+'">'+esc(text)+'</span>'}
  function levelHtml(en){if(en.level===undefined||en.level===null||en.level==='')return '';var c=levelColour(playerLevel(),en.level);return ' '+span('(level-'+en.level+')',c,'om-lv')}
- // "Talk-to Guide Bram", "Attack Grubkin (level-1)", "Use Tinderbox -> Logs"
+ // "Talk-to Guide Bram", "Attack Large rat (level-3)", "Use Tinderbox -> Logs"
  function rowHtml(en){
   if(en.html&&!en.option)return en.html;   // a legacy {html, fn} row (Ctx.show callers)
   var h=span(en.option,COLOUR.verb,'om-v');

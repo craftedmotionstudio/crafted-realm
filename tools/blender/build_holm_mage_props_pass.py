@@ -1,7 +1,7 @@
 """Mage tower props pass (owner, 2026-09-28: "props ... blocky -> redo in Blender purposefully"; "every object in every
 building reviewed in Blender"). The mage's house is where the island learns its runes: a timber study wing where the
 tutor lives and brews, a stone tower with the rune workroom on the ground, the library at 3 m and the open observatory at
-6 m, and a practice yard where the magic trial is cast at grubkins. Its things are a rune-caster's things: candles,
+6 m, and a practice yard where the magic trial is cast at the practice rats. Its things are a rune-caster's things: candles,
 scrolls, tomes, rune stones, crystals, phials, star charts, an armillary.
 
 From the model the island loads (holm-mage-glazed-review4-v1/mage.blend, Blender 5.1). Every prop object was a v1 box
@@ -51,7 +51,7 @@ graph is unchanged:
     legs to the old feet, a spreader between them;
  practice yard (Mage_Yard; name kept; on the island ground, now seated on the v2 terrain it stands on)
   - the split-rail fence post by post in the old line, rails in the old rows; the gate posts and the gate, open as it
-    was, framed and braced with strap hinges; the grubkin hutch (was a coop) on legs with a slatted front, a door, a
+    was, framed and braced with strap hinges; the rat hutch (was a coop) on legs with a slatted front, a door, a
     ramp and a thatched roof whose eaves reach as the coop's did; the spell target, a straw boss painted in rings and
     scorched, on its A-frame; the practice dummy with a straw body, a sack head and a battered pointed hat, on cross
     feet; the water trough on its chocks.
@@ -1152,14 +1152,14 @@ def gate_irons(A):
 
 Y.obj(gate_irons)
 
-# the grubkin hutch: four legs (standing on the ground), the body resting on them, the roof resting on the body
+# the rat hutch: four legs (standing on the ground), the body resting on them, the roof resting on the body
 HX0, HX1, HZ0, HZ1, HB, HT = -6.8, -5.6, 6.85, 7.8, .3, 1.02
 for lx, lz in ((HX0 + .06, HZ0 + .06), (HX1 - .06, HZ0 + .06), (HX0 + .06, HZ1 - .06), (HX1 - .06, HZ1 - .06)):
     Y.obj(lambda A, lx=lx, lz=lz: T.oct_prism(A, lx, lz, .05, .05, ground(lx, lz) - .06, HB, oak_d, cut=.3))
 
 
 def hutch_body(A):
-    """the hutch where the practice grubkins sleep: a floor, a boarded back and ends, a slatted front (north) with the
+    """the hutch where the practice rats sleep: a floor, a boarded back and ends, a slatted front (north) with the
     dark inside showing through, a door and its latch on the east end"""
     A.box(HX0, HX1, HB, HB + .05, HZ0, HZ1, oak_d)
     A.box(HX0 + .03, HX1 - .03, HB + .05, HT - .02, HZ0 + .05, HZ1 - .03, soot, skip='b')
@@ -1259,7 +1259,7 @@ Y.obj(dummy)
 
 
 def trough(A):
-    """the grubkins' water trough: boarded sides on two chocks, water near the brim"""
+    """the rats' water trough: boarded sides on two chocks, water near the brim"""
     x0, x1, z0, z1 = -5.1, -4.1, 7.4, 7.75
     g = min(ground(x0, z1), ground(x1, z1), ground(x0, z0), ground(x1, z0))
     b = max(ground(x0, z0), ground(x1, z0)) + .02

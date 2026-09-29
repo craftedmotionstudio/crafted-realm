@@ -8,10 +8,10 @@
 (function(){
   if(typeof Tutorial==='undefined') return;
 
-  /* 1. splice the new steps in after the melee grubkin kill (index 6), before "return to Bram" */
+  /* 1. splice the new steps in after the melee large rat kill (index 6), before "return to Bram" */
   const extra=[
-    {text:'Prepare your teaching shortbow and arrows. Wield them and fell a grubkin from range.', ev:'killStyle', match:'ranged'},
-    {text:'Prepare your teaching runes. Open your spellbook, choose Gale Dart, and blast a grubkin.',  ev:'killStyle', match:'magic'},
+    {text:'Prepare your teaching shortbow and arrows. Wield them and fell a large rat from range.', ev:'killStyle', match:'ranged'},
+    {text:'Prepare your teaching runes. Open your spellbook, choose Gale Dart, and blast a large rat.',  ev:'killStyle', match:'magic'},
     {text:'Stow your spoils: click the bank chest by the rowboat and deposit anything.',          ev:'bank',      match:'open'},
   ];
   const at=Tutorial.steps.findIndex(s=>s.ev==='talk' && s.match==='bram_done');

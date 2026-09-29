@@ -30,7 +30,7 @@ function sayOverhead(mesh, text, secs){
 const VillageChatter = {
   LINES:[
     'Fine weather over the Hollow today.',
-    'Mind the grubkins by the east fence…',
+    'Mind the rats by the east fence…',
     'The Well never runs dry, they say.',
     'Ferra’s forge has been roaring all week.',
     'They say the fen lights walk at dusk.',

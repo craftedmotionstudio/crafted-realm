@@ -72,16 +72,26 @@ function charNpcModel(t){
     root.updateMatrixWorld(true);
     box=new THREE.Box3().setFromObject(root);
     const ctr=box.getCenter(new THREE.Vector3());
-    root.position.set(-ctr.x, -box.min.y, -ctr.z);
+    // the Holm creatures keep their authored origin (the body's footprint centre): a long tail or a carried club must not
+    // push the body off its tile; the older hero-pipeline GLBs are centred on their bounds
+    if(t.keepOrigin) root.position.set(0, -box.min.y, 0);
+    else root.position.set(-ctr.x, -box.min.y, -ctr.z);
     g.add(root);
     const mixer=new THREE.AnimationMixer(root);
     const byName={}; gltf.animations.forEach(c=>{ byName[c.name]=mixer.clipAction(c); });
     const idle=byName.idle, walk=byName.walk, attack=byName.attack, block=byName.block;
+    // the Holm creatures (tools/blender/build_holm_creatures_v1.py) also carry hit (the flinch, CombatFX.react) and
+    // death (played once and held by startDeath / tickDeath, then the body sinks)
+    const hit=byName.hit||null, death=byName.death||null;
     if(idle){ idle.play(); idle.weight=1; }
     if(walk){ walk.play(); walk.weight=0; }
     if(attack){ attack.setLoop(THREE.LoopOnce,1); attack.weight=1; }
     if(block){ block.setLoop(THREE.LoopOnce,1); block.weight=1; }
-    g.userData.gmix={mixer, idle, walk, attack, block, w:0};
+    if(hit){ hit.setLoop(THREE.LoopOnce,1); hit.weight=1; }
+    if(death){ death.setLoop(THREE.LoopOnce,1); death.clampWhenFinished=true; death.weight=1; }
+    g.userData.gmix={mixer, idle, walk, attack, block, hit, death, w:0, deathOn:false};
+    // a body that died before its model streamed in starts its fall now
+    const d0=g.userData.death; if(d0 && d0.style==='clip' && !d0.wait && typeof startClipDeath==='function') startClipDeath(g);
   }, undefined, e=>console.warn('[charNpc] load failed', url));
   return g;
 }
@@ -93,9 +103,10 @@ function charNpcAnim(n, dt){
     // combat feel: while the fall waits for the killing hitsplat the body keeps playing (a strike/block in flight finishes)
     const d=n.mesh.userData.death; if(d && d.wait){ g.mixer.update(dt); return; }
     if(g.idle) g.idle.weight=0; if(g.walk) g.walk.weight=0; return; }
+  if(g.deathOn){ g.death.stop(); g.deathOn=false; g.w=0; }   // respawned: the held death pose lets go
   const speed = n.t.speedTicks ? (5/n.t.speedTicks) : 1;    // faster NPCs stride faster
   g.w += ((n.moving?1:0)-g.w)*Math.min(1,dt*10);
-  const busy = (g.attack && g.attack.isRunning()) || (g.block && g.block.isRunning());
+  const busy = (g.attack && g.attack.isRunning()) || (g.block && g.block.isRunning()) || (g.hit && g.hit.isRunning());
   if(g.idle) g.idle.weight = busy ? 0 : 1-g.w;
   if(g.walk){ g.walk.weight = busy ? 0 : g.w; g.walk.timeScale = Math.max(0.6, speed*(n.chasing?1.5:1)); }
   g.mixer.update(dt);

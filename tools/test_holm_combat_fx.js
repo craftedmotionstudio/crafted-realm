@@ -46,7 +46,7 @@ try{
   const it=t=>+FX.impactTime(player,t).toFixed(3);
   ok('kit impact frames: stab/slash .30, crush .40, bow release .83/1.35, cast release .47/1.15',it('stab')===.3&&it('slash')===.3&&it('crush')===.4&&it('bow')===+(0.83/1.35).toFixed(3)&&it('cast')===+(0.47/1.15).toFixed(3),{stab:it('stab'),crush:it('crush'),bow:it('bow'),cast:it('cast')});
   const gm={attack:{getClip:()=>({duration:.6,name:'attack'}),isRunning:()=>false}};g.mesh.userData.gmix=gm;
-  ok('grubkin strike lands at its snap frame (half of the 0.6 s attack clip)',Math.abs(FX.impactTime(g.mesh,'slash')-.3)<1e-9);
+  ok('a Holm creature\'s bite lands at its impact frame (frame 9 of 18: half of the 0.6 s attack clip)',Math.abs(FX.impactTime(g.mesh,'slash')-.3)<1e-9);
   delete g.mesh.userData.gmix;
 
   // 1. melee: logical hit now, splat + flinch at the impact frame

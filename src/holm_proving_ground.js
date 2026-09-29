@@ -2,14 +2,16 @@
  * Warden's Keep where the island's practice turns real, one foe of every kind, all our own designs:
  *   - a Holm poacher (ranged: a shortbow, arrows that fly and land on the hit tick),
  *   - a hedge warlock (magic: a staff, the cast glow, a spell that can splash),
- *   - a pack of three wild grubkins (aggressive: they hunt an adventurer within four tiles, and ignore anyone above
+ *   - a pack of three large rats (aggressive: they hunt an adventurer within four tiles, and ignore anyone above
  *     twice their level, the 2004 rule; the meadow's welcome line warns that they attack on sight),
- *   - the grubkin broodmother (the tougher, boss-like foe: a telegraphed ground slam every fourth attack, announced,
+ *   - the rat matriarch (the tougher, boss-like foe: a telegraphed ground slam every fourth attack, announced,
  *     ringed on the ground, dodged by stepping out of reach or blocked by Protect from Melee).
+ * (Owner 2026-09-29: the grubkins became large rats; the pack and the matriarch keep the meadow's stats and loot.)
  * Every foe is an ordinary NPC on the combat engine (src/combat_engine.js: 2004 rules, tile steps, weighted drops from
  * shared/drops.js). Models are existing Blender GLBs: the character kit (assets/models/holm_kit_v2.glb, with its
  * bow / cast / attack / block / death clips and the Blender equipment set for the held bow and staff) for the two
- * humanoids, the grubkin (assets/models/holm_grubkin_v1.glb) for the pack and, scaled up and darkened, the broodmother.
+ * humanoids, the large rat (assets/models/holm_large_rat_v1.glb, tools/blender/build_holm_creatures_v1.py: its own idle,
+ * walk, bite, hit, block and death clips) for the pack and, scaled up and darkened, the matriarch.
  * Sites are chosen on the composed island graph: the nearest open meadow beyond the keep court (no water, no
  * buildings, every tile linked to its neighbours), so nothing crowds the tutorial's pens. The roomiest meadow wins: an
  * 11x11 patch where the land has one, else 9x9, else 7x7, with the foes' layout scaled to fit (the v2 land's meadows
@@ -28,14 +30,14 @@ var HolmProvingGround=(function(){
    hp:12,att:4,str:3,def:4,mag:12,aBonus:6,maxHit:4,dBonus:2,dRanged:1,dMagic:10,speedTicks:5,ranged:true,attackRange:7,spell:'water_strike',spellTint:0x4a8ac8,
    kitFoe:{weapon:'apprentice_staff',hat:true,torso:11,legs:2,hair:10},size:1,respawn:25,maxRange:8,aggro:false,
    dropTable:Object.assign({},L,{main:[{w:30,item:'air_rune',qty:[3,9]},{w:30,item:'mind_rune',qty:[3,9]},{w:15,item:'water_rune',qty:[2,6]},{w:10,item:'earth_rune',qty:[2,5]},{w:4,item:'wizard_hat',qty:1},{w:3,item:'apprentice_staff',qty:1},{w:3,item:'cloth_robe_top',qty:1}]}),drops:[{id:'bones',q:1,p:1}]},
-  pg_wild_grubkin:{name:'Wild grubkin',level:5,examine:'Nobody tamed this one. It has noticed you.',
+  pg_large_rat:{name:'Large rat',level:5,examine:'Nobody tamed this one. It has noticed you.',
    hp:7,att:5,str:4,def:3,aBonus:2,sBonus:2,dBonus:2,dStab:3,dSlash:2,dCrush:0,speedTicks:4,atype:'slash',
-   glbChar:'holm_grubkin_v1',glbHeight:.8,color:0x6a5a2a,size:.85,aggro:true,ignoreFriendly:true,huntRange:4,maxRange:6,respawn:20,deathStyle:'flip',
+   glbChar:'holm_large_rat_v1',glbHeight:.6,barH:1.05,color:0x6a5a2a,size:.9,aggro:true,ignoreFriendly:true,huntRange:4,maxRange:6,respawn:20,bite:true,deathClip:true,keepOrigin:true,
    dropTable:Object.assign({},L,{main:[{w:40,item:'coins',qty:[2,10]},{w:12,item:'bread',qty:1},{w:12,item:'cabbage',qty:1},{w:4,item:'bronze_dagger',qty:1},{w:3,item:'bronze_helm',qty:1}]}),drops:[{id:'bones',q:1,p:1}]},
-  pg_broodmother:{name:'Grubkin broodmother',level:18,examine:'Every grubkin on the Holm came from somewhere. This is where.',
+  pg_rat_matriarch:{name:'Rat matriarch',level:18,examine:'Every large rat on the Holm came from somewhere. This is where.',
    hp:48,att:16,str:16,def:14,aBonus:8,sBonus:10,dBonus:8,dStab:12,dSlash:10,dCrush:4,dRanged:6,dMagic:4,speedTicks:5,atype:'crush',
-   glbChar:'holm_grubkin_v1',glbHeight:1.55,color:0x4a3a1a,size:1.6,aggro:false,maxRange:8,respawn:60,deathStyle:'flip',tint:0x6a5236,
-   special:{every:4,windup:3,maxHit:9,radius:1.8,msg:'The broodmother rears up, ready to slam the ground!',hitMsg:'The ground shakes as the broodmother slams into you!',missMsg:'The broodmother slams the empty ground.'},
+   glbChar:'holm_large_rat_v1',glbHeight:1.05,barH:1.8,color:0x4a3a1a,size:1.6,aggro:false,maxRange:8,respawn:60,bite:true,deathClip:true,keepOrigin:true,tint:0x5a4630,
+   special:{every:4,windup:3,maxHit:9,radius:1.8,msg:'The rat matriarch rears up, ready to slam the ground!',hitMsg:'The ground shakes as the rat matriarch slams into you!',missMsg:'The rat matriarch slams the empty ground.'},
    dropTable:{always:[{item:'big_bones',qty:1}],rolls:128,main:[{w:50,item:'coins',qty:[40,120]},{w:24,item:'trout',qty:[2,3]},{w:8,item:'ash_bow',qty:1},{w:6,item:'glimmer_hat',qty:1},{w:4,item:'amulet_of_might',qty:1},{w:4,item:'amulet_of_precision',qty:1}]},
    drops:[{id:'big_bones',q:1,p:1}]}
  };
@@ -67,9 +69,9 @@ var HolmProvingGround=(function(){
  }
  /* ---- where: the nearest open meadow beyond the keep, on the composed island graph ---- */
  function open(g,n,r){for(var dz=-r;dz<=r;dz++)for(var dx=-r;dx<=r;dx++){var rows=g.byTile[(n.tx+dx)+','+(n.tz+dz)];if(!rows||!rows.some(function(m){return m.owner==='land'&&Math.abs(m.y-n.y)<1.2&&(g.links[m.id]||[]).length>=6}))return false}return true}
- // the foes' layout on a full-size meadow (radius 5, an 11x11 patch): the humanoids and the broodmother share the
+ // the foes' layout on a full-size meadow (radius 5, an 11x11 patch): the humanoids and the matriarch share the
  // meadow; the pack keeps to its far side, out of its hunt range. A smaller meadow takes it scaled to its radius.
- var LAYOUT=[['pg_poacher',-3,-3],['pg_warlock',3,-3],['pg_broodmother',0,2],['pg_wild_grubkin',-4,5],['pg_wild_grubkin',-2,5],['pg_wild_grubkin',-3,4]];
+ var LAYOUT=[['pg_poacher',-3,-3],['pg_warlock',3,-3],['pg_rat_matriarch',0,2],['pg_large_rat',-4,5],['pg_large_rat',-2,5],['pg_large_rat',-3,4]];
  function layout(r){return LAYOUT.map(function(s){return [s[0],Math.round(s[1]*r/5),Math.round(s[2]*r/5)]})}
  // every node reachable on foot from a start node (the composed graph's links)
  function reachable(g,id){var seen={},q=[id];seen[id]=true;for(var h=0;h<q.length;h++){var ls=g.links[q[h]]||[];for(var k=0;k<ls.length;k++)if(!seen[ls[k]]){seen[ls[k]]=true;q.push(ls[k])}}return seen}
@@ -90,14 +92,14 @@ var HolmProvingGround=(function(){
   if(!register()||typeof spawnNpc!=='function')return {npcs:0};
   sites=findSites(api);if(!sites)return {npcs:0,reason:'no meadow'};
   sites.spots.forEach(function(s,i){var n0=s[1];spawnNpc.force=true;var npc;try{npc=spawnNpc(s[0],n0.x,n0.z)}finally{spawnNpc.force=false}if(!npc)return;
-   npc.home.set(n0.x,n0.y,n0.z);npc.mesh.position.set(n0.x,n0.y,n0.z);npc.wanderR=s[0]==='pg_wild_grubkin'?2:1;npc.leash=npc.t.maxRange;
+   npc.home.set(n0.x,n0.y,n0.z);npc.mesh.position.set(n0.x,n0.y,n0.z);npc.wanderR=s[0]==='pg_large_rat'?2:1;npc.leash=npc.t.maxRange;
    if(npc.t.tint&&npc.mesh){var tint=new THREE.Color(npc.t.tint),seen={};var fix=function(){npc.mesh.traverse(function(o){if(o.isMesh)[].concat(o.material).forEach(function(q){if(q&&q.color&&!seen[q.uuid]){seen[q.uuid]=1;q.color.lerp(tint,.45)}})})};setTimeout(fix,2500);setTimeout(fix,6000)}
    npc.provingGround=true;npc.mesh.name='proving-ground-'+s[0]+'-'+i;npcs.push(npc)});
   return {npcs:npcs.length,centre:{x:sites.centre.x,z:sites.centre.z},radius:sites.radius};
  }
  /** per frame: the welcome line the first time the adventurer walks onto the meadow */
  function update(){if(welcomed||!sites||typeof player==='undefined'||!player)return;var c=sites.centre;
-  if(Math.hypot(player.position.x-c.x,player.position.z-c.z)<9){welcomed=true;if(typeof UI!=='undefined')UI.chat('The Proving Ground. Wild grubkins here attack on sight; the poacher, the warlock and the broodmother answer only a challenge.','plain')}}
+  if(Math.hypot(player.position.x-c.x,player.position.z-c.z)<9){welcomed=true;if(typeof UI!=='undefined')UI.chat('The Proving Ground. The large rats here attack on sight; the poacher, the warlock and the rat matriarch answer only a challenge.','plain')}}
  function dispose(){npcs.forEach(function(n){[WORLD.npcs,WORLD.clickables].forEach(function(a){var i=a.indexOf(a===WORLD.npcs?n:n.mesh);if(i>=0)a.splice(i,1)});if(n.mesh&&n.mesh.parent)n.mesh.parent.remove(n.mesh)});npcs=[]}
  return {load:load,dispose:dispose,update:update,kitModel:kitModel,npcs:function(){return npcs.slice()},sites:function(){return sites},TYPES:TYPES,
   findSites:findSites,layout:layout};   // pure site search (tools/test_holm_proving_ground.js)

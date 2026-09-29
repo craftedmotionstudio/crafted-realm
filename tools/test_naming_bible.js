@@ -196,6 +196,11 @@ console.log('3. ids unchanged, names per the bible:');
   const ruleIds=Object.keys(PR).filter(id=>!SHARED_PRAYERS[id]);
   check('the shared/combat.js prayer rules keep the same 17 ids',!ruleIds.length,ruleIds);
   check('NPC_TYPES.giant_mole is "The Great Delver"',!!NPC_TYPES.giant_mole&&NPC_TYPES.giant_mole.name==='The Great Delver',NPC_TYPES.giant_mole&&NPC_TYPES.giant_mole.name);
+  // the creatures pass (2026-09-29): plain old-school creature words, ids kept; the grubkin is gone (the large rat)
+  const CR={pasturehen:'Chicken',moorcalf:'Cow',gnarlgob:'Goblin',burrowrat:'Rat',large_rat:'Large rat'};
+  const badCr=Object.keys(CR).filter(id=>!NPC_TYPES[id]||NPC_TYPES[id].name!==CR[id]).map(id=>id+'='+(NPC_TYPES[id]&&NPC_TYPES[id].name));
+  check('the farm animals, the goblin and the rats keep their ids with plain names (Chicken, Cow, Goblin, Rat, Large rat)',!badCr.length,badCr);
+  check('no creature is a grubkin any more (the large rat replaced it)',!NPC_TYPES.grubkin&&!Object.values(NPC_TYPES).some(t=>/grubkin/i.test(t.name||'')));
   check('zone ids kept: commons = Hearthmere, wardenholm = Hearthmere Castle, saltreach = Gullhaven',
     ZONES.commons&&ZONES.commons.name==='Hearthmere'&&ZONES.wardenholm&&ZONES.wardenholm.name==='Hearthmere Castle'&&ZONES.saltreach&&ZONES.saltreach.name==='Gullhaven',
     [ZONES.commons,ZONES.wardenholm,ZONES.saltreach].map(z=>z&&z.name));

@@ -125,3 +125,20 @@ later" rows. Where the plan still used a retired root or a name this bible had a
 | **Ford stepping stones** (Agility 5) | the plan's "Vey ford stones" | The same retired root; it is simply the ford by Hearthmere |
 | **Writ rune** (Runecrafting 54) | the plan's "Way" rune | This bible already names `law_rune` the Writ rune |
 | **Whitsteel, Aurel, Veyrite, Undercrag** (the metal tiers after steel, `TIERS` in `game1_data.js`) | the roles of 2004's four top metals | Already live; recorded so the anvil and the guides' tiers are on the list. Whitsteel is Whitmoor's pale knightly steel, aurel a gold-bright alloy, undercrag the ore of the Undercrag. Veyrite also carries the retired "Vey" root: renaming it is an owner call (ids stay) |
+
+## Added by the creatures pass (2026-09-29)
+The owner asked for the old-school creatures under their plain names ("a giant rat would be a good option instead - we'll
+call it a large rat"; goblins, chickens, cows). Generic creature words stay (above), so the display names became the plain
+words and every internal id stayed (saves, drop tables, map spawns and tests name them). New models: Blender, our own
+(`tools/blender/build_holm_creatures_v1.py`). The guard checks these names and that no creature is a grubkin any more.
+
+| Name | Replaces | Why |
+|---|---|---|
+| **Large rat** (`large_rat`, level 3; the island trial rats and the Proving Ground pack) | the grubkin (all of its forms: the practice, wild and mainland ones) | The owner never liked the grubkins; a big rat is the 2004 first foe. "Large" keeps it our own, a generic word |
+| **Rat** (`burrowrat`) | Burrow rat | A plain creature word, like 2004's |
+| **Goblin** (`gnarlgob`) | Gnarlgob | "Goblin" is on the kept list; the invented name read as a stand-in |
+| **Chicken** (`pasturehen`) | Pasture hen | A plain farm-animal word |
+| **Cow** (`moorcalf`) | Moorcalf | A plain farm-animal word |
+| **Rat matriarch** (`pg_rat_matriarch`, the Proving Ground's boss) | the grubkin broodmother | The pack's mother follows the pack; our own title |
+| **Rat Trouble** (quest id `grub_trouble` kept) | Grub Trouble | Warden Maela's pests are large rats now |
+| **Vermin Bane** (deed id `grubslayer` kept, title "the Vermin Bane") | Grubslayer | The deed counts large rats and goblins; earned deeds keep their id |

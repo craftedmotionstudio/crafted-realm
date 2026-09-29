@@ -16,7 +16,7 @@
  * grant hook keys off the now-absent 'ranged'/'magic' steps and never fires), so
  * the departure pack includes the ranged+magic kit for the current proving slice.
  *
- * COMBAT DEFERRED: there is no practice enemy on the Holm (the only grubkin is at
+ * COMBAT DEFERRED: there is no practice enemy on the Holm (the only large rat is at
  * [430,408] on the mainland) and enemies are modelled-last, so the melee/ranged/
  * magic kill steps from the original brief are OMITTED. Combat is taught in the
  * NPC phase; the flow ends after banking.
