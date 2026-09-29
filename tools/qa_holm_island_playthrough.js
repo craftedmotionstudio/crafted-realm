@@ -47,7 +47,11 @@ async function attack(page,pen,opts){for(let i=0;i<4;i++){// the grubkin already
    const mine=l.find(n=>n===Player.aggressiveNpc);return (mine||l.sort((a,b)=>d(a)-d(b))[0]).mesh.name},pen);if(!n){await sleep(2000);continue}
   const c=await clickNamed(page,n,opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c;await closeDialogue(page)}return {error:'no target'}}
 // a player who sees no progress clicks the foe again: up to four attack cycles, each waiting 40 s for the credit
-async function fight(page,pen,id,opts){for(let k=0;k<4;k++){await attack(page,pen,opts);if(await waitLesson(page,id,40000))return true}return false}
+async function fight(page,pen,id,opts){for(let k=0;k<4;k++){
+  // ranged: out of arrows (none worn or in the pack) -> Warden Corrick tops them up (HolmCombatKits.recover; goal audit 2026-09-29)
+  if(id==='ranged_trial'&&await page.evaluate(()=>Player.count('arrows')<1&&Player.equip.ammo!=='arrows')){const r=await L.talkTo(page,'corrick');await closeDialogue(page);
+   TALKS.push({id:'corrick-arrows',topped:await waitFor(page,()=>Player.count('arrows')>0,null,8000),talked:!!r.ok})}
+  await attack(page,pen,opts);if(await waitLesson(page,id,40000))return true}return false}
 async function toBeach(p){const r=await p.evaluate(()=>HolmFishing.fireRing());return L.walkPoint(p,r.ring[0]+.5,r.ring[1]+.6,[])}
 // to cook: stand beside the fire, never on its tile (a fire does not block its tile; from on top of it a click hits the ground)
 async function toFire(p){const f=await p.evaluate(()=>{const o=scene.getObjectByName('island-campfire');return o?[o.position.x,o.position.z]:null});if(!f)return toBeach(p);
@@ -116,7 +120,12 @@ const DO={
  async open_bank(p){await walkTo(p,'bank','entrance',true,[]);await talk(p,'maud');await clickService(p,'Use bank counter','counter');await waitLesson(p,'open_bank',60000);await p.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}})},
  async magic_trial(p){await walkTo(p,'mage','entrance',true,[]);await talk(p,'ilse');await waitFor(p,()=>Player.count('air_rune')>0,null,15000);await closeDialogue(p);await spellbook(p,'wind_strike');
   // 2004: without a staff each Gale Dart is one cast (choose the spell, then the grubkin), so a player repeats it
-  for(let k=0;k<40&&await lesson(p)==='magic_trial';k++){if(!await p.evaluate(()=>Player.spell==='wind_strike'))await spellbook(p,'wind_strike');
+  for(let k=0;k<40&&await lesson(p)==='magic_trial';k++){
+   // out of teaching runes before the kill (runs 125 and 129 stalled here with 0 gale runes): the arrow and a chat line send
+   // the player back to Magister Ilse, who tops them up (HolmCombatKits.recover; goal audit 2026-09-29)
+   if(await p.evaluate(()=>Player.count('air_rune')<1||Player.count('mind_rune')<1)){const r=await L.talkTo(p,'ilse');await closeDialogue(p);
+    TALKS.push({id:'ilse-runes',label:await p.evaluate(()=>GuideArrow._resolve().label),topped:await waitFor(p,()=>Player.count('air_rune')>0&&Player.count('mind_rune')>0,null,8000),talked:!!r.ok})}
+   if(!await p.evaluate(()=>Player.spell==='wind_strike'))await spellbook(p,'wind_strike');
    await attack(p,'mage-yard',{keepDialogs:true});await waitFor(p,()=>!Player.target,null,9000)}},
  async relight_lastlight(p){await walkTo(p,'lastlight','door',true,[]);await talk(p,'aldous');
   for(const w of ['ladder1-foot','ladder2-foot','ladder3-foot'])await clickService(p,'Climb-up ladder',w);await clickService(p,'Pull beacon lever','lever');await waitLesson(p,'relight_lastlight',30000);
