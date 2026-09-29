@@ -3762,6 +3762,15 @@
     },
     {
      "pack": "clutter",
+     "prop": "mushrooms",
+     "x": 116.66,
+     "z": 31.72,
+     "yaw": 4.2,
+     "scale": 0.91,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
      "prop": "pebbles",
      "x": 117.32,
      "z": 31.65,
@@ -6489,15 +6498,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "daisies",
-     "x": 109.56,
-     "z": 50.76,
-     "yaw": 1.54,
-     "scale": 0.89,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "bracken",
      "x": 121.23,
      "z": 50.77,
@@ -6642,15 +6642,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "pebbles",
-     "x": 110.22,
-     "z": 51.32,
-     "yaw": 3.58,
-     "scale": 1.13,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "fern",
      "x": 115.76,
      "z": 51.6,
@@ -6737,15 +6728,6 @@
      "z": 52.53,
      "yaw": 5.5,
      "scale": 0.89,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "thistle",
-     "x": 105.78,
-     "z": 52.79,
-     "yaw": 4.58,
-     "scale": 1.12,
      "noBlock": true
     },
     {
@@ -6881,15 +6863,6 @@
      "z": 53.42,
      "yaw": 4.53,
      "scale": 1.17,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "daisies",
-     "x": 106.35,
-     "z": 53.68,
-     "yaw": 4.06,
-     "scale": 1.23,
      "noBlock": true
     },
     {
@@ -7097,33 +7070,6 @@
      "z": 56.69,
      "yaw": 5.3,
      "scale": 1.23,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 42.6,
-     "z": 56.75,
-     "yaw": 0.67,
-     "scale": 1.12,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "mushrooms",
-     "x": 48.26,
-     "z": 56.52,
-     "yaw": 5.49,
-     "scale": 1.11,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 53.47,
-     "z": 56.48,
-     "yaw": 3.8,
-     "scale": 1.14,
      "noBlock": true
     },
     {
@@ -7417,6 +7363,15 @@
     {
      "pack": "clutter",
      "prop": "grass-clump",
+     "x": 47.79,
+     "z": 58.26,
+     "yaw": 0.92,
+     "scale": 1.04,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
+     "prop": "grass-clump",
      "x": 131.33,
      "z": 59.6,
      "yaw": 5.71,
@@ -7583,6 +7538,15 @@
      "z": 61.34,
      "yaw": 5.75,
      "scale": 1.08,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
+     "prop": "daisies",
+     "x": 46.39,
+     "z": 60.52,
+     "yaw": 6.27,
+     "scale": 1.1,
      "noBlock": true
     },
     {
@@ -7794,6 +7758,15 @@
     },
     {
      "pack": "clutter",
+     "prop": "daisies",
+     "x": 73.38,
+     "z": 62.27,
+     "yaw": 2.59,
+     "scale": 1.14,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
      "prop": "grass-clump",
      "x": 24.51,
      "z": 63.59,
@@ -7862,24 +7835,6 @@
      "z": 63.27,
      "yaw": 4.82,
      "scale": 1.1,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "pebbles",
-     "x": 99.36,
-     "z": 63.35,
-     "yaw": 2.22,
-     "scale": 1.06,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "pebbles",
-     "x": 100.26,
-     "z": 63.51,
-     "yaw": 0.84,
-     "scale": 0.94,
      "noBlock": true
     },
     {
@@ -8182,6 +8137,15 @@
     {
      "pack": "clutter",
      "prop": "grass-clump",
+     "x": 86.56,
+     "z": 65.71,
+     "yaw": 5.08,
+     "scale": 0.94,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
+     "prop": "grass-clump",
      "x": 69.36,
      "z": 66.68,
      "yaw": 5.6,
@@ -8478,6 +8442,15 @@
     },
     {
      "pack": "clutter",
+     "prop": "fern",
+     "x": 78.34,
+     "z": 67.71,
+     "yaw": 5.15,
+     "scale": 0.94,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
      "prop": "thistle",
      "x": 98.36,
      "z": 68.46,
@@ -8501,6 +8474,15 @@
      "z": 68.4,
      "yaw": 4.43,
      "scale": 0.93,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
+     "prop": "grass-clump",
+     "x": 112.55,
+     "z": 67.56,
+     "yaw": 0.12,
+     "scale": 1.03,
      "noBlock": true
     },
     {
@@ -8582,6 +8564,15 @@
      "z": 69.31,
      "yaw": 5.85,
      "scale": 1.05,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
+     "prop": "grass-clump",
+     "x": 96.27,
+     "z": 68.44,
+     "yaw": 4.98,
+     "scale": 0.83,
      "noBlock": true
     },
     {
@@ -8690,15 +8681,6 @@
      "z": 69.31,
      "yaw": 6.28,
      "scale": 0.82,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 113.65,
-     "z": 69.69,
-     "yaw": 2.91,
-     "scale": 0.83,
      "noBlock": true
     },
     {
@@ -9108,15 +9090,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "mushrooms",
-     "x": 72.79,
-     "z": 72.45,
-     "yaw": 6.06,
-     "scale": 1.08,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "thistle",
      "x": 73.28,
      "z": 72.56,
@@ -9185,6 +9158,15 @@
      "z": 72.37,
      "yaw": 4.02,
      "scale": 0.99,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
+     "prop": "grass-clump",
+     "x": 44.62,
+     "z": 72.68,
+     "yaw": 3.48,
+     "scale": 0.97,
      "noBlock": true
     },
     {
@@ -9473,15 +9455,6 @@
      "z": 74.3,
      "yaw": 1.16,
      "scale": 1.04,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "mushrooms",
-     "x": 72.49,
-     "z": 74.51,
-     "yaw": 3.69,
-     "scale": 0.99,
      "noBlock": true
     },
     {
@@ -10305,24 +10278,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 88.71,
-     "z": 79.46,
-     "yaw": 3.98,
-     "scale": 1.17,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 89.46,
-     "z": 79.48,
-     "yaw": 0.94,
-     "scale": 0.99,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "daisies",
      "x": 93.66,
      "z": 79.7,
@@ -10679,15 +10634,6 @@
      "z": 81.33,
      "yaw": 3.85,
      "scale": 0.88,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "bracken",
-     "x": 67.56,
-     "z": 81.53,
-     "yaw": 0.4,
-     "scale": 1.12,
      "noBlock": true
     },
     {
@@ -11142,15 +11088,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "bracken",
-     "x": 113.42,
-     "z": 83.64,
-     "yaw": 6.19,
-     "scale": 0.95,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "grass-clump",
      "x": 114.42,
      "z": 83.63,
@@ -11354,15 +11291,6 @@
      "z": 84.38,
      "yaw": 5.85,
      "scale": 1.02,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 113.63,
-     "z": 84.38,
-     "yaw": 1.37,
-     "scale": 1.19,
      "noBlock": true
     },
     {
@@ -12511,6 +12439,15 @@
     {
      "pack": "clutter",
      "prop": "bracken",
+     "x": 68.62,
+     "z": 90.21,
+     "yaw": 2.07,
+     "scale": 1.17,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
+     "prop": "bracken",
      "x": 50.38,
      "z": 91.74,
      "yaw": 4.71,
@@ -13113,6 +13050,15 @@
     },
     {
      "pack": "clutter",
+     "prop": "grass-clump",
+     "x": 41.57,
+     "z": 94.73,
+     "yaw": 3.82,
+     "scale": 0.88,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
      "prop": "pebbles",
      "x": 52.45,
      "z": 95.43,
@@ -13217,6 +13163,15 @@
      "z": 95.53,
      "yaw": 2.4,
      "scale": 1.17,
+     "noBlock": true
+    },
+    {
+     "pack": "clutter",
+     "prop": "grass-clump",
+     "x": 118.67,
+     "z": 94.23,
+     "yaw": 2.66,
+     "scale": 1.21,
      "noBlock": true
     },
     {
