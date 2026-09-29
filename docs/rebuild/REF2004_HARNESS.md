@@ -170,6 +170,9 @@ unit. Pitch 128 = 22.5 deg above the horizon (the lowest 2004 camera and its def
 | `tools/ref2004/gait_options_page.py` | review 5: the owner's PRIVATE walk / run / idle options page (`C:\Users\iQwaZ\ref2004_captures\review\gait_options.html`, GIFs beside it; never committed or published) |
 | `tools/ref2004/gait_options_page_r2.py` | review 5 round 2: the same page with the round-2 walk / run options (D, E, F) and the mesh options (a, b, c) on top, round 1 kept below |
 | `tools/ref2004/facet_metrics.py` | review 5 round 2: faceting numbers of the close-up turnaround (flat-plane share, creases, facets per colour region) for 2004 and ours |
+| `tools/ref2004/gait_lab_refpack.py` | review 5 round 3: the PRIVATE 2004 reference pack for the Gait Lab (one frame per held pose of each walk / run, side + game camera, man + woman) -> `C:\Users\iQwaZ\ref2004_captures\gait_lab\` with its `Start Gait Lab reference.bat` (localhost 8150); never committed |
+| `tools/gait_lab.html`, `tools/gait_lab.js` | review 5 round 3: the owner's Gait Lab -- 2004 beside ours, presets, live sliders, Best / Not right picks, export (in the repo; loads the 2004 pack only at run time) |
+| `tools/gait_lab_bake.js` | review 5 round 3: turns a Gait Lab pick / settings file into a bake JSON (`tools/blender/gait_lab_bakes/<walk_X>.json`) that the gaits build turns into a real clip |
 
 ### Gait options (review 5, 2026-09-28)
 
@@ -183,3 +186,36 @@ python tools/ref2004/gait_options_page.py --sets cur,optA,optB,optC             
 ```
 
 `--skip designer` still picks body type B in the creator for the woman; only the designer screenshots are left out.
+
+### Gait Lab (review 5 round 3, 2026-09-29)
+
+The owner picks the walk and run himself: `http://localhost:8777/tools/gait_lab.html` (QA: any static server over the
+worktree). Left the 2004 reference (8 held poses, looped at the 2004 pose timings), right our kit playing the chosen clip
+live through the same 2004 lens (36.13 deg vfov, 22.5 deg elevation), side view or the game camera (3/4 from behind).
+
+- The 2004 frames never enter the repo. Build the private pack once, then either double-click
+  `C:\Users\iQwaZ\ref2004_captures\gait_lab\Start Gait Lab reference.bat` (serves that folder on http://127.0.0.1:8150,
+  localhost only; the lab loads `gait_ref.js` with a script tag) or press "Choose the 2004 reference folder" in the lab and
+  pick that folder. The frames are for the eye only; nothing is traced into our clips.
+
+  ```sh
+  python tools/ref2004/gait_lab_refpack.py        # -> C:/Users/iQwaZ/ref2004_captures/gait_lab/ (about 0.6 MB)
+  ```
+
+- Presets = the clips in `assets/models/holm_kit_v2_gaits.glb` (shipped, round 3 G / H, round 2 D-F, round 1 A-C).
+  Sliders are runtime offsets on top of the preset (model-space bone rotations, scaled about each clip's mean pose;
+  feet kept on the ground by the hips, the face kept level); nothing is written back to the GLB.
+- Picks (Best / Not right + a note) and slider settings live in the browser (`localStorage` `gaitLab.state.v1`,
+  `gaitLab.picks.v1`); "Export picks" downloads them, "Copy settings" copies one setting as JSON.
+- Bake a pick into a real clip (the pick's frames are sampled from the lab itself, so the clip is exactly what was seen):
+
+  ```sh
+  SMOKE_BASE=http://127.0.0.1:<port> node tools/gait_lab_bake.js picks.json walk_P [pick index]   # -> tools/blender/gait_lab_bakes/walk_P.json
+  blender -b --python tools/blender/build_holm_characters_v2.py -- --gait-options   # every bake becomes a clip; asserts each round-trips (< 0.1 deg)
+  cp .studio-workspaces/holm-gait-options-v1/candidates/gaits.glb assets/models/holm_kit_v2_gaits.glb   # then bump URL in src/holm_gait_options.js
+  blender -b --python tools/blender/check_holm_equipment_v4.py -- --no-render --out .studio-workspaces/holm-gait-options-v1/fit/P \
+      --frames idle:0,idle:24,idle:36,walk:0,walk:4,walk:7,walk:10,walk:14,walk:18,walk:21,walk:24,run:0,run:2,run:3,run:5,run:8,run:10,run:12,run:13,run:15,run:18 \
+      --gaits assets/models/holm_kit_v2_gaits.glb --clip-map idle=idle_A,walk=walk_P,run=run_G   # every held pose: 0 clipping
+  ```
+
+  In game the clip is then `?gait=walkP`.

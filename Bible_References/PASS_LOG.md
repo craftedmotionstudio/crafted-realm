@@ -4044,3 +4044,33 @@ length (slight medium-length read in 3/4).
   sound fonts, the oscillator TRACKS in game3_systems.js, and the retired composer tools removed; docs updated.
 - Gates: units 95/95, music tests 17/17, smoke PASS, music QA 20/20, menu 65/65, playthrough 1/1; in game the Music
   tab lists exactly the 17 new pieces.
+
+## 2026-09-29 — Review 5 round 3: Gait Lab + strut / stroll walks + light-jog runs (branch holm-gait-options; shipped clips stay default)
+- Owner round 3: the walk is good but the torso still leans forward -- "more like Conor McGregor" (a relaxed, confident
+  upright strut); the run leans "way too much" and should be "a light jog"; "I need to be the one that selects ... more of a
+  panel ... compared to the old-school RuneScape walking and running animation, side by side".
+- Gait Lab: tools/gait_lab.html (+ gait_lab.js), open at http://localhost:8777/tools/gait_lab.html. Left the 2004 reference
+  looping its 8 held poses at the 2004 pose timings; right our kit playing live through the same 2004 lens; side view and the
+  game camera (3/4 from behind); man / woman; mesh shipped / a / b / c; play / pause, speed, frame and pose stepping, cycle
+  line-up. Presets = every clip (shipped, G, H, D-F, A-C). Live sliders (runtime offsets): walk torso lean, shoulders back,
+  arm swing, arm carry out, elbow bend, stride, knee lift, bounce, shoulder counter-rotation, hip sway, cadence; run lean,
+  knee drive, arm pump, elbow bend, arm carry out, bounce / flight, stride, cadence. Best / Not right + note saved in the
+  browser, Export picks / Copy settings / Load settings as JSON.
+- The 2004 frames never enter the repo: tools/ref2004/gait_lab_refpack.py writes the private pack to
+  C:\Users\iQwaZ\ref2004_captures\gait_lab\ (0.6 MB) with "Start Gait Lab reference.bat" (python http.server on
+  127.0.0.1:8150); the lab loads it by script tag from there, or from that folder picked in the page. Eye-only; no 2004
+  animation data is traced into our clips. The test now fails if a reference frame or gait_ref.js appears anywhere in the repo.
+- Bake pipeline: tools/gait_lab_bake.js samples a pick from the lab itself -> tools/blender/gait_lab_bakes/<walk_X>.json ->
+  `build_holm_characters_v2.py --gait-options` makes it a real clip, asserting the round trip through the GLB (converter and
+  sample bake 0.0 deg).
+- New clips (holm_kit_v2_gaits.glb now walk_A-H, run_A-H, idle_A-C): walk G strut (spine -1.5 deg, i.e. a hair back; chest
+  up, shoulders open, arms carried out, +-16 deg swing), walk H casual stroll (upright 0 deg, +-12 deg swing); run G light
+  jog (lean 2 deg, low knee, 20% flight, arms ~90 deg close, +-26 deg), run H easy jog (lean 4 deg, +-32 deg). Shipped walk
+  leans 11 deg, shipped run 26 deg.
+- Equipment fit at idle A + walk / run over all 8 held poses (20466 tests each): G 0 clipping, 32 small gaps (platebody
+  shoulder edge 4 vertices on 3 run poses, chaps 2); H 0 clipping, 43 small gaps; shipped 1 clipping / 35 gaps.
+- Gates on the branch: units 95/95 (test_holm_gait_options 119 checks), smoke PASS fg + hidden (108/108), playthrough 1/1
+  (18/18 lessons, 10/10 tutors, 0 page errors). In-app browser: the lab driven by hand -- 2004 reference loaded from
+  127.0.0.1:8150, side + game views, man + woman, every walk and run preset plays its clip, sliders move the character live,
+  picks save and load, mesh a / b / c load.
+- Known: the woman's side-view 2004 walk frames 0-2 and 7 still show a passer-by beside her (the man's are clean).
