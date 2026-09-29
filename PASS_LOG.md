@@ -247,3 +247,31 @@ Sound: Sfx.level() is now a soft WebAudio firework (whoosh up, two soft pops, a 
 Leaves (src/fx_leaves.js): fx_atmosphere's 36 always-falling orange squares replaced by the odd Blender oak leaf (assets/textures/fx/oak_leaves_v1.png: autumn green, olive gold, amber, russet) from oaks only (+ Emberwood autumn trees, amber/russet); each oak every 6-14 s within 30 tiles, max 8; tumbles, lands flat, rests, fades. One mesh, 0 draw calls when none out. At the camp: 2.2 leaves out on average, max 3.
 Online: our own level-up (server 'level' message) shows the fireworks + sound; other players' level-ups are not in the protocol (left as is).
 Gates: tools/test_*.js 96/96 (new test_levelup_fx 56/56; test_world_v2 P-16 lock updated for the reworded line), server tests 98/98, smoke PASS 108/108 at 60 FPS, worst frame 20 ms, 95 draws (foreground + hidden, zero errors), island playthrough 1/1 (18/18 lessons, 0 page errors). In-app browser: no flash, fireworks round the adventurer, cue built on Sfx master (55 connections), oak leaves at the camp. Captures: scratchpad/levelup_leaves/.
+
+## 2026-09-29 — Holm finish goal audit (branch holm-goal-audit)
+Audited every open item of docs/rebuild/HOLM_FINISH_GOAL_2026-09-24.md against the tree, the QA drivers, the logs and the running game (audit table at the end of the goal file). Ticked with proof: exact arrows, clear direction, full tutor cast, the production switch with save migration, the full-route rewrite, the human-pace playthrough, and the shelved M3 slice review (closed as superseded). Awaiting the owner, or his pending look, gait and mesh picks: character redesign, the kit, M6.2, M7.4, the 10-run recount, and acceptance. Partly done: items through Blender, M4.3, M6.3, the NPC lifecycle, the editable player source, and smoke/perf/sources/sheets. Not audited: the animation items (CraftedRealms-Anim) and the practice enemies (the creatures pass).
+New gates: tools/qa_holm_full_route.js (live island, 18 lessons, bank, recovery, negatives, a guide probe before every action), tools/qa_holm_save_migration.js (older save formats, graduated saves, full packs, interruptions, NPC lifecycle), qa_holm_island_playthrough.js --human, tools/qa_holm_perf_views.js, tools/sheet_holm_guide_audit.py, tools/test_holm_island_guide.js.
+Bugs found and fixed:
+- Guide arrow:
+  - bread sub-steps;
+  - a cavern lesson seen from the surface pointed into the sea;
+  - the Lastlight descent;
+  - the skiff sat a tile off;
+  - the Guide House porch;
+  - no stale arrow.
+- Soft-locks and dead ends:
+  - teaching runes or arrows spent (runs 125 and 129): HolmCombatKits.recover;
+  - a tutor model failing to load: it no longer gates its lessons;
+  - a full pack at the pier: the objective counts the slots to free, and dropping works.
+- Pre-kit looks were reset to the default: now carried onto the kit.
+- Death woke the adventurer at the dock while the chat said the porch: now the porch.
+Gates on the final build:
+- tools/test_*.js 97/97;
+- server 98/98;
+- smoke PASS: foreground 108/108 at 60 fps, 95 calls; hidden PASS;
+- island QA 34/34;
+- full route 33/33 (58 probes, 0 mismatches);
+- save migration 64/64;
+- human-pace playthrough complete in 26.9 min (0 errors);
+- perf views: the widest views are over the draw-call budget (1,074-1,888 against 800), from unmerged props-pass building meshes; open.
+Evidence: scratchpad/holm_full_route/ (contact sheets), scratchpad/holm_save_migration/results.json, scratchpad/holm_perf_views/results.json, scratchpad/holm_goal_audit/gates_summary.json.
