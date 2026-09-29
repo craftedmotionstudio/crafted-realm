@@ -1,0 +1,239 @@
+{
+ "tag": "after4b",
+ "look": "4b",
+ "base": "http://127.0.0.1:8161",
+ "at": "2026-09-29T14:10:32.347Z",
+ "errors": [],
+ "frames": [
+  {
+   "file": "after4b_levelup_f00.jpg",
+   "ms": 0
+  },
+  {
+   "file": "after4b_levelup_f01.jpg",
+   "ms": 191
+  },
+  {
+   "file": "after4b_levelup_f02.jpg",
+   "ms": 391
+  },
+  {
+   "file": "after4b_levelup_f03.jpg",
+   "ms": 576
+  },
+  {
+   "file": "after4b_levelup_f04.jpg",
+   "ms": 764
+  },
+  {
+   "file": "after4b_levelup_f05.jpg",
+   "ms": 953
+  },
+  {
+   "file": "after4b_levelup_f06.jpg",
+   "ms": 1153
+  },
+  {
+   "file": "after4b_levelup_f07.jpg",
+   "ms": 1339
+  },
+  {
+   "file": "after4b_levelup_f08.jpg",
+   "ms": 1525
+  },
+  {
+   "file": "after4b_levelup_f09.jpg",
+   "ms": 1725
+  },
+  {
+   "file": "after4b_levelup_f10.jpg",
+   "ms": 1910
+  },
+  {
+   "file": "after4b_levelup_f11.jpg",
+   "ms": 2094
+  },
+  {
+   "file": "after4b_levelup_f12.jpg",
+   "ms": 2295
+  },
+  {
+   "file": "after4b_levelup_f13.jpg",
+   "ms": 2482
+  },
+  {
+   "file": "after4b_levelup_f14.jpg",
+   "ms": 2666
+  },
+  {
+   "file": "after4b_levelup_f15.jpg",
+   "ms": 2853
+  }
+ ],
+ "missing": [
+  "/BUILD_INFO.json?_=1790691033262",
+  "/favicon.ico",
+  "/favicon.ico"
+ ],
+ "leaves": {
+  "atmosphereLeafMeshes": 0,
+  "leafFall": {
+   "on": true,
+   "hosts": 3,
+   "hostLabels": [
+    "Chop down Oak",
+    "Chop down Oak",
+    "Chop down Oak"
+   ],
+   "max": 8,
+   "falling": 0,
+   "resting": 0,
+   "fading": 0,
+   "spawned": 0,
+   "landed": 0,
+   "faded": 0,
+   "skippedFull": 0,
+   "meshVisible": false,
+   "inScene": true,
+   "texture": "assets/textures/fx/oak_leaves_v1.png",
+   "textureLoaded": true,
+   "map": true
+  }
+ },
+ "levelUp": {
+  "flashMaxOpacity": 0,
+  "flashLayer": false,
+  "banner": "Woodcutting level 2",
+  "chat": [
+   "Well done! Your Woodcutting has grown to level 2."
+  ],
+  "fireworks": {
+   "bursts": 0,
+   "particles": 0,
+   "shown": 0,
+   "pool": 79,
+   "spawned": 123,
+   "finished": 1,
+   "t": 3.65,
+   "hasObject": true,
+   "inScene": true,
+   "visible": false,
+   "texture": "assets/textures/fx/levelup_sparks_v1.png",
+   "textureLoaded": true,
+   "lastSound": {
+    "at": 16.681333333333335,
+    "nodes": 55,
+    "duration": 1.9
+   }
+  },
+  "woodcutting": 2
+ },
+ "walk": {
+  "reached": {
+   "id": "land:41,99",
+   "x": 41.5,
+   "y": 1.1561312,
+   "z": 99.5,
+   "surface": "land"
+  },
+  "at": [
+   41.5,
+   1.156,
+   99.5
+  ]
+ },
+ "camp": {
+  "seconds": 30,
+  "leavesOutMax": 3,
+  "leavesOutAvg": 2.21,
+  "stats": {
+   "on": true,
+   "hosts": 3,
+   "hostLabels": [
+    "Chop down Oak",
+    "Chop down Oak",
+    "Chop down Oak"
+   ],
+   "max": 8,
+   "falling": 1,
+   "resting": 1,
+   "fading": 0,
+   "spawned": 21,
+   "landed": 20,
+   "faded": 19,
+   "skippedFull": 0,
+   "meshVisible": true,
+   "inScene": true,
+   "texture": "assets/textures/fx/oak_leaves_v1.png",
+   "textureLoaded": true,
+   "map": true
+  },
+  "player": [
+   41.5,
+   1.156,
+   99.5
+  ]
+ },
+ "close": [
+  {
+   "file": "after4b_leaf_close_00.jpg",
+   "ms": 251,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after4b_leaf_close_01.jpg",
+   "ms": 1066,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after4b_leaf_close_02.jpg",
+   "ms": 1882,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after4b_leaf_close_03.jpg",
+   "ms": 2700,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after4b_leaf_close_04.jpg",
+   "ms": 3500,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after4b_leaf_close_05.jpg",
+   "ms": 4317,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after4b_leaf_close_06.jpg",
+   "ms": 5135,
+   "phase": "fall",
+   "frame": 0
+  },
+  {
+   "file": "after4b_leaf_close_07.jpg",
+   "ms": 5948,
+   "phase": "rest",
+   "frame": 0
+  },
+  {
+   "file": "after4b_leaf_close_08.jpg",
+   "ms": 6749,
+   "phase": "rest",
+   "frame": 0
+  },
+  {
+   "file": "after4b_leaf_close_09.jpg",
+   "ms": 7551,
+   "phase": "rest",
+   "frame": 0
+  }
+ ]
+}
