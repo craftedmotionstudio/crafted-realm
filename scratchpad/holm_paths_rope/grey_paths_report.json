@@ -1,0 +1,363 @@
+{
+ "generated": "tools/stage_holm_grey_paths.js",
+ "tiles": 875,
+ "dryTiles": 11615,
+ "share": 7.5,
+ "before": {
+  "tiles": 1671,
+  "worn": 1074,
+  "verge": 597,
+  "share": 14.4
+ },
+ "insideOldCorridor": 855,
+ "decorTakenUp": [
+  "grass-clump@41.57,94.73",
+  "grass-clump@44.62,72.68",
+  "grass-clump@87.58,48.8",
+  "grass-clump@114.47,64.43",
+  "grass-clump@112.55,67.56",
+  "mushrooms@116.66,31.72",
+  "bracken@68.62,90.21",
+  "grass-clump@96.27,68.44",
+  "daisies@73.38,62.27",
+  "fern@78.34,67.71",
+  "grass-clump@47.79,58.26",
+  "daisies@46.39,60.52",
+  "grass-clump@118.67,94.23",
+  "grass-clump@117.77,95.77",
+  "grass-clump@86.56,65.71",
+  "daisies@54.37,56.77",
+  "grass-clump@56.67,56.77"
+ ],
+ "crossWidths": {
+  "2": 176,
+  "3": 36,
+  "4": 16,
+  "5": 8,
+  "6": 16
+ },
+ "skipped": {
+  "notMarkable": 182,
+  "occupied": 25,
+  "occupiedBy": {
+   "habitat": 22,
+   "dress-lanternfoot-cove": 1,
+   "hetties-garden": 2
+  }
+ },
+ "legs": [
+  {
+   "name": "Guide House back door -> the fork",
+   "from": [
+    64.5,
+    92.5
+   ],
+   "to": [
+    62.5,
+    90.5
+   ],
+   "walked": 3,
+   "paved": 10
+  },
+  {
+   "name": "the fork -> timber bridge",
+   "from": [
+    62.5,
+    90.5
+   ],
+   "to": [
+    50.5,
+    87.5
+   ],
+   "walked": 21,
+   "paved": 43
+  },
+  {
+   "name": "timber bridge -> Survival camp",
+   "from": [
+    50.5,
+    87.5
+   ],
+   "to": [
+    40.5,
+    87.5
+   ],
+   "walked": 12,
+   "paved": 14
+  },
+  {
+   "name": "Survival camp -> Hollow Path -> Fire Beach",
+   "from": [
+    40.5,
+    87.5
+   ],
+   "to": [
+    33.5,
+    99.3
+   ],
+   "walked": 15,
+   "paved": 27
+  },
+  {
+   "name": "Survival camp -> Bakehouse",
+   "from": [
+    40,
+    88
+   ],
+   "to": [
+    44.5,
+    68.5
+   ],
+   "walked": 31,
+   "paved": 60
+  },
+  {
+   "name": "Bakehouse -> Quest Lodge",
+   "from": [
+    44.5,
+    68.5
+   ],
+   "to": [
+    35.5,
+    52.5
+   ],
+   "walked": 27,
+   "paved": 48
+  },
+  {
+   "name": "Quest Lodge -> Quarry Gate",
+   "from": [
+    35.5,
+    52.5
+   ],
+   "to": [
+    34.5,
+    38.5
+   ],
+   "walked": 29,
+   "paved": 55
+  },
+  {
+   "name": "Warden's Keep gate -> Holm Bank",
+   "from": [
+    89.5,
+    42.5
+   ],
+   "to": [
+    86.5,
+    62.5
+   ],
+   "walked": 32,
+   "paved": 53
+  },
+  {
+   "name": "Holm Bank -> Mage tower",
+   "from": [
+    86.5,
+    62.5
+   ],
+   "to": [
+    106.5,
+    58.5
+   ],
+   "walked": 28,
+   "paved": 54
+  },
+  {
+   "name": "Mage tower -> practice yard",
+   "from": [
+    106.5,
+    58.5
+   ],
+   "to": [
+    110.5,
+    64.5
+   ],
+   "walked": 21,
+   "paved": 35
+  },
+  {
+   "name": "Mage tower -> Lastlight",
+   "from": [
+    106.5,
+    58.5
+   ],
+   "to": [
+    115.5,
+    26.5
+   ],
+   "walked": 55,
+   "paved": 107
+  },
+  {
+   "name": "Lastlight -> Keeper's Stair",
+   "from": [
+    115.5,
+    26.5
+   ],
+   "to": [
+    110.5,
+    21.5
+   ],
+   "walked": 14,
+   "paved": 26
+  },
+  {
+   "name": "Keeper's Stair foot -> the haven",
+   "from": [
+    104.5,
+    14.5
+   ],
+   "to": [
+    101.5,
+    16.5
+   ],
+   "walked": 5,
+   "paved": 9
+  },
+  {
+   "name": "Guide House back door -> east lane",
+   "from": [
+    64.5,
+    92.5
+   ],
+   "to": [
+    67.5,
+    90.5
+   ],
+   "walked": 5,
+   "paved": 11
+  },
+  {
+   "name": "east lane -> the carriage track",
+   "from": [
+    67.5,
+    90.5
+   ],
+   "to": [
+    78.5,
+    79
+   ],
+   "walked": 19,
+   "paved": 42
+  },
+  {
+   "name": "east lane -> Holm Bank",
+   "from": [
+    78.5,
+    79
+   ],
+   "to": [
+    86.5,
+    62.5
+   ],
+   "walked": 31,
+   "paved": 67
+  },
+  {
+   "name": "Quest Lodge -> keep lane",
+   "from": [
+    35.5,
+    52.5
+   ],
+   "to": [
+    70,
+    52.5
+   ],
+   "walked": 36,
+   "paved": 69
+  },
+  {
+   "name": "keep lane -> Warden's Keep gate",
+   "from": [
+    70,
+    52.5
+   ],
+   "to": [
+    89.5,
+    42.5
+   ],
+   "walked": 78,
+   "paved": 152
+  },
+  {
+   "name": "Bakehouse -> weir walk (its planks lead on to the Creakwheel Mill door)",
+   "from": [
+    44.5,
+    68.5
+   ],
+   "to": [
+    57.5,
+    59.5
+   ],
+   "walked": 41,
+   "paved": 58
+  },
+  {
+   "name": "Bakehouse -> Hettie's Garden gate",
+   "from": [
+    44.5,
+    68.5
+   ],
+   "to": [
+    52.3,
+    57.6
+   ],
+   "walked": 34,
+   "paved": 51
+  },
+  {
+   "name": "Mage tower -> farm lane",
+   "from": [
+    106.5,
+    58.5
+   ],
+   "to": [
+    121.5,
+    78
+   ],
+   "walked": 29,
+   "paved": 53
+  },
+  {
+   "name": "farm lane -> Haycombe Farm",
+   "from": [
+    121.5,
+    78
+   ],
+   "to": [
+    117,
+    95
+   ],
+   "walked": 18,
+   "paved": 42
+  }
+ ],
+ "squares": [
+  {
+   "name": "Holm Bank front court",
+   "paved": 12
+  },
+  {
+   "name": "Warden's Keep gate court",
+   "paved": 1
+  },
+  {
+   "name": "Bakehouse junction",
+   "paved": 6
+  },
+  {
+   "name": "Quarry Gate yard",
+   "paved": 8
+  },
+  {
+   "name": "Mage tower door",
+   "paved": 4
+  }
+ ],
+ "graph": {
+  "nodes": 10468,
+  "edges": 27691,
+  "hash": "d41278dc47dbc168"
+ }
+}

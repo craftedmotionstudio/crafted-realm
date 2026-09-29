@@ -27,14 +27,14 @@
             "arrival": 163
           }
         },
-        "roots": 482
+        "roots": 484
       }
     },
     {
       "label": "every clickable on the island is an authored Blender model (no code-built stand-ins, no old-island leftovers)",
       "ok": true,
       "detail": {
-        "clickables": 1355,
+        "clickables": 1290,
         "leftovers": [],
         "leftoverCount": 0,
         "visiblePrimitives": []
@@ -128,7 +128,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 43,
+        "deckSamples": 65,
         "deckY": 2.3
       }
     },
@@ -154,8 +154,8 @@
       "label": "the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)",
       "ok": true,
       "detail": {
-        "samples": 596,
-        "diagonal": 54
+        "samples": 733,
+        "diagonal": 74
       }
     },
     {
@@ -314,7 +314,7 @@
           11,
           45.5
         ],
-        "diagonal": 82
+        "diagonal": 121
       }
     },
     {
@@ -329,7 +329,7 @@
           7.3,
           56.5
         ],
-        "diagonal": 7,
+        "diagonal": 8,
         "bankOpen": true
       }
     },
@@ -345,7 +345,7 @@
           13.75,
           56.5
         ],
-        "diagonal": 16
+        "diagonal": 24
       }
     },
     {
@@ -360,7 +360,7 @@
           -0.05,
           -0.5
         ],
-        "diagonal": 22
+        "diagonal": 33
       }
     },
     {
@@ -375,7 +375,7 @@
           9.15,
           29.5
         ],
-        "diagonal": 107,
+        "diagonal": 149,
         "shaftTiles": 1
       }
     },
@@ -493,6 +493,77 @@
       }
     },
     {
+      "label": "owner review 5: the rope into the mine shaft by real input: the shaft refuses untied, Take the coil (menu), Tie-rope offered, Use rope on the shaft ties it (saved), the objective follows, down on the rope to the ore workings and back up the ladder",
+      "ok": true,
+      "detail": {
+        "coil": true,
+        "start": {
+          "on": true,
+          "bound": true,
+          "tied": false,
+          "saved": false,
+          "stage": "take",
+          "coil": [
+            36.55,
+            9.16,
+            30.45
+          ],
+          "propVisible": false
+        },
+        "objective": [
+          "At the Quarry Gate, take the coil of rope lying beside the mine shaft.",
+          "Use the rope on the mine shaft to tie it to the frame.",
+          "Your rope hangs down the shaft. Climb down it to the ore workings."
+        ],
+        "refuseChat": [
+          "The shaft drops away into the dark. You need a rope tied to the frame to climb down."
+        ],
+        "refused": true,
+        "takeRows": [
+          "Take Rope",
+          "Walk here",
+          "Examine Rope",
+          "Cancel"
+        ],
+        "take": "ok",
+        "took": true,
+        "coilGone": true,
+        "shaftRows": [
+          "Climb-down Mine shaft",
+          "Tie-rope Mine shaft",
+          "Walk here",
+          "Examine Mine shaft",
+          "Cancel"
+        ],
+        "using": "rope",
+        "tie": "ok",
+        "tied": true,
+        "after": {
+          "on": true,
+          "bound": true,
+          "tied": true,
+          "saved": true,
+          "stage": "climb",
+          "coil": null,
+          "propVisible": true
+        },
+        "tieChat": [
+          "The shaft drops away into the dark. You need a rope tied to the frame to climb down.",
+          "You pick up the rope.",
+          "You tie the rope to the frame and let it down into the shaft."
+        ],
+        "saved": true,
+        "down": true,
+        "inCavern": "b:cavern:0:Cavern_Floor",
+        "up": true,
+        "top": [
+          35.5,
+          9.146,
+          28.5
+        ]
+      }
+    },
+    {
       "label": "M5.1 survival lessons on the v2 land: chop on the hollow rim, light a fire where you stand there (owner review 4; step aside on the graph), net a perch at a live ripple, cook it on that fire",
       "ok": true,
       "detail": {
@@ -506,10 +577,10 @@
         "fireWhereStood": true,
         "nets": [
           {
-            "spot": "south-bank",
-            "ticksLeft": 54,
+            "spot": "beach-edge",
+            "ticksLeft": 64,
             "result": "caught",
-            "seconds": 16,
+            "seconds": 10,
             "chat": [
               "You catch a mirrorperch."
             ]
@@ -530,7 +601,7 @@
       }
     },
     {
-      "label": "M5.1 cavern lessons: shaft ladder down (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up",
+      "label": "M5.1 cavern lessons: down the shaft on the tied rope (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up",
       "ok": true,
       "detail": {
         "chop": true,
@@ -543,10 +614,10 @@
         "fireWhereStood": true,
         "nets": [
           {
-            "spot": "south-bank",
-            "ticksLeft": 54,
+            "spot": "beach-edge",
+            "ticksLeft": 64,
             "result": "caught",
-            "seconds": 16,
+            "seconds": 10,
             "chat": [
               "You catch a mirrorperch."
             ]
@@ -579,9 +650,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 5,
+        "arrowsUsed": 19,
         "magic": true,
-        "runesUsed": 12
+        "runesUsed": 8
       }
     },
     {
@@ -608,5 +679,5 @@
       }
     }
   ],
-  "seconds": 1479
+  "seconds": 1876
 }
