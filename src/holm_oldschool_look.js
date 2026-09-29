@@ -138,6 +138,8 @@ var HolmOldschoolLook=(function(){
     .then(function(ok){if(ok.every(Boolean))verified.push(s);else console.warn('[HolmOldschoolLook] '+s.id+' textured candidate not served; previous model kept')})}));
   if(typeof HolmOverhaulGround!=='undefined'&&HolmOverhaulGround.setLookVersion)HolmOverhaulGround.setLookVersion(ver);
   if(greyPaths()&&!loading){GROUND.path=GREY_PATHS.texture;TUNE.path=GREY_PATHS.tune}
+  // look v4 options 4b / 4c (src/holm_look_v4.js): the ground's detail strength and the water's ripple contrast at the 2004 measure
+  if(!loading&&typeof HolmLookV4!=='undefined'&&HolmLookV4.tuneGround)HolmLookV4.tuneGround(TUNE,LOOK3);
   var soft=ver>1?Object.keys(SOFT).map(function(n){return loadOne(THREE,SOFT[n]).then(function(t){var m=modelTex[SOFT[n]]=modelTexture(THREE,t),r=SOFT_REPEAT[SOFT[n]];if(r)m.repeat.set(r,r)})}):[];
   if(!loading)loading=Promise.all(Object.keys(GROUND).map(function(k){return loadOne(THREE,GROUND[k])}).concat([loadOne(THREE,'water'),kit,probes],soft)).then(function(){if(ver>1)hookLoader(THREE);return true});
   return loading;
@@ -217,7 +219,7 @@ var HolmOldschoolLook=(function(){
     '  + '+d('earth')+' * vGroundMix.z + '+d('path')+' * vGroundMix.w;\n'+
     'diffuseColor.rgb *= osGround;');
   };
-  m.customProgramCacheKey=function(){return 'holm-oldschool-ground-v1'+(ver>1?'-lookv'+ver:'')+(GROUND.path===GREY_PATHS.texture?'-greypaths':'')};
+  m.customProgramCacheKey=function(){return 'holm-oldschool-ground-v1'+(ver>1?'-lookv'+ver:'')+(GROUND.path===GREY_PATHS.texture?'-greypaths':'')+(typeof HolmLookV4!=='undefined'&&HolmLookV4.option()!=='3'?'-look'+HolmLookV4.option():'')};
   var dispose=m.dispose.bind(m);m.dispose=function(){m.__disposed=true;dispose()};
   return m;
  }
@@ -265,9 +267,11 @@ var HolmOldschoolLook=(function(){
  // a model or data URL as the island loaders build it -> the textured candidate's URL when that swap is verified
  function url(u){if(!on||typeof u!=='string')return u;verified.forEach(function(s){s.map.forEach(function(m){if(u.indexOf(m[0])>=0)u=u.split(m[0]).join(m[1])})});return u}
  function swapped(id){return verified.some(function(s){return s.id===id})}
+ // every kit texture loaded so far (ground, water, soft model maps): look v4 options set their sampling (src/holm_look_v4.js)
+ function eachTexture(fn){Object.keys(tex).forEach(function(k){fn(tex[k])});Object.keys(modelTex).forEach(function(k){fn(modelTex[k])})}
  function snapshot(){return {look:on?'oldschool':'previous',version:version(),active:active,textures:Object.keys(tex),stats:stats,arrival:arrivalPackage(),swaps:verified.map(function(s){return s.id})}}
  return {greyPaths:greyPaths,GREY_PATHS:GREY_PATHS,enabled:enabled,version:version,grade:grade,regrade:regrade,preload:preload,groundMaterial:groundMaterial,restyleTrail:restyleTrail,waterTexture:waterTexture,waterLook:waterLook,activate:activate,deactivate:deactivate,
-  voidActive:voidActive,fogRange:fogRange,prepareModel:prepareModel,arrivalPackage:arrivalPackage,url:url,swapped:swapped,snapshot:snapshot,
+  voidActive:voidActive,fogRange:fogRange,eachTexture:eachTexture,prepareModel:prepareModel,arrivalPackage:arrivalPackage,url:url,swapped:swapped,snapshot:snapshot,
   TUNE:TUNE,SCENE:SCENE,LOOK3:LOOK3,ASSETS:ASSETS,SWAPS:SWAPS,SOFT:SOFT,GRADE:GRADE,FAMILY:FAMILY,MEAN:MEAN};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmOldschoolLook;

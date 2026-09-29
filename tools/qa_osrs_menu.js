@@ -13,7 +13,7 @@
  *    click does nothing else); a long press opens the same menu.
  * Screenshots for the owner (and a side-by-side with Bible_References/Lighthouse_entrance.jpg, made by
  * tools/make_osrs_menu_sheet.py) go to scratchpad/holm_menu_v1/.
- * Run: SMOKE_BASE=http://127.0.0.1:8103 node tools/qa_osrs_menu.js */
+ * Run: SMOKE_BASE=http://127.0.0.1:8103 node tools/qa_osrs_menu.js   (SMOKE_QUERY="&look=4b": a look v4 option) */
 'use strict';
 const fs=require('fs'),path=require('path'),puppeteer=require('puppeteer-core');
 const L=require('./holm_island_driver_lib');
@@ -82,7 +82,7 @@ async function settle(page){await L.settle(page,30000)}
   page.on('pageerror',e=>errors.push(String(e&&e.stack||e).slice(0,300)));
   page.on('console',m=>{if(m.type()==='error'&&!/Failed to load resource/.test(m.text()))errors.push('console: '+m.text().slice(0,300))});
   try{
-    await page.goto(BASE+'/?qaProfile=menu-qa-'+Date.now().toString(36),{waitUntil:'load',timeout:120000});await enter(page);
+    await page.goto(BASE+'/?qaProfile=menu-qa-'+Date.now().toString(36)+(process.env.SMOKE_QUERY||''),{waitUntil:'load',timeout:120000});await enter(page);
     await waitFor(page,()=>typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.tutors().length>=10&&typeof OsrsMenu!=='undefined',null,90000);
 
     /* ---- the statue by the path ---- */
@@ -112,7 +112,8 @@ async function settle(page){await L.settle(page,30000)}
     for(const id of ['coins','bones']){const sxy=await packSlot(page,id);await page.mouse.click(sxy[0],sxy[1],{button:'right'});await sleep(300);
       const pm=await readMenu(page);if(id==='coins')ok(same(texts(pm),['Use Crowns','Drop Crowns','Examine Crowns','Cancel']),'pack: Use / Drop / Examine / Cancel for crowns',texts(pm));
       await clickRow(page,'Drop '+(id==='coins'?'Crowns':'Bones'))}
-    const drops=await page.evaluate(()=>WORLD.drops.map(d=>{if(!d.name)d.name='qa-drop-'+d.userData.id;return d.name}));
+    // the QA's own two drops (the island keeps other ground items, e.g. the rope coil by the mine shaft, owner review 5)
+    const drops=await page.evaluate(()=>WORLD.drops.filter(d=>d.userData&&/^(coins|bones)$/.test(d.userData.id)).map(d=>{if(!d.name)d.name='qa-drop-'+d.userData.id;return d.name}));
     ok(drops.length===2,'both items lie on the ground',drops);
     xy=await spot(page,drops[1]);m=Array.isArray(xy)?await rightClick(page,xy):null;const tx=texts(m)||[];
     ok(tx.filter(t=>/^Take /.test(t)).length===2&&tx.indexOf('Take Crowns')>=0&&tx.indexOf('Take Bones')>=0&&tx.indexOf('Walk here')===2&&tx.filter(t=>/^Examine /.test(t)).length===2&&tx[tx.length-1]==='Cancel',
@@ -121,8 +122,8 @@ async function settle(page){await L.settle(page,30000)}
     await shotMenu(page,'02_ground_stack');await escape(page);
     const first=tx[0].replace(/^Take /,'');xy=await spot(page,drops[1]);lc=await leftClick(page,xy);
     ok(lc.ran&&/^Take /.test(lc.want),'left click takes the top item',lc);
-    ok(await waitFor(page,()=>WORLD.drops.length===1,null,20000)&&await page.evaluate(()=>Player.count('coins')+Player.count('bones')>0),'...and it is picked up (one item left on the tile)',first);
-    await page.evaluate(()=>{const d=WORLD.drops[0];if(d){d.userData.age=0}});
+    ok(await waitFor(page,()=>WORLD.drops.filter(d=>d.userData&&/^(coins|bones)$/.test(d.userData.id)).length===1,null,20000)&&await page.evaluate(()=>Player.count('coins')+Player.count('bones')>0),'...and it is picked up (one item left on the tile)',first);
+    await page.evaluate(()=>{const d=WORLD.drops.find(d=>d.userData&&/^(coins|bones)$/.test(d.userData.id));if(d){d.userData.age=0}});
 
     /* ---- the Guide House door ---- */
     const door='DoorSouthLeaf';xy=await spot(page,door);m=Array.isArray(xy)?await rightClick(page,xy):null;

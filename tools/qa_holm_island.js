@@ -12,7 +12,7 @@ const fs=require('fs'),path=require('path'),puppeteer=require('puppeteer-core');
 const OUT=path.join(__dirname,'..','scratchpad','holm_island_qa');fs.mkdirSync(OUT,{recursive:true});
 const L=require('./holm_island_driver_lib');L.setOut(OUT);const DL=L;   // DL: the lib where a block shadows L   // shared real-input helpers (talking to tutors)
 const PROFILE='island-qa-'+Date.now().toString(36);
-const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmIsland=1&qaProfile='+PROFILE;
+const BASE=(process.env.SMOKE_BASE||'http://127.0.0.1:8777')+'/?holmIsland=1&qaProfile='+PROFILE+(process.env.SMOKE_QUERY||'');   // SMOKE_QUERY: e.g. &look=4b
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));const checks=[],t0=Date.now();
 function ok(label,cond,detail){checks.push({label,ok:!!cond,detail});console.log((cond?'  ok  ':'  FAIL ')+label+(detail?'  '+JSON.stringify(detail):''));return !!cond;}
 async function shot(page,name){await page.screenshot({path:path.join(OUT,name+'.png')}).catch(()=>{});}
