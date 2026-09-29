@@ -74,7 +74,7 @@ var HolmIslandTutors=(function(){
   open_bank:function(){return ['Click my counter to open your account and see what is inside.','Anything you store here is safe. When you are done, the Mage Tower is next.']},
   magic_trial:function(){return ['Gale and wit runes make Gale Dart, and you have both in your pack.','Open your spellbook and click Gale Dart to choose it.','Then click one of the large rats in the yard. Each click casts once: choose Gale Dart again for the next. A spell can splash, just like a sword can miss.','With a staff in your hand, a chosen spell keeps casting on its own.']},
   relight_lastlight:function(){return ['Climb the three ladders to the lantern deck and pull the beacon lever.','Once the light is burning, take the Keeper\'s Stair down the cliff to Lanternfoot Cove. Tobin keeps his skiff at the pier there.']}};
- var st={npcs:[],api:null,mixers:[],talking:null,waved:{}};
+ var st={npcs:[],api:null,mixers:[],talking:null,waved:{},ready:false,missing:{},gen:0};
  function nextOf(){return typeof Tutorial!=='undefined'&&!Tutorial.complete&&Tutorial.steps[Tutorial.step]?Tutorial.steps[Tutorial.step].id:null}
  function ownerOf(id){return CAST.filter(function(c){return c.lessons.indexOf(id)>=0})[0]}
  function spoken(id){return typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.talked(id)}
@@ -100,9 +100,15 @@ var HolmIslandTutors=(function(){
   return best&&{id:best.id,x:best.x,y:best.y,z:best.z,surface:best.surface,faceX:s.x,faceZ:s.z};
  }
  async function load(o){
-  var T=o.THREE,api=o.api;st.api=api;
-  for(var i=0;i<CAST.length;i++){var c=CAST[i],p=spot(api,c);if(!p)continue;
-   var gltf;try{gltf=await new Promise(function(ok,no){new T.GLTFLoader().load('assets/models/holm_tutor_'+c.id+'_v2.glb?v=42',ok,undefined,no)})}catch(e){console.error('[HolmIslandTutors] no model for '+c.id);continue}
+  var T=o.THREE,api=o.api;st.api=api;st.ready=false;st.missing={};var gen=++st.gen;
+  // goal audit 2026-09-29 (NPC lifecycle: failure): a model that fails to load is asked for once more; a tutor still
+  // missing after that is recorded, and HolmIslandTalk stops gating their area on them (no lesson can wait on a tutor
+  // who is not there); a load still in flight when the island is disposed (the ferry) adds nothing
+  var fetchModel=function(url){return new Promise(function(ok,no){new T.GLTFLoader().load(url,ok,undefined,no)})};
+  for(var i=0;i<CAST.length;i++){var c=CAST[i],p=spot(api,c);if(!p){st.missing[c.id]='no stance';continue}
+   var gltf=null,url='assets/models/holm_tutor_'+c.id+'_v2.glb?v=42';for(var tries=0;tries<2&&!gltf;tries++){try{gltf=await fetchModel(url)}catch(e){if(tries)console.warn('[HolmIslandTutors] no model for '+c.id+'; their lessons go on without them',e&&e.message||e)}}
+   if(gen!==st.gen)return {tutors:0,disposed:true};
+   if(!gltf){st.missing[c.id]='model';continue}
    var root=gltf.scene,g=new T.Group();root.traverse(function(m){if(m.isMesh||m.isSkinnedMesh){m.castShadow=true;m.frustumCulled=false;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});
    if(typeof holmKitScale==='function')root.scale.setScalar(holmKitScale());   // kit v4: 1.5-tile people (kit default man 1.813 m)
    g.add(root);g.position.set(p.x,p.y,p.z);g.lookAt(p.faceX,p.y,p.faceZ);g.name='island-tutor-'+c.id;
@@ -112,7 +118,8 @@ var HolmIslandTutors=(function(){
    g.traverse(function(m){if(m.isMesh||m.isSkinnedMesh){m.userData.kind='island_tutor';m.userData.label='Talk-to <b>'+c.name+'</b>';m.userData.islandTutor=c.id}});
    o.scene.add(g);o.WORLD.clickables.push(g);st.npcs.push(n);
   }
-  return {tutors:st.npcs.length};
+  st.ready=true;
+  return {tutors:st.npcs.length,missing:Object.keys(st.missing)};
  }
  function byId(id){return st.npcs.filter(function(n){return n.cast.id===id})[0]}
  // the conversation: turn to face the player, gesture while the box is open, click through the pages
@@ -128,7 +135,9 @@ var HolmIslandTutors=(function(){
  // (owner review 4) the tutor then hands over their lesson's tools: markTalked refreshes the banner, which grants them
  // (tutorial_holm.js); asked again on their turn (a full pack the first time), the banner is refreshed to try again
  function ended(n){if(st.talking===n)st.talking=null;play(n,'idle');if(n.opens){n.opens=false;var first=typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.markTalked(n.cast.id);
-  if(!first&&turn(n.cast))try{Tutorial.banner()}catch(e){}}}
+  if(!first&&turn(n.cast))try{Tutorial.banner()}catch(e){}}
+  // goal audit 2026-09-29: out of teaching runes or arrows (or without the bow) during their trial, the tutor tops the kit up
+  try{if(typeof HolmCombatKits!=='undefined'&&HolmCombatKits.recover){if(n.cast.id==='ilse')HolmCombatKits.recover('magic',n.cast.name);else if(n.cast.id==='corrick')HolmCombatKits.recover('ranged',n.cast.name)}}catch(e){}}
  // v2 land phase 5 (draw calls): a tutor off screen is not drawn (the rigs keep frustumCulled off, as skinned bounds
  // shift while animating, so each tutor is culled here by a standing-height sphere instead; it still animates)
  var cull={f:null,m:null,s:null};
@@ -159,14 +168,19 @@ var HolmIslandTutors=(function(){
     setTimeout(function(){if(st.talking!==n)play(n,'idle')},1400)}
    if(st.talking===n&&!n.paging&&typeof document!=='undefined'){var m=document.getElementById('dialogue-modal');if(m&&m.style.display==='none')ended(n)}});
  }
- function dispose(W,scene){st.npcs.forEach(function(n){scene.remove(n.group);var i=W.clickables.indexOf(n.group);if(i>=0)W.clickables.splice(i,1)});st.npcs=[]}
+ // unload with the island (the ferry to the mainland): off the scene and the clickables, animation stopped, GPU buffers
+ // freed, and the conversation / wave state cleared, so a later island load starts clean
+ function dispose(W,scene){st.gen++;st.npcs.forEach(function(n){scene.remove(n.group);var i=W.clickables.indexOf(n.group);if(i>=0)W.clickables.splice(i,1);
+  try{n.mixer.stopAllAction();n.mixer.uncacheRoot(n.group.children[0]||n.group)}catch(e){}
+  n.group.traverse(function(m){if(m.geometry&&m.geometry.dispose)m.geometry.dispose();[].concat(m.material||[]).forEach(function(q){if(q&&q.map&&q.map.dispose)q.map.dispose();if(q&&q.dispose)q.dispose()})})});
+ st.npcs=[];st.talking=null;st.waved={};st.ready=false;st.missing={}}
  // the building a tutor stands inside (their stance is an interior floor), else null: the guide leads to its door first
  function inside(id){var n=byId(id),s=n&&n.home&&n.home.surface||'',m=/^b:([^:]+):/.exec(s);return m&&!/(:(IslandTerrain|StagedTerrain))$/.test(s)?m[1]:null}
  // a gesture from outside (the bank's teller at the counter): turn to the adventurer and play a clip ('idle' to stop)
  function gesture(id,clip){var n=byId(id);if(!n||!n.actions[clip])return false;settle(n);if(clip!=='idle'&&typeof player!=='undefined')n.group.lookAt(player.position.x,n.group.position.y,player.position.z);
   if(clip==='idle')n.group.lookAt(n.home.faceX,n.home.y,n.home.faceZ);play(n,clip,.2);return true}
  function strolls(){return st.npcs.map(function(n){return {id:n.cast.id,mode:n.w?n.w.mode:'home',walks:n.w?n.w.walks:0,x:+n.group.position.x.toFixed(2),z:+n.group.position.z.toFixed(2),home:[n.home.x,n.home.z]}})}
- return {load:load,update:update,talk:talk,dispose:dispose,inside:inside,gesture:gesture,strolls:strolls,cast:function(){return CAST.slice()},tutors:function(){return st.npcs.map(function(n){return {id:n.cast.id,name:n.cast.name,x:n.group.position.x,z:n.group.position.z}})},pages:function(id){var n=byId(id);return n?pages(n.cast):null},
+ return {load:load,update:update,talk:talk,dispose:dispose,inside:inside,gesture:gesture,strolls:strolls,ready:function(){return st.ready},present:function(id){return !!byId(id)},missing:function(){return Object.assign({},st.missing)},cast:function(){return CAST.slice()},tutors:function(){return st.npcs.map(function(n){return {id:n.cast.id,name:n.cast.name,x:n.group.position.x,z:n.group.position.z}})},pages:function(id){var n=byId(id);return n?pages(n.cast):null},
   // what a tutor would say right now (no model needed; tests and QA read it)
   lines:function(id){var c=CAST.filter(function(q){return q.id===id})[0];return c?pages(c):null}};
 })();

@@ -40,7 +40,9 @@ var HolmIslandTalk=(function(){
   if(!on||typeof Tutorial==='undefined')return null;
   if(Tutorial.complete)return Tutorial.departurePackClaimed?null:byId('tobin');
   var s=Tutorial.steps&&Tutorial.steps[Tutorial.step];return s?tutorOf(s.id):null}
- function pending(){var t=due();return t&&!talked(t.id)?t:null}
+ // a tutor whose model could not be loaded (HolmIslandTutors.missing) never gates: their lessons go on without them
+ function pending(){var t=due();if(!t||talked(t.id))return null;
+  if(typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.ready&&HolmIslandTutors.ready()&&!HolmIslandTutors.present(t.id))return null;return t}
  function areaOf(u){
   if(!u)return null;
   if(u.kind==='arrival_chart'||u.kind==='arrival_provisions')return 'bram';

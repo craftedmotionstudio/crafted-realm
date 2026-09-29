@@ -1,0 +1,1032 @@
+{
+ "at": "2026-09-29T18:50:07.321Z",
+ "base": "http://127.0.0.1:8171",
+ "profile": "route-mun0dfa2",
+ "pass": 33,
+ "total": 33,
+ "minutes": 23,
+ "perLessonSeconds": {
+  "study_route": 32,
+  "equip_hatchet": 52,
+  "chop_logs": 12,
+  "light_fire": 121,
+  "catch_fish": 13,
+  "cook_fish": 16,
+  "bake_bread": 93,
+  "learn_quests": 71,
+  "descend_cavern": 78,
+  "mine_copper": 10,
+  "mine_tin": 7,
+  "smelt_bronze": 10,
+  "forge_dagger": 215,
+  "melee_trial": 39,
+  "ranged_trial": 48,
+  "open_bank": 87,
+  "magic_trial": 123,
+  "relight_lastlight": 100
+ },
+ "reloads": [
+  {
+   "after": "cook_fish",
+   "same": true
+  },
+  {
+   "after": "forge_dagger",
+   "same": true
+  },
+  {
+   "after": "open_bank",
+   "same": true
+  }
+ ],
+ "verdicts": {
+  "door-first": 4,
+  "exact": 44,
+  "tutor-first": 1,
+  "pack": 5,
+  "use-on": 2,
+  "use-item-on-arrow-target": 2
+ },
+ "consoleErrors": [],
+ "checks": [
+  {
+   "label": "boot: a fresh adventurer on the live island (tutors-holm-v3), 18-lesson v6 curriculum, 10 tutors, \"Talk to Guide Bram\", the arrow on the Guide House door",
+   "ok": true,
+   "detail": {
+    "provider": "tutors-holm-v3",
+    "v": 6,
+    "n": 18,
+    "lesson": "study_route",
+    "tutors": 10,
+    "objective": "Talk to Guide Bram in the Guide House.",
+    "label": "Open the door"
+   },
+   "t": 11.1
+  },
+  {
+   "label": "a new adventurer walks until the run orb is clicked (2004)",
+   "ok": true,
+   "detail": {
+    "startedOff": true,
+    "on": true,
+    "clicked": true
+   },
+   "t": 11.4
+  },
+  {
+   "label": "talk-first: the relief chart refuses until Guide Bram has been spoken to (\"You should speak to Guide Bram first.\"), no credit",
+   "ok": true,
+   "detail": {
+    "chat": [
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Music unlocked: Morning on the Holm.",
+     "Run mode: on.",
+     "You should speak to Guide Bram first."
+    ]
+   },
+   "t": 29.1
+  },
+  {
+   "label": "Guide Bram's chat box explains the island (pages read, talk registered)",
+   "ok": true,
+   "detail": {
+    "pages": 4,
+    "talked": true
+   },
+   "t": 43.3
+  },
+  {
+   "label": "recovery: the tinderbox is dropped by the pack menu (Drop); the arrow then leads to the spare tools (the Guide House provision rack) and the chat says so",
+   "ok": true,
+   "detail": {
+    "drop": {
+     "ok": true,
+     "rows": [
+      "Use Tinderbox",
+      "Drop Tinderbox",
+      "Examine Tinderbox",
+      "Cancel"
+     ]
+    },
+    "after": {
+     "tb": 0,
+     "label": "Open the door (spare tools)",
+     "objective": "Light a fire where you stand: use your tinderbox on the logs. Any clear ground will do.",
+     "chat": [
+      "You get some emberwood logs.",
+      "You have no tinderbox. Spare tools hang on the rack in the Guide House: follow the arrow.",
+      "You get some emberwood logs.",
+      "You get some emberwood logs."
+     ]
+    }
+   },
+   "t": 111.2
+  },
+  {
+   "label": "recovery: the provision rack re-grants the lost tinderbox (\"Replacement tools placed in your pack\")",
+   "ok": true,
+   "detail": {
+    "walk": "ok",
+    "chat": [
+     "There is no open route to that spot.",
+     "There is no open route to that spot.",
+     "There is no open route to that spot.",
+     "Replacement tools placed in your pack: Tinderbox."
+    ]
+   },
+   "t": 181.9
+  },
+  {
+   "label": "save + reload after cook_fish: step, ledger, tutors, pack, bank and stance come back exactly",
+   "ok": true,
+   "detail": {
+    "before": {
+     "step": 6,
+     "lesson": "bake_bread",
+     "ledger": [
+      "study_route",
+      "equip_hatchet",
+      "chop_logs",
+      "light_fire",
+      "catch_fish",
+      "cook_fish"
+     ],
+     "talked": [
+      "bram",
+      "wenna"
+     ],
+     "inv": [
+      "coinsx55",
+      "cooked_perchx1",
+      "logsx1",
+      "fishing_netx1",
+      "logsx1",
+      "tinderboxx1",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "bank": [],
+     "equip": {
+      "head": null,
+      "body": null,
+      "legs": null,
+      "weapon": "hatchet",
+      "shield": null,
+      "amulet": null,
+      "cape": null,
+      "hands": null,
+      "feet": null
+     },
+     "hp": 10,
+     "maxHp": 10,
+     "surface": "b:survival:0:StagedTerrain",
+     "pos": [
+      41.5,
+      2.46,
+      87.5
+     ],
+     "provider": "tutors-holm-v3"
+    },
+    "after": {
+     "step": 6,
+     "lesson": "bake_bread",
+     "ledger": [
+      "study_route",
+      "equip_hatchet",
+      "chop_logs",
+      "light_fire",
+      "catch_fish",
+      "cook_fish"
+     ],
+     "talked": [
+      "bram",
+      "wenna"
+     ],
+     "inv": [
+      "coinsx55",
+      "cooked_perchx1",
+      "logsx1",
+      "fishing_netx1",
+      "logsx1",
+      "tinderboxx1",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "bank": [],
+     "equip": {
+      "head": null,
+      "body": null,
+      "legs": null,
+      "weapon": "hatchet",
+      "shield": null,
+      "amulet": null,
+      "cape": null,
+      "hands": null,
+      "feet": null
+     },
+     "hp": 10,
+     "maxHp": 10,
+     "surface": "b:survival:0:StagedTerrain",
+     "pos": [
+      41.5,
+      2.46,
+      87.5
+     ],
+     "provider": "tutors-holm-v3"
+    }
+   },
+   "t": 270.7
+  },
+  {
+   "label": "locked door: the Quest Lodge door says why it is shut while the bread is due (\"stays shut until you have baked your first loaf\")",
+   "ok": true,
+   "detail": {
+    "click": "ok",
+    "chat": [
+     "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Music unlocked: Warm Loaves.",
+     "The Quest Lodge stays shut until you have baked your first loaf."
+    ]
+   },
+   "t": 292.9
+  },
+  {
+   "label": "talk-first: the bakehouse bucket rack refuses until Cook Hettie has been spoken to; the banner names her",
+   "ok": true,
+   "detail": {
+    "chat": [
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Music unlocked: Warm Loaves.",
+     "The Quest Lodge stays shut until you have baked your first loaf.",
+     "You should speak to Cook Hettie first."
+    ],
+    "objective": "Talk to Cook Hettie in the bakehouse."
+   },
+   "t": 297.3
+  },
+  {
+   "label": "skipping ahead: the Quarry Gate's mine shaft is closed off until the Quest Lodge lesson (\"Visit the Quest Lodge first\"), nothing taken",
+   "ok": true,
+   "detail": {
+    "walk": "ok",
+    "chat": [
+     "You hear a bolt draw back somewhere on the Holm.",
+     "Music unlocked: Maps by Candlelight.",
+     "Music unlocked: Pick and Lantern.",
+     "The mine shaft is closed off for now. Visit the Quest Lodge first."
+    ]
+   },
+   "t": 399.3
+  },
+  {
+   "label": "the shaft without a rope refuses (\"You need a rope tied to the frame to climb down\") and the adventurer stays up top",
+   "ok": true,
+   "detail": {
+    "chat": [
+     "[QUEST LODGE] Quests are optional stories, not a single rail. Track one from the journal tab.",
+     "You have finished Loremaster Ansel's lessons. Next, the Quarry Gate: take the rope by the mine shaft, tie it to the frame and climb down to Foreman Durgin. Follow the arrow.",
+     "Optional lesson complete: Study the Quest Lodge board.",
+     "The shaft drops away into the dark. You need a rope tied to the frame to climb down."
+    ]
+   },
+   "t": 458.4
+  },
+  {
+   "label": "skipping ahead: the drift ladder out of the ore workings is roped off until the dagger is made; still below",
+   "ok": true,
+   "detail": {
+    "surface": "b:cavern:0:Cavern_Floor",
+    "chat": [
+     "You manage to mine tin.",
+     "Foreman Durgin hands you a Hammer.",
+     "You smelt a bronze bar.",
+     "The drift ladder is roped off. Foreman Durgin wants to see a bronze dagger first."
+    ]
+   },
+   "t": 638.3
+  },
+  {
+   "label": "save + reload after forge_dagger: step, ledger, tutors, pack, bank and stance come back exactly",
+   "ok": true,
+   "detail": {
+    "before": {
+     "step": 13,
+     "lesson": "melee_trial",
+     "ledger": [
+      "study_route",
+      "equip_hatchet",
+      "chop_logs",
+      "light_fire",
+      "catch_fish",
+      "cook_fish",
+      "bake_bread",
+      "learn_quests",
+      "descend_cavern",
+      "mine_copper",
+      "mine_tin",
+      "smelt_bronze",
+      "forge_dagger"
+     ],
+     "talked": [
+      "ansel",
+      "bram",
+      "durgin",
+      "hettie",
+      "wenna"
+     ],
+     "inv": [
+      "coinsx55",
+      "cooked_perchx1",
+      "logsx1",
+      "fishing_netx1",
+      "logsx1",
+      "tinderboxx1",
+      "breadx1",
+      "pickaxex1",
+      "bronze_daggerx1",
+      "hammerx1",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "bank": [],
+     "equip": {
+      "head": null,
+      "body": null,
+      "legs": null,
+      "weapon": "hatchet",
+      "shield": null,
+      "amulet": null,
+      "cape": null,
+      "hands": null,
+      "feet": null
+     },
+     "hp": 10,
+     "maxHp": 10,
+     "surface": "b:keep:1:Keep_Floor_Flags",
+     "pos": [
+      78.5,
+      11,
+      35.5
+     ],
+     "provider": "tutors-holm-v3"
+    },
+    "after": {
+     "step": 13,
+     "lesson": "melee_trial",
+     "ledger": [
+      "study_route",
+      "equip_hatchet",
+      "chop_logs",
+      "light_fire",
+      "catch_fish",
+      "cook_fish",
+      "bake_bread",
+      "learn_quests",
+      "descend_cavern",
+      "mine_copper",
+      "mine_tin",
+      "smelt_bronze",
+      "forge_dagger"
+     ],
+     "talked": [
+      "ansel",
+      "bram",
+      "durgin",
+      "hettie",
+      "wenna"
+     ],
+     "inv": [
+      "coinsx55",
+      "cooked_perchx1",
+      "logsx1",
+      "fishing_netx1",
+      "logsx1",
+      "tinderboxx1",
+      "breadx1",
+      "pickaxex1",
+      "bronze_daggerx1",
+      "hammerx1",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "bank": [],
+     "equip": {
+      "head": null,
+      "body": null,
+      "legs": null,
+      "weapon": "hatchet",
+      "shield": null,
+      "amulet": null,
+      "cape": null,
+      "hands": null,
+      "feet": null
+     },
+     "hp": 10,
+     "maxHp": 10,
+     "surface": "b:keep:1:Keep_Floor_Flags",
+     "pos": [
+      78.5,
+      11,
+      35.5
+     ],
+     "provider": "tutors-holm-v3"
+    }
+   },
+   "t": 773.2
+  },
+  {
+   "label": "practice enemies: the practice foe felled in the melee trial respawns in the keep court (about 10 ticks) and no two practice foes share a tile",
+   "ok": true,
+   "detail": {
+    "dead0": [
+     "island-trial-keep-court-1"
+    ],
+    "back": true,
+    "overlap": 0,
+    "seconds": 6
+   },
+   "t": 818.9
+  },
+  {
+   "label": "death: challenged in the Proving Ground, the adventurer falls to its strongest foe (Grubkin broodmother, level 18)",
+   "ok": true,
+   "detail": {
+    "walk": "ok",
+    "site": {
+     "x": 92.5,
+     "z": 73.5,
+     "name": "proving-ground-pg_broodmother-2",
+     "foe": "Grubkin broodmother",
+     "level": 18
+    },
+    "chat": [
+     "You are already under attack!",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "You are already under attack!",
+     "There is no ammo left in your quiver.",
+     "Your hitpoints are running low!",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "Oh dear, you are dead!",
+     "On Tutor's Holm nothing is lost when you fall.",
+     "You wake on the Guide House porch. Guide Bram shakes his head kindly."
+    ]
+   },
+   "t": 974.7
+  },
+  {
+   "label": "death recovered (Tutor's Holm rule): nothing lost (pack except spent arrows, worn gear), full hitpoints, woken back at the Guide House, the ledger and lesson unchanged",
+   "ok": true,
+   "detail": {
+    "home": 7.62165542418741,
+    "before": {
+     "inv": "breadx1,bronze_daggerx1,coinsx80,cooked_perchx1,fishing_netx1,hammerx1,hatchetx1,logsx1,logsx1,pickaxex1,tinderboxx1",
+     "equip": {
+      "head": null,
+      "body": null,
+      "legs": null,
+      "weapon": "worn_bow",
+      "shield": null,
+      "amulet": null,
+      "cape": null,
+      "hands": null,
+      "feet": null
+     },
+     "lesson": "open_bank"
+    },
+    "after": {
+     "inv": "breadx1,bronze_daggerx1,coinsx80,cooked_perchx1,fishing_netx1,hammerx1,hatchetx1,logsx1,logsx1,pickaxex1,tinderboxx1",
+     "equip": {
+      "head": null,
+      "body": null,
+      "legs": null,
+      "weapon": "worn_bow",
+      "shield": null,
+      "amulet": null,
+      "cape": null,
+      "hands": null,
+      "feet": null
+     },
+     "hp": 10,
+     "lesson": "open_bank"
+    },
+    "chat": [
+     "You are already under attack!",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "You are already under attack!",
+     "There is no ammo left in your quiver.",
+     "Your hitpoints are running low!",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "There is no ammo left in your quiver.",
+     "Oh dear, you are dead!",
+     "On Tutor's Holm nothing is lost when you fall.",
+     "You wake on the Guide House porch. Guide Bram shakes his head kindly."
+    ]
+   },
+   "t": 974.8
+  },
+  {
+   "label": "after the death the objective and arrow carry on with the lesson due (open_bank)",
+   "ok": true,
+   "detail": {
+    "label": "Enter the Holm Bank",
+    "objective": "Talk to Teller Maud in the Holm Bank."
+   },
+   "t": 974.8
+  },
+  {
+   "label": "bank: the counter opens the bank and the open_bank lesson is credited",
+   "ok": true,
+   "detail": {
+    "opened": true
+   },
+   "t": 1031.9
+  },
+  {
+   "label": "bank: clicking the bread in the bank's pack column deposits it (pack -1 stack, vault +)",
+   "ok": true,
+   "detail": {
+    "item": "bread",
+    "before": {
+     "inv": 1,
+     "bank": 0
+    },
+    "dep": {
+     "inv": 0,
+     "bank": 1
+    }
+   },
+   "t": 1032.9
+  },
+  {
+   "label": "bank: the deposit is kept across a save + reload",
+   "ok": true,
+   "detail": {
+    "kept": 1,
+    "dep": {
+     "inv": 0,
+     "bank": 1
+    }
+   },
+   "t": 1056.6
+  },
+  {
+   "label": "bank: clicking the vault slot withdraws it back into the pack",
+   "ok": true,
+   "detail": {
+    "wd": {
+     "inv": 1,
+     "bank": 0
+    },
+    "dep": {
+     "inv": 0,
+     "bank": 1
+    }
+   },
+   "t": 1060.8
+  },
+  {
+   "label": "save + reload after open_bank: step, ledger, tutors, pack, bank and stance come back exactly",
+   "ok": true,
+   "detail": {
+    "before": {
+     "step": 16,
+     "lesson": "magic_trial",
+     "ledger": [
+      "study_route",
+      "equip_hatchet",
+      "chop_logs",
+      "light_fire",
+      "catch_fish",
+      "cook_fish",
+      "bake_bread",
+      "learn_quests",
+      "descend_cavern",
+      "mine_copper",
+      "mine_tin",
+      "smelt_bronze",
+      "forge_dagger",
+      "melee_trial",
+      "ranged_trial",
+      "open_bank"
+     ],
+     "talked": [
+      "ansel",
+      "bram",
+      "corrick",
+      "durgin",
+      "hettie",
+      "maud",
+      "wenna"
+     ],
+     "inv": [
+      "coinsx80",
+      "cooked_perchx1",
+      "logsx1",
+      "fishing_netx1",
+      "logsx1",
+      "tinderboxx1",
+      "breadx1",
+      "pickaxex1",
+      "hatchetx1",
+      "hammerx1",
+      "bronze_daggerx1",
+      "air_runex15",
+      "mind_runex15",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "bank": [],
+     "equip": {
+      "head": null,
+      "body": null,
+      "legs": null,
+      "weapon": "worn_bow",
+      "shield": null,
+      "amulet": null,
+      "cape": null,
+      "hands": null,
+      "feet": null
+     },
+     "hp": 10,
+     "maxHp": 10,
+     "surface": "b:bank:0:Bank_FloorHall",
+     "pos": [
+      86.5,
+      7.3,
+      56.5
+     ],
+     "provider": "tutors-holm-v3"
+    },
+    "after": {
+     "step": 16,
+     "lesson": "magic_trial",
+     "ledger": [
+      "study_route",
+      "equip_hatchet",
+      "chop_logs",
+      "light_fire",
+      "catch_fish",
+      "cook_fish",
+      "bake_bread",
+      "learn_quests",
+      "descend_cavern",
+      "mine_copper",
+      "mine_tin",
+      "smelt_bronze",
+      "forge_dagger",
+      "melee_trial",
+      "ranged_trial",
+      "open_bank"
+     ],
+     "talked": [
+      "ansel",
+      "bram",
+      "corrick",
+      "durgin",
+      "hettie",
+      "maud",
+      "wenna"
+     ],
+     "inv": [
+      "coinsx80",
+      "cooked_perchx1",
+      "logsx1",
+      "fishing_netx1",
+      "logsx1",
+      "tinderboxx1",
+      "breadx1",
+      "pickaxex1",
+      "hatchetx1",
+      "hammerx1",
+      "bronze_daggerx1",
+      "air_runex15",
+      "mind_runex15",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "bank": [],
+     "equip": {
+      "head": null,
+      "body": null,
+      "legs": null,
+      "weapon": "worn_bow",
+      "shield": null,
+      "amulet": null,
+      "cape": null,
+      "hands": null,
+      "feet": null
+     },
+     "hp": 10,
+     "maxHp": 10,
+     "surface": "b:bank:0:Bank_FloorHall",
+     "pos": [
+      86.5,
+      7.3,
+      56.5
+     ],
+     "provider": "tutors-holm-v3"
+    }
+   },
+   "t": 1081.3
+  },
+  {
+   "label": "all 18 lessons credited in order by real input",
+   "ok": true,
+   "detail": {
+    "per": {
+     "study_route": 32,
+     "equip_hatchet": 52,
+     "chop_logs": 12,
+     "light_fire": 121,
+     "catch_fish": 13,
+     "cook_fish": 16,
+     "bake_bread": 93,
+     "learn_quests": 71,
+     "descend_cavern": 78,
+     "mine_copper": 10,
+     "mine_tin": 7,
+     "smelt_bronze": 10,
+     "forge_dagger": 215,
+     "melee_trial": 39,
+     "ranged_trial": 48,
+     "open_bank": 87,
+     "magic_trial": 123,
+     "relight_lastlight": 100
+    }
+   },
+   "t": 1304.3
+  },
+  {
+   "label": "talk-first: an oak refuses before Wenna is spoken to (no logs)",
+   "ok": true,
+   "detail": {
+    "id": "wenna-refusal",
+    "refused": true
+   },
+   "t": 1304.3
+  },
+  {
+   "label": "Wenna hands over the hatchet, tinderbox and net when spoken to",
+   "ok": true,
+   "detail": {
+    "id": "wenna-tools",
+    "handed": true
+   },
+   "t": 1304.3
+  },
+  {
+   "label": "the rope: taken from beside the shaft, tied (saved across a reload), climbed down",
+   "ok": true,
+   "detail": {
+    "id": "shaft-rope",
+    "objective": [
+     "At the Quarry Gate, take the coil of rope lying beside the mine shaft.",
+     "Use the rope on the mine shaft to tie it to the frame.",
+     "Your rope hangs down the shaft. Climb down it to the ore workings."
+    ],
+    "take": "ok",
+    "takeRows": [
+     "Take Rope",
+     "Walk here",
+     "Examine Rope",
+     "Cancel"
+    ],
+    "took": true,
+    "tie": "ok",
+    "tied": true,
+    "afterReload": {
+     "tied": true,
+     "saved": true,
+     "lesson": "descend_cavern",
+     "prop": true
+    },
+    "down": true,
+    "ok": true
+   },
+   "t": 1304.3
+  },
+  {
+   "label": "every tutor was announced on the objective line first and spoken to (9 before departure, each chat registered)",
+   "ok": true,
+   "detail": [
+    [
+     "bram",
+     true,
+     true,
+     4
+    ],
+    [
+     "wenna",
+     true,
+     true,
+     4
+    ],
+    [
+     "hettie",
+     true,
+     true,
+     7
+    ],
+    [
+     "ansel",
+     true,
+     true,
+     5
+    ],
+    [
+     "durgin",
+     true,
+     true,
+     4
+    ],
+    [
+     "corrick",
+     true,
+     true,
+     4
+    ],
+    [
+     "maud",
+     true,
+     true,
+     4
+    ],
+    [
+     "ilse",
+     true,
+     true,
+     6
+    ],
+    [
+     "aldous",
+     true,
+     true,
+     4
+    ]
+   ],
+   "t": 1304.3
+  },
+  {
+   "label": "departure: Ferryman Tobin spoken to, the skiff boarded, Hearthmere reached with the departure pack",
+   "ok": true,
+   "detail": {
+    "tobin": true,
+    "sailed": true,
+    "end": {
+     "provider": "veyhollow-commons-v2",
+     "complete": true,
+     "pack": true,
+     "coins": 105,
+     "bread": 4
+    }
+   },
+   "t": 1364.5
+  },
+  {
+   "label": "after the crossing a reload stays on the mainland, graduated",
+   "ok": true,
+   "detail": {
+    "provider": "veyhollow-commons-v2",
+    "complete": true
+   },
+   "t": 1378.4
+  },
+  {
+   "label": "guidance: before every route action the arrow is on the exact object (or its door from outside / the pulsing pack slot): 58 probes",
+   "ok": true,
+   "detail": [],
+   "t": 1378.7
+  },
+  {
+   "label": "guidance: an objective line is shown before every route action",
+   "ok": true,
+   "detail": [],
+   "t": 1378.7
+  },
+  {
+   "label": "zero page errors",
+   "ok": true,
+   "detail": [],
+   "t": 1378.7
+  },
+  {
+   "label": "zero failed asset loads",
+   "ok": true,
+   "detail": [],
+   "t": 1378.7
+  }
+ ],
+ "verdictsNote": "verdicts re-computed after the run with classify() from tools/qa_holm_full_route.js (an after-credit click is set apart only when the arrow does not match); the raw probes are unchanged"
+}

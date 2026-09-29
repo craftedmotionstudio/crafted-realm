@@ -35,6 +35,10 @@ rules restated by the owner:
       with small simple features, tapered limbs with elbow/knee breaks, flared sleeves, coats with trim, natural
       proportions, soft faceted shading; no boxes. Our own designs (never Jagex models). Base body + player + one
       tutor first for owner review, then the rest.
+      2026-09-29 audit: **awaiting owner.** Ready for him: the player and all ten tutors on kit v4a.2b (his option A;
+      752ad2d9, d0663b4d), the Look panel (e1ddfef4) and the Gait Lab (049281a5) for his look, gait and mesh defaults.
+      The practice enemy is being replaced by the creatures pass (the grubkin model is unchanged since 3389d8c0, before
+      this request).
 - [ ] **2004scape character kit + customisation** (owner, 2026-09-25): "very close to 2004scape ... very similar
       characters, iterated just slightly to make them our own ... male and female ... customize our characters just
       like you can do in 2004scape." A modular Blender identity kit on one rig with 2004's structure (from the MIT
@@ -42,26 +46,84 @@ rules restated by the owner:
       B = Hair 11, Torso 5, Arms 6, Hands 3, Legs 9, Feet 3; colours Hair 12, Torso 16, Legs 16, Feet 6, Skin 8 (our own
       palettes and parts). A 2004-style character creator (Design arrows per slot, Colour arrows per channel, body type
       A/B) with saves carrying the choices; tutors assembled from the same kit + their own extras.
-- [ ] **Exact arrows:** "a lot of the arrows in the tutorial aren't pointing in the exact spot for us to find the
+      2026-09-29 audit: **structure proven, awaiting owner.** Counts match exactly
+      (`assets/models/holm_kit_v2_catalog.json`, `holm_kit_v2_palettes.json`, built by
+      `tools/blender/build_holm_characters_v2.py`; body B also has Makeup 5, our addition). The 2004 creator
+      (`src/holm_kit_creator.js`: Design and Colour arrows, body type A/B) was used by real clicks in the human-pace
+      run and the in-app browser. Saves carry `CharCfg.kit`, and a look saved before the kit is now carried onto it
+      rather than reset (9703ee31; `qa_holm_save_migration.js` legacy-july). The tutors are kit parts plus extras.
+      Not ticked: the mesh option (a/b/c) is among the owner's pending picks.
+- [x] **Exact arrows:** "a lot of the arrows in the tutorial aren't pointing in the exact spot for us to find the
       next step." The marker/arrow must sit on the exact object for the current step (the chart, the rack, the oak,
       the ripple, the fire, each bakehouse station in turn, the board, the ladder, the rock, the furnace, the anvil,
       the grubkin, the counter, the lever, the skiff), following sub-steps inside a lesson.
+      2026-09-29 audit: **proven.** `tools/qa_holm_full_route.js` reads the objective line and the arrow's resolved target
+      before every route action of a fresh adventurer, by real input, and compares it with the object then used. The
+      final run (5c0d7025 build) had 58 probes and 0 mismatches:
+      - 44 exact on the object itself;
+      - 4 on its building's door from outside;
+      - 1 on the due tutor (the deliberate oak-before-Wenna click);
+      - 9 pack steps (the pulsing slot, then the use-with target).
+      Contact sheet: `scratchpad/holm_full_route/guide_contact_sheet_p1..p4.png` (arrow tip ringed, object used crossed).
+      Fixed on the way (9703ee31, 0d2481ef, d96e6d06):
+      - the bread sub-steps;
+      - a cavern lesson seen from the surface (the arrow pointed into the sea);
+      - the Lastlight descent after the lever (it pointed through the tower at Tobin);
+      - the skiff (a tile off, above the mast);
+      - the Guide House porch with the door shut;
+      - a lost tool, spent runes or arrows;
+      - no stale arrow while every foe respawns.
+      `tools/test_holm_island_guide.js` (9 checks) locks them.
 
 ### Owner acceptance requirements (2026-09-24, latest; the goal stays open until every one is met and proven)
 - [ ] **Keep the goal intact until completely done.** No item is dropped or declared done without its proof.
+      2026-09-29 audit: a standing rule, held. No item was dropped, and the audit ticks only proven items. It closes
+      with the owner's acceptance.
 - [ ] **At least 10 complete playthroughs** of the finished island (fresh adventurer -> all 18 lessons -> departure),
       with everything working, by real input. Each run logged (time, lessons credited, errors, save/reload) in
       `docs/rebuild/HOLM_PLAYTHROUGHS.md`; any failure fixed and the count restarted for that defect.
-- [ ] **Clear direction, objective and process** at every moment: one objective line (hint box) naming exactly
+      2026-09-29 audit: **partly; awaiting the owner's final build.** 10/10 were recorded on 752ad2d (2026-09-28; the
+      PASS_LOG entry, but those runs are not in the committed run log). The committed log has 135 runs; its 2026-09-28
+      runs 125 and 129 stalled at the magic trial with 0 gale runes, a real soft-lock now fixed (HolmCombatKits.recover,
+      9703ee31; the driver goes back to Ilse, e260e873). The 10-run count restarts on the build the owner accepts, after
+      his look and gait picks.
+- [x] **Clear direction, objective and process** at every moment: one objective line (hint box) naming exactly
       what to do next, a world arrow/beacon on the target, the tutor's chat-box dialogue explaining the lesson,
       locked doors that say why, and no step where a new player has to guess.
+      2026-09-29 audit: **proven.** The evidence:
+      - an objective line before every one of the 58 route probes, and the arrow on the target (see Exact arrows);
+      - each tutor announced on the line and spoken to in the chat box (all ten, 4-7 pages each);
+      - locked doors and early stations say why, by real clicks (`qa_holm_full_route.js`): the Quest Lodge door, the
+        mine shaft before its turn and without the rope, the drift ladder, the chart / oak / bucket rack before their
+        tutor. The gate data has a line for every door and station gate (`island-gates.json`).
+      Guessing points found and fixed:
+      - a lost tool: the rack, with a chat line;
+      - spent runes or arrows (runs 125 and 129 stalled): the trial tutor tops them up;
+      - a tutor model that fails to load no longer holds its lessons;
+      - a full pack at the pier: the objective counts the slots to free, and dropping works as well as the bank.
+      In-app browser check (2026-09-29, `?qaProfile=audit-inapp-0929a`): the tinderbox gone, the line "You have no
+      tinderbox. Spare tools hang on the rack in the Guide House" and the arrow "Open the door (spare tools)" on the
+      porch; a real click opened the door and the arrow moved to the rack.
 - [ ] **All NPCs, characters and items run through Blender:** tutors, practice enemies, the player model and its
       worn gear, and every item a player sees on the island (inventory icons rendered from Blender models, dropped
       items and wielded tools/weapons), with no code-built or legacy stand-ins left on the island.
+      2026-09-29 audit: **partly.** Proven Blender: the ten tutors and the player (kit v4a.2b), worn gear (equipment v4;
+      `tools/test_holm_equipment_v4.js` 242/242), a Blender icon for every item (`tools/test_item_icons.js`), held tools
+      and weapons (`src/holm_skill_tools.js` refuses a stand-in), and ground models for every lesson item
+      (`src/holm_items_v1.js` packs). `qa_holm_island.js` checks every island clickable is an authored model. Gaps:
+      - ground drops that still fall back to code-built boxes in `src/world_gear.js`: ashes (every burnt-out fire),
+        cabbage (the cellar), trout, big bones, home tab, water and earth runes, the cloth robe top;
+      - worn robes have no worn model;
+      - the leather gloves, leather boots and bronze helm (Proving Ground drops) use painted icons;
+      - code-built birds and butterflies (`src/fx_atmosphere.js`) fly over the island;
+      - the practice enemies are being replaced by the creatures pass.
 - [ ] **Everything that could have an animation has one:** tutors (idle, talk, walk), enemies (idle, walk,
       attack, block/hit, death), the player (walk, run, skilling swings, combat, climb), doors and gates (swing),
       fires (flicker), fishing spots (ripple), trees (breeze, fall), the beacon (light), levers, the ferry/skiff,
       water, and any station with moving parts.
+      2026-09-29 audit: **not audited.** The animation list is being built in `CraftedRealms-Anim`, and the enemy
+      animations come with the creatures pass. Audit this item after both land. Seen on the way: the ten tutor GLBs
+      carry idle, talk, walk and wave, but the walk clip is never played (the tutors stand still).
 
 "Complete" means all of: the Blender island (M3R-M4), all 18 lessons (M5), gated progression and one tutor per area
 with chat-box dialogue, practice enemies and the Blender player (M6), live cutover with saves carried forward and a
@@ -255,8 +317,10 @@ may be reused only behind Sept 13 visuals. Items M2/M3 below record what was don
       refused, bridge crossed on the deck at y 3.3, reload restores position and lesson, 0 errors.
       Fixes found on the way: blocked-click fallback no longer snaps through walls; ladder hit proxies; loft
       label; restore greeting; floor picking per storey. Production: route 20/20 (361 s), smoke both phases.
-- [ ] Slice review at the gameplay camera against the Bible references. **Ask the owner to look before
+- [x] Slice review at the gameplay camera against the Bible references. **Ask the owner to look before
       continuing**, because this slice sets the visual language for every other area.
+      2026-09-29 audit: **closed as superseded.** The owner looked at this slice six times (reviews 1-6 below), then
+      shelved the track in the rebase decision above. M3R replaced it, and he approved M3R on 2026-09-24 (1f0ccd4).
       2026-09-24 self-review vs `A_Tutorial_Island_Option.jpg`: first pass (cream plaster, terracotta roof,
       faceted trees, no paving) read as a different game; revised to grey stone blocks + slate courses (own
       canvas patterns), stone quoins, cobbled yard, round mottled canopies. Review captures:
@@ -307,6 +371,12 @@ old coordinates on the grid pathfinder. Bundles, in order:
       gate, reload restores, 0 errors.
 - [ ] **M4.3 Approved-look pass on those three in Blender** (jetties/half-hips/timber detail where it fits, gray
       masonry kept), graphs re-extracted.
+      2026-09-29 audit: **partly; never run as its own pass.** The bakehouse (v8, `build_holm_bakehouse_v8.py`: stone
+      below, a jettied timber-framed limewashed upper storey, a gable roof) and the Quest Lodge (a jettied crosswing,
+      full hip roofs) gained M3R features in later play-test rounds. The Warden's Keep has none (gable hall roof,
+      conical tower caps). Grey masonry is kept on all three, and every model swap was re-measured and hash-bound
+      (`tools/rebuild_holm_props_pass.js`; `src/holm_island_extras.js` refuses a mismatch). Open: half-hips and jetties
+      on the keep, then the owner's look.
 - [x] **M4.4 New Blender buildings**: survival pond camp, quarry gate + cavern entrance, bank + service court, mage
       house + tower, departure haven; each with a measured graph. 2026-09-24: five Blender candidates
       (holm-{survival,quarry,bank,mage,haven}-v1, reports beside each), stances measured by the general extractor,
@@ -363,6 +433,9 @@ old coordinates on the grid pathfinder. Bundles, in order:
 - [x] Restore `bake_bread` and `learn_quests` as required lessons on the new buildings. (M5.2a)
 - [x] Restore `melee_trial`, `ranged_trial`, `magic_trial` with atomic kits, styled-kill attribution, ammo and
       rune recovery, and aligned lesson copy (spell XP is granted on hit or miss).
+      2026-09-29 audit correction: the kits were atomic and credited, but no ammunition or rune recovery existed. A
+      player who spent every teaching rune could not finish (committed runs 125 and 129). Added
+      `HolmCombatKits.recover`: the trial's tutor hands back a kit part held nowhere (9703ee31; test_holm_combat_kits 23/23).
 
 ### M6 — People
 Plan bundles (2026-09-24, from the player/item/animation audit):
@@ -373,16 +446,72 @@ Plan bundles (2026-09-24, from the player/item/animation audit):
 - [ ] **M6.2 Blender player**: editable source on the existing Mixamo bone names and region materials, appearance
       options (colours, hair styles, beard, body), clips idle/walk/run/attack(slash,stab,crush)/bow/cast/chop/mine/
       net/smith/smelt/cook/climb/death/block; swing() picks a named clip per type; saved looks preserved.
+      2026-09-29 audit: **built; awaiting owner.** `assets/models/holm_kit_v2.glb` (kit v4a.2b) has all 17 clips plus 24
+      emotes on 23 `mixamorig:` joints. `src/holm_island_player.js` maps slash, stab and crush to their attack clips and
+      bow, cast, chop, mine, net, smith, smelt, cook, climb, block and hit to their own, with the death clip from the
+      combat engine. Appearance comes from the kit creator, and saved looks are preserved, including looks saved before
+      the kit (9703ee31). Differences from the wording: the kit uses channel materials (C_*) rather than R_* region
+      materials, and its `.blend` sits in the gitignored `.studio-workspaces/` while the build script is committed.
+      Not ticked: the walk, run and idle defaults and the mesh option are the owner's pending picks.
 - [ ] **M6.3 Blender items**: every island item modelled (hand + ground), inventory icons rendered in Blender from
       the same models (assets/icons/items/), iconFor/gear hooks use them.
+      2026-09-29 audit: **partly.** `iconFor` resolves every item to a Blender render (`tools/test_item_icons.js`), the
+      lesson items have Blender hand and ground models, and `HolmEquipment` / `HolmSkillTools` hook the held and worn
+      ones. Missing: Blender ground models for ashes, cabbage, trout, big bones, home tab, water and earth runes, and
+      the cloth robe top (they fall back to code-built boxes, `src/world_gear.js`); a worn robe model; Blender icons for
+      the leather gloves, leather boots and bronze helm (painted sprites). The leather body's icon comes from the v4
+      worn suit while its ground model is the items-v1 jerkin, and the wood shield's icon and ground model are items v1
+      while its held model is the equipment round shield.
 - [ ] **M6.4 Animation pass**: lever pull + beacon beam, tree fall on chop, fishing ripple clip, furnace glow + anvil
       sparks, island building doors, Blender guide marker, ferry departure, grubkin death, bank.
+      2026-09-29 audit: **not audited.** Another agent is building the animation list in `CraftedRealms-Anim`, and the
+      enemy parts come with the creatures pass. Audit after both land.
 - [ ] Chunk-owned NPC lifecycle. Prove it first with one non-attackable tutor (Bram) at an authored socket:
       load/unload, failure, dialogue persistence.
-- [ ] Full tutor cast (chef, quest guide, combat instructor, mage, banker, Lastlight keeper), modeled and animated.
+      2026-09-29 audit: **partly: owned by the island provider, not by chunks.** The whole island is one resident
+      provider, and the chunk `spawns` layer has no consumer, so the tutors load in the provider's build hook at stances
+      from `CAST[].at` in `src/holm_island_tutors.js` (code, not a data file) and unload in its dispose hook. Proven:
+      - load: Guide Bram stands beside his chart, and all ten are spoken to by real input in the full route and the
+        human-pace playthrough;
+      - unload: after the crossing no tutor is left in the scene or the clickables (`qa_holm_save_migration.js`
+        graduated-on-island); dispose now also stops the mixers, frees the buffers and resets the talk state (9703ee31);
+      - failure: a model that fails used to soft-lock its area (the talk-first rule waited on a tutor who was not
+        there). It is now asked for twice and then recorded missing, and it no longer gates its lessons (9703ee31;
+        `tools/test_holm_island_talk.js` 18/18; `qa_holm_save_migration.js` tutor-model-fails refuses Cook Hettie's
+        model in the browser and bakes on without her);
+      - dialogue persistence: `Tutorial.talkedTutors` is saved (test_holm_island_talk, and the mid-chat reload in
+        `qa_holm_save_migration.js`).
+      Open: chunk ownership and data-file sockets, if the owner still wants them for the mainland.
+- [x] Full tutor cast (chef, quest guide, combat instructor, mage, banker, Lastlight keeper), modeled and animated.
+      2026-09-29 audit: **proven.** The cast is ten Blender tutors from the kit (`assets/models/holm_tutor_<id>_v2.glb`,
+      d0663b4d, each with idle, talk, walk and wave clips):
+      - Cook Hettie (chef), Loremaster Ansel (quest guide), Warden Corrick (combat), Magister Ilse (mage), Teller Maud
+        (banker) and Keeper Aldous (Lastlight keeper);
+      - plus Guide Bram, Wenna, Foreman Durgin and Ferryman Tobin.
+      In game they idle, play talk while the chat box is open, and wave when the adventurer comes near. Each one is
+      spoken to by real input in `qa_holm_full_route.js` (33/33) and in the human-pace playthrough. Tutors do not walk
+      about; that motion is in the animation list (see "Everything that could have an animation").
 - [ ] Practice enemies for the three trials: spawn, collision, respawn, retry.
+      2026-09-29 audit: **being replaced by the creatures pass** (owner 2026-09-29: a large rat in the three trials, the
+      Proving Ground and the starter pen; `CraftedRealms-Creatures`), so this item stays open. For the record, on the
+      current grubkins: spawn (three in the keep court, two in the mage yard) and the style credit are proven by
+      `qa_holm_island.js`. `qa_holm_full_route.js` shows the felled foe respawning in the court with no two on one tile.
+      Retry was missing: a player who spent every teaching rune or arrow could never finish (committed runs 125 and 129
+      stalled at the magic trial with 0 gale runes). The trial's tutor now tops up a part held nowhere
+      (`HolmCombatKits.recover`, 9703ee31; `tools/test_holm_combat_kits.js` 23/23), and the arrow says so. The drivers
+      read the trial foes from `HolmIslandTrials` by pen and the Proving Ground foe by level, never by creature name.
 - [ ] Editable Blender source for the canonical player (reference `male_b_turnaround.png`), preserving creator
       choices and saved appearances. Complete the worn-gear family (fix `leather_body` using the plate model).
+      2026-09-29 audit: **partly; awaiting owner.** Done:
+      - `tools/blender/build_holm_characters_v2.py` builds the player and uses `male_b_turnaround.png` as its turnaround
+        reference;
+      - creator choices are saved, and saved appearances from before the kit are now carried onto it (9703ee31);
+      - `leather_body` has its own Blender worn model (`sk_leather_body`, `eq_leather_body` / `_B`; chaps too;
+        `tools/test_holm_equipment_v4.js` 242/242).
+      Open:
+      - the worn-gear family still has no robe model;
+      - the player's `.blend` is only in the gitignored `.studio-workspaces/`;
+      - the owner's mesh pick (a/b/c) is pending.
 
 ### M7 — Cutover and proof
 Cutover plan (2026-09-25, from the provider/save audit; reversible behind one switch, on the WIP branch):
@@ -420,13 +549,76 @@ Cutover plan (2026-09-25, from the provider/save audit; reversible behind one sw
       all building props, skill guides, item icons, arrival v2land-v3: 10/10 playthroughs complete, 18/18 lessons, 10/10
       tutors, 0 page errors; island QA 33/33, route 10/10, hollow 14/14, menu 65/65, PvM 40/40, guides 367/367, icons 19/19,
       units 90/90, server 98/98, smoke. Presented for the owner's final read.
-- [ ] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
+      2026-09-29 audit: **awaiting owner.** This audit's gates prove the switched build again (see the M7 items below
+      and the audit table). The 10-playthrough count, the full gates and the owner's review go on the build he accepts,
+      after his look and gait picks.
+- [x] Switch production to `tutors-holm-v3`, with save migration for positions, planes, items and lesson credit.
       Verify fresh characters, returning Holm saves, graduated saves, full inventory and interruptions.
-- [ ] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload
+      2026-09-29 audit: **proven.** `GameConfig.holmIslandLive` has been on since M7.3. `tools/qa_holm_save_migration.js`
+      passes 64/64 in 17 cases (`scratchpad/holm_save_migration/results.json`). Each returning case writes an older
+      save format (from the save code's history and its migration paths) into its profile, then boots through the real
+      Continue and checks the provider, lesson ledger, tutors, gates, rope, pack, bank, worn items, stance, objective,
+      arrow and a save + reload. The cases:
+      - fresh;
+      - the July pre-world save (24-slot pack, spark runes, the pre-kit look);
+      - old-island v4, and v5 at catch_fish and at open_bank;
+      - an early island v6 save whose checkpoint is on a retired graph;
+      - graduated on the mainland, on the island, and without world meta;
+      - full 24- and 28-slot packs, at Wenna and at the pier;
+      - interruptions: mid-bread, mid-chat, half way up Lastlight, rope untied and tied, down in the workings;
+      - the NPC lifecycle.
+      The real-input cases net a fish, bake, study the board, climb to the lever, tie and climb the rope, and board the
+      skiff. Bugs found and fixed:
+      - a look saved before the kit was reset to the default (9703ee31, 8897f081);
+      - from the surface, a cavern lesson's arrow pointed into the sea;
+      - a full pack at the pier left the arrow on the skiff with no count of slots to free (8897f081).
+- [x] Rewrite `qa_holm_full_route.js` for the new island and 18 lessons, including bank, recovery, save/reload
       and negative cases.
-- [ ] Human-pace real-input playthrough in the in-app browser, timed at 20–30 minutes, including NPCs and trials.
+      2026-09-29 audit: **proven.** `tools/qa_holm_full_route.js` was rewritten for the live island (f967992d, then
+      d96e6d06 and 5c0d7025) and passes 33/33 in 23.0 min (`scratchpad/holm_full_route/results.json`). By real input,
+      from a fresh adventurer to Hearthmere:
+      - all 18 lessons, with the talk-first rule;
+      - bank: deposit, kept across a reload, withdraw;
+      - recovery: a dropped tinderbox re-granted by the rack the arrow leads to; a death to the Proving Ground's
+        strongest foe (nothing lost, woken on the Guide House porch, the lesson unchanged);
+      - save + reload after cook_fish, forge_dagger and open_bank, and with the rope tied;
+      - negative cases: the chart, oak and bucket rack before their tutor; the barred Quest Lodge door; the mine shaft
+        before its turn and without the rope; the drift ladder before the dagger;
+      - practice-foe respawn with no two on one tile; the departure and a reload on the mainland;
+      - the guidance audit, zero page errors and zero failed asset loads.
+      The old-island route is in git history.
+- [x] Human-pace real-input playthrough in the in-app browser, timed at 20–30 minutes, including NPCs and trials.
+      2026-09-29 audit: **proven (in the driver's Chrome, with an in-app browser spot check).** The playthrough driver
+      gained `--human` (f967992d): about a minute in the 2004 character creator, each chat-box page read at 230 words a
+      minute, a 0.9-1.7 s reaction before every click, and each new objective read and its arrow looked for. Walking
+      is click by click, with no teleport. Run 137 in `docs/rebuild/HOLM_PLAYTHROUGHS.md`, on the final build:
+      - complete in 26.9 min: 18/18 lessons, 10/10 tutors spoken to first, all three trials, three save/reloads, the
+        ferry, 0 page errors;
+      - pacing: 220 clicks; 5.7 min reading, 4.7 min reacting, 1.7 min finding the arrow.
+      Run 135 (26.2 min) is also complete. Run 136 (33.9 min, under 80-99% CPU load from other sessions) found the
+      full-pack dead end at the pier, fixed in 8897f081. The run was in headless Chrome driven by puppeteer, not the
+      in-app pane, which cannot be scripted. The in-app browser was used by hand for the creator, the porch and the
+      spare-tools guidance (see Clear direction).
 - [ ] Foreground smoke and performance gates are green. Bank sources, comparison sheets, PASS_LOG, GUIDING_LIGHT.
+      2026-09-29 audit: **partly.**
+      - Smoke: green. Foreground PASS: 108/108 structural, 60 fps, worst frame 27 ms, 95 draw calls, boot 3.9 s;
+        hidden boot PASS 2.3 s; save/load exact. Under 80-99% CPU load from other sessions the 5 s boot budget missed by
+        0.1-0.4 s on some runs, and a pristine 540e403d missed it the same way back to back (A/B logs in
+        `scratchpad/holm_goal_audit/gates_summary.json`). The smoke suite covers the engine on the old island; the live
+        island has its own gates.
+      - Performance: new `tools/qa_holm_perf_views.js` at nine heavy island views. The default 2004 camera draws 164
+        calls. The Guide House, Minnow Hollow, bakehouse court and ore workings are within the smoke budgets. The
+        widest views are over them: 1,074-1,888 draw calls against a budget of 800, and 29-45 fps. The draw calls come
+        from the props-pass buildings' unmerged meshes (the bank 124, the bakehouse 118, the quarry 92, the mage tower
+        90 in view), up from M4.6's 527 wide-view calls. The fps figures were taken under that CPU load. Open: a
+        batching pass.
+      - PASS_LOG and GUIDING_LIGHT: updated.
+      - Sources: the Blender build scripts are committed, but the `.blend` files for the current buildings and
+        characters live only in the gitignored `.studio-workspaces/`.
+      - Comparison sheets: none in `Bible_References/Complete/_compare/` since 2026-09-24 for the current buildings,
+        characters or props. Later evidence is under `scratchpad/`.
 - [ ] **Owner acceptance recorded.** Only after this does the goal close.
+      2026-09-29 audit: **awaiting owner.**
 
 ## Loop rules
 
@@ -447,3 +639,49 @@ Cutover plan (2026-09-25, from the provider/save audit; reversible behind one sw
 ## Blockers
 
 (none)
+
+## Audit 2026-09-29 (branch holm-goal-audit, from live 540e403d)
+
+Every item that was unticked was checked against the tree, the QA drivers, the PASS_LOGs and git, and where needed in
+the running game (the gates below, and an in-app browser check). Items are ticked only when the evidence proves them.
+Nothing that waits on the owner, or on his pending look, gait and mesh picks, is ticked. The animation items wait for
+`CraftedRealms-Anim`, and the enemy items for the creatures pass.
+
+| Item | Status | Evidence |
+|---|---|---|
+| Character redesign | awaiting owner | kit v4a.2b, his option A (752ad2d9, d0663b4d); Look panel e1ddfef4 and Gait Lab 049281a5 for his picks; the practice enemy goes to the creatures pass |
+| 2004 kit + customisation | proven structure; awaiting owner (mesh pick) | catalog counts match; `holm_kit_creator.js`; the look saves; pre-kit looks carried onto the kit (9703ee31, migration legacy-july) |
+| Exact arrows | **proven** (ticked) | full route: 58 probes, 0 mismatches; `scratchpad/holm_full_route/guide_contact_sheet_p1..p4.png`; 5 guide defects fixed |
+| Keep the goal intact | standing rule, held | closes with the owner's acceptance |
+| 10 complete playthroughs | partly; awaiting the final build | 10/10 on 752ad2d (PASS_LOG); runs 125 and 129 stalled at the magic trial with 0 runes, now fixed; recount on the accepted build |
+| Clear direction | **proven** (ticked) | objective line before all 58 probes; ten tutors announced and spoken to; locked doors and early stations say why; 4 guessing points fixed |
+| All NPCs/items through Blender | partly | code-built ground drops (ashes, cabbage, trout, big bones, home tab, water/earth runes, robe top), no worn robe, 3 painted icons, code-built birds and butterflies |
+| Everything animates | not audited | `CraftedRealms-Anim` and the creatures pass; tutors never play their walk clip |
+| M3 slice review (shelved track) | closed, superseded (ticked) | the owner's reviews 1-6 and the rebase decision; M3R approved (1f0ccd4) |
+| M4.3 approved-look pass | partly | bakehouse v8 and Lodge crosswing jettied; the keep has none; graphs re-measured on every swap |
+| M6.2 Blender player | built; awaiting owner | 17 clips and 24 emotes on 23 mixamorig joints; `swing()` per type; saved looks kept; gait and mesh picks pending |
+| M6.3 Blender items | partly | Blender icons for all items; the ground-model, robe and painted-icon gaps above |
+| M6.4 animation pass | not audited | `CraftedRealms-Anim` |
+| Chunk-owned NPC lifecycle | partly | owned by the provider, not by chunks; load, unload after the crossing, failure (no soft-lock, 9703ee31) and dialogue persistence proven |
+| Full tutor cast | **proven** (ticked) | ten kit tutors with idle, talk and wave in game; all spoken to by real input |
+| Practice enemies | being replaced by the creatures pass | spawn, respawn and collision proven on the grubkins; supply recovery added (9703ee31) |
+| Editable player source + worn gear | partly; awaiting owner | build script committed, `.blend` local only; leather body done (242/242); no robe model; mesh pick pending |
+| M7.4 proof | awaiting owner | this audit's gates; the 10-run recount and review go on the accepted build |
+| Production switch + save migration | **proven** (ticked) | `tools/qa_holm_save_migration.js` 64/64 in 17 cases (older formats, graduated, full packs, interruptions, NPC lifecycle); 3 bugs fixed |
+| Rewrite `qa_holm_full_route.js` | **proven** (ticked) | 33/33 in 23.0 min, `scratchpad/holm_full_route/results.json` |
+| Human-pace playthrough | **proven** (ticked) | run 137: 26.9 min, complete, 0 errors (run 135: 26.2 min); run 136 found the full-pack dead end at the pier (fixed 8897f081); headless Chrome plus an in-app spot check |
+| Smoke + perf + sources + sheets + logs | partly | smoke PASS on the final build (A/B against 540e403d under load); wide views over the draw-call budget (1,074-1,888 against 800); `.blend` sources not in git; no comparison sheets since 2026-09-24; PASS_LOG and GUIDING_LIGHT updated |
+| Owner acceptance | awaiting owner | — |
+
+Gates on the final build (5c0d7025; logs summarised in `scratchpad/holm_goal_audit/gates_summary.json`):
+- all `tools/test_*.js`: 97/97, including the new `test_holm_island_guide` 9/9, `test_holm_combat_kits` 23/23 and
+  `test_holm_island_talk` 18/18;
+- `npm run test:server`: 98/98;
+- smoke: PASS foreground (108/108, 60 fps, worst frame 27 ms, 95 draw calls) and hidden;
+- `qa_holm_island.js`: 34/34;
+- `qa_holm_full_route.js`: 33/33 (58 guide probes, 0 mismatches);
+- `qa_holm_save_migration.js`: 64/64;
+- human-pace playthrough: complete in 26.9 min, 0 errors;
+- `qa_holm_perf_views.js`: 3/9 views within the smoke budgets (the wide-view draw calls are open, see the smoke and
+  perf item).
+The gates ran under 80-99% CPU load from other sessions; boot times and fps carry that load, draw calls do not.

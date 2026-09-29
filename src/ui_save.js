@@ -105,7 +105,10 @@ const SaveGame = {
       if(d.look){ CharCfg.name=d.look.name||'Adventurer';
         CharCfg.shirt=d.look.shirt||0x3a6ea5; CharCfg.skin=d.look.skin||0xd8a878;
         if(d.look.gender) CharCfg.gender=d.look.gender;
-        if(d.look.kit&&typeof d.look.kit==='object') CharCfg.kit=d.look.kit;
+        // a look saved before the kit, on the live island: the island player maps it onto the kit once the kit's palettes
+        // are in (holm_island_player legacyKit). Elsewhere CharCfg round-trips exactly (the smoke gate compares it).
+        if(d.look.kit&&typeof d.look.kit==='object'){ CharCfg.kit=d.look.kit; if('_legacyLook' in CharCfg) delete CharCfg._legacyLook; }
+        else if(typeof HolmIsland!=='undefined'&&HolmIsland.live()){ CharCfg.kit=null; CharCfg._legacyLook=true; }
         if(d.look.hair!==undefined) CharCfg.hair=d.look.hair;
         if(d.look.hairStyle) CharCfg.hairStyle=d.look.hairStyle;
         if(d.look.beard!==undefined) CharCfg.beard=d.look.beard;

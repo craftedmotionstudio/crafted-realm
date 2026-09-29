@@ -318,7 +318,12 @@ var HolmArrivalQA=(function(){
  // read-only: the composed graph for the current doors/gates (combat reach, approach and NPC steps: TileNav)
  function navGraph(){return active()&&island?graphForDoors(doors):null}
  // death on the island: back to the arrival spawn stance on the graph (the old respawn teleports to v2 coordinates)
- function respawnIsland(){if(!island||!active())return false;pending=null;try{placeAt(spawn())}catch(e){return false}return true}
+ // goal audit 2026-09-29: the chat says "You wake on the Guide House porch", so wake there (the exterior stance just
+ // outside the south door), not at the landing by the dock nineteen tiles away; the landing stays the fallback
+ function porchNode(){var d=typeof scene!=='undefined'&&scene&&scene.getObjectByName?scene.getObjectByName('DoorSouthLeaf'):null;if(!d)return null;
+  var c=new THREE.Box3().setFromObject(d).getCenter(new THREE.Vector3()),best=null,k=Infinity;
+  graphForDoors(doors).nodes.forEach(function(n){if(n.surface!=='exterior')return;var h=Math.hypot(n.x-c.x,n.z-(c.z+1.6));if(h<k){k=h;best=n}});return k<2.5?best:null}
+ function respawnIsland(){if(!island||!active())return false;pending=null;try{placeAt(porchNode()||spawn())}catch(e){return false}return true}
  // QA only (read-only): where a building's measured target stands on the composed graph (any storey).
  function qaStance(buildingId,targetId){
   if(!active()||!island||!islandData)return null;var b=islandData.buildings.filter(function(x){return x.id===buildingId})[0],t=b&&b.graph.targets.filter(function(x){return x.id===targetId})[0];

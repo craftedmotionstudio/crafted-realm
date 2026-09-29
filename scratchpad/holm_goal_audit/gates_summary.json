@@ -1,0 +1,155 @@
+{
+ "at": "2026-09-29T19:55:37.562Z",
+ "branch": "holm-goal-audit",
+ "qaServer": "python tools/serve_static.py 8171 (the QA static server)",
+ "machineLoad": "80-99% CPU from other sessions (97 chrome/blender processes) during the gates; fps and boot times are affected, draw calls are not",
+ "units": "UNITS PASS 97 FAIL 0 :",
+ "serverTests": "ℹ pass 98, ℹ fail 0",
+ "fullRoute": "[FULL ROUTE] 33/33 in 23.0 min; guide probes 58 {\"door-first\":3,\"exact\":39,\"tutor-first\":1,\"pack\":5,\"use-on\":2,\"use-item-on-arrow-target\":2,\"lesson-already-done\":6}",
+ "fullRouteReclassified": {
+  "door-first": 4,
+  "exact": 44,
+  "tutor-first": 1,
+  "pack": 5,
+  "use-on": 2,
+  "use-item-on-arrow-target": 2
+ },
+ "saveMigration": "[SAVE MIGRATION] 64/64",
+ "humanPace": [
+  "[PLAYTHROUGH] run 1 complete in 26.9 min (human pace), lessons 18/18, tutors met 10/10, page errors 0 | first hint: Talk to Guide Bram in the Guide House.",
+  "[PLAYTHROUGH] 1/1 complete runs with zero errors"
+ ],
+ "smokeRound1_note": "round 1 caught a real regression from this branch (the pre-kit look flag broke the exact save/load comparison); fixed in 8897f081",
+ "smokeRound1": [
+  "foreground FAIL boot 3651 ms structural 108/108 stream: save/load mismatch fps 61 worst 23 ms calls 102",
+  "hidden FAIL boot 3996 ms structural 108/108 stream: save/load mismatch",
+  "[SMOKE HIDDEN BOOT] FAIL hiddenAtStart=true verdict=FAIL bootMs=3996 pageErrors=0"
+ ],
+ "smokeRound2": [
+  "foreground FAIL boot 5112 ms fatal: boot never reached the welcome screen",
+  "hidden PASS boot 2803 ms structural 108/108 stream: crossed 7 boundaries; save/load exact",
+  "[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=2803 pageErrors=0"
+ ],
+ "smokeRerun": [
+  "foreground FAIL boot 5160 ms fatal: boot never reached the welcome screen",
+  "hidden FAIL boot 22330 ms structural 108/108 stream: crossed 5 boundaries; save/load exact",
+  "[SMOKE HIDDEN BOOT] FAIL hiddenAtStart=true verdict=FAIL bootMs=22330 pageErrors=0"
+ ],
+ "smokeAB_note": "back to back against a pristine 540e403d served on 8172: under the same load the baseline also misses the 5 s foreground boot budget; the branch passed in full on run 2",
+ "smokeAB": {
+  "baseline_540e403d_run1": [
+   "foreground FAIL boot 5109 ms fatal: boot never reached the welcome screen",
+   "hidden PASS boot 5857 ms structural 108/108 stream: crossed 7 boundaries; save/load exact",
+   "[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=5857 pageErrors=0"
+  ],
+  "branch_run1": [
+   "foreground FAIL boot 5100 ms fatal: boot never reached the welcome screen",
+   "hidden PASS boot 5972 ms structural 108/108 stream: crossed 7 boundaries; save/load exact",
+   "[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=5972 pageErrors=0"
+  ],
+  "baseline_540e403d_run2": [
+   "foreground FAIL boot 5367 ms fatal: boot never reached the welcome screen",
+   "hidden PASS boot 5252 ms structural 108/108 stream: crossed 7 boundaries; save/load exact",
+   "[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=5252 pageErrors=0"
+  ],
+  "branch_run2": [
+   "foreground PASS boot 3872 ms structural 108/108 stream: crossed 7 boundaries; save/load exact fps 60 worst 27 ms calls 95",
+   "hidden PASS boot 2285 ms structural 108/108 stream: crossed 7 boundaries; save/load exact",
+   "[SMOKE HIDDEN BOOT] PASS hiddenAtStart=true verdict=PASS bootMs=2285 pageErrors=0"
+  ]
+ },
+ "perfViews": [
+  {
+   "view": "01_arrival_wide",
+   "fps": 44,
+   "p95Ms": 27.7,
+   "worstMs": 35.1,
+   "calls": 1213,
+   "tris": 728803,
+   "hidden": false,
+   "pass": false
+  },
+  {
+   "view": "02_guide_house_exterior",
+   "fps": 55,
+   "p95Ms": 21.2,
+   "worstMs": 28.1,
+   "calls": 634,
+   "tris": 383102,
+   "hidden": false,
+   "pass": true
+  },
+  {
+   "view": "03_minnow_hollow_camp",
+   "fps": 51,
+   "p95Ms": 23.4,
+   "worstMs": 31.5,
+   "calls": 752,
+   "tris": 480034,
+   "hidden": false,
+   "pass": true
+  },
+  {
+   "view": "04_bakehouse_court",
+   "fps": 52,
+   "p95Ms": 22.7,
+   "worstMs": 25.5,
+   "calls": 769,
+   "tris": 430229,
+   "hidden": false,
+   "pass": true
+  },
+  {
+   "view": "05_hill_panorama",
+   "fps": 44,
+   "p95Ms": 26.7,
+   "worstMs": 36.9,
+   "calls": 1273,
+   "tris": 667271,
+   "hidden": false,
+   "pass": false
+  },
+  {
+   "view": "06_keep_court",
+   "fps": 45,
+   "p95Ms": 26,
+   "worstMs": 37,
+   "calls": 1074,
+   "tris": 673577,
+   "hidden": false,
+   "pass": false
+  },
+  {
+   "view": "07_lastlight_crown_and_cove",
+   "fps": 38,
+   "p95Ms": 32,
+   "worstMs": 68.1,
+   "calls": 1301,
+   "tris": 618959,
+   "hidden": false,
+   "pass": false
+  },
+  {
+   "view": "08_island_overview_max_zoom",
+   "fps": 29,
+   "p95Ms": 41.2,
+   "worstMs": 57.7,
+   "calls": 1888,
+   "tris": 919222,
+   "hidden": false,
+   "pass": false
+  },
+  {
+   "view": "09_ore_workings",
+   "fps": 60,
+   "p95Ms": 19.2,
+   "worstMs": 22.5,
+   "calls": 208,
+   "tris": 50350,
+   "hidden": false,
+   "pass": true
+  }
+ ],
+ "islandQaRound1": "[ISLAND QA] PASS 34/34 in 1865s",
+ "islandQaFinal": "[ISLAND QA] PASS 34/34 in 2034s"
+}

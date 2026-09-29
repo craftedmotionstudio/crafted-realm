@@ -4081,3 +4081,29 @@ length (slight medium-length read in 3/4).
   Walk G strut, Walk H stroll, Run G light jog, Run H easy jog. 2004 frames load only from outside the repo.
 - Level-up: small firework burst + soft sound, no screen flash, old beeps gone; oaks drop occasional leaves.
 - Gates per merge green (units 96/96, server 98/98, smoke, playthroughs). Merged work folders removed (84 GB free).
+
+## 2026-09-29 — Holm finish goal audit: open items proven or re-scoped, new route / migration / human-pace gates
+- Audit table at the end of docs/rebuild/HOLM_FINISH_GOAL_2026-09-24.md. Ticked:
+  - exact arrows and clear direction (58 guide probes, 0 mismatches; contact sheet scratchpad/holm_full_route/);
+  - the full tutor cast;
+  - the production switch with save migration (64/64 in 17 cases);
+  - the full-route rewrite (33/33);
+  - the human-pace playthrough (26.9 min);
+  - the M3 slice review (superseded).
+- Awaiting the owner: the characters, the kit mesh, the M6.2 gait, M7.4, the 10-run recount, acceptance. Practice
+  enemies go to the creatures pass, and the animation items to CraftedRealms-Anim.
+- Fixed:
+  - guide arrow: bread sub-steps, cavern from the surface, Lastlight descent, skiff, porch;
+  - trial supply recovery (runs 125 and 129 stalled with 0 runes);
+  - a missing tutor no longer soft-locks its area;
+  - the full-pack departure dead end;
+  - pre-kit looks carried onto the kit;
+  - death wakes on the porch.
+- Open, found by the audit:
+  - code-built ground drops (ashes, cabbage, trout, runes...);
+  - no worn robe model;
+  - code-built birds and butterflies;
+  - the wide-view draw calls (1,074-1,888 against 800);
+  - .blend sources outside git;
+  - no comparison sheets since 2026-09-24;
+  - M4.3 on the keep.

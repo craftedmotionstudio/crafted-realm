@@ -156,4 +156,30 @@ check('without the island the rule is inert',()=>{
  const L=world('?qaProfile=x');assert.strictEqual(L.HolmIslandTalk.active(),false);assert.strictEqual(L.HolmIslandTalk.pending(),null);
  assert.strictEqual(L.HolmIslandTalk.refusal(CLICK.oak),null);assert.strictEqual(L.HolmIslandTalk.restore({talkedTutors:['wenna']}),false);assert.strictEqual(L.HolmIslandTalk.markTalked('wenna'),false);
 });
-console.log('[HOLM_ISLAND_TALK] '+passed+'/15 checks passed');if(passed!==15)process.exit(1);
+// NPC lifecycle, failure (goal audit 2026-09-29): a tutor whose model cannot be loaded (asked for twice) is recorded as
+// missing and never gates their area, so no lesson waits on a tutor who is not there; the tutors present still gate
+(async()=>{
+ const F=world('?holmIsland=1'),asked={};
+ class Obj{constructor(){this.children=[];this.position={set(){}};this.scale={setScalar(){}};this.userData={}}add(c){this.children.push(c)}lookAt(){}traverse(f){f(this);this.children.forEach(c=>c.traverse?c.traverse(f):f(c))}}
+ F.THREE={Group:Obj,AnimationMixer:class{clipAction(){return {setLoop(){},reset(){return this},fadeIn(){return this},fadeOut(){return this},play(){return this}}}update(){}stopAllAction(){}uncacheRoot(){}},LoopOnce:2200,
+  GLTFLoader:class{load(url,ok,_p,no){const id=/holm_tutor_(\w+?)_v2/.exec(url)[1];asked[id]=(asked[id]||0)+1;if(id==='hettie')no(new Error('404 '+url));else ok({scene:new Obj(),animations:[]})}}};
+ F.console={log(){},error(){},warn(){}};
+ const api={arrivalStance:()=>({x:10,y:0,z:10}),qaStance:()=>({x:10,y:0,z:10}),graphNodes:()=>[{x:10,y:0,z:10,surface:'land'},{x:11.6,y:0,z:10,surface:'land'}]};
+ const scene={add(){},remove(){}},W2={clickables:[]};
+ const r=await vm.runInContext('HolmIslandTutors',F).load({THREE:F.THREE,scene,WORLD:W2,api});
+ const Tu2=F.HolmIslandTutors,G2=F.HolmIslandTalk,T2=F.Tutorial;
+ check('a tutor model that fails is asked for twice, then recorded missing; the other nine load and the tutors are ready',()=>{
+  assert.strictEqual(asked.hettie,2);assert.strictEqual(asked.bram,1);assert.strictEqual(r.tutors,9);same(r.missing,['hettie']);
+  assert.strictEqual(Tu2.ready(),true);assert.strictEqual(Tu2.present('hettie'),false);assert.strictEqual(Tu2.present('bram'),true);
+ });
+ check('with Cook Hettie missing, the bread lesson is not gated (no "Talk to Cook Hettie", the bucket rack works); Loremaster Ansel still gates his',()=>{
+  const ids2=vm.runInContext('HolmCurriculumProgress.lessonIds',F);
+  T2.completedLessonIds=ids2.slice(0,6);T2.step=6;T2.talkedTutors=['bram','wenna'];
+  assert.strictEqual(T2.steps[T2.step].id,'bake_bread');assert.strictEqual(G2.pending(),null);assert.strictEqual(G2.refusal(CLICK.bucket),null);
+  T2.completedLessonIds=ids2.slice(0,7);T2.step=7;assert.strictEqual(G2.pending().id,'ansel');
+ });
+ check('dispose (the ferry) takes every tutor off the scene and the clickables and resets the lifecycle',()=>{
+  Tu2.dispose(W2,scene);assert.strictEqual(W2.clickables.length,0);assert.strictEqual(Tu2.tutors().length,0);assert.strictEqual(Tu2.ready(),false);same(Object.keys(Tu2.missing()),[]);
+ });
+ console.log('[HOLM_ISLAND_TALK] '+passed+'/18 checks passed');if(passed!==18)process.exit(1);
+})().catch(e=>{console.error(e);process.exit(1)});

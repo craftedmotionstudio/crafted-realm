@@ -7,6 +7,24 @@ const path=require('path'),fs=require('fs');
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 let OUT=path.join(__dirname,'..','scratchpad','holm_island_playthrough');
 function setOut(dir){OUT=dir;fs.mkdirSync(OUT,{recursive:true})}
+// Human pacing (goal item "human-pace real-input playthrough", 2026-09-29): off by default (null), so every driver keeps its
+// own pace. With setPace(humanPace()) each click waits a player's reaction time first (finding the spot on screen), each
+// chat-box page is read at reading speed before its button is clicked, and the drivers may pause at each new objective
+// (PACE.read / PACE.look). Deterministic: the jitter comes from a seeded generator, so two runs pace alike.
+let PACE=null;
+function humanPace(o){
+  o=Object.assign({wpm:230,reactMs:[900,1700],pageMs:1200,lookMs:[2500,4500],seed:20260929},o||{});
+  let s=o.seed>>>0;const rnd=()=>((s=(s*1664525+1013904223)>>>0)/4294967296);
+  const span=r=>Math.round(r[0]+(r[1]-r[0])*rnd());
+  const words=t=>String(t||'').trim().split(/\s+/).filter(Boolean).length;
+  const log={clicks:0,reads:0,readMs:0,reactMs:0,looks:0,lookMs:0};
+  return {opts:o,log,
+    react(){const ms=span(o.reactMs);log.clicks++;log.reactMs+=ms;return ms},
+    read(text){const ms=o.pageMs+Math.round(words(text)*60000/o.wpm);log.reads++;log.readMs+=ms;return ms},
+    look(){const ms=span(o.lookMs);log.looks++;log.lookMs+=ms;return ms}};
+}
+function setPace(p){PACE=p||null;return PACE}
+const paceWait=async kind=>{if(PACE&&PACE[kind])await sleep(PACE[kind]())};
 async function shot(page,name){await page.screenshot({path:path.join(OUT,name+'.png')}).catch(()=>{});}
 async function enter(page){
   await page.waitForFunction(()=>{const w=document.getElementById('welcome-screen');return w&&w.style.display==='flex';},{timeout:60000});
@@ -48,7 +66,7 @@ async function aim(page,pt,tile){
     return null;
   },pt,tile);
 }
-async function press(page,xy){await page.mouse.move(xy[0],xy[1]);await page.mouse.down();await page.mouse.up();}
+async function press(page,xy){await page.mouse.move(xy[0],xy[1]);await paceWait('react');await page.mouse.down();await page.mouse.up();}
 // Walk like a player toward a building target: click a reachable tile a few steps along the planned route,
 // repeat. stopOutside keeps the goal on open ground (entrances and courtyards) until interiors cut away (M4.2).
 async function walkTo(page,building,target,stopOutside,trace){
@@ -130,7 +148,7 @@ async function clickNamed(page,name,opts){
   await press(page,xy);await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {ok:true};
 }
 async function clickButtonText(page,sel,text){await page.waitForFunction((sel,text)=>Array.from(document.querySelectorAll(sel)).some(x=>(x.textContent.trim()===text||x.title===text)&&x.getBoundingClientRect().width>0),{timeout:20000},sel,text).catch(()=>{});const xy=await page.evaluate((sel,text)=>{const b=Array.from(document.querySelectorAll(sel)).find(x=>x.textContent.trim()===text||x.title===text);if(!b)return null;const r=b.getBoundingClientRect();return [r.x+r.width/2,r.y+r.height/2]},sel,text);
-  if(!xy)return false;await page.mouse.click(xy[0],xy[1]);await sleep(600);return true}
+  if(!xy)return false;await page.mouse.move(xy[0],xy[1]);await paceWait('react');await page.mouse.click(xy[0],xy[1]);await sleep(600);return true}
 const waitFor=(page,fn,arg,ms)=>page.waitForFunction(fn,{timeout:ms||60000},arg).then(()=>true).catch(()=>false);
 async function clickInventory(page,itemId){
   // the pack re-renders whenever an item lands (a last log from the tree, an XP drop): a slot found a moment ago can
@@ -138,7 +156,7 @@ async function clickInventory(page,itemId){
   for(let k=0;k<4;k++){
     const idx=await page.evaluate(id=>{try{document.querySelector('.tab-btn[data-tab="inv"]').click()}catch(e){}UI.refreshInv();return Player.inv.findIndex(s=>s&&s.id===id)},itemId);
     if(idx<0)return false;const sel='#inv-grid .inv-slot:nth-child('+(idx+1)+')';
-    try{await page.waitForSelector(sel,{visible:true,timeout:5000});await page.click(sel);await sleep(700);return true}
+    try{await page.waitForSelector(sel,{visible:true,timeout:5000});if(PACE){await page.hover(sel);await paceWait('react')}await page.click(sel);await sleep(700);return true}
     catch(e){if(!/detached|not clickable|not an Element|No node/i.test(String(e))||k===3)throw e;await sleep(400)}
   }
   return false;
@@ -186,7 +204,7 @@ async function talkTo(page,id,opts){
     const pages=[];
     for(let i=0;i<12;i++){
       const t=await page.evaluate(name=>{const d=document.getElementById('dialogue-modal'),n=document.getElementById('dlg-name');return getComputedStyle(d).display==='none'||!n||n.textContent!==name?null:document.getElementById('dlg-text').textContent},name);if(t===null)break;
-      pages.push(t);if(opts.onPage)await opts.onPage(i,t);
+      pages.push(t);if(opts.onPage)await opts.onPage(i,t);if(PACE)await sleep(PACE.read(t));   // a player reads the page before clicking on
       const b=await page.evaluate(()=>{const bs=Array.from(document.querySelectorAll('#dialogue-modal button')).filter(b=>b.getBoundingClientRect().width>0);return bs.length?bs[0].textContent.trim():null});if(!b)break;
       await clickButtonText(page,'#dialogue-modal button',b);await sleep(350);
     }
@@ -197,7 +215,7 @@ async function talkTo(page,id,opts){
 }
 // owner review 4 (2026-09-27): a new adventurer walks (2004); a player turns running on by clicking the run orb
 async function runOrb(page){const off=await page.evaluate(()=>Player.runOn===false);const xy=await page.evaluate(()=>{const o=document.getElementById('run-orb');if(!o)return null;const b=o.getBoundingClientRect();return b.width>0?[b.x+b.width/2,b.y+b.height/2]:null});
-  if(xy&&!await page.evaluate(()=>Player.runOn)){await page.mouse.click(xy[0],xy[1]);await sleep(300)}return {startedOff:off,on:await page.evaluate(()=>Player.runOn===true),clicked:!!xy}}
+  if(xy&&!await page.evaluate(()=>Player.runOn)){await paceWait('react');await page.mouse.click(xy[0],xy[1]);await sleep(300)}return {startedOff:off,on:await page.evaluate(()=>Player.runOn===true),clicked:!!xy}}
 function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.filter(q=>off(q[0])&&off(q[2])).length;}
 
 
@@ -227,11 +245,36 @@ const readMenuRows=page=>page.evaluate(()=>{const m=document.getElementById('ctx
 async function rightClickRow(page,name,rowText,serviceLabel){
   await closeDialogue(page);const xy=await menuSpot(page,name,serviceLabel);
   if(!Array.isArray(xy)){await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {error:(xy&&xy.error)||'no spot',rows:null}}
-  await page.mouse.move(xy[0],xy[1]);await sleep(250);await page.mouse.click(xy[0],xy[1],{button:'right'});await sleep(450);
+  await page.mouse.move(xy[0],xy[1]);await sleep(250);await paceWait('react');await page.mouse.click(xy[0],xy[1],{button:'right'});await sleep(450);
   const rows=await readMenuRows(page);
   const at=await page.evaluate(text=>{const r=Array.from(document.querySelectorAll('#ctx-rows .ctx-row')).find(r=>r.textContent.replace(/\s+/g,' ').trim()===text);if(!r)return null;const b=r.getBoundingClientRect();return [b.x+b.width/2,b.y+b.height/2]},rowText);
   if(!at){await page.keyboard.press('Escape').catch(()=>{});await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());return {error:'no row '+rowText,rows}}
-  await page.mouse.move(at[0],at[1]);await sleep(150);await page.mouse.click(at[0],at[1]);await sleep(300);
+  await page.mouse.move(at[0],at[1]);await sleep(150);await paceWait('react');await page.mouse.click(at[0],at[1]);await sleep(300);
   await page.evaluate(()=>HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear());await settle(page,30000);await sleep(600);return {ok:true,rows};
 }
-module.exports={menuSpot,readMenuRows,rightClickRow,sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,walkPoint,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse,runOrb};
+// The pack's own menu by real input: right-click the item's slot, then click the row that starts with the option ("Drop").
+async function packMenu(page,itemId,option){
+  await page.evaluate(()=>{const t=document.querySelector('.tab-btn[data-tab="inv"]');if(t)t.click()});await sleep(300);
+  const i=await page.evaluate(id=>Player.inv.findIndex(s=>s&&s.id===id),itemId);if(i<0)return {error:'no '+itemId};
+  const b=await page.$eval('#inv-grid .inv-slot:nth-child('+(i+1)+')',e=>{const r=e.getBoundingClientRect();return [r.x+r.width/2,r.y+r.height/2]});
+  await page.mouse.move(b[0],b[1]);await sleep(200);await paceWait('react');await page.mouse.click(b[0],b[1],{button:'right'});await sleep(400);const rows=await readMenuRows(page);
+  const at=await page.evaluate(o=>{const r=Array.from(document.querySelectorAll('#ctx-rows .ctx-row')).find(r=>r.textContent.trim().indexOf(o)===0);if(!r)return null;const q=r.getBoundingClientRect();return [q.x+q.width/2,q.y+q.height/2]},option);
+  if(!at){await page.keyboard.press('Escape');return {error:'no row '+option,rows}}
+  await page.mouse.move(at[0],at[1]);await sleep(150);await page.mouse.click(at[0],at[1]);await sleep(600);return {ok:true,rows};
+}
+// Board Tobin's skiff at the end of the pier. A pack too full for the welcome pack is refused ("Free N inventory slots ...
+// then board again"; the objective line counts the slots still wanted): drop the island's leftovers from the pack menu, as a
+// player would, until there is room, then board again. Returns {sailed,room} (room: what the refusal asked for and dropped).
+async function boardSkiff(page,click){click=click||clickService;   // click: the service clicker (a driver may pass its wrapped one)
+  const away=()=>waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,20000);
+  let b=await click(page,'Ferry','boat'),sailed=await away(),room=null;
+  if(!sailed&&await page.evaluate(()=>!!Tutorial.departureRoom)){
+    room={need:await page.evaluate(()=>Tutorial.departureRoom.need),objective:await objective(page),chat:(await lastChat(page,3)).filter(t=>/welcome pack/.test(t)),drops:[]};
+    for(let k=0;k<28&&await page.evaluate(()=>{const r=Tutorial.departureRoom;return !!r&&r.freeAt+r.need-Player.inv.filter(s=>!s).length>0});k++){
+      const id=await page.evaluate(()=>['logs','burnt_perch','ashes','copper_ore','tin_ore','raw_perch','cooked_perch','bronze_bar','bread'].find(c=>Player.count(c)>0)||null);if(!id)break;
+      const d=await packMenu(page,id,'Drop');room.drops.push(id+(d.error?' ('+d.error+')':''))}
+    room.after=await objective(page);b=await click(page,'Ferry','boat');sailed=await waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,60000)}
+  else if(!sailed)sailed=await waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,40000);
+  return {sailed,room,click:b&&b.error||'ok'};
+}
+module.exports={packMenu,boardSkiff,humanPace,setPace,pace:()=>PACE,menuSpot,readMenuRows,rightClickRow,sleep,setOut,shot,enter,pos,settle,aim,press,walkTo,walkPoint,clickService,clickNamed,clickButtonText,waitFor,clickInventory,closeDialogue,count,diagonal,objective,lastChat,talkTo,enterGuideHouse,runOrb};
