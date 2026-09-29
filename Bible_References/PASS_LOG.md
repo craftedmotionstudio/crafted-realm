@@ -4037,3 +4037,10 @@ length (slight medium-length read in 3/4).
   1.07 vs 1.87 today). Private comparison pages in C:UsersiQwaZef2004_captureseview (never committed).
 - Gates on e2129c7: units 94/94, smoke PASS default + look 4b, menu 65/65, combat numbers PASS; branches: PvM 40/40,
   island QA 34/34, playthroughs complete.
+
+## 2026-09-29 — 2004 music set merged, old songs removed (4f7467c, b7d30b2)
+- Merged the music session's branch: 17 original General MIDI pieces, area-driven Director, Auto/Manual/Loop tab.
+- Owner: "I want the old songs removed" -> music_previews/ (34 old-song previews), the old orchestra/track scripts and
+  sound fonts, the oscillator TRACKS in game3_systems.js, and the retired composer tools removed; docs updated.
+- Gates: units 95/95, music tests 17/17, smoke PASS, music QA 20/20, menu 65/65, playthrough 1/1; in game the Music
+  tab lists exactly the 17 new pieces.
