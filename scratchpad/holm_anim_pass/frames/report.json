@@ -1,0 +1,34 @@
+{
+ "base": "http://127.0.0.1:8181/?holmIsland=1&qaProfile=animcap-mumxeizs",
+ "at": "2026-09-29T17:04:15.861Z",
+ "scenes": {
+  "oak_fall": "ok",
+  "anvil_strike": "ok",
+  "furnace_bellows": "ok",
+  "bakehouse_door": "ok",
+  "store_door": "ok",
+  "vault_gate": "ok",
+  "teller": "ok",
+  "rope_drop": "ok",
+  "tutor_stroll": "ok",
+  "chimney_smoke": "ok",
+  "cavern_torches": "ok",
+  "bell_swing": "ok",
+  "skiff_departure": "ok"
+ },
+ "stats": {
+  "falls": 1,
+  "strikes": 4,
+  "sparks": 4,
+  "sails": 2,
+  "bells": 2,
+  "ropeDrops": 1,
+  "doorOpens": 2,
+  "doorCloses": 2,
+  "bankVault": 1,
+  "bankCounter": 1,
+  "puffs": 217,
+  "flarings": 3
+ },
+ "errors": []
+}

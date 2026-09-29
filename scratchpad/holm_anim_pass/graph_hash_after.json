@@ -1,0 +1,5 @@
+{"branch":"holm-anim-pass (after the pass, before commit of the docs)","measuredAt":"2026-09-29","method":"same as graph_hash_base.json (in-browser ?holmIsland=1, HolmArrivalQA.navGraph())",
+ "fresh_gates_shut":{"nodes":10459,"links":55508,"hash":"ebd4abe4-ddc32966"},
+ "fresh_after_3s_of_door_driver":{"nodes":10459,"links":55508,"hash":"ebd4abe4-ddc32966"},
+ "all18_gates_open":{"nodes":10463,"links":55548,"hash":"3894178f-5a739b13","gateKey":"bakehouse-door,bank-door,lastlight-door,lodge-door","doorsShown":"all five closed while the adventurer is far (visual only)"},
+ "verdict":"identical to base 540e403d in both gate states"}

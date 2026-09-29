@@ -1,0 +1,311 @@
+{
+ "anim": "anvil_strike",
+ "note": "a real smith action at the anvil (game timing, 2.4 s strokes): sparks on each hammer strike; real time",
+ "hud": "hidden for the frames",
+ "frames": [
+  {
+   "frame": 0,
+   "ms": 25055,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 0,
+    "sparks": 0,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 1,
+   "ms": 25415,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 0,
+    "sparks": 0,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 2,
+   "ms": 25749,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 0,
+    "sparks": 0,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 3,
+   "ms": 26143,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 1,
+    "sparks": 1,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 4,
+   "ms": 26528,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 1,
+    "sparks": 1,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 5,
+   "ms": 26892,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 1,
+    "sparks": 1,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 6,
+   "ms": 27229,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 1,
+    "sparks": 1,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 7,
+   "ms": 27575,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 1,
+    "sparks": 1,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 8,
+   "ms": 27893,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 1,
+    "sparks": 1,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 9,
+   "ms": 28194,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 1,
+    "sparks": 1,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 10,
+   "ms": 28509,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 2,
+    "sparks": 2,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 11,
+   "ms": 28842,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 2,
+    "sparks": 2,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 12,
+   "ms": 29177,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 2,
+    "sparks": 2,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 13,
+   "ms": 29511,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 2,
+    "sparks": 2,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 14,
+   "ms": 29825,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 2,
+    "sparks": 2,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  },
+  {
+   "frame": 15,
+   "ms": 30140,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 2,
+    "sparks": 2,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 0,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 30,
+    "flarings": 0
+   }
+  }
+ ]
+}

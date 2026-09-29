@@ -1,0 +1,159 @@
+{
+ "anim": "bakehouse_door_shut",
+ "note": "the adventurer walks away: the door swings shut behind them; real time",
+ "hud": "hidden for the frames",
+ "frames": [
+  {
+   "frame": 0,
+   "ms": 51183,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 1,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 79,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 1,
+   "ms": 51634,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 1,
+    "doorCloses": 0,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 81,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 2,
+   "ms": 52110,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 1,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 83,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 3,
+   "ms": 52604,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 1,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 85,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 4,
+   "ms": 53095,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 1,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 86,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 5,
+   "ms": 53582,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 1,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 89,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 6,
+   "ms": 54069,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 1,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 90,
+    "flarings": 1
+   }
+  },
+  {
+   "frame": 7,
+   "ms": 54602,
+   "slow": 1,
+   "stats": {
+    "falls": 1,
+    "strikes": 4,
+    "sparks": 4,
+    "sails": 0,
+    "bells": 0,
+    "ropeDrops": 0,
+    "doorOpens": 1,
+    "doorCloses": 1,
+    "bankVault": 0,
+    "bankCounter": 0,
+    "puffs": 93,
+    "flarings": 1
+   }
+  }
+ ]
+}
