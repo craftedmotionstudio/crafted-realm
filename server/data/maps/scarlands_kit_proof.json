@@ -925,6 +925,36 @@
    "wander": 3
   },
   {
+   "npc": "moorcalf",
+   "x": 23,
+   "z": 21,
+   "wander": 2
+  },
+  {
+   "npc": "moorcalf",
+   "x": 25,
+   "z": 23,
+   "wander": 2
+  },
+  {
+   "npc": "large_rat",
+   "x": 44,
+   "z": 36,
+   "wander": 3
+  },
+  {
+   "npc": "large_rat",
+   "x": 47,
+   "z": 38,
+   "wander": 3
+  },
+  {
+   "npc": "large_rat",
+   "x": 40,
+   "z": 38,
+   "wander": 3
+  },
+  {
    "npc": "gnarlgob",
    "x": 30,
    "z": 52,
