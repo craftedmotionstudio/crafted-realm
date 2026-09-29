@@ -52,6 +52,24 @@ ad = ARM.animation_data or ARM.animation_data_create()
 for tr in list(ad.nla_tracks):
     ad.nla_tracks.remove(tr)
 ACT = {a.name: a for a in bpy.data.actions}
+# review 5 (2026-09-28): --gaits <GLB> brings in the walk / run / idle option clips (the companion GLB of
+# build_holm_characters_v2.py --gait-options) and --clip-map idle=idle_A,walk=walk_B,run=run_C checks the gear on them
+# exactly as the runtime plays them (src/holm_gait_options.js swaps them in; held items are solved on that idle's frame 0)
+GAITS = arg('--gaits', '')
+if GAITS:
+    had = set(bpy.data.objects)
+    bpy.ops.import_scene.gltf(filepath=GAITS)
+    for a in bpy.data.actions:
+        if a.name not in ACT:
+            a.use_fake_user = True
+            ACT[a.name] = a
+    for o in [o for o in bpy.data.objects if o not in had]:
+        bpy.data.objects.remove(o, do_unlink=True)
+CLIP_MAP = dict(x.split('=') for x in arg('--clip-map', '').split(',') if '=' in x)
+for _k, _v in CLIP_MAP.items():
+    assert _v in ACT, 'no clip %s (have %s)' % (_v, sorted(ACT))
+    ACT[_k] = ACT[_v]
+print('[EQCHECK] clips', {k: ACT[k].name for k in ('idle', 'walk', 'run')})
 before = set(bpy.data.objects)
 bpy.ops.import_scene.gltf(filepath=EQUIP)
 EQ = {}      # (kind, body) -> {'root', 'parts': [(ob, bone)], 'frame', 'slot', 'hides', 'extras'}
@@ -662,6 +680,7 @@ summary = RESULTS['summary'] if FROM else {'kit_legs_failing': RESULTS.get('kit_
            'held_failing': {k: v['failing'] for k, v in RESULTS['held'].items()},
            'held_failing_idle_walk_run': {k: v['failing_idle_walk_run'] for k, v in RESULTS['held'].items()}}
 RESULTS['summary'] = summary
+RESULTS['gaits'], RESULTS['clip_map'] = GAITS and os.path.relpath(GAITS, ROOT).replace(os.sep, '/'), CLIP_MAP   # review 5
 json.dump(RESULTS, open(os.path.join(OUT, 'fit_check_%s.json' % TAG), 'w'), indent=1)
 print('[EQCHECK] SUMMARY', json.dumps(summary))
 

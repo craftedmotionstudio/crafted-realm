@@ -166,3 +166,20 @@ unit. Pitch 128 = 22.5 deg above the horizon (the lowest 2004 camera and its def
 | `tools/ref2004/lib/ref2004_client.js` | the 2004 page: open, capture, camera, plates, sampler, SDK connect |
 | `tools/ref2004/lib/ours_client.js` | our page: open, 2004 lens, HUD hide, plates, sampler |
 | `tools/ref2004/lib/tutorial2004.js` | the 2004 tutorial bot |
+| `tools/ref2004/gait_metrics.py` | review 5: per-held-pose gait numbers (head / shoulder bob, legs ahead of / behind the hips, arms, lean, back foot off the ground) and idle stance numbers, for any capture set |
+| `tools/ref2004/gait_options_page.py` | review 5: the owner's PRIVATE walk / run / idle options page (`C:\Users\iQwaZ\ref2004_captures\review\gait_options.html`, GIFs beside it; never committed or published) |
+| `tools/ref2004/gait_options_page_r2.py` | review 5 round 2: the same page with the round-2 walk / run options (D, E, F) and the mesh options (a, b, c) on top, round 1 kept below |
+| `tools/ref2004/facet_metrics.py` | review 5 round 2: faceting numbers of the close-up turnaround (flat-plane share, creases, facets per colour region) for 2004 and ours |
+
+### Gait options (review 5, 2026-09-28)
+
+Capture one of our option sets beside the shipped one (ours only; the 2004 frames on disk are reused):
+
+```sh
+REF_OURS_BASE=http://127.0.0.1:<port> bun tools/ref2004/capture_characters.js --side ours --gender both \
+    --tag optB --query "&gait=walkB,runB,idleB" --skip designer,world,matched     # -> characters/ours_optB/<g>
+python tools/ref2004/gait_metrics.py C:/Users/iQwaZ/ref2004_captures/characters/2004/m C:/Users/iQwaZ/ref2004_captures/characters/ours_optB/m
+python tools/ref2004/gait_options_page.py --sets cur,optA,optB,optC               # the private comparison page
+```
+
+`--skip designer` still picks body type B in the creator for the woman; only the designer screenshots are left out.

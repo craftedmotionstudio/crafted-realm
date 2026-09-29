@@ -4000,3 +4000,29 @@ length (slight medium-length read in 3/4).
   33/33, playthrough 2/2 (18/18, 10/10, 0 errors). Online world restarted on 8201 with the current server.
 - Disk ran full during the proof commit (C: 0 GB): stale headless-Chrome test profiles (70) and a failed git repack
   removed -> 6.2 GB free; merged agent worktrees (~50 GB of workspace copies) await the owner's OK to remove.
+
+## 2026-09-28 — Review 5: walk / run / idle options + mesh options (branch holm-gait-options; shipped clips stay default)
+- Owner review 5: the run "leaning a little too far forward", walk shoulders steady / legs trailing, idle like 2004, "give me a
+  few options". Round 1 (walk / run A-C, idle A-C) went to the owner's private page; his round-2 notes: walk arms "too
+  forced", upright, legs straight at the heel strike and mid-stance, a gradual heel-to-toe roll, a gentle shoulder
+  counter-turn; the run a real run (flight, full extension at toe-off, heel kick, knee drive, arms ~90 deg, modest lean);
+  the body "too polished and round" (more flat planes).
+- Builder: `build_holm_characters_v2.py --gait-options` -> companion GLB assets/models/holm_kit_v2_gaits.glb (the kit rig, no
+  meshes; walk_A-F, run_A-F, idle_A-C). New gait controls: swing_path (the swinging ankle's route), foot_roll, face level with
+  a head-to-chest floor (amulets / capes stay clear), arm_out / arm_bias, lean_osc, front_fix, explicit pose holds; knee /
+  flight numbers in the gait report. `--kit-only` + profiles v4a2_mb / v4a2_mc -> holm_kit_v2_mesh_b.glb (squarer torso,
+  fuller thigh caps, trousers tucked into one-piece boots, 30 deg creases) / _mesh_c.glb (shipped mesh, 36 deg creases).
+- Runtime (presentation only, off without the params): src/holm_gait_options.js, `?gait=walkD,runE,idleA[,panel]`,
+  `&kitmesh=a|b|c` (a = flat shading, b / c = the mesh kits for the player); a live picker with `,panel`.
+- Measures (numbers only, 2004 imagery stays in ref2004_captures): tools/ref2004/gait_metrics.py (per held pose),
+  facet_metrics.py (flat-plane share, creases, facets), private page builders; the harness capture takes --tag / --query /
+  --skip. Round 2 vs 2004 (man): walk F distance 1.40 (shipped 1.67), run F 1.63 (shipped 0.94: it has the full 2004 lean the
+  owner asked to reduce); mesh b creases 7.6 per 100 (2004 7.3, shipped 5.8).
+- Equipment fit at idle / walk / run over all 8 held poses (check_holm_equipment_v4.py --gaits --clip-map): set D 0 of
+  20466; E 0 clipping / 40 small gaps; F 0 clipping / 73 gaps; shipped 1 clipping / 35 gaps (all 8 poses now checked).
+- Gates on the branch: units 91/91 (new test_holm_gait_options, 84 checks), smoke PASS fg + hidden (108/108), combat numbers
+  PASS, PvM 40/40, playthrough 1/1 (18/18 lessons, 10/10 tutors, 0 page errors; a first run, alongside the in-app browser
+  check, stalled walking to Magister Ilse -- the known magic-trial driver flake -- and the rerun completed). In-app browser:
+  walk / run A-F switched from the picker while walking / running, idle A-C at rest, mesh a / b / c loaded from the picker
+  (the b / c kit GLBs requested, a flat-shaded), 0 page errors.
+- Private page (never committed): C:\Users\iQwaZ\ref2004_captures\review\gait_options.html (round 2 on top, round 1 below).
