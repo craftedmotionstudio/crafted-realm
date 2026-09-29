@@ -35,13 +35,16 @@ var HolmIslandGuide=(function(){
     if(!has('raw_perch'))return {obj:pondSpot(),label:'Net a fish'};
     if(named('island-campfire'))return {obj:named('island-campfire'),label:'Cook the fish'};
     return has('logs')?{pack:'tinderbox',label:'Light a fire'}:{obj:nearest(alive('island-lesson-survival-oak-')),label:'Chop an oak'};
-   case 'bake_bread':
+   case 'bake_bread':{
+    // the mix takes all three (src/bread_recipe.js: flour, water, dough), and a bin or the butt fills only an empty bucket
+    // (goal audit 2026-09-29: the arrow asked for the flour on the dough before the water, and for the flour bin to a
+    // player holding only a bucket of water)
     if(has('bread_dough'))return {obj:service('Cook'),label:'Bake in the oven'};
-    if(has('dough')&&has('bucket_flour'))return {pack:'bucket_flour',label:'Use the flour on the dough'};
-    if(!has('bucket')&&!has('bucket_flour')&&!has('bucket_water'))return {obj:service('Take bucket'),label:'Take a bucket'};
-    if(!has('bucket_flour'))return {obj:service('Fill bucket with flour'),label:'Fill it with flour'};
-    if(!has('bucket_water'))return has('bucket')?{obj:service('Fill bucket with water'),label:'Fill it with water'}:{obj:service('Take bucket'),label:'Take another bucket'};
-    return {obj:service('Take dough'),label:'Take dough'};
+    var fl=has('bucket_flour'),wa=has('bucket_water'),empty=has('bucket');
+    if(fl&&wa&&has('dough'))return {pack:'bucket_flour',label:'Use the flour on the dough'};
+    if(!fl)return empty?{obj:service('Fill bucket with flour'),label:'Fill it with flour'}:{obj:service('Take bucket'),label:wa?'Take another bucket':'Take a bucket'};
+    if(!wa)return empty?{obj:service('Fill bucket with water'),label:'Fill it with water'}:{obj:service('Take bucket'),label:'Take another bucket'};
+    return {obj:service('Take dough'),label:'Take dough'};}
    case 'learn_quests':return {obj:service('Study quest board'),label:'Study the quest board'};
    // owner review 5 (2026-09-28): the coil of rope, then the shaft to tie it to, then the rope down (HolmShaftRope)
    case 'descend_cavern':{var rs=typeof HolmShaftRope!=='undefined'&&HolmShaftRope.active()?HolmShaftRope.stage():'climb',shaft=service('Climb-down mine shaft','shaft');
@@ -66,6 +69,54 @@ var HolmIslandGuide=(function(){
   }
   return null;
  }
+ // goal audit 2026-09-29, "no step where a new player has to guess": when the step's tool has been lost (dropped, left in
+ // the bank) the arrow goes to the spare-tools rack in the Guide House (HolmToolRecoveryService re-grants what the ledger
+ // has unlocked); when the teaching runes or arrows are spent without the kill, to the trial's tutor, who tops them up
+ // (HolmCombatKits.recover). Returns an aim or null.
+ function holds(kind,id){if(has(id))return true;var e=typeof Player!=='undefined'&&Player.equip||{};for(var k in e){var w=e[k];if(w&&(w===id||(kind&&typeof ITEMS!=='undefined'&&ITEMS[w]&&ITEMS[w].tool===kind)))return true}
+  return !!kind&&typeof ITEMS!=='undefined'&&(Player.inv||[]).some(function(s){return s&&ITEMS[s.id]&&ITEMS[s.id].tool===kind})}
+ function lostTool(id){
+  var need=null;
+  if(id==='chop_logs'||(id==='light_fire'&&!has('logs')))need=['woodcutting','hatchet'];
+  else if(id==='light_fire')need=[null,'tinderbox'];
+  else if(id==='catch_fish')need=['fishing','fishing_net'];
+  else if(id==='cook_fish'){if(!has('raw_perch'))need=['fishing','fishing_net'];else if(!named('island-campfire'))need=has('logs')?[null,'tinderbox']:['woodcutting','hatchet']}
+  else if(id==='mine_copper'||id==='mine_tin')need=['mining','pickaxe'];
+  else if(id==='forge_dagger')need=[null,'hammer'];
+  return need&&!holds(need[0],need[1])?need[1]:null;
+ }
+ function recovery(id){
+  // (say: one chat line when it starts, so the objective box's own line is not left to be guessed at)
+  var t=lostTool(id);if(t){var rack=byKind('arrival_provisions'),tn=typeof ITEMS!=='undefined'&&ITEMS[t]?ITEMS[t].name.toLowerCase():t;
+   if(rack)return {obj:rack,label:'Take a spare '+tn+' from the rack',why:'spare tools',say:'You have no '+tn+'. Spare tools hang on the rack in the Guide House: follow the arrow.'}}
+  if(id==='magic_trial'&&(!has('air_rune')||!has('mind_rune'))){var ilse=named('island-tutor-ilse');if(ilse)return {obj:ilse,label:'Ask Magister Ilse for runes',say:'You are out of runes. Speak to Magister Ilse and she will give you more.'}}
+  if(id==='ranged_trial'&&!has('arrows')&&!(Player.equip&&Player.equip.ammo==='arrows')){var dropped=nearest((typeof WORLD!=='undefined'&&WORLD.drops||[]).filter(function(d){return d.userData&&d.userData.id==='arrows'&&Math.hypot(d.position.x-player.position.x,d.position.z-player.position.z)<12}));
+   if(dropped)return {obj:dropped,label:'Pick up your arrows'};var cor=named('island-tutor-corrick');if(cor)return {obj:cor,label:'Ask Warden Corrick for arrows',say:'You are out of arrows. Speak to Warden Corrick and he will give you more.'}}
+  return null;
+ }
+ // the ore workings lie offshore below the Quarry Gate: a target down there, seen from the surface, is reached by the
+ // shaft (take the rope, tie it, climb down); a surface target seen from down there by the ladder up to the shaft, or by
+ // the east drift once it is open (goal audit 2026-09-29: from the surface the arrow pointed into the sea over the workings)
+ function below(p){return !!p&&p.y<-15}
+ function viaShaft(a){
+  if(!a||!a.obj||typeof HolmArrivalQA==='undefined')return a;var p=world(a.obj);if(!p)return a;
+  var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord(),inCavern=!!rec&&String(rec.surface||'').indexOf('b:cavern:')===0;
+  if(below(p)&&!inCavern){var rs=typeof HolmShaftRope!=='undefined'&&HolmShaftRope.active()?HolmShaftRope.stage():'climb',shaft=service('Climb-down mine shaft','shaft');if(!shaft)return a;
+   if(rs==='take'){var coil=named(HolmShaftRope.COIL_NAME);return {obj:coil||shaft,label:'Take the rope'}}
+   return {obj:shaft,label:rs==='tie'?'Use the rope on the shaft':'Climb down the rope'}}
+  if(!below(p)&&inCavern){var drift=typeof HolmIslandGates!=='undefined'&&!HolmIslandGates.serviceBlocked('cavern','exit');var up=drift?service('Climb-up drift ladder','exit'):service('Climb-up ladder','ladder');
+   if(up)return {obj:up,label:drift?'Climb the drift ladder':'Climb up to the shaft'}}
+  return a}
+ // Lastlight's upper floors: a target off the storey the adventurer stands on is reached by that floor's ladder down first
+ // (goal audit 2026-09-29: after the lever the arrow pointed straight through the tower at Ferryman Tobin at the cove);
+ // floors as relight_lastlight counts them from the storm door's stance (1.5 / 4.5 / 7.5 above it)
+ function viaLastlight(a){if(!a||typeof HolmArrivalQA==='undefined'||!HolmArrivalQA.qaStance||typeof player==='undefined')return a;
+  var sv=a.obj&&a.obj.userData&&a.obj.userData.islandService;if(sv&&sv.building==='lastlight')return a;   // the tower's own ladders and lever: relight_lastlight counts the floors itself
+  var base=HolmArrivalQA.qaStance('lastlight','door');if(!base)return a;var rel=player.position.y-base.y;
+  if(rel<1.5||Math.hypot(player.position.x-base.x,player.position.z-base.z)>9)return a;
+  var foot=a.point?a.point.y:null;if(a.obj){var b=new THREE.Box3().setFromObject(a.obj);if(!b.isEmpty())foot=b.min.y}
+  var p=a.point||(a.obj?world(a.obj):null);if(p&&foot!==null&&Math.abs(foot-player.position.y)<1.5&&Math.hypot(p.x-player.position.x,p.z-player.position.z)<9)return a;
+  var down=service('Climb-down ladder',rel>=7.5?'ladder3-top':rel>=4.5?'ladder2-top':'ladder1-top');return down?{obj:down,label:'Climb down the ladder'}:a}
  // a station inside a building while the player is outside: lead to the building's door first (2004 style)
  var CAVERN_STEPS={descend_cavern:1,mine_copper:1,mine_tin:1,smelt_bronze:1,forge_dagger:1};
  var NAMES={bakehouse:'bakehouse',lodge:'Quest Lodge',bank:'Holm Bank',keep:"Warden's Keep",mage:'Mage Tower',lastlight:'Lastlight',quarry:'Quarry Gate',survival:'survival camp',haven:'haven'};
@@ -82,7 +133,7 @@ var HolmIslandGuide=(function(){
   var rec=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord();if(!rec||rec.surface!=='exterior')return a;
   var box=new THREE.Box3().setFromObject(house),t=a.obj.getWorldPosition(new THREE.Vector3());
   if(t.x<box.min.x||t.x>box.max.x||t.z<box.min.z||t.z>box.max.z)return a;
-  return {obj:door,door:true,label:rec.doors&&rec.doors.arrival?'Enter the Guide House':'Open the door'}}
+  return {obj:door,door:true,label:(rec.doors&&rec.doors.arrival?'Enter the Guide House':'Open the door')+(a.why?' ('+a.why+')':'')}}
  // a door's arrow floats in front of the leaf at head height, not on its top edge: under a porch roof the top edge put
  // the arrow and its tag off the top of the screen once the adventurer walked up to it
  function doorPoint(o){var b=new THREE.Box3().setFromObject(o);if(b.isEmpty())return world(o);var c=b.getCenter(new THREE.Vector3()),dx=player.position.x-c.x,dz=player.position.z-c.z,d=Math.hypot(dx,dz)||1,k=Math.min(.7,d*.5);
@@ -106,19 +157,25 @@ var HolmIslandGuide=(function(){
   var due=typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.pending(),key=(Tutorial.complete?'done':Tutorial.step)+'|'+(due?due.id:'');
   st.t+=dt||0;if(st.t<.5&&key===st.key)return;st.t=0;st.key=key;
   var a;
-  if(Tutorial.complete){var boat=null;scene.traverse(function(n){if(!boat&&/^Haven_ServiceBoat_/.test(n.name||''))boat=n});a=talkAim()||(boat?{obj:boat,label:'Board the skiff'}:null)}
-  else{var s=Tutorial.steps[Tutorial.step];a=s?(talkAim()||aim(s.id)):null}
+  // the skiff: the service the click boards (goal audit 2026-09-29: the boat model's whole group put the arrow a tile off
+  // and above the mast, off the top of the screen at the pier's end), else the model
+  if(Tutorial.complete){var boat=service('Ferry','boat');if(!boat)scene.traverse(function(n){if(!boat&&/^Haven_ServiceBoat_/.test(n.name||''))boat=n});a=talkAim()||(boat?{obj:boat,label:'Board the skiff'}:null)}
+  else{var s=Tutorial.steps[Tutorial.step];a=s?(talkAim()||recovery(s.id)||aim(s.id)):null}
+  if(a&&a.say){if(st.said!==a.say){st.said=a.say;if(typeof UI!=='undefined'&&UI.chat)UI.chat(a.say,'plain')}}else st.said=null;
   if(a&&(a.pack||a.tab)){packPulse(true,a.pack,a.tab);GuideArrow.setTarget(null);return}
   packPulse(false);
-  a=viaGuideDoor(viaDoor(a));
+  a=viaGuideDoor(viaDoor(viaShaft(viaLastlight(a))));
   // v2 land: in the ore workings, once the cavern lessons are done, every objective is up the east drift ladder first
   if(a&&typeof HolmArrivalQA!=='undefined'&&!Tutorial.complete){var rw=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord(),s0=Tutorial.steps[Tutorial.step];
    if(rw&&String(rw.surface||'').indexOf('b:cavern:')===0&&s0&&!CAVERN_STEPS[s0.id]){var dl=service('Climb-up drift ladder','exit');if(dl)a={obj:dl,label:'Climb the drift ladder'}}}
   // down in the Guide House cellar every objective is back up the ladder first
   if(a&&typeof HolmGuideCellar!=='undefined'){var rc=HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord();if(rc&&HolmGuideCellar.below(rc.surface)){var lad=named('CellarLadder');if(lad)a={obj:lad,label:'Climb up the ladder'}}}
-  var p=a&&(a.point?{x:a.point.x,y:a.point.y+1.4,z:a.point.z}:a.door?doorPoint(a.obj):world(a.obj));if(!p){return}
+  var p=a&&(a.point?{x:a.point.x,y:a.point.y+1.4,z:a.point.z}:a.door?doorPoint(a.obj):world(a.obj));
+  // nothing to point at this moment (every grubkin in the pen between respawns, no ripple up yet): the lesson's station
+  // (HolmIslandCurriculum.bind) rather than the last target, which could belong to a step already done
+  if(!p){var s1=!Tutorial.complete&&Tutorial.steps[Tutorial.step];if(s1&&s1.target){p={x:s1.target.x,z:s1.target.z};a={label:s1.arrowLabel||''}}else{GuideArrow.setTarget(null);return}}
   GuideArrow.keepAfterComplete=!!Tutorial.complete;GuideArrow.setTarget({x:p.x,z:p.z,y:p.y,exact:true},a.label);
  }
- return {update:update,aim:aim};
+ return {update:update,aim:aim,recovery:recovery,lostTool:lostTool,viaShaft:viaShaft,viaLastlight:viaLastlight};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandGuide;

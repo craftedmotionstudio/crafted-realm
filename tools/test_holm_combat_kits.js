@@ -66,4 +66,33 @@ test('actual legacy load defaults missing claims to unclaimed',()=>{
 test('actual load accepts only literal true claim flags',()=>{
   const f=fixture(),p=attachRealSave(f);p.save.save(true);const saved=p.read();saved.tut.combatKitClaims={ranged:'true',magic:1};p.write(saved);assert.equal(p.save.load(),true);assert.equal(f.c.Tutorial.combatKitClaims.ranged,false);assert.equal(f.c.Tutorial.combatKitClaims.magic,false);
 });
+// exhaustion recovery (goal audit 2026-09-29): the trial's tutor tops up a kit part that is gone entirely, only while that
+// trial is the lesson due; partly used supplies are never replenished (no farming)
+const due=(f,style)=>{f.c.Tutorial.steps=[{id:style+'_trial',ev:'killStyle',match:style}];f.c.Tutorial.step=0;f.c.Tutorial.complete=false;};
+test('recover: all runes spent during the magic trial -> the tutor hands the runes again, saved',()=>{
+  const f=fixture();due(f,'magic');f.claim('magic');f.c.Player.inv=f.c.Player.inv.map(s=>s&&/_rune$/.test(s.id)?null:s);
+  assert.equal(f.c.HolmCombatKits.recover('magic','Magister Ilse'),true);assert.equal(count(f.c.Player.inv,'air_rune'),15);assert.equal(count(f.c.Player.inv,'mind_rune'),15);
+  assert.equal(f.calls.saves.length,2);assert(f.calls.messages.some(m=>/Magister Ilse hands you 15 gale runes and 15 wit runes|Magister Ilse hands you/.test(String(m[0]))));
+});
+test('recover: only the spent rune is topped up; partly used runes are not',()=>{
+  const f=fixture();due(f,'magic');f.claim('magic');f.c.Player.inv=f.c.Player.inv.map(s=>s&&s.id==='air_rune'?null:s&&s.id==='mind_rune'?{id:'mind_rune',qty:3}:s);
+  assert.equal(f.c.HolmCombatKits.recover('magic','Magister Ilse'),true);assert.equal(count(f.c.Player.inv,'air_rune'),15);assert.equal(count(f.c.Player.inv,'mind_rune'),3);
+  f.c.Player.inv=f.c.Player.inv.map(s=>s&&s.id==='air_rune'?{id:'air_rune',qty:2}:s);const before=clone(f.c.Player.inv);
+  assert.equal(f.c.HolmCombatKits.recover('magic','Magister Ilse'),false);assert.deepEqual(clone(f.c.Player.inv),before);
+});
+test('recover: arrows spent (bow still wielded) during the ranged trial -> arrows again; a banked stack counts as held',()=>{
+  const f=fixture();due(f,'ranged');f.claim('ranged');f.c.Player.inv=f.c.Player.inv.map(s=>s&&s.id==='worn_bow'?null:s&&s.id==='arrows'?null:s);f.c.Player.equip.weapon='worn_bow';
+  assert.equal(f.c.HolmCombatKits.recover('ranged','Warden Corrick'),true);assert.equal(count(f.c.Player.inv,'arrows'),30);assert.equal(count(f.c.Player.inv,'worn_bow'),0);
+  const g=fixture();due(g,'ranged');g.claim('ranged');g.c.Player.inv=g.c.Player.inv.map(s=>s&&s.id==='arrows'?null:s);g.c.Player.bank=[{id:'arrows',qty:4}];
+  assert.equal(g.c.HolmCombatKits.recover('ranged','Warden Corrick'),false);
+});
+test('recover: nothing outside the style\'s own trial (another lesson due, or graduated)',()=>{
+  const f=fixture();due(f,'ranged');f.claim('magic');f.c.Player.inv=f.c.Player.inv.map(s=>s&&/_rune$/.test(s.id)?null:s);
+  assert.equal(f.c.HolmCombatKits.recover('magic','Magister Ilse'),false);assert.equal(count(f.c.Player.inv,'air_rune'),0);
+  due(f,'magic');f.c.Tutorial.complete=true;assert.equal(f.c.HolmCombatKits.recover('magic','Magister Ilse'),false);
+});
+test('recover: a full pack refuses atomically and asks for room',()=>{
+  const f=fixture();due(f,'magic');f.claim('magic');f.c.Player.inv=Array.from({length:28},()=>({id:'stone',qty:1}));const inv=f.c.Player.inv;
+  assert.equal(f.c.HolmCombatKits.recover('magic','Magister Ilse'),false);assert.equal(f.c.Player.inv,inv);assert(f.calls.messages.some(m=>/Make room/.test(String(m[0]))));
+});
 console.log('[HOLM_COMBAT_KITS] '+passed+'/'+passed+' PASS');

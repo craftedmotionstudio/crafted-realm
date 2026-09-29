@@ -18,7 +18,7 @@ var HolmIslandCurriculum=(function(){
   mine_tin:{object:'island-lesson-cavern-tin-1'},smelt_bronze:{object:'island-lesson-furnace'},
   forge_dagger:{object:'island-lesson-anvil'},melee_trial:{building:['keep','court']},
   ranged_trial:{building:['keep','court']},open_bank:{building:['bank','counter']},
-  magic_trial:{building:['mage','runes']},relight_lastlight:{building:['lastlight','lever']}};
+  magic_trial:{building:['mage','entrance']},relight_lastlight:{building:['lastlight','lever']}};
  // hint lines in our own words, one objective at a time
  var TEXT={
   study_route:['Enter the Guide House and study the relief chart of Tutor\'s Holm.','Study the chart'],

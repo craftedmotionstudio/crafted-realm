@@ -82,7 +82,20 @@ var HolmIslandPlayer=(function(){
   })});
  }
  // the 2004-style kit: exactly one part per slot and the five colour channels, from the character's saved look
- function applyLook(rig){if(typeof HolmKit!=='undefined'&&HolmKit.ready()){var l=HolmKit.apply(rig,typeof CharCfg!=='undefined'?CharCfg.kit:null);if(l&&typeof CharCfg!=='undefined')CharCfg.kit=l;return true}applyVariants(rig);return false}
+ // goal audit 2026-09-29 ("saved appearances preserved"): a save from before the kit (ui_save marks it CharCfg._legacyLook)
+ // keeps its old look on the kit: body type from gender (2004: A / B), the nearest hair style and beard, and each old colour
+ // as the nearest entry of its channel's palette (shirt -> torso, legs, hair, skin); the kit's own defaults fill the rest
+ var OLD_HAIR={short:['short'],long:['long'],ponytail:['pigtails','long'],bun:['bun','medium'],mohawk:['mohawk','spiky'],bald:['bald']};
+ function legacyKit(){var c=typeof CharCfg!=='undefined'?CharCfg:null;if(!c||!c._legacyLook||c.kit||typeof HolmKit==='undefined'||!HolmKit.ready())return null;
+  var body=/^f/i.test(String(c.gender||''))?'B':'A',l=HolmKit.defaults(body);
+  var near=function(ch,hex){hex=Number(hex);if(!Number.isFinite(hex))return;var r=(hex>>16)&255,g=(hex>>8)&255,b=hex&255,best=-1,d=Infinity;
+   HolmKit.palette(ch).forEach(function(h,i){var v=parseInt(String(h).replace('#',''),16),e=Math.pow(((v>>16)&255)-r,2)+Math.pow(((v>>8)&255)-g,2)+Math.pow((v&255)-b,2);if(e<d){d=e;best=i}});if(best>=0)l.colors[ch]=best};
+  near('hair',c.hair);near('torso',c.shirt);near('legs',c.legs);near('skin',c.skin);
+  var want=OLD_HAIR[String(c.hairStyle||'').toLowerCase()]||[],hair=HolmKit.options(body,'Hair');
+  for(var i=0;i<want.length;i++){var o=hair.filter(function(x){return String(x.label).toLowerCase()===want[i]})[0];if(o){l.parts.Hair=o.index;break}}
+  if(HolmKit.hasSlot(body,'Jaw')){var lab=c.beard?'short':'clean-shaven',j=HolmKit.options(body,'Jaw').filter(function(x){return String(x.label).toLowerCase()===lab})[0];if(j)l.parts.Jaw=j.index}
+  c._legacyLook=false;return l}
+ function applyLook(rig){if(typeof HolmKit!=='undefined'&&HolmKit.ready()){var l=HolmKit.apply(rig,typeof CharCfg!=='undefined'?(CharCfg.kit||legacyKit()):null);if(l&&typeof CharCfg!=='undefined')CharCfg.kit=l;return true}applyVariants(rig);return false}
  function refreshLook(){if(st.rig)applyLook(st.rig)}
  function install(){
   var gltf=st.gltf;st.gltf=null;if(!gltf)return;
