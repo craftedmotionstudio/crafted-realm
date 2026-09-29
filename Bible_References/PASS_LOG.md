@@ -4081,3 +4081,31 @@ length (slight medium-length read in 3/4).
   Walk G strut, Walk H stroll, Run G light jog, Run H easy jog. 2004 frames load only from outside the repo.
 - Level-up: small firework burst + soft sound, no screen flash, old beeps gone; oaks drop occasional leaves.
 - Gates per merge green (units 96/96, server 98/98, smoke, playthroughs). Merged work folders removed (84 GB free).
+
+## 2026-09-29 — Path tiles pass: the grey paths laid tile by tile (branch holm-path-tiles)
+- Owner: "we almost need an agent to go around and map out the exact tiles of the path... They're not the most concise
+  paths." Audit of the review-5 lanes (875 tiles): 559 stray tiles flagged: 305 on no walk between two places (stubs,
+  blobs, spare lanes), 231 ragged edges / width changes, 133 staircase tiles, 57 clipped by props, 51 in parallel lanes;
+  Wenna, the Survival camp's east side and the mill door unserved.
+- src/holm_island_grey_paths_data.js is now authored: 23 named segments (the lesson route in order, then the lanes
+  between buildings), straight and 45-degree runs, one width per lane (2; 1 on the causeway to the timber bridge, the camp
+  gap, the mesa ramp to the Quarry Gate, the keep ledge, the crown ramp, the Lastlight strip, the haven, the east lane,
+  the village road and the farm track, where a plant, prop, trunk or cliff leaves one tile), 3 courts (keep gate, bank,
+  mage yard), 12 junctions. 657 tiles; the audit flags 5 (four authored kinks, pinned). Same API (tiles, style, graph);
+  added layout, segments, courts, junctions, expand().
+- Tools: tools/holm_path_tiles_facts.js (ground facts), audit_holm_path_tiles.js + map_holm_path_tiles.py (tile maps),
+  propose_holm_path_segment.js (a first line for a new lane), stage_holm_grey_paths.js (decor: 17 pieces taken up off new
+  lanes, 12 of review 5's 17 put back where no lane runs; docs copy only), capture_holm_path_tiles.js,
+  make_holm_path_tiles_sheets.py. Evidence: scratchpad/holm_path_tiles/ (maps, zoomed maps, 3 sheets, report.json).
+- tools/test_holm_grey_paths.js (8 checks): API; every tile in a named segment or court; no isolated tile or speck, one
+  network through the Guide House / Mage tower / Keeper's Stair; no stub (4+ tiles, both ends on what they name); one
+  width, no bump / notch / parallel lane, only the four known kinks; nothing on water, floors, decks, props, plants,
+  trunks, decor or across a cliff; every lesson door and station served and connected; walk graph unchanged
+  (10468 / 27691 / d41278dc47dbc168; island QA boot 10459 / 27639); grey look and ?greypaths=0.
+- Gates: units 97/97, smoke PASS fg + hidden, route v2 10/10, island QA 34/34 (a first run lost its driver to "Node is
+  detached from document" while an in-app browser game ran beside it; rerun alone PASS), playthrough 1/1 (18/18, 10/10
+  tutors, 0 errors, ?holmIsland=1). In-app browser: island boots with 657 grey tiles, bank court and back lane checked,
+  ?greypaths=0 gives the 1,671-tile dirt.
+- Not done: the island bundle publish (node tools/publish_holm_island.js apply) was refused by the session's permission
+  check, so assets/holm_island/data/island-props.json still has review 5's decor; until it is published, production shows
+  17 decor pieces on the new lanes (the ?holmIsland=1 draft reads the docs copy and is right).
