@@ -97,10 +97,11 @@ check('from the ore workings a surface target is reached by the ladder up, or th
 });
 check('in Lastlight\'s upper floors a target off the storey (Ferryman Tobin at the cove) is reached by that floor\'s ladder down; the tower\'s own ladders are left alone',()=>{
  const tob=w=>({obj:w.ctx.scene.getObjectByName('island-tutor-tobin'),label:'Talk to Ferryman Tobin'});
- let w=world({lastlight:true,at:[121.5,26.5,26.5]});let a=w.G.viaLastlight(tob(w));assert.strictEqual(name(a),'svc-ll-down2');assert.strictEqual(a.label,'Climb down the ladder');
- w=world({lastlight:true,at:[124.5,29.8,24.5]});assert.strictEqual(name(w.G.viaLastlight(tob(w))),'svc-ll-down3');
- w=world({lastlight:true,at:[123.5,23.8,24.5]});assert.strictEqual(name(w.G.viaLastlight(tob(w))),'svc-ll-down1');
- w=world({lastlight:true,at:[121,20.2,25]});assert.strictEqual(name(w.G.viaLastlight(tob(w))),'island-tutor-tobin','the ground floor: straight on');
- w=world({lastlight:true,at:[121.5,26.5,26.5]});assert.strictEqual(name(w.G.viaLastlight({obj:w.ctx.scene.getObjectByName('svc-ll-up3'),label:'Climb the ladder'})),'svc-ll-up3');
+ let w=world({lastlight:true,surface:'b:lastlight:0:Lastlight_UpperFloorWatchTiles',at:[121.5,26.5,26.5]});let a=w.G.viaLastlight(tob(w));assert.strictEqual(name(a),'svc-ll-down2');assert.strictEqual(a.label,'Climb down the ladder');
+ w=world({lastlight:true,surface:'b:lastlight:0:Lastlight_UpperFloorWatchTiles',at:[130.5,29.8,24.5]});assert.strictEqual(name(w.G.viaLastlight(tob(w))),'svc-ll-down3','the lantern deck, ten tiles and more from the storm door');
+ w=world({lastlight:true,surface:'b:lastlight:0:StagedTerrain',at:[121.5,26.5,26.5]});assert.strictEqual(name(w.G.viaLastlight(tob(w))),'island-tutor-tobin','outside the tower (its terrain patch): straight on');
+ w=world({lastlight:true,surface:'b:lastlight:0:Lastlight_UpperFloorWatchTiles',at:[123.5,23.8,24.5]});assert.strictEqual(name(w.G.viaLastlight(tob(w))),'svc-ll-down1');
+ w=world({lastlight:true,surface:'b:lastlight:0:Lastlight_FloorWingTiles',at:[121,20.2,25]});assert.strictEqual(name(w.G.viaLastlight(tob(w))),'island-tutor-tobin','the ground floor: straight on');
+ w=world({lastlight:true,surface:'b:lastlight:0:Lastlight_UpperFloorWatchTiles',at:[121.5,26.5,26.5]});assert.strictEqual(name(w.G.viaLastlight({obj:w.ctx.scene.getObjectByName('svc-ll-up3'),label:'Climb the ladder'})),'svc-ll-up3');
 });
 console.log('[HOLM_ISLAND_GUIDE] '+passed+'/9 checks passed');if(passed!==9)process.exit(1);

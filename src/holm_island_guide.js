@@ -60,8 +60,9 @@ var HolmIslandGuide=(function(){
    case 'magic_trial':return Player.spell==='wind_strike'?{obj:grubkin('mage-yard'),label:'Cast at a grubkin'}:{tab:'spells',label:'Choose Gale Dart'};
    case 'relight_lastlight':{
     // the storm door, then the ladder on whichever floor the player is on, then the lever
+    // (inside the tower by its walk surface: the lantern deck's lever stands ten tiles from the storm door)
     var y=player.position.y,base=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('lastlight','door'),rel=base?y-base.y:0;
-    if(!base||Math.hypot(player.position.x-base.x,player.position.z-base.z)>9)return {obj:gateLeaf('lastlight-door')||service('Climb-up ladder','ladder1-foot'),label:'Enter Lastlight'};
+    if(!base||(!insideOf('lastlight')&&Math.hypot(player.position.x-base.x,player.position.z-base.z)>9))return {obj:gateLeaf('lastlight-door')||service('Climb-up ladder','ladder1-foot'),label:'Enter Lastlight'};
     if(rel<1.5)return {obj:service('Climb-up ladder','ladder1-foot'),label:'Climb the ladder'};
     if(rel<4.5)return {obj:service('Climb-up ladder','ladder2-foot'),label:'Climb the ladder'};
     if(rel<7.5)return {obj:service('Climb-up ladder','ladder3-foot'),label:'Climb the ladder'};
@@ -110,10 +111,12 @@ var HolmIslandGuide=(function(){
  // Lastlight's upper floors: a target off the storey the adventurer stands on is reached by that floor's ladder down first
  // (goal audit 2026-09-29: after the lever the arrow pointed straight through the tower at Ferryman Tobin at the cove);
  // floors as relight_lastlight counts them from the storm door's stance (1.5 / 4.5 / 7.5 above it)
+ // standing inside a building (its own floors, not the terrain patch around it)
+ function insideOf(b){var r=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.saveRecord&&HolmArrivalQA.saveRecord(),sf=r&&String(r.surface||'')||'';return sf.indexOf('b:'+b+':')===0&&!/(IslandTerrain|StagedTerrain)$/.test(sf)}
  function viaLastlight(a){if(!a||typeof HolmArrivalQA==='undefined'||!HolmArrivalQA.qaStance||typeof player==='undefined')return a;
   var sv=a.obj&&a.obj.userData&&a.obj.userData.islandService;if(sv&&sv.building==='lastlight')return a;   // the tower's own ladders and lever: relight_lastlight counts the floors itself
   var base=HolmArrivalQA.qaStance('lastlight','door');if(!base)return a;var rel=player.position.y-base.y;
-  if(rel<1.5||Math.hypot(player.position.x-base.x,player.position.z-base.z)>9)return a;
+  if(rel<1.5||!insideOf('lastlight'))return a;
   var foot=a.point?a.point.y:null;if(a.obj){var b=new THREE.Box3().setFromObject(a.obj);if(!b.isEmpty())foot=b.min.y}
   var p=a.point||(a.obj?world(a.obj):null);if(p&&foot!==null&&Math.abs(foot-player.position.y)<1.5&&Math.hypot(p.x-player.position.x,p.z-player.position.z)<9)return a;
   var down=service('Climb-down ladder',rel>=7.5?'ladder3-top':rel>=4.5?'ladder2-top':'ladder1-top');return down?{obj:down,label:'Climb down the ladder'}:a}

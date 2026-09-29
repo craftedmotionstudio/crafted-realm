@@ -20,7 +20,7 @@ COLS, ROWS = 4, 4
 TW, TH = 480, 281          # thumbnail (1538x900 captures scaled 0.312)
 CAP = 118                  # caption height
 PAD = 10
-GOOD = {'exact', 'exact-family', 'tutor-first', 'door-first', 'drift-ladder-first', 'pack', 'use-on', 'use-item-on-arrow-target'}
+GOOD = {'exact', 'exact-family', 'tutor-first', 'lesson-already-done', 'door-first', 'drift-ladder-first', 'pack', 'use-on', 'use-item-on-arrow-target'}
 
 
 def font(size):

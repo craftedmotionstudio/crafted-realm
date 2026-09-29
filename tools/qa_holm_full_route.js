@@ -33,7 +33,7 @@ const sleep=L.sleep;
 const checks=[],t0=Date.now();
 function ok(label,cond,detail){checks.push({label,ok:!!cond,detail,t:+((Date.now()-t0)/1000).toFixed(1)});console.log((cond?'  ok  ':'  FAIL ')+label+(cond?'':'  '+JSON.stringify(detail).slice(0,700)));return !!cond}
 // ---------- the guidance probe: wraps the lib's click helpers BEFORE the lesson steps load (they bind them at require) ----------
-const G={page:null,on:false,depth:0,list:[],n:0,lastKey:''};
+const G={page:null,on:false,depth:0,list:[],n:0,lastKey:'',cur:null};   // cur: the lesson the driver is working on
 async function probe(kind,a1,a2){
   const page=G.page;if(!page||!G.on||G.depth>0)return;
   // the guide re-aims every half second (HolmIslandGuide.update); a player takes longer than that to reach for the mouse
@@ -58,7 +58,7 @@ async function probe(kind,a1,a2){
     return {lesson:Tutorial.complete?'complete':Tutorial.steps[Tutorial.step].id,objective:ob&&ob.style.display!=='none'&&txt?txt.textContent:'',label:g.label||'',arrow,pulse,tabs,
       target,dist,dy,family,surface:rec?rec.surface:null,player:[player.position.x,player.position.y,player.position.z].map(v=>+v.toFixed(2)),due:typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.pending()?HolmIslandTalk.pending().id:null};
   },kind,a1||null,a2||null).catch(e=>({error:String(e).slice(0,200)}));
-  r.kind=kind;r.what=a1+(a2?' / '+a2:'');r.t=+((Date.now()-t0)/1000).toFixed(1);
+  r.kind=kind;r.what=a1+(a2?' / '+a2:'');r.driverLesson=G.cur||null;r.t=+((Date.now()-t0)/1000).toFixed(1);
   const key=r.lesson+'|'+kind+'|'+r.what+'|'+r.label;
   if(key!==G.lastKey&&!r.error){G.lastKey=key;G.n++;r.shot='probe_'+String(G.n).padStart(3,'0');await frameShot(page,r)}
   G.list.push(r);
@@ -218,7 +218,7 @@ async function death(page){
   ok('boot: a fresh adventurer on the live island (tutors-holm-v3), 18-lesson v6 curriculum, 10 tutors, "Talk to Guide Bram", the arrow on the Guide House door',b0.provider==='tutors-holm-v3'&&b0.v===6&&b0.n===18&&b0.lesson==='study_route'&&b0.tutors===10&&b0.objective==='Talk to Guide Bram in the Guide House.'&&/door|Guide House/.test(b0.label),b0);
   const run=await L.runOrb(page);ok('a new adventurer walks until the run orb is clicked (2004)',run.startedOff&&run.on,run);
   for(let guard=0;guard<30;guard++){
-   const id=await lesson(page);if(id==='complete')break;const s=Date.now();console.log(' lesson '+id+' | '+(await objective(page)).slice(0,90));
+   const id=await lesson(page);if(id==='complete')break;G.cur=id;const s=Date.now();console.log(' lesson '+id+' | '+(await objective(page)).slice(0,90));
    let done=false;try{if(EXTRA[id])done=await EXTRA[id](page);if(!done){G.on=true;await P.DO[id](page)}}catch(e){ok('lesson '+id+' ran without throwing',false,String(e&&e.stack||e).slice(0,500))}finally{G.on=false}
    await P.waitLesson(page,id,20000);per[id]=Math.round((Date.now()-s)/1000);
    if(await lesson(page)===id){ok('lesson '+id+' is credited by the game',false,{chat:await chat(page,6)});await shot(page,'stuck_'+id);break}
@@ -238,7 +238,7 @@ async function death(page){
   ok('the rope: taken from beside the shaft, tied (saved across a reload), climbed down',!!(rope&&rope.ok),rope);
   ok('every tutor was announced on the objective line first and spoken to (9 before departure, each chat registered)',met.length>=9&&met.every(t=>t.banner&&t.talked&&!t.error),met.map(t=>[t.id,t.banner,t.talked,t.pages]));
   // departure
-  G.on=true;await L.walkTo(page,'haven','shore',true,[]);const tb=await P.talk(page,'tobin');await closeDialogue(page);await L.walkTo(page,'haven','boat',false,[]);await clickService(page,'Ferry','boat');G.on=false;
+  G.cur='complete';G.on=true;await L.walkTo(page,'haven','shore',true,[]);const tb=await P.talk(page,'tobin');await closeDialogue(page);await L.walkTo(page,'haven','boat',false,[]);await clickService(page,'Ferry','boat');G.on=false;
   const sailed=await waitFor(page,()=>typeof CRWorldMode!=='undefined'&&!/holm/.test(CRWorldMode.providerId||''),null,90000);await sleep(3000);
   const end=await page.evaluate(()=>({provider:CRWorldMode.providerId,complete:!!Tutorial.complete,pack:!!Tutorial.departurePackClaimed,coins:Player.count('coins'),bread:Player.count('bread')}));
   ok('departure: Ferryman Tobin spoken to, the skiff boarded, Hearthmere reached with the departure pack',tb.talked&&sailed&&end.provider==='veyhollow-commons-v2'&&end.complete&&end.pack&&end.coins>0,{tobin:tb.talked,sailed,end});
@@ -253,7 +253,10 @@ async function death(page){
    p.verdict=p.pulse===p.what?'pack':(prev&&prev.kind==='pack'&&prev.lesson===p.lesson&&prev.pulse===prev.what)?'use-on':(next&&next.kind!=='pack'&&next.lesson===p.lesson&&p.arrow&&next.arrow&&Math.hypot(p.arrow.x-next.arrow.x,p.arrow.z-next.arrow.z)<.1)?'use-item-on-arrow-target':'mismatch'}
   // a click the playthrough makes on purpose while a tutor is still due (the oak before Wenna: the talk-first refusal
   // test): the arrow must be on that tutor, not on what was clicked
-  else if(p.due&&p.kind!=='tutor')p.verdict=/^Talk to /.test(p.label)&&p.label.indexOf(p.due.charAt(0).toUpperCase()+p.due.slice(1))>=0?'tutor-first':'mismatch';
+  // the driver's last click of a lesson the game has already credited (the kill landed between the loop's check and the
+  // click): not a guidance moment
+  else if(p.driverLesson&&p.lesson!==p.driverLesson)p.verdict='lesson-already-done';
+  else if(p.due&&p.kind!=='tutor'&&/^Talk to /.test(p.label))p.verdict=p.label.indexOf(p.due.charAt(0).toUpperCase()+p.due.slice(1))>=0?'tutor-first':'mismatch';
   else if(p.dist!==null&&p.dist<=.6)p.verdict='exact';
   else if(p.family)p.verdict='exact-family';
   else if(/^(Enter the|Open the door)/.test(p.label))p.verdict='door-first';
