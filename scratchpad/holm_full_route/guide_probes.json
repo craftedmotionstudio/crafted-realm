@@ -1,0 +1,2419 @@
+[
+ {
+  "lesson": "study_route",
+  "objective": "Talk to Guide Bram in the Guide House.",
+  "label": "Open the door",
+  "arrow": {
+   "x": 65.78,
+   "z": 104.97,
+   "y": 5.55
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   66,
+   5.55,
+   104.3
+  ],
+  "dist": 0.61,
+  "dy": -1.11,
+  "family": null,
+  "surface": "exterior",
+  "player": [
+   61.5,
+   1,
+   118.5
+  ],
+  "due": "bram",
+  "kind": "name",
+  "what": "DoorSouthOakPlank",
+  "driverLesson": "study_route",
+  "t": 12.2,
+  "shot": "probe_001",
+  "screen": {
+   "arrow": [
+    769,
+    -111
+   ],
+   "target": [
+    769,
+    -124
+   ]
+  },
+  "verdict": "door-first",
+  "clear": true
+ },
+ {
+  "lesson": "study_route",
+  "objective": "Talk to Guide Bram in the Guide House.",
+  "label": "Talk to Guide Bram",
+  "arrow": {
+   "x": 66.45,
+   "z": 96.24,
+   "y": 5.9
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   66.45,
+   5.15,
+   96.24
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "ground",
+  "player": [
+   67.5,
+   4.4,
+   102.5
+  ],
+  "due": "bram",
+  "kind": "tutor",
+  "what": "bram",
+  "driverLesson": "study_route",
+  "t": 29.8,
+  "shot": "probe_002",
+  "screen": {
+   "arrow": [
+    769,
+    9
+   ],
+   "target": [
+    769,
+    50
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "study_route",
+  "objective": "Enter the Guide House and study the relief chart of Tutor's Holm.",
+  "label": "Study the chart",
+  "arrow": {
+   "x": 63.5,
+   "z": 97.4,
+   "y": 5.2
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   63.5,
+   5.05,
+   97.4
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "ground",
+  "player": [
+   66.5,
+   4.4,
+   97.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "pt-arrival_chart",
+  "driverLesson": "study_route",
+  "t": 40,
+  "shot": "probe_003",
+  "screen": {
+   "arrow": [
+    769,
+    241
+   ],
+   "target": [
+    769,
+    251
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "equip_hatchet",
+  "objective": "Talk to Wenna at the head of the Minnow Hollow path, south of the survival camp.",
+  "label": "Talk to Wenna",
+  "arrow": {
+   "x": 35.51,
+   "z": 91.49,
+   "y": 4.14
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   38.39,
+   4.78,
+   93.84
+  ],
+  "dist": 0,
+  "dy": -3.25,
+  "family": null,
+  "surface": "b:survival:0:StagedTerrain",
+  "player": [
+   40.5,
+   3,
+   87.5
+  ],
+  "due": "wenna",
+  "kind": "name",
+  "what": "island-lesson-survival-oak-1",
+  "driverLesson": "equip_hatchet",
+  "t": 76.8,
+  "shot": "probe_004",
+  "screen": {
+   "arrow": [
+    769,
+    62
+   ],
+   "target": [
+    476,
+    48
+   ]
+  },
+  "verdict": "tutor-first",
+  "clear": true
+ },
+ {
+  "lesson": "equip_hatchet",
+  "objective": "Talk to Wenna at the head of the Minnow Hollow path, south of the survival camp.",
+  "label": "Talk to Wenna",
+  "arrow": {
+   "x": 35.51,
+   "z": 91.49,
+   "y": 4.14
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   35.51,
+   3.37,
+   91.49
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:survival:0:StagedTerrain",
+  "player": [
+   40.5,
+   3,
+   87.5
+  ],
+  "due": "wenna",
+  "kind": "tutor",
+  "what": "wenna",
+  "driverLesson": "equip_hatchet",
+  "t": 82.4,
+  "shot": "probe_005",
+  "screen": {
+   "arrow": [
+    769,
+    62
+   ],
+   "target": [
+    769,
+    114
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "equip_hatchet",
+  "objective": "Wenna has given you your tools. Open your pack and click the bronze hatchet to wield it.",
+  "label": "",
+  "arrow": null,
+  "pulse": "hatchet",
+  "tabs": [
+   "inv",
+   "inv"
+  ],
+  "target": null,
+  "dist": null,
+  "dy": null,
+  "family": null,
+  "surface": "b:survival:0:StagedTerrain",
+  "player": [
+   36.5,
+   2.54,
+   91.5
+  ],
+  "due": null,
+  "kind": "pack",
+  "what": "hatchet",
+  "driverLesson": "equip_hatchet",
+  "t": 92.9,
+  "shot": "probe_006",
+  "screen": {
+   "arrow": null,
+   "target": null
+  },
+  "verdict": "pack",
+  "clear": true
+ },
+ {
+  "lesson": "chop_logs",
+  "objective": "Chop down one of the oaks on the rim of Minnow Hollow, just below Wenna.",
+  "label": "Chop an oak",
+  "arrow": {
+   "x": 38.41,
+   "z": 93.84,
+   "y": 7.41
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   38.41,
+   4.79,
+   93.84
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:survival:0:StagedTerrain",
+  "player": [
+   36.5,
+   2.54,
+   91.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-lesson-survival-oak-1",
+  "driverLesson": "chop_logs",
+  "t": 96.8,
+  "shot": "probe_007",
+  "screen": {
+   "arrow": [
+    769,
+    -108
+   ],
+   "target": [
+    769,
+    131
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "light_fire",
+  "objective": "Light a fire where you stand: use your tinderbox on the logs. Any clear ground will do.",
+  "label": "Enter the Guide House (spare tools)",
+  "arrow": {
+   "x": 65.18,
+   "z": 105.94,
+   "y": 5.55
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   67.52,
+   5.32,
+   95.14
+  ],
+  "dist": 11,
+  "dy": -0.18,
+  "family": null,
+  "surface": "exterior",
+  "player": [
+   65.5,
+   4.29,
+   107.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "ProvisionHatchetMesh",
+  "driverLesson": "light_fire",
+  "t": 165.7,
+  "shot": "probe_008",
+  "screen": {
+   "arrow": [
+    769,
+    286
+   ],
+   "target": [
+    1050,
+    -104
+   ]
+  },
+  "verdict": "door-first",
+  "clear": true
+ },
+ {
+  "lesson": "light_fire",
+  "objective": "Light a fire where you stand: use your tinderbox on the logs. Any clear ground will do.",
+  "label": "",
+  "arrow": null,
+  "pulse": "tinderbox",
+  "tabs": [
+   "inv",
+   "inv"
+  ],
+  "target": null,
+  "dist": null,
+  "dy": null,
+  "family": null,
+  "surface": "b:survival:0:StagedTerrain",
+  "player": [
+   40.5,
+   3,
+   87.5
+  ],
+  "due": null,
+  "kind": "pack",
+  "what": "tinderbox",
+  "driverLesson": "light_fire",
+  "t": 215.6,
+  "shot": "probe_009",
+  "screen": {
+   "arrow": null,
+   "target": null
+  },
+  "verdict": "pack",
+  "clear": true
+ },
+ {
+  "lesson": "light_fire",
+  "objective": "Light a fire where you stand: use your tinderbox on the logs. Any clear ground will do.",
+  "label": "",
+  "arrow": null,
+  "pulse": "tinderbox",
+  "tabs": [
+   "inv",
+   "inv"
+  ],
+  "target": null,
+  "dist": null,
+  "dy": null,
+  "family": null,
+  "surface": "b:survival:0:StagedTerrain",
+  "player": [
+   40.5,
+   3,
+   87.5
+  ],
+  "due": null,
+  "kind": "pack",
+  "what": "logs",
+  "driverLesson": "light_fire",
+  "t": 219.3,
+  "shot": "probe_010",
+  "screen": {
+   "arrow": null,
+   "target": null
+  },
+  "verdict": "use-on",
+  "clear": true
+ },
+ {
+  "lesson": "catch_fish",
+  "objective": "Net a fish at the ripples on the pond. The fish move about: follow the ripples.",
+  "label": "Net a fish",
+  "arrow": {
+   "x": 27.45,
+   "z": 93.58,
+   "y": 1.42
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   27.54,
+   1.21,
+   93.61
+  ],
+  "dist": 0,
+  "dy": -0.04,
+  "family": null,
+  "surface": "b:survival:0:StagedTerrain",
+  "player": [
+   39.5,
+   3.79,
+   87.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-hollow-spot-2",
+  "driverLesson": "catch_fish",
+  "t": 229.8,
+  "shot": "probe_011",
+  "screen": {
+   "arrow": [
+    769,
+    149
+   ],
+   "target": [
+    766,
+    158
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "cook_fish",
+  "objective": "Cook the fish on your fire. Burnt out? Light another anywhere. Burnt the fish? Net another and try again.",
+  "label": "Cook the fish",
+  "arrow": {
+   "x": 40.5,
+   "z": 87.5,
+   "y": 3.59
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   40.5,
+   3.25,
+   87.5
+  ],
+  "dist": 0,
+  "dy": -0.09,
+  "family": null,
+  "surface": "b:survival:0:StagedTerrain",
+  "player": [
+   41.5,
+   2.46,
+   87.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-campfire",
+  "driverLesson": "cook_fish",
+  "t": 253,
+  "shot": "probe_012",
+  "screen": {
+   "arrow": [
+    769,
+    332
+   ],
+   "target": [
+    769,
+    356
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "bake_bread",
+  "objective": "Talk to Cook Hettie in the bakehouse.",
+  "label": "Talk to Cook Hettie",
+  "arrow": {
+   "x": 42.5,
+   "z": 68.47,
+   "y": 6.95
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   42.5,
+   6.18,
+   68.47
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:bakehouse:0:StagedTerrain",
+  "player": [
+   45.5,
+   5.33,
+   68.5
+  ],
+  "due": "hettie",
+  "kind": "tutor",
+  "what": "hettie",
+  "driverLesson": "bake_bread",
+  "t": 298.1,
+  "shot": "probe_013",
+  "screen": {
+   "arrow": [
+    769,
+    181
+   ],
+   "target": [
+    769,
+    237
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "bake_bread",
+  "objective": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+  "label": "Take a bucket",
+  "arrow": {
+   "x": 42.25,
+   "z": 69.64,
+   "y": 6.54
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   42.25,
+   5.97,
+   69.64
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+  "player": [
+   43.5,
+   5.4,
+   68.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Take bucket",
+  "driverLesson": "bake_bread",
+  "t": 311.2,
+  "shot": "probe_014",
+  "screen": {
+   "arrow": [
+    769,
+    289
+   ],
+   "target": [
+    769,
+    330
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "bake_bread",
+  "objective": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+  "label": "Fill it with flour",
+  "arrow": {
+   "x": 48.45,
+   "z": 62.48,
+   "y": 6.34
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   48.45,
+   5.87,
+   62.48
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+  "player": [
+   42.5,
+   5.4,
+   68.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Fill bucket with flour",
+  "driverLesson": "bake_bread",
+  "t": 317,
+  "shot": "probe_015",
+  "screen": {
+   "arrow": [
+    769,
+    18
+   ],
+   "target": [
+    769,
+    47
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "bake_bread",
+  "objective": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+  "label": "Take another bucket",
+  "arrow": {
+   "x": 42.25,
+   "z": 69.64,
+   "y": 6.54
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   42.25,
+   5.97,
+   69.64
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+  "player": [
+   48.5,
+   5.4,
+   63.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Take bucket",
+  "driverLesson": "bake_bread",
+  "t": 325,
+  "shot": "probe_016",
+  "screen": {
+   "arrow": [
+    769,
+    7
+   ],
+   "target": [
+    769,
+    41
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "bake_bread",
+  "objective": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+  "label": "Fill it with water",
+  "arrow": {
+   "x": 44.49,
+   "z": 69.42,
+   "y": 6.14
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   44.49,
+   6.14,
+   69.42
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+  "player": [
+   42.5,
+   5.4,
+   68.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Fill bucket with water",
+  "driverLesson": "bake_bread",
+  "t": 332.9,
+  "shot": "probe_017",
+  "screen": {
+   "arrow": [
+    769,
+    289
+   ],
+   "target": [
+    769,
+    289
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "bake_bread",
+  "objective": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+  "label": "Take dough",
+  "arrow": {
+   "x": 42.65,
+   "z": 66.45,
+   "y": 6.5
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   42.65,
+   6.36,
+   66.45
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:bakehouse:0:Kitchen_Floor_Base",
+  "player": [
+   43.5,
+   5.4,
+   69.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Take dough",
+  "driverLesson": "bake_bread",
+  "t": 339.2,
+  "shot": "probe_018",
+  "screen": {
+   "arrow": [
+    769,
+    211
+   ],
+   "target": [
+    769,
+    221
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "bake_bread",
+  "objective": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+  "label": "",
+  "arrow": null,
+  "pulse": "bucket_flour",
+  "tabs": [
+   "inv",
+   "inv"
+  ],
+  "target": null,
+  "dist": null,
+  "dy": null,
+  "family": null,
+  "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+  "player": [
+   42.5,
+   5.4,
+   67.5
+  ],
+  "due": null,
+  "kind": "pack",
+  "what": "bucket_flour",
+  "driverLesson": "bake_bread",
+  "t": 345.4,
+  "shot": "probe_019",
+  "screen": {
+   "arrow": null,
+   "target": null
+  },
+  "verdict": "pack",
+  "clear": true
+ },
+ {
+  "lesson": "bake_bread",
+  "objective": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+  "label": "",
+  "arrow": null,
+  "pulse": "bucket_flour",
+  "tabs": [
+   "inv",
+   "inv"
+  ],
+  "target": null,
+  "dist": null,
+  "dy": null,
+  "family": null,
+  "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+  "player": [
+   42.5,
+   5.4,
+   67.5
+  ],
+  "due": null,
+  "kind": "pack",
+  "what": "dough",
+  "driverLesson": "bake_bread",
+  "t": 349.3,
+  "shot": "probe_020",
+  "screen": {
+   "arrow": null,
+   "target": null
+  },
+  "verdict": "use-on",
+  "clear": true
+ },
+ {
+  "lesson": "bake_bread",
+  "objective": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+  "label": "Bake in the oven",
+  "arrow": {
+   "x": 40.32,
+   "z": 63.33,
+   "y": 7.21
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": null,
+  "dist": null,
+  "dy": null,
+  "family": null,
+  "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+  "player": [
+   42.5,
+   5.4,
+   67.5
+  ],
+  "due": null,
+  "kind": "pack",
+  "what": "bread_dough",
+  "driverLesson": "bake_bread",
+  "t": 353,
+  "shot": "probe_021",
+  "screen": {
+   "arrow": [
+    769,
+    85
+   ],
+   "target": null
+  },
+  "verdict": "use-item-on-arrow-target",
+  "clear": true
+ },
+ {
+  "lesson": "bake_bread",
+  "objective": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+  "label": "Bake in the oven",
+  "arrow": {
+   "x": 40.32,
+   "z": 63.33,
+   "y": 7.21
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   40.32,
+   6.3,
+   63.33
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:bakehouse:0:Kitchen_Floor_Flags",
+  "player": [
+   42.5,
+   5.4,
+   67.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Cook",
+  "driverLesson": "bake_bread",
+  "t": 356.7,
+  "shot": "probe_022",
+  "screen": {
+   "arrow": [
+    769,
+    85
+   ],
+   "target": [
+    769,
+    150
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "learn_quests",
+  "objective": "Talk to Loremaster Ansel in the Quest Lodge.",
+  "label": "Talk to Loremaster Ansel",
+  "arrow": {
+   "x": 38.52,
+   "z": 51.48,
+   "y": 7.9
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   38.52,
+   7.15,
+   51.48
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:lodge:0:IslandTerrain",
+  "player": [
+   35.5,
+   6.38,
+   53.5
+  ],
+  "due": "ansel",
+  "kind": "tutor",
+  "what": "ansel",
+  "driverLesson": "learn_quests",
+  "t": 417,
+  "shot": "probe_023",
+  "screen": {
+   "arrow": [
+    769,
+    157
+   ],
+   "target": [
+    769,
+    210
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "learn_quests",
+  "objective": "Visit the Quest Lodge and study the quest board.",
+  "label": "Study the quest board",
+  "arrow": {
+   "x": 34.55,
+   "z": 47.33,
+   "y": 8.59
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   34.55,
+   7.5,
+   47.33
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:lodge:0:Lodge_GroundFloor_Boards",
+  "player": [
+   37.5,
+   6.4,
+   51.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Study quest board",
+  "driverLesson": "learn_quests",
+  "t": 426.8,
+  "shot": "probe_024",
+  "screen": {
+   "arrow": [
+    769,
+    39
+   ],
+   "target": [
+    769,
+    119
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "descend_cavern",
+  "objective": "At the Quarry Gate, take the coil of rope lying beside the mine shaft.",
+  "label": "Take the rope",
+  "arrow": {
+   "x": 36.55,
+   "z": 30.45,
+   "y": 9.26
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   36.55,
+   9.21,
+   30.45
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:quarry:0:StagedTerrain",
+  "player": [
+   34.5,
+   9.14,
+   38.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-rope-coil",
+  "driverLesson": "descend_cavern",
+  "t": 459.2,
+  "shot": "probe_025",
+  "screen": {
+   "arrow": [
+    769,
+    68
+   ],
+   "target": [
+    769,
+    71
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "descend_cavern",
+  "objective": "Use the rope on the mine shaft to tie it to the frame.",
+  "label": "Use the rope on the shaft",
+  "arrow": {
+   "x": 35.5,
+   "z": 27.68,
+   "y": 13.25
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": null,
+  "dist": null,
+  "dy": null,
+  "family": null,
+  "surface": "b:quarry:0:Quarry_FloorMainTiles",
+  "player": [
+   36.5,
+   9.15,
+   30.5
+  ],
+  "due": null,
+  "kind": "pack",
+  "what": "rope",
+  "driverLesson": "descend_cavern",
+  "t": 467.3,
+  "shot": "probe_026",
+  "screen": {
+   "arrow": [
+    769,
+    -30
+   ],
+   "target": null
+  },
+  "verdict": "use-item-on-arrow-target",
+  "clear": true
+ },
+ {
+  "lesson": "descend_cavern",
+  "objective": "Use the rope on the mine shaft to tie it to the frame.",
+  "label": "Use the rope on the shaft",
+  "arrow": {
+   "x": 35.5,
+   "z": 27.68,
+   "y": 13.25
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   35.5,
+   11.05,
+   27.68
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:quarry:0:Quarry_FloorMainTiles",
+  "player": [
+   36.5,
+   9.15,
+   30.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Climb-down mine shaft / shaft",
+  "driverLesson": "descend_cavern",
+  "t": 471,
+  "shot": "probe_027",
+  "screen": {
+   "arrow": [
+    769,
+    -30
+   ],
+   "target": [
+    769,
+    160
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "descend_cavern",
+  "objective": "Your rope hangs down the shaft. Climb down it to the ore workings.",
+  "label": "Climb down the rope",
+  "arrow": {
+   "x": 35.5,
+   "z": 27.68,
+   "y": 13.25
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   35.5,
+   11.05,
+   27.68
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:quarry:0:StagedTerrain",
+  "player": [
+   34.5,
+   9.14,
+   38.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Climb-down mine shaft / shaft",
+  "driverLesson": "descend_cavern",
+  "t": 496.8,
+  "shot": "probe_028",
+  "screen": {
+   "arrow": [
+    769,
+    -141
+   ],
+   "target": [
+    769,
+    -23
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "mine_copper",
+  "objective": "Talk to Foreman Durgin at the foot of the mine shaft.",
+  "label": "Talk to Foreman Durgin",
+  "arrow": {
+   "x": 194.67,
+   "z": 61.3,
+   "y": -28.47
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   194.67,
+   -29.23,
+   61.3
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:cavern:0:Cavern_Floor",
+  "player": [
+   193.5,
+   -30,
+   60.5
+  ],
+  "due": "durgin",
+  "kind": "tutor",
+  "what": "durgin",
+  "driverLesson": "descend_cavern",
+  "t": 505.5,
+  "shot": "probe_029",
+  "screen": {
+   "arrow": [
+    769,
+    276
+   ],
+   "target": [
+    769,
+    332
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "mine_copper",
+  "objective": "Mine a copper rock with your pickaxe.",
+  "label": "Mine copper",
+  "arrow": {
+   "x": 200.5,
+   "z": 54.5,
+   "y": -29.13
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   200.5,
+   -29.58,
+   54.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:cavern:0:Cavern_Floor",
+  "player": [
+   193.5,
+   -30,
+   60.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-lesson-cavern-copper-1",
+  "driverLesson": "mine_copper",
+  "t": 513.8,
+  "shot": "probe_030",
+  "screen": {
+   "arrow": [
+    769,
+    25
+   ],
+   "target": [
+    769,
+    50
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "mine_tin",
+  "objective": "Now mine a tin rock.",
+  "label": "Mine tin",
+  "arrow": {
+   "x": 207.5,
+   "z": 55.5,
+   "y": -29.13
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   207.5,
+   -29.58,
+   55.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:cavern:0:Cavern_Floor",
+  "player": [
+   200.5,
+   -30,
+   55.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-lesson-cavern-tin-1",
+  "driverLesson": "mine_tin",
+  "t": 523.7,
+  "shot": "probe_031",
+  "screen": {
+   "arrow": [
+    769,
+    57
+   ],
+   "target": [
+    769,
+    87
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "smelt_bronze",
+  "objective": "Smelt your copper and tin into a bronze bar at the furnace.",
+  "label": "Use the furnace",
+  "arrow": {
+   "x": 205.54,
+   "z": 65.65,
+   "y": -25.37
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   205.54,
+   -27.73,
+   65.65
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:cavern:0:Cavern_Floor",
+  "player": [
+   206.5,
+   -30,
+   55.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-lesson-furnace",
+  "driverLesson": "smelt_bronze",
+  "t": 530.9,
+  "shot": "probe_032",
+  "screen": {
+   "arrow": [
+    769,
+    -188
+   ],
+   "target": [
+    769,
+    -47
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "forge_dagger",
+  "objective": "Hammer the bar into a bronze dagger at the anvil, then take the east drift up into the keep.",
+  "label": "Use the anvil",
+  "arrow": {
+   "x": 203.56,
+   "z": 64.6,
+   "y": -28.99
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   203.56,
+   -29.54,
+   64.6
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:cavern:0:Cavern_Floor",
+  "player": [
+   207.5,
+   -30,
+   64.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-lesson-anvil",
+  "driverLesson": "forge_dagger",
+  "t": 639,
+  "shot": "probe_033",
+  "screen": {
+   "arrow": [
+    769,
+    178
+   ],
+   "target": [
+    769,
+    216
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "melee_trial",
+  "objective": "Talk to Warden Corrick in the Warden's Keep court.",
+  "label": "Climb the drift ladder",
+  "arrow": {
+   "x": 228.49,
+   "z": 60.5,
+   "y": -25.05
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   228.49,
+   -27.53,
+   60.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:cavern:0:Cavern_Floor",
+  "player": [
+   222.5,
+   -30,
+   61.5
+  ],
+  "due": "corrick",
+  "kind": "service",
+  "what": "Climb-up drift ladder / exit",
+  "driverLesson": "forge_dagger",
+  "t": 748.1,
+  "shot": "probe_034",
+  "screen": {
+   "arrow": [
+    769,
+    -235
+   ],
+   "target": [
+    769,
+    -22
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "melee_trial",
+  "objective": "Talk to Warden Corrick in the Warden's Keep court.",
+  "label": "Talk to Warden Corrick",
+  "arrow": {
+   "x": 89.51,
+   "z": 37.53,
+   "y": 12.49
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   89.51,
+   11.73,
+   37.53
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:keep:0:StagedTerrain",
+  "player": [
+   88.5,
+   10.97,
+   36.5
+  ],
+  "due": "corrick",
+  "kind": "tutor",
+  "what": "corrick",
+  "driverLesson": "melee_trial",
+  "t": 781.5,
+  "shot": "probe_035",
+  "screen": {
+   "arrow": [
+    769,
+    276
+   ],
+   "target": [
+    769,
+    332
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "melee_trial",
+  "objective": "Wield your dagger and defeat a practice foe in the Warden's Keep yard.",
+  "label": "",
+  "arrow": null,
+  "pulse": "bronze_dagger",
+  "tabs": [
+   "inv",
+   "inv"
+  ],
+  "target": null,
+  "dist": null,
+  "dy": null,
+  "family": null,
+  "surface": "b:keep:0:StagedTerrain",
+  "player": [
+   88.5,
+   10.97,
+   36.5
+  ],
+  "due": null,
+  "kind": "pack",
+  "what": "bronze_dagger",
+  "driverLesson": "melee_trial",
+  "t": 790.7,
+  "shot": "probe_036",
+  "screen": {
+   "arrow": null,
+   "target": null
+  },
+  "verdict": "pack",
+  "clear": true
+ },
+ {
+  "lesson": "melee_trial",
+  "objective": "Wield your dagger and defeat a practice foe in the Warden's Keep yard.",
+  "label": "Attack a grubkin",
+  "arrow": {
+   "x": 86.5,
+   "z": 36.5,
+   "y": 11.72
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   86.5,
+   11.35,
+   36.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:keep:0:StagedTerrain",
+  "player": [
+   88.5,
+   10.97,
+   36.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-trial-keep-court-1",
+  "driverLesson": "melee_trial",
+  "t": 794.8,
+  "shot": "probe_037",
+  "screen": {
+   "arrow": [
+    769,
+    299
+   ],
+   "target": [
+    769,
+    325
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "ranged_trial",
+  "objective": "Take up the shortbow and arrows and defeat a practice foe from range.",
+  "label": "",
+  "arrow": null,
+  "pulse": "worn_bow",
+  "tabs": [
+   "inv",
+   "inv"
+  ],
+  "target": null,
+  "dist": null,
+  "dy": null,
+  "family": null,
+  "surface": "b:keep:0:StagedTerrain",
+  "player": [
+   87.5,
+   10.97,
+   36.5
+  ],
+  "due": null,
+  "kind": "pack",
+  "what": "worn_bow",
+  "driverLesson": "ranged_trial",
+  "t": 819.8,
+  "shot": "probe_038",
+  "screen": {
+   "arrow": null,
+   "target": null
+  },
+  "verdict": "pack",
+  "clear": true
+ },
+ {
+  "lesson": "ranged_trial",
+  "objective": "Take up the shortbow and arrows and defeat a practice foe from range.",
+  "label": "Shoot a grubkin",
+  "arrow": {
+   "x": 88.5,
+   "z": 37.5,
+   "y": 11.72
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   88.5,
+   11.35,
+   37.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:keep:0:StagedTerrain",
+  "player": [
+   87.5,
+   10.97,
+   36.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-trial-keep-court-1",
+  "driverLesson": "ranged_trial",
+  "t": 823.5,
+  "shot": "probe_039",
+  "screen": {
+   "arrow": [
+    769,
+    334
+   ],
+   "target": [
+    769,
+    360
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "open_bank",
+  "objective": "Talk to Teller Maud in the Holm Bank.",
+  "label": "Talk to Teller Maud",
+  "arrow": {
+   "x": 87.5,
+   "z": 57.53,
+   "y": 8.8
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   87.5,
+   8.05,
+   57.53
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:bank:0:StagedTerrain",
+  "player": [
+   86.5,
+   6.93,
+   62.5
+  ],
+  "due": "maud",
+  "kind": "tutor",
+  "what": "maud",
+  "driverLesson": "open_bank",
+  "t": 1016.3,
+  "shot": "probe_040",
+  "screen": {
+   "arrow": [
+    769,
+    65
+   ],
+   "target": [
+    769,
+    119
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "open_bank",
+  "objective": "Open your account at the counter in the Holm Bank.",
+  "label": "Open the bank",
+  "arrow": {
+   "x": 86.56,
+   "z": 55.88,
+   "y": 9.7
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   86.56,
+   8.9,
+   55.88
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:bank:0:Bank_FloorHall",
+  "player": [
+   87.5,
+   7.31,
+   58.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Use bank counter / counter",
+  "driverLesson": "open_bank",
+  "t": 1026.3,
+  "shot": "probe_041",
+  "screen": {
+   "arrow": [
+    769,
+    132
+   ],
+   "target": [
+    769,
+    195
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "magic_trial",
+  "objective": "Talk to Magister Ilse at the Mage Tower.",
+  "label": "Talk to Magister Ilse",
+  "arrow": {
+   "x": 107.47,
+   "z": 57.24,
+   "y": 9.43
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   107.47,
+   8.59,
+   57.24
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:mage:0:StagedTerrain",
+  "player": [
+   106.5,
+   7.65,
+   58.5
+  ],
+  "due": "ilse",
+  "kind": "tutor",
+  "what": "ilse",
+  "driverLesson": "magic_trial",
+  "t": 1103.8,
+  "shot": "probe_042",
+  "screen": {
+   "arrow": [
+    769,
+    247
+   ],
+   "target": [
+    769,
+    310
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "magic_trial",
+  "objective": "At the Mage Tower, cast Gale Dart at a practice foe.",
+  "label": "Cast at a grubkin",
+  "arrow": {
+   "x": 104.5,
+   "z": 57.5,
+   "y": 8.16
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   104.5,
+   7.79,
+   57.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:mage:0:StagedTerrain",
+  "player": [
+   106.5,
+   7.65,
+   58.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-trial-mage-yard-1",
+  "driverLesson": "magic_trial",
+  "t": 1116.4,
+  "shot": "probe_043",
+  "screen": {
+   "arrow": [
+    769,
+    303
+   ],
+   "target": [
+    769,
+    328
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "magic_trial",
+  "objective": "At the Mage Tower, cast Gale Dart at a practice foe.",
+  "label": "Cast at a grubkin",
+  "arrow": {
+   "x": 105.5,
+   "z": 58.5,
+   "y": 8.38
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   105.5,
+   8.01,
+   58.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:mage:0:StagedTerrain",
+  "player": [
+   106.5,
+   7.65,
+   58.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-trial-mage-yard-1",
+  "driverLesson": "magic_trial",
+  "t": 1127.8,
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "magic_trial",
+  "objective": "At the Mage Tower, cast Gale Dart at a practice foe.",
+  "label": "Cast at a grubkin",
+  "arrow": {
+   "x": 105.5,
+   "z": 58.5,
+   "y": 8.38
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   105.5,
+   8.01,
+   58.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:mage:0:StagedTerrain",
+  "player": [
+   106.5,
+   7.65,
+   58.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-trial-mage-yard-1",
+  "driverLesson": "magic_trial",
+  "t": 1131.4,
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "magic_trial",
+  "objective": "At the Mage Tower, cast Gale Dart at a practice foe.",
+  "label": "Cast at a grubkin",
+  "arrow": {
+   "x": 105.5,
+   "z": 58.5,
+   "y": 8.38
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   105.5,
+   8.01,
+   58.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:mage:0:StagedTerrain",
+  "player": [
+   106.5,
+   7.65,
+   58.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-trial-mage-yard-1",
+  "driverLesson": "magic_trial",
+  "t": 1135,
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "magic_trial",
+  "objective": "At the Mage Tower, cast Gale Dart at a practice foe.",
+  "label": "Cast at a grubkin",
+  "arrow": {
+   "x": 105.5,
+   "z": 58.5,
+   "y": 8.38
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   105.5,
+   8.01,
+   58.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:mage:0:StagedTerrain",
+  "player": [
+   106.5,
+   7.65,
+   58.5
+  ],
+  "due": null,
+  "kind": "name",
+  "what": "island-trial-mage-yard-1",
+  "driverLesson": "magic_trial",
+  "t": 1138.6,
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "relight_lastlight",
+  "objective": "You have finished Magister Ilse's lessons. Next, Keeper Aldous at Lastlight, out on the point. Follow the arrow.",
+  "label": "Enter the Lastlight",
+  "arrow": {
+   "x": 115.78,
+   "z": 27.16,
+   "y": 18.95
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   105.5,
+   8.04,
+   58.29
+  ],
+  "dist": 31.89,
+  "dy": 10.25,
+  "family": null,
+  "surface": "b:mage:0:StagedTerrain",
+  "player": [
+   106.5,
+   7.65,
+   58.5
+  ],
+  "due": "aldous",
+  "kind": "name",
+  "what": "island-trial-mage-yard-1",
+  "driverLesson": "magic_trial",
+  "t": 1142.2,
+  "shot": "probe_044",
+  "screen": {
+   "arrow": [
+    769,
+    -324
+   ],
+   "target": [
+    734,
+    452
+   ]
+  },
+  "verdict": "door-first",
+  "clear": true
+ },
+ {
+  "lesson": "relight_lastlight",
+  "objective": "Talk to Keeper Aldous inside Lastlight.",
+  "label": "Enter the Lastlight",
+  "arrow": {
+   "x": 115.78,
+   "z": 26.2,
+   "y": 18.95
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   118.54,
+   18.57,
+   27.48
+  ],
+  "dist": 2.67,
+  "dy": -0.4,
+  "family": null,
+  "surface": "b:lastlight:0:StagedTerrain",
+  "player": [
+   113.5,
+   17.37,
+   26.5
+  ],
+  "due": "aldous",
+  "kind": "tutor",
+  "what": "aldous",
+  "driverLesson": "relight_lastlight",
+  "t": 1237,
+  "shot": "probe_045",
+  "screen": {
+   "arrow": [
+    769,
+    222
+   ],
+   "target": [
+    902,
+    122
+   ]
+  },
+  "verdict": "door-first",
+  "clear": true
+ },
+ {
+  "lesson": "relight_lastlight",
+  "objective": "Climb Lastlight and pull the beacon lever to call the ferry.",
+  "label": "Climb the ladder",
+  "arrow": {
+   "x": 122.5,
+   "z": 22.54,
+   "y": 20.81
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   122.5,
+   19.3,
+   22.54
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:lastlight:0:Lastlight_FloorWingTiles",
+  "player": [
+   117.5,
+   17.8,
+   27.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Climb-up ladder / ladder1-foot",
+  "driverLesson": "relight_lastlight",
+  "t": 1256.8,
+  "shot": "probe_046",
+  "screen": {
+   "arrow": [
+    769,
+    -100
+   ],
+   "target": [
+    769,
+    13
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "relight_lastlight",
+  "objective": "Climb Lastlight and pull the beacon lever to call the ferry.",
+  "label": "Climb the ladder",
+  "arrow": {
+   "x": 124.39,
+   "z": 24.5,
+   "y": 23.8
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   124.39,
+   22.3,
+   24.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:lastlight:1:Lastlight_UpperFloorKeeperTiles",
+  "player": [
+   122.5,
+   20.8,
+   23.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Climb-up ladder / ladder2-foot",
+  "driverLesson": "relight_lastlight",
+  "t": 1264.4,
+  "shot": "probe_047",
+  "screen": {
+   "arrow": [
+    769,
+    115
+   ],
+   "target": [
+    769,
+    237
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "relight_lastlight",
+  "objective": "Climb Lastlight and pull the beacon lever to call the ferry.",
+  "label": "Climb the ladder",
+  "arrow": {
+   "x": 121.5,
+   "z": 27.34,
+   "y": 26.8
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   121.5,
+   25.3,
+   27.34
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:lastlight:0:Lastlight_UpperFloorWatchTiles",
+  "player": [
+   123.5,
+   23.8,
+   24.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Climb-up ladder / ladder3-foot",
+  "driverLesson": "relight_lastlight",
+  "t": 1270.2,
+  "shot": "probe_048",
+  "screen": {
+   "arrow": [
+    769,
+    47
+   ],
+   "target": [
+    769,
+    166
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "relight_lastlight",
+  "objective": "Climb Lastlight and pull the beacon lever to call the ferry.",
+  "label": "Pull the lever",
+  "arrow": {
+   "x": 123.98,
+   "z": 24.5,
+   "y": 26.92
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   123.98,
+   26.86,
+   24.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:lastlight:0:Lastlight_UpperFloorGalleryTiles",
+  "player": [
+   120.5,
+   26.8,
+   27.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Pull beacon lever / lever",
+  "driverLesson": "relight_lastlight",
+  "t": 1277.4,
+  "shot": "probe_049",
+  "screen": {
+   "arrow": [
+    769,
+    208
+   ],
+   "target": [
+    769,
+    212
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "complete",
+  "objective": "Lastlight is lit. Talk to Ferryman Tobin at Lanternfoot Cove, down the Keeper's Stair.",
+  "label": "Climb down the ladder",
+  "arrow": {
+   "x": 121.43,
+   "z": 27.34,
+   "y": 27.81
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   121.43,
+   27.3,
+   27.34
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:lastlight:0:Lastlight_UpperFloorGalleryTiles",
+  "player": [
+   124.5,
+   26.8,
+   24.5
+  ],
+  "due": "tobin",
+  "kind": "service",
+  "what": "Climb-down ladder / ladder3-top",
+  "driverLesson": "relight_lastlight",
+  "t": 1284.9,
+  "shot": "probe_050",
+  "screen": {
+   "arrow": [
+    769,
+    167
+   ],
+   "target": [
+    769,
+    202
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "complete",
+  "objective": "Lastlight is lit. Talk to Ferryman Tobin at Lanternfoot Cove, down the Keeper's Stair.",
+  "label": "Climb down the ladder",
+  "arrow": {
+   "x": 124.55,
+   "z": 24.43,
+   "y": 24.81
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   124.55,
+   24.3,
+   24.43
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:lastlight:0:Lastlight_UpperFloorWatchTiles",
+  "player": [
+   121.5,
+   23.8,
+   26.5
+  ],
+  "due": "tobin",
+  "kind": "service",
+  "what": "Climb-down ladder / ladder2-top",
+  "driverLesson": "relight_lastlight",
+  "t": 1292.6,
+  "shot": "probe_051",
+  "screen": {
+   "arrow": [
+    769,
+    191
+   ],
+   "target": [
+    769,
+    226
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "complete",
+  "objective": "Lastlight is lit. Talk to Ferryman Tobin at Lanternfoot Cove, down the Keeper's Stair.",
+  "label": "Climb down the ladder",
+  "arrow": {
+   "x": 122.43,
+   "z": 22.45,
+   "y": 21.81
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   122.43,
+   21.3,
+   22.45
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:lastlight:1:Lastlight_UpperFloorKeeperTiles",
+  "player": [
+   123.5,
+   20.8,
+   24.5
+  ],
+  "due": "tobin",
+  "kind": "service",
+  "what": "Climb-down ladder / ladder1-top",
+  "driverLesson": "relight_lastlight",
+  "t": 1299,
+  "shot": "probe_052",
+  "screen": {
+   "arrow": [
+    769,
+    263
+   ],
+   "target": [
+    769,
+    299
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "complete",
+  "objective": "Lastlight is lit. Talk to Ferryman Tobin at Lanternfoot Cove, down the Keeper's Stair.",
+  "label": "Talk to Ferryman Tobin",
+  "arrow": {
+   "x": 101.5,
+   "z": 13.5,
+   "y": 2.65
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   101.5,
+   1.9,
+   13.5
+  ],
+  "dist": 0,
+  "dy": 0,
+  "family": null,
+  "surface": "b:haven:0:StagedTerrain",
+  "player": [
+   102.5,
+   1.77,
+   17.5
+  ],
+  "due": "tobin",
+  "kind": "tutor",
+  "what": "tobin",
+  "driverLesson": "complete",
+  "t": 1335.1,
+  "shot": "probe_053",
+  "screen": {
+   "arrow": [
+    769,
+    179
+   ],
+   "target": [
+    769,
+    229
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ },
+ {
+  "lesson": "complete",
+  "objective": "Lastlight is lit. Board Ferryman Tobin's skiff at the end of the pier.",
+  "label": "Board the skiff",
+  "arrow": {
+   "x": 102.79,
+   "z": -0.5,
+   "y": 0.58
+  },
+  "pulse": null,
+  "tabs": [],
+  "target": [
+   102.79,
+   0.22,
+   -0.5
+  ],
+  "dist": 0,
+  "dy": 0.01,
+  "family": null,
+  "surface": "b:haven:0:Haven_DeckLanding",
+  "player": [
+   101.5,
+   -0.05,
+   -0.5
+  ],
+  "due": null,
+  "kind": "service",
+  "what": "Ferry / boat",
+  "driverLesson": "complete",
+  "t": 1355.4,
+  "shot": "probe_054",
+  "screen": {
+   "arrow": [
+    769,
+    350
+   ],
+   "target": [
+    769,
+    374
+   ]
+  },
+  "verdict": "exact",
+  "clear": true
+ }
+]

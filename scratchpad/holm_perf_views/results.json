@@ -1,0 +1,110 @@
+{
+ "at": "2026-09-29T17:38:21.813Z",
+ "env": {
+  "provider": "tutors-holm-v3",
+  "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 Laptop GPU (0x00002860) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "size": [
+   1538,
+   900
+  ]
+ },
+ "budget": {
+  "minFps": 45,
+  "maxWorstFrameMs": 150,
+  "maxDrawCalls": 800,
+  "maxTris": 900000
+ },
+ "rows": [
+  {
+   "view": "01_arrival_wide",
+   "fps": 44,
+   "p95Ms": 27.7,
+   "worstMs": 35.1,
+   "calls": 1213,
+   "tris": 728803,
+   "hidden": false,
+   "pass": false
+  },
+  {
+   "view": "02_guide_house_exterior",
+   "fps": 55,
+   "p95Ms": 21.2,
+   "worstMs": 28.1,
+   "calls": 634,
+   "tris": 383102,
+   "hidden": false,
+   "pass": true
+  },
+  {
+   "view": "03_minnow_hollow_camp",
+   "fps": 51,
+   "p95Ms": 23.4,
+   "worstMs": 31.5,
+   "calls": 752,
+   "tris": 480034,
+   "hidden": false,
+   "pass": true
+  },
+  {
+   "view": "04_bakehouse_court",
+   "fps": 52,
+   "p95Ms": 22.7,
+   "worstMs": 25.5,
+   "calls": 769,
+   "tris": 430229,
+   "hidden": false,
+   "pass": true
+  },
+  {
+   "view": "05_hill_panorama",
+   "fps": 44,
+   "p95Ms": 26.7,
+   "worstMs": 36.9,
+   "calls": 1273,
+   "tris": 667271,
+   "hidden": false,
+   "pass": false
+  },
+  {
+   "view": "06_keep_court",
+   "fps": 45,
+   "p95Ms": 26,
+   "worstMs": 37,
+   "calls": 1074,
+   "tris": 673577,
+   "hidden": false,
+   "pass": false
+  },
+  {
+   "view": "07_lastlight_crown_and_cove",
+   "fps": 38,
+   "p95Ms": 32,
+   "worstMs": 68.1,
+   "calls": 1301,
+   "tris": 618959,
+   "hidden": false,
+   "pass": false
+  },
+  {
+   "view": "08_island_overview_max_zoom",
+   "fps": 29,
+   "p95Ms": 41.2,
+   "worstMs": 57.7,
+   "calls": 1888,
+   "tris": 919222,
+   "hidden": false,
+   "pass": false
+  },
+  {
+   "view": "09_ore_workings",
+   "fps": 60,
+   "p95Ms": 19.2,
+   "worstMs": 22.5,
+   "calls": 208,
+   "tris": 50350,
+   "hidden": false,
+   "pass": true
+  }
+ ],
+ "pageErrors": []
+}

@@ -1,0 +1,1709 @@
+{
+ "at": "2026-09-29T19:16:45.579Z",
+ "base": "http://127.0.0.1:8171",
+ "pass": 64,
+ "total": 64,
+ "seconds": 1561,
+ "failed": [],
+ "results": [
+  {
+   "caseId": "fresh",
+   "name": "a new adventurer boots on the live island (tutors-holm-v3) with the 18-lesson v6 curriculum at study_route, nothing credited",
+   "pass": true,
+   "info": {
+    "provider": "tutors-holm-v3",
+    "v": 6,
+    "complete": false,
+    "lesson": "study_route",
+    "ledger": [],
+    "talked": [],
+    "due": "bram",
+    "rope": {
+     "tied": false,
+     "stage": "take"
+    },
+    "gates": [],
+    "inv": [
+     "coinsx55",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "invLen": 28,
+    "bank": [],
+    "equip": {
+     "head": null,
+     "body": null,
+     "legs": null,
+     "weapon": null,
+     "shield": null,
+     "amulet": null,
+     "cape": null,
+     "hands": null,
+     "feet": null
+    },
+    "pos": [
+     61.5,
+     1,
+     118.5
+    ],
+    "surface": "exterior",
+    "plane": 0,
+    "objective": "Talk to Guide Bram in the Guide House.",
+    "arrow": {
+     "x": 65.78,
+     "y": 5.55,
+     "z": 104.97,
+     "label": "Open the door"
+    },
+    "pulse": null,
+    "tabs": [],
+    "lastLoad": null,
+    "hp": 10,
+    "runOn": false,
+    "look": {
+     "name": "Adventurer",
+     "kit": true
+    },
+    "chat": [
+     "Deed complete: Apprentice — 50 crowns!",
+     "Welcome to Crafted Realm.",
+     "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Music unlocked: Morning on the Holm."
+    ]
+   }
+  },
+  {
+   "caseId": "fresh",
+   "name": "objective names Guide Bram and the arrow points at the Guide House door (an exact target on the island), pack is 28 slots",
+   "pass": true,
+   "info": {
+    "provider": "tutors-holm-v3",
+    "v": 6,
+    "complete": false,
+    "lesson": "study_route",
+    "ledger": [],
+    "talked": [],
+    "due": "bram",
+    "rope": {
+     "tied": false,
+     "stage": "take"
+    },
+    "gates": [],
+    "inv": [
+     "coinsx55",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "invLen": 28,
+    "bank": [],
+    "equip": {
+     "head": null,
+     "body": null,
+     "legs": null,
+     "weapon": null,
+     "shield": null,
+     "amulet": null,
+     "cape": null,
+     "hands": null,
+     "feet": null
+    },
+    "pos": [
+     61.5,
+     1,
+     118.5
+    ],
+    "surface": "exterior",
+    "plane": 0,
+    "objective": "Talk to Guide Bram in the Guide House.",
+    "arrow": {
+     "x": 65.78,
+     "y": 5.55,
+     "z": 104.97,
+     "label": "Open the door"
+    },
+    "pulse": null,
+    "tabs": [],
+    "lastLoad": null,
+    "hp": 10,
+    "runOn": false,
+    "look": {
+     "name": "Adventurer",
+     "kit": true
+    },
+    "chat": [
+     "Deed complete: Apprentice — 50 crowns!",
+     "Welcome to Crafted Realm.",
+     "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Music unlocked: Morning on the Holm."
+    ]
+   }
+  },
+  {
+   "caseId": "fresh",
+   "name": "a new adventurer starts walking (run off, 2004) on a graph stance at the landing",
+   "pass": true,
+   "info": {
+    "runOn": false,
+    "surface": "exterior",
+    "pos": [
+     61.5,
+     1,
+     118.5
+    ]
+   }
+  },
+  {
+   "caseId": "fresh",
+   "name": "a fresh save round-trips (same lesson, empty ledger, same stance)",
+   "pass": true,
+   "info": {
+    "s": {
+     "lesson": "study_route",
+     "surface": "exterior",
+     "pos": [
+      61.5,
+      1,
+      118.5
+     ]
+    },
+    "r": {
+     "lesson": "study_route",
+     "surface": "exterior",
+     "pos": [
+      61.5,
+      1,
+      118.5
+     ]
+    }
+   }
+  },
+  {
+   "caseId": "fresh",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "legacy-july",
+   "name": "a July 2026 save with no world meta boots on the island (tutors-holm-v3); the unknown curriculum grants nothing (study_route)",
+   "pass": true,
+   "info": {
+    "provider": "tutors-holm-v3",
+    "v": 6,
+    "complete": false,
+    "lesson": "study_route",
+    "ledger": [],
+    "talked": [],
+    "due": "bram",
+    "rope": {
+     "tied": false,
+     "stage": "take"
+    },
+    "gates": [],
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "logsx1",
+     "mind_runex5",
+     "coinsx25",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "invLen": 28,
+    "bank": [
+     "breadx2"
+    ],
+    "equip": {
+     "weapon": null,
+     "shield": null,
+     "head": null,
+     "body": null,
+     "legs": null,
+     "feet": null,
+     "hands": null,
+     "cape": null,
+     "neck": null,
+     "ring": null,
+     "ammo": null
+    },
+    "pos": [
+     61.5,
+     1,
+     118.5
+    ],
+    "surface": "exterior",
+    "plane": 0,
+    "objective": "Talk to Guide Bram in the Guide House.",
+    "arrow": {
+     "x": 65.78,
+     "y": 5.55,
+     "z": 104.97,
+     "label": "Open the door"
+    },
+    "pulse": null,
+    "tabs": [],
+    "lastLoad": {
+     "ok": true,
+     "relocated": true,
+     "reason": "outside-resident-world",
+     "restoredPlane": 0,
+     "residencyCentered": true,
+     "provider": "tutors-holm-v3"
+    },
+    "hp": 10,
+    "runOn": true,
+    "look": {
+     "name": "Oldtimer",
+     "kit": true
+    },
+    "chat": [
+     "Welcome back to Tutor's Holm. Your progress has been restored.",
+     "The rebuilt map has placed you safely at Arrival landing. Your progress is unchanged.",
+     "Welcome to Crafted Realm.",
+     "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Music unlocked: Morning on the Holm."
+    ]
+   }
+  },
+  {
+   "caseId": "legacy-july",
+   "name": "its 24-slot pack becomes 28 slots with every item kept in its slot; spark runes become wit (mind) runes; the bank is kept (the crowns may carry the 50 of the Apprentice deed on entry)",
+   "pass": true,
+   "info": {
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "logsx1",
+     "mind_runex5",
+     "coinsx25",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "bank": [
+     "breadx2"
+    ]
+   }
+  },
+  {
+   "caseId": "legacy-july",
+   "name": "the pre-kit look loads (name kept), the old music ids are sanitised, and the adventurer stands on a safe graph stance",
+   "pass": true,
+   "info": {
+    "look": {
+     "name": "Oldtimer",
+     "kit": true
+    },
+    "surface": "exterior",
+    "pos": [
+     61.5,
+     1,
+     118.5
+    ]
+   }
+  },
+  {
+   "caseId": "legacy-july",
+   "name": "the pre-kit look is carried onto the kit (body A for a man, short hair, a beard, the blue shirt as the nearest torso colour), not reset to the default",
+   "pass": true,
+   "info": {
+    "body": "A",
+    "hair": "Short",
+    "jaw": "Short",
+    "torso": "#7189a4",
+    "blue": true,
+    "isDefault": false
+   }
+  },
+  {
+   "caseId": "legacy-july",
+   "name": "objective and arrow are sane (Guide Bram, a target on the island)",
+   "pass": true,
+   "info": {
+    "objective": "Talk to Guide Bram in the Guide House.",
+    "arrow": {
+     "x": 65.78,
+     "y": 5.55,
+     "z": 104.97,
+     "label": "Open the door"
+    }
+   }
+  },
+  {
+   "caseId": "legacy-july",
+   "name": "after migration the save round-trips in the current format (provider, ledger, pack, bank)",
+   "pass": true,
+   "info": {
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "logsx1",
+     "mind_runex5",
+     "coinsx25",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "bank": [
+     "breadx2"
+    ]
+   }
+  },
+  {
+   "caseId": "legacy-july",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "v4-old-island",
+   "name": "an old-island v4 save boots on the island with its known prefix credited (6 lessons incl. bread) and the missing orientation due",
+   "pass": true,
+   "info": {
+    "provider": "tutors-holm-v3",
+    "v": 6,
+    "complete": false,
+    "lesson": "study_route",
+    "ledger": [
+     "equip_hatchet",
+     "chop_logs",
+     "light_fire",
+     "catch_fish",
+     "cook_fish",
+     "bake_bread"
+    ],
+    "talked": [
+     "hettie",
+     "wenna"
+    ],
+    "due": "bram",
+    "rope": {
+     "tied": false,
+     "stage": "take"
+    },
+    "gates": [
+     "bakehouse-door",
+     "lodge-door"
+    ],
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "fishing_netx1",
+     "cooked_perchx1",
+     "breadx1",
+     "coinsx40",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "invLen": 28,
+    "bank": [],
+    "equip": {
+     "weapon": null,
+     "shield": null,
+     "head": null,
+     "body": null,
+     "legs": null,
+     "feet": null,
+     "hands": null,
+     "cape": null,
+     "neck": null,
+     "ring": null,
+     "ammo": null
+    },
+    "pos": [
+     61.5,
+     1,
+     118.5
+    ],
+    "surface": "exterior",
+    "plane": 0,
+    "objective": "Talk to Guide Bram in the Guide House.",
+    "arrow": {
+     "x": 65.78,
+     "y": 5.55,
+     "z": 104.97,
+     "label": "Open the door"
+    },
+    "pulse": null,
+    "tabs": [],
+    "lastLoad": {
+     "ok": true,
+     "relocated": true,
+     "reason": "world-revision",
+     "restoredPlane": 0,
+     "residencyCentered": true,
+     "provider": "tutors-holm-v3"
+    },
+    "hp": 10,
+    "runOn": false,
+    "look": {
+     "name": "Oldtimer",
+     "kit": true
+    },
+    "chat": [
+     "Welcome back to Tutor's Holm. Your progress has been restored.",
+     "The rebuilt map has placed you safely at Arrival landing. Your progress is unchanged.",
+     "Welcome to Crafted Realm.",
+     "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+     "Press ` (backquote) at any time for the Administrator Console."
+    ]
+   }
+  },
+  {
+   "caseId": "v4-old-island",
+   "name": "tutors of credited lessons count as spoken to (Wenna, Hettie), Bram is due first; bakehouse and Quest Lodge doors are open; the rope is not tied yet",
+   "pass": true,
+   "info": {
+    "talked": [
+     "hettie",
+     "wenna"
+    ],
+    "due": "bram",
+    "gates": [
+     "bakehouse-door",
+     "lodge-door"
+    ],
+    "rope": {
+     "tied": false,
+     "stage": "take"
+    }
+   }
+  },
+  {
+   "caseId": "v4-old-island",
+   "name": "every item kept (24-slot pack padded to 28); old-island coordinates are replaced by a safe island stance",
+   "pass": true,
+   "info": {
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "fishing_netx1",
+     "cooked_perchx1",
+     "breadx1",
+     "coinsx40",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "pos": [
+     61.5,
+     1,
+     118.5
+    ],
+    "surface": "exterior"
+   }
+  },
+  {
+   "caseId": "v4-old-island",
+   "name": "objective and arrow sane",
+   "pass": true,
+   "info": {
+    "objective": "Talk to Guide Bram in the Guide House.",
+    "arrow": {
+     "x": 65.78,
+     "y": 5.55,
+     "z": 104.97,
+     "label": "Open the door"
+    }
+   }
+  },
+  {
+   "caseId": "v4-old-island",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "v5-catch-fish",
+   "name": "an old-island v5 save at catch_fish keeps its 4-lesson prefix + the optional bread, and is at catch_fish",
+   "pass": true,
+   "info": {
+    "provider": "tutors-holm-v3",
+    "v": 6,
+    "complete": false,
+    "lesson": "catch_fish",
+    "ledger": [
+     "study_route",
+     "equip_hatchet",
+     "chop_logs",
+     "light_fire",
+     "bake_bread"
+    ],
+    "talked": [
+     "bram",
+     "hettie",
+     "wenna"
+    ],
+    "due": null,
+    "rope": {
+     "tied": false,
+     "stage": "take"
+    },
+    "gates": [
+     "lodge-door"
+    ],
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "fishing_netx1",
+     "logsx1",
+     "breadx1",
+     "coinsx55",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "invLen": 28,
+    "bank": [
+     "logsx3"
+    ],
+    "equip": {
+     "weapon": null,
+     "shield": null,
+     "head": null,
+     "body": null,
+     "legs": null,
+     "feet": null,
+     "hands": null,
+     "cape": null,
+     "neck": null,
+     "ring": null,
+     "ammo": null
+    },
+    "pos": [
+     61.5,
+     1,
+     118.5
+    ],
+    "surface": "exterior",
+    "plane": 0,
+    "objective": "Net a fish at the ripples on the pond. The fish move about: follow the ripples.",
+    "arrow": {
+     "x": 31.5,
+     "y": 1.4,
+     "z": 96.57,
+     "label": "Net a fish"
+    },
+    "pulse": null,
+    "tabs": [],
+    "lastLoad": {
+     "ok": true,
+     "relocated": true,
+     "reason": "world-revision",
+     "restoredPlane": 0,
+     "residencyCentered": true,
+     "provider": "tutors-holm-v3"
+    },
+    "hp": 10,
+    "runOn": false,
+    "look": {
+     "name": "Oldtimer",
+     "kit": true
+    },
+    "chat": [
+     "Welcome back to Tutor's Holm. Your progress has been restored.",
+     "The rebuilt map has placed you safely at Arrival landing. Your progress is unchanged.",
+     "Welcome to Crafted Realm.",
+     "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+     "Press ` (backquote) at any time for the Administrator Console."
+    ]
+   }
+  },
+  {
+   "caseId": "v5-catch-fish",
+   "name": "Bram, Wenna and Hettie count as spoken to; no tutor is due; the fishing objective shows and the arrow is on a live pond ripple",
+   "pass": true,
+   "info": {
+    "talked": [
+     "bram",
+     "hettie",
+     "wenna"
+    ],
+    "due": null,
+    "objective": "Net a fish at the ripples on the pond. The fish move about: follow the ripples.",
+    "arrow": {
+     "x": 31.5,
+     "y": 1.4,
+     "z": 96.57,
+     "label": "Net a fish"
+    }
+   }
+  },
+  {
+   "caseId": "v5-catch-fish",
+   "name": "pack and bank kept exactly",
+   "pass": true,
+   "info": {
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "fishing_netx1",
+     "logsx1",
+     "breadx1",
+     "coinsx55",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "bank": [
+     "logsx3"
+    ]
+   }
+  },
+  {
+   "caseId": "v5-catch-fish",
+   "name": "by real clicks the migrated adventurer walks to the ripple, nets a perch and the lesson moves on to cook_fish",
+   "pass": true,
+   "info": {
+    "spot": "island-hollow-spot-1",
+    "lesson": "cook_fish",
+    "chat": [
+     "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Music unlocked: Woodsmoke and Flint.",
+     "Music unlocked: Reeds and Ripples.",
+     "The fish have moved on.",
+     "You catch a mirrorperch."
+    ]
+   }
+  },
+  {
+   "caseId": "v5-catch-fish",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "v5-open-bank",
+   "name": "a late v5 save (at open_bank) keeps everything done and becomes due at the earliest new lesson (bake_bread)",
+   "pass": true,
+   "info": {
+    "provider": "tutors-holm-v3",
+    "v": 6,
+    "complete": false,
+    "lesson": "bake_bread",
+    "ledger": [
+     "study_route",
+     "equip_hatchet",
+     "chop_logs",
+     "light_fire",
+     "catch_fish",
+     "cook_fish",
+     "descend_cavern",
+     "mine_copper",
+     "mine_tin",
+     "smelt_bronze",
+     "forge_dagger"
+    ],
+    "talked": [
+     "bram",
+     "durgin",
+     "wenna"
+    ],
+    "due": "hettie",
+    "rope": {
+     "tied": true,
+     "stage": "climb"
+    },
+    "gates": [
+     "bakehouse-door"
+    ],
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "fishing_netx1",
+     "pickaxex1",
+     "hammerx1",
+     "bronze_daggerx1",
+     "coinsx80",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "invLen": 28,
+    "bank": [],
+    "equip": {
+     "weapon": null,
+     "shield": null,
+     "head": null,
+     "body": null,
+     "legs": null,
+     "feet": null,
+     "hands": null,
+     "cape": null,
+     "neck": null,
+     "ring": null,
+     "ammo": null
+    },
+    "pos": [
+     61.5,
+     1,
+     118.5
+    ],
+    "surface": "exterior",
+    "plane": 0,
+    "objective": "Talk to Cook Hettie in the bakehouse.",
+    "arrow": {
+     "x": 44.75,
+     "y": 6.62,
+     "z": 69.55,
+     "label": "Enter the bakehouse"
+    },
+    "pulse": null,
+    "tabs": [],
+    "lastLoad": {
+     "ok": true,
+     "relocated": true,
+     "reason": "world-revision",
+     "restoredPlane": 0,
+     "residencyCentered": true,
+     "provider": "tutors-holm-v3"
+    },
+    "hp": 10,
+    "runOn": false,
+    "look": {
+     "name": "Oldtimer",
+     "kit": true
+    },
+    "chat": [
+     "Welcome back to Tutor's Holm. Your progress has been restored.",
+     "The rebuilt map has placed you safely at Arrival landing. Your progress is unchanged.",
+     "Welcome to Crafted Realm.",
+     "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+     "Press ` (backquote) at any time for the Administrator Console."
+    ]
+   }
+  },
+  {
+   "caseId": "v5-open-bank",
+   "name": "Hettie is due (banner + arrow), the bakehouse door is open, the lodge is shut, the rope counts as tied (already past the shaft)",
+   "pass": true,
+   "info": {
+    "due": "hettie",
+    "objective": "Talk to Cook Hettie in the bakehouse.",
+    "arrow": {
+     "x": 44.75,
+     "y": 6.62,
+     "z": 69.55,
+     "label": "Enter the bakehouse"
+    },
+    "gates": [
+     "bakehouse-door"
+    ],
+    "rope": {
+     "tied": true,
+     "stage": "climb"
+    }
+   }
+  },
+  {
+   "caseId": "v5-open-bank",
+   "name": "items and XP kept",
+   "pass": true,
+   "info": {
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "fishing_netx1",
+     "pickaxex1",
+     "hammerx1",
+     "bronze_daggerx1",
+     "coinsx80",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   }
+  },
+  {
+   "caseId": "v5-open-bank",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "v6-island-v1-checkpoint",
+   "name": "an early island save keeps its v6 ledger (9 lessons) and talked tutors; its retired-graph checkpoint falls back to a safe stance on the current graph",
+   "pass": true,
+   "info": {
+    "ledger": [
+     "study_route",
+     "equip_hatchet",
+     "chop_logs",
+     "light_fire",
+     "catch_fish",
+     "cook_fish",
+     "bake_bread",
+     "learn_quests",
+     "descend_cavern"
+    ],
+    "lesson": "mine_copper",
+    "surface": "exterior",
+    "pos": [
+     61.5,
+     1,
+     118.5
+    ]
+   }
+  },
+  {
+   "caseId": "v6-island-v1-checkpoint",
+   "name": "from the surface the objective and arrow lead to the mine shaft, not into the sea over the offshore ore workings",
+   "pass": true,
+   "info": {
+    "objective": "Talk to Foreman Durgin at the foot of the mine shaft.",
+    "arrow": {
+     "x": 35.5,
+     "y": 13.25,
+     "z": 27.68,
+     "label": "Climb down the rope"
+    },
+    "surface": "exterior",
+    "due": "durgin"
+   }
+  },
+  {
+   "caseId": "v6-island-v1-checkpoint",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "graduated-mainland",
+   "name": "a graduated save on the mainland boots on the mainland (never the island), graduation and every item kept",
+   "pass": true,
+   "info": {
+    "provider": "veyhollow-commons-v2",
+    "complete": true,
+    "inv": [
+     "coinsx230",
+     "breadx4",
+     "bronze_daggerx1",
+     "worn_bowx1",
+     "arrowsx12",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "bank": [
+     "logsx5"
+    ],
+    "equip": {
+     "weapon": "bronze_dagger",
+     "shield": null,
+     "head": null,
+     "body": null,
+     "legs": null,
+     "feet": null,
+     "hands": null,
+     "cape": null,
+     "neck": null,
+     "ring": null,
+     "ammo": null
+    }
+   }
+  },
+  {
+   "caseId": "graduated-mainland",
+   "name": "and stays on the mainland after a save + reload",
+   "pass": true,
+   "info": {
+    "provider": "veyhollow-commons-v2"
+   }
+  },
+  {
+   "caseId": "graduated-mainland",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "graduated-on-island",
+   "name": "a graduated save still on the old island boots on the new island with graduation kept (every gate open, rope tied)",
+   "pass": true,
+   "info": {
+    "complete": true,
+    "gates": [
+     "bakehouse-door",
+     "lodge-door",
+     "bank-door",
+     "lastlight-door"
+    ],
+    "rope": {
+     "tied": true,
+     "stage": "climb"
+    }
+   }
+  },
+  {
+   "caseId": "graduated-on-island",
+   "name": "the last objective sends them to Ferryman Tobin and the arrow is on him",
+   "pass": true,
+   "info": {
+    "objective": "Lastlight is lit. Talk to Ferryman Tobin at Lanternfoot Cove, down the Keeper's Stair.",
+    "arrow": {
+     "x": 101.5,
+     "y": 2.65,
+     "z": 13.5,
+     "label": "Talk to Ferryman Tobin"
+    }
+   }
+  },
+  {
+   "caseId": "graduated-on-island",
+   "name": "by real clicks: down to the cove, Tobin spoken to, the skiff boarded, the mainland reached with the departure pack claimed",
+   "pass": true,
+   "info": {
+    "walk": "ok",
+    "talk": true,
+    "sailed": true,
+    "provider": "veyhollow-commons-v2",
+    "inv": [
+     "coinsx55",
+     "bronze_daggerx1",
+     "breadx1",
+     "breadx1",
+     "breadx1",
+     "breadx1",
+     "air_runex25",
+     "mind_runex25",
+     "arrowsx25",
+     "wood_shieldx1",
+     "leather_bodyx1",
+     "worn_bowx1",
+     "hatchetx1",
+     "pickaxex1",
+     "fishing_netx1",
+     "tinderboxx1",
+     "hammerx1",
+     "home_tabx3",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   }
+  },
+  {
+   "caseId": "graduated-on-island",
+   "name": "NPC lifecycle: after the crossing no island tutor is left in the scene or the clickables",
+   "pass": true,
+   "info": {
+    "scene": 0,
+    "clickables": 0,
+    "tutors": 0
+   }
+  },
+  {
+   "caseId": "graduated-on-island",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "tutor-model-fails",
+   "name": "a tutor model that never arrives is asked for twice and recorded missing; the other nine stand at their authored stances (Guide Bram beside his chart)",
+   "pass": true,
+   "info": {
+    "refused": 2,
+    "ready": true,
+    "missing": {
+     "hettie": "model"
+    },
+    "count": 9,
+    "bram": 1.41
+   }
+  },
+  {
+   "caseId": "tutor-model-fails",
+   "name": "with Cook Hettie missing the bread lesson is not held on her: the objective is the bread line, not \"Talk to Cook Hettie\"",
+   "pass": true,
+   "info": {
+    "objective": "In the bakehouse, fill a bucket with flour and one with water, knead a dough and bake it in the oven.",
+    "due": null
+   }
+  },
+  {
+   "caseId": "tutor-model-fails",
+   "name": "and the bakehouse bucket rack works by a real click (a bucket in the pack, no \"speak to\" refusal)",
+   "pass": true,
+   "info": {
+    "inv": [
+     "coinsx5",
+     "bucketx1"
+    ],
+    "chat": [
+     "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Music unlocked: Morning on the Holm.",
+     "Music unlocked: Woodsmoke and Flint.",
+     "Music unlocked: Warm Loaves.",
+     "You lift a stave bucket from the shelf. The flour bin and the water butt will each fill one."
+    ]
+   }
+  },
+  {
+   "caseId": "tutor-model-fails",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "full-pack-departure",
+   "name": "a full pack at the pier: the welcome pack is refused with a count of slots to free (drop or bank), the objective counts them down with the pack tab pulsing, and once leftovers are dropped the skiff sails and the welcome pack is claimed",
+   "pass": true,
+   "info": {
+    "room": {
+     "need": 16,
+     "objective": "Free 16 more pack slots for Tobin's welcome pack: drop something, or bank it at the Holm Bank. Then board the skiff.",
+     "chat": [
+      "Your welcome pack is still aboard. Free 16 inventory slots (drop something, or bank it at the Holm Bank), then board again."
+     ],
+     "drops": [
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "logs",
+      "bread",
+      "bread"
+     ],
+     "after": "Lastlight is lit. Board Ferryman Tobin's skiff at the end of the pier."
+    },
+    "sailed": true,
+    "provider": "veyhollow-commons-v2"
+   }
+  },
+  {
+   "caseId": "full-pack-departure",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "graduated-legacy",
+   "name": "a graduated save from before world meta starts on the Holm (boot rule) with graduation kept and its crowns, pointed at Tobin",
+   "pass": true,
+   "info": {
+    "complete": true,
+    "inv": [
+     "coinsx99",
+     null
+    ],
+    "objective": "Lastlight is lit. Talk to Ferryman Tobin at Lanternfoot Cove, down the Keeper's Stair.",
+    "arrow": {
+     "x": 101.5,
+     "y": 2.65,
+     "z": 13.5,
+     "label": "Talk to Ferryman Tobin"
+    }
+   }
+  },
+  {
+   "caseId": "graduated-legacy",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "full-pack-24",
+   "name": "a full 24-slot pack keeps all 24 items in their slots and gains four free slots",
+   "pass": true,
+   "info": {
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "fishing_netx1",
+     "coinsx7",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     null,
+     null,
+     null,
+     null
+    ]
+   }
+  },
+  {
+   "caseId": "full-pack-24",
+   "name": "and round-trips unchanged",
+   "pass": true,
+   "info": {
+    "inv": [
+     "hatchetx1",
+     "tinderboxx1",
+     "fishing_netx1",
+     "coinsx7",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     null,
+     null,
+     null,
+     null
+    ]
+   }
+  },
+  {
+   "caseId": "full-pack-24",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "full-pack-wenna",
+   "name": "a full pack at Wenna: she says to make room, no tools are handed and nothing in the pack is lost",
+   "pass": true,
+   "info": {
+    "pages": [
+     "Hello there. I am Wenna, and down there is Minnow Hollow.",
+     "Out here you learn to look after yourself: wood, fire, fish and a hot supper, all within a stone's throw of the pond.",
+     "Before anything else, you need tools. Here: a bronze hatchet, a tinderbox and a small net.",
+     "Open your pack and click the hatchet to wield it. Then I will show you what it is for."
+    ],
+    "chat": [
+     "World rebuild mode is active: Tutor’s Holm is loaded for smooth play.",
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Music unlocked: Morning on the Holm.",
+     "Music unlocked: Reeds and Ripples.",
+     "Your replacement tools need 3 free inventory slots; you have 0. Free 3 more slots and try again.",
+     "Your pack is too full for your tools. Make room, then speak to Wenna again."
+    ],
+    "inv": [
+     "breadx1",
+     "logsx1",
+     "logsx1",
+     "breadx1"
+    ]
+   }
+  },
+  {
+   "caseId": "full-pack-wenna",
+   "name": "after dropping three logs by the pack menu, asking again hands over the hatchet, tinderbox and net; every other item is still there",
+   "pass": true,
+   "info": {
+    "dropped": [
+     "ok",
+     "ok",
+     "ok"
+    ],
+    "got": true,
+    "chat": [
+     "Press ` (backquote) at any time for the Administrator Console.",
+     "Music unlocked: Morning on the Holm.",
+     "Music unlocked: Reeds and Ripples.",
+     "Your replacement tools need 3 free inventory slots; you have 0. Free 3 more slots and try again.",
+     "Your pack is too full for your tools. Make room, then speak to Wenna again.",
+     "Wenna hands you a Bronze hatchet, a Tinderbox and a Small net."
+    ],
+    "inv": [
+     "breadx1",
+     "hatchetx1",
+     "tinderboxx1",
+     "breadx1",
+     "fishing_netx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "logsx1",
+     "breadx1",
+     "logsx1",
+     "logsx1",
+     "breadx1"
+    ]
+   }
+  },
+  {
+   "caseId": "full-pack-wenna",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "interrupt-bread",
+   "name": "reload in the middle of the bread lesson: buckets and flour kept, Hettie still counts as spoken to, same lesson, the arrow on the next station (water butt)",
+   "pass": true,
+   "info": {
+    "before": [
+     "coinsx5",
+     "bucket_flourx1",
+     "bucketx1"
+    ],
+    "after": [
+     "coinsx5",
+     "bucket_flourx1",
+     "bucketx1"
+    ],
+    "arrow": {
+     "x": 44.49,
+     "y": 6.14,
+     "z": 69.42,
+     "label": "Fill it with water"
+    },
+    "talked": [
+     "bram",
+     "hettie",
+     "wenna"
+    ]
+   }
+  },
+  {
+   "caseId": "interrupt-bread",
+   "name": "and the lesson finishes by real clicks after the reload (bread baked, learn_quests next)",
+   "pass": true,
+   "info": {
+    "lesson": "learn_quests"
+   }
+  },
+  {
+   "caseId": "interrupt-bread",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "interrupt-dialogue",
+   "name": "reload with a tutor's chat box half read: nothing breaks, the tutor is still due (the talk counts once the chat ends), same lesson",
+   "pass": true,
+   "info": {
+    "open": true,
+    "before": "ansel",
+    "after": "ansel",
+    "objective": "Talk to Loremaster Ansel in the Quest Lodge.",
+    "arrow": {
+     "x": 38.53,
+     "y": 7.9,
+     "z": 51.5,
+     "label": "Talk to Loremaster Ansel"
+    }
+   }
+  },
+  {
+   "caseId": "interrupt-dialogue",
+   "name": "talking again and studying the board by real clicks completes the lesson",
+   "pass": true,
+   "info": {
+    "talked": true,
+    "lesson": "descend_cavern"
+   }
+  },
+  {
+   "caseId": "interrupt-dialogue",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "interrupt-climb",
+   "name": "reload half way up Lastlight (two ladders climbed): back on the same storey and stance, the arrow on the third ladder",
+   "pass": true,
+   "info": {
+    "door": 17.8,
+    "before": {
+     "s": "b:lastlight:0:Lastlight_UpperFloorWatchTiles",
+     "p": [
+      123.5,
+      23.8,
+      24.5
+     ]
+    },
+    "after": {
+     "s": "b:lastlight:0:Lastlight_UpperFloorWatchTiles",
+     "p": [
+      123.5,
+      23.8,
+      24.5
+     ]
+    },
+    "arrow": {
+     "x": 121.5,
+     "y": 26.8,
+     "z": 27.34,
+     "label": "Climb the ladder"
+    }
+   }
+  },
+  {
+   "caseId": "interrupt-climb",
+   "name": "and the climb goes on by real clicks to the lever (Lastlight lit, island complete)",
+   "pass": true,
+   "info": {}
+  },
+  {
+   "caseId": "interrupt-climb",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  },
+  {
+   "caseId": "interrupt-rope",
+   "name": "reload holding the untied rope: the rope is still in the pack, the stage is tie, the objective says to use it on the shaft and the arrow is on the shaft",
+   "pass": true,
+   "info": {
+    "take": "ok",
+    "rope": {
+     "tied": false,
+     "stage": "tie"
+    },
+    "objective": "Use the rope on the mine shaft to tie it to the frame.",
+    "arrow": {
+     "x": 35.5,
+     "y": 13.25,
+     "z": 27.68,
+     "label": "Use the rope on the shaft"
+    }
+   }
+  },
+  {
+   "caseId": "interrupt-rope",
+   "name": "reload with the rope tied: still tied (saved), the rope is gone from the pack, the objective says climb down",
+   "pass": true,
+   "info": {
+    "rope": {
+     "tied": true,
+     "stage": "climb"
+    },
+    "objective": "Your rope hangs down the shaft. Climb down it to the ore workings.",
+    "arrow": {
+     "x": 35.5,
+     "y": 13.25,
+     "z": 27.68,
+     "label": "Climb down the rope"
+    }
+   }
+  },
+  {
+   "caseId": "interrupt-rope",
+   "name": "down the rope into the ore workings, and a reload there restores the adventurer in the workings on the same stance",
+   "pass": true,
+   "info": {
+    "down": true,
+    "before": "b:cavern:0:Cavern_Floor",
+    "after": "b:cavern:0:Cavern_Floor",
+    "pos": [
+     193.5,
+     -30,
+     60.5
+    ]
+   }
+  },
+  {
+   "caseId": "interrupt-rope",
+   "name": "zero page errors",
+   "pass": true,
+   "info": []
+  }
+ ]
+}

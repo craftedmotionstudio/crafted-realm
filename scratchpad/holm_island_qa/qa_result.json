@@ -128,7 +128,7 @@
       "label": "walks from the dock across the timber teaching bridge on its deck",
       "ok": true,
       "detail": {
-        "deckSamples": 65,
+        "deckSamples": 63,
         "deckY": 2.3
       }
     },
@@ -154,8 +154,8 @@
       "label": "the walk follows the composed graph in 8 directions (diagonal steps where the 2004 rule allows)",
       "ok": true,
       "detail": {
-        "samples": 733,
-        "diagonal": 74
+        "samples": 740,
+        "diagonal": 78
       }
     },
     {
@@ -169,9 +169,9 @@
         },
         "click": "ok",
         "chat": [
-          "The tools for your next lesson come from Wenna. Speak to Wenna first; this rack only keeps spares.",
-          "You pick a cabbage.",
           "Now entering: Tutor's Holm.",
+          "Music unlocked: Woodsmoke and Flint.",
+          "Music unlocked: Warm Loaves.",
           "You should speak to Cook Hettie first."
         ],
         "buckets": 0
@@ -314,7 +314,7 @@
           11,
           45.5
         ],
-        "diagonal": 121
+        "diagonal": 117
       }
     },
     {
@@ -329,7 +329,7 @@
           7.3,
           56.5
         ],
-        "diagonal": 8,
+        "diagonal": 10,
         "bankOpen": true
       }
     },
@@ -360,7 +360,7 @@
           -0.05,
           -0.5
         ],
-        "diagonal": 33
+        "diagonal": 35
       }
     },
     {
@@ -375,7 +375,7 @@
           9.15,
           29.5
         ],
-        "diagonal": 149,
+        "diagonal": 152,
         "shaftTiles": 1
       }
     },
@@ -578,16 +578,34 @@
         "nets": [
           {
             "spot": "beach-edge",
-            "ticksLeft": 64,
+            "ticksLeft": 11,
+            "result": "moved on",
+            "seconds": 6,
+            "chat": [
+              "The fish have moved on."
+            ]
+          },
+          {
+            "spot": "east-shallows",
+            "ticksLeft": 50,
             "result": "caught",
-            "seconds": 10,
+            "seconds": 13,
+            "chat": [
+              "You catch a mirrorperch."
+            ]
+          },
+          {
+            "spot": "beach-edge",
+            "ticksLeft": 39,
+            "result": "caught",
+            "seconds": 14,
             "chat": [
               "You catch a mirrorperch."
             ]
           }
         ],
         "fish": true,
-        "cookTries": 1,
+        "cookTries": 3,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -615,16 +633,34 @@
         "nets": [
           {
             "spot": "beach-edge",
-            "ticksLeft": 64,
+            "ticksLeft": 11,
+            "result": "moved on",
+            "seconds": 6,
+            "chat": [
+              "The fish have moved on."
+            ]
+          },
+          {
+            "spot": "east-shallows",
+            "ticksLeft": 50,
             "result": "caught",
-            "seconds": 10,
+            "seconds": 13,
+            "chat": [
+              "You catch a mirrorperch."
+            ]
+          },
+          {
+            "spot": "beach-edge",
+            "ticksLeft": 39,
+            "result": "caught",
+            "seconds": 14,
             "chat": [
               "You catch a mirrorperch."
             ]
           }
         ],
         "fish": true,
-        "cookTries": 1,
+        "cookTries": 3,
         "cook": true,
         "cookNote": [
           "cook/cooked_perch"
@@ -650,9 +686,9 @@
         ],
         "melee": true,
         "ranged": true,
-        "arrowsUsed": 19,
+        "arrowsUsed": 14,
         "magic": true,
-        "runesUsed": 8
+        "runesUsed": 2
       }
     },
     {
@@ -660,14 +696,14 @@
       "ok": true,
       "detail": {
         "before": [
-          110.5,
-          7.52,
-          64.5
+          104.5,
+          7.465,
+          59.5
         ],
         "after": [
-          110.5,
-          7.52,
-          64.5
+          104.5,
+          7.465,
+          59.5
         ]
       }
     },
@@ -679,5 +715,5 @@
       }
     }
   ],
-  "seconds": 1876
+  "seconds": 2034
 }
