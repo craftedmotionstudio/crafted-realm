@@ -7,7 +7,7 @@
  * are hidden here and never removed from the data: those props never blocked the walk graph, so every navigation graph
  * stays byte-identical. Each animal stands on the walkable land node nearest its spot (the combat engine snaps it onto
  * the composed island graph) and wanders a tile or so from it; the paddock's rails (graph blockers) keep the cows in.
- * The sheep stay still props. Island only; loaded after the prop sets (HolmArrivalQA). */
+ * The sheep stay still props. Island only; loaded after the prop sets (HolmArrivalQA), disposed with them. */
 var HolmFarmAnimals=(function(){
  'use strict';
  var npcs=[],hidden=[];
@@ -32,6 +32,8 @@ var HolmFarmAnimals=(function(){
    if(!npc)return;npc.home.set(n.x,n.y,n.z);npc.mesh.position.set(n.x,n.y,n.z);npc.mesh.rotation.y=(i*2.39)%6.28;npc.wanderR=s[3];npc.leash=6;
    npc.farmAnimal=true;npc.mesh.name='haycombe-'+(s[0]==='moorcalf'?'cow':'chicken')+'-'+i;npcs.push(npc)});
   hideProps(WORLD);
+  // the animals live and go with the farm's prop set: when the island's props are disposed, so are they
+  if(typeof HolmIslandProps!=='undefined'&&!HolmIslandProps._farmAnimalsHooked){var pd=HolmIslandProps.dispose;HolmIslandProps.dispose=function(){dispose();return pd.apply(this,arguments)};HolmIslandProps._farmAnimalsHooked=true}
   return {npcs:npcs.length,hiddenProps:hidden.length};
  }
  function dispose(){
