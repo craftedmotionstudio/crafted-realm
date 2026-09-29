@@ -1,13 +1,15 @@
 /* test_holm_gait_options.js -- headless gate for the review-5 walk / run / idle options (owner 2026-09-28):
- *  1. the companion GLB (assets/models/holm_kit_v2_gaits.glb) carries exactly the option clips walk_A..F, run_A..F (round 1
- *     A-C, round 2 D-F), idle_A..C on the kit's 23 bones (same names as the kit), the kit's cycle lengths, and no meshes;
+ *  1. the companion GLB (assets/models/holm_kit_v2_gaits.glb) carries exactly the option clips walk_A..H, run_A..H (round 1
+ *     A-C, round 2 D-F, round 3 G-H), idle_A..C on the kit's 23 bones (same names as the kit), the kit's cycle lengths, and no meshes;
  *  2. every option clip animates the same channels as the kit's own walk / run / idle (a drop-in swap);
  *  3. the kit GLB is untouched: its own idle / walk / run are still the shipped default (no option clips inside);
  *  4. HolmGaitOptions: ?gait parsing (walkA,runB,idleC / one letter / cur / panel), nothing loads without ?gait, and the
  *     swap on a kit gmix (weight / time / time scale carried over, the shipped action restored for "cur", run marked on);
  *  5. index.html loads src/holm_gait_options.js after holm_island_player.js, and the island player drives it;
  *  6. round 2 mesh options: holm_kit_v2_mesh_b / _c.glb carry the kit's parts, bones and clips (drop-in kits), ?kitmesh=b / c
- *     points the player at them, ?kitmesh=a draws the player's own kit flat-shaded, and nothing changes without ?kitmesh.
+ *     points the player at them, ?kitmesh=a draws the player's own kit flat-shaded, and nothing changes without ?kitmesh;
+ *  7. round 3 Gait Lab (tools/gait_lab.html): wired to the option GLB, every preset exists as a clip, and the 2004 reference
+ *     is loaded only at run time from localhost / a picked folder -- no 2004 reference file anywhere in the repo.
  * Run: node tools/test_holm_gait_options.js */
 'use strict';
 const fs=require('fs'),path=require('path'),vm=require('vm');
@@ -21,7 +23,7 @@ function channels(j,a){return a.channels.map(c=>j.nodes[c.target.node].name+'.'+
 const GP=path.join(ROOT,'assets','models','holm_kit_v2_gaits.glb'),KP=path.join(ROOT,'assets','models','holm_kit_v2.glb');
 ok(fs.existsSync(GP),'the companion GLB exists');
 const g=glbJson(GP),k=glbJson(KP);
-const want=['idle_A','idle_B','idle_C','run_A','run_B','run_C','run_D','run_E','run_F','walk_A','walk_B','walk_C','walk_D','walk_E','walk_F'];
+const want=['idle_A','idle_B','idle_C','run_A','run_B','run_C','run_D','run_E','run_F','run_G','run_H','walk_A','walk_B','walk_C','walk_D','walk_E','walk_F','walk_G','walk_H'];
 ok(JSON.stringify(g.animations.map(a=>a.name).sort())===JSON.stringify(want),'option clips = '+want.join(',')+' (got '+g.animations.map(a=>a.name).sort().join(',')+')');
 ok(!g.meshes||!g.meshes.length,'the companion GLB carries no meshes');
 const kitBones=k.skins[0].joints.map(i=>k.nodes[i].name).sort();
@@ -93,5 +95,21 @@ t=load('?kitmesh=a');ok(t.G.kitUrl('K')==='K','?kitmesh=a keeps the shipped kit'
 {const mats=[{flatShading:false,needsUpdate:false},{flatShading:false}];const rig={traverse(f){mats.forEach(m=>f({isMesh:true,material:m}))}};
   t.box.player={userData:{gmix:{kit:true},rigInner:rig}};t.G.update();ok(mats.every(m=>m.flatShading===true),'?kitmesh=a draws the player flat-shaded')}
 t=load('');ok(t.G.kitUrl('K')==='K'&&!t.G.active(),'no ?kitmesh: the shipped kit, module idle');
+/* ---- 7: the Gait Lab ---- */
+const LH=path.join(ROOT,'tools','gait_lab.html'),LJ=path.join(ROOT,'tools','gait_lab.js');
+ok(fs.existsSync(LH)&&fs.existsSync(LJ)&&fs.existsSync(path.join(ROOT,'tools','gait_lab_bake.js')),'the Gait Lab page, script and bake tool exist');
+if(fs.existsSync(LH)&&fs.existsSync(LJ)){
+  const lh=fs.readFileSync(LH,'utf8'),lj=fs.readFileSync(LJ,'utf8');
+  ok(/src="\.\.\/src\/holm_gait_options\.js\?v=h[0-9a-f]{8}"/.test(lh)&&/src="gait_lab\.js\?v=h[0-9a-f]{8}"/.test(lh),'the lab loads the option module and its script, cache-busted');
+  ok(/REF_SERVER='http:\/\/127\.0\.0\.1:8150\/'/.test(lj),'the 2004 reference comes from the local-only server (127.0.0.1:8150)');
+  ok(/webkitdirectory/.test(lh),'or from a folder picked in the page');
+  const pm=/PRESETS=\{walk:\[([^\]]*)\],run:\[([^\]]*)\]\}/.exec(lj);ok(!!pm,'the lab lists its presets');
+  if(pm)for(const [kind,list] of [['walk',pm[1]],['run',pm[2]]])for(const L of list.replace(/'/g,'').split(','))
+    if(L!=='cur')ok(want.includes(kind+'_'+L),'lab preset '+kind+' '+L+' is a clip in the option GLB');
+  ok(/GO\.urls/.test(lj)&&/urls:\{gaits:/.test(src),'the lab takes the option GLB url from HolmGaitOptions');
+}
+{const bad=[];const walk=d=>{for(const e of fs.readdirSync(d,{withFileTypes:true})){if(/^(node_modules|\.git|\.studio-workspaces)$/.test(e.name))continue;
+  const f=path.join(d,e.name);if(e.isDirectory())walk(f);else if(/^gait_ref\.js$|^[mf]_(walk|run)_(side|game)_\d(_cut)?\.png$/i.test(e.name))bad.push(path.relative(ROOT,f))}};
+  walk(ROOT);ok(!bad.length,'no 2004 reference frames in the repo ('+bad.join(', ')+')')}
 console.log('test_holm_gait_options: '+pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);

@@ -291,6 +291,45 @@ GAIT_OPTIONS_R2 = {
 for _k in ('walk', 'run'):
     GAIT_OPTIONS[_k].update(GAIT_OPTIONS_R2[_k])
 
+# ---- review 5, ROUND 3 (owner 2026-09-29): WALK "looks good ... may lean forward a little bit too much still ... not as casual
+# of a stroll as I would want ... more like Conor McGregor" -> a relaxed, confident upright strut: torso upright or a hair back,
+# shoulders back and open, chest up, arms carried a little away from the body, an easy rhythm with a touch of swagger. RUN "leaning
+# forward way too much ... doesn't look calm ... more like a light jog" -> near upright, a short easy stride, low knee lift, relaxed
+# bent arms close to the body, a gentle bounce. G / H keep round 2's straight-legged, heel-to-toe step (the owner: "the walk looks
+# good"). base = extra stance deltas: Spine2 back = the chest up; the shoulder bones turned back = the shoulders open.
+_OPEN = {'Spine2': (-4.0, 0, 0), 'LeftShoulder': (0, 0, 6.0), 'RightShoulder': (0, 0, -6.0)}
+GAIT_OPTIONS_R3 = {
+    'walk': {
+        'G': dict(label='Walk G -- strut', gait=dict(_W2, lean_cap=(-1.5, False), base=_OPEN, neck=5.0, twist=3.5, bob=.012, sway=.018, roll=3.0,
+                                                     plant_k=.62, front_fix=.30, p_on=18, p_off=-30,
+                                                     swing_path=[(.25, .20, .24), (.50, 0.0, .20), (.78, -.25, .155), (.92, -.30, .142)],
+                                                     osrs=(6.0, 8.0, 10.0), arm_swing=16, fore_swing=6, arm_bias=-2.0),
+                  note='A relaxed, confident strut: the back upright and a hair behind vertical, the chest up and the shoulders open, '
+                       'the head over the shoulders, the arms carried a little away from the body with an easy +-16 deg swing and a '
+                       'slight elbow bend, a touch of hip swagger and shoulder turn. Round 2\'s straight-legged heel-to-toe step.'),
+        'H': dict(label='Walk H -- casual stroll', gait=dict(_W2, lean_cap=(0.0, False), base={'LeftShoulder': (0, 0, 3.0), 'RightShoulder': (0, 0, -3.0)},
+                                                             neck=7.0, twist=2.5, bob=.010, sway=.012, roll=2.0, plant_k=.58, front_fix=.26, p_on=16, p_off=-28,
+                                                             swing_path=[(.25, .19, .22), (.50, 0.0, .19), (.78, -.22, .155), (.92, -.27, .14)],
+                                                             osrs=(6.0, 6.0, 7.0), arm_swing=12, fore_swing=4, arm_bias=-2.0),
+                  note='An unhurried stroll: upright, loose shoulders, the arms hanging easy with a small +-12 deg swing, a slightly '
+                       'shorter reach, a gentle sway -- the least effort of the walks.'),
+    },
+    'run': {
+        'G': dict(label='Run G -- light jog', gait=dict(_R2, lean_cap=(2.0, False), hips_pitch=1.0, face=2.0, bob=.014, duty=.38, plant_k=.62,
+                                                        p_off=-26, front_fix=.18, swing_path=[(.30, .16, .30), (.60, -.06, .30), (.86, -.26, .17)],
+                                                        arm_swing=26, fore=100, fore_swing=4, arm_bias=2.0, arm_out=10.0),
+                  note='A calm light jog: nearly upright (2 deg), a short easy stride with the feet low -- a small heel kick and a low '
+                       'knee -- a brief float between steps, the arms bent near 90 deg and kept close, pumping an easy +-26 deg, a '
+                       'gentle bounce.'),
+        'H': dict(label='Run H -- easy jog', gait=dict(_R2, lean_cap=(4.0, False), hips_pitch=2.0, face=4.0, bob=.018, duty=.36, plant_k=.75,
+                                                       p_off=-30, front_fix=.22, swing_path=[(.28, .19, .34), (.58, -.08, .32), (.85, -.33, .19)],
+                                                       arm_swing=32, fore=96, fore_swing=6, arm_bias=3.0, arm_out=10.0),
+                  note='G with a little more going on: 4 deg of lean, a slightly higher knee and heel, arms +-32 deg -- still calm.'),
+    },
+}
+for _k in ('walk', 'run'):
+    GAIT_OPTIONS[_k].update(GAIT_OPTIONS_R3[_k])
+
 TUTOR_PARTS = {'hettie': {'Makeup': 1}}
 
 # the kit's spine-lean gates, widened on purpose for the 2004 look (build_holm_characters_v2.LEAN_LIMITS): the reference

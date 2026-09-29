@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gait Lab</title>
+<!-- Gait Lab (owner review 5, round 3): the owner picks the walk and run himself. Left: the 2004 reference (loaded at run time
+     from a private local folder -- never from this repo); right: our character playing live, with presets and live sliders.
+     Open http://localhost:8777/tools/gait_lab.html -->
+<style>
+:root{--bg:#15120d;--panel:#211b13;--line:#4a3d28;--ink:#eadfc8;--dim:#b8ab8f;--gold:#ffdf8a;--accent:#c9a45a;--good:#7ccf6a;--bad:#e0735a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 Arial,Helvetica,sans-serif}
+header{padding:10px 16px 6px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline}
+h1{margin:0;font-size:20px;color:var(--gold)}
+.sub{color:var(--dim);font-size:13px}
+main{display:flex;flex-wrap:wrap;gap:14px;padding:12px 16px}
+.stage{display:flex;gap:10px;flex-wrap:wrap}
+.pane{background:#000;border:1px solid var(--line);position:relative}
+.pane canvas{display:block}
+.pane .tag{position:absolute;left:6px;top:4px;background:rgba(0,0,0,.6);padding:1px 6px;font-size:12px;color:var(--gold);pointer-events:none}
+.pane .tag2{position:absolute;right:6px;bottom:4px;background:rgba(0,0,0,.6);padding:1px 6px;font-size:11px;color:var(--dim);pointer-events:none}
+.side{flex:1 1 380px;max-width:560px;display:flex;flex-direction:column;gap:10px}
+.box{background:var(--panel);border:1px solid var(--line);padding:8px 10px}
+.box h2{margin:0 0 6px;font-size:14px;color:var(--gold)}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0}
+button,select{background:#3a3226;color:var(--gold);border:1px solid #6b5a3a;padding:4px 9px;font:13px Arial;cursor:pointer}
+button.on{background:var(--accent);color:#1a1208;border-color:var(--gold)}
+button:disabled{opacity:.45;cursor:default}
+button.good{border-color:var(--good);color:var(--good)} button.bad{border-color:var(--bad);color:var(--bad)}
+.presets button{min-width:34px}
+.note{color:var(--dim);font-size:12.5px}
+.slider{display:grid;grid-template-columns:150px 1fr 62px 22px;gap:6px;align-items:center;margin:3px 0;font-size:13px}
+.slider input[type=range]{width:100%}
+.slider .val{text-align:right;color:var(--gold);font-variant-numeric:tabular-nums}
+.slider button{padding:0 4px;font-size:11px}
+textarea{width:100%;background:#0f0c08;color:var(--ink);border:1px solid var(--line);font:13px Arial;padding:4px}
+.picks{max-height:220px;overflow:auto;font-size:12.5px}
+.pick{border-top:1px solid var(--line);padding:4px 0;display:flex;gap:6px;align-items:flex-start}
+.pick .v{font-weight:bold;min-width:70px} .pick .v.best{color:var(--good)} .pick .v.not{color:var(--bad)}
+.pick .t{flex:1;color:var(--dim)} .pick button{padding:0 6px;font-size:11px}
+.refstate{font-size:12.5px} .refstate b{color:var(--gold)}
+.warn{color:#e0a060}
+a{color:var(--gold)}
+#toast{position:fixed;right:16px;bottom:16px;background:var(--accent);color:#1a1208;padding:6px 12px;display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>Gait Lab</h1>
+  <span class="sub">Left: 2004 (reference). Right: our character, live. Pick a preset, tune the sliders by eye, then mark it <b>Best</b> or <b>Not right</b>.</span>
+</header>
+<main>
+  <div>
+    <div class="stage">
+      <div class="pane"><canvas id="ref" width="440" height="560"></canvas><span class="tag" id="refTag">2004</span><span class="tag2" id="refInfo"></span></div>
+      <div class="pane"><canvas id="ours" width="440" height="560"></canvas><span class="tag" id="oursTag">Ours</span><span class="tag2" id="oursInfo"></span></div>
+    </div>
+    <div class="box" style="margin-top:10px">
+      <div class="row">
+        <button id="play">Pause</button>
+        <button id="stepBackPose" title="back one pose (1/8 cycle)">&#9664;&#9664; pose</button>
+        <button id="stepBack" title="back one frame (1/30 s)">&#9664; frame</button>
+        <button id="stepFwd" title="forward one frame (1/30 s)">frame &#9654;</button>
+        <button id="stepFwdPose" title="forward one pose (1/8 cycle)">pose &#9654;&#9654;</button>
+        <span class="note">speed</span>
+        <input id="speed" type="range" min="0.1" max="2" step="0.05" value="1" style="width:120px">
+        <span id="speedVal" class="note">1.00x</span>
+      </div>
+      <div class="row">
+        <span class="note">line up the cycles</span>
+        <input id="offset" type="range" min="0" max="1" step="0.0125" value="0" style="width:180px">
+        <span id="offsetVal" class="note">0.00</span>
+        <button id="swapHalf" title="the other leg leads">half a cycle</button>
+        <label class="note"><input type="checkbox" id="refCut" checked> 2004 without its background (side)</label>
+      </div>
+      <div class="row refstate" id="refState">2004 reference: <b>not loaded</b></div>
+      <div class="row" id="refHelp">
+        <button id="pickFolder">Choose the 2004 reference folder</button>
+        <input type="file" id="folderInput" webkitdirectory multiple style="display:none">
+        <span class="note">pick <code>C:\Users\iQwaZ\ref2004_captures\gait_lab</code> &mdash; or double-click <i>Start Gait Lab reference.bat</i> in that folder once and reload this page.</span>
+      </div>
+    </div>
+  </div>
+  <div class="side">
+    <div class="box">
+      <div class="row">
+        <button data-mode="walk" class="on">Walk</button><button data-mode="run">Run</button>
+        <span style="width:12px"></span>
+        <button data-view="side" class="on">Side</button><button data-view="game">Game camera (3/4 behind)</button>
+      </div>
+      <div class="row">
+        <button data-body="m" class="on">Man</button><button data-body="f">Woman</button>
+        <span style="width:12px"></span>
+        <span class="note">model</span>
+        <select id="mesh"><option value="shipped">shipped</option><option value="a">a: flat shading</option><option value="b">b: squarer, one-piece boots</option><option value="c">c: creased panels</option></select>
+      </div>
+    </div>
+    <div class="box">
+      <h2>Presets</h2>
+      <div class="row presets" id="presets"></div>
+      <div class="note" id="presetNote"></div>
+    </div>
+    <div class="box">
+      <h2>Tune by eye <span class="note">(live; &#8634; resets one slider)</span></h2>
+      <div id="sliders"></div>
+      <div class="row">
+        <label class="note"><input type="checkbox" id="keepHead" checked> keep the face level</label>
+        <label class="note"><input type="checkbox" id="keepFeet" checked> keep the feet on the ground</label>
+        <button id="resetSliders">Reset all sliders</button>
+      </div>
+    </div>
+    <div class="box">
+      <h2>Your pick</h2>
+      <textarea id="note" rows="2" placeholder="a short note: what is right or wrong (optional)"></textarea>
+      <div class="row">
+        <button id="best" class="good">&#10004; Best</button>
+        <button id="notRight" class="bad">&#10008; Not right</button>
+        <span style="flex:1"></span>
+        <button id="copySettings" title="the current preset + sliders as JSON">Copy settings</button>
+        <button id="exportPicks" title="download every pick as a JSON file">Export picks</button>
+        <button id="importBtn" title="paste settings JSON">Load settings</button>
+      </div>
+      <div class="picks" id="picks"></div>
+    </div>
+    <div class="note">Saved in this browser. Send the exported file (or the copied settings) and the chosen settings are baked into real clips in Blender.
+      The 2004 frames come from a private folder on this computer and are never part of the game.</div>
+  </div>
+</main>
+<div id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="../src/holm_gait_options.js?v=h1a18336a"></script>
+<script src="gait_lab.js?v=hc91f2528"></script>
+</body>
+</html>

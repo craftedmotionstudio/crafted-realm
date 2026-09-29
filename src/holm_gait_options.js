@@ -1,6 +1,7 @@
 /* Review 5 (owner 2026-09-28): try the walk / run / idle OPTIONS while playing.
  *   ?gait=walkD,runE,idleA   the kit player walks with walk_D, runs with run_E and stands with idle_A
- *                            (round 2 = walk / run D, E, F; round 1 = A, B, C kept for reference; idle A, B, C)
+ *                            (round 3 = walk G strut / H stroll, run G light jog / H easy jog; round 2 = D, E, F; round 1
+ *                            = A, B, C kept for reference; idle A, B, C). Tuning by eye: the Gait Lab, tools/gait_lab.html
  *   ?gait=B                  option B for all three;  walkcur / runcur / idlecur = the shipped clip
  *   add ",panel" (or ?gait=panel) for a small picker that switches live (the address bar follows, so a reload keeps it)
  * The variants are named clips in assets/models/holm_kit_v2_gaits.glb (tools/blender/build_holm_characters_v2.py
@@ -14,9 +15,9 @@
  * row switches a live and reloads the page for b / c. */
 var HolmGaitOptions=(function(){
  'use strict';
- var URL='assets/models/holm_kit_v2_gaits.glb?v=cb975844',KINDS=['walk','run','idle'];
- var LABELS={walk:{A:'r1 steady shoulders',B:'r1 shorter reach',C:'r1 2004 trailing legs',D:'relaxed',E:'natural',F:'2004 step'},
-  run:{A:'r1 upright natural run',B:'r1 2004 lean, straight back',C:'r1 light jog',D:'easy run',E:'woods run',F:'2004 run'},
+ var URL='assets/models/holm_kit_v2_gaits.glb?v=8e56bbc6',KINDS=['walk','run','idle'];
+ var LABELS={walk:{A:'r1 steady shoulders',B:'r1 shorter reach',C:'r1 2004 trailing legs',D:'r2 relaxed',E:'r2 natural',F:'r2 2004 step',G:'strut',H:'casual stroll'},
+  run:{A:'r1 upright natural run',B:'r1 2004 lean, straight back',C:'r1 light jog',D:'r2 easy run',E:'r2 woods run',F:'r2 2004 run',G:'light jog',H:'easy jog'},
   idle:{A:'2004 stand',B:'square stand',C:'shipped feet, head up'}};
  var MESH={b:'assets/models/holm_kit_v2_mesh_b.glb?v=c6fa0a10',c:'assets/models/holm_kit_v2_mesh_c.glb?v=90b7ba42'},MESH_LABELS={a:'flat per-face shading',b:'squarer torso, thigh caps, one-piece boots',c:'creases at 36 deg'};
  var st={want:null,clips:null,loading:null,failed:false,panel:null,mesh:null,flatAt:0};
@@ -98,6 +99,7 @@ var HolmGaitOptions=(function(){
  function refreshPanel(){if(!st.panel||!st.want)return;[].forEach.call(st.panel.querySelectorAll('button'),function(b){
   var on=b.hasAttribute('data-m')?(st.mesh||'')===b.getAttribute('data-m'):(st.want[b.getAttribute('data-k')]||'')===b.getAttribute('data-o');b.style.background=on?'#c9a45a':'#3a3226';b.style.color=on?'#1a1208':'#ffdf8a';b.style.border='1px solid '+(on?'#ffdf8a':'#6b5a3a')})}
  st.want=fromUrl();st.mesh=meshFromUrl();
- return {parse:parse,set:set,setMesh:setMesh,kitUrl:kitUrl,update:update,applyTo:applyTo,status:status,load:load,active:function(){return !!(st.want||st.mesh)},labels:LABELS};
+ return {parse:parse,set:set,setMesh:setMesh,kitUrl:kitUrl,update:update,applyTo:applyTo,status:status,load:load,active:function(){return !!(st.want||st.mesh)},labels:LABELS,
+  urls:{gaits:URL,mesh:MESH}};   // (the Gait Lab, tools/gait_lab.html, loads the same files)
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmGaitOptions;

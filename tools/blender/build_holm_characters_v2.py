@@ -54,7 +54,7 @@ Outputs (candidates only, never the live assets): .studio-workspaces/holm-charac
   bram.glb, palettes.json, characters.blend, manifest.json, REPORT.md}, scratchpad/holm_characters_<tag>/*.png
   (default tag v31f; the reviewed sets v2 / v27 / v28 / v29 / v30 / v31 / v31e are refused)
 """
-import bpy, bmesh, math, json, os, sys, struct, subprocess, shutil, random
+import bpy, bmesh, math, json, os, re, sys, struct, subprocess, shutil, random
 from mathutils import Vector, Matrix, Quaternion, Euler
 from mathutils.bvhtree import BVHTree
 
@@ -3521,8 +3521,11 @@ def gait_clip(name, frames, speed, duty, lift, drop, bob, front, p_on, p_off, ar
         c = math.cos(2 * math.pi * t)
         kw = dict(base or {})
         if osrs:               # v2.9 walk: the simple readable 2004 cycle -- no sway / roll, upright, head steady
-            kw.update(Hips=(0, 0, -twist * c), Spine=(0, 0, twist * 1.6 * c), Head=(head_pitch, 0, -twist * .6 * c),   # (v4a.2: eyes ahead over the lean)
-                      loc=(0, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
+            # review 5 round 3: sway (m) / roll (deg) -- the pelvis shifts over the stance foot and the swing hip drops (the
+            # strut's easy swagger); 0 in every earlier clip
+            cs = math.cos(2 * math.pi * (t - duty / 2))   # +1 = weight over the left foot (left mid-stance)
+            kw.update(Hips=(0, -roll * cs, -twist * c), Spine=(0, roll * .5 * cs, twist * 1.6 * c), Head=(head_pitch, 0, -twist * .6 * c),   # (v4a.2: eyes ahead over the lean)
+                      loc=(sway * cs, 0, -drop - bob * math.cos(4 * math.pi * (t - bob_phase))))
         elif sh_twist is None:   # v2.7 model (run, Bram)
             # v4a.2b: chest=deg opens the upper back (Spine1 / Spine2 extend) so a hips-led lean reads straight, not hunched
             kw.update(Spine=(lean, 0, twist * .8 * c), Spine1=(-chest * .5, 0, twist * .6 * c), Spine2=(-chest, 0, 0),
@@ -6699,6 +6702,102 @@ def clip_skeleton_metrics(arm, act, H):
             'wrist_height': [r3(min(R['wr_z']) / H), r3(max(R['wr_z']) / H)], 'elbow_bend_deg': [round(min(R['elbow']), 1), round(max(R['elbow']), 1)],
             'spine_lean_deg': round(mean(R['lean']), 1), 'face_down_deg': round(mean(R['face']), 1), 'head_ahead_of_hips': r3(mean(R['head_f']) / H)}
 
+# ---- review 5 round 3: the owner's Gait Lab picks, baked (tools/gait_lab.html -> tools/gait_lab_bake.js -> gait_lab_bakes/*.json)
+BAKE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gait_lab_bakes')
+C_YUP = Matrix.Rotation(math.radians(-90), 3, 'X')   # Blender armature axes -> glTF: (x, y, z) -> (x, z, -y)
+
+def _rest_local(pb):
+    b = pb.bone
+    return b.matrix_local.to_3x3() if b.parent is None else (b.parent.matrix_local.to_3x3().inverted() @ b.matrix_local.to_3x3())
+
+def gltf_to_basis(pb, q_xyzw, t_xyz=None):
+    """a bone's glTF node-local rotation (x, y, z, w) [and the root's node translation] -> its Blender pose basis: the inverse
+    of what the glTF exporter writes -- a child bone's node = rest_local @ basis in bone frames (no axis change: parent and
+    child both carry it), the root's node = yup @ matrix_local @ basis"""
+    Ci = C_YUP.inverted()
+    Qg = Quaternion((q_xyzw[3], q_xyzw[0], q_xyzw[1], q_xyzw[2])).to_matrix()
+    R = _rest_local(pb)
+    M = Ci @ Qg if pb.bone.parent is None else Qg
+    q = (R.inverted() @ M).to_quaternion()
+    loc = None
+    if t_xyz is not None:
+        loc = R.inverted() @ (Ci @ Vector(t_xyz) - pb.bone.head_local)
+    return q, loc
+
+def baked_action(arm, name, bake):
+    """a Gait Lab bake (per 30 fps frame: every bone's glTF-local rotation + the Hips position) as an action on the kit rig"""
+    act = bpy.data.actions.new(name)
+    act.use_fake_user = True
+    arm.animation_data_create()
+    arm.animation_data.action = act
+    last = {}
+    for f, key in enumerate(bake['keys']):
+        for pb in arm.pose.bones:
+            qg = key['q'].get(pb.name)
+            if qg is None:
+                continue
+            q, loc = gltf_to_basis(pb, qg, key['hips'] if pb.name == B('Hips') else None)
+            if pb.name in last and last[pb.name].dot(q) < 0:
+                q.negate()
+            last[pb.name] = q.copy()
+            pb.rotation_quaternion = q
+            pb.keyframe_insert('rotation_quaternion', frame=f, group=pb.name)
+            if loc is not None:
+                pb.location = loc
+                pb.keyframe_insert('location', frame=f, group=pb.name)
+    act.use_frame_range = True
+    act.frame_start, act.frame_end = 0, bake['frames']
+    set_interp(act, 'CONSTANT')   # the lab's held poses stay held
+    return act
+
+def glb_anim(path, name):
+    """{node name: {'rotation'|'translation': [(t, value)]}} for one animation of a GLB (float accessors only)"""
+    d = open(path, 'rb').read()
+    jl = struct.unpack('<I', d[12:16])[0]
+    j = json.loads(d[20:20 + jl])
+    bin_ = d[20 + jl + 8:]
+    def acc(i):
+        a = j['accessors'][i]
+        bv = j['bufferViews'][a['bufferView']]
+        n = {'SCALAR': 1, 'VEC3': 3, 'VEC4': 4}[a['type']]
+        off = bv.get('byteOffset', 0) + a.get('byteOffset', 0)
+        vals = struct.unpack_from('<%df' % (a['count'] * n), bin_, off)
+        return [vals[k * n:(k + 1) * n] for k in range(a['count'])]
+    an = next(a for a in j['animations'] if a['name'] == name)
+    out = {}
+    for ch in an['channels']:
+        s = an['samplers'][ch['sampler']]
+        ts, vs = acc(s['input']), acc(s['output'])
+        out.setdefault(j['nodes'][ch['target']['node']]['name'], {})[ch['target']['path']] = [(t[0], v) for t, v in zip(ts, vs)]
+    return out
+
+def roundtrip_check(arm, glb, acts_, frames=(0, 3, 7, 12)):
+    """the converter's proof: the exported samples of an authored clip, turned back into pose bases, equal the action's own
+    keys (deg / m, worst over the bones and frames)"""
+    worst_q = worst_t = 0.0
+    for name, act in acts_.items():
+        smp = glb_anim(glb, name)
+        fcs = {}
+        for fc in _all_fcurves(act):
+            fcs[(fc.data_path, fc.array_index)] = fc
+        for f in frames:
+            for pb in arm.pose.bones:
+                rot = smp.get(pb.name, {}).get('rotation')
+                if not rot:
+                    continue
+                qg = min(rot, key=lambda r: abs(r[0] - f / FPS))[1]
+                tr = smp.get(pb.name, {}).get('translation')
+                tg = min(tr, key=lambda r: abs(r[0] - f / FPS))[1] if (tr and pb.name == B('Hips')) else None
+                q, loc = gltf_to_basis(pb, qg, tg)
+                dp = 'pose.bones["%s"].rotation_quaternion' % pb.name
+                qa = Quaternion([fcs[(dp, i)].evaluate(f) for i in range(4)]) if (dp, 0) in fcs else Quaternion()
+                worst_q = max(worst_q, math.degrees(q.rotation_difference(qa).angle))
+                if loc is not None:
+                    dl = 'pose.bones["%s"].location' % pb.name
+                    la = Vector([fcs[(dl, i)].evaluate(f) for i in range(3)]) if (dl, 0) in fcs else Vector()
+                    worst_t = max(worst_t, (loc - la).length)
+    return round(worst_q, 4), round(worst_t, 5)
+
 def build_gait_options():
     """review 5: the gait options as named clip variants on the kit rig -> the companion GLB + manifest + report"""
     gtag = ARGS[ARGS.index('--gtag') + 1] if '--gtag' in ARGS else 'holm-gait-options-v1'
@@ -6758,9 +6857,23 @@ def build_gait_options():
             stm = stance_metrics(keys[0][1])
         meta[name] = {'kind': 'idle', 'key': key, 'label': opt['label'], 'note': opt['note'], 'frames': 60, 'seconds': 2.0,
                       'option': json.loads(json.dumps(opt['idle'])), 'stance': stm}
+    # ---- the owner's Gait Lab picks (tools/gait_lab_bake.js -> gait_lab_bakes/<name>.json): exactly what the lab showed
+    bakes = {}
+    if os.path.isdir(BAKE_DIR):
+        for fn in sorted(os.listdir(BAKE_DIR)):
+            if not fn.endswith('.json'):
+                continue
+            bk = json.load(open(os.path.join(BAKE_DIR, fn), encoding='utf-8'))
+            name = bk.get('name') or fn[:-5]
+            assert re.match(r'^(walk|run)_[A-Z][A-Z0-9]*$', name) and name not in acts, 'bad or duplicate bake name %s' % name
+            acts[name] = baked_action(arm, name, bk)
+            bakes[name] = bk
+            meta[name] = {'kind': name.split('_')[0], 'key': name.split('_', 1)[1], 'label': 'Gait Lab pick %s' % name,
+                          'note': 'Baked from the Gait Lab: %s with %s' % (bk['source_clip'], json.dumps(bk['settings'].get('sliders', {}))),
+                          'frames': bk['frames'], 'seconds': bk['seconds'], 'baked_from': bk['settings'], 'step': None}
     # ---- checks (the same gates as the shipped clips)
     for name, m in meta.items():
-        if m['kind'] in ('walk', 'run'):
+        if m['kind'] in ('walk', 'run') and 'gait' in m:
             g = m['gait']
             assert g['max_planted_speed_error_mps'] < .05, 'planted foot slides in %s: %s' % (name, g)
             assert g['max_stance_reach_error_m'] < .006, 'stance foot cannot reach the ground in %s: %s' % (name, g)
@@ -6798,6 +6911,28 @@ def build_gait_options():
     assert not j.get('meshes'), 'the gaits GLB must carry no meshes'
     targets = {j['nodes'][ch['target']['node']]['name'] for a in j['animations'] for ch in a['channels']}
     assert targets <= set(BONE_NAMES), 'channels target non-bone nodes: %s' % (targets - set(BONE_NAMES))
+    # the glTF <-> pose-basis converter the bakes rely on, proven on two authored clips; and every bake survives the round trip
+    rt = roundtrip_check(arm, out_glb, {n: acts[n] for n in ('walk_G', 'run_G') if n in acts})
+    assert rt[0] < .05 and rt[1] < 1e-4, 'glTF -> basis converter disagrees with the exporter: %s' % (rt,)
+    bake_err = {}
+    for name, bk in bakes.items():
+        smp = glb_anim(out_glb, name)
+        wq = wt = 0.0
+        for f, key in enumerate(bk['keys']):
+            for bn, qg in key['q'].items():
+                rot = smp.get(bn, {}).get('rotation')
+                if not rot:
+                    continue
+                qe = min(rot, key=lambda r: abs(r[0] - f / FPS))[1]
+                a_, b_ = Quaternion((qg[3], qg[0], qg[1], qg[2])), Quaternion((qe[3], qe[0], qe[1], qe[2]))
+                wq = max(wq, math.degrees(a_.rotation_difference(b_).angle))
+            tr = smp.get(B('Hips'), {}).get('translation')
+            if tr:
+                te = min(tr, key=lambda r: abs(r[0] - f / FPS))[1]
+                wt = max(wt, (Vector(te) - Vector(key['hips'])).length)
+        bake_err[name] = [round(wq, 4), round(wt, 5)]
+        assert wq < .1 and wt < 1e-3, 'baked clip %s differs from the Gait Lab: %s deg / %s m' % (name, wq, wt)
+    print('[GAITS-ROUNDTRIP]', json.dumps({'converter_deg_m': rt, 'bakes_deg_m': bake_err}))
     rel = lambda p: os.path.relpath(p, REPO).replace('\\', '/')
     manifest = {'asset': 'holm_kit_v2_gaits', 'builder': 'tools/blender/build_holm_characters_v2.py --gait-options', 'profile': PROFILE,
                 'glb': rel(out_glb), 'bytes': os.path.getsize(out_glb), 'clips': clips, 'bones': len(BONE_NAMES),
