@@ -133,10 +133,18 @@ var LocalCombat=(function(){
   if(moved&&n.t.givechase===false){resetDefaults(n);return}
   if(!moved){/* blocked this tick: wait, like the engine */}
  }
+ /* wanderMode (Lost City Npc.wanderMode, MIT; the same rule as server/engine/Npc.js): a 1 in 8 chance each tick to walk
+  * to a random tile within the wander range of the spawn (even mid-walk), so short walks come between idle pauses; a
+  * step resets the wander counter (Npc.updateMovement) and an NPC that has not moved for 500 ticks away from its spawn
+  * is put back. Our adaptation (2026-09-29, owner): a creature left outside its range (after a chase) walks back into
+  * it at once instead of waiting on the roll. */
  function wander(n){
-  var r=wanderRange(n),sp=n.spawnNode;
-  if(r>0&&sp&&wrng.next()<0.125){var dx=Math.round(wrng.next()*(r*2)-r),dz=Math.round(wrng.next()*(r*2)-r);n._walk={tx:sp.tx+dx,tz:sp.tz+dz}}
+  var r=wanderRange(n),sp=n.spawnNode,from=n.node;
+  var pick=function(){var dx=Math.round(wrng.next()*(r*2)-r),dz=Math.round(wrng.next()*(r*2)-r);n._walk={tx:sp.tx+dx,tz:sp.tz+dz}};
+  if(r>0&&sp&&!n._walk&&from&&TileNav.cheb(from,sp)>r)pick();
+  else if(r>0&&sp&&wrng.next()<0.125)pick();
   if(n._walk){if(!stepToward(n,n._walk)||(n.node&&n.node.tx===n._walk.tx&&n.node.tz===n._walk.tz))n._walk=null}
+  if(n.node!==from)n.wanderCounter=0;
   if(n.wanderCounter++>=500){n.wanderCounter=0;if(sp&&!same(n.node,sp)){n.node=sp;n._to=null;n.mesh.position.set(sp.x,sp.y,sp.z)}}
  }
  /* ------------------------------------------------------------------------------------------------ npc -> player */

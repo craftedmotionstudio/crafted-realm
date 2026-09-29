@@ -2,7 +2,7 @@
  * Every half second the objective marker/arrow is re-aimed at the exact thing the player must use NOW — not the
  * lesson's stance tile: the chart, the rack, the nearest standing teaching oak, the ripples, the player's own fire,
  * each bakehouse station in turn (bucket rack -> pantry -> water butt -> dough bowl -> oven), the quest board, the rope by
- * the mine shaft then the shaft, the right ore rock, the furnace, the anvil, a live practice grubkin, the bank counter, the storm door and
+ * the mine shaft then the shaft, the right ore rock, the furnace, the anvil, a live large rat in the pens, the bank counter, the storm door and
  * each Lastlight ladder in turn, the lever, and at the end the skiff. Steps done in the pack (wield, light, knead) point
  * at the pack instead: the inventory tab pulses and the world marker hides. The target carries its real height, so the
  * marker sits over interiors, upper floors and the cavern. Island only (HolmIsland.live()). */
@@ -17,7 +17,7 @@ var HolmIslandGuide=(function(){
  function service(label,target){var hit=null;scene.traverse(function(m){var s=m.userData&&m.userData.islandService;if(!hit&&m.isMesh&&s&&s.label===label&&(!target||s.target===target))hit=m});return hit}
  function nearest(list){var best=null,d=Infinity;list.forEach(function(o){if(!o)return;var p=o.getWorldPosition(new THREE.Vector3()),h=Math.hypot(p.x-player.position.x,p.z-player.position.z);if(h<d){d=h;best=o}});return best}
  function alive(prefix){var out=[];scene.traverse(function(o){if(o.name&&o.name.indexOf(prefix)===0&&o.userData&&o.userData.alive!==false&&o.visible!==false)out.push(o)});return out}
- function grubkin(pen){var n=typeof HolmIslandTrials!=='undefined'?HolmIslandTrials.npcs().filter(function(x){return !x.dead&&x.islandPen===pen}).map(function(x){return x.mesh}):[];return nearest(n)}
+ function rat(pen){var n=typeof HolmIslandTrials!=='undefined'?HolmIslandTrials.npcs().filter(function(x){return !x.dead&&x.islandPen===pen}).map(function(x){return x.mesh}):[];return nearest(n)}
  function has(id){return typeof Player!=='undefined'&&Player.count(id)>0}
  // Minnow Hollow (v2 land): the live ripple nearest the player (spots move)
  function pondSpot(){return typeof HolmFishing!=='undefined'&&typeof player!=='undefined'?HolmFishing.nearestSpot(player.position.x,player.position.z):null}
@@ -51,10 +51,10 @@ var HolmIslandGuide=(function(){
    case 'mine_tin':return {obj:nearest(alive('island-lesson-cavern-tin-')),label:'Mine tin'};
    case 'smelt_bronze':return {obj:named('island-lesson-furnace'),label:'Use the furnace'};
    case 'forge_dagger':return {obj:named('island-lesson-anvil'),label:'Use the anvil'};
-   case 'melee_trial':return Player.equip&&Player.equip.weapon==='bronze_dagger'?{obj:grubkin('keep-court'),label:'Attack a grubkin'}:{pack:'bronze_dagger',label:'Wield the dagger'};
-   case 'ranged_trial':return Player.equip&&Player.equip.weapon==='worn_bow'?{obj:grubkin('keep-court'),label:'Shoot a grubkin'}:{pack:'worn_bow',label:'Wield the shortbow'};
+   case 'melee_trial':return Player.equip&&Player.equip.weapon==='bronze_dagger'?{obj:rat('keep-court'),label:'Attack a large rat'}:{pack:'bronze_dagger',label:'Wield the dagger'};
+   case 'ranged_trial':return Player.equip&&Player.equip.weapon==='worn_bow'?{obj:rat('keep-court'),label:'Shoot a large rat'}:{pack:'worn_bow',label:'Wield the shortbow'};
    case 'open_bank':return {obj:service('Use bank counter','counter'),label:'Open the bank'};
-   case 'magic_trial':return Player.spell==='wind_strike'?{obj:grubkin('mage-yard'),label:'Cast at a grubkin'}:{tab:'spells',label:'Choose Gale Dart'};
+   case 'magic_trial':return Player.spell==='wind_strike'?{obj:rat('mage-yard'),label:'Cast at a large rat'}:{tab:'spells',label:'Choose Gale Dart'};
    case 'relight_lastlight':{
     // the storm door, then the ladder on whichever floor the player is on, then the lever
     var y=player.position.y,base=typeof HolmArrivalQA!=='undefined'&&HolmArrivalQA.qaStance('lastlight','door'),rel=base?y-base.y:0;

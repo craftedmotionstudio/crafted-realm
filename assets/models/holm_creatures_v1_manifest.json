@@ -1,0 +1,578 @@
+{
+ "schema": "crafted-realm-holm-creatures-v1",
+ "builder": "tools/blender/build_holm_creatures_v1.py",
+ "blender": "4.5.10 LTS",
+ "step": {
+  "hold_frames": 3,
+  "interpolation": "CONSTANT"
+ },
+ "sharp_deg": 40.0,
+ "creatures": {
+  "holm_large_rat_v1": {
+   "label": "the large rat (replaces the grubkin)",
+   "glb": ".studio-workspaces/holm-creatures-v1/candidates/holm_large_rat_v1.glb",
+   "runtime": "assets/models/holm_large_rat_v1.glb",
+   "sha256": "ba52a0d19b681a4f0fc24c635bbc86b090d9b90f97e7e7b81b947b3a9a5fcd55",
+   "bytes": 191020,
+   "triangles": 1050,
+   "bones": 23,
+   "bone_names": [
+    "Root",
+    "Hips",
+    "Spine",
+    "Chest",
+    "Neck",
+    "Head",
+    "Jaw",
+    "Tail1",
+    "Tail2",
+    "Tail3",
+    "Tail4",
+    "UpperArmL",
+    "ForeArmL",
+    "PawL",
+    "ThighL",
+    "ShinL",
+    "FootL",
+    "UpperArmR",
+    "ForeArmR",
+    "PawR",
+    "ThighR",
+    "ShinR",
+    "FootR"
+   ],
+   "materials": {
+    "holm_large_rat_v1 belly": "#a08a76",
+    "holm_large_rat_v1 ear": "#86705f",
+    "holm_large_rat_v1 eye": "#14100e",
+    "holm_large_rat_v1 fur": "#74604f",
+    "holm_large_rat_v1 incisor": "#e2cf7a",
+    "holm_large_rat_v1 nose": "#8e5a52",
+    "holm_large_rat_v1 pink skin": "#c99488"
+   },
+   "bounds_m": {
+    "height": 0.499,
+    "length": 1.657,
+    "width": 0.465,
+    "min_z": 0.008,
+    "centre": [
+     0.001,
+     0.272
+    ]
+   },
+   "clips": {
+    "idle": {
+     "frames": 60,
+     "fps": 30,
+     "seconds": 2,
+     "loop": true,
+     "stepped_keys": 21
+    },
+    "walk": {
+     "frames": 15,
+     "fps": 30,
+     "seconds": 0.5,
+     "loop": true,
+     "stepped_keys": 6
+    },
+    "attack": {
+     "frames": 18,
+     "fps": 30,
+     "seconds": 0.6,
+     "loop": false,
+     "stepped_keys": 9,
+     "impact": 9
+    },
+    "hit": {
+     "frames": 12,
+     "fps": 30,
+     "seconds": 0.4,
+     "loop": false,
+     "stepped_keys": 5
+    },
+    "block": {
+     "frames": 12,
+     "fps": 30,
+     "seconds": 0.4,
+     "loop": false,
+     "stepped_keys": 6
+    },
+    "death": {
+     "frames": 30,
+     "fps": 30,
+     "seconds": 1,
+     "loop": false,
+     "stepped_keys": 11
+    }
+   },
+   "checks": {
+    "skinned": true,
+    "clips_complete": true,
+    "durations_match": true,
+    "tris_within_budget": true,
+    "bones_within_budget": true,
+    "materials_within_budget": true,
+    "no_textures": true,
+    "feet_on_ground": true,
+    "impact_at_half": true
+   },
+   "proof": [
+    "scratchpad/holm_creatures/blender/holm_large_rat_v1_turntable.png",
+    "scratchpad/holm_creatures/blender/holm_large_rat_v1_hero.png",
+    "scratchpad/holm_creatures/blender/holm_large_rat_v1_sheet.png"
+   ]
+  },
+  "holm_rat_v1": {
+   "label": "the rat (burrowrat)",
+   "glb": ".studio-workspaces/holm-creatures-v1/candidates/holm_rat_v1.glb",
+   "runtime": "assets/models/holm_rat_v1.glb",
+   "sha256": "a4f4d448d3f0b545dc75818665aec4e10a90742e0ff73b623ee7fec9813a7ac4",
+   "bytes": 190520,
+   "triangles": 1050,
+   "bones": 23,
+   "bone_names": [
+    "Root",
+    "Hips",
+    "Spine",
+    "Chest",
+    "Neck",
+    "Head",
+    "Jaw",
+    "Tail1",
+    "Tail2",
+    "Tail3",
+    "Tail4",
+    "UpperArmL",
+    "ForeArmL",
+    "PawL",
+    "ThighL",
+    "ShinL",
+    "FootL",
+    "UpperArmR",
+    "ForeArmR",
+    "PawR",
+    "ThighR",
+    "ShinR",
+    "FootR"
+   ],
+   "materials": {
+    "holm_rat_v1 belly": "#a8a198",
+    "holm_rat_v1 ear": "#8a827c",
+    "holm_rat_v1 eye": "#14100e",
+    "holm_rat_v1 fur": "#78726c",
+    "holm_rat_v1 incisor": "#e2cf7a",
+    "holm_rat_v1 nose": "#7e5a56",
+    "holm_rat_v1 pink skin": "#cca49a"
+   },
+   "bounds_m": {
+    "height": 0.454,
+    "length": 1.745,
+    "width": 0.4,
+    "min_z": 0.008,
+    "centre": [
+     0.001,
+     0.316
+    ]
+   },
+   "clips": {
+    "idle": {
+     "frames": 60,
+     "fps": 30,
+     "seconds": 2,
+     "loop": true,
+     "stepped_keys": 21
+    },
+    "walk": {
+     "frames": 15,
+     "fps": 30,
+     "seconds": 0.5,
+     "loop": true,
+     "stepped_keys": 6
+    },
+    "attack": {
+     "frames": 18,
+     "fps": 30,
+     "seconds": 0.6,
+     "loop": false,
+     "stepped_keys": 9,
+     "impact": 9
+    },
+    "hit": {
+     "frames": 12,
+     "fps": 30,
+     "seconds": 0.4,
+     "loop": false,
+     "stepped_keys": 5
+    },
+    "block": {
+     "frames": 12,
+     "fps": 30,
+     "seconds": 0.4,
+     "loop": false,
+     "stepped_keys": 6
+    },
+    "death": {
+     "frames": 30,
+     "fps": 30,
+     "seconds": 1,
+     "loop": false,
+     "stepped_keys": 11
+    }
+   },
+   "checks": {
+    "skinned": true,
+    "clips_complete": true,
+    "durations_match": true,
+    "tris_within_budget": true,
+    "bones_within_budget": true,
+    "materials_within_budget": true,
+    "no_textures": true,
+    "feet_on_ground": true,
+    "impact_at_half": true
+   },
+   "proof": [
+    "scratchpad/holm_creatures/blender/holm_rat_v1_turntable.png",
+    "scratchpad/holm_creatures/blender/holm_rat_v1_hero.png",
+    "scratchpad/holm_creatures/blender/holm_rat_v1_sheet.png"
+   ]
+  },
+  "holm_goblin_v1": {
+   "label": "the goblin (gnarlgob)",
+   "glb": ".studio-workspaces/holm-creatures-v1/candidates/holm_goblin_v1.glb",
+   "runtime": "assets/models/holm_goblin_v1.glb",
+   "sha256": "bbb859b2565f69c040956a3c4e3f94a5e51df4eeb9c5a4b31078f2da04a13563",
+   "bytes": 228384,
+   "triangles": 2156,
+   "bones": 21,
+   "bone_names": [
+    "Root",
+    "Hips",
+    "Spine",
+    "Chest",
+    "Neck",
+    "Head",
+    "Jaw",
+    "EarL",
+    "UpperArmL",
+    "ForeArmL",
+    "HandL",
+    "ThighL",
+    "ShinL",
+    "FootL",
+    "EarR",
+    "UpperArmR",
+    "ForeArmR",
+    "HandR",
+    "ThighR",
+    "ShinR",
+    "FootR"
+   ],
+   "materials": {
+    "holm_goblin_v1 club knot": "#5e4026",
+    "holm_goblin_v1 club wood": "#8c6238",
+    "holm_goblin_v1 dark green": "#54712c",
+    "holm_goblin_v1 ear": "#789a42",
+    "holm_goblin_v1 green skin": "#6b8c38",
+    "holm_goblin_v1 hide tunic": "#7c5c3a",
+    "holm_goblin_v1 iron nail": "#707070",
+    "holm_goblin_v1 mouth": "#2e1a14",
+    "holm_goblin_v1 pupil": "#150e08",
+    "holm_goblin_v1 rope belt": "#43301f",
+    "holm_goblin_v1 tusk": "#e4d9bc",
+    "holm_goblin_v1 yellow eye": "#e8c238"
+   },
+   "bounds_m": {
+    "height": 1.324,
+    "length": 0.793,
+    "width": 0.675,
+    "min_z": 0.006,
+    "centre": [
+     0.0,
+     -0.227
+    ]
+   },
+   "clips": {
+    "idle": {
+     "frames": 60,
+     "fps": 30,
+     "seconds": 2,
+     "loop": true,
+     "stepped_keys": 21
+    },
+    "walk": {
+     "frames": 18,
+     "fps": 30,
+     "seconds": 0.6,
+     "loop": true,
+     "stepped_keys": 7
+    },
+    "attack": {
+     "frames": 18,
+     "fps": 30,
+     "seconds": 0.6,
+     "loop": false,
+     "stepped_keys": 9,
+     "impact": 9
+    },
+    "hit": {
+     "frames": 12,
+     "fps": 30,
+     "seconds": 0.4,
+     "loop": false,
+     "stepped_keys": 6
+    },
+    "block": {
+     "frames": 12,
+     "fps": 30,
+     "seconds": 0.4,
+     "loop": false,
+     "stepped_keys": 6
+    },
+    "death": {
+     "frames": 36,
+     "fps": 30,
+     "seconds": 1.2,
+     "loop": false,
+     "stepped_keys": 13
+    }
+   },
+   "checks": {
+    "skinned": true,
+    "clips_complete": true,
+    "durations_match": true,
+    "tris_within_budget": true,
+    "bones_within_budget": true,
+    "materials_within_budget": true,
+    "no_textures": true,
+    "feet_on_ground": true,
+    "impact_at_half": true
+   },
+   "proof": [
+    "scratchpad/holm_creatures/blender/holm_goblin_v1_turntable.png",
+    "scratchpad/holm_creatures/blender/holm_goblin_v1_hero.png",
+    "scratchpad/holm_creatures/blender/holm_goblin_v1_sheet.png"
+   ]
+  },
+  "holm_chicken_v1": {
+   "label": "the chicken (pasturehen)",
+   "glb": ".studio-workspaces/holm-creatures-v1/candidates/holm_chicken_v1.glb",
+   "runtime": "assets/models/holm_chicken_v1.glb",
+   "sha256": "34d69ee9e37e899f1873b397ea09bc8bee4ed77013bed4fcb18f4e603e2193b8",
+   "bytes": 126196,
+   "triangles": 734,
+   "bones": 14,
+   "bone_names": [
+    "Root",
+    "Hips",
+    "Chest",
+    "Neck",
+    "Head",
+    "Tail",
+    "WingL",
+    "ThighL",
+    "ShinL",
+    "FootL",
+    "WingR",
+    "ThighR",
+    "ShinR",
+    "FootR"
+   ],
+   "materials": {
+    "holm_chicken_v1 beak and legs": "#e0a838",
+    "holm_chicken_v1 comb": "#c8352a",
+    "holm_chicken_v1 eye": "#16100c",
+    "holm_chicken_v1 feathers": "#f4efe4",
+    "holm_chicken_v1 tail": "#ebe4d6",
+    "holm_chicken_v1 wing": "#e0d3ba"
+   },
+   "bounds_m": {
+    "height": 0.489,
+    "length": 0.451,
+    "width": 0.306,
+    "min_z": 0.007,
+    "centre": [
+     0.0,
+     -0.023
+    ]
+   },
+   "clips": {
+    "idle": {
+     "frames": 72,
+     "fps": 30,
+     "seconds": 2.4,
+     "loop": true,
+     "stepped_keys": 25
+    },
+    "walk": {
+     "frames": 18,
+     "fps": 30,
+     "seconds": 0.6,
+     "loop": true,
+     "stepped_keys": 7
+    },
+    "attack": {
+     "frames": 18,
+     "fps": 30,
+     "seconds": 0.6,
+     "loop": false,
+     "stepped_keys": 8,
+     "impact": 9
+    },
+    "hit": {
+     "frames": 12,
+     "fps": 30,
+     "seconds": 0.4,
+     "loop": false,
+     "stepped_keys": 5
+    },
+    "block": {
+     "frames": 12,
+     "fps": 30,
+     "seconds": 0.4,
+     "loop": false,
+     "stepped_keys": 6
+    },
+    "death": {
+     "frames": 30,
+     "fps": 30,
+     "seconds": 1,
+     "loop": false,
+     "stepped_keys": 11
+    }
+   },
+   "checks": {
+    "skinned": true,
+    "clips_complete": true,
+    "durations_match": true,
+    "tris_within_budget": true,
+    "bones_within_budget": true,
+    "materials_within_budget": true,
+    "no_textures": true,
+    "feet_on_ground": true,
+    "impact_at_half": true
+   },
+   "proof": [
+    "scratchpad/holm_creatures/blender/holm_chicken_v1_turntable.png",
+    "scratchpad/holm_creatures/blender/holm_chicken_v1_hero.png",
+    "scratchpad/holm_creatures/blender/holm_chicken_v1_sheet.png"
+   ]
+  },
+  "holm_cow_v1": {
+   "label": "the cow (moorcalf)",
+   "glb": ".studio-workspaces/holm-creatures-v1/candidates/holm_cow_v1.glb",
+   "runtime": "assets/models/holm_cow_v1.glb",
+   "sha256": "cb3f6785266d054a09004df1dcee8cd0503c500cc00dd96c9d118703e1573cac",
+   "bytes": 218544,
+   "triangles": 1462,
+   "bones": 25,
+   "bone_names": [
+    "Root",
+    "Hips",
+    "Spine",
+    "Chest",
+    "Neck",
+    "Head",
+    "Jaw",
+    "Tail1",
+    "Tail2",
+    "Tail3",
+    "Tail4",
+    "UpperArmL",
+    "ForeArmL",
+    "PawL",
+    "ThighL",
+    "ShinL",
+    "FootL",
+    "UpperArmR",
+    "ForeArmR",
+    "PawR",
+    "ThighR",
+    "ShinR",
+    "FootR",
+    "EarL",
+    "EarR"
+   ],
+   "materials": {
+    "holm_cow_v1 black hide": "#2c2826",
+    "holm_cow_v1 eye": "#120c0a",
+    "holm_cow_v1 hoof": "#302822",
+    "holm_cow_v1 horn": "#ddd0ac",
+    "holm_cow_v1 nostril": "#6a3a36",
+    "holm_cow_v1 pink skin": "#d59b92",
+    "holm_cow_v1 white hide": "#ebe6dc"
+   },
+   "bounds_m": {
+    "height": 1.296,
+    "length": 2.314,
+    "width": 0.694,
+    "min_z": 0.01,
+    "centre": [
+     0.0,
+     -0.189
+    ]
+   },
+   "clips": {
+    "idle": {
+     "frames": 90,
+     "fps": 30,
+     "seconds": 3,
+     "loop": true,
+     "stepped_keys": 31
+    },
+    "walk": {
+     "frames": 24,
+     "fps": 30,
+     "seconds": 0.8,
+     "loop": true,
+     "stepped_keys": 9
+    },
+    "attack": {
+     "frames": 18,
+     "fps": 30,
+     "seconds": 0.6,
+     "loop": false,
+     "stepped_keys": 7,
+     "impact": 9
+    },
+    "hit": {
+     "frames": 12,
+     "fps": 30,
+     "seconds": 0.4,
+     "loop": false,
+     "stepped_keys": 6
+    },
+    "block": {
+     "frames": 12,
+     "fps": 30,
+     "seconds": 0.4,
+     "loop": false,
+     "stepped_keys": 6
+    },
+    "death": {
+     "frames": 36,
+     "fps": 30,
+     "seconds": 1.2,
+     "loop": false,
+     "stepped_keys": 13
+    }
+   },
+   "checks": {
+    "skinned": true,
+    "clips_complete": true,
+    "durations_match": true,
+    "tris_within_budget": true,
+    "bones_within_budget": true,
+    "materials_within_budget": true,
+    "no_textures": true,
+    "feet_on_ground": true,
+    "impact_at_half": true
+   },
+   "proof": [
+    "scratchpad/holm_creatures/blender/holm_cow_v1_turntable.png",
+    "scratchpad/holm_creatures/blender/holm_cow_v1_hero.png",
+    "scratchpad/holm_creatures/blender/holm_cow_v1_sheet.png"
+   ]
+  }
+ },
+ "contact_sheet": "scratchpad/holm_creatures/blender/contact_sheet.png"
+}

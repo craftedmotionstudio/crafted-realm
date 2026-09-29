@@ -158,7 +158,7 @@ def main():
                                ['1st', 'pop', '2nd (above)', '3rd (left)', '4th (right)', 'four stacked', 'oldest fading', 'fading', 'fading', 'clear'],
                                'Stacking: four hits inside 1.2 s (demo)', 'OSRS pattern: centre, above, left, right; each pops in (scale 1.45 to 1) and fades over its last 0.28 s', 560, 380, who=(1,)))
     if have('hurt'):
-        r = Run(raw, 'hurt'); pl = r.splats('hit', on_player=True)   # anchor on the demo's red 3 (the grubkin keeps landing 0s)
+        r = Run(raw, 'hurt'); pl = r.splats('hit', on_player=True)   # anchor on the demo's red 3 (the practice rat keeps landing 0s)
         if pl:
             parts.append(strip(r, pl[0][0], [-150, 0, 60, 150, 300, 700, 780, 900, 1300, 2000],
                                ['before', 'hit: 3', 'pop', 'hit clip', 'bar trail', 'block: 0', 'guard', 'stacked', 'fading', 'after'],

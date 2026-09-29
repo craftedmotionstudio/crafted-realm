@@ -66,10 +66,12 @@ var HolmArrivalQA=(function(){
       if(typeof HolmIslandTutors!=='undefined')try{await HolmIslandTutors.load({THREE:THREE,scene:scene,WORLD:WORLD,api:HolmArrivalQA})}catch(err){console.error('[HolmArrivalQA] tutors',err)}
       // M6.2: the adventurer as the Blender player (appearance from the character creator, a clip per action)
       if(typeof HolmIslandPlayer!=='undefined')try{await HolmIslandPlayer.load({swapActor:function(o){if(bridge&&bridge.replaceActor)bridge.replaceActor(o)}})}catch(err){console.error('[HolmArrivalQA] player',err)}
-      // M5.3: practice grubkins for the combat trials
+      // M5.3: the practice large rats for the combat trials
       if(typeof HolmIslandTrials!=='undefined')try{HolmIslandTrials.load(HolmArrivalQA)}catch(err){console.error('[HolmArrivalQA] trials',err)}
-      // the Proving Ground past the keep: a poacher, a warlock, a wild pack and the broodmother (combat agent)
+      // the Proving Ground past the keep: a poacher, a warlock, a pack of large rats and the rat matriarch (combat agent)
       if(typeof HolmProvingGround!=='undefined')try{HolmProvingGround.load(HolmArrivalQA)}catch(err){console.error('[HolmArrivalQA] proving ground',err)}
+      // Haycombe Farm's live hens and cows (owner 2026-09-29), in place of the still prop ones
+      if(typeof HolmFarmAnimals!=='undefined')try{HolmFarmAnimals.load(HolmArrivalQA)}catch(err){console.error('[HolmArrivalQA] farm animals',err)}
       // M5.2b: progress gates (doors that open as lessons are done)
       if(typeof HolmIslandGates!=='undefined')try{await HolmIslandGates.load({THREE:THREE,scene:scene,WORLD:WORLD,nav:nav,models:extras&&extras.models})}catch(err){console.error('[HolmArrivalQA] gates',err)}
       // M5.2a: the island curriculum's arrows point at the stations that now exist
@@ -170,7 +172,7 @@ var HolmArrivalQA=(function(){
   if(!active()||!bridge)return false;
   var u=obj.userData||{};pending=null;Player.target=null;Player.action=null;
   if(u.kind==='island_sign'&&island){UI.chat(u.islandSign,'plain');return true}
-  // 2004 rule: the current lesson's area waits until its tutor has been spoken to (stations, lesson objects, grubkins)
+  // 2004 rule: the current lesson's area waits until its tutor has been spoken to (stations, lesson objects, the practice rats)
   if(island&&typeof HolmIslandTalk!=='undefined'){var tm=HolmIslandTalk.refusal(u);if(tm){UI.chat(tm,'plain');return true}}
   if(u.kind==='arrival_statue'&&island){var sr=statueRoot()||obj,sb=new THREE.Box3().setFromObject(sr),sc=sb.getCenter(new THREE.Vector3()),sn=null,sd=Infinity;sc.y=sb.min.y;
    graphForDoors(doors).nodes.forEach(function(n){var h=Math.hypot(n.x-sc.x,n.z-sc.z);if(h<.8||h>3.2||Math.abs(n.y-sc.y)>1.5)return;var s0=Math.hypot(n.x-player.position.x,n.z-player.position.z)+h;if(s0<sd){sd=s0;sn=n}});

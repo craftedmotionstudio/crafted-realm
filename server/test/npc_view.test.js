@@ -22,6 +22,24 @@ test('wandering: ~1 move in 8 ticks, stays within range of its spawn, sent home 
   w.collision.unload();
 });
 
+test('wander ranges and the return: a creature\'s own range, back inside it at once, a moving NPC is never put back', () => {
+  // no range on the spawn: the creature's own (NPC_TYPES.pasturehen.wander, the Holm creatures pass 2026-09-29)
+  const w0 = fieldWorld({ spawns: [{ npc: 'pasturehen', x: 20, z: 10 }], areas: { wilderness: [], multi: [], named: [] } });
+  assert.equal([...w0.npcs.values()][0].wanderRange, 3);
+  w0.collision.unload();
+  const w = fieldWorld({ spawns: [{ npc: 'large_rat', x: 20, z: 10, wander: 2 }], areas: { wilderness: [], multi: [], named: [] } }, 7);
+  const rat = [...w.npcs.values()][0];
+  // left 8 tiles out (a chase): it walks back inside its range straight away, not after the 500-tick reset
+  rat.teleport(28, 10); rat.wanderCounter = 0;
+  const t = runUntil(w, () => Math.max(Math.abs(rat.x - 20), Math.abs(rat.z - 10)) <= 2, 40);
+  assert.ok(t <= 12, 'back inside its range in ' + t + ' ticks (6 steps away)');
+  // 2004 Npc.updateMovement: a step resets the wander counter, so a wandering NPC is not teleported every 500 ticks
+  let teleports = 0; w.phaseHook = (ph) => { if (ph === 'npcs' && rat.tele) teleports++; };
+  runUntil(w, () => false, 1200);
+  assert.equal(teleports, 0, 'a creature that keeps wandering is never put back on its spawn');
+  w.collision.unload();
+});
+
 test('aggression: ignores players above twice its level outside the wilderness, not inside', () => {
   const build = (wild) => {
     const w = fieldWorld({ spawns: [{ npc: 'gnarlgob', x: 20, z: 10, wander: 0, hunt: 3 }], areas: { wilderness: wild ? [{ x1: 0, z1: 0, x2: 39, z2: 39 }] : [], multi: [], named: [] } }, 5);

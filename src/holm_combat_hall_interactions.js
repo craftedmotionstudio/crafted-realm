@@ -28,7 +28,7 @@ var HolmCombatHall=(function(){
     if(!onHolm()) return;
     var w=weapon();
     UI.dialogue('The training pell',
-      'Every swing at this post is one of three: Accurate to land more blows, Aggressive to hit harder, Defensive to take fewer. Pick a style on the ⚔ combat tab and the pell does not care which, but the grubkin beyond the Ditch will. '+
+      'Every swing at this post is one of three: Accurate to land more blows, Aggressive to hit harder, Defensive to take fewer. Pick a style on the ⚔ combat tab and the pell does not care which, but the large rats in the court will. '+
       (w?'You are wielding '+w+'; that is what you will swing.':'You are not wielding anything. Open your pack and click a weapon to wield it.')+
       ' The practice sparring partner will stand in the yard once the wardens allow it. Current lesson: '+objective(),
       [{label:'Show me the styles.',fn:function(){ openCombatTab(); }},{label:'I will spar later.'}],'⚔');

@@ -590,12 +590,12 @@ and pubs.
 
 | Monster | Lvl | Where | Drops of note | Status |
 |---|---:|---|---|---|
-| pasture hen | 1 | Hollin's Farm coop | feathers, eggs | exists |
-| burrow rat | 1 | keep cellar | coins | exists |
-| grubkin | 2 | Commons green (22 tiles) | arrows, bronze sword 6%, leather body 5% | exists |
-| moorcalf | 2 | Moor Pasture (55) | beast hide (always), raw beef | exists |
+| chicken (`pasturehen`) | 1 | Hollin's Farm coop; Haycombe Farm on the Holm | bones, feathers, eggs | exists (Blender model, 2026-09-29) |
+| rat (`burrowrat`) | 1 | keep cellar | bones | exists (Blender model, 2026-09-29) |
+| large rat (`large_rat`; replaced the grubkin 2026-09-29) | 3 | Commons green (22 tiles); the Holm's combat trials and Proving Ground | bones | exists (Blender model) |
+| cow (`moorcalf`) | 2 | Moor Pasture (55); Haycombe Farm on the Holm | bones, beast hide, raw beef (always) | exists (Blender model, 2026-09-29) |
 | wanderer | 2 | streets | coins (pickpocket 1) | exists |
-| gnarlgob | 5 | camp on the Vey's south bank, 30 tiles past Stonereach Bridge | bronze sword and helm, mind runes, fenmint (herb) 5% | exists |
+| goblin (`gnarlgob`) | 5 | camp on the Vey's south bank, 30 tiles past Stonereach Bridge | bronze sword and helm, mind runes, fenmint (herb) 5% | exists |
 | moss seer | 5 | the Seers' Ring (−48, 44) | air and mind runes, apprentice staff 6% | exists |
 | pond corsair | 7 | reed island in Mirrorpond, raiding by raft | coins, small net, a cosmetic eyepatch (1/128) | *new* |
 | Oathbreaker | 32 | the Undercroft (quest) | steel sword 14%, steel platebody 10%, chaos runes | exists |
@@ -632,7 +632,7 @@ Outside the ring:
 
 | Quest | Giver | What happens | Reward / gate | Status |
 |---|---|---|---|---|
-| *Grub Trouble* | Warden Maela | Clear grubkins on the Commons | Attack XP, wooden shield; opens the Wardens' path | exists |
+| *Rat Trouble* (id `grub_trouble`) | Warden Maela | Clear the large rats on the Commons | Attack XP, wooden shield; opens the Wardens' path | exists |
 | *The Lady's Feast* | Cook Dunstan (keep kitchen) | Lady Maren feasts the Wardens and the cook has nothing. Grind grain at Olun's Mill (hopper, then flour bin), take an egg from Hollin's coop and milk the dairy cow | Cooking XP; the keep pantry (a daily egg and a pot of flour) | *new* (the Cook's Assistant role) |
 | *Shearing Season* | Farmer Hollin | Shear the flock and spin 20 balls of wool on the keep's spinning wheel | Crafting XP, shears, Crowns | *new* (the Sheep Shearer role) |
 | *The Thirsty Smith* | Ferra | Bring her a Hollow ale | Attack XP, steel sword | exists |

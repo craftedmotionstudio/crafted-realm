@@ -65,6 +65,31 @@ the frame the hit arrives). `meleeSwing(att, tgt, type, 1)` starts the swing so 
 server applies a player's melee hit on the NPC's next turn); with `0` the swing starts now and the splat waits for
 the impact frame (`CombatFX.impactTime`).
 
+### Creature clips (the Holm creatures, 2026-09-29)
+
+The large rat, rat, goblin, chicken and cow (`tools/blender/build_holm_creatures_v1.py`, loaded by `charNpcModel` through
+`glbChar`) carry six clips; offline and online bodies (online monsters are built through `spawnNpc`) drive them the same way:
+
+| Moment | Hook | Clip |
+|---|---|---|
+| standing / moving | `charNpcAnim` (per frame) | `idle` / `walk` blended by `n.moving` (one-shots own the body while they run) |
+| a blow | `swing(obj)` (CombatHooks anim start) | `attack`; its impact frame is half the clip (frame 9 of 18), which `CombatFX.impactTime` uses |
+| a splat with damage | `CombatFX.react` | `hit` (not while the creature's own attack plays; the root squash still shows) |
+| a 0 splat | `blockReact` | `block` |
+| the kill | `startDeath` / `tickDeath` (style `clip`, set when the type has `deathClip` or the rig has a `death` clip) | `death` plays once after the killing splat and holds (the body on its side / back, centred on its tile), lies `hold` s, sinks `sink` s (CombatFX.onKill's timings), then the drop shows |
+| respawn | `charNpcAnim` | the held `death` pose is stopped; idle resumes |
+
+Everything else keeps the procedural topple. `t.bite` gives an armless creature's blow the snap sound; `t.keepOrigin` keeps
+the model's authored origin (a long tail or a carried club does not shift the body off its tile).
+
+Wandering (owner 2026-09-29) is the 2004 rule in both engines (`src/combat_engine.js` wander, `server/engine/Npc.js`
+wanderMode; Lost City's `Npc.wanderMode`, MIT): each tick out of combat a 1 in 8 chance to walk to a random tile within
+the wander range of the spawn (a spawn's `wander`, else the creature's `NPC_TYPES.wander`: large rat 4, rat 4, goblin 5,
+chicken 3, cow 4; the island's instances set their own: the trial rats 2, the farm hens 2 and cows 1), so short walks come
+between idle pauses (the hen pecks, the cow grazes: their idle clips); a step resets the wander counter and an NPC that
+has not moved for 500 ticks away from its spawn is put back; in combat it does not wander. Our adaptation: a creature
+left outside its range (after a chase) walks back into it at once instead of waiting on the roll.
+
 ### The Scarlands HUD (`src/ui_pvp_hud.js`, `PvpHud`)
 
 | Server data | Call |

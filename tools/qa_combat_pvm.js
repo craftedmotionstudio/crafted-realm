@@ -3,15 +3,15 @@
  * Every attack order is a real mouse click on the foe (the right-click menu is read for its "Attack <name> (level-N)"
  * line); timings come from CombatHooks.on (the presentation funnel) and CombatFX.qaLog (when a splat was drawn, when a
  * projectile left the hand and when it landed). Scenarios:
- *   melee    dagger (Stab/Lunge), bronze sword, a two-handed sword and a warhammer at a practice grubkin: ticks between
- *            swings, the splat against the swing's impact frame, the grubkin's retaliation delay
+ *   melee    dagger (Stab/Lunge), bronze sword, a two-handed sword and a warhammer at a practice large rat: ticks between
+ *            swings, the splat against the swing's impact frame, the rat's retaliation delay
  *   ranged   shortbow Accurate and Rapid from four tiles: ticks between shots, shot -> hit ticks against
  *            floor((46+5d+30)/30), splat against the arrow's landing
  *   magic    Wind Strike on autocast with a staff and as a single cast: 5-tick casts, hit ticks by distance, splat
  *            against the orb's landing, splashes (no splat)
- *   eat/pray eating mid-fight (the order drops, +3 ticks) and Protect from Melee against the broodmother
- *   foes     the Proving Ground: the poacher's arrows, the warlock's spells, the pack's aggression, the broodmother's
- *            telegraphed slam, a kill (the fall, the sink, then the drop), and the adventurer's own death and respawn
+ *   eat/pray eating mid-fight (the order drops, +3 ticks) and Protect from Melee against the rat matriarch
+ *   foes     the Proving Ground: the poacher's arrows, the warlock's spells, the large rats' aggression, the matriarch's
+ *            telegraphed slam, a kill (the rat's own death clip, the sink, then the drop), and the adventurer's own death and respawn
  *   move     approach paths: diagonal steps on the way to a foe (8 directions)
  * Writes scratchpad/combat_bench/pvm.json + screenshots; prints a summary with PASS/FAIL per measured rule.
  * Run: SMOKE_BASE=http://127.0.0.1:8099 node tools/qa_combat_pvm.js [outDir] */
@@ -38,7 +38,7 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
       window.__ev=[];{const ch=UI.chat;UI.chat=function(t){try{if(/^You wake/.test(String(t)))window.__ev.push({k:'chat',text:String(t),tick:LocalCombat.clock(),wall:Math.round(performance.now())})}catch(e){}return ch.apply(this,arguments)}}CombatHooks.on(e=>{const o=e.obj||e.att||e.src;window.__ev.push({k:e.k,tick:LocalCombat.clock(),t:+(CombatFX.now()).toFixed(4),who:o===player?'player':(o&&o.name)||'',dst:e.dst===player?'player':(e.dst&&e.dst.name)||'',
         type:e.type,dmg:e.dmg,kind:e.kind,ticks:e.ticks,dist:e.dist,impactAt:e.impactAt,arriveAt:e.arriveAt,splash:e.splash,
         text:e.k==='msg'?e.text:undefined,pdead:e.k==='msg'?!!Player.dead:undefined,wall:e.k==='msg'?Math.round(performance.now()):undefined});
-        // the broodmother test: a player who sees the ring steps out of reach at once (the reflex the telegraph asks for)
+        // the matriarch test: a player who sees the ring steps out of reach at once (the reflex the telegraph asks for)
         if(e.k==='telegraph'&&window.__dodge){const pt=TileNav.playerNode();for(const [dx,dz] of window.__dodge){const m=TileNav.nodeAt(pt.tx+dx,pt.tz+dz,pt.y);if(m&&TileNav.bfs(pt,q=>q.tx===m.tx&&q.tz===m.tz,{max:200})){LocalCombat.clearInteraction();TileNav.walkPlayerTo(m);window.__dodged=[m.tx,m.tz];break}}}});
       // measured foes stand still (their wandering would move them between the click and the blow)
       window.__pin=()=>WORLD.npcs.forEach(n=>{n.wanderR=0;n._walk=null});window.__pin();
@@ -61,8 +61,8 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
     async function wield(id,style,autocast){await page.evaluate((id,style,autocast)=>{Player.equip.weapon=id;Player.styleIndex=style|0;Player.autocast=autocast||null;Player.spell=autocast||null;Player.castSpell=null;refreshPlayerGear();UI.refreshEquip();UI.refreshCombat()},id,style,autocast)}
     async function events(){return page.evaluate(()=>({ev:window.__ev.slice(),fx:CombatFX.qaLog(),clock:LocalCombat.clock()}))}
     const gaps=a=>a.slice(1).map((x,i)=>x-a[i]);
-    const grubs=await page.evaluate(()=>HolmIslandTrials.npcs().filter(n=>n.islandPen==='keep-court').map(n=>n.mesh.name));
-    const G=grubs[0];
+    const rats=await page.evaluate(()=>HolmIslandTrials.npcs().filter(n=>n.islandPen==='keep-court').map(n=>n.mesh.name));
+    const G=rats[0];
     await page.evaluate(g=>{const n=WORLD.npcs.find(x=>x.mesh.name===g);n.t=Object.assign({},n.t,{hp:5000});n.hp=5000},G);
 
     /* ---------------- melee ---------------- */
@@ -80,7 +80,7 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
       rule('melee '+label+': the splat lands on the impact frame (swing '+(want)+'-tick weapon)',d.length>=2&&d.every(x=>Math.abs(x)<=0.07),{splatMinusImpact:d});
       data['melee_'+label]={swings:sw.map(e=>e.tick),splatMinusImpact:d};
       if(label==='dagger Stab'){const gs=r.ev.filter(e=>e.k==='swing'&&e.who===G);
-        rule('retaliation: the grubkin answers 1 + floor(6/2) = 4 ticks after the first swing',gs.length>0&&gs[0].tick-sw[0].tick===4,{player:sw[0]&&sw[0].tick,grubkin:gs[0]&&gs[0].tick})}
+        rule('retaliation: the practice large rat answers 1 + floor(6/2) = 4 ticks after the first swing',gs.length>0&&gs[0].tick-sw[0].tick===4,{player:sw[0]&&sw[0].tick,rat:gs[0]&&gs[0].tick})}
     }
     /* ---------------- ranged ---------------- */
     console.log('ranged');
@@ -120,27 +120,27 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
      await sleep(2400);const idle=await page.evaluate(()=>!Player.target);rule('after a bite the adventurer does not swing again until clicked (2004)',idle);}
     const PG=await page.evaluate(()=>HolmProvingGround.npcs().map(n=>({name:n.mesh.name,type:n.typeId,level:n.t.level})));
     data.provingGround=PG;
-    const brood=PG.find(n=>n.type==='pg_broodmother');
+    const brood=PG.find(n=>n.type==='pg_rat_matriarch');
     if(brood){
      await reset();await page.evaluate(b=>{Player.maxHp=99;Player.hp=99;const n=WORLD.npcs.find(x=>x.mesh.name===b);n.t=Object.assign({},n.t,{hp:5000});n.hp=5000},brood.name);await wield('bronze_sword',0);await standNear(brood.name,1);await sleep(700);
      // right-click menu
      const menu=await page.evaluate(async name=>{const n=WORLD.npcs.find(x=>x.mesh.name===name);const sleep=ms=>new Promise(r=>setTimeout(r,ms));
        const e=buildCtxEntries({obj:n.mesh,point:n.mesh.position},{clientX:400,clientY:300});return e.map(x=>x.html.replace(/<[^>]+>/g,''))},brood.name);
-     rule('right-click reads "Attack Grubkin broodmother (level-18)"',menu.some(t=>/^Attack Grubkin broodmother \(level-18\)$/.test(t)),menu.slice(0,3));
+     rule('right-click reads "Attack Rat matriarch (level-18)"',menu.some(t=>/^Attack Rat matriarch \(level-18\)$/.test(t)),menu.slice(0,3));
      await clickNamed(page,brood.name);await sleep(1500);
      const hp0=await page.evaluate(()=>{LocalCombat.togglePrayer('protect_melee');return Player.hp});await sleep(9000);
      const r=await events(),on=r.ev.filter(e=>e.k==='hit'&&e.who==='player');
-     rule('Protect from Melee: the broodmother\'s blows all miss while it is on',on.length>=2&&on.every(e=>e.dmg===0),{hits:on.map(e=>[e.tick,e.dmg]),hp0});
+     rule('Protect from Melee: the matriarch\'s blows all miss while it is on',on.length>=2&&on.every(e=>e.dmg===0),{hits:on.map(e=>[e.tick,e.dmg]),hp0});
      await page.evaluate(()=>{LocalCombat.togglePrayer('protect_melee')});
      // the telegraphed slam: wait for the wind-up, record the ring, step away and dodge
      await page.evaluate(()=>{window.__ev.length=0;CombatFX.qaClearLog()});
      await page.evaluate(()=>{window.__dodge=[[0,2],[2,0],[0,-2],[-2,0],[2,2],[-2,-2]];window.__dodged=null});
      let tele=null;for(let i=0;i<60&&!tele;i++){await sleep(250);tele=await page.evaluate(()=>window.__ev.find(e=>e.k==='telegraph')||null)}
-     if(tele){await sleep(350);await shot(page,'broodmother_telegraph');
+     if(tele){await sleep(350);await shot(page,'matriarch_telegraph');
       await sleep(2600);const away=await page.evaluate(()=>window.__dodged),msgs=await page.evaluate(()=>[...document.querySelectorAll('#chatbox div')].slice(-6).map(d=>d.textContent));
-      rule('the broodmother slam is telegraphed (message + ground ring) and stepping away dodges it',!!away&&msgs.some(m=>/rears up/.test(m))&&msgs.some(m=>/slams the empty ground/.test(m)),{away,msgs:msgs.slice(-3)});
+      rule('the matriarch\'s slam is telegraphed (message + ground ring) and stepping away dodges it',!!away&&msgs.some(m=>/rears up/.test(m))&&msgs.some(m=>/slams the empty ground/.test(m)),{away,msgs:msgs.slice(-3)});
       await page.evaluate(()=>{window.__dodge=null});}
-     else rule('the broodmother\'s slam is telegraphed (message + ground ring) and stepping away dodges it',false,'no telegraph in 20 s');
+     else rule('the matriarch\'s slam is telegraphed (message + ground ring) and stepping away dodges it',false,'no telegraph in 20 s');
      await page.evaluate(()=>LocalCombat.clearInteraction());
     }
     /* ---------------- the poacher's arrows and the warlock's spells on the adventurer ---------------- */
@@ -152,32 +152,35 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
      rule(f.type+': fires '+(type==='pg_poacher'?'arrows':'spells')+' at the adventurer, each landing on its hit tick',pj.length>=1&&lands.length>=1,{shots:pj.map(e=>[e.tick,e.ticks,e.dist,e.splash?1:0]),lands:lands.length,splats:spl.length,dbg});
      await page.evaluate(()=>LocalCombat.clearInteraction());}
     /* ---------------- the pack: aggression ---------------- */
-    {const wild=PG.filter(n=>n.type==='pg_wild_grubkin');if(wild.length){await reset();
+    {const wild=PG.filter(n=>n.type==='pg_large_rat');if(wild.length){await reset();
       await page.evaluate(()=>{GameConfig.friendlyMode=true;window.__lv({Attack:5,Strength:5,Defence:5,Hitpoints:12,Ranged:1,Magic:1,Prayer:1})});
       await standNear(wild[0].name,3);await sleep(6000);const r=await events(),att=r.ev.filter(e=>e.k==='swing'&&wild.some(w=>w.name===e.who));
-      rule('the wild pack hunts a low-level adventurer within four tiles (their meadow ignores friendly mode: they attack on sight)',att.length>=1,{attacks:att.length});
+      rule('the large rats hunt a low-level adventurer within four tiles (their meadow ignores friendly mode: they attack on sight)',att.length>=1,{attacks:att.length});
       await page.evaluate(()=>{window.__lv({Attack:30,Strength:30,Defence:30,Hitpoints:40,Ranged:30,Magic:30,Prayer:45})});await reset();
       await sleep(4000);const r2=await events(),att2=r2.ev.filter(e=>e.k==='swing'&&wild.some(w=>w.name===e.who));
       rule('the pack ignores an adventurer above twice its level (2004)',att2.length===0,{attacks:att2.length,cb:await page.evaluate(()=>Player.combatLevel())});}}
     /* ---------------- a kill: the fall, the sink, then the drop ---------------- */
-    {const wn=await page.evaluate(()=>{const x=HolmProvingGround.npcs().find(n=>n.typeId==='pg_wild_grubkin'&&!n.dead&&!n.lcDying);return x?x.mesh.name:null}),w=wn?{name:wn}:null;   // a live one (the pack test may have felled some)
+    {const wn=await page.evaluate(()=>{const x=HolmProvingGround.npcs().find(n=>n.typeId==='pg_large_rat'&&!n.dead&&!n.lcDying);return x?x.mesh.name:null}),w=wn?{name:wn}:null;   // a live one (the pack test may have felled some)
      if(w){await reset();await wield('bronze_sword',1);await standNear(w.name,1);await sleep(600);
       // the kill's drops are told apart by identity, not by their index in WORLD.drops: an older pile (the arrows under
-      // the practice grubkin, 120 s after its last arrow) can age out while the body sinks and shift every index down
+      // the practice rat, 120 s after its last arrow) can age out while the body sinks and shift every index down
       const d0=await page.evaluate(()=>{window.__drops0=new Set(WORLD.drops);return WORLD.drops.length});await page.evaluate(n=>{const x=WORLD.npcs.find(q=>q.mesh.name===n);x.hp=1},w.name);await clickNamed(page,w.name);
       let dead=false;for(let i=0;i<30&&!dead;i++){await sleep(300);dead=await page.evaluate(n=>WORLD.npcs.find(q=>q.mesh.name===n).dead,w.name)}
+      // the Holm creatures fall with their own Blender death clip (played once and held), not the old procedural roll
+      const fall=await page.evaluate(n=>{const x=WORLD.npcs.find(q=>q.mesh.name===n),d=x.mesh.userData.death,g=x.mesh.userData.gmix;return {style:d&&d.style,clip:!!(g&&g.death&&g.deathOn),dur:d&&d.dur}},w.name);
       await sleep(250);await shot(page,'kill_fall');
       let vis=null;const t0=Date.now();for(let i=0;i<60&&!vis;i++){await sleep(150);vis=await page.evaluate(()=>WORLD.drops.some(m=>!window.__drops0.has(m)&&m.visible))}
       const dbg=await page.evaluate((n,d0)=>{const x=WORLD.npcs.find(q=>q.mesh.name===n);const now=new Set(WORLD.drops);
         return {dying:x.dying,dead:x.dead,death:!!x.mesh.userData.death,before:d0,after:WORLD.drops.length,agedOut:[...window.__drops0].filter(m=>!now.has(m)).map(m=>m.userData.id),
          drops:WORLD.drops.filter(m=>!window.__drops0.has(m)).map(m=>[m.userData.id,m.visible,!!m.userData._cfxHide])}},w.name,d0);
       await shot(page,'kill_loot');
-      rule('a kill: the body falls and sinks, then its drop appears (bones at least)',dead&&vis,{dead,dropShownAfterMs:Date.now()-t0,agedOut:dbg.agedOut,dbg:vis?undefined:dbg});}}
+      rule('a kill: the body falls and sinks, then its drop appears (bones at least)',dead&&vis,{dead,dropShownAfterMs:Date.now()-t0,agedOut:dbg.agedOut,dbg:vis?undefined:dbg});
+      rule('the large rat falls with its own death clip, held while it lies, before it sinks',fall.style==='clip'&&fall.clip,fall);}}
     /* ---------------- the adventurer's death ---------------- */
-    // (an unarmoured Defence 1 adventurer on 1 hitpoint: at Defence 30 the broodmother lands a damaging blow on barely a
+    // (an unarmoured Defence 1 adventurer on 1 hitpoint: at Defence 30 the matriarch lands a damaging blow on barely a
     // quarter of its swings, so the old 18 s wait missed the death about one run in twenty; the death itself is what is
     // checked here, and the adventurer's levels come back after it)
-    {const b=PG.find(n=>n.type==='pg_broodmother');if(b){await reset();await wield('bronze_sword',0);await standNear(b.name,1);await sleep(600);
+    {const b=PG.find(n=>n.type==='pg_rat_matriarch');if(b){await reset();await wield('bronze_sword',0);await standNear(b.name,1);await sleep(600);
       await page.evaluate(()=>{window.__lv({Attack:30,Strength:30,Defence:1,Hitpoints:40,Ranged:30,Magic:30,Prayer:45});Player.hp=1});await clickNamed(page,b.name);let died=null;
       // the death is read from the engine's own "Oh dear, you are dead!" (recorded as it is said, with Player.dead at that
       // instant), not by polling Player.dead: a slow frame (up to five ticks caught up at once) can start and finish the
@@ -194,7 +197,7 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
      await page.evaluate(()=>{window.__trail=[];window.__tr=setInterval(()=>{const p=TileNav.playerNode();if(p)window.__trail.push([p.tx,p.tz])},100)});
      await page.evaluate(g=>{const n=WORLD.npcs.find(x=>x.mesh.name===g);const nt=n.node;const m=TileNav.nodeAt(nt.tx+4,nt.tz+3,nt.y)||TileNav.nodeAt(nt.tx-4,nt.tz-3,nt.y);if(m)HolmArrivalQA.qaPlace(m.id)},G);await sleep(600);
      await clickNamed(page,G);
-     // (the 2004 pace walks 1 tile per 600 ms tick, ~30% slower than the old 2.4 tiles/s, and the grubkin wanders: wait for
+     // (the 2004 pace walks 1 tile per 600 ms tick, ~30% slower than the old 2.4 tiles/s, and the rat wanders: wait for
      // melee reach up to 12 s instead of a fixed 5 s; the rule itself -- diagonal steps and a side tile in reach -- is unchanged)
      for(let i=0;i<40;i++){await sleep(300);if(i>=16&&await page.evaluate(g=>LocalCombat.qa.inReach(WORLD.npcs.find(x=>x.mesh.name===g)),G))break}
      const trail=await page.evaluate(()=>{clearInterval(window.__tr);const t=window.__trail;const out=[t[0]];t.forEach(p=>{const l=out[out.length-1];if(p[0]!==l[0]||p[1]!==l[1])out.push(p)});return out});
@@ -212,7 +215,7 @@ function rule(name,ok,detail){results.push({name,ok:!!ok,detail});if(!ok)fails++
      rule('PvP HUD skulled: the HUD skull and the skull over the head show, the plaque reads the new level',sk.skull!=='none'&&sk.over&&sk.level==='Level: 9',sk);
      await page.evaluate(()=>PvpHud.set({wl:0,multi:0,skull:0}));}
     /* ---------------- a fight on a phone-sized screen ---------------- */
-    {const W=(PG.find(n=>n.type==='pg_wild_grubkin')||{}).name||G;await reset();await wield('bronze_dagger',0);
+    {const W=(PG.find(n=>n.type==='pg_large_rat')||{}).name||G;await reset();await wield('bronze_dagger',0);
      await page.evaluate(w=>{const n=WORLD.npcs.find(x=>x.mesh.name===w);n.t=Object.assign({},n.t,{hp:5000});n.hp=5000},W);await standNear(W,1);await page.setViewport({width:430,height:860});await sleep(1500);
      await page.evaluate(g=>{HolmArrivalQA.qaViewClear&&HolmArrivalQA.qaViewClear();camCtl.yaw=window.__cam0.yaw;camCtl.pitch=window.__cam0.pitch;camCtl.dist=window.__cam0.dist;LocalCombat.orderAttack(WORLD.npcs.find(x=>x.mesh.name===g))},W);
      let sp=null;for(let i=0;i<60&&!sp;i++){await sleep(100);sp=await page.evaluate(()=>{const s=CombatFX.qaSplats();return s.length?s:null})}

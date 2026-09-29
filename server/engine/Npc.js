@@ -39,7 +39,7 @@ class Npc extends PathingEntity {
     this.typeId = typeId;
     this.def = def;
     this.startX = spawn.x; this.startZ = spawn.z; this.startLevel = spawn.level || 0;
-    this.wanderRange = spawn.wander != null ? spawn.wander : DEFAULT_WANDER;
+    this.wanderRange = spawn.wander != null ? spawn.wander : def.wander != null ? def.wander : DEFAULT_WANDER;   // the spawn's, else the creature's own (NPC_TYPES.wander)
     this.maxRange = spawn.maxRange != null ? spawn.maxRange : DEFAULT_MAX_RANGE;
     this.huntRange = spawn.hunt != null ? spawn.hunt : (def.aggro ? 3 : 0);
     this.attackType = C.npcAttackType(def);
@@ -150,15 +150,19 @@ class Npc extends PathingEntity {
     this.aiMode();
   }
 
+  /** 1/8 per tick: walk to a random tile within the wander range (even mid-walk); a step resets the wander counter
+   *  (Npc.updateMovement); 500 ticks without moving away from the spawn tile puts it back. Our adaptation (2026-09-29,
+   *  owner; the client's LocalCombat does the same): outside its range after a chase, it walks back in at once. */
   wanderMode() {
-    const w = this.world;
-    if (this.wanderRange > 0 && w.rng.next() < WANDER_CHANCE) {
-      const r = this.wanderRange;
+    const w = this.world, r = this.wanderRange;
+    const pick = () => {
       const dx = Math.round(w.rng.next() * (r * 2) - r), dz = Math.round(w.rng.next() * (r * 2) - r);
       const tx = this.startX + dx, tz = this.startZ + dz;
       if (tx !== this.x || tz !== this.z) this.queueWaypoint(tx, tz);
-    }
-    this.updateMovement();
+    };
+    if (r > 0 && !this.hasWaypoints() && Math.max(Math.abs(this.x - this.startX), Math.abs(this.z - this.startZ)) > r) pick();
+    else if (r > 0 && w.rng.next() < WANDER_CHANCE) pick();
+    if (this.updateMovement()) this.wanderCounter = 0;
     const onSpawn = this.x === this.startX && this.z === this.startZ && this.level === this.startLevel;
     if (this.wanderCounter++ >= WANDER_RESET_TICKS) {
       if (!onSpawn) this.teleport(this.startX, this.startZ, this.startLevel);

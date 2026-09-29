@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="../"><!-- the game's relative asset paths (assets/models/<id>.glb) resolve from the site root, as in index.html -->
+<title>Holm Creatures</title>
+<style>
+ :root { --bg: #2a2622; --ink: #efe3c4; --btn: #4a3f33; --btn-on: #8a6a3a; }
+ html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font: 13px/1.3 Verdana, sans-serif; overflow: hidden; }
+ canvas { display: block; }
+ #bar { position: fixed; left: 8px; top: 6px; right: 8px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+ #bar button { background: var(--btn); color: var(--ink); border: 1px solid #1a1612; padding: 3px 8px; font: 12px Verdana, sans-serif; cursor: pointer; }
+ #bar button.on { background: var(--btn-on); }
+ #hud { position: fixed; left: 8px; bottom: 6px; pointer-events: none; text-shadow: 1px 1px 0 #000; }
+ .tag { position: fixed; transform: translate(-50%, 0); color: #ffff00; font: bold 13px Verdana, sans-serif; text-shadow: 1px 1px 0 #000; white-space: nowrap; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="hud">Holm creatures - loading...</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="src/game1_data.js"></script>
+<script src="src/npc_chars.js"></script>
+<script src="tools/holm_creatures_view.js"></script>
+</body>
+</html>

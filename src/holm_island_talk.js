@@ -13,7 +13,7 @@ var HolmIslandTalk=(function(){
  var on=typeof HolmIslandCurriculum!=='undefined'&&HolmIslandCurriculum.active();
  var FREE={descend_cavern:true};
  // whose area a station belongs to: island services by building (only stations that do something; ladders and
- // walk-only spots stay free), practice grubkins by pen, lesson objects by their island lesson id
+ // walk-only spots stay free), the practice rats by pen, lesson objects by their island lesson id
  var BUILDING={bakehouse:'hettie',lodge:'ansel',bank:'maud',mage:'ilse',lastlight:'aldous',haven:'tobin',survival:'wenna',cavern:'durgin'};
  var PEN={'keep-court':'corrick','mage-yard':'ilse'};
  // the objective banner while a tutor is due

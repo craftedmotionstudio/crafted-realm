@@ -121,7 +121,7 @@ the rest after them. Nothing else to do.
 | Teaching oaks, fishing spot, ore rocks | Chop down Oak, Net Fishing spot, Mine Copper rock |
 | Fire / furnace / anvil | Cook Fire, Smelt Furnace, Smith Anvil |
 | Ground items | one Take per item on the tile, Walk here, one Examine per item |
-| Practice grubkins | Attack Practice grubkin (level-1), Walk here, Examine |
+| Practice large rats (the combat trials; the grubkins until 2026-09-29) | Attack Large rat (level-3), Walk here, Examine |
 
 Every row calls the same click the game always handled (`handleClick` -> `HolmArrivalQA.handleClick`), so walking to
 the stance, the tutor-first refusals (`HolmIslandTalk`) and the lessons are unchanged for left and right clicks alike.

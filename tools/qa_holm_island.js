@@ -127,9 +127,16 @@ async function clickButtonText(page,sel,text){await page.waitForFunction((sel,te
   if(!xy)return false;await page.mouse.click(xy[0],xy[1]);await sleep(600);return true}
 const waitFor=(page,fn,arg,ms)=>page.waitForFunction(fn,{timeout:ms||60000},arg).then(()=>true).catch(()=>false);
 async function clickInventory(page,itemId){
-  const idx=await page.evaluate(id=>{try{document.querySelector('.tab-btn[data-tab="inv"]').click()}catch(e){}UI.refreshInv();return Player.inv.findIndex(s=>s&&s.id===id)},itemId);
-  if(idx<0)return false;const sel='#inv-grid .inv-slot:nth-child('+(idx+1)+')';
-  await page.waitForSelector(sel,{visible:true,timeout:5000});await page.click(sel);await sleep(700);return true;
+  // the pack re-renders whenever an item lands (a log while the oak is still being chopped, an XP drop): a slot found a
+  // moment ago can be replaced before the click reaches it ("Node is detached"), so look it up again and retry, as a
+  // player would (the same fix as holm_island_driver_lib.js clickInventory, c7aae764)
+  for(let k=0;k<4;k++){
+    const idx=await page.evaluate(id=>{try{document.querySelector('.tab-btn[data-tab="inv"]').click()}catch(e){}UI.refreshInv();return Player.inv.findIndex(s=>s&&s.id===id)},itemId);
+    if(idx<0)return false;const sel='#inv-grid .inv-slot:nth-child('+(idx+1)+')';
+    try{await page.waitForSelector(sel,{visible:true,timeout:5000});await page.click(sel);await sleep(700);return true}
+    catch(e){if(!/detached|not clickable|not an Element|No node/i.test(String(e))||k===3)throw e;await sleep(400)}
+  }
+  return false;
 }
 async function closeDialogue(page){await page.keyboard.press('Escape').catch(()=>{});await sleep(300);await page.evaluate(()=>{try{if(UI.closeDialogue)UI.closeDialogue()}catch(e){}});}
 const count=(page,id)=>page.evaluate(id=>Player.count(id),id);
@@ -363,16 +370,16 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      c=await clickService(page,'Climb-up ladder','ladder');L.up=c.error||(await waitFor(page,()=>player.position.y>0,null,60000));
      ok('M5.1 survival lessons on the v2 land: chop on the hollow rim, light a fire where you stand there (owner review 4; step aside on the graph), net a perch at a live ripple, cook it on that fire',L.chop===true&&L.fire===true&&L.fireWhereStood&&L.stepWest&&L.fish===true&&L.cook===true&&L.cookNote.length>0,L);
      ok('M5.1 cavern lessons: down the shaft on the tied rope (descend/cave), mine copper and tin, smelt bronze, forge a dagger, ladder back up',L.descend===true&&L.copper===true&&L.tin===true&&L.smelt===true&&L.smith===true&&L.up===true,L);}
-    // M5.3 combat trials on practice grubkins (Blender-rigged), by real clicks: dagger in the keep court, shortbow from
+    // M5.3 combat trials on the practice large rats (Blender-rigged), by real clicks: dagger in the keep court, shortbow from
     // range, Gale Dart by the mage tower; each kill credits its style through the game's npcKilled hook
     {const T={};const note=e=>page.evaluate(e=>window.__notes.includes(e),e);
      T.spawned=await page.evaluate(()=>HolmIslandTrials.npcs().map(n=>n.islandPen));
-     // the grubkin already fighting you first (2004 single combat), else the nearest
+     // the rat already fighting you first (2004 single combat), else the nearest
      const live=pen=>page.evaluate(pen=>{const l=HolmIslandTrials.npcs().filter(n=>!n.dead&&n.islandPen===pen);if(!l.length)return null;const d=n=>Math.hypot(n.mesh.position.x-player.position.x,n.mesh.position.z-player.position.z);return (l.find(n=>n===Player.aggressiveNpc)||l.sort((a,b)=>d(a)-d(b))[0]).mesh.name},pen);
-     // a grubkin can shuffle between aiming and clicking; like a player, click again until it is the target
+     // a rat can shuffle between aiming and clicking; like a player, click again until it is the target
      // the island walks the player across the court before the swing, which can take well over 6 s (harness flake,
      // 2026-09-25): allow 25 s per click and up to six clicks, like the playthrough driver's patient fight()
-     const attack=async(pen,opts)=>{let c={error:'no live grubkin'};for(let i=0;i<6;i++){c=await clickNamed(page,await live(pen),opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,25000))return c;await closeDialogue(page)}return c.error?c:{error:'never became the target'}};
+     const attack=async(pen,opts)=>{let c={error:'no live rat'};for(let i=0;i<6;i++){c=await clickNamed(page,await live(pen),opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,25000))return c;await closeDialogue(page)}return c.error?c:{error:'never became the target'}};
      await page.evaluate(()=>{Player.inv=Player.inv.map(()=>null);['bronze_dagger','worn_bow'].forEach(i=>Player.addItem(i,1));Player.addItem('arrows',30);Player.addItem('air_rune',15);Player.addItem('mind_rune',15);UI.refreshInv()});
      // like a player, walk to the court first (the combat approach searches 6000 tiles: from the quarry the court is
      // too far for one search on the v2 land; the curriculum's way in is the drift ladder into the keep hall)
@@ -382,11 +389,11 @@ function diagonal(tr){const off=v=>Math.abs(v-Math.floor(v)-.5)>.03;return tr.fi
      await clickInventory(page,'worn_bow');c=await attack('keep-court');T.ranged=c.error||await waitFor(page,()=>window.__notes.includes('killStyle/ranged'),null,90000);
      T.arrowsUsed=30-await page.evaluate(()=>Player.count('arrows'));
      // Escape (used to close dialogues) also cancels autocast: close first, then choose Gale Dart, then click
-     await closeDialogue(page);await walkTo(page,'mage','yard',true,[]);// 2004 (live rule): without a staff each Gale Dart is one cast - choose the spell, click the grubkin, repeat
+     await closeDialogue(page);await walkTo(page,'mage','yard',true,[]);// 2004 (live rule): without a staff each Gale Dart is one cast - choose the spell, click the rat, repeat
      for(let k=0;k<40&&!await page.evaluate(()=>window.__notes.includes('killStyle/magic'));k++){await page.evaluate(()=>{if(Player.spell!=='wind_strike')Player.selectSpell('wind_strike')});c=await attack('mage-yard',{keepDialogs:true});await waitFor(page,()=>!Player.target||window.__notes.includes('killStyle/magic'),null,9000)}
      T.magic=await waitFor(page,()=>window.__notes.includes('killStyle/magic'),null,20000);
      T.runesUsed=15-await page.evaluate(()=>Player.count('air_rune'));await page.evaluate(()=>{try{if(Player.spell==='wind_strike')Player.selectSpell('wind_strike')}catch(e){}});await shot(page,'10_magic_trial');
-     ok('M5.3 combat trials: practice grubkins in the keep court and the mage yard; melee, ranged and Gale Dart kills credit their styles',
+     ok('M5.3 combat trials: practice large rats in the keep court and the mage yard; melee, ranged and Gale Dart kills credit their styles',
       T.spawned.filter(p=>p==='keep-court').length>=2&&T.spawned.includes('mage-yard')&&T.melee===true&&T.ranged===true&&T.magic===true&&T.arrowsUsed>0&&T.runesUsed>0,T);}
     // 4. reload restores the spot on the island graph
     await page.evaluate(()=>SaveGame.save());const before=await pos(page);

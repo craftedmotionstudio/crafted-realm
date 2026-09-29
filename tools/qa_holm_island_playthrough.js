@@ -37,7 +37,7 @@ async function spellbook(page,spell){   // open the Spellbook tab and click the 
   await page.evaluate(()=>{const t=document.querySelector('.tab-btn[data-tab="inv"]');if(t)t.click()});
   return page.evaluate(()=>Player.spell==='wind_strike');
 }
-async function attack(page,pen,opts){for(let i=0;i<4;i++){// the grubkin already fighting you first (2004 single combat: "You are already under attack!" for any other), else the nearest
+async function attack(page,pen,opts){for(let i=0;i<4;i++){// the rat already fighting you first (2004 single combat: "You are already under attack!" for any other), else the nearest
   const n=await page.evaluate(pen=>{const l=HolmIslandTrials.npcs().filter(n=>!n.dead&&n.islandPen===pen);if(!l.length)return null;const d=n=>Math.hypot(n.mesh.position.x-player.position.x,n.mesh.position.z-player.position.z);
    const mine=l.find(n=>n===Player.aggressiveNpc);return (mine||l.sort((a,b)=>d(a)-d(b))[0]).mesh.name},pen);if(!n){await sleep(2000);continue}
   const c=await clickNamed(page,n,opts);if(!c.error&&await waitFor(page,()=>!!Player.target,null,6000))return c;await closeDialogue(page)}return {error:'no target'}}
@@ -110,7 +110,7 @@ const DO={
  async ranged_trial(p){await waitFor(p,()=>Player.count('worn_bow')>0||Player.equip.weapon==='worn_bow',null,15000);await wield(p,'worn_bow');await fight(p,'keep-court','ranged_trial')},
  async open_bank(p){await walkTo(p,'bank','entrance',true,[]);await talk(p,'maud');await clickService(p,'Use bank counter','counter');await waitLesson(p,'open_bank',60000);await p.evaluate(()=>{try{UI.closeModal('bank-modal')}catch(e){}})},
  async magic_trial(p){await walkTo(p,'mage','entrance',true,[]);await talk(p,'ilse');await waitFor(p,()=>Player.count('air_rune')>0,null,15000);await closeDialogue(p);await spellbook(p,'wind_strike');
-  // 2004: without a staff each Gale Dart is one cast (choose the spell, then the grubkin), so a player repeats it
+  // 2004: without a staff each Gale Dart is one cast (choose the spell, then the rat), so a player repeats it
   for(let k=0;k<40&&await lesson(p)==='magic_trial';k++){if(!await p.evaluate(()=>Player.spell==='wind_strike'))await spellbook(p,'wind_strike');
    await attack(p,'mage-yard',{keepDialogs:true});await waitFor(p,()=>!Player.target,null,9000)}},
  async relight_lastlight(p){await walkTo(p,'lastlight','door',true,[]);await talk(p,'aldous');

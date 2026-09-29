@@ -1,5 +1,5 @@
 /* Combat feel performance probe (2026-09-25): no GC churn per frame, bounded pools, cheap frames.
- * Boots the island draft, brings one practice grubkin beside the adventurer (instance position/home/hp only, so the
+ * Boots the island draft, brings one practice large rat beside the adventurer (instance position/home/hp only, so the
  * fight stays in reach and lasts), then fights it for 8 s with each style while
  *   - CDP HeapProfiler sampling records every allocation site (64-byte interval), and
  *   - CombatFX.update / CombatFX.draw are timed per frame.

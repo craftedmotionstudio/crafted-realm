@@ -2475,6 +2475,12 @@ function startDeath(g){
   if(ud._baseScale===undefined) ud._baseScale = g.scale.x || 1;
   ud.hit = null;                                          // a flinch in flight must not stomp the topple's scale
   ud.swing = null; ud.swinging = false; ud.beastSwing = null;  // an in-flight strike must not resume after respawn
+  // a Blender creature with its own death clip (the Holm creatures, src/npc_chars.js): the clip does the falling
+  const t=ud.npc&&ud.npc.t;
+  if((ud.gmix&&ud.gmix.death)||(!ud.gmix&&t&&t.deathClip)){
+    ud.death = {t:0, dur:1, style:'clip', baseY:g.position.y, started:false};
+    return;
+  }
   const style=_deathStyle(ud.parts);
   const dir=(Math.floor(g.position.x+g.position.z)&1)?1:-1;
   // a crab rolls fully onto its back; everything else lays out on its side
@@ -2482,8 +2488,32 @@ function startDeath(g){
   const dur  = style==='crab' ? 0.70 : style==='brute' ? 0.78 : 0.55;
   ud.death = {t:0, dur, dir, roll, style, baseY:g.position.y};
 }
+/* the death clip: plays once and holds (the body settled on its tile), lies a moment, then sinks - the same exit as the
+   topple below, the creature's own animation doing the fall (tools/blender/build_holm_creatures_v1.py) */
+function startClipDeath(g){
+  const ud=g.userData, gm=ud&&ud.gmix, d=ud&&ud.death; if(!gm||!gm.death||!d) return;
+  [gm.attack,gm.block,gm.hit].forEach(a=>{ if(a&&a!==gm.death) a.stop(); });
+  if(gm.idle) gm.idle.weight=0; if(gm.walk) gm.walk.weight=0;
+  gm.death.reset(); gm.death.setLoop(THREE.LoopOnce,1); gm.death.clampWhenFinished=true; gm.death.weight=1; gm.death.play();
+  gm.deathOn=true; d.dur=gm.death.getClip().duration; d.started=true;
+}
+function tickClipDeath(g, dt){
+  const ud=g.userData, d=ud.death, gm=ud.gmix;
+  if(d.wait){ if(gm) gm.mixer.update(dt); return true; }   // the killing splat is still in flight: a swing or flinch finishes
+  if(!d.started && gm && gm.death) startClipDeath(g);
+  d.t += dt; if(gm) gm.mixer.update(dt);
+  const over = d.t - (d.dur||1);
+  if(over < 0) return true;
+  if(d.sink){
+    const k = Math.max(0, Math.min(1, (over - (d.hold||0)) / d.sink));
+    g.position.y = d.baseY - (d.sinkDepth||0.8) * k * k;
+    if(k < 1) return true;
+  }
+  ud.death=null; return false;
+}
 function tickDeath(g, dt){
   const ud=g.userData, d=ud&&ud.death; if(!d) return false;
+  if(d.style==='clip') return tickClipDeath(g, dt);
   const p=ud.parts;
   if(d.wait) return true;                    // combat feel: the fall waits for the killing hitsplat (CombatFX.onKill / its hit lands)
   d.t += dt;

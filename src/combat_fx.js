@@ -70,7 +70,7 @@ var CombatFX=(function(){
  var TWEEN={slash:.22,stab:.19,crush:.27,bow:.30,cast:.25};      // tickSwing archetypes (game2_world.js)
  function impactTime(o,type){type=type||'slash';var ud=o&&o.userData||{};
   if(isPlayer(o)&&ud.holmPlayer)return (KIT[type]||.3)/(SPEED[type]||1);
-  var gm=ud.gmix;if(gm&&gm.attack&&gm.attack.getClip)return Math.max(.12,gm.attack.getClip().duration*.5);   // grubkin snap: frame 9 of 18
+  var gm=ud.gmix;if(gm&&gm.attack&&gm.attack.getClip)return Math.max(.12,gm.attack.getClip().duration*.5);   // the Holm creatures' bite / peck / club: frame 9 of 18
   var p=ud.parts;if(p&&p.armR)return TWEEN[type]||.22;
   if(p&&(p.head||p.maw||p.claws))return .21;                     // beast lunge peaks at f=.5 of .42 s
   return .2}
@@ -118,7 +118,7 @@ var CombatFX=(function(){
   if(dmg>0){
    if(!ud.death&&typeof hitReact==='function')hitReact(o);                       // root squash (all bodies)
    if(isPlayer(o)&&ud.holmPlayer&&typeof HolmIslandPlayer!=='undefined'){if(!busy)HolmIslandPlayer.play('hit')}   // the kit's own hit clip
-   else if(gm&&!isPlayer(o)&&o.children[0]&&!ud.death)st(o).recoil=0;          // GLB creature: lean back off the blow
+   else if(gm&&!isPlayer(o)&&o.children[0]&&!ud.death){if(gm.hit){if(!busy){gm.hit.reset();gm.hit.play()}}else st(o).recoil=0}   // GLB creature: its own hit clip, else lean back off the blow
   } else if(!busy&&!ud.death&&typeof blockReact==='function')blockReact(o);      // a 0 raises the guard (block clip / procedural guard)
  }
 
@@ -310,7 +310,7 @@ var CombatFX=(function(){
  function melee(att,npc,atype,dmg,maxHit){if(!init()||!npc||!npc.mesh)return;snd.swing(atype);
   setExpect(npc.mesh,impactTime(att,atype),'melee',null,dmg>0&&maxHit>=3&&dmg>=maxHit,atype)}
  function npcMelee(npc,dmg){if(!init()||!npc||!npc.mesh||typeof player==='undefined')return;var t=npc.t||{},ud=npc.mesh.userData||{},p=ud.parts;
-  if((p&&!p.armR)||(ud.gmix&&t.glbChar&&/grub/.test(t.glbChar)))snd.snap();else snd.swing(t.atype||'slash',.7);
+  if((p&&!p.armR)||(ud.gmix&&t.bite))snd.snap();else snd.swing(t.atype||'slash',.7);
   setExpect(player,impactTime(npc.mesh,t.atype||'slash'),'npcMelee',null,false,t.atype||'')}
 
  /* ---------------- death: topple when the killing splat shows, lie a moment, sink away, then show the drop ---------------- */
@@ -450,9 +450,9 @@ var CombatFX=(function(){
  function expectHit(obj,delay,kind,f,isMax,atype,frac){if(!obj||!init())return;setExpect(obj,delay||0,kind,f&&!f.landed?f:null,isMax,atype,frac)}
  var sndQ=[];
  function sound(name,arg,delay){if(!init())return;if(delay>0){sndQ.push({at:T+delay,name:name,arg:arg});return}if(snd[name])snd[name](arg)}
- // the whoosh of a melee swing (a player's blade, a monster's arm) or the snap of an armless beast / grubkin
+ // the whoosh of a melee swing (a player's blade, a monster's arm) or the snap of an armless beast (a rat's bite, a hen's peck: t.bite)
  function swingSound(att,type,delay){if(!init()||!att)return;var ud=att.userData||{},n=ud.npc,t=n&&n.t||{},p=ud.parts;
-  if(!isPlayer(att)&&((p&&!p.armR)||(ud.gmix&&t.glbChar&&/grub/.test(t.glbChar))))sound('snap',null,delay);else sound('swing',type||'slash',delay)}
+  if(!isPlayer(att)&&((p&&!p.armR)||(ud.gmix&&t.bite)))sound('snap',null,delay);else sound('swing',type||'slash',delay)}
  function tickSounds(){for(var i=sndQ.length-1;i>=0;i--)if(sndQ[i].at<=T){var q=sndQ[i];sndQ.splice(i,1);if(snd[q.name])snd[q.name](q.arg)}}
  function track(obj,frac){if(!obj)return;untrack(obj);tracked.push({obj:obj,frac:typeof frac==='function'?frac:function(){return -1}})}
  function untrack(obj){for(var i=tracked.length-1;i>=0;i--)if(tracked[i].obj===obj)tracked.splice(i,1)}
