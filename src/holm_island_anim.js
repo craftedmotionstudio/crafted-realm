@@ -161,7 +161,8 @@ var HolmIslandAnim=(function(){
   if(!parts.length)return null;var hang=new T.Vector3(cx/n,top+.02,cz/n);
   return {parts:parts.map(function(m){var piv=m.worldToLocal(hang.clone());return {m:m,rest:restOf(m),pivot:piv.toArray()}})}}
  function sail(cb){
-  var T=T3(),C=st.curves;if(!st.on||!C.boatP||!C.boatQ||st.sail){return false}
+  var T=T3(),C=st.curves;if(st.sail&&st.sail.done)restoreSail();   // an earlier cast-off whose crossing never came: back to the pier first
+  if(!st.on||!C.boatP||!C.boatQ||st.sail){return false}
   var boat=findBoat();if(!boat)return false;
   boat.updateMatrixWorld(true);var hull=st.scene.getObjectByName('Haven_ServiceBoat_Hull')||boat,hb=new T.Box3().setFromObject(hull),hc=hb.getCenter(new T.Vector3());
   var hm=st.models.haven&&st.models.haven.actions,idle=hm&&(hm.HavenBoatIdleBob||null);if(idle)idle.stop();
@@ -172,6 +173,7 @@ var HolmIslandAnim=(function(){
   var plank=st.scene.getObjectByName('Haven_ServiceBoat_Gangplank');if(plank){s.plank=plank;s.plankRest=restOf(plank)}
   var tob=st.scene.getObjectByName('island-tutor-tobin');if(tob){s.tobin=tob;s.tobinRest=restOf(tob)}
   s.bell=bellParts();st.sail=s;st.stats.sails++;if(s.bell)st.stats.bells++;
+  try{if(typeof GuideArrow!=='undefined'){GuideArrow.keepAfterComplete=false;GuideArrow.setTarget(null)}}catch(e){}   // aboard: no "Board the skiff" arrow over the boat (the island guide stands down while sailing)
   return true}
  function sailUpdate(dt){var s=st.sail;if(!s)return;var C=st.curves,T=T3();s.t+=dt;var t=Math.min(s.t,C.boatP.duration);
   var off=C.boatP(t),q=C.boatQ(t);V.fromArray(off).applyQuaternion(s.pqi);Q.fromArray(q).premultiply(s.pqi).multiply(s.pq);
@@ -297,7 +299,7 @@ var HolmIslandAnim=(function(){
  function status(){return {on:st.on,stats:Object.assign({},st.stats),falls:st.falls.length,sailing:!!st.sail,doors:Object.keys(st.doors).reduce(function(o,k){o[k]={mode:st.doors[k].mode,k:+st.doors[k].k.toFixed(3)};return o},st.free.reduce(function(o,d){o[d.id]={mode:d.s.mode,k:+d.s.k.toFixed(3)};return o},{})),
   smoke:st.smoke?{emitters:st.smoke.emit.length,live:st.smoke.parts.filter(function(p){return p.on}).length}:null,
   bank:st.bank?{open:st.bank.open,station:st.bank.station,gate:!!st.bank.gate}:null,rope:st.rope?{t:st.rope.t}:null}}
- return {load:load,update:update,dispose:dispose,sail:sail,status:status,
+ return {load:load,update:update,dispose:dispose,sail:sail,status:status,sailing:function(){return !!st.sail},
   // pure rules (tools/test_holm_anim_pass.js)
   fallYaw:fallYaw,strikeDetector:strikeDetector,doorWant:doorWant,doorStep:doorStep,wanderPick:wanderPick,bankStation:bankStation,puff:puff,about:about,
   DOOR:{near:DOOR_NEAR,route:DOOR_ROUTE,ahead:DOOR_AHEAD,shutAfter:DOOR_SHUT_AFTER},URLS:{motions:MOTIONS,smoke:SMOKE_TEX}};

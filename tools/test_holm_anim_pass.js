@@ -198,7 +198,7 @@ async function world(){
  const route={list:[]};
  const sb={THREE,scene,player,console,Math:Object.create(Math),document:{getElementById:id=>id==='bank-modal'?modal:null},
   Player:{action:null},HolmIslandFx:{spark(){sparks.push(1);return true}},HolmIslandTutors:{gesture(id,c){gestures.push(id+':'+c);return true}},
-  HolmIslandGates:{setDriver(fn){driverBox.fn=fn}},HolmArrivalPlayer:{route:()=>route.list}};
+  HolmIslandGates:{setDriver(fn){driverBox.fn=fn}},HolmArrivalPlayer:{route:()=>route.list},GuideArrow:{keepAfterComplete:true,target:'Board the skiff',setTarget(t){this.target=t}}};
  sb.Math.random=()=>{throw new Error('Math.random called by the animation pass')};
  const ctx=vm.createContext(sb);vm.runInContext(src('src/holm_island_anim.js')+'\n;this.HolmIslandAnim=HolmIslandAnim;',ctx);
  const H=ctx.HolmIslandAnim;
@@ -221,7 +221,8 @@ function tick(W,sec,dt,each){dt=dt||1/60;for(let t=0;t<sec-1e-9;t+=dt){if(each)e
  // --- the skiff
  const b0=W.bob.position.clone(),hull=W.bob.getObjectByName('Haven_ServiceBoat_Hull'),hb=new Box3().setFromObject(hull),hc0=hb.getCenter(new V3());let crossed=0;
  W.player.position.set(101.5,-.05,-.5);
- ok('sail: board starts the cast-off',W.H.sail(()=>crossed++)===true&&W.H.status().sailing);
+ ok('sail: board starts the cast-off',W.H.sail(()=>crossed++)===true&&W.H.status().sailing&&W.H.sailing());
+ ok('sail: aboard, the "Board the skiff" arrow is cleared and not kept for the mainland',W.sb.GuideArrow.target===null&&W.sb.GuideArrow.keepAfterComplete===false);
  tick(W,1.0);ok('sail: the ferry bell swings',Math.abs(W.bell.getObjectByName('cove-bell_Bell_2').quaternion.x)>1e-3||W.H.status().stats.bells===1);
  const onDeck=Math.abs(W.player.position.x-hc0.x)<1.2;ok('sail: the adventurer stands on the deck (stepped aboard)',onDeck,W.player.position);
  tick(W,4.1);const hc1=new Box3().setFromObject(hull).getCenter(new V3());
@@ -282,6 +283,8 @@ try{
  const gates=src('src/holm_island_gates.js');
  ok('HolmIslandGates hands its leaves to a driver (setDriver / doors) and yields its own swing to it',/setDriver:setDriver/.test(gates)&&/doors:doorList/.test(gates)&&/if\(st\.driver\)\{/.test(gates));
  ok('HolmIslandGates: the doorways\' graph state is untouched by the driver (setGates only in refresh / load)',(gates.match(/setGates\(/g)||[]).length===2);
+ ok('HolmIslandGates.looksOpen follows the leaf the player sees; the old-school menu offers Open on a door that stands shut',/looksOpen:looksOpen/.test(gates)&&/L\.shown=k/.test(gates)&&/HolmIslandGates\.looksOpen\?HolmIslandGates\.looksOpen\(id\)/.test(src('src/osrs_menu_world.js')));
+ ok('the island guide stands down while the skiff sails (no arrow re-aimed at the moving boat)',/HolmIslandAnim\.sailing&&HolmIslandAnim\.sailing\(\)\)return;/.test(src('src/holm_island_guide.js')));
  const tut=src('src/holm_island_tutors.js');
  ok('tutors stroll on their walk clip, via HolmIslandAnim.wanderPick, 9+ tiles from the adventurer, home within 7',/play\(n,'walk'/.test(tut)&&/HolmIslandAnim\.wanderPick/.test(tut)&&/FAR=9,NEAR=7/.test(tut));
  ok('tutors settle home before they talk, and wave only from home',/settle\(n\);n\.opens=turn/.test(tut)&&/n\.w\.mode==='home'\)\)\{/.test(tut));

@@ -102,6 +102,7 @@ var HolmIslandGuide=(function(){
   return {obj:o,label:'Talk to '+t.name,building:typeof HolmIslandTutors!=='undefined'&&HolmIslandTutors.inside?HolmIslandTutors.inside(t.id):null}}
  function update(dt){
   if(typeof HolmIsland==='undefined'||!HolmIsland.live()||typeof Tutorial==='undefined'||typeof GuideArrow==='undefined'||typeof scene==='undefined')return;
+  if(typeof HolmIslandAnim!=='undefined'&&HolmIslandAnim.sailing&&HolmIslandAnim.sailing())return;   // aboard the departing skiff: nothing left to point at
   // re-aim every half second, and at once when the lesson or the tutor due changes (no stale arrow after a talk)
   var due=typeof HolmIslandTalk!=='undefined'&&HolmIslandTalk.pending(),key=(Tutorial.complete?'done':Tutorial.step)+'|'+(due?due.id:'');
   st.t+=dt||0;if(st.t<.5&&key===st.key)return;st.t=0;st.key=key;
