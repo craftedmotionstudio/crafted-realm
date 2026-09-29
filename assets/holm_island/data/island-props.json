@@ -3762,15 +3762,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "mushrooms",
-     "x": 116.66,
-     "z": 31.72,
-     "yaw": 4.2,
-     "scale": 0.91,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "pebbles",
      "x": 117.32,
      "z": 31.65,
@@ -6183,15 +6174,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 87.58,
-     "z": 48.8,
-     "yaw": 4.96,
-     "scale": 0.92,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "fern",
      "x": 94.53,
      "z": 48.28,
@@ -7146,24 +7128,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "daisies",
-     "x": 54.37,
-     "z": 56.77,
-     "yaw": 1.91,
-     "scale": 1,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 56.67,
-     "z": 56.77,
-     "yaw": 5.99,
-     "scale": 1.04,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "thistle",
      "x": 75.77,
      "z": 56.47,
@@ -7363,15 +7327,6 @@
     {
      "pack": "clutter",
      "prop": "grass-clump",
-     "x": 47.79,
-     "z": 58.26,
-     "yaw": 0.92,
-     "scale": 1.04,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
      "x": 121.29,
      "z": 58.25,
      "yaw": 6.1,
@@ -7538,15 +7493,6 @@
      "z": 60.26,
      "yaw": 2.12,
      "scale": 1.07,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "daisies",
-     "x": 46.39,
-     "z": 60.52,
-     "yaw": 6.27,
-     "scale": 1.1,
      "noBlock": true
     },
     {
@@ -7754,15 +7700,6 @@
      "z": 62.74,
      "yaw": 0.52,
      "scale": 1.05,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "daisies",
-     "x": 73.38,
-     "z": 62.27,
-     "yaw": 2.59,
-     "scale": 1.14,
      "noBlock": true
     },
     {
@@ -8037,15 +7974,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 114.47,
-     "z": 64.43,
-     "yaw": 0.15,
-     "scale": 1.13,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "bracken",
      "x": 115.75,
      "z": 64.37,
@@ -8132,15 +8060,6 @@
      "z": 65.62,
      "yaw": 0.46,
      "scale": 1,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 86.56,
-     "z": 65.71,
-     "yaw": 5.08,
-     "scale": 0.94,
      "noBlock": true
     },
     {
@@ -8442,15 +8361,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "fern",
-     "x": 78.34,
-     "z": 67.71,
-     "yaw": 5.15,
-     "scale": 0.94,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "thistle",
      "x": 93.31,
      "z": 67.77,
@@ -8474,15 +8384,6 @@
      "z": 67.45,
      "yaw": 0.42,
      "scale": 0.9,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 112.55,
-     "z": 67.56,
-     "yaw": 0.12,
-     "scale": 1.03,
      "noBlock": true
     },
     {
@@ -8564,15 +8465,6 @@
      "z": 68.38,
      "yaw": 5.84,
      "scale": 0.8,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 96.27,
-     "z": 68.44,
-     "yaw": 4.98,
-     "scale": 0.83,
      "noBlock": true
     },
     {
@@ -9158,15 +9050,6 @@
      "z": 72.48,
      "yaw": 2.42,
      "scale": 0.98,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 44.62,
-     "z": 72.68,
-     "yaw": 3.48,
-     "scale": 0.97,
      "noBlock": true
     },
     {
@@ -12439,15 +12322,6 @@
     {
      "pack": "clutter",
      "prop": "bracken",
-     "x": 68.62,
-     "z": 90.21,
-     "yaw": 2.07,
-     "scale": 1.17,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "bracken",
      "x": 69.31,
      "z": 90.33,
      "yaw": 4.78,
@@ -13050,15 +12924,6 @@
     },
     {
      "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 41.57,
-     "z": 94.73,
-     "yaw": 3.82,
-     "scale": 0.88,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
      "prop": "fern",
      "x": 53.44,
      "z": 94.68,
@@ -13163,15 +13028,6 @@
      "z": 94.25,
      "yaw": 4.5,
      "scale": 1.17,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 118.67,
-     "z": 94.23,
-     "yaw": 2.66,
-     "scale": 1.21,
      "noBlock": true
     },
     {
@@ -13388,15 +13244,6 @@
      "z": 95.61,
      "yaw": 5.97,
      "scale": 0.85,
-     "noBlock": true
-    },
-    {
-     "pack": "clutter",
-     "prop": "grass-clump",
-     "x": 117.77,
-     "z": 95.77,
-     "yaw": 3.17,
-     "scale": 0.91,
      "noBlock": true
     },
     {

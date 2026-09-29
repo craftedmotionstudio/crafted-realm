@@ -41,8 +41,12 @@ var HolmOldschoolLook=(function(){
   {grassA:'grass_a',grassB:'grass_b',sand:'sand',rock:'rock',earth:'mud',path:'dirt'};
  // v3 (the 2004 light): worn paths get the pebbled earth back (2004 carries its detail in ground textures)
  if(ver>2)GROUND.path='dirt';
+ // owner review 5 (2026-09-28): the island's purposeful grey paths (HolmOverhaulGround path style 'grey') take the kit's
+ // set-stone texture instead of the pebbled earth; other callers (the online world's dirt paths) keep the earth
+ var GREY_PATHS={texture:'path_grey',tune:{k:.85,s:1.5}};
+ function greyPaths(){return typeof HolmOverhaulGround!=='undefined'&&!!HolmOverhaulGround.pathStyle&&HolmOverhaulGround.pathStyle()==='grey'}
  var MEAN={grass_a:[.8211,.8479,.7621],grass_b:[.8424,.8424,.7588],sand:[.9027,.881,.8353],rock:[.8011,.8011,.7685],dirt:[.8423,.8091,.7599],mud:[.8137,.7912,.7348],
-  dirt_soft:[.865,.8352,.7789],sand_soft:[.8909,.8737,.8276],leaves:[.5478,.6553,.3955],leaves_soft:[.6063,.724,.3808],needles:[.451,.5658,.4736],needles_soft:[.6035,.82,.6639],
+  dirt_soft:[.865,.8352,.7789],sand_soft:[.8909,.8737,.8276],path_grey:[.7426,.7424,.7192],leaves:[.5478,.6553,.3955],leaves_soft:[.6063,.724,.3808],needles:[.451,.5658,.4736],needles_soft:[.6035,.82,.6639],
   bark:[.8054,.6408,.4615],bark_soft:[.82,.6518,.4826],roof_tiles:[.7562,.4201,.3106],roof_tiles_soft:[.82,.4973,.3642],thatch:[.6866,.5819,.3587],thatch_soft:[.82,.6989,.4228],
   stone_course:[.8116,.8002,.7538],beam:[.82,.5766,.3888],planks:[.7466,.5414,.3476],beam_soft:[.82,.5983,.4044],planks_soft:[.82,.5946,.3782],stone_course_soft:[.82,.8165,.7788],plaster:[.8744,.8482,.7864],plaster_soft:[.8874,.8655,.8245]};
  // detail strength and world scale (tiles per texture repeat) per ground texture; v2 grass keeps only a faint trace
@@ -133,6 +137,7 @@ var HolmOldschoolLook=(function(){
    return Promise.all(s.probe.map(function(p){return fetch(ws+p,{method:'HEAD',cache:'no-store'}).then(function(r){return r.ok},function(){return false})}))
     .then(function(ok){if(ok.every(Boolean))verified.push(s);else console.warn('[HolmOldschoolLook] '+s.id+' textured candidate not served; previous model kept')})}));
   if(typeof HolmOverhaulGround!=='undefined'&&HolmOverhaulGround.setLookVersion)HolmOverhaulGround.setLookVersion(ver);
+  if(greyPaths()&&!loading){GROUND.path=GREY_PATHS.texture;TUNE.path=GREY_PATHS.tune}
   var soft=ver>1?Object.keys(SOFT).map(function(n){return loadOne(THREE,SOFT[n]).then(function(t){var m=modelTex[SOFT[n]]=modelTexture(THREE,t),r=SOFT_REPEAT[SOFT[n]];if(r)m.repeat.set(r,r)})}):[];
   if(!loading)loading=Promise.all(Object.keys(GROUND).map(function(k){return loadOne(THREE,GROUND[k])}).concat([loadOne(THREE,'water'),kit,probes],soft)).then(function(){if(ver>1)hookLoader(THREE);return true});
   return loading;
@@ -212,16 +217,17 @@ var HolmOldschoolLook=(function(){
     '  + '+d('earth')+' * vGroundMix.z + '+d('path')+' * vGroundMix.w;\n'+
     'diffuseColor.rgb *= osGround;');
   };
-  m.customProgramCacheKey=function(){return 'holm-oldschool-ground-v1'+(ver>1?'-lookv'+ver:'')};
+  m.customProgramCacheKey=function(){return 'holm-oldschool-ground-v1'+(ver>1?'-lookv'+ver:'')+(GROUND.path===GREY_PATHS.texture?'-greypaths':'')};
   var dispose=m.dispose.bind(m);m.dispose=function(){m.__disposed=true;dispose()};
   return m;
  }
  // the arrival trail (a ribbon drawn over the ground): worn-path earth, lit by the same baked ground light
  function restyleTrail(THREE,mesh){
   if(!on||!mesh||!mesh.geometry||typeof HolmOverhaulGround==='undefined')return false;
-  var g=mesh.geometry,pos=g.attributes.position,col=g.attributes.color,n=pos.count,mix=new Float32Array(n*4),L=HolmOverhaulGround.LOOK,k=L.scale/255;
+  var g=mesh.geometry,pos=g.attributes.position,col=g.attributes.color,n=pos.count,mix=new Float32Array(n*4),L=HolmOverhaulGround.LOOK,k=L.scale/255,
+   P=HolmOverhaulGround.pathColour?HolmOverhaulGround.pathColour():L.dirt;   // the grey paths' stone when the island draws grey paths
   for(var i=0;i<n;i++){var li=HolmOverhaulGround.lightAt(pos.getX(i),pos.getZ(i)),e=col?Math.min(1.08,col.getX(i)/.425):1;
-   if(col)col.setXYZ(i,Math.min(1,L.dirt[0]*k*li*e),Math.min(1,L.dirt[1]*k*li*e),Math.min(1,L.dirt[2]*k*li*e));mix[i*4+3]=1}
+   if(col)col.setXYZ(i,Math.min(1,P[0]*k*li*e),Math.min(1,P[1]*k*li*e),Math.min(1,P[2]*k*li*e));mix[i*4+3]=1}
   if(col)col.needsUpdate=true;g.setAttribute('groundMix',new THREE.BufferAttribute(mix,4));
   var old=mesh.material;mesh.material=makeGround(THREE);if(old&&old.dispose)old.dispose();return true;
  }
@@ -260,7 +266,7 @@ var HolmOldschoolLook=(function(){
  function url(u){if(!on||typeof u!=='string')return u;verified.forEach(function(s){s.map.forEach(function(m){if(u.indexOf(m[0])>=0)u=u.split(m[0]).join(m[1])})});return u}
  function swapped(id){return verified.some(function(s){return s.id===id})}
  function snapshot(){return {look:on?'oldschool':'previous',version:version(),active:active,textures:Object.keys(tex),stats:stats,arrival:arrivalPackage(),swaps:verified.map(function(s){return s.id})}}
- return {enabled:enabled,version:version,grade:grade,regrade:regrade,preload:preload,groundMaterial:groundMaterial,restyleTrail:restyleTrail,waterTexture:waterTexture,waterLook:waterLook,activate:activate,deactivate:deactivate,
+ return {greyPaths:greyPaths,GREY_PATHS:GREY_PATHS,enabled:enabled,version:version,grade:grade,regrade:regrade,preload:preload,groundMaterial:groundMaterial,restyleTrail:restyleTrail,waterTexture:waterTexture,waterLook:waterLook,activate:activate,deactivate:deactivate,
   voidActive:voidActive,fogRange:fogRange,prepareModel:prepareModel,arrivalPackage:arrivalPackage,url:url,swapped:swapped,snapshot:snapshot,
   TUNE:TUNE,SCENE:SCENE,LOOK3:LOOK3,ASSETS:ASSETS,SWAPS:SWAPS,SOFT:SOFT,GRADE:GRADE,FAMILY:FAMILY,MEAN:MEAN};
 })();

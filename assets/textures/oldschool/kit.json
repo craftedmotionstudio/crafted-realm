@@ -421,6 +421,16 @@
     0.8245
    ],
    "use": "look v2: limewash plaster (smooth)"
+  },
+  "path_grey": {
+   "file": "assets/textures/oldschool/path_grey.png",
+   "size": 64,
+   "mean": [
+    0.7426,
+    0.7424,
+    0.7192
+   ],
+   "use": "purposeful grey paths on Tutor's Holm (set stones and gravel)"
   }
  }
 }

@@ -3,8 +3,11 @@
 var HolmArrivalQA=(function(){
  'use strict';
  var qs=new URLSearchParams(location.search),island=typeof HolmIsland!=='undefined'?HolmIsland.live():qs.get('holmIsland')==='1',requested=qs.get('arrivalQA')==='1'||island,loaded=null,provider=null,owner=null,bridge=null,pending=null;
- // M4.5: worn paths tint the island ground before any chunk renders (island draft only)
- if(island&&typeof HolmIslandPaths!=='undefined'&&typeof HolmOverhaulGround!=='undefined')HolmOverhaulGround.setPaths(HolmIslandPaths.tiles);
+ // M4.5: worn paths tint the island ground before any chunk renders (island draft only). Owner review 5 (2026-09-28): the
+ // purposeful grey paths (src/holm_island_grey_paths_data.js, tools/stage_holm_grey_paths.js) replace the phase-5 worn dirt
+ // ?greypaths=0 shows the phase-5 worn dirt for one session and ?rockbanks=0 the rock squares (A/B for the owner, pixels only)
+ var islandPaths=typeof HolmIslandGreyPaths!=='undefined'&&qs.get('greypaths')!=='0'?HolmIslandGreyPaths:typeof HolmIslandPaths!=='undefined'?HolmIslandPaths:null;
+ if(island&&islandPaths&&typeof HolmOverhaulGround!=='undefined')HolmOverhaulGround.setPaths(islandPaths.tiles,{style:islandPaths.style});
  var doors={arrival:false,garden:false},nav=null,graphs={},water=null,chart=null,trail=null,extras=null,islandData=null,heldRecord=null,lessons=null,passThrough=false,lastGateKey='';
  // ?holmIsland=1 (M4.1): the same provider over the whole Sept 13 island: the arrival graph composed with the
  // Blender keep/bakehouse/lodge graphs, habitat and bridges by HolmIslandNav; saves use their own graph revision.
@@ -27,7 +30,7 @@ var HolmArrivalQA=(function(){
   else{var osPkg=typeof HolmOldschoolLook!=='undefined'?HolmOldschoolLook.arrivalPackage():null;
    if(osPkg)try{loaded=await HolmArrivalExportLoader.load({baseUrl:osPkg.baseUrl,exportId:osPkg.exportId})}catch(e){console.warn('[HolmArrivalQA] old-school arrival package unavailable; the previous package is kept',e&&e.message)}}
   if(!loaded)loaded=await HolmArrivalExportLoader.load({baseUrl:'/.studio-workspaces/holm-arrival-package-v9/exports/',exportId:EXPORT});
-  if(typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){HolmOverhaulGround.setTerrain(loaded.documents.terrain);await HolmOldschoolLook.preload(THREE)}
+  if(typeof HolmOldschoolLook!=='undefined'&&HolmOldschoolLook.enabled()){if(island&&HolmOverhaulGround.setRockBanks)HolmOverhaulGround.setRockBanks(qs.get('rockbanks')!=='0');HolmOverhaulGround.setTerrain(loaded.documents.terrain);await HolmOldschoolLook.preload(THREE)}
   nav=HolmArrivalDock.create(loaded.documents.layout,loaded.documents.envelopes,loaded.documents.terrain,loaded.documents.dock);
   var pack=loaded.package,chunks=JSON.parse(JSON.stringify(pack.terrain.chunks)),b=loaded.documents.layout.building,s=spawn();
   chunks.forEach(function(c){c.layers.terrain.exclusions=[{x:b.world.x-b.width/2,z:b.world.z-b.depth/2,w:b.width,d:b.depth}]});

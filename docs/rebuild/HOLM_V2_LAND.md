@@ -223,6 +223,9 @@ playthrough).
 - Trees are drawn instanced now; their per-tree breeze became a canopy vertex sway.
 - The island's rock material shows as grey squares on some steep seat edges (e.g. the Guide House knoll, since phase 1);
   a smoothing rule can soften them if wanted.
+  Done in owner review 5 (2026-09-28): rock banks (src/holm_overhaul_ground.js setRockBanks): only true cliff faces keep rock
+  (a vertex rising 2.4+ to a neighbour, its fringe, faces of 12+ vertices); every other rock vertex draws as a grassy earth
+  bank. Colours only: materials, heights and the walk graph are unchanged. Before/after: scratchpad/holm_paths_rope/sheet_4*, sheet_5*.
 - `lodge:north-lane` (a Sept 13 measured target) is still unreachable, as before this work.
 - `src/game4_ui.js` changed (picks skip cut-away parts; a click that meets nothing else walks to a Blender floor): the
   live branch has the same gap inside the ore workings and on any floor with no terrain beneath.
