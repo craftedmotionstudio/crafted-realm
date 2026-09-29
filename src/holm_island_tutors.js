@@ -4,7 +4,11 @@
  * dialogue, click to continue, that knows where the player is in the 18-lesson curriculum: before their turn they
  * point the way back, on their turn they teach the lesson step by step, after it they send the player on. As in 2004,
  * an area's lessons wait until its tutor has been spoken to (HolmIslandTalk), and asking again explains the step the
- * player is on now. Tutors turn to face the player, wave when first approached and gesture while talking. Island only. */
+ * player is on now. Tutors turn to face the player, wave when first approached and gesture while talking. Island only.
+ * Animation pass (2026-09-29, owner: tutors idle / talk / WALK): while nobody is near (9+ tiles), a tutor now and then
+ * strolls one tile off their spot on the walk clip (a linked neighbour on the same floor, 2004 pace: a tile a tick), stands
+ * a moment and strolls back; once the adventurer is within 7 tiles they walk home and stay there, so talking, the arrow
+ * and every lesson find them exactly where they always stood. gesture(id, clip) lets the bank's teller turn and talk. */
 var HolmIslandTutors=(function(){
  'use strict';
  // id, name, where they stand (a building's measured target or an arrival service), the lessons they teach, a face, and
@@ -93,7 +97,7 @@ var HolmIslandTutors=(function(){
   var s=c.at.arrival?api.arrivalStance(c.at.arrival):c.at.world?worldStance(api,c.at.world):api.qaStance(c.at.building[0],c.at.building[1]);if(!s)return null;
   var nodes=api.graphNodes(),best=null,score=Infinity;
   nodes.forEach(function(n){var d=Math.hypot(n.x-s.x,n.z-s.z);if(d<1.2||d>2.9||Math.abs(n.y-s.y)>.4)return;var sc=Math.abs(d-1.6)+((n.x*3+n.z*5)%7)*.01;if(sc<score){score=sc;best=n}});
-  return best&&{x:best.x,y:best.y,z:best.z,surface:best.surface,faceX:s.x,faceZ:s.z};
+  return best&&{id:best.id,x:best.x,y:best.y,z:best.z,surface:best.surface,faceX:s.x,faceZ:s.z};
  }
  async function load(o){
   var T=o.THREE,api=o.api;st.api=api;
@@ -115,7 +119,7 @@ var HolmIslandTutors=(function(){
  function talk(id){
   var n=byId(id);if(!n||typeof UI==='undefined')return false;var ps=pages(n.cast),k=0;
   // on their turn, the chat opens their area's lessons once it ends (the banner and arrow then move on to the lesson)
-  if(st.talking&&st.talking!==n)ended(st.talking);n.opens=turn(n.cast);
+  if(st.talking&&st.talking!==n)ended(st.talking);settle(n);n.opens=turn(n.cast);
   n.group.lookAt(player.position.x,n.group.position.y,player.position.z);play(n,'talk');st.talking=n;
   (function show(){n.paging=false;var last=k>=ps.length-1;UI.dialogue(n.cast.name,ps[k],[{label:last?'Thanks.':'Continue',fn:function(){if(!last){k++;n.paging=true;setTimeout(show,0)}else ended(n)}}],'img:assets/icons/tutors/'+n.cast.id+'.png?v=42')})();
   return true;
@@ -130,18 +134,39 @@ var HolmIslandTutors=(function(){
  var cull={f:null,m:null,s:null};
  function onScreen(n){if(typeof camera==='undefined'||typeof THREE==='undefined'||!camera.projectionMatrix)return true;cull.f=cull.f||new THREE.Frustum();cull.m=cull.m||new THREE.Matrix4();cull.s=cull.s||new THREE.Sphere();
   cull.m.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse);cull.f.setFromProjectionMatrix(cull.m);cull.s.center.copy(n.group.position);cull.s.center.y+=1;cull.s.radius=1.8;return cull.f.intersectsSphere(cull.s)}
+ // the stroll: home -> one linked neighbour tile -> a pause -> home (never while the adventurer is within NEAR tiles)
+ var FAR=9,NEAR=7,STEP=.6;
+ function neighbours(n){if(n.nb)return n.nb;var g=st.api&&st.api.navGraph&&st.api.navGraph();var ids=g&&n.home.id&&g.links&&g.links[n.home.id]||[];
+  n.nb=ids.map(function(id){return g.byId?g.byId[id]:g.nodes.filter(function(q){return q.id===id})[0]}).filter(Boolean);return n.nb}
+ function hashId(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h}
+ function walkTo(n,to){var p=n.group.position;n.w.from={x:p.x,y:p.y,z:p.z};n.w.to=to;n.w.t=0;n.w.dur=Math.max(.2,Math.hypot(to.x-p.x,to.z-p.z)*STEP);
+  n.group.lookAt(to.x,p.y,to.z);play(n,'walk',.15)}
+ function settle(n){if(!n.w||n.w.mode==='home')return;n.group.position.set(n.home.x,n.home.y,n.home.z);n.group.lookAt(n.home.faceX,n.home.y,n.home.faceZ);n.w.mode='home';n.w.wait=6;if(st.talking!==n)play(n,'idle',.15)}
+ function wander(n,dt,d){var w=n.w||(n.w={mode:'home',wait:5+hashId(n.cast.id)%7,k:hashId(n.cast.id),walks:0});if(!n.actions.walk)return;
+  var close=d<NEAR||st.talking===n;
+  if(w.mode==='home'){if(close||d<FAR){w.wait=Math.max(w.wait,2);return}w.wait-=dt;if(w.wait>0)return;
+   var to=HolmIslandAnim.wanderPick(n.home,neighbours(n),w.k++);if(!to){w.wait=8;return}w.mode='out';w.walks++;walkTo(n,to);return}
+  if(w.mode==='out'||w.mode==='back'){w.t+=dt;var k=Math.min(1,w.t/w.dur),p=n.group.position;p.set(w.from.x+(w.to.x-w.from.x)*k,w.from.y+(w.to.y-w.from.y)*k,w.from.z+(w.to.z-w.from.z)*k);
+   if(close&&w.mode==='out'){w.mode='back';walkTo(n,n.home);return}
+   if(k>=1){if(w.mode==='out'){w.mode='away';w.wait=2.5+w.k%3;play(n,'idle',.15)}else{w.mode='home';w.wait=7+w.k%6;n.group.lookAt(n.home.faceX,n.home.y,n.home.faceZ);play(n,'idle',.15)}}return}
+  if(w.mode==='away'){w.wait-=dt;if(close||w.wait<=0){w.mode='back';walkTo(n,n.home)}}}
  function update(dt){
   st.npcs.forEach(function(n){n.mixer.update(dt);n.group.visible=onScreen(n);
    // wave once when the player first comes near, then settle back to idle
-   var d=typeof player!=='undefined'?Math.hypot(player.position.x-n.group.position.x,player.position.z-n.group.position.z):99;
-   if(d<4.5&&!st.waved[n.cast.id]&&st.talking!==n){st.waved[n.cast.id]=true;n.group.lookAt(player.position.x,n.group.position.y,player.position.z);play(n,'wave');
+   var d=typeof player!=='undefined'?Math.hypot(player.position.x-n.home.x,player.position.z-n.home.z):99;
+   if(typeof HolmIslandAnim!=='undefined')wander(n,dt,d);
+   if(d<4.5&&!st.waved[n.cast.id]&&st.talking!==n&&(!n.w||n.w.mode==='home')){st.waved[n.cast.id]=true;n.group.lookAt(player.position.x,n.group.position.y,player.position.z);play(n,'wave');
     setTimeout(function(){if(st.talking!==n)play(n,'idle')},1400)}
    if(st.talking===n&&!n.paging&&typeof document!=='undefined'){var m=document.getElementById('dialogue-modal');if(m&&m.style.display==='none')ended(n)}});
  }
  function dispose(W,scene){st.npcs.forEach(function(n){scene.remove(n.group);var i=W.clickables.indexOf(n.group);if(i>=0)W.clickables.splice(i,1)});st.npcs=[]}
  // the building a tutor stands inside (their stance is an interior floor), else null: the guide leads to its door first
  function inside(id){var n=byId(id),s=n&&n.home&&n.home.surface||'',m=/^b:([^:]+):/.exec(s);return m&&!/(:(IslandTerrain|StagedTerrain))$/.test(s)?m[1]:null}
- return {load:load,update:update,talk:talk,dispose:dispose,inside:inside,cast:function(){return CAST.slice()},tutors:function(){return st.npcs.map(function(n){return {id:n.cast.id,name:n.cast.name,x:n.group.position.x,z:n.group.position.z}})},pages:function(id){var n=byId(id);return n?pages(n.cast):null},
+ // a gesture from outside (the bank's teller at the counter): turn to the adventurer and play a clip ('idle' to stop)
+ function gesture(id,clip){var n=byId(id);if(!n||!n.actions[clip])return false;settle(n);if(clip!=='idle'&&typeof player!=='undefined')n.group.lookAt(player.position.x,n.group.position.y,player.position.z);
+  if(clip==='idle')n.group.lookAt(n.home.faceX,n.home.y,n.home.faceZ);play(n,clip,.2);return true}
+ function strolls(){return st.npcs.map(function(n){return {id:n.cast.id,mode:n.w?n.w.mode:'home',walks:n.w?n.w.walks:0,x:+n.group.position.x.toFixed(2),z:+n.group.position.z.toFixed(2),home:[n.home.x,n.home.z]}})}
+ return {load:load,update:update,talk:talk,dispose:dispose,inside:inside,gesture:gesture,strolls:strolls,cast:function(){return CAST.slice()},tutors:function(){return st.npcs.map(function(n){return {id:n.cast.id,name:n.cast.name,x:n.group.position.x,z:n.group.position.z}})},pages:function(id){var n=byId(id);return n?pages(n.cast):null},
   // what a tutor would say right now (no model needed; tests and QA read it)
   lines:function(id){var c=CAST.filter(function(q){return q.id===id})[0];return c?pages(c):null}};
 })();

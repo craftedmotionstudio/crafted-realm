@@ -5,12 +5,14 @@
  *  - the objective marker: the Blender `guide-marker` hovers and spins over the current objective's tile;
  *  - the fishing spot: the Blender `fishing-ripple-anim` (Ripple) replaces the still ripple;
  *  - the cavern furnace: a `furnace-glow` flickers in its mouth; the anvil throws `anvil-sparks` on every hammer blow;
- *  - a felled teaching oak topples over before it is gone; Tobin's skiff pulls away from the pier on departure.
+ *  - (animation pass 2026-09-29) the felled oak, the skiff's departure and the anvil's timing moved to src/holm_island_anim.js
+ *    (HolmIslandAnim, loaded and ticked from here): the oak falls away from the woodcutter on a Blender curve, the skiff
+ *    carries the adventurer out to sea, and the sparks fly on each hammer strike (spark() below) instead of a timer.
  * Island draft only (?holmIsland=1). Fails soft: any missing piece leaves the previous look. */
 var HolmIslandFx=(function(){
  'use strict';
  var URL=(typeof HolmIsland!=='undefined'?HolmIsland.asset('/.studio-workspaces/holm-props-v4/candidates/props.glb'):'/.studio-workspaces/holm-props-v4/candidates/props.glb');
- var st={mixers:[],lever:null,beam:null,marker:null,sparks:null,anvilTop:null,falls:[],trees:[],sail:null,beaconOn:false};
+ var st={mixers:[],lever:null,beam:null,marker:null,sparks:null,anvilTop:null,beaconOn:false,anim:null};
  function clipOf(g,name){return g.animations.filter(function(c){return c.name===name})[0]}
  function piece(T,g,name){var n=g.scene.getObjectByName(name);if(!n)return null;var c=n.clone(true);c.position.set(0,0,0);c.rotation.set(0,0,0);
   c.traverse(function(m){if(m.isMesh){m.castShadow=false;[].concat(m.material).forEach(function(q){if(q&&'roughness' in q){q.roughness=1;q.metalness=0}})}});return c}
@@ -39,14 +41,13 @@ var HolmIslandFx=(function(){
     var dx=stance?stance.x-c.x:0,dz=stance?stance.z-c.z:1,len=Math.hypot(dx,dz)||1;fg.position.set(c.x+dx/len*Math.min(.45,(fb.max.x-fb.min.x)/2),fb.min.y+.25,c.z+dz/len*Math.min(.45,(fb.max.z-fb.min.z)/2));
     fg.lookAt(fg.position.x+dx,fg.position.y,fg.position.z+dz);scene.add(fg);var fc=bind(T,fg,g,['Flicker']);if(fc.Flicker)fc.Flicker.play()}}
    if(ab){var sp=piece(T,g,'anvil-sparks');if(sp){var ac=ab.getCenter(new T.Vector3());sp.position.set(ac.x,ab.max.y,ac.z);scene.add(sp);st.sparks={root:sp,clips:bind(T,sp,g,['Burst'])}}}}
-  // teaching oaks to watch for felling
-  scene.traverse(function(n){if(/^island-lesson-survival-oak-/.test(n.name||''))st.trees.push({host:n,alive:true})});
-  return {lever:!!st.lever,beam:!!st.beam,marker:!!st.marker,sparks:!!st.sparks,trees:st.trees.length};
+  // the animation pass: felled oaks, the skiff, doors, bank, rope, forge timing, grubkin deaths, farm, smoke, torches
+  if(typeof HolmIslandAnim!=='undefined')try{st.anim=await HolmIslandAnim.load(o)}catch(err){console.error('[HolmIslandFx] animation pass',err)}
+  return {lever:!!st.lever,beam:!!st.beam,marker:!!st.marker,sparks:!!st.sparks,anim:st.anim};
  }
  function setBeacon(on){st.beaconOn=on;if(st.lever)once(st.lever.clips[on?'Pull':'Reset']);if(st.beam)st.beam.root.visible=on}
- // a felled oak: clone the tree the game just hid and topple it for ~1 s, then let it go
- function fell(T,scene,tr){var src=tr.host.children[1];if(!src)return;var c=src.clone(true);c.visible=true;var g=new T.Group();g.position.copy(tr.host.position);g.scale.copy(tr.host.scale);g.add(c);
-  var yaw=Math.random()*Math.PI*2;g.rotation.y=yaw;scene.add(g);st.falls.push({g:g,t:0,scene:scene})}
+ // one burst of anvil sparks (HolmIslandAnim calls it on each hammer strike)
+ function spark(){if(!st.sparks||!st.sparks.clips.Burst)return false;once(st.sparks.clips.Burst);return true}
  function update(dt,T,scene){
   st.mixers.forEach(function(m){m.update(dt)});
   // the marker sits over the current objective (GuideArrow's target) and hides when there is none
@@ -54,17 +55,13 @@ var HolmIslandFx=(function(){
   else if(st.marker){var s=typeof GuideArrow!=='undefined'&&GuideArrow._spec,c=s&&GuideArrow._center&&GuideArrow._center(s);
    if(c&&typeof HolmArrivalQA!=='undefined'){var top=s&&typeof s.y==='number',y=top?s.y:HolmArrivalQA.height(c.cx,c.cz);if(!Number.isFinite(y))y=(player&&player.position.y)||0;
     st.marker.root.visible=true;st.marker.root.position.set(c.cx,y+(top?.7:2.6),c.cz);if(GuideArrow._line)GuideArrow._line.visible=false}else st.marker.root.visible=false}
-  // sparks on every hammer blow at the anvil
-  var a=typeof Player!=='undefined'&&Player.action;if(st.sparks&&a&&a.type==='smith'){st.smithT=(st.smithT||0)+dt;if(st.smithT>.9){st.smithT=0;once(st.sparks.clips.Burst)}}else st.smithT=.8;
-  // felled oaks topple
-  st.trees.forEach(function(tr){var alive=tr.host.userData.alive!==false;if(tr.alive&&!alive)fell(T,scene,tr);tr.alive=alive});
-  st.falls=st.falls.filter(function(f){f.t+=dt;var k=Math.min(1,f.t/.9);f.g.rotation.x=-(Math.PI/2)*k*k;if(f.t>1.6){f.scene.remove(f.g);return false}return true});
-  // the departing skiff
-  if(st.sail){st.sail.t+=dt;st.sail.root.position.x=st.sail.x0+st.sail.t*st.sail.t*1.6;st.sail.root.rotation.z=Math.sin(st.sail.t*3)*.04;if(st.sail.t>2.2){var cb=st.sail.cb;st.sail=null;cb&&cb()}}
+  // the animation pass (felled oaks, skiff, doors, bank, rope, forge, deaths, farm, smoke, torches)
+  if(typeof HolmIslandAnim!=='undefined')HolmIslandAnim.update(dt);
  }
- // the ferry pulls away, then the crossing happens (cb)
- function sail(cb){var boat=null;if(typeof scene!=='undefined')scene.traverse(function(n){if(!boat&&/^Haven_ServiceBoat_/.test(n.name||''))boat=n});
-  if(!boat){cb();return}var root=boat;while(root.parent&&/^Haven_ServiceBoat_/.test(root.parent.name||''))root=root.parent;st.sail={root:root,x0:root.position.x,t:0,cb:cb}}
- return {load:load,update:update,setBeacon:setBeacon,sail:sail};
+ // the ferry: the adventurer boards, the skiff casts off and pulls out to sea (HolmIslandAnim), then the crossing (cb)
+ function sail(cb){if(typeof HolmIslandAnim!=='undefined'&&HolmIslandAnim.sail(cb))return;cb()}
+ // the island provider is leaving (the crossing, or a reload of the world): put back what the animation pass moved
+ function dispose(){if(typeof HolmIslandAnim!=='undefined')try{HolmIslandAnim.dispose()}catch(e){}}
+ return {load:load,update:update,setBeacon:setBeacon,sail:sail,spark:spark,dispose:dispose};
 })();
 if(typeof module!=='undefined'&&module.exports)module.exports=HolmIslandFx;

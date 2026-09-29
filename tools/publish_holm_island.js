@@ -25,7 +25,9 @@ const DIRS=[ // workspace folders the island loads (candidates/, working/ or exp
  // old-school look (2026-09-25/26, src/holm_oldschool_look.js SWAPS): every textured building + its re-measured graph,
  // the textured tree family, bridges and prop packs
  ...['survival','keep','kitchen','quest-lodge','bank','mage','lastlight','quarry','haven','cavern'].flatMap(b=>['holm-'+b+'-oldschool-v1/candidates','holm-'+b+'-oldschool-navigation-v1/candidates']),
- 'holm-tree-family-oldschool-v1/candidates','holm-island-bridges-oldschool-v1/candidates','holm-props1-oldschool-v1/candidates','holm-props3-oldschool-v1/candidates','holm-props5-oldschool-v1/candidates'];
+ 'holm-tree-family-oldschool-v1/candidates','holm-island-bridges-oldschool-v1/candidates','holm-props1-oldschool-v1/candidates','holm-props3-oldschool-v1/candidates','holm-props5-oldschool-v1/candidates',
+ // the animation pass (2026-09-29, src/holm_island_anim.js): Blender motion curves for the felled oak, the skiff, the bell, the rope, doors, bellows, torches
+ 'holm-anim-motions-v1/candidates'];
 // Holm v2 land (2026-09-26/27, docs/rebuild/HOLM_V2_LAND.md): every folder the v2-land registry and data name - each building's
 // model and re-measured graph, the rebuilt bridges, the v2-land habitat, the lodge foundation placement, the prop packs
 // (Minnow Hollow, Hettie's Garden, the clutter, the route pieces) and the fishing items

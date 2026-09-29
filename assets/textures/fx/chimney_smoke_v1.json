@@ -1,0 +1,13 @@
+{
+ "source": "tools/blender/build_fx_smoke_v1.py",
+ "blender": "4.5.10 LTS",
+ "cell": 128,
+ "layout": "2x2, row-major from the top-left cell",
+ "uv": "three.js flipY: cell i -> u0 = (i % 2) * .5, v0 = .5 - floor(i / 2) * .5, size .5",
+ "chimney_smoke_v1.png": [
+  "big",
+  "puff",
+  "small",
+  "wisp"
+ ]
+}
